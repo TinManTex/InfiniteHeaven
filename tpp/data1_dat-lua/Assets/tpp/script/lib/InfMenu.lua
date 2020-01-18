@@ -13,9 +13,7 @@ this.MAX_ANNOUNCE_STRING=256--tex sting length announcde log can handle before c
 this.currentMenu=InfMenuDefs.heliSpaceMenu
 this.currentMenuOptions=InfMenuDefs.heliSpaceMenu.options
 this.topMenu=this.currentMenu
-this.currentOption=1--tex lua tables are indexed from 1
-this.previousMenuOption=1
-this.currentSetting=0--tex settings from 0, to better fit variables
+this.currentIndex=1--tex lua tables are indexed from 1
 this.lastDisplay=0
 this.autoDisplayDefault=2.8
 this.autoRateHeld=0.85
@@ -32,39 +30,39 @@ this.menuBackButton=InfButton.STANCE
 
 --tex mod settings menu manipulation
 function this.NextOption()
-  this.currentOption=this.currentOption+1
-  if this.currentOption > #this.currentMenuOptions then
-    this.currentOption = 1
+  this.currentIndex=this.currentIndex+1
+  if this.currentIndex > #this.currentMenuOptions then
+    this.currentIndex = 1
   end
   this.GetSetting()
 end
 function this.PreviousOption()
-  this.currentOption = this.currentOption-1
-  if this.currentOption < 1 then
-    this.currentOption = #this.currentMenuOptions
+  this.currentIndex = this.currentIndex-1
+  if this.currentIndex < 1 then
+    this.currentIndex = #this.currentMenuOptions
   end
   this.GetSetting()
 end
 function this.GetSetting()
-  local modSetting=this.currentMenuOptions[this.currentOption]
-  this.currentSetting=modSetting.default or 0
-  if modSetting.save then
-    local gvar=gvars[modSetting.name]
+  local option=this.currentMenuOptions[this.currentIndex]
+  option.setting=option.default or 0
+  if option.save then
+    local gvar=gvars[option.name]
     if gvar ~= nil then
-      this.currentSetting=gvar
+      option.setting=gvar
     else
-      TppUiCommand.AnnounceLogView("Option Menu Error: gvar -"..modSetting.name.."- not found")
+      TppUiCommand.AnnounceLogView("Option Menu Error: gvar -"..option.name.."- not found")
     end
   end
 end
-function this.IsCurrentOptionMenu()
-  local modSetting=this.currentMenuOptions[this.currentOption]
-  if modSetting.options~=nil then
+function this.IscurrentIndexMenu()
+  local option=this.currentMenuOptions[this.currentIndex]
+  if option.options~=nil then
     return true
   end
   return false
 end
-function this.IncrementSetting(current, increment, min, max)
+local function IncrementWrap_l(current,increment,min,max)
   local newSetting=current+increment
   if increment > 0 then
     if newSetting > max then
@@ -77,109 +75,101 @@ function this.IncrementSetting(current, increment, min, max)
   end
   return newSetting
 end
-function this.ChangeSetting(setting,value,incrementMult)
+function this.ChangeSetting(option,value,incrementMult)
   incrementMult = incrementMult or 1
-  --TppUiCommand.AnnounceLogView("DBG:MNU: changesetting increment:"..value)--tex DEBUG: CULL:
-  local newSetting=this.currentSetting
+  local newSetting=option.setting
 
   local value=value*incrementMult
-  if setting.isFloat==nil then
+  if option.isFloat==nil then
     if value > 0 then
       value=math.ceil(value)
     else
       value=math.floor(value)
     end
-    --TppUiCommand.AnnounceLogView("DBG:MNU: newValue round:"..value)
+  end
+  
+  newSetting=IncrementWrap_l(newSetting,value,option.range.min,option.range.max)
+  if option.skipValues then
+    while option.skipValues[newSetting] do
+      TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
+      newSetting=IncrementWrap_l(newSetting,value,option.range.min,option.range.max)
+    end
+  end
+  
+  this.SetSetting(option,newSetting)
+  --TppUiCommand.AnnounceLogView("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
+end
+function this.SetCurrent()--tex refresh current setting/re-call OnChange
+  local option=this.currentMenuOptions[this.currentIndex]
+  this.SetSetting(option,option.setting)
+end
+function this.SetSetting(self,setting,noOnChangeSub,noSave)
+  if self==nil then
+    TppUiCommand.AnnounceLogView("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?")--DEBUG
+    return
   end
 
-  if setting.save then
-    --TppUiCommand.AnnounceLogView("DBG:MNU: found name:" .. modSetting.name)--tex DEBUG: CULL:
-    local gvar=gvars[setting.name]
-    if gvar ~= nil then
-      --TppUiCommand.AnnounceLogView("DBG:MNU: gvar:" .. modSetting.name .. "=" .. gvar)--tex DEBUG: CULL:
-      newSetting=this.IncrementSetting(gvar,value,setting.range.min,setting.range.max)
-      if setting.skipValues ~= nil then
-        while setting.skipValues[newSetting] do
-          TppUiCommand.AnnounceLogView(newSetting .. " " .. this.LangString"setting_disallowed")--" is currently disallowed"
-          newSetting=this.IncrementSetting(newSetting,value,setting.range.min,setting.range.max)
-        end
-      end
-    else
-      TppUiCommand.AnnounceLogView("Option Menu Error: gvar -" .. setting.name .. "- not found")
-    end
-    gvars[setting.name]=newSetting
-    --TppUiCommand.AnnounceLogView("DBG:MNU: gvar set:" .. modSetting.name .. "=" .. gvar)--tex DEBUG: CULL:
-    if IsFunc(setting.onChange) then
-      setting:onChange()
-    end
-  else--gvar nil
-    if setting.range~=nil then
-      newSetting=this.currentSetting+value
-      if value > 0 then
-        if newSetting > setting.range.max then
-          newSetting = setting.range.min
-        end
-      elseif value < 0 then
-        if newSetting < setting.range.min then
-          newSetting = setting.range.max
-        end
-      end
-    end
-    if IsFunc(setting.onChange) then
-      setting:onChange()
+  if type(setting)=="string" then
+    setting=self.enum[setting]
+    if setting==nil then
+      TppUiCommand.AnnounceLogView("SetSetting: no setting on "..self.name)--DEBUG
+      return
     end
   end
-  --TppUiCommand.AnnounceLogView("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
-  return newSetting
-end
-function this.SetCurrent()
-  this.SetSetting(this.currentMenuOptions[this.currentOption],this.currentSetting)
-end
-function this.SetSetting(setting,value)
-  if setting.save then
-    local gvar=gvars[setting.name]
+  --TppUiCommand.AnnounceLogView("SetSetting")--DEBUGNOW
+  --TppUiCommand.AnnounceLogView("SetSetting:" .. option.name)--DEBUGNOW
+  if setting < self.range.min or setting > self.range.max then
+    TppUiCommand.AnnounceLogView("WARNING: SetSetting for "..self.name.." OUT OF BOUNDS")
+    return
+  end
+  --TppUiCommand.AnnounceLogView("SetSetting:" .. self.name)--DEBUGNOW
+  self.setting=setting
+  if self.save and not noSave then
+    local gvar=gvars[self.name]
     if gvar then
-      gvars[setting.name]=value
-      if IsFunc(setting.onChange) then
-        setting:onChange()
-      end
+      gvars[self.name]=setting
     end
+  end
+  if self.OnChange then -- and not noOnChange then 
+    self:OnChange() 
+  end
+  if self.profile and not noOnChangeSub then
+    Ivars.OnChangeSubSetting(self)
   end
 end
 function this.NextSetting(incrementMult)
-  local modSetting=this.currentMenuOptions[this.currentOption]
-  if modSetting.options~=nil then--tex menu
-    this.GoMenu(modSetting)
+  local option=this.currentMenuOptions[this.currentIndex]
+  if option==nil then
+    InfMain.DebugPrint"WARNING: cannot find option for currentindex"
+    return
+  end
+  if option.options then--tex is menu
+    this.GoMenu(option)
   else
-    this.currentSetting=this.ChangeSetting(modSetting,modSetting.range.increment,incrementMult)
+    this.ChangeSetting(option,option.range.increment,incrementMult)
   end
 end
 function this.PreviousSetting(incrementMult)
-  local modSetting=this.currentMenuOptions[this.currentOption]
-  this.currentSetting=this.ChangeSetting(modSetting,-modSetting.range.increment,incrementMult)
+  local option=this.currentMenuOptions[this.currentIndex]
+  this.ChangeSetting(option,-option.range.increment,incrementMult)
 end
 
 function this.GoMenu(menu,goBack)
   if not goBack and menu ~= this.topMenu then
     menu.parent=this.currentMenu
-    menu.parentOption=this.currentOption
+    menu.parentOption=this.currentIndex
   end
   
   if goBack then
-      this.currentOption=this.currentMenu.parentOption
+      this.currentIndex=this.currentMenu.parentOption
   else
-      this.currentOption=1
+      this.currentIndex=1
   end
   this.currentMenu=menu
   this.currentMenuOptions=menu.options
   this.GetSetting()
-  if this.currentMenu.name and this.menuOn then
-    this.AnnounceLogLangId(this.currentMenu.name)
-  end
-  --if menu.parent==nil then CULL:
-   -- TppUiCommand.AnnounceLogView("Option Menu Error: parent = nil")
-  --end
 end
+
 function this.GoBackCurrent()
   if this.currentMenu.parent==nil then
     if this.currentMenu~=this.topMenu then
@@ -188,12 +178,15 @@ function this.GoBackCurrent()
     return
   end
   this.GoMenu(this.currentMenu.parent,true)
+  if this.currentMenu.name and this.menuOn then
+    this.AnnounceLogLangId(this.currentMenu.name)
+  end
 end
 
 --tex display settings
 function this.DisplayCurrentSetting()
   if this.menuOn then
-    this.DisplaySetting(this.currentOption)
+    this.DisplaySetting(this.currentIndex)
   end
 end
 
@@ -203,28 +196,28 @@ local optionSeperators={
 }
 function this.DisplaySetting(optionIndex)
   this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
-  local modSetting=this.currentMenuOptions[optionIndex]
+  local option=this.currentMenuOptions[optionIndex]
   local settingText=""
   local optionSeperator=optionSeperators.equals
-  local settingNames=modSetting.settingNames or modSetting.settings
+  local settingNames=option.settingNames or option.settings
   if settingNames then
-    if this.currentSetting < 0 or this.currentSetting > #settingNames-1 then
-      settingText="currentSetting out of settingNames bounds"
+    if option.setting < 0 or option.setting > #settingNames-1 then
+      settingText="current setting out of settingNames bounds"
     elseif IsTable(settingNames) then--old style direct non localized table
-      settingText=this.currentSetting..":"..settingNames[this.currentSetting+1]--tex lua indexed from 1, but settings from 0
+      settingText=option.setting..":"..settingNames[option.setting+1]--tex lua indexed from 1, but settings from 0
     else
-      settingText=this.LangTableString(settingNames,this.currentSetting+1)--tex lua indexed from 1, but settings from 0
+      settingText=this.LangTableString(settingNames,option.setting+1)--tex lua indexed from 1, but settings from 0
     end
-  elseif modSetting.isFloat then
-    settingText=math.floor(100*this.currentSetting) .. "%"
-  elseif modSetting.options~=nil then--tex menu
+  elseif option.isFloat then
+    settingText=math.floor(100*option.setting) .. "%"
+  elseif option.options~=nil then--tex menu
     settingText=""
     optionSeperator=optionSeperators.menu
   else
-    settingText=tostring(this.currentSetting)
+    settingText=tostring(option.setting)
   end
   TppUiCommand.AnnounceLogDelayTime(0)
-  local settingName = this.LangString(modSetting.name)
+  local settingName = this.LangString(option.name)
   TppUiCommand.AnnounceLogView(optionIndex..":"..settingName..optionSeperator..settingText)
 end
 function this.DisplaySettings()--tex display all
@@ -243,30 +236,24 @@ function this.AutoDisplay()
   end
 end
 function this.DisplayHelpText()
-  local modSetting=this.currentMenuOptions[this.currentOption]
-  if modSetting.helpText ~= nil then
+  local option=this.currentMenuOptions[this.currentIndex]
+  if option.helpText ~= nil then
     --this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
-    TppUiCommand.AnnounceLogView(modSetting.helpText)--ADDLANG:
+    TppUiCommand.AnnounceLogView(option.helpText)--ADDLANG:
   end
 end
 function this.ResetSetting()
-  local setting=this.currentMenuOptions[this.currentOption]
-  if setting.save then
-    gvars[setting.name]=setting.default
-    this.currentSetting=setting.default
-    if IsFunc(setting.onChange) then
-      setting:onChange()
-    end
-  end
+  local option=this.currentMenuOptions[this.currentIndex]
+  this.SetSetting(option,option.default)
 end
 function this.ResetSettings()
   for n,menu in ipairs(InfMenuDefs.allMenus) do
-    for m,setting in ipairs(menu.options) do
-      if setting.save then
-        gvars[setting.name]=setting.default
-        if IsFunc(setting.onChange) then
-          setting:onChange()
-        end
+    --InfMain.DebugPrint(menu.name)
+    for m,option in ipairs(menu.options) do
+      --InfMain.DebugPrint(option.name)
+      if option.save then--tex using identifier for all ivar/resetable settings
+        --InfMain.DebugPrint(option.name)
+        this.SetSetting(option,option.default,true)
       end
     end
   end
@@ -274,10 +261,9 @@ end
 function this.ResetSettingsDisplay()
   this.AnnounceLogLangId"setting_defaults"--"Setting mod options to defaults..."
   for i=1,#this.currentMenuOptions do
-    local modSetting=this.currentMenuOptions[i]
-    if modSetting.save then
-      gvars[modSetting.name]=modSetting.default
-      this.currentSetting=modSetting.default
+    local option=this.currentMenuOptions[i]
+    if option.save then
+      this.SetSetting(option,option.default,true)
       this.DisplaySetting(i)
     end
   end
@@ -419,6 +405,7 @@ function this.Update()
       InfButton.ButtonRepeatReset(this.menuRightButton)
       if InfButton.OnButtonDown(this.menuRightButton) then
         this.NextSetting()
+        --TppUiCommand.AnnounceLogView"next"--DEBUGNOW:
         this.DisplayCurrentSetting()
       elseif InfButton.OnButtonUp(this.menuRightButton) then
         this.autoDisplayRate=this.autoDisplayDefault

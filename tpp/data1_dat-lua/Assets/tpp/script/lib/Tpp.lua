@@ -28,7 +28,6 @@ local n=bit.bnot
 local n,n,n=bit.band,bit.bor,bit.bxor
 this.requires={
 "/Assets/tpp/script/lib/TppDefine.lua",
-
 "/Assets/tpp/script/lib/TppMath.lua",
 "/Assets/tpp/script/lib/TppSave.lua",
 "/Assets/tpp/script/lib/TppLocation.lua",

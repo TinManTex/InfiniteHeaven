@@ -655,7 +655,7 @@ if Script.LoadLibrary then
   Script.LoadLibrary"/Assets/tpp/script/lib/InfPatch.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfEnemyParams.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfLZ.lua"--tex  
+  Script.LoadLibrary"/Assets/tpp/script/lib/InfLZ.lua"--tex
 end
 yield()
 pcall(dofile,"/Assets/tpp/ui/Script/UiRegisterInfo.lua")
@@ -696,7 +696,8 @@ yield()
 GrTools.SetSunLightReflectionMapShader"TPPSunLightReflectMap"
 GrTools.SetEnvironmentSpecularCubeTexture"/Assets/tpp/effect/gr_pic/gr_cub01_sm_SkySpecCommon.ftex"
 GrTools.SetEnableLocalReflection(true)
-GrTools.SetLightingColorScale(1.8)yield()
+GrTools.SetLightingColorScale(1.8)
+yield()
 do
   local e=coroutine.create(loadfile"Tpp/Scripts/System/start2nd.lua")
   repeat
@@ -711,6 +712,7 @@ if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   dofile"Tpp/Scripts/System/start3rd.lua"
 end
 yield()
+Script.LoadLibrary"/Assets/tpp/script/lib/InfHooks.lua"--tex
 while SplashScreen.GetSplashScreenWithName"cesa"do
   yield()
 end

@@ -938,7 +938,8 @@ function canOpenQuestChecks.tent_q60011()
   return t and e
 end
 function canOpenQuestChecks.cliffTown_q60012()
-  local t=this.IsCleard"tent_q99040"local e=this.IsCleard"fort_q60013"
+  local t=this.IsCleard"tent_q99040"
+  local e=this.IsCleard"fort_q60013"
   return t and e
 end
 function canOpenQuestChecks.fort_q60013()
@@ -1104,26 +1105,26 @@ function this.IsOpenLocation(e)
   end
   return true
 end
-local r={}
-function r.mtbs_wait_quiet()
+local RENAMEsomeConditions={}
+function RENAMEsomeConditions.mtbs_wait_quiet()
   return TppStory.CanArrivalQuietInMB()
 end
-function r.Mtbs_child_dog()
+function RENAMEsomeConditions.Mtbs_child_dog()
   local e=TppBuddyService.CanSortieBuddyType(BuddyType.DOG)
   local t=not TppStory.IsNowOccurringElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME)
   return(not e)and t
 end
-function r.Mtbs_ddog_walking()
+function RENAMEsomeConditions.Mtbs_ddog_walking()
   local e=TppBuddyService.IsDeadBuddyType(BuddyType.DOG)
   return(not e)
 end
-function r.cliffTown_q99080()
+function RENAMEsomeConditions.cliffTown_q99080()
   local t=TppMotherBaseManagement.IsExistStaff{uniqueTypeId=110}
   local e=TppStory.IsMissionCleard(10240)
   return t or e
 end
-function this.SpecialMissionStartSetting(e)
-  if(e==TppDefine.MISSION_CLEAR_TYPE.QUEST_BOSS_QUIET_BATTLE_END)then
+function this.SpecialMissionStartSetting(missionClearType)
+  if(missionClearType==TppDefine.MISSION_CLEAR_TYPE.QUEST_BOSS_QUIET_BATTLE_END)then
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
     TppPlayer.ResetInitialPosition()
     TppPlayer.ResetMissionStartPosition()
@@ -1131,14 +1132,14 @@ function this.SpecialMissionStartSetting(e)
     TppPlayer.SetNoOrderBoxMissionStartPosition({-1868.27,343.22,-84.6095},160.651)
     TppMission.ResetIsStartFromHelispace()
     TppMission.SetIsStartFromFreePlay()
-  elseif(e==TppDefine.MISSION_CLEAR_TYPE.QUEST_LOST_QUIET_END)then
+  elseif(missionClearType==TppDefine.MISSION_CLEAR_TYPE.QUEST_LOST_QUIET_END)then
     gvars.heli_missionStartRoute=Fox.StrCode32"drp_s10260"TppPlayer.SetStartStatusRideOnHelicopter()
     TppPlayer.ResetInitialPosition()
     TppPlayer.ResetMissionStartPosition()
     TppPlayer.ResetNoOrderBoxMissionStartPosition()
     TppMission.ResetIsStartFromHelispace()
     TppMission.ResetIsStartFromFreePlay()
-  elseif(e==TppDefine.MISSION_CLEAR_TYPE.QUEST_INTRO_RESCUE_EMERICH_END)then
+  elseif(missionClearType==TppDefine.MISSION_CLEAR_TYPE.QUEST_INTRO_RESCUE_EMERICH_END)then
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
     TppPlayer.ResetInitialPosition()
     TppPlayer.ResetMissionStartPosition()
@@ -1312,20 +1313,20 @@ function this.GoToMBAfterClear(e)
     mvars.qst_currentClearQuestName=e
   end
 end
-function this.Failure(t)
-  if t==nil then
-    t=this.GetCurrentQuestName()
-    if t==nil then
+function this.Failure(questName)
+  if questName==nil then
+    questName=this.GetCurrentQuestName()
+    if questName==nil then
       return
     end
   end
-  local n=this.GetQuestIndex(t)
+  local n=this.GetQuestIndex(questName)
   if n==nil then
     return
   end
   this.UpdateClearFlag(n,false)
   this.SetNextQuestStep(d)
-  this.ShowAnnounceLog(s.FAILURE,t)
+  this.ShowAnnounceLog(s.FAILURE,questName)
   TppUiCommand.SetSideOpsListUpdate()
   for e=0,9,1 do
     if gvars.qst_failedIndex[e]==-1 then
@@ -2121,11 +2122,11 @@ function this.IsInvoking()
     return false
   end
 end
-function this.UpdateOpenQuest()--tex DEMINIFIED:
+function this.UpdateOpenQuest()
   mvars.qst_isQuestNewOpenFlag=false
   for key,questIndex in pairs(TppDefine.QUEST_INDEX) do
     local canOpenQuestFunc=canOpenQuestChecks[key]
-    if (canOpenQuestFunc and canOpenQuestFunc()) or gvars.unlockSideOps==Ivars.unlockSideOps.enum.OPEN then--tex
+    if (canOpenQuestFunc and canOpenQuestFunc()) or gvars.unlockSideOps==Ivars.unlockSideOps.enum.OPEN then--tex, canopenchecks were origninally nested
       if gvars.qst_questOpenFlag[questIndex]==false then
         mvars.qst_isQuestNewOpenFlag=true
     end
@@ -2133,123 +2134,95 @@ function this.UpdateOpenQuest()--tex DEMINIFIED:
     end
   end
 end
---[[function e.UpdateOpenQuest()
-  mvars.qst_isQuestNewOpenFlag=false
-  for e,n in pairs(TppDefine.QUEST_INDEX)do
-    local e=t[e]
-    if e then
-      if e()then
-        if gvars.qst_questOpenFlag[n]==false then
-          mvars.qst_isQuestNewOpenFlag=true
-        end
-        gvars.qst_questOpenFlag[n]=true
-      end
-    end
-  end
-end--]]
 function this.UpdateActiveQuest(debugUpdate)
   if not mvars.qst_questList then
     return
   end
+  
+  local unlockedName=nil--tex unlockSideOpNumber
+  local unlockedArea=nil
+  if gvars.unlockSideOpNumber > 0 then--tex find name and area for unlocksideop SANITY:
+    unlockedName=sideOpsTable[gvars.unlockSideOpNumber].questName--tex
+    if unlockedName ~= nil then
+      unlockedArea=TppQuestList.questAreaTable[unlockedName]
+    end
+  end--
+  
   if this.NeedUpdateActiveQuest(debugUpdate)then
     this.UpdateOpenQuest()
-    local unlockedName=nil--tex unlockSideOpNumber
-    local unlockedArea=nil
-    local done=false
-    if gvars.unlockSideOpNumber > 0 then--tex find name and area for unlocksideop SANITY:
-      unlockedName=sideOpsTable[gvars.unlockSideOpNumber].questName--tex
-      if unlockedName ~= nil then
-        for n,areaQuests in ipairs(mvars.qst_questList)do--tex questList is TppQuestList.questList (VERIFY that this is always the case)
-          if areaQuests.locationId==vars.locationCode or TppMission.IsHelicopterSpace(vars.missionCode) then
-            for i,info in ipairs(areaQuests.infoList)do
-              if info.name == unlockedName then
-                unlockedArea=areaQuests.areaName
-                done=true
-                break
-              end
-            end--for infolist
-            if done then
-              break
-            end
-          end--location check
-        end--for questlist
-      end--unlockedname
-      --[[if (unlockedArea) then--DEBUGNOW
-        TppUiCommand.AnnounceLogView("no unlockedArea!")--DEBUGNOW
-      else
-        TppUiCommand.AnnounceLogView("has unlockedArea")--DEBUGNOW
-      end--]]--DEBUGNOW
-    end--
-  for n,areaQuests in ipairs(mvars.qst_questList)do
-    local n={}
-    local storyQuests={}
-    local nonStoryQuests={}
-    local repopQuests={}
-    if unlockedArea ~= nil and areaQuests.areaName==unlockedArea then--tex add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
-      for i,info in ipairs(areaQuests.infoList)do
-        if info.name==unlockedName then
-          table.insert(storyQuests,info.name)--tex ASSUMPTION: storyquests has priority
-          break
-        end
-    end
-    else--
-      for t,info in ipairs(areaQuests.infoList)do
-        local questName=info.name
-        local questIndex=TppDefine.QUEST_INDEX[questName]
-        if questIndex then
-          if Ivars.unlockSideOpNumber.skipValues[questIndex+1] ~= true then--tex disallowSideOps
+    for n,areaQuests in ipairs(mvars.qst_questList)do
+      local n={}
+      local storyQuests={}
+      local nonStoryQuests={}
+      local repopQuests={}
+      if unlockedArea and areaQuests.areaName==unlockedArea then--tex add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
+        for t,info in ipairs(areaQuests.infoList)do--tex still gotta clear
+          local questName=info.name
+          local questIndex=TppDefine.QUEST_INDEX[questName]
+          if questIndex then              
             gvars.qst_questActiveFlag[questIndex]=false
-            local n=r[questName]--NMC: some list of conditions, not as big as the 't' list
-            if this.IsOpen(questName)and(not n or n())then
-              if not this.IsCleard(questName)then
-                if info.isStory then
-                  table.insert(storyQuests,questName)
-                else
-                  table.insert(nonStoryQuests,questName)
-                end
-              elseif this.IsRepop(questName)then
-                table.insert(repopQuests,questName)
-              end
-            end
           end
         end
-    end
-    end
-    local questName=nil
-    local list=nil--tex choose which quest to activate per area
-    local index=1
-    if #storyQuests > 0 then--tex broken into lists to manage priority
-      list=storyQuests
-    elseif #nonStoryQuests > 0 then
-      list=nonStoryQuests
-    elseif #repopQuests > 0 then
-      list=repopQuests
-    end
-    if list ~= nil then
-      --[[if gvars.unlockSideOps == Ivars.unlockSideOps.enum.FIRST then
-          index=1
-        elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.LAST then
-          index=#list
-        elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.RANDOM then
-          index=math.random(#list)
-        end--]]
-      if gvars.unlockSideOps > 0 then
-        index=math.random(#list)
-      end
-      questName=list[index]
-    end--
-    --[[--tex ORIG: for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
-        if not questName then
-          questName=t[1]
+        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[unlockedName]]=true
+      else--
+        for t,info in ipairs(areaQuests.infoList)do
+          local questName=info.name
+          local questIndex=TppDefine.QUEST_INDEX[questName]
+          if questIndex then              
+            gvars.qst_questActiveFlag[questIndex]=false
+            if Ivars.unlockSideOpNumber.skipValues[questIndex+1] ~= true then--tex disallowSideOps
+              local RENAMEsomeCondition=RENAMEsomeConditions[questName]--NMC: some list of conditions, not as big as the 't' list
+              if this.IsOpen(questName)and(not RENAMEsomeCondition or RENAMEsomeCondition())then
+                if not this.IsCleard(questName)then
+                  if info.isStory then
+                    table.insert(storyQuests,questName)
+                  else
+                    table.insert(nonStoryQuests,questName)
+                  end
+                elseif this.IsRepop(questName)then
+                  table.insert(repopQuests,questName)
+                end
+              end--quest open
+            end--skip
+          end--questindex
+        end--for infolist
+      
+        local questName=nil
+        local list=nil--tex choose which quest to activate per area
+        local index=1
+        if #storyQuests > 0 then--tex broken into lists to manage priority
+          list=storyQuests
+        elseif #nonStoryQuests > 0 then
+          list=nonStoryQuests
+        elseif #repopQuests > 0 then
+          list=repopQuests
         end
-      end--]]
-    if questName then
-      gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
-    end
-  end
+        if list ~= nil then
+          --[[if gvars.unlockSideOps == Ivars.unlockSideOps.enum.FIRST then
+              index=1
+            elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.LAST then
+              index=#list
+            elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.RANDOM then
+              index=math.random(#list)
+            end--]]
+          if gvars.unlockSideOps > 0 then
+            index=math.random(#list)
+          end
+          questName=list[index]
+        end--
+        --[[--tex ORIG: for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
+            if not questName then
+              questName=t[1]
+            end
+          end--]]
+        if questName then
+          gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
+        end
+      end--unlockedArea switch
+    end-- for questlist
   elseif TppMission.IsStoryMission(vars.missionCode)then
-    for n,questName in ipairs(TppDefine.QUEST_DEFINE)do
-      if not this.CanActiveQuestInMission(vars.missionCode,questName)then
+    for n,questName in ipairs(TppDefine.QUEST_DEFINE)do 
+      if not this.CanActiveQuestInMission(vars.missionCode,questName) then
         gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=false
       end
     end
@@ -2363,13 +2336,13 @@ function this.IsImportant(t)
   end
   return false
 end
-local a={waterway_q99012="waterway",tent_q99040="tent",tent_q20910="tent",sovietBase_q20912="waterway",fort_q20911="fort"}
-function this.OpenAndActivateSpecialQuest(t)
+local specialQuestList={waterway_q99012="waterway",tent_q99040="tent",tent_q20910="tent",sovietBase_q20912="waterway",fort_q20911="fort"}
+function this.OpenAndActivateSpecialQuest(questNames)
   local n=true
-  for a,t in ipairs(t)do
-    if this.CanOpenAndActivateSpecialQuest(t)then
-      this.OpenQuestForce(t)
-      this.SwitchActiveQuest(t)
+  for a,questName in ipairs(questNames)do
+    if this.CanOpenAndActivateSpecialQuest(questName)then
+      this.OpenQuestForce(questName)
+      this.SwitchActiveQuest(questName)
       this.AddStaffsFromTempBuffer()
       this.Save()
     else
@@ -2387,38 +2360,38 @@ function this.OpenQuestForce(e)
     gvars.qst_questOpenFlag[e]=true
   end
 end
-function this.CanOpenAndActivateSpecialQuest(t)
-  local n=a[t]
-  if not n then
+function this.CanOpenAndActivateSpecialQuest(questName)
+  local areaName=specialQuestList[questName]
+  if not areaName then
     return false
   end
-  for a,t in ipairs(TppQuestList.questList)do
-    if t.areaName==n then
-      local n=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
-      local n=TppDefine.LOCATION_ID[n]
-      if t.locationId~=n then
+  for a,areaQuests in ipairs(TppQuestList.questList)do
+    if areaQuests.areaName==areaName then
+      local locationName=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
+      local locationId=TppDefine.LOCATION_ID[locationName]
+      if areaQuests.locationId~=locationId then
         return true
       end
       local a,n=Tpp.GetCurrentStageSmallBlockIndex()
-      if not this.IsInsideArea("loadArea",t,a,n)then
+      if not this.IsInsideArea("loadArea",areaQuests,a,n)then
         return true
       end
     end
   end
   return false
 end
-function this.SwitchActiveQuest(n)
-  local t=a[n]
+function this.SwitchActiveQuest(questName)
+  local t=specialQuestList[questName]
   if not t then
     return
   end
-  for a,e in ipairs(TppQuestList.questList)do
-    if e.areaName==t then
-      for t,e in ipairs(e.infoList)do
-        local e=e.name
-        local t=TppDefine.QUEST_INDEX[e]
-        if t then
-          gvars.qst_questActiveFlag[t]=(e==n)
+  for a,areaQuests in ipairs(TppQuestList.questList)do
+    if areaQuests.areaName==t then
+      for t,info in ipairs(areaQuests.infoList)do
+        local _questName=info.name
+        local questIndex=TppDefine.QUEST_INDEX[_questName]
+        if questIndex then
+          gvars.qst_questActiveFlag[questIndex]=(_questName==questName)
         end
       end
     end
@@ -2532,7 +2505,7 @@ function this.UpdateRepopFlagImpl(a)
         n=n+1
       end
       if this.IsRepop(t)or not this.IsCleard(t)then
-        local e=r[t]
+        local e=RENAMEsomeConditions[t]
         if(e==nil)or e()then
           return
         end
@@ -2546,7 +2519,7 @@ function this.UpdateRepopFlagImpl(a)
     if this.IsCleard(t.name)and (not t.isOnce or gvars.unlockSideOps~=0) then--tex added issub
       gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[t.name]]=true
     end
-    local e=r[t.name]
+    local e=RENAMEsomeConditions[t.name]
     if e and(not e())then--and gvars.unlockSideOps==0 then --tex
       gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[t.name]]=false
     end

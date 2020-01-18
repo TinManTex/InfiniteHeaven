@@ -709,7 +709,7 @@ function this.GetSoldierSubType(soldierId,subType)
   if missionCode==10115 or missionCode==11115 then
     return"DD_PW"
   end
-  if TppMission.IsFOBMission(missionCode)or InfMain.IsMbPlayTime() then--tex added ismbplay
+  if TppMission.IsFOBMission(missionCode)or InfMain.IsMbPlayTime(missionCode) then--tex added ismbplay
     return"DD_FOB"
   end
   local soldierSubType=nil
@@ -760,12 +760,17 @@ function this.GetDefaultSoldierSubType(soldierType)
     end
   return nil
 end
-function this._CreateDDWeaponIdTable(developedGradeTable,securityGradeTable,isNoKillMode)
+function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoKillMode)
   local ddWeaponIdTable={NORMAL={}}
   local ddWeaponNormalTable=ddWeaponIdTable.NORMAL
   mvars.ene_ddWeaponCount=0
   ddWeaponNormalTable.IS_NOKILL={}
   local DDWeaponIdInfo=this.DDWeaponIdInfo
+  --if InfMain.IsMbPlayTime() then--DEBUG CULL
+  --  TppUiCommand.AnnounceLogView("_CreateDDWeaponIdTable: mbplaytime soldierEquipGrade"..soldierEquipGrade )
+  --else
+  --  TppUiCommand.AnnounceLogView("_CreateDDWeaponIdTable: not mbplaytime soldierEquipGrade" ..soldierEquipGrade)
+  --end--DEBUGNOW:
   for a,e in pairs(DDWeaponIdInfo)do
     for n,e in ipairs(e)do
       local addWeapon=false
@@ -777,11 +782,11 @@ function this._CreateDDWeaponIdTable(developedGradeTable,securityGradeTable,isNo
       else
         local developId=e.developId
         local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-        if InfMain.IsMbPlayTime() and gvars.mbSoldierEquipGrade == Ivars.mbSoldierEquipGrade.enum.GRADE10 then--tex
-          developRank=1--tex drop to min so developedgradetable overrides
-        end
-        -- TppUiCommand.AnnounceLogView("_CreateDDWeaponIdTable developrank:" .. developRank)--tex DEBUG: CULL:
-        if(securityGradeTable>=developRank and developedGradeTable[developedEquipType]>=developRank)then
+        --if InfMain.IsMbPlayTime() then--DEBUGNOW
+        --TppUiCommand.AnnounceLogView("_CreateDDWeaponIdTable developrank:" .. developRank .. " soldierEquipGrade: " .. soldierEquipGrade)--tex DEBUG: CULL:
+        --end--
+        local overrideDeveloped = InfMain.IsMbPlayTime() and gvars.mbSoldierEquipGrade >= Ivars.mbSoldierEquipGrade.enum.GRADE1
+        if(soldierEquipGrade>=developRank and (developedGradeTable[developedEquipType]>=developRank or overrideDeveloped))then--tex added override
           addWeapon=true
         end
       end
@@ -805,32 +810,32 @@ end
 function this.ClearDDParameter()
   this.weaponIdTable.DD=nil
 end
-function this.PrepareDDParameter(mbsClusterSecuritySoldierEquipGrade,mbsClusterSecurityIsNoKillMode)
+function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   if TppMotherBaseManagement.GetMbsDevelopedEquipGradeTable==nil then
     this.weaponIdTable.DD={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
     return
   end
-  local mbsDevelopedEquipGradeTable=TppMotherBaseManagement.GetMbsDevelopedEquipGradeTable()
-  mbsClusterSecuritySoldierEquipGrade=mbsClusterSecuritySoldierEquipGrade or 9999
+  local developedGradeTable=TppMotherBaseManagement.GetMbsDevelopedEquipGradeTable()
+  soldierEquipGrade=soldierEquipGrade or 9999
   if gvars.ini_isTitleMode then
     this.ClearDDParameter()
   end
-  if this.weaponIdTable.DD~=nil then
+  if this.weaponIdTable.DD~=nil and not InfMain.IsMbPlayTime() then--tex rebuild if playtime cause we fsk wih soldiergrade
   else
-    this.weaponIdTable.DD=this._CreateDDWeaponIdTable(mbsDevelopedEquipGradeTable,mbsClusterSecuritySoldierEquipGrade,mbsClusterSecurityIsNoKillMode)
+    this.weaponIdTable.DD=this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoKillMode)
   end
   --TppUiCommand.AnnounceLogView("PrepareDDParameter securitySoldierEquipGrade:"..securitySoldierEquipGrade)--tex DEBUG: CULL:
   --[[TppUiCommand.AnnounceLogView("PrepareDDParameter weaponIdTable.DD")--tex DEBUG: CULL:
     local dd = this.weaponIdTable.DD
     local inss = InfInspect.Inspect(dd)
     TppUiCommand.AnnounceLogView(inss)--]]
-  local fultonGrade=mbsDevelopedEquipGradeTable[mbsDevelopedEquipType.FULTON_16001]
-  local wormholeGrade=mbsDevelopedEquipGradeTable[mbsDevelopedEquipType.FULTON_16008]
-  if fultonGrade>mbsClusterSecuritySoldierEquipGrade then
-    fultonGrade=mbsClusterSecuritySoldierEquipGrade
+  local fultonGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16001]
+  local wormholeGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16008]
+  if fultonGrade>soldierEquipGrade then
+    fultonGrade=soldierEquipGrade
   end
-  if wormholeGrade>mbsClusterSecuritySoldierEquipGrade then
-    wormholeGrade=mbsClusterSecuritySoldierEquipGrade
+  if wormholeGrade>soldierEquipGrade then
+    wormholeGrade=soldierEquipGrade
   end
   local fultonLevel=0
   if fultonGrade>=4 then

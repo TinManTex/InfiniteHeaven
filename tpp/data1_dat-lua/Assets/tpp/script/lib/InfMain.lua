@@ -3,27 +3,17 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r64"
+this.modVersion = "r65"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
 local IsFunc=Tpp.IsTypeFunc
 local Enum=TppDefine.Enum
 
---TODO: split off into InfDefine?
-local OSP_CLEAR_WEAPON_TABLE={{primaryHip="EQP_None"},{primaryBack="EQP_None"},{secondary="EQP_None"}}
-local OSP_SECONDARY_ONLY_WEAPON_TABLE={{primaryHip="EQP_None"},{primaryBack="EQP_None"}}
-local OSP_TERTIARY_ONLY_WEAPON_TABLE={{primaryHip="EQP_None"},{secondary="EQP_None"}}
-local OSP_PRIMARY_ONLY_CLEAR_WEAPON_TABLE={{primaryHip="EQP_None"}}
-local OSP_SECONDARY_ONLY_CLEAR_WEAPON_TABLE={{secondary="EQP_None"}}
+this.Print=TppUiCommand.AnnounceLogView
+this.DebugPrint=TppUiCommand.AnnounceLogView
+
 this.SUBSISTENCE_CLEAR_SUPPORT_WEAPON_TABLE={{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"}}
-this.ospWeaponLoadouts={
-  OSP_CLEAR_WEAPON_TABLE,--pure
-  OSP_SECONDARY_ONLY_WEAPON_TABLE,
-  OSP_TERTIARY_ONLY_WEAPON_TABLE,
-  OSP_PRIMARY_ONLY_CLEAR_WEAPON_TABLE,
-  OSP_SECONDARY_ONLY_CLEAR_WEAPON_TABLE,
-}
 
 this.SETTING_FORCE_ENEMY_TYPE=Enum{
   "DEFAULT",
@@ -131,48 +121,55 @@ function this.ForceSoldierType(soldierId,soldierType)
   --TppEnemy.GetDefaultSoldierSubType(soldierType)
 end
 
-function this.IsMbWarGames()
-  return gvars.mbWarGames>0 and vars.missionCode == 30050
+function this.IsMbWarGames(missionId)
+  missionId=missionId or vars.missionCode
+  return gvars.mbWarGames>0 and missionId==30050
 end
-function this.IsMbPlayTime()
-  if vars.missionCode==30050 then
-    return gvars.mbPlayTime>0 or
-      gvars.mbSoldierEquipGrade>0
+function this.IsMbPlayTime(missionId)
+  missionId=missionId or vars.missionCode
+  if missionId==30050 then
+    return gvars.mbPlayTime>0 or gvars.mbSoldierEquipGrade>0
   end
   return false
 end
 function this.IsForceSoldierSubType()
   return gvars.forceSoldierSubType>0 and TppMission.IsFreeMission(vars.missionCode)
 end
-function this.GetMbsClusterSecuritySoldierEquipGrade()--SYNC: mbSoldierEquipGrade
+
+function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldierEquipGrade
   local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
-  if this.IsMbPlayTime() and gvars.mbSoldierEquipGrade>Ivars.mbSoldierEquipGrade.enum.MBDEVEL then
+  if this.IsMbPlayTime(missionId) and gvars.mbSoldierEquipGrade>Ivars.mbSoldierEquipGrade.enum.MBDEVEL then
+    --TppUiCommand.AnnounceLogView("GetEquipGrade ismbplay, grade > devel")--DEBUGNOW
     if gvars.mbSoldierEquipGrade==Ivars.mbSoldierEquipGrade.enum.RANDOM then
       grade = math.random(1,10)
     else
       grade = gvars.mbSoldierEquipGrade-Ivars.mbSoldierEquipGrade.enum.RANDOM
     end
   end
-  --TppUiCommand.AnnounceLogView("DBG: GetMbsClusterSecuritySoldierEquipGrade="..grade)--tex DEBUG: CULL:
+  --TppUiCommand.AnnounceLogView("GetEquipGrade: gvar:".. gvars.mbSoldierEquipGrade .." grade: ".. grade)--DEBUGNOW
+
+  --TppUiCommand.AnnounceLogView("Caller: ".. tostring(debug.getinfo(2).name) .." ".. tostring(debug.getinfo(2).source))--DEBUGNOW:
   return grade
 end
-function this.GetMbsClusterSecuritySoldierEquipRange()
-  local range = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
-  if InfMain.IsMbPlayTime() then
+
+function this.GetMbsClusterSecuritySoldierEquipRange(missionId)
+  if InfMain.IsMbPlayTime(missionId) then
     if gvars.mbSoldierEquipRange==Ivars.mbSoldierEquipRange.enum.RANDOM then
-      range = math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
+      return math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
     elseif gvars.mbSoldierEquipRange>0 then
-      range = gvars.mbSoldierEquipRange-1
+      return gvars.mbSoldierEquipRange-1
     end
   end
+  return TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
 end
-function this.GetMbsClusterSecurityIsNoKillMode()
-  local isNoKillMode=TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-  if this.IsMbPlayTime() then--tex PrepareDDParameter mbwargames, mbsoldierequipgrade
-    isNoKillMode=(gvars.mbWarGames==Ivars.mbWarGames.enum.NONLETHAL)
+
+function this.GetMbsClusterSecurityIsNoKillMode(missionId)
+  if this.IsMbPlayTime(missionId) then--tex PrepareDDParameter mbwargames, mbsoldierequipgrade
+    return gvars.mbWarGames==Ivars.mbWarGames.enum.NONLETHAL
   end
-  return isNoKillMode
+  return TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
 end
+
 function this.DisplayFox32(foxString)    
   local str32 = Fox.StrCode32(foxString)
   TppUiCommand.AnnounceLogView("string :"..foxString .. "="..str32)
@@ -249,83 +246,5 @@ function this.ResetCpTableToDefault()
     subTypeOfCp[cp]=subTypeOfCpDefault[cp]
   end--]]
 end
-
---[[
-------------
-  --TODO: add bool support to settings handling?
-  --min,max,increment auto determins TppScriptVars type
-  
-  need to map seetting value to:
-  gvar - scriptvartype
-  display names (integers, sometimes)
-  
-  
-  profileoption
-    displayname
-    helptext
-    
-    setting=off, PROFILES, Custom
-    
-    options - list of sub options profileoption affects
-      someOption
-      
--- setup:
-have Ivars.lua
-for name, ivar in pairs(Ivars) do
-  ivar.name=name--this way I just set up ivar in ivars.lua by this.someivar, and it puts string name into it for the other functions to use (langid,gvar name)
-
-if increment = nil then
- increment = 1
- 
-if default=nil then 
-  default = 0
- 
-
-
----
-if gvars.enemyParameters==1 then--tex use tweaked soldier parameters
-if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER then--tex disable
-
- local loadout = gvars.ospWeaponLoadout
-  if TppMission.IsSubsistenceMission() and loadout==0 then
-    loadout=1
-  end
-  if gvars.isManualSubsistence == InfMain.SETTING_SUBSISTENCE_PROFILE.PURE then
-    if loadout>2 then--tex only pure osp or secondary free on pure
-      loadout=1
-      gvars.isManualSubsistence=1
-    end
-  end
-  if loadout > 0 and loadout <= #InfMain.ospWeaponLoadouts then
-    this.SetInitWeapons(InfMain.ospWeaponLoadouts[loadout])--tex subs loadouts, lua index from 1
-  end
-  if TppMission.IsSubsistenceMission() then
-    this.SetInitWeapons(InfMain.SUBSISTENCE_CLEAR_SUPPORT_WEAPON_TABLE)
-    this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
-    local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}--tex subs settings, moved and broken up from retail which put table straight in regtempplayer
-    if gvars.isManualSubsistence==InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER then
-      playerSettings={handEquip=TppEquip.EQP_HAND_NORMAL}
-    end--
-
----
-someoption
-  values={
-    "SOME",
-    ENEU<
-    NAEMS"
-  }
-  valuesEnum=Enum(values)
-  
-  changevalue
-    set save var
-    this[this.values(currentvalue)]=false
-    this[this.values(settingvalue)]=true
-    
-
-if Ivars.someoption.SOMESETTING then
-
---]]
-
---]]
 
 return this

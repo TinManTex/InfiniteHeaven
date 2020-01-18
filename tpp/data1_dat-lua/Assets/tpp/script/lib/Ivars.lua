@@ -1,4 +1,6 @@
 -- DOBUILD: 1
+--tex Ivar system
+--combines gvar setup, enums, functions per setting in one ungodly mess.
 local this={}
 
 --LOCALOPT:
@@ -26,22 +28,103 @@ this.MAX_SOLDIER_STATE_COUNT = 360--tex from <mission>_enemy.lua, free missions/
 this.switchRange={max=1,min=0,increment=1}
 this.healthMultRange={max=4,min=0,increment=0.2}
 
-local DEFAULT="DEFAULT"
-local CUSTOM="CUSTOM"
+this.switchSettings={"OFF","ON"}
 
-local function OnChangeSubSetting(setting)
-  local profile = setting.profile
+function this.OnChangeSubSetting(self)--tex notify parent profile that you've changed
+  --TppUiCommand.AnnounceLogView("OnChangeSubSetting: "..self.name.. " profile: " .. self.profile.name)--DEBUGNOW
+  local profile=self.profile
   if profile then
-    if IsFunc(profile.OnSubSettingChanged) then
-      profile.OnSubSettingChanged(profile,self)
+    if profile.OnSubSettingChanged==nil then
+      TppUiCommand.AnnounceLogView("WARNING: cannot find OnSubSettingChanged on profile " .. self.profile.name)    
+      return
+    end
+    profile.OnSubSettingChanged(profile,self)
+  end
+end
+
+function this.OnSubSettingChanged(profile, subSetting)--tex here the parent profile is notfied a sub setting was changed
+  --TppUiCommand.AnnounceLogView("OnChangeSubSetting: "..profile.name.. " subSetting: " .. subSetting.name)--DEBUGNOW
+  --tex any sub setting will flip this profile to custom, CUSTOM is mostly a user identifyer, it has no side effects/no settingTable function
+  if subSetting.enum==nil or subSetting.enum.CUSTOM==nil or (subSetting:Is("DEFAULT") or subSetting:Is("CUSTOM")) then--tex just a hack way of figuring out if subsetting is a profile itself
+    if not profile:Is("CUSTOM") then
+      profile:Set(profile.enum.CUSTOM)
+      InfMenu.DisplayProfileChangedToCustom(profile)
     end
   end
 end
 
---local function OnSubSettingChange(profile, subSetting)--tex here the parent profile is notfied a sub setting was changed
-  
---end
+this.RunCurrentSetting=function(self)
+  --TppUiCommand.AnnounceLogView("RunCurrentSetting on ".. self.name)--DEBUGNOW
+  local returnValue=nil
+  if self.settingsTable then
+    --TppUiCommand.AnnounceLogView("has settingstable")--DEBUGNOW
+    --this.UpdateSettingFromGvar(self)
+    --TppUiCommand.AnnounceLogView("didupdate")--DEBUGNOW
+    local settingName=self.settings[self.setting+1]
+    --TppUiCommand.AnnounceLogView("setting name:" .. settingName)--DEBUGNOW
+    local settingFunction=self.settingsTable[settingName]
+    
+    if IsFunc(settingFunction) then
+      --TppUiCommand.AnnounceLogView("has settingFunction")--DEBUGNOW
+      returnValue=settingFunction()
+    else
+      returnValue=settingFunction
+    end
+  end
+  return returnValue
+end
 
+this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt trigger profile onchange
+  --TppUiCommand.AnnounceLogView("RunCurrentSetting on ".. self.name)--DEBUGNOW
+  local returnValue=nil
+  if self.settingsTable then
+    --TppUiCommand.AnnounceLogView("has settingstable")--DEBUGNOW
+    --this.UpdateSettingFromGvar(self)
+    --TppUiCommand.AnnounceLogView("didupdate")--DEBUGNOW
+    local settingName=self.settings[self.setting+1]
+    --TppUiCommand.AnnounceLogView("setting name:" .. settingName)--DEBUGNOW
+    local settingFunction=self.settingsTable[settingName]
+    
+    if IsFunc(settingFunction) then
+      --TppUiCommand.AnnounceLogView("has settingFunction")--DEBUGNOW
+      returnValue=settingFunction()
+    else
+      returnValue=settingFunction
+    end
+  end
+  return returnValue
+end
+
+this.UpdateSettingFromGvar=function(option)
+  if option.save then
+    option.setting=gvars[option.name]
+  end
+end
+
+this.OptionIsSetting=function(self,settingName)
+  local settingIndex=self.enum[settingName]
+  return self.setting==settingIndex
+end
+
+this.OptionAboveSetting=function(self,settingName) 
+  local settingIndex=self.enum[settingName]
+  return self.setting>settingIndex
+end
+
+this.OptionBelowSetting=function(self,settingName)
+  local settingIndex=self.enum[settingName]
+  return self.setting<settingIndex
+end
+
+this.OptionIsOrAboveSetting=function(self,settingName)  
+  local settingIndex=self.enum[settingName]
+  return self.setting>=settingIndex
+end
+
+this.OptionIsOrBelowSetting=function(self,settingName)
+  local settingIndex=self.enum[settingName]
+  return self.setting<=settingIndex
+end
 
 --ivars
 --tex NOTE: should be mindful of max setting for save vars, 
@@ -82,14 +165,6 @@ this.mbSoldierEquipGrade={--DEPENDANCY: mbPlayTime
     "GRADE10"
   },
   settingNames="set_dd_equip_grade",
-  --[[ CULL: handled by InfMain.Ismbplaytime
-   onChange=function()--DEPENDENCY: mbPlayTime
-    if gvars.mbSoldierEquipGrade==0 then
-      gvars.mbPlayTime=0
-    elseif gvars.mbSoldierEquipGrade>0 then
-      gvars.mbPlayTime=1
-    end
-  end--]]
 }
 
 this.mbSoldierEquipRange={--DEPENDANCY: mbPlayTime
@@ -109,7 +184,7 @@ this.mbDDSuit={--DEPENDANCY: mbPlayTime
   },
   settingNames="set_dd_suit",
 }
---[[this.mbDDBalaclava={--DEPENDANCY: mbPlayTime
+--[[this.mbDDBalaclava={--DEPENDANCY: mbPlayTime OFF: Buggy, RETRY DEBUGNOW: ADDLANG
   save=MISSION,
   default=0,
   range=this.switchRange,
@@ -142,7 +217,7 @@ this.unlockPlayableAvatar={
   save=GLOBAL,
   range=this.switchRange,
   settingNames="set_switch",
-  onChange=function()
+  OnChange=function()
     local currentStorySequence=TppStory.GetCurrentStorySequence()
     if gvars.unlockPlayableAvatar==0 then
       if currentStorySequence<=TppDefine.STORY_SEQUENCE.CLEARD_THE_TRUTH then
@@ -162,97 +237,300 @@ this.langOverride={
 
 this.startOffline={--tex cant get it to read, yet isNewgame is fine? does it only work with bools?
   save=GLOBAL,
-  default=0,--DEBUGNOW
+  default=1,--DEBUGNOW startoffline
   range=this.switchRange,
   settingNames="set_switch",
 }
 
-this.isManualHard={
+this.isManualHard={--tex not currently user option, but left over for legacy, mostly just switches on hard game over
   save=MISSION,
   range=this.switchRange,
 }
 
 this.subsistenceProfile={--was isManualSubsistence
   save=MISSION,
-  settings={"OFF","PURE","BOUNDER"},
-  settingNames="set_subsistence",
-  onChange=function()--DEPENDENCY: ospWeaponLoadout. noCentralLzs
-    if gvars.subsistenceProfile==0 then
-      gvars.ospWeaponLoadout=0
-      gvars.noCentralLzs=0
-    else
-      gvars.noCentralLzs=1
-      if gvars.ospWeaponLoadout==0 then
-        gvars.ospWeaponLoadout=1
+  settings={"DEFAULT","PURE","BOUNDER","CUSTOM"},
+  settingNames="subsistenceProfileSettings",
+  settingsTable={
+    DEFAULT=function() 
+      Ivars.noCentralLzs:Set(0,true)
+      Ivars.disableBuddies:Set(0,true)
+      Ivars.disableHeadMarkers:Set(0,true)
+      Ivars.disableFulton:Set(0,true)
+      Ivars.clearItems:Set(0,true)
+      Ivars.clearSupportItems:Set(0,true)
+      Ivars.setSubsistenceSuit:Set(0,true)
+      Ivars.setDefaultHand:Set(0,true)      
+      --handLevelProfile --game auto sets to max developed
+      --fultonLevelProfile -- game auto turns on wormhole, user can manually chose overall level in ui
+      Ivars.ospWeaponProfile:Set(0,true)
+    end,
+    PURE=function() 
+      Ivars.noCentralLzs:Set(1,true)
+      Ivars.disableBuddies:Set(1,true)
+      Ivars.disableHeadMarkers:Set(1,true)
+      Ivars.disableFulton:Set(1,true)
+      Ivars.clearItems:Set(1,true)
+      Ivars.clearSupportItems:Set(1,true)
+      Ivars.setSubsistenceSuit:Set(1,true)
+      Ivars.setDefaultHand:Set(1,true)   
+      
+      if Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM") then
+        Ivars.ospWeaponProfile:Set(1,true)
       end
-    end
-  end,
+      if Ivars.handLevelProfile:Is("DEFAULT") or Ivars.handLevelProfile:Is("CUSTOM") then
+        Ivars.handLevelProfile:Set(1)
+      end
+      if Ivars.fultonLevelProfile:Is("DEFAULT") or Ivars.fultonLevelProfile:Is("CUSTOM") then
+        Ivars.fultonLevelProfile:Set(1)
+      end
+    end,
+    BOUNDER=function() 
+      Ivars.noCentralLzs:Set(1,true)
+      Ivars.disableBuddies:Set(0,true)
+      Ivars.disableHeadMarkers:Set(0,true)
+      Ivars.disableFulton:Set(0,true)
+      Ivars.clearItems:Set(1,true)
+      Ivars.clearSupportItems:Set(1,true)
+      Ivars.setSubsistenceSuit:Set(0,true)
+      Ivars.setDefaultHand:Set(1,true)   
+      
+      if Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM") then
+        Ivars.ospWeaponProfile:Set(1,true)
+      end
+      
+      if Ivars.handLevelProfile:Is("DEFAULT") or Ivars.handLevelProfile:Is("CUSTOM") then
+        Ivars.handLevelProfile:Set(1)
+      end
+      if Ivars.fultonLevelProfile:Is("DEFAULT") or Ivars.fultonLevelProfile:Is("CUSTOM") then
+        Ivars.fultonLevelProfile:Set(1)
+      end
+    end,
+    CUSTOM=nil,
+  },
+  OnChange=this.RunCurrentSetting,
+  OnSubSettingChanged=this.OnSubSettingChanged,
 }
 
-this.noCentralLzs={--NONUSER: DEPENDENCY: subsistenceProfile
+this.noCentralLzs={--NONUSER:
   save=MISSION,
   range=this.switchRange,
+  profile=this.subsistenceProfile,
 }
 
-this.ospWeaponLoadout={
+this.disableBuddies={--DEBUGNOW: ADDLANG
   save=MISSION,
-  range={max=int8},
-  GetMax=function()return #InfMain.ospWeaponLoadouts end,
-  settingNames="set_osp",
-  helpText="Start with no primary and secondary weapons, can be used seperately from subsistence mode",
+  range=this.switchRange,
+  profile=this.subsistenceProfile,
 }
+
+this.disableHeadMarkers={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  profile=this.subsistenceProfile,
+}
+
+this.disableFulton={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  profile=this.subsistenceProfile,
+}
+
+--tex TODO: RENAME RETRY this is OSP shiz
+this.clearItems={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  profile=this.subsistenceProfile,
+}
+
+this.clearSupportItems={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  profile=this.subsistenceProfile,
+}
+
+this.setSubsistenceSuit={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  profile=this.subsistenceProfile,
+}
+
+this.setDefaultHand={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  profile=this.subsistenceProfile,
+}
+
+this.handLevelProfile={--DEBUGNOW: ADDLANG --tex can't be set in ui by user
+  save=MISSION,
+  settings={"DEFAULT","ITEM_OFF","CUSTOM"},
+  --settingNames="handLevelProfileSettings",--DEBUGNOW: ADDLANG
+  settingsTable={
+    DEFAULT=function()--the game auto sets to max developed but lets set it for apearance sake
+      for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
+        itemIvar:Set(3,true)
+      end
+    end,
+    ITEM_OFF=function() 
+      for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
+        itemIvar:Set(0,true)
+      end
+    end,
+    CUSTOM=nil,
+  },
+  ivarTable=function() return
+    {
+      Ivars.handLevelSonar,
+      Ivars.handLevelPhysical,
+      Ivars.handLevelPrecision,
+      Ivars.handLevelMedical,
+    }
+  end,
+  OnChange=this.RunCurrentSetting,
+  OnSubSettingChanged=this.OnSubSettingChanged,
+  profile=this.subsistenceProfile,
+}
+
+this.handLevelRange={max=3,min=0,increment=1}
+
+this.handLevelSonar={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.handLevelRange,
+  equipId=TppEquip.EQP_HAND_ACTIVESONAR,
+  profile=this.handLevelProfile,
+}
+
+this.handLevelPhysical={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.handLevelRange,
+  equipId=TppEquip.EQP_HAND_PHYSICAL,
+  profile=this.handLevelProfile,
+}
+
+this.handLevelPrecision={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.handLevelRange,
+  equipId=TppEquip.EQP_HAND_PRECISION,
+  profile=this.handLevelProfile,
+}
+
+this.handLevelMedical={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.handLevelRange,
+  equipId=TppEquip.EQP_HAND_MEDICAL,
+  profile=this.handLevelProfile,
+}
+
+this.fultonLevelProfile={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  settings={"DEFAULT","ITEM_OFF","CUSTOM"},
+  --settingNames="fultonLevelProfileSettings",--DEBUGNOW: ADDLANG
+  settingsTable={
+    DEFAULT=function()--the game auto sets to max developed but lets set it for apearance sake 
+      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+        itemIvar:Set(0,true)
+      end
+    end,
+    ITEM_OFF=function() 
+      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+        itemIvar:Set(0,true)
+      end
+    end,
+    CUSTOM=nil,
+  },
+  ivarTable=function() return
+    {
+      Ivars.itemLevelFulton,
+      Ivars.itemLevelWormhole,
+    }
+  end,
+  OnChange=this.RunCurrentSetting,
+  OnSubSettingChanged=this.OnSubSettingChanged,
+  profile=this.subsistenceProfile,
+}
+
+this.itemLevelFulton={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range={max=4,min=0,increment=1},
+  equipId=TppEquip.EQP_IT_Fulton,
+  profile=this.fultonLevelProfile,
+}
+
+this.itemLevelWormhole={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range={max=4,min=0,increment=1},
+  equipId=TppEquip.EQP_IT_Fulton_WormHole,
+  profile=this.fultonLevelProfile,
+}
+--]]
 
 this.ospWeaponProfile={
   save=MISSION,
   settings={"DEFAULT","PURE","SECONDARY_FREE","CUSTOM"},
-  --settingNames="ospWeaponProfileSettings",--DEBUGNOW: ADDLANG
+  settingNames="ospWeaponProfileSettings",
   helpText="Start with no primary and secondary weapons, can be used seperately from subsistence mode",
-  profiles={
+  settingsTable={
     DEFAULT=function()
-      gvars.primaryWeaponOsp=0
-      gvars.secondaryWeaponOsp=0
-      gvars.tertiaryWeaponOsp=0    
+      Ivars.primaryWeaponOsp:Set(0,true)
+      Ivars.secondaryWeaponOsp:Set(0,true)
+      Ivars.tertiaryWeaponOsp:Set(0,true)
     end,
     PURE=function()
-      gvars.primaryWeaponOsp=1
-      gvars.secondaryWeaponOsp=1
-      gvars.tertiaryWeaponOsp=1   
+      Ivars.primaryWeaponOsp:Set(1,true)
+      Ivars.secondaryWeaponOsp:Set(1,true)
+      Ivars.tertiaryWeaponOsp:Set(1,true)  
     end,
     SECONDARY_FREE=function()
-      gvars.primaryWeaponOsp=1
-      gvars.secondaryWeaponOsp=0
-      gvars.tertiaryWeaponOsp=1
+      Ivars.primaryWeaponOsp:Set(1,true)
+      Ivars.secondaryWeaponOsp:Set(0,true)
+      Ivars.tertiaryWeaponOsp:Set(1,true)
     end,
     CUSTOM=nil,
   },
-  OnSubSettingChange=function(profile, subSetting)
-    --tex any sub setting will flip this profile to custom
-    InfMenu.SetSetting(profile,profile.range.max)--ASSUMPTION: profiles last setting is always CUSTOM
-    InfMenu.DisplayProfileChangedToCustom(profile)
-  end,
+  OnChange=this.RunCurrentSetting,
+  OnSubSettingChanged=this.OnSubSettingChanged,
+  profile=this.subsistenceProfile,
 }
 
 local weaponSlotClearSettings={
   "OFF",
   "EQUIP_NONE",
 }
-this.primaryWeaponOsp={--DEBUGNOW: ADDLANG:
+this.primaryWeaponOsp={
   save=MISSION,
   range=this.switchRange,
-  settings=weaponSlotClearSettings,--DEBUGNOW: ADDLANG:
-  profile=this.ospWeaponLoadout,
+  settings=weaponSlotClearSettings,
+  settingNames="weaponOspSettings",
+  settingsTable={
+    OFF={},
+    EQUIP_NONE={{primaryHip="EQP_None"}},
+  },
+  profile=this.ospWeaponProfile,
+  data=this.ReturnCurrent,
 }
-this.secondaryWeaponOsp={--DEBUGNOW: ADDLANG:
+this.secondaryWeaponOsp={
   save=MISSION,
   range=this.switchRange,
-  settings=weaponSlotClearSettings,--DEBUGNOW: ADDLANG:
-  profile=this.ospWeaponLoadout,
+  settings=weaponSlotClearSettings,
+  settingNames="weaponOspSettings",
+  settingsTable={
+    OFF={},
+    EQUIP_NONE={{primaryBack="EQP_None"}},
+  },
+  profile=this.ospWeaponProfile,
+  data=this.ReturnCurrent,
 }
 this.tertiaryWeaponOsp={
   save=MISSION,
   range=this.switchRange,
-  settings=weaponSlotClearSettings,--DEBUGNOW: ADDLANG:
-  profile=this.ospWeaponLoadout,
+  settings=weaponSlotClearSettings,
+  settingNames="weaponOspSettings",
+  settingsTable={
+    OFF={},
+    EQUIP_NONE={{secondary="EQP_None"}},
+  },  
+  profile=this.ospWeaponProfile,
+  data=this.ReturnCurrent,
 }
 
 this.revengeMode={
@@ -271,7 +549,7 @@ this.clockTimeScale={
   save=GLOBAL,
   default=20,
   range={max=1000,min=1,increment=1},
-  onChange=function()
+  OnChange=function()
     if not IsDemoPlaying() then
       TppClock.Start()
     end
@@ -295,7 +573,7 @@ this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
     "CHILD_A",
   },
   --settingNames=InfMain.enemySubTypes,--DEBUGNOW
-  onChange=function()
+  OnChange=function()
     if gvars.forceSoldierSubType==0 then
       InfMain.ResetCpTableToDefault()
     end
@@ -307,7 +585,7 @@ this.unlockSideOps={
   settings={"OFF","REPOP","OPEN"},
   settingNames="set_unlock_sideops",
   helpText="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area.",
-  onChange=function()
+  OnChange=function()
     TppQuest.UpdateActiveQuest()
   end,
 }
@@ -316,65 +594,81 @@ this.unlockSideOpNumber={
   save=MISSION,
   range={max=this.numQuests},
   skipValues={[144]=true},
-  onChange=function()
+  OnChange=function()
     TppQuest.UpdateActiveQuest()
   end,
 }
 
-
-function this.Set(value)
+local function IsIvar(ivar)
+  return IsTable(ivar) and (ivar.range or ivar.settings)   
 end
 
---TABLESETUP: Ivars
-for name,ivar in pairs(this) do
-  if IsTable(ivar) then   
-    if ivar.range or ivar.settings then
-      ivar.name=name
-      ivar.default=ivar.default or 0
-      ivar.range=ivar.range or {}
-      ivar.range.max=ivar.range.max or 0
-      ivar.range.min=ivar.range.min or 0
-      ivar.range.increment=ivar.range.increment or 1
-      if ivar.settings then
-        ivar.enum=Enum(ivar.settings)
-        for name,enum in pairs(ivar.enum) do
-          ivar[name]=false
-          if enum==ivar.default then
-            ivar[name]=true
-          end
-        end
-        ivar.range.max=#ivar.settings-1--tex ivars are indexed by 1, lua tables (settings) by 1
-      end
-      local i,f = math.modf(ivar.range.increment)--tex get fractional part
-      f=math.abs(f)
-      if f<1 and f~=0 then
-        ivar.isFloat=true
-      end
-      
-      if ivar.profile then--tex is subsetting
-      --  ivar.onChange=OnChangeSubSetting--DEBUGNOW:
-      end
-      
-      ivar.Set=this.Set
-    end--is ivar
-  end--is table
-end
-
-function this.Init(missionTable)
+function this.OnLoadVarsFromSlot()--tex on TppSave.VarRestoreOnMissionStart and checkpoint 
   for name,ivar in pairs(this) do
-    if IsTable(ivar)then
-      local GetMax=ivar.GetMax--tex cludge to get around that Gvars.lua calls declarevars during it's compile/before any other modules are up, REFACTOR: Init is actually each mission load I think, only really need this to run once per game load, but don't know the good spot currently
-      if GetMax and IsFunc(GetMax) then
-        ivar.range.max=GetMax()
-      end
+    if IsIvar(ivar) then
+      this.UpdateSettingFromGvar(ivar)
     end
   end
 end
 
-this.varTable={}--DEBUGNOW: change back to local in DeclareSVars once you no longer want to inspect it
+--TABLESETUP: Ivars
+for name,ivar in pairs(this) do
+  if IsIvar(ivar) then   
+    ivar.name=name
+    ivar.default=ivar.default or 0
+    ivar.setting=ivar.default
+    ivar.range=ivar.range or {}
+    ivar.range.max=ivar.range.max or 0
+    ivar.range.min=ivar.range.min or 0
+    ivar.range.increment=ivar.range.increment or 1
+    if ivar.settings then
+      ivar.enum=Enum(ivar.settings)
+      --[[for name,enum in ipairs(ivar.enum) do
+        ivar[name]=false
+        if enum==ivar.default then
+          ivar[name]=true
+        end
+      end
+      ivar[ivar.settings[ivar.default] ]=true
+      --]]
+      ivar.range.max=#ivar.settings-1--tex ivars are indexed by 1, lua tables (settings) by 1
+    end
+    local i,f = math.modf(ivar.range.increment)--tex get fractional part
+    f=math.abs(f)
+    ivar.isFloat=false
+    if f<1 and f~=0 then
+      ivar.isFloat=true
+    end
+    
+    --[[if ivar.profile then--tex is subsetting
+      if ivar.OnChangeSubSetting==nil then
+        ivar.OnChangeSubSetting=OnChangeSubSetting
+      end
+    end--]]
+
+    ivar.Is=this.OptionIsSetting
+    ivar.Above=this.OptionAboveSetting
+    ivar.Below=this.OptionBelowSetting
+    ivar.AboveOrIs=this.OptionIsOrAboveSetting
+    ivar.BelowOrIs=this.OptionIsOrBelowSetting
+  end--is ivar
+end
+
+function this.Init(missionTable)
+  for name,ivar in pairs(this) do
+    if IsIvar(ivar)then
+      local GetMax=ivar.GetMax--tex cludge to get around that Gvars.lua calls declarevars during it's compile/before any other modules are up, REFACTOR: Init is actually each mission load I think, only really need this to run once per game load, but don't know the good spot currently
+      if GetMax and IsFunc(GetMax) then
+        ivar.range.max=GetMax()
+      end
+      ivar.Set=InfMenu.SetSetting
+    end
+  end
+end
+
 function this.DeclareVars()
  -- local 
- this.varTable={
+ local varTable={
     {name="soldierTypeForced",type=TppScriptVars.TYPE_BOOL,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
     {name="mbPlayTime",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
   }
@@ -392,38 +686,36 @@ function this.DeclareVars()
   --]]
   
   for name, ivar in pairs(Ivars) do
-    if ivar~=nil then
-      if Tpp.IsTypeTable(ivar) then
-        if ivar.save then
-          local ok=true          
-          local svarType=0
-          local max=ivar.range.max or 0
-          local min=ivar.range.min
-          if ivar.isFloat then
-            svarType=TppScriptVars.TYPE_FLOAT
-          --elseif max < 2 then --TODO: tex bool supprt
-          --svar.type=TppScriptVars.TYPE_BOOL
-          elseif max < int8 then
-            svarType=TppScriptVars.TYPE_UINT8
-          elseif max < int16 then
-            svarType=TppScriptVars.TYPE_UINT16
-          elseif max < int32 or max==0 then
-            svarType=TppScriptVars.TYPE_INT32
-          else
-            ok=false
-            local debugSplash=SplashScreen.Create("svarfail","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
-            SplashScreen.Show(debugSplash,0,0.3,0)--tex dog
-          end
+    if IsIvar(ivar) then
+      if ivar.save and ivar.save~="NOSAVE" then
+        local ok=true          
+        local svarType=0
+        local max=ivar.range.max or 0
+        local min=ivar.range.min
+        if ivar.isFloat then
+          svarType=TppScriptVars.TYPE_FLOAT
+        --elseif max < 2 then --TODO: tex bool supprt
+        --svar.type=TppScriptVars.TYPE_BOOL
+        elseif max < int8 then
+          svarType=TppScriptVars.TYPE_UINT8
+        elseif max < int16 then
+          svarType=TppScriptVars.TYPE_UINT16
+        elseif max < int32 or max==0 then
+          svarType=TppScriptVars.TYPE_INT32
+        else
+          ok=false
+          local debugSplash=SplashScreen.Create("svarfail","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
+          SplashScreen.Show(debugSplash,0,0.3,0)--tex dog
+        end
 
-          local svar={name=name,type=svarType,value=ivar.default,save=true,sync=false,wait=false,category=ivar.save}--tex what is sync? think it's network synce, but MakeSVarsTable for seqences sets it to true for all (but then 50050/fob does make a lot of use of it)          
-          if ok then
-            this.varTable[#this.varTable+1]=svar
-          end
-        end--save
-      end--table
+        local svar={name=name,type=svarType,value=ivar.default,save=true,sync=false,wait=false,category=ivar.save}--tex what is sync? think it's network synce, but MakeSVarsTable for seqences sets it to true for all (but then 50050/fob does make a lot of use of it)          
+        if ok then
+          varTable[#varTable+1]=svar
+        end
+      end--save
     end--ivar
   end
-  return this.varTable
+  return varTable
 end
 
 return this

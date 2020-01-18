@@ -1183,7 +1183,7 @@ function this._CreateRevengeConfig(revengeType)
     revengeConfig[e]=nil
   end
   local missionId=TppMission.GetMissionID()
-  if TppMission.IsFOBMission(missionId)or InfMain.IsMbPlayTime() then--tex
+  if TppMission.IsFOBMission(missionId)or InfMain.IsMbPlayTime(missionId) then--tex
     local weaponTable=TppEnemy.weaponIdTable.DD
     if revengeConfig.NO_KILL_WEAPON and weaponTable then
       local normalTable=weaponTable.NORMAL

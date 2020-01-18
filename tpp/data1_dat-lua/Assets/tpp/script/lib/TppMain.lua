@@ -209,7 +209,7 @@ function this.OnAllocate(missionTable)
     TppStory.UpdateStorySequence{updateTiming="BeforeBuddyBlockLoad"}
     if missionTable.sequence then
       local dbt=missionTable.sequence.DISABLE_BUDDY_TYPE
-      --if InfMain.IsMbPlayTime() then--tex no DISABLE_BUDDY_TYPE
+      --if InfMain.IsMbPlayTime(vars.missionCode) then--tex no DISABLE_BUDDY_TYPE
      --   dbt=nil
       --end--
       if dbt ~= nil then
@@ -225,7 +225,7 @@ function this.OnAllocate(missionTable)
       end
     end
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then--tex ORIG: changed to issubs check, more robust even without my mod
-    if TppMission.IsSubsistenceMission() and gvars.subsistenceProfile~=Ivars.subsistenceProfile.enum.BOUNDER then--tex disable
+    if TppMission.IsActualSubsistenceMission() or Ivars.disableBuddies.setting==1 then--tex disablebuddy, was just IsSubsistenceMission
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then
@@ -264,7 +264,7 @@ function this.OnAllocate(missionTable)
   if TppEquip.CreateEquipGhostBlockGroups then
     if TppSystemUtility.GetCurrentGameMode()=="MGO"then
       TppEquip.CreateEquipGhostBlockGroups{ghostCount=16}
-    elseif TppMission.IsFOBMission(vars.missionCode)or InfMain.IsMbPlayTime() then--tex I dont actually know what this is lol
+    elseif TppMission.IsFOBMission(vars.missionCode)or InfMain.IsMbPlayTime(vars.missionCode) then--tex I dont actually know what this is lol
       TppEquip.CreateEquipGhostBlockGroups{ghostCount=1}
     end
   end

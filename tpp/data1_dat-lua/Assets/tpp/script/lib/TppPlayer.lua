@@ -113,7 +113,10 @@ function this.CheckRotationSetting(a)
       local i=a.directionY or 0
       local r=a.directionRangeX or 0
       local a=a.directionRangeY or 0
-      n(e.ply_checkDirectionList[t],"directionX",o)n(e.ply_checkDirectionList[t],"directionY",i)n(e.ply_checkDirectionList[t],"directionRangeX",r)n(e.ply_checkDirectionList[t],"directionRangeY",a)
+      n(e.ply_checkDirectionList[t],"directionX",o)
+      n(e.ply_checkDirectionList[t],"directionY",i)
+      n(e.ply_checkDirectionList[t],"directionRangeX",r)
+      n(e.ply_checkDirectionList[t],"directionRangeY",a)
     else
       return
     end
@@ -252,30 +255,30 @@ function this.ResetInitialPosition()
   vars.initialPlayerPosZ=0
   vars.initialPlayerRotY=0
 end
-function this.RegisterTemporaryPlayerType(e)
-  if not IsTypeTable(e)then
+function this.RegisterTemporaryPlayerType(playerSetting)
+  if not IsTypeTable(playerSetting)then
     return
   end
   mvars.ply_isExistTempPlayerType=true
-  local t=e.camoType
-  local a=e.partsType
-  local r=e.playerType
-  local n=e.handEquip
-  local e=e.faceEquipId
-  if a then
-    mvars.ply_tempPartsType=a
+  local camoType=playerSetting.camoType
+  local partsType=playerSetting.partsType
+  local playerType=playerSetting.playerType
+  local handEquip=playerSetting.handEquip
+  local faceEquipId=playerSetting.faceEquipId
+  if partsType then
+    mvars.ply_tempPartsType=partsType
   end
-  if t then
-    mvars.ply_tempCamoType=t
+  if camoType then
+    mvars.ply_tempCamoType=camoType
   end
-  if r then
-    mvars.ply_tempPlayerType=r
+  if playerType then
+    mvars.ply_tempPlayerType=playerType
   end
-  if n then
-    mvars.ply_tempPlayerHandEquip=n
+  if handEquip then
+    mvars.ply_tempPlayerHandEquip=handEquip
   end
-  if e then
-    mvars.ply_tempPlayerFaceEquipId=e
+  if faceEquipId then
+    mvars.ply_tempPlayerFaceEquipId=faceEquipId
   end
 end
 function this.SaveCurrentPlayerType()
@@ -1632,54 +1635,86 @@ function this.Init(a)
   end
   TppEffectUtility.SetSandWindEnable(false)
 end
-function this.SetSelfSubsistenceOnHardMission()--tex reworked, see below for original
-  local loadout = gvars.ospWeaponLoadout
-  if TppMission.IsSubsistenceMission() and loadout==0 then
-    loadout=1
+function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below for original
+  local isActual=TppMission.IsActualSubsistenceMission()
+  local isManual=gvars.subsistenceProfile > 0 and not Ivars.subsistenceProfile:Is"CUSTOM"--tex DEBUGNOW: TODO: get rid of Is(custom) check here and in TppMission.IsManualSubsistence
+  local isNotDefault=gvars.subsistenceProfile > 0
+  local isSubsistence=isActual or isManual
+
+  if isSubsistence and (Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM")) then
+    Ivars.ospWeaponProfile:Set{setting="PURE",noOnChange=false,noSave=true}--tex don't want to save due to normal subsistence missions
   end
-  if gvars.subsistenceProfile == Ivars.subsistenceProfile.enum.PURE then
-    if loadout>2 then--tex only pure osp or secondary free on pure
-      loadout=1
-      gvars.subsistenceProfile=1
+
+  this.SetInitWeapons(Ivars.primaryWeaponOsp:data())
+  this.SetInitWeapons(Ivars.secondaryWeaponOsp:data())
+  this.SetInitWeapons(Ivars.tertiaryWeaponOsp:data())
+
+  if isActual or gvars.clearSupportItems>0 then
+    this.SetInitWeapons(InfMain.SUBSISTENCE_CLEAR_SUPPORT_WEAPON_TABLE)
+  end
+  if isActual or gvars.clearItems>0 then
+    this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
+  end
+
+  if isActual or gvars.setSubsistenceSuit>0 then
+    local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
+    this.RegisterTemporaryPlayerType(playerSettings)
+  end 
+  if isActual or gvars.setDefaultHand>0 then
+    mvars.ply_isExistTempPlayerType=true
+    mvars.ply_tempPlayerHandEquip={handEquip=TppEquip.EQP_HAND_NORMAL}
+  end
+  if gvars.disableFulton>0 then--tex
+    vars.playerDisableActionFlag=PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
+  end
+  
+  --tex user cant set these in ui
+  if gvars.handLevelProfile>0 then
+    for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
+      --TODO: check against developed
+      local equip=itemIvar.equipId
+      local currentLevel=Player.GetItemLevel(equip)
+      Player.SetItemLevel(equip,itemIvar.setting)
     end
   end
-  if loadout > 0 and loadout <= #InfMain.ospWeaponLoadouts then
-    this.SetInitWeapons(InfMain.ospWeaponLoadouts[loadout])--tex subs loadouts, lua index from 1
+  --tex user can set these in ui, so only force on subsistence
+  if gvars.fultonLevelProfile>0 then
+    for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+      --TODO: check against developed
+      local equip=itemIvar.equipId
+      local level=itemIvar.setting
+      local currentLevel=Player.GetItemLevel(equip)
+      
+      if level==0 or level==1 then
+        Player.SetItemLevel(equip,level)
+      end
+    end 
   end
-  if TppMission.IsSubsistenceMission() then
-    this.SetInitWeapons(InfMain.SUBSISTENCE_CLEAR_SUPPORT_WEAPON_TABLE)
-    this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
-    local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}--tex subs settings, moved and broken up from retail which put table straight in regtempplayer
-    if gvars.subsistenceProfile==Ivars.subsistenceProfile.enum.BOUNDER then
-      playerSettings={handEquip=TppEquip.EQP_HAND_NORMAL}
-    end--
-    this.RegisterTemporaryPlayerType(playerSettings)
-    if gvars.subsistenceProfile==Ivars.subsistenceProfile.enum.PURE then--tex disable fulton on subsistence pure
-      vars.playerDisableActionFlag = PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
-    end--
-    if TppMission.IsManualSubsistence() then--tex downgrade equipment
+    
+    --[[CULLif isManual then--tex downgrade equipment
+  
+      
       local equipmentDropToLv1={
         TppEquip.EQP_IT_Fulton
       }
-    local equipmentOff={
-      TppEquip.EQP_HAND_ACTIVESONAR,
-      TppEquip.EQP_HAND_PHYSICAL,
-      TppEquip.EQP_HAND_PRECISION,
-      TppEquip.EQP_HAND_MEDICAL,
-      TppEquip.EQP_IT_Fulton_WormHole,
-    }
-    for i, equip in pairs(equipmentDropToLv1) do
-      if Player.GetItemLevel(equip) > 1 then
-        Player.SetItemLevel(equip,1)
+      local equipmentOff={
+        TppEquip.EQP_HAND_ACTIVESONAR,
+        TppEquip.EQP_HAND_PHYSICAL,
+        TppEquip.EQP_HAND_PRECISION,
+        TppEquip.EQP_HAND_MEDICAL,
+        TppEquip.EQP_IT_Fulton_WormHole,
+      }
+      for i, equip in pairs(equipmentDropToLv1) do
+        if Player.GetItemLevel(equip) > 1 then
+          Player.SetItemLevel(equip,1)
+        end
       end
-    end
-    for i, equip in pairs(equipmentOff) do
-      if Player.GetItemLevel(equip) > 0 then
-        Player.SetItemLevel(equip,0)
+      for i, equip in pairs(equipmentOff) do
+        if Player.GetItemLevel(equip) > 0 then
+          Player.SetItemLevel(equip,0)
+        end
       end
-    end
-    end
-  end--
+    end--]]
 end
 --[[function e.SetSelfSubsistenceOnHardMission()--tex ORIG:
   if TppMission.IsSubsistenceMission()then

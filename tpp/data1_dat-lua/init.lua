@@ -48,8 +48,10 @@ elseif e=="PS4"then
   AssetConfiguration.SetTargetDirectory("fsm","#Win")
   AssetConfiguration.SetTargetDirectory("mas","#Win")
 elseif e=="Android"then
-  AssetConfiguration.SetDefaultTargetDirectory"#Android"elseif e=="iOS"then
-  AssetConfiguration.SetDefaultTargetDirectory"#iOS"end
+  AssetConfiguration.SetDefaultTargetDirectory"#Android"
+  elseif e=="iOS"then
+  AssetConfiguration.SetDefaultTargetDirectory"#iOS"
+  end
 AssetConfiguration.SetDefaultCategory("Language","jpn")
 if SubtitlesDaemon then
   SubtitlesDaemon.SetDefaultVoiceLanguage"jpn"

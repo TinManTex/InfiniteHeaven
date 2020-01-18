@@ -1,5 +1,5 @@
 = Infinite heaven =
-r64 2015-11-05
+r65 2015-11-05
 by tin man tex
 For MGSV version 1.0.4.5 (1.04 in title screen)
 
@@ -181,6 +181,9 @@ When changing General Enemy Parameters back to Default you must exit to title to
 There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
 
 Changelog:
+r65 2015-11-05 - public release
+Same dealth with equip range, ugh.
+
 r64 2015-11-05 - public release
 Fixed bug where I set FOB equip grade to 1, like a stupid - Thanks for the report xmetalx59x
 

@@ -705,7 +705,7 @@ function fovaSetupFuncs.Mb(n,missionId)
   local faces={}
   local ddSuit=TppEnemy.GetDDSuit()
   
-  if TppMission.IsFOBMission(missionId) or InfMain.IsMbPlayTime() then--tex broken out from below balaclavas
+  if TppMission.IsFOBMission(missionId) or InfMain.IsMbPlayTime(missionId) then--tex broken out from below balaclavas
       if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then--tex break this out from balaclavas -v-
       TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts"
     elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
@@ -716,9 +716,10 @@ function fovaSetupFuncs.Mb(n,missionId)
       TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts"
     end
   end
-  if TppMission.IsFOBMission(missionId) or (InfMain.IsMbPlayTime() and gvars.mbDDBalaclava==0) then--tex added isplay
+  
+  if TppMission.IsFOBMission(missionId) or (InfMain.IsMbPlayTime(missionId) and gvars.mbDDBalaclava==0) then--tex added isplay
     local fobStaff=TppMotherBaseManagement.GetStaffsFob()
-    if InfMain.IsMbPlayTime() then--tex
+    if InfMain.IsMbPlayTime(missionId) then--tex
       fobStaff=TppMotherBaseManagement.GetOutOnMotherBaseStaffs{sectionId=TppMotherBaseManagementConst.SECTION_SECURITY}--tex mbplaytime override
     end
     local FACE_SOLDIER_NUM=36--NAMEGUESS: from mtbs_enemy.lua
@@ -856,7 +857,7 @@ function fovaSetupFuncs.Mb(n,missionId)
   end
   TppSoldierFace.OverwriteMissionFovaData{face=faces}
   local bodies={}
-  if TppMission.IsFOBMission(missionId) or InfMain.IsMbPlayTime() then--tex added playtime
+  if TppMission.IsFOBMission(missionId) or InfMain.IsMbPlayTime(missionId) then--tex added playtime
     if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
       bodies={{TppEnemyBodyId.dds4_enem0_def,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds4_enef0_def,MAX_REALIZED_COUNT}}
     elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
@@ -871,7 +872,7 @@ function fovaSetupFuncs.Mb(n,missionId)
   end
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   if not(missionId==10030 or missionId==10240)then--ddogs, shining lights
-    if TppMission.IsFOBMission(missionId) or InfMain.IsMbPlayTime() then--tex added playtime
+    if TppMission.IsFOBMission(missionId) or InfMain.IsMbPlayTime(missionId) then--tex added playtime
       if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
         TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts"}
       elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
@@ -923,9 +924,10 @@ function this.PreMissionLoad(missionId,currentMissionId)
   TppSoldier2.SetExtendPartsInfo{}
   TppHostage2.ClearDefaultBodyFovaId()
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
-    local mbsClusterSecuritySoldierEquipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade{}--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
-    local mbsClusterSecurityIsNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-    TppEnemy.PrepareDDParameter(mbsClusterSecuritySoldierEquipGrade,mbsClusterSecurityIsNoKillMode)
+    local soldierEquipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade(missionId)--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
+    --TppUiCommand.AnnounceLogView("PreMissionLoad mission:" .. missionId .. " currentMissionId " .. currentMissionId .. " soliderequipgrade: ".. soldierEquipGrade) --DEBUGNOW
+    local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+    TppEnemy.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   end
   local a=FovaFuncObject(fovaSetupFuncs)
   if fovaSetupFuncs[missionId]==nil then
@@ -948,6 +950,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
     a:case(missionId,missionId)
   end
 end
+
 local c={}
 local o={}
 local l={}
@@ -961,6 +964,7 @@ local m=15
 local T=16
 local _=32
 local defaultStaffId=0
+
 function this.InitializeUniqueSetting()
   c={}
   o={}
@@ -1221,9 +1225,10 @@ function this.ApplyUniqueSetting()
   end
 end
 function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalaclava)
-  if InfMain.IsMbPlayTime() then--
-    if gvars.mbDDBalaclava==1 then--tex
-      forceNoBalaclava=true
+  if InfMain.IsMbPlayTime(vars.missionCode) then--
+    if gvars.mbDDBalaclava==1 then--tex DEBUGNOW:
+      --forceNoBalaclava=true
+      --return
     end
   end--
 
@@ -1234,7 +1239,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     local isFemale=TppSoldierFace.CheckFemale{face={faceId}}
     return isFemale and isFemale[1]==1
   end
-  if TppMission.IsFOBMission(vars.missionCode) or InfMain.IsMbPlayTime() then--tex added playtime
+  if TppMission.IsFOBMission(vars.missionCode) or InfMain.IsMbPlayTime(vars.missionCode) then--tex added playtime
     if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
       if((TppEnemy.weaponIdTable.DD.NORMAL.SNEAKING_SUIT and TppEnemy.weaponIdTable.DD.NORMAL.SNEAKING_SUIT>=3)and TppMotherBaseManagement.GetMbsNvgSneakingLevel)and TppMotherBaseManagement.GetMbsNvgSneakingLevel()>0 then
         TppEnemy.AddPowerSetting(soldierId,{"NVG"})
@@ -1397,7 +1402,7 @@ function this.GetUavSetting()
   local uavLevel=TppMotherBaseManagement.GetMbsUavLevel{}
   local uavSmokeLevel=TppMotherBaseManagement.GetMbsUavSmokeGrenadeLevel{}
   local uavSleepingGasLevel=TppMotherBaseManagement.GetMbsUavSleepingGusGrenadeLevel{}
-  local equipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade{}--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
+  local equipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
   local l=TppUav.DEVELOP_LEVEL_LMG_0
   local t=false

@@ -1863,7 +1863,8 @@ function this.DEBUG_TestStorySequence()
   this.DEBUG_InitQuestFlagsForTest()
   local t
   repeat
-    local i=""for t,n in ipairs(TppDefine.MISSION_LIST)do
+    local i=""
+    for t,n in ipairs(TppDefine.MISSION_LIST)do
       if this.IsMissionCleard(n)then
         i=i..(","..tostring(n))
       end
@@ -1896,7 +1897,8 @@ function this.DEBUG_TestStorySequence()
     else
       t=true
     end
-    coroutine.yield()until(t or mvars.str_testBreak)
+    coroutine.yield()
+    until(t or mvars.str_testBreak)
   this.DEBUG_SkipDemoRadio=nil
 end
 function this.DEBUG_InitQuestFlagsForTest()

@@ -1466,7 +1466,7 @@ end
 
 end--]]
 function this.IsSubsistenceMission()
-  if(vars.missionCode==11043)or(vars.missionCode==11044)or(gvars.subsistenceProfile > 0)then--tex IsSubsistenceMission() - added subsitence toggle
+  if(vars.missionCode==11043)or(vars.missionCode==11044)or this.IsManualSubsistence()then--tex IsSubsistenceMission() - added subsitence toggle
     return true
   else
     return false
@@ -1480,8 +1480,8 @@ else
 end
 end
 function this.IsManualSubsistence()--tex
-  return gvars.subsistenceProfile > 0
-end
+  return gvars.subsistenceProfile > 0 and not Ivars.subsistenceProfile:Is"CUSTOM"
+end--
 function this.IsPerfectStealthMission()
   if(((vars.missionCode==11082)or(vars.missionCode==11033))or(vars.missionCode==11080))or(vars.missionCode==11121)then
     return true
@@ -1573,7 +1573,7 @@ function this.Messages()
         TppUiStatusManager.ClearStatus"EquipPanel"
         TppUiStatusManager.ClearStatus"HeadMarker"
         TppUiStatusManager.ClearStatus"WorldMarker"
-        if gvars.subsistenceProfile == Ivars.subsistenceProfile.enum.PURE then--tex turn off headmarker
+        if Ivars.disableHeadMarkers.setting==1 then--tex turn off headmarker
           TppUiStatusManager.SetStatus("HeadMarker","INVALID")
         end--
         if this.IsFreeMission(vars.missionCode)or(this.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_VISIT))then
@@ -1616,7 +1616,7 @@ function this.Messages()
         end
       end,option={isExecGameOver=true}},
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
-        if gvars.subsistenceProfile == Ivars.subsistenceProfile.enum.PURE then--tex turn off headmarker
+        if Ivars.disableHeadMarkers.setting==1 then--tex turn off headmarker
           TppUiStatusManager.SetStatus("HeadMarker","INVALID")
         end--
         --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
@@ -2857,7 +2857,8 @@ function this.SetFobPlayerStartPoint()
   if n<0 then
     return false
   end
-  local n=""if TppNetworkUtil.IsHost()==false then
+  local n=""
+  if TppNetworkUtil.IsHost()==false then
     n="player_locator_clst"..(e.."_plnt0_df0")
     local e,n=Tpp.GetLocator("MtbsStartPointIdentifier",n)
     if e then
