@@ -1,5 +1,5 @@
 = Infinite heaven =
-r47 2015-10-15
+r48 2015-10-20
 by tin man tex
 For MGSV version 1.0.4.0 (1.04 in title screen)
 
@@ -125,7 +125,10 @@ Subsidence mode will still technically do a full deployment cost of what's set. 
 When changing General Enemy Parameters back to Default you must exit to title to have the setting save, then restart the game to have it load the default enemy parameters.
 
 Changelog:
-r47 2015-10-19 - public release
+r48 2015-10-20 - public release
+Retail 1.0.4.1 merge
+
+r47 2015-10-19
 Mother base DD suit
 Submenus
 Previous menu on <Change Stance>

@@ -4,7 +4,7 @@ local IsTypeTable=Tpp.IsTypeTable
 local SendCommand=GameObject.SendCommand
 local t=GameObject.GetGameObjectId
 local t=GameObject.NULL_ID
-local E=500
+local u=500
 local s=1e3
 local r=4
 this.GMP_POSTER=500
@@ -15,7 +15,7 @@ this.keyItemRewardTable={[TppMotherBaseManagementConst.DESIGN_3013]="key_item_30
 this.parasiteSquadFultonResouceId={[Fox.StrCode32"Cam"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CAMOFLA,5},[Fox.StrCode32"Fog"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_FOG,5},[Fox.StrCode32"Metal"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CURING,5}}
 this.MOTHER_BASE_SECTION_LIST={"Combat","BaseDev","Spy","Medical","Security","Hospital","Prison","Separation"}
 local t=TppMotherBaseManagementConst or{}
-local u={Combat={DispatchSoldier=t.SECTION_FUNC_ID_COMBAT_DEPLOY,DispatchFobDefence=t.SECTION_FUNC_ID_COMBAT_DEFENCE},Develop={Weapon=t.SECTION_FUNC_ID_DEVELOP_WEAPON,SupportHelicopter=t.SECTION_FUNC_ID_DEVELOP_HELI,Quiet=t.SECTION_FUNC_ID_DEVELOP_QUIET,D_Dog=t.SECTION_FUNC_ID_DEVELOP_D_DOG,D_Horse=t.SECTION_FUNC_ID_DEVELOP_D_HORSE,D_Walker=t.SECTION_FUNC_ID_DEVELOP_D_WALKER,BattleGear=t.SECTION_FUNC_ID_DEVELOP_BATTLE_GEAR,SecurityDevice=t.SECTION_FUNC_ID_DEVELOP_SECURITY_DEVICE},BaseDev={Mining=t.SECTION_FUNC_ID_BASE_DEV_RESOURCE_MINING,Processing=t.SECTION_FUNC_ID_BASE_DEV_RESOURCE_PROCESSING,Extention=t.SECTION_FUNC_ID_BASE_DEV_PLATFORM_EXTENTION,Construct=t.SECTION_FUNC_ID_BASE_DEV_FOB_CONSTRUCT,NuclearDevelop=t.SECTION_FUNC_ID_BASE_DEV_NUCLEAR_DEVELOP},Support={Fulton=t.SECTION_FUNC_ID_SUPPORT_FULTON,Supply=t.SECTION_FUNC_ID_SUPPORT_SUPPLY,Battle=t.SECTION_FUNC_ID_SUPPORT_BATTLE,BattleArtillery=t.SECTION_FUNC_ID_SUPPORT_STRIKE,BattleSmoke=t.SECTION_FUNC_ID_SUPPORT_SMOKE,BattleSleepGas=t.SECTION_FUNC_ID_SUPPORT_SLEEP_GAS,BattleChaff=t.SECTION_FUNC_ID_SUPPORT_CHAFF,BattleWeather=t.SECTION_FUNC_ID_SUPPORT_WEATHER,TranslationRussian=t.SECTION_FUNC_ID_SUPPORT_RUSSIAN_TRANSLATE,TranslationAfrikaans=t.SECTION_FUNC_ID_SUPPORT_AFRIKAANS_TRANSLATE,TranslationKikongo=t.SECTION_FUNC_ID_SUPPORT_KIKONGO_TRANSLATE,TranslationPashto=t.SECTION_FUNC_ID_SUPPORT_PASHTO_TRANSLATE},Spy={Information=t.SECTION_FUNC_ID_SPY_MISSION_INFO_COLLECTING,Scouting=t.SECTION_FUNC_ID_SPY_ENEMY_SEARCH,SearchResource=t.SECTION_FUNC_ID_SPY_RESOURCE_SEARCH,WeatherInformation=t.SECTION_FUNC_ID_SPY_WEATHER_INFO},Medical={Emergency=t.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY,Treatment=t.SECTION_FUNC_ID_MEDICAL_STAFF_TREATMENT},Security={BaseDefence=t.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_STAFF,MachineDefence=t.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_MACHINE,BaseBlockade=t.SECTION_FUNC_ID_SECURITY_BASE_BLOCKADE,SecurityInfo=t.SECTION_FUNC_ID_SPY_SECURITY_INFO}}
+local E={Combat={DispatchSoldier=t.SECTION_FUNC_ID_COMBAT_DEPLOY,DispatchFobDefence=t.SECTION_FUNC_ID_COMBAT_DEFENCE},Develop={Weapon=t.SECTION_FUNC_ID_DEVELOP_WEAPON,SupportHelicopter=t.SECTION_FUNC_ID_DEVELOP_HELI,Quiet=t.SECTION_FUNC_ID_DEVELOP_QUIET,D_Dog=t.SECTION_FUNC_ID_DEVELOP_D_DOG,D_Horse=t.SECTION_FUNC_ID_DEVELOP_D_HORSE,D_Walker=t.SECTION_FUNC_ID_DEVELOP_D_WALKER,BattleGear=t.SECTION_FUNC_ID_DEVELOP_BATTLE_GEAR,SecurityDevice=t.SECTION_FUNC_ID_DEVELOP_SECURITY_DEVICE},BaseDev={Mining=t.SECTION_FUNC_ID_BASE_DEV_RESOURCE_MINING,Processing=t.SECTION_FUNC_ID_BASE_DEV_RESOURCE_PROCESSING,Extention=t.SECTION_FUNC_ID_BASE_DEV_PLATFORM_EXTENTION,Construct=t.SECTION_FUNC_ID_BASE_DEV_FOB_CONSTRUCT,NuclearDevelop=t.SECTION_FUNC_ID_BASE_DEV_NUCLEAR_DEVELOP},Support={Fulton=t.SECTION_FUNC_ID_SUPPORT_FULTON,Supply=t.SECTION_FUNC_ID_SUPPORT_SUPPLY,Battle=t.SECTION_FUNC_ID_SUPPORT_BATTLE,BattleArtillery=t.SECTION_FUNC_ID_SUPPORT_STRIKE,BattleSmoke=t.SECTION_FUNC_ID_SUPPORT_SMOKE,BattleSleepGas=t.SECTION_FUNC_ID_SUPPORT_SLEEP_GAS,BattleChaff=t.SECTION_FUNC_ID_SUPPORT_CHAFF,BattleWeather=t.SECTION_FUNC_ID_SUPPORT_WEATHER,TranslationRussian=t.SECTION_FUNC_ID_SUPPORT_RUSSIAN_TRANSLATE,TranslationAfrikaans=t.SECTION_FUNC_ID_SUPPORT_AFRIKAANS_TRANSLATE,TranslationKikongo=t.SECTION_FUNC_ID_SUPPORT_KIKONGO_TRANSLATE,TranslationPashto=t.SECTION_FUNC_ID_SUPPORT_PASHTO_TRANSLATE},Spy={Information=t.SECTION_FUNC_ID_SPY_MISSION_INFO_COLLECTING,Scouting=t.SECTION_FUNC_ID_SPY_ENEMY_SEARCH,SearchResource=t.SECTION_FUNC_ID_SPY_RESOURCE_SEARCH,WeatherInformation=t.SECTION_FUNC_ID_SPY_WEATHER_INFO},Medical={Emergency=t.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY,Treatment=t.SECTION_FUNC_ID_MEDICAL_STAFF_TREATMENT},Security={BaseDefence=t.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_STAFF,MachineDefence=t.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_MACHINE,BaseBlockade=t.SECTION_FUNC_ID_SECURITY_BASE_BLOCKADE,SecurityInfo=t.SECTION_FUNC_ID_SPY_SECURITY_INFO}}
 this.setUpMenuList={}
 this.MBDVCMENU={
   ALL="all",
@@ -223,12 +223,12 @@ function this.CorrectGMP(e)
   end
   return TppMotherBaseManagement.CorrectGmp{gmp=e}
 end
-function this.ClearStaffNewIcon(t,n,a,e)
+function this.ClearStaffNewIcon(a,n,e,t)
   if TppMission.IsEmergencyMission()then
     return
   end
-  if t or n then
-    if(not a)and(not e)then
+  if a or n then
+    if(not e)and(not t)then
       TppMotherBaseManagement.ClearAllStaffNew()
     end
   end
@@ -323,9 +323,9 @@ function this.AddVolunteerStaffs()
   if e then
     return
   end
-  local e=svars.killCount
-  local t=(svars.scoreTime/1e3)/60
-  local e={missionId=vars.missionCode,clearTimeMinute=t,killCount=e}
+  local t=svars.killCount
+  local e=(svars.scoreTime/1e3)/60
+  local e={missionId=vars.missionCode,clearTimeMinute=e,killCount=t}
   if(vars.missionCode~=30010)and(vars.missionCode~=30020)then
     TppMotherBaseManagement.AddVolunteerStaffs(e)
   else
@@ -468,23 +468,23 @@ function this.GetPandemicBingoCount()
   local e=gvars.trm_currentPandemicBingoCount/e
   return gvars.trm_currentPandemicBingoCount,t,e
 end
-local a={GROUP_A={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,missionList={10033,10043,10036},proceedCount=1,privilegeNameList={"RESCUE_HOSTAGE_E20010_001","RESCUE_HOSTAGE_E20010_002","RESCUE_HOSTAGE_E20010_003","RESCUE_HOSTAGE_E20010_004","RESCUE_FRIENDMAN"},dlcItem={STAFF_STAFF1_FOX={"STAFF_STAFF1_FOX_01","STAFF_STAFF1_FOX_02"}}},GROUP_B={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON,privilegeNameList={"RESCUE_SP_HOSTAGE","RESCUE_HOSTAGE_E20020_000","RESCUE_HOSTAGE_E20020_001","RESCUE_ENEMY_US_MISSION_TARGET_CENTER000","RESCUE_ENEMY_US_MISSION_TARGET_SQUAD000"},dlcItem={STAFF_STAFF2_MSF={"STAFF_STAFF2_MSF_01","STAFF_STAFF2_MSF_02"}}},GROUP_C={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON,missionList={10041,10044,10052,10054},proceedCount=2,privilegeNameList={"RESCUE_HOSTAGE_E20030_000","RESCUE_HOSTAGE_E20030_001","RESCUE_HOSTAGE_E20030_002","RESCUE_E20030_BETRAYER","RESCUE_E20030_MASTERMIND"},dlcItem={STAFF_STAFF3_DD={"STAFF_STAFF3_DD_01","STAFF_STAFF3_DD_02"}}},GROUP_D={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,privilegeNameList={"RESCUE_HOSTAGE_E20050_000","RESCUE_HOSTAGE_E20050_001","RESCUE_HOSTAGE_E20050_002","RESCUE_HOSTAGE_E20050_003","RESCUE_GENOME_SOILDER_SAVE"},dlcItem={STAFF_STAFF4_FOX_HOUND={"STAFF_STAFF4_FOX_HOUND_01","STAFF_STAFF4_FOX_HOUND_02"}}}}
+local n={GROUP_A={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,missionList={10033,10043,10036},proceedCount=1,privilegeNameList={"RESCUE_HOSTAGE_E20010_001","RESCUE_HOSTAGE_E20010_002","RESCUE_HOSTAGE_E20010_003","RESCUE_HOSTAGE_E20010_004","RESCUE_FRIENDMAN"},dlcItem={STAFF_STAFF1_FOX={"STAFF_STAFF1_FOX_01","STAFF_STAFF1_FOX_02"}}},GROUP_B={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON,privilegeNameList={"RESCUE_SP_HOSTAGE","RESCUE_HOSTAGE_E20020_000","RESCUE_HOSTAGE_E20020_001","RESCUE_ENEMY_US_MISSION_TARGET_CENTER000","RESCUE_ENEMY_US_MISSION_TARGET_SQUAD000"},dlcItem={STAFF_STAFF2_MSF={"STAFF_STAFF2_MSF_01","STAFF_STAFF2_MSF_02"}}},GROUP_C={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON,missionList={10041,10044,10052,10054},proceedCount=2,privilegeNameList={"RESCUE_HOSTAGE_E20030_000","RESCUE_HOSTAGE_E20030_001","RESCUE_HOSTAGE_E20030_002","RESCUE_E20030_BETRAYER","RESCUE_E20030_MASTERMIND"},dlcItem={STAFF_STAFF3_DD={"STAFF_STAFF3_DD_01","STAFF_STAFF3_DD_02"}}},GROUP_D={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,privilegeNameList={"RESCUE_HOSTAGE_E20050_000","RESCUE_HOSTAGE_E20050_001","RESCUE_HOSTAGE_E20050_002","RESCUE_HOSTAGE_E20050_003","RESCUE_GENOME_SOILDER_SAVE"},dlcItem={STAFF_STAFF4_FOX_HOUND={"STAFF_STAFF4_FOX_HOUND_01","STAFF_STAFF4_FOX_HOUND_02"}}}}
 function this.AcquirePrivilegeStaff()
   if(vars.missionCode==10030)or(TppMission.IsFOBMission(vars.missionCode))then
     return
   end
-  local n=TppStory.GetCurrentStorySequence()
-  for a,t in pairs(a)do
-    if t.storySequence<=n then
-      local n=true
-      local a=t.missionList
-      if a then
-        local e=TppStory.GetClearedMissionCount(a)
+  local a=TppStory.GetCurrentStorySequence()
+  for n,t in pairs(n)do
+    if t.storySequence<=a then
+      local a=true
+      local n=t.missionList
+      if n then
+        local e=TppStory.GetClearedMissionCount(n)
         if e<t.proceedCount then
-          n=false
+          a=false
         end
       end
-      if n then
+      if a then
         for n,t in ipairs(t.privilegeNameList)do
           this.AcquireGzPrivilege(t,this._AcquireGzPrivilegeStaff)
         end
@@ -540,22 +540,32 @@ function this.AcquireDlcItemKeyItem()
     TppMotherBaseManagement.DirectAddDataBase{dataBaseId=e,isNew=true}
     return true
   end
+  local function r(n,e)--RETAILPATCH: 1.0.4.1
+    local e=t[e]
+    TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=e}
+    return true
+  end--
   for n,t in pairs(t)do
     local t=DlcItem[n]
     if t then
+      this.EraseDlcItem(t,r,n)--RETAILPATCH: 1.0.4.1
       this.AcquireDlcItem(t,a,n)
     end
   end
 end
 function this.AcquireDlcItemEmblem()
   local t={EMBLEM_FRONT_VENOM_SNAKE="front85"}
-  local function n(t,e)
+  local function a(t,e)
     return TppEmblem.Add(e)
   end
-  for t,a in pairs(t)do
+  local function r(t,e)--RETAILPATCH: 1.0.4.1
+    return TppEmblem.Remove(e)
+  end--
+  for t,n in pairs(t)do
     local t=DlcItem[t]
     if t then
-      this.AcquireDlcItem(t,n,a)
+      this.EraseDlcItem(t,r,n)--RETAILPATCH: 1.0.4.1
+      this.AcquireDlcItem(t,a,n)
     end
   end
 end
@@ -589,12 +599,27 @@ function this.AcquireDlcItem(e,t,n)
     TppUiCommand.SetDlcAcquired(e)
   end
 end
+function this.EraseDlcItem(e,t,n)
+  if not TppUiCommand.CheckDlcAcquiredFlag(e)then
+    return
+  end
+  if TppUiCommand.CheckDlcFlag(e)then
+    return
+  end
+  if not Tpp.IsTypeFunc(t)then
+    return
+  end
+  local t=t(e,n)
+  if t then
+    TppUiCommand.ResetDlcAcquired(e)
+  end
+end
 local n={[t.STAFF_UNIQUE_TYPE_ID_OCELOT]=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,[t.STAFF_UNIQUE_TYPE_ID_MILLER]=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,[t.STAFF_UNIQUE_TYPE_ID_HEUY]=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,[t.STAFF_UNIQUE_TYPE_ID_CODE_TALKER]=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA}
 function this.AddUniqueCharactor()
-  local a=TppStory.GetCurrentStorySequence()
-  for t,e in pairs(n)do
-    if e<=a then
-      local e=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=t}
+  local e=TppStory.GetCurrentStorySequence()
+  for n,t in pairs(n)do
+    if t<=e then
+      local e=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=n}
       if not TppMotherBaseManagement.IsExistStaff{staffId=e}then
         TppMotherBaseManagement.DirectAddStaff{staffId=e}
       end
@@ -754,9 +779,9 @@ function this.Messages()
       end,
       option={isExecMissionClear=true,isExecDemoPlaying=true}
       },
-      {msg="FultonInfo",func=function(n,t)
+      {msg="FultonInfo",func=function(a,n,t)
         if not TppMission.IsFOBMission(vars.missionCode)then
-          this.OnFultonInfoMessage(n,t)
+          this.OnFultonInfoMessage(a,n,t)
         end
       end,
       option={isExecMissionClear=true,isExecDemoPlaying=true}
@@ -766,8 +791,8 @@ function this.Messages()
       {msg="Returned",func=this.OnRecoverByHelicopter,option={isExecDemoPlaying=true}}
     },
     MotherBaseManagement={
-      {msg="AssignedStaff",func=function(n,e)
-        if(n==t.SECTION_SEPARATION)and(e>0)then
+    {msg="AssignedStaff",func=function(e,n)
+      if(e==t.SECTION_SEPARATION)and(n>0)then
           gvars.trm_doneIsolateByManual=true
           if(TppMission.IsFreeMission(vars.missionCode)or TppMission.IsHelicopterSpace(vars.missionCode))and TppRadio.IsRadioPlayable()then
             TppFreeHeliRadio._PlayRadio(TppFreeHeliRadio.PANDEMIC_RADIO.ON_ISOLATE_STAFF)
@@ -799,18 +824,18 @@ function this.Messages()
     }
   }
 end
-function this.OnMessage(n,t,a,r,M,o,_)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,n,t,a,r,M,o,_)
+function this.OnMessage(_,M,n,t,a,r,o)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,_,M,n,t,a,r,o)
 end
-function this.OnFultonMessage(e,n,a,t)
+function this.OnFultonMessage(e,t,a,n)
   mvars.trm_fultonInfo=mvars.trm_fultonInfo or{}
-  mvars.trm_fultonInfo[e]={e,n,a,t}
+  mvars.trm_fultonInfo[e]={e,t,a,n}
 end
-function this.OnFultonInfoMessage(n,a)
+function this.OnFultonInfoMessage(n,a,r)
   mvars.trm_fultonInfo=mvars.trm_fultonInfo or{}
   local t=mvars.trm_fultonInfo[n]
   if t then
-    this.OnFulton(t[1],t[2],t[3],t[4],nil,nil,a)
+    this.OnFulton(t[1],t[2],t[3],t[4],nil,nil,a,r)
     mvars.trm_fultonInfo[n]=nil
   end
   mvars.trm_fultonFaileEndInfo=mvars.trm_fultonFaileEndInfo or{}
@@ -882,11 +907,11 @@ function this.SetUp()
   this.SetUpCustomWeaponMBDVCMenu()
   if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it
     --TppUiCommand.AnnounceLogView("Tppterminal set dvcmenu")--tex DEBUG: CULL:
-      local dvcMenu={
-        {menu=this.MBDVCMENU.MSN_BUDDY,active=true},
-      }
-      this.EnableDvcMenuByList(dvcMenu)
-      TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")    
+    local dvcMenu={
+      {menu=this.MBDVCMENU.MSN_BUDDY,active=true},
+    }
+  this.EnableDvcMenuByList(dvcMenu)
+  TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
   end--
   if TppMission.IsSubsistenceMission()then
     local dvcMenu={
@@ -934,44 +959,44 @@ function this.SetUpBuddyMBDVCMenu()
     end
   end
 end
-function this.DoFuncByFultonTypeSwitch(e,a,r,t,o,n,c,d,p,S,T,_,M,i,u,E,s)
+function this.DoFuncByFultonTypeSwitch(e,a,n,r,o,t,S,c,T,p,s,_,M,i,E,u,d,l)
   if Tpp.IsSoldier(e)then
-    return c(e,a,r,t,o,n)
+    return c(e,a,n,r,o,t)
   elseif Tpp.IsVolgin(e)then
-    return d(e)
+    return T(e)
   elseif Tpp.IsHostage(e)then
-    return p(e,a,r,t,o,n)
+    return p(e,a,n,r,o,t)
   elseif Tpp.IsVehicle(e)then
-    return S(e,a,r,t,nil,n)
+    return s(e,a,n,r,nil,t)
   elseif Tpp.IsFultonContainer(e)then
-    return T(e,a,r,t,nil,n)
+    return _(e,a,n,r,nil,t,S)
   elseif Tpp.IsFultonableGimmick(e)then
-    return _(e,a,r,t,nil,n)
+    return M(e,a,n,r,nil,t)
   elseif Tpp.IsEnemyWalkerGear(e)then
-    return i(e,a,r,t,nil,n)
+    return E(e,a,n,r,nil,t)
   elseif Tpp.IsAnimal(e)then
-    return u(e,a,r,t,nil,n)
+    return u(e,a,n,r,nil,t)
   elseif Tpp.IsBossQuiet(e)then
-    return E(e,a,r,t,o,n)
+    return d(e,a,n,r,o,t)
   elseif Tpp.IsParasiteSquad(e)then
-    return s(e,a,r,t,nil,n)
+    return l(e,a,n,r,nil,t)
   else
     local o=Tpp.GetBuddyTypeFromGameObjectId(e)
     if o then
-      return M(e,a,r,t,o,n)
+      return i(e,a,n,r,o,t)
     end
   end
 end
-function this.OnFulton(t,a,n,o,M,_,r)
+function this.OnFulton(t,a,o,n,M,_,r,i)
   if _ then
     mvars.trm_needHeliSoundOnAddStaffsFromTempBuffer=true
   end
   TppEnemy.SetRecovered(t)
-  TppEnemy.ExecuteOnRecoveredCallback(t,a,n,o,M,_,r)
+  TppEnemy.ExecuteOnRecoveredCallback(t,a,o,n,M,_,r)
   if Tpp.IsLocalPlayer(r)then
-    TppEnemy._OnFulton(t,a,n,o)
+    TppEnemy._OnFulton(t,a,o,n)
   end
-  this.DoFuncByFultonTypeSwitch(t,a,n,o,M,r,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
+  this.DoFuncByFultonTypeSwitch(t,a,o,n,M,r,i,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
 end
 function this.IncrementFultonCount()svars.trm_missionFultonCount=svars.trm_missionFultonCount+1
 end
@@ -994,7 +1019,7 @@ function this.GetRecoveredHostageCount()
 end
 function this.GetFultonCountKeyItem()
   local n=gvars.trm_recoveredSoldierCount+gvars.trm_recoveredHostageCount
-  if n>=E then
+  if n>=u then
     this.AcquireKeyItem{dataBaseId=t.DESIGN_3006,isShowAnnounceLog=true}
   end
   if n>=s then
@@ -1032,18 +1057,18 @@ function this.OnFultonVolgin(e)
   end
   TppMotherBaseManagement.AddTempCorpse()
 end
-function this.OnFultonHostage(t,n,n,o,r,a)
+function this.OnFultonHostage(t,n,n,r,o,a)
   local M=TppMotherBaseManagement.GetTempStaffStatusFromGameObject{gameObjectId=t}
   local n
-  if o then
-    n=o
+  if r then
+    n=r
   else
     n=TppMotherBaseManagement.GetStaffIdFromGameObject{gameObjectId=t}
   end
   if Tpp.IsLocalPlayer(a)then
-    TppHero.OnFultonHostage(t,r)
+    TppHero.OnFultonHostage(t,o)
     this.IncrementFultonCount()
-    if not r then
+    if not o then
       this.IncrementRecoveredHostageCount()
     end
     PlayRecord.RegistPlayRecord"HOSTAGE_RESCUE"Tpp.IncrementPlayData"totalRescueCount"local e=GameObject.SendCommand(t,{id="IsFemale"})
@@ -1053,43 +1078,48 @@ function this.OnFultonHostage(t,n,n,o,r,a)
   end
   this.AddTempStaffFulton{staffId=n,gameObjectId=t,tempStaffStatus=M,fultonedPlayer=a}
 end
-function this.OnFultonVehicle(a,a,a,t,a,n)
+function this.OnFultonVehicle(a,a,a,n,a,t)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
-  this.AddTempResource(t,nil,n)
+  this.AddTempResource(n,nil,t)
 end
-function this.OnFultonContainer(r,n,t,o,o,a)
+function this.OnFultonContainer(o,t,n,M,M,r,a)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
   if TppMission.IsFOBMission(vars.missionCode)then
-    if not this.CheckAddTempBuffer(a)then
+    if not this.CheckAddTempBuffer(r)then
       return
     end
-    local e,t,n=MotherBaseConstructConnector.GetContainerResourceId(n,t)
+    local e,t,n=MotherBaseConstructConnector.GetContainerResourceId(t,n)
     if e==nil then
       e=0
     end
     TppMotherBaseManagement.AddTempResource{resourceId=e,count=1,visual=t,owner=n}
   else
-    local e=TppGimmick.GetGimmickID(r,n,t)
+    local e=TppGimmick.GetGimmickID(o,t,n)
     if not e then
-      e="commFacility_cntn001"end
-    Gimmick.CallFindContainerResourceLog(e)
-    TppMotherBaseManagement.AddTempGimmickResource{gimmickName=e}
+      e="commFacility_cntn001"
+    end
+    local t=false
+    if(a==1)then
+      t=true
+    end
+    Gimmick.CallFindContainerResourceLog(e,t)--RETAILPATCH: 1.0.4.0 last param added, same with below
+    TppMotherBaseManagement.AddTempGimmickResource{gimmickName=e,reduceAmount=t}
   end
 end
 this.GIMMICK_RESOURCE_ID_TABLE={[1845465265]=t.RESOURCE_ID_EMPLACEMENT_GUN_EAST,[2207998916]=t.RESOURCE_ID_EMPLACEMENT_GUN_WEST,[1187982616]=t.RESOURCE_ID_MORTAR_NORMAL,[3601635493]=t.RESOURCE_ID_ANTI_AIR_GATLING_GUN_EAST,[20562949]=t.RESOURCE_ID_ANTI_AIR_GATLING_GUN_WEST}
-function this.OnFultonGimmickCommon(t,t,t,n,t,a)
+function this.OnFultonGimmickCommon(t,t,t,a,t,n)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
-  local t=this.GIMMICK_RESOURCE_ID_TABLE[n]
+  local t=this.GIMMICK_RESOURCE_ID_TABLE[a]
   if t then
-    this.AddTempResource(t,nil,a)
+    this.AddTempResource(t,nil,n)
   else
-    this.AddTempResource(n,nil,a)
+    this.AddTempResource(a,nil,n)
   end
 end
 function this.OnFultonBuddy(t,t,t,t,e,t)
@@ -1270,19 +1300,19 @@ function this.AddTempStaffFulton(t)
     end
   end
 end
-function this.AddTempResource(a,n,t)
-  local t=t or 0
-  if not this.CheckAddTempBuffer(t)then
+function this.AddTempResource(t,n,a)
+  local a=a or 0
+  if not this.CheckAddTempBuffer(a)then
     return
   end
   local e=n or 1
-  TppMotherBaseManagement.AddTempResource{resourceId=a,count=e}
+  TppMotherBaseManagement.AddTempResource{resourceId=t,count=e}
 end
 function this.AddTempDataBase(e)
   TppMotherBaseManagement.AddTempDataBase{dataBaseId=e}
 end
-function this.AddTempDataBaseAnimal(t,e)
-  TppMotherBaseManagement.AddTempDataBaseAnimal{dataBaseId=t,areaName=e}
+function this.AddTempDataBaseAnimal(e,t)
+  TppMotherBaseManagement.AddTempDataBaseAnimal{dataBaseId=e,areaName=t}
 end
 local n=4
 local n=1.67
@@ -1307,87 +1337,87 @@ function this.SetUpOnHelicopterSpace()
 end
 function this.SetUpStoryBeforeCleardRescueMiller()
   this._SetUpDvcMenu{{menu=this.MBDVCMENU.MSN,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
-{menu=this.MBDVCMENU.MSN_LOG,active=true},
-{menu=this.MBDVCMENU.MBM_REWORD,active=true},
-{menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true}
-}
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
+    {menu=this.MBDVCMENU.MSN_LOG,active=true},
+    {menu=this.MBDVCMENU.MBM_REWORD,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true}
+  }
 end
 function this.SetUpStoryBeforeCleardRescueMillerOnHelicopter()
   this._SetUpDvcMenu{{menu=this.MBDVCMENU.MSN,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
-{menu=this.MBDVCMENU.MSN_LOG,active=true},
-{menu=this.MBDVCMENU.MBM_REWORD,active=true},
-{menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true}
-}
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
+    {menu=this.MBDVCMENU.MSN_LOG,active=true},
+    {menu=this.MBDVCMENU.MBM_REWORD,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true}
+  }
 end
 function this.SetUpStoryCleardRescueMiller()
   this._SetUpDvcMenu{{menu=this.MBDVCMENU.MBM,active=true},
-{menu=this.MBDVCMENU.MSN,active=true},
-{menu=this.MBDVCMENU.MBM_REWORD,active=true},
-{menu=this.MBDVCMENU.MBM_STAFF,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},
-{menu=this.MBDVCMENU.MBM_BASE,active=true},
-{menu=this.MBDVCMENU.MBM_LOG,active=true},
-{menu=this.MBDVCMENU.MSN_DROP,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_BULLET,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_LOADOUT,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_VEHICLE,active=true},
-{menu=this.MBDVCMENU.MSN_HELI,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_DISMISS,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
-{menu=this.MBDVCMENU.MSN_LOG,active=true},
-{menu=this.MBDVCMENU.MSN_LOCATION,active=true},
-{menu=this.MBDVCMENU.MSN_RETURNMB,active=true},
-{menu=this.MBDVCMENU.MBM_DB,active=true},
-{menu=this.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},
-{menu=this.MBDVCMENU.MBM_DB_KEYITEM,active=true},
-{menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true}
-}
+    {menu=this.MBDVCMENU.MSN,active=true},
+    {menu=this.MBDVCMENU.MBM_REWORD,active=true},
+    {menu=this.MBDVCMENU.MBM_STAFF,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},
+    {menu=this.MBDVCMENU.MBM_BASE,active=true},
+    {menu=this.MBDVCMENU.MBM_LOG,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_BULLET,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_LOADOUT,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_VEHICLE,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_DISMISS,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
+    {menu=this.MBDVCMENU.MSN_LOG,active=true},
+    {menu=this.MBDVCMENU.MSN_LOCATION,active=true},
+    {menu=this.MBDVCMENU.MSN_RETURNMB,active=true},
+    {menu=this.MBDVCMENU.MBM_DB,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_KEYITEM,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true}
+  }
 end
 function this.SetUpStoryCleardToMotherBase()
   local t={{menu=this.MBDVCMENU.MBM,active=true},
-{menu=this.MBDVCMENU.MSN,active=true},
-{menu=this.MBDVCMENU.MBM_REWORD,active=true},
-{menu=this.MBDVCMENU.MBM_STAFF,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},
-{menu=this.MBDVCMENU.MBM_BASE,active=true},
-{menu=this.MBDVCMENU.MBM_BASE_EXPANTION,active=true},
-{menu=this.MBDVCMENU.MBM_RESOURCE,active=true},
-{menu=this.MBDVCMENU.MBM_LOG,active=true},
-{menu=this.MBDVCMENU.MSN_DROP,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_BULLET,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_WEAPON,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_LOADOUT,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_VEHICLE,active=true},
-{menu=this.MBDVCMENU.MSN_HELI,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_DISMISS,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
-{menu=this.MBDVCMENU.MSN_MISSIONLIST,active=true},
-{menu=this.MBDVCMENU.MSN_SIDEOPSLIST,active=TppQuest.CanOpenSideOpsList()},
-{menu=this.MBDVCMENU.MSN_LOG,active=true},
-{menu=this.MBDVCMENU.MSN_LOCATION,active=true},
-{menu=this.MBDVCMENU.MSN_RETURNMB,active=true},
-{menu=this.MBDVCMENU.MBM_DB,active=true},
-{menu=this.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},
-{menu=this.MBDVCMENU.MBM_DB_KEYITEM,active=true},
-{menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}
-}
+    {menu=this.MBDVCMENU.MSN,active=true},
+    {menu=this.MBDVCMENU.MBM_REWORD,active=true},
+    {menu=this.MBDVCMENU.MBM_STAFF,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},
+    {menu=this.MBDVCMENU.MBM_BASE,active=true},
+    {menu=this.MBDVCMENU.MBM_BASE_EXPANTION,active=true},
+    {menu=this.MBDVCMENU.MBM_RESOURCE,active=true},
+    {menu=this.MBDVCMENU.MBM_LOG,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_BULLET,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_WEAPON,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_LOADOUT,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_VEHICLE,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_DISMISS,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
+    {menu=this.MBDVCMENU.MSN_MISSIONLIST,active=true},
+    {menu=this.MBDVCMENU.MSN_SIDEOPSLIST,active=TppQuest.CanOpenSideOpsList()},
+    {menu=this.MBDVCMENU.MSN_LOG,active=true},
+    {menu=this.MBDVCMENU.MSN_LOCATION,active=true},
+    {menu=this.MBDVCMENU.MSN_RETURNMB,active=true},
+    {menu=this.MBDVCMENU.MBM_DB,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_KEYITEM,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}
+  }
   this._SetUpDvcMenu(t)
 end
 function this.IsOpenMBDvcArmsMenu()
@@ -1399,148 +1429,148 @@ function this.IsOpenMBDvcArmsMenu()
 end
 function this.SetUpStoryCleardHoneyBee()
   local t={
-  {menu=this.MBDVCMENU.MBM,active=true},
-{menu=this.MBDVCMENU.MSN,active=true},
-{menu=this.MBDVCMENU.MBM_REWORD,active=true},
-{menu=this.MBDVCMENU.MBM_STAFF,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},
-{menu=this.MBDVCMENU.MBM_BASE,active=true},
-{menu=this.MBDVCMENU.MBM_BASE_EXPANTION,active=true},
-{menu=this.MBDVCMENU.MBM_RESOURCE,active=true},
-{menu=this.MBDVCMENU.MBM_LOG,active=true},
-{menu=this.MBDVCMENU.MSN_DROP,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_BULLET,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_WEAPON,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_LOADOUT,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_VEHICLE,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},
-{menu=this.MBDVCMENU.MSN_HELI,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_DISMISS,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
-{menu=this.MBDVCMENU.MSN_MISSIONLIST,active=true},
-{menu=this.MBDVCMENU.MSN_SIDEOPSLIST,active=true},
-{menu=this.MBDVCMENU.MSN_LOG,active=true},
-{menu=this.MBDVCMENU.MSN_LOCATION,active=true},
-{menu=this.MBDVCMENU.MSN_RETURNMB,active=true},
-{menu=this.MBDVCMENU.MBM_DB,active=true},
-{menu=this.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},
-{menu=this.MBDVCMENU.MBM_DB_KEYITEM,active=true},
-{menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}
-}
+    {menu=this.MBDVCMENU.MBM,active=true},
+    {menu=this.MBDVCMENU.MSN,active=true},
+    {menu=this.MBDVCMENU.MBM_REWORD,active=true},
+    {menu=this.MBDVCMENU.MBM_STAFF,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},
+    {menu=this.MBDVCMENU.MBM_BASE,active=true},
+    {menu=this.MBDVCMENU.MBM_BASE_EXPANTION,active=true},
+    {menu=this.MBDVCMENU.MBM_RESOURCE,active=true},
+    {menu=this.MBDVCMENU.MBM_LOG,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_BULLET,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_WEAPON,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_LOADOUT,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_VEHICLE,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_DISMISS,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
+    {menu=this.MBDVCMENU.MSN_MISSIONLIST,active=true},
+    {menu=this.MBDVCMENU.MSN_SIDEOPSLIST,active=true},
+    {menu=this.MBDVCMENU.MSN_LOG,active=true},
+    {menu=this.MBDVCMENU.MSN_LOCATION,active=true},
+    {menu=this.MBDVCMENU.MSN_RETURNMB,active=true},
+    {menu=this.MBDVCMENU.MBM_DB,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_KEYITEM,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}
+  }
   this._SetUpDvcMenu(t)
 end
 function this.SetUpStoryCleardPitchDark()
   this._SetUpDvcMenu{
-  {menu=this.MBDVCMENU.MBM,active=true},
-{menu=this.MBDVCMENU.MSN,active=true},
-{menu=this.MBDVCMENU.MBM_REWORD,active=true},
-{menu=this.MBDVCMENU.MBM_STAFF,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},
-{menu=this.MBDVCMENU.MBM_COMBAT,active=true},
-{menu=this.MBDVCMENU.MBM_BASE,active=true},
-{menu=this.MBDVCMENU.MBM_BASE_EXPANTION,active=true},
-{menu=this.MBDVCMENU.MBM_RESOURCE,active=true},
-{menu=this.MBDVCMENU.MBM_LOG,active=true},
-{menu=this.MBDVCMENU.MSN_DROP,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_BULLET,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_WEAPON,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_LOADOUT,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_VEHICLE,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},
-{menu=this.MBDVCMENU.MSN_HELI,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_DISMISS,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
-{menu=this.MBDVCMENU.MSN_MISSIONLIST,active=true},
-{menu=this.MBDVCMENU.MSN_SIDEOPSLIST,active=true},
-{menu=this.MBDVCMENU.MSN_LOG,active=true},
-{menu=this.MBDVCMENU.MSN_LOCATION,active=true},
-{menu=this.MBDVCMENU.MSN_RETURNMB,active=true},
-{menu=this.MBDVCMENU.MBM_DB,active=true},
-{menu=this.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},
-{menu=this.MBDVCMENU.MBM_DB_KEYITEM,active=true},
-{menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}
-}
+    {menu=this.MBDVCMENU.MBM,active=true},
+    {menu=this.MBDVCMENU.MSN,active=true},
+    {menu=this.MBDVCMENU.MBM_REWORD,active=true},
+    {menu=this.MBDVCMENU.MBM_STAFF,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},
+    {menu=this.MBDVCMENU.MBM_COMBAT,active=true},
+    {menu=this.MBDVCMENU.MBM_BASE,active=true},
+    {menu=this.MBDVCMENU.MBM_BASE_EXPANTION,active=true},
+    {menu=this.MBDVCMENU.MBM_RESOURCE,active=true},
+    {menu=this.MBDVCMENU.MBM_LOG,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_BULLET,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_WEAPON,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_LOADOUT,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_VEHICLE,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_DISMISS,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
+    {menu=this.MBDVCMENU.MSN_MISSIONLIST,active=true},
+    {menu=this.MBDVCMENU.MSN_SIDEOPSLIST,active=true},
+    {menu=this.MBDVCMENU.MSN_LOG,active=true},
+    {menu=this.MBDVCMENU.MSN_LOCATION,active=true},
+    {menu=this.MBDVCMENU.MSN_RETURNMB,active=true},
+    {menu=this.MBDVCMENU.MBM_DB,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_KEYITEM,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}
+  }
 end
 function this.SetUpStoryAfterCleardPitchDark()
   this._SetUpDvcMenu{
-  {menu=this.MBDVCMENU.MBM,active=true},
-{menu=this.MBDVCMENU.MSN,active=true},
-{menu=this.MBDVCMENU.MBM_REWORD,active=true},
-{menu=this.MBDVCMENU.MBM_STAFF,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},
-{menu=this.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},
-{menu=this.MBDVCMENU.MBM_COMBAT,active=true},
-{menu=this.MBDVCMENU.MBM_BASE,active=true},
-{menu=this.MBDVCMENU.MBM_BASE_SECURITY,active=true},
-{menu=this.MBDVCMENU.MBM_BASE_EXPANTION,active=true},
-{menu=this.MBDVCMENU.MBM_RESOURCE,active=true},
-{menu=this.MBDVCMENU.MBM_LOG,active=true},
-{menu=this.MBDVCMENU.MSN_DROP,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_BULLET,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_WEAPON,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_LOADOUT,active=true},
-{menu=this.MBDVCMENU.MSN_DROP_VEHICLE,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK_SMOKE,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK_SLEEP,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK_CHAFF,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK_WEATHER,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK_WEATHER_SANDSTORM,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK_WEATHER_STORM,active=true},
-{menu=this.MBDVCMENU.MSN_ATTACK_WEATHER_CLEAR,active=true},
-{menu=this.MBDVCMENU.MSN_HELI,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=true},
-{menu=this.MBDVCMENU.MSN_HELI_DISMISS,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
-{menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
-{menu=this.MBDVCMENU.MSN_MISSIONLIST,active=true},
-{menu=this.MBDVCMENU.MSN_SIDEOPSLIST,active=true},
-{menu=this.MBDVCMENU.MSN_FOB,active=true},
-{menu=this.MBDVCMENU.MSN_FRIEND,active=true},
-{menu=this.MBDVCMENU.MSN_LOG,active=true},
-{menu=this.MBDVCMENU.MSN_LOCATION,active=true},
-{menu=this.MBDVCMENU.MSN_RETURNMB,active=true},
-{menu=this.MBDVCMENU.MBM_DB,active=true},
-{menu=this.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},
-{menu=this.MBDVCMENU.MBM_DB_KEYITEM,active=true},
-{menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY_HORSE,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY_DOG,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY_QUIET,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY_WALKER,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY_BATTLE,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},
-{menu=this.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}
-}
+    {menu=this.MBDVCMENU.MBM,active=true},
+    {menu=this.MBDVCMENU.MSN,active=true},
+    {menu=this.MBDVCMENU.MBM_REWORD,active=true},
+    {menu=this.MBDVCMENU.MBM_STAFF,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},
+    {menu=this.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},
+    {menu=this.MBDVCMENU.MBM_COMBAT,active=true},
+    {menu=this.MBDVCMENU.MBM_BASE,active=true},
+    {menu=this.MBDVCMENU.MBM_BASE_SECURITY,active=true},
+    {menu=this.MBDVCMENU.MBM_BASE_EXPANTION,active=true},
+    {menu=this.MBDVCMENU.MBM_RESOURCE,active=true},
+    {menu=this.MBDVCMENU.MBM_LOG,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_BULLET,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_WEAPON,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_LOADOUT,active=true},
+    {menu=this.MBDVCMENU.MSN_DROP_VEHICLE,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK_SMOKE,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK_SLEEP,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK_CHAFF,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK_WEATHER,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK_WEATHER_SANDSTORM,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK_WEATHER_STORM,active=true},
+    {menu=this.MBDVCMENU.MSN_ATTACK_WEATHER_CLEAR,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=true},
+    {menu=this.MBDVCMENU.MSN_HELI_DISMISS,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
+    {menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
+    {menu=this.MBDVCMENU.MSN_MISSIONLIST,active=true},
+    {menu=this.MBDVCMENU.MSN_SIDEOPSLIST,active=true},
+    {menu=this.MBDVCMENU.MSN_FOB,active=true},
+    {menu=this.MBDVCMENU.MSN_FRIEND,active=true},
+    {menu=this.MBDVCMENU.MSN_LOG,active=true},
+    {menu=this.MBDVCMENU.MSN_LOCATION,active=true},
+    {menu=this.MBDVCMENU.MSN_RETURNMB,active=true},
+    {menu=this.MBDVCMENU.MBM_DB,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_KEYITEM,active=true},
+    {menu=this.MBDVCMENU.MBM_DB_CASSETTE,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY_HORSE,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY_DOG,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY_QUIET,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY_WALKER,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_BUDDY_BATTLE,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},
+    {menu=this.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}
+  }
 end
 function this.StopChangeDayTerminalAnnounce()
   mvars.trm_stopChangeDayTerminalAnnounce=true
@@ -1548,16 +1578,16 @@ end
 function this.StartChangeDayTerminalAnnounce()
   mvars.trm_stopChangeDayTerminalAnnounce=nil
 end
-function this.TerminalVoiceWeatherForecast(t)
-  local n={[TppDefine.WEATHER.SUNNY]="VOICE_WEATHER_CLAER",[TppDefine.WEATHER.CLOUDY]=nil,[TppDefine.WEATHER.RAINY]=nil,[TppDefine.WEATHER.SANDSTORM]="VOICE_WEATHER_SANDSTORM",[TppDefine.WEATHER.FOGGY]=nil}
+function this.TerminalVoiceWeatherForecast(n)
+  local t={[TppDefine.WEATHER.SUNNY]="VOICE_WEATHER_CLAER",[TppDefine.WEATHER.CLOUDY]=nil,[TppDefine.WEATHER.RAINY]=nil,[TppDefine.WEATHER.SANDSTORM]="VOICE_WEATHER_SANDSTORM",[TppDefine.WEATHER.FOGGY]=nil}
   local a={[TppDefine.WEATHER.SUNNY]="weather_sunny",[TppDefine.WEATHER.CLOUDY]="weather_cloudy",[TppDefine.WEATHER.RAINY]="weather_rainy",[TppDefine.WEATHER.SANDSTORM]="weather_sandstorm",[TppDefine.WEATHER.FOGGY]="weather_foggy"}
-  local n=n[t]
-  local t=a[t]
-  if n then
-    this.PlayTerminalVoice(n)
-  end
+  local t=t[n]
+  local n=a[n]
   if t then
-    TppUI.ShowAnnounceLog(t)
+    this.PlayTerminalVoice(t)
+  end
+  if n then
+    TppUI.ShowAnnounceLog(n)
   end
 end
 function this.TerminalVoiceOnSunSet()
@@ -1846,10 +1876,10 @@ function this.OnEstablishMissionClear()
   end
   this.AddUniqueCharactor()
 end
-function this.AddUniqueVolunteerStaff(n)
+function this.AddUniqueVolunteerStaff(a)
   local staffIdsTable={{186},{209},{210,211},{212},{213},{214},{215},{216,217},{218},{187},{185},{188,189,190,191,192,193},{194,195,196,197,198,199}}
   local idsIndexForMission={[10033]=1,[10036]=1,[10043]=1,[10080]=2,[10086]=3,[10082]=4,[10091]=5,[10195]=6,[10100]=7,[10110]=8,[10121]=9,[10070]=10,[10090]=11,[10151]=12,[10280]=13}
-  local t=idsIndexForMission[n]
+  local t=idsIndexForMission[a]
   if t then
     local staffIds=staffIdsTable[t]
     for n,staffId in ipairs(staffIds)do
@@ -1857,22 +1887,22 @@ function this.AddUniqueVolunteerStaff(n)
     end
   end
 end
-function this._AddUniqueVolunteerStaff(e,n)
+function this._AddUniqueVolunteerStaff(e,t)
   if TppMotherBaseManagement.IsExistStaff{uniqueTypeId=e}then
     return
   end
-  local t=false
-  if n~=nil then
-    t=true
+  local n=false
+  if t~=nil then
+    n=true
   end
   local e=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=e}
-  TppMotherBaseManagement.DirectAddStaff{staffId=e,section="Wait",isNew=true,specialContract=t}
-  TppUiCommand.ShowBonusPopupStaff(e,n)
+  TppMotherBaseManagement.DirectAddStaff{staffId=e,section="Wait",isNew=true,specialContract=n}
+  TppUiCommand.ShowBonusPopupStaff(e,t)
   return true
 end
-function this.ForceStartBuildPlatform(e,t)
-  local n=TppMotherBaseManagement.GetClusterGrade{base="MotherBase",category=e}
-  if n<t then
+function this.ForceStartBuildPlatform(e,n)
+  local t=TppMotherBaseManagement.GetClusterGrade{base="MotherBase",category=e}
+  if t<n then
     local t=TppMotherBaseManagement.GetClusterBuildStatus{base="MotherBase",category=e}
     if t=="Completed"then
       TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category=e,grade=0,buildStatus="Building",timeMinute=0,isNew=true}
@@ -1885,12 +1915,12 @@ function this.OpenDeployMission(t)
   end
 end
 this.RewardLangIdTable={
-Combat={"reward_105","reward_106"},
-BaseDev={"reward_100","reward_101"},
-Spy={"reward_102"},
-Medical={"reward_103"},
-Security={"reward_108"},
-Hospital={"reward_104"}
+  Combat={"reward_105","reward_106"},
+  BaseDev={"reward_100","reward_101"},
+  Spy={"reward_102"},
+  Medical={"reward_103"},
+  Security={"reward_108"},
+  Hospital={"reward_104"}
 }
 function this.PushRewardOnMbSectionOpen()
   for a,n in ipairs(this.MOTHER_BASE_SECTION_LIST)do
@@ -1949,40 +1979,40 @@ function this.IsReleaseFunctionNuclearDevelop()
   end
 end
 this.SectionFuncOpenCondition={
-Combat={DispatchSoldier=true,DispatchFobDefence=this.IsCleardRetakeThePlatform},
-Develop={Weapon=true,SupportHelicopter=this.IsOpenMBDvcArmsMenu,Quiet=function()
-  return TppBuddyService.CanSortieBuddyType(BuddyType.QUIET)
-end,
-D_Dog=function()
-  return TppBuddyService.CanSortieBuddyType(BuddyType.DOG)
-end,
-D_Horse=this.IsOpenMBDvcArmsMenu,D_Walker=function()
-  return TppBuddyService.CanSortieBuddyType(BuddyType.WALKER_GEAR)
-end,
-BattleGear=function()
-  return TppBuddyService.CanSortieBuddyType(BuddyType.BATTLE_GEAR)
-end,
-SecurityDevice=this.IsConstructedFirstFob},
-BaseDev={Mining=true,Processing=true,Extention=true,Construct=this.IsCleardRetakeThePlatform,NuclearDevelop=this.IsReleaseFunctionNuclearDevelop},
-Support={Fulton=true,Supply=true,Battle=this.IsReleaseFunctionBattle,BattleArtillery=this.IsReleaseFunctionBattle,BattleSmoke=this.IsReleaseFunctionBattle,BattleSleepGas=this.IsReleaseFunctionBattle,BattleChaff=this.IsReleaseFunctionBattle,BattleWeather=this.IsReleaseFunctionBattle},
-Spy={Information=true,Scouting=true,SearchResource=true,WeatherInformation=true},Medical={Emergency=true,Treatment=true},
-Security={BaseDefence=true,MachineDefence=this.IsConstructedFirstFob,BaseBlockade=this.IsConstructedFirstFob,SecurityInfo=this.IsConstructedFirstFob}
+  Combat={DispatchSoldier=true,DispatchFobDefence=this.IsCleardRetakeThePlatform},
+  Develop={Weapon=true,SupportHelicopter=this.IsOpenMBDvcArmsMenu,Quiet=function()
+    return TppBuddyService.CanSortieBuddyType(BuddyType.QUIET)
+  end,
+  D_Dog=function()
+    return TppBuddyService.CanSortieBuddyType(BuddyType.DOG)
+  end,
+  D_Horse=this.IsOpenMBDvcArmsMenu,D_Walker=function()
+    return TppBuddyService.CanSortieBuddyType(BuddyType.WALKER_GEAR)
+  end,
+  BattleGear=function()
+    return TppBuddyService.CanSortieBuddyType(BuddyType.BATTLE_GEAR)
+  end,
+  SecurityDevice=this.IsConstructedFirstFob},
+  BaseDev={Mining=true,Processing=true,Extention=true,Construct=this.IsCleardRetakeThePlatform,NuclearDevelop=this.IsReleaseFunctionNuclearDevelop},
+  Support={Fulton=true,Supply=true,Battle=this.IsReleaseFunctionBattle,BattleArtillery=this.IsReleaseFunctionBattle,BattleSmoke=this.IsReleaseFunctionBattle,BattleSleepGas=this.IsReleaseFunctionBattle,BattleChaff=this.IsReleaseFunctionBattle,BattleWeather=this.IsReleaseFunctionBattle},
+  Spy={Information=true,Scouting=true,SearchResource=true,WeatherInformation=true},Medical={Emergency=true,Treatment=true},
+  Security={BaseDefence=true,MachineDefence=this.IsConstructedFirstFob,BaseBlockade=this.IsConstructedFirstFob,SecurityInfo=this.IsConstructedFirstFob}
 }
 function this.ReleaseFunctionOfMbSection()
   local r=TppMotherBaseManagement.OpenedSectionFunc
-  for n,t in pairs(u)do
-    for o,a in pairs(t)do
+  for a,t in pairs(E)do
+    for o,n in pairs(t)do
       local t
-      if this.SectionFuncOpenCondition[n]then
-        t=this.SectionFuncOpenCondition[n][o]
+      if this.SectionFuncOpenCondition[a]then
+        t=this.SectionFuncOpenCondition[a][o]
       end
       if(t==true)then
-        r{sectionFuncId=a,opened=true}
+        r{sectionFuncId=n,opened=true}
       elseif t then
-        if t(n)then
-          r{sectionFuncId=a,opened=true}
+        if t(a)then
+          r{sectionFuncId=n,opened=true}
         else
-          r{sectionFuncId=a,opened=false}
+          r{sectionFuncId=n,opened=false}
         end
       end
     end
@@ -2064,11 +2094,11 @@ end
 function this.EnableTerminalVoice(e)
   mvars.trm_voiceDisabled=not e
 end
-function this.PlayTerminalVoice(t,e,n)
+function this.PlayTerminalVoice(n,e,t)
   if mvars.trm_voiceDisabled and e~=false then
     return
   end
-  TppUiCommand.RequestMbSoundControllerVoice(t,e,n)
+  TppUiCommand.RequestMbSoundControllerVoice(n,e,t)
 end
 function this.OnFultonFailedEnd(e,t,n,a)
   mvars.trm_fultonFaileEndInfo=mvars.trm_fultonFaileEndInfo or{}

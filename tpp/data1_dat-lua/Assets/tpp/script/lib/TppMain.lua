@@ -10,16 +10,16 @@ local UpdateScriptsInScriptBlocks=ScriptBlock.UpdateScriptsInScriptBlocks
 local GetCurrentMessageResendCount=Mission.GetCurrentMessageResendCount
 local updateList={}
 local numUpdate=0
-local T={}
-local o=0
 local c={}
+local o=0
+local T={}
 local u=0
 local n={}
 local n=0
-local d={}
-local m={}
-local s=0
 local S={}
+local P={}
+local s=0
+local d={}
 local h={}
 local p=0
 local function n()--tex NMC: cant actually see this referenced anywhere
@@ -78,7 +78,7 @@ function this.OnAllocate(n)
   TppClock.Stop()
   updateList={}
   numUpdate=0
-  c={}
+  T={}
   u=0
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
@@ -132,6 +132,14 @@ function this.OnAllocate(n)
   end
   s()
   if n.sequence then
+    if f30050_sequence then--
+      function f30050_sequence.NeedPlayQuietWishGoMission()--RETAILPATCH: 1.0.4.1 PATCHUP:
+        local isClearedSideOps=TppQuest.IsCleard"mtbs_q99011"
+        local isNotPlayDemo=not TppDemo.IsPlayedMBEventDemo"QuietWishGoMission"
+        local isCanArrival=TppDemo.GetMBDemoName()==nil
+        return(isClearedSideOps and isNotPlayDemo)and isCanArrival
+      end
+    end
     if IsTypeFunc(n.sequence.MissionPrepare)then
       n.sequence.MissionPrepare()
     end
@@ -145,25 +153,25 @@ function this.OnAllocate(n)
     end
   end
   do
-    local s={}
+    local o={}
     for t,e in ipairs(Tpp._requireList)do
       if _G[e]then
         if _G[e].DeclareSVars then
-          ApendArray(s,_G[e].DeclareSVars(n))
+          ApendArray(o,_G[e].DeclareSVars(n))
         end
       end
     end
-    local o={}
+    local s={}
     for n,e in pairs(n)do
       if IsTypeFunc(e.DeclareSVars)then
-        ApendArray(o,e.DeclareSVars())
+        ApendArray(s,e.DeclareSVars())
       end
       if IsTypeTable(e.saveVarsList)then
-        ApendArray(o,TppSequence.MakeSVarsTable(e.saveVarsList))
+        ApendArray(s,TppSequence.MakeSVarsTable(e.saveVarsList))
       end
     end
-    ApendArray(s,o)
-    TppScriptVars.DeclareSVars(s)
+    ApendArray(o,s)
+    TppScriptVars.DeclareSVars(o)
     TppScriptVars.SetSVarsNotificationEnabled(false)
     while IsSavingOrLoading()do
       coroutine.yield()
@@ -184,6 +192,7 @@ function this.OnAllocate(n)
       end
       TppVarInit.ClearIsContinueFromTitle()
     end
+    TppUiCommand.ExcludeNonPermissionContents()--RETAILPATCH: 1.0.4.1 --tex trying to lock down dlc mods?
     TppStory.SetMissionClearedS10030()
     TppTerminal.StartSyncMbManagementOnMissionStart()
     if TppLocation.IsMotherBase()then
@@ -330,7 +339,7 @@ function this.OnInitialize(n)
     if gameObjectId ~= nil and gameObjectId ~= GameObject.NULL_ID then
       GameObject.SendCommand(gameObjectId, { id="SetCombatEnabled", enabled=false }) 
     end 
-  end
+  end--
   if n.enemy then
     if GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
       GameObject.SendCommand({type="TppSoldier2"},{id="CreateFaceIdList"})
@@ -450,16 +459,16 @@ end
 function this.SetUpdateFunction(e)
   updateList={}
   numUpdate=0
-  T={}
-  o=0
   c={}
+  o=0
+  T={}
   u=0
   updateList={TppMission.Update,TppSequence.Update,TppSave.Update,TppDemo.Update,TppPlayer.Update,TppMission.UpdateForMissionLoad,InfMenu.UpdateModMenu}--tex added infmenu
   numUpdate=#updateList
   for n,e in pairs(e)do
     if IsTypeFunc(e.OnUpdate)then
       o=o+1
-      T[o]=e.OnUpdate
+      c[o]=e.OnUpdate
     end
   end
 end
@@ -537,7 +546,7 @@ function this.OnMissionGameStart(n)
   TppSoundDaemon.ResetMute"Telop"end
 function this.ClearStageBlockMessage()StageBlock.ClearLargeBlockNameForMessage()StageBlock.ClearSmallBlockIndexForMessage()
 end
-function this.ReservePlayerLoadingPosition(n,o,s,t,i,p,a)
+function this.ReservePlayerLoadingPosition(n,s,o,t,i,a,p)
   this.DisableGameStatus()
   if n==TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE then
     if t then
@@ -547,7 +556,7 @@ function this.ReservePlayerLoadingPosition(n,o,s,t,i,p,a)
       TppPlayer.ResetNoOrderBoxMissionStartPosition()
       TppMission.ResetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
-    elseif o then
+    elseif s then
       if gvars.heli_missionStartRoute~=0 then
         TppPlayer.SetStartStatusRideOnHelicopter()
         if mvars.mis_helicopterMissionStartPosition then
@@ -581,7 +590,7 @@ function this.ReservePlayerLoadingPosition(n,o,s,t,i,p,a)
       TppMission.ResetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
       TppLocation.MbFreeSpecialMissionStartSetting(TppMission.GetMissionClearType())
-    elseif(s and TppLocation.IsMotherBase())then
+    elseif(o and TppLocation.IsMotherBase())then
       if gvars.heli_missionStartRoute~=0 then
         TppPlayer.SetStartStatusRideOnHelicopter()
       else
@@ -592,7 +601,7 @@ function this.ReservePlayerLoadingPosition(n,o,s,t,i,p,a)
       TppMission.SetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
     else
-      if s then
+      if o then
         if mvars.mis_orderBoxName then
           TppMission.SetMissionOrderBoxPosition()
           TppPlayer.ResetNoOrderBoxMissionStartPosition()
@@ -646,7 +655,7 @@ function this.ReservePlayerLoadingPosition(n,o,s,t,i,p,a)
     TppHelicopter.ResetMissionStartHelicopterRoute()
     TppMission.ResetIsStartFromHelispace()
     TppMission.ResetIsStartFromFreePlay()
-    if p then
+    if a then
       if i then
         TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
         TppHelicopter.ResetMissionStartHelicopterRoute()
@@ -669,7 +678,7 @@ function this.ReservePlayerLoadingPosition(n,o,s,t,i,p,a)
   elseif n==TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART then
   elseif n==TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT then
   end
-  if o and a then
+  if s and p then
     Mission.AddLocationFinalizer(function()
       this.StageBlockCurrentPosition()
     end)
@@ -724,13 +733,13 @@ end
 function this.OnUpdate(e)
   local e
   local update=updateList
-  local n=T
-  local t=c
-  for n=1,numUpdate do
-    update[n]()
+  local e=c
+  local t=T
+  for e=1,numUpdate do
+    update[e]()
   end
-  for e=1,o do
-    n[e]()
+  for n=1,o do
+    e[n]()
   end
   UpdateScriptsInScriptBlocks()
 end
@@ -742,20 +751,20 @@ function this.OnChangeSVars(e,n,t)
   end
 end
 function this.SetMessageFunction(e)
-  d={}
-  s=0
   S={}
+  s=0
+  d={}
   p=0
   for n,e in ipairs(Tpp._requireList)do
     if _G[e].OnMessage then
       s=s+1
-      d[s]=_G[e].OnMessage
+      S[s]=_G[e].OnMessage
     end
   end
   for n,t in pairs(e)do
     if e[n]._messageExecTable then
       p=p+1
-      S[p]=e[n]._messageExecTable
+      d[p]=e[n]._messageExecTable
     end
   end
 end
@@ -766,7 +775,7 @@ function this.OnMessage(n,e,t,i,o,a,r)
   local c=Tpp.DoMessage
   local u=TppMission.CheckMessageOption
   local T=TppDebug
-  local T=m
+  local T=P
   local T=h
   local T=TppDefine.MESSAGE_GENERATION[e]and TppDefine.MESSAGE_GENERATION[e][t]
   if not T then
@@ -778,11 +787,11 @@ function this.OnMessage(n,e,t,i,o,a,r)
   end
   for s=1,s do
     local n=l
-    d[s](e,t,i,o,a,r,n)
+    S[s](e,t,i,o,a,r,n)
   end
-  for s=1,p do
-    local n=l
-    c(S[s],u,e,t,i,o,a,r,n)
+  for n=1,p do
+    local s=l
+    c(d[n],u,e,t,i,o,a,r,s)
   end
   if n.loc_locationCommonTable then
     n.loc_locationCommonTable.OnMessage(e,t,i,o,a,r,l)
