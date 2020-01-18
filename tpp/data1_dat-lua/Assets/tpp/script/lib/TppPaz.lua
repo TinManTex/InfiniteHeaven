@@ -145,7 +145,8 @@ function e.OnDemoEnter()mvars.paz_isActive=true
   end
   e.messageExecTable=Tpp.MakeMessageExecTable(e.ActiveMessages())e.InitUi()e.InitMusic()
 end
-function e.OnEnter(f)mvars.paz_isActive=true
+function e.OnEnter(f)
+  mvars.paz_isActive=true
   mvars.paz_lastMonologueLabel=""mvars.paz_takeActionPath=I
   mvars.paz_giveActionPath=oe
   mvars.paz_isSeeYouMonologueEnabled=false

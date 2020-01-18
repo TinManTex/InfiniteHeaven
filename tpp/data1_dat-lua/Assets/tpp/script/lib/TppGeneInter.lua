@@ -179,9 +179,11 @@ end
 function e.InterCall_slopedTown_006(e,e,e)
   TppMarker.Enable("TppMarker2Locator_slopedTown_weaponRoom",0,"none","map_only_icon",0,false,true)
 end
-function e.InterCall_slopedTown_007(n,n,n)e.EnableMarkerGimmick{"slopedTown_gun001","slopedTown_gun002"}
+function e.InterCall_slopedTown_007(n,n,n)
+e.EnableMarkerGimmick{"slopedTown_gun001","slopedTown_gun002"}
 end
-function e.InterCall_slopedTown_008(n,n,n)e.EnableMarkerGimmick{"slopedTown_mortar001","slopedTown_mortar002","slopedTown_mortar003"}
+function e.InterCall_slopedTown_008(n,n,n)
+e.EnableMarkerGimmick{"slopedTown_mortar001","slopedTown_mortar002","slopedTown_mortar003"}
 end
 function e.InterCall_slopedTown_009(n,n,n)
   e.EnableMarker({"TppMarker2Locator_slopedTown_trash01","TppMarker2Locator_slopedTown_trash02"},0,"marker_dustbox")
@@ -189,7 +191,8 @@ end
 function e.InterCall_slopedTown_010(n,n,n)
   e.EnableMarker("TppMarker2Locator_slopedTown_dia0013",0,"marker_diamond_gem")
 end
-function e.InterCall_slopedTown_011(n,n,n)e.EnableMarkerGimmick{"slopedTown_antiair001","slopedTown_antiair002"}
+function e.InterCall_slopedTown_011(n,n,n)
+e.EnableMarkerGimmick{"slopedTown_antiair001","slopedTown_antiair002"}
 end
 function e.InterCall_slopedTown_012(n,n,n)
   e.EnableMarker("TppMarker2Locator_slopedTown_generator01",0,"marker_power")
@@ -206,9 +209,11 @@ end
 function e.InterCall_enemyBase_002(n,n,n)
   e.EnableMarker("TppMarker2Locator_enemyBase_ammo02",0,"marker_ammo_pri")
 end
-function e.InterCall_enemyBase_003(n,n,n)e.EnableMarkerGimmick{"enemyBase_gun001","enemyBase_gun002","enemyBase_gun003","enemyBase_gun004","enemyBase_gun005"}
+function e.InterCall_enemyBase_003(n,n,n)
+e.EnableMarkerGimmick{"enemyBase_gun001","enemyBase_gun002","enemyBase_gun003","enemyBase_gun004","enemyBase_gun005"}
 end
-function e.InterCall_enemyBase_004(n,n,n)e.EnableMarkerGimmick{"enemyBase_mortar001","enemyBase_mortar002","enemyBase_mortar003","enemyBase_mortar004","enemyBase_mortar005"}
+function e.InterCall_enemyBase_004(n,n,n)
+e.EnableMarkerGimmick{"enemyBase_mortar001","enemyBase_mortar002","enemyBase_mortar003","enemyBase_mortar004","enemyBase_mortar005"}
 end
 function e.InterCall_enemyBase_005(n,n,n)
   e.EnableMarker({"TppMarker2Locator_enemyBase_trash01","TppMarker2Locator_enemyBase_trash02","TppMarker2Locator_enemyBase_trash03"},0,"marker_dustbox")

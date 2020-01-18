@@ -1293,15 +1293,18 @@ function this.ExecuteMissionFinalize()
   if t then
     Gimmick.StoreSaveDataPermanentGimmickFromMission()
   end
-  local o={[10091]=function()
+  local o={
+  [10091]=function()
     if TppMotherBaseManagement.CanOpenS10091()then
       TppMotherBaseManagement.LockedStaffsS10091()
     end
-  end,[10081]=function()
+  end,
+  [10081]=function()
     if TppMotherBaseManagement.CanOpenS10081()then
       TppMotherBaseManagement.LockedStaffS10081()
     end
-  end,[10115]=function()
+  end,
+  [10115]=function()
     if TppMotherBaseManagement.CanOpenS10115{section="Develop"}then
       TppMotherBaseManagement.LockedStaffsS10115{section="Develop"}
     end
@@ -1640,6 +1643,7 @@ function this.Messages()
         end
         TppTerminal.GetFobStatus()
         e.ShowAnnounceLogOnGameStart()
+        TppMain.ModMissionMessage()--tex
       end},
       {msg="EndFadeIn",sender="FadeInOnStartMissionGame",func=function()
         e.ShowAnnounceLogOnGameStart()
@@ -1727,7 +1731,9 @@ function this.Messages()
       {msg="Finish",sender="Timer_UpdateCheckPoint",func=function()
         TppStory.UpdateStorySequence{updateTiming="OnUpdateCheckPoint",isInGame=true}
       end},
-      {msg="Finish",sender="Timer_MissionStartHeliDoorOpen",func=function()GameObject.SendCommand({type="TppHeli2",index=0},{id="RequestSnedDoorOpen"})
+      {msg="Finish",sender="Timer_MissionStartHeliDoorOpen",
+        func=function()
+          GameObject.SendCommand({type="TppHeli2",index=0},{id="RequestSnedDoorOpen"})
         end}},
     GameObject={
       {msg="ChangePhase",func=function(i,n)

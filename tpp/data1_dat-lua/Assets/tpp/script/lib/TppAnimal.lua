@@ -12,10 +12,10 @@ local a=GameObject.SendCommand
 local a=Tpp.DEBUG_StrCode32ToString
 e.AnimalExtraId={UNIQUE_ANIMAL_00=TppAnimalId.COUNT+0,UNIQUE_ANIMAL_01=TppAnimalId.COUNT+1,UNIQUE_ANIMAL_02=TppAnimalId.COUNT+2,UNIQUE_ANIMAL_03=TppAnimalId.COUNT+3}
 e.AnimalIdTable={
-[e.AnimalExtraId.UNIQUE_ANIMAL_00]=TppMotherBaseManagementConst.ANIMAL_1900,
-[e.AnimalExtraId.UNIQUE_ANIMAL_01]=TppMotherBaseManagementConst.ANIMAL_610,
-[e.AnimalExtraId.UNIQUE_ANIMAL_02]=TppMotherBaseManagementConst.ANIMAL_130,
-[e.AnimalExtraId.UNIQUE_ANIMAL_03]=TppMotherBaseManagementConst.ANIMAL_2250
+  [e.AnimalExtraId.UNIQUE_ANIMAL_00]=TppMotherBaseManagementConst.ANIMAL_1900,
+  [e.AnimalExtraId.UNIQUE_ANIMAL_01]=TppMotherBaseManagementConst.ANIMAL_610,
+  [e.AnimalExtraId.UNIQUE_ANIMAL_02]=TppMotherBaseManagementConst.ANIMAL_130,
+  [e.AnimalExtraId.UNIQUE_ANIMAL_03]=TppMotherBaseManagementConst.ANIMAL_2250
 }
 function e.Messages()
   return
@@ -23,13 +23,13 @@ end
 function e.OnAllocate(e)
 end
 function e.Init(n)
-e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
-mvars.ani_questTargetList={}
-mvars.ani_questGameObjectIdList={}
-mvars.ani_isQuestSetup=false
+  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+  mvars.ani_questTargetList={}
+  mvars.ani_questGameObjectIdList={}
+  mvars.ani_isQuestSetup=false
 end
 function e.OnReload()
-e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
 function e.OnMessage(l,d,n,a,i,t,s)
   Tpp.DoMessage(e.messageExecTable,TppMission.CheckMessageOption,l,d,n,a,i,t,s)

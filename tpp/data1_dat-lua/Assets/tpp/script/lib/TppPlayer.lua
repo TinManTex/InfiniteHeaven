@@ -1673,14 +1673,26 @@ function this.Init(a)
   end
   TppEffectUtility.SetSandWindEnable(false)
 end
-function this.SetSelfSubsistenceOnHardMission()
-  if TppMission.IsSubsistenceMission()then
-    e.SetInitWeapons(TppMain.subsistenceLoadouts[gvars.isManualSubsistence+1])--tex subs loadouts, lua index from 1
-    --e.SetInitWeapons(TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE)--tex ORIG:
+function this.SetSelfSubsistenceOnHardMission()--tex reworked
+  local loadout = gvars.subsistenceLoadout
+  if TppMission.IsSubsistenceMission() and loadout==0 then
+    loadout=1
+  end
+  if loadout > 0 then
+    e.SetInitWeapons(TppMain.subsistenceLoadouts[loadout])--tex subs loadouts, lua index from 1
+  end
+  if TppMission.IsSubsistenceMission() then
     e.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
     e.RegisterTemporaryPlayerType{partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
   end
 end
+--[[function this.SetSelfSubsistenceOnHardMission()--tex ORIG:
+  if TppMission.IsSubsistenceMission()then
+    e.SetInitWeapons(TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE)
+    e.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
+    e.RegisterTemporaryPlayerType{partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
+  end
+end--]]
 function this.OnReload()
   e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end

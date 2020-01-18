@@ -1,159 +1,188 @@
 local this={}
-this.modVersion = "r20"
+this.modVersion = "r26"
 this.modName = "Infinite Heaven"
 local e=this--tex CULL: once deminified
 local IsFunc=Tpp.IsTypeFunc
---tex button press system
---tex REFACTOR: until we can load our own lua files this is a good a spot as any
-this.prevButtons={
-  [bit.tohex(PlayerPad.DECIDE)]=false,
-  [bit.tohex(PlayerPad.STANCE)]=false,
-  [bit.tohex(PlayerPad.ACTION)]=false,
-  [bit.tohex(PlayerPad.RELOAD)]=false,
-  [bit.tohex(PlayerPad.STOCK)]=false,
-  [bit.tohex(PlayerPad.MB_DEVICE)]=false,
-  [bit.tohex(PlayerPad.CALL)]=false,
-  [bit.tohex(PlayerPad.UP)]=false,
-  [bit.tohex(PlayerPad.DOWN)]=false,
-  [bit.tohex(PlayerPad.LEFT)]=false,
-  [bit.tohex(PlayerPad.RIGHT)]=false,
-  [bit.tohex(PlayerPad.SIDE_ROLL)]=false,
-  [bit.tohex(PlayerPad.ZOOM_CHANGE)]=false,
-  [bit.tohex(PlayerPad.LIGHT_SWITCH)]=false,
-  [bit.tohex(PlayerPad.EVADE)]=false,
-  --[[[bit.tohex(PlayerPad.VEHICLE_FIRE)]=false,--]]--tex button/bitmask always set for some reason
-  [bit.tohex(PlayerPad.VEHICLE_CALL)]=false,
-  [bit.tohex(PlayerPad.VEHICLE_DASH)]=false,
-  --[[[bit.tohex(PlayerPad.BUTTON_PLACE_MARKER)]=false,--]]--tex button/bitmask always set for some reason
-  --[[[bit.tohex(PlayerPad.PLACE_MARKER)]=false,--]]--tex button/bitmask always set for some reason
-  [bit.tohex(PlayerPad.INTERROGATE)]=false,
-  [bit.tohex(PlayerPad.RIDE_ON)]=false,
-  [bit.tohex(PlayerPad.RIDE_OFF)]=false,
-  [bit.tohex(PlayerPad.VEHICLE_CHANGE_SIGHT)]=false,
-  [bit.tohex(PlayerPad.VEHICLE_LIGHT_SWITCH)]=false,
-  [bit.tohex(PlayerPad.VEHICLE_TOGGLE_WEAPON)]=false,
-  [bit.tohex(PlayerPad.JUMP)]=false,
-  [bit.tohex(PlayerPad.MOVE_ACTION)]=false,
-  [bit.tohex(PlayerPad.PRIMARY_WEAPON)]=false,
-  [bit.tohex(PlayerPad.SECONDARY_WEAPON)]=false,
-  --[[[bit.tohex(PlayerPad.STICK_L)]=false,
-  [bit.tohex(PlayerPad.STICK_R)]=false,
-  [bit.tohex(PlayerPad.TRIGGER_L)]=false,
-  [bit.tohex(PlayerPad.TRIGGER_R)]=false,
-  [bit.tohex(PlayerPad.TRIGGER_ACCEL)]=false,
-  [bit.tohex(PlayerPad.TRIGGER_BREAK)]=false,
-  --[bit.tohex(PlayerPad.ALL)]=false--]]
+--tex the bulk of my shit REFACTOR: until we can load our own lua files this is a good a spot as any
+--tex button press system. TODO: work out the duplicate bitmasks/those that don't work, and those that are missing
+this.buttonMasks={--tex: SYNC: buttonstate
+  PlayerPad.DECIDE,
+  PlayerPad.STANCE,
+  PlayerPad.ACTION,
+  PlayerPad.RELOAD,
+  PlayerPad.STOCK,
+  PlayerPad.MB_DEVICE,
+  PlayerPad.CALL,
+  PlayerPad.UP,
+  PlayerPad.DOWN,
+  PlayerPad.LEFT,
+  PlayerPad.RIGHT,
+  PlayerPad.SIDE_ROLL,
+  PlayerPad.ZOOM_CHANGE,
+  PlayerPad.LIGHT_SWITCH,
+  PlayerPad.EVADE,
+  --PlayerPad.VEHICLE_FIRE,--]]--tex button/bitmask always set for some reason
+  PlayerPad.VEHICLE_CALL,
+  PlayerPad.VEHICLE_DASH,
+  --PlayerPad.BUTTON_PLACE_MARKER,--]]--tex button/bitmask always set for some reason
+  --PlayerPad.PLACE_MARKER,--]]--tex button/bitmask always set for some reason
+  PlayerPad.INTERROGATE,
+  PlayerPad.RIDE_ON,
+  PlayerPad.RIDE_OFF,
+  PlayerPad.VEHICLE_CHANGE_SIGHT,
+  PlayerPad.VEHICLE_LIGHT_SWITCH,
+  PlayerPad.VEHICLE_TOGGLE_WEAPON,
+  PlayerPad.JUMP,
+  PlayerPad.MOVE_ACTION,
+  PlayerPad.PRIMARY_WEAPON,
+  PlayerPad.SECONDARY_WEAPON,
+  --[[PlayerPad.STICK_L,
+  PlayerPad.STICK_R,
+  PlayerPad.TRIGGER_L,
+  PlayerPad.TRIGGER_R,
+  PlayerPad.TRIGGER_ACCEL,
+  PlayerPad.TRIGGER_BREAK,
+  --PlayerPad.ALL--]]
 }
-function this.UpdateKeys()
-  --tex cant figure out anything with no feedback, 
-  -- RETRY: again some day
-  -- prevbuttons = PlayerVars.scannedButtonsDirect doesnt work
-  -- pb = bit.tohex(PlayerVars.scannedButtonsDirect)
-  -- -> (bit.band(tobit(PlayerVars.scannedButtonsDirect),button)==button) doesnt work (pb reads as other buttons pressed)
-  -- fuck it, just brute force it, more or less would amount to same anyway, but hash table not good in general for performance, esp vs above
-  -- TODO: PERF: cull the table down to those you're going to use
-  this.prevButtons[bit.tohex(PlayerPad.DECIDE)] = this.ButtonDown(PlayerPad.DECIDE)
-  this.prevButtons[bit.tohex(PlayerPad.STANCE)] = this.ButtonDown(PlayerPad.STANCE)
-  this.prevButtons[bit.tohex(PlayerPad.ACTION)] = this.ButtonDown(PlayerPad.ACTION)
-  this.prevButtons[bit.tohex(PlayerPad.RELOAD)] = this.ButtonDown(PlayerPad.RELOAD)
-  this.prevButtons[bit.tohex(PlayerPad.STOCK)] = this.ButtonDown(PlayerPad.STOCK)
-  this.prevButtons[bit.tohex(PlayerPad.MB_DEVICE)] = this.ButtonDown(PlayerPad.MB_DEVICE)
-  this.prevButtons[bit.tohex(PlayerPad.CALL)] = this.ButtonDown(PlayerPad.CALL)
-  this.prevButtons[bit.tohex(PlayerPad.UP)] = this.ButtonDown(PlayerPad.UP)
-  this.prevButtons[bit.tohex(PlayerPad.DOWN)] = this.ButtonDown(PlayerPad.DOWN)
-  this.prevButtons[bit.tohex(PlayerPad.LEFT)] = this.ButtonDown(PlayerPad.LEFT)
-  this.prevButtons[bit.tohex(PlayerPad.RIGHT)] = this.ButtonDown(PlayerPad.RIGHT)
-  this.prevButtons[bit.tohex(PlayerPad.SIDE_ROLL)] = this.ButtonDown(PlayerPad.SIDE_ROLL)
-  this.prevButtons[bit.tohex(PlayerPad.ZOOM_CHANGE)] = this.ButtonDown(PlayerPad.ZOOM_CHANGE)
-  this.prevButtons[bit.tohex(PlayerPad.LIGHT_SWITCH)] = this.ButtonDown(PlayerPad.LIGHT_SWITCH)
-  this.prevButtons[bit.tohex(PlayerPad.EVADE)] = this.ButtonDown(PlayerPad.EVADE)
-  --this.prevButtons[bit.tohex(PlayerPad.VEHICLE_FIRE)] = this.ButtonDown(PlayerPad.VEHICLE_FIRE)--tex button/bitmask always set for some reason
-  this.prevButtons[bit.tohex(PlayerPad.VEHICLE_CALL)] = this.ButtonDown(PlayerPad.VEHICLE_CALL)
-  this.prevButtons[bit.tohex(PlayerPad.VEHICLE_DASH)] = this.ButtonDown(PlayerPad.VEHICLE_DASH)
-  --this.prevButtons[bit.tohex(PlayerPad.BUTTON_PLACE_MARKER)] = this.ButtonDown(PlayerPad.BUTTON_PLACE_MARKER)--tex button/bitmask always set for some reason
-  --this.prevButtons[bit.tohex(PlayerPad.PLACE_MARKER)] = this.ButtonDown(PlayerPad.PLACE_MARKER)--tex button/bitmask always set for some reason
-  this.prevButtons[bit.tohex(PlayerPad.INTERROGATE)] = this.ButtonDown(PlayerPad.INTERROGATE)
-  this.prevButtons[bit.tohex(PlayerPad.RIDE_ON)] = this.ButtonDown(PlayerPad.RIDE_ON)
-  this.prevButtons[bit.tohex(PlayerPad.RIDE_OFF)] = this.ButtonDown(PlayerPad.RIDE_OFF)
-  this.prevButtons[bit.tohex(PlayerPad.VEHICLE_CHANGE_SIGHT)] = this.ButtonDown(PlayerPad.VEHICLE_CHANGE_SIGHT)
-  this.prevButtons[bit.tohex(PlayerPad.VEHICLE_LIGHT_SWITCH)] = this.ButtonDown(PlayerPad.VEHICLE_LIGHT_SWITCH)
-  this.prevButtons[bit.tohex(PlayerPad.VEHICLE_TOGGLE_WEAPON)] = this.ButtonDown(PlayerPad.VEHICLE_TOGGLE_WEAPON)
-  this.prevButtons[bit.tohex(PlayerPad.JUMP)] = this.ButtonDown(PlayerPad.JUMP)
-  this.prevButtons[bit.tohex(PlayerPad.MOVE_ACTION)] = this.ButtonDown(PlayerPad.MOVE_ACTION)
-  this.prevButtons[bit.tohex(PlayerPad.PRIMARY_WEAPON)] = this.ButtonDown(PlayerPad.PRIMARY_WEAPON)
-  this.prevButtons[bit.tohex(PlayerPad.SECONDARY_WEAPON)] = this.ButtonDown(PlayerPad.SECONDARY_WEAPON)
-  --[[this.prevButtons[bit.tohex(PlayerPad.STICK_L)] = this.ButtonDown(PlayerPad.STICK_L)
-  this.prevButtons[bit.tohex(PlayerPad.STICK_R)] = this.ButtonDown(PlayerPad.STICK_R)
-  this.prevButtons[bit.tohex(PlayerPad.TRIGGER_L)] = this.ButtonDown(PlayerPad.TRIGGER_L)
-  this.prevButtons[bit.tohex(PlayerPad.TRIGGER_R)] = this.ButtonDown(PlayerPad.TRIGGER_R)
-  this.prevButtons[bit.tohex(PlayerPad.TRIGGER_ACCEL)] = this.ButtonDown(PlayerPad.TRIGGER_ACCEL)
-  this.prevButtons[bit.tohex(PlayerPad.TRIGGER_BREAK)] = this.ButtonDown(PlayerPad.TRIGGER_BREAK)
-  --this.prevButtons[bit.tohex(PlayerPad.ALL)] = this.ButtonDown(PlayerPad.ALL)--]]
+this.buttonState={--tex: SYNC: buttonmasks
+  [PlayerPad.DECIDE]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.STANCE]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.ACTION]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.RELOAD]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.STOCK]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.MB_DEVICE]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.CALL]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.UP]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.DOWN]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.LEFT]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.RIGHT]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.SIDE_ROLL]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.ZOOM_CHANGE]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.LIGHT_SWITCH]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.EVADE]={isPressed=false,holdTime=0,startTime=0},
+  --[[[PlayerPad.VEHICLE_FIRE]={isPressed=false,holdTime=0,startTime=0},--]]--tex button/bitmask always set for some reason
+  [PlayerPad.VEHICLE_CALL]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.VEHICLE_DASH]={isPressed=false,holdTime=0,startTime=0},
+  --[[[PlayerPad.BUTTON_PLACE_MARKER]={isPressed=false,holdTime=0,startTime=0},--]]--tex button/bitmask always set for some reason
+  --[[[PlayerPad.PLACE_MARKER]={isPressed=false,holdTime=0,startTime=0},--]]--tex button/bitmask always set for some reason
+  [PlayerPad.INTERROGATE]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.RIDE_ON]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.RIDE_OFF]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.VEHICLE_CHANGE_SIGHT]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.VEHICLE_LIGHT_SWITCH]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.VEHICLE_TOGGLE_WEAPON]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.JUMP]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.MOVE_ACTION]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.PRIMARY_WEAPON]={isPressed=false,holdTime=0,startTime=0},
+  [PlayerPad.SECONDARY_WEAPON]={isPressed=false,holdTime=0,startTime=0},
+}
+function this.UpdatePressedButtons()
+  for i, button in pairs(this.buttonMasks) do
+    this.buttonState[button].isPressed = this.ButtonDown(button)
+  end
+end
+function this.UpdateHeldButtons()
+  for i, button in pairs(this.buttonMasks) do
+    if this.buttonState[button].holdTime~=0 then
+      if this.OnButtonDown(button)then
+        this.buttonState[button].startTime=Time.GetRawElapsedTimeSinceStartUp()
+      end
+      if not this.ButtonDown(button)then
+        this.buttonState[button].startTime=0
+      end
+    end
+  end
 end
 function this.ButtonDown(button)
   --[[if (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then
     TppUiCommand.AnnounceLogView("ButtonPressed:" .. bit.tohex(button))--tex DEBUG: CULL:
   end--]]
-  if (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then
-    return true
-  end
-  return false
+  return bit.band(PlayerVars.scannedButtonsDirect,button)==button
 end
---tex GOTCHA: will have a gameframe of latency
+--tex GOTCHA: OnButton functions will have a gameframe of latency, sorry to dissapoint all the pro gamers
 function this.OnButtonDown(button)
-  if not this.prevButtons[bit.tohex(button)] and (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then
-    return true
-  end
-  return false
+  return not this.buttonState[button].isPressed and (bit.band(PlayerVars.scannedButtonsDirect,button)==button)
 end
 function this.OnButtonUp(button)
-  if this.prevButtons[bit.tohex(button)] and not (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then
+  return this.buttonState[button].isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,button)==button)
+end
+function this.OnButtonHoldTime(button)
+  local buttonState = this.buttonState[button]
+  if buttonState.holdTime~=0 and buttonState.startTime~=0 and Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > buttonState.holdTime then
+    buttonState.startTime=0
     return true
   end
   return false
 end
+--[[function this.TimerReset(timer,length)--tex REF: CULL: using the code straight for now, no point in throwing extra function calls at it for no real benefit, and the games timer system will do for most uses
+  timer.holdTime=length
+end
+function this.TimerStart(timer)
+  timer.startTime=Time.GetRawElapsedTimeSinceStartUp()
+end
+function this.TimerStop(timer)
+  timer.startTime=0
+end
+function this.TimerIsDone(timer)
+  return timer.holdTime~=0 and timer.startTime~=0 and Time.GetRawElapsedTimeSinceStartUp() - timer.startTime > timer.holdTime
+end--]]
 --tex mod settings setup
-this.SETTING_NAMES={
-  "SUBSISTENCE",
-  "REVENGE",
-  --[["HARD",--]]
-  "PLAYER_HEALTH_MULT",
-  "ENEMY_HEALTH_MULT",
-  "MAX"
-}
-this.SETTING_TYPE=TppDefine.Enum(this.SETTING_NAMES)
-this.subsistenceLoadouts={--tex off,pure,secondary. off (but still need table for normal subsistence missions)
-  TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE,
+this.subsistenceLoadouts={--tex pure,secondary.
   TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE,
   TppDefine.SUBSISTENCE_SECONDARY_INITIAL_WEAPON_TABLE
 }
 this.switchSlider={max=1,min=0,increment=1}
-this.subsistenceLoadoutSlider={max=#this.subsistenceLoadouts-1,min=0,increment=1}
 this.healthMultSlider={max=4,min=0,increment=0.2}
 this.switchSettingNames={"Off","On"}
 function this.SettingInfoHealth()
   return vars.playerLifeMax
 end
 function this.ChangeSetting(modSetting,value)
-  gvars[modSetting.gvar]=gvars[modSetting.gvar]+value
-  gvars[modSetting.gvar]=TppMath.Clamp(gvars[modSetting.gvar],modSetting.slider.min,modSetting.slider.max)
+  if modSetting.gvar~=nil then
+    gvars[modSetting.gvar]=gvars[modSetting.gvar]+value
+    gvars[modSetting.gvar]=TppMath.Clamp(gvars[modSetting.gvar],modSetting.slider.min,modSetting.slider.max)
+  end
+  if IsFunc(modSetting.onChange) then
+    modSetting.onChange()
+  end
 end
-this.modSettings = {
-  [this.SETTING_TYPE.SUBSISTENCE] = {
-    name="Subsistence",
+this.modSettings={
+  {
+    name="Subsistence Mode",
     gvar="isManualSubsistence",
     default=0,
-    slider=this.subsistenceLoadoutSlider,
+    slider={max=2,min=0,increment=1},
+    settingNames={"Off","Pure","Buddy enabled"},
+    onChange=function()
+      if gvars.isManualSubsistence==0 then
+        gvars.subsistenceLoadout=0
+      elseif gvars.subsistenceLoadout==0 then
+        gvars.subsistenceLoadout=1
+      end
+    end
+  },
+  {
+    name="Subsistence Weapon Loadout",
+    gvar="subsistenceLoadout",
+    default=0,
+    slider={max=#this.subsistenceLoadouts,min=0,increment=1},
     settingNames={"Off","Pure","Secondary enabled"},
   },
-  [this.SETTING_TYPE.REVENGE] = {
+  {
     name="Enemy Preparedness",
     gvar="revengeMode",    
     default=0,
     slider=this.switchSlider,
     settingNames={"Regular","Unrestrained"},
   },
-  [this.SETTING_TYPE.PLAYER_HEALTH_MULT] = {
+  {
+    name="General Parameters",
+    gvar="modParameters",
+    default=0,
+    slider=this.switchSlider,
+    settingNames={"Tweaked","Default(mods can override)"},
+  },
+  {
     name="Player life scale",
     gvar="playerHealthMult",
     default=1,
@@ -161,27 +190,37 @@ this.modSettings = {
     isFloatOption=true,
     infoFunc=this.SettingInfoHealth,
   },
-  [this.SETTING_TYPE.ENEMY_HEALTH_MULT] = {
+  {
     name="Enemy life scale",
     gvar="enemyHealthMult",
     default=1,
     slider=this.healthMultSlider,
     isFloatOption=true,
-  }
+  },
+  {
+    name="Turn off menu",
+    default=0,
+    slider=this.switchSlider,
+    settingNames={">","Off"},
+    onChange=function()
+      this.modMenuOn=false
+      this.currentOption=1
+    end
+  },
 }
-this.currentOption=0--tex lua tables are indexed from 1, but fox enum implementation seems to be 0 indexed
+this.currentOption=1--tex lua tables are indexed from 1
 this.modMenuOn=false--tex RETRY: scoured for ways to get menu status, give up for now HAX
 --tex mod settings menu manipulation
 function this.NextOption()
   this.currentOption=this.currentOption+1
-  if this.currentOption > table.getn(this.modSettings) then
-    this.currentOption = 0
+  if this.currentOption > #this.modSettings then
+    this.currentOption = 1
   end
 end
 function this.PreviousOption()
   this.currentOption = this.currentOption-1
-  if this.currentOption < 0 then
-    this.currentOption = table.getn(this.modSettings)
+  if this.currentOption < 1 then
+    this.currentOption = #this.modSettings
   end
 end
 function this.NextSetting()
@@ -197,9 +236,13 @@ function this.DisplayCurrentSetting()
 end
 function this.DisplaySetting(index)
   local modSetting = this.modSettings[index]
-  local option=gvars[modSetting.gvar] --tex getting a bit dense to parse lol
+  local option=gvars[modSetting.gvar]--tex getting a bit dense to parse lol
   if modSetting.settingNames ~= nil then
-    option=modSetting.settingNames[option+1]--tex !SANITY: check you're in bounds dude lol
+    if option~=nil then
+      option=modSetting.settingNames[option+1]--tex lua index from 1
+    else
+      option=modSetting.settingNames[1]
+    end
   elseif modSetting.isFloatOption then
     option=math.floor(100*option) .. "%"
   end
@@ -211,48 +254,51 @@ function this.DisplaySetting(index)
   TppUiCommand.AnnounceLogView(index .. ":" .. modSetting.name .. "=" .. option)--tex thank you ThreeSocks3, you're a god damn legend for finding custom text output, heres a better way to do things than string.format, in lua .. concatenates strings, does simple format conversion
 end
 function this.DisplaySettings()--tex display all
-  for i=0,this.SETTING_TYPE.MAX-1 do
+  for i=1,#this.modSettings do
     this.DisplaySetting(i)
   end
 end
 function this.ResetSettings()
-  for i=0,(this.SETTING_TYPE.MAX-1) do
-    gvars[this.modSettings[i].gvar] = this.modSettings[i].default
+  for i=1,#this.modSettings do
+    local gvar = this.modSettings[i].gvar
+    if gvar~=nil then
+      gvars[this.modSettings[i].gvar] = this.modSettings[i].default
+    end
   end
 end
 function this.ResetSettingsDisplay()
-  TppUiCommand.AnnounceLogDelayTime(0)
   TppUiCommand.AnnounceLogView("Setting mod options to defaults...")
-  for i=0,(this.SETTING_TYPE.MAX-1) do
-    gvars[this.modSettings[i].gvar] = this.modSettings[i].default
-    this.DisplaySetting(i)
+  for i=1,#this.modSettings do
+    local modSetting = this.modSettings[i]
+    if modSetting.gvar~=nil then
+      gvars[modSetting.gvar] = modSetting.default
+      this.DisplaySetting(i)
+    end
   end
 end
 function this.UpdateModMenu()--tex RETRY: called from TppMain.Update, had 'troubles' running in main
-  ModStart()
+  ModStart()--tex: TODO: move to actual run once on startup init thing, make sure to check ModStart itself to see affected code
+  this.UpdateHeldButtons()
   if not mvars.mis_missionStateIsNotInGame then --tex actually loaded game, ie at least 'continued' from title screen
     if TppMission.IsHelicopterSpace(vars.missionCode)then
       --tex RETRY: still not happy, want to read menu status but cant find any way
-      if this.OnButtonDown(PlayerPad.LIGHT_SWITCH) then    
+      if this.OnButtonHoldTime(PlayerPad.LIGHT_SWITCH) then
         this.modMenuOn = not this.modMenuOn
         if this.modMenuOn then
-          TppUiCommand.AnnounceLogDelayTime(0)       
           TppUiCommand.AnnounceLogView(this.modName .. " " .. this.modVersion)
           this.DisplayCurrentSetting()
         else
-          TppUiCommand.AnnounceLogDelayTime(0)
           TppUiCommand.AnnounceLogView("Menu Off")
         end
       end
-      if this.OnButtonDown(PlayerPad.RELOAD) then    
-        if this.modMenuOn then
+      if this.modMenuOn then
+        if this.OnButtonDown(PlayerPad.MB_DEVICE) then
+          this.modMenuOn=false
+          TppUiCommand.AnnounceLogView("Menu Off")
+        end
+        if this.OnButtonDown(PlayerPad.RELOAD) then    
           this.ResetSettingsDisplay()
         end
-      end
-      if this.OnButtonDown(PlayerPad.STANCE) then
-      --this.DEBUG_DisplayButtonsHex()
-      end
-      if this.modMenuOn then
         if this.OnButtonDown(PlayerPad.UP) then
           this.PreviousOption()
           this.DisplayCurrentSetting()
@@ -267,24 +313,33 @@ function this.UpdateModMenu()--tex RETRY: called from TppMain.Update, had 'troub
         end
         if this.OnButtonDown(PlayerPad.RIGHT) then
           this.NextSetting()
+          if this.modMenuOn then--tex: SPECIAL: RETRY: suppress-v- for Menu off which changes currentoption-^-
           this.DisplayCurrentSetting()
+          end
         end
       end
     else--!ishelispace
       this.modMenuOn = false
-      if this.OnButtonDown(PlayerPad.LIGHT_SWITCH) then
-        TppUiCommand.AnnounceLogView(TppMain.modName .. " " .. TppMain.modVersion .. " current settings:")
-        this.DisplaySettings() 
-      end
+      --if this.OnButtonDown(PlayerPad.LIGHT_SWITCH) then
+      --if this.OnButtonHoldTime(PlayerPad.LIGHT_SWITCH) then
+      --  TppUiCommand.AnnounceLogView(TppMain.modName .. " " .. TppMain.modVersion .. " current settings:")
+      --  this.DisplaySettings() 
+      --end
       --[[if this.OnButtonDown(PlayerPad.STANCE) then
-        
       end--]]
     end
   end --ingame
-  this.UpdateKeys()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
+  this.UpdatePressedButtons()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
 end
 function ModStart()--tex currently called from UpdateModMenu, RETRY: find an actual place for on start/run once init.
-  gvars.isManualHard = false--tex PATCHUP: not currently exposed to mod menu, force off to patch those that might have saves from prior mod with it on  
+  gvars.isManualHard = false--tex PATCHUP: not currently exposed to mod menu, force off to patch those that might have saves from prior mod with it on 
+  this.buttonState[PlayerPad.LIGHT_SWITCH].holdTime=1--tex setup hold buttons
+end
+function this.ModWelcome()
+  TppUiCommand.AnnounceLogView(this.modName .. " " .. this.modVersion)
+  TppUiCommand.AnnounceLogView("Hold X key or Dpad Right for 1 second to enable menu")
+end
+function this.ModMissionMessage()
 end
 --tex soldier2parametertables shiz REFACTOR: find somewhere nicer to put/compartmentalize this, Solider2ParameterTables.lua aparently can't be referenced even though there's a TppSolder2Parameter string in the exe, load hang on trying to do anything with it (and again no debug feedback to know why the fuck anything)
 local nightSightDebug={
@@ -485,7 +540,7 @@ this.soldierParametersMod={--tex: SYNC: soldierParametersDefault. Ugly, but don'
   },
   lifeParameterTable=this.lifeParameterTableMod,
   zombieParameterTable={highHeroicValue=1e3}
-}--tex end
+}--tex end of shit
 local l=Tpp.ApendArray
 local n=Tpp.DEBUG_StrCode32ToString
 local i=Tpp.IsTypeFunc
@@ -699,7 +754,7 @@ function this.OnAllocate(n)
     end
     --tex changed to issubs check, more robust even without my mod
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then
-    if TppMission.IsSubsistenceMission() then
+    if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=2 then--tex buddy subsistence mode TODO: enum that shit if used often or number of settings gets any bigger
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then
@@ -713,14 +768,15 @@ function this.OnAllocate(n)
     TppSequence.SaveMissionStartSequence()
     TppScriptVars.SetSVarsNotificationEnabled(true)
   end
+  if gvars.modParameters==0 then--tex use tweaked soldier parameters
   --tex REF: this.lifeParameterTableDefault={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}
-  local healthMult=gvars.enemyHealthMult--tex mod enemy health scale
-  this.lifeParameterTableMod.maxLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxLife,healthMult)
-  this.lifeParameterTableMod.maxLimbLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxLimbLife,healthMult)
-  this.lifeParameterTableMod.maxArmorLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxArmorLife,healthMult)
-  this.lifeParameterTableMod.maxHelmetLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxHelmetLife,healthMult)
-  TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParametersDefault)--tex reloadsoldierparams changes
-  --
+    local healthMult=gvars.enemyHealthMult--tex mod enemy health scale
+    this.lifeParameterTableMod.maxLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxLife,healthMult)
+    this.lifeParameterTableMod.maxLimbLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxLimbLife,healthMult)
+    this.lifeParameterTableMod.maxArmorLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxArmorLife,healthMult)
+    this.lifeParameterTableMod.maxHelmetLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxHelmetLife,healthMult)
+    TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParametersDefault)--tex reloadsoldierparams changes
+  end--
   if n.enemy then
     if t(n.enemy.soldierPowerSettings)then
       TppEnemy.SetUpPowerSettings(n.enemy.soldierPowerSettings)
