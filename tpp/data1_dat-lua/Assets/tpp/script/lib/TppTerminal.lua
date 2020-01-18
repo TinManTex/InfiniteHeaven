@@ -1,3 +1,6 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: data1
+-- FILEPATH: \Assets\tpp\script\lib\TppTerminal.lua
 local e={}
 --local mm=SplashScreen.Create("mm","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5013_l_alp.ftex",1280,640)  
 --SplashScreen.Show(mm,0,0.5,0)--tex dingo

@@ -1,3 +1,6 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: data1
+-- FILEPATH: \Assets\tpp\script\lib\TppMission.lua
 local e={}
 --local gg=SplashScreen.Create("gg","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5007_l_alp.ftex",1280,640)
 --SplashScreen.Show(gg,0,0.5,0)--tex bear
@@ -1470,7 +1473,7 @@ function this.GetNormalMissionCodeFromHardMission(e)
   return e-1e3
 end--]]
 function this.IsSubsistenceMission()
-  if(vars.missionCode==11043)or(vars.missionCode==11044)or(gvars.isManualSubsistence > 0)then--tex added subsitence toggle
+  if(vars.missionCode==11043)or(vars.missionCode==11044)or(gvars.isManualSubsistence > 0)then--tex IsSubsistenceMission() - added subsitence toggle
     return true
   else
     return false
@@ -1907,9 +1910,9 @@ function this.OnPlayerDead(i,n)
 end
 function this.OnEndMissionPreparation(n,i)
   mvars.mis_selectedDeployTime=n
-  if this.IsSubsistenceMission() then--tex force ASAP mission time
-    mvars.mis_selectedDeployTime=TppClock.DEPLOY_TIME.CURRENT
-  end--
+  --if this.IsSubsistenceMission() then--tex
+    --mvars.mis_selectedDeployTime=TppClock.DEPLOY_TIME.CURRENT--tex force ASAP mission time CULL: not needed since menu disables
+  --end--
   if gvars.mis_nextMissionCodeForEmergency==0 then
     local s
     if gvars.heli_missionStartRoute==0 then
@@ -3665,9 +3668,6 @@ function this.OnMissionStart()
       gvars.mis_quietCallCountOnMissionStart=gvars.mis_quietCallCountOnMissionStart-1
     end
   end
-  --[[if this.IsManualSubsistenceMission() then--tex force sieze vehicle on subs mission start. Pulls vehicle fine, but doesn't credit to motherbase. CULL: RETRY: DOC: force no vehicle drop
-    this.SeizeReliefVehicleOnClear()  
-  end--]]
 end
 function this.SetPlayRecordClearInfo()
   local e,n=TppStory.CalcAllMissionClearedCount()

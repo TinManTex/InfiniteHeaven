@@ -1,3 +1,6 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: data1
+-- FILEPATH: \Assets\tpp\script\lib\TppPlayer.lua
 local e={}
 --local hh=SplashScreen.Create("hh","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5008_l_alp.ftex",1280,640)  
 --SplashScreen.Show(hh,0,0.5,0)--tex octopus
@@ -1454,9 +1457,9 @@ function this.Messages()
       {msg="WarpEnd",func=e.OnEndWarpByCboxDelivery},
       {msg="LandingFromHeli",func=function()
         e.UpdateCheckPointOnMissionStartDrop()
-        if TppMission.IsManualSubsistenceMission() then--tex force sieze vehicle on subs mission start, RETRY: do earlier or prevent spawn completely (ideal, set relief vehicle to none in mis prep UI). see inf heaven txt 'force no vehicle drop'.
+        --[[if TppMission.IsManualSubsistenceMission() then--tex CULL: now that have disable in menu. -force sieze vehicle on subs mission start, RETRY: do earlier or prevent spawn completely (ideal, set relief vehicle to none in mis prep UI). see inf heaven txt 'force no vehicle drop'.
           TppMission.SeizeReliefVehicleOnClear()  
-        end--
+        end--]]
       end},
       {msg="EndCarryAction",func=function()
         if mvars.ply_requestedMissionClearCameraCarryOff then
@@ -1693,7 +1696,32 @@ function this.SetSelfSubsistenceOnHardMission()--tex reworked SUPERDEBUG:
       playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
     end--   
     this.RegisterTemporaryPlayerType(playerSettings)
-  end
+    
+    if gvars.isManualSubsistence==1 then--tex disable fulton on subsistence pure
+      vars.playerDisableActionFlag = PlayerDisableAction.FULTON--tex RETRY, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
+    end
+    
+    local equipmentDropToLv1={
+      TppEquip.EQP_IT_Fulton   
+    }
+    local equipmentOff={
+      TppEquip.EQP_HAND_ACTIVESONAR,
+      TppEquip.EQP_HAND_PHYSICAL,
+      TppEquip.EQP_HAND_PRECISION,
+      TppEquip.EQP_HAND_MEDICAL,
+      --[[TppEquip.EQP_IT_Fulton_WormHole,--]]      
+    }
+    for i, equip in pairs(equipmentDropToLv1) do
+      if Player.GetItemLevel(equip) > 1 then
+        Player.SetItemLevel(equip,1)
+      end
+    end
+    for i, equip in pairs(equipmentOff) do
+      if Player.GetItemLevel(equip) > 0 then
+        Player.SetItemLevel(equip,0)
+      end
+    end
+  end--
 end
 --[[function this.SetSelfSubsistenceOnHardMission()--tex ORIG:
   if TppMission.IsSubsistenceMission()then

@@ -1,3 +1,6 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: data1
+-- FILEPATH: \Assets\tpp\script\lib\TppRevenge.lua
 local e={}
 --local kk=SplashScreen.Create("kk","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5011_l_alp.ftex",1280,640)  
 --SplashScreen.Show(kk,0,0.5,0)--tex skorp

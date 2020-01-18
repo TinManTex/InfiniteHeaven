@@ -156,7 +156,7 @@ function e.IsInHelicopter(n)
   end
   return mvars.hel_heliPassengerTable[e]end
 function e.ForcePullOut()
-GameObject.SendCommand({type="TppHeli2",index=0},{id="PullOut",forced=true})
+  GameObject.SendCommand({type="TppHeli2",index=0},{id="PullOut",forced=true})
 end
 function e.AdjustBuddyDropPoint()
   if gvars.heli_missionStartRoute~=0 then
@@ -235,11 +235,15 @@ end
 function e.GetMissionStartHelicopterRoute()
   return gvars.heli_missionStartRoute
 end
-local n={[TppDefine.ENEMY_HELI_COLORING_TYPE.DEFAULT]={pack="",fova=""},[TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2"},[TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2"}}
+local n={
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.DEFAULT]={pack="",fova=""},
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2"},
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2"}
+}
 function e.GetEnemyColoringPack(e)
   return n[e].pack
 end
 function e.SetEnemyColoring(e)
-a({type="TppEnemyHeli",index=0},{id="SetColoring",coloringType=e,fova=n[e].fova})
+  a({type="TppEnemyHeli",index=0},{id="SetColoring",coloringType=e,fova=n[e].fova})
 end
 return e

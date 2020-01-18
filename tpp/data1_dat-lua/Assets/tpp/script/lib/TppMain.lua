@@ -1,10 +1,13 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: data1
+-- FILEPATH: \Assets\tpp\script\lib\TppMain.lua
 local e={}
 --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'did this compile?' indicator
 --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
 local this=e--tex DEMINIFY:
 --tex shit I want to keep at top for easy manual changing
 this.DEBUGMODE=false
-this.modVersion = "r32"
+this.modVersion = "r34"
 this.modName = "Infinite Heaven"
 --tex strings, till we figure out how to access custom values in .lang files this will have to do.
 --tex SYNC: with uses of TppUiCommand.AnnounceLogView
@@ -159,7 +162,7 @@ this.modSettings={
     gvarName="isManualSubsistence",
     default=0,
     slider={max=2,min=0,increment=1},
-    settingNames={"Off","Pure","Bounded (+Buddy +Suit)"},
+    settingNames={"Off","Pure (OSP -Items -Hand -Suit -Support -Fulton -Vehicle -Buddy)","Bounder (Pure +Buddy +Suit +Fulton)"},
     onChange=function()--tex DEPENDENCY: settings dependency, isManualSubsistence, subsistenceLoadout
       if gvars.isManualSubsistence==0 then
         gvars.subsistenceLoadout=0
@@ -188,7 +191,7 @@ this.modSettings={
     gvarName="modParameters",
     default=0,
     slider=this.switchSlider,
-    settingNames={"Tweaked","Default(mods can override)"},
+    settingNames={"Tweaked","Default (mods can override)"},
   },
   {
     name="Player life scale",
@@ -206,7 +209,7 @@ this.modSettings={
     isFloatSetting=true,
   },
   {
-    name="Unlock All Sideops",
+    name="Unlock Sideops (some currently don't spawn objectives)",
     gvarName="unlockSideOps",
     default=0,
     slider=this.switchSlider,
@@ -363,7 +366,7 @@ function this.DisplaySetting(optionIndex)
     info = modSetting.infoFunc()
   end
   TppUiCommand.AnnounceLogDelayTime(0)
-  TppUiCommand.AnnounceLogView(optionIndex..":"..modSetting.name.."="..settingText)--tex thank you ThreeSocks3, you're a god damn legend for finding custom text output, heres a better way to do things than string.format, in lua .. concatenates strings, does simple format conversion
+  TppUiCommand.AnnounceLogView(optionIndex..":"..modSetting.name.." = "..settingText)--tex thank you ThreeSocks3, you're a god damn legend for finding custom text output, heres a better way to do things than string.format, in lua .. concatenates strings, does simple format conversion
 end
 function this.DisplaySettings()--tex display all
   for i=1,#this.modSettings do
@@ -410,6 +413,7 @@ function this.UpdateModMenu()--tex RETRY: called from TppMission.Update, had 'tr
       if this.OnButtonHoldTime(this.toggleMenuButton) then
         this.modMenuOn = not this.modMenuOn
         if this.modMenuOn then
+          this.GetSetting()
           TppUiCommand.AnnounceLogView(this.modName.." "..this.modVersion)
           --this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
           if this.autoDisplayRate==0 then
@@ -447,12 +451,9 @@ function this.UpdateModMenu()--tex RETRY: called from TppMission.Update, had 'tr
       this.AutoDisplay()
     else--!ishelispace
       this.modMenuOn = false
-      if this.OnButtonDown(PlayerPad.LIGHT_SWITCH) then
-        TppUiCommand.AnnounceLogView("ene_soldierTypes")
-        ene_soldierTypes={}
-        Tpp.MergeTable(ene_soldierTypes,mvars.ene_soldierTypes)
-        for i,type in pairs(mvars.ene_soldierTypes)do
-          TppUiCommand.AnnounceLogView("["..tostring(type).."]")
+      if this.DEBUGMODE then
+        if this.OnButtonDown(PlayerPad.LIGHT_SWITCH) then
+          TppUiCommand.AnnounceLogView("")
         end
       end
     end
@@ -939,7 +940,7 @@ function this.OnAllocate(n)
       TppPlayer.MissionStartPlayerTypeSetting()
     else
       if TppMission.IsMissionStart()then
-        TppVarInit.InitializeForNewMission(n)
+        TppVarInit.InitializeForNewMission(n)     
         TppPlayer.MissionStartPlayerTypeSetting()
         if not TppMission.IsFOBMission(vars.missionCode)then
           TppSave.VarSave(vars.missionCode,true)
@@ -979,7 +980,7 @@ function this.OnAllocate(n)
     end
     --tex changed to issubs check, more robust even without my mod
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then
-    if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=this.SUBSISTENCE_BOUND then--tex buddy subsistence mode
+    if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=this.SUBSISTENCE_BOUND then--tex disable
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then

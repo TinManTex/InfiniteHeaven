@@ -17,24 +17,34 @@ local s={}
 s[1]={"/Assets/tpp/pack/ui/gz/gz_pause_key_setting_data.fpk","/Assets/tpp/pack/mission2/init/init.fpk"}
 s[5]=function(p)
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
-TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/init/title.fpk"
+  TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/init/title.fpk"
 end
 s[10010]=function(p)
   if TppPackList.IsMissionPackLabel"afterMissionClearMovie"then
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_SCRIPT)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
-TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10010/s10010_l02.fpk"
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10010/s10010_l02.fpk"
   else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
-TppPackList.AddLocationCommonScriptPack(p)
+    TppPackList.AddLocationCommonScriptPack(p)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10010/s10010_l01.fpk"TppHostage2.SetHostageType{gameObjectType="TppHostageUnique",hostageType="Ishmael"}
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10010/s10010_l01.fpk"
+    TppHostage2.SetHostageType{gameObjectType="TppHostageUnique",hostageType="Ishmael"}
     if TppHostage2.SetHostageType then
       TppHostage2.SetHostageType{gameObjectType="TppHostage2",hostageType="MobCyprus"}
       TppHostage2.SetHostageType{gameObjectType="TppHostageUnique2",hostageType="MobCyprus"}
     end
     if TppHostage2.SetUniquePartsPath then
-      local s={awake_doctor="/Assets/tpp/parts/chara/dct/dct1_main0_def_v00.parts",dct_p21_010410_0000="/Assets/tpp/parts/chara/dct/dct0_main0_def_v00.parts",dct_p21_010410_0001="/Assets/tpp/parts/chara/dct/dct0_main0_def_v00.parts",awake_nurse="/Assets/tpp/parts/chara/nrs/nrs2_main0_def_v00.parts",nrs_p21_010360_0000="/Assets/tpp/parts/chara/nrs/nrs0_main0_def_v00.parts",nrs_p21_010410_0000="/Assets/tpp/parts/chara/nrs/nrs0_main0_def_v00.parts",nrs_p21_010410_0001="/Assets/tpp/parts/chara/nrs/nrs0_main0_def_v00.parts",nrs_p21_010410_0002="/Assets/tpp/parts/chara/nrs/nrs0_main0_def_v00.parts"}
+      local s={
+      awake_doctor="/Assets/tpp/parts/chara/dct/dct1_main0_def_v00.parts",
+      dct_p21_010410_0000="/Assets/tpp/parts/chara/dct/dct0_main0_def_v00.parts",
+      dct_p21_010410_0001="/Assets/tpp/parts/chara/dct/dct0_main0_def_v00.parts",
+      awake_nurse="/Assets/tpp/parts/chara/nrs/nrs2_main0_def_v00.parts",
+      nrs_p21_010360_0000="/Assets/tpp/parts/chara/nrs/nrs0_main0_def_v00.parts",
+      nrs_p21_010410_0000="/Assets/tpp/parts/chara/nrs/nrs0_main0_def_v00.parts",
+      nrs_p21_010410_0001="/Assets/tpp/parts/chara/nrs/nrs0_main0_def_v00.parts",
+      nrs_p21_010410_0002="/Assets/tpp/parts/chara/nrs/nrs0_main0_def_v00.parts"
+      }
       for s,p in pairs(s)do
         TppHostage2.SetUniquePartsPath{gameObjectType="TppHostageUnique2",locatorName=s,parts=p}
       end
@@ -289,7 +299,7 @@ s[10100]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_DECOY)
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
-TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)do
     local o="sol_target_0000"
     local s=EnemyFova.INVALID_FOVA_VALUE
     local t="hos_diamond_0000"
@@ -426,7 +436,7 @@ s[10130]=function(p)
   TppPackList.AddMissionPack(TppHelicopter.GetEnemyColoringPack(TppDefine.ENEMY_HELI_COLORING_TYPE.RED))
   if TppPackList.IsMissionPackLabel"CamoParasiteAllKill"then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
-TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV)
+    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV_CANNON)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10130/s10130_area02.fpk"
@@ -434,7 +444,7 @@ TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10130/s10130_area03.fpk"
   else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
-TppPackList.AddDefaultMissionAreaPack(p)
+    TppPackList.AddDefaultMissionAreaPack(p)
   end
 end
 s[10140]=function(p)
@@ -449,13 +459,13 @@ s[10140]=function(p)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_Buddy.fpk"
   elseif TppPackList.IsMissionPackLabel"AfterClear"then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
-TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.OCELOT)
+    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.OCELOT)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.CODETALKER)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10140/s10140_area00.fpk"
   else
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.CODETALKER)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
-TppPackList.AddDefaultMissionAreaPack(p)
+    TppPackList.AddDefaultMissionAreaPack(p)
   end
 end
 s[10150]=function(p)
@@ -639,14 +649,14 @@ s[30050]=function(i)
       gvars.f30050_missionPackIndex=2
     elseif a then
       TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30051.fpk"
-TppPackList.SetMissionPackLabelName"DemoStage"gvars.f30050_missionPackIndex=1
+      TppPackList.SetMissionPackLabelName"DemoStage"gvars.f30050_missionPackIndex=1
     else
       do
         TppEneFova.AddUniquePackage{type="hostage",body={{371,1}}}
       end
       TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT)
       TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050.fpk"
-TppPackList.AddFOBLayoutPack(i)gvars.f30050_missionPackIndex=0
+      TppPackList.AddFOBLayoutPack(i)gvars.f30050_missionPackIndex=0
     end
   end
   TppHostage2.SetHostageType{gameObjectType="TppHostageUnique",hostageType="Paz"}
@@ -687,7 +697,7 @@ s[40010]=function(p)
   else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/heli_ui.fpk"
-TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
+    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
     TppPackList.AddLocationCommonScriptPack(p)
     TppPackList.AddDefaultMissionAreaPack(p)
   end
@@ -729,7 +739,7 @@ s[40050]=function(p)
   else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/heli_ui.fpk"
-TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
+    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
     TppPackList.AddLocationCommonScriptPack(p)
     TppPackList.AddDefaultMissionAreaPack(p)
   end
@@ -765,14 +775,18 @@ s[50050]=function(s)
   TppPackList.AddDefaultMissionAreaPack(s)
   TppPackList.AddFOBLayoutPack(s)
 end
-function a.GetLocationPackagePath(a)
-  local s=p[a]
-  if s then
+--tex DEMINIFY:
+local this=a
+local locationPackPaths=p
+local missionPackPaths=s
+function this.GetLocationPackagePath(locationId)
+  local s=locationPackPaths[locationId]
+  if s then--tex NMC: WTF: uhhh..
   end
-  TppLocation.SetBuddyBlock(a)
+  TppLocation.SetBuddyBlock(locationId)
   return s
 end
-function a.GetMissionPackagePath(p)
+function this.GetMissionPackagePath(p)
   TppPackList.SetUseDdEmblemFova(p)
   local a
   if s[p]==nil then
@@ -780,15 +794,16 @@ function a.GetMissionPackagePath(p)
   elseif Tpp.IsTypeFunc(s[p])then
     a=TppPackList.MakeMissionPackList(p,s[p])
   elseif Tpp.IsTypeTable(s[p])then
-    a=s[p]end
+    a=s[p]
+  end
   return a
 end
 if Mission.SetLocationPackagePathFunc then
-  Mission.SetLocationPackagePathFunc(a.GetLocationPackagePath)
+  Mission.SetLocationPackagePathFunc(this.GetLocationPackagePath)
 end
 if Mission.SetMissionPackagePathFunc then
-  Mission.SetMissionPackagePathFunc(a.GetMissionPackagePath)
+  Mission.SetMissionPackagePathFunc(this.GetMissionPackagePath)
 end
-function a.IsStartHeliToMB()
+function this.IsStartHeliToMB()
 end
-return a
+return this

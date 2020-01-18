@@ -1,5 +1,8 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: data1
+-- FILEPATH: \Assets\tpp\script\lib\TppStory.lua
 local e={}
---local ll=SplashScreen.Create("ll","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5012_l_alp.ftex",1280,640)  
+--local ll=SplashScreen.Create("ll","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5012_l_alp.ftex",1280,640)
 --SplashScreen.Show(ll,0,0.5,0)--tex pirannah
 e.storySequenceTable={}
 e.storySequenceTable_Master={
@@ -230,31 +233,42 @@ e.radioDemoTable={
   end,
   demoName="DdogComeToGet"},
   DdogComeToGetRadio={storyCondition=function(e)return e.demoName=="DdogComeToGet"end,
-    detailCondition=function()return true
+    detailCondition=function()
+      return true
     end,
     radioList={"f6000_rtrg0380"}
   },
-  DdogGoWithMe={storyCondition=function()return true
-    end,
-    detailCondition=function()return TppDemo.mtbsPriorityFuncList.DdogGoWithMe()end,
-    demoName="DdogGoWithMe"},
+  DdogGoWithMe={storyCondition=function()
+    return true
+  end,
+  detailCondition=function()
+    return TppDemo.mtbsPriorityFuncList.DdogGoWithMe()
+  end,
+  demoName="DdogGoWithMe"},
   DdogGoWithMeRadio={storyCondition=function(e)return e.demoName=="DdogGoWithMe"end,
-    detailCondition=function()return true
+    detailCondition=function()
+      return true
     end,
     radioList={"f6000_rtrg0370"}
   },
-  HappyBirthDayWithQuiet={storyCondition=function()return true
-    end,
-    detailCondition=function()TppDemo.UpdateHappyBirthDayFlag()local n=TppDemo.mtbsPriorityFuncList.HappyBirthDay()local e=TppMbFreeDemo.demoOptions.HappyBirthDay.GetNextDemoNameOrNil()~=nil
-      return n and e
-    end,
-    demoName="HappyBirthDay"},
-  HappyBirthDay={storyCondition=function()return true
-    end,
-    detailCondition=function()TppDemo.UpdateHappyBirthDayFlag()return TppDemo.mtbsPriorityFuncList.HappyBirthDay()end,
-    demoName="HappyBirthDay"},
+  HappyBirthDayWithQuiet={storyCondition=function()
+    return true
+  end,
+  detailCondition=function()TppDemo.UpdateHappyBirthDayFlag()
+    local n=TppDemo.mtbsPriorityFuncList.HappyBirthDay()
+    local e=TppMbFreeDemo.demoOptions.HappyBirthDay.GetNextDemoNameOrNil()~=nil
+    return n and e
+  end,
+  demoName="HappyBirthDay"},
+  HappyBirthDay={storyCondition=function()
+    return true
+  end,
+  detailCondition=function()TppDemo.UpdateHappyBirthDayFlag()return TppDemo.mtbsPriorityFuncList.HappyBirthDay()
+  end,
+  demoName="HappyBirthDay"},
   HappyBirthDayRadio={storyCondition=function(e)return e.demoName=="HappyBirthDay"end,
-    detailCondition=function()return true
+    detailCondition=function()
+      return true
     end,
     radioList={"f6000_rtrg0511"}
   },
@@ -280,25 +294,35 @@ e.radioDemoTable={
   end,
   radioList={"f2000_rtrg1345","f2000_rtrg1346"}
   },
-  QuietReceivesPersecution={storyCondition=function()local n=vars.missionCode==10085 or vars.missionCode==10200
+  QuietReceivesPersecution={storyCondition=function()
+    local n=vars.missionCode==10085 or vars.missionCode==10200
     local e=e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
     return n and e
   end,
-  detailCondition=function()local n=TppBuddyService.CanSortieBuddyType(BuddyType.QUIET)local e=e.CanArrivalQuietInMB(true)return e and n
+  detailCondition=function()
+    local n=TppBuddyService.CanSortieBuddyType(BuddyType.QUIET)
+    local e=e.CanArrivalQuietInMB(true)return e and n
   end,
   demoName="QuietReceivesPersecution"},
   QuietReceivesPersecutionRadio={storyCondition=function(e)return e.demoName=="QuietReceivesPersecution"end,
-    detailCondition=function()return true
+    detailCondition=function()
+      return true
     end,
     radioList={"f6000_rtrg0360"}
   },
-  QuietHasFriendshipWithChild={storyCondition=function()local t=e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RETRIEVE_VOLGIN
-    local n=TppQuest.IsNowOccurringElapsed()local e=e.GetElapsedMissionCount(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)==1
-    return t and(n or e)end,
-  detailCondition=function()return TppDemo.mtbsPriorityFuncList.QuietHasFriendshipWithChild()end,
+  QuietHasFriendshipWithChild={storyCondition=function()
+    local t=e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RETRIEVE_VOLGIN
+    local n=TppQuest.IsNowOccurringElapsed()
+    local e=e.GetElapsedMissionCount(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)==1
+    return t and(n or e)
+  end,
+  detailCondition=function()
+    return TppDemo.mtbsPriorityFuncList.QuietHasFriendshipWithChild()
+  end,
   demoName="QuietHasFriendshipWithChild"},
   QuietHasFriendshipWithChildRadio={storyCondition=function(e)return e.demoName=="QuietHasFriendshipWithChild"end,
-    detailCondition=function()return true
+    detailCondition=function()
+      return true
     end,
     selectRadioFunction=function(e)if e.clearSideOpsName then
       return{"f2000_rtrg7350"}else
@@ -306,258 +330,345 @@ e.radioDemoTable={
     end,
     radioList={"f6000_rtrg0350","f2000_rtrg7350"}
   },
-  InterrogateQuiet={storyCondition=function()local n=TppQuest.IsNowOccurringElapsed()local t=e.IsNowOccurringElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)local e=e.IsMissionCleard(10093)return(t or n)and e
-    end,
-    detailCondition=function()return TppDemo.mtbsPriorityFuncList.InterrogateQuiet()end,
-    demoName="InterrogateQuiet"},
-  InterrogateQuietRadio={storyCondition=function()return e.CanPlayDemoOrRadio"InterrogateQuiet"end,
-    detailCondition=function(e)return true
-    end,
-    selectRadioFunction=function(e)if e.clearSideOpsName then
-      return{"f2000_rtrg7330"}else
-      return{"f6000_rtrg0330"}end
-    end,
-    radioList={"f6000_rtrg0330","f2000_rtrg7330"}
+  InterrogateQuiet={storyCondition=function()
+    local n=TppQuest.IsNowOccurringElapsed()
+    local t=e.IsNowOccurringElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)
+    local e=e.IsMissionCleard(10093)return(t or n)and e
+  end,
+  detailCondition=function()
+    return TppDemo.mtbsPriorityFuncList.InterrogateQuiet()
+  end,
+  demoName="InterrogateQuiet"},
+  InterrogateQuietRadio={storyCondition=function()
+    return e.CanPlayDemoOrRadio"InterrogateQuiet"end,
+  detailCondition=function(e)return true
+  end,
+  selectRadioFunction=function(e)if e.clearSideOpsName then
+    return{"f2000_rtrg7330"}else
+    return{"f6000_rtrg0330"}end
+  end,
+  radioList={"f6000_rtrg0330","f2000_rtrg7330"}
   },
-  QuietPassage={storyCondition=function()return e.IsMissionCleard(10086)end,
-    detailCondition=function()if TppQuest.IsOpen"mtbs_q99011"then
-      local e=not TppQuest.IsCleard"mtbs_q99011"if e then
-        TppCassette.Acquire{cassetteList={"tp_c_00000_13"},
+  QuietPassage={storyCondition=function()
+    return e.IsMissionCleard(10086)
+  end,
+  detailCondition=function()if TppQuest.IsOpen"mtbs_q99011"then
+    local e=not TppQuest.IsCleard"mtbs_q99011"if e then
+      TppCassette.Acquire{cassetteList={"tp_c_00000_13"},
 
-          {delayTimeSec=2}}TppCassette.Acquire{cassetteList={"tp_m_10050_03"},
+        {delayTimeSec=2}}TppCassette.Acquire{cassetteList={"tp_m_10050_03"},
 
-          {delayTimeSec=2}}end
-      return e
-    end
-    return false
-    end,
-    radioList={"f2000_rtrg1350"}
+        {delayTimeSec=2}}end
+    return e
+  end
+  return false
+  end,
+  radioList={"f2000_rtrg1350"}
   },
-  WalkerGear={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_FIND_THE_SECRET_WEAPON
-    end,
-    detailCondition=function()return TppMotherBaseManagement.IsBuiltMbMedicalClusterSpecialPlatform()end,
-    radioList={"f2000_rtrg8420"}
+  WalkerGear={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_FIND_THE_SECRET_WEAPON
+  end,
+  detailCondition=function()
+    return TppMotherBaseManagement.IsBuiltMbMedicalClusterSpecialPlatform()
+  end,
+  radioList={"f2000_rtrg8420"}
   },
-  WalkerGearRemind={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_FIND_THE_SECRET_WEAPON
-    end,
-    detailCondition=function()return e.GetClearedMissionCount{10041,10044,10052,10054}==4
-    end,
-    radioList={"f2000_rtrg8421"}
+  WalkerGearRemind={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_FIND_THE_SECRET_WEAPON
+  end,
+  detailCondition=function()
+    return e.GetClearedMissionCount{10041,10044,10052,10054}==4
+  end,
+  radioList={"f2000_rtrg8421"}
   },
-  AnableDevBattleGear={storyCondition=function()return vars.missionCode==10195
-    end,
-    detailCondition=function()return true
-    end,
-    demoName="AnableDevBattleGear"},
-  AnableDevBattleGearRadio={storyCondition=function()return vars.missionCode==10195
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f6000_rtrg0300"}
+  AnableDevBattleGear={storyCondition=function()
+    return vars.missionCode==10195
+  end,
+  detailCondition=function()
+    return true
+  end,
+  demoName="AnableDevBattleGear"},
+  AnableDevBattleGearRadio={storyCondition=function()
+    return vars.missionCode==10195
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f6000_rtrg0300"}
   },
-  AfterAnableDevbattleGear={storyCondition=function()return TppDemo.IsPlayedMBEventDemo"AnableDevBattleGear"end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg1515"}
+  AfterAnableDevbattleGear={storyCondition=function()
+    return TppDemo.IsPlayedMBEventDemo"AnableDevBattleGear"end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg1515"}
   },
-  DevelopedBattleGear_1={storyCondition=function()return vars.missionCode==10121
-    end,
-    detailCondition=function()return e.GetBattleGearDevelopLevel()==1
-    end,
-    demoName="DevelopedBattleGear1"},
-  DevelopedBattleGear_1Radio={storyCondition=function()return e.CanPlayDemoOrRadio"DevelopedBattleGear_1"end,
-    detailCondition=function()return true
-    end,
-    radioList={"f6000_rtrg0400"}
+  DevelopedBattleGear_1={storyCondition=function()
+    return vars.missionCode==10121
+  end,
+  detailCondition=function()
+    return e.GetBattleGearDevelopLevel()==1
+  end,
+  demoName="DevelopedBattleGear1"},
+  DevelopedBattleGear_1Radio={storyCondition=function()
+    return e.CanPlayDemoOrRadio"DevelopedBattleGear_1"end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f6000_rtrg0400"}
   },
-  OpenFindTheSecretWeapon={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_TO_MATHER_BASE
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8030"}
+  OpenFindTheSecretWeapon={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_TO_MATHER_BASE
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8030"}
   },
-  CleardFindTheSecretWeapon={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8060"}
+  CleardFindTheSecretWeapon={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8060"}
   },
-  CleardToMotherBase={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8000"}
+  CleardToMotherBase={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8000"}
   },
-  OpenPicthDark={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8090"}
+  OpenPicthDark={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8090"}
   },
-  ZeroAndScalFace={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY
-    end,
-    detailCondition=function()local e=TppRadio.IsPlayed"f2000_rtrg8090"local n=TppMission.IsHelicopterSpace(vars.missionCode)return e and n
-    end,
-    radioList={"f2000_rtrg8100"}
+  ZeroAndScalFace={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY
+  end,
+  detailCondition=function()
+    local e=TppRadio.IsPlayed"f2000_rtrg8090"local n=TppMission.IsHelicopterSpace(vars.missionCode)return e and n
+  end,
+  radioList={"f2000_rtrg8100"}
   },
-  OpenLinguaFranka={storyCondition=function()return e.IsMissionCleard(10080)and e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_DESTROY_THE_FLOW_STATION
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8115"}
+  OpenLinguaFranka={storyCondition=function()
+    return e.IsMissionCleard(10080)and e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_DESTROY_THE_FLOW_STATION
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8115"}
   },
-  OpenRemovalWalkerGear={storyCondition=function()return e.IsMissionCleard(10086)and e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_LINGUA_FRANKA
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8120"}
+  OpenRemovalWalkerGear={storyCondition=function()
+    return e.IsMissionCleard(10086)and e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_LINGUA_FRANKA
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8120"}
   },
-  OpenCarLine={storyCondition=function()return e.IsMissionCleard(10082)and e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_DESTROY_THE_FLOW_STATION
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8130"}
+  OpenCarLine={storyCondition=function()
+    return e.IsMissionCleard(10082)and e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_DESTROY_THE_FLOW_STATION
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8130"}
   },
-  OpenRescueIntelAgents={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_TAKE_OUT_THE_CONVOY
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8140"}
+  OpenRescueIntelAgents={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_TAKE_OUT_THE_CONVOY
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8140"}
   },
-  OpenEliminateThePows={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_INTEL_AGENTS
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8150"}
+  OpenEliminateThePows={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_INTEL_AGENTS
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8150"}
   },
-  OpenVoice={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_ELIMINATE_THE_POWS
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8160"}
+  OpenVoice={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_ELIMINATE_THE_POWS
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8160"}
   },
-  OpenCaptureTheWeaponDealer={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_DEATH_FACTORY
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8180"}
+  OpenCaptureTheWeaponDealer={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_DEATH_FACTORY
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8180"}
   },
-  OpenWhiteMamba={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_CAPTURE_THE_WEAPON_DEALER
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8185"}
+  OpenWhiteMamba={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_CAPTURE_THE_WEAPON_DEALER
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8185"}
   },
-  OpenFlagMissionAfterWhiteMamba={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8440"}
+  OpenFlagMissionAfterWhiteMamba={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8440"}
   },
-  GeneOfEli={storyCondition=function()return(e.IsMissionCleard(10085)or e.IsMissionCleard(10200))and e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8200"}
+  GeneOfEli={storyCondition=function()
+    return(e.IsMissionCleard(10085)or e.IsMissionCleard(10200))and e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8200"}
   },
-  ParasiticWormCarrierQuarantine={storyCondition=function()local n=vars.missionCode==10085 or vars.missionCode==10200
+  ParasiticWormCarrierQuarantine={storyCondition=function()
+    local n=vars.missionCode==10085 or vars.missionCode==10200
     local t=e.GetClearedMissionCount{10085,10200}==2
     local e=not TppMotherBaseManagement.IsPandemicEventMode()return(n and t)and e
   end,
-  detailCondition=function()return true
+  detailCondition=function()
+    return true
   end,
   radioList={"f6000_rtrg0310"}
   },
-  OpenHuntDown={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_WHITE_MAMBA
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8210"}
-  },
-  OpenEliChallengeAndRootCause={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_ELIMINATE_THE_COMMANDER
-    end,
-    detailCondition=function()if TppQuest.IsOpen"mtbs_q99050"then
-      e.radioDemoTable.OpenEliChallengeAndRootCause.radioList={"f2000_rtrg8190","f2000_rtrg8220"}else
-      e.radioDemoTable.OpenEliChallengeAndRootCause.radioList={"f2000_rtrg8220"}end
+  OpenHuntDown={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_WHITE_MAMBA
+  end,
+  detailCondition=function()
     return true
-    end,
-    radioList={"f2000_rtrg8220"}
+  end,
+  radioList={"f2000_rtrg8210"}
   },
-  OpenEliChallenge={storyCondition=function()return e.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_ELIMINATE_THE_COMMANDER
-    end,
-    detailCondition=function()return TppQuest.IsOpen"mtbs_q99050"and(not TppQuest.IsCleard"mtbs_q99050")end,
-    radioList={"f2000_rtrg8190"}
+  OpenEliChallengeAndRootCause={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_ELIMINATE_THE_COMMANDER
+  end,
+  detailCondition=function()if TppQuest.IsOpen"mtbs_q99050"then
+    e.radioDemoTable.OpenEliChallengeAndRootCause.radioList={"f2000_rtrg8190","f2000_rtrg8220"}else
+    e.radioDemoTable.OpenEliChallengeAndRootCause.radioList={"f2000_rtrg8220"}end
+  return true
+  end,
+  radioList={"f2000_rtrg8220"}
+  },
+  OpenEliChallenge={storyCondition=function()
+    return e.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_ELIMINATE_THE_COMMANDER
+  end,
+  detailCondition=function()
+    return TppQuest.IsOpen"mtbs_q99050"and(not TppQuest.IsCleard"mtbs_q99050")
+  end,
+  radioList={"f2000_rtrg8190"}
   },
   ClearEliChallenge={storyCondition=function(e)return e.clearSideOpsName=="mtbs_q99050"end,
-    detailCondition=function()return true
+    detailCondition=function()
+      return true
     end,
     radioList={"f2000_rtrg1500"}
   },
-  OpenCodeTalker={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_THE_BETRAYER
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8230"}
+  OpenCodeTalker={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_THE_BETRAYER
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8230"}
   },
-  OpenMetallicArchaea={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_CODE_TALKER
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8240"}
+  OpenMetallicArchaea={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_CODE_TALKER
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8240"}
   },
-  OpenFlagMissionAfterOKBZERO={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8260"}
+  OpenFlagMissionAfterOKBZERO={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8260"}
   },
-  CanDevelopNuclear={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
-    end,
-    detailCondition=function()return TppMission.IsHelicopterSpace(vars.missionCode)end,
-    radioList={"f2000_rtrg8261"}
+  CanDevelopNuclear={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
+  end,
+  detailCondition=function()
+    return TppMission.IsHelicopterSpace(vars.missionCode)
+  end,
+  radioList={"f2000_rtrg8261"}
   },
-  RafeAccidentalDeath={storyCondition=function()local t=e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
-    local n=TppQuest.IsNowOccurringElapsed()local e=e.GetElapsedMissionCount(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)==1
-    return t and(n or e)end,
-  detailCondition=function()return true
+  RafeAccidentalDeath={storyCondition=function()
+    local t=e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
+    local n=TppQuest.IsNowOccurringElapsed()
+    local e=e.GetElapsedMissionCount(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)==1
+    return t and(n or e)
+  end,
+  detailCondition=function()
+    return true
   end,
   radioList={"f2000_rtrg8280"}
   },
-  OpenSideOpsAiPod={storyCondition=function()local t=e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
-    local n=TppQuest.IsNowOccurringElapsed()local i=e.IsNowOccurringElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)local e=e.IsMissionCleard(10045)return((n or i)and e)and t
+  OpenSideOpsAiPod={storyCondition=function()
+    local t=e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
+    local n=TppQuest.IsNowOccurringElapsed()
+    local i=e.IsNowOccurringElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)
+    local e=e.IsMissionCleard(10045)return((n or i)and e)and t
   end,
-  detailCondition=function()return true
+  detailCondition=function()
+    return true
   end,
   radioList={"f2000_rtrg8270"}
   },
-  EliLookSnake={storyCondition=function()return e.CanPlayDemoOrRadio"RafeAccidentalDeath"end,
-    detailCondition=function()return true
-    end,
-    demoName="EliLookSnake"},
-  EliLookSnakeRadio={storyCondition=function()return e.CanPlayDemoOrRadio"RafeAccidentalDeath"end,
-    detailCondition=function()return true
-    end,
-    selectRadioFunction=function(e)if e.clearSideOpsName then
-      return{"f2000_rtrg7325"}else
-      return{"f6000_rtrg0325"}end
-    end,
-    radioList={"f6000_rtrg0325","f2000_rtrg7325"}
+  EliLookSnake={storyCondition=function()
+    return e.CanPlayDemoOrRadio"RafeAccidentalDeath"end,
+  detailCondition=function()
+    return true
+  end,
+  demoName="EliLookSnake"},
+  EliLookSnakeRadio={storyCondition=function()
+    return e.CanPlayDemoOrRadio"RafeAccidentalDeath"end,
+  detailCondition=function()
+    return true
+  end,
+  selectRadioFunction=function(e)if e.clearSideOpsName then
+    return{"f2000_rtrg7325"}else
+    return{"f6000_rtrg0325"}end
+  end,
+  radioList={"f6000_rtrg0325","f2000_rtrg7325"}
   },
-  CompliteDevelopBattleGear={storyCondition=function()return e.CanPlayDemoOrRadio"OpenSideOpsAiPod"end,
-    detailCondition=function()return true
-    end,
-    demoName="DevelopedBattleGear5"},
-  CompliteDevelopBattleGearRadio={storyCondition=function()return e.CanPlayDemoOrRadio"CompliteDevelopBattleGear"end,
-    detailCondition=function(e)return true
-    end,
-    selectRadioFunction=function(e)if e.clearSideOpsName then
-      return{"f2000_rtrg7120"}else
-      return{"f6000_rtrg2120"}end
-    end,
-    radioList={"f6000_rtrg2120","f2000_rtrg7120"}
+  CompliteDevelopBattleGear={storyCondition=function()
+    return e.CanPlayDemoOrRadio"OpenSideOpsAiPod"end,
+  detailCondition=function()
+    return true
+  end,
+  demoName="DevelopedBattleGear5"},
+  CompliteDevelopBattleGearRadio={storyCondition=function()
+    return e.CanPlayDemoOrRadio"CompliteDevelopBattleGear"end,
+  detailCondition=function(e)return true
+  end,
+  selectRadioFunction=function(e)if e.clearSideOpsName then
+    return{"f2000_rtrg7120"}else
+    return{"f6000_rtrg2120"}end
+  end,
+  radioList={"f6000_rtrg2120","f2000_rtrg7120"}
   },
   AfterCompliteDevelopBattleGear={storyCondition=function(e)return e.demoName=="DevelopedBattleGear5"end,
-    detailCondition=function()return true
+    detailCondition=function()
+      return true
     end,
     radioList={"f2000_rtrg1517"}
   },
@@ -566,7 +677,8 @@ e.radioDemoTable={
     local e=e.GetClearedMissionCount{10045,10156}==2
     return n and e
   end,
-  detailCondition=function()return true
+  detailCondition=function()
+    return true
   end,
   demoName="LiquidAndChildSoldier"},
   RetrieveAIPod={storyCondition=function(e)
@@ -580,7 +692,8 @@ e.radioDemoTable={
   },
   AfterRetrieveVolgin={storyCondition=function(e)
     return e.clearSideOpsName=="tent_q99040"end,
-  detailCondition=function()return true
+  detailCondition=function()
+    return true
   end,
   radioList={"f2000_rtrg8450"}
   },
@@ -588,7 +701,8 @@ e.radioDemoTable={
     local t=e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RETRIEVE_VOLGIN
     local n=TppQuest.IsNowOccurringElapsed()
     local e=e.GetElapsedMissionCount(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)==1
-    return t and(n or e)end,
+    return t and(n or e)
+  end,
   detailCondition=function()
     TppCassette.Acquire{cassetteList={"tp_m_10190_01"},
       isShowAnnounceLog={delayTimeSec=2}}
@@ -660,7 +774,8 @@ e.radioDemoTable={
   AfterTheGreatEscapeLiquid={storyCondition=function(e)
     return e.demoName=="TheGreatEscapeLiquid"
   end,
-  detailCondition=function()return true
+  detailCondition=function()
+    return true
   end,
   radioList={"f2000_rtrg8350"}
   },
@@ -685,106 +800,145 @@ e.radioDemoTable={
   end,
   radioList={"f2000_rtrg8360"}
   },
-  PermitParasiticWormCarrierKill={storyCondition=function()return e.CanPlayDemoOrRadio"ParasiticWormCarrierKill"end,
-    detailCondition=function(e)return true
-    end,
-    selectRadioFunction=function(e)if e.clearSideOpsName then
-      return{"f2000_rtrg7335"}
-    else
-      return{"f6000_rtrg0335"}
-    end
-    end,
-    radioList={"f6000_rtrg0335","f2000_rtrg7335"}
+  PermitParasiticWormCarrierKill={storyCondition=function()
+    return e.CanPlayDemoOrRadio"ParasiticWormCarrierKill"end,
+  detailCondition=function(e)return true
+  end,
+  selectRadioFunction=function(e)if e.clearSideOpsName then
+    return{"f2000_rtrg7335"}
+  else
+    return{"f6000_rtrg0335"}
+  end
+  end,
+  radioList={"f6000_rtrg0335","f2000_rtrg7335"}
   },
-  OpenParasiticWormCarrierKill={storyCondition=function()return TppDemo.IsPlayedMBEventDemo"ParasiticWormCarrierKill"end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8391"}
+  OpenParasiticWormCarrierKill={storyCondition=function()
+    return TppDemo.IsPlayedMBEventDemo"ParasiticWormCarrierKill"end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8391"}
   },
-  ParasiticWormCarrierKill={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_MURDER_INFECTORS
-    end,
-    detailCondition=function()return(not TppDemo.IsPlayedMBEventDemo"ParasiticWormCarrierKill")end,
-    demoName="ParasiticWormCarrierKill"},
-  AfterParasiticWormCarrierKillFree={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS
-    end,
-    detailCondition=function()e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.DECISION_HUEY,TppDefine.INIT_ELAPSED_MISSION_COUNT.DECISION_HUEY)return true
-    end,
-    radioList={"f2000_rtrg8900"}
+  ParasiticWormCarrierKill={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_MURDER_INFECTORS
+  end,
+  detailCondition=function()
+    return(not TppDemo.IsPlayedMBEventDemo"ParasiticWormCarrierKill")
+  end,
+  demoName="ParasiticWormCarrierKill"},
+  AfterParasiticWormCarrierKillFree={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS
+  end,
+  detailCondition=function()e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.DECISION_HUEY,TppDefine.INIT_ELAPSED_MISSION_COUNT.DECISION_HUEY)return true
+  end,
+  radioList={"f2000_rtrg8900"}
   },
-  AfterParasiticWormCarrierKillHeli={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_AFTER_MURDER_INFECTORS_ONE_MISSION
-    end,
-    detailCondition=function()TppCassette.Acquire{cassetteList={"tp_m_10190_03"},
-      isShowAnnounceLog={delayTimeSec=2}}if TppBuddy2BlockController.DidObtainBuddyType(BuddyType.DOG)then
-      TppCassette.Acquire{cassetteList={"tp_m_10190_04"},
-        isShowAnnounceLog={delayTimeSec=2}}end
-      return true
-    end,
-    radioList={"f2000_rtrg8400"}
+  AfterParasiticWormCarrierKillHeli={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_AFTER_MURDER_INFECTORS_ONE_MISSION
+  end,
+  detailCondition=function()TppCassette.Acquire{cassetteList={"tp_m_10190_03"},
+    isShowAnnounceLog={delayTimeSec=2}}if TppBuddy2BlockController.DidObtainBuddyType(BuddyType.DOG)then
+    TppCassette.Acquire{cassetteList={"tp_m_10190_04"},
+      isShowAnnounceLog={delayTimeSec=2}}end
+    return true
+  end,
+  radioList={"f2000_rtrg8400"}
   },
-  OpenDecisionHuey={storyCondition=function()return e.CanPlayDemoOrRadio"DecisionHuey"end,
-    detailCondition=function(e)return true
-    end,
-    selectRadioFunction=function(e)if e.clearSideOpsName then
-      return{"f2000_rtrg7338"}else
-      return{"f6000_rtrg0338"}end
-    end,
-    radioList={"f6000_rtrg0338","f2000_rtrg7338"}
+  OpenDecisionHuey={storyCondition=function()
+    return e.CanPlayDemoOrRadio"DecisionHuey"end,
+  detailCondition=function(e)return true
+  end,
+  selectRadioFunction=function(e)if e.clearSideOpsName then
+    return{"f2000_rtrg7338"}else
+    return{"f6000_rtrg0338"}end
+  end,
+  radioList={"f6000_rtrg0338","f2000_rtrg7338"}
   },
-  DecisionHuey={storyCondition=function()return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_AFTER_MURDER_INFECTORS_TWO_MISSIONS
-    end,
-    detailCondition=function()return(not TppDemo.IsPlayedMBEventDemo"DecisionHuey")end,
-    demoName="DecisionHuey"},
-  OpenQuietLost={storyCondition=function()return true
-    end,
-    detailCondition=function()if vars.missionCode==30050 then
-      return false
-    end
-    return TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)end,
-    radioList={"f2000_rtrg2000","f2000_rtrg2010"}
+  DecisionHuey={storyCondition=function()
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_AFTER_MURDER_INFECTORS_TWO_MISSIONS
+  end,
+  detailCondition=function()
+    return(not TppDemo.IsPlayedMBEventDemo"DecisionHuey")
+  end,
+  demoName="DecisionHuey"},
+  OpenQuietLost={storyCondition=function()
+    return true
+  end,
+  detailCondition=function()if vars.missionCode==30050 then
+    return false
+  end
+  return TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)
+  end,
+  radioList={"f2000_rtrg2000","f2000_rtrg2010"}
   },
-  AboutHeliSpace={storyCondition=function()return e.IsMissionCleard(10030)end,
-    detailCondition=function()return TppMission.IsHelicopterSpace(TppMission.GetMissionID())end,
-    radioList={"f2000_rtrg1010"}
+  AboutHeliSpace={storyCondition=function()
+    return e.IsMissionCleard(10030)
+  end,
+  detailCondition=function()
+    return TppMission.IsHelicopterSpace(TppMission.GetMissionID())
+  end,
+  radioList={"f2000_rtrg1010"}
   },
   AboutSideOps={storyCondition=function()if(e.GetClearedMissionCount{10036,10043,10033}==1)then
     return true
   end
   return false
   end,
-  detailCondition=function()return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)end,
+  detailCondition=function()
+    return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)
+  end,
   radioList={"f1000_rtrg4030"}
   },
-  AboutQuietSniper={storyCondition=function()return TppQuest.IsOpen"waterway_q99010"and not(e.IsMissionOpen(10050))end,
-    detailCondition=function()local e=TppMission.IsFreeMission(TppMission.GetMissionID())and TppLocation.IsAfghan()if e then
+  AboutQuietSniper={storyCondition=function()
+    return TppQuest.IsOpen"waterway_q99010"and not(e.IsMissionOpen(10050))
+  end,
+  detailCondition=function()
+    local e=TppMission.IsFreeMission(TppMission.GetMissionID())and TppLocation.IsAfghan()if e then
       TppCassette.Acquire{cassetteList={"tp_m_10050_01"},
         isShowAnnounceLog={delayTimeSec=2}}return true
     end
-    end,
-    radioList={"f2000_rtrg1330"}
-  },
-  AboutGunsmith_B={storyCondition=function()return TppQuest.IsActive"sovietBase_q99070"end,
-    detailCondition=function()return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)end,
-    radioList={"f1000_rtrg5100"}
-  },
-  AboutGunsmith_Master={storyCondition=function()return TppQuest.IsActive"tent_q99072"end,
-    detailCondition=function()return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)end,
-    radioList={"f1000_rtrg5110"}
-  },
-  AboutAnalyzer={storyCondition=function()if Player.GetItemLevel(TppEquip.EQP_IT_Binocle)>1 then
-    return true
-  end
-  return false
   end,
-  detailCondition=function()return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)end,
+  radioList={"f2000_rtrg1330"}
+  },
+  AboutGunsmith_B={storyCondition=function()
+    return TppQuest.IsActive"sovietBase_q99070"end,
+  detailCondition=function()
+    return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)
+  end,
+  radioList={"f1000_rtrg5100"}
+  },
+  AboutGunsmith_Master={storyCondition=function()
+    return TppQuest.IsActive"tent_q99072"end,
+  detailCondition=function()
+    return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)
+  end,
+  radioList={"f1000_rtrg5110"}
+  },
+  AboutAnalyzer={storyCondition=function()
+    if Player.GetItemLevel(TppEquip.EQP_IT_Binocle)>1 then
+      return true
+    end
+    return false
+  end,
+  detailCondition=function()
+    return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)
+  end,
   radioList={"f1000_rtrg5120"}
   },
-  SuggestActiveSonar={storyCondition=function()return(TppMotherBaseManagement.IsEquipDevelopableWithDevelopID{equipDevelopID=18030})and not(TppMotherBaseManagement.IsEquipDeveloped{equipID=TppEquip.EQP_HAND_ACTIVESONAR})end,
-    detailCondition=function()return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)end,
-    radioList={"f1000_rtrg4550"}
+  SuggestActiveSonar={storyCondition=function()
+    return(TppMotherBaseManagement.IsEquipDevelopableWithDevelopID{equipDevelopID=18030})and not(TppMotherBaseManagement.IsEquipDeveloped{equipID=TppEquip.EQP_HAND_ACTIVESONAR})
+  end,
+  detailCondition=function()
+    return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)
+  end,
+  radioList={"f1000_rtrg4550"}
   },
-  UnlockBuddyDog={storyCondition=function()return TppDemo.IsPlayedMBEventDemo"DdogGoWithMe"end,
-    detailCondition=function()return TppMission.IsHelicopterSpace(TppMission.GetMissionID())end,
-    radioList={"f2000_rtrg1410"}
+  UnlockBuddyDog={storyCondition=function()
+    return TppDemo.IsPlayedMBEventDemo"DdogGoWithMe"end,
+  detailCondition=function()
+    return TppMission.IsHelicopterSpace(TppMission.GetMissionID())
+  end,
+  radioList={"f2000_rtrg1410"}
   },
   UnlockBuddyQuiet={storyCondition=function()
     return e.CanArrivalQuietInMB(true)and TppBuddyService.CanSortieBuddyType(BuddyType.QUIET)
@@ -795,7 +949,8 @@ e.radioDemoTable={
   radioList={"f1000_rtrg4590"}
   },
   AboutCallBuddy={storyCondition=function()
-    return TppBuddyService.CanSortieBuddyType(BuddyType.DOG)or TppBuddyService.CanSortieBuddyType(BuddyType.QUIET)end,
+    return TppBuddyService.CanSortieBuddyType(BuddyType.DOG)or TppBuddyService.CanSortieBuddyType(BuddyType.QUIET)
+  end,
   detailCondition=function()
     local t=0
     local n=1
@@ -808,30 +963,49 @@ e.radioDemoTable={
   end,
   radioList={"f1000_rtrg4560","f1000_rtrg4570"}
   },
-  AboutBuddyDog={storyCondition=function()return TppBuddyService.CanSortieBuddyType(BuddyType.DOG)end,
-    detailCondition=function()return TppMission.IsHelicopterSpace(TppMission.GetMissionID())end,
-    radioList={"f1000_rtrg4580"}
-  },
-  UnlockIntelSearch={storyCondition=function()return TppMotherBaseManagement.IsActiveSectionFunc{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_ENEMY_SEARCH}end,
-    detailCondition=function()return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)end,
-    radioList={"f2000_rtrg1300"}
-  },
-  UnlockSupportFire={storyCondition=function()return TppMotherBaseManagement.IsActiveSectionFunc{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_STRIKE}end,
-    detailCondition=function()return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)end,
-    radioList={"f2000_rtrg1310"}
-  },
-  AntiNuclearDeterrence={storyCondition=function()return TppHero.IsHero()end,
-    detailCondition=function()return TppMission.IsHelicopterSpace(TppMission.GetMissionID())end,
-    radioList={"f2000_rtrg1520"}
-  },
-  NuclearWorld={storyCondition=function()local t=TppServerManager.GetNuclearAbolitionCount()local n=TppServerManager.GetNuclearNum()local e=TppDemo.IsPlayedMBEventDemo"NuclearEliminationCeremony"if(t~=-1)then
-    if(e)and(n>0)then
-      return true
-    end
-  end
-  return false
+  AboutBuddyDog={storyCondition=function()
+    return TppBuddyService.CanSortieBuddyType(BuddyType.DOG)
   end,
-  detailCondition=function()return TppMission.IsHelicopterSpace(TppMission.GetMissionID())end,
+  detailCondition=function()
+    return TppMission.IsHelicopterSpace(TppMission.GetMissionID())
+  end,
+  radioList={"f1000_rtrg4580"}
+  },
+  UnlockIntelSearch={storyCondition=function()
+    return TppMotherBaseManagement.IsActiveSectionFunc{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_ENEMY_SEARCH}end,
+  detailCondition=function()
+    return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)
+  end,
+  radioList={"f2000_rtrg1300"}
+  },
+  UnlockSupportFire={storyCondition=function()
+    return TppMotherBaseManagement.IsActiveSectionFunc{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_STRIKE}end,
+  detailCondition=function()
+    return((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)
+  end,
+  radioList={"f2000_rtrg1310"}
+  },
+  AntiNuclearDeterrence={storyCondition=function()
+    return TppHero.IsHero()
+  end,
+  detailCondition=function()
+    return TppMission.IsHelicopterSpace(TppMission.GetMissionID())
+  end,
+  radioList={"f2000_rtrg1520"}
+  },
+  NuclearWorld={storyCondition=function()
+    local t=TppServerManager.GetNuclearAbolitionCount()
+    local n=TppServerManager.GetNuclearNum()
+    local e=TppDemo.IsPlayedMBEventDemo"NuclearEliminationCeremony"if(t~=-1)then
+      if(e)and(n>0)then
+        return true
+      end
+    end
+    return false
+  end,
+  detailCondition=function()
+    return TppMission.IsHelicopterSpace(TppMission.GetMissionID())
+  end,
   radioList={"f2000_rtrg1525"}
   },
   MotherBaseBurnOut={storyCondition=function()if(vars.mbmTppGmp<0)then
@@ -839,22 +1013,27 @@ e.radioDemoTable={
   end
   return false
   end,
-  detailCondition=function()return TppMission.IsHelicopterSpace(TppMission.GetMissionID())end,
+  detailCondition=function()
+    return TppMission.IsHelicopterSpace(TppMission.GetMissionID())
+  end,
   radioList={"f2000_rtrg1080"}
   },
-  HowToPlayFreePlay={storyCondition=function()return true
-    end,
-    detailCondition=function()local n=Player.GetGameObjectIdIsRiddenToLocal()local e=7168
-      if n~=e then
-        if not(TppMission.IsHelicopterSpace(TppMission.GetMissionID()))then
-          if(TppLocation.IsAfghan()or TppLocation.IsMiddleAfrica())then
-            return true
-          end
+  HowToPlayFreePlay={storyCondition=function()
+    return true
+  end,
+  detailCondition=function()
+    local n=Player.GetGameObjectIdIsRiddenToLocal()
+    local e=7168
+    if n~=e then
+      if not(TppMission.IsHelicopterSpace(TppMission.GetMissionID()))then
+        if(TppLocation.IsAfghan()or TppLocation.IsMiddleAfrica())then
+          return true
         end
       end
-      return false
-    end,
-    radioList={"f2000_rtrg0010"}
+    end
+    return false
+  end,
+  radioList={"f2000_rtrg0010"}
   },
   GeneralPurposeRadio={storyCondition=function(e)
     if e.demoName then
@@ -862,7 +1041,8 @@ e.radioDemoTable={
     end
     return false
   end,
-  detailCondition=function()return true
+  detailCondition=function()
+    return true
   end,
   radioList={"f6000_rtrg0325"}}
 }
@@ -1331,7 +1511,39 @@ function e.UpdateStorySequence(t)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     e.QuietReturn()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

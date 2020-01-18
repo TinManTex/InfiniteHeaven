@@ -1,3 +1,6 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: data1
+-- FILEPATH: \Assets\tpp\script\lib\TppQuest.lua
 local e={}
 --local ii=SplashScreen.Create("ii","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5009_l_alp.ftex",1280,640)
 --SplashScreen.Show(ii,0,0.5,0)--tex mantis
@@ -2594,9 +2597,7 @@ function this.ShowAnnounceLog(n,t,l,u)
     return
   end
   if n==s.OPEN then
-    TppUI.ShowAnnounceLog"quest_list_update"
-TppUI.ShowAnnounceLog"quest_add"
-elseif n==s.CLEAR then
+    TppUI.ShowAnnounceLog"quest_list_update"TppUI.ShowAnnounceLog"quest_add"elseif n==s.CLEAR then
     if not t then
       return
     end

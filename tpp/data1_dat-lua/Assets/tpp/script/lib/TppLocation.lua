@@ -66,7 +66,8 @@ function e.ModifyMbsLayoutCode(n)
   return MotherBaseStage.ModifyLayoutCode(n)
 end
 e.debug_useDebugMbParam=nil
-function e.DEBUG_UseDebugMbParam()e.debug_useDebugMbParam=true
+function e.DEBUG_UseDebugMbParam()
+e.debug_useDebugMbParam=true
 end
 function e.ApplyPlatformParamToMbStage(n,t)
   if not TppMotherBaseManagement.BaseSvarsToMbsParam then
@@ -173,13 +174,20 @@ function e.ActivateBlock()
     end
   end
 end
-function e.OnReload()e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function e.OnReload()
+e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
 function e.OnMessage(i,s,r,a,o,t,n)
   Tpp.DoMessage(e.messageExecTable,TppMission.CheckMessageOption,i,s,r,a,o,t,n)
 end
 function e.Messages()
-  return Tpp.StrCode32Table{Block={{msg="OnChangeLargeBlockState",func=e.OnActiveLargeBlock,option={isExecDemoPlaying=true,isExecMissionPrepare=true}},{msg="OnChangeSmallBlockState",func=e.OnActiveSmallBlock,option={isExecDemoPlaying=true,isExecMissionPrepare=true}}},nil}
+  return Tpp.StrCode32Table{
+  Block={
+  {msg="OnChangeLargeBlockState",func=e.OnActiveLargeBlock,option={isExecDemoPlaying=true,isExecMissionPrepare=true}},
+  {msg="OnChangeSmallBlockState",func=e.OnActiveSmallBlock,option={isExecDemoPlaying=true,isExecMissionPrepare=true}}
+  },
+  nil
+  }
 end
 function e.OnActiveLargeBlock(n,e)
   if e==StageBlock.INACTIVE then
@@ -190,13 +198,15 @@ function e.OnActiveLargeBlock(n,e)
   end
   local e=mvars.loc_locationBaseAssetOnActive
   if e then
-    local e=e[n]if e then
+    local e=e[n]
+    if e then
       e()
     end
   end
   local e=mvars.loc_missionAssetOnActive
   if e then
-    local e=e[n]if e then
+    local e=e[n]
+    if e then
       e()
     end
   end

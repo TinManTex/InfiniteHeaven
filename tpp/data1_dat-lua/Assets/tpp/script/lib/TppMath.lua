@@ -1,3 +1,6 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: data1
+-- FILEPATH: \Assets\tpp\script\lib\TppMath.lua
 local this={}
 --local ff=SplashScreen.Create("ff","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5006_l_alp.ftex",1280,640)  
 --SplashScreen.Show(ff,0,0.5,0)--tex panther 

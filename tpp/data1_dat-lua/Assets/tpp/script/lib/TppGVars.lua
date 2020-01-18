@@ -1,3 +1,6 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: data1
+-- FILEPATH: \Assets\tpp\script\lib\TppGVars.lua
 local e={}
 --local cc=SplashScreen.Create("cc","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5003_l_alp.ftex",1280,640)  
 --SplashScreen.Show(cc)--tex foxhound
@@ -273,6 +276,7 @@ e.DeclareGVarsTable={
   {name="dbg_forceMaster",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="dbg_autoMissionOpenClearCheck",type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},
   --[[--tex mod settings save vars--]]
+  {name="startOffline",type=TppScriptVars.TYPE_BOOL,value=true,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
   {name="isManualSubsistence",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="subsistenceLoadout",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="isManualHard",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
@@ -280,7 +284,8 @@ e.DeclareGVarsTable={
   {name="modParameters",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="playerHealthMult",type=TppScriptVars.TYPE_FLOAT,value=1,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="enemyHealthMult",type=TppScriptVars.TYPE_FLOAT,value=1,save=true,category=TppScriptVars.CATEGORY_MISSION},
-  {name="unlockSideOps",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},  
+  {name="unlockSideOps",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  
   nil
 }
 TppScriptVars.DeclareGVars(e.DeclareGVarsTable)
