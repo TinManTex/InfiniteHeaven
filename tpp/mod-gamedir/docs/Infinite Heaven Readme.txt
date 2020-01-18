@@ -1,13 +1,17 @@
 = Infinite heaven =
-r74 2015-11-12
+r75 2015-11-14
 by tin man tex
 For MGSV version 1.0.6.0 (1.06 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-Note for r74:
-With the 1.0.6.0 patch Konami swapped the file override order for 01.dat and 00.dat, snakebite support for this change is a little way off, till then run snakebitecustom in the Infinite Heaven r74 zip.
-This is a custom version hardcoded to install r74 to 00.dat with overwrite forced. This should be soon supersceded by a new official Snakebite version by LordRama/Topher.
+Note for r75:
+Requires Snakebite 0.8 to install, available via the snakebite autoupdate on 0.6 and later.
+
+New in r75
+Option: Start Offline - Start the game in offline mode, this also removes the connect option from the menu.
+Option: Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, the will however spawn off map, use the call menu to have them respawn near.
+Feature: Abort Mission (Return to ACC) added to Motherbase pause menu.
 
 New in r74:
 New 'Show assets Menu' in Mother base Menu.
@@ -93,7 +97,7 @@ Retail Bug fixes:
 Enemies Revenge system level for Fulton was fulton was 0 low, 1 blank, 2 high, now 0 blank 1 low 2 high.
 
 By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu. 
-All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. A future version of snakebite will allow easily toggling of mods.
+All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. Snakebite mod manager allows easy toggling of mods.
 
 Disclaimers:
 ------------------------------
@@ -192,6 +196,14 @@ There may be some overrides for Max Prepare that I've missed, I've noticed on sm
 
 Changelog:
 ------------------------------
+r75 - r75 2015-11-14 - public release
+Fix: subsistence mission without subsistence profile set hang on loading screen
+Fix: setting change increment mult not rounded to integer
+Option: startOffline
+Fix: CanArriveQuietInMb - Quiet not showing in motherbase cell/demos.
+Option: mbEnableBuddies
+Build with snakebite 0.8
+
 r74 - 2015-11-12 - public release
 Update to 1.0.6.0
 

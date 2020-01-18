@@ -619,8 +619,8 @@ function this.SetUpPowerSettings(e)
 end
 function this.ApplyPowerSettingsOnInitialize()
   local n=mvars.ene_missionSoldierPowerSettings
-  for n,t in pairs(n)do
-    local n=GetGameObjectId(n)
+  for soldierName,t in pairs(n)do
+    local n=GetGameObjectId(soldierName)
     if n==NULL_ID then
     else
       this.ApplyPowerSetting(n,t)
@@ -662,13 +662,13 @@ end
 function this.GetSoldierType(soldierId)--tex now pulls type for subtype
   local soldierType = this._GetSoldierType(soldierId)
 
-  --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." GetSoldierType Caller: " .. debug.getinfo(2).name.. " ".. debug.getinfo(2).source)--DEBUGNOW:
+  --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." GetSoldierType Caller: " .. debug.getinfo(2).name.. " ".. debug.getinfo(2).source)
   if InfMain.IsForceSoldierSubType() then--tex WIP:
     --InfMenu.DebugPrint("GetSoldierType soldierTypeForced")--DEBUNOW
     local subType = this.GetSoldierSubType(soldierId,soldierType)
     local typeForSubType=InfMain.soldierTypeForSubtypes[subType]
     if typeForSubType~=soldierType then
-      --InfMenu.DebugPrint("GetSoldierType for id: ".. soldierId .." ".. soldierType .." ~= "..typeForSubType .." of "..subType)--DEBUNOW
+      --InfMenu.DebugPrint("GetSoldierType for id: ".. soldierId .." ".. soldierType .." ~= "..typeForSubType .." of "..subType)
       if soldierId~=nil then
         mvars.ene_soldierTypes=mvars.ene_soldierTypes or {}
         mvars.ene_soldierTypes[soldierId]=soldierType
@@ -782,11 +782,6 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
   mvars.ene_ddWeaponCount=0
   ddWeaponNormalTable.IS_NOKILL={}
   local DDWeaponIdInfo=this.DDWeaponIdInfo
-  --if InfMain.IsMbPlayTime() then--DEBUG CULL
-  --  TppUiCommand.AnnounceLogView("_CreateDDWeaponIdTable: mbplaytime soldierEquipGrade"..soldierEquipGrade )
-  --else
-  --  TppUiCommand.AnnounceLogView("_CreateDDWeaponIdTable: not mbplaytime soldierEquipGrade" ..soldierEquipGrade)
-  --end--DEBUGNOW:
   for a,e in pairs(DDWeaponIdInfo)do
     for n,e in ipairs(e)do
       local addWeapon=false
@@ -798,8 +793,8 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
       else
         local developId=e.developId
         local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-        --if InfMain.IsMbPlayTime() then--DEBUGNOW
-        --TppUiCommand.AnnounceLogView("_CreateDDWeaponIdTable developrank:" .. developRank .. " soldierEquipGrade: " .. soldierEquipGrade)--tex DEBUG: CULL:
+        --if InfMain.IsMbPlayTime() then
+        --InfMenu.DebugPrint("_CreateDDWeaponIdTable developrank:" .. developRank .. " soldierEquipGrade: " .. soldierEquipGrade)--tex DEBUG: CULL:
         --end--
         local overrideDeveloped = InfMain.IsMbPlayTime() and gvars.mbSoldierEquipGrade >= Ivars.mbSoldierEquipGrade.enum.GRADE1
         if(soldierEquipGrade>=developRank and (developedGradeTable[developedEquipType]>=developRank or overrideDeveloped))then--tex added override
@@ -1116,7 +1111,6 @@ function this.AddPowerSetting(t,a)
   this.ApplyPowerSetting(t,n)
 end
 function this.ApplyPowerSetting(soldierId,_loadout)
-  --DEBUGNOW
   if soldierId==NULL_ID then
     return
   end
@@ -1590,13 +1584,14 @@ function this.IsActiveSoldierInRange(t,e)
   local e={id="IsActiveSoldierInRange",position=t,range=e}
   return SendCommand({type="TppSoldier2"},e)
 end
-function this._SetOutOfArea(n,t)
-  if IsTypeTable(n)then
-    for a,n in ipairs(n)do
+function this._SetOutOfArea(soldierName,t)
+  if IsTypeTable(soldierName)then
+    for a,n in ipairs(soldierName)do
       this._SetOutOfArea(n,t)
     end
   else
-    local e=GetGameObjectId("TppSoldier2",n)table.insert(t,e)
+    local e=GetGameObjectId("TppSoldier2",soldierName)
+    table.insert(t,e)
   end
 end
 function this.SetOutOfArea(i,a)
@@ -1647,17 +1642,17 @@ function this.SetEliminateTargets(t,n)
     end
   end
 end
-function this.DeleteEliminateTargetSetting(t)
+function this.DeleteEliminateTargetSetting(soldierName)
   if not mvars.ene_eliminateTargetList then
     return
   end
-  local e=GetGameObjectId(t)
+  local e=GetGameObjectId(soldierName)
   if e==NULL_ID then
     return
   end
   if mvars.ene_eliminateTargetList[e]then
     mvars.ene_eliminateTargetList[e]=nil
-    local e=GetGameObjectId("TppSoldier2",t)
+    local e=GetGameObjectId("TppSoldier2",soldierName)
     if e==NULL_ID then
     else
       SendCommand(e,{id="ResetSoldier2Flag"})
@@ -2113,8 +2108,8 @@ function this.RealizeParasiteSquad()
   if not IsTypeTable(mvars.ene_parasiteSquadList)then
     return
   end
-  for t,e in pairs(mvars.ene_parasiteSquadList)do
-    local e=GetGameObjectId("TppParasite2",e)
+  for t,soldierName in pairs(mvars.ene_parasiteSquadList)do
+    local e=GetGameObjectId("TppParasite2",soldierName)
     if e~=NULL_ID then
       SendCommand(e,{id="Realize"})
     end
@@ -2124,8 +2119,8 @@ function this.UnRealizeParasiteSquad()
   if not IsTypeTable(mvars.ene_parasiteSquadList)then
     return
   end
-  for t,e in pairs(mvars.ene_parasiteSquadList)do
-    local e=GetGameObjectId("TppParasite2",e)
+  for t,soldierName in pairs(mvars.ene_parasiteSquadList)do
+    local e=GetGameObjectId("TppParasite2",soldierName)
     if e~=NULL_ID then
       SendCommand(e,{id="Unrealize"})
     end
@@ -2756,13 +2751,9 @@ function this.AssignSoldiersToCP()
       end
       local command
       local soldierType=this.GetSoldierType(soldierId)
-
       --[[if InfMain.IsForceSoldierSubType() then--tex WIP: DEBUGNOW
-
           this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
-
       end--]]
-
       command={id="SetSoldier2Type",type=soldierType}
       GameObject.SendCommand(soldierId,command)
       if(soldierType~=EnemyType.TYPE_SKULL and soldierType~=EnemyType.TYPE_CHILD)and cpSubType then
@@ -2835,7 +2826,8 @@ function this.SpawnVehicle(e)
     return
   end
   if e.id~="Spawn"then
-    e.id="Spawn"end
+    e.id="Spawn"
+    end
   local n=e.locator
   if not n then
     return
@@ -2868,7 +2860,8 @@ function this.DespawnVehicle(e)
     return
   end
   if e.id~="Despawn"then
-    e.id="Despawn"end
+    e.id="Despawn"
+    end
   local n=e.locator
   if not n then
     return
@@ -4003,19 +3996,19 @@ function this.SetIgnoreTakingOverHostage(e)
     end
   end
 end
-function this.SetIgnoreDisableNpc(e,i)
-  local t
-  if IsTypeNumber(e)then
-    t=e
-  elseif IsTypeString(e)then
-    t=GetGameObjectId(e)
+function this.SetIgnoreDisableNpc(npcId,enable)
+  local gameId
+  if IsTypeNumber(npcId)then
+    gameId=npcId
+  elseif IsTypeString(npcId)then
+    gameId=GetGameObjectId(npcId)
   else
     return
   end
-  if t==NULL_ID then
+  if gameId==NULL_ID then
     return
   end
-  SendCommand(t,{id="SetIgnoreDisableNpc",enable=i})
+  SendCommand(gameId,{id="SetIgnoreDisableNpc",enable=enable})
   return true
 end
 
@@ -4045,8 +4038,8 @@ function this.SetupQuestEnemy()
   local t="quest_cp"local n="gt_quest_0000"if mvars.ene_soldierDefine.quest_cp==nil then
     return
   end
-  for n,e in ipairs(mvars.ene_soldierDefine.quest_cp)do
-    local e=GameObject.GetGameObjectId("TppSoldier2",e)
+  for n,soldierName in ipairs(mvars.ene_soldierDefine.quest_cp)do
+    local e=GameObject.GetGameObjectId("TppSoldier2",soldierName)
     if e~=NULL_ID then
       GameObject.SendCommand(e,{id="SetEnabled",enabled=false})
     end
@@ -4288,7 +4281,8 @@ function this.SetupActivateQuestVehicle(n,t)
     this.SpawnVehicles(n)
     for a,n in ipairs(n)do
       if n.locator then
-        local e={id="Despawn",locator=n.locator}table.insert(mvars.ene_questVehicleList,e)
+        local e={id="Despawn",locator=n.locator}
+        table.insert(mvars.ene_questVehicleList,e)
       end
       for a,t in ipairs(t)do
         if n.locator==t then
@@ -5249,8 +5243,8 @@ function this._RestoreOnContinueFromCheckPoint_Hostage2()
       "TppHostageUnique",
       "TppHostageUnique2",
       "TppHostageKaz",
-      "TppOcelot2"
-      ,"TppHuey2",
+      "TppOcelot2",
+      "TppHuey2",
       "TppCodeTalker2",
       "TppSkullFace2",
       "TppMantis2"

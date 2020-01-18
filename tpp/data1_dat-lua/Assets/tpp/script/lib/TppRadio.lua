@@ -83,7 +83,8 @@ function e.ChangeIntelRadio(e)
   TppRadioCommand.RegisterEspionageRadioTable(e)
 end
 function e.RequestBlackTelephoneRadio(a)
-  local a,i=e.GetRadioNameAndRadioIDs(a)SubtitlesCommand.SetIsEnabledUiPrioStrong(true)
+  local a,i=e.GetRadioNameAndRadioIDs(a)
+  SubtitlesCommand.SetIsEnabledUiPrioStrong(true)
   e.playingBlackTelInfo={radioGroups=i,radioName=a,[n(a)]=true}
 end
 function e.SetBlackTelephoneDisplaySetting(e)

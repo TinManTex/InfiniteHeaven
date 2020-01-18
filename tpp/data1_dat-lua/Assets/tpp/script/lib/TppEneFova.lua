@@ -925,7 +925,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
   TppHostage2.ClearDefaultBodyFovaId()
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
     local soldierEquipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade(missionId)--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
-    --TppUiCommand.AnnounceLogView("PreMissionLoad mission:" .. missionId .. " currentMissionId " .. currentMissionId .. " soliderequipgrade: ".. soldierEquipGrade) --DEBUGNOW
+    --InfMenu.DebugPrint("PreMissionLoad mission:" .. missionId .. " currentMissionId " .. currentMissionId .. " soliderequipgrade: ".. soldierEquipGrade)
     local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
     TppEnemy.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   end

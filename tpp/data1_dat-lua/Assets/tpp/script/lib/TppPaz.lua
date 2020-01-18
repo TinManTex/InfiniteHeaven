@@ -9,7 +9,8 @@ e.START_TYPE_DOWN=2
 e.DEMO_END_TYPE_NONE=0
 e.DEMO_END_TYPE_SIT=1
 e.DEMO_END_TYPE_DOWN=2
-local o="mtbs_uq0040_plnt0000|uq_00400000|uq_0040_asset|TppPazLocator"local b={"PlayMotion","/Assets/tpp/motion/SI_game/fani/bodies/paz1/paz1/paz1_q_book_idl.gani"}
+local o="mtbs_uq0040_plnt0000|uq_00400000|uq_0040_asset|TppPazLocator"
+local b={"PlayMotion","/Assets/tpp/motion/SI_game/fani/bodies/paz1/paz1/paz1_q_book_idl.gani"}
 local t={"PlayMotion","/Assets/tpp/motion/SI_game/fani/bodies/paz1/paz1/paz1_q_sit_idl.gani"}
 local S={"PlayMotion","/Assets/tpp/motion/SI_game/fani/bodies/paz1/paz1/paz1_q_sit_idl_2.gani"}
 local U={"PlayMotion","/Assets/tpp/motion/SI_game/fani/bodies/paz1/paz1/paz1_q_sit_idl_ver2.gani"}

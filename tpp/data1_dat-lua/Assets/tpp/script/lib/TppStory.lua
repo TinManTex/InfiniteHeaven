@@ -1708,15 +1708,15 @@ end
 function this.CanReunionQuiet()
   return gvars.str_quietReunionMissionCount>TppDefine.QUIET_REUNION_MISSION_COUNT
 end--
-function this.CanArrivalQuietInMB(n)
-  local disObtainQuiet=TppBuddy2BlockController.DidObtainBuddyType(BuddyType.QUIET)
+function this.CanArrivalQuietInMB(noHospitalCheck)
+  local didObtain=TppBuddy2BlockController.DidObtainBuddyType(BuddyType.QUIET)
   local notInHospital=not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_HOSPITALIZE)
-  if n then
+  if noHospitalCheck then
     notInHospital=true
   end
   local notLost=not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)
   local notDead=not TppBuddyService.IsDeadBuddyType(BuddyType.QUIET)
-  return((disObtainQuiet and notInHospital)and notLost)and t
+  return((didObtain and notInHospital)and notLost)and notDead
 end
 function this.RequestLoseQuiet()
   if not gvars.str_didLostQuiet then

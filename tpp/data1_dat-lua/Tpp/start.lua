@@ -18,7 +18,8 @@ GameConfig.Reset()
 UiDaemon.SetPrefetchTexture"/Assets/tpp/ui/ModelAsset/cmn_loadmark/Pictures/cmn_loadmark_logo_mini_nmp.ftex"
 AssetConfiguration.RegisterExtensionInfo{extensions={"tetl","tmss","tmsl","tlsp","tmsu","tmsf","twpf","adm","tevt","vpc","ends","spch","mbl"},categories={"Target"}}
 if TppGameSequence and TppPhaseController then
-  local e=TppGameSequence:GetInstance()e:SetPhaseController(TppPhaseController.Create())
+  local e=TppGameSequence:GetInstance()
+  e:SetPhaseController(TppPhaseController.Create())
 end
 local e=CheckpointDaemon{name="CheckpointDaemon"}
 if GkNoiseSystem then

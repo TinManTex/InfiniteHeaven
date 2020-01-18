@@ -1,10 +1,11 @@
+-- DOBUILD: 1
 local this={}
-local u=Fox.StrCode32
-local i=Tpp.IsTypeTable
-local s=GameObject.GetGameObjectId
-local o=GameObject.NULL_ID
-local p=FadeFunction.CallFadeIn
-local r=FadeFunction.CallFadeOut
+local StrCode32=Fox.StrCode32
+local IsTypeTable=Tpp.IsTypeTable
+local GetGameObjectId=GameObject.GetGameObjectId
+local NULL_ID=GameObject.NULL_ID
+local CallFadeIn=FadeFunction.CallFadeIn
+local CallFadeOut=FadeFunction.CallFadeOut
 local d=0
 this.FADE_SPEED={FADE_MOMENT=0,FADE_HIGHESTSPEED=.5,FADE_HIGHSPEED=1,FADE_NORMALSPEED=2,FADE_LOWSPEED=4,FADE_LOWESTSPEED=8}
 this.ANNOUNCE_LOG_TYPE={
@@ -212,7 +213,7 @@ function this.Messages()
     }
   }
 end
-local function t(e)
+local function ToStrCode32(e)
   if type(e)=="string"then
     return Fox.StrCode32(e)
   elseif type(e)=="number"then
@@ -221,7 +222,7 @@ local function t(e)
   return nil
 end
 function this.FadeIn(o,a,i,n)
-  local t=t(a)
+  local t=ToStrCode32(a)
   if n then
     mvars.ui_onEndFadeInExceptGameStatus=n.exceptGameStatus
   elseif mvars.ui_onEndFadeInOverrideExceptGameStatus then
@@ -229,7 +230,8 @@ function this.FadeIn(o,a,i,n)
   else
     mvars.ui_onEndFadeInExceptGameStatus=nil
   end
-  TppSoundDaemon.ResetMute"Outro"p(o,t,i)
+  TppSoundDaemon.ResetMute"Outro"
+  CallFadeIn(o,t,i)
   this.EnableGameStatusOnFadeInStart()
 end
 function this.OverrideFadeInGameStatus(e)
@@ -242,27 +244,27 @@ function this.GetOverrideGameStatus()
   return mvars.ui_onEndFadeInOverrideExceptGameStatusTemporary
 end
 function this.SetFadeColorToBlack()
-FadeFunction.SetFadeColor(0,0,0,255)
+  FadeFunction.SetFadeColor(0,0,0,255)
 end
 function this.SetFadeColorToWhite()
-FadeFunction.SetFadeColor(255,255,255,255)
+  FadeFunction.SetFadeColor(255,255,255,255)
 end
 function this.FadeOut(s,o,p,n)
-  local a,i
+  local setMute,exceptGameStatus
   if Tpp.IsTypeTable(n)then
-    a=n.setMute
-    i=n.exceptGameStatus
+    setMute=n.setMute
+    exceptGameStatus=n.exceptGameStatus
   end
-  local n=t(o)
-  this.DisableGameStatusOnFade(i)
-  if a then
+  local n=ToStrCode32(o)
+  this.DisableGameStatusOnFade(exceptGameStatus)
+  if setMute then
     TppSound.SetMuteOnLoading()
   else
     if(not TppSoundDaemon.CheckCurrentMuteIs"Pause")and(not TppSoundDaemon.CheckCurrentMuteMoreThan"Outro")then
       TppSoundDaemon.SetMute"Outro"
-      end
+    end
   end
-  r(s,n,p)
+  CallFadeOut(s,n,p)
 end
 function this.ShowAnnounceLog(announceId,param1,param2,delayTime,missionSubGoalNumber)
   if gvars.ini_isTitleMode then
@@ -279,16 +281,16 @@ function this.ShowAnnounceLog(announceId,param1,param2,delayTime,missionSubGoalN
     TppUiCommand.AnnounceLogViewLangId(missionSubGoalLangId)
   end
 end
-function this.ShowColorAnnounceLog(t,i,a,n)
+function this.ShowColorAnnounceLog(t,i,a,delay)
   if gvars.ini_isTitleMode then
     return
   end
-  local e=this.ANNOUNCE_LOG_TYPE[t]
-  if e then
-    if n then
-      TppUiCommand.AnnounceLogDelayTime(n)
+  local langId=this.ANNOUNCE_LOG_TYPE[t]
+  if langId then
+    if delay then
+      TppUiCommand.AnnounceLogDelayTime(delay)
     end
-    TppUiCommand.AnnounceLogViewLangId(e,i,a,0,0,true)
+    TppUiCommand.AnnounceLogViewLangId(langId,i,a,0,0,true)
   end
 end
 function this.ShowJoinAnnounceLog(announceId1,announceId2,param1,param2,delayTime)
@@ -304,25 +306,27 @@ function this.ShowJoinAnnounceLog(announceId1,announceId2,param1,param2,delayTim
     TppUiCommand.AnnounceLogViewJoinLangId(langId1,langId2,param1,param2)
   end
 end
-function this.ShowColorJoinAnnounceLog(i,o,t,a,n)
+function this.ShowColorJoinAnnounceLog(i,o,t,a,delay)
   if gvars.ini_isTitleMode then
     return
   end
-  local i=this.ANNOUNCE_LOG_TYPE[i]
-  local e=this.ANNOUNCE_LOG_TYPE[o]
-  if i and e then
-    if n then
-      TppUiCommand.AnnounceLogDelayTime(n)
+  local langId=this.ANNOUNCE_LOG_TYPE[i]
+  local langId2=this.ANNOUNCE_LOG_TYPE[o]
+  if langId and langId2 then
+    if delay then
+      TppUiCommand.AnnounceLogDelayTime(delay)
     end
-    TppUiCommand.AnnounceLogViewJoinLangId(i,e,t,a,0,0,true)
+    TppUiCommand.AnnounceLogViewJoinLangId(langId,langId2,t,a,0,0,true)
   end
 end
 function this.ShowEmergencyAnnounceLog(n)
   this.ShowAnnounceLog"emergencyMissionOccur"
   if not(TppUiStatusManager.CheckStatus("AnnounceLog","INVALID_LOG")or TppUiStatusManager.CheckStatus("AnnounceLog","SUSPEND_LOG"))then
     if n==true then
-      TppSoundDaemon.PostEvent"sfx_s_fob_emergency"else
-      TppSoundDaemon.PostEvent"sfx_s_fob_alert"end
+      TppSoundDaemon.PostEvent"sfx_s_fob_emergency"
+      else
+      TppSoundDaemon.PostEvent"sfx_s_fob_alert"
+      end
   end
 end
 function this.EnableMissionPhoto(i,e,n,a,t)
@@ -340,7 +344,7 @@ function this.EnableMissionPhoto(i,e,n,a,t)
     if a then
     end
     if t then
-      local e=u(t)
+      local e=StrCode32(t)
       TppUiCommand.SetMissionPhotoRadioGroupName(i,e)
     end
   end
@@ -357,38 +361,38 @@ function this.EnableMissionSubGoal(e)
   TppUiCommand.SetCurrentMissionSubGoalNo(e)
 end
 function this.EnableSpySearch(e)
-  if not i(e)then
+  if not IsTypeTable(e)then
     return
   end
   local n,i
   if Tpp.IsTypeString(e.gameObjectName)then
     i=e.gameObjectName
-    n=s(i)
+    n=GetGameObjectId(i)
   elseif Tpp.IsTypeNumber(e.gameObjectId)then
     n=e.gameObjectId
   else
     return
   end
-  if n==o then
+  if n==NULL_ID then
     return
   end
   e.gameObjectId=n
   TppUiCommand.ActivateSpySearchForGameObject(e)
 end
 function this.DisableSpySearch(e)
-  if not i(e)then
+  if not IsTypeTable(e)then
     return
   end
   local n,i
   if Tpp.IsTypeString(e.gameObjectName)then
     i=e.gameObjectName
-    n=s(i)
+    n=GetGameObjectId(i)
   elseif Tpp.IsTypeNumber(e.gameObjectId)then
     n=e.gameObjectId
   else
     return
   end
-  if n==o then
+  if n==NULL_ID then
     return
   end
   e.gameObjectId=n
@@ -411,7 +415,7 @@ function this.EnableMissionTask(a,t)
   if t==nil then
     t=true
   end
-  if not i(a)then
+  if not IsTypeTable(a)then
     return
   end
   local n={}
@@ -513,7 +517,7 @@ function this.IsAllTaskCompleted(n)
   return false
 end
 function this.ShowControlGuide(n)
-  if not i(n)then
+  if not IsTypeTable(n)then
     return
   end
   local t,a,i,o,s,p,r
@@ -569,7 +573,7 @@ function this.ShowControlGuide(n)
   end
 end
 function this.ShowTipsGuide(n)
-  if not i(n)then
+  if not IsTypeTable(n)then
     return
   end
   local a,t,i,r,p,o,s
@@ -672,7 +676,7 @@ function this.RegisterTips(e,n)
   end
 end
 function this.StartDisplayTimer(e)
-  if not i(e)then
+  if not IsTypeTable(e)then
     return
   end
   if not e.svarsName then
@@ -830,14 +834,14 @@ function this.StartLyricCyprus(e)
   TppUiCommand.LyricTexture("disp","cyprus_lyric_20",4.27,0)
   TppUiCommand.LyricTexture("start",e)
 end
-function this.OnAllocate(n)
-  if n.sequence then
-    if n.sequence.OVERRIDE_SYSTEM_EXCEPT_GAME_STATUS then
-      mvars.ui_onEndFadeInOverrideExceptGameStatus=n.sequence.OVERRIDE_SYSTEM_EXCEPT_GAME_STATUS
+function this.OnAllocate(missionTable)
+  if missionTable.sequence then
+    if missionTable.sequence.OVERRIDE_SYSTEM_EXCEPT_GAME_STATUS then
+      mvars.ui_onEndFadeInOverrideExceptGameStatus=missionTable.sequence.OVERRIDE_SYSTEM_EXCEPT_GAME_STATUS
     end
   end
   local i=true
-  if n.sequence and n.sequence.NO_LOAD_UI_DEFAULT_BLOCK then
+  if missionTable.sequence and missionTable.sequence.NO_LOAD_UI_DEFAULT_BLOCK then
     i=false
   end
   if i then
@@ -846,8 +850,8 @@ function this.OnAllocate(n)
     return
   end
   TppUiCommand.ClearAllMissionPhotoIds()
-  if n.sequence and n.sequence.UNSET_UI_SETTING then
-    mvars.ui_unsetUiSetting=n.sequence.UNSET_UI_SETTING
+  if missionTable.sequence and missionTable.sequence.UNSET_UI_SETTING then
+    mvars.ui_unsetUiSetting=missionTable.sequence.UNSET_UI_SETTING
   end
   if TppMission.IsMissionStart()then
     this.EnableMissionSubGoal(d)
@@ -864,7 +868,9 @@ function this.LoadAndWaitUiDefaultBlock()
   local e=false
   e=not TppUiCommand.IsTppUiReady()
   while e and(n<i)do
-    e=not TppUiCommand.IsTppUiReady()n=n+Time.GetFrameTime()coroutine.yield()
+    e=not TppUiCommand.IsTppUiReady()
+    n=n+Time.GetFrameTime()
+    coroutine.yield()
   end
 end
 function this.OnMissionStart()
@@ -881,7 +887,12 @@ function this.OnMissionStart()
 end
 function this.Init()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
-  TppUiCommand.SetMotherBaseStageSecurityTable{numInSpecialPlatform=TppDefine.SECURITY_SETTING.numInSpecialPlatform,numInCommonPlatform=TppDefine.SECURITY_SETTING.numInCommonPlatform,numInCommandPlatform=TppDefine.SECURITY_SETTING.numInCommandPlatform,numInBaseDevPlatform=TppDefine.SECURITY_SETTING.numInBaseDevPlatform}
+  TppUiCommand.SetMotherBaseStageSecurityTable{
+    numInSpecialPlatform=TppDefine.SECURITY_SETTING.numInSpecialPlatform,
+    numInCommonPlatform=TppDefine.SECURITY_SETTING.numInCommonPlatform,
+    numInCommandPlatform=TppDefine.SECURITY_SETTING.numInCommandPlatform,
+    numInBaseDevPlatform=TppDefine.SECURITY_SETTING.numInBaseDevPlatform
+  }
   local isHelicopterSpace=TppMission.IsHelicopterSpace(vars.missionCode)
   local isFreeMission=TppMission.IsFreeMission(vars.missionCode)
   local isFOBMission=TppMission.IsFOBMission(vars.missionCode)
@@ -902,30 +913,53 @@ function this.Init()
   end
   TppUiCommand.ResetCurrentMissionSubGoalNo()
   this._RegisterDefaultLandPoint()
-  local i=(UiCommonDataManager.GetInstance()~=nil)
-  if i then
+  local hasUi=(UiCommonDataManager.GetInstance()~=nil)
+  if hasUi then
     if isHelicopterSpace then
       this.RegisterHeliSpacePauseMenuPage(true)
     elseif isFreeMission then
-      local e={GamePauseMenu.RESTART_FROM_CHECK_POINT,GamePauseMenu.RETURN_TO_TITLE,GamePauseMenu.SIGN_IN,GamePauseMenu.STORE_ITEM,GamePauseMenu.RECORDS_ITEM,GamePauseMenu.CONTROLS_AND_TIPS_ITEM,GamePauseMenu.OPEN_OPTION_MENU}
+      local pauseMenuItems={
+        GamePauseMenu.RESTART_FROM_CHECK_POINT,
+        GamePauseMenu.RETURN_TO_TITLE,
+        GamePauseMenu.SIGN_IN,
+        GamePauseMenu.STORE_ITEM,
+        GamePauseMenu.RECORDS_ITEM,
+        GamePauseMenu.CONTROLS_AND_TIPS_ITEM,
+        GamePauseMenu.OPEN_OPTION_MENU
+      }
       if TppMission.IsMbFreeMissions(vars.missionCode)then
         if(vars.missionCode==30050)then
-          table.insert(e,2,GamePauseMenu.RESTART_FROM_MISSION_START)
+          table.insert(pauseMenuItems,2,GamePauseMenu.RESTART_FROM_MISSION_START)
         end
+        table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)--tex
       else
-        table.insert(e,2,GamePauseMenu.RESTART_FROM_HELICOPTER)
+        table.insert(pauseMenuItems,2,GamePauseMenu.RESTART_FROM_HELICOPTER)
       end
-      TppUiCommand.RegisterPauseMenuPage(e)
+      TppUiCommand.RegisterPauseMenuPage(pauseMenuItems)
     elseif TppMission.IsEmergencyMission()then
       if isFOBMission then
         TppUiCommand.RegisterPauseMenuPage{GamePauseMenu.RETURN_TO_MISSION_FROM_EMERGENCY_MISSION}
       else
-        TppUiCommand.RegisterPauseMenuPage{GamePauseMenu.RETURN_TO_MISSION_FROM_EMERGENCY_MISSION,GamePauseMenu.SIGN_IN,GamePauseMenu.STORE_ITEM,GamePauseMenu.RECORDS_ITEM,GamePauseMenu.CONTROLS_AND_TIPS_ITEM,GamePauseMenu.OPEN_OPTION_MENU}
+        TppUiCommand.RegisterPauseMenuPage{
+          GamePauseMenu.RETURN_TO_MISSION_FROM_EMERGENCY_MISSION,
+          GamePauseMenu.SIGN_IN,
+          GamePauseMenu.STORE_ITEM,
+          GamePauseMenu.RECORDS_ITEM,
+          GamePauseMenu.CONTROLS_AND_TIPS_ITEM,
+          GamePauseMenu.OPEN_OPTION_MENU
+        }
       end
     elseif isFOBMission then
       this.RegisterFobSneakPauseMenuPage()
     else
-      local pauseMenuItems={GamePauseMenu.RESTART_FROM_MISSION_START,GamePauseMenu.RETURN_TO_TITLE,GamePauseMenu.SIGN_IN,GamePauseMenu.STORE_ITEM,GamePauseMenu.CONTROLS_AND_TIPS_ITEM,GamePauseMenu.OPEN_OPTION_MENU}
+      local pauseMenuItems={
+        GamePauseMenu.RESTART_FROM_MISSION_START,
+        GamePauseMenu.RETURN_TO_TITLE,
+        GamePauseMenu.SIGN_IN,
+        GamePauseMenu.STORE_ITEM,
+        GamePauseMenu.CONTROLS_AND_TIPS_ITEM,
+        GamePauseMenu.OPEN_OPTION_MENU
+      }
       if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE then
         table.insert(pauseMenuItems,6,GamePauseMenu.RECORDS_ITEM)
       end
@@ -946,7 +980,7 @@ function this.Init()
     end
     TppPauseMenu.SetIgnoreActorPause(e)
   end
-  if i then
+  if hasUi then
     if isFreeMission then
       local e={GameOverMenu.GAME_OVER_CONTINUE,GameOverMenu.GAME_OVER_TITLE}
       if vars.missionCode~=30050 then
@@ -971,7 +1005,7 @@ function this.Init()
       TppUiCommand.RegisterGameOverMenuItems(gameOverMenuItems)
     end
   end
-  if i then
+  if hasUi then
     TppUiCommand.RegisterSideOpsListFunction("TppQuest","GetSideOpsListTable")
   end
   TppUiCommand.SetMBMapArrowIcon(false)GameConfig.ApplyAllConfig()
@@ -1020,14 +1054,21 @@ function this.Init()
   end
 end
 function this.RegisterHeliSpacePauseMenuPage(n)
-  local e={GamePauseMenu.RETURN_TO_TITLE,GamePauseMenu.ONLINE_NEWS,GamePauseMenu.RECORDS_ITEM,GamePauseMenu.CONTROLS_AND_TIPS_ITEM,GamePauseMenu.OPEN_OPTION_MENU,GamePauseMenu.GOTO_MGO}
+  local menuItems={
+    GamePauseMenu.RETURN_TO_TITLE,
+    GamePauseMenu.ONLINE_NEWS,
+    GamePauseMenu.RECORDS_ITEM,
+    GamePauseMenu.CONTROLS_AND_TIPS_ITEM,
+    GamePauseMenu.OPEN_OPTION_MENU,
+    GamePauseMenu.GOTO_MGO
+  }
   if n then
-    table.insert(e,2,GamePauseMenu.STORE_ITEM)
+    table.insert(menuItems,2,GamePauseMenu.STORE_ITEM)
   end
   if not(TppGameMode.GetUserMode()<=TppGameMode.U_SIGN_OUT)then
-    table.insert(e,2,GamePauseMenu.SIGN_IN)
+    table.insert(menuItems,2,GamePauseMenu.SIGN_IN)
   end
-  TppUiCommand.RegisterPauseMenuPage(e)
+  TppUiCommand.RegisterPauseMenuPage(menuItems)
 end
 function this.RegisterFobSneakPauseMenuPage()
   local e={GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC}
@@ -1037,11 +1078,11 @@ function this.RegisterFobSneakPauseMenuPage()
   TppUiCommand.RegisterPauseMenuPage(e)
 end
 function this.RegisterFobSneakGameOverMenuItems()
-  local e={GameOverMenu.GAME_OVER_ABORT}
+  local menuItems={GameOverMenu.GAME_OVER_ABORT}
   if(vars.fobSneakMode==FobMode.MODE_SHAM)and(TppNetworkUtil.GetSessionMemberCount()==1)then
-    table.insert(e,1,GameOverMenu.GAME_OVER_RESTART)
+    table.insert(menuItems,1,GameOverMenu.GAME_OVER_RESTART)
   end
-  TppUiCommand.RegisterGameOverMenuItems(e)
+  TppUiCommand.RegisterGameOverMenuItems(menuItems)
 end
 function this.OnReload()
   this.Init()
@@ -1065,43 +1106,55 @@ function this.OnChangeSVars(name,n)
   end
 end
 function this.DisableGameStatusOnFade(n)
-  local e={S_DISABLE_NPC=false}
-  if i(n)then
+  local except={S_DISABLE_NPC=false}
+  if IsTypeTable(n)then
     for n,i in pairs(n)do
-      e[n]=i
+      except[n]=i
     end
   end
-  Tpp.SetGameStatus{target="all",enable=false,except=e,scriptName="TppUI.lua"}
+  Tpp.SetGameStatus{target="all",enable=false,except=except,scriptName="TppUI.lua"}
 end
 function this.DisableGameStatusOnFadeOutEnd()
   Tpp.SetGameStatus{target="all",enable=false,scriptName="TppUI.lua"}
 end
 function this.EnableGameStatusOnFadeInStart()
-  Tpp.SetGameStatus{target={S_DISABLE_NPC=true,S_DISABLE_NPC_NOTICE=true,S_DISABLE_TARGET=true,S_DISABLE_PLAYER_PAD=true,S_DISABLE_PLAYER_DAMAGE=true,S_DISABLE_THROWING=true,S_DISABLE_PLACEMENT=true},enable=true,scriptName="TppUI.lua"}
+  Tpp.SetGameStatus{
+    target={
+        S_DISABLE_NPC=true,
+        S_DISABLE_NPC_NOTICE=true,
+        S_DISABLE_TARGET=true,
+        S_DISABLE_PLAYER_PAD=true,
+        S_DISABLE_PLAYER_DAMAGE=true,
+        S_DISABLE_THROWING=true,
+        S_DISABLE_PLACEMENT=true
+      },
+      enable=true,
+      scriptName="TppUI.lua"
+    }
 end
 function this.EnableGameStatusOnFade()
-  local e,n
-  if i(mvars.ui_onEndFadeInExceptGameStatus)then
+  local except,n
+  if IsTypeTable(mvars.ui_onEndFadeInExceptGameStatus)then
     n=mvars.ui_onEndFadeInExceptGameStatus
-  elseif i(mvars.ui_onEndFadeInOverrideExceptGameStatusTemporary)then
+  elseif IsTypeTable(mvars.ui_onEndFadeInOverrideExceptGameStatusTemporary)then
     n=mvars.ui_onEndFadeInOverrideExceptGameStatusTemporary
   else
     if TppDemo.IsNotPlayable()then
-      e=e or{}
+      except=except or{}
       for n,i in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-        e[n]=false
+        except[n]=false
       end
-      e.PauseMenu=nil
-      e.InfoTypingText=nil
+      except.PauseMenu=nil
+      except.InfoTypingText=nil
     end
   end
   if n then
-    e={}
+    except={}
     for n,i in pairs(n)do
-      e[n]=i
+      except[n]=i
     end
   end
-  Tpp.SetGameStatus{target="all",enable=true,except=e,scriptName="TppUI.lua"}
+  Tpp.SetGameStatus{target="all",enable=true,except=except,scriptName="TppUI.lua"}
 end
 function this._RegisterDefaultLandPoint()
   local DEFAULT_DROP_ROUTE=TppDefine.DEFAULT_DROP_ROUTE

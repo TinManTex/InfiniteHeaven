@@ -14,12 +14,12 @@ end
 function this.DegreeToRadian(n)
   return n*t
 end
-function this.FindDistance(r,t)
-  local n=0
-  for e=1,3 do
-    n=n+(t[e]-r[e])^2
+function this.FindDistance(pos1,pos2)
+  local distSqr=0
+  for vecIndex=1,3 do
+    distSqr=distSqr+(pos2[vecIndex]-pos1[vecIndex])^2
   end
-  return n
+  return distSqr
 end
 --tex SYS: mathstuff
 function this.Clamp(n,min,max)--tex

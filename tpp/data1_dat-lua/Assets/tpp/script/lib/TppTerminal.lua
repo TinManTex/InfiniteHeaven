@@ -1007,8 +1007,8 @@ function this.SetUp()
   this.SetUpArmsMBDVCMenu()
   this.SetUpBuddyMBDVCMenu()
   this.SetUpCustomWeaponMBDVCMenu()
-  --[[if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it
-    --InfMenu.DebugPrint"Tppterminal set dvcmenu")--tex DEBUG: CULL: --DEBUGNOW
+  --[[if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it RETRY
+    --InfMenu.DebugPrint"Tppterminal set dvcmenu")--tex DEBUG: CULL:
     local dvcMenu={
       {menu=this.MBDVCMENU.MSN_BUDDY,active=true},
     }
@@ -1065,7 +1065,7 @@ function this.SetUpBuddyMBDVCMenu()
   this.EnableDvcMenuByList{{menu=this.MBDVCMENU.MSN_BUDDY_EQUIP,active=true}}
   local t={HORSE=BuddyType.HORSE,DDOG=BuddyType.DOG,QUIET=BuddyType.QUIET,WALKER_GEAR=BuddyType.WALKER_GEAR,BATTLE_GEAR=BuddyType.BATTLE_GEAR}
   for n,t in pairs(t)do
-    local canSortieBuddy=TppBuddyService.CanSortieBuddyType(t)-- or InfMain.IsMbPlayTime()
+    local canSortieBuddy=TppBuddyService.CanSortieBuddyType(t) or (TppMission.IsMbFreeMissions(vars.missionCode) and gvars.mbEnableBuddies==1)
     if canSortieBuddy then
       local t=this.BUDDY_MB_DVC_MENU[t]
       if t then

@@ -332,40 +332,40 @@ function this.FinalizeOnDemoBlock()
   end
 end
 function this.SetDemoTransform(demoName,e)
-  local t=mvars.dem_demoList[demoName]
-  if(t==nil)then
+  local demoId=mvars.dem_demoList[demoName]
+  if(demoId==nil)then
     return
   end
   if(IsTypeTable(e)==false)then
     return
   end
-  local playerPosition
-  local a
+  local position
+  local rotation
   if(e.usePlayer==true)then
-    playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-    a=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
+    position=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+    rotation=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
   elseif(e.identifier and e.locatorName)then
-    playerPosition,a=Tpp.GetLocatorByTransform(e.identifier,e.locatorName)
+    position,rotation=Tpp.GetLocatorByTransform(e.identifier,e.locatorName)
   else
     return
   end
-  if playerPosition==nil then
+  if position==nil then
     return
   end
-  DemoDaemon.SetDemoTransform(t,a,playerPosition)
+  DemoDaemon.SetDemoTransform(demoId,rotation,position)
 end
 function this.GetDemoStartPlayerPosition(demoName)
-  local e=mvars.dem_demoList[demoName]
-  if(e==nil)then
+  local demoId=mvars.dem_demoList[demoName]
+  if(demoId==nil)then
     return
   end
-  local n,a,e=DemoDaemon.GetStartPosition(e,"Player")
+  local n,position,e=DemoDaemon.GetStartPosition(demoId,"Player")
   if not n then
     return
   end
-  local e=Tpp.GetRotationY(e)
-  local e={position=a,direction=e}
-  return e
+  local rotation=Tpp.GetRotationY(e)
+  local posRot={position=position,direction=rotation}
+  return posRot
 end
 function this.PlayOpening(demoFuncs,demoOptions)
   local options=demoOptions or{}
@@ -534,10 +534,10 @@ function this.CheckEventDemoDoor(r,n,e)
   end
   local n=0
   local i,l=0,1
-  local o=Tpp.IsNotAlert()
+  local isNotAlert=Tpp.IsNotAlert()
   local a=TppEnemy.IsActiveSoldierInRange(t,a)
   local e
-  if o==true and a==false then
+  if isNotAlert==true and a==false then
     n=i
     e=true
   else
@@ -545,7 +545,7 @@ function this.CheckEventDemoDoor(r,n,e)
     e=false
   end
   Player.SetEventLockDoorIcon{doorId=r,isNgIcon=n}
-  return e,o,(not a)
+  return e,isNotAlert,(not a)
 end
 function this.SpecifyIgnoreNpcDisable(e)
   local n
@@ -817,11 +817,11 @@ function this.DeletePlayRequestInfo(e,n)
     mvars.demo_playRequestInfo.missionBlock[e]=nil
   end
 end
-function this.ProcessPlayRequest(n)
-  if not next(n)then
+function this.ProcessPlayRequest(playRequestInfoDemoBlock)
+  if not next(playRequestInfoDemoBlock)then
     return
   end
-  for n,a in pairs(n)do
+  for n,a in pairs(playRequestInfoDemoBlock)do
     local a=this.CanStartPlay(n,a)
     if a then
       if not IsDemoPaused()then

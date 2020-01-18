@@ -2636,7 +2636,7 @@ function this.EnableNuclearEliminationMonument()
 end
 
 function this.EnableQuietSolitaryConfinementAssets()
-	local isEnable = TppStory.CanArrivalQuietInMB( true ) or gvars.mbShowQuietCellSigns>0--tex added mbshow
+	local isEnable = TppStory.CanArrivalQuietInMB( true ) or gvars.mbShowQuietCellSigns==1--tex added mbshow
 	TppDataUtility.SetVisibleDataFromIdentifier( "quiet_AssetIdentifier", "only_motherbase", isEnable, false)
 end
 

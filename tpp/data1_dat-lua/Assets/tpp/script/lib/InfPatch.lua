@@ -5,25 +5,25 @@ local this={}
 function this.QuietReturn()--tex
   if TppStory.IsMissionCleard(10260) then
     -- if gvars.str_didLostQuiet then
-    if TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
+    --if TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
       local q=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=TppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_QUIET}
-      if not TppMotherBaseManagement.IsExistStaff{staffId=q}then
+      --if not TppMotherBaseManagement.IsExistStaff{staffId=q}then
         TppMotherBaseManagement.DirectAddStaff{staffId=q}
         -- ,section="Wait",isNew=true,specialContract="fromExtra"} --tex nothing seems to work, some kind of internal check in directaddstaff i guess
         -- specialContract="fromGZ"
-      end
+      --end
       
       gvars.str_didLostQuiet=false
-      --TppBuddyService.SetObtainedBuddyType(BuddyType.QUIET)
+      TppBuddyService.SetObtainedBuddyType(BuddyType.QUIET)
       TppBuddy2BlockController.SetObtainedBuddyType(BuddyType.QUIET)
-      --TppBuddyService.UnsetBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_DYING)
+      TppBuddyService.UnsetBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_DYING)
       TppBuddyService.UnsetBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)
       TppBuddyService.UnsetBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_HOSPITALIZE)
-      --TppBuddyService.UnsetDeadBuddyType(BuddyType.QUIET)
+      TppBuddyService.UnsetDeadBuddyType(BuddyType.QUIET)
       TppBuddyService.SetSortieBuddyType(BuddyType.QUIET)
       TppBuddyService.SetFriendlyPoint(BuddyFriendlyType.QUIET,100)
       TppMotherBaseManagement.RefreshQuietStatus()
-    end
+    --end
   end
 end
 function this.Seq_Demo_RecoverVolgin_OnEnter_Patch()--tex patchup shit

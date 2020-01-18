@@ -5,7 +5,7 @@ e.RepopCountOperation("SetAt","col_develop_GunCamera",0)
 else
 e.RepopCountOperation("SetAt","col_develop_GunCamera",1)
 end
-if TppLocation.IsMiddleAfrica()and TppQuest.IsActive"pfCamp_q60114"==true then
+  if TppLocation.IsMiddleAfrica()and TppQuest.IsActive"pfCamp_q60114"==true then
 e.RepopCountOperation("SetAt","col_develop_UAV",0)
 else
 e.RepopCountOperation("SetAt","col_develop_UAV",1)

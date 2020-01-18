@@ -338,7 +338,8 @@ end
 function canOpenQuestChecks.field_q30010()
   return this.IsCleard"ruins_q60115"end
 function this.OpenChildSoldier_1()
-  local t=this.IsCleard"mtbs_q99050"local n=this.IsNowOccurringElapsed()
+  local t=this.IsCleard"mtbs_q99050"
+  local n=this.IsNowOccurringElapsed()
   local e=TppStory.IsNowOccurringElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)
   local a=TppStory.IsMissionCleard(10093)
   return((e or n)and t)and a
@@ -2911,7 +2912,8 @@ function this.StartShootingPractice()
   this.UpdateShootingPracticeUi()
   TppUiCommand.StartDisplayTimer(mvars.gim_questDisplayTimeSec,mvars.gim_questCautionTimeSec)
   TppGimmick.StartQuestShootingPractice()
-  TppGimmick.SetQuestSootingTargetInvincible(false)f30050_sound.SetScene_ShootingRange()
+  TppGimmick.SetQuestSootingTargetInvincible(false)
+  f30050_sound.SetScene_ShootingRange()
   TppSoundDaemon.PostEvent"sfx_m_tra_tgt_get_up_alot"Player.SetInfiniteAmmoFromScript(true)
 end
 function this.OnFinishShootingPractice(t,n)

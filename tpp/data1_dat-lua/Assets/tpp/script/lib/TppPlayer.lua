@@ -724,61 +724,61 @@ function this.IsMine(e)
   end
 end
 function this.AddTrapSettingForIntel(t)
-  local n=t.trapName
-  local s=t.direction or 0
-  local p=t.directionRange or 60
-  local e=t.intelName
-  local m=t.autoIcon
-  local r=t.gotFlagName
-  local o=t.markerTrapName
-  local i=t.markerObjectiveName
-  local c=t.identifierName
-  local t=t.locatorName
-  if not IsTypeString(n)then
+  local trapName=t.trapName
+  local direction=t.direction or 0
+  local directionRange=t.directionRange or 60
+  local intelName=t.intelName
+  local autoIcon=t.autoIcon
+  local gotFlagName=t.gotFlagName
+  local markerTrapName=t.markerTrapName
+  local markerObjectiveName=t.markerObjectiveName
+  local identifierName=t.identifierName
+  local locatorName=t.locatorName
+  if not IsTypeString(trapName)then
     return
   end
   mvars.ply_intelTrapInfo=mvars.ply_intelTrapInfo or{}
-  if e then
-    mvars.ply_intelTrapInfo[e]={trapName=n}
+  if intelName then
+    mvars.ply_intelTrapInfo[intelName]={trapName=trapName}
   else
     return
   end
   mvars.ply_intelNameReverse=mvars.ply_intelNameReverse or{}
-  mvars.ply_intelNameReverse[StrCode32(e)]=e
+  mvars.ply_intelNameReverse[StrCode32(intelName)]=intelName
   mvars.ply_intelFlagInfo=mvars.ply_intelFlagInfo or{}
-  if r then
-    mvars.ply_intelFlagInfo[e]=r
-    mvars.ply_intelFlagInfo[StrCode32(e)]=r
-    mvars.ply_intelTrapInfo[e].gotFlagName=r
+  if gotFlagName then
+    mvars.ply_intelFlagInfo[intelName]=gotFlagName
+    mvars.ply_intelFlagInfo[StrCode32(intelName)]=gotFlagName
+    mvars.ply_intelTrapInfo[intelName].gotFlagName=gotFlagName
   end
   mvars.ply_intelMarkerObjectiveName=mvars.ply_intelMarkerObjectiveName or{}
-  if i then
-    mvars.ply_intelMarkerObjectiveName[e]=i
-    mvars.ply_intelMarkerObjectiveName[StrCode32(e)]=i
-    mvars.ply_intelTrapInfo[e].markerObjectiveName=i
+  if markerObjectiveName then
+    mvars.ply_intelMarkerObjectiveName[intelName]=markerObjectiveName
+    mvars.ply_intelMarkerObjectiveName[StrCode32(intelName)]=markerObjectiveName
+    mvars.ply_intelTrapInfo[intelName].markerObjectiveName=markerObjectiveName
   end
   mvars.ply_intelMarkerTrapList=mvars.ply_intelMarkerTrapList or{}
   mvars.ply_intelMarkerTrapInfo=mvars.ply_intelMarkerTrapInfo or{}
-  if o then
-    table.insert(mvars.ply_intelMarkerTrapList,o)
-    mvars.ply_intelMarkerTrapInfo[StrCode32(o)]=e
-    mvars.ply_intelTrapInfo[e].markerTrapName=o
+  if markerTrapName then
+    table.insert(mvars.ply_intelMarkerTrapList,markerTrapName)
+    mvars.ply_intelMarkerTrapInfo[StrCode32(markerTrapName)]=intelName
+    mvars.ply_intelTrapInfo[intelName].markerTrapName=markerTrapName
   end
   mvars.ply_intelTrapList=mvars.ply_intelTrapList or{}
-  if m then
-    table.insert(mvars.ply_intelTrapList,n)
-    mvars.ply_intelTrapInfo[StrCode32(n)]=e
-    mvars.ply_intelTrapInfo[e].autoIcon=true
+  if autoIcon then
+    table.insert(mvars.ply_intelTrapList,trapName)
+    mvars.ply_intelTrapInfo[StrCode32(trapName)]=intelName
+    mvars.ply_intelTrapInfo[intelName].autoIcon=true
   end
-  if c and t then
-    local a,e=Tpp.GetLocator(c,t)
-    if a and e then
-      s=e
+  if identifierName and locatorName then
+    local pos,rot=Tpp.GetLocator(identifierName,locatorName)
+    if pos and rot then
+      direction=rot
     end
   end
-  mvars.ply_intelTrapInfo[e].direction=s
-  mvars.ply_intelTrapInfo[e].directionRange=p
-  Player.AddTrapDetailCondition{trapName=n,condition=PlayerTrap.FINE,action=(PlayerTrap.NORMAL+PlayerTrap.BEHIND),stance=(PlayerTrap.STAND+PlayerTrap.SQUAT),direction=s,directionRange=p}
+  mvars.ply_intelTrapInfo[intelName].direction=direction
+  mvars.ply_intelTrapInfo[intelName].directionRange=directionRange
+  Player.AddTrapDetailCondition{trapName=trapName,condition=PlayerTrap.FINE,action=(PlayerTrap.NORMAL+PlayerTrap.BEHIND),stance=(PlayerTrap.STAND+PlayerTrap.SQUAT),direction=direction,directionRange=directionRange}
 end
 function this.ShowIconForIntel(e,t)
   if not IsTypeString(e)then
@@ -1655,7 +1655,7 @@ end
 function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below for original
   local isActual=TppMission.IsActualSubsistenceMission()
   if isActual and (Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM")) then
-    Ivars.ospWeaponProfile:Set{setting="PURE",noOnChange=false,noSave=true}--tex don't want to save due to normal subsistence missions
+    Ivars.ospWeaponProfile:Set("PURE",true,true)--tex don't want to save due to normal subsistence missions
   end
 
   this.SetInitWeapons(Ivars.primaryWeaponOsp:data())

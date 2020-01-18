@@ -180,7 +180,7 @@ this.mbDDSuit={--DEPENDANCY: mbPlayTime
   },
   settingNames="set_dd_suit",
 }
---[[this.mbDDBalaclava={--DEPENDANCY: mbPlayTime OFF: Buggy, RETRY DEBUGNOW: ADDLANG
+--[[this.mbDDBalaclava={--DEPENDANCY: mbPlayTime OFF: Buggy, RETRY ADDLANG
   save=MISSION,
   range=this.switchRange,
   settingNames={"Use Equip Grade", "Force Off"},
@@ -190,6 +190,13 @@ this.mbWarGames={
   settings={"OFF","NONLETHAL","HOSTILE"},
   settingNames="set_mb_wargames",
 }
+
+this.mbEnableBuddies={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 --demos
 this.useSoldierForDemos={
   save=MISSION,
@@ -230,9 +237,9 @@ this.langOverride={
   settingNames="set_lang_override",
 }
 
-this.startOffline={--tex cant get it to read, yet isNewgame is fine? does it only work with bools?
+this.startOffline={
   save=GLOBAL,
-  default=0,--DEBUGNOW startoffline
+  default=0,
   range=this.switchRange,
   settingNames="set_switch",
 }

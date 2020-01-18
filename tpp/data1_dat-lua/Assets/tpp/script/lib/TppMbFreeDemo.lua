@@ -362,7 +362,8 @@ this.demoOptions={
       local e={pos={-30,-7.4,6.35},
         rotY=-90}
       TppPlayer.Warp(e)
-      TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_114",rewardType=TppReward.TYPE.COMMON}f30050_sequence.EnableBattleHangerMarker()
+      TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_114",rewardType=TppReward.TYPE.COMMON}
+      f30050_sequence.EnableBattleHangerMarker()
     end
   end,
   telopLangIdList={"area_demo_mb","area_demo_room101"}},
@@ -758,7 +759,7 @@ function this.PlayMtbsEventDemo(params)
       if onEnd then
         onEnd()
       end
-      if not enableOcelotDemoEnd then
+      if not enableOcelotDemoEnd and not gvar.mbDontDemoDisableOcelot==1 then--tex added mbdont
         this.DisableOcelot()
       end
       if k then
@@ -819,41 +820,41 @@ function this.SetupDemoEndRoute(e)
     GameObject.SendCommand(t,e)
   end
 end
-function this.SetInvisibleUniqueCharacter(t)
-  local e={}
+function this.SetInvisibleUniqueCharacter(isVisibleCurrentBudy)
+  local setInvisibleTable={}
   if not TppStory.CanArrivalLiquidInMB()then
-    table.insert(e,"Liquid")
+    table.insert(setInvisibleTable,"Liquid")
   end
   if not TppStory.CanArrivalHueyInMB()then
-    table.insert(e,"Huey")
+    table.insert(setInvisibleTable,"Huey")
   end
   if not TppStory.CanArrivalCodeTalkerInMB()then
-    table.insert(e,"CodeTalker")
+    table.insert(setInvisibleTable,"CodeTalker")
   end
   if not TppStory.CanArrivalSahelanInMB()then
-    table.insert(e,"Sahelan")
+    table.insert(setInvisibleTable,"Sahelan")
   end
-  if t then
+  
+  if isVisibleCurrentBudy then
     if vars.buddyType~=BuddyType.QUIET then
-      table.insert(e,"Quiet")
+      table.insert(setInvisibleTable,"Quiet")
     end
     if vars.buddyType~=BuddyType.DOG then
-      table.insert(e,"Dog")
+      table.insert(setInvisibleTable,"Dog")
     end
   else
     if not TppStory.CanArrivalQuietInMB()then
-      table.insert(e,"Quiet")
+      table.insert(setInvisibleTable,"Quiet")
     end
     if not TppStory.CanArrivalDDogInMB()then
-      table.insert(e,"Dog")
+      table.insert(setInvisibleTable,"Dog")
     end
   end
-  for e,e in ipairs(e)do
+  for e,e in ipairs(setInvisibleTable)do
   end
-  TppDemoUtility.SetInvisibleUniqueCharacter{invisible=e}
+  TppDemoUtility.SetInvisibleUniqueCharacter{invisible=setInvisibleTable}
 end
 function this.DisableOcelot()
-  if true then return end--DEBUGNOW
   local e=GameObject.GetGameObjectId"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
   local t={id="SetEnabled",enabled=false}
   if e~=GameObject.NULL_ID then
@@ -974,7 +975,7 @@ function this.GetPackListForStorySequence()
       mvars.f30050_isSetCodeTalker=true
     end
   end
-  if(vars.buddyType==BuddyType.DOG)or(vars.buddyType==BuddyType.QUIET)or(InfMain.IsMbPlayTime())then--tex
+  if(vars.buddyType==BuddyType.DOG)or(vars.buddyType==BuddyType.QUIET)or(TppMission.IsMbFreeMissions(vars.missionCode) and gvars.mbEnableBuddies==1)then--tex
     table.insert(packList,buddyFpk)
     mvars.f30050_needLoadBuddyController=true
   end
@@ -1008,7 +1009,8 @@ end
 function this.SetupEnemy(t)
   local l=this.GetDemoPlayCluster(t)
   local l=TppDefine.CLUSTER_DEFINE[l]+1
-  local e=this.GetSoldierListInDemo(t)mtbs_enemy.SetSoldierForDemo(l,e)
+  local e=this.GetSoldierListInDemo(t)
+  mtbs_enemy.SetSoldierForDemo(l,e)
 end
 function this.IsBalaclava(t,l)
   local e=this.demoOptions[t]

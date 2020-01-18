@@ -22,8 +22,8 @@ local P=TppGameObject.GAME_OBJECT_TYPE_BOSSQUIET2
 local S=TppGameObject.GAME_OBJECT_TYPE_PARASITE2
 local I=TppGameObject.GAME_OBJECT_TYPE_SECURITYCAMERA2
 local G=TppGameObject.GAME_OBJECT_TYPE_UAV
-local A=TppGameObject.PHASE_ALERT
-local p=GameObject.NULL_ID
+local PHASE_ALERT=TppGameObject.PHASE_ALERT
+local NULL_ID=GameObject.NULL_ID
 local n=bit.bnot
 local n,n,n=bit.band,bit.bor,bit.bxor
 this.requires={
@@ -94,19 +94,19 @@ this.requires={
 function this.IsTypeFunc(e)
   return type(e)=="function"
   end
-local f=this.IsTypeFunc
+local IsTypeFunc=this.IsTypeFunc
 function this.IsTypeTable(e)
   return type(e)=="table"
   end
-local a=this.IsTypeTable
+local IsTypeTable=this.IsTypeTable
 function this.IsTypeString(e)
   return type(e)=="string"
   end
-local n=this.IsTypeString
+local IsTypeString=this.IsTypeString
 function this.IsTypeNumber(e)
   return type(e)=="number"
   end
-local n=this.IsTypeNumber
+local IsTypeNumber=this.IsTypeNumber
 function this.Enum(e)
   if e==nil then
     return
@@ -177,7 +177,7 @@ function this.BfsPairs(r)
     local n,e=e,nil
     while true do
       n,e=next(i[t],n)
-      if a(e)then
+      if IsTypeTable(e)then
         l=l+1
         i[l]=e
       end
@@ -207,14 +207,14 @@ function this.MakeMessageExecTable(e)
     n[e]=n[e]or{}
     for l,r in pairs(l)do
       local l,s,d,o=l,nil,nil,nil
-      if f(r)then
+      if IsTypeFunc(r)then
         d=r
-      elseif a(r)and f(r[u])then
+      elseif IsTypeTable(r)and IsTypeFunc(r[u])then
         l=StrCode32(r[T])
         local n={}
         if(type(r[c])=="string")or(type(r[c])=="number")then
           n[1]=r[c]
-        elseif a(r[c])then
+        elseif IsTypeTable(r[c])then
           n=r[c]
         end
         s={}
@@ -222,7 +222,7 @@ function this.MakeMessageExecTable(e)
           if type(n)=="string"then
             if e==StrCode32"GameObject"then
               s[l]=GetGameObjectId(n)
-              if msgSndr==p then
+              if msgSndr==NULL_ID then
               end
             else
               s[l]=StrCode32(n)
@@ -241,7 +241,7 @@ function this.MakeMessageExecTable(e)
             if n[e][l].sender[t]then
             end
             n[e][l].sender[t]=d
-            if o and a(o)then
+            if o and IsTypeTable(o)then
               n[e][l].senderOption[t]=o
             end
           end
@@ -249,7 +249,7 @@ function this.MakeMessageExecTable(e)
           if n[e][l].func then
           end
           n[e][l].func=d
-          if o and a(o)then
+          if o and IsTypeTable(o)then
             n[e][l].option=o
           end
         end
@@ -296,10 +296,10 @@ function this.GetRotationY(e)
     return TppMath.RadianToDegree(e)
   end
 end
-function this.GetLocator(n,t)
-  local n,t=this.GetLocatorByTransform(n,t)
-  if n~=nil then
-    return TppMath.Vector3toTable(n),this.GetRotationY(t)
+function this.GetLocator(identifier,key)
+  local pos,rot=this.GetLocatorByTransform(identifier,key)
+  if pos~=nil then
+    return TppMath.Vector3toTable(pos),this.GetRotationY(rot)
   else
     return nil
   end
@@ -332,45 +332,45 @@ function this.GetDataBodyWithIdentifier(n,e,t)
   end
   return e
 end
-function this.SetGameStatus(n)
-  if not a(n)then
+function this.SetGameStatus(status)
+  if not IsTypeTable(status)then
     return
   end
-  local l=n.enable
-  local t=n.scriptName
-  local e=n.target
-  local n=n.except
-  if l==nil then
+  local enable=status.enable
+  local scriptName=status.scriptName
+  local target=status.target
+  local except=status.except
+  if enable==nil then
     return
   end
-  if e=="all"then
-    e={}
+  if target=="all"then
+    target={}
     for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      e[n]=t
+      target[n]=t
     end
     for t,n in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      e[t]=n
+      target[t]=n
     end
-  elseif a(e)then
-    e=e
+  elseif IsTypeTable(target)then
+    target=target
   else
     return
   end
-  if a(n)then
-    for t,n in pairs(n)do
-      e[t]=n
+  if IsTypeTable(except)then
+    for t,n in pairs(except)do
+      target[t]=n
     end
   end
-  if l then
+  if enable then
     for n,l in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      if e[n]then
-        TppGameStatus.Reset(t,n)
+      if target[n]then
+        TppGameStatus.Reset(scriptName,n)
       end
     end
     for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      local t=e[n]
+      local t=target[n]
       local unsetUiSetting=mvars.ui_unsetUiSetting
-      if a(unsetUiSetting)and unsetUiSetting[n]then
+      if IsTypeTable(unsetUiSetting)and unsetUiSetting[n]then
         TppUiStatusManager.UnsetStatus(n,unsetUiSetting[n])
       else
         if t then
@@ -380,7 +380,7 @@ function this.SetGameStatus(n)
     end
   else
     for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      local e=e[n]
+      local e=target[n]
       if e then
         TppUiStatusManager.SetStatus(n,e)
       else
@@ -388,9 +388,9 @@ function this.SetGameStatus(n)
       end
     end
     for n,l in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      local e=e[n]
+      local e=target[n]
       if e then
-        TppGameStatus.Set(t,n)
+        TppGameStatus.Set(scriptName,n)
       end
     end
   end
@@ -417,7 +417,7 @@ local function n(e,n)
   if e==nil then
     return
   end
-  if e==p then
+  if e==NULL_ID then
     return
   end
   local e=GetTypeIndex(e)
@@ -447,7 +447,7 @@ function this.IsHostage(e)
   if e==nil then
     return
   end
-  if e==p then
+  if e==NULL_ID then
     return
   end
   local e=GetTypeIndex(e)
@@ -481,7 +481,7 @@ function this.IsFultonableGimmick(e)
   if e==nil then
     return
   end
-  if e==p then
+  if e==NULL_ID then
     return
   end
   local e=GetTypeIndex(e)
@@ -491,7 +491,7 @@ function this.GetBuddyTypeFromGameObjectId(e)
   if e==nil then
     return
   end
-  if e==p then
+  if e==NULL_ID then
     return
   end
   local e=GetTypeIndex(e)
@@ -504,7 +504,7 @@ function this.IsAnimal(e)
   if e==nil then
     return
   end
-  if e==p then
+  if e==NULL_ID then
     return
   end
   local e=GetTypeIndex(e)
@@ -520,7 +520,7 @@ function this.IsSecurityCamera(e)
   return n(e,I)
 end
 function this.IsGunCamera(n)
-  if n==p then
+  if n==NULL_ID then
     return false
   end
   local t={id="IsGunCamera"}
@@ -540,7 +540,7 @@ function this.IncrementPlayData(e)
   end
 end
 function this.IsNotAlert()
-  if vars.playerPhase<A then
+  if vars.playerPhase<PHASE_ALERT then
     return true
   else
     return false

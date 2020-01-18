@@ -2114,7 +2114,9 @@ local function CreateOrLoadSaveData()
     end
   end
 
-  if gvars.startOffline > 0 then--tex
+  local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }--tex
+  local startOffline = TppScriptVars.GetVarValueInSlot( globalSlotForSaving, "gvars", "startOffline", 0 )
+  if startOffline > 0 then
     return "Seq_Demo_Init"
   else--
     return "Seq_Demo_LogInKonamiServer"
@@ -2344,7 +2346,9 @@ sequences.Seq_Demo_UseBackUpLoadGameSaveData = {
           msg = "PopupClose",
           sender = TppDefine.ERROR_ID.LOAD_RESULT_BACKUP_ERROR,
           func = function()
-            if gvars.startOffline > 0 then--tex
+            local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }--tex
+            local startOffline = TppScriptVars.GetVarValueInSlot( globalSlotForSaving, "gvars", "startOffline", 0 )
+            if startOffline > 0 then--tex
               return "Seq_Demo_Init"
             else--
               TppSequence.SetNextSequence("Seq_Demo_LogInKonamiServer")

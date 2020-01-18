@@ -102,33 +102,33 @@ function this.SetCheckPointPosition()
     TppPlayer.SetInitialPosition(e,n)
   end
 end
-function this.GetCheckPointLocator(e)
+function this.GetCheckPointLocator(e)--NMC returns position,rotation
   if not IsTypeString(e)then
     return
   end
   return Tpp.GetLocator("CheckPointIdentifier",e.."_Player")
 end
-function this.FindNearestCheckPoint(n)
-  if not IsTypeFunc(n)then
+function this.FindNearestCheckPoint(checkPoint)
+  if not IsTypeFunc(checkPoint)then
     return
   end
-  local i,o=65526,1600
-  local o,i=i,nil
-  for a,n in pairs(n)do
-    if IsTypeString(n)then
-      local e,t=this.GetCheckPointLocator(n)
-      if e then
-        local t=TppPlayer.GetPosition()
-        local e=TppMath.FindDistance(e,t)
-        if e<o then
-          o=e
-          i=n
+  local maxDist,o=65526,1600
+  local closestDist,closest=maxDist,nil
+  for a,checkpointName in pairs(checkPoint)do
+    if IsTypeString(checkpointName)then
+      local checkpointPoint,rotation=this.GetCheckPointLocator(checkpointName)
+      if checkpointPoint then
+        local playerPos=TppPlayer.GetPosition()
+        local distSqr=TppMath.FindDistance(checkpointPoint,playerPos)
+        if distSqr<closestDist then
+          closestDist=distSqr
+          closest=checkpointName
         end
       end
     end
   end
-  if i then
-    return i
+  if closest then
+    return closest
   end
 end
 function this.IsEnable(e)

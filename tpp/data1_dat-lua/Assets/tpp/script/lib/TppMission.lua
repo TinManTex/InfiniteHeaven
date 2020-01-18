@@ -2581,21 +2581,21 @@ function this.UpdateAtCanMissionClear(n,o)
     u()
     return
   end
-  local i=IsNotAlert()
-  local n=IsPlayerStatusNormal()
-  local s=not IsHelicopter(vars.playerVehicleGameObjectId)
+  local isNotAlert=IsNotAlert()
+  local isPlayerStatusNormal=IsPlayerStatusNormal()
+  local notHelicopter=not IsHelicopter(vars.playerVehicleGameObjectId)
   if o then
-    if n and s then
+    if isPlayerStatusNormal and notHelicopter then
       u()
       this.ReserveMissionClearOnOutOfHotZone()
     end
   else
-    if(i and n)and s then
+    if(isNotAlert and isPlayerStatusNormal)and notHelicopter then
       if not IsTimerActive"Timer_OutsideOfHotZoneCount"then
         StartTimer("Timer_OutsideOfHotZoneCount",A)
       end
     else
-      if not i then
+      if not isNotAlert then
         mvars.mis_lastOutSideOfHotZoneButAlert=true
       end
       u()
@@ -2855,28 +2855,28 @@ function this.GetOrderBoxLocatorByTransform(e)
   return Tpp.GetLocatorByTransform("OrderBoxIdentifier",e)
 end
 function this.SetFobPlayerStartPoint()
-  local n={"Command","Combat","Develop","Support","Medical","Spy","BaseDev"}
-  local e=255
+  local clusterNames={"Command","Combat","Develop","Support","Medical","Spy","BaseDev"}
+  local cluster=255
   if not MotherBaseStage.GetFirstCluster then
-    e=MotherBaseStage.GetCurrentCluster()
+    cluster=MotherBaseStage.GetCurrentCluster()
   else
-    e=MotherBaseStage.GetFirstCluster()
+    cluster=MotherBaseStage.GetFirstCluster()
   end
-  local i=n[e+1]
-  local n=TppMotherBaseManagement.GetMbsClusterGrade{category=i}
-  if TppMotherBaseManagement.GetMbsClusterBuildStatus{category=i}~="Completed"then
+  local clusterName=clusterNames[cluster+1]
+  local n=TppMotherBaseManagement.GetMbsClusterGrade{category=clusterName}
+  if TppMotherBaseManagement.GetMbsClusterBuildStatus{category=clusterName}~="Completed"then
     n=n-1
   end
   local n=n-1
   if n<0 then
     return false
   end
-  local n=""
+  local locatorName=""
   if TppNetworkUtil.IsHost()==false then
-    n="player_locator_clst"..(e.."_plnt0_df0")
-    local e,n=Tpp.GetLocator("MtbsStartPointIdentifier",n)
-    if e then
-      TppPlayer.SetInitialPosition(e,n)
+    locatorName="player_locator_clst"..(cluster.."_plnt0_df0")
+    local pos,rot=Tpp.GetLocator("MtbsStartPointIdentifier",locatorName)
+    if pos then
+      TppPlayer.SetInitialPosition(pos,rot)
       return true
     end
     return false

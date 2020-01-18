@@ -4,15 +4,15 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local NULL_ID=GameObject.NULL_ID
-function this._Random(n,E)
-  local t=gvars.rev_revengeRandomValue
-  if n>E then
-    local e=n
-    n=E
-    E=e
+function this._Random(min,max)
+  local revRandomVal=gvars.rev_revengeRandomValue
+  if min>max then
+    local e=min
+    min=max
+    max=e
   end
-  local E=(E-n)+1
-  return(t%E)+n
+  local E=(max-min)+1
+  return(revRandomVal%E)+min
 end
 this.NO_REVENGE_MISSION_LIST={[10010]=true,[10030]=true,[10050]=true,[11050]=true,[10120]=true,[10140]=true,[11140]=true,[10151]=true,[10230]=true,[10240]=true,[10280]=true,[30050]=true,[40010]=true,[40020]=true,[40050]=true,[50050]=true}
 this.NO_STEALTH_COMBAT_REVENGE_MISSION_LIST={[30010]=true,[30020]=true,[30050]=true,[30150]=true}
@@ -48,7 +48,8 @@ this.REDUCE_POINT_TABLE={
   [this.REVENGE_TYPE.SMOKE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
   [this.REVENGE_TYPE.LONG_RANGE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
   [this.REVENGE_TYPE.VEHICLE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50}}
-this.REVENGE_TRIGGER_TYPE={HEAD_SHOT=1,ELIMINATED_IN_STEALTH=2,ELIMINATED_IN_COMBAT=3,FULTON=4,SMOKE=5,KILLED_BY_HELI=6,ANNIHILATED_IN_STEALTH=7,ANNIHILATED_IN_COMBAT=8,WAKE_A_COMRADE=9,DISCOVERY_AT_NIGHT=10,ELIMINATED_AT_NIGHT=11,SNIPED=12,KILLED_BY_VEHICLE=13,WATCH_SMOKE=14}
+this.REVENGE_TRIGGER_TYPE={
+  HEAD_SHOT=1,ELIMINATED_IN_STEALTH=2,ELIMINATED_IN_COMBAT=3,FULTON=4,SMOKE=5,KILLED_BY_HELI=6,ANNIHILATED_IN_STEALTH=7,ANNIHILATED_IN_COMBAT=8,WAKE_A_COMRADE=9,DISCOVERY_AT_NIGHT=10,ELIMINATED_AT_NIGHT=11,SNIPED=12,KILLED_BY_VEHICLE=13,WATCH_SMOKE=14}
 this.BLOCKED_TYPE={GAS_MASK=0,HELMET=1,CAMERA=2,DECOY=3,MINE=4,NVG=5,SHOTGUN=6,MG=7,SOFT_ARMOR=8,SHIELD=9,ARMOR=10,GUN_LIGHT=11,SNIPER=12,MISSILE=13,MAX=14}
 this.BLOCKED_FOR_MISSION_COUNT=3
 this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST={[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]=this.BLOCKED_TYPE.GAS_MASK,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]=this.BLOCKED_TYPE.HELMET,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]=this.BLOCKED_TYPE.CAMERA,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]=this.BLOCKED_TYPE.DECOY,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]=this.BLOCKED_TYPE.MINE,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]=this.BLOCKED_TYPE.NVG,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]=this.BLOCKED_TYPE.SHOTGUN,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]=this.BLOCKED_TYPE.MG,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]=this.BLOCKED_TYPE.SOFT_ARMOR,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]=this.BLOCKED_TYPE.SHIELD,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]=this.BLOCKED_TYPE.ARMOR,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]=this.BLOCKED_TYPE.GUN_LIGHT,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]=this.BLOCKED_TYPE.SNIPER,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]=this.BLOCKED_TYPE.MISSILE}
@@ -164,11 +165,7 @@ this.revengeDefine={
   FULTON_0={},
   FULTON_1={FULTON_LOW=true},
   FULTON_2={FULTON_HIGH=true},
-  FULTON_3={FULTON_SPECIAL=true}--[[--tex RETAILBUG: VERIFY: possible bug fixed,
-
- fulton was 0 low 1 blank 2 high,
-
- now 0 blank 1 low 2 high--]],
+  FULTON_3={FULTON_SPECIAL=true}--[[--tex RETAILBUG: VERIFY: possible bug fixed,fulton was 0 low 1 blank 2 high,now 0 blank 1 low 2 high--]],
   SMOKE_1={GAS_MASK="25%"},
   SMOKE_2={GAS_MASK="50%"},
   SMOKE_3={GAS_MASK="75%"},
@@ -218,26 +215,26 @@ this.revengeDefine={
   FOB_LongRange_10={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="30%",MISSILE="20%",MG="10%"}
 }
 function this.SelectRevengeType()
-  local n=TppMission.GetMissionID()
-  if this.IsNoRevengeMission(n)or n==10115 then
+  local missionCode=TppMission.GetMissionID()
+  if this.IsNoRevengeMission(missionCode)or missionCode==10115 then
     return{}
   end
-  local r=TppMission.IsHardMission(n)
-  local t={}
-  for E=0,this.REVENGE_TYPE.MAX-1 do
-    local n=this.GetRevengeLv(E)--tex moved if ishard getlv max else getlv into getlv itself
-    if n>=0 then
-      local n=this.REVENGE_TYPE_NAME[E+1]..("_"..tostring(n))
-      local e=this.revengeDefine[n]
-      if e then
-        table.insert(t,n)
+  local isHardMission=TppMission.IsHardMission(missionCode)
+  local revengeTypes={}
+  for typeIndex=0,this.REVENGE_TYPE.MAX-1 do
+    local revengeLevel=this.GetRevengeLv(typeIndex)--tex moved if ishard getlv max else getlv into getlv itself
+    if revengeLevel>=0 then
+      local revengeTypeName=this.REVENGE_TYPE_NAME[typeIndex+1]..("_"..tostring(revengeLevel))
+      local category=this.revengeDefine[revengeTypeName]
+      if category then
+        table.insert(revengeTypes,revengeTypeName)
       end
     end
   end
-  if r then
-    table.insert(t,"HARD_MISSION")
+  if isHardMission then
+    table.insert(revengeTypes,"HARD_MISSION")
   end
-  return t
+  return revengeTypes
 end
 --[[ORIG: function e.SelectRevengeType()
 
@@ -366,23 +363,23 @@ function this.CanUseArmor(soldierSubType)
   end
   return true
 end
-local n=function(e)
-  if e==nil then
+local RateFromCategoryString=function(categoryString)
+  if categoryString==nil then
     return 0
   end
-  return(e:sub(1,-2)+0)/100
+  return(categoryString:sub(1,-2)+0)/100
 end
 function this.GetMineRate()
-  return n(mvars.revenge_revengeConfig.MINE)
+  return RateFromCategoryString(mvars.revenge_revengeConfig.MINE)
 end
 function this.GetDecoyRate()
-  return n(mvars.revenge_revengeConfig.DECOY)
+  return RateFromCategoryString(mvars.revenge_revengeConfig.DECOY)
 end
 function this.IsUsingActiveDecoy()
   return mvars.revenge_revengeConfig.ACTIVE_DECOY
 end
 function this.GetCameraRate()
-  return n(mvars.revenge_revengeConfig.CAMERA)
+  return RateFromCategoryString(mvars.revenge_revengeConfig.CAMERA)
 end
 function this.IsUsingGunCamera()
   return mvars.revenge_revengeConfig.GUN_CAMERA
@@ -397,20 +394,21 @@ end
 function this.IsIgnoreBlocked()
   return mvars.revenge_revengeConfig.IGNORE_BLOCKED
 end
-function this.IsBlocked(e)
+function this.IsBlocked(category)
   if gvars.revengeMode==1 then--tex revengemax
     return false
   end--
-  if e==nil then
+  if category==nil then
     return false
   end
-  return gvars.rev_revengeBlockedCount[e]>0
+  return gvars.rev_revengeBlockedCount[category]>0
 end
 function this.SetEnabledSuperReinforce(e)
   mvars.revenge_isEnabledSuperReinforce=e
 end
 function this.SetHelmetAll()
-  mvars.revenge_revengeConfig.HELMET="100%"end
+  mvars.revenge_revengeConfig.HELMET="100%"
+end
 function this.RegisterMineList(n,E)
   if not mvars.rev_usingBase then
     return
@@ -553,7 +551,8 @@ function this.UpdateLastVisitedMineArea(n,t,e)
   else
     gvars.rev_lastUpdatedBaseName=E
   end
-  local n=mvars.rev_mineBaseTable[n]gvars[e][n]=t
+  local n=mvars.rev_mineBaseTable[n]
+  gvars[e][n]=t
 end
 function this.SaveMissionStartMineArea()
   local e,E=mvars.rev_missionStartMineAreaVarsName,mvars.rev_LastVisitedMineAreaVarsName
@@ -570,36 +569,37 @@ function this.SetUpRevengeMine()
   end
 end
 function this._SetUpRevengeMine()
-  local t=mvars.rev_missionStartMineAreaVarsName
-  if not t then
+  local missionStartMineAreaVarsName=mvars.rev_missionStartMineAreaVarsName
+  if not missionStartMineAreaVarsName then
     return
   end
   if not mvars.rev_mineBaseTable then
     return
   end
-  local _,E=false,false
+  local addMines,addDecoys=false,false
   if this.GetMineRate()>.5 then
-    _=true
+    addMines=true
   else
-    _=false
+    addMines=false
   end
   if this.GetDecoyRate()>.5 then
-    E=true
+    addDecoys=true
   else
-    E=false
-  end
+    addDecoys=false
+  end  
   for a,o in pairs(mvars.rev_mineBaseTable)do
-    local r=mvars.rev_revengeMineList[a]
-    local n=gvars[t][o]
-    if n==0 and#r>0 then
-      n=math.random(1,#r)gvars[t][o]=n
+    local revengeMineList=mvars.rev_revengeMineList[a]
+    local RENAMEsomenum=gvars[missionStartMineAreaVarsName][o]
+    if RENAMEsomenum==0 and#revengeMineList>0 then
+      RENAMEsomenum=math.random(1,#revengeMineList)
+      gvars[missionStartMineAreaVarsName][o]=RENAMEsomenum
     end
-    local o=r.decoyLocatorList
+    local o=revengeMineList.decoyLocatorList
     local t=false
-    for r,i in ipairs(r)do
+    for r,i in ipairs(revengeMineList)do
       local T=i.mineLocatorList
       if T then
-        local e=_ and(r==n)
+        local e=addMines and(r==RENAMEsomenum)
         if e then
           t=false
         end
@@ -607,16 +607,16 @@ function this._SetUpRevengeMine()
           TppPlaced.SetEnableByLocatorName(n,e)
         end
       end
-      local _=i.decoyLocatorList
+      local decoyLocatorList=i.decoyLocatorList
       if o then
-        this._EnableDecoy(a,o,E)
-        if E then
+        this._EnableDecoy(a,o,addDecoys)
+        if addDecoys then
           t=false
         end
       end
-      if _ then
-        local n=E and(r==n)
-        this._EnableDecoy(a,_,n)
+      if decoyLocatorList then
+        local n=addDecoys and(r==RENAMEsomenum)
+        this._EnableDecoy(a,decoyLocatorList,n)
         if n then
           t=false
         end
@@ -626,24 +626,24 @@ function this._SetUpRevengeMine()
     end
   end
 end
-function this._GetDecoyType(e)
+function this._GetDecoyType(cpName)
   local pfType={PF_A=1,PF_B=2,PF_C=3}
-  local gameId=GetGameObjectId(e)
-  local cpSubType=TppEnemy.GetCpSubType(gameId)
+  local cpId=GetGameObjectId(cpName)
+  local cpSubType=TppEnemy.GetCpSubType(cpId)
   return pfType[cpSubType]
 end
-function this._EnableDecoy(n,t,E)
-  local n=n.."_cp"
-  local decoyType=this._GetDecoyType(n)
+function this._EnableDecoy(_cpName,locatorList,enable)
+  local cpName=_cpName.."_cp"
+  local decoyType=this._GetDecoyType(cpName)
   local isUsingActiveDecoy=this.IsUsingActiveDecoy()
-  for t,e in ipairs(t)do
+  for t,locatorName in ipairs(locatorList)do
     if decoyType then
-      TppPlaced.SetCorrelationValueByLocatorName(e,decoyType)
+      TppPlaced.SetCorrelationValueByLocatorName(locatorName,decoyType)
     end
     if isUsingActiveDecoy then
-      TppPlaced.ChangeEquipIdByLocatorName(e,TppEquip.EQP_SWP_ActiveDecoy)
+      TppPlaced.ChangeEquipIdByLocatorName(locatorName,TppEquip.EQP_SWP_ActiveDecoy)
     end
-    TppPlaced.SetEnableByLocatorName(e,E)
+    TppPlaced.SetEnableByLocatorName(locatorName,enable)
   end
 end
 function this._SetupCamera()
@@ -666,16 +666,16 @@ function this._SetupCamera()
     GameObject.SendCommand({type="TppSecurityCamera2"},{id="SetNormalCamera"})
   end
 end
-function this.OnAllocate(n)
+function this.OnAllocate(missionTable)
   mvars.revenge_isEnabledSuperReinforce=true
   this.SetUpMineAreaVarsName()
-  if n.sequence then
-    local e=n.sequence.baseList
-    if e then
-      local n=TppLocation.GetLocationName()
+  if missionTable.sequence then
+    local baseList=missionTable.sequence.baseList
+    if baseList then
+      local locationName=TppLocation.GetLocationName()
       mvars.rev_usingBase={}
-      for E,e in ipairs(e)do
-        local e=n..("_"..e)
+      for E,baseName in ipairs(baseList)do
+        local e=locationName..("_"..baseName)
         mvars.rev_usingBase[e]=true
       end
     end
@@ -688,7 +688,7 @@ function this.SetUpMineAreaVarsName()
     return
   end
 end
-function this.DecideRevenge(n)
+function this.DecideRevenge(missionTable)
   this._SetUiParameters()
   mvars.revenge_revengeConfig=mvars.revenge_revengeConfig or{}
   mvars.revenge_revengeType=mvars.revenge_forceRevengeType
@@ -696,7 +696,7 @@ function this.DecideRevenge(n)
     mvars.revenge_revengeType=this.SelectRevengeType()
   end
   mvars.revenge_revengeConfig=this._CreateRevengeConfig(mvars.revenge_revengeType)
-  if(n.enemy and n.enemy.soldierDefine)or vars.missionCode>6e4 then
+  if(missionTable.enemy and missionTable.enemy.soldierDefine)or vars.missionCode>6e4 then
     this._AllocateResources(mvars.revenge_revengeConfig)
   end
 end
@@ -1117,7 +1117,7 @@ function this.ApplyPowerSettingsForReinforce(r)
     TppEnemy.ApplyPowerSetting(soldierId,loadout)
   end
 end
-function this._CreateRevengeConfig(revengeType)
+function this._CreateRevengeConfig(revengeTypes)
   local revengeConfig={}
   local disablePowerSettings=mvars.ene_disablePowerSettings
   do
@@ -1134,13 +1134,14 @@ function this._CreateRevengeConfig(revengeType)
       end
     end
   end
-  for r,E in ipairs(revengeType)do
-    local E=this.revengeDefine[E]
-    if E~=nil then
-      if E[1]~=nil then
-        local e=this._Random(1,#E)E=E[e]
+  for r,revengeType in ipairs(revengeTypes)do
+    local setting=this.revengeDefine[revengeType]
+    if setting~=nil then
+      if setting[1]~=nil then
+        local rnd=this._Random(1,#setting)
+        setting=setting[rnd]
       end
-      for e,E in pairs(E)do
+      for e,E in pairs(setting)do
         if disablePowerSettings[e]then
         else
           revengeConfig[e]=E
@@ -1205,11 +1206,8 @@ function this._CreateRevengeConfig(revengeType)
     end
   end
   --[[TppUiCommand.AnnounceLogView("_CreateRevengeConfig")--tex DEBUG: CULL:
-
   local insrev = InfInspect.Inspect(revengeConfig)
-
   TppUiCommand.AnnounceLogView(insrev)--]]
-
   return revengeConfig
 end
 function this._AllocateResources(config)
@@ -1320,31 +1318,48 @@ function this._AllocateResources(config)
     TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
   end
 end
-function this._GetSettingSoldierCount(t,n,E)
-  local e={NO_KILL_WEAPON=true,STRONG_WEAPON=true,STRONG_PATROL=true,STRONG_NOTICE_TRANQ=true,STEALTH_SPECIAL=true,STEALTH_HIGH=true,STEALTH_LOW=true,COMBAT_SPECIAL=true,COMBAT_HIGH=true,COMBAT_LOW=true,FULTON_SPECIAL=true,FULTON_HIGH=true,FULTON_LOW=true,HOLDUP_SPECIAL=true,HOLDUP_HIGH=true,HOLDUP_LOW=true}
-  if e[t]then
+function this._GetSettingSoldierCount(ability,n,E)
+  local abilities={
+    NO_KILL_WEAPON=true,
+    STRONG_WEAPON=true,
+    STRONG_PATROL=true,
+    STRONG_NOTICE_TRANQ=true,
+    STEALTH_SPECIAL=true,
+    STEALTH_HIGH=true,
+    STEALTH_LOW=true,
+    COMBAT_SPECIAL=true,
+    COMBAT_HIGH=true,
+    COMBAT_LOW=true,
+    FULTON_SPECIAL=true,
+    FULTON_HIGH=true,
+    FULTON_LOW=true,
+    HOLDUP_SPECIAL=true,
+    HOLDUP_HIGH=true,
+    HOLDUP_LOW=true
+  }
+  if abilities[ability]then
     return E
   end
-  local e=0
+  local settingSoldierCount=0
   if Tpp.IsTypeNumber(n)then
-    e=n
+    settingSoldierCount=n
   elseif Tpp.IsTypeString(n)then
     if n:sub(-1)=="%"then
       local n=n:sub(1,-2)+0
-      e=math.ceil(E*(n/100))
+      settingSoldierCount=math.ceil(E*(n/100))
     end
   end
-  if e>E then
-    e=E
+  if settingSoldierCount>E then
+    settingSoldierCount=E
   end
   do
-    local n={ARMOR=4}
-    local n=n[t]
-    if n and e>n then
-      e=n
+    local max={ARMOR=4}
+    local maxArmor=max[ability]
+    if maxArmor and settingSoldierCount>maxArmor then
+      settingSoldierCount=maxArmor
     end
   end
-  return e
+  return settingSoldierCount
 end
 function this._ApplyRevengeToCp(cpId,revengeConfig,a)
   local soldierIds=mvars.ene_soldierIDList[cpId]
@@ -1599,13 +1614,13 @@ function this._OnUnconscious(gameId,t,playerPhase)
   end
   AddRevengePointByEliminationType(playerPhase)
 end
-function this._OnAnnihilated(E,n,t)
+function this._OnAnnihilated(E,playerPhase,t)
   if t==0 then
     if TppEnemy.IsBaseCp(E)or TppEnemy.IsOuterBaseCp(E)then
-      if n==nil then
-        n=vars.playerPhase
+      if playerPhase==nil then
+        playerPhase=vars.playerPhase
       end
-      if n~=TppGameObject.PHASE_SNEAK or vars.playerPhase~=TppGameObject.PHASE_SNEAK then
+      if playerPhase~=TppGameObject.PHASE_SNEAK or vars.playerPhase~=TppGameObject.PHASE_SNEAK then
         this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_COMBAT)
       else
         this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_STEALTH)

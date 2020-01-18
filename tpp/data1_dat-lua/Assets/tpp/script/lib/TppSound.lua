@@ -1,14 +1,22 @@
-local e={}
+local this={}
 local s=Fox.StrCode32
 local n=Tpp.IsTypeFunc
 local i=Tpp.IsTypeTable
 local t=Tpp.IsTypeString
 local n=Tpp.IsTypeNumber
-e.ResultRankJingle={"Set_Switch_bgm_jingle_result_s","Set_Switch_bgm_jingle_result_ab","Set_Switch_bgm_jingle_result_ab","Set_Switch_bgm_jingle_result_cd","Set_Switch_bgm_jingle_result_cd","Set_Switch_bgm_jingle_result_e"}
-e.ResultRankJingle[TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED]="Set_Switch_bgm_jingle_result_cd"e.afghCommonEsacapeBgm={bgm_escape={start="Play_bgm_afgh_mission_escape",finish="Stop_bgm_afgh_mission_escape"}}
-e.mafrCommonEsacapeBgm={bgm_escape={start="Play_bgm_mafr_mission_escape",finish="Stop_bgm_mafr_mission_escape"}}
-e.commonHeliStartBgm={bgm_heliStart={start="Play_bgm_mission_start",finish="Stop_bgm_mafr_mission_escape"}}
-function e.SetSceneBGM(a)
+this.ResultRankJingle={
+  "Set_Switch_bgm_jingle_result_s",
+  "Set_Switch_bgm_jingle_result_ab",
+  "Set_Switch_bgm_jingle_result_ab",
+  "Set_Switch_bgm_jingle_result_cd",
+  "Set_Switch_bgm_jingle_result_cd",
+  "Set_Switch_bgm_jingle_result_e"
+}
+this.ResultRankJingle[TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED]="Set_Switch_bgm_jingle_result_cd"
+this.afghCommonEsacapeBgm={bgm_escape={start="Play_bgm_afgh_mission_escape",finish="Stop_bgm_afgh_mission_escape"}}
+this.mafrCommonEsacapeBgm={bgm_escape={start="Play_bgm_mafr_mission_escape",finish="Stop_bgm_mafr_mission_escape"}}
+this.commonHeliStartBgm={bgm_heliStart={start="Play_bgm_mission_start",finish="Stop_bgm_mafr_mission_escape"}}
+function this.SetSceneBGM(a)
   if not i(mvars.snd_bgmList)then
     return
   end
@@ -16,7 +24,7 @@ function e.SetSceneBGM(a)
   if not n then
     return
   end
-  local e=e.GetCurrentSceneBgmSetting()
+  local e=this.GetCurrentSceneBgmSetting()
   if e and e.finish then
     TppMusicManager.PostSceneSwitchEvent(e.finish)
   end
@@ -27,25 +35,25 @@ function e.SetSceneBGM(a)
     TppMusicManager.PlaySceneMusic(n.start)
   end
 end
-function e.SetSceneBGMSwitch(e)
+function this.SetSceneBGMSwitch(e)
   if not mvars.snd_bgmSwitchTable[e]then
     return
   end
   svars.snd_bgmSwitchNameHash=s(e)
   TppMusicManager.PostSceneSwitchEvent(e)
 end
-function e.StopSceneBGM()
-  local n=e.GetCurrentSceneBgmSetting()
+function this.StopSceneBGM()
+  local n=this.GetCurrentSceneBgmSetting()
   if not n then
     return
   end
   if n.finish then
     TppMusicManager.PostSceneSwitchEvent(n.finish)
   end
-  e.HaltSceneBGM()
+  this.HaltSceneBGM()
 end
-function e.RestoreSceneBGM()
-  local n,s=e.GetCurrentSceneBgmSetting()
+function this.RestoreSceneBGM()
+  local n,s=this.GetCurrentSceneBgmSetting()
   if not n then
     return
   end
@@ -60,14 +68,14 @@ function e.RestoreSceneBGM()
       TppMusicManager.PostSceneSwitchEvent(s)
     end
   else
-    e.HaltSceneBGM()
+    this.HaltSceneBGM()
   end
 end
-function e.HaltSceneBGM()
+function this.HaltSceneBGM()
   TppMusicManager.EndSceneMode()svars.snd_bgmNameHash=0
   svars.snd_bgmSwitchNameHash=0
 end
-function e.SetPhaseBGM(e)
+function this.SetPhaseBGM(e)
   if not t(e)then
     return
   end
@@ -75,13 +83,13 @@ function e.SetPhaseBGM(e)
   TppMusicManager.ChangeParameter(e)
 end
 local n=0
-function e.ResetPhaseBGM()
+function this.ResetPhaseBGM()
   TppMusicManager.ClearParameter()
   if svars and svars.snd_phaseBgmTagHash then
     svars.snd_phaseBgmTagHash=n
   end
 end
-function e.RestorePhaseBGM()
+function this.RestorePhaseBGM()
   if mvars.snd_noRestorePhaseBGM and mvars.snd_noRestorePhaseBGM[svars.snd_phaseBgmTagHash]then
     svars.snd_phaseBgmTagHash=n
   end
@@ -91,47 +99,49 @@ function e.RestorePhaseBGM()
     TppMusicManager.ChangeParameterById(svars.snd_phaseBgmTagHash)
   end
 end
-function e.PostEventForFultonRecover()
+function this.PostEventForFultonRecover()
   local e=TppMission.GetMissionStartRecoverDemoType()
   if(e==TppDefine.MISSION_START_RECOVER_DEMO_TYPE.WALKER_GEAR or e==TppDefine.MISSION_START_RECOVER_DEMO_TYPE.VEHICLE)or e==TppDefine.MISSION_START_RECOVER_DEMO_TYPE.NONE then
     TppSoundDaemon.PostEvent("sfx_m_fulton_heli_success","Loading")
   end
 end
-function e.SetHelicopterStartSceneBGM()
+function this.SetHelicopterStartSceneBGM()
   mvars.snd_usingHelicopterStartBgm=true
-  e.SetSceneBGM"bgm_heliStart"end
-function e.StopHelicopterStartSceneBGM()
+  this.SetSceneBGM"bgm_heliStart"
+end
+function this.StopHelicopterStartSceneBGM()
   if mvars.snd_usingHelicopterStartBgm then
     mvars.snd_usingHelicopterStartBgm=nil
-    e.StopSceneBGM()
+    this.StopSceneBGM()
   end
 end
-function e.StartEscapeBGM()
+function this.StartEscapeBGM()
   if svars.snd_phaseBgmTagHash==n then
-    e.SetPhaseBGM"bgm_chase_phase"end
-end
-function e.StopEscapeBGM()
-  if svars.snd_phaseBgmTagHash==s"bgm_chase_phase"then
-    e.ResetPhaseBGM()
+    this.SetPhaseBGM"bgm_chase_phase"
   end
 end
-function e.SkipDecendingLandingZoneJingle()
+function this.StopEscapeBGM()
+  if svars.snd_phaseBgmTagHash==s"bgm_chase_phase"then
+    this.ResetPhaseBGM()
+  end
+end
+function this.SkipDecendingLandingZoneJingle()
   mvars.snd_skipDecendingLandingZoneClearJingle=true
 end
-function e.SkipDecendingLandingZoneWithOutCanMissionClearJingle()
+function this.SkipDecendingLandingZoneWithOutCanMissionClearJingle()
   mvars.snd_skipDecendingLandingZoneWithOutCanMissionClearJingle=true
 end
-function e.Messages()
+function this.Messages()
   return nil
 end
-function e.DeclareSVars()
+function this.DeclareSVars()
   return{
     {name="snd_bgmNameHash",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="snd_bgmSwitchNameHash",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="snd_phaseBgmTagHash",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     nil}
 end
-function e.OnAllocate(n)
+function this.OnAllocate(n)
   if(vars.missionCode==30010)or(vars.missionCode==30020)then
     mvars.snd_bgmList={}
     mvars.snd_bgmList.bgm_heliStart={start="Play_bgm_sideop_start",finish="Stop_bgm_sideop_start"}
@@ -148,12 +158,12 @@ function e.OnAllocate(n)
     mvars.snd_bgmList=n.sound.bgmList
     if n.sound.USE_COMMON_ESCAPE_BGM then
       if TppLocation.IsAfghan()then
-        mvars.snd_bgmList.bgm_escape=e.afghCommonEsacapeBgm.bgm_escape
+        mvars.snd_bgmList.bgm_escape=this.afghCommonEsacapeBgm.bgm_escape
       elseif TppLocation.IsMiddleAfrica()then
-        mvars.snd_bgmList.bgm_escape=e.mafrCommonEsacapeBgm.bgm_escape
+        mvars.snd_bgmList.bgm_escape=this.mafrCommonEsacapeBgm.bgm_escape
       end
     end
-    mvars.snd_bgmList.bgm_heliStart=mvars.snd_bgmList.bgm_heliStart or e.commonHeliStartBgm.bgm_heliStart
+    mvars.snd_bgmList.bgm_heliStart=mvars.snd_bgmList.bgm_heliStart or this.commonHeliStartBgm.bgm_heliStart
     mvars.snd_bgmSwitchTable={}
     for n,e in pairs(mvars.snd_bgmList)do
       local e=e.switch
@@ -192,19 +202,19 @@ function e.OnAllocate(n)
   else
     mvars.snd_finishHeliClearJingleName="Stop_bgm_mission_clear_heli"end
 end
-function e.OnReload(n)
-  e.OnAllocate(n)
-  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function this.OnReload(n)
+  this.OnAllocate(n)
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function e.Init()
-  e.RestoreSceneBGM()
-  e.RestorePhaseBGM()
-  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function this.Init()
+  this.RestoreSceneBGM()
+  this.RestorePhaseBGM()
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function e.OnMessage(i,t,r,a,o,n,s)
-  Tpp.DoMessage(e.messageExecTable,TppMission.CheckMessageOption,i,t,r,a,o,n,s)
+function this.OnMessage(i,t,r,a,o,n,s)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,i,t,r,a,o,n,s)
 end
-function e.GetCurrentSceneBgmSetting()
+function this.GetCurrentSceneBgmSetting()
   local t=svars.snd_bgmNameHash
   local a=svars.snd_bgmSwitchNameHash
   local e
@@ -238,22 +248,23 @@ function e.GetCurrentSceneBgmSetting()
   end
   return i,n
 end
-function e.SetMuteOnLoading()
-  TppSoundDaemon.SetMute"Loading"end
-function e.PostJingleOnGameOver()
+function this.SetMuteOnLoading()
+  TppSoundDaemon.SetMute"Loading"
+end
+function this.PostJingleOnGameOver()
   TppMusicManager.PostJingleEvent("SingleShot","Play_bgm_common_jingle_failed")
 end
-function e.PostJingleOnEstablishMissionClear()
+function this.PostJingleOnEstablishMissionClear()
   TppMusicManager.PostJingleEvent("SingleShot","Play_bgm_common_jingle_clear")
 end
-function e.PostJingleOnCanMissionClear()
+function this.PostJingleOnCanMissionClear()
   TppMusicManager.PostJingleEvent("SingleShot","Play_bgm_common_jingle_achieved")
 end
-function e.ClearOnDecendingLandingZoneJingleFlag()
+function this.ClearOnDecendingLandingZoneJingleFlag()
   mvars.snd_doneDecendingLandingZoneJingle=nil
   mvars.snd_doneDecendingLandingZoneJingleWithOutCanMissionClear=nil
 end
-function e.PostJingleOnDecendingLandingZone()
+function this.PostJingleOnDecendingLandingZone()
   local e={[30050]=true,[30150]=true,[30250]=true}
   if e[vars.missionCode]then
     return
@@ -267,7 +278,7 @@ function e.PostJingleOnDecendingLandingZone()
   end
   mvars.snd_doneDecendingLandingZoneJingle=true
 end
-function e.PostJingleOnDecendingLandingZoneWithOutCanMissionClear()
+function this.PostJingleOnDecendingLandingZoneWithOutCanMissionClear()
   local e={[30050]=true,[30150]=true,[30250]=true}
   if e[vars.missionCode]then
     return
@@ -281,30 +292,30 @@ function e.PostJingleOnDecendingLandingZoneWithOutCanMissionClear()
   end
   mvars.snd_doneDecendingLandingZoneJingleWithOutCanMissionClear=true
 end
-function e.StartJingleOnClearHeli()
+function this.StartJingleOnClearHeli()
   if(mvars.snd_startHeliClearJingleName~="")and(not mvars.snd_playingHeliClearJingleName)then
     mvars.snd_playingHeliClearJingleName=true
     TppMusicManager.PostJingleEvent("MissionEnd",mvars.snd_startHeliClearJingleName)
   end
 end
-function e.SetStartHeliClearJingleName(e)
+function this.SetStartHeliClearJingleName(e)
   if Tpp.IsTypeString(e)then
     mvars.snd_startHeliClearJingleName=e
   end
 end
-function e.EndJingleOnClearHeli()
+function this.EndJingleOnClearHeli()
   mvars.snd_playingHeliClearJingleName=nil
   TppMusicManager.PostJingleEvent("MissionEnd",mvars.snd_finishHeliClearJingleName)
 end
-function e.SetFinishHeliClearJingleName(e)
+function this.SetFinishHeliClearJingleName(e)
   if Tpp.IsTypeString(e)then
     mvars.snd_finishHeliClearJingleName=e
   end
 end
-function e.PostEventOnForceGotMbHelicopter()
+function this.PostEventOnForceGotMbHelicopter()
   TppSoundDaemon.PostEvent("sfx_m_heli_fly_return","Loading")
 end
-function e.PostJingleOnMissionStartTelop()
+function this.PostJingleOnMissionStartTelop()
   if mvars.snd_missionStartTelopJingleName then
     TppMusicManager.PostJingleEvent("RegisterMissionStart",mvars.snd_missionStartTelopJingleName)
     return
@@ -319,8 +330,8 @@ function e.PostJingleOnMissionStartTelop()
     TppMusicManager.PostJingleEvent("RegisterMissionStart","Play_bgm_common_jingle_op")
   end
 end
-function e.SafeStopAndPostJingleOnShowResult()
-  e.StopSceneBGM()
+function this.SafeStopAndPostJingleOnShowResult()
+  this.StopSceneBGM()
   TppMusicManager.StopMusicPlayer(1e3)
   TppMusicManager.StopHeliMusic()
   if vars.missionCode~=50050 then
@@ -331,13 +342,13 @@ function e.SafeStopAndPostJingleOnShowResult()
     end
   end
   TppSoundDaemon.SetMute"Result"end
-function e.PostJingleStartResultPresentation(n)
+function this.PostJingleStartResultPresentation(n)
   if vars.missionCode==50050 then
     return
   end
-  local n=e.ResultRankJingle[n]
+  local n=this.ResultRankJingle[n]
   if n==nil then
-    n=e.ResultRankJingle[TppDefine.MISSION_CLEAR_RANK.C]
+    n=this.ResultRankJingle[TppDefine.MISSION_CLEAR_RANK.C]
   end
   if vars.missionCode~=10260 then
     TppMusicManager.PostJingleEvent("SingleShot",n)
@@ -351,10 +362,10 @@ function e.PostJingleStartResultPresentation(n)
     TppRadio.SetBlackTelephoneDisplaySetting(e[n])
   end
 end
-function e.PostJingleOnStartBlackTelephoneSequence()
+function this.PostJingleOnStartBlackTelephoneSequence()
   TppMusicManager.PostJingleEvent("SingleShot","Set_Switch_bgm_jingle_result_kaz")
 end
-function e.PostJingleOnEndBlackTelephoneSequence()
+function this.PostJingleOnEndBlackTelephoneSequence()
   TppMusicManager.PostJingleEvent("SingleShot","Stop_bgm_common_jingle_ed")
 end
-return e
+return this

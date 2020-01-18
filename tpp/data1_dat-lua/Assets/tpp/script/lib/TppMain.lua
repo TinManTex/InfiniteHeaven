@@ -71,8 +71,8 @@ function this.DisableBlackLoading()
   TppUI.FinishLoadingTips()
 end
 function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
-  --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")--DEBUG
-  --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUGNOW
+  --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")
+  --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUGN
   
   TppWeather.OnEndMissionPrepareFunction()
   this.DisableGameStatus()
@@ -215,9 +215,9 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppStory.UpdateStorySequence{updateTiming="BeforeBuddyBlockLoad"}
     if missionTable.sequence then
       local dbt=missionTable.sequence.DISABLE_BUDDY_TYPE
-      --if InfMain.IsMbPlayTime(vars.missionCode) then--tex no DISABLE_BUDDY_TYPE
-     --   dbt=nil
-      --end--
+      if TppMission.IsMbFreeMissions(vars.missionCode) and gvars.mbEnableBuddies==1 then--tex no DISABLE_BUDDY_TYPE
+        dbt=nil
+      end--
       if dbt ~= nil then
         local disableBuddyType
         if IsTypeTable(dbt)then
@@ -580,12 +580,13 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
         if gvars.startOnFoot==1 and (groundStart~=nil or isMbFree) then
           if isMbFree then
             TppMission.ResetMBFreeStartPositionToCommand()
-            TppMission.SetIsStartFromHelispace()
+            --TppMission.SetIsStartFromHelispace()
           else
             TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
             local groundRot = groundStart.rot or 0
             TppPlayer.SetInitialPosition(groundStart.pos,groundRot)
             TppPlayer.SetMissionStartPosition(groundStart.pos,groundRot)
+            -- CULL, already set belowTppMission.SetIsStartFromHelispace()--tex hax
           end
         else--
           TppPlayer.SetStartStatusRideOnHelicopter()

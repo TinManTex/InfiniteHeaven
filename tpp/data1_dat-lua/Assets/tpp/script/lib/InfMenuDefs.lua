@@ -51,7 +51,7 @@ this.showMissionCodeItem={
   range=this.switchRange,
   settingNames="set_do",
   OnChange=function()
-    TppUiCommand.AnnounceLogView("MissionCode: "..vars.missionCode)--DEBUGNOW: ADDLANG
+    TppUiCommand.AnnounceLogView("MissionCode: "..vars.missionCode)--ADDLANG
   end,
 }
 
@@ -61,8 +61,8 @@ this.showMbEquipGradeItem={
   OnChange=function()
     local soldierGrade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
     local infGrade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()
-    TppUiCommand.AnnounceLogView("Security Grade: "..soldierGrade)--DEBUGNOW: ADDLANG
-    TppUiCommand.AnnounceLogView("Inf Grade: "..soldierGrade)--DEBUGNOW: ADDLANG
+    TppUiCommand.AnnounceLogView("Security Grade: "..soldierGrade)--ADDLANG
+    TppUiCommand.AnnounceLogView("Inf Grade: "..soldierGrade)--ADDLANG
   end,
 }
 
@@ -75,56 +75,30 @@ this.showLangCodeItem={
   end,
 }
 
-this.DEBUG_Item={--DEBUGNOW
+this.showQuietReunionMissionCountItem={
   range=this.switchRange,
   settingNames="set_do",
   OnChange=function()
-    --[[InfMenu.DebugPrint("EnemyTypes:")
-    InfMenu.DebugPrint("TYPE_DD:"..EnemyType.TYPE_DD)
-    InfMenu.DebugPrint("TYPE_SKULL:"..EnemyType.TYPE_SKULL )
-    InfMenu.DebugPrint("TYPE_SOVIET:"..EnemyType.TYPE_SOVIET)
-    InfMenu.DebugPrint("TYPE_PF:"..EnemyType.TYPE_PF )
-    InfMenu.DebugPrint("TYPE_CHILD:".. EnemyType.TYPE_CHILD )--]]
-    --[[
-    InfMenu.DebugPrint("bef")
-    local strout=InfInspect.Inspect(svars.solState)
-    InfMenu.DebugPrint(strout)
-    InfMenu.DebugPrint("aft")
-    
-    for name, gvar in pairs(Ivars.varTable) do
-    local strout2=InfInspect.Inspect(gvar)
-    InfMenu.DebugPrint(strout2)--]]
-    
-    --for e=0,mvars.ene_maxSoldierStateCount-1 do
-    --InfMenu.DebugPrint(svars.solName[e].. " "..svars.solCp[e])
-    --[[svars.solName[e]
-    svars.solState[e]
-    svars.solFlagAndStance[e]=0
-    svars.solWeapon[e]=0
-    svars.solLocation[e*4+0]=0
-    svars.solLocation[e*4+1]=0
-    svars.solLocation[e*4+2]=0
-    svars.solLocation[e*4+3]=0
-    svars.solMarker[e]=0
-    svars.solFovaSeed[e]=0
-    svars.solFaceFova[e]=t
-    svars.solBodyFova[e]=a
-    svars.solCp[e]
-    svars.solCpRoute[e]=GsRoute.ROUTE_ID_EMPTY
-    svars.solScriptSneakRoute[e]=GsRoute.ROUTE_ID_EMPTY
-    svars.solScriptCautionRoute[e]=GsRoute.ROUTE_ID_EMPTY
-    svars.solScriptAlertRoute[e]=GsRoute.ROUTE_ID_EMPTY
-    svars.solRouteNodeIndex[e]=0
-    svars.solRouteEventIndex[e]=0
-    svars.solTravelName[e]=0
-    svars.solTravelStepIndex[e]=0--]]
- -- end
-    
-    --end
+    TppUiCommand.AnnounceLogView("quietReunionMissionCount: "..gvars.str_quietReunionMissionCount)
   end,
 }
 
-this.DEBUG_Item2={--DEBUGNOW
+this.DEBUG_ShowRevengeConfigItem={
+  range=this.switchRange,
+  settingNames="set_do",
+  OnChange=function()
+    InfMenu.DebugPrint("RevRandomValue): "..gvars.rev_revengeRandomValue)
+    InfMenu.DebugPrint("RevengeType:")
+    local revengeType=InfInspect.Inspect(mvars.revenge_revengeType)
+    InfMenu.DebugPrint(revengeType)  
+  
+    InfMenu.DebugPrint("RevengeConfig:")
+    local revengeConfig=InfInspect.Inspect(mvars.revenge_revengeConfig)
+    InfMenu.DebugPrint(revengeConfig)
+  end,
+}
+
+this.DEBUG_Item2={
   range=this.switchRange,
   settingNames="set_do",
   OnChange=function()
@@ -142,17 +116,18 @@ this.DEBUG_Item2={--DEBUGNOW
 }
 
 
---[[ CULL this.returnQuietItem={
+this.returnQuietItem={
   range=this.switchRange,
   settingNames="set_quiet_return",
   OnChange=function()
     if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
       InfMenu.PrintLangId"quiet_already_returned"--"Quiet has already returned."
     else
-      InfPatch.QuietReturn()
+      --InfPatch.QuietReturn()
+      TppStory.RequestReunionQuiet()
     end
   end,
-}--]]
+}
 
 this.resetRevenge={
   range=this.switchRange,
@@ -206,6 +181,7 @@ this.motherBaseMenu={
     Ivars.mbDDSuit,
     --Ivars.mbDDBalaclava,
     Ivars.mbWarGames,
+    Ivars.mbEnableBuddies,
     this.motherBaseShowAssetsMenu,
     this.resetSettingsItem,
     this.goBackItem,
@@ -225,13 +201,14 @@ this.demosMenu={
 this.patchupMenu={
   options={
     Ivars.unlockPlayableAvatar,
-    --CULL this.returnQuietItem,
+    Ivars.startOffline,    
     Ivars.langOverride,
+    this.returnQuietItem,
+    this.showQuietReunionMissionCountItem,
     this.showLangCodeItem,
     this.showPositionItem,
     this.showMissionCodeItem,
     this.showMbEquipGradeItem,
-    --Ivars.startOffline,
     this.resetSettingsItem,
     this.goBackItem,
   }
@@ -329,14 +306,21 @@ this.heliSpaceMenu={
   }
 }
 
-this.inMissionMenu={
+
+this.debugInMissionMenu={
   options={
-    --this.DEBUG_Item,--DEBUGNOW
-    --this.DEBUG_Item2,--DEBUGNOW
-    Ivars.clockTimeScale,
-    this.showPositionItem,
+    this.DEBUG_ShowRevengeConfigItem,
     this.showMissionCodeItem,
     this.showMbEquipGradeItem,
+    this.showPositionItem,   
+    this.goBackItem,
+  }
+}
+
+this.inMissionMenu={
+  options={
+    Ivars.clockTimeScale,
+    this.debugInMissionMenu,    
     this.resetSettingsItem,
     this.menuOffItem,
   }

@@ -80,7 +80,7 @@ function this.ChangeSetting(option,value,incrementMult)
   local newSetting=option.setting
 
   local value=value*incrementMult
-  if option.isFloat==nil then
+  if not option.isFloat then
     if value > 0 then
       value=math.ceil(value)
     else
