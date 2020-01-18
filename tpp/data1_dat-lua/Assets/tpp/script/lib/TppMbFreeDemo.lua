@@ -854,7 +854,9 @@ function e.DisableOcelot()
   end
 end
 function e.ChangeBlock(t,l)
-  local t=e.demoBlockList[t]local o=e.demoBlockList[l]local n=#t~=#o
+  local t=e.demoBlockList[t]
+  local o=e.demoBlockList[l]
+  local n=#t~=#o
   if not n then
     for e=1,#t do
       if t[e]~=c then
@@ -867,7 +869,9 @@ function e.ChangeBlock(t,l)
   end
   if n then
     local t=f30050_demo.GetDemoPlayCluster(l)
-    local t=TppDefine.CLUSTER_DEFINE[t]f30050_sequence.RegisterFovaFpk(t)e.UpdatePackList(l)
+    local t=TppDefine.CLUSTER_DEFINE[t]
+    f30050_sequence.RegisterFovaFpk(t)
+    e.UpdatePackList(l)
     TppScriptBlock.LoadDemoBlock(l,true)
   end
 end
@@ -881,7 +885,8 @@ end
 function e.GetDemoPlayCluster(n)
   local t="Command"
   local l="plnt0"
-  local e=e.demoOptions[n]if e and e.clusterName then
+  local e=e.demoOptions[n]
+  if e and e.clusterName then
     t=e.clusterName
   end
   if e and e.plntName then
@@ -908,7 +913,8 @@ function e.UpdatePackList(t)
   local n=false
   if e.demoBlockList[t]then
     Tpp.ApendArray(l[t],e.demoBlockList[t])
-    local e=e.demoOptions[t]if e and e.loadBuddyBlock then
+    local e=e.demoOptions[t]
+    if e and e.loadBuddyBlock then
       table.insert(l[t],c)
     end
   elseif TppQuestList.questPackList[t]then
@@ -925,9 +931,11 @@ function e.UpdatePackList(t)
     TppQuest.RegisterQuestPackList(l,"demo_block")
   end
 end
-function e.RegisterFovaPack(e)mvars.f30050demo_fovaPackList=e
+function e.RegisterFovaPack(e)
+mvars.f30050demo_fovaPackList=e
 end
-function e.GetPackListForStorySequence()mvars.f30050_isSetLiquid=false
+function e.GetPackListForStorySequence()
+mvars.f30050_isSetLiquid=false
   mvars.f30050_isSetCodeTalker=false
   local e={}
   local t=MotherBaseStage.GetCurrentCluster()
@@ -940,17 +948,22 @@ function e.GetPackListForStorySequence()mvars.f30050_isSetLiquid=false
     end
   elseif t==TppDefine.CLUSTER_DEFINE.Develop then
     if TppStory.CanArrivalSahelanInMB()then
-      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_ly00"..(tostring(vars.mbLayoutCode).."_sahelan.fpk")table.insert(e,t)
+      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_ly00"..(tostring(vars.mbLayoutCode).."_sahelan.fpk")
+      table.insert(e,t)
     end
     if TppStory.CanArrivalAIPodInMB()then
-      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_ly00"..(tostring(vars.mbLayoutCode).."_aipod.fpk")table.insert(e,t)
+      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_ly00"..(tostring(vars.mbLayoutCode).."_aipod.fpk")
+      table.insert(e,t)
     end
   elseif t==TppDefine.CLUSTER_DEFINE.Command then
     if TppStory.CanArrivalLiquidInMB()and(not TppQuest.IsActive"mtbs_q99050")then
-      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_command_liquid.fpk"table.insert(e,t)mvars.f30050_isSetLiquid=true
+      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_command_liquid.fpk"
+      table.insert(e,t)mvars.f30050_isSetLiquid=true
     end
     if TppStory.CanArrivalCodeTalkerInMB()then
-      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_command_codeTalker.fpk"table.insert(e,t)mvars.f30050_isSetCodeTalker=true
+      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_command_codeTalker.fpk"
+      table.insert(e,t)
+      mvars.f30050_isSetCodeTalker=true
     end
   end
   if(vars.buddyType==BuddyType.DOG)or(vars.buddyType==BuddyType.QUIET)then
@@ -960,7 +973,8 @@ function e.GetPackListForStorySequence()mvars.f30050_isSetLiquid=false
   return e
 end
 function e.ShowMissionRewardAfterDemo()
-  TppMission.ShowMissionReward()mvars.f30050_showMissionRewardAfterDemo=true
+  TppMission.ShowMissionReward()
+  mvars.f30050_showMissionRewardAfterDemo=true
 end
 function e.GetSoldierListInDemo(l)
   local t={}
@@ -976,7 +990,8 @@ function e.GetSoldierListInDemo(l)
 end
 function e.GetForceMaleSoldierList(l)
   local t={}
-  local e=e.demoOptions[l]if e and e.forceMaleLocator then
+  local e=e.demoOptions[l]
+  if e and e.forceMaleLocator then
     t=e.forceMaleLocator
   end
   return t
@@ -984,10 +999,12 @@ end
 function e.SetupEnemy(t)
   local l=e.GetDemoPlayCluster(t)
   local l=TppDefine.CLUSTER_DEFINE[l]+1
-  local e=e.GetSoldierListInDemo(t)mtbs_enemy.SetSoldierForDemo(l,e)
+  local e=e.GetSoldierListInDemo(t)
+  mtbs_enemy.SetSoldierForDemo(l,e)
 end
 function e.IsBalaclava(t,l)
-  local e=e.demoOptions[t]if e and e.forceBalaclavaLocator then
+  local e=e.demoOptions[t]
+  if e and e.forceBalaclavaLocator then
     for t,e in ipairs(e.forceBalaclavaLocator)do
       if e==l then
         return true
@@ -997,7 +1014,8 @@ function e.IsBalaclava(t,l)
   return false
 end
 function e.NeedLoadBuddyBlock(t)
-  local e=e.demoOptions[t]if e and e.loadBuddyBlock then
+  local e=e.demoOptions[t]
+  if e and e.loadBuddyBlock then
     if e.forceEnableBuddyType then
       return true
     end
@@ -1018,7 +1036,8 @@ function e.SetupBuddy(t)
   end
 end
 function e.IsShowReward(t)
-  local e=e.demoOptions[t]if e then
+  local e=e.demoOptions[t]
+  if e then
     return e.isShowReward
   end
   return false

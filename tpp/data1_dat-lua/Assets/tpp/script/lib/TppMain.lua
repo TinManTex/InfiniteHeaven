@@ -1,10 +1,10 @@
 local e={}
 --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'did this compile?' indicator
 --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
-local this=e--tex DEMINIFY
+local this=e--tex DEMINIFY:
 --tex shit I want to keep at top for easy manual changing
 this.DEBUGMODE=false
-this.modVersion = "r31"
+this.modVersion = "r32"
 this.modName = "Infinite Heaven"
 --tex strings, till we figure out how to access custom values in .lang files this will have to do.
 --tex SYNC: with uses of TppUiCommand.AnnounceLogView
@@ -88,6 +88,7 @@ this.buttonState={--tex: SYNC: buttonmasks
   [PlayerPad.PRIMARY_WEAPON]={isPressed=false,holdTime=0,startTime=0},
   [PlayerPad.SECONDARY_WEAPON]={isPressed=false,holdTime=0,startTime=0},
 }
+this.toggleMenuButton=PlayerPad.RELOAD
 function this.UpdatePressedButtons()
   for i, button in pairs(this.buttonMasks) do
     this.buttonState[button].isPressed = this.ButtonDown(button)
@@ -159,7 +160,7 @@ this.modSettings={
     default=0,
     slider={max=2,min=0,increment=1},
     settingNames={"Off","Pure","Bounded (+Buddy +Suit)"},
-    onChange=function()
+    onChange=function()--tex DEPENDENCY: settings dependency, isManualSubsistence, subsistenceLoadout
       if gvars.isManualSubsistence==0 then
         gvars.subsistenceLoadout=0
       elseif gvars.subsistenceLoadout==0 then
@@ -212,6 +213,15 @@ this.modSettings={
     settingNames={"Off","Enabled"},
   },
   {
+    name="Reset all settings",
+    default=0,
+    slider=this.switchSlider,
+    settingNames={">","Reset"},
+    onChange=function()
+      this.ResetSettingsDisplay()        
+    end
+  },
+  {
     name="Turn off menu",
     default=0,
     slider=this.switchSlider,
@@ -224,7 +234,7 @@ this.modSettings={
   },
 }
 this.currentOption=1--tex lua tables are indexed from 1
-this.currentSetting=1--tex lua tables are indexed from 1
+this.currentSetting=0--tex settings from 0, to better fit variables
 this.lastDisplay=0
 this.autoDisplayRate=2.8
 this.modMenuOn=false
@@ -317,7 +327,6 @@ function this.PreviousSetting()
   local modSetting=this.modSettings[this.currentOption]
   this.currentSetting=this.ChangeSetting(modSetting,-modSetting.slider.increment)
 end
-
 function this.DisplayCurrentSetting()
   if this.modMenuOn then
     this.DisplaySetting(this.currentOption)
@@ -390,7 +399,7 @@ function this.ResetSettingsDisplay()
   end
   this.GetSetting()
 end
-function this.UpdateModMenu()--tex RETRY: called from TppMain.Update, had 'troubles' running in main
+function this.UpdateModMenu()--tex RETRY: called from TppMission.Update, had 'troubles' running in main
 --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
 --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
   ModStart()--tex: TODO: move to actual run once on startup init thing, make sure to check ModStart itself to see affected code
@@ -398,7 +407,7 @@ function this.UpdateModMenu()--tex RETRY: called from TppMain.Update, had 'troub
   if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
     if TppMission.IsHelicopterSpace(vars.missionCode)then
       --tex RETRY: still not happy, want to read menu status but cant find any way
-      if this.OnButtonHoldTime(PlayerPad.LIGHT_SWITCH) then
+      if this.OnButtonHoldTime(this.toggleMenuButton) then
         this.modMenuOn = not this.modMenuOn
         if this.modMenuOn then
           TppUiCommand.AnnounceLogView(this.modName.." "..this.modVersion)
@@ -415,12 +424,9 @@ function this.UpdateModMenu()--tex RETRY: called from TppMain.Update, had 'troub
           this.modMenuOn=false
           TppUiCommand.AnnounceLogView(this.modStrings.menuOff)
         end
-        if this.OnButtonHoldTime(PlayerPad.RELOAD) then
-          this.ResetSettingsDisplay()
-        end
-        if this.OnButtonDown(PlayerPad.RELOAD) then
+        --[[if this.OnButtonDown(PlayerPad.RELOAD) then
           this.ConfirmCurrent()
-        end
+        end--]]
         if this.OnButtonDown(PlayerPad.UP) then
           this.PreviousOption()
           this.DisplayCurrentSetting()
@@ -441,6 +447,14 @@ function this.UpdateModMenu()--tex RETRY: called from TppMain.Update, had 'troub
       this.AutoDisplay()
     else--!ishelispace
       this.modMenuOn = false
+      if this.OnButtonDown(PlayerPad.LIGHT_SWITCH) then
+        TppUiCommand.AnnounceLogView("ene_soldierTypes")
+        ene_soldierTypes={}
+        Tpp.MergeTable(ene_soldierTypes,mvars.ene_soldierTypes)
+        for i,type in pairs(mvars.ene_soldierTypes)do
+          TppUiCommand.AnnounceLogView("["..tostring(type).."]")
+        end
+      end
     end
   else--!ingame
     this.modMenuOn = false

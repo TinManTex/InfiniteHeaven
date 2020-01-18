@@ -1683,7 +1683,7 @@ function this.SetSelfSubsistenceOnHardMission()--tex reworked SUPERDEBUG:
   if TppMission.IsSubsistenceMission() and loadout==0 then
     loadout=1
   end
-  if loadout > 0 and loadout < #TppMain.subsistenceLoadouts  then
+  if loadout > 0 and loadout <= #TppMain.subsistenceLoadouts  then
     this.SetInitWeapons(TppMain.subsistenceLoadouts[loadout])--tex subs loadouts, lua index from 1
   end
   if TppMission.IsSubsistenceMission() then

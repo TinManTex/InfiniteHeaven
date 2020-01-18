@@ -106,9 +106,9 @@ PF_A={mafr_outland_cp=true,mafr_outlandEast_ob=true,mafr_outlandNorth_ob=true,ma
 PF_B={mafr_factory_cp=true,mafr_lab_cp=true,mafr_labWest_ob=true,mafr_19_29_lrrp=true},
 PF_C={mafr_banana_cp=true,mafr_diamond_cp=true,mafr_hill_cp=true,mafr_savannahNorth_ob=true,mafr_savannahWest_ob=true,mafr_bananaEast_ob=true,mafr_bananaSouth_ob=true,mafr_hillNorth_ob=true,mafr_hillWest_ob=true,mafr_hillWestNear_ob=true,mafr_factorySouth_ob=true,mafr_factoryWest_ob=true,mafr_diamondNorth_ob=true,mafr_diamondSouth_ob=true,mafr_diamondWest_ob=true,mafr_07_09_lrrp=true,mafr_07_24_lrrp=true,mafr_08_10_lrrp=true,mafr_08_25_lrrp=true,mafr_09_25_lrrp=true,mafr_10_11_lrrp=true,mafr_10_18_lrrp=true,mafr_10_26_lrrp=true,mafr_11_10_lrrp=true,mafr_11_12_lrrp=true,mafr_11_26_lrrp=true,mafr_12_14_lrrp=true,mafr_14_27_lrrp=true,mafr_17_27_lrrp=true,mafr_18_26_lrrp=true,mafr_27_30_lrrp=true}}
 e.subTypeOfCp={}
-for t,n in pairs(e.subTypeOfCpTable)do
-  for n,a in pairs(n)do
-    e.subTypeOfCp[n]=t
+for i,cpOfType in pairs(this.subTypeOfCpTable)do
+  for j,cps in pairs(cpOfType)do
+    this.subTypeOfCp[j]=i
   end
 end
 local n=TppEnemyBodyId or{}
@@ -480,7 +480,7 @@ function this.GetSoldierType(gameObjectId)
     if missionId==10080 or missionId==11080 then--tex NMC: PATCHUP:
       return EnemyType.TYPE_PF
     end
-    for i,soldierType in pairs(mvars.ene_soldierTypes)do
+    for i,soldierType in pairs(mvars.ene_soldierTypes)do--tex NMC: default to last solider type for mission?
       if soldierType then
         return soldierType
       end
@@ -2463,6 +2463,44 @@ function this.SetUpSoldiers()
   e.AssignSoldiersToCP()
 end
 function this.AssignSoldiersToCP()
+  local missionId=TppMission.GetMissionID()
+  this._ConvertSoldierNameKeysToId(mvars.ene_soldierTypes)
+  mvars.ene_soldierSubType=mvars.ene_soldierSubType or{}
+  mvars.ene_soldierLrrp=mvars.ene_soldierLrrp or{}
+  local subTypeOfCp=this.subTypeOfCp
+  for a,ene_soldierID in pairs(mvars.ene_soldierIDList)do
+    local ene_cp=mvars.ene_cpList[a]
+    local subType=subTypeOfCp[ene_cp]
+    local isChild=false
+    for n,l in pairs(ene_soldierID)do
+      SendCommand(n,{id="SetCommandPost",cp=ene_cp})
+      if mvars.ene_lrrpTravelPlan[a]then
+        SendCommand(n,{id="SetLrrp",travelPlan=mvars.ene_lrrpTravelPlan[a]})
+        mvars.ene_soldierLrrp[n]=true
+        if mvars.ene_lrrpVehicle[a]then
+          local vehicle=GetGameObjectId("TppVehicle2",mvars.ene_lrrpVehicle[a])
+          local cmd={id="SetRelativeVehicle",targetId=vehicle,rideFromBeginning=true}
+          SendCommand(n,cmd)
+        end
+      end
+      local soldierType=this.GetSoldierType(n)
+      local cmd={id="SetSoldier2Type",type=soldierType}
+      SendCommand(n,cmd)
+      if(soldierType~=EnemyType.TYPE_SKULL and soldierType~=EnemyType.TYPE_CHILD)and subType then
+        mvars.ene_soldierSubType[n]=subType
+      end
+      if missionId~=10080 and missionId~=11080 then--tex NMC: PATCHUP:
+        if soldierType==EnemyType.TYPE_CHILD then
+          isChild=true
+        end
+      end
+    end
+    if isChild then
+      SendCommand(a,{id="SetChildCp"})
+    end
+  end
+end
+function e.AssignSoldiersToCPOrig()--tex ORIG: DEMINIFY: CULL:
   local s=TppMission.GetMissionID()
   e._ConvertSoldierNameKeysToId(mvars.ene_soldierTypes)
   mvars.ene_soldierSubType=mvars.ene_soldierSubType or{}
@@ -3813,7 +3851,8 @@ function this.OnAllocateQuestFova(n)
     end
     if mvars.ene_questArmorId~=0 then
       e={mvars.ene_questArmorId,TppDefine.QUEST_ENEMY_MAX,0}
-      table.insert(t,e)l=true
+      table.insert(t,e)
+      l=true
     end
   end
   if(n.enemyList and Tpp.IsTypeTable(n.enemyList))and next(n.enemyList)then
@@ -3822,12 +3861,14 @@ function this.OnAllocateQuestFova(n)
         if e.bodyId then
           local n=1
           local e={e.bodyId,n,0}
-          table.insert(t,e)l=true
+          table.insert(t,e)
+          l=true
         end
         if e.faceId then
           local n=1
           local e={e.faceId,n,0}
-          table.insert(a,e)d=true
+          table.insert(a,e)
+          d=true
         end
       end
     end
@@ -3837,17 +3878,20 @@ function this.OnAllocateQuestFova(n)
       if e.hostageName then
         if e.bodyId then
           local n=1
-          local e={e.bodyId,0,n}table.insert(t,e)s=true
+          local e={e.bodyId,0,n}
+          table.insert(t,e)s=true
         end
         if e.faceId then
           local n=1
-          local e={e.faceId,0,n}table.insert(a,e)o=true
+          local e={e.faceId,0,n}
+          table.insert(a,e)o=true
         end
         if e.isFaceRandom then
           local e=TppQuest.GetRandomFaceId()
           if e then
             local n=1
-            local e={e,0,n}table.insert(a,e)o=true
+            local e={e,0,n}
+            table.insert(a,e)o=true
           end
         end
       end
@@ -3867,7 +3911,8 @@ function this.OnAllocateQuestFova(n)
       TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}
     end
   end
-  local i="SetNone"if((l==true or d==true)or s==true)or o==true then
+  local i="SetNone"
+  if((l==true or d==true)or s==true)or o==true then
     local n=l or s
     local e=d or o
     if n==true and e==true then
@@ -3888,7 +3933,8 @@ function this.OnAllocateQuestFova(n)
       r={id="InitializeAndAllocateExtendFova",body=t}
     end
     if r then
-      GameObject.SendCommand({type="TppSoldier2"},r)GameObject.SendCommand({type="TppCorpse"},r)
+      GameObject.SendCommand({type="TppSoldier2"},r)
+      GameObject.SendCommand({type="TppCorpse"},r)
     end
   end
   if s==true or o==true then
@@ -3930,7 +3976,9 @@ function this.OnActivateQuest(n)
     e.SetupActivateQuestEnemy(n.enemyList)t=true
   end
   if n.isQuestZombie==true then
-    local e={type="TppSoldier2"}GameObject.SendCommand(e,{id="RegistSwarmEffect"})t=true
+    local e={type="TppSoldier2"}
+    GameObject.SendCommand(e,{id="RegistSwarmEffect"})
+    t=true
   end
   if(n.hostageList and Tpp.IsTypeTable(n.hostageList))and next(n.hostageList)then
     e.SetupActivateQuestHostage(n.hostageList)t=true

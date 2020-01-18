@@ -1,6 +1,6 @@
 local e={}
---local ii=SplashScreen.Create("ii","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5009_l_alp.ftex",1280,640)  
---SplashScreen.Show(ii,0,0.5,0)--tex mantis 
+--local ii=SplashScreen.Create("ii","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5009_l_alp.ftex",1280,640)
+--SplashScreen.Show(ii,0,0.5,0)--tex mantis
 local this=e--tex DEMINIFY:
 local S=256
 local c=0
@@ -1065,8 +1065,29 @@ function t.mtbs_q42070()
   return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE.Combat+1)>0
 end
 --tex DEMINIFY:
-local this=e
+--local S=256
+--local c=0
+--local T=0
+--local m="quest_block"
+--local d="QStep_Clear"
+local StrCode32=N
+local StrCode32Table=C
+local IsTypeFunc=r
+local IsTypeTable=o
+local IsTypeString=I
+--local i=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
+--local t=TppDefine.Enum{"MISSION","FREE","HELI"}
+--local s=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
+--local D={"tent","field","ruins","waterway","cliffTown","commFacility","sovietBase","fort","citadel"}
+--local O={"outland","pfCamp","savannah","hill","banana","diamond","lab"}
+--local f={
 local sideOps=u
+--local g={
+--local q={
+--local p={
+--local h={
+--local A={
+--local _={
 local canOpenQuestChecks=t--tex table of functions
 --
 e.ShootingPracticeOpenCondition={Command=t.mtbs_q42010,Develop=t.mtbs_q42020,Support=t.mtbs_q42030,BaseDev=t.mtbs_q42040,Medical=t.mtbs_q42050,Spy=t.mtbs_q42060,Combat=t.mtbs_q42070}
@@ -1092,7 +1113,8 @@ end
 function this.GetBounusGMP(e)
   local e=TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[e]]
   if e then
-    return TppDefine.QUEST_BONUS_GMP[e]end
+    return TppDefine.QUEST_BONUS_GMP[e]
+  end
   return 0
 end
 function this.RegisterForceDeactiveOnMBTerminal(e)
@@ -1412,33 +1434,54 @@ function this.SetClearFlag(e)
     gvars.qst_questClearedFlag[t]=true
   end
 end
-function this.ReserveOpenQuestDynamicUpdate()mvars.qst_reserveDynamicQuestOpen=true
+function this.ReserveOpenQuestDynamicUpdate()
+mvars.qst_reserveDynamicQuestOpen=true
 end
 function this.FadeOutAndDeativateQuestBlock()
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeOutOnOutOfMissionArea")
 end
-function this.SetQuestBlockName(e)mvars.qst_blockName=e
+function this.SetQuestBlockName(e)
+mvars.qst_blockName=e
 end
 function this.GetQuestBlockName(e)
   return mvars.qst_blockName
 end
-function this.OnAllocate(t)e.SetDefaultQuestBlock()
+function this.OnAllocate(t)
+e.SetDefaultQuestBlock()
 end
-function this.Init(t)e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function this.Init(t)
+e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
-function this.OnReload(t)e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function this.OnReload(t)
+e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
 function this.Messages()
   local t=e.DeactiveQuestAreaTrapMessages()
-  return C{Block={{msg="StageBlockCurrentSmallBlockIndexUpdated",func=e.OnUpdateSmallBlockIndex}},UI={{msg="EndFadeOut",sender="FadeOutOnOutOfMissionArea",func=function()mvars.qst_blockStateRequest=i.DEACTIVATE
-    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED)
-  end},{msg="QuestAreaAnnounceText",func=function(t)e.OnQuestAreaAnnounceText(t)
-    end}},Marker={{msg="ChangeToEnable",func=function(n,t,a,s)e._ChangeToEnable(n,t,a,s)
-    end}},Timer={{msg="Finish",sender="TimerShootingPracticeStart",func=function()e.StartShootingPractice()
-      end,option={isExecMissionPrepare=true,isExecMissionClear=true}},{msg="Finish",sender="TimerShootingPracticeEnd",func=function()e.OnQuestShootingTimerEnd()
-      end,option={isExecMissionPrepare=true,isExecMissionClear=true}},{msg="Finish",sender="TimerShootingPracticeRetryConfirm",func=function()
-        TppGimmick.SetQuestShootingPracticeTargetInvisible()
-      end,option={isExecMissionPrepare=true,isExecMissionClear=true}}},Trap=t}
+  return C{
+    Block={{msg="StageBlockCurrentSmallBlockIndexUpdated",func=e.OnUpdateSmallBlockIndex}},
+    UI={{msg="EndFadeOut",sender="FadeOutOnOutOfMissionArea",func=function()
+      mvars.qst_blockStateRequest=i.DEACTIVATE
+      TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED)
+    end},
+    {msg="QuestAreaAnnounceText",func=function(t)
+      e.OnQuestAreaAnnounceText(t)
+    end}},
+    Marker={{msg="ChangeToEnable",func=function(n,t,a,s)
+      e._ChangeToEnable(n,t,a,s)
+    end}},
+    Timer={{msg="Finish",sender="TimerShootingPracticeStart",func=function()
+      e.StartShootingPractice()
+    end,
+    option={isExecMissionPrepare=true,isExecMissionClear=true}},
+    {msg="Finish",sender="TimerShootingPracticeEnd",func=function()
+      e.OnQuestShootingTimerEnd()
+    end,
+    option={isExecMissionPrepare=true,isExecMissionClear=true}},
+    {msg="Finish",sender="TimerShootingPracticeRetryConfirm",func=function()
+      TppGimmick.SetQuestShootingPracticeTargetInvisible()
+    end,
+    option={isExecMissionPrepare=true,isExecMissionClear=true}}},
+    Trap=t}
 end
 function this.OnMessage(r,t,a,i,o,s,n)
   Tpp.DoMessage(e.messageExecTable,TppMission.CheckMessageOption,r,t,a,i,o,s,n)
@@ -1463,7 +1506,11 @@ function this.OnMessage(r,t,a,i,o,s,n)
 end
 function this.OnDeactivate(t)
   if t.questType==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
-    e.OnFinishShootingPractice()e.ShootingPracticeStopAllTimer()e.OnQuestShootingTimerEnd()e.OnDeactivateShootingPracticeForUi()e.ClearShootingPracticeMvars()
+    e.OnFinishShootingPractice()
+    e.ShootingPracticeStopAllTimer()
+    e.OnQuestShootingTimerEnd()
+    e.OnDeactivateShootingPracticeForUi()
+    e.ClearShootingPracticeMvars()
   end
 end
 function this.RegisterQuestList(t)
@@ -1579,7 +1626,7 @@ function this.RegisterQuestPackList(t,s)
   TppScriptBlock.RegisterCommonBlockPackList(s,a)
 end
 function this.SetDefaultQuestBlock()
-mvars.qst_blockName=m
+  mvars.qst_blockName=m
 end
 function this.InitializeQuestLoad(t)
   local n=e.GetQuestBlockState()
@@ -1589,7 +1636,8 @@ function this.InitializeQuestLoad(t)
   if vars.missionCode==30050 and t==nil then
     return
   end
-  local n,a=Tpp.GetCurrentStageSmallBlockIndex()e.UpdateQuestBlockStateAtNotLoaded(n,a,t)
+  local n,a=Tpp.GetCurrentStageSmallBlockIndex()
+  e.UpdateQuestBlockStateAtNotLoaded(n,a,t)
 end
 function this.InitializeQuestActiveStatus(n)
   local t=e.GetQuestBlockState()
@@ -2011,9 +2059,9 @@ function this.SearchQuestFromAllSpecifiedArea(o,s,a,n)
 end
 function this.IsInsideArea(o,e,s,a,n)
   do
-    local t=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
-    local t=TppDefine.LOCATION_ID[t]
-    if e.locationId~=t then
+    local locationName=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
+    local missionLocation=TppDefine.LOCATION_ID[locationName]
+    if e.locationId~=missionLocation then
       return false
     end
   end
@@ -2107,8 +2155,8 @@ function this.UpdateOpenQuest()
     if (canOpenQuestFunc and canOpenQuestFunc()) or (gvars.unlockSideOps~=0 and gvars.qst_questClearedFlag[questIndex]) then--tex  unlockSideOps 2 to force open?
       if gvars.qst_questOpenFlag[questIndex]==false then
         mvars.qst_isQuestNewOpenFlag=true
-      end
-      gvars.qst_questOpenFlag[questIndex]=true
+    end
+    gvars.qst_questOpenFlag[questIndex]=true
     end
   end
 end
@@ -2147,7 +2195,7 @@ function this.UpdateActiveQuest(t)
       for i,quest in ipairs{storyQuests,nonStoryQuests,repopQuests}do--tex: NMC: would seem this is how it choses a few quests to be active at a time
         if not questName then
           questName=quest[1]
-        end
+      end
       end
       if questName then
         gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
@@ -2176,7 +2224,7 @@ function this.UpdateActiveQuest(t)
     if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]==true then
       TppMotherBaseManagement.SetLockedTanFlag{locked=true}
       return
-    end
+  end
   end
 end
 function this.CanActiveQuestInMission(e,t)
@@ -2262,10 +2310,10 @@ function this.SwitchActiveQuest(name)
   end
 end
 function this.IsRepop(questName)
-    local questIndex=TppDefine.QUEST_INDEX[questName]
-    if questIndex then
-      return gvars.qst_questRepopFlag[questIndex]
-    end
+  local questIndex=TppDefine.QUEST_INDEX[questName]
+  if questIndex then
+    return gvars.qst_questRepopFlag[questIndex]
+  end
 end
 function this.IsOpen(questName)
   local questIndex=TppDefine.QUEST_INDEX[questName]
@@ -2277,7 +2325,7 @@ function this.IsActive(questName)
   if gvars.unlockSideOps~=0 then--tex given up trying to make this play nice, hacking it right here
     local questIndex=TppDefine.QUEST_INDEX[questName]
     if questIndex then
-      gvars.qst_questActiveFlag[questIndex]=true 
+      gvars.qst_questActiveFlag[questIndex]=true
       return true
     end
   else--
@@ -2371,8 +2419,8 @@ function this.UpdateRepopFlagImpl(questTable)
     for i,info in ipairs(questTable.infoList)do
       questTable.infoList[i].isOnce=false
       --gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[info.name]]=true--tex CULL:
-    end
-    --return
+  end
+  --return
   end--
   for t,a in ipairs(questTable.infoList)do
     local t=a.name
@@ -2546,7 +2594,9 @@ function this.ShowAnnounceLog(n,t,l,u)
     return
   end
   if n==s.OPEN then
-    TppUI.ShowAnnounceLog"quest_list_update"TppUI.ShowAnnounceLog"quest_add"elseif n==s.CLEAR then
+    TppUI.ShowAnnounceLog"quest_list_update"
+TppUI.ShowAnnounceLog"quest_add"
+elseif n==s.CLEAR then
     if not t then
       return
     end
