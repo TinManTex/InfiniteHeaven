@@ -8,7 +8,7 @@ local defaultIncrementMult=1
 local currentIncrementMult=defaultIncrementMult
 
 --DOC: \BUTTON BITMASKS.TXT \buttonmasks.ods
---tex: Note: There were a bunch of bitmasks not identified in PlayerPad.<MASKNAME>.
+--tex Note: There were a bunch of bitmasks not identified in PlayerPad.<MASKNAME>.
 --Currently either labeled UNKOWN, as seen from the existing codes it's possible that there's multiple buttons triggering/sharing one bitmask, so even after 'finding it' copy off instead of rename
 --fox engine seems to be using bitops http://bitop.luajit.org
 this.buttonMasks={

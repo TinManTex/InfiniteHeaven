@@ -132,7 +132,7 @@ this.soldierParametersDefaults={--tex  SYNC: soldierParametersMod. actually usin
   zombieParameterTable={highHeroicValue=1e3}
 }
 
-this.soldierParameters={--tex: SYNC: soldierParametersDefault. Ugly, but don't want to blow out the stack by doing table copies at runtime
+this.soldierParameters={--tex SYNC: soldierParametersDefault. Ugly, but don't want to blow out the stack by doing table copies at runtime
   sightFormParameter={
     contactSightForm={distance=2,verticalAngle=160,horizontalAngle=130},
     normalSightForm={distance=60,verticalAngle=60,horizontalAngle=100},

@@ -4309,7 +4309,8 @@ function this.SetupActivateQuestHeli(r)
         if n==NULL_ID then
         else
           GameObject.SendCommand(n,{id="RequestRoute",route=i.routeName})
-          GameObject.SendCommand(n,{id="DisablePullOut"})t=true
+          GameObject.SendCommand(n,{id="DisablePullOut"})
+          t=true
           this.SetQuestEnemy(n,false)
         end
       end

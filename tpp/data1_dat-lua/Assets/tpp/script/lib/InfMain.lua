@@ -7,6 +7,7 @@ this.modName = "Infinite Heaven"
 
 --LOCALOPT:
 local IsFunc=Tpp.IsTypeFunc
+local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
@@ -306,27 +307,19 @@ end
 
 
 function this.DeleteSplash(splashName)
-  local splash=SplashScreen.GetSplashScreenWithName(splashName)
-  if splash~=nil then
-    SplashScreen.Delete(splash)
+  if splashName~=nil then
+    local splash=SplashScreen.GetSplashScreenWithName(splashName)
+    if splash~=nil then
+      SplashScreen.Delete(splash)
+    end
   end
 end
 
---[[
-    local function StateCallback(screenId, state)
-      if state == SplashScreen.STATE_DELETE then
-        Fox.Log("konamiLogoScreen is deleted. show fox logo.")
-        SplashScreen.Show( kjpLogoScreenId, fadeTime, showTime, fadeTime)--tex was 1.0, 4.0, 1.0)
-      end
-    end
-    SplashScreen.SetStateCallback(konamiLogoScreenId, StateCallback)
-    --]]
-
 local emblemTypes={
-  --{"base",{01,50}},
+  {"base",{01,50}},
   {"front",{01,85}},
   {"front",{5001,5027}},
-  {"front",{7008,7063}},
+  --{"front",{7008,7063}},--tex bunch missing (see DOC), boring emblems anyhoo
   {"front",{
     100,
     110,
@@ -379,12 +372,12 @@ this.currentRandomSplash=nil
 --IN: emblemTypes
 --OUT: this.oneOffSplashes, this.currentRandomSplash, SplashScreen - a splashscreen
 --ASSUMPTION: heavy on emblemTypes data layout assumptions, so if you change it, this do break
-function this.RandomEmblemSplash()
-  if this.currentRandomSplash~=nil then
+function this.CreateRandomEmblemSplash()
+  --[[if this.currentRandomSplash~=nil then
     if SplashScreen.GetSplashScreenWithName(this.currentRandomSplash) then
       return
     end
-  end
+  end--]]
   
   local groupNumber=math.random(#emblemTypes)
   local group=emblemTypes[groupNumber]
@@ -398,25 +391,39 @@ function this.RandomEmblemSplash()
     emblemNumber=math.random(emblemRanges[1],emblemRanges[2])
   end
   
-  local lowOrHi="h"
+  local lowOrHi="h"--tex low is full opaque, i guess for being in background thus 'low' display order, hi is more detailed stencil
+  --[[if math.random()<0.5 then
+    lowOrHi="l"
+  else
+    lowOrHi="h"
+  end--]]
+    
   local name=emblemType..emblemNumber
 
   local path="/Assets/tpp/ui/texture/Emblem/"..emblemType.."/ui_emb_"..emblemType.."_"..emblemNumber.."_"..lowOrHi.."_alp.ftex"
   local randomSplash=SplashScreen.Create(name,path,640,640)
 
   this.currentRandomSplash=name
-  this.AddOneOffSplash(name)
+  --this.AddOneOffSplash(name)
   
-  SplashScreen.Show(randomSplash,.2,0.5,.2)
-  return name
+  --SplashScreen.Show(randomSplash,.2,0.5,.2)
+  return randomSplash
 end
+
+function this.SplashStateCallback_r(screenId, state)
+  if mvars.startHasTitileSeqeunce then
+    return
+  end
+
+  if state == SplashScreen.STATE_DELETE then
+    local newSplash=this.CreateRandomEmblemSplash()
+    SplashScreen.SetStateCallback(newSplash, this.SplashStateCallback_r)
+    SplashScreen.Show( newSplash, .5, 3, .5)--.5,3,.5)-- 1.0, 4.0, 1.0)
+  end
+end
+
 
 --
-
-function this.Init(missionTable)
-  this.InitWarpPlayerUpdate()
-end
-
 function this.EndFadeIn()
   if gvars.disableHeadMarkers==1 then
     TppUiStatusManager.SetStatus("HeadMarker","INVALID")
@@ -479,6 +486,22 @@ local function UpdateRangeToMinMax(updateRate,updateRange)
   return min,max
 end
 
+--ivar update system
+
+local updateIvars={
+  Ivars.phaseUpdate,
+  Ivars.warpPlayerUpdate,
+  Ivars.heliUpdate,
+}
+
+function this.Init(missionTable)
+  for i, ivar in ipairs(updateIvars) do
+    if IsFunc(ivar.ExecInit) then
+      ivar.ExecInit()
+    end
+  end
+end
+
 this.execChecks={
   inGame=false,--tex actually loaded game, ie at least 'continued' from title screen
   inHeliSpace=false,
@@ -502,10 +525,10 @@ function this.Update()
     
   playerVehicleId=NULL_ID
   local currentChecks=this.execChecks
-  --for k,v in ipairs(currentChecks) do
-   -- currentChecks[k]=false
- --end
-  
+  for k,v in ipairs(currentChecks) do
+    currentChecks[k]=false
+  end
+  --[[CULL
   currentChecks.inGame=false
   currentChecks.inHeliSpace=false
   currentChecks.inMission=false
@@ -513,7 +536,7 @@ function this.Update()
   currentChecks.inGroundVehicle=false
   currentChecks.inSupportHeli=false
   currentChecks.onBuddy=false
- 
+  --]]
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
 
   if currentChecks.inGame then
@@ -535,7 +558,9 @@ function this.Update()
   end
   
   this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
+  --if currentChecks.inGame then
   --InfMenu.DebugPrint(tostring(this.currentTime))--DEBUGNOW
+  --end
   
   InfButton.UpdateHeld()
   InfButton.UpdateRepeatReset() 
@@ -547,39 +572,75 @@ function this.Update()
   InfMenu.Update(currentChecks)
   currentChecks.inMenu=InfMenu.menuOn
   
-  local updateIvars={
-    Ivars.phaseUpdate,
-    Ivars.warpPlayerUpdate,
-  }
-  
-  --local ivar=Ivars.phaseUpdate 
   for i, ivar in ipairs(updateIvars) do
     if ivar.setting==1 then
-      local updateRate=ivar.updateRate or gvars[ivar.name.."Rate"]
-      local updateRange=ivar.updateRange or gvars[ivar.name.."Range"]
-      updateRate=updateRate or 0
-      updateRange=updateRange or 0
+      --tex ivar.updateRate is either number or another ivar
+      local updateRate=ivar.updateRate or 0
+      local updateRange=ivar.updateRange or 0
+      if IsTable(updateRate) then
+        updateRate=updateRate.setting
+      end
+      if IsTable(updateRange) then
+        updateRange=updateRange.setting
+      end
+      --
       
       this.ExecUpdate(currentChecks,this.currentTime,ivar.execChecks,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
     end
   end
-  --this.UpdateWarpPlayerMode(currentChecks)
   ---
   InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
 end
 
+function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  if execState.nextUpdate > currentTime then
+    return
+  end
+   
+  for check,ivarCheck in ipairs(execChecks) do
+    if currentChecks[check]~=ivarCheck then
+      return
+    end
+  end
+  
+  if not IsFunc(ExecUpdate) then
+    InfMenu.DebugPrint"ExecUpdate is not a function"
+    return
+  end
+  
+  ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  
+  --tex set up next update time GOTCHA: wont reflect changes to rate and range till next update
+  if updateRange then
+    local updateMin=updateRate-updateRange*0.5
+    local updateMax=updateRate+updateRange*0.5
+    if updateMin<0 then
+      updateMin=0
+    end
+
+    updateRate=math.random(updateMin,updateMax)
+  end
+  execState.nextUpdate=currentTime+updateRate
+  
+  --if currentChecks.inGame then
+  -- InfMenu.DebugPrint("currentTime: "..tostring(currentTime).." updateRate:"..tostring(updateRate) .." nextUpdate:"..tostring(execState.nextUpdate))--DEBUGNOW
+  --end
+end
+
 --Phase/Alert updates
 --state
-this.lastPhase=0
-this.alertBump=false
-
 local PHASE_ALERT=TppGameObject.PHASE_ALERT
 
 local function PhaseName(index)
   return Ivars.phaseSettings[index+1]
 end
 
-function this.UpdatePhase()
+function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  --if currentChecks.inGame then
+  --InfMenu.DebugPrint("currentTime: "..currentTime.." updateRate:"..updateRate)--DEBUGNOW
+ --  return
+ -- end  
+  
   --Phase/Alert updates DOC: Phases-Alerts.txt
   --TODO RETRY, see if you can get when player comes into cp range better, playerPhase doesnt change till then
   --RESEARCH music also starts up
@@ -587,70 +648,71 @@ function this.UpdatePhase()
   if TppLocation.IsMotherBase() or TppLocation.IsMBQF() then
     return
   end
-
+  
   local currentPhase=vars.playerPhase
   local minPhase=gvars.minPhase
   local maxPhase=gvars.maxPhase
-
-
-  if currentPhase~=this.lastPhase then
+  
+  if currentPhase~=execState.lastPhase then
     if gvars.printPhaseChanges==1 then
       InfMenu.Print(InfMenu.LangString("phase_changed"..":"..PhaseName(currentPhase)))
     end
   end
+  
+  --InfMenu.DebugPrint("InfMain.Update phase mod")
 
-
-    --InfMenu.DebugPrint("InfMain.Update phase mod")
-    --local minPhase=gvars.minPhase
-    --local maxPhase=gvars.maxPhase
-
-    --local debugMessage=nil--DEBUG
-    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
-      if currentPhase<minPhase then
-        --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
-        this.ChangePhase(cpName,minPhase)--gvars.minPhase)
-      end
-      if currentPhase>maxPhase then
-        --debugMessage="phase>max setting to "..PhaseName(gvars.maxPhase)
-        InfMain.ChangePhase(cpName,maxPhase)
-      end
-
-      if gvars.keepPhase==1 then
-        InfMain.SetKeepAlert(cpName,true)
-      else
-      --InfMain.SetKeepAlert(cpName,false)--tex this would trash any vanilla setting, but updating this to off would only be important if ivar was updated at mission time
-      end
-
-      --tex keep forcing ALERT so that last know pos updates, otherwise it would take till the alert>evasion cooldown
-      --doesnt really work well, > alert is set last know pos, take cover and suppress last know pos
-      --evasion is - is no last pos, downgrade to caution, else group advance on last know pos
-      --ideally would be able to set last know pos independant of phase
-      --[[if minPhase==PHASE_ALERT then
-        --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
-        if currentPhase==PHASE_ALERT and this.lastPhase==PHASE_ALERT then
-          this.ChangePhase(cpName,minPhase-1)--gvars.minPhase)
-        end
-      end--]]
-      if minPhase==TppGameObject.PHASE_EVASION then
-        if this.alertBump then
-          this.alertBump=false
-          InfMain.ChangePhase(cpName,TppGameObject.PHASE_EVASION)
-        end
-      end
-      if currentPhase<minPhase then
-        if minPhase==TppGameObject.PHASE_EVASION then
-          InfMain.ChangePhase(cpName,PHASE_ALERT)
-          this.alertBump=true
-        end
-      end
-
+  --local debugMessage=nil--DEBUG
+  for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
+    if currentPhase<minPhase then
+      --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
+      this.ChangePhase(cpName,minPhase)--gvars.minPhase)
     end
+    if currentPhase>maxPhase then
+      --debugMessage="phase>max setting to "..PhaseName(gvars.maxPhase)
+      InfMain.ChangePhase(cpName,maxPhase)
+    end
+
+    if gvars.keepPhase==1 then
+      InfMain.SetKeepAlert(cpName,true)
+    else
+    --InfMain.SetKeepAlert(cpName,false)--tex this would trash any vanilla setting, but updating this to off would only be important if ivar was updated at mission time
+    end
+
+    --tex keep forcing ALERT so that last know pos updates, otherwise it would take till the alert>evasion cooldown
+    --doesnt really work well, > alert is set last know pos, take cover and suppress last know pos
+    --evasion is - is no last pos, downgrade to caution, else group advance on last know pos
+    --ideally would be able to set last know pos independant of phase
+    --[[if minPhase==PHASE_ALERT then
+      --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
+      if currentPhase==PHASE_ALERT and execState.lastPhase==PHASE_ALERT then
+        this.ChangePhase(cpName,minPhase-1)--gvars.minPhase)
+      end
+    end--]]
+    if minPhase==TppGameObject.PHASE_EVASION then
+      if execState.alertBump then
+        execState.alertBump=false
+        InfMain.ChangePhase(cpName,TppGameObject.PHASE_EVASION)
+      end
+    end
+    if currentPhase<minPhase then
+      if minPhase==TppGameObject.PHASE_EVASION then
+        InfMain.ChangePhase(cpName,PHASE_ALERT)
+        execState.alertBump=true
+      end
+    end
+
+  end
 
     --[[ if debugMessage then--DEBUG--tex not a good idea to keep on cause playerphase only updates in certain radius of a cp
     InfMenu.DebugPrint(debugMessage)
-    end--]]
+    end--]]  
+    
+  --  if currentChecks.inGame then---
+  -- InfMenu.DebugPrint("currentTime: "..tostring(currentTime).." updateRate:"..tostring(updateRate))--DEBUGNOW
 
-  this.lastPhase=currentPhase
+ -- end---
+
+  execState.lastPhase=currentPhase
 end
 
 --warp mode
@@ -681,12 +743,12 @@ function this.InitWarpPlayerUpdate()
   InfButton.buttonStates[this.moveDownButton].decrement=0.1
 end
 
-function this.UpdateWarpPlayer(execCheck)
-  if execCheck.inMenu then
+function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  if currentChecks.inMenu then
     return
   end
   
-  if not execCheck.inGame or execCheck.inHeliSpace then
+  if not currentChecks.inGame or currentChecks.inHeliSpace then
     if Ivars.warpPlayerUpdate.setting==1 then
       Ivars.warpPlayerUpdate:Set(0)
     end
@@ -763,53 +825,54 @@ function this.UpdateWarpPlayer(execCheck)
   end
 end
 
---heli 
---DOC: Helicopter shiz.txt
-this.heliExecInfo={
-  Update=nil
-}
-this.heliExecConditions={
-  inGame=true,
-  inHeliSpace=false,
-}
-this.heliExecTiming={
-  updateRate=0,
-  updateRange=0,
-  nextUpdate=0,
-}
-
-this.nextHeliUpdate=0
-
-function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
-  if execState.nextUpdate > currentTime then
-    return
-  end  
-  
-  for check,ivarCheck in ipairs(execChecks) do
-    if currentChecks[check]~=ivarCheck then
-      return
-    end
-  end
-  
-  if not IsFunc(ExecUpdate) then
-    InfMenu.DebugPrint"ExecUpdate is not a function"
+--heli, called from TppMain.Onitiialize, so should only be 'enable/change from default', VERIFY it's in the right spot to override each setting
+function this.UpdateHeliVars()
+  if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
   
-  ExecUpdate(currentChecks)
+  local heliId=GetGameObjectId("TppHeli2","SupportHeli")
+  if heliId==nil or heliId==NULL_ID then
+    return
+  end
   
-  --tex set up next update time GOTCHA: wont reflect changes to rate and range till next update
-  if not updateRate or not updateRange then
-    execState.nextUpdate=currentTime+updateRate
-  else
-    local updateMin=updateRate-updateRange*0.5
-    local updateMax=updateRate+updateRange*0.5
-    if updateMin<0 then
-      updateMin=0
-    end
+  if gvars.disableHeliAttack==1 then--tex disable heli be fightan
+    SendCommand(heliId,{id="SetCombatEnabled",enabled=false})
+  end
+  if gvars.setInvincibleHeli==1 then
+    SendCommand(heliId,{id="SetInvincible",enabled=true}) 
+  end
+  if not Ivars.setTakeOffWaitTime:IsDefault() then
+    SendCommand(heliId,{id="SetTakeOffWaitTime",time=gvars.setTakeOffWaitTime})
+  end
+  if gvars.disablePullOutHeli==1 then
+    SendCommand(heliId,{id="DisablePullOut"})  
+  end
+  if not Ivars.setLandingZoneWaitHeightTop:IsDefault() then
+    SendCommand(heliId,{id="SetLandingZoneWaitHeightTop",height=gvars.setLandingZoneWaitHeightTop})
+  end
+  if gvars.disableDescentToLandingZone==1 then
+    SendCommand(heliId,{id="DisableDescentToLandingZone"})  
+  end 
+  
+end
 
-    local randomRange=math.random(updateMin,updateMax)
-    execState.nextUpdate = currentTime + randomRange
+function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate) 
+  local heliId=GetGameObjectId("TppHeli2","SupportHeli")
+  if heliId==nil or heliId==NULL_ID then
+    return
+  end
+  
+  --if gvars.enableGetOutHeli==1 then
+   --DEBUGNOW SendCommand(heliId, { id="SetGettingOutEnabled", enabled=true })
+  --end
+  
+  if not currentChecks.inMenu and currentChecks.inSupportHeli and gvars.disablePullOutHeli==1 then
+    if InfButton.OnButtonDown(InfButton.STANCE) then
+      InfMenu.PrintLangId"heli_pulling_out"
+      Ivars.disablePullOutHeli:Set(0,true,true)--tex seems this overrules all, but we can tell it to not save so that's ok
+      --SendCommand(heliId,{id="PullOut",forced=true})--even with forced wont go with player
+    end
   end
 end
 

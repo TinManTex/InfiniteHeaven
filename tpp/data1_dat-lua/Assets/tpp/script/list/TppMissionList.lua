@@ -623,7 +623,7 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddLocationCommonScriptPack(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
-  --TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10240/s10240_area02.fpk"--tex: WIP DEBUGNOW
+  --TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10240/s10240_area02.fpk"--tex WIP DEBUGNOW
   --tex bunch of packs added to motherbase free for mbplaytime
   if InfMain.IsMbPlayTime() then--tex -v- hauled in from fob mission
     local ddSuit=TppEnemy.GetDDSuit()

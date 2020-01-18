@@ -1,6 +1,7 @@
 -- DOBUILD: 1 --
 --tex Ivar system
 --combines gvar setup, enums, functions per setting in one ungodly mess.
+--lots of shortcuts/ivar setup depending-on defined values is done in various Table setups at end of file.
 local this={}
 --NOTE: Resetsettings will call OnChange, so/and make sure defaults are actual default game behaviour, 
 --in general this means all stuff should have a 0 that at least does nothing, 
@@ -12,7 +13,6 @@ local IsNumber=Tpp.IsTypeNumber
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
-local IsDemoPlaying=DemoDaemon.IsDemoPlaying
 
 local GLOBAL=TppScriptVars.CATEGORY_GAME_GLOBAL
 local MISSION=TppScriptVars.CATEGORY_MISSION
@@ -52,22 +52,21 @@ function this.OnChangeSubSetting(self)--tex notify parent profile that you've ch
 end
 function this.OnSubSettingChanged(profile, subSetting)
   --InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " subSetting: " .. subSetting.name)
-  --tex any sub setting will flip this profile to custom, CUSTOM is mostly a user identifyer, it has no side effects/no settingTable function
-  if not subSetting:IsDefault() then
-    if not profile.enum then
-      InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " has no enum settings")
-      return
-    end
-    
-    if not profile.enum.CUSTOM then
-      InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " has no custom setting")
-      return
-    end
-    
-    if not profile:Is"CUSTOM" then
-      profile:Set(profile.enum.CUSTOM)
-      InfMenu.DisplayProfileChangedToCustom(profile)
-    end
+  --tex any sub setting change will flip this profile to custom since there's no real generalization i can make, 
+  --CUSTOM is mostly a user identifyer, it has no side effects/no settingTable function
+  if not profile.enum then
+    InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " has no enum settings")
+    return
+  end
+  
+  if not profile.enum.CUSTOM then
+    InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " has no custom setting")
+    return
+  end
+  
+  if not profile:Is"CUSTOM" then
+    profile:Set(profile.enum.CUSTOM)
+    InfMenu.DisplayProfileChangedToCustom(profile)
   end
 end
 
@@ -417,6 +416,17 @@ this.disableHeliAttack={
   range=this.switchRange,
   settingNames="set_switch",
   profile=this.subsistenceProfile,
+  OnChange=function()
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local enable=gvars.disableHeliAttack==0
+    local gameObjectId = GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+      GameObject.SendCommand(gameObjectId,{id="SetCombatEnabled",enabled=enable}) 
+    end 
+  end,
+  disabled=false,
+  disabledReason="item_disabled_subsistence",
+  OnSelect=this.DisableOnSubsistence,
 }
 
 this.disableBuddies={
@@ -750,9 +760,11 @@ this.clockTimeScale={
   default=20,
   range={max=10000,min=1,increment=1},
   OnChange=function()
-    if not IsDemoPlaying() then
+    --if not DemoDaemon.IsDemoPlaying() then
+    if not mvars.mis_missionStateIsNotInGame then
       TppClock.Start()
     end
+    --end
   end
 }
 
@@ -1265,8 +1277,11 @@ this.phaseUpdate={
   execChecks={inGame=true,inHeliSpace=false},
   execState={
     nextUpdate=0,
+    lastPhase=0,
+    alertBump=false,
   },
-  ExecUpdate=function(execCheck)InfMain.UpdatePhase(execCheck)end,
+  ExecInit=function()InfMain.InitWarpPlayerUpdate()end,
+  ExecUpdate=function(...)InfMain.UpdatePhase(...)end,
   --profile=this.subsistenceProfile,
 }
 
@@ -1319,6 +1334,10 @@ this.telopMode={
 
 --
 function this.DisableOnSubsistence(self)
+  --if TppMission.IsHelicopterSpace(vars.missionCode) then
+  --  return
+  --end
+
   if not (Ivars.subsistenceProfile:IsDefault() or Ivars.subsistenceProfile:Is"CUSTOM") then
     self.disabled=true
     --InfMenu.DebugPrint("is subs")--DEBUGNOW
@@ -1360,7 +1379,7 @@ this.warpPlayerUpdate={
   execState={
     nextUpdate=0,
   },
-  ExecUpdate=function(execCheck)InfMain.UpdateWarpPlayer(execCheck)end,
+  ExecUpdate=function(...)InfMain.UpdateWarpPlayer(...)end,
 }
 
 --
@@ -1377,16 +1396,128 @@ this.quietRadioMode={
 }
 
 --heli
+this.heliUpdate={--tex NONUSER, for now, need it alive to pick up pull out
+  save=MISSION,
+  default=1,--DEBUGNOW
+  range=this.switchRange,
+  settingNames="set_switch",
+  execChecks={inGame=true,inHeliSpace=false},
+  execState={
+    nextUpdate=0,
+  },
+  ExecUpdate=function(...)InfMain.UpdateHeli(...)end,
+}
+
+--[[
+this.heliUpdateRate={--seconds
+  save=MISSION,
+  default=3,
+  range={min=1,max=255},
+}
+this.heliUpdateRange={--seconds
+  save=MISSION,
+  range={min=0,max=255},
+}
+--]]
+
 this.defaultHeliDoorOpenTime={--seconds
   save=MISSION,
   default=15,
   range={min=0,max=60},
 }
 
-this.enableGetOutHeli={
+local HeliEnabledGameCommand=function(self)
+  if TppMission.IsFOBMission(vars.missionCode) then return end
+  local enable=self.setting==1
+  local gameObjectId = GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+  if gameObjectId ~= nil and gameObjectId ~= GameObject.NULL_ID then
+    GameObject.SendCommand(gameObjectId,{id=self.gameEnabledCommand,enabled=enable})
+  end 
+end
+
+this.enableGetOutHeli={--WIP TEST force every frame via update to see if it actually does anything beyond the allow get out when allready at LZ
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  gameEnabledCommand="SetGettingOutEnabled",
+  OnChange=HeliEnabledGameCommand,
+}
+
+this.setInvincibleHeli={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  gameEnabledCommand="SetInvincible",
+  OnChange=HeliEnabledGameCommand,
+  disabled=false,
+  disabledReason="item_disabled_subsistence",
+  OnSelect=this.DisableOnSubsistence,
+}
+
+this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's not what I think it is, check the instances that its used and see if its a take-off empty wait or take-off with player in wait
+  save=MISSION,
+  default=5,--tex from TppHelicopter.SetDefaultTakeOffTime
+  range={min=0,max=15},
+  OnChange=function(self)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+      GameObject.SendCommand(gameObjectId,{id="SetTakeOffWaitTime",time=self.setting})
+    end 
+  end,
+}
+
+this.disablePullOutHeli={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local set=self.setting==1
+    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+      local command
+      if set then
+        command="DisablePullOut"
+      else
+        command="EnablePullOut"
+      end
+      GameObject.SendCommand(gameObjectId,{id=command})
+    end
+  end,
+}
+
+this.setLandingZoneWaitHeightTop={
+  save=MISSION,
+  default=20,--tex the command is only used in sahelan mission, so don't know if this is actual default,
+  range={min=5,max=50,increment=5},
+  OnChange=function(self)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+      GameObject.SendCommand(gameObjectId,{id="SetLandingZoneWaitHeightTop",height=self.setting})
+    end 
+  end,
+}
+
+this.disableDescentToLandingZone={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self)
+    if TppMission.IsFOBMission(vars.missionCode) then return end
+    local set=self.setting==1
+    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+      local command
+      if set then
+        command="DisableDescentToLandingZone"
+      else
+        command="EnableDescentToLandingZone"
+      end
+      GameObject.SendCommand(gameObjectId,{id=command})
+    end
+  end,
 }
 
 --end ivar defines
@@ -1488,10 +1619,23 @@ for name,ivar in pairs(this) do
     ivar.Below=this.OptionBelowSetting
     ivar.AboveOrIs=this.OptionIsOrAboveSetting
     ivar.BelowOrIs=this.OptionIsOrBelowSetting
+    
+    --ExecUpdate setup
+    if ivar.ExecUpdate then
+      local rateVar=this[ivar.name.."Rate"]
+      if rateVar then
+        ivar.updateRate=rateVar
+      end
+      local rangeVar=this[ivar.name.."Range"]
+      if rangeVar then
+        ivar.updateRange=rangeVar
+      end
+    end
   end--is ivar
 end
 
 function this.Init(missionTable)
+
   for name,ivar in pairs(this) do
     if IsIvar(ivar)then
       local GetMax=ivar.GetMax--tex cludge to get around that Gvars.lua calls declarevars during it's compile/before any other modules are up, REFACTOR: Init is actually each mission load I think, only really need this to run once per game load, but don't know the good spot currently

@@ -225,8 +225,17 @@ this.phaseMenu={
 
 this.supportHeliMenu={
   options={
-    Ivars.defaultHeliDoorOpenTime,
+    --Ivars.setTakeOffWaitTime,
+    --InfMenuCommands.pullOutHeliItem,
+    --InfMenuCommands.changeToIdleStateHeliItem,--DEBUGNOW
     Ivars.disableHeliAttack,
+    Ivars.setInvincibleHeli,
+    Ivars.disablePullOutHeli,
+    Ivars.setLandingZoneWaitHeightTop,
+    Ivars.defaultHeliDoorOpenTime,
+    --Ivars.disableDescentToLandingZone,
+    --Ivars.enableGetOutHeli,--WIP
+    --Ivars.heliUpdate,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   },

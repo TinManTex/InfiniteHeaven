@@ -249,13 +249,13 @@ end
 function this.SetFadeColorToWhite()
   FadeFunction.SetFadeColor(255,255,255,255)
 end
-function this.FadeOut(s,o,p,n)
+function this.FadeOut(fadeSpeed,RENAMEsomeIdString,p,setupInfo)
   local setMute,exceptGameStatus
-  if Tpp.IsTypeTable(n)then
-    setMute=n.setMute
-    exceptGameStatus=n.exceptGameStatus
+  if Tpp.IsTypeTable(setupInfo)then
+    setMute=setupInfo.setMute
+    exceptGameStatus=setupInfo.exceptGameStatus
   end
-  local n=ToStrCode32(o)
+  local RENAMEstrCodeSomeIdString=ToStrCode32(RENAMEsomeIdString)
   this.DisableGameStatusOnFade(exceptGameStatus)
   if setMute then
     TppSound.SetMuteOnLoading()
@@ -264,7 +264,7 @@ function this.FadeOut(s,o,p,n)
       TppSoundDaemon.SetMute"Outro"
     end
   end
-  CallFadeOut(s,n,p)
+  CallFadeOut(fadeSpeed,RENAMEstrCodeSomeIdString,p)
 end
 function this.ShowAnnounceLog(announceId,param1,param2,delayTime,missionSubGoalNumber)
   if gvars.ini_isTitleMode then

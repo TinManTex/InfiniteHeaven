@@ -162,7 +162,7 @@ this.eng={--english
   phaseUpdateRate="Phase mod update rate (seconds)",
   phaseUpdateRange="Phase mod random variation",
   printPhaseChanges="Print phase changes",
-  item_disabled_subsistence="Cannot be used with Subsistence profile",
+  item_disabled_subsistence="Cannot be used with current Subsistence profile",
   menu_disabled="Menu is currently disabled",
   ogrePointChange="Set demon snake",
   ogrePointChangeSettings={"Default","Normal","Demon"},
@@ -189,6 +189,12 @@ this.eng={--english
   printHealthTableParameterItem="Print health param table (look in log - all tab)",
   playerSettingsMenu="Player settings menu",
   soldierParamsMenu="Soldier parameters menu",
+  heli_pulling_out="Pulling out in 5",--r91
+  supportHeliMenu="Support heli menu",
+  setInvincibleHeli="Set heli invincible",
+  disablePullOutHeli="Disable pull-out",
+  setLandingZoneWaitHeightTop="Set LZ wait height",
+  defaultHeliDoorOpenTime="Mission start door open wait time",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

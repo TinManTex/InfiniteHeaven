@@ -261,10 +261,8 @@ this.resetRevenge={
   end,
 }
 
-this.HeliMenuOnTestItem={
+this.HeliMenuOnTestItem={--WIP CULL UI system overrides it :(
   OnChange=function()
-    
-    
     local dvcMenu={
     
       {menu=TppTerminal.MBDVCMENU.MSN_HELI,active=true},
@@ -276,6 +274,24 @@ this.HeliMenuOnTestItem={
     TppTerminal.EnableDvcMenuByList(dvcMenu)
     InfMenu.DebugPrint("bleh")--DEBUGNOW
   end,
+}
+
+this.pullOutHeliItem={
+  OnChange=function()      
+    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+      GameObject.SendCommand(gameObjectId,{id="PullOut",forced=true})
+    end
+  end
+}
+
+this.changeToIdleStateHeliItem={--tex seems to set heli into 'not called'/invisible/wherever it goes after it's 'left'
+  OnChange=function()      
+    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+      GameObject.SendCommand(gameObjectId,{id="ChangeToIdleState"})
+    end
+  end
 }
 
 --game progression unlocks

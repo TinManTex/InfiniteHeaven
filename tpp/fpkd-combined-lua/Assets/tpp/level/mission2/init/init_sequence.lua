@@ -7,8 +7,6 @@ local StrCode32Table = Tpp.StrCode32Table
 local TimerStart = GkEventTimerManager.Start
 
 
-local splashFade=0.2--tex
-local splashTime=1--tex
 
 local IS_QA_RELEASE
 if ( Fox.GetDebugLevel() == Fox.DEBUG_LEVEL_QA_RELEASE ) then
@@ -400,7 +398,7 @@ sequences.Seq_Demo_WaitCopyRightLogo = {
     if not screen then
 			
 			
-      local konamiLogoScreenId = SplashScreen.Create("konamiLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_konami_logo_clp_nmp.ftex", 640, 640);
+      --tex OFF local konamiLogoScreenId = SplashScreen.Create("konamiLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_konami_logo_clp_nmp.ftex", 640, 640);
 			
       --tex OFF local kjpLogoScreenId = SplashScreen.Create("kjpLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex", 640, 640)
 			
@@ -2837,33 +2835,42 @@ sequences.Seq_Demo_StartTitle = {
 }
 
 sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
-  OnEnter = function(self)
+  OnEnter = function(self)    
     Fox.Log("### Seq_Demo_ShowKonamiAndFoxLogo ###")
+    --[[--tex ORIG:
     local konamiLogoScreenId = SplashScreen.GetSplashScreenWithName("konamiLogo")
-    --local kjpLogoScreenId = SplashScreen.GetSplashScreenWithName("kjpLogo")
-    --OFF: local foxLogoScreenId = SplashScreen.GetSplashScreenWithName("foxLogo")
+    local kjpLogoScreenId = SplashScreen.GetSplashScreenWithName("kjpLogo")
+    local foxLogoScreenId = SplashScreen.GetSplashScreenWithName("foxLogo")
 
 
 
-    --[[
+
     local function StateCallback(screenId, state)
       if state == SplashScreen.STATE_DELETE then
         Fox.Log("konamiLogoScreen is deleted. show fox logo.")
-        SplashScreen.Show( kjpLogoScreenId, fadeTime, showTime, fadeTime)--tex was 1.0, 4.0, 1.0)
+        SplashScreen.Show( kjpLogoScreenId, 1.0, 4.0, 1.0)
       end
     end
     SplashScreen.SetStateCallback(konamiLogoScreenId, StateCallback)
---]]
-    --[[OFF: local function StateCallback(screenId, state)
+    
+    local function StateCallback(screenId, state)
       if state == SplashScreen.STATE_DELETE then
         Fox.Log("konamiLogoScreen is deleted. show fox logo.")
-        SplashScreen.Show( foxLogoScreenId, 0, showTime, 0)--tex was 1.0, 4.0, 1.0)
+        SplashScreen.Show( foxLogoScreenId, 1.0, 4.0, 1.0)
       end
-    end--]]
-    --OFF: SplashScreen.SetStateCallback(kjpLogoScreenId, StateCallback)
-
-    SplashScreen.Show( konamiLogoScreenId, splashFade, splashTime, splashFade)--tex was 1.0, 4.0, 1.0)
-    --tex no nvidia splash? in exe? in ui?, it is tied to show on the delete of foxlogo though.
+    end
+    SplashScreen.SetStateCallback(kjpLogoScreenId, StateCallback)
+    SplashScreen.Show( konamiLogoScreenId, 1.0, 4.0, 1.0)
+    --]]
+    --NMC: no nvidia splash? in exe? in ui?, it is tied to show on the delete of foxlogo though.
+    
+    local konamiLogoScreenId = SplashScreen.Create("knm", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_konami_logo_clp_nmp.ftex", 640, 640);--tex
+    SplashScreen.SetStateCallback(konamiLogoScreenId, InfMain.SplashStateCallback_r)
+    SplashScreen.Show( konamiLogoScreenId, 0.4, 2.0, 0.4)--
+    --InfMain.SplashStateCallback_r(nil, SplashScreen.STATE_DELETE)--tex do splashes till title sequence loaded
+    
+    
+   
     this._StartPreTitleSequence()
   end,
 }

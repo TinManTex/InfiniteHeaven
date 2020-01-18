@@ -337,12 +337,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
       _G[lib].Init(missionTable)
     end
   end
-  if gvars.disableHeliAttack==1 then--tex disable heli be fightan
-    local gameObjectId = GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
-    if gameObjectId ~= nil and gameObjectId ~= GameObject.NULL_ID then
-      GameObject.SendCommand(gameObjectId, { id="SetCombatEnabled", enabled=false }) 
-    end 
-  end--
+  InfMain.UpdateHeliVars()--tex
   if missionTable.enemy then
     if GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
       GameObject.SendCommand({type="TppSoldier2"},{id="CreateFaceIdList"})

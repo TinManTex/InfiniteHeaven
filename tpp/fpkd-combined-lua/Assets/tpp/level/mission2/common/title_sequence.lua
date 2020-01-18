@@ -1,4 +1,4 @@
--- DOBUILD: 0
+-- DOBUILD: 1
 -- ORIGINALQAR: chunk0
 -- PACKPATH: \Assets\tpp\pack\mission2\common\title_sequence.fpkd
 
@@ -552,6 +552,8 @@ sequences.Seq_Demo_StartHasTitleMission = {
 	end,
 
 	OnUpdate = function ( self )
+	  InfMain.DeleteSplash(InfMain.currentRandomSplash)--tex
+	     
 		local konamiLogoScreenId = SplashScreen.GetSplashScreenWithName("konamiLogo")
 		if konamiLogoScreenId then
 			if DebugText then

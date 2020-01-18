@@ -182,7 +182,8 @@ function this.GoToMgoByInivitaion()
   TppPause.RegisterPause"GoToMGO"TppGameStatus.Set("GoToMGO","S_DISABLE_PLAYER_PAD")
   this.isNowGoingToMgo=true
   this.fadeOutRemainTimeForGoToMgo=TppUI.FADE_SPEED.FADE_HIGHSPEED
-  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_HIGHSPEED,"GoToMgoByInivitaion",nil,{setMute=true})FadeFunction.SetFadeCallEnable(false)
+  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_HIGHSPEED,"GoToMgoByInivitaion",nil,{setMute=true})
+  FadeFunction.SetFadeCallEnable(false)
 end
 function this.UpdateMgoChunkInstallingPopup()
   Tpp.ShowChunkInstallingPopup(Chunk.INDEX_MGO,true)
