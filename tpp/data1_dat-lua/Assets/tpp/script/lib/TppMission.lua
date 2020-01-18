@@ -1,5 +1,6 @@
-local this={}
-local e=this
+local e={}
+--local gg=SplashScreen.Create("gg","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5007_l_alp.ftex",1280,640)
+--SplashScreen.Show(gg,0,0.5,0)--tex bear
 local o=Fox.StrCode32
 local i=Tpp.IsTypeFunc
 local s=Tpp.IsTypeTable
@@ -34,6 +35,7 @@ local c=TppDefine.MAX_32BIT_UINT
 local function h()
   n"MISSION_TIMER_UPDATE"
 end
+local this=e--tex DEMINIFY
 function this.GetMissionID()
   return vars.missionCode
 end
@@ -1435,20 +1437,20 @@ function this.IsFOBMission(e)
   end
 end
 --tex is hard mission override
-function this.IsHardMission(m)
+function this.IsHardMission(missionId)
   if (gvars.isManualHard > 0) then
     return true
   end
-  return e.IsActualHardMission(m)
+  return this.IsActualHardMission(missionId)
 end
 function this.IsManualHardMission()
   return (gvars.isManualHard > 0)
 end
 --tex end
-function this.IsActualHardMission(e)--tex was IsHardMission
---function this.IsHardMission(e)
-  local n=math.floor(e/1e3)
-  local e=math.floor(e/1e4)*10
+function this.IsActualHardMission(missionId)--tex was IsHardMission
+--function this.IsHardMission(missionId)
+  local n=math.floor(missionId/1e3)
+  local e=math.floor(missionId/1e4)*10
   if(n-e)==1 then
     return true
   else
@@ -1456,11 +1458,11 @@ function this.IsActualHardMission(e)--tex was IsHardMission
   end
 end
 --tex
-function this.GetNormalMissionCodeFromHardMission(m)
-  if e.IsActualHardMission(m) then
-    return m-1e3
+function this.GetNormalMissionCodeFromHardMission(missionId)
+  if this.IsActualHardMission(missionId) then
+    return missionId-1e3
   else
-    return m
+    return missionId
   end
 end
 --[[--tex ORIG:, commentary: (like I'm so great) seems like a stupid way to do it and so easy to forget to check
@@ -1615,18 +1617,18 @@ function this.Messages()
         --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
         --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
         --RETRY: push back up again, you may just have fucked something up lol
-        if not this.IsFOBMission(vars.missionCode)then--tex no idea how this would effect fob missions, never done one
+        if not this.IsFOBMission(vars.missionCode)then--tex no idea how this would effect fob missions, never done one SUPERDEBUG:
           Player.ResetLifeMaxValue()
           local healthMult=gvars.playerHealthMult
           local newMax=vars.playerLifeMax
           if lifeMult==0 then--tex special case, rather than rely on mult for varying input life at low mults just set life to 10 BALLANCE:?good value for one shot?, in practice doesn't hit because of float accuracy
             Player.ChangeLifeMaxValue(10)
           elseif lifeMult==1 then
-            Player.ResetLifeMaxValue()
+            --Player.ResetLifeMaxValue()--tex already done
           else
             newMax=newMax*healthMult
-            if newMax < 1 then
-              newMax = 1
+            if newMax < 10 then
+              newMax = 10
             end
             Player.ChangeLifeMaxValue(newMax)
           end
@@ -1642,7 +1644,7 @@ function this.Messages()
         end
         TppTerminal.GetFobStatus()
         e.ShowAnnounceLogOnGameStart()
-        TppMain.ModMissionMessage()--tex
+        --OFF: SUPERDEBUG: TppMain.ModMissionMessage()--tex
       end},
       {msg="EndFadeIn",sender="FadeInOnStartMissionGame",func=function()
         e.ShowAnnounceLogOnGameStart()
@@ -3453,7 +3455,8 @@ function this.IsChunkLoading(e)
     return false
   end
   if not mvars.mis_isChunkLoading then
-    Chunk.PrefetchChunk(e)Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_FAST)
+    Chunk.PrefetchChunk(e)
+    Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_FAST)
     mvars.mis_isChunkLoading=true
   end
   if SplashScreen.GetSplashScreenWithName"konamiLogo"then

@@ -1,9 +1,12 @@
-local this={}
-local e=this--tex CULL: once deminified
+local e={}
+--local kk=SplashScreen.Create("kk","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5011_l_alp.ftex",1280,640)  
+--SplashScreen.Show(kk,0,0.5,0)--tex skorp
 local _=GameObject.GetGameObjectId
 local a=GameObject.GetTypeIndex
 local n=GameObject.SendCommand
 local o=GameObject.NULL_ID
+local this=e--tex CULL: once deminified
+local GetGameObjectI=_--tex CULL: DEMIN:
 function this._Random(n,E)
   local t=gvars.rev_revengeRandomValue
   if n>E then
@@ -1317,7 +1320,186 @@ function this._GetSettingSoldierCount(t,n,E)
   end
   return e
 end
-function this._ApplyRevengeToCp(t,l,a)
+function this._ApplyRevengeToCpDeminned(t,l,a)--tex DEMIN: t=soldierGameId??,l=mvars.revenge_revengeConfig,a= ?? if ismotherbase, index 0-3
+  local E=mvars.ene_soldierIDList[t]--tex DEMIN: soldierIDList
+  local o={}
+  local n=0
+  if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
+    local r=0
+    local e=mvars.ene_cpList[t]
+    if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
+      local clusterId=mtbs_enemy.cpNameToClsterIdList[e]
+      if clusterId then
+        soldierIDList={}
+        local enableSoldierLocator=mvars.mbSoldier_enableSoldierLocatorList[clusterId]
+        for i,gameObjectName in ipairs(enableSoldierLocator)do
+          local n=tonumber(string.sub(gameObjectName,-6,-6))
+          if n~=nil and n==a then
+            local id=GetGameObjectId("TppSoldier2",gameObjectName)
+            soldierIDList[id]=r
+          end
+        end
+      end
+    end
+  end--if MB
+  if soldierIDList==nil then
+    return
+  end
+  local r={}
+  for e,n in pairs(mvars.ene_missionSoldierPowerSettings)do
+    local e=_("TppSoldier2",e)
+    r[e]=n
+  end
+  local i={}
+  for n,e in pairs(mvars.ene_missionSoldierPersonalAbilitySettings)do
+    local n=_("TppSoldier2",n)
+    i[n]=e
+  end
+  local T=mvars.ene_outerBaseCpList[t]
+  local a={}
+  local _={}
+  for e,E in pairs(soldierIDList)do
+    table.insert(o,e)
+    n=n+1
+    if r[e]then
+      a[n]=true
+    elseif mvars.ene_eliminateTargetList[e]then
+      a[n]=true
+    elseif TppEnemy.GetSoldierType(e)==EnemyType.TYPE_CHILD then
+      a[n]=true
+    elseif T then
+      _[n]=true
+    elseif mvars.ene_lrrpTravelPlan[t]then
+      _[n]=true
+    end
+  end
+  local t={}
+  for e=1,n do
+    if T then
+      t[e]={OB=true}
+    else
+      t[e]={}
+    end
+  end
+  local T={
+  ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},
+  SOFT_ARMOR={"ARMOR"},
+  SNIPER={"SHOTGUN","MG","MISSILE","GUN_LIGHT","ARMOR","SHIELD","SMG"},
+  SHOTGUN={"SNIPER","MG","MISSILE","SHIELD","SMG"},
+  MG={"SNIPER","SHOTGUN","MISSILE","GUN_LIGHT","SHIELD","SMG"},
+  SMG={"SNIPER","SHOTGUN","MG"},
+  MISSILE={"ARMOR","SHIELD","SNIPER","SHOTGUN","MG"},
+  SHIELD={"ARMOR","SNIPER","MISSILE","SHOTGUN","MG"},
+  HELMET={"ARMOR","GAS_MASK","NVG"},
+  GAS_MASK={"ARMOR","HELMET","NVG"},
+  NVG={"ARMOR","HELMET","GAS_MASK"},
+  GUN_LIGHT={"SNIPER","MG"}}
+  local s={STEALTH_LOW=true,STEALTH_HIGH=true,STEALTH_SPECIAL=true,COMBAT_LOW=true,COMBAT_HIGH=true,COMBAT_SPECIAL=true,HOLDUP_LOW=true,HOLDUP_HIGH=true,HOLDUP_SPECIAL=true,FULTON_LOW=true,FULTON_HIGH=true,FULTON_SPECIAL=true}
+  for r,E in ipairs(TppEnemy.POWER_SETTING)do
+    local r=l[E]
+    if r then
+      local r=e._GetSettingSoldierCount(E,r,n)
+      local o=T[E]or{}
+      local r=r
+      for n=1,n do
+        local a=a[n]
+        local _=(not s[E])and _[n]
+        if(not a and not _)and r>0 then
+          local a=true
+          if t[n][E]then
+            r=r-1
+            a=false
+          end
+          if a then
+            for E,e in ipairs(o)do
+              if t[n][e]then
+                a=false
+              end
+            end
+          end
+          if a then
+            r=r-1
+            t[n][E]=true
+            if E=="MISSILE"and e.IsUsingStrongMissile()then
+              t[n].STRONG_MISSILE=true
+            end
+            if E=="SNIPER"and e.IsUsingStrongSniper()then
+              t[n].STRONG_SNIPER=true
+            end
+          end
+        end
+      end
+    end
+  end
+  for n,e in ipairs(t)do
+    local t=o[n]
+    TppEnemy.ApplyPowerSetting(t,e)
+    if i[t]==nil then
+      local abilities={}do
+        local rank
+        if e.STEALTH_SPECIAL then
+          rank="sp"
+        elseif e.STEALTH_HIGH then
+          rank="high"
+        elseif e.STEALTH_LOW then
+          rank="low"
+        end
+        abilities.notice=rank
+        abilities.cure=rank
+        abilities.reflex=rank
+      end
+      do
+        local rank
+        if e.COMBAT_SPECIAL then
+          rank="sp"
+        elseif e.COMBAT_HIGH then
+          rank="high"
+        elseif e.COMBAT_LOW then
+          rank="low"
+        end
+        abilities.shot=rank
+        abilities.grenade=rank
+        abilities.reload=rank
+        abilities.hp=rank
+      end
+      do
+        local rank
+        if e.STEALTH_SPECIAL or e.COMBAT_SPECIAL then
+          rank="sp"
+        elseif e.STEALTH_HIGH or e.COMBAT_HIGH then
+          rank="high"
+        elseif e.STEALTH_LOW or e.COMBAT_LOW then
+          rank="low"
+        end
+        abilities.speed=rank
+      end
+      do
+        local rank
+        if e.FULTON_SPECIAL then
+          rank="sp"
+        elseif e.FULTON_HIGH then
+          rank="high"
+        elseif e.FULTON_LOW then
+          rank="low"
+        end
+        abilities.fulton=rank
+      end
+      do
+        local rank
+        if e.HOLDUP_SPECIAL then
+          rank="sp"
+        elseif e.HOLDUP_HIGH then
+          rank="high"
+        elseif e.HOLDUP_LOW then
+          rank="low"
+        end
+        abilities.holdup=rank
+      end
+      TppEnemy.ApplyPersonalAbilitySettings(t,abilities)
+    end
+  end
+end
+function this._ApplyRevengeToCp(t,l,a)--tex CULL: DEMIN: ORIG:
   local E=mvars.ene_soldierIDList[t]
   local o={}
   local n=0
@@ -1495,7 +1677,7 @@ function this._ApplyRevengeToCp(t,l,a)
       TppEnemy.ApplyPersonalAbilitySettings(t,n)
     end
   end
-end
+end--
 function this.Messages()
   return Tpp.StrCode32Table{
     GameObject={

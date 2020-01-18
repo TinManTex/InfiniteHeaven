@@ -1,22 +1,16 @@
-local this={}
-local e=this
-local Str32=Fox.StrCode32
+local e={}
+--local bb=SplashScreen.Create("bb","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5002_l_alp.ftex",1280,640)  
+--SplashScreen.Show(bb,0,0.3,0) --tex
 local l=Str32
 local n=Tpp.IsTypeFunc
-local IsTable=Tpp.IsTypeTable
-local s=IsTable
-local IsString=Tpp.IsTypeString
-local o=IsString
+local s=Tpp.IsTypeTable
+local o=Tpp.IsTypeString
 local p=Tpp.IsTypeNumber
-local GetGameObjectId=GameObject.GetGameObjectId
-local r=GetGameObjectId
-local GetGameObjectId=GameObject.GetGameObjectId
+local r=GameObject.GetGameObjectId
 local T=GameObject.GetGameObjectIdByIndex
 local n=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
-local nullId=GameObject.NULL_ID
-local a=nullId
-local SendCommand=GameObject.SendCommand
-local t=SendCommand
+local a=GameObject.NULL_ID
+local t=GameObject.SendCommand
 local n=Tpp.DEBUG_StrCode32ToString
 local _="quest_cp"
 local d=EnemySubType or{}
@@ -34,6 +28,36 @@ local function c(i)
   end
   return t
 end
+--tex DEMINIFY:
+local this=e
+local Str32=l --Fox.StrCode32
+local IsTable=s --Tpp.IsTypeTable
+local IsString=o --Tpp.IsTypeString
+local IsNumber=p --Tpp.IsTypeString
+local GetGameObjectId=r --GameObject.GetGameObjectId
+local GetGameObjectIdByIndex=T --GameObject.GetGameObjectIdByIndex
+local GAME_OBJECT_TYPE_VEHICLE=n --TppGameObject.GAME_OBJECT_TYPE_VEHICLE
+local nullId=a --GameObject.NULL_ID
+local SendCommand=t --GameObject.SendCommand
+local DEBUG_StrCode32ToString=n --Tpp.DEBUG_StrCode32ToString
+local quest_cp=_ --"quest_cp"
+local EnemySubType=d --EnemySubType or{}
+--[[ --tex cant actually find reference to original function, it looks similar to setsolidertype/subtype
+local function cDemin(i)
+  local t={}
+  for n,e in ipairs(i)do
+    if IsTable(e)then
+      t[n]=cDemin(e)
+    else
+      local e=GetGameObjectId(i[n])
+      if e and e~=nullId then
+        t[e]=n
+      end
+    end
+  end
+  return t
+end
+--]]
 function this.Messages()
   return Tpp.StrCode32Table{
     Player={{msg="RideHelicopterWithHuman",func=e._RideHelicopterWithHuman}},
@@ -349,26 +373,26 @@ this.DEFAULT_SLEEP_TIME=300
 this.FOB_DD_SUIT_ATTCKER=1
 this.FOB_DD_SUIT_SNEAKING=2
 this.FOB_DD_SUIT_BTRDRS=3
-function this._ConvertSoldierNameKeysToId(e)
+function this._ConvertSoldierNameKeysToId(ene_soldierTypes)-- ene_soliderTypes is table of SoliderType indexed by GameObjectId 
   local t={}
   local n={}
-  Tpp.MergeTable(n,e)
-  for n,s in pairs(n)do
+  Tpp.MergeTable(n,ene_soldierTypes)
+  for i,s in pairs(n)do
     if IsString(n)then
-      local i=r("TppSoldier2",n)
-      if i~=a then
-        table.insert(t,n)
-        e[i]=s
+      local soldierId=GetGameObjectId("TppSoldier2",n)
+      if soldierId~=nullId then
+        table.insert(t,soldierId)
+        ene_soldierTypes[soldierId]=s
       end
     end
   end
-  for t,n in ipairs(t)do
-    e[n]=nil
+  for i,n in ipairs(t)do
+    ene_soldierTypes[n]=nil
   end
 end
 function this._SetUpSoldierTypes(index,soldierTypes)
-  for a,soldierType in ipairs(soldierTypes)do
-    if s(soldierType)then
+  for i,soldierType in ipairs(soldierTypes)do
+    if IsTable(soldierType)then
       this._SetUpSoldierTypes(index,soldierType)
     else
       mvars.ene_soldierTypes[soldierType]=EnemyType["TYPE_"..index]
@@ -380,19 +404,19 @@ function this.SetUpSoldierTypes(soldierTypes)
     this._SetUpSoldierTypes(i,soldierType)
   end
 end
-function this._SetUpSoldierSubTypes(index,soldierSubTypes)
-  for i,soldierSubType in ipairs(soldierSubTypes)do
-    if IsTable(soldierSubType)then
-      this._SetUpSoldierSubTypes(index,soldierSubType)
+function this._SetUpSoldierSubTypes(index,subTypes)
+  for i,subType in ipairs(subTypes)do
+    if IsTable(subType)then
+      this._SetUpSoldierSubTypes(index,subType)
     else
-      local soldierId=GetGameObjectId("TppSoldier2",soldierSubType)
+      local soldierId=GetGameObjectId("TppSoldier2",subType)
       mvars.ene_soldierSubType[soldierId]=index
     end
   end
 end
-function this.SetUpSoldierSubTypes(n)
-  for i,n in pairs(n)do
-    e._SetUpSoldierSubTypes(i,n)
+function this.SetUpSoldierSubTypes(subTypes)
+  for i,subType in pairs(subTypes)do
+    e._SetUpSoldierSubTypes(i,subType)
   end
 end
 function this.SetUpPowerSettings(e)
@@ -450,39 +474,39 @@ function this.SetSoldierType(e,n)
   mvars.ene_soldierTypes[e]=n
   GameObject.SendCommand(e,{id="SetSoldier2Type",type=n})
 end
-function this.GetSoldierType(n)
-  local e=TppMission.GetMissionID()
-  if n==nil or n==a then
-    if e==10080 or e==11080 then
+function this.GetSoldierType(gameObjectId)
+  local missionId=TppMission.GetMissionID()
+  if gameObjectId==nil or gameObjectId==nullId then--tex NMC: default to first in ene_soldiertypes
+    if missionId==10080 or missionId==11080 then--tex NMC: PATCHUP:
       return EnemyType.TYPE_PF
     end
-    for n,e in pairs(mvars.ene_soldierTypes)do
-      if e then
-        return e
+    for i,soldierType in pairs(mvars.ene_soldierTypes)do
+      if soldierType then
+        return soldierType
       end
     end
   else
     if mvars.ene_soldierTypes then
-      local e=mvars.ene_soldierTypes[n]
-      if e then
-        return e
+      local soldierType=mvars.ene_soldierTypes[gameObjectId]
+      if soldierType then
+        return soldierType
       end
     end
   end
-  if(e==10150 or e==10151)or e==11151 then
+  if(missionId==10150 or missionId==10151)or missionId==11151 then--tex NMC: PATCHUP:
     return EnemyType.TYPE_SKULL
   end
-  local e=EnemyType.TYPE_SOVIET
+  local soldierType=EnemyType.TYPE_SOVIET
   if TppLocation.IsAfghan()then
-    e=EnemyType.TYPE_SOVIET
+    soldierType=EnemyType.TYPE_SOVIET
   elseif TppLocation.IsMiddleAfrica()then
-    e=EnemyType.TYPE_PF
+    soldierType=EnemyType.TYPE_PF
   elseif TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
-    e=EnemyType.TYPE_DD
+    soldierType=EnemyType.TYPE_DD
   elseif TppLocation.IsCyprus()then
-    e=EnemyType.TYPE_SKULL
+    soldierType=EnemyType.TYPE_SKULL
   end
-  return e
+  return soldierType
 end
 function this.SetSoldierSubType(e,n)
   mvars.ene_soldierSubType[e]=n
@@ -2364,7 +2388,7 @@ function this.DefineSoldiers(n)
   end
 end
 function this.SetUpSoldiers()
-  if not s(mvars.ene_soldierDefine)then
+  if not IsTable(mvars.ene_soldierDefine)then
     return
   end
   local o=TppMission.GetMissionID()
@@ -2460,7 +2484,8 @@ function this.AssignSoldiersToCP()
         end
       end
       local t
-      local e=e.GetSoldierType(n)t={id="SetSoldier2Type",type=e}
+      local e=e.GetSoldierType(n)
+      t={id="SetSoldier2Type",type=e}
       GameObject.SendCommand(n,t)
       if(e~=EnemyType.TYPE_SKULL and e~=EnemyType.TYPE_CHILD)and o then
         mvars.ene_soldierSubType[n]=o
@@ -4523,7 +4548,8 @@ function this.SetQuestEnemy(e,n)
   if e==a then
   end
   if not mvars.ene_questTargetList[e]then
-    local n={messageId="None",isTarget=n}mvars.ene_questTargetList[e]=n
+    local n={messageId="None",isTarget=n}
+    mvars.ene_questTargetList[e]=n
   end
 end
 function this.CheckDeactiveQuestAreaForceFulton()
@@ -4564,7 +4590,8 @@ function this.CheckQuestAllTarget(_,S,T,a,t)
     return n
   end
   if mvars.ene_questTargetList[T]then
-    local e=mvars.ene_questTargetList[T]if e.messageId~="None"and e.isTarget==true then
+    local e=mvars.ene_questTargetList[T]
+    if e.messageId~="None"and e.isTarget==true then
       d=true
     elseif e.isTarget==false then
       d=true

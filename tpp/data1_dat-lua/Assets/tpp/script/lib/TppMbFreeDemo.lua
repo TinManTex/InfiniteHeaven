@@ -764,7 +764,8 @@ function e.PlayMtbsEventDemo(o)
       vars.buddyType=N
     end
     if n then
-      Player.SetPause()e.ChangeBlock(l,n)
+      Player.SetPause()
+      e.ChangeBlock(l,n)
       if a then
         TppClock.SetTime(a)
       end

@@ -218,7 +218,8 @@ function e.ReloadScriptBlock()
     end
   end
   for t=0,(t-1)do
-    local c=svars.sbl_scriptBlockPack[t]if c>0 then
+    local c=svars.sbl_scriptBlockPack[t]
+    if c>0 then
       if mvars.sbl_scriptBlockStrCode32PackList[t]then
         local c=mvars.sbl_scriptBlockStrCode32PackList[t][c]
         if c then

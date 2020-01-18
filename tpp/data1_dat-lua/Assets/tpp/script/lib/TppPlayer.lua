@@ -1,5 +1,6 @@
-local this={}
-local e=this--tex CULL: once deminified
+local e={}
+--local hh=SplashScreen.Create("hh","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5008_l_alp.ftex",1280,640)  
+--SplashScreen.Show(hh,0,0.5,0)--tex octopus
 local s=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local n=IsTable
@@ -14,6 +15,7 @@ local t=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2
 local t=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2
 local t=GameObject.NULL_ID
 local o=GameObject.SendCommand
+local this=e--tex CULL: once deminified
 e.MISSION_CLEAR_CAMERA_FADE_DELAY_TIME=3
 e.MISSION_CLEAR_CAMERA_DELAY_TIME=0
 e.PLAYER_FALL_DEAD_DELAY_TIME=.2
@@ -1676,12 +1678,12 @@ function this.Init(a)
   end
   TppEffectUtility.SetSandWindEnable(false)
 end
-function this.SetSelfSubsistenceOnHardMission()--tex reworked
+function this.SetSelfSubsistenceOnHardMission()--tex reworked SUPERDEBUG:
   local loadout = gvars.subsistenceLoadout
   if TppMission.IsSubsistenceMission() and loadout==0 then
     loadout=1
   end
-  if loadout > 0 then
+  if loadout > 0 and loadout < #TppMain.subsistenceLoadouts  then
     this.SetInitWeapons(TppMain.subsistenceLoadouts[loadout])--tex subs loadouts, lua index from 1
   end
   if TppMission.IsSubsistenceMission() then

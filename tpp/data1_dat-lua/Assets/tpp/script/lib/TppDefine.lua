@@ -1,4 +1,6 @@
 local _={}
+--local aa=SplashScreen.Create("aa","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5001_l_alp.ftex",1280,640)
+--SplashScreen.Show(aa,0,0.3,0)--tex chic
 local E=bit.bnot
 local E,A,E=bit.band,bit.bor,bit.bxor
 function _.Enum(enumNames)

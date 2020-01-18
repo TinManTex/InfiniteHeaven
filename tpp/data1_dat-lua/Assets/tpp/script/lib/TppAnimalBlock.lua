@@ -354,8 +354,12 @@ function e.OnInitializeAnimalBlock()coroutine.yield()coroutine.yield()
     return
   end
   mvars.animalBlockScript.DidInitialized=true
-  mvars.animalBlockScript.Messages=Tpp.StrCode32Table{Block={{msg="StageBlockCurrentSmallBlockIndexUpdated",func=function(t,a)e._UpdateActiveAnimalBlock(t,a)
-    end}}}o=0
+  mvars.animalBlockScript.Messages=Tpp.StrCode32Table{Block={{msg="StageBlockCurrentSmallBlockIndexUpdated",
+  func=function(t,a)
+  e._UpdateActiveAnimalBlock(t,a)
+    end
+    }}}
+    o=0
   e.weatherTable={}
   local t=mvars.loc_locationAnimalSettingTable
   local t=t.animalTypeSetting[mvars.animalBlockKeyName]local l=0

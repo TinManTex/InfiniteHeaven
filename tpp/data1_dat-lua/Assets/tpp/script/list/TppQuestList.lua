@@ -3,7 +3,8 @@ e.questList={
   {locationId=TppDefine.LOCATION_ID.AFGH,areaName="tent",
     loadArea={116,134,131,152},activeArea={117,135,130,151},
     invokeArea={117,135,130,151},
-    infoList={{name="tent_q99040",invokeStepName="QStep_Start",isStory=true,isOnce=true},
+    infoList={
+      {name="tent_q99040",invokeStepName="QStep_Start",isStory=true,isOnce=true},
       {name="tent_q20910",invokeStepName="QStep_Start",isStory=true,isOnce=true},
       {name="tent_q80010",invokeStepName="QStep_Start",isStory=true,isOnce=true},
       {name="tent_q99072",invokeStepName="QStep_Start",isOnce=true},
@@ -24,7 +25,8 @@ e.questList={
     loadArea={132,138,139,155},
     activeArea={133,139,138,154},
     invokeArea={133,139,138,154},
-    infoList={{name="field_q80020",invokeStepName="QStep_Start",isStory=true,isOnce=true},
+    infoList={
+      {name="field_q80020",invokeStepName="QStep_Start",isStory=true,isOnce=true},
       {name="ruins_q60115",invokeStepName="QStep_Start",isOnce=true},
       {name="field_q30010",invokeStepName="QStep_Start",isOnce=true},
       {name="quest_q20025",invokeStepName="QStep_Start"},

@@ -1,10 +1,12 @@
-local this={}
-local e=this
+local e={}
+--local jj=SplashScreen.Create("jj","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5010_l_alp.ftex",1280,640)  
+--SplashScreen.Show(jj,0,0.5,0)--tex spider
 local r=GameObject.GetGameObjectId
 local r=GameObject.GetTypeIndex
 local n=GameObject.SendCommand
 local nullId=GameObject.NULL_ID
-local r=nullId
+local this=e--tex DEMINIFY:
+local r=nullId--
 e.REINFORCE_TYPE_NAME={"NONE","EAST_WAV","EAST_WAV_ROCKET","WEST_WAV","WEST_WAV_CANNON","EAST_TANK","WEST_TANK","HELI"}
 e.REINFORCE_TYPE=TppDefine.Enum(e.REINFORCE_TYPE_NAME)
 e.REINFORCE_FPK={
@@ -88,7 +90,6 @@ function this.GetFpk(vehicleType,cpType,color)
   return vehicleFpks
 end
 function this.SetUpReinforceBlock()
-TppUiCommand.AnnounceLogView("REIN|SetUpReinforceBlock enter")
   mvars.reinforce_reinforceBlockName="reinforce_block"
   local n=false
   local i=e.GetReinforceBlockId()

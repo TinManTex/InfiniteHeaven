@@ -1,4 +1,6 @@
 local e={}
+local dd=SplashScreen.Create("dd","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5004_l_alp.ftex",1280,640)  
+SplashScreen.Show(dd) 
 local r=Fox.StrCode32
 local n=Tpp.Code32Table
 local n=GameObject.SendCommand

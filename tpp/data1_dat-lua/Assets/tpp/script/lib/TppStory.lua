@@ -1,4 +1,6 @@
 local e={}
+--local ll=SplashScreen.Create("ll","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5012_l_alp.ftex",1280,640)  
+--SplashScreen.Show(ll,0,0.5,0)--tex pirannah
 e.storySequenceTable={}
 e.storySequenceTable_Master={
   {main="s10010"},
@@ -14,7 +16,7 @@ e.storySequenceTable_Master={
       local e
       if TppMotherBaseManagement.IsBuiltMbMedicalClusterSpecialPlatform then
         e=TppMotherBaseManagement.IsBuiltMbMedicalClusterSpecialPlatform()
-		else
+      else
         e=true
       end
       return e
@@ -29,7 +31,7 @@ e.storySequenceTable_Master={
     condition=function()
       if TppMotherBaseManagement.CanOpenS10091()then
         TppMotherBaseManagement.LockedStaffsS10091()
-end
+      end
       return true
     end
   },
@@ -43,10 +45,10 @@ end
     condition=function()
       if TppMotherBaseManagement.CanOpenS10130()then
         TppMotherBaseManagement.LockedStaffsS10130()
-end
+      end
       if TppMotherBaseManagement.CanOpenS10081()then
         TppMotherBaseManagement.LockedStaffS10081()
-end
+      end
       return true
     end
   },
@@ -67,7 +69,7 @@ end
       if TppQuest.IsCleard"tent_q99040"then
         e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,2)
         TppQuest.StartElapsedEvent(1)
-return true
+        return true
       end
     end,
     updateTiming={OnSideOpsClear=true,OnMissionStart=true}
@@ -97,7 +99,7 @@ return true
   {sub={"s11140"},condition=function()
     if e.CanOpenS10240()then
       TppMotherBaseManagement.LockedStaffsS10240()
-return true
+      return true
     else
       return false
     end
@@ -108,7 +110,7 @@ return true
     condition=function()
       e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,1)
       TppQuest.StartElapsedEvent(3)
-return true
+      return true
     end
   },
   {sub={"s11080"},
@@ -124,13 +126,13 @@ return true
     updateTiming={OnMissionStart=true,OnSideOpsClear=true}
   },
   {sub={"s11121"},condition=function()
-local n=TppQuest.IsNowOccurringElapsed()
-local t=e.IsNowOccurringElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)
-if n or t then
-    e.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)
-TppQuest.SetDoneElapsed()
-return true
-  end
+    local n=TppQuest.IsNowOccurringElapsed()
+    local t=e.IsNowOccurringElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)
+    if n or t then
+      e.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE)
+      TppQuest.SetDoneElapsed()
+      return true
+    end
   end,updateTiming={OnMissionStart=true,OnSideOpsClear=true}
   },
   {sub={"s11130","s11044","s11151","s10260","s10280"},
@@ -138,7 +140,7 @@ return true
     condition=function()
       if e.CanOpenS10280()and(not e.IsMissionOpen(10280))then
         e.MissionOpen(10280)
-end
+      end
       if e.IsMissionCleard(10280)then
         return true
       end
@@ -193,40 +195,40 @@ e.radioDemoTable={
     radioList={"f6000_rtrg0325"}
   },
   EntrustDdog={storyCondition=function()
-return e.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE
-    end,
-    detailCondition=function()
-return TppDemo.mtbsPriorityFuncList.EntrustDdog()
-end,
-    demoName="EntrustDdog"},
+    return e.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE
+  end,
+  detailCondition=function()
+    return TppDemo.mtbsPriorityFuncList.EntrustDdog()
+  end,
+  demoName="EntrustDdog"},
   EntrustDdogRadio={storyCondition=function(e)
-return e.demoName=="EntrustDdog"end,
-    detailCondition=function()
-return true
-    end,
-    radioList={"f6000_rtrg0350"}
+    return e.demoName=="EntrustDdog"end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f6000_rtrg0350"}
   },
   MoraleOfMBIsLow={storyCondition=function()
-return true
-    end,
-    detailCondition=function()
-return TppDemo.mtbsPriorityFuncList.MoraleOfMBIsLow()
-end,
-    demoName="MoraleOfMBIsLow"},
+    return true
+  end,
+  detailCondition=function()
+    return TppDemo.mtbsPriorityFuncList.MoraleOfMBIsLow()
+  end,
+  demoName="MoraleOfMBIsLow"},
   MoraleOfMBIsLowRadio={storyCondition=function(e)
-return e.demoName=="MoraleOfMBIsLow"end,
-    detailCondition=function()
-return TppDemo.mtbsPriorityFuncList.MoraleOfMBIsLow()
-end,
-    radioList={"f6000_rtrg0370"}
+    return e.demoName=="MoraleOfMBIsLow"end,
+  detailCondition=function()
+    return TppDemo.mtbsPriorityFuncList.MoraleOfMBIsLow()
+  end,
+  radioList={"f6000_rtrg0370"}
   },
   DdogComeToGet={storyCondition=function()
-return vars.missionCode==10040
-    end,
-    detailCondition=function()
-return TppDemo.mtbsPriorityFuncList.DdogComeToGet()
-end,
-    demoName="DdogComeToGet"},
+    return vars.missionCode==10040
+  end,
+  detailCondition=function()
+    return TppDemo.mtbsPriorityFuncList.DdogComeToGet()
+  end,
+  demoName="DdogComeToGet"},
   DdogComeToGetRadio={storyCondition=function(e)return e.demoName=="DdogComeToGet"end,
     detailCondition=function()return true
     end,
@@ -258,25 +260,25 @@ end,
   },
   QuietTreatment={storyCondition=function(e)return e.demoName=="ArrivedMotherBaseAfterQuietBattle"end,
     detailCondition=function(e)
-    local n=not TppRadio.IsPlayed"f2000_rtrg1345"
-    local i=TppBuddyService.DidObtainBuddyType(BuddyType.QUIET)
-    local t=TppQuest.IsOpen"sovietBase_q99020"
-    local e=not TppQuest.IsCleard"sovietBase_q99020"
-    return((n and i)and t)and e
+      local n=not TppRadio.IsPlayed"f2000_rtrg1345"
+      local i=TppBuddyService.DidObtainBuddyType(BuddyType.QUIET)
+      local t=TppQuest.IsOpen"sovietBase_q99020"
+      local e=not TppQuest.IsCleard"sovietBase_q99020"
+      return((n and i)and t)and e
     end,
     radioList={"f2000_rtrg1345","f2000_rtrg1347"}
   },
   QuietTreatment2={storyCondition=function(e)
-  return e.demoName=="ArrivedMotherBaseAfterQuietBattle"
+    return e.demoName=="ArrivedMotherBaseAfterQuietBattle"
   end,
-    detailCondition=function(e)
+  detailCondition=function(e)
     local t=not TppRadio.IsPlayed"f2000_rtrg1345"
     local n=TppBuddyService.DidObtainBuddyType(BuddyType.QUIET)
     local i=not TppQuest.IsOpen"sovietBase_q99020"
     local e=TppQuest.IsCleard"sovietBase_q99020"
     return(t and n)and(i or e)
-    end,
-    radioList={"f2000_rtrg1345","f2000_rtrg1346"}
+  end,
+  radioList={"f2000_rtrg1345","f2000_rtrg1346"}
   },
   QuietReceivesPersecution={storyCondition=function()local n=vars.missionCode==10085 or vars.missionCode==10200
     local e=e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
@@ -559,22 +561,28 @@ end,
     end,
     radioList={"f2000_rtrg1517"}
   },
-  LiquidAndChildSoldier={storyCondition=function()local n=vars.missionCode==10045 or vars.missionCode==10156
+  LiquidAndChildSoldier={storyCondition=function()
+    local n=vars.missionCode==10045 or vars.missionCode==10156
     local e=e.GetClearedMissionCount{10045,10156}==2
     return n and e
   end,
   detailCondition=function()return true
   end,
   demoName="LiquidAndChildSoldier"},
-  RetrieveAIPod={storyCondition=function(e)return e.clearSideOpsName=="sovietBase_q99030"end,
-    detailCondition=function()TppQuest.OpenAndActivateSpecialQuest{"tent_q99040"}return true
-    end,
-    radioList={"f2000_rtrg1530","f2000_rtrg1540"}
+  RetrieveAIPod={storyCondition=function(e)
+    return e.clearSideOpsName=="sovietBase_q99030"
+  end,
+  detailCondition=function()
+    TppQuest.OpenAndActivateSpecialQuest{"tent_q99040"}
+    return true
+  end,
+  radioList={"f2000_rtrg1530","f2000_rtrg1540"}
   },
-  AfterRetrieveVolgin={storyCondition=function(e)return e.clearSideOpsName=="tent_q99040"end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8450"}
+  AfterRetrieveVolgin={storyCondition=function(e)
+    return e.clearSideOpsName=="tent_q99040"end,
+  detailCondition=function()return true
+  end,
+  radioList={"f2000_rtrg8450"}
   },
   CorpseInAIPod={storyCondition=function()
     local t=e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RETRIEVE_VOLGIN
@@ -583,98 +591,99 @@ end,
     return t and(n or e)end,
   detailCondition=function()
     TppCassette.Acquire{cassetteList={"tp_m_10190_01"},
-    isShowAnnounceLog={delayTimeSec=2}}
+      isShowAnnounceLog={delayTimeSec=2}}
     return true
   end,
   radioList={"f2000_rtrg8370"}
   },
   StartQuestChildSoldier={storyCondition=function()
     return TppQuest.OpenChildSoldier_1()
-    end,
-    detailCondition=function()
-      TppCassette.Acquire{cassetteList={"tp_m_10160_05"},
+  end,
+  detailCondition=function()
+    TppCassette.Acquire{cassetteList={"tp_m_10160_05"},
       isShowAnnounceLog={delayTimeSec=2}}
-      return true
-    end,
-    radioList={"f2000_rtrg8451","f2000_rtrg8290"}
+    return true
+  end,
+  radioList={"f2000_rtrg8451","f2000_rtrg8290"}
   },
   ProgressQuestChildSoldier={storyCondition=function()
     local n=TppQuest.IsCleard"outland_q20913"and TppQuest.IsCleard"lab_q20914"
     local e=not((TppQuest.IsOpen"tent_q20910"and TppQuest.IsOpen"fort_q20911")and TppQuest.IsOpen"sovietBase_q20912")
     return n and e
-    end,
-    detailCondition=function()TppQuest.OpenAndActivateSpecialQuest{"tent_q20910","fort_q20911","sovietBase_q20912"}
+  end,
+  detailCondition=function()
+    TppQuest.OpenAndActivateSpecialQuest{"tent_q20910","fort_q20911","sovietBase_q20912"}
     return true
-    end,
-    radioList={"f2000_rtrg8310"}
+  end,
+  radioList={"f2000_rtrg8310"}
   },
   LeakRadiationInMB={storyCondition=function()
     local e=e.IsMissionCleard(10156)
     local n=(TppQuest.IsCleard"tent_q20910"and TppQuest.IsCleard"fort_q20911")and TppQuest.IsCleard"sovietBase_q20912"
     return e or n
-    end,
-    detailCondition=function()
+  end,
+  detailCondition=function()
     return true
-    end,
-    radioList={"f2000_rtrg8380"}
+  end,
+  radioList={"f2000_rtrg8380"}
   },
   OpenProxyWar={storyCondition=function()
-      return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_ENDRESS_PROXY_WAR
-    end,
-    detailCondition=function()
-      return true
-    end,
-    radioList={"f2000_rtrg8452"}
+    return e.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_ENDRESS_PROXY_WAR
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8452"}
   },
   EliImprisonment={storyCondition=function()
     return e.CanPlayDemoOrRadio"TheGreatEscapeLiquid"
-    end,
-    detailCondition=function(e)
-      return true
-    end,
-    selectRadioFunction=function(e)
-      if e.clearSideOpsName then
+  end,
+  detailCondition=function(e)
+    return true
+  end,
+  selectRadioFunction=function(e)
+    if e.clearSideOpsName then
       return{"f2000_rtrg7332"}
-      else
+    else
       return{"f6000_rtrg0332"}
-      end
-    end,
-    radioList={"f6000_rtrg0332","f2000_rtrg7332"}
+    end
+  end,
+  radioList={"f6000_rtrg0332","f2000_rtrg7332"}
   },
   TheGreatEscapeLiquid={storyCondition=function()
-      return vars.missionCode==10171
-    end,
-    detailCondition=function()
-      return(not TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid")
-    end,
-    demoName="TheGreatEscapeLiquid"},
+    return vars.missionCode==10171
+  end,
+  detailCondition=function()
+    return(not TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid")
+  end,
+  demoName="TheGreatEscapeLiquid"},
   AfterTheGreatEscapeLiquid={storyCondition=function(e)
-      return e.demoName=="TheGreatEscapeLiquid"
-    end,
-    detailCondition=function()return true
-    end,
-    radioList={"f2000_rtrg8350"}
+    return e.demoName=="TheGreatEscapeLiquid"
+  end,
+  detailCondition=function()return true
+  end,
+  radioList={"f2000_rtrg8350"}
   },
   OpenMissionAfterTheGreatEscapeLiquid={storyCondition=function()
-      return TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"
-    end,
-    detailCondition=function()
-      return true
-    end,
-    radioList={"f2000_rtrg8453"}
+    return TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"
+  end,
+  detailCondition=function()
+    return true
+  end,
+  radioList={"f2000_rtrg8453"}
   },
   ReasonSahelanMove={storyCondition=function()
-      return TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"
-    end,
-    detailCondition=function()
+    return TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"
+  end,
+  detailCondition=function()
     if TppMission.IsHelicopterSpace(vars.missionCode)then
       TppCassette.Acquire{cassetteList={"tp_m_10190_02"},
         isShowAnnounceLog={delayTimeSec=2}}
-        return true
+      return true
     end
     return false
-    end,
-    radioList={"f2000_rtrg8360"}
+  end,
+  radioList={"f2000_rtrg8360"}
   },
   PermitParasiticWormCarrierKill={storyCondition=function()return e.CanPlayDemoOrRadio"ParasiticWormCarrierKill"end,
     detailCondition=function(e)return true
@@ -786,18 +795,18 @@ end,
   radioList={"f1000_rtrg4590"}
   },
   AboutCallBuddy={storyCondition=function()
-  return TppBuddyService.CanSortieBuddyType(BuddyType.DOG)or TppBuddyService.CanSortieBuddyType(BuddyType.QUIET)end,
-    detailCondition=function()
+    return TppBuddyService.CanSortieBuddyType(BuddyType.DOG)or TppBuddyService.CanSortieBuddyType(BuddyType.QUIET)end,
+  detailCondition=function()
     local t=0
-      local n=1
-      local e=TppBuddy2BlockController.GetActiveBuddyType()if(e==t or e==n)then
-        if((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)then
-          return true
-        end
+    local n=1
+    local e=TppBuddy2BlockController.GetActiveBuddyType()if(e==t or e==n)then
+      if((TppMission.GetMissionID()~=30050)and(TppMission.GetMissionID()~=30150))and(TppMission.GetMissionID()~=30250)then
+        return true
       end
-      return false
-    end,
-    radioList={"f1000_rtrg4560","f1000_rtrg4570"}
+    end
+    return false
+  end,
+  radioList={"f1000_rtrg4560","f1000_rtrg4570"}
   },
   AboutBuddyDog={storyCondition=function()return TppBuddyService.CanSortieBuddyType(BuddyType.DOG)end,
     detailCondition=function()return TppMission.IsHelicopterSpace(TppMission.GetMissionID())end,
@@ -1318,7 +1327,15 @@ function e.UpdateStorySequence(t)
     e._UpdateS10260OpenFlag(storySequence)
   end
   --[[--tex OFF: FIXME: if e.IsMissionCleard(10260) then--tex quietreturn call
+
+
+
+
     e.QuietReturn()
+
+
+
+
   end--]]
   if i=="OnMissionClear"then
     local t=t.missionId
@@ -1532,7 +1549,7 @@ function e.QuietReturn()--tex
     if not TppMotherBaseManagement.IsExistStaff{staffId=q}then
       TppMotherBaseManagement.DirectAddStaff{staffId=q}
       -- ,section="Wait",isNew=true,specialContract="fromExtra"} --tex nothing seems to work, some kind of internal check in directaddstaff i guess
-       -- specialContract="fromGZ"
+      -- specialContract="fromGZ"
     end
 
     gvars.str_didLostQuiet=false
@@ -1545,7 +1562,7 @@ function e.QuietReturn()--tex
     TppBuddyService.SetSortieBuddyType(BuddyType.QUIET)
     TppBuddyService.SetFriendlyPoint(BuddyFriendlyType.QUIET,100)
     TppMotherBaseManagement.RefreshQuietStatus()
-  end
+end
 end
 function e.CanArrivalLiquidInMB()
   local n=e.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
@@ -1694,7 +1711,8 @@ function e.DEBUG_GetUnclearedMissionCode()
     end
   end
 end
-function e.DEBUG_TestStorySequence()e.DEBUG_SkipDemoRadio=true
+function e.DEBUG_TestStorySequence()
+  e.DEBUG_SkipDemoRadio=true
   TppScriptVars.InitForNewGame()
   TppGVars.AllInitialize()
   TppVarInit.InitializeOnNewGame()
@@ -1716,7 +1734,8 @@ function e.DEBUG_TestStorySequence()e.DEBUG_SkipDemoRadio=true
     e.DEBUG_SetNeedStoryTest(vars.missionCode)
     local n=e.GetForceMBDemoNameOrRadioList"forceMBDemo"
     e.GetForceMBDemoNameOrRadioList("blackTelephone",{demoName=n})
-    e.GetForceMBDemoNameOrRadioList"freeHeliRadio"e.GetForceMBDemoNameOrRadioList"freeHeliRadio"
+    e.GetForceMBDemoNameOrRadioList"freeHeliRadio"
+    e.GetForceMBDemoNameOrRadioList"freeHeliRadio"
     repeat
       coroutine.yield()
       TppQuest.UpdateActiveQuest{debugUpdate=true}
@@ -1765,14 +1784,16 @@ function e.DEBUG_SetNeedStoryTest(n)
       TppBuddy2BlockController.SetObtainedBuddyType(BuddyType.QUIET)
       local n=e.GetElapsedMissionCount(TppDefine.ELAPSED_MISSION_EVENT.QUIET_WITH_GO_MISSION)
       if n==TppDefine.ELAPSED_MISSION_COUNT.INIT then
-        e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.QUIET_WITH_GO_MISSION,TppDefine.INIT_ELAPSED_MISSION_COUNT.QUIET_WITH_GO_MISSION)e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.QUIET_VISIT_MISSION,TppDefine.INIT_ELAPSED_MISSION_COUNT.QUIET_VISIT_MISSION)
+        e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.QUIET_WITH_GO_MISSION,TppDefine.INIT_ELAPSED_MISSION_COUNT.QUIET_WITH_GO_MISSION)
+        e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.QUIET_VISIT_MISSION,TppDefine.INIT_ELAPSED_MISSION_COUNT.QUIET_VISIT_MISSION)
       end
       if TppQuest.IsCleard"mtbs_q99011"then
         TppBuddyService.SetSortieBuddyType(BuddyType.QUIET)
         TppBuddyService.UnsetDeadBuddyType(BuddyType.QUIET)
       end
     end
-    TppBuddyService.SetSortieBuddyType(BuddyType.QUIET)e.MissionOpen(10070)vars.mbmTppGmp=-1e3
+    TppBuddyService.SetSortieBuddyType(BuddyType.QUIET)e.MissionOpen(10070)
+    vars.mbmTppGmp=-1e3
   end
   if n==10121 then
     e.MissionOpen(10115)
@@ -1809,138 +1830,140 @@ function e.DEBUG_SetNeedStoryTest(n)
   vars.personalBirthdayMonth=3
   vars.personalBirthdayDay=10
 end
-function e.DEBUG_SetStorySequence(n,o)do
-  return
-end
-if(n<TppDefine.STORY_SEQUENCE.STORY_START)and(n>TppDefine.STORY_SEQUENCE.STORY_FINISH)then
-  return
-end
-gvars.str_storySequence=n
-for e=0,TppDefine.MISSION_COUNT_MAX do
-  gvars.str_missionOpenPermission[e]=false
-  gvars.str_missionOpenFlag[e]=false
-  gvars.str_missionClearedFlag[e]=false
-  gvars.str_missionNewOpenFlag[e]=false
-end
-if TppDebugMbDevelop then
-  local n
+function e.DEBUG_SetStorySequence(n,o)
+  do
+    return
+  end
+  if(n<TppDefine.STORY_SEQUENCE.STORY_START)and(n>TppDefine.STORY_SEQUENCE.STORY_FINISH)then
+    return
+  end
+  gvars.str_storySequence=n
+  for e=0,TppDefine.MISSION_COUNT_MAX do
+    gvars.str_missionOpenPermission[e]=false
+    gvars.str_missionOpenFlag[e]=false
+    gvars.str_missionClearedFlag[e]=false
+    gvars.str_missionNewOpenFlag[e]=false
+  end
+  if TppDebugMbDevelop then
+    local n
+    local t
+    for i=TppDefine.STORY_SEQUENCE.STORY_START,gvars.str_storySequence do
+      local e=e.GetStorySequenceName(i)
+      if TppDebugMbDevelop[e]then
+        n=TppDebugMbDevelop[e]
+        t=e
+      end
+    end
+    if n then
+      n()
+    else
+      TppDebugMbDevelop.AllDeveloped()
+    end
+  end
+  local function r(i,a,o,t,n)
+    local r=n or{}
+    local n=TppMission.ParseMissionName(i)
+    local t=(i==t)e.PermitMissionOpen(n)
+    if(not r[i])or(t)then
+      e.MissionOpen(n)
+      if(a<o)and(not t)then
+        e.DisableMissionNewOpenFlag(n)e.UpdateMissionCleardFlag(n)
+      end
+    end
+    return t
+  end
   local t
-  for i=TppDefine.STORY_SEQUENCE.STORY_START,gvars.str_storySequence do
-    local e=e.GetStorySequenceName(i)
-    if TppDebugMbDevelop[e]then
-      n=TppDebugMbDevelop[e]t=e
+  for i=0,n do
+    local e=e.GetStorySequenceTable(i)
+    if e==nil then
+      break
+    end
+    if e.main then
+      local e=r(e.main,i,n,o,e.defaultClose)t=t or e
+    end
+    if e.flag then
+      for s,a in pairs(e.flag)do
+        local e=r(a,i,n,o,e.defaultClose)t=t or e
+      end
+    end
+    if e.sub then
+      for s,a in pairs(e.sub)do
+        local e=r(a,i,n,o,e.defaultClose)t=t or e
+      end
+    end
+    if t then
+      gvars.str_storySequence=i
+      break
     end
   end
-  if n then
-    n()
+  local n=TppResult.CalcMissionClearHistorySize()
+  TppResult.SetMissionClearHistorySize(n)
+  if gvars.str_storySequence>TppDefine.STORY_SEQUENCE.CLEARD_RECUE_MILLER then
+    TppVarInit.SetHorseObtainedAndCanSortie()
+  end
+  if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_FIND_THE_SECRET_WEAPON then
+    e.MissionOpen(10050)e.UpdateMissionCleardFlag(10050)
+  end
+  if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY then
+    e.MissionOpen(10070)e.UpdateMissionCleardFlag(10070)
+  end
+  if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_CAPTURE_THE_WEAPON_DEALER then
+    e.MissionOpen(10115)e.UpdateMissionCleardFlag(10115)
+    TppMotherBaseManagement.SetFobSvars{fob="Fob1",got=true,oceanAreaId=2,topologyType=10,color="Orange"}
+  end
+  if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_ENDRESS_PROXY_WAR then
+    e.MissionOpen(11050)e.UpdateMissionCleardFlag(11050)
+  end
+  if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS then
+    e.MissionOpen(10240)e.UpdateMissionCleardFlag(10240)
+  end
+  if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_THE_TRUTH then
+    local n={11080,11121,11130,11044,11151,10260,10280}
+    if TppGameSequence.GetSpecialVersionName()=="e3_2015"then
+      n={11080,11121,11130,11044,11151,10260}
+    end
+    for t,n in ipairs(n)do
+      e.MissionOpen(n)e.UpdateMissionCleardFlag(n)
+    end
+    if TppQuest.QAReleaseFullOpen then
+      TppQuest.QAReleaseFullOpen()
+    end
+  end
+  if TppTerminal.PandemicTutorialStoryCondition()then
+    TppTerminal.FinishPandemicTutorial()
+    TppTerminal.StartPandemicEvent()
+  end
+  if TppTerminal.CheckPandemicEventFinish()then
+    TppTerminal.FinishPandemicTutorial()
+    TppTerminal.FinishPandemicEvent()
+  end
+  if e.IsAlwaysOpenRetakeThePlatform()then
+    TppUiCommand.SetMission10115Emergency(false)
   else
-    TppDebugMbDevelop.AllDeveloped()
+    TppUiCommand.SetMission10115Emergency(true)
   end
-end
-local function r(i,a,o,t,n)
-  local r=n or{}
-  local n=TppMission.ParseMissionName(i)
-  local t=(i==t)e.PermitMissionOpen(n)
-  if(not r[i])or(t)then
-    e.MissionOpen(n)
-    if(a<o)and(not t)then
-      e.DisableMissionNewOpenFlag(n)e.UpdateMissionCleardFlag(n)
-    end
+  if gvars.str_storySequence==TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
+    e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,2)
+    TppQuest.StartElapsedEvent(1)
   end
-  return t
-end
-local t
-for i=0,n do
-  local e=e.GetStorySequenceTable(i)
-  if e==nil then
-    break
+  if gvars.str_storySequence==TppDefine.STORY_SEQUENCE.CLEARD_RETRIEVE_VOLGIN then
+    e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,2)
+    TppQuest.StartElapsedEvent(1)
   end
-  if e.main then
-    local e=r(e.main,i,n,o,e.defaultClose)t=t or e
+  if gvars.str_storySequence==TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS then
+    e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,1)
+    TppQuest.StartElapsedEvent(3)
   end
-  if e.flag then
-    for s,a in pairs(e.flag)do
-      local e=r(a,i,n,o,e.defaultClose)t=t or e
-    end
+  if gvars.str_storySequence==TppDefine.STORY_SEQUENCE.CLEARD_AFTER_MURDER_INFECTORS_ONE_MISSION then
+    e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,1)
+    TppQuest.StartElapsedEvent(3)
   end
-  if e.sub then
-    for s,a in pairs(e.sub)do
-      local e=r(a,i,n,o,e.defaultClose)t=t or e
-    end
+  if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
+    gvars.qst_questOpenFlag[TppDefine.QUEST_INDEX.sovietBase_q99030]=true
+    gvars.qst_questOpenFlag[TppDefine.QUEST_INDEX.tent_q99040]=true
   end
-  if t then
-    gvars.str_storySequence=i
-    break
-  end
-end
-local n=TppResult.CalcMissionClearHistorySize()
-TppResult.SetMissionClearHistorySize(n)
-if gvars.str_storySequence>TppDefine.STORY_SEQUENCE.CLEARD_RECUE_MILLER then
-  TppVarInit.SetHorseObtainedAndCanSortie()
-end
-if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_FIND_THE_SECRET_WEAPON then
-  e.MissionOpen(10050)e.UpdateMissionCleardFlag(10050)
-end
-if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY then
-  e.MissionOpen(10070)e.UpdateMissionCleardFlag(10070)
-end
-if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_CAPTURE_THE_WEAPON_DEALER then
-  e.MissionOpen(10115)e.UpdateMissionCleardFlag(10115)
-  TppMotherBaseManagement.SetFobSvars{fob="Fob1",got=true,oceanAreaId=2,topologyType=10,color="Orange"}
-end
-if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_ENDRESS_PROXY_WAR then
-  e.MissionOpen(11050)e.UpdateMissionCleardFlag(11050)
-end
-if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS then
-  e.MissionOpen(10240)e.UpdateMissionCleardFlag(10240)
-end
-if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_THE_TRUTH then
-  local n={11080,11121,11130,11044,11151,10260,10280}
-  if TppGameSequence.GetSpecialVersionName()=="e3_2015"then
-    n={11080,11121,11130,11044,11151,10260}
-  end
-  for t,n in ipairs(n)do
-    e.MissionOpen(n)e.UpdateMissionCleardFlag(n)
-  end
-  if TppQuest.QAReleaseFullOpen then
-    TppQuest.QAReleaseFullOpen()
-  end
-end
-if TppTerminal.PandemicTutorialStoryCondition()then
-  TppTerminal.FinishPandemicTutorial()
-  TppTerminal.StartPandemicEvent()
-end
-if TppTerminal.CheckPandemicEventFinish()then
-  TppTerminal.FinishPandemicTutorial()
-  TppTerminal.FinishPandemicEvent()
-end
-if e.IsAlwaysOpenRetakeThePlatform()then
-  TppUiCommand.SetMission10115Emergency(false)
-else
-  TppUiCommand.SetMission10115Emergency(true)
-end
-if gvars.str_storySequence==TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
-  e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,2)
-  TppQuest.StartElapsedEvent(1)
-end
-if gvars.str_storySequence==TppDefine.STORY_SEQUENCE.CLEARD_RETRIEVE_VOLGIN then
-  e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,2)
-  TppQuest.StartElapsedEvent(1)
-end
-if gvars.str_storySequence==TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS then
-  e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,1)
-  TppQuest.StartElapsedEvent(3)
-end
-if gvars.str_storySequence==TppDefine.STORY_SEQUENCE.CLEARD_AFTER_MURDER_INFECTORS_ONE_MISSION then
-  e.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,1)
-  TppQuest.StartElapsedEvent(3)
-end
-if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
-  gvars.qst_questOpenFlag[TppDefine.QUEST_INDEX.sovietBase_q99030]=true
-  gvars.qst_questOpenFlag[TppDefine.QUEST_INDEX.tent_q99040]=true
-end
-TppTerminal.OnEstablishMissionClear()
-TppRanking.UpdateOpenRanking()
+  TppTerminal.OnEstablishMissionClear()
+  TppRanking.UpdateOpenRanking()
 end
 function e.DecreaseElapsedMissionClearCount()
   for n=0,TppDefine.ELAPSED_MISSION_COUNT_MAX-1 do

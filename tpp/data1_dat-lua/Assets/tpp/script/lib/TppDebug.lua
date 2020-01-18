@@ -93,7 +93,9 @@ function r.DEBUG_WarpHelicopter(i,o,s,a,n)
     a=0
   end
   for s,r in pairs(soldierNameTable)do
-    local r=t(r)e(r,{id="SetEnabled",enabled=false})e(r,{id="SetSneakRoute",route=o,point=a})e(r,{id="SetCautionRoute",route=o,point=a})
+    local r=t(r)e(r,{id="SetEnabled",enabled=false})
+    e(r,{id="SetSneakRoute",route=o,point=a})
+    e(r,{id="SetCautionRoute",route=o,point=a})
     if n then
       e(r,{id="SetAlertRoute",enabled=true,route=o,point=a})
     else
@@ -132,7 +134,8 @@ function r.DEBUG_AddSkipLogSVarsName(e)
 r.DEBUG_SkipOnChangeSVarsLog[e]=true
 end
 function r.DEBUG_FobGPU()
-  local e=function(r)math.randomseed(os.time())
+  local e=function(r)
+  math.randomseed(os.time())
     TppMotherBaseManagement.SetGmp{gmp=1e6}
     local e=300
     if TppMotherBaseManagement.DEBUG_DirectAddRandomStaffs then
@@ -168,7 +171,8 @@ function r.DEBUG_FobGPU()
   end
   e(90)
 end
-function r.DEBUG_SetFobPlayerSneak()vars.avatarFaceRaceIndex=0
+function r.DEBUG_SetFobPlayerSneak()
+  vars.avatarFaceRaceIndex=0
   vars.avatarAcceFlag=0
   vars.avatarFaceTypeIndex=1
   vars.avatarFaceVariationIndex=1
@@ -253,7 +257,8 @@ function r.DEBUG_SetFobPlayerSneak()vars.avatarFaceRaceIndex=0
   vars.itemLevels[TppEquip.EQP_SUIT-TppEquip.EQP_IT_InstantStealth]=1
   local e={{equipId=TppEquip.EQP_WP_30105,partsInfo={barrel=TppEquip.BA_30124,ammo=TppEquip.AM_30125,stock=TppEquip.SK_60304,muzzle=TppEquip.MZ_30105,muzzleOption=TppEquip.MO_30102,rearSight=TppEquip.ST_30305,frontSight=TppEquip.ST_30306,option1=TppEquip.LT_30105,option2=TppEquip.LS_40034,underBarrel=TppEquip.UB_50102,underBarrelAmmo=TppEquip.AM_40102}},{equipId=TppEquip.EQP_WP_60206,partsInfo={barrel=TppEquip.BA_60205,ammo=TppEquip.AM_30055,stock=TppEquip.SK_60203,muzzle=TppEquip.MZ_60203,muzzleOption=TppEquip.MO_60204,rearSight=TppEquip.ST_30204,frontSight=TppEquip.ST_20205,option1=TppEquip.LT_30025,option2=TppEquip.LS_30104,underBarrel=TppEquip.UB_40144,underBarrelAmmo=TppEquip.AM_40102}},{equipId=TppEquip.EQP_WP_20004,partsInfo={ammo=TppEquip.AM_20105,stock=TppEquip.SK_20002,muzzleOption=TppEquip.MO_10101,rearSight=TppEquip.ST_30114,option1=TppEquip.LT_10104}}}GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeChimeraWeapon",chimeraInfo=e})GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId=TppEquip.EQP_HAND_KILL_ROCKET})
 end
-function r.DEBUG_SetFobPlayerDefence()vars.avatarFaceRaceIndex=0
+function r.DEBUG_SetFobPlayerDefence()
+  vars.avatarFaceRaceIndex=0
   vars.avatarAcceFlag=0
   vars.avatarFaceTypeIndex=1
   vars.avatarFaceVariationIndex=1
@@ -343,7 +348,9 @@ function r.QARELEASE_DEBUG_Init()
   do
     return
   end
-  e.AddDebugMenu("LuaSystem","showSysVars","bool",gvars,"DEBUG_showSysVars")e.AddDebugMenu("LuaSystem","gameStatus","bool",gvars,"DEBUG_showGameStatus")mvars.qaDebug.forceCheckPointSave=false
+  e.AddDebugMenu("LuaSystem","showSysVars","bool",gvars,"DEBUG_showSysVars")
+  e.AddDebugMenu("LuaSystem","gameStatus","bool",gvars,"DEBUG_showGameStatus")
+  mvars.qaDebug.forceCheckPointSave=false
   e.AddDebugMenu("LuaSystem","ForceCheckPointSave","bool",mvars.qaDebug,"forceCheckPointSave")mvars.qaDebug.showWeaponVars=false
   e.AddDebugMenu("LuaSystem","ShowWeaponVars","bool",mvars.qaDebug,"showWeaponVars")mvars.qaDebug.showPlayerPartsType=false
   e.AddDebugMenu("LuaSystem","ShowPlayerPartsType","bool",mvars.qaDebug,"showPlayerPartsType")mvars.qaDebug.setFobForGPU=false
@@ -408,10 +415,12 @@ function r.QAReleaseDebugUpdate()
     end
   end
   if o.qaDebug.showPlayerPartsType then
-    e(a,{.5,.5,1},"LuaSystem ShowPlayerPartsType")e(a,"gvars.ply_isUsingTempPlayerType = "..tostring(gvars.ply_isUsingTempPlayerType))e(a,string.format("vars.playerPartsType = %04d, gvars.ply_lastPlayerPartsTypeUsingTemp = %04d",vars.playerPartsType,gvars.ply_lastPlayerPartsTypeUsingTemp))e(a,string.format("vars.playerCamoType = %04d, gvars.ply_lastPlayerCamoTypeUsingTemp = %04d",vars.playerCamoType,gvars.ply_lastPlayerCamoTypeUsingTemp))e(a,string.format("vars.playerType = %04d, gvars.ply_lastPlayerTypeUsingTemp = %04d",vars.playerType,gvars.ply_lastPlayerTypeUsingTemp))
+    e(a,{.5,.5,1},"LuaSystem ShowPlayerPartsType")
+    e(a,"gvars.ply_isUsingTempPlayerType = "..tostring(gvars.ply_isUsingTempPlayerType))e(a,string.format("vars.playerPartsType = %04d, gvars.ply_lastPlayerPartsTypeUsingTemp = %04d",vars.playerPartsType,gvars.ply_lastPlayerPartsTypeUsingTemp))e(a,string.format("vars.playerCamoType = %04d, gvars.ply_lastPlayerCamoTypeUsingTemp = %04d",vars.playerCamoType,gvars.ply_lastPlayerCamoTypeUsingTemp))e(a,string.format("vars.playerType = %04d, gvars.ply_lastPlayerTypeUsingTemp = %04d",vars.playerType,gvars.ply_lastPlayerTypeUsingTemp))
   end
   if o.qaDebug.gotFobStatusCount then
-    e(a,{.5,.5,1},">> Done TppServerManager.GetFobStatus()")o.qaDebug.gotFobStatusCount=o.qaDebug.gotFobStatusCount+1
+    e(a,{.5,.5,1},">> Done TppServerManager.GetFobStatus()")
+    o.qaDebug.gotFobStatusCount=o.qaDebug.gotFobStatusCount+1
     if o.qaDebug.gotFobStatusCount>120 then
       o.qaDebug.gotFobStatusCount=nil
     end
@@ -443,7 +452,8 @@ function r.DEBUG_MakeUserSVarList(e)
     table.insert(mvars.dbg_userSaveVarList,e.name)
   end
 end
-function r.AddReturnToSelector(e)e:AddItem("< return",DebugSelector.Pop)
+function r.AddReturnToSelector(e)
+e:AddItem("< return",DebugSelector.Pop)
 end
 function r.DEBUG_Init()
   mvars.debug.returnSelect=false;(nil).AddDebugMenu(" Select","Return select","bool",mvars.debug,"returnSelect")
@@ -631,7 +641,8 @@ function r.DebugUpdate()
   if(t.showSubscriptMessageTable>0)then
     o(a,{.5,.5,1},"LuaMessage subScripts")
     local o={"sequence","enemy","demo","radio","sound"}
-    local o=o[e.debug.showSubscriptMessageTable]if o then
+    local o=o[e.debug.showSubscriptMessageTable]
+    if o then
       local t=TppMission.GetMissionName()..("_"..o)
       if e.rad_subScripts[o]then
         local e=e.rad_subScripts[o]._messageExecTable
@@ -667,7 +678,8 @@ function r.DebugUpdate()
       e.debug.weaponCategory=#e.debug.weaponCategoryList
     end
     local r=e.debug.weaponCategory
-    local n=e.debug.weaponCategoryList[e.debug.weaponCategory]o(a,{.5,1,.5},"Current weapon category : "..n[1])
+    local n=e.debug.weaponCategoryList[e.debug.weaponCategory]
+    o(a,{.5,1,.5},"Current weapon category : "..n[1])
     local i,p
     local r,t,s=0,1,5
     if e.debug.selectedWeaponId>0 then
@@ -698,7 +710,8 @@ function r.DebugUpdate()
       end
     end
     if e.debug.enableWeaponChange then
-      GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId={i}})e.debug.enableWeaponChange=false
+      GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId={i}})
+      e.debug.enableWeaponChange=false
     end
   end
 end

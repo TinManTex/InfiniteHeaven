@@ -1,7 +1,18 @@
-local this={}
-this.modVersion = "r29"
+local e={}
+--local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'did this compile?' indicator
+--SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
+local this=e--tex DEMINIFY
+--tex shit I want to keep at top for easy manual changing
+this.DEBUGMODE=false
+this.modVersion = "r31"
 this.modName = "Infinite Heaven"
-local e=this--tex CULL: once deminified
+--tex strings, till we figure out how to access custom values in .lang files this will have to do.
+--tex SYNC: with uses of TppUiCommand.AnnounceLogView
+this.modStrings={
+  menuOff="Menu Off",
+  settingDefaults="Setting mod options to defaults...",
+}
+--tex DEMINIFY:
 local IsFunc=Tpp.IsTypeFunc
 local Enum=TppDefine.Enum
 --tex the bulk of my shit REFACTOR: until we can load our own lua files this is a good a spot as any
@@ -109,9 +120,11 @@ function this.OnButtonUp(button)
 end
 function this.OnButtonHoldTime(button)
   local buttonState = this.buttonState[button]
-  if buttonState.holdTime~=0 and buttonState.startTime~=0 and Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > buttonState.holdTime then
-    buttonState.startTime=0
-    return true
+  if buttonState.holdTime~=0 and buttonState.startTime~=0 then
+    if Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > buttonState.holdTime then
+      buttonState.startTime=0
+      return true
+    end
   end
   return false
 end
@@ -132,26 +145,17 @@ this.subsistenceLoadouts={--tex pure,secondary.
   TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE,
   TppDefine.SUBSISTENCE_SECONDARY_INITIAL_WEAPON_TABLE
 }
+this.SUBSISTENCE_BOUND=2--tex: SPECIAL: RETRY:
 this.switchSlider={max=1,min=0,increment=1}
 this.healthMultSlider={max=4,min=0,increment=0.2}
 this.switchSettingNames={"Off","On"}
 function this.SettingInfoHealth()
   return vars.playerLifeMax
 end
-function this.ChangeSetting(modSetting,value)
-  if modSetting.gvar~=nil then
-    gvars[modSetting.gvar]=gvars[modSetting.gvar]+value
-    gvars[modSetting.gvar]=TppMath.Clamp(gvars[modSetting.gvar],modSetting.slider.min,modSetting.slider.max)
-  end
-  if IsFunc(modSetting.onChange) then
-    modSetting.onChange()
-  end
-end
-this.SUBSISTENCE_BOUND=2--tex: SPECIAL: RETRY:
 this.modSettings={
   {
     name="Subsistence Mode",
-    gvar="isManualSubsistence",
+    gvarName="isManualSubsistence",
     default=0,
     slider={max=2,min=0,increment=1},
     settingNames={"Off","Pure","Bounded (+Buddy +Suit)"},
@@ -165,7 +169,7 @@ this.modSettings={
   },
   {
     name="OSP Weapon Loadout",
-    gvar="subsistenceLoadout",
+    gvarName="subsistenceLoadout",
     default=0,
     slider={max=#this.subsistenceLoadouts,min=0,increment=1},
     settingNames={"Off","Pure","Secondary enabled"},
@@ -173,32 +177,39 @@ this.modSettings={
   },
   {
     name="Enemy Preparedness",
-    gvar="revengeMode",    
+    gvarName="revengeMode",    
     default=0,
     slider=this.switchSlider,
     settingNames={"Regular","Max"},
   },
   {
-    name="General Parameters",
-    gvar="modParameters",
+    name="General Enemy Parameters",
+    gvarName="modParameters",
     default=0,
     slider=this.switchSlider,
     settingNames={"Tweaked","Default(mods can override)"},
   },
   {
     name="Player life scale",
-    gvar="playerHealthMult",
+    gvarName="playerHealthMult",
     default=1,
     slider=this.healthMultSlider,
-    isFloatOption=true,
+    isFloatSetting=true,
     infoFunc=this.SettingInfoHealth,
   },
   {
     name="Enemy life scale",
-    gvar="enemyHealthMult",
+    gvarName="enemyHealthMult",
     default=1,
     slider=this.healthMultSlider,
-    isFloatOption=true,
+    isFloatSetting=true,
+  },
+  {
+    name="Unlock All Sideops",
+    gvarName="unlockSideOps",
+    default=0,
+    slider=this.switchSlider,
+    settingNames={"Off","Enabled"},
   },
   {
     name="Turn off menu",
@@ -208,99 +219,207 @@ this.modSettings={
     onChange=function()
       this.modMenuOn=false
       this.currentOption=1
+      TppUiCommand.AnnounceLogView(TppMain.modStrings.menuOff)    
     end
   },
 }
 this.currentOption=1--tex lua tables are indexed from 1
-this.modMenuOn=false--tex RETRY: scoured for ways to get menu status, give up for now HAX
+this.currentSetting=1--tex lua tables are indexed from 1
+this.lastDisplay=0
+this.autoDisplayRate=2.8
+this.modMenuOn=false
 --tex mod settings menu manipulation
 function this.NextOption()
   this.currentOption=this.currentOption+1
   if this.currentOption > #this.modSettings then
     this.currentOption = 1
   end
+  this.GetSetting()
 end
 function this.PreviousOption()
   this.currentOption = this.currentOption-1
   if this.currentOption < 1 then
     this.currentOption = #this.modSettings
   end
+  this.GetSetting()
+end
+function this.GetSetting()
+  local modSetting=this.modSettings[this.currentOption]
+  this.currentSetting=modSetting.default
+  if modSetting.gvarName ~= nil then
+    local gvar=gvars[modSetting.gvarName]
+    if gvar ~= nil then
+      this.currentSetting=gvar
+    else
+      TppUiCommand.AnnounceLogView("Option Menu Error: gvar -"..modSetting.gvarName.."- not found")
+    end
+  end
+end
+function this.ChangeSetting(modSetting,value)
+  --TppUiCommand.AnnounceLogView("DBG:MNU: changesetting increment:"..value)--tex DEBUG: CULL:
+  local newSetting=this.currentSetting
+  if modSetting.gvarName~=nil then
+    --TppUiCommand.AnnounceLogView("DBG:MNU: found gvarName:" .. modSetting.gvarName)--tex DEBUG: CULL:
+    local gvar=gvars[modSetting.gvarName]
+    if gvar ~= nil then
+      --TppUiCommand.AnnounceLogView("DBG:MNU: gvar:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:
+      newSetting=gvar+value
+      --TppUiCommand.AnnounceLogView("DBG:MNU: newsetting:"..newSetting)--tex DEBUG: CULL:
+      newSetting=TppMath.Clamp(newSetting,modSetting.slider.min,modSetting.slider.max)
+      --TppUiCommand.AnnounceLogView("DBG:MNU: newsetting clamped:"..newSetting)--tex DEBUG: CULL:
+    else
+      TppUiCommand.AnnounceLogView("Option Menu Error: gvar -" .. modSetting.gvarName .. "- not found")
+    end
+    if modSetting.confirm == nil then 
+      gvars[modSetting.gvarName]=newSetting
+      --TppUiCommand.AnnounceLogView("DBG:MNU: gvar set:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:
+      if IsFunc(modSetting.onChange) then
+        modSetting.onChange()
+      end
+    elseif newSetting==modSetting.default then--tex let confirm settings turn off without having to confirm lol
+      gvars[modSetting.gvarName]=newSetting
+      --TppUiCommand.AnnounceLogView("DBG:MNU: gvar set:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:
+      if IsFunc(modSetting.onChange) then
+        modSetting.onChange()
+      end      
+    end
+  else--gvar nil
+    newSetting=this.currentSetting+value
+    newSetting=TppMath.Clamp(newSetting,modSetting.slider.min,modSetting.slider.max)
+    if IsFunc(modSetting.onChange) then
+      modSetting.onChange()
+    end   
+  end
+  --TppUiCommand.AnnounceLogView("DBG:MNU: new currentSetting:" .. newSetting)
+  return newSetting
+end
+function this.ConfirmCurrent()
+  this.ConfirmSetting(this.modSettings[this.currentOption],this.currentSetting)
+end
+function this.ConfirmSetting(modSetting,value)
+  if modSetting.confirm ~= nil then
+    if modSetting.gvarName~=nil then
+      local gvar=gvars[modSetting.gvarName]
+      if gvar ~= nil then
+        gvars[modSetting.gvarName]=value
+        if IsFunc(modSetting.onChange) then
+          modSetting.onChange()
+        end
+      end
+    end
+  end
 end
 function this.NextSetting()
-  local modSetting = this.modSettings[this.currentOption]
-  this.ChangeSetting(modSetting,modSetting.slider.increment)
+  local modSetting=this.modSettings[this.currentOption]
+  this.currentSetting=this.ChangeSetting(modSetting,modSetting.slider.increment)
 end
 function this.PreviousSetting()
-  local modSetting = this.modSettings[this.currentOption]
-  this.ChangeSetting(modSetting,-modSetting.slider.increment)
+  local modSetting=this.modSettings[this.currentOption]
+  this.currentSetting=this.ChangeSetting(modSetting,-modSetting.slider.increment)
 end
+
 function this.DisplayCurrentSetting()
-  this.DisplaySetting(this.currentOption)
+  if this.modMenuOn then
+    this.DisplaySetting(this.currentOption)
+  end
 end
-function this.DisplaySetting(index)
-  local modSetting = this.modSettings[index]
-  local option=gvars[modSetting.gvar]--tex getting a bit dense to parse lol
+function this.DisplaySetting(optionIndex)
+  this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp() 
+  local modSetting=this.modSettings[optionIndex]
+  local settingText="UNDEFINED"
   if modSetting.settingNames ~= nil then
-    if option~=nil then
-      option=modSetting.settingNames[option+1]--tex lua index from 1
+    if this.currentSetting < 0 or this.currentSetting > #modSetting.settingNames-1 then
+      settingText="CURRENTSETTING OUT OF BOUNDS"
     else
-      option=modSetting.settingNames[1]
+      settingText=modSetting.settingNames[this.currentSetting+1]--tex lua indexed from 1, but settings from 0
+      if modSetting.confirm ~= nil then
+        if this.currentSetting ~= modSetting.default then
+          if modSetting.gvarName ~= nil and gvars[modSetting.gvarName] ~= nil then
+            if gvars[modSetting.gvarName] ~= this.currentSetting then
+              settingText=settingText.." (Press<Reload> to confirm)"
+            else--tex ASSUMPTION SPECIAL setting text is "Enable"
+              settingText=modSetting.confirm
+            end
+          end
+        end
+      end
     end
-  elseif modSetting.isFloatOption then
-    option=math.floor(100*option) .. "%"
+  elseif modSetting.isFloatSetting then
+    settingText=math.floor(100*this.currentSetting) .. "%"
+  else
+    settingText=tostring(this.currentSetting)
   end
   local info = 0
   if IsFunc(modSetting.infoFunc) then
     info = modSetting.infoFunc()
   end
   TppUiCommand.AnnounceLogDelayTime(0)
-  TppUiCommand.AnnounceLogView(index .. ":" .. modSetting.name .. "=" .. option)--tex thank you ThreeSocks3, you're a god damn legend for finding custom text output, heres a better way to do things than string.format, in lua .. concatenates strings, does simple format conversion
+  TppUiCommand.AnnounceLogView(optionIndex..":"..modSetting.name.."="..settingText)--tex thank you ThreeSocks3, you're a god damn legend for finding custom text output, heres a better way to do things than string.format, in lua .. concatenates strings, does simple format conversion
 end
 function this.DisplaySettings()--tex display all
   for i=1,#this.modSettings do
     this.DisplaySetting(i)
   end
 end
+function this.AutoDisplay()
+  if this.modMenuOn then
+    if this.autoDisplayRate > 0 then
+      if Time.GetRawElapsedTimeSinceStartUp() - this.lastDisplay > this.autoDisplayRate then
+        this.DisplayCurrentSetting()
+      end
+    end
+  end
+end
 function this.ResetSettings()
   for i=1,#this.modSettings do
-    local gvar = this.modSettings[i].gvar
-    if gvar~=nil then
-      gvars[this.modSettings[i].gvar] = this.modSettings[i].default
+    local gvarName=this.modSettings[i].gvarName
+    if gvarName~=nil then
+      gvars[gvarName]=this.modSettings[i].default
     end
   end
 end
 function this.ResetSettingsDisplay()
-  TppUiCommand.AnnounceLogView("Setting mod options to defaults...")
+  TppUiCommand.AnnounceLogView(TppMain.modStrings.settingDefaults)--tex "Setting mod options to defaults..."
   for i=1,#this.modSettings do
-    local modSetting = this.modSettings[i]
-    if modSetting.gvar~=nil then
-      gvars[modSetting.gvar] = modSetting.default
+    local modSetting=this.modSettings[i]
+    if modSetting.gvarName~=nil then
+      gvars[modSetting.gvarName]=modSetting.default
+      this.currentSetting=modSetting.default
       this.DisplaySetting(i)
     end
   end
+  this.GetSetting()
 end
 function this.UpdateModMenu()--tex RETRY: called from TppMain.Update, had 'troubles' running in main
+--local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
+--SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
   ModStart()--tex: TODO: move to actual run once on startup init thing, make sure to check ModStart itself to see affected code
   this.UpdateHeldButtons()
-  if not mvars.mis_missionStateIsNotInGame then --tex actually loaded game, ie at least 'continued' from title screen
+  if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
     if TppMission.IsHelicopterSpace(vars.missionCode)then
       --tex RETRY: still not happy, want to read menu status but cant find any way
       if this.OnButtonHoldTime(PlayerPad.LIGHT_SWITCH) then
         this.modMenuOn = not this.modMenuOn
         if this.modMenuOn then
-          TppUiCommand.AnnounceLogView(this.modName .. " " .. this.modVersion)
-          this.DisplayCurrentSetting()
+          TppUiCommand.AnnounceLogView(this.modName.." "..this.modVersion)
+          --this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
+          if this.autoDisplayRate==0 then
+            this.DisplayCurrentSetting()
+          end
         else
-          TppUiCommand.AnnounceLogView("Menu Off")
+          TppUiCommand.AnnounceLogView(this.modStrings.menuOff)
         end
       end
       if this.modMenuOn then
         if this.OnButtonDown(PlayerPad.MB_DEVICE) then
           this.modMenuOn=false
-          TppUiCommand.AnnounceLogView("Menu Off")
+          TppUiCommand.AnnounceLogView(this.modStrings.menuOff)
         end
-        if this.OnButtonDown(PlayerPad.RELOAD) then    
+        if this.OnButtonHoldTime(PlayerPad.RELOAD) then
           this.ResetSettingsDisplay()
+        end
+        if this.OnButtonDown(PlayerPad.RELOAD) then
+          this.ConfirmCurrent()
         end
         if this.OnButtonDown(PlayerPad.UP) then
           this.PreviousOption()
@@ -316,40 +435,38 @@ function this.UpdateModMenu()--tex RETRY: called from TppMain.Update, had 'troub
         end
         if this.OnButtonDown(PlayerPad.RIGHT) then
           this.NextSetting()
-          if this.modMenuOn then--tex: SPECIAL: RETRY: suppress-v- for Menu off which changes currentoption-^-
           this.DisplayCurrentSetting()
-          end
         end
       end
+      this.AutoDisplay()
     else--!ishelispace
       this.modMenuOn = false
-      --if this.OnButtonDown(PlayerPad.LIGHT_SWITCH) then
-      --if this.OnButtonHoldTime(PlayerPad.LIGHT_SWITCH) then
-      --  TppUiCommand.AnnounceLogView(TppMain.modName .. " " .. TppMain.modVersion .. " current settings:")
-      --  this.DisplaySettings() 
-      --end
-      --[[if this.OnButtonDown(PlayerPad.STANCE) then
-      end--]]
     end
-  end --ingame
+  else--!ingame
+    this.modMenuOn = false
+  end
   this.UpdatePressedButtons()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
+--local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
+--SplashScreen.Show(debugSplash,0,0.3,0)--tex dog
 end
 function ModStart()--tex currently called from UpdateModMenu, RETRY: find an actual place for on start/run once init.
   gvars.isManualHard = false--tex PATCHUP: not currently exposed to mod menu, force off to patch those that might have saves from prior mod with it on 
-  this.buttonState[PlayerPad.LIGHT_SWITCH].holdTime=1--tex setup hold buttons
+  this.buttonState[PlayerPad.LIGHT_SWITCH].holdTime=1--tex set up hold buttons
+  this.buttonState[PlayerPad.RELOAD].holdTime=1
 end
 function this.ModWelcome()
   TppUiCommand.AnnounceLogView(this.modName .. " " .. this.modVersion)
   TppUiCommand.AnnounceLogView("Hold X key or Dpad Right for 1 second to enable menu")
 end
 function this.ModMissionMessage()
+  TppUiCommand.AnnounceLogView("ModMissionMessage test")
 end
 --tex soldier2parametertables shiz REFACTOR: find somewhere nicer to put/compartmentalize this, Solider2ParameterTables.lua aparently can't be referenced even though there's a TppSolder2Parameter string in the exe, load hang on trying to do anything with it (and again no debug feedback to know why the fuck anything)
 local nightSightDebug={
   discovery={distance=10,verticalAngle=30,horizontalAngle=40},
   indis={distance=15,verticalAngle=60,horizontalAngle=60},
   dim={distance=40,verticalAngle=60,horizontalAngle=60},
-  far={distance=350,verticalAngle=60,horizontalAngle=60} -- debug hax
+  far={distance=350,verticalAngle=60,horizontalAngle=60}--tex debug hax
 }
 --tex in sightFormParameter
 local sandstormSightDefault={distanceRate=.6,angleRate=.8}
@@ -377,7 +494,7 @@ this.soldierParametersDefault = {--tex  SYNC: soldierParametersMod. actually usi
       dim={distance=45,verticalAngle=60,horizontalAngle=80},
       far={distance=70,verticalAngle=12,horizontalAngle=8}
     },
-    nightSight=={
+    nightSight={
       discovery={distance=10,verticalAngle=30,horizontalAngle=40},
       indis={distance=15,verticalAngle=60,horizontalAngle=60},
       dim={distance=40,verticalAngle=60,horizontalAngle=60},
@@ -467,7 +584,7 @@ this.soldierParametersMod={--tex: SYNC: soldierParametersDefault. Ugly, but don'
       dim={distance=45,verticalAngle=60,horizontalAngle=80},
       far={distance=70,verticalAngle=12,horizontalAngle=8}
     },
-    nightSight=={
+    nightSight={
       discovery={distance=10,verticalAngle=30,horizontalAngle=40},
       indis={distance=15,verticalAngle=60,horizontalAngle=60},
       dim={distance=40,verticalAngle=60,horizontalAngle=60},
@@ -543,7 +660,98 @@ this.soldierParametersMod={--tex: SYNC: soldierParametersDefault. Ugly, but don'
   },
   lifeParameterTable=this.lifeParameterTableMod,
   zombieParameterTable={highHeroicValue=1e3}
-}--tex end of shit
+}
+function this.LoadTrueDefaultEnemyParams()--tex DEBUG: REF: CULL:
+TppSoldier2.ReloadSoldier2ParameterTables{
+  sightFormParameter={
+    contactSightForm={distance=2,verticalAngle=160,horizontalAngle=130},
+    normalSightForm={distance=60,verticalAngle=60,horizontalAngle=100},
+    farSightForm={distance=90,verticalAngle=30,horizontalAngle=30},
+    searchLightSightForm={distance=50,verticalAngle=15,horizontalAngle=15},
+    observeSightForm={distance=200,verticalAngle=5,horizontalAngle=5},
+    baseSight={
+      discovery={distance=10,verticalAngle=36,horizontalAngle=48},
+      indis={distance=20,verticalAngle=60,horizontalAngle=80},
+      dim={distance=45,verticalAngle=60,horizontalAngle=80},
+      far={distance=70,verticalAngle=12,horizontalAngle=8}
+    },
+    nightSight={
+      discovery={distance=10,verticalAngle=30,horizontalAngle=40},
+      indis={distance=15,verticalAngle=60,horizontalAngle=60},
+      dim={distance=40,verticalAngle=60,horizontalAngle=60},
+      far={distance=0,verticalAngle=0,horizontalAngle=0}
+    },
+    combatSight={
+      discovery={distance=10,verticalAngle=36,horizontalAngle=60},
+      indis={distance=25,verticalAngle=60,horizontalAngle=100},
+      dim={distance=50,verticalAngle=60,horizontalAngle=100},
+      far={distance=70,verticalAngle=30,horizontalAngle=30}},
+    walkerGearSight={
+      discovery={distance=15,verticalAngle=36,horizontalAngle=60},
+      indis={distance=25,verticalAngle=60,horizontalAngle=100},
+      dim={distance=55,verticalAngle=60,horizontalAngle=100},
+      far={distance=85,verticalAngle=30,horizontalAngle=30}},
+    observeSight={
+      discovery={distance=10,verticalAngle=36,horizontalAngle=48},
+      indis={distance=70,verticalAngle=12,horizontalAngle=8},
+      dim={distance=45,verticalAngle=5,horizontalAngle=5},
+      far={distance=70,verticalAngle=5,horizontalAngle=5},
+      observe={distance=200,verticalAngle=5,horizontalAngle=5}
+    },
+    snipingSight={
+      discovery={distance=10,verticalAngle=36,horizontalAngle=48},
+      indis={distance=70,verticalAngle=12,horizontalAngle=8},
+      dim={distance=45,verticalAngle=5,horizontalAngle=5},
+      far={distance=70,verticalAngle=5,horizontalAngle=5},
+      observe={distance=200,verticalAngle=5,horizontalAngle=5}
+    },
+    searchLightSight={
+      discovery={distance=30,verticalAngle=8,horizontalAngle=8},
+      indis={distance=0,verticalAngle=0,horizontalAngle=0},
+      dim={distance=50,verticalAngle=12,horizontalAngle=12},
+      far={distance=0,verticalAngle=0,horizontalAngle=0}},
+    armoredVehicleSight={
+      discovery={distance=20,verticalAngle=36,horizontalAngle=60},
+      indis={distance=25,verticalAngle=60,horizontalAngle=100},
+      dim={distance=55,verticalAngle=60,horizontalAngle=100},
+      far={distance=85,verticalAngle=30,horizontalAngle=30},
+      observe={distance=120,verticalAngle=5,horizontalAngle=5}},
+    zombieSight={
+      discovery={distance=7,verticalAngle=36,horizontalAngle=48},
+      indis={distance=14,verticalAngle=60,horizontalAngle=80},
+      dim={distance=31.5,verticalAngle=60,horizontalAngle=80},
+      far={distance=0,verticalAngle=12,horizontalAngle=8}},
+    msfSight={
+      discovery={distance=10,verticalAngle=36,horizontalAngle=48},
+      indis={distance=20,verticalAngle=60,horizontalAngle=80},
+      dim={distance=45,verticalAngle=60,horizontalAngle=80},
+      far={distance=70,verticalAngle=12,horizontalAngle=8}},
+    vehicleSight={
+      discovery={distance=15,verticalAngle=36,horizontalAngle=48},
+      indis={distance=25,verticalAngle=60,horizontalAngle=80},
+      dim={distance=45,verticalAngle=60,horizontalAngle=80},
+      far={distance=70,verticalAngle=12,horizontalAngle=8}
+    },
+    sandstormSight={distanceRate=.6,angleRate=.8},
+    rainSight={distanceRate=1,angleRate=1},
+    cloudySight={distanceRate=1,angleRate=1},
+    foggySight={distanceRate=.5,angleRate=.6}},
+  sightCamouflageParameter={
+    discovery={enemy=530,character=530,object=530},
+    indis={enemy=80,character=210,object=270},
+    dim={enemy=-50,character=30,object=130},
+    far={enemy=-310,character=0,object=70},
+    bushDensityThresold=100
+  },
+  hearingRangeParameter={
+    normal={zero=0,ss=4.5,hs=5.5,s=9,m=15,l=30,hll=60,ll=160,alert=160,special=500},
+    sandstorm={zero=0,ss=0,hs=0,s=0,m=15,l=30,hll=60,ll=160,alert=160,special=500},
+    rain={zero=0,ss=0,hs=0,s=4.5,m=15,l=30,hll=60,ll=160,alert=160,special=500}
+  },
+  lifeParameterTable={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60},
+  zombieParameterTable={highHeroicValue=1e3}
+}
+end--tex end of shit
 local l=Tpp.ApendArray
 local n=Tpp.DEBUG_StrCode32ToString
 local i=Tpp.IsTypeFunc
@@ -565,7 +773,7 @@ local s=0
 local c={}
 local h={}
 local r=0
-local function n()
+local function n()--tex NMC: cant actually see this referenced anywhere
   if QuarkSystem.GetCompilerState()==QuarkSystem.COMPILER_STATE_WAITING_TO_LOAD then
     QuarkSystem.PostRequestToLoad()
     coroutine.yield()
@@ -778,8 +986,9 @@ function this.OnAllocate(n)
     this.lifeParameterTableMod.maxLimbLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxLimbLife,healthMult)
     this.lifeParameterTableMod.maxArmorLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxArmorLife,healthMult)
     this.lifeParameterTableMod.maxHelmetLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxHelmetLife,healthMult)
-    TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParametersDefault)--tex reloadsoldierparams changes
+    TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParametersMod)--tex reloadsoldierparams changes
   end--
+  --this.LoadTrueDefaultEnemyParams()--tex DEBUG: CULL:
   if n.enemy then
     if t(n.enemy.soldierPowerSettings)then
       TppEnemy.SetUpPowerSettings(n.enemy.soldierPowerSettings)
@@ -980,7 +1189,7 @@ function this.OnInitialize(n)
     end
   end
   TppDemo.UpdateNuclearAbolitionFlag()
-  TppQuest.AcquireKeyItemOnMissionStart()
+  TppQuest.AcquireKeyItemOnMissionStart()--tex NMC: 0006 patch
 end
 function this.SetUpdateFunction(e)
   o={}

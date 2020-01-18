@@ -697,7 +697,8 @@ function a.AddTakingOverHostagePack()
     if e>=gvars.ene_takingOverHostageCount then
       break
     end
-    local e={type="hostage",name=t,faceId=gvars.ene_takingOverHostageFaceIds[e]}table.insert(n,e)
+    local e={type="hostage",name=t,faceId=gvars.ene_takingOverHostageFaceIds[e]}
+    table.insert(n,e)
   end
   a.AddUniqueSettingPackage(n)
 end
