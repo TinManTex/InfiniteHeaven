@@ -963,8 +963,8 @@ function this.Messages()
     }
   }
 end
-function this.OnMessage(_,M,n,t,a,r,o)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,_,M,n,t,a,r,o)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.OnFultonMessage(gameId,t,a,stafforResourceId)
   mvars.trm_fultonInfo=mvars.trm_fultonInfo or{}

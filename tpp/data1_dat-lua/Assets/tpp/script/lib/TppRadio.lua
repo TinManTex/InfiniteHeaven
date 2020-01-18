@@ -524,8 +524,8 @@ function this.OverwriteCommonRadioTable(e)
     end
   end
 end
-function this.OnMessage(a,n,r,i,t,o,d)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,a,n,r,i,t,o,d)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.PlayGameOverRadio()
   local a
@@ -633,15 +633,15 @@ function this._PlayDebugContinue()
     if e then
       svars.rad_debugPlayedFlag[e]=true
     end
-    local e="sender:Radio messageId:Finish arg0:"..i
-    TppSequence.OnMessage(StrCode32"Radio",StrCode32"Finish",StrCode32(i),nil,nil,nil,e)
-    TppMission.OnMessage(StrCode32"Radio",StrCode32"Finish",StrCode32(i),nil,nil,nil,e)
+    local strLogText="sender:Radio messageId:Finish arg0:"..i
+    TppSequence.OnMessage(StrCode32"Radio",StrCode32"Finish",StrCode32(i),nil,nil,nil,strLogText)
+    TppMission.OnMessage(StrCode32"Radio",StrCode32"Finish",StrCode32(i),nil,nil,nil,strLogText)
     for r,o in pairs(a.rad_subScripts)do
       if a.rad_subScripts[r]._messageExecTable then
-        Tpp.DoMessage(a.rad_subScripts[r]._messageExecTable,TppMission.CheckMessageOption,StrCode32"Radio",StrCode32"Finish",StrCode32(i),nil,nil,nil,e)
+        Tpp.DoMessage(a.rad_subScripts[r]._messageExecTable,TppMission.CheckMessageOption,StrCode32"Radio",StrCode32"Finish",StrCode32(i),nil,nil,nil,strLogText)
       end
     end
-    TppFreeHeliRadio.OnMessage(StrCode32"Radio",StrCode32"Finish",StrCode32(i),nil,nil,nil,e)
+    TppFreeHeliRadio.OnMessage(StrCode32"Radio",StrCode32"Finish",StrCode32(i),nil,nil,nil,strLogText)
   end
 end
 function this._PlayDebugLine(e,a)

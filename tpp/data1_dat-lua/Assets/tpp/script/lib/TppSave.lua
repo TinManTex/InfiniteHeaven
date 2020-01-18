@@ -456,8 +456,8 @@ function this.Messages()
     this.ForbidSave()
   end}}}
 end
-function this.OnMessage(t,i,p,r,a,n,S)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,t,i,p,r,a,n,S)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.WaitingAllEnqueuedSaveOnStartMission()
   while t()do
@@ -527,18 +527,20 @@ function this.LoadFromSaveFile(n,a,e)
     return TppScriptVars.ReadSlotFromAreaFile(n,e,a)
   end
 end
-function this.GetGameSaveFileName()do
-  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    return TppDefine.MGO_MAIN_SAVE_FILE_NAME
-  else
-    return TppDefine.GAME_SAVE_FILE_NAME
+function this.GetGameSaveFileName()
+  do
+    if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+      return TppDefine.MGO_MAIN_SAVE_FILE_NAME
+    else
+      return TppDefine.GAME_SAVE_FILE_NAME
+    end
   end
 end
-end
-function this.DEBUG_IsUsingTemporarySaveData()do
-  return false
-end
-return gvars.DEBUG_usingTemporarySaveData
+function this.DEBUG_IsUsingTemporarySaveData()
+  do
+    return false
+  end
+  return gvars.DEBUG_usingTemporarySaveData
 end
 function this.LoadGameDataFromSaveFile(a)
   local n=this.GetGameSaveFileName()

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r92 2015-11-25
+r95 2015-11-25
 by tin man tex
 For MGSV version 1.0.6.0 (1.06 in title screen)
 
@@ -17,6 +17,10 @@ The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> wi
 Be careful when warping up as gravity will kill you quick. One method to cope is to hold warp up, let gravity slowly take over then just after you touch the ground and start warping up again let go.
 
 [youtube]AhkFPtQlqnM[/youtube]
+https://www.youtube.com/watch?v=AhkFPtQlqnM
+
+[youtube]ScF8OdQkFU8[/youtube]
+https://www.youtube.com/watch?v=ScF8OdQkFU8
 
 Support Heli menu - ACC and in-mission menu:
 ----------------------------------------------------
@@ -35,6 +39,9 @@ Press <STANCE> to manually open the door.
 Set LZ wait height - the height at which the heli hovers in wait mode (not landing mode).
 
 Force searchlight - change the heli searchlight state
+
+[youtube]frxAuiwCaEk[/youtube]
+https://www.youtube.com/watch?v=frxAuiwCaEk
 
 Other features:
 
@@ -69,6 +76,9 @@ https://www.youtube.com/watch?v=veL0btXaOb4
 Buddies at zoo:
 [youtube]N9xfnH8ivAI[/youtube] 
 https://www.youtube.com/watch?v=N9xfnH8ivAI
+Warp mode, messing around
+[youtube]AhkFPtQlqnM[/youtube] 
+https://www.youtube.com/watch?v=AhkFPtQlqnM
 
 Player Restriction - disable of game settings to customize your challenge
 
@@ -222,6 +232,12 @@ Install Infinite Heaven.msgv
 
 WARNING: Applying this mod to any game version after the one stated at the top of the readme involved will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
 
+Using along side other mods:
+------------------------------
+Infinite Heaven modifies a lot of the core game lua scripts, if other mods that have their own versions of those files will break things in either obvious or subtle ways.
+Mods that shouldn't have a conflict with Infinite Heaven are: Model swaps, data table mods like development unlocks or times.
+If you want to manually check to see if a mod conflicts unzip the Infinite Heaven .mgsv with the zip tool of your choice and check to see if any of the files match files in the other mod.
+
 Uninstallation:
 ------------------------------
 Exit any missions, return to the ACC.
@@ -266,7 +282,30 @@ There may be some overrides for Max Prepare that I've missed, I've noticed on sm
 
 Changelog:
 ------------------------------
-r92
+r95
+Fix: turn off menu when in ground vehicle
+Option: soldierAlertOnHeavyVehicleDamage - changes phase of soldiers CP on damage, independant from Ivars.phaseUpate
+printPhaseChanges - now via message, so independant from Ivars.phaseUpate, includes cpid and prevPhase, spams a bit more though.
+Option: useSoldierForDemos now covers allowing selected character in Diamond Dogs and Shining Lights missions - thanks NasaNhak and Solidcal for the suggestions.
+InfMenuDefs: useSoldierForDemos also added to playerSettingsMenu
+Fix: Mission timer on Backup Back Down (10054,11054) would not start, startOnFoot now SetIsStartFromFreePlay - thanks NasaNhak the report.
+Fix: changing subsistence profile would flip it to Custom via unsupressed onsubsettingchanged.
+
+r94
+Option: WIP: forceVehicleReinforce, heliReinforceChance - heli reinforcment initially working, vehicles aparently have a lot of setup in the engine I'm missing out on, but work for some actual missions not in the usual reinforce mission list.
+InfMain: support for game message system - Messages(), OnMessage(), Init and Reload build messageExecTable
+Refactor: various settings/functions called in Tpp* message functions now via infmain messages.
+playerHealthScale (and enemyhealtscale) reduced to 900%, hit some odd overflow/wrap limit I think.
+
+r93
+Player and enemy health scale option upper bounds increased to 1000%
+Fix: Use selected soldier in cutscenes should catch all of them now - thanks VickoStojanov for the report.
+Message added to headgear to make clearer it only works for DD soliders - thanks gOKU1983 for the report.
+Fix: not being able to select weapon when toggling warp mode.
+Fix: returning to ACC while in vehicle or on buddy preventing mod menu from opening.
+Research: vehicle reinforcement, various things blocking the way, a mission list check, surprisingly few missions used it, quest helis actually use part of the system, and the actual vehicle reinforce setup isn't called in free mode. 
+
+r92 - 2015-11-25 - public release
 Thought I was done with heli? Ho ho.
 UpdateHeli > manually open door on mission start by pressing <STANCE>, a fun combo is to set 'Mission start open door wait time' to a max and just ride in first person, then pop out whenever you want.
 Start missions on foot shifter to support heli menu.

@@ -266,31 +266,31 @@ function this.MakeMessageExecTable(e)
   end
   return n
 end
-function this.DoMessage(n,r,t,o,a,p,i,l,s)
-  if not n then
+function this.DoMessage(messageExecTable,CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  if not messageExecTable then
     return
   end
-  local n=n[t]
-  if not n then
+  local senderRecievers=messageExecTable[sender]
+  if not senderRecievers then
     return
   end
-  local n=n[o]
-  if not n then
+  local messageIdRecievers=senderRecievers[messageId]
+  if not messageIdRecievers then
     return
   end
   local t=true
-  this.DoMessageAct(n,r,a,p,i,l,s,t)
+  this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,t)
 end
-function this.DoMessageAct(n,r,e,l,i,a,t)
-  if n.func then
-    if r(n.option)then
-      n.func(e,l,i,a)
+function this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText)
+  if messageIdRecievers.func then
+    if CheckMessageOption(messageIdRecievers.option)then
+      messageIdRecievers.func(arg0,arg1,arg2,arg3)
     end
   end
-  local t=n.sender
-  if t and t[e]then
-    if r(n.senderOption[e])then
-      t[e](e,l,i,a)
+  local sender=messageIdRecievers.sender
+  if sender and sender[arg0]then
+    if CheckMessageOption(messageIdRecievers.senderOption[arg0])then
+      sender[arg0](arg0,arg1,arg2,arg3)
     end
   end
 end
@@ -435,8 +435,8 @@ local function IsGameObjectType(gameObject,checkType)
     return false
   end
 end
-function this.IsPlayer(e)
-  return IsGameObjectType(e,B)
+function this.IsPlayer(gameId)
+  return IsGameObjectType(gameId,B)
 end
 function this.IsLocalPlayer(playerIndex)
   if playerIndex==PlayerInfo.GetLocalPlayerIndex()then

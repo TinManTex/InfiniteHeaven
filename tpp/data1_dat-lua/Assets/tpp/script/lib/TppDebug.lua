@@ -687,10 +687,14 @@ function this.DebugUpdate()
     end
     local n
     if t==ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY then
-      n="SCRIPT_BLOCK_STATE_EMPTY"elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING then
-      n="SCRIPT_BLOCK_STATE_PROCESSING"elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE then
-      n="SCRIPT_BLOCK_STATE_INACTIVE"elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
-      n="SCRIPT_BLOCK_STATE_ACTIVE"end
+      n="SCRIPT_BLOCK_STATE_EMPTY"
+      elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING then
+      n="SCRIPT_BLOCK_STATE_PROCESSING"
+      elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE then
+      n="SCRIPT_BLOCK_STATE_INACTIVE"
+      elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
+      n="SCRIPT_BLOCK_STATE_ACTIVE"
+      end
     o(r,"animal block state : "..tostring(n))
     if e.animalBlockScript then
       o(r,"animalBlockScript exist")

@@ -376,8 +376,8 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
       local e
       if IsTypeTable(missionTable.enemy.routeSets)then
         e=missionTable.enemy.routeSets
-        for e,n in pairs(e)do
-          if not IsTypeTable(mvars.ene_soldierDefine[e])then
+        for cpName,n in pairs(e)do
+          if not IsTypeTable(mvars.ene_soldierDefine[cpName])then
           end
         end
       end
@@ -569,19 +569,19 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
       TppMission.ResetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
     elseif isHeliSpace then
+      local isGroundStart=false--tex
       if gvars.heli_missionStartRoute~=0 then
         local groundStart=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]--tex
         local isMbFree = vars.missionCode==30050 and (nextIsFreeMission or isFreeMission)
         if gvars.startOnFoot==1 and (groundStart~=nil or isMbFree) then
           if isMbFree then
             TppMission.ResetMBFreeStartPositionToCommand()
-            --TppMission.SetIsStartFromHelispace()
           else
             TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
             local groundRot = groundStart.rot or 0
             TppPlayer.SetInitialPosition(groundStart.pos,groundRot)
             TppPlayer.SetMissionStartPosition(groundStart.pos,groundRot)
-            -- CULL, already set belowTppMission.SetIsStartFromHelispace()--tex hax
+            isGroundStart=true
           end
         else--
           TppPlayer.SetStartStatusRideOnHelicopter()
@@ -604,6 +604,10 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
       TppPlayer.ResetNoOrderBoxMissionStartPosition()
       TppMission.SetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
+      if isGroundStart then--tex
+        TppMission.ResetIsStartFromHelispace()
+        TppMission.SetIsStartFromFreePlay()
+      end--
     elseif nextIsFreeMission then
       if TppLocation.IsMotherBase()then
         TppPlayer.SetStartStatusRideOnHelicopter()
@@ -797,7 +801,7 @@ function this.SetMessageFunction(missionTable)--RENAME:
     end
   end
 end
-function this.OnMessage(n,e,t,i,o,a,r)
+function this.OnMessage(n,sender,messageId,arg0,arg1,arg2,arg3)
   local mvars=mvars--LOCALOPT
   local l=""
   local T
@@ -806,7 +810,7 @@ function this.OnMessage(n,e,t,i,o,a,r)
   local T=TppDebug
   local T=P
   local T=h
-  local T=TppDefine.MESSAGE_GENERATION[e]and TppDefine.MESSAGE_GENERATION[e][t]
+  local T=TppDefine.MESSAGE_GENERATION[sender]and TppDefine.MESSAGE_GENERATION[sender][messageId]
   if not T then
     T=TppDefine.DEFAULT_MESSAGE_GENERATION
   end
@@ -816,20 +820,20 @@ function this.OnMessage(n,e,t,i,o,a,r)
   end
   for s=1,onMessageTableSize do
     local n=l
-    onMessageTable[s](e,t,i,o,a,r,n)
+    onMessageTable[s](sender,messageId,arg0,arg1,arg2,arg3,n)
   end
   for n=1,messageExecTableSize do
-    local s=l
-    DoMessage(messageExecTable[n],CheckMessageOption,e,t,i,o,a,r,s)
+    local strLogText=l
+    DoMessage(messageExecTable[n],CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   end
   if mvars.loc_locationCommonTable then
-    mvars.loc_locationCommonTable.OnMessage(e,t,i,o,a,r,l)
+    mvars.loc_locationCommonTable.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,l)
   end
   if mvars.order_box_script then
-    mvars.order_box_script.OnMessage(e,t,i,o,a,r,l)
+    mvars.order_box_script.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,l)
   end
   if mvars.animalBlockScript and mvars.animalBlockScript.OnMessage then
-    mvars.animalBlockScript.OnMessage(e,t,i,o,a,r,l)
+    mvars.animalBlockScript.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,l)
   end
 end
 function this.OnTerminate(e)

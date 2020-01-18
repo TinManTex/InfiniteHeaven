@@ -1093,8 +1093,8 @@ end
 function this.OnReload()
   this.Init()
 end
-function this.OnMessage(t,o,a,p,s,n,i)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,t,o,a,p,s,n,i)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.OnChangeSVars(name,n)
   local e=TppServerManager.FobIsSneak()

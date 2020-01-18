@@ -20,7 +20,7 @@ this.autoRateHeld=0.85
 this.autoDisplayRate=this.autoDisplayDefault
 this.menuOn=false
 this.toggleMenuHoldTime=1
-this.toggleMenuButton=InfButton.EVADE
+this.toggleMenuButton=InfButton.EVADE--SYNC: InfLang "menu_keys"
 this.menuRightButton=InfButton.RIGHT
 this.menuLeftButton=InfButton.LEFT
 this.menuUpButton=InfButton.UP
@@ -316,7 +316,7 @@ function this.DisplaySettings()--tex display all
   end
 end
 function this.DisplayProfileChangedToCustom(profile)
-  TppUiCommand.AnnounceLogView("Profile "..this.LangString(profile.name).." set to Custom")--DEBUGNOW: ADDLANG:
+  TppUiCommand.AnnounceLogView("Profile "..this.LangString(profile.name).." set to Custom")--TODO: ADDLANG:
 end
 function this.AutoDisplay()
   if this.autoDisplayRate > 0 then
@@ -501,6 +501,10 @@ function this.Update(execCheck)
   end
 
   if this.menuOn then
+    if execCheck.inGroundVehicle then
+      this.MenuOff()
+    end
+  
     if TppUiCommand.IsMbDvcTerminalOpened() then--InfButton.OnButtonDown(InfButton.MB_DEVICE) then
       this.MenuOff()
     end
@@ -556,8 +560,16 @@ function this.Update(execCheck)
 end
 
 function this.ModWelcome()
-  TppUiCommand.AnnounceLogView(InfMain.modName .. " r" .. InfMain.modVersion)--ADDLANG:
-  TppUiCommand.AnnounceLogView("Hold X key or Dpad Right for 1 second to enable menu")--ADDLANG:
+  if this.menuOn then
+    return
+  end
+  --if gvars.disableModWelcome==1 and InfMain.version==InfMain.lastVersion then TODO:
+  --  return
+  --end
+  TppUiCommand.AnnounceLogDelayTime(1.5)
+  InfMenu.Print(InfMain.modName.." "..InfMain.modVersion)
+  InfMenu.PrintLangId"menu_keys"
+  TppUiCommand.AnnounceLogDelayTime(0)
 end
 function this.ModMissionMessage()
   TppUiCommand.AnnounceLogView("ModMissionMessage test")--ADDLANG

@@ -7,6 +7,7 @@ this.playerSettingsMenu={
     Ivars.playerHealthScale,
     --Ivars.ogrePointChange,
     --InfMenuCommands.giveOgrePoint,
+    Ivars.useSoldierForDemos,
     Ivars.playerHeadgear,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
@@ -223,7 +224,8 @@ this.phaseMenu={
     Ivars.keepPhase,
     Ivars.phaseUpdateRate,
     Ivars.phaseUpdateRange,
-    Ivars.printPhaseChanges,
+    Ivars.soldierAlertOnHeavyVehicleDamage,--tex this and
+    Ivars.printPhaseChanges,--tex this don't rely on phaseUpdate
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   },
@@ -236,7 +238,7 @@ this.supportHeliMenu={
   options={
     --Ivars.setTakeOffWaitTime,
     --InfMenuCommands.pullOutHeliItem,
-    --InfMenuCommands.changeToIdleStateHeliItem,--DEBUGNOW
+    --InfMenuCommands.changeToIdleStateHeliItem,
     Ivars.disableHeliAttack,
     Ivars.setInvincibleHeli,
     Ivars.setSearchLightForcedHeli,
@@ -254,9 +256,11 @@ this.supportHeliMenu={
 
 this.heliSpaceMenu={
   options={
-    --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
-    --Ivars.manualMissionCode,--tex DEBUGNOW WIP
-    --InfMenuCommands.loadMissionItem,--tex DEBUGNOW WIP
+    Ivars.forceSuperReinforce,--WIP DEBUGNOW
+    Ivars.heliReinforceChance,--DEBUGNOW put wherever above goes, but also in Sideops "Block heli quests in free missions to allow super reinforce"--god need help text
+    --Ivars.forceSoldierSubType,--tex WIP 
+    --Ivars.manualMissionCode,--tex  WIP
+    --InfMenuCommands.loadMissionItem,--tex  WIP
     Ivars.clockTimeScale,
     this.playerRestrictionsMenu,
     this.playerSettingsMenu,
@@ -268,7 +272,7 @@ this.heliSpaceMenu={
     this.demosMenu,
     this.supportHeliMenu,
     --this.missionEntryExitMenu,
-    --this.appearanceMenu,--tex DEBUGNOW WIP
+    --this.appearanceMenu,--tex  WIP
     this.patchupMenu,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.resetAllSettingsItem,
@@ -278,8 +282,9 @@ this.heliSpaceMenu={
 
 this.debugInMissionMenu={
   options={
-    --InfMenuCommands.warpPlayerCommand,--DEBUGNOW WIP
-    --InfMenuCommands.DEBUG_PrintSoldierDefineItem,
+    --InfMenuCommands.warpPlayerCommand,
+    InfMenuCommands.DEBUG_PrintSoldierDefineItem,
+    InfMenuCommands.DEBUG_PrintSoldierIDListItem,
     InfMenuCommands.DEBUG_ShowRevengeConfigItem,
     --InfMenuCommands.DEBUG_ShowPhaseEnums,--CULL
     --InfMenuCommands.DEBUG_ChangePhaseItem,
@@ -287,17 +292,18 @@ this.debugInMissionMenu={
     --InfMenuCommands.DEBUG_KeepPhaseOffItem,
     --InfMenuCommands.printPlayerPhase,
     --InfMenuCommands.DEBUG_SetPlayerPhaseToIvar,
-    --InfMenuCommands.DEBUG_ClearAnnounceLogItem,
+
     InfMenuCommands.showMissionCodeItem,
     InfMenuCommands.showMbEquipGradeItem,
-    InfMenuCommands.showPositionItem,  
+    InfMenuCommands.showPositionItem,    
+    InfMenuCommands.DEBUG_ClearAnnounceLogItem,  
     InfMenuCommands.goBackItem,
   }
 }
 
 this.inMissionMenu={
   options={
-    --InfMenuCommands.HeliMenuOnTestItem,--WIP DEBUGNOW
+    InfMenuCommands.doEnemyReinforce,--WIP DEBUGNOW
     Ivars.warpPlayerUpdate,
     Ivars.clockTimeScale,
     --this.appearanceMenu,--WIP

@@ -367,7 +367,11 @@ function this.IsUsingStrongSniper()
   return mvars.revenge_revengeConfig.STRONG_SNIPER
 end
 function this.IsUsingSuperReinforce()
-  if not mvars.revenge_isEnabledSuperReinforce then
+  if Ivars.forceSuperReinforce:Is"ON_FORCE" then--tex
+    return true
+  end--
+
+  if not mvars.revenge_isEnabledSuperReinforce then--NMC: as far as I can see only quest heli setup sets this false
     return false
   end
   return mvars.revenge_revengeConfig.SUPER_REINFORCE
@@ -376,9 +380,9 @@ function this.IsUsingBlackSuperReinforce()
   return mvars.revenge_revengeConfig.BLACK_SUPER_REINFORCE
 end
 function this.GetReinforceCount()
-  local e=mvars.revenge_revengeConfig.REINFORCE_COUNT
-  if e then
-    return e+0
+  local count=mvars.revenge_revengeConfig.REINFORCE_COUNT
+  if count then
+    return count+0
   end
   return 1
 end
@@ -435,8 +439,8 @@ function this.IsBlocked(category)
   end
   return gvars.rev_revengeBlockedCount[category]>0
 end
-function this.SetEnabledSuperReinforce(e)
-  mvars.revenge_isEnabledSuperReinforce=e
+function this.SetEnabledSuperReinforce(enabled)
+  mvars.revenge_isEnabledSuperReinforce=enabled
 end
 function this.SetHelmetAll()
   mvars.revenge_revengeConfig.HELMET="100%"
@@ -618,7 +622,7 @@ function this._SetUpRevengeMine()
     addDecoys=true
   else
     addDecoys=false
-  end  
+  end
   for a,o in pairs(mvars.rev_mineBaseTable)do
     local revengeMineList=mvars.rev_revengeMineList[a]
     local RENAMEsomenum=gvars[missionStartMineAreaVarsName][o]
@@ -777,23 +781,23 @@ function this.GetRevengeLvLimitRank()
   end
   return 6
 end
-function this.GetRevengeLv(e)
+function this.GetRevengeLv(revengeType)
   local missionId=TppMission.GetMissionID()
   if TppMission.IsHardMission(missionId) or gvars.revengeMode>0 then--tex added
-    return this.GetRevengeLvMax(e,this.REVENGE_LV_LIMIT_RANK_MAX)--tex RETAILBUG: was just REVE, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
+    return this.GetRevengeLvMax(revengeType,this.REVENGE_LV_LIMIT_RANK_MAX)--tex RETAILBUG: was just REVE, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
   else
-    return gvars.rev_revengeLv[e]
+    return gvars.rev_revengeLv[revengeType]
   end
 end
-function this.GetActualRevengeLv(e)--tex ORIG: GetRevengeLv
-  return gvars.rev_revengeLv[e]
+function this.GetActualRevengeLv(revengeType)--tex ORIG: GetRevengeLv
+  return gvars.rev_revengeLv[revengeType]
 end
-function this.GetRevengeLvMax(E,n)
-  local n=n or this.GetRevengeLvLimitRank()
-  local e=this.REVENGE_LV_MAX[E]
-  if Tpp.IsTypeTable(e)then
-    local e=e[n]
-    return e or 0
+function this.GetRevengeLvMax(revengeType,limitMaxRank)
+  local maxRank=limitMaxRank or this.GetRevengeLvLimitRank()
+  local maxLevel=this.REVENGE_LV_MAX[revengeType]
+  if Tpp.IsTypeTable(maxLevel)then
+    local maxLevel=maxLevel[maxRank]
+    return maxLevel or 0
   end
   return 0
 end
@@ -827,16 +831,16 @@ function this.AddRevengePointByTriggerType(n)
     t=t..(this.REVENGE_TYPE_NAME[revType+1]..(":"..(tostring(revRevPoint)..("->"..(tostring(E).." ")))))
   end
 end
-function this.SetRevengePoint(E,n)
-  local t=this.GetRevengeLvMax(E)
-  local e=t*this.REVENGE_POINT_PER_LV+this.REVENGE_POINT_OVER_MARGINE
-  if n<0 then
-    n=0
+function this.SetRevengePoint(revengeType,points)
+  local maxLevel=this.GetRevengeLvMax(revengeType)
+  local nextLevel=maxLevel*this.REVENGE_POINT_PER_LV+this.REVENGE_POINT_OVER_MARGINE
+  if points<0 then
+    points=0
   end
-  if n>e then
-    n=e
+  if points>nextLevel then
+    points=nextLevel
   end
-  gvars.rev_revengePoint[E]=n
+  gvars.rev_revengePoint[revengeType]=points
 end
 function this.ResetRevenge()
   for n=0,this.REVENGE_TYPE.MAX-1 do
@@ -859,15 +863,15 @@ function this.UpdateRevengeLv(missionId)
   end
   this._SetEnmityLv()
 end
-function this._GetUiParameterValue(E)
-  local r=4
-  local t=5
-  local n=this.GetRevengeLv(E)
-  if n>=this.GetRevengeLvMax(E,t)then
+function this._GetUiParameterValue(revengeLevel)
+  local rankLimitForUi2=4
+  local rankLimitForUi3=5
+  local currentLevel=this.GetRevengeLv(revengeLevel)
+  if currentLevel>=this.GetRevengeLvMax(revengeLevel,rankLimitForUi3)then
     return 3
-  elseif n>=this.GetRevengeLvMax(E,r)then
+  elseif currentLevel>=this.GetRevengeLvMax(revengeLevel,rankLimitForUi2)then
     return 2
-  elseif n>=1 then
+  elseif currentLevel>=1 then
     return 1
   end
   return 0
@@ -918,7 +922,7 @@ end
 function this._SetEnmityLv()
   local revengeStealth=this.GetRevengePoint(this.REVENGE_TYPE.STEALTH)
   local revengeCombat=this.GetRevengePoint(this.REVENGE_TYPE.COMBAT)
-  local t=math.max(revengeStealth,revengeCombat)
+  local maxRevengePoints=math.max(revengeStealth,revengeCombat)
   local enmityLevels={
     TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_NONE,
     TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_10,
@@ -934,7 +938,7 @@ function this._SetEnmityLv()
   }
   local n=500
   local numLevels=#enmityLevels
-  local enmityLevel=math.floor((t*(numLevels-1))/n)+1
+  local enmityLevel=math.floor((maxRevengePoints*(numLevels-1))/n)+1
   if enmityLevel>=numLevels then
     enmityLevel=#enmityLevels
   end
@@ -1101,6 +1105,9 @@ function this.ApplyMissionTendency(missionId)
   this.SetRevengePoint(this.REVENGE_TYPE.M_COMBAT,0)
 end
 function this.CanUseReinforceVehicle()
+  if gvars.forceSuperReinforce>0 then--tex
+    return true
+  end--
   local missionId=TppMission.GetMissionID()
   return this.USE_SUPER_REINFORCE_VEHICLE_MISSION[missionId]
 end
@@ -1108,6 +1115,11 @@ function this.CanUseReinforceHeli()
   return not GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli"
 end
 function this.SelectReinforceType()
+  if gvars.forceSuperReinforce>0 then--tex
+    if gvars.heliReinforceChance==1 or math.random()<gvars.forceSuperReinforce then
+      return TppReinforceBlock.REINFORCE_TYPE.HELI
+    end
+  end--
   if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then
     return TppReinforceBlock.REINFORCE_TYPE.HELI
   end
@@ -1118,6 +1130,7 @@ function this.SelectReinforceType()
   local canuseReinforceVehicle=this.CanUseReinforceVehicle()
   local canUseReinforceHeli=this.CanUseReinforceHeli()
   if canuseReinforceVehicle then
+    -- InfMenu.DebugPrint("SelectReinforceType canuseReinforceVehicle")--DEBUGNOW
     local reinforceVehiclesForLocation={
       AFGH={TppReinforceBlock.REINFORCE_TYPE.EAST_WAV,TppReinforceBlock.REINFORCE_TYPE.EAST_TANK},
       MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}}
@@ -1128,12 +1141,15 @@ function this.SelectReinforceType()
     end
   end
   if canUseReinforceHeli then
-    table.insert(reinforceVehicleTypes,TppReinforceBlock.REINFORCE_TYPE.HELI)
+  --  InfMenu.DebugPrint("SelectReinforceType canuseReinforceHeli")--DEBUGNOW
+  --tex OFF DEBUGNOW  table.insert(reinforceVehicleTypes,TppReinforceBlock.REINFORCE_TYPE.HELI)
   end
   if#reinforceVehicleTypes==0 then
+    InfMenu.DebugPrint("SelectReinforceType #reinforceVehicleTypes==0")--DEBUGNOW
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local randomVehicleType=math.random(1,#reinforceVehicleTypes)
+  InfMenu.DebugPrint("randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[randomVehicleType+1] )--DEBUGNOW
   return reinforceVehicleTypes[randomVehicleType]
 end
 function this.ApplyPowerSettingsForReinforce(r)
@@ -1616,7 +1632,8 @@ function this.Messages()
       {msg="SleepingComradeRecoverd",func=this._OnSleepingComradeRecoverd},
       {msg="SmokeDiscovered",func=this._OnSmokeDiscovered},
       {msg="ReinforceRespawn",func=this._OnReinforceRespawn}},
-Trap={{msg="Enter",func=this._OnEnterTrap}}}
+    Trap={{msg="Enter",func=this._OnEnterTrap}}
+  }
 end
 function this.Init(n)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
@@ -1624,15 +1641,38 @@ end
 function this.OnReload(n)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function this.OnMessage(r,E,n,t,a,o,_)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,r,E,n,t,a,o,_)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-local r=function(e)
-  if(((((((((((((attackid==TppDamage.ATK_VehicleHit or e==TppDamage.ATK_Tankgun_20mmAutoCannon)or e==TppDamage.ATK_Tankgun_30mmAutoCannon)or e==TppDamage.ATK_Tankgun_105mmRifledBoreGun)or e==TppDamage.ATK_Tankgun_120mmSmoothBoreGun)or e==TppDamage.ATK_Tankgun_125mmSmoothBoreGun)or e==TppDamage.ATK_Tankgun_82mmRocketPoweredProjectile)or e==TppDamage.ATK_Tankgun_30mmAutoCannon)or e==TppDamage.ATK_Wav1)or e==TppDamage.ATK_WavCannon)or e==TppDamage.ATK_TankCannon)or e==TppDamage.ATK_WavRocket)or e==TppDamage.ATK_HeliMiniGun)or e==TppDamage.ATK_HeliChainGun)or attackid==TppDamage.ATK_WalkerGear_BodyAttack then
-    return true
-  end
-  return false
+local AttackIsVehicle=function(attackId)--RETAILBUG: seems like attackid must be a typo and f
+  if(((((((((((((attackId==TppDamage.ATK_VehicleHit
+    or attackId==TppDamage.ATK_Tankgun_20mmAutoCannon)
+    or attackId==TppDamage.ATK_Tankgun_30mmAutoCannon)
+    or attackId==TppDamage.ATK_Tankgun_105mmRifledBoreGun)
+    or attackId==TppDamage.ATK_Tankgun_120mmSmoothBoreGun)
+    or attackId==TppDamage.ATK_Tankgun_125mmSmoothBoreGun)
+    or attackId==TppDamage.ATK_Tankgun_82mmRocketPoweredProjectile)
+    or attackId==TppDamage.ATK_Tankgun_30mmAutoCannon)
+    or attackId==TppDamage.ATK_Wav1)
+    or attackId==TppDamage.ATK_WavCannon)
+    or attackId==TppDamage.ATK_TankCannon)
+    or attackId==TppDamage.ATK_WavRocket)
+    or attackId==TppDamage.ATK_HeliMiniGun)
+    or attackId==TppDamage.ATK_HeliChainGun)
+    or attackId==TppDamage.ATK_WalkerGear_BodyAttack
+then
+  return true
 end
+return false
+end
+--ORIG: RETAILBUG: --RETAILBUG: seems like attackid must be a typo (unless they randomly decided to use one Global and stop using camelCase
+--local AttackedByVehicle=function(e)--RETAILBUG: seems like attackid must be a typo and f
+--  if(((((((((((((attackid==TppDamage.ATK_VehicleHit or e==TppDamage.ATK_Tankgun_20mmAutoCannon)or e==TppDamage.ATK_Tankgun_30mmAutoCannon)or e==TppDamage.ATK_Tankgun_105mmRifledBoreGun)or e==TppDamage.ATK_Tankgun_120mmSmoothBoreGun)or e==TppDamage.ATK_Tankgun_125mmSmoothBoreGun)or e==TppDamage.ATK_Tankgun_82mmRocketPoweredProjectile)or e==TppDamage.ATK_Tankgun_30mmAutoCannon)or e==TppDamage.ATK_Wav1)or e==TppDamage.ATK_WavCannon)or e==TppDamage.ATK_TankCannon)or e==TppDamage.ATK_WavRocket)or e==TppDamage.ATK_HeliMiniGun)or e==TppDamage.ATK_HeliChainGun)or attackid==TppDamage.ATK_WalkerGear_BodyAttack then
+--    return true
+--  end
+--  return false
+--end
+
 function this._OnReinforceRespawn(n)
   if TppMission.IsFOBMission(vars.missionCode)then
     TppEnemy.AddPowerSetting(n,{})
@@ -1663,19 +1703,24 @@ local AddRevengePointByEliminationType=function(playerPhase)
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.ELIMINATED_AT_NIGHT)
   end
 end
-function this._OnDead(t,n,playerPhase)
-  if GetTypeIndex(t)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+function this._OnDead(gameId,attackerId,phase,damageFlag)-- gameObjectId, attakerId, attackId )
+  --InfMenu.DebugPrint("_OnDead phaseid="..tostring(playerPhase))--DEBUGNOW:
+  --InfMenu.DebugPrint("_OnDead arg3:"..tostring(arg3))--DEBUGNOW:
+  --if playerPhase==vars.playerPhase then--DEBUGNOW
+  --  InfMenu.DebugPrint("_OnDead playerphase matches vars")--DEBUGNOW:
+  --end--
+  if GetTypeIndex(gameId)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
-  local isPlayerVehicle=(Tpp.IsVehicle(vars.playerVehicleGameObjectId)or Tpp.IsEnemyWalkerGear(vars.playerVehicleGameObjectId))or Tpp.IsPlayerWalkerGear(vars.playerVehicleGameObjectId)
-  local _=r(attackId)
-  local r=Tpp.IsEnemyWalkerGear(n)or Tpp.IsPlayerWalkerGear(n)
-  local t=(n==GameObject.GetGameObjectIdByIndex("TppPlayer2",PlayerInfo.GetLocalPlayerIndex()))
-  if(r or _)or(t and isPlayerVehicle)then
+  local attackerIsPlayerVehicle=(Tpp.IsVehicle(vars.playerVehicleGameObjectId)or Tpp.IsEnemyWalkerGear(vars.playerVehicleGameObjectId))or Tpp.IsPlayerWalkerGear(vars.playerVehicleGameObjectId)
+  local attackedByVehicle=AttackIsVehicle(attackId)--RETAILBUG: but then this has expected camelCase but is also orphaned by the minifier?
+  local attackerIsWalkerGear=Tpp.IsEnemyWalkerGear(attackerId)or Tpp.IsPlayerWalkerGear(attackerId)
+  local attackerIsPlayer=(attackerId==GameObject.GetGameObjectIdByIndex("TppPlayer2",PlayerInfo.GetLocalPlayerIndex()))
+  if(attackerIsWalkerGear or attackedByVehicle)or(attackerIsPlayer and attackerIsPlayerVehicle)then
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.KILLED_BY_VEHICLE)
   end
-  AddRevengePointByEliminationType(playerPhase)
-  if GetTypeIndex(n)==TppGameObject.GAME_OBJECT_TYPE_HELI2 then
+  AddRevengePointByEliminationType(phase)
+  if GetTypeIndex(attackerId)==TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.KILLED_BY_HELI)
   end
 end
@@ -1714,17 +1759,32 @@ end
 function this._OnComradeFultonDiscovered(n,n)
   this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.FULTON)
 end
-local n=function(e)
-  if((((((((((((e==TppDamage.ATK_Smoke or e==TppDamage.ATK_SmokeOccurred)or e==TppDamage.ATK_SleepGus)or e==TppDamage.ATK_SleepGusOccurred)or e==TppDamage.ATK_SupportHeliFlareGrenade)or e==TppDamage.ATK_SupplyFlareGrenade)or e==TppDamage.ATK_SleepingGusGrenade)or e==TppDamage.ATK_SleepingGusGrenade_G1)or e==TppDamage.ATK_SleepingGusGrenade_G2)or e==TppDamage.ATK_SmokeAssist)or e==TppDamage.ATK_SleepGusAssist)or e==TppDamage.ATK_Grenader_Smoke)or e==TppDamage.ATK_Grenader_Sleep)or e==TppDamage.ATK_SmokeGrenade then
+local AttackIsSmokeOrGas=function(attackId)
+  if((((((((((((
+    attackId==TppDamage.ATK_Smoke 
+    or attackId==TppDamage.ATK_SmokeOccurred)
+    or attackId==TppDamage.ATK_SleepGus)
+    or attackId==TppDamage.ATK_SleepGusOccurred)
+    or attackId==TppDamage.ATK_SupportHeliFlareGrenade)
+    or attackId==TppDamage.ATK_SupplyFlareGrenade)
+    or attackId==TppDamage.ATK_SleepingGusGrenade)
+    or attackId==TppDamage.ATK_SleepingGusGrenade_G1)
+    or attackId==TppDamage.ATK_SleepingGusGrenade_G2)
+    or attackId==TppDamage.ATK_SmokeAssist)
+    or attackId==TppDamage.ATK_SleepGusAssist)
+    or attackId==TppDamage.ATK_Grenader_Smoke)
+    or attackId==TppDamage.ATK_Grenader_Sleep)
+    or attackId==TppDamage.ATK_SmokeGrenade 
+    then
     return true
   end
   return false
 end
-function this._OnDamage(t,E,r)
-  if GetTypeIndex(t)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+function this._OnDamage(gameId,attackId,attackerID)
+  if GetTypeIndex(gameId)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
-  if n(E)then
+  if AttackIsSmokeOrGas(attackId)then
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.SMOKE)
   end
 end

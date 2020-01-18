@@ -104,8 +104,8 @@ function this.OnReload()
     end
   end
 end
-function this.OnMessage(o,t,a,n,l,s,i)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,o,t,a,n,l,s,i)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.SetDemoEndType(e)
   mvars.paz_demoEndType=e

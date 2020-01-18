@@ -478,8 +478,8 @@ end
 function this.OnReload(t)
   this.Init(t)
 end
-function this.OnMessage(o,t,i,a,r,n,s)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,o,t,i,a,r,n,s)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.OnMissionCanStart()
   if mvars.res_firstBonusMissionTask then
@@ -1110,24 +1110,40 @@ function this.DebugUpdate()
   end
 end
 function this.Messages()
-  return Tpp.StrCode32Table{Player={{msg="PlayerDamaged",func=this.IncrementTakeHitCount}},GameObject={{msg="Dead",func=function(e,t,a,a)
-    if not Tpp.IsLocalPlayer(t)then
-      return
-    end
-    if Tpp.IsEnemyWalkerGear(e)then
-      Tpp.IncrementPlayData"totalWalkerGearDestoryCount"end
-  end},{msg="TapHeadShotFar",func=this.OnTacticalActionPoint},{msg="TapRocketArm",func=this.OnTacticalActionPoint},{msg="TapHoldup",func=this.OnTacticalActionPoint},{msg="TapCqc",func=this.OnTacticalActionPoint},{msg="HeadShot",func=this.OnHeadShot},{msg="Neutralize",func=this.OnNeutralize},{msg="InterrogateSetMarker",func=this.IncrementInterrogateCount},{msg="BreakGimmickBurglarAlarm",func=function(e)
-    if not Tpp.IsLocalPlayer(e)then
-      return
-    end
-    Tpp.IncrementPlayData"totalBreakBurglarAlarmCount"end}}}
+  return Tpp.StrCode32Table{
+    Player={{msg="PlayerDamaged",func=this.IncrementTakeHitCount}},
+    GameObject={
+      {msg="Dead",func=function(gameId,attackerId,phase,deadMessageFlag)
+        if not Tpp.IsLocalPlayer(attackerId)then
+          return
+        end
+        if Tpp.IsEnemyWalkerGear(gameId)then
+          Tpp.IncrementPlayData"totalWalkerGearDestoryCount"
+        end
+      end},
+      {msg="TapHeadShotFar",func=this.OnTacticalActionPoint},
+      {msg="TapRocketArm",func=this.OnTacticalActionPoint},
+      {msg="TapHoldup",func=this.OnTacticalActionPoint},
+      {msg="TapCqc",func=this.OnTacticalActionPoint},
+      {msg="HeadShot",func=this.OnHeadShot},
+      {msg="Neutralize",func=this.OnNeutralize},
+      {msg="InterrogateSetMarker",func=this.IncrementInterrogateCount},
+      {msg="BreakGimmickBurglarAlarm",func=function(e)
+        if not Tpp.IsLocalPlayer(e)then
+          return
+        end
+        Tpp.IncrementPlayData"totalBreakBurglarAlarmCount"
+      end}
+    }
+  }
 end
 local t=s
 local t=s
 local t=true
 local a=false
 function this.IncrementInterrogateCount()
-  Tpp.IncrementPlayData"totalInterrogateCount"if svars.interrogateCount<s then
+  Tpp.IncrementPlayData"totalInterrogateCount"
+  if svars.interrogateCount<s then
     svars.interrogateCount=svars.interrogateCount+1
   end
 end
@@ -1151,7 +1167,8 @@ function this.AddTacticalActionPoint()
   if mvars.res_noTacticalTakeDown then
     return
   end
-  Tpp.IncrementPlayData"rnk_TotalTacticalTakeDownCount"if svars.tacticalActionPoint>=mvars.res_missionScoreTable.tacticalTakeDownPoint.countLimit then
+  Tpp.IncrementPlayData"rnk_TotalTacticalTakeDownCount"
+  if svars.tacticalActionPoint>=mvars.res_missionScoreTable.tacticalTakeDownPoint.countLimit then
     return
   end
   svars.tacticalActionPoint=svars.tacticalActionPoint+1
@@ -1161,8 +1178,28 @@ end
 function this.CallCountAnnounce(t,a,s)
   TppUiCommand.CallCountAnnounce(t,a,s)
 end
-this.PLAYER_CAUSE_TO_SAVE_INDEX={[NeutralizeCause.CQC]=1,[NeutralizeCause.NO_KILL]=2,[NeutralizeCause.NO_KILL_BULLET]=2,[NeutralizeCause.CQC_KNIFE]=3,[NeutralizeCause.HANDGUN]=4,[NeutralizeCause.SUBMACHINE_GUN]=5,[NeutralizeCause.SHOTGUN]=6,[NeutralizeCause.ASSAULT_RIFLE]=7,[NeutralizeCause.MACHINE_GUN]=8,[NeutralizeCause.SNIPER_RIFLE]=9,[NeutralizeCause.MISSILE]=10,[NeutralizeCause.GRENADE]=11,[NeutralizeCause.MINE]=12}
-this.NPC_CAUSE_TO_SAVE_INDEX={[NeutralizeCause.QUIET]=13,[NeutralizeCause.D_DOG]=14,[NeutralizeCause.D_HORSE]=15,[NeutralizeCause.D_WALKER_GEAR]=16,[NeutralizeCause.VEHICLE]=17,[NeutralizeCause.SUPPORT_HELI]=18,[NeutralizeCause.ASSIST]=19}
+this.PLAYER_CAUSE_TO_SAVE_INDEX={
+[NeutralizeCause.CQC]=1,
+[NeutralizeCause.NO_KILL]=2,
+[NeutralizeCause.NO_KILL_BULLET]=2,
+[NeutralizeCause.CQC_KNIFE]=3,
+[NeutralizeCause.HANDGUN]=4,
+[NeutralizeCause.SUBMACHINE_GUN]=5,
+[NeutralizeCause.SHOTGUN]=6,
+[NeutralizeCause.ASSAULT_RIFLE]=7,
+[NeutralizeCause.MACHINE_GUN]=8,
+[NeutralizeCause.SNIPER_RIFLE]=9,
+[NeutralizeCause.MISSILE]=10,
+[NeutralizeCause.GRENADE]=11,
+[NeutralizeCause.MINE]=12}
+this.NPC_CAUSE_TO_SAVE_INDEX={
+[NeutralizeCause.QUIET]=13,
+[NeutralizeCause.D_DOG]=14,
+[NeutralizeCause.D_HORSE]=15,
+[NeutralizeCause.D_WALKER_GEAR]=16,
+[NeutralizeCause.VEHICLE]=17,
+[NeutralizeCause.SUPPORT_HELI]=18,
+[NeutralizeCause.ASSIST]=19}
 this.NEUTRALIZE_PLAY_STYLE_ID={7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,26,27,28}
 function this.GetPlayStyleSaveIndex(n,r,a,t)
   if a==NeutralizeType.INVALID then

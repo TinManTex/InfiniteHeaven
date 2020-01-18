@@ -151,8 +151,7 @@ baseSequences.Seq_Mission_Prepare={
   Messages=function(e)
     return Tpp.StrCode32Table{
       UI={
-        {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
-          end,
+        {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()end,
           option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
         {msg="StartMissionTelopFadeIn",func=function()
           StartTimer("Timer_HelicopterMoveStart",s)
@@ -171,8 +170,11 @@ baseSequences.Seq_Mission_Prepare={
       Timer={
         {msg="Finish",sender="Timer_WaitStartingGame",func=e.MissionGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
         {msg="Finish",sender="Timer_HelicopterMoveStart",func=e.HelicopterMoveStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
-        {msg="Finish",sender="Timer_FadeInStartOnNoTelopHelicopter",func=e.FadeInStartOnGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}}}
-  end,
+        {msg="Finish",sender="Timer_FadeInStartOnNoTelopHelicopter",func=e.FadeInStartOnGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}
+        }
+      }
+    }--strcodetable
+  end,--Messages=func
   OnEnter=function(n)
     mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_INITALIZE
     mvars.seq_textureLoadWaitStartTime=c
@@ -463,16 +465,16 @@ function this.OnChangeSVars(name,s)
     end
   end
 end
-function this.OnMessage(o,s,i,a,r,n,t)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   if mvars.seq_sequenceTable==nil then
     return
   end
-  local e=mvars.seq_sequenceTable[mvars.seq_currentSequence]
-  if e==nil then
+  local currentSequence=mvars.seq_sequenceTable[mvars.seq_currentSequence]
+  if currentSequence==nil then
     return
   end
-  local e=e._messageExecTable
-  Tpp.DoMessage(e,TppMission.CheckMessageOption,o,s,i,a,r,n,t)
+  local messageExecTable=currentSequence._messageExecTable
+  Tpp.DoMessage(messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.Update()
   local e=mvars
@@ -498,7 +500,7 @@ function this.DebugUpdate()
     end
     if e.debug.showSequenceHistory then(nil).Print(n,{.5,.5,1},"LuaSystem SEQ.showSeqHistory")
       for s,e in ipairs(e.debug.seq_sequenceHistory)do
-      (nil).Print(n," seq["..(tostring(s)..("] = "..tostring(e))))
+        (nil).Print(n," seq["..(tostring(s)..("] = "..tostring(e))))
       end
     end
   end

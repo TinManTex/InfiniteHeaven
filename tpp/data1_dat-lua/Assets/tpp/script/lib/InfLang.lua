@@ -53,7 +53,7 @@ this.eng={--english
   forceSoldierSubType="Force enemy CP sub type",
   unlockSideOps="Unlock random Sideops for areas",
   unlockSideOpNumber="Open specific sideop #",
-  useSoldierForDemos="Use selected soldier in all cutscenes",
+  useSoldierForDemos="Use selected soldier in all cutscenes and missions",
   mbDemoSelection="MB cutscene play mode",
   mbSelectedDemo="Select MB cutscene (REQ: Play selected)",
   set_switch={"Off","On"},
@@ -199,6 +199,9 @@ this.eng={--english
   set_disable={"On","Off"},
   order_recieved="Order recieved",
   missionEntryExitMenu="Mission entry/exit menu",
+  setting_only_for_dd="This setting is only for DD soliders",--r93
+  menu_keys="(Hold Spacebar or X button for 1 second to enable menu)",
+  soldierAlertOnHeavyVehicleDamage="Phase on vehicle attack",--r95
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

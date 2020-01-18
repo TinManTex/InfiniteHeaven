@@ -31,8 +31,8 @@ end
 function this.OnReload()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function this.OnMessage(l,d,n,a,i,t,s)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,l,d,n,a,i,t,s)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.GetDataBaseIdFromAnimalId(n)
   if n<TppAnimalId.COUNT then

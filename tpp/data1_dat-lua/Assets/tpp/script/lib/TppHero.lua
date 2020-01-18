@@ -397,18 +397,18 @@ function this.Messages()
           end
         end
       end},
-      {msg="Dead",func=function(gameId,r,_,i)
-        if r and Tpp.IsLocalPlayer(r)then
+      {msg="Dead",func=function(gameId,attackerId,arg2,deadMessageFlag)
+        if attackerId and Tpp.IsLocalPlayer(attackerId)then
           if Tpp.IsHostage(gameId)then
             if SendCommand(gameId,{id="IsDD"})and(not TppMission.IsFOBMission(vars.missionCode))then
-              if(i~=nil)and(band(i,DeadMessageFlag.FIRE)~=0)then
+              if(deadMessageFlag~=nil)and(band(deadMessageFlag,DeadMessageFlag.FIRE)~=0)then
                 this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_DD_HOSTAGE,"mbstaff_died")
               else
                 this.SetAndAnnounceHeroicOgrePoint(this.KILL_DD_HOSTAGE,"mbstaff_died")
               end
             else
               if not SendCommand(gameId,{id="IsChild"})then
-                if(i~=nil)and(band(i,DeadMessageFlag.FIRE)~=0)then
+                if(deadMessageFlag~=nil)and(band(deadMessageFlag,DeadMessageFlag.FIRE)~=0)then
                   this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_HOSTAGE,"hostage_died")
                 else
                   this.SetAndAnnounceHeroicOgrePoint(this.KILL_HOSTAGE,"hostage_died")
@@ -419,26 +419,26 @@ function this.Messages()
             Tpp.IncrementPlayData"totalKillCount"
             local soldierType=TppEnemy.GetSoldierType(gameId)
             if(SendCommand(gameId,{id="IsDD"}))then
-              if(i~=nil)and(band(i,DeadMessageFlag.FIRE)~=0)then
+              if(deadMessageFlag~=nil)and(band(deadMessageFlag,DeadMessageFlag.FIRE)~=0)then
                 this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_DD_SOLDIER,"mbstaff_died")
               else
                 this.SetAndAnnounceHeroicOgrePoint(this.KILL_DD_SOLDIER,"mbstaff_died")
               end
             else
               if(soldierType~=EnemyType.TYPE_CHILD)then
-                local n=DeadMessageFlag.FIRE
+                local checkDeadFlag=DeadMessageFlag.FIRE
                 if DeadMessageFlag.FIRE_OR_DYING~=nil then
-                  n=DeadMessageFlag.FIRE_OR_DYING
+                  checkDeadFlag=DeadMessageFlag.FIRE_OR_DYING
                 end
-                local o=TppMission.IsFOBMission(vars.missionCode)and TppServerManager.FobIsSneak()
-                if(i~=nil)and(band(i,n)~=0)then
-                  if not o then
+                local isFobSneak=TppMission.IsFOBMission(vars.missionCode)and TppServerManager.FobIsSneak()
+                if(deadMessageFlag~=nil)and(band(deadMessageFlag,checkDeadFlag)~=0)then
+                  if not isFobSneak then
                     this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_SOLDIER)
                   else
                     this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_SOLDIER_FOB_SNEAK)
                   end
                 else
-                  if not o then
+                  if not isFobSneak then
                     this.SetAndAnnounceHeroicOgrePoint(this.KILL_SOLDIER)
                   else
                     this.SetAndAnnounceHeroicOgrePoint(this.KILL_SOLDIER_FOB_SNEAK)
@@ -448,7 +448,7 @@ function this.Messages()
             end
           end
           if Tpp.IsAnimal(gameId)then
-            if(i~=nil)and(band(i,DeadMessageFlag.FIRE)~=0)then
+            if(deadMessageFlag~=nil)and(band(deadMessageFlag,DeadMessageFlag.FIRE)~=0)then
               this.SetAndAnnounceHeroicOgrePoint{heroicPoint=0,ogrePoint=40}
             else
               this.SetAndAnnounceHeroicOgrePoint{heroicPoint=0,ogrePoint=20}
@@ -552,8 +552,8 @@ end
 function this.OnReload(n)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function this.OnMessage(t,i,o,n,r,c,_)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,t,i,o,n,r,c,_)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.DeclareSVars()
   return{

@@ -362,8 +362,8 @@ end
 function this.OnReload()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function this.OnMessage(a,n,i,t,o,r,l)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,a,n,i,t,o,r,l)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.OnMissionGameStart()
   if not TppMission.IsFreeMission(vars.missionCode)then

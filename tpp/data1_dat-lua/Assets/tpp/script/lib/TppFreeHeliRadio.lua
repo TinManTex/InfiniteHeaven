@@ -81,8 +81,8 @@ end
 function e.SetupMessages()
   e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
-function e.OnMessage(d,r,t,a,o,n,i)
-  Tpp.DoMessage(e.messageExecTable,TppMission.CheckMessageOption,d,r,t,a,o,n,i)
+function e.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(e.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function e.OnEnter()
   e._RegistClock()

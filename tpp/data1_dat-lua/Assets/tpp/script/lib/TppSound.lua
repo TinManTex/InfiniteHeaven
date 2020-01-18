@@ -212,8 +212,8 @@ function this.Init()
   this.RestorePhaseBGM()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function this.OnMessage(i,t,r,a,o,n,s)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,i,t,r,a,o,n,s)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.GetCurrentSceneBgmSetting()
   local t=svars.snd_bgmNameHash

@@ -685,8 +685,8 @@ function this.OnReload(T)
   this.MakeMessageExecTable()
   this.OpenTipsOnCurrentStory()
 end
-function this.OnMessage(E,i,S,T,n,_,p)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,E,i,S,T,n,_,p)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.Init(T)
   this.MakeMessageExecTable()

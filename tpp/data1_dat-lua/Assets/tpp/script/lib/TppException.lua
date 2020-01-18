@@ -538,13 +538,13 @@ function this.OnDlcStatusChanged()
     TppUiCommand.ShowErrorPopup(e,Popup.TYPE_ONE_BUTTON)
   end
 end
-local n={}
-function n.Update()
+local exceptionMessageHandler={}
+function exceptionMessageHandler.Update()
   this.Update()
 end
-function n:OnMessage(i,a,o,n,t,T)
-  local E
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOptionWhileLoading,i,a,o,n,t,T,E)
+function exceptionMessageHandler:OnMessage(sender,messageId,arg0,arg1,arg2,arg3)
+  local strLogText
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOptionWhileLoading,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-ScriptUpdater.Create("exceptionMessageHandler",n,{"Network","Nt","UI","Dlc"})
+ScriptUpdater.Create("exceptionMessageHandler",exceptionMessageHandler,{"Network","Nt","UI","Dlc"})
 return this

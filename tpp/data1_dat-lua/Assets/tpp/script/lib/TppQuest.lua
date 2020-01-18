@@ -10,13 +10,21 @@ local StrCode32Table=Tpp.StrCode32Table
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
-local i=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
-local t=TppDefine.Enum{"MISSION","FREE","HELI"}
+local questBlockStatus=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
+local missionTypes=TppDefine.Enum{"MISSION","FREE","HELI"}
 local QUEST_STATUS_TYPES=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
-local h={"tent","field","ruins","waterway","cliffTown","commFacility","sovietBase","fort","citadel"}
-local O={"outland","pfCamp","savannah","hill","banana","diamond","lab"}
-local shootingPracticeMarkers={Command="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|Marker_shootingPractice",Develop="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|Marker_shootingPractice",Support="ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|Marker_shootingPractice",BaseDev="ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|Marker_shootingPractice",Medical="ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|Marker_shootingPractice",Spy="ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|Marker_shootingPractice",Combat="ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|Marker_shootingPractice"}
-this.prevMissionType=t.HELI
+local afgAreaList={"tent","field","ruins","waterway","cliffTown","commFacility","sovietBase","fort","citadel"}
+local mafrAreaList={"outland","pfCamp","savannah","hill","banana","diamond","lab"}
+local shootingPracticeMarkers={
+Command="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|Marker_shootingPractice",
+Develop="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|Marker_shootingPractice",
+Support="ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|Marker_shootingPractice",
+BaseDev="ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|Marker_shootingPractice",
+Medical="ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|Marker_shootingPractice",
+Spy="ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|Marker_shootingPractice",
+Combat="ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|Marker_shootingPractice"
+}
+this.prevMissionType=missionTypes.HELI
 local sideOpsTable={
   --[[001--]]{questName="ruins_q19010",questId="ruins_q19010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1622.974,322.257,1062.973),radius=5},
   --[[XXX--]]{questName="commFacility_q19013",questId="commFacility_q19013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1589.157,352.634,47.628),radius=5},
@@ -176,7 +184,18 @@ local sideOpsTable={
   --[[XXX--]]{questName="mtbs_q42050",questId="mtbs_q42050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special},
   --[[XXX--]]{questName="mtbs_q42070",questId="mtbs_q42070",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special}
 }
-local g={ruins_q19010={radioNameFirst="f1000_rtrg0700"},outland_q19011={radioNameFirst="f1000_rtrg4380"},hill_q19012={radioNameFirst="f1000_rtrg4390"},commFacility_q19013={radioNameFirst="f1000_rtrg4370"},tent_q20910={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},fort_q20911={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},sovietBase_q20912={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},outland_q20913={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},lab_q20914={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},cliffTown_q99080={radioNameFirst="f2000_rtrg1561"}}
+local questRadioList={
+  ruins_q19010={radioNameFirst="f1000_rtrg0700"},
+  outland_q19011={radioNameFirst="f1000_rtrg4380"},
+  hill_q19012={radioNameFirst="f1000_rtrg4390"},
+  commFacility_q19013={radioNameFirst="f1000_rtrg4370"},
+  tent_q20910={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},
+  fort_q20911={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},
+  sovietBase_q20912={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},
+  outland_q20913={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},
+  lab_q20914={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},
+  cliffTown_q99080={radioNameFirst="f2000_rtrg1561"}
+}
 local questCompleteLangIds={
   tent_q10010="quest_extract_elite",
   field_q10020="quest_extract_elite",
@@ -345,7 +364,8 @@ function this.OpenChildSoldier_1()
   return((e or n)and t)and a
 end
 function this.OpenChildSoldier_2()
-  return this.IsCleard"outland_q20913"and this.IsCleard"lab_q20914"end
+  return this.IsCleard"outland_q20913"and this.IsCleard"lab_q20914"
+  end
 function canOpenQuestChecks.outland_q20913()
   return this.OpenChildSoldier_1()
 end
@@ -1417,7 +1437,7 @@ function this.Messages()
     UI={
       {msg="EndFadeOut",sender="FadeOutOnOutOfMissionArea",
         func=function()
-          mvars.qst_blockStateRequest=i.DEACTIVATE
+          mvars.qst_blockStateRequest=questBlockStatus.DEACTIVATE
           TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED)
         end},
       {msg="QuestAreaAnnounceText",
@@ -1451,23 +1471,23 @@ function this.Messages()
     },
     Trap=o}
 end
-function this.OnMessage(i,n,t,s,a,o,r)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,i,n,t,s,a,o,r)
-  local l=mvars.qst_questScriptBlockMessageExecTable
-  if l then
-    local e=r
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  local questScriptBlockMessageExecTable=mvars.qst_questScriptBlockMessageExecTable
+  if questScriptBlockMessageExecTable then
+    local logText=strLogText
     local r
-    Tpp.DoMessage(l,TppMission.CheckMessageOption,i,n,t,s,a,o,e)
+    Tpp.DoMessage(questScriptBlockMessageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,logText)
   end
   if this.IsInvoking()and mvars.qst_questStepList then
-    local l=gvars.qst_currentQuestStepNumber
-    local e=this.GetQuestStepTable(l)
-    if e then
-      local e=e._messageExecTable
-      if e then
-        local r=r
+    local currentQuestStepNumber=gvars.qst_currentQuestStepNumber
+    local questStepTable=this.GetQuestStepTable(currentQuestStepNumber)
+    if questStepTable then
+      local questStepMessageExecTable=questStepTable._messageExecTable
+      if questStepMessageExecTable then
+        local logText=strLogText
         local l
-        Tpp.DoMessage(e,TppMission.CheckMessageOption,i,n,t,s,a,o,r)
+        Tpp.DoMessage(questStepMessageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,logText)
       end
     end
   end
@@ -1666,15 +1686,26 @@ function this.DebugUpdate()
   local a=(nil).Print
   local t=(nil).NewContext()
   if n.debug.showCurrentQuest then
-    a(t,"")a(t,{.5,.5,1},"LuaQuest showCurrentQuest")a(t,"Current Area Name : "..tostring(this.GetCurrentAreaName()))a(t,"Current Quest Name : "..tostring(this.GetCurrentQuestName()))
+    a(t,"")a(t,{.5,.5,1},"LuaQuest showCurrentQuest")
+    a(t,"Current Area Name : "..tostring(this.GetCurrentAreaName()))
+    a(t,"Current Quest Name : "..tostring(this.GetCurrentQuestName()))
     local i=this.GetQuestBlockState()
-    local s={}s[ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY]="EMPTY"s[ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING]="PROCESSING"s[ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE]="INACTIVE"s[ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE]="ACTIVE"a(t,"Quest block state : "..tostring(s[i]))a(t,"gvars.qst_currentQuestName : "..tostring(gvars.qst_currentQuestName))a(t,"gvars.qst_currentQuestStepNumber : "..tostring(gvars.qst_currentQuestStepNumber))do
+    local scriptBlockStateNames={}
+    scriptBlockStateNames[ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY]="EMPTY"
+    scriptBlockStateNames[ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING]="PROCESSING"
+    scriptBlockStateNames[ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE]="INACTIVE"
+    scriptBlockStateNames[ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE]="ACTIVE"
+    a(t,"Quest block state : "..tostring(scriptBlockStateNames[i]))
+    a(t,"gvars.qst_currentQuestName : "..tostring(gvars.qst_currentQuestName))
+    a(t,"gvars.qst_currentQuestStepNumber : "..tostring(gvars.qst_currentQuestStepNumber))
+    do
       local o={0,1,0}
       local r={1,0,0}
       local s="OK"local o=o
       if not this.GetCurrentAreaName()or i<ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE then
         s="---"elseif not n.qst_questStepTable then
-        s="No register quest step table! Please Check quest script!"o=r
+        s="No register quest step table! Please Check quest script!"
+        o=r
       end
       a(t,o,"scriptStatus : "..s)
     end
@@ -1689,7 +1720,8 @@ function this.DebugUpdate()
         a(t,string.format("AreaName = %s",s.areaName))
         local n=s.infoList[o]
         if n then
-          a(t,string.format("name = %s",n.name))a(t,string.format("invokeStepName = %s",n.invokeStepName))
+          a(t,string.format("name = %s",n.name))
+          a(t,string.format("invokeStepName = %s",n.invokeStepName))
           if n.clusterName then
             DebutTextPrint(t,string.format("clusterName  =%s",n.clusterName))
           else
@@ -1706,7 +1738,10 @@ function this.DebugUpdate()
               end
             end
           end
-          a(t,"IsOpen : "..tostring(this.IsOpen(n.name)))a(t,"IsCleard : "..tostring(this.IsCleard(n.name)))a(t,"IsRepop : "..tostring(this.IsRepop(n.name)))a(t,"IsActive : "..tostring(this.IsActive(n.name)))
+          a(t,"IsOpen : "..tostring(this.IsOpen(n.name)))
+          a(t,"IsCleard : "..tostring(this.IsCleard(n.name)))
+          a(t,"IsRepop : "..tostring(this.IsRepop(n.name)))
+          a(t,"IsActive : "..tostring(this.IsActive(n.name)))
         else
           a(t,"No define quest. index: "..tostring(o))
         end
@@ -1841,17 +1876,17 @@ function this.UpdateQuestBlockStateAtInactive(a,n)
         mvars.qst_invokeReserveOnActivate=true
       end
     end
-    mvars.qst_blockStateRequest=i.ACTIVATE
+    mvars.qst_blockStateRequest=questBlockStatus.ACTIVATE
     return
   end
 end
 function this.UpdateQuestBlockStateAtActive(t,n)
   local a=this.GetCurrentQuestTable()
   if not this.IsInsideArea("activeArea",a,t,n)then
-    if mvars.qst_blockStateRequest~=i.DEACTIVATING then
-      mvars.qst_blockStateRequest=i.DEACTIVATING
+    if mvars.qst_blockStateRequest~=questBlockStatus.DEACTIVATING then
+      mvars.qst_blockStateRequest=questBlockStatus.DEACTIVATING
       local e=this.ExecuteSystemCallback"OnOutOfAcitveArea"if not e then
-        mvars.qst_blockStateRequest=i.DEACTIVATE
+        mvars.qst_blockStateRequest=questBlockStatus.DEACTIVATE
       end
     end
     return
@@ -1914,7 +1949,7 @@ function this.QuestBlockOnUpdate()
     if s==n then
       thisLocal._DoDeactivate()
     end
-    if e.qst_blockStateRequest==i.ACTIVATE then
+    if e.qst_blockStateRequest==questBlockStatus.ACTIVATE then
       if thisLocal._CanActivateQuest()then
         thisLocal.ActivateCurrentQuestBlock()thisLocal.ClearBlockStateRequest()
       end
@@ -1946,7 +1981,7 @@ function this.QuestBlockOnUpdate()
     if n and IsTypeFunc(n.OnUpdate)then
       n.OnUpdate(n)
     end
-    if e.qst_blockStateRequest==i.DEACTIVATE then
+    if e.qst_blockStateRequest==questBlockStatus.DEACTIVATE then
       thisLocal.DeactivateCurrentQuestBlock()thisLocal.ClearBlockStateRequest()
     end
   else
@@ -1963,7 +1998,7 @@ function this.OnMissionGameEnd()
   end
 end
 function this.ClearBlockStateRequest()
-  mvars.qst_blockStateRequest=i.NONE
+  mvars.qst_blockStateRequest=questBlockStatus.NONE
 end
 function this.Invoke()
   local t=this.GetCurrentQuestName()
@@ -2156,6 +2191,7 @@ function this.UpdateActiveQuest(debugUpdate)
       local storyQuests={}
       local nonStoryQuests={}
       local repopQuests={}
+      
       if unlockedArea and areaQuests.areaName==unlockedArea then--tex add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
         for t,info in ipairs(areaQuests.infoList)do--tex still gotta clear
           local questName=info.name
@@ -2173,7 +2209,20 @@ function this.UpdateActiveQuest(debugUpdate)
             gvars.qst_questActiveFlag[questIndex]=false
             if Ivars.unlockSideOpNumber.skipValues[questIndex+1] ~= true then--tex disallowSideOps
               local RENAMEsomeCondition=RENAMEsomeConditions[questName]--NMC: some list of conditions, not as big as the 't' list
-              if this.IsOpen(questName)and(not RENAMEsomeCondition or RENAMEsomeCondition())then
+              
+              local isBlockHeliQuest=false--tex
+              if gvars.heliReinforceChance>0 then--tex block heli quests to allow super reinforce
+                if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+                  for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
+                    if name==questName then
+                      isBlockHeliQuest=true
+                      break
+                    end
+                  end
+                end
+              end--
+              
+              if this.IsOpen(questName)and(not RENAMEsomeCondition or RENAMEsomeCondition()) and not isBlockHeliQuest then--tex added isBlockHeli
                 if not this.IsCleard(questName)then
                   if info.isStory then
                     table.insert(storyQuests,questName)
@@ -2834,7 +2883,7 @@ function this.OnQuestAreaAnnounceText(t)
   local n=this.GetQuestName(t)
   local t
   if n then
-    for a,e in pairs(g)do
+    for a,e in pairs(questRadioList)do
       if a==n then
         if e.radioNameFirst then
           if e.radioNameSecond then
@@ -2852,34 +2901,37 @@ function this.OnQuestAreaAnnounceText(t)
     if t~=nil then
       TppRadio.Play(t,{delayTime="mid"})
     end
-    TppSoundDaemon.PostEvent"sfx_s_sideops_sted"end
+    TppSoundDaemon.PostEvent"sfx_s_sideops_sted"
+    end
 end
 function this.IsActiveQuestHeli()
-  for n,t in ipairs(TppDefine.QUEST_HELI_DEFINE)do
-    if this.IsActive(t)then
+  for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
+    if this.IsActive(name)then
       return true
     end
   end
   return false
 end
 function this.DeactiveQuestAreaTrapMessages()
-  local n={}
-  local t={}
-  local a=TppMission.GetMissionID()
-  if a==30010 then
-    t=h
-  elseif a==30020 then
-    t=O
+  local deactiveQuestAreaTrapMessages={}
+  local arealList={}
+  local missionCode=TppMission.GetMissionID()
+  if missionCode==30010 then
+    arealList=afgAreaList
+  elseif missionCode==30020 then
+    arealList=mafrAreaList
   else
     return
   end
-  for a,t in ipairs(t)do
+  for a,t in ipairs(arealList)do
     local e=this.GetTrapName(t)
-    local e={msg="Exit",sender=e,func=function(e,e)
+    local e={msg="Exit",sender=e,
+    func=function(e,e)
       TppEnemy.CheckDeactiveQuestAreaForceFulton()
-    end}table.insert(n,e)
+    end}
+    table.insert(deactiveQuestAreaTrapMessages,e)
   end
-  return n
+  return deactiveQuestAreaTrapMessages
 end
 function this.GetTrapName(e)
   return"trap_preDeactiveQuestArea_"..e
@@ -2890,7 +2942,8 @@ function this._ChangeToEnable(a,a,t,n)
     local n=TppGimmick.IsQuestTarget(t)
     local t=TppAnimal.IsQuestTarget(t)
     if(a or n)or t then
-      TppSoundDaemon.PostEvent"sfx_s_enemytag_quest_tgt"if mvars.qst_isRadioTarget==false then
+      TppSoundDaemon.PostEvent"sfx_s_enemytag_quest_tgt"
+      if mvars.qst_isRadioTarget==false then
         local e=this.GetCurrentQuestName()
         if(((e=="tent_q20910"or e=="fort_q20911")or e=="sovietBase_q20912")or e=="outland_q20913")or e=="lab_q20914"then
           TppRadio.Play("f2000_rtrg8330",{delayTime="short"})
@@ -2905,7 +2958,8 @@ end
 function this.SetQuestShootingPractice()
   TppSoundDaemon.PostEvent"sfx_s_training_ready_go"
   GkEventTimerManager.Start("TimerShootingPracticeStart",3.5)
-  this.StopTimer"TimerShootingPracticeRetryConfirm"this.HideShootingPracticeStartUi()
+  this.StopTimer"TimerShootingPracticeRetryConfirm"
+  this.HideShootingPracticeStartUi()
   mvars.qst_isShootingPracticeStarted=true
   GameObject.SendCommand({type="TppHeli2",index=0},{id="PullOut"})
 end
@@ -2915,7 +2969,8 @@ function this.StartShootingPractice()
   TppGimmick.StartQuestShootingPractice()
   TppGimmick.SetQuestSootingTargetInvincible(false)
   f30050_sound.SetScene_ShootingRange()
-  TppSoundDaemon.PostEvent"sfx_m_tra_tgt_get_up_alot"Player.SetInfiniteAmmoFromScript(true)
+  TppSoundDaemon.PostEvent"sfx_m_tra_tgt_get_up_alot"
+  Player.SetInfiniteAmmoFromScript(true)
 end
 function this.OnFinishShootingPractice(t,n)
   if t or n then
@@ -3109,7 +3164,15 @@ function this.AcquireKeyItemOnMissionStart()
     vars.mbmMasterGunsmithSkill=1
   end
   do
-    local t={{questName="mtbs_q99060",cassetteList={"tp_m_99060_01","tp_m_99060_02","tp_m_99060_03","tp_m_99060_04","tp_m_99060_05","tp_sp_01_03"}},{questName="sovietBase_q99030",cassetteList={"tp_m_10150_20","tp_m_10150_29","tp_m_10150_30"}},{questName="tent_q99040",cassetteList={"tp_m_10150_21","tp_m_10150_22","tp_m_10150_24","tp_m_10150_25"}},{questName="mtbs_q99011",cassetteList={"tp_c_00000_13","tp_m_10050_03"}},{storySequence=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,cassetteList={"tp_m_10050_01"}},{storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_ENDRESS_PROXY_WAR,cassetteList={"tp_m_10160_06","tp_m_10160_07","tp_m_10160_08","tp_m_10160_09","tp_m_10160_10","tp_m_10160_05"}},{storySequence=TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS,cassetteList={"tp_m_10160_11","tp_m_10160_04","tp_c_00000_18","tp_m_10240_05","tp_m_10190_02","tp_m_10190_03"}},{demoName="DecisionHuey",cassetteList={"tp_m_10190_05","tp_m_10190_06","tp_m_10240_03","tp_m_10240_04","tp_m_10190_01"}}}
+    local t={
+    {questName="mtbs_q99060",cassetteList={"tp_m_99060_01","tp_m_99060_02","tp_m_99060_03","tp_m_99060_04","tp_m_99060_05","tp_sp_01_03"}},
+{questName="sovietBase_q99030",cassetteList={"tp_m_10150_20","tp_m_10150_29","tp_m_10150_30"}},
+{questName="tent_q99040",cassetteList={"tp_m_10150_21","tp_m_10150_22","tp_m_10150_24","tp_m_10150_25"}},
+{questName="mtbs_q99011",cassetteList={"tp_c_00000_13","tp_m_10050_03"}},
+{storySequence=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,cassetteList={"tp_m_10050_01"}},
+{storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_ENDRESS_PROXY_WAR,cassetteList={"tp_m_10160_06","tp_m_10160_07","tp_m_10160_08","tp_m_10160_09","tp_m_10160_10","tp_m_10160_05"}},
+{storySequence=TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS,cassetteList={"tp_m_10160_11","tp_m_10160_04","tp_c_00000_18","tp_m_10240_05","tp_m_10190_02","tp_m_10190_03"}},
+{demoName="DecisionHuey",cassetteList={"tp_m_10190_05","tp_m_10190_06","tp_m_10240_03","tp_m_10240_04","tp_m_10190_01"}}}
     for n,t in pairs(t)do
       if((t.questName and this.IsCleard(t.questName))or(t.storySequence and(TppStory.GetCurrentStorySequence()>=t.storySequence)))or(t.demoName and TppDemo.IsPlayedMBEventDemo(t.demoName))then
         TppCassette.Acquire{cassetteList=t.cassetteList,isShowAnnounceLog=true}

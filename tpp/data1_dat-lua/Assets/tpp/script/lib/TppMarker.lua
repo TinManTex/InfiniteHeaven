@@ -241,8 +241,8 @@ end
 function this.OnReload()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function this.OnMessage(i,n,s,r,t,o,a)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,i,n,s,r,t,o,a)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.RestoreMarkerLocator()
   if this.IsExistMarkerLocatorSystem()then

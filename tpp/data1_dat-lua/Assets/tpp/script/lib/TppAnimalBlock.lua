@@ -385,11 +385,11 @@ function this.OnInitializeAnimalBlock()
       l=l+e
     end
   end
-  local t=Tpp.StrCode32Table{Weather=this.weatherTable}
-  mvars.animalBlockScript.Messages=Tpp.MergeTable(mvars.animalBlockScript.Messages,t,false)
+  local weatherTable32=Tpp.StrCode32Table{Weather=this.weatherTable}
+  mvars.animalBlockScript.Messages=Tpp.MergeTable(mvars.animalBlockScript.Messages,weatherTable32,false)
   mvars.animalBlockScript.OnReload=this.OnReload
-  function mvars.animalBlockScript.OnMessage(a,n,t,l,i,r,o)
-    Tpp.DoMessage(mvars.animalBlockScript.messageExecTable,TppMission.CheckMessageOption,a,n,t,l,i,r,o)
+  function mvars.animalBlockScript.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogTex)
+    Tpp.DoMessage(mvars.animalBlockScript.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogTex)
   end
   this._MakeMessageExecTable()
 end

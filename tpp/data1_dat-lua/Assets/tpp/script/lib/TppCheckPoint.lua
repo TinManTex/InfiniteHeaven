@@ -53,8 +53,8 @@ function this.OnReload()
     this.messageExecTable=Tpp.MakeMessageExecTable(n)
   end
 end
-function this.OnMessage(t,c,n,i,o,a,s)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,t,c,n,i,o,a,s)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.Enable(n)
   this._SetEnable(n,true)

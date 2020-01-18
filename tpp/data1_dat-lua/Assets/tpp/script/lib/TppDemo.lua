@@ -265,9 +265,6 @@ this.FINISH_WAIT_CHECK_FUNC={
   end
 }
 function this.Play(demoName,demoFuncs,demoOptions)
-  if gvars.useSoldierForDemos==1 then--tex
-    demoOptions.isSnakeOnly=false
-  end--
   local demoId=mvars.dem_demoList[demoName]
   if(demoId==nil)then
     return
@@ -294,6 +291,9 @@ function this.Play(demoName,demoFuncs,demoOptions)
   if(demoId=="p51_070020_000_final")or(demoId=="p21_020010")then--PATCHUP:
     mvars.dem_resereveEnableInGameFlag=false
   end
+  if gvars.useSoldierForDemos==1 then--tex
+    demoOptions.isSnakeOnly=false
+  end--
   mvars.dem_demoFlags[demoName]=demoOptions
   return this.AddPlayReqeustInfo(demoId,demoOptions)
 end
@@ -636,8 +636,8 @@ function this.AddDemo(demoName,demoId)
   mvars.dem_invDemoList[demoId]=demoName
   mvars.dem_invScdDemolist[StrCode32(demoId)]=demoName
 end
-function this.OnMessage(i,r,o,a,t,l,n)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,i,r,o,a,t,l,n)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.FadeOutOnSkip()
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT)

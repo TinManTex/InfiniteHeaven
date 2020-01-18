@@ -595,7 +595,8 @@ function this.ExecuteOnReturnToMissionCallback()
   if OnReturnToMission then
     TppMain.DisablePause()
     Player.SetPause()
-    TppUiStatusManager.ClearStatus"AnnounceLog"OnReturnToMission()
+    TppUiStatusManager.ClearStatus"AnnounceLog"
+    OnReturnToMission()
     TppTerminal.AddStaffsFromTempBuffer()
     TppSave.VarSave()
     TppSave.SaveGameData(nil,nil,nil,true)
@@ -1605,7 +1606,6 @@ function this.Messages()
             TppRadio.Play(mvars.mis_updateObjectiveDoorOpenRadioGroups,mvars.mis_updateObjectiveDoorOpenRadioOptions)
           end
         end
-        InfMain.FinishOpeningDemoOnHeli()--tex
       end}
     },
     UI={
@@ -1613,7 +1613,8 @@ function this.Messages()
         if mvars.f30050_demoName=="NuclearEliminationCeremony"then
           return
         end
-        TppUiStatusManager.ClearStatus"AnnounceLog"end},
+        TppUiStatusManager.ClearStatus"AnnounceLog"
+      end},
       {msg="EndFadeOut",sender="MissionGameEndFadeOutFinish",func=this.OnMissionGameEndFadeOutFinish,option={isExecMissionClear=true,isExecDemoPlaying=true}},
       {msg="EndFadeOut",sender="MissionFinalizeFadeOutFinish",func=this.ExecuteMissionFinalize,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},
       {msg="EndFadeOut",sender="MissionFinalizeAtGameOverFadeOutFinish",func=this.ExecuteMissionFinalize,option={isExecGameOver=true,isExecMissionClear=true}},
@@ -1637,7 +1638,6 @@ function this.Messages()
         end
       end,option={isExecGameOver=true}},
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
-        InfMain.EndFadeIn()--tex
         if TppSequence.IsHelicopterStart()then
           this.StartHelicopterDoorOpenTimer()
         end
@@ -1793,12 +1793,12 @@ function this.Messages()
           svars.supportGmpCost=svars.supportGmpCost+e
         end
       end},
-      {msg="Damage",func=function(e,n,i)
-        local e=GameObject.GetTypeIndex(e)
+      {msg="Damage",func=function(gameId,attackId,attackerId)
+        local e=GameObject.GetTypeIndex(gameId)
         if e~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
           return
         end
-        if Tpp.IsPlayer(i)and TppDamage.IsActiveByAttackId(n)then
+        if Tpp.IsPlayer(attackerId)and TppDamage.IsActiveByAttackId(attackId)then
           TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.HELI_DAMAGE_FROM_PLAYER)
         end
       end},
@@ -2134,13 +2134,13 @@ end
 function this.CheckMessageOptionWhileLoading()
   return true
 end
-function this.OnMessageWhileLoading(t,a,o,r,i,s)
+function this.OnMessageWhileLoading(sender,messageId,arg0,arg1,arg2,arg3)
   local n=Tpp.DEBUG_StrCode32ToString
-  local n
-  Tpp.DoMessage(this.messageExecTableWhileLoading,this.CheckMessageOptionWhileLoading,t,a,o,r,i,s,n)
+  local strLogText
+  Tpp.DoMessage(this.messageExecTableWhileLoading,this.CheckMessageOptionWhileLoading,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-function this.OnMessage(t,s,i,n,o,r,a)
-  Tpp.DoMessage(this.messageExecTable,this.CheckMessageOption,t,s,i,n,o,r,a)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,this.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.CheckMessageOption(messages)
   local isExecMissionClear=false
@@ -3049,7 +3049,8 @@ function this.OnMissionGameEndFadeOutFinish2nd()
   TppRanking.UpdateOpenRanking()
   local n=TppMotherBaseManagement.GetResourceUsableCount{resource="NuclearWaste"}
   TppRanking.UpdateScore("NuclearDisposeCount",n)
-  TppRanking.SendCurrentRankingScore()do
+  TppRanking.SendCurrentRankingScore()
+  do
     local n=this.GetMissionID()
     if(not this.IsFOBMission(n)and not this.IsFreeMission(n))and not this.IsHelicopterSpace(n)then
       TppRevenge.ReduceRevengePointOnMissionClear(n)
@@ -3726,6 +3727,7 @@ function this.ShowAnnounceLogOnGameStart()
     end
     TppQuest.ShowAnnounceLogQuestOpen()
   end
+  --CULL InfMenu.ModWelcome()--tex
 end
 function this.SetHeroicAndOgrePointInSlot(e,n)
   TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.MISSION_START,"vars","missionHeroicPoint",e)

@@ -186,7 +186,7 @@ for n,listName in ipairs(this.sightIvarLists) do
   end
 end--]]
 --
-this.healthScaleRange={max=4,min=0,increment=0.2}
+this.healthScaleRange={max=9,min=0,increment=0.2}
 this.soldierHealthScale={
   save=MISSION,
   default=1,
@@ -198,6 +198,18 @@ this.playerHealthScale={
   save=MISSION,
   default=1,
   range=this.healthScaleRange,
+  OnChange=function()
+    local healthScale=gvars.playerHealthScale
+    --if healthScale~=1 then
+      Player.ResetLifeMaxValue()
+      local newMax=vars.playerLifeMax
+      newMax=newMax*healthScale
+      if newMax < 10 then
+        newMax = 10
+      end
+      Player.ChangeLifeMaxValue(newMax)
+    --end
+  end,
 }
 ----motherbase
 this.mbSoldierEquipGrade={--DEPENDANCY: mbPlayTime
@@ -462,6 +474,10 @@ this.disableXrayMarkers={
   range=this.switchRange,
   settingNames="set_switch",
   profile=this.subsistenceProfile,
+  --[[OnChange=function(self)
+    local enabled=self.setting==1
+    TppSoldier2.SetDisableMarkerModelEffect{enabled=enabled}
+  end,--]]
 }
 
 this.disableFulton={
@@ -747,6 +763,20 @@ this.revengeBlockForMissionCount={
   save=MISSION,
   default=3,
   range={max=10},
+}
+
+this.forceSuperReinforce={--tex WIP
+  save=MISSION,
+  settings={"OFF","ON_CONFIG","ON_FORCE"},
+}
+
+this.heliReinforceChance={--tex chance of heli being chosen for a rienforce, also turns off heli quests
+  save=MISSION,
+  default=0,
+  range={min=0,max=1,increment=0.1},
+  OnChange=function()
+    TppQuest.UpdateActiveQuest()--tex update since quests may have changed 
+  end,
 }
 
 this.startOnFoot={
@@ -1217,6 +1247,10 @@ this.playerHeadgear={--DOC: player appearance.txt
   end,
   OnChange=function(self)
     if self.setting>0 then--TODO: add off/default/noset setting
+      if vars.playerType~=PlayerType.DD_MALE and vars.playerType~=PlayerType.DD_FEMALE then
+        InfMenu.PrintLangId"setting_only_for_dd"
+        return
+      end 
       vars.playerFaceId=self.settingsTable[self.setting+1]
     end
   end,
@@ -1247,7 +1281,7 @@ this.minPhase={
       self:Set(gvars.maxPhase)
     end
   end,
-  profile=this.subsistenceProfile,
+  --profile=this.subsistenceProfile,
 }
 
 this.maxPhase={
@@ -1299,7 +1333,13 @@ this.printPhaseChanges={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
+  --profile=this.subsistenceProfile,
+}
+
+--
+this.soldierAlertOnHeavyVehicleDamage={
+  save=MISSION,
+  settings=this.phaseSettings,
 }
 
 --[[
@@ -1340,10 +1380,10 @@ function this.DisableOnSubsistence(self)
 
   if not (Ivars.subsistenceProfile:IsDefault() or Ivars.subsistenceProfile:Is"CUSTOM") then
     self.disabled=true
-    --InfMenu.DebugPrint("is subs")--DEBUGNOW
+    --InfMenu.DebugPrint("is subs")--DEBUG
   else
     self.disabled=false
-    --InfMenu.DebugPrint("not subs")--DEBUGNOW
+    --InfMenu.DebugPrint("not subs")--DEBUG
   end
 end
 
@@ -1368,7 +1408,11 @@ this.warpPlayerUpdate={
       vars.playerDisableActionFlag=PlayerDisableAction.OPEN_EQUIP_MENU
     end
     --]]
-    InfMenu.menuOn=false
+    if InfMenu.menuOn then 
+      InfMain.RestoreActionFlag()
+      InfMenu.menuOn=false
+    end
+    
     if self.setting==1 then
       InfMenu.PrintLangId"warp_mode_on"
     else

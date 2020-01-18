@@ -89,9 +89,9 @@ this.giveOgrePoint={
   OnChange=function(self)
     local ogrePointChange=Ivars.ogrePointChange.setting
     if ogrePointChange > 0 then
-      InfMenu.Print(InfMenu.LangString("adding_ogre_points"))--DEBUGNOW ADDLANG
+      InfMenu.Print(InfMenu.LangString("adding_ogre_points"))--TODO ADDLANG
     elseif ogrePointChange < 0 then
-      InfMenu.Print(InfMenu.LangString("subtracting_ogre_points"))--DEBUGNOW ADDLANG
+      InfMenu.Print(InfMenu.LangString("subtracting_ogre_points"))--TODO ADDLANG
     end
     TppHero.SetOgrePoint(ogrePointChange) 
   end,
@@ -143,6 +143,15 @@ this.DEBUG_PrintSoldierDefineItem={
     InfMenu.DebugPrint("SoldierDefine:")
     local soldierDefine=InfInspect.Inspect(mvars.ene_soldierDefine)
     InfMenu.DebugPrint(soldierDefine)  
+  end,
+}
+
+
+this.DEBUG_PrintSoldierIDListItem={
+  OnChange=function()
+    InfMenu.DebugPrint("SoldierIdList:")
+    local soldierIdList=InfInspect.Inspect(mvars.ene_soldierIDList)
+    InfMenu.DebugPrint(soldierIdList)  
   end,
 }
 
@@ -214,8 +223,8 @@ this.DEBUG_Item2={
 
 this.DEBUG_ClearAnnounceLogItem={
   OnChange=function()
-    TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")--pretty sure this is disable
-    --TppUiStatusManager.ClearStatus"AnnounceLog"
+    --TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")--pretty sure this is disable
+    TppUiStatusManager.ClearStatus"AnnounceLog"
   end,
 }
 
@@ -270,9 +279,9 @@ this.HeliMenuOnTestItem={--WIP CULL UI system overrides it :(
       {menu=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,active=true},
       {menu=TppTerminal.MBDVCMENU.MSN_HELI_DISMISS,active=true},
     }
-    InfMenu.DebugPrint("blih")--DEBUGNOW
+    InfMenu.DebugPrint("blih")--DEBUG
     TppTerminal.EnableDvcMenuByList(dvcMenu)
-    InfMenu.DebugPrint("bleh")--DEBUGNOW
+    InfMenu.DebugPrint("bleh")--DEBUG
   end,
 }
 
@@ -312,6 +321,20 @@ this.unlockWeaponCustomizationItem={
     else
       vars.mbmMasterGunsmithSkill=1
     end
+  end,
+}
+
+--
+this.doEnemyReinforce={--WIP DEUBNOW
+  OnChange=function()
+  --TODO: GetClosestCp
+  --[[
+  _OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestLoadReinforce"
+
+or 
+
+  TppReinforceBlock.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)  
+  --]]
   end,
 }
 

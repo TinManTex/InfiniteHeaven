@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r92"
+this.modVersion = "r95"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
@@ -11,6 +11,7 @@ local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
+local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local Enum=TppDefine.Enum
 
@@ -42,11 +43,17 @@ this.enemySubTypes={
 }
 
 --[[REF:
+
 EnemyType.TYPE_SOVIET
+
 EnemyType.TYPE_PF
+
 EnemyType.TYPE_DD
+
 EnemyType.TYPE_SKULL
+
 EnemyType.TYPE_CHILD
+
 --]]
 this.soldierSubTypesForTypeName={
   TYPE_DD={
@@ -173,69 +180,133 @@ function this.DisplayFox32(foxString)
 end
 
 --[[
+
 function this.soldierFovBodyTableAfghan(missionId)
+
   local bodyTable={
+
     {0,MAX_REALIZED_COUNT},
+
     {1,MAX_REALIZED_COUNT},
+
     {2,MAX_REALIZED_COUNT},
+
     {5,MAX_REALIZED_COUNT},
+
     {6,MAX_REALIZED_COUNT},
+
     {7,MAX_REALIZED_COUNT},
+
     {10,MAX_REALIZED_COUNT},
+
     {11,MAX_REALIZED_COUNT},
+
     {20,MAX_REALIZED_COUNT},
+
     {21,MAX_REALIZED_COUNT},
+
     {22,MAX_REALIZED_COUNT},
+
     {25,MAX_REALIZED_COUNT},
+
     {26,MAX_REALIZED_COUNT},
+
     {27,MAX_REALIZED_COUNT},
+
     {30,MAX_REALIZED_COUNT},
+
     {31,MAX_REALIZED_COUNT},
+
     {TppEnemyBodyId.prs2_main0_v00,MAX_REALIZED_COUNT}
+
   }
+
   if not this.IsNotRequiredArmorSoldier(missionId)then
+
     local e={TppEnemyBodyId.sva0_v00_a,MAX_REALIZED_COUNT}
+
     table.insert(bodyTable,e)
+
   end
+
   return bodyTable
+
 end
+
 function this.soldierFovBodyTableAfrica(missionId)
+
   local bodyTable={
+
     {50,MAX_REALIZED_COUNT},
+
     {51,MAX_REALIZED_COUNT},
+
     {55,MAX_REALIZED_COUNT},
+
     {60,MAX_REALIZED_COUNT},
+
     {61,MAX_REALIZED_COUNT},
+
     {70,MAX_REALIZED_COUNT},
+
     {71,MAX_REALIZED_COUNT},
+
     {75,MAX_REALIZED_COUNT},
+
     {80,MAX_REALIZED_COUNT},
+
     {81,MAX_REALIZED_COUNT},
+
     {90,MAX_REALIZED_COUNT},
+
     {91,MAX_REALIZED_COUNT},
+
     {95,MAX_REALIZED_COUNT},
+
     {100,MAX_REALIZED_COUNT},
+
     {101,MAX_REALIZED_COUNT},
+
     {TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}
+
   }
+
   local armorTypeTable=this.GetArmorTypeTable(missionId)
+
   if armorTypeTable~=nil then
+
     local numArmorTypes=#armorTypeTable
+
     if numArmorTypes>0 then
+
       for t,armorType in ipairs(armorTypeTable)do
+
         if armorType==TppDefine.AFR_ARMOR.TYPE_ZRS then
+
           table.insert(bodyTable,{TppEnemyBodyId.pfa0_v00_a,MAX_REALIZED_COUNT})
+
         elseif armorType==TppDefine.AFR_ARMOR.TYPE_CFA then
+
           table.insert(bodyTable,{TppEnemyBodyId.pfa0_v00_b,MAX_REALIZED_COUNT})
+
         elseif armorType==TppDefine.AFR_ARMOR.TYPE_RC then
+
           table.insert(bodyTable,{TppEnemyBodyId.pfa0_v00_c,MAX_REALIZED_COUNT})
+
         else
+
           table.insert(bodyTable,{TppEnemyBodyId.pfa0_v00_a,MAX_REALIZED_COUNT})
+
         end
+
       end
+
     end
+
   end
+
 end
+
 --]]
 
 function this.ResetCpTableToDefault()
@@ -246,16 +317,16 @@ function this.ResetCpTableToDefault()
   end
 end
 
---[[function this.GetGameId(gameId,type)
-  if IsString(gameId) then
-    gameId=GetGameObjectId(gameId) 
-    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
-      if soldierId~=NULL_ID then
-  end
-  if gameId==nil or gameId==NULL_ID then
-    return nil
-  end
-end--]]
+--function this.GetGameId(gameId,type)
+  --if IsString(gameId) then
+    --gameId=GetGameObjectId(gameId) 
+    --local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+      --if soldierId~=NULL_ID then
+  --end
+  --if gameId==nil or gameId==NULL_ID then
+    --return nil
+  --end
+--end
 
 function this.ChangePhase(cpName,phase)
   local gameId=GetGameObjectId("TppCommandPost2",cpName)
@@ -291,13 +362,27 @@ this.SetFriendlyEnemy = function()
   GameObject.SendCommand( gameObjectId, command )
 end
 
+--
+function this.GetClosestCp()
+  local closestCpId=nil
+  local closestDist=9999999999999
+  for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
+    local cpId=GetGameObjectId(cpName)
+    if cpId and cpId~=NULL_ID then
+      --local cpPos=?
+      local playerPos=TppPlayer.GetPosition()
+      local distSqr=TppMath.FindDistance(cpPos,playerPos)
+    end
+  end
+end
+
 --splash stuff
 local oneOffSplashes={
   "startstart",
   "startend",
 }
 function this.AddOneOffSplash(splashName)
- oneOffSplashes[#oneOffSplashes+1]=splashName  
+  oneOffSplashes[#oneOffSplashes+1]=splashName
 end
 function this.DeleteOneOffSplashes()
   for n,splashName in ipairs(oneOffSplashes) do
@@ -364,7 +449,7 @@ local emblemTypes={
     2200,
     2210,
     2240,
-    2241,  
+    2241,
   }},
 }
 
@@ -374,11 +459,15 @@ this.currentRandomSplash=nil
 --ASSUMPTION: heavy on emblemTypes data layout assumptions, so if you change it, this do break
 function this.CreateRandomEmblemSplash()
   --[[if this.currentRandomSplash~=nil then
+
     if SplashScreen.GetSplashScreenWithName(this.currentRandomSplash) then
+
       return
+
     end
+
   end--]]
-  
+
   local groupNumber=math.random(#emblemTypes)
   local group=emblemTypes[groupNumber]
   local emblemType=group[1]
@@ -390,14 +479,18 @@ function this.CreateRandomEmblemSplash()
   else
     emblemNumber=math.random(emblemRanges[1],emblemRanges[2])
   end
-  
+
   local lowOrHi="h"--tex low is full opaque, i guess for being in background thus 'low' display order, hi is more detailed stencil
   --[[if math.random()<0.5 then
+
     lowOrHi="l"
+
   else
+
     lowOrHi="h"
+
   end--]]
-    
+
   local name=emblemType..emblemNumber
 
   local path="/Assets/tpp/ui/texture/Emblem/"..emblemType.."/ui_emb_"..emblemType.."_"..emblemNumber.."_"..lowOrHi.."_alp.ftex"
@@ -405,7 +498,7 @@ function this.CreateRandomEmblemSplash()
 
   this.currentRandomSplash=name
   --this.AddOneOffSplash(name)
-  
+
   --SplashScreen.Show(randomSplash,.2,0.5,.2)
   return randomSplash
 end
@@ -424,38 +517,7 @@ end
 
 
 --
-function this.EndFadeIn()
-  if gvars.disableHeadMarkers==1 then
-    TppUiStatusManager.SetStatus("HeadMarker","INVALID")
-  end
-  if gvars.disableXrayMarkers==1 then
-    --TppSoldier2.DisableMarkerModelEffect()
-    TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
-  end  
-  --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
-  --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
-  --RETRY: push back up again, you may just have fucked something up lol
-  
-  local healthScale=gvars.playerHealthScale
-  if healthScale~=1 then
-    Player.ResetLifeMaxValue()
-    local newMax=vars.playerLifeMax
-    newMax=newMax*healthScale
-    if newMax < 10 then
-      newMax = 10
-    end
-    Player.ChangeLifeMaxValue(newMax)
-  end
-end
-function this.FinishOpeningDemoOnHeli()
-  if gvars.disableHeadMarkers==1 then
-    TppUiStatusManager.SetStatus("HeadMarker","INVALID")
-  end
-  if gvars.disableXrayMarkers==1 then
-    --TppSoldier2.DisableMarkerModelEffect()
-    TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
-  end
-end
+
 function this.OnAllocateFob()
   InfMenu.ResetSettings()--tex TODO: would like a nosave reset, but would need to change to reading ivar.setting instead of gvars, then would need to VERFY that .setting is restored on gvar restore
   TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
@@ -486,6 +548,137 @@ local function UpdateRangeToMinMax(updateRate,updateRange)
   return min,max
 end
 
+function this.Messages()
+  return Tpp.StrCode32Table{
+    GameObject={
+      {msg="Dead",func=this._OnDead},
+      {msg="Damage",func=this._OnDamage},
+      {msg="ChangePhase",func=this._OnPhaseChange},
+    },
+    Player={
+      {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers()},
+    },
+    UI={
+      {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
+        --InfMenu.DebugPrint"FadeInOnGameStart"--DEBUGNOW
+        this.FadeInOnGameStart()
+      end},
+      --this.FadeInOnGameStart},
+      {msg="EndFadeIn",sender="FadeInOnStartMissionGame",func=function()--fires on: returning to heli from mission
+        --  TppUiStatusManager.ClearStatus"AnnounceLog"
+        --InfMenu.ModWelcome()
+        --InfMenu.DebugPrint"FadeInOnStartMissionGame"--DEBUGNOW
+        --this.FadeInOnGameStart()
+        end},
+      {msg="EndFadeIn",sender="OnEndGameStartFadeIn",func=function()--fires on: on-foot mother base, both initial and continue
+        --InfMenu.DebugPrint"OnEndGameStartFadeIn"--DEBUGNOW
+        this.FadeInOnGameStart()
+      end},
+    },
+  }
+end
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+end
+
+function this._OnDead(gameId,killerId,playerPhase,deadMessageFlag)--tex cant quite nail down the args, since tpprevenge_ondead has a bug where it references a non existant attackId, most other listeners to the message only have 1 or two args declared/read,
+  --InfMenu.DebugPrint("InfMain._OnDead")--DEBUGNOW:
+
+  if GetTypeIndex(gameId)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+    return
+  end
+
+  local killerIsPlayer=(killerId==GameObject.GetGameObjectIdByIndex("TppPlayer2",PlayerInfo.GetLocalPlayerIndex()))
+end
+
+local AttackIsVehicle=function(attackId)--RETAILBUG: seems like attackid must be a typo and f
+  if(((((((((((((
+    attackId==TppDamage.ATK_VehicleHit
+    or attackId==TppDamage.ATK_Tankgun_20mmAutoCannon)
+    or attackId==TppDamage.ATK_Tankgun_30mmAutoCannon)
+    or attackId==TppDamage.ATK_Tankgun_105mmRifledBoreGun)
+    or attackId==TppDamage.ATK_Tankgun_120mmSmoothBoreGun)
+    or attackId==TppDamage.ATK_Tankgun_125mmSmoothBoreGun)
+    or attackId==TppDamage.ATK_Tankgun_82mmRocketPoweredProjectile)
+    or attackId==TppDamage.ATK_Tankgun_30mmAutoCannon)
+    or attackId==TppDamage.ATK_Wav1)
+    or attackId==TppDamage.ATK_WavCannon)
+    or attackId==TppDamage.ATK_TankCannon)
+    or attackId==TppDamage.ATK_WavRocket)
+    or attackId==TppDamage.ATK_HeliMiniGun)
+    or attackId==TppDamage.ATK_HeliChainGun)
+--or attackId==TppDamage.ATK_WalkerGear_BodyAttack
+  then
+    return true
+  end
+  return false
+end
+function this._OnDamage(gameId,attackId,attackerId)
+  --InfMenu.DebugPrint"_OnDamage"--DEBUGNOW
+  if GetTypeIndex(gameId)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+    return
+  end
+  if Tpp.IsPlayer(attackerId) then
+    --InfMenu.DebugPrint"_OnDamage attacked by player"--DEBUGNOW
+    if gvars.soldierAlertOnHeavyVehicleDamage>0 then
+      if AttackIsVehicle(attackId) then
+        --InfMenu.DebugPrint"_OnDamage AttackIsVehicle"--DEBUGNOW
+        for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do--tex TODO:find or build a better soldierid>cpid lookup 
+          if TppEnemy.GetPhaseByCPID(cpId)<gvars.soldierAlertOnHeavyVehicleDamage then
+            if soldierIds[gameId]~=nil then
+              --InfMenu.DebugPrint"_OnDamage found soldier in idlist"--DEBUGNOW
+              local command={id="SetPhase",phase=gvars.soldierAlertOnHeavyVehicleDamage}
+              SendCommand(cpId,command)
+              break
+            end
+          end--if cp not phase
+        end--for soldieridlist
+      end--attackisvehicle
+    end--gvar 
+  end--player is attacker
+end
+
+local function PhaseName(index)
+  return Ivars.phaseSettings[index+1]
+end
+function this._OnPhaseChange(gameObjectId,phase,oldPhase)
+  if gvars.printPhaseChanges==1 then
+    --tex TODO: cpId>cpName
+    InfMenu.Print("cpId:"..gameObjectId.." Phase change from:"..PhaseName(oldPhase).." to:"..PhaseName(phase))--InfMenu.LangString("phase_changed"..":"..PhaseName(phase)))--ADDLANG
+  end
+end
+
+function this.FadeInOnGameStart()
+  this.ClearMarkers()
+  
+  --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
+  --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
+  --RETRY: push back up again, you may just have fucked something up lol
+  local healthScale=gvars.playerHealthScale
+  if healthScale~=1 then
+    Player.ResetLifeMaxValue()
+    local newMax=vars.playerLifeMax
+    newMax=newMax*healthScale
+    if newMax < 10 then
+      newMax = 10
+    end
+    Player.ChangeLifeMaxValue(newMax)
+  end
+  
+  --TppUiStatusManager.ClearStatus"AnnounceLog"
+  --InfMenu.ModWelcome()
+end
+
+function this.ClearMarkers()
+  if gvars.disableHeadMarkers==1 then
+    TppUiStatusManager.SetStatus("HeadMarker","INVALID")
+  end
+  if gvars.disableXrayMarkers==1 then
+    --TppSoldier2.DisableMarkerModelEffect()
+    TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
+  end
+end
+
 --ivar update system
 
 local updateIvars={
@@ -495,11 +688,16 @@ local updateIvars={
 }
 
 function this.Init(missionTable)
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+
   for i, ivar in ipairs(updateIvars) do
     if IsFunc(ivar.ExecInit) then
       ivar.ExecInit()
     end
   end
+end
+function this.OnReload(missionTable)
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 
 this.execChecks={
@@ -522,21 +720,20 @@ function this.Update()
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
-    
+
   playerVehicleId=NULL_ID
   local currentChecks=this.execChecks
-  for k,v in ipairs(currentChecks) do
-    currentChecks[k]=false
-  end
-  --[[CULL
-  currentChecks.inGame=false
+  --for k,v in ipairs(this.execChecks) do
+  --this.execChecks[k]=false--tex TODO: can't figure out why this isn't actually setting REPRO: start misison, get into vehicle, get checkpoint, return to acc, still inGroundVehicle==true
+  --end
   currentChecks.inHeliSpace=false
   currentChecks.inMission=false
-  currentChecks.inMissionOnGround=false
+  currentChecks.initialAction=false
   currentChecks.inGroundVehicle=false
   currentChecks.inSupportHeli=false
   currentChecks.onBuddy=false
-  --]]
+  currentChecks.inMenu=false
+
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
 
   if currentChecks.inGame then
@@ -547,8 +744,10 @@ function this.Update()
 
     if not currentChecks.inHeliSpace then
       currentChecks.initialAction=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
-    --[[   if not initialAction then
+      --[[   if not initialAction then
+
         InfMenu.DebugPrint"not initialAction"--DEBUGNOW
+
       end --]]
 
       currentChecks.inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
@@ -556,22 +755,22 @@ function this.Update()
       currentChecks.onBuddy=Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId)
     end
   end
-  
+
   this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
   --if currentChecks.inGame then
   --InfMenu.DebugPrint(tostring(this.currentTime))--DEBUGNOW
   --end
-  
+
   InfButton.UpdateHeld()
-  InfButton.UpdateRepeatReset() 
-  
+  InfButton.UpdateRepeatReset()
+
   --InfMenu.DebugPrint("InfMain.Update")
---SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
-  
-  ---Update shiz 
+  --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
+
+  ---Update shiz
   InfMenu.Update(currentChecks)
   currentChecks.inMenu=InfMenu.menuOn
-  
+
   for i, ivar in ipairs(updateIvars) do
     if ivar.setting==1 then
       --tex ivar.updateRate is either number or another ivar
@@ -584,7 +783,7 @@ function this.Update()
         updateRange=updateRange.setting
       end
       --
-      
+
       this.ExecUpdate(currentChecks,this.currentTime,ivar.execChecks,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
     end
   end
@@ -596,20 +795,20 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   if execState.nextUpdate > currentTime then
     return
   end
-   
+
   for check,ivarCheck in ipairs(execChecks) do
     if currentChecks[check]~=ivarCheck then
       return
     end
   end
-  
+
   if not IsFunc(ExecUpdate) then
     InfMenu.DebugPrint"ExecUpdate is not a function"
     return
   end
-  
+
   ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
-  
+
   --tex set up next update time GOTCHA: wont reflect changes to rate and range till next update
   if updateRange then
     local updateMin=updateRate-updateRange*0.5
@@ -621,7 +820,7 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
     updateRate=math.random(updateMin,updateMax)
   end
   execState.nextUpdate=currentTime+updateRate
-  
+
   --if currentChecks.inGame then
   -- InfMenu.DebugPrint("currentTime: "..tostring(currentTime).." updateRate:"..tostring(updateRate) .." nextUpdate:"..tostring(execState.nextUpdate))--DEBUGNOW
   --end
@@ -631,16 +830,12 @@ end
 --state
 local PHASE_ALERT=TppGameObject.PHASE_ALERT
 
-local function PhaseName(index)
-  return Ivars.phaseSettings[index+1]
-end
-
 function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
   --if currentChecks.inGame then
   --InfMenu.DebugPrint("currentTime: "..currentTime.." updateRate:"..updateRate)--DEBUGNOW
- --  return
- -- end  
-  
+  --  return
+  -- end
+
   --Phase/Alert updates DOC: Phases-Alerts.txt
   --TODO RETRY, see if you can get when player comes into cp range better, playerPhase doesnt change till then
   --RESEARCH music also starts up
@@ -648,17 +843,17 @@ function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateR
   if TppLocation.IsMotherBase() or TppLocation.IsMBQF() then
     return
   end
-  
+
   local currentPhase=vars.playerPhase
   local minPhase=gvars.minPhase
   local maxPhase=gvars.maxPhase
-  
-  if currentPhase~=execState.lastPhase then
-    if gvars.printPhaseChanges==1 then
-      InfMenu.Print(InfMenu.LangString("phase_changed"..":"..PhaseName(currentPhase)))
-    end
-  end
-  
+
+--CULL  if currentPhase~=execState.lastPhase then
+--    if gvars.printPhaseChanges==1 then
+--      InfMenu.Print(InfMenu.LangString("phase_changed"..":"..PhaseName(currentPhase)))
+--    end
+--  end
+
   --InfMenu.DebugPrint("InfMain.Update phase mod")
 
   --local debugMessage=nil--DEBUG
@@ -682,12 +877,12 @@ function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateR
     --doesnt really work well, > alert is set last know pos, take cover and suppress last know pos
     --evasion is - is no last pos, downgrade to caution, else group advance on last know pos
     --ideally would be able to set last know pos independant of phase
-    --[[if minPhase==PHASE_ALERT then
+    --if minPhase==PHASE_ALERT then
       --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
-      if currentPhase==PHASE_ALERT and execState.lastPhase==PHASE_ALERT then
-        this.ChangePhase(cpName,minPhase-1)--gvars.minPhase)
-      end
-    end--]]
+      --if currentPhase==PHASE_ALERT and execState.lastPhase==PHASE_ALERT then
+        --this.ChangePhase(cpName,minPhase-1)--gvars.minPhase)
+      --end
+    --end
     if minPhase==TppGameObject.PHASE_EVASION then
       if execState.alertBump then
         execState.alertBump=false
@@ -700,17 +895,15 @@ function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateR
         execState.alertBump=true
       end
     end
-
   end
 
-    --[[ if debugMessage then--DEBUG--tex not a good idea to keep on cause playerphase only updates in certain radius of a cp
-    InfMenu.DebugPrint(debugMessage)
-    end--]]  
-    
+  --if debugMessage then--DEBUG--tex not a good idea to keep on cause playerphase only updates in certain radius of a cp
+    --InfMenu.DebugPrint(debugMessage)
+    --end--]]  
+
   --  if currentChecks.inGame then---
   -- InfMenu.DebugPrint("currentTime: "..tostring(currentTime).." updateRate:"..tostring(updateRate))--DEBUGNOW
-
- -- end---
+  -- end---
 
   execState.lastPhase=currentPhase
 end
@@ -747,7 +940,7 @@ function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,up
   if currentChecks.inMenu then
     return
   end
-  
+
   if not currentChecks.inGame or currentChecks.inHeliSpace then
     if Ivars.warpPlayerUpdate.setting==1 then
       Ivars.warpPlayerUpdate:Set(0)
@@ -758,7 +951,7 @@ function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,up
   if Ivars.warpPlayerUpdate.setting==0 then
     return
   end
-  
+
   --TODO: refactor, in InfMenu.Update too
   local repeatRate=0.06
   local repeatRateUp=0.04
@@ -830,47 +1023,47 @@ function this.UpdateHeliVars()
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
-  
+
   local heliId=GetGameObjectId("TppHeli2","SupportHeli")
   if heliId==nil or heliId==NULL_ID then
     return
   end
-  
+
   if gvars.disableHeliAttack==1 then--tex disable heli be fightan
     SendCommand(heliId,{id="SetCombatEnabled",enabled=false})
   end
   if gvars.setInvincibleHeli==1 then
-    SendCommand(heliId,{id="SetInvincible",enabled=true}) 
+    SendCommand(heliId,{id="SetInvincible",enabled=true})
   end
   if not Ivars.setTakeOffWaitTime:IsDefault() then
     SendCommand(heliId,{id="SetTakeOffWaitTime",time=gvars.setTakeOffWaitTime})
   end
   if gvars.disablePullOutHeli==1 then
     --if not TppLocation.IsMotherBase() and not TppLocation.IsMBQF() then--tex aparently disablepullout overrides the mother base taxi service
-      SendCommand(heliId,{id="DisablePullOut"})
-    --end 
+    SendCommand(heliId,{id="DisablePullOut"})
+    --end
   end
   if not Ivars.setLandingZoneWaitHeightTop:IsDefault() then
     SendCommand(heliId,{id="SetLandingZoneWaitHeightTop",height=gvars.setLandingZoneWaitHeightTop})
   end
   if gvars.disableDescentToLandingZone==1 then
-    SendCommand(heliId,{id="DisableDescentToLandingZone"})  
-  end 
+    SendCommand(heliId,{id="DisableDescentToLandingZone"})
+  end
   if gvars.setSearchLightForcedHeli==1 then
     SendCommand(heliId,{id="SetSearchLightForcedType",type="Off"})
   end
 end
 
-function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate) 
+function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
   local heliId=GetGameObjectId("TppHeli2","SupportHeli")
   if heliId==nil or heliId==NULL_ID then
     return
   end
-  
+
   --if gvars.enableGetOutHeli==1 then
-   --DEBUGNOW SendCommand(heliId, { id="SetGettingOutEnabled", enabled=true })
+  -- SendCommand(heliId, { id="SetGettingOutEnabled", enabled=true })
   --end
-  
+
   if not currentChecks.inMenu and currentChecks.inSupportHeli then
     if gvars.disablePullOutHeli==1 then--or not currentChecks.initialAction then
       if InfButton.OnButtonDown(InfButton.STANCE) then
@@ -882,7 +1075,7 @@ function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRa
           InfMenu.PrintLangId"heli_pulling_out"
           --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player
         end
-      end--button down
+    end--button down
     end--nopullout or initialact
   end--not menu, insupportheli
 end

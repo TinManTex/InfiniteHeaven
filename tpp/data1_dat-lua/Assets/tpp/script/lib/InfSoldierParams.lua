@@ -242,7 +242,7 @@ function this.ApplySightIvarsToSoldierParams()
       local default=sightParamsDefaults[name].distance
       if default>0 then
         item.distance=default*gvars.soldierSightDistScale
-        --InfMenu.DebugPrint(name..".distance="..item.distance)--DEBUGNOW
+        --InfMenu.DebugPrint(name..".distance="..item.distance)
       end
     else
       for childName,item in pairs(item) do
@@ -250,7 +250,7 @@ function this.ApplySightIvarsToSoldierParams()
           local default=sightParamsDefaults[name][childName].distance
           if default>0 then
             item.distance=default*gvars.soldierSightDistScale
-            --InfMenu.DebugPrint(name.."."..childName..".distance="..item.distance)--DEBUGNOW
+            --InfMenu.DebugPrint(name.."."..childName..".distance="..item.distance)
           end
         end
       end
@@ -263,12 +263,12 @@ function this.PrintSightForm()
   local sightParamsMod=this.soldierParameters.sightFormParameter
   for name,item in pairs(sightParamsMod) do
     if IsTable(item) and item.distance~=nil then
-        --InfMenu.DebugPrint(name..".distance="..item.distance)--DEBUGNOW
+        --InfMenu.DebugPrint(name..".distance="..item.distance)
         toPrint=toPrint.."\n"..name..".distance="..item.distance
     else
       for childName,item in pairs(item) do
         if IsTable(item) and item.distance~=nil then
-          --InfMenu.DebugPrint(name.."."..childName..".distance="..item.distance)--DEBUGNOW
+          --InfMenu.DebugPrint(name.."."..childName..".distance="..item.distance)
           toPrint=toPrint.."\n"..name.."."..childName..".distance="..item.distance
         end
       end
@@ -279,17 +279,18 @@ end
   
 --IN: this.soldierParametersDefault, *Ivars.<sightForm>DistScaleSightParam
 --OUT: this.soldierParameters
+--WIP: more granular control of sightFormParameters
 --function this.ApplySightIvarsToSoldierParams()
 --  local sightParamsMod=this.soldierParameters.sightFormParameter
 --  local sightParamsDefaults=this.soldierParametersDefaults.sightFormParameter
 --  local sightDistScaleName=Ivars.sightDistScaleName
 --  
 --  for i,typeName in ipairs(Ivars.sightTypeNames) do
---    --InfMenu.DebugPrint("typeName: "..typeName)--DEBUGNOW
+--    --InfMenu.DebugPrint("typeName: "..typeName)--DEBUG
 --    local sightType=sightParamsMod[typeName]
 --    local sightTypeDefault=sightParamsDefaults[typeName]
 --
---    if sightTypeDefault==nil then--DEBUGNOW
+--    if sightTypeDefault==nil then--DEBUG
 --      InfMenu.DebugPrint"sightTypeDefault==nil"
 --    end
 --    
@@ -314,7 +315,7 @@ end
 --
 --
 --        local sightFormDefault=sightTypeDefault[formName]
---        if sightFormDefault==nil then--DEBUGNOW
+--        if sightFormDefault==nil then--DEBUG
 --          InfMenu.DebugPrint"sightFormDefault==nil"
 --        end
 --        local gvarName=formName..sightDistScaleName
