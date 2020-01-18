@@ -1,5 +1,5 @@
 = Infinite heaven =
-r40 2015-10-10
+r44 2015-10-15
 by tin man tex
 For MGSV version 1.0.4.0
 
@@ -8,9 +8,9 @@ A mod for MGSV intended to extend play through customisable settings and feature
 Features:
 Subsistence Mode toggle - Lets you go into any mission or free roam with same restrictions as subsistence missions, or with just a secondary of your choice.
 Comes in two profiles:
-Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgrades off, ASAP time forced, vehicle off, fulton  off, support off.
+Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgrades off, ASAP time forced, vehicle off, fulton  off, support off, head markers off, heli attack off, central landing zones off.
 
-Bounder - Pure as base but allows: Buddy, changing Suit (which should also allow model swaps), Level 1 Fulton.
+Bounder - Pure as base but allows: Buddy, changing Suit (which should also allow model swaps), Level 1 Fulton, head markers
 
 OSP Weapon Loadout - Seperate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, or just primary set to none.
 
@@ -59,25 +59,30 @@ Copy both folders to a safe place.
 
 You may want to back up periodically as you play in case you come across save breaking issues with the mod.
 
-Back up TPPs 00.dat in
+Back up TPPs original 01.dat in
 <steam path>\steamapps\common\MGS_TPP\master\0\
-You may just rename it in place if you wish.
-MGSVModDo will also create a backup if the file hasn't been previously modded.
+This does not apply if you've aready modded it.
+
+If you installed an earlier version of Infinite heaven than r44 manually find and restore your original game 00.dat backup or revalidate the game through steam:
+
+Right click on the game in steam library, choose properties from bottom of menu, local files tab, verify integrity of game cache button.
+or click this steam://validate/287700
+
+If it gets stuck at 0% for more than a few minutes steam is being stupid, validate one of the valve games first, hl2, portal etc then try validating mgsv again.
+
+It should say 1 file needs to be redownloaded, so go to steam downloads and make sure that happens.
 
 Instalation:
-Extract Infinite Heaven zip.
-Run MGSVModDo.exe
-If you have installed Steam, or the game to another folder you must edit gamePath in MGSVModDo.exe.config to point to the correct folder.
-Copy .\build\00.dat to
-<steam path>\steamapps\common\MGS_TPP\master\0\
+Use SnakeBite Mod Manager 0.31 or later: nexusmods.com/metalgearsolidvtpp/mods/106/
+Uninstall any earlier version of Infinite Heaven
+Install Infinite Heaven.msgv
 
-WARNING: Applying this mod to any version after 1.0.4.0 that has updated the file will likely prevent the game from working. Simply replace 00.dat with the original game file and wait for the mod to be updated.
+WARNING: Applying this mod to any version after 1.0.4.0 that has updated the file will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
 
 Uninstallation:
 Exit any missions, return to the ACC.
 The mod saves some varables to the save file, but on initial testing (I welcome feedback on this) there is no issue with loading a save from this mod after the mod has been removed (provided you have exited to ACC)
-Replace <steam path>\steamapps\common\MGS_TPP\master\0\00.dat with the original verion.
-Alternatively 'verify integrity of game cache' option in steam should work.
+Use uninstall in SnakeBite.
 
 Usage:
 While in ACC Heli
@@ -110,7 +115,24 @@ Subsidence mode will still technically do a full deployment cost of what's set. 
 When changing General Enemy Parameters back to Default you must exit to title to have the setting save, then restart the game to have it load the default enemy parameters.
 
 Changelog:
-r40 2015-10-10
+r44 2015-10-15 - public release
+No Central Landing Zones, filter for mission start lzs, filter for in-mission lzs
+
+r43
+Refactor due to makebite allowing custom files via GzsTool - thanks Topher, atvaark
+InfButton, InfMenu, etc for its repsective stuff that was previously dumped in TppMain.lua
+UpdateModMenu direct via TppMain.SetUpdate/Onupdate instead of in tppmission update.
+
+r42 
+Re-added various support menu disables on subsistence, missed in the 1.0.4.0 merge.
+Support heli combat turned off - I found it bre3zer
+Head markers disabled for Subsistence Pure (xray effect on marked still active).
+
+r41 
+Nvida splash removed - thanks LordRamza
+Fox engine splash removed (side effect, tied to the showing of nvid, would like to show it, I lovehate fox engine)
+
+r40 2015-10-10 - public release
 Rebuilt for 1.0.4.0
 Quiet Return function moved out of TppStory.lua, so for now one less file modded.
 

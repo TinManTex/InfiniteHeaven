@@ -1,8 +1,6 @@
 -- DOBUILD: 1
--- ORIGINALQAR: data1
--- FILEPATH: \Assets\tpp\script\lib\TppGVars.lua
-local e={}
-e.DeclareGVarsTable={
+local this={}
+this.DeclareGVarsTable={
   {name="ini_isReturnToTitle",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="ini_isTitleMode",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="DEBUG_initMissionToTitle",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
@@ -287,25 +285,27 @@ e.DeclareGVarsTable={
   {name="enemyHealthMult",type=TppScriptVars.TYPE_FLOAT,value=1,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="unlockSideOps",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="unlockSideOpNumber",type=TppScriptVars.TYPE_UINT32,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="landingZoneWaveOff",type=TppScriptVars.TYPE_FLOAT,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="noCentralLzs",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   nil
 }
-TppScriptVars.DeclareGVars(e.DeclareGVarsTable)
+TppScriptVars.DeclareGVars(this.DeclareGVarsTable)
 if Fox.GetPlatformName()=="PS3"then
-  e.DeclareGVarsTable=nil
+  this.DeclareGVarsTable=nil
 end
-function e.AllInitialize()
-  if e.DeclareGVarsTable==nil then
+function this.AllInitialize()
+  if this.DeclareGVarsTable==nil then
     return
   end
-  for a,e in ipairs(e.DeclareGVarsTable)do
-    local r,e,a=e.name,e.arraySize,e.value
-    if e and(e>1)then
-      for e=0,(e-1)do
-        gvars[r][e]=a
+  for a,gvar in ipairs(this.DeclareGVarsTable)do
+    local name,arraySize,value=gvar.name,gvar.arraySize,gvar.value
+    if arraySize and(arraySize>1)then
+      for e=0,(arraySize-1)do
+        gvars[name][e]=value
       end
     else
-      gvars[r]=a
+      gvars[name]=value
     end
   end
 end
-return e
+return this

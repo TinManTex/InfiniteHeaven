@@ -1,6 +1,5 @@
 -- DOBUILD: 1
 -- ORIGINALQAR: chunk0
--- FILEPATH: \Assets\tpp\level\mission2\init\init_sequence.lua
 -- PACKPATH: \Assets\tpp\pack\mission2\init\init.fpkd
 local this = {}
 local StrCode32 = Fox.StrCode32
@@ -150,6 +149,7 @@ function this.StartPreTitleSequence()
 
   if not TppSave.IsNewGame() then
     TppSequence.SetNextSequence("Seq_Demo_ShowKonamiAndFoxLogo")
+    SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("foxLogo"))--tex
   else
     SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("konamiLogo"))
     SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("kjpLogo"))
@@ -2446,7 +2446,7 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
     Fox.Log("### Seq_Demo_ShowKonamiAndFoxLogo ###")
     local konamiLogoScreenId = SplashScreen.GetSplashScreenWithName("konamiLogo")
     local kjpLogoScreenId = SplashScreen.GetSplashScreenWithName("kjpLogo")
-    local foxLogoScreenId = SplashScreen.GetSplashScreenWithName("foxLogo")
+    --OFF: local foxLogoScreenId = SplashScreen.GetSplashScreenWithName("foxLogo")
 
     local showTime=0.2--tex
 
@@ -2458,16 +2458,16 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
     end
     SplashScreen.SetStateCallback(konamiLogoScreenId, StateCallback)
 
-    local function StateCallback(screenId, state)
+    --[[OFF: local function StateCallback(screenId, state)
       if state == SplashScreen.STATE_DELETE then
         Fox.Log("konamiLogoScreen is deleted. show fox logo.")
         SplashScreen.Show( foxLogoScreenId, 0, showTime, 0)--tex was 1.0, 4.0, 1.0)
       end
-    end
-    SplashScreen.SetStateCallback(kjpLogoScreenId, StateCallback)
+    end--]]
+    --OFF: SplashScreen.SetStateCallback(kjpLogoScreenId, StateCallback)
 
     SplashScreen.Show( konamiLogoScreenId, 0, showTime, 0)--tex was 1.0, 4.0, 1.0)
-    --tex no nvidia splash? in exe? in ui?
+    --tex no nvidia splash? in exe? in ui?, it is tied to show on the delete of foxlogo though.
     this._StartPreTitleSequence()
   end,
 }

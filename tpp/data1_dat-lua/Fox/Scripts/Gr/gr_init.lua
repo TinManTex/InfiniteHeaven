@@ -8,8 +8,7 @@ local n=true
 local i=true
 local e=true
 if Preference then
-local r=Preference.GetPreferenceEntity"DebugDrawSetting"
-if not Entity.IsNull(r)then
+local r=Preference.GetPreferenceEntity"DebugDrawSetting"if not Entity.IsNull(r)then
 n=r.isEnableDebugPrint
 i=r.isEnableDebug2D
 e=r.isEnableDebugPrimitive

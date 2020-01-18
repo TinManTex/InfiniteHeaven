@@ -1,9 +1,6 @@
 -- DOBUILD: 1
 -- ORIGINALQAR: chunk1
--- FILEPATH: \Assets\tpp\level\mission2\heli\common\heli_common_sequence.lua
 -- PACKPATH: \Assets\tpp\pack\mission2\heli\heli_common_script.fpkd
---local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
---SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -865,9 +862,9 @@ function this.OnUpdateChunkInstalling()
 			Mission.SendMessage("UI", "ActivatePauseMenu")
 			Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_NORMAL)
 			mvars.heliSpace_goToMgoCoroutine = nil
-	mvars.heliSpaceMGOChunkInstallCheckingState = nil
-	mvars.heliSpaceMgoChunkIndex = nil
-end
+	    mvars.heliSpaceMGOChunkInstallCheckingState = nil
+      mvars.heliSpaceMgoChunkIndex = nil
+    end
 	end
 end
 
@@ -1334,7 +1331,7 @@ sequences.Seq_Game_MissionPreparationTop = {
 		end
 		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
-		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or (TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=TppMain.SUBSISTENCE_BOUND) then--tex buddy subsistence mode
+		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or (TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=InfMenu.SETTING_SUBSISTENCE_PROFILE.BOUNDER) then--tex buddy subsistence mode
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
 		end
 		
