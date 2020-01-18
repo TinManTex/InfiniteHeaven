@@ -1,4 +1,4 @@
--- DOBUILD: 1
+-- DOBUILD: 0
 local function yield()
   coroutine.yield()
 end
@@ -626,7 +626,6 @@ if Script.LoadLibrary then
   end
   Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
   Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"
-  Script.LoadLibrary"/Assets/tpp/script/lib/Ivars.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
     Script.LoadLibrary"/Assets/mgo/script/utils/SaveLoad.lua"
@@ -647,15 +646,6 @@ if Script.LoadLibrary then
       Script.LoadLibrary"/Assets/tpp/script/list/TppMissionPrxList.lua"
     end
   end
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfLang.lua"--tex
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfMain.lua"--tex
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfButton.lua"--tex
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfMenuDefs.lua"--tex
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfMenu.lua"--tex
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfPatch.lua"--tex
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfEnemyParams.lua"--tex
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
-  Script.LoadLibrary"/Assets/tpp/script/lib/InfLZ.lua"--tex
 end
 yield()
 pcall(dofile,"/Assets/tpp/ui/Script/UiRegisterInfo.lua")
@@ -712,7 +702,6 @@ if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   dofile"Tpp/Scripts/System/start3rd.lua"
 end
 yield()
-Script.LoadLibrary"/Assets/tpp/script/lib/InfHooks.lua"--tex
 while SplashScreen.GetSplashScreenWithName"cesa"do
   yield()
 end

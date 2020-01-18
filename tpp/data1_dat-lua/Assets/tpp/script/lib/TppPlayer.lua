@@ -1641,10 +1641,6 @@ end
 
 function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below for original
   local isActual=TppMission.IsActualSubsistenceMission()
-  local isManual=gvars.subsistenceProfile > 0 and not Ivars.subsistenceProfile:Is"CUSTOM"--tex DEBUGNOW: TODO: get rid of Is(custom) check here and in TppMission.IsManualSubsistence
-  local isNotDefault=gvars.subsistenceProfile > 0
-  local isSubsistence=isActual or isManual
-
   if isActual and (Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM")) then
     Ivars.ospWeaponProfile:Set{setting="PURE",noOnChange=false,noSave=true}--tex don't want to save due to normal subsistence missions
   end

@@ -79,7 +79,9 @@ function e.SetDefaultWeatherProbabilities()
     WeatherManager.SetExtraWeatherProbabilities(e)
   end
 end
-function e.SetWeatherProbabilitiesAfghNoSandStorm()WeatherManager.SetNewWeatherProbabilities("default",i.AFGH_NO_SANDSTORM)WeatherManager.SetExtraWeatherProbabilities(r.AFGH_NO_SANDSTORM)
+function e.SetWeatherProbabilitiesAfghNoSandStorm()
+WeatherManager.SetNewWeatherProbabilities("default",i.AFGH_NO_SANDSTORM)
+WeatherManager.SetExtraWeatherProbabilities(r.AFGH_NO_SANDSTORM)
 end
 function e.SetMissionStartWeather(e)
   mvars.missionStartWeatherScript=e

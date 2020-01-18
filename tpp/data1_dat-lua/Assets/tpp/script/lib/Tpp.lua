@@ -80,6 +80,16 @@ this.requires={
 "/Assets/tpp/script/lib/TppTrophy.lua",
 "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
 "/Assets/tpp/script/lib/Ivars.lua",--tex for Init
+"/Assets/tpp/script/lib/InfLang.lua",
+"/Assets/tpp/script/lib/InfMain.lua",
+"/Assets/tpp/script/lib/InfButton.lua",
+"/Assets/tpp/script/lib/InfMenuDefs.lua",
+"/Assets/tpp/script/lib/InfMenu.lua",
+"/Assets/tpp/script/lib/InfPatch.lua",
+"/Assets/tpp/script/lib/InfEnemyParams.lua",
+"/Assets/tpp/script/lib/InfInspect.lua",
+"/Assets/tpp/script/lib/InfLZ.lua",
+"/Assets/tpp/script/lib/InfHooks.lua",--
 }
 function this.IsTypeFunc(e)
   return type(e)=="function"
@@ -616,7 +626,8 @@ end
 local r=1
 local n=0
 function this.ShowChunkInstallingPopup(t,l)
-  local e=Time.GetFrameTime()n=n-e
+  local e=Time.GetFrameTime()
+  n=n-e
   if n>0 then
     return
   end

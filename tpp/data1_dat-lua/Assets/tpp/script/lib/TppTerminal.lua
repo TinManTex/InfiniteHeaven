@@ -954,7 +954,7 @@ function this.SetUp()
   this.SetUpBuddyMBDVCMenu()
   this.SetUpCustomWeaponMBDVCMenu()
   --[[if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it
-    --TppUiCommand.AnnounceLogView("Tppterminal set dvcmenu")--tex DEBUG: CULL: --DEBUGNOW
+    --InfMenu.DebugPrint"Tppterminal set dvcmenu")--tex DEBUG: CULL: --DEBUGNOW
     local dvcMenu={
       {menu=this.MBDVCMENU.MSN_BUDDY,active=true},
     }
@@ -969,10 +969,6 @@ function this.SetUp()
       this.EnableDvcMenuByList{{menu=ivar.menuId,active=false}}
     end
   end
-  
-  --if gvars.disableBuddies==0 then
-  --  this.EnableDvcMenuByList{{menu=this.MBDVCMENU.MSN_ATTACK,active=true}}--tex quiet uses attack
-  --end
   
   if isActual or gvars.disableSupportMenu>0 then
     TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")

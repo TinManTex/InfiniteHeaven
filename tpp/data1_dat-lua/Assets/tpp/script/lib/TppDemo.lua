@@ -331,8 +331,8 @@ function this.FinalizeOnDemoBlock()
     DemoDaemon.SkipAll()
   end
 end
-function this.SetDemoTransform(n,e)
-  local t=mvars.dem_demoList[n]
+function this.SetDemoTransform(demoName,e)
+  local t=mvars.dem_demoList[demoName]
   if(t==nil)then
     return
   end
@@ -354,8 +354,8 @@ function this.SetDemoTransform(n,e)
   end
   DemoDaemon.SetDemoTransform(t,a,playerPosition)
 end
-function this.GetDemoStartPlayerPosition(e)
-  local e=mvars.dem_demoList[e]
+function this.GetDemoStartPlayerPosition(demoName)
+  local e=mvars.dem_demoList[demoName]
   if(e==nil)then
     return
   end
@@ -371,11 +371,11 @@ function this.PlayOpening(demoFuncs,demoOptions)
   local options=demoOptions or{}
   options.isSnakeOnly=false
   local demoName="_openingDemo"
-  local n="p31_020000"
-  local a={"p31_020000","p31_020001","p31_020002"}
-  local t=math.random(#a)
-  n=a[t]
-  this.AddDemo(demoName,n)
+  local demoId="p31_020000"
+  local openings={"p31_020000","p31_020001","p31_020002"}
+  local rnd=math.random(#openings)
+  demoId=openings[rnd]
+  this.AddDemo(demoName,demoId)
   local o,r
   local t,a
   local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
@@ -397,25 +397,27 @@ function this.PlayOpening(demoFuncs,demoOptions)
     r=i
   end
   TppMusicManager.StopMusicPlayer(1)
-  DemoDaemon.SetDemoTransform(n,r,o)
+  DemoDaemon.SetDemoTransform(demoId,r,o)
   this.Play(demoName,demoFuncs,options)
 end
 function this.PlayGetIntelDemo(demoFuncs,d,i,options,t)
   local demoOptions=options or{}
   demoOptions.isSnakeOnly=false
-  local n,a
+  local demoId,demoId2
   if t then
-    n,a="p31_010026","p31_010026_001"else
-    n,a="p31_010025","p31_010025_001"end
+    demoId,demoId2="p31_010026","p31_010026_001"
+  else
+    demoId,demoId2="p31_010025","p31_010025_001"
+  end
   local demoName="_getInteldemo"
-  local r="_getInteldemo02"
-  this.AddDemo(demoName,n)
-  this.AddDemo(r,a)
+  local demoName2="_getInteldemo02"
+  this.AddDemo(demoName,demoId)
+  this.AddDemo(demoName2,demoId2)
   local a,r=Tpp.GetLocatorByTransform(d,i)
   local i=Tpp.GetRotationY(r)
   Player.RequestToSetTargetStance(PlayerStance.STAND)
   if a~=nil then
-    DemoDaemon.SetDemoTransform(n,r,a)
+    DemoDaemon.SetDemoTransform(demoId,r,a)
     this.Play(demoName,demoFuncs,demoOptions)
     TppUI.ShowAnnounceLog"getIntel"
   end
@@ -620,17 +622,17 @@ function this.Update()
   thisLocal.ProcessPlayRequest(n.demo_playRequestInfo.missionBlock)
   thisLocal.ProcessFinishWaitRequestInfo()
 end
-function this.Register(e)
-  mvars.dem_demoList=e
-  for n,e in pairs(e)do
+function this.Register(list)
+  mvars.dem_demoList=list
+  for n,e in pairs(list)do
     mvars.dem_invDemoList[e]=n
     mvars.dem_invScdDemolist[StrCode32(e)]=n
   end
 end
-function this.AddDemo(e,n)
-  mvars.dem_demoList[e]=n
-  mvars.dem_invDemoList[n]=e
-  mvars.dem_invScdDemolist[StrCode32(n)]=e
+function this.AddDemo(demoName,demoId)
+  mvars.dem_demoList[demoName]=demoId
+  mvars.dem_invDemoList[demoId]=demoName
+  mvars.dem_invScdDemolist[StrCode32(demoId)]=demoName
 end
 function this.OnMessage(i,r,o,a,t,l,n)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,i,r,o,a,t,l,n)
@@ -1304,7 +1306,8 @@ end
 function this.EnableNpc(t)
   local a=mvars.dem_demoFlags[t]or{}
   if not a.isInGame then
-    local n="all"local t=mvars.dem_demoList[t]
+    local n="all"
+    local t=mvars.dem_demoList[t]
     if a.finishFadeOut or mvars.dem_isSkipped[t]then
       n={}
       for a,e in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do

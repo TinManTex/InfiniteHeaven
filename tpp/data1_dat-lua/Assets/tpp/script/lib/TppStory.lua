@@ -1,3 +1,4 @@
+-- DOBUILD: 1
 local this={}
 this.storySequenceTable={}
 this.storySequenceTable_Master={
@@ -1703,6 +1704,7 @@ function this.RequestLoseQuiet()
   end
 end
 function this.CanArrivalLiquidInMB()
+  if gvars.mbShowEli>0 then return true end--tex added mbshow
   local e=this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
   local n=not TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"return e and n
 end
@@ -1714,7 +1716,7 @@ function this.HueyHasKantokuGrass()
   return this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA
 end
 function this.CanArrivalCodeTalkerInMB()
-  return this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_CODE_TALKER
+  return this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_CODE_TALKER or gvars.mbShowCodeTalker>0--tex added mbshow
 end
 function this.CanArrivalDDogInMB()
   local e=TppBuddyService.CanSortieBuddyType(BuddyType.DOG)
@@ -1722,15 +1724,19 @@ function this.CanArrivalDDogInMB()
   return e and n
 end
 function this.CanArrivalSahelanInMB()
+  if gvars.mbShowSahelan>0 then return true end--tex added mbshow
   local e=this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO
-  local n=not TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"return e and n
+  local n=not TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"
+  return e and n
 end
 function this.CanArrivalChildrenInMB()
   if this.IsMissionCleard(10100)then
     if TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"then
       return false
     end
-    local n=TppQuest.IsCleard"outland_q20913"or TppQuest.IsCleard"lab_q20914"local e=(TppQuest.IsCleard"tent_q20910"and TppQuest.IsCleard"fort_q20911")and TppQuest.IsCleard"sovietBase_q20912"if n and(not e)then
+    local n=TppQuest.IsCleard"outland_q20913"or TppQuest.IsCleard"lab_q20914"
+    local e=(TppQuest.IsCleard"tent_q20910"and TppQuest.IsCleard"fort_q20911")and TppQuest.IsCleard"sovietBase_q20912"
+    if n and(not e)then
       return false
     end
     return true
@@ -1738,7 +1744,8 @@ function this.CanArrivalChildrenInMB()
   return false
 end
 function this.CanArrivalAIPodInMB()
-  return TppQuest.IsCleard"sovietBase_q99030"end
+  return TppQuest.IsCleard"sovietBase_q99030" or gvars.mbShowAiPod>0--tex added mbshow
+end
 function this.GetBattleGearDevelopLevel()
   local n=this.GetCurrentStorySequence()
   if gvars.forceMbRadioPlayedFlag[TppDefine.FORCE_MB_RETURN_RADIO_ENUM.CompliteDevelopBattleGearRadio]or TppDemo.IsPlayedMBEventDemo"DevelopedBattleGear5"then

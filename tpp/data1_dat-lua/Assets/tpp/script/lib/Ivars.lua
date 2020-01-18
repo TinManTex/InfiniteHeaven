@@ -31,11 +31,11 @@ this.healthMultRange={max=4,min=0,increment=0.2}
 this.switchSettings={"OFF","ON"}
 
 function this.OnChangeSubSetting(self)--tex notify parent profile that you've changed
-  --TppUiCommand.AnnounceLogView("OnChangeSubSetting: "..self.name.. " profile: " .. self.profile.name)--DEBUGNOW
+  --InfMenu.DebugPrint("OnChangeSubSetting: "..self.name.. " profile: " .. self.profile.name)
   local profile=self.profile
   if profile then
     if profile.OnSubSettingChanged==nil then
-      TppUiCommand.AnnounceLogView("WARNING: cannot find OnSubSettingChanged on profile " .. self.profile.name)    
+      InfMenu.DebugPrint("WARNING: cannot find OnSubSettingChanged on profile " .. self.profile.name)    
       return
     end
     profile.OnSubSettingChanged(profile,self)
@@ -43,7 +43,7 @@ function this.OnChangeSubSetting(self)--tex notify parent profile that you've ch
 end
 
 function this.OnSubSettingChanged(profile, subSetting)--tex here the parent profile is notfied a sub setting was changed
-  --TppUiCommand.AnnounceLogView("OnChangeSubSetting: "..profile.name.. " subSetting: " .. subSetting.name)--DEBUGNOW
+  --InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " subSetting: " .. subSetting.name)
   --tex any sub setting will flip this profile to custom, CUSTOM is mostly a user identifyer, it has no side effects/no settingTable function
   if subSetting.enum==nil or subSetting.enum.CUSTOM==nil or (subSetting:Is("DEFAULT") or subSetting:Is("CUSTOM")) then--tex just a hack way of figuring out if subsetting is a profile itself
     if not profile:Is("CUSTOM") then
@@ -54,18 +54,16 @@ function this.OnSubSettingChanged(profile, subSetting)--tex here the parent prof
 end
 
 this.RunCurrentSetting=function(self)
-  --TppUiCommand.AnnounceLogView("RunCurrentSetting on ".. self.name)--DEBUGNOW
+  --InfMenu.DebugPrint("RunCurrentSetting on ".. self.name)
   local returnValue=nil
   if self.settingsTable then
-    --TppUiCommand.AnnounceLogView("has settingstable")--DEBUGNOW
     --this.UpdateSettingFromGvar(self)
-    --TppUiCommand.AnnounceLogView("didupdate")--DEBUGNOW
     local settingName=self.settings[self.setting+1]
-    --TppUiCommand.AnnounceLogView("setting name:" .. settingName)--DEBUGNOW
+    --InfMenu.DebugPrint("setting name:" .. settingName)
     local settingFunction=self.settingsTable[settingName]
     
     if IsFunc(settingFunction) then
-      --TppUiCommand.AnnounceLogView("has settingFunction")--DEBUGNOW
+      --InfMenu.DebugPrint("has settingFunction")
       returnValue=settingFunction()
     else
       returnValue=settingFunction
@@ -75,18 +73,16 @@ this.RunCurrentSetting=function(self)
 end
 
 this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt trigger profile onchange
-  --TppUiCommand.AnnounceLogView("RunCurrentSetting on ".. self.name)--DEBUGNOW
+  --InfMenu.DebugPrint("ReturnCurrent on ".. self.name)
   local returnValue=nil
   if self.settingsTable then
-    --TppUiCommand.AnnounceLogView("has settingstable")--DEBUGNOW
-    --this.UpdateSettingFromGvar(self)
-    --TppUiCommand.AnnounceLogView("didupdate")--DEBUGNOW
+    --InfMenu.DebugPrint("has settingstable")
     local settingName=self.settings[self.setting+1]
-    --TppUiCommand.AnnounceLogView("setting name:" .. settingName)--DEBUGNOW
+    --InfMenu.DebugPrint("setting name:" .. settingName)
     local settingFunction=self.settingsTable[settingName]
     
     if IsFunc(settingFunction) then
-      --TppUiCommand.AnnounceLogView("has settingFunction")--DEBUGNOW
+      --InfMenu.DebugPrint("has settingFunction")
       returnValue=settingFunction()
     else
       returnValue=settingFunction
@@ -236,7 +232,7 @@ this.langOverride={
 
 this.startOffline={--tex cant get it to read, yet isNewgame is fine? does it only work with bools?
   save=GLOBAL,
-  default=1,--DEBUGNOW startoffline
+  default=0,--DEBUGNOW startoffline
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -494,28 +490,28 @@ this.handLevelProfile={--tex can't be set in ui by user
   profile=this.subsistenceProfile,
 }
 
-this.handLevelSonar={--DEBUGNOW: ADDLANG
+this.handLevelSonar={
   save=MISSION,
   range=this.handLevelRange,
   equipId=TppEquip.EQP_HAND_ACTIVESONAR,
   profile=this.handLevelProfile,
 }
 
-this.handLevelPhysical={--DEBUGNOW: ADDLANG
+this.handLevelPhysical={--tex called Mobility in UI
   save=MISSION,
   range=this.handLevelRange,
   equipId=TppEquip.EQP_HAND_PHYSICAL,
   profile=this.handLevelProfile,
 }
 
-this.handLevelPrecision={--DEBUGNOW: ADDLANG
+this.handLevelPrecision={
   save=MISSION,
   range=this.handLevelRange,
   equipId=TppEquip.EQP_HAND_PRECISION,
   profile=this.handLevelProfile,
 }
 
-this.handLevelMedical={--DEBUGNOW: ADDLANG
+this.handLevelMedical={
   save=MISSION,
   range=this.handLevelRange,
   equipId=TppEquip.EQP_HAND_MEDICAL,
@@ -523,10 +519,10 @@ this.handLevelMedical={--DEBUGNOW: ADDLANG
 }
 
 this.fultonLevelRange={max=4,min=0,increment=1}
-this.fultonLevelProfile={--DEBUGNOW: ADDLANG
+this.fultonLevelProfile={
   save=MISSION,
   settings={"DEFAULT","ITEM_OFF","ITEM_MAX","CUSTOM"},
-  settingNames="fultonLevelProfileSettings",--DEBUGNOW: ADDLANG
+  settingNames="fultonLevelProfileSettings",
   settingsTable={
     DEFAULT=function()--the game auto sets to max developed but lets set it for apearance sake 
       for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
@@ -717,6 +713,61 @@ this.unlockSideOpNumber={
   end,
 }
 
+--mbshowstuff
+this.mbShowBigBossPosters={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbShowQuietCellSigns={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbShowMbEliminationMonument={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbShowSahelan={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbShowAiPod={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbShowEli={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbShowCodeTalker={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbUnlockGoalDoors={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbDontDemoDisableOcelot={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 local function IsIvar(ivar)
   return IsTable(ivar) and (ivar.range or ivar.settings)   
 end
@@ -790,7 +841,9 @@ end
 function this.DeclareVars()
  -- local 
  local varTable={
-    {name="soldierTypeForced",type=TppScriptVars.TYPE_BOOL,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
+ --   {name="ene_typeForcedName",type=TppScriptVars.UINT32,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
+ --   {name="ene_typeIsForced",type=TppScriptVars.TYPE_BOOL,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
+    
     {name="mbPlayTime",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
   }
   --[[ from MakeSVarsTable, a bit looser, but strings to strcode is interesting
@@ -836,6 +889,7 @@ function this.DeclareVars()
       end--save
     end--ivar
   end
+
   return varTable
 end
 

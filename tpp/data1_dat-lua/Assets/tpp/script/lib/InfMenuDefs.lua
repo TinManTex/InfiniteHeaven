@@ -75,6 +75,73 @@ this.showLangCodeItem={
   end,
 }
 
+this.DEBUG_Item={--DEBUGNOW
+  range=this.switchRange,
+  settingNames="set_do",
+  OnChange=function()
+    --[[InfMenu.DebugPrint("EnemyTypes:")
+    InfMenu.DebugPrint("TYPE_DD:"..EnemyType.TYPE_DD)
+    InfMenu.DebugPrint("TYPE_SKULL:"..EnemyType.TYPE_SKULL )
+    InfMenu.DebugPrint("TYPE_SOVIET:"..EnemyType.TYPE_SOVIET)
+    InfMenu.DebugPrint("TYPE_PF:"..EnemyType.TYPE_PF )
+    InfMenu.DebugPrint("TYPE_CHILD:".. EnemyType.TYPE_CHILD )--]]
+    --[[
+    InfMenu.DebugPrint("bef")
+    local strout=InfInspect.Inspect(svars.solState)
+    InfMenu.DebugPrint(strout)
+    InfMenu.DebugPrint("aft")
+    
+    for name, gvar in pairs(Ivars.varTable) do
+    local strout2=InfInspect.Inspect(gvar)
+    InfMenu.DebugPrint(strout2)--]]
+    
+    --for e=0,mvars.ene_maxSoldierStateCount-1 do
+    --InfMenu.DebugPrint(svars.solName[e].. " "..svars.solCp[e])
+    --[[svars.solName[e]
+    svars.solState[e]
+    svars.solFlagAndStance[e]=0
+    svars.solWeapon[e]=0
+    svars.solLocation[e*4+0]=0
+    svars.solLocation[e*4+1]=0
+    svars.solLocation[e*4+2]=0
+    svars.solLocation[e*4+3]=0
+    svars.solMarker[e]=0
+    svars.solFovaSeed[e]=0
+    svars.solFaceFova[e]=t
+    svars.solBodyFova[e]=a
+    svars.solCp[e]
+    svars.solCpRoute[e]=GsRoute.ROUTE_ID_EMPTY
+    svars.solScriptSneakRoute[e]=GsRoute.ROUTE_ID_EMPTY
+    svars.solScriptCautionRoute[e]=GsRoute.ROUTE_ID_EMPTY
+    svars.solScriptAlertRoute[e]=GsRoute.ROUTE_ID_EMPTY
+    svars.solRouteNodeIndex[e]=0
+    svars.solRouteEventIndex[e]=0
+    svars.solTravelName[e]=0
+    svars.solTravelStepIndex[e]=0--]]
+ -- end
+    
+    --end
+  end,
+}
+
+this.DEBUG_Item2={--DEBUGNOW
+  range=this.switchRange,
+  settingNames="set_do",
+  OnChange=function()
+    InfMenu.DebugPrint("EnemyTypes:")
+    InfMenu.DebugPrint("TYPE_DD:"..EnemyType.TYPE_DD)
+    InfMenu.DebugPrint("TYPE_SKULL:"..EnemyType.TYPE_SKULL )
+    InfMenu.DebugPrint("TYPE_SOVIET:"..EnemyType.TYPE_SOVIET)
+    InfMenu.DebugPrint("TYPE_PF:"..EnemyType.TYPE_PF )
+    InfMenu.DebugPrint("TYPE_CHILD:".. EnemyType.TYPE_CHILD )
+    --InfMenu.DebugPrint("bef")
+   -- local strout=InfInspect.Inspect(gvars.soldierTypeForced)
+   -- InfMenu.DebugPrint(strout)
+   -- InfMenu.DebugPrint("aft")
+  end,
+}
+
+
 this.returnQuietItem={
   range=this.switchRange,
   settingNames="set_quiet_return",
@@ -87,9 +154,9 @@ this.returnQuietItem={
   end,
 }
 
-this.resetRevenge={--DEBUGNOW: ADDLANG
+this.resetRevenge={
   range=this.switchRange,
-  settingNames="set_do",--DEBUGNOW: ADDLANG
+  settingNames="set_do",
   OnChange=function()
     Ivars.revengeMode:Set(0)
     TppRevenge.ResetRevenge()
@@ -116,6 +183,22 @@ this.sideOpsMenu={
     this.goBackItem,
   }
 }
+
+this.motherBaseShowAssetsMenu={
+  options={
+    Ivars.mbShowBigBossPosters,
+    --Ivars.mbShowQuietCellSigns,
+    Ivars.mbShowMbEliminationMonument,
+    Ivars.mbShowSahelan,
+    Ivars.mbShowEli,
+    Ivars.mbShowCodeTalker,
+    Ivars.mbDontDemoDisableOcelot,
+    Ivars.mbUnlockGoalDoors,
+    this.resetSettingsItem,
+    this.goBackItem,
+  }
+}
+
 this.motherBaseMenu={
   options={
     Ivars.mbSoldierEquipGrade,
@@ -123,6 +206,7 @@ this.motherBaseMenu={
     Ivars.mbDDSuit,
     --Ivars.mbDDBalaclava,
     Ivars.mbWarGames,
+    this.motherBaseShowAssetsMenu,
     this.resetSettingsItem,
     this.goBackItem,
   }
@@ -247,6 +331,8 @@ this.heliSpaceMenu={
 
 this.inMissionMenu={
   options={
+    --this.DEBUG_Item,--DEBUGNOW
+    --this.DEBUG_Item2,--DEBUGNOW
     Ivars.clockTimeScale,
     this.showPositionItem,
     this.showMissionCodeItem,
@@ -270,18 +356,6 @@ for name,item in pairs(this) do
   end
 end
 
---[[CULL this.allMenus={--SYNC: used for resetall TODO: just iterate this for all istable and .options
-  this.heliSpaceMenu,
-  this.parametersMenu,
-  this.motherBaseMenu,
-  this.demosMenu,
-  this.patchupMenu,
-  this.inMissionMenu,
-  this.playerRestrictionsMenu,
-  this.handLevelMenu,
-  this.fultonLevelMenu,
-  this.ospMenu
-}--]]
 this.allMenus={}
 --TABLESETUP: allMenus
 local i=1

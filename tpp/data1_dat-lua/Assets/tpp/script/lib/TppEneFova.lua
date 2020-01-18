@@ -103,14 +103,14 @@ this.S10030_useBalaclavaNum=3
 this.S10240_FemaleFaceIdList={394,351,373,456,463,455,511,502}
 this.S10240_MaleFaceIdList={195,144,214,6,217,83,273,60,87,71,256,201,290,178,102,255,293,165,85,18,228,12,65,134,31,132,161,342,107,274,184,226,153,247,344,242,56,183,54,126,223}
 local fovaSetupFuncs={}--tex NMC: TODO: RENAME: index [mission] and [Area]
-local function FovaFuncObject(DoShitRENAME)
-  function DoShitRENAME:case(a,n)
+local function Select(_Select)
+  function _Select:case(a,n)
     local fovaFunc=self[a]or self.default
     if fovaFunc then
       fovaFunc(a,n)
     end
   end
-  return DoShitRENAME
+  return _Select
 end
 function this.IsNotRequiredArmorSoldier(missionId)
   if notRequiredArmorForMission[missionId]~=nil then
@@ -339,12 +339,12 @@ fovaSetupFuncs[10120]=function(d,missionId)this.SetHostageFaceTable(missionId)
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
 fovaSetupFuncs[10040]=function(a,e)
-  local a=FovaFuncObject(fovaSetupFuncs)
+  local a=Select(fovaSetupFuncs)
   a:case("Afghan",e)
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
 fovaSetupFuncs[10045]=function(e,a)
-  local e=FovaFuncObject(fovaSetupFuncs)
+  local e=Select(fovaSetupFuncs)
   e:case("Afghan",a)
   local e={}
   for a=0,9 do
@@ -370,19 +370,19 @@ fovaSetupFuncs[10045]=function(e,a)
   TppSoldierFace.OverwriteMissionFovaData{body=e,additionalMode=true}
 end
 fovaSetupFuncs[10052]=function(e,a)
-  local e=FovaFuncObject(fovaSetupFuncs)
+  local e=Select(fovaSetupFuncs)
   e:case("Afghan",a)
   TppSoldierFace.SetSplitRaceForHostageRandomFaceId{enabled=true}
 end
 fovaSetupFuncs[11052]=fovaSetupFuncs[10052]
 fovaSetupFuncs[10090]=function(a,e)
-  local a=FovaFuncObject(fovaSetupFuncs)
+  local a=Select(fovaSetupFuncs)
   a:case("Africa",e)
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
 fovaSetupFuncs[11090]=fovaSetupFuncs[10090]
 fovaSetupFuncs[10091]=function(e,a)
-  local e=FovaFuncObject(fovaSetupFuncs)
+  local e=Select(fovaSetupFuncs)
   e:case("Africa",a)
   local e={}
   for a=0,9 do
@@ -415,7 +415,7 @@ fovaSetupFuncs[10091]=function(e,a)
 end
 fovaSetupFuncs[11091]=fovaSetupFuncs[10091]
 fovaSetupFuncs[10080]=function(a,t)
-  local a=FovaFuncObject(fovaSetupFuncs)
+  local a=Select(fovaSetupFuncs)
   a:case("Africa",t)
   if TppPackList.IsMissionPackLabel"afterPumpStopDemo"then
   else
@@ -450,13 +450,13 @@ fovaSetupFuncs[10115]=function(a,a)
 end
 fovaSetupFuncs[11115]=fovaSetupFuncs[10115]
 fovaSetupFuncs[10130]=function(a,e)
-  local a=FovaFuncObject(fovaSetupFuncs)
+  local a=Select(fovaSetupFuncs)
   a:case("Africa",e)
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
 fovaSetupFuncs[11130]=fovaSetupFuncs[10130]
 fovaSetupFuncs[10140]=function(e,a)
-  local e=FovaFuncObject(fovaSetupFuncs)
+  local e=Select(fovaSetupFuncs)
   e:case("Africa",a)
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
@@ -486,7 +486,7 @@ fovaSetupFuncs[10151]=function(e,e)
 end
 fovaSetupFuncs[11151]=fovaSetupFuncs[10151]
 fovaSetupFuncs[30010]=function(a,t)
-  local a=FovaFuncObject(fovaSetupFuncs)
+  local a=Select(fovaSetupFuncs)
   a:case("Afghan",t)
   TppSoldierFace.SetUseZombieFova{enabled=true}
   local body={{TppEnemyBodyId.prs3_main0_v00,MAX_REALIZED_COUNT}}
@@ -495,7 +495,7 @@ fovaSetupFuncs[30010]=function(a,t)
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfghanFree,bodyId=TppEnemyBodyId.prs3_main0_v00}
 end
 fovaSetupFuncs[30020]=function(t,a)
-  local n=FovaFuncObject(fovaSetupFuncs)
+  local n=Select(fovaSetupFuncs)
   n:case("Africa",a)
   TppSoldierFace.SetUseZombieFova{enabled=true}
   local body={{TppEnemyBodyId.prs6_main0_v00,MAX_REALIZED_COUNT}}
@@ -929,7 +929,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
     local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
     TppEnemy.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   end
-  local a=FovaFuncObject(fovaSetupFuncs)
+  local a=Select(fovaSetupFuncs)
   if fovaSetupFuncs[missionId]==nil then
     if TppMission.IsHelicopterSpace(missionId)then
       a:case("default",missionId)
@@ -1390,9 +1390,9 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
   GameObject.SendCommand(soldierId,command)
 end
 function this.IsUseGasMaskInMBFree(e)
-  local a=TppMotherBaseManagement.IsPandemicEventMode()
-  local e=mvars.f30050_currentFovaClusterId~=TppDefine.CLUSTER_DEFINE.Command
-  return a and e
+  local isPandemic=TppMotherBaseManagement.IsPandemicEventMode()
+  local isCommand=mvars.f30050_currentFovaClusterId~=TppDefine.CLUSTER_DEFINE.Command
+  return isPandemic and isCommand
 end
 function this.IsUseGasMaskInFOB()
   local a,a,e=this.GetUavSetting()

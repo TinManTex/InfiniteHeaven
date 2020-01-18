@@ -71,7 +71,11 @@ function this.DisableBlackLoading()
   TppGameStatus.Reset("TppMain.lua","S_IS_BLACK_LOADING")
   TppUI.FinishLoadingTips()
 end
-function this.OnAllocate(missionTable)
+function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
+  --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")--DEBUG
+  --local dbb=SplashScreen.Create("dbbonal","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
+  --SplashScreen.Show(dbb,0,0.1,0)--tex dog
+  
   TppWeather.OnEndMissionPrepareFunction()
   this.DisableGameStatus()
   this.EnablePause()
@@ -280,8 +284,15 @@ function this.OnAllocate(missionTable)
     mvars.mis_baseList=missionTable.sequence.baseList
     TppCheckPoint.RegisterCheckPointList(missionTable.sequence.checkPointList)
   end
+  --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate end")--DEBUG
+  --local dbe=SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
+  --SplashScreen.Show(dbe,0,0.1,0)--tex dog
 end
-function this.OnInitialize(missionTable)
+function this.OnInitialize(missionTable)--NMC: see onallocate for notes
+  --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize begin")--DEBUG
+  --local dbb=SplashScreen.Create("dbbinin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
+  --SplashScreen.Show(dbb)--tex eagle
+  
   if TppMission.IsFOBMission(vars.missionCode)then
     TppMission.SetFobPlayerStartPoint()
   elseif TppMission.IsNeedSetMissionStartPositionToClusterPosition()then
@@ -455,6 +466,10 @@ function this.OnInitialize(missionTable)
   end
   TppDemo.UpdateNuclearAbolitionFlag()
   TppQuest.AcquireKeyItemOnMissionStart()
+  
+  --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize end")--DEBUG
+  --local dbe=SplashScreen.Create("dbeonin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
+  --SplashScreen.Show(dbe,0,0.1,0)--tex eagle
 end
 function this.SetUpdateFunction(e)
   updateList={}

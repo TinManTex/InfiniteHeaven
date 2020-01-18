@@ -116,7 +116,7 @@ this.eng={--english
   handLevelProfile="Hand Levels profile",
   handLevelProfileSettings={"Default","All Off","All max","Custom"},
   handLevelSonar="Sonar level",
-  handLevelPhysical="Physical level",
+  handLevelPhysical="Mobility level",
   handLevelPrecision="Precision level",
   handLevelMedical="Medical level",
   resetRevenge="Reset enemy preparedness levels",
@@ -124,6 +124,15 @@ this.eng={--english
   showMissionCodeItem="Show missionCode",
   showMbEquipGradeItem="Show mb equip grade",
   noCentralLzs="Disable central landing zones",
+  motherBaseShowAssetsMenu="Show assets Menu",--r73-v-
+  mbShowBigBossPosters="Show Big Boss posters",
+  mbShowQuietCellSigns="Show quiet cell signs",
+  mbShowMbEliminationMonument="Show nuke elimination monument",
+  mbShowSahelan="Show Sahelanthropus",
+  mbShowEli="Show Eli",
+  mbShowCodeTalker="Show Code Talker",
+  mbUnlockGoalDoors="Unlock goal doors",
+  mbDontDemoDisableOcelot="Don't disable Ocelot after cutscenes",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

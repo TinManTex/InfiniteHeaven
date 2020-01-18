@@ -1111,12 +1111,14 @@ function this.OnEndResultBlockLoad()
 end
 function this.EnablePauseForShowResult()
   if not gvars.enableResultPause then
-    TppPause.RegisterPause"ShowResult"gvars.enableResultPause=true
+    TppPause.RegisterPause"ShowResult"
+    gvars.enableResultPause=true
   end
 end
 function this.DisablePauseForShowResult()
   if gvars.enableResultPause then
-    TppPause.UnregisterPause"ShowResult"gvars.enableResultPause=false
+    TppPause.UnregisterPause"ShowResult"
+    gvars.enableResultPause=false
   end
 end
 function this.ShowMissionResult()

@@ -3,7 +3,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r71"
+this.modVersion = "r73"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
@@ -113,9 +113,6 @@ function this.IsSubTypeCorrectForType(soldierType,subType)--returns true on nil 
     end
   end
   return true
-end
-function this.ForceSoldierType(soldierId,soldierType)
-  --TppEnemy.GetDefaultSoldierSubType(soldierType)
 end
 
 function this.IsMbWarGames(missionId)
@@ -236,11 +233,11 @@ function this.soldierFovBodyTableAfrica(missionId)
 end
 
 function this.ResetCpTableToDefault()
- --[[DEBUGNOW local subTypeOfCp=TppEnemy.subTypeOfCp
+ local subTypeOfCp=TppEnemy.subTypeOfCp
   local subTypeOfCpDefault=TppEnemy.subTypeOfCpDefault
   for cp, subType in pairs(subTypeOfCp)do
     subTypeOfCp[cp]=subTypeOfCpDefault[cp]
-  end--]]
+  end
 end
 
 return this

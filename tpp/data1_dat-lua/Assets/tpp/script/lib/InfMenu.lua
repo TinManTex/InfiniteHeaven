@@ -352,10 +352,15 @@ function this.PrintLangId(langId)
   TppUiCommand.AnnounceLogView(this.LangString(langId))
 end
 
+function this.Init(missionTable)
+  gvars.isManualHard = false--tex PATCHUP: not currently exposed to mod menu, force off to patch those that might have saves from prior mod with it on
+  InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime--tex set up hold buttons
+  InfButton.buttonStates[this.menuRightButton].decrement=0.1
+  InfButton.buttonStates[this.menuLeftButton].decrement=0.1
+end
+
 function this.Update()
-  --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
-  --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
-  this.ModStart()--TODO: move to actual run once on startup init thing, make sure to check ModStart itself to see affected code
+  --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
@@ -445,12 +450,7 @@ function this.Update()
   --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
   --SplashScreen.Show(debugSplash,0,0.3,0)--tex dog
 end
-function this.ModStart()--tex currently called from UpdateModMenu, RETRY: find an actual place for on start/run once init.
-  gvars.isManualHard = false--tex PATCHUP: not currently exposed to mod menu, force off to patch those that might have saves from prior mod with it on
-  InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime--tex set up hold buttons
-  InfButton.buttonStates[this.menuRightButton].decrement=0.1
-  InfButton.buttonStates[this.menuLeftButton].decrement=0.1
-end
+
 function this.ModWelcome()
   TppUiCommand.AnnounceLogView(InfMain.modName .. " r" .. InfMain.modVersion)--ADDLANG:
   TppUiCommand.AnnounceLogView("Hold X key or Dpad Right for 1 second to enable menu")--ADDLANG:
