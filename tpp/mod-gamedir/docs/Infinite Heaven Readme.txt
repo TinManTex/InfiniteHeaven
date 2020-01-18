@@ -1,7 +1,7 @@
 = Infinite heaven =
-r44 2015-10-15
+r47 2015-10-15
 by tin man tex
-For MGSV version 1.0.4.0
+For MGSV version 1.0.4.0 (1.04 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
@@ -16,14 +16,21 @@ OSP Weapon Loadout - Seperate from subsistence mode (but subsistence uses it), a
 
 Enemy Preparedness max - the same 'revenge system' max as the extreme missions. All soldiers have body armor and helmets, many heavy weapons deployed.
 
+Mother Base soldier tweaks:
+
+Weapon loadout - using fob equip grade and range
+
+Suits - same range as fob missions
+
+War Games - set mother base soliders hostile with non-lethal or lethal weapons
+
+Parameters:
 General Enemy parameter tweaks - switch to default if youre combining with a mod like TPP Harcore.
 	Increased enemy sight at night time, because it's always full moon/so bright anyway.
 
 Player health scaling 400-0%(1hp)
 
-Enemy health scaling 400-0%
-
-(Option does nothing when general parameters changed to default)
+Enemy health scaling 400-0% (requires Enemy Parameters Tweaked)
 
 Unlock random Sideops for areas - The sideops system breaks the map into areas, with only one sideop allowed to be active at a time. In the retail game it's chosen in a first found manner. Uncompleted story missions and uncompleted sideops get priority of selection over replayable sideops.
 This setting changes it to a random selection of potential sideops, with the same priorities. Force replay adds completed sideops to the potential selection. Force Open adds most sideops to the selection pool.
@@ -45,6 +52,7 @@ atvaark for his fox tools
 ThreeSocks3 for finding the custom text output for Announce log. Check out his Basic Trainer mod.
 emoose for cracking lua in fpks
 jRavens for testing
+Topher for the great mod manager Snakebite
 
 Preperation/insurance:
 Back up your save files for safety
@@ -90,11 +98,13 @@ Hold the weapon <Reload> button (default R on keyboard, or B on controller) for 
 (modding limitation, currently no know way to detect if in idroid menu where navigation keys conflict)
 So toggle mod menu on, change setting, toggle it off before you use idroid.
 
-Use either arrow keys or Dpad to navigate the menu.
+Use either Arrow keys or Dpad to navigate the menu.
 Up/Down to select option.
-Left/Right to change option setting.
+Left/Right to change setting or open submenu.
 
-Press change stance button to reset current setting.
+Press <Change Stance> button to go to previous menu.
+
+Press <Call> button to reset current setting.
 
 Known issues:
 The Announce Log used for the display has a delay on entries, so slow down your button presses when changing the settings.
@@ -115,6 +125,23 @@ Subsidence mode will still technically do a full deployment cost of what's set. 
 When changing General Enemy Parameters back to Default you must exit to title to have the setting save, then restart the game to have it load the default enemy parameters.
 
 Changelog:
+r47 2015-10-19 - public release
+Mother base DD suit
+Submenus
+Previous menu on <Change Stance>
+Reset current setting changed to <Call>
+
+r46
+Mother base Wargames - shoutout to E3245
+Mother base equip grade
+Refactor InfMenu to InfMain, trying to isolate menu system further from mod specific settings
+
+r45
+Fixed hang on loading Fob missions, had missed updating the settings reset call from the InfMenu refactor - thanks Topher
+Fixed reset settings via menu
+Disable mod menu if fob mission
+Shifted a table from TppDefine, TppDefine no longer used
+
 r44 2015-10-15 - public release
 No Central Landing Zones, filter for mission start lzs, filter for in-mission lzs
 

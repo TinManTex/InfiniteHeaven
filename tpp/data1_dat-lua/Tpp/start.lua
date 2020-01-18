@@ -634,6 +634,7 @@ if Script.LoadLibrary then
       Script.LoadLibrary"/Assets/tpp/script/list/TppMissionPrxList.lua"
     end
   end
+  Script.LoadLibrary"/Assets/tpp/script/lib/InfMain.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfButton.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfMenu.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfPatch.lua"--tex

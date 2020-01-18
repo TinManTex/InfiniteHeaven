@@ -1858,7 +1858,7 @@ function this.UpdateOpenQuest()--tex DEMINIFIED:
   mvars.qst_isQuestNewOpenFlag=false
   for key,questIndex in pairs(TppDefine.QUEST_INDEX)do
     local canOpenQuestFunc=canOpenQuestChecks[key]
-    if (canOpenQuestFunc and canOpenQuestFunc()) or gvars.unlockSideOps==InfMenu.SETTING_UNLOCK_SIDEOPS.OPEN then--tex
+    if (canOpenQuestFunc and canOpenQuestFunc()) or gvars.unlockSideOps==InfMain.SETTING_UNLOCK_SIDEOPS.OPEN then--tex
         if gvars.qst_questOpenFlag[questIndex]==false then
           mvars.qst_isQuestNewOpenFlag=true
         end
@@ -1922,7 +1922,7 @@ function this.UpdateActiveQuest(t)--tex DEMINIFIED: incomplete
           local questName=info.name
           local questIndex=TppDefine.QUEST_INDEX[questName]  
           if questIndex then
-            if InfMenu.disallowSideOps[questIndex+1] ~= true then--tex
+            if InfMain.disallowSideOps[questIndex+1] ~= true then--tex
               gvars.qst_questActiveFlag[questIndex]=false
               local n=r[questName]--NMC: some list of conditions, not as big as the 't' list
               if this.IsOpen(questName)and(not n or n())then
@@ -1951,11 +1951,11 @@ function this.UpdateActiveQuest(t)--tex DEMINIFIED: incomplete
         list=repopQuests
       end
       if list ~= nil then
-        --[[if gvars.unlockSideOps == InfMenu.SETTING_UNLOCK_SIDEOPS.FIRST then
+        --[[if gvars.unlockSideOps == InfMain.SETTING_UNLOCK_SIDEOPS.FIRST then
           index=1
-        elseif gvars.unlockSideOps == InfMenu.SETTING_UNLOCK_SIDEOPS.LAST then
+        elseif gvars.unlockSideOps == InfMain.SETTING_UNLOCK_SIDEOPS.LAST then
           index=#list
-        elseif gvars.unlockSideOps == InfMenu.SETTING_UNLOCK_SIDEOPS.RANDOM then
+        elseif gvars.unlockSideOps == InfMain.SETTING_UNLOCK_SIDEOPS.RANDOM then
           index=math.random(#list)
         end--]]
         if gvars.unlockSideOps > 0 then
@@ -2154,7 +2154,7 @@ function this.IsRepop(e)
   end
 end
 function this.IsOpen(questName)--tex DEMINIFIED:
-  if gvars.unlockSideops==InfMenu.SETTING_UNLOCK_SIDEOPS.OPEN then--tex just force this here, don't want to touch the actual flag as it's saved/cant be easily reversed
+  if gvars.unlockSideops==InfMain.SETTING_UNLOCK_SIDEOPS.OPEN then--tex just force this here, don't want to touch the actual flag as it's saved/cant be easily reversed
     return true
   end
   local questIndex=TppDefine.QUEST_INDEX[questName]

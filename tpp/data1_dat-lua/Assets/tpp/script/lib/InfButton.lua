@@ -2,7 +2,11 @@
 local this={}
 --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
 --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
---tex SYS: buttonpress. TODO: work out the duplicate bitmasks/those that don't work, and those that are missing
+local incrementMultIncrementMult=1.4--tex i r good at naming
+local maxIncrementMult=35
+local defaultIncrementMult=1
+local currentIncrementMult=defaultIncrementMult
+--TODO: work out the duplicate bitmasks/those that don't work, and those that are missing
 this.buttonMasks={--tex: SYNC: buttonStates
   PlayerPad.DECIDE,
   PlayerPad.STANCE,
@@ -43,43 +47,43 @@ this.buttonMasks={--tex: SYNC: buttonStates
   --PlayerPad.ALL--]]
 }
 this.buttonStates={--tex: for defaults, not specfic button setups. SYNC: buttonmasks
-  [PlayerPad.DECIDE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.STANCE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.ACTION]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.RELOAD]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.STOCK]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.MB_DEVICE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.CALL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.UP]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.DOWN]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.LEFT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.RIGHT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.SIDE_ROLL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.ZOOM_CHANGE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.LIGHT_SWITCH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.EVADE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  --[[[PlayerPad.VEHICLE_FIRE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
-  [PlayerPad.VEHICLE_CALL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.VEHICLE_DASH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  --[[[PlayerPad.BUTTON_PLACE_MARKER]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
-  --[[[PlayerPad.PLACE_MARKER]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
-  [PlayerPad.INTERROGATE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.RIDE_ON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.RIDE_OFF]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.VEHICLE_CHANGE_SIGHT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.VEHICLE_LIGHT_SWITCH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.VEHICLE_TOGGLE_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.JUMP]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.MOVE_ACTION]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.PRIMARY_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
-  [PlayerPad.SECONDARY_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.DECIDE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.STANCE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.ACTION]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.RELOAD]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.STOCK]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.MB_DEVICE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.CALL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.UP]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.DOWN]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.LEFT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.RIGHT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.SIDE_ROLL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.ZOOM_CHANGE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.LIGHT_SWITCH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.EVADE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  --[[[PlayerPad.VEHICLE_FIRE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
+  [PlayerPad.VEHICLE_CALL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.VEHICLE_DASH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  --[[[PlayerPad.BUTTON_PLACE_MARKER]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
+  --[[[PlayerPad.PLACE_MARKER]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
+  [PlayerPad.INTERROGATE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.RIDE_ON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.RIDE_OFF]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.VEHICLE_CHANGE_SIGHT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.VEHICLE_LIGHT_SWITCH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.VEHICLE_TOGGLE_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.JUMP]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.MOVE_ACTION]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.PRIMARY_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
+  [PlayerPad.SECONDARY_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
 }
-function this.UpdatePressedButtons()
+function this.UpdatePressed()
   for i, button in pairs(this.buttonMasks) do
     this.buttonStates[button].isPressed = this.ButtonDown(button)
   end
 end
-function this.UpdateHeldButtons()
+function this.UpdateHeld()
   for i, button in pairs(this.buttonMasks) do
     if this.buttonStates[button].holdTime~=0 then
       if this.OnButtonDown(button)then
@@ -114,12 +118,21 @@ function this.OnButtonHoldTime(button)
   end
   return false
 end
+function this.ButtonRepeatReset(button)
+  local buttonState = this.buttonStates[button]
+  if buttonState.decrement ~= 0 then
+    if buttonState.isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then--tex OnButtonUp reset
+      currentIncrementMult=defaultIncrementMult
+    end
+  end
+end
 function this.OnButtonRepeat(button)
   local buttonState = this.buttonStates[button]
   --tex REF: {isPressed=false,holdTime=0,startTime=0,currentRate=0,minRate=0,decrement=0},
   if buttonState.decrement ~= 0 then
     if buttonState.isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then--tex OnButtonUp reset
-      buttonState.currentRate=buttonState.holdTime
+      --buttonState.currentRate=buttonState.holdTime
+      currentIncrementMult=defaultIncrementMult
       return false
     end
     local currentRate=buttonState.currentRate
@@ -127,15 +140,23 @@ function this.OnButtonRepeat(button)
     if buttonState.startTime~=0 then
       if Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > currentRate then
         buttonState.startTime=Time.GetRawElapsedTimeSinceStartUp()
-        if currentRate > buttonState.minRate then
+        --[[OFF: if currentRate > buttonState.minRate then
           currentRate=currentRate-buttonState.decrement
         end
-        buttonState.currentRate=currentRate
+        buttonState.currentRate=currentRate--]]
+        currentIncrementMult=currentIncrementMult*incrementMultIncrementMult
+        --TppUiCommand.AnnounceLogView("DBG:MNU: currentIncrementMult:".. currentIncrementMult)--tex DEBUG: CULL:
+        if currentIncrementMult>maxIncrementMult then
+          currentIncrementMult=maxIncrementMult
+        end
         return true
       end
     end
   end
   return false  
+end
+function this.GetRepeatMult()
+  return currentIncrementMult
 end
 
 return this

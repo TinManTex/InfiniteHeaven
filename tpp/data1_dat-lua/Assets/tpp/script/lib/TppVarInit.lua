@@ -16,7 +16,7 @@ function e.StartTitle(i)
     TppSave.VarSaveOnlyGlobalData()
   end
   gvars.ini_isTitleMode=true
-  local i=TppDefine.SYS_MISSION_ID.INIT
+  local missionIdInit=TppDefine.SYS_MISSION_ID.INIT
   if TppSave.IsGameDataLoadResultOK()then
     do
       a()
@@ -33,9 +33,9 @@ function e.StartTitle(i)
   end
   PlayRecord.RegistPlayRecord"TPP_START_UP"TppSave.VarSavePersonalData()
   if gvars.str_storySequence<TppDefine.STORY_SEQUENCE.CLEARD_ESCAPE_THE_HOSPITAL then
-    TppMission.Load(vars.missionCode,i,{showLoadingTips=false})
+    TppMission.Load(vars.missionCode,missionIdInit,{showLoadingTips=false})
   else
-    TppMission.RequestLoad(vars.missionCode,i,{showLoadingTips=false})
+    TppMission.RequestLoad(vars.missionCode,missionIdInit,{showLoadingTips=false})
   end
   local e=Fox.GetActMode()
   if(e=="EDIT")then

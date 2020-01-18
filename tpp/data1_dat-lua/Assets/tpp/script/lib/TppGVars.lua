@@ -287,6 +287,12 @@ this.DeclareGVarsTable={
   {name="unlockSideOpNumber",type=TppScriptVars.TYPE_UINT32,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="landingZoneWaveOff",type=TppScriptVars.TYPE_FLOAT,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="noCentralLzs",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mbSoldierEquipGrade",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mbSoldierEquipRange",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mbWarGames",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mbPlayTime",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mbDDSuit",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mbDDBalaclava",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   nil
 }
 TppScriptVars.DeclareGVars(this.DeclareGVarsTable)

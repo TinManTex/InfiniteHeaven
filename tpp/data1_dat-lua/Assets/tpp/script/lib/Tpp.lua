@@ -353,9 +353,9 @@ function e.SetGameStatus(n)
     end
     for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
       local t=e[n]
-      local e=mvars.ui_unsetUiSetting
-      if a(e)and e[n]then
-        TppUiStatusManager.UnsetStatus(n,e[n])
+      local unsetUiSetting=mvars.ui_unsetUiSetting
+      if a(unsetUiSetting)and unsetUiSetting[n]then
+        TppUiStatusManager.UnsetStatus(n,unsetUiSetting[n])
       else
         if t then
           TppUiStatusManager.ClearStatus(n)

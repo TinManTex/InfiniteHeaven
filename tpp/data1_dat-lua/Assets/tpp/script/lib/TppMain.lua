@@ -5,9 +5,9 @@ local ApendArray=Tpp.ApendArray
 local n=Tpp.DEBUG_StrCode32ToString
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
-local M=TppScriptVars.IsSavingOrLoading
-local P=ScriptBlock.UpdateScriptsInScriptBlocks
-local f=Mission.GetCurrentMessageResendCount
+local IsSavingOrLoading=TppScriptVars.IsSavingOrLoading
+local UpdateScriptsInScriptBlocks=ScriptBlock.UpdateScriptsInScriptBlocks
+local GetCurrentMessageResendCount=Mission.GetCurrentMessageResendCount
 local updateList={}
 local numUpdate=0
 local T={}
@@ -83,7 +83,7 @@ function this.OnAllocate(n)
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
   if TppMission.IsFOBMission(vars.missionCode)then
-    this.ResetSettings()--tex reset settings on FOB
+    InfMenu.ResetSettings()--tex reset settings on FOB
     TppMission.SetFOBMissionFlag()
     TppGameStatus.Set("Mission","S_IS_ONLINE")
   else
@@ -165,11 +165,11 @@ function this.OnAllocate(n)
     ApendArray(s,o)
     TppScriptVars.DeclareSVars(s)
     TppScriptVars.SetSVarsNotificationEnabled(false)
-    while M()do
+    while IsSavingOrLoading()do
       coroutine.yield()
     end
     TppRadioCommand.SetScriptDeclVars()
-    local i=vars.mbLayoutCode
+    local layoutCode=vars.mbLayoutCode
     if gvars.ini_isTitleMode then
       TppPlayer.MissionStartPlayerTypeSetting()
     else
@@ -187,9 +187,9 @@ function this.OnAllocate(n)
     TppStory.SetMissionClearedS10030()
     TppTerminal.StartSyncMbManagementOnMissionStart()
     if TppLocation.IsMotherBase()then
-      if i~=vars.mbLayoutCode then
+      if layoutCode~=vars.mbLayoutCode then
         if vars.missionCode==30050 then
-          vars.mbLayoutCode=i
+          vars.mbLayoutCode=layoutCode
         else
           vars.mbLayoutCode=TppLocation.ModifyMbsLayoutCode(TppMotherBaseManagement.GetMbsTopologyType())
         end
@@ -199,21 +199,24 @@ function this.OnAllocate(n)
     TppMission.SetSortieBuddy()
     TppStory.UpdateStorySequence{updateTiming="BeforeBuddyBlockLoad"}
     if n.sequence then
-      local e=n.sequence.DISABLE_BUDDY_TYPE
-      if e then
-        local n
-        if IsTypeTable(e)then
-          n=e
+      local dbt=n.sequence.DISABLE_BUDDY_TYPE
+      --if InfMain.IsMbPlayTime() then--tex no DISABLE_BUDDY_TYPE
+     --   dbt=nil
+      --end--
+      if dbt ~= nil then
+        local disableBuddyType
+        if IsTypeTable(dbt)then
+          disableBuddyType=dbt
         else
-          n={e}
+          disableBuddyType={dbt}
         end
-        for n,e in ipairs(n)do
-          TppBuddyService.SetDisableBuddyType(e)
+        for n,buddyType in ipairs(disableBuddyType)do
+          TppBuddyService.SetDisableBuddyType(buddyType)
         end
       end
     end
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then--tex ORIG: changed to issubs check, more robust even without my mod
-    if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=InfMenu.SETTING_SUBSISTENCE_PROFILE.BOUNDER then--tex disable
+    if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER then--tex disable
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then
@@ -252,7 +255,7 @@ function this.OnAllocate(n)
   if TppEquip.CreateEquipGhostBlockGroups then
     if TppSystemUtility.GetCurrentGameMode()=="MGO"then
       TppEquip.CreateEquipGhostBlockGroups{ghostCount=16}
-    elseif TppMission.IsFOBMission(vars.missionCode)then
+    elseif TppMission.IsFOBMission(vars.missionCode)or InfMain.IsMbPlayTime() then--tex I dont actually know what this is lol
       TppEquip.CreateEquipGhostBlockGroups{ghostCount=1}
     end
   end
@@ -729,7 +732,7 @@ function this.OnUpdate(e)
   for e=1,o do
     n[e]()
   end
-  P()
+  UpdateScriptsInScriptBlocks()
 end
 function this.OnChangeSVars(e,n,t)
   for i,e in ipairs(Tpp._requireList)do
@@ -769,7 +772,7 @@ function this.OnMessage(n,e,t,i,o,a,r)
   if not T then
     T=TppDefine.DEFAULT_MESSAGE_GENERATION
   end
-  local m=f()
+  local m=GetCurrentMessageResendCount()
   if m<T then
     return Mission.ON_MESSAGE_RESULT_RESEND
   end

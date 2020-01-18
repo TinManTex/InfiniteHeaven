@@ -1,3 +1,7 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: chunk3
+-- PACKPATH: \Assets\tpp\pack\mission2\free\f30050\f30050.fpkd
+
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -409,7 +413,10 @@ this.SetUpEnemy = function()
 	for clusterId = 1, #TppDefine.CLUSTER_NAME do
 		mtbs_enemy.SetupEnemy( clusterId )
 	end
-	mtbs_enemy.SetFriendly()
+	
+	if gvars.mbWarGames == 0 then--tex added check
+    mtbs_enemy.SetFriendly()
+	end
 
 	
 	TppEnemy.SetSaluteVoiceList()
@@ -433,7 +440,11 @@ this.OnLoad = function()
 	mvars.clusterConstructTable = {}
 	for clusterId = 1, #TppDefine.CLUSTER_NAME do
 		mvars.clusterConstructTable[clusterId] = 1	
-		mtbs_enemy.OnLoad( clusterId, true )
+		local noUseRevenge = true
+		if gvars.mbSoldierEquipGrade>0 then--tex
+		  noUseRevenge=false
+		end
+		mtbs_enemy.OnLoad( clusterId, noUseRevenge )
 		mtbs_enemy.SetupSoldierListFovaApplyPriority( clusterId )
 	end
 
@@ -451,7 +462,7 @@ end
 
 
 this.NeedSetup = function()
-	return gvars.f30050_missionPackIndex == 0 
+	return gvars.f30050_missionPackIndex == 0
 end
 
 

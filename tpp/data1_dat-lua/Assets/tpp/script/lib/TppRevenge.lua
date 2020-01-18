@@ -1,9 +1,9 @@
 -- DOBUILD: 1
 local this={}
-local _=GameObject.GetGameObjectId
-local a=GameObject.GetTypeIndex
-local n=GameObject.SendCommand
-local o=GameObject.NULL_ID
+local GetGameObjectId=GameObject.GetGameObjectId
+local GetTypeIndex=GameObject.GetTypeIndex
+local SendCommand=GameObject.SendCommand
+local NULL_ID=GameObject.NULL_ID
 function this._Random(n,E)
   local t=gvars.rev_revengeRandomValue
   if n>E then
@@ -21,20 +21,185 @@ this.CANNOT_USE_ALL_WEAPON_MISSION={[10030]=true,[10070]=true,[10080]=true,[1108
 this.REVENGE_TYPE_NAME={"STEALTH","NIGHT_S","COMBAT","NIGHT_C","LONG_RANGE","VEHICLE","HEAD_SHOT","TRANQ","FULTON","SMOKE","M_STEALTH","M_COMBAT","DUMMY","DUMMY2","DUMMY3","DUMMY4","MAX"}
 this.REVENGE_TYPE=TppDefine.Enum(this.REVENGE_TYPE_NAME)
 this.REVENGE_LV_LIMIT_RANK_MAX=6
-this.REVENGE_LV_MAX={[this.REVENGE_TYPE.STEALTH]={0,1,2,3,4,5},[this.REVENGE_TYPE.NIGHT_S]={0,1,1,2,3,3},[this.REVENGE_TYPE.COMBAT]={0,1,2,3,4,5},[this.REVENGE_TYPE.NIGHT_C]={0,1,1,1,1,1},[this.REVENGE_TYPE.LONG_RANGE]={0,1,1,2,2,2},[this.REVENGE_TYPE.VEHICLE]={0,1,1,2,3,3},[this.REVENGE_TYPE.HEAD_SHOT]={0,1,2,3,5,7},[this.REVENGE_TYPE.TRANQ]={0,1,1,1,1,1},[this.REVENGE_TYPE.FULTON]={0,1,2,2,3,3},[this.REVENGE_TYPE.SMOKE]={0,1,1,2,3,3},[this.REVENGE_TYPE.M_STEALTH]={9,9,9,9,9,9},[this.REVENGE_TYPE.M_COMBAT]={9,9,9,9,9,9}}
+this.REVENGE_LV_MAX={
+  [this.REVENGE_TYPE.STEALTH]={0,1,2,3,4,5},
+[this.REVENGE_TYPE.NIGHT_S]={0,1,1,2,3,3},
+[this.REVENGE_TYPE.COMBAT]={0,1,2,3,4,5},
+[this.REVENGE_TYPE.NIGHT_C]={0,1,1,1,1,1},
+[this.REVENGE_TYPE.LONG_RANGE]={0,1,1,2,2,2},
+[this.REVENGE_TYPE.VEHICLE]={0,1,1,2,3,3},
+[this.REVENGE_TYPE.HEAD_SHOT]={0,1,2,3,5,7},
+[this.REVENGE_TYPE.TRANQ]={0,1,1,1,1,1},
+[this.REVENGE_TYPE.FULTON]={0,1,2,2,3,3},
+[this.REVENGE_TYPE.SMOKE]={0,1,1,2,3,3},
+[this.REVENGE_TYPE.M_STEALTH]={9,9,9,9,9,9},
+[this.REVENGE_TYPE.M_COMBAT]={9,9,9,9,9,9}
+}
 this.REVENGE_POINT_OVER_MARGINE=100-1
 this.REVENGE_POINT_PER_LV=100
 this.REDUCE_REVENGE_POINT=10
-this.REDUCE_TENDENCY_POINT_TABLE={[this.REVENGE_TYPE.STEALTH]={-20,-20,-20,-20,-25,-50},[this.REVENGE_TYPE.COMBAT]={-20,-20,-20,-20,-25,-50}}
-this.REDUCE_POINT_TABLE={[this.REVENGE_TYPE.NIGHT_S]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},[this.REVENGE_TYPE.NIGHT_C]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},[this.REVENGE_TYPE.SMOKE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},[this.REVENGE_TYPE.LONG_RANGE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},[this.REVENGE_TYPE.VEHICLE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50}}
+this.REDUCE_TENDENCY_POINT_TABLE={
+[this.REVENGE_TYPE.STEALTH]={-20,-20,-20,-20,-25,-50},
+[this.REVENGE_TYPE.COMBAT]={-20,-20,-20,-20,-25,-50}}
+this.REDUCE_POINT_TABLE={
+[this.REVENGE_TYPE.NIGHT_S]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
+[this.REVENGE_TYPE.NIGHT_C]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
+[this.REVENGE_TYPE.SMOKE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
+[this.REVENGE_TYPE.LONG_RANGE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
+[this.REVENGE_TYPE.VEHICLE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50}}
 this.REVENGE_TRIGGER_TYPE={HEAD_SHOT=1,ELIMINATED_IN_STEALTH=2,ELIMINATED_IN_COMBAT=3,FULTON=4,SMOKE=5,KILLED_BY_HELI=6,ANNIHILATED_IN_STEALTH=7,ANNIHILATED_IN_COMBAT=8,WAKE_A_COMRADE=9,DISCOVERY_AT_NIGHT=10,ELIMINATED_AT_NIGHT=11,SNIPED=12,KILLED_BY_VEHICLE=13,WATCH_SMOKE=14}
 this.BLOCKED_TYPE={GAS_MASK=0,HELMET=1,CAMERA=2,DECOY=3,MINE=4,NVG=5,SHOTGUN=6,MG=7,SOFT_ARMOR=8,SHIELD=9,ARMOR=10,GUN_LIGHT=11,SNIPER=12,MISSILE=13,MAX=14}
 this.BLOCKED_FOR_MISSION_COUNT=3
 this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST={[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]=this.BLOCKED_TYPE.GAS_MASK,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]=this.BLOCKED_TYPE.HELMET,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]=this.BLOCKED_TYPE.CAMERA,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]=this.BLOCKED_TYPE.DECOY,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]=this.BLOCKED_TYPE.MINE,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]=this.BLOCKED_TYPE.NVG,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]=this.BLOCKED_TYPE.SHOTGUN,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]=this.BLOCKED_TYPE.MG,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]=this.BLOCKED_TYPE.SOFT_ARMOR,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]=this.BLOCKED_TYPE.SHIELD,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]=this.BLOCKED_TYPE.ARMOR,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]=this.BLOCKED_TYPE.GUN_LIGHT,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]=this.BLOCKED_TYPE.SNIPER,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]=this.BLOCKED_TYPE.MISSILE}
 this.DEPLOY_REVENGE_MISSION_CONDITION_LIST={[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]={revengeType=this.REVENGE_TYPE.SMOKE,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]={revengeType=this.REVENGE_TYPE.HEAD_SHOT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]={revengeType=this.REVENGE_TYPE.STEALTH,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]={revengeType=this.REVENGE_TYPE.STEALTH,lv=2},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]={revengeType=this.REVENGE_TYPE.STEALTH,lv=3},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]={revengeType=this.REVENGE_TYPE.NIGHT_S,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]={revengeType=this.REVENGE_TYPE.COMBAT,lv=2},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]={revengeType=this.REVENGE_TYPE.COMBAT,lv=3},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]={revengeType=this.REVENGE_TYPE.NIGHT_C,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]={revengeType=this.REVENGE_TYPE.LONG_RANGE,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]={revengeType=this.REVENGE_TYPE.VEHICLE,lv=1}}
 this.REVENGE_POINT_TABLE={[this.REVENGE_TRIGGER_TYPE.HEAD_SHOT]={[this.REVENGE_TYPE.HEAD_SHOT]=5},[this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_STEALTH]={[this.REVENGE_TYPE.M_STEALTH]=5},[this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_COMBAT]={[this.REVENGE_TYPE.M_COMBAT]=5},[this.REVENGE_TRIGGER_TYPE.FULTON]={[this.REVENGE_TYPE.FULTON]=15},[this.REVENGE_TRIGGER_TYPE.SMOKE]={[this.REVENGE_TYPE.SMOKE]=15},[this.REVENGE_TRIGGER_TYPE.WATCH_SMOKE]={[this.REVENGE_TYPE.SMOKE]=15},[this.REVENGE_TRIGGER_TYPE.KILLED_BY_HELI]={[this.REVENGE_TYPE.VEHICLE]=10},[this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_STEALTH]={[this.REVENGE_TYPE.M_STEALTH]=15},[this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_COMBAT]={[this.REVENGE_TYPE.M_COMBAT]=15},[this.REVENGE_TRIGGER_TYPE.WAKE_A_COMRADE]={[this.REVENGE_TYPE.TRANQ]=5},[this.REVENGE_TRIGGER_TYPE.DISCOVERY_AT_NIGHT]={[this.REVENGE_TYPE.NIGHT_S]=15},[this.REVENGE_TRIGGER_TYPE.ELIMINATED_AT_NIGHT]={[this.REVENGE_TYPE.NIGHT_C]=10},[this.REVENGE_TRIGGER_TYPE.SNIPED]={[this.REVENGE_TYPE.LONG_RANGE]=30},[this.REVENGE_TRIGGER_TYPE.KILLED_BY_VEHICLE]={[this.REVENGE_TYPE.VEHICLE]=10}}
-this.MISSION_TENDENCY_POINT_TABLE={STEALTH={STEALTH={25,25,25,25,50,50},COMBAT={0,0,-5,-10,-50,-50}},DRAW={STEALTH={20,20,20,0,-25,-10},COMBAT={20,20,20,0,-25,-10}},COMBAT={STEALTH={0,0,-5,-10,-50,-50},COMBAT={25,25,25,25,50,50}}}
-this.revengeDefine={HARD_MISSION={IGNORE_BLOCKED=true},_ENABLE_CAMERA_LV=1,_ENABLE_DECOY_LV=2,_ENABLE_MINE_LV=3,STEALTH_0={STEALTH_LOW=true,HOLDUP_LOW=true},STEALTH_1={CAMERA="100%",HOLDUP_LOW=true},STEALTH_2={DECOY="100%",CAMERA="100%"},STEALTH_3={DECOY="100%",MINE="100%",CAMERA="100%",STEALTH_HIGH=true},STEALTH_4={DECOY="100%",MINE="100%",CAMERA="100%",STEALTH_HIGH=true,HOLDUP_HIGH=true,ACTIVE_DECOY=true,GUN_CAMERA=true},STEALTH_5={DECOY="100%",MINE="100%",CAMERA="100%",STEALTH_SPECIAL=true,HOLDUP_HIGH=true,ACTIVE_DECOY=true,GUN_CAMERA=true},NIGHT_S_1={NVG="25%"},NIGHT_S_2={NVG="50%"},NIGHT_S_3={NVG="75%"},_ENABLE_SOFT_ARMOR_LV=1,_ENABLE_SHOTGUN_LV=1,_ENABLE_MG_LV=1,_ENABLE_SHIELD_LV=2,_ENABLE_ARMOR_LV=3,COMBAT_0={COMBAT_LOW=true},COMBAT_1={{SOFT_ARMOR="25%",SHOTGUN=2},{SOFT_ARMOR="25%",MG=2}},COMBAT_2={{SOFT_ARMOR="50%",SHOTGUN=2,SHIELD=1},{SOFT_ARMOR="50%",MG=2,SHIELD=1}},COMBAT_3={{SOFT_ARMOR="75%",SHOTGUN=2,SHIELD=1,ARMOR=1,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true},{SOFT_ARMOR="75%",MG=2,SHIELD=1,ARMOR=1,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true}},COMBAT_4={{SOFT_ARMOR="100%",SHOTGUN=4,SHIELD=2,ARMOR=2,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true,REINFORCE_COUNT=2},{SOFT_ARMOR="100%",MG=4,SHIELD=2,ARMOR=2,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true,REINFORCE_COUNT=2}},COMBAT_5={{SOFT_ARMOR="100%",SHOTGUN=4,SHIELD=4,ARMOR=4,STRONG_WEAPON=true,COMBAT_SPECIAL=true,SUPER_REINFORCE=true,BLACK_SUPER_REINFORCE=true,REINFORCE_COUNT=3},{SOFT_ARMOR="100%",MG=4,SHIELD=4,ARMOR=4,STRONG_WEAPON=true,COMBAT_SPECIAL=true,SUPER_REINFORCE=true,BLACK_SUPER_REINFORCE=true,REINFORCE_COUNT=3}},NIGHT_C_1={GUN_LIGHT="75%"},LONG_RANGE_1={SNIPER=2},LONG_RANGE_2={SNIPER=2,STRONG_SNIPER=true},VEHICLE_1={MISSILE=2},VEHICLE_2={MISSILE=2,STRONG_MISSILE=true},VEHICLE_3={MISSILE=4,STRONG_MISSILE=true},HEAD_SHOT_1={HELMET="10%"},HEAD_SHOT_2={HELMET="20%"},HEAD_SHOT_3={HELMET="30%"},HEAD_SHOT_4={HELMET="40%"},HEAD_SHOT_5={HELMET="50%"},HEAD_SHOT_6={HELMET="60%"},HEAD_SHOT_7={HELMET="70%"},HEAD_SHOT_8={HELMET="80%"},HEAD_SHOT_9={HELMET="90%"},HEAD_SHOT_10={HELMET="100%"},TRANQ_1={STRONG_NOTICE_TRANQ=true},FULTON_0={},FULTON_1={FULTON_LOW=true},FULTON_2={FULTON_HIGH=true},FULTON_3={FULTON_SPECIAL=true}--[[--tex RETAILBUG: VERIFY: possible bug fixed, fulton was 0 low 1 blank 2 high, now 0 blank 1 low 2 high--]],SMOKE_1={GAS_MASK="25%"},SMOKE_2={GAS_MASK="50%"},SMOKE_3={GAS_MASK="75%"},FOB_NoKill={NO_KILL_WEAPON=true},FOB_EquipGrade_1={EQUIP_GRADE_LIMIT=1},FOB_EquipGrade_2={EQUIP_GRADE_LIMIT=2},FOB_EquipGrade_3={EQUIP_GRADE_LIMIT=3},FOB_EquipGrade_4={EQUIP_GRADE_LIMIT=4},FOB_EquipGrade_5={EQUIP_GRADE_LIMIT=5},FOB_EquipGrade_6={EQUIP_GRADE_LIMIT=6},FOB_EquipGrade_7={EQUIP_GRADE_LIMIT=7},FOB_EquipGrade_8={EQUIP_GRADE_LIMIT=8},FOB_EquipGrade_9={EQUIP_GRADE_LIMIT=9},FOB_EquipGrade_10={EQUIP_GRADE_LIMIT=10},FOB_ShortRange={SHOTGUN="30%",SHIELD="60%",SMG="100%"},FOB_MiddleRange={MG="40%",MISSILE="15%"},FOB_LongRange={SNIPER="50%"},FOB_ShortRange_1={},FOB_ShortRange_2={SHOTGUN="10%"},FOB_ShortRange_3={SHOTGUN="10%"},FOB_ShortRange_4={SMG="10%",SHOTGUN="10%",SHIELD="10%"},FOB_ShortRange_5={SMG="10%",SHOTGUN="10%",SHIELD="10%"},FOB_ShortRange_6={SMG="20%",SHOTGUN="10%",SHIELD="20%"},FOB_ShortRange_7={SMG="20%",SHOTGUN="20%",SHIELD="20%"},FOB_ShortRange_8={STRONG_WEAPON=true,SMG="20%",SHOTGUN="20%",SHIELD="20%"},FOB_ShortRange_9={STRONG_WEAPON=true,SMG="20%",SHOTGUN="25%",SHIELD="20%"},FOB_ShortRange_10={STRONG_WEAPON=true,SMG="30%",SHOTGUN="30%",SHIELD="30%"},FOB_MiddleRange_1={},FOB_MiddleRange_2={MG="10%"},FOB_MiddleRange_3={MG="10%"},FOB_MiddleRange_4={MG="20%"},FOB_MiddleRange_5={MG="20%"},FOB_MiddleRange_6={STRONG_WEAPON=true,MG="20%"},FOB_MiddleRange_7={STRONG_WEAPON=true,MG="30%"},FOB_MiddleRange_8={STRONG_WEAPON=true,MG="30%",SHOTGUN="10%"},FOB_MiddleRange_9={STRONG_WEAPON=true,MG="30%",SHOTGUN="10%",MISSILE="10%"},FOB_MiddleRange_10={STRONG_WEAPON=true,MG="40%",SHOTGUN="10%",SNIPER="10%",MISSILE="10%"},FOB_LongRange_1={},FOB_LongRange_2={SNIPER="10%"},FOB_LongRange_3={SNIPER="10%"},FOB_LongRange_4={SNIPER="15%"},FOB_LongRange_5={STRONG_SNIPER=true,SNIPER="15%"},FOB_LongRange_6={STRONG_SNIPER=true,SNIPER="20%",MISSILE="10%"},FOB_LongRange_7={STRONG_SNIPER=true,SNIPER="20%",MISSILE="10%"},FOB_LongRange_8={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="20%",MISSILE="10%"},FOB_LongRange_9={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="25%",MISSILE="10%"},FOB_LongRange_10={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="30%",MISSILE="20%",MG="10%"}}
+this.MISSION_TENDENCY_POINT_TABLE={
+STEALTH={
+STEALTH={25,25,25,25,50,50},COMBAT={0,0,-5,-10,-50,-50}},
+DRAW={STEALTH={20,20,20,0,-25,-10},COMBAT={20,20,20,0,-25,-10}},
+COMBAT={STEALTH={0,0,-5,-10,-50,-50},COMBAT={25,25,25,25,50,50}}
+}
+this.revengeDefine={
+HARD_MISSION={IGNORE_BLOCKED=true},
+_ENABLE_CAMERA_LV=1,
+_ENABLE_DECOY_LV=2,
+_ENABLE_MINE_LV=3,
+STEALTH_0={
+STEALTH_LOW=true,
+HOLDUP_LOW=true
+},
+STEALTH_1={
+CAMERA="100%",
+HOLDUP_LOW=true
+},
+STEALTH_2={
+DECOY="100%",
+CAMERA="100%"
+},
+STEALTH_3={
+DECOY="100%",
+MINE="100%",
+CAMERA="100%",
+STEALTH_HIGH=true
+},
+STEALTH_4={
+DECOY="100%",
+MINE="100%",
+CAMERA="100%",
+STEALTH_HIGH=true,
+HOLDUP_HIGH=true,
+ACTIVE_DECOY=true,
+GUN_CAMERA=true},
+STEALTH_5={
+DECOY="100%",
+MINE="100%",
+CAMERA="100%",
+STEALTH_SPECIAL=true,
+HOLDUP_HIGH=true,
+ACTIVE_DECOY=true,
+GUN_CAMERA=true},
+NIGHT_S_1={NVG="25%"},
+NIGHT_S_2={NVG="50%"},
+NIGHT_S_3={NVG="75%"},
+_ENABLE_SOFT_ARMOR_LV=1,
+_ENABLE_SHOTGUN_LV=1,
+_ENABLE_MG_LV=1,
+_ENABLE_SHIELD_LV=2,
+_ENABLE_ARMOR_LV=3,
+COMBAT_0={COMBAT_LOW=true},
+COMBAT_1={
+{SOFT_ARMOR="25%",SHOTGUN=2},
+{SOFT_ARMOR="25%",MG=2}},
+COMBAT_2={
+{SOFT_ARMOR="50%",SHOTGUN=2,SHIELD=1},
+{SOFT_ARMOR="50%",MG=2,SHIELD=1}
+},
+COMBAT_3={
+{SOFT_ARMOR="75%",SHOTGUN=2,SHIELD=1,ARMOR=1,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true},
+{SOFT_ARMOR="75%",MG=2,SHIELD=1,ARMOR=1,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true}
+},
+COMBAT_4={
+{SOFT_ARMOR="100%",SHOTGUN=4,SHIELD=2,ARMOR=2,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true,REINFORCE_COUNT=2},
+{SOFT_ARMOR="100%",MG=4,SHIELD=2,ARMOR=2,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true,REINFORCE_COUNT=2}
+},
+COMBAT_5={
+{SOFT_ARMOR="100%",SHOTGUN=4,SHIELD=4,ARMOR=4,STRONG_WEAPON=true,COMBAT_SPECIAL=true,SUPER_REINFORCE=true,BLACK_SUPER_REINFORCE=true,REINFORCE_COUNT=3},
+{SOFT_ARMOR="100%",MG=4,SHIELD=4,ARMOR=4,STRONG_WEAPON=true,COMBAT_SPECIAL=true,SUPER_REINFORCE=true,BLACK_SUPER_REINFORCE=true,REINFORCE_COUNT=3}
+},
+NIGHT_C_1={GUN_LIGHT="75%"},
+LONG_RANGE_1={SNIPER=2},
+LONG_RANGE_2={SNIPER=2,
+STRONG_SNIPER=true},
+VEHICLE_1={MISSILE=2},
+VEHICLE_2={MISSILE=2,
+STRONG_MISSILE=true},
+VEHICLE_3={MISSILE=4,
+STRONG_MISSILE=true},
+HEAD_SHOT_1={HELMET="10%"},
+HEAD_SHOT_2={HELMET="20%"},
+HEAD_SHOT_3={HELMET="30%"},
+HEAD_SHOT_4={HELMET="40%"},
+HEAD_SHOT_5={HELMET="50%"},
+HEAD_SHOT_6={HELMET="60%"},
+HEAD_SHOT_7={HELMET="70%"},
+HEAD_SHOT_8={HELMET="80%"},
+HEAD_SHOT_9={HELMET="90%"},
+HEAD_SHOT_10={HELMET="100%"},
+TRANQ_1={STRONG_NOTICE_TRANQ=true},
+FULTON_0={},
+FULTON_1={FULTON_LOW=true},
+FULTON_2={FULTON_HIGH=true},
+FULTON_3={FULTON_SPECIAL=true}--[[--tex RETAILBUG: VERIFY: possible bug fixed,
+ fulton was 0 low 1 blank 2 high,
+ now 0 blank 1 low 2 high--]],
+SMOKE_1={GAS_MASK="25%"},
+SMOKE_2={GAS_MASK="50%"},
+SMOKE_3={GAS_MASK="75%"},
+FOB_NoKill={NO_KILL_WEAPON=true},
+FOB_EquipGrade_1={EQUIP_GRADE_LIMIT=1},
+FOB_EquipGrade_2={EQUIP_GRADE_LIMIT=2},
+FOB_EquipGrade_3={EQUIP_GRADE_LIMIT=3},
+FOB_EquipGrade_4={EQUIP_GRADE_LIMIT=4},
+FOB_EquipGrade_5={EQUIP_GRADE_LIMIT=5},
+FOB_EquipGrade_6={EQUIP_GRADE_LIMIT=6},
+FOB_EquipGrade_7={EQUIP_GRADE_LIMIT=7},
+FOB_EquipGrade_8={EQUIP_GRADE_LIMIT=8},
+FOB_EquipGrade_9={EQUIP_GRADE_LIMIT=9},
+FOB_EquipGrade_10={EQUIP_GRADE_LIMIT=10},
+FOB_ShortRange={SHOTGUN="30%",SHIELD="60%",SMG="100%"},
+FOB_MiddleRange={MG="40%",MISSILE="15%"},
+FOB_LongRange={SNIPER="50%"},
+FOB_ShortRange_1={},
+FOB_ShortRange_2={SHOTGUN="10%"},
+FOB_ShortRange_3={SHOTGUN="10%"},
+FOB_ShortRange_4={SMG="10%",SHOTGUN="10%",SHIELD="10%"},
+FOB_ShortRange_5={SMG="10%",SHOTGUN="10%",SHIELD="10%"},
+FOB_ShortRange_6={SMG="20%",SHOTGUN="10%",SHIELD="20%"},
+FOB_ShortRange_7={SMG="20%",SHOTGUN="20%",SHIELD="20%"},
+FOB_ShortRange_8={STRONG_WEAPON=true,SMG="20%",SHOTGUN="20%",SHIELD="20%"},
+FOB_ShortRange_9={STRONG_WEAPON=true,SMG="20%",SHOTGUN="25%",SHIELD="20%"},
+FOB_ShortRange_10={STRONG_WEAPON=true,SMG="30%",SHOTGUN="30%",SHIELD="30%"},
+FOB_MiddleRange_1={},
+FOB_MiddleRange_2={MG="10%"},
+FOB_MiddleRange_3={MG="10%"},
+FOB_MiddleRange_4={MG="20%"},
+FOB_MiddleRange_5={MG="20%"},
+FOB_MiddleRange_6={STRONG_WEAPON=true,MG="20%"},
+FOB_MiddleRange_7={STRONG_WEAPON=true,MG="30%"},
+FOB_MiddleRange_8={STRONG_WEAPON=true,MG="30%",SHOTGUN="10%"},
+FOB_MiddleRange_9={STRONG_WEAPON=true,MG="30%",SHOTGUN="10%",MISSILE="10%"},
+FOB_MiddleRange_10={STRONG_WEAPON=true,MG="40%",SHOTGUN="10%",SNIPER="10%",MISSILE="10%"},
+FOB_LongRange_1={},
+FOB_LongRange_2={SNIPER="10%"},
+FOB_LongRange_3={SNIPER="10%"},
+FOB_LongRange_4={SNIPER="15%"},
+FOB_LongRange_5={STRONG_SNIPER=true,SNIPER="15%"},
+FOB_LongRange_6={STRONG_SNIPER=true,SNIPER="20%",MISSILE="10%"},
+FOB_LongRange_7={STRONG_SNIPER=true,SNIPER="20%",MISSILE="10%"},
+FOB_LongRange_8={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="20%",MISSILE="10%"},
+FOB_LongRange_9={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="25%",MISSILE="10%"},
+FOB_LongRange_10={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="30%",MISSILE="20%",MG="10%"}
+}
 function this.SelectRevengeType()
   local n=TppMission.GetMissionID()
   if this.IsNoRevengeMission(n)or n==10115 then
@@ -85,6 +250,10 @@ end
   return t
 end--]]
 function this.SetForceRevengeType(e)
+  --TppUiCommand.AnnounceLogView("SetForceRevengeType")--tex DEBUG: CULL:
+  --local revtype = InfInspect.Inspect(e)
+  --TppUiCommand.AnnounceLogView(revtype)
+  --tex ^
   if not Tpp.IsTypeTable(e)then
     e={e}
   end
@@ -141,16 +310,16 @@ function this.GetReinforceCount()
   end
   return 1
 end
-function this.CanUseArmor(e)
+function this.CanUseArmor(soldierSubType)
   if TppEneFova==nil then
     return false
   end
-  local n=TppMission.GetMissionID()
-  if TppEneFova.IsNotRequiredArmorSoldier(n)then
+  local missionId=TppMission.GetMissionID()
+  if TppEneFova.IsNotRequiredArmorSoldier(missionId)then
     return false
   end
-  if e then
-    return TppEneFova.CanUseArmorType(n,e)
+  if soldierSubType then
+    return TppEneFova.CanUseArmorType(missionId,soldierSubType)
   end
   return true
 end
@@ -416,7 +585,7 @@ function this._SetUpRevengeMine()
 end
 function this._GetDecoyType(e)
   local n={PF_A=1,PF_B=2,PF_C=3}
-  local e=_(e)
+  local e=GetGameObjectId(e)
   local e=TppEnemy.GetCpSubType(e)
   return n[e]
 end
@@ -501,16 +670,16 @@ function this.SetUpEnemy()
     TppEnemy.SetUpDDParameter()
   end
   this._SetupCamera()
-  for n,E in pairs(mvars.ene_soldierDefine)do
-    local n=_(n)
-    if n==o then
+  for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
+    local cpId=GetGameObjectId(cpName)
+    if cpId==NULL_ID then
     else
       if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
         for E=0,3 do
-          this._ApplyRevengeToCp(n,mvars.revenge_revengeConfig,E)
+          this._ApplyRevengeToCp(cpId,mvars.revenge_revengeConfig,E)
         end
       else
-        this._ApplyRevengeToCp(n,mvars.revenge_revengeConfig)
+        this._ApplyRevengeToCp(cpId,mvars.revenge_revengeConfig)
       end
     end
   end
@@ -859,18 +1028,19 @@ function this.ApplyPowerSettingsForReinforce(r)
   for n,e in ipairs(r)do
     GameObject.SendCommand(e,{id="RegenerateStaffIdForReinforce"})
   end
-  local n={}do
+  local loadout={}
+  do
     local E=this.GetRevengeLv(this.REVENGE_TYPE.HEAD_SHOT)
     local E=E/10
     if math.random()<E and(this.IsIgnoreBlocked()or not this.IsBlocked(this.BLOCKED_TYPE.HELMET))then
-      table.insert(n,"HELMET")
+      table.insert(loadout,"HELMET")
     end
   end
   if this.IsUsingStrongWeapon()then
-    table.insert(n,"STRONG_WEAPON")
+    table.insert(loadout,"STRONG_WEAPON")
   end
   if this.IsUsingNoKillWeapon()then
-    table.insert(n,"NO_KILL_WEAPON")
+    table.insert(loadout,"NO_KILL_WEAPON")
   end
   do
     local E=0
@@ -883,66 +1053,66 @@ function this.ApplyPowerSettingsForReinforce(r)
       E=.5
     end
     if math.random()<E and(this.IsIgnoreBlocked()or not this.IsBlocked(this.BLOCKED_TYPE.SOFT_ARMOR))then
-      table.insert(n,"SOFT_ARMOR")
+      table.insert(loadout,"SOFT_ARMOR")
     end
     if math.random()<E then
       if mvars.revenge_loadedEquip.SHOTGUN and(this.IsIgnoreBlocked()or not this.IsBlocked(this.BLOCKED_TYPE.SHOTGUN))then
-        table.insert(n,"SHOTGUN")
+        table.insert(loadout,"SHOTGUN")
       elseif mvars.revenge_loadedEquip.MG and(this.IsIgnoreBlocked()or not this.IsBlocked(this.BLOCKED_TYPE.MG))then
-        table.insert(n,"MG")
+        table.insert(loadout,"MG")
       end
     end
   end
-  for E,e in ipairs(r)do
-    TppEnemy.ApplyPowerSetting(e,n)
+  for E,soldierId in ipairs(r)do
+    TppEnemy.ApplyPowerSetting(soldierId,loadout)
   end
 end
-function this._CreateRevengeConfig(E)
-  local n={}
-  local t=mvars.ene_disablePowerSettings
+function this._CreateRevengeConfig(revengeType)
+  local revengeConfig={}
+  local disablePowerSettings=mvars.ene_disablePowerSettings
   do
-    local e=mvars.ene_missionRequiresPowerSettings
+    local requiredPowerSettings=mvars.ene_missionRequiresPowerSettings
     local n={MISSILE={"SHIELD"},SHIELD={"MISSILE"},SHOTGUN={"MG"},MG={"SHOTGUN"}}
-    for e,E in pairs(e)do
+    for e,E in pairs(requiredPowerSettings)do
       local e=n[e]
       if e then
         for n,e in ipairs(e)do
           if not mvars.ene_missionRequiresPowerSettings[e]then
-            t[e]=true
+            disablePowerSettings[e]=true
           end
         end
       end
     end
   end
-  for r,E in ipairs(E)do
+  for r,E in ipairs(revengeType)do
     local E=this.revengeDefine[E]
     if E~=nil then
       if E[1]~=nil then
         local e=this._Random(1,#E)E=E[e]
       end
       for e,E in pairs(E)do
-        if t[e]then
+        if disablePowerSettings[e]then
         else
-          n[e]=E
+          revengeConfig[e]=E
         end
       end
     end
   end
-  if not n.IGNORE_BLOCKED then
-    for E,t in pairs(n)do
+  if not revengeConfig.IGNORE_BLOCKED then
+    for E,t in pairs(revengeConfig)do
       if this.IsBlocked(this.BLOCKED_TYPE[E])then
-        n[E]=nil
+        revengeConfig[E]=nil
       end
     end
   end
-  if Tpp.IsTypeNumber(n.ARMOR)and not this.CanUseArmor()then
-    if not t.SHIELD then
-      local e=n.SHIELD or 0
+  if Tpp.IsTypeNumber(revengeConfig.ARMOR)and not this.CanUseArmor()then
+    if not disablePowerSettings.SHIELD then
+      local e=revengeConfig.SHIELD or 0
       if Tpp.IsTypeNumber(e)then
-        n.SHIELD=e+n.ARMOR
+        revengeConfig.SHIELD=e+revengeConfig.ARMOR
       end
     end
-    n.ARMOR=nil
+    revengeConfig.ARMOR=nil
   end
   local e={NO_KILL_WEAPON={"MG"}}
   if not mvars.ene_missionRequiresPowerSettings.SHIELD then
@@ -953,97 +1123,102 @@ function this._CreateRevengeConfig(E)
   end
   local E={}
   for e,t in pairs(e)do
-    if n[e]and not E[e]then
+    if revengeConfig[e]and not E[e]then
       for n,e in ipairs(t)do
         E[e]=true
       end
     end
   end
   for e,E in pairs(E)do
-    n[e]=nil
+    revengeConfig[e]=nil
   end
-  local e=TppMission.GetMissionID()
-  if TppMission.IsFOBMission(e)then
-    local e=TppEnemy.weaponIdTable.DD
-    if n.NO_KILL_WEAPON and e then
-      local e=e.NORMAL
-      if e and e.IS_NOKILL then
-        if not e.IS_NOKILL.SHOTGUN then
-          n.SHOTGUN=nil
+  local missionId=TppMission.GetMissionID()
+  if TppMission.IsFOBMission(missionId)or InfMain.IsMbPlayTime() then--tex
+    local weaponTable=TppEnemy.weaponIdTable.DD
+    if revengeConfig.NO_KILL_WEAPON and weaponTable then
+      local normalTable=weaponTable.NORMAL
+      if normalTable and normalTable.IS_NOKILL then
+        if not normalTable.IS_NOKILL.SHOTGUN then
+          revengeConfig.SHOTGUN=nil
         end
-        if not e.IS_NOKILL.MISSILE then
-          n.MISSILE=nil
+        if not normalTable.IS_NOKILL.MISSILE then
+          revengeConfig.MISSILE=nil
         end
-        if not e.IS_NOKILL.SNIPER then
-          n.SNIPER=nil
+        if not normalTable.IS_NOKILL.SNIPER then
+          revengeConfig.SNIPER=nil
         end
-        if not e.IS_NOKILL.SMG then
-          n.SHIELD=nil
-          n.MISSILE=nil
+        if not normalTable.IS_NOKILL.SMG then
+          revengeConfig.SHIELD=nil
+          revengeConfig.MISSILE=nil
         end
       end
     end
-  end
-  return n
+  end  
+  --[[TppUiCommand.AnnounceLogView("_CreateRevengeConfig")--tex DEBUG: CULL:
+  local insrev = InfInspect.Inspect(revengeConfig)
+  TppUiCommand.AnnounceLogView(insrev)--]]
+  
+  return revengeConfig
 end
-function this._AllocateResources(_)
+function this._AllocateResources(config)
   mvars.revenge_loadedEquip={}
-  local r=mvars.ene_missionRequiresPowerSettings
+  local missionSettings=mvars.ene_missionRequiresPowerSettings
   local a={}
-  local n=o
-  local T=TppEnemy.GetSoldierType(n)
-  local n=TppEnemy.GetSoldierSubType(n)
-  local n=TppEnemy.GetWeaponIdTable(T,n)
-  if n==nil then
-    TppEnemy.weaponIdTable.DD={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}n=TppEnemy.weaponIdTable.DD
+  local nullId=NULL_ID
+  local defaultSoldierType=TppEnemy.GetSoldierType(nullId)
+  local defaultSubType=TppEnemy.GetSoldierSubType(nullId)
+  local weaponTable=TppEnemy.GetWeaponIdTable(defaultSoldierType,defaultSubType)
+  if weaponTable==nil then
+    TppEnemy.weaponIdTable.DD={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
+    weaponTable=TppEnemy.weaponIdTable.DD
   end
-  local t=mvars.ene_disablePowerSettings
-  local i=TppMission.GetMissionID()
-  local s=true
-  if this.CANNOT_USE_ALL_WEAPON_MISSION[i]then
-    s=false
+  local disablePowerSettings=mvars.ene_disablePowerSettings
+  local missionId=TppMission.GetMissionID()
+  local useAllWeapons=true
+  if this.CANNOT_USE_ALL_WEAPON_MISSION[missionId]then
+    useAllWeapons=false
   end
   local E={}
-  if not s then
-    if not _.SHIELD or _.MISSILE then
-      if not r.SHIELD then
+  if not useAllWeapons then
+    if not config.SHIELD or config.MISSILE then
+      if not missionSettings.SHIELD then
         E.SHIELD=true
-        t.SHIELD=true
+        disablePowerSettings.SHIELD=true
       end
     else
-      if not r.MISSILE then
+      if not missionSettings.MISSILE then
         E.MISSILE=true
-        t.MISSILE=true
+        disablePowerSettings.MISSILE=true
       end
     end
-    if T~=EnemyType.TYPE_DD then
-      if _.SHOTGUN then
-        if not r.MG then
+    if defaultSoldierType~=EnemyType.TYPE_DD then
+      if config.SHOTGUN then
+        if not missionSettings.MG then
           E.MG=true
-          t.MG=true
+          disablePowerSettings.MG=true
         end
       else
-        if not r.SHOTGUN then
+        if not missionSettings.SHOTGUN then
           E.SHOTGUN=true
-          t.SHOTGUN=true
+          disablePowerSettings.SHOTGUN=true
         end
       end
     end
   end
-  for e,n in pairs(r)do
+  for e,n in pairs(missionSettings)do
     E[e]=nil
-    t[e]=nil
+    disablePowerSettings[e]=nil
   end
   do
     local _={HANDGUN=true,SMG=true,ASSAULT=true,SHOTGUN=true,MG=true,SHIELD=true}
-    local r=n.NORMAL
-    if this.IsUsingStrongWeapon()and n.STRONG then
-      r=n.STRONG
+    local r=weaponTable.NORMAL
+    if this.IsUsingStrongWeapon()and weaponTable.STRONG then
+      r=weaponTable.STRONG
     end
     if Tpp.IsTypeTable(r)then
       for e,n in pairs(r)do
         if not _[e]then
-        elseif t[e]then
+        elseif disablePowerSettings[e]then
         elseif E[e]then
         else
           a[n]=true
@@ -1052,12 +1227,12 @@ function this._AllocateResources(_)
       end
     end
   end
-  if not t.MISSILE and not E.MISSILE then
+  if not disablePowerSettings.MISSILE and not E.MISSILE then
     local E={}
-    if this.IsUsingStrongMissile()and n.STRONG then
-      E=n.STRONG
+    if this.IsUsingStrongMissile()and weaponTable.STRONG then
+      E=weaponTable.STRONG
     else
-      E=n.NORMAL
+      E=weaponTable.NORMAL
     end
     local e=E.MISSILE
     if e then
@@ -1065,12 +1240,12 @@ function this._AllocateResources(_)
       mvars.revenge_loadedEquip.MISSILE=e
     end
   end
-  if not t.SNIPER and not E.SNIPER then
+  if not disablePowerSettings.SNIPER and not E.SNIPER then
     local E={}
-    if this.IsUsingStrongSniper()and n.STRONG then
-      E=n.STRONG
+    if this.IsUsingStrongSniper()and weaponTable.STRONG then
+      E=weaponTable.STRONG
     else
-      E=n.NORMAL
+      E=weaponTable.NORMAL
     end
     local e=E.SNIPER
     if e then
@@ -1079,18 +1254,18 @@ function this._AllocateResources(_)
     end
   end
   do
-    local e,n,E=TppEnemy.GetWeaponId(o,{})
-    TppSoldier2.SetDefaultSoldierWeapon{primary=e,secondary=n,tertiary=E}
+    local primary,secondary,tertiary=TppEnemy.GetWeaponId(NULL_ID,{})
+    TppSoldier2.SetDefaultSoldierWeapon{primary=primary,secondary=secondary,tertiary=tertiary}
   end
-  local e={}
+  local equipLoadTable={}
   for n,E in pairs(a)do
-    table.insert(e,n)
+    table.insert(equipLoadTable,n)
   end
-  if i==10080 or i==11080 then
-    table.insert(e,TppEquip.EQP_WP_Wood_ar_010)
+  if missionId==10080 or missionId==11080 then
+    table.insert(equipLoadTable,TppEquip.EQP_WP_Wood_ar_010)
   end
   if TppEquip.RequestLoadToEquipMissionBlock then
-    TppEquip.RequestLoadToEquipMissionBlock(e)
+    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
   end
 end
 function this._GetSettingSoldierCount(t,n,E)
@@ -1145,22 +1320,24 @@ function this._ApplyRevengeToCp(t,l,a)
   end
   local r={}
   for e,n in pairs(mvars.ene_missionSoldierPowerSettings)do
-    local e=_("TppSoldier2",e)r[e]=n
+    local e=GetGameObjectId("TppSoldier2",e)
+    r[e]=n
   end
   local i={}
   for n,e in pairs(mvars.ene_missionSoldierPersonalAbilitySettings)do
-    local n=_("TppSoldier2",n)i[n]=e
+    local n=GetGameObjectId("TppSoldier2",n)
+    i[n]=e
   end
   local T=mvars.ene_outerBaseCpList[t]
   local a={}
   local _={}
-  for e,E in pairs(E)do
-    table.insert(o,e)n=n+1
-    if r[e]then
+  for gameId,E in pairs(E)do
+    table.insert(o,gameId)n=n+1
+    if r[gameId]then
       a[n]=true
-    elseif mvars.ene_eliminateTargetList[e]then
+    elseif mvars.ene_eliminateTargetList[gameId]then
       a[n]=true
-    elseif TppEnemy.GetSoldierType(e)==EnemyType.TYPE_CHILD then
+    elseif TppEnemy.GetSoldierType(gameId)==EnemyType.TYPE_CHILD then
       a[n]=true
     elseif T then
       _[n]=true
@@ -1214,15 +1391,15 @@ function this._ApplyRevengeToCp(t,l,a)
       end
     end
   end
-  for n,e in ipairs(t)do
-    local t=o[n]
-    TppEnemy.ApplyPowerSetting(t,e)
-    if i[t]==nil then
+  for n,loadout in ipairs(t)do
+    local soldierId=o[n]
+    TppEnemy.ApplyPowerSetting(soldierId,loadout)
+    if i[soldierId]==nil then
       local n={}do
         local E
-        if e.STEALTH_SPECIAL then
-          E="sp"elseif e.STEALTH_HIGH then
-          E="high"elseif e.STEALTH_LOW then
+        if loadout.STEALTH_SPECIAL then
+          E="sp"elseif loadout.STEALTH_HIGH then
+          E="high"elseif loadout.STEALTH_LOW then
           E="low"end
         n.notice=E
         n.cure=E
@@ -1230,9 +1407,9 @@ function this._ApplyRevengeToCp(t,l,a)
       end
       do
         local E
-        if e.COMBAT_SPECIAL then
-          E="sp"elseif e.COMBAT_HIGH then
-          E="high"elseif e.COMBAT_LOW then
+        if loadout.COMBAT_SPECIAL then
+          E="sp"elseif loadout.COMBAT_HIGH then
+          E="high"elseif loadout.COMBAT_LOW then
           E="low"end
         n.shot=E
         n.grenade=E
@@ -1241,29 +1418,29 @@ function this._ApplyRevengeToCp(t,l,a)
       end
       do
         local E
-        if e.STEALTH_SPECIAL or e.COMBAT_SPECIAL then
-          E="sp"elseif e.STEALTH_HIGH or e.COMBAT_HIGH then
-          E="high"elseif e.STEALTH_LOW or e.COMBAT_LOW then
+        if loadout.STEALTH_SPECIAL or loadout.COMBAT_SPECIAL then
+          E="sp"elseif loadout.STEALTH_HIGH or loadout.COMBAT_HIGH then
+          E="high"elseif loadout.STEALTH_LOW or loadout.COMBAT_LOW then
           E="low"end
         n.speed=E
       end
       do
         local E
-        if e.FULTON_SPECIAL then
-          E="sp"elseif e.FULTON_HIGH then
-          E="high"elseif e.FULTON_LOW then
+        if loadout.FULTON_SPECIAL then
+          E="sp"elseif loadout.FULTON_HIGH then
+          E="high"elseif loadout.FULTON_LOW then
           E="low"end
         n.fulton=E
       end
       do
         local E
-        if e.HOLDUP_SPECIAL then
-          E="sp"elseif e.HOLDUP_HIGH then
-          E="high"elseif e.HOLDUP_LOW then
+        if loadout.HOLDUP_SPECIAL then
+          E="sp"elseif loadout.HOLDUP_HIGH then
+          E="high"elseif loadout.HOLDUP_LOW then
           E="low"end
         n.holdup=E
       end
-      TppEnemy.ApplyPersonalAbilitySettings(t,n)
+      TppEnemy.ApplyPersonalAbilitySettings(soldierId,n)
     end
   end
 end
@@ -1287,13 +1464,14 @@ local r=function(e)
 end
 function this._OnReinforceRespawn(n)
   if TppMission.IsFOBMission(vars.missionCode)then
-    TppEnemy.AddPowerSetting(n,{})o50050_enemy.AssignAndSetupRespawnSoldier(n)
+    TppEnemy.AddPowerSetting(n,{})
+    o50050_enemy.AssignAndSetupRespawnSoldier(n)
   else
     this.ApplyPowerSettingsForReinforce{n}
   end
 end
 function this._OnHeadShot(E,t,t,n)
-  if a(E)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+  if GetTypeIndex(E)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
   if bit.band(n,HeadshotMessageFlag.IS_JUST_UNCONSCIOUS)==0 then
@@ -1315,7 +1493,7 @@ local E=function(n)
   end
 end
 function this._OnDead(t,n,i)
-  if a(t)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+  if GetTypeIndex(t)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
   local o=(Tpp.IsVehicle(vars.playerVehicleGameObjectId)or Tpp.IsEnemyWalkerGear(vars.playerVehicleGameObjectId))or Tpp.IsPlayerWalkerGear(vars.playerVehicleGameObjectId)
@@ -1326,12 +1504,12 @@ function this._OnDead(t,n,i)
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.KILLED_BY_VEHICLE)
   end
   E(i)
-  if a(n)==TppGameObject.GAME_OBJECT_TYPE_HELI2 then
+  if GetTypeIndex(n)==TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.KILLED_BY_HELI)
   end
 end
 function this._OnUnconscious(e,t,n)
-  if a(e)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+  if GetTypeIndex(e)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
   local e=GameObject.SendCommand(e,{id="GetLifeStatus"})
@@ -1372,7 +1550,7 @@ local n=function(e)
   return false
 end
 function this._OnDamage(t,E,r)
-  if a(t)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+  if GetTypeIndex(t)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
   if n(E)then

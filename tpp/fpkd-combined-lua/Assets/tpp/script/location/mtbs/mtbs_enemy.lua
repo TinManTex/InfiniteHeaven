@@ -1,47 +1,6 @@
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- DOBUILD: 1
+-- ORIGINALQAR: chunk3
+-- PACKPATH: \Assets\tpp\pack\location\mtbs\pack_common\mtbs_script.fpkd
 
 local FACE_SOLDIER_NUM = 36
 
@@ -497,12 +456,12 @@ mtbs_enemy._GetSecurityCameraSetting = function ()
 	Fox.Log("######## _GetSecurityCameraSetting ######")
 	local numCameraMax = 100 
 	local numCameraPlaced = 0 
-	local eqGrade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}	
+	local eqGrade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}	
 	local numDevSecCamLv = TppMotherBaseManagement.GetMbsSecurityCameraLevel{}			
 	local numDevGunCamLv = TppMotherBaseManagement.GetMbsGunCameraLevel{}				
 	local numSetSecCamLv = 0															
 	local numSetGunCamLv = 0															
-	local isNoKill = TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()		
+	local isNoKill = InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()		
 	local isDevelopedSecCam = false
 	local isSecCameraMode = true	
 	local numSetLevel = 0		
@@ -689,7 +648,7 @@ end
 mtbs_enemy.SetupDecy = function()
 	local numPlaced = 0
 	local numMax = 999
-	local equipGrade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
+	local equipGrade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
 	local equipId = mtbs_enemy._GetDecyEquipId( equipGrade )
 
 	mvars.mbDecoy_placedCountTotal = 0
@@ -714,8 +673,8 @@ end
 mtbs_enemy.SetupMine = function()
 	local numPlaced = 0
 	local numMax 	= 999 
-	local isNoKillMode = TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-	local equipGrade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
+	local isNoKillMode = InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+	local equipGrade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
 	local mineEquipId = mtbs_enemy._GetMineEquipId( isNoKillMode, equipGrade )
 	
 	mvars.mbMine_placedCountTotal = 0	
@@ -1332,15 +1291,22 @@ mtbs_enemy.OnLoad = function ( clusterId, isNoUseRevenge )
 
 	if not isNoUseRevenge then
 		
-		local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade()
+		local grade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade()
 		local range = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
-		local isNoKill = TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+		local isNoKill = InfMain.GetMbsClusterSecurityIsNoKillMode()--tex OTIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+    if InfMain.IsMbPlayTime() then--
+      if gvars.mbSoldierEquipRange==InfMain.SETTING_MB_EQUIPRANGE.RANDOM then
+        range = math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
+      elseif gvars.mbSoldierEquipRange>0 then
+        range = gvars.mbSoldierEquipRange-1
+      end
+    end--
 		local revengeType = mtbs_enemy._GetEquipTable( grade, range, isNoKill )
 		TppRevenge.SetForceRevengeType( revengeType )
 	end
 	
 	
-	mvars.rad_debugRadioLineTable["DBG_MTBS_ENEMY_FOCUS_CHECK"] = {"各員、特別警戒。所定の位置を防衛せよ"}
+	mvars.rad_debugRadioLineTable["DBG_MTBS_ENEMY_FOCUS_CHECK"] = {"å�„å“¡ã€�ç‰¹åˆ¥è­¦æˆ’ã€‚æ‰€å®šã�®ä½�ç½®ã‚’é˜²è¡›ã�›ã‚ˆ"}
 end
 
 

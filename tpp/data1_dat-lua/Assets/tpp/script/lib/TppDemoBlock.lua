@@ -1,33 +1,33 @@
-local e={}
+local this={}
 local c=ScriptBlock.GetCurrentScriptBlockId
 local t=ScriptBlock.GetScriptBlockState
-e.isAllocatedMtbsEnemy=false
-function e.OnAllocate()
-TppScriptBlock.InitScriptBlockState()
-e.isAllocatedMtbsEnemy=false
-if vars.missionCode==30050 then
-e.isAllocatedMtbsEnemy=true
-mtbs_enemy.OnAllocateDemoBlock()
+this.isAllocatedMtbsEnemy=false
+function this.OnAllocate()
+  TppScriptBlock.InitScriptBlockState()
+  this.isAllocatedMtbsEnemy=false
+  if vars.missionCode==30050 then
+    this.isAllocatedMtbsEnemy=true
+    mtbs_enemy.OnAllocateDemoBlock()
+  end
 end
+function this.OnInitialize()
 end
-function e.OnInitialize()
+function this.OnUpdate()
+  local e=c()
+  local t=t(e)
+  if t==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
+    TppDemo.PlayOnDemoBlock()
+    return
+  end
+  if TppScriptBlock.IsRequestActivate(e)then
+    TppScriptBlock.ActivateScriptBlockState(e)
+  end
 end
-function e.OnUpdate()
-local e=c()
-local t=t(e)
-if t==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
-TppDemo.PlayOnDemoBlock()
-return
+function this.OnTerminate()
+  TppDemo.FinalizeOnDemoBlock()
+  TppScriptBlock.FinalizeScriptBlockState()
+  if this.isAllocatedMtbsEnemy then
+    mtbs_enemy.OnTerminateDemoBlock()
+  end
 end
-if TppScriptBlock.IsRequestActivate(e)then
-TppScriptBlock.ActivateScriptBlockState(e)
-end
-end
-function e.OnTerminate()
-TppDemo.FinalizeOnDemoBlock()
-TppScriptBlock.FinalizeScriptBlockState()
-if e.isAllocatedMtbsEnemy then
-mtbs_enemy.OnTerminateDemoBlock()
-end
-end
-return e
+return this

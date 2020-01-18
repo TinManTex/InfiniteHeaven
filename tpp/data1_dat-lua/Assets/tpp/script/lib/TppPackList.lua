@@ -1,84 +1,84 @@
-local e={}
-local s={"s","e","f","h","o"}
-local o={"story","extra","free","heli","online"}
-function e.MakeDefaultMissionPackList(n)
-  e.AddDefaultMissionAreaPack(n)
-  e.AddLocationCommonScriptPack(n)
+local this={}
+local missionTypeNameCodes={"s","e","f","h","o"}
+local missionTypeNames={"story","extra","free","heli","online"}
+function this.MakeDefaultMissionPackList(n)
+  this.AddDefaultMissionAreaPack(n)
+  this.AddLocationCommonScriptPack(n)
 end
-function e.AddMissionPack(n)
+function this.AddMissionPack(n)
   if Tpp.IsTypeString(n)then
-    table.insert(e.missionPackList,n)
+    table.insert(this.missionPackList,n)
   end
 end
-function e.DeleteMissionPack(i)
+function this.DeleteMissionPack(i)
   if Tpp.IsTypeString(i)then
     local n
-    for s,e in ipairs(e.missionPackList)do
+    for s,e in ipairs(this.missionPackList)do
       if e==i then
         n=s
         break
       end
     end
     if n then
-      table.remove(e.missionPackList,n)
+      table.remove(this.missionPackList,n)
     end
   end
 end
-function e.AddDefaultMissionAreaPack(n)
-  local n=e.MakeDefaultMissionAreaPackPath(n)
-  if n then
-    e.AddMissionPack(n)
+function this.AddDefaultMissionAreaPack(missionCode)
+  local pack=this.MakeDefaultMissionAreaPackPath(missionCode)
+  if pack then
+    this.AddMissionPack(pack)
   end
 end
-function e.MakeDefaultMissionAreaPackPath(n)
-  local n=n
-  if TppMission.IsHardMission(n)then
-    n=TppMission.GetNormalMissionCodeFromHardMission(n)
+function this.MakeDefaultMissionAreaPackPath(missionCode)
+  local missionCode=missionCode
+  if TppMission.IsHardMission(missionCode)then
+    missionCode=TppMission.GetNormalMissionCodeFromHardMission(missionCode)
   end
-  local n,e=e.GetMissionTypeAndMissionName(n)
-  if n and e then
-    local e="/Assets/tpp/pack/mission2/"..(n..("/"..(e..("/"..(e.."_area.fpk")))))
-    return e
-  end
-end
-function e.AddLocationCommonScriptPack(n)
-  local n=TppLocation.GetLocationName()
-  if n=="afgh"then
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_SCRIPT)
-  elseif n=="mafr"then
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_SCRIPT)
-  elseif n=="cypr"then
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.CYPR_SCRIPT)
-  elseif n=="mtbs"then
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_SCRIPT)
-  elseif n=="mbqf"then
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_SCRIPT)
+  local missionTypeName,missionTypeCodeName=this.GetMissionTypeAndMissionName(missionCode)
+  if missionTypeName and missionTypeCodeName then
+    local packPath="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionTypeCodeName..("/"..(missionTypeCodeName.."_area.fpk")))))
+    return packPath
   end
 end
-function e.AddLocationCommonMissionAreaPack(n)
-  local n=TppLocation.GetLocationName()
-  if n=="afgh"then
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_MISSION_AREA)
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_DECOY)
-  elseif n=="mafr"then
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_MISSION_AREA)
-    e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_DECOY)
+function this.AddLocationCommonScriptPack(missionCode)
+  local locationName=TppLocation.GetLocationName()
+  if locationName=="afgh"then
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_SCRIPT)
+  elseif locationName=="mafr"then
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_SCRIPT)
+  elseif locationName=="cypr"then
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.CYPR_SCRIPT)
+  elseif locationName=="mtbs"then
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_SCRIPT)
+  elseif locationName=="mbqf"then
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_SCRIPT)
   end
 end
-function e.IsMissionPackLabelList(n)
+function this.AddLocationCommonMissionAreaPack(missionCode)
+  local locationCode=TppLocation.GetLocationName()
+  if locationCode=="afgh"then
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_MISSION_AREA)
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_DECOY)
+  elseif locationCode=="mafr"then
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_MISSION_AREA)
+    this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_DECOY)
+  end
+end
+function this.IsMissionPackLabelList(n)
   if not Tpp.IsTypeTable(n)then
     return
   end
   for i,n in ipairs(n)do
-    if e.IsMissionPackLabel(n)then
+    if this.IsMissionPackLabel(n)then
       return true
     end
   end
   return false
 end
-function e.IsMissionPackLabel(e)
+function this.IsMissionPackLabel(e)
   if not Tpp.IsTypeString(e)then
     return
   end
@@ -88,41 +88,43 @@ function e.IsMissionPackLabel(e)
     return false
   end
 end
-function e.AddColoringPack(n)
+function this.AddColoringPack(n)
   if TppColoringSystem then
     local n=TppColoringSystem.GetAdditionalColoringPackFilePaths{missionCode=n}
     for i,n in ipairs(n)do
-      e.AddMissionPack(n)
+      this.AddMissionPack(n)
     end
   else
-    e.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk"e.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk"end
+    this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk"this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk"end
 end
-function e.AddFOBLayoutPack(n)
-  local a,i=e.GetMissionTypeAndMissionName(n)
-  if n==50050 then
+function this.AddFOBLayoutPack(missionCode)
+  local missionTypeName,missionCodeName=this.GetMissionTypeAndMissionName(missionCode)
+  if missionCode==50050 then
   end
-  if(n==50050)or(n==10115)then
-    local s="/Assets/tpp/pack/mission2/"..(a..("/"..(i..("/"..(i..string.format("_area_ly%03d",vars.mbLayoutCode))))))
-    local a=s..".fpk"local i=vars.mbClusterId
-    if(n==10115)then
+  if(missionCode==50050)or(missionCode==10115)then
+    local s="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionCodeName..("/"..(missionCodeName..string.format("_area_ly%03d",vars.mbLayoutCode))))))
+    local a=s..".fpk"
+    local i=vars.mbClusterId
+    if(missionCode==10115)then
       i=TppDefine.CLUSTER_DEFINE.Develop
     end
     local n=s..(string.format("_cl%02d",i)..".fpk")
-    e.AddMissionPack(a)
-    e.AddMissionPack(n)
-  elseif n==30050 then
-    local n="/Assets/tpp/pack/mission2/"..(a..("/"..(i..("/"..(i..string.format("_ly%03d",vars.mbLayoutCode))))))
-    local n=n..".fpk"e.AddMissionPack(n)
+    this.AddMissionPack(a)
+    this.AddMissionPack(n)
+  elseif missionCode==30050 then
+    local n="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionCodeName..("/"..(missionCodeName..string.format("_ly%03d",vars.mbLayoutCode))))))
+    local n=n..".fpk"
+    this.AddMissionPack(n)
   end
 end
-function e.AddAvatarEditPack()
+function this.AddAvatarEditPack()
   local avatarAssetList=TppDefine.MISSION_COMMON_PACK.AVATAR_ASSET_LIST
   for i,fpk in ipairs(avatarAssetList)do
-    e.AddMissionPack(fpk)
+    this.AddMissionPack(fpk)
   end
-  e.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AVATAR_EDIT)
+  this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AVATAR_EDIT)
 end
-function e.SetUseDdEmblemFova(e)
+function this.SetUseDdEmblemFova(e)
   if((e==10030)or(e==10050))or(e==10240)then
     TppSoldierFace.SetUseBlackDdFova{enabled=false}
     return
@@ -133,49 +135,49 @@ function e.SetUseDdEmblemFova(e)
     TppSoldierFace.SetUseBlackDdFova{enabled=false}
   end
 end
-function e.SetMissionPackLabelName(e)
+function this.SetMissionPackLabelName(e)
   if Tpp.IsTypeString(e)then
     gvars.pck_missionPackLabelName=Fox.StrCode32(e)
   end
 end
-function e.SetDefaultMissionPackLabelName()
-  e.SetMissionPackLabelName"default"end
-function e.MakeMissionPackList(n,i)
-  e.missionPackList={}
+function this.SetDefaultMissionPackLabelName()
+  this.SetMissionPackLabelName"default"end
+function this.MakeMissionPackList(n,i)
+  this.missionPackList={}
   if Tpp.IsTypeFunc(i)then
     i(n)
   end
   local i=true
-  if n==10010 and e.IsMissionPackLabel"afterMissionClearMovie"then
+  if n==10010 and this.IsMissionPackLabel"afterMissionClearMovie"then
     i=false
   end
   if i then
-    e.AddColoringPack(n)
+    this.AddColoringPack(n)
   end
-  return e.missionPackList
+  return this.missionPackList
 end
-function e.GetMissionTypeAndMissionName(n)
-  local e=math.floor(n/1e4)
-  local a=o[e]
-  local i
-  if s[e]then
-    i=s[e]..n
+function this.GetMissionTypeAndMissionName(missionCode)
+  local missionCodeRange=math.floor(missionCode/1e4)
+  local missionTypeName=missionTypeNames[missionCodeRange]
+  local missionCodeName--RENAME, missiontyoenaemcodenamtetytpe
+  if missionTypeNameCodes[missionCodeRange]then
+    missionCodeName=missionTypeNameCodes[missionCodeRange]..missionCode
   end
-  return a,i
+  return missionTypeName,missionCodeName
 end
-function e.GetLocationNameFormMissionCode(n)
-  local e
-  for i,s in pairs(TppDefine.LOCATION_HAVE_MISSION_LIST)do
-    for a,s in pairs(s)do
-      if s==n then
-        e=i
+function this.GetLocationNameFormMissionCode(missionCode)
+  local locationName
+  for location,missions in pairs(TppDefine.LOCATION_HAVE_MISSION_LIST)do
+    for a,mission in pairs(missions)do
+      if mission==missionCode then
+        locationName=location
         break
       end
     end
-    if e then
+    if locationName then
       break
     end
   end
-  return e
+  return locationName
 end
-return e
+return this

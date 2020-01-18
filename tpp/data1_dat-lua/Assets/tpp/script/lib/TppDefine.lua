@@ -1,4 +1,4 @@
--- DOBUILD: 1
+-- DOBUILD: 0
 local this={}
 local E=bit.bnot
 local E,A,E=bit.band,bit.bor,bit.bxor
@@ -8,7 +8,7 @@ function this.Enum(enumNames)--tex DEMINED:
   end
   local enumTable={}
   for i,enumName in pairs(enumNames)do
-    enumTable[enumName]=i-1--tex NMC: lua tables indexed from 1, enums indexed from 0
+    enumTable[enumName]=i-1--NMC: lua tables indexed from 1, enums indexed from 0
   end
   return enumTable
 end
@@ -113,7 +113,16 @@ this.EMERGENCY_MISSION_LIST={10115,50050}
 this.EMERGENCY_MISSION_ENUM=this.Enum(this.EMERGENCY_MISSION_LIST)
 this.LOCATION_HAVE_MISSION_LIST={INIT={5},AFGH={10020,10033,10034,10036,10040,10041,10043,10044,10045,10050,10052,10054,10060,10070,10150,10151,10153,10156,10164,10199,10260,30010,40010,65020,11036,11043,11041,11033,11050,11054,11044,11052,11151},MAFR={10080,10081,10082,10085,10086,10090,10091,10093,10100,10110,10120,10121,10130,10140,10154,10160,10162,10171,10200,10195,10211,30020,40020,65060,11085,11082,11090,11091,11195,11211,11140,11200,11080,11171,11121,11130},CYPR={10010,10280},MTBS={10030,10115,11115,10240,30050,30150,30250,40050,50050,65030},OMBS={},HLSP={40060},FLYK={10230}}
 this.OFFLINE_MOHTER_BASE_LAYOUT_CODE=0
-this.STORY_MISSION_LAYOUT_CODE={[10030]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,[10115]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,[11115]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,[10240]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,[30050]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,[30051]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,[30150]=500,[30250]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE}
+this.STORY_MISSION_LAYOUT_CODE={
+[10030]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
+[10115]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
+[11115]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
+[10240]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
+[30050]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
+[30051]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE,
+[30150]=500,
+[30250]=this.OFFLINE_MOHTER_BASE_LAYOUT_CODE
+}
 this.INVALID_LAYOUT_CODE=65535
 this.STORY_MISSION_CLUSTER_ID={[10030]=0,[10115]=2,[11115]=2,[10240]=7,[30050]=0,[30150]=0,[30250]=7}
 this.INVALID_CLUSTER_ID=255
@@ -213,11 +222,16 @@ AVATAR_ASSET_LIST={
 "/Assets/tpp/pack/ui/ui_avatar_edit_men.fpk"
 }
 }
-this.SOLIDER2_COMMON_PACK={default="/Assets/tpp/pack/soldier/common/Soldier2Common.fpk",s10150_special="/Assets/tpp/pack/mission2/story/s10150/s10150_special_npc.fpk",s10151_special="/Assets/tpp/pack/mission2/story/s10151/s10151_special_npc.fpk",s10151_ending="/Assets/tpp/pack/mission2/story/s10151/s10151_ending_npc.fpk"}
+this.SOLIDER2_COMMON_PACK={
+default="/Assets/tpp/pack/soldier/common/Soldier2Common.fpk",
+s10150_special="/Assets/tpp/pack/mission2/story/s10150/s10150_special_npc.fpk",
+s10151_special="/Assets/tpp/pack/mission2/story/s10151/s10151_special_npc.fpk",
+s10151_ending="/Assets/tpp/pack/mission2/story/s10151/s10151_ending_npc.fpk"}
 for T,E in pairs(this.SOLIDER2_COMMON_PACK)do
   this.SOLIDER2_COMMON_PACK[Fox.StrCode32(T)]=E
 end
-this.DEFAULT_SOLIDER2_COMMON_PACKAGE=Fox.StrCode32"default"this.SOLIDER2_COMMON_PACK_PREREQUISITES={s10150_special={"mission_block"},s10151_special={"mission_block"},s10151_ending={"mission_block"}}
+this.DEFAULT_SOLIDER2_COMMON_PACKAGE=Fox.StrCode32"default"
+this.SOLIDER2_COMMON_PACK_PREREQUISITES={s10150_special={"mission_block"},s10151_special={"mission_block"},s10151_ending={"mission_block"}}
 this.AFR_ARMOR={TYPE_CFA=1,TYPE_ZRS=2,TYPE_RC=3}
 this.QUEST_DEFINE={"waterway_q99010","waterway_q99012","sovietBase_q99020","sovietBase_q99030","tent_q99040","cliffTown_q99080","field_q30010","outland_q40010","sovietBase_q99070","outland_q99071","tent_q99072","tent_q20910","fort_q20911","sovietBase_q20912","outland_q20913","lab_q20914","waterway_q39010","pfCamp_q39012","lab_q39011","ruins_q19010","outland_q19011","hill_q19012","commFacility_q19013","sovietBase_q60110","sovietBase_q60111","citadel_q60112","outland_q60113","pfCamp_q60114","tent_q10010","field_q10020","ruins_q10030","waterway_q10040","cliffTown_q10050","commFacility_q10060","sovietBase_q10070","fort_q10080","citadel_q10090","outland_q10100","pfCamp_q10200","savannah_q10300","hill_q10400","banana_q10500","diamond_q10600","lab_q10700","tent_q11010","tent_q11020","waterway_q11030","cliffTown_q11040","cliffTown_q11050","fort_q11060","fort_q11070","commFacility_q11080","outland_q11090","outland_q11100","pfCamp_q11200","savannah_q11300","savannah_q11400","hill_q11500","banana_q11600","banana_q11700","tent_q71010","field_q71020","tent_q71030","waterway_q71040","cliffTown_q71050","cliffTown_q71060","sovietBase_q71070","fort_q71080","field_q71090","outland_q71200","savannah_q71300","banana_q71400","diamond_q71500","lab_q71600","lab_q71700","commFacility_q80060","field_q80020","outland_q80100","pfCamp_q80200","diamond_q80600","hill_q80400","tent_q80010","lab_q80700","fort_q80080","waterway_q80040","ruins_q60010","tent_q60011","cliffTown_q60012","fort_q60013","sovietBase_q60014","pfCamp_q60020","hill_q60021","lab_q60022","banana_q60023","outland_q60024","quest_q20015","quest_q20025","quest_q20035","quest_q20045","quest_q20055","quest_q20065","quest_q20075","quest_q20085","quest_q20095","quest_q20105","quest_q20205","quest_q20305","quest_q20405","quest_q20505","quest_q20605","quest_q20705","quest_q20805","quest_q20905","quest_q21005","quest_q22005","quest_q52010","quest_q52020","quest_q52030","quest_q52040","quest_q52050","quest_q52060","quest_q52070","quest_q52015","quest_q52025","quest_q52035","quest_q52045","quest_q52055","quest_q52065","quest_q52075","Mtbs_SmokingSoldierCommand","Mtbs_SmokingSoldierCombat","Mtbs_child_dog","mtbs_wait_quiet","mtbs_q99050","mtbs_q99011","mtbs_q99060","mtbs_q101210","mtbs_q101220","Mtbs_ddog_walking","ruins_q60115","quest_q52080","quest_q52090","quest_q52100","quest_q52110","quest_q52120","quest_q52130","quest_q52140","quest_q52085","quest_q52095","quest_q52105","quest_q52115","quest_q52125","quest_q52135","quest_q52145","quest_q23005","quest_q24005","quest_q25005","quest_q26005","quest_q27005","mtbs_q42010","mtbs_q42020","mtbs_q42030","mtbs_q42040","mtbs_q42050","mtbs_q42060","mtbs_q42070","mtbs_return_quiet"}
 this.QUEST_RANDOM_FACE_DEFINE={"quest_q20015","quest_q20025","quest_q20035","quest_q20045","quest_q20055","quest_q20065","quest_q20075","quest_q20085","quest_q20095","quest_q20105","quest_q20205","quest_q20305","quest_q20405","quest_q20505","quest_q20605","quest_q20705","quest_q20805","quest_q20905","quest_q21005","quest_q22005","quest_q23005","quest_q24005","quest_q25005","quest_q26005","quest_q27005"}
@@ -295,7 +309,6 @@ this.UNIQUE_STAFF_TYPE_ID={SNEAK=248,OCELOT=249,MILLER=250,QUIET=251,HUEY=252,CO
 this.IGNORE_EXIST_STAFF_CHECK={[this.UNIQUE_STAFF_TYPE_ID.SNEAK]=true,[this.UNIQUE_STAFF_TYPE_ID.OCELOT]=true,[this.UNIQUE_STAFF_TYPE_ID.MILLER]=true,[this.UNIQUE_STAFF_TYPE_ID.QUIET]=true,[this.UNIQUE_STAFF_TYPE_ID.HUEY]=true,[this.UNIQUE_STAFF_TYPE_ID.CODETALKER]=true,[this.UNIQUE_STAFF_TYPE_ID.INITIAL_STAFF_01]=true,[this.UNIQUE_STAFF_TYPE_ID.INITIAL_STAFF_02]=true,[this.UNIQUE_STAFF_TYPE_ID.INITIAL_STAFF_03]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_01]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_02]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_03]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_04]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_05]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_06]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_07]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_08]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_09]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_10]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_11]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_12]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_13]=true,[this.UNIQUE_STAFF_TYPE_ID.FULTON_LESSON_STAFF_14]=true,[this.UNIQUE_STAFF_TYPE_ID.S10040_DEAF_HOSTAGE]=true}
 this.CYPR_PLAYER_INITIAL_WEAPON_TABLE={{secondary="EQP_None"},{primaryHip="EQP_None"},{primaryBack="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"}}
 this.CYPR_PLAYER_INITIAL_ITEM_TABLE={"EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None"}
-this.SUBSISTENCE_SECONDARY_INITIAL_WEAPON_TABLE={{primaryHip="EQP_None"},{primaryBack="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"}}--tex, simply leaves out secondary none
 this.RANKING_MAX=21
 this.RANKING_ENUM=Tpp.Enum{"TotalTacticalTakeDownCount","XPersonMarkingTime","FirstHeadShotTime","FirstHeadShotTimeTranq","FirstCommandPostAnnihilateTime","CboxGlidingDistance","MechaNeutralizeCount","LongestBirdShotDistance","XPersonPerfectStealthCQCNeutralizeTime","XRocketArmNeutralizeTime","FobSneakingGoalCount","FobDefenceSucceedCount","NuclearDisposeCount","mtbs_q42010","mtbs_q42020","mtbs_q42030","mtbs_q42040","mtbs_q42050","mtbs_q42060","mtbs_q42070"}
 this.DEFAULT_DROP_ROUTE={[10033]="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000",[10036]="lz_drp_field_N0000|rt_drp_field_N_0000",[10040]="lz_drp_slopedTownEast_E0000|rt_drp_slopedTownEast_E_0000",[10041]="lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000",[10043]="lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000",[10044]="lz_drp_cliffTown_S0000|rt_drp_cliffTown_S_0000",[10052]="lz_drp_remnants_S0000|rt_drp_remnants_S_0000",[10054]="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000",[10081]="lz_drp_diamondSouth_W0000|rt_drp_diamondSouth_W_0000",[10085]="lz_drp_hillNorth_W0000|rt_drp_hillNorth_W_0000",[10086]="lz_drp_swamp_S0000|rt_drp_swamp_S_0000",[10090]="lz_drp_pfCampNorth_S0000|rt_drp_pfCampNorth_S_0000",[10091]="lz_drp_flowStation_E0000|lz_drp_flowStation_E_0000",[10100]="lz_drp_savannahWest_N0000|lz_drp_savannahWest_N_0000",[10110]="lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000",[10120]="lz_drp_outland_N0000|rt_drp_outland_N_0000",[10121]="lz_drp_pfCamp_N0000|rt_drp_pfcamp_N_0000",[10156]="lz_drp_ruins_S0000|rt_drp_ruins_S_0000",[10171]="lz_drp_savannahEast_S0000|lz_drp_savannahEast_S_0000",[10195]="lz_drp_savannahEast_S0000|lz_drp_savannahEast_S_0000",[10200]="lz_drp_hillNorth_N0000|rt_drp_hillNorth_N_0000",[10211]="lz_drp_savannahEast_N0000|rt_drp_savannahEast_N_0000",[10130]="rts_drp_lab_S_0000",[10045]="lz_drp_field_N0000|rt_drp_field_N_0000",[10082]="lz_drp_pfCampNorth_S0000|rt_drp_pfCampNorth_S_0000",[10093]="lz_drp_lab_W0000|rt_drp_lab_W_0000"}

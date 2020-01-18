@@ -1556,17 +1556,17 @@ function this.SetSelfSubsistenceOnHardMission()--tex reworked
   if TppMission.IsSubsistenceMission() and loadout==0 then
     loadout=1
   end
-  if loadout > 0 and loadout <= #InfMenu.subsistenceLoadouts  then
-    this.SetInitWeapons(InfMenu.subsistenceLoadouts[loadout])--tex subs loadouts, lua index from 1
+  if loadout > 0 and loadout <= #InfMain.subsistenceLoadouts  then
+    this.SetInitWeapons(InfMain.subsistenceLoadouts[loadout])--tex subs loadouts, lua index from 1
   end
   if TppMission.IsSubsistenceMission() then
     this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
     local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}--tex subs settings, moved and broken up from retail which put table straight in regtempplayer
-    if gvars.isManualSubsistence==InfMenu.SETTING_SUBSISTENCE_PROFILE.BOUNDER then
+    if gvars.isManualSubsistence==InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER then
       playerSettings={handEquip=TppEquip.EQP_HAND_NORMAL}
     end--
     this.RegisterTemporaryPlayerType(playerSettings)
-    if gvars.isManualSubsistence==InfMenu.SETTING_SUBSISTENCE_PROFILE.PURE then--tex disable fulton on subsistence pure
+    if gvars.isManualSubsistence==InfMain.SETTING_SUBSISTENCE_PROFILE.PURE then--tex disable fulton on subsistence pure
       vars.playerDisableActionFlag = PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
     end--
     if TppMission.IsManualSubsistence() then--tex downgrade equipment
@@ -1802,12 +1802,14 @@ function this.IsExistSupplyCboxSystem()
 end
 function this.RestoreSupportAttack()
   if this.IsExistSupportAttackSystem()then
-    local e={type="TppSupportAttackSystem"}r(e,{id="RestoreRequest"})
+    local e={type="TppSupportAttackSystem"}
+    r(e,{id="RestoreRequest"})
   end
 end
 function this.StoreSupportAttack()
   if this.IsExistSupportAttackSystem()then
-    local e={type="TppSupportAttackSystem"}r(e,{id="StoreRequest"})
+    local e={type="TppSupportAttackSystem"}
+    r(e,{id="StoreRequest"})
   end
 end
 function this.IsExistSupportAttackSystem()
