@@ -829,7 +829,7 @@ function e.SetUp()
 
   if TppMission.IsSubsistenceMission()then
     local dvcMenu={{menu=e.MBDVCMENU.MSN_DROP,active=false},{menu=e.MBDVCMENU.MSN_BUDDY,active=false},{menu=e.MBDVCMENU.MSN_ATTACK,active=false},{menu=e.MBDVCMENU.MSN_HELI_ATTACK,active=false}}
-    if gvars.isManualSubsistence==TppMain.SUBSISTENCE_BUDDY then--tex allow Buddy Support menu when Buddy Subsistence mode
+    if gvars.isManualSubsistence==TppMain.SUBSISTENCE_BOUND then--tex allow Buddy Support menu when Buddy Subsistence mode
      dvcMenu[2].active=true
     end
     e.EnableDvcMenuByList(dvcMenu)

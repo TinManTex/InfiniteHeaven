@@ -1,5 +1,5 @@
 local this={}
-this.modVersion = "r28"
+this.modVersion = "r29"
 this.modName = "Infinite Heaven"
 local e=this--tex CULL: once deminified
 local IsFunc=Tpp.IsTypeFunc
@@ -147,14 +147,14 @@ function this.ChangeSetting(modSetting,value)
     modSetting.onChange()
   end
 end
-this.SUBSISTENCE_BUDDY=2--tex: SPECIAL: RETRY:
+this.SUBSISTENCE_BOUND=2--tex: SPECIAL: RETRY:
 this.modSettings={
   {
     name="Subsistence Mode",
     gvar="isManualSubsistence",
     default=0,
     slider={max=2,min=0,increment=1},
-    settingNames={"Off","Pure","Buddy enabled"},
+    settingNames={"Off","Pure","Bounded (+Buddy +Suit)"},
     onChange=function()
       if gvars.isManualSubsistence==0 then
         gvars.subsistenceLoadout=0
@@ -757,7 +757,7 @@ function this.OnAllocate(n)
     end
     --tex changed to issubs check, more robust even without my mod
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then
-    if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=this.SUBSISTENCE_BUDDY then--tex buddy subsistence mode
+    if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=this.SUBSISTENCE_BOUND then--tex buddy subsistence mode
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then

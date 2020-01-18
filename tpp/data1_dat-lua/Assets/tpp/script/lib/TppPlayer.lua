@@ -1,7 +1,8 @@
 local this={}
 local e=this--tex CULL: once deminified
 local s=Tpp.IsTypeFunc
-local n=Tpp.IsTypeTable
+local IsTable=Tpp.IsTypeTable
+local n=IsTable
 local l=Tpp.IsTypeString
 local a=Fox.StrCode32
 local r=GkEventTimerManager.Start
@@ -255,30 +256,30 @@ function this.ResetInitialPosition()
   vars.initialPlayerPosZ=0
   vars.initialPlayerRotY=0
 end
-function this.RegisterTemporaryPlayerType(e)
-  if not n(e)then
+function this.RegisterTemporaryPlayerType(playerSettings)
+  if not IsTable(playerSettings)then
     return
   end
   mvars.ply_isExistTempPlayerType=true
-  local t=e.camoType
-  local n=e.partsType
-  local a=e.playerType
-  local o=e.handEquip
-  local e=e.faceEquipId
-  if n then
-    mvars.ply_tempPartsType=n
+  local camoType=playerSettings.camoType
+  local partsType=playerSettings.partsType
+  local playerType=playerSettings.playerType
+  local handEquip=playerSettings.handEquip
+  local faceEquipId=playerSettings.faceEquipId
+  if partsType then
+    mvars.ply_tempPartsType=partsType
   end
-  if t then
-    mvars.ply_tempCamoType=t
+  if camoType then
+    mvars.ply_tempCamoType=camoType
   end
-  if a then
-    mvars.ply_tempPlayerType=a
+  if playerType then
+    mvars.ply_tempPlayerType=playerType
   end
-  if o then
-    mvars.ply_tempPlayerHandEquip=o
+  if handEquip then
+    mvars.ply_tempPlayerHandEquip=handEquip
   end
-  if e then
-    mvars.ply_tempPlayerFaceEquipId=e
+  if faceEquipId then
+    mvars.ply_tempPlayerFaceEquipId=faceEquipId
   end
 end
 function this.SaveCurrentPlayerType()
@@ -1685,7 +1686,11 @@ function this.SetSelfSubsistenceOnHardMission()--tex reworked
   end
   if TppMission.IsSubsistenceMission() then
     this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
-    this.RegisterTemporaryPlayerType{partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
+    local playerSettings={handEquip=TppEquip.EQP_HAND_NORMAL}--tex subs settings, moved and broken up from retail which put table straight in regtempplayer
+    if gvars.isManualSubsistence==1 then--tex 'pure' profile (currently same as game issub missions)
+      playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
+    end--   
+    this.RegisterTemporaryPlayerType(playerSettings)
   end
 end
 --[[function this.SetSelfSubsistenceOnHardMission()--tex ORIG:

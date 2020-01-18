@@ -159,7 +159,8 @@ function a.SetHostageFaceTable(d)
         table.insert(n,0)
       end
     elseif t==r then
-      table.insert(n,0)table.insert(n,1)c=1
+      table.insert(n,0)
+      table.insert(n,1)c=1
     elseif t==p then
       table.insert(n,1)
     elseif t==f then
@@ -196,7 +197,8 @@ function a.SetHostageFaceTable(d)
         a=e
       end
       for n,e in ipairs(r)do
-        table.insert(o,{e,0,0,a})table.insert(t,e)
+        table.insert(o,{e,0,0,a})
+        table.insert(t,e)
       end
       local e=#t
       if e>0 then
@@ -421,7 +423,8 @@ function n.Afghan(n,t)
   TppSoldierFace.SetUseFaceIdListMode{enabled=true,staffCheck=true}a.SetHostageFaceTable(t)
   local n={{0,e},{1,e},{2,e},{5,e},{6,e},{7,e},{10,e},{11,e},{20,e},{21,e},{22,e},{25,e},{26,e},{27,e},{30,e},{31,e},{TppEnemyBodyId.prs2_main0_v00,e}}
   if not a.IsNotRequiredArmorSoldier(t)then
-    local e={TppEnemyBodyId.sva0_v00_a,e}table.insert(n,e)
+    local e={TppEnemyBodyId.sva0_v00_a,e}
+    table.insert(n,e)
   end
   TppSoldierFace.OverwriteMissionFovaData{body=n}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs2_main0_v00}}
@@ -530,7 +533,10 @@ function n.Mbqf(n,n)
   for a,e in pairs(n)do
     table.insert(t,{a,e,e,0})
   end
-  table.insert(t,{623,1,1,0})table.insert(t,{TppEnemyFaceId.dds_balaclava2,10,10,0})table.insert(t,{TppEnemyFaceId.dds_balaclava6,2,2,0})table.insert(t,{TppEnemyFaceId.dds_balaclava7,2,2,0})
+  table.insert(t,{623,1,1,0})
+  table.insert(t,{TppEnemyFaceId.dds_balaclava2,10,10,0})
+  table.insert(t,{TppEnemyFaceId.dds_balaclava6,2,2,0})
+  table.insert(t,{TppEnemyFaceId.dds_balaclava7,2,2,0})
   local e={{146,e},{147,e},{148,e},{149,e},{150,e},{151,1},{152,e},{153,e},{154,e},{155,e},{156,e},{157,e},{158,e}}
   TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/ddr1_main0_def_v00.parts"}
   TppSoldierFace.OverwriteMissionFovaData{face=t,body=e}
