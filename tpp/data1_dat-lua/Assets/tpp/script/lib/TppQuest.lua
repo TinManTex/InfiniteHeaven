@@ -12,7 +12,7 @@ local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
 local i=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
 local t=TppDefine.Enum{"MISSION","FREE","HELI"}
-local s=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
+local QUEST_STATUS_TYPES=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
 local h={"tent","field","ruins","waterway","cliffTown","commFacility","sovietBase","fort","citadel"}
 local O={"outland","pfCamp","savannah","hill","banana","diamond","lab"}
 local shootingPracticeMarkers={Command="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|Marker_shootingPractice",Develop="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|Marker_shootingPractice",Support="ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|Marker_shootingPractice",BaseDev="ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|Marker_shootingPractice",Medical="ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|Marker_shootingPractice",Spy="ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|Marker_shootingPractice",Combat="ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|Marker_shootingPractice"}
@@ -285,7 +285,7 @@ local questCompleteLangIds={
   mtbs_q42060="quest_target_eliminate",
   mtbs_q42070="quest_target_eliminate",
   mtbs_q42010="quest_target_eliminate"}
-local questPhotos={
+local keyItems={
   tent_q80010=TppMotherBaseManagementConst.PHOTO_1006,
   field_q80020=TppMotherBaseManagementConst.PHOTO_1007,
   waterway_q80040=TppMotherBaseManagementConst.PHOTO_1009,
@@ -299,7 +299,7 @@ local questPhotos={
   sovietBase_q99030=TppMotherBaseManagementConst.DESIGN_3009,
   tent_q99040=TppMotherBaseManagementConst.DESIGN_3002,
   mtbs_q99050=TppMotherBaseManagementConst.DESIGN_3000}
-local questPhotos2={
+local questPhotos={
   tent_q80010="key_photo_1006",
   field_q80020="key_photo_1007",
   waterway_q80040="key_photo_1009",
@@ -1270,7 +1270,7 @@ function this.Clear(t)
     return
   end
   this.SetNextQuestStep(d)
-  this.ShowAnnounceLog(s.CLEAR,t)
+  this.ShowAnnounceLog(QUEST_STATUS_TYPES.CLEAR,t)
   this.CheckClearBounus(n,t)
   this.UpdateClearFlag(n,true)
   this.UpdateRepopFlag(n)
@@ -1327,7 +1327,7 @@ function this.Failure(questName)
   end
   this.UpdateClearFlag(n,false)
   this.SetNextQuestStep(d)
-  this.ShowAnnounceLog(s.FAILURE,questName)
+  this.ShowAnnounceLog(QUEST_STATUS_TYPES.FAILURE,questName)
   TppUiCommand.SetSideOpsListUpdate()
   for e=0,9,1 do
     if gvars.qst_failedIndex[e]==-1 then
@@ -1350,10 +1350,10 @@ function this.Update(t)
   local o,i=TppEnemy.GetQuestCount()
   local n,a=TppGimmick.GetQuestShootingPracticeCount()
   if o>0 and i>1 then
-    this.ShowAnnounceLog(s.UPDATE,t,o,i)
+    this.ShowAnnounceLog(QUEST_STATUS_TYPES.UPDATE,t,o,i)
   elseif n>0 and a>1 then
     this.UpdateShootingPracticeUi()
-    this.ShowAnnounceLog(s.UPDATE,t,n,a)
+    this.ShowAnnounceLog(QUEST_STATUS_TYPES.UPDATE,t,n,a)
   end
 end
 function this.Retry(t)
@@ -1367,7 +1367,7 @@ function this.Retry(t)
   if n==nil then
     return
   end
-  this.ShowAnnounceLog(s.FAILURE,t)
+  this.ShowAnnounceLog(QUEST_STATUS_TYPES.FAILURE,t)
 end
 function this.AddStaffsFromTempBuffer()
   local e=TppEnemy.IsQuestInHelicopter()
@@ -1762,7 +1762,7 @@ end
 function this.ShowAnnounceLogQuestOpen()
   if mvars.qst_isQuestNewOpenFlag==true then
     mvars.qst_isQuestNewOpenFlag=false
-    this.ShowAnnounceLog(s.OPEN)
+    this.ShowAnnounceLog(QUEST_STATUS_TYPES.OPEN)
   end
 end
 function this.OnUpdateSmallBlockIndex(a,n,s)
@@ -2429,7 +2429,7 @@ function this.OpenAndActivateSpecialQuest(questNames)
     end
   end
   if n then
-    this.ShowAnnounceLog(s.OPEN)
+    this.ShowAnnounceLog(QUEST_STATUS_TYPES.OPEN)
   end
   return n
 end
@@ -2710,10 +2710,10 @@ function this.PlayClearRadio(e)
   return false
 end
 function this.GetClearKeyItem(t)
-  for e,n in pairs(questPhotos)do
+  for e,n in pairs(keyItems)do
     if e==t then
       TppTerminal.AcquireKeyItem{dataBaseId=n,isShowAnnounceLog=true}
-      for t,n in pairs(questPhotos2)do
+      for t,n in pairs(questPhotos)do
         if e==t then
           TppUI.ShowAnnounceLog("quest_get_photo",n)
         end
@@ -2749,53 +2749,53 @@ function this.GetClearCassette(t)
     TppCassette.Acquire{cassetteList={"tp_m_10150_21","tp_m_10150_22","tp_m_10150_24","tp_m_10150_25"},isShowAnnounceLog=true}
   end
 end
-function this.ShowAnnounceLog(n,t,u,l)
-  if not n then
+function this.ShowAnnounceLog(status,questName,u,l)
+  if not status then
     return
   end
-  if n==s.OPEN then
+  if status==QUEST_STATUS_TYPES.OPEN then
     TppUI.ShowAnnounceLog"quest_list_update"
     TppUI.ShowAnnounceLog"quest_add"
-  elseif n==s.CLEAR then
-    if not t then
+  elseif status==QUEST_STATUS_TYPES.CLEAR then
+    if not questName then
       return
     end
-    local a=this.GetQuestNameLangId(t)
+    local a=this.GetQuestNameLangId(questName)
     if a~=false then
-      local n=questCompleteLangIds[t]
+      local showAnnounceLogId=questCompleteLangIds[questName]
       local s,r=TppEnemy.GetQuestCount()
       local o,i=TppGimmick.GetQuestShootingPracticeCount()
-      if n then
+      if showAnnounceLogId then
         if s>1 then
-          TppUI.ShowAnnounceLog(n,s,r)
+          TppUI.ShowAnnounceLog(showAnnounceLogId,s,r)
         elseif o>1 then
-          TppUI.ShowAnnounceLog(n,o,i)
+          TppUI.ShowAnnounceLog(showAnnounceLogId,o,i)
         end
       end
       TppUI.ShowAnnounceLog"quest_list_update"
       TppUI.ShowAnnounceLog("quest_complete",a)
-      local e=this.GetQuestNameId(t)
+      local e=this.GetQuestNameId(questName)
       if(e~=false)and(e~="q99012")then
         TppUiCommand.ShowSideFobInfo("end",string.format("name_%s",e),"hud_quest_finish")
         TppSoundDaemon.PostEvent"sfx_s_sideops_sted"
       end
     end
-  elseif n==s.FAILURE then
-    if not t then
+  elseif status==QUEST_STATUS_TYPES.FAILURE then
+    if not questName then
       return
     end
-    local e=this.GetQuestNameLangId(t)
+    local e=this.GetQuestNameLangId(questName)
     if e~=false then
       TppUI.ShowAnnounceLog"quest_list_update"
       TppUI.ShowAnnounceLog("quest_delete",e)
     end
-  elseif n==s.UPDATE then
-    if not t then
+  elseif status==QUEST_STATUS_TYPES.UPDATE then
+    if not questName then
       return
     end
-    local e=questCompleteLangIds[t]
-    if e then
-      TppUI.ShowAnnounceLog(e,u,l)
+    local showAnnounceLogId=questCompleteLangIds[questName]
+    if showAnnounceLogId then
+      TppUI.ShowAnnounceLog(showAnnounceLogId,u,l)
     end
   end
 end
@@ -2966,7 +2966,7 @@ function this.ProcessFinishShootingPractice(t,n)
 end
 function this.CancelShootingPractice()
   local t=this.GetCurrentQuestName()
-  this.ShowAnnounceLog(s.FAILURE,t)
+  this.ShowAnnounceLog(QUEST_STATUS_TYPES.FAILURE,t)
   this.OnFinishShootingPractice(nil,true)
   this.ShootingPracticeStopAllTimer()
   this.OnQuestShootingTimerEnd()
@@ -3053,7 +3053,7 @@ end
 local a={ruins_q60115=TppMotherBaseManagementConst.DESIGN_2027,sovietBase_q60110=TppMotherBaseManagementConst.DESIGN_2020,citadel_q60112=TppMotherBaseManagementConst.DESIGN_2021,outland_q60113=TppMotherBaseManagementConst.DESIGN_2022,pfCamp_q60114=TppMotherBaseManagementConst.DESIGN_2023,sovietBase_q60111=TppMotherBaseManagementConst.DESIGN_2024}
 local t={pfCamp_q39012={dataBaseId=TppMotherBaseManagementConst.ANIMAL_130},waterway_q39010={dataBaseId=TppMotherBaseManagementConst.ANIMAL_610},lab_q39011={dataBaseId=TppMotherBaseManagementConst.ANIMAL_2250}}
 function this.AcquireKeyItemOnMissionStart()
-  for t,n in pairs(questPhotos)do
+  for t,n in pairs(keyItems)do
     if this.IsCleard(t)then
       TppTerminal.AcquireKeyItem{dataBaseId=n,isShowAnnounceLog=true}
     end

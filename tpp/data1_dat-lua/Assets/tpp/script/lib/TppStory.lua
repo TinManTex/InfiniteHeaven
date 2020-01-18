@@ -109,7 +109,6 @@ this.storySequenceTable_Master={
       end
     end,
     updateTiming={OnMissionStart=true,OnUpdateCheckPoint=true,OnSideOpsClear=true}},
-
   {main="s10240",defaultClose={s10240=true},
     condition=function()
       this.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE,1)
@@ -127,7 +126,6 @@ this.storySequenceTable_Master={
       end
     end,
     updateTiming={OnMissionStart=true,OnSideOpsClear=true}},
-
   {sub={"s11121"},
     condition=function()
       local t=TppQuest.IsNowOccurringElapsed()
@@ -139,7 +137,6 @@ this.storySequenceTable_Master={
       end
     end,
     updateTiming={OnMissionStart=true,OnSideOpsClear=true}},
-
   {sub={"s11130","s11044","s11151","s10260","s10280"},defaultClose={s10260=true,s10280=true},
     condition=function()
       if this.CanOpenS10280()and(not this.IsMissionOpen(10280))then
@@ -150,7 +147,6 @@ this.storySequenceTable_Master={
       end
     end,
     updateTiming={BeforeBuddyBlockLoad=true}},
-
   {},
   {}
 }
@@ -1155,7 +1151,35 @@ this.eventPlayTimmingTable={
     {false,"MotherBaseBurnOut"},
     {true,"HowToPlayFreePlay"}}
 }
-this.PLAY_DEMO_END_MISSION={[10010]=true,[10030]=true,[10050]=true,[10070]=true,[10100]=true,[10110]=true,[10120]=true,[10130]=true,[10140]=true,[10150]=true,[10151]=true,[10240]=true,[10260]=true,[10280]=true,[10230]=true,[11050]=true,[11070]=true,[11100]=true,[11110]=true,[11130]=true,[11140]=true,[11150]=true,[11151]=true,[11240]=true,[11260]=true,[11280]=true,[11230]=true}
+this.PLAY_DEMO_END_MISSION={
+  [10010]=true,
+  [10030]=true,
+  [10050]=true,
+  [10070]=true,
+  [10100]=true,
+  [10110]=true,
+  [10120]=true,
+  [10130]=true,
+  [10140]=true,
+  [10150]=true,
+  [10151]=true,
+  [10240]=true,
+  [10260]=true,
+  [10280]=true,
+  [10230]=true,
+  [11050]=true,
+  [11070]=true,
+  [11100]=true,
+  [11110]=true,
+  [11130]=true,
+  [11140]=true,
+  [11150]=true,
+  [11151]=true,
+  [11240]=true,
+  [11260]=true,
+  [11280]=true,
+  [11230]=true
+}
 function this.GetCurrentStorySequence()
   return gvars.str_storySequence
 end
@@ -1204,12 +1228,12 @@ function this.CheckAllMissionCleared()
   local i=true
   local a=true
   local s=true
-  for e,d in pairs(TppDefine.MISSION_ENUM)do
-    local o=TppDefine.MISSING_NUMBER_MISSION_ENUM[e]
+  for missionCodeStr,d in pairs(TppDefine.MISSION_ENUM)do
+    local o=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
     if not o then
-      local o=tonumber(e)
+      local o=tonumber(missionCodeStr)
       if(not gvars.str_missionClearedFlag[d])then
-        if TppDefine.HARD_MISSION_ENUM[e]then
+        if TppDefine.HARD_MISSION_ENUM[missionCodeStr]then
           a=false
         else
           n=false
@@ -1222,7 +1246,7 @@ function this.CheckAllMissionCleared()
         n=false
       end
       if n and(TppResult.GetBestRank(o)~=TppDefine.MISSION_CLEAR_RANK.S)then
-        if TppDefine.HARD_MISSION_ENUM[e]then
+        if TppDefine.HARD_MISSION_ENUM[missionCodeStr]then
           s=false
         else
           i=false
@@ -1236,10 +1260,10 @@ end
 function this.CalcAllMissionClearedCount()
   local e=0
   local n=0
-  for t,r in pairs(TppDefine.MISSION_ENUM)do
-    local i=TppDefine.MISSING_NUMBER_MISSION_ENUM[t]
+  for missionCodeStr,r in pairs(TppDefine.MISSION_ENUM)do
+    local i=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
     if not i then
-      local t=tonumber(t)
+      local missionCode=tonumber(missionCodeStr)
       if(gvars.str_missionClearedFlag[r])then
         e=e+1
       end
@@ -1251,10 +1275,11 @@ end
 function this.CalcAllMissionTaskCompletedCount()
   local e=0
   local n=0
-  for t,i in pairs(TppDefine.MISSION_ENUM)do
-    local i=TppDefine.MISSING_NUMBER_MISSION_ENUM[t]
+  for missionCodeStr,i in pairs(TppDefine.MISSION_ENUM)do
+    local i=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
     if not i then
-      local t=tonumber(t)e=e+TppUI.GetTaskCompletedNumber(t)n=n+TppUI.GetMaxMissionTask(t)
+      local t=tonumber(missionCodeStr)e=e+TppUI.GetTaskCompletedNumber(t)
+      n=n+TppUI.GetMaxMissionTask(t)
     end
   end
   return e,n

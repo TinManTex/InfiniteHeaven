@@ -31,12 +31,12 @@ function this.Messages()
     nil
   }
 end
-function this.Enable(c,radiusLevel,goalTypeName,viewTypeName,randomLevel,isImportant,isNew,RENAMEradioName,iconLangId,goalLangId,isInterrogation)
+function this.Enable(gameObjectName,visibleArea,goalType,viewType,randomRange,setImportant,setNew,mapRadioName,langId,goalLangId,setInterrogation)
   local gameId
-  if Tpp.IsTypeString(c)then
-    gameId=GetGameObjectId(c)
-  elseif Tpp.IsTypeNumber(c)then
-    gameId=c
+  if Tpp.IsTypeString(gameObjectName)then
+    gameId=GetGameObjectId(gameObjectName)
+  elseif Tpp.IsTypeNumber(gameObjectName)then
+    gameId=gameObjectName
   else
     return
   end
@@ -46,56 +46,56 @@ function this.Enable(c,radiusLevel,goalTypeName,viewTypeName,randomLevel,isImpor
   if(not this._CanSetMarker(gameId))then
     return
   end
-  radiusLevel=radiusLevel or 0
-  goalTypeName=goalTypeName or"moving"
-  viewTypeName=viewTypeName or"map"
-  randomLevel=randomLevel or 9
-  if(type(radiusLevel)~="number")then
+  visibleArea=visibleArea or 0
+  goalType=goalType or"moving"
+  viewType=viewType or"map"
+  randomRange=randomRange or 9
+  if(type(visibleArea)~="number")then
     return
   end
-  if(radiusLevel<0 or radiusLevel>9)then
+  if(visibleArea<0 or visibleArea>9)then
     return
   end
-  if(type(randomLevel)~="number")then
+  if(type(randomRange)~="number")then
     return
   end
-  if(randomLevel<0 or randomLevel>9)then
+  if(randomRange<0 or randomRange>9)then
     return
   end
-  local goalType=this.GoalTypes[goalTypeName]
+  local goalType=this.GoalTypes[goalType]
   if(goalType==nil)then
     return
   end
-  local viewLayer=this.ViewTypes[viewTypeName]
+  local viewLayer=this.ViewTypes[viewType]
   if(viewLayer==nil)then
     return
   end
   TppMarker2System.EnableMarker{gameObjectId=gameId,viewLayer=viewLayer}
-  local markerGoalType={gameObjectId=gameId,radiusLevel=radiusLevel,goalType=goalType,randomLevel=randomLevel}
+  local markerGoalType={gameObjectId=gameId,radiusLevel=visibleArea,goalType=goalType,randomLevel=randomRange}
   TppMarker2System.SetMarkerGoalType(markerGoalType)
-  if isImportant~=nil then
-    local markerImportant={gameObjectId=gameId,isImportant=isImportant}
+  if setImportant~=nil then
+    local markerImportant={gameObjectId=gameId,isImportant=setImportant}
     TppMarker2System.SetMarkerImportant(markerImportant)
   end
-  if isNew~=nil then
-    local markerNew={gameObjectId=gameId,isNew=isNew}
+  if setNew~=nil then
+    local markerNew={gameObjectId=gameId,isNew=setNew}
     TppMarker2System.SetMarkerNew(markerNew)
   end
-  if isInterrogation~=nil then
-    local markerInterrogation={gameObjectId=gameId,isInterrogation=isInterrogation}
+  if setInterrogation~=nil then
+    local markerInterrogation={gameObjectId=gameId,isInterrogation=setInterrogation}
     if TppMarker2System.SetMarkerInterrogation then
       TppMarker2System.SetMarkerInterrogation(markerInterrogation)
     end
   end
-  if RENAMEradioName~=nil then
-    local e=StrCode32(RENAMEradioName)
-    TppUiCommand.RegisterMapRadio(gameId,e)
+  if mapRadioName~=nil then
+    local strCodeName=StrCode32(mapRadioName)
+    TppUiCommand.RegisterMapRadio(gameId,strCodeName)
   end
-  if iconLangId~=nil then
+  if langId~=nil then
     if goalLangId~=nil then
-      TppUiCommand.RegisterIconUniqueInformation{markerId=gameId,iconLangId=iconLangId,goalLangId=goalLangId}
+      TppUiCommand.RegisterIconUniqueInformation{markerId=gameId,iconLangId=langId,goalLangId=goalLangId}
     else
-      TppUiCommand.RegisterIconUniqueInformation{markerId=gameId,langId=iconLangId}
+      TppUiCommand.RegisterIconUniqueInformation{markerId=gameId,langId=langId}
     end
   elseif goalLangId~=nil then
     TppUiCommand.RegisterIconUniqueInformation{markerId=gameId,goalLangId=goalLangId}
@@ -193,17 +193,17 @@ function this.SetQuestMarkerGimmick(e)
     TppMarker2System.SetMarkerImportant(e)
   end
 end
-function this.EnableQuestTargetMarker(n)
-  local a
-  if Tpp.IsTypeString(n)then
-    a=GetGameObjectId(n)
-  elseif Tpp.IsTypeNumber(n)then
-    a=n
+function this.EnableQuestTargetMarker(name)
+  local gameId
+  if Tpp.IsTypeString(name)then
+    gameId=GetGameObjectId(name)
+  elseif Tpp.IsTypeNumber(name)then
+    gameId=name
   end
-  if a==NULL_ID then
+  if gameId==NULL_ID then
   else
-    this.Enable(a,0,"defend","map_and_world_only_icon",0,false,true)
-    this.SetQuestMarker(a)
+    this.Enable(gameId,0,"defend","map_and_world_only_icon",0,false,true)
+    this.SetQuestMarker(gameId)
     TppUI.ShowAnnounceLog("updateMap",nil,nil,1)
   end
 end
@@ -277,13 +277,13 @@ function this._OnSearchTarget(a,t,s)
     local r=this._GetStrCode32SearchTargetName(a)
     if svars.mar_searchTargetName[n]==r then
       if mvars.mar_searchTargetList[a].objectives==nil then
-        local r
+        local isImportant
         if mvars.mar_searchTargetList[a].notImportant then
-          r=false
+          isImportant=false
         else
-          r=true
+          isImportant=true
         end
-        this.Enable(mvars.mar_searchTargetList[a].gameObjectName,0,"moving","map_and_world_only_icon",0,r,true)
+        this.Enable(mvars.mar_searchTargetList[a].gameObjectName,0,"moving","map_and_world_only_icon",0,isImportant,true)
       else
         local e={}
         if IsTypeTable(mvars.mar_searchTargetList[a].objectives)then

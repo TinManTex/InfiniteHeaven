@@ -9,59 +9,92 @@ local s=1e3
 local r=4
 this.GMP_POSTER=500
 this.FOB_TUTORIAL_STATE={INIT=0,INTRODUCTION_CONSTRUCT_FOB=1,CONSTRUCT_FOB=2,INTRODUCTION_FOB_MISSIONS=3,FOB_MISSIONS=4,FINISH=127}
-this.unitLvAnnounceLogTable={[Fox.StrCode32"Combat"]={up="unitLvUpCombat",down="unitLvDownCombat"},[Fox.StrCode32"Develop"]={up="unitLvUpRd",down="unitLvDownRd"},[Fox.StrCode32"Support"]={up="unitLvUpSupport",down="unitLvDownSupport"},[Fox.StrCode32"Medical"]={up="unitLvUpMedical",down="unitLvDownMedical"},[Fox.StrCode32"Spy"]={up="unitLvUpIntel",down="unitLvDownIntel"},[Fox.StrCode32"PrantDev"]={up="unitLvUpBaseDev",down="unitLvDownBaseDev"},[Fox.StrCode32"Security"]={up="unitLvUpSecurity",down="unitLvDownSecurity"}}
-this.keyItemAnnounceLogTable={[TppMotherBaseManagementConst.DESIGN_3011]="key_item_3011",[TppMotherBaseManagementConst.DESIGN_3012]="key_item_3012",[TppMotherBaseManagementConst.DESIGN_3006]="key_item_3006",[TppMotherBaseManagementConst.DESIGN_3005]="key_item_3005",[TppMotherBaseManagementConst.DESIGN_3000]="key_item_3000",[TppMotherBaseManagementConst.DESIGN_3009]="key_item_3009",[TppMotherBaseManagementConst.DESIGN_3002]="key_item_3002",[TppMotherBaseManagementConst.DESIGN_3007]="key_item_3007",[TppMotherBaseManagementConst.DESIGN_3001]="key_item_3001"}
-this.keyItemRewardTable={[TppMotherBaseManagementConst.DESIGN_3013]="key_item_3013",[TppMotherBaseManagementConst.DESIGN_3003]="key_item_3003",[TppMotherBaseManagementConst.DESIGN_3008]="key_item_3008",[TppMotherBaseManagementConst.DESIGN_3014]="key_item_3014",[TppMotherBaseManagementConst.DESIGN_3015]="key_item_3015",[TppMotherBaseManagementConst.DESIGN_3016]="key_item_3016",[TppMotherBaseManagementConst.DESIGN_3017]="key_item_3017",[TppMotherBaseManagementConst.DESIGN_3018]="key_item_3018",[TppMotherBaseManagementConst.DESIGN_3019]="key_item_3019",[TppMotherBaseManagementConst.DESIGN_3007]="key_item_3007",[TppMotherBaseManagementConst.DESIGN_3010]="key_item_3010",[TppMotherBaseManagementConst.DESIGN_3020]="key_item_3020"}
-this.parasiteSquadFultonResouceId={[Fox.StrCode32"Cam"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CAMOFLA,5},[Fox.StrCode32"Fog"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_FOG,5},[Fox.StrCode32"Metal"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CURING,5}}
+this.unitLvAnnounceLogTable={
+  [Fox.StrCode32"Combat"]={up="unitLvUpCombat",down="unitLvDownCombat"},
+  [Fox.StrCode32"Develop"]={up="unitLvUpRd",down="unitLvDownRd"},
+  [Fox.StrCode32"Support"]={up="unitLvUpSupport",down="unitLvDownSupport"},
+  [Fox.StrCode32"Medical"]={up="unitLvUpMedical",down="unitLvDownMedical"},
+  [Fox.StrCode32"Spy"]={up="unitLvUpIntel",down="unitLvDownIntel"},
+  [Fox.StrCode32"PrantDev"]={up="unitLvUpBaseDev",down="unitLvDownBaseDev"},
+  [Fox.StrCode32"Security"]={up="unitLvUpSecurity",down="unitLvDownSecurity"}
+}
+this.keyItemAnnounceLogTable={
+  [TppMotherBaseManagementConst.DESIGN_3011]="key_item_3011",
+  [TppMotherBaseManagementConst.DESIGN_3012]="key_item_3012",
+  [TppMotherBaseManagementConst.DESIGN_3006]="key_item_3006",
+  [TppMotherBaseManagementConst.DESIGN_3005]="key_item_3005",
+  [TppMotherBaseManagementConst.DESIGN_3000]="key_item_3000",
+  [TppMotherBaseManagementConst.DESIGN_3009]="key_item_3009",
+  [TppMotherBaseManagementConst.DESIGN_3002]="key_item_3002",
+  [TppMotherBaseManagementConst.DESIGN_3007]="key_item_3007",
+  [TppMotherBaseManagementConst.DESIGN_3001]="key_item_3001"}
+this.keyItemRewardTable={
+  [TppMotherBaseManagementConst.DESIGN_3013]="key_item_3013",
+  [TppMotherBaseManagementConst.DESIGN_3003]="key_item_3003",
+  [TppMotherBaseManagementConst.DESIGN_3008]="key_item_3008",
+  [TppMotherBaseManagementConst.DESIGN_3014]="key_item_3014",
+  [TppMotherBaseManagementConst.DESIGN_3015]="key_item_3015",
+  [TppMotherBaseManagementConst.DESIGN_3016]="key_item_3016",
+  [TppMotherBaseManagementConst.DESIGN_3017]="key_item_3017",
+  [TppMotherBaseManagementConst.DESIGN_3018]="key_item_3018",
+  [TppMotherBaseManagementConst.DESIGN_3019]="key_item_3019",
+  [TppMotherBaseManagementConst.DESIGN_3007]="key_item_3007",
+  [TppMotherBaseManagementConst.DESIGN_3010]="key_item_3010",
+  [TppMotherBaseManagementConst.DESIGN_3020]="key_item_3020"}
+this.parasiteSquadFultonResouceId={
+  [Fox.StrCode32"Cam"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CAMOFLA,5},
+  [Fox.StrCode32"Fog"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_FOG,5},
+  [Fox.StrCode32"Metal"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CURING,5}
+}
 this.MOTHER_BASE_SECTION_LIST={"Combat","BaseDev","Spy","Medical","Security","Hospital","Prison","Separation"}
 local tppMotherBaseManagementConst=TppMotherBaseManagementConst or{}
 local E={
-Combat={
-DispatchSoldier=tppMotherBaseManagementConst.SECTION_FUNC_ID_COMBAT_DEPLOY,
-DispatchFobDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_COMBAT_DEFENCE},
-Develop={
-Weapon=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_WEAPON,
-SupportHelicopter=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_HELI,
-Quiet=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_QUIET,
-D_Dog=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_DOG,
-D_Horse=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_HORSE,
-D_Walker=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_WALKER,
-BattleGear=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_BATTLE_GEAR,
-SecurityDevice=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_SECURITY_DEVICE},
-BaseDev={
-Mining=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_RESOURCE_MINING,
-Processing=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_RESOURCE_PROCESSING,
-Extention=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_PLATFORM_EXTENTION,
-Construct=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_FOB_CONSTRUCT,
-NuclearDevelop=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_NUCLEAR_DEVELOP},
-Support={
-Fulton=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON,
-Supply=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SUPPLY,
-Battle=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_BATTLE,
-BattleArtillery=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_STRIKE,
-BattleSmoke=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SMOKE,
-BattleSleepGas=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SLEEP_GAS,
-BattleChaff=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_CHAFF,
-BattleWeather=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_WEATHER,
-TranslationRussian=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_RUSSIAN_TRANSLATE,
-TranslationAfrikaans=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_AFRIKAANS_TRANSLATE,
-TranslationKikongo=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_KIKONGO_TRANSLATE,
-TranslationPashto=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_PASHTO_TRANSLATE},
-Spy={
-Information=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_MISSION_INFO_COLLECTING,
-Scouting=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_ENEMY_SEARCH,
-SearchResource=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_RESOURCE_SEARCH,
-WeatherInformation=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_WEATHER_INFO},
-Medical={
-Emergency=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY,
-Treatment=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_TREATMENT,
-AntiReflex=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_ANTI_REFLEX},--RETAILPATCH: 1060
-Security={
-BaseDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_STAFF,
-MachineDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_MACHINE,
-BaseBlockade=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_BLOCKADE,
-SecurityInfo=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_SECURITY_INFO
-}
+  Combat={
+    DispatchSoldier=tppMotherBaseManagementConst.SECTION_FUNC_ID_COMBAT_DEPLOY,
+    DispatchFobDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_COMBAT_DEFENCE},
+  Develop={
+    Weapon=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_WEAPON,
+    SupportHelicopter=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_HELI,
+    Quiet=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_QUIET,
+    D_Dog=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_DOG,
+    D_Horse=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_HORSE,
+    D_Walker=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_WALKER,
+    BattleGear=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_BATTLE_GEAR,
+    SecurityDevice=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_SECURITY_DEVICE},
+  BaseDev={
+    Mining=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_RESOURCE_MINING,
+    Processing=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_RESOURCE_PROCESSING,
+    Extention=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_PLATFORM_EXTENTION,
+    Construct=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_FOB_CONSTRUCT,
+    NuclearDevelop=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_NUCLEAR_DEVELOP},
+  Support={
+    Fulton=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON,
+    Supply=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SUPPLY,
+    Battle=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_BATTLE,
+    BattleArtillery=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_STRIKE,
+    BattleSmoke=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SMOKE,
+    BattleSleepGas=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SLEEP_GAS,
+    BattleChaff=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_CHAFF,
+    BattleWeather=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_WEATHER,
+    TranslationRussian=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_RUSSIAN_TRANSLATE,
+    TranslationAfrikaans=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_AFRIKAANS_TRANSLATE,
+    TranslationKikongo=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_KIKONGO_TRANSLATE,
+    TranslationPashto=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_PASHTO_TRANSLATE},
+  Spy={
+    Information=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_MISSION_INFO_COLLECTING,
+    Scouting=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_ENEMY_SEARCH,
+    SearchResource=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_RESOURCE_SEARCH,
+    WeatherInformation=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_WEATHER_INFO},
+  Medical={
+    Emergency=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY,
+    Treatment=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_TREATMENT,
+    AntiReflex=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_ANTI_REFLEX},--RETAILPATCH: 1060
+  Security={
+    BaseDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_STAFF,
+    MachineDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_MACHINE,
+    BaseBlockade=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_BLOCKADE,
+    SecurityInfo=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_SECURITY_INFO
+  }
 }
 this.setUpMenuList={}
 this.MBDVCMENU={
@@ -347,9 +380,9 @@ function this.AcquireKeyItem(n)
         TppUI.ShowAnnounceLog("find_keyitem",e)
       end
     elseif n then
-      local e=this.keyItemRewardTable[t]
-      if e then
-        TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId=e,rewardType=TppReward.TYPE.KEY_ITEM}
+      local langId=this.keyItemRewardTable[t]
+      if langId then
+        TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId=langId,rewardType=TppReward.TYPE.KEY_ITEM}
       end
     end
   end
@@ -522,25 +555,25 @@ local privilegeStaff={
     proceedCount=1,
     privilegeNameList={"RESCUE_HOSTAGE_E20010_001","RESCUE_HOSTAGE_E20010_002","RESCUE_HOSTAGE_E20010_003","RESCUE_HOSTAGE_E20010_004","RESCUE_FRIENDMAN"},
     dlcItem={STAFF_STAFF1_FOX={"STAFF_STAFF1_FOX_01","STAFF_STAFF1_FOX_02"}}
-    },
-    GROUP_B={
+  },
+  GROUP_B={
     storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON,
     privilegeNameList={"RESCUE_SP_HOSTAGE","RESCUE_HOSTAGE_E20020_000","RESCUE_HOSTAGE_E20020_001","RESCUE_ENEMY_US_MISSION_TARGET_CENTER000","RESCUE_ENEMY_US_MISSION_TARGET_SQUAD000"},
     dlcItem={STAFF_STAFF2_MSF={"STAFF_STAFF2_MSF_01","STAFF_STAFF2_MSF_02"}}
-    },
-    GROUP_C={
+  },
+  GROUP_C={
     storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON,
     missionList={10041,10044,10052,10054},
     proceedCount=2,
     privilegeNameList={"RESCUE_HOSTAGE_E20030_000","RESCUE_HOSTAGE_E20030_001","RESCUE_HOSTAGE_E20030_002","RESCUE_E20030_BETRAYER","RESCUE_E20030_MASTERMIND"},
     dlcItem={STAFF_STAFF3_DD={"STAFF_STAFF3_DD_01","STAFF_STAFF3_DD_02"}}
-    },
-    GROUP_D={
+  },
+  GROUP_D={
     storySequence=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,
     privilegeNameList={"RESCUE_HOSTAGE_E20050_000","RESCUE_HOSTAGE_E20050_001","RESCUE_HOSTAGE_E20050_002","RESCUE_HOSTAGE_E20050_003","RESCUE_GENOME_SOILDER_SAVE"},
     dlcItem={STAFF_STAFF4_FOX_HOUND={"STAFF_STAFF4_FOX_HOUND_01","STAFF_STAFF4_FOX_HOUND_02"}}
-    }
-    }
+  }
+}
 function this.AcquirePrivilegeStaff()
   if(vars.missionCode==10030)or(TppMission.IsFOBMission(vars.missionCode))then
     return
@@ -644,7 +677,7 @@ function this.AcquireDlcItemKeyItem()
         return false
       end
     end
-     TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=dataBaseId}
+    TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=dataBaseId}
     return true
   end--
   for n,t in pairs(dlcList)do
@@ -716,14 +749,18 @@ function this.EraseDlcItem(e,t,n)
     TppUiCommand.ResetDlcAcquired(e)
   end
 end
-local n={[tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_OCELOT]=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,[tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_MILLER]=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,[tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_HEUY]=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,[tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_CODE_TALKER]=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA}
+local uniqueCharacterStaffStoryStage={
+  [tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_OCELOT]=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,
+  [tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_MILLER]=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,
+  [tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_HEUY]=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,
+  [tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_CODE_TALKER]=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA}
 function this.AddUniqueCharactor()
-  local e=TppStory.GetCurrentStorySequence()
-  for n,t in pairs(n)do
-    if t<=e then
-      local e=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=n}
-      if not TppMotherBaseManagement.IsExistStaff{staffId=e}then
-        TppMotherBaseManagement.DirectAddStaff{staffId=e}
+  local currentStorySequence=TppStory.GetCurrentStorySequence()
+  for uniqueId,characterStage in pairs(uniqueCharacterStaffStoryStage)do
+    if characterStage<=currentStorySequence then
+      local staffId=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=uniqueId}
+      if not TppMotherBaseManagement.IsExistStaff{staffId=staffId}then
+        TppMotherBaseManagement.DirectAddStaff{staffId=staffId}
       end
     end
   end
@@ -893,8 +930,8 @@ function this.Messages()
       {msg="Returned",func=this.OnRecoverByHelicopter,option={isExecDemoPlaying=true}}
     },
     MotherBaseManagement={
-    {msg="AssignedStaff",func=function(e,n)
-      if(e==tppMotherBaseManagementConst.SECTION_SEPARATION)and(n>0)then
+      {msg="AssignedStaff",func=function(e,n)
+        if(e==tppMotherBaseManagementConst.SECTION_SEPARATION)and(n>0)then
           gvars.trm_doneIsolateByManual=true
           if(TppMission.IsFreeMission(vars.missionCode)or TppMission.IsHelicopterSpace(vars.missionCode))and TppRadio.IsRadioPlayable()then
             TppFreeHeliRadio._PlayRadio(TppFreeHeliRadio.PANDEMIC_RADIO.ON_ISOLATE_STAFF)
@@ -1008,14 +1045,21 @@ function this.SetUp()
   this.SetUpBuddyMBDVCMenu()
   this.SetUpCustomWeaponMBDVCMenu()
   --[[if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it RETRY
+
     --InfMenu.DebugPrint"Tppterminal set dvcmenu")--tex DEBUG: CULL:
+
     local dvcMenu={
+
       {menu=this.MBDVCMENU.MSN_BUDDY,active=true},
+
     }
+
     this.EnableDvcMenuByList(dvcMenu)
+
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
+
   end--]]
-  
+
   --tex reworked, disable various support menus
   local isActual=TppMission.IsActualSubsistenceMission()
   for n, ivar in ipairs(Ivars.disableMenuIvars) do
@@ -1023,25 +1067,38 @@ function this.SetUp()
       this.EnableDvcMenuByList{{menu=ivar.menuId,active=false}}
     end
   end
-  
+
   if isActual or gvars.disableSupportMenu>0 then
     TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
   else
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
   end
   --[[ORIG
+
   if TppMission.IsSubsistenceMission() then
+
     local dvcMenu={
+
       {menu=this.MBDVCMENU.MSN_DROP,active=false},
+
       {menu=this.MBDVCMENU.MSN_BUDDY,active=false},
+
       {menu=this.MBDVCMENU.MSN_ATTACK,active=false},
+
       {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=false}
+
     }
+
     this.EnableDvcMenuByList(dvcMenu)
+
     TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
+
   else
+
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
+
   end
+
   --]]
 end
 function this.SetUpArmsMBDVCMenu()
@@ -1077,41 +1134,41 @@ end
 function this.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,n,staffOrResourceId,RENAMEsomeboolmaybeheliRecovered,playerIndex,RENAMEmysteryPatchvar,OnFultonSoldier,OnFultonVolgin,OnFultonHostage,OnFultonVehicle,OnFultonContainer,OnFultonGimmickCommon,OnFultonBuddy,OnFultonEnemyWalkerGear,OnFultonAnimal,OnFultonBossQuiet,OnFultonParasiteSquad)--RENAME:
   if Tpp.IsSoldier(gameId)then
     return OnFultonSoldier(gameId,RENAMEanimalId,n,staffOrResourceId,RENAMEsomeboolmaybeheliRecovered,playerIndex)
-  elseif Tpp.IsVolgin(gameId)then
-    return OnFultonVolgin(gameId)
-  elseif Tpp.IsHostage(gameId)then
-    return OnFultonHostage(gameId,RENAMEanimalId,n,staffOrResourceId,RENAMEsomeboolmaybeheliRecovered,playerIndex)
-  elseif Tpp.IsVehicle(gameId)then
-    return OnFultonVehicle(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
-  elseif Tpp.IsFultonContainer(gameId)then
-    return OnFultonContainer(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex,RENAMEmysteryPatchvar)
-  elseif Tpp.IsFultonableGimmick(gameId)then
-    return OnFultonGimmickCommon(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
-  elseif Tpp.IsEnemyWalkerGear(gameId)then
-    return OnFultonEnemyWalkerGear(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
-  elseif Tpp.IsAnimal(gameId)then
-    return OnFultonAnimal(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
-  elseif Tpp.IsBossQuiet(gameId)then
-    return OnFultonBossQuiet(gameId,RENAMEanimalId,n,staffOrResourceId,RENAMEsomeboolmaybeheliRecovered,playerIndex)
-  elseif Tpp.IsParasiteSquad(gameId)then
-    return OnFultonParasiteSquad(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
-  else
-    local buddyType=Tpp.GetBuddyTypeFromGameObjectId(gameId)
-    if buddyType then
-      return OnFultonBuddy(gameId,RENAMEanimalId,n,staffOrResourceId,buddyType,playerIndex)
-    end
+elseif Tpp.IsVolgin(gameId)then
+  return OnFultonVolgin(gameId)
+elseif Tpp.IsHostage(gameId)then
+  return OnFultonHostage(gameId,RENAMEanimalId,n,staffOrResourceId,RENAMEsomeboolmaybeheliRecovered,playerIndex)
+elseif Tpp.IsVehicle(gameId)then
+  return OnFultonVehicle(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+elseif Tpp.IsFultonContainer(gameId)then
+  return OnFultonContainer(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex,RENAMEmysteryPatchvar)
+elseif Tpp.IsFultonableGimmick(gameId)then
+  return OnFultonGimmickCommon(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+elseif Tpp.IsEnemyWalkerGear(gameId)then
+  return OnFultonEnemyWalkerGear(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+elseif Tpp.IsAnimal(gameId)then
+  return OnFultonAnimal(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+elseif Tpp.IsBossQuiet(gameId)then
+  return OnFultonBossQuiet(gameId,RENAMEanimalId,n,staffOrResourceId,RENAMEsomeboolmaybeheliRecovered,playerIndex)
+elseif Tpp.IsParasiteSquad(gameId)then
+  return OnFultonParasiteSquad(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+else
+  local buddyType=Tpp.GetBuddyTypeFromGameObjectId(gameId)
+  if buddyType then
+    return OnFultonBuddy(gameId,RENAMEanimalId,n,staffOrResourceId,buddyType,playerIndex)
   end
+end
 end
 function this.OnFulton(someGameId,a,o,staffOrResourceId,someBool,possiblyNotHelicopter,playerIndex,i)--RENAME:
   if possiblyNotHelicopter then
     mvars.trm_needHeliSoundOnAddStaffsFromTempBuffer=true
-  end
-  TppEnemy.SetRecovered(someGameId)
-  TppEnemy.ExecuteOnRecoveredCallback(someGameId,a,o,staffOrResourceId,someBool,possiblyNotHelicopter,playerIndex)
-  if Tpp.IsLocalPlayer(playerIndex)then
-    TppEnemy._OnFulton(someGameId,a,o,staffOrResourceId)
-  end
-  this.DoFuncByFultonTypeSwitch(someGameId,a,o,staffOrResourceId,someBool,playerIndex,i,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
+end
+TppEnemy.SetRecovered(someGameId)
+TppEnemy.ExecuteOnRecoveredCallback(someGameId,a,o,staffOrResourceId,someBool,possiblyNotHelicopter,playerIndex)
+if Tpp.IsLocalPlayer(playerIndex)then
+  TppEnemy._OnFulton(someGameId,a,o,staffOrResourceId)
+end
+this.DoFuncByFultonTypeSwitch(someGameId,a,o,staffOrResourceId,someBool,playerIndex,i,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
 end
 function this.IncrementFultonCount()
   svars.trm_missionFultonCount=svars.trm_missionFultonCount+1
@@ -1166,7 +1223,7 @@ function this.OnFultonSoldier(gameId,a,a,staffId,RENAMEheliRecovered,fultonedPla
     end
     PlayRecord.RegistPlayRecord"SOLDIER_RESCUE"
     Tpp.IncrementPlayData"totalRescueCount"
-    end
+  end
   this.AddTempStaffFulton{staffId=staff,gameObjectId=gameId,tempStaffStatus=tempStaffStatus,fultonedPlayer=fultonedPlayer}
 end
 function this.OnFultonVolgin(gameId)
@@ -2083,6 +2140,9 @@ function this.CanConstructFirstFob()
   return false
 end
 function this.IsConstructedFirstFob()
+  if gvars.setFirstFobBuilt==1 then--tex
+    return true
+  end--
   if TppMotherBaseManagement.IsBuiltFirstFob then
     return TppMotherBaseManagement.IsBuiltFirstFob()
   else

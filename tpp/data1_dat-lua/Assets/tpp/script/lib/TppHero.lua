@@ -575,9 +575,11 @@ function this.UpdateHero()
     gvars.isHero=false
   end
   if(not n)and gvars.isHero then
-    TppUI.ShowAnnounceLog"get_hero"end
+    TppUI.ShowAnnounceLog"get_hero"
+    end
   if n and(not gvars.isHero)then
-    TppUI.ShowAnnounceLog"lost_hero"end
+    TppUI.ShowAnnounceLog"lost_hero"
+    end
   if gvars.isHero then
     TppTrophy.Unlock(46,3e4)
     local e={"word80","word81","word82","word83","word84","word85","word86","word88","word89","front40","front41"}

@@ -348,14 +348,22 @@ missionPackTable[10115]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddDefaultMissionAreaPack(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_DECOY)
-  TppPackList.AddFOBLayoutPack(missionCode)do
+  TppPackList.AddFOBLayoutPack(missionCode)
+  do
     local t="hos_s10115_0000"
     local e="hos_s10115_0001"
     local i="hos_s10115_0002"
     local p="hos_s10115_0003"
     local a="hos_s10115_0004"
     local s="hos_s10115_0005"
-    local s={{type="hostage",name=t,faceId="dd",bodyId=143},{type="hostage",name=e,faceId="dd",bodyId=143},{type="hostage",name=i,faceId="dd",bodyId=143},{type="hostage",name=p,faceId="dd",bodyId=143},{type="hostage",name=a,faceId="dd",bodyId=143},{type="hostage",name=s,faceId="dd",bodyId=143}}
+    local s={
+      {type="hostage",name=t,faceId="dd",bodyId=143},
+      {type="hostage",name=e,faceId="dd",bodyId=143},
+      {type="hostage",name=i,faceId="dd",bodyId=143},
+      {type="hostage",name=p,faceId="dd",bodyId=143},
+      {type="hostage",name=a,faceId="dd",bodyId=143},
+      {type="hostage",name=s,faceId="dd",bodyId=143}
+    }
     TppEneFova.AddUniqueSettingPackage(s)
   end
 end
@@ -546,10 +554,12 @@ missionPackTable[10240]=function(p)
   TppPackList.AddLocationCommonScriptPack(p)
   if TppPackList.IsMissionPackLabel"InQuarantineFacility"then
     TppSoldier2.DisableMarkerModelEffect()
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10240/s10240_area02.fpk"else
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10240/s10240_area02.fpk"
+    else
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10240/s10240_area.fpk"end
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10240/s10240_area.fpk"
+    end
 end
 missionPackTable[10050]=function(p)
   TppPackList.AddLocationCommonScriptPack(p)
@@ -613,6 +623,7 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddLocationCommonScriptPack(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
+  --TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10240/s10240_area02.fpk"--tex: WIP DEBUGNOW
   --tex bunch of packs added to motherbase free for mbplaytime
   if InfMain.IsMbPlayTime() then--tex -v- hauled in from fob mission
     local ddSuit=TppEnemy.GetDDSuit()
@@ -789,8 +800,14 @@ missionPackTable[50050]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_DECOY)
   if TppEnemy.IsHostageEventFOB()then
-    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.FOB_HOSTAGE)do
-      local s={{type="hostage",name="hos_o50050_event5_0000",faceId=621,bodyId=143},{type="hostage",name="hos_o50050_event5_0001",faceId=640,bodyId=143},{type="hostage",name="hos_o50050_event5_0002",faceId=641,bodyId=143},{type="hostage",name="hos_o50050_event5_0003",faceId=646,bodyId=143}}
+    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.FOB_HOSTAGE)
+    do
+      local s={
+        {type="hostage",name="hos_o50050_event5_0000",faceId=621,bodyId=143},
+        {type="hostage",name="hos_o50050_event5_0001",faceId=640,bodyId=143},
+        {type="hostage",name="hos_o50050_event5_0002",faceId=641,bodyId=143},
+        {type="hostage",name="hos_o50050_event5_0003",faceId=646,bodyId=143}
+      }
       TppEneFova.AddUniqueSettingPackage(s)
     end
   end

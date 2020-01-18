@@ -331,15 +331,15 @@ function this.Init(n)
   this.InitQuest()
 end
 function this.RepopMissionTaskCollection()
-  local n=vars.missionCode
-  if TppMission.IsHardMission(n)then
-    n=TppMission.GetNormalMissionCodeFromHardMission(n)
+  local missionCode=vars.missionCode
+  if TppMission.IsHardMission(missionCode)then
+    missionCode=TppMission.GetNormalMissionCodeFromHardMission(missionCode)
   end
-  local i=this.MissionCollectionMissionTaskTable[n]
+  local i=this.MissionCollectionMissionTaskTable[missionCode]
   if not i then
     return
   end
-  local e=this.MissionCollectionTable[n]
+  local e=this.MissionCollectionTable[missionCode]
   for t,n in pairs(e)do
     if TppCollection.IsExistLocator(n)and(TppCollection.RepopCountOperation("GetAt",n)>0)then
       local e=false
@@ -373,8 +373,8 @@ function this.OnMissionGameStart()
   end
 end
 function this.DecrementCollectionRepopCount()
-  for n,e in pairs(this.COLLECTION_REPOP_COUNT_DECREMENT_TABLE)do
-    TppCollection.RepopCountOperation("DecByType",n,e)
+  for type,count in pairs(this.COLLECTION_REPOP_COUNT_DECREMENT_TABLE)do
+    TppCollection.RepopCountOperation("DecByType",type,count)
   end
 end
 function this.MafrRiverPrimSetting()

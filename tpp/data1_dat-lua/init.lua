@@ -1,4 +1,4 @@
-local e=Fox.GetPlatformName()
+local platform=Fox.GetPlatformName()
 local o=""
 if GrTools then
   o=GrTools.GetDeviceName()
@@ -7,7 +7,7 @@ local n=true
 if not AssetConfiguration.IsDiscOrHddImage()then
   n=AssetConfiguration.GetConfigurationFromAssetManager"EnableWindowsDX11Texture"
   end
-if e=="Windows"then
+if platform=="Windows"then
   AssetConfiguration.SetDefaultTargetDirectory"#Win"
   if n then
     AssetConfiguration.SetTargetDirectory("ftex","#windx11")
@@ -19,11 +19,11 @@ if e=="Windows"then
     AssetConfiguration.SetTargetDirectory("ftex","#Win")
     AssetConfiguration.SetTargetDirectory("ftexs","#Win")
   end
-elseif e=="Xbox360"then
+elseif platform=="Xbox360"then
   AssetConfiguration.SetDefaultTargetDirectory"#Xbox"
-  elseif e=="PS3"then
+  elseif platform=="PS3"then
   AssetConfiguration.SetDefaultTargetDirectory"#PS3"
-  elseif e=="XboxOne"then
+  elseif platform=="XboxOne"then
   AssetConfiguration.SetDefaultTargetDirectory"#Win"
   AssetConfiguration.SetTargetDirectory("ftex","#windx11")
   AssetConfiguration.SetTargetDirectory("ftexs","#windx11")
@@ -36,7 +36,7 @@ elseif e=="Xbox360"then
   AssetConfiguration.SetTargetDirectory("sbp","#xone")
   AssetConfiguration.SetTargetDirectory("fsm","#Win")
   AssetConfiguration.SetTargetDirectory("mas","#Win")
-elseif e=="PS4"then
+elseif platform=="PS4"then
   AssetConfiguration.SetDefaultTargetDirectory"#Win"
   AssetConfiguration.SetTargetDirectory("ftex","#windx11")
   AssetConfiguration.SetTargetDirectory("ftexs","#windx11")
@@ -49,9 +49,9 @@ elseif e=="PS4"then
   AssetConfiguration.SetTargetDirectory("sbp","#ps4")
   AssetConfiguration.SetTargetDirectory("fsm","#Win")
   AssetConfiguration.SetTargetDirectory("mas","#Win")
-elseif e=="Android"then
+elseif platform=="Android"then
   AssetConfiguration.SetDefaultTargetDirectory"#Android"
-  elseif e=="iOS"then
+  elseif platform=="iOS"then
   AssetConfiguration.SetDefaultTargetDirectory"#iOS"
   end
 AssetConfiguration.SetDefaultCategory("Language","jpn")
@@ -62,7 +62,7 @@ AssetConfiguration.RegisterExtensionInfo{extensions={"bnk","col","demo","demox",
 AssetConfiguration.RegisterExtensionInfo{extensions={"sad","evfl"},categories={"Language"}}
 AssetConfiguration.RegisterExtensionInfo{extensions={"sbp","stm","mas","wem","fsm"},categories={"Target","Language"}}
 if GrDaemon then
-  if e=="Windows"then
+  if platform=="Windows"then
     if o=="directx9"then
       GrTools.LoadShaderPack"shaders/win32/GrSystemShaders_win32.fsop"
       GrTools.LoadShaderPack"shaders/win32/GrModelShaders_win32.fsop"
@@ -73,19 +73,19 @@ if GrDaemon then
       GrTools.LoadShaderPack"shaders/dx11/GrModelShaders_dx11.fsop"
       GrTools.LoadShaderPack"shaders/dx11/FxShaders_dx11.fsop"
       end
-  elseif e=="Xbox360"then
+  elseif platform=="Xbox360"then
     GrTools.LoadShaderPack"shaders\\xbox360\\GrSystemShaders_x360.fsop"
     GrTools.LoadShaderPack"shaders\\xbox360\\GrModelShaders_x360.fsop"
     GrTools.LoadShaderPack"shaders\\xbox360\\FxShaders_x360.fsop"
-    elseif e=="XboxOne"then
+    elseif platform=="XboxOne"then
     GrTools.LoadShaderPack"shaders\\xboxone\\GrSystemShaders_xone.fsop"
     GrTools.LoadShaderPack"shaders\\xboxone\\GrModelShaders_xone.fsop"
     GrTools.LoadShaderPack"shaders\\xboxone\\FxShaders_xone.fsop"
-    elseif e=="PS3"then
+    elseif platform=="PS3"then
     GrTools.LoadShaderPack"shaders/ps3/GrSystemShaders_ps3.fsop.sdat"
     GrTools.LoadShaderPack"shaders/ps3/GrModelShaders_ps3.fsop.sdat"
     GrTools.LoadShaderPack"shaders/ps3/FxShaders_ps3.fsop.sdat"
-    elseif e=="PS4"then
+    elseif platform=="PS4"then
     GrTools.LoadShaderPack"shaders/ps4/GrSystemShaders_ps4.fsop"
     GrTools.LoadShaderPack"shaders/ps4/GrModelShaders_ps4.fsop"
     GrTools.LoadShaderPack"shaders/ps4/FxShaders_ps4.fsop"
@@ -94,13 +94,13 @@ if GrDaemon then
 end
 if GrDaemon then
   GrTools():EnableTextureStreaming()
-  if(e=="Windows"or e=="XboxOne")or e=="PS4"then
+  if(platform=="Windows"or platform=="XboxOne")or platform=="PS4"then
     GrTools.FontSystemInit((((1024*1024)*2)+(1024*500)))--RETAILPATCH: 1006 was *200
   else
     GrTools.FontSystemInit((((1024*1024)*1)+(1024*700)))
   end
   GrTools.FontSystemLoad("FontSystem_DebugFont","/Assets/fox/font/DebugFont.ffnt")
-  if e=="Windows"then
+  if platform=="Windows"then
     if o=="directx9"then
       dofile"Fox/Scripts/Gr/gr_init.lua"
       GrTools.SetEnablePackedSmallTextureStreaming(true)
@@ -113,16 +113,16 @@ if GrDaemon then
         GrTools.SetEnablePackedSmallTextureStreaming(true)
       end
     end
-  elseif e=="Xbox360"then
+  elseif platform=="Xbox360"then
     dofile"Fox/Scripts/Gr/gr_init_x360.lua"
     GrTools.SetEnablePackedSmallTextureStreaming(true)
-  elseif e=="XboxOne"then
+  elseif platform=="XboxOne"then
     dofile"Fox/Scripts/Gr/gr_init_xone.lua"
     GrTools.SetEnablePackedSmallTextureStreaming(true)
-  elseif e=="PS3"then
+  elseif platform=="PS3"then
     dofile"Fox/Scripts/Gr/gr_init_ps3.lua"
     GrTools.SetEnablePackedSmallTextureStreaming(true)
-  elseif e=="PS4"then
+  elseif platform=="PS4"then
     dofile"Fox/Scripts/Gr/gr_init_ps4.lua"
     GrTools.SetEnablePackedSmallTextureStreaming(true)
   end
@@ -134,11 +134,11 @@ if GrDaemon then
     GrTools.SetEnableLnmForTerrainNormal(true)
     GrTools.SetEnableLnmForDecalNormal(true)
   end
-  if e=="XboxOne"or e=="PS4"then
+  if platform=="XboxOne"or platform=="PS4"then
     GrTools.SetEnableLnmForTerrainNormal(false)
     GrTools.SetEnableLnmForDecalNormal(false)
   end
-  if e=="Xbox360"or e=="PS3"then
+  if platform=="Xbox360"or platform=="PS3"then
     GrTools.SetEnableLnmForTerrainNormal(true)
     GrTools.SetEnableLnmForDecalNormal(true)
   end
@@ -168,7 +168,7 @@ if GrDaemon then
   local grDaemon=GrDaemon{name="GrDaemon"}
 end
 if GrDaemon then
-  if e=="Windows"then
+  if platform=="Windows"then
     if o=="directx9"then
       if n then
         dofile"shaders/win32/GrSystemShadersNoLnm_win32.lua"
@@ -191,19 +191,19 @@ if GrDaemon then
         dofile"shaders/dx11/FxShaders_dx11.lua"
       end
     end
-  elseif e=="Xbox360"then
+  elseif platform=="Xbox360"then
     dofile"shaders/xbox360/GrSystemShaders_x360.lua"
     dofile"shaders/xbox360/GrModelShaders_x360.lua"
     dofile"shaders/xbox360/FxShaders_x360.lua"
-  elseif e=="XboxOne"then
+  elseif platform=="XboxOne"then
     dofile"shaders/xboxone/GrSystemShadersNoLnm_xone.lua"
     dofile"shaders/xboxone/GrModelShadersNoLnm_xone.lua"
     dofile"shaders/xboxone/FxShadersNoLnm_xone.lua"
-  elseif e=="PS3"then
+  elseif platform=="PS3"then
     dofile"shaders/ps3/GrSystemShaders_ps3.lua"
     dofile"shaders/ps3/GrModelShaders_ps3.lua"
     dofile"shaders/ps3/FxShaders_ps3.lua"
-  elseif e=="PS4"then
+  elseif platform=="PS4"then
     dofile"shaders/ps4/GrSystemShadersNoLnm_ps4.lua"
     dofile"shaders/ps4/GrModelShadersNoLnm_ps4.lua"
     dofile"shaders/ps4/FxShadersNoLnm_ps4.lua"
@@ -239,7 +239,7 @@ if editor then
   end
   local editableBucket=editor:CreateNewEditableBucket"NewBucket"
   editor:SetCurrentEditableBucket(editableBucket)
-  if e=="Windows"then
+  if platform=="Windows"then
     Fox.ExportSerializeInfo()
   end
 end

@@ -365,6 +365,12 @@ function this.Print(message)
 end
 
 function this.DebugPrint(message)
+  while string.len(message)>this.MAX_ANNOUNCE_STRING do
+    local printMessage=string.sub(message,0,this.MAX_ANNOUNCE_STRING)
+    TppUiCommand.AnnounceLogView(printMessage)
+    message=string.sub(message,this.MAX_ANNOUNCE_STRING+1)
+  end
+
   TppUiCommand.AnnounceLogView(message)
 end
 
@@ -441,10 +447,10 @@ end
 
 function this.Update()
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
-  if TppMission.IsFOBMission(vars.missionCode) then
+  --[[CULL if TppMission.IsFOBMission(vars.missionCode) then
     return
-  end
-  InfButton.UpdateHeld()
+  end--]]
+  --InfButton.UpdateHeld()
   if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
     local inHeliSpace = TppMission.IsHelicopterSpace(vars.missionCode)
     if inHeliSpace then
@@ -529,7 +535,7 @@ function this.Update()
   else--!ingame
     this.menuOn = false
   end
-  InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
+  --InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
 end
 

@@ -64,7 +64,10 @@ this.demosMenu={
 this.patchupMenu={
   options={
     Ivars.unlockPlayableAvatar,
-    Ivars.startOffline,    
+    Ivars.unlockWeaponCustomization,
+    Ivars.startOffline,   
+    --Ivars.blockFobTutorial,
+    --Ivars.setFirstFobBuilt,
     Ivars.langOverride,
     InfMenuCommands.returnQuietItem,
     InfMenuCommands.showQuietReunionMissionCountItem,
@@ -194,9 +197,13 @@ this.phaseMenu={
 this.heliSpaceMenu={
   options={
     --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
+    --Ivars.mbManualLayoutCode,--tex DEBUGNOW WIP
+    --Ivars.manualMissionCode,--tex DEBUGNOW WIP
+    --InfMenuCommands.loadMissionItem,--tex DEBUGNOW WIP
     Ivars.startOnFoot,
     Ivars.clockTimeScale,
     Ivars.playerHeadgear,
+    Ivars.telopMode,
     this.playerRestrictionsMenu,
     this.parametersMenu,
     this.phaseMenu,
@@ -214,6 +221,8 @@ this.heliSpaceMenu={
 
 this.debugInMissionMenu={
   options={
+    InfMenuCommands.warpPlayerCommand,--DEBUGNOW WIP
+    InfMenuCommands.DEBUG_PrintSoldierDefineItem,
     InfMenuCommands.DEBUG_ShowRevengeConfigItem,
     --InfMenuCommands.DEBUG_ShowPhaseEnums,--CULL
     --InfMenuCommands.DEBUG_ChangePhaseItem,

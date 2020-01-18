@@ -173,6 +173,10 @@ this.eng={--english
   --ogrePointChange="Demon points to set",
   --giveOgrePoint="Give set demon points",
   debugInMissionMenu="Debug stuff",
+  --blockFobTutorial="Block FOB tutorial",
+  --setFirstFobBuilt="Set first FOB built",
+  telopMode="Disable mission intro credits",--r82
+  unlockWeaponCustomization="Unlock weapon customization",--r84
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

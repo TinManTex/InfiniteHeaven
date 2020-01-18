@@ -1,9 +1,8 @@
 -- DOBUILD: 1
 
 local this={}
---tex lines kinda blurry between Commands and Ivars
-
-this.switchRange={max=1,min=0,increment=1}
+--tex lines kinda blurry between Commands and Ivars, currently commands arent saved/have no gvar associated
+--NOTE: tablesetup at end sets up every table in this with an OnChange as a menu command
 
 --menu menu items
 this.menuOffItem={
@@ -35,7 +34,7 @@ this.goBackItem={
   end,
 }
 
---menu items
+--commands
 this.showPositionItem={
   OnChange=function()
     TppUiCommand.AnnounceLogView(string.format("%.2f,%.2f,%.2f | %.2f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY))
@@ -67,6 +66,24 @@ this.showLangCodeItem={
 this.showQuietReunionMissionCountItem={
   OnChange=function()
     TppUiCommand.AnnounceLogView("quietReunionMissionCount: "..gvars.str_quietReunionMissionCount)
+  end,
+}
+
+this.loadMissionItem={
+  OnChange=function()
+    local settingStr=Ivars.manualMissionCode.settings[gvars.manualMissionCode+1]
+    InfMenu.DebugPrint("TppMission.Load "..settingStr)
+    --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
+    --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
+    --TppMission.RequestLoad(10036,vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
+    gvars.mis_nextMissionCodeForMissionClear=tonumber(settingStr)
+    mvars.mis_showLoadingTipsOnMissionFinalize=false
+    --mvars.heli_missionStartRoute
+    --mvars.mis_nextLayoutCode
+    --mvars.mis_nextClusterId
+    --mvars.mis_ignoreMtbsLoadLocationForce
+   
+    TppMission.ExecuteMissionFinalize()
   end,
 }
 
@@ -103,6 +120,14 @@ this.DEBUG_ShowRevengeConfigItem={
     InfMenu.DebugPrint("RevengeConfig:")
     local revengeConfig=InfInspect.Inspect(mvars.revenge_revengeConfig)
     InfMenu.DebugPrint(revengeConfig)
+  end,
+}
+
+this.DEBUG_PrintSoldierDefineItem={
+  OnChange=function()
+    InfMenu.DebugPrint("SoldierDefine:")
+    local soldierDefine=InfInspect.Inspect(mvars.ene_soldierDefine)
+    InfMenu.DebugPrint(soldierDefine)  
   end,
 }
 
@@ -179,6 +204,27 @@ this.DEBUG_ClearAnnounceLogItem={
   end,
 }
 
+this.warpPlayerCommand={
+  OnChange=function()
+   --[[ local playerId={type="TppPlayer2",index=0}
+    local position=Vector3(9,.8,-42.5)
+    GameObject.SendCommand(playerId,{id="Warp",position=position})--]]
+    
+    --local pos={8.647,.8,-28.748}
+    --local rotY=-25
+    --pos,rotY=mtbs_cluster.GetPosAndRotY("Medical","plnt0",pos,rotY)
+    local rotY=0
+    --local pos={9,.8,-42.5}--command helipad
+    local pos={-139,-3.20,-975}
+    
+    
+    TppPlayer.Warp{pos=pos,rotY=rotY}
+    --Player.RequestToSetCameraRotation{rotX=0,rotY=rotY}
+    
+    --TppPlayer.SetInitialPosition(pos,rotY)
+  end,
+}
+
 this.returnQuietItem={
   settingNames="set_quiet_return",
   OnChange=function()
@@ -202,15 +248,16 @@ this.resetRevenge={
 
 --TABLESETUP: MenuCommands
 local IsTable=Tpp.IsTypeTable
+local switchRange={max=1,min=0,increment=1}
 for name,item in pairs(this) do
   if IsTable(item) then
-    --if item.range or item.settings then
+    if item.OnChange then--TYPEID
       item.name=name
       item.default=item.default or 0
       item.setting=item.default
-    --end
-    item.range=item.range or this.switchRange
-    item.settingNames=item.settingNames or "set_do" 
+      item.range=item.range or switchRange
+      item.settingNames=item.settingNames or "set_do"
+    end
   end
 end
 

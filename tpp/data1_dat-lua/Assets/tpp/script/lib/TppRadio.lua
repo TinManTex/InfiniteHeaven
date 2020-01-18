@@ -352,8 +352,10 @@ function e.Init()
   if mvars.rad_intelRadioList then
     TppRadioCommand.RegisterEspionageRadioTable(mvars.rad_intelRadioList)
   end
-  local a={[10010]=true,[10020]=true,[10030]=true,[10050]=true,[10115]=true,[10140]=true,[10151]=true,[10230]=true,[10240]=true,[10260]=true,[10280]=true,[30050]=true,[30150]=true,[30250]=true,[40010]=true,[40020]=true,[40050]=true,[50050]=true,[6e4]=true}
-  local a=a[vars.missionCode]
+  local noOptionalRadioTable={
+    [10010]=true,[10020]=true,[10030]=true,[10050]=true,[10115]=true,[10140]=true,[10151]=true,[10230]=true,[10240]=true,[10260]=true,[10280]=true,
+    [30050]=true,[30150]=true,[30250]=true,[40010]=true,[40020]=true,[40050]=true,[50050]=true,[6e4]=true}
+  local a=noOptionalRadioTable[vars.missionCode]
   if a then
   else
     e.EnableCommonOptionalRadio(true)

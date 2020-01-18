@@ -287,16 +287,16 @@ function this.DEBUG_GetDefaultPlayerWeaponAndItemTable()
   return{{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,equip=TppEquip.EQP_WP_30101,bulletId=TppEquip.BL_Rf556x45mm,ammoMax=30,ammo=240},{slot=TppDefine.WEAPONSLOT.SECONDARY,equip=TppEquip.EQP_WP_10101,bulletId=TppEquip.BL_HgTranq,ammoMax=7,ammo=21},{slot=TppDefine.WEAPONSLOT.SUPPORT_0,equip=TppEquip.EQP_SWP_Grenade,bulletId=TppEquip.BL_SWP_Grenade,ammoMax=8,ammo=8},{slot=TppDefine.WEAPONSLOT.SUPPORT_1,equip=TppEquip.EQP_SWP_Magazine,bulletId=TppEquip.BL_SWP_Magazine,ammoMax=-1,ammo=-1}},{TppEquip.EQP_None,TppEquip.EQP_IT_Nvg,TppEquip.EQP_IT_TimeCigarette,TppEquip.EQP_IT_CBox}
 end
 function this.InitializeAllPlatformForNewGame()
-  local t=0
-  local n=1
-  local a={"Command","Combat","Develop","BaseDev","Support","Spy","Medical"}
-  local e={"MotherBase","Fob1","Fob2","Fob3","Fob4"}
-  for e,i in ipairs(e)do
-    for a,e in ipairs(a)do
-      TppMotherBaseManagement.SetClusterSvars{base=i,category=e,grade=t,buildStatus="Completed",timeMinute=0,isNew=false}
+  local grade=0
+  local commandStartGrade=1
+  local categories={"Command","Combat","Develop","BaseDev","Support","Spy","Medical"}
+  local baseTypes={"MotherBase","Fob1","Fob2","Fob3","Fob4"}
+  for i,base in ipairs(baseTypes)do
+    for j,category in ipairs(categories)do
+      TppMotherBaseManagement.SetClusterSvars{base=base,category=category,grade=grade,buildStatus="Completed",timeMinute=0,isNew=false}
     end
   end
-  TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Command",grade=n,buildStatus="Completed",timeMinute=0,isNew=true}
+  TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Command",grade=commandStartGrade,buildStatus="Completed",timeMinute=0,isNew=true}
 end
 function this.SetHorseObtainedAndCanSortie()
   TppBuddyService.SetObtainedBuddyType(BuddyType.HORSE)

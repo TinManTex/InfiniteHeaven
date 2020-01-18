@@ -280,7 +280,8 @@ this.demoOptions={
     TppCassette.Acquire{cassetteList={"tp_c_00000_13"},
       isShowAnnounceLog=true}
     TppCassette.Acquire{cassetteList={"tp_m_10050_03"},
-      isShowAnnounceLog=true}Player.SetPause()
+      isShowAnnounceLog=true}
+      Player.SetPause()
     if f30050_sequence then
       f30050_sequence.ReserveMissionClear()
     end
@@ -295,10 +296,12 @@ this.demoOptions={
     local t={8.647,.8,-28.748}
     local e=-25
     t,e=mtbs_cluster.GetPosAndRotY("Medical","plnt0",t,e)
-    TppPlayer.Warp{pos=t,rotY=e}Player.RequestToSetCameraRotation{rotX=0,rotY=e}
+    TppPlayer.Warp{pos=t,rotY=e}
+    Player.RequestToSetCameraRotation{rotX=0,rotY=e}
     TppPlayer.SetInitialPosition(t,e)
     mvars.f30050_isOverwriteDemoEndPos=true
-    mtbs_enemy.OnDeactivateDemoBlock(mtbs_cluster.GetCurrentClusterId())svars.isPlayedAfterDeathFactory=true
+    mtbs_enemy.OnDeactivateDemoBlock(mtbs_cluster.GetCurrentClusterId())
+    svars.isPlayedAfterDeathFactory=true
   end,
   telopLangIdList={"area_demo_mb","platform_main"},
   demoSoldierLocator={},
@@ -306,8 +309,8 @@ this.demoOptions={
   forceBalaclavaLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0004"},
   isFinishFadeOut=true},
   SnakeHasBadSmell_WithoutQuiet={time="20:00:00",weather=TppDefine.WEATHER.CLOUDY,heliEnableAfterDemo=true,
-    OnEnd=function()Player.OnPlayerRefresh()
-    end,
+    OnEnd=function()
+    Player.OnPlayerRefresh()end,
     demoEndRouteList={{locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010160_0001"},
       {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010160_0001"},
       {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010160_0000"}},
@@ -324,9 +327,7 @@ this.demoOptions={
     forceBalaclavaLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001"},
     isVisibleCurrentBudy=true},
   SnakeHasBadSmell_001={clusterName="Medical",weather=TppDefine.WEATHER.CLOUDY,time="20:00:00",
-    OnEnd=function()
-      Player.OnPlayerRefresh()
-    end,
+    OnEnd=function()Player.OnPlayerRefresh()end,
     demoSoldierLocator={},
     forceMaleLocator={"ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|sol_plnt0_0000","ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|sol_plnt0_0003","ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|sol_plnt0_0001"},
     forceBalaclavaLocator={"ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|sol_plnt0_0000","ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|sol_plnt0_0003"}},

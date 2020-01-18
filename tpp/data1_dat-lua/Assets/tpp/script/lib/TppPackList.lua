@@ -5,9 +5,9 @@ function this.MakeDefaultMissionPackList(n)
   this.AddDefaultMissionAreaPack(n)
   this.AddLocationCommonScriptPack(n)
 end
-function this.AddMissionPack(n)
-  if Tpp.IsTypeString(n)then
-    table.insert(this.missionPackList,n)
+function this.AddMissionPack(packPath)
+  if Tpp.IsTypeString(packPath)then
+    table.insert(this.missionPackList,packPath)
   end
 end
 function this.DeleteMissionPack(i)
@@ -88,33 +88,34 @@ function this.IsMissionPackLabel(e)
     return false
   end
 end
-function this.AddColoringPack(n)
+function this.AddColoringPack(missionCode)
   if TppColoringSystem then
-    local n=TppColoringSystem.GetAdditionalColoringPackFilePaths{missionCode=n}
-    for i,n in ipairs(n)do
+    local coloringPacks=TppColoringSystem.GetAdditionalColoringPackFilePaths{missionCode=missionCode}
+    for i,n in ipairs(coloringPacks)do
       this.AddMissionPack(n)
     end
   else
-    this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk"this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk"end
+    this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk"this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk"
+  end
 end
 function this.AddFOBLayoutPack(missionCode)
   local missionTypeName,missionCodeName=this.GetMissionTypeAndMissionName(missionCode)
   if missionCode==50050 then
   end
-  if(missionCode==50050)or(missionCode==10115)then
-    local s="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionCodeName..("/"..(missionCodeName..string.format("_area_ly%03d",vars.mbLayoutCode))))))
-    local a=s..".fpk"
-    local i=vars.mbClusterId
+  if(missionCode==50050)or(missionCode==10115)or(missionCode==30050)then--WIP DEBUGNOW HAX mbManualLayoutCode added 30050, orig below
+    local layoutPath="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionCodeName..("/"..(missionCodeName..string.format("_area_ly%03d",vars.mbLayoutCode))))))
+    local layoutPack=layoutPath..".fpk"
+    local clusterId=vars.mbClusterId
     if(missionCode==10115)then
-      i=TppDefine.CLUSTER_DEFINE.Develop
+      clusterId=TppDefine.CLUSTER_DEFINE.Develop
     end
-    local n=s..(string.format("_cl%02d",i)..".fpk")
-    this.AddMissionPack(a)
-    this.AddMissionPack(n)
-  elseif missionCode==30050 then
-    local n="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionCodeName..("/"..(missionCodeName..string.format("_ly%03d",vars.mbLayoutCode))))))
-    local n=n..".fpk"
-    this.AddMissionPack(n)
+    local clusterLayoutPack=layoutPath..(string.format("_cl%02d",clusterId)..".fpk")
+    this.AddMissionPack(layoutPack)
+    this.AddMissionPack(clusterLayoutPack)
+ --[[ elseif missionCode==30050 then--WIP DEBUGNOW HAX OFFmbManualLayoutCode
+    local layoutPack="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionCodeName..("/"..(missionCodeName..string.format("_ly%03d",vars.mbLayoutCode))))))
+    local fpkPath=layoutPack..".fpk"
+    this.AddMissionPack(fpkPath)--]]
   end
 end
 function this.AddAvatarEditPack()

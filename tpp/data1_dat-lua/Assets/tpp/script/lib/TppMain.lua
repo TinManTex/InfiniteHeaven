@@ -207,6 +207,14 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
           vars.mbLayoutCode=TppLocation.ModifyMbsLayoutCode(TppMotherBaseManagement.GetMbsTopologyType())
         end
       end
+      --[[InfMenu.DebugPrint("layoutcode:"..vars.mbLayoutCode)--DEBUGNOW WIP HAX
+      InfMenu.DebugPrint("topology:"..TppMotherBaseManagement.GetMbsTopologyType())
+      InfMenu.DebugPrint("layoutcodefortop 10:"..TppLocation.ModifyMbsLayoutCode(10))--DEBUGNOW WIP HAX
+      InfMenu.DebugPrint("layoutcodefortop 90:"..TppLocation.ModifyMbsLayoutCode(90))--DEBUGNOW WIP HAX
+     --]]
+     if vars.missionCode==30050 and gvars.mbManualLayoutCode>0 then--DEBUGNOW WIP HAX
+      vars.mbLayoutCode=MotherBaseStage.ModifyLayoutCode(gvars.mbManualLayoutCode)--DEBUGNOW WIP HAX
+     end--
     end
     TppPlayer.FailSafeInitialPositionForFreePlay()--RETAILPATCH: 1060
     this.StageBlockCurrentPosition(true)
@@ -484,7 +492,6 @@ function this.SetUpdateFunction(missionTable)
     TppDemo.Update,
     TppPlayer.Update,
     TppMission.UpdateForMissionLoad,
-    InfMenu.Update,--tex
     InfMain.Update,--tex
   }
   numUpdate=#updateList

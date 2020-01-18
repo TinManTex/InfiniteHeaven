@@ -24,7 +24,7 @@ local r=3
 local A=5
 local g=2.5
 local r="Timer_outsideOfInnerZone"
-local c=0
+local missionClearCodeNone=0
 local M=64
 local y=1--RETAILPATCH 1060 was 2
 local h=3--RETAILPATCH 1060 was 4
@@ -602,7 +602,7 @@ function this.ExecuteOnReturnToMissionCallback()
   end
   return OnReturnToMission
 end
-function this.AbortMission(sequence)
+function this.AbortMission(abortInfo)
   local isNoFade
   local isNoSave
   local isInterrupt
@@ -617,29 +617,29 @@ function this.AbortMission(sequence)
   local o,a,t=0,0,TppUI.FADE_SPEED.FADE_NORMALSPEED
   local O
   local M
-  if IsTypeTable(sequence)then
-    isNoFade=sequence.isNoFade
-    emergencyMissionId=sequence.emergencyMissionId
-    nextMissionId=sequence.nextMissionId
-    nextLayoutCode=sequence.nextLayoutCode
-    nextClusterId=sequence.nextClusterId
-    nextMissionStartRoute=sequence.nextMissionStartRoute
-    isExecMissionClear=sequence.isExecMissionClear
-    isNoSave=sequence.isNoSave
-    isInterrupt=sequence.isInterrupt
-    isAlreadyGameOver=sequence.isAlreadyGameOver
-    if sequence.delayTime then
-      o=sequence.delayTime
+  if IsTypeTable(abortInfo)then
+    isNoFade=abortInfo.isNoFade
+    emergencyMissionId=abortInfo.emergencyMissionId
+    nextMissionId=abortInfo.nextMissionId
+    nextLayoutCode=abortInfo.nextLayoutCode
+    nextClusterId=abortInfo.nextClusterId
+    nextMissionStartRoute=abortInfo.nextMissionStartRoute
+    isExecMissionClear=abortInfo.isExecMissionClear
+    isNoSave=abortInfo.isNoSave
+    isInterrupt=abortInfo.isInterrupt
+    isAlreadyGameOver=abortInfo.isAlreadyGameOver
+    if abortInfo.delayTime then
+      o=abortInfo.delayTime
     end
-    if sequence.fadeDelayTime then
-      a=sequence.fadeDelayTime
+    if abortInfo.fadeDelayTime then
+      a=abortInfo.fadeDelayTime
     end
-    if sequence.fadeSpeed then
-      t=sequence.fadeSpeed
+    if abortInfo.fadeSpeed then
+      t=abortInfo.fadeSpeed
     end
-    O=sequence.presentationFunction
-    i=sequence.isTitleMode
-    M=sequence.playRadio
+    O=abortInfo.presentationFunction
+    i=abortInfo.isTitleMode
+    M=abortInfo.playRadio
   end
   if not this.CheckMissionState(isExecMissionClear,true)then
     return
@@ -745,6 +745,9 @@ function this.VarSaveForMissionAbort()
     vars.mbClusterId=mvars.mis_nextClusterIdForAbort
     vars.locationCode=TppDefine.LOCATION_ID.MTBS
   else
+    if missionCode==30050 and gvars.mbManualLayoutCode~=0 then--tex WIP DEBUGNOW
+      vars.mbLayoutCode=TppLocation.ModifyMbsLayoutCode(gvars.mbManualLayoutCode)
+    end--
     local locationName=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
     if locationName then
       local locationCode=TppDefine.LOCATION_ID[locationName]
@@ -792,7 +795,8 @@ function this.VarSaveForMissionAbort()
     TppPlayer.SavePlayerCurrentItems()
     TppPlayer.RestoreItemsFromUsingTemp()
     TppPlayer.StoreSupplyCbox()
-    TppPlayer.StoreSupportAttack()Gimmick.StoreSaveDataPermanentGimmickFromMission()
+    TppPlayer.StoreSupportAttack()
+    Gimmick.StoreSaveDataPermanentGimmickFromMission()
     TppGimmick.DecrementCollectionRepopCount()
     this.ExecuteVehicleSaveCarryOnAbort()
     TppBuddyService.SetVarsMissionStart()
@@ -960,7 +964,7 @@ end
 function this.GetMissionClearState()
   return gvars.mis_missionClearState
 end
-function this.ReserveMissionClear(sequence)
+function this.ReserveMissionClear(missionClearInfo)
   if svars.mis_isDefiniteGameOver then
     return false
   end
@@ -972,25 +976,25 @@ function this.ReserveMissionClear(sequence)
     TppUiStatusManager.SetStatus("PauseMenu","INVALID")
   end
   mvars.mis_isReserveMissionClear=true
-  if sequence then
-    if sequence.missionClearType then
-      svars.mis_missionClearType=sequence.missionClearType
+  if missionClearInfo then
+    if missionClearInfo.missionClearType then
+      svars.mis_missionClearType=missionClearInfo.missionClearType
     end
-    if sequence.nextMissionId then
-      this.SetNextMissionCodeForMissionClear(sequence.nextMissionId)
+    if missionClearInfo.nextMissionId then
+      this.SetNextMissionCodeForMissionClear(missionClearInfo.nextMissionId)
     end
-    if sequence.nextHeliRoute then
-      mvars.heli_missionStartRoute=sequence.nextHeliRoute
+    if missionClearInfo.nextHeliRoute then
+      mvars.heli_missionStartRoute=missionClearInfo.nextHeliRoute
     end
-    if sequence.nextLayoutCode then
-      mvars.mis_nextLayoutCode=sequence.nextLayoutCode
+    if missionClearInfo.nextLayoutCode then
+      mvars.mis_nextLayoutCode=missionClearInfo.nextLayoutCode
       vars.mbLayoutCode=TppLocation.ModifyMbsLayoutCode(mvars.mis_nextLayoutCode)
     end
-    if sequence.nextClusterId then
-      mvars.mis_nextClusterId=sequence.nextClusterId
-      vars.mbClusterId=sequence.nextClusterId
+    if missionClearInfo.nextClusterId then
+      mvars.mis_nextClusterId=missionClearInfo.nextClusterId
+      vars.mbClusterId=missionClearInfo.nextClusterId
     end
-    if sequence.isInterruptMissionEnd then
+    if missionClearInfo.isInterruptMissionEnd then
       mvars.mis_isInterruptMissionEnd=true
     end
   end
@@ -1211,16 +1215,16 @@ function this.ExecuteMissionFinalize()
     this.systemCallbacks.OnEndMissionCredit=nil
   end
   local waitOnLoadingTipsEnd
-  local missionCode=vars.missionCode
-  local locationCode=vars.locationCode
+  local currentMissionCode=vars.missionCode
+  local currentLocationCode=vars.locationCode
   local isHeliSpace,nextIsHeliSpace
   local isFreeMission,nextIsFreeMission
   if this.IsFOBMission(gvars.mis_nextMissionCodeForMissionClear)then
     waitOnLoadingTipsEnd=false
-    TppSave.VarSave(missionCode,true)
-    TppSave.SaveGameData(missionCode,nil,nil,nil,true)
+    TppSave.VarSave(currentMissionCode,true)
+    TppSave.SaveGameData(currentMissionCode,nil,nil,nil,true)
   end
-  if gvars.mis_nextMissionCodeForMissionClear~=c then
+  if gvars.mis_nextMissionCodeForMissionClear~=missionClearCodeNone then
     isHeliSpace=this.IsHelicopterSpace(vars.missionCode)
     isFreeMission=this.IsFreeMission(vars.missionCode)
     nextIsHeliSpace=this.IsHelicopterSpace(gvars.mis_nextMissionCodeForMissionClear)
@@ -1238,6 +1242,9 @@ function this.ExecuteMissionFinalize()
       vars.mbLayoutCode=TppLocation.ModifyMbsLayoutCode(mvars.mis_nextLayoutCode)
     else
       local layoutCode=TppDefine.STORY_MISSION_LAYOUT_CODE[gvars.mis_nextMissionCodeForMissionClear]
+      if currentMissionCode==30050 and gvars.mbManualLayoutCode~=0 then--tex WIP DEBUGNOW
+        layoutCode=gvars.mbManualLayoutCode
+      end--
       if layoutCode then
         vars.mbLayoutCode=TppLocation.ModifyMbsLayoutCode(layoutCode)
       end
@@ -1256,7 +1263,7 @@ function this.ExecuteMissionFinalize()
   end
   TppTerminal.ClearStaffNewIcon(isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission)
   if isHeliSpace then
-    TppClock.SetTimeFromHelicopterSpace(mvars.mis_selectedDeployTime,locationCode,vars.locationCode)
+    TppClock.SetTimeFromHelicopterSpace(mvars.mis_selectedDeployTime,currentLocationCode,vars.locationCode)
     if TppSave.CanSaveMbMangementData()then
       TppTerminal.ReserveMissionStartMbSync()
     end
@@ -1268,7 +1275,7 @@ function this.ExecuteMissionFinalize()
   if not o then
     TppPlayer.SavePlayerCurrentAmmoCount()
   end
-  if missionCode==10030 and TppSave.CanSaveMbMangementData(missionCode)then
+  if currentMissionCode==10030 and TppSave.CanSaveMbMangementData(currentMissionCode)then--PATCHUP
     vars.items[2]=TppEquip.EQP_IT_TimeCigarette
     vars.items[3]=TppEquip.EQP_IT_Nvg
     vars.initItems[2]=TppEquip.EQP_IT_TimeCigarette
@@ -1295,6 +1302,9 @@ function this.ExecuteMissionFinalize()
     Gimmick.StoreSaveDataPermanentGimmickFromMissionAfterClear()
   end
   if isFreeMission then
+    if vars.missionCode==30150 then--
+      TppGimmick.DecrementCollectionRepopCount()--tex repop dec for plants on zoo
+    end--
     Gimmick.StoreSaveDataPermanentGimmickFromMission()
   end
   local lockStaffForMission={
@@ -1324,7 +1334,7 @@ function this.ExecuteMissionFinalize()
     vars.requestFlagsAboutEquip=255
   end
   TppEnemy.ClearDDParameter()
-  TppRevenge.OnMissionClearOrAbort(missionCode)
+  TppRevenge.OnMissionClearOrAbort(currentMissionCode)
   if gvars.solface_groupNumber>=4294967295 then
     gvars.solface_groupNumber=0
   else
@@ -1338,7 +1348,7 @@ function this.ExecuteMissionFinalize()
   if vars.missionCode==10115 then
     o=true
   end
-  local locationChange=(vars.locationCode~=locationCode)
+  local locationChange=(vars.locationCode~=currentLocationCode)
   if not isHeliSpace then
     TppTerminal.AddStaffsFromTempBuffer(nil,o)
   end
@@ -1352,13 +1362,13 @@ function this.ExecuteMissionFinalize()
   this.VarResetOnNewMission()
   if not this.IsFOBMission(vars.missionCode)then
     local e=true
-    TppSave.VarSave(missionCode,true)
+    TppSave.VarSave(currentMissionCode,true)
     local i=false
     do
       i=true
     end
     if i and(not o)then
-      TppSave.SaveGameData(missionCode,nil,nil,e,true)
+      TppSave.SaveGameData(currentMissionCode,nil,nil,e,true)
     end
     if mvars.mis_needSaveConfigOnNewMission then
       TppSave.VarSaveConfig()
@@ -1377,11 +1387,11 @@ function this.ExecuteMissionFinalize()
     end
     this.VarResetOnNewMission()
     if(vars.missionCode==10240)then--RETAILPATCH: 1060 added
-      local e=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
-      if e then
-        local e=TppDefine.LOCATION_ID[e]
-        if e then
-          vars.locationCode=e
+      local locationName=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
+      if locationName then
+        local locationCode=TppDefine.LOCATION_ID[locationName]
+        if locationCode then
+          vars.locationCode=locationCode
         end
       end
     end--
@@ -1392,7 +1402,7 @@ function this.ExecuteMissionFinalize()
   if TppRadio.playingBlackTelInfo then
     mvars.mis_showLoadingTipsOnMissionFinalize=false
   end
-  this.RequestLoad(vars.missionCode,missionCode,{showLoadingTips=mvars.mis_showLoadingTipsOnMissionFinalize,waitOnLoadingTipsEnd=waitOnLoadingTipsEnd,ignoreMtbsLoadLocationForce=mvars.mis_missionFinalizeIgnoreMtbsLoadLocationForce})
+  this.RequestLoad(vars.missionCode,currentMissionCode,{showLoadingTips=mvars.mis_showLoadingTipsOnMissionFinalize,waitOnLoadingTipsEnd=waitOnLoadingTipsEnd,ignoreMtbsLoadLocationForce=mvars.mis_missionFinalizeIgnoreMtbsLoadLocationForce})
 end
 function this.ParseMissionName(e)
   local i=string.sub(e,2)
@@ -1954,7 +1964,7 @@ function this.GetNextMissionCodeForEmergency()
   return(mvars.mis_emergencyMissionCode or gvars.mis_nextMissionCodeForEmergency)
 end
 function this.OnAbortMissionPreparation()
-  this.SetNextMissionCodeForMissionClear(c)
+  this.SetNextMissionCodeForMissionClear(missionClearCodeNone)
   gvars.heli_missionStartRoute=0
 end
 function this.WaitFinishMissionEndPresentation()
@@ -1986,7 +1996,7 @@ function this.CancelLoadOnResult()
   mvars.mis_doMissionFinalizeOnMissionTelopDisplay=nil
   this.ResetNeedWaitMissionInitialize()
 end
-function this.OnAllocate(n)
+function this.OnAllocate(missionTable)
   this.systemCallbacks={OnEstablishMissionClear=function()
     this.MissionGameEnd{loadStartOnResult=false}
   end,OnDisappearGameEndAnnounceLog=this.ShowMissionResult,OnEndMissionCredit=nil,OnEndMissionReward=nil,OnGameOver=nil,OnOutOfMissionArea=nil,OnUpdateWhileMissionPrepare=nil,OnFobDefenceGameOver=nil,OnFinishBlackTelephoneRadio=function()
@@ -1995,24 +2005,24 @@ function this.OnAllocate(n)
     end
   end,OnOutOfHotZone=nil,OnOutOfHotZoneMissionClear=nil,OnUpdateStorySequenceInGame=nil,CheckMissionClearFunction=nil,OnReturnToMission=nil,OnAddStaffsFromTempBuffer=nil,CheckMissionClearOnRideOnFultonContainer=nil,OnRecovered=nil,OnSetMissionFinalScore=nil,OnEndDeliveryWarp=nil,OnFultonContainerMissionClear=nil}
   this.RegisterMissionID()
-  if n.sequence then
-    local t=n.sequence.missionObjectiveDefine
-    local i=n.sequence.missionObjectiveTree
-    local o=n.sequence.missionObjectiveEnum
-    if t and i then
-      this.SetMissionObjectives(t,i,o)
+  if missionTable.sequence then
+    local objectiveDefine=missionTable.sequence.missionObjectiveDefine
+    local ojectiveTree=missionTable.sequence.missionObjectiveTree
+    local objectiveEnum=missionTable.sequence.missionObjectiveEnum
+    if objectiveDefine and ojectiveTree then
+      this.SetMissionObjectives(objectiveDefine,ojectiveTree,objectiveEnum)
     end
-    if n.sequence.missionStartPosition then
-      if IsTypeTable(n.sequence.missionStartPosition.orderBoxList)then
-        mvars.mis_orderBoxList=n.sequence.missionStartPosition.orderBoxList
+    if missionTable.sequence.missionStartPosition then
+      if IsTypeTable(missionTable.sequence.missionStartPosition.orderBoxList)then
+        mvars.mis_orderBoxList=missionTable.sequence.missionStartPosition.orderBoxList
       end
     end
-    if n.sequence.ENABLE_DEFAULT_HELI_MISSION_CLEAR then
+    if missionTable.sequence.ENABLE_DEFAULT_HELI_MISSION_CLEAR then
       mvars.mis_enableDefaultHeliMisionClear=true
     end
     mvars.mis_helicopterDoorOpenTimerTimeSec=15
-    if n.sequence.HELICOPTER_DOOR_OPEN_TIME_SEC then
-      mvars.mis_helicopterDoorOpenTimerTimeSec=n.sequence.HELICOPTER_DOOR_OPEN_TIME_SEC
+    if missionTable.sequence.HELICOPTER_DOOR_OPEN_TIME_SEC then
+      mvars.mis_helicopterDoorOpenTimerTimeSec=missionTable.sequence.HELICOPTER_DOOR_OPEN_TIME_SEC
     end
   end
   mvars.mis_isOutsideOfMissionArea=false
@@ -2066,24 +2076,44 @@ function this.Init(n)
     mvars.mis_isAlertOutOfMissionArea=false
   end
 end
-function this.OnReload(n)
+function this.OnReload(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
   this.messageExecTableWhileLoading=Tpp.MakeMessageExecTable(this.MessagesWhileLoading())
-  if n.sequence then
-    local i=n.sequence.missionObjectiveDefine
-    local s=n.sequence.missionObjectiveTree
-    local n=n.sequence.missionObjectiveEnum
-    if i and s then
-      this.SetMissionObjectives(i,s,n)
+  if missionTable.sequence then
+    local objectiveDefine=missionTable.sequence.missionObjectiveDefine
+    local ojectiveTree=missionTable.sequence.missionObjectiveTree
+    local objectiveEnum=missionTable.sequence.missionObjectiveEnum
+    if objectiveDefine and ojectiveTree then
+      this.SetMissionObjectives(objectiveDefine,ojectiveTree,objectiveEnum)
     end
   end
-  local n={"OnEstablishMissionClear","OnDisappearGameEndAnnounceLog","OnEndMissionCredit","OnEndMissionReward","OnGameOver","OnOutOfMissionArea","OnUpdateWhileMissionPrepare","OnFobDefenceGameOver","OnFinishBlackTelephoneRadio","OnOutOfHotZone","OnOutOfHotZoneMissionClear","OnUpdateStorySequenceInGame","CheckMissionClearFunction","OnReturnToMission","OnAddStaffsFromTempBuffer","CheckMissionClearOnRideOnFultonContainer","OnRecovered","OnMissionGameEndFadeOutFinish","OnFultonContainerMissionClear"}
-  for i,n in ipairs(n)do
-    local i=_G.TppMission.systemCallbacks
-    if i then
-      local i=i[n]
+  local callBackNames={
+    "OnEstablishMissionClear",
+    "OnDisappearGameEndAnnounceLog",
+    "OnEndMissionCredit",
+    "OnEndMissionReward",
+    "OnGameOver",
+    "OnOutOfMissionArea",
+    "OnUpdateWhileMissionPrepare",
+    "OnFobDefenceGameOver",
+    "OnFinishBlackTelephoneRadio",
+    "OnOutOfHotZone",
+    "OnOutOfHotZoneMissionClear",
+    "OnUpdateStorySequenceInGame",
+    "CheckMissionClearFunction",
+    "OnReturnToMission",
+    "OnAddStaffsFromTempBuffer",
+    "CheckMissionClearOnRideOnFultonContainer",
+    "OnRecovered",
+    "OnMissionGameEndFadeOutFinish",
+    "OnFultonContainerMissionClear"
+  }
+  for i,name in ipairs(callBackNames)do
+    local systemCallbacks=_G.TppMission.systemCallbacks
+    if systemCallbacks then
+      local callback=systemCallbacks[name]
       this.systemCallbacks=this.systemCallbacks or{}
-      this.systemCallbacks[n]=i
+      this.systemCallbacks[name]=callback
     end
   end
 end
@@ -3042,17 +3072,17 @@ function this.OnMissionGameEndFadeOutFinish2nd()
   end
   StartTimer("Timer_MissionGameEndStart2nd",.1)
 end
-function this.SetMissionObjectives(i,n,e)
-  mvars.mis_missionObjectiveDefine=i
-  mvars.mis_missionObjectiveTree=n
-  mvars.mis_missionObjectiveEnum=e
+function this.SetMissionObjectives(objectiveDefine,ojectiveTree,objectiveEnum)
+  mvars.mis_missionObjectiveDefine=objectiveDefine
+  mvars.mis_missionObjectiveTree=ojectiveTree
+  mvars.mis_missionObjectiveEnum=objectiveEnum
   if mvars.mis_missionObjectiveTree then
     for n,e in Tpp.BfsPairs(mvars.mis_missionObjectiveTree)do
       for e,i in pairs(e)do
-        local e=mvars.mis_missionObjectiveDefine[e]
-        if e then
-          e.parent=e.parent or{}
-          e.parent[n]=true
+        local objectiveDefine=mvars.mis_missionObjectiveDefine[e]
+        if objectiveDefine then
+          objectiveDefine.parent=objectiveDefine.parent or{}
+          objectiveDefine.parent[n]=true
         end
       end
     end
@@ -3075,26 +3105,26 @@ function this.ShowUpdateObjective(n)
   end
   local i={}
   for n,s in pairs(n)do
-    local n=mvars.mis_missionObjectiveDefine[s]
+    local objectiveDefine=mvars.mis_missionObjectiveDefine[s]
     local t=not this.IsEnableMissionObjective(s)
     if t then
       t=(not this.IsEnableAnyParentMissionObjective(s))
     end
-    if n.packLabel then
-      if not TppPackList.IsMissionPackLabelList(n.packLabel)then
+    if objectiveDefine.packLabel then
+      if not TppPackList.IsMissionPackLabelList(objectiveDefine.packLabel)then
         t=false
       end
     end
-    if n and t then
+    if objectiveDefine and t then
       this.DisableChildrenObjective(s)
-      this._ShowObjective(n,true)
+      this._ShowObjective(objectiveDefine,true)
       local t={isMissionAnnounce=false,subGoalId=nil}
-      if n.announceLog then
+      if objectiveDefine.announceLog then
         t.isMissionAnnounce=true
-        if n.subGoalId then
-          t.subGoalId=n.subGoalId
+        if objectiveDefine.subGoalId then
+          t.subGoalId=objectiveDefine.subGoalId
         end
-        i[n.announceLog]=t
+        i[objectiveDefine.announceLog]=t
       end
       this.SetMissionObjectiveEnable(s,true)
     end
@@ -3123,54 +3153,54 @@ function this.ShowUpdateObjective(n)
   mvars.mis_updateObjectiveRadioGroupName=nil
   mvars.mis_updateObjectiveOnHelicopterStart=nil
 end
-function this._ShowObjective(e,s)
-  if e.packLabel then
-    if not TppPackList.IsMissionPackLabelList(e.packLabel)then
+function this._ShowObjective(objectiveDefine,RENAMEbool)
+  if objectiveDefine.packLabel then
+    if not TppPackList.IsMissionPackLabelList(objectiveDefine.packLabel)then
       return
     end
   end
-  if e.setInterrogation==nil then
-    e.setInterrogation=true
+  if objectiveDefine.setInterrogation==nil then
+    objectiveDefine.setInterrogation=true
   end
-  if e.gameObjectName then
-    TppMarker.Enable(e.gameObjectName,e.visibleArea,e.goalType,e.viewType,e.randomRange,e.setImportant,e.setNew,e.mapRadioName,e.langId,e.goalLangId,e.setInterrogation)
+  if objectiveDefine.gameObjectName then
+    TppMarker.Enable(objectiveDefine.gameObjectName,objectiveDefine.visibleArea,objectiveDefine.goalType,objectiveDefine.viewType,objectiveDefine.randomRange,objectiveDefine.setImportant,objectiveDefine.setNew,objectiveDefine.mapRadioName,objectiveDefine.langId,objectiveDefine.goalLangId,objectiveDefine.setInterrogation)
   end
-  if e.gimmickId then
-    local i,n=TppGimmick.GetGameObjectId(e.gimmickId)
+  if objectiveDefine.gimmickId then
+    local i,gameObjectName=TppGimmick.GetGameObjectId(objectiveDefine.gimmickId)
     if i then
-      TppMarker.Enable(n,e.visibleArea,e.goalType,e.viewType,e.randomRange,e.setImportant,e.setNew,e.mapRadioName,e.langId,e.goalLangId,e.setInterrogation)
+      TppMarker.Enable(gameObjectName,objectiveDefine.visibleArea,objectiveDefine.goalType,objectiveDefine.viewType,objectiveDefine.randomRange,objectiveDefine.setImportant,objectiveDefine.setNew,objectiveDefine.mapRadioName,objectiveDefine.langId,objectiveDefine.goalLangId,objectiveDefine.setInterrogation)
     end
   end
-  if e.photoId then
-    TppUI.EnableMissionPhoto(e.photoId,e.addFirst,e.addSecond,e.isComplete,e.photoRadioName)
+  if objectiveDefine.photoId then
+    TppUI.EnableMissionPhoto(objectiveDefine.photoId,objectiveDefine.addFirst,objectiveDefine.addSecond,objectiveDefine.isComplete,objectiveDefine.photoRadioName)
   end
-  if e.hudPhotoId then
-    TppUiCommand.ShowPictureInfoHud(e.hudPhotoId,1,3)
+  if objectiveDefine.hudPhotoId then
+    TppUiCommand.ShowPictureInfoHud(objectiveDefine.hudPhotoId,1,3)
   end
-  if e.subGoalId then
-    TppUI.EnableMissionSubGoal(e.subGoalId)
-    if e.subGoalId>0 then
-      if not e.announceLog then
-        e.announceLog="updateMissionInfo"end
+  if objectiveDefine.subGoalId then
+    TppUI.EnableMissionSubGoal(objectiveDefine.subGoalId)
+    if objectiveDefine.subGoalId>0 then
+      if not objectiveDefine.announceLog then
+        objectiveDefine.announceLog="updateMissionInfo"end
     end
   end
-  if e.showEnemyRoutePoints then
+  if objectiveDefine.showEnemyRoutePoints then
     if TppUiCommand.ShowEnemyRoutePoints then
-      local n=e.showEnemyRoutePoints.radioGroupName
+      local n=objectiveDefine.showEnemyRoutePoints.radioGroupName
       if IsTypeString(n)then
-        e.showEnemyRoutePoints.radioGroupName=StrCode32(n)
+        objectiveDefine.showEnemyRoutePoints.radioGroupName=StrCode32(n)
       end
-      TppUiCommand.ShowEnemyRoutePoints(e.showEnemyRoutePoints)
+      TppUiCommand.ShowEnemyRoutePoints(objectiveDefine.showEnemyRoutePoints)
     end
   end
-  if e.targetBgmCp then
-    TppEnemy.LetCpHasTarget(e.targetBgmCp,true)
+  if objectiveDefine.targetBgmCp then
+    TppEnemy.LetCpHasTarget(objectiveDefine.targetBgmCp,true)
   end
-  if e.missionTask then
-    TppUI.EnableMissionTask(e.missionTask,s)
+  if objectiveDefine.missionTask then
+    TppUI.EnableMissionTask(objectiveDefine.missionTask,RENAMEbool)
   end
-  if e.spySearch then
-    TppUI.EnableSpySearch(e.spySearch)
+  if objectiveDefine.spySearch then
+    TppUI.EnableSpySearch(objectiveDefine.spySearch)
   end
 end
 function this.RestoreShowMissionObjective()
@@ -3179,17 +3209,17 @@ function this.RestoreShowMissionObjective()
   end
   for n,i in ipairs(mvars.mis_missionObjectiveEnum)do
     if not svars.mis_objectiveEnable[n]then
-      local n=mvars.mis_missionObjectiveDefine[i]
-      if n then
-        this.DisableObjective(n)
+      local objectiveDefine=mvars.mis_missionObjectiveDefine[i]
+      if objectiveDefine then
+        this.DisableObjective(objectiveDefine)
       end
     end
   end
   for n,i in ipairs(mvars.mis_missionObjectiveEnum)do
     if svars.mis_objectiveEnable[n]then
-      local n=mvars.mis_missionObjectiveDefine[i]
-      if n then
-        this._ShowObjective(n,false)
+      local objectiveDefine=mvars.mis_missionObjectiveDefine[i]
+      if objectiveDefine then
+        this._ShowObjective(objectiveDefine,false)
       end
     end
   end
@@ -3215,22 +3245,22 @@ function this.IsEnableMissionObjective(e)
   return svars.mis_objectiveEnable[e]
 end
 function this.GetParentObjectiveName(e)
-  local e=mvars.mis_missionObjectiveDefine[e]
-  if not e then
+  local objectiveDefine=mvars.mis_missionObjectiveDefine[e]
+  if not objectiveDefine then
     return
   end
-  return e.parent
+  return objectiveDefine.parent
 end
 function this.IsEnableAnyParentMissionObjective(n)
-  local n=mvars.mis_missionObjectiveDefine[n]
-  if not n then
+  local objectiveDefine=mvars.mis_missionObjectiveDefine[n]
+  if not objectiveDefine then
     return
   end
-  if not n.parent then
+  if not objectiveDefine.parent then
     return false
   end
   local i
-  for n,s in pairs(n.parent)do
+  for n,s in pairs(objectiveDefine.parent)do
     if this.IsEnableMissionObjective(n)then
       return true
     else
@@ -3254,10 +3284,10 @@ function this.DisableChildrenObjective(s)
     return
   end
   for i,n in Tpp.BfsPairs(n)do
-    local n=mvars.mis_missionObjectiveDefine[i]
-    if n then
+    local objectiveDefine=mvars.mis_missionObjectiveDefine[i]
+    if objectiveDefine then
       this.SetMissionObjectiveEnable(i,false)
-      this.DisableObjective(n)
+      this.DisableObjective(objectiveDefine)
     end
   end
 end
@@ -3364,7 +3394,7 @@ function this.VarResetOnNewMission()
   TppPlayer.ResetStealthAssistCount()
   TppSave.ReserveVarRestoreForMissionStart()
   TppResult.ClearNewestPlayStyleHistory()
-  this.SetNextMissionCodeForMissionClear(c)
+  this.SetNextMissionCodeForMissionClear(missionClearCodeNone)
   this.ResetMissionClearState()
 end
 function this.GetCurrentLocationHeliMissionAndLocationCode()
@@ -3390,26 +3420,26 @@ function this.ResetEmegerncyMissionSetting()
   vars.returnStaffSeeds=0
 end
 function this.GoToEmergencyMission()
-  local t=gvars.mis_nextMissionCodeForEmergency
-  local s
-  if t~=TppDefine.SYS_MISSION_ID.FOB then
+  local emergencyMissionCode=gvars.mis_nextMissionCodeForEmergency
+  local startRoute
+  if emergencyMissionCode~=TppDefine.SYS_MISSION_ID.FOB then
     if gvars.mis_nextMissionStartRouteForEmergency~=0 then
-      s=gvars.mis_nextMissionStartRouteForEmergency
+      startRoute=gvars.mis_nextMissionStartRouteForEmergency
     else
       return
     end
   end
-  local n
+  local mbLayoutCode
   if gvars.mis_nextLayoutCodeForEmergency~=TppDefine.INVALID_LAYOUT_CODE then
-    n=gvars.mis_nextLayoutCodeForEmergency
+    mbLayoutCode=gvars.mis_nextLayoutCodeForEmergency
   else
-    n=TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode]or TppDefine.OFFLINE_MOHTER_BASE_LAYOUT_CODE
+    mbLayoutCode=TppDefine.STORY_MISSION_LAYOUT_CODE[vars.missionCode]or TppDefine.OFFLINE_MOHTER_BASE_LAYOUT_CODE--RETAILBUG: since day0, was TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode]
   end
-  local i=2
+  local clusterId=2
   if gvars.mis_nextClusterIdForEmergency~=TppDefine.INVALID_CLUSTER_ID then
-    i=gvars.mis_nextClusterIdForEmergency
+    clusterId=gvars.mis_nextClusterIdForEmergency
   end
-  this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,nextMissionId=t,nextHeliRoute=s,nextLayoutCode=n,nextClusterId=i}
+  this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,nextMissionId=emergencyMissionCode,nextHeliRoute=startRoute,nextLayoutCode=mbLayoutCode,nextClusterId=clusterId}
 end
 function this.RequestLoad(nextMission,currentMission,options)
   if not mvars then
@@ -3422,16 +3452,16 @@ function this.RequestLoad(nextMission,currentMission,options)
   mvars.mis_loadRequest={nextMission=nextMission,currentMission=currentMission,options=options}
 end
 function this.LoadWithChunkCheck()
-  local t,s,i=mvars.mis_loadRequest.nextMission,mvars.mis_loadRequest.currentMission,mvars.mis_loadRequest.options
-  local n=Tpp.GetChunkIndex(vars.locationCode)
-  if this.IsChunkLoading(n)then
+  local mission,currentMission,loadOptions=mvars.mis_loadRequest.nextMission,mvars.mis_loadRequest.currentMission,mvars.mis_loadRequest.options
+  local chunkIndex=Tpp.GetChunkIndex(vars.locationCode)
+  if this.IsChunkLoading(chunkIndex)then
     return
   end
-  this.Load(t,s,i)
+  this.Load(mission,currentMission,loadOptions)
   mvars.mis_loadRequest=nil
 end
-function this.IsChunkLoading(e)
-  if Chunk.GetChunkState(e)==Chunk.STATE_INSTALLED then
+function this.IsChunkLoading(chunkIndex)
+  if Chunk.GetChunkState(chunkIndex)==Chunk.STATE_INSTALLED then
     if mvars.mis_isChunkLoading then
       Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_NORMAL)
       mvars.mis_isChunkLoading=false
@@ -3442,7 +3472,8 @@ function this.IsChunkLoading(e)
     return false
   end
   if not mvars.mis_isChunkLoading then
-    Chunk.PrefetchChunk(e)Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_FAST)
+    Chunk.PrefetchChunk(chunkIndex)
+    Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_FAST)
     mvars.mis_isChunkLoading=true
   end
   if SplashScreen.GetSplashScreenWithName"konamiLogo"then
@@ -3454,7 +3485,7 @@ function this.IsChunkLoading(e)
   if SplashScreen.GetSplashScreenWithName"foxLogo"then
     return true
   end
-  Tpp.ShowChunkInstallingPopup(e,false)
+  Tpp.ShowChunkInstallingPopup(chunkIndex,false)
   return true
 end
 function this.Load(missionCode,currentMissionCode,loadSettings)
@@ -3488,6 +3519,9 @@ function this.Load(missionCode,currentMissionCode,loadSettings)
     if TppLocation.IsMotherBase()then
       local applyPlatformParamToMbStage=TppLocation.ApplyPlatformParamToMbStage(missionCode,"MotherBase")
       local missionLayoutCode=TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode]
+      if missionCode==30050 and gvars.mbManualLayoutCode~=0 then--tex WIP DEBUGNOW
+        missionLayoutCode=gvars.mbManualLayoutCode
+      end--
       if missionLayoutCode then
         if currentMissionCode==nil and missionCode==30050 then
         else

@@ -214,23 +214,48 @@ this.mbSelectedDemo={
   range={max=#TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST-1},
   settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST,
 }
-----patchup
+
+--game progression unlocks
 this.unlockPlayableAvatar={
   save=GLOBAL,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=function()
-    local currentStorySequence=TppStory.GetCurrentStorySequence()
+  OnSelect=function(self)
+    self.setting=vars.isAvatarPlayerEnable
+  end,
+  OnChange=function(self)
+    vars.isAvatarPlayerEnable=self.setting
+    --[[CULL local currentStorySequence=TppStory.GetCurrentStorySequence()
     if gvars.unlockPlayableAvatar==0 then
       if currentStorySequence<=TppDefine.STORY_SEQUENCE.CLEARD_THE_TRUTH then
         vars.isAvatarPlayerEnable=0
       end
     else
       vars.isAvatarPlayerEnable=1
-    end
+    end--]]
   end
 }
 
+this.unlockWeaponCustomization={
+  save=GLOBAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnSelect=function(self)
+    self.setting=vars.mbmMasterGunsmithSkill
+  end,
+  OnChange=function(self)
+    vars.mbmMasterGunsmithSkill=self.setting
+  --[[CULL
+    if not gvars.trm_isPushRewardOpenWeaponCustomize then
+      gvars.trm_isPushRewardOpenWeaponCustomize=true
+      TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_400",rewardType=TppReward.TYPE.COMMON}
+    end
+    --]]
+  end
+}
+
+
+----patchup
 this.langOverride={
   save=GLOBAL,
   range=this.switchRange,
@@ -240,6 +265,18 @@ this.langOverride={
 this.startOffline={
   save=GLOBAL,
   default=0,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.blockFobTutorial={
+  save=GLOBAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.setFirstFobBuilt={
+  save=GLOBAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -685,7 +722,7 @@ this.startOnFoot={
 this.clockTimeScale={
   save=GLOBAL,
   default=20,
-  range={max=1000,min=1,increment=1},
+  range={max=10000,min=1,increment=1},
   OnChange=function()
     if not IsDemoPlaying() then
       TppClock.Start()
@@ -790,6 +827,128 @@ this.mbDontDemoDisableOcelot={
   range=this.switchRange,
   settingNames="set_switch",
 }
+
+--
+--WIP DEBUGNOW TppLocaion.ModifyMbsLayoutCode
+this.mbManualLayoutCode={
+  save=MISSION,
+  range={min=0,max=1000,increment=10},
+}
+
+this.manualMissionCode={
+  save=MISSION,
+  settings={
+  --LOC,TYPE,Notes
+  "1",--INIT
+  "5",--TITLE
+   --storyMissions
+   --[[
+  "10010",--CYPR
+  "10020",
+  "10030",
+  "10036",
+  "10043",
+  "10033",
+  "10040",
+  "10041",
+  "10044",
+  "10052",
+  "10054",
+  "10050",
+  "10070",
+  "10080",
+  "10086",
+  "10082",
+  "10090",
+  "10195",
+  "10091",
+  "10100",
+  "10110",
+  "10121",
+  "10115",
+  "10120",
+  "10085",
+  "10200",
+  "10211",
+  "10081",
+  "10130",
+  "10140",
+  "10150",
+  "10151",
+  "10045",
+  "10156",
+  "10093",
+  "10171",
+  "10240",
+  "10260",
+  "10280",--CYPR
+  --]]
+  --hard missions
+  --"11043",
+  "11041",--missingno
+  --"11054",
+  "11085",--missingno
+  --"11082",
+  --"11090",
+  "11036",--missingno
+  --"11033",
+  --"11050",
+  "11091",--missingno
+  "11195",--missingno
+  "11211",--missingno
+  --"11140",
+  "11200",--missingno
+  --"11080",
+  "11171",--missingno
+  --"11121",
+  "11115",--missingno
+  --"11130",
+  --"11044",
+  "11052",--missingno
+  --"11151",
+  --
+  "10230",--FLYK,missing completely, chap 3, no load
+  --in PLAY_DEMO_END_MISSION, no other refs
+  "11070",
+  "11100",
+  "11110",
+  "11150",
+  "11240",
+  "11260",
+  "11280",
+  "11230",
+  --free mission
+  --"30010",--AFGH,FREE
+  --"30020",--MAFR,FREE
+  --"30050",--MTBS,FREE
+  --"30150",--MTBS,MTBS_ZOO,FREE
+  --"30250",--MBQF,MBTS_WARD,FREE
+  --heli space
+  "40010",--AFGH,AFGH_HELI,HLSP
+  "40020",--MAFR,MAFR_HELI,HLSP
+  "40050",--MTBS
+  "40060",--HLSP,HELI_SPACE,--no load
+  --online
+  "50050",--MTBS,FOB
+  --select??
+  "60000",--SELECT --6e4
+  --show demonstrations (not demos lol)
+  "65020",--AFGH,e3_2014
+  "65030",--MTBS,e3_2014
+  "65050",--MAFR??,e3_2014
+  "65060",--MAFR,tgs_2014
+  "65414",--gc_2014
+  "65415",--tgs_2014
+  "65416",--tgs_2014
+  }
+}
+
+  --AFGH={10020,10033,10034,10036,10040,10041,10043,10044,10045,10050,10052,10054,10060,10070,10150,10151,10153,10156,10164,10199,10260,,,
+  --11036,11043,11041,11033,11050,11054,11044,11052,11151},
+  --MAFR={10080,10081,10082,10085,10086,10090,10091,10093,10100,10110,10120,10121,10130,10140,10154,10160,10162,10171,10200,10195,10211,,,
+  --11085,11082,11090,11091,11195,11211,11140,11200,11080,11171,11121,11130},
+  --MTBS={10030,10115,11115,10240},
+  
 --appearance
 --[[CULL this.useAppearance={
   save=MISSION,
@@ -1117,7 +1276,15 @@ this.ogrePointChange={
 }
 --]]
 
-local function IsIvar(ivar)
+--telop
+this.telopMode={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+
+local function IsIvar(ivar)--TYPEID
   return IsTable(ivar) and (ivar.range or ivar.settings)   
 end
 

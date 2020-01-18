@@ -2727,7 +2727,7 @@ function this.AssignSoldiersToCP()
   local missionCode=TppMission.GetMissionID()
   this._ConvertSoldierNameKeysToId(mvars.ene_soldierTypes)
   mvars.ene_soldierSubType=mvars.ene_soldierSubType or{}
-  --gvars.soldierTypeForced=gvars.soldierTypeForced or {}--tex DEBUGNOW
+  --gvars.soldierTypeForced=gvars.soldierTypeForced or {}--tex WIP
   mvars.ene_soldierLrrp=mvars.ene_soldierLrrp or{}
   local subTypeOfCp=this.subTypeOfCp
   for cpId,t in pairs(mvars.ene_soldierIDList)do
@@ -2736,9 +2736,9 @@ function this.AssignSoldiersToCP()
     local isChild=false
     for soldierId,p in pairs(t)do
       if InfMain.IsForceSoldierSubType() then--tex WIP
-        --InfMenu.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)--DEBUGNOW
+        --InfMenu.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
         --   gvars.soldierTypeForced[soldierId]=true
-        --  InfMenu.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )--DEBUGNOW
+        --  InfMenu.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )
         mvars.ene_soldierSubType[soldierId]=forceSubType
       end--
       SendCommand(soldierId,{id="SetCommandPost",cp=cp})
@@ -2753,7 +2753,7 @@ function this.AssignSoldiersToCP()
       end
       local command
       local soldierType=this.GetSoldierType(soldierId)
-      --[[if InfMain.IsForceSoldierSubType() then--tex WIP: DEBUGNOW
+      --[[if InfMain.IsForceSoldierSubType() then--tex WIP:
           this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
       end--]]
       command={id="SetSoldier2Type",type=soldierType}

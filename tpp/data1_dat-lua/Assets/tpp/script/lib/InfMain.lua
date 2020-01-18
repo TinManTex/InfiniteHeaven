@@ -274,106 +274,58 @@ function this.SetKeepAlert(cpName,enable)
   GameObject.SendCommand(gameId,command)
 end
 
-----DEBUGNOW WIP
+--
 
---[[
-local dominationTargetCpList={
-  afgh={
-    "afgh_field_cp",
-    "afgh_remnants_cp",
-    "afgh_tent_cp",
-    "afgh_fieldEast_ob",
-    "afgh_fieldWest_ob",
-    "afgh_remnantsNorth_ob",
-    "afgh_tentEast_ob",
-    "afgh_tentNorth_ob",
-    "afgh_village_cp",
-    "afgh_slopedTown_cp",
-    "afgh_commFacility_cp",
-    "afgh_enemyBase_cp",
-    "afgh_commWest_ob",
-    "afgh_ruinsNorth_ob",
-    "afgh_slopedWest_ob",
-    "afgh_villageEast_ob",
-    "afgh_villageNorth_ob",
-    "afgh_villageWest_ob",
-    "afgh_enemyEast_ob",
-    "afgh_bridge_cp",
-    "afgh_fort_cp",
-    "afgh_cliffTown_cp",
-    "afgh_bridgeNorth_ob",
-    "afgh_bridgeWest_ob",
-    "afgh_cliffEast_ob",
-    "afgh_cliffSouth_ob",
-    "afgh_cliffWest_ob",
-    "afgh_enemyNorth_ob",
-    "afgh_fortSouth_ob",
-    "afgh_fortWest_ob",
-    "afgh_slopedEast_ob",
-    "afgh_powerPlant_cp",
-    "afgh_sovietBase_cp",
-    "afgh_plantWest_ob",
-    "afgh_sovietSouth_ob",
-    "afgh_waterwayEast_ob",
-    "afgh_citadel_cp",
-    "afgh_citadelSouth_ob"
-  },
-  mafr={
-    "mafr_outland_cp",
-    "mafr_outlandEast_ob",
-    "mafr_outlandNorth_ob",
-    "mafr_flowStation_cp",
-    "mafr_swamp_cp",
-    "mafr_pfCamp_cp",
-    "mafr_savannah_cp",
-    "mafr_swampEast_ob",
-    "mafr_swampWest_ob",
-    "mafr_swampSouth_ob",
-    "mafr_pfCampEast_ob",
-    "mafr_pfCampNorth_ob",
-    "mafr_savannahEast_ob",
-    "mafr_savannahWest_ob",
-    "mafr_chicoVilWest_ob",
-    "mafr_hillSouth_ob",
-    "mafr_banana_cp",
-    "mafr_diamond_cp",
-    "mafr_hill_cp",
-    "mafr_savannahNorth_ob",
-    "mafr_bananaEast_ob",
-    "mafr_bananaSouth_ob",
-    "mafr_hillNorth_ob",
-    "mafr_hillWest_ob",
-    "mafr_hillWestNear_ob",
-    "mafr_factorySouth_ob",
-    "mafr_diamondNorth_ob",
-    "mafr_diamondSouth_ob",
-    "mafr_diamondWest_ob",
-    "mafr_factoryWest_ob",
-    "mafr_lab_cp",
-    "mafr_labWest_ob"
-  }
-}
---]]
---WIP Phase/Alert updates
+this.SetFriendlyCp = function()
+  local gameObjectId = { type="TppCommandPost2", index=0 }
+  local command = { id = "SetFriendlyCp" }
+  GameObject.SendCommand( gameObjectId, command )
+end
+
+this.SetFriendlyEnemy = function()
+  local gameObjectId = { type="TppSoldier2" } 
+  local command = { id="SetFriendly", enabled=true }
+  GameObject.SendCommand( gameObjectId, command )
+end
+
+
+this.currentTime=0
+function this.Update()
+   -- InfMenu.DebugPrint("InfMain.Update")
+   -- SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator  
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return
+  end
+  InfButton.UpdateHeld()  
+  this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
+  
+  InfMenu.Update()
+  
+  this.UpdatePhaseMod()
+  
+  InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
+end
+
+--Phase/Alert updates
 this.nextPhaseUpdate=0
 this.lastPhase=0
 this.alertBump=false
 local PHASE_ALERT=TppGameObject.PHASE_ALERT
---
+
 local function PhaseName(index)
   return Ivars.phaseSettings[index+1]
 end
 
-function this.Update()
-   -- InfMenu.DebugPrint("InfMain.Update")
-   -- SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
-    
-  local currentTime=Time.GetRawElapsedTimeSinceStartUp()
-  
-  --WIP Phase/Alert updates DOC: Phases-Alerts.txt
+function this.UpdatePhaseMod()
+--Phase/Alert updates DOC: Phases-Alerts.txt
   --TODO RETRY, see if you can get when player comes into cp range better, playerPhase doesnt change till then
   --RESEARCH music also starts up
   --then can shift to game msg="ChangePhase" subscription
+  
+  if TppLocation.IsMotherBase() or TppLocation.IsMBQF() then
+    return
+  end
+  
   local currentPhase=vars.playerPhase
   local minPhase=gvars.minPhase
   local maxPhase=gvars.maxPhase
@@ -385,7 +337,7 @@ function this.Update()
     end
   end
   
-  if gvars.enablePhaseMod==1 and this.nextPhaseUpdate < currentTime then
+  if gvars.enablePhaseMod==1 and this.nextPhaseUpdate < this.currentTime then
     --InfMenu.DebugPrint("InfMain.Update phase mod")
     --local minPhase=gvars.minPhase
     --local maxPhase=gvars.maxPhase
@@ -437,11 +389,11 @@ function this.Update()
     InfMenu.DebugPrint(debugMessage)
     end--]]
   end
-  if gvars.enablePhaseMod==1 and this.nextPhaseUpdate < currentTime then    
+  if gvars.enablePhaseMod==1 and this.nextPhaseUpdate < this.currentTime then    
     local phaseUpdateRate=gvars.phaseUpdateRate
     
     if phaseUpdateRate == 0 then
-      this.nextPhaseUpdate = currentTime--GOTCHA: wont reflect changes to rate and range till next update
+      this.nextPhaseUpdate = this.currentTime--GOTCHA: wont reflect changes to rate and range till next update
     else
       local phaseUpdateRange=gvars.phaseUpdateRange
       local phaseUpdateRangeHalf=phaseUpdateRange*0.5
@@ -452,10 +404,126 @@ function this.Update()
       end
       
       local randomRange=math.random(phaseUpdateMin,phaseUpdateMax)
-      this.nextPhaseUpdate = currentTime + randomRange--GOTCHA: wont reflect changes to rate and range till next update
+      this.nextPhaseUpdate = this.currentTime + randomRange--GOTCHA: wont reflect changes to rate and range till next update
     end 
   end 
   this.lastPhase=currentPhase
 end
+
+
+--[[
+function this.WarpPlayerMode()
+
+
+    vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY))
+    --local pos={8.647,.8,-28.748}
+    --local rotY=-25
+    --pos,rotY=mtbs_cluster.GetPosAndRotY("Medical","plnt0",pos,rotY)
+    local rotY=0
+    --local pos={9,.8,-42.5}--command helipad
+    local pos={-139,-3.20,-975}
+    
+    
+    TppPlayer.Warp{pos=pos,rotY=rotY}
+    --Player.RequestToSetCameraRotation{rotX=0,rotY=rotY}
+    
+    --TppPlayer.SetInitialPosition(pos,rotY)
+  end
+  
+function this.Update()
+  --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return
+  end
+  InfButton.UpdateHeld()
+  if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
+    local inHeliSpace = TppMission.IsHelicopterSpace(vars.missionCode)
+    if inHeliSpace then
+      if this.topMenu~=InfMenuDefs.heliSpaceMenu then
+        this.topMenu=InfMenuDefs.heliSpaceMenu
+        this.GoMenu(this.topMenu)
+      end
+    else--!ishelispace
+      if this.topMenu~=InfMenuDefs.inMissionMenu then
+        this.topMenu=InfMenuDefs.inMissionMenu
+        this.GoMenu(this.topMenu)
+      end
+    end
+    --tex RETRY: still not happy, want to read menu status but cant find a way
+    if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+      local playerVehicleId=vars.playerVehicleGameObjectId
+      local onVehicle = false
+      if not inHeliSpace then
+      --tex still conflicts with mother base heli reroute, but player should be tapping not holding to do that anyway
+        onVehicle = (Tpp.IsVehicle(playerVehicleId) and not Tpp.IsHelicopter(playerVehicleId)) or Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId) or Tpp.IsEnemyWalkerGear(playerVehicleId) 
+      end
+      if onVehicle then
+      InfMenu.DebugPrint("onVehicle")--DEBUGNOW
+      end
+      if not onVehicle then
+        ToggleMenu()
+      end
+    end
+
+    if this.menuOn then
+      --TODO: tex figure out a way to check better, see general feature do.txt
+      if InfButton.OnButtonDown(InfButton.MB_DEVICE) then
+        this.MenuOff()
+      end
+
+      if InfButton.OnButtonDown(this.toggleMenuButton) then--tex update gvar of current
+        this.SetCurrent()
+        this.DisplayCurrentSetting()
+      end
+      if InfButton.OnButtonDown(this.menuUpButton) then
+        this.PreviousOption()
+        this.DisplayCurrentSetting()
+      end
+      if InfButton.OnButtonDown(this.menuDownButton) then
+        this.NextOption()
+        this.DisplayCurrentSetting()
+      end
+
+      InfButton.ButtonRepeatReset(this.menuRightButton)
+      if InfButton.OnButtonDown(this.menuRightButton) then
+        this.NextSetting()
+        this.DisplayCurrentSetting()
+      elseif InfButton.OnButtonUp(this.menuRightButton) then
+        this.autoDisplayRate=this.autoDisplayDefault
+      elseif InfButton.OnButtonRepeat(this.menuRightButton) then
+        this.autoDisplayRate=this.autoRateHeld
+        this.NextSetting(InfButton.GetRepeatMult())
+      end
+
+      InfButton.ButtonRepeatReset(this.menuLeftButton)
+      if InfButton.OnButtonDown(this.menuLeftButton) then
+        this.PreviousSetting()
+        this.DisplayCurrentSetting()
+      elseif InfButton.OnButtonUp(this.menuLeftButton) then
+        this.autoDisplayRate=this.autoDisplayDefault
+      elseif InfButton.OnButtonRepeat(this.menuLeftButton) then
+        this.autoDisplayRate=this.autoRateHeld
+        this.PreviousSetting(InfButton.GetRepeatMult())
+      end
+
+      if InfButton.OnButtonDown(this.resetSettingButton) then
+        this.ResetSetting()
+        this.PrintLangId"setting_default"--"Setting to default.."
+        this.DisplayCurrentSetting()
+      end
+      if InfButton.OnButtonDown(this.menuBackButton) then
+        this.GoBackCurrent()
+      end
+
+      this.AutoDisplay()
+    end--!menuOn
+  else--!ingame
+    this.menuOn = false
+  end
+  InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
+  --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
+end
+
+--]]
 
 return this

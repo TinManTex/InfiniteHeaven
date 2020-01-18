@@ -49,7 +49,7 @@ function this.IsMBQF()
 end
 function this.SetBuddyBlock(locationId)
   if TppGameSequence.GetGameTitleName()=="TPP"then
-    if locationId==10 or locationId==20 then
+    if locationId==10 or locationId==20 then--afgh,mafr
       if TppBuddy2BlockController.CreateBlock then
         TppBuddy2BlockController.CreateBlock()
       end
@@ -59,7 +59,7 @@ function this.SetBuddyBlock(locationId)
       end
     end
   end
-  return locationPackagePath--NMC: this is a strange one, this function is only called once and doesnt grab the return, the return variable has no declaration anywhere, could be some kind of module, but not named or used like one, or maybe the minifier didnt know what to do with it since it was orphaned?, I guess lua is robust enough to keep rolling if it is an actual error?, interprets the function up to that point, errors dont spill outside the function??
+  return locationPackagePath--RETAILBUG: VERIFY NMC: this is a strange one, this function is only called once and doesnt grab the return, the return variable has no declaration anywhere, could be some kind of module, but not named or used like one, or maybe the minifier didnt know what to do with it since it was orphaned?, I guess lua is robust enough to keep rolling if it is an actual error?, interprets the function up to that point, errors dont spill outside the function??
 end
 MotherBaseStage.RegisterModifyLayoutCodes{0,10,20,30,40,70,80,90,980}
 function this.ModifyMbsLayoutCode(layoutCode)
@@ -69,7 +69,7 @@ this.debug_useDebugMbParam=nil
 function this.DEBUG_UseDebugMbParam()
   this.debug_useDebugMbParam=true
 end
-function this.ApplyPlatformParamToMbStage(n,t)
+function this.ApplyPlatformParamToMbStage(missionCode,baseType)
   if not TppMotherBaseManagement.BaseSvarsToMbsParam then
     return false
   end
@@ -77,37 +77,38 @@ function this.ApplyPlatformParamToMbStage(n,t)
     this.debug_useDebugMbParam=nil
     return false
   end
-  if n==10030 and TppMotherBaseManagement.SetUpMbsParamFor10030 then
+  if missionCode==10030 and TppMotherBaseManagement.SetUpMbsParamFor10030 then
     TppMotherBaseManagement.SetUpMbsParamFor10030()
-  elseif n~=50050 then
-    if TppDefine.EMERGENCY_MISSION_ENUM[n]then
+  elseif missionCode~=50050 then
+    if TppDefine.EMERGENCY_MISSION_ENUM[missionCode]then
       TppUiCommand.MapParamToMbsParam()
     else
-      TppMotherBaseManagement.BaseSvarsToMbsParam{base=t}
+      TppMotherBaseManagement.BaseSvarsToMbsParam{base=baseType}
     end
   else
     TppMotherBaseManagement.BaseFobToMbsParam()
   end
   return true
 end
-function this.GetMbStageHelicopterRoute(t,e,a)
-  local e
-  if t==50050 then
+function this.GetMbStageHelicopterRoute(missionCode,e,a)
+  local heliRoute
+  if missionCode==50050 then
     TppMotherBaseManagement.BaseFobToMbsParam()
-    local a=TppMotherBaseManagement.GetMbsTopologyType{}
-    local n=TppMotherBaseManagement.GetMbsFirstCluster{}
-    local o=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[n+1]}e=string.format("ly%03d_cl%02d_%05d_heli0000|cl%02dpl%01d_mb_fndt_plnt_heli_%05d|rt_apr_of",a,n,t,n,o-1,t)
+    local mbsTopology=TppMotherBaseManagement.GetMbsTopologyType{}
+    local mbsFirstCluster=TppMotherBaseManagement.GetMbsFirstCluster{}
+    local mbsFirstClusterGrade=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[mbsFirstCluster+1]}
+    heliRoute=string.format("ly%03d_cl%02d_%05d_heli0000|cl%02dpl%01d_mb_fndt_plnt_heli_%05d|rt_apr_of",mbsTopology,mbsFirstCluster,missionCode,mbsFirstCluster,mbsFirstClusterGrade-1,missionCode)
   else
-    e=a
+    heliRoute=a
   end
-  return e
+  return heliRoute
 end
 function this.SetForceConstructDevelopCluster()
   this.ApplyPlatformParamToMbStage()
-  local n=TppMotherBaseManagement.GetMbsClusterGrade{category="Develop"}
-  local e=1
-  if n<e then
-    TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Develop",grade=e,buildStatus="Completed",timeMinute=0,isNew=true}
+  local developGrade=TppMotherBaseManagement.GetMbsClusterGrade{category="Develop"}
+  local forceGrade=1
+  if developGrade<forceGrade then
+    TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Develop",grade=forceGrade,buildStatus="Completed",timeMinute=0,isNew=true}
   end
 end
 function this.RegistBaseAssetTable(n,e)
@@ -152,8 +153,8 @@ function this.Init(n)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.ActivateBlock()
-  local n={[1]=true,[30]=true,[50]=true,[55]=true}
-  if n[vars.locationCode]then
+  local noLoadTable={[1]=true,[30]=true,[50]=true,[55]=true}--init,cypr,mtbs,mbqf
+  if noLoadTable[vars.locationCode]then
     return
   end
   local n=StageBlock.GetLoadedLargeBlocks(0)
