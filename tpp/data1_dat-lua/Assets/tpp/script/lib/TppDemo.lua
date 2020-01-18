@@ -339,19 +339,20 @@ function this.SetDemoTransform(n,e)
   if(IsTypeTable(e)==false)then
     return
   end
-  local n
+  local playerPosition
   local a
   if(e.usePlayer==true)then
-    n=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)a=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
+    playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+    a=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
   elseif(e.identifier and e.locatorName)then
-    n,a=Tpp.GetLocatorByTransform(e.identifier,e.locatorName)
+    playerPosition,a=Tpp.GetLocatorByTransform(e.identifier,e.locatorName)
   else
     return
   end
-  if n==nil then
+  if playerPosition==nil then
     return
   end
-  DemoDaemon.SetDemoTransform(t,a,n)
+  DemoDaemon.SetDemoTransform(t,a,playerPosition)
 end
 function this.GetDemoStartPlayerPosition(e)
   local e=mvars.dem_demoList[e]
@@ -377,7 +378,7 @@ function this.PlayOpening(demoFuncs,demoOptions)
   this.AddDemo(demoName,n)
   local o,r
   local t,a
-  local u=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+  local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
   local s=Vector3(0,0,1.98)
   local i=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
   if gvars.mis_orderBoxName~=0 and mvars.mis_orderBoxList~=nil then
@@ -392,7 +393,7 @@ function this.PlayOpening(demoFuncs,demoOptions)
     r=a
   else
     local e=-i:Rotate(s)
-    o=e+u
+    o=e+playerPosition
     r=i
   end
   TppMusicManager.StopMusicPlayer(1)

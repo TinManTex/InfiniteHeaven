@@ -561,10 +561,17 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
     elseif isHeliSpace then
       if gvars.heli_missionStartRoute~=0 then
         local groundStart=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]--tex
-        if gvars.startOnFoot==1 and groundStart~=nil then
-          local groundRot = groundStart.rot or 0
-          TppPlayer.SetInitialPosition(groundStart.pos,groundRot)
-          TppPlayer.SetMissionStartPosition(groundStart.pos,groundRot)         
+        local isMbFree = vars.missionCode==30050 and (nextIsFreeMission or isFreeMission)
+        if gvars.startOnFoot==1 and (groundStart~=nil or isMbFree) then
+          if isMbFree then
+            TppMission.ResetMBFreeStartPositionToCommand()
+            TppMission.SetIsStartFromHelispace()
+          else
+            TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
+            local groundRot = groundStart.rot or 0
+            TppPlayer.SetInitialPosition(groundStart.pos,groundRot)
+            TppPlayer.SetMissionStartPosition(groundStart.pos,groundRot)
+          end
         else--
           TppPlayer.SetStartStatusRideOnHelicopter()
           if mvars.mis_helicopterMissionStartPosition then

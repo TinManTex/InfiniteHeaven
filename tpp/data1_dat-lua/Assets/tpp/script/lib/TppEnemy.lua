@@ -3284,11 +3284,11 @@ function this.ShiftChangeByTime(t)
     end
   end
 end
-local function d(a,e,t)
-  local n=SendCommand(t,{id="GetPosition"})
-  local e=e-n
-  local e=e:GetLengthSqr()
-  if e>a then
+local function CloserToPlayerThanDistSqr(distSqr,playerPosition,gameId)
+  local position=SendCommand(gameId,{id="GetPosition"})
+  local dirVector=playerPosition-position
+  local distSqr=dirVector:GetLengthSqr()
+  if distSqr>distSqr then
     return false
   else
     return true
@@ -3634,7 +3634,7 @@ end
 function this.CheckAllTargetClear(n)
   local n=mvars
   local e=this
-  local a=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+  local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
   TppHelicopter.SetNewestPassengerTable()
   local t={{n.ene_eliminateTargetList,e.CheckSoldierEliminateTarget,"EliminateTargetSoldier"},{n.ene_eliminateHelicopterList,e.CheckHelicopterEliminateTarget,"EliminateTargetHelicopter"},{n.ene_eliminateVehicleList,e.CheckVehicleEliminateTarget,"EliminateTargetVehicle"},{n.ene_eliminateWalkerGearList,e.CheckWalkerGearEliminateTarget,"EliminateTargetWalkerGear"},{n.ene_childTargetList,e.CheckRescueTarget,"childTarget"}}
   if n.ene_rescueTargetOptions then
@@ -3646,7 +3646,7 @@ function this.CheckAllTargetClear(n)
     local e,n,t=t[e][1],t[e][2],t[e][3]
     if IsTypeTable(e)and next(e)then
       for e,t in pairs(e)do
-        if not n(e,a,t)then
+        if not n(e,playerPosition,t)then
           return false
         end
       end
@@ -3655,7 +3655,7 @@ function this.CheckAllTargetClear(n)
   if n.ene_rescueTargetOptions and n.ene_rescueTargetOptions.orCheck then
     local t=false
     for n,i in pairs(n.ene_rescueTargetList)do
-      if e.CheckRescueTarget(n,a,i)then
+      if e.CheckRescueTarget(n,playerPosition,i)then
         t=true
       end
     end
@@ -3669,7 +3669,7 @@ function this.CheckSoldierEliminateTarget(t,i,a)
   if this._IsEliminated(a,n)then
     return true
   elseif this._IsNeutralized(a,n)then
-    if d(T,i,t)then
+    if CloserToPlayerThanDistSqr(T,i,t)then
       return true
     else
       return false
@@ -3707,7 +3707,7 @@ end
 function this.CheckRescueTarget(n,t,a)
   if this.IsRecovered(n)then
     return true
-  elseif d(T,t,n)then
+  elseif CloserToPlayerThanDistSqr(T,t,n)then
     return true
   elseif TppHelicopter.IsInHelicopter(n)then
     return true
@@ -3719,13 +3719,13 @@ function this.FultonRecoverOnMissionGameEnd()
   if mvars.ene_soldierIDList==nil then
     return
   end
-  local i=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-  local n=10
+  local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+  local checkDist=10
   local t=TppMission.GetMissionID()
   if TppMission.IsFOBMission(t)then
-    n=0
+    checkDist=0
   end
-  local a=n*n
+  local distSqr=checkDist*checkDist
   local n
   if Tpp.IsHelicopter(vars.playerVehicleGameObjectId)then
     n=false
@@ -3733,25 +3733,25 @@ function this.FultonRecoverOnMissionGameEnd()
     n=true
   end
   local t=this.GetAllActiveEnemyWalkerGear()
-  for t,e in pairs(t)do
-    if d(a,i,e)then
+  for t,gameId in pairs(t)do
+    if CloserToPlayerThanDistSqr(distSqr,playerPosition,gameId)then
       local t={id="GetResourceId"}
-      local t=GameObject.SendCommand(e,t)
-      TppTerminal.OnFulton(e,nil,nil,t,true,n,PlayerInfo.GetLocalPlayerIndex())
+      local t=GameObject.SendCommand(gameId,t)
+      TppTerminal.OnFulton(gameId,nil,nil,t,true,n,PlayerInfo.GetLocalPlayerIndex())
     end
   end
   TppHelicopter.SetNewestPassengerTable()
   TppTerminal.OnRecoverByHelicopterAlreadyGetPassengerList()
   for r,t in pairs(mvars.ene_soldierIDList)do
     for t,r in pairs(t)do
-      if d(a,i,t)and(not this.IsQuestNpc(t))then
+      if CloserToPlayerThanDistSqr(distSqr,playerPosition,t)and(not this.IsQuestNpc(t))then
         this.AutoFultonRecoverNeutralizedTarget(t,n)
       end
     end
   end
   local t=this.GetAllHostages()
   for r,t in pairs(t)do
-    if((not TppHelicopter.IsInHelicopter(t))and d(a,i,t))and(not this.IsQuestNpc(t))then
+    if((not TppHelicopter.IsInHelicopter(t))and CloserToPlayerThanDistSqr(distSqr,playerPosition,t))and(not this.IsQuestNpc(t))then
       local e=TppMotherBaseManagement.GetStaffIdFromGameObject{gameObjectId=t}
       TppTerminal.OnFulton(t,nil,nil,e,true,n,PlayerInfo.GetLocalPlayerIndex())
     end
@@ -3770,16 +3770,16 @@ function this.CheckQuestTargetOnOutOfActiveArea(n)
   if not IsTypeTable(n)then
     return
   end
-  local o=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-  local t=10
-  local i=t*t
+  local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+  local checkDist=10
+  local distSqr=checkDist*checkDist
   local t=false
   for n,n in pairs(n)do
-    local n=GetGameObjectId(soliderName)
-    if n~=NULL_ID then
-      if d(i,o,n)then
+    local gameId=GetGameObjectId(soliderName)
+    if gameId~=NULL_ID then
+      if CloserToPlayerThanDistSqr(distSqr,playerPosition,gameId)then
         t=true
-        this.AutoFultonRecoverNeutralizedTarget(n)
+        this.AutoFultonRecoverNeutralizedTarget(gameId)
       end
     end
   end
@@ -4758,12 +4758,12 @@ function this.SetupTerminateQuestEnemy(i)
 end
 function this.SetupTerminateQuestHostage(e)
 end
-function this.CheckQuestDistance(e)
-  if Tpp.IsSoldier(e)or Tpp.IsHostage(e)then
-    local t=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-    local n=10
-    local n=n*n
-    if d(n,t,e)then
+function this.CheckQuestDistance(gameId)
+  if Tpp.IsSoldier(gameId)or Tpp.IsHostage(gameId)then
+    local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+    local checkDist=10
+    local distSqr=checkDist*checkDist
+    if CloserToPlayerThanDistSqr(distSqr,playerPosition,gameId)then
       return true
     end
   end

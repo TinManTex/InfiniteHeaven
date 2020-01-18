@@ -336,9 +336,9 @@ end
 elseif n==z then
 GkEventTimerManager.Start(z,2)
 if mvars.paz_isIdleActionEnabled and mvars.paz_currentAction==a then
-local a=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
 local n=e.GetPosition()
-if(a-n):GetLengthSqr()>3*3 then
+if(playerPosition-n):GetLengthSqr()>3*3 then
 e.SendCommandSpecialAction(O)GkEventTimerManager.Start(c,10+foxmath.FRnd()*5)
 mvars.paz_isIdleActionEnabled=false
 end

@@ -2,6 +2,7 @@
 local this = {}
 local StrCode32=Fox.StrCode32
 
+this.groundStartPositionMotherBase={pos={9,0.8,-42.5},rotY=1}--tex command platform helipad
 this.groundStartPositions={
 --story missions unique lzs
   [StrCode32"lz_drp_hillNorth_W0000|rt_drp_hillNorth_W_0000"]={pos={1734.22,66.01,-407.54},},

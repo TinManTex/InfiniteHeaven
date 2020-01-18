@@ -1,8 +1,6 @@
 -- DOBUILD: 1
 --tex SYS: mod menu
 local this={}
---local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
---SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
 
 --LOCALOPT:
 local Buttons=InfButton
@@ -45,16 +43,25 @@ local menuItemGoBack={
   end,
 }
 
-local clockTimeScaleMenuItem={
+local clockTimeScaleItem={
   name="inf_clock_time_scale",
   gvarName="clockTimeScale",
   default=20,
   slider={max=1000,min=1,increment=1},
   onChange=function()
     if not IsDemoPlaying() then
-      TppClock.Start()  
+      TppClock.Start()
     end
   end
+}
+local showPositionItem={
+  name="inf_show_position",
+  default=0,
+  slider=this.switchSlider,
+  settingNames="inf_set_do",
+  onChange=function()
+    TppUiCommand.AnnounceLogView(string.format("%.2f,%.2f,%.2f | %.2f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY))
+  end,
 }
 
 local parametersMenu={
@@ -101,9 +108,9 @@ local motherBaseMenu={
       onChange=function()--DEPENDENCY: mbPlayTime
         if gvars.mbSoldierEquipGrade==0 then
           gvars.mbPlayTime=0
-        elseif gvars.mbSoldierEquipGrade>0 then
-          gvars.mbPlayTime=1
-        end
+      elseif gvars.mbSoldierEquipGrade>0 then
+        gvars.mbPlayTime=1
+      end
       end
     },
     {
@@ -165,7 +172,7 @@ local demosMenu={
       slider={max=(#TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST-1),min=0,increment=1},--tex #Enumtable doesn't seem to work, have a look how .
       settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST,
     },
-    menuItemResetSettings,    
+    menuItemResetSettings,
     menuItemGoBack,
   }
 }
@@ -212,9 +219,26 @@ local patchupMenu={
       settingNames="inf_set_do",
       onChange=function()
         local languageCode=GetAssetConfig"Language"
-        TppUiCommand.AnnounceLogView("Language Code: " .. languageCode)
+        TppUiCommand.AnnounceLogView(this.LangString"inf_language_code" .. ": " .. languageCode)
       end,
     },
+    showPositionItem,
+    {
+      name="inf_print_buttonmasks",
+      default=0,
+      slider=this.switchSlider,
+      settingNames="inf_set_switch",
+      onChange=function()
+        InfButton.DEBUG_PrintMasks()
+      end,
+    },
+    --[[{--tex cant get gvar startoffline to read in init sequence, yet isnewgame seems to be fine?
+      name="inf_start_offline",--"Start Offline",
+      gvarName="startOffline",
+      default=0,
+      slider=this.switchSlider,
+      settingNames="inf_set_switch",
+    },--]]
     menuItemGoBack,
   }
 }
@@ -233,12 +257,12 @@ this.heliSpaceMenu={
         if gvars.isManualSubsistence==0 then
           gvars.subsistenceLoadout=0
           gvars.noCentralLzs=0
-        else
-          gvars.noCentralLzs=1
-          if gvars.subsistenceLoadout==0 then
-            gvars.subsistenceLoadout=1
-          end
+      else
+        gvars.noCentralLzs=1
+        if gvars.subsistenceLoadout==0 then
+          gvars.subsistenceLoadout=1
         end
+      end
       end,
     },
     {
@@ -263,7 +287,7 @@ this.heliSpaceMenu={
       slider=this.switchSlider,
       settingNames="inf_set_switch",
     },
-    clockTimeScaleMenuItem,
+    clockTimeScaleItem,
     --[[{
       name="inf_force_enemy_subtype",
       gvarName="forceSoldierSubType",
@@ -314,13 +338,6 @@ this.heliSpaceMenu={
     motherBaseMenu,
     demosMenu,
     patchupMenu,
-    --[[{--tex cant get gvar startoffline to read in init sequence, yet isnewgame seems to be fine?
-      name="Start Offline",
-      gvarName="startOffline",
-      default=0,
-      slider=this.switchSlider,
-      settingNames={"False","True"},
-    },--]]
     menuItemResetSettings,
     menuItemMenuOff
   }
@@ -330,7 +347,8 @@ this.inMissionMenu={
   name="inf_main_menu",
   parent=nil,
   options={
-    clockTimeScaleMenuItem,  
+    clockTimeScaleItem,
+    showPositionItem,
     menuItemResetSettings,
     menuItemMenuOff
   }
@@ -340,7 +358,7 @@ this.allMenus={--SYNC: currently used for resetall
   this.heliSpaceMenu,
   parametersMenu,
   motherBaseMenu,
-  demosMenu, 
+  demosMenu,
   patchupMenu,
   this.inMissionMenu,
 }
@@ -358,6 +376,7 @@ this.autoRateHeld=0.85
 this.autoDisplayRate=this.autoDisplayDefault
 this.menuOn=false
 this.toggleMenuButton=PlayerPad.RELOAD
+this.toggleMenuButtonInGame=PlayerPad.EVADE
 this.toggleMenuHoldTime=1
 this.menuRightButton=PlayerPad.RIGHT
 this.menuLeftButton=PlayerPad.LEFT
@@ -398,7 +417,7 @@ function this.IsCurrentOptionMenu()
   if modSetting.options~=nil then
     return true
   end
-  return false  
+  return false
 end
 function this.IncrementSetting(current, increment, min, max)
   local newSetting=current+increment
@@ -428,7 +447,7 @@ function this.ChangeSetting(modSetting,value,incrementMult)
     end
     --TppUiCommand.AnnounceLogView("DBG:MNU: newValue round:"..value)
   end
-  
+
   if modSetting.gvarName~=nil then
     --TppUiCommand.AnnounceLogView("DBG:MNU: found gvarName:" .. modSetting.gvarName)--tex DEBUG: CULL:
     local gvar=gvars[modSetting.gvarName]
@@ -465,10 +484,10 @@ function this.ChangeSetting(modSetting,value,incrementMult)
         end
       end
       --newSetting=TppMath.Clamp(newSetting,modSetting.slider.min,modSetting.slider.max)
-    end
-    if IsFunc(modSetting.onChange) then
-      modSetting.onChange()
-    end
+  end
+  if IsFunc(modSetting.onChange) then
+    modSetting.onChange()
+  end
   end
   --TppUiCommand.AnnounceLogView("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
   return newSetting
@@ -514,14 +533,6 @@ function this.GoMenu(menu)
     TppUiCommand.AnnounceLogView("Option Menu Error: parent = nil")
   end
 end
---[[function this.GoBack(menu)
-  if menu.parent==nil then
-    TppUiCommand.AnnounceLogView("Option Menu Error: parent = nil")
-    return
-  end
-  this.GoMenu(menu.parent)
-  this.currentOption=this.previousMenuOption
-end--]]
 function this.GoBackCurrent()
   if this.currentMenu.parent==nil then
     if this.currentMenu~=this.topMenu then
@@ -529,8 +540,8 @@ function this.GoBackCurrent()
     end
     return
   end
-  this.GoMenu(this.currentMenu.parent)
   this.currentOption=this.previousMenuOption
+  this.GoMenu(this.currentMenu.parent)
 end
 
 --tex display settings
@@ -538,7 +549,7 @@ function this.DisplayCurrentSetting()
   if this.menuOn then
     this.DisplaySetting(this.currentOption)
   end
-end  
+end
 
 local optionSeperators={
   equals=" = ",
@@ -572,7 +583,7 @@ end
 function this.DisplaySettings()--tex display all
   for i=1,#this.currentMenuOptions do
     this.DisplaySetting(i)
-  end
+end
 end
 function this.AutoDisplay()
   if this.autoDisplayRate > 0 then
@@ -602,10 +613,10 @@ function this.ResetSettings()
   for n,menu in ipairs(this.allMenus) do
     for m,modSetting in ipairs(menu.options) do
       if modSetting.gvarName~=nil then
-        gvars[modSetting.gvarName]=modSetting.default      
+        gvars[modSetting.gvarName]=modSetting.default
         if IsFunc(modSetting.onChange) then
-        modSetting.onChange()
-      end
+          modSetting.onChange()
+        end
       end
     end
   end
@@ -634,9 +645,15 @@ function this.LangString(langId)
     TppUiCommand.AnnounceLogView"AnnounceLogLangId langId empty"
     return ""
   end
-  --[[if AssetConfiguration then  
+  --[[if AssetConfiguration then
+
+
   else
+
+
     TppUiCommand.AnnounceLogView"no AssetConfiguration"
+
+
   end--]]
   local languageCode=GetAssetConfig"Language"
   if InfLang[languageCode]==nil then
@@ -648,7 +665,7 @@ function this.LangString(langId)
     --TppUiCommand.AnnounceLogView("no langstring for " .. languageCode)
     langString=InfLang.eng[langId]
   end
-  
+
   if langString==nil or langString=="" then
     --TppUiCommand.AnnounceLogView"AnnounceLogLangId langString empty"
     return langId
@@ -661,33 +678,33 @@ function this.LangTableString(langId,index)--remember lua tables from 1
   if langId==nil or langId=="" then
     TppUiCommand.AnnounceLogView"AnnounceLogLangId langId empty"
     return ""
-  end
-  local languageCode=GetAssetConfig"Language"
-  if InfLang[languageCode]==nil then
-    --TppUiCommand.AnnounceLogView("no lang in inflang")
-    languageCode="eng"
-  end
-  local langTable=InfLang[languageCode][langId]
-  if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
-    --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)
-    langTable=InfLang.eng[langId]
-  end
-  
-  if langTable==nil or langTable=="" or not IsTable(langTable) then
-    --TppUiCommand.AnnounceLogView"AnnounceLogLangId langTable empty"
-    return langId .. ":" .. index
-  end
-  
-  if index < 1 or index > #langTable then
-    --TppUiCommand.AnnounceLogView("LangTableString - index for " .. langId " out of bounds")
-    return langId .. " OUTOFBOUNDS:" .. index
-  end
+end
+local languageCode=GetAssetConfig"Language"
+if InfLang[languageCode]==nil then
+  --TppUiCommand.AnnounceLogView("no lang in inflang")
+  languageCode="eng"
+end
+local langTable=InfLang[languageCode][langId]
+if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
+  --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)
+  langTable=InfLang.eng[langId]
+end
 
-  return langTable[index]
+if langTable==nil or langTable=="" or not IsTable(langTable) then
+  --TppUiCommand.AnnounceLogView"AnnounceLogLangId langTable empty"
+  return langId .. ":" .. index
+end
+
+if index < 1 or index > #langTable then
+  --TppUiCommand.AnnounceLogView("LangTableString - index for " .. langId " out of bounds")
+  return langId .. " OUTOFBOUNDS:" .. index
+end
+
+return langTable[index]
 end
 
 function this.AnnounceLogLangId(langId)
-   TppUiCommand.AnnounceLogView(this.LangString(langId))
+  TppUiCommand.AnnounceLogView(this.LangString(langId))
 end
 
 function this.Update()
@@ -699,7 +716,10 @@ function this.Update()
   end
   InfButton.UpdateHeld()
   if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
-    if TppMission.IsHelicopterSpace(vars.missionCode)then
+    --InfButton.DEBUG_PrintPressed()--DEBUGNOW:  
+    --tex RETRY: still not happy, want to read menu status but cant find a way
+    local inHeliSpace = TppMission.IsHelicopterSpace(vars.missionCode)
+    if inHeliSpace then
       if this.topMenu~=this.heliSpaceMenu then
         this.topMenu=this.heliSpaceMenu
         this.GoMenu(this.topMenu)
@@ -709,31 +729,37 @@ function this.Update()
         this.topMenu=this.inMissionMenu
         this.GoMenu(this.topMenu)
       end
-    --[[if InfMain.DEBUGMODE then
-        if InfButton.OnButtonDown(PlayerPad.LIGHT_SWITCH) then
-          TppUiCommand.AnnounceLogView("")
-        end
-      end--]]
     end--game space check
-    
-    --tex RETRY: still not happy, want to read menu status but cant find a way
-    if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+
+    local function ToggleMenu() --TODO: break out
       this.menuOn = not this.menuOn
       if this.menuOn then
         this.GetSetting()
         TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"inf_menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
-        --CULL: TppUiCommand.AnnounceLogViewJoinLangId("inf_modname_version_help", "inf_menu_open_help", InfMain.modVersion)--"Infinite Heaven r%d %s" --"(Press Up/Down,Left/Right to navigate menu)"
-        --TppUiCommand.AnnounceLogViewLangId("inf_modname_version_help",InfMain.modVersion,"inf_menu_open_help")--RETAILBUG: or rather, poor implementation, AnnounceLogViewLangId will only accept the string, number, or number, number as it's paramaters, other combinations lock the game up. Evidence from other localization strings in lng2 files suggest other functions are less restricted.
       else
         this.MenuOff()
       end
-    end--togglemenu
+    end
     
+    if inHeliSpace then
+      if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+        ToggleMenu()
+      end
+    else-- not inhelispace
+      if InfButton.OnButtonHoldTime(this.toggleMenuButtonInGame) then
+        local playerVehicleId=vars.playerVehicleGameObjectId
+        local onHorse = Tpp.IsHorse(playerVehicleId)
+        if not onHorse then
+          ToggleMenu()
+        end
+      end
+    end--inhelispace
+
     if this.menuOn then
       if InfButton.OnButtonDown(PlayerPad.MB_DEVICE) then
         this.MenuOff()
       end
-      
+
       if InfButton.OnButtonDown(this.toggleMenuButton) then
         this.SetCurrent()
         this.DisplayCurrentSetting()
@@ -746,7 +772,7 @@ function this.Update()
         this.NextOption()
         this.DisplayCurrentSetting()
       end
-      
+
       InfButton.ButtonRepeatReset(this.menuRightButton)
       if InfButton.OnButtonDown(this.menuRightButton) then
         this.NextSetting()
@@ -777,7 +803,7 @@ function this.Update()
       if InfButton.OnButtonDown(this.menuBackButton) then
         this.GoBackCurrent()
       end
-      
+
       this.AutoDisplay()
     end--!menuOn
   else--!ingame

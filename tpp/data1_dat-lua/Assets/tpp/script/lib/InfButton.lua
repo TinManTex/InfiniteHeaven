@@ -1,7 +1,6 @@
 -- DOBUILD: 1
 local this={}
---local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
---SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
+
 local incrementMultIncrementMult=1.5--tex i r good at naming
 local maxIncrementMult=50
 local defaultIncrementMult=1
@@ -23,11 +22,11 @@ this.buttonMasks={--tex: SYNC: buttonStates
   PlayerPad.ZOOM_CHANGE,
   PlayerPad.LIGHT_SWITCH,
   PlayerPad.EVADE,
-  --PlayerPad.VEHICLE_FIRE,--]]--tex button/bitmask always set for some reason
+ -- PlayerPad.VEHICLE_FIRE,--]]--tex button/bitmask always set for some reason
   PlayerPad.VEHICLE_CALL,
   PlayerPad.VEHICLE_DASH,
   --PlayerPad.BUTTON_PLACE_MARKER,--]]--tex button/bitmask always set for some reason
-  --PlayerPad.PLACE_MARKER,--]]--tex button/bitmask always set for some reason
+ -- PlayerPad.PLACE_MARKER,--]]--tex button/bitmask always set for some reason
   PlayerPad.INTERROGATE,
   PlayerPad.RIDE_ON,
   PlayerPad.RIDE_OFF,
@@ -44,8 +43,152 @@ this.buttonMasks={--tex: SYNC: buttonStates
   PlayerPad.TRIGGER_R,
   PlayerPad.TRIGGER_ACCEL,
   PlayerPad.TRIGGER_BREAK,
-  --PlayerPad.ALL--]]
+  PlayerPad.ALL--]]
 }
+this.buttonMasksNames={
+  "PlayerPad.DECIDE",
+  "PlayerPad.STANCE",
+  "PlayerPad.ACTION",
+  "PlayerPad.RELOAD",
+  "PlayerPad.STOCK",
+  "PlayerPad.MB_DEVICE",
+  "PlayerPad.CALL",
+  "PlayerPad.UP",
+  "PlayerPad.DOWN",
+  "PlayerPad.LEFT",
+  "PlayerPad.RIGHT",
+  "PlayerPad.SIDE_ROLL",
+  "PlayerPad.ZOOM_CHANGE",
+  "PlayerPad.LIGHT_SWITCH",
+  "PlayerPad.EVADE",
+  --"PlayerPad.VEHICLE_FIRE",--]]--tex button/bitmask always set for some reason
+  "PlayerPad.VEHICLE_CALL",
+  "PlayerPad.VEHICLE_DASH",
+  --"PlayerPad.BUTTON_PLACE_MARKER",--]]--tex button/bitmask always set for some reason
+  --"PlayerPad.PLACE_MARKER",--]]--tex button/bitmask always set for some reason
+  "PlayerPad.INTERROGATE",
+  "PlayerPad.RIDE_ON",
+  "PlayerPad.RIDE_OFF",
+  "PlayerPad.VEHICLE_CHANGE_SIGHT",
+  "PlayerPad.VEHICLE_LIGHT_SWITCH",
+  "PlayerPad.VEHICLE_TOGGLE_WEAPON",
+  "PlayerPad.JUMP",
+  "PlayerPad.MOVE_ACTION",
+  "PlayerPad.PRIMARY_WEAPON",
+  "PlayerPad.SECONDARY_WEAPON",
+  --[["PlayerPad.STICK_L",--
+  "PlayerPad.STICK_R",
+  "PlayerPad.TRIGGER_L",
+  "PlayerPad.TRIGGER_R",
+  "PlayerPad.TRIGGER_ACCEL",
+  "PlayerPad.TRIGGER_BREAK",
+  "PlayerPad.ALL"--]]
+}
+
+this.buttonMasksForPrint={
+  PlayerPad.DECIDE,
+  PlayerPad.STANCE,
+  PlayerPad.ACTION,
+  PlayerPad.RELOAD,
+  PlayerPad.STOCK,
+  PlayerPad.MB_DEVICE,
+  PlayerPad.CALL,
+  PlayerPad.UP,
+  PlayerPad.DOWN,
+  PlayerPad.LEFT,
+  PlayerPad.RIGHT,
+  PlayerPad.SIDE_ROLL,
+  PlayerPad.ZOOM_CHANGE,
+  PlayerPad.LIGHT_SWITCH,
+  PlayerPad.EVADE,
+  PlayerPad.VEHICLE_FIRE,--]]--tex button/bitmask always set for some reason
+  PlayerPad.VEHICLE_CALL,
+  PlayerPad.VEHICLE_DASH,
+  PlayerPad.BUTTON_PLACE_MARKER,--]]--tex button/bitmask always set for some reason
+  PlayerPad.PLACE_MARKER,--]]--tex button/bitmask always set for some reason
+  PlayerPad.INTERROGATE,
+  PlayerPad.RIDE_ON,
+  PlayerPad.RIDE_OFF,
+  PlayerPad.VEHICLE_CHANGE_SIGHT,
+  PlayerPad.VEHICLE_LIGHT_SWITCH,
+  PlayerPad.VEHICLE_TOGGLE_WEAPON,
+  PlayerPad.JUMP,
+  PlayerPad.MOVE_ACTION,
+  PlayerPad.PRIMARY_WEAPON,
+  PlayerPad.SECONDARY_WEAPON,
+  PlayerPad.STICK_L,--
+  PlayerPad.STICK_R,
+  PlayerPad.TRIGGER_L,
+  PlayerPad.TRIGGER_R,
+  PlayerPad.TRIGGER_ACCEL,
+  PlayerPad.TRIGGER_BREAK,
+  PlayerPad.ALL--]]
+}
+this.buttonMasksNamesForPrint={
+  "PlayerPad.DECIDE",
+  "PlayerPad.STANCE",
+  "PlayerPad.ACTION",
+  "PlayerPad.RELOAD",
+  "PlayerPad.STOCK",
+  "PlayerPad.MB_DEVICE",
+  "PlayerPad.CALL",
+  "PlayerPad.UP",
+  "PlayerPad.DOWN",
+  "PlayerPad.LEFT",
+  "PlayerPad.RIGHT",
+  "PlayerPad.SIDE_ROLL",
+  "PlayerPad.ZOOM_CHANGE",
+  "PlayerPad.LIGHT_SWITCH",
+  "PlayerPad.EVADE",
+  "PlayerPad.VEHICLE_FIRE",--]]--tex button/bitmask always set for some reason
+  "PlayerPad.VEHICLE_CALL",
+  "PlayerPad.VEHICLE_DASH",
+  "PlayerPad.BUTTON_PLACE_MARKER",--]]--tex button/bitmask always set for some reason
+  "PlayerPad.PLACE_MARKER",--]]--tex button/bitmask always set for some reason
+  "PlayerPad.INTERROGATE",
+  "PlayerPad.RIDE_ON",
+  "PlayerPad.RIDE_OFF",
+  "PlayerPad.VEHICLE_CHANGE_SIGHT",
+  "PlayerPad.VEHICLE_LIGHT_SWITCH",
+  "PlayerPad.VEHICLE_TOGGLE_WEAPON",
+  "PlayerPad.JUMP",
+  "PlayerPad.MOVE_ACTION",
+  "PlayerPad.PRIMARY_WEAPON",
+  "PlayerPad.SECONDARY_WEAPON",
+  "PlayerPad.STICK_L",--
+  "PlayerPad.STICK_R",
+  "PlayerPad.TRIGGER_L",
+  "PlayerPad.TRIGGER_R",
+  "PlayerPad.TRIGGER_ACCEL",
+  "PlayerPad.TRIGGER_BREAK",
+  "PlayerPad.ALL"--]]
+}
+function this.DEBUG_PrintMasks()
+  TppUiCommand.AnnounceLogView("ButtonMasks:")
+  local masks = ""
+  for i, mask in ipairs(this.buttonMasksForPrint) do
+    masks = masks..this.buttonMasksNamesForPrint[i] .. "=" .. mask .. "\n"
+    --  0 > 287 < 289 
+    if string.len(masks) > 288 then
+      break
+    end
+  end
+  TppUiCommand.AnnounceLogView(masks)
+end
+function this.DEBUG_PrintPressed()
+  for i, button in ipairs(this.buttonMasks) do
+    if this.OnButtonDown(button) then
+      TppUiCommand.AnnounceLogView(this.buttonMasksNames[i] .. "=" .. button)
+    end
+  end
+end
+function this.ButtonDown(button)
+  --[[if (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then
+    TppUiCommand.AnnounceLogView("ButtonPressed:" .. bit.tohex(button))--tex DEBUG: CULL:
+  end--]]
+  return bit.band(PlayerVars.scannedButtonsDirect,button)==button
+end
+
 this.buttonStates={--tex: for defaults, not specfic button setups. SYNC: buttonmasks
   [PlayerPad.DECIDE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
   [PlayerPad.STANCE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},

@@ -925,20 +925,20 @@ function this.Init()
     elseif isFOBMission then
       this.RegisterFobSneakPauseMenuPage()
     else
-      local e={GamePauseMenu.RESTART_FROM_MISSION_START,GamePauseMenu.RETURN_TO_TITLE,GamePauseMenu.SIGN_IN,GamePauseMenu.STORE_ITEM,GamePauseMenu.CONTROLS_AND_TIPS_ITEM,GamePauseMenu.OPEN_OPTION_MENU}
+      local pauseMenuItems={GamePauseMenu.RESTART_FROM_MISSION_START,GamePauseMenu.RETURN_TO_TITLE,GamePauseMenu.SIGN_IN,GamePauseMenu.STORE_ITEM,GamePauseMenu.CONTROLS_AND_TIPS_ITEM,GamePauseMenu.OPEN_OPTION_MENU}
       if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE then
-        table.insert(e,6,GamePauseMenu.RECORDS_ITEM)
+        table.insert(pauseMenuItems,6,GamePauseMenu.RECORDS_ITEM)
       end
       if TppMission.IsStartFromHelispace()then
-        table.insert(e,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)
+        table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)
       end
       if TppMission.IsStartFromFreePlay()then
-        table.insert(e,3,GamePauseMenu.ABORT_MISSION)
+        table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION)
       end
       if vars.missionCode~=10115 then
-        table.insert(e,1,GamePauseMenu.RESTART_FROM_CHECK_POINT)
+        table.insert(pauseMenuItems,1,GamePauseMenu.RESTART_FROM_CHECK_POINT)
       end
-      TppUiCommand.RegisterPauseMenuPage(e)
+      TppUiCommand.RegisterPauseMenuPage(pauseMenuItems)
     end
     local e=false
     if isFOBMission then
@@ -958,17 +958,17 @@ function this.Init()
     elseif isFOBMission then
       this.RegisterFobSneakGameOverMenuItems()
     else
-      local e={GameOverMenu.GAME_OVER_RESTART,GameOverMenu.GAME_OVER_TITLE}
+      local gameOverMenuItems={GameOverMenu.GAME_OVER_RESTART,GameOverMenu.GAME_OVER_TITLE}
       if TppMission.IsStartFromHelispace()then
-        table.insert(e,3,GameOverMenu.GAME_OVER_ABORT_RETURN_TO_ACC)
+        table.insert(gameOverMenuItems,3,GameOverMenu.GAME_OVER_ABORT_RETURN_TO_ACC)
       end
       if TppMission.IsStartFromFreePlay()then
-        table.insert(e,3,GameOverMenu.GAME_OVER_ABORT)
+        table.insert(gameOverMenuItems,3,GameOverMenu.GAME_OVER_ABORT)
       end
       if vars.missionCode~=10115 then
-        table.insert(e,1,GameOverMenu.GAME_OVER_CONTINUE)
+        table.insert(gameOverMenuItems,1,GameOverMenu.GAME_OVER_CONTINUE)
       end
-      TppUiCommand.RegisterGameOverMenuItems(e)
+      TppUiCommand.RegisterGameOverMenuItems(gameOverMenuItems)
     end
   end
   if i then

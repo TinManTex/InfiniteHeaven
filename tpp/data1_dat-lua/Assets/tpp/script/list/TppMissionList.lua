@@ -440,8 +440,10 @@ missionPackTable[10130]=function(p)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV_CANNON)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10130/s10130_area02.fpk"elseif TppPackList.IsMissionPackLabel"CodeTalkerClearDemo"then
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10130/s10130_area03.fpk"else
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10130/s10130_area02.fpk"
+    elseif TppPackList.IsMissionPackLabel"CodeTalkerClearDemo"then
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10130/s10130_area03.fpk"
+    else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
     TppPackList.AddDefaultMissionAreaPack(p)
   end

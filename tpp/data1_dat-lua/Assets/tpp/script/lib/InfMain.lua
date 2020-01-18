@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r56"
+this.modVersion = "r59"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
@@ -12,13 +12,18 @@ local Enum=TppDefine.Enum
 local OSP_CLEAR_WEAPON_TABLE={{primaryHip="EQP_None"},{primaryBack="EQP_None"},{secondary="EQP_None"}}
 local OSP_SECONDARY_ONLY_WEAPON_TABLE={{primaryHip="EQP_None"},{primaryBack="EQP_None"}}
 local OSP_TERTIARY_ONLY_WEAPON_TABLE={{primaryHip="EQP_None"},{secondary="EQP_None"}}
+local OSP_PRIMARY_ONLY_CLEAR_WEAPON_TABLE={{primaryHip="EQP_None"}}
+local OSP_SECONDARY_ONLY_CLEAR_WEAPON_TABLE={{secondary="EQP_None"}}
 this.SUBSISTENCE_CLEAR_SUPPORT_WEAPON_TABLE={{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"}}
 this.subsistenceLoadouts={
   OSP_CLEAR_WEAPON_TABLE,--pure
   OSP_SECONDARY_ONLY_WEAPON_TABLE,
-  OSP_TERTIARY_ONLY_WEAPON_TABLE
+  OSP_TERTIARY_ONLY_WEAPON_TABLE,
+  OSP_PRIMARY_ONLY_CLEAR_WEAPON_TABLE,
+  OSP_SECONDARY_ONLY_CLEAR_WEAPON_TABLE,
 }
 
+this.MAX_ANNOUNCE_STRING=256--tex sting length announcde log can handle before crashing the game, actually 288 but that worries me, so keep a little lower
 this.MAX_SOLDIER_STATE_COUNT = 360--tex from <mission>_enemy.lua, free missions
 this.numQuests=157--tex added SYNC: number of quests
 this.disallowSideOps={[144]=true};

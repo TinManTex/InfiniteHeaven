@@ -1,9 +1,12 @@
 = Infinite heaven =
-r57 2015-10-31
+r59 2015-10-31
 by tin man tex
 For MGSV version 1.0.4.3 (1.04 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
+
+Note for r59:
+In game menu toggle changed to Hold-<Quick dive> (space key or X button), ACC menu still on <Reload>
 
 New Options for r56:
 OSP modes now only affect the main weapons as was originally instended and does not clear support weapons.
@@ -133,7 +136,9 @@ Use uninstall in SnakeBite.
 
 Usage:
 While in ACC Heli (full menu), or in-mission (small menu)
-Hold the weapon <Reload> button (default R on keyboard, or B on controller) for a second to toggle the mod menu.
+Hold the weapon <Reload> button (default R on keyboard, or B on controller) for a second to toggle the mod menu when in the ACC
+Or hold <Quick dive> (space key or X button)when in mission.
+
 (modding limitation, currently no know way to detect if in idroid menu where navigation keys conflict)
 So toggle mod menu on, change setting, toggle it off before you use idroid.
 
@@ -168,6 +173,14 @@ When changing General Enemy Parameters back to Default you must exit to title to
 There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
 
 Changelog:
+r59 - 2015-10-31 - public release
+In game menu toggle change to Evade
+
+r58
+Show player position
+Start on foot for motherbase, starts on command platform
+Even more info added to InfLang for translators
+
 r57 - 2015-10-31 - test release
 Chinese translation included, unconfirmed language code - thanks to rikimtasu
 Patchup>>Show language code

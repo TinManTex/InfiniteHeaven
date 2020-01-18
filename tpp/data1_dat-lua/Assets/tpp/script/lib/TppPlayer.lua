@@ -699,9 +699,9 @@ function this.IsDecoy(e)
   end
 end
 function this.IsMine(e)
-  local e=TppEquip.GetSupportWeaponTypeId(e)
-  local a={[TppEquip.SWP_TYPE_DMine]=true,[TppEquip.SWP_TYPE_SleepingGusMine]=true,[TppEquip.SWP_TYPE_AntitankMine]=true,[TppEquip.SWP_TYPE_ElectromagneticNetMine]=true}
-  if a[e]then
+  local supportWeaponTypeId=TppEquip.GetSupportWeaponTypeId(e)
+  local mineTypes={[TppEquip.SWP_TYPE_DMine]=true,[TppEquip.SWP_TYPE_SleepingGusMine]=true,[TppEquip.SWP_TYPE_AntitankMine]=true,[TppEquip.SWP_TYPE_ElectromagneticNetMine]=true}
+  if mineTypes[supportWeaponTypeId]then
     return true
   else
     return false
@@ -1493,19 +1493,19 @@ function this.DeclareSVars()
     nil
   }
 end
-function this.OnAllocate(e)
-  if(e and e.sequence)and e.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE then
-    mvars.ply_equipMissionBlockGroupSize=e.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE
+function this.OnAllocate(missionTable)
+  if(missionTable and missionTable.sequence)and missionTable.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE then
+    mvars.ply_equipMissionBlockGroupSize=missionTable.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE
   else
     mvars.ply_equipMissionBlockGroupSize=TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE
   end
-  if(e and e.sequence)and e.sequence.MAX_PICKABLE_LOCATOR_COUNT then
-    mvars.ply_maxPickableLocatorCount=e.sequence.MAX_PICKABLE_LOCATOR_COUNT
+  if(missionTable and missionTable.sequence)and missionTable.sequence.MAX_PICKABLE_LOCATOR_COUNT then
+    mvars.ply_maxPickableLocatorCount=missionTable.sequence.MAX_PICKABLE_LOCATOR_COUNT
   else
     mvars.ply_maxPickableLocatorCount=TppDefine.PICKABLE_MAX
   end
-  if(e and e.sequence)and e.sequence.MAX_PLACED_LOCATOR_COUNT then
-    mvars.ply_maxPlacedLocatorCount=e.sequence.MAX_PLACED_LOCATOR_COUNT
+  if(missionTable and missionTable.sequence)and missionTable.sequence.MAX_PLACED_LOCATOR_COUNT then
+    mvars.ply_maxPlacedLocatorCount=missionTable.sequence.MAX_PLACED_LOCATOR_COUNT
   else
     mvars.ply_maxPlacedLocatorCount=TppDefine.PLACED_MAX
   end
@@ -1638,7 +1638,7 @@ function this.SetSelfSubsistenceOnHardMission()--tex reworked, see below for ori
     loadout=1
   end
   if gvars.isManualSubsistence == InfMain.SETTING_SUBSISTENCE_PROFILE.PURE then
-    if loadout==3 then--tex tertiary not allowed on pure
+    if loadout>2 then--tex only pure osp or secondary free on pure
       loadout=1
       gvars.isManualSubsistence=1
     end
@@ -1890,25 +1890,27 @@ function this.CheckAllStationPickedUp()
     end
   end
 end
-function this.OnPickUpPlaced(e,e,a)
-  local e=GameObject.GetGameObjectIdByIndex("TppBuddyDog2",0)
-  if e~=NULL_ID then
-    SendCommand(e,{id="GetPlacedItem",index=a})
+function this.OnPickUpPlaced(e,e,itemIndex)
+  local gameId=GameObject.GetGameObjectIdByIndex("TppBuddyDog2",0)
+  if gameId~=NULL_ID then
+    SendCommand(gameId,{id="GetPlacedItem",index=itemIndex})
   end
 end
-function this.OnPickUpWeapon(t,a,e)
-  if a==TppEquip.EQP_IT_Cassette then
+function this.OnPickUpWeapon(t,equipType,e)
+  if equipType==TppEquip.EQP_IT_Cassette then
     TppCassette.AcquireOnPickUp(e)
   end
 end
 function this.RestoreSupplyCbox()
   if this.IsExistSupplyCboxSystem()then
-    local e={type="TppSupplyCboxSystem"}SendCommand(e,{id="RestoreRequest"})
+    local e={type="TppSupplyCboxSystem"}
+    SendCommand(e,{id="RestoreRequest"})
   end
 end
 function this.StoreSupplyCbox()
   if this.IsExistSupplyCboxSystem()then
-    local e={type="TppSupplyCboxSystem"}SendCommand(e,{id="StoreRequest"})
+    local e={type="TppSupplyCboxSystem"}
+    SendCommand(e,{id="StoreRequest"})
   end
 end
 function this.IsExistSupplyCboxSystem()
@@ -1939,8 +1941,8 @@ function this.IsExistSupportAttackSystem()
 end
 function this.StorePlayerDecoyInfos()
   if this.IsExistDecoySystem()then
-    local e={type="TppDecoySystem"}
-    SendCommand(e,{id="StorePlayerDecoyInfos"})
+    local command={type="TppDecoySystem"}
+    SendCommand(command,{id="StorePlayerDecoyInfos"})
   end
 end
 function this.IsExistDecoySystem()
