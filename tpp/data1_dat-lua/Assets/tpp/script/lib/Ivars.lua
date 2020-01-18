@@ -38,59 +38,167 @@ this.switchSettings={"OFF","ON"}
 --tex NOTE: should be mindful of max setting for save vars, 
 --currently the ivar setup fits to the nearest save size type and I'm not sure of behaviour when you change ivars max enough to have it shift save size and load a game with an already saved var of different size
 
+--ivar ops n stuff
+function this.OnChangeSubSetting(self)--tex notify parent profile that you've changed
+  --InfMenu.DebugPrint("OnChangeSubSetting: "..self.name.. " profile: " .. self.profile.name)
+  local profile=self.profile
+  if profile then
+    if profile.OnSubSettingChanged==nil then
+      InfMenu.DebugPrint("WARNING: cannot find OnSubSettingChanged on profile " .. self.profile.name)    
+      return
+    end
+    profile.OnSubSettingChanged(profile,self)
+  end
+end
+function this.OnSubSettingChanged(profile, subSetting)
+  --InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " subSetting: " .. subSetting.name)
+  --tex any sub setting will flip this profile to custom, CUSTOM is mostly a user identifyer, it has no side effects/no settingTable function
+  if not subSetting:IsDefault() then
+    if not profile.enum then
+      InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " has no enum settings")
+      return
+    end
+    
+    if not profile.enum.CUSTOM then
+      InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " has no custom setting")
+      return
+    end
+    
+    if not profile:Is"CUSTOM" then
+      profile:Set(profile.enum.CUSTOM)
+      InfMenu.DisplayProfileChangedToCustom(profile)
+    end
+  end
+end
+
+this.RunCurrentSetting=function(self)
+  --InfMenu.DebugPrint("RunCurrentSetting on ".. self.name)
+  local returnValue=nil
+  if self.settingsTable then
+    --this.UpdateSettingFromGvar(self)
+    local settingName=self.settings[self.setting+1]
+    --InfMenu.DebugPrint("setting name:" .. settingName)
+    local settingFunction=self.settingsTable[settingName]
+    
+    if IsFunc(settingFunction) then
+      --InfMenu.DebugPrint("has settingFunction")
+      returnValue=settingFunction()
+    else
+      returnValue=settingFunction
+    end
+  end
+  return returnValue
+end
+
+this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt trigger profile onchange
+  --InfMenu.DebugPrint("ReturnCurrent on ".. self.name)
+  local returnValue=nil
+  if self.settingsTable then
+    --InfMenu.DebugPrint("has settingstable")
+    local settingName=self.settings[self.setting+1]
+    --InfMenu.DebugPrint("setting name:" .. settingName)
+    local settingFunction=self.settingsTable[settingName]
+    
+    if IsFunc(settingFunction) then
+      --InfMenu.DebugPrint("has settingFunction")
+      returnValue=settingFunction()
+    else
+      returnValue=settingFunction
+    end
+  end
+  return returnValue
+end
+
 --parameters
-
---system
-this.soldierParamsDirty={--NONUSER
-  range=this.switchRange,
-}
-
-
-
-this.enemyParameters={
+this.soldierParamsProfile={
   save=GLOBAL,--tex global since user still has to restart to get default/modded/reset
-  range=this.switchRange,
-  settingNames="set_enemy_parameters",
+  --range=this.switchRange,
+  settings={"DEFAULT","CUSTOM"},
+  settingNames="soldierParamsProfileSettings",
+  settingsTable={
+    DEFAULT=function()
+      Ivars.soldierSightDistScale:Set(1,true)
+      Ivars.soldierHealthScale:Set(1,true) 
+    end,
+    CUSTOM=nil,
+  },
+  OnChange=this.RunCurrentSetting,
+  OnSubSettingChanged=this.OnSubSettingChanged,
 }
 
 --enemy parameters sight
 this.sightScaleRange={max=4,min=0,increment=0.1}
-this.discoveryDistScaleSightParam={
+
+this.soldierSightDistScale={
   save=MISSION,
   default=1,
-  range=this.sightScaleRange,  
+  range=this.sightScaleRange,
+  profile=this.soldierParamsProfile,
 }
-this.indisDistScaleSightParam={
-  save=MISSION,
-  default=1,
-  range=this.sightScaleRange,  
+
+--[[
+this.sightForms={
+  "contactSightForm",
+  "normalSightForm",
+  "farSightForm",
+  "searchLightSightForm",
+  "observeSightForm",
 }
-this.dimDistScaleSightParam={
-  save=MISSION,
-  default=1,
-  range=this.sightScaleRange,  
+
+this.sightTypeNames={
+  "baseSight",
+  "nightSight",
+  "combatSight",
+  "walkerGearSight",
+  "observeSight",
+  "snipingSight",
+  "searchLightSight",
+  "armoredVehicleSight",
+  "zombieSight",
+  "msfSight",
+  "vehicleSight",
 }
-this.farDistScaleSightParam={
-  save=MISSION,
-  default=1,
-  range=this.sightScaleRange,  
+this.sightFormNames={
+  "discovery",
+  "indis",
+  "dim",
+  "far",
+  "observe",
 }
-this.observeDistScaleSightParam={--only applies to a couple
-  save=MISSION,
-  default=1,
-  range=this.sightScaleRange,  
+
+
+this.sightIvarLists={
+  "sightForms",
+  "sightTypeNames",
+  "sightFormNames",
 }
+
+this.sightDistScaleName="DistScaleSightParam"
+for n,listName in ipairs(this.sightIvarLists) do
+  for i,name in ipairs(this[listName]) do
+    local ivarName=name..this.sightDistScaleName
+  
+    local ivar={
+      save=MISSION,
+      default=1,
+      range=this.sightScaleRange,
+    }
+    this[ivarName]=ivar
+  end
+end--]]
 --
-this.healthMultRange={max=4,min=0,increment=0.2}
-this.enemyHealthMult={
+this.healthScaleRange={max=4,min=0,increment=0.2}
+this.soldierHealthScale={
   save=MISSION,
   default=1,
-  range=this.healthMultRange,
+  range=this.healthScaleRange,
+  profile=this.soldierParamsProfile, 
 } 
-this.playerHealthMult={
+---end soldier params 
+this.playerHealthScale={
   save=MISSION,
   default=1,
-  range=this.healthMultRange,
+  range=this.healthScaleRange,
 }
 ----motherbase
 this.mbSoldierEquipGrade={--DEPENDANCY: mbPlayTime
@@ -239,7 +347,7 @@ this.subsistenceProfile={
       Ivars.setSubsistenceSuit:Set(1,true)
       Ivars.setDefaultHand:Set(1,true)   
       
-      if Ivars.ospWeaponProfile:Is"DEFAULT" or Ivars.ospWeaponProfile:Is"CUSTOM" then
+      if Ivars.ospWeaponProfile:IsDefault() or Ivars.ospWeaponProfile:Is"CUSTOM" then
         Ivars.ospWeaponProfile:Set(1,true)
       end
       if not Ivars.handLevelProfile:Is(1) then
@@ -271,14 +379,14 @@ this.subsistenceProfile={
       Ivars.setSubsistenceSuit:Set(0,true)
       Ivars.setDefaultHand:Set(1,true)   
       
-      if Ivars.ospWeaponProfile:Is"DEFAULT" or Ivars.ospWeaponProfile:Is"CUSTOM" then
+      if Ivars.ospWeaponProfile:IsDefault() or Ivars.ospWeaponProfile:Is"CUSTOM" then
         Ivars.ospWeaponProfile:Set(1,true)
       end
       
-      if Ivars.handLevelProfile:Is"DEFAULT" or Ivars.handLevelProfile:Is"CUSTOM" then
+      if Ivars.handLevelProfile:IsDefault() or Ivars.handLevelProfile:Is"CUSTOM" then
         Ivars.handLevelProfile:Set(1)
       end
-      if Ivars.fultonLevelProfile:Is"DEFAULT" or Ivars.fultonLevelProfile:Is"CUSTOM" then
+      if Ivars.fultonLevelProfile:IsDefault() or Ivars.fultonLevelProfile:Is"CUSTOM" then
         Ivars.fultonLevelProfile:Set(1)
       end
       
@@ -1211,7 +1319,7 @@ this.telopMode={
 
 --
 function this.DisableOnSubsistence(self)
-  if not (Ivars.subsistenceProfile:Is("DEFAULT") or Ivars.subsistenceProfile:Is("CUSTOM")) then
+  if not (Ivars.subsistenceProfile:IsDefault() or Ivars.subsistenceProfile:Is"CUSTOM") then
     self.disabled=true
     --InfMenu.DebugPrint("is subs")--DEBUGNOW
   else
@@ -1278,73 +1386,6 @@ this.enableGetOutHeli={
 
 --end ivar defines
 
---ivar ops n stuff
-function this.OnChangeSubSetting(self)--tex notify parent profile that you've changed
-  --InfMenu.DebugPrint("OnChangeSubSetting: "..self.name.. " profile: " .. self.profile.name)
-  local profile=self.profile
-  if profile then
-    if profile.OnSubSettingChanged==nil then
-      InfMenu.DebugPrint("WARNING: cannot find OnSubSettingChanged on profile " .. self.profile.name)    
-      return
-    end
-    profile.OnSubSettingChanged(profile,self)
-  end
-end
-function this.OnSubSettingChanged(profile, subSetting)
-  --InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " subSetting: " .. subSetting.name)
-  --tex any sub setting will flip this profile to custom, CUSTOM is mostly a user identifyer, it has no side effects/no settingTable function
-  if not subSetting:IsDefault() then
-    if not profile:IsDefault() and not profile:Is"CUSTOM" then
-      profile:Set(profile.enum.CUSTOM)
-      InfMenu.DisplayProfileChangedToCustom(profile)
-    end
-  end
-end
-
-this.RunCurrentSetting=function(self)
-  --InfMenu.DebugPrint("RunCurrentSetting on ".. self.name)
-  local returnValue=nil
-  if self.settingsTable then
-    --this.UpdateSettingFromGvar(self)
-    local settingName=self.settings[self.setting+1]
-    --InfMenu.DebugPrint("setting name:" .. settingName)
-    local settingFunction=self.settingsTable[settingName]
-    
-    if IsFunc(settingFunction) then
-      --InfMenu.DebugPrint("has settingFunction")
-      returnValue=settingFunction()
-    else
-      returnValue=settingFunction
-    end
-  end
-  return returnValue
-end
-
-this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt trigger profile onchange
-  --InfMenu.DebugPrint("ReturnCurrent on ".. self.name)
-  local returnValue=nil
-  if self.settingsTable then
-    --InfMenu.DebugPrint("has settingstable")
-    local settingName=self.settings[self.setting+1]
-    --InfMenu.DebugPrint("setting name:" .. settingName)
-    local settingFunction=self.settingsTable[settingName]
-    
-    if IsFunc(settingFunction) then
-      --InfMenu.DebugPrint("has settingFunction")
-      returnValue=settingFunction()
-    else
-      returnValue=settingFunction
-    end
-  end
-  return returnValue
-end
-
-this.UpdateSettingFromGvar=function(option)
-  if option.save then
-    option.setting=gvars[option.name]
-  end
-end
-
 this.OptionIsDefault=function(self)
   return self.setting==self.default
 end
@@ -1381,6 +1422,12 @@ end
 
 local function IsIvar(ivar)--TYPEID
   return IsTable(ivar) and (ivar.range or ivar.settings)   
+end
+
+this.UpdateSettingFromGvar=function(option)
+  if option.save then
+    option.setting=gvars[option.name]
+  end
 end
 
 --ivar system setup

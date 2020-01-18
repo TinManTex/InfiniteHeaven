@@ -290,6 +290,27 @@ this.SetFriendlyEnemy = function()
   GameObject.SendCommand( gameObjectId, command )
 end
 
+--
+
+local emblemTypes={
+  base={"base",{01,50}},
+  front1={"front",{01,85}},
+  front2={"front",{5001,5027}},
+  front3={"front",{7008,7063}},
+}
+
+local function RandomSplash()
+  local group=emblemTypes[math.random(#emblemTypes)]
+  local emblemType=group[1]
+  local emblemNumber=tostring(math.random(group[2][1],group[2][2]))
+  local lowOrHi="h"
+  local name=emblemType..emblemNumber
+
+  local path="/Assets/tpp/ui/texture/Emblem/"..emblemType.."/ui_emb_"..emblemType.."_"..emblemNumber.."_"..lowOrHi.."_alp.ftex"
+  local randomSplash=SplashScreen.Create(name,path,640,640)
+  SplashScreen.Show(randomSplash,.2,0.5,.2)
+  return name
+end
 
 --
 
@@ -309,11 +330,11 @@ function this.EndFadeIn()
   --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
   --RETRY: push back up again, you may just have fucked something up lol
   
-  local healthMult=gvars.playerHealthMult
-  if healthMult~=1 then
+  local healthScale=gvars.playerHealthScale
+  if healthScale~=1 then
     Player.ResetLifeMaxValue()
     local newMax=vars.playerLifeMax
-    newMax=newMax*healthMult
+    newMax=newMax*healthScale
     if newMax < 10 then
       newMax = 10
     end
@@ -328,6 +349,10 @@ function this.FinishOpeningDemoOnHeli()
     --TppSoldier2.DisableMarkerModelEffect()
     TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
   end
+end
+function this.OnAllocateFob()
+  InfMenu.ResetSettings()--tex TODO: would like a nosave reset, but would need to change to reading ivar.setting instead of gvars, then would need to VERFY that .setting is restored on gvar restore
+  TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
 end
 
 

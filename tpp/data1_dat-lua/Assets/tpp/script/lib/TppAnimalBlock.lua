@@ -361,9 +361,7 @@ function this.OnInitializeAnimalBlock()
     return
   end
   mvars.animalBlockScript.DidInitialized=true
-  mvars.animalBlockScript.Messages=Tpp.StrCode32Table{Block={{msg="StageBlockCurrentSmallBlockIndexUpdated",func=function(t,a)
-    this._UpdateActiveAnimalBlock(t,a)
-  end}}}
+  mvars.animalBlockScript.Messages=Tpp.StrCode32Table{Block={{msg="StageBlockCurrentSmallBlockIndexUpdated",func=function(t,a)this._UpdateActiveAnimalBlock(t,a)end}}}
   o=0
   this.weatherTable={}
   local t=mvars.loc_locationAnimalSettingTable

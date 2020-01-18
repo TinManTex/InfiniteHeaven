@@ -107,6 +107,24 @@ this.printCurrentAppearanceItem={
   end,
 }
 
+--
+this.printSightFormParameterItem={
+ OnChange=function()
+  InfSoldierParams.ApplySightIvarsToSoldierParams()
+  --local sightFormStr=InfInspect.Inspect(InfSoldierParams.soldierParameters.sightFormParameter)
+  --InfMenu.DebugPrint(sightFormStr)
+  InfSoldierParams.PrintSightForm()
+ end,
+}
+
+this.printHealthTableParameterItem={
+ OnChange=function()
+  InfSoldierParams.ApplyHealthIvarsToSoldierParams()
+  local sightFormStr=InfInspect.Inspect(InfSoldierParams.lifeParameterTable)
+  InfMenu.DebugPrint(sightFormStr)
+ end,
+}
+
 this.DEBUG_ShowRevengeConfigItem={
   OnChange=function()
     --InfMenu.DebugPrint("RevRandomValue: "..gvars.rev_revengeRandomValue)

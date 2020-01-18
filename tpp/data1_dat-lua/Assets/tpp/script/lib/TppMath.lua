@@ -25,7 +25,7 @@ end
 function this.Clamp(n,min,max)--tex
   return math.min(math.max(n, min), max);
 end
-function this.ScaleValueClamp1(value,mult)--tex
+function this.ScaleValueClamp1(value,mult)--tex  
   local newValue=value*mult
   if newValue < 1 then
     newValue = 1

@@ -85,7 +85,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
   if TppMission.IsFOBMission(vars.missionCode)then
-    InfMenu.ResetSettings()--tex reset settings on FOB
+    InfMain.OnAllocateFob()--tex
     TppMission.SetFOBMissionFlag()
     TppGameStatus.Set("Mission","S_IS_ONLINE")
   else
@@ -245,7 +245,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppSequence.SaveMissionStartSequence()
     TppScriptVars.SetSVarsNotificationEnabled(true)
   end
-  InfEnemyParams.soldierParametersMod()--tex
+  InfSoldierParams.SoldierParametersMod()--tex
   if missionTable.enemy then
     if IsTypeTable(missionTable.enemy.soldierPowerSettings)then
       TppEnemy.SetUpPowerSettings(missionTable.enemy.soldierPowerSettings)

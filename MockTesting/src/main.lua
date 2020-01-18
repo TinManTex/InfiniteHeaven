@@ -1,25 +1,39 @@
--- DOBUILD: 1 --
--- NODEPS
---tex SYS: enemyparams
-local this={}
---tex so rather than tweak parameters manually my enemy param options scale, 
---this.soldierParameters is the table actually manipulated, pulling soldierParametersDefaults when it does the change\scale operation
---at some point a modded table needs to be reloaded via TppSoldier2.ReloadSoldier2ParameterTables
---DOC: Enemy solider paramters.txt
+InfMenu={}
+local this=InfMenu
+function this.DebugPrint(message)
+  print(message)
+end
 
---tex in sightFormParameter
---local sandstormSightDefault={distanceRate=.6,angleRate=.8}
---local rainSightDefault={distanceRate=1,angleRate=1}
---local cloudySightDefault={distanceRate=1,angleRate=1}
---local foggySightDefault={distanceRate=.5,angleRate=.6}
---tex BALLANCE: being conservative, could be more agressive if coupled with a bump in the sight dist it modifies, but I like the retail settings in general
---local sandstormSightImproved={distanceRate=.6,angleRate=.8}
---local rainSightImproved={distanceRate=.9,angleRate=0.95}
---local cloudySightImproved={distanceRate=0.95,angleRate=1}
---local foggySightImproved={distanceRate=.5,angleRate=.6}
+gvars={}
 
-this.lifeParameterTableDefaults={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}
-this.lifeParameterTable={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}--tex modified in-place by enemy health scale
+---
+Tpp={}
+local this=Tpp
+function this.IsTypeFunc(e)
+  return type(e)=="function"
+end
+local IsTypeFunc=this.IsTypeFunc
+function this.IsTypeTable(e)
+  return type(e)=="table"
+end
+local IsTypeTable=this.IsTypeTable
+function this.IsTypeString(e)
+  return type(e)=="string"
+end
+local IsTypeString=this.IsTypeString
+function this.IsTypeNumber(e)
+  return type(e)=="number"
+end
+local IsTypeNumber=this.IsTypeNumber
+
+
+gvars.soldierSightDistScale=1
+
+InfSoldierParams={}
+local this=InfSoldierParams
+
+local IsTable=Tpp.IsTypeTable
+
 this.soldierParametersDefaults={--tex  SYNC: soldierParametersMod. actually using my slight tweaks rather than true default
   sightFormParameter={
     contactSightForm={distance=2,verticalAngle=160,horizontalAngle=130},
@@ -70,7 +84,7 @@ this.soldierParametersDefaults={--tex  SYNC: soldierParametersMod. actually usin
       indis={distance=0,verticalAngle=0,horizontalAngle=0},
       dim={distance=50,verticalAngle=12,horizontalAngle=12},
       far={distance=0,verticalAngle=0,horizontalAngle=0}
-  },
+    },
     armoredVehicleSight={
       discovery={distance=20,verticalAngle=36,horizontalAngle=60},
       indis={distance=25,verticalAngle=60,horizontalAngle=100},
@@ -124,6 +138,7 @@ this.soldierParameters={--tex: SYNC: soldierParametersDefault. Ugly, but don't w
     farSightForm={distance=90,verticalAngle=30,horizontalAngle=30},
     searchLightSightForm={distance=50,verticalAngle=15,horizontalAngle=15},
     observeSightForm={distance=200,verticalAngle=5,horizontalAngle=5},
+    
     baseSight={
       discovery={distance=10,verticalAngle=36,horizontalAngle=48},
       indis={distance=20,verticalAngle=60,horizontalAngle=80},
@@ -167,7 +182,7 @@ this.soldierParameters={--tex: SYNC: soldierParametersDefault. Ugly, but don't w
       indis={distance=0,verticalAngle=0,horizontalAngle=0},
       dim={distance=50,verticalAngle=12,horizontalAngle=12},
       far={distance=0,verticalAngle=0,horizontalAngle=0}
-  },
+    },
     armoredVehicleSight={
       discovery={distance=20,verticalAngle=36,horizontalAngle=60},
       indis={distance=25,verticalAngle=60,horizontalAngle=100},
@@ -214,66 +229,54 @@ this.soldierParameters={--tex: SYNC: soldierParametersDefault. Ugly, but don't w
   zombieParameterTable={highHeroicValue=1e3}
 }
 
---end tables
---system
-local sightTypeNames={
-  "baseSight",
-  "nightSight",
-  "combatSight",
-  "walkerGearSight",
-  "observeSight",
-  "snipingSight",
-  "searchLightSight",
-  "armoredVehicleSight",
-  "zombieSight",
-  "msfSight",
-  "vehicleSight",
-}
-local sightFormNames={
-  "discovery",
-  "indis",
-  "dim",
-  "far",
-  "observe", 
-}
 
---IN: this.lifeParameterTableDefault, Ivars.enemyHealthMult, this.soldierParametersDefault, Ivars.*DistScaleSightParam
---OUT: this.soldierParameters
-function this.soldierParametersMod()
-  if gvars.enemyParameters==0 then
-    return
-  end
-
---tex REF: this.lifeParameterTableDefault={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}    
-  local healthMult=gvars.enemyHealthMult--tex mod enemy health scale
-  this.lifeParameterTable.maxLife        = TppMath.ScaleValueClamp1(this.lifeParameterTableDefaults.maxLife,      healthMult)
-  this.lifeParameterTable.maxLimbLife    = TppMath.ScaleValueClamp1(this.lifeParameterTableDefaults.maxLimbLife,  healthMult)
-  this.lifeParameterTable.maxArmorLife   = TppMath.ScaleValueClamp1(this.lifeParameterTableDefaults.maxArmorLife, healthMult)
-  this.lifeParameterTable.maxHelmetLife  = TppMath.ScaleValueClamp1(this.lifeParameterTableDefaults.maxHelmetLife,healthMult)
-  --Ivars.soldierParamsDirty.setting=1
- 
+function this.ApplySightIvarsToSoldierParams()
   local sightParamsMod=this.soldierParameters.sightFormParameter
   local sightParamsDefaults=this.soldierParametersDefaults.sightFormParameter
-  for i,typeName in ipairs(sightTypeNames) do
-      for j,formName in ipairs(sightFormNames) do
-        local sightType=sightParamsMod[typeName]
-        if sightType then
-          local sightForm=sightType[formName]
-          if sightForm then
-            local sightTypeDefault=sightParamsDefaults[typeName]
-            local sightFormDefault=sightTypeDefault[formName]
-            local gvarName=formName.."DistScaleSightParam"
-            local scale=gvars[gvarName] or 1
-            sightForm[formName].distance=TppMath.ScaleValueClamp1(sightFormDefault.distance,scale)
-          end--if sightForm
-        end--if sightType
-      end--sightFormNames
-  end--sightTypeNames
-
-  if this.soldierParamsDirty.setting>0 then
-    TppSoldier2.ReloadSoldier2ParameterTables(InfEnemyParams.soldierParametersMod)
-    --Ivars.soldierParamsDirty.setting=0
-  end
+  
+  for name,item in pairs(sightParamsMod) do
+    if item.distance and item.distance>0 then
+      
+      if sightParamsDefaults[name]==nil then--
+        InfMenu.DebugPrint"woh"--DEBUGNOW
+        return
+      end   
+      if sightParamsDefaults[name].distance==nil then--
+        InfMenu.DebugPrint"wuh"--DEBUGNOW
+        return
+      end         
+      
+      local default=sightParamsDefaults[name].distance
+      item.distance=default*gvars.soldierSightDistScale
+      --InfMenu.DebugPrint(name)--DEBUGNOW
+      --InfMenu.DebugPrint(name..".distance="..default)--DEBUGNOW
+    else
+      for childName,item in pairs(item) do
+        if IsTable(item) and item.distance and item.distance>0 then
+          
+          if sightParamsDefaults[name]==nil then
+          InfMenu.DebugPrint"weh"--DEBUGNOW
+          return
+          end
+          if sightParamsDefaults[name][childName]==nil then
+            InfMenu.DebugPrint"wah"--DEBUGNOW
+            return
+          end
+          local default=sightParamsDefaults[name][childName].distance
+          item.distance=default*gvars.soldierSightDistScale
+          --InfMenu.DebugPrint(name.."."..childName..".distance="..default)--DEBUGNOW
+          --InfMenu.DebugPrint(name.."."..childName)--DEBUGNOW
+        end
+      end
+      --]]
+    end--if else
+  end--for sightmod
+  InfMenu.DebugPrint"doop"--DEBUGNOW
 end
 
-return this
+
+local function main()
+  print"test"
+  this.ApplySightIvarsToSoldierParams()
+end
+main()

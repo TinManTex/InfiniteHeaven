@@ -2,28 +2,40 @@
 --MOVE? this is data not lib
 local this={}
 --menus
-this.playerParamsMenu={
+this.playerSettingsMenu={
   options={
-    Ivars.playerHealthMult,
+    Ivars.playerHealthScale,
     --Ivars.ogrePointChange,
     --InfMenuCommands.giveOgrePoint,
+    Ivars.playerHeadgear,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
 }
 this.soldierParamsMenu={
   options={
-    Ivars.enemyParameters,
-    Ivars.enemyHealthMult,
-    Ivars.discoveryDistScaleSightParam,
-    Ivars.indisDistScaleSightParam,
-    Ivars.dimDistScaleSightParam,
-    Ivars.farDistScaleSightParam,
-    Ivars.observeDistScaleSightParam,
+    Ivars.soldierParamsProfile,
+    Ivars.soldierHealthScale,
+    Ivars.soldierSightDistScale,
+    InfMenuCommands.printHealthTableParameterItem,
+    InfMenuCommands.printSightFormParameterItem,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
 }
+
+--[[ 
+local sightDistScaleName=Ivars.sightDistScaleName
+local i=1
+for n,listName in ipairs(Ivars.sightIvarLists) do
+  for m,name in ipairs(Ivars[listName]) do
+    local ivarName=name..sightDistScaleName
+    this.soldierParamsMenu.options[i]=Ivars[ivarName]
+    i=i+1
+  end
+end
+--]]
+
 this.sideOpsMenu={
   options={
     Ivars.unlockSideOps,
@@ -222,16 +234,16 @@ this.supportHeliMenu={
 
 this.heliSpaceMenu={
   options={
+    this.soldierParamsMenu,--DEBUGNOW
     --Ivars.warpPlayerMode,--tex WIP DEBUGNOW
     --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
     --Ivars.manualMissionCode,--tex DEBUGNOW WIP
     --InfMenuCommands.loadMissionItem,--tex DEBUGNOW WIP
     Ivars.startOnFoot,
     Ivars.clockTimeScale,
-    Ivars.playerHeadgear,
     Ivars.telopMode,
     this.playerRestrictionsMenu,
-    this.playerParamsMenu,
+    this.playerSettingsMenu,
     this.soldierParamsMenu,
     this.phaseMenu,
     this.revengeMenu,

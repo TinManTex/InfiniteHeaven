@@ -1,3 +1,7 @@
+-- DOBUILD: 1
+local splash=SplashScreen.Create("startstart","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_fox_logo_clp_nmp.ftex",640,640)
+SplashScreen.Show(splash,.2,1,.2)
+
 local function yield()
   coroutine.yield()
 end
@@ -709,3 +713,5 @@ TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil,{setMute=true})
 TppVarInit.InitializeOnStartTitle()
 TppVarInit.StartInitMission()
 TppUiCommand.SetLoadIndicatorVisible(false)
+local splash=SplashScreen.Create("startend","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
+SplashScreen.Show(splash,.2,1,.2)

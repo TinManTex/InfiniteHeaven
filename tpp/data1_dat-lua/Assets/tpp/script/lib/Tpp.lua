@@ -27,86 +27,86 @@ local NULL_ID=GameObject.NULL_ID
 local n=bit.bnot
 local n,n,n=bit.band,bit.bor,bit.bxor
 this.requires={
-"/Assets/tpp/script/lib/TppDefine.lua",
-"/Assets/tpp/script/lib/TppMath.lua",
-"/Assets/tpp/script/lib/TppSave.lua",
-"/Assets/tpp/script/lib/TppLocation.lua",
-"/Assets/tpp/script/lib/TppSequence.lua",
-"/Assets/tpp/script/lib/TppWeather.lua",
-"/Assets/tpp/script/lib/TppDbgStr32.lua",
-"/Assets/tpp/script/lib/TppDebug.lua",
-"/Assets/tpp/script/lib/TppClock.lua",
-"/Assets/tpp/script/lib/TppUI.lua",
-"/Assets/tpp/script/lib/TppResult.lua",
-"/Assets/tpp/script/lib/TppSound.lua",
-"/Assets/tpp/script/lib/TppTerminal.lua",
-"/Assets/tpp/script/lib/TppMarker.lua",
-"/Assets/tpp/script/lib/TppRadio.lua",
-"/Assets/tpp/script/lib/TppPlayer.lua",
-"/Assets/tpp/script/lib/TppHelicopter.lua",
-"/Assets/tpp/script/lib/TppScriptBlock.lua",
-"/Assets/tpp/script/lib/TppMission.lua",
-"/Assets/tpp/script/lib/TppStory.lua",
-"/Assets/tpp/script/lib/TppDemo.lua",
-"/Assets/tpp/script/lib/TppEnemy.lua",
-"/Assets/tpp/script/lib/TppGeneInter.lua",
-"/Assets/tpp/script/lib/TppInterrogation.lua",
-"/Assets/tpp/script/lib/TppGimmick.lua",
-"/Assets/tpp/script/lib/TppMain.lua",
-"/Assets/tpp/script/lib/TppDemoBlock.lua",
-"/Assets/tpp/script/lib/TppAnimalBlock.lua",
-"/Assets/tpp/script/lib/TppCheckPoint.lua",
-"/Assets/tpp/script/lib/TppPackList.lua",
-"/Assets/tpp/script/lib/TppQuest.lua",
-"/Assets/tpp/script/lib/TppTrap.lua",
-"/Assets/tpp/script/lib/TppReward.lua",
-"/Assets/tpp/script/lib/TppRevenge.lua",
-"/Assets/tpp/script/lib/TppReinforceBlock.lua",
-"/Assets/tpp/script/lib/TppEneFova.lua",
-"/Assets/tpp/script/lib/TppFreeHeliRadio.lua",
-"/Assets/tpp/script/lib/TppHero.lua",
-"/Assets/tpp/script/lib/TppTelop.lua",
-"/Assets/tpp/script/lib/TppRatBird.lua",
-"/Assets/tpp/script/lib/TppMovie.lua",
-"/Assets/tpp/script/lib/TppAnimal.lua",
-"/Assets/tpp/script/lib/TppException.lua",
-"/Assets/tpp/script/lib/TppTutorial.lua",
-"/Assets/tpp/script/lib/TppLandingZone.lua",
-"/Assets/tpp/script/lib/TppCassette.lua",
-"/Assets/tpp/script/lib/TppEmblem.lua",
-"/Assets/tpp/script/lib/TppDevelopFile.lua",
-"/Assets/tpp/script/lib/TppPaz.lua",
-"/Assets/tpp/script/lib/TppRanking.lua",
-"/Assets/tpp/script/lib/TppTrophy.lua",
-"/Assets/tpp/script/lib/TppMbFreeDemo.lua",
-"/Assets/tpp/script/lib/Ivars.lua",--tex
-"/Assets/tpp/script/lib/InfLang.lua",
-"/Assets/tpp/script/lib/InfButton.lua",
-"/Assets/tpp/script/lib/InfMain.lua",
-"/Assets/tpp/script/lib/InfMenuCommands.lua",
-"/Assets/tpp/script/lib/InfMenuDefs.lua",
-"/Assets/tpp/script/lib/InfMenu.lua",
---CULL"/Assets/tpp/script/lib/InfPatch.lua",
-"/Assets/tpp/script/lib/InfEnemyParams.lua",
-"/Assets/tpp/script/lib/InfInspect.lua",
-"/Assets/tpp/script/lib/InfLZ.lua",
-"/Assets/tpp/script/lib/InfHooks.lua",--
+  "/Assets/tpp/script/lib/TppDefine.lua",
+  "/Assets/tpp/script/lib/TppMath.lua",
+  "/Assets/tpp/script/lib/TppSave.lua",
+  "/Assets/tpp/script/lib/TppLocation.lua",
+  "/Assets/tpp/script/lib/TppSequence.lua",
+  "/Assets/tpp/script/lib/TppWeather.lua",
+  "/Assets/tpp/script/lib/TppDbgStr32.lua",
+  "/Assets/tpp/script/lib/TppDebug.lua",
+  "/Assets/tpp/script/lib/TppClock.lua",
+  "/Assets/tpp/script/lib/TppUI.lua",
+  "/Assets/tpp/script/lib/TppResult.lua",
+  "/Assets/tpp/script/lib/TppSound.lua",
+  "/Assets/tpp/script/lib/TppTerminal.lua",
+  "/Assets/tpp/script/lib/TppMarker.lua",
+  "/Assets/tpp/script/lib/TppRadio.lua",
+  "/Assets/tpp/script/lib/TppPlayer.lua",
+  "/Assets/tpp/script/lib/TppHelicopter.lua",
+  "/Assets/tpp/script/lib/TppScriptBlock.lua",
+  "/Assets/tpp/script/lib/TppMission.lua",
+  "/Assets/tpp/script/lib/TppStory.lua",
+  "/Assets/tpp/script/lib/TppDemo.lua",
+  "/Assets/tpp/script/lib/TppEnemy.lua",
+  "/Assets/tpp/script/lib/TppGeneInter.lua",
+  "/Assets/tpp/script/lib/TppInterrogation.lua",
+  "/Assets/tpp/script/lib/TppGimmick.lua",
+  "/Assets/tpp/script/lib/TppMain.lua",
+  "/Assets/tpp/script/lib/TppDemoBlock.lua",
+  "/Assets/tpp/script/lib/TppAnimalBlock.lua",
+  "/Assets/tpp/script/lib/TppCheckPoint.lua",
+  "/Assets/tpp/script/lib/TppPackList.lua",
+  "/Assets/tpp/script/lib/TppQuest.lua",
+  "/Assets/tpp/script/lib/TppTrap.lua",
+  "/Assets/tpp/script/lib/TppReward.lua",
+  "/Assets/tpp/script/lib/TppRevenge.lua",
+  "/Assets/tpp/script/lib/TppReinforceBlock.lua",
+  "/Assets/tpp/script/lib/TppEneFova.lua",
+  "/Assets/tpp/script/lib/TppFreeHeliRadio.lua",
+  "/Assets/tpp/script/lib/TppHero.lua",
+  "/Assets/tpp/script/lib/TppTelop.lua",
+  "/Assets/tpp/script/lib/TppRatBird.lua",
+  "/Assets/tpp/script/lib/TppMovie.lua",
+  "/Assets/tpp/script/lib/TppAnimal.lua",
+  "/Assets/tpp/script/lib/TppException.lua",
+  "/Assets/tpp/script/lib/TppTutorial.lua",
+  "/Assets/tpp/script/lib/TppLandingZone.lua",
+  "/Assets/tpp/script/lib/TppCassette.lua",
+  "/Assets/tpp/script/lib/TppEmblem.lua",
+  "/Assets/tpp/script/lib/TppDevelopFile.lua",
+  "/Assets/tpp/script/lib/TppPaz.lua",
+  "/Assets/tpp/script/lib/TppRanking.lua",
+  "/Assets/tpp/script/lib/TppTrophy.lua",
+  "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
+  "/Assets/tpp/script/lib/Ivars.lua",--tex
+  "/Assets/tpp/script/lib/InfLang.lua",
+  "/Assets/tpp/script/lib/InfButton.lua",
+  "/Assets/tpp/script/lib/InfMain.lua",
+  "/Assets/tpp/script/lib/InfMenuCommands.lua",
+  "/Assets/tpp/script/lib/InfMenuDefs.lua",
+  "/Assets/tpp/script/lib/InfMenu.lua",
+  --CULL"/Assets/tpp/script/lib/InfPatch.lua",
+  "/Assets/tpp/script/lib/InfSoldierParams.lua",
+  "/Assets/tpp/script/lib/InfInspect.lua",
+  "/Assets/tpp/script/lib/InfLZ.lua",
+  "/Assets/tpp/script/lib/InfHooks.lua",--
 }
 function this.IsTypeFunc(e)
   return type(e)=="function"
-  end
+end
 local IsTypeFunc=this.IsTypeFunc
 function this.IsTypeTable(e)
   return type(e)=="table"
-  end
+end
 local IsTypeTable=this.IsTypeTable
 function this.IsTypeString(e)
   return type(e)=="string"
-  end
+end
 local IsTypeString=this.IsTypeString
 function this.IsTypeNumber(e)
   return type(e)=="number"
-  end
+end
 local IsTypeNumber=this.IsTypeNumber
 function this.Enum(e)
   if e==nil then
@@ -136,25 +136,27 @@ function this.SplitString(e,l)
     if(n==nil)then
       table.insert(t,e)break
     else
-      local l=string.sub(e,0,n-1)table.insert(t,l)e=string.sub(e,n+1)
+      local l=string.sub(e,0,n-1)
+      table.insert(t,l)
+      e=string.sub(e,n+1)
     end
   end
   return t
 end
-function this.StrCode32Table(n)
-  local l={}
-  for n,r in pairs(n)do
-    local n=n
+function this.StrCode32Table(table)
+  local strCode32Table={}
+  for k,v in pairs(table)do
+    local n=k
     if type(n)=="string"then
       n=StrCode32(n)
     end
-    if type(r)=="table"then
-      l[n]=this.StrCode32Table(r)
+    if type(v)=="table"then
+      strCode32Table[n]=this.StrCode32Table(v)
     else
-      l[n]=r
+      strCode32Table[n]=v
     end
   end
-  return l
+  return strCode32Table
 end
 function this.ApendArray(e,n)
   for t,n in pairs(n)do
@@ -204,7 +206,11 @@ function this.MakeMessageExecTable(e)
     return
   end
   local n={}
-  local T=StrCode32"msg"local u=StrCode32"func"local c=StrCode32"sender"local h=StrCode32"option"for e,l in pairs(e)do
+  local T=StrCode32"msg"
+  local u=StrCode32"func"
+  local c=StrCode32"sender"
+  local h=StrCode32"option"
+  for e,l in pairs(e)do
     n[e]=n[e]or{}
     for l,r in pairs(l)do
       local l,s,d,o=l,nil,nil,nil
@@ -238,7 +244,8 @@ function this.MakeMessageExecTable(e)
         n[e][l]=n[e][l]or{}
         if next(s)~=nil then
           for r,t in pairs(s)do
-            n[e][l].sender=n[e][l].sender or{}n[e][l].senderOption=n[e][l].senderOption or{}
+            n[e][l].sender=n[e][l].sender or{}
+            n[e][l].senderOption=n[e][l].senderOption or{}
             if n[e][l].sender[t]then
             end
             n[e][l].sender[t]=d
@@ -621,7 +628,9 @@ function this.GetChunkIndex(t,n)
   end
   return e
 end
-function this.StartWaitChunkInstallation(n)Chunk.PrefetchChunk(n)Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_FAST)
+function this.StartWaitChunkInstallation(n)
+  Chunk.PrefetchChunk(n)
+  Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_FAST)
   this.ClearChunkInstallPopupUpdateTime()
 end
 local r=1
@@ -652,7 +661,8 @@ function this.ShowChunkInstallingPopup(t,l)
   if l then
     e=Popup.TYPE_ONE_CANCEL_BUTTON
   else
-    TppUiCommand.SetPopupType"POPUP_TYPE_NO_BUTTON_NO_EFFECT"end
+    TppUiCommand.SetPopupType"POPUP_TYPE_NO_BUTTON_NO_EFFECT"
+  end
   TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOW_INSTALLING,e)
 end
 function this.ClearChunkInstallPopupUpdateTime()n=0

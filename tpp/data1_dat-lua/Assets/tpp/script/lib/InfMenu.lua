@@ -7,7 +7,7 @@ local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
 local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 
-this.MAX_ANNOUNCE_STRING=256--tex sting length announce log can handle before crashing the game, actually 288 but that worries me, so keep a little lower
+this.MAX_ANNOUNCE_STRING=288--tex sting length announce log can handle before crashing the game, a bit worried that it's a random value at 288 (and yeah I manually worked this value out by adjusting a string and reloading and crashing the game till I got it exact lol).
 
 --tex REFACTOR: most of these can be local
 this.currentMenu=InfMenuDefs.heliSpaceMenu
@@ -167,7 +167,9 @@ function this.ChangeSetting(option,value,incrementMult)
 end
 function this.SetCurrent()--tex refresh current setting/re-call OnChange
   local option=this.currentMenuOptions[this.currentIndex]
-  this.SetSetting(option,option.setting)
+  if option.setting then
+    this.SetSetting(option,option.setting)
+  end
 end
 function this.SetSetting(self,setting,noOnChangeSub,noSave)
   if self==nil then
