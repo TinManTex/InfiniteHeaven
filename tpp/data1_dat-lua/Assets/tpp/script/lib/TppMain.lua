@@ -1,8 +1,9 @@
 local this={}
-this.modVersion = "r26"
+this.modVersion = "r28"
 this.modName = "Infinite Heaven"
 local e=this--tex CULL: once deminified
 local IsFunc=Tpp.IsTypeFunc
+local Enum=TppDefine.Enum
 --tex the bulk of my shit REFACTOR: until we can load our own lua files this is a good a spot as any
 --tex button press system. TODO: work out the duplicate bitmasks/those that don't work, and those that are missing
 this.buttonMasks={--tex: SYNC: buttonstate
@@ -146,6 +147,7 @@ function this.ChangeSetting(modSetting,value)
     modSetting.onChange()
   end
 end
+this.SUBSISTENCE_BUDDY=2--tex: SPECIAL: RETRY:
 this.modSettings={
   {
     name="Subsistence Mode",
@@ -162,18 +164,19 @@ this.modSettings={
     end
   },
   {
-    name="Subsistence Weapon Loadout",
+    name="OSP Weapon Loadout",
     gvar="subsistenceLoadout",
     default=0,
     slider={max=#this.subsistenceLoadouts,min=0,increment=1},
     settingNames={"Off","Pure","Secondary enabled"},
+    helpText="Start with no primary and secondary weapons, can be used seperately from subsistence mode"
   },
   {
     name="Enemy Preparedness",
     gvar="revengeMode",    
     default=0,
     slider=this.switchSlider,
-    settingNames={"Regular","Unrestrained"},
+    settingNames={"Regular","Max"},
   },
   {
     name="General Parameters",
@@ -754,7 +757,7 @@ function this.OnAllocate(n)
     end
     --tex changed to issubs check, more robust even without my mod
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then
-    if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=2 then--tex buddy subsistence mode TODO: enum that shit if used often or number of settings gets any bigger
+    if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=this.SUBSISTENCE_BUDDY then--tex buddy subsistence mode
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then
@@ -971,7 +974,7 @@ function this.OnInitialize(n)
   e.SetMessageFunction(n)
   TppQuest.UpdateActiveQuest()
   TppDevelopFile.OnMissionCanStart()
-  if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+  if (TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020) then
     if TppQuest.IsActiveQuestHeli()then
       TppEnemy.ReserveQuestHeli()
     end

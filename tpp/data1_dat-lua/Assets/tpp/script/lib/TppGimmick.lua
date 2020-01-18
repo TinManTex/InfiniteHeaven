@@ -608,13 +608,6 @@ function e.SetHeroicAndOrgPoint(n,e)
   TppHero.AnnounceBreakGimmickByGimmickType(e)
 end
 function e.EnableCollectionTable(t,e,o)
-  --tex BUGFIX: VERIFY: in the vanilla game aparently theres a bug if you pick up a blueprint then abort, or restart ?? it wont actually give you the blueprint and it won't respawn
-  -- looking at this code I can't see how, unless there's some filter between TppMotherBaseManagement.IsGotDataBase and it showing up as developable? who knows.
-  -- you can see konami try and fix a related bug? in the 006 patch at end of TppQuest.lua
-  -- Crude fix is just to always respawn blueprints, silly soviets always leaving this shit around right?
-  -- VERIFY: making assumption TppCollection.RepopCountOperation checks to see if it's already spawned something, else we'll have another bug of multiple shit lol
-  o=true
-
   local n=0
   if not e then
     n=1

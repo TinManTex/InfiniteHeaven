@@ -395,7 +395,8 @@ function e.StartMissionTelop(e,i,n)
   TppSound.PostJingleOnMissionStartTelop()
 end
 function e.GetMaxMissionTask(e)
-  local e=TppResult.MISSION_TASK_LIST[e]if e then
+  local e=TppResult.MISSION_TASK_LIST[e]
+  if e then
     return#e
   end
 end
@@ -428,7 +429,8 @@ function e.EnableMissionTask(a,t)
   if n.isComplete then
     n.isHide=false
     local n=vars.missionCode
-    local o=e.GetTaskCompletedNumber(n)e.SetTaskLastCompleted(i,true)
+    local o=e.GetTaskCompletedNumber(n)
+    e.SetTaskLastCompleted(i,true)
     local i=e.GetTaskCompletedNumber(n)
     local a=e.GetMaxMissionTask(n)
     if a==nil then
@@ -868,7 +870,12 @@ function e.OnMissionStart()
 end
 function e.Init()
 e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
-  TppUiCommand.SetMotherBaseStageSecurityTable{numInSpecialPlatform=TppDefine.SECURITY_SETTING.numInSpecialPlatform,numInCommonPlatform=TppDefine.SECURITY_SETTING.numInCommonPlatform,numInCommandPlatform=TppDefine.SECURITY_SETTING.numInCommandPlatform,numInBaseDevPlatform=TppDefine.SECURITY_SETTING.numInBaseDevPlatform}
+  TppUiCommand.SetMotherBaseStageSecurityTable{
+  numInSpecialPlatform=TppDefine.SECURITY_SETTING.numInSpecialPlatform,
+  numInCommonPlatform=TppDefine.SECURITY_SETTING.numInCommonPlatform,
+  numInCommandPlatform=TppDefine.SECURITY_SETTING.numInCommandPlatform,
+  numInBaseDevPlatform=TppDefine.SECURITY_SETTING.numInBaseDevPlatform
+  }
   local a=TppMission.IsHelicopterSpace(vars.missionCode)
   local t=TppMission.IsFreeMission(vars.missionCode)
   local n=TppMission.IsFOBMission(vars.missionCode)
@@ -894,7 +901,15 @@ e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
     if a then
       e.RegisterHeliSpacePauseMenuPage(true)
     elseif t then
-      local e={GamePauseMenu.RESTART_FROM_CHECK_POINT,GamePauseMenu.RETURN_TO_TITLE,GamePauseMenu.SIGN_IN,GamePauseMenu.STORE_ITEM,GamePauseMenu.RECORDS_ITEM,GamePauseMenu.CONTROLS_AND_TIPS_ITEM,GamePauseMenu.OPEN_OPTION_MENU}
+      local e={
+      GamePauseMenu.RESTART_FROM_CHECK_POINT,
+      GamePauseMenu.RETURN_TO_TITLE,
+      GamePauseMenu.SIGN_IN,
+      GamePauseMenu.STORE_ITEM,
+      GamePauseMenu.RECORDS_ITEM,
+      GamePauseMenu.CONTROLS_AND_TIPS_ITEM,
+      GamePauseMenu.OPEN_OPTION_MENU
+      }
       if TppMission.IsMbFreeMissions(vars.missionCode)then
         if(vars.missionCode==30050)then
           table.insert(e,2,GamePauseMenu.RESTART_FROM_MISSION_START)
@@ -961,12 +976,14 @@ e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
   if i then
     TppUiCommand.RegisterSideOpsListFunction("TppQuest","GetSideOpsListTable")
   end
-  TppUiCommand.SetMBMapArrowIcon(false)GameConfig.ApplyAllConfig()
+  TppUiCommand.SetMBMapArrowIcon(false)
+  GameConfig.ApplyAllConfig()
   TppUiCommand.EraseDisplayTimer()
   TppUiCommand.ResetCpNameBaseLangId()
   if TppUiCommand.RegistCpNameBaseLangId and mvars.loc_locationBaseTelop then
     for n,e in ipairs(mvars.loc_locationBaseTelop.cpLangIdTable)do
-      local n,i,e=e[1],e[2],e[3]TppUiCommand.RegistCpNameBaseLangId(n,i,e)
+      local n,i,e=e[1],e[2],e[3]
+      TppUiCommand.RegistCpNameBaseLangId(n,i,e)
     end
   end
   TppUiCommand.RegistCpNameBaseLangId("helicopterSpace","tpp_heli_acc")

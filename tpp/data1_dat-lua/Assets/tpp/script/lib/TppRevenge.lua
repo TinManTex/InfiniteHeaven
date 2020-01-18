@@ -18,7 +18,24 @@ e.NO_REVENGE_MISSION_LIST={[10010]=true,[10030]=true,[10050]=true,[11050]=true,[
 e.NO_STEALTH_COMBAT_REVENGE_MISSION_LIST={[30010]=true,[30020]=true,[30050]=true,[30150]=true}
 e.USE_SUPER_REINFORCE_VEHICLE_MISSION={[10036]=true,[11036]=true,[10093]=true}
 e.CANNOT_USE_ALL_WEAPON_MISSION={[10030]=true,[10070]=true,[10080]=true,[11080]=true,[10090]=true,[11090]=true,[10151]=true,[11151]=true,[10211]=true,[11211]=true,[30050]=true}
-e.REVENGE_TYPE_NAME={"STEALTH","NIGHT_S","COMBAT","NIGHT_C","LONG_RANGE","VEHICLE","HEAD_SHOT","TRANQ","FULTON","SMOKE","M_STEALTH","M_COMBAT","DUMMY","DUMMY2","DUMMY3","DUMMY4","MAX"}
+e.REVENGE_TYPE_NAME={
+"STEALTH",
+"NIGHT_S",
+"COMBAT",
+"NIGHT_C",
+"LONG_RANGE",
+"VEHICLE",
+"HEAD_SHOT",
+"TRANQ",
+"FULTON",
+"SMOKE",
+"M_STEALTH",
+"M_COMBAT",
+"DUMMY",
+"DUMMY2",
+"DUMMY3",
+"DUMMY4",
+"MAX"}
 e.REVENGE_TYPE=TppDefine.Enum(e.REVENGE_TYPE_NAME)
 e.REVENGE_LV_LIMIT_RANK_MAX=6
 e.REVENGE_LV_MAX={
@@ -195,34 +212,29 @@ e.revengeDefine={
   FOB_LongRange_7={STRONG_SNIPER=true,SNIPER="20%",MISSILE="10%"},
   FOB_LongRange_8={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="20%",MISSILE="10%"},
   FOB_LongRange_9={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="25%",MISSILE="10%"},
-  FOB_LongRange_10={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="30%",MISSILE="20%",MG="10%"}}
-
+  FOB_LongRange_10={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="30%",MISSILE="20%",MG="10%"}
+}
 function this.SelectRevengeType()
-  local n=TppMission.GetMissionID()
-  if e.IsNoRevengeMission(n)or n==10115 then
+  local missionId=TppMission.GetMissionID()
+  if this.IsNoRevengeMission(missionId)or missionId==10115 then
     return{}
   end
-  local r=TppMission.IsHardMission(n)
-  local t={}
-  for E=0,e.REVENGE_TYPE.MAX-1 do
-    local n
-    if r or gvars.revengeMode>0 then--tex was just r
-      n=e.GetRevengeLvMax(E,REVENGE_LV_LIMIT_RANK_MAX)--tex NMC: actual bug, should be e.REVE, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
-    else
-      n=e.GetRevengeLv(E)
-    end
-    if n>=0 then
-      local n=e.REVENGE_TYPE_NAME[E+1]..("_"..tostring(n))
-      local e=e.revengeDefine[n]
-      if e then
-        table.insert(t,n)
+  local isHard=TppMission.IsHardMission(missionId)--tex check now in getrevlv, still used below though
+  local revengeTypes={}
+  for i=0,this.REVENGE_TYPE.MAX-1 do
+    local level=this.GetRevengeLv(i)--tex moved if ishard getlv max else getlv into getlv itself
+    if level>=0 then
+      local revengeTypeName=this.REVENGE_TYPE_NAME[i+1]..("_"..tostring(level))
+      local revengeDefineForType=this.revengeDefine[revengeTypeName]
+      if revengeDefineForType then
+        table.insert(revengeTypes,revengeTypeName)
       end
     end
   end
-  if r then
-    table.insert(t,"HARD_MISSION")
+  if isHard then
+    table.insert(revengeTypes,"HARD_MISSION")
   end
-  return t
+  return revengeTypes
 end
 function this.SetForceRevengeType(e)
   if not Tpp.IsTypeTable(e)then
@@ -326,6 +338,9 @@ function this.IsIgnoreBlocked()
   return mvars.revenge_revengeConfig.IGNORE_BLOCKED
 end
 function this.IsBlocked(e)
+  if gvars.revengeMode==1 then--tex revengemax
+    return false
+  end--
   if e==nil then
     return false
   end
@@ -479,7 +494,8 @@ function this.UpdateLastVisitedMineArea(n,t,e)
   else
     gvars.rev_lastUpdatedBaseName=E
   end
-  local n=mvars.rev_mineBaseTable[n]gvars[e][n]=t
+  local n=mvars.rev_mineBaseTable[n]
+  gvars[e][n]=t
 end
 function this.SaveMissionStartMineArea()
   local e,E=mvars.rev_missionStartMineAreaVarsName,mvars.rev_LastVisitedMineAreaVarsName
@@ -619,15 +635,15 @@ function this.SetUpMineAreaVarsName()
   end
 end
 function this.DecideRevenge(n)
-  e._SetUiParameters()
+  this._SetUiParameters()
   mvars.revenge_revengeConfig=mvars.revenge_revengeConfig or{}
   mvars.revenge_revengeType=mvars.revenge_forceRevengeType
   if mvars.revenge_revengeType==nil then
-    mvars.revenge_revengeType=e.SelectRevengeType()
+    mvars.revenge_revengeType=this.SelectRevengeType()
   end
-  mvars.revenge_revengeConfig=e._CreateRevengeConfig(mvars.revenge_revengeType)
+  mvars.revenge_revengeConfig=this._CreateRevengeConfig(mvars.revenge_revengeType)
   if(n.enemy and n.enemy.soldierDefine)or vars.missionCode>6e4 then
-    e._AllocateResources(mvars.revenge_revengeConfig)
+    this._AllocateResources(mvars.revenge_revengeConfig)
   end
 end
 function this.SetUpEnemy()
@@ -640,7 +656,7 @@ function this.SetUpEnemy()
   e._SetMbInterrogate()
   local n=e.GetReinforceCount()
   GameObject.SendCommand({type="TppCommandPost2"},{id="SetReinforceCount",count=n})
-  if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
+  if TppLocation.IsMotherBase()or TppLocation.IsMBQF() then
     TppEnemy.SetUpDDParameter()
   end
   e._SetupCamera()
@@ -676,6 +692,14 @@ function this.GetRevengeLvLimitRank()
   return 6
 end
 function this.GetRevengeLv(e)
+  local missionId=TppMission.GetMissionID()
+  if TppMission.IsHardMission(missionId) or gvars.revengeMode>0 then--tex added
+    return this.GetRevengeLvMax(e,this.REVENGE_LV_LIMIT_RANK_MAX)--tex BUGFIX: was just REVE, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
+  else
+    return gvars.rev_revengeLv[e]
+  end
+end
+function this.GetActualRevengeLv(e)--tex orig GetRevengeLv, not really using currently, nowhere we need to differentiat
   return gvars.rev_revengeLv[e]
 end
 function this.GetRevengeLvMax(type,rankLimit)
@@ -868,22 +892,22 @@ function this._ReceiveClearedDeployRevengeMission()
   end
 end
 function this._AddDeployRevengeMission()
-  for n,E in pairs(e.DEPLOY_REVENGE_MISSION_CONDITION_LIST)do
-    local t=e.DEPLOY_REVENGE_MISSION_BLOCKED_LIST[n]
-    if not e.IsBlocked(t)and e.GetRevengeLv(E.revengeType)>=E.lv then
-      local e=TppMotherBaseManagement.RequestAddDeployRevengeMission{deployMissionId=n}
+  for i,condition in pairs(this.DEPLOY_REVENGE_MISSION_CONDITION_LIST)do
+    local blockedType=this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST[i]
+    if not this.IsBlocked(blockedType)and this.GetRevengeLv(condition.revengeType)>=condition.lv then
+      local e=TppMotherBaseManagement.RequestAddDeployRevengeMission{deployMissionId=i}
     else
       if not TppMotherBaseManagement.RequestDeleteDeployRevengeMission then
         return
       end
-      TppMotherBaseManagement.RequestDeleteDeployRevengeMission{deployMissionId=n}
+      TppMotherBaseManagement.RequestDeleteDeployRevengeMission{deployMissionId=i}
     end
   end
 end
 function this._ReduceRevengePointStealthCombat()
   for n,E in pairs(e.REDUCE_TENDENCY_POINT_TABLE)do
     local t=e.GetRevengePoint(n)
-    local r=e.GetRevengeLv(n)
+    local r=e.GetActualRevengeLv(n)--tex was getrevlev
     local E=E[r+1]
     e.SetRevengePoint(n,(t+E))
   end
@@ -892,7 +916,7 @@ function this._ReduceRevengePointOther()
   local r={[e.REVENGE_TYPE.STEALTH]=true,[e.REVENGE_TYPE.COMBAT]=true,[e.REVENGE_TYPE.M_STEALTH]=true,[e.REVENGE_TYPE.M_COMBAT]=true}
   for E=0,e.REVENGE_TYPE.MAX-1 do
     local a=e.GetRevengePoint(E)
-    local t=e.GetRevengeLv(E)
+    local t=e.GetActualRevengeLv(E)--tex was getrevlev
     local n=0
     if r[E]then
       n=0
@@ -1001,28 +1025,30 @@ function this.SelectReinforceType()
   if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then
     return TppReinforceBlock.REINFORCE_TYPE.HELI
   end
-  if not e.IsUsingSuperReinforce()then
+  if not this.IsUsingSuperReinforce()then
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
-  local n={}
-  local t=e.CanUseReinforceVehicle()
-  local E=e.CanUseReinforceHeli()
-  if t then
-    local e={AFGH={TppReinforceBlock.REINFORCE_TYPE.EAST_WAV,TppReinforceBlock.REINFORCE_TYPE.EAST_TANK},MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}}
+  local vehicleTypes={}
+  local canUseVehicle=this.CanUseReinforceVehicle()
+  local canUseHeli=this.CanUseReinforceHeli()
+  if canUseVehicle then
+    local vehiclesForMap={
+      AFGH={TppReinforceBlock.REINFORCE_TYPE.EAST_WAV,TppReinforceBlock.REINFORCE_TYPE.EAST_TANK},
+      MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}}
     if TppLocation.IsAfghan()then
-      n=e.AFGH
+      vehicleTypes=vehiclesForMap.AFGH
     elseif TppLocation.IsMiddleAfrica()then
-      n=e.MAFR
+      vehicleTypes=vehiclesForMap.MAFR
     end
   end
-  if E then
-    table.insert(n,TppReinforceBlock.REINFORCE_TYPE.HELI)
+  if canUseHeli then
+    table.insert(vehicleTypes,TppReinforceBlock.REINFORCE_TYPE.HELI)
   end
-  if#n==0 then
+  if#vehicleTypes==0 then
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
-  local e=math.random(1,#n)
-  return n[e]
+  local randomVehicle=math.random(1,#vehicleTypes)
+   return vehicleTypes[randomVehicle]
 end
 function this.ApplyPowerSettingsForReinforce(r)
   for n,e in ipairs(r)do
@@ -1352,7 +1378,19 @@ function this._ApplyRevengeToCp(t,l,a)
       t[e]={}
     end
   end
-  local T={ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},SOFT_ARMOR={"ARMOR"},SNIPER={"SHOTGUN","MG","MISSILE","GUN_LIGHT","ARMOR","SHIELD","SMG"},SHOTGUN={"SNIPER","MG","MISSILE","SHIELD","SMG"},MG={"SNIPER","SHOTGUN","MISSILE","GUN_LIGHT","SHIELD","SMG"},SMG={"SNIPER","SHOTGUN","MG"},MISSILE={"ARMOR","SHIELD","SNIPER","SHOTGUN","MG"},SHIELD={"ARMOR","SNIPER","MISSILE","SHOTGUN","MG"},HELMET={"ARMOR","GAS_MASK","NVG"},GAS_MASK={"ARMOR","HELMET","NVG"},NVG={"ARMOR","HELMET","GAS_MASK"},GUN_LIGHT={"SNIPER","MG"}}
+  local T={
+  ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},
+  SOFT_ARMOR={"ARMOR"},
+  SNIPER={"SHOTGUN","MG","MISSILE","GUN_LIGHT","ARMOR","SHIELD","SMG"},
+  SHOTGUN={"SNIPER","MG","MISSILE","SHIELD","SMG"},
+  MG={"SNIPER","SHOTGUN","MISSILE","GUN_LIGHT","SHIELD","SMG"},
+  SMG={"SNIPER","SHOTGUN","MG"},
+  MISSILE={"ARMOR","SHIELD","SNIPER","SHOTGUN","MG"},
+  SHIELD={"ARMOR","SNIPER","MISSILE","SHOTGUN","MG"},
+  HELMET={"ARMOR","GAS_MASK","NVG"},
+  GAS_MASK={"ARMOR","HELMET","NVG"},
+  NVG={"ARMOR","HELMET","GAS_MASK"},
+  GUN_LIGHT={"SNIPER","MG"}}
   local s={STEALTH_LOW=true,STEALTH_HIGH=true,STEALTH_SPECIAL=true,COMBAT_LOW=true,COMBAT_HIGH=true,COMBAT_SPECIAL=true,HOLDUP_LOW=true,HOLDUP_HIGH=true,HOLDUP_SPECIAL=true,FULTON_LOW=true,FULTON_HIGH=true,FULTON_SPECIAL=true}
   for r,E in ipairs(TppEnemy.POWER_SETTING)do
     local r=l[E]

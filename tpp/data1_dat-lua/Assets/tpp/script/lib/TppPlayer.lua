@@ -811,7 +811,9 @@ function this.GotIntel(a)
     TppMission.UpdateObjective{objectives=e}
   end
 end
-function this.HideIconForIntel()Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL}Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG}
+function this.HideIconForIntel()
+Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL}
+Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG}
 end
 function this.AddTrapSettingForQuest(e)
   local t=e.trapName
@@ -1679,11 +1681,11 @@ function this.SetSelfSubsistenceOnHardMission()--tex reworked
     loadout=1
   end
   if loadout > 0 then
-    e.SetInitWeapons(TppMain.subsistenceLoadouts[loadout])--tex subs loadouts, lua index from 1
+    this.SetInitWeapons(TppMain.subsistenceLoadouts[loadout])--tex subs loadouts, lua index from 1
   end
   if TppMission.IsSubsistenceMission() then
-    e.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
-    e.RegisterTemporaryPlayerType{partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
+    this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
+    this.RegisterTemporaryPlayerType{partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
   end
 end
 --[[function this.SetSelfSubsistenceOnHardMission()--tex ORIG:
@@ -1821,7 +1823,13 @@ function this.OnPickUpCollection(r,n,a,i)
   local r=255
   TppCollection.RepopCountOperation("SetAt",n,r)
   TppTerminal.AddPickedUpResourceToTempBuffer(a,i)
-  local r={[TppCollection.TYPE_POSTER_SOL_AFGN]="key_poster_3500",[TppCollection.TYPE_POSTER_SOL_MAFR]="key_poster_3501",[TppCollection.TYPE_POSTER_GRAVURE_V]="key_poster_3502",[TppCollection.TYPE_POSTER_GRAVURE_H]="key_poster_3503",[TppCollection.TYPE_POSTER_MOE_V]="key_poster_3504",[TppCollection.TYPE_POSTER_MOE_H]="key_poster_3505"}
+  local r={
+  [TppCollection.TYPE_POSTER_SOL_AFGN]="key_poster_3500",
+  [TppCollection.TYPE_POSTER_SOL_MAFR]="key_poster_3501",
+  [TppCollection.TYPE_POSTER_GRAVURE_V]="key_poster_3502",
+  [TppCollection.TYPE_POSTER_GRAVURE_H]="key_poster_3503",
+  [TppCollection.TYPE_POSTER_MOE_V]="key_poster_3504",
+  [TppCollection.TYPE_POSTER_MOE_H]="key_poster_3505"}
   local r=r[a]
   if r~=nil then
     TppUI.ShowAnnounceLog("getPoster",r,TppTerminal.GMP_POSTER)

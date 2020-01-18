@@ -1225,7 +1225,8 @@ function e.CheckAndOpenRetakeThePlatform()
   end
 end
 function e.IsAlwaysOpenRetakeThePlatform()
-  local n=TppDefine.MISSION_ENUM[tostring(10115)]if(gvars.str_missionOpenPermission[n]==false)then
+  local n=TppDefine.MISSION_ENUM[tostring(10115)]
+  if(gvars.str_missionOpenPermission[n]==false)then
     return false
   end
   if TppTerminal.IsCleardRetakeThePlatform()then

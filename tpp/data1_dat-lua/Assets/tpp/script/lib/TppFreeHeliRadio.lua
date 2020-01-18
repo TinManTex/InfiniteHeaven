@@ -168,7 +168,11 @@ function e.OnEnterCpIntelTrap(n)
   if not mvars.FreeHeliRadio_addOptionRadioCount then
     return
   end
-  e._RegisterOptionRadio"f2000_oprg0115"e._RegisterOptionRadio"f2000_oprg0125"e._RegisterOptionRadio"f2000_oprg0130"e._RegisterOptionRadio"f2000_oprg0165"e._RegisterOptionRadio"f2000_oprg0175"
+  e._RegisterOptionRadio"f2000_oprg0115"
+  e._RegisterOptionRadio"f2000_oprg0125"
+  e._RegisterOptionRadio"f2000_oprg0130"
+  e._RegisterOptionRadio"f2000_oprg0165"
+  e._RegisterOptionRadio"f2000_oprg0175"
   if TppClock.GetTimeOfDay()=="night"then
     e._RegisterOptionRadio"f2000_oprg0165"
   else
@@ -179,7 +183,12 @@ function e.OnExitCpIntelTrap(n)
   if not mvars.FreeHeliRadio_addOptionRadioCount then
     return
   end
-  e._UnregisterOptionRadio"f2000_oprg0115"e._UnregisterOptionRadio"f2000_oprg0125"e._UnregisterOptionRadio"f2000_oprg0130"e._UnregisterOptionRadio"f2000_oprg0175"e._UnregisterOptionRadio"f2000_oprg0165"e._UnregisterOptionRadio"f2000_oprg0155"
+  e._UnregisterOptionRadio"f2000_oprg0115"
+  e._UnregisterOptionRadio"f2000_oprg0125"
+  e._UnregisterOptionRadio"f2000_oprg0130"
+  e._UnregisterOptionRadio"f2000_oprg0175"
+  e._UnregisterOptionRadio"f2000_oprg0165"
+  e._UnregisterOptionRadio"f2000_oprg0155"
 end
 function e.TryPandemicStart()
   local n=false

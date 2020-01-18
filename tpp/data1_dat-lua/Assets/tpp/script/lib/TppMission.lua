@@ -1468,17 +1468,16 @@ function this.GetNormalMissionCodeFromHardMission(e)
   return e-1e3
 end--]]
 function this.IsSubsistenceMission()
-  --tex added subsitence toggle
-  if(vars.missionCode==11043)or(vars.missionCode==11044)or(gvars.isManualSubsistence > 0)then
+  if(vars.missionCode==11043)or(vars.missionCode==11044)or(gvars.isManualSubsistence > 0)then--tex added subsitence toggle
     return true
   else
     return false
   end
 end
-function this.IsManualSubsistenceMission()
+function this.IsManualSubsistenceMission()--tex
   return (gvars.isManualSubsistence > 0)
 end
-function this.IsActualSubsistenceMission()
+function this.IsActualSubsistenceMission()--tex
   if(vars.missionCode==11043)or(vars.missionCode==11044)then
     return true
   else
@@ -1906,9 +1905,9 @@ function this.OnPlayerDead(i,n)
 end
 function this.OnEndMissionPreparation(n,i)
   mvars.mis_selectedDeployTime=n
-  if this.IsSubsistenceMission() then --tex force ASAP mission time
+  if this.IsSubsistenceMission() then--tex force ASAP mission time
     mvars.mis_selectedDeployTime=TppClock.DEPLOY_TIME.CURRENT
-  end --
+  end--
   if gvars.mis_nextMissionCodeForEmergency==0 then
     local s
     if gvars.heli_missionStartRoute==0 then

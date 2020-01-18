@@ -703,7 +703,7 @@ function a.PreMissionLoad(e,a)
   TppSoldier2.SetDefaultPartsPath()
   TppSoldier2.SetExtendPartsInfo{}
   TppHostage2.ClearDefaultBodyFovaId()
-  if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
+  if TppLocation.IsMotherBase()or TppLocation.IsMBQF() then
     local a=TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
     local e=TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
     TppEnemy.PrepareDDParameter(a,e)

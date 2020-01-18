@@ -1,14 +1,32 @@
 local a={}
-local p={}p[TppDefine.LOCATION_ID.INIT]={"/Assets/tpptest/pack/location/empty/empty.fpk"}p[TppDefine.LOCATION_ID.AFGH]={"/Assets/tpp/pack/location/afgh/afgh.fpk"}p[TppDefine.LOCATION_ID.MAFR]={"/Assets/tpp/pack/location/mafr/mafr.fpk"}p[TppDefine.LOCATION_ID.CYPR]={"/Assets/tpp/pack/location/cypr/cypr.fpk"}p[TppDefine.LOCATION_ID.GNTN]={"/Assets/tpp/pack/location/gntn/gntn.fpk"}p[TppDefine.LOCATION_ID.OMBS]={"/Assets/tpp/pack/location/ombs/ombs.fpk"}p[TppDefine.LOCATION_ID.MTBS]={"/Assets/tpp/pack/location/mtbs/mtbs.fpk"}p[TppDefine.LOCATION_ID.HLSP]={"/Assets/tpp/pack/location/hlsp/hlsp.fpk"}p[TppDefine.LOCATION_ID.MBQF]={"/Assets/tpp/pack/location/mbqf/mbqf.fpk"}p[TppDefine.LOCATION_ID.FLYK]={"/Assets/tpp/pack/location/flyk/flyk.fpk"}p[TppDefine.LOCATION_ID.SAND_AFGH]={"/Assets/tpp_sandbox/pack/game_core/stage/gc_afgh.fpk"}p[TppDefine.LOCATION_ID.SAND_MAFR]={"/Assets/tpp/pack/location/mafr/mafr.fpk"}p[TppDefine.LOCATION_ID.SAND_MTBS]={"/Assets/tpp_sandbox/pack/game_core/stage/gc_mtbs.fpk"}
-local s={}s[1]={"/Assets/tpp/pack/ui/gz/gz_pause_key_setting_data.fpk","/Assets/tpp/pack/mission2/init/init.fpk"}s[5]=function(p)
-  TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/init/title.fpk"
+local p={}
+p[TppDefine.LOCATION_ID.INIT]={"/Assets/tpptest/pack/location/empty/empty.fpk"}
+p[TppDefine.LOCATION_ID.AFGH]={"/Assets/tpp/pack/location/afgh/afgh.fpk"}
+p[TppDefine.LOCATION_ID.MAFR]={"/Assets/tpp/pack/location/mafr/mafr.fpk"}
+p[TppDefine.LOCATION_ID.CYPR]={"/Assets/tpp/pack/location/cypr/cypr.fpk"}
+p[TppDefine.LOCATION_ID.GNTN]={"/Assets/tpp/pack/location/gntn/gntn.fpk"}
+p[TppDefine.LOCATION_ID.OMBS]={"/Assets/tpp/pack/location/ombs/ombs.fpk"}
+p[TppDefine.LOCATION_ID.MTBS]={"/Assets/tpp/pack/location/mtbs/mtbs.fpk"}
+p[TppDefine.LOCATION_ID.HLSP]={"/Assets/tpp/pack/location/hlsp/hlsp.fpk"}
+p[TppDefine.LOCATION_ID.MBQF]={"/Assets/tpp/pack/location/mbqf/mbqf.fpk"}
+p[TppDefine.LOCATION_ID.FLYK]={"/Assets/tpp/pack/location/flyk/flyk.fpk"}
+p[TppDefine.LOCATION_ID.SAND_AFGH]={"/Assets/tpp_sandbox/pack/game_core/stage/gc_afgh.fpk"}
+p[TppDefine.LOCATION_ID.SAND_MAFR]={"/Assets/tpp/pack/location/mafr/mafr.fpk"}
+p[TppDefine.LOCATION_ID.SAND_MTBS]={"/Assets/tpp_sandbox/pack/game_core/stage/gc_mtbs.fpk"}
+local s={}
+s[1]={"/Assets/tpp/pack/ui/gz/gz_pause_key_setting_data.fpk","/Assets/tpp/pack/mission2/init/init.fpk"}
+s[5]=function(p)
+  TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
+TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/init/title.fpk"
 end
 s[10010]=function(p)
   if TppPackList.IsMissionPackLabel"afterMissionClearMovie"then
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_SCRIPT)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10010/s10010_l02.fpk"
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
+TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10010/s10010_l02.fpk"
   else
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"TppPackList.AddLocationCommonScriptPack(p)
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
+TppPackList.AddLocationCommonScriptPack(p)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10010/s10010_l01.fpk"TppHostage2.SetHostageType{gameObjectType="TppHostageUnique",hostageType="Ishmael"}
     if TppHostage2.SetHostageType then
@@ -270,7 +288,8 @@ s[10100]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV_CANNON)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_DECOY)
-  TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
+TppPackList.AddDefaultMissionAreaPack(p)do
     local o="sol_target_0000"
     local s=EnemyFova.INVALID_FOVA_VALUE
     local t="hos_diamond_0000"
@@ -406,14 +425,16 @@ s[10130]=function(p)
   TppPackList.AddMissionPack(TppHelicopter.GetEnemyColoringPack(TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK))
   TppPackList.AddMissionPack(TppHelicopter.GetEnemyColoringPack(TppDefine.ENEMY_HELI_COLORING_TYPE.RED))
   if TppPackList.IsMissionPackLabel"CamoParasiteAllKill"then
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV)
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
+TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV_CANNON)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10130/s10130_area02.fpk"
   elseif TppPackList.IsMissionPackLabel"CodeTalkerClearDemo"then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10130/s10130_area03.fpk"
   else
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"TppPackList.AddDefaultMissionAreaPack(p)
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
+TppPackList.AddDefaultMissionAreaPack(p)
   end
 end
 s[10140]=function(p)
@@ -427,12 +448,14 @@ s[10140]=function(p)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10140/s10140_area01.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_Buddy.fpk"
   elseif TppPackList.IsMissionPackLabel"AfterClear"then
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.OCELOT)
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
+TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.OCELOT)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.CODETALKER)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10140/s10140_area00.fpk"
   else
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.CODETALKER)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"TppPackList.AddDefaultMissionAreaPack(p)
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
+TppPackList.AddDefaultMissionAreaPack(p)
   end
 end
 s[10150]=function(p)
@@ -544,7 +567,30 @@ s[10260]=function(p)
   TppPackList.AddMissionPack(TppHelicopter.GetEnemyColoringPack(TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK))
   TppPackList.AddDefaultMissionAreaPack(p)
 end
-s[10280]=s[10010]s[11043]=s[10043]s[11041]=s[10041]s[11054]=s[10054]s[11085]=s[10085]s[11082]=s[10082]s[11090]=s[10090]s[11036]=s[10036]s[11033]=s[10033]s[11050]=s[10050]s[11091]=s[10091]s[11195]=s[10195]s[11211]=s[10211]s[11140]=s[10140]s[11200]=s[10200]s[11080]=s[10080]s[11171]=s[10171]s[11121]=s[10121]s[11115]=s[10115]s[11130]=s[10130]s[11044]=s[10044]s[11052]=s[10052]s[11151]=s[10151]s[30010]=function(p)
+s[10280]=s[10010]
+s[11043]=s[10043]
+s[11041]=s[10041]
+s[11054]=s[10054]
+s[11085]=s[10085]
+s[11082]=s[10082]
+s[11090]=s[10090]
+s[11036]=s[10036]
+s[11033]=s[10033]
+s[11050]=s[10050]
+s[11091]=s[10091]
+s[11195]=s[10195]
+s[11211]=s[10211]
+s[11140]=s[10140]
+s[11200]=s[10200]
+s[11080]=s[10080]
+s[11171]=s[10171]
+s[11121]=s[10121]
+s[11115]=s[10115]
+s[11130]=s[10130]
+s[11044]=s[10044]
+s[11052]=s[10052]
+s[11151]=s[10151]
+s[30010]=function(p)
   TppPackList.AddLocationCommonScriptPack(p)
   TppPackList.AddLocationCommonMissionAreaPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ORDER_BOX)
@@ -592,13 +638,15 @@ s[30050]=function(i)
       end
       gvars.f30050_missionPackIndex=2
     elseif a then
-      TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30051.fpk"TppPackList.SetMissionPackLabelName"DemoStage"gvars.f30050_missionPackIndex=1
+      TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30051.fpk"
+TppPackList.SetMissionPackLabelName"DemoStage"gvars.f30050_missionPackIndex=1
     else
       do
         TppEneFova.AddUniquePackage{type="hostage",body={{371,1}}}
       end
       TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT)
-      TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050.fpk"TppPackList.AddFOBLayoutPack(i)gvars.f30050_missionPackIndex=0
+      TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050.fpk"
+TppPackList.AddFOBLayoutPack(i)gvars.f30050_missionPackIndex=0
     end
   end
   TppHostage2.SetHostageType{gameObjectType="TppHostageUnique",hostageType="Paz"}
@@ -638,7 +686,8 @@ s[40010]=function(p)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/h40010/h40010_avatar.fpk"
   else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/heli_ui.fpk"TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/heli_ui.fpk"
+TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
     TppPackList.AddLocationCommonScriptPack(p)
     TppPackList.AddDefaultMissionAreaPack(p)
   end
@@ -679,7 +728,8 @@ s[40050]=function(p)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/h40050/h40050_avatar.fpk"
   else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/heli_ui.fpk"TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/heli_ui.fpk"
+TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
     TppPackList.AddLocationCommonScriptPack(p)
     TppPackList.AddDefaultMissionAreaPack(p)
   end

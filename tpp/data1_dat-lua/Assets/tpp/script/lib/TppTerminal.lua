@@ -13,9 +13,142 @@ e.MOTHER_BASE_SECTION_LIST={"Combat","BaseDev","Spy","Medical","Security","Hospi
 local t=TppMotherBaseManagementConst or{}
 local E={Combat={DispatchSoldier=t.SECTION_FUNC_ID_COMBAT_DEPLOY,DispatchFobDefence=t.SECTION_FUNC_ID_COMBAT_DEFENCE},Develop={Weapon=t.SECTION_FUNC_ID_DEVELOP_WEAPON,SupportHelicopter=t.SECTION_FUNC_ID_DEVELOP_HELI,Quiet=t.SECTION_FUNC_ID_DEVELOP_QUIET,D_Dog=t.SECTION_FUNC_ID_DEVELOP_D_DOG,D_Horse=t.SECTION_FUNC_ID_DEVELOP_D_HORSE,D_Walker=t.SECTION_FUNC_ID_DEVELOP_D_WALKER,BattleGear=t.SECTION_FUNC_ID_DEVELOP_BATTLE_GEAR,SecurityDevice=t.SECTION_FUNC_ID_DEVELOP_SECURITY_DEVICE},BaseDev={Mining=t.SECTION_FUNC_ID_BASE_DEV_RESOURCE_MINING,Processing=t.SECTION_FUNC_ID_BASE_DEV_RESOURCE_PROCESSING,Extention=t.SECTION_FUNC_ID_BASE_DEV_PLATFORM_EXTENTION,Construct=t.SECTION_FUNC_ID_BASE_DEV_FOB_CONSTRUCT,NuclearDevelop=t.SECTION_FUNC_ID_BASE_DEV_NUCLEAR_DEVELOP},Support={Fulton=t.SECTION_FUNC_ID_SUPPORT_FULTON,Supply=t.SECTION_FUNC_ID_SUPPORT_SUPPLY,Battle=t.SECTION_FUNC_ID_SUPPORT_BATTLE,BattleArtillery=t.SECTION_FUNC_ID_SUPPORT_STRIKE,BattleSmoke=t.SECTION_FUNC_ID_SUPPORT_SMOKE,BattleSleepGas=t.SECTION_FUNC_ID_SUPPORT_SLEEP_GAS,BattleChaff=t.SECTION_FUNC_ID_SUPPORT_CHAFF,BattleWeather=t.SECTION_FUNC_ID_SUPPORT_WEATHER,TranslationRussian=t.SECTION_FUNC_ID_SUPPORT_RUSSIAN_TRANSLATE,TranslationAfrikaans=t.SECTION_FUNC_ID_SUPPORT_AFRIKAANS_TRANSLATE,TranslationKikongo=t.SECTION_FUNC_ID_SUPPORT_KIKONGO_TRANSLATE,TranslationPashto=t.SECTION_FUNC_ID_SUPPORT_PASHTO_TRANSLATE},Spy={Information=t.SECTION_FUNC_ID_SPY_MISSION_INFO_COLLECTING,Scouting=t.SECTION_FUNC_ID_SPY_ENEMY_SEARCH,SearchResource=t.SECTION_FUNC_ID_SPY_RESOURCE_SEARCH,WeatherInformation=t.SECTION_FUNC_ID_SPY_WEATHER_INFO},Medical={Emergency=t.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY,Treatment=t.SECTION_FUNC_ID_MEDICAL_STAFF_TREATMENT},Security={BaseDefence=t.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_STAFF,MachineDefence=t.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_MACHINE,BaseBlockade=t.SECTION_FUNC_ID_SECURITY_BASE_BLOCKADE,SecurityInfo=t.SECTION_FUNC_ID_SPY_SECURITY_INFO}}
 e.setUpMenuList={}
-e.MBDVCMENU={ALL="all",MBM="MBM",MBM_REWORD="MBM_REWORD",MBM_CUSTOM="MBM_CUSTOM",MBM_CUSTOM_WEAPON="MBM_CUSTOM_WEAPON",MBM_CUSTOM_ARMS="MBM_CUSTOM_ARMS",MBM_CUSTOM_ARMS_HELI="MBM_CUSTOM_ARMS_HELI",MBM_CUSTOM_ARMS_VEHICLE="MBM_CUSTOM_ARMS_VEHICLE",MBM_CUSTOM_BUDDY="MBM_CUSTOM_BUDDY",MBM_CUSTOM_BUDDY_HORSE="MBM_CUSTOM_BUDDY_HORSE",MBM_CUSTOM_BUDDY_DOG="MBM_CUSTOM_BUDDY_DOG",MBM_CUSTOM_BUDDY_QUIET="MBM_CUSTOM_BUDDY_QUIET",MBM_CUSTOM_BUDDY_WALKER="MBM_CUSTOM_BUDDY_WALKER",MBM_CUSTOM_BUDDY_BATTLE="MBM_CUSTOM_BUDDY_BATTLE",MBM_CUSTOM_DESIGN="MBM_CUSTOM_DESIGN",MBM_CUSTOM_DESIGN_EMBLEM="MBM_CUSTOM_DESIGN_EMBLEM",MBM_CUSTOM_DESIGN_BASE="MBM_CUSTOM_DESIGN_BASE",MBM_CUSTOM_AVATAR="MBM_CUSTOM_AVATAR",MBM_DEVELOP="MBM_DEVELOP",MBM_DEVELOP_WEAPON="MBM_DEVELOP_WEAPON",MBM_DEVELOP_ARMS="MBM_DEVELOP_ARMS",MBM_RESOURCE="MBM_RESOURCE",MBM_STAFF="MBM_STAFF",MBM_COMBAT="MBM_COMBAT",MBM_BASE="MBM_BASE",MBM_BASE_SECURITY="MBM_BASE_SECURITY",MBM_BASE_EXPANTION="MBM_BASE_EXPANTION",MBM_DB="MBM_DB",MBM_DB_ENCYCLOPEDIA="MBM_DB_ENCYCLOPEDIA",MBM_DB_KEYITEM="MBM_DB_KEYITEM",MBM_DB_CASSETTE="MBM_DB_CASSETTE",MBM_DB_PFRATING="MBM_DB_PFRATING",MBM_LOG="MBM_LOG",MSN="MSN",MSN_EMERGENCIE_N="MSN_EMERGENCIE_N",MSN_EMERGENCIE_F="MSN_EMERGENCIE_F",MSN_DROP="MSN_DROP",MSN_DROP_BULLET="MSN_DROP_BULLET",MSN_DROP_WEAPON="MSN_DROP_WEAPON",MSN_DROP_LOADOUT="MSN_DROP_LOADOUT",MSN_DROP_VEHICLE="MSN_DROP_VEHICLE",MSN_BUDDY="MSN_BUDDY",MSN_BUDDY_HORSE="MSN_BUDDY_HORSE",MSN_BUDDY_HORSE_DISMISS="MSN_BUDDY_HORSE_DISMISS",MSN_BUDDY_DOG="MSN_BUDDY_DOG",MSN_BUDDY_DOG_DISMISS="MSN_BUDDY_DOG_DISMISS",MSN_BUDDY_QUIET_SCOUT="MSN_BUDDY_QUIET_SCOUT",MSN_BUDDY_QUIET_ATTACK="MSN_BUDDY_QUIET_ATTACK",MSN_BUDDY_QUIET_DISMISS="MSN_BUDDY_QUIET_DISMISS",MSN_BUDDY_WALKER="MSN_BUDDY_WALKER",MSN_BUDDY_WALKER_DISMISS="MSN_BUDDY_WALKER_DISMISS",MSN_BUDDY_BATTLE="MSN_BUDDY_BATTLE",MSN_BUDDY_BATTLE_DISMISS="MSN_BUDDY_BATTLE_DISMISS",MSN_BUDDY_EQUIP="MSN_BUDDY_EQUIP",MSN_ATTACK="MSN_ATTACK",MSN_ATTACK_ARTILLERY="MSN_ATTACK_ARTILLERY",MSN_ATTACK_SMOKE="MSN_ATTACK_SMOKE",MSN_ATTACK_SLEEP="MSN_ATTACK_SLEEP",MSN_ATTACK_CHAFF="MSN_ATTACK_CHAFF",MSN_ATTACK_WEATHER="MSN_ATTACK_WEATHER",MSN_ATTACK_WEATHER_SANDSTORM="MSN_ATTACK_WEATHER_SANDSTORM",MSN_ATTACK_WEATHER_STORM="MSN_ATTACK_WEATHER_STORM",MSN_ATTACK_WEATHER_CLEAR="MSN_ATTACK_WEATHER_CLEAR",MSN_HELI="MSN_HELI",MSN_HELI_RENDEZVOUS="MSN_HELI_RENDEZVOUS",MSN_HELI_ATTACK="MSN_HELI_ATTACK",MSN_HELI_DISMISS="MSN_HELI_DISMISS",MSN_MISSIONLIST="MSN_MISSIONLIST",MSN_SIDEOPSLIST="MSN_SIDEOPSLIST",MSN_LOCATION="MSN_LOCATION",MSN_RETURNMB="MSN_RETURNMB",MSN_FOB="MSN_FOB",MSN_FRIEND="MSN_FRIEND",MSN_LOG="MSN_LOG"}
-e.BUDDY_MB_DVC_MENU={[BuddyType.QUIET]={{menu=e.MBDVCMENU.MSN_BUDDY_QUIET_SCOUT,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_QUIET_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_QUIET_DISMISS,active=true}},[BuddyType.DOG]={{menu=e.MBDVCMENU.MSN_BUDDY_DOG,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_DOG_DISMISS,active=true}},[BuddyType.HORSE]={{menu=e.MBDVCMENU.MSN_BUDDY_HORSE,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_HORSE_DISMISS,active=true}},[BuddyType.WALKER_GEAR]={{menu=e.MBDVCMENU.MSN_BUDDY_WALKER,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_WALKER_DISMISS,active=true}},[BuddyType.BATTLE_GEAR]={{menu=e.MBDVCMENU.MSN_BUDDY_BATTLE,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_BATTLE_DISMISS,active=true}}}
-e.RESOURCE_INFORMATION_TABLE={[TppCollection.TYPE_MATERIAL_CM_0]={resourceName="CommonMetal",count=100},[TppCollection.TYPE_MATERIAL_CM_1]={resourceName="CommonMetal",count=100},[TppCollection.TYPE_MATERIAL_CM_2]={resourceName="CommonMetal",count=100},[TppCollection.TYPE_MATERIAL_CM_3]={resourceName="CommonMetal",count=100},[TppCollection.TYPE_MATERIAL_CM_4]={resourceName="CommonMetal",count=100},[TppCollection.TYPE_MATERIAL_CM_5]={resourceName="CommonMetal",count=100},[TppCollection.TYPE_MATERIAL_CM_6]={resourceName="CommonMetal",count=100},[TppCollection.TYPE_MATERIAL_CM_7]={resourceName="CommonMetal",count=100},[TppCollection.TYPE_MATERIAL_MM_0]={resourceName="MinorMetal",count=50},[TppCollection.TYPE_MATERIAL_MM_1]={resourceName="MinorMetal",count=50},[TppCollection.TYPE_MATERIAL_MM_2]={resourceName="MinorMetal",count=50},[TppCollection.TYPE_MATERIAL_MM_3]={resourceName="MinorMetal",count=50},[TppCollection.TYPE_MATERIAL_MM_4]={resourceName="MinorMetal",count=50},[TppCollection.TYPE_MATERIAL_MM_5]={resourceName="MinorMetal",count=50},[TppCollection.TYPE_MATERIAL_MM_6]={resourceName="MinorMetal",count=50},[TppCollection.TYPE_MATERIAL_MM_7]={resourceName="MinorMetal",count=50},[TppCollection.TYPE_MATERIAL_PM_0]={resourceName="PreciousMetal",count=10},[TppCollection.TYPE_MATERIAL_PM_1]={resourceName="PreciousMetal",count=10},[TppCollection.TYPE_MATERIAL_PM_2]={resourceName="PreciousMetal",count=10},[TppCollection.TYPE_MATERIAL_PM_3]={resourceName="PreciousMetal",count=10},[TppCollection.TYPE_MATERIAL_PM_4]={resourceName="PreciousMetal",count=10},[TppCollection.TYPE_MATERIAL_PM_5]={resourceName="PreciousMetal",count=10},[TppCollection.TYPE_MATERIAL_PM_6]={resourceName="PreciousMetal",count=10},[TppCollection.TYPE_MATERIAL_PM_7]={resourceName="PreciousMetal",count=10},[TppCollection.TYPE_MATERIAL_FR_0]={resourceName="FuelResource",count=100},[TppCollection.TYPE_MATERIAL_FR_1]={resourceName="FuelResource",count=100},[TppCollection.TYPE_MATERIAL_FR_2]={resourceName="FuelResource",count=100},[TppCollection.TYPE_MATERIAL_FR_3]={resourceName="FuelResource",count=100},[TppCollection.TYPE_MATERIAL_FR_4]={resourceName="FuelResource",count=100},[TppCollection.TYPE_MATERIAL_FR_5]={resourceName="FuelResource",count=100},[TppCollection.TYPE_MATERIAL_FR_6]={resourceName="FuelResource",count=100},[TppCollection.TYPE_MATERIAL_FR_7]={resourceName="FuelResource",count=100},[TppCollection.TYPE_MATERIAL_BR_0]={resourceName="BioticResource",count=100},[TppCollection.TYPE_MATERIAL_BR_1]={resourceName="BioticResource",count=100},[TppCollection.TYPE_MATERIAL_BR_2]={resourceName="BioticResource",count=100},[TppCollection.TYPE_MATERIAL_BR_3]={resourceName="BioticResource",count=100},[TppCollection.TYPE_MATERIAL_BR_4]={resourceName="BioticResource",count=100},[TppCollection.TYPE_MATERIAL_BR_5]={resourceName="BioticResource",count=100},[TppCollection.TYPE_MATERIAL_BR_6]={resourceName="BioticResource",count=100},[TppCollection.TYPE_MATERIAL_BR_7]={resourceName="BioticResource",count=100},[TppCollection.TYPE_HERB_G_CRESCENT]={resourceName="Plant2000",count=10},[TppCollection.TYPE_HERB_A_PEACH]={resourceName="Plant2001",count=10},[TppCollection.TYPE_HERB_DIGITALIS_P]={resourceName="Plant2002",count=10},[TppCollection.TYPE_HERB_DIGITALIS_R]={resourceName="Plant2003",count=10},[TppCollection.TYPE_HERB_B_CARROT]={resourceName="Plant2004",count=10},[TppCollection.TYPE_HERB_WORM_WOOD]={resourceName="Plant2005",count=10},[TppCollection.TYPE_HERB_TARRAGON]={resourceName="Plant2006",count=10},[TppCollection.TYPE_HERB_HAOMA]={resourceName="Plant2007",count=10},[TppCollection.TYPE_POSTER_SOL_AFGN]={resourceName="Poster1000",count=1},[TppCollection.TYPE_POSTER_SOL_MAFR]={resourceName="Poster1001",count=1},[TppCollection.TYPE_POSTER_SOL_ZRS]={resourceName="Poster1002",count=1},[TppCollection.TYPE_POSTER_GRAVURE_V]={resourceName="Poster1003",count=1},[TppCollection.TYPE_POSTER_GRAVURE_H]={resourceName="Poster1004",count=1},[TppCollection.TYPE_POSTER_MOE_V]={resourceName="Poster1005",count=1},[TppCollection.TYPE_POSTER_MOE_H]={resourceName="Poster1006",count=1}}
+e.MBDVCMENU={ALL="all",
+MBM="MBM",
+MBM_REWORD="MBM_REWORD",
+MBM_CUSTOM="MBM_CUSTOM",
+MBM_CUSTOM_WEAPON="MBM_CUSTOM_WEAPON",
+MBM_CUSTOM_ARMS="MBM_CUSTOM_ARMS",
+MBM_CUSTOM_ARMS_HELI="MBM_CUSTOM_ARMS_HELI",
+MBM_CUSTOM_ARMS_VEHICLE="MBM_CUSTOM_ARMS_VEHICLE",
+MBM_CUSTOM_BUDDY="MBM_CUSTOM_BUDDY",
+MBM_CUSTOM_BUDDY_HORSE="MBM_CUSTOM_BUDDY_HORSE",
+MBM_CUSTOM_BUDDY_DOG="MBM_CUSTOM_BUDDY_DOG",
+MBM_CUSTOM_BUDDY_QUIET="MBM_CUSTOM_BUDDY_QUIET",
+MBM_CUSTOM_BUDDY_WALKER="MBM_CUSTOM_BUDDY_WALKER",
+MBM_CUSTOM_BUDDY_BATTLE="MBM_CUSTOM_BUDDY_BATTLE",
+MBM_CUSTOM_DESIGN="MBM_CUSTOM_DESIGN",
+MBM_CUSTOM_DESIGN_EMBLEM="MBM_CUSTOM_DESIGN_EMBLEM",
+MBM_CUSTOM_DESIGN_BASE="MBM_CUSTOM_DESIGN_BASE",
+MBM_CUSTOM_AVATAR="MBM_CUSTOM_AVATAR",
+MBM_DEVELOP="MBM_DEVELOP",
+MBM_DEVELOP_WEAPON="MBM_DEVELOP_WEAPON",
+MBM_DEVELOP_ARMS="MBM_DEVELOP_ARMS",
+MBM_RESOURCE="MBM_RESOURCE",
+MBM_STAFF="MBM_STAFF",
+MBM_COMBAT="MBM_COMBAT",
+MBM_BASE="MBM_BASE",
+MBM_BASE_SECURITY="MBM_BASE_SECURITY",
+MBM_BASE_EXPANTION="MBM_BASE_EXPANTION",
+MBM_DB="MBM_DB",
+MBM_DB_ENCYCLOPEDIA="MBM_DB_ENCYCLOPEDIA",
+MBM_DB_KEYITEM="MBM_DB_KEYITEM",
+MBM_DB_CASSETTE="MBM_DB_CASSETTE",
+MBM_DB_PFRATING="MBM_DB_PFRATING",
+MBM_LOG="MBM_LOG",
+MSN="MSN",
+MSN_EMERGENCIE_N="MSN_EMERGENCIE_N",
+MSN_EMERGENCIE_F="MSN_EMERGENCIE_F",
+MSN_DROP="MSN_DROP",
+MSN_DROP_BULLET="MSN_DROP_BULLET",
+MSN_DROP_WEAPON="MSN_DROP_WEAPON",
+MSN_DROP_LOADOUT="MSN_DROP_LOADOUT",
+MSN_DROP_VEHICLE="MSN_DROP_VEHICLE",
+MSN_BUDDY="MSN_BUDDY",
+MSN_BUDDY_HORSE="MSN_BUDDY_HORSE",
+MSN_BUDDY_HORSE_DISMISS="MSN_BUDDY_HORSE_DISMISS",
+MSN_BUDDY_DOG="MSN_BUDDY_DOG",
+MSN_BUDDY_DOG_DISMISS="MSN_BUDDY_DOG_DISMISS",
+MSN_BUDDY_QUIET_SCOUT="MSN_BUDDY_QUIET_SCOUT",
+MSN_BUDDY_QUIET_ATTACK="MSN_BUDDY_QUIET_ATTACK",
+MSN_BUDDY_QUIET_DISMISS="MSN_BUDDY_QUIET_DISMISS",
+MSN_BUDDY_WALKER="MSN_BUDDY_WALKER",
+MSN_BUDDY_WALKER_DISMISS="MSN_BUDDY_WALKER_DISMISS",
+MSN_BUDDY_BATTLE="MSN_BUDDY_BATTLE",
+MSN_BUDDY_BATTLE_DISMISS="MSN_BUDDY_BATTLE_DISMISS",
+MSN_BUDDY_EQUIP="MSN_BUDDY_EQUIP",
+MSN_ATTACK="MSN_ATTACK",
+MSN_ATTACK_ARTILLERY="MSN_ATTACK_ARTILLERY",
+MSN_ATTACK_SMOKE="MSN_ATTACK_SMOKE",
+MSN_ATTACK_SLEEP="MSN_ATTACK_SLEEP",
+MSN_ATTACK_CHAFF="MSN_ATTACK_CHAFF",
+MSN_ATTACK_WEATHER="MSN_ATTACK_WEATHER",
+MSN_ATTACK_WEATHER_SANDSTORM="MSN_ATTACK_WEATHER_SANDSTORM",
+MSN_ATTACK_WEATHER_STORM="MSN_ATTACK_WEATHER_STORM",
+MSN_ATTACK_WEATHER_CLEAR="MSN_ATTACK_WEATHER_CLEAR",
+MSN_HELI="MSN_HELI",
+MSN_HELI_RENDEZVOUS="MSN_HELI_RENDEZVOUS",
+MSN_HELI_ATTACK="MSN_HELI_ATTACK",
+MSN_HELI_DISMISS="MSN_HELI_DISMISS",
+MSN_MISSIONLIST="MSN_MISSIONLIST",
+MSN_SIDEOPSLIST="MSN_SIDEOPSLIST",
+MSN_LOCATION="MSN_LOCATION",
+MSN_RETURNMB="MSN_RETURNMB",
+MSN_FOB="MSN_FOB",
+MSN_FRIEND="MSN_FRIEND",
+MSN_LOG="MSN_LOG"}
+e.BUDDY_MB_DVC_MENU={
+  [BuddyType.QUIET]={{menu=e.MBDVCMENU.MSN_BUDDY_QUIET_SCOUT,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_QUIET_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_QUIET_DISMISS,active=true}},
+  [BuddyType.DOG]={{menu=e.MBDVCMENU.MSN_BUDDY_DOG,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_DOG_DISMISS,active=true}},
+  [BuddyType.HORSE]={{menu=e.MBDVCMENU.MSN_BUDDY_HORSE,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_HORSE_DISMISS,active=true}},
+  [BuddyType.WALKER_GEAR]={{menu=e.MBDVCMENU.MSN_BUDDY_WALKER,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_WALKER_DISMISS,active=true}},
+  [BuddyType.BATTLE_GEAR]={{menu=e.MBDVCMENU.MSN_BUDDY_BATTLE,active=true},{menu=e.MBDVCMENU.MSN_BUDDY_BATTLE_DISMISS,active=true}}}
+e.RESOURCE_INFORMATION_TABLE={
+[TppCollection.TYPE_MATERIAL_CM_0]={resourceName="CommonMetal",count=100},
+[TppCollection.TYPE_MATERIAL_CM_1]={resourceName="CommonMetal",count=100},
+[TppCollection.TYPE_MATERIAL_CM_2]={resourceName="CommonMetal",count=100},
+[TppCollection.TYPE_MATERIAL_CM_3]={resourceName="CommonMetal",count=100},
+[TppCollection.TYPE_MATERIAL_CM_4]={resourceName="CommonMetal",count=100},
+[TppCollection.TYPE_MATERIAL_CM_5]={resourceName="CommonMetal",count=100},
+[TppCollection.TYPE_MATERIAL_CM_6]={resourceName="CommonMetal",count=100},
+[TppCollection.TYPE_MATERIAL_CM_7]={resourceName="CommonMetal",count=100},
+[TppCollection.TYPE_MATERIAL_MM_0]={resourceName="MinorMetal",count=50},
+[TppCollection.TYPE_MATERIAL_MM_1]={resourceName="MinorMetal",count=50},
+[TppCollection.TYPE_MATERIAL_MM_2]={resourceName="MinorMetal",count=50},
+[TppCollection.TYPE_MATERIAL_MM_3]={resourceName="MinorMetal",count=50},
+[TppCollection.TYPE_MATERIAL_MM_4]={resourceName="MinorMetal",count=50},
+[TppCollection.TYPE_MATERIAL_MM_5]={resourceName="MinorMetal",count=50},
+[TppCollection.TYPE_MATERIAL_MM_6]={resourceName="MinorMetal",count=50},
+[TppCollection.TYPE_MATERIAL_MM_7]={resourceName="MinorMetal",count=50},
+[TppCollection.TYPE_MATERIAL_PM_0]={resourceName="PreciousMetal",count=10},
+[TppCollection.TYPE_MATERIAL_PM_1]={resourceName="PreciousMetal",count=10},
+[TppCollection.TYPE_MATERIAL_PM_2]={resourceName="PreciousMetal",count=10},
+[TppCollection.TYPE_MATERIAL_PM_3]={resourceName="PreciousMetal",count=10},
+[TppCollection.TYPE_MATERIAL_PM_4]={resourceName="PreciousMetal",count=10},
+[TppCollection.TYPE_MATERIAL_PM_5]={resourceName="PreciousMetal",count=10},
+[TppCollection.TYPE_MATERIAL_PM_6]={resourceName="PreciousMetal",count=10},
+[TppCollection.TYPE_MATERIAL_PM_7]={resourceName="PreciousMetal",count=10},
+[TppCollection.TYPE_MATERIAL_FR_0]={resourceName="FuelResource",count=100},
+[TppCollection.TYPE_MATERIAL_FR_1]={resourceName="FuelResource",count=100},
+[TppCollection.TYPE_MATERIAL_FR_2]={resourceName="FuelResource",count=100},
+[TppCollection.TYPE_MATERIAL_FR_3]={resourceName="FuelResource",count=100},
+[TppCollection.TYPE_MATERIAL_FR_4]={resourceName="FuelResource",count=100},
+[TppCollection.TYPE_MATERIAL_FR_5]={resourceName="FuelResource",count=100},
+[TppCollection.TYPE_MATERIAL_FR_6]={resourceName="FuelResource",count=100},
+[TppCollection.TYPE_MATERIAL_FR_7]={resourceName="FuelResource",count=100},
+[TppCollection.TYPE_MATERIAL_BR_0]={resourceName="BioticResource",count=100},
+[TppCollection.TYPE_MATERIAL_BR_1]={resourceName="BioticResource",count=100},
+[TppCollection.TYPE_MATERIAL_BR_2]={resourceName="BioticResource",count=100},
+[TppCollection.TYPE_MATERIAL_BR_3]={resourceName="BioticResource",count=100},
+[TppCollection.TYPE_MATERIAL_BR_4]={resourceName="BioticResource",count=100},
+[TppCollection.TYPE_MATERIAL_BR_5]={resourceName="BioticResource",count=100},
+[TppCollection.TYPE_MATERIAL_BR_6]={resourceName="BioticResource",count=100},
+[TppCollection.TYPE_MATERIAL_BR_7]={resourceName="BioticResource",count=100},
+[TppCollection.TYPE_HERB_G_CRESCENT]={resourceName="Plant2000",count=10},
+[TppCollection.TYPE_HERB_A_PEACH]={resourceName="Plant2001",count=10},
+[TppCollection.TYPE_HERB_DIGITALIS_P]={resourceName="Plant2002",count=10},
+[TppCollection.TYPE_HERB_DIGITALIS_R]={resourceName="Plant2003",count=10},
+[TppCollection.TYPE_HERB_B_CARROT]={resourceName="Plant2004",count=10},
+[TppCollection.TYPE_HERB_WORM_WOOD]={resourceName="Plant2005",count=10},
+[TppCollection.TYPE_HERB_TARRAGON]={resourceName="Plant2006",count=10},
+[TppCollection.TYPE_HERB_HAOMA]={resourceName="Plant2007",count=10},
+[TppCollection.TYPE_POSTER_SOL_AFGN]={resourceName="Poster1000",count=1},
+[TppCollection.TYPE_POSTER_SOL_MAFR]={resourceName="Poster1001",count=1},
+[TppCollection.TYPE_POSTER_SOL_ZRS]={resourceName="Poster1002",count=1},
+[TppCollection.TYPE_POSTER_GRAVURE_V]={resourceName="Poster1003",count=1},
+[TppCollection.TYPE_POSTER_GRAVURE_H]={resourceName="Poster1004",count=1},
+[TppCollection.TYPE_POSTER_MOE_V]={resourceName="Poster1005",count=1},
+[TppCollection.TYPE_POSTER_MOE_H]={resourceName="Poster1006",count=1}}
 e.BLUE_PRINT_LOCATOR_TABLE={col_develop_Revolver_Shotgun=t.DESIGN_2002,col_develop_Highprecision_SMG=t.DESIGN_2006,col_develop_HighprecisionAR=t.DESIGN_2007,col_develop_HighprecisionAR_s10033_0000=t.DESIGN_2007,col_develop_BullpupAR=t.DESIGN_2008,col_develop_LongtubeShotgun=t.DESIGN_2009,col_develop_RevolverGrenade0001=t.DESIGN_2011,col_develop_RevolverGrenade0002=t.DESIGN_2011,col_develop_RevolverGrenade0003=t.DESIGN_2011,col_develop_RevolverGrenade0004=t.DESIGN_2011,col_develop_Semiauto_SR=t.DESIGN_2013,col_develop_Semiauto_SR_s10070_0000=t.DESIGN_2013,col_develop_Antimaterial=t.DESIGN_2015,col_develop_EuropeSMG0001=t.DESIGN_2016,col_develop_EuropeSMG0002=t.DESIGN_2016,col_develop_EuropeSMG0003=t.DESIGN_2016,col_develop_EuropeSMG0004=t.DESIGN_2016,col_develop_Stungrenade=t.DESIGN_2019,col_develop_Stungun=t.DESIGN_2020,col_develop_Infraredsensor=t.DESIGN_2021,col_develop_Theftprotection=t.DESIGN_2022,col_develop_Emergencyrescue=t.DESIGN_3001,col_develop_FLamethrower=t.DESIGN_2026,col_develop_Shield=t.DESIGN_2025,col_develop_Shield0000=t.DESIGN_2025,col_develop_Shield0001=t.DESIGN_2025,col_develop_Shield0002=t.DESIGN_2025,col_develop_GunCamera=t.DESIGN_2023,col_develop_UAV=t.DESIGN_2024,col_develop_q60115=t.DESIGN_2027}e.BLUE_PRINT_LANG_ID={[t.DESIGN_2002]="key_bprint_2002",[t.DESIGN_2006]="key_bprint_2006",[t.DESIGN_2007]="key_bprint_2007",[t.DESIGN_2008]="key_bprint_2008",[t.DESIGN_2009]="key_bprint_2009",[t.DESIGN_2011]="key_bprint_2011",[t.DESIGN_2013]="key_bprint_2013",[t.DESIGN_2015]="key_bprint_2015",[t.DESIGN_2016]="key_bprint_2016",[t.DESIGN_2019]="key_bprint_2019",[t.DESIGN_2020]="key_bprint_2020",[t.DESIGN_2021]="key_bprint_2021",[t.DESIGN_2022]="key_bprint_2022",[t.DESIGN_2023]="key_bprint_2023",[t.DESIGN_2024]="key_bprint_2024",[t.DESIGN_2025]="key_bprint_2025",[t.DESIGN_2026]="key_bprint_2026",[t.DESIGN_2027]="key_bprint_2027",[t.DESIGN_3001]="key_item_3001"}
 e.EMBLEM_LOCATOR_TABLE={["ly003_cl00_collct0000|cl00pl0_uq_0000_collct|col_develop_MTBS_0000"]="front8",["ly003_cl00_collct0000|cl00pl0_uq_0000_collct|col_develop_MTBS_0001"]="front10",["ly003_cl00_collct0000|cl00pl0_uq_0000_collct|col_develop_MTBS_0002"]="front15",["ly003_cl00_collct0000|cl00pl0_uq_0000_collct|col_develop_MTBS_0003"]="front16",["ly003_cl04_collct0000|cl04pl0_uq_0040_collct|col_emblem_quiet"]="front9",col_develop_MTBS_30150_0000="front11",col_develop_MTBS_30250_0000="front7"}
 local n={}
@@ -500,18 +633,23 @@ function e.Init(t)
   e.InitNuclearAbolitionCount()
   e.RemoveStaffsAfterS10240()
   TppUiCommand.SetTutorialMode(false)
-  TppUiCommand.SetAllInvalidMbSoundControllerVoice(false)mvars.trm_EmblemLocatorIdTable={}
+  TppUiCommand.SetAllInvalidMbSoundControllerVoice(false)
+  mvars.trm_EmblemLocatorIdTable={}
   for e,t in pairs(e.EMBLEM_LOCATOR_TABLE)do
-    local e=TppCollection.GetUniqueIdByLocatorName(e)mvars.trm_EmblemLocatorIdTable[e]=t
+    local e=TppCollection.GetUniqueIdByLocatorName(e)
+    mvars.trm_EmblemLocatorIdTable[e]=t
   end
   TppUiCommand.ClearMbDvcOpenConditionRequest()
 end
-function e.MakeMessage()e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function e.MakeMessage()
+e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
-function e.OnReload(t)e.Init(t)e.MakeMessage()
+function e.OnReload(t)
+e.Init(t)
+e.MakeMessage()
 end
 function e.OnMissionGameStart(e)
-  if not mvars.trm_currentIntelCpName then
+  if not mvars.trm_currentIntelCpName then    
     TppUiCommand.DeactivateSpySearchForCP()
     TppUiCommand.ActivateSpySearchForField()
   end
@@ -688,8 +826,13 @@ function e.SetUp()
   e.SetUpArmsMBDVCMenu()
   e.SetUpBuddyMBDVCMenu()
   e.SetUpCustomWeaponMBDVCMenu()
+
   if TppMission.IsSubsistenceMission()then
-    e.EnableDvcMenuByList{{menu=e.MBDVCMENU.MSN_DROP,active=false},{menu=e.MBDVCMENU.MSN_BUDDY,active=false},{menu=e.MBDVCMENU.MSN_ATTACK,active=false},{menu=e.MBDVCMENU.MSN_HELI_ATTACK,active=false}}
+    local dvcMenu={{menu=e.MBDVCMENU.MSN_DROP,active=false},{menu=e.MBDVCMENU.MSN_BUDDY,active=false},{menu=e.MBDVCMENU.MSN_ATTACK,active=false},{menu=e.MBDVCMENU.MSN_HELI_ATTACK,active=false}}
+    if gvars.isManualSubsistence==TppMain.SUBSISTENCE_BUDDY then--tex allow Buddy Support menu when Buddy Subsistence mode
+     dvcMenu[2].active=true
+    end
+    e.EnableDvcMenuByList(dvcMenu)
     TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
   else
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
@@ -1118,13 +1261,17 @@ end
 function e.SetUpStoryCleardHoneyBee()
   local t={{menu=e.MBDVCMENU.MBM,active=true},{menu=e.MBDVCMENU.MSN,active=true},{menu=e.MBDVCMENU.MBM_REWORD,active=true},{menu=e.MBDVCMENU.MBM_STAFF,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},{menu=e.MBDVCMENU.MBM_BASE,active=true},{menu=e.MBDVCMENU.MBM_BASE_EXPANTION,active=true},{menu=e.MBDVCMENU.MBM_RESOURCE,active=true},{menu=e.MBDVCMENU.MBM_LOG,active=true},{menu=e.MBDVCMENU.MSN_DROP,active=true},{menu=e.MBDVCMENU.MSN_DROP_BULLET,active=true},{menu=e.MBDVCMENU.MSN_DROP_WEAPON,active=true},{menu=e.MBDVCMENU.MSN_DROP_LOADOUT,active=true},{menu=e.MBDVCMENU.MSN_DROP_VEHICLE,active=true},{menu=e.MBDVCMENU.MSN_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},{menu=e.MBDVCMENU.MSN_HELI,active=true},{menu=e.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},{menu=e.MBDVCMENU.MSN_HELI_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_HELI_DISMISS,active=true},{menu=e.MBDVCMENU.MSN_EMERGENCIE_N,active=true},{menu=e.MBDVCMENU.MSN_EMERGENCIE_F,active=true},{menu=e.MBDVCMENU.MSN_MISSIONLIST,active=true},{menu=e.MBDVCMENU.MSN_SIDEOPSLIST,active=true},{menu=e.MBDVCMENU.MSN_LOG,active=true},{menu=e.MBDVCMENU.MSN_LOCATION,active=true},{menu=e.MBDVCMENU.MSN_RETURNMB,active=true},{menu=e.MBDVCMENU.MBM_DB,active=true},{menu=e.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},{menu=e.MBDVCMENU.MBM_DB_KEYITEM,active=true},{menu=e.MBDVCMENU.MBM_DB_CASSETTE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}}e._SetUpDvcMenu(t)
 end
-function e.SetUpStoryCleardPitchDark()e._SetUpDvcMenu{{menu=e.MBDVCMENU.MBM,active=true},{menu=e.MBDVCMENU.MSN,active=true},{menu=e.MBDVCMENU.MBM_REWORD,active=true},{menu=e.MBDVCMENU.MBM_STAFF,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},{menu=e.MBDVCMENU.MBM_COMBAT,active=true},{menu=e.MBDVCMENU.MBM_BASE,active=true},{menu=e.MBDVCMENU.MBM_BASE_EXPANTION,active=true},{menu=e.MBDVCMENU.MBM_RESOURCE,active=true},{menu=e.MBDVCMENU.MBM_LOG,active=true},{menu=e.MBDVCMENU.MSN_DROP,active=true},{menu=e.MBDVCMENU.MSN_DROP_BULLET,active=true},{menu=e.MBDVCMENU.MSN_DROP_WEAPON,active=true},{menu=e.MBDVCMENU.MSN_DROP_LOADOUT,active=true},{menu=e.MBDVCMENU.MSN_DROP_VEHICLE,active=true},{menu=e.MBDVCMENU.MSN_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},{menu=e.MBDVCMENU.MSN_HELI,active=true},{menu=e.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},{menu=e.MBDVCMENU.MSN_HELI_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_HELI_DISMISS,active=true},{menu=e.MBDVCMENU.MSN_EMERGENCIE_N,active=true},{menu=e.MBDVCMENU.MSN_EMERGENCIE_F,active=true},{menu=e.MBDVCMENU.MSN_MISSIONLIST,active=true},{menu=e.MBDVCMENU.MSN_SIDEOPSLIST,active=true},{menu=e.MBDVCMENU.MSN_LOG,active=true},{menu=e.MBDVCMENU.MSN_LOCATION,active=true},{menu=e.MBDVCMENU.MSN_RETURNMB,active=true},{menu=e.MBDVCMENU.MBM_DB,active=true},{menu=e.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},{menu=e.MBDVCMENU.MBM_DB_KEYITEM,active=true},{menu=e.MBDVCMENU.MBM_DB_CASSETTE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}}
+function e.SetUpStoryCleardPitchDark()
+e._SetUpDvcMenu{{menu=e.MBDVCMENU.MBM,active=true},{menu=e.MBDVCMENU.MSN,active=true},{menu=e.MBDVCMENU.MBM_REWORD,active=true},{menu=e.MBDVCMENU.MBM_STAFF,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},{menu=e.MBDVCMENU.MBM_COMBAT,active=true},{menu=e.MBDVCMENU.MBM_BASE,active=true},{menu=e.MBDVCMENU.MBM_BASE_EXPANTION,active=true},{menu=e.MBDVCMENU.MBM_RESOURCE,active=true},{menu=e.MBDVCMENU.MBM_LOG,active=true},{menu=e.MBDVCMENU.MSN_DROP,active=true},{menu=e.MBDVCMENU.MSN_DROP_BULLET,active=true},{menu=e.MBDVCMENU.MSN_DROP_WEAPON,active=true},{menu=e.MBDVCMENU.MSN_DROP_LOADOUT,active=true},{menu=e.MBDVCMENU.MSN_DROP_VEHICLE,active=true},{menu=e.MBDVCMENU.MSN_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},{menu=e.MBDVCMENU.MSN_HELI,active=true},{menu=e.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},{menu=e.MBDVCMENU.MSN_HELI_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_HELI_DISMISS,active=true},{menu=e.MBDVCMENU.MSN_EMERGENCIE_N,active=true},{menu=e.MBDVCMENU.MSN_EMERGENCIE_F,active=true},{menu=e.MBDVCMENU.MSN_MISSIONLIST,active=true},{menu=e.MBDVCMENU.MSN_SIDEOPSLIST,active=true},{menu=e.MBDVCMENU.MSN_LOG,active=true},{menu=e.MBDVCMENU.MSN_LOCATION,active=true},{menu=e.MBDVCMENU.MSN_RETURNMB,active=true},{menu=e.MBDVCMENU.MBM_DB,active=true},{menu=e.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},{menu=e.MBDVCMENU.MBM_DB_KEYITEM,active=true},{menu=e.MBDVCMENU.MBM_DB_CASSETTE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}}
 end
-function e.SetUpStoryAfterCleardPitchDark()e._SetUpDvcMenu{{menu=e.MBDVCMENU.MBM,active=true},{menu=e.MBDVCMENU.MSN,active=true},{menu=e.MBDVCMENU.MBM_REWORD,active=true},{menu=e.MBDVCMENU.MBM_STAFF,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},{menu=e.MBDVCMENU.MBM_COMBAT,active=true},{menu=e.MBDVCMENU.MBM_BASE,active=true},{menu=e.MBDVCMENU.MBM_BASE_SECURITY,active=true},{menu=e.MBDVCMENU.MBM_BASE_EXPANTION,active=true},{menu=e.MBDVCMENU.MBM_RESOURCE,active=true},{menu=e.MBDVCMENU.MBM_LOG,active=true},{menu=e.MBDVCMENU.MSN_DROP,active=true},{menu=e.MBDVCMENU.MSN_DROP_BULLET,active=true},{menu=e.MBDVCMENU.MSN_DROP_WEAPON,active=true},{menu=e.MBDVCMENU.MSN_DROP_LOADOUT,active=true},{menu=e.MBDVCMENU.MSN_DROP_VEHICLE,active=true},{menu=e.MBDVCMENU.MSN_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_SMOKE,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_SLEEP,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_CHAFF,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_WEATHER,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_WEATHER_SANDSTORM,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_WEATHER_STORM,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_WEATHER_CLEAR,active=true},{menu=e.MBDVCMENU.MSN_HELI,active=true},{menu=e.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},{menu=e.MBDVCMENU.MSN_HELI_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_HELI_DISMISS,active=true},{menu=e.MBDVCMENU.MSN_EMERGENCIE_N,active=true},{menu=e.MBDVCMENU.MSN_EMERGENCIE_F,active=true},{menu=e.MBDVCMENU.MSN_MISSIONLIST,active=true},{menu=e.MBDVCMENU.MSN_SIDEOPSLIST,active=true},{menu=e.MBDVCMENU.MSN_FOB,active=true},{menu=e.MBDVCMENU.MSN_FRIEND,active=true},{menu=e.MBDVCMENU.MSN_LOG,active=true},{menu=e.MBDVCMENU.MSN_LOCATION,active=true},{menu=e.MBDVCMENU.MSN_RETURNMB,active=true},{menu=e.MBDVCMENU.MBM_DB,active=true},{menu=e.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},{menu=e.MBDVCMENU.MBM_DB_KEYITEM,active=true},{menu=e.MBDVCMENU.MBM_DB_CASSETTE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY_HORSE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY_DOG,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY_QUIET,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY_WALKER,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY_BATTLE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}}
+function e.SetUpStoryAfterCleardPitchDark()
+e._SetUpDvcMenu{{menu=e.MBDVCMENU.MBM,active=true},{menu=e.MBDVCMENU.MSN,active=true},{menu=e.MBDVCMENU.MBM_REWORD,active=true},{menu=e.MBDVCMENU.MBM_STAFF,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP_WEAPON,active=true},{menu=e.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},{menu=e.MBDVCMENU.MBM_COMBAT,active=true},{menu=e.MBDVCMENU.MBM_BASE,active=true},{menu=e.MBDVCMENU.MBM_BASE_SECURITY,active=true},{menu=e.MBDVCMENU.MBM_BASE_EXPANTION,active=true},{menu=e.MBDVCMENU.MBM_RESOURCE,active=true},{menu=e.MBDVCMENU.MBM_LOG,active=true},{menu=e.MBDVCMENU.MSN_DROP,active=true},{menu=e.MBDVCMENU.MSN_DROP_BULLET,active=true},{menu=e.MBDVCMENU.MSN_DROP_WEAPON,active=true},{menu=e.MBDVCMENU.MSN_DROP_LOADOUT,active=true},{menu=e.MBDVCMENU.MSN_DROP_VEHICLE,active=true},{menu=e.MBDVCMENU.MSN_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_ARTILLERY,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_SMOKE,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_SLEEP,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_CHAFF,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_WEATHER,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_WEATHER_SANDSTORM,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_WEATHER_STORM,active=true},{menu=e.MBDVCMENU.MSN_ATTACK_WEATHER_CLEAR,active=true},{menu=e.MBDVCMENU.MSN_HELI,active=true},{menu=e.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},{menu=e.MBDVCMENU.MSN_HELI_ATTACK,active=true},{menu=e.MBDVCMENU.MSN_HELI_DISMISS,active=true},{menu=e.MBDVCMENU.MSN_EMERGENCIE_N,active=true},{menu=e.MBDVCMENU.MSN_EMERGENCIE_F,active=true},{menu=e.MBDVCMENU.MSN_MISSIONLIST,active=true},{menu=e.MBDVCMENU.MSN_SIDEOPSLIST,active=true},{menu=e.MBDVCMENU.MSN_FOB,active=true},{menu=e.MBDVCMENU.MSN_FRIEND,active=true},{menu=e.MBDVCMENU.MSN_LOG,active=true},{menu=e.MBDVCMENU.MSN_LOCATION,active=true},{menu=e.MBDVCMENU.MSN_RETURNMB,active=true},{menu=e.MBDVCMENU.MBM_DB,active=true},{menu=e.MBDVCMENU.MBM_DB_ENCYCLOPEDIA,active=true},{menu=e.MBDVCMENU.MBM_DB_KEYITEM,active=true},{menu=e.MBDVCMENU.MBM_DB_CASSETTE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY_HORSE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY_DOG,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY_QUIET,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY_WALKER,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_BUDDY_BATTLE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN_EMBLEM,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_DESIGN_BASE,active=true},{menu=e.MBDVCMENU.MBM_CUSTOM_AVATAR,active=true}}
 end
-function e.StopChangeDayTerminalAnnounce()mvars.trm_stopChangeDayTerminalAnnounce=true
+function e.StopChangeDayTerminalAnnounce()
+mvars.trm_stopChangeDayTerminalAnnounce=true
 end
-function e.StartChangeDayTerminalAnnounce()mvars.trm_stopChangeDayTerminalAnnounce=nil
+function e.StartChangeDayTerminalAnnounce()
+mvars.trm_stopChangeDayTerminalAnnounce=nil
 end
 function e.TerminalVoiceWeatherForecast(t)
   local n={[TppDefine.WEATHER.SUNNY]="VOICE_WEATHER_CLAER",[TppDefine.WEATHER.CLOUDY]=nil,[TppDefine.WEATHER.RAINY]=nil,[TppDefine.WEATHER.SANDSTORM]="VOICE_WEATHER_SANDSTORM",[TppDefine.WEATHER.FOGGY]=nil}
@@ -1598,7 +1745,8 @@ function e.PickUpBluePrint(a,n)
   if n then
     t=n
   else
-    t=mvars.trm_bluePrintLocatorIdTable[a]end
+    t=mvars.trm_bluePrintLocatorIdTable[a]
+  end
   if not t then
     return
   end
@@ -1614,9 +1762,11 @@ function e.InitializeBluePrintLocatorIdTable()
   end
 end
 function e.GetBluePrintKeyItemId(e)
-  return mvars.trm_bluePrintLocatorIdTable[e]end
+  return mvars.trm_bluePrintLocatorIdTable[e]
+  end
 function e.PickUpEmblem(e)
-  local e=mvars.trm_EmblemLocatorIdTable[e]if not e then
+  local e=mvars.trm_EmblemLocatorIdTable[e]
+  if not e then
     return
   end
   TppEmblem.Add(e,false,true)
