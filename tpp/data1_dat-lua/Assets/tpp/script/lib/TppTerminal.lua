@@ -954,28 +954,45 @@ function this.SetUp()
   this.SetUpBuddyMBDVCMenu()
   this.SetUpCustomWeaponMBDVCMenu()
   --[[if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it
-    --TppUiCommand.AnnounceLogView("Tppterminal set dvcmenu")--tex DEBUG: CULL:
+    --TppUiCommand.AnnounceLogView("Tppterminal set dvcmenu")--tex DEBUG: CULL: --DEBUGNOW
     local dvcMenu={
       {menu=this.MBDVCMENU.MSN_BUDDY,active=true},
     }
     this.EnableDvcMenuByList(dvcMenu)
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
   end--]]
-  if TppMission.IsSubsistenceMission()then
+  
+  --tex reworked, disable various support menus
+  local isActual=TppMission.IsActualSubsistenceMission()
+  for n, ivar in ipairs(Ivars.disableMenuIvars) do
+    if isActual or ivar.setting>0 then
+      this.EnableDvcMenuByList{{menu=ivar.menuId,active=false}}
+    end
+  end
+  
+  --if gvars.disableBuddies==0 then
+  --  this.EnableDvcMenuByList{{menu=this.MBDVCMENU.MSN_ATTACK,active=true}}--tex quiet uses attack
+  --end
+  
+  if isActual or gvars.disableSupportMenu>0 then
+    TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
+  else
+    TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
+  end
+  --[[ORIG
+  if TppMission.IsSubsistenceMission() then
     local dvcMenu={
       {menu=this.MBDVCMENU.MSN_DROP,active=false},
       {menu=this.MBDVCMENU.MSN_BUDDY,active=false},
       {menu=this.MBDVCMENU.MSN_ATTACK,active=false},
       {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=false}
     }
-    if gvars.subsistenceProfile==Ivars.subsistenceProfile.enum.BOUNDER then--tex allow Buddy Support menu when Buddy Subsistence mode
-      dvcMenu[2].active=true
-    end
     this.EnableDvcMenuByList(dvcMenu)
     TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
   else
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
   end
+  --]]
 end
 function this.SetUpArmsMBDVCMenu()
   if this.IsOpenMBDvcArmsMenu()then

@@ -25,7 +25,7 @@ this.resetAllSettingsItem={--DEBUGNOW ADDLANG
   range=this.switchRange,
   settingNames="set_menu_reset",
   OnChange=function()
-    InfMenu.AnnounceLogLangId"setting_all_defaults"
+    InfMenu.PrintLangId"setting_all_defaults"
     InfMenu.ResetSettings()
     InfMenu.MenuOff()
   end,
@@ -80,10 +80,20 @@ this.returnQuietItem={
   settingNames="set_quiet_return",
   OnChange=function()
     if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
-      InfMenu.AnnounceLogLangId"quiet_already_returned"--"Quiet has already returned."
+      InfMenu.PrintLangId"quiet_already_returned"--"Quiet has already returned."
     else
       InfPatch.QuietReturn()
     end
+  end,
+}
+
+this.resetRevenge={--DEBUGNOW: ADDLANG
+  range=this.switchRange,
+  settingNames="set_do",--DEBUGNOW: ADDLANG
+  OnChange=function()
+    TppRevenge.ResetRevenge()
+    TppRevenge._SetUiParameters()
+    InfMenu.PrintLangId("revenge_reset")
   end,
 }
 
@@ -97,7 +107,7 @@ this.parametersMenu={
     this.goBackItem,
   }
 }
-this.sideOpsMenu={--DEBUGNOW: ADDLANG
+this.sideOpsMenu={
   options={
     Ivars.unlockSideOps,
     Ivars.unlockSideOpNumber,
@@ -148,7 +158,6 @@ this.ospMenu={
     Ivars.primaryWeaponOsp,
     Ivars.secondaryWeaponOsp,
     Ivars.tertiaryWeaponOsp,--tex user can set in UI, but still have it for setting the profile changes, and also if they want to set it while they're doing the other settings    
-    this.resetSettingsItem,
     this.goBackItem,
   }
 }
@@ -160,7 +169,6 @@ this.handLevelMenu={
     Ivars.handLevelPhysical,
     Ivars.handLevelPrecision,
     Ivars.handLevelMedical,
-    this.resetSettingsItem,
     this.goBackItem,
   }
 }
@@ -170,7 +178,27 @@ this.fultonLevelMenu={
     Ivars.fultonLevelProfile,    
     Ivars.itemLevelFulton,
     Ivars.itemLevelWormhole,
+    this.goBackItem,
+  }
+}
+
+this.disableMenuMenu={
+  options={
+    Ivars.disableMenuDrop,
+    Ivars.disableMenuBuddy,
+    Ivars.disableMenuAttack,
+    Ivars.disableMenuHeliAttack,
+    Ivars.disableSupportMenu,
     this.resetSettingsItem,
+    this.goBackItem,
+  }
+}
+
+this.revengeMenu={
+  options={
+    Ivars.revengeMode,
+    this.resetRevenge,
+    this.revengeBlockForMissionCount,
     this.goBackItem,
   }
 }
@@ -179,6 +207,10 @@ this.playerRestrictionsMenu={
   options={
     Ivars.subsistenceProfile,
     Ivars.disableHeadMarkers,
+    Ivars.disableBuddies,
+    Ivars.disableHeliAttack,
+    Ivars.disableSelectTime,
+    Ivars.disableSelectVehicle,
     Ivars.disableFulton,
     Ivars.clearItems,
     Ivars.clearSupportItems,
@@ -187,6 +219,7 @@ this.playerRestrictionsMenu={
     this.handLevelMenu,
     this.fultonLevelMenu,
     this.ospMenu,
+    this.disableMenuMenu,
     this.resetSettingsItem,
     this.goBackItem,
   }
@@ -195,12 +228,11 @@ this.playerRestrictionsMenu={
 this.heliSpaceMenu={
   options={
     --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
-    this.playerRestrictionsMenu,--DEBUGNOW
     Ivars.startOnFoot,
-    Ivars.clockTimeScale,    
-    Ivars.revengeMode,
+    Ivars.clockTimeScale,
     this.playerRestrictionsMenu,
     this.parametersMenu,
+    this.revengeMenu,
     this.sideOpsMenu,
     this.motherBaseMenu,
     this.demosMenu,
@@ -236,7 +268,7 @@ for name,item in pairs(this) do
   end
 end
 
-this.allMenus={--SYNC: used for resetall TODO: just iterate this for all istable and .options
+--[[CULL this.allMenus={--SYNC: used for resetall TODO: just iterate this for all istable and .options
   this.heliSpaceMenu,
   this.parametersMenu,
   this.motherBaseMenu,
@@ -247,6 +279,15 @@ this.allMenus={--SYNC: used for resetall TODO: just iterate this for all istable
   this.handLevelMenu,
   this.fultonLevelMenu,
   this.ospMenu
-}
+}--]]
+this.allMenus={}
+--TABLESETUP: allMenus
+local i=1
+for n,menu in ipairs(this) do
+  if menu.options then--tex is menu
+    this.allMenus[i]=menu
+    i=i+1
+  end
+end
 
 return this

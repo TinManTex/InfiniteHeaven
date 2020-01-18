@@ -1039,11 +1039,14 @@ function this.PlayMissionClearCamera()
   end
   TimerStart("Timer_StartPlayMissionClearCameraStep1",.25)
 end
-function this.SetPlayerStatusForMissionEndCamera()Player.SetPadMask{settingName="MissionClearCamera",except=true}
+function this.SetPlayerStatusForMissionEndCamera()
+  Player.SetPadMask{settingName="MissionClearCamera",except=true}
   vars.playerDisableActionFlag=PlayerDisableAction.SUBJECTIVE_CAMERA
   return true
 end
-function this.ResetMissionEndCamera()Player.ResetPadMask{settingName="MissionClearCamera"}Player.RequestToStopCameraAnimation{}
+function this.ResetMissionEndCamera()
+  Player.ResetPadMask{settingName="MissionClearCamera"}
+  Player.RequestToStopCameraAnimation{}
 end
 function this.PlayCommonMissionEndCamera(i,r,s,l,t,n)
   local a
@@ -1635,13 +1638,14 @@ function this.Init(a)
   end
   TppEffectUtility.SetSandWindEnable(false)
 end
+
 function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below for original
   local isActual=TppMission.IsActualSubsistenceMission()
   local isManual=gvars.subsistenceProfile > 0 and not Ivars.subsistenceProfile:Is"CUSTOM"--tex DEBUGNOW: TODO: get rid of Is(custom) check here and in TppMission.IsManualSubsistence
   local isNotDefault=gvars.subsistenceProfile > 0
   local isSubsistence=isActual or isManual
 
-  if isSubsistence and (Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM")) then
+  if isActual and (Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM")) then
     Ivars.ospWeaponProfile:Set{setting="PURE",noOnChange=false,noSave=true}--tex don't want to save due to normal subsistence missions
   end
 
@@ -1655,7 +1659,7 @@ function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below
   if isActual or gvars.clearItems>0 then
     this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
   end
-
+  
   if isActual or gvars.setSubsistenceSuit>0 then
     local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
     this.RegisterTemporaryPlayerType(playerSettings)
@@ -1668,53 +1672,21 @@ function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below
     vars.playerDisableActionFlag=PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
   end
   
-  --tex user cant set these in ui
   if gvars.handLevelProfile>0 then
     for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
       --TODO: check against developed
-      local equip=itemIvar.equipId
       local currentLevel=Player.GetItemLevel(equip)
-      Player.SetItemLevel(equip,itemIvar.setting)
+      Player.SetItemLevel(itemIvar.equipId,itemIvar.setting)
     end
   end
-  --tex user can set these in ui, so only force on subsistence
+
   if gvars.fultonLevelProfile>0 then
     for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
       --TODO: check against developed
-      local equip=itemIvar.equipId
-      local level=itemIvar.setting
-      local currentLevel=Player.GetItemLevel(equip)
-      
-      if level==0 or level==1 then
-        Player.SetItemLevel(equip,level)
-      end
+      --REF local currentLevel=Player.GetItemLevel(equip)
+      Player.SetItemLevel(itemIvar.equipId,itemIvar.setting)
     end 
   end
-    
-    --[[CULLif isManual then--tex downgrade equipment
-  
-      
-      local equipmentDropToLv1={
-        TppEquip.EQP_IT_Fulton
-      }
-      local equipmentOff={
-        TppEquip.EQP_HAND_ACTIVESONAR,
-        TppEquip.EQP_HAND_PHYSICAL,
-        TppEquip.EQP_HAND_PRECISION,
-        TppEquip.EQP_HAND_MEDICAL,
-        TppEquip.EQP_IT_Fulton_WormHole,
-      }
-      for i, equip in pairs(equipmentDropToLv1) do
-        if Player.GetItemLevel(equip) > 1 then
-          Player.SetItemLevel(equip,1)
-        end
-      end
-      for i, equip in pairs(equipmentOff) do
-        if Player.GetItemLevel(equip) > 0 then
-          Player.SetItemLevel(equip,0)
-        end
-      end
-    end--]]
 end
 --[[function e.SetSelfSubsistenceOnHardMission()--tex ORIG:
   if TppMission.IsSubsistenceMission()then
@@ -2066,7 +2038,8 @@ function this.OnEndFadeInWarpByCboxDelivery()
   mvars.ply_selectedCboxDeliveryUniqueId=nil
   mvars.ply_deliveryWarpState=nil
   mvars.ply_deliveryWarpSoundCannotCancel=nil
-  TimerStop"Timer_DeliveryWarpSoundCannotCancel"Player.ResetPadMask{settingName="CboxDelivery"}
+  TimerStop"Timer_DeliveryWarpSoundCannotCancel"
+  Player.ResetPadMask{settingName="CboxDelivery"}
 end
 function this.OnEnterIntelMarkerTrap(e,a)
   local e=mvars.ply_intelMarkerTrapInfo[e]

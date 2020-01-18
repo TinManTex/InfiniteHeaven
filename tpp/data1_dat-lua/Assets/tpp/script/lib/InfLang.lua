@@ -70,7 +70,7 @@ this.eng={--english
   set_mb_wargames={"Off","DD Non Lethal","DD Lethal"},
   set_mbDemoSelection={"Default","Cutscenes disabled","Play selected"},
   set_quiet_return={">","Returned"},
-  subsistenceProfileSettings={"Off","Pure (OSP -Items -Hand -Suit -Support -Fulton -Vehicle -Buddy)","Bounder (Pure +Buddy +Suit +Fulton)","Custom"},
+  subsistenceProfileSettings={"Off","Pure","Bounder","Custom"},
   set_revenge={"Regular","Max"},
   set_unlock_sideops={"Off","Force Replayable","Force Open"},
   showLangCodeItem="Show game language code",--r57
@@ -86,6 +86,7 @@ this.eng={--english
   weaponOspSettings={"Use selected weapon","Clear weapon"},--r68
   playerRestrictionsMenu="Player Restrictions Menu",--r68
   setting_all_defaults="Setting all settings to default...",--r69
+  revenge_reset="Enemy preparedness levels reset",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on
@@ -140,7 +141,7 @@ this.cht={--chinese traditional, translation by rikimtasu,  unconfirmed lang cod
   set_mb_wargames={"关闭","DD 非致命","DD 致命"},
   set_mbDemoSelection={"默认","禁用过场动画","选择播放"},
   set_quiet_return={">","回去"},
-  subsistenceProfileSettings={"关闭","纯洁 (OSP -东西 -手臂 -衣服 -支源 -富尔顿 -车辆 -伙伴)","畛 (纯洁 +伙伴 +衣服 +富尔顿)","Custom"},--r69
+  subsistenceProfileSettings={"关闭","纯洁","畛","Custom"},--r69
   set_revenge={"正规","Max"},
   set_unlock_sideops={"关闭","强迫重玩","强迫开放"},
 }

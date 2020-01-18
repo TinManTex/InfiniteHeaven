@@ -116,13 +116,12 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
       return
     end
   end
-  --TppUiCommand.AnnounceLogView("SetSetting")--DEBUGNOW
-  --TppUiCommand.AnnounceLogView("SetSetting:" .. option.name)--DEBUGNOW
+  --TppUiCommand.AnnounceLogView("SetSetting:" .. option.name)--DEBUG
   if setting < self.range.min or setting > self.range.max then
     TppUiCommand.AnnounceLogView("WARNING: SetSetting for "..self.name.." OUT OF BOUNDS")
     return
   end
-  --TppUiCommand.AnnounceLogView("SetSetting:" .. self.name)--DEBUGNOW
+  --TppUiCommand.AnnounceLogView("SetSetting:" .. self.name)--DEBUG
   self.setting=setting
   if self.save and not noSave then
     local gvar=gvars[self.name]
@@ -140,7 +139,7 @@ end
 function this.NextSetting(incrementMult)
   local option=this.currentMenuOptions[this.currentIndex]
   if option==nil then
-    InfMain.DebugPrint"WARNING: cannot find option for currentindex"
+    InfMenu.DebugPrint"WARNING: cannot find option for currentindex"
     return
   end
   if option.options then--tex is menu
@@ -179,7 +178,7 @@ function this.GoBackCurrent()
   end
   this.GoMenu(this.currentMenu.parent,true)
   if this.currentMenu.name and this.menuOn then
-    this.AnnounceLogLangId(this.currentMenu.name)
+    this.PrintLangId(this.currentMenu.name)
   end
 end
 
@@ -248,18 +247,18 @@ function this.ResetSetting()
 end
 function this.ResetSettings()
   for n,menu in ipairs(InfMenuDefs.allMenus) do
-    --InfMain.DebugPrint(menu.name)
+    --InfMenu.DebugPrint(menu.name)
     for m,option in ipairs(menu.options) do
-      --InfMain.DebugPrint(option.name)
+      --InfMenu.DebugPrint(option.name)
       if option.save then--tex using identifier for all ivar/resetable settings
-        --InfMain.DebugPrint(option.name)
+        --InfMenu.DebugPrint(option.name)
         this.SetSetting(option,option.default,true)
       end
     end
   end
 end
 function this.ResetSettingsDisplay()
-  this.AnnounceLogLangId"setting_defaults"--"Setting mod options to defaults..."
+  this.PrintLangId"setting_defaults"--"Setting mod options to defaults..."
   for i=1,#this.currentMenuOptions do
     local option=this.currentMenuOptions[i]
     if option.save then
@@ -272,7 +271,7 @@ end
 
 function this.MenuOff()
   this.menuOn=false
-  this.AnnounceLogLangId"menu_off"--"Menu Off"
+  this.PrintLangId"menu_off"--"Menu Off"
 end
 
 local function ToggleMenu()--TODO: break out
@@ -285,10 +284,14 @@ local function ToggleMenu()--TODO: break out
   end
 end
 
+--
+this.Print=TppUiCommand.AnnounceLogView
+this.DebugPrint=TppUiCommand.AnnounceLogView
+
 --tex my own shizzy langid stuff since games is too limitied
 function this.LangString(langId)
   if langId==nil or langId=="" then
-    TppUiCommand.AnnounceLogView"AnnounceLogLangId langId empty"
+    TppUiCommand.AnnounceLogView"PrintLangId langId empty"
     return ""
   end
   local languageCode=GetAssetConfig"Language"
@@ -309,7 +312,7 @@ function this.LangString(langId)
   end
 
   if langString==nil or langString=="" then
-    --TppUiCommand.AnnounceLogView"AnnounceLogLangId langString empty"
+    --TppUiCommand.AnnounceLogView"PrintLangId langString empty"
     return langId
   end
 
@@ -318,34 +321,34 @@ end
 
 function this.LangTableString(langId,index)--remember lua tables from 1
   if langId==nil or langId=="" then
-    TppUiCommand.AnnounceLogView"AnnounceLogLangId langId empty"
+    TppUiCommand.AnnounceLogView"PrintLangId langId empty"
     return ""
-end
-local languageCode=GetAssetConfig"Language"
-if InfLang[languageCode]==nil then
-  --TppUiCommand.AnnounceLogView("no lang in inflang")
-  languageCode="eng"
-end
-local langTable=InfLang[languageCode][langId]
-if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
-  --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)
-  langTable=InfLang.eng[langId]
+  end
+  local languageCode=GetAssetConfig"Language"
+  if InfLang[languageCode]==nil then
+    --TppUiCommand.AnnounceLogView("no lang in inflang")
+    languageCode="eng"
+  end
+  local langTable=InfLang[languageCode][langId]
+  if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
+    --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)
+    langTable=InfLang.eng[langId]
+  end
+  
+  if langTable==nil or langTable=="" or not IsTable(langTable) then
+    --TppUiCommand.AnnounceLogView"PrintLangId langTable empty"
+    return langId .. ":" .. index
+  end
+  
+  if index < 1 or index > #langTable then
+    --TppUiCommand.AnnounceLogView("LangTableString - index for " .. langId " out of bounds")
+    return langId .. " OUTOFBOUNDS:" .. index
+  end
+  
+  return langTable[index]
 end
 
-if langTable==nil or langTable=="" or not IsTable(langTable) then
-  --TppUiCommand.AnnounceLogView"AnnounceLogLangId langTable empty"
-  return langId .. ":" .. index
-end
-
-if index < 1 or index > #langTable then
-  --TppUiCommand.AnnounceLogView("LangTableString - index for " .. langId " out of bounds")
-  return langId .. " OUTOFBOUNDS:" .. index
-end
-
-return langTable[index]
-end
-
-function this.AnnounceLogLangId(langId)
+function this.PrintLangId(langId)
   TppUiCommand.AnnounceLogView(this.LangString(langId))
 end
 
@@ -384,12 +387,12 @@ function this.Update()
     end
 
     if this.menuOn then
-      --TODO: figure out a way to check better, see general feature do.txt
+      --TODO: tex figure out a way to check better, see general feature do.txt
       if InfButton.OnButtonDown(InfButton.MB_DEVICE) then
         this.MenuOff()
       end
 
-      if InfButton.OnButtonDown(this.toggleMenuButton) then--update gvar of current
+      if InfButton.OnButtonDown(this.toggleMenuButton) then--tex update gvar of current
         this.SetCurrent()
         this.DisplayCurrentSetting()
       end
@@ -405,7 +408,6 @@ function this.Update()
       InfButton.ButtonRepeatReset(this.menuRightButton)
       if InfButton.OnButtonDown(this.menuRightButton) then
         this.NextSetting()
-        --TppUiCommand.AnnounceLogView"next"--DEBUGNOW:
         this.DisplayCurrentSetting()
       elseif InfButton.OnButtonUp(this.menuRightButton) then
         this.autoDisplayRate=this.autoDisplayDefault
@@ -427,7 +429,7 @@ function this.Update()
 
       if InfButton.OnButtonDown(this.resetSettingButton) then
         this.ResetSetting()
-        this.AnnounceLogLangId"setting_default"--"Setting to default.."
+        this.PrintLangId"setting_default"--"Setting to default.."
         this.DisplayCurrentSetting()
       end
       if InfButton.OnButtonDown(this.menuBackButton) then

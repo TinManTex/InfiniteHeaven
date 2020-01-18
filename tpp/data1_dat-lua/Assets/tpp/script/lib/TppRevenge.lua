@@ -810,18 +810,18 @@ function this.ResetRevenge()
   end
   this.UpdateRevengeLv()
 end
-function this.UpdateRevengeLv(n)
-  if n==nil then
-    n=TppMission.GetMissionID()
+function this.UpdateRevengeLv(missionId)
+  if missionId==nil then
+    missionId=TppMission.GetMissionID()
   end
-  for n=0,this.REVENGE_TYPE.MAX-1 do
-    local E=this.GetRevengeLvMax(n)
-    local e=this.GetRevengePoint(n)
-    local e=math.floor(e/100)
-    if e>E then
-      e=E
+  for revengeTypeIndex=0,this.REVENGE_TYPE.MAX-1 do
+    local lvlMax=this.GetRevengeLvMax(revengeTypeIndex)
+    local points=this.GetRevengePoint(revengeTypeIndex)
+    local newLevel=math.floor(points/100)
+    if newLevel>lvlMax then
+      newLevel=lvlMax
     end
-    gvars.rev_revengeLv[n]=e
+    gvars.rev_revengeLv[revengeTypeIndex]=newLevel
   end
   this._SetEnmityLv()
 end
@@ -913,7 +913,7 @@ function this._ReceiveClearedDeployRevengeMission()
   for n,t in pairs(this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST)do
     local E=TppMotherBaseManagement.GetClearedDeployRevengeMissionFlag{deployMissionId=n}
     if E then
-      gvars.rev_revengeBlockedCount[t]=this.BLOCKED_FOR_MISSION_COUNT
+      gvars.rev_revengeBlockedCount[t]=gvars.revengeBlockForMissionCount--tex was this.BLOCKED_FOR_MISSION_COUNT
       TppMotherBaseManagement.UnsetClearedDeployRevengeMissionFlag{deployMissionId=n}
     end
   end

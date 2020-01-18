@@ -1326,12 +1326,12 @@ sequences.Seq_Game_MissionPreparationTop = {
 			nextMissionCode = TppMission.GetNextMissionCodeForEmergency()	
 		end
 
-		if mvars.heliSpace_DisableSelectSortieTimeFromMissionPreparetion[nextMissionCode] or TppMission.IsSubsistenceMission() then--tex added issub
+		if mvars.heliSpace_DisableSelectSortieTimeFromMissionPreparetion[nextMissionCode] or gvars.disableSelectTime==1 then--tex added issub
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_SORTIE_TIME" )
 		end
 		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
-		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or (TppMission.IsSubsistenceMission() and gvars.subsistenceProfile~=Ivars.subsistenceProfile.enum.BOUNDER) then--tex buddy subsistence mode
+		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or gvars.disableBuddies==1 then--tex buddy subsistence mode
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
 		end
 		
@@ -1342,7 +1342,7 @@ sequences.Seq_Game_MissionPreparationTop = {
 		end
 		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_VEHICLE" )
-		if mvars.heliSpace_NoVehicleMenuFromMissionPreparetion[nextMissionCode] or TppMission.IsSubsistenceMission() then--tex added issub
+		if mvars.heliSpace_NoVehicleMenuFromMissionPreparetion[nextMissionCode] or gvars.disableSelectVehicle==1 then--tex added issub
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_VEHICLE" )
 		end
 

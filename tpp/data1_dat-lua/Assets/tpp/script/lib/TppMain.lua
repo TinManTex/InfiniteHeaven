@@ -334,7 +334,7 @@ function this.OnInitialize(missionTable)
       _G[lib].Init(missionTable)
     end
   end
-  if TppMission.IsManualSubsistence() then--tex disable heli be fightan
+  if gvars.disableHeliAttack==1 then--tex disable heli be fightan
     local gameObjectId = GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId ~= nil and gameObjectId ~= GameObject.NULL_ID then
       GameObject.SendCommand(gameObjectId, { id="SetCombatEnabled", enabled=false }) 

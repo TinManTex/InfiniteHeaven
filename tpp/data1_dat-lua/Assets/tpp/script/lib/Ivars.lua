@@ -247,7 +247,7 @@ this.isManualHard={--tex not currently user option, but left over for legacy, mo
   range=this.switchRange,
 }
 
-this.subsistenceProfile={--was isManualSubsistence
+this.subsistenceProfile={
   save=MISSION,
   settings={"DEFAULT","PURE","BOUNDER","CUSTOM"},
   settingNames="subsistenceProfileSettings",
@@ -255,6 +255,9 @@ this.subsistenceProfile={--was isManualSubsistence
     DEFAULT=function() 
       Ivars.noCentralLzs:Set(0,true)
       Ivars.disableBuddies:Set(0,true)
+      Ivars.disableHeliAttack:Set(0,true)
+      Ivars.disableSelectTime:Set(0,true)
+      Ivars.disableSelectVehicle:Set(0,true)
       Ivars.disableHeadMarkers:Set(0,true)
       Ivars.disableFulton:Set(0,true)
       Ivars.clearItems:Set(0,true)
@@ -264,10 +267,19 @@ this.subsistenceProfile={--was isManualSubsistence
       --handLevelProfile --game auto sets to max developed
       --fultonLevelProfile -- game auto turns on wormhole, user can manually chose overall level in ui
       Ivars.ospWeaponProfile:Set(0,true)
+      
+      Ivars.disableMenuDrop:Set(0,true)
+      Ivars.disableMenuBuddy:Set(0,true)
+      Ivars.disableMenuAttack:Set(0,true)
+      Ivars.disableMenuHeliAttack:Set(0,true)
+      Ivars.disableSupportMenu:Set(0,true)
     end,
     PURE=function() 
       Ivars.noCentralLzs:Set(1,true)
       Ivars.disableBuddies:Set(1,true)
+      Ivars.disableHeliAttack:Set(1,true)
+      Ivars.disableSelectTime:Set(1,true)
+      Ivars.disableSelectVehicle:Set(1,true)
       Ivars.disableHeadMarkers:Set(1,true)
       Ivars.disableFulton:Set(1,true)
       Ivars.clearItems:Set(1,true)
@@ -278,16 +290,25 @@ this.subsistenceProfile={--was isManualSubsistence
       if Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM") then
         Ivars.ospWeaponProfile:Set(1,true)
       end
-      if Ivars.handLevelProfile:Is("DEFAULT") or Ivars.handLevelProfile:Is("CUSTOM") then
+      if not Ivars.handLevelProfile:Is(1) then
         Ivars.handLevelProfile:Set(1)
       end
-      if Ivars.fultonLevelProfile:Is("DEFAULT") or Ivars.fultonLevelProfile:Is("CUSTOM") then
+      if not Ivars.fultonLevelProfile:Is(1) then
         Ivars.fultonLevelProfile:Set(1)
       end
+      
+      Ivars.disableMenuDrop:Set(1,true)
+      Ivars.disableMenuBuddy:Set(1,true)
+      Ivars.disableMenuAttack:Set(1,true)
+      Ivars.disableMenuHeliAttack:Set(1,true)
+      Ivars.disableSupportMenu:Set(1,true)
     end,
     BOUNDER=function() 
       Ivars.noCentralLzs:Set(1,true)
       Ivars.disableBuddies:Set(0,true)
+      Ivars.disableHeliAttack:Set(1,true)
+      Ivars.disableSelectTime:Set(1,true)
+      Ivars.disableSelectVehicle:Set(1,true)
       Ivars.disableHeadMarkers:Set(0,true)
       Ivars.disableFulton:Set(0,true)
       Ivars.clearItems:Set(1,true)
@@ -305,6 +326,12 @@ this.subsistenceProfile={--was isManualSubsistence
       if Ivars.fultonLevelProfile:Is("DEFAULT") or Ivars.fultonLevelProfile:Is("CUSTOM") then
         Ivars.fultonLevelProfile:Set(1)
       end
+      
+      Ivars.disableMenuDrop:Set(1,true)
+      Ivars.disableMenuBuddy:Set(0,true)
+      Ivars.disableMenuAttack:Set(1,true)
+      Ivars.disableMenuHeliAttack:Set(1,true)
+      Ivars.disableSupportMenu:Set(1,true)
     end,
     CUSTOM=nil,
   },
@@ -318,7 +345,25 @@ this.noCentralLzs={--NONUSER:
   profile=this.subsistenceProfile,
 }
 
+this.disableHeliAttack={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  profile=this.subsistenceProfile,
+}
+
 this.disableBuddies={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  profile=this.subsistenceProfile,
+}
+
+this.disableSelectTime={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  profile=this.subsistenceProfile,
+}
+
+this.disableSelectVehicle={--DEBUGNOW: ADDLANG
   save=MISSION,
   range=this.switchRange,
   profile=this.subsistenceProfile,
@@ -361,19 +406,61 @@ this.setDefaultHand={--DEBUGNOW: ADDLANG
   profile=this.subsistenceProfile,
 }
 
+this.disableMenuDrop={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  --settingNames="disableMenuSettings",--DEBUGNOW: ADDLANG 
+  menuId=TppTerminal.MBDVCMENU.MSN_DROP,
+}
+this.disableMenuBuddy={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  --settingNames="disableMenuSettings",--DEBUGNOW: ADDLANG 
+  menuId=TppTerminal.MBDVCMENU.MSN_BUDDY,
+}
+this.disableMenuAttack={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  --settingNames="disableMenuSettings",--DEBUGNOW: ADDLANG 
+  menuId=TppTerminal.MBDVCMENU.MSN_ATTACK,
+}
+this.disableMenuHeliAttack={--DEBUGNOW: ADDLANG
+  save=MISSION,
+  range=this.switchRange,
+  --settingNames="disableMenuSettings",--DEBUGNOW: ADDLANG 
+  menuId=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,
+}
+this.disableMenuIvars={
+  this.disableMenuDrop,
+  this.disableMenuBuddy,
+  this.disableMenuAttack,
+  this.disableMenuHeliAttack,
+}
+
+this.disableSupportMenu={--tex doesnt use dvcmenu--DEBUGNOW: ADDLANG 
+  save=MISSION,
+  range=this.switchRange,  
+}
+
+this.handLevelRange={max=4,min=1,increment=1}
 this.handLevelProfile={--DEBUGNOW: ADDLANG --tex can't be set in ui by user
   save=MISSION,
-  settings={"DEFAULT","ITEM_OFF","CUSTOM"},
+  settings={"DEFAULT","ITEM_OFF","ITEM_MAX","CUSTOM"},
   --settingNames="handLevelProfileSettings",--DEBUGNOW: ADDLANG
   settingsTable={
     DEFAULT=function()--the game auto sets to max developed but lets set it for apearance sake
       for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
-        itemIvar:Set(3,true)
+        itemIvar:Set(itemIvar.range.max,true)
       end
     end,
     ITEM_OFF=function() 
       for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
-        itemIvar:Set(0,true)
+        itemIvar:Set(itemIvar.range.min,true)
+      end
+    end,
+    ITEM_MAX=function() 
+      for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
+        itemIvar:Set(itemIvar.range.max,true)
       end
     end,
     CUSTOM=nil,
@@ -390,8 +477,6 @@ this.handLevelProfile={--DEBUGNOW: ADDLANG --tex can't be set in ui by user
   OnSubSettingChanged=this.OnSubSettingChanged,
   profile=this.subsistenceProfile,
 }
-
-this.handLevelRange={max=3,min=0,increment=1}
 
 this.handLevelSonar={--DEBUGNOW: ADDLANG
   save=MISSION,
@@ -421,19 +506,25 @@ this.handLevelMedical={--DEBUGNOW: ADDLANG
   profile=this.handLevelProfile,
 }
 
+this.fultonLevelRange={max=4,min=0,increment=1}
 this.fultonLevelProfile={--DEBUGNOW: ADDLANG
   save=MISSION,
-  settings={"DEFAULT","ITEM_OFF","CUSTOM"},
+  settings={"DEFAULT","ITEM_OFF","ITEM_MAX","CUSTOM"},
   --settingNames="fultonLevelProfileSettings",--DEBUGNOW: ADDLANG
   settingsTable={
     DEFAULT=function()--the game auto sets to max developed but lets set it for apearance sake 
       for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
-        itemIvar:Set(0,true)
+        itemIvar:Set(itemIvar.range.max,true)
       end
     end,
     ITEM_OFF=function() 
       for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
-        itemIvar:Set(0,true)
+        itemIvar:Set(itemIvar.range.min,true)
+      end
+    end,
+    ITEM_MAX=function() 
+      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+        itemIvar:Set(itemIvar.range.max,true)
       end
     end,
     CUSTOM=nil,
@@ -451,14 +542,16 @@ this.fultonLevelProfile={--DEBUGNOW: ADDLANG
 
 this.itemLevelFulton={--DEBUGNOW: ADDLANG
   save=MISSION,
-  range={max=4,min=0,increment=1},
+  range={max=4,min=1,increment=1},
   equipId=TppEquip.EQP_IT_Fulton,
   profile=this.fultonLevelProfile,
 }
 
 this.itemLevelWormhole={--DEBUGNOW: ADDLANG
   save=MISSION,
-  range={max=4,min=0,increment=1},
+  range=this.switchRange,
+  settings=this.switchSettings,
+  settingsNames="set_switch",--DEBUGNAOW ADDLANG
   equipId=TppEquip.EQP_IT_Fulton_WormHole,
   profile=this.fultonLevelProfile,
 }
@@ -537,6 +630,14 @@ this.revengeMode={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_revenge",
+  OnChange=function()
+    TppRevenge._SetUiParameters()
+  end,
+}
+
+this.revengeBlockForMissionCount={
+  save=MISSION,
+  range={max=10,min=0,default=3},
 }
 
 this.startOnFoot={

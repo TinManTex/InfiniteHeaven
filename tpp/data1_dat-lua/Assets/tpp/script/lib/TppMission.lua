@@ -1480,7 +1480,7 @@ else
 end
 end
 function this.IsManualSubsistence()--tex
-  return gvars.subsistenceProfile > 0 and not Ivars.subsistenceProfile:Is"CUSTOM"
+  return gvars.subsistenceProfile > 0 --and not Ivars.subsistenceProfile:Is"CUSTOM"
 end--
 function this.IsPerfectStealthMission()
   if(((vars.missionCode==11082)or(vars.missionCode==11033))or(vars.missionCode==11080))or(vars.missionCode==11121)then
