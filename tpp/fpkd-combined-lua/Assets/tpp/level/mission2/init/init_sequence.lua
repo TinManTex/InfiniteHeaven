@@ -6,6 +6,10 @@ local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
 local TimerStart = GkEventTimerManager.Start
 
+
+local splashFade=0.2--tex
+local splashTime=1--tex
+
 local IS_QA_RELEASE
 if ( Fox.GetDebugLevel() == Fox.DEBUG_LEVEL_QA_RELEASE ) then
   IS_QA_RELEASE = true
@@ -207,17 +211,18 @@ function this.StartPreTitleSequence()
 
   if not TppSave.IsNewGame() then
     TppSequence.SetNextSequence("Seq_Demo_ShowKonamiAndFoxLogo")
-    SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("foxLogo"))--tex
+    InfMain.DeleteSplash("foxLogo")--tex was SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("foxLogo"))
   else
 		
-    SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("konamiLogo"))
-    SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("kjpLogo"))
-    SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("foxLogo"))
+    InfMain.DeleteSplash("konamiLogo")--tex was SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("konamiLogo"))
+    InfMain.DeleteSplash("kjpLogo")--tex OFF SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("kjpLogo"))
+    InfMain.DeleteSplash("foxLogo")--tex OFF SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("foxLogo"))
     this._StartPreTitleSequence()
   end
 end
 
 function this._StartPreTitleSequence()
+  InfMain.DeleteOneOffSplashes()--tex
   gvars.canExceptionHandling = false
   TppUiCommand.ErasePopup()
   TppUiCommand.StartPreTitleSequence()
@@ -289,6 +294,10 @@ end
 
 sequences.Seq_Demo_Start = {
   OnEnter = function(self)
+   -- local splash = SplashScreen.Create("seqstart", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_konami_logo_clp_nmp.ftex", 640, 640)--tex
+   --local splash = SplashScreen.Create("seqstart", "/Assets/tpp/ui/texture/map/map_afgh/afgh_height_clp_alp.ftex", 1080, 1080)--tex
+   --SplashScreen.Show(splash,.2,1,.2)--tex
+    
     TppClock.Stop()
     TppException.isLoadedInitMissionOnSignInUserChanged = nil
     Fox.Log("### Seq_Demo_Start ###")
@@ -393,9 +402,9 @@ sequences.Seq_Demo_WaitCopyRightLogo = {
 			
       local konamiLogoScreenId = SplashScreen.Create("konamiLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_konami_logo_clp_nmp.ftex", 640, 640);
 			
-      local kjpLogoScreenId = SplashScreen.Create("kjpLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex", 640, 640)
+      --tex OFF local kjpLogoScreenId = SplashScreen.Create("kjpLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex", 640, 640)
 			
-      local foxLogoScreenId = SplashScreen.Create("foxLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_fox_logo_clp_nmp.ftex", 640, 640);
+      --tex OFF local foxLogoScreenId = SplashScreen.Create("foxLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_fox_logo_clp_nmp.ftex", 640, 640);
       TppSequence.SetNextSequence("Seq_Demo_SetInitialLanguage")
     else
       if DebugText then
@@ -405,9 +414,7 @@ sequences.Seq_Demo_WaitCopyRightLogo = {
     end
   end,
 
-  ignoreSignInUserChanged = true,
-  --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
-  
+  ignoreSignInUserChanged = true,  
 }
 
 sequences.Seq_Demo_SetInitialLanguage = {
@@ -1260,7 +1267,7 @@ sequences.Seq_Demo_ConfirmAutoSave = {
 		
     TppSoundDaemon.LoadRegidentStreamData()
 
-    if SignIn.PresetUserIdExists and SignIn.PresetUserIdExists() then--tex NMC: does this even apply to steam?
+    if SignIn.PresetUserIdExists and SignIn.PresetUserIdExists() then--NMC: does this even apply to steam?
       TppSequence.SetNextSequence("Seq_Demo_StartSignIn")
       return
     end
@@ -2779,6 +2786,8 @@ sequences.Seq_Demo_Init = {
 
     TppUI.ShowAccessIconContinue()
 
+    --InfMain.RandomEmblemSplash()--tex
+
     if TppUiCommand.IsCreatingEmblem() then
       return
     end
@@ -2831,19 +2840,20 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
   OnEnter = function(self)
     Fox.Log("### Seq_Demo_ShowKonamiAndFoxLogo ###")
     local konamiLogoScreenId = SplashScreen.GetSplashScreenWithName("konamiLogo")
-    local kjpLogoScreenId = SplashScreen.GetSplashScreenWithName("kjpLogo")
+    --local kjpLogoScreenId = SplashScreen.GetSplashScreenWithName("kjpLogo")
     --OFF: local foxLogoScreenId = SplashScreen.GetSplashScreenWithName("foxLogo")
 
-    local showTime=0.2--tex
 
+
+    --[[
     local function StateCallback(screenId, state)
       if state == SplashScreen.STATE_DELETE then
         Fox.Log("konamiLogoScreen is deleted. show fox logo.")
-        SplashScreen.Show( kjpLogoScreenId, 0, showTime, 0)--tex was 1.0, 4.0, 1.0)
+        SplashScreen.Show( kjpLogoScreenId, fadeTime, showTime, fadeTime)--tex was 1.0, 4.0, 1.0)
       end
     end
     SplashScreen.SetStateCallback(konamiLogoScreenId, StateCallback)
-
+--]]
     --[[OFF: local function StateCallback(screenId, state)
       if state == SplashScreen.STATE_DELETE then
         Fox.Log("konamiLogoScreen is deleted. show fox logo.")
@@ -2852,7 +2862,7 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
     end--]]
     --OFF: SplashScreen.SetStateCallback(kjpLogoScreenId, StateCallback)
 
-    SplashScreen.Show( konamiLogoScreenId, 0, showTime, 0)--tex was 1.0, 4.0, 1.0)
+    SplashScreen.Show( konamiLogoScreenId, splashFade, splashTime, splashFade)--tex was 1.0, 4.0, 1.0)
     --tex no nvidia splash? in exe? in ui?, it is tied to show on the delete of foxlogo though.
     this._StartPreTitleSequence()
   end,

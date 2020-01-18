@@ -343,7 +343,6 @@ function this.SoldierParametersMod()
   end
   this.ApplyHealthIvarsToSoldierParams()
   this.ApplySightIvarsToSoldierParams()
-  InfSoldierParams.PrintSightForm()--DEBUGNOW
   TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParameters)
 end
 

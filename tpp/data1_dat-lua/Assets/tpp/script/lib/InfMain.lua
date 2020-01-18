@@ -1,8 +1,8 @@
--- DOBUILD: 1 --
+-- DOBUILD: 1
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r87"
+this.modVersion = "r89"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
@@ -290,24 +290,123 @@ this.SetFriendlyEnemy = function()
   GameObject.SendCommand( gameObjectId, command )
 end
 
---
+--splash stuff
+local oneOffSplashes={
+  "startstart",
+  "startend",
+}
+function this.AddOneOffSplash(splashName)
+ oneOffSplashes[#oneOffSplashes+1]=splashName  
+end
+function this.DeleteOneOffSplashes()
+  for n,splashName in ipairs(oneOffSplashes) do
+    this.DeleteSplash(splashName)
+  end
+end
+
+
+function this.DeleteSplash(splashName)
+  local splash=SplashScreen.GetSplashScreenWithName(splashName)
+  if splash~=nil then
+    SplashScreen.Delete(splash)
+  end
+end
+
+--[[
+    local function StateCallback(screenId, state)
+      if state == SplashScreen.STATE_DELETE then
+        Fox.Log("konamiLogoScreen is deleted. show fox logo.")
+        SplashScreen.Show( kjpLogoScreenId, fadeTime, showTime, fadeTime)--tex was 1.0, 4.0, 1.0)
+      end
+    end
+    SplashScreen.SetStateCallback(konamiLogoScreenId, StateCallback)
+    --]]
 
 local emblemTypes={
-  base={"base",{01,50}},
-  front1={"front",{01,85}},
-  front2={"front",{5001,5027}},
-  front3={"front",{7008,7063}},
+  --{"base",{01,50}},
+  {"front",{01,85}},
+  {"front",{5001,5027}},
+  {"front",{7008,7063}},
+  {"front",{
+    100,
+    110,
+    120,
+    200,
+    210,
+    220,
+    300,
+    400,
+    410,
+    500,
+    510,
+    600,
+    610,
+    700,
+    720,
+    730,
+    800,
+    810,
+    900,
+    1000,
+    1100,
+    1200,
+    1210,
+    1220,
+    1300,
+    1310,
+    1410,
+    1420,
+    1430,
+    1500,
+    1700,
+    1710,
+    1800,
+    1900,
+    1920,
+    1940,
+    1960,
+    2000,
+    2010,
+    2100,
+    2200,
+    2210,
+    2240,
+    2241,  
+  }},
 }
 
-local function RandomSplash()
-  local group=emblemTypes[math.random(#emblemTypes)]
+this.currentRandomSplash=nil
+--IN: emblemTypes
+--OUT: this.oneOffSplashes, this.currentRandomSplash, SplashScreen - a splashscreen
+--ASSUMPTION: heavy on emblemTypes data layout assumptions, so if you change it, this do break
+function this.RandomEmblemSplash()
+  if this.currentRandomSplash~=nil then
+    if SplashScreen.GetSplashScreenWithName(this.currentRandomSplash) then
+      return
+    end
+  end
+  
+  local groupNumber=math.random(#emblemTypes)
+  local group=emblemTypes[groupNumber]
   local emblemType=group[1]
-  local emblemNumber=tostring(math.random(group[2][1],group[2][2]))
+  local emblemRanges=group[2]
+  local emblemNumber
+  if #emblemRanges>2 then--tex collection of numbers rather than range
+    local randomIndex=math.random(#emblemRanges)
+    emblemNumber=emblemRanges[randomIndex]
+  else
+    emblemNumber=math.random(emblemRanges[1],emblemRanges[2])
+  end
+  
   local lowOrHi="h"
   local name=emblemType..emblemNumber
 
   local path="/Assets/tpp/ui/texture/Emblem/"..emblemType.."/ui_emb_"..emblemType.."_"..emblemNumber.."_"..lowOrHi.."_alp.ftex"
   local randomSplash=SplashScreen.Create(name,path,640,640)
+
+  this.currentRandomSplash=name
+  this.AddOneOffSplash(name)
+  
   SplashScreen.Show(randomSplash,.2,0.5,.2)
   return name
 end
@@ -315,7 +414,7 @@ end
 --
 
 function this.Init(missionTable)
-  this.InitWarpPlayerMode()
+  this.InitWarpPlayerUpdate()
 end
 
 function this.EndFadeIn()
@@ -370,90 +469,121 @@ function this.RestoreActionFlag()
   end
 end
 
+--
+local function UpdateRangeToMinMax(updateRate,updateRange)
+  local min=updateRate-updateRange*0.5
+  local max=updateRate+updateRange*0.5
+  if min<0 then
+    min=0
+  end
+  return min,max
+end
 
-local inGame=false--tex actually loaded game, ie at least 'continued' from title screen
-local inHeliSpace=false
-local inMission=false
-local inMissionOnGround=false--mission actually started/reached ground, triggers on checkpoint save so might not be valid for some uses
-local inGroundVehicle=false
-local inSupportHeli=false
-local onBuddy=false--tex sexy
-local inMenu=false
+this.execChecks={
+  inGame=false,--tex actually loaded game, ie at least 'continued' from title screen
+  inHeliSpace=false,
+  inMission=false,
+  inMissionOnGround=false,--tex mission actually started/reached ground, triggers on checkpoint save so might not be valid for some uses
+  inGroundVehicle=false,
+  inSupportHeli=false,
+  onBuddy=false,--tex sexy
+  inMenu=false,
+}
 
 local playerVehicleId=0
 this.currentTime=0
 
 function this.Update()
   -- InfMenu.DebugPrint("InfMain.Update")
-  -- SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
+  --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
     
-  playerVehicleId=NULL_ID 
-  inGame=false
-  inHeliSpace=false
-  inMission=false
-  inMissionOnGround=false
-  inGroundVehicle=false
-  inSupportHeli=false
-  onBuddy=false
+  playerVehicleId=NULL_ID
+  local currentChecks=this.execChecks
+  --for k,v in ipairs(currentChecks) do
+   -- currentChecks[k]=false
+ --end
   
-  inGame=not mvars.mis_missionStateIsNotInGame
+  currentChecks.inGame=false
+  currentChecks.inHeliSpace=false
+  currentChecks.inMission=false
+  currentChecks.inMissionOnGround=false
+  currentChecks.inGroundVehicle=false
+  currentChecks.inSupportHeli=false
+  currentChecks.onBuddy=false
+ 
+  currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
 
-
-  if inGame then
-    inHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
-    inMission=inGame and not inHeliSpace
+  if currentChecks.inGame then
+    currentChecks.inHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
+    currentChecks.inMission=currentChecks.inGame and not currentChecks.inHeliSpace
     --SplashScreen.Show(this.debugSplash,0,0.3,0)--tex
     playerVehicleId=vars.playerVehicleGameObjectId
 
-    if not inHeliSpace then
-      inMissionOnGround=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
+    if not currentChecks.inHeliSpace then
+      currentChecks.inMissionOnGround=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
     --[[   if not inMissionOnGround then
         InfMenu.DebugPrint"not inMissionOnGround"--DEBUGNOW
       end --]]
 
-      inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
-      inGroundVehicle=Tpp.IsVehicle(playerVehicleId) and not inSupportHeli-- or Tpp.IsEnemyWalkerGear(playerVehicleId)?? VERIFY
-      onBuddy=Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId)
+      currentChecks.inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
+      currentChecks.inGroundVehicle=Tpp.IsVehicle(playerVehicleId) and not currentChecks.inSupportHeli-- or Tpp.IsEnemyWalkerGear(playerVehicleId)?? VERIFY
+      currentChecks.onBuddy=Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId)
     end
   end
   
   this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
+  --InfMenu.DebugPrint(tostring(this.currentTime))--DEBUGNOW
   
   InfButton.UpdateHeld()
-  InfButton.UpdateRepeatReset()
-  ---Update shiz
-  InfMenu.Update({inGame=inGame,inHeliSpace=inHeliSpace,inGroundVehicle=inGroundVehicle})
-  inMenu=InfMenu.menuOn
+  InfButton.UpdateRepeatReset() 
   
-  local execCheck ={inGame=inGame,inHeliSpace=inHeliSpace,inMenu=inMenu}
-  this.UpdatePhaseMod(execCheck)
-  this.UpdateWarpPlayerMode(execCheck)
+  --InfMenu.DebugPrint("InfMain.Update")
+--SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
+  
+  ---Update shiz 
+  InfMenu.Update(currentChecks)
+  currentChecks.inMenu=InfMenu.menuOn
+  
+  local updateIvars={
+    Ivars.phaseUpdate,
+    Ivars.warpPlayerUpdate,
+  }
+  
+  --local ivar=Ivars.phaseUpdate 
+  for i, ivar in ipairs(updateIvars) do
+    if ivar.setting==1 then
+      local updateRate=ivar.updateRate or gvars[ivar.name.."Rate"]
+      local updateRange=ivar.updateRange or gvars[ivar.name.."Range"]
+      updateRate=updateRate or 0
+      updateRange=updateRange or 0
+      
+      this.ExecUpdate(currentChecks,this.currentTime,ivar.execChecks,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
+    end
+  end
+  --this.UpdateWarpPlayerMode(currentChecks)
   ---
   InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
 end
 
 --Phase/Alert updates
-this.nextPhaseUpdate=0
+--state
 this.lastPhase=0
 this.alertBump=false
+
 local PHASE_ALERT=TppGameObject.PHASE_ALERT
 
 local function PhaseName(index)
   return Ivars.phaseSettings[index+1]
 end
 
-function this.UpdatePhaseMod(execCheck)
+function this.UpdatePhase()
   --Phase/Alert updates DOC: Phases-Alerts.txt
   --TODO RETRY, see if you can get when player comes into cp range better, playerPhase doesnt change till then
   --RESEARCH music also starts up
   --then can shift to game msg="ChangePhase" subscription
-  if not execCheck.inGame or execCheck.inHeliSpace or execCheck.inMenu then
-    return
-  end
-
   if TppLocation.IsMotherBase() or TppLocation.IsMBQF() then
     return
   end
@@ -469,7 +599,7 @@ function this.UpdatePhaseMod(execCheck)
     end
   end
 
-  if gvars.enablePhaseMod==1 and this.nextPhaseUpdate < this.currentTime then
+
     --InfMenu.DebugPrint("InfMain.Update phase mod")
     --local minPhase=gvars.minPhase
     --local maxPhase=gvars.maxPhase
@@ -519,29 +649,12 @@ function this.UpdatePhaseMod(execCheck)
     --[[ if debugMessage then--DEBUG--tex not a good idea to keep on cause playerphase only updates in certain radius of a cp
     InfMenu.DebugPrint(debugMessage)
     end--]]
-  end
-  if gvars.enablePhaseMod==1 and this.nextPhaseUpdate < this.currentTime then
-    local phaseUpdateRate=gvars.phaseUpdateRate
 
-    if phaseUpdateRate == 0 then
-      this.nextPhaseUpdate = this.currentTime--GOTCHA: wont reflect changes to rate and range till next update
-    else
-      local phaseUpdateRange=gvars.phaseUpdateRange
-      local phaseUpdateRangeHalf=phaseUpdateRange*0.5
-      local phaseUpdateMin=phaseUpdateRate-phaseUpdateRangeHalf
-      local phaseUpdateMax=phaseUpdateRate+phaseUpdateRangeHalf
-      if phaseUpdateMin<0 then
-        phaseUpdateMin=0
-      end
-
-      local randomRange=math.random(phaseUpdateMin,phaseUpdateMax)
-      this.nextPhaseUpdate = this.currentTime + randomRange--GOTCHA: wont reflect changes to rate and range till next update
-    end
-  end
   this.lastPhase=currentPhase
 end
 
-
+--warp mode
+--config
 this.moveRightButton=InfButton.RIGHT
 this.moveLeftButton=InfButton.LEFT
 this.moveForwardButton=InfButton.UP
@@ -558,7 +671,8 @@ this.warpModeButtons={
   this.moveDownButton,
 }
 
-function this.InitWarpPlayerMode()
+--init
+function this.InitWarpPlayerUpdate()
   InfButton.buttonStates[this.moveRightButton].decrement=0.1
   InfButton.buttonStates[this.moveLeftButton].decrement=0.1
   InfButton.buttonStates[this.moveForwardButton].decrement=0.1
@@ -567,19 +681,19 @@ function this.InitWarpPlayerMode()
   InfButton.buttonStates[this.moveDownButton].decrement=0.1
 end
 
-function this.UpdateWarpPlayerMode(execCheck)
+function this.UpdateWarpPlayer(execCheck)
   if execCheck.inMenu then
     return
   end
   
   if not execCheck.inGame or execCheck.inHeliSpace then
-    if Ivars.warpPlayerMode.setting==1 then
-      Ivars.warpPlayerMode:Set(0)
+    if Ivars.warpPlayerUpdate.setting==1 then
+      Ivars.warpPlayerUpdate:Set(0)
     end
     return
   end
 
-  if Ivars.warpPlayerMode.setting==0 then
+  if Ivars.warpPlayerUpdate.setting==0 then
     return
   end
   
@@ -649,5 +763,54 @@ function this.UpdateWarpPlayerMode(execCheck)
   end
 end
 
+--heli 
+--DOC: Helicopter shiz.txt
+this.heliExecInfo={
+  Update=nil
+}
+this.heliExecConditions={
+  inGame=true,
+  inHeliSpace=false,
+}
+this.heliExecTiming={
+  updateRate=0,
+  updateRange=0,
+  nextUpdate=0,
+}
+
+this.nextHeliUpdate=0
+
+function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  if execState.nextUpdate > currentTime then
+    return
+  end  
+  
+  for check,ivarCheck in ipairs(execChecks) do
+    if currentChecks[check]~=ivarCheck then
+      return
+    end
+  end
+  
+  if not IsFunc(ExecUpdate) then
+    InfMenu.DebugPrint"ExecUpdate is not a function"
+    return
+  end
+  
+  ExecUpdate(currentChecks)
+  
+  --tex set up next update time GOTCHA: wont reflect changes to rate and range till next update
+  if not updateRate or not updateRange then
+    execState.nextUpdate=currentTime+updateRate
+  else
+    local updateMin=updateRate-updateRange*0.5
+    local updateMax=updateRate+updateRange*0.5
+    if updateMin<0 then
+      updateMin=0
+    end
+
+    local randomRange=math.random(updateMin,updateMax)
+    execState.nextUpdate = currentTime + randomRange
+  end
+end
 
 return this

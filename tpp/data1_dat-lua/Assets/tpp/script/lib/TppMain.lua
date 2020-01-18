@@ -21,7 +21,7 @@ local onMessageTableSize=0
 local messageExecTable={}
 local h={}
 local messageExecTableSize=0
-local function n()--NMC: cant actually see this referenced anywhere
+local function RENAMEwhatisquarksystem()--NMC: cant actually see this referenced anywhere
   if QuarkSystem.GetCompilerState()==QuarkSystem.COMPILER_STATE_WAITING_TO_LOAD then
     QuarkSystem.PostRequestToLoad()
     coroutine.yield()

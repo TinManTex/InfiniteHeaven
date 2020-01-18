@@ -155,7 +155,7 @@ this.eng={--english
     "NVG, Gas mask and DD heavy headgear",
   },
   phaseMenu="Enemy phases menu",--r80-v-
-  enablePhaseMod="Enable phase modifications",
+  phaseUpdate="Enable phase modifications",
   minPhase="Minimum phase",
   maxPhase="Maximum phase",
   keepPhase="Don't downgrade phase",
@@ -176,7 +176,7 @@ this.eng={--english
   allready_unlocked="Allready unlocked",--r85
   mbDontDemoDisableBuddy="Don't disable buddy after mb cutscene",--r86
   disableXrayMarkers="Disable Xray marking",--r87
-  warpPlayerMode="Warp Mode",
+  warpPlayerUpdate="Warp Mode",
   warp_mode_on="Warp mode on",
   warp_mode_off="Warp mode off",
   item_disabled="Menu item is currently disabled",

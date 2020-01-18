@@ -33,6 +33,7 @@ InfSoldierParams={}
 local this=InfSoldierParams
 
 local IsTable=Tpp.IsTypeTable
+local IsFunc=Tpp.IsTypeFunc
 
 this.soldierParametersDefaults={--tex  SYNC: soldierParametersMod. actually using my slight tweaks rather than true default
   sightFormParameter={
@@ -274,9 +275,198 @@ function this.ApplySightIvarsToSoldierParams()
   InfMenu.DebugPrint"doop"--DEBUGNOW
 end
 
+SplashScreen={}
+local this=SplashScreen
+function SplashScreen.Create(name,texturePath,width,height)
+  print(name,texturePath,width,height)
+  return "asplash"
+end
+function SplashScreen.Show(splashScreen,fadeIn,showTime,fadeOut)
+  print(splashScreen,fadeIn,showTime,fadeOut)
+end
 
+Ivars={}
+local this=Ivars
+this.switchRange={max=1,min=0,increment=1}
+this.phaseUpdate={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  execChecks={inGame=true,inHeliSpace=false},
+  execState={
+    nextUpdate=0,
+  },
+  ExecUpdate=function()end,
+  --profile=this.subsistenceProfile,
+}
+
+this.phaseUpdateRate={--seconds
+  save=MISSION,
+  default=3,
+  range={min=1,max=255},
+}
+this.phaseUpdateRange={--seconds
+  save=MISSION,
+  range={min=0,max=255},
+}
+
+InfMain={}
+local this=InfMain
+
+local emblemTypes={
+  {"base",{01,50}},
+  {"front",{01,85}},
+  {"front",{5001,5027}},
+  {"front",{7008,7063}},
+  {"front",{
+    100,
+    110,
+    120,
+    200,
+    210,
+    220,
+    300,
+    400,
+    410,
+    500,
+    510,
+    600,
+    610,
+    700,
+    720,
+    730,
+    800,
+    810,
+    900,
+    1000,
+    1100,
+    1200,
+    1210,
+    1220,
+    1300,
+    1310,
+    1410,
+    1420,
+    1430,
+    1500,
+    1700,
+    1710,
+    1800,
+    1900,
+    1920,
+    1940,
+    1960,
+    2000,
+    2010,
+    2100,
+    2200,
+    2210,
+    2240,
+    2241,  
+  }},
+}
+
+this.currentRandomSplash=nil
+--IN: emblemTypes
+--OUT: this.oneOffSplashes, this.currentRandomSplash, SplashScreen - a splashscreen
+--ASSUMPTION: heavy on emblemTypes data layout assumptions, so if you change it, this do break
+function this.RandomEmblemSplash()
+  if this.currentRandomSplash~=nil then
+  --  if SplashScreen.GetSplashScreenWithName(this.currentRandomSplash) then
+      return
+  --  end
+  end
+  
+  local groupNumber=math.random(#emblemTypes)
+  local group=emblemTypes[groupNumber]
+  local emblemType=group[1]
+  local emblemRanges=group[2]
+  local emblemNumber
+  if #emblemRanges>2 then--tex collection of numbers rather than range
+    local randomIndex=math.random(#emblemRanges)
+    emblemNumber=emblemRanges[randomIndex]
+  else
+    emblemNumber=math.random(emblemRanges[1],emblemRanges[2])
+  end
+  
+  local lowOrHi="h"
+  local name=emblemType..emblemNumber
+
+  local path="/Assets/tpp/ui/texture/Emblem/"..emblemType.."/ui_emb_"..emblemType.."_"..emblemNumber.."_"..lowOrHi.."_alp.ftex"
+  local randomSplash=SplashScreen.Create(name,path,640,640)
+
+ -- this.currentRandomSplash=name
+ -- this.AddOneOffSplash(name)
+  
+  SplashScreen.Show(randomSplash,.2,0.5,.2)
+  return name
+end
+
+this.execChecks={
+  inGame=false,--tex actually loaded game, ie at least 'continued' from title screen
+  inHeliSpace=false,
+  inMission=false,
+  inMissionOnGround=false,--tex mission actually started/reached ground, triggers on checkpoint save so might not be valid for some uses
+  inGroundVehicle=false,
+  inSupportHeli=false,
+  onBuddy=false,--tex sexy
+  inMenu=false,
+}
+
+function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  if execState.nextUpdate > currentTime then
+    return
+  end  
+  
+  for check,ivarCheck in ipairs(execChecks) do
+    if currentChecks[check]~=ivarCheck then
+      return
+    end
+  end
+  
+  if not IsFunc(ExecUpdate) then
+    InfMenu.DebugPrint"ExecUpdate is not a function"
+    return
+  end
+  
+  ExecUpdate()
+  
+  --tex set up next update time GOTCHA: wont reflect changes to rate and range till next update
+  if not updateRate or not updateRange then
+    execState.nextUpdate=currentTime+updateRate
+  else
+    local updateMin=updateRate-updateRange*0.5
+    local updateMax=updateRate+updateRange*0.5
+    if updateMin<0 then
+      updateMin=0
+    end
+
+    local randomRange=math.random(updateMin,updateMax)
+    execState.nextUpdate = currentTime + randomRange
+  end
+end
+
+local this={}
 local function main()
   print"test"
-  this.ApplySightIvarsToSoldierParams()
+  InfSoldierParams.ApplySightIvarsToSoldierParams()
+  --while true do
+  --InfMain.RandomEmblemSplash()
+  --end
+  
+  this.currentTime=1
+  
+  local ivar=Ivars.phaseUpdate 
+  
+  ivar.name="phaseUpdate"
+  --if ivar.setting==1 then
+    local updateRateName=ivar.name.."Rate"
+    local updateRate=ivar.updateRate or gvars[ivar.name.."Rate"]
+    local updateRange=ivar.updateRange or gvars[ivar.name.."Range"]
+    updateRate=updateRate or 0
+    updateRange=updateRange or 0
+    
+    InfMain.ExecUpdate(InfMain.currentChecks,this.currentTime,ivar.execChecks,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
+  --end
 end
 main()

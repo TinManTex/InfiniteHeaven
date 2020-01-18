@@ -72,7 +72,8 @@ function this.RestoreSceneBGM()
   end
 end
 function this.HaltSceneBGM()
-  TppMusicManager.EndSceneMode()svars.snd_bgmNameHash=0
+  TppMusicManager.EndSceneMode()
+  svars.snd_bgmNameHash=0
   svars.snd_bgmSwitchNameHash=0
 end
 function this.SetPhaseBGM(e)

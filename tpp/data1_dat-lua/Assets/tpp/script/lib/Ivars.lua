@@ -364,7 +364,7 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(1,true)
       
       Ivars.abortMenuItemControl:Set(1,true)
-      Ivars.enablePhaseMod:Set(0,true)
+      Ivars.phaseUpdate:Set(0,true)
     end,
     BOUNDER=function() 
       Ivars.noCentralLzs:Set(1,true)
@@ -397,7 +397,7 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(1,true)
       
       Ivars.abortMenuItemControl:Set(0,true)
-      Ivars.enablePhaseMod:Set(0,true)
+      Ivars.phaseUpdate:Set(0,true)
     end,
     CUSTOM=nil,
   },
@@ -1258,26 +1258,26 @@ this.keepPhase={
   settingNames="set_switch",
 }
 
-this.enablePhaseMod={
+this.phaseUpdate={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  execChecks={inGame=true,inHeliSpace=false},
+  execState={
+    nextUpdate=0,
+  },
+  ExecUpdate=function(execCheck)InfMain.UpdatePhase(execCheck)end,
+  --profile=this.subsistenceProfile,
 }
 
 this.phaseUpdateRate={--seconds
   save=MISSION,
+  default=3,
   range={min=1,max=255},
 }
 this.phaseUpdateRange={--seconds
   save=MISSION,
   range={min=0,max=255},
-}
-
-this.enablePhaseMod={
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
-  profile=this.subsistenceProfile,
 }
 
 this.printPhaseChanges={
@@ -1328,7 +1328,7 @@ function this.DisableOnSubsistence(self)
   end
 end
 
-this.warpPlayerMode={
+this.warpPlayerUpdate={
   --save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -1356,6 +1356,11 @@ this.warpPlayerMode={
       InfMenu.PrintLangId"warp_mode_off"
     end
   end,
+  execChecks={inGame=true,inHeliSpace=false},
+  execState={
+    nextUpdate=0,
+  },
+  ExecUpdate=function(execCheck)InfMain.UpdateWarpPlayer(execCheck)end,
 }
 
 --

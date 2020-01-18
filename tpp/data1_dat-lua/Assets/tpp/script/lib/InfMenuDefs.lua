@@ -208,7 +208,7 @@ this.playerRestrictionsInMissionMenu={
 this.phaseMenu={
   options={
     --this.printPlayerPhase,--DEBUG
-    Ivars.enablePhaseMod,
+    Ivars.phaseUpdate,
     Ivars.minPhase,
     Ivars.maxPhase,
     Ivars.keepPhase,
@@ -234,8 +234,6 @@ this.supportHeliMenu={
 
 this.heliSpaceMenu={
   options={
-    this.soldierParamsMenu,--DEBUGNOW
-    --Ivars.warpPlayerMode,--tex WIP DEBUGNOW
     --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
     --Ivars.manualMissionCode,--tex DEBUGNOW WIP
     --InfMenuCommands.loadMissionItem,--tex DEBUGNOW WIP
@@ -280,8 +278,8 @@ this.debugInMissionMenu={
 
 this.inMissionMenu={
   options={
-    InfMenuCommands.HeliMenuOnTestItem,--WIP DEBUGNOW
-    Ivars.warpPlayerMode,--tex WIP DEBUGNOW
+    --InfMenuCommands.HeliMenuOnTestItem,--WIP DEBUGNOW
+    Ivars.warpPlayerUpdate,
     Ivars.clockTimeScale,
     --this.appearanceMenu,--WIP
     Ivars.quietRadioMode,

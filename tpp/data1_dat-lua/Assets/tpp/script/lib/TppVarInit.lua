@@ -31,7 +31,8 @@ function this.StartTitle(i)
     end
     this.SetVarsTitleCypr()
   end
-  PlayRecord.RegistPlayRecord"TPP_START_UP"TppSave.VarSavePersonalData()
+  PlayRecord.RegistPlayRecord"TPP_START_UP"
+  TppSave.VarSavePersonalData()
   if gvars.str_storySequence<TppDefine.STORY_SEQUENCE.CLEARD_ESCAPE_THE_HOSPITAL then
     TppMission.Load(vars.missionCode,missionIdInit,{showLoadingTips=false})
   else
@@ -254,7 +255,8 @@ function this.StartInitMission()
   TppMission.Load(vars.locationCode,nil,{force=true,showLoadingTips=false})
   local e=Fox.GetActMode()
   if(e=="EDIT")then
-    Fox.SetActMode"GAME"end
+    Fox.SetActMode"GAME"
+  end
 end
 function this.SetInitPlayerWeapons(e)
   for e,i in pairs(e)do
