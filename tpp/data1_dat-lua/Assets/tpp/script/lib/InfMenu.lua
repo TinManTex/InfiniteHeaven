@@ -200,6 +200,7 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     return
   end
   --TppUiCommand.AnnounceLogView("SetSetting:" .. self.name)--DEBUG
+  local prevSetting=self.setting
   self.setting=setting
   if self.save and not noSave then
     local gvar=gvars[self.name]
@@ -208,7 +209,7 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     end
   end
   if self.OnChange then -- and not noOnChange then 
-    self:OnChange() 
+    self:OnChange(prevSetting) 
   end
   if self.profile and not noOnChangeSub then
     Ivars.OnChangeSubSetting(self)
@@ -220,16 +221,18 @@ function this.NextSetting(incrementMult)
     InfMenu.DebugPrint"WARNING: cannot find option for currentindex"
     return
   end
-  if option.options then--tex is menu
-    if not option.disabled then
-      this.GoMenu(option)
+  
+  if option.disabled then
+   if option.disabledReason then
+      this.PrintLangId(option.disabledReason)
     else
-      if option.disabledReason then
-        this.PrintLangId(option.disabledReason)
-      else
-        this.PrintLangId("menu_disabled")
-      end
+      this.PrintLangId"item_disabled"
     end
+    return
+  end
+  
+  if option.options then--tex is menu
+    this.GoMenu(option)
   else
     this.ChangeSetting(option,option.range.increment,incrementMult)
   end
@@ -358,11 +361,14 @@ end
 function this.MenuOff()
   this.menuOn=false
   this.PrintLangId"menu_off"--"Menu Off"
+  InfMain.RestoreActionFlag()
 end
 
-local function ToggleMenu()--TODO: break out
+local function ToggleMenu()
   this.menuOn = not this.menuOn
   if this.menuOn then
+    InfMain.DisableActionFlagEquipMenu()
+  
     this.GetSetting()
     TppUiStatusManager.ClearStatus"AnnounceLog"
     TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
@@ -453,6 +459,8 @@ end
 function this.Init(missionTable)
   gvars.isManualHard = false--tex PATCHUP: not currently exposed to mod menu, force off to patch those that might have saves from prior mod with it on
   InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime--tex set up hold buttons
+  InfButton.buttonStates[this.menuUpButton].decrement=0.1
+  InfButton.buttonStates[this.menuDownButton].decrement=0.1
   InfButton.buttonStates[this.menuRightButton].decrement=0.1
   InfButton.buttonStates[this.menuLeftButton].decrement=0.1
 end
@@ -462,7 +470,6 @@ function this.Update()
   --[[CULL if TppMission.IsFOBMission(vars.missionCode) then
     return
   end--]]
-  --InfButton.UpdateHeld()
   if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
     local inHeliSpace = TppMission.IsHelicopterSpace(vars.missionCode)
     if inHeliSpace then
@@ -488,6 +495,14 @@ function this.Update()
       InfMenu.DebugPrint("onVehicle")--DEBUGNOW
       end
       if not onVehicle then
+        local repeatRate=0.85
+        InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
+        InfButton.buttonStates[this.menuDownButton].repeatRate=repeatRate
+        InfButton.buttonStates[this.menuRightButton].repeatRate=repeatRate
+        InfButton.buttonStates[this.menuLeftButton].repeatRate=repeatRate
+        InfButton.buttonStates[this.resetSettingButton].repeatRate=repeatRate
+        InfButton.buttonStates[this.menuBackButton].repeatRate=repeatRate
+         
         ToggleMenu()
       end
     end
@@ -502,16 +517,18 @@ function this.Update()
         this.SetCurrent()
         this.DisplayCurrentSetting()
       end
-      if InfButton.OnButtonDown(this.menuUpButton) then
+      if InfButton.OnButtonDown(this.menuUpButton) 
+      or InfButton.OnButtonRepeat(this.menuUpButton) then
         this.PreviousOption()
         this.DisplayCurrentSetting()
       end
-      if InfButton.OnButtonDown(this.menuDownButton) then
+      if InfButton.OnButtonDown(this.menuDownButton) 
+      or InfButton.OnButtonRepeat(this.menuDownButton) then
         this.NextOption()
         this.DisplayCurrentSetting()
       end
 
-      InfButton.ButtonRepeatReset(this.menuRightButton)
+      --CULL InfButton.ButtonRepeatReset(this.menuRightButton)
       if InfButton.OnButtonDown(this.menuRightButton) then
         this.NextSetting()
         this.DisplayCurrentSetting()
@@ -522,7 +539,7 @@ function this.Update()
         this.NextSetting(InfButton.GetRepeatMult())
       end
 
-      InfButton.ButtonRepeatReset(this.menuLeftButton)
+      --CULL InfButton.ButtonRepeatReset(this.menuLeftButton)
       if InfButton.OnButtonDown(this.menuLeftButton) then
         this.PreviousSetting()
         this.DisplayCurrentSetting()
@@ -547,7 +564,6 @@ function this.Update()
   else--!ingame
     this.menuOn = false
   end
-  --InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
 end
 

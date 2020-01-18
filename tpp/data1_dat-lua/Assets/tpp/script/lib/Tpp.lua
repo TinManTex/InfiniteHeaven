@@ -81,8 +81,8 @@ this.requires={
 "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
 "/Assets/tpp/script/lib/Ivars.lua",--tex
 "/Assets/tpp/script/lib/InfLang.lua",
-"/Assets/tpp/script/lib/InfMain.lua",
 "/Assets/tpp/script/lib/InfButton.lua",
+"/Assets/tpp/script/lib/InfMain.lua",
 "/Assets/tpp/script/lib/InfMenuCommands.lua",
 "/Assets/tpp/script/lib/InfMenuDefs.lua",
 "/Assets/tpp/script/lib/InfMenu.lua",

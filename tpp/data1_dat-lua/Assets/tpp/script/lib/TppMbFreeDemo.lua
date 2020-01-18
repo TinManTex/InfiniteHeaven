@@ -286,13 +286,13 @@ this.demoOptions={
       if gvars.mbDemoSelection==0 then--tex skip demo onend
         TppBuddyService.QuietHospitalized()
       end
-      local t={8.647,.8,-28.748}
-      local e=-25
-      t,e=mtbs_cluster.GetPosAndRotY("Medical","plnt0",t,e)
-      TppPlayer.Warp{pos=t,rotY=e}
-      TppPlayer.SetInitialPosition(t,e)
+      local pos={8.647,.8,-28.748}
+      local rotY=-25
+      pos,rotY=mtbs_cluster.GetPosAndRotY("Medical","plnt0",pos,rotY)
+      TppPlayer.Warp{pos=pos,rotY=rotY}
+      TppPlayer.SetInitialPosition(pos,rotY)
       mvars.f30050_isOverwriteDemoEndPos=true
-      Player.RequestToSetCameraRotation{rotX=0,rotY=e}
+      Player.RequestToSetCameraRotation{rotX=0,rotY=rotY}
     end,
     telopLangIdList={"area_demo_mb","platform_medical"}},
   QuietWishGoMission={
@@ -315,12 +315,12 @@ this.demoOptions={
       TppPlayer.Refresh()
     end,
     OnEnd=function()
-      local t={8.647,.8,-28.748}
-      local e=-25
-      t,e=mtbs_cluster.GetPosAndRotY("Medical","plnt0",t,e)
-      TppPlayer.Warp{pos=t,rotY=e}
-      Player.RequestToSetCameraRotation{rotX=0,rotY=e}
-      TppPlayer.SetInitialPosition(t,e)
+      local pos={8.647,.8,-28.748}
+      local rotY=-25
+      pos,rotY=mtbs_cluster.GetPosAndRotY("Medical","plnt0",pos,rotY)
+      TppPlayer.Warp{pos=pos,rotY=rotY}
+      Player.RequestToSetCameraRotation{rotX=0,rotY=rotY}
+      TppPlayer.SetInitialPosition(pos,rotY)
       mvars.f30050_isOverwriteDemoEndPos=true
       mtbs_enemy.OnDeactivateDemoBlock(mtbs_cluster.GetCurrentClusterId())
       if gvars.mbDemoSelection==0 then--tex skip demo onend
@@ -751,15 +751,15 @@ function this.PlayMtbsEventDemo(params)
       if weather then
         TppWeather.ForceRequestWeather(weather,0)
       end
-      local pos,rot
+      local pos,rotQuat
       if outOfCluster then
         pos=Vector3(5e3,0,5e3)
-        rot=Quat.RotationY(0)
+        rotQuat=Quat.RotationY(0)
       else
         local e,l=this.GetDemoPlayCluster(demoName)
-        pos,rot=mtbs_cluster.GetDemoCenter(e,l)
+        pos,rotQuat=mtbs_cluster.GetDemoCenter(e,l)
       end
-      DemoDaemon.SetDemoTransform(f30050_demo.demoList[demoName],rot,pos)
+      DemoDaemon.SetDemoTransform(f30050_demo.demoList[demoName],rotQuat,pos)
       if not noHeli then
         if heliEnableAfterDemo then
           GameObject.SendCommand({type="TppHeli2",index=0},{id="SetDemoToAfterDropEnabled",enabled=true,route="ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_tkof",isTakeOff=true})

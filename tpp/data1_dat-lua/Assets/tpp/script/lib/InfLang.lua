@@ -166,7 +166,7 @@ this.eng={--english
   phaseUpdateRate="Phase mod update rate (seconds)",
   phaseUpdateRange="Phase mod random variation",
   printPhaseChanges="Print phase changes",
-  phase_menu_cannot_subsistence="Cannot be used with Subsistence profile",
+  item_disabled_subsistence="Cannot be used with Subsistence profile",
   menu_disabled="Menu is currently disabled",
   ogrePointChange="Set demon snake",
   ogrePointChangeSettings={"Default","Normal","Demon"},
@@ -179,6 +179,11 @@ this.eng={--english
   unlockWeaponCustomizationItem="Unlock weapon customization",--r84
   allready_unlocked="Allready unlocked",--r85
   mbDontDemoDisableBuddy="Don't disable buddy after mb cutscene",--r86
+  disableXrayMarkers="Disable Xray marking",--r87
+  warpPlayerMode="Warp Mode",
+  warp_mode_on="Warp mode on",
+  warp_mode_off="Warp mode off",
+  item_disabled="Menu item is currently disabled",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

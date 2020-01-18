@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r86"
+this.modVersion = "r87"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
@@ -51,7 +51,7 @@ this.soldierSubTypesForTypeName={
   TYPE_DD={
     "DD_A",
     "DD_PW",
-    "DD_FOB",  
+    "DD_FOB",
   },
   TYPE_SKULL={
     "SKULL_CYPR",
@@ -64,7 +64,7 @@ this.soldierSubTypesForTypeName={
   TYPE_PF={
     "PF_A",
     "PF_B",
-    "PF_C", 
+    "PF_C",
   },
   TYPE_CHILD={
     "CHILD_A",
@@ -73,33 +73,33 @@ this.soldierSubTypesForTypeName={
 this.soldierTypeForSubtypes={
   DD_A=EnemyType.TYPE_DD,
   DD_PW=EnemyType.TYPE_DD,
-  DD_FOB=EnemyType.TYPE_DD,  
+  DD_FOB=EnemyType.TYPE_DD,
   SKULL_CYPR=EnemyType.TYPE_SKULL,
   SKULL_AFGH=EnemyType.TYPE_SKULL,
   SOVIET_A=EnemyType.TYPE_SOVIET,
   SOVIET_B=EnemyType.TYPE_SOVIET,
   PF_A=EnemyType.TYPE_PF,
   PF_B=EnemyType.TYPE_PF,
-  PF_C=EnemyType.TYPE_PF, 
+  PF_C=EnemyType.TYPE_PF,
   CHILD_A=EnemyType.TYPE_CHILD,
 }
 function this.SoldierTypeNameForType(soldierType)--tex maybe I'm missing something but not having luck indexing by EnemyType
   if soldierType == nil then
     return nil
-  end
-  
-  if soldierType==EnemyType.TYPE_DD then
-    return "TYPE_DD"
-  elseif soldierType==EnemyType.TYPE_SKULL then
-    return "TYPE_SKULL"
-  elseif soldierType==EnemyType.TYPE_SOVIET then
-    return "TYPE_SOVIET"
-  elseif soldierType==EnemyType.TYPE_PF then
-    return "TYPE_PF"
-  elseif soldierType==EnemyType.TYPE_CHILD then
-    return "TYPE_CHILD"
-  end
-  return nil
+end
+
+if soldierType==EnemyType.TYPE_DD then
+  return "TYPE_DD"
+elseif soldierType==EnemyType.TYPE_SKULL then
+  return "TYPE_SKULL"
+elseif soldierType==EnemyType.TYPE_SOVIET then
+  return "TYPE_SOVIET"
+elseif soldierType==EnemyType.TYPE_PF then
+  return "TYPE_PF"
+elseif soldierType==EnemyType.TYPE_CHILD then
+  return "TYPE_CHILD"
+end
+return nil
 end
 
 function this.IsSubTypeCorrectForType(soldierType,subType)--returns true on nil soldiertype because fsk that
@@ -166,11 +166,12 @@ function this.GetMbsClusterSecurityIsNoKillMode(missionId)
   return TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
 end
 
-function this.DisplayFox32(foxString)    
+function this.DisplayFox32(foxString)
   local str32 = Fox.StrCode32(foxString)
   TppUiCommand.AnnounceLogView("string :"..foxString .. "="..str32)
 end
 
+--[[
 function this.soldierFovBodyTableAfghan(missionId)
   local bodyTable={
     {0,MAX_REALIZED_COUNT},
@@ -198,7 +199,7 @@ function this.soldierFovBodyTableAfghan(missionId)
   return bodyTable
 end
 function this.soldierFovBodyTableAfrica(missionId)
- local bodyTable={
+  local bodyTable={
     {50,MAX_REALIZED_COUNT},
     {51,MAX_REALIZED_COUNT},
     {55,MAX_REALIZED_COUNT},
@@ -234,9 +235,10 @@ function this.soldierFovBodyTableAfrica(missionId)
     end
   end
 end
+--]]
 
 function this.ResetCpTableToDefault()
- local subTypeOfCp=TppEnemy.subTypeOfCp
+  local subTypeOfCp=TppEnemy.subTypeOfCp
   local subTypeOfCpDefault=TppEnemy.subTypeOfCpDefault
   for cp, subType in pairs(subTypeOfCp)do
     subTypeOfCp[cp]=subTypeOfCpDefault[cp]
@@ -245,11 +247,9 @@ end
 
 --[[function this.GetGameId(gameId,type)
   if IsString(gameId) then
-    gameId=GetGameObjectId(gameId)
-    
+    gameId=GetGameObjectId(gameId) 
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
       if soldierId~=NULL_ID then
-    
   end
   if gameId==nil or gameId==NULL_ID then
     return nil
@@ -285,25 +285,100 @@ this.SetFriendlyCp = function()
 end
 
 this.SetFriendlyEnemy = function()
-  local gameObjectId = { type="TppSoldier2" } 
+  local gameObjectId = { type="TppSoldier2" }
   local command = { id="SetFriendly", enabled=true }
   GameObject.SendCommand( gameObjectId, command )
 end
 
+
+--
+
+function this.Init(missionTable)
+  this.InitWarpPlayerMode()
+end
+
+function this.EndFadeIn()
+  if gvars.disableHeadMarkers==1 then
+    TppUiStatusManager.SetStatus("HeadMarker","INVALID")
+  end
+  if gvars.disableXrayMarkers==1 then
+    --TppSoldier2.DisableMarkerModelEffect()
+    TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
+  end  
+  --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
+  --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
+  --RETRY: push back up again, you may just have fucked something up lol
+  
+  local healthMult=gvars.playerHealthMult
+  if healthMult~=1 then
+    Player.ResetLifeMaxValue()
+    local newMax=vars.playerLifeMax
+    newMax=newMax*healthMult
+    if newMax < 10 then
+      newMax = 10
+    end
+    Player.ChangeLifeMaxValue(newMax)
+  end
+end
+function this.FinishOpeningDemoOnHeli()
+  if gvars.disableHeadMarkers==1 then
+    TppUiStatusManager.SetStatus("HeadMarker","INVALID")
+  end
+  if gvars.disableXrayMarkers==1 then
+    --TppSoldier2.DisableMarkerModelEffect()
+    TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
+  end
+end
+
+
+this.prevDisableActionFlag=nil
+function this.DisableActionFlagEquipMenu()
+  if this.prevDisableActionFlag==nil then
+    this.prevDisableActionFlag=vars.playerDisableActionFlag
+    vars.playerDisableActionFlag=vars.playerDisableActionFlag+PlayerDisableAction.OPEN_EQUIP_MENU
+  end
+end
+function this.RestoreActionFlag()
+  if this.prevDisableActionFlag~=nil then
+    vars.playerDisableActionFlag=this.prevDisableActionFlag
+    this.prevDisableActionFlag=nil
+  end
+end
+
+local inGame=false--tex actually loaded game, ie at least 'continued' from title screen
+local inHeliSpace=false
+local playerVehicleId=0
+local onVehicle=false
 this.currentTime=0
+
 function this.Update()
-   -- InfMenu.DebugPrint("InfMain.Update")
-   -- SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator  
+  -- InfMenu.DebugPrint("InfMain.Update")
+  -- SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
-  InfButton.UpdateHeld()  
+  InfButton.UpdateHeld()
+  InfButton.UpdateRepeatReset()
   this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
-  
+
+  inHeliSpace = TppMission.IsHelicopterSpace(vars.missionCode)
+  inGame = not mvars.mis_missionStateIsNotInGame
+
+  if inGame then
+    --SplashScreen.Show(this.debugSplash,0,0.3,0)--tex
+    playerVehicleId=vars.playerVehicleGameObjectId
+    onVehicle=false
+    if not inHeliSpace then
+      onVehicle = (Tpp.IsVehicle(playerVehicleId) and not Tpp.IsHelicopter(playerVehicleId)) or Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId) or Tpp.IsEnemyWalkerGear(playerVehicleId)
+    end
+  end
+
   InfMenu.Update()
-  
-  this.UpdatePhaseMod()
-  
+  if inGame then
+    this.UpdatePhaseMod()
+    this.UpdateWarpPlayerMode()
+  end
+
   InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
 end
 
@@ -318,57 +393,56 @@ local function PhaseName(index)
 end
 
 function this.UpdatePhaseMod()
---Phase/Alert updates DOC: Phases-Alerts.txt
+  --Phase/Alert updates DOC: Phases-Alerts.txt
   --TODO RETRY, see if you can get when player comes into cp range better, playerPhase doesnt change till then
   --RESEARCH music also starts up
   --then can shift to game msg="ChangePhase" subscription
-  
+
   if TppLocation.IsMotherBase() or TppLocation.IsMBQF() then
     return
   end
-  
+
   local currentPhase=vars.playerPhase
   local minPhase=gvars.minPhase
   local maxPhase=gvars.maxPhase
-  
+
 
   if currentPhase~=this.lastPhase then
     if gvars.printPhaseChanges==1 then
       InfMenu.Print(InfMenu.LangString("phase_changed"..":"..PhaseName(currentPhase)))
     end
   end
-  
+
   if gvars.enablePhaseMod==1 and this.nextPhaseUpdate < this.currentTime then
     --InfMenu.DebugPrint("InfMain.Update phase mod")
     --local minPhase=gvars.minPhase
     --local maxPhase=gvars.maxPhase
-    
+
     --local debugMessage=nil--DEBUG
-    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do    
+    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       if currentPhase<minPhase then
         --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
-        this.ChangePhase(cpName,minPhase)--gvars.minPhase) 
+        this.ChangePhase(cpName,minPhase)--gvars.minPhase)
       end
       if currentPhase>maxPhase then
         --debugMessage="phase>max setting to "..PhaseName(gvars.maxPhase)
         InfMain.ChangePhase(cpName,maxPhase)
       end
-      
+
       if gvars.keepPhase==1 then
         InfMain.SetKeepAlert(cpName,true)
       else
-        --InfMain.SetKeepAlert(cpName,false)--tex this would trash any vanilla setting, but updating this to off would only be important if ivar was updated at mission time
+      --InfMain.SetKeepAlert(cpName,false)--tex this would trash any vanilla setting, but updating this to off would only be important if ivar was updated at mission time
       end
-      
+
       --tex keep forcing ALERT so that last know pos updates, otherwise it would take till the alert>evasion cooldown
       --doesnt really work well, > alert is set last know pos, take cover and suppress last know pos
       --evasion is - is no last pos, downgrade to caution, else group advance on last know pos
       --ideally would be able to set last know pos independant of phase
       --[[if minPhase==PHASE_ALERT then
- 
         --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
         if currentPhase==PHASE_ALERT and this.lastPhase==PHASE_ALERT then
-          this.ChangePhase(cpName,minPhase-1)--gvars.minPhase) 
+          this.ChangePhase(cpName,minPhase-1)--gvars.minPhase)
         end
       end--]]
       if minPhase==TppGameObject.PHASE_EVASION then
@@ -385,14 +459,14 @@ function this.UpdatePhaseMod()
       end
 
     end
-    
-   --[[ if debugMessage then--DEBUG--tex not a good idea to keep on cause playerphase only updates in certain radius of a cp
+
+    --[[ if debugMessage then--DEBUG--tex not a good idea to keep on cause playerphase only updates in certain radius of a cp
     InfMenu.DebugPrint(debugMessage)
     end--]]
   end
-  if gvars.enablePhaseMod==1 and this.nextPhaseUpdate < this.currentTime then    
+  if gvars.enablePhaseMod==1 and this.nextPhaseUpdate < this.currentTime then
     local phaseUpdateRate=gvars.phaseUpdateRate
-    
+
     if phaseUpdateRate == 0 then
       this.nextPhaseUpdate = this.currentTime--GOTCHA: wont reflect changes to rate and range till next update
     else
@@ -401,130 +475,124 @@ function this.UpdatePhaseMod()
       local phaseUpdateMin=phaseUpdateRate-phaseUpdateRangeHalf
       local phaseUpdateMax=phaseUpdateRate+phaseUpdateRangeHalf
       if phaseUpdateMin<0 then
-       phaseUpdateMin=0
+        phaseUpdateMin=0
       end
-      
+
       local randomRange=math.random(phaseUpdateMin,phaseUpdateMax)
       this.nextPhaseUpdate = this.currentTime + randomRange--GOTCHA: wont reflect changes to rate and range till next update
-    end 
-  end 
+    end
+  end
   this.lastPhase=currentPhase
 end
 
 
---[[
-function this.WarpPlayerMode()
+this.moveRightButton=InfButton.RIGHT
+this.moveLeftButton=InfButton.LEFT
+this.moveForwardButton=InfButton.UP
+this.moveBackButton=InfButton.DOWN
+this.moveUpButton=InfButton.STANCE
+this.moveDownButton=InfButton.CALL
 
+this.warpModeButtons={
+  this.moveRightButton,
+  this.moveLeftButton,
+  this.moveForwardButton,
+  this.moveBackButton,
+  this.moveUpButton,
+  this.moveDownButton,
+}
 
-    vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY))
-    --local pos={8.647,.8,-28.748}
-    --local rotY=-25
-    --pos,rotY=mtbs_cluster.GetPosAndRotY("Medical","plnt0",pos,rotY)
-    local rotY=0
-    --local pos={9,.8,-42.5}--command helipad
-    local pos={-139,-3.20,-975}
-    
-    
-    TppPlayer.Warp{pos=pos,rotY=rotY}
-    --Player.RequestToSetCameraRotation{rotX=0,rotY=rotY}
-    
-    --TppPlayer.SetInitialPosition(pos,rotY)
-  end
-  
-function this.Update()
-  --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
-  if TppMission.IsFOBMission(vars.missionCode) then
-    return
-  end
-  InfButton.UpdateHeld()
-  if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
-    local inHeliSpace = TppMission.IsHelicopterSpace(vars.missionCode)
-    if inHeliSpace then
-      if this.topMenu~=InfMenuDefs.heliSpaceMenu then
-        this.topMenu=InfMenuDefs.heliSpaceMenu
-        this.GoMenu(this.topMenu)
-      end
-    else--!ishelispace
-      if this.topMenu~=InfMenuDefs.inMissionMenu then
-        this.topMenu=InfMenuDefs.inMissionMenu
-        this.GoMenu(this.topMenu)
-      end
-    end
-    --tex RETRY: still not happy, want to read menu status but cant find a way
-    if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
-      local playerVehicleId=vars.playerVehicleGameObjectId
-      local onVehicle = false
-      if not inHeliSpace then
-      --tex still conflicts with mother base heli reroute, but player should be tapping not holding to do that anyway
-        onVehicle = (Tpp.IsVehicle(playerVehicleId) and not Tpp.IsHelicopter(playerVehicleId)) or Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId) or Tpp.IsEnemyWalkerGear(playerVehicleId) 
-      end
-      if onVehicle then
-      InfMenu.DebugPrint("onVehicle")--DEBUG
-      end
-      if not onVehicle then
-        ToggleMenu()
-      end
-    end
-
-    if this.menuOn then
-      --TODO: tex figure out a way to check better, see general feature do.txt
-      if InfButton.OnButtonDown(InfButton.MB_DEVICE) then
-        this.MenuOff()
-      end
-
-      if InfButton.OnButtonDown(this.toggleMenuButton) then--tex update gvar of current
-        this.SetCurrent()
-        this.DisplayCurrentSetting()
-      end
-      if InfButton.OnButtonDown(this.menuUpButton) then
-        this.PreviousOption()
-        this.DisplayCurrentSetting()
-      end
-      if InfButton.OnButtonDown(this.menuDownButton) then
-        this.NextOption()
-        this.DisplayCurrentSetting()
-      end
-
-      InfButton.ButtonRepeatReset(this.menuRightButton)
-      if InfButton.OnButtonDown(this.menuRightButton) then
-        this.NextSetting()
-        this.DisplayCurrentSetting()
-      elseif InfButton.OnButtonUp(this.menuRightButton) then
-        this.autoDisplayRate=this.autoDisplayDefault
-      elseif InfButton.OnButtonRepeat(this.menuRightButton) then
-        this.autoDisplayRate=this.autoRateHeld
-        this.NextSetting(InfButton.GetRepeatMult())
-      end
-
-      InfButton.ButtonRepeatReset(this.menuLeftButton)
-      if InfButton.OnButtonDown(this.menuLeftButton) then
-        this.PreviousSetting()
-        this.DisplayCurrentSetting()
-      elseif InfButton.OnButtonUp(this.menuLeftButton) then
-        this.autoDisplayRate=this.autoDisplayDefault
-      elseif InfButton.OnButtonRepeat(this.menuLeftButton) then
-        this.autoDisplayRate=this.autoRateHeld
-        this.PreviousSetting(InfButton.GetRepeatMult())
-      end
-
-      if InfButton.OnButtonDown(this.resetSettingButton) then
-        this.ResetSetting()
-        this.PrintLangId"setting_default"--"Setting to default.."
-        this.DisplayCurrentSetting()
-      end
-      if InfButton.OnButtonDown(this.menuBackButton) then
-        this.GoBackCurrent()
-      end
-
-      this.AutoDisplay()
-    end--!menuOn
-  else--!ingame
-    this.menuOn = false
-  end
-  InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
-  --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
+function this.InitWarpPlayerMode()
+  InfButton.buttonStates[this.moveRightButton].decrement=0.1
+  InfButton.buttonStates[this.moveLeftButton].decrement=0.1
+  InfButton.buttonStates[this.moveForwardButton].decrement=0.1
+  InfButton.buttonStates[this.moveBackButton].decrement=0.1
+  InfButton.buttonStates[this.moveUpButton].decrement=0.1
+  InfButton.buttonStates[this.moveDownButton].decrement=0.1
 end
 
---]]
+function this.UpdateWarpPlayerMode()
+  if InfMenu.menuOn then
+    return
+  end
+  
+  if not inGame then
+    if Ivars.warpPlayerMode.setting==1 then
+      Ivars.warpPlayerMode:Set(0)
+    end
+    return
+  end
+
+  if Ivars.warpPlayerMode.setting==0 then
+    return
+  end
+  if inGame and not inHeliSpace and not InfMenu.menuOn then
+    --TODO: refactor, in InfMenu.Update too
+    local repeatRate=0.06
+    local repeatRateUp=0.04
+    InfButton.buttonStates[this.moveRightButton].repeatRate=repeatRate
+    InfButton.buttonStates[this.moveLeftButton].repeatRate=repeatRate
+    InfButton.buttonStates[this.moveForwardButton].repeatRate=repeatRate
+    InfButton.buttonStates[this.moveBackButton].repeatRate=repeatRate
+    InfButton.buttonStates[this.moveUpButton].repeatRate=repeatRateUp
+    InfButton.buttonStates[this.moveDownButton].repeatRate=repeatRate
+
+    local warpAmount=1
+    local warpUpAmount=1
+
+    local moveDir={}
+    moveDir[1]=0
+    moveDir[2]=0
+    moveDir[3]=0
+
+    local didMove=false
+
+    if InfButton.OnButtonDown(this.moveForwardButton)
+      or InfButton.OnButtonRepeat(this.moveForwardButton) then
+      moveDir[3]=warpAmount
+      didMove=true
+    end
+
+    if InfButton.OnButtonDown(this.moveBackButton)
+      or InfButton.OnButtonRepeat(this.moveBackButton) then
+      moveDir[3]=-warpAmount
+      didMove=true
+    end
+
+    if InfButton.OnButtonDown(this.moveRightButton)
+      or InfButton.OnButtonRepeat(this.moveRightButton) then
+      moveDir[1]=-warpAmount
+      didMove=true
+    end
+
+    if InfButton.OnButtonDown(this.moveLeftButton)
+      or InfButton.OnButtonRepeat(this.moveLeftButton) then
+      moveDir[1]=warpAmount
+      didMove=true
+    end
+
+    if InfButton.OnButtonDown(this.moveUpButton)
+      or InfButton.OnButtonRepeat(this.moveUpButton) then
+      moveDir[2]=warpUpAmount
+      didMove=true
+    end
+
+    if InfButton.OnButtonDown(this.moveDownButton)
+      or InfButton.OnButtonRepeat(this.moveDownButton) then
+      moveDir[2]=-warpAmount
+      didMove=true
+    end
+
+    if didMove then
+      local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
+      local vMoveDir=Vector3(moveDir[1],moveDir[2],moveDir[3])
+      local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
+      local playerMoveDir=rotYQuat:Rotate(vMoveDir)
+      local warpPos=currentPos+playerMoveDir
+      TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+    end
+  end--!do buttons
+end
+
 
 return this

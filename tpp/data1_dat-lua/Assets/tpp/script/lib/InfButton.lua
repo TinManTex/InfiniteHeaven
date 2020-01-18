@@ -117,6 +117,15 @@ function this.UpdateHeld()
     end
   end
 end
+
+function this.UpdateRepeatReset()
+  for name,buttonMask in pairs(this.buttonMasks) do
+    if this.buttonStates[buttonMask].decrement~=0 then
+      this.ButtonRepeatReset(buttonMask)
+    end
+  end
+end
+
 function this.ButtonDown(buttonMask)
   --[[if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then
     TppUiCommand.AnnounceLogView("ButtonDown:" .. buttonMask)--tex DEBUG: CULL:
@@ -177,6 +186,7 @@ function this.OnButtonRepeat(buttonMask)
   end
   return false  
 end
+
 function this.GetRepeatMult()
   return currentIncrementMult
 end

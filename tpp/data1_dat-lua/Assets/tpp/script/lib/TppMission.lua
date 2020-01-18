@@ -9,7 +9,7 @@ local n=GkEventTimerManager.Start
 local n=GameObject.GetGameObjectId
 local n=GameObject.NULL_ID
 local SVarsIsSynchronized=TppScriptVars.SVarsIsSynchronized
-local n=PlayRecord.RegistPlayRecord
+local RegistPlayRecord=PlayRecord.RegistPlayRecord
 local t=bit.bnot
 local E,t,t=bit.band,bit.bor,bit.bxor
 local StartTimer=GkEventTimerManager.Start
@@ -31,8 +31,8 @@ local h=3--RETAILPATCH 1060 was 4
 local I=(24*60)*60
 local u=2
 local u=TppDefine.MAX_32BIT_UINT
-local function v()
-  n"MISSION_TIMER_UPDATE"
+local function RegistMissionTimerPlayRecord()
+  RegistPlayRecord"MISSION_TIMER_UPDATE"
 end
 function this.GetMissionID()
   return vars.missionCode
@@ -745,9 +745,6 @@ function this.VarSaveForMissionAbort()
     vars.mbClusterId=mvars.mis_nextClusterIdForAbort
     vars.locationCode=TppDefine.LOCATION_ID.MTBS
   else
-    if missionCode==30050 and gvars.mbManualLayoutCode~=0 then--tex WIP DEBUGNOW
-      vars.mbLayoutCode=TppLocation.ModifyMbsLayoutCode(gvars.mbManualLayoutCode)
-    end--
     local locationName=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
     if locationName then
       local locationCode=TppDefine.LOCATION_ID[locationName]
@@ -1242,9 +1239,6 @@ function this.ExecuteMissionFinalize()
       vars.mbLayoutCode=TppLocation.ModifyMbsLayoutCode(mvars.mis_nextLayoutCode)
     else
       local layoutCode=TppDefine.STORY_MISSION_LAYOUT_CODE[gvars.mis_nextMissionCodeForMissionClear]
-      if currentMissionCode==30050 and gvars.mbManualLayoutCode~=0 then--tex WIP DEBUGNOW
-        layoutCode=gvars.mbManualLayoutCode
-      end--
       if layoutCode then
         vars.mbLayoutCode=TppLocation.ModifyMbsLayoutCode(layoutCode)
       end
@@ -1600,9 +1594,6 @@ function this.Messages()
         TppUiStatusManager.ClearStatus"EquipPanel"
         TppUiStatusManager.ClearStatus"HeadMarker"
         TppUiStatusManager.ClearStatus"WorldMarker"
-        if Ivars.disableHeadMarkers.setting==1 then--tex turn off headmarker
-          TppUiStatusManager.SetStatus("HeadMarker","INVALID")
-        end--
         if this.IsFreeMission(vars.missionCode)or(this.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_VISIT))then
           TppUiStatusManager.ClearStatus"AnnounceLog"
         end
@@ -1612,6 +1603,7 @@ function this.Messages()
             TppRadio.Play(mvars.mis_updateObjectiveDoorOpenRadioGroups,mvars.mis_updateObjectiveDoorOpenRadioOptions)
           end
         end
+        InfMain.FinishOpeningDemoOnHeli()--tex
       end}
     },
     UI={
@@ -1643,28 +1635,7 @@ function this.Messages()
         end
       end,option={isExecGameOver=true}},
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
-        if Ivars.disableHeadMarkers.setting==1 then--tex turn off headmarker
-          TppUiStatusManager.SetStatus("HeadMarker","INVALID")
-        end--
-        --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
-        --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
-        --RETRY: push back up again, you may just have fucked something up lol
-        if not this.IsFOBMission(vars.missionCode)then--tex no idea how this would effect fob missions, never done one
-          Player.ResetLifeMaxValue()
-          local healthMult=gvars.playerHealthMult
-          local newMax=vars.playerLifeMax
-          if lifeMult==0 then--tex special case, rather than rely on mult for varying input life at low mults just set life to 10 BALLANCE:?good value for one shot?, in practice doesn't hit because of float accuracy
-            Player.ChangeLifeMaxValue(10)
-          elseif lifeMult==1 then
-          --Player.ResetLifeMaxValue()--tex already done
-          else
-            newMax=newMax*healthMult
-            if newMax < 10 then
-              newMax = 10
-            end
-            Player.ChangeLifeMaxValue(newMax)
-          end
-        end
+        InfMain.EndFadeIn()--tex
         if TppSequence.IsHelicopterStart()then
           this.StartHelicopterDoorOpenTimer()
         end
@@ -2321,36 +2292,37 @@ function this.OnPlayerFultoned()
   end
 end
 function this.Update()
-  local n=mvars
-  local i=svars
-  local s=this.GetMissionName()
-  if n.mis_needSetCanMissionClear then
+  local mvars=mvars
+  local svars=svars
+  local missionName=this.GetMissionName()
+  if mvars.mis_needSetCanMissionClear then
     this._SetCanMissionClear()
   end
-  if n.mis_missionStateIsNotInGame then
+  if mvars.mis_missionStateIsNotInGame then
     return
   end
   local f,S,u,c=this.GetSyncMissionStatus()
-  local m=n.mis_isAlertOutOfMissionArea
-  local o=n.mis_isOutsideOfMissionArea
-  local p=n.mis_isOutsideOfHotZone
-  local l=i.mis_canMissionClear
+  local isAlertOutOfMissionArea=mvars.mis_isAlertOutOfMissionArea
+  local isOutsideOfMissionArea=mvars.mis_isOutsideOfMissionArea
+  local isOutsideOfHotZone=mvars.mis_isOutsideOfHotZone
+  local canMissionClear=svars.mis_canMissionClear
   if f and S then
-    TppMain.DisableGameStatus()HighSpeedCamera.RequestToCancel()
-    this.EstablishedMissionClear(i.mis_missionClearType)
+    TppMain.DisableGameStatus()
+    HighSpeedCamera.RequestToCancel()
+    this.EstablishedMissionClear(svars.mis_missionClearType)
   elseif u and c then
     TppMain.DisableGameStatus()HighSpeedCamera.RequestToCancel()
-    if n.mis_isAborting then
+    if mvars.mis_isAborting then
       this.EstablishedMissionAbort()
     else
       this.EstablishedGameOver()
     end
-  elseif l then
-    this.UpdateAtCanMissionClear(p,o)
+  elseif canMissionClear then
+    this.UpdateAtCanMissionClear(isOutsideOfHotZone,isOutsideOfMissionArea)
   else
-    if o then
-      local n=not IsHelicopter(vars.playerVehicleGameObjectId)
-      if n then
+    if isOutsideOfMissionArea then
+      local notHeli=not IsHelicopter(vars.playerVehicleGameObjectId)
+      if notHeli then
         if this.CheckMissionClearOnOutOfMissionArea()then
           this.ReserveMissionClearOnOutOfHotZone()
         else
@@ -2362,7 +2334,7 @@ function this.Update()
         end
       end
     end
-    if m then
+    if isAlertOutOfMissionArea then
       if not IsTimerActive(r)then
         StartTimer(r,g)
       end
@@ -2373,11 +2345,11 @@ function this.Update()
     end
   end
   if TppSequence.IsMissionPrepareFinished()then
-    v()
+    RegistMissionTimerPlayRecord()
   end
   this.ResumeMbSaveCoroutine()
-  if n.mis_needSetEscapeBgm then
-    if s=="s10090"or s=="s11090"then
+  if mvars.mis_needSetEscapeBgm then
+    if missionName=="s10090"or missionName=="s11090"then
       TppSound.StartEscapeBGM()
     else
       if vars.playerPhase>TppEnemy.PHASE.SNEAK then
@@ -2515,23 +2487,24 @@ function this.ExecuteVehicleSaveCarryOnClear()
   end
   local s=this.GetMissionClearType()
   local t=this.EvaluateVehicleCarryOption(s)
-  local i=nil
-  local n=nil
+  local initialPos=nil
+  local rotY=nil
   if s==TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_ORDER_BOX_DEMO then
     if mvars.mis_orderBoxList then
       if gvars.mis_orderBoxName~=0 then
         local s=this.FindOrderBoxName(gvars.mis_orderBoxName)
-        local e,s=this.GetOrderBoxLocator(s)
-        if e then
-          local t=Vector3(0,-.75,1.98)
-          local e=Vector3(e[1],e[2],e[3])
-          local t=-Quat.RotationY(TppMath.DegreeToRadian(s)):Rotate(t)i=t+e
-          n=s
+        local boxLocPos,bosLocRot=this.GetOrderBoxLocator(s)
+        if boxLocPos then
+          local adjustPos=Vector3(0,-.75,1.98)
+          local vBoxLocPos=Vector3(boxLocPos[1],boxLocPos[2],boxLocPos[3])
+          local adjustedPos=-Quat.RotationY(TppMath.DegreeToRadian(bosLocRot)):Rotate(adjustPos)
+          initialPos=adjustedPos+vBoxLocPos
+          rotY=bosLocRot
         end
       end
     end
   end
-  Vehicle.SaveCarry{options=t,initialPosition=i,initialRotY=n}
+  Vehicle.SaveCarry{options=t,initialPosition=initialPos,initialRotY=rotY}
 end
 function this.EstablishedMissionAbort()
   this.SeizeReliefVehicleOnAbort()
@@ -2816,14 +2789,14 @@ end
 function this.PostMissionOrderBoxPositionToBuddyDog()
   if(not this.IsFreeMission(vars.missionCode))then
     if mvars.mis_orderBoxList then
-      local n={}
-      for s,i in pairs(mvars.mis_orderBoxList)do
-        local e,i=this.GetOrderBoxLocatorByTransform(i)
-        if e then
-          table.insert(n,e)
+      local positions={}
+      for i,boxName in pairs(mvars.mis_orderBoxList)do
+        local pos,rot=this.GetOrderBoxLocatorByTransform(boxName)
+        if pos then
+          table.insert(positions,pos)
         end
       end
-      TppBuddyService.SetMissionGroundStartPositions{positions=n}
+      TppBuddyService.SetMissionGroundStartPositions{positions=positions}
     else
       TppBuddyService.ResetDogLeakedInformation()
     end
@@ -2887,10 +2860,10 @@ function this.GetOrderBoxLocator(e)
   end
   return Tpp.GetLocator("OrderBoxIdentifier",e)
 end
-function this.GetOrderBoxLocatorByTransform(e)
-  if not IsTypeString(e)then
+function this.GetOrderBoxLocatorByTransform(orderBoxName)
+  if not IsTypeString(orderBoxName)then
   end
-  return Tpp.GetLocatorByTransform("OrderBoxIdentifier",e)
+  return Tpp.GetLocatorByTransform("OrderBoxIdentifier",orderBoxName)
 end
 function this.SetFobPlayerStartPoint()
   local clusterNames={"Command","Combat","Develop","Support","Medical","Spy","BaseDev"}
@@ -3523,9 +3496,6 @@ function this.Load(missionCode,currentMissionCode,loadSettings)
     if TppLocation.IsMotherBase()then
       local applyPlatformParamToMbStage=TppLocation.ApplyPlatformParamToMbStage(missionCode,"MotherBase")
       local missionLayoutCode=TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode]
-      if missionCode==30050 and gvars.mbManualLayoutCode~=0 then--tex WIP DEBUGNOW
-        missionLayoutCode=gvars.mbManualLayoutCode
-      end--
       if missionLayoutCode then
         if currentMissionCode==nil and missionCode==30050 then
         else

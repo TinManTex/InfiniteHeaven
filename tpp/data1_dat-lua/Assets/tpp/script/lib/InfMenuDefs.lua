@@ -137,6 +137,7 @@ this.playerRestrictionsMenu={
   options={
     Ivars.subsistenceProfile,
     Ivars.disableHeadMarkers,
+    Ivars.disableXrayMarkers,
     Ivars.disableBuddies,
     Ivars.disableHeliAttack,
     Ivars.disableSelectTime,
@@ -171,6 +172,16 @@ this.appearanceMenu={
   }
 }
 
+this.playerRestrictionsInMissionMenu={
+  options={
+    Ivars.disableHeadMarkers,
+    Ivars.disableXrayMarkers,  
+  },
+  disabled=false,
+  disabledReason="item_disabled_subsistence",
+  OnSelect=Ivars.DisableOnSubsistence,
+}
+
 this.phaseMenu={
   options={
     --this.printPlayerPhase,--DEBUG
@@ -185,20 +196,14 @@ this.phaseMenu={
     InfMenuCommands.goBackItem,
   },
   disabled=false,
-  disabledReason="phase_menu_cannot_subsistence",
-  OnSelect=function(self)
-    if not (Ivars.subsistenceProfile:Is("DEFAULT") or Ivars.subsistenceProfile:Is("CUSTOM")) then
-      self.disabled=true
-    else
-      self.disabled=false
-    end
-  end,
+  disabledReason="item_disabled_subsistence",
+  OnSelect=Ivars.DisableOnSubsistence,
 }
 
 this.heliSpaceMenu={
   options={
+    --Ivars.warpPlayerMode,--tex WIP DEBUGNOW
     --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
-    --Ivars.mbManualLayoutCode,--tex DEBUGNOW WIP
     --Ivars.manualMissionCode,--tex DEBUGNOW WIP
     --InfMenuCommands.loadMissionItem,--tex DEBUGNOW WIP
     Ivars.startOnFoot,
@@ -241,6 +246,7 @@ this.debugInMissionMenu={
 
 this.inMissionMenu={
   options={
+    Ivars.warpPlayerMode,--tex WIP DEBUGNOW
     Ivars.clockTimeScale,
     this.phaseMenu,
     --this.appearanceMenu,--WIP
@@ -266,9 +272,11 @@ this.allMenus={}
 --TABLESETUP: allMenus, for reset, also means you have to comment out whole menu, not just references from other menus since resetall iterates the whole module
 local i=1
 for n,menu in pairs(this) do
-  if menu.options then--tex is menu
-    this.allMenus[n]=menu
-    i=i+1
+  if IsTable(item) then   
+    if menu.options then--tex is menu
+      this.allMenus[n]=menu
+      i=i+1
+    end
   end
 end
 

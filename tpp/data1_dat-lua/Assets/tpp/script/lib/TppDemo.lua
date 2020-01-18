@@ -331,28 +331,30 @@ function this.FinalizeOnDemoBlock()
     DemoDaemon.SkipAll()
   end
 end
-function this.SetDemoTransform(demoName,e)
+
+
+function this.SetDemoTransform(demoName,setInfo)
   local demoId=mvars.dem_demoList[demoName]
   if(demoId==nil)then
     return
   end
-  if(IsTypeTable(e)==false)then
+  if(IsTypeTable(setInfo)==false)then
     return
   end
   local position
-  local rotation
-  if(e.usePlayer==true)then
+  local demoRotQuat
+  if(setInfo.usePlayer==true)then
     position=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-    rotation=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
-  elseif(e.identifier and e.locatorName)then
-    position,rotation=Tpp.GetLocatorByTransform(e.identifier,e.locatorName)
+    demoRotQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
+  elseif(setInfo.identifier and setInfo.locatorName)then
+    position,demoRotQuat=Tpp.GetLocatorByTransform(setInfo.identifier,setInfo.locatorName)
   else
     return
   end
   if position==nil then
     return
   end
-  DemoDaemon.SetDemoTransform(demoId,rotation,position)
+  DemoDaemon.SetDemoTransform(demoId,demoRotQuat,position)
 end
 function this.GetDemoStartPlayerPosition(demoName)
   local demoId=mvars.dem_demoList[demoName]
@@ -376,28 +378,28 @@ function this.PlayOpening(demoFuncs,demoOptions)
   local rnd=math.random(#openings)
   demoId=openings[rnd]
   this.AddDemo(demoName,demoId)
-  local o,r
-  local t,a
+  local demoPosition,demoRotQuat
+  local pos,rot
   local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-  local s=Vector3(0,0,1.98)
-  local i=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
+  local adjustPos=Vector3(0,0,1.98)
+  local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
   if gvars.mis_orderBoxName~=0 and mvars.mis_orderBoxList~=nil then
-    local e=TppMission.FindOrderBoxName(gvars.mis_orderBoxName)
-    if e~=nil then
-      t,a=TppMission.GetOrderBoxLocatorByTransform(e)
+    local orderBoxName=TppMission.FindOrderBoxName(gvars.mis_orderBoxName)
+    if orderBoxName~=nil then
+      pos,rot=TppMission.GetOrderBoxLocatorByTransform(orderBoxName)
     end
   end
-  if t then
-    local e=-a:Rotate(s)
-    o=e+t
-    r=a
+  if pos then
+    local e=-rot:Rotate(adjustPos)
+    demoPosition=e+pos
+    demoRotQuat=rot
   else
-    local e=-i:Rotate(s)
-    o=e+playerPosition
-    r=i
+    local e=-rotYQuat:Rotate(adjustPos)
+    demoPosition=e+playerPosition
+    demoRotQuat=rotYQuat
   end
   TppMusicManager.StopMusicPlayer(1)
-  DemoDaemon.SetDemoTransform(demoId,r,o)
+  DemoDaemon.SetDemoTransform(demoId,demoRotQuat,demoPosition)
   this.Play(demoName,demoFuncs,options)
 end
 function this.PlayGetIntelDemo(demoFuncs,d,i,options,t)
@@ -413,11 +415,11 @@ function this.PlayGetIntelDemo(demoFuncs,d,i,options,t)
   local demoName2="_getInteldemo02"
   this.AddDemo(demoName,demoId)
   this.AddDemo(demoName2,demoId2)
-  local a,r=Tpp.GetLocatorByTransform(d,i)
-  local i=Tpp.GetRotationY(r)
+  local pos,rotQuat=Tpp.GetLocatorByTransform(d,i)
+  local i=Tpp.GetRotationY(rotQuat)
   Player.RequestToSetTargetStance(PlayerStance.STAND)
-  if a~=nil then
-    DemoDaemon.SetDemoTransform(demoId,r,a)
+  if pos~=nil then
+    DemoDaemon.SetDemoTransform(demoId,rotQuat,pos)
     this.Play(demoName,demoFuncs,demoOptions)
     TppUI.ShowAnnounceLog"getIntel"
   end

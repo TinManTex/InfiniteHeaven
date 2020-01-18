@@ -261,6 +261,7 @@ this.subsistenceProfile={
       Ivars.disableSelectTime:Set(0,true)
       Ivars.disableSelectVehicle:Set(0,true)
       Ivars.disableHeadMarkers:Set(0,true)
+      Ivars.disableXrayMarkers:Set(0,true)
       Ivars.disableFulton:Set(0,true)
       Ivars.clearItems:Set(0,true)
       Ivars.clearSupportItems:Set(0,true)
@@ -385,6 +386,13 @@ this.disableSelectVehicle={
 }
 
 this.disableHeadMarkers={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.subsistenceProfile,
+}
+
+this.disableXrayMarkers={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -795,13 +803,6 @@ this.mbDontDemoDisableBuddy={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-}
-
-
---WIP TppLocaion.ModifyMbsLayoutCode
-this.mbManualLayoutCode={
-  save=MISSION,
-  range={min=0,max=1000,increment=10},
 }
 
 this.manualMissionCode={
@@ -1259,6 +1260,47 @@ this.telopMode={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+}
+
+--
+function this.DisableOnSubsistence(self)
+  if not (Ivars.subsistenceProfile:Is("DEFAULT") or Ivars.subsistenceProfile:Is("CUSTOM")) then
+    self.disabled=true
+    --InfMenu.DebugPrint("is subs")--DEBUGNOW
+  else
+    self.disabled=false
+    --InfMenu.DebugPrint("not subs")--DEBUGNOW
+  end
+end
+
+this.warpPlayerMode={
+  --save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  disabled=false,
+  disabledReason="item_disabled_subsistence",
+  OnSelect=this.DisableOnSubsistence,
+  OnChange=function(self,previousSetting)--tex REFACTOR what a mess VERIFY that you can bitcheck disableflags
+    --[[
+    local OPEN_EQUIP=PlayerDisableAction.OPEN_EQUIP_MENU
+    if self.setting==0 and previousSetting~=0 then
+      if bit.band(vars.playerDisableActionFlag,OPEN_EQUIP)==OPEN_EQUIP then
+       vars.playerDisableActionFlag=vars.playerDisableActionFlag-OPEN_EQUIP
+      end
+    elseif self.setting==1 and previousSetting~=1 then
+      if not (bit.band(vars.playerDisableActionFlag,OPEN_EQUIP)==OPEN_EQUIP) then
+       vars.playerDisableActionFlag=vars.playerDisableActionFlag+OPEN_EQUIP
+      end 
+      vars.playerDisableActionFlag=PlayerDisableAction.OPEN_EQUIP_MENU
+    end
+    --]]
+    InfMenu.menuOn=false
+    if self.setting==1 then
+      InfMenu.PrintLangId"warp_mode_on"
+    else
+      InfMenu.PrintLangId"warp_mode_off"
+    end
+  end,
 }
 
 

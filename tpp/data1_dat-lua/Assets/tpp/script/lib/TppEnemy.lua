@@ -3664,7 +3664,7 @@ function this.CheckAllVipClear(n)
 end
 function this.CheckAllTargetClear(n)
   local n=mvars
-  local thisLocal=this--NMC: tihs pattern is used in two functions in other files. why? is it that really performant?
+  local thisLocal=this--NMC: tihs pattern is used in two functions in other files. why? is it really that performant?
   local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
   TppHelicopter.SetNewestPassengerTable()
   local t={

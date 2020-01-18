@@ -1161,11 +1161,15 @@ function this.PlayMissionClearCameraOnRideLightVehicle(e,l,s)
     i=4
   end
   if l==1 then
-    t=Vector3(-.35,.6,.7)e=Vector3(0,0,-2.25)a=.2
+    t=Vector3(-.35,.6,.7)
+    e=Vector3(0,0,-2.25)
+    a=.2
     r=.5
     n=true
   else
-    t=Vector3(-.35,.4,.7)e=Vector3(0,0,-4)a=.75
+    t=Vector3(-.35,.4,.7)
+    e=Vector3(0,0,-4)
+    a=.75
     o=true
   end
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{3,160},{3,-160}},offsetTarget=t,offsetPos=e,focalLength=28,aperture=1.875,timeToSleep=i,interpTimeAtStart=a,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=n,useLastSelectedIndex=o}
@@ -1183,11 +1187,15 @@ function this.PlayMissionClearCameraOnRideTruck(e,s,l)
     o=4
   end
   if s==1 then
-    t=Vector3(-.35,1.3,1)a=Vector3(0,0,-3)e=.2
+    t=Vector3(-.35,1.3,1)
+    a=Vector3(0,0,-3)
+    e=.2
     n=.5
     r=true
   else
-    t=Vector3(-.35,1,1)a=Vector3(0,0,-6)e=.75
+    t=Vector3(-.35,1,1)
+    a=Vector3(0,0,-6)
+    e=.75
     i=true
   end
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{3,160},{3,-160}},offsetTarget=t,offsetPos=a,focalLength=28,aperture=1.875,timeToSleep=o,interpTimeAtStart=e,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=r,useLastSelectedIndex=i}
@@ -1210,11 +1218,13 @@ function this.PlayMissionClearCameraOnRideCommonArmoredVehicle(a,s,e,l)
     i=4
   end
   if s==1 then
-    e=Vector3(0,0,-7.5)a=.2
+    e=Vector3(0,0,-7.5)
+    a=.2
     r=.5
     n=true
   else
-    e=Vector3(0,0,-13.25)a=.75
+    e=Vector3(0,0,-13.25)
+    a=.75
     o=true
   end
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{8,165},{8,-165}},offsetTarget=t,offsetPos=e,focalLength=28,aperture=1.875,timeToSleep=i,interpTimeAtStart=a,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=n,useLastSelectedIndex=o}
@@ -1263,11 +1273,15 @@ function this.PlayMissionClearCameraOnWalkerGear(a,p,s)
     o=4
   end
   if p==1 then
-    n=Vector3(0,.55,.35)a=Vector3(0,0,-3.65)t=.2
+    n=Vector3(0,.55,.35)
+    a=Vector3(0,0,-3.65)
+    t=.2
     l=1
     i=true
   else
-    n=Vector3(0,.4,.35)a=Vector3(0,0,-4.95)t=3
+    n=Vector3(0,.4,.35)
+    a=Vector3(0,0,-4.95)
+    t=3
     r=true
   end
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=3,followDelayTime=.1,candidateRots={{7,165},{7,-165}},offsetTarget=n,offsetPos=a,focalLength=28,aperture=1.875,timeToSleep=o,interpTimeAtStart=t,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=i,useLastSelectedIndex=r}
