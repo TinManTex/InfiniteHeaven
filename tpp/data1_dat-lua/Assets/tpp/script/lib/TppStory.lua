@@ -827,7 +827,8 @@ this.radioDemoTable={
     return true
   end,
   radioList={"f2000_rtrg8400"}},
-  OpenDecisionHuey={storyCondition=function()
+  OpenDecisionHuey={
+  storyCondition=function()
     return this.CanPlayDemoOrRadio"DecisionHuey"
   end,
   detailCondition=function(e)

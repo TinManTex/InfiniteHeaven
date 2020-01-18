@@ -1,51 +1,68 @@
 = Infinite heaven =
-r80 2015-11-17
+r86 2015-11-19
 by tin man tex
 For MGSV version 1.0.6.0 (1.06 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-Note for r80:
-Requires Snakebite 0.8 to install.
+Note for r86:
+Swapped the Mb cutecene mode settings disable and play, if you had these set prior to this version change it to what you wanted.
+
+New in r86
+Fix: A few cutscenes I broken in r56, oops
+Fix: mbDontDemoDisableOcelot dont disable occelot on cutscene hanging many cutscene ends
+- thanks TheChosenOne896 for the reports
+
+Don't disable Ocelot after cutscenes - expanded to cover more cutscenes
+
+
+New in r85
+Fix: osp weapon settings only set if profile not default - temporary fix for empty magazines on mission start (will still happen with individual osp settings though)
+Fix: some unexposed appearance settings running on set-to-default, manifested as player changing to snake, olive drab on FOB.
+Fix: fulton being set to level 1 on mission start
+- thanks GaKoDuck for the reports
+
+Unlock weapon customization - game progression unlock without having to complete legendary gunsmith sideops, good for newgame in combo with the previous unlock player avatar.
+Disable mission intro credits
+Extended Enable all buddies in motherbase option to allow buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
+[youtube]N9xfnH8ivAI[/youtube] 
+https://www.youtube.com/watch?v=N9xfnH8ivAI
+
 
 New in r80:
 Enemy phases menu:
 Change minimum and max phase of CPs in an area around player.
-Examples: 
+Examples:
 minimum and maximum to SNEAK, will return enemies to the lowest alert level.
 Minimum to caution will set the enemies to the minimum alerted/run everywhere/gun ready phase.
-EVASION and ALERT are a bit more tricky, as they have a lot of enemy behaviours associated with them.
+EVASION and ALERT are a bit more tricky, as they have a lot of enemy behaviors associated with them.
 EVASION normally automatically downgrades to CAUTION if there's no last-known-position for the player.
 ALERT automatically sets last-known to player position, even if no enemies have no line of sight.
 So in my implmentation EVASION will initially set ALERT.
 
-Don't downgrade phase - independant of above, prevents the game auto downgrade of phases after player not being spotted for a while, this however leads to odd behaviour at ALERT as the enemy will infinitely suppress the last-known-position. It's usually better to just set the minimum phase.
+Don't downgrade phase - independent of above, prevents the game auto downgrade of phases after player not being spotted for a while, this however leads to odd behavior at ALERT as the enemy will infinitely suppress the last-known-position. It's usually better to just set the minimum phase.
 
-Demonstration of phase settings: https://youtu.be/veL0btXaOb4
+Demonstration of phase settings: 
+[youtube]veL0btXaOb4[/youtube]
+https://www.youtube.com/watch?v=veL0btXaOb4
 
 
 Headgear (cosmetic) - Chose from a variety of balaclavas, helmets with NVG and Gas masks. Cosmetic only (no headgear bonuses)
-Demonstration: https://youtu.be/1DlkIV3KduI
+Demonstration: 
+[youtube]1DlkIV3KduI[/youtube]
+https://www.youtube.com/watch?v=1DlkIV3KduI
 
-
-New in r75
-Option: Start Offline - Start the game in offline mode, this also removes the connect option from the menu.
-Option: Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, the will however spawn off map, use the call menu to have them respawn near.
-Feature: Abort Mission (Return to ACC) added to Motherbase pause menu.
 
 Infinite Heaven features:
 ------------------------------
 Demonstrations:
-Mother base settings: 
-https://youtu.be/PSWTQwJNaRU
-Phase settings: 
-https://youtu.be/veL0btXaOb4
-Headgear: 
-https://youtu.be/1DlkIV3KduI
+Mother base settings:
+[youtube]PSWTQwJNaRU[/youtube]
+https://www.youtube.com/watch?v=PSWTQwJNaRU
 
 Player Restriction - disable of game settings to customize your challenge
 
-Includes Subsistence profiles, sets of customised settings that lets you go into any mission or free roam with same (and more) restrictions as subsistence missions, or with just a secondary of your choice.
+Includes Subsistence profiles, sets of customized settings that lets you go into any mission or free roam with same (and more) restrictions as subsistence missions, or with just a secondary of your choice.
 
 Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgrades off, ASAP time forced, vehicle off, fulton  off, support off, head markers off, heli attack off, central landing zones off.
 
@@ -83,8 +100,8 @@ Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set fr
 
 Parameters:
 
-General Enemy parameter tweaks - switch to default if youre combining with a mod like TPP Harcore.
-	Increased enemy sight at night time, because it's always full moon/so bright anyway.
+General Enemy parameter tweaks - switch to default if you're combining with a mod like TPP Harcore.
+    Increased enemy sight at night time, because it's always full moon/so bright anyway.
 
 Player health scaling 400-0%(1hp)
 
@@ -103,7 +120,7 @@ Cutscenes:
 
 Use current soldier in cutscenes instead of snake.
 
-Disable Mother Base cutscenes - Disables some arrive at motherbase cutscenes that cause infinite loading screens on some saves. This bug also occurs on unmodified games. If you have a save already stuck in this state (already at the MB loading screen) try my seperate 'MB loading screen fix' mod.
+Disable Mother Base cutscenes - Disables some arrive at motherbase cutscenes that cause infinite loading screens on some saves. This bug also occurs on unmodified games. If you have a save already stuck in this state (already at the MB loading screen) try my separate 'MB loading screen fix' mod.
 
 Play selected mother base cutscene - Can choose from many of the mother base cutscenes that play on returning. Requires the setting 'MB cutscene play mode' to be set to 'Play selected'
 
@@ -115,11 +132,16 @@ Don't lock goal doors - useless unless you like swishing doors.
 
 Don't disable Ocelot after cutscenes - with this you can leave Occelot on MB in person after some cutscenes.
 
+Don't disable buddies after cutscenes - likewise with buddies (ddog mostly)
+
+
 Patchups:
 
 Unlock playable avatar - unlock avatar before mission 46
 
-Return Quiet - instanly runs same code as the Reunion mission 11 replay.
+Unlock weapon customization - game progression unlock without having to complete legendary gunsmith missions
+
+Return Quiet - instantly runs same code as the Reunion mission 11 replay.
 
 Start Offline - Start the game in offline mode, this also removes the connect option from the pause menu.
 
@@ -127,8 +149,10 @@ Retail Bug fixes:
 
 Enemies Revenge system level for Fulton was fulton was 0 low, 1 blank, 2 high, now 0 blank 1 low 2 high.
 
+TppMission.GoToEmergencyMission() -> TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode] instead of vars.missionCode
 
-By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu. 
+
+By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
 All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. Snakebite mod manager allows easy toggling of mods.
 
 Disclaimers:
@@ -164,7 +188,7 @@ You may want to back up periodically as you play in case you come across save br
 
 Back up TPPs original 01.dat in
 <steam path>\steamapps\common\MGS_TPP\master\0\
-This does not apply if you've aready modded it.
+This does not apply if you've already modded it.
 
 If you installed an earlier version of Infinite heaven than r44 manually find and restore your original game 00.dat backup or revalidate the game through steam:
 
@@ -211,12 +235,12 @@ The Announce Log used for the display has a delay on entries, so slow down your 
 
 Replaying sideop 144, Remains of Man on Fire, will leave your character stuck in the Quarantine helipad and unable to abort the mission and requiring you to restore your save. Avoid completing the mission (extracting body).
 
-Starting a mission with subsistence will still show the loadout screen, and will show the last missions visual setup, 
+Starting a mission with subsistence will still show the loadout screen, and will show the last missions visual setup,
 it should refresh when you change any settings, or if you exit to the title menu, or just enter the mission.
 
 Buddy may have to be repicked after turning off subsidence.
 
-Turning off subsitence pure will still prevent you from selecting buddy, exiting to title and back might fix it, entering a mission will.
+Turning off subsistence pure will still prevent you from selecting buddy, exiting to title and back might fix it, entering a mission will.
 
 Enemy Life percentage doesn't seem to effect stun.
 
@@ -228,6 +252,42 @@ There may be some overrides for Max Prepare that I've missed, I've noticed on sm
 
 Changelog:
 ------------------------------
+r86
+Fix: A few cutscenes I broken in r56, oops
+Fix: mbDontDemoDisableOcelot dont disable occelot on cutscene hanging cutscene end
+TppMbFreeDemo.PlayMtbsEventDemo, dont nil DemoOnEnd, instead case by case it in demoOptions
+- thanks TheChosenOne896 for the reports
+Option: mbDontDemoDisableBuddy
+Option: mbDontDemoDisableOcelot expanded to more cases
+Fix: remebered to update in-game version string lol
+
+r85 - 2015-11-19 - public release
+Fix: osp weapon settings only set if profile not default - temporary fix for empty magazines on mission start (will still happen with individual osp settings though)
+Fix: some unexposed appearence settings running on set-to-default, manifested as player changing to snake, olive drab on FOB.
+Fix: fulton being set to level 1 on mission start
+- thanks GaKoDuck for the reports
+
+r84
+Refactor: InfMain.Update - Phase mod broken to own function, InfButton.UpdateHeld(),InfButton.UpdatePressed() shifted from InfMenu.Update, InfMenu.Update now called from InfMain.Update instead of TppMain.
+Refactor: DebugPrint split and print strings larger than Announcelog limit
+Command: warpPlayerCommand - just initial testing with hard coded positions.
+Command: Unlock weapon customisation - game progression unlock
+Command: Exting unlock player avatar changed from Ivar to command - not that there's much difference, the deliniation is ivar is it's own setting, and almost always saved, command does a thing, and doesn't care about it's own state, in this case we're just setting another game var.
+Fix: Phase mod disabled for mother base. MB is not set up for caution routes aparently, also even with friendly set they will go hostil on alert
+
+r83
+clockTimeScale upper bound increased
+Option: telopMode - Disable mission intro credits
+Side project: scraper for langId dictionary
+
+r82
+mbLayout - research, not much result, mostly used for fob missions I think, doesn't seem to be any actual geometry changes.
+manualMissionCode,loadMissionItem - not much use, the 'no number missions' are supposed to be hard versions of some missions, but I see no evidence that they actually have custom changes.
+
+r81
+Extend mbEnableBuddies to Zoo
+Zoo plants should repop.
+
 r80 - 2015-11-17 - public release
 Settings: enablePhaseMod, phaseUpdateRate, phaseUpdateRange, minPhase, maxPhase.
 InfMain: Update(), added to TppMain updateList.
@@ -281,7 +341,7 @@ Fix: dev setting startoffline was on
 r71 - 2015-11-09 - public release
 Command: ResetRevenge/Enemy preparedness - thanks for the prodding TruckerHatRyan
 Option: revengeBlockForMissionCount
-Revenge options _SetUiParameters 
+Revenge options _SetUiParameters
 Menu: revenge system options
 InfMenu: allMenus now set up with all in InfMenuDefs instead of needing updating by hand
 langStrings added for all new options.
@@ -328,7 +388,7 @@ Fixed bug where I set FOB equip grade to 1, like a stupid - Thanks for the repor
 r63 2015-11-05 - public release
 Fixed bug I introduced in r56 to CloserToPlayerThanDistSqr resulting in quests being cleared to soldier being auto fultoned as player moved out of area. - Thanks for the report bumbousdude25
 
-r62 
+r62
 Refactor InfMenuDefs to Ivars, now builds svars from settings in Ivars via InfMain.DeclareVars.
 InfMain: most enums now part of their ivar
 InfMenu: Set to previous option on Menu Back
@@ -390,7 +450,7 @@ Added localization files for many mod strings. Other languages are currently jus
 r49a 2015-10-23 - public release
 Snakebite msgv update to 1.0.4.3
 
-r49 2015-10-23 
+r49 2015-10-23
 Fix soldiers not driving their patrolling trucks - thanks for report bindleford
 
 r48 2015-10-20 - public release
@@ -422,12 +482,12 @@ Refactor due to makebite allowing custom files via GzsTool - thanks Topher, atva
 InfButton, InfMenu, etc for its repsective stuff that was previously dumped in TppMain.lua
 UpdateModMenu direct via TppMain.SetUpdate/Onupdate instead of in tppmission update.
 
-r42 
+r42
 Re-added various support menu disables on subsistence, missed in the 1.0.4.0 merge.
 Support heli combat turned off - I found it bre3zer
 Head markers disabled for Subsistence Pure (xray effect on marked still active).
 
-r41 
+r41
 Nvida splash removed - thanks for direction LordRamza
 Fox engine splash removed (side effect, tied to the showing of nvid, would like to show it, I lovehate fox engine)
 
@@ -443,7 +503,7 @@ Enemy parameters setting saves on exit to title instead of requiring mission sta
 Value skipping for settings
 Manual selection of sideop 144 disabled, may still come up in random selection
 
-r38 
+r38
 Enemy parameters default to.. default
 Wormhole forced off for subsistence mode
 Equipment downgrades no longer applied to vanilla subsistence missions when subsistence mode off
@@ -452,7 +512,7 @@ r37 2015-10-05 - public release
 Open specific sideop
 Force open added to unlockSideops
 unlockSideops rename to random for areas
-Return Quiet re-added, now as menu option, non reversable
+Return Quiet re-added, now as menu option, non reversible
 
 r36
 Menu settings wrap
@@ -472,41 +532,50 @@ Fulton forced to lvl 1 on subsistence bounder
 Hand upgrades forced off on subsistence - sonar, mobility, precision, medical
 Fixed setting showing wrongly on menu open
 Relevant mission prep menu options disabled on Subsistence mode
-r33 2015-10-01
+
+r33
 Skip Autosave warning checkup on game start
 3/4 of initial splash screens sped up. - Thanks emoose for lua decrypt making this possible
-r32 2015-10-01
+
+r32
 Menu toggle key changed to <Reload>
 Fixed Secondary Enabled OSP not working - Thanks again Psithen
 Reset settings moved to menu option
+
 r31 2015-09-30 - public release
 Enemy Parameters bug fix, was causing night parameters to be zeroed - Thanks Psithen for the report
 Unlock all Side-Ops.
 r30 Option Menu refactor
-	Confirm setting option for menu items 
-r29 2015-09-27
+    Confirm setting option for menu items
+r29
 Subsistence: 'Buddy enabled' profile changed to 'Bounded (+Buddy +Suit)' - so you can use your model swaps
+
 r28 2015-09-26 - public release
 Enemy Prepared max kinks worked out, now confirmed works like the normal game would if all values maxed.
-r27	Buddy Support for subsistence (Allow Quiets Attack/Scout, downside(?) is enables buddy change in field)
-	Subsistence Weapon Loadout renamed OSP Weapon Loadout to make it clearer it's independent from Subsistence
+r27    Buddy Support for subsistence (Allow Quiets Attack/Scout, downside(?) is enables buddy change in field)
+    Subsistence Weapon Loadout renamed OSP Weapon Loadout to make it clearer it's independent from Subsistence
+
 r26 - 2015-09-23 - public release 5
 General Params setting for allowing default files/mods to override
-r25 Subsidence loadouts broken out to seperate option
-	Buddy enabled setting for Subsistence
+r25 Subsidence loadouts broken out to separate option
+    Buddy enabled setting for Subsistence
 r24 Buttons system refactor
-	Menu toggle changed to 1 second button hold
-	In game settings display removed
-	Menu off on idroid key press
+    Menu toggle changed to 1 second button hold
+    In game settings display removed
+    Menu off on idroid key press
+
 r21 - 2015-09-23 - 4th public release
 Buttons system refactor
+
 r20 - 2015-09-23 - 3nd public release
 Option Menu refactor
 r19 All Settings off if FOB
+
 r18 - 2015-09-23 - 2nd public release
 Quiet Return disabled pending inf load screen saves
 r17 Subsistence free secondary
 r16 Force relief vehicle fulton
+
 r15 - 2015-09-22 - 1st public release
 Settings Reset
 r14 Enemy Life scale

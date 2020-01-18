@@ -1661,9 +1661,11 @@ function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below
     Ivars.ospWeaponProfile:Set("PURE",true,true)--tex don't want to save due to normal subsistence missions
   end
 
-  this.SetInitWeapons(Ivars.primaryWeaponOsp:GetTable())
-  this.SetInitWeapons(Ivars.secondaryWeaponOsp:GetTable())
-  this.SetInitWeapons(Ivars.tertiaryWeaponOsp:GetTable())
+  if gvars.primaryWeaponOsp>0 then
+    this.SetInitWeapons(Ivars.primaryWeaponOsp:GetTable())
+    this.SetInitWeapons(Ivars.secondaryWeaponOsp:GetTable())
+    this.SetInitWeapons(Ivars.tertiaryWeaponOsp:GetTable())
+  end
 
   if isActual or gvars.clearSupportItems>0 then
     this.SetInitWeapons(Ivars.clearSupportItems.settingsTable)
@@ -1701,17 +1703,11 @@ function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below
   end
 end
 --[[function e.SetSelfSubsistenceOnHardMission()--tex ORIG:
-
   if TppMission.IsSubsistenceMission()then
-
     e.SetInitWeapons(TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE)
-
     e.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
-
     e.RegisterTemporaryPlayerType{partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
-
   end
-
 end--]]
 function this.OnReload()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())

@@ -102,7 +102,7 @@ function this.AddFOBLayoutPack(missionCode)
   local missionTypeName,missionCodeName=this.GetMissionTypeAndMissionName(missionCode)
   if missionCode==50050 then
   end
-  if(missionCode==50050)or(missionCode==10115)or(missionCode==30050)then--WIP DEBUGNOW HAX mbManualLayoutCode added 30050, orig below
+  if(missionCode==50050)or(missionCode==10115)then--or(missionCode==30050)then--WIP DEBUGNOW HAX mbManualLayoutCode added 30050, orig below
     local layoutPath="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionCodeName..("/"..(missionCodeName..string.format("_area_ly%03d",vars.mbLayoutCode))))))
     local layoutPack=layoutPath..".fpk"
     local clusterId=vars.mbClusterId
@@ -112,7 +112,7 @@ function this.AddFOBLayoutPack(missionCode)
     local clusterLayoutPack=layoutPath..(string.format("_cl%02d",clusterId)..".fpk")
     this.AddMissionPack(layoutPack)
     this.AddMissionPack(clusterLayoutPack)
- --[[ elseif missionCode==30050 then--WIP DEBUGNOW HAX OFFmbManualLayoutCode
+ elseif missionCode==30050 then
     local layoutPack="/Assets/tpp/pack/mission2/"..(missionTypeName..("/"..(missionCodeName..("/"..(missionCodeName..string.format("_ly%03d",vars.mbLayoutCode))))))
     local fpkPath=layoutPack..".fpk"
     this.AddMissionPack(fpkPath)--]]

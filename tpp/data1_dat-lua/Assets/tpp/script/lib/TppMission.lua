@@ -1002,13 +1002,13 @@ function this.ReserveMissionClear(missionClearInfo)
   return true
 end
 function this.MissionGameEnd(sequence)
-  local s=0
-  local t=0
-  local i=TppUI.FADE_SPEED.FADE_NORMALSPEED
+  local delayTime=0
+  local fadeDelayTime=0
+  local fadeSpeed=TppUI.FADE_SPEED.FADE_NORMALSPEED
   if Tpp.IsTypeTable(sequence)then
-    s=sequence.delayTime or 0
-    i=sequence.fadeSpeed or TppUI.FADE_SPEED.FADE_NORMALSPEED
-    t=sequence.fadeDelayTime or 0
+    delayTime=sequence.delayTime or 0
+    fadeSpeed=sequence.fadeSpeed or TppUI.FADE_SPEED.FADE_NORMALSPEED
+    fadeDelayTime=sequence.fadeDelayTime or 0
     if sequence.loadStartOnResult~=nil then
       mvars.mis_doMissionFinalizeOnMissionTelopDisplay=sequence.loadStartOnResult
     else
@@ -1020,8 +1020,8 @@ function this.MissionGameEnd(sequence)
   else
     this.ResetNeedWaitMissionInitialize()
   end
-  mvars.mis_missionGameEndDelayTime=s
-  this.FadeOutOnMissionGameEnd(t,i,"MissionGameEndFadeOutFinish")
+  mvars.mis_missionGameEndDelayTime=delayTime
+  this.FadeOutOnMissionGameEnd(fadeDelayTime,fadeSpeed,"MissionGameEndFadeOutFinish")
   PlayRecord.RegistPlayRecord"MISSION_CLEAR"
 end
 function this.FadeOutOnMissionGameEnd(n,i,s)
@@ -2146,36 +2146,39 @@ end
 function this.OnMessage(t,s,i,n,o,r,a)
   Tpp.DoMessage(this.messageExecTable,this.CheckMessageOption,t,s,i,n,o,r,a)
 end
-function this.CheckMessageOption(n)
-  local r=false
-  local a=false
-  local t=false
-  local i=false
-  if n and IsTypeTable(n)then
-    r=n[StrCode32"isExecMissionClear"]a=n[StrCode32"isExecGameOver"]t=n[StrCode32"isExecDemoPlaying"]i=n[StrCode32"isExecMissionPrepare"]
+function this.CheckMessageOption(messages)
+  local isExecMissionClear=false
+  local isExecGameOver=false
+  local isExecDemoPlaying=false
+  local isExecMissionPrepare=false
+  if messages and IsTypeTable(messages)then
+    isExecMissionClear=messages[StrCode32"isExecMissionClear"]
+    isExecGameOver=messages[StrCode32"isExecGameOver"]
+    isExecDemoPlaying=messages[StrCode32"isExecDemoPlaying"]
+    isExecMissionPrepare=messages[StrCode32"isExecMissionPrepare"]
   end
-  return this.CheckMissionState(r,a,t,i)
+  return this.CheckMissionState(isExecMissionClear,isExecGameOver,isExecDemoPlaying,isExecMissionPrepare)
 end
-function this.CheckMissionState(i,s,t,a)
-  local n=mvars
-  local e=svars
-  if e==nil then
+function this.CheckMissionState(isExecMissionClear,isExecGameOver,isExecDemoPlaying,isExecMissionPrepare)
+  local mvars=mvars
+  local svars=svars
+  if svars==nil then
     return
   end
-  local o=n.mis_isReserveMissionClear or e.mis_isDefiniteMissionClear
-  local l=n.mis_isReserveGameOver or e.mis_isDefiniteGameOver
+  local isMissionclear=mvars.mis_isReserveMissionClear or svars.mis_isDefiniteMissionClear
+  local isGameOver=mvars.mis_isReserveGameOver or svars.mis_isDefiniteGameOver
   local r=TppDemo.IsNotPlayable()
   local n=false
-  if e.seq_sequence<=1 then
+  if svars.seq_sequence<=1 then
     n=true
   end
-  if o and not i then
+  if isMissionclear and not isExecMissionClear then
     return false
-  elseif l and not s then
+  elseif isGameOver and not isExecGameOver then
     return false
-  elseif r and not t then
+  elseif r and not isExecDemoPlaying then
     return false
-  elseif n and not a then
+  elseif n and not isExecMissionPrepare then
     return false
   else
     return true
@@ -2411,29 +2414,30 @@ function this.ResumeMbSaveCoroutine()
   end
 end
 function this.GetSyncMissionStatus()
-  local o=mvars
-  local e=svars
-  local a=TppNetworkUtil.IsHost()
-  local r=TppNetworkUtil.IsSessionConnect()
-  local t=false
+  local mvars=mvars
+  local svars=svars
+  local isHost=TppNetworkUtil.IsHost()
+  local isSessionConnect=TppNetworkUtil.IsSessionConnect()
+  local isMisisonClear=false
   local i=false
-  local n=false
+  local isGameOver=false
   local s=false
-  if a then
-    t=e.mis_isDefiniteMissionClear and SVarsIsSynchronized"mis_isDefiniteMissionClear"i=SVarsIsSynchronized"mis_missionClearType"n=e.mis_isDefiniteGameOver and SVarsIsSynchronized"mis_isDefiniteGameOver"s=SVarsIsSynchronized"mis_gameOverType"else
-    if r then
-      t=e.mis_isDefiniteMissionClear
+  if isHost then
+    isMisisonClear=svars.mis_isDefiniteMissionClear and SVarsIsSynchronized"mis_isDefiniteMissionClear"
+    i=SVarsIsSynchronized"mis_missionClearType"isGameOver=svars.mis_isDefiniteGameOver and SVarsIsSynchronized"mis_isDefiniteGameOver"s=SVarsIsSynchronized"mis_gameOverType"else
+    if isSessionConnect then
+      isMisisonClear=svars.mis_isDefiniteMissionClear
       i=true
-      n=e.mis_isDefiniteGameOver
-      s=e.mis_gameOverType
+      isGameOver=svars.mis_isDefiniteGameOver
+      s=svars.mis_gameOverType
     else
-      t=o.mis_isReserveMissionClear
+      isMisisonClear=mvars.mis_isReserveMissionClear
       i=true
-      n=o.mis_isDefiniteGameOver
+      isGameOver=mvars.mis_isDefiniteGameOver
       s=true
     end
   end
-  return t,i,n,s
+  return isMisisonClear,i,isGameOver,s
 end
 function this.SeizeReliefVehicleOnAbort()
   if mvars.mis_abortIsTitleMode then

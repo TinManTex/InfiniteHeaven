@@ -171,7 +171,19 @@ function this.SetCurrent()--tex refresh current setting/re-call OnChange
 end
 function this.SetSetting(self,setting,noOnChangeSub,noSave)
   if self==nil then
-    TppUiCommand.AnnounceLogView("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?")--DEBUG
+    InfMenu.DebugPrint("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?")
+    return
+  end
+  if not IsTable(self) then
+     InfMenu.DebugPrint("WARNING: SetSetting: self ~= table!")
+    return   
+  end
+  if self.setting==nil then
+    InfMenu.DebugPrint("WARNING: SetSetting: setting==nil")
+    return
+  end
+  if self.option then
+    InfMenu.DebugPrint("WARNING: SetSetting called on menu")
     return
   end
 

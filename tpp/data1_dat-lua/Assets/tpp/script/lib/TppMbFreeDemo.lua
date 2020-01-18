@@ -112,13 +112,17 @@ this._PazPhantomPain4Settings={
     TppDataUtility.SetEnableDataFromIdentifier("mtbs_uni0040_155641_587","Trap_PazRoom",true,false)
   end,
   OnEnd=function()
+    if gvars.mbDemoSelection==1 then return end--tex skip demo onend
     TppQuest.ClearWithSave(TppDefine.QUEST_CLEAR_TYPE.CLEAR,"mtbs_q99060")
   end,
   time="17:00:00",weather=TppDefine.WEATHER.SUNNY,clusterName="Medical"
 }
+
+
 this.demoOptions={
   EntrustDdog={
     OnEnd=function()
+      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
       TppStory.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_COME_TO_GET,TppDefine.INIT_ELAPSED_MISSION_COUNT.D_DOG_COME_TO_GET)
       TppStory.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME,TppDefine.INIT_ELAPSED_MISSION_COUNT.D_DOG_GO_WITH_ME)
     end,
@@ -126,6 +130,7 @@ this.demoOptions={
     isUseGrassOcelot=true},
   DdogComeToGet={
     OnEnd=function()
+      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
       TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_COME_TO_GET)
       TppBuddyService.SetBuddyPuppyMBDemoPlayed()
     end,
@@ -134,9 +139,11 @@ this.demoOptions={
     enableOcelotDemoEnd=true},
   DdogGoWithMe={
     OnEnd=function()
+      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
       TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME)
       TppBuddyService.SetSortieBuddyType(BuddyType.DOG)
-      TppEmblem.Add("front63",true)Player.SetPause()
+      TppEmblem.Add("front63",true)
+      Player.SetPause()
       vars.buddyType=BuddyType.DOG
       if f30050_sequence then
         f30050_sequence.ReserveMissionClear()
@@ -151,9 +158,12 @@ this.demoOptions={
     end,
     isFinishFadeOut=true,heliEnableAfterDemo=true},
   LongTimeNoSee_DDSoldier={time="14:30:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true,OnEnter=function()
+    if gvars.mbDemoSelection==1 then return end--tex skip demo onend
     local e="/Assets/tpp/level/mission2/free/f30050/f30050_gimmick_target.fox2"
-    local t="mtbs_bord001_vrtn003_gim_n0000|srt_mtbs_bord001_vrtn003"local n="mtbs_bord001_vrtn003_gim_n0001|srt_mtbs_bord001_vrtn003"
-    local o="mtbs_bord001_vrtn003_gim_n0002|srt_mtbs_bord001_vrtn003"local l="mtbs_bord001_vrtn003_gim_n0003|srt_mtbs_bord001_vrtn003"
+    local t="mtbs_bord001_vrtn003_gim_n0000|srt_mtbs_bord001_vrtn003"
+    local n="mtbs_bord001_vrtn003_gim_n0001|srt_mtbs_bord001_vrtn003"
+    local o="mtbs_bord001_vrtn003_gim_n0002|srt_mtbs_bord001_vrtn003"
+    local l="mtbs_bord001_vrtn003_gim_n0003|srt_mtbs_bord001_vrtn003"
     Gimmick.InvisibleGimmick(-1,t,e,true)
     Gimmick.InvisibleGimmick(-1,n,e,true)
     Gimmick.InvisibleGimmick(-1,o,e,true)
@@ -168,6 +178,7 @@ this.demoOptions={
   forceBalaclavaLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003"}},
   LongTimeNoSee_DdogPup={time="12:00:00",weather=TppDefine.WEATHER.SUNNY,
     OnEnd=function()
+      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
       TppBuddyService.SetBuddyPuppyMBDemoPlayed()
       gvars.elapsedTimeSinceLastPlay=0
     end,
@@ -193,6 +204,7 @@ this.demoOptions={
     enableOcelotDemoEnd=true,isUseGrassOcelot=true,loadBuddyBlock=true,forceEnableBuddyType=BuddyType.DOG},
   AttackedFromOtherPlayer_KnowWhereFrom={time="14:00:00",weather=TppDefine.WEATHER.CLOUDY,
     OnEnd=function()
+      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
       TppUiCommand.RequestMbDvcOpenCondition{isDisableTutorial=true}
       Player.RequestToOpenMBTerminal()
     end,
@@ -201,53 +213,59 @@ this.demoOptions={
     forceBalaclavaLocator={}},
   AttackedFromOtherPlayer_UnknowWhereFrom={time="14:00:00",weather=TppDefine.WEATHER.CLOUDY,
     OnEnd=function()
+      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
       TppUiCommand.RequestMbDvcOpenCondition{isDisableTutorial=true}
       Player.RequestToOpenMBTerminal()
     end,
     heliEnableAfterDemo=true,demoSoldierLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0005","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0003"},
     forceMaleLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0004","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0000"},
     forceBalaclavaLocator={}},
-  MoraleOfMBIsLow={time="20:00:00",weather=TppDefine.WEATHER.RAINY,heliEnableAfterDemo=true,OnEnter=function()
-    TppPlayer.Refresh()
-    TppMotherBaseManagement.IncrementAllStaffMorale{morale=1}
-  end,
-  telopLangIdList={"area_demo_mb","platform_main"},
-  demoEndRouteList={{locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010040_0002"}},
-  enableOcelotDemoEnd=true,demoSoldierLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0004","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0005","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0000"},
-  forceMaleLocator={},
-  forceBalaclavaLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0005","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0000"}},
-  OcelotIsPupilOfSnake={time="13:00:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true,demoEndRouteList={{locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010350_0000"},
-    {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0000",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010350_0001"},
-    {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010350_0002"},
-    {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010350_0004"}},
-  forceMaleLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001"},
-  enableOcelotDemoEnd=true},
-  HappyBirthDay={GetNextDemoNameOrNil=function()
-    local n=TppStory.IsMissionCleard(10086)
-    local e=TppBuddyService.DidObtainBuddyType(BuddyType.QUIET)
-    local l=not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)
-    local t=not TppBuddyService.IsDeadBuddyType(BuddyType.QUIET)
-    if((n and e)and l)and t then
-      return"HappyBirthDayWithQuiet"end
-    return nil
-  end,
-  OnEnd=function()
-    gvars.isPlayedHappyBirthDayToday=true
-  end,
-  time="18:00:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true,telopLangIdList={"birthday","area_demo_mb","platform_main"}},
-  HappyBirthDayWithQuiet={time="19:00:00",weather=TppDefine.WEATHER.SUNNY,OnEnter=function()
-    local e="ly003_cl00_item0000|cl00pl0mb_fndt_plnt_gimmick2_nowep0000|mtbs_cran001_vrtn002_gim_n0000|srt_mtbs_cran001_vrtn002"
-    localt="/Assets/tpp/level/location/mtbs/block_area/ly00"..(tostring(vars.mbLayoutCode)..("/cl00/mtbs_ly00"..(tostring(vars.mbLayoutCode).."_cl00_item.fox2")))
-    Gimmick.PauseSharedAnim(e,t,true,0)
-  end,
-  OnEnd=function()
-    local e="ly003_cl00_item0000|cl00pl0mb_fndt_plnt_gimmick2_nowep0000|mtbs_cran001_vrtn002_gim_n0000|srt_mtbs_cran001_vrtn002"
-    localt="/Assets/tpp/level/location/mtbs/block_area/ly00"..(tostring(vars.mbLayoutCode)..("/cl00/mtbs_ly00"..(tostring(vars.mbLayoutCode).."_cl00_item.fox2")))
-    Gimmick.PauseSharedAnim(e,t,false)
-  end},
+  MoraleOfMBIsLow={time="20:00:00",weather=TppDefine.WEATHER.RAINY,heliEnableAfterDemo=true,
+    OnEnter=function()
+      TppPlayer.Refresh()
+      TppMotherBaseManagement.IncrementAllStaffMorale{morale=1}
+    end,
+    telopLangIdList={"area_demo_mb","platform_main"},
+    demoEndRouteList={{locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010040_0002"}},
+    enableOcelotDemoEnd=true,demoSoldierLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0004","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0005","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0000"},
+    forceMaleLocator={},
+    forceBalaclavaLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0005","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0000"}},
+  OcelotIsPupilOfSnake={time="13:00:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true,
+    demoEndRouteList={
+      {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010350_0000"},
+      {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0000",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010350_0001"},
+      {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010350_0002"},
+      {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010350_0004"}},
+    forceMaleLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001"},
+    enableOcelotDemoEnd=true},
+  HappyBirthDay={
+    GetNextDemoNameOrNil=function()
+      local n=TppStory.IsMissionCleard(10086)
+      local e=TppBuddyService.DidObtainBuddyType(BuddyType.QUIET)
+      local l=not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)
+      local t=not TppBuddyService.IsDeadBuddyType(BuddyType.QUIET)
+      if((n and e)and l)and t then
+        return"HappyBirthDayWithQuiet"end
+      return nil
+    end,
+    OnEnd=function()
+      gvars.isPlayedHappyBirthDayToday=true
+    end,
+    time="18:00:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true,telopLangIdList={"birthday","area_demo_mb","platform_main"}},
+  HappyBirthDayWithQuiet={time="19:00:00",weather=TppDefine.WEATHER.SUNNY,
+    OnEnter=function()
+      local e="ly003_cl00_item0000|cl00pl0mb_fndt_plnt_gimmick2_nowep0000|mtbs_cran001_vrtn002_gim_n0000|srt_mtbs_cran001_vrtn002"
+      local t="/Assets/tpp/level/location/mtbs/block_area/ly00"..(tostring(vars.mbLayoutCode)..("/cl00/mtbs_ly00"..(tostring(vars.mbLayoutCode).."_cl00_item.fox2")))
+      Gimmick.PauseSharedAnim(e,t,true,0)
+    end,
+    OnEnd=function()
+      local e="ly003_cl00_item0000|cl00pl0mb_fndt_plnt_gimmick2_nowep0000|mtbs_cran001_vrtn002_gim_n0000|srt_mtbs_cran001_vrtn002"
+      local t="/Assets/tpp/level/location/mtbs/block_area/ly00"..(tostring(vars.mbLayoutCode)..("/cl00/mtbs_ly00"..(tostring(vars.mbLayoutCode).."_cl00_item.fox2")))
+      Gimmick.PauseSharedAnim(e,t,false)
+    end},
   QuietOnHeliInRain={weather=TppDefine.WEATHER.RAINY,time="12:00:00",OnEnter=function()
     local e="ly003_cl00_item0000|cl00pl0mb_fndt_plnt_gimmick2_nowep0000|mtbs_cran001_vrtn002_gim_n0000|srt_mtbs_cran001_vrtn002"
-    localt="/Assets/tpp/level/location/mtbs/block_area/ly00"..(tostring(vars.mbLayoutCode)..("/cl00/mtbs_ly00"..(tostring(vars.mbLayoutCode).."_cl00_item.fox2")))
+    local t="/Assets/tpp/level/location/mtbs/block_area/ly00"..(tostring(vars.mbLayoutCode)..("/cl00/mtbs_ly00"..(tostring(vars.mbLayoutCode).."_cl00_item.fox2")))
     Gimmick.PauseSharedAnim(e,t,true,0)
   end,
   OnEnd=function()
@@ -265,7 +283,9 @@ this.demoOptions={
       svars.isCollect_BlackCoat=gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
     end,
     OnEnd=function()
-      TppBuddyService.QuietHospitalized()
+      if gvars.mbDemoSelection==0 then--tex skip demo onend
+        TppBuddyService.QuietHospitalized()
+      end
       local t={8.647,.8,-28.748}
       local e=-25
       t,e=mtbs_cluster.GetPosAndRotY("Medical","plnt0",t,e)
@@ -275,46 +295,53 @@ this.demoOptions={
       Player.RequestToSetCameraRotation{rotX=0,rotY=e}
     end,
     telopLangIdList={"area_demo_mb","platform_medical"}},
-  QuietWishGoMission={OnEnd=function()
-    TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.QUIET_WITH_GO_MISSION)
-    TppCassette.Acquire{cassetteList={"tp_c_00000_13"},
-      isShowAnnounceLog=true}
-    TppCassette.Acquire{cassetteList={"tp_m_10050_03"},
-      isShowAnnounceLog=true}
+  QuietWishGoMission={
+    OnEnd=function()
+      if gvars.mbDemoSelection==0 then--tex skip demo onend
+        TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.QUIET_WITH_GO_MISSION)
+        TppCassette.Acquire{cassetteList={"tp_c_00000_13"},isShowAnnounceLog=true}
+        TppCassette.Acquire{cassetteList={"tp_m_10050_03"},isShowAnnounceLog=true}
+      end
       Player.SetPause()
-    if f30050_sequence then
-      f30050_sequence.ReserveMissionClear()
-    end
-  end,
-  isFinishFadeOut=true,heliEnableAfterDemo=true,demoSoldierLocator={},
-  forceMaleLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0005"},
-  forceBalaclavaLocator={}},
-  QuietReceivesPersecution={time="13:00:00",weather=TppDefine.WEATHER.SUNNY,OnEnter=function()
-    TppPlayer.Refresh()
-  end,
-  OnEnd=function()
-    local t={8.647,.8,-28.748}
-    local e=-25
-    t,e=mtbs_cluster.GetPosAndRotY("Medical","plnt0",t,e)
-    TppPlayer.Warp{pos=t,rotY=e}
-    Player.RequestToSetCameraRotation{rotX=0,rotY=e}
-    TppPlayer.SetInitialPosition(t,e)
-    mvars.f30050_isOverwriteDemoEndPos=true
-    mtbs_enemy.OnDeactivateDemoBlock(mtbs_cluster.GetCurrentClusterId())
-    svars.isPlayedAfterDeathFactory=true
-  end,
-  telopLangIdList={"area_demo_mb","platform_main"},
-  demoSoldierLocator={},
-  forceMaleLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0004"},
-  forceBalaclavaLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0004"},
-  isFinishFadeOut=true},
+      if f30050_sequence then
+        f30050_sequence.ReserveMissionClear()
+      end
+    end,
+    isFinishFadeOut=true,heliEnableAfterDemo=true,demoSoldierLocator={},
+    forceMaleLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0001","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0005"},
+    forceBalaclavaLocator={}},
+  QuietReceivesPersecution={time="13:00:00",weather=TppDefine.WEATHER.SUNNY,
+    OnEnter=function()
+      TppPlayer.Refresh()
+    end,
+    OnEnd=function()
+      local t={8.647,.8,-28.748}
+      local e=-25
+      t,e=mtbs_cluster.GetPosAndRotY("Medical","plnt0",t,e)
+      TppPlayer.Warp{pos=t,rotY=e}
+      Player.RequestToSetCameraRotation{rotX=0,rotY=e}
+      TppPlayer.SetInitialPosition(t,e)
+      mvars.f30050_isOverwriteDemoEndPos=true
+      mtbs_enemy.OnDeactivateDemoBlock(mtbs_cluster.GetCurrentClusterId())
+      if gvars.mbDemoSelection==0 then--tex skip demo onend
+        svars.isPlayedAfterDeathFactory=true
+      end
+    end,
+    telopLangIdList={"area_demo_mb","platform_main"},
+    demoSoldierLocator={},
+    forceMaleLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0004"},
+    forceBalaclavaLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0004"},
+    isFinishFadeOut=true},
   SnakeHasBadSmell_WithoutQuiet={time="20:00:00",weather=TppDefine.WEATHER.CLOUDY,heliEnableAfterDemo=true,
     OnEnd=function()
-    Player.OnPlayerRefresh()end,
-    demoEndRouteList={{locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010160_0001"},
+      Player.OnPlayerRefresh()
+    end,
+    demoEndRouteList={
+      {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010160_0001"},
       {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010160_0001"},
       {locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010160_0000"}},
-    enableOcelotDemoEnd=true,demoSoldierLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001"},
+    enableOcelotDemoEnd=true,
+    demoSoldierLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001"},
     forceMaleLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0002"},
     forceBalaclavaLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0002"},
     loadBuddyBlock=true},
@@ -322,7 +349,8 @@ this.demoOptions={
     GetNextDemoNameOrNil=function()
       return"SnakeHasBadSmell_001"
     end,
-    time="20:00:00",weather=TppDefine.WEATHER.CLOUDY,demoSoldierLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0002"},
+    time="20:00:00",weather=TppDefine.WEATHER.CLOUDY,
+    demoSoldierLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0002"},
     forceMaleLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001"},
     forceBalaclavaLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0001"},
     isVisibleCurrentBudy=true},
@@ -347,10 +375,11 @@ this.demoOptions={
       TppPlayer.Refresh()
     end,
     OnEnd=function()
-      TppPlayer.SetInitialPosition({10.762,0,-6.521},
-        90)
+      TppPlayer.SetInitialPosition({10.762,0,-6.521},90)
       mvars.f30050_isOverwriteDemoEndPos=true
-      TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3015,pushReward=true}
+      if gvars.mbDemoSelection==0 then--tex skip demo onend
+        TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3015,pushReward=true}
+      end
     end,
     telopLangIdList={"area_demo_mb","area_demo_room101"},
     isShowReward=true},
@@ -358,13 +387,17 @@ this.demoOptions={
     TppPlayer.Refresh()
   end,
   OnEnd=function()
-    vars.mbmBipedalismWeaponDevelopmentSkill=1
+    if gvars.mbDemoSelection==0 then--tex skip demo onend
+      vars.mbmBipedalismWeaponDevelopmentSkill=1
+    end
     if f30050_sequence then
       local e={pos={-30,-7.4,6.35},
         rotY=-90}
       TppPlayer.Warp(e)
-      TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_114",rewardType=TppReward.TYPE.COMMON}
-      f30050_sequence.EnableBattleHangerMarker()
+      if gvars.mbDemoSelection==0 then--tex skip demo onend
+        TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_114",rewardType=TppReward.TYPE.COMMON}
+        f30050_sequence.EnableBattleHangerMarker()
+      end
     end
   end,
   telopLangIdList={"area_demo_mb","area_demo_room101"}},
@@ -381,30 +414,32 @@ this.demoOptions={
     TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_190602_103","btg01_demo_hide_group",true,false)
   end,
   telopLangIdList={"area_demo_mb","area_demo_battle_gear"}},
-  DevelopedBattleGear2={weather=TppDefine.WEATHER.SUNNY,noUseDemoBlock=true,noHeli=true,OnEnter=function()
-    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
-    local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
-    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,true)
-    TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_191810_465","btg02_demo_hide_group",false,false)
-  end,
-  OnEnd=function()
-    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
-    local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
-    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,false)
-    TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_191810_465","btg02_demo_hide_group",true,false)
-  end},
-  DevelopedBattleGear4={weather=TppDefine.WEATHER.SUNNY,noUseDemoBlock=true,noHeli=true,OnEnter=function()
-    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
-    local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
-    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,true)
-    TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_192737_376","btg04_demo_hide_group",false,false)
-  end,
-  OnEnd=function()
-    local t="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
-    local e="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
-    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,e,t,false)
-    TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_192737_376","btg04_demo_hide_group",true,false)
-  end},
+  DevelopedBattleGear2={weather=TppDefine.WEATHER.SUNNY,noUseDemoBlock=true,noHeli=true,
+    OnEnter=function()
+      local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+      local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+      Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,true)
+      TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_191810_465","btg02_demo_hide_group",false,false)
+    end,
+    OnEnd=function()
+      local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+      local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+      Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,false)
+      TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_191810_465","btg02_demo_hide_group",true,false)
+    end},
+  DevelopedBattleGear4={weather=TppDefine.WEATHER.SUNNY,noUseDemoBlock=true,noHeli=true,
+    OnEnter=function()
+      local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+      local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+      Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,true)
+      TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_192737_376","btg04_demo_hide_group",false,false)
+    end,
+    OnEnd=function()
+      local t="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+      local e="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+      Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,e,t,false)
+      TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_192737_376","btg04_demo_hide_group",true,false)
+    end},
   DevelopedBattleGear5={weather=TppDefine.WEATHER.SUNNY,noUseDemoBlock=true,noHeli=true,OnEnter=function()
     local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
     local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
@@ -421,9 +456,11 @@ this.demoOptions={
   CodeTalkerSunBath={time="12:00:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true},
   ParasiticWormCarrierKill={time="07:00:00",weather=TppDefine.WEATHER.CLOUDY,
     OnEnd=function()
-      TppStory.MissionOpen(10240)
-      TppUI.ShowAnnounceLog"missionListUpdate"
-      TppUI.ShowAnnounceLog"missionAdd"
+      if gvars.mbDemoSelection==0 then--tex skip demo onend
+        TppStory.MissionOpen(10240)
+        TppUI.ShowAnnounceLog"missionListUpdate"
+        TppUI.ShowAnnounceLog"missionAdd"
+      end
       if f30050_sequence then
         f30050_sequence.ReserveMissionClear()
       end
@@ -462,6 +499,7 @@ this.demoOptions={
     loadBuddyBlock=true},
   ArrivedMotherBaseLiquid={time="20:00:00",weather=TppDefine.WEATHER.SUNNY,
     OnEnd=function()
+      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
       gvars.mbFreeDemoPlayRequestFlag[TppDefine.MB_FREEPLAY_DEMO_REQUESTFLAG_DEFINE.PlayAfterWhiteMamba]=false
     end,
     heliEnableAfterDemo=true,telopLangIdList={"area_demo_mb","platform_main"},
@@ -475,6 +513,7 @@ this.demoOptions={
       svars.isCollect_BlackCoat=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
     end,
     OnEnd=function()
+      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
       gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_Injury]=svars.isCollect_Injury
       gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_YellowHood]=svars.isCollect_YellowHood
       gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_Aflo]=svars.isCollect_Aflo
@@ -489,11 +528,11 @@ this.demoOptions={
     OnEnter=function()
       TppSoundDaemon.ResetMute"Outro"end,
     OnPrevPlayRequest=function()
-    svars.isCollect_Injury=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_Injury]
-    svars.isCollect_YellowHood=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_YellowHood]
-    svars.isCollect_Aflo=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_Aflo]
-    svars.isCollect_ShortAflo=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_ShortAflo]
-    svars.isCollect_BlackCoat=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
+      svars.isCollect_Injury=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_Injury]
+      svars.isCollect_YellowHood=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_YellowHood]
+      svars.isCollect_Aflo=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_Aflo]
+      svars.isCollect_ShortAflo=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_ShortAflo]
+      svars.isCollect_BlackCoat=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
     end},
 
   NuclearEliminationCeremony={weather=TppDefine.WEATHER.SUNNY,time="17:20:00",
@@ -561,51 +600,53 @@ this.demoOptions={
     TppUiCommand.NukeCountDownText"reset"
   end},
   TheGreatEscapeLiquid={
-  OnEnter=function()
-    TppPlayer.Refresh()
-  end,
-  OnEnd=function()
-    TppStory.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.THE_GREAT_ESCAPE_LIQUID,TppDefine.INIT_ELAPSED_MISSION_COUNT.THE_GREAT_ESCAPE_LIQUID)
-    TppCassette.Acquire{cassetteList={"tp_m_10160_04"},
-      pushReward=true}
-    svars.isVisibleBrokenHanger=true
-    TppClock.SetTime"20:00:00"
-    mvars.f30050_isOverwriteDemoEndPos=true
-    TppEmblem.Add("front71",true)
-    TppEmblem.Add("word1",true)
-    TppEmblem.Add("word40",true)
-    TppEmblem.Add("word45",true)
-    TppEmblem.Add("word58",true)
-    TppEmblem.Add("word99",true)
-    TppEmblem.Add("word112",true)
-  end,
-  time="15:45:00",weather=TppDefine.WEATHER.SUNNY,telopLangIdList={"area_demo_mb","area_demo_room101"},
-  isShowReward=true},
+    OnEnter=function()
+      TppPlayer.Refresh()
+    end,
+    OnEnd=function()
+      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+      TppStory.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.THE_GREAT_ESCAPE_LIQUID,TppDefine.INIT_ELAPSED_MISSION_COUNT.THE_GREAT_ESCAPE_LIQUID)
+      TppCassette.Acquire{cassetteList={"tp_m_10160_04"},
+        pushReward=true}
+      svars.isVisibleBrokenHanger=true
+      TppClock.SetTime"20:00:00"
+      mvars.f30050_isOverwriteDemoEndPos=true
+      TppEmblem.Add("front71",true)
+      TppEmblem.Add("word1",true)
+      TppEmblem.Add("word40",true)
+      TppEmblem.Add("word45",true)
+      TppEmblem.Add("word58",true)
+      TppEmblem.Add("word99",true)
+      TppEmblem.Add("word112",true)
+    end,
+    time="15:45:00",weather=TppDefine.WEATHER.SUNNY,telopLangIdList={"area_demo_mb","area_demo_room101"},
+    isShowReward=true},
   DecisionHuey={
-  OnEnter=function()
-    TppPlayer.Refresh()
-    TppDataUtility.SetVisibleDataFromIdentifier("cp05_off_AssetIdentifier","mtbs_antn001_0001",false,false)
-    TppEffectUtility.SetOceanDisplacementStrength(.0115)
-    TppEffectUtility.SetOceanWindDirection(-.8,.5)
-    TppEffectUtility.SetOceanWaveAmplitude(.4)
-  end,
-  OnEnd=function()
-    TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.DECISION_HUEY)
-    TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3007,pushReward=true}
-    TppCassette.Acquire{cassetteList={"tp_m_10190_05","tp_m_10190_06","tp_m_10240_03","tp_m_10240_04"},
-      pushReward=true}
-    TppEmblem.Add("front82",true,false)
-    TppEmblem.Add("word37",true,false)
-    TppEmblem.Add("word127",true,false)
-    TppEmblem.Add("word128",true,false)
-    TppEmblem.Add("word129",true,false)
-    TppEffectUtility.RestoreOceanParameters()
-    vars.mbmBanHeuy=1
-    if f30050_sequence then
-      f30050_sequence.ReserveMissionClear()
-    end
-  end,
-  time="07:10:00",weather=TppDefine.WEATHER.CLOUDY,telopLangIdList={"area_demo_mb","area_demo_room101"}},
+    OnEnter=function()
+      TppPlayer.Refresh()
+      TppDataUtility.SetVisibleDataFromIdentifier("cp05_off_AssetIdentifier","mtbs_antn001_0001",false,false)
+      TppEffectUtility.SetOceanDisplacementStrength(.0115)
+      TppEffectUtility.SetOceanWindDirection(-.8,.5)
+      TppEffectUtility.SetOceanWaveAmplitude(.4)
+    end,
+    OnEnd=function()
+      if gvars.mbDemoSelection==0 then--tex skip demo onend
+        TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.DECISION_HUEY)
+        TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3007,pushReward=true}
+        TppCassette.Acquire{cassetteList={"tp_m_10190_05","tp_m_10190_06","tp_m_10240_03","tp_m_10240_04"},pushReward=true}
+        TppEmblem.Add("front82",true,false)
+        TppEmblem.Add("word37",true,false)
+        TppEmblem.Add("word127",true,false)
+        TppEmblem.Add("word128",true,false)
+        TppEmblem.Add("word129",true,false)
+        vars.mbmBanHeuy=1
+      end
+      TppEffectUtility.RestoreOceanParameters()
+      if f30050_sequence then
+        f30050_sequence.ReserveMissionClear()
+      end
+    end,
+    time="07:10:00",weather=TppDefine.WEATHER.CLOUDY,telopLangIdList={"area_demo_mb","area_demo_room101"}},
   PazPhantomPain1={
     OnEnter=function()
       TppDataUtility.SetVisibleDataFromIdentifier("uq_0040_paz_room_AssetIdentifier","paz_room_phantom",true,false)
@@ -672,16 +713,13 @@ function this.PlayMtbsEventDemo(params)
   local enableOcelotDemoEnd=false
   local buddyType1=vars.buddyType
   local buddyType2=vars.buddyType
-  local k=false
+  local RENAMEsetBuddyType2=false
   local enableWaitBlockLoadOnDemoSkip=nil
   local isFinishFadeOut=false
   local isUseGrassOcelot=false
   if demoOptions then
     DemoOnEnter=demoOptions.OnEnter
     DemoOnEnd=demoOptions.OnEnd
-    if gvars.mbDemoSelection == 2 then--tex dont want consquences when manually playing
-      DemoOnEnd=nil
-    end--
     weather=demoOptions.weather
     outOfCluster=demoOptions.outOfCluster
     heliEnableAfterDemo=demoOptions.heliEnableAfterDemo
@@ -754,16 +792,20 @@ function this.PlayMtbsEventDemo(params)
       if demoEnum then
         gvars.mbFreeDemoPlayedFlag[demoEnum]=true
       end
+
       if DemoOnEnd then
         DemoOnEnd()
       end
+
       if onEnd then
         onEnd()
       end
-      if not enableOcelotDemoEnd and not gvar.mbDontDemoDisableOcelot==1 then--tex added mbdont
+
+      if not enableOcelotDemoEnd then
         this.DisableOcelot()
       end
-      if k then
+
+      if RENAMEsetBuddyType2 then
         vars.buddyType=buddyType2
       end
       if nextDemo then
@@ -773,6 +815,7 @@ function this.PlayMtbsEventDemo(params)
           TppClock.SetTime(demoTime)
         end
       end
+
       if not nextDemo then
         local e,t=TppStory.GetForceMBDemoNameOrRadioList("afterMBDemo",{demoName=demoName})
         if e then
@@ -805,7 +848,7 @@ function this.DisableBuddyForForceRealized(demoName)
     return
   end
   local demoOptions=this.demoOptions[demoName]
-  if demoOptions and(demoOptions.forceEnableBuddyType or demoOptions.disableBuddyAfterDemo)then
+  if demoOptions and(demoOptions.forceEnableBuddyType or (demoOptions.disableBuddyAfterDemo and gvars.mbDontDemoDisableBuddy==0))then--tex added override
     local command={id="SetEnabled",enabled=false}
     local buddyId={type="TppBuddyDog2",index=0}
     if vars.buddyType==BuddyType.QUIET then
@@ -835,7 +878,7 @@ function this.SetInvisibleUniqueCharacter(isVisibleCurrentBudy)
   if not TppStory.CanArrivalSahelanInMB()then
     table.insert(setInvisibleTable,"Sahelan")
   end
-  
+
   if isVisibleCurrentBudy then
     if vars.buddyType~=BuddyType.QUIET then
       table.insert(setInvisibleTable,"Quiet")
@@ -856,10 +899,13 @@ function this.SetInvisibleUniqueCharacter(isVisibleCurrentBudy)
   TppDemoUtility.SetInvisibleUniqueCharacter{invisible=setInvisibleTable}
 end
 function this.DisableOcelot()
-  local e=GameObject.GetGameObjectId"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
-  local t={id="SetEnabled",enabled=false}
-  if e~=GameObject.NULL_ID then
-    GameObject.SendCommand(e,t)
+  if gvars.mbDontDemoDisableOcelot==1 then--tex
+    return
+  end--
+  local gameId=GameObject.GetGameObjectId"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
+  local command={id="SetEnabled",enabled=false}
+  if gameId~=GameObject.NULL_ID then
+    GameObject.SendCommand(gameId,command)
   end
 end
 function this.ChangeBlock(t,l)

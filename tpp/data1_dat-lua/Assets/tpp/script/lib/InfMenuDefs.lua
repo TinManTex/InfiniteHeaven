@@ -30,7 +30,6 @@ this.motherBaseShowAssetsMenu={
     Ivars.mbShowSahelan,
     Ivars.mbShowEli,
     Ivars.mbShowCodeTalker,
-    Ivars.mbDontDemoDisableOcelot,
     Ivars.mbUnlockGoalDoors,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
@@ -56,6 +55,8 @@ this.demosMenu={
     Ivars.useSoldierForDemos,
     Ivars.mbDemoSelection,
     Ivars.mbSelectedDemo,
+    Ivars.mbDontDemoDisableOcelot,
+    --Ivars.mbDontDemoDisableBuddy,--WIP
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -63,8 +64,8 @@ this.demosMenu={
 
 this.patchupMenu={
   options={
-    Ivars.unlockPlayableAvatar,
-    Ivars.unlockWeaponCustomization,
+    InfMenuCommands.unlockPlayableAvatarItem,
+    InfMenuCommands.unlockWeaponCustomizationItem,
     Ivars.startOffline,   
     --Ivars.blockFobTutorial,
     --Ivars.setFirstFobBuilt,
@@ -211,7 +212,7 @@ this.heliSpaceMenu={
     this.sideOpsMenu,
     this.motherBaseMenu,
     this.demosMenu,
-    --this.appearanceMenu,
+    --this.appearanceMenu,--tex DEBUGNOW WIP
     this.patchupMenu,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.resetAllSettingsItem,
@@ -221,8 +222,8 @@ this.heliSpaceMenu={
 
 this.debugInMissionMenu={
   options={
-    InfMenuCommands.warpPlayerCommand,--DEBUGNOW WIP
-    InfMenuCommands.DEBUG_PrintSoldierDefineItem,
+    --InfMenuCommands.warpPlayerCommand,--DEBUGNOW WIP
+    --InfMenuCommands.DEBUG_PrintSoldierDefineItem,
     InfMenuCommands.DEBUG_ShowRevengeConfigItem,
     --InfMenuCommands.DEBUG_ShowPhaseEnums,--CULL
     --InfMenuCommands.DEBUG_ChangePhaseItem,

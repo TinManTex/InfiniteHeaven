@@ -2,6 +2,9 @@
 --tex Ivar system
 --combines gvar setup, enums, functions per setting in one ungodly mess.
 local this={}
+--NOTE: Resetsettings will call OnChange, so/and make sure defaults are actual default game behaviour, 
+--in general this means all stuff should have a 0 that at least does nothing, 
+--dont let the lure of nice straight setting>game value lure you, just -1 it
 
 --LOCALOPT:
 local IsFunc=Tpp.IsTypeFunc
@@ -205,7 +208,7 @@ this.useSoldierForDemos={
 }
 this.mbDemoSelection={
   save=MISSION,
-  range={max=2},
+  settings={"DEFAULT","PLAY","DISABLED"},
   settingNames="set_mbDemoSelection",
   helpText="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",--ADDLANG:
 }
@@ -214,46 +217,6 @@ this.mbSelectedDemo={
   range={max=#TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST-1},
   settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST,
 }
-
---game progression unlocks
-this.unlockPlayableAvatar={
-  save=GLOBAL,
-  range=this.switchRange,
-  settingNames="set_switch",
-  OnSelect=function(self)
-    self.setting=vars.isAvatarPlayerEnable
-  end,
-  OnChange=function(self)
-    vars.isAvatarPlayerEnable=self.setting
-    --[[CULL local currentStorySequence=TppStory.GetCurrentStorySequence()
-    if gvars.unlockPlayableAvatar==0 then
-      if currentStorySequence<=TppDefine.STORY_SEQUENCE.CLEARD_THE_TRUTH then
-        vars.isAvatarPlayerEnable=0
-      end
-    else
-      vars.isAvatarPlayerEnable=1
-    end--]]
-  end
-}
-
-this.unlockWeaponCustomization={
-  save=GLOBAL,
-  range=this.switchRange,
-  settingNames="set_switch",
-  OnSelect=function(self)
-    self.setting=vars.mbmMasterGunsmithSkill
-  end,
-  OnChange=function(self)
-    vars.mbmMasterGunsmithSkill=self.setting
-  --[[CULL
-    if not gvars.trm_isPushRewardOpenWeaponCustomize then
-      gvars.trm_isPushRewardOpenWeaponCustomize=true
-      TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_400",rewardType=TppReward.TYPE.COMMON}
-    end
-    --]]
-  end
-}
-
 
 ----patchup
 this.langOverride={
@@ -328,7 +291,7 @@ this.subsistenceProfile={
       Ivars.setSubsistenceSuit:Set(1,true)
       Ivars.setDefaultHand:Set(1,true)   
       
-      if Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM") then
+      if Ivars.ospWeaponProfile:Is"DEFAULT" or Ivars.ospWeaponProfile:Is"CUSTOM" then
         Ivars.ospWeaponProfile:Set(1,true)
       end
       if not Ivars.handLevelProfile:Is(1) then
@@ -360,14 +323,14 @@ this.subsistenceProfile={
       Ivars.setSubsistenceSuit:Set(0,true)
       Ivars.setDefaultHand:Set(1,true)   
       
-      if Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM") then
+      if Ivars.ospWeaponProfile:Is"DEFAULT" or Ivars.ospWeaponProfile:Is"CUSTOM" then
         Ivars.ospWeaponProfile:Set(1,true)
       end
       
-      if Ivars.handLevelProfile:Is("DEFAULT") or Ivars.handLevelProfile:Is("CUSTOM") then
+      if Ivars.handLevelProfile:Is"DEFAULT" or Ivars.handLevelProfile:Is"CUSTOM" then
         Ivars.handLevelProfile:Set(1)
       end
-      if Ivars.fultonLevelProfile:Is("DEFAULT") or Ivars.fultonLevelProfile:Is("CUSTOM") then
+      if Ivars.fultonLevelProfile:Is"DEFAULT" or Ivars.fultonLevelProfile:Is"CUSTOM" then
         Ivars.fultonLevelProfile:Set(1)
       end
       
@@ -586,9 +549,9 @@ this.fultonLevelProfile={
   settingNames="fultonLevelProfileSettings",
   settingsTable={
     DEFAULT=function()--the game auto sets to max developed but lets set it for apearance sake 
-      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+      --[[for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
         itemIvar:Set(itemIvar.range.max,true)
-      end
+      end--]]
     end,
     ITEM_OFF=function() 
       for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
@@ -746,7 +709,7 @@ this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
     "PF_C",
     "CHILD_A",
   },
-  --settingNames=InfMain.enemySubTypes,--DEBUGNOW
+  --settingNames=InfMain.enemySubTypes,
   OnChange=function()
     if gvars.forceSoldierSubType==0 then
       InfMain.ResetCpTableToDefault()
@@ -828,8 +791,14 @@ this.mbDontDemoDisableOcelot={
   settingNames="set_switch",
 }
 
---
---WIP DEBUGNOW TppLocaion.ModifyMbsLayoutCode
+this.mbDontDemoDisableBuddy={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+
+--WIP TppLocaion.ModifyMbsLayoutCode
 this.mbManualLayoutCode={
   save=MISSION,
   range={min=0,max=1000,increment=10},
@@ -958,8 +927,9 @@ this.manualMissionCode={
 
 this.playerTypeApearance={
   save=MISSION,
-  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
+  settings={"DEFAULT","SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
   settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3 
+    0,
     PlayerType.SNAKE,
     PlayerType.AVATAR,
     PlayerType.DD_MALE,
@@ -967,7 +937,9 @@ this.playerTypeApearance={
   },
   --settingNames="set_",
   OnChange=function(self)
-    vars.playerType=self.settingsTable[self.setting+1]
+    if self.setting>0 then
+      vars.playerType=self.settingsTable[self.setting+1]
+    end
   end,
 }
 
@@ -1062,9 +1034,11 @@ this.cammoTypesApearance={
   },
   --settingNames="set_",
   OnChange=function(self)
-    vars.playerCamoType=self.settingsTable[self.setting+1]--tex playercammotype is just a enum so could just use setting, but this is if we want to re-arrange
-    vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
-    vars.playerFaceEquipId=0
+    if self.setting>0 then--TODO: add off/default/noset setting
+    --vars.playerCamoType=self.settingsTable[self.setting+1]--tex playercammotype is just a enum so could just use setting, but this is if we want to re-arrange
+   -- vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
+   -- vars.playerFaceEquipId=0
+   end
   end,
 }
 
@@ -1093,7 +1067,9 @@ this.playerPartsTypeApearance={
   },
   --]]
   OnChange=function(self)
-    vars.playerPartsType=self.setting
+    if self.setting>0 then--TODO: add off/default/noset setting
+     -- vars.playerPartsType=self.setting-1
+    end
   end,
 }
 
@@ -1113,8 +1089,8 @@ this.playerFaceEquipIdApearance={
     1,
   },
   --]]
-  OnChange=function(self)
-    vars.playerFaceEquipId=self.setting
+  OnChange=function(self)--TODO: add off/default/noset setting
+    --vars.playerFaceEquipId=self.setting
   end,
 }
 
@@ -1122,7 +1098,9 @@ this.playerFaceIdApearance={
   save=MISSION,
   range={min=0,max=687},
   OnChange=function(self)
-   vars.playerFaceId=self.setting
+    if self.setting>0 then--TODO: add off/default/noset setting
+      vars.playerFaceId=self.setting
+    end
   end,
 }
 
@@ -1170,7 +1148,7 @@ this.playerHeadgear={--DOC: player appearance.txt
     end
   end,
   OnChange=function(self)
-    if self.setting>0 then
+    if self.setting>0 then--TODO: add off/default/noset setting
       vars.playerFaceId=self.settingsTable[self.setting+1]
     end
   end,
@@ -1197,7 +1175,7 @@ this.minPhase={
   --settingsTable=this.phaseTable,
   OnChange=function(self)
     if self.setting>gvars.maxPhase then
-      InfMenu.PrintLangId("cannot_set_above_max_phase")--DEBUGNOW ADDLANG
+      InfMenu.PrintLangId("cannot_set_above_max_phase")
       self:Set(gvars.maxPhase)
     end
   end,
@@ -1211,7 +1189,7 @@ this.maxPhase={
   --settingsTable=this.phaseTable,
   OnChange=function(self)
     if self.setting<gvars.minPhase then
-      InfMenu.PrintLangId("cannot_set_below_max_phase")--DEBUGNOW ADDLANG
+      InfMenu.PrintLangId("cannot_set_below_max_phase")
       self:Set(gvars.minPhase)
     end
   end,

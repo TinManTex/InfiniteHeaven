@@ -65,10 +65,10 @@ function this.Messages()
 end
 this.PLAY_REQUEST_START_FUNC={
   missionStateCheck=function(n,e)
-    local n=e.isExecMissionClear
-    local a=e.isExecGameOver
-    local e=e.isExecDemoPlaying
-    if not TppMission.CheckMissionState(n,a,e,false)then
+    local isExecMissionClear=e.isExecMissionClear
+    local isExecGameOver=e.isExecGameOver
+    local isExecDemoPlaying=e.isExecDemoPlaying
+    if not TppMission.CheckMissionState(isExecMissionClear,isExecGameOver,isExecDemoPlaying,false)then
       return false
     end
     return true
@@ -1229,9 +1229,9 @@ end
 function this.UpdateMBDemo()
   this.UpdateHappyBirthDayFlag()
   gvars.mbFreeDemoPlayNextIndex=0
-  if gvars.mbDemoSelection == 1 then--tex disable mb demo
+  if Ivars.mbDemoSelection:Is"DISABLED" then--tex disable mb demo
     return
-  elseif gvars.mbDemoSelection == 2 then--tex Play selected TODO: Enum
+  elseif Ivars.mbDemoSelection:Is"PLAY" then--tex
     gvars.mbFreeDemoPlayNextIndex=gvars.mbSelectedDemo+1--TODO: sanity check
     return
   end--

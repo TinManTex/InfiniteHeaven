@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r80"
+this.modVersion = "r86"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
@@ -12,6 +12,8 @@ local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local SendCommand=GameObject.SendCommand
 local Enum=TppDefine.Enum
+
+this.debugSplash=SplashScreen.Create("debugEagle","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",640,640)
 
 this.SETTING_FORCE_ENEMY_TYPE=Enum{
   "DEFAULT",
@@ -288,7 +290,6 @@ this.SetFriendlyEnemy = function()
   GameObject.SendCommand( gameObjectId, command )
 end
 
-
 this.currentTime=0
 function this.Update()
    -- InfMenu.DebugPrint("InfMain.Update")
@@ -342,7 +343,7 @@ function this.UpdatePhaseMod()
     --local minPhase=gvars.minPhase
     --local maxPhase=gvars.maxPhase
     
-    local debugMessage=nil--DEBUGNOW
+    --local debugMessage=nil--DEBUG
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do    
       if currentPhase<minPhase then
         --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
@@ -385,7 +386,7 @@ function this.UpdatePhaseMod()
 
     end
     
-   --[[ if debugMessage then--DEBUGNOW--tex not a good idea to keep on cause playerphase only updates in certain radius of a cp
+   --[[ if debugMessage then--DEBUG--tex not a good idea to keep on cause playerphase only updates in certain radius of a cp
     InfMenu.DebugPrint(debugMessage)
     end--]]
   end
@@ -458,7 +459,7 @@ function this.Update()
         onVehicle = (Tpp.IsVehicle(playerVehicleId) and not Tpp.IsHelicopter(playerVehicleId)) or Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId) or Tpp.IsEnemyWalkerGear(playerVehicleId) 
       end
       if onVehicle then
-      InfMenu.DebugPrint("onVehicle")--DEBUGNOW
+      InfMenu.DebugPrint("onVehicle")--DEBUG
       end
       if not onVehicle then
         ToggleMenu()

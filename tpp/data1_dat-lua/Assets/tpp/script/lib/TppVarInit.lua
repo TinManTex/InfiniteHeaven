@@ -1,6 +1,6 @@
 local this={}
 local i=Tpp.IsTypeFunc
-local s=Tpp.IsTypeTable
+local IsTable=Tpp.IsTypeTable
 local i=Tpp.IsTypeString
 local i=Tpp.IsTypeNumber
 local i=bit.bnot
@@ -189,15 +189,15 @@ function this.InitializeForNewMission(missionTable)
   if missionTable.sequence then
     TppPlayer.InitItemStockCount()
   end
-  Player.ResetVarsOnMissionStart()
+  Player.ResetVarsOnMissionStart() 
   TppPlayer.SetSelfSubsistenceOnHardMission()
   TppPlayer.RestoreChimeraWeaponParameter()
-  if missionTable.sequence and s(missionTable.sequence.playerInitialWeaponTable)then
+  if missionTable.sequence and IsTable(missionTable.sequence.playerInitialWeaponTable)then
     TppPlayer.SetInitWeapons(missionTable.sequence.playerInitialWeaponTable)
   end
   TppPlayer.RestorePlayerWeaponsOnMissionStart()
   TppPlayer.SetMissionStartAmmoCount()
-  if missionTable.sequence and s(missionTable.sequence.playerInitialItemTable)then
+  if missionTable.sequence and IsTable(missionTable.sequence.playerInitialItemTable)then
     TppPlayer.SetInitItems(missionTable.sequence.playerInitialItemTable)
   end
   TppPlayer.RestorePlayerItemsOnMissionStart()

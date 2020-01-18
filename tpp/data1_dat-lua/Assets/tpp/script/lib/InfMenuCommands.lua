@@ -6,21 +6,18 @@ local this={}
 
 --menu menu items
 this.menuOffItem={
-  settingNames="set_menu_off",
   OnChange=function()
     InfMenu.MenuOff()
     InfMenu.currentIndex=1
   end,
 }
 this.resetSettingsItem={
-  settingNames="set_menu_reset",
   OnChange=function()
     InfMenu.ResetSettingsDisplay()
     InfMenu.MenuOff()
   end,
 }
 this.resetAllSettingsItem={
-  settingNames="set_menu_reset",
   OnChange=function()
     InfMenu.PrintLangId"setting_all_defaults"
     InfMenu.ResetSettings()
@@ -243,6 +240,27 @@ this.resetRevenge={
     TppRevenge.ResetRevenge()
     TppRevenge._SetUiParameters()
     InfMenu.PrintLangId("revenge_reset")
+  end,
+}
+
+--game progression unlocks
+
+this.unlockPlayableAvatarItem={
+  OnChange=function()
+    if vars.isAvatarPlayerEnable==1 then
+      InfMenu.PrintLangId"allready_unlocked"
+    else
+      vars.isAvatarPlayerEnable=1
+    end
+  end,
+}
+this.unlockWeaponCustomizationItem={
+  OnChange=function()
+    if vars.mbmMasterGunsmithSkill==1 then
+      InfMenu.PrintLangId"allready_unlocked"
+    else
+      vars.mbmMasterGunsmithSkill=1
+    end
   end,
 }
 
