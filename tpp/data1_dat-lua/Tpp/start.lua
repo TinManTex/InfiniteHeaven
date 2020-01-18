@@ -154,26 +154,26 @@ if FxDaemon then
   end
 end
 AssetConfiguration.SetLanguageGroupExtention{group={"Sound"},extensions={"mas","fsm","sbp","wem","evf","sani","sad","stm"}}
-local e="jpn"
+local langCode="jpn"
 do
   if(TppGameSequence.GetTargetArea()~="Japan")then
-    e="eng"
+    langCode="eng"
     end
 end
-AssetConfiguration.SetDefaultCategory("Language",e)
-if e=="jpn"then
+AssetConfiguration.SetDefaultCategory("Language",langCode)
+if langCode=="jpn"then
   AssetConfiguration.SetGroupCurrentLanguage("Sound","jpn")
 else
   AssetConfiguration.SetGroupCurrentLanguage("Sound","eng")
 end
-if e=="jpn"then
+if langCode=="jpn"then
   SubtitlesDaemon.SetDefaultVoiceLanguage"jpn"
   SubtitlesCommand.SetVoiceLanguage"jpn"
-  else
+else
   SubtitlesDaemon.SetDefaultVoiceLanguage"eng"
   SubtitlesCommand.SetVoiceLanguage"eng"
-  end
-SubtitlesCommand.SetLanguage(e)
+end
+SubtitlesCommand.SetLanguage(langCode)
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   SoundCoreDaemon.SetAssetPath"/Assets/mgo/sound/asset/"
   else
@@ -184,7 +184,8 @@ if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   end
 end
 SoundCoreDaemon.SetInterferenceRTPCName("obstruction_rtpc","occlusion_rtpc")
-SoundCoreDaemon.SetDopplerRTPCName"doppler"SoundCoreDaemon.SetRearParameter("rear_rtpc",5)
+SoundCoreDaemon.SetDopplerRTPCName"doppler"
+SoundCoreDaemon.SetRearParameter("rear_rtpc",5)
 if TppSoundDaemon then
   local e=TppSoundDaemon{}
   if TppSoundEditorDaemon then

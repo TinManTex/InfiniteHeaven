@@ -10,6 +10,7 @@ local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
 local IsDemoPlaying=DemoDaemon.IsDemoPlaying
+local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 
 this.switchSlider={max=1,min=0,increment=1}
 this.healthMultSlider={max=4,min=0,increment=0.2}
@@ -204,6 +205,16 @@ local patchupMenu={
         end
       end,
     },
+    {
+      name="inf_show_game_lang_code",
+      default=0,
+      slider=this.switchSlider,
+      settingNames="inf_set_do",
+      onChange=function()
+        local languageCode=GetAssetConfig"Language"
+        TppUiCommand.AnnounceLogView("Language Code: " .. languageCode)
+      end,
+    },
     menuItemGoBack,
   }
 }
@@ -339,6 +350,7 @@ this.currentMenu=this.heliSpaceMenu
 this.currentMenuOptions=this.heliSpaceMenu.options
 this.topMenu=this.currentMenu
 this.currentOption=1--tex lua tables are indexed from 1
+this.previousMenuOption=1
 this.currentSetting=0--tex settings from 0, to better fit variables
 this.lastDisplay=0
 this.autoDisplayDefault=2.8
@@ -490,6 +502,7 @@ end
 
 function this.GoMenu(menu)
   menu.parent=this.currentMenu
+  this.previousMenuOption=this.currentOption
   this.currentMenu=menu
   this.currentMenuOptions=menu.options
   this.currentOption=1
@@ -501,13 +514,14 @@ function this.GoMenu(menu)
     TppUiCommand.AnnounceLogView("Option Menu Error: parent = nil")
   end
 end
-function this.GoBack(menu)
+--[[function this.GoBack(menu)
   if menu.parent==nil then
     TppUiCommand.AnnounceLogView("Option Menu Error: parent = nil")
     return
   end
   this.GoMenu(menu.parent)
-end
+  this.currentOption=this.previousMenuOption
+end--]]
 function this.GoBackCurrent()
   if this.currentMenu.parent==nil then
     if this.currentMenu~=this.topMenu then
@@ -516,6 +530,7 @@ function this.GoBackCurrent()
     return
   end
   this.GoMenu(this.currentMenu.parent)
+  this.currentOption=this.previousMenuOption
 end
 
 --tex display settings
@@ -614,7 +629,6 @@ function this.MenuOff()
 end
 
 --tex my own shizzy langid stuff since games is too limitied
-local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 function this.LangString(langId)
   if langId==nil or langId=="" then
     TppUiCommand.AnnounceLogView"AnnounceLogLangId langId empty"

@@ -27,10 +27,10 @@ else
   TppUiCommand.SetPlatformLanguage()
 end
 local languageCode=AssetConfiguration.GetDefaultCategory"Language"
-local s=""
-local o=""
-local _=""
-local p=""
+local fontSystemName=""
+local defFfnt=""
+local fontSystemSlot=""
+local ffnt=""
 local n=""
 local a=""
 local i=1
@@ -39,47 +39,50 @@ local e="/Assets/tpp"
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   e="/Assets/mgo"
 end
-local packPath=e.."/pack/ui/lang/lang_default_data_eng.fpk"
+local fontPackPath=e.."/pack/ui/lang/lang_default_data_eng.fpk"
 if languageCode=="jpn"then
-  s="FontSystem_KanjiFont"
-  o="/Assets/tpp/font/font_def_jp.ffnt"
-  _="FontSystem_Slot3"
-  p="/Assets/tpp/font/KanjiFont.ffnt"i=2
+  fontSystemName="FontSystem_KanjiFont"
+  defFfnt="/Assets/tpp/font/font_def_jp.ffnt"
+  fontSystemSlot="FontSystem_Slot3"
+  ffnt="/Assets/tpp/font/KanjiFont.ffnt"
+  i=2
   t=3
-  packPath=e.."/pack/ui/lang/lang_default_data_jpn.fpk"
-  elseif languageCode=="eng"then
-  s="FontSystem_LatinFont"
-  o="/Assets/tpp/font/font_def_ltn.ffnt"
-  _="FontSystem_Slot3"
-  p="/Assets/tpp/font/LatinFont.ffnt"i=1
+  fontPackPath=e.."/pack/ui/lang/lang_default_data_jpn.fpk"
+elseif languageCode=="eng"then
+  fontSystemName="FontSystem_LatinFont"
+  defFfnt="/Assets/tpp/font/font_def_ltn.ffnt"
+  fontSystemSlot="FontSystem_Slot3"
+  ffnt="/Assets/tpp/font/LatinFont.ffnt"
+  i=1
   t=3
 elseif languageCode=="rus"then
-  s="FontSystem_LatinFont"
-  o="/Assets/tpp/font/font_def_rus.ffnt"
-  _="FontSystem_Slot3"
-  p="/Assets/tpp/font/russian.ffnt"
+  fontSystemName="FontSystem_LatinFont"
+  defFfnt="/Assets/tpp/font/font_def_rus.ffnt"
+  fontSystemSlot="FontSystem_Slot3"
+  ffnt="/Assets/tpp/font/russian.ffnt"
   n="FontSystem_KanjiFont"
   a="/Assets/tpp/font/font_def_ltn.ffnt"
   i=1
   t=3
-  packPath=e.."/pack/ui/lang/lang_default_data_rus.fpk"
-  elseif languageCode=="ara"then
-  s="FontSystem_LatinFont"
-  o="/Assets/tpp/font/arabia.ffnt"
-  _="FontSystem_Slot3"
-  p="/Assets/tpp/font/arabia.ffnt"
+  fontPackPath=e.."/pack/ui/lang/lang_default_data_rus.fpk"
+elseif languageCode=="ara"then
+  fontSystemName="FontSystem_LatinFont"
+  defFfnt="/Assets/tpp/font/arabia.ffnt"
+  fontSystemSlot="FontSystem_Slot3"
+  ffnt="/Assets/tpp/font/arabia.ffnt"
   i=1
   t=3
-  packPath=e.."/pack/ui/lang/lang_default_data_ara.fpk"
-  else
-  s="FontSystem_LatinFont"
-  o="/Assets/tpp/font/font_def_ltn.ffnt"
-  _="FontSystem_Slot3"
-  p="/Assets/tpp/font/LatinFont.ffnt"i=1
+  fontPackPath=e.."/pack/ui/lang/lang_default_data_ara.fpk"
+else
+  fontSystemName="FontSystem_LatinFont"
+  defFfnt="/Assets/tpp/font/font_def_ltn.ffnt"
+  fontSystemSlot="FontSystem_Slot3"
+  ffnt="/Assets/tpp/font/LatinFont.ffnt"
+  i=1
   t=3
 end
-GrTools.FontSystemLoad(s,o)
-GrTools.FontSystemLoad(_,p)
+GrTools.FontSystemLoad(fontSystemName,defFfnt)
+GrTools.FontSystemLoad(fontSystemSlot,ffnt)
 UiDaemon.SetFontTypeTransTable(0,i)
 UiDaemon.SetFontTypeTransTable(1,t)
 if languageCode=="rus"then

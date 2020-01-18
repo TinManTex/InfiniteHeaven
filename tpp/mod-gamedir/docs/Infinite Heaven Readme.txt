@@ -1,17 +1,17 @@
 = Infinite heaven =
-r56 2015-10-30
+r57 2015-10-31
 by tin man tex
 For MGSV version 1.0.4.3 (1.04 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
 New Options for r56:
-Finally became aware that OSP actually clears support weapons, going against my (unchecked) claim that it only affected the main weapons (was lulled into false sense of security by the items not being cleared, and lack of testing heh).
+OSP modes now only affect the main weapons as was originally instended and does not clear support weapons.
 New OSP mode added - Tertiary free (though disallowed in subsistence pure), clears primary and secondary on mission, leaves your chosen tertiaray weapon free.
 Start on foot - Skip helicopter ride into missions/free mode.
 Menu translations - have a translation system for the menu, but no current actual translations, see below for more info.
 Unlock player avatar - without having to complete mission 46
-Clock timescale - adjust day/weather clock, simulation clock unaffected.
+Clock timescale - adjust the day/weather clock, simulation clock unaffected.
 
 New Options for r52:
 Cutscenes menu:
@@ -90,6 +90,8 @@ ThreeSocks3 for finding the custom text output for Announce log. Check out his B
 emoose for cracking lua in fpks
 jRavens for testing
 Topher for the great mod manager Snakebite
+rikimtasu for Chinese translation
+All the mod users on nexus for trying the mod and bug reports
 
 Preperation/insurance:
 Back up your save files for safety
@@ -166,7 +168,13 @@ When changing General Enemy Parameters back to Default you must exit to title to
 There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
 
 Changelog:
-r56
+r57 - 2015-10-31 - test release
+Chinese translation included, unconfirmed language code - thanks to rikimtasu
+Patchup>>Show language code
+More info added to InfLang
+Unconfirmed lang codes added to InfLang
+
+r56 2015-10-30 - public release
 Clock timescale
 OSP now correctly only affects main weapons.
 OSP tertiary free
@@ -200,7 +208,7 @@ r49a 2015-10-23 - public release
 Snakebite msgv update to 1.0.4.3
 
 r49 2015-10-23 
-Fix soldiers not driving their patrolling trucks - thanks bindleford
+Fix soldiers not driving their patrolling trucks - thanks for report bindleford
 
 r48 2015-10-20 - public release
 Retail 1.0.4.1 merge
@@ -218,7 +226,7 @@ Mother base equip grade
 Refactor InfMenu to InfMain, trying to isolate menu system further from mod specific settings
 
 r45
-Fixed hang on loading Fob missions, had missed updating the settings reset call from the InfMenu refactor - thanks Topher
+Fixed hang on loading Fob missions, had missed updating the settings reset call from the InfMenu refactor - thanks for report Topher
 Fixed reset settings via menu
 Disable mod menu if fob mission
 Shifted a table from TppDefine, TppDefine no longer used
@@ -237,7 +245,7 @@ Support heli combat turned off - I found it bre3zer
 Head markers disabled for Subsistence Pure (xray effect on marked still active).
 
 r41 
-Nvida splash removed - thanks LordRamza
+Nvida splash removed - thanks for direction LordRamza
 Fox engine splash removed (side effect, tied to the showing of nvid, would like to show it, I lovehate fox engine)
 
 r40 2015-10-10 - public release
