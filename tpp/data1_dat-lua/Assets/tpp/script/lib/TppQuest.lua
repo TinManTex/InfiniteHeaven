@@ -18,7 +18,7 @@ local O={"outland","pfCamp","savannah","hill","banana","diamond","lab"}
 local shootingPracticeMarkers={Command="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|Marker_shootingPractice",Develop="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|Marker_shootingPractice",Support="ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|Marker_shootingPractice",BaseDev="ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|Marker_shootingPractice",Medical="ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|Marker_shootingPractice",Spy="ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|Marker_shootingPractice",Combat="ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|Marker_shootingPractice"}
 this.prevMissionType=t.HELI
 local sideOpsTable={
- --[[001--]]{questName="ruins_q19010",questId="ruins_q19010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1622.974,322.257,1062.973),radius=5},
+  --[[001--]]{questName="ruins_q19010",questId="ruins_q19010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1622.974,322.257,1062.973),radius=5},
   --[[XXX--]]{questName="commFacility_q19013",questId="commFacility_q19013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1589.157,352.634,47.628),radius=5},
   --[[XXX--]]{questName="outland_q19011",questId="outland_q19011",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(222.113,20.445,-930.962),radius=5},
   --[[XXX--]]{questName="hill_q19012",questId="hill_q19012",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1910.658,59.872,-231.274),radius=5},
@@ -177,10 +177,145 @@ local sideOpsTable={
   --[[XXX--]]{questName="mtbs_q42070",questId="mtbs_q42070",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special}
 }
 local g={ruins_q19010={radioNameFirst="f1000_rtrg0700"},outland_q19011={radioNameFirst="f1000_rtrg4380"},hill_q19012={radioNameFirst="f1000_rtrg4390"},commFacility_q19013={radioNameFirst="f1000_rtrg4370"},tent_q20910={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},fort_q20911={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},sovietBase_q20912={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},outland_q20913={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},lab_q20914={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},cliffTown_q99080={radioNameFirst="f2000_rtrg1561"}}
-local f={tent_q10010="quest_extract_elite",field_q10020="quest_extract_elite",ruins_q10030="quest_extract_elite",waterway_q10040="quest_extract_elite",cliffTown_q10050="quest_extract_elite",commFacility_q10060="quest_extract_elite",sovietBase_q10070="quest_extract_elite",fort_q10080="quest_extract_elite",citadel_q10090="quest_extract_elite",outland_q10100="quest_extract_elite",pfCamp_q10200="quest_extract_elite",savannah_q10300="quest_extract_elite",hill_q10400="quest_extract_elite",banana_q10500="quest_extract_elite",diamond_q10600="quest_extract_elite",lab_q10700="quest_extract_elite",tent_q11010="quest_defeat_armor",tent_q11020="quest_defeat_armor",waterway_q11030="quest_defeat_armor",cliffTown_q11040="quest_defeat_armor",cliffTown_q11050="quest_defeat_armor",fort_q11060="quest_defeat_armor",fort_q11070="quest_defeat_armor",commFacility_q11080="quest_defeat_armor",outland_q11090="quest_defeat_armor",outland_q11100="quest_defeat_armor",pfCamp_q11200="quest_defeat_armor",savannah_q11300="quest_defeat_armor",savannah_q11400="quest_defeat_armor",hill_q11500="quest_defeat_armor",banana_q11600="quest_defeat_armor",banana_q11700="quest_defeat_armor",tent_q71010="quest_defeat_zombie",field_q71020="quest_defeat_zombie",tent_q71030="quest_defeat_zombie",waterway_q71040="quest_defeat_zombie",cliffTown_q71050="quest_defeat_zombie",cliffTown_q71060="quest_defeat_zombie",sovietBase_q71070="quest_defeat_zombie",fort_q71080="quest_defeat_zombie",field_q71090="quest_defeat_zombie",outland_q71200="quest_defeat_zombie",savannah_q71300="quest_defeat_zombie",banana_q71400="quest_defeat_zombie",diamond_q71500="quest_defeat_zombie",lab_q71600="quest_defeat_zombie",lab_q71700="quest_defeat_zombie",quest_q20015="quest_extract_hostage",quest_q20025="quest_extract_hostage",quest_q20035="quest_extract_hostage",quest_q20045="quest_extract_hostage",quest_q20055="quest_extract_hostage",quest_q20065="quest_extract_hostage",quest_q20075="quest_extract_hostage",quest_q20085="quest_extract_hostage",quest_q20095="quest_extract_hostage",quest_q20105="quest_extract_hostage",quest_q20205="quest_extract_hostage",quest_q20305="quest_extract_hostage",quest_q20405="quest_extract_hostage",quest_q20505="quest_extract_hostage",quest_q20605="quest_extract_hostage",quest_q20705="quest_extract_hostage",quest_q20805="quest_extract_hostage",quest_q20905="quest_extract_hostage",quest_q21005="quest_extract_hostage",quest_q22005="quest_extract_hostage",quest_q23005="quest_extract_hostage",quest_q24005="quest_extract_hostage",quest_q25005="quest_extract_hostage",quest_q26005="quest_extract_hostage",quest_q27005="quest_extract_hostage",quest_q52010="quest_defeat_armor_vehicle",quest_q52020="quest_defeat_armor_vehicle",quest_q52030="quest_defeat_armor_vehicle",quest_q52040="quest_defeat_armor_vehicle",quest_q52050="quest_defeat_armor_vehicle",quest_q52060="quest_defeat_armor_vehicle",quest_q52070="quest_defeat_armor_vehicle",quest_q52080="quest_defeat_armor_vehicle",quest_q52090="quest_defeat_armor_vehicle",quest_q52100="quest_defeat_armor_vehicle",quest_q52110="quest_defeat_armor_vehicle",quest_q52120="quest_defeat_armor_vehicle",quest_q52130="quest_defeat_armor_vehicle",quest_q52140="quest_defeat_armor_vehicle",quest_q52015="quest_defeat_tunk",quest_q52025="quest_defeat_tunk",quest_q52035="quest_defeat_tunk",quest_q52045="quest_defeat_tunk",quest_q52055="quest_defeat_tunk",quest_q52065="quest_defeat_tunk",quest_q52075="quest_defeat_tunk",quest_q52085="quest_defeat_tunk",quest_q52095="quest_defeat_tunk",quest_q52105="quest_defeat_tunk",quest_q52115="quest_defeat_tunk",quest_q52125="quest_defeat_tunk",quest_q52135="quest_defeat_tunk",quest_q52145="quest_defeat_tunk",mtbs_q42020="quest_target_eliminate",mtbs_q42030="quest_target_eliminate",mtbs_q42040="quest_target_eliminate",mtbs_q42050="quest_target_eliminate",mtbs_q42060="quest_target_eliminate",mtbs_q42070="quest_target_eliminate",mtbs_q42010="quest_target_eliminate"}
-local I={tent_q80010=TppMotherBaseManagementConst.PHOTO_1006,field_q80020=TppMotherBaseManagementConst.PHOTO_1007,waterway_q80040=TppMotherBaseManagementConst.PHOTO_1009,commFacility_q80060=TppMotherBaseManagementConst.PHOTO_1000,fort_q80080=TppMotherBaseManagementConst.PHOTO_1008,outland_q80100=TppMotherBaseManagementConst.PHOTO_1002,pfCamp_q80200=TppMotherBaseManagementConst.PHOTO_1003,hill_q80400=TppMotherBaseManagementConst.PHOTO_1005,diamond_q80600=TppMotherBaseManagementConst.PHOTO_1004,lab_q80700=TppMotherBaseManagementConst.PHOTO_1001,sovietBase_q99030=TppMotherBaseManagementConst.DESIGN_3009,tent_q99040=TppMotherBaseManagementConst.DESIGN_3002,mtbs_q99050=TppMotherBaseManagementConst.DESIGN_3000}
-local C={tent_q80010="key_photo_1006",field_q80020="key_photo_1007",waterway_q80040="key_photo_1009",commFacility_q80060="key_photo_1000",fort_q80080="key_photo_1008",outland_q80100="key_photo_1002",pfCamp_q80200="key_photo_1003",hill_q80400="key_photo_1005",diamond_q80600="key_photo_1004",lab_q80700="key_photo_1001"}
-local A={mtbs_q99060={"base44","front62"},sovietBase_q99020={"word14","word15","word51","front49"},sovietBase_q99030={"word122","word123","word124","word125","word126"},tent_q99040={"word78","word79","word87","word91"}}
+local questCompleteLangIds={
+tent_q10010="quest_extract_elite",
+field_q10020="quest_extract_elite",
+ruins_q10030="quest_extract_elite",
+waterway_q10040="quest_extract_elite",
+cliffTown_q10050="quest_extract_elite",
+commFacility_q10060="quest_extract_elite",
+sovietBase_q10070="quest_extract_elite",
+fort_q10080="quest_extract_elite",
+citadel_q10090="quest_extract_elite",
+outland_q10100="quest_extract_elite",
+pfCamp_q10200="quest_extract_elite",
+savannah_q10300="quest_extract_elite",
+hill_q10400="quest_extract_elite",
+banana_q10500="quest_extract_elite",
+diamond_q10600="quest_extract_elite",
+lab_q10700="quest_extract_elite",
+tent_q11010="quest_defeat_armor",
+tent_q11020="quest_defeat_armor",
+waterway_q11030="quest_defeat_armor",
+cliffTown_q11040="quest_defeat_armor",
+cliffTown_q11050="quest_defeat_armor",
+fort_q11060="quest_defeat_armor",
+fort_q11070="quest_defeat_armor",
+commFacility_q11080="quest_defeat_armor",
+outland_q11090="quest_defeat_armor",
+outland_q11100="quest_defeat_armor",
+pfCamp_q11200="quest_defeat_armor",
+savannah_q11300="quest_defeat_armor",
+savannah_q11400="quest_defeat_armor",
+hill_q11500="quest_defeat_armor",
+banana_q11600="quest_defeat_armor",
+banana_q11700="quest_defeat_armor",
+tent_q71010="quest_defeat_zombie",
+field_q71020="quest_defeat_zombie",
+tent_q71030="quest_defeat_zombie",
+waterway_q71040="quest_defeat_zombie",
+cliffTown_q71050="quest_defeat_zombie",
+cliffTown_q71060="quest_defeat_zombie",
+sovietBase_q71070="quest_defeat_zombie",
+fort_q71080="quest_defeat_zombie",
+field_q71090="quest_defeat_zombie",
+outland_q71200="quest_defeat_zombie",
+savannah_q71300="quest_defeat_zombie",
+banana_q71400="quest_defeat_zombie",
+diamond_q71500="quest_defeat_zombie",
+lab_q71600="quest_defeat_zombie",
+lab_q71700="quest_defeat_zombie",
+quest_q20015="quest_extract_hostage",
+quest_q20025="quest_extract_hostage",
+quest_q20035="quest_extract_hostage",
+quest_q20045="quest_extract_hostage",
+quest_q20055="quest_extract_hostage",
+quest_q20065="quest_extract_hostage",
+quest_q20075="quest_extract_hostage",
+quest_q20085="quest_extract_hostage",
+quest_q20095="quest_extract_hostage",
+quest_q20105="quest_extract_hostage",
+quest_q20205="quest_extract_hostage",
+quest_q20305="quest_extract_hostage",
+quest_q20405="quest_extract_hostage",
+quest_q20505="quest_extract_hostage",
+quest_q20605="quest_extract_hostage",
+quest_q20705="quest_extract_hostage",
+quest_q20805="quest_extract_hostage",
+quest_q20905="quest_extract_hostage",
+quest_q21005="quest_extract_hostage",
+quest_q22005="quest_extract_hostage",
+quest_q23005="quest_extract_hostage",
+quest_q24005="quest_extract_hostage",
+quest_q25005="quest_extract_hostage",
+quest_q26005="quest_extract_hostage",
+quest_q27005="quest_extract_hostage",
+quest_q52010="quest_defeat_armor_vehicle",
+quest_q52020="quest_defeat_armor_vehicle",
+quest_q52030="quest_defeat_armor_vehicle",
+quest_q52040="quest_defeat_armor_vehicle",
+quest_q52050="quest_defeat_armor_vehicle",
+quest_q52060="quest_defeat_armor_vehicle",
+quest_q52070="quest_defeat_armor_vehicle",
+quest_q52080="quest_defeat_armor_vehicle",
+quest_q52090="quest_defeat_armor_vehicle",
+quest_q52100="quest_defeat_armor_vehicle",
+quest_q52110="quest_defeat_armor_vehicle",
+quest_q52120="quest_defeat_armor_vehicle",
+quest_q52130="quest_defeat_armor_vehicle",
+quest_q52140="quest_defeat_armor_vehicle",
+quest_q52015="quest_defeat_tunk",
+quest_q52025="quest_defeat_tunk",
+quest_q52035="quest_defeat_tunk",
+quest_q52045="quest_defeat_tunk",
+quest_q52055="quest_defeat_tunk",
+quest_q52065="quest_defeat_tunk",
+quest_q52075="quest_defeat_tunk",
+quest_q52085="quest_defeat_tunk",
+quest_q52095="quest_defeat_tunk",
+quest_q52105="quest_defeat_tunk",
+quest_q52115="quest_defeat_tunk",
+quest_q52125="quest_defeat_tunk",
+quest_q52135="quest_defeat_tunk",
+quest_q52145="quest_defeat_tunk",
+mtbs_q42020="quest_target_eliminate",
+mtbs_q42030="quest_target_eliminate",
+mtbs_q42040="quest_target_eliminate",
+mtbs_q42050="quest_target_eliminate",
+mtbs_q42060="quest_target_eliminate",
+mtbs_q42070="quest_target_eliminate",
+mtbs_q42010="quest_target_eliminate"}
+local questPhotos={
+tent_q80010=TppMotherBaseManagementConst.PHOTO_1006,
+field_q80020=TppMotherBaseManagementConst.PHOTO_1007,
+waterway_q80040=TppMotherBaseManagementConst.PHOTO_1009,
+commFacility_q80060=TppMotherBaseManagementConst.PHOTO_1000,
+fort_q80080=TppMotherBaseManagementConst.PHOTO_1008,
+outland_q80100=TppMotherBaseManagementConst.PHOTO_1002,
+pfCamp_q80200=TppMotherBaseManagementConst.PHOTO_1003,
+hill_q80400=TppMotherBaseManagementConst.PHOTO_1005,
+diamond_q80600=TppMotherBaseManagementConst.PHOTO_1004,
+lab_q80700=TppMotherBaseManagementConst.PHOTO_1001,
+sovietBase_q99030=TppMotherBaseManagementConst.DESIGN_3009,
+tent_q99040=TppMotherBaseManagementConst.DESIGN_3002,
+mtbs_q99050=TppMotherBaseManagementConst.DESIGN_3000}
+local questPhotos2={
+  tent_q80010="key_photo_1006",
+field_q80020="key_photo_1007",
+waterway_q80040="key_photo_1009",
+commFacility_q80060="key_photo_1000",
+fort_q80080="key_photo_1008",
+outland_q80100="key_photo_1002",
+pfCamp_q80200="key_photo_1003",
+hill_q80400="key_photo_1005",
+diamond_q80600="key_photo_1004",
+lab_q80700="key_photo_1001"}
+local RENAMEquestEmblems={
+  mtbs_q99060={"base44","front62"},
+sovietBase_q99020={"word14","word15","word51","front49"},
+sovietBase_q99030={"word122","word123","word124","word125","word126"},
+tent_q99040={"word78","word79","word87","word91"}
+}
 local m={"quest_q20015","quest_q20085","quest_q20205","quest_q20705","quest_q20095"}
 local canOpenQuestChecks={}
 function canOpenQuestChecks.waterway_q99010()
@@ -193,7 +328,8 @@ function canOpenQuestChecks.sovietBase_q99020()
   return TppStory.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_FIND_THE_SECRET_WEAPON
 end
 function canOpenQuestChecks.sovietBase_q99030()
-  return TppStory.CanPlayDemoOrRadio"OpenSideOpsAiPod"end
+  return TppStory.CanPlayDemoOrRadio"OpenSideOpsAiPod"
+  end
 function canOpenQuestChecks.tent_q99040()
   return this.IsCleard"sovietBase_q99030"end
 function canOpenQuestChecks.cliffTown_q99080()
@@ -249,10 +385,10 @@ function canOpenQuestChecks.outland_q99071()
 end
 function canOpenQuestChecks.sovietBase_q99070()
   return this.IsCleard"outland_q99071"
-  end
+end
 function canOpenQuestChecks.tent_q99072()
   return this.IsCleard"sovietBase_q99070"
-  end
+end
 function canOpenQuestChecks.outland_q40010()
   return TppStory.IsMissionCleard(10080)
 end
@@ -354,7 +490,7 @@ function canOpenQuestChecks.quest_q20015()
 end
 function canOpenQuestChecks.quest_q20025()
   return this.IsCleard"quest_q20065"
-  end
+end
 function canOpenQuestChecks.quest_q20035()
   local t=TppStory.IsMissionCleard(10080)
   local e=this.IsCleard"quest_q20905"
@@ -363,39 +499,39 @@ end
 function canOpenQuestChecks.quest_q20045()
   local t=TppStory.IsMissionCleard(10091)
   local e=this.IsCleard"quest_q20035"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20055()
   local t=TppStory.IsMissionCleard(10151)
   local e=this.IsCleard"quest_q21005"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20065()
   return this.IsCleard"ruins_q60115"end
 function canOpenQuestChecks.quest_q20075()
   local t=TppStory.IsMissionCleard(10044)
   local e=this.IsCleard"quest_q20025"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20085()
   local t=TppStory.IsMissionCleard(10041)
   local e=this.IsCleard"quest_q20015"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20095()
   local t=TppStory.IsMissionCleard(10151)
   local e=this.IsCleard"quest_q20705"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20105()
   local t=TppStory.IsMissionCleard(10100)
   local e=this.IsCleard"quest_q23005"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20205()
   local t=TppStory.IsMissionCleard(10195)
   local e=this.IsCleard"quest_q20085"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20305()
   return TppStory.IsMissionCleard(10080)
@@ -403,67 +539,67 @@ end
 function canOpenQuestChecks.quest_q20405()
   local t=TppStory.IsMissionCleard(10093)
   local e=this.IsCleard"quest_q27005"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20505()
   local t=TppStory.IsMissionCleard(10110)
   local e=this.IsCleard"quest_q24005"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20605()
   local t=TppStory.IsMissionCleard(10121)
   local e=this.IsCleard"quest_q20505"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20705()
   local t=TppStory.IsMissionCleard(10151)
   local e=this.IsCleard"quest_q20205"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20805()
   local t=TppStory.IsMissionCleard(10054)
   local e=this.IsCleard"quest_q20075"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q20905()
   local t=TppStory.IsMissionCleard(10052)
   local e=this.IsCleard"quest_q20805"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q21005()
   local t=TppStory.IsMissionCleard(10091)
   local e=this.IsCleard"quest_q20045"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q22005()
   local t=TppStory.IsMissionCleard(10045)
   local e=this.IsCleard"quest_q21005"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q23005()
   local t=TppStory.IsMissionCleard(10090)
   local e=this.IsCleard"quest_q20305"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q24005()
   local t=TppStory.IsMissionCleard(10110)
   local e=this.IsCleard"quest_q20105"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q25005()
   local t=TppStory.IsMissionCleard(10120)
   local e=this.IsCleard"quest_q20605"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q26005()
   local t=TppStory.IsMissionCleard(10211)
   local e=this.IsCleard"quest_q27005"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q27005()
   local t=TppStory.IsMissionCleard(10211)
   local e=this.IsCleard"quest_q25005"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.tent_q11010()
   return TppStory.IsMissionCleard(10041)
@@ -471,57 +607,57 @@ end
 function canOpenQuestChecks.tent_q11020()
   local t=TppStory.IsMissionCleard(10054)
   local e=this.IsCleard"tent_q11010"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.waterway_q11030()
   local t=TppStory.IsMissionCleard(10052)
   local e=this.IsCleard"tent_q11020"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.cliffTown_q11040()
   local t=TppStory.IsMissionCleard(10080)
   local e=this.IsCleard"waterway_q11030"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.cliffTown_q11050()
   local t=TppStory.IsMissionCleard(10121)
   local e=this.IsCleard"banana_q11600"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.fort_q11060()
   local t=TppStory.IsMissionCleard(10091)
   local e=this.IsCleard"commFacility_q11080"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.fort_q11070()
   local t=TppStory.IsMissionCleard(10156)
   local e=this.IsCleard"fort_q11060"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.commFacility_q11080()
   local t=TppStory.IsMissionCleard(10080)
   local e=this.IsCleard"cliffTown_q11040"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.outland_q11090()
   local t=TppStory.IsMissionCleard(10195)
   local e=this.IsCleard"pfCamp_q11200"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.outland_q11100()
   local t=TppStory.IsMissionCleard(10171)
   local e=this.IsCleard"banana_q11700"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.pfCamp_q11200()
   local t=TppStory.IsMissionCleard(10100)
   local e=this.IsCleard"savannah_q11400"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.savannah_q11300()
   local t=TppStory.IsMissionCleard(10151)
   local e=this.IsCleard"hill_q11500"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.savannah_q11400()
   return TppStory.IsMissionCleard(10086)
@@ -529,17 +665,17 @@ end
 function canOpenQuestChecks.hill_q11500()
   local t=TppStory.IsMissionCleard(10120)
   local e=this.IsCleard"cliffTown_q11050"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.banana_q11600()
   local t=TppStory.IsMissionCleard(10110)
   local e=this.IsCleard"outland_q11090"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.banana_q11700()
   local t=TppStory.IsMissionCleard(10093)
   local e=this.IsCleard"savannah_q11300"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.tent_q71010()
   return TppStory.IsMissionCleard(10045)
@@ -547,47 +683,47 @@ end
 function canOpenQuestChecks.field_q71020()
   local t=TppStory.IsMissionCleard(10156)
   local e=this.IsCleard"tent_q71010"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.tent_q71030()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"field_q71020"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.waterway_q71040()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"sovietBase_q71070"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.cliffTown_q71050()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"tent_q71030"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.cliffTown_q71060()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"sovietBase_q71070"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.sovietBase_q71070()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"tent_q71030"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.fort_q71080()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"sovietBase_q71070"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.field_q71090()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"sovietBase_q71070"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.outland_q71200()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"lab_q71600"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.savannah_q71300()
   return TppStory.IsMissionCleard(10093)
@@ -595,22 +731,22 @@ end
 function canOpenQuestChecks.banana_q71400()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"lab_q71600"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.diamond_q71500()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"lab_q71600"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.lab_q71600()
   local t=TppStory.IsMissionCleard(10171)
   local e=this.IsCleard"savannah_q71300"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.lab_q71700()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"lab_q71600"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.commFacility_q80060()
   return TppStory.IsMissionCleard(10040)
@@ -618,32 +754,32 @@ end
 function canOpenQuestChecks.field_q80020()
   local t=TppStory.IsMissionCleard(10044)
   local e=this.IsCleard"commFacility_q80060"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.outland_q80100()
   local t=TppStory.IsMissionCleard(10090)
   local e=this.IsCleard"field_q80020"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.pfCamp_q80200()
   local t=TppStory.IsMissionCleard(10110)
   local e=this.IsCleard"outland_q80100"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.diamond_q80600()
   local t=TppStory.IsMissionCleard(10120)
   local e=this.IsCleard"pfCamp_q80200"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.hill_q80400()
   local t=TppStory.IsMissionCleard(10151)
   local e=this.IsCleard"diamond_q80600"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.tent_q80010()
   local t=TppStory.IsMissionCleard(10151)
   local e=this.IsCleard"hill_q80400"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.lab_q80700()
   local t=TppStory.IsMissionCleard(10093)
@@ -655,17 +791,17 @@ end
 function canOpenQuestChecks.fort_q80080()
   local t=TppStory.IsMissionCleard(10156)
   local e=this.IsCleard"lab_q80700"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.waterway_q80040()
   local t=TppStory.IsMissionCleard(10151)
   local e=this.IsCleard"fort_q80080"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52010()
   local t=TppStory.IsMissionCleard(10054)
   local e=this.IsCleard"quest_q52030"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52020()
   return TppStory.IsMissionCleard(10086)
@@ -676,66 +812,66 @@ end
 function canOpenQuestChecks.quest_q52040()
   local t=TppStory.IsMissionCleard(10052)
   local e=this.IsCleard"quest_q52010"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52050()
   local t=TppStory.IsMissionCleard(10100)
   local e=this.IsCleard"quest_q52020"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52060()
   local t=TppStory.IsMissionCleard(10151)
   local e=this.IsCleard"quest_q52070"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52070()
   local t=TppStory.IsMissionCleard(10120)
   local e=this.IsCleard"quest_q52050"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52080()
   local t=this.IsCleard"tent_q99040"local e=this.IsCleard"quest_q52040"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52090()
   local t=TppStory.IsMissionCleard(10093)
   local e=this.IsCleard"quest_q52060"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52100()
   local t=TppStory.IsMissionCleard(10171)
   local e=this.IsCleard"quest_q52090"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52110()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"quest_q52100"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52120()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"quest_q52110"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52130()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"quest_q52080"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52140()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"quest_q52130"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52015()
   local t=TppStory.IsMissionCleard(10080)
   local e=this.IsCleard"quest_q52025"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52025()
   local t=TppStory.IsMissionCleard(10052)
   local e=this.IsCleard"quest_q52035"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52035()
   return TppStory.IsMissionCleard(10054)
@@ -743,17 +879,17 @@ end
 function canOpenQuestChecks.quest_q52045()
   local t=TppStory.IsMissionCleard(10151)
   local e=this.IsCleard"quest_q52065"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52055()
   local t=TppStory.IsMissionCleard(10093)
   local e=this.IsCleard"quest_q52045"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52065()
   local t=TppStory.IsMissionCleard(10211)
   local e=this.IsCleard"quest_q52075"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52075()
   return TppStory.IsMissionCleard(10090)
@@ -761,37 +897,37 @@ end
 function canOpenQuestChecks.quest_q52085()
   local t=TppStory.IsMissionCleard(10151)
   local e=this.IsCleard"quest_q52015"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52095()
   local t=TppStory.IsMissionCleard(10093)
   local e=this.IsCleard"quest_q52055"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52105()
   local t=TppStory.IsMissionCleard(10171)
   local e=this.IsCleard"quest_q52095"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52115()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"quest_q52105"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52125()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"quest_q52115"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52135()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"quest_q52085"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.quest_q52145()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"quest_q52135"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.ruins_q60010()
   return TppStory.IsMissionCleard(10054)
@@ -799,41 +935,41 @@ end
 function canOpenQuestChecks.tent_q60011()
   local t=TppStory.IsMissionCleard(10052)
   local e=this.IsCleard"ruins_q60010"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.cliffTown_q60012()
   local t=this.IsCleard"tent_q99040"local e=this.IsCleard"fort_q60013"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.fort_q60013()
   local t=TppStory.IsMissionCleard(10091)
   local e=this.IsCleard"tent_q60011"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.sovietBase_q60014()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"cliffTown_q60012"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.pfCamp_q60020()
   local t=TppStory.IsMissionCleard(10211)
   local e=this.IsCleard"hill_q60021"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.hill_q60021()
   local t=TppStory.IsMissionCleard(10121)
   local e=this.IsCleard"outland_q60024"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.lab_q60022()
   local t=TppStory.IsMissionCleard(10280)
   local e=this.IsCleard"banana_q60023"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.banana_q60023()
   local t=TppStory.IsMissionCleard(10093)
   local e=this.IsCleard"pfCamp_q60020"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.outland_q60024()
   return TppStory.IsMissionCleard(10086)
@@ -855,7 +991,7 @@ end
 function canOpenQuestChecks.mtbs_q99050()
   local e=TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE.Develop+1)>=2
   local t=TppStory.IsMissionCleard"10211"
-return t and e
+  return t and e
 end
 function canOpenQuestChecks.mtbs_q99011()
   local n=TppBuddy2BlockController.DidObtainBuddyType(BuddyType.QUIET)
@@ -900,13 +1036,13 @@ function canOpenQuestChecks.mtbs_q42070()
 end
 
 this.ShootingPracticeOpenCondition={
-Command=canOpenQuestChecks.mtbs_q42010,
-Develop=canOpenQuestChecks.mtbs_q42020,
-Support=canOpenQuestChecks.mtbs_q42030,
-BaseDev=canOpenQuestChecks.mtbs_q42040,
-Medical=canOpenQuestChecks.mtbs_q42050,
-Spy=canOpenQuestChecks.mtbs_q42060,
-Combat=canOpenQuestChecks.mtbs_q42070}
+  Command=canOpenQuestChecks.mtbs_q42010,
+  Develop=canOpenQuestChecks.mtbs_q42020,
+  Support=canOpenQuestChecks.mtbs_q42030,
+  BaseDev=canOpenQuestChecks.mtbs_q42040,
+  Medical=canOpenQuestChecks.mtbs_q42050,
+  Spy=canOpenQuestChecks.mtbs_q42060,
+  Combat=canOpenQuestChecks.mtbs_q42070}
 function this.GetSideOpsListTable()
   local n={}
   if this.CanOpenSideOpsList()then
@@ -1274,20 +1410,44 @@ function this.OnReload(t)
 end
 function this.Messages()
   local o=this.DeactiveQuestAreaTrapMessages()
-  return StrCode32Table{Block={{msg="StageBlockCurrentSmallBlockIndexUpdated",func=this.OnUpdateSmallBlockIndex}},UI={{msg="EndFadeOut",sender="FadeOutOnOutOfMissionArea",func=function()
-    mvars.qst_blockStateRequest=i.DEACTIVATE
-    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED)
-  end},{msg="QuestAreaAnnounceText",func=function(t)
-    this.OnQuestAreaAnnounceText(t)
-  end}},Marker={{msg="ChangeToEnable",func=function(a,s,n,t)
-    this._ChangeToEnable(a,s,n,t)
-  end}},Timer={{msg="Finish",sender="TimerShootingPracticeStart",func=function()
-    this.StartShootingPractice()
-  end,option={isExecMissionPrepare=true,isExecMissionClear=true}},{msg="Finish",sender="TimerShootingPracticeEnd",func=function()
-    this.OnQuestShootingTimerEnd()
-  end,option={isExecMissionPrepare=true,isExecMissionClear=true}},{msg="Finish",sender="TimerShootingPracticeRetryConfirm",func=function()
-    TppGimmick.SetQuestShootingPracticeTargetInvisible()
-  end,option={isExecMissionPrepare=true,isExecMissionClear=true}}},Trap=o}
+  return StrCode32Table{
+    Block={{msg="StageBlockCurrentSmallBlockIndexUpdated",func=this.OnUpdateSmallBlockIndex}},
+    UI={
+      {msg="EndFadeOut",sender="FadeOutOnOutOfMissionArea",
+        func=function()
+          mvars.qst_blockStateRequest=i.DEACTIVATE
+          TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED)
+        end},
+      {msg="QuestAreaAnnounceText",
+        func=function(t)
+          this.OnQuestAreaAnnounceText(t)
+        end}
+    },
+    Marker={
+      {msg="ChangeToEnable",
+        func=function(a,s,n,t)
+          this._ChangeToEnable(a,s,n,t)
+        end}
+    },
+    Timer={
+      {msg="Finish",sender="TimerShootingPracticeStart",
+        func=function()
+          this.StartShootingPractice()
+        end,
+        option={isExecMissionPrepare=true,isExecMissionClear=true}},
+      {msg="Finish",sender="TimerShootingPracticeEnd",
+        func=function()
+          this.OnQuestShootingTimerEnd()
+        end,
+        option={isExecMissionPrepare=true,isExecMissionClear=true}},
+      {msg="Finish",sender="TimerShootingPracticeRetryConfirm",
+        func=function()
+          TppGimmick.SetQuestShootingPracticeTargetInvisible()
+        end,
+        option={isExecMissionPrepare=true,isExecMissionClear=true}
+      }
+    },
+    Trap=o}
 end
 function this.OnMessage(i,n,t,s,a,o,r)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,i,n,t,s,a,o,r)
@@ -1734,8 +1894,8 @@ function this._CanActivateQuest()
   return true
 end
 function this.QuestBlockOnUpdate()
-  local t=this
-  local a=t.GetQuestBlockState()
+  local thisLocal=this--NMC: tihs pattern is used in two functions in other files. why? is it that really performant?
+  local a=thisLocal.GetQuestBlockState()
   if a==nil then
     return
   end
@@ -1745,34 +1905,34 @@ function this.QuestBlockOnUpdate()
   local o=n.SCRIPT_BLOCK_STATE_INACTIVE
   local n=n.SCRIPT_BLOCK_STATE_ACTIVE
   if e.qst_requestInitializeQuestActiveStatus then
-    t.InitializeQuestActiveStatus(e.qst_requestInitializeQuestActiveCluster)
+    thisLocal.InitializeQuestActiveStatus(e.qst_requestInitializeQuestActiveCluster)
     return
   end
   if a==o then
     if s==n then
-      t._DoDeactivate()
+      thisLocal._DoDeactivate()
     end
     if e.qst_blockStateRequest==i.ACTIVATE then
-      if t._CanActivateQuest()then
-        t.ActivateCurrentQuestBlock()t.ClearBlockStateRequest()
+      if thisLocal._CanActivateQuest()then
+        thisLocal.ActivateCurrentQuestBlock()thisLocal.ClearBlockStateRequest()
       end
     end
     e.qst_lastInactiveToActive=false
   elseif a==n then
-    if not t._CanActivateQuest()then
+    if not thisLocal._CanActivateQuest()then
       return
     end
     local n
-    if t.IsInvoking()then
-      n=t.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
+    if thisLocal.IsInvoking()then
+      n=thisLocal.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
     end
     if e.qst_lastInactiveToActive then
       e.qst_lastInactiveToActive=false
       e.qst_deactivated=false
-      t.ExecuteSystemCallback"OnActivate"e.qst_allocated=true
+      thisLocal.ExecuteSystemCallback"OnActivate"e.qst_allocated=true
       if e.qst_invokeReserveOnActivate then
         e.qst_invokeReserveOnActivate=false
-        t.Invoke()n=t.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
+        thisLocal.Invoke()n=thisLocal.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
       end
       if n and IsTypeFunc(n.OnEnter)then
         n.OnEnter(n)
@@ -1785,11 +1945,11 @@ function this.QuestBlockOnUpdate()
       n.OnUpdate(n)
     end
     if e.qst_blockStateRequest==i.DEACTIVATE then
-      t.DeactivateCurrentQuestBlock()t.ClearBlockStateRequest()
+      thisLocal.DeactivateCurrentQuestBlock()thisLocal.ClearBlockStateRequest()
     end
   else
     e.qst_lastInactiveToActive=false
-    t.ClearBlockStateRequest()
+    thisLocal.ClearBlockStateRequest()
   end
   e.qst_lastQuestBlockState=a
 end
@@ -1963,13 +2123,13 @@ function this.IsInvoking()
 end
 function this.UpdateOpenQuest()--tex DEMINIFIED:
   mvars.qst_isQuestNewOpenFlag=false
-  for key,questIndex in pairs(TppDefine.QUEST_INDEX)do
+  for key,questIndex in pairs(TppDefine.QUEST_INDEX) do
     local canOpenQuestFunc=canOpenQuestChecks[key]
-    if (canOpenQuestFunc and canOpenQuestFunc()) or gvars.unlockSideOps==InfMain.SETTING_UNLOCK_SIDEOPS.OPEN then--tex
-        if gvars.qst_questOpenFlag[questIndex]==false then
-          mvars.qst_isQuestNewOpenFlag=true
-        end
-        gvars.qst_questOpenFlag[questIndex]=true
+    if (canOpenQuestFunc and canOpenQuestFunc()) or gvars.unlockSideOps==Ivars.unlockSideOps.enum.OPEN then--tex
+      if gvars.qst_questOpenFlag[questIndex]==false then
+        mvars.qst_isQuestNewOpenFlag=true
+    end
+    gvars.qst_questOpenFlag[questIndex]=true
     end
   end
 end
@@ -1990,120 +2150,190 @@ end--]]
 function this.UpdateActiveQuest(t)--tex DEMINIFIED: incomplete
   if not mvars.qst_questList then
     return
-  end
-  if this.NeedUpdateActiveQuest(t)then
-    this.UpdateOpenQuest()
-    local unlockedName=nil--tex unlockSideOpNumber
-    local unlockedArea=nil
-    local done=false
-    if gvars.unlockSideOpNumber > 0 then--tex find name and area for unlocksideop SANITY:
-      unlockedName=sideOpsTable[gvars.unlockSideOpNumber].questName--tex
-      if unlockedName ~= nil then
-        for n,areaQuests in ipairs(mvars.qst_questList)do
-          for i,info in ipairs(areaQuests.infoList)do
-            if info.name == unlockedName then
-              unlockedArea=areaQuests.areaName
-              break
-            end
-          end
-          if done then
+end
+if this.NeedUpdateActiveQuest(t)then
+  this.UpdateOpenQuest()
+  local unlockedName=nil--tex unlockSideOpNumber
+  local unlockedArea=nil
+  local done=false
+  if gvars.unlockSideOpNumber > 0 then--tex find name and area for unlocksideop SANITY:
+    unlockedName=sideOpsTable[gvars.unlockSideOpNumber].questName--tex
+    if unlockedName ~= nil then
+      for n,areaQuests in ipairs(mvars.qst_questList)do
+        for i,info in ipairs(areaQuests.infoList)do
+          if info.name == unlockedName then
+            unlockedArea=areaQuests.areaName
             break
           end
+        end
+        if done then
+          break
         end
       end
-    end--
-    for n,areaQuests in ipairs(mvars.qst_questList)do
-      local n={}
-      local storyQuests={}
-      local nonStoryQuests={}
-      local repopQuests={}
-      if unlockedArea ~= nil and areaQuests.areaName==unlockedArea then--tex add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.  
-         for i,info in ipairs(areaQuests.infoList)do
-          if info.name==unlockedName then
-             table.insert(storyQuests,info.name)--tex ASSUMPTION: storyquests has priority
-            break
-          end
+    end
+  end--
+  for n,areaQuests in ipairs(mvars.qst_questList)do
+    local n={}
+    local storyQuests={}
+    local nonStoryQuests={}
+    local repopQuests={}
+    if unlockedArea ~= nil and areaQuests.areaName==unlockedArea then--tex add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
+      for i,info in ipairs(areaQuests.infoList)do
+        if info.name==unlockedName then
+          table.insert(storyQuests,info.name)--tex ASSUMPTION: storyquests has priority
+          break
         end
-      else--
-        for t,info in ipairs(areaQuests.infoList)do
-          local questName=info.name
-          local questIndex=TppDefine.QUEST_INDEX[questName]  
-          if questIndex then
-            if InfMain.disallowSideOps[questIndex+1] ~= true then--tex
-              gvars.qst_questActiveFlag[questIndex]=false
-              local n=r[questName]--NMC: some list of conditions, not as big as the 't' list
-              if this.IsOpen(questName)and(not n or n())then
-                if not this.IsCleard(questName)then
-                  if info.isStory then
-                    table.insert(storyQuests,questName)
-                  else
-                    table.insert(nonStoryQuests,questName)
-                  end
-                elseif this.IsRepop(questName)then
-                  table.insert(repopQuests,questName)
+    end
+    else--
+      for t,info in ipairs(areaQuests.infoList)do
+        local questName=info.name
+        local questIndex=TppDefine.QUEST_INDEX[questName]
+        if questIndex then
+          if Ivars.unlockSideOpNumber.skipValues[questIndex+1] ~= true then--tex disallowSideOps
+            gvars.qst_questActiveFlag[questIndex]=false
+            local n=r[questName]--NMC: some list of conditions, not as big as the 't' list
+            if this.IsOpen(questName)and(not n or n())then
+              if not this.IsCleard(questName)then
+                if info.isStory then
+                  table.insert(storyQuests,questName)
+                else
+                  table.insert(nonStoryQuests,questName)
                 end
+              elseif this.IsRepop(questName)then
+                table.insert(repopQuests,questName)
               end
             end
           end
         end
-      end
-      local questName=nil
-      local list=nil--tex choose which quest to activate per area
-      local index=1
-      if #storyQuests > 0 then--tex broken into lists to manage priority
-        list=storyQuests
-      elseif #nonStoryQuests > 0 then
-        list=nonStoryQuests
-      elseif #repopQuests > 0 then
-        list=repopQuests
-      end
-      if list ~= nil then
-        --[[if gvars.unlockSideOps == InfMain.SETTING_UNLOCK_SIDEOPS.FIRST then
+    end
+    end
+    local questName=nil
+    local list=nil--tex choose which quest to activate per area
+    local index=1
+    if #storyQuests > 0 then--tex broken into lists to manage priority
+      list=storyQuests
+    elseif #nonStoryQuests > 0 then
+      list=nonStoryQuests
+    elseif #repopQuests > 0 then
+      list=repopQuests
+    end
+    if list ~= nil then
+      --[[if gvars.unlockSideOps == Ivars.unlockSideOps.enum.FIRST then
+
+
+
+
+
+
+
           index=1
-        elseif gvars.unlockSideOps == InfMain.SETTING_UNLOCK_SIDEOPS.LAST then
+
+
+
+
+
+
+
+        elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.LAST then
+
+
+
+
+
+
+
           index=#list
-        elseif gvars.unlockSideOps == InfMain.SETTING_UNLOCK_SIDEOPS.RANDOM then
+
+
+
+
+
+
+
+        elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.RANDOM then
+
+
+
+
+
+
+
           index=math.random(#list)
+
+
+
+
+
+
+
         end--]]
-        if gvars.unlockSideOps > 0 then
-          index=math.random(#list)
-        end
-        questName=list[index]
-      end--
-      --[[--tex ORIG: for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
+      if gvars.unlockSideOps > 0 then
+        index=math.random(#list)
+      end
+      questName=list[index]
+    end--
+    --[[--tex ORIG: for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
+
+
+
+
+
+
+
         if not questName then
+
+
+
+
+
+
+
           questName=t[1]
+
+
+
+
+
+
+
         end
+
+
+
+
+
+
+
       end--]]
-      if questName then
-        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
-      end
-    end
-  elseif TppMission.IsStoryMission(vars.missionCode)then
-    for n,questName in ipairs(TppDefine.QUEST_DEFINE)do
-      if not this.CanActiveQuestInMission(vars.missionCode,questName)then
-        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=false
-      end
-    end
-  else
-    for i=0,9,1 do
-      if gvars.qst_failedIndex[i]~=-1 then
-        local failedIndex=gvars.qst_failedIndex[i]
-        gvars.qst_questActiveFlag[failedIndex]=true
-        gvars.qst_failedIndex[i]=-1
-      end
+    if questName then
+      gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
     end
   end
+elseif TppMission.IsStoryMission(vars.missionCode)then
+  for n,questName in ipairs(TppDefine.QUEST_DEFINE)do
+    if not this.CanActiveQuestInMission(vars.missionCode,questName)then
+      gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=false
+    end
+  end
+else
   for i=0,9,1 do
-    gvars.qst_failedIndex[i]=-1
-  end
-  TppUiCommand.SetSideOpsListUpdate()
-  for i,questName in ipairs(m)do
-    if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]==true then
-      TppMotherBaseManagement.SetLockedTanFlag{locked=true}
-      return
+    if gvars.qst_failedIndex[i]~=-1 then
+      local failedIndex=gvars.qst_failedIndex[i]
+      gvars.qst_questActiveFlag[failedIndex]=true
+      gvars.qst_failedIndex[i]=-1
     end
   end
+end
+for i=0,9,1 do
+  gvars.qst_failedIndex[i]=-1
+end
+TppUiCommand.SetSideOpsListUpdate()
+for i,questName in ipairs(m)do
+  if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]==true then
+    TppMotherBaseManagement.SetLockedTanFlag{locked=true}
+    return
+  end
+end
 end
 --[[function e.UpdateActiveQuest(t)--tex ORIG:
   if not mvars.qst_questList then
@@ -2154,6 +2384,7 @@ end
     end
   else
     for e=0,9,1 do
+
       if gvars.qst_failedIndex[e]~=-1 then
         local t=gvars.qst_failedIndex[e]
         gvars.qst_questActiveFlag[t]=true
@@ -2171,6 +2402,7 @@ end
       return
     end
   end
+
 end--]]
 function this.CanActiveQuestInMission(e,t)
   if(not TppMission.IsStoryMission(e))then
@@ -2261,13 +2493,13 @@ function this.IsRepop(e)
   end
 end
 function this.IsOpen(questName)--tex DEMINIFIED:
-  if gvars.unlockSideops==InfMain.SETTING_UNLOCK_SIDEOPS.OPEN then--tex just force this here, don't want to touch the actual flag as it's saved/cant be easily reversed
+  if gvars.unlockSideops==Ivars.unlockSideOps.enum.OPEN then--tex just force this here, don't want to touch the actual flag as it's saved/cant be easily reversed
     return true
-  end
-  local questIndex=TppDefine.QUEST_INDEX[questName]
-  if questIndex then
-    return gvars.qst_questOpenFlag[questIndex]
-  end
+end
+local questIndex=TppDefine.QUEST_INDEX[questName]
+if questIndex then
+  return gvars.qst_questOpenFlag[questIndex]
+end
 end
 function this.IsActive(e)
   local e=TppDefine.QUEST_INDEX[e]
@@ -2485,10 +2717,10 @@ function this.PlayClearRadio(e)
   return false
 end
 function this.GetClearKeyItem(t)
-  for e,n in pairs(I)do
+  for e,n in pairs(questPhotos)do
     if e==t then
       TppTerminal.AcquireKeyItem{dataBaseId=n,isShowAnnounceLog=true}
-      for t,n in pairs(C)do
+      for t,n in pairs(questPhotos2)do
         if e==t then
           TppUI.ShowAnnounceLog("quest_get_photo",n)
         end
@@ -2497,7 +2729,7 @@ function this.GetClearKeyItem(t)
   end
 end
 function this.GetClearEmblem(e)
-  local e=A[e]
+  local e=RENAMEquestEmblems[e]
   if e then
     for t,e in ipairs(e)do
       TppEmblem.Add(e,false,true)
@@ -2531,13 +2763,13 @@ function this.ShowAnnounceLog(n,t,u,l)
   if n==s.OPEN then
     TppUI.ShowAnnounceLog"quest_list_update"
     TppUI.ShowAnnounceLog"quest_add"
-    elseif n==s.CLEAR then
+  elseif n==s.CLEAR then
     if not t then
       return
     end
     local a=this.GetQuestNameLangId(t)
     if a~=false then
-      local n=f[t]
+      local n=questCompleteLangIds[t]
       local s,r=TppEnemy.GetQuestCount()
       local o,i=TppGimmick.GetQuestShootingPracticeCount()
       if n then
@@ -2553,7 +2785,7 @@ function this.ShowAnnounceLog(n,t,u,l)
       if(e~=false)and(e~="q99012")then
         TppUiCommand.ShowSideFobInfo("end",string.format("name_%s",e),"hud_quest_finish")
         TppSoundDaemon.PostEvent"sfx_s_sideops_sted"
-        end
+      end
     end
   elseif n==s.FAILURE then
     if not t then
@@ -2568,7 +2800,7 @@ function this.ShowAnnounceLog(n,t,u,l)
     if not t then
       return
     end
-    local e=f[t]
+    local e=questCompleteLangIds[t]
     if e then
       TppUI.ShowAnnounceLog(e,u,l)
     end
@@ -2826,7 +3058,7 @@ end
 local t={ruins_q60115=TppMotherBaseManagementConst.DESIGN_2027,sovietBase_q60110=TppMotherBaseManagementConst.DESIGN_2020,sovietBase_q60111=TppMotherBaseManagementConst.DESIGN_2024}
 local a={pfCamp_q39012={dataBaseId=TppMotherBaseManagementConst.ANIMAL_130,areaName="anml_quest_00"}}
 function this.AcquireKeyItemOnMissionStart()
-  for t,n in pairs(I)do
+  for t,n in pairs(questPhotos)do
     if this.IsCleard(t)then
       TppTerminal.AcquireKeyItem{dataBaseId=n,isShowAnnounceLog=true}
     end

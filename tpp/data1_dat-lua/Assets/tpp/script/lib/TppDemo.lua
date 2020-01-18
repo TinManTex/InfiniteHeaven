@@ -609,16 +609,16 @@ function this.OnReload(n)
 end
 function this.Update()
   local n=mvars
-  local e=this
+  local thisLocal=this--NMC: tihs pattern is used in two functions in other files. why? is it that really performant?
   if n.dem_reservedDemoId then
     if FindDemoBody(n.dem_reservedDemoId)then
       if not n.dem_DoneBackGroundLoading then
-        e.ExecuteBackGroundLoad(n.dem_reservedDemoId)
+        thisLocal.ExecuteBackGroundLoad(n.dem_reservedDemoId)
       end
     end
   end
-  e.ProcessPlayRequest(n.demo_playRequestInfo.missionBlock)
-  e.ProcessFinishWaitRequestInfo()
+  thisLocal.ProcessPlayRequest(n.demo_playRequestInfo.missionBlock)
+  thisLocal.ProcessFinishWaitRequestInfo()
 end
 function this.Register(e)
   mvars.dem_demoList=e

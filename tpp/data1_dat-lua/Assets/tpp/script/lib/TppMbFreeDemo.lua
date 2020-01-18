@@ -124,14 +124,16 @@ this.demoOptions={
     end,
     time="10:20:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true,telopLangIdList={"area_demo_mb","platform_main"},
     isUseGrassOcelot=true},
-  DdogComeToGet={OnEnd=function()
+  DdogComeToGet={
+  OnEnd=function()
     TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_COME_TO_GET)
     TppBuddyService.SetBuddyPuppyMBDemoPlayed()
   end,
   time="12:00:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true,telopLangIdList={"area_demo_mb","platform_main"},
   demoEndRouteList={{locatorName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",routeName="ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_p51_010020_0000"}},
   enableOcelotDemoEnd=true},
-  DdogGoWithMe={OnEnd=function()
+  DdogGoWithMe={
+    OnEnd=function()
     TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME)
     TppBuddyService.SetSortieBuddyType(BuddyType.DOG)
     TppEmblem.Add("front63",true)Player.SetPause()

@@ -425,11 +425,30 @@ function a.QAReleaseDebugUpdate()
       Print(newContext," statusType = "..(tostring"S_IS_BLACK_LOADING"..(", IsSet = "..tostring(a))))
     end
     Print(newContext,"UIStatus")
-    local a={{CallMenu="INVALID"},{PauseMenu="INVALID"},{EquipHud="INVALID"},{EquipPanel="INVALID"},{CqcIcon="INVALID"},{ActionIcon="INVALID"},{AnnounceLog="SUSPEND_LOG"},{AnnounceLog="INVALID_LOG"},{BaseName="INVALID"},{Damage="INVALID"},{Notice="INVALID"},{HeadMarker="INVALID"},{WorldMarker="INVALID"},{HudText="INVALID"},{GmpInfo="INVALID"},{AtTime="INVALID"},{InfoTypingText="INVALID"},{ResourcePanel="SHOW_IN_HELI"}}
-    for o,a in pairs(a)do
-      for o,a in pairs(a)do
-        if(TppUiStatusManager.CheckStatus(o,a)==true)then
-          Print(newContext,string.format(" UI = %s, Status = %s",o,a))
+    local statuses={
+      {CallMenu="INVALID"},
+      {PauseMenu="INVALID"},
+      {EquipHud="INVALID"},
+      {EquipPanel="INVALID"},
+      {CqcIcon="INVALID"},
+      {ActionIcon="INVALID"},
+      {AnnounceLog="SUSPEND_LOG"},
+      {AnnounceLog="INVALID_LOG"},
+      {BaseName="INVALID"},
+      {Damage="INVALID"},
+      {Notice="INVALID"},
+      {HeadMarker="INVALID"},
+      {WorldMarker="INVALID"},
+      {HudText="INVALID"},
+      {GmpInfo="INVALID"},
+      {AtTime="INVALID"},
+      {InfoTypingText="INVALID"},
+      {ResourcePanel="SHOW_IN_HELI"}
+    }
+    for o,status in pairs(statuses)do
+      for name,statusType in pairs(status)do
+        if(TppUiStatusManager.CheckStatus(name,statusType)==true)then
+          Print(newContext,string.format(" UI = %s, Status = %s",name,statusType))
         end
       end
     end

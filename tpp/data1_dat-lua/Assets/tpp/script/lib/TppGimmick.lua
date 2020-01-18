@@ -505,21 +505,21 @@ function this.SetCommunicateGimmick(e)
   end
   mvars.gim_gimmickIdToCpTable=mvars.gim_gimmickIdToCpTable or{}
   local r={type="TppCommandPost2"}
-  for n,e in pairs(e)do
-    local a={}
+  for cpName,e in pairs(e)do
+    local gimmicks={}
     for e,t in ipairs(e)do
       local e=mvars.gim_identifierParamTable[t]
       if e then
-        table.insert(a,e)
+        table.insert(gimmicks,e)
       end
-      local e=GetGameObjectId(n)
+      local e=GetGameObjectId(cpName)
       if e~=NULL_ID then
         mvars.gim_gimmickIdToCpTable[StrCode32(t)]=e
       end
     end
-    local i=e.isCommunicateBase
-    local e=e.groupName
-    local e={id="SetCommunicateGimmick",cpName=n,isCommunicateBase=i,gimmicks=a,groupName=e}
+    local isCommunicateBase=e.isCommunicateBase
+    local groupName=e.groupName
+    local e={id="SetCommunicateGimmick",cpName=cpName,isCommunicateBase=isCommunicateBase,gimmicks=gimmicks,groupName=groupName}
     GameObject.SendCommand(r,e)
   end
 end

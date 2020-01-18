@@ -1,12 +1,14 @@
 = Infinite heaven =
-r59 2015-10-31
+r63 2015-11-05
 by tin man tex
-For MGSV version 1.0.4.3 (1.04 in title screen)
+For MGSV version 1.0.4.5 (1.04 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-Note for r59:
-In game menu toggle changed to Hold-<Quick dive> (space key or X button), ACC menu still on <Reload>
+Note for r63:
+In both ACC and game menu toggle changed to Hold-<Quick dive> (space key or X button)
+
+Many of the settings save variable have been renamed, if you are updating from a previous version first finish any current missions or free mode and return to ACC in game.
 
 New Options for r56:
 OSP modes now only affect the main weapons as was originally instended and does not clear support weapons.
@@ -173,8 +175,25 @@ When changing General Enemy Parameters back to Default you must exit to title to
 There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
 
 Changelog:
+r63 2015-11-05 - public release
+Fixed bug I introduced in r56 to CloserToPlayerThanDistSqr resulting in quests being cleared to soldier being auto fultoned as player moved out of area.
+
+r62 
+Refactor InfMenuDefs to Ivars, now builds svars from settings in Ivars via InfMain.DeclareSvars.
+InfMain: most enums now part of their ivar
+InfMenu: Set to previous option on Menu Back
+Helispace menu toggle changed to EVADE same as inMissionMenu
+
+r61
+Refactor InfMenu, split out into InfMenuDefs
+InfMenu: Added index number before non lang settingsname tables
+
+r60
+Refactor InfButton, masks and states
+Add some missing button masks
+
 r59 - 2015-10-31 - public release
-In game menu toggle change to Evade
+In game menu toggle change to hold Evade
 
 r58
 Show player position

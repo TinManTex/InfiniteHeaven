@@ -1,6 +1,7 @@
+-- DOBUILD: 1
 local this={}
 local StrCode32=Fox.StrCode32
-local type=type
+--local type=type
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local B=TppGameObject.GAME_OBJECT_TYPE_PLAYER2
@@ -27,6 +28,7 @@ local n=bit.bnot
 local n,n,n=bit.band,bit.bor,bit.bxor
 this.requires={
 "/Assets/tpp/script/lib/TppDefine.lua",
+
 "/Assets/tpp/script/lib/TppMath.lua",
 "/Assets/tpp/script/lib/TppSave.lua",
 "/Assets/tpp/script/lib/TppLocation.lua",
@@ -77,7 +79,8 @@ this.requires={
 "/Assets/tpp/script/lib/TppPaz.lua",
 "/Assets/tpp/script/lib/TppRanking.lua",
 "/Assets/tpp/script/lib/TppTrophy.lua",
-"/Assets/tpp/script/lib/TppMbFreeDemo.lua"
+"/Assets/tpp/script/lib/TppMbFreeDemo.lua",
+"/Assets/tpp/script/lib/Ivars.lua",--tex for Init
 }
 function this.IsTypeFunc(e)
   return type(e)=="function"
@@ -148,16 +151,16 @@ function this.ApendArray(e,n)
     e[#e+1]=n
   end
 end
-function this.MergeTable(t,e,n)
-  local n=t
-  for e,l in pairs(e)do
-    if t[e]==nil then
-      n[e]=l
+function this.MergeTable(table1,table2,n)
+  local mergedTable=table1
+  for e,l in pairs(table2)do
+    if table1[e]==nil then
+      mergedTable[e]=l
     else
-      n[e]=l
+      mergedTable[e]=l
     end
   end
-  return n
+  return mergedTable
 end
 function this.BfsPairs(r)
   local i,t,l={r},1,1
@@ -394,12 +397,12 @@ function this.GetAllDisableGameStatusTable()
   return e
 end
 function this.GetHelicopterStartExceptGameStatus()
-  local e={}
-  e.EquipPanel=false
-  e.AnnounceLog=false
-  e.HeadMarker=false
-  e.WorldMarker=false
-  return e
+  local status={}
+  status.EquipPanel=false
+  status.AnnounceLog=false
+  status.HeadMarker=false
+  status.WorldMarker=false
+  return status
 end
 local function n(e,n)
   if e==nil then
@@ -672,23 +675,27 @@ function this.PatchDlcCheckCoroutine(t,l,r)
     if TppUiCommand.IsShowPopup()then
       TppUiCommand.ErasePopup()
       while TppUiCommand.IsShowPopup()do
-        e"waiting popup closed..."coroutine.yield()
+        e"waiting popup closed..."
+        coroutine.yield()
       end
     end
   end
   local function i()
     while TppSave.IsSaving()do
-      e"waiting saving end..."coroutine.yield()
+      e"waiting saving end..."
+      coroutine.yield()
     end
   end
   i()PatchDlc.StartCheckingPatchDlc()
   if PatchDlc.IsCheckingPatchDlc()then
     if not r then
       n()
-      TppUiCommand.SetPopupType"POPUP_TYPE_NO_BUTTON_NO_EFFECT"TppUiCommand.ShowErrorPopup(5100)
+      TppUiCommand.SetPopupType"POPUP_TYPE_NO_BUTTON_NO_EFFECT"
+      TppUiCommand.ShowErrorPopup(5100)
     end
     while PatchDlc.IsCheckingPatchDlc()do
-      e"waiting checking PatchDlc end..."coroutine.yield()
+      e"waiting checking PatchDlc end..."
+      coroutine.yield()
       TppUI.ShowAccessIconContinue()
     end
   end

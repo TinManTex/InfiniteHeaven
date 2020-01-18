@@ -1,15 +1,15 @@
-local e={}
+local this={}
 local a={}
 local r={}
 local S=256
 local c=0
 local _=180
-local o=Fox.StrCode32
+local StrCode32=Fox.StrCode32
 local p=Tpp.IsTypeFunc
 local i=Tpp.IsTypeTable
 local n=GkEventTimerManager.Start
 local s=TppScriptVars.SVarsIsSynchronized
-e.MISSION_PREPARE_STATE=Tpp.Enum{"START","WAIT_INITALIZE","WAIT_TEXTURE_LOADING","END_TEXTURE_LOADING","WAIT_SAVING_FILE","END_SAVING_FILE","FINISH"}
+this.MISSION_PREPARE_STATE=Tpp.Enum{"START","WAIT_INITALIZE","WAIT_TEXTURE_LOADING","END_TEXTURE_LOADING","WAIT_SAVING_FILE","END_SAVING_FILE","FINISH"}
 local function s(n)
   local e=mvars.seq_sequenceTable
   if e then
@@ -22,7 +22,7 @@ local function d(n)
     return s(e[n])
   end
 end
-function e.RegisterSequences(n)
+function this.RegisterSequences(n)
   if not i(n)then
     return
   end
@@ -32,11 +32,11 @@ function e.RegisterSequences(n)
   end
   local s={}
   mvars.seq_demoSequneceList={}
-  for e=1,e.SYS_SEQUENCE_LENGTH do
+  for e=1,this.SYS_SEQUENCE_LENGTH do
     s[e]=r[e]
   end
   for t=1,#n do
-    local e=e.SYS_SEQUENCE_LENGTH+t
+    local e=this.SYS_SEQUENCE_LENGTH+t
     s[e]=n[t]
     local n=string.sub(n[t],5,8)
     if n=="Demo"then
@@ -48,7 +48,7 @@ function e.RegisterSequences(n)
   end
   mvars.seq_sequenceNames=Tpp.Enum(s)
 end
-function e.RegisterSequenceTable(e)
+function this.RegisterSequenceTable(e)
   if e==nil then
     return
   end
@@ -60,7 +60,7 @@ function e.RegisterSequenceTable(e)
     end
   end
 end
-function e.SetNextSequence(s,e)
+function this.SetNextSequence(s,e)
   local n=nil
   if mvars.seq_sequenceNames then
     n=mvars.seq_sequenceNames[s]
@@ -83,21 +83,21 @@ function e.SetNextSequence(s,e)
     return
   end
 end
-function e.ReserveNextSequence(s,n)
+function this.ReserveNextSequence(s,n)
   TppScriptVars.SetSVarsNotificationEnabled(false)
-  e.SetNextSequence(s,n)
+  this.SetNextSequence(s,n)
   TppScriptVars.SetSVarsNotificationEnabled(true)
 end
-function e.GetCurrentSequenceIndex()
+function this.GetCurrentSequenceIndex()
   return svars.seq_sequence
 end
-function e.GetSequenceIndex(n)
+function this.GetSequenceIndex(n)
   local e=mvars.seq_sequenceNames
   if e then
     return e[n]
   end
 end
-function e.GetSequenceNameWithIndex(n)
+function this.GetSequenceNameWithIndex(n)
   local e=mvars.seq_sequenceNames
   if e then
     local e=e[n]
@@ -106,47 +106,47 @@ function e.GetSequenceNameWithIndex(n)
     end
   end
   return""end
-local i=e.GetSequenceNameWithIndex
-function e.GetCurrentSequenceName()
+local i=this.GetSequenceNameWithIndex
+function this.GetCurrentSequenceName()
   if svars then
     return i(svars.seq_sequence)
   end
 end
-function e.GetMissionStartSequenceName()
+function this.GetMissionStartSequenceName()
   if mvars.seq_missionStartSequence then
     return i(mvars.seq_missionStartSequence)
   end
 end
-function e.GetMissionStartSequenceIndex()
+function this.GetMissionStartSequenceIndex()
   return mvars.seq_missionStartSequence
 end
-function e.GetContinueCount()
+function this.GetContinueCount()
   local e=svars.seq_sequence
   return svars.seq_sequenceContinueCount[e]
 end
-function e.MakeSVarsTable(n)
-  local s={}
+function this.MakeSVarsTable(saveVarsList)
+  local svarTable={}
   local e,t,t=1
-  for a,n in pairs(n)do
-    local t=type(n)
-    if t=="boolean"then
-      s[e]={name=a,type=TppScriptVars.TYPE_BOOL,value=n,save=true,sync=true,category=TppScriptVars.CATEGORY_MISSION}
-    elseif t=="number"then
-      s[e]={name=a,type=TppScriptVars.TYPE_INT32,value=n,save=true,sync=true,category=TppScriptVars.CATEGORY_MISSION}
-    elseif t=="string"then
-      s[e]={name=a,type=TppScriptVars.TYPE_UINT32,value=o(n),save=true,sync=true,category=TppScriptVars.CATEGORY_MISSION}
-    elseif t=="table"then
-      s[e]=n
+  for name,value in pairs(saveVarsList)do
+    local valueType=type(value)
+    if valueType=="boolean"then
+      svarTable[e]={name=name,type=TppScriptVars.TYPE_BOOL,value=value,save=true,sync=true,category=TppScriptVars.CATEGORY_MISSION}
+    elseif valueType=="number"then
+      svarTable[e]={name=name,type=TppScriptVars.TYPE_INT32,value=value,save=true,sync=true,category=TppScriptVars.CATEGORY_MISSION}
+    elseif valueType=="string"then
+      svarTable[e]={name=name,type=TppScriptVars.TYPE_UINT32,value=StrCode32(value),save=true,sync=true,category=TppScriptVars.CATEGORY_MISSION}
+    elseif valueType=="table"then
+      svarTable[e]=value
     end
     e=e+1
   end
-  return s
+  return svarTable
 end
 local o=1
 local s=6
 local t=2
 r={"Seq_Mission_Prepare"}
-e.SYS_SEQUENCE_LENGTH=#r
+this.SYS_SEQUENCE_LENGTH=#r
 a.Seq_Mission_Prepare={Messages=function(e)
   return Tpp.StrCode32Table{UI={{msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
     end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="StartMissionTelopFadeIn",func=function()n("Timer_HelicopterMoveStart",s)
@@ -158,7 +158,7 @@ a.Seq_Mission_Prepare={Messages=function(e)
       n("Timer_WaitStartingGame",1)
     end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}},Timer={{msg="Finish",sender="Timer_WaitStartingGame",func=e.MissionGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="Finish",sender="Timer_HelicopterMoveStart",func=e.HelicopterMoveStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="Finish",sender="Timer_FadeInStartOnNoTelopHelicopter",func=e.FadeInStartOnGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}}}
 end,OnEnter=function(n)
-  mvars.seq_missionPrepareState=e.MISSION_PREPARE_STATE.WAIT_INITALIZE
+  mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_INITALIZE
   mvars.seq_textureLoadWaitStartTime=c
   mvars.seq_canMissionStartWaitStartTime=Time.GetRawElapsedTimeSinceStartUp()
   TppMain.OnEnterMissionPrepare()
@@ -168,10 +168,11 @@ end,OnEnter=function(n)
   end
 end,OnLeave=function(s,n)
   TppMain.OnMissionGameStart(n)
-  e.DoOnEndMissionPrepareFunction()
-  if e.IsFirstLandStart()then
+  this.DoOnEndMissionPrepareFunction()
+  if this.IsFirstLandStart()then
     if not TppSave.IsReserveVarRestoreForContinue()then
-      TppUiStatusManager.ClearStatus"AnnounceLog"TppUiStatusManager.SetStatus("AnnounceLog","SUSPEND_LOG")
+      TppUiStatusManager.ClearStatus"AnnounceLog"
+      TppUiStatusManager.SetStatus("AnnounceLog","SUSPEND_LOG")
       TppMission.UpdateCheckPointAtCurrentPosition()
     end
   end
@@ -182,7 +183,7 @@ end,HelicopterMoveStart=function()
 end,MissionGameStart=function()
   if mvars.seq_demoSequneceList[mvars.seq_missionStartSequence]then
     TppMain.DisableBlackLoading()
-    e.SetMissionGameStartSequence()
+    this.SetMissionGameStartSequence()
   else
     if mvars.seq_isHelicopterStart then
       if mvars.seq_noMissionTelopOnHelicopter then
@@ -205,7 +206,7 @@ end,FadeInStartOnGameStart=function()
       n={AnnounceLog=false}
     end
   end
-  e.SetMissionGameStartSequence()
+  this.SetMissionGameStartSequence()
   TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeInOnGameStart",nil,{exceptGameStatus=n})
 end,SkipTextureLoadingWait=function()
   if mvars.seq_skipTextureLoadingWait then
@@ -214,7 +215,7 @@ end,SkipTextureLoadingWait=function()
 end,DEBUG_TextPrint=function(n)
   local e=(nil).NewContext();(nil).Print(e,{.5,.5,1},n)
 end,OnUpdate=function(t)
-  if(mvars.seq_missionPrepareState<e.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
+  if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
     TppUI.ShowAccessIconContinue()
   end
   TppMission.ExecuteSystemCallback"OnUpdateWhileMissionPrepare"local r=30
@@ -247,8 +248,8 @@ end,OnUpdate=function(t)
     end
   end
   if u then
-    if(mvars.seq_missionPrepareState<e.MISSION_PREPARE_STATE.WAIT_TEXTURE_LOADING)then
-      mvars.seq_missionPrepareState=e.MISSION_PREPARE_STATE.WAIT_TEXTURE_LOADING
+    if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.WAIT_TEXTURE_LOADING)then
+      mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_TEXTURE_LOADING
       TppMain.OnTextureLoadingWaitStart()
       mvars.seq_textureLoadWaitStartTime=i
     end
@@ -267,12 +268,12 @@ end,OnUpdate=function(t)
   if not s then
     return
   end
-  if(mvars.seq_missionPrepareState<e.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
-    mvars.seq_missionPrepareState=e.MISSION_PREPARE_STATE.WAIT_SAVING_FILE
+  if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
+    mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_SAVING_FILE
     TppMain.OnMissionStartSaving()
   end
-  if(mvars.seq_missionPrepareState<e.MISSION_PREPARE_STATE.END_SAVING_FILE)then
-    mvars.seq_missionPrepareState=e.MISSION_PREPARE_STATE.END_SAVING_FILE
+  if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_SAVING_FILE)then
+    mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.END_SAVING_FILE
     if t<0 then
     end
     TppMain.OnMissionCanStart()
@@ -288,24 +289,24 @@ end,OnUpdate=function(t)
     end
   end
 end}
-function e.IsMissionPrepareFinished()
+function this.IsMissionPrepareFinished()
   if mvars.seq_missionPrepareState then
-    if mvars.seq_missionPrepareState>=e.MISSION_PREPARE_STATE.FINISH then
+    if mvars.seq_missionPrepareState>=this.MISSION_PREPARE_STATE.FINISH then
       return true
     end
   end
   return false
 end
-function e.IsEndSaving()
+function this.IsEndSaving()
   if mvars.seq_missionPrepareState then
-    if mvars.seq_missionPrepareState>=e.MISSION_PREPARE_STATE.END_SAVING_FILE then
+    if mvars.seq_missionPrepareState>=this.MISSION_PREPARE_STATE.END_SAVING_FILE then
       return true
     end
   end
   return false
 end
-function e.SaveMissionStartSequence()
-  local e=e.SYS_SEQUENCE_LENGTH+1
+function this.SaveMissionStartSequence()
+  local e=this.SYS_SEQUENCE_LENGTH+1
   mvars.seq_isHelicopterStart=false
   mvars.seq_missionStartSequence=e
   if svars.seq_sequence>e then
@@ -323,36 +324,36 @@ function e.SaveMissionStartSequence()
     end
   end
 end
-function e.SetMissionGameStartSequence()
-  mvars.seq_missionPrepareState=e.MISSION_PREPARE_STATE.FINISH
+function this.SetMissionGameStartSequence()
+  mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.FINISH
   svars.seq_sequence=mvars.seq_missionStartSequence
 end
-function e.SetOnEndMissionPrepareFunction(e)
+function this.SetOnEndMissionPrepareFunction(e)
   mvars.seq_onEndMissionPrepareFunction=e
 end
-function e.DoOnEndMissionPrepareFunction()
+function this.DoOnEndMissionPrepareFunction()
   if mvars.seq_onEndMissionPrepareFunction then
     mvars.seq_onEndMissionPrepareFunction()
   end
 end
-function e.IsHelicopterStart()
+function this.IsHelicopterStart()
   return mvars.seq_isHelicopterStart
 end
-function e.IsFirstLandStart()
-  if((not mvars.seq_demoSequneceList[mvars.seq_missionStartSequence])and(not mvars.seq_isHelicopterStart))and(mvars.seq_missionStartSequence==(e.SYS_SEQUENCE_LENGTH+1))then
+function this.IsFirstLandStart()
+  if((not mvars.seq_demoSequneceList[mvars.seq_missionStartSequence])and(not mvars.seq_isHelicopterStart))and(mvars.seq_missionStartSequence==(this.SYS_SEQUENCE_LENGTH+1))then
     return true
   else
     return false
   end
 end
-function e.IsLandContinue()
-  if((not mvars.seq_demoSequneceList[mvars.seq_missionStartSequence])and(not mvars.seq_isHelicopterStart))and(e.GetContinueCount()>0)then
+function this.IsLandContinue()
+  if((not mvars.seq_demoSequneceList[mvars.seq_missionStartSequence])and(not mvars.seq_isHelicopterStart))and(this.GetContinueCount()>0)then
     return true
   else
     return false
   end
 end
-function e.CanHandleSignInUserChangedException()
+function this.CanHandleSignInUserChangedException()
   if mvars==nil then
     return true
   end
@@ -369,7 +370,7 @@ function e.CanHandleSignInUserChangedException()
     return true
   end
 end
-function e.IncrementContinueCount()
+function this.IncrementContinueCount()
   local e=svars.seq_sequence
   local n=svars.seq_sequenceContinueCount[e]+1
   local s=255
@@ -377,13 +378,18 @@ function e.IncrementContinueCount()
     svars.seq_sequenceContinueCount[e]=n
   end
 end
-function e.DeclareSVars()
-  return{{name="seq_sequence",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,notify=true,wait=false,category=TppScriptVars.CATEGORY_MISSION},{name="seq_sequenceContinueCount",arraySize=S,type=TppScriptVars.TYPE_UINT8,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},{name="dbg_seq_sequenceName",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},nil}
+function this.DeclareSVars()
+  return{
+  {name="seq_sequence",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,notify=true,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+{name="seq_sequenceContinueCount",arraySize=S,type=TppScriptVars.TYPE_UINT8,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
+{name="dbg_seq_sequenceName",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+nil
+}
 end
-function e.DEBUG_Init()
+function this.DEBUG_Init()
 end
-function e.Init(n)
-  e.MakeSequenceMessageExecTable()svars.seq_sequence=e.GetSequenceIndex"Seq_Mission_Prepare"if n.sequence then
+function this.Init(n)
+  this.MakeSequenceMessageExecTable()svars.seq_sequence=this.GetSequenceIndex"Seq_Mission_Prepare"if n.sequence then
     if n.sequence.SKIP_TEXTURE_LOADING_WAIT then
       mvars.seq_skipTextureLoadingWait=true
     end
@@ -395,10 +401,10 @@ function e.Init(n)
     end
   end
 end
-function e.OnReload()
-  e.MakeSequenceMessageExecTable()
+function this.OnReload()
+  this.MakeSequenceMessageExecTable()
 end
-function e.MakeSequenceMessageExecTable()
+function this.MakeSequenceMessageExecTable()
   if not mvars.seq_sequenceTable then
     return
   end
@@ -409,15 +415,15 @@ function e.MakeSequenceMessageExecTable()
     end
   end
 end
-function e.OnChangeSVars(n,s)
-  if n=="seq_sequence"then
+function this.OnChangeSVars(name,s)
+  if name=="seq_sequence"then
     local s=d(svars.seq_sequence)
     if s==nil then
       return
     end
     local n=mvars.seq_sequenceTable[mvars.seq_currentSequence]
     if n and n.OnLeave then
-      n.OnLeave(n,e.GetSequenceNameWithIndex(svars.seq_sequence))
+      n.OnLeave(n,this.GetSequenceNameWithIndex(svars.seq_sequence))
     end
     mvars.seq_currentSequence=mvars.seq_sequenceNames[svars.seq_sequence]
     if s.OnEnter then
@@ -426,7 +432,7 @@ function e.OnChangeSVars(n,s)
     end
   end
 end
-function e.OnMessage(o,s,i,a,r,n,t)
+function this.OnMessage(o,s,i,a,r,n,t)
   if mvars.seq_sequenceTable==nil then
     return
   end
@@ -437,7 +443,7 @@ function e.OnMessage(o,s,i,a,r,n,t)
   local e=e._messageExecTable
   Tpp.DoMessage(e,TppMission.CheckMessageOption,o,s,i,a,r,n,t)
 end
-function e.Update()
+function this.Update()
   local e=mvars
   local n=svars
   if e.seq_currentSequence==nil then
@@ -452,7 +458,7 @@ function e.Update()
     n(e)
   end
 end
-function e.DebugUpdate()
+function this.DebugUpdate()
   local e=mvars
   local s=svars
   local n=(nil).NewContext()
@@ -465,4 +471,4 @@ function e.DebugUpdate()
     end
   end
 end
-return e
+return this

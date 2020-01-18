@@ -1466,7 +1466,7 @@ end
 
 end--]]
 function this.IsSubsistenceMission()
-  if(vars.missionCode==11043)or(vars.missionCode==11044)or(gvars.isManualSubsistence > 0)then--tex IsSubsistenceMission() - added subsitence toggle
+  if(vars.missionCode==11043)or(vars.missionCode==11044)or(gvars.subsistenceProfile > 0)then--tex IsSubsistenceMission() - added subsitence toggle
     return true
   else
     return false
@@ -1480,7 +1480,7 @@ else
 end
 end
 function this.IsManualSubsistence()--tex
-  return gvars.isManualSubsistence > 0
+  return gvars.subsistenceProfile > 0
 end
 function this.IsPerfectStealthMission()
   if(((vars.missionCode==11082)or(vars.missionCode==11033))or(vars.missionCode==11080))or(vars.missionCode==11121)then
@@ -1573,7 +1573,7 @@ function this.Messages()
         TppUiStatusManager.ClearStatus"EquipPanel"
         TppUiStatusManager.ClearStatus"HeadMarker"
         TppUiStatusManager.ClearStatus"WorldMarker"
-        if gvars.isManualSubsistence == InfMain.SETTING_SUBSISTENCE_PROFILE.PURE then--tex turn off headmarker
+        if gvars.subsistenceProfile == Ivars.subsistenceProfile.enum.PURE then--tex turn off headmarker
           TppUiStatusManager.SetStatus("HeadMarker","INVALID")
         end--
         if this.IsFreeMission(vars.missionCode)or(this.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_VISIT))then
@@ -1616,7 +1616,7 @@ function this.Messages()
         end
       end,option={isExecGameOver=true}},
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
-        if gvars.isManualSubsistence == InfMain.SETTING_SUBSISTENCE_PROFILE.PURE then--tex turn off headmarker
+        if gvars.subsistenceProfile == Ivars.subsistenceProfile.enum.PURE then--tex turn off headmarker
           TppUiStatusManager.SetStatus("HeadMarker","INVALID")
         end--
         --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
@@ -2014,7 +2014,8 @@ function this.EnableInGameFlag(n)
   if gvars.mis_missionClearState<=TppDefine.MISSION_CLEAR_STATE.NOT_CLEARED_YET then
     mvars.mis_missionStateIsNotInGame=false
     if not n then
-      TppSoundDaemon.ResetMute"Loading"end
+      TppSoundDaemon.ResetMute"Loading"
+    end
   else
     mvars.mis_missionStateIsNotInGame=true
   end
@@ -2073,7 +2074,19 @@ function this.RegisterMissionID()
   mvars.mis_missionName=this._CreateMissionName(vars.missionCode)
 end
 function this.DeclareSVars()
-  return{{name="mis_canMissionClear",type=TppScriptVars.TYPE_BOOL,value=false,save=true,notify=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},{name="mis_isDefiniteGameOver",type=TppScriptVars.TYPE_BOOL,value=false,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},{name="mis_gameOverType",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},{name="mis_gameOverRadio",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=false,category=TppScriptVars.CATEGORY_MISSION},{name="mis_isDefiniteMissionClear",type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},{name="mis_missionClearType",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},{name="mis_objectiveEnable",arraySize=M,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},{name="mis_fobDefenceGameOver",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},{name="chickCapEnabled",type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},{name="dialogPlayerDeadCount",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},nil}
+  return{
+  {name="mis_canMissionClear",type=TppScriptVars.TYPE_BOOL,value=false,save=true,notify=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mis_isDefiniteGameOver",type=TppScriptVars.TYPE_BOOL,value=false,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mis_gameOverType",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mis_gameOverRadio",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mis_isDefiniteMissionClear",type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mis_missionClearType",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mis_objectiveEnable",arraySize=M,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mis_fobDefenceGameOver",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="chickCapEnabled",type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
+  {name="dialogPlayerDeadCount",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
+  nil
+  }
 end
 function this.CheckMessageOptionWhileLoading()
   return true
@@ -2720,21 +2733,21 @@ function this.GameOverAbortForRideOnHelicopter()
     mvars.mis_nextMissionCodeForAbort=TppDefine.SYS_MISSION_ID.AFGH_HELI
   end
 end
-function this.OnChangeSVars(n,i)
-  if n=="mis_isDefiniteMissionClear"then
+function this.OnChangeSVars(name,i)
+  if name=="mis_isDefiniteMissionClear"then
     if(svars.mis_isDefiniteMissionClear)then
       mvars.mis_isReserveMissionClear=true
     end
   end
-  if n=="mis_isDefiniteGameOver"then
+  if name=="mis_isDefiniteGameOver"then
     if(svars.mis_isDefiniteGameOver)then
       mvars.mis_isDefiniteGameOver=true
     end
   end
-  if n=="mis_fobDefenceGameOver"then
+  if name=="mis_fobDefenceGameOver"then
     this.OnChangeFobDefenceGameOver()
   end
-  if n=="mis_canMissionClear"then
+  if name=="mis_canMissionClear"then
     if svars.mis_canMissionClear then
       this.OnCanMissionClear()
     end

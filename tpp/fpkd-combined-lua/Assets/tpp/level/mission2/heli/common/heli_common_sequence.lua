@@ -1331,7 +1331,7 @@ sequences.Seq_Game_MissionPreparationTop = {
 		end
 		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
-		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or (TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER) then--tex buddy subsistence mode
+		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or (TppMission.IsSubsistenceMission() and gvars.subsistenceProfile~=Ivars.subsistenceProfile.enum.BOUNDER) then--tex buddy subsistence mode
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
 		end
 		

@@ -626,6 +626,7 @@ if Script.LoadLibrary then
   end
   Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
   Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"
+  Script.LoadLibrary"/Assets/tpp/script/lib/Ivars.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
     Script.LoadLibrary"/Assets/mgo/script/utils/SaveLoad.lua"
@@ -649,6 +650,7 @@ if Script.LoadLibrary then
   Script.LoadLibrary"/Assets/tpp/script/lib/InfLang.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfMain.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfButton.lua"--tex
+  Script.LoadLibrary"/Assets/tpp/script/lib/InfMenuDefs.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfMenu.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfPatch.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfEnemyParams.lua"--tex
@@ -666,7 +668,7 @@ if Editor then
   TppGeoMaterial.EDIT_CheckWastedMaterialNames()
 end
 if Game.DEBUG_AddScript then
-  local e,t=pcall(function()
+  local ok,err=pcall(function()
     local e=io.open("tmp/my_debug_script.lua","r")
     if e then
       local e=e:read"*a"
@@ -675,7 +677,7 @@ if Game.DEBUG_AddScript then
       t:DEBUG_AddScript(e)
     end
   end)
-  if not e then
+  if not ok then
   end
 end
 if Game.DEBUG_AddScript then

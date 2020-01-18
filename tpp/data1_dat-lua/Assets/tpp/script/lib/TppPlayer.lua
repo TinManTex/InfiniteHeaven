@@ -1633,28 +1633,28 @@ function this.Init(a)
   TppEffectUtility.SetSandWindEnable(false)
 end
 function this.SetSelfSubsistenceOnHardMission()--tex reworked, see below for original
-  local loadout = gvars.subsistenceLoadout
+  local loadout = gvars.ospWeaponLoadout
   if TppMission.IsSubsistenceMission() and loadout==0 then
     loadout=1
   end
-  if gvars.isManualSubsistence == InfMain.SETTING_SUBSISTENCE_PROFILE.PURE then
+  if gvars.subsistenceProfile == Ivars.subsistenceProfile.enum.PURE then
     if loadout>2 then--tex only pure osp or secondary free on pure
       loadout=1
-      gvars.isManualSubsistence=1
+      gvars.subsistenceProfile=1
     end
   end
-  if loadout > 0 and loadout <= #InfMain.subsistenceLoadouts then
-    this.SetInitWeapons(InfMain.subsistenceLoadouts[loadout])--tex subs loadouts, lua index from 1
+  if loadout > 0 and loadout <= #InfMain.ospWeaponLoadouts then
+    this.SetInitWeapons(InfMain.ospWeaponLoadouts[loadout])--tex subs loadouts, lua index from 1
   end
   if TppMission.IsSubsistenceMission() then
     this.SetInitWeapons(InfMain.SUBSISTENCE_CLEAR_SUPPORT_WEAPON_TABLE)
     this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
     local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}--tex subs settings, moved and broken up from retail which put table straight in regtempplayer
-    if gvars.isManualSubsistence==InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER then
+    if gvars.subsistenceProfile==Ivars.subsistenceProfile.enum.BOUNDER then
       playerSettings={handEquip=TppEquip.EQP_HAND_NORMAL}
     end--
     this.RegisterTemporaryPlayerType(playerSettings)
-    if gvars.isManualSubsistence==InfMain.SETTING_SUBSISTENCE_PROFILE.PURE then--tex disable fulton on subsistence pure
+    if gvars.subsistenceProfile==Ivars.subsistenceProfile.enum.PURE then--tex disable fulton on subsistence pure
       vars.playerDisableActionFlag = PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
     end--
     if TppMission.IsManualSubsistence() then--tex downgrade equipment
@@ -2012,7 +2012,8 @@ function this.UpdateDeliveryWarp()
   end
   if(mvars.ply_playingDeliveryWarpSoundHandle and(not mvars.ply_deliveryWarpSoundCannotCancel))and(bit.band(PlayerVars.scannedButtonsDirect,PlayerPad.STANCE)==PlayerPad.STANCE)then
     mvars.ply_deliveryWarpSoundCannotCancel=true
-    TppSoundDaemon.ResetMute"Loading"TppSoundDaemon.PostEventAndGetHandle("Stop_truck_transfer","Loading")
+    TppSoundDaemon.ResetMute"Loading"
+    TppSoundDaemon.PostEventAndGetHandle("Stop_truck_transfer","Loading")
   end
   if(not mvars.ply_playingDeliveryWarpSoundHandle)then
     mvars.ply_deliveryWarpState=this.DELIVERY_WARP_STATE.START_FADE_IN

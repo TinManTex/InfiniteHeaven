@@ -71,7 +71,7 @@ function this.DisableBlackLoading()
   TppGameStatus.Reset("TppMain.lua","S_IS_BLACK_LOADING")
   TppUI.FinishLoadingTips()
 end
-function this.OnAllocate(n)
+function this.OnAllocate(missionTable)
   TppWeather.OnEndMissionPrepareFunction()
   this.DisableGameStatus()
   this.EnablePause()
@@ -92,25 +92,25 @@ function this.OnAllocate(n)
   Mission.Start()
   TppMission.WaitFinishMissionEndPresentation()
   TppMission.DisableInGameFlag()
-  TppException.OnAllocate(n)
-  TppClock.OnAllocate(n)
-  TppTrap.OnAllocate(n)
-  TppCheckPoint.OnAllocate(n)
-  TppUI.OnAllocate(n)
-  TppDemo.OnAllocate(n)
-  TppScriptBlock.OnAllocate(n)
-  TppSound.OnAllocate(n)
-  TppPlayer.OnAllocate(n)
-  TppMission.OnAllocate(n)
-  TppTerminal.OnAllocate(n)
-  TppEnemy.OnAllocate(n)
-  TppRadio.OnAllocate(n)
-  TppGimmick.OnAllocate(n)
-  TppMarker.OnAllocate(n)
-  TppRevenge.OnAllocate(n)
+  TppException.OnAllocate(missionTable)
+  TppClock.OnAllocate(missionTable)
+  TppTrap.OnAllocate(missionTable)
+  TppCheckPoint.OnAllocate(missionTable)
+  TppUI.OnAllocate(missionTable)
+  TppDemo.OnAllocate(missionTable)
+  TppScriptBlock.OnAllocate(missionTable)
+  TppSound.OnAllocate(missionTable)
+  TppPlayer.OnAllocate(missionTable)
+  TppMission.OnAllocate(missionTable)
+  TppTerminal.OnAllocate(missionTable)
+  TppEnemy.OnAllocate(missionTable)
+  TppRadio.OnAllocate(missionTable)
+  TppGimmick.OnAllocate(missionTable)
+  TppMarker.OnAllocate(missionTable)
+  TppRevenge.OnAllocate(missionTable)
   this.ClearStageBlockMessage()
-  TppQuest.OnAllocate(n)
-  TppAnimal.OnAllocate(n)
+  TppQuest.OnAllocate(missionTable)
+  TppAnimal.OnAllocate(missionTable)
   local function locationOnAllocate()
     if TppLocation.IsAfghan()then
       if afgh then
@@ -131,7 +131,7 @@ function this.OnAllocate(n)
     end
   end
   locationOnAllocate()
-  if n.sequence then
+  if missionTable.sequence then
     if f30050_sequence then--
       function f30050_sequence.NeedPlayQuietWishGoMission()--RETAILPATCH: 1.0.4.1 PATCHUP: in general I understand the need for patch ups, and in cases like this i even admire the method, however the implementation of just shoving them seemingly anywhere... needs better execution.
         local isClearedSideOps=TppQuest.IsCleard"mtbs_q99011"
@@ -140,38 +140,38 @@ function this.OnAllocate(n)
         return(isClearedSideOps and isNotPlayDemo)and isCanArrival
       end
     end
-    if IsTypeFunc(n.sequence.MissionPrepare)then
-      n.sequence.MissionPrepare()
+    if IsTypeFunc(missionTable.sequence.MissionPrepare)then
+      missionTable.sequence.MissionPrepare()
     end
-    if IsTypeFunc(n.sequence.OnEndMissionPrepareSequence)then
-      TppSequence.SetOnEndMissionPrepareFunction(n.sequence.OnEndMissionPrepareSequence)
+    if IsTypeFunc(missionTable.sequence.OnEndMissionPrepareSequence)then
+      TppSequence.SetOnEndMissionPrepareFunction(missionTable.sequence.OnEndMissionPrepareSequence)
     end
   end
-  for n,e in pairs(n)do
+  for n,e in pairs(missionTable)do
     if IsTypeFunc(e.OnLoad)then
       e.OnLoad()
     end
   end
   do
-    local o={}
+    local allSvars={}
     for t,lib in ipairs(Tpp._requireList)do
       if _G[lib]then
         if _G[lib].DeclareSVars then
-          ApendArray(o,_G[lib].DeclareSVars(n))
+          ApendArray(allSvars,_G[lib].DeclareSVars(missionTable))
         end
       end
     end
-    local s={}
-    for n,e in pairs(n)do
+    local missionSvars={}
+    for n,e in pairs(missionTable)do
       if IsTypeFunc(e.DeclareSVars)then
-        ApendArray(s,e.DeclareSVars())
+        ApendArray(missionSvars,e.DeclareSVars())
       end
       if IsTypeTable(e.saveVarsList)then
-        ApendArray(s,TppSequence.MakeSVarsTable(e.saveVarsList))
+        ApendArray(missionSvars,TppSequence.MakeSVarsTable(e.saveVarsList))
       end
     end
-    ApendArray(o,s)
-    TppScriptVars.DeclareSVars(o)
+    ApendArray(allSvars,missionSvars)
+    TppScriptVars.DeclareSVars(allSvars)
     TppScriptVars.SetSVarsNotificationEnabled(false)
     while IsSavingOrLoading()do
       coroutine.yield()
@@ -182,13 +182,13 @@ function this.OnAllocate(n)
       TppPlayer.MissionStartPlayerTypeSetting()
     else
       if TppMission.IsMissionStart()then
-        TppVarInit.InitializeForNewMission(n)
+        TppVarInit.InitializeForNewMission(missionTable)
         TppPlayer.MissionStartPlayerTypeSetting()
         if not TppMission.IsFOBMission(vars.missionCode)then
           TppSave.VarSave(vars.missionCode,true)
         end
       else
-        TppVarInit.InitializeForContinue(n)
+        TppVarInit.InitializeForContinue(missionTable)
       end
       TppVarInit.ClearIsContinueFromTitle()
     end
@@ -207,8 +207,8 @@ function this.OnAllocate(n)
     this.StageBlockCurrentPosition(true)
     TppMission.SetSortieBuddy()
     TppStory.UpdateStorySequence{updateTiming="BeforeBuddyBlockLoad"}
-    if n.sequence then
-      local dbt=n.sequence.DISABLE_BUDDY_TYPE
+    if missionTable.sequence then
+      local dbt=missionTable.sequence.DISABLE_BUDDY_TYPE
       --if InfMain.IsMbPlayTime() then--tex no DISABLE_BUDDY_TYPE
      --   dbt=nil
       --end--
@@ -225,12 +225,12 @@ function this.OnAllocate(n)
       end
     end
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then--tex ORIG: changed to issubs check, more robust even without my mod
-    if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER then--tex disable
+    if TppMission.IsSubsistenceMission() and gvars.subsistenceProfile~=Ivars.subsistenceProfile.enum.BOUNDER then--tex disable
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then
-      if n.sequence and n.sequence.OnBuddyBlockLoad then
-        n.sequence.OnBuddyBlockLoad()
+      if missionTable.sequence and missionTable.sequence.OnBuddyBlockLoad then
+        missionTable.sequence.OnBuddyBlockLoad()
       end
       if TppLocation.IsAfghan()or TppLocation.IsMiddleAfrica()then
         TppBuddy2BlockController.Load()
@@ -248,12 +248,12 @@ function this.OnAllocate(n)
     InfEnemyParams.lifeParameterTableMod.maxHelmetLife = TppMath.ScaleValueClamp1(InfEnemyParams.lifeParameterTableDefault.maxHelmetLife,healthMult)
     TppSoldier2.ReloadSoldier2ParameterTables(InfEnemyParams.soldierParametersMod)--tex reloadsoldierparams changes
   end--
-  if n.enemy then
-    if IsTypeTable(n.enemy.soldierPowerSettings)then
-      TppEnemy.SetUpPowerSettings(n.enemy.soldierPowerSettings)
+  if missionTable.enemy then
+    if IsTypeTable(missionTable.enemy.soldierPowerSettings)then
+      TppEnemy.SetUpPowerSettings(missionTable.enemy.soldierPowerSettings)
     end
   end
-  TppRevenge.DecideRevenge(n)
+  TppRevenge.DecideRevenge(missionTable)
   if TppEquip.CreateEquipMissionBlockGroup then
     if(vars.missionCode>6e4)then
       TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*24}
@@ -276,9 +276,9 @@ function this.OnAllocate(n)
   if TppEnemy.IsRequiredToLoadDefaultSoldier2CommonPackage()then
     TppEnemy.LoadSoldier2CommonBlock()
   end
-  if n.sequence then
-    mvars.mis_baseList=n.sequence.baseList
-    TppCheckPoint.RegisterCheckPointList(n.sequence.checkPointList)
+  if missionTable.sequence then
+    mvars.mis_baseList=missionTable.sequence.baseList
+    TppCheckPoint.RegisterCheckPointList(missionTable.sequence.checkPointList)
   end
 end
 function this.OnInitialize(missionTable)
@@ -543,7 +543,8 @@ function this.OnMissionGameStart(n)
   if TppSequence.IsLandContinue()then
     TppMission.EnableAlertOutOfMissionAreaIfAlertAreaStart()
   end
-  TppSoundDaemon.ResetMute"Telop"end
+  TppSoundDaemon.ResetMute"Telop"
+end
 function this.ClearStageBlockMessage()
 StageBlock.ClearLargeBlockNameForMessage()
 StageBlock.ClearSmallBlockIndexForMessage()
@@ -761,10 +762,10 @@ function this.OnUpdate(e)
   end
   UpdateScriptsInScriptBlocks()
 end
-function this.OnChangeSVars(e,n,t)
+function this.OnChangeSVars(subScripts,varName,key)--NMC: called via mission_main
   for i,lib in ipairs(Tpp._requireList)do
     if _G[lib].OnChangeSVars then
-      _G[lib].OnChangeSVars(n,t)
+      _G[lib].OnChangeSVars(varName,key)
     end
   end
 end

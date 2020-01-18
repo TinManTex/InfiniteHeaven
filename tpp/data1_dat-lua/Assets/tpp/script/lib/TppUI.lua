@@ -1045,15 +1045,15 @@ end
 function this.OnMessage(t,o,a,p,s,n,i)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,t,o,a,p,s,n,i)
 end
-function this.OnChangeSVars(i,n)
+function this.OnChangeSVars(name,n)
   local e=TppServerManager.FobIsSneak()
   if FobUI then
-    if i=="sneakEventTaskValue"then
+    if name=="sneakEventTaskValue"then
       if e then
         FobUI.UpdateEventTaskView(n,e)
       end
     end
-    if i=="defenceEventTaskValue"then
+    if name=="defenceEventTaskValue"then
       if(not e)then
         FobUI.UpdateEventTaskView(n,e)
       end

@@ -117,7 +117,7 @@ function this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringTy
   if fpk==nil then
     reinforceType=this.REINFORCE_TYPE.NONE
     fpk=""
-    end
+  end
   ScriptBlock.Load(reinforceBlockId,fpk)
   mvars.reinforce_reinforceType=reinforceType
   mvars.reinforce_reinforceColoringType=reinforceColoringType
@@ -248,32 +248,33 @@ function this._SetEnabledSoldier(e,i)
   end
   SendCommand(e,{id="SetEnabled",enabled=i})
 end
-function this._SetEnabledVehicle(c,o)
-  local i=GameObject.GetGameObjectId(c)
-  if i==NULL_ID then
+function this._SetEnabledVehicle(name,enable)
+  local vehicleId=GameObject.GetGameObjectId(name)
+  if vehicleId==NULL_ID then
     return
   end
-  if o then
-    local r
+  if enable then
+    local subType
     if mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_WAV_ROCKET then
-      r=Vehicle.subType.EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY
+      subType=Vehicle.subType.EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY
     elseif mvars.reinforce_reinforceType==this.REINFORCE_TYPE.WEST_WAV then
-      r=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN
+      subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN
     elseif mvars.reinforce_reinforceType==this.REINFORCE_TYPE.WEST_WAV_CANNON then
-      r=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON
+      subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON
     end
-    local e=TppEnemy.GetCpSubType(mvars.reinforce_cpId)
-    local o=Vehicle.paintType.NONE
-    if(e=="PF_A"or e=="PF_B")or e=="PF_C"then
-      o=Vehicle.paintType.FOVA_0
+    local cpSubType=TppEnemy.GetCpSubType(mvars.reinforce_cpId)
+    local paintType=Vehicle.paintType.NONE
+    if(cpSubType=="PF_A"or cpSubType=="PF_B")or cpSubType=="PF_C"then
+      paintType=Vehicle.paintType.FOVA_0
     end
-    local e=nil
+    local class=nil
     if mvars.reinforce_reinforceColoringType then
-      e=mvars.reinforce_reinforceColoringType
+      class=mvars.reinforce_reinforceColoringType
     end
-    local e={id="Respawn",name=c,type=9,subType=r,paintType=o,class=e}SendCommand(i,e)
+    local e={id="Respawn",name=name,type=9,subType=subType,paintType=paintType,class=class}
+    SendCommand(vehicleId,e)
   else
-    SendCommand(i,{id="Despawn",name=c,type=9})
+    SendCommand(vehicleId,{id="Despawn",name=name,type=9})
   end
 end
 function this._ActivateReinforce()

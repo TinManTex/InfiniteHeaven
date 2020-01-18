@@ -633,13 +633,14 @@ function this._GetDecoyType(e)
   return pfType[cpSubType]
 end
 function this._EnableDecoy(n,t,E)
-  local n=n.."_cp"local n=this._GetDecoyType(n)
-  local r=this.IsUsingActiveDecoy()
+  local n=n.."_cp"
+  local decoyType=this._GetDecoyType(n)
+  local isUsingActiveDecoy=this.IsUsingActiveDecoy()
   for t,e in ipairs(t)do
-    if n then
-      TppPlaced.SetCorrelationValueByLocatorName(e,n)
+    if decoyType then
+      TppPlaced.SetCorrelationValueByLocatorName(e,decoyType)
     end
-    if r then
+    if isUsingActiveDecoy then
       TppPlaced.ChangeEquipIdByLocatorName(e,TppEquip.EQP_SWP_ActiveDecoy)
     end
     TppPlaced.SetEnableByLocatorName(e,E)

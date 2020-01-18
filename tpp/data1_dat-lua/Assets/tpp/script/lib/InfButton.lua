@@ -5,254 +5,132 @@ local incrementMultIncrementMult=1.5--tex i r good at naming
 local maxIncrementMult=50
 local defaultIncrementMult=1
 local currentIncrementMult=defaultIncrementMult
---TODO: work out the duplicate bitmasks/those that don't work, and those that are missing
-this.buttonMasks={--tex: SYNC: buttonStates
-  PlayerPad.DECIDE,
-  PlayerPad.STANCE,
-  PlayerPad.ACTION,
-  PlayerPad.RELOAD,
-  PlayerPad.STOCK,
-  PlayerPad.MB_DEVICE,
-  PlayerPad.CALL,
-  PlayerPad.UP,
-  PlayerPad.DOWN,
-  PlayerPad.LEFT,
-  PlayerPad.RIGHT,
-  PlayerPad.SIDE_ROLL,
-  PlayerPad.ZOOM_CHANGE,
-  PlayerPad.LIGHT_SWITCH,
-  PlayerPad.EVADE,
- -- PlayerPad.VEHICLE_FIRE,--]]--tex button/bitmask always set for some reason
-  PlayerPad.VEHICLE_CALL,
-  PlayerPad.VEHICLE_DASH,
-  --PlayerPad.BUTTON_PLACE_MARKER,--]]--tex button/bitmask always set for some reason
- -- PlayerPad.PLACE_MARKER,--]]--tex button/bitmask always set for some reason
-  PlayerPad.INTERROGATE,
-  PlayerPad.RIDE_ON,
-  PlayerPad.RIDE_OFF,
-  PlayerPad.VEHICLE_CHANGE_SIGHT,
-  PlayerPad.VEHICLE_LIGHT_SWITCH,
-  PlayerPad.VEHICLE_TOGGLE_WEAPON,
-  PlayerPad.JUMP,
-  PlayerPad.MOVE_ACTION,
-  PlayerPad.PRIMARY_WEAPON,
-  PlayerPad.SECONDARY_WEAPON,
-  --[[PlayerPad.STICK_L,
-  PlayerPad.STICK_R,
-  PlayerPad.TRIGGER_L,
-  PlayerPad.TRIGGER_R,
-  PlayerPad.TRIGGER_ACCEL,
-  PlayerPad.TRIGGER_BREAK,
-  PlayerPad.ALL--]]
-}
-this.buttonMasksNames={
-  "PlayerPad.DECIDE",
-  "PlayerPad.STANCE",
-  "PlayerPad.ACTION",
-  "PlayerPad.RELOAD",
-  "PlayerPad.STOCK",
-  "PlayerPad.MB_DEVICE",
-  "PlayerPad.CALL",
-  "PlayerPad.UP",
-  "PlayerPad.DOWN",
-  "PlayerPad.LEFT",
-  "PlayerPad.RIGHT",
-  "PlayerPad.SIDE_ROLL",
-  "PlayerPad.ZOOM_CHANGE",
-  "PlayerPad.LIGHT_SWITCH",
-  "PlayerPad.EVADE",
-  --"PlayerPad.VEHICLE_FIRE",--]]--tex button/bitmask always set for some reason
-  "PlayerPad.VEHICLE_CALL",
-  "PlayerPad.VEHICLE_DASH",
-  --"PlayerPad.BUTTON_PLACE_MARKER",--]]--tex button/bitmask always set for some reason
-  --"PlayerPad.PLACE_MARKER",--]]--tex button/bitmask always set for some reason
-  "PlayerPad.INTERROGATE",
-  "PlayerPad.RIDE_ON",
-  "PlayerPad.RIDE_OFF",
-  "PlayerPad.VEHICLE_CHANGE_SIGHT",
-  "PlayerPad.VEHICLE_LIGHT_SWITCH",
-  "PlayerPad.VEHICLE_TOGGLE_WEAPON",
-  "PlayerPad.JUMP",
-  "PlayerPad.MOVE_ACTION",
-  "PlayerPad.PRIMARY_WEAPON",
-  "PlayerPad.SECONDARY_WEAPON",
-  --[["PlayerPad.STICK_L",--
-  "PlayerPad.STICK_R",
-  "PlayerPad.TRIGGER_L",
-  "PlayerPad.TRIGGER_R",
-  "PlayerPad.TRIGGER_ACCEL",
-  "PlayerPad.TRIGGER_BREAK",
-  "PlayerPad.ALL"--]]
-}
 
-this.buttonMasksForPrint={
-  PlayerPad.DECIDE,
-  PlayerPad.STANCE,
-  PlayerPad.ACTION,
-  PlayerPad.RELOAD,
-  PlayerPad.STOCK,
-  PlayerPad.MB_DEVICE,
-  PlayerPad.CALL,
-  PlayerPad.UP,
-  PlayerPad.DOWN,
-  PlayerPad.LEFT,
-  PlayerPad.RIGHT,
-  PlayerPad.SIDE_ROLL,
-  PlayerPad.ZOOM_CHANGE,
-  PlayerPad.LIGHT_SWITCH,
-  PlayerPad.EVADE,
-  PlayerPad.VEHICLE_FIRE,--]]--tex button/bitmask always set for some reason
-  PlayerPad.VEHICLE_CALL,
-  PlayerPad.VEHICLE_DASH,
-  PlayerPad.BUTTON_PLACE_MARKER,--]]--tex button/bitmask always set for some reason
-  PlayerPad.PLACE_MARKER,--]]--tex button/bitmask always set for some reason
-  PlayerPad.INTERROGATE,
-  PlayerPad.RIDE_ON,
-  PlayerPad.RIDE_OFF,
-  PlayerPad.VEHICLE_CHANGE_SIGHT,
-  PlayerPad.VEHICLE_LIGHT_SWITCH,
-  PlayerPad.VEHICLE_TOGGLE_WEAPON,
-  PlayerPad.JUMP,
-  PlayerPad.MOVE_ACTION,
-  PlayerPad.PRIMARY_WEAPON,
-  PlayerPad.SECONDARY_WEAPON,
-  PlayerPad.STICK_L,--
-  PlayerPad.STICK_R,
-  PlayerPad.TRIGGER_L,
-  PlayerPad.TRIGGER_R,
-  PlayerPad.TRIGGER_ACCEL,
-  PlayerPad.TRIGGER_BREAK,
-  PlayerPad.ALL--]]
+--DOC: \BUTTON BITMASKS.TXT \buttonmasks.ods
+--tex: Note: There were a bunch of bitmasks not identified in PlayerPad.<MASKNAME>.
+--Currently either labeled UNKOWN, as seen from the existing codes it's possible that there's multiple buttons triggering/sharing one bitmask, so even after 'finding it' copy off instead of rename
+--fox engine seems to be using bitops http://bitop.luajit.org
+this.buttonMasks={
+  NONE=0,
+  DECIDE=0,
+  STANCE=1,
+  --UNKNOWN1dash=2,--DEBUG: see if it fires anywhere else than dash
+  DASH=2,--tex Not in PlayerPad
+  --UNKNOWN2RWep=3,--DEBUG: see if it fires anywhere else than ready_weapon
+  READY_WEAPON=3,--tex Not in PlayerPad
+  --UNKNOWN3atta=4,--DEBUG: see if it fires anywhere else than attack
+  ATTACK=4,--tex Not in PlayerPad, might actually be CQC, but no way to differentiat
+  RIDE_ON=5,
+  RIDE_OFF=5,
+  ACTION=5,
+  MOVE_ACTION=5,
+  JUMP=5,
+  RELOAD=6,
+  STOCK=7,--tex recenter cam i think
+  ZOOM_CHANGE=7,
+  VEHICLE_CHANGE_SIGHT=7,
+  MB_DEVICE=8,
+  CALL=9,
+  INTERROGATE=9,
+  UNKNOWN4binoc=10,--DEBUG: see if it fires anywhere else than binoc
+  BINOCULARS=10,--tex Not in PlayerPad
+  UP=11,
+  PRIMARY_WEAPON=11,
+  DOWN=12,
+  SECONDARY_WEAPON=12,
+  LEFT=13,
+  RIGHT=14,
+  VEHICLE_LIGHT_SWITCH=14,
+  VEHICLE_TOGGLE_WEAPON=14,
+  UNKNOWN5cqc=15,
+  CQC=15,--tex Not in PlayerPad, might actually be ATTACK, but no way to differentiat
+  SIDE_ROLL=16,
+  LIGHT_SWITCH=17,
+  EVADE=18,
+  VEHICLE_FIRE=19,
+  VEHICLE_CALL=20,
+  VEHICLE_DASH=21,
+  BUTTON_PLACE_MARKER=22,
+  PLACE_MARKER=22,
+  --UNKNOWN6esc=23,--DEBUG: see if it fires anywhere else than escape
+  ESCAPE=23,--tex Not in PlayerPad
+  UNKNOWN7=24,--tex triggered with Space/Quick dive, and RS click (which also triggers zoom change, stock, decide,vehicle_change_sight), don't know what it's supposed to indicate
+  --
+  UNKNOWN8=25,
+  UNKNOWN9=26,
+  UNKNOWN10=27,
+  UNKNOWN11=28,
+  UNKNOWN12=29,
+  UNKNOWN13=30,
+  --MAX=2^31,--tex max_int=(2^31)-1, guess at a sane enough limit, though should check bitops to figure out actual.
+  --ALL=-1
 }
-this.buttonMasksNamesForPrint={
-  "PlayerPad.DECIDE",
-  "PlayerPad.STANCE",
-  "PlayerPad.ACTION",
-  "PlayerPad.RELOAD",
-  "PlayerPad.STOCK",
-  "PlayerPad.MB_DEVICE",
-  "PlayerPad.CALL",
-  "PlayerPad.UP",
-  "PlayerPad.DOWN",
-  "PlayerPad.LEFT",
-  "PlayerPad.RIGHT",
-  "PlayerPad.SIDE_ROLL",
-  "PlayerPad.ZOOM_CHANGE",
-  "PlayerPad.LIGHT_SWITCH",
-  "PlayerPad.EVADE",
-  "PlayerPad.VEHICLE_FIRE",--]]--tex button/bitmask always set for some reason
-  "PlayerPad.VEHICLE_CALL",
-  "PlayerPad.VEHICLE_DASH",
-  "PlayerPad.BUTTON_PLACE_MARKER",--]]--tex button/bitmask always set for some reason
-  "PlayerPad.PLACE_MARKER",--]]--tex button/bitmask always set for some reason
-  "PlayerPad.INTERROGATE",
-  "PlayerPad.RIDE_ON",
-  "PlayerPad.RIDE_OFF",
-  "PlayerPad.VEHICLE_CHANGE_SIGHT",
-  "PlayerPad.VEHICLE_LIGHT_SWITCH",
-  "PlayerPad.VEHICLE_TOGGLE_WEAPON",
-  "PlayerPad.JUMP",
-  "PlayerPad.MOVE_ACTION",
-  "PlayerPad.PRIMARY_WEAPON",
-  "PlayerPad.SECONDARY_WEAPON",
-  "PlayerPad.STICK_L",--
-  "PlayerPad.STICK_R",
-  "PlayerPad.TRIGGER_L",
-  "PlayerPad.TRIGGER_R",
-  "PlayerPad.TRIGGER_ACCEL",
-  "PlayerPad.TRIGGER_BREAK",
-  "PlayerPad.ALL"--]]
-}
-function this.DEBUG_PrintMasks()
-  TppUiCommand.AnnounceLogView("ButtonMasks:")
-  local masks = ""
-  for i, mask in ipairs(this.buttonMasksForPrint) do
-    masks = masks..this.buttonMasksNamesForPrint[i] .. "=" .. mask .. "\n"
-    --  0 > 287 < 289 
-    if string.len(masks) > 288 then
-      break
-    end
-  end
-  TppUiCommand.AnnounceLogView(masks)
+--TABLESETUP: buttonMasks --tex convert mask index to bitmask
+for name,maskIndex in pairs(this.buttonMasks) do
+  this.buttonMasks[name]=2^maskIndex
 end
+
+--TABLESETUP: InfButton --tex for convenience of external reference fold back into this./InfButton
+for name,maskIndex in pairs(this.buttonMasks) do
+  this[name]=maskIndex
+end
+
+--TABLESETUP: buttonStates REFACTOR: check which vars dont really need to be per button
+this.buttonStates={}
+for name,buttonMask in pairs(this.buttonMasks) do
+  this.buttonStates[buttonMask]={}
+  local button=this.buttonStates[buttonMask]
+  button.name=name
+  button.isPressed=false
+  button.holdTime=0.9--REFACTOR: this vs repeatrate
+  button.startTime=0
+  button.repeatRate=0.85
+  --button.minRate=0.3
+  button.decrement=0
+end
+
 function this.DEBUG_PrintPressed()
-  for i, button in ipairs(this.buttonMasks) do
-    if this.OnButtonDown(button) then
-      TppUiCommand.AnnounceLogView(this.buttonMasksNames[i] .. "=" .. button)
+  for name,buttonMask in pairs(this.buttonMasks) do
+    if this.OnButtonDown(buttonMask) then
+    --TppUiCommand.AnnounceLogView("scannedButtonsDirect: ".. PlayerVars.scannedButtonsDirect)
+    --TppUiCommand.AnnounceLogView("scannedButtons: ".. PlayerVars.scannedButtons)
+    --if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then--DEBUG: scannedbuttons instead of direct
+     TppUiCommand.AnnounceLogView(name .. "=" .. buttonMask)
     end
   end
 end
-function this.ButtonDown(button)
-  --[[if (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then
-    TppUiCommand.AnnounceLogView("ButtonPressed:" .. bit.tohex(button))--tex DEBUG: CULL:
-  end--]]
-  return bit.band(PlayerVars.scannedButtonsDirect,button)==button
-end
-
-this.buttonStates={--tex: for defaults, not specfic button setups. SYNC: buttonmasks
-  [PlayerPad.DECIDE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.STANCE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.ACTION]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.RELOAD]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.STOCK]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.MB_DEVICE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.CALL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.UP]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.DOWN]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.LEFT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.RIGHT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.SIDE_ROLL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.ZOOM_CHANGE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.LIGHT_SWITCH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.EVADE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  --[[[PlayerPad.VEHICLE_FIRE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
-  [PlayerPad.VEHICLE_CALL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.VEHICLE_DASH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  --[[[PlayerPad.BUTTON_PLACE_MARKER]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
-  --[[[PlayerPad.PLACE_MARKER]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
-  [PlayerPad.INTERROGATE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.RIDE_ON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.RIDE_OFF]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.VEHICLE_CHANGE_SIGHT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.VEHICLE_LIGHT_SWITCH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.VEHICLE_TOGGLE_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.JUMP]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.MOVE_ACTION]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.PRIMARY_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-  [PlayerPad.SECONDARY_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.85,minRate=0.3,decrement=0},
-}
 function this.UpdatePressed()
-  for i, button in pairs(this.buttonMasks) do
-    this.buttonStates[button].isPressed = this.ButtonDown(button)
+  for name,buttonMask in pairs(this.buttonMasks) do
+    this.buttonStates[buttonMask].isPressed = this.ButtonDown(buttonMask)
   end
 end
 function this.UpdateHeld()
-  for i, button in pairs(this.buttonMasks) do
-    if this.buttonStates[button].holdTime~=0 then
-      if this.OnButtonDown(button)then
-        this.buttonStates[button].startTime=Time.GetRawElapsedTimeSinceStartUp()
+  for name,buttonMask in pairs(this.buttonMasks) do
+    if this.buttonStates[buttonMask].holdTime~=0 then
+      if this.OnButtonDown(buttonMask)then
+        this.buttonStates[buttonMask].startTime=Time.GetRawElapsedTimeSinceStartUp()
       end
-      if not (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then--this.ButtonDown(button)then
-        this.buttonStates[button].startTime=0
+      if not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--this.ButtonDown(button)then
+        this.buttonStates[buttonMask].startTime=0
       end
     end
   end
 end
-function this.ButtonDown(button)
-  --[[if (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then
-    TppUiCommand.AnnounceLogView("ButtonPressed:" .. bit.tohex(button))--tex DEBUG: CULL:
+function this.ButtonDown(buttonMask)
+  --[[if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then
+    TppUiCommand.AnnounceLogView("ButtonDown:" .. buttonMask)--tex DEBUG: CULL:
   end--]]
-  return bit.band(PlayerVars.scannedButtonsDirect,button)==button
+  return bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask
 end
 --tex GOTCHA: OnButton functions will have a gameframe of latency, sorry to dissapoint all the pro gamers
-function this.OnButtonDown(button)
-  return not this.buttonStates[button].isPressed and (bit.band(PlayerVars.scannedButtonsDirect,button)==button)
+function this.OnButtonDown(buttonMask)
+  return not this.buttonStates[buttonMask].isPressed and (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask)
 end
-function this.OnButtonUp(button)
-  return this.buttonStates[button].isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,button)==button)
+function this.OnButtonUp(buttonMask)
+  return this.buttonStates[buttonMask].isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask)
 end
-function this.OnButtonHoldTime(button)
-  local buttonState = this.buttonStates[button]
+function this.OnButtonHoldTime(buttonMask)
+  local buttonState = this.buttonStates[buttonMask]
   if buttonState.holdTime~=0 and buttonState.startTime~=0 then
     if Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > buttonState.holdTime then
       buttonState.startTime=0
@@ -261,32 +139,32 @@ function this.OnButtonHoldTime(button)
   end
   return false
 end
-function this.ButtonRepeatReset(button)
-  local buttonState = this.buttonStates[button]
+function this.ButtonRepeatReset(buttonMask)
+  local buttonState = this.buttonStates[buttonMask]
   if buttonState.decrement ~= 0 then
-    if buttonState.isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then--tex OnButtonUp reset
+    if buttonState.isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--tex OnButtonUp reset
       currentIncrementMult=defaultIncrementMult
     end
   end
 end
-function this.OnButtonRepeat(button)
-  local buttonState = this.buttonStates[button]
-  --tex REF: {isPressed=false,holdTime=0,startTime=0,currentRate=0,minRate=0,decrement=0},
+function this.OnButtonRepeat(buttonMask)
+  local buttonState = this.buttonStates[buttonMask]
+  --tex REF: {isPressed=false,holdTime=0,startTime=0,repeatRate=0,minRate=0,decrement=0},
   if buttonState.decrement ~= 0 then
-    if buttonState.isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then--tex OnButtonUp reset
-      --buttonState.currentRate=buttonState.holdTime
+    if buttonState.isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--tex OnButtonUp reset
+      --buttonState.repeatRate=buttonState.holdTime
       currentIncrementMult=defaultIncrementMult
       return false
     end
-    local currentRate=buttonState.currentRate
-    --if currentRate~=0 and 
+    --local repeatRate=buttonState.repeatRate
+    --if repeatRate~=0 and 
     if buttonState.startTime~=0 then
-      if Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > currentRate then
+      if Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > buttonState.repeatRate then
         buttonState.startTime=Time.GetRawElapsedTimeSinceStartUp()
-        --[[OFF: if currentRate > buttonState.minRate then
-          currentRate=currentRate-buttonState.decrement
+        --[[OFF: if repeatRate > buttonState.minRate then
+          repeatRate=repeatRate-buttonState.decrement
         end
-        buttonState.currentRate=currentRate--]]
+        buttonState.repeatRate=repeatRate--]]
         currentIncrementMult=currentIncrementMult*incrementMultIncrementMult
         --TppUiCommand.AnnounceLogView("DBG:MNU: currentIncrementMult:".. currentIncrementMult)--tex DEBUG: CULL:
         if currentIncrementMult>maxIncrementMult then

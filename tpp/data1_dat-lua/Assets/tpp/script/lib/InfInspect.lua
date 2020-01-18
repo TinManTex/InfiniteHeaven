@@ -1,5 +1,5 @@
 -- DOBUILD: 1
---tex debug inspect shit, usage local stringout = InfInspect.inspect(sometable) tpp...announcelog(stringout) -- cant do (someotherstring + stringout), must be by itself
+--tex debug inspect shit, usage local stringout = InfInspect.Inspect(sometable) tpp...announcelog(stringout) -- cant do (someotherstring + stringout), must be by itself
 local this={}
 local inspect ={
   _VERSION = 'inspect.lua 3.0.0',
@@ -328,5 +328,44 @@ end
 setmetatable(inspect, { __call = function(_, ...) return inspect.inspect(...) end })
 
 this.Inspect=inspect
+
+--------------------
+--tex other debug stuff, nor related to the inspect system above
+function PrintGlobals()
+  for k,v in pairs(_G) do
+      print("Global key", k, "value", v)
+  end
+end
+
+function locals()
+  local variables = {}
+  local idx = 1
+  while true do
+    local ln, lv = debug.getlocal(2, idx)
+    if ln ~= nil then
+      variables[ln] = lv
+    else
+      break
+    end
+    idx = 1 + idx
+  end
+  return variables
+end
+
+function upvalues()
+  local variables = {}
+  local idx = 1
+  local func = debug.getinfo(2, "f").func
+  while true do
+    local ln, lv = debug.getupvalue(func, idx)
+    if ln ~= nil then
+      variables[ln] = lv
+    else
+      break
+    end
+    idx = 1 + idx
+  end
+  return variables
+end
 
 return this

@@ -1295,7 +1295,7 @@ mtbs_enemy.OnLoad = function ( clusterId, isNoUseRevenge )
 		local range = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
 		local isNoKill = InfMain.GetMbsClusterSecurityIsNoKillMode()--tex OTIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
     if InfMain.IsMbPlayTime() then--
-      if gvars.mbSoldierEquipRange==InfMain.SETTING_MB_EQUIPRANGE.RANDOM then
+      if gvars.mbSoldierEquipRange==Ivars.mbSoldierEquipRange.enum.RANDOM then
         range = math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
       elseif gvars.mbSoldierEquipRange>0 then
         range = gvars.mbSoldierEquipRange-1

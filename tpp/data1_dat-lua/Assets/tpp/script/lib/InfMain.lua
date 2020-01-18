@@ -1,21 +1,23 @@
 -- DOBUILD: 1
+--tex mostly acting as InfDefine at the moment
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r59"
+this.modVersion = "r63"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
 local IsFunc=Tpp.IsTypeFunc
 local Enum=TppDefine.Enum
 
+--TODO: split off into InfDefine?
 local OSP_CLEAR_WEAPON_TABLE={{primaryHip="EQP_None"},{primaryBack="EQP_None"},{secondary="EQP_None"}}
 local OSP_SECONDARY_ONLY_WEAPON_TABLE={{primaryHip="EQP_None"},{primaryBack="EQP_None"}}
 local OSP_TERTIARY_ONLY_WEAPON_TABLE={{primaryHip="EQP_None"},{secondary="EQP_None"}}
 local OSP_PRIMARY_ONLY_CLEAR_WEAPON_TABLE={{primaryHip="EQP_None"}}
 local OSP_SECONDARY_ONLY_CLEAR_WEAPON_TABLE={{secondary="EQP_None"}}
 this.SUBSISTENCE_CLEAR_SUPPORT_WEAPON_TABLE={{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"}}
-this.subsistenceLoadouts={
+this.ospWeaponLoadouts={
   OSP_CLEAR_WEAPON_TABLE,--pure
   OSP_SECONDARY_ONLY_WEAPON_TABLE,
   OSP_TERTIARY_ONLY_WEAPON_TABLE,
@@ -23,24 +25,6 @@ this.subsistenceLoadouts={
   OSP_SECONDARY_ONLY_CLEAR_WEAPON_TABLE,
 }
 
-this.MAX_ANNOUNCE_STRING=256--tex sting length announcde log can handle before crashing the game, actually 288 but that worries me, so keep a little lower
-this.MAX_SOLDIER_STATE_COUNT = 360--tex from <mission>_enemy.lua, free missions
-this.numQuests=157--tex added SYNC: number of quests
-this.disallowSideOps={[144]=true};
-
-this.SETTING_SUBSISTENCE_PROFILE=Enum{"OFF","PURE","BOUNDER"}--SYNC: isManualSubsistence setting names
-this.SETTING_UNLOCK_SIDEOPS=Enum{"OFF","REPOP","OPEN","MAX"}--SYNC: unlocksideops setting names TODO: overhaul, rectify with sliders
-this.SETTING_MB_EQUIPGRADE=Enum{"DEFAULT","MBDEVEL","RANDOM","GRADE1","GRADE2","GRADE3","GRADE4","GRADE5","GRADE6","GRADE7","GRADE8","GRADE9","GRADE10","MAX"}--SYNC: mbSoldierEquipGrade, settingsnames
-this.SETTING_MB_EQUIPRANGE=Enum{"DEFAULT","SHORT","MEDIUM","LONG","RANDOM","MAX"}--SYNC: mbSoldierEquipRange
-this.SETTING_MB_WARGAMES=Enum{"OFF","NONLETHAL","HOSTILE","MAX"}--SYNC: mbWarGames
-this.SETTING_MB_DD_SUITS=Enum{--SYNC: TppEnemy
-  "EQUIPGRADE",
-  "FOB_DD_SUIT_ATTCKER",
-  "FOB_DD_SUIT_SNEAKING",
-  "FOB_DD_SUIT_BTRDRS",
-  "FOB_PF_SUIT_ARMOR",
-  "MAX",
-}
 this.SETTING_FORCE_ENEMY_TYPE=Enum{
   "DEFAULT",
   "TYPE_DD",
@@ -52,7 +36,7 @@ this.SETTING_FORCE_ENEMY_TYPE=Enum{
 }
 
 this.enemySubTypes={
-  "DEFAULT",
+  "Default",
   "DD_A",
   "DD_PW",
   "DD_FOB",
@@ -64,24 +48,9 @@ this.enemySubTypes={
   "PF_B",
   "PF_C",
   "CHILD_A",
-}
-this.SETTING_FORCE_ENEMY_SUBTYPE=Enum{
-  "DEFAULT",
-  "DD_A",
-  "DD_PW",
-  "DD_FOB",
-  "SKULL_CYPR",
-  "SKULL_AFGH",
-  "SOVIET_A",
-  "SOVIET_B",
-  "PF_A",
-  "PF_B",
-  "PF_C",
-  "CHILD_A",
-  "MAX",
 }
 
---[[
+--[[REF:
 EnemyType.TYPE_SOVIET
 EnemyType.TYPE_PF
 EnemyType.TYPE_DD
@@ -166,7 +135,11 @@ function this.IsMbWarGames()
   return gvars.mbWarGames>0 and vars.missionCode == 30050
 end
 function this.IsMbPlayTime()
-  return gvars.mbPlayTime>0 and vars.missionCode == 30050
+  if vars.missionCode==30050 then
+    return gvars.mbPlayTime>0 or
+      gvars.mbSoldierEquipGrade>0
+  end
+  return false
 end
 function this.IsForceSoldierSubType()
   return gvars.forceSoldierSubType>0 and TppMission.IsFreeMission(vars.missionCode)
@@ -174,11 +147,11 @@ end
 function this.GetMbsClusterSecuritySoldierEquipGrade()--SYNC: mbSoldierEquipGrade
   local grade = 1
   
-  if this.IsMbPlayTime() and gvars.mbSoldierEquipGrade>InfMain.SETTING_MB_EQUIPGRADE.MBDEVEL then
-    if gvars.mbSoldierEquipGrade==InfMain.SETTING_MB_EQUIPGRADE.RANDOM then
+  if this.IsMbPlayTime() and gvars.mbSoldierEquipGrade>Ivars.mbSoldierEquipGrade.enum.MBDEVEL then
+    if gvars.mbSoldierEquipGrade==Ivars.mbSoldierEquipGrade.enum.RANDOM then
       grade = math.random(1,10)
     else
-      grade = gvars.mbSoldierEquipGrade-InfMain.SETTING_MB_EQUIPGRADE.RANDOM
+      grade = gvars.mbSoldierEquipGrade-Ivars.mbSoldierEquipGrade.enum.RANDOM
     end
   else
     TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
@@ -188,7 +161,7 @@ function this.GetMbsClusterSecuritySoldierEquipGrade()--SYNC: mbSoldierEquipGrad
 end
 function this.GetMbsClusterSecuritySoldierEquipRange() 
   --[[local range = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
-    if gvars.mbSoldierEquipRange==InfMain.SETTING_MB_EQUIPRANGE.RANDOM then
+    if gvars.mbSoldierEquipRange==Ivars.mbSoldierEquipRange.enum.RANDOM then
       range = math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
     elseif gvars.mbSoldierEquipRange>0 then
       range = gvars.mbSoldierEquipRange-1
@@ -198,7 +171,7 @@ end
 function this.GetMbsClusterSecurityIsNoKillMode()
     local isNoKillMode=TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
     if InfMain.IsMbPlayTime() then--tex PrepareDDParameter mbwargames, mbsoldierequipgrade
-      isNoKillMode=(gvars.mbWarGames==InfMain.SETTING_MB_WARGAMES.NONLETHAL)
+      isNoKillMode=(gvars.mbWarGames==Ivars.mbWarGames.enum.NONLETHAL)
     end
     return isNoKillMode
 end
@@ -272,11 +245,89 @@ function this.soldierFovBodyTableAfrica(missionId)
 end
 
 function this.ResetCpTableToDefault()
-  local subTypeOfCp=TppEnemy.subTypeOfCp
-  local subTypeOfCpDefault=TppEnemy.subTypeOfCpsubTypeOfCpDefault
-    for cp, subType in pairs(subTypeOfCp)do
-      subTypeOfCp[cp]=subTypeOfCpDefault[cp]
-    end
+ --[[DEBUGNOW local subTypeOfCp=TppEnemy.subTypeOfCp
+  local subTypeOfCpDefault=TppEnemy.subTypeOfCpDefault
+  for cp, subType in pairs(subTypeOfCp)do
+    subTypeOfCp[cp]=subTypeOfCpDefault[cp]
+  end--]]
 end
+
+--[[
+------------
+  --TODO: add bool support to settings handling?
+  --min,max,increment auto determins TppScriptVars type
+  
+  need to map seetting value to:
+  gvar - scriptvartype
+  display names (integers, sometimes)
+  
+  
+  profileoption
+    displayname
+    helptext
+    
+    setting=off, PROFILES, Custom
+    
+    options - list of sub options profileoption affects
+      someOption
+      
+-- setup:
+have Ivars.lua
+for name, ivar in pairs(Ivars) do
+  ivar.name=name--this way I just set up ivar in ivars.lua by this.someivar, and it puts string name into it for the other functions to use (langid,gvar name)
+
+if increment = nil then
+ increment = 1
+ 
+if default=nil then 
+  default = 0
+ 
+
+
+---
+if gvars.enemyParameters==1 then--tex use tweaked soldier parameters
+if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER then--tex disable
+
+ local loadout = gvars.ospWeaponLoadout
+  if TppMission.IsSubsistenceMission() and loadout==0 then
+    loadout=1
+  end
+  if gvars.isManualSubsistence == InfMain.SETTING_SUBSISTENCE_PROFILE.PURE then
+    if loadout>2 then--tex only pure osp or secondary free on pure
+      loadout=1
+      gvars.isManualSubsistence=1
+    end
+  end
+  if loadout > 0 and loadout <= #InfMain.ospWeaponLoadouts then
+    this.SetInitWeapons(InfMain.ospWeaponLoadouts[loadout])--tex subs loadouts, lua index from 1
+  end
+  if TppMission.IsSubsistenceMission() then
+    this.SetInitWeapons(InfMain.SUBSISTENCE_CLEAR_SUPPORT_WEAPON_TABLE)
+    this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
+    local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}--tex subs settings, moved and broken up from retail which put table straight in regtempplayer
+    if gvars.isManualSubsistence==InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER then
+      playerSettings={handEquip=TppEquip.EQP_HAND_NORMAL}
+    end--
+
+---
+someoption
+  values={
+    "SOME",
+    ENEU<
+    NAEMS"
+  }
+  valuesEnum=Enum(values)
+  
+  changevalue
+    set save var
+    this[this.values(currentvalue)]=false
+    this[this.values(settingvalue)]=true
+    
+
+if Ivars.someoption.SOMESETTING then
+
+--]]
+
+--]]
 
 return this

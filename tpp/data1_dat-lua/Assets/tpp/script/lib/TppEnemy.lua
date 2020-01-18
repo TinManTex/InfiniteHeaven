@@ -235,7 +235,7 @@ this.subTypeOfCpDefault={}--tex
 for subType,cp in pairs(this.subTypeOfCpTable)do
   for cpName,bool in pairs(cp)do
     this.subTypeOfCp[cpName]=subType
-    this.subTypeOfCpDefault[cpName]=subType--tex
+   --DEBUGNOW this.subTypeOfCpDefault[cpName]=subType--tex
   end
 end
 local tppEnemyBodyId=TppEnemyBodyId or{}
@@ -582,8 +582,8 @@ function this.SetUpSoldierTypes(soldierTypes)
     this._SetUpSoldierTypes(subTypes,soldierIds)
   end
 end
-function this._SetUpSoldierSubTypes(subTypes,soldierName)
-  for a,soldierName in ipairs(soldierName)do
+function this._SetUpSoldierSubTypes(subTypes,soldierNames)
+  for a,soldierName in ipairs(soldierNames)do
     if IsTypeTable(soldierName)then
       this._SetUpSoldierSubTypes(subTypes,soldierName)
     else
@@ -593,8 +593,8 @@ function this._SetUpSoldierSubTypes(subTypes,soldierName)
   end
 end
 function this.SetUpSoldierSubTypes(soldierSubTypes)
-  for subyTypes,t in pairs(soldierSubTypes)do
-    this._SetUpSoldierSubTypes(subyTypes,t)
+  for subTypes,soldierName in pairs(soldierSubTypes)do
+    this._SetUpSoldierSubTypes(subTypes,soldierName)
   end
 end
 function this.SetUpPowerSettings(e)
@@ -652,15 +652,16 @@ function this.SetSoldierType(soldierId,soldierType)
   mvars.ene_soldierTypes[soldierId]=soldierType
   GameObject.SendCommand(soldierId,{id="SetSoldier2Type",type=soldierType})
 end
+
 function this.GetSoldierType(soldierId)
-  if InfMain.IsForceSoldierSubType() then--tex WIP:
+  --[[DEBUGNOW if InfMain.IsForceSoldierSubType() then--tex WIP:
     if gvars.soldierTypeForced[soldierId]==true then
       TppUiCommand.AnnounceLogView("GetSoldierType soldierTypeForced")--DEBUG: CULL:
-      local forceSubType = InfMain.enemySubTypes[gvars.forceSoldierSubType]
-      local soldierType = InfMain.soldierTypeForSubtypes[forceSubType]
+      local forceSubType=InfMain.enemySubTypes[gvars.forceSoldierSubType]
+      local soldierType=InfMain.soldierTypeForSubtypes[forceSubType]
       return soldierType
     end 
-  end--
+  end--]]
   local missionCode=TppMission.GetMissionID()
   if soldierId==nil or soldierId==NULL_ID then
     if missionCode==10080 or missionCode==11080 then
@@ -698,12 +699,12 @@ function this.SetSoldierSubType(soldierId,subType)
   mvars.ene_soldierSubType[soldierId]=subType
 end
 function this.GetSoldierSubType(soldierId,subType)
-  if InfMain.IsForceSoldierSubType() then--tex WIP
+  --[[DEBUGNOW if InfMain.IsForceSoldierSubType() then--tex WIP
     local soldierType=GameObject.SendCommand(soldierId,{id="GetSoldier2Type"})
     --if InfMain.IsSubTypeCorrectForType(soldierType,subType) then
       return InfMain.enemySubTypes[gvars.forceSoldierSubType]
     --end
-  end--
+  end--]]
   local missionCode=TppMission.GetMissionID()
   if missionCode==10115 or missionCode==11115 then
     return"DD_PW"
@@ -775,12 +776,12 @@ function this._CreateDDWeaponIdTable(s,o,p)
         n=false
       else
         local e=e.developId
-        local e=TppMotherBaseManagement.GetEquipDevelopRank(e)
-        if gvars.mbSoldierEquipGrade == InfMain.SETTING_MB_EQUIPGRADE.MAX then--tex
+        local developRank=TppMotherBaseManagement.GetEquipDevelopRank(e)
+        --[[DEBUGNOWif gvars.mbSoldierEquipGrade == Ivars.mbSoldierEquipGrade.enum.GRADE10 then--tex
           developRank=1
-        end--
+        end--]]
         -- TppUiCommand.AnnounceLogView("_CreateDDWeaponIdTable developrank:" .. developRank)--tex DEBUG: CULL:
-        if(o>=e and s[i]>=e)then
+        if(o>=developRank and s[i]>=developRank)then
           n=true
         end
       end
@@ -819,11 +820,8 @@ function this.PrepareDDParameter(n,a)
   end
   --TppUiCommand.AnnounceLogView("PrepareDDParameter securitySoldierEquipGrade:"..securitySoldierEquipGrade)--tex DEBUG: CULL:
   --[[TppUiCommand.AnnounceLogView("PrepareDDParameter weaponIdTable.DD")--tex DEBUG: CULL:
-
     local dd = this.weaponIdTable.DD
-
     local inss = InfInspect.Inspect(dd)
-
     TppUiCommand.AnnounceLogView(inss)--]]
   local a=i[mbsDevelopedEquipType.FULTON_16001]
   local t=i[mbsDevelopedEquipType.FULTON_16008]
@@ -862,32 +860,32 @@ function this.SetUpDDParameter()
   local e=this.weaponIdTable.DD.NORMAL.STUN_GRENADE or TppEquip.EQP_None
   GameObject.SendCommand({type="TppSoldier2"},{id="RegistGrenadeId",grenadeId=n,stunId=e})
 end
-function this.GetWeaponIdTable(t,a)
-  local n={}
-  local n={}
-  if t==EnemyType.TYPE_SOVIET then
-    n=this.weaponIdTable.SOVIET_A
-  elseif t==EnemyType.TYPE_PF then
-    n=this.weaponIdTable.PF_A
-    if a=="PF_B"then
-      n=this.weaponIdTable.PF_B
-    elseif a=="PF_C"then
-      n=this.weaponIdTable.PF_C
+function this.GetWeaponIdTable(soldierType,soldierSubType)
+  --local n={}
+  local weaponIdTable={}
+  if soldierType==EnemyType.TYPE_SOVIET then
+    weaponIdTable=this.weaponIdTable.SOVIET_A
+  elseif soldierType==EnemyType.TYPE_PF then
+    weaponIdTable=this.weaponIdTable.PF_A
+    if soldierSubType=="PF_B"then
+      weaponIdTable=this.weaponIdTable.PF_B
+    elseif soldierSubType=="PF_C"then
+      weaponIdTable=this.weaponIdTable.PF_C
     end
-  elseif t==EnemyType.TYPE_DD then
-    n=this.weaponIdTable.DD
-  elseif t==EnemyType.TYPE_SKULL then
-    if a=="SKULL_CYPR"then
-      n=this.weaponIdTable.SKULL_CYPR
+  elseif soldierType==EnemyType.TYPE_DD then
+    weaponIdTable=this.weaponIdTable.DD
+  elseif soldierType==EnemyType.TYPE_SKULL then
+    if soldierSubType=="SKULL_CYPR"then
+      weaponIdTable=this.weaponIdTable.SKULL_CYPR
     else
-      n=this.weaponIdTable.SKULL
+      weaponIdTable=this.weaponIdTable.SKULL
     end
-  elseif t==EnemyType.TYPE_CHILD then
-    n=this.weaponIdTable.CHILD
+  elseif soldierType==EnemyType.TYPE_CHILD then
+    weaponIdTable=this.weaponIdTable.CHILD
   else
-    n=this.weaponIdTable.SOVIET_A
+    weaponIdTable=this.weaponIdTable.SOVIET_A
   end
-  return n
+  return weaponIdTable
 end
 function this.GetWeaponId(soldierId,config)
   local primary,secondary,tertiary
@@ -943,82 +941,83 @@ function this.GetWeaponId(soldierId,config)
   end
   return primary,secondary,tertiary
 end
-function this.GetBodyId(t,o,r,a)
-  local i
-  local n={}
+function this.GetBodyId(soldierId,soldierType,soldierSubType,loadoutType)
+  local bodyId
+  local bodyIdTable={}
   --TppUiCommand.AnnounceLogView("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG: CULL:
-  if o==EnemyType.TYPE_SOVIET then
-    n=this.bodyIdTable.SOVIET_A
-    if r=="SOVIET_B"then
-      n=this.bodyIdTable.SOVIET_B
+  if soldierType==EnemyType.TYPE_SOVIET then
+    bodyIdTable=this.bodyIdTable.SOVIET_A
+    if soldierSubType=="SOVIET_B"then
+      bodyIdTable=this.bodyIdTable.SOVIET_B
     end
-  elseif o==EnemyType.TYPE_PF then
-    n=this.bodyIdTable.PF_A
-    if r=="PF_B"then
-      n=this.bodyIdTable.PF_B
-    elseif r=="PF_C"then
-      n=this.bodyIdTable.PF_C
+  elseif soldierType==EnemyType.TYPE_PF then
+    bodyIdTable=this.bodyIdTable.PF_A
+    if soldierSubType=="PF_B"then
+      bodyIdTable=this.bodyIdTable.PF_B
+    elseif soldierSubType=="PF_C"then
+      bodyIdTable=this.bodyIdTable.PF_C
     end
-  elseif o==EnemyType.TYPE_DD then
-    n=this.bodyIdTable.DD_A
-    if r=="DD_FOB"then
-      n=this.bodyIdTable.DD_FOB
-    elseif r=="DD_PW"then
-      n=this.bodyIdTable.DD_PW
+  elseif soldierType==EnemyType.TYPE_DD then
+    bodyIdTable=this.bodyIdTable.DD_A
+    if soldierSubType=="DD_FOB"then
+      bodyIdTable=this.bodyIdTable.DD_FOB
+    elseif soldierSubType=="DD_PW"then
+      bodyIdTable=this.bodyIdTable.DD_PW
     end
-  elseif o==EnemyType.TYPE_SKULL then
-    if this.bodyIdTable[r]then
-      n=this.bodyIdTable[r]
+  elseif soldierType==EnemyType.TYPE_SKULL then
+    if this.bodyIdTable[soldierSubType]then
+      bodyIdTable=this.bodyIdTable[soldierSubType]
     else
-      n=this.bodyIdTable.SKULL_AFGH
+      bodyIdTable=this.bodyIdTable.SKULL_AFGH
     end
-  elseif o==EnemyType.TYPE_CHILD then
-    n=this.bodyIdTable.CHILD
+  elseif soldierType==EnemyType.TYPE_CHILD then
+    bodyIdTable=this.bodyIdTable.CHILD
   else
-    n=this.bodyIdTable.SOVIET_A
+    bodyIdTable=this.bodyIdTable.SOVIET_A
   end
-  if n==nil then
+  if bodyIdTable==nil then
     return nil
   end
-  local e=function(n,e)if#e==0 then
-    return e[1]
-  end
-  return e[(n%#e)+1]
-  end
-  if a.ARMOR and n.ARMOR then
-    return e(t,n.ARMOR)
-  end
-  if(mvars.ene_soldierLrrp[t]or a.RADIO)and n.RADIO then
-    return e(t,n.RADIO)
-  end
-  if a.MISSILE and n.MISSILE then
-    return e(t,n.MISSILE)
-  end
-  if a.SHIELD and n.SHIELD then
-    return e(t,n.SHIELD)
-  end
-  if a.SNIPER and n.SNIPER then
-    i=e(t,n.SNIPER)
-  elseif a.SHOTGUN and n.SHOTGUN then
-    if a.OB and n.SHOTGUN_OB then
-      i=e(t,n.SHOTGUN_OB)
-    else
-      i=e(t,n.SHOTGUN)
+  local _GetBodyId=function(n,loadoutBodies)
+    if#loadoutBodies==0 then
+      return loadoutBodies[1]
     end
-  elseif a.MG and n.MG then
-    if a.OB and n.MG_OB then
-      i=e(t,n.MG_OB)
+    return loadoutBodies[(n%#loadoutBodies)+1]
+  end
+  if loadoutType.ARMOR and bodyIdTable.ARMOR then
+    return _GetBodyId(soldierId,bodyIdTable.ARMOR)
+  end
+  if(mvars.ene_soldierLrrp[soldierId]or loadoutType.RADIO)and bodyIdTable.RADIO then
+    return _GetBodyId(soldierId,bodyIdTable.RADIO)
+  end
+  if loadoutType.MISSILE and bodyIdTable.MISSILE then
+    return _GetBodyId(soldierId,bodyIdTable.MISSILE)
+  end
+  if loadoutType.SHIELD and bodyIdTable.SHIELD then
+    return _GetBodyId(soldierId,bodyIdTable.SHIELD)
+  end
+  if loadoutType.SNIPER and bodyIdTable.SNIPER then
+    bodyId=_GetBodyId(soldierId,bodyIdTable.SNIPER)
+  elseif loadoutType.SHOTGUN and bodyIdTable.SHOTGUN then
+    if loadoutType.OB and bodyIdTable.SHOTGUN_OB then
+      bodyId=_GetBodyId(soldierId,bodyIdTable.SHOTGUN_OB)
     else
-      i=e(t,n.MG)
+      bodyId=_GetBodyId(soldierId,bodyIdTable.SHOTGUN)
     end
-  elseif n.ASSAULT then
-    if a.OB and n.ASSAULT_OB then
-      i=e(t,n.ASSAULT_OB)
+  elseif loadoutType.MG and bodyIdTable.MG then
+    if loadoutType.OB and bodyIdTable.MG_OB then
+      bodyId=_GetBodyId(soldierId,bodyIdTable.MG_OB)
     else
-      i=e(t,n.ASSAULT)
+      bodyId=_GetBodyId(soldierId,bodyIdTable.MG)
+    end
+  elseif bodyIdTable.ASSAULT then
+    if loadoutType.OB and bodyIdTable.ASSAULT_OB then
+      bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT_OB)
+    else
+      bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT)
     end
   end
-  return i
+  return bodyId
 end
 function this.GetFaceId(n,e,n,n)
   if e==EnemyType.TYPE_SKULL then
@@ -2331,7 +2330,8 @@ function this.RestoreOnMissionStart2()
   if mvars.ene_cpList~=nil then
     for t,e in pairs(mvars.ene_cpList)do
       if n<mvars.ene_cpCount then
-        svars.cpNames[n]=StrCode32(e)svars.cpFlags[n]=0
+        svars.cpNames[n]=StrCode32(e)
+        svars.cpFlags[n]=0
         n=n+1
       end
     end
@@ -2680,14 +2680,14 @@ function this.SetUpSoldiers()
   this.AssignSoldiersToCP()
 end
 function this.AssignSoldiersToCP()
-  if InfMain.IsForceSoldierSubType() then--tex WIP
+  --[[DEBUGNOW:local forceSubType=InfMain.enemySubTypes[gvars.forceSoldierSubType]--tex WIP
+  if InfMain.IsForceSoldierSubType() then
    --TppUiCommand.AnnounceLogView("AssignSoldiersToCP:")--DEBUG CULL
-    local forceSubType=InfMain.enemySubTypes[gvars.forceSoldierSubType]
     for cp, subType in pairs(this.subTypeOfCp)do
      --TppUiCommand.AnnounceLogView("AssignSoldiersToCPuu:")--DEBUG CULL
       this.subTypeOfCp[cp]=forceSubType
     end
-  end--
+  end--]]
   local missionCode=TppMission.GetMissionID()
   this._ConvertSoldierNameKeysToId(mvars.ene_soldierTypes)
   mvars.ene_soldierSubType=mvars.ene_soldierSubType or{}
@@ -2698,13 +2698,13 @@ function this.AssignSoldiersToCP()
     local cpSubType=subTypeOfCp[cp]
     local isChild=false
     for soldierId,p in pairs(t)do
-      if InfMain.IsForceSoldierSubType() then--tex WIP:
+      --[[DEBUGNOWif InfMain.IsForceSoldierSubType() then--tex WIP
         gvars.soldierTypeForced[soldierId]=true
         if mvars.ene_soldierSubType==nil then
           mvars.ene_soldierSubType={}
         end
         mvars.ene_soldierSubType[soldierId]=forceSubType
-      end--
+      end--]]
       SendCommand(soldierId,{id="SetCommandPost",cp=cp})
       if mvars.ene_lrrpTravelPlan[cpId]then
         SendCommand(soldierId,{id="SetLrrp",travelPlan=mvars.ene_lrrpTravelPlan[cpId]})
@@ -2717,17 +2717,6 @@ function this.AssignSoldiersToCP()
       end
       local command
       local soldierType=this.GetSoldierType(soldierId)
-     --[[ if not InfMain.IsSubTypeCorrectForType(soldierType,cpSubType) then--tex WIP:
-        soldierType=InfMain.soldierTypeForSubtypes[cpSubType]
-        mvars.ene_soldierTypes[soldierId]=soldierType
-      end--]]
-      --[[
-      if InfMain.IsForceSoldierSubType() then--tex WIP
-        local forceSubType=InfMain.enemySubTypes[gvars.forceSoldierSubType]
-        if InfMain.IsSubTypeCorrectForType(soldierType,subType) then
-          return 
-        end
-      end--]]
       command={id="SetSoldier2Type",type=soldierType}
       GameObject.SendCommand(soldierId,command)
       if(soldierType~=EnemyType.TYPE_SKULL and soldierType~=EnemyType.TYPE_CHILD)and cpSubType then
@@ -2775,7 +2764,8 @@ function this.SetCommonCpGroups()
 end
 function this.SetCpGroups()
   local t={type="TppCommandPost2"}
-  local e={id="SetCpGroups",cpGroups=mvars.ene_cpGroups}SendCommand(t,e)
+  local e={id="SetCpGroups",cpGroups=mvars.ene_cpGroups}
+  SendCommand(t,e)
 end
 function this.RegistVehicleSettings(e)
   if not IsTypeTable(e)then
@@ -3284,11 +3274,11 @@ function this.ShiftChangeByTime(t)
     end
   end
 end
-local function CloserToPlayerThanDistSqr(distSqr,playerPosition,gameId)
+local function CloserToPlayerThanDistSqr(checkDistSqr,playerPosition,gameId)
   local position=SendCommand(gameId,{id="GetPosition"})
   local dirVector=playerPosition-position
   local distSqr=dirVector:GetLengthSqr()
-  if distSqr>distSqr then
+  if distSqr>checkDistSqr then
     return false
   else
     return true
@@ -3633,13 +3623,19 @@ function this.CheckAllVipClear(n)
 end
 function this.CheckAllTargetClear(n)
   local n=mvars
-  local e=this
+  local thisLocal=this--NMC: tihs pattern is used in two functions in other files. why? is it that really performant?
   local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
   TppHelicopter.SetNewestPassengerTable()
-  local t={{n.ene_eliminateTargetList,e.CheckSoldierEliminateTarget,"EliminateTargetSoldier"},{n.ene_eliminateHelicopterList,e.CheckHelicopterEliminateTarget,"EliminateTargetHelicopter"},{n.ene_eliminateVehicleList,e.CheckVehicleEliminateTarget,"EliminateTargetVehicle"},{n.ene_eliminateWalkerGearList,e.CheckWalkerGearEliminateTarget,"EliminateTargetWalkerGear"},{n.ene_childTargetList,e.CheckRescueTarget,"childTarget"}}
+  local t={
+    {n.ene_eliminateTargetList,thisLocal.CheckSoldierEliminateTarget,"EliminateTargetSoldier"},
+    {n.ene_eliminateHelicopterList,thisLocal.CheckHelicopterEliminateTarget,"EliminateTargetHelicopter"},
+    {n.ene_eliminateVehicleList,thisLocal.CheckVehicleEliminateTarget,"EliminateTargetVehicle"},
+    {n.ene_eliminateWalkerGearList,thisLocal.CheckWalkerGearEliminateTarget,"EliminateTargetWalkerGear"},
+    {n.ene_childTargetList,thisLocal.CheckRescueTarget,"childTarget"}
+  }
   if n.ene_rescueTargetOptions then
     if not n.ene_rescueTargetOptions.orCheck then
-      table.insert(t,{n.ene_rescueTargetList,e.CheckRescueTarget,"RescueTarget"})
+      table.insert(t,{n.ene_rescueTargetList,thisLocal.CheckRescueTarget,"RescueTarget"})
     end
   end
   for e=1,#t do
@@ -3655,7 +3651,7 @@ function this.CheckAllTargetClear(n)
   if n.ene_rescueTargetOptions and n.ene_rescueTargetOptions.orCheck then
     local t=false
     for n,i in pairs(n.ene_rescueTargetList)do
-      if e.CheckRescueTarget(n,playerPosition,i)then
+      if thisLocal.CheckRescueTarget(n,playerPosition,i)then
         t=true
       end
     end
@@ -3773,17 +3769,17 @@ function this.CheckQuestTargetOnOutOfActiveArea(n)
   local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
   local checkDist=10
   local distSqr=checkDist*checkDist
-  local t=false
+  local recovered=false
   for n,n in pairs(n)do
-    local gameId=GetGameObjectId(soliderName)
+    local gameId=GetGameObjectId(soliderName)--RETAILBUG: TODO: investigate soldiername was undefined assume its supposed to be key name - n, but there's no lua references to this. add an debug announcelog, grab a hostage and see what happens when you go out of hotzone (reuirees a mission with one) and out of mission area (all actual missions  have them)
     if gameId~=NULL_ID then
       if CloserToPlayerThanDistSqr(distSqr,playerPosition,gameId)then
-        t=true
+        recovered=true
         this.AutoFultonRecoverNeutralizedTarget(gameId)
       end
     end
   end
-  return t
+  return recovered
 end
 function this.ChangeRouteUsingGimmick(e,a,t,a)
   local a=TppGimmick.GetRouteConnectedGimmickId(e)
@@ -4866,8 +4862,8 @@ function this.CheckDeactiveQuestAreaForceFulton()
     end
   end
 end
-function this.CheckQuestAllTarget(T,f,u,t,a)
-  local n=TppDefine.QUEST_CLEAR_TYPE.NONE
+function this.CheckQuestAllTarget(questType,_messageId,gameId,t,a)
+  local clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
   local p=t or false
   local c=a or false
   local l=false
@@ -4879,21 +4875,21 @@ function this.CheckQuestAllTarget(T,f,u,t,a)
   local i=0
   local t=true
   local d=false
-  local S=TppQuest.GetCurrentQuestName()
-  if TppQuest.IsEnd(S)then
-    return n
+  local currentQuestName=TppQuest.GetCurrentQuestName()
+  if TppQuest.IsEnd(currentQuestName)then
+    return clearType
   end
-  if mvars.ene_questTargetList[u]then
-    local e=mvars.ene_questTargetList[u]
+  if mvars.ene_questTargetList[gameId]then
+    local e=mvars.ene_questTargetList[gameId]
     if e.messageId~="None"and e.isTarget==true then
       d=true
     elseif e.isTarget==false then
       d=true
     end
-    e.messageId=f or"None"l=true
+    e.messageId=_messageId or"None"l=true
   end
   if(p==false and c==false)and l==false then
-    return n
+    return clearType
   end
   for l,n in pairs(mvars.ene_questTargetList)do
     local d=false
@@ -4901,7 +4897,8 @@ function this.CheckQuestAllTarget(T,f,u,t,a)
     if p==true then
       if Tpp.IsSoldier(l)or Tpp.IsHostage(l)then
         if this.CheckQuestDistance(l)then
-          n.messageId="Fulton"a=a+1
+          n.messageId="Fulton"
+          a=a+1
           d=false
           t=true
         end
@@ -4909,21 +4906,21 @@ function this.CheckQuestAllTarget(T,f,u,t,a)
     end
     if T==true then
       if d==false then
-        local e=n.messageId
-        if e~="None"then
-          if e=="Fulton"then
+        local messageId=n.messageId
+        if messageId~="None"then
+          if messageId=="Fulton"then
             a=a+1
             t=true
-          elseif e=="InHelicopter"then
+          elseif messageId=="InHelicopter"then
             i=i+1
             t=true
-          elseif e=="FultonFailed"then
+          elseif messageId=="FultonFailed"then
             s=s+1
             t=true
-          elseif(e=="Dead"or e=="VehicleBroken")or e=="LostControl"then
+          elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
             o=o+1
             t=true
-          elseif e=="Vanished"then
+          elseif messageId=="Vanished"then
             _=_+1
             t=true
           end
@@ -4939,38 +4936,38 @@ function this.CheckQuestAllTarget(T,f,u,t,a)
     t=false
   end
   if r>0 then
-    if T==TppDefine.QUEST_TYPE.RECOVERED then
+    if questType==TppDefine.QUEST_TYPE.RECOVERED then
       if a+i>=r then
-        n=TppDefine.QUEST_CLEAR_TYPE.CLEAR
+        clearType=TppDefine.QUEST_CLEAR_TYPE.CLEAR
       elseif s>0 or o>0 then
-        n=TppDefine.QUEST_CLEAR_TYPE.FAILURE
+        clearType=TppDefine.QUEST_CLEAR_TYPE.FAILURE
       elseif a+i>0 then
         if t==true then
-          n=TppDefine.QUEST_CLEAR_TYPE.UPDATE
+          clearType=TppDefine.QUEST_CLEAR_TYPE.UPDATE
         end
       end
-    elseif T==TppDefine.QUEST_TYPE.ELIMINATE then
+    elseif questType==TppDefine.QUEST_TYPE.ELIMINATE then
       if((a+s)+o)+i>=r then
-        n=TppDefine.QUEST_CLEAR_TYPE.CLEAR
+        clearType=TppDefine.QUEST_CLEAR_TYPE.CLEAR
       elseif((a+s)+o)+i>0 then
         if t==true then
-          n=TppDefine.QUEST_CLEAR_TYPE.UPDATE
+          clearType=TppDefine.QUEST_CLEAR_TYPE.UPDATE
         end
       end
-    elseif T==TppDefine.QUEST_TYPE.MSF_RECOVERED then
+    elseif questType==TppDefine.QUEST_TYPE.MSF_RECOVERED then
       if a>=r or i>=r then
-        n=TppDefine.QUEST_CLEAR_TYPE.CLEAR
+        clearType=TppDefine.QUEST_CLEAR_TYPE.CLEAR
       elseif(s>0 or o>0)or _>0 then
-        n=TppDefine.QUEST_CLEAR_TYPE.FAILURE
+        clearType=TppDefine.QUEST_CLEAR_TYPE.FAILURE
       end
     end
   end
   if c==true then
-    if n==TppDefine.QUEST_CLEAR_TYPE.NONE or n==TppDefine.QUEST_CLEAR_TYPE.UPDATE then
-      n=TppDefine.QUEST_CLEAR_TYPE.NONE
+    if clearType==TppDefine.QUEST_CLEAR_TYPE.NONE or clearType==TppDefine.QUEST_CLEAR_TYPE.UPDATE then
+      clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
     end
   end
-  return n
+  return clearType
 end
 function this.ReserveQuestHeli()
   local e=GetGameObjectId("TppCommandPost2",questCp)

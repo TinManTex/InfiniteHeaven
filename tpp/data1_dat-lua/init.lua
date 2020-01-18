@@ -102,7 +102,8 @@ if GrDaemon then
       GrTools.SetEnablePackedSmallTextureStreaming(true)
     end
     if o=="directx11"then
-      dofile"Fox/Scripts/Gr/gr_init_dx11.lua"if Editor then
+      dofile"Fox/Scripts/Gr/gr_init_dx11.lua"
+      if Editor then
         GrTools.SetEnablePackedSmallTextureStreaming(false)
       else
         GrTools.SetEnablePackedSmallTextureStreaming(true)
@@ -168,10 +169,12 @@ if GrDaemon then
       if n then
         dofile"shaders/win32/GrSystemShadersNoLnm_win32.lua"
         dofile"shaders/win32/GrModelShadersNoLnm_win32.lua"
-        dofile"shaders/win32/FxShadersNoLnm_win32.lua"else
+        dofile"shaders/win32/FxShadersNoLnm_win32.lua"
+        else
         dofile"shaders/win32/GrSystemShaders_win32.lua"
         dofile"shaders/win32/GrModelShaders_win32.lua"
-        dofile"shaders/win32/FxShaders_win32.lua"end
+        dofile"shaders/win32/FxShaders_win32.lua"
+        end
     end
     if o=="directx11"then
       if n then

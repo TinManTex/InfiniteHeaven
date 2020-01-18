@@ -968,7 +968,7 @@ function this.SetUp()
       {menu=this.MBDVCMENU.MSN_ATTACK,active=false},
       {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=false}
     }
-    if gvars.isManualSubsistence==InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER then--tex allow Buddy Support menu when Buddy Subsistence mode
+    if gvars.subsistenceProfile==Ivars.subsistenceProfile.enum.BOUNDER then--tex allow Buddy Support menu when Buddy Subsistence mode
       dvcMenu[2].active=true
     end
     this.EnableDvcMenuByList(dvcMenu)

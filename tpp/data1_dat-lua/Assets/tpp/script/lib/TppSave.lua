@@ -1,8 +1,8 @@
 local this={}
-local i=TppScriptVars.IsSavingOrLoading
+local IsSavingOrLoading=TppScriptVars.IsSavingOrLoading
 this.saveQueueDepth=0
 this.saveQueueList={}
-local function n(n)
+local function ResultFunction(n)
   if gvars.sav_isReservedMbSaveResultNotify then
     gvars.sav_isReservedMbSaveResultNotify=false
     if n then
@@ -12,15 +12,20 @@ local function n(n)
     end
   end
 end
-this.SAVE_RESULT_FUNCTION={[Fox.StrCode32(TppDefine.CONFIG_SAVE_FILE_NAME)]=function(e)
-  end,[Fox.StrCode32(TppDefine.PERSONAL_DATA_SAVE_FILE_NAME)]=function(e)
+this.SAVE_RESULT_FUNCTION={
+  [Fox.StrCode32(TppDefine.CONFIG_SAVE_FILE_NAME)]=function(e)
+  end,
+  [Fox.StrCode32(TppDefine.PERSONAL_DATA_SAVE_FILE_NAME)]=function(e)
     if e==false then
       return
     end
     if(vars.isPersonalDirty==1)then
       vars.isPersonalDirty=0
     end
-  end,[Fox.StrCode32(TppDefine.GAME_SAVE_FILE_NAME)]=n,[Fox.StrCode32(TppDefine.GAME_SAVE_FILE_NAME_TMP)]=n}
+  end,
+  [Fox.StrCode32(TppDefine.GAME_SAVE_FILE_NAME)]=ResultFunction,
+  [Fox.StrCode32(TppDefine.GAME_SAVE_FILE_NAME_TMP)]=ResultFunction
+}
 function this.GetSaveFileVersion(e)
   return(TppDefine.SAVE_FILE_INFO[e].version+TppDefine.PROGRAM_SAVE_FILE_VERSION[e]*TppDefine.PROGRAM_SAVE_FILE_VERSION_OFFSET)
 end
@@ -93,14 +98,20 @@ function this.SaveGameData(i,t,S,n,a)
   this.CheckAndSavePersonalData(n)
 end
 function this.GetSaveGameDataQueue(S,n,i,t)
-  local a=this.GetGameSaveFileName()
-  local n=this.GetIntializedCompositSlotSaveQueue(a,n,i,t)n=this._SaveGlobalData(n)n=this._SaveMissionData(n)n=this._SaveMissionRestartableData(n)n=this._SaveRetryData(n)n=this._SaveMbManagementData(n,S)n=this._SaveQuestData(n)
-  return n
+  local gameSaveFileName=this.GetGameSaveFileName()
+  local saveQue=this.GetIntializedCompositSlotSaveQueue(gameSaveFileName,n,i,t)
+  saveQue=this._SaveGlobalData(saveQue)
+  saveQue=this._SaveMissionData(saveQue)
+  saveQue=this._SaveMissionRestartableData(saveQue)
+  saveQue=this._SaveRetryData(saveQue)
+  saveQue=this._SaveMbManagementData(saveQue,S)
+  saveQue=this._SaveQuestData(saveQue)
+  return saveQue
 end
 function this.SaveConfigData(n,a,S)
   if a then
-    local n=this.MakeNewSaveQueue(TppDefine.SAVE_SLOT.CONFIG,TppDefine.SAVE_SLOT.CONFIG_SAVE,TppScriptVars.CATEGORY_CONFIG,TppDefine.CONFIG_SAVE_FILE_NAME,n)
-    return this.DoSave(n,true)
+    local saveQue=this.MakeNewSaveQueue(TppDefine.SAVE_SLOT.CONFIG,TppDefine.SAVE_SLOT.CONFIG_SAVE,TppScriptVars.CATEGORY_CONFIG,TppDefine.CONFIG_SAVE_FILE_NAME,n)
+    return this.DoSave(saveQue,true)
   elseif S then
     this.ReserveNextMissionStartSave(TppDefine.CONFIG_SAVE_FILE_NAME)
   else
@@ -135,9 +146,9 @@ function this.SaveAvatarData()Player.SetEnableUpdateAvatarInfo(true)
   this.SavePersonalData()
 end
 function this.SaveOnlyMbManagement(a)
-  local n=vars.missionCode
-  this.VarSaveMbMangement(n)
-  this.SaveGameData(n,nil,a)
+  local missionCode=vars.missionCode
+  this.VarSaveMbMangement(missionCode)
+  this.SaveGameData(missionCode,nil,a)
 end
 function this.ReserveNoticeOfMbSaveResult()
   gvars.sav_isReservedMbSaveResultNotify=true
@@ -154,21 +165,26 @@ function this.SaveMBAndGlobal()
   this.SaveGameData(currentMissionCode)
 end
 function this.VarSaveMBAndGlobal()
-  local n=vars.missionCode
-  this.VarSaveMbMangement(n)
+  local missionCode=vars.missionCode
+  this.VarSaveMbMangement(missionCode)
   this.SaveVarsToSlot(TppDefine.SAVE_SLOT.GLOBAL,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_GAME_GLOBAL)
 end
-this.DO_RESERVE_SAVE_FUNCTION={[TppDefine.CONFIG_SAVE_FILE_NAME]=this.SaveConfigData,[TppDefine.PERSONAL_DATA_SAVE_FILE_NAME]=this.SavePersonalData,[TppDefine.GAME_SAVE_FILE_NAME]=this.SaveGameData,[TppDefine.GAME_SAVE_FILE_NAME_TMP]=this.SaveGameData}
-function this.ReserveNextMissionStartSave(a,S)
-  if not this.DO_RESERVE_SAVE_FUNCTION[a]then
+this.DO_RESERVE_SAVE_FUNCTION={
+  [TppDefine.CONFIG_SAVE_FILE_NAME]=this.SaveConfigData,
+  [TppDefine.PERSONAL_DATA_SAVE_FILE_NAME]=this.SavePersonalData,
+  [TppDefine.GAME_SAVE_FILE_NAME]=this.SaveGameData,
+  [TppDefine.GAME_SAVE_FILE_NAME_TMP]=this.SaveGameData
+}
+function this.ReserveNextMissionStartSave(saveFileName,S)
+  if not this.DO_RESERVE_SAVE_FUNCTION[saveFileName]then
     return
   end
   this.missionStartSaveFilePool=this.missionStartSaveFilePool or{}
-  local n=this.missionStartSaveFilePool[a]or{}
+  local n=this.missionStartSaveFilePool[saveFileName]or{}
   if n and S then
     n.isCheckPoint=S
   end
-  this.missionStartSaveFilePool[a]=n
+  this.missionStartSaveFilePool[saveFileName]=n
 end
 function this.DoReservedSaveOnMissionStart()
   if not this.missionStartSaveFilePool then
@@ -182,7 +198,8 @@ function this.DoReservedSaveOnMissionStart()
     end
   end
   for n,a in pairs(this.missionStartSaveFilePool)do
-    local e=this.DO_RESERVE_SAVE_FUNCTION[n]e(nil,nil,nil,nil,a.isCheckPoint)
+    local e=this.DO_RESERVE_SAVE_FUNCTION[n]
+    e(nil,nil,nil,nil,a.isCheckPoint)
   end
   this.missionStartSaveFilePool=nil
 end
@@ -364,7 +381,7 @@ function this.DoSave(n,a)
   return e
 end
 function this.Update()
-  if(not i())then
+  if(not IsSavingOrLoading())then
     if(gvars.sav_SaveResultCheckFileName~=0)then
       local a=true
       local n=TppScriptVars.GetLastResult()
@@ -386,7 +403,7 @@ function this.Update()
       end
     end
   end
-  if i()then
+  if IsSavingOrLoading()then
     local e=TppScriptVars.GetSaveState()
     if e==TppScriptVars.STATE_SAVING then
       if gvars.sav_isCheckPointSaving then
@@ -429,12 +446,12 @@ function this.OnMessage(p,r,t,i,S,n,a)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,p,r,t,i,S,n,a)
 end
 function this.WaitingAllEnqueuedSaveOnStartMission()
-  while i()do
+  while IsSavingOrLoading()do
     this.CoroutineYieldWithShowSavingIcon()
   end
   while p()do
     this.ProcessSaveQueue()
-    while i()do
+    while IsSavingOrLoading()do
       this.CoroutineYieldWithShowSavingIcon()
     end
   end

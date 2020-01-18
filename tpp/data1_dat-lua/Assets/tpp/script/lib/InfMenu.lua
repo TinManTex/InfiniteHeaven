@@ -1,371 +1,17 @@
 -- DOBUILD: 1
---tex SYS: mod menu
 local this={}
-
 --LOCALOPT:
 local Buttons=InfButton
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
-local IsDemoPlaying=DemoDaemon.IsDemoPlaying
 local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 
-this.switchSlider={max=1,min=0,increment=1}
-this.healthMultSlider={max=4,min=0,increment=0.2}
-
-local menuItemMenuOff={
-  name="inf_turn_off_menu",--"Turn off menu"
-  default=0,
-  slider=this.switchSlider,
-  settingNames="inf_set_menu_off",
-  onChange=function()
-    this.MenuOff()
-    this.currentOption=1
-  end,
-}
-local menuItemResetSettings={
-  name="inf_reset_all_settings",--"Reset all settings"
-  default=0,
-  slider=this.switchSlider,
-  settingNames="inf_set_menu_reset",
-  onChange=function()
-    this.ResetSettingsDisplay()
-    this.MenuOff()
-  end,
-}
-local menuItemGoBack={
-  name="inf_menu_back",--"Menu Back"
-  default=0,
-  slider=this.switchSlider,
-  settingNames="inf_set_menu_back",
-  onChange=function()
-    this.GoBackCurrent()
-  end,
-}
-
-local clockTimeScaleItem={
-  name="inf_clock_time_scale",
-  gvarName="clockTimeScale",
-  default=20,
-  slider={max=1000,min=1,increment=1},
-  onChange=function()
-    if not IsDemoPlaying() then
-      TppClock.Start()
-    end
-  end
-}
-local showPositionItem={
-  name="inf_show_position",
-  default=0,
-  slider=this.switchSlider,
-  settingNames="inf_set_do",
-  onChange=function()
-    TppUiCommand.AnnounceLogView(string.format("%.2f,%.2f,%.2f | %.2f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY))
-  end,
-}
-
-local parametersMenu={
-  name="inf_parameters_menu",
-  parent=nil,
-  default=0,
-  options={
-    {
-      name="inf_general_enemy_parameters",--"General Enemy Parameters"
-      gvarName="enemyParameters",
-      default=0,
-      slider=this.switchSlider,
-      settingNames="inf_set_enemy_parameters",
-    },
-    {
-      name="inf_enemy_life_scale",--"Enemy life scale (Requires Tweaked Enemy Parameters)"
-      gvarName="enemyHealthMult",
-      default=1,
-      slider=this.healthMultSlider,
-      isFloatSetting=true,
-    },
-    {
-      name="inf_player_life_scale",--"Player life scale"
-      gvarName="playerHealthMult",
-      default=1,
-      slider=this.healthMultSlider,
-      isFloatSetting=true,
-    },
-    menuItemResetSettings,
-    menuItemGoBack,
-  }
-}
-local motherBaseMenu={
-  name="inf_mother_base_menu",
-  parent=nil,
-  default=0,
-  options={
-    {
-      name="inf_dd_equip_grade",--"DD Equip Grade",
-      gvarName="mbSoldierEquipGrade",
-      default=0,
-      slider={max=InfMain.SETTING_MB_EQUIPGRADE.MAX-1,min=0,increment=1},
-      settingNames="inf_set_dd_equip_grade",--SYNC: SETTING_MB_EQUIPGRADE
-      onChange=function()--DEPENDENCY: mbPlayTime
-        if gvars.mbSoldierEquipGrade==0 then
-          gvars.mbPlayTime=0
-      elseif gvars.mbSoldierEquipGrade>0 then
-        gvars.mbPlayTime=1
-      end
-      end
-    },
-    {
-      name="inf_dd_equip_range",--"DD Equip Range",
-      gvarName="mbSoldierEquipRange",
-      default=0,
-      slider={max=InfMain.SETTING_MB_EQUIPRANGE.MAX-1,min=0,increment=1},
-      settingNames="inf_set_dd_equip_range",--SYNC: SETTING_MB_EQUIPRANGE
-    },
-    {
-      name="inf_dd_suit",--"DD Suit (Requires Equip Grade On)",
-      gvarName="mbDDSuit",
-      default=0,
-      slider={max=InfMain.SETTING_MB_DD_SUITS.MAX-1,min=0,increment=1},
-      settingNames="inf_set_dd_suit",
-    },
-    --[[{
-      name="DD Balaclava",
-      gvarName="mbDDBalaclava",
-      default=0,
-      slider=this.switchSlider,
-      settingNames={"Use Equip Grade", "Force Off"},
-    },--]]
-    {
-      name="inf_mother_base_war_games",--"Mother Base War Games",
-      gvarName="mbWarGames",
-      default=0,
-      slider={max=2,min=0,increment=1},
-      settingNames="inf_set_mb_wargames",
-    },
-    menuItemResetSettings,
-    menuItemGoBack,
-  }
-}
-local demosMenu={
-  name="inf_demos_menu",
-  parent=nil,
-  default=0,
-  options={
-    {
-      name="inf_use_soldier_for_demos",
-      gvarName="useSoldierForDemos",
-      default=0,
-      slider=this.switchSlider,
-      settingNames="inf_set_switch",
-    },
-    {
-      name="inf_mb_demo_selection",--"MB return demo play mode",
-      helpText="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",--ADDLANG:
-      gvarName="mbDemoSelection",
-      default=0,
-      slider={max=2,min=0,increment=1},
-      settingNames="inf_set_mb_demo_selection",
-    },
-    {
-      name="inf_mb_select_demo",--"Select MB return demo (REQ: Play selected above)",
-      gvarName="mbSelectedDemo",
-      default=0,
-      slider={max=(#TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST-1),min=0,increment=1},--tex #Enumtable doesn't seem to work, have a look how .
-      settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST,
-    },
-    menuItemResetSettings,
-    menuItemGoBack,
-  }
-}
-
-local patchupMenu={
-  name="inf_patchup_menu",
-  parent=nil,
-  default=0,
-  options={
-    {
-      name="inf_unlock_avatar",
-      gvarName="unlockPlayableAvatar",
-      default=0,
-      slider=this.switchSlider,
-      settingNames="inf_set_switch",
-      onChange=function()
-        local currentStorySequence=TppStory.GetCurrentStorySequence()
-        if gvars.unlockPlayableAvatar==0 then
-          if currentStorySequence<=TppDefine.STORY_SEQUENCE.CLEARD_THE_TRUTH then
-            vars.isAvatarPlayerEnable=0
-          end
-        else
-          vars.isAvatarPlayerEnable=1
-        end
-      end,
-    },
-    {
-      name="inf_return_quiet",--"Return Quiet (not reversable)",
-      default=0,
-      slider=this.switchSlider,
-      settingNames="inf_set_quiet_return",
-      onChange=function()
-        if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
-          this.AnnounceLogLangId"inf_quiet_already_returned"--"Quiet has already returned."
-        else
-          InfPatch.QuietReturn()
-        end
-      end,
-    },
-    {
-      name="inf_show_game_lang_code",
-      default=0,
-      slider=this.switchSlider,
-      settingNames="inf_set_do",
-      onChange=function()
-        local languageCode=GetAssetConfig"Language"
-        TppUiCommand.AnnounceLogView(this.LangString"inf_language_code" .. ": " .. languageCode)
-      end,
-    },
-    showPositionItem,
-    {
-      name="inf_print_buttonmasks",
-      default=0,
-      slider=this.switchSlider,
-      settingNames="inf_set_switch",
-      onChange=function()
-        InfButton.DEBUG_PrintMasks()
-      end,
-    },
-    --[[{--tex cant get gvar startoffline to read in init sequence, yet isnewgame seems to be fine?
-      name="inf_start_offline",--"Start Offline",
-      gvarName="startOffline",
-      default=0,
-      slider=this.switchSlider,
-      settingNames="inf_set_switch",
-    },--]]
-    menuItemGoBack,
-  }
-}
-
-this.heliSpaceMenu={
-  name="inf_main_menu",
-  parent=nil,
-  options={
-    {
-      name="inf_subsistence_mode",--"Subsistence Mode",
-      gvarName="isManualSubsistence",
-      default=0,
-      slider={max=2,min=0,increment=1},
-      settingNames="inf_set_subsistence",
-      onChange=function()--DEPENDENCY: isManualSubsistence, subsistenceLoadout. noCentralLzs
-        if gvars.isManualSubsistence==0 then
-          gvars.subsistenceLoadout=0
-          gvars.noCentralLzs=0
-      else
-        gvars.noCentralLzs=1
-        if gvars.subsistenceLoadout==0 then
-          gvars.subsistenceLoadout=1
-        end
-      end
-      end,
-    },
-    {
-      name="inf_osp_weapon_loadout",--"OSP Weapon Loadout",
-      gvarName="subsistenceLoadout",
-      default=0,
-      slider={max=#InfMain.subsistenceLoadouts,min=0,increment=1},
-      settingNames="inf_set_osp",
-      helpText="Start with no primary and secondary weapons, can be used seperately from subsistence mode",
-    },
-    {
-      name="inf_enemy_preparedness",--"Enemy Preparedness",
-      gvarName="revengeMode",
-      default=0,
-      slider=this.switchSlider,
-      settingNames="inf_set_revenge",
-    },
-    {
-      name="inf_start_missions_on_foot",
-      gvarName="startOnFoot",
-      default=0,
-      slider=this.switchSlider,
-      settingNames="inf_set_switch",
-    },
-    clockTimeScaleItem,
-    --[[{
-      name="inf_force_enemy_subtype",
-      gvarName="forceSoldierSubType",
-      default=0,
-      slider={max=(#InfMain.enemySubTypes-1),min=0,increment=1},
-      settingNames=InfMain.enemySubTypes,
-      onChange=function()
-        if gvars.forceSoldierSubType==0 then
-          InfMain.ResetCpTableToDefault()
-        end
-      end,
-    },--]]
-    --[[{--not inteded as user setting, only in menu for debug/view
-      name="inf_no_central_lzs",
-      gvarName="noCentralLzs",
-      default=0,
-      slider=this.switchSlider,
-    },--]]
-    --[[{
-      name="LZ Waveoff (periodically disable random landing zones)",--ADDLANG
-      gvarName="landingZoneWaveOff",
-      default=1,
-      slider={max=1,min=0,increment=0.2},
-      isFloatSetting=true,
-    },--]]
-    {
-      name="inf_unlock_random_sideops",--"Unlock random Sideops for areas",
-      gvarName="unlockSideOps",
-      default=0,
-      slider={max=(InfMain.SETTING_UNLOCK_SIDEOPS.MAX-1),min=0,increment=1},
-      settingNames="inf_set_unlock_sideops",--SYNC: SETTING_UNLOCK_SIDEOPS enum
-      helpText="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area.",
-      onChange=function()
-        TppQuest.UpdateActiveQuest()
-      end,
-    },
-    {
-      name="inf_open_specific_sideop",--"Open specific sideop #",
-      gvarName="unlockSideOpNumber",
-      default=0,
-      slider={max=InfMain.numQuests,min=0,increment=1},
-      skipValues=InfMain.disallowSideOps,
-      onChange=function()
-        TppQuest.UpdateActiveQuest()
-      end,
-    },
-    parametersMenu,
-    motherBaseMenu,
-    demosMenu,
-    patchupMenu,
-    menuItemResetSettings,
-    menuItemMenuOff
-  }
-}
-
-this.inMissionMenu={
-  name="inf_main_menu",
-  parent=nil,
-  options={
-    clockTimeScaleItem,
-    showPositionItem,
-    menuItemResetSettings,
-    menuItemMenuOff
-  }
-}
-
-this.allMenus={--SYNC: currently used for resetall
-  this.heliSpaceMenu,
-  parametersMenu,
-  motherBaseMenu,
-  demosMenu,
-  patchupMenu,
-  this.inMissionMenu,
-}
+this.MAX_ANNOUNCE_STRING=256--tex sting length announcde log can handle before crashing the game, actually 288 but that worries me, so keep a little lower
 
 --tex REFACTOR: most of these can be local
-this.currentMenu=this.heliSpaceMenu
-this.currentMenuOptions=this.heliSpaceMenu.options
+this.currentMenu=InfMenuDefs.heliSpaceMenu
+this.currentMenuOptions=InfMenuDefs.heliSpaceMenu.options
 this.topMenu=this.currentMenu
 this.currentOption=1--tex lua tables are indexed from 1
 this.previousMenuOption=1
@@ -375,15 +21,14 @@ this.autoDisplayDefault=2.8
 this.autoRateHeld=0.85
 this.autoDisplayRate=this.autoDisplayDefault
 this.menuOn=false
-this.toggleMenuButton=PlayerPad.RELOAD
-this.toggleMenuButtonInGame=PlayerPad.EVADE
 this.toggleMenuHoldTime=1
-this.menuRightButton=PlayerPad.RIGHT
-this.menuLeftButton=PlayerPad.LEFT
-this.menuUpButton=PlayerPad.UP
-this.menuDownButton=PlayerPad.DOWN
-this.resetSettingButton=PlayerPad.CALL
-this.menuBackButton=PlayerPad.STANCE
+this.toggleMenuButton=InfButton.EVADE
+this.menuRightButton=InfButton.RIGHT
+this.menuLeftButton=InfButton.LEFT
+this.menuUpButton=InfButton.UP
+this.menuDownButton=InfButton.DOWN
+this.resetSettingButton=InfButton.CALL
+this.menuBackButton=InfButton.STANCE
 
 --tex mod settings menu manipulation
 function this.NextOption()
@@ -402,13 +47,13 @@ function this.PreviousOption()
 end
 function this.GetSetting()
   local modSetting=this.currentMenuOptions[this.currentOption]
-  this.currentSetting=modSetting.default
-  if modSetting.gvarName ~= nil then
-    local gvar=gvars[modSetting.gvarName]
+  this.currentSetting=modSetting.default or 0
+  if modSetting.save then
+    local gvar=gvars[modSetting.name]
     if gvar ~= nil then
       this.currentSetting=gvar
     else
-      TppUiCommand.AnnounceLogView("Option Menu Error: gvar -"..modSetting.gvarName.."- not found")
+      TppUiCommand.AnnounceLogView("Option Menu Error: gvar -"..modSetting.name.."- not found")
     end
   end
 end
@@ -421,7 +66,6 @@ function this.IsCurrentOptionMenu()
 end
 function this.IncrementSetting(current, increment, min, max)
   local newSetting=current+increment
-
   if increment > 0 then
     if newSetting > max then
       newSetting = min
@@ -433,13 +77,13 @@ function this.IncrementSetting(current, increment, min, max)
   end
   return newSetting
 end
-function this.ChangeSetting(modSetting,value,incrementMult)
+function this.ChangeSetting(setting,value,incrementMult)
   incrementMult = incrementMult or 1
   --TppUiCommand.AnnounceLogView("DBG:MNU: changesetting increment:"..value)--tex DEBUG: CULL:
   local newSetting=this.currentSetting
 
   local value=value*incrementMult
-  if modSetting.isFloatSetting==nil then
+  if setting.isFloat==nil then
     if value > 0 then
       value=math.ceil(value)
     else
@@ -448,46 +92,42 @@ function this.ChangeSetting(modSetting,value,incrementMult)
     --TppUiCommand.AnnounceLogView("DBG:MNU: newValue round:"..value)
   end
 
-  if modSetting.gvarName~=nil then
-    --TppUiCommand.AnnounceLogView("DBG:MNU: found gvarName:" .. modSetting.gvarName)--tex DEBUG: CULL:
-    local gvar=gvars[modSetting.gvarName]
+  if setting.save then
+    --TppUiCommand.AnnounceLogView("DBG:MNU: found name:" .. modSetting.name)--tex DEBUG: CULL:
+    local gvar=gvars[setting.name]
     if gvar ~= nil then
-      --TppUiCommand.AnnounceLogView("DBG:MNU: gvar:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:
-      newSetting=this.IncrementSetting(gvar,value,modSetting.slider.min,modSetting.slider.max)
-      if modSetting.skipValues ~= nil then
-        while modSetting.skipValues[newSetting] do
-          TppUiCommand.AnnounceLogView(newSetting .. " " .. this.LangString"inf_setting_disallowed")--" is currently disallowed"
-          newSetting=this.IncrementSetting(newSetting,value,modSetting.slider.min,modSetting.slider.max)
+      --TppUiCommand.AnnounceLogView("DBG:MNU: gvar:" .. modSetting.name .. "=" .. gvar)--tex DEBUG: CULL:
+      newSetting=this.IncrementSetting(gvar,value,setting.range.min,setting.range.max)
+      if setting.skipValues ~= nil then
+        while setting.skipValues[newSetting] do
+          TppUiCommand.AnnounceLogView(newSetting .. " " .. this.LangString"setting_disallowed")--" is currently disallowed"
+          newSetting=this.IncrementSetting(newSetting,value,setting.range.min,setting.range.max)
         end
       end
-      --TppUiCommand.AnnounceLogView("DBG:MNU: newsetting:"..newSetting)--tex DEBUG: CULL:
-      newSetting=TppMath.Clamp(newSetting,modSetting.slider.min,modSetting.slider.max)
-      --TppUiCommand.AnnounceLogView("DBG:MNU: newsetting clamped:"..newSetting)--tex DEBUG: CULL:
     else
-      TppUiCommand.AnnounceLogView("Option Menu Error: gvar -" .. modSetting.gvarName .. "- not found")
+      TppUiCommand.AnnounceLogView("Option Menu Error: gvar -" .. setting.name .. "- not found")
     end
-    gvars[modSetting.gvarName]=newSetting
-    --TppUiCommand.AnnounceLogView("DBG:MNU: gvar set:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:
-    if IsFunc(modSetting.onChange) then
-      modSetting.onChange()
+    gvars[setting.name]=newSetting
+    --TppUiCommand.AnnounceLogView("DBG:MNU: gvar set:" .. modSetting.name .. "=" .. gvar)--tex DEBUG: CULL:
+    if IsFunc(setting.onChange) then
+      setting:onChange()
     end
   else--gvar nil
-    if modSetting.slider~=nil then
+    if setting.range~=nil then
       newSetting=this.currentSetting+value
       if value > 0 then
-        if newSetting > modSetting.slider.max then
-          newSetting = modSetting.slider.min
+        if newSetting > setting.range.max then
+          newSetting = setting.range.min
         end
       elseif value < 0 then
-        if newSetting < modSetting.slider.min then
-          newSetting = modSetting.slider.max
+        if newSetting < setting.range.min then
+          newSetting = setting.range.max
         end
       end
-      --newSetting=TppMath.Clamp(newSetting,modSetting.slider.min,modSetting.slider.max)
-  end
-  if IsFunc(modSetting.onChange) then
-    modSetting.onChange()
-  end
+    end
+    if IsFunc(setting.onChange) then
+      setting:onChange()
+    end
   end
   --TppUiCommand.AnnounceLogView("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
   return newSetting
@@ -495,13 +135,13 @@ end
 function this.SetCurrent()
   this.SetSetting(this.currentMenuOptions[this.currentOption],this.currentSetting)
 end
-function this.SetSetting(modSetting,value)
-  if modSetting.gvarName~=nil then
-    local gvar=gvars[modSetting.gvarName]
-    if gvar ~= nil then
-      gvars[modSetting.gvarName]=value
-      if IsFunc(modSetting.onChange) then
-        modSetting.onChange()
+function this.SetSetting(setting,value)
+  if setting.save then
+    local gvar=gvars[setting.name]
+    if gvar then
+      gvars[setting.name]=value
+      if IsFunc(setting.onChange) then
+        setting:onChange()
       end
     end
   end
@@ -511,27 +151,34 @@ function this.NextSetting(incrementMult)
   if modSetting.options~=nil then--tex menu
     this.GoMenu(modSetting)
   else
-    this.currentSetting=this.ChangeSetting(modSetting,modSetting.slider.increment,incrementMult)
+    this.currentSetting=this.ChangeSetting(modSetting,modSetting.range.increment,incrementMult)
   end
 end
 function this.PreviousSetting(incrementMult)
   local modSetting=this.currentMenuOptions[this.currentOption]
-  this.currentSetting=this.ChangeSetting(modSetting,-modSetting.slider.increment,incrementMult)
+  this.currentSetting=this.ChangeSetting(modSetting,-modSetting.range.increment,incrementMult)
 end
 
-function this.GoMenu(menu)
-  menu.parent=this.currentMenu
-  this.previousMenuOption=this.currentOption
+function this.GoMenu(menu,goBack)
+  if not goBack and menu ~= this.topMenu then
+    menu.parent=this.currentMenu
+    menu.parentOption=this.currentOption
+  end
+  
+  if goBack then
+      this.currentOption=this.currentMenu.parentOption
+  else
+      this.currentOption=1
+  end
   this.currentMenu=menu
   this.currentMenuOptions=menu.options
-  this.currentOption=1
   this.GetSetting()
-  if menu.name and this.menuOn then
-    this.AnnounceLogLangId(menu.name)
+  if this.currentMenu.name and this.menuOn then
+    this.AnnounceLogLangId(this.currentMenu.name)
   end
-  if menu.parent==nil then
-    TppUiCommand.AnnounceLogView("Option Menu Error: parent = nil")
-  end
+  --if menu.parent==nil then CULL:
+   -- TppUiCommand.AnnounceLogView("Option Menu Error: parent = nil")
+  --end
 end
 function this.GoBackCurrent()
   if this.currentMenu.parent==nil then
@@ -540,8 +187,7 @@ function this.GoBackCurrent()
     end
     return
   end
-  this.currentOption=this.previousMenuOption
-  this.GoMenu(this.currentMenu.parent)
+  this.GoMenu(this.currentMenu.parent,true)
 end
 
 --tex display settings
@@ -560,15 +206,16 @@ function this.DisplaySetting(optionIndex)
   local modSetting=this.currentMenuOptions[optionIndex]
   local settingText=""
   local optionSeperator=optionSeperators.equals
-  if modSetting.settingNames ~= nil then
-    if this.currentSetting < 0 or this.currentSetting > #modSetting.settingNames-1 then
-      settingText="CURRENTSETTING OUT OF BOUNDS"
-    elseif IsTable(modSetting.settingNames) then--old style direct non localized table
-      settingText=modSetting.settingNames[this.currentSetting+1]--tex lua indexed from 1, but settings from 0
+  local settingNames=modSetting.settingNames or modSetting.settings
+  if settingNames then
+    if this.currentSetting < 0 or this.currentSetting > #settingNames-1 then
+      settingText="currentSetting out of settingNames bounds"
+    elseif IsTable(settingNames) then--old style direct non localized table
+      settingText=this.currentSetting..":"..settingNames[this.currentSetting+1]--tex lua indexed from 1, but settings from 0
     else
-      settingText=this.LangTableString(modSetting.settingNames,this.currentSetting+1)--tex lua indexed from 1, but settings from 0
+      settingText=this.LangTableString(settingNames,this.currentSetting+1)--tex lua indexed from 1, but settings from 0
     end
-  elseif modSetting.isFloatSetting then
+  elseif modSetting.isFloat then
     settingText=math.floor(100*this.currentSetting) .. "%"
   elseif modSetting.options~=nil then--tex menu
     settingText=""
@@ -583,7 +230,10 @@ end
 function this.DisplaySettings()--tex display all
   for i=1,#this.currentMenuOptions do
     this.DisplaySetting(i)
+  end
 end
+function this.DisplayProfileChangedToCustom(profile)
+  TppUiCommand.AnnounceLogView("Profile "..this.LangString(profile.name).." set to Custom")--DEBUGNOW: ADDLANG:
 end
 function this.AutoDisplay()
   if this.autoDisplayRate > 0 then
@@ -600,33 +250,33 @@ function this.DisplayHelpText()
   end
 end
 function this.ResetSetting()
-  local modSetting=this.currentMenuOptions[this.currentOption]
-  if modSetting.gvarName~=nil then
-    gvars[modSetting.gvarName]=modSetting.default
-    this.currentSetting=modSetting.default
-    if IsFunc(modSetting.onChange) then
-      modSetting.onChange()
+  local setting=this.currentMenuOptions[this.currentOption]
+  if setting.save then
+    gvars[setting.name]=setting.default
+    this.currentSetting=setting.default
+    if IsFunc(setting.onChange) then
+      setting:onChange()
     end
   end
 end
 function this.ResetSettings()
-  for n,menu in ipairs(this.allMenus) do
-    for m,modSetting in ipairs(menu.options) do
-      if modSetting.gvarName~=nil then
-        gvars[modSetting.gvarName]=modSetting.default
-        if IsFunc(modSetting.onChange) then
-          modSetting.onChange()
+  for n,menu in ipairs(InfMenuDefs.allMenus) do
+    for m,setting in ipairs(menu.options) do
+      if setting.save then
+        gvars[setting.name]=setting.default
+        if IsFunc(setting.onChange) then
+          setting:onChange()
         end
       end
     end
   end
 end
 function this.ResetSettingsDisplay()
-  this.AnnounceLogLangId"inf_setting_defaults"--"Setting mod options to defaults..."
+  this.AnnounceLogLangId"setting_defaults"--"Setting mod options to defaults..."
   for i=1,#this.currentMenuOptions do
     local modSetting=this.currentMenuOptions[i]
-    if modSetting.gvarName~=nil then
-      gvars[modSetting.gvarName]=modSetting.default
+    if modSetting.save then
+      gvars[modSetting.name]=modSetting.default
       this.currentSetting=modSetting.default
       this.DisplaySetting(i)
     end
@@ -636,7 +286,17 @@ end
 
 function this.MenuOff()
   this.menuOn=false
-  this.AnnounceLogLangId"inf_menu_off"--"Menu Off"
+  this.AnnounceLogLangId"menu_off"--"Menu Off"
+end
+
+local function ToggleMenu()--TODO: break out
+  this.menuOn = not this.menuOn
+  if this.menuOn then
+    this.GetSetting()
+    TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
+  else
+    this.MenuOff()
+  end
 end
 
 --tex my own shizzy langid stuff since games is too limitied
@@ -645,17 +305,13 @@ function this.LangString(langId)
     TppUiCommand.AnnounceLogView"AnnounceLogLangId langId empty"
     return ""
   end
-  --[[if AssetConfiguration then
-
-
-  else
-
-
-    TppUiCommand.AnnounceLogView"no AssetConfiguration"
-
-
-  end--]]
   local languageCode=GetAssetConfig"Language"
+  if gvars.langOverride == 1 then--Cht over Jpn
+    if languageCode=="jpn" then
+      languageCode="cht"
+    end
+  end
+  
   if InfLang[languageCode]==nil then
     --TppUiCommand.AnnounceLogView("no lang in inflang")
     languageCode="eng"
@@ -710,65 +366,52 @@ end
 function this.Update()
   --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
   --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
-  this.ModStart()--tex: TODO: move to actual run once on startup init thing, make sure to check ModStart itself to see affected code
+  this.ModStart()--TODO: move to actual run once on startup init thing, make sure to check ModStart itself to see affected code
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
   InfButton.UpdateHeld()
   if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
-    --InfButton.DEBUG_PrintPressed()--DEBUGNOW:  
     --tex RETRY: still not happy, want to read menu status but cant find a way
     local inHeliSpace = TppMission.IsHelicopterSpace(vars.missionCode)
     if inHeliSpace then
-      if this.topMenu~=this.heliSpaceMenu then
-        this.topMenu=this.heliSpaceMenu
+      if this.topMenu~=InfMenuDefs.heliSpaceMenu then
+        this.topMenu=InfMenuDefs.heliSpaceMenu
         this.GoMenu(this.topMenu)
       end
     else--!ishelispace
-      if this.topMenu~=this.inMissionMenu then
-        this.topMenu=this.inMissionMenu
+      if this.topMenu~=InfMenuDefs.inMissionMenu then
+        this.topMenu=InfMenuDefs.inMissionMenu
         this.GoMenu(this.topMenu)
       end
-    end--game space check
-
-    local function ToggleMenu() --TODO: break out
-      this.menuOn = not this.menuOn
-      if this.menuOn then
-        this.GetSetting()
-        TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"inf_menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
-      else
-        this.MenuOff()
-      end
     end
-    
-    if inHeliSpace then
-      if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+
+    if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+      local playerVehicleId=vars.playerVehicleGameObjectId
+      local onHorse = false
+      if not inHeliSpace then
+        onHorse = Tpp.IsHorse(playerVehicleId)
+      end
+      if not onHorse then
         ToggleMenu()
       end
-    else-- not inhelispace
-      if InfButton.OnButtonHoldTime(this.toggleMenuButtonInGame) then
-        local playerVehicleId=vars.playerVehicleGameObjectId
-        local onHorse = Tpp.IsHorse(playerVehicleId)
-        if not onHorse then
-          ToggleMenu()
-        end
-      end
-    end--inhelispace
+    end
 
     if this.menuOn then
-      if InfButton.OnButtonDown(PlayerPad.MB_DEVICE) then
+      --TODO: figure out a way to check better, see general feature do.txt
+      if InfButton.OnButtonDown(InfButton.MB_DEVICE) then
         this.MenuOff()
       end
 
-      if InfButton.OnButtonDown(this.toggleMenuButton) then
+      if InfButton.OnButtonDown(this.toggleMenuButton) then--update gvar of current
         this.SetCurrent()
         this.DisplayCurrentSetting()
       end
-      if InfButton.OnButtonDown(PlayerPad.UP) then
+      if InfButton.OnButtonDown(this.menuUpButton) then
         this.PreviousOption()
         this.DisplayCurrentSetting()
       end
-      if InfButton.OnButtonDown(PlayerPad.DOWN) then
+      if InfButton.OnButtonDown(this.menuDownButton) then
         this.NextOption()
         this.DisplayCurrentSetting()
       end
@@ -797,7 +440,7 @@ function this.Update()
 
       if InfButton.OnButtonDown(this.resetSettingButton) then
         this.ResetSetting()
-        this.AnnounceLogLangId"inf_setting_default"--"Setting to default.."
+        this.AnnounceLogLangId"setting_default"--"Setting to default.."
         this.DisplayCurrentSetting()
       end
       if InfButton.OnButtonDown(this.menuBackButton) then
