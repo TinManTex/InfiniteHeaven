@@ -172,13 +172,11 @@ this.missionObjectiveDefine = {
 	on_itm_s10036_material = {
 		gameObjectName = "TppMarker2Locator_field_material",	goalType = "none", viewType = "map_only_icon", setNew = true, announceLog = "updateMap",
 		langId = "marker_processed_res",
-		missionTask = { taskNo=5},
 	},
 	on_itm_s10036_herb = {
 		gameObjectName = "TppMarker2Locator_field_herb",visibleArea = 1, randomRange = 0,	
 		goalType = "none", viewType = "map_only_icon", setNew = true, announceLog = "updateMap",
 		langId = "marker_area_medicinal_plant",
-		missionTask = { taskNo=4},
 	},
 
 	announce_rescue_target = {

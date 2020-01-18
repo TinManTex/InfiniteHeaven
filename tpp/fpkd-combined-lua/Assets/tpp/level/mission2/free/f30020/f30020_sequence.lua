@@ -8,49 +8,27 @@ this.requires = {
 	"/Assets/tpp/level/mission2/free/f30020/f30020_orderBoxList.lua",
 }
 
-
 this.DEBUG_strCode32List = {
-
 }
 
 this.MAX_PICKABLE_LOCATOR_COUNT = 100
-
 this.MAX_PLACED_LOCATOR_COUNT = 220	
-
 this.NO_MISSION_TELOP_ON_START_HELICOPTER = true 
-
 this.NO_RESULT = true
-
-
-
-
-
-
-
-
-
-
-
 
 function this.OnLoad()
 	Fox.Log("#### OnLoad ####")	
 
-	TppSequence.RegisterSequences{
-		
+	TppSequence.RegisterSequences{		
 		"Seq_Game_FreePlay",
 		nil
 	}
 	TppSequence.RegisterSequenceTable(sequences)
 end
 
-
-
-
-
 this.saveVarsList = {
 	acceptMissionId = 0
 }
-
 
 this.checkPointList = {
 	"CHK_banana",
@@ -64,7 +42,6 @@ this.checkPointList = {
 	"CHK_savannah",
 	"CHK_swamp",
 }
-
 
 this.baseList = {
 	"outlandNorth",

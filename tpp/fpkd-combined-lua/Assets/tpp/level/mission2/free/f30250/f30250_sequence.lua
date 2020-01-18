@@ -1,3 +1,8 @@
+-- DOBUILD: 0
+-- ORIGINALQAR: chunk0
+-- FILEPATH: \Assets\tpp\level\mission2\free\f30250\f30250_sequence.lua
+-- PACKPATH: \Assets\tpp\pack\mission2\free\f30250.fpkd
+-- QARPATH: \init_fpkd
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -9,29 +14,15 @@ local NULL_ID = GameObject.NULL_ID
 
 local sequences = {}
 
-
-
-
-
-
 local VOLGIN_DEMO_GROUP = {	
 	"hos_volgin_0000",
 }
 
-
-
-
-
 this.NO_MISSION_TELOP_ON_START_HELICOPTER = true 
-
-
-
-
 
 this.missionStartPosition = {
 	helicopterRouteList = {},
 	IsUseRoute = function()
-		
 		if this.isRecoverVolginDemoPlay() then
 			return false
 		else
@@ -39,13 +30,6 @@ this.missionStartPosition = {
 		end
 	end
 }
-
-
-
-
-
-
-
 
 function this.OnLoad()
 	Fox.Log("#### OnLoad ####")
@@ -59,36 +43,18 @@ function this.OnLoad()
 	TppSequence.RegisterSequenceTable(sequences)
 end
 
-
-
-
-
 this.saveVarsList = {
 	isAllEnemyEnable	= false,	
 	isAllHostageEnable	= false,	
 }
 
-
 this.checkPointList = {
 	nil
 }
 
-
-
-
-
-
-
-
-
-
-
-
 function this.MissionPrepare()
 	local missionName = TppMission.GetMissionName()
 	Fox.Log("*** " .. tostring(missionName) .. " MissionPrepare ***")
-
-	
 	
 	local systemCallbackTable ={
 		OnEstablishMissionClear			= TppMission.MissionGameEnd,
@@ -97,28 +63,19 @@ function this.MissionPrepare()
 	}
 	
 	TppMission.RegisterMissionSystemCallback(systemCallbackTable)
-
-
 end
 
-
 this.OnEndMissionPrepareSequence = function ()
-	
 	this.UnsetEmergencyAsset()
 	
 	TppUiStatusManager.SetStatus(	"EquipHudAll", "ALL_KILL_NOUSE" )
 end
 
-
-
-
 function this.OnRestoreSVars()
 	local missionName = TppMission.GetMissionName()
 	Fox.Log("*** " .. tostring(missionName) .. " OnRestoreSVars ***")
 
-	
 	vars.playerDisableActionFlag = PlayerDisableAction.CQC_KNIFE_KILL + PlayerDisableAction.KILLING_WEAPON
-
 	
 	mvars.parasiteFogCount		= 0
 	mvars.parasiteCamoflaCount	= 0
@@ -142,10 +99,6 @@ function this.SetEmblem()
 	TppCollection.RepopCountOperation( "SetAt", "col_develop_MTBS_30250_0000", nShowflag )
 end
 
-
-
-
-
 function this.AcceptMission( missionId )
 	local grade = TppLocation.GetMbStageClusterGrade( TppDefine.CLUSTER_DEFINE.Develop + 1 )
 	local s10115_heliRouteTable = {
@@ -157,13 +110,6 @@ function this.AcceptMission( missionId )
 	
 	TppMission.AcceptMissionOnMBFreeMission( missionId, grade, s10115_heliRouteTable )
 end
-
-
-
-
-
-
-
 
 function this.Messages()
 	return
@@ -212,21 +158,14 @@ function this.ReserveMissionClear(nextMissionId, nextHeliRoute, nextLayoutCode, 
 	}
 end
 
-
-
-
-
 sequences.Seq_Demo_RecoverVolgin = {
-
 	OnEnter = function()
-		
 		if this.isRecoverVolginDemoPlay() then
 			Fox.Log("######## Seq_Demo_RecoverVolgin.OnEnter ########")
 			mvars.isPlayVolginDemo = true
 			local startFunc = function()
 			end
 			local endFunc = function()
-				
 				TppSequence.SetNextSequence("Seq_Game_MainGame")
 			end
 			
@@ -234,7 +173,6 @@ sequences.Seq_Demo_RecoverVolgin = {
 			
 			f30250_demo.PlayRecoverVolgin( startFunc, endFunc )
 		else
-			
 			TppUI.FadeIn( TppUI.FADE_SPEED.FADE_NORMALSPEED, "FadeInOnGameStart")
 			TppMain.EnableGameStatus()	
 			TppSequence.SetNextSequence("Seq_Game_MainGame")
@@ -243,7 +181,6 @@ sequences.Seq_Demo_RecoverVolgin = {
 
 	OnLeave = function()
 		if mvars.isPlayVolginDemo then
-			
 			TppQuest.ClearWithSave( TppDefine.QUEST_CLEAR_TYPE.CLEAR, "tent_q99040" )
 		end
 	end,
@@ -276,18 +213,13 @@ sequences.Seq_Game_Escape = {
 	end,
 }
 
-
-
-
-function this.UnsetEmergencyAsset()
-	
+function this.UnsetEmergencyAsset()	
 	local assetFlag = false
 	local gimmickFlag = true
 
 	local IDEN_ASSET_ID = "uq_0020_demo_hide_AssetIdentifier"
 	local IDEN_ASSET_KEY = {"emergency_obj"}
 
-	
 	TppDataUtility.SetVisibleDataFromIdentifier( IDEN_ASSET_ID, "emergency_obj" , assetFlag )
 	TppDataUtility.SetVisibleDataFromIdentifier( IDEN_ASSET_ID, "close_door" , not assetFlag )
 	
@@ -297,7 +229,6 @@ function this.UnsetEmergencyAsset()
 	
 	TppDataUtility.VisibleMeshFromIdentifier(IDEN_ASSET_ID,"floor","MESH_usually_IV")
 	TppDataUtility.InvisibleMeshFromIdentifier(IDEN_ASSET_ID,"floor","MESH_emergency")
-
 	
 	local IDEN_PATH_ID 	= "uq07_path_Identifier"
 	local IDEN_PATH_KEY_TABLE	= {
@@ -315,8 +246,6 @@ function this.UnsetEmergencyAsset()
 	for i,key in pairs(IDEN_PATH_KEY_TABLE)do
 		TppDataUtility.SetEnableDataFromIdentifier( IDEN_PATH_ID, key, assetFlag, true)
 	end
-
-	
 	
 	TppDataUtility.SetVisibleDataFromIdentifier( "uq07_item_Identifier", "off0000", assetFlag, true)
 	TppDataUtility.SetVisibleDataFromIdentifier( "uq07_item_Identifier", "off0001", assetFlag, true)
@@ -335,19 +264,14 @@ function this.UnsetEmergencyAsset()
 	for i, keyName in pairs(GIMMICK_NAME_TABLE)do
 		Gimmick.InvisibleGimmick( type, keyName, GIMMICK_PATH, gimmickFlag)
 	end
-
 end
 
-
 function this.isRecoverVolginDemoPlay()
-	
 	if gvars.qst_volginQuestCleared and TppQuest.IsCleard("tent_q99040") == false then
 		return true
 	else
 		return false
 	end
 end
-
-
 
 return this

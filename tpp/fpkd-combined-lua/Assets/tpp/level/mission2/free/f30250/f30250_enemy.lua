@@ -9,18 +9,12 @@ local NULL_ID = GameObject.NULL_ID
 
 this.requires = {}
 
-
-
-
-
-
 local UNIQUE_TYPE = Tpp.Enum{
 	"VOLGIN",		
 	"FOG",			
 	"CAMOFLA",		
 	"CURING",		
 }
-
 
 local UNIQUE_NAME_LIST = {
 	VOLGIN					= "hos_volgin_0000",
@@ -32,7 +26,6 @@ local UNIQUE_NAME_LIST = {
 	PARASITE_CURING_02		= "hos_wmu03_0001",
 }
 
-
 local PARASITE_MOTION_LIST = {
 	VOLGIN					= "/Assets/tpp/motion/SI_game/fani/bodies/vol0/vol0non/vol0non_s_ded_p.gani",		
 	PARASITE_FOG			= "/Assets/tpp/motion/SI_game/fani/bodies/wmu0/wmu0/wmu0_s_idl_a.gani",				
@@ -41,7 +34,6 @@ local PARASITE_MOTION_LIST = {
 }
 
 local HOSTAGE_DATA_LIST = {
-	
 	{
 		locatorName		= UNIQUE_NAME_LIST.VOLGIN,
 		type			= UNIQUE_TYPE.VOLGIN,
@@ -89,11 +81,7 @@ local HOSTAGE_DATA_LIST = {
 	},
 }
 
-
-
-
 this.soldierDefine = {
-	
 	mbqf_mtbs_cp = {
 		"sol_mtbs_0000",
 		"sol_mtbs_0001",
@@ -108,7 +96,6 @@ this.soldierDefine = {
 }
 
 this.routeSets = {
-	
 	mbqf_mtbs_cp = {
 		priority = {
 			"groupA",
@@ -139,58 +126,28 @@ this.routeSets = {
 	},
 }
 
-
-
-
-
 this.combatSetting = {
 	nil
 }
-
-
-
-
-
 
 this.InitEnemy = function()
 	Fox.Log("*** enemu.lua f30250 InitEnemy ***")
 end
 
-
-
 this.SetUpEnemy = function()
-	Fox.Log("*** enemu.lua f30250 SetupEnemy ***")
-	
-	
+	Fox.Log("*** enemu.lua f30250 SetupEnemy ***")	
 	this.SetFriendlyCp()
-	
-	
 	this.SetFriendlyEnemy()
-	
-	
 	this.SetParasiteResourceCount()
-	
-	
 	this.SetHostage()
-	
-	
 	this.SetAllEnabled()
-
-	
 	this.SetupEmblem()
-	
-	
 	TppEnemy.SetSaluteVoiceList()
 end
-
 
 this.OnLoad = function()
 	Fox.Log("*** enemu.lua f30250 onload ***")
 end
-
-
-
-
 
 this.SetupEmblem = function()
 	local gameObjectId = { type="TppSoldier2" } 
@@ -198,26 +155,21 @@ this.SetupEmblem = function()
     GameObject.SendCommand( gameObjectId, command ) 
 end
 
-
 this.SetFriendlyCp = function()
 	local gameObjectId = { type="TppCommandPost2", index=0 }
 	local command = { id = "SetFriendlyCp" }
 	GameObject.SendCommand( gameObjectId, command )
 end
 
-
 this.SetFriendlyEnemy = function()
-	
 	local gameObjectId = { type="TppSoldier2" } 
 	local command = { id="SetFriendly", enabled=true }
 	GameObject.SendCommand( gameObjectId, command )
 end
 
-
 this.SetEnabled = function( gameObjectId, enabled )
 	GameObject.SendCommand( gameObjectId, { id = "SetEnabled", enabled = false, } )
 end
-
 
 this.SetAllEnabled = function()
 	
@@ -257,7 +209,6 @@ this.SetAllEnabled = function()
 	end
 end
 
-
 this.IsDD = function( gameObjectId )
 	if IsTypeString( enemyName ) then
 		gameObjectId = GetGameObjectId( gameObjectId )
@@ -269,13 +220,6 @@ this.IsDD = function( gameObjectId )
 	end
 	return false
 end
-
-
-
-
-
-
-
 
 function this.SetParasiteResourceCount()
 	
@@ -301,13 +245,6 @@ function this.SetParasiteResourceCount()
 	end
 end
 
-
-
-
-
-
-
-
 function this.IsCleardVolgin()
 	if TppQuest.IsCleard("tent_q99040") or f30250_sequence.isRecoverVolginDemoPlay() then
 		mvars.IsSetVolgin = true
@@ -316,13 +253,6 @@ function this.IsCleardVolgin()
 	return false
 end
 
-
-
-
-
-
-
-
 function this.IsHostage()
 	if mvars.IsSetVolgin == true or mvars.IsSetParasite == true then
 		return true
@@ -330,17 +260,10 @@ function this.IsHostage()
 	return false
 end
 
-
-
-
-
-
-function this.SetHostage()
-	
+function this.SetHostage()	
 	local fogCount		= 0
 	local camoflaCount	= 0
 	local curingCount	= 0
-	
 	
 	for i, params in pairs( HOSTAGE_DATA_LIST ) do
 		local gameObjectId	= GetGameObjectId( params.locatorName )
@@ -357,9 +280,7 @@ function this.SetHostage()
 		end
 		
 		if isAllEnable == false then
-			
 			if params.type == UNIQUE_TYPE.VOLGIN then
-				
 				if this.IsCleardVolgin() == false then
 					this.SpecialAction( gameObjectId, false )
 				else
@@ -406,11 +327,7 @@ function this.SetHostage()
 	end
 end
 
-
-
-
 function this.SpecialAction( gameObjectId, enabled, path, enableDelayMotion )
-	
 	if enabled ~= nil then
 		GameObject.SendCommand( gameObjectId, { id = "SetEnabled", enabled = enabled } )
 	end
@@ -431,9 +348,5 @@ function this.SpecialAction( gameObjectId, enabled, path, enableDelayMotion )
 		)
 	end
 end
-
-
-
-
 
 return this

@@ -5,14 +5,7 @@ local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
 local GetGameObjectId = GameObject.GetGameObjectId
 
-
-
-
-
-
-
 local TARGET_HOSTAGE_NAME = "hos_quest_0000"
-
 
 this.QUEST_TABLE = {
 	
@@ -65,9 +58,6 @@ this.QUEST_TABLE = {
 	},
 }
 
-
-
-
 function this.OnAllocate()
 	 TppQuest.RegisterQuestStepList{
 		"QStep_Start",
@@ -75,7 +65,6 @@ function this.OnAllocate()
 		nil
 	}
 
-	
 	TppHostage2.SetHostageType{
 		gameObjectType	= "TppHostageUnique",
 		hostageType		= "Volgin",
@@ -108,14 +97,9 @@ function this.OnAllocate()
 			TppEnemy.OnTerminateQuest( this.QUEST_TABLE )
 		end,
 	}
-
-	
 	mvars.isHeliStart = false
 
 end
-
-
-
 
 this.Messages = function()
 	return
@@ -129,9 +113,6 @@ this.Messages = function()
 	}
 end
 
-
-
-
 function this.OnInitialize()
 	TppQuest.QuestBlockOnInitialize( this )
 end
@@ -143,12 +124,6 @@ end
 function this.OnTerminate()
 	TppQuest.QuestBlockOnTerminate( this )
 end
-
-
-
-
-
-
 
 
 quest_step.QStep_Start = {
@@ -199,31 +174,6 @@ quest_step.QStep_Main = {
 				},
 			},
 			Trap = {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				{
 					msg = "Enter",	
 					func = function (arg0,arg1)
@@ -232,7 +182,6 @@ quest_step.QStep_Main = {
 						end
 					end
 				},
-				
 				{
 					msg = "Exit",	
 					func = function (arg0,arg1)
@@ -243,7 +192,6 @@ quest_step.QStep_Main = {
 				},
 			},
 			Player = {
-				
 				{
 					msg = "Volgin_Start", sender = "Volgin",
 					func = function()
@@ -260,8 +208,6 @@ quest_step.QStep_Main = {
 		Fox.Log("QStep_Main OnLeave")
 	end,
 }
-
-
 
 function this.AddTrapSettingForVolginDemo( params )
 	local trapName = params.trapName
@@ -293,9 +239,7 @@ function this.AddTrapSettingForVolginDemo( params )
 	}
 end
 
-
 function this.ShowIconForVolginDemo( demoName, doneCheckFlag )
-
 	if not Tpp.IsTypeString(demoName) then
 		Fox.Error("invalid demo name. demoName = " .. tostring(demoName) )
 		return
@@ -318,9 +262,7 @@ function this.ShowIconForVolginDemo( demoName, doneCheckFlag )
 		elseif trapName then
 			this.HideIconForVolginDemo()
 			Player.SetWaitingTimeToTrapDetailCondition { trapName = trapName, time = 2.0 }
-			
 		else
-			
 		end
 	end
 end
@@ -333,10 +275,8 @@ function this.HideIconForVolginDemo()
 	}
 end
 
-
 function this.Reload_BeforeDemoPlay()
 	Fox.Log("**** tent_q99040:Reload_BeforeDemoPlay ****")
-	
 	
 	TppMission.Reload{
 		isNoFade = false,
@@ -346,10 +286,6 @@ function this.Reload_BeforeDemoPlay()
 			TppSequence.SetNextSequence("Seq_Demo_RecoverVolgin")
 			
 			TppMission.UpdateCheckPointAtCurrentPosition()
-			
-			
-			
-			
 		end,
 	}
 end

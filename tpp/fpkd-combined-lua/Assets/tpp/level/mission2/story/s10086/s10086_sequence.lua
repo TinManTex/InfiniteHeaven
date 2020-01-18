@@ -1802,7 +1802,7 @@ s10086_sequence.OnRecovered = function( inGameObjectId )
 	elseif s10086_enemy.IsFakeTarget( gameObjectId ) then
 		s10086_sequence.OnFakeTargetRecovered()
 	elseif gameObjectId == GameObject.GetGameObjectId( s10086_enemy.TARGET_NAME ) then
-		
+		TppMission.UpdateObjective{ objectives = { "missionTask_clear_recoverTarget", }, }
 	elseif Tpp.IsSoldier( gameObjectId ) then
 		s10086_sequence.OnEnemyRecovered()
 	end
@@ -2821,7 +2821,7 @@ sequences.Seq_Game_Escape = {
 
 		TppMission.UpdateObjective{ objectives = { "marker_target_clear", }, }
 
-		local objectiveList = { "photo_target_recovered", "subGoal_escape", "missionTask_clear_recoverTarget", }
+		local objectiveList = { "photo_target_recovered", "subGoal_escape", }
 
 		local interpreterMarkerEnabled
 		if TppMotherBaseManagement.IsExistStaff{ skill = "TranslateAfrikaans", } then

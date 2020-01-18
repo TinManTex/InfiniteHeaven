@@ -1228,9 +1228,12 @@ this.FuncSwitchPump =function(GameObjectId,gameObjectName,name,switchFlag)
 		if gameObjectName == StrCode32(PUMP_NAME) then	
 			
 			if svars.isStopedPump == false then
-				if switchFlag == 0 then				
-					this.FuncStopedPump()
-				end
+				
+				if svars.isFultoned_child1 == this.FLOWSTATIONAREA_STATUS.PUMP_UPPER6 then
+					if switchFlag == 0 then	
+						this.FuncStopedPump()
+					end
+				end						
 			
 			else
 				if switchFlag == 255 then	

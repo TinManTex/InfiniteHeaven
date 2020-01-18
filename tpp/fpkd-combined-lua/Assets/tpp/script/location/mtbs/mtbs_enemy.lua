@@ -255,9 +255,12 @@ mtbs_enemy.InitDevelopGradeTable = function()
 	do 
 		mvars.mbEnemy_mineEquipIdListSortByEquipGrade[DMINE_INDEX] = {}
 		local level = TppMotherBaseManagement.GetMbsDMineLevel{}
+		if level >= 4 then
+			mvars.mbEnemy_mineEquipIdListSortByEquipGrade[DMINE_INDEX][TppMotherBaseManagement.GetEquipDevelopRank(11043)] = TppEquip.EQP_SWP_DMine_G03
+		end
 		if level >= 3 then
 			mvars.mbEnemy_mineEquipIdListSortByEquipGrade[DMINE_INDEX][TppMotherBaseManagement.GetEquipDevelopRank(11042)] = TppEquip.EQP_SWP_DMine_G02
-		end
+		end	
 		if level >= 2 then
 			mvars.mbEnemy_mineEquipIdListSortByEquipGrade[DMINE_INDEX][TppMotherBaseManagement.GetEquipDevelopRank(11041)] = TppEquip.EQP_SWP_DMine_G01
 		end
@@ -267,7 +270,7 @@ mtbs_enemy.InitDevelopGradeTable = function()
 	end
 	do 
 		mvars.mbEnemy_mineEquipIdListSortByEquipGrade[SLEEPING_MINE_INDEX] = {}
-		local level = TppMotherBaseManagement.GetMbsDMineLevel{}
+		local level = TppMotherBaseManagement.GetMbsSleepingGasMineLevel{}
 		if level >= 3 then
 			mvars.mbEnemy_mineEquipIdListSortByEquipGrade[SLEEPING_MINE_INDEX][TppMotherBaseManagement.GetEquipDevelopRank(11052)] = TppEquip.EQP_SWP_SleepingGusMine_G02
 		end

@@ -2,8 +2,6 @@
 -- ORIGINALQAR: chunk1
 -- FILEPATH: \Assets\tpp\level\mission2\heli\common\heli_common_sequence.lua
 -- PACKPATH: \Assets\tpp\pack\mission2\heli\heli_common_script.fpkd
--- QARPATH: \heli_common_script_fpkd
--- PACKINFO: ed50f294b9ae5836|01\Assets\tpp\pack\mission2\heli\heli_common_script.fpkd key=0 version=0 compressed=1
 --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
 --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
 local this = {}
@@ -657,6 +655,15 @@ function this.Messages()
 				msg = "EndFadeOut", sender = "OnEstablishMissionClearFadeOut",
 				func = function()
 					Player.SetAroundCameraManualMode(false) 
+					
+					if mvars.heliSequence_nextMissionCode == 50050 then
+						if gvars.fobTipsCount <= TppDefine.TIPS.ONLINE_DISPATCH_MISSION then
+							gvars.fobTipsCount = gvars.fobTipsCount + 1
+						else
+							gvars.fobTipsCount = TppDefine.TIPS.FOB_WORM_HOLE
+						end
+						TppUiCommand.SeekTips( tostring( gvars.fobTipsCount ))
+					end
 					TppMission.MissionFinalize{ isNoFade = true }
 				end,
 				option = { isExecMissionClear = true },
@@ -701,6 +708,7 @@ function this.OnTerminate()
 		Fox.Log("heli_common_sequence.lua : Reset game status : target = " .. tostring(target) )
 		TppGameStatus.Reset( "heli_common_sequence.lua", target )
 	end
+	TppUiStatusManager.UnsetStatus( "ResourcePanel", "SHOW_IN_HELI" )
 end
 
 function this.StartRain()
@@ -727,7 +735,6 @@ function this.AddCommonHeliSpaceMessage( messageTable )
 	messageTable.UI = messageTable.UI or {}
 	table.insert( messageTable.UI, {	msg = "PauseMenuGotoMGO", func = this.SelectGoToMGO, } )
 	table.insert( messageTable.UI, {	msg = "PauseMenuOpenStore", func = this.SelectPauseMenuOpenStore, } )
-	table.insert( messageTable.UI, {	msg = "PopupClose", sender = TppDefine.ERROR_ID.NOW_INSTALLING, func = this.OnPopupCloseChunkInstalling, } )
 	table.insert( messageTable.UI, {	msg = "EndFadeOut", sender = "FadeOutGoToMGO", func = this.OnEndFadeOutGoToMGO, } )
 	table.insert( messageTable.UI, {	msg = "EndFadeIn", sender = "FadeInOnStartMissionGame", func = TppTerminal.GetFobStatus, } )
 
@@ -759,10 +766,67 @@ function this.AcquireHelispaceStartCassetteTape()
 end
 
 function this.SelectGoToMGO()
+	Fox.Log("SelectGoToMGO")
+	InvitationManager.EnableMessage(false)	
 	mvars.heliSpaceMGOChunkInstallCheckingState = "Start. Chunck prefetching"
-	Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_FAST)
 	mvars.heliSpaceMgoChunkIndex = Tpp.GetChunkIndex( nil, true )	
-	Chunk.PrefetchChunk(mvars.heliSpaceMgoChunkIndex)
+	Tpp.StartWaitChunkInstallation( mvars.heliSpaceMgoChunkIndex )
+end
+
+
+
+
+
+local function HeliSpaceGoToMgoCoroutine()
+	local function DebugPrintState(state)
+		if DebugText then
+			DebugText.Print(DebugText.NewContext(), "HeliSpaceGoToMgo: " .. tostring(state))
+		end
+	end
+	
+	
+	if Chunk.GetChunkState(mvars.heliSpaceMgoChunkIndex) ~= Chunk.STATE_INSTALLED then
+		Fox.Log("Mgo chunk not installed : mvars.heliSpaceMgoChunkIndex = " .. tostring(mvars.heliSpaceMgoChunkIndex) )
+		Tpp.ShowChunkInstallingPopup( mvars.heliSpaceMgoChunkIndex, true )	
+
+		while ( Chunk.GetChunkState(mvars.heliSpaceMgoChunkIndex) ~= Chunk.STATE_INSTALLED )
+		and TppUiCommand.IsShowPopup( TppDefine.ERROR_ID.NOW_INSTALLING ) do
+			Tpp.ShowChunkInstallingPopup( mvars.heliSpaceMgoChunkIndex, true )	
+			coroutine.yield()
+			DebugPrintState("Waiting chunk installation.")
+		end
+		
+		if TppUiCommand.IsShowPopup( TppDefine.ERROR_ID.NOW_INSTALLING ) then
+			TppUiCommand.ErasePopup()
+		end
+
+		while TppUiCommand.IsShowPopup( TppDefine.ERROR_ID.NOW_INSTALLING ) do
+			coroutine.yield()
+			DebugPrintState("waiting pop up closed.")
+		end
+
+		
+		if Chunk.GetChunkState(mvars.heliSpaceMgoChunkIndex) ~= Chunk.STATE_INSTALLED then
+			return false
+		end
+	end
+
+	local function existPatchDlcFunc()
+		TppUiCommand.ErasePopup()
+		TppException.isNowGoingToMgo = true		
+		TppUI.FadeOut( TppUI.FADE_SPEED.FADE_HIGHSPEED, "FadeOutGoToMGO", nil, { setMute = true } )
+	end
+	local function notExistPatchDlcFunc()
+		
+		
+		TppUiCommand.ShowErrorPopup( 5103, Popup.TYPE_ONE_BUTTON )
+		Tpp.ClearDidCancelPatchDlcDownloadRequest()
+		
+		while TppUiCommand.IsShowPopup() do
+			coroutine.yield()
+		end
+	end
+	return Tpp.PatchDlcCheckCoroutine( existPatchDlcFunc, notExistPatchDlcFunc ) 
 end
 
 function this.OnUpdateChunkInstalling()
@@ -770,53 +834,41 @@ function this.OnUpdateChunkInstalling()
 		return
 	end
 	
-	if Chunk.GetChunkState(mvars.heliSpaceMgoChunkIndex) == Chunk.STATE_INSTALLED then
-		mvars.heliSpaceMGOChunkInstallCheckingState = "MgoChunkInstalled"
-		
-		if TppUiCommand.IsShowPopup( TppDefine.ERROR_ID.NOW_INSTALLING ) then
-			TppUiCommand.ErasePopup()
-		end
-		Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_NORMAL)
-		Fox.Log("FadeOut start goto MGO")
-		TppUI.FadeOut( TppUI.FADE_SPEED.FADE_HIGHSPEED, "FadeOutGoToMGO" )
-		mvars.heliSpaceMGOChunkInstallCheckingState = nil
-		mvars.heliSpaceMgoChunkIndex = nil
-	else
-		mvars.heliSpaceMGOChunkInstallCheckingState = "MgoChunkInstalling"
-		Tpp.ShowChunkInstallingPopup( mvars.heliSpaceMgoChunkIndex, true )	
-	end
-	
 	if DebugText then
 		local context = DebugText.NewContext()
 		DebugText.Print(context, "")
-		DebugText.Print(context, {1.0, 0.0, 0.0}, "Select GoToMGO : " .. tostring(mvars.heliSpaceMGOChunkInstallCheckingState) )
+		DebugText.Print(context, {1.0, 0.0, 0.0}, "Select GoToMGO : " )
 	end
 	
 	
 	TppUI.ShowAccessIconContinue()
-end
 
-function this.OnPopupCloseChunkInstalling()
-	if not mvars.heliSpaceMGOChunkInstallCheckingState then
+	
+	if not mvars.heliSpace_goToMgoCoroutine then
+		mvars.heliSpace_goToMgoCoroutine = coroutine.create(HeliSpaceGoToMgoCoroutine)
 		return
 	end
 	
-	Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_NORMAL)
-	local select = TppUiCommand.GetPopupSelect()
-	if select == Popup.SELECT_NEGATIVE then
-		Fox.Log("Cancel goto MGO")
-		Mission.SendMessage("UI", "ActivatePauseMenu")
-	else
-		if Chunk.GetChunkState(mvars.heliSpaceMgoChunkIndex) == Chunk.STATE_INSTALLED then
-			Fox.Log("Start MGO!")
-		else
-			Fox.Log("Cancel goto MGO")
-			Mission.SendMessage("UI", "ActivatePauseMenu")
+	local status, ret1 = coroutine.resume(mvars.heliSpace_goToMgoCoroutine)
+	
+	if not TppGameSequence.IsMaster() then
+		if ( not status )then
+			Fox.Hungup()
 		end
 	end
 	
+	
+	if ( coroutine.status(mvars.heliSpace_goToMgoCoroutine) == "dead" ) 
+	or ( not status )then
+		if ( ret1 == false ) or ( not status ) then
+			InvitationManager.EnableMessage(true)	
+			Mission.SendMessage("UI", "ActivatePauseMenu")
+			Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_NORMAL)
+			mvars.heliSpace_goToMgoCoroutine = nil
 	mvars.heliSpaceMGOChunkInstallCheckingState = nil
 	mvars.heliSpaceMgoChunkIndex = nil
+end
+	end
 end
 
 function this.OnEndFadeOutGoToMGO()
@@ -1005,6 +1057,20 @@ sequences.Seq_Game_MainGame = {
 					sender = "f2000_rtrg9040",
 					func = self.StartPandemicTutorialSequence,
 				},
+				{
+					
+					msg = "Finish",
+					func = function( radioGroupHash )
+						local radioList = TppStory.GetCurrentFreeHeliRadioList()
+						if not radioList then
+							return
+						end
+						if radioList[1] and ( radioGroupHash == Fox.StrCode32(radioList[1]) ) then
+							Fox.Log("Free heli radio finished.")
+							TppUiStatusManager.SetStatus( "ResourcePanel", "SHOW_IN_HELI" )
+						end
+					end,
+				},
 				nil
 			},
 		}
@@ -1094,6 +1160,12 @@ sequences.Seq_Game_MainGame = {
 				return
 			end
 		end
+
+		
+		if TppStory.GetCurrentFreeHeliRadioList() == nil then
+			Fox.Log("No free heli radio.")
+			TppUiStatusManager.SetStatus( "ResourcePanel", "SHOW_IN_HELI" )
+		end
 	end,
 	
 	OnLeave = function( self, nextSequenceName )
@@ -1109,6 +1181,7 @@ sequences.Seq_Game_MainGame = {
 			this.SaveCurrentClock()
 		end
 		
+		TppUiStatusManager.UnsetStatus( "ResourcePanel", "SHOW_IN_HELI" )
 	end,
 	
 	StartMissionListGuidance = function()

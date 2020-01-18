@@ -1105,8 +1105,14 @@ sequences.Seq_Demo_PandemicConverge = {
 		svars.isPrintLog = false
 		TppUI.ShowAccessIcon()
 
+		
 		if  (vars.buddyType == BuddyType.DOG or vars.buddyType == BuddyType.QUIET) then
-			if ( TppBuddyService.IsDeadBuddyType( BuddyType.DOG ) ) then
+			if ( TppBuddyService.IsDeadBuddyType( BuddyType.DOG ) )
+			or (	
+					( vars.buddyType == BuddyType.QUIET ) and
+					( TppBuddyService.CheckBuddyCommonFlag( BuddyCommonFlag.BUDDY_QUIET_LOST ) or TppBuddyService.CheckBuddyCommonFlag( BuddyCommonFlag.BUDDY_QUIET_HOSPITALIZE ) )
+				)
+			then
 				Fox.Log( "#### s10140_sequence.Seq_Demo_PandemicConverge #### Controled Buddy Exist. But DD is dead!" )
 				svars.isPlayDemo = true
 				self.PlayDemo()

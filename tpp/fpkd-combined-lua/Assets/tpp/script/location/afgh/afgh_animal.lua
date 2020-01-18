@@ -201,9 +201,7 @@ afgh_animal.habitatTable = {
 	{ areaName = "village_N",
 		areaMembers = {
 			{ animalGroupId=TppMotherBaseManagementConst.ANIMAL_1900, iconPos=Vector3(642.958, 345.206, 846.566), radius=5, },			
-			{ animalGroupId=TppMotherBaseManagementConst.ANIMAL_2240, iconPos=Vector3(751.818, 353.351, 929.483), radius=7, },			
-
-
+			{ animalGroupId=TppMotherBaseManagementConst.ANIMAL_2240, iconPos=Vector3(751.818, 353.351, 929.483), radius=5, },			
 		},
 	},
 	{ areaName = "village_W",

@@ -171,7 +171,7 @@ mafr_animal.habitatTable = {
 	{ areaName = "swamp_NW",
 		areaMembers = {
 			{ animalGroupId=TppMotherBaseManagementConst.ANIMAL_120, iconPos=Vector3(-339.271, 12.078, -324.654), radius=5, },			
-			{ animalGroupId=TppMotherBaseManagementConst.ANIMAL_1500, iconPos=Vector3(-339.271, 12.078, -324.654), radius=7, },			
+			{ animalGroupId=TppMotherBaseManagementConst.ANIMAL_1500, iconPos=Vector3(-339.271, 12.078, -324.654), radius=5, },			
 		},
 	},
 	{ areaName = "swamp_N",
@@ -197,7 +197,7 @@ mafr_animal.habitatTable = {
 	{ areaName = "savannah_N",
 		areaMembers = {
 			{ animalGroupId=TppMotherBaseManagementConst.ANIMAL_210, iconPos=Vector3(874.331, 6.973, -428.922), radius=6, },			
-			{ animalGroupId=TppMotherBaseManagementConst.ANIMAL_1500, iconPos=Vector3(874.331, 6.973, -428.922), radius=7, },			
+			{ animalGroupId=TppMotherBaseManagementConst.ANIMAL_1500, iconPos=Vector3(874.331, 6.973, -428.922), radius=6, },			
 		},
 	},
 	{ areaName = "diamond_WS",

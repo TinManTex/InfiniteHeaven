@@ -175,12 +175,12 @@ end
 
 this.HostMissionAbort = function()
 	Fox.Log("#### Call Raio o50050_radio.HostMissionAbort ####")
-	TppRadio.Play( "f5000_rtrg0060", "f5000_rtrg0080", { delayTime = "mid" } )
+	TppRadio.Play( {"f5000_rtrg0060", "f5000_rtrg0080"}, { delayTime = "mid" } )
 end
 
 this.ClientMissionAbort = function()
 	Fox.Log("#### Call Raio o50050_radio.ClientMissionAbort ####")
-	TppRadio.Play( "f5000_rtrg0140", "f5000_rtrg0150", { delayTime = "mid" } )
+	TppRadio.Play( {"f5000_rtrg0140", "f5000_rtrg0150"}, { delayTime = "mid" } )
 end
 
 

@@ -4628,12 +4628,8 @@ sequences.Seq_Game_TutorialDevelop20 = {
 
 						
 						elseif speechLabel == StrCode32("MBTS_074") then
-							if isSuccess ~= 0 then
-								Fox.Log("#### MBTS_220 end ####")
-								mvars.ocerotTalkProcess =  this.OCELOT_TALK_PROCESS.WAITING_4	
-							else
-								s10030_radio.FailedRequest()
-							end
+							Fox.Log("#### MBTS_220 end ####")
+							mvars.ocerotTalkProcess =  this.OCELOT_TALK_PROCESS.WAITING_4	
 
 						
 						elseif speechLabel == StrCode32("MBTS_075") then

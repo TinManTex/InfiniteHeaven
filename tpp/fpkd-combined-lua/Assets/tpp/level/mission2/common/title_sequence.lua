@@ -7,6 +7,8 @@ local currentMissionCode = vars.missionCode
 
 local sequences = {}
 
+
+
 local SELECT_FLAG = TppDefine.Enum{
 	"SELECT_CONTINUE" 	,
 	"SELECT_RESTART_HELI" ,
@@ -20,15 +22,46 @@ this.GetOnSelectFlag= function( )
 	return mvars.title_selectFlag
 end
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function this.ClearTitleMode()
 	Fox.Log("title_sequence.ClearTitleMode")
 	gvars.ini_isTitleMode = false
 	gvars.ini_isReturnToTitle = false
 end
 
+
+
+
+
 function this.SetNewGameState()
 	mvars.isExistSaveData = false
 end
+
+
+
+
+
+
+
 
 function this.AddTitleSequences( list )
 	local sequenceList = {
@@ -41,6 +74,7 @@ function this.AddTitleSequences( list )
 	for i, sequenceName in ipairs( list ) do
 		sequenceList[ init_sequenceList_size + i ] = sequenceName
 	end
+	
 	
 	local afterSequenceList = {
 		"Seq_Game_ChunkLoading",
@@ -65,6 +99,9 @@ function this.AddTitleSequenceTable( sequenceTable )
 	return sequenceTable
 end
 
+
+
+
 function this.RegisterMissionGameSequenceName( sequenceName )
 	Fox.Log("RegisterMissionGameSequenceName: sequenceName = " .. tostring(sequenceName ))
 	mvars.title_missionGameSequenceName = sequenceName
@@ -78,6 +115,9 @@ end
 function this.RegisterTitleModeOnEnterFunction( titleModeOnEnterFunction )
 	mvars.title_titleModeOnEnterFunction = titleModeOnEnterFunction
 end
+
+
+
 
 function this.DoEnableGameStatusFunction()
 	if mvars.title_enableGameStatusFunction then
@@ -95,18 +135,28 @@ function this.DoDisableGameStatusFunction()
 	end
 end
 
+
+
+
 function this.RegisterMessageFunction( messageFunc )
 	mvars.title_messageFunction = messageFunc
 end
+
+
+
 
 function this.HideTitleOnInitialize()
 	mvars.title_hideTitleMenuOnInitialize = true
 end
 
+
+
+
 function this.StartPressStartMenu()
 	mvars.title_hideTitleMenuOnInitialize = false
 	if vars.missionCode == 10010 then
 		Fox.Log("title_sequence.StartPressStartMenu() : cypr mode")
+
 		
 		local isExistSaveData
 		if not TppSave.IsNewGame() then
@@ -122,6 +172,9 @@ function this.StartPressStartMenu()
 	end
 end
 
+
+
+
 function this.StartTitleMenu()
 	mvars.title_hideTitleMenuOnInitialize = false
 	if vars.missionCode == 10010 then
@@ -132,6 +185,9 @@ function this.StartTitleMenu()
 		TppUiCommand.StartTitleMenu( mvars.isExistSaveData )
 	end
 end
+
+
+
 
 function this.MergeMessageTable( base, addMessages )
 	if not addMessages then
@@ -149,13 +205,28 @@ function this.MergeMessageTable( base, addMessages )
 	return base
 end
 
+
+
+
+
+
+
+
 function this.MissionPrepare()
 	Fox.Log("title_sequence.MissionPrepare")
 end
 
+
+
+
+
+
+
+
 sequences.Seq_Demo_StartHasTitleMission = {
 	Messages = function()
 		local titleMessages = StrCode32Table {
+		
 			UI = {
 				{	
 					msg = "TitleMenu", sender = "PressStart",
@@ -186,6 +257,8 @@ sequences.Seq_Demo_StartHasTitleMission = {
 				{
 					msg = "TitleMenuReady",
 					func = function()
+						
+						
 						if currentMissionCode ~= 10010 then
 							TppUI.FadeIn( TppUI.FADE_SPEED.FADE_NORMALSPEED, "FadeInOnStartTitle", nil, { exceptGameStatus = exceptGameStatus } )
 						end
@@ -205,6 +278,7 @@ sequences.Seq_Demo_StartHasTitleMission = {
 	end,
 	
 	OnEndShowSplashScreen = function ()
+	
 		if not TppGameSequence.IsMaster() then
 			if Chunk.GetChunkState(Chunk.INDEX_CYPR) ~= Chunk.STATE_INSTALLED then
 				Fox.Warning("Cypr Chunk not Installed.")
@@ -214,6 +288,7 @@ sequences.Seq_Demo_StartHasTitleMission = {
 		this.DoDisableGameStatusFunction()
 
 		if gvars.ini_isTitleMode then
+			
 			TppSave.VarSaveMbMangement()
 		
 			if Tpp.IsMaster() then
@@ -230,6 +305,7 @@ sequences.Seq_Demo_StartHasTitleMission = {
 				
 				TppUI.FadeIn( TppUI.FADE_SPEED.FADE_NORMALSPEED, "FadeInOnStartTitle", nil, { exceptGameStatus = exceptGameStatus } )
 			end
+			
 			
 			local exceptGameStatus = Tpp.GetAllDisableGameStatusTable()
 
@@ -276,6 +352,7 @@ sequences.Seq_Demo_StartHasTitleMission = {
 			return
 		end
 
+		
 		if gvars.ini_isTitleMode then
 			if not mvars.startHasTitleSeqeunceMbSyc then
 				mvars.startHasTitleSeqeunceMbSyc = true
@@ -293,6 +370,7 @@ sequences.Seq_Demo_StartHasTitleMission = {
 			return
 		end
 
+		
 		if not mvars.startHasTitileSeqeunce then
 			mvars.startHasTitileSeqeunce = true
 			self.OnEndShowSplashScreen()
@@ -302,7 +380,12 @@ sequences.Seq_Demo_StartHasTitleMission = {
 
 	OnLeave = function ()
 	end,
+
 }
+
+
+
+
 
 local NEWGAME_CONFIRM_RESULT = TppDefine.Enum{
 	"INIT",
@@ -311,9 +394,15 @@ local NEWGAME_CONFIRM_RESULT = TppDefine.Enum{
 	"CANCEL"
 }
 
+
+
+
+
 sequences.Seq_Game_PushStart = {
+
 	Messages = function(self)
 		local titleMessages = StrCode32Table {
+		
 			UI = {
 				{
 					msg = "PopupClose",
@@ -367,10 +456,16 @@ sequences.Seq_Game_PushStart = {
 	end,
 }
 
+
+
+
+
 sequences.Seq_Game_TitleMenu = {
 	Messages = function(self)
 		local titleMessages = StrCode32Table {
+		
 			UI = {
+				
 				{
 					msg = "TitleMenu", sender = "Continue",
 					func = self.OnSelectContinue,
@@ -379,6 +474,7 @@ sequences.Seq_Game_TitleMenu = {
 					msg = "TitleMenu", sender = "RestartHeli",
 					func = self.OnSelectRestartHeli,
 				},
+				
 				{
 					msg = "TitleMenu", sender = "GameStart",
 					func = self.OnSelectGameStart,
@@ -391,6 +487,7 @@ sequences.Seq_Game_TitleMenu = {
 					msg = "Continue",
 					func = self.OnSelectContinue,
 				},
+				
 				{
 					msg = "StartMGO",
 					func = self.OnSelectMGO,
@@ -476,7 +573,9 @@ sequences.Seq_Demo_ShowDlcError = {
 		if dlcError == DlcError.E_NETWORK then
 		else
 		end
-
+		
+		
+		
 		TppSequence.SetNextSequence("Seq_Demo_ShowDlcAnnouncePopup")
 	end,
 }
@@ -527,6 +626,7 @@ sequences.Seq_Demo_WaitSavingPersonalData = {
 	end,
 }
 
+
 local OK_BUTTON = 1
 local CANCEL_BUTTON = 2
 sequences.Seq_Game_ChunkLoading = {
@@ -555,11 +655,13 @@ sequences.Seq_Game_ChunkLoading = {
 		
 		Tpp.ShowChunkInstallingPopup( self.chunkIndex, true )	
 		
+		
 		TppUI.ShowAccessIconContinue()
 	end,
 	
 	Messages = function(self)
 		local titleMessages = StrCode32Table {
+		
 			UI = {
 				{
 					msg = "PopupClose",
@@ -594,6 +696,8 @@ sequences.Seq_Game_ChunkLoading = {
 	end,
 
 }
+
+
 
 sequences.Seq_Game_ChunkCanceled = {
 	OnEnter = function(self)
@@ -671,6 +775,8 @@ sequences.Seq_Game_ChunkInstalled = {
 		if mvars.startLoadNewGame then
 			self.OnUpdateForNewGameLoad()
 		end
+
+		self.OnUpdateSelectMGO()
 	end,
 	
 	OnLeave = function()
@@ -733,7 +839,57 @@ sequences.Seq_Game_ChunkInstalled = {
 
 	OnSelectMGO = function()
 		Fox.Log("OnSelectMGO")
-		TppUI.FadeOut( TppUI.FADE_SPEED.FADE_NORMALSPEED, "GoToMgo", nil, { setMute = true } )
+
+		InvitationManager.EnableMessage(false)	
+
+		
+
+
+		local function TitlePatchDlcCheck()
+			local function existPatchDlcFunc()
+				TppUiCommand.ErasePopup()
+				TppException.isNowGoingToMgo = true		
+				TppUI.FadeOut( TppUI.FADE_SPEED.FADE_NORMALSPEED, "GoToMgo", nil, { setMute = true } )
+			end
+			local function notExistPatchDlcFunc()
+				
+				
+				TppUiCommand.ShowErrorPopup( 5103, Popup.TYPE_ONE_BUTTON )
+				
+				while TppUiCommand.IsShowPopup() do
+					coroutine.yield()
+				end
+
+				InvitationManager.EnableMessage(true)	
+				Tpp.ClearDidCancelPatchDlcDownloadRequest()
+				TppSequence.SetNextSequence("Seq_Game_TitleMenu")
+			end
+		
+			return Tpp.PatchDlcCheckCoroutine( existPatchDlcFunc, notExistPatchDlcFunc ) 
+		end
+
+		mvars.title_patchDlcCheckCoroutine = coroutine.create(TitlePatchDlcCheck)
+	end,
+
+	OnUpdateSelectMGO = function()
+		if mvars.title_patchDlcCheckCoroutine then
+			local status, ret1 = coroutine.resume(mvars.title_patchDlcCheckCoroutine)
+
+			
+			if not TppGameSequence.IsMaster() then
+				if ( not status )then
+					Fox.Hungup()
+				end
+			end
+
+			
+			
+			if ( coroutine.status(mvars.title_patchDlcCheckCoroutine) == "dead" ) 
+			or ( not status )then
+				mvars.title_patchDlcCheckCoroutine = nil
+				return ret1
+			end
+		end
 	end,
 
 	OnEndFadeSelectMGO = function()

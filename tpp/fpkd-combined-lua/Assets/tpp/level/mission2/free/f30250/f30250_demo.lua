@@ -2,22 +2,12 @@ local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
 
-
-
-
-this.demoList = {
-
-	
+this.demoList = {	
 	Demo_RecoverVolgin		= "p31_080110_000_final"
-
 }
 
 this.demoBlockList = {
 }
-
-
-
-
 
 function this.PlayRecoverVolgin( startFunc, endFunc )
 	Fox.Log("***** f30250_demo:PlayRecoverVolgin *****")
@@ -38,10 +28,5 @@ function this.PlayRecoverVolgin( startFunc, endFunc )
 		}
 	)
 end
-
-
-
-
-
 
 return this

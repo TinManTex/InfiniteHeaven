@@ -807,7 +807,6 @@ sequences.Seq_Demo_RecoverVolgin = {
 			end
 		end
 		local endFunc = function()
-			
 			gvars.qst_volginQuestCleared = true
 			TppMission.ReserveMissionClear{
 				nextMissionId = 30250,
