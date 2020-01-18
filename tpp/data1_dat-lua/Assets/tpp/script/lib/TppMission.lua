@@ -1100,12 +1100,12 @@ function this.ShowMissionGameEndAnnounceLog()
     this.ShowAnnounceLogOnFadeOut(TppUiCommand.StartResultBlockLoad)
   end
 end
-function this.ShowAnnounceLogOnFadeOut(e)
+function this.ShowAnnounceLogOnFadeOut(endAnnounceLogFunction)
   if TppUiCommand.GetSuspendAnnounceLogNum()>0 then
     TppUiStatusManager.ClearStatus"AnnounceLog"
-    mvars.mis_endAnnounceLogFunction=e
+    mvars.mis_endAnnounceLogFunction=endAnnounceLogFunction
   else
-    e()
+    endAnnounceLogFunction()
   end
 end
 function this.OnEndResultBlockLoad()
@@ -1303,20 +1303,20 @@ function this.ExecuteMissionFinalize()
   end
   local lockStaffForMission={
     [10091]=function()
-    if TppMotherBaseManagement.CanOpenS10091()then
-      TppMotherBaseManagement.LockedStaffsS10091()
-    end
-  end,
+      if TppMotherBaseManagement.CanOpenS10091()then
+        TppMotherBaseManagement.LockedStaffsS10091()
+      end
+    end,
     [10081]=function()
-    if TppMotherBaseManagement.CanOpenS10081()then
-      TppMotherBaseManagement.LockedStaffS10081()
-    end
-  end,
+      if TppMotherBaseManagement.CanOpenS10081()then
+        TppMotherBaseManagement.LockedStaffS10081()
+      end
+    end,
     [10115]=function()
-    if TppMotherBaseManagement.CanOpenS10115{section="Develop"}then
-      TppMotherBaseManagement.LockedStaffsS10115{section="Develop"}
+      if TppMotherBaseManagement.CanOpenS10115{section="Develop"}then
+        TppMotherBaseManagement.LockedStaffsS10115{section="Develop"}
+      end
     end
-  end
   }
   local LockStaff=lockStaffForMission[gvars.mis_nextMissionCodeForMissionClear]
   if LockStaff then
@@ -1483,7 +1483,9 @@ end
 end
 --[[function this.GetNormalMissionCodeFromHardMission(e)--tex ORIG:
 
+
   return e-1e3
+
 
 end--]]
 function this.IsSubsistenceMission()
@@ -1737,8 +1739,7 @@ function this.Messages()
         TppStory.UpdateStorySequence{updateTiming="OnUpdateCheckPoint",isInGame=true}
       end},
       {msg="Finish",sender="Timer_MissionStartHeliDoorOpen",func=function()
-        GameObject.SendCommand({type="TppHeli2",index=0},
-          {id="RequestSnedDoorOpen"})
+        GameObject.SendCommand({type="TppHeli2",index=0},{id="RequestSnedDoorOpen"})
       end}
     },
     GameObject={
@@ -1768,8 +1769,7 @@ function this.Messages()
           TppSound.PostJingleOnDecendingLandingZoneWithOutCanMissionClear()
         end
       end},
-      {msg="StartedPullingOut",func=function()StartTimer("Timer_RemoveUserMarker",1)
-        end},
+      {msg="StartedPullingOut",func=function()StartTimer("Timer_RemoveUserMarker",1)end},
       {msg="LostControl",func=function(e,n,i)
         local e=GameObject.GetTypeIndex(e)
         if e~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
@@ -1967,14 +1967,36 @@ function this.CancelLoadOnResult()
   mvars.mis_doMissionFinalizeOnMissionTelopDisplay=nil
   this.ResetNeedWaitMissionInitialize()
 end
+
 function this.OnAllocate(missionTable)
-  this.systemCallbacks={OnEstablishMissionClear=function()
-    this.MissionGameEnd{loadStartOnResult=false}
-  end,OnDisappearGameEndAnnounceLog=this.ShowMissionResult,OnEndMissionCredit=nil,OnEndMissionReward=nil,OnGameOver=nil,OnOutOfMissionArea=nil,OnUpdateWhileMissionPrepare=nil,OnFobDefenceGameOver=nil,OnFinishBlackTelephoneRadio=function()
-    if not gvars.needWaitMissionInitialize then
-      this.ShowMissionReward()
-    end
-  end,OnOutOfHotZone=nil,OnOutOfHotZoneMissionClear=nil,OnUpdateStorySequenceInGame=nil,CheckMissionClearFunction=nil,OnReturnToMission=nil,OnAddStaffsFromTempBuffer=nil,CheckMissionClearOnRideOnFultonContainer=nil,OnRecovered=nil,OnSetMissionFinalScore=nil,OnEndDeliveryWarp=nil,OnFultonContainerMissionClear=nil}
+  this.systemCallbacks={
+    OnEstablishMissionClear=function()
+      this.MissionGameEnd{loadStartOnResult=false}
+    end,
+    OnDisappearGameEndAnnounceLog=this.ShowMissionResult,
+    OnEndMissionCredit=nil,
+    OnEndMissionReward=nil,
+    OnGameOver=nil,
+    OnOutOfMissionArea=nil,
+    OnUpdateWhileMissionPrepare=nil,
+    OnFobDefenceGameOver=nil,
+    OnFinishBlackTelephoneRadio=function()
+      if not gvars.needWaitMissionInitialize then
+        this.ShowMissionReward()
+      end
+    end,
+    OnOutOfHotZone=nil,
+    OnOutOfHotZoneMissionClear=nil,
+    OnUpdateStorySequenceInGame=nil,
+    CheckMissionClearFunction=nil,
+    OnReturnToMission=nil,
+    OnAddStaffsFromTempBuffer=nil,
+    CheckMissionClearOnRideOnFultonContainer=nil,
+    OnRecovered=nil,
+    OnSetMissionFinalScore=nil,
+    OnEndDeliveryWarp=nil,
+    OnFultonContainerMissionClear=nil
+  }
   this.RegisterMissionID()
   if missionTable.sequence then
     local objectiveDefine=missionTable.sequence.missionObjectiveDefine
@@ -1991,16 +2013,19 @@ function this.OnAllocate(missionTable)
     if missionTable.sequence.ENABLE_DEFAULT_HELI_MISSION_CLEAR then
       mvars.mis_enableDefaultHeliMisionClear=true
     end
-    mvars.mis_helicopterDoorOpenTimerTimeSec=15
-    if missionTable.sequence.HELICOPTER_DOOR_OPEN_TIME_SEC then
+    mvars.mis_helicopterDoorOpenTimerTimeSec=gvars.defaultHeliDoorOpenTime--tex was 15, yeah a magic number
+    if missionTable.sequence.HELICOPTER_DOOR_OPEN_TIME_SEC and Ivars.defaultHeliDoorOpenTime:IsDefault() then--tex allow override
       mvars.mis_helicopterDoorOpenTimerTimeSec=missionTable.sequence.HELICOPTER_DOOR_OPEN_TIME_SEC
     end
   end
   mvars.mis_isOutsideOfMissionArea=false
   mvars.mis_isOutsideOfHotZone=true
-  this.MessageHandler={OnMessage=function(i,s,n,t,a,o)
-    this.OnMessageWhileLoading(i,s,n,t,a,o)
-  end}GameMessage.SetMessageHandler(this.MessageHandler,{"UI","Radio","Video","Network","Nt"})
+  this.MessageHandler={
+    OnMessage=function(i,s,n,t,a,o)
+      this.OnMessageWhileLoading(i,s,n,t,a,o)
+    end
+  }
+  GameMessage.SetMessageHandler(this.MessageHandler,{"UI","Radio","Video","Network","Nt"})
 end
 function this.DisableInGameFlag()
   mvars.mis_missionStateIsNotInGame=true
@@ -2093,17 +2118,17 @@ function this.RegisterMissionID()
 end
 function this.DeclareSVars()
   return{
-  {name="mis_canMissionClear",type=TppScriptVars.TYPE_BOOL,value=false,save=true,notify=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-  {name="mis_isDefiniteGameOver",type=TppScriptVars.TYPE_BOOL,value=false,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
-  {name="mis_gameOverType",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
-  {name="mis_gameOverRadio",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-  {name="mis_isDefiniteMissionClear",type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
-  {name="mis_missionClearType",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
-  {name="mis_objectiveEnable",arraySize=M,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-  {name="mis_fobDefenceGameOver",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
-  {name="chickCapEnabled",type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
-  {name="dialogPlayerDeadCount",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
-  nil
+    {name="mis_canMissionClear",type=TppScriptVars.TYPE_BOOL,value=false,save=true,notify=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="mis_isDefiniteGameOver",type=TppScriptVars.TYPE_BOOL,value=false,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+    {name="mis_gameOverType",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+    {name="mis_gameOverRadio",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="mis_isDefiniteMissionClear",type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+    {name="mis_missionClearType",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+    {name="mis_objectiveEnable",arraySize=M,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="mis_fobDefenceGameOver",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+    {name="chickCapEnabled",type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
+    {name="dialogPlayerDeadCount",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
+    nil
   }
 end
 function this.CheckMessageOptionWhileLoading()
@@ -2201,7 +2226,8 @@ function this.DisableAlertOutOfMissionArea()
   TppTerminal.PlayTerminalVoice("VOICE_WARN_MISSION_AREA",false)
 end
 function this.ExitHotZone()
-  this.ExecuteSystemCallback"OnOutOfHotZone"if svars.mis_canMissionClear then
+  this.ExecuteSystemCallback"OnOutOfHotZone"
+  if svars.mis_canMissionClear then
     TppUI.ShowAnnounceLog"leaveHotZone"
     if not IsNotAlert()and not IsHelicopter(vars.playerVehicleGameObjectId)then
       TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.OUTSIDE_HOTZONE_ALERT)
@@ -2238,7 +2264,8 @@ function this.PlayCommonRadioOnRideHelicopter()
 end
 function this.StartJingleOnHelicopterClear()
   TppSound.StartJingleOnClearHeli()
-  TppSoundDaemon.SetMute"HeliClosing"end
+  TppSoundDaemon.SetMute"HeliClosing"
+end
 function this.MissionClearOrAbortOnHeliDoorClosed()
   if not mvars.mis_enableDefaultHeliMisionClear then
     return
@@ -3125,7 +3152,8 @@ function this.ShowUpdateObjective(n)
         TppUI.ShowAnnounceLog(e)
       end
     end
-    TppSoundDaemon.PostEvent"sfx_s_terminal_data_fix"end
+    TppSoundDaemon.PostEvent"sfx_s_terminal_data_fix"
+    end
   mvars.mis_objectiveSetting=nil
   mvars.mis_updateObjectiveRadioGroupName=nil
   mvars.mis_updateObjectiveOnHelicopterStart=nil
@@ -3581,7 +3609,7 @@ function this.ResetQuietEquipIfUndevelop()--RETAILPATCH: 1060
     if not TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=6094}then
       TppBuddyService.SetVarsQuietWeaponType(0)
     end
-  end
+end
 end--
 local mbMission={[30050]=true,[50050]=true}
 local clearType={[TppDefine.MISSION_CLEAR_TYPE.ON_FOOT]=true,[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER]=true,[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_VEHILCE]=true,[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_FULTON_CONTAINER]=true}
@@ -3637,7 +3665,8 @@ function this.UnsetFobSneakFlag(missionCode)
 end
 function this.StartHelicopterDoorOpenTimer()
   local e=mvars.mis_helicopterDoorOpenTimerTimeSec
-  GameObject.SendCommand({type="TppHeli2",index=0},{id="SetSendDoorOpenManually",enabled=true})StartTimer("Timer_MissionStartHeliDoorOpen",e)
+  GameObject.SendCommand({type="TppHeli2",index=0},{id="SetSendDoorOpenManually",enabled=true})
+  StartTimer("Timer_MissionStartHeliDoorOpen",e)
 end
 function this.GetObjectiveRadioOption(n)
   local e={}

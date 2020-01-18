@@ -465,105 +465,91 @@ function this.Init(missionTable)
   InfButton.buttonStates[this.menuLeftButton].decrement=0.1
 end
 
-function this.Update()
+function this.Update(execCheck)
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
-  --[[CULL if TppMission.IsFOBMission(vars.missionCode) then
-    return
-  end--]]
-  if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
-    local inHeliSpace = TppMission.IsHelicopterSpace(vars.missionCode)
-    if inHeliSpace then
-      if this.topMenu~=InfMenuDefs.heliSpaceMenu then
-        this.topMenu=InfMenuDefs.heliSpaceMenu
-        this.GoMenu(this.topMenu)
-      end
-    else--!ishelispace
-      if this.topMenu~=InfMenuDefs.inMissionMenu then
-        this.topMenu=InfMenuDefs.inMissionMenu
-        this.GoMenu(this.topMenu)
-      end
-    end
-    --tex RETRY: still not happy, want to read menu status but cant find a way
-    if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
-      local playerVehicleId=vars.playerVehicleGameObjectId
-      local onVehicle = false
-      if not inHeliSpace then
-      --tex still conflicts with mother base heli reroute, but player should be tapping not holding to do that anyway
-        onVehicle = (Tpp.IsVehicle(playerVehicleId) and not Tpp.IsHelicopter(playerVehicleId)) or Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId) or Tpp.IsEnemyWalkerGear(playerVehicleId) 
-      end
-      if onVehicle then
-      InfMenu.DebugPrint("onVehicle")--DEBUGNOW
-      end
-      if not onVehicle then
-        local repeatRate=0.85
-        InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
-        InfButton.buttonStates[this.menuDownButton].repeatRate=repeatRate
-        InfButton.buttonStates[this.menuRightButton].repeatRate=repeatRate
-        InfButton.buttonStates[this.menuLeftButton].repeatRate=repeatRate
-        InfButton.buttonStates[this.resetSettingButton].repeatRate=repeatRate
-        InfButton.buttonStates[this.menuBackButton].repeatRate=repeatRate
-         
-        ToggleMenu()
-      end
-    end
-
-    if this.menuOn then
-      --TODO: tex figure out a way to check better, see general feature do.txt
-      if InfButton.OnButtonDown(InfButton.MB_DEVICE) then
-        this.MenuOff()
-      end
-
-      if InfButton.OnButtonDown(this.toggleMenuButton) then--tex update gvar of current
-        this.SetCurrent()
-        this.DisplayCurrentSetting()
-      end
-      if InfButton.OnButtonDown(this.menuUpButton) 
-      or InfButton.OnButtonRepeat(this.menuUpButton) then
-        this.PreviousOption()
-        this.DisplayCurrentSetting()
-      end
-      if InfButton.OnButtonDown(this.menuDownButton) 
-      or InfButton.OnButtonRepeat(this.menuDownButton) then
-        this.NextOption()
-        this.DisplayCurrentSetting()
-      end
-
-      --CULL InfButton.ButtonRepeatReset(this.menuRightButton)
-      if InfButton.OnButtonDown(this.menuRightButton) then
-        this.NextSetting()
-        this.DisplayCurrentSetting()
-      elseif InfButton.OnButtonUp(this.menuRightButton) then
-        this.autoDisplayRate=this.autoDisplayDefault
-      elseif InfButton.OnButtonRepeat(this.menuRightButton) then
-        this.autoDisplayRate=this.autoRateHeld
-        this.NextSetting(InfButton.GetRepeatMult())
-      end
-
-      --CULL InfButton.ButtonRepeatReset(this.menuLeftButton)
-      if InfButton.OnButtonDown(this.menuLeftButton) then
-        this.PreviousSetting()
-        this.DisplayCurrentSetting()
-      elseif InfButton.OnButtonUp(this.menuLeftButton) then
-        this.autoDisplayRate=this.autoDisplayDefault
-      elseif InfButton.OnButtonRepeat(this.menuLeftButton) then
-        this.autoDisplayRate=this.autoRateHeld
-        this.PreviousSetting(InfButton.GetRepeatMult())
-      end
-
-      if InfButton.OnButtonDown(this.resetSettingButton) then
-        this.ResetSetting()
-        this.PrintLangId"setting_default"--"Setting to default.."
-        this.DisplayCurrentSetting()
-      end
-      if InfButton.OnButtonDown(this.menuBackButton) then
-        this.GoBackCurrent()
-      end
-
-      this.AutoDisplay()
-    end--!menuOn
-  else--!ingame
+  if not execCheck.inGame then
     this.menuOn = false
+    return
   end
+  
+  if execCheck.inHeliSpace then
+    if this.topMenu~=InfMenuDefs.heliSpaceMenu then
+      this.topMenu=InfMenuDefs.heliSpaceMenu
+      this.GoMenu(this.topMenu)
+    end
+  else--!ishelispace
+    if this.topMenu~=InfMenuDefs.inMissionMenu then
+      this.topMenu=InfMenuDefs.inMissionMenu
+      this.GoMenu(this.topMenu)
+    end
+  end
+  
+  if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+    if not execCheck.inGroundVehicle then
+      local repeatRate=0.85
+      InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
+      InfButton.buttonStates[this.menuDownButton].repeatRate=repeatRate
+      InfButton.buttonStates[this.menuRightButton].repeatRate=repeatRate
+      InfButton.buttonStates[this.menuLeftButton].repeatRate=repeatRate
+      InfButton.buttonStates[this.resetSettingButton].repeatRate=repeatRate
+      InfButton.buttonStates[this.menuBackButton].repeatRate=repeatRate
+       
+      ToggleMenu()
+    end
+  end
+
+  if this.menuOn then
+    if TppUiCommand.IsMbDvcTerminalOpened() then--InfButton.OnButtonDown(InfButton.MB_DEVICE) then
+      this.MenuOff()
+    end
+
+    if InfButton.OnButtonDown(this.toggleMenuButton) then--tex update gvar of current
+      this.SetCurrent()
+      this.DisplayCurrentSetting()
+    end
+    if InfButton.OnButtonDown(this.menuUpButton) 
+    or InfButton.OnButtonRepeat(this.menuUpButton) then
+      this.PreviousOption()
+      this.DisplayCurrentSetting()
+    end
+    if InfButton.OnButtonDown(this.menuDownButton) 
+    or InfButton.OnButtonRepeat(this.menuDownButton) then
+      this.NextOption()
+      this.DisplayCurrentSetting()
+    end
+
+    if InfButton.OnButtonDown(this.menuRightButton) then
+      this.NextSetting()
+      this.DisplayCurrentSetting()
+    elseif InfButton.OnButtonUp(this.menuRightButton) then
+      this.autoDisplayRate=this.autoDisplayDefault
+    elseif InfButton.OnButtonRepeat(this.menuRightButton) then
+      this.autoDisplayRate=this.autoRateHeld
+      this.NextSetting(InfButton.GetRepeatMult())
+    end
+
+    if InfButton.OnButtonDown(this.menuLeftButton) then
+      this.PreviousSetting()
+      this.DisplayCurrentSetting()
+    elseif InfButton.OnButtonUp(this.menuLeftButton) then
+      this.autoDisplayRate=this.autoDisplayDefault
+    elseif InfButton.OnButtonRepeat(this.menuLeftButton) then
+      this.autoDisplayRate=this.autoRateHeld
+      this.PreviousSetting(InfButton.GetRepeatMult())
+    end
+
+    if InfButton.OnButtonDown(this.resetSettingButton) then
+      this.ResetSetting()
+      this.PrintLangId"setting_default"--"Setting to default.."
+      this.DisplayCurrentSetting()
+    end
+    if InfButton.OnButtonDown(this.menuBackButton) then
+      this.GoBackCurrent()
+    end
+
+    this.AutoDisplay()
+  end--!menuOn
+
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
 end
 

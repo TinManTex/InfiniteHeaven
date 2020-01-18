@@ -2,13 +2,24 @@
 --MOVE? this is data not lib
 local this={}
 --menus
-this.parametersMenu={
+this.playerParamsMenu={
   options={
-    Ivars.enemyParameters,
-    Ivars.enemyHealthMult,
     Ivars.playerHealthMult,
     --Ivars.ogrePointChange,
     --InfMenuCommands.giveOgrePoint,
+    InfMenuCommands.resetSettingsItem,
+    InfMenuCommands.goBackItem,
+  }
+}
+this.soldierParamsMenu={
+  options={
+    Ivars.enemyParameters,
+    Ivars.enemyHealthMult,
+    Ivars.discoveryDistScaleSightParam,
+    Ivars.indisDistScaleSightParam,
+    Ivars.dimDistScaleSightParam,
+    Ivars.farDistScaleSightParam,
+    Ivars.observeDistScaleSightParam,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -200,6 +211,15 @@ this.phaseMenu={
   OnSelect=Ivars.DisableOnSubsistence,
 }
 
+this.supportHeliMenu={
+  options={
+    Ivars.defaultHeliDoorOpenTime,
+    Ivars.disableHeliAttack,
+    InfMenuCommands.resetSettingsItem,
+    InfMenuCommands.goBackItem,
+  },
+}
+
 this.heliSpaceMenu={
   options={
     --Ivars.warpPlayerMode,--tex WIP DEBUGNOW
@@ -211,12 +231,14 @@ this.heliSpaceMenu={
     Ivars.playerHeadgear,
     Ivars.telopMode,
     this.playerRestrictionsMenu,
-    this.parametersMenu,
+    this.playerParamsMenu,
+    this.soldierParamsMenu,
     this.phaseMenu,
     this.revengeMenu,
     this.sideOpsMenu,
     this.motherBaseMenu,
     this.demosMenu,
+    this.supportHeliMenu,
     --this.appearanceMenu,--tex DEBUGNOW WIP
     this.patchupMenu,
     InfMenuCommands.resetSettingsItem,
@@ -246,10 +268,13 @@ this.debugInMissionMenu={
 
 this.inMissionMenu={
   options={
+    InfMenuCommands.HeliMenuOnTestItem,--WIP DEBUGNOW
     Ivars.warpPlayerMode,--tex WIP DEBUGNOW
     Ivars.clockTimeScale,
-    this.phaseMenu,
     --this.appearanceMenu,--WIP
+    Ivars.quietRadioMode,
+    this.phaseMenu,
+    this.supportHeliMenu,
     this.debugInMissionMenu,    
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.menuOffItem,

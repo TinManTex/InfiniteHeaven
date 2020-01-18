@@ -1193,10 +1193,10 @@ function this.PermitMissionOpen(e)
     gvars.str_missionOpenPermission[e]=true
   end
 end
-function this.MissionOpen(n)
-  this.SetMissionOpenFlag(n,true)
-  TppCassette.AcquireOnMissionOpen(n)
-  this.EnableMissionNewOpenFlag(n)
+function this.MissionOpen(missionCode)
+  this.SetMissionOpenFlag(missionCode,true)
+  TppCassette.AcquireOnMissionOpen(missionCode)
+  this.EnableMissionNewOpenFlag(missionCode)
 end
 function this.MissionClose(n)
   this.SetMissionOpenFlag(n,false)

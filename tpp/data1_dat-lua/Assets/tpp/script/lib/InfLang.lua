@@ -184,6 +184,7 @@ this.eng={--english
   warp_mode_on="Warp mode on",
   warp_mode_off="Warp mode off",
   item_disabled="Menu item is currently disabled",
+  quietRadioMode="Quiets radio track (0=Auto)"--r88
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

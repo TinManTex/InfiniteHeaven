@@ -95,12 +95,15 @@ function this.OnEndExceptionDialogForSignInUserChange()
   TppRadio.Stop()
   TppMusicManager.StopMusicPlayer(1)
   TppMusicManager.EndSceneMode()
-  TppRadioCommand.SetEnableIgnoreGamePause(false)GkEventTimerManager.StopAll()Mission.AddFinalizer(function()
+  TppRadioCommand.SetEnableIgnoreGamePause(false)
+  GkEventTimerManager.StopAll()
+  Mission.AddFinalizer(function()
     this.waitPatchDlcCheckCoroutine=nil
     TppSave.missionStartSaveFilePool=nil
     TppMission.DisablePauseForShowResult()
     TppVarInit.ClearAllVarsAndSlot()
-    TppUiStatusManager.UnsetStatus("All","ABORT")FadeFunction.SetFadeCallEnable(true)
+    TppUiStatusManager.UnsetStatus("All","ABORT")
+    FadeFunction.SetFadeCallEnable(true)
   end)
   TppVarInit.StartInitMission()
   return this.PROCESS_STATE.FINISH

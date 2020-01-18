@@ -2291,6 +2291,9 @@ function this.PlayMusicFromQuietRoom()
 	if TppStory.CanArrivalQuietInMB( false ) and not TppQuest.IsActive("mtbs_q99011") then 
 		local totalPlayTime = TppScriptVars.GetTotalPlayTime()
 		local radioIndex = totalPlayTime%(#QUIET_RADIO_TELOP_LANG_LIST) + 1
+		if gvars.quietRadioMode>0 then--tex
+		  radioIndex=gvars.quietRadioMode
+		end--
 		mvars.f30050_quietRadioName = string.format("sfx_m_prison_radio_%02d",radioIndex )
 		mvars.f30050_requestShowUIQuietRadioName = QUIET_RADIO_TELOP_LANG_LIST[radioIndex]
 		local position = Tpp.GetLocator("quiet_AssetIdentifier", "radio_pos")

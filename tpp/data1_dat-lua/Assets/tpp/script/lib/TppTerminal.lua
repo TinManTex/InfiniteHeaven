@@ -1045,19 +1045,12 @@ function this.SetUp()
   this.SetUpBuddyMBDVCMenu()
   this.SetUpCustomWeaponMBDVCMenu()
   --[[if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it RETRY
-
     --InfMenu.DebugPrint"Tppterminal set dvcmenu")--tex DEBUG: CULL:
-
     local dvcMenu={
-
       {menu=this.MBDVCMENU.MSN_BUDDY,active=true},
-
     }
-
     this.EnableDvcMenuByList(dvcMenu)
-
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
-
   end--]]
 
   --tex reworked, disable various support menus
@@ -1074,36 +1067,29 @@ function this.SetUp()
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
   end
   --[[ORIG
-
   if TppMission.IsSubsistenceMission() then
-
     local dvcMenu={
-
       {menu=this.MBDVCMENU.MSN_DROP,active=false},
-
       {menu=this.MBDVCMENU.MSN_BUDDY,active=false},
-
       {menu=this.MBDVCMENU.MSN_ATTACK,active=false},
-
       {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=false}
-
     }
-
     this.EnableDvcMenuByList(dvcMenu)
-
     TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
-
   else
-
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
-
   end
-
   --]]
 end
 function this.SetUpArmsMBDVCMenu()
   if this.IsOpenMBDvcArmsMenu()then
-    this.EnableDvcMenuByList{{menu=this.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},{menu=this.MBDVCMENU.MBM_CUSTOM,active=true},{menu=this.MBDVCMENU.MBM_CUSTOM_ARMS,active=true},{menu=this.MBDVCMENU.MBM_CUSTOM_ARMS_HELI,active=true},{menu=this.MBDVCMENU.MBM_CUSTOM_ARMS_VEHICLE,active=true}}
+    this.EnableDvcMenuByList{
+      {menu=this.MBDVCMENU.MBM_DEVELOP_ARMS,active=true},
+      {menu=this.MBDVCMENU.MBM_CUSTOM,active=true},
+      {menu=this.MBDVCMENU.MBM_CUSTOM_ARMS,active=true},
+      {menu=this.MBDVCMENU.MBM_CUSTOM_ARMS_HELI,active=true},
+      {menu=this.MBDVCMENU.MBM_CUSTOM_ARMS_VEHICLE,active=true}
+    }
   end
 end
 function this.SetUpCustomWeaponMBDVCMenu()
@@ -1523,7 +1509,8 @@ function this.SetUpStoryBeforeCleardRescueMiller()
   }
 end
 function this.SetUpStoryBeforeCleardRescueMillerOnHelicopter()
-  this._SetUpDvcMenu{{menu=this.MBDVCMENU.MSN,active=true},
+  this._SetUpDvcMenu{
+    {menu=this.MBDVCMENU.MSN,active=true},
     {menu=this.MBDVCMENU.MSN_EMERGENCIE_N,active=true},
     {menu=this.MBDVCMENU.MSN_EMERGENCIE_F,active=true},
     {menu=this.MBDVCMENU.MSN_LOG,active=true},
@@ -1532,7 +1519,8 @@ function this.SetUpStoryBeforeCleardRescueMillerOnHelicopter()
   }
 end
 function this.SetUpStoryCleardRescueMiller()
-  this._SetUpDvcMenu{{menu=this.MBDVCMENU.MBM,active=true},
+  this._SetUpDvcMenu{
+    {menu=this.MBDVCMENU.MBM,active=true},
     {menu=this.MBDVCMENU.MSN,active=true},
     {menu=this.MBDVCMENU.MBM_REWORD,active=true},
     {menu=this.MBDVCMENU.MBM_STAFF,active=true},
@@ -1560,7 +1548,8 @@ function this.SetUpStoryCleardRescueMiller()
   }
 end
 function this.SetUpStoryCleardToMotherBase()
-  local t={{menu=this.MBDVCMENU.MBM,active=true},
+  local t={
+    {menu=this.MBDVCMENU.MBM,active=true},
     {menu=this.MBDVCMENU.MSN,active=true},
     {menu=this.MBDVCMENU.MBM_REWORD,active=true},
     {menu=this.MBDVCMENU.MBM_STAFF,active=true},

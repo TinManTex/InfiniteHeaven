@@ -147,150 +147,174 @@ local s=6
 local t=2
 r={"Seq_Mission_Prepare"}
 this.SYS_SEQUENCE_LENGTH=#r
-a.Seq_Mission_Prepare={Messages=function(e)
-  return Tpp.StrCode32Table{UI={{msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
-    end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="StartMissionTelopFadeIn",func=function()StartTime("Timer_HelicopterMoveStart",s)
-    end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="StartMissionTelopFadeOut",func=function()
-      mvars.seq_nowWaitingStartMissionTelopFadeOut=nil
-      e.FadeInStartOnGameStart()
-    end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="PushEndLoadingTips",func=function()
-      mvars.seq_nowWaitingPushEndLoadingTips=nil
-      StartTime("Timer_WaitStartingGame",1)
-    end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}},Timer={{msg="Finish",sender="Timer_WaitStartingGame",func=e.MissionGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="Finish",sender="Timer_HelicopterMoveStart",func=e.HelicopterMoveStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="Finish",sender="Timer_FadeInStartOnNoTelopHelicopter",func=e.FadeInStartOnGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}}}
-end,OnEnter=function(n)
-  mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_INITALIZE
-  mvars.seq_textureLoadWaitStartTime=c
-  mvars.seq_canMissionStartWaitStartTime=Time.GetRawElapsedTimeSinceStartUp()
-  TppMain.OnEnterMissionPrepare()
-  TppMain.DisablePause()
-  if TppMission.IsFOBMission(vars.missionCode)==true then
-    TppNetworkUtil.RequestGetFobServerParameter()
-  end
-end,OnLeave=function(s,n)
-  TppMain.OnMissionGameStart(n)
-  this.DoOnEndMissionPrepareFunction()
-  if this.IsFirstLandStart()then
-    if not TppSave.IsReserveVarRestoreForContinue()then
-      TppUiStatusManager.ClearStatus"AnnounceLog"
-      TppUiStatusManager.SetStatus("AnnounceLog","SUSPEND_LOG")
-      TppMission.UpdateCheckPointAtCurrentPosition()
+a.Seq_Mission_Prepare={
+  Messages=function(e)
+    return Tpp.StrCode32Table{
+      UI={
+        {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
+          end,
+          option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
+        {msg="StartMissionTelopFadeIn",func=function()
+          StartTime("Timer_HelicopterMoveStart",s)
+        end,
+        option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
+        {msg="StartMissionTelopFadeOut",func=function()
+          mvars.seq_nowWaitingStartMissionTelopFadeOut=nil
+          e.FadeInStartOnGameStart()
+        end,
+        option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
+        {msg="PushEndLoadingTips",func=function()
+          mvars.seq_nowWaitingPushEndLoadingTips=nil
+          StartTime("Timer_WaitStartingGame",1)
+        end,
+        option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}},
+      Timer={
+        {msg="Finish",sender="Timer_WaitStartingGame",func=e.MissionGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
+        {msg="Finish",sender="Timer_HelicopterMoveStart",func=e.HelicopterMoveStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
+        {msg="Finish",sender="Timer_FadeInStartOnNoTelopHelicopter",func=e.FadeInStartOnGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}}}
+  end,
+  OnEnter=function(n)
+    mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_INITALIZE
+    mvars.seq_textureLoadWaitStartTime=c
+    mvars.seq_canMissionStartWaitStartTime=Time.GetRawElapsedTimeSinceStartUp()
+    TppMain.OnEnterMissionPrepare()
+    TppMain.DisablePause()
+    if TppMission.IsFOBMission(vars.missionCode)==true then
+      TppNetworkUtil.RequestGetFobServerParameter()
     end
-  end
-end,HelicopterMoveStart=function()
-  if(gvars.ply_initialPlayerState==TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)and(svars.ply_isUsedPlayerInitialAction==false)then
-    TppHelicopter.SetRouteToHelicopterOnStartMission()
-  end
-end,MissionGameStart=function()
-  if mvars.seq_demoSequneceList[mvars.seq_missionStartSequence]then
-    TppMain.DisableBlackLoading()
-    this.SetMissionGameStartSequence()
-  else
-    if mvars.seq_isHelicopterStart then
-      if mvars.seq_noMissionTelopOnHelicopter then
-        a.Seq_Mission_Prepare.HelicopterMoveStart()StartTime("Timer_FadeInStartOnNoTelopHelicopter",t)
-      else
-        TppSoundDaemon.ResetMute"Loading"mvars.seq_nowWaitingStartMissionTelopFadeOut=true
-        TppUI.StartMissionTelop()
+  end,
+  OnLeave=function(s,n)
+    TppMain.OnMissionGameStart(n)
+    this.DoOnEndMissionPrepareFunction()
+    if this.IsFirstLandStart()then
+      if not TppSave.IsReserveVarRestoreForContinue()then
+        TppUiStatusManager.ClearStatus"AnnounceLog"
+        TppUiStatusManager.SetStatus("AnnounceLog","SUSPEND_LOG")
+        TppMission.UpdateCheckPointAtCurrentPosition()
       end
+    end
+  end,
+  HelicopterMoveStart=function()
+    if(gvars.ply_initialPlayerState==TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)and(svars.ply_isUsedPlayerInitialAction==false)then
+      TppHelicopter.SetRouteToHelicopterOnStartMission()
+    end
+  end,
+  MissionGameStart=function()
+    if mvars.seq_demoSequneceList[mvars.seq_missionStartSequence]then
+      TppMain.DisableBlackLoading()
+      this.SetMissionGameStartSequence()
     else
-      a.Seq_Mission_Prepare.FadeInStartOnGameStart()
+      if mvars.seq_isHelicopterStart then
+        if mvars.seq_noMissionTelopOnHelicopter then
+          a.Seq_Mission_Prepare.HelicopterMoveStart()StartTime("Timer_FadeInStartOnNoTelopHelicopter",t)
+        else
+          TppSoundDaemon.ResetMute"Loading"mvars.seq_nowWaitingStartMissionTelopFadeOut=true
+          TppUI.StartMissionTelop()
+        end
+      else
+        a.Seq_Mission_Prepare.FadeInStartOnGameStart()
+      end
     end
-  end
-end,FadeInStartOnGameStart=function()
-  TppMain.DisableBlackLoading()
-  local n
-  if mvars.seq_isHelicopterStart then
-    TppSound.SetHelicopterStartSceneBGM()n=Tpp.GetHelicopterStartExceptGameStatus()
-  else
-    if TppMission.IsMissionStart()and(not TppMission.IsFreeMission(vars.missionCode))then
-      n={AnnounceLog=false}
+  end,
+  FadeInStartOnGameStart=function()
+    TppMain.DisableBlackLoading()
+    local n
+    if mvars.seq_isHelicopterStart then
+      TppSound.SetHelicopterStartSceneBGM()n=Tpp.GetHelicopterStartExceptGameStatus()
+    else
+      if TppMission.IsMissionStart()and(not TppMission.IsFreeMission(vars.missionCode))then
+        n={AnnounceLog=false}
+      end
     end
-  end
-  this.SetMissionGameStartSequence()
-  TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeInOnGameStart",nil,{exceptGameStatus=n})
-end,SkipTextureLoadingWait=function()
-  if mvars.seq_skipTextureLoadingWait then
-    return true
-  end
-end,DEBUG_TextPrint=function(n)
-  local e=(nil).NewContext();(nil).Print(e,{.5,.5,1},n)
-end,OnUpdate=function(t)
-  if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
-    TppUI.ShowAccessIconContinue()
-  end
-  TppMission.ExecuteSystemCallback"OnUpdateWhileMissionPrepare"local r=30
-  local d=.35
-  local s=false
-  local a=false
-  local a=Mission.GetTextureLoadedRate()
-  local u=TppMission.CanStart()
-  local l=TppMotherBaseManagement.IsEndedSyncControl()
-  if t.SkipTextureLoadingWait()then
-    a=1
-  end
-  local c=0
-  local t=r
-  local i=Time.GetRawElapsedTimeSinceStartUp()
-  local S=i-mvars.seq_canMissionStartWaitStartTime
-  if(u==false)and(S>_)then
-    if not mvars.seq_doneDumpCanMissionStartRefrainIds then
-      mvars.seq_doneDumpCanMissionStartRefrainIds=true
+    this.SetMissionGameStartSequence()
+    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeInOnGameStart",nil,{exceptGameStatus=n})
+  end,
+  SkipTextureLoadingWait=function()
+    if mvars.seq_skipTextureLoadingWait then
+      return true
     end
-  end
-  if not l then
-    return
-  end
-  if(not TppMission.IsDefiniteMissionClear())then--RETAILPATCH: 1060 - check added
-    TppTerminal.VarSaveMbMissionStartSyncEnd()
-    TppSave.DoReservedSaveOnMissionStart()
-  end
-  if TppMission.IsFOBMission(vars.missionCode)==true then
-    if TppNetworkUtil.IsRequestFobServerParameterBusy()then
+  end,
+  DEBUG_TextPrint=function(n)
+    local e=(nil).NewContext();(nil).Print(e,{.5,.5,1},n)
+  end,
+  OnUpdate=function(t)
+    if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
+      TppUI.ShowAccessIconContinue()
+    end
+    TppMission.ExecuteSystemCallback"OnUpdateWhileMissionPrepare"
+    local r=30
+    local d=.35
+    local s=false
+    local a=false
+    local a=Mission.GetTextureLoadedRate()
+    local u=TppMission.CanStart()
+    local l=TppMotherBaseManagement.IsEndedSyncControl()
+    if t.SkipTextureLoadingWait()then
+      a=1
+    end
+    local c=0
+    local t=r
+    local i=Time.GetRawElapsedTimeSinceStartUp()
+    local S=i-mvars.seq_canMissionStartWaitStartTime
+    if(u==false)and(S>_)then
+      if not mvars.seq_doneDumpCanMissionStartRefrainIds then
+        mvars.seq_doneDumpCanMissionStartRefrainIds=true
+      end
+    end
+    if not l then
       return
     end
-  end
-  if u then
-    if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.WAIT_TEXTURE_LOADING)then
-      mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_TEXTURE_LOADING
-      TppMain.OnTextureLoadingWaitStart()
-      mvars.seq_textureLoadWaitStartTime=i
+    if(not TppMission.IsDefiniteMissionClear())then--RETAILPATCH: 1060 - check added
+      TppTerminal.VarSaveMbMissionStartSyncEnd()
+      TppSave.DoReservedSaveOnMissionStart()
     end
-    c=Time.GetRawElapsedTimeSinceStartUp()-mvars.seq_textureLoadWaitStartTime
-    t=r-c
-    if(a>d)or(t<0)then
-      s=true
-    end
-    if mvars.seq_forceStopWhileNotPressedPad then
-      s=DebugPad.IsScannedAorB()
-      if s then
-        mvars.seq_forceStopWhileNotPressedPad=false
+    if TppMission.IsFOBMission(vars.missionCode)==true then
+      if TppNetworkUtil.IsRequestFobServerParameterBusy()then
+        return
       end
     end
-  end
-  if not s then
-    return
-  end
-  if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
-    mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_SAVING_FILE
-    TppMain.OnMissionStartSaving()
-  end
-  if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_SAVING_FILE)then
-    mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.END_SAVING_FILE
-    if t<0 then
+    if u then
+      if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.WAIT_TEXTURE_LOADING)then
+        mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_TEXTURE_LOADING
+        TppMain.OnTextureLoadingWaitStart()
+        mvars.seq_textureLoadWaitStartTime=i
+      end
+      c=Time.GetRawElapsedTimeSinceStartUp()-mvars.seq_textureLoadWaitStartTime
+      t=r-c
+      if(a>d)or(t<0)then
+        s=true
+      end
+      if mvars.seq_forceStopWhileNotPressedPad then
+        s=DebugPad.IsScannedAorB()
+        if s then
+          mvars.seq_forceStopWhileNotPressedPad=false
+        end
+      end
     end
-    TppMain.OnMissionCanStart()
-    if TppUiCommand.IsEndLoadingTips()then
-      TppUI.FinishLoadingTips()StartTime("Timer_WaitStartingGame",o)
-    else
-      if gvars.waitLoadingTipsEnd then
-        mvars.seq_nowWaitingPushEndLoadingTips=true
-        TppUiCommand.PermitEndLoadingTips()
-      else
+    if not s then
+      return
+    end
+    if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
+      mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_SAVING_FILE
+      TppMain.OnMissionStartSaving()
+    end
+    if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_SAVING_FILE)then
+      mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.END_SAVING_FILE
+      if t<0 then
+      end
+      TppMain.OnMissionCanStart()
+      if TppUiCommand.IsEndLoadingTips()then
         TppUI.FinishLoadingTips()StartTime("Timer_WaitStartingGame",o)
+      else
+        if gvars.waitLoadingTipsEnd then
+          mvars.seq_nowWaitingPushEndLoadingTips=true
+          TppUiCommand.PermitEndLoadingTips()
+        else
+          TppUI.FinishLoadingTips()StartTime("Timer_WaitStartingGame",o)
+        end
       end
     end
-  end
-end}
+  end}
 function this.IsMissionPrepareFinished()
   if mvars.seq_missionPrepareState then
     if mvars.seq_missionPrepareState>=this.MISSION_PREPARE_STATE.FINISH then
@@ -382,11 +406,11 @@ function this.IncrementContinueCount()
 end
 function this.DeclareSVars()
   return{
-  {name="seq_sequence",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,notify=true,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-{name="seq_sequenceContinueCount",arraySize=S,type=TppScriptVars.TYPE_UINT8,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
-{name="dbg_seq_sequenceName",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
-nil
-}
+    {name="seq_sequence",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,notify=true,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="seq_sequenceContinueCount",arraySize=S,type=TppScriptVars.TYPE_UINT8,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
+    {name="dbg_seq_sequenceName",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
+    nil
+  }
 end
 function this.DEBUG_Init()
 end

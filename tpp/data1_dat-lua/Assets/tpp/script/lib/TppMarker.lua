@@ -296,7 +296,9 @@ function this._OnSearchTarget(a,t,s)
       if mvars.mar_searchTargetList[a].func then
         mvars.mar_searchTargetList[a].func(t,a,s)
       end
-      TppSoundDaemon.PostEvent"sfx_s_enemytag_main_tgt"this._CallSearchTargetEnabledRadio(a)svars.mar_searchTargeIsFound[n]=true
+      TppSoundDaemon.PostEvent"sfx_s_enemytag_main_tgt"
+      this._CallSearchTargetEnabledRadio(a)
+      svars.mar_searchTargeIsFound[n]=true
       return
     end
   end

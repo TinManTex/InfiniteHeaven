@@ -98,7 +98,7 @@ PreinstallTape={
         {albumId="tp_sp_01_10",langId="tape_tp_sp_01_10",type="PREINSTALL_SPECIAL"},
         {albumId="tp_sp_01_11",langId="tape_tp_sp_01_11",type="PREINSTALL_SPECIAL"},
         {albumId="tp_sp_01_12",langId="tape_tp_sp_01_12",type="PREINSTALL_SPECIAL"}
-      },
+      },--albums
       tracks={
         {albumId="tp_etc_0010",saveIndex=34,langId="tp_m_10010_01",dataTimeJp=54e3,dataTimeEn=45e3,important=1,special=0,fileName="tp_m_10010_01"},
         {albumId="tp_etc_0010",saveIndex=35,langId="tp_m_10010_02",dataTimeJp=94e3,dataTimeEn=92e3,important=0,special=0,fileName="tp_m_10010_02"},
@@ -343,9 +343,9 @@ PreinstallTape={
         {albumId="tp_sp_01_10",saveIndex=197,langId="tp_sp_01_10",dataTimeJp=6e3,dataTimeEn=6e3,important=0,special=10,fileName="tp_sp_01_10"},
         {albumId="tp_sp_01_11",saveIndex=198,langId="tp_sp_01_11",dataTimeJp=12e3,dataTimeEn=12e3,important=0,special=11,fileName="tp_sp_01_11"},
         {albumId="tp_sp_01_12",saveIndex=199,langId="tp_sp_01_12",dataTimeJp=5e3,dataTimeEn=5e3,important=0,special=12,fileName="tp_sp_01_12"}
-      }
-    }
-  end,
+      }--tracks
+    }--GetTapeInfo return
+  end,--GetTapeInfo
   SetStructure=function()
     TppMusicPlayer.SetStructure{albumNum=15,trackNum=18,downloadDirectory="/Assets/tpp/sound/scripts/tape"}
   end,
@@ -383,7 +383,7 @@ PreinstallTape={
     TppMusicPlayer.SetTrack{trackIndex=0,fileName="tp_m_10195",dataTimeJp=45e3,dataTimeEn=45e3,albumId="tp_m_10195"}
     TppMusicPlayer.SetAlbum{albumId="tp_m_10040",trackNum=1,type="PREINSTALL_BRIEFING"}
     TppMusicPlayer.SetTrack{trackIndex=0,fileName="tp_m_10040",dataTimeJp=7e4,dataTimeEn=7e4,albumId="tp_m_10040"}
-  end,
+  end,--SetMusicInfo
   SetStructureGz=function()
     TppMusicPlayer.SetStructure{albumNum=19,trackNum=62}
   end,
@@ -469,4 +469,5 @@ PreinstallTape={
     TppMusicPlayer.SetTrack{trackIndex=7,fileName="tp_arch_diary_01_08",dataTimeJp=259e3,dataTimeEn=205e3,albumId="tp_archDiary_01"}
     TppMusicPlayer.SetTrack{trackIndex=8,fileName="tp_arch_diary_01_09",dataTimeJp=177e3,dataTimeEn=13e4,albumId="tp_archDiary_01"}
     TppMusicPlayer.SetTrack{trackIndex=9,fileName="tp_arch_diary_01_10",dataTimeJp=319e3,dataTimeEn=196e3,albumId="tp_archDiary_01"}
-  end}
+  end--SetMusicInfoGz
+}--PreinstallTape

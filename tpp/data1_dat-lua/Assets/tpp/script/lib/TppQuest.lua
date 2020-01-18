@@ -2903,7 +2903,8 @@ function this._ChangeToEnable(a,a,t,n)
   end
 end
 function this.SetQuestShootingPractice()
-  TppSoundDaemon.PostEvent"sfx_s_training_ready_go"GkEventTimerManager.Start("TimerShootingPracticeStart",3.5)
+  TppSoundDaemon.PostEvent"sfx_s_training_ready_go"
+  GkEventTimerManager.Start("TimerShootingPracticeStart",3.5)
   this.StopTimer"TimerShootingPracticeRetryConfirm"this.HideShootingPracticeStartUi()
   mvars.qst_isShootingPracticeStarted=true
   GameObject.SendCommand({type="TppHeli2",index=0},{id="PullOut"})
@@ -2973,7 +2974,8 @@ function this.CancelShootingPractice()
   this.SetCancelShootingPracticeStartUi()
 end
 function this.StartSafeTimer(t,n)
-  this.StopTimer(t)GkEventTimerManager.Start(t,n)
+  this.StopTimer(t)
+  GkEventTimerManager.Start(t,n)
 end
 function this.StopTimer(e)
   if GkEventTimerManager.IsTimerActive(e)then
@@ -2981,7 +2983,10 @@ function this.StopTimer(e)
   end
 end
 function this.ShootingPracticeStopAllTimer()
-  this.StopTimer"TimerShootingPracticeEnd"this.StopTimer"TimerShootingPracticeRetryConfirm"this.StopTimer"TimerShootingPracticeStart"end
+  this.StopTimer"TimerShootingPracticeEnd"
+  this.StopTimer"TimerShootingPracticeRetryConfirm"
+  this.StopTimer"TimerShootingPracticeStart"
+end
 function this.OnQuestShootingTimerEnd()
   TppUiStatusManager.UnsetStatus("DisplayTimer","STOP_VISIBLE")
   TppUiCommand.EraseDisplayTimer()

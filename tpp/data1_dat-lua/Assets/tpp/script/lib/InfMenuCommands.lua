@@ -243,6 +243,23 @@ this.resetRevenge={
   end,
 }
 
+this.HeliMenuOnTestItem={
+  OnChange=function()
+    
+    
+    local dvcMenu={
+    
+      {menu=TppTerminal.MBDVCMENU.MSN_HELI,active=true},
+      {menu=TppTerminal.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
+      {menu=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,active=true},
+      {menu=TppTerminal.MBDVCMENU.MSN_HELI_DISMISS,active=true},
+    }
+    InfMenu.DebugPrint("blih")--DEBUGNOW
+    TppTerminal.EnableDvcMenuByList(dvcMenu)
+    InfMenu.DebugPrint("bleh")--DEBUGNOW
+  end,
+}
+
 --game progression unlocks
 
 this.unlockPlayableAvatarItem={

@@ -345,10 +345,17 @@ function this.RestoreActionFlag()
   end
 end
 
+
 local inGame=false--tex actually loaded game, ie at least 'continued' from title screen
 local inHeliSpace=false
+local inMission=false
+local inMissionOnGround=false--mission actually started/reached ground, triggers on checkpoint save so might not be valid for some uses
+local inGroundVehicle=false
+local inSupportHeli=false
+local onBuddy=false--tex sexy
+local inMenu=false
+
 local playerVehicleId=0
-local onVehicle=false
 this.currentTime=0
 
 function this.Update()
@@ -357,28 +364,49 @@ function this.Update()
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
-  InfButton.UpdateHeld()
-  InfButton.UpdateRepeatReset()
-  this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
+    
+  playerVehicleId=NULL_ID 
+  inGame=false
+  inHeliSpace=false
+  inMission=false
+  inMissionOnGround=false
+  inGroundVehicle=false
+  inSupportHeli=false
+  onBuddy=false
+  
+  inGame=not mvars.mis_missionStateIsNotInGame
 
-  inHeliSpace = TppMission.IsHelicopterSpace(vars.missionCode)
-  inGame = not mvars.mis_missionStateIsNotInGame
 
   if inGame then
+    inHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
+    inMission=inGame and not inHeliSpace
     --SplashScreen.Show(this.debugSplash,0,0.3,0)--tex
     playerVehicleId=vars.playerVehicleGameObjectId
-    onVehicle=false
+
     if not inHeliSpace then
-      onVehicle = (Tpp.IsVehicle(playerVehicleId) and not Tpp.IsHelicopter(playerVehicleId)) or Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId) or Tpp.IsEnemyWalkerGear(playerVehicleId)
+      inMissionOnGround=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
+    --[[   if not inMissionOnGround then
+        InfMenu.DebugPrint"not inMissionOnGround"--DEBUGNOW
+      end --]]
+
+      inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
+      inGroundVehicle=Tpp.IsVehicle(playerVehicleId) and not inSupportHeli-- or Tpp.IsEnemyWalkerGear(playerVehicleId)?? VERIFY
+      onBuddy=Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId)
     end
   end
-
-  InfMenu.Update()
-  if inGame then
-    this.UpdatePhaseMod()
-    this.UpdateWarpPlayerMode()
-  end
-
+  
+  this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
+  
+  InfButton.UpdateHeld()
+  InfButton.UpdateRepeatReset()
+  ---Update shiz
+  InfMenu.Update({inGame=inGame,inHeliSpace=inHeliSpace,inGroundVehicle=inGroundVehicle})
+  inMenu=InfMenu.menuOn
+  
+  local execCheck ={inGame=inGame,inHeliSpace=inHeliSpace,inMenu=inMenu}
+  this.UpdatePhaseMod(execCheck)
+  this.UpdateWarpPlayerMode(execCheck)
+  ---
   InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
 end
 
@@ -392,11 +420,14 @@ local function PhaseName(index)
   return Ivars.phaseSettings[index+1]
 end
 
-function this.UpdatePhaseMod()
+function this.UpdatePhaseMod(execCheck)
   --Phase/Alert updates DOC: Phases-Alerts.txt
   --TODO RETRY, see if you can get when player comes into cp range better, playerPhase doesnt change till then
   --RESEARCH music also starts up
   --then can shift to game msg="ChangePhase" subscription
+  if not execCheck.inGame or execCheck.inHeliSpace or execCheck.inMenu then
+    return
+  end
 
   if TppLocation.IsMotherBase() or TppLocation.IsMBQF() then
     return
@@ -511,12 +542,12 @@ function this.InitWarpPlayerMode()
   InfButton.buttonStates[this.moveDownButton].decrement=0.1
 end
 
-function this.UpdateWarpPlayerMode()
-  if InfMenu.menuOn then
+function this.UpdateWarpPlayerMode(execCheck)
+  if execCheck.inMenu then
     return
   end
   
-  if not inGame then
+  if not execCheck.inGame or execCheck.inHeliSpace then
     if Ivars.warpPlayerMode.setting==1 then
       Ivars.warpPlayerMode:Set(0)
     end
@@ -526,72 +557,71 @@ function this.UpdateWarpPlayerMode()
   if Ivars.warpPlayerMode.setting==0 then
     return
   end
-  if inGame and not inHeliSpace and not InfMenu.menuOn then
-    --TODO: refactor, in InfMenu.Update too
-    local repeatRate=0.06
-    local repeatRateUp=0.04
-    InfButton.buttonStates[this.moveRightButton].repeatRate=repeatRate
-    InfButton.buttonStates[this.moveLeftButton].repeatRate=repeatRate
-    InfButton.buttonStates[this.moveForwardButton].repeatRate=repeatRate
-    InfButton.buttonStates[this.moveBackButton].repeatRate=repeatRate
-    InfButton.buttonStates[this.moveUpButton].repeatRate=repeatRateUp
-    InfButton.buttonStates[this.moveDownButton].repeatRate=repeatRate
+  
+  --TODO: refactor, in InfMenu.Update too
+  local repeatRate=0.06
+  local repeatRateUp=0.04
+  InfButton.buttonStates[this.moveRightButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.moveLeftButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.moveForwardButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.moveBackButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.moveUpButton].repeatRate=repeatRateUp
+  InfButton.buttonStates[this.moveDownButton].repeatRate=repeatRate
 
-    local warpAmount=1
-    local warpUpAmount=1
+  local warpAmount=1
+  local warpUpAmount=1
 
-    local moveDir={}
-    moveDir[1]=0
-    moveDir[2]=0
-    moveDir[3]=0
+  local moveDir={}
+  moveDir[1]=0
+  moveDir[2]=0
+  moveDir[3]=0
 
-    local didMove=false
+  local didMove=false
 
-    if InfButton.OnButtonDown(this.moveForwardButton)
-      or InfButton.OnButtonRepeat(this.moveForwardButton) then
-      moveDir[3]=warpAmount
-      didMove=true
-    end
+  if InfButton.OnButtonDown(this.moveForwardButton)
+    or InfButton.OnButtonRepeat(this.moveForwardButton) then
+    moveDir[3]=warpAmount
+    didMove=true
+  end
 
-    if InfButton.OnButtonDown(this.moveBackButton)
-      or InfButton.OnButtonRepeat(this.moveBackButton) then
-      moveDir[3]=-warpAmount
-      didMove=true
-    end
+  if InfButton.OnButtonDown(this.moveBackButton)
+    or InfButton.OnButtonRepeat(this.moveBackButton) then
+    moveDir[3]=-warpAmount
+    didMove=true
+  end
 
-    if InfButton.OnButtonDown(this.moveRightButton)
-      or InfButton.OnButtonRepeat(this.moveRightButton) then
-      moveDir[1]=-warpAmount
-      didMove=true
-    end
+  if InfButton.OnButtonDown(this.moveRightButton)
+    or InfButton.OnButtonRepeat(this.moveRightButton) then
+    moveDir[1]=-warpAmount
+    didMove=true
+  end
 
-    if InfButton.OnButtonDown(this.moveLeftButton)
-      or InfButton.OnButtonRepeat(this.moveLeftButton) then
-      moveDir[1]=warpAmount
-      didMove=true
-    end
+  if InfButton.OnButtonDown(this.moveLeftButton)
+    or InfButton.OnButtonRepeat(this.moveLeftButton) then
+    moveDir[1]=warpAmount
+    didMove=true
+  end
 
-    if InfButton.OnButtonDown(this.moveUpButton)
-      or InfButton.OnButtonRepeat(this.moveUpButton) then
-      moveDir[2]=warpUpAmount
-      didMove=true
-    end
+  if InfButton.OnButtonDown(this.moveUpButton)
+    or InfButton.OnButtonRepeat(this.moveUpButton) then
+    moveDir[2]=warpUpAmount
+    didMove=true
+  end
 
-    if InfButton.OnButtonDown(this.moveDownButton)
-      or InfButton.OnButtonRepeat(this.moveDownButton) then
-      moveDir[2]=-warpAmount
-      didMove=true
-    end
+  if InfButton.OnButtonDown(this.moveDownButton)
+    or InfButton.OnButtonRepeat(this.moveDownButton) then
+    moveDir[2]=-warpAmount
+    didMove=true
+  end
 
-    if didMove then
-      local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
-      local vMoveDir=Vector3(moveDir[1],moveDir[2],moveDir[3])
-      local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
-      local playerMoveDir=rotYQuat:Rotate(vMoveDir)
-      local warpPos=currentPos+playerMoveDir
-      TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
-    end
-  end--!do buttons
+  if didMove then
+    local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
+    local vMoveDir=Vector3(moveDir[1],moveDir[2],moveDir[3])
+    local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
+    local playerMoveDir=rotYQuat:Rotate(vMoveDir)
+    local warpPos=currentPos+playerMoveDir
+    TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+  end
 end
 
 

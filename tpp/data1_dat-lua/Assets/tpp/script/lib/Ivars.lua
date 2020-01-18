@@ -7,6 +7,8 @@ local this={}
 --dont let the lure of nice straight setting>game value lure you, just -1 it
 
 --LOCALOPT:
+local IsString=Tpp.IsTypeString
+local IsNumber=Tpp.IsTypeNumber
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
@@ -29,112 +31,57 @@ this.numQuests=157--tex SYNC: number of quests
 this.MAX_SOLDIER_STATE_COUNT = 360--tex from <mission>_enemy.lua, free missions/whatever was highest
 
 this.switchRange={max=1,min=0,increment=1}
-this.healthMultRange={max=4,min=0,increment=0.2}
 
 this.switchSettings={"OFF","ON"}
-
-function this.OnChangeSubSetting(self)--tex notify parent profile that you've changed
-  --InfMenu.DebugPrint("OnChangeSubSetting: "..self.name.. " profile: " .. self.profile.name)
-  local profile=self.profile
-  if profile then
-    if profile.OnSubSettingChanged==nil then
-      InfMenu.DebugPrint("WARNING: cannot find OnSubSettingChanged on profile " .. self.profile.name)    
-      return
-    end
-    profile.OnSubSettingChanged(profile,self)
-  end
-end
-
-function this.OnSubSettingChanged(profile, subSetting)--tex here the parent profile is notfied a sub setting was changed
-  --InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " subSetting: " .. subSetting.name)
-  --tex any sub setting will flip this profile to custom, CUSTOM is mostly a user identifyer, it has no side effects/no settingTable function
-  if subSetting.enum==nil or subSetting.enum.CUSTOM==nil or (subSetting:Is("DEFAULT") or subSetting:Is("CUSTOM")) then--tex just a hack way of figuring out if subsetting is a profile itself
-    if not profile:Is("CUSTOM") then
-      profile:Set(profile.enum.CUSTOM)
-      InfMenu.DisplayProfileChangedToCustom(profile)
-    end
-  end
-end
-
-this.RunCurrentSetting=function(self)
-  --InfMenu.DebugPrint("RunCurrentSetting on ".. self.name)
-  local returnValue=nil
-  if self.settingsTable then
-    --this.UpdateSettingFromGvar(self)
-    local settingName=self.settings[self.setting+1]
-    --InfMenu.DebugPrint("setting name:" .. settingName)
-    local settingFunction=self.settingsTable[settingName]
-    
-    if IsFunc(settingFunction) then
-      --InfMenu.DebugPrint("has settingFunction")
-      returnValue=settingFunction()
-    else
-      returnValue=settingFunction
-    end
-  end
-  return returnValue
-end
-
-this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt trigger profile onchange
-  --InfMenu.DebugPrint("ReturnCurrent on ".. self.name)
-  local returnValue=nil
-  if self.settingsTable then
-    --InfMenu.DebugPrint("has settingstable")
-    local settingName=self.settings[self.setting+1]
-    --InfMenu.DebugPrint("setting name:" .. settingName)
-    local settingFunction=self.settingsTable[settingName]
-    
-    if IsFunc(settingFunction) then
-      --InfMenu.DebugPrint("has settingFunction")
-      returnValue=settingFunction()
-    else
-      returnValue=settingFunction
-    end
-  end
-  return returnValue
-end
-
-this.UpdateSettingFromGvar=function(option)
-  if option.save then
-    option.setting=gvars[option.name]
-  end
-end
-
-this.OptionIsSetting=function(self,settingName)
-  local settingIndex=self.enum[settingName]
-  return self.setting==settingIndex
-end
-
-this.OptionAboveSetting=function(self,settingName) 
-  local settingIndex=self.enum[settingName]
-  return self.setting>settingIndex
-end
-
-this.OptionBelowSetting=function(self,settingName)
-  local settingIndex=self.enum[settingName]
-  return self.setting<settingIndex
-end
-
-this.OptionIsOrAboveSetting=function(self,settingName)  
-  local settingIndex=self.enum[settingName]
-  return self.setting>=settingIndex
-end
-
-this.OptionIsOrBelowSetting=function(self,settingName)
-  local settingIndex=self.enum[settingName]
-  return self.setting<=settingIndex
-end
 
 --ivars
 --tex NOTE: should be mindful of max setting for save vars, 
 --currently the ivar setup fits to the nearest save size type and I'm not sure of behaviour when you change ivars max enough to have it shift save size and load a game with an already saved var of different size
 
 --parameters
+
+--system
+this.soldierParamsDirty={--NONUSER
+  range=this.switchRange,
+}
+
+
+
 this.enemyParameters={
   save=GLOBAL,--tex global since user still has to restart to get default/modded/reset
   range=this.switchRange,
   settingNames="set_enemy_parameters",
 }
+
+--enemy parameters sight
+this.sightScaleRange={max=4,min=0,increment=0.1}
+this.discoveryDistScaleSightParam={
+  save=MISSION,
+  default=1,
+  range=this.sightScaleRange,  
+}
+this.indisDistScaleSightParam={
+  save=MISSION,
+  default=1,
+  range=this.sightScaleRange,  
+}
+this.dimDistScaleSightParam={
+  save=MISSION,
+  default=1,
+  range=this.sightScaleRange,  
+}
+this.farDistScaleSightParam={
+  save=MISSION,
+  default=1,
+  range=this.sightScaleRange,  
+}
+this.observeDistScaleSightParam={--only applies to a couple
+  save=MISSION,
+  default=1,
+  range=this.sightScaleRange,  
+}
+--
+this.healthMultRange={max=4,min=0,increment=0.2}
 this.enemyHealthMult={
   save=MISSION,
   default=1,
@@ -1303,11 +1250,140 @@ this.warpPlayerMode={
   end,
 }
 
+--
+this.quietRadioMode={
+  save=MISSION,
+  range={min=0,max=31},
+  OnChange=function(self,previousSetting)
+    if self.setting>0 or previousSetting~=0 then
+      if f30050_sequence and mvars.f30050_quietRadioName then
+        f30050_sequence.PlayMusicFromQuietRoom()
+      end
+    end
+  end,
+}
+
+--heli
+this.defaultHeliDoorOpenTime={--seconds
+  save=MISSION,
+  default=15,
+  range={min=0,max=60},
+}
+
+this.enableGetOutHeli={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+--end ivar defines
+
+--ivar ops n stuff
+function this.OnChangeSubSetting(self)--tex notify parent profile that you've changed
+  --InfMenu.DebugPrint("OnChangeSubSetting: "..self.name.. " profile: " .. self.profile.name)
+  local profile=self.profile
+  if profile then
+    if profile.OnSubSettingChanged==nil then
+      InfMenu.DebugPrint("WARNING: cannot find OnSubSettingChanged on profile " .. self.profile.name)    
+      return
+    end
+    profile.OnSubSettingChanged(profile,self)
+  end
+end
+function this.OnSubSettingChanged(profile, subSetting)
+  --InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " subSetting: " .. subSetting.name)
+  --tex any sub setting will flip this profile to custom, CUSTOM is mostly a user identifyer, it has no side effects/no settingTable function
+  if not subSetting:IsDefault() then
+    if not profile:IsDefault() and not profile:Is"CUSTOM" then
+      profile:Set(profile.enum.CUSTOM)
+      InfMenu.DisplayProfileChangedToCustom(profile)
+    end
+  end
+end
+
+this.RunCurrentSetting=function(self)
+  --InfMenu.DebugPrint("RunCurrentSetting on ".. self.name)
+  local returnValue=nil
+  if self.settingsTable then
+    --this.UpdateSettingFromGvar(self)
+    local settingName=self.settings[self.setting+1]
+    --InfMenu.DebugPrint("setting name:" .. settingName)
+    local settingFunction=self.settingsTable[settingName]
+    
+    if IsFunc(settingFunction) then
+      --InfMenu.DebugPrint("has settingFunction")
+      returnValue=settingFunction()
+    else
+      returnValue=settingFunction
+    end
+  end
+  return returnValue
+end
+
+this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt trigger profile onchange
+  --InfMenu.DebugPrint("ReturnCurrent on ".. self.name)
+  local returnValue=nil
+  if self.settingsTable then
+    --InfMenu.DebugPrint("has settingstable")
+    local settingName=self.settings[self.setting+1]
+    --InfMenu.DebugPrint("setting name:" .. settingName)
+    local settingFunction=self.settingsTable[settingName]
+    
+    if IsFunc(settingFunction) then
+      --InfMenu.DebugPrint("has settingFunction")
+      returnValue=settingFunction()
+    else
+      returnValue=settingFunction
+    end
+  end
+  return returnValue
+end
+
+this.UpdateSettingFromGvar=function(option)
+  if option.save then
+    option.setting=gvars[option.name]
+  end
+end
+
+this.OptionIsDefault=function(self)
+  return self.setting==self.default
+end
+
+this.OptionIsSetting=function(self,setting)--tex for getting setting via name or enum index, just use gvar. if you want the value, or Ivars. if it has none
+  if self.enum==nil then
+    InfMenu.DebugPrint("Is function called on ivar "..self.name.." which has no settings enum")
+    return false
+  end
+  local settingIndex=self.enum[setting]
+  return self.setting==settingIndex
+end
+
+
+this.OptionAboveSetting=function(self,settingName) 
+  local settingIndex=self.enum[settingName]
+  return self.setting>settingIndex
+end
+
+this.OptionBelowSetting=function(self,settingName)
+  local settingIndex=self.enum[settingName]
+  return self.setting<settingIndex
+end
+
+this.OptionIsOrAboveSetting=function(self,settingName)  
+  local settingIndex=self.enum[settingName]
+  return self.setting>=settingIndex
+end
+
+this.OptionIsOrBelowSetting=function(self,settingName)
+  local settingIndex=self.enum[settingName]
+  return self.setting<=settingIndex
+end
 
 local function IsIvar(ivar)--TYPEID
   return IsTable(ivar) and (ivar.range or ivar.settings)   
 end
 
+--ivar system setup
 function this.OnLoadVarsFromSlot()--tex on TppSave.VarRestoreOnMissionStart and checkpoint 
   for name,ivar in pairs(this) do
     if IsIvar(ivar) then
@@ -1353,7 +1429,8 @@ for name,ivar in pairs(this) do
         ivar.OnChangeSubSetting=OnChangeSubSetting
       end
     end--]]
-
+    
+    ivar.IsDefault=this.OptionIsDefault
     ivar.Is=this.OptionIsSetting
     ivar.Above=this.OptionAboveSetting
     ivar.Below=this.OptionBelowSetting

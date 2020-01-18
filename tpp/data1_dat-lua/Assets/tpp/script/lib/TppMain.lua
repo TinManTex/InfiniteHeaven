@@ -245,15 +245,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppSequence.SaveMissionStartSequence()
     TppScriptVars.SetSVarsNotificationEnabled(true)
   end
-  if gvars.enemyParameters==1 then--tex use tweaked soldier parameters
-  --tex REF: this.lifeParameterTableDefault={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}
-    local healthMult=gvars.enemyHealthMult--tex mod enemy health scale
-    InfEnemyParams.lifeParameterTableMod.maxLife = TppMath.ScaleValueClamp1(InfEnemyParams.lifeParameterTableDefault.maxLife,healthMult)
-    InfEnemyParams.lifeParameterTableMod.maxLimbLife = TppMath.ScaleValueClamp1(InfEnemyParams.lifeParameterTableDefault.maxLimbLife,healthMult)
-    InfEnemyParams.lifeParameterTableMod.maxArmorLife = TppMath.ScaleValueClamp1(InfEnemyParams.lifeParameterTableDefault.maxArmorLife,healthMult)
-    InfEnemyParams.lifeParameterTableMod.maxHelmetLife = TppMath.ScaleValueClamp1(InfEnemyParams.lifeParameterTableDefault.maxHelmetLife,healthMult)
-    TppSoldier2.ReloadSoldier2ParameterTables(InfEnemyParams.soldierParametersMod)--tex reloadsoldierparams changes
-  end--
+  InfEnemyParams.soldierParametersMod()--tex
   if missionTable.enemy then
     if IsTypeTable(missionTable.enemy.soldierPowerSettings)then
       TppEnemy.SetUpPowerSettings(missionTable.enemy.soldierPowerSettings)

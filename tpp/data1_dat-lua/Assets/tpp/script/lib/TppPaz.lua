@@ -282,13 +282,16 @@ function this.OnMonologueEnd(s,a,o)
   elseif a==n(J)then
     GkEventTimerManager.Start(t,60)
   elseif a==n(x)then
-    GkEventTimerManager.Stop(t)GkEventTimerManager.Start(t,30)
+    GkEventTimerManager.Stop(t)
+    GkEventTimerManager.Start(t,30)
     mvars.paz_isIdleMonologueEnabled=false
   elseif a==n(Z)then
-    GkEventTimerManager.Stop(t)GkEventTimerManager.Start(t,30)
+    GkEventTimerManager.Stop(t)
+    GkEventTimerManager.Start(t,30)
     mvars.paz_isIdleMonologueEnabled=false
   elseif this.IsInTable(a,D)then
-    GkEventTimerManager.Stop(t)GkEventTimerManager.Start(t,30)
+    GkEventTimerManager.Stop(t)
+    GkEventTimerManager.Start(t,30)
     mvars.paz_isIdleMonologueEnabled=false
   elseif this.IsInTable(a,i)then
     GkEventTimerManager.Start(h,5+foxmath.FRnd()*5)
@@ -419,7 +422,11 @@ function this.OnIconOk()
 end
 function this.OnIconSwitchShown()
   if((((((mvars.paz_currentAction~=s and mvars.paz_currentAction~=A)and mvars.paz_currentAction~=P)and mvars.paz_currentAction~=E)and mvars.paz_currentAction~=I)and mvars.paz_currentAction~=G)and mvars.paz_currentAction~=R)and mvars.paz_isSeeYouMonologueEnabled then
-    this.SendCommandCallMonologue(D)GkEventTimerManager.Stop(p)GkEventTimerManager.Start(p,30)GkEventTimerManager.Stop(m)GkEventTimerManager.Start(m,30)
+    this.SendCommandCallMonologue(D)
+    GkEventTimerManager.Stop(p)
+    GkEventTimerManager.Start(p,30)
+    GkEventTimerManager.Stop(m)
+    GkEventTimerManager.Start(m,30)
     mvars.paz_isSeeYouMonologueEnabled=false
     mvars.paz_isShowMeMonologueEnabled=false
   end

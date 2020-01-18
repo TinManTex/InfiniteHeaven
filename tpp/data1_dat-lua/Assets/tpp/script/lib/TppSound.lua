@@ -1,9 +1,9 @@
 local this={}
-local s=Fox.StrCode32
+local StrCode32=Fox.StrCode32
 local n=Tpp.IsTypeFunc
-local i=Tpp.IsTypeTable
-local t=Tpp.IsTypeString
-local n=Tpp.IsTypeNumber
+local IsTypeTable=Tpp.IsTypeTable
+local IsTypeString=Tpp.IsTypeString
+local IsTypeNumber=Tpp.IsTypeNumber
 this.ResultRankJingle={
   "Set_Switch_bgm_jingle_result_s",
   "Set_Switch_bgm_jingle_result_ab",
@@ -17,7 +17,7 @@ this.afghCommonEsacapeBgm={bgm_escape={start="Play_bgm_afgh_mission_escape",fini
 this.mafrCommonEsacapeBgm={bgm_escape={start="Play_bgm_mafr_mission_escape",finish="Stop_bgm_mafr_mission_escape"}}
 this.commonHeliStartBgm={bgm_heliStart={start="Play_bgm_mission_start",finish="Stop_bgm_mafr_mission_escape"}}
 function this.SetSceneBGM(a)
-  if not i(mvars.snd_bgmList)then
+  if not IsTypeTable(mvars.snd_bgmList)then
     return
   end
   local n=mvars.snd_bgmList[a]
@@ -30,7 +30,7 @@ function this.SetSceneBGM(a)
   end
   if n.start then
     svars.snd_bgmSwitchNameHash=0
-    svars.snd_bgmNameHash=s(a)
+    svars.snd_bgmNameHash=StrCode32(a)
     TppMusicManager.StartSceneMode()
     TppMusicManager.PlaySceneMusic(n.start)
   end
@@ -39,7 +39,7 @@ function this.SetSceneBGMSwitch(e)
   if not mvars.snd_bgmSwitchTable[e]then
     return
   end
-  svars.snd_bgmSwitchNameHash=s(e)
+  svars.snd_bgmSwitchNameHash=StrCode32(e)
   TppMusicManager.PostSceneSwitchEvent(e)
 end
 function this.StopSceneBGM()
@@ -76,10 +76,10 @@ function this.HaltSceneBGM()
   svars.snd_bgmSwitchNameHash=0
 end
 function this.SetPhaseBGM(e)
-  if not t(e)then
+  if not IsTypeString(e)then
     return
   end
-  svars.snd_phaseBgmTagHash=s(e)
+  svars.snd_phaseBgmTagHash=StrCode32(e)
   TppMusicManager.ChangeParameter(e)
 end
 local n=0
@@ -121,7 +121,7 @@ function this.StartEscapeBGM()
   end
 end
 function this.StopEscapeBGM()
-  if svars.snd_phaseBgmTagHash==s"bgm_chase_phase"then
+  if svars.snd_phaseBgmTagHash==StrCode32"bgm_chase_phase"then
     this.ResetPhaseBGM()
   end
 end
@@ -154,7 +154,7 @@ function this.OnAllocate(n)
   if not n.sound then
     mvars.snd_startHeliClearJingleName="Play_bgm_mission_clear_heli"mvars.snd_finishHeliClearJingleName="Stop_bgm_mission_clear_heli"return
   end
-  if i(n.sound.bgmList)then
+  if IsTypeTable(n.sound.bgmList)then
     mvars.snd_bgmList=n.sound.bgmList
     if n.sound.USE_COMMON_ESCAPE_BGM then
       if TppLocation.IsAfghan()then
@@ -167,7 +167,7 @@ function this.OnAllocate(n)
     mvars.snd_bgmSwitchTable={}
     for n,e in pairs(mvars.snd_bgmList)do
       local e=e.switch
-      if i(e)then
+      if IsTypeTable(e)then
         for n,e in ipairs(e)do
           local n=Fox.StrCode32(e)
           mvars.snd_bgmSwitchTable[n]=e
@@ -176,13 +176,13 @@ function this.OnAllocate(n)
       end
     end
   end
-  if t(n.sound.missionStartTelopJingleName)then
+  if IsTypeString(n.sound.missionStartTelopJingleName)then
     mvars.snd_missionStartTelopJingleName=n.sound.missionStartTelopJingleName
   end
-  if i(n.sound.noRestorePhaseBGMList)then
+  if IsTypeTable(n.sound.noRestorePhaseBGMList)then
     mvars.snd_noRestorePhaseBGM={}
     for n,e in ipairs(n.sound.noRestorePhaseBGMList)do
-      mvars.snd_noRestorePhaseBGM[s(e)]=true
+      mvars.snd_noRestorePhaseBGM[StrCode32(e)]=true
     end
   end
   if Tpp.IsTypeString(n.sound.showCreditJingleName)then
@@ -221,7 +221,7 @@ function this.GetCurrentSceneBgmSetting()
   local i,n
   if t>0 then
     for n,a in pairs(mvars.snd_bgmList)do
-      if t==s(n)then
+      if t==StrCode32(n)then
         e=n
         i=a
         break
@@ -235,7 +235,7 @@ function this.GetCurrentSceneBgmSetting()
     local e=mvars.snd_bgmList[e].switch
     if e then
       for i,e in pairs(e)do
-        if a==s(e)then
+        if a==StrCode32(e)then
           n=e
           break
         end
