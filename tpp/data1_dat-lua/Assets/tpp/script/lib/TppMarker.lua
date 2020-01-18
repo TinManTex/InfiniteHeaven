@@ -173,24 +173,25 @@ function this.GetSearchTargetIsFound(a)
   end
   return false
 end
-function this.SetQuestMarker(e)
-  local a
-  if Tpp.IsTypeString(e)then
-    a=GetGameObjectId(e)
-  elseif Tpp.IsTypeNumber(e)then
-    a=e
+function this.SetQuestMarker(targetNameOrId)
+  local targetId
+  if Tpp.IsTypeString(targetNameOrId)then
+    targetId=GetGameObjectId(targetNameOrId)
+  elseif Tpp.IsTypeNumber(targetNameOrId)then
+    targetId=targetNameOrId
   end
-  if a==NULL_ID then
+  if targetId==NULL_ID then
   else
-    local e={gameObjectId=a,isImportant=true,isQuestImportant=true}
-    TppMarker2System.SetMarkerImportant(e)
+    local markerInfo={gameObjectId=targetId,isImportant=true,isQuestImportant=true}
+    TppMarker2System.SetMarkerImportant(markerInfo)
   end
 end
-function this.SetQuestMarkerGimmick(e)
-  local a,e=TppGimmick.GetGameObjectId"q40010_cntn001"if e==NULL_ID then
+function this.SetQuestMarkerGimmick(gimmickId)
+  local a,gimmickId=TppGimmick.GetGameObjectId"q40010_cntn001"
+  if gimmickId==NULL_ID then
   else
-    local e={gameObjectId=e,isImportant=true,isQuestImportant=true}
-    TppMarker2System.SetMarkerImportant(e)
+    local markerInfo={gameObjectId=gimmickId,isImportant=true,isQuestImportant=true}
+    TppMarker2System.SetMarkerImportant(markerInfo)
   end
 end
 function this.EnableQuestTargetMarker(name)
@@ -363,9 +364,9 @@ function this._CallSearchTargetEnabledRadio(a)
   TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.SEARCH_TARGET_ENABLED)
 end
 function this._IsRadioTarget(e)
-  local a=TppEnemy.IsEliminateTarget(e)
-  local e=TppEnemy.IsRescueTarget(e)
-  if not a and not e then
+  local isEliminateTarget=TppEnemy.IsEliminateTarget(e)
+  local isRescueTarget=TppEnemy.IsRescueTarget(e)
+  if not isEliminateTarget and not isRescueTarget then
     return false
   end
   return true

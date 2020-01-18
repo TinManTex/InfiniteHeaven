@@ -529,7 +529,7 @@ function this.ExecuteContinueFromCheckPoint(i,a,o)
     TppSave.VarRestoreOnContinueFromCheckPoint()
   end
   if TppSystemUtility.GetCurrentGameMode()=="TPP"then
-    TppEnemy.StoreSVars(true)
+    TppEnemy.StoreSVars(true)--NMC: markerOnly
   end
   TppWeather.StoreToSVars()
   TppMarker.StoreMarkerLocator()
@@ -1770,27 +1770,27 @@ function this.Messages()
         end
       end},
       {msg="StartedPullingOut",func=function()StartTimer("Timer_RemoveUserMarker",1)end},
-      {msg="LostControl",func=function(e,n,i)
-        local e=GameObject.GetTypeIndex(e)
-        if e~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
+      {msg="LostControl",func=function(gameId,state,attackerId)
+        local gameObjectType=GameObject.GetTypeIndex(gameId)
+        if gameObjectType~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
           return
         end
-        if n==StrCode32"Start"then
+        if state==StrCode32"Start"then
           TppHelicopter.SetNewestPassengerTable()
-          local e=TppHelicopter.GetPassengerlist()
-          if IsTypeTable(e)and next(e)then
+          local passengerList=TppHelicopter.GetPassengerlist()
+          if IsTypeTable(passengerList)and next(passengerList)then
             TppUI.ShowAnnounceLog"extractionFailed"
           end
         end
-        if n==StrCode32"End"then
-          local e=TppSupportRequest.GetCrashRescueHeliGmpCost()
-          TppTerminal.UpdateGMP{gmp=-e,gmpCostType=TppDefine.GMP_COST_TYPE.DESTROY_SUPPORT_HELI}
-          if Tpp.IsPlayer(i)then
+        if state==StrCode32"End"then
+          local rescueHeliCost=TppSupportRequest.GetCrashRescueHeliGmpCost()
+          TppTerminal.UpdateGMP{gmp=-rescueHeliCost,gmpCostType=TppDefine.GMP_COST_TYPE.DESTROY_SUPPORT_HELI}
+          if Tpp.IsPlayer(attackerId)then
             TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.HELI_LOST_CONTROL_END)
           else
             TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.HELI_LOST_CONTROL_END_ENEMY_ATTACK)
           end
-          svars.supportGmpCost=svars.supportGmpCost+e
+          svars.supportGmpCost=svars.supportGmpCost+rescueHeliCost
         end
       end},
       {msg="Damage",func=function(gameId,attackId,attackerId)
@@ -2445,48 +2445,48 @@ function this.SeizeReliefVehicleOnAbort()
   if not GameObject.DoesGameObjectExistWithTypeName"TppVehicle2"then
     return
   end
-  local vehicleGameId=GameObject.CreateGameObjectId("TppVehicle2",0)
-  if not GameObject.SendCommand(vehicleGameId,{id="IsAlive"})then
+  local vehicleId=GameObject.CreateGameObjectId("TppVehicle2",0)
+  if not GameObject.SendCommand(vehicleId,{id="IsAlive"})then
     return
   end
   if mvars.mis_abortWithSave and not mvars.mis_abortByRestartFromHelicopter then
-    if vehicleGameId~=vars.playerVehicleGameObjectId then
+    if vehicleId~=vars.playerVehicleGameObjectId then
       if Player.GetItemLevel(TppEquip.EQP_IT_Fulton_Cargo)>=2 or Player.GetItemLevel(TppEquip.EQP_IT_Fulton_WormHole)>=1 then
-        local resourceId=GameObject.SendCommand(vehicleGameId,{id="GetResourceId"})
+        local resourceId=GameObject.SendCommand(vehicleId,{id="GetResourceId"})
         local notHelicopter=not Tpp.IsHelicopter(vars.playerVehicleGameObjectId)
-        TppTerminal.OnFulton(vehicleGameId,nil,nil,resourceId,nil,notHelicopter,PlayerInfo.GetLocalPlayerIndex())
+        TppTerminal.OnFulton(vehicleId,nil,nil,resourceId,nil,notHelicopter,PlayerInfo.GetLocalPlayerIndex())
       end
     end
   else
-    GameObject.SendCommand(vehicleGameId,{id="Seize",options={"Fulton","CheckFultonType","DirectAccount"}})
+    GameObject.SendCommand(vehicleId,{id="Seize",options={"Fulton","CheckFultonType","DirectAccount"}})
   end
 end
 function this.SeizeReliefVehicleOnClear()
   if not GameObject.DoesGameObjectExistWithTypeName"TppVehicle2"then
     return
   end
-  local n=GameObject.CreateGameObjectId("TppVehicle2",0)
-  if not GameObject.SendCommand(n,{id="IsAlive"})then
+  local vehicleId=GameObject.CreateGameObjectId("TppVehicle2",0)
+  if not GameObject.SendCommand(vehicleId,{id="IsAlive"})then
     return
   end
-  if n~=vars.playerVehicleGameObjectId then
+  if vehicleId~=vars.playerVehicleGameObjectId then
     local i={"Fulton","CheckFultonType"}
     local s=this.GetMissionClearType()
     if not this.EvaluateReliefVehicleSeizable(s)then
       table.insert(i,"CheckFarFromPlayer")
     end
-    GameObject.SendCommand(n,{id="Seize",options=i})
+    GameObject.SendCommand(vehicleId,{id="Seize",options=i})
   end
 end
 function this.SeizeReliefVehicleOnForceGoToMb()
   if not GameObject.DoesGameObjectExistWithTypeName"TppVehicle2"then
     return
   end
-  local e=GameObject.CreateGameObjectId("TppVehicle2",0)
-  if not GameObject.SendCommand(e,{id="IsAlive"})then
+  local vehicleId=GameObject.CreateGameObjectId("TppVehicle2",0)
+  if not GameObject.SendCommand(vehicleId,{id="IsAlive"})then
     return
   end
-  GameObject.SendCommand(e,{id="Seize",options={"Fulton","CheckFultonType","DirectAccount"}})
+  GameObject.SendCommand(vehicleId,{id="Seize",options={"Fulton","CheckFultonType","DirectAccount"}})
 end
 function this.EvaluateReliefVehicleSeizable(e)
   if((e~=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_ORDER_BOX_DEMO and e~=TppDefine.MISSION_CLEAR_TYPE.QUEST_BOSS_QUIET_BATTLE_END)and e~=TppDefine.MISSION_CLEAR_TYPE.QUEST_LOST_QUIET_END)and e~=TppDefine.MISSION_CLEAR_TYPE.QUEST_INTRO_RESCUE_EMERICH_END then
@@ -3331,7 +3331,7 @@ function this.DisableObjective(e)
     TppUI.DisableSpySearch(e.spySearch)
   end
 end
-function this.VarSaveOnUpdateCheckPoint(n)
+function this.VarSaveOnUpdateCheckPoint(saveBusy)
   gvars.isNewGame=false
   TppTerminal.OnRecoverByHelicopterOnCheckPoint()
   TppTerminal.AddStaffsFromTempBuffer(true)
@@ -3355,7 +3355,7 @@ function this.VarSaveOnUpdateCheckPoint(n)
   if vars.missionCode==10115 then
     return
   end
-  if not n then
+  if not saveBusy then
     TppSave.SaveGameData(nil,nil,nil,nil,true)
     this.CreateMbSaveCoroutine()
   end

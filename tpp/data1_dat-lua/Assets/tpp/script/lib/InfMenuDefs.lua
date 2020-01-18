@@ -41,6 +41,7 @@ this.sideOpsMenu={
   options={
     Ivars.unlockSideOps,
     Ivars.unlockSideOpNumber,
+    Ivars.enableHeliReinforce,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -254,10 +255,17 @@ this.supportHeliMenu={
   },
 }
 
+this.enemyReinforceMenu={
+  options={
+    Ivars.forceSuperReinforce,
+    Ivars.enableHeliReinforce,
+    InfMenuCommands.resetSettingsItem,
+    InfMenuCommands.goBackItem,
+  },  
+}
+
 this.heliSpaceMenu={
   options={
-    Ivars.forceSuperReinforce,--WIP DEBUGNOW
-    Ivars.heliReinforceChance,--DEBUGNOW put wherever above goes, but also in Sideops "Block heli quests in free missions to allow super reinforce"--god need help text
     --Ivars.forceSoldierSubType,--tex WIP 
     --Ivars.manualMissionCode,--tex  WIP
     --InfMenuCommands.loadMissionItem,--tex  WIP
@@ -267,6 +275,7 @@ this.heliSpaceMenu={
     this.soldierParamsMenu,
     this.phaseMenu,
     this.revengeMenu,
+    this.enemyReinforceMenu,
     this.sideOpsMenu,
     this.motherBaseMenu,
     this.demosMenu,
@@ -283,6 +292,8 @@ this.heliSpaceMenu={
 this.debugInMissionMenu={
   options={
     --InfMenuCommands.warpPlayerCommand,
+
+    InfMenuCommands.DEBUG_PrintReinforceVarsItem,
     InfMenuCommands.DEBUG_PrintSoldierDefineItem,
     InfMenuCommands.DEBUG_PrintSoldierIDListItem,
     InfMenuCommands.DEBUG_ShowRevengeConfigItem,
@@ -292,7 +303,6 @@ this.debugInMissionMenu={
     --InfMenuCommands.DEBUG_KeepPhaseOffItem,
     --InfMenuCommands.printPlayerPhase,
     --InfMenuCommands.DEBUG_SetPlayerPhaseToIvar,
-
     InfMenuCommands.showMissionCodeItem,
     InfMenuCommands.showMbEquipGradeItem,
     InfMenuCommands.showPositionItem,    
@@ -303,12 +313,14 @@ this.debugInMissionMenu={
 
 this.inMissionMenu={
   options={
-    InfMenuCommands.doEnemyReinforce,--WIP DEBUGNOW
+    --InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUGNOW
+    --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,
     Ivars.clockTimeScale,
     --this.appearanceMenu,--WIP
     Ivars.quietRadioMode,
     this.phaseMenu,
+    --this.enemyReinforceMenu,
     this.supportHeliMenu,
     this.debugInMissionMenu,    
     InfMenuCommands.resetSettingsItem,

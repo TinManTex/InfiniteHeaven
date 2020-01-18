@@ -79,22 +79,33 @@ this.loadMissionItem={
     --mvars.mis_nextLayoutCode
     --mvars.mis_nextClusterId
     --mvars.mis_ignoreMtbsLoadLocationForce
-   
+
     TppMission.ExecuteMissionFinalize()
   end,
 }
 
 --[[CULL
+
 this.giveOgrePoint={
+
   OnChange=function(self)
+
     local ogrePointChange=Ivars.ogrePointChange.setting
+
     if ogrePointChange > 0 then
+
       InfMenu.Print(InfMenu.LangString("adding_ogre_points"))--TODO ADDLANG
+
     elseif ogrePointChange < 0 then
+
       InfMenu.Print(InfMenu.LangString("subtracting_ogre_points"))--TODO ADDLANG
+
     end
+
     TppHero.SetOgrePoint(ogrePointChange) 
+
   end,
+
 }--]]
 
 this.printCurrentAppearanceItem={
@@ -109,20 +120,20 @@ this.printCurrentAppearanceItem={
 
 --
 this.printSightFormParameterItem={
- OnChange=function()
-  InfSoldierParams.ApplySightIvarsToSoldierParams()
-  --local sightFormStr=InfInspect.Inspect(InfSoldierParams.soldierParameters.sightFormParameter)
-  --InfMenu.DebugPrint(sightFormStr)
-  InfSoldierParams.PrintSightForm()
- end,
+  OnChange=function()
+    InfSoldierParams.ApplySightIvarsToSoldierParams()
+    --local sightFormStr=InfInspect.Inspect(InfSoldierParams.soldierParameters.sightFormParameter)
+    --InfMenu.DebugPrint(sightFormStr)
+    InfSoldierParams.PrintSightForm()
+  end,
 }
 
 this.printHealthTableParameterItem={
- OnChange=function()
-  InfSoldierParams.ApplyHealthIvarsToSoldierParams()
-  local sightFormStr=InfInspect.Inspect(InfSoldierParams.lifeParameterTable)
-  InfMenu.DebugPrint(sightFormStr)
- end,
+  OnChange=function()
+    InfSoldierParams.ApplyHealthIvarsToSoldierParams()
+    local sightFormStr=InfInspect.Inspect(InfSoldierParams.lifeParameterTable)
+    InfMenu.DebugPrint(sightFormStr)
+  end,
 }
 
 this.DEBUG_ShowRevengeConfigItem={
@@ -130,8 +141,8 @@ this.DEBUG_ShowRevengeConfigItem={
     --InfMenu.DebugPrint("RevRandomValue: "..gvars.rev_revengeRandomValue)
     InfMenu.DebugPrint("RevengeType:")
     local revengeType=InfInspect.Inspect(mvars.revenge_revengeType)
-    InfMenu.DebugPrint(revengeType)  
-  
+    InfMenu.DebugPrint(revengeType)
+
     InfMenu.DebugPrint("RevengeConfig:")
     local revengeConfig=InfInspect.Inspect(mvars.revenge_revengeConfig)
     InfMenu.DebugPrint(revengeConfig)
@@ -142,7 +153,7 @@ this.DEBUG_PrintSoldierDefineItem={
   OnChange=function()
     InfMenu.DebugPrint("SoldierDefine:")
     local soldierDefine=InfInspect.Inspect(mvars.ene_soldierDefine)
-    InfMenu.DebugPrint(soldierDefine)  
+    InfMenu.DebugPrint(soldierDefine)
   end,
 }
 
@@ -151,14 +162,31 @@ this.DEBUG_PrintSoldierIDListItem={
   OnChange=function()
     InfMenu.DebugPrint("SoldierIdList:")
     local soldierIdList=InfInspect.Inspect(mvars.ene_soldierIDList)
-    InfMenu.DebugPrint(soldierIdList)  
+    InfMenu.DebugPrint(soldierIdList)
+  end,
+}
+
+
+this.DEBUG_PrintReinforceVarsItem={
+  OnChange=function()
+    InfMenu.DebugPrint("reinforce_activated: "..tostring(mvars.reinforce_activated))
+    InfMenu.DebugPrint("reinforceType: "..mvars.reinforce_reinforceType)
+    InfMenu.DebugPrint("reinforceCpId: "..mvars.reinforce_reinforceCpId)
+    InfMenu.DebugPrint("isEnabledSoldiers: "..tostring(mvars.reinforce_isEnabledSoldiers))
+    InfMenu.DebugPrint("isEnabledVehicle: "..tostring(mvars.reinforce_isEnabledVehicle))
+  end,
+}
+
+this.DEBUG_CheckReinforceDeactivate={
+  OnChange=function()
+    InfMain.CheckReinforceDeactivate()
   end,
 }
 
 this.DEBUG_ChangePhaseItem={
   OnChange=function()
     InfMenu.DebugPrint("Changephase b")
-    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do      
+    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.ChangePhase(cpName,gvars.maxPhase)
     end
     InfMenu.DebugPrint("Changephase e")
@@ -168,7 +196,7 @@ this.DEBUG_ChangePhaseItem={
 this.DEBUG_KeepPhaseOnItem={
   OnChange=function()
     InfMenu.DebugPrint("DEBUG_KeepPhaseOnItem b")
-    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do      
+    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.SetKeepAlert(cpName,true)
     end
     InfMenu.DebugPrint("DEBUG_KeepPhaseOnItem e")
@@ -178,7 +206,7 @@ this.DEBUG_KeepPhaseOnItem={
 this.DEBUG_KeepPhaseOffItem={
   OnChange=function()
     InfMenu.DebugPrint("DEBUG_KeepPhaseOffItem b")
-    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do      
+    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.SetKeepAlert(cpName,false)
     end
     InfMenu.DebugPrint("DEBUG_KeepPhaseOffItem e")
@@ -207,7 +235,7 @@ this.DEBUG_ShowPhaseEnums={
 
 
 this.DEBUG_Item2={
-  OnChange=function() 
+  OnChange=function()
     InfMenu.DebugPrint("EnemyTypes:")
     InfMenu.DebugPrint("TYPE_DD:"..EnemyType.TYPE_DD)
     InfMenu.DebugPrint("TYPE_SKULL:"..EnemyType.TYPE_SKULL )
@@ -215,9 +243,9 @@ this.DEBUG_Item2={
     InfMenu.DebugPrint("TYPE_PF:"..EnemyType.TYPE_PF )
     InfMenu.DebugPrint("TYPE_CHILD:".. EnemyType.TYPE_CHILD )
     --InfMenu.DebugPrint("bef")
-   -- local strout=InfInspect.Inspect(gvars.soldierTypeForced)
-   -- InfMenu.DebugPrint(strout)
-   -- InfMenu.DebugPrint("aft")
+    -- local strout=InfInspect.Inspect(gvars.soldierTypeForced)
+    -- InfMenu.DebugPrint(strout)
+    -- InfMenu.DebugPrint("aft")
   end,
 }
 
@@ -227,24 +255,40 @@ this.DEBUG_ClearAnnounceLogItem={
     TppUiStatusManager.ClearStatus"AnnounceLog"
   end,
 }
+this.DEBUG_WarpToReinforceVehicle={
+  OnChange=function()
+    local vehicleId=GameObject.GetGameObjectId("TppVehicle2",TppReinforceBlock.REINFORCE_VEHICLE_NAME)
+    local driverId=GameObject.GetGameObjectId("TppSoldier2",TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME)
+      
+    if vehicleId==GameObject.NULL_ID then
+      InfMenu.DebugPrint"vehicleId==NULL_ID"
+      return
+    end
+    local warpPos=GameObject.SendCommand(vehicleId,{id="GetPosition"})
+    InfMenu.DebugPrint("reinforce vehicle pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+    TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+  end,
+}
 
 this.warpPlayerCommand={
   OnChange=function()
-   --[[ local playerId={type="TppPlayer2",index=0}
+    --[[ local playerId={type="TppPlayer2",index=0}
+
     local position=Vector3(9,.8,-42.5)
+
     GameObject.SendCommand(playerId,{id="Warp",position=position})--]]
-    
+
     --local pos={8.647,.8,-28.748}
     --local rotY=-25
     --pos,rotY=mtbs_cluster.GetPosAndRotY("Medical","plnt0",pos,rotY)
     local rotY=0
     --local pos={9,.8,-42.5}--command helipad
     local pos={-139,-3.20,-975}
-    
-    
+
+
     TppPlayer.Warp{pos=pos,rotY=rotY}
     --Player.RequestToSetCameraRotation{rotX=0,rotY=rotY}
-    
+
     --TppPlayer.SetInitialPosition(pos,rotY)
   end,
 }
@@ -273,11 +317,11 @@ this.resetRevenge={
 this.HeliMenuOnTestItem={--WIP CULL UI system overrides it :(
   OnChange=function()
     local dvcMenu={
-    
-      {menu=TppTerminal.MBDVCMENU.MSN_HELI,active=true},
-      {menu=TppTerminal.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
-      {menu=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,active=true},
-      {menu=TppTerminal.MBDVCMENU.MSN_HELI_DISMISS,active=true},
+
+        {menu=TppTerminal.MBDVCMENU.MSN_HELI,active=true},
+        {menu=TppTerminal.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
+        {menu=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,active=true},
+        {menu=TppTerminal.MBDVCMENU.MSN_HELI_DISMISS,active=true},
     }
     InfMenu.DebugPrint("blih")--DEBUG
     TppTerminal.EnableDvcMenuByList(dvcMenu)
@@ -286,7 +330,7 @@ this.HeliMenuOnTestItem={--WIP CULL UI system overrides it :(
 }
 
 this.pullOutHeliItem={
-  OnChange=function()      
+  OnChange=function()
     local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
       GameObject.SendCommand(gameObjectId,{id="PullOut",forced=true})
@@ -295,7 +339,7 @@ this.pullOutHeliItem={
 }
 
 this.changeToIdleStateHeliItem={--tex seems to set heli into 'not called'/invisible/wherever it goes after it's 'left'
-  OnChange=function()      
+  OnChange=function()
     local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
       GameObject.SendCommand(gameObjectId,{id="ChangeToIdleState"})
@@ -329,11 +373,17 @@ this.doEnemyReinforce={--WIP DEUBNOW
   OnChange=function()
   --TODO: GetClosestCp
   --[[
+
   _OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestLoadReinforce"
+
+
 
 or 
 
+
+
   TppReinforceBlock.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)  
+
   --]]
   end,
 }

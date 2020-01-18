@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 local this={}
 local S=256
-local c=0
+local defaultStepNumber=0
 local p=0
 local _="quest_block"
 local d="QStep_Clear"
@@ -1625,8 +1625,8 @@ function this.SetDefaultQuestBlock()
   mvars.qst_blockName=_
 end
 function this.InitializeQuestLoad(t)
-  local n=this.GetQuestBlockState()
-  if n==nil then
+  local blockState=this.GetQuestBlockState()
+  if blockState==nil then
     return
   end
   if vars.missionCode==30050 and t==nil then
@@ -1801,24 +1801,24 @@ function this.ShowAnnounceLogQuestOpen()
   end
 end
 function this.OnUpdateSmallBlockIndex(a,n,s)
-  local t=this.GetQuestBlockState()
-  if t==nil then
+  local blockState=this.GetQuestBlockState()
+  if blockState==nil then
     return
   end
-  local l=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
-  local r=ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING
-  local i=ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE
-  local o=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
+  local STATE_EMPTY=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
+  local STATE_PROCESSING=ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING
+  local STATE_INACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE
+  local STATE_ACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
   mvars.qst_invokeReserveOnActivate=false
-  if(t==l)or(t==r)then
+  if(blockState==STATE_EMPTY)or(blockState==STATE_PROCESSING)then
     if mvars.qst_reserveDynamicQuestOpen then
       this.UpdateOpenQuest()
       mvars.qst_reserveDynamicQuestOpen=false
     end
     this.UpdateQuestBlockStateAtNotLoaded(a,n,s)
-  elseif(t==i)then
+  elseif(blockState==STATE_INACTIVE)then
     this.UpdateQuestBlockStateAtInactive(a,n,s)
-  elseif(t==o)then
+  elseif(blockState==STATE_ACTIVE)then
     this.UpdateQuestBlockStateAtActive(a,n)
   end
 end
@@ -1839,21 +1839,21 @@ function this.UpdateQuestBlockStateAtNotLoaded(t,a,s)
   if not mvars.qst_questList then
     return
   end
-  local n=this.GetCurrentQuestName()
+  local currentQuestName=this.GetCurrentQuestName()
   local t=this.SearchQuestFromAllSpecifiedArea("loadArea",t,a,s)
   if t==nil then
     this.UnloadCurrentQuestBlock()
     this.ClearCurrentQuestName()
     this.ResetQuestStatus()
   end
-  if n then
-    local s=this.GetQuestBlockState()
-    local a=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
+  if currentQuestName then
+    local blockState=this.GetQuestBlockState()
+    local SCRIPT_BLOCK_STATE_EMPTY=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
     if t then
-      if(s==a or n~=t)then
+      if(blockState==SCRIPT_BLOCK_STATE_EMPTY or currentQuestName~=t)then
         this.SetNewQuestAndLoadQuestBlock(t)
       end
-      if(s~=a)and(n==t)then
+      if(blockState~=SCRIPT_BLOCK_STATE_EMPTY)and(currentQuestName==t)then
         mvars.qst_currentQuestTable=this.GetQuestTable(t)
       end
     end
@@ -1908,20 +1908,21 @@ function this.QuestBlockOnInitialize(t)
   mvars.qst_isRadioTarget=false
 end
 function this.QuestBlockOnTerminate()
-  this.ExecuteSystemCallback"OnTerminate"mvars.qst_systemCallbacks=nil
+  this.ExecuteSystemCallback"OnTerminate"
+  mvars.qst_systemCallbacks=nil
   mvars.qst_lastQuestBlockState=nil
   mvars.qst_questStepList=nil
   mvars.qst_questStepTable=nil
   mvars.qst_isRadioTarget=false
-  gvars.qst_currentQuestStepNumber=c
+  gvars.qst_currentQuestStepNumber=defaultStepNumber
   if mtbs_enemy and vars.missionCode==30050 then
     mtbs_enemy.OnTerminateDemoBlock()
   end
   if not mvars.qst_skipTerminateFlag then
     mvars.qst_currentQuestTable=nil
     this.ClearCurrentQuestName()
-    local e=ScriptBlock.GetScriptBlockId(mvars.qst_blockName)
-    TppScriptBlock.FinalizeScriptBlockState(e)
+    local blockId=ScriptBlock.GetScriptBlockId(mvars.qst_blockName)
+    TppScriptBlock.FinalizeScriptBlockState(blockId)
   end
 end
 function this._CanActivateQuest()
@@ -1932,68 +1933,72 @@ function this._CanActivateQuest()
 end
 function this.QuestBlockOnUpdate()
   local thisLocal=this--NMC: tihs pattern is used in two functions in other files. why? is it that really performant?
-  local a=thisLocal.GetQuestBlockState()
-  if a==nil then
+  local questBlockState=thisLocal.GetQuestBlockState()
+  if questBlockState==nil then
     return
   end
-  local n=ScriptBlock
-  local e=mvars
-  local s=e.qst_lastQuestBlockState
-  local o=n.SCRIPT_BLOCK_STATE_INACTIVE
-  local n=n.SCRIPT_BLOCK_STATE_ACTIVE
-  if e.qst_requestInitializeQuestActiveStatus then
-    thisLocal.InitializeQuestActiveStatus(e.qst_requestInitializeQuestActiveCluster)
+  local ScriptBlock=ScriptBlock
+  local mvars=mvars
+  local lastQuestBlockState=mvars.qst_lastQuestBlockState
+  local SCRIPT_BLOCK_STATE_INACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE
+  local SCRIPT_BLOCK_STATE_ACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
+  if mvars.qst_requestInitializeQuestActiveStatus then
+    thisLocal.InitializeQuestActiveStatus(mvars.qst_requestInitializeQuestActiveCluster)
     return
   end
-  if a==o then
-    if s==n then
+  if questBlockState==SCRIPT_BLOCK_STATE_INACTIVE then
+    if lastQuestBlockState==SCRIPT_BLOCK_STATE_ACTIVE then
       thisLocal._DoDeactivate()
     end
-    if e.qst_blockStateRequest==questBlockStatus.ACTIVATE then
+    if mvars.qst_blockStateRequest==questBlockStatus.ACTIVATE then
       if thisLocal._CanActivateQuest()then
-        thisLocal.ActivateCurrentQuestBlock()thisLocal.ClearBlockStateRequest()
+        thisLocal.ActivateCurrentQuestBlock()
+        thisLocal.ClearBlockStateRequest()
       end
     end
-    e.qst_lastInactiveToActive=false
-  elseif a==n then
+    mvars.qst_lastInactiveToActive=false
+  elseif questBlockState==SCRIPT_BLOCK_STATE_ACTIVE then
     if not thisLocal._CanActivateQuest()then
       return
     end
-    local n
+    local questStepTable
     if thisLocal.IsInvoking()then
-      n=thisLocal.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
+      questStepTable=thisLocal.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
     end
-    if e.qst_lastInactiveToActive then
-      e.qst_lastInactiveToActive=false
-      e.qst_deactivated=false
-      thisLocal.ExecuteSystemCallback"OnActivate"e.qst_allocated=true
-      if e.qst_invokeReserveOnActivate then
-        e.qst_invokeReserveOnActivate=false
-        thisLocal.Invoke()n=thisLocal.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
+    if mvars.qst_lastInactiveToActive then
+      mvars.qst_lastInactiveToActive=false
+      mvars.qst_deactivated=false
+      thisLocal.ExecuteSystemCallback"OnActivate"
+      mvars.qst_allocated=true
+      if mvars.qst_invokeReserveOnActivate then
+        mvars.qst_invokeReserveOnActivate=false
+        thisLocal.Invoke()
+        questStepTable=thisLocal.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
       end
-      if n and IsTypeFunc(n.OnEnter)then
-        n.OnEnter(n)
+      if questStepTable and IsTypeFunc(questStepTable.OnEnter)then
+        questStepTable.OnEnter(questStepTable)
       end
     end
-    if(not s)or s<=o then
-      e.qst_lastInactiveToActive=true
+    if(not lastQuestBlockState)or lastQuestBlockState<=SCRIPT_BLOCK_STATE_INACTIVE then
+      mvars.qst_lastInactiveToActive=true
     end
-    if n and IsTypeFunc(n.OnUpdate)then
-      n.OnUpdate(n)
+    if questStepTable and IsTypeFunc(questStepTable.OnUpdate)then
+      questStepTable.OnUpdate(questStepTable)
     end
-    if e.qst_blockStateRequest==questBlockStatus.DEACTIVATE then
-      thisLocal.DeactivateCurrentQuestBlock()thisLocal.ClearBlockStateRequest()
+    if mvars.qst_blockStateRequest==questBlockStatus.DEACTIVATE then
+      thisLocal.DeactivateCurrentQuestBlock()
+      thisLocal.ClearBlockStateRequest()
     end
   else
-    e.qst_lastInactiveToActive=false
+    mvars.qst_lastInactiveToActive=false
     thisLocal.ClearBlockStateRequest()
   end
-  e.qst_lastQuestBlockState=a
+  mvars.qst_lastQuestBlockState=questBlockState
 end
 function this.OnMissionGameEnd()
-  local t=this.GetQuestBlockState()
+  local blockState=this.GetQuestBlockState()
   mvars.qst_isMissionEnd=true
-  if t==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
+  if blockState==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
     this._DoDeactivate()
   end
 end
@@ -2001,10 +2006,10 @@ function this.ClearBlockStateRequest()
   mvars.qst_blockStateRequest=questBlockStatus.NONE
 end
 function this.Invoke()
-  local t=this.GetCurrentQuestName()
-  local n,t=this.GetQuestTable(t)
-  local t=t.invokeStepName
-  this.SetNextQuestStep(t)
+  local currentQuestName=this.GetCurrentQuestName()
+  local n,t=this.GetQuestTable(currentQuestName)
+  local invokeStepName=t.invokeStepName
+  this.SetNextQuestStep(invokeStepName)
 end
 function this.SetNewQuestAndLoadQuestBlock(t)
   if TppLocation.IsMotherBase()then
@@ -2039,7 +2044,7 @@ function this.ClearCurrentQuestName()
 end
 function this.ResetQuestStatus()
   gvars.qst_currentQuestName=p
-  gvars.qst_currentQuestStepNumber=c
+  gvars.qst_currentQuestStepNumber=defaultStepNumber
 end
 function this.UnloadCurrentQuestBlock()
   TppScriptBlock.Unload(mvars.qst_blockName)
@@ -2068,16 +2073,16 @@ function this.SearchQuestFromAllSpecifiedArea(n,a,o,s)
   end
 end
 function this.IsInsideArea(o,e,s,a,n)do
-  local t=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
-  local t=TppDefine.LOCATION_ID[t]
-  if e.locationId~=t then
+  local locationName=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
+  local locationId=TppDefine.LOCATION_ID[locationName]
+  if e.locationId~=locationId then
     return false
   end
 end
 if e.clusterName then
   return TppDefine.CLUSTER_NAME[n]==e.clusterName
 else
-  local t=e.areaName
+  --local t=e.areaName
   local e=e[o]
   if e==nil then
     return
@@ -2152,7 +2157,7 @@ function this.ExecuteSystemCallback(e)
   end
 end
 function this.IsInvoking()
-  if gvars.qst_currentQuestStepNumber~=c then
+  if gvars.qst_currentQuestStepNumber~=defaultStepNumber then
     return true
   else
     return false
@@ -2211,7 +2216,7 @@ function this.UpdateActiveQuest(debugUpdate)
               local RENAMEsomeCondition=RENAMEsomeConditions[questName]--NMC: some list of conditions, not as big as the 't' list
               
               local isBlockHeliQuest=false--tex
-              if gvars.heliReinforceChance>0 then--tex block heli quests to allow super reinforce
+              if gvars.enableHeliReinforce>0 then--tex block heli quests to allow super reinforce
                 if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
                   for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
                     if name==questName then
@@ -2248,33 +2253,23 @@ function this.UpdateActiveQuest(debugUpdate)
         list=repopQuests
       end
       if list ~= nil then
-        --[[if gvars.unlockSideOps == Ivars.unlockSideOps.enum.FIRST then
-
-              index=1
-
-            elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.LAST then
-
-              index=#list
-
-            elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.RANDOM then
-
-              index=math.random(#list)
-
-            end--]]
+--        if gvars.unlockSideOps == Ivars.unlockSideOps.enum.FIRST then
+--              index=1
+--            elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.LAST then
+--              index=#list
+--            elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.RANDOM then
+--              index=math.random(#list)
+--            end
         if gvars.unlockSideOps > 0 then
           index=math.random(#list)
         end
         questName=list[index]
       end--
-      --[[--tex ORIG: for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
-
-            if not questName then
-
-              questName=t[1]
-
-            end
-
-          end--]]
+--      tex ORIG: for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
+--            if not questName then
+--              questName=t[1]
+--            end
+--          end
       if questName then
         gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
       end
@@ -2905,8 +2900,8 @@ function this.OnQuestAreaAnnounceText(t)
     end
 end
 function this.IsActiveQuestHeli()
-  for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
-    if this.IsActive(name)then
+  for n,questName in ipairs(TppDefine.QUEST_HELI_DEFINE)do
+    if this.IsActive(questName)then
       return true
     end
   end
@@ -2924,12 +2919,12 @@ function this.DeactiveQuestAreaTrapMessages()
     return
   end
   for a,t in ipairs(arealList)do
-    local e=this.GetTrapName(t)
-    local e={msg="Exit",sender=e,
+    local trapName=this.GetTrapName(t)
+    local message={msg="Exit",sender=trapName,
     func=function(e,e)
       TppEnemy.CheckDeactiveQuestAreaForceFulton()
     end}
-    table.insert(deactiveQuestAreaTrapMessages,e)
+    table.insert(deactiveQuestAreaTrapMessages,message)
   end
   return deactiveQuestAreaTrapMessages
 end

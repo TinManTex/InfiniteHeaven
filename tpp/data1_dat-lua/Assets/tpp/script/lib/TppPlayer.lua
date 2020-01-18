@@ -81,10 +81,12 @@ function this.SetForceFultonPercent(e,a)
   mvars.ply_forceFultonPercent[e]=a
 end
 function this.ForceChangePlayerToSnake(basic)
-  if gvars.useSoldierForDemos==1 then--tex
+  if gvars.useSoldierForDemos==1 then--tex catch more cases the isSnakeOnly in demo didn't catch
     if not TppMission.IsFOBMission(vars.missionCode) then--tex 50050 sequence calls this a couple of times, I can't reason it out as being a meaningful change but I don't want to change default behaviour
-      return
+      if not (vars.missionCode==10240) then-- and DemoDaemon.IsDemoPlaying()) then--tex demo not actually playing at that point aparently --tex PATCHUP: stop stupid sexy snake player body/snake head for shining lights funeral scene
+        return
     end
+  end
   end--
   vars.playerType=PlayerType.SNAKE
   if basic then
@@ -263,21 +265,21 @@ end
 function this.FailSafeInitialPositionForFreePlay()--RETAILPATCH: 1060
   if not((vars.missionCode==30010)or(vars.missionCode==30020))then
     return
-  end
-  if vars.initialPlayerFlag~=PlayerFlag.USE_VARS_FOR_INITIAL_POS then
-    return
-  end
-  if(((vars.initialPlayerPosX>3500)or(vars.initialPlayerPosX<-3500))or(vars.initialPlayerPosZ>3500))or(vars.initialPlayerPosZ<-3500)then
-    local e={[30010]={1448.61,337.787,1466.4},[30020]={-510.73,5.09,1183.02}}
-    local e=e[vars.missionCode]
-    vars.initialPlayerPosX,vars.initialPlayerPosY,vars.initialPlayerPosZ=e[1],e[2],e[3]
-  end
+end
+if vars.initialPlayerFlag~=PlayerFlag.USE_VARS_FOR_INITIAL_POS then
+  return
+end
+if(((vars.initialPlayerPosX>3500)or(vars.initialPlayerPosX<-3500))or(vars.initialPlayerPosZ>3500))or(vars.initialPlayerPosZ<-3500)then
+  local e={[30010]={1448.61,337.787,1466.4},[30020]={-510.73,5.09,1183.02}}
+  local e=e[vars.missionCode]
+  vars.initialPlayerPosX,vars.initialPlayerPosY,vars.initialPlayerPosZ=e[1],e[2],e[3]
+end
 end--
 function this.RegisterTemporaryPlayerType(playerSetting)
   if gvars.useSoldierForDemos==1 then--tex allow player character for the few missions that override it
     if vars.missionCode==10030 or vars.missionCode==10240 then
       return
-    end
+  end
   end--
   if not IsTypeTable(playerSetting)then
     return
@@ -888,13 +890,13 @@ end
 function this.ResetIconForQuest(e)
   mvars.ply_questStartFlagInfo.ShootingPractice=false
 end
-function this.AppearHorseOnMissionStart(e,a)
-  local e,a=Tpp.GetLocator(e,a)
-  if e then
+function this.AppearHorseOnMissionStart(identifier,key)
+  local pos,rot=Tpp.GetLocator(identifier,key)
+  if pos then
     vars.buddyType=BuddyType.HORSE
-    vars.initialBuddyPos[0]=e[1]
-    vars.initialBuddyPos[1]=e[2]
-    vars.initialBuddyPos[2]=e[3]
+    vars.initialBuddyPos[0]=pos[1]
+    vars.initialBuddyPos[1]=pos[2]
+    vars.initialBuddyPos[2]=pos[3]
   end
 end
 function this.StartGameOverCamera(t,a,e)
@@ -1297,7 +1299,16 @@ function this.PlayMissionClearCameraOnWalkerGear(a,p,s)
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=3,followDelayTime=.1,candidateRots={{7,165},{7,-165}},offsetTarget=n,offsetPos=a,focalLength=28,aperture=1.875,timeToSleep=o,interpTimeAtStart=t,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=i,useLastSelectedIndex=r}
   return l
 end
-this.VEHICLE_MISSION_CLEAR_CAMERA={[Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayMissionClearCameraOnRideLightVehicle,[Vehicle.type.EASTERN_TRACKED_TANK]=this.PlayMissionClearCameraOnRideTank,[Vehicle.type.EASTERN_TRUCK]=this.PlayMissionClearCameraOnRideTruck,[Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]=this.PlayMissionClearCameraOnRideEasternArmoredVehicle,[Vehicle.type.WESTERN_LIGHT_VEHICLE]=this.PlayMissionClearCameraOnRideLightVehicle,[Vehicle.type.WESTERN_TRACKED_TANK]=this.PlayMissionClearCameraOnRideTank,[Vehicle.type.WESTERN_TRUCK]=this.PlayMissionClearCameraOnRideTruck,[Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]=this.PlayMissionClearCameraOnRideWesternArmoredVehicle}
+this.VEHICLE_MISSION_CLEAR_CAMERA={
+  [Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayMissionClearCameraOnRideLightVehicle,
+  [Vehicle.type.EASTERN_TRACKED_TANK]=this.PlayMissionClearCameraOnRideTank,
+  [Vehicle.type.EASTERN_TRUCK]=this.PlayMissionClearCameraOnRideTruck,
+  [Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]=this.PlayMissionClearCameraOnRideEasternArmoredVehicle,
+  [Vehicle.type.WESTERN_LIGHT_VEHICLE]=this.PlayMissionClearCameraOnRideLightVehicle,
+  [Vehicle.type.WESTERN_TRACKED_TANK]=this.PlayMissionClearCameraOnRideTank,
+  [Vehicle.type.WESTERN_TRUCK]=this.PlayMissionClearCameraOnRideTruck,
+  [Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]=this.PlayMissionClearCameraOnRideWesternArmoredVehicle
+}
 function this.FOBPlayMissionClearCamera()
   local e=this.SetPlayerStatusForMissionEndCamera()
   if not e then
@@ -1391,7 +1402,15 @@ end
 function this.PlayMissionAbortCameraOnWalkerGear(a)
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=3,followDelayTime=.1,candidateRots={{7,15},{7,-15}},offsetTarget=Vector3(0,.8,0),offsetPos=Vector3(0,.5,-3.5),focalLength=35,aperture=1.875,timeToSleep=20,interpTimeAtStart=.5,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16}
 end
-this.VEHICLE_MISSION_ABORT_CAMERA={[Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayMissionAbortCameraOnRideLightVehicle,[Vehicle.type.EASTERN_TRACKED_TANK]=this.PlayMissionAbortCameraOnRideTank,[Vehicle.type.EASTERN_TRUCK]=this.PlayMissionAbortCameraOnRideTruck,[Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]=this.PlayMissionAbortCameraOnRideEasternArmoredVehicle,[Vehicle.type.WESTERN_LIGHT_VEHICLE]=this.PlayMissionAbortCameraOnRideLightVehicle,[Vehicle.type.WESTERN_TRACKED_TANK]=this.PlayMissionAbortCameraOnRideTank,[Vehicle.type.WESTERN_TRUCK]=this.PlayMissionAbortCameraOnRideTruck,[Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]=this.PlayMissionAbortCameraOnRideWesternArmoredVehicle}
+this.VEHICLE_MISSION_ABORT_CAMERA={
+  [Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayMissionAbortCameraOnRideLightVehicle,
+  [Vehicle.type.EASTERN_TRACKED_TANK]=this.PlayMissionAbortCameraOnRideTank,
+  [Vehicle.type.EASTERN_TRUCK]=this.PlayMissionAbortCameraOnRideTruck,
+  [Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]=this.PlayMissionAbortCameraOnRideEasternArmoredVehicle,
+  [Vehicle.type.WESTERN_LIGHT_VEHICLE]=this.PlayMissionAbortCameraOnRideLightVehicle,
+  [Vehicle.type.WESTERN_TRACKED_TANK]=this.PlayMissionAbortCameraOnRideTank,
+  [Vehicle.type.WESTERN_TRUCK]=this.PlayMissionAbortCameraOnRideTruck,
+  [Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]=this.PlayMissionAbortCameraOnRideWesternArmoredVehicle}
 function this.PlayFallDeadCamera(a)
   mvars.ply_fallDeadCameraTimeToSleep=20
   if a and Tpp.IsTypeNumber(a.timeToSleep)then
@@ -1446,7 +1465,15 @@ function this.PlayFallDeadCameraOnWalkerGear(a)
   local a=this.GetFallDeadCameraOffsetPosY()
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",mvars.ply_fallDeadCameraTargetPlayerIndex),isFollowPos=false,isFollowRot=true,followTime=.8,followDelayTime=0,candidateRots={{-60,-25},{-60,25},{-60,-115},{-60,115},{5,-25},{5,25},{5,-115},{5,115}},offsetTarget=Vector3(0,0,0),offsetPos=Vector3(-4,(a+1),-8),focalLength=21,aperture=1.875,timeToSleep=mvars.ply_fallDeadCameraTimeToSleep,interpTimeAtStart=0,fitOnCamera=false}
 end
-this.VEHICLE_FALL_DEAD_CAMERA={[Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayFallDeadCameraOnRideLightVehicle,[Vehicle.type.EASTERN_TRACKED_TANK]=this.PlayFallDeadCameraOnRideTank,[Vehicle.type.EASTERN_TRUCK]=this.PlayFallDeadCameraOnRideTruck,[Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]=this.PlayFallDeadCameraOnRideArmoredVehicle,[Vehicle.type.WESTERN_LIGHT_VEHICLE]=this.PlayFallDeadCameraOnRideLightVehicle,[Vehicle.type.WESTERN_TRACKED_TANK]=this.PlayFallDeadCameraOnRideTank,[Vehicle.type.WESTERN_TRUCK]=this.PlayFallDeadCameraOnRideTruck,[Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]=this.PlayFallDeadCameraOnRideArmoredVehicle}
+this.VEHICLE_FALL_DEAD_CAMERA={[Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayFallDeadCameraOnRideLightVehicle,
+  [Vehicle.type.EASTERN_TRACKED_TANK]=this.PlayFallDeadCameraOnRideTank,
+  [Vehicle.type.EASTERN_TRUCK]=this.PlayFallDeadCameraOnRideTruck,
+  [Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]=this.PlayFallDeadCameraOnRideArmoredVehicle,
+  [Vehicle.type.WESTERN_LIGHT_VEHICLE]=this.PlayFallDeadCameraOnRideLightVehicle,
+  [Vehicle.type.WESTERN_TRACKED_TANK]=this.PlayFallDeadCameraOnRideTank,
+  [Vehicle.type.WESTERN_TRUCK]=this.PlayFallDeadCameraOnRideTruck,
+  [Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]=this.PlayFallDeadCameraOnRideArmoredVehicle
+}
 function this.Messages()
   local messageTable=Tpp.StrCode32Table{
     Player={
@@ -1797,30 +1824,39 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
     Player.SetFultonIconPercentage{percentage=percentage,targetId=gameId}
   end
 end
-function this.GetSoldierFultonSucceedRatio(t)
+function this.GetSoldierFultonSucceedRatio(gameId)
   local e=0
   local n=0
-  local a=SendCommand(t,{id="GetLifeStatus"})
-  local o=GameObject.SendCommand(t,{id="GetStateFlag"})
-  if(bit.band(o,StateFlag.DYING_LIFE)~=0)then
+  local lifeStatus=SendCommand(gameId,{id="GetLifeStatus"})
+  local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
+  if(bit.band(stateFlag,StateFlag.DYING_LIFE)~=0)then
     e=-70
-  elseif(a==TppGameObject.NPC_LIFE_STATE_SLEEP)or(a==TppGameObject.NPC_LIFE_STATE_FAINT)then
+  elseif(lifeStatus==TppGameObject.NPC_LIFE_STATE_SLEEP)or(lifeStatus==TppGameObject.NPC_LIFE_STATE_FAINT)then
     e=0
     if mvars.ply_OnFultonIconDying then
       mvars.ply_OnFultonIconDying()
     end
-  elseif(a==TppGameObject.NPC_LIFE_STATE_DEAD)then
+  elseif(lifeStatus==TppGameObject.NPC_LIFE_STATE_DEAD)then
     return
   end
-  local a={[TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_C]=30,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_D]=20,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_E]=10,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0}
-  local o=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
-  local a=a[o]or 0
+  local a={
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_C]=30,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_D]=20,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_E]=10,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
+  }
+  local sectionFuncRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
+  local a=a[sectionFuncRank]or 0
   e=e+a
   if e>0 then
     e=0
   end
-  local a=SendCommand(t,{id="GetStatus"})
-  if a==EnemyState.STAND_HOLDUP then
+  local status=SendCommand(gameId,{id="GetStatus"})
+  if status==EnemyState.STAND_HOLDUP then
     n=-10
   end
   return(e+n)
@@ -1831,35 +1867,36 @@ end
 function this.GetVolginFultonSucceedRatio(e)
   return 100
 end
-function this.SetHelicopterInsideAction()Player.SetHeliToInsideParam{canClearMission=svars.mis_canMissionClear}
+function this.SetHelicopterInsideAction()
+  Player.SetHeliToInsideParam{canClearMission=svars.mis_canMissionClear}
 end
-function this.OnPlayerFulton(playerIndex,r)
+function this.OnPlayerFulton(playerIndex,gameId)
   if playerIndex~=PlayerInfo.GetLocalPlayerIndex()then
     return
   end
-  local n=300
-  local e=1e4
-  local a=1e4
-  local t=5e3
-  local a={
-    [TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2]=e,
-    [TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2]=e,
-    [TppGameObject.GAME_OBJECT_TYPE_BATTLEGEAR]=e,
-    [TppGameObject.GAME_OBJECT_TYPE_VEHICLE]=a,
-    [TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER]=a,
-    [TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN]=a,
-    [TppGameObject.GAME_OBJECT_TYPE_MORTAR]=t,
-    [TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN]=t
+  local defaultGmp=300
+  local gearGmp=1e4
+  local midGmp=1e4
+  local lowGmp=5e3
+  local gmpForFultonedObject={
+    [TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2]=gearGmp,
+    [TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2]=gearGmp,
+    [TppGameObject.GAME_OBJECT_TYPE_BATTLEGEAR]=gearGmp,
+    [TppGameObject.GAME_OBJECT_TYPE_VEHICLE]=midGmp,
+    [TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER]=midGmp,
+    [TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN]=midGmp,
+    [TppGameObject.GAME_OBJECT_TYPE_MORTAR]=lowGmp,
+    [TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN]=lowGmp
   }
-  local e
-  local t=GameObject.GetTypeIndex(r)
-  e=a[t]or n
-  TppTerminal.UpdateGMP{gmp=-e,gmpCostType=TppDefine.GMP_COST_TYPE.FULTON}
-  svars.supportGmpCost=svars.supportGmpCost+e
+  local gmpAmount
+  local typeIndex=GameObject.GetTypeIndex(gameId)
+  gmpAmount=gmpForFultonedObject[typeIndex]or defaultGmp
+  TppTerminal.UpdateGMP{gmp=-gmpAmount,gmpCostType=TppDefine.GMP_COST_TYPE.FULTON}
+  svars.supportGmpCost=svars.supportGmpCost+gmpAmount
 end
-function this.QuietRideHeli(e)
-  if e==GameObject.GetGameObjectIdByIndex("TppBuddyQuiet2",0)then
-    Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=false,isFollowRot=false,followTime=1,followDelayTime=.1,candidateRots={{-4,45},{-4,-45},{-8,0}},offsetPos=Vector3(0,-.2,-2.5),offsetTarget=Vector3(0,2,0),focalLength=21,aperture=1.875,timeToSleep=2,enableOverride=true}
+function this.QuietRideHeli(gameId)
+  if gameId==GameObject.GetGameObjectIdByIndex("TppBuddyQuiet2",0)then
+    Player.RequestToPlayCameraNonAnimation{characterId=gameId,isFollowPos=false,isFollowRot=false,followTime=1,followDelayTime=.1,candidateRots={{-4,45},{-4,-45},{-8,0}},offsetPos=Vector3(0,-.2,-2.5),offsetTarget=Vector3(0,2,0),focalLength=21,aperture=1.875,timeToSleep=2,enableOverride=true}
   end
 end
 function this.SetRetryFlag()

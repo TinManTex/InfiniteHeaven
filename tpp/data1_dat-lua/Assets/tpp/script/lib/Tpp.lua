@@ -17,7 +17,7 @@ local C=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
 local m=TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2
 local b=TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2
 local g=TppGameObject.GAME_OBJECT_TYPE_VOLGIN2
-local _=TppGameObject.GAME_OBJECT_TYPE_MARKER2_LOCATOR
+local GAME_OBJECT_TYPE_MARKER2_LOCATOR=TppGameObject.GAME_OBJECT_TYPE_MARKER2_LOCATOR
 local P=TppGameObject.GAME_OBJECT_TYPE_BOSSQUIET2
 local S=TppGameObject.GAME_OBJECT_TYPE_PARASITE2
 local I=TppGameObject.GAME_OBJECT_TYPE_SECURITYCAMERA2
@@ -312,33 +312,33 @@ function this.GetLocator(identifier,key)
     return nil
   end
 end
-function this.GetLocatorByTransform(t,n)
-  local e=this.GetDataWithIdentifier(t,n,"TransformData")
-  if e==nil then
+function this.GetLocatorByTransform(identifier,key)
+  local transFormData=this.GetDataWithIdentifier(identifier,key,"TransformData")
+  if transFormData==nil then
     return
   end
-  local e=e.worldTransform
-  return e.translation,e.rotQuat
+  local worldTransform=transFormData.worldTransform
+  return worldTransform.translation,worldTransform.rotQuat
 end
-function this.GetDataWithIdentifier(e,n,t)
-  local e=DataIdentifier.GetDataWithIdentifier(e,n)
-  if e==NULL then
+function this.GetDataWithIdentifier(identifier,key,typeName)
+  local data=DataIdentifier.GetDataWithIdentifier(identifier,key)
+  if data==nil then--RETAILBUG: was ==NULL
     return
   end
-  if(e:IsKindOf(t)==false)then
+  if(data:IsKindOf(typeName)==false)then
     return
   end
-  return e
+  return data
 end
-function this.GetDataBodyWithIdentifier(n,e,t)
-  local e=DataIdentifier.GetDataBodyWithIdentifier(n,e)
-  if(e.data==nil)then
+function this.GetDataBodyWithIdentifier(identifier,key,typeName)
+  local dataBody=DataIdentifier.GetDataBodyWithIdentifier(identifier,key)
+  if(dataBody.data==nil)then
     return
   end
-  if(e.data:IsKindOf(t)==false)then
+  if(dataBody.data:IsKindOf(typeName)==false)then
     return
   end
-  return e
+  return dataBody
 end
 function this.SetGameStatus(status)
   if not IsTypeTable(status)then
@@ -506,7 +506,7 @@ function this.GetBuddyTypeFromGameObjectId(e)
   return TppDefine.BUDDY_GM_TYPE_TO_BUDDY_TYPE[e]
 end
 function this.IsMarkerLocator(e)
-  return IsGameObjectType(e,_)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_MARKER2_LOCATOR)
 end
 function this.IsAnimal(e)
   if e==nil then
@@ -527,14 +527,14 @@ end
 function this.IsSecurityCamera(e)
   return IsGameObjectType(e,I)
 end
-function this.IsGunCamera(n)
-  if n==NULL_ID then
+function this.IsGunCamera(gameId)
+  if gameId==NULL_ID then
     return false
   end
-  local t={id="IsGunCamera"}
-  local e=false
-  e=GameObject.SendCommand(n,t)
-  return e
+  local command={id="IsGunCamera"}
+  local isGunCamera=false
+  isGunCamera=GameObject.SendCommand(gameId,command)
+  return isGunCamera
 end
 function this.IsUAV(e)
   return IsGameObjectType(e,G)

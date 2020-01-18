@@ -541,7 +541,8 @@ missionPackTable[10171]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_WAV_CANNON)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_TANK)
   TppPackList.AddDefaultMissionAreaPack(p)
-  TppPackList.AddMissionPack(TppHelicopter.GetEnemyColoringPack(TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK))do
+  TppPackList.AddMissionPack(TppHelicopter.GetEnemyColoringPack(TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK))
+  do
     local s="sol_pfCamp_vip"
     local s={{type="enemy",name=s,faceId=645,bodyId=267}}
     TppEneFova.AddUniqueSettingPackage(s)

@@ -362,10 +362,10 @@ this.subsistenceProfile={
         Ivars.ospWeaponProfile:Set(1,true)
       end
       if not Ivars.handLevelProfile:Is(1) then
-        Ivars.handLevelProfile:Set(1)
+        Ivars.handLevelProfile:Set(1,true)
       end
       if not Ivars.fultonLevelProfile:Is(1) then
-        Ivars.fultonLevelProfile:Set(1)
+        Ivars.fultonLevelProfile:Set(1,true)
       end
       
       Ivars.disableMenuDrop:Set(1,true)
@@ -395,10 +395,10 @@ this.subsistenceProfile={
       end
       
       if Ivars.handLevelProfile:IsDefault() or Ivars.handLevelProfile:Is"CUSTOM" then
-        Ivars.handLevelProfile:Set(1)
+        Ivars.handLevelProfile:Set(1,true)
       end
       if Ivars.fultonLevelProfile:IsDefault() or Ivars.fultonLevelProfile:Is"CUSTOM" then
-        Ivars.fultonLevelProfile:Set(1)
+        Ivars.fultonLevelProfile:Set(1,true)
       end
       
       Ivars.disableMenuDrop:Set(1,true)
@@ -765,19 +765,39 @@ this.revengeBlockForMissionCount={
   range={max=10},
 }
 
-this.forceSuperReinforce={--tex WIP
+--reinforce stuff DOC: Reinforcements Soldier Vehicle Heli.txt
+this.forceSuperReinforce={
   save=MISSION,
-  settings={"OFF","ON_CONFIG","ON_FORCE"},
+  settings={"OFF","ON_CONFIG","FORCE_CONFIG","FORCE_REINFORCE"},
+  settingNames="forceSuperReinforceSettings",
 }
 
-this.heliReinforceChance={--tex chance of heli being chosen for a rienforce, also turns off heli quests
+this.forceReinforceRequest={
   save=MISSION,
-  default=0,
-  range={min=0,max=1,increment=0.1},
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.enableHeliReinforce={--tex chance of heli being chosen for a rienforce, also turns off heli quests
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
   OnChange=function()
     TppQuest.UpdateActiveQuest()--tex update since quests may have changed 
   end,
 }
+
+this.disableReinforceHeliPullOut={--NONUSER
+  save=MISSION,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+--this.currentReinforceCount={--NONUSER
+--  save=MISSION,
+--  range={max=100},
+--}
 
 this.startOnFoot={
   save=MISSION,
@@ -1442,7 +1462,7 @@ this.quietRadioMode={
 --heli
 this.heliUpdate={--tex NONUSER, for now, need it alive to pick up pull out
   save=MISSION,
-  default=1,--DEBUGNOW
+  default=1,
   range=this.switchRange,
   settingNames="set_switch",
   execChecks={inGame=true,inHeliSpace=false},

@@ -3,7 +3,8 @@ local T=Fox.StrCode32
 local O=Tpp.IsTypeTable
 local t=Tpp.IsTypeString
 local S=Tpp.IsTypeNumber
-local p="EnemyHeli"this.TipsExceptTime={[TppDefine.TIPS.CQC_INTERROGATION]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.HOLD_UP_INTERROGATION]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.FULTON_CLASS_FUNCTION_STOP]={isOnceThisGame=true,isAlways=false},[TppDefine.TIPS.HORSE_HIDEACTION]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.ACTION_MAKENOISE]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.WEAPON_RANGE]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.RADIO_ESPIONAGE]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.COMOF_STANCE]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.BINO_MARKING]={isOnceThisGame=false,isAlways=true}}
+local ENEMY_HELI_NAME="EnemyHeli"
+this.TipsExceptTime={[TppDefine.TIPS.CQC_INTERROGATION]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.HOLD_UP_INTERROGATION]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.FULTON_CLASS_FUNCTION_STOP]={isOnceThisGame=true,isAlways=false},[TppDefine.TIPS.HORSE_HIDEACTION]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.ACTION_MAKENOISE]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.WEAPON_RANGE]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.RADIO_ESPIONAGE]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.COMOF_STANCE]={isOnceThisGame=false,isAlways=true},[TppDefine.TIPS.BINO_MARKING]={isOnceThisGame=false,isAlways=true}}
 this.ControlExceptTime={[TppDefine.CONTROL_GUIDE.DRIVE_COMMON_VEHICLE]={isOnceThisGame=true,isAlways=false},[TppDefine.CONTROL_GUIDE.DRIVE_WALKER_GEAR]={isOnceThisGame=true,isAlways=false},[TppDefine.CONTROL_GUIDE.RIDE_HORSE]={isOnceThisGame=true,isAlways=false},[TppDefine.CONTROL_GUIDE.SNIPER_RIFLE]={isOnceThisGame=true,isAlways=false},[TppDefine.CONTROL_GUIDE.ATTACK_VEHICLE_SHOOT]={isOnceThisGame=true,isAlways=false},[TppDefine.CONTROL_GUIDE.ATTACK_VEHICLE_CAMERA]={isOnceThisGame=true,isAlways=false}}
 this.TipsAllPhase={[TppDefine.TIPS.HOLD_UP]=true,[TppDefine.TIPS.SNIPER_RIFLE]=true,[TppDefine.TIPS.UNDER_BARREL]=true,[TppDefine.TIPS.BULLET_REFILL]=true,[TppDefine.TIPS.COMMUNICATOR]=true,[TppDefine.TIPS.SUPPRESSOR]=true,[TppDefine.TIPS.SUPPORT_HELI]=true,[TppDefine.TIPS.BULLET_PENETRATE]=true,[TppDefine.TIPS.BULLET_PENETRATE_FAIL]=true,[TppDefine.TIPS.CQC_INTERROGATION]=true,[TppDefine.TIPS.HOLD_UP_INTERROGATION]=true,[TppDefine.TIPS.RELOAD]=true,[TppDefine.TIPS.COVER]=true,[TppDefine.TIPS.HORSE_HIDEACTION]=true,[TppDefine.TIPS.ACTION_MAKENOISE]=true,[TppDefine.TIPS.WEAPON_RANGE]=true,[TppDefine.TIPS.RADIO_ESPIONAGE]=true,[TppDefine.TIPS.COMOF_STANCE]=true,[TppDefine.TIPS.BINO_MARKING]=true}
 this.ControlAllPhase={[TppDefine.CONTROL_GUIDE.RELOAD]=true,[TppDefine.CONTROL_GUIDE.MACHINEGUN]=true,[TppDefine.CONTROL_GUIDE.MORTAR]=true,[TppDefine.CONTROL_GUIDE.ANTI_AIRCRAFT]=true,[TppDefine.CONTROL_GUIDE.SHIELD]=true,[TppDefine.CONTROL_GUIDE.C4_EXPLODING]=true,[TppDefine.CONTROL_GUIDE.BOOSTER_SCOPE]=true,[TppDefine.CONTROL_GUIDE.SNIPER_RIFLE]=true,[TppDefine.CONTROL_GUIDE.UNDER_BARREL]=true,[TppDefine.CONTROL_GUIDE.DRIVE_COMMON_VEHICLE]=true,[TppDefine.CONTROL_GUIDE.DRIVE_WALKER_GEAR]=true,[TppDefine.CONTROL_GUIDE.RIDE_HORSE]=true,[TppDefine.CONTROL_GUIDE.ATTACK_VEHICLE_SHOOT]=true,[TppDefine.CONTROL_GUIDE.ATTACK_VEHICLE_CAMERA]=true}
@@ -42,7 +43,12 @@ this.TipsAvailableInHeli={LOG=true,SUPPORT_HELI=true,BUDDY_HORSE=true,BUDDY_DOG=
 this.ControlGuideAvailableInHeli={MOVE_IN_HELI=true}
 this.WeatherTipsGuideMatchTable={[TppDefine.WEATHER.SANDSTORM]="SAND_STORM",[TppDefine.WEATHER.FOGGY]="FOG",[TppDefine.WEATHER.RAINY]="RAIN"}
 this.FultonTipsGuideMatchTable={[TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER]="FULTON_CONTAINER",[TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN]="FULTON_MACHINEGUN",[TppGameObject.GAME_OBJECT_TYPE_MORTAR]="FULTON_MORTAR",[TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN]="FULTON_ANTI_AIRCRAFT",[TppGameObject.GAME_OBJECT_TYPE_VEHICLE]="FULTON_COMMON_VEHICLE"}
-this.AttackVehicleTable={[Vehicle.type.EASTERN_TRACKED_TANK]=true,[Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]=true,[Vehicle.type.WESTERN_TRACKED_TANK]=true,[Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]=true}
+this.AttackVehicleTable={
+  [Vehicle.type.EASTERN_TRACKED_TANK]=true,
+  [Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]=true,
+  [Vehicle.type.WESTERN_TRACKED_TANK]=true,
+  [Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]=true
+}
 this.DISPLAY_OPTION={TIPS=1,CONTROL=2,TIPS_CONTROL=3,PAUSE_CONTROL=4,TIPS_IGONORE_RADIO=5,CONTROL_IGONORE_RADIO=6,TIPS_IGONORE_DISPLAY=7}
 this.DISPLAY_TIME={DEFAULT=15,LONG=9,LONGER=11}
 this.TipsGuideRadioList={[TppDefine.TIPS.DAY_NIGHT_SHIFT]="f1000_rtrg0160",[TppDefine.TIPS.COMOF_NIGHT]="f1000_rtrg2980",[TppDefine.TIPS.RAIN]="f1000_rtrg0180",[TppDefine.TIPS.FOG]="f1000_rtrg0190",[TppDefine.TIPS.SAND_STORM]="f1000_rtrg0210",[TppDefine.TIPS.CRACK_CLIMB]="f1000_rtrg4470",[TppDefine.TIPS.PHANTOM_CIGAR_TOILET]="f1000_rtrg4480",[TppDefine.TIPS.PHANTOM_CIGAR_TRASH]="f1000_rtrg4480",[TppDefine.TIPS.BULLET_REFILL]="f1000_rtrg4490",[TppDefine.TIPS.DEV_DOCUMENT]="f1000_rtrg4080",[TppDefine.TIPS.TRASH]="f1000_rtrg4500",[TppDefine.TIPS.TOILET]="f1000_rtrg4510",[TppDefine.TIPS.DIAMOND]="f1000_rtrg0560",[TppDefine.TIPS.SAVE_ANIMAL]="f1000_rtrg0615",[TppDefine.TIPS.ELECTRICITY]="f1000_rtrg4530",[TppDefine.TIPS.FULTON_CONTAINER]="f1000_rtrg0570",[TppDefine.TIPS.MATERIAL]="f1000_rtrg0580",[TppDefine.TIPS.PLANT]="f1000_rtrg4090",[TppDefine.TIPS.BULLET_PENETRATE]="f1000_rtrg3640",[TppDefine.TIPS.BULLET_PENETRATE_FAIL]="f1000_rtrg3650",[TppDefine.TIPS.ANIMAL_CAGE]={"f1000_rtrg0615","f1000_rtrg0625"}}
@@ -478,7 +484,7 @@ function this.OnDiscoveredObject(T,n)
   if this.IsRideHelicopter()then
     return
   end
-  if T~=GameObject.GetGameObjectId(p)then
+  if T~=GameObject.GetGameObjectId(ENEMY_HELI_NAME)then
     return
   end
   TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.DISCOVERED_BY_ENEMY_HELI,true)
@@ -487,13 +493,13 @@ function this.OnPlayerIsWithinRange(T,n)
   if this.IsRideHelicopter()then
     return
   end
-  if T~=GameObject.GetGameObjectId(p)then
+  if T~=GameObject.GetGameObjectId(ENEMY_HELI_NAME)then
     return
   end
   TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.PLAYER_NEAR_ENEMY_HELI,true)
 end
 function this.SetEnemyHeliMessageWithinRange()
-  local e=GameObject.GetGameObjectId(p)
+  local e=GameObject.GetGameObjectId(ENEMY_HELI_NAME)
   if e~=GameObject.NULL_ID then
     GameObject.SendCommand(e,{id="SetMessagePlayerIsWithinRange",name="CheckRange400",enabled=true,range=400})
   end

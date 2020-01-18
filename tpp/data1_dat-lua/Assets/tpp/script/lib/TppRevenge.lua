@@ -367,7 +367,7 @@ function this.IsUsingStrongSniper()
   return mvars.revenge_revengeConfig.STRONG_SNIPER
 end
 function this.IsUsingSuperReinforce()
-  if Ivars.forceSuperReinforce:Is"ON_FORCE" then--tex
+  if Ivars.forceSuperReinforce:Is"FORCE_CONFIG" then--tex
     return true
   end--
 
@@ -1105,9 +1105,6 @@ function this.ApplyMissionTendency(missionId)
   this.SetRevengePoint(this.REVENGE_TYPE.M_COMBAT,0)
 end
 function this.CanUseReinforceVehicle()
-  if gvars.forceSuperReinforce>0 then--tex
-    return true
-  end--
   local missionId=TppMission.GetMissionID()
   return this.USE_SUPER_REINFORCE_VEHICLE_MISSION[missionId]
 end
@@ -1115,22 +1112,22 @@ function this.CanUseReinforceHeli()
   return not GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli"
 end
 function this.SelectReinforceType()
-  if gvars.forceSuperReinforce>0 then--tex
-    if gvars.heliReinforceChance==1 or math.random()<gvars.forceSuperReinforce then
-      return TppReinforceBlock.REINFORCE_TYPE.HELI
-    end
-  end--
   if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then
+    --InfMenu.DebugPrint("SelectReinforceType already heli")
     return TppReinforceBlock.REINFORCE_TYPE.HELI
   end
   if not this.IsUsingSuperReinforce()then
+    --InfMenu.DebugPrint("SelectReinforceType not superreinforce")
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local reinforceVehicleTypes={}
   local canuseReinforceVehicle=this.CanUseReinforceVehicle()
-  local canUseReinforceHeli=this.CanUseReinforceHeli()
+  if gvars.forceSuperReinforce>0 then--tex
+    canuseReinforceVehicle=not(vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE)--tex TODO: can't use reinforce vehicle in free mode till I figure out why it doesn't work vs missions
+  end--
+  local canUseReinforceHeli=this.CanUseReinforceHeli() and mvars.revenge_isEnabledSuperReinforce--tex added isEnabledSuper, which is only set by quest heli and shouldnt stop other vehicle
   if canuseReinforceVehicle then
-    -- InfMenu.DebugPrint("SelectReinforceType canuseReinforceVehicle")--DEBUGNOW
+    --InfMenu.DebugPrint("SelectReinforceType canuseReinforceVehicle")
     local reinforceVehiclesForLocation={
       AFGH={TppReinforceBlock.REINFORCE_TYPE.EAST_WAV,TppReinforceBlock.REINFORCE_TYPE.EAST_TANK},
       MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}}
@@ -1141,15 +1138,15 @@ function this.SelectReinforceType()
     end
   end
   if canUseReinforceHeli then
-  --  InfMenu.DebugPrint("SelectReinforceType canuseReinforceHeli")--DEBUGNOW
-  --tex OFF DEBUGNOW  table.insert(reinforceVehicleTypes,TppReinforceBlock.REINFORCE_TYPE.HELI)
+    --InfMenu.DebugPrint("SelectReinforceType canuseReinforceHeli")
+    table.insert(reinforceVehicleTypes,TppReinforceBlock.REINFORCE_TYPE.HELI)
   end
   if#reinforceVehicleTypes==0 then
-    InfMenu.DebugPrint("SelectReinforceType #reinforceVehicleTypes==0")--DEBUGNOW
+    --InfMenu.DebugPrint("SelectReinforceType #reinforceVehicleTypes==0")--DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local randomVehicleType=math.random(1,#reinforceVehicleTypes)
-  InfMenu.DebugPrint("randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[randomVehicleType+1] )--DEBUGNOW
+  --InfMenu.DebugPrint("SelectReinforceType randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[reinforceVehicleTypes[randomVehicleType]+1])--DEBUG
   return reinforceVehicleTypes[randomVehicleType]
 end
 function this.ApplyPowerSettingsForReinforce(r)
@@ -1704,11 +1701,6 @@ local AddRevengePointByEliminationType=function(playerPhase)
   end
 end
 function this._OnDead(gameId,attackerId,phase,damageFlag)-- gameObjectId, attakerId, attackId )
-  --InfMenu.DebugPrint("_OnDead phaseid="..tostring(playerPhase))--DEBUGNOW:
-  --InfMenu.DebugPrint("_OnDead arg3:"..tostring(arg3))--DEBUGNOW:
-  --if playerPhase==vars.playerPhase then--DEBUGNOW
-  --  InfMenu.DebugPrint("_OnDead playerphase matches vars")--DEBUGNOW:
-  --end--
   if GetTypeIndex(gameId)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end

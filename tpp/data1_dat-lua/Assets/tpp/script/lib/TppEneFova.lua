@@ -952,9 +952,9 @@ function this.PreMissionLoad(missionId,currentMissionId)
 end
 
 local c={}
-local o={}
-local l={}
-local t={}
+local l_uniqueFaceFovas={}
+local l_uniqueBodyFovas={}
+local l_hostageFovas={}
 local numDdHostages=0
 local i=0
 local faceIdS10081=0
@@ -967,9 +967,9 @@ local defaultStaffId=0
 
 function this.InitializeUniqueSetting()
   c={}
-  o={}
-  l={}
-  t={}
+  l_uniqueFaceFovas={}
+  l_uniqueBodyFovas={}
+  l_hostageFovas={}
   numDdHostages=0
   i=0
   faceIdS10081=0
@@ -1111,13 +1111,13 @@ function this.RegisterUniqueSetting(d,i,p,n)
     local t=3
     local n=4
     local e=nil
-    for t,n in ipairs(o)do
+    for t,n in ipairs(l_uniqueFaceFovas)do
       if n[p]==a then
         e=n
       end
     end
     if not e then
-      e={a,0,0,0}table.insert(o,e)
+      e={a,0,0,0}table.insert(l_uniqueFaceFovas,e)
     end
     if d=="enemy"then
       e[l]=e[l]+1
@@ -1130,49 +1130,50 @@ function this.RegisterUniqueSetting(d,i,p,n)
     local p=1
     local o=2
     local e=nil
-    for t,a in ipairs(l)do
+    for t,a in ipairs(l_uniqueBodyFovas)do
       if a[p]==n then
         e=a
       end
     end
     if not e then
       e={n,0}
-      table.insert(l,e)
+      table.insert(l_uniqueBodyFovas,e)
     end
     e[o]=e[o]+1
     if d=="hostage"then
       local e=n
-      for t,a in ipairs(t)do
+      for t,a in ipairs(l_hostageFovas)do
         if a==n then
           e=nil
           break
         end
       end
       if e then
-        table.insert(t,e)
+        table.insert(l_hostageFovas,e)
       end
     end
   end
 end
-function this.AddUniqueSettingPackage(e)
-  if e and type(e)=="table"then
-    for n,e in ipairs(e)do
-      this.RegisterUniqueSetting(e.type,e.name,e.faceId,e.bodyId,e.missionCode)
+function this.AddUniqueSettingPackage(uniqueSettings)
+  if uniqueSettings and type(uniqueSettings)=="table"then
+    for n,uniqueSetting in ipairs(uniqueSettings)do
+      this.RegisterUniqueSetting(uniqueSetting.type,uniqueSetting.name,uniqueSetting.faceId,uniqueSetting.bodyId,uniqueSetting.missionCode)
     end
   end
-  TppSoldierFace.OverwriteMissionFovaData{face=o,body=l,additionalMode=true}if#t>0 then
-    TppSoldierFace.SetBodyFovaUserType{hostage=t}
+  TppSoldierFace.OverwriteMissionFovaData{face=l_uniqueFaceFovas,body=l_uniqueBodyFovas,additionalMode=true}
+  if#l_hostageFovas>0 then
+    TppSoldierFace.SetBodyFovaUserType{hostage=l_hostageFovas}
   end
 end
-function this.AddUniquePackage(e)
-  TppSoldierFace.OverwriteMissionFovaData{face=e.face,body=e.body,additionalMode=true}
-  if e.body and e.type=="hostage"then
-    local a={}
-    for n,e in ipairs(e.body)do
-      table.insert(a,e[1])
+function this.AddUniquePackage(uniqueSetting)
+  TppSoldierFace.OverwriteMissionFovaData{face=uniqueSetting.face,body=uniqueSetting.body,additionalMode=true}
+  if uniqueSetting.body and uniqueSetting.type=="hostage"then
+    local hostageFaceFova={}
+    for n,e in ipairs(uniqueSetting.body)do
+      table.insert(hostageFaceFova,e[1])
     end
-    if#a>0 then
-      TppSoldierFace.SetBodyFovaUserType{hostage=a}
+    if#hostageFaceFova>0 then
+      TppSoldierFace.SetBodyFovaUserType{hostage=hostageFaceFova}
     end
   end
 end
@@ -1180,19 +1181,19 @@ function this.ApplyUniqueSetting()
   local NULL_ID=GameObject.NULL_ID
   local e=EnemyFova.NOT_USED_FOVA_VALUE
   if gvars.ene_fovaUniqueTargetIds[0]==NULL_ID then
-    local e=0
-    for n,a in ipairs(c)do
-      local n=GameObject.GetGameObjectId(a.name)
-      if n~=NULL_ID then
-        if e<TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT then
-          gvars.ene_fovaUniqueTargetIds[e]=n
-          gvars.ene_fovaUniqueFaceIds[e]=a.faceId
-          gvars.ene_fovaUniqueBodyIds[e]=a.bodyId
+    local i=0
+    for n,uniqueSetting in ipairs(c)do
+      local soldierId=GameObject.GetGameObjectId(uniqueSetting.name)
+      if soldierId~=NULL_ID then
+        if i<TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT then
+          gvars.ene_fovaUniqueTargetIds[i]=soldierId
+          gvars.ene_fovaUniqueFaceIds[i]=uniqueSetting.faceId
+          gvars.ene_fovaUniqueBodyIds[i]=uniqueSetting.bodyId
           if gvars.ene_fovaUniqueFlags then
-            gvars.ene_fovaUniqueFlags[e]=a.flag
+            gvars.ene_fovaUniqueFlags[i]=uniqueSetting.flag
           end
         end
-        e=e+1
+        i=i+1
       end
     end
   end
@@ -1216,8 +1217,8 @@ function this.ApplyUniqueSetting()
         local command={id="SetStaffId",staffId=staffId}
         GameObject.SendCommand(soldierId,command)
       end
-      local a={id="SetHostage2Flag",flag="dd",on=true}
-      GameObject.SendCommand(soldierId,a)
+      local command={id="SetHostage2Flag",flag="dd",on=true}
+      GameObject.SendCommand(soldierId,command)
     elseif band(fovaUniqueFlags,_)~=0 then
       local command={id="SetHostage2Flag",flag="female",on=true}
       GameObject.SendCommand(soldierId,command)
@@ -1365,8 +1366,8 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       end
     else
       bodyId=TppEnemyBodyId.dds3_main0_v00
-      local t={id="UseExtendParts",enabled=false}
-      GameObject.SendCommand(soldierId,t)
+      local command={id="UseExtendParts",enabled=false}
+      GameObject.SendCommand(soldierId,command)
       if useBalaclava then
         balaclavaFaceId=TppEnemyFaceId.dds_balaclava2
       end

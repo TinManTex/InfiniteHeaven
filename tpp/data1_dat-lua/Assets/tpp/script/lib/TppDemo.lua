@@ -103,7 +103,8 @@ this.PLAY_REQUEST_START_FUNC={
   end,
   demoBlockLoaded=function(e)
     TppScriptBlock.RequestActivate"demo_block"return true
-  end,playerActionAllowed=function(e)
+  end,
+  playerActionAllowed=function(e)
     return true
   end,
   playerMoveToPosition=function(n,e)
@@ -128,24 +129,24 @@ this.PLAY_REQUEST_START_FUNC={
   end
 }
 this.PLAY_REQUEST_START_CHECK_FUNC={
-  missionStateCheck=function(e)
+  missionStateCheck=function(demoId)
     return true
   end,
-  gameCameraInterpedToDemo=function(e)
+  gameCameraInterpedToDemo=function(demoId)
     if mvars.dem_gameCameraInterpWaitingDemoName then
       return false
     else
       return true
     end
   end,
-  demoBlockLoaded=function(e)
-    local e=FindDemoBody(e)
+  demoBlockLoaded=function(demoId)
+    local e=FindDemoBody(demoId)
     if not e then
       TppUI.ShowAccessIconContinue()
     end
     return e
   end,
-  playerModelReloaded=function(e)
+  playerModelReloaded=function(demoId)
     if mvars.dem_tempPlayerReloadCounter==nil then
       return false
     end
@@ -159,28 +160,28 @@ this.PLAY_REQUEST_START_CHECK_FUNC={
       return false
     end
   end,
-  playerActionAllowed=function(e)
+  playerActionAllowed=function(demoId)
     local e=Player.CanPlayDemo(0)
     if e==false then
     end
     return e
   end,
-  playerMoveToPosition=function(e)
+  playerMoveToPosition=function(demoIde)
     if mvars.dem_waitingMoveToPosition then
       return false
     else
       return true
     end
   end,
-  waitTextureLoadOnDemoPlay=function(e)
-    local n=FindDemoBody(e)
+  waitTextureLoadOnDemoPlay=function(demoId)
+    local n=FindDemoBody(demoId)
     if not n then
       TppUI.ShowAccessIconContinue()
       return false
     end
     if not mvars.dem_setTempCamera then
       mvars.dem_setTempCamera=true
-      Demo.EnableTempCamera(e)
+      Demo.EnableTempCamera(demoId)
     end
     if not mvars.dem_textureLoadWaitOnDemoPlayEndTime then
       mvars.dem_textureLoadWaitOnDemoPlayEndTime=Time.GetRawElapsedTimeSinceStartUp()+10
@@ -196,15 +197,15 @@ this.PLAY_REQUEST_START_CHECK_FUNC={
   end
 }
 this.FINISH_WAIT_START_FUNC={
-  waitBlockLoadEndOnDemoSkip=function(e)
+  waitBlockLoadEndOnDemoSkip=function(demoId)
     mvars.dem_enableWaitBlockLoadOnDemoSkip=true
     TppGameStatus.Set("TppDemo.OnDemoSkip","S_IS_BLACK_LOADING")
     return true
   end,
-  waitTextureLoadOnDemoEnd=function(e)
+  waitTextureLoadOnDemoEnd=function(demoId)
     return true
   end,
-  playerModelReloaded=function(e)
+  playerModelReloaded=function(demoId)
     if mvars.dem_tempPlayerInfo==nil then
       return
     end
@@ -264,48 +265,48 @@ this.FINISH_WAIT_CHECK_FUNC={
     end
   end
 }
-function this.Play(demoName,demoFuncs,demoOptions)
+function this.Play(demoName,demoFuncs,demoFlags)
   local demoId=mvars.dem_demoList[demoName]
   if(demoId==nil)then
     return
   end
   mvars.dem_enableWaitBlockLoadOnDemoSkip=false
   mvars.dem_demoFuncs[demoName]=demoFuncs
-  demoOptions=demoOptions or{}
-  if demoOptions.isInGame then
-    if demoOptions.waitBlockLoadEndOnDemoSkip==nil then
-      demoOptions.waitBlockLoadEndOnDemoSkip=false
+  demoFlags=demoFlags or{}
+  if demoFlags.isInGame then
+    if demoFlags.waitBlockLoadEndOnDemoSkip==nil then
+      demoFlags.waitBlockLoadEndOnDemoSkip=false
     end
   else
-    if demoOptions.isSnakeOnly==nil then
-      demoOptions.isSnakeOnly=true
+    if demoFlags.isSnakeOnly==nil then
+      demoFlags.isSnakeOnly=true
     end
-    if demoOptions.waitBlockLoadEndOnDemoSkip==nil then
-      demoOptions.waitBlockLoadEndOnDemoSkip=true
+    if demoFlags.waitBlockLoadEndOnDemoSkip==nil then
+      demoFlags.waitBlockLoadEndOnDemoSkip=true
     end
   end
   if demoId=="p31_040010_000_final"then--PATCHUP:
-    demoOptions.waitBlockLoadEndOnDemoSkip=false
+    demoFlags.waitBlockLoadEndOnDemoSkip=false
     mvars.dem_resereveEnableInGameFlag=false
   end
   if(demoId=="p51_070020_000_final")or(demoId=="p21_020010")then--PATCHUP:
     mvars.dem_resereveEnableInGameFlag=false
   end
-  if gvars.useSoldierForDemos==1 then--tex
-    demoOptions.isSnakeOnly=false
+  if gvars.useSoldierForDemos==1 and demoName~="Demo_Funeral" then--tex force snake off for demo, also PATCHUP: shining lights end cinematic forces snake head for ash
+    demoFlags.isSnakeOnly=false
   end--
-  mvars.dem_demoFlags[demoName]=demoOptions
-  return this.AddPlayReqeustInfo(demoId,demoOptions)
+  mvars.dem_demoFlags[demoName]=demoFlags
+  return this.AddPlayReqeustInfo(demoId,demoFlags)
 end
-function this.EnableGameStatus(t,e)
-  local e=e or{}
-  local n=TppUI.GetOverrideGameStatus()
-  if n then
-    for a,n in pairs(n)do
-      e[a]=n
+function this.EnableGameStatus(target,_except)
+  local except=_except or{}
+  local overrideGameStatus=TppUI.GetOverrideGameStatus()
+  if overrideGameStatus then
+    for a,n in pairs(overrideGameStatus)do
+      except[a]=n
     end
   end
-  Tpp.SetGameStatus{target=t,except=e,enable=true,scriptName="TppDemo.lua"}
+  Tpp.SetGameStatus{target=target,except=except,enable=true,scriptName="TppDemo.lua"}
 end
 function this.DisableGameStatusOnPlayRequest(e)
   if not e then
@@ -369,9 +370,9 @@ function this.GetDemoStartPlayerPosition(demoName)
   local posRot={position=position,direction=rotation}
   return posRot
 end
-function this.PlayOpening(demoFuncs,demoOptions)
-  local options=demoOptions or{}
-  options.isSnakeOnly=false
+function this.PlayOpening(demoFuncs,_demoFlags)
+  local demoFlags=_demoFlags or{}
+  demoFlags.isSnakeOnly=false
   local demoName="_openingDemo"
   local demoId="p31_020000"
   local openings={"p31_020000","p31_020001","p31_020002"}
@@ -400,11 +401,11 @@ function this.PlayOpening(demoFuncs,demoOptions)
   end
   TppMusicManager.StopMusicPlayer(1)
   DemoDaemon.SetDemoTransform(demoId,demoRotQuat,demoPosition)
-  this.Play(demoName,demoFuncs,options)
+  this.Play(demoName,demoFuncs,demoFlags)
 end
-function this.PlayGetIntelDemo(demoFuncs,d,i,options,t)
-  local demoOptions=options or{}
-  demoOptions.isSnakeOnly=false
+function this.PlayGetIntelDemo(demoFuncs,identifier,key,_demoFlags,t)
+  local demoFlags=_demoFlags or{}
+  demoFlags.isSnakeOnly=false
   local demoId,demoId2
   if t then
     demoId,demoId2="p31_010026","p31_010026_001"
@@ -415,23 +416,23 @@ function this.PlayGetIntelDemo(demoFuncs,d,i,options,t)
   local demoName2="_getInteldemo02"
   this.AddDemo(demoName,demoId)
   this.AddDemo(demoName2,demoId2)
-  local pos,rotQuat=Tpp.GetLocatorByTransform(d,i)
+  local pos,rotQuat=Tpp.GetLocatorByTransform(identifier,key)
   local i=Tpp.GetRotationY(rotQuat)
   Player.RequestToSetTargetStance(PlayerStance.STAND)
   if pos~=nil then
     DemoDaemon.SetDemoTransform(demoId,rotQuat,pos)
-    this.Play(demoName,demoFuncs,demoOptions)
+    this.Play(demoName,demoFuncs,demoFlags)
     TppUI.ShowAnnounceLog"getIntel"
   end
 end
 function this.IsNotPlayable()
   if IsDemoPlaying()or IsDemoPaused()then
-    local e=GetPlayingDemoId()
-    for n,e in ipairs(e)do
-      local e=mvars.dem_invDemoList[e]
-      if e then
-        local e=mvars.dem_demoFlags[e]or{}
-        if not e.isInGame then
+    local playingDemoId=GetPlayingDemoId()
+    for n,e in ipairs(playingDemoId)do
+      local demoName=mvars.dem_invDemoList[e]
+      if demoName then
+        local demoFlags=mvars.dem_demoFlags[demoName]or{}
+        if not demoFlags.isInGame then
           return true
         end
       end
@@ -642,46 +643,46 @@ end
 function this.FadeOutOnSkip()
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT)
 end
-function this.OnDemoPlay(a,t)
-  if mvars.dem_playedList[a]==nil then
+function this.OnDemoPlay(demoName,t)
+  if mvars.dem_playedList[demoName]==nil then
     return
   end
-  local n=mvars.dem_demoFlags[a]or{}
-  if not n.startNoFadeIn then
-    local e=n.fadeSpeed or TppUI.FADE_SPEED.FADE_NORMALSPEED
-    TppUI.FadeIn(e,"DemoPlayFadeIn",t)
+  local demoFlags=mvars.dem_demoFlags[demoName]or{}
+  if not demoFlags.startNoFadeIn then
+    local fadeSpeed=demoFlags.fadeSpeed or TppUI.FADE_SPEED.FADE_NORMALSPEED
+    TppUI.FadeIn(fadeSpeed,"DemoPlayFadeIn",t)
   end
-  if n.useDemoBlock then
+  if demoFlags.useDemoBlock then
     mvars.dem_startedDemoBlockDemo=false
   end
   if mvars.dem_resereveEnableInGameFlag then
     if TppMission.GetMissionClearState()<=TppDefine.MISSION_CLEAR_STATE.MISSION_GAME_END then
       TppSoundDaemon.ResetMute"Loading"end
   end
-  local n=mvars.dem_demoList[a]
+  local n=mvars.dem_demoList[demoName]
   if(n=="p31_080110_000_final")then
     GkEventTimerManager.Start("p31_080110_000_showLocationTelop",12+(34/60))
   end
   this.UnsetStageBlockLoadPosition()
   this.UnsetPlayerPause()
 end
-function this.OnDemoEnd(a)
-  if mvars.dem_playedList[a]==nil then
+function this.OnDemoEnd(demoName)
+  if mvars.dem_playedList[demoName]==nil then
     return
   end
-  local n=mvars.dem_demoFlags[a]or{}
-  local a=mvars.dem_demoList[a]
-  local t={p31_070050_001_final=true}
-  if t[a]then
+  local demoFlags=mvars.dem_demoFlags[demoName]or{}
+  local demoId=mvars.dem_demoList[demoName]
+  local muteDemos={p31_070050_001_final=true}
+  if muteDemos[demoId]then
     TppSound.SetMuteOnLoading()
   end
   if mvars.dem_tempPlayerInfo then
-    this.AddFinishWaitRequestInfo(a,n,"playerModelReloaded")
+    this.AddFinishWaitRequestInfo(demoId,demoFlags,"playerModelReloaded")
   end
-  if n.waitTextureLoadOnDemoEnd then
-    this.AddFinishWaitRequestInfo(a,n,"waitTextureLoadOnDemoEnd")
+  if demoFlags.waitTextureLoadOnDemoEnd then
+    this.AddFinishWaitRequestInfo(demoId,demoFlags,"waitTextureLoadOnDemoEnd")
   end
-  this.AddFinishWaitRequestInfo(a,n)
+  this.AddFinishWaitRequestInfo(demoId,demoFlags)
 end
 function this.OnDemoInterrupt(n)
   if mvars.dem_playedList[n]==nil then
@@ -689,35 +690,36 @@ function this.OnDemoInterrupt(n)
   end
   this.OnDemoEnd(n)
 end
-function this.OnDemoSkip(e,a)
-  local n=mvars.dem_demoList[e]
-  local t=mvars.dem_demoFlags[e]or{}
-  local t={p31_010010=true,p41_030005_000_final=true,p51_070020_000_final=true,p31_050026_000_final=true}
-  if t[n]then
-    TppSoundDaemon.SetMuteInstant"Loading"end
-  if(n=="p31_080110_000_final")then
+function this.OnDemoSkip(demoName,a)
+  local demoId=mvars.dem_demoList[demoName]
+  local demoFlags=mvars.dem_demoFlags[demoName]or{}
+  local muteDemos={p31_010010=true,p41_030005_000_final=true,p51_070020_000_final=true,p31_050026_000_final=true}
+  if muteDemos[demoId]then
+    TppSoundDaemon.SetMuteInstant"Loading"
+    end
+  if(demoId=="p31_080110_000_final")then
     if GkEventTimerManager.IsTimerActive"p31_080110_000_showLocationTelop"then
       GkEventTimerManager.Stop"p31_080110_000_showLocationTelop"end
     TppUiCommand.HideInfoTypingText()
   end
-  mvars.dem_isSkipped[n]=true
-  mvars.dem_currentSkippedDemoName=e
+  mvars.dem_isSkipped[demoId]=true
+  mvars.dem_currentSkippedDemoName=demoName
   mvars.dem_currentSkippedScdDemoID=a
-  if mvars.dem_playedList[e]==nil then
+  if mvars.dem_playedList[demoName]==nil then
     return
   end
 end
 function this.EnableWaitBlockLoadOnDemoSkip()
-  local a=mvars.dem_currentSkippedDemoName
-  if not a then
+  local demoName=mvars.dem_currentSkippedDemoName
+  if not demoName then
     return
   end
-  local n=mvars.dem_demoFlags[a]or{}
-  local a=mvars.dem_demoList[a]
-  if n.waitBlockLoadEndOnDemoSkip then
-    this.AddFinishWaitRequestInfo(a,n,"waitBlockLoadEndOnDemoSkip")
-    if not n.finishFadeOut then
-      this.AddFinishWaitRequestInfo(a,n,"waitTextureLoadOnDemoEnd")
+  local demoFlags=mvars.dem_demoFlags[demoName]or{}
+  local demoId=mvars.dem_demoList[demoName]
+  if demoFlags.waitBlockLoadEndOnDemoSkip then
+    this.AddFinishWaitRequestInfo(demoId,demoFlags,"waitBlockLoadEndOnDemoSkip")
+    if not demoFlags.finishFadeOut then
+      this.AddFinishWaitRequestInfo(demoId,demoFlags,"waitTextureLoadOnDemoEnd")
     end
   end
 end
@@ -748,13 +750,13 @@ function this.OnDemoDisable(n)
   end
   this.OnDemoEnd(n)
 end
-function this.AddPlayReqeustInfo(demoId,options)
-  local playRequestInfo=this.MakeNewPlayRequestInfo(options)
+function this.AddPlayReqeustInfo(demoId,demoFlags)
+  local playRequestInfo=this.MakeNewPlayRequestInfo(demoFlags)
   for functionName,o in pairs(playRequestInfo)do
     local requestStart=true
     local PlayRequestStart=this.PLAY_REQUEST_START_FUNC[functionName]
     if PlayRequestStart then
-      requestStart=PlayRequestStart(demoId,options)
+      requestStart=PlayRequestStart(demoId,demoFlags)
     else
       if PlayRequestStart==nil then
         playRequestInfo[functionName]=nil
@@ -765,48 +767,45 @@ function this.AddPlayReqeustInfo(demoId,options)
       return false
     end
   end
-  if not options.isInGame then
+  if not demoFlags.isInGame then
     TppRadio.Stop()
   end
-  this.DisableGameStatusOnPlayRequest(options.isInGame)
-  if options and options.useDemoBlock then
+  this.DisableGameStatusOnPlayRequest(demoFlags.isInGame)
+  if demoFlags and demoFlags.useDemoBlock then
     mvars.demo_playRequestInfo.demoBlock[demoId]=playRequestInfo
   else
     mvars.demo_playRequestInfo.missionBlock[demoId]=playRequestInfo
   end
   return true
 end
-function this.MakeNewPlayRequestInfo(options)
-  if options==nil then
+function this.MakeNewPlayRequestInfo(demoFlags)
+  if demoFlags==nil then
     return{}
   end
-  if gvars.useSoldierForDemos==1 then--tex
-    options.isSnakeOnly=false
-  end-- 
   local gameCameraInterpedToDemo
-  if options.interpGameToDemo then
+  if demoFlags.interpGameToDemo then
     gameCameraInterpedToDemo=false
   end
   local demoBlockLoaded
-  if options.useDemoBlock then
+  if demoFlags.useDemoBlock then
     demoBlockLoaded=false
   end
   local playerModelReloaded
-  if options.isSnakeOnly then
+  if demoFlags.isSnakeOnly then
     if(vars.playerType==PlayerType.DD_MALE or vars.playerType==PlayerType.DD_FEMALE)then
       playerModelReloaded=false
     end
   end
   local playerActionAllowed
-  if(not options.isInGame)or(options.isNotAllowedPlayerAction)then
+  if(not demoFlags.isInGame)or(demoFlags.isNotAllowedPlayerAction)then
     playerActionAllowed=false
   end
   local playerMoveToPosition
-  if options.playerMoveToPosition then
+  if demoFlags.playerMoveToPosition then
     playerMoveToPosition=false
   end
   local waitTextureLoadOnDemoPlay
-  if options.waitTextureLoadOnDemoPlay then
+  if demoFlags.waitTextureLoadOnDemoPlay then
     waitTextureLoadOnDemoPlay=false
   end
   local playRequestInfo={missionStateCheck=false,gameCameraInterpedToDemo=gameCameraInterpedToDemo,demoBlockLoaded=demoBlockLoaded,playerModelReloaded=playerModelReloaded,playerActionAllowed=playerActionAllowed,playerMoveToPosition=playerMoveToPosition,waitTextureLoadOnDemoPlay=waitTextureLoadOnDemoPlay}
@@ -823,25 +822,25 @@ function this.ProcessPlayRequest(playRequestInfoDemoBlock)
   if not next(playRequestInfoDemoBlock)then
     return
   end
-  for n,a in pairs(playRequestInfoDemoBlock)do
-    local a=this.CanStartPlay(n,a)
-    if a then
+  for demoId,a in pairs(playRequestInfoDemoBlock)do
+    local canStartPlay=this.CanStartPlay(demoId,a)
+    if canStartPlay then
       if not IsDemoPaused()then
-        if not IsPlayingDemoId(n)then
-          local a=mvars.dem_invDemoList[n]
-          local t=mvars.dem_demoFlags[a]
-          this._Play(a,n)
-          this.DeletePlayRequestInfo(n,t)
+        if not IsPlayingDemoId(demoId)then
+          local demoName=mvars.dem_invDemoList[demoId]
+          local demoFlags=mvars.dem_demoFlags[demoName]
+          this._Play(demoName,demoId)
+          this.DeletePlayRequestInfo(demoId,demoFlags)
         end
       end
     end
   end
 end
-function this.CanStartPlay(o,t)
+function this.CanStartPlay(demoId,t)
   local a=true
   for n,r in pairs(t)do
     if r==false then
-      local e=this.PLAY_REQUEST_START_CHECK_FUNC[n](o)
+      local e=this.PLAY_REQUEST_START_CHECK_FUNC[n](demoId)
       if e then
         t[n]=true
       else
@@ -851,27 +850,27 @@ function this.CanStartPlay(o,t)
   end
   return a
 end
-function this.AddFinishWaitRequestInfo(t,a,n)
-  local a
-  local o=true
-  if n then
-    a=this.FINISH_WAIT_START_FUNC[n]
-    if a then
-      o=a(t)
+function this.AddFinishWaitRequestInfo(demoId,demoFlags,finishWaitFuncName)
+  local FinishWaitStartFunc
+  local done=true
+  if finishWaitFuncName then
+    FinishWaitStartFunc=this.FINISH_WAIT_START_FUNC[finishWaitFuncName]
+    if FinishWaitStartFunc then
+      done=FinishWaitStartFunc(demoId)
     else
       return
     end
   end
-  local e
-  e=mvars.demo_finishWaitRequestInfo[t]or{}
-  if(o==true)then
-    if n then
-      e[n]=false
+  local demoRequestInfo
+  demoRequestInfo=mvars.demo_finishWaitRequestInfo[demoId]or{}
+  if(done==true)then
+    if finishWaitFuncName then
+      demoRequestInfo[finishWaitFuncName]=false
     end
   else
     return
   end
-  mvars.demo_finishWaitRequestInfo[t]=e
+  mvars.demo_finishWaitRequestInfo[demoId]=demoRequestInfo
 end
 function this.ProcessFinishWaitRequestInfo()
   local n=mvars.demo_finishWaitRequestInfo
@@ -881,11 +880,11 @@ function this.ProcessFinishWaitRequestInfo()
   for a,n in pairs(n)do
     local n=this.CanFinishPlay(a,n)
     if n then
-      local t=mvars.dem_invDemoList[a]
-      local n=mvars.dem_demoFlags[t]or{}
+      local demoName=mvars.dem_invDemoList[a]
+      local demoFlags=mvars.dem_demoFlags[demoName]or{}
       mvars.demo_finishWaitRequestInfo[a]=nil
-      this.DoOnEndMessage(t,n.finishFadeOut,n.exceptGameStatus,n.isInGame,mvars.dem_isSkipped[a])
-      if(not n.finishFadeOut)and(not n.isInGame)then
+      this.DoOnEndMessage(demoName,demoFlags.finishFadeOut,demoFlags.exceptGameStatus,demoFlags.isInGame,mvars.dem_isSkipped[a])
+      if(not demoFlags.finishFadeOut)and(not demoFlags.isInGame)then
         TppTerminal.GetFobStatus()
       end
     end
@@ -905,10 +904,10 @@ function this.CanFinishPlay(o,t)
   end
   return n
 end
-function this._Play(n,a)
-  mvars.dem_playedList[n]=true
+function this._Play(demoName,demoId)
+  mvars.dem_playedList[demoName]=true
   this.ClearReserveInTheBackGround()
-  DemoDaemon.Play(a)
+  DemoDaemon.Play(demoId)
 end
 function this._OnDemoInit(n)
   local n=mvars.dem_invScdDemolist[n]
@@ -1296,27 +1295,27 @@ function this.IsSortieMBDemo(e)
     return false
   end
 end
-function this.IsBattleHangerDemo(e)
-  local n={"DevelopedBattleGear1","DevelopedBattleGear2","DevelopedBattleGear4","DevelopedBattleGear5"}
-  for a,n in ipairs(n)do
-    if n==e then
+function this.IsBattleHangerDemo(demoName)
+  local hangarDemoNames={"DevelopedBattleGear1","DevelopedBattleGear2","DevelopedBattleGear4","DevelopedBattleGear5"}
+  for a,hangarDemoName in ipairs(hangarDemoNames)do
+    if hangarDemoName==demoName then
       return true
     end
   end
   return false
 end
-function this.EnableNpc(t)
-  local a=mvars.dem_demoFlags[t]or{}
-  if not a.isInGame then
+function this.EnableNpc(demoName)
+  local demoFlags=mvars.dem_demoFlags[demoName]or{}
+  if not demoFlags.isInGame then
     local n="all"
-    local t=mvars.dem_demoList[t]
-    if a.finishFadeOut or mvars.dem_isSkipped[t]then
+    local demoId=mvars.dem_demoList[demoName]
+    if demoFlags.finishFadeOut or mvars.dem_isSkipped[demoId]then
       n={}
       for a,e in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
         n[a]=e
       end
     end
-    this.EnableGameStatus(n,a.exceptGameStatus)
+    this.EnableGameStatus(n,demoFlags.exceptGameStatus)
   end
   this.ClearIgnoreNpcDisableOnDemoEnd()
 end

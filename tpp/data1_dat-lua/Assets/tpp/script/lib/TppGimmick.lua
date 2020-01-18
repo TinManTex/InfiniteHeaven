@@ -735,8 +735,8 @@ function this.OnAllocateQuest(e)
   if mvars.gim_isQuestSetup==false then
   end
 end
-function this.OnActivateQuest(n)
-  if n==nil then
+function this.OnActivateQuest(questTable)
+  if questTable==nil then
     return
   end
   if mvars.gim_isQuestSetup==false then
@@ -744,21 +744,22 @@ function this.OnActivateQuest(n)
   end
   local t=false
   if mvars.gim_isQuestSetup==false then
-    if(n.targetGimmicklList and Tpp.IsTypeTable(n.targetGimmicklList))and next(n.targetGimmicklList)then
-      for n,e in pairs(n.targetGimmicklList)do
-        local n={gimmickId=e,messageId="None",idType="Gimmick"}table.insert(mvars.gim_questTargetList,n)
-        TppMarker.SetQuestMarkerGimmick(e)
+    if(questTable.targetGimmicklList and Tpp.IsTypeTable(questTable.targetGimmicklList))and next(questTable.targetGimmicklList)then
+      for n,gimmickId in pairs(questTable.targetGimmicklList)do
+        local targetInfo={gimmickId=gimmickId,messageId="None",idType="Gimmick"}
+        table.insert(mvars.gim_questTargetList,targetInfo)
+        TppMarker.SetQuestMarkerGimmick(gimmickId)
       end
       t=true
     end
-    if(n.targetDevelopList and Tpp.IsTypeTable(n.targetDevelopList))and next(n.targetDevelopList)then
-      for n,e in pairs(n.targetDevelopList)do
+    if(questTable.targetDevelopList and Tpp.IsTypeTable(questTable.targetDevelopList))and next(questTable.targetDevelopList)then
+      for n,e in pairs(questTable.targetDevelopList)do
         local e={developId=e,messageId="None",idType="Develop"}table.insert(mvars.gim_questTargetList,e)
       end
       t=true
     end
-    if(n.gimmickMarkList and Tpp.IsTypeTable(n.gimmickMarkList))and next(n.gimmickMarkList)then
-      for n,e in pairs(n.gimmickMarkList)do
+    if(questTable.gimmickMarkList and Tpp.IsTypeTable(questTable.gimmickMarkList))and next(questTable.gimmickMarkList)then
+      for n,e in pairs(questTable.gimmickMarkList)do
         if e.isStartGimmick==true then
           mvars.gim_questMarkStartName=StrCode32(e.locatorName)
           mvars.gim_questMarkStartLocator=e.locatorName
@@ -772,21 +773,21 @@ function this.OnActivateQuest(n)
       t=true
       this.SetQuestInvisibleGimmick(0,true,true)
     end
-    if n.gimmickTimerList then
-      mvars.gim_questDisplayTimeSec=n.gimmickTimerList.displayTimeSec
-      mvars.gim_questCautionTimeSec=n.gimmickTimerList.cautionTimeSec
+    if questTable.gimmickTimerList then
+      mvars.gim_questDisplayTimeSec=questTable.gimmickTimerList.displayTimeSec
+      mvars.gim_questCautionTimeSec=questTable.gimmickTimerList.cautionTimeSec
       t=true
     end
-    if n.gimmickOffsetType then
-      local n,e=mtbs_cluster.GetDemoCenter(n.gimmickOffsetType,"plnt0")
+    if questTable.gimmickOffsetType then
+      local n,e=mtbs_cluster.GetDemoCenter(questTable.gimmickOffsetType,"plnt0")
       Gimmick.SetOffsetPosition(n,e)
       if mvars.gim_questMarkStartName then
         Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,mvars.gim_questMarkStartLocator,mvars.gim_questMarkStartData,false)
       end
       t=true
     end
-    if(n.containerList and Tpp.IsTypeTable(n.containerList))and next(n.containerList)then
-      for n,container in pairs(n.containerList)do
+    if(questTable.containerList and Tpp.IsTypeTable(questTable.containerList))and next(questTable.containerList)then
+      for n,container in pairs(questTable.containerList)do
         local locatorName=container.locatorName
         local dataSetName=container.dataSetName
         Gimmick.SetFultonableContainerForMission(locatorName,dataSetName,0,false)
@@ -805,7 +806,7 @@ function this.OnDeactivateQuest(n)
     this.SetQuestInvisibleGimmick(0,true,true)
   end
 end
-function this.OnTerminateQuest(n)
+function this.OnTerminateQuest(questTable)
   if mvars.gim_isQuestSetup==true then
     this.InitQuest()
   end

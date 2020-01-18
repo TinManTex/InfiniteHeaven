@@ -164,20 +164,20 @@ function this.OnFultonSoldier(gameId,i)
     end
   end
 end
-function this.OnFultonHostage(o,i)
-  local r=SendCommand(o,{id="GetLifeStatus"})
-  local t=SendCommand(o,{id="IsChild"})
-  if r~=TppEnemy.LIFE_STATUS.DEAD then
-    local n=SendCommand(o,{id="GetStateFlag"})
+function this.OnFultonHostage(gameId,i)
+  local lifeStatus=SendCommand(gameId,{id="GetLifeStatus"})
+  local isChild=SendCommand(gameId,{id="IsChild"})
+  if lifeStatus~=TppEnemy.LIFE_STATUS.DEAD then
+    local stateFlag=SendCommand(gameId,{id="GetStateFlag"})
     if i then
-      if TppEnemy.IsRescueTarget(o)then
-        this.AddTargetLifesavingHeroicPoint(t,i)
+      if TppEnemy.IsRescueTarget(gameId)then
+        this.AddTargetLifesavingHeroicPoint(isChild,i)
       else
         this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_HOSTAGE)
       end
     else
-      if TppEnemy.IsRescueTarget(o)then
-        this.AddTargetLifesavingHeroicPoint(t,i)
+      if TppEnemy.IsRescueTarget(gameId)then
+        this.AddTargetLifesavingHeroicPoint(isChild,i)
       else
         this.SetAndAnnounceHeroicOgrePoint(this.FULTON_HOSTAGE)
       end
@@ -289,16 +289,16 @@ function this.AnnounceBreakGimmickByGimmickType(n)
     this.SetAndAnnounceHeroicOgrePoint(n)
   end
 end
-function this.OnHelicopterLostControl(o,n)
-  local o=GetTypeIndex(o)
-  local n=Tpp.IsLocalPlayer(n)
-  if o==TppGameObject.GAME_OBJECT_TYPE_HELI2 then
-    if n then
+function this.OnHelicopterLostControl(gameId,attackerId)
+  local gameObjectType=GetTypeIndex(gameId)
+  local isLocalPlayer=Tpp.IsLocalPlayer(attackerId)
+  if gameObjectType==TppGameObject.GAME_OBJECT_TYPE_HELI2 then
+    if isLocalPlayer then
       this.SetAndAnnounceHeroicOgrePoint(this.SUPPORT_HELI_LOST_CONTROLE,"destroyed_support_heli")
     else
       this.SetAndAnnounceHeroicOgrePoint(this.BREAK_SUPPORT_HELI,"destroyed_support_heli")
     end
-  elseif n then
+  elseif isLocalPlayer then
     PlayRecord.RegistPlayRecord"HERI_DESTROY"
     Tpp.IncrementPlayData"totalHelicopterDestoryCount"
     this.SetAndAnnounceHeroicOgrePoint(this.ENEMY_HELI_LOST_CONTROLE)
@@ -356,16 +356,16 @@ function this.OnPickUpPlaced(i,o,t,n)
     this.SetAndAnnounceHeroicOgrePoint(this.PICK_UP_MINE,nil,"disposal_mine")
   end
 end
-function this._RideOnHeli(o)
-  if Tpp.IsSoldier(o)then
-    local n=SendCommand(o,{id="GetStateFlag"})
-    if bit.band(n,StateFlag.DYING_LIFE)~=0 then
+function this._RideOnHeli(gameId)
+  if Tpp.IsSoldier(gameId)then
+    local stateFlag=SendCommand(gameId,{id="GetStateFlag"})
+    if bit.band(stateFlag,StateFlag.DYING_LIFE)~=0 then
       this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_DYING_ENEMY)
     end
-  elseif Tpp.IsHostage(o)then
-    local n=SendCommand(o,{id="GetLifeStatus"})
-    if n~=TppEnemy.LIFE_STATUS.DEAD then
-      if TppEnemy.IsRescueTarget(o)then
+  elseif Tpp.IsHostage(gameId)then
+    local lifeStatus=SendCommand(gameId,{id="GetLifeStatus"})
+    if lifeStatus~=TppEnemy.LIFE_STATUS.DEAD then
+      if TppEnemy.IsRescueTarget(gameId)then
         this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_RESCUE_TARGET)
       else
         this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_HOSTAGE)
@@ -488,14 +488,14 @@ function this.Messages()
         end
       end},
       {msg="BreakGimmick",func=this.AnnounceBreakGimmick},
-      {msg="VehicleBroken",func=function(o,n)
-        if n==StrCode32"Start"then
-          this.AnnounceVehicleBroken(o)
+      {msg="VehicleBroken",func=function(vehicleId,state)
+        if state==StrCode32"Start"then
+          this.AnnounceVehicleBroken(vehicleId)
         end
       end},
-      {msg="LostControl",func=function(i,o,n)
-        if o==StrCode32"Start"then
-          this.OnHelicopterLostControl(i,n)
+      {msg="LostControl",func=function(gameId,state,attackerId)
+        if state==StrCode32"Start"then
+          this.OnHelicopterLostControl(gameId,attackerId)
         end
       end},
       {msg="CommandPostAnnihilated",func=function(n,o,i)

@@ -680,7 +680,9 @@ function this.DebugUpdate()
   end
   if e.debug.AnimalBlock then
     o(r,{.5,.5,1},"LuaSystem DBG.AnimalBlock")
-    local n,t=Tpp.GetCurrentStageSmallBlockIndex()o(r,string.format("current block position (x,y) = (%03d, %03d)",n,t))o(r,"Load animal block area = "..tostring(e.animalBlockAreaName))
+    local n,t=Tpp.GetCurrentStageSmallBlockIndex()
+    o(r,string.format("current block position (x,y) = (%03d, %03d)",n,t))
+    o(r,"Load animal block area = "..tostring(e.animalBlockAreaName))
     local n=ScriptBlock.GetScriptBlockId"animal_block"local t
     if n~=ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
       t=ScriptBlock.GetScriptBlockState(n)

@@ -187,8 +187,8 @@ function this.OnActivateQuest(t)
       end
     end
   end
-  local i={messageId="None",idType="animalId"}
-  local n={messageId="None",idType="databaseId"}
+  local animalId={messageId="None",idType="animalId"}
+  local databaseId={messageId="None",idType="databaseId"}
   if mvars.ani_isQuestSetup==false then
     if(t.targetAnimalList and Tpp.IsTypeTable(t.targetAnimalList))and next(t.targetAnimalList)then
       local e=t.targetAnimalList
@@ -202,13 +202,13 @@ function this.OnActivateQuest(t)
       end
       if e.animalIdList then
         for n,e in pairs(e.animalIdList)do
-          mvars.ani_questTargetList[e]=i
+          mvars.ani_questTargetList[e]=animalId
           a=true
         end
       end
       if e.dataBaseIdList then
         for t,e in pairs(e.dataBaseIdList)do
-          mvars.ani_questTargetList[e]=n
+          mvars.ani_questTargetList[e]=databaseId
           a=true
         end
       end

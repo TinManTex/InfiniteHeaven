@@ -202,6 +202,11 @@ this.eng={--english
   setting_only_for_dd="This setting is only for DD soliders",--r93
   menu_keys="(Hold Spacebar or X button for 1 second to enable menu)",
   soldierAlertOnHeavyVehicleDamage="Phase on vehicle attack",--r95
+  forceSuperReinforce="Enable vehicle reinforce",--r96
+  forceSuperReinforceSettings={"Off","Enemy Prep","Force Prep"},
+  forceReinforceRequest="Force reinforce request",
+  enableHeliReinforce="Enable enemy heli reinforce (disable heli sideops)",
+  enemyReinforceMenu="Enemy reinforcements menu",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

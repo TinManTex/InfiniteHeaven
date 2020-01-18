@@ -3252,7 +3252,8 @@ sequences.Seq_Game_Escape2 = {
 				},
 				{
 					msg = "LostControl",
-					sender = SUPPORT_HELI,
+					sender = SUPPORT_HELI,--RETAILBUG: SUPPORT_HELI not defined, looks like a copy paste and forget
+					
 					func = function(gameObject, state, attackerId)
 						if( attackerId == GameObject.GetGameObjectId( "vol_factory_0000" ) and state == StrCode32("End") ) then
 							if( GameObject.SendCommand(gameObjectId, { id="GetPassengerIds" }) == GameObject.GetGameObjectId( "Player" ) )then
