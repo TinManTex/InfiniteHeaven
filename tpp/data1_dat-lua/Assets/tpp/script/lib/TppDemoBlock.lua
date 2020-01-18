@@ -3,7 +3,8 @@ local c=ScriptBlock.GetCurrentScriptBlockId
 local t=ScriptBlock.GetScriptBlockState
 e.isAllocatedMtbsEnemy=false
 function e.OnAllocate()
-TppScriptBlock.InitScriptBlockState()e.isAllocatedMtbsEnemy=false
+TppScriptBlock.InitScriptBlockState()
+e.isAllocatedMtbsEnemy=false
 if vars.missionCode==30050 then
 e.isAllocatedMtbsEnemy=true
 mtbs_enemy.OnAllocateDemoBlock()

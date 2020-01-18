@@ -78,6 +78,8 @@ local C={292,303,213,270,297,216,272,287}
 local B={27,58,119,171,191,188,24,55,116,168,128}
 local l={l,q,w,l1,a1,o1,j,H,S,W,Q,J,s,x,k,z,g,c1,e1,n1,i1,d1,R1,N1,I1,O1,_1,G1,f1,u1,t1,r1,E1,F1,A1,T1,h1,K,V,N,G,T,_,i,d,F,f,A,e,c,a,n,t,r,u,E,R,y,I,b,p,v,Y,P,X,m,Z,D,h,O,U,M,L,C,B}
 if o>=#l then
-return l[1]end
-return l[o+1]end
+return l[1]
+end
+return l[o+1]
+end
 return a

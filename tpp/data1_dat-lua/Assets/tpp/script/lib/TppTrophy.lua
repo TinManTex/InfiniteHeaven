@@ -10,6 +10,7 @@ if TppCommandPost2.SetDominationTargetCpList then
 TppCommandPost2.SetDominationTargetCpList{afgh=_.afgh,mafr=_.mafr}
 end
 function a.Unlock(a,o,_)
+if not(TppMission.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_SHAM))then
 if not gvars.trp_isGot[a]then
 if o then
 local a=0
@@ -20,6 +21,7 @@ TppHero.SetAndAnnounceHeroicOgrePoint{heroicPoint=o,ogrePoint=a}
 end
 end
 gvars.trp_isGot[a]=true
+end
 Trophy.TrophyUnlock(a)
 local a=true
 for _=1,47 do
@@ -35,7 +37,8 @@ end
 end
 end
 function a.UnlockOnMissionClear(_)
-local _=a.MISSION_CLEAR[_]if _ then
+local _=a.MISSION_CLEAR[_]
+if _ then
 a.Unlock(_)
 end
 end

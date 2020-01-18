@@ -1,12 +1,13 @@
 = Infinite heaven =
-r37 2015-10-05
+r40 2015-10-10
 by tin man tex
+For MGSV version 1.0.4.0
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
 Features:
 Subsistence Mode toggle - Lets you go into any mission or free roam with same restrictions as subsistence missions, or with just a secondary of your choice.
-Comes in two profiles: 
+Comes in two profiles:
 Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgrades off, ASAP time forced, vehicle off, fulton  off, support off.
 
 Bounder - Pure as base but allows: Buddy, changing Suit (which should also allow model swaps), Level 1 Fulton.
@@ -38,11 +39,12 @@ Use the mod at you own risk (which can be mitigated by backing up saves and file
 This mod is still largely untested, feedback at Nexus page welcome.
 
 Thanks:
-Kojima Productions for the great game.
+Kojima Productions for the great game
 Sergeanur for qartool
 atvaark for his fox tools
 ThreeSocks3 for finding the custom text output for Announce log. Check out his Basic Trainer mod.
 emoose for cracking lua in fpks
+jRavens for testing
 
 Preperation/insurance:
 Back up your save files for safety
@@ -53,25 +55,28 @@ MGSV uses two save folders
 - 311340 is Ground Zeros steam id, but used by MGSV for save data even if GZ is not installed.
 - 287700 is TPP steam id, most of the files here seem to be just backup, except for TPP_GRAPHICS_CONFIG
 
-Copy both folders to a safe place
+Copy both folders to a safe place.
 
-Back up TPPs 01.dat in
+You may want to back up periodically as you play in case you come across save breaking issues with the mod.
+
+Back up TPPs 00.dat in
 <steam path>\steamapps\common\MGS_TPP\master\0\
 You may just rename it in place if you wish.
+MGSVModDo will also create a backup if the file hasn't been previously modded.
 
 Instalation:
-Copy mod 01.dat to
+Extract Infinite Heaven zip.
+Run MGSVModDo.exe
+If you have installed Steam, or the game to another folder you must edit gamePath in MGSVModDo.exe.config to point to the correct folder.
+Copy .\build\00.dat to
 <steam path>\steamapps\common\MGS_TPP\master\0\
 
-NOTE: This file is currently (2015-09-22, TPP version 1.006) unused.
-Future TPP updates may overwrite the file and the mod.
+WARNING: Applying this mod to any version after 1.0.4.0 that has updated the file will likely prevent the game from working. Simply replace 00.dat with the original game file and wait for the mod to be updated.
 
 Uninstallation:
 Exit any missions, return to the ACC.
 The mod saves some varables to the save file, but on initial testing (I welcome feedback on this) there is no issue with loading a save from this mod after the mod has been removed (provided you have exited to ACC)
-Delete <steam path>\steamapps\common\MGS_TPP\master\0\01.dat
-Replace your backed up game 01.dat
-Though the game loads fine without it.
+Replace <steam path>\steamapps\common\MGS_TPP\master\0\00.dat with the original verion.
 Alternatively 'verify integrity of game cache' option in steam should work.
 
 Usage:
@@ -84,20 +89,45 @@ Use either arrow keys or Dpad to navigate the menu.
 Up/Down to select option.
 Left/Right to change option setting.
 
-Press change stance button to reset curren setting.
+Press change stance button to reset current setting.
 
 Known issues:
 The Announce Log used for the display has a delay on entries, so slow down your button presses when changing the settings.
 
-Starting a mission with subsistence will still show the loadout screen, and will show the last missions visual setup, 
-should refresh when you change any settings, or if you exit to the title menu, or just enter the mission.
-Buddy may have to be repicked after turning off subsidence.
-Enemy Life percentage doesn't seem to effect stun.
-Subsidence mode will still technically do a full deployment cost of what's set. Manual solution, have a loadout with all items set to none and cheapest weapons.
-Changing General Enemy Parameters to Default requires starting and aborting a mission, then restarting the game.
+Replaying sideop 144, Remains of Man on Fire, will leave your character stuck in the Quarantine helipad and unable to abort the mission and requiring you to restore your save. Avoid completing the mission (extracting body).
 
-History:
-r37 2015-10-05
+Manual selection of a sideop will not prevent games sideop selection from opeining a sideop in the same area. Even though both will show on map and will give ui que of sideop start, one of the two will not actually activate its script, so you will not encounter the objective items or characters.
+
+Starting a mission with subsistence will still show the loadout screen, and will show the last missions visual setup, 
+it should refresh when you change any settings, or if you exit to the title menu, or just enter the mission.
+
+Buddy may have to be repicked after turning off subsidence.
+
+Enemy Life percentage doesn't seem to effect stun.
+
+Subsidence mode will still technically do a full deployment cost of what's set. Manual solution, have a loadout with all items set to none and cheapest weapons.
+
+When changing General Enemy Parameters back to Default you must exit to title to have the setting save, then restart the game to have it load the default enemy parameters.
+
+Changelog:
+r40 2015-10-10
+Rebuilt for 1.0.4.0
+Quiet Return function moved out of TppStory.lua, so for now one less file modded.
+
+r39 2015-10-08 - public release
+Updated to patch 1.0.4.0
+Uses MGSVModDo.exe to build 00.dat from games 00.dat.
+Uses MGS_QAR_Tool by Sergeanur
+Enemy parameters setting saves on exit to title instead of requiring mission start/abort. Still needs restart for Default to take effect (but not for turning on Tweaked)
+Value skipping for settings
+Manual selection of sideop 144 disabled, may still come up in random selection
+
+r38 
+Enemy parameters default to.. default
+Wormhole forced off for subsistence mode
+Equipment downgrades no longer applied to vanilla subsistence missions when subsistence mode off
+
+r37 2015-10-05 - public release
 Open specific sideop
 Force open added to unlockSideops
 unlockSideops rename to random for areas

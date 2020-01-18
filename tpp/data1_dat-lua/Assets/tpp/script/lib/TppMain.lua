@@ -2,24 +2,24 @@
 -- ORIGINALQAR: data1
 -- FILEPATH: \Assets\tpp\script\lib\TppMain.lua
 local e={}
---local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'did this compile?' indicator
---SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
-local this=e--tex DEMINIFY:
+--
+local this=e--tex DEMINIFYDEF:
 --tex shit I want to keep at top for easy manual changing
 this.DEBUGMODE=false
-this.modVersion = "r37"
+this.modVersion = "r39"
 this.modName = "Infinite Heaven"
+--tex LOCALOPT:
+local IsFunc=Tpp.IsTypeFunc
+local Enum=TppDefine.Enum
 --tex strings, till we figure out how to access custom values in .lang files this will have to do.
 --tex SYNC: with uses of TppUiCommand.AnnounceLogView
 this.modStrings={
   menuOff="Menu Off",
   settingDefaults="Setting mod options to defaults...",
+  settingDisallowed=" is currently disallowed"
 }
---tex DEMINIFY:
-local IsFunc=Tpp.IsTypeFunc
-local Enum=TppDefine.Enum
 --tex the bulk of my shit REFACTOR: until we can load our own lua files this is a good a spot as any
---tex button press system. TODO: work out the duplicate bitmasks/those that don't work, and those that are missing
+--tex SYS: buttonpress. TODO: work out the duplicate bitmasks/those that don't work, and those that are missing
 this.buttonMasks={--tex: SYNC: buttonStates
   PlayerPad.DECIDE,
   PlayerPad.STANCE,
@@ -154,18 +154,8 @@ function this.OnButtonRepeat(button)
   end
   return false  
 end
---[[function this.TimerReset(timer,length)--tex REF: CULL: using the code straight for now, no point in throwing extra function calls at it for no real benefit, and the games timer system will do for most uses
-  timer.holdTime=length
-end
-function this.TimerStart(timer)
-  timer.startTime=Time.GetRawElapsedTimeSinceStartUp()
-end
-function this.TimerStop(timer)
-  timer.startTime=0
-end
-function this.TimerIsDone(timer)
-  return timer.holdTime~=0 and timer.startTime~=0 and Time.GetRawElapsedTimeSinceStartUp() - timer.startTime > timer.holdTime
-end--]]
+--tex end SYS buttonstuff
+--tex SYS: mod menu
 --tex mod settings setup
 this.subsistenceLoadouts={--tex pure,secondary.
   TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE,
@@ -212,22 +202,21 @@ this.modSettings={
   },
   {
     name="General Enemy Parameters",
-    gvarName="modParameters",
+    gvarName="enemyParameters",
     default=0,
     slider=this.switchSlider,
-    settingNames={"Tweaked","Default (mods can override)"},
+    settingNames={"Default (mods can override)","Tweaked"},
+  },  
+  {
+    name="Enemy life scale (Requires Tweaked Enemy Parameters)",
+    gvarName="enemyHealthMult",
+    default=1,
+    slider=this.healthMultSlider,
+    isFloatSetting=true,
   },
   {
     name="Player life scale",
     gvarName="playerHealthMult",
-    default=1,
-    slider=this.healthMultSlider,
-    isFloatSetting=true,
-    infoFunc=this.SettingInfoHealth,
-  },
-  {
-    name="Enemy life scale",
-    gvarName="enemyHealthMult",
     default=1,
     slider=this.healthMultSlider,
     isFloatSetting=true,
@@ -248,6 +237,7 @@ this.modSettings={
     gvarName="unlockSideOpNumber",
     default=0,
     slider={max=this.numQuests,min=0,increment=1},
+    skipValues={[144]=true},
     onChange=function()
       TppQuest.UpdateActiveQuest()
     end,
@@ -262,18 +252,27 @@ this.modSettings={
         TppUiCommand.AnnounceLogView("Quiet has already returned.")
       else
         --if TppStory.IsMissionCleard(10260) then
-          TppStory.QuietReturn()
+          this.QuietReturn()
         --end
       end
     end,
-  },  
+  },
+  --[[--tex cant get startoffline to read in init sequence, yet isnewgame seems to be fine? (well haven't checked, it is read as if it is).
+  {
+    name="Start Offline",
+    gvarName="startOffline",
+    default=0,
+    slider=this.switchSlider,
+    settingNames={"False","True"},
+  },--]]
   {
     name="Reset all settings",
     default=0,
     slider=this.switchSlider,
     settingNames={">","Reset"},
     onChange=function()
-      this.ResetSettingsDisplay()        
+      this.ResetSettingsDisplay()
+      this.ModMenuOff()
     end,
   },
   {
@@ -282,9 +281,8 @@ this.modSettings={
     slider=this.switchSlider,
     settingNames={">","Off"},
     onChange=function()
-      this.modMenuOn=false
+      this.ModMenuOff()
       this.currentOption=1
-      TppUiCommand.AnnounceLogView(TppMain.modStrings.menuOff)    
     end,
   },
 }
@@ -329,6 +327,20 @@ function this.GetSetting()
     end
   end
 end
+function this.IncrementSetting(current, increment, min, max)
+  local newSetting=current+increment
+   
+  if increment > 0 then
+    if newSetting > max then
+      newSetting = min
+    end
+  elseif increment < 0 then
+    if newSetting < min then
+      newSetting = max
+    end      
+  end
+  return newSetting
+end
 function this.ChangeSetting(modSetting,value)
   --TppUiCommand.AnnounceLogView("DBG:MNU: changesetting increment:"..value)--tex DEBUG: CULL:
   local newSetting=this.currentSetting
@@ -336,16 +348,13 @@ function this.ChangeSetting(modSetting,value)
     --TppUiCommand.AnnounceLogView("DBG:MNU: found gvarName:" .. modSetting.gvarName)--tex DEBUG: CULL:
     local gvar=gvars[modSetting.gvarName]
     if gvar ~= nil then
-      --TppUiCommand.AnnounceLogView("DBG:MNU: gvar:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:
-      newSetting=gvar+value
-      if value > 0 then
-        if newSetting > modSetting.slider.max then
-          newSetting = modSetting.slider.min
+      --TppUiCommand.AnnounceLogView("DBG:MNU: gvar:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:           
+      newSetting=this.IncrementSetting(gvar,value,modSetting.slider.min,modSetting.slider.max)
+      if modSetting.skipValues ~= nil then
+        while modSetting.skipValues[newSetting] do
+          TppUiCommand.AnnounceLogView(newSetting .. this.modStrings.settingDisallowed)
+          newSetting=this.IncrementSetting(newSetting,value,modSetting.slider.min,modSetting.slider.max)
         end
-      elseif value < 0 then
-        if newSetting < modSetting.slider.min then
-          newSetting = modSetting.slider.max
-        end      
       end
       --TppUiCommand.AnnounceLogView("DBG:MNU: newsetting:"..newSetting)--tex DEBUG: CULL:
       newSetting=TppMath.Clamp(newSetting,modSetting.slider.min,modSetting.slider.max)
@@ -512,6 +521,10 @@ function this.ResetSettingsDisplay()
   end
   this.GetSetting()
 end
+function this.ModMenuOff()
+  this.modMenuOn=false
+  TppUiCommand.AnnounceLogView(this.modStrings.menuOff)
+end
 function this.UpdateModMenu()--tex RETRY: called from TppMission.Update, had 'troubles' running in main
 --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
 --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
@@ -530,13 +543,12 @@ function this.UpdateModMenu()--tex RETRY: called from TppMission.Update, had 'tr
           --  this.DisplayCurrentSetting()
           --end
         else
-          TppUiCommand.AnnounceLogView(this.modStrings.menuOff)
+          this.ModMenuOff()
         end
       end
       if this.modMenuOn then
         if this.OnButtonDown(PlayerPad.MB_DEVICE) then
-          this.modMenuOn=false
-          TppUiCommand.AnnounceLogView(this.modStrings.menuOff)
+          this.ModMenuOff()
         end
         if this.OnButtonDown(this.toggleMenuButton) then
           this.SetCurrent()
@@ -601,11 +613,13 @@ function this.ModStart()--tex currently called from UpdateModMenu, RETRY: find a
 end
 function this.ModWelcome()
   TppUiCommand.AnnounceLogView(this.modName .. " " .. this.modVersion)
-  TppUiCommand.AnnounceLogView("Hold X key or Dpad Right for 1 second to enable menu")
+  TppUiCommand.AnnounceLogView("Hold X key or Dpad Right for 1 second to enable menu")--tex TODO: modstring
 end
 function this.ModMissionMessage()
-  TppUiCommand.AnnounceLogView("ModMissionMessage test")
+  TppUiCommand.AnnounceLogView("ModMissionMessage test")--tex TODO: modstring
 end
+--tex end SYS modmenu
+--tex SYS: enemyparams
 --tex soldier2parametertables shiz REFACTOR: find somewhere nicer to put/compartmentalize this, Solider2ParameterTables.lua aparently can't be referenced even though there's a TppSolder2Parameter string in the exe, load hang on trying to do anything with it (and again no debug feedback to know why the fuck anything)
 local nightSightDebug={
   discovery={distance=10,verticalAngle=30,horizontalAngle=40},
@@ -806,176 +820,139 @@ this.soldierParametersMod={--tex: SYNC: soldierParametersDefault. Ugly, but don'
   lifeParameterTable=this.lifeParameterTableMod,
   zombieParameterTable={highHeroicValue=1e3}
 }
-function this.LoadTrueDefaultEnemyParams()--tex DEBUG: REF: CULL:
-TppSoldier2.ReloadSoldier2ParameterTables{
-  sightFormParameter={
-    contactSightForm={distance=2,verticalAngle=160,horizontalAngle=130},
-    normalSightForm={distance=60,verticalAngle=60,horizontalAngle=100},
-    farSightForm={distance=90,verticalAngle=30,horizontalAngle=30},
-    searchLightSightForm={distance=50,verticalAngle=15,horizontalAngle=15},
-    observeSightForm={distance=200,verticalAngle=5,horizontalAngle=5},
-    baseSight={
-      discovery={distance=10,verticalAngle=36,horizontalAngle=48},
-      indis={distance=20,verticalAngle=60,horizontalAngle=80},
-      dim={distance=45,verticalAngle=60,horizontalAngle=80},
-      far={distance=70,verticalAngle=12,horizontalAngle=8}
-    },
-    nightSight={
-      discovery={distance=10,verticalAngle=30,horizontalAngle=40},
-      indis={distance=15,verticalAngle=60,horizontalAngle=60},
-      dim={distance=40,verticalAngle=60,horizontalAngle=60},
-      far={distance=0,verticalAngle=0,horizontalAngle=0}
-    },
-    combatSight={
-      discovery={distance=10,verticalAngle=36,horizontalAngle=60},
-      indis={distance=25,verticalAngle=60,horizontalAngle=100},
-      dim={distance=50,verticalAngle=60,horizontalAngle=100},
-      far={distance=70,verticalAngle=30,horizontalAngle=30}},
-    walkerGearSight={
-      discovery={distance=15,verticalAngle=36,horizontalAngle=60},
-      indis={distance=25,verticalAngle=60,horizontalAngle=100},
-      dim={distance=55,verticalAngle=60,horizontalAngle=100},
-      far={distance=85,verticalAngle=30,horizontalAngle=30}},
-    observeSight={
-      discovery={distance=10,verticalAngle=36,horizontalAngle=48},
-      indis={distance=70,verticalAngle=12,horizontalAngle=8},
-      dim={distance=45,verticalAngle=5,horizontalAngle=5},
-      far={distance=70,verticalAngle=5,horizontalAngle=5},
-      observe={distance=200,verticalAngle=5,horizontalAngle=5}
-    },
-    snipingSight={
-      discovery={distance=10,verticalAngle=36,horizontalAngle=48},
-      indis={distance=70,verticalAngle=12,horizontalAngle=8},
-      dim={distance=45,verticalAngle=5,horizontalAngle=5},
-      far={distance=70,verticalAngle=5,horizontalAngle=5},
-      observe={distance=200,verticalAngle=5,horizontalAngle=5}
-    },
-    searchLightSight={
-      discovery={distance=30,verticalAngle=8,horizontalAngle=8},
-      indis={distance=0,verticalAngle=0,horizontalAngle=0},
-      dim={distance=50,verticalAngle=12,horizontalAngle=12},
-      far={distance=0,verticalAngle=0,horizontalAngle=0}},
-    armoredVehicleSight={
-      discovery={distance=20,verticalAngle=36,horizontalAngle=60},
-      indis={distance=25,verticalAngle=60,horizontalAngle=100},
-      dim={distance=55,verticalAngle=60,horizontalAngle=100},
-      far={distance=85,verticalAngle=30,horizontalAngle=30},
-      observe={distance=120,verticalAngle=5,horizontalAngle=5}},
-    zombieSight={
-      discovery={distance=7,verticalAngle=36,horizontalAngle=48},
-      indis={distance=14,verticalAngle=60,horizontalAngle=80},
-      dim={distance=31.5,verticalAngle=60,horizontalAngle=80},
-      far={distance=0,verticalAngle=12,horizontalAngle=8}},
-    msfSight={
-      discovery={distance=10,verticalAngle=36,horizontalAngle=48},
-      indis={distance=20,verticalAngle=60,horizontalAngle=80},
-      dim={distance=45,verticalAngle=60,horizontalAngle=80},
-      far={distance=70,verticalAngle=12,horizontalAngle=8}},
-    vehicleSight={
-      discovery={distance=15,verticalAngle=36,horizontalAngle=48},
-      indis={distance=25,verticalAngle=60,horizontalAngle=80},
-      dim={distance=45,verticalAngle=60,horizontalAngle=80},
-      far={distance=70,verticalAngle=12,horizontalAngle=8}
-    },
-    sandstormSight={distanceRate=.6,angleRate=.8},
-    rainSight={distanceRate=1,angleRate=1},
-    cloudySight={distanceRate=1,angleRate=1},
-    foggySight={distanceRate=.5,angleRate=.6}},
-  sightCamouflageParameter={
-    discovery={enemy=530,character=530,object=530},
-    indis={enemy=80,character=210,object=270},
-    dim={enemy=-50,character=30,object=130},
-    far={enemy=-310,character=0,object=70},
-    bushDensityThresold=100
-  },
-  hearingRangeParameter={
-    normal={zero=0,ss=4.5,hs=5.5,s=9,m=15,l=30,hll=60,ll=160,alert=160,special=500},
-    sandstorm={zero=0,ss=0,hs=0,s=0,m=15,l=30,hll=60,ll=160,alert=160,special=500},
-    rain={zero=0,ss=0,hs=0,s=4.5,m=15,l=30,hll=60,ll=160,alert=160,special=500}
-  },
-  lifeParameterTable={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60},
-  zombieParameterTable={highHeroicValue=1e3}
-}
-end--tex end of shit
-local l=Tpp.ApendArray
+--tex SYS end enemyparams
+--tex SYS: patchshit
+function this.QuietReturn()--tex
+  -- if gvars.str_didLostQuiet then
+  if TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
+    local q=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=TppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_QUIET}
+    if not TppMotherBaseManagement.IsExistStaff{staffId=q}then
+      TppMotherBaseManagement.DirectAddStaff{staffId=q}
+      -- ,section="Wait",isNew=true,specialContract="fromExtra"} --tex nothing seems to work, some kind of internal check in directaddstaff i guess
+      -- specialContract="fromGZ"
+    end
+    
+    gvars.str_didLostQuiet=false
+    --TppBuddyService.SetObtainedBuddyType(BuddyType.QUIET)
+    TppBuddy2BlockController.SetObtainedBuddyType(BuddyType.QUIET)
+    --TppBuddyService.UnsetBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_DYING)
+    TppBuddyService.UnsetBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)
+    TppBuddyService.UnsetBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_HOSPITALIZE)
+    --TppBuddyService.UnsetDeadBuddyType(BuddyType.QUIET)
+    TppBuddyService.SetSortieBuddyType(BuddyType.QUIET)
+    TppBuddyService.SetFriendlyPoint(BuddyFriendlyType.QUIET,100)
+    TppMotherBaseManagement.RefreshQuietStatus()
+  end
+end
+function this.Seq_Demo_RecoverVolgin_OnEnter_Patch()--tex patchup shit
+--tex ORIG: /Assets/tpp/level/mission2/free/f3020_sequence.lua - sequences.Seq_Demo_RecoverVolgin.OnEnter
+  --tex NMC: looks like kjp had attempted some fallback for if sequence was repeated after completed, just no playing demo, trouble is the previous sequence that sets up the player in an unplayble state
+  --if this.isRecoverVolginDemoPlay() then
+    --Fox.Log("######## Seq_Demo_RecoverVolgin.OnEnter ########")
+    TppUiCommand.AnnounceLogView"DBG:Seq_Demo_RecoverVolgin_OnEnter_Patch"
+    
+    mvars.isPlayVolginDemo = true
+    local startFunc = function()
+    end
+    local endFunc = function()
+      TppSequence.SetNextSequence("Seq_Game_MainGame")
+    end
+    
+    TppDemo.SpecifyIgnoreNpcDisable( {"hos_volgin_0000",} )--(VOLGIN_DEMO_GROUP) 
+    
+    f30250_demo.PlayRecoverVolgin( startFunc, endFunc )
+  ---else
+    --TppUI.FadeIn( TppUI.FADE_SPEED.FADE_NORMALSPEED, "FadeInOnGameStart")
+    --TppMain.EnableGameStatus()  
+    --TppSequence.SetNextSequence("Seq_Game_MainGame")
+  --end
+end
+function this.PatchSequenceTable()
+  --[[--tex OFF: no luck so far
+  if vars.missionCode == 30250 then
+    if mvars.seq_sequenceTable["Seq_Demo_RecoverVolgin"] ~= nil then
+      mvars.seq_sequenceTable["Seq_Demo_RecoverVolgin"].OnEnter=this.Seq_Demo_RecoverVolgin_OnEnter_Patch
+    end
+  end
+  --]]
+end
+--tex end SYS patchshit
+--tex end of shit
+local r=Tpp.ApendArray
 local n=Tpp.DEBUG_StrCode32ToString
 local i=Tpp.IsTypeFunc
 local t=Tpp.IsTypeTable
-local f=TppScriptVars.IsSavingOrLoading
-local m=ScriptBlock.UpdateScriptsInScriptBlocks
-local M=Mission.GetCurrentMessageResendCount
-local o={}
-local p=0
+local M=TppScriptVars.IsSavingOrLoading
+local P=ScriptBlock.UpdateScriptsInScriptBlocks
+local f=Mission.GetCurrentMessageResendCount
+local a={}
+local l=0
 local T={}
-local a=0
-local d={}
+local o=0
+local c={}
 local u=0
 local n={}
 local n=0
-local S={}
-local P={}
+local d={}
+local m={}
 local s=0
-local c={}
+local S={}
 local h={}
-local r=0
+local p=0
 local function n()--tex NMC: cant actually see this referenced anywhere
   if QuarkSystem.GetCompilerState()==QuarkSystem.COMPILER_STATE_WAITING_TO_LOAD then
-    QuarkSystem.PostRequestToLoad()
-    coroutine.yield()
+    QuarkSystem.PostRequestToLoad()coroutine.yield()
     while QuarkSystem.GetCompilerState()==QuarkSystem.COMPILER_STATE_WAITING_TO_LOAD do
       coroutine.yield()
     end
   end
 end
-function this.DisableGameStatus()
+function e.DisableGameStatus()
   TppMission.DisableInGameFlag()
   Tpp.SetGameStatus{target="all",enable=false,except={S_DISABLE_NPC=false},scriptName="TppMain.lua"}
 end
-function this.DisableGameStatusOnGameOverMenu()
+function e.DisableGameStatusOnGameOverMenu()
   TppMission.DisableInGameFlag()
   Tpp.SetGameStatus{target="all",enable=false,scriptName="TppMain.lua"}
 end
-function this.EnableGameStatus()
+function e.EnableGameStatus()
   TppMission.EnableInGameFlag()
   Tpp.SetGameStatus{target={S_DISABLE_PLAYER_PAD=true,S_DISABLE_TARGET=true,S_DISABLE_NPC=true,S_DISABLE_NPC_NOTICE=true,S_DISABLE_PLAYER_DAMAGE=true,S_DISABLE_THROWING=true,S_DISABLE_PLACEMENT=true},enable=true,scriptName="TppMain.lua"}
 end
-function this.EnableGameStatusForDemo()
+function e.EnableGameStatusForDemo()
   TppDemo.ReserveEnableInGameFlag()
   Tpp.SetGameStatus{target={S_DISABLE_PLAYER_PAD=true,S_DISABLE_TARGET=true,S_DISABLE_NPC=true,S_DISABLE_NPC_NOTICE=true,S_DISABLE_PLAYER_DAMAGE=true,S_DISABLE_THROWING=true,S_DISABLE_PLACEMENT=true},enable=true,scriptName="TppMain.lua"}
 end
-function this.EnableAllGameStatus()
+function e.EnableAllGameStatus()
   TppMission.EnableInGameFlag()
   Tpp.SetGameStatus{target="all",enable=true,scriptName="TppMain.lua"}
 end
-function this.EnablePlayerPad()
+function e.EnablePlayerPad()
   TppGameStatus.Reset("TppMain.lua","S_DISABLE_PLAYER_PAD")
 end
-function this.DisablePlayerPad()
+function e.DisablePlayerPad()
   TppGameStatus.Set("TppMain.lua","S_DISABLE_PLAYER_PAD")
 end
-function this.EnablePause()
+function e.EnablePause()
   TppPause.RegisterPause"TppMain.lua"end
-function this.DisablePause()
+function e.DisablePause()
   TppPause.UnregisterPause"TppMain.lua"end
-function this.EnableBlackLoading(e)
+function e.EnableBlackLoading(e)
   TppGameStatus.Set("TppMain.lua","S_IS_BLACK_LOADING")
   if e then
     TppUI.StartLoadingTips()
   end
 end
-function this.DisableBlackLoading()
+function e.DisableBlackLoading()
   TppGameStatus.Reset("TppMain.lua","S_IS_BLACK_LOADING")
   TppUI.FinishLoadingTips()
 end
-function this.OnAllocate(n)
+function e.OnAllocate(n)
   TppWeather.OnEndMissionPrepareFunction()
-  this.DisableGameStatus()
-  this.EnablePause()
-  TppClock.Stop()
-  o={}
-  p=0
-  d={}
-  u=0
+  e.DisableGameStatus()
+  e.EnablePause()
+  TppClock.Stop()a={}l=0
+  c={}u=0
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
   if TppMission.IsFOBMission(vars.missionCode)then
@@ -1004,10 +981,10 @@ function this.OnAllocate(n)
   TppGimmick.OnAllocate(n)
   TppMarker.OnAllocate(n)
   TppRevenge.OnAllocate(n)
-  this.ClearStageBlockMessage()
+  e.ClearStageBlockMessage()
   TppQuest.OnAllocate(n)
   TppAnimal.OnAllocate(n)
-  local function o()
+  local function s()
     if TppLocation.IsAfghan()then
       if afgh then
         afgh.OnAllocate()
@@ -1026,10 +1003,10 @@ function this.OnAllocate(n)
       end
     end
   end
-  o()
+  s()
   if n.sequence then
     if i(n.sequence.MissionPrepare)then
-      n.sequence.MissionPrepare()        
+      n.sequence.MissionPrepare()
     end
     if i(n.sequence.OnEndMissionPrepareSequence)then
       TppSequence.SetOnEndMissionPrepareFunction(n.sequence.OnEndMissionPrepareSequence)
@@ -1045,32 +1022,32 @@ function this.OnAllocate(n)
     for t,e in ipairs(Tpp._requireList)do
       if _G[e]then
         if _G[e].DeclareSVars then
-          l(s,_G[e].DeclareSVars(n))
+          r(s,_G[e].DeclareSVars(n))
         end
       end
     end
     local o={}
     for n,e in pairs(n)do
       if i(e.DeclareSVars)then
-        l(o,e.DeclareSVars())
+        r(o,e.DeclareSVars())
       end
       if t(e.saveVarsList)then
-        l(o,TppSequence.MakeSVarsTable(e.saveVarsList))
+        r(o,TppSequence.MakeSVarsTable(e.saveVarsList))
       end
     end
-    l(s,o)
+    r(s,o)
     TppScriptVars.DeclareSVars(s)
     TppScriptVars.SetSVarsNotificationEnabled(false)
-    while f()do
+    while M()do
       coroutine.yield()
-    end    
+    end
     TppRadioCommand.SetScriptDeclVars()
     local i=vars.mbLayoutCode
     if gvars.ini_isTitleMode then
       TppPlayer.MissionStartPlayerTypeSetting()
     else
       if TppMission.IsMissionStart()then
-        TppVarInit.InitializeForNewMission(n)     
+        TppVarInit.InitializeForNewMission(n)
         TppPlayer.MissionStartPlayerTypeSetting()
         if not TppMission.IsFOBMission(vars.missionCode)then
           TppSave.VarSave(vars.missionCode,true)
@@ -1091,7 +1068,7 @@ function this.OnAllocate(n)
         end
       end
     end
-    this.StageBlockCurrentPosition(true)
+    e.StageBlockCurrentPosition(true)
     TppMission.SetSortieBuddy()
     TppStory.UpdateStorySequence{updateTiming="BeforeBuddyBlockLoad"}
     if n.sequence then
@@ -1108,8 +1085,7 @@ function this.OnAllocate(n)
         end
       end
     end
-    --tex changed to issubs check, more robust even without my mod
-    --if(vars.missionCode==11043)or(vars.missionCode==11044)then
+    --if(vars.missionCode==11043)or(vars.missionCode==11044)then--tex ORIG: changed to issubs check, more robust even without my mod
     if TppMission.IsSubsistenceMission() and gvars.isManualSubsistence~=this.SUBSISTENCE_BOUND then--tex disable
       TppBuddyService.SetDisableAllBuddy()
     end
@@ -1124,7 +1100,7 @@ function this.OnAllocate(n)
     TppSequence.SaveMissionStartSequence()
     TppScriptVars.SetSVarsNotificationEnabled(true)
   end
-  if gvars.modParameters==0 then--tex use tweaked soldier parameters
+  if gvars.enemyParameters==1 then--tex use tweaked soldier parameters
   --tex REF: this.lifeParameterTableDefault={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}
     local healthMult=gvars.enemyHealthMult--tex mod enemy health scale
     this.lifeParameterTableMod.maxLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxLife,healthMult)
@@ -1133,7 +1109,6 @@ function this.OnAllocate(n)
     this.lifeParameterTableMod.maxHelmetLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxHelmetLife,healthMult)
     TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParametersMod)--tex reloadsoldierparams changes
   end--
-  --this.LoadTrueDefaultEnemyParams()--tex DEBUG: CULL:
   if n.enemy then
     if t(n.enemy.soldierPowerSettings)then
       TppEnemy.SetUpPowerSettings(n.enemy.soldierPowerSettings)
@@ -1167,7 +1142,7 @@ function this.OnAllocate(n)
     TppCheckPoint.RegisterCheckPointList(n.sequence.checkPointList)
   end
 end
-function this.OnInitialize(n)
+function e.OnInitialize(n)
   if TppMission.IsFOBMission(vars.missionCode)then
     TppMission.SetFobPlayerStartPoint()
   elseif TppMission.IsNeedSetMissionStartPositionToClusterPosition()then
@@ -1328,45 +1303,40 @@ function this.OnInitialize(n)
   e.SetMessageFunction(n)
   TppQuest.UpdateActiveQuest()
   TppDevelopFile.OnMissionCanStart()
-  if (TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020) then
+  if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
     if TppQuest.IsActiveQuestHeli()then
       TppEnemy.ReserveQuestHeli()
     end
   end
   TppDemo.UpdateNuclearAbolitionFlag()
-  TppQuest.AcquireKeyItemOnMissionStart()--tex NMC: 0006 RETAILPATCH:
+  TppQuest.AcquireKeyItemOnMissionStart()
 end
-function this.SetUpdateFunction(e)
-  o={}
-  p=0
-  T={}
-  a=0
-  d={}
-  u=0
-  o={TppMission.Update,TppSequence.Update,TppSave.Update,TppDemo.Update,TppPlayer.Update,TppMission.UpdateForMissionLoad}
-  p=#o
+function e.SetUpdateFunction(e)a={}l=0
+  T={}o=0
+  c={}u=0
+  a={TppMission.Update,TppSequence.Update,TppSave.Update,TppDemo.Update,TppPlayer.Update,TppMission.UpdateForMissionLoad}l=#a
   for n,e in pairs(e)do
     if i(e.OnUpdate)then
-      a=a+1
-      T[a]=e.OnUpdate
+      o=o+1
+      T[o]=e.OnUpdate
     end
   end
 end
-function this.OnEnterMissionPrepare()
+function e.OnEnterMissionPrepare()
   if TppMission.IsMissionStart()then
     TppScriptBlock.PreloadSettingOnMissionStart()
   end
   TppScriptBlock.ReloadScriptBlock()
 end
-function this.OnTextureLoadingWaitStart()
+function e.OnTextureLoadingWaitStart()
   if not TppMission.IsHelicopterSpace(vars.missionCode)then
     StageBlockCurrentPositionSetter.SetEnable(false)
   end
   gvars.canExceptionHandling=true
 end
-function this.OnMissionStartSaving()
+function e.OnMissionStartSaving()
 end
-function this.OnMissionCanStart()
+function e.OnMissionCanStart()
   if TppMission.IsMissionStart()then
     TppWeather.SetDefaultWeatherProbabilities()
     TppWeather.SetDefaultWeatherDurations()
@@ -1397,8 +1367,16 @@ function this.OnMissionCanStart()
   if vars.missionCode==10240 and TppLocation.IsMBQF()then
     Player.AttachGasMask()
   end
+  if(vars.missionCode==10150)then
+    local e=TppSequence.GetMissionStartSequenceIndex()
+    if(e~=nil)and(e<TppSequence.GetSequenceIndex"Seq_Game_SkullFaceToPlant")then
+      if(svars.mis_objectiveEnable[17]==false)then
+        Gimmick.ForceResetOfRadioCassetteWithCassette()
+      end
+    end
+  end
 end
-function this.OnMissionGameStart(n)
+function e.OnMissionGameStart(n)
   TppClock.Start()
   if not gvars.ini_isTitleMode then
     PlayRecord.RegistPlayRecord"MISSION_START"end
@@ -1415,26 +1393,20 @@ function this.OnMissionGameStart(n)
   if TppSequence.IsLandContinue()then
     TppMission.EnableAlertOutOfMissionAreaIfAlertAreaStart()
   end
-  TppSoundDaemon.ResetMute"Telop"
+  TppSoundDaemon.ResetMute"Telop"end
+function e.ClearStageBlockMessage()StageBlock.ClearLargeBlockNameForMessage()StageBlock.ClearSmallBlockIndexForMessage()
 end
-function this.ClearStageBlockMessage()
-  StageBlock.ClearLargeBlockNameForMessage()
-  StageBlock.ClearSmallBlockIndexForMessage()
-end
---tex REF: working some better var names out
--- called from tppmission:VarSaveForMissionAbort && Executemissionfinalize
---(TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT,o=ishelispace,s=isfreemission,t=isheli(mvars.mis_nextMissionCodeForAbort),i=IsFreeMission(mvars.mis_nextMissionCodeForAbort),a=mvars.mis_isAbortWithSave|nil,p=vars.missioncode changed)
-function this.ReservePlayerLoadingPosition(loadType,isMissionHeliSpace,isMissionFreeMission,isAbortMissionHeliSpace,isAbortMissionFreeMission,isAbortWithSave,isMissionCodeChanged)
-  this.DisableGameStatus()
-  if loadType==TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE then
-    if isAbortMissionHeliSpace then
+function e.ReservePlayerLoadingPosition(n,o,s,t,i,p,a)
+  e.DisableGameStatus()
+  if n==TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE then
+    if t then
       TppHelicopter.ResetMissionStartHelicopterRoute()
       TppPlayer.ResetInitialPosition()
       TppPlayer.ResetMissionStartPosition()
       TppPlayer.ResetNoOrderBoxMissionStartPosition()
       TppMission.ResetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
-    elseif isMissionHeliSpace then
+    elseif o then
       if gvars.heli_missionStartRoute~=0 then
         TppPlayer.SetStartStatusRideOnHelicopter()
         if mvars.mis_helicopterMissionStartPosition then
@@ -1455,7 +1427,7 @@ function this.ReservePlayerLoadingPosition(loadType,isMissionHeliSpace,isMission
       TppPlayer.ResetNoOrderBoxMissionStartPosition()
       TppMission.SetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
-    elseif isAbortMissionFreeMission then
+    elseif i then
       if TppLocation.IsMotherBase()then
         TppPlayer.SetStartStatusRideOnHelicopter()
       else
@@ -1468,7 +1440,7 @@ function this.ReservePlayerLoadingPosition(loadType,isMissionHeliSpace,isMission
       TppMission.ResetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
       TppLocation.MbFreeSpecialMissionStartSetting(TppMission.GetMissionClearType())
-    elseif(isMissionFreeMission and TppLocation.IsMotherBase())then
+    elseif(s and TppLocation.IsMotherBase())then
       if gvars.heli_missionStartRoute~=0 then
         TppPlayer.SetStartStatusRideOnHelicopter()
       else
@@ -1479,27 +1451,14 @@ function this.ReservePlayerLoadingPosition(loadType,isMissionHeliSpace,isMission
       TppMission.SetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
     else
-      if isMissionFreeMission then
+      if s then
         if mvars.mis_orderBoxName then
           TppMission.SetMissionOrderBoxPosition()
           TppPlayer.ResetNoOrderBoxMissionStartPosition()
         else
           TppPlayer.ResetInitialPosition()
           TppPlayer.ResetMissionStartPosition()
-          local e={
-          [10020]={1449.3460693359,339.18698120117,1467.4300537109,-104},
-          [10050]={-1820.7060546875,349.78659057617,-146.44400024414,139},
-          [10070]={-792.00512695313,537.3740234375,-1381.4598388672,136},
-          [10080]={-439.28802490234,-20.472593307495,1336.2784423828,-151},
-          [10140]={499.91635131836,13.07358455658,1135.1315917969,79},
-          [10150]={-1732.0286865234,543.94067382813,-2225.7587890625,162},
-          [10260]={-1260.0454101563,298.75305175781,1325.6383056641,51}
-          }
-          e[11050]=e[10050]
-          e[11080]=e[10080]
-          e[11140]=e[10140]
-          e[10151]=e[10150]
-          e[11151]=e[10150]
+          local e={[10020]={1449.3460693359,339.18698120117,1467.4300537109,-104},[10050]={-1820.7060546875,349.78659057617,-146.44400024414,139},[10070]={-792.00512695313,537.3740234375,-1381.4598388672,136},[10080]={-439.28802490234,-20.472593307495,1336.2784423828,-151},[10140]={499.91635131836,13.07358455658,1135.1315917969,79},[10150]={-1732.0286865234,543.94067382813,-2225.7587890625,162},[10260]={-1260.0454101563,298.75305175781,1325.6383056641,51}}e[11050]=e[10050]e[11080]=e[10080]e[11140]=e[10140]e[10151]=e[10150]e[11151]=e[10150]
           local e=e[vars.missionCode]
           if TppDefine.NO_ORDER_BOX_MISSION_ENUM[tostring(vars.missionCode)]and e then
             TppPlayer.SetNoOrderBoxMissionStartPosition(e,e[4])
@@ -1508,7 +1467,7 @@ function this.ReservePlayerLoadingPosition(loadType,isMissionHeliSpace,isMission
           end
         end
         local e=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[vars.missionCode]
-        if e then--tex added issub check
+        if e then
           TppPlayer.SetStartStatusRideOnHelicopter()
           TppMission.SetIsStartFromHelispace()
           TppMission.ResetIsStartFromFreePlay()
@@ -1528,50 +1487,50 @@ function this.ReservePlayerLoadingPosition(loadType,isMissionHeliSpace,isMission
         TppMission.ResetIsStartFromFreePlay()
       end
     end
-  elseif loadType==TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT then
+  elseif n==TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT then
     TppPlayer.ResetInitialPosition()
     TppHelicopter.ResetMissionStartHelicopterRoute()
     TppMission.ResetIsStartFromHelispace()
     TppMission.ResetIsStartFromFreePlay()
-    if isAbortWithSave then
-      if isAbortMissionFreeMission then
+    if p then
+      if i then
         TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
         TppHelicopter.ResetMissionStartHelicopterRoute()
         TppPlayer.SetMissionStartPositionToCurrentPosition()
         TppPlayer.ResetNoOrderBoxMissionStartPosition()
-      elseif isAbortMissionHeliSpace then
+      elseif t then
         TppPlayer.ResetMissionStartPosition()
       elseif vars.missionCode~=5 then
       end
     else
-      if isAbortMissionHeliSpace then
+      if t then
         TppHelicopter.ResetMissionStartHelicopterRoute()
         TppPlayer.ResetInitialPosition()
         TppPlayer.ResetMissionStartPosition()
-      elseif isAbortMissionFreeMission then
+      elseif i then
         TppMission.SetMissionOrderBoxPosition()
       elseif vars.missionCode~=5 then
       end
     end
-  elseif loadType==TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART then
-  elseif loadType==TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT then
+  elseif n==TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART then
+  elseif n==TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT then
   end
-  if isMissionHeliSpace and isMissionCodeChanged then
-    Mission.AddLocationFinalizer(function()this.StageBlockCurrentPosition()end)
+  if o and a then
+    Mission.AddLocationFinalizer(function()
+      e.StageBlockCurrentPosition()
+    end)
   else
-    this.StageBlockCurrentPosition()
+    e.StageBlockCurrentPosition()
   end
 end
-function this.StageBlockCurrentPosition(e)
+function e.StageBlockCurrentPosition(e)
   if vars.initialPlayerFlag==PlayerFlag.USE_VARS_FOR_INITIAL_POS then
-    StageBlockCurrentPositionSetter.SetEnable(true)
-    StageBlockCurrentPositionSetter.SetPosition(vars.initialPlayerPosX,vars.initialPlayerPosZ)
+    StageBlockCurrentPositionSetter.SetEnable(true)StageBlockCurrentPositionSetter.SetPosition(vars.initialPlayerPosX,vars.initialPlayerPosZ)
   else
     StageBlockCurrentPositionSetter.SetEnable(false)
   end
   if TppMission.IsHelicopterSpace(vars.missionCode)then
-    StageBlockCurrentPositionSetter.SetEnable(true)
-    StageBlockCurrentPositionSetter.DisablePosition()
+    StageBlockCurrentPositionSetter.SetEnable(true)StageBlockCurrentPositionSetter.DisablePosition()
     if e then
       while not StageBlock.LargeAndSmallBlocksAreEmpty()do
         coroutine.yield()
@@ -1579,7 +1538,7 @@ function this.StageBlockCurrentPosition(e)
     end
   end
 end
-function this.OnReload(n)
+function e.OnReload(n)
   for t,e in pairs(n)do
     if i(e.OnLoad)then
       e.OnLoad()
@@ -1590,9 +1549,7 @@ function this.OnReload(n)
   end
   if n.enemy then
     if t(n.enemy.routeSets)then
-      TppClock.UnregisterClockMessage"ShiftChangeAtNight"
-      TppClock.UnregisterClockMessage"ShiftChangeAtMorning"
-      TppEnemy.RegisterRouteSet(n.enemy.routeSets)
+      TppClock.UnregisterClockMessage"ShiftChangeAtNight"TppClock.UnregisterClockMessage"ShiftChangeAtMorning"TppEnemy.RegisterRouteSet(n.enemy.routeSets)
       TppEnemy.MakeShiftChangeTable()
     end
   end
@@ -1607,87 +1564,83 @@ function this.OnReload(n)
   if n.sequence then
     TppCheckPoint.RegisterCheckPointList(n.sequence.checkPointList)
   end
-  this.SetUpdateFunction(n)
-  this.SetMessageFunction(n)
+  e.SetUpdateFunction(n)
+  e.SetMessageFunction(n)
 end
-function this.OnUpdate(e)
+function e.OnUpdate(e)
   local e
-  local n=o
-  local t=T
-  local e=d
-  for e=1,p do
+  local e=a
+  local n=T
+  local t=c
+  for n=1,l do
+    e[n]()
+  end
+  for e=1,o do
     n[e]()
   end
-  for e=1,a do
-    t[e]()
-  end
-  m()
+  P()
 end
-function this.OnChangeSVars(e,n,t)
+function e.OnChangeSVars(e,n,t)
   for i,e in ipairs(Tpp._requireList)do
     if _G[e].OnChangeSVars then
       _G[e].OnChangeSVars(n,t)
     end
   end
 end
-function this.SetMessageFunction(e)
-  S={}
-  s=0
-  c={}
-  r=0
+function e.SetMessageFunction(e)d={}s=0
+  S={}p=0
   for n,e in ipairs(Tpp._requireList)do
     if _G[e].OnMessage then
       s=s+1
-      S[s]=_G[e].OnMessage
+      d[s]=_G[e].OnMessage
     end
   end
   for n,t in pairs(e)do
     if e[n]._messageExecTable then
-      r=r+1
-      c[r]=e[n]._messageExecTable
+      p=p+1
+      S[p]=e[n]._messageExecTable
     end
   end
 end
-function this.OnMessage(e,n,t,i,l,a,p)
-  local e=mvars
-  local o=""
-  local T
-  local m=Tpp.DoMessage
-  local d=TppMission.CheckMessageOption
+function e.OnMessage(n,e,t,i,o,a,r)
+  local n=mvars
+  local l=""local T
+  local c=Tpp.DoMessage
+  local u=TppMission.CheckMessageOption
   local T=TppDebug
-  local T=P
+  local T=m
   local T=h
-  local T=TppDefine.MESSAGE_GENERATION[n]and TppDefine.MESSAGE_GENERATION[n][t]
+  local T=TppDefine.MESSAGE_GENERATION[e]and TppDefine.MESSAGE_GENERATION[e][t]
   if not T then
     T=TppDefine.DEFAULT_MESSAGE_GENERATION
   end
-  local u=M()
-  if u<T then
+  local m=f()
+  if m<T then
     return Mission.ON_MESSAGE_RESULT_RESEND
   end
-  for e=1,s do
-    local o=o
-    S[e](n,t,i,l,a,p,o)
+  for s=1,s do
+    local n=l
+    d[s](e,t,i,o,a,r,n)
   end
-  for e=1,r do
-    local o=o
-    m(c[e],d,n,t,i,l,a,p,o)
+  for s=1,p do
+    local n=l
+    c(S[s],u,e,t,i,o,a,r,n)
   end
-  if e.loc_locationCommonTable then
-    e.loc_locationCommonTable.OnMessage(n,t,i,l,a,p,o)
+  if n.loc_locationCommonTable then
+    n.loc_locationCommonTable.OnMessage(e,t,i,o,a,r,l)
   end
-  if e.order_box_script then
-    e.order_box_script.OnMessage(n,t,i,l,a,p,o)
+  if n.order_box_script then
+    n.order_box_script.OnMessage(e,t,i,o,a,r,l)
   end
-  if e.animalBlockScript and e.animalBlockScript.OnMessage then
-    e.animalBlockScript.OnMessage(n,t,i,l,a,p,o)
+  if n.animalBlockScript and n.animalBlockScript.OnMessage then
+    n.animalBlockScript.OnMessage(e,t,i,o,a,r,l)
   end
 end
-function this.OnTerminate(e)
+function e.OnTerminate(e)
   if e.sequence then
     if i(e.sequence.OnTerminate)then
       e.sequence.OnTerminate()
     end
   end
 end
-return this
+return e

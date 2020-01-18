@@ -1,30 +1,30 @@
 -- DOBUILD: 1
 -- ORIGINALQAR: data1
 -- FILEPATH: \Assets\tpp\script\lib\TppMath.lua
-local this={}
---local ff=SplashScreen.Create("ff","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5006_l_alp.ftex",1280,640)  
---SplashScreen.Show(ff,0,0.5,0)--tex panther 
-function this.Vector3toTable(n)
+local n={}
+local this=n--tex DEMINIFYDEF:
+function n.Vector3toTable(n)
   return{n:GetX(),n:GetY(),n:GetZ()}
 end
-function this.AddVector(e,n)
+function n.AddVector(e,n)
   return{e[1]+n[1],e[2]+n[2],e[3]+n[3]}
 end
 local e=180/foxmath.PI
 local t=1/e
-function this.RadianToDegree(n)
+function n.RadianToDegree(n)
   return n*e
 end
-function this.DegreeToRadian(n)
+function n.DegreeToRadian(n)
   return n*t
 end
-function this.FindDistance(r,t)
+function n.FindDistance(r,t)
   local n=0
   for e=1,3 do
     n=n+(t[e]-r[e])^2
   end
   return n
 end
+--tex SYS: mathstuff
 function this.Clamp(n,min,max)--tex
   return math.min(math.max(n, min), max);
 end
@@ -35,4 +35,5 @@ function this.ScaleValueClamp1(value,mult)--tex
   end  
   return newValue
 end
-return this
+--tex end SYS: mathstuff
+return n

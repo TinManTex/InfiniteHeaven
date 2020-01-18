@@ -27,21 +27,17 @@ ChVoiceTaskOrganizer2.PrepareTaskPool("Player",1)ChVoiceTaskOrganizer2.PrepareTa
 end
 if Editor then
 if Preference then
-local e=Preference.GetPreferenceEntity"EdRailPreference"
-if not Entity.IsNull(e)and Fox.GetPlatformName()=="Windows"then
+local e=Preference.GetPreferenceEntity"EdRailPreference"if not Entity.IsNull(e)and Fox.GetPlatformName()=="Windows"then
 if e.railSystemScript==""then
 e.railSystemScript="/Assets/tpp/editor_scripts/fox/rail/TppRailSystem.lua"end
 end
 end
 do
-local e=Preference.GetPreferenceEntity"EdRoutePreference"
-if not Entity.IsNull(e)and e.characterType=="Soldier"then
+local e=Preference.GetPreferenceEntity"EdRoutePreference"if not Entity.IsNull(e)and e.characterType=="Soldier"then
 e.characterType="Soldier2"end
 end
-EdRouteDataNodeEvent.SetEventDefinitionPath("Soldier2","Tpp/Scripts/RouteEvents/AiRtEvSoldier2.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Soldier2","Tpp/Scripts/RouteEvents/AiRtEvSoldier2.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Hostage2","Tpp/Scripts/RouteEvents/AiRtEvHostage2.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Hostage2","Tpp/Scripts/RouteEvents/AiRtEvHostage2.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Uav","Tpp/Scripts/RouteEvents/AiRtEvUav.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Uav","Tpp/Scripts/RouteEvents/AiRtEvUav.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Sahelan2","Tpp/Scripts/RouteEvents/AiRtEvSahelan2.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Sahelan2","Tpp/Scripts/RouteEvents/AiRtEvSahelan2.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Volgin2","Tpp/Scripts/RouteEvents/AiRtEvVolgin2.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Volgin2","Tpp/Scripts/RouteEvents/AiRtEvVolgin2.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Liquid2","Tpp/Scripts/RouteEvents/AiRtEvLiquid2.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Liquid2","Tpp/Scripts/RouteEvents/AiRtEvLiquid2.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Heli","Tpp/Scripts/RouteEvents/AiRtEvHeli.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Heli","Tpp/Scripts/RouteEvents/AiRtEvHeli.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Animal","Tpp/Scripts/RouteEvents/AiRtEvAnimal.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Animal","Tpp/Scripts/RouteEvents/AiRtEvAnimal.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("BossQuiet","Tpp/Scripts/RouteEvents/AiRtEvBossQuiet.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("BossQuiet","Tpp/Scripts/RouteEvents/AiRtEvBossQuiet.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("MbQuiet","Tpp/Scripts/RouteEvents/AiRtEvMbQuiet.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("MbQuiet","Tpp/Scripts/RouteEvents/AiRtEvMbQuiet.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("BuppyPuppy","Tpp/Scripts/RouteEvents/AiRtEvBuddyPuppy.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("BuppyPuppy","Tpp/Scripts/RouteEvents/AiRtEvBuddyPuppy.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Horse2forVr","Tpp/Scripts/RouteEvents/AiRtEvHorse2forVr.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Horse2forVr","Tpp/Scripts/RouteEvents/AiRtEvHorse2forVr.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("AimTarget","Tpp/Scripts/RouteEvents/AiRtEvAimTarget.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("AimTarget","Tpp/Scripts/RouteEvents/AiRtEvAimTarget.lua")EdRouteDataNodeEvent.SetEventList"Soldier2"EdRouteDataEdgeEvent.SetEventList"Soldier2"
-if Preference then
-local e=Preference.GetPreferenceEntity"EdRoutePreference"
-if not Entity.IsNull(e)and Fox.GetPlatformName()=="Windows"then
+EdRouteDataNodeEvent.SetEventDefinitionPath("Soldier2","Tpp/Scripts/RouteEvents/AiRtEvSoldier2.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Soldier2","Tpp/Scripts/RouteEvents/AiRtEvSoldier2.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Hostage2","Tpp/Scripts/RouteEvents/AiRtEvHostage2.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Hostage2","Tpp/Scripts/RouteEvents/AiRtEvHostage2.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Uav","Tpp/Scripts/RouteEvents/AiRtEvUav.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Uav","Tpp/Scripts/RouteEvents/AiRtEvUav.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Sahelan2","Tpp/Scripts/RouteEvents/AiRtEvSahelan2.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Sahelan2","Tpp/Scripts/RouteEvents/AiRtEvSahelan2.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Volgin2","Tpp/Scripts/RouteEvents/AiRtEvVolgin2.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Volgin2","Tpp/Scripts/RouteEvents/AiRtEvVolgin2.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Liquid2","Tpp/Scripts/RouteEvents/AiRtEvLiquid2.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Liquid2","Tpp/Scripts/RouteEvents/AiRtEvLiquid2.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Heli","Tpp/Scripts/RouteEvents/AiRtEvHeli.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Heli","Tpp/Scripts/RouteEvents/AiRtEvHeli.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Animal","Tpp/Scripts/RouteEvents/AiRtEvAnimal.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Animal","Tpp/Scripts/RouteEvents/AiRtEvAnimal.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("BossQuiet","Tpp/Scripts/RouteEvents/AiRtEvBossQuiet.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("BossQuiet","Tpp/Scripts/RouteEvents/AiRtEvBossQuiet.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("MbQuiet","Tpp/Scripts/RouteEvents/AiRtEvMbQuiet.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("MbQuiet","Tpp/Scripts/RouteEvents/AiRtEvMbQuiet.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("BuppyPuppy","Tpp/Scripts/RouteEvents/AiRtEvBuddyPuppy.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("BuppyPuppy","Tpp/Scripts/RouteEvents/AiRtEvBuddyPuppy.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("Horse2forVr","Tpp/Scripts/RouteEvents/AiRtEvHorse2forVr.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("Horse2forVr","Tpp/Scripts/RouteEvents/AiRtEvHorse2forVr.lua")EdRouteDataNodeEvent.SetEventDefinitionPath("AimTarget","Tpp/Scripts/RouteEvents/AiRtEvAimTarget.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("AimTarget","Tpp/Scripts/RouteEvents/AiRtEvAimTarget.lua")EdRouteDataNodeEvent.SetEventList"Soldier2"EdRouteDataEdgeEvent.SetEventList"Soldier2"if Preference then
+local e=Preference.GetPreferenceEntity"EdRoutePreference"if not Entity.IsNull(e)and Fox.GetPlatformName()=="Windows"then
 if e.routeSystemScript==""then
 e.routeSystemScript="/Assets/tpp/editor_scripts/fox/route/TppRouteSystem.lua"end
 end
@@ -50,58 +46,43 @@ end
 if TppCoverPointProvider then
 TppCoverPointProvider.Create()
 end
-NavTactical.SetTacticalActionSystemScript"/Assets/tpp/editor_scripts/fox/tactical_action/TppTacticalActionSystem.lua"
-local a=true
+NavTactical.SetTacticalActionSystemScript"/Assets/tpp/editor_scripts/fox/tactical_action/TppTacticalActionSystem.lua"local a=true
 if not AssetConfiguration.IsDiscOrHddImage()then
 a=AssetConfiguration.GetConfigurationFromAssetManager"EnableWindowsDX11Texture"end
 if GrDaemon then
 local e=Fox.GetPlatformName()
-local t=""
-if GrTools then
+local t=""if GrTools then
 t=GrTools.GetDeviceName()
 end
 if e=="Windows"then
 if t=="directx9"then
-GrTools.LoadShaderPack"shaders/win32/TppShaders_win32.fsop"
-if a then
-dofile"shaders/win32/TppShadersNoLnm_win32.lua"
-else
+GrTools.LoadShaderPack"shaders/win32/TppShaders_win32.fsop"if a then
+dofile"shaders/win32/TppShadersNoLnm_win32.lua"else
 dofile"shaders/win32/TppShaders_win32.lua"end
 end
 if t=="directx11"then
-GrTools.LoadShaderPack"shaders/dx11/TppShaders_dx11.fsop"
-if a then
-dofile"shaders/dx11/TppShadersNoLnm_dx11.lua"
-else
+GrTools.LoadShaderPack"shaders/dx11/TppShaders_dx11.fsop"if a then
+dofile"shaders/dx11/TppShadersNoLnm_dx11.lua"else
 dofile"shaders/dx11/TppShaders_dx11.lua"end
 end
 elseif e=="Xbox360"then
-GrTools.LoadShaderPack"shaders\\xbox360\\TppShaders_x360.fsop"
-dofile"shaders/xbox360/TppShaders_x360.lua"
-elseif e=="PS3"then
-GrTools.LoadShaderPack"shaders/ps3/TppShaders_ps3.fsop.sdat"
-dofile"shaders/ps3/TppShaders_ps3.lua"
-elseif e=="XboxOne"then
-GrTools.LoadShaderPack"shaders/xboxone/TppShaders_xone.fsop"
-dofile"shaders/xboxone/TppShadersNoLnm_xone.lua"
-elseif e=="PS4"then
-GrTools.LoadShaderPack"shaders/ps4/TppShaders_ps4.fsop"
-dofile"shaders/ps4/TppShadersNoLnm_ps4.lua"end
+GrTools.LoadShaderPack"shaders\\xbox360\\TppShaders_x360.fsop"dofile"shaders/xbox360/TppShaders_x360.lua"elseif e=="PS3"then
+GrTools.LoadShaderPack"shaders/ps3/TppShaders_ps3.fsop.sdat"dofile"shaders/ps3/TppShaders_ps3.lua"elseif e=="XboxOne"then
+GrTools.LoadShaderPack"shaders/xboxone/TppShaders_xone.fsop"dofile"shaders/xboxone/TppShadersNoLnm_xone.lua"elseif e=="PS4"then
+GrTools.LoadShaderPack"shaders/ps4/TppShaders_ps4.fsop"dofile"shaders/ps4/TppShadersNoLnm_ps4.lua"end
 end
 TppFadeOutEffectHolder.Create()
 TppEffectUtility.SetEnableWindowsDirectX11Textures(a)
 TppEffectUtility.InitThermalReactionObjectUnionMaterial()
 if Preference then
-local e=Preference.GetPreferenceEntity"FxEditorSetting"
-if not Entity.IsNull(e)and Fox.GetPlatformName()=="Windows"then
+local e=Preference.GetPreferenceEntity"FxEditorSetting"if not Entity.IsNull(e)and Fox.GetPlatformName()=="Windows"then
 if#e.defineFiles==0 then
 Command.AddPropertyElement{entity=e,property="defineFiles"}
 end
 e.defineFiles[1]="../../Tpp/Tpp/Fox/LevelEditor/Fx/tppFxModuleDefines.xml"end
 end
 if FxDaemon then
-FxDaemon:InitializeReserveObject"TppShaderPool"FxDaemon:InitializeReserveObject"TppTexturePoolManager"
-if Fox.GetPlatformName()=="Windows"then
+FxDaemon:InitializeReserveObject"TppShaderPool"FxDaemon:InitializeReserveObject"TppTexturePoolManager"if Fox.GetPlatformName()=="Windows"then
 FxSystemConfig.SetLimitInstanceMemorySize((1024*1024)*24)FxSystemConfig.SetLimitInstanceMemoryDefaultSize((1024*1024)*24)
 else
 FxSystemConfig.SetLimitInstanceMemorySize((1024*1024)*9)FxSystemConfig.SetLimitInstanceMemoryDefaultSize((1024*1024)*9)
@@ -119,16 +100,13 @@ else
 AssetConfiguration.SetGroupCurrentLanguage("Sound","eng")
 end
 if e=="jpn"then
-SubtitlesDaemon.SetDefaultVoiceLanguage"jpn"SubtitlesCommand.SetVoiceLanguage"jpn"
-else
+SubtitlesDaemon.SetDefaultVoiceLanguage"jpn"SubtitlesCommand.SetVoiceLanguage"jpn"else
 SubtitlesDaemon.SetDefaultVoiceLanguage"eng"SubtitlesCommand.SetVoiceLanguage"eng"end
 SubtitlesCommand.SetLanguage(e)
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-SoundCoreDaemon.SetAssetPath"/Assets/mgo/sound/asset/"
-else
+SoundCoreDaemon.SetAssetPath"/Assets/mgo/sound/asset/"else
 if LuaUnitTest then
-SoundCoreDaemon.SetAssetPath"/Assets/tpp/sound/asset/"
-else
+SoundCoreDaemon.SetAssetPath"/Assets/tpp/sound/asset/"else
 SoundCoreDaemon.SetAssetPath"/Assets/tpp/sound/asset/"end
 end
 SoundCoreDaemon.SetInterferenceRTPCName("obstruction_rtpc","occlusion_rtpc")SoundCoreDaemon.SetDopplerRTPCName"doppler"SoundCoreDaemon.SetRearParameter("rear_rtpc",5)
@@ -197,8 +175,7 @@ package.path=package.path..";/Assets/tpp/editor_scripts/?.lua"end
 if Editor then
 local e=Application:GetInstance()
 local t=e:GetMainGame()
-local e=e:GetScene"MainScene"
-local e=t:CreateBucket("SetupBucket",e)e:LoadProjectFile"/Assets/tpp/level/location/SetupLocation2.fxp"end
+local e=e:GetScene"MainScene"local e=t:CreateBucket("SetupBucket",e)e:LoadProjectFile"/Assets/tpp/level/location/SetupLocation2.fxp"end
 if a=="Windows"then
 if TppLightCapture then
 TppLightCapture.InitInstance()
@@ -220,8 +197,7 @@ elseif a=="PS4"then
 e=((e+450*1024)+400*1024)+100*1024
 end
 TppGameSequence.SetSystemBlockSize(e,(40.5*1024)*1024)
-TppGameSequence.LoadResidentBlock"/Assets/tpp/pack/resident/resident00.fpk"
-if TppSystemUtility.GetCurrentGameMode()~="MGO"then
+TppGameSequence.LoadResidentBlock"/Assets/tpp/pack/resident/resident00.fpk"if TppSystemUtility.GetCurrentGameMode()~="MGO"then
 Player.CreateResidentMotionBlock{size=((6*1024)*1024-8*1024)-(.55*1024)*1024}Player.CreateResidentPartsBlock{count=1,size=(1.45*1024)*1024+32*1024}Player.RegisterCommonMotionPackagePath("DefaultCommonMotion","/Assets/tpp/pack/player/motion/player2_resident_motion.fpk","/Assets/tpp/motion/motion_graph/player2/TppPlayer2_layers.mog")Player.RegisterCommonMtarPath("/Assets/tpp/motion/mtar/player2/player2_resident.mtar","/Assets/tpp/motion/mtar/player2/TppPlayer2Facial.mtar")
 else
 Player.CreateResidentMotionBlock{size=12068883}Player.CreateResidentPartsBlock{count=16,size=1126*1024}
@@ -236,8 +212,7 @@ else
 Player.RegisterCommonMotionPackagePath("DefaultCommonMotion","/Assets/mgo/pack/player/motion/mgo_player_resident_motion.fpk","/Assets/mgo/motion/motion_graph/player/MgoPlayer_layers.mog")Player.RegisterCommonMotionPackagePath("MgoCommonMotion","/Assets/mgo/pack/player/motion/mgo_player_resident_motion.fpk","/Assets/mgo/motion/motion_graph/player/MgoPlayer_layers.mog")Player.RegisterCommonMtarPath("/Assets/mgo/motion/mtar/player/mgoplayer_resident.mtar","/Assets/tpp/motion/mtar/player2/TppPlayer2Facial.mtar")
 end
 end
-Player.RegisterCameraCaarPath"/Assets/tpp/motion/mtar/player2/player2_camera_anim.caar"
-if TppSystemUtility.GetCurrentGameMode()~="MGO"then
+Player.RegisterCameraCaarPath"/Assets/tpp/motion/mtar/player2/player2_camera_anim.caar"if TppSystemUtility.GetCurrentGameMode()~="MGO"then
 Player.RegisterPartsPackagePath("PLTypeNormal","/Assets/tpp/pack/player/parts/plparts_normal.fpk","/Assets/tpp/parts/chara/sna/sna0_main0_def_v00.parts")Player.RegisterPartsPackagePath("PLTypeNormalScarf","/Assets/tpp/pack/player/parts/plparts_normal_scarf.fpk","/Assets/tpp/parts/chara/sna/sna0_main1_def_v00.parts")Player.RegisterPartsPackagePath("PLTypeSneakingSuit","/Assets/tpp/pack/player/parts/plparts_sneaking_suit.fpk","/Assets/tpp/parts/chara/sna/sna2_main0_def_v00.parts")Player.RegisterPartsPackagePath("PLTypeHospital","/Assets/tpp/pack/player/parts/plparts_hospital.fpk","/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")Player.RegisterPartsPackagePath("PLTypeMGS1","/Assets/tpp/pack/player/parts/plparts_mgs1.fpk","/Assets/tpp/parts/chara/sna/sna6_main0_def_v00.parts")Player.RegisterPartsPackagePath("PLTypeRaiden","/Assets/tpp/pack/player/parts/plparts_raiden.fpk","/Assets/tpp/parts/chara/rai/rai0_main0_def_v00.parts")Player.RegisterPartsPackagePath("PLTypeNinja","/Assets/tpp/pack/player/parts/plparts_ninja.fpk","/Assets/tpp/parts/chara/nin/nin0_main0_def_v00.parts")
 end
 if TppSoldier2CommonBlockController then
@@ -246,16 +221,14 @@ TppSoldier2CommonBlockController.SetPackagePathWithPrerequisites{path="/Assets/t
 end
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
 TppEquip.CreateResidentBlockGroups{commonBlockSize=(12*1024)*1024}
-TppEquip.LoadCommonBlock"/Assets/mgo/pack/collectible/common/col_common_mgo.fpk"
-else
+TppEquip.LoadCommonBlock"/Assets/mgo/pack/collectible/common/col_common_mgo.fpk"else
 TppEquip.CreateResidentBlockGroups{commonBlockSize=(1.9*1024)*1024,primary1BlockSize=(.55*1024)*1024,primary2BlockSize=(.55*1024)*1024,secondaryBlockSize=(.34*1024)*1024}
 TppEquip.LoadCommonBlock"/Assets/tpp/pack/collectible/common/col_common_tpp.fpk"end
 if TppSystemUtility.GetCurrentGameMode()=="MGO"and MgoActorBlockControllerService then
 MgoActorBlockControllerService:SetBlockInfo(MgoActor.MGO_ACTOR_BLOCK_PARTS,"/Assets/mgo/pack/actor/actor_parts.fpk",2048)
 end
 if Editor then
-TppEdMissionListEditInfo.SetConverterScriptPath"Tpp/Scripts/Classes/TppEdMissionConverterCaller.lua"
-if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+TppEdMissionListEditInfo.SetConverterScriptPath"Tpp/Scripts/Classes/TppEdMissionConverterCaller.lua"if TppSystemUtility.GetCurrentGameMode()=="MGO"then
 EdDemoEditBlockController.AddToolsBlockPath"/Assets/mgo/demo/event/info/MgoEdDemoEditTools.fpk"end
 EdDemoEditBlockController.AddToolsBlockPath"/Assets/tpp/demo/event/info/TppEdDemoEditTools.fpk"end
 if NavWorldDaemon then
@@ -288,50 +261,39 @@ TppMotherBaseManagement.SetMbsPlatformSecurityParam{platform="Common3",soldierQu
 if Script.LoadLibrary then
 local i
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-i="/Assets/mgo/"
-else
+i="/Assets/mgo/"else
 i="/Assets/tpp/"end
 local e
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-e="/Assets/mgo/level_asset/weapon/ParameterTables/EquipIdTable.lua"
-else
+e="/Assets/mgo/level_asset/weapon/ParameterTables/EquipIdTable.lua"else
 e="Tpp/Scripts/Equip/EquipIdTable.lua"end
 Script.LoadLibraryAsync(e)
 while Script.IsLoadingLibrary(e)do
 t()
 end
-local e=i.."level_asset/weapon/ParameterTables/parts/EquipParameters.lua"
-if TppEquip.IsExistFile(e)then
+local e=i.."level_asset/weapon/ParameterTables/parts/EquipParameters.lua"if TppEquip.IsExistFile(e)then
 Script.LoadLibrary(e)
 else
 Script.LoadLibrary"Tpp/Scripts/Equip/EquipParameters.lua"end
 t()
-local e=i.."level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua"
-if TppEquip.IsExistFile(e)then
+local e=i.."level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua"if TppEquip.IsExistFile(e)then
 Script.LoadLibrary(e)
 end
-Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua"Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua"
-if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerTables.lua"Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerProgression.lua"Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/ChimeraPartsPackageTable.lua"Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipParameterTables.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/EquipConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/WeaponParameterTables.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/RulesetConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/SafeSpawnConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/SoundtrackConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/PresetRadioConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/player/Stats/StatTables.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/PointOfInterestConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/damage/ParameterTables/DamageParameterTables.lua"Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipMotionData.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/MgoWeaponParameters.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/GearConfig.lua"
-else
+Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua"Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua"if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerTables.lua"Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerProgression.lua"Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/ChimeraPartsPackageTable.lua"Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipParameterTables.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/EquipConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/WeaponParameterTables.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/RulesetConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/SafeSpawnConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/SoundtrackConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/PresetRadioConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/player/Stats/StatTables.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/PointOfInterestConfig.lua"Script.LoadLibrary"/Assets/mgo/level_asset/damage/ParameterTables/DamageParameterTables.lua"Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipMotionData.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/MgoWeaponParameters.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/GearConfig.lua"else
 t()Script.LoadLibrary"Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua"t()Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua"t()Script.LoadLibrary"/Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua"t()Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua"Script.LoadLibrary"Tpp/Scripts/Equip/EquipMotionData.lua"Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua"Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"t()Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua"t()
 end
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"
-else
+Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"else
 Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"end
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
 Script.LoadLibrary"/Assets/mgo/script/lib/Overrides.lua"end
-Script.LoadLibraryAsync"/Assets/tpp/script/lib/Tpp.lua"
-while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
+Script.LoadLibraryAsync"/Assets/tpp/script/lib/Tpp.lua"while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
 t()
 end
-Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"
-if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-Script.LoadLibrary"/Assets/mgo/script/utils/SaveLoad.lua"Script.LoadLibrary"/Assets/mgo/script/lib/PostTppOverrides.lua"Script.LoadLibrary"/Assets/mgo/script/lib/MgoMain.lua"Script.LoadLibrary"Tpp/Scripts/System/Block/Overflow.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/TppMissionList.lua"Script.LoadLibrary"/Assets/mgo/script/utils/Utils.lua"Script.LoadLibrary"/Assets/mgo/script/gear/RegisterGear.lua"Script.LoadLibrary"/Assets/mgo/script/gear/RegisterConnectPointFiles.lua"Script.LoadLibrary"/Assets/mgo/script/player/PlayerResources.lua"Script.LoadLibrary"/Assets/mgo/script/player/PlayerDefaults.lua"Script.LoadLibrary"/Assets/mgo/script/Matchmaking.lua"
-else
-Script.LoadLibrary"/Assets/tpp/script/list/TppMissionList.lua"Script.LoadLibrary"/Assets/tpp/script/list/TppQuestList.lua"
-if a=="PS3"then
+Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+Script.LoadLibrary"/Assets/mgo/script/utils/SaveLoad.lua"Script.LoadLibrary"/Assets/mgo/script/lib/PostTppOverrides.lua"Script.LoadLibrary"/Assets/mgo/script/lib/MgoMain.lua"Script.LoadLibrary"Tpp/Scripts/System/Block/Overflow.lua"Script.LoadLibrary"/Assets/mgo/level_asset/config/TppMissionList.lua"Script.LoadLibrary"/Assets/mgo/script/utils/Utils.lua"Script.LoadLibrary"/Assets/mgo/script/gear/RegisterGear.lua"Script.LoadLibrary"/Assets/mgo/script/gear/RegisterConnectPointFiles.lua"Script.LoadLibrary"/Assets/mgo/script/player/PlayerResources.lua"Script.LoadLibrary"/Assets/mgo/script/player/PlayerDefaults.lua"Script.LoadLibrary"/Assets/mgo/script/Matchmaking.lua"else
+Script.LoadLibrary"/Assets/tpp/script/list/TppMissionList.lua"Script.LoadLibrary"/Assets/tpp/script/list/TppQuestList.lua"if a=="PS3"then
 Script.LoadLibrary"/Assets/tpp/script/list/TppMissionPrxList.lua"end
 end
 end
@@ -346,8 +308,7 @@ if Game.DEBUG_AddScript then
 local e,t=pcall(function()
 local e=io.open("tmp/my_debug_script.lua","r")
 if e then
-local e=e:read"*a"
-local t=Application.GetInstance()
+local e=e:read"*a"local t=Application.GetInstance()
 local t=t:GetMainGame()t:DEBUG_AddScript(e)
 end
 end)
@@ -357,8 +318,7 @@ end
 if Game.DEBUG_AddScript then
 local e=io.open("Tpp/tmp/release_test_script.lua","r")
 if e then
-local t=e:read"*a"
-local e=Application.GetInstance()
+local t=e:read"*a"local e=Application.GetInstance()
 local e=e:GetMainGame()e:DEBUG_AddScript(t)Script.LoadLibrary"/Assets/tpp/editor_scripts/tpp_editor_menu2.lua"Script.LoadLibrary"/Assets/tpp/script/entry/MissionEntry.lua"Script.LoadLibrary"/Assets/tpptest/script/lib/MissionTest.lua"end
 end
 math.randomseed(os.time())t()GrTools.SetSunLightReflectionMapShader"TPPSunLightReflectMap"GrTools.SetEnvironmentSpecularCubeTexture"/Assets/tpp/effect/gr_pic/gr_cub01_sm_SkySpecCommon.ftex"GrTools.SetEnableLocalReflection(true)GrTools.SetLightingColorScale(1.8)t()do

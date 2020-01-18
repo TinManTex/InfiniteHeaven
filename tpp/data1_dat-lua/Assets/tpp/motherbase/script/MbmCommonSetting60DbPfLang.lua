@@ -95,22 +95,22 @@ TppMotherBaseManagement.RegisterAnimalParam{dataBaseId=TppMotherBaseManagementCo
 TppMotherBaseManagement.RegisterAnimalParam{dataBaseId=TppMotherBaseManagementConst.ANIMAL_2241,gmp=500,animalRarity=TppMotherBaseManagementConst.ANIMAL_RARE_N,isAfgh=true}
 TppMotherBaseManagement.RegisterAnimalParam{dataBaseId=TppMotherBaseManagementConst.ANIMAL_2250,gmp=2e5,animalRarity=TppMotherBaseManagementConst.ANIMAL_RARE_SSR,isMafr=true}
 if TppMotherBaseManagement.RegisterMissionGettableDesign~=nil then
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10033,dataBaseId=TppMotherBaseManagementConst.DESIGN_2007}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10041,dataBaseId=TppMotherBaseManagementConst.DESIGN_2025}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10070,dataBaseId=TppMotherBaseManagementConst.DESIGN_2013}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10080,dataBaseId=TppMotherBaseManagementConst.DESIGN_2009}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10086,dataBaseId=TppMotherBaseManagementConst.DESIGN_2019}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10082,dataBaseId=TppMotherBaseManagementConst.DESIGN_2008}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10090,dataBaseId=TppMotherBaseManagementConst.DESIGN_2016}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10195,dataBaseId=TppMotherBaseManagementConst.DESIGN_2011}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10100,dataBaseId=TppMotherBaseManagementConst.DESIGN_2002}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10121,dataBaseId=TppMotherBaseManagementConst.DESIGN_2006}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10120,dataBaseId=TppMotherBaseManagementConst.DESIGN_3001}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10130,dataBaseId=TppMotherBaseManagementConst.DESIGN_2015}
-  TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10171,dataBaseId=TppMotherBaseManagementConst.DESIGN_2026}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10033,dataBaseId=TppMotherBaseManagementConst.DESIGN_2007}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10041,dataBaseId=TppMotherBaseManagementConst.DESIGN_2025}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10070,dataBaseId=TppMotherBaseManagementConst.DESIGN_2013}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10080,dataBaseId=TppMotherBaseManagementConst.DESIGN_2009}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10086,dataBaseId=TppMotherBaseManagementConst.DESIGN_2019}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10082,dataBaseId=TppMotherBaseManagementConst.DESIGN_2008}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10090,dataBaseId=TppMotherBaseManagementConst.DESIGN_2016}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10195,dataBaseId=TppMotherBaseManagementConst.DESIGN_2011}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10100,dataBaseId=TppMotherBaseManagementConst.DESIGN_2002}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10121,dataBaseId=TppMotherBaseManagementConst.DESIGN_2006}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10120,dataBaseId=TppMotherBaseManagementConst.DESIGN_3001}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10130,dataBaseId=TppMotherBaseManagementConst.DESIGN_2015}
+TppMotherBaseManagement.RegisterMissionGettableDesign{missionId=10171,dataBaseId=TppMotherBaseManagementConst.DESIGN_2026}
 end
 TppMotherBaseManagement.RegisterFobSecurityCostParam{soldierBasicGmp=100,grade0=0,grade1=100,grade2=200,grade3=300,grade4=400,grade5=500,grade6=600,grade7=700,grade8=800,grade9=900}
-TppMotherBaseManagement.RegisterSecurityCostPerUnit{soldier={100,150,200,300,500,800,1e3},weapon={100,150,200,350,500,1e3,2e3},noKillWeapon={100,150,200,350,500,1e3,2e3},sensor={0,0,1e3,2e3,3e3,3e3,3e3},protect={0,0,1500,2500,5e3,5e3,5e3},camera={0,0,2e3,3e3,4e3,4e3,4e3},gunCamera={0,0,0,3500,4500,7e3,7e3},noKillUav={0,0,0,4e3,5e3,6e3,7e3},uav={0,0,3e3,3500,5e3,5e3,5e3},decoy={0,1200,2300,3600,3600,3600,3600},mine={0,0,1400,2900,4700,4700,4700}}
+TppMotherBaseManagement.RegisterSecurityCostPerUnit{soldier={0,0,200,300,500,800,1e3},noKillSoldier={0,150,200,300,500,800,1e3},weapon={100,150,200,350,500,1e3,2e3},noKillWeapon={100,150,200,350,500,1e3,2e3},sensor={0,0,1e3,2e3,3e3,3e3,3e3},protect={0,0,1500,2500,5e3,5e3,5e3},camera={0,0,2e3,3e3,4e3,4e3,4e3},gunCamera={0,0,0,3500,4500,7e3,7e3},noKillUav={0,0,0,4e3,5e3,6e3,7e3},uav={0,0,3e3,3500,5e3,5e3,5e3},decoy={0,1200,2300,3600,3600,3600,3600},mine={0,0,1400,2900,4700,4700,4700}}
 TppMotherBaseManagement.RegisterPfRatingPointParam{point=1e4,rank="A",section="Combat"}
 TppMotherBaseManagement.RegisterPfRatingPointParam{point=1e4,rank="A",section="Develop"}
 TppMotherBaseManagement.RegisterPfRatingPointParam{point=1e4,rank="A",section="BaseDev"}

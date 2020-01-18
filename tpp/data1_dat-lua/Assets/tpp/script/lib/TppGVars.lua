@@ -2,8 +2,6 @@
 -- ORIGINALQAR: data1
 -- FILEPATH: \Assets\tpp\script\lib\TppGVars.lua
 local e={}
---local cc=SplashScreen.Create("cc","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5003_l_alp.ftex",1280,640)  
---SplashScreen.Show(cc)--tex foxhound
 e.DeclareGVarsTable={
   {name="ini_isReturnToTitle",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="ini_isTitleMode",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
@@ -30,6 +28,8 @@ e.DeclareGVarsTable={
   {name="sav_SaveResultCheckFileName",type=TppScriptVars.TYPE_UINT32,value=0,save=false},
   {name="sav_isReservedMbSaveResultNotify",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="isContinueFromTitle",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
+  {name="sav_isCheckPointSaving",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
+  {name="isLoadedInitMissionOnSignInUserChanged",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="exc_processState",type=TppScriptVars.TYPE_UINT8,value=0,save=false},
   {name="exc_exceptionProcessing",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="exc_processingExecptionType",type=TppScriptVars.TYPE_UINT8,value=0,save=false},
@@ -42,6 +42,7 @@ e.DeclareGVarsTable={
   {name="title_nextMissionCode",type=TppScriptVars.TYPE_UINT16,value=0,save=false},
   {name="f30050_missionPackIndex",type=TppScriptVars.TYPE_UINT8,value=0,save=false},
   {name="f30050_needUpdateNuclearFlag",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
+  {name="fobTipsCount",type=TppScriptVars.TYPE_INT32,value=TppDefine.TIPS.WORM_HOLE,save=false},
   {name="isNewGame",type=TppScriptVars.TYPE_BOOL,value=true,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
   {name="missionStartClock",type=TppScriptVars.TYPE_UINT32,value=(12*60)*60,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="missionStartWeather",type=TppScriptVars.TYPE_UINT8,value=TppDefine.WEATHER.SUNNY,save=true,category=TppScriptVars.CATEGORY_MISSION},
@@ -276,12 +277,12 @@ e.DeclareGVarsTable={
   {name="dbg_forceMaster",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="dbg_autoMissionOpenClearCheck",type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},
   --[[--tex mod settings save vars--]]
-  {name="startOffline",type=TppScriptVars.TYPE_BOOL,value=true,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
+  {name="startOffline",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},--[[--tex cant get it to read, yet isNewgame is fine? does it only work with bools?--]]
   {name="isManualSubsistence",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="subsistenceLoadout",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="isManualHard",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="revengeMode",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
-  {name="modParameters",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="enemyParameters",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},--[[--tex global to save the bother of having to start and abort mission to save, just to restart to get the defaults.--]]
   {name="playerHealthMult",type=TppScriptVars.TYPE_FLOAT,value=1,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="enemyHealthMult",type=TppScriptVars.TYPE_FLOAT,value=1,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="unlockSideOps",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},

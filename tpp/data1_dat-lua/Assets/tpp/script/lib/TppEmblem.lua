@@ -11,62 +11,67 @@ end
 function o.AcquireOnAllMissionTaskComleted(a)o._AcquireByMissionCode(r,a)
 end
 function o.AcquireOnAllMissionCleared()
-  local r={"word3","word38","word39"}
-  for a,r in ipairs(r)do
-    o.Add(r,true)
-  end
+local r={"word3","word38","word39"}
+for a,r in ipairs(r)do
+o.Add(r,true)
+end
 end
 function o.AcquireOnAllMissionSRankCleared()
-  local r={"word56","word57","front83","front84"}
-  for a,r in ipairs(r)do
-    o.Add(r,true)
-  end
+local r={"word56","word57","front83","front84"}
+for a,r in ipairs(r)do
+o.Add(r,true)
+end
 end
 function o._AcquireByMissionCode(a,r)
-  local r=a[r]if not r then
-    return
-  end
-  if Tpp.IsTypeString(r)then
-    o.Add(r,true)
-  elseif Tpp.IsTypeTable(r)then
-    for a,r in ipairs(r)do
-      o.Add(r,true)
-    end
-  end
+local r=a[r]
+if not r then
+return
 end
-function o.SetUpCpEmblemTag(o,r)mvars.emb_cpAnihilateEmblemTag=mvars.emb_cpAnihilateEmblemTag or{}
-  local o=d[o]if o then
-    mvars.emb_cpAnihilateEmblemTag[r]=o
-  end
+if Tpp.IsTypeString(r)then
+o.Add(r,true)
+elseif Tpp.IsTypeTable(r)then
+for a,r in ipairs(r)do
+o.Add(r,true)
+end
+end
+end
+function o.SetUpCpEmblemTag(o,r)
+mvars.emb_cpAnihilateEmblemTag=mvars.emb_cpAnihilateEmblemTag or{}
+local o=d[o]
+if o then
+mvars.emb_cpAnihilateEmblemTag[r]=o
+end
 end
 function o.AcquireOnCommandPostAnnihilated(r)
-  if not mvars.emb_cpAnihilateEmblemTag then
-    return
-  end
-  local r=mvars.emb_cpAnihilateEmblemTag[r]if r then
-    o.Add(r,false,true)
-  end
+if not mvars.emb_cpAnihilateEmblemTag then
+return
+end
+local r=mvars.emb_cpAnihilateEmblemTag[r]
+if r then
+o.Add(r,false,true)
+end
 end
 function o.AcquireByPlayStyle(r)
-  local r=n[r]if r then
-    local a=string.format("front%04d",r)
-    local r=string.format("word%04d",r)o.Add(a,true)o.Add(r,true)
-  end
+local r=n[r]
+if r then
+local a=string.format("front%04d",r)
+local r=string.format("word%04d",r)o.Add(a,true)o.Add(r,true)
+end
 end
 function o.Add(o,e,a)
-  if TppUiCommand.HasEmblemTexture(o)then
-    return
-  end
-  TppUiCommand.AddEmblemTexture(o)
-  local r=TppUiCommand.GetEmblemPartsType(o)
-  if e then
-    TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="dummy",rewardType=TppReward.TYPE.EMBLEM,arg1=Fox.StrCode32(o),arg2=r}
-  end
-  if a then
-    local a=TppUiCommand.GetEmblemLangId(o)
-    local o=TppUI.EMBLEM_ANNOUNCE_LOG_TYPE[r]
-    TppUI.ShowAnnounceLog(o,a)
-  end
-  return true
+if TppUiCommand.HasEmblemTexture(o)then
+return
+end
+TppUiCommand.AddEmblemTexture(o)
+local r=TppUiCommand.GetEmblemPartsType(o)
+if e then
+TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="dummy",rewardType=TppReward.TYPE.EMBLEM,arg1=Fox.StrCode32(o),arg2=r}
+end
+if a then
+local a=TppUiCommand.GetEmblemLangId(o)
+local o=TppUI.EMBLEM_ANNOUNCE_LOG_TYPE[r]
+TppUI.ShowAnnounceLog(o,a)
+end
+return true
 end
 return o
