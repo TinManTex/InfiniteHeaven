@@ -1,7 +1,7 @@
 = Infinite heaven =
-r48 2015-10-20
+r49 2015-10-23
 by tin man tex
-For MGSV version 1.0.4.0 (1.04 in title screen)
+For MGSV version 1.0.4.1 (1.04 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
@@ -14,7 +14,7 @@ Bounder - Pure as base but allows: Buddy, changing Suit (which should also allow
 
 OSP Weapon Loadout - Seperate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, or just primary set to none.
 
-Enemy Preparedness max - the same 'revenge system' max as the extreme missions. All soldiers have body armor and helmets, many heavy weapons deployed.
+Enemy Preparedness max - the same 'revenge system' max as the extreme missions. Most soldiers have gear equipped, such as helmets, body armor, nvg, many heavy weapons deployed.
 
 Mother Base soldier tweaks:
 
@@ -124,9 +124,15 @@ Subsidence mode will still technically do a full deployment cost of what's set. 
 
 When changing General Enemy Parameters back to Default you must exit to title to have the setting save, then restart the game to have it load the default enemy parameters.
 
+There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
+
 Changelog:
+r49 2015-10-23 - public release
+Fix soldiers not driving their patrolling trucks - thanks bindleford
+
 r48 2015-10-20 - public release
 Retail 1.0.4.1 merge
+r48a Snakebite msgv version mismatch fix
 
 r47 2015-10-19
 Mother base DD suit

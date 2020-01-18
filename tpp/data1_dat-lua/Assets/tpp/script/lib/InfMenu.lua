@@ -448,7 +448,6 @@ function this.GoMenu(menu)
   if menu.name then
     TppUiCommand.AnnounceLogView(menu.name)
   end
-  TppUiCommand.AnnounceLogView()
   if menu.parent==nil then
     TppUiCommand.AnnounceLogView("Option Menu Error: parent = nil")
   end
@@ -575,7 +574,7 @@ function this.UpdateModMenu()
   end
   InfButton.UpdateHeld()
   if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
-    if TppMission.IsHelicopterSpace(vars.missionCode)then
+    if TppMission.IsHelicopterSpace(vars.missionCode)then    
       --tex RETRY: still not happy, want to read menu status but cant find any way
       if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
         this.modMenuOn = not this.modMenuOn

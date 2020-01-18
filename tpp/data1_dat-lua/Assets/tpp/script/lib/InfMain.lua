@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r48"
+this.modVersion = "r49"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
@@ -15,7 +15,7 @@ this.subsistenceLoadouts={--tex pure,secondary.
   SUBSISTENCE_SECONDARY_INITIAL_WEAPON_TABLE
 }
 
-this.numQuests=157--tex added SYNC: number of quests REFACTOR: better place, but hangs modsettings if in tppdefine or tppquest
+this.numQuests=157--tex added SYNC: number of quests
 this.disallowSideOps={[144]=true};
 
 this.SETTING_SUBSISTENCE_PROFILE=Enum{"OFF","PURE","BOUNDER"}--SYNC: isManualSubsistence setting names
@@ -31,6 +31,73 @@ this.SETTING_MB_DD_SUITS=Enum{--SYNC: TppEnemy
   "FOB_PF_SUIT_ARMOR",
   "MAX",
 }
+this.SETTING_FORCE_ENEMY_TYPE=Enum{
+  "DEFAULT",
+  "TYPE_DD",
+  "TYPE_SOVIET",
+  "TYPE_PF",
+  "TYPE_SKULL",
+  "TYPE_CHILD",
+  "MAX",
+}
+this.SETTING_FORCE_ENEMY_SUBTYPE=Enum{
+  "DEFAULT",
+  "DD_A",
+  "DD_PW",
+  "DD_FOB",
+  "SKULL_CYPR",
+  "SKULL_AFGH",
+  "SOVIET_A",
+  "SOVIET_B",
+  "PF_A",
+  "PF_B",
+  "PF_C",
+  "CHILD_A",
+  "MAX",
+}
+
+--[[
+EnemyType.TYPE_SOVIET
+EnemyType.TYPE_PF
+EnemyType.TYPE_DD
+EnemyType.TYPE_SKULL
+EnemyType.TYPE_CHILD
+--]]
+local soldierSubTypesForType={
+  [EnemyType.TYPE_DD]={
+    "DD_A",
+    "DD_PW",
+    "DD_FOB",  
+  },
+  [EnemyType.TYPE_SKULL]={
+    "SKULL_CYPR",
+    "SKULL_AFGH",
+  },
+  [EnemyType.TYPE_SOVIET]={
+    "SOVIET_A",
+    "SOVIET_B",
+  },
+  [EnemyType.TYPE_PF]={
+    "PF_A",
+    "PF_B",
+    "PF_C", 
+  },
+  [EnemyType.TYPE_CHILD]={
+    "CHILD_A",
+  },
+}
+function this.IsSubTypeCorrectForType(soldierType,subType)
+  for n, _subType in pairs(soldierSubTypesForType[soldierType])do
+    if subType == _subType then
+      return true
+    end
+  end
+  return false
+end
+function this.ForceSoldierType(soldierId,soldierType)
+  
+  --TppEnemy.GetDefaultSoldierSubType(soldierType)
+end
 
 function this.IsMbWarGames()
   return gvars.mbWarGames>0 and vars.missionCode == 30050
@@ -70,6 +137,12 @@ function this.GetMbsClusterSecurityIsNoKillMode()
       isNoKillMode=(gvars.mbWarGames==InfMain.SETTING_MB_WARGAMES.NONLETHAL)
     end
     return isNoKillMode
+end
+
+function this.DisplayFox32(foxString)
+    TppUiCommand.AnnounceLogView("string: "..foxString)
+    local str32 = Fox.StrCode32(foxString)
+    TppUiCommand.AnnounceLogView(str32)
 end
 
 return this

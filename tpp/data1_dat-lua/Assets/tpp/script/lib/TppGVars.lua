@@ -293,6 +293,8 @@ this.DeclareGVarsTable={
   {name="mbPlayTime",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="mbDDSuit",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="mbDDBalaclava",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="forceSoldierType",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="forceSoldierSubType",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   nil
 }
 TppScriptVars.DeclareGVars(this.DeclareGVarsTable)

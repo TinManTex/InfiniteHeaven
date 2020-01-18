@@ -97,10 +97,10 @@ function e.AddTargetLifesavingHeroicPoint(e,n)
     end
   end
 end
-function e.OnFultonSoldier(o,i)
-  local _=n(o,{id="GetStateFlag"})
-  local r=n(o,{id="IsZombieOrMsf"})
-  local n=n(o,{id="IsChild"})
+function e.OnFultonSoldier(gameId,i)
+  local _=n(gameId,{id="GetStateFlag"})
+  local r=n(gameId,{id="IsZombieOrMsf"})
+  local n=n(gameId,{id="IsChild"})
   if r then
     if i then
       TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=60,subOgrePoint=60}

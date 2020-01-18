@@ -133,7 +133,7 @@ function this.OnAllocate(n)
   s()
   if n.sequence then
     if f30050_sequence then--
-      function f30050_sequence.NeedPlayQuietWishGoMission()--RETAILPATCH: 1.0.4.1 PATCHUP:
+      function f30050_sequence.NeedPlayQuietWishGoMission()--RETAILPATCH: 1.0.4.1 PATCHUP: in general I understand the need for patch ups, and in cases like this i even admire the method, however the implementation of just shoving them seemingly anywhere... needs better execution.
         local isClearedSideOps=TppQuest.IsCleard"mtbs_q99011"
         local isNotPlayDemo=not TppDemo.IsPlayedMBEventDemo"QuietWishGoMission"
         local isCanArrival=TppDemo.GetMBDemoName()==nil
@@ -192,7 +192,7 @@ function this.OnAllocate(n)
       end
       TppVarInit.ClearIsContinueFromTitle()
     end
-    TppUiCommand.ExcludeNonPermissionContents()--RETAILPATCH: 1.0.4.1 --tex trying to lock down dlc mods?
+    --TppUiCommand.ExcludeNonPermissionContents()--RETAILPATCH: 1.0.4.1 --tex trying to lock down dlc mods?
     TppStory.SetMissionClearedS10030()
     TppTerminal.StartSyncMbManagementOnMissionStart()
     if TppLocation.IsMotherBase()then
@@ -281,7 +281,7 @@ function this.OnAllocate(n)
     TppCheckPoint.RegisterCheckPointList(n.sequence.checkPointList)
   end
 end
-function this.OnInitialize(n)
+function this.OnInitialize(missionTable)
   if TppMission.IsFOBMission(vars.missionCode)then
     TppMission.SetFobPlayerStartPoint()
   elseif TppMission.IsNeedSetMissionStartPositionToClusterPosition()then
@@ -304,25 +304,25 @@ function this.OnInitialize(n)
     TppQuest.RegisterQuestPackList(TppQuestList.questPackList)
   end
   TppHelicopter.AdjustBuddyDropPoint()
-  if n.sequence then
-    local e=n.sequence.NPC_ENTRY_POINT_SETTING
+  if missionTable.sequence then
+    local e=missionTable.sequence.NPC_ENTRY_POINT_SETTING
     if IsTypeTable(e)then
       TppEnemy.NPCEntryPointSetting(e)
     end
   end
   TppLandingZone.OverwriteBuddyVehiclePosForALZ()
-  if n.enemy then
-    if IsTypeTable(n.enemy.vehicleSettings)then
+  if missionTable.enemy then
+    if IsTypeTable(missionTable.enemy.vehicleSettings)then
       TppEnemy.SetUpVehicles()
     end
-    if IsTypeFunc(n.enemy.SpawnVehicleOnInitialize)then
-      n.enemy.SpawnVehicleOnInitialize()
+    if IsTypeFunc(missionTable.enemy.SpawnVehicleOnInitialize)then
+      missionTable.enemy.SpawnVehicleOnInitialize()
     end
     TppReinforceBlock.SetUpReinforceBlock()
   end
-  for t,e in pairs(n)do
+  for t,e in pairs(missionTable)do
     if IsTypeFunc(e.Messages)then
-      n[t]._messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+      missionTable[t]._messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
     end
   end
   if mvars.loc_locationCommonTable then
@@ -331,7 +331,7 @@ function this.OnInitialize(n)
   TppLandingZone.OnInitialize()
   for t,e in ipairs(Tpp._requireList)do
     if _G[e].Init then
-      _G[e].Init(n)
+      _G[e].Init(missionTable)
     end
   end
   if TppMission.IsManualSubsistence() then--tex disable heli be fightan
@@ -340,44 +340,44 @@ function this.OnInitialize(n)
       GameObject.SendCommand(gameObjectId, { id="SetCombatEnabled", enabled=false }) 
     end 
   end--
-  if n.enemy then
+  if missionTable.enemy then
     if GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
       GameObject.SendCommand({type="TppSoldier2"},{id="CreateFaceIdList"})
     end
-    if IsTypeTable(n.enemy.soldierDefine)then
-      TppEnemy.DefineSoldiers(n.enemy.soldierDefine)
+    if IsTypeTable(missionTable.enemy.soldierDefine)then
+      TppEnemy.DefineSoldiers(missionTable.enemy.soldierDefine)
     end
-    if n.enemy.InitEnemy and IsTypeFunc(n.enemy.InitEnemy)then
-      n.enemy.InitEnemy()
+    if missionTable.enemy.InitEnemy and IsTypeFunc(missionTable.enemy.InitEnemy)then
+      missionTable.enemy.InitEnemy()
     end
-    if IsTypeTable(n.enemy.soldierPersonalAbilitySettings)then
-      TppEnemy.SetUpPersonalAbilitySettings(n.enemy.soldierPersonalAbilitySettings)
+    if IsTypeTable(missionTable.enemy.soldierPersonalAbilitySettings)then
+      TppEnemy.SetUpPersonalAbilitySettings(missionTable.enemy.soldierPersonalAbilitySettings)
     end
-    if IsTypeTable(n.enemy.travelPlans)then
-      TppEnemy.SetTravelPlans(n.enemy.travelPlans)
+    if IsTypeTable(missionTable.enemy.travelPlans)then
+      TppEnemy.SetTravelPlans(missionTable.enemy.travelPlans)
     end
     TppEnemy.SetUpSoldiers()
-    if IsTypeTable(n.enemy.soldierDefine)then
+    if IsTypeTable(missionTable.enemy.soldierDefine)then
       TppEnemy.InitCpGroups()
-      TppEnemy.RegistCpGroups(n.enemy.cpGroups)
+      TppEnemy.RegistCpGroups(missionTable.enemy.cpGroups)
       TppEnemy.SetCpGroups()
       if mvars.loc_locationGimmickCpConnectTable then
         TppGimmick.SetCommunicateGimmick(mvars.loc_locationGimmickCpConnectTable)
       end
     end
-    if IsTypeTable(n.enemy.interrogation)then
-      TppInterrogation.InitInterrogation(n.enemy.interrogation)
+    if IsTypeTable(missionTable.enemy.interrogation)then
+      TppInterrogation.InitInterrogation(missionTable.enemy.interrogation)
     end
-    if IsTypeTable(n.enemy.useGeneInter)then
-      TppInterrogation.AddGeneInter(n.enemy.useGeneInter)
+    if IsTypeTable(missionTable.enemy.useGeneInter)then
+      TppInterrogation.AddGeneInter(missionTable.enemy.useGeneInter)
     end
-    if IsTypeTable(n.enemy.uniqueInterrogation)then
-      TppInterrogation.InitUniqueInterrogation(n.enemy.uniqueInterrogation)
+    if IsTypeTable(missionTable.enemy.uniqueInterrogation)then
+      TppInterrogation.InitUniqueInterrogation(missionTable.enemy.uniqueInterrogation)
     end
     do
       local e
-      if IsTypeTable(n.enemy.routeSets)then
-        e=n.enemy.routeSets
+      if IsTypeTable(missionTable.enemy.routeSets)then
+        e=missionTable.enemy.routeSets
         for e,n in pairs(e)do
           if not IsTypeTable(mvars.ene_soldierDefine[e])then
           end
@@ -390,16 +390,16 @@ function this.OnInitialize(n)
         TppEnemy.SetUpSwitchRouteFunc()
       end
     end
-    if n.enemy.soldierSubTypes then
-      TppEnemy.SetUpSoldierSubTypes(n.enemy.soldierSubTypes)
+    if missionTable.enemy.soldierSubTypes then
+      TppEnemy.SetUpSoldierSubTypes(missionTable.enemy.soldierSubTypes)
     end
     TppRevenge.SetUpEnemy()
     TppEnemy.ApplyPowerSettingsOnInitialize()
     TppEnemy.ApplyPersonalAbilitySettingsOnInitialize()
     TppEnemy.SetOccasionalChatList()
     TppEneFova.ApplyUniqueSetting()
-    if n.enemy.SetUpEnemy and IsTypeFunc(n.enemy.SetUpEnemy)then
-      n.enemy.SetUpEnemy()
+    if missionTable.enemy.SetUpEnemy and IsTypeFunc(missionTable.enemy.SetUpEnemy)then
+      missionTable.enemy.SetUpEnemy()
     end
     if TppMission.IsMissionStart()then
       TppEnemy.RestoreOnMissionStart2()
@@ -414,18 +414,18 @@ function this.OnInitialize(n)
   TppPlayer.RestoreSupplyCbox()
   TppPlayer.RestoreSupportAttack()
   TppTerminal.MakeMessage()
-  if n.sequence then
-    local e=n.sequence.SetUpRoutes
+  if missionTable.sequence then
+    local e=missionTable.sequence.SetUpRoutes
     if e and IsTypeFunc(e)then
       e()
     end
     TppEnemy.RegisterRouteAnimation()
-    local e=n.sequence.SetUpLocation
+    local e=missionTable.sequence.SetUpLocation
     if e and IsTypeFunc(e)then
       e()
     end
   end
-  for n,e in pairs(n)do
+  for n,e in pairs(missionTable)do
     if e.OnRestoreSVars then
       e.OnRestoreSVars()
     end
@@ -444,8 +444,8 @@ function this.OnInitialize(n)
     TppRadioCommand.RestoreRadioStateContinueFromCheckpoint()
   end
   TppMission.PostMissionOrderBoxPositionToBuddyDog()
-  this.SetUpdateFunction(n)
-  this.SetMessageFunction(n)
+  this.SetUpdateFunction(missionTable)
+  this.SetMessageFunction(missionTable)
   TppQuest.UpdateActiveQuest()
   TppDevelopFile.OnMissionCanStart()
   if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then

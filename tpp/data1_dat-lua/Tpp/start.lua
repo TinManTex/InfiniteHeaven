@@ -1,5 +1,5 @@
 -- DOBUILD: 1
-local function t()
+local function yield()
   coroutine.yield()
 end
 FoxFadeIo.FadeOut(0)
@@ -117,13 +117,17 @@ if GrDaemon then
       end
     end
   elseif e=="Xbox360"then
-    GrTools.LoadShaderPack"shaders\\xbox360\\TppShaders_x360.fsop"dofile"shaders/xbox360/TppShaders_x360.lua"
+    GrTools.LoadShaderPack"shaders\\xbox360\\TppShaders_x360.fsop"
+    dofile"shaders/xbox360/TppShaders_x360.lua"
   elseif e=="PS3"then
-    GrTools.LoadShaderPack"shaders/ps3/TppShaders_ps3.fsop.sdat"dofile"shaders/ps3/TppShaders_ps3.lua"
+    GrTools.LoadShaderPack"shaders/ps3/TppShaders_ps3.fsop.sdat"
+    dofile"shaders/ps3/TppShaders_ps3.lua"
   elseif e=="XboxOne"then
-    GrTools.LoadShaderPack"shaders/xboxone/TppShaders_xone.fsop"dofile"shaders/xboxone/TppShadersNoLnm_xone.lua"
+    GrTools.LoadShaderPack"shaders/xboxone/TppShaders_xone.fsop"
+    dofile"shaders/xboxone/TppShadersNoLnm_xone.lua"
   elseif e=="PS4"then
-    GrTools.LoadShaderPack"shaders/ps4/TppShaders_ps4.fsop"dofile"shaders/ps4/TppShadersNoLnm_ps4.lua"
+    GrTools.LoadShaderPack"shaders/ps4/TppShaders_ps4.fsop"
+    dofile"shaders/ps4/TppShadersNoLnm_ps4.lua"
   end
 end
 TppFadeOutEffectHolder.Create()
@@ -492,7 +496,7 @@ end
 if TppNewCollectibleModule then
   TppNewCollectibleModule.InitializeWhenStartLua()
 end
-t()
+yield()
 TppMotherBaseManagement.SetMbsClusterParam{category="Command",grade=4,buildStatus="Completed"}
 TppMotherBaseManagement.SetMbsClusterParam{category="Combat",grade=4,buildStatus="Completed"}
 TppMotherBaseManagement.SetMbsClusterParam{category="Develop",grade=4,buildStatus="Completed"}
@@ -506,7 +510,7 @@ TppMotherBaseManagement.SetMbsPlatformSecurityParam{platform="Special",soldierQu
 TppMotherBaseManagement.SetMbsPlatformSecurityParam{platform="Common1",soldierQuantity="Middle",irSensorQuantity="Small",cameraQuantity="Large",decoyQuantity="Middle",mineQuantity="Large",uavQuantity="Small",importantCautionAreas={false,true,true,false,false,true,true,false}}
 TppMotherBaseManagement.SetMbsPlatformSecurityParam{platform="Common2",soldierQuantity="Middle",irSensorQuantity="Small",cameraQuantity="Large",decoyQuantity="Middle",mineQuantity="Large",uavQuantity="Small",importantCautionAreas={false,true,true,false,false,true,true,false}}
 TppMotherBaseManagement.SetMbsPlatformSecurityParam{platform="Common3",soldierQuantity="Middle",irSensorQuantity="Small",cameraQuantity="Large",decoyQuantity="Middle",mineQuantity="Large",uavQuantity="Small",importantCautionAreas={false,true,true,false,false,true,true,false}}
-t()
+yield()
 Gimmick.RegisterCassetteToRadio("afgh_radi001_csst001_gim_n0000|srt_afgh_radi001_csst001","/Assets/tpp/level/mission2/story/s10150/s10150_block01.fox2",1)
 Gimmick.RegisterCassetteToRadio("afgh_radi001_csst001_gim_n0000|srt_afgh_radi001_csst001","/Assets/tpp/level/location/afgh/block_large/slopedTown/afgh_slopedTown_gimmick.fox2",2)
 Gimmick.RegisterCassetteToRadio("afgh_radi001_csst001_gim_n0000|srt_afgh_radi001_csst001","/Assets/tpp/level/location/afgh/block_large/fort/afgn_fort_gimmick.fox2",17)
@@ -538,12 +542,12 @@ Gimmick.RegisterCassetteToRadio("afgh_radi001_csst001_gim_n0000|srt_afgh_radi001
 Gimmick.RegisterCassetteToRadio("afgh_radi001_csst001_gim_n0000|srt_afgh_radi001_csst001","/Assets/tpp/level/location/afgh/block_small/147/147_123/afgh_147_123_gimmick.fox2",29)
 Gimmick.RegisterCassetteToRadio("afgh_radi001_csst001_gim_n0000|srt_afgh_radi001_csst001","/Assets/tpp/level/location/afgh/block_small/141/141_147/afgh_141_147_gimmick.fox2",21)
 Gimmick.RegisterCassetteToRadio("afgh_radi001_csst001_gim_n0000|srt_afgh_radi001_csst001","/Assets/tpp/level/location/mtbs/block_large/mtbs_qrntnFacility_gimmick.fox2",31)
-t()
+yield()
 if Script.LoadLibrary then
-  local i
+  local tppOrMgoPath
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    i="/Assets/mgo/"else
-    i="/Assets/tpp/"end
+    tppOrMgoPath="/Assets/mgo/"else
+    tppOrMgoPath="/Assets/tpp/"end
   local e
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
     e="/Assets/mgo/level_asset/weapon/ParameterTables/EquipIdTable.lua"
@@ -552,16 +556,16 @@ if Script.LoadLibrary then
   end
   Script.LoadLibraryAsync(e)
   while Script.IsLoadingLibrary(e)do
-    t()
+    yield()
   end
-  local e=i.."level_asset/weapon/ParameterTables/parts/EquipParameters.lua"
+  local e=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipParameters.lua"
   if TppEquip.IsExistFile(e)then
     Script.LoadLibrary(e)
   else
     Script.LoadLibrary"Tpp/Scripts/Equip/EquipParameters.lua"
   end
-  t()
-  local e=i.."level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua"
+  yield()
+  local e=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua"
   if TppEquip.IsExistFile(e)then
     Script.LoadLibrary(e)
   end
@@ -585,20 +589,20 @@ if Script.LoadLibrary then
     Script.LoadLibrary"/Assets/mgo/level_asset/config/MgoWeaponParameters.lua"
     Script.LoadLibrary"/Assets/mgo/level_asset/config/GearConfig.lua"
   else
-    t()
+    yield()
     Script.LoadLibrary"Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua"
-    t()
+    yield()
     Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
-    t()
+    yield()
     Script.LoadLibrary"/Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua"
-    t()
+    yield()
     Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua"
     Script.LoadLibrary"Tpp/Scripts/Equip/EquipMotionData.lua"
     Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua"
     Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"
-    t()
+    yield()
     Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua"
-    t()
+    yield()
   end
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
     Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"
@@ -610,7 +614,7 @@ if Script.LoadLibrary then
   end
   Script.LoadLibraryAsync"/Assets/tpp/script/lib/Tpp.lua"
   while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
-    t()
+    yield()
   end
   Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
   Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"
@@ -641,13 +645,13 @@ if Script.LoadLibrary then
   Script.LoadLibrary"/Assets/tpp/script/lib/InfEnemyParams.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
 end
-t()
+yield()
 pcall(dofile,"/Assets/tpp/ui/Script/UiRegisterInfo.lua")
-t()
+yield()
 if TppSystemUtility.GetCurrentGameMode()=="TPP"then
   Script.LoadLibrary"/Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua"
 end
-t()
+yield()
 if Editor then
   TppGeoMaterial.EDIT_CheckWastedMaterialNames()
 end
@@ -676,11 +680,11 @@ if Game.DEBUG_AddScript then
   end
 end
 math.randomseed(os.time())
-t()
+yield()
 GrTools.SetSunLightReflectionMapShader"TPPSunLightReflectMap"
 GrTools.SetEnvironmentSpecularCubeTexture"/Assets/tpp/effect/gr_pic/gr_cub01_sm_SkySpecCommon.ftex"
 GrTools.SetEnableLocalReflection(true)
-GrTools.SetLightingColorScale(1.8)t()
+GrTools.SetLightingColorScale(1.8)yield()
 do
   local e=coroutine.create(loadfile"Tpp/Scripts/System/start2nd.lua")
   repeat
@@ -694,9 +698,9 @@ end
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   dofile"Tpp/Scripts/System/start3rd.lua"
 end
-t()
+yield()
 while SplashScreen.GetSplashScreenWithName"cesa"do
-  t()
+  yield()
 end
 TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil,{setMute=true})
 TppVarInit.InitializeOnStartTitle()

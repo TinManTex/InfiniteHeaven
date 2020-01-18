@@ -1,18 +1,18 @@
 -- DOBUILD: 1
 local this={}
-local s=Tpp.IsTypeFunc
-local t=Tpp.IsTypeTable
-local l=Tpp.IsTypeString
-local a=Fox.StrCode32
-local o=GkEventTimerManager.Start
-local p=GkEventTimerManager.Stop
-local n=GameObject.GetTypeIndex
-local i=GameObject.GetGameObjectId
-local T=GameObject.GetTypeIndexWithTypeName
-local n=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2
-local n=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2
-local n=GameObject.NULL_ID
-local r=GameObject.SendCommand
+local IsTypeFunc=Tpp.IsTypeFunc
+local IsTypeTable=Tpp.IsTypeTable
+local IsTypeString=Tpp.IsTypeString
+local StrCode32=Fox.StrCode32
+local TimerStart=GkEventTimerManager.Start
+local TimerStop=GkEventTimerManager.Stop
+local GetTypeIndex=GameObject.GetTypeIndex
+local GetGameObjectId=GameObject.GetGameObjectId
+local GetTypeIndexWithTypeName=GameObject.GetTypeIndexWithTypeName
+--local n=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2
+--local n=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2
+local NULL_ID=GameObject.NULL_ID
+local SendCommand=GameObject.SendCommand
 this.MISSION_CLEAR_CAMERA_FADE_DELAY_TIME=3
 this.MISSION_CLEAR_CAMERA_DELAY_TIME=0
 this.PLAYER_FALL_DEAD_DELAY_TIME=.2
@@ -23,13 +23,13 @@ this.CageRandomTableG2={{2,15},{1,20},{0,65}}
 this.CageRandomTableG3={{4,5},{3,10},{2,15},{1,20},{0,50}}
 this.RareLevelList={"N","NR","R","SR","SSR"}
 function this.RegisterCallbacks(e)
-  if s(e.OnFultonIconDying)then
+  if IsTypeFunc(e.OnFultonIconDying)then
     mvars.ply_OnFultonIconDying=e.OnFultonIconDying
   end
 end
-function this.SetStartStatus(e)
-  if(e>TppDefine.INITIAL_PLAYER_STATE.MIN)and(e<TppDefine.INITIAL_PLAYER_STATE.MAX)then
-    gvars.ply_initialPlayerState=e
+function this.SetStartStatus(status)
+  if(status>TppDefine.INITIAL_PLAYER_STATE.MIN)and(status<TppDefine.INITIAL_PLAYER_STATE.MAX)then
+    gvars.ply_initialPlayerState=status
   end
 end
 function this.SetStartStatusRideOnHelicopter()
@@ -47,11 +47,11 @@ function this.GetRotation()
   return vars.playerRotY
 end
 function this.Warp(e)
-  if not t(e)then
+  if not IsTypeTable(e)then
     return
   end
   local a=e.pos
-  if not t(a)or(#a~=3)then
+  if not IsTypeTable(a)or(#a~=3)then
     return
   end
   local n=foxmath.NormalizeRadian(foxmath.DegreeToRadian(e.rotY or 0))
@@ -71,7 +71,7 @@ function this.SetForceFultonPercent(e,a)
   if not Tpp.IsTypeNumber(a)then
     return
   end
-  if(e<0)or(e>=n)then
+  if(e<0)or(e>=NULL_ID)then
     return
   end
   if(a<0)or(a>100)then
@@ -94,7 +94,7 @@ function this.ForceChangePlayerToSnake(e)
   Player.SetItemLevel(TppEquip.EQP_SUIT,vars.sortiePrepPlayerSnakeSuitLevel)
 end
 function this.CheckRotationSetting(a)
-  if not t(a)then
+  if not IsTypeTable(a)then
     return
   end
   local e=mvars
@@ -106,7 +106,7 @@ function this.CheckRotationSetting(a)
     end
   end
   for t,a in pairs(a)do
-    if s(a.func)then
+    if IsTypeFunc(a.func)then
       e.ply_checkDirectionList[t]={}
       e.ply_checkDirectionList[t].func=a.func
       local o=a.directionX or 0
@@ -140,7 +140,7 @@ function this.IsDeliveryWarping()
   end
 end
 function this.GetStationUniqueId(e)
-  if not l(e)then
+  if not IsTypeString(e)then
     return
   end
   local e="col_stat_"..e
@@ -253,7 +253,7 @@ function this.ResetInitialPosition()
   vars.initialPlayerRotY=0
 end
 function this.RegisterTemporaryPlayerType(e)
-  if not t(e)then
+  if not IsTypeTable(e)then
     return
   end
   mvars.ply_isExistTempPlayerType=true
@@ -333,7 +333,7 @@ function this.SetInitWeapons(a)
   this._SetWeapons(a,"initWeapons")
 end
 function this._SetWeapons(l,c)
-  if not t(l)then
+  if not IsTypeTable(l)then
     return
   end
   local t=TppDefine.WEAPONSLOT.SUPPORT_0-1
@@ -414,7 +414,7 @@ function this.SaveWeaponsToUsingTemp(n)
   if gvars.ply_isUsingTempWeapons then
     return
   end
-  if not t(n)then
+  if not IsTypeTable(n)then
     return
   end
   for e=0,11 do
@@ -459,7 +459,7 @@ function this.RestoreWeaponsFromUsingTemp()
   return true
 end
 function this.SetItems(a)
-  if not t(a)then
+  if not IsTypeTable(a)then
     return
   end
   for t,a in ipairs(a)do
@@ -470,7 +470,7 @@ function this.SetItems(a)
   this._SetItems(a,"items")
 end
 function this.SetInitItems(a)
-  if not t(a)then
+  if not IsTypeTable(a)then
     return
   end
   for a,e in ipairs(a)do
@@ -718,7 +718,7 @@ function this.AddTrapSettingForIntel(t)
   local i=t.markerObjectiveName
   local c=t.identifierName
   local t=t.locatorName
-  if not l(n)then
+  if not IsTypeString(n)then
     return
   end
   mvars.ply_intelTrapInfo=mvars.ply_intelTrapInfo or{}
@@ -728,30 +728,30 @@ function this.AddTrapSettingForIntel(t)
     return
   end
   mvars.ply_intelNameReverse=mvars.ply_intelNameReverse or{}
-  mvars.ply_intelNameReverse[a(e)]=e
+  mvars.ply_intelNameReverse[StrCode32(e)]=e
   mvars.ply_intelFlagInfo=mvars.ply_intelFlagInfo or{}
   if r then
     mvars.ply_intelFlagInfo[e]=r
-    mvars.ply_intelFlagInfo[a(e)]=r
+    mvars.ply_intelFlagInfo[StrCode32(e)]=r
     mvars.ply_intelTrapInfo[e].gotFlagName=r
   end
   mvars.ply_intelMarkerObjectiveName=mvars.ply_intelMarkerObjectiveName or{}
   if i then
     mvars.ply_intelMarkerObjectiveName[e]=i
-    mvars.ply_intelMarkerObjectiveName[a(e)]=i
+    mvars.ply_intelMarkerObjectiveName[StrCode32(e)]=i
     mvars.ply_intelTrapInfo[e].markerObjectiveName=i
   end
   mvars.ply_intelMarkerTrapList=mvars.ply_intelMarkerTrapList or{}
   mvars.ply_intelMarkerTrapInfo=mvars.ply_intelMarkerTrapInfo or{}
   if o then
     table.insert(mvars.ply_intelMarkerTrapList,o)
-    mvars.ply_intelMarkerTrapInfo[a(o)]=e
+    mvars.ply_intelMarkerTrapInfo[StrCode32(o)]=e
     mvars.ply_intelTrapInfo[e].markerTrapName=o
   end
   mvars.ply_intelTrapList=mvars.ply_intelTrapList or{}
   if m then
     table.insert(mvars.ply_intelTrapList,n)
-    mvars.ply_intelTrapInfo[a(n)]=e
+    mvars.ply_intelTrapInfo[StrCode32(n)]=e
     mvars.ply_intelTrapInfo[e].autoIcon=true
   end
   if c and t then
@@ -765,7 +765,7 @@ function this.AddTrapSettingForIntel(t)
   Player.AddTrapDetailCondition{trapName=n,condition=PlayerTrap.FINE,action=(PlayerTrap.NORMAL+PlayerTrap.BEHIND),stance=(PlayerTrap.STAND+PlayerTrap.SQUAT),direction=s,directionRange=p}
 end
 function this.ShowIconForIntel(e,t)
-  if not l(e)then
+  if not IsTypeString(e)then
     return
   end
   local n
@@ -807,32 +807,35 @@ function this.GotIntel(a)
     TppMission.UpdateObjective{objectives=e}
   end
 end
-function this.HideIconForIntel()Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL}Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG}
+function this.HideIconForIntel()
+  Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL}
+  Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL_NG}
 end
-function this.AddTrapSettingForQuest(e)
-  local t=e.trapName
-  local n=e.direction or 0
-  local r=e.directionRange or 180
-  local e=e.questName
-  if not l(t)then
+function this.AddTrapSettingForQuest(quest)
+  local trapName=quest.trapName
+  local direction=quest.direction or 0
+  local directionRange=quest.directionRange or 180
+  local questName=quest.questName
+  if not IsTypeString(trapName)then
     return
   end
   mvars.ply_questStartTrapInfo=mvars.ply_questStartTrapInfo or{}
-  if e then
-    mvars.ply_questStartTrapInfo[e]={trapName=t}
+  if questName then
+    mvars.ply_questStartTrapInfo[questName]={trapName=trapName}
   else
     return
   end
   mvars.ply_questNameReverse=mvars.ply_questNameReverse or{}
-  mvars.ply_questNameReverse[a(e)]=e
+  mvars.ply_questNameReverse[StrCode32(questName)]=questName
   mvars.ply_questStartFlagInfo=mvars.ply_questStartFlagInfo or{}
-  mvars.ply_questStartFlagInfo[e]=false
-  mvars.ply_questTrapList=mvars.ply_questTrapList or{}table.insert(mvars.ply_questTrapList,t)
-  mvars.ply_questStartTrapInfo[a(t)]=e
-  Player.AddTrapDetailCondition{trapName=t,condition=PlayerTrap.FINE,action=PlayerTrap.NORMAL,stance=(PlayerTrap.STAND+PlayerTrap.SQUAT),direction=n,directionRange=r}
+  mvars.ply_questStartFlagInfo[questName]=false
+  mvars.ply_questTrapList=mvars.ply_questTrapList or{}
+  table.insert(mvars.ply_questTrapList,trapName)
+  mvars.ply_questStartTrapInfo[StrCode32(trapName)]=questName
+  Player.AddTrapDetailCondition{trapName=trapName,condition=PlayerTrap.FINE,action=PlayerTrap.NORMAL,stance=(PlayerTrap.STAND+PlayerTrap.SQUAT),direction=direction,directionRange=directionRange}
 end
 function this.ShowIconForQuest(e,a)
-  if not l(e)then
+  if not IsTypeString(e)then
     return
   end
   local t
@@ -853,7 +856,8 @@ function this.QuestStarted(a)
   end
   this.HideIconForQuest()
 end
-function this.HideIconForQuest()Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING}
+function this.HideIconForQuest()
+Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING}
 end
 function this.ResetIconForQuest(e)
   mvars.ply_questStartFlagInfo.ShootingPractice=false
@@ -877,7 +881,7 @@ function this.StartGameOverCamera(t,a,e)
   TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")
   TppSound.PostJingleOnGameOver()
   TppSoundDaemon.PostEvent"sfx_s_force_camera_out"vars.playerDisableActionFlag=PlayerDisableAction.SUBJECTIVE_CAMERA
-  o("Timer_StartGameOverCamera",.25)
+  TimerStart("Timer_StartGameOverCamera",.25)
 end
 function this._StartGameOverCamera(e,e)
   TppUiStatusManager.ClearStatus"AnnounceLog"FadeFunction.SetFadeColor(64,0,0,255)
@@ -893,9 +897,11 @@ function this.PrepareStartGameOverCamera()FadeFunction.ResetFadeColor()
   end
   e.S_DISABLE_NPC=nil
   e.AnnounceLog=nil
-  TppUI.FadeIn(TppUI.FADE_SPEED.FADE_HIGHESTSPEED,nil,nil,{exceptGameStatus=e})Player.RequestToStopCameraAnimation{}
+  TppUI.FadeIn(TppUI.FADE_SPEED.FADE_HIGHESTSPEED,nil,nil,{exceptGameStatus=e})
+  Player.RequestToStopCameraAnimation{}
   if mvars.ply_gameOverCameraAnnounceLog then
-    TppUiStatusManager.ClearStatus"AnnounceLog"TppUI.ShowAnnounceLog(mvars.ply_gameOverCameraAnnounceLog)
+    TppUiStatusManager.ClearStatus"AnnounceLog"
+    TppUI.ShowAnnounceLog(mvars.ply_gameOverCameraAnnounceLog)
   end
 end
 function this.FOBStartGameOverCamera(e,t,a)
@@ -907,49 +913,51 @@ function this.FOBStartGameOverCamera(e,t,a)
   mvars.ply_gameOverCameraAnnounceLog=a
   TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")
   vars.playerDisableActionFlag=PlayerDisableAction.SUBJECTIVE_CAMERA
-  o("Timer_StartGameOverCamera",.25)
+  TimerStart("Timer_StartGameOverCamera",.25)
 end
 function this.SetTargetDeadCamera(r)
   local l
   local a
   local o
-  if t(r)then
+  if IsTypeTable(r)then
     l=r.gameObjectName or""a=r.gameObjectId
     o=r.announceLog or"target_extract_failed"end
-  a=a or i(l)
-  if a==n then
+  a=a or GetGameObjectId(l)
+  if a==NULL_ID then
     return
   end
   this.StartGameOverCamera(a,"EndFadeOut_StartTargetDeadCamera",o)
 end
 function this._SetTargetDeadCamera()
-  this.PrepareStartGameOverCamera()Player.RequestToPlayCameraNonAnimation{characterId=mvars.ply_gameOverCameraGameObjectId,isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,candidateRots={{10,0},{10,45},{10,90},{10,135},{10,180},{10,225},{10,270}},skeletonNames={"SKL_004_HEAD","SKL_011_LUARM","SKL_021_RUARM","SKL_032_LFOOT","SKL_042_RFOOT"},skeletonCenterOffsets={Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0)},skeletonBoundings={Vector3(0,.45,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,-.3,0),Vector3(0,-.3,0)},offsetPos=Vector3(.3,.2,-4.6),focalLength=21,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.001,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=16}
+  this.PrepareStartGameOverCamera()
+  Player.RequestToPlayCameraNonAnimation{characterId=mvars.ply_gameOverCameraGameObjectId,isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,candidateRots={{10,0},{10,45},{10,90},{10,135},{10,180},{10,225},{10,270}},skeletonNames={"SKL_004_HEAD","SKL_011_LUARM","SKL_021_RUARM","SKL_032_LFOOT","SKL_042_RFOOT"},skeletonCenterOffsets={Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0)},skeletonBoundings={Vector3(0,.45,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,-.3,0),Vector3(0,-.3,0)},offsetPos=Vector3(.3,.2,-4.6),focalLength=21,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.001,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=16}
 end
 function this.SetTargetHeliCamera(r)
   local l
   local a
   local o
-  if t(r)then
+  if IsTypeTable(r)then
     l=r.gameObjectName or""a=r.gameObjectId
     o=r.announceLog or"target_eliminate_failed"end
-  a=a or i(l)
-  if a==n then
+  a=a or GetGameObjectId(l)
+  if a==NULL_ID then
     return
   end
   this.StartGameOverCamera(a,"EndFadeOut_StartTargetHeliCamera",o)
 end
 function this._SetTargetHeliCamera()
-  this.PrepareStartGameOverCamera()Player.RequestToPlayCameraNonAnimation{characterId=mvars.ply_gameOverCameraGameObjectId,isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,candidateRots={{10,0}},skeletonNames={"SKL_011_RLWDOOR"},skeletonCenterOffsets={Vector3(0,0,0)},skeletonBoundings={Vector3(0,.45,0)},offsetPos=Vector3(.3,.2,-4.6),focalLength=21,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.01,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=999999}
+  this.PrepareStartGameOverCamera()
+  Player.RequestToPlayCameraNonAnimation{characterId=mvars.ply_gameOverCameraGameObjectId,isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,candidateRots={{10,0}},skeletonNames={"SKL_011_RLWDOOR"},skeletonCenterOffsets={Vector3(0,0,0)},skeletonBoundings={Vector3(0,.45,0)},offsetPos=Vector3(.3,.2,-4.6),focalLength=21,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.01,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=999999}
 end
 function this.SetTargetTruckCamera(r)
   local l
   local a
   local o
-  if t(r)then
+  if IsTypeTable(r)then
     l=r.gameObjectName or""a=r.gameObjectId
     o=r.announceLog or"target_extract_failed"end
-  a=a or i(l)
-  if a==n then
+  a=a or GetGameObjectId(l)
+  if a==NULL_ID then
     return
   end
   this.StartGameOverCamera(a,"EndFadeOut_StartTargetTruckCamera",o)
@@ -966,42 +974,46 @@ function this.SetPlayerKilledChildCamera()
   end
 end
 function this.SetPressStartCamera()
-  local e=i"Player"if e==n then
+  local e=GetGameObjectId"Player"
+  if e==NULL_ID then
     return
   end
-  Player.RequestToStopCameraAnimation{}Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,0)},skeletonBoundings={Vector3(.5,.45,.1)},offsetPos=Vector3(-.8,0,-1.4),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
+  Player.RequestToStopCameraAnimation{}
+  Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,0)},skeletonBoundings={Vector3(.5,.45,.1)},offsetPos=Vector3(-.8,0,-1.4),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
 end
 function this.SetTitleCamera()
-  local e=i"Player"if e==n then
+  local e=GetGameObjectId"Player"
+  if e==NULL_ID then
     return
   end
-  Player.RequestToStopCameraAnimation{}Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,.1)},skeletonBoundings={Vector3(.5,.45,.9)},offsetPos=Vector3(-.8,0,-1.8),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
+  Player.RequestToStopCameraAnimation{}
+  Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,.1)},skeletonBoundings={Vector3(.5,.45,.9)},offsetPos=Vector3(-.8,0,-1.8),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
 end
-function this.SetSearchTarget(l,t,s,o,e,r,i,a)
-  if(l==nil or t==nil)then
+function this.SetSearchTarget(targetGameObjectName,gameObjectType,name,skeletonName,offset,targetFox2Name,doDirectionCheck,wideCheckRange)
+  if(targetGameObjectName==nil or gameObjectType==nil)then
     return
   end
-  local t=T(t)
-  if t==n then
+  local targetGameObjectTypeIndex=GetTypeIndexWithTypeName(gameObjectType)
+  if targetGameObjectTypeIndex==NULL_ID then
     return
   end
-  if i==nil then
-    i=true
+  if doDirectionCheck==nil then--RETAILBUG: ? not sure if intended, this actually isnt used in searchtarget below
+    doDirectionCheck=true
   end
-  if e==nil then
-    e=Vector3(0,.25,0)
+  if offset==nil then
+    offset=Vector3(0,.25,0)
   end
-  if a==nil then
-    a=.03
+  if wideCheckRange==nil then
+    wideCheckRange=.03
   end
-  local e={name=s,targetGameObjectTypeIndex=t,targetGameObjectName=l,offset=e,centerRange=.3,lookingTime=1,distance=200,doWideCheck=true,wideCheckRadius=.15,wideCheckRange=a,doDirectionCheck=false,directionCheckRange=100,doCollisionCheck=true}
-  if(o~=nil)then
-    e.skeletonName=o
+  local searchTarget={name=name,targetGameObjectTypeIndex=targetGameObjectTypeIndex,targetGameObjectName=targetGameObjectName,offset=offset,centerRange=.3,lookingTime=1,distance=200,doWideCheck=true,wideCheckRadius=.15,wideCheckRange=wideCheckRange,doDirectionCheck=false,directionCheckRange=100,doCollisionCheck=true}
+  if(skeletonName~=nil)then
+    searchTarget.skeletonName=skeletonName
   end
-  if(r~=nil)then
-    e.targetFox2Name=r
+  if(targetFox2Name~=nil)then
+    searchTarget.targetFox2Name=targetFox2Name
   end
-  Player.AddSearchTarget(e)
+  Player.AddSearchTarget(searchTarget)
 end
 function this.IsSneakPlayerInFOB(e)
   if e==0 then
@@ -1015,7 +1027,7 @@ function this.PlayMissionClearCamera()
   if not e then
     return
   end
-  o("Timer_StartPlayMissionClearCameraStep1",.25)
+  TimerStart("Timer_StartPlayMissionClearCameraStep1",.25)
 end
 function this.SetPlayerStatusForMissionEndCamera()Player.SetPadMask{settingName="MissionClearCamera",except=true}
   vars.playerDisableActionFlag=PlayerDisableAction.SUBJECTIVE_CAMERA
@@ -1042,7 +1054,7 @@ function this.PlayCommonMissionEndCamera(i,r,s,l,t,n)
     a=l(t,n)
   end
   if a then
-    local e="Timer_StartPlayMissionClearCameraStep"..tostring(t+1)o(e,a)
+    local e="Timer_StartPlayMissionClearCameraStep"..tostring(t+1)TimerStart(e,a)
   end
 end
 function this._PlayMissionClearCamera(a,t)
@@ -1241,7 +1253,7 @@ function this.FOBPlayMissionClearCamera()
   if not e then
     return
   end
-  o("Timer_FOBStartPlayMissionClearCameraStep1",.25)
+  TimerStart("Timer_FOBStartPlayMissionClearCameraStep1",.25)
 end
 function this._FOBPlayMissionClearCamera(a)
   this.FOBPlayCommonMissionEndCamera(this.FOBPlayMissionClearCameraOnFoot,a)
@@ -1250,7 +1262,7 @@ function this.FOBPlayCommonMissionEndCamera(t,a)
   local e
   e=t(a)
   if e then
-    local a="Timer_FOBStartPlayMissionClearCameraStep"..tostring(a+1)o(a,e)
+    local a="Timer_FOBStartPlayMissionClearCameraStep"..tostring(a+1)TimerStart(a,e)
   end
 end
 function this.FOBRequestMissionClearMotion()Player.RequestToPlayDirectMotion{"missionClearMotionFob",{"/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_win_idl.gani",false,"","","",false}}
@@ -1261,7 +1273,7 @@ function this.FOBPlayMissionClearCameraOnFoot(l)Player.SetCurrentSlot{slotType=P
       mvars.ply_requestedMissionClearCameraCarryOff=true
       GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="RequestCarryOff"})
     elseif PlayerInfo.OrCheckStatus{PlayerStatus.SQUAT,PlayerStatus.CRAWL}then
-      Player.RequestToSetTargetStance(PlayerStance.STAND)o("Timer_FOBWaitStandStance",1)
+      Player.RequestToSetTargetStance(PlayerStance.STAND)TimerStart("Timer_FOBWaitStandStance",1)
     else
       this.FOBRequestMissionClearMotion()
     end
@@ -1288,7 +1300,7 @@ function this.PlayMissionAbortCamera()
   if not e then
     return
   end
-  o("Timer_StartPlayMissionAbortCamera",.25)
+  TimerStart("Timer_StartPlayMissionAbortCamera",.25)
 end
 function this._PlayMissionAbortCamera()
   TppMusicManager.PostJingleEvent("SingleShot","Play_bgm_common_jingle_failed")
@@ -1401,11 +1413,11 @@ function this.Messages()
     end,option={isExecMissionPrepare=true}},{msg="Enter",sender="fallDeath_camera",func=function()
       this.SetLimitFallDeadCameraOffsetPosY(-18)
     end,option={isExecMissionPrepare=true}},{msg="Exit",sender="fallDeath_camera",func=this.ResetLimitFallDeadCameraOffsetPosY,option={isExecMissionPrepare=true}}}}
-  if t(mvars.ply_intelMarkerTrapList)and next(mvars.ply_intelMarkerTrapList)then
-    n[a"Trap"]=n[a"Trap"]or{}table.insert(n[a"Trap"],Tpp.StrCode32Table{msg="Enter",sender=mvars.ply_intelMarkerTrapList,func=this.OnEnterIntelMarkerTrap,option={isExecMissionPrepare=true}})
+  if IsTypeTable(mvars.ply_intelMarkerTrapList)and next(mvars.ply_intelMarkerTrapList)then
+    n[StrCode32"Trap"]=n[StrCode32"Trap"]or{}table.insert(n[StrCode32"Trap"],Tpp.StrCode32Table{msg="Enter",sender=mvars.ply_intelMarkerTrapList,func=this.OnEnterIntelMarkerTrap,option={isExecMissionPrepare=true}})
   end
-  if t(mvars.ply_intelTrapList)and next(mvars.ply_intelTrapList)then
-    n[a"Trap"]=n[a"Trap"]or{}table.insert(n[a"Trap"],Tpp.StrCode32Table{msg="Enter",sender=mvars.ply_intelTrapList,func=this.OnEnterIntelTrap})table.insert(n[a"Trap"],Tpp.StrCode32Table{msg="Exit",sender=mvars.ply_intelTrapList,func=this.OnExitIntelTrap})
+  if IsTypeTable(mvars.ply_intelTrapList)and next(mvars.ply_intelTrapList)then
+    n[StrCode32"Trap"]=n[StrCode32"Trap"]or{}table.insert(n[StrCode32"Trap"],Tpp.StrCode32Table{msg="Enter",sender=mvars.ply_intelTrapList,func=this.OnEnterIntelTrap})table.insert(n[StrCode32"Trap"],Tpp.StrCode32Table{msg="Exit",sender=mvars.ply_intelTrapList,func=this.OnExitIntelTrap})
   end
   return n
 end
@@ -1509,8 +1521,8 @@ function this.Init(a)
     end
   end
   if(gvars.ply_initialPlayerState==TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)and(svars.ply_isUsedPlayerInitialAction==false)then
-    local e=i("TppHeli2","SupportHeli")
-    if e~=n then
+    local e=GetGameObjectId("TppHeli2","SupportHeli")
+    if e~=NULL_ID then
       vars.initialPlayerAction=PlayerInitialAction.FROM_HELI_SPACE
       vars.initialPlayerPairGameObjectId=e
     end
@@ -1650,7 +1662,7 @@ end
 function this.GetSoldierFultonSucceedRatio(t)
   local e=0
   local n=0
-  local a=r(t,{id="GetLifeStatus"})
+  local a=SendCommand(t,{id="GetLifeStatus"})
   local o=GameObject.SendCommand(t,{id="GetStateFlag"})
   if(bit.band(o,StateFlag.DYING_LIFE)~=0)then
     e=-70
@@ -1669,7 +1681,7 @@ function this.GetSoldierFultonSucceedRatio(t)
   if e>0 then
     e=0
   end
-  local a=r(t,{id="GetStatus"})
+  local a=SendCommand(t,{id="GetStatus"})
   if a==EnemyState.STAND_HOLDUP then
     n=-10
   end
@@ -1683,8 +1695,8 @@ function this.GetVolginFultonSucceedRatio(e)
 end
 function this.SetHelicopterInsideAction()Player.SetHeliToInsideParam{canClearMission=svars.mis_canMissionClear}
 end
-function this.OnPlayerFulton(e,r)
-  if e~=PlayerInfo.GetLocalPlayerIndex()then
+function this.OnPlayerFulton(playerIndex,r)
+  if playerIndex~=PlayerInfo.GetLocalPlayerIndex()then
     return
   end
   local n=300
@@ -1728,8 +1740,8 @@ function this.OnPickUpCollection(i,t,a,o)
   end
   if TppCollection.IsHerbByType(a)then
     local e=GameObject.GetGameObjectIdByIndex("TppBuddyDog2",0)
-    if e~=n then
-      r(e,{id="GetPlant",uniqueId=t})
+    if e~=NULL_ID then
+      SendCommand(e,{id="GetPlant",uniqueId=t})
     end
   end
   if TppCollection.IsMaterialByType(a)then
@@ -1774,8 +1786,8 @@ function this.CheckAllStationPickedUp()
 end
 function this.OnPickUpPlaced(e,e,a)
   local e=GameObject.GetGameObjectIdByIndex("TppBuddyDog2",0)
-  if e~=n then
-    r(e,{id="GetPlacedItem",index=a})
+  if e~=NULL_ID then
+    SendCommand(e,{id="GetPlacedItem",index=a})
   end
 end
 function this.OnPickUpWeapon(t,a,e)
@@ -1785,16 +1797,16 @@ function this.OnPickUpWeapon(t,a,e)
 end
 function this.RestoreSupplyCbox()
   if this.IsExistSupplyCboxSystem()then
-    local e={type="TppSupplyCboxSystem"}r(e,{id="RestoreRequest"})
+    local e={type="TppSupplyCboxSystem"}SendCommand(e,{id="RestoreRequest"})
   end
 end
 function this.StoreSupplyCbox()
   if this.IsExistSupplyCboxSystem()then
-    local e={type="TppSupplyCboxSystem"}r(e,{id="StoreRequest"})
+    local e={type="TppSupplyCboxSystem"}SendCommand(e,{id="StoreRequest"})
   end
 end
 function this.IsExistSupplyCboxSystem()
-  if GameObject.GetGameObjectIdByIndex("TppSupplyCboxSystem",0)~=n then
+  if GameObject.GetGameObjectIdByIndex("TppSupplyCboxSystem",0)~=NULL_ID then
     return true
   else
     return false
@@ -1803,17 +1815,17 @@ end
 function this.RestoreSupportAttack()
   if this.IsExistSupportAttackSystem()then
     local e={type="TppSupportAttackSystem"}
-    r(e,{id="RestoreRequest"})
+    SendCommand(e,{id="RestoreRequest"})
   end
 end
 function this.StoreSupportAttack()
   if this.IsExistSupportAttackSystem()then
     local e={type="TppSupportAttackSystem"}
-    r(e,{id="StoreRequest"})
+    SendCommand(e,{id="StoreRequest"})
   end
 end
 function this.IsExistSupportAttackSystem()
-  if GameObject.GetGameObjectIdByIndex("TppSupportAttackSystem",0)~=n then
+  if GameObject.GetGameObjectIdByIndex("TppSupportAttackSystem",0)~=NULL_ID then
     return true
   else
     return false
@@ -1821,11 +1833,12 @@ function this.IsExistSupportAttackSystem()
 end
 function this.StorePlayerDecoyInfos()
   if this.IsExistDecoySystem()then
-    local e={type="TppDecoySystem"}r(e,{id="StorePlayerDecoyInfos"})
+    local e={type="TppDecoySystem"}
+    SendCommand(e,{id="StorePlayerDecoyInfos"})
   end
 end
 function this.IsExistDecoySystem()
-  if GameObject.GetGameObjectIdByIndex("TppDecoySystem",0)~=n then
+  if GameObject.GetGameObjectIdByIndex("TppDecoySystem",0)~=NULL_ID then
     return true
   else
     return false
@@ -1850,7 +1863,7 @@ function this.WarpByCboxDelivery()
     TppQuest.ClearBlockStateRequest()
   end
   mvars.ply_deliveryWarpState=this.DELIVERY_WARP_STATE.START_WARP
-  o("Timer_DeliveryWarpSoundCannotCancel",t)
+  TimerStart("Timer_DeliveryWarpSoundCannotCancel",t)
   local a={type="TppPlayer2",index=0}
   local e={id="WarpToStation",stationId=mvars.ply_selectedCboxDeliveryUniqueId}
   GameObject.SendCommand(a,e)
@@ -1878,7 +1891,7 @@ function this.UpdateDeliveryWarp()
     mvars.ply_selectedCboxDeliveryUniqueId=nil
     mvars.ply_deliveryWarpState=nil
     mvars.ply_deliveryWarpSoundCannotCancel=nil
-    TppSoundDaemon.PostEventAndGetHandle("Stop_truck_transfer","Loading")p"Timer_DeliveryWarpSoundCannotCancel"return
+    TppSoundDaemon.PostEventAndGetHandle("Stop_truck_transfer","Loading")TimerStop"Timer_DeliveryWarpSoundCannotCancel"return
   end
   if mvars.ply_playingDeliveryWarpSoundHandle then
     local e=TppSoundDaemon.IsEventPlaying("Play_truck_transfer",mvars.ply_playingDeliveryWarpSoundHandle)
@@ -1907,7 +1920,7 @@ function this.OnEndFadeInWarpByCboxDelivery()
   mvars.ply_selectedCboxDeliveryUniqueId=nil
   mvars.ply_deliveryWarpState=nil
   mvars.ply_deliveryWarpSoundCannotCancel=nil
-  p"Timer_DeliveryWarpSoundCannotCancel"Player.ResetPadMask{settingName="CboxDelivery"}
+  TimerStop"Timer_DeliveryWarpSoundCannotCancel"Player.ResetPadMask{settingName="CboxDelivery"}
 end
 function this.OnEnterIntelMarkerTrap(e,a)
   local e=mvars.ply_intelMarkerTrapInfo[e]

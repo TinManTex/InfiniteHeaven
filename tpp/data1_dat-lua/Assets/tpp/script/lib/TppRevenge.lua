@@ -584,10 +584,10 @@ function this._SetUpRevengeMine()
   end
 end
 function this._GetDecoyType(e)
-  local n={PF_A=1,PF_B=2,PF_C=3}
-  local e=GetGameObjectId(e)
-  local e=TppEnemy.GetCpSubType(e)
-  return n[e]
+  local pfType={PF_A=1,PF_B=2,PF_C=3}
+  local gameId=GetGameObjectId(e)
+  local cpSubType=TppEnemy.GetCpSubType(gameId)
+  return pfType[cpSubType]
 end
 function this._EnableDecoy(n,t,E)
   local n=n.."_cp"local n=this._GetDecoyType(n)
@@ -1294,80 +1294,94 @@ function this._GetSettingSoldierCount(t,n,E)
   end
   return e
 end
-function this._ApplyRevengeToCp(t,l,a)
-  local E=mvars.ene_soldierIDList[t]
+function this._ApplyRevengeToCp(cpId,revengeConfig,a)
+  local soldierIds=mvars.ene_soldierIDList[cpId]
   local o={}
-  local n=0
+  local RENAMEsomeCount=0
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
     local r=0
-    local e=mvars.ene_cpList[t]
+    local cp=mvars.ene_cpList[cpId]
     if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
-      local e=mtbs_enemy.cpNameToClsterIdList[e]
-      if e then
-        E={}
-        local e=mvars.mbSoldier_enableSoldierLocatorList[e]
-        for n,e in ipairs(e)do
-          local n=tonumber(string.sub(e,-6,-6))
+      local clusterIdList=mtbs_enemy.cpNameToClsterIdList[cp]
+      if clusterIdList then
+        soldierIds={}
+        local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterIdList]
+        for n,soldierName in ipairs(soldierLocators)do
+          local n=tonumber(string.sub(soldierName,-6,-6))
           if n~=nil and n==a then
-            local e=GameObject.GetGameObjectId("TppSoldier2",e)E[e]=r
+            local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+            soldierIds[soldierId]=r
           end
         end
       end
     end
   end
-  if E==nil then
+  if soldierIds==nil then
     return
   end
-  local r={}
-  for e,n in pairs(mvars.ene_missionSoldierPowerSettings)do
-    local e=GetGameObjectId("TppSoldier2",e)
-    r[e]=n
+  local missionPowerSoldiers={}
+  for soldierName,missionPowerSetting in pairs(mvars.ene_missionSoldierPowerSettings)do
+    local missionPowerSoldierId=GetGameObjectId("TppSoldier2",soldierName)
+    missionPowerSoldiers[missionPowerSoldierId]=missionPowerSetting
   end
-  local i={}
-  for n,e in pairs(mvars.ene_missionSoldierPersonalAbilitySettings)do
-    local n=GetGameObjectId("TppSoldier2",n)
-    i[n]=e
+  local missionAbilitySoldiers={}
+  for soldierName,missionAbilitySetting in pairs(mvars.ene_missionSoldierPersonalAbilitySettings)do
+    local missionPowerAbilitySoldierId=GetGameObjectId("TppSoldier2",soldierName)
+    missionAbilitySoldiers[missionPowerAbilitySoldierId]=missionAbilitySetting
   end
-  local T=mvars.ene_outerBaseCpList[t]
+  local outerBaseCp=mvars.ene_outerBaseCpList[cpId]
   local a={}
   local _={}
-  for gameId,E in pairs(E)do
-    table.insert(o,gameId)n=n+1
-    if r[gameId]then
-      a[n]=true
+  for gameId,E in pairs(soldierIds)do
+    table.insert(o,gameId)
+    RENAMEsomeCount=RENAMEsomeCount+1
+    if missionPowerSoldiers[gameId]then
+      a[RENAMEsomeCount]=true
     elseif mvars.ene_eliminateTargetList[gameId]then
-      a[n]=true
+      a[RENAMEsomeCount]=true
     elseif TppEnemy.GetSoldierType(gameId)==EnemyType.TYPE_CHILD then
-      a[n]=true
-    elseif T then
-      _[n]=true
-    elseif mvars.ene_lrrpTravelPlan[t]then
-      _[n]=true
+      a[RENAMEsomeCount]=true
+    elseif outerBaseCp then
+      _[RENAMEsomeCount]=true
+    elseif mvars.ene_lrrpTravelPlan[cpId]then
+      _[RENAMEsomeCount]=true
     end
   end
   local t={}
-  for e=1,n do
-    if T then
-      t[e]={OB=true}
+  for i=1,RENAMEsomeCount do
+    if outerBaseCp then
+      t[i]={OB=true}
     else
-      t[e]={}
+      t[i]={}
     end
   end
-  local T={ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},SOFT_ARMOR={"ARMOR"},SNIPER={"SHOTGUN","MG","MISSILE","GUN_LIGHT","ARMOR","SHIELD","SMG"},SHOTGUN={"SNIPER","MG","MISSILE","SHIELD","SMG"},MG={"SNIPER","SHOTGUN","MISSILE","GUN_LIGHT","SHIELD","SMG"},SMG={"SNIPER","SHOTGUN","MG"},MISSILE={"ARMOR","SHIELD","SNIPER","SHOTGUN","MG"},SHIELD={"ARMOR","SNIPER","MISSILE","SHOTGUN","MG"},HELMET={"ARMOR","GAS_MASK","NVG"},GAS_MASK={"ARMOR","HELMET","NVG"},NVG={"ARMOR","HELMET","GAS_MASK"},GUN_LIGHT={"SNIPER","MG"}}
+  local T={
+    ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},
+    SOFT_ARMOR={"ARMOR"},SNIPER={"SHOTGUN","MG","MISSILE","GUN_LIGHT","ARMOR","SHIELD","SMG"},
+    SHOTGUN={"SNIPER","MG","MISSILE","SHIELD","SMG"},
+    MG={"SNIPER","SHOTGUN","MISSILE","GUN_LIGHT","SHIELD","SMG"},
+    SMG={"SNIPER","SHOTGUN","MG"},
+    MISSILE={"ARMOR","SHIELD","SNIPER","SHOTGUN","MG"},
+    SHIELD={"ARMOR","SNIPER","MISSILE","SHOTGUN","MG"},
+    HELMET={"ARMOR","GAS_MASK","NVG"},
+    GAS_MASK={"ARMOR","HELMET","NVG"},
+    NVG={"ARMOR","HELMET","GAS_MASK"},
+    GUN_LIGHT={"SNIPER","MG"}
+  }
   local s={STEALTH_LOW=true,STEALTH_HIGH=true,STEALTH_SPECIAL=true,COMBAT_LOW=true,COMBAT_HIGH=true,COMBAT_SPECIAL=true,HOLDUP_LOW=true,HOLDUP_HIGH=true,HOLDUP_SPECIAL=true,FULTON_LOW=true,FULTON_HIGH=true,FULTON_SPECIAL=true}
-  for r,E in ipairs(TppEnemy.POWER_SETTING)do
-    local r=l[E]
-    if r then
-      local r=this._GetSettingSoldierCount(E,r,n)
-      local o=T[E]or{}
-      local r=r
-      for n=1,n do
+  for r,POWER_SETTING in ipairs(TppEnemy.POWER_SETTING)do
+    local config=revengeConfig[POWER_SETTING]
+    if config then
+      local settingSoldierCount=this._GetSettingSoldierCount(POWER_SETTING,config,RENAMEsomeCount)
+      local o=T[POWER_SETTING]or{}
+      local soldierCount=settingSoldierCount
+      for n=1,RENAMEsomeCount do
         local a=a[n]
-        local _=(not s[E])and _[n]
-        if(not a and not _)and r>0 then
+        local _=(not s[POWER_SETTING])and _[n]
+        if(not a and not _)and soldierCount>0 then
           local a=true
-          if t[n][E]then
-            r=r-1
+          if t[n][POWER_SETTING]then
+            soldierCount=soldierCount-1
             a=false
           end
           if a then
@@ -1378,12 +1392,12 @@ function this._ApplyRevengeToCp(t,l,a)
             end
           end
           if a then
-            r=r-1
-            t[n][E]=true
-            if E=="MISSILE"and this.IsUsingStrongMissile()then
+            soldierCount=soldierCount-1
+            t[n][POWER_SETTING]=true
+            if POWER_SETTING=="MISSILE"and this.IsUsingStrongMissile()then
               t[n].STRONG_MISSILE=true
             end
-            if E=="SNIPER"and this.IsUsingStrongSniper()then
+            if POWER_SETTING=="SNIPER"and this.IsUsingStrongSniper()then
               t[n].STRONG_SNIPER=true
             end
           end
@@ -1394,53 +1408,68 @@ function this._ApplyRevengeToCp(t,l,a)
   for n,loadout in ipairs(t)do
     local soldierId=o[n]
     TppEnemy.ApplyPowerSetting(soldierId,loadout)
-    if i[soldierId]==nil then
-      local n={}do
-        local E
+    if missionAbilitySoldiers[soldierId]==nil then
+      local personalAbilitySettings={}do
+        local stealth
         if loadout.STEALTH_SPECIAL then
-          E="sp"elseif loadout.STEALTH_HIGH then
-          E="high"elseif loadout.STEALTH_LOW then
-          E="low"end
-        n.notice=E
-        n.cure=E
-        n.reflex=E
+          stealth="sp"
+        elseif loadout.STEALTH_HIGH then
+          stealth="high"
+        elseif loadout.STEALTH_LOW then
+          stealth="low"
+        end
+        personalAbilitySettings.notice=stealth
+        personalAbilitySettings.cure=stealth
+        personalAbilitySettings.reflex=stealth
       end
       do
-        local E
+        local combat
         if loadout.COMBAT_SPECIAL then
-          E="sp"elseif loadout.COMBAT_HIGH then
-          E="high"elseif loadout.COMBAT_LOW then
-          E="low"end
-        n.shot=E
-        n.grenade=E
-        n.reload=E
-        n.hp=E
+          combat="sp"
+        elseif loadout.COMBAT_HIGH then
+          combat="high"
+        elseif loadout.COMBAT_LOW then
+          combat="low"
+        end
+        personalAbilitySettings.shot=combat
+        personalAbilitySettings.grenade=combat
+        personalAbilitySettings.reload=combat
+        personalAbilitySettings.hp=combat
       end
       do
-        local E
+        local speed
         if loadout.STEALTH_SPECIAL or loadout.COMBAT_SPECIAL then
-          E="sp"elseif loadout.STEALTH_HIGH or loadout.COMBAT_HIGH then
-          E="high"elseif loadout.STEALTH_LOW or loadout.COMBAT_LOW then
-          E="low"end
-        n.speed=E
+          speed="sp"
+        elseif loadout.STEALTH_HIGH or loadout.COMBAT_HIGH then
+          speed="high"
+        elseif loadout.STEALTH_LOW or loadout.COMBAT_LOW then
+          speed="low"
+        end
+        personalAbilitySettings.speed=speed
       end
       do
-        local E
+        local fulton
         if loadout.FULTON_SPECIAL then
-          E="sp"elseif loadout.FULTON_HIGH then
-          E="high"elseif loadout.FULTON_LOW then
-          E="low"end
-        n.fulton=E
+          fulton="sp"
+        elseif loadout.FULTON_HIGH then
+          fulton="high"
+        elseif loadout.FULTON_LOW then
+          fulton="low"
+        end
+        personalAbilitySettings.fulton=fulton
       end
       do
-        local E
+        local holdup
         if loadout.HOLDUP_SPECIAL then
-          E="sp"elseif loadout.HOLDUP_HIGH then
-          E="high"elseif loadout.HOLDUP_LOW then
-          E="low"end
-        n.holdup=E
+          holdup="sp"
+          elseif loadout.HOLDUP_HIGH then
+          holdup="high"
+          elseif loadout.HOLDUP_LOW then
+          holdup="low"
+          end
+        personalAbilitySettings.holdup=holdup
       end
-      TppEnemy.ApplyPersonalAbilitySettings(soldierId,n)
+      TppEnemy.ApplyPersonalAbilitySettings(soldierId,personalAbilitySettings)
     end
   end
 end

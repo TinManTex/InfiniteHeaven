@@ -1,4 +1,4 @@
-local e={}
+local this={}
 local i=Fox.StrCode32
 local t=type
 local L=GameObject.GetGameObjectId
@@ -25,7 +25,7 @@ local A=TppGameObject.PHASE_ALERT
 local p=GameObject.NULL_ID
 local n=bit.bnot
 local n,n,n=bit.band,bit.bor,bit.bxor
-e.requires={
+this.requires={
 "/Assets/tpp/script/lib/TppDefine.lua",
 "/Assets/tpp/script/lib/TppMath.lua",
 "/Assets/tpp/script/lib/TppSave.lua",
@@ -79,19 +79,19 @@ e.requires={
 "/Assets/tpp/script/lib/TppTrophy.lua",
 "/Assets/tpp/script/lib/TppMbFreeDemo.lua"
 }
-function e.IsTypeFunc(e)
+function this.IsTypeFunc(e)
   return t(e)=="function"end
-local f=e.IsTypeFunc
-function e.IsTypeTable(e)
+local f=this.IsTypeFunc
+function this.IsTypeTable(e)
   return t(e)=="table"end
-local a=e.IsTypeTable
-function e.IsTypeString(e)
+local a=this.IsTypeTable
+function this.IsTypeString(e)
   return t(e)=="string"end
-local n=e.IsTypeString
-function e.IsTypeNumber(e)
+local n=this.IsTypeString
+function this.IsTypeNumber(e)
   return t(e)=="number"end
-local n=e.IsTypeNumber
-function e.Enum(e)
+local n=this.IsTypeNumber
+function this.Enum(e)
   if e==nil then
     return
   end
@@ -103,14 +103,14 @@ function e.Enum(e)
   end
   return e
 end
-function e.IsMaster()do
+function this.IsMaster()do
   return true
 end
 end
-function e.IsQARelease()
+function this.IsQARelease()
   return(Fox.GetDebugLevel()==Fox.DEBUG_LEVEL_QA_RELEASE)
 end
-function e.SplitString(e,l)
+function this.SplitString(e,l)
   local t={}
   local n
   local e=e
@@ -124,7 +124,7 @@ function e.SplitString(e,l)
   end
   return t
 end
-function e.StrCode32Table(n)
+function this.StrCode32Table(n)
   local l={}
   for n,r in pairs(n)do
     local n=n
@@ -132,19 +132,19 @@ function e.StrCode32Table(n)
       n=i(n)
     end
     if t(r)=="table"then
-      l[n]=e.StrCode32Table(r)
+      l[n]=this.StrCode32Table(r)
     else
       l[n]=r
     end
   end
   return l
 end
-function e.ApendArray(e,n)
+function this.ApendArray(e,n)
   for t,n in pairs(n)do
     e[#e+1]=n
   end
 end
-function e.MergeTable(t,e,n)
+function this.MergeTable(t,e,n)
   local n=t
   for e,l in pairs(e)do
     if t[e]==nil then
@@ -155,7 +155,7 @@ function e.MergeTable(t,e,n)
   end
   return n
 end
-function e.BfsPairs(r)
+function this.BfsPairs(r)
   local i,t,l={r},1,1
   local function p(n,e)
     local n,e=e,nil
@@ -177,9 +177,9 @@ function e.BfsPairs(r)
   end
   return p,r,nil
 end
-e._DEBUG_svars={}
-e._DEBUG_gvars={}
-function e.MakeMessageExecTable(e)
+this._DEBUG_svars={}
+this._DEBUG_gvars={}
+function this.MakeMessageExecTable(e)
   if e==nil then
     return
   end
@@ -242,7 +242,7 @@ function e.MakeMessageExecTable(e)
   end
   return n
 end
-function e.DoMessage(n,r,t,o,a,p,i,l,s)
+function this.DoMessage(n,r,t,o,a,p,i,l,s)
   if not n then
     return
   end
@@ -255,9 +255,9 @@ function e.DoMessage(n,r,t,o,a,p,i,l,s)
     return
   end
   local t=true
-  e.DoMessageAct(n,r,a,p,i,l,s,t)
+  this.DoMessageAct(n,r,a,p,i,l,s,t)
 end
-function e.DoMessageAct(n,r,e,l,i,a,t)
+function this.DoMessageAct(n,r,e,l,i,a,t)
   if n.func then
     if r(n.option)then
       n.func(e,l,i,a)
@@ -270,7 +270,7 @@ function e.DoMessageAct(n,r,e,l,i,a,t)
     end
   end
 end
-function e.GetRotationY(e)
+function this.GetRotationY(e)
   if not e then
     return
   end
@@ -280,23 +280,23 @@ function e.GetRotationY(e)
     return TppMath.RadianToDegree(e)
   end
 end
-function e.GetLocator(n,t)
-  local n,t=e.GetLocatorByTransform(n,t)
+function this.GetLocator(n,t)
+  local n,t=this.GetLocatorByTransform(n,t)
   if n~=nil then
-    return TppMath.Vector3toTable(n),e.GetRotationY(t)
+    return TppMath.Vector3toTable(n),this.GetRotationY(t)
   else
     return nil
   end
 end
-function e.GetLocatorByTransform(t,n)
-  local e=e.GetDataWithIdentifier(t,n,"TransformData")
+function this.GetLocatorByTransform(t,n)
+  local e=this.GetDataWithIdentifier(t,n,"TransformData")
   if e==nil then
     return
   end
   local e=e.worldTransform
   return e.translation,e.rotQuat
 end
-function e.GetDataWithIdentifier(e,n,t)
+function this.GetDataWithIdentifier(e,n,t)
   local e=DataIdentifier.GetDataWithIdentifier(e,n)
   if e==NULL then
     return
@@ -306,7 +306,7 @@ function e.GetDataWithIdentifier(e,n,t)
   end
   return e
 end
-function e.GetDataBodyWithIdentifier(n,e,t)
+function this.GetDataBodyWithIdentifier(n,e,t)
   local e=DataIdentifier.GetDataBodyWithIdentifier(n,e)
   if(e.data==nil)then
     return
@@ -316,7 +316,7 @@ function e.GetDataBodyWithIdentifier(n,e,t)
   end
   return e
 end
-function e.SetGameStatus(n)
+function this.SetGameStatus(n)
   if not a(n)then
     return
   end
@@ -379,7 +379,7 @@ function e.SetGameStatus(n)
     end
   end
 end
-function e.GetAllDisableGameStatusTable()
+function this.GetAllDisableGameStatusTable()
   local e={}
   for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
     e[n]=false
@@ -389,7 +389,7 @@ function e.GetAllDisableGameStatusTable()
   end
   return e
 end
-function e.GetHelicopterStartExceptGameStatus()
+function this.GetHelicopterStartExceptGameStatus()
   local e={}
   e.EquipPanel=false
   e.AnnounceLog=false
@@ -411,23 +411,23 @@ local function n(e,n)
     return false
   end
 end
-function e.IsPlayer(e)
+function this.IsPlayer(e)
   return n(e,B)
 end
-function e.IsLocalPlayer(e)
-  if e==PlayerInfo.GetLocalPlayerIndex()then
+function this.IsLocalPlayer(playerIndex)
+  if playerIndex==PlayerInfo.GetLocalPlayerIndex()then
     return true
   else
     return false
   end
 end
-function e.IsSoldier(e)
+function this.IsSoldier(e)
   return n(e,M)
 end
-function e.IsCommandPost(e)
+function this.IsCommandPost(e)
   return n(e,U)
 end
-function e.IsHostage(e)
+function this.IsHostage(e)
   if e==nil then
     return
   end
@@ -437,31 +437,31 @@ function e.IsHostage(e)
   local e=u(e)
   return TppDefine.HOSTAGE_GM_TYPE[e]
 end
-function e.IsVolgin(e)
+function this.IsVolgin(e)
   return n(e,g)
 end
-function e.IsHelicopter(e)
+function this.IsHelicopter(e)
   return n(e,E)
 end
-function e.IsEnemyHelicopter(e)
+function this.IsEnemyHelicopter(e)
   return n(e,O)
 end
-function e.IsHorse(e)
+function this.IsHorse(e)
   return n(e,D)
 end
-function e.IsVehicle(e)
+function this.IsVehicle(e)
   return n(e,C)
 end
-function e.IsPlayerWalkerGear(e)
+function this.IsPlayerWalkerGear(e)
   return n(e,m)
 end
-function e.IsEnemyWalkerGear(e)
+function this.IsEnemyWalkerGear(e)
   return n(e,b)
 end
-function e.IsFultonContainer(e)
+function this.IsFultonContainer(e)
   return n(e,TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER)
 end
-function e.IsFultonableGimmick(e)
+function this.IsFultonableGimmick(e)
   if e==nil then
     return
   end
@@ -471,7 +471,7 @@ function e.IsFultonableGimmick(e)
   local e=u(e)
   return TppDefine.FULTONABLE_GIMMICK_TYPE[e]
 end
-function e.GetBuddyTypeFromGameObjectId(e)
+function this.GetBuddyTypeFromGameObjectId(e)
   if e==nil then
     return
   end
@@ -481,10 +481,10 @@ function e.GetBuddyTypeFromGameObjectId(e)
   local e=u(e)
   return TppDefine.BUDDY_GM_TYPE_TO_BUDDY_TYPE[e]
 end
-function e.IsMarkerLocator(e)
+function this.IsMarkerLocator(e)
   return n(e,_)
 end
-function e.IsAnimal(e)
+function this.IsAnimal(e)
   if e==nil then
     return
   end
@@ -494,16 +494,16 @@ function e.IsAnimal(e)
   local e=u(e)
   return TppDefine.ANIMAL_GAMEOBJECT_TYPE[e]
 end
-function e.IsBossQuiet(e)
+function this.IsBossQuiet(e)
   return n(e,P)
 end
-function e.IsParasiteSquad(e)
+function this.IsParasiteSquad(e)
   return n(e,S)
 end
-function e.IsSecurityCamera(e)
+function this.IsSecurityCamera(e)
   return n(e,I)
 end
-function e.IsGunCamera(n)
+function this.IsGunCamera(n)
   if n==p then
     return false
   end
@@ -512,10 +512,10 @@ function e.IsGunCamera(n)
   e=GameObject.SendCommand(n,t)
   return e
 end
-function e.IsUAV(e)
+function this.IsUAV(e)
   return n(e,G)
 end
-function e.IncrementPlayData(e)
+function this.IncrementPlayData(e)
   if gvars[e]==nil then
     return
   end
@@ -523,14 +523,14 @@ function e.IncrementPlayData(e)
     gvars[e]=gvars[e]+1
   end
 end
-function e.IsNotAlert()
+function this.IsNotAlert()
   if vars.playerPhase<A then
     return true
   else
     return false
   end
 end
-function e.IsPlayerStatusNormal()
+function this.IsPlayerStatusNormal()
   local e=vars
   if e.playerLife>0 and e.playerStamina>0 then
     return true
@@ -538,7 +538,7 @@ function e.IsPlayerStatusNormal()
     return false
   end
 end
-function e.AreaToIndices(e)
+function this.AreaToIndices(e)
   local l,t,n,r=e[1],e[2],e[3],e[4]
   local e={}
   for n=l,n do
@@ -548,14 +548,14 @@ function e.AreaToIndices(e)
   end
   return e
 end
-function e.CheckBlockArea(e,t,n)
+function this.CheckBlockArea(e,t,n)
   local l,e,r,i=e[1],e[2],e[3],e[4]
   if(((t>=l)and(t<=r))and(n>=e))and(n<=i)then
     return true
   end
   return false
 end
-function e.FillBlockArea(n,e,i,t,r,l)
+function this.FillBlockArea(n,e,i,t,r,l)
   for e=e,t do
     n[e]=n[e]or{}
     for t=i,r do
@@ -563,19 +563,19 @@ function e.FillBlockArea(n,e,i,t,r,l)
     end
   end
 end
-function e.GetCurrentStageSmallBlockIndex()
+function this.GetCurrentStageSmallBlockIndex()
   local e=2
   local n,t=StageBlock.GetCurrentMinimumSmallBlockIndex()
   return(n+e),(t+e)
 end
-function e.IsLoadedSmallBlock(n,t)
+function this.IsLoadedSmallBlock(n,t)
   local l=4
   local e,r=StageBlock.GetCurrentMinimumSmallBlockIndex()
   local i=e+l
   local l=e+l
   return((e<=n and i>=n)and r<=t)and l>=t
 end
-function e.IsLoadedLargeBlock(e)
+function this.IsLoadedLargeBlock(e)
   local n=i(e)
   local e=StageBlock.GetLoadedLargeBlocks(0)
   for t,e in pairs(e)do
@@ -585,14 +585,14 @@ function e.IsLoadedLargeBlock(e)
   end
   return false
 end
-function e.GetLoadedLargeBlock()
+function this.GetLoadedLargeBlock()
   local e=StageBlock.GetLoadedLargeBlocks(0)
   for n,e in pairs(e)do
     return e
   end
   return nil
 end
-function e.GetChunkIndex(t,n)
+function this.GetChunkIndex(t,n)
   local e
   if n then
     e=Chunk.INDEX_MGO
@@ -604,12 +604,12 @@ function e.GetChunkIndex(t,n)
   end
   return e
 end
-function e.StartWaitChunkInstallation(n)Chunk.PrefetchChunk(n)Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_FAST)
-  e.ClearChunkInstallPopupUpdateTime()
+function this.StartWaitChunkInstallation(n)Chunk.PrefetchChunk(n)Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_FAST)
+  this.ClearChunkInstallPopupUpdateTime()
 end
 local r=1
 local n=0
-function e.ShowChunkInstallingPopup(t,l)
+function this.ShowChunkInstallingPopup(t,l)
   local e=Time.GetFrameTime()n=n-e
   if n>0 then
     return
@@ -637,9 +637,9 @@ function e.ShowChunkInstallingPopup(t,l)
     TppUiCommand.SetPopupType"POPUP_TYPE_NO_BUTTON_NO_EFFECT"end
   TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOW_INSTALLING,e)
 end
-function e.ClearChunkInstallPopupUpdateTime()n=0
+function this.ClearChunkInstallPopupUpdateTime()n=0
 end
-function e.GetFormatedStorageSizePopupParam(t)
+function this.GetFormatedStorageSizePopupParam(t)
   local n=1024
   local e=1024*n
   local l=1024*e
@@ -661,7 +661,7 @@ function e.GetFormatedStorageSizePopupParam(t)
   local n=math.ceil(n)
   return n,e,2
 end
-function e.PatchDlcCheckCoroutine(t,l,r)
+function this.PatchDlcCheckCoroutine(t,l,r)
   local function e(e)
   end
   local function n()
@@ -701,14 +701,14 @@ function e.PatchDlcCheckCoroutine(t,l,r)
     return false
   end
 end
-function e.ClearDidCancelPatchDlcDownloadRequest()
+function this.ClearDidCancelPatchDlcDownloadRequest()
   if(vars.didCancelPatchDlcDownloadRequest==1)then
     vars.didCancelPatchDlcDownloadRequest=0
     vars.isPersonalDirty=1
     TppSave.CheckAndSavePersonalData()
   end
 end
-function e.DEBUG_DunmpBlockArea(t,l,n)
+function this.DEBUG_DunmpBlockArea(t,l,n)
   local e="       "for n=1,n do
     e=e..string.format("%02d,",n)
   end
@@ -718,7 +718,7 @@ function e.DEBUG_DunmpBlockArea(t,l,n)
     end
   end
 end
-function e.DEBUG_DumpTable(l,n)
+function this.DEBUG_DumpTable(l,n)
   if n==nil then
   end
   if(t(l)~="table")then
@@ -732,21 +732,21 @@ function e.DEBUG_DumpTable(l,n)
     if t(l)=="table"then
       local n=n or 0
       n=n+1
-      e.DEBUG_DumpTable(l,n)
+      this.DEBUG_DumpTable(l,n)
     else
       if t(l)=="number"then
       end
     end
   end
 end
-function e.DEBUG_Where(e)
+function this.DEBUG_Where(e)
   local e=debug.getinfo(e+1)
   if e then
     return e.short_src..(":"..e.currentline)
   end
   return"(unknown)"
 end
-function e.DEBUG_StrCode32ToString(e)
+function this.DEBUG_StrCode32ToString(e)
   if e~=nil then
     local n
     if(TppDbgStr32)then
@@ -763,9 +763,9 @@ function e.DEBUG_StrCode32ToString(e)
     return"nil"
   end
 end
-function e.DEBUG_Fatal(e,e)
+function this.DEBUG_Fatal(e,e)
 end
-function e.DEBUG_SetPreference(n,t,l)
+function this.DEBUG_SetPreference(n,t,l)
   local n=Preference.GetPreferenceEntity(n)
   if(n==nil)then
     return
@@ -775,15 +775,15 @@ function e.DEBUG_SetPreference(n,t,l)
   end
   Command.SetProperty{entity=n,property=t,value=l}
 end
-e._requireList={}
+this._requireList={}
 do
-  for t,n in ipairs(e.requires)do
-    local n=e.SplitString(n,"/")
+  for t,n in ipairs(this.requires)do
+    local n=this.SplitString(n,"/")
     local n=string.sub(n[#n],1,#n[#n]-4)
     local t={TppMain=true,TppDemoBlock=true,mafr_luxury_block_list=true}
     if not t[n]then
-      e._requireList[#e._requireList+1]=n
+      this._requireList[#this._requireList+1]=n
     end
   end
 end
-return e
+return this

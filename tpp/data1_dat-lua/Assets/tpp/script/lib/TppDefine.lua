@@ -223,10 +223,11 @@ AVATAR_ASSET_LIST={
 }
 }
 this.SOLIDER2_COMMON_PACK={
-default="/Assets/tpp/pack/soldier/common/Soldier2Common.fpk",
-s10150_special="/Assets/tpp/pack/mission2/story/s10150/s10150_special_npc.fpk",
-s10151_special="/Assets/tpp/pack/mission2/story/s10151/s10151_special_npc.fpk",
-s10151_ending="/Assets/tpp/pack/mission2/story/s10151/s10151_ending_npc.fpk"}
+  default="/Assets/tpp/pack/soldier/common/Soldier2Common.fpk",
+  s10150_special="/Assets/tpp/pack/mission2/story/s10150/s10150_special_npc.fpk",
+  s10151_special="/Assets/tpp/pack/mission2/story/s10151/s10151_special_npc.fpk",
+  s10151_ending="/Assets/tpp/pack/mission2/story/s10151/s10151_ending_npc.fpk"
+}
 for T,E in pairs(this.SOLIDER2_COMMON_PACK)do
   this.SOLIDER2_COMMON_PACK[Fox.StrCode32(T)]=E
 end

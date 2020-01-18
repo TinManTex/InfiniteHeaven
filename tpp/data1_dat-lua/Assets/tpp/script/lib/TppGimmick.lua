@@ -106,21 +106,21 @@ function this.IsBroken(e)
   if not IsTypeTable(e)then
     return
   end
-  local n,i
-  n=e.gimmickId
-  i=e.searchFromSaveData
-  if not n then
+  local gimmickId,searchFromSaveData
+  gimmickId=e.gimmickId
+  searchFromSaveData=e.searchFromSaveData
+  if not gimmickId then
     return
   end
   if not mvars.gim_identifierParamTable then
     return
   end
-  local e=mvars.gim_identifierParamTable[n]
-  if Gimmick.IsBrokenGimmick and e then
-    if i then
-      return Gimmick.IsBrokenGimmick(e.type,e.locatorName,e.dataSetName)
+  local gimmick=mvars.gim_identifierParamTable[gimmickId]
+  if Gimmick.IsBrokenGimmick and gimmick then
+    if searchFromSaveData then
+      return Gimmick.IsBrokenGimmick(gimmick.type,gimmick.locatorName,gimmick.dataSetName)
     else
-      return Gimmick.IsBrokenGimmick(e.type,e.locatorName,e.dataSetName,1)
+      return Gimmick.IsBrokenGimmick(gimmick.type,gimmick.locatorName,gimmick.dataSetName,1)
     end
   end
 end
@@ -540,8 +540,8 @@ function this.BreakGimmick(a,n,t,i)
   this.PowerCut(n,true,t)
   this.SetHeroicAndOrgPoint(n,i)
 end
-function this.GetGimmickID(e,n,i)
-  local t=IsTypeTable(e)
+function this.GetGimmickID(gameId,n,i)
+  local t=IsTypeTable(gameId)
   local e=mvars.gim_identifierTable
   if not e then
     return
@@ -778,17 +778,18 @@ function this.OnActivateQuest(n)
       t=true
     end
     if n.gimmickOffsetType then
-      local n,e=mtbs_cluster.GetDemoCenter(n.gimmickOffsetType,"plnt0")Gimmick.SetOffsetPosition(n,e)
+      local n,e=mtbs_cluster.GetDemoCenter(n.gimmickOffsetType,"plnt0")
+      Gimmick.SetOffsetPosition(n,e)
       if mvars.gim_questMarkStartName then
         Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,mvars.gim_questMarkStartLocator,mvars.gim_questMarkStartData,false)
       end
       t=true
     end
     if(n.containerList and Tpp.IsTypeTable(n.containerList))and next(n.containerList)then
-      for n,e in pairs(n.containerList)do
-        local n=e.locatorName
-        local e=e.dataSetName
-        Gimmick.SetFultonableContainerForMission(n,e,0,false)
+      for n,container in pairs(n.containerList)do
+        local locatorName=container.locatorName
+        local dataSetName=container.dataSetName
+        Gimmick.SetFultonableContainerForMission(locatorName,dataSetName,0,false)
       end
       t=true
     end

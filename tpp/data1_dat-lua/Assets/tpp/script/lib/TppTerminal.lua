@@ -14,8 +14,8 @@ this.keyItemAnnounceLogTable={[TppMotherBaseManagementConst.DESIGN_3011]="key_it
 this.keyItemRewardTable={[TppMotherBaseManagementConst.DESIGN_3013]="key_item_3013",[TppMotherBaseManagementConst.DESIGN_3003]="key_item_3003",[TppMotherBaseManagementConst.DESIGN_3008]="key_item_3008",[TppMotherBaseManagementConst.DESIGN_3014]="key_item_3014",[TppMotherBaseManagementConst.DESIGN_3015]="key_item_3015",[TppMotherBaseManagementConst.DESIGN_3016]="key_item_3016",[TppMotherBaseManagementConst.DESIGN_3017]="key_item_3017",[TppMotherBaseManagementConst.DESIGN_3018]="key_item_3018",[TppMotherBaseManagementConst.DESIGN_3019]="key_item_3019",[TppMotherBaseManagementConst.DESIGN_3007]="key_item_3007",[TppMotherBaseManagementConst.DESIGN_3010]="key_item_3010",[TppMotherBaseManagementConst.DESIGN_3020]="key_item_3020"}
 this.parasiteSquadFultonResouceId={[Fox.StrCode32"Cam"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CAMOFLA,5},[Fox.StrCode32"Fog"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_FOG,5},[Fox.StrCode32"Metal"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CURING,5}}
 this.MOTHER_BASE_SECTION_LIST={"Combat","BaseDev","Spy","Medical","Security","Hospital","Prison","Separation"}
-local t=TppMotherBaseManagementConst or{}
-local E={Combat={DispatchSoldier=t.SECTION_FUNC_ID_COMBAT_DEPLOY,DispatchFobDefence=t.SECTION_FUNC_ID_COMBAT_DEFENCE},Develop={Weapon=t.SECTION_FUNC_ID_DEVELOP_WEAPON,SupportHelicopter=t.SECTION_FUNC_ID_DEVELOP_HELI,Quiet=t.SECTION_FUNC_ID_DEVELOP_QUIET,D_Dog=t.SECTION_FUNC_ID_DEVELOP_D_DOG,D_Horse=t.SECTION_FUNC_ID_DEVELOP_D_HORSE,D_Walker=t.SECTION_FUNC_ID_DEVELOP_D_WALKER,BattleGear=t.SECTION_FUNC_ID_DEVELOP_BATTLE_GEAR,SecurityDevice=t.SECTION_FUNC_ID_DEVELOP_SECURITY_DEVICE},BaseDev={Mining=t.SECTION_FUNC_ID_BASE_DEV_RESOURCE_MINING,Processing=t.SECTION_FUNC_ID_BASE_DEV_RESOURCE_PROCESSING,Extention=t.SECTION_FUNC_ID_BASE_DEV_PLATFORM_EXTENTION,Construct=t.SECTION_FUNC_ID_BASE_DEV_FOB_CONSTRUCT,NuclearDevelop=t.SECTION_FUNC_ID_BASE_DEV_NUCLEAR_DEVELOP},Support={Fulton=t.SECTION_FUNC_ID_SUPPORT_FULTON,Supply=t.SECTION_FUNC_ID_SUPPORT_SUPPLY,Battle=t.SECTION_FUNC_ID_SUPPORT_BATTLE,BattleArtillery=t.SECTION_FUNC_ID_SUPPORT_STRIKE,BattleSmoke=t.SECTION_FUNC_ID_SUPPORT_SMOKE,BattleSleepGas=t.SECTION_FUNC_ID_SUPPORT_SLEEP_GAS,BattleChaff=t.SECTION_FUNC_ID_SUPPORT_CHAFF,BattleWeather=t.SECTION_FUNC_ID_SUPPORT_WEATHER,TranslationRussian=t.SECTION_FUNC_ID_SUPPORT_RUSSIAN_TRANSLATE,TranslationAfrikaans=t.SECTION_FUNC_ID_SUPPORT_AFRIKAANS_TRANSLATE,TranslationKikongo=t.SECTION_FUNC_ID_SUPPORT_KIKONGO_TRANSLATE,TranslationPashto=t.SECTION_FUNC_ID_SUPPORT_PASHTO_TRANSLATE},Spy={Information=t.SECTION_FUNC_ID_SPY_MISSION_INFO_COLLECTING,Scouting=t.SECTION_FUNC_ID_SPY_ENEMY_SEARCH,SearchResource=t.SECTION_FUNC_ID_SPY_RESOURCE_SEARCH,WeatherInformation=t.SECTION_FUNC_ID_SPY_WEATHER_INFO},Medical={Emergency=t.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY,Treatment=t.SECTION_FUNC_ID_MEDICAL_STAFF_TREATMENT},Security={BaseDefence=t.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_STAFF,MachineDefence=t.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_MACHINE,BaseBlockade=t.SECTION_FUNC_ID_SECURITY_BASE_BLOCKADE,SecurityInfo=t.SECTION_FUNC_ID_SPY_SECURITY_INFO}}
+local tppMotherBaseManagementConst=TppMotherBaseManagementConst or{}
+local E={Combat={DispatchSoldier=tppMotherBaseManagementConst.SECTION_FUNC_ID_COMBAT_DEPLOY,DispatchFobDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_COMBAT_DEFENCE},Develop={Weapon=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_WEAPON,SupportHelicopter=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_HELI,Quiet=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_QUIET,D_Dog=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_DOG,D_Horse=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_HORSE,D_Walker=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_WALKER,BattleGear=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_BATTLE_GEAR,SecurityDevice=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_SECURITY_DEVICE},BaseDev={Mining=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_RESOURCE_MINING,Processing=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_RESOURCE_PROCESSING,Extention=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_PLATFORM_EXTENTION,Construct=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_FOB_CONSTRUCT,NuclearDevelop=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_NUCLEAR_DEVELOP},Support={Fulton=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON,Supply=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SUPPLY,Battle=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_BATTLE,BattleArtillery=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_STRIKE,BattleSmoke=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SMOKE,BattleSleepGas=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SLEEP_GAS,BattleChaff=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_CHAFF,BattleWeather=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_WEATHER,TranslationRussian=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_RUSSIAN_TRANSLATE,TranslationAfrikaans=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_AFRIKAANS_TRANSLATE,TranslationKikongo=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_KIKONGO_TRANSLATE,TranslationPashto=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_PASHTO_TRANSLATE},Spy={Information=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_MISSION_INFO_COLLECTING,Scouting=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_ENEMY_SEARCH,SearchResource=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_RESOURCE_SEARCH,WeatherInformation=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_WEATHER_INFO},Medical={Emergency=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY,Treatment=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_TREATMENT},Security={BaseDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_STAFF,MachineDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_MACHINE,BaseBlockade=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_BLOCKADE,SecurityInfo=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_SECURITY_INFO}}
 this.setUpMenuList={}
 this.MBDVCMENU={
   ALL="all",
@@ -173,8 +173,8 @@ this.RESOURCE_INFORMATION_TABLE={
   [TppCollection.TYPE_POSTER_MOE_V]={resourceName="Poster1005",count=1},
   [TppCollection.TYPE_POSTER_MOE_H]={resourceName="Poster1006",count=1}
 }
-this.BLUE_PRINT_LOCATOR_TABLE={col_develop_Revolver_Shotgun=t.DESIGN_2002,col_develop_Highprecision_SMG=t.DESIGN_2006,col_develop_HighprecisionAR=t.DESIGN_2007,col_develop_HighprecisionAR_s10033_0000=t.DESIGN_2007,col_develop_BullpupAR=t.DESIGN_2008,col_develop_LongtubeShotgun=t.DESIGN_2009,col_develop_RevolverGrenade0001=t.DESIGN_2011,col_develop_RevolverGrenade0002=t.DESIGN_2011,col_develop_RevolverGrenade0003=t.DESIGN_2011,col_develop_RevolverGrenade0004=t.DESIGN_2011,col_develop_Semiauto_SR=t.DESIGN_2013,col_develop_Semiauto_SR_s10070_0000=t.DESIGN_2013,col_develop_Antimaterial=t.DESIGN_2015,col_develop_EuropeSMG0001=t.DESIGN_2016,col_develop_EuropeSMG0002=t.DESIGN_2016,col_develop_EuropeSMG0003=t.DESIGN_2016,col_develop_EuropeSMG0004=t.DESIGN_2016,col_develop_Stungrenade=t.DESIGN_2019,col_develop_Stungun=t.DESIGN_2020,col_develop_Infraredsensor=t.DESIGN_2021,col_develop_Theftprotection=t.DESIGN_2022,col_develop_Emergencyrescue=t.DESIGN_3001,col_develop_FLamethrower=t.DESIGN_2026,col_develop_Shield=t.DESIGN_2025,col_develop_Shield0000=t.DESIGN_2025,col_develop_Shield0001=t.DESIGN_2025,col_develop_Shield0002=t.DESIGN_2025,col_develop_GunCamera=t.DESIGN_2023,col_develop_UAV=t.DESIGN_2024,col_develop_q60115=t.DESIGN_2027}
-this.BLUE_PRINT_LANG_ID={[t.DESIGN_2002]="key_bprint_2002",[t.DESIGN_2006]="key_bprint_2006",[t.DESIGN_2007]="key_bprint_2007",[t.DESIGN_2008]="key_bprint_2008",[t.DESIGN_2009]="key_bprint_2009",[t.DESIGN_2011]="key_bprint_2011",[t.DESIGN_2013]="key_bprint_2013",[t.DESIGN_2015]="key_bprint_2015",[t.DESIGN_2016]="key_bprint_2016",[t.DESIGN_2019]="key_bprint_2019",[t.DESIGN_2020]="key_bprint_2020",[t.DESIGN_2021]="key_bprint_2021",[t.DESIGN_2022]="key_bprint_2022",[t.DESIGN_2023]="key_bprint_2023",[t.DESIGN_2024]="key_bprint_2024",[t.DESIGN_2025]="key_bprint_2025",[t.DESIGN_2026]="key_bprint_2026",[t.DESIGN_2027]="key_bprint_2027",[t.DESIGN_3001]="key_item_3001"}
+this.BLUE_PRINT_LOCATOR_TABLE={col_develop_Revolver_Shotgun=tppMotherBaseManagementConst.DESIGN_2002,col_develop_Highprecision_SMG=tppMotherBaseManagementConst.DESIGN_2006,col_develop_HighprecisionAR=tppMotherBaseManagementConst.DESIGN_2007,col_develop_HighprecisionAR_s10033_0000=tppMotherBaseManagementConst.DESIGN_2007,col_develop_BullpupAR=tppMotherBaseManagementConst.DESIGN_2008,col_develop_LongtubeShotgun=tppMotherBaseManagementConst.DESIGN_2009,col_develop_RevolverGrenade0001=tppMotherBaseManagementConst.DESIGN_2011,col_develop_RevolverGrenade0002=tppMotherBaseManagementConst.DESIGN_2011,col_develop_RevolverGrenade0003=tppMotherBaseManagementConst.DESIGN_2011,col_develop_RevolverGrenade0004=tppMotherBaseManagementConst.DESIGN_2011,col_develop_Semiauto_SR=tppMotherBaseManagementConst.DESIGN_2013,col_develop_Semiauto_SR_s10070_0000=tppMotherBaseManagementConst.DESIGN_2013,col_develop_Antimaterial=tppMotherBaseManagementConst.DESIGN_2015,col_develop_EuropeSMG0001=tppMotherBaseManagementConst.DESIGN_2016,col_develop_EuropeSMG0002=tppMotherBaseManagementConst.DESIGN_2016,col_develop_EuropeSMG0003=tppMotherBaseManagementConst.DESIGN_2016,col_develop_EuropeSMG0004=tppMotherBaseManagementConst.DESIGN_2016,col_develop_Stungrenade=tppMotherBaseManagementConst.DESIGN_2019,col_develop_Stungun=tppMotherBaseManagementConst.DESIGN_2020,col_develop_Infraredsensor=tppMotherBaseManagementConst.DESIGN_2021,col_develop_Theftprotection=tppMotherBaseManagementConst.DESIGN_2022,col_develop_Emergencyrescue=tppMotherBaseManagementConst.DESIGN_3001,col_develop_FLamethrower=tppMotherBaseManagementConst.DESIGN_2026,col_develop_Shield=tppMotherBaseManagementConst.DESIGN_2025,col_develop_Shield0000=tppMotherBaseManagementConst.DESIGN_2025,col_develop_Shield0001=tppMotherBaseManagementConst.DESIGN_2025,col_develop_Shield0002=tppMotherBaseManagementConst.DESIGN_2025,col_develop_GunCamera=tppMotherBaseManagementConst.DESIGN_2023,col_develop_UAV=tppMotherBaseManagementConst.DESIGN_2024,col_develop_q60115=tppMotherBaseManagementConst.DESIGN_2027}
+this.BLUE_PRINT_LANG_ID={[tppMotherBaseManagementConst.DESIGN_2002]="key_bprint_2002",[tppMotherBaseManagementConst.DESIGN_2006]="key_bprint_2006",[tppMotherBaseManagementConst.DESIGN_2007]="key_bprint_2007",[tppMotherBaseManagementConst.DESIGN_2008]="key_bprint_2008",[tppMotherBaseManagementConst.DESIGN_2009]="key_bprint_2009",[tppMotherBaseManagementConst.DESIGN_2011]="key_bprint_2011",[tppMotherBaseManagementConst.DESIGN_2013]="key_bprint_2013",[tppMotherBaseManagementConst.DESIGN_2015]="key_bprint_2015",[tppMotherBaseManagementConst.DESIGN_2016]="key_bprint_2016",[tppMotherBaseManagementConst.DESIGN_2019]="key_bprint_2019",[tppMotherBaseManagementConst.DESIGN_2020]="key_bprint_2020",[tppMotherBaseManagementConst.DESIGN_2021]="key_bprint_2021",[tppMotherBaseManagementConst.DESIGN_2022]="key_bprint_2022",[tppMotherBaseManagementConst.DESIGN_2023]="key_bprint_2023",[tppMotherBaseManagementConst.DESIGN_2024]="key_bprint_2024",[tppMotherBaseManagementConst.DESIGN_2025]="key_bprint_2025",[tppMotherBaseManagementConst.DESIGN_2026]="key_bprint_2026",[tppMotherBaseManagementConst.DESIGN_2027]="key_bprint_2027",[tppMotherBaseManagementConst.DESIGN_3001]="key_item_3001"}
 this.EMBLEM_LOCATOR_TABLE={["ly003_cl00_collct0000|cl00pl0_uq_0000_collct|col_develop_MTBS_0000"]="front8",["ly003_cl00_collct0000|cl00pl0_uq_0000_collct|col_develop_MTBS_0001"]="front10",["ly003_cl00_collct0000|cl00pl0_uq_0000_collct|col_develop_MTBS_0002"]="front15",["ly003_cl00_collct0000|cl00pl0_uq_0000_collct|col_develop_MTBS_0003"]="front16",["ly003_cl04_collct0000|cl04pl0_uq_0040_collct|col_emblem_quiet"]="front9",col_develop_MTBS_30150_0000="front11",col_develop_MTBS_30250_0000="front7"}
 local gmpCostNames={}
 if TppDefine.GMP_COST_TYPE then
@@ -468,27 +468,52 @@ function this.GetPandemicBingoCount()
   local e=gvars.trm_currentPandemicBingoCount/e
   return gvars.trm_currentPandemicBingoCount,t,e
 end
-local n={GROUP_A={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,missionList={10033,10043,10036},proceedCount=1,privilegeNameList={"RESCUE_HOSTAGE_E20010_001","RESCUE_HOSTAGE_E20010_002","RESCUE_HOSTAGE_E20010_003","RESCUE_HOSTAGE_E20010_004","RESCUE_FRIENDMAN"},dlcItem={STAFF_STAFF1_FOX={"STAFF_STAFF1_FOX_01","STAFF_STAFF1_FOX_02"}}},GROUP_B={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON,privilegeNameList={"RESCUE_SP_HOSTAGE","RESCUE_HOSTAGE_E20020_000","RESCUE_HOSTAGE_E20020_001","RESCUE_ENEMY_US_MISSION_TARGET_CENTER000","RESCUE_ENEMY_US_MISSION_TARGET_SQUAD000"},dlcItem={STAFF_STAFF2_MSF={"STAFF_STAFF2_MSF_01","STAFF_STAFF2_MSF_02"}}},GROUP_C={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON,missionList={10041,10044,10052,10054},proceedCount=2,privilegeNameList={"RESCUE_HOSTAGE_E20030_000","RESCUE_HOSTAGE_E20030_001","RESCUE_HOSTAGE_E20030_002","RESCUE_E20030_BETRAYER","RESCUE_E20030_MASTERMIND"},dlcItem={STAFF_STAFF3_DD={"STAFF_STAFF3_DD_01","STAFF_STAFF3_DD_02"}}},GROUP_D={storySequence=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,privilegeNameList={"RESCUE_HOSTAGE_E20050_000","RESCUE_HOSTAGE_E20050_001","RESCUE_HOSTAGE_E20050_002","RESCUE_HOSTAGE_E20050_003","RESCUE_GENOME_SOILDER_SAVE"},dlcItem={STAFF_STAFF4_FOX_HOUND={"STAFF_STAFF4_FOX_HOUND_01","STAFF_STAFF4_FOX_HOUND_02"}}}}
+local privilegeStaff={
+  GROUP_A={
+    storySequence=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,
+    missionList={10033,10043,10036},
+    proceedCount=1,
+    privilegeNameList={"RESCUE_HOSTAGE_E20010_001","RESCUE_HOSTAGE_E20010_002","RESCUE_HOSTAGE_E20010_003","RESCUE_HOSTAGE_E20010_004","RESCUE_FRIENDMAN"},
+    dlcItem={STAFF_STAFF1_FOX={"STAFF_STAFF1_FOX_01","STAFF_STAFF1_FOX_02"}}
+    },
+    GROUP_B={
+    storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON,
+    privilegeNameList={"RESCUE_SP_HOSTAGE","RESCUE_HOSTAGE_E20020_000","RESCUE_HOSTAGE_E20020_001","RESCUE_ENEMY_US_MISSION_TARGET_CENTER000","RESCUE_ENEMY_US_MISSION_TARGET_SQUAD000"},
+    dlcItem={STAFF_STAFF2_MSF={"STAFF_STAFF2_MSF_01","STAFF_STAFF2_MSF_02"}}
+    },
+    GROUP_C={
+    storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON,
+    missionList={10041,10044,10052,10054},
+    proceedCount=2,
+    privilegeNameList={"RESCUE_HOSTAGE_E20030_000","RESCUE_HOSTAGE_E20030_001","RESCUE_HOSTAGE_E20030_002","RESCUE_E20030_BETRAYER","RESCUE_E20030_MASTERMIND"},
+    dlcItem={STAFF_STAFF3_DD={"STAFF_STAFF3_DD_01","STAFF_STAFF3_DD_02"}}
+    },
+    GROUP_D={
+    storySequence=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,
+    privilegeNameList={"RESCUE_HOSTAGE_E20050_000","RESCUE_HOSTAGE_E20050_001","RESCUE_HOSTAGE_E20050_002","RESCUE_HOSTAGE_E20050_003","RESCUE_GENOME_SOILDER_SAVE"},
+    dlcItem={STAFF_STAFF4_FOX_HOUND={"STAFF_STAFF4_FOX_HOUND_01","STAFF_STAFF4_FOX_HOUND_02"}}
+    }
+    }
 function this.AcquirePrivilegeStaff()
   if(vars.missionCode==10030)or(TppMission.IsFOBMission(vars.missionCode))then
     return
   end
-  local a=TppStory.GetCurrentStorySequence()
-  for n,t in pairs(n)do
-    if t.storySequence<=a then
+  local currentStorySequence=TppStory.GetCurrentStorySequence()
+  for group,conditions in pairs(privilegeStaff)do
+    if conditions.storySequence<=currentStorySequence then
       local a=true
-      local n=t.missionList
+      local n=conditions.missionList
       if n then
         local e=TppStory.GetClearedMissionCount(n)
-        if e<t.proceedCount then
+        if e<conditions.proceedCount then
           a=false
         end
       end
       if a then
-        for n,t in ipairs(t.privilegeNameList)do
+        for n,t in ipairs(conditions.privilegeNameList)do
           this.AcquireGzPrivilege(t,this._AcquireGzPrivilegeStaff)
         end
-        for t,n in pairs(t.dlcItem)do
+        for t,n in pairs(conditions.dlcItem)do
           local t=DlcItem[t]
           if t then
             this.AcquireDlcItem(t,this._AcquireDlcItemStaff,n)
@@ -523,7 +548,7 @@ function this.AcquirePrivilegeInTitleScreen()
   this.AcquireDlcItemEmblem()
 end
 function this.AcquireGzPrivilegeKeyItem()
-  local t={SAVEDATA_EXIST=t.EXTRA_4011,CLEAR_MISSION_20060=t.EXTRA_4012}
+  local t={SAVEDATA_EXIST=tppMotherBaseManagementConst.EXTRA_4011,CLEAR_MISSION_20060=tppMotherBaseManagementConst.EXTRA_4012}
   local function n(e)
     local e=t[e]
     TppMotherBaseManagement.DirectAddDataBase{dataBaseId=e,isNew=true}
@@ -534,38 +559,61 @@ function this.AcquireGzPrivilegeKeyItem()
   end
 end
 function this.AcquireDlcItemKeyItem()
-  local t={WEAPON_MACHT_P5_WEISS=t.EXTRA_4000,WEAPON_RASP_SB_SG_GOLD=t.EXTRA_4001,WEAPON_PB_SHIELD_SIL=t.EXTRA_4002,WEAPON_PB_SHIELD_OD=t.EXTRA_4003,WEAPON_PB_SHIELD_WHT=t.EXTRA_4004,WEAPON_PB_SHIELD_GLD=t.EXTRA_4005,ITEM_CBOX_APD=t.EXTRA_4006,ITEM_CBOX_RT=t.EXTRA_4007,ITEM_CBOX_WET=t.EXTRA_4008,SUIT_FATIGUES_APD=t.EXTRA_4015,SUIT_FATIGUES_GRAY_URBAN=t.EXTRA_4016,SUIT_FATIGUES_BLUE_URBAN=t.EXTRA_4017,SUIT_FATIGUES_BLACK_OCELOT=t.EXTRA_4018,WEAPON_ADAM_SKA_SP=t.EXTRA_4024,WEAPON_WU_S333_CB_SP=t.EXTRA_4025,SUIT_MGS3_NORMAL=t.EXTRA_4019,SUIT_MGS3_SNEAK=t.EXTRA_4022,SUIT_MGS3_TUXEDO=t.EXTRA_4023,SUIT_THE_BOSS=t.EXTRA_4026,SUIT_EVA=t.EXTRA_4027,HORSE_WESTERN=t.EXTRA_4028,HORSE_PARADE=t.EXTRA_4009}
-  local function a(n,e)
-    local e=t[e]
-    TppMotherBaseManagement.DirectAddDataBase{dataBaseId=e,isNew=true}
+  local dlcList={
+    WEAPON_MACHT_P5_WEISS=tppMotherBaseManagementConst.EXTRA_4000,
+    WEAPON_RASP_SB_SG_GOLD=tppMotherBaseManagementConst.EXTRA_4001,
+    WEAPON_PB_SHIELD_SIL=tppMotherBaseManagementConst.EXTRA_4002,
+    WEAPON_PB_SHIELD_OD=tppMotherBaseManagementConst.EXTRA_4003,
+    WEAPON_PB_SHIELD_WHT=tppMotherBaseManagementConst.EXTRA_4004,
+    WEAPON_PB_SHIELD_GLD=tppMotherBaseManagementConst.EXTRA_4005,
+    ITEM_CBOX_APD=tppMotherBaseManagementConst.EXTRA_4006,
+    ITEM_CBOX_RT=tppMotherBaseManagementConst.EXTRA_4007,
+    ITEM_CBOX_WET=tppMotherBaseManagementConst.EXTRA_4008,
+    SUIT_FATIGUES_APD=tppMotherBaseManagementConst.EXTRA_4015,
+    SUIT_FATIGUES_GRAY_URBAN=tppMotherBaseManagementConst.EXTRA_4016,
+    SUIT_FATIGUES_BLUE_URBAN=tppMotherBaseManagementConst.EXTRA_4017,
+    SUIT_FATIGUES_BLACK_OCELOT=tppMotherBaseManagementConst.EXTRA_4018,
+    WEAPON_ADAM_SKA_SP=tppMotherBaseManagementConst.EXTRA_4024,
+    WEAPON_WU_S333_CB_SP=tppMotherBaseManagementConst.EXTRA_4025,
+    SUIT_MGS3_NORMAL=tppMotherBaseManagementConst.EXTRA_4019,
+    SUIT_MGS3_SNEAK=tppMotherBaseManagementConst.EXTRA_4022,
+    SUIT_MGS3_TUXEDO=tppMotherBaseManagementConst.EXTRA_4023,
+    SUIT_THE_BOSS=tppMotherBaseManagementConst.EXTRA_4026,
+    SUIT_EVA=tppMotherBaseManagementConst.EXTRA_4027,
+    HORSE_WESTERN=tppMotherBaseManagementConst.EXTRA_4028,
+    HORSE_PARADE=tppMotherBaseManagementConst.EXTRA_4009
+  }
+  local function funcAdd(n,e)
+    local dataBaseId=dlcList[e]
+    TppMotherBaseManagement.DirectAddDataBase{dataBaseId=dataBaseId,isNew=true}
     return true
   end
-  local function r(n,e)--RETAILPATCH: 1.0.4.1
-    local e=t[e]
-    TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=e}
+  local function funcRemove(n,e)--RETAILPATCH: 1.0.4.1
+    local dataBaseId=dlcList[e]
+    TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=dataBaseId}
     return true
   end--
-  for n,t in pairs(t)do
+  for n,t in pairs(dlcList)do
     local t=DlcItem[n]
     if t then
-      this.EraseDlcItem(t,r,n)--RETAILPATCH: 1.0.4.1
-      this.AcquireDlcItem(t,a,n)
+      this.EraseDlcItem(t,funcRemove,n)--RETAILPATCH: 1.0.4.1
+      this.AcquireDlcItem(t,funcAdd,n)
     end
   end
 end
 function this.AcquireDlcItemEmblem()
-  local t={EMBLEM_FRONT_VENOM_SNAKE="front85"}
-  local function a(t,e)
+  local emblemList={EMBLEM_FRONT_VENOM_SNAKE="front85"}
+  local function funcAdd(t,e)
     return TppEmblem.Add(e)
   end
-  local function r(t,e)--RETAILPATCH: 1.0.4.1
+  local function funcRemove(t,e)--RETAILPATCH: 1.0.4.1
     return TppEmblem.Remove(e)
   end--
-  for t,n in pairs(t)do
-    local t=DlcItem[t]
-    if t then
-      this.EraseDlcItem(t,r,n)--RETAILPATCH: 1.0.4.1
-      this.AcquireDlcItem(t,a,n)
+  for emblemId,emblemName in pairs(emblemList)do
+    local dlcItem=DlcItem[emblemId]
+    if dlcItem then
+      this.EraseDlcItem(dlcItem,funcRemove,emblemName)--RETAILPATCH: 1.0.4.1
+      this.AcquireDlcItem(dlcItem,funcAdd,emblemName)
     end
   end
 end
@@ -614,7 +662,7 @@ function this.EraseDlcItem(e,t,n)
     TppUiCommand.ResetDlcAcquired(e)
   end
 end
-local n={[t.STAFF_UNIQUE_TYPE_ID_OCELOT]=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,[t.STAFF_UNIQUE_TYPE_ID_MILLER]=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,[t.STAFF_UNIQUE_TYPE_ID_HEUY]=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,[t.STAFF_UNIQUE_TYPE_ID_CODE_TALKER]=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA}
+local n={[tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_OCELOT]=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,[tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_MILLER]=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE,[tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_HEUY]=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,[tppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_CODE_TALKER]=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA}
 function this.AddUniqueCharactor()
   local e=TppStory.GetCurrentStorySequence()
   for n,t in pairs(n)do
@@ -792,7 +840,7 @@ function this.Messages()
     },
     MotherBaseManagement={
     {msg="AssignedStaff",func=function(e,n)
-      if(e==t.SECTION_SEPARATION)and(n>0)then
+      if(e==tppMotherBaseManagementConst.SECTION_SEPARATION)and(n>0)then
           gvars.trm_doneIsolateByManual=true
           if(TppMission.IsFreeMission(vars.missionCode)or TppMission.IsHelicopterSpace(vars.missionCode))and TppRadio.IsRadioPlayable()then
             TppFreeHeliRadio._PlayRadio(TppFreeHeliRadio.PANDEMIC_RADIO.ON_ISOLATE_STAFF)
@@ -827,21 +875,21 @@ end
 function this.OnMessage(_,M,n,t,a,r,o)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,_,M,n,t,a,r,o)
 end
-function this.OnFultonMessage(e,t,a,n)
+function this.OnFultonMessage(gameId,t,a,stafforResourceId)
   mvars.trm_fultonInfo=mvars.trm_fultonInfo or{}
-  mvars.trm_fultonInfo[e]={e,t,a,n}
+  mvars.trm_fultonInfo[gameId]={gameId,t,a,stafforResourceId}
 end
-function this.OnFultonInfoMessage(n,a,r)
+function this.OnFultonInfoMessage(n,playerIndex,r)
   mvars.trm_fultonInfo=mvars.trm_fultonInfo or{}
-  local t=mvars.trm_fultonInfo[n]
-  if t then
-    this.OnFulton(t[1],t[2],t[3],t[4],nil,nil,a,r)
+  local fultonInfo=mvars.trm_fultonInfo[n]
+  if fultonInfo then
+    this.OnFulton(fultonInfo[1],fultonInfo[2],fultonInfo[3],fultonInfo[4],nil,nil,playerIndex,r)
     mvars.trm_fultonInfo[n]=nil
   end
   mvars.trm_fultonFaileEndInfo=mvars.trm_fultonFaileEndInfo or{}
-  local t=mvars.trm_fultonFaileEndInfo[n]
-  if t then
-    this._OnFultonFailedEnd(t[1],t[2],t[3],t[4],a)
+  local fultonFaileEndInfo=mvars.trm_fultonFaileEndInfo[n]
+  if fultonFaileEndInfo then
+    this._OnFultonFailedEnd(fultonFaileEndInfo[1],fultonFaileEndInfo[2],fultonFaileEndInfo[3],fultonFaileEndInfo[4],playerIndex)
     mvars.trm_fultonFaileEndInfo[n]=nil
   end
 end
@@ -959,46 +1007,47 @@ function this.SetUpBuddyMBDVCMenu()
     end
   end
 end
-function this.DoFuncByFultonTypeSwitch(e,a,n,r,o,t,S,c,T,p,s,_,M,i,E,u,d,l)
-  if Tpp.IsSoldier(e)then
-    return c(e,a,n,r,o,t)
-  elseif Tpp.IsVolgin(e)then
-    return T(e)
-  elseif Tpp.IsHostage(e)then
-    return p(e,a,n,r,o,t)
-  elseif Tpp.IsVehicle(e)then
-    return s(e,a,n,r,nil,t)
-  elseif Tpp.IsFultonContainer(e)then
-    return _(e,a,n,r,nil,t,S)
-  elseif Tpp.IsFultonableGimmick(e)then
-    return M(e,a,n,r,nil,t)
-  elseif Tpp.IsEnemyWalkerGear(e)then
-    return E(e,a,n,r,nil,t)
-  elseif Tpp.IsAnimal(e)then
-    return u(e,a,n,r,nil,t)
-  elseif Tpp.IsBossQuiet(e)then
-    return d(e,a,n,r,o,t)
-  elseif Tpp.IsParasiteSquad(e)then
-    return l(e,a,n,r,nil,t)
+function this.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,n,staffOrResourceId,RENAMEsomeboolmaybeheliRecovered,playerIndex,RENAMEmysteryPatchvar,OnFultonSoldier,OnFultonVolgin,OnFultonHostage,OnFultonVehicle,OnFultonContainer,OnFultonGimmickCommon,OnFultonBuddy,OnFultonEnemyWalkerGear,OnFultonAnimal,OnFultonBossQuiet,OnFultonParasiteSquad)--RENAME:
+  if Tpp.IsSoldier(gameId)then
+    return OnFultonSoldier(gameId,RENAMEanimalId,n,staffOrResourceId,RENAMEsomeboolmaybeheliRecovered,playerIndex)
+  elseif Tpp.IsVolgin(gameId)then
+    return OnFultonVolgin(gameId)
+  elseif Tpp.IsHostage(gameId)then
+    return OnFultonHostage(gameId,RENAMEanimalId,n,staffOrResourceId,RENAMEsomeboolmaybeheliRecovered,playerIndex)
+  elseif Tpp.IsVehicle(gameId)then
+    return OnFultonVehicle(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+  elseif Tpp.IsFultonContainer(gameId)then
+    return OnFultonContainer(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex,RENAMEmysteryPatchvar)
+  elseif Tpp.IsFultonableGimmick(gameId)then
+    return OnFultonGimmickCommon(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+  elseif Tpp.IsEnemyWalkerGear(gameId)then
+    return OnFultonEnemyWalkerGear(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+  elseif Tpp.IsAnimal(gameId)then
+    return OnFultonAnimal(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+  elseif Tpp.IsBossQuiet(gameId)then
+    return OnFultonBossQuiet(gameId,RENAMEanimalId,n,staffOrResourceId,RENAMEsomeboolmaybeheliRecovered,playerIndex)
+  elseif Tpp.IsParasiteSquad(gameId)then
+    return OnFultonParasiteSquad(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
   else
-    local o=Tpp.GetBuddyTypeFromGameObjectId(e)
-    if o then
-      return i(e,a,n,r,o,t)
+    local buddyType=Tpp.GetBuddyTypeFromGameObjectId(gameId)
+    if buddyType then
+      return OnFultonBuddy(gameId,RENAMEanimalId,n,staffOrResourceId,buddyType,playerIndex)
     end
   end
 end
-function this.OnFulton(t,a,o,n,M,_,r,i)
-  if _ then
+function this.OnFulton(someGameId,a,o,staffOrResourceId,someBool,possiblyNotHelicopter,playerIndex,i)--RENAME:
+  if possiblyNotHelicopter then
     mvars.trm_needHeliSoundOnAddStaffsFromTempBuffer=true
   end
-  TppEnemy.SetRecovered(t)
-  TppEnemy.ExecuteOnRecoveredCallback(t,a,o,n,M,_,r)
-  if Tpp.IsLocalPlayer(r)then
-    TppEnemy._OnFulton(t,a,o,n)
+  TppEnemy.SetRecovered(someGameId)
+  TppEnemy.ExecuteOnRecoveredCallback(someGameId,a,o,staffOrResourceId,someBool,possiblyNotHelicopter,playerIndex)
+  if Tpp.IsLocalPlayer(playerIndex)then
+    TppEnemy._OnFulton(someGameId,a,o,staffOrResourceId)
   end
-  this.DoFuncByFultonTypeSwitch(t,a,o,n,M,r,i,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
+  this.DoFuncByFultonTypeSwitch(someGameId,a,o,staffOrResourceId,someBool,playerIndex,i,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
 end
-function this.IncrementFultonCount()svars.trm_missionFultonCount=svars.trm_missionFultonCount+1
+function this.IncrementFultonCount()
+  svars.trm_missionFultonCount=svars.trm_missionFultonCount+1
 end
 function this.GetMissionHumanFultonCount()
   return svars.trm_missionFultonCount
@@ -1020,156 +1069,160 @@ end
 function this.GetFultonCountKeyItem()
   local n=gvars.trm_recoveredSoldierCount+gvars.trm_recoveredHostageCount
   if n>=u then
-    this.AcquireKeyItem{dataBaseId=t.DESIGN_3006,isShowAnnounceLog=true}
+    this.AcquireKeyItem{dataBaseId=tppMotherBaseManagementConst.DESIGN_3006,isShowAnnounceLog=true}
   end
   if n>=s then
-    this.AcquireKeyItem{dataBaseId=t.DESIGN_3005,isShowAnnounceLog=true}
+    this.AcquireKeyItem{dataBaseId=tppMotherBaseManagementConst.DESIGN_3005,isShowAnnounceLog=true}
   end
 end
-function this.OnFultonSoldier(gameId,a,a,r,n,o)
-  if n then
-    local e={id="SetToHeliRecoveredComplete"}
-    GameObject.SendCommand(gameId,e)
+function this.OnFultonSoldier(gameId,a,a,staffId,RENAMEheliRecovered,fultonedPlayer)
+  if RENAMEheliRecovered then
+    local command={id="SetToHeliRecoveredComplete"}
+    GameObject.SendCommand(gameId,command)
   end
-  local M=TppMotherBaseManagement.GetTempStaffStatusFromGameObject{gameObjectId=gameId}
-  local a
-  if r then
-    a=r
+  local tempStaffStatus=TppMotherBaseManagement.GetTempStaffStatusFromGameObject{gameObjectId=gameId}
+  local staff
+  if staffId then
+    staff=staffId
   else
-    a=TppMotherBaseManagement.GetStaffIdFromGameObject{gameObjectId=gameId}
+    staff=TppMotherBaseManagement.GetStaffIdFromGameObject{gameObjectId=gameId}
   end
-  if Tpp.IsLocalPlayer(o)then
-    TppHero.OnFultonSoldier(gameId,n)
+  if Tpp.IsLocalPlayer(fultonedPlayer)then
+    TppHero.OnFultonSoldier(gameId,RENAMEheliRecovered)
     this.IncrementFultonCount()
-    if not n then
+    if not RENAMEheliRecovered then
       this.IncrementRecoveredSoldierCount()
       local soldierType=TppEnemy.GetSoldierType(gameId)
       if soldierType~=EnemyType.TYPE_DD then
         TppTrophy.Unlock(29)
       end
     end
-    PlayRecord.RegistPlayRecord"SOLDIER_RESCUE"Tpp.IncrementPlayData"totalRescueCount"end
-  this.AddTempStaffFulton{staffId=a,gameObjectId=gameId,tempStaffStatus=M,fultonedPlayer=o}
+    PlayRecord.RegistPlayRecord"SOLDIER_RESCUE"
+    Tpp.IncrementPlayData"totalRescueCount"
+    end
+  this.AddTempStaffFulton{staffId=staff,gameObjectId=gameId,tempStaffStatus=tempStaffStatus,fultonedPlayer=fultonedPlayer}
 end
-function this.OnFultonVolgin(e)
+function this.OnFultonVolgin(gameId)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
   TppMotherBaseManagement.AddTempCorpse()
 end
-function this.OnFultonHostage(t,n,n,r,o,a)
-  local M=TppMotherBaseManagement.GetTempStaffStatusFromGameObject{gameObjectId=t}
-  local n
-  if r then
-    n=r
+function this.OnFultonHostage(gameId,n,n,staffId,o,fultonedPlayer)
+  local tempStaffStatus=TppMotherBaseManagement.GetTempStaffStatusFromGameObject{gameObjectId=gameId}
+  local staff
+  if staffId then
+    staff=staffId
   else
-    n=TppMotherBaseManagement.GetStaffIdFromGameObject{gameObjectId=t}
+    staff=TppMotherBaseManagement.GetStaffIdFromGameObject{gameObjectId=gameId}
   end
-  if Tpp.IsLocalPlayer(a)then
-    TppHero.OnFultonHostage(t,o)
+  if Tpp.IsLocalPlayer(fultonedPlayer)then
+    TppHero.OnFultonHostage(gameId,o)
     this.IncrementFultonCount()
     if not o then
       this.IncrementRecoveredHostageCount()
     end
-    PlayRecord.RegistPlayRecord"HOSTAGE_RESCUE"Tpp.IncrementPlayData"totalRescueCount"local e=GameObject.SendCommand(t,{id="IsFemale"})
-    if e then
+    PlayRecord.RegistPlayRecord"HOSTAGE_RESCUE"
+    Tpp.IncrementPlayData"totalRescueCount"
+    local isFemale=GameObject.SendCommand(gameId,{id="IsFemale"})
+    if isFemale then
       TppTrophy.Unlock(31)
     end
   end
-  this.AddTempStaffFulton{staffId=n,gameObjectId=t,tempStaffStatus=M,fultonedPlayer=a}
+  this.AddTempStaffFulton{staffId=staff,gameObjectId=gameId,tempStaffStatus=tempStaffStatus,fultonedPlayer=fultonedPlayer}
 end
-function this.OnFultonVehicle(a,a,a,n,a,t)
+function this.OnFultonVehicle(gameId,a,a,resourceId,a,playerIndex)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
-  this.AddTempResource(n,nil,t)
+  this.AddTempResource(resourceId,nil,playerIndex)
 end
-function this.OnFultonContainer(o,t,n,M,M,r,a)
+function this.OnFultonContainer(gameId,t,n,staffOrResourceId,M,playerIndex,RENAMEmysterypatchvar)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
   if TppMission.IsFOBMission(vars.missionCode)then
-    if not this.CheckAddTempBuffer(r)then
+    if not this.CheckAddTempBuffer(playerIndex)then
       return
     end
-    local e,t,n=MotherBaseConstructConnector.GetContainerResourceId(t,n)
-    if e==nil then
-      e=0
+    local resourceId,visual,owner=MotherBaseConstructConnector.GetContainerResourceId(t,n)
+    if resourceId==nil then
+      resourceId=0
     end
-    TppMotherBaseManagement.AddTempResource{resourceId=e,count=1,visual=t,owner=n}
+    TppMotherBaseManagement.AddTempResource{resourceId=resourceId,count=1,visual=visual,owner=owner}
   else
-    local e=TppGimmick.GetGimmickID(o,t,n)
-    if not e then
-      e="commFacility_cntn001"
+    local gimmickName=TppGimmick.GetGimmickID(gameId,t,n)
+    if not gimmickName then
+      gimmickName="commFacility_cntn001"
     end
-    local t=false
-    if(a==1)then
-      t=true
+    local isReduceAmount=false
+    if(RENAMEmysterypatchvar==1)then
+      isReduceAmount=true
     end
-    Gimmick.CallFindContainerResourceLog(e,t)--RETAILPATCH: 1.0.4.0 last param added, same with below
-    TppMotherBaseManagement.AddTempGimmickResource{gimmickName=e,reduceAmount=t}
+    Gimmick.CallFindContainerResourceLog(gimmickName,isReduceAmount)--RETAILPATCH: 1.0.4.0 last param added, same with below
+    TppMotherBaseManagement.AddTempGimmickResource{gimmickName=gimmickName,reduceAmount=isReduceAmount}
   end
 end
-this.GIMMICK_RESOURCE_ID_TABLE={[1845465265]=t.RESOURCE_ID_EMPLACEMENT_GUN_EAST,[2207998916]=t.RESOURCE_ID_EMPLACEMENT_GUN_WEST,[1187982616]=t.RESOURCE_ID_MORTAR_NORMAL,[3601635493]=t.RESOURCE_ID_ANTI_AIR_GATLING_GUN_EAST,[20562949]=t.RESOURCE_ID_ANTI_AIR_GATLING_GUN_WEST}
-function this.OnFultonGimmickCommon(t,t,t,a,t,n)
+this.GIMMICK_RESOURCE_ID_TABLE={[1845465265]=tppMotherBaseManagementConst.RESOURCE_ID_EMPLACEMENT_GUN_EAST,[2207998916]=tppMotherBaseManagementConst.RESOURCE_ID_EMPLACEMENT_GUN_WEST,[1187982616]=tppMotherBaseManagementConst.RESOURCE_ID_MORTAR_NORMAL,[3601635493]=tppMotherBaseManagementConst.RESOURCE_ID_ANTI_AIR_GATLING_GUN_EAST,[20562949]=tppMotherBaseManagementConst.RESOURCE_ID_ANTI_AIR_GATLING_GUN_WEST}
+function this.OnFultonGimmickCommon(gameId,t,t,resource,t,playerIndex)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
-  local t=this.GIMMICK_RESOURCE_ID_TABLE[a]
-  if t then
-    this.AddTempResource(t,nil,n)
+  local resourceId=this.GIMMICK_RESOURCE_ID_TABLE[resource]
+  if resourceId then
+    this.AddTempResource(resourceId,nil,playerIndex)
   else
-    this.AddTempResource(a,nil,n)
+    this.AddTempResource(resource,nil,playerIndex)
   end
 end
-function this.OnFultonBuddy(t,t,t,t,e,t)
+function this.OnFultonBuddy(gameId,t,t,t,buddyType,t)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
-  svars.trm_isBuddyRecovered[e]=true
-  if e==BuddyType.QUIET then
+  svars.trm_isBuddyRecovered[buddyType]=true
+  if buddyType==BuddyType.QUIET then
     TppMotherBaseManagement.AddTempBuddy()
   end
-  if e==BuddyType.DOG then
+  if buddyType==BuddyType.DOG then
     TppMotherBaseManagement.AddTempPuppy()
   end
 end
-function this.OnFultonEnemyWalkerGear(n,n,n,t,n,n)
+function this.OnFultonEnemyWalkerGear(gameId,n,n,resourceId,n,n)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
-  this.AddTempResource(t)
+  this.AddTempResource(resourceId)
 end
-function this.OnFultonAnimal(a,n)
+function this.OnFultonAnimal(gameId,animalId)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
-  local n=TppAnimal.GetDataBaseIdFromAnimalId(n)
-  if this.IsAnimalDog(n)then
-    this.AddAnimalRecoverHistory(t.ANIMAL_TYPE_DOG)
-  elseif this.IsAnimalHorse(n)then
-    this.AddAnimalRecoverHistory(t.ANIMAL_TYPE_HORSE)
-  elseif this.IsAnimalBear(n)then
-    this.AddAnimalRecoverHistory(t.ANIMAL_TYPE_BEAR)
-  elseif this.IsAnimalGoat(n)then
-    this.AddAnimalRecoverHistory(t.ANIMAL_TYPE_GOAT)
+  local databastId=TppAnimal.GetDataBaseIdFromAnimalId(animalId)
+  if this.IsAnimalDog(databastId)then
+    this.AddAnimalRecoverHistory(tppMotherBaseManagementConst.ANIMAL_TYPE_DOG)
+  elseif this.IsAnimalHorse(databastId)then
+    this.AddAnimalRecoverHistory(tppMotherBaseManagementConst.ANIMAL_TYPE_HORSE)
+  elseif this.IsAnimalBear(databastId)then
+    this.AddAnimalRecoverHistory(tppMotherBaseManagementConst.ANIMAL_TYPE_BEAR)
+  elseif this.IsAnimalGoat(databastId)then
+    this.AddAnimalRecoverHistory(tppMotherBaseManagementConst.ANIMAL_TYPE_GOAT)
   else
     local t=0
     this.AddAnimalRecoverHistory(t)
   end
-  local a=TppMotherBaseManagement.DataBaseIdToAnimalGroup{dataBaseId=n}
-  if(a==t.ANIMAL_GROUP_1900)or(a==t.ANIMAL_GROUP_1920)then
+  local a=TppMotherBaseManagement.DataBaseIdToAnimalGroup{dataBaseId=databastId}
+  if(a==tppMotherBaseManagementConst.ANIMAL_GROUP_1900)or(a==tppMotherBaseManagementConst.ANIMAL_GROUP_1920)then
     gvars.trm_recoveredAfghGoatCount=gvars.trm_recoveredAfghGoatCount+1
-  elseif(a==t.ANIMAL_GROUP_1940)or(a==t.ANIMAL_GROUP_1960)then
+  elseif(a==tppMotherBaseManagementConst.ANIMAL_GROUP_1940)or(a==tppMotherBaseManagementConst.ANIMAL_GROUP_1960)then
     gvars.trm_recoveredMafrGoatCount=gvars.trm_recoveredMafrGoatCount+1
-  elseif(n==t.ANIMAL_200)then
+  elseif(databastId==tppMotherBaseManagementConst.ANIMAL_200)then
     gvars.trm_recoveredDonkeyCount=gvars.trm_recoveredDonkeyCount+1
-  elseif(n==t.ANIMAL_210)then
+  elseif(databastId==tppMotherBaseManagementConst.ANIMAL_210)then
     gvars.trm_recoveredZebraCount=gvars.trm_recoveredZebraCount+1
-  elseif(n==t.ANIMAL_220)then
+  elseif(databastId==tppMotherBaseManagementConst.ANIMAL_220)then
     gvars.trm_recoveredOkapiCount=gvars.trm_recoveredOkapiCount+1
   end
-  PlayRecord.RegistPlayRecord"ANIMAL_RESCUE"this.AddTempDataBaseAnimal(n,tostring(mvars.animalBlockAreaName))
+  PlayRecord.RegistPlayRecord"ANIMAL_RESCUE"this.AddTempDataBaseAnimal(databastId,tostring(mvars.animalBlockAreaName))
 end
 function this.GetRecoveredAfghGoatCount()
   return gvars.trm_recoveredAfghGoatCount
@@ -1187,16 +1240,16 @@ function this.GetRecoveredOkapiCount()
   return gvars.trm_recoveredOkapiCount
 end
 function this.IsRecoveredCompleatedGoat()
-  return(((((((((TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1900}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1901})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1902})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1903})and(((TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1910}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1911})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1912})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1913}))and(((TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1920}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1921})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1922})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1923}))and(((TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1930}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1931})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1932})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1933}))and(((((((TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1940}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1941})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1942})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1943})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1944})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1945})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1946})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1947}))and(((((((TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1950}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1951})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1952})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1953})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1954})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1955})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1956})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1957}))and(((((((TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1960}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1961})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1962})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1963})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1964})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1965})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1966})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1967}))and(((((((TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1970}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1971})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1972})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1973})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1974})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1975})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1976})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_1977})
+  return(((((((((TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1900}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1901})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1902})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1903})and(((TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1910}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1911})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1912})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1913}))and(((TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1920}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1921})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1922})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1923}))and(((TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1930}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1931})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1932})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1933}))and(((((((TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1940}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1941})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1942})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1943})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1944})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1945})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1946})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1947}))and(((((((TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1950}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1951})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1952})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1953})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1954})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1955})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1956})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1957}))and(((((((TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1960}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1961})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1962})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1963})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1964})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1965})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1966})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1967}))and(((((((TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1970}or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1971})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1972})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1973})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1974})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1975})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1976})or TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_1977})
 end
 function this.IsRecoveredCompleatedHorse()
-  return(TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_200}and TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_210})and TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_220}
+  return(TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_200}and TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_210})and TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_220}
 end
 function this.IsRecoveredCompleatedDog()
-  return(TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_100}and TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_110})and TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_120}
+  return(TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_100}and TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_110})and TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_120}
 end
 function this.IsRecoveredCompleatedBear()
-  return TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_600}and TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.ANIMAL_610}
+  return TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_600}and TppMotherBaseManagement.IsGotDataBase{dataBaseId=tppMotherBaseManagementConst.ANIMAL_610}
 end
 function this.GetAnimalTypeCountFromRecoveredHistory(n)
   local e=0
@@ -1221,35 +1274,35 @@ function this.AddAnimalRecoverHistory(t)
   end
 end
 function this.OnFultonBossQuiet(t,t,t,t)
-  local t=SendCommand({type="TppBossQuiet2"},{id="GetQuietType"})
-  local t=this.parasiteSquadFultonResouceId[t]
-  if t then
-    this._OnFultonParasiteSquad(t)
+  local command=SendCommand({type="TppBossQuiet2"},{id="GetQuietType"})
+  local reourceId=this.parasiteSquadFultonResouceId[command]
+  if reourceId then
+    this._OnFultonParasiteSquad(reourceId)
   end
 end
-function this.OnFultonParasiteSquad(t,n,n,n)
-  local t=SendCommand(t,{id="GetParasiteType"})
-  local t=this.parasiteSquadFultonResouceId[t]
-  if t then
-    this._OnFultonParasiteSquad(t)
+function this.OnFultonParasiteSquad(gameId,n,n,n)
+  local parasiteType=SendCommand(gameId,{id="GetParasiteType"})
+  local resourceId=this.parasiteSquadFultonResouceId[parasiteType]
+  if resourceId then
+    this._OnFultonParasiteSquad(resourceId)
   end
 end
-function this._OnFultonParasiteSquad(t)
-  local n,t=t[1],t[2]
+function this._OnFultonParasiteSquad(resourceIdList)
+  local n,t=resourceIdList[1],resourceIdList[2]
   this.AddTempResource(n,t)
   TppHero.SetAndAnnounceHeroicOgrePoint(TppHero.FULTON_PARASITE)
 end
 function this.IsAnimalDog(e)
-  return TppMotherBaseManagement.IsAnimalType{dataBaseId=e,animalType=t.ANIMAL_TYPE_DOG}
+  return TppMotherBaseManagement.IsAnimalType{dataBaseId=e,animalType=tppMotherBaseManagementConst.ANIMAL_TYPE_DOG}
 end
 function this.IsAnimalHorse(e)
-  return TppMotherBaseManagement.IsAnimalType{dataBaseId=e,animalType=t.ANIMAL_TYPE_HORSE}
+  return TppMotherBaseManagement.IsAnimalType{dataBaseId=e,animalType=tppMotherBaseManagementConst.ANIMAL_TYPE_HORSE}
 end
 function this.IsAnimalBear(e)
-  return TppMotherBaseManagement.IsAnimalType{dataBaseId=e,animalType=t.ANIMAL_TYPE_BEAR}
+  return TppMotherBaseManagement.IsAnimalType{dataBaseId=e,animalType=tppMotherBaseManagementConst.ANIMAL_TYPE_BEAR}
 end
 function this.IsAnimalGoat(e)
-  return TppMotherBaseManagement.IsAnimalType{dataBaseId=e,animalType=t.ANIMAL_TYPE_GOAT}
+  return TppMotherBaseManagement.IsAnimalType{dataBaseId=e,animalType=tppMotherBaseManagementConst.ANIMAL_TYPE_GOAT}
 end
 function this.OnRecoverByHelicopter()
   TppHelicopter.SetNewestPassengerTable()
@@ -1266,14 +1319,14 @@ function this.OnRecoverByHelicopterOnCheckPoint()
   TppHelicopter.ClearPassengerTable()
 end
 function this.OnRecoverByHelicopterAlreadyGetPassengerList()
-  local t=TppHelicopter.GetPassengerlist()
-  if t==nil then
+  local passengerList=TppHelicopter.GetPassengerlist()
+  if passengerList==nil then
     TppHelicopter.ClearPassengerTable()
     return
   end
-  for n,t in ipairs(t)do
-    if not Tpp.IsPlayer(t)then
-      this.OnFulton(t,nil,nil,nil,true,false,PlayerInfo.GetLocalPlayerIndex())
+  for n,gameId in ipairs(passengerList)do
+    if not Tpp.IsPlayer(gameId)then
+      this.OnFulton(gameId,nil,nil,nil,true,false,PlayerInfo.GetLocalPlayerIndex())
     end
   end
 end
@@ -1843,19 +1896,19 @@ function this.OnEstablishMissionClear()
     TppMotherBaseManagement.EnableStaffInitLangKikongo()
   end
   if n>=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON then
-    local t={t.DEPLOY_MISSION_ID_SEQ_1001,t.DEPLOY_MISSION_ID_SEQ_1002,t.DEPLOY_MISSION_ID_SEQ_1003,t.DEPLOY_MISSION_ID_SEQ_1004,t.DEPLOY_MISSION_ID_SEQ_1005,t.DEPLOY_MISSION_ID_SEQ_1006,t.DEPLOY_MISSION_ID_SEQ_1007}
+    local t={tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1001,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1002,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1003,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1004,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1005,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1006,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1007}
     this.OpenDeployMission(t)
   end
   if n>=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY then
-    local t={t.DEPLOY_MISSION_ID_SEQ_1008,t.DEPLOY_MISSION_ID_SEQ_1009,t.DEPLOY_MISSION_ID_SEQ_1010,t.DEPLOY_MISSION_ID_SEQ_1011}
+    local t={tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1008,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1009,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1010,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1011}
     this.OpenDeployMission(t)
   end
   if n>=TppDefine.STORY_SEQUENCE.CLEARD_TAKE_OUT_THE_CONVOY then
-    local t={t.DEPLOY_MISSION_ID_SEQ_1012}
+    local t={tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1012}
     this.OpenDeployMission(t)
   end
   if n>=TppDefine.STORY_SEQUENCE.CLEARD_DEATH_FACTORY then
-    local t={t.DEPLOY_MISSION_ID_SEQ_1013,t.DEPLOY_MISSION_ID_SEQ_1014}
+    local t={tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1013,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1014}
     this.OpenDeployMission(t)
   end
   if n>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA then
@@ -1865,7 +1918,7 @@ function this.OnEstablishMissionClear()
     end
   end
   if n>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
-    local t={t.DEPLOY_MISSION_ID_SEQ_1015,t.DEPLOY_MISSION_ID_SEQ_1016,t.DEPLOY_MISSION_ID_SEQ_1017,t.DEPLOY_MISSION_ID_SEQ_1018,t.DEPLOY_MISSION_ID_SEQ_1019,t.DEPLOY_MISSION_ID_SEQ_1020}
+    local t={tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1015,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1016,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1017,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1018,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1019,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1020}
     this.OpenDeployMission(t)
   end
   if n>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
@@ -2104,9 +2157,10 @@ function this.OnFultonFailedEnd(e,t,n,a)
   mvars.trm_fultonFaileEndInfo=mvars.trm_fultonFaileEndInfo or{}
   mvars.trm_fultonFaileEndInfo[e]={e,t,n,a}
 end
-function this._OnFultonFailedEnd(t,t,t,t,e)
-  if Tpp.IsLocalPlayer(e)then
-    TppUI.ShowAnnounceLog"extractionFailed"end
+function this._OnFultonFailedEnd(fultonFailedInfo1,fultonFailedInfo2,fultonFailedInfo3,fultonFailedInfo4,playerIndex)
+  if Tpp.IsLocalPlayer(playerIndex)then
+    TppUI.ShowAnnounceLog"extractionFailed"
+  end
 end
 function this.HasVehicle()
   local e=TppMotherBaseManagement.GetTempResourceBufferVehicleIncrementCount()
@@ -2151,22 +2205,22 @@ function this.HasVehicle()
   end
   return false
 end
-function this._SetUpDvcMenu(t)
-  if not Tpp.IsTypeTable(t)then
+function this._SetUpDvcMenu(menu)
+  if not Tpp.IsTypeTable(menu)then
     return
   end
   TppUiCommand.InitAllMbTopMenuItemVisible(false)
   TppUiCommand.InitAllMbTopMenuItemActive(true)
-  this.EnableDvcMenuByList(t)
+  this.EnableDvcMenuByList(menu)
 end
-function this.EnableDvcMenuByList(e)
-  for t=1,table.getn(e)do
-    if e[t]==nil then
+function this.EnableDvcMenuByList(menus)
+  for n=1,table.getn(menus)do
+    if menus[n]==nil then
       return
     else
-      TppUiCommand.SetMbTopMenuItemVisible(e[t].menu,true)
-      if e[t].active~=nil then
-        TppUiCommand.SetMbTopMenuItemActive(e[t].menu,e[t].active)
+      TppUiCommand.SetMbTopMenuItemVisible(menus[n].menu,true)
+      if menus[n].active~=nil then
+        TppUiCommand.SetMbTopMenuItemActive(menus[n].menu,menus[n].active)
       end
     end
   end
@@ -2175,19 +2229,19 @@ function this.SetUpDvcMenuAll()
   TppUiCommand.InitAllMbTopMenuItemVisible(true)
   TppUiCommand.InitAllMbTopMenuItemActive(true)
 end
-function this.SetActiveTerminalMenu(t)
-  if not Tpp.IsTypeTable(t)then
+function this.SetActiveTerminalMenu(menus)
+  if not Tpp.IsTypeTable(menus)then
     return
   end
-  if t[1]==this.MBDVCMENU.ALL then
+  if menus[1]==this.MBDVCMENU.ALL then
     TppUiCommand.InitAllMbTopMenuItemActive(true)
   else
     TppUiCommand.InitAllMbTopMenuItemActive(false)
-    for e=1,table.getn(t)do
-      if t[e]==nil then
+    for e=1,table.getn(menus)do
+      if menus[e]==nil then
         return
       else
-        TppUiCommand.SetMbTopMenuItemActive(t[e],true)
+        TppUiCommand.SetMbTopMenuItemActive(menus[e],true)
       end
     end
   end

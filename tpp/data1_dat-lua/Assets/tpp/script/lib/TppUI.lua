@@ -12,27 +12,46 @@ this.ANNOUNCE_LOG_PRIORITY={"eliminateTarget","recoveredFilmCase","recoverTarget
 this.BUDDY_LANG_ID={[BuddyType.HORSE]="name_buddy_dh",[BuddyType.DOG]="name_buddy_dd",[BuddyType.QUIET]="marker_chara_quiet"}
 this.EMBLEM_ANNOUNCE_LOG_TYPE={[Fox.StrCode32"front"]="find_em_front",[Fox.StrCode32"base"]="find_em_back",[Fox.StrCode32"word"]="find_em_string"}
 function this.Messages()
-  return Tpp.StrCode32Table{GameObject={{msg="ArrivedAtLandingZoneWaitPoint",sender="SupportHeli",func=function()
-    this.ShowAnnounceLog"heliArrivedLZ"end}},UI={{msg="EndFadeIn",func=this.EnableGameStatusOnFade,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},{msg="EndFadeOut",func=this.DisableGameStatusOnFadeOutEnd,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},{msg="ConfigurationUpdated",func=function()
-    if vars.missionCode==TppDefine.SYS_MISSION_ID.INIT then
-      return
-    end
-    TppSave.VarSaveConfig()
-    if TppSave.IsSavingWithFileName(TppDefine.CONFIG_SAVE_FILE_NAME)or TppSave.HasQueue(TppDefine.CONFIG_SAVE_FILE_NAME)then
-      return
-    end
-    TppSave.SaveConfigData()
-    end,option={isExecGameOver=true}},{msg="DisplayTimerLap",func=function(e,n)
-      if not mvars.ui_displayTimeSecSvarsName then
-        return
-      end
-      svars[mvars.ui_displayTimeSecSvarsName]=e
-    end},{msg="StartMissionTelopFadeOut",func=function()
-      TppSoundDaemon.ResetMute"Telop"end}},Radio={{msg="Finish",func=function(n)
-      if TppRadio.CheckRadioGroupIsCommonRadio(n,TppDefine.COMMON_RADIO.CALL_SUPPROT_BUDDY)then
-        this.ShowCallSupportBuddyAnnounceLog()
-      end
-      end}}}
+  return Tpp.StrCode32Table{
+    GameObject={
+      {msg="ArrivedAtLandingZoneWaitPoint",sender="SupportHeli",func=function()
+        this.ShowAnnounceLog"heliArrivedLZ"
+      end}
+    },
+    UI={
+      {msg="EndFadeIn",func=this.EnableGameStatusOnFade,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},
+      {msg="EndFadeOut",func=this.DisableGameStatusOnFadeOutEnd,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}},
+      {msg="ConfigurationUpdated",
+        func=function()
+          if vars.missionCode==TppDefine.SYS_MISSION_ID.INIT then
+            return
+          end
+          TppSave.VarSaveConfig()
+          if TppSave.IsSavingWithFileName(TppDefine.CONFIG_SAVE_FILE_NAME)or TppSave.HasQueue(TppDefine.CONFIG_SAVE_FILE_NAME)then
+            return
+          end
+          TppSave.SaveConfigData()
+        end,
+        option={isExecGameOver=true}
+      },
+      {msg="DisplayTimerLap",func=function(e,n)
+        if not mvars.ui_displayTimeSecSvarsName then
+          return
+        end
+        svars[mvars.ui_displayTimeSecSvarsName]=e
+      end},
+      {msg="StartMissionTelopFadeOut",func=function()
+        TppSoundDaemon.ResetMute"Telop"
+      end}
+    },
+    Radio={
+      {msg="Finish",func=function(n)
+        if TppRadio.CheckRadioGroupIsCommonRadio(n,TppDefine.COMMON_RADIO.CALL_SUPPROT_BUDDY)then
+          this.ShowCallSupportBuddyAnnounceLog()
+        end
+      end}
+    }
+  }
 end
 local function t(e)
   if type(e)=="string"then
@@ -63,9 +82,11 @@ end
 function this.GetOverrideGameStatus()
   return mvars.ui_onEndFadeInOverrideExceptGameStatusTemporary
 end
-function this.SetFadeColorToBlack()FadeFunction.SetFadeColor(0,0,0,255)
+function this.SetFadeColorToBlack()
+FadeFunction.SetFadeColor(0,0,0,255)
 end
-function this.SetFadeColorToWhite()FadeFunction.SetFadeColor(255,255,255,255)
+function this.SetFadeColorToWhite()
+FadeFunction.SetFadeColor(255,255,255,255)
 end
 function this.FadeOut(s,o,p,n)
   local a,i
@@ -79,23 +100,24 @@ function this.FadeOut(s,o,p,n)
     TppSound.SetMuteOnLoading()
   else
     if(not TppSoundDaemon.CheckCurrentMuteIs"Pause")and(not TppSoundDaemon.CheckCurrentMuteMoreThan"Outro")then
-      TppSoundDaemon.SetMute"Outro"end
+      TppSoundDaemon.SetMute"Outro"
+      end
   end
   r(s,n,p)
 end
-function this.ShowAnnounceLog(a,t,o,n,i)
+function this.ShowAnnounceLog(announceId,param1,param2,delayTime,missionSubGoalNumber)
   if gvars.ini_isTitleMode then
     return
   end
-  local e=this.ANNOUNCE_LOG_TYPE[a]
-  if e then
-    if n then
-      TppUiCommand.AnnounceLogDelayTime(n)
+  local langId=this.ANNOUNCE_LOG_TYPE[announceId]
+  if langId then
+    if delayTime then
+      TppUiCommand.AnnounceLogDelayTime(delayTime)
     end
-    TppUiCommand.AnnounceLogViewLangId(e,t,o)
-  elseif i then
-    local e=TppUiCommand.GetCurrentMissionSubGoalByNo(i)
-    TppUiCommand.AnnounceLogViewLangId(e)
+    TppUiCommand.AnnounceLogViewLangId(langId,param1,param2)
+  elseif missionSubGoalNumber then
+    local missionSubGoalLangId=TppUiCommand.GetCurrentMissionSubGoalByNo(missionSubGoalNumber)
+    TppUiCommand.AnnounceLogViewLangId(missionSubGoalLangId)
   end
 end
 function this.ShowColorAnnounceLog(t,i,a,n)
@@ -137,7 +159,8 @@ function this.ShowColorJoinAnnounceLog(i,o,t,a,n)
   end
 end
 function this.ShowEmergencyAnnounceLog(n)
-  this.ShowAnnounceLog"emergencyMissionOccur"if not(TppUiStatusManager.CheckStatus("AnnounceLog","INVALID_LOG")or TppUiStatusManager.CheckStatus("AnnounceLog","SUSPEND_LOG"))then
+  this.ShowAnnounceLog"emergencyMissionOccur"
+  if not(TppUiStatusManager.CheckStatus("AnnounceLog","INVALID_LOG")or TppUiStatusManager.CheckStatus("AnnounceLog","SUSPEND_LOG"))then
     if n==true then
       TppSoundDaemon.PostEvent"sfx_s_fob_emergency"else
       TppSoundDaemon.PostEvent"sfx_s_fob_alert"end

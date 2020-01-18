@@ -2370,20 +2370,20 @@ function this.SeizeReliefVehicleOnAbort()
   if not GameObject.DoesGameObjectExistWithTypeName"TppVehicle2"then
     return
   end
-  local e=GameObject.CreateGameObjectId("TppVehicle2",0)
-  if not GameObject.SendCommand(e,{id="IsAlive"})then
+  local vehicleGameId=GameObject.CreateGameObjectId("TppVehicle2",0)
+  if not GameObject.SendCommand(vehicleGameId,{id="IsAlive"})then
     return
   end
   if mvars.mis_abortWithSave and not mvars.mis_abortByRestartFromHelicopter then
-    if e~=vars.playerVehicleGameObjectId then
+    if vehicleGameId~=vars.playerVehicleGameObjectId then
       if Player.GetItemLevel(TppEquip.EQP_IT_Fulton_Cargo)>=2 or Player.GetItemLevel(TppEquip.EQP_IT_Fulton_WormHole)>=1 then
-        local n=GameObject.SendCommand(e,{id="GetResourceId"})
-        local i=not Tpp.IsHelicopter(vars.playerVehicleGameObjectId)
-        TppTerminal.OnFulton(e,nil,nil,n,nil,i,PlayerInfo.GetLocalPlayerIndex())
+        local resourceId=GameObject.SendCommand(vehicleGameId,{id="GetResourceId"})
+        local notHelicopter=not Tpp.IsHelicopter(vars.playerVehicleGameObjectId)
+        TppTerminal.OnFulton(vehicleGameId,nil,nil,resourceId,nil,notHelicopter,PlayerInfo.GetLocalPlayerIndex())
       end
     end
   else
-    GameObject.SendCommand(e,{id="Seize",options={"Fulton","CheckFultonType","DirectAccount"}})
+    GameObject.SendCommand(vehicleGameId,{id="Seize",options={"Fulton","CheckFultonType","DirectAccount"}})
   end
 end
 function this.SeizeReliefVehicleOnClear()

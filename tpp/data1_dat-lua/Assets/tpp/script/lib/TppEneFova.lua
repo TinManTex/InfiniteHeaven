@@ -125,8 +125,8 @@ function this.CanUseArmorType(missionId,soldierSubType)
     return true
   end
   local armorTypeTable=this.GetArmorTypeTable(missionId)
-  for n,a in ipairs(armorTypeTable)do
-    if a==pfArmorType then
+  for mission,armorType in ipairs(armorTypeTable)do
+    if armorType==pfArmorType then
       return true
     end
   end

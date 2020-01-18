@@ -254,36 +254,52 @@ Player.OnPlayerRefresh()
   end,
   telopLangIdList={"area_demo_mb","area_demo_room101"}},
   DevelopedBattleGear1={weather=TppDefine.WEATHER.SUNNY,noUseDemoBlock=true,noHeli=true,OnEnter=function()
-    local t="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"local e="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,e,t,true)
+    local t="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+    local e="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,e,t,true)
     TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_190602_103","btg01_demo_hide_group",false,false)
   end,
   OnEnd=function()
-    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,false)
+    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+    local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,false)
     TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_190602_103","btg01_demo_hide_group",true,false)
   end,
   telopLangIdList={"area_demo_mb","area_demo_battle_gear"}},
   DevelopedBattleGear2={weather=TppDefine.WEATHER.SUNNY,noUseDemoBlock=true,noHeli=true,OnEnter=function()
-    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,true)
+    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+    local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,true)
     TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_191810_465","btg02_demo_hide_group",false,false)
   end,
   OnEnd=function()
-    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,false)
+    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+    local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,false)
     TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_191810_465","btg02_demo_hide_group",true,false)
   end},
   DevelopedBattleGear4={weather=TppDefine.WEATHER.SUNNY,noUseDemoBlock=true,noHeli=true,OnEnter=function()
-    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,true)
+    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+    local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,true)
     TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_192737_376","btg04_demo_hide_group",false,false)
   end,
   OnEnd=function()
-    local t="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"local e="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,e,t,false)
+    local t="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+    local e="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,e,t,false)
     TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_192737_376","btg04_demo_hide_group",true,false)
   end},
   DevelopedBattleGear5={weather=TppDefine.WEATHER.SUNNY,noUseDemoBlock=true,noHeli=true,OnEnter=function()
-    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,true)
+    local e="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+    local t="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,t,e,true)
     TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_193056_215","btg05_demo_hide_group",false,false)
   end,
   OnEnd=function()
-    local t="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"local e="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,e,t,false)
+    local t="/Assets/tpp/level/location/mtbs/block_large/mtbs_hanger_gimmick.fox2"
+    local e="mtbs_door006_door004_ev_gim_n0000|srt_mtbs_door006_door004_ev"
+    Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,e,t,false)
     TppDataUtility.SetVisibleDataFromIdentifier("id_20150225_193056_215","btg05_demo_hide_group",true,false)
   end,
   telopLangIdList={"area_demo_mb","area_demo_battle_gear"}},
@@ -395,14 +411,16 @@ Player.OnPlayerRefresh()
       return"SacrificeOfNuclearElimination"end
   end},
   EndingSacrificeOfNuclear={isMovie=true,OnEnter=function()
-    TppSound.SetSceneBGM"bgm_nuclear_ending"TppUiCommand.NukeCountDownText("set","cmmn_nuclear_weapon_num",5,166666,15)
+    TppSound.SetSceneBGM"bgm_nuclear_ending"
+    TppUiCommand.NukeCountDownText("set","cmmn_nuclear_weapon_num",5,166666,15)
   end,
   OnEnd=function()
     local e=TppServerManager.GetNuclearAbolitionCount()
     if e>0 then
       gvars.f30050_NuclearAbolitionCount=e
     end
-    TppUiCommand.NukeCountDownText"reset"end},
+    TppUiCommand.NukeCountDownText"reset"
+  end},
   TheGreatEscapeLiquid={OnEnter=function()
     TppPlayer.Refresh()
   end,
@@ -796,7 +814,8 @@ function this.GetPackListForStorySequence()
       mvars.f30050_isSetLiquid=true
     end
     if TppStory.CanArrivalCodeTalkerInMB()then
-      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_command_codeTalker.fpk"table.insert(packList,t)
+      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_command_codeTalker.fpk"
+      table.insert(packList,t)
       mvars.f30050_isSetCodeTalker=true
     end
   end

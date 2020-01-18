@@ -23,8 +23,11 @@ elseif e=="Android"then
   AssetConfiguration.SetDefaultTargetDirectory"#iOS"end
 AssetConfiguration.SetDefaultCategory("Language","jpn")
 if SubtitlesDaemon then
-  SubtitlesDaemon.SetDefaultVoiceLanguage"jpn"end
-AssetConfiguration.RegisterExtensionInfo{extensions={"bnk","col","demo","demox","dfrm","evb","fclo","fcnp","fdes","fmdl","fmdlb","info","fpk","fpkd","frdv","frig","fstb","ftex","ftexs","gani","lani","mtar","mtard","caar","geom","gskl","nav","nav2","sani","sand","mog","fv2","cani","fmtt","lpsh","ffnt","fova","pftxs","frl","frld","frt","atsh","pcsp","uia","uif","uilb","uigb","fnt","rdf","nta","subp","lba","ladb","lng"},categories={"Target"}}AssetConfiguration.RegisterExtensionInfo{extensions={"sad","evfl"},categories={"Language"}}AssetConfiguration.RegisterExtensionInfo{extensions={"sbp","stm","mas","wem","fsm"},categories={"Target","Language"}}
+  SubtitlesDaemon.SetDefaultVoiceLanguage"jpn"
+end
+AssetConfiguration.RegisterExtensionInfo{extensions={"bnk","col","demo","demox","dfrm","evb","fclo","fcnp","fdes","fmdl","fmdlb","info","fpk","fpkd","frdv","frig","fstb","ftex","ftexs","gani","lani","mtar","mtard","caar","geom","gskl","nav","nav2","sani","sand","mog","fv2","cani","fmtt","lpsh","ffnt","fova","pftxs","frl","frld","frt","atsh","pcsp","uia","uif","uilb","uigb","fnt","rdf","nta","subp","lba","ladb","lng"},categories={"Target"}}
+AssetConfiguration.RegisterExtensionInfo{extensions={"sad","evfl"},categories={"Language"}}
+AssetConfiguration.RegisterExtensionInfo{extensions={"sbp","stm","mas","wem","fsm"},categories={"Target","Language"}}
 if GrDaemon then
   if e=="Windows"then
     if o=="directx9"then
@@ -80,41 +83,62 @@ if GrDaemon then
     GrTools.SetEnableLnmForTerrainNormal(true)GrTools.SetEnableLnmForDecalNormal(true)
   end
 end
-local r=Application{name="MainApplication"}
-local t
-local a
+local mainApplication=Application{name="MainApplication"}
+local game
+local editor
 if Editor then
-  t=Editor{name="MainEditor"}a=t
+  game=Editor{name="MainEditor"}
+  editor=game
 elseif EditorBase then
-  t=EditorBase{name="MainEditor"}a=t
+  game=EditorBase{name="MainEditor"}
+  editor=game
 else
-  t=Game{name="MainGame"}
+  game=Game{name="MainGame"}
 end
-r:AddGame(t)r:SetMainGame(t)
-local r=t:CreateScene"MainScene"local i=t:CreateBucket("MainBucket",r)t:SetMainBucket(i)PathMapper.Add("AiSampleGame","Fox/Tests/Scripts/Character")
+mainApplication:AddGame(game)
+mainApplication:SetMainGame(game)
+local r=game:CreateScene"MainScene"
+local i=game:CreateBucket("MainBucket",r)
+game:SetMainBucket(i)
+PathMapper.Add("AiSampleGame","Fox/Tests/Scripts/Character")
 if EditableBlockPackage then
   EditableBlockPackage.RegisterPackageExtensionInfo{{"fmdl",false},{"geom",false},{"gskl",false},{"fcnp",false},{"frdv",false},{"fdes",false},{"gani",false},{"lani",false},{"sani",false},{"sand",false},{"evb",false},{"mtar",false},{"mtard",false},{"caar",false},{"uif",false},{"uia",false},{"uilb",false},{"uigb",false},{"mog",false},{"fclo",false},{"rdf",false},{"lba",false},{"dmy",false},{"pcsp",false},{"ladb",false},{"lua",true},{"sdf",true},{"fsd",true},{"lad",true},{"sim",true},{"ph",true},{"phsd",true},{"tgt",true},{"bnd",true},{"des",true},{"path",true},{"veh",true},{"clo",true},{"fcnpx",true},{"vfxlf",true},{"vfx",true},{"parts",true},{"evf",true},{"fsml",true},{"fage",true},{"fago",true},{"fag",true},{"fagx",true},{"aibc",true},{"aib",true},{"uil",true},{"uig",true},{"testd",true},{"fox2",true},{"fxp2",true}}
 end
 if GrDaemon then
-  local e=GrDaemon{name="GrDaemon"}
+  local grDaemon=GrDaemon{name="GrDaemon"}
 end
 if GrDaemon then
   if e=="Windows"then
     if o=="directx9"then
       if n then
-        dofile"shaders/win32/GrSystemShadersNoLnm_win32.lua"dofile"shaders/win32/GrModelShadersNoLnm_win32.lua"dofile"shaders/win32/FxShadersNoLnm_win32.lua"else
-        dofile"shaders/win32/GrSystemShaders_win32.lua"dofile"shaders/win32/GrModelShaders_win32.lua"dofile"shaders/win32/FxShaders_win32.lua"end
+        dofile"shaders/win32/GrSystemShadersNoLnm_win32.lua"
+        dofile"shaders/win32/GrModelShadersNoLnm_win32.lua"
+        dofile"shaders/win32/FxShadersNoLnm_win32.lua"else
+        dofile"shaders/win32/GrSystemShaders_win32.lua"
+        dofile"shaders/win32/GrModelShaders_win32.lua"
+        dofile"shaders/win32/FxShaders_win32.lua"end
     end
     if o=="directx11"then
       if n then
-        dofile"shaders/dx11/GrSystemShadersNoLnm_dx11.lua"dofile"shaders/dx11/GrModelShadersNoLnm_dx11.lua"dofile"shaders/dx11/FxShadersNoLnm_dx11.lua"else
-        dofile"shaders/dx11/GrSystemShaders_dx11.lua"dofile"shaders/dx11/GrModelShaders_dx11.lua"dofile"shaders/dx11/FxShaders_dx11.lua"end
+        dofile"shaders/dx11/GrSystemShadersNoLnm_dx11.lua"dofile"shaders/dx11/GrModelShadersNoLnm_dx11.lua"
+        dofile"shaders/dx11/FxShadersNoLnm_dx11.lua"else
+        dofile"shaders/dx11/GrSystemShaders_dx11.lua"
+        dofile"shaders/dx11/GrModelShaders_dx11.lua"
+        dofile"shaders/dx11/FxShaders_dx11.lua"end
     end
   elseif e=="Xbox360"then
-    dofile"shaders/xbox360/GrSystemShaders_x360.lua"dofile"shaders/xbox360/GrModelShaders_x360.lua"dofile"shaders/xbox360/FxShaders_x360.lua"elseif e=="XboxOne"then
-    dofile"shaders/xboxone/GrSystemShadersNoLnm_xone.lua"dofile"shaders/xboxone/GrModelShadersNoLnm_xone.lua"dofile"shaders/xboxone/FxShadersNoLnm_xone.lua"elseif e=="PS3"then
-    dofile"shaders/ps3/GrSystemShaders_ps3.lua"dofile"shaders/ps3/GrModelShaders_ps3.lua"dofile"shaders/ps3/FxShaders_ps3.lua"elseif e=="PS4"then
-    dofile"shaders/ps4/GrSystemShadersNoLnm_ps4.lua"dofile"shaders/ps4/GrModelShadersNoLnm_ps4.lua"dofile"shaders/ps4/FxShadersNoLnm_ps4.lua"end
+    dofile"shaders/xbox360/GrSystemShaders_x360.lua"
+    dofile"shaders/xbox360/GrModelShaders_x360.lua"
+    dofile"shaders/xbox360/FxShaders_x360.lua"elseif e=="XboxOne"then
+    dofile"shaders/xboxone/GrSystemShadersNoLnm_xone.lua"
+    dofile"shaders/xboxone/GrModelShadersNoLnm_xone.lua"
+    dofile"shaders/xboxone/FxShadersNoLnm_xone.lua"elseif e=="PS3"then
+    dofile"shaders/ps3/GrSystemShaders_ps3.lua"
+    dofile"shaders/ps3/GrModelShaders_ps3.lua"
+    dofile"shaders/ps3/FxShaders_ps3.lua"elseif e=="PS4"then
+    dofile"shaders/ps4/GrSystemShadersNoLnm_ps4.lua"
+    dofile"shaders/ps4/GrModelShadersNoLnm_ps4.lua"
+    dofile"shaders/ps4/FxShadersNoLnm_ps4.lua"end
 end
 if SoundCoreDaemon then
   SoundCoreDaemon.Create()
@@ -137,12 +161,13 @@ end
 if CameraSelector then
   local e=CameraSelector{name="MainCameraSelector",scene="MainScene",viewport="MainViewport",priorities={"Debug","Editor","Demo","Game","GameWeakest"},listener="MainListener",rumble={0,1,2,3}}e:SetMainListener()CameraSelector.SetMainInstance(e)
 end
-if a then
-  a:Setup()
+if editor then
+  editor:Setup()
   if Editor then
-    Editor.Setting(a)
+    Editor.Setting(editor)
   end
-  local t=a:CreateNewEditableBucket"NewBucket"a:SetCurrentEditableBucket(t)
+  local editableBucket=editor:CreateNewEditableBucket"NewBucket"
+  editor:SetCurrentEditableBucket(editableBucket)
   if e=="Windows"then
     Fox.ExportSerializeInfo()
   end
