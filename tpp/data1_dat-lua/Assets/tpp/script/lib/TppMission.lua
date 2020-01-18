@@ -6,7 +6,7 @@ this.manualHard = false
 this.manualPerfectStealth = false
 this.subsistenceLoadouts = {
   TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE,
-  TppDefine.SUBSISTENCE_INITIAL_WEAPON_TABLE
+  TppDefine.SUBSISTENCE_SECONDARY_INITIAL_WEAPON_TABLE
 }--
 local o=Fox.StrCode32
 local i=Tpp.IsTypeFunc
@@ -1450,7 +1450,7 @@ function this.IsManualHardMission()
   return (gvars.isManualHard > 0)
 end
 --tex end
-function this.IsActualHardMission(e) --tex was IsHardMission
+function this.IsActualHardMission(e)--tex was IsHardMission
   --function this.IsHardMission(e)
   local n=math.floor(e/1e3)
   local e=math.floor(e/1e4)*10
@@ -2981,7 +2981,9 @@ function this.SetMissionStartPositionMtbsClusterPosition()
   local e=TppMath.Vector3toTable(e)
   TppPlayer.SetInitialPosition(e,0)
 end
-function this.EstablishedMissionClear()DemoDaemon.StopAll()GkEventTimerManager.StopAll()
+function this.EstablishedMissionClear()
+  DemoDaemon.StopAll()
+  GkEventTimerManager.StopAll()
   if Tpp.IsHorse(vars.playerVehicleGameObjectId)then
     GameObject.SendCommand(vars.playerVehicleGameObjectId,{id="HorseForceStop"})
   end
@@ -3714,6 +3716,9 @@ function this.OnMissionStart()
       gvars.mis_quietCallCountOnMissionStart=gvars.mis_quietCallCountOnMissionStart-1
     end
   end
+  --[[if this.IsManualSubsistenceMission() then--tex force sieze vehicle on subs mission start. Pulls vehicle fine, but doesn't credit to motherbase. CULL: RETRY: DOC: force no vehicle drop
+    this.SeizeReliefVehicleOnClear()  
+  end--]]
 end
 function this.SetPlayRecordClearInfo()
   local e,n=TppStory.CalcAllMissionClearedCount()

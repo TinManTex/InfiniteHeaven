@@ -177,7 +177,9 @@ else
     SoundCoreDaemon.SetAssetPath"/Assets/tpp/sound/asset/"
   end
 end
-SoundCoreDaemon.SetInterferenceRTPCName("obstruction_rtpc","occlusion_rtpc")SoundCoreDaemon.SetDopplerRTPCName"doppler"SoundCoreDaemon.SetRearParameter("rear_rtpc",5)
+SoundCoreDaemon.SetInterferenceRTPCName("obstruction_rtpc","occlusion_rtpc")
+SoundCoreDaemon.SetDopplerRTPCName"doppler"
+SoundCoreDaemon.SetRearParameter("rear_rtpc",5)
 if TppSoundDaemon then
   local e=TppSoundDaemon{}
   if TppSoundEditorDaemon then

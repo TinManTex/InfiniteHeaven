@@ -1,5 +1,5 @@
 local this={}
-local e=this --tex CULL: after deminify
+local e=this--tex CULL: once deminified
 local s=Tpp.IsTypeFunc
 local n=Tpp.IsTypeTable
 local l=Tpp.IsTypeString
@@ -420,8 +420,8 @@ function this.SaveWeaponsToUsingTemp(o)
   if not n(o)then
     return
   end
-  for e=0,11 do
-    gvars.ply_lastWeaponsUsingTemp[e]=TppEquip.EQP_None
+  for i=0,11 do
+    gvars.ply_lastWeaponsUsingTemp[i]=TppEquip.EQP_None
   end
   local t
   local a=TppDefine.WEAPONSLOT.SUPPORT_0-1
@@ -1449,6 +1449,9 @@ function this.Messages()
       {msg="WarpEnd",func=e.OnEndWarpByCboxDelivery},
       {msg="LandingFromHeli",func=function()
         e.UpdateCheckPointOnMissionStartDrop()
+        if TppMission.IsManualSubsistenceMission() then--tex force sieze vehicle on subs mission start, RETRY: do earlier or prevent spawn completely (ideal, set relief vehicle to none in mis prep UI). see inf heaven txt 'force no vehicle drop'.
+          TppMission.SeizeReliefVehicleOnClear()  
+        end--
       end},
       {msg="EndCarryAction",func=function()
         if mvars.ply_requestedMissionClearCameraCarryOff then
@@ -1672,7 +1675,7 @@ function this.Init(a)
 end
 function this.SetSelfSubsistenceOnHardMission()
   if TppMission.IsSubsistenceMission()then
-    if gvars.isManualSubsistence == 0 then --tex subsistence loadouts
+    if gvars.isManualSubsistence == 0 then --tex subs loadouts
       e.SetInitWeapons(TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE)--tex was just this
     else
       e.SetInitWeapons(TppMission.subsistenceLoadouts[gvars.isManualSubsistence])

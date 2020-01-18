@@ -34,7 +34,8 @@ function a.IsNotRequiredArmorSoldier(e)
 end
 function a.CanUseArmorType(n,t)
   local e={PF_A=TppDefine.AFR_ARMOR.TYPE_CFA,PF_B=TppDefine.AFR_ARMOR.TYPE_ZRS,PF_C=TppDefine.AFR_ARMOR.TYPE_RC}
-  local e=e[t]if e==nil then
+  local e=e[t]
+  if e==nil then
     return true
   end
   local a=a.GetArmorTypeTable(n)
@@ -48,7 +49,8 @@ end
 function a.GetHostageCountAtMissionId(a)
   local e=0
   if t[a]~=nil then
-    local a=t[a]if a~=nil then
+    local a=t[a]
+    if a~=nil then
       if a.count~=nil then
         return a.count
       else
@@ -63,7 +65,8 @@ end
 function a.GetHostageLangAtMissionId(e)
   local a=i
   if t[e]~=nil then
-    local e=t[e]if e~=nil then
+    local e=t[e]
+    if e~=nil then
       if e.lang~=nil then
         return e.lang
       end
@@ -74,7 +77,8 @@ end
 function a.GetHostageUseHairAtMissionId(e)
   local a=false
   if t[e]~=nil then
-    local e=t[e]if e~=nil then
+    local e=t[e]
+    if e~=nil then
       if e.useHair~=nil then
         return e.useHair
       end
@@ -85,7 +89,8 @@ end
 function a.GetHostageIsFaceModelOverlap(e)
   local a=false
   if t[e]~=nil then
-    local e=t[e]if e~=nil then
+    local e=t[e]
+    if e~=nil then
       if e.overlap~=nil then
         return e.overlap
       end
@@ -96,7 +101,8 @@ end
 function a.GetHostageFaceModelCount(e)
   local a=2
   if t[e]~=nil then
-    local e=t[e]if e~=nil then
+    local e=t[e]
+    if e~=nil then
       if e.modelNum~=nil then
         return e.modelNum
       end
@@ -107,7 +113,8 @@ end
 function a.GetHostageIgnoreFaceList(e)
   local a={}
   if t[e]~=nil then
-    local e=t[e]if e~=nil then
+    local e=t[e]
+    if e~=nil then
       if e.ignoreList~=nil then
         return e.ignoreList
       end
@@ -124,7 +131,8 @@ function a.GetArmorTypeTable(e)
   end
   local a={TppDefine.AFR_ARMOR.TYPE_ZRS}
   if s[e]~=nil then
-    local e=s[e]if e~=nil then
+    local e=s[e]
+    if e~=nil then
       return e
     end
   end
@@ -262,7 +270,8 @@ n[10045]=function(a,e)
   end
   local a=#e
   local a=gvars.hosface_groupNumber%a
-  local e=e[a]local a={{TppEnemyFaceId.svs_balaclava,1,1,0},{e,1,1,0}}
+  local e=e[a]
+  local a={{TppEnemyFaceId.svs_balaclava,1,1,0},{e,1,1,0}}
   TppSoldierFace.OverwriteMissionFovaData{face=a,additionalMode=true}
   local a=274
   TppSoldierFace.SetSpecialFovaId{face={e},body={a}}
@@ -298,7 +307,9 @@ n[11090]=n[10090]n[10091]=function(e,a)
   if o==a then
     a=(a+1)%t
   end
-  local t=e[o]local o=e[a]local e={{TppEnemyFaceId.pfs_balaclava,2,2,0},{t,1,1,0},{o,1,1,0}}
+  local t=e[o]
+  local o=e[a]
+  local e={{TppEnemyFaceId.pfs_balaclava,2,2,0},{t,1,1,0},{o,1,1,0}}
   TppSoldierFace.OverwriteMissionFovaData{face=e,additionalMode=true}
   local a=265
   local e=266
@@ -500,14 +511,16 @@ function n.Mbqf(n,n)
     end
   else
     for e,t in ipairs(a.S10240_MaleFaceIdList)do
-      local e=a.S10240_MaleFaceIdList[e]if n[e]==nil then
+      local e=a.S10240_MaleFaceIdList[e]
+      if n[e]==nil then
         n[e]=2
       else
         n[e]=n[e]+1
       end
     end
     for e,t in ipairs(a.S10240_FemaleFaceIdList)do
-      local e=a.S10240_FemaleFaceIdList[e]if n[e]==nil then
+      local e=a.S10240_FemaleFaceIdList[e]
+      if n[e]==nil then
         n[e]=2
       else
         n[e]=n[e]+1
@@ -558,7 +571,8 @@ function n.Mb(n,o)
     end
     do
       for e=o+1,o+p do
-        local a=l[e]if a==nil then
+        local a=l[e]
+        if a==nil then
           break
         end
         local a=TppMotherBaseManagement.StaffIdToFaceId{staffId=a}
@@ -752,11 +766,13 @@ function a.GetStaffIdForDD(e,a)
   elseif e==10091 or e==11091 then
     local e=TppMotherBaseManagement.GetStaffsS10091()
     if e and a<#e then
-      n=e[a+1]end
+      n=e[a+1]
+    end
   elseif e==10115 or e==11115 then
     local e=TppMotherBaseManagement.GetStaffsS10115()
     if e and a<#e then
-      n=e[a+1]end
+      n=e[a+1]
+    end
   end
   return n
 end
@@ -949,28 +965,29 @@ function a.ApplyUniqueSetting()
       end
     end
   end
-  local o=bit.band
+  local bitAnd=bit.band
   for t=0,TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT-1 do
     local e=gvars.ene_fovaUniqueTargetIds[t]
     if e==n then
       break
     end
-    local n={id="ChangeFova",faceId=gvars.ene_fovaUniqueFaceIds[t],bodyId=gvars.ene_fovaUniqueBodyIds[t]}
-    GameObject.SendCommand(e,n)
-    local n=0
+    local fova={id="ChangeFova",faceId=gvars.ene_fovaUniqueFaceIds[t],bodyId=gvars.ene_fovaUniqueBodyIds[t]}
+    GameObject.SendCommand(e,fova)
+    local flags=0
     if gvars.ene_fovaUniqueFlags then
-      n=gvars.ene_fovaUniqueFlags[t]end
-    if o(n,T)~=0 then
+      flags=gvars.ene_fovaUniqueFlags[t]
+    end
+    if bitAnd(flags,T)~=0 then
       local t=vars.missionCode
-      local n=o(n,F)
-      local a=a.GetStaffIdForDD(t,n)
+      local n=bitAnd(flags,F)
+      local a=a.GetStaffIdForDD(t,flags)
       if a~=f then
         local a={id="SetStaffId",staffId=a}
         GameObject.SendCommand(e,a)
       end
       local a={id="SetHostage2Flag",flag="dd",on=true}
       GameObject.SendCommand(e,a)
-    elseif o(n,_)~=0 then
+    elseif bitAnd(flags,_)~=0 then
       local a={id="SetHostage2Flag",flag="female",on=true}
       GameObject.SendCommand(e,a)
     end

@@ -1,7 +1,7 @@
 local this={}
 local e=this--tex CULL: once deminified
 local IsFunc=Tpp.IsTypeFunc
-this.prevButtons={--tex
+this.prevButtons={--tex REFACTOR: better placing
   [bit.tohex(PlayerPad.DECIDE)]=false,
   [bit.tohex(PlayerPad.STANCE)]=false,
   [bit.tohex(PlayerPad.ACTION)]=false,
@@ -178,7 +178,7 @@ function this.DisplayCurrentSetting()
   this.DisplaySetting(this.currentOption)
 end
 function this.DisplaySetting(index)
-  local option=gvars[this.modSettings[index].gvar] --texgetting a bit dense to parse lol
+  local option=gvars[this.modSettings[index].gvar] --tex getting a bit dense to parse lol
   if this.modSettings[index].isFloatOption then
     option=100*option
   end
@@ -189,7 +189,7 @@ function this.DisplaySetting(index)
   --tex RETRY: need custom text output damnit
   TppUiCommand.AnnounceLogViewLangId("announce_trial_time",index,option,info)
 end
-function this.DisplaySettings() --tex display all
+function this.DisplaySettings()--tex display all
   for i=0,this.SETTING_TYPE.MAX-1 do
     this.DisplaySetting(i)
   end
@@ -201,7 +201,7 @@ function this.ResetSettings()
     this.DisplaySetting(i)
   end
 end
---tex soldier2parametertables shit RETRY: find somewhere nicer to put/compartmentalize this, Solider2ParameterTables.lua aparently can't be referenced even though there's a TppSolder2Parameter string in the exe, load hang on trying to do anything with it (and again no debug feedback to know why the fuck anything)
+--tex soldier2parametertables shiz REFACTOR: find somewhere nicer to put/compartmentalize this, Solider2ParameterTables.lua aparently can't be referenced even though there's a TppSolder2Parameter string in the exe, load hang on trying to do anything with it (and again no debug feedback to know why the fuck anything)
 local nightSightDefault={
   discovery={distance=10,verticalAngle=30,horizontalAngle=40},
   indis={distance=15,verticalAngle=60,horizontalAngle=60},
@@ -232,9 +232,8 @@ local cloudySightImproved={distanceRate=0.95,angleRate=1}
 local foggySightImproved={distanceRate=.5,angleRate=.6}
 
 this.lifeParameterTableDefault={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}
-this.lifeParameterTableMod={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}
---tex actually using my slight tweaks rather than true default
-this.soldierParametersDefault = {
+this.lifeParameterTableMod={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}--tex modified in-place by enemy health scale
+this.soldierParametersDefault = {--tex actually using my slight tweaks rather than true default
   sightFormParameter={
     contactSightForm={distance=2,verticalAngle=160,horizontalAngle=130},
     normalSightForm={distance=60,verticalAngle=60,horizontalAngle=100},
@@ -319,7 +318,7 @@ this.soldierParametersDefault = {
   lifeParameterTable=this.lifeParameterTableMod,
   zombieParameterTable={highHeroicValue=1e3}
 }
-this.soldierParametersHard = {
+this.soldierParametersHard = {--tex: currently no different, don't know if i want to spend time tweaking
   sightFormParameter={
     contactSightForm={distance=2,verticalAngle=160,horizontalAngle=130},
     normalSightForm={distance=60,verticalAngle=60,horizontalAngle=100},
@@ -408,7 +407,7 @@ this.soldierParametersHard = {
   },
   lifeParameterTable=this.lifeParameterTableMod,
   zombieParameterTable={highHeroicValue=1e3}
-} --tex end
+}--tex end
 local l=Tpp.ApendArray
 local n=Tpp.DEBUG_StrCode32ToString
 local i=Tpp.IsTypeFunc
@@ -934,7 +933,7 @@ function this.ClearStageBlockMessage()
   StageBlock.ClearLargeBlockNameForMessage()
   StageBlock.ClearSmallBlockIndexForMessage()
 end
---tex working some better var names out
+--tex REF: working some better var names out
 -- called from tppmission:VarSaveForMissionAbort && Executemissionfinalize
 --(TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT,o=ishelispace,s=isfreemission,t=isheli(mvars.mis_nextMissionCodeForAbort),i=IsFreeMission(mvars.mis_nextMissionCodeForAbort),a=mvars.mis_isAbortWithSave|nil,p=vars.missioncode changed)
 function this.ReservePlayerLoadingPosition(loadType,isMissionHeliSpace,isMissionFreeMission,isAbortMissionHeliSpace,isAbortMissionFreeMission,isAbortWithSave,isMissionCodeChanged)
@@ -1021,7 +1020,7 @@ function this.ReservePlayerLoadingPosition(loadType,isMissionHeliSpace,isMission
           end
         end
         local e=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[vars.missionCode]
-        if e then --tex added issub check
+        if e then--tex added issub check
           TppPlayer.SetStartStatusRideOnHelicopter()
           TppMission.SetIsStartFromHelispace()
           TppMission.ResetIsStartFromFreePlay()
@@ -1136,7 +1135,6 @@ function this.OnUpdate(e)
   end
   m()
 end
-
 function this.OnChangeSVars(e,n,t)
   for i,e in ipairs(Tpp._requireList)do
     if _G[e].OnChangeSVars then
@@ -1144,7 +1142,6 @@ function this.OnChangeSVars(e,n,t)
     end
   end
 end
-
 function this.SetMessageFunction(e)
   S={}
   s=0

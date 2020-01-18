@@ -1,9 +1,10 @@
-local e={}
+local this={}
+local e=this--tex CULL: once deminified
 local _=GameObject.GetGameObjectId
 local a=GameObject.GetTypeIndex
 local n=GameObject.SendCommand
 local o=GameObject.NULL_ID
-function e._Random(n,E)
+function this._Random(n,E)
   local t=gvars.rev_revengeRandomValue
   if n>E then
     local e=n
@@ -168,7 +169,7 @@ e.revengeDefine={
   FOB_LongRange_9={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="25%",MISSILE="10%"},
   FOB_LongRange_10={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="30%",MISSILE="20%",MG="10%"}}
 
-function e.SelectRevengeType()
+function this.SelectRevengeType()
   local n=TppMission.GetMissionID()
   if e.IsNoRevengeMission(n)or n==10115 then
     return{}
@@ -195,13 +196,13 @@ function e.SelectRevengeType()
   end
   return t
 end
-function e.SetForceRevengeType(e)
+function this.SetForceRevengeType(e)
   if not Tpp.IsTypeTable(e)then
     e={e}
   end
   mvars.revenge_forceRevengeType=e
 end
-function e.IsNoRevengeMission(n)
+function this.IsNoRevengeMission(n)
   if n==nil then
     return false
   end
@@ -211,7 +212,7 @@ function e.IsNoRevengeMission(n)
   end
   return e
 end
-function e.IsNoStealthCombatRevengeMission(n)
+function this.IsNoStealthCombatRevengeMission(n)
   if n==nil then
     return false
   end
@@ -221,38 +222,38 @@ function e.IsNoStealthCombatRevengeMission(n)
   end
   return e
 end
-function e.GetEquipGradeLimit()
+function this.GetEquipGradeLimit()
   return mvars.revenge_revengeConfig.EQUIP_GRADE_LIMIT
 end
-function e.IsUsingNoKillWeapon()
+function this.IsUsingNoKillWeapon()
   return mvars.revenge_revengeConfig.NO_KILL_WEAPON
 end
-function e.IsUsingStrongWeapon()
+function this.IsUsingStrongWeapon()
   return mvars.revenge_revengeConfig.STRONG_WEAPON
 end
-function e.IsUsingStrongMissile()
+function this.IsUsingStrongMissile()
   return mvars.revenge_revengeConfig.STRONG_MISSILE
 end
-function e.IsUsingStrongSniper()
+function this.IsUsingStrongSniper()
   return mvars.revenge_revengeConfig.STRONG_SNIPER
 end
-function e.IsUsingSuperReinforce()
+function this.IsUsingSuperReinforce()
   if not mvars.revenge_isEnabledSuperReinforce then
     return false
   end
   return mvars.revenge_revengeConfig.SUPER_REINFORCE
 end
-function e.IsUsingBlackSuperReinforce()
+function this.IsUsingBlackSuperReinforce()
   return mvars.revenge_revengeConfig.BLACK_SUPER_REINFORCE
 end
-function e.GetReinforceCount()
+function this.GetReinforceCount()
   local e=mvars.revenge_revengeConfig.REINFORCE_COUNT
   if e then
     return e+0
   end
   return 1
 end
-function e.CanUseArmor(e)
+function this.CanUseArmor(e)
   if TppEneFova==nil then
     return false
   end
@@ -271,44 +272,44 @@ local n=function(e)
   end
   return(e:sub(1,-2)+0)/100
 end
-function e.GetMineRate()
+function this.GetMineRate()
   return n(mvars.revenge_revengeConfig.MINE)
 end
-function e.GetDecoyRate()
+function this.GetDecoyRate()
   return n(mvars.revenge_revengeConfig.DECOY)
 end
-function e.IsUsingActiveDecoy()
+function this.IsUsingActiveDecoy()
   return mvars.revenge_revengeConfig.ACTIVE_DECOY
 end
-function e.GetCameraRate()
+function this.GetCameraRate()
   return n(mvars.revenge_revengeConfig.CAMERA)
 end
-function e.IsUsingGunCamera()
+function this.IsUsingGunCamera()
   return mvars.revenge_revengeConfig.GUN_CAMERA
 end
-function e.GetPatrolRate()
+function this.GetPatrolRate()
   if mvars.revenge_revengeConfig.STRONG_PATROL then
     return 1
   else
     return 0
   end
 end
-function e.IsIgnoreBlocked()
+function this.IsIgnoreBlocked()
   return mvars.revenge_revengeConfig.IGNORE_BLOCKED
 end
-function e.IsBlocked(e)
+function this.IsBlocked(e)
   if e==nil then
     return false
   end
   return gvars.rev_revengeBlockedCount[e]>0
 end
-function e.SetEnabledSuperReinforce(e)
+function this.SetEnabledSuperReinforce(e)
   mvars.revenge_isEnabledSuperReinforce=e
 end
-function e.SetHelmetAll()
+function this.SetHelmetAll()
   mvars.revenge_revengeConfig.HELMET="100%"
 end
-function e.RegisterMineList(n,E)
+function this.RegisterMineList(n,E)
   if not mvars.rev_usingBase then
     return
   end
@@ -322,7 +323,7 @@ function e.RegisterMineList(n,E)
   mvars.rev_mineBaseCountMax=#n
   e.RegisterCommonMineList(E)
 end
-function e.RegisterCommonMineList(E)
+function this.RegisterCommonMineList(E)
   mvars.rev_mineTrapTable={}
   for n,e in pairs(E)do
     if mvars.rev_usingBase[n]then
@@ -355,12 +356,12 @@ function e.RegisterCommonMineList(E)
     end
   end
 end
-function e.RegisterMissionMineList(n)
+function this.RegisterMissionMineList(n)
   for n,E in pairs(n)do
     e.AddBaseMissionMineList(n,E)
   end
 end
-function e.AddBaseMissionMineList(e,n)
+function this.AddBaseMissionMineList(e,n)
   local a=mvars.rev_revengeMineList[e]
   if not a then
     return
@@ -403,7 +404,7 @@ function e.AddBaseMissionMineList(e,n)
     end
   end
 end
-function e._CopyRevengeMineArea(e,n,E,E)
+function this._CopyRevengeMineArea(e,n,E,E)
   local E=n.trapName
   if E then
     e.trapName=E
@@ -425,7 +426,7 @@ function e._CopyRevengeMineArea(e,n,E,E)
     end
   end
 end
-function e.OnEnterRevengeMineTrap(n)
+function this.OnEnterRevengeMineTrap(n)
   if not mvars.rev_mineTrapTable then
     return
   end
@@ -436,10 +437,10 @@ function e.OnEnterRevengeMineTrap(n)
   local t,n,E=n.areaIndex,n.baseName,n.trapName
   e.UpdateLastVisitedMineArea(n,t,E)
 end
-function e.ClearLastRevengeMineBaseName()
+function this.ClearLastRevengeMineBaseName()
   gvars.rev_lastUpdatedBaseName=0
 end
-function e.UpdateLastVisitedMineArea(n,t,e)
+function this.UpdateLastVisitedMineArea(n,t,e)
   local e=mvars.rev_LastVisitedMineAreaVarsName
   if not e then
     return
@@ -452,7 +453,7 @@ function e.UpdateLastVisitedMineArea(n,t,e)
   end
   local n=mvars.rev_mineBaseTable[n]gvars[e][n]=t
 end
-function e.SaveMissionStartMineArea()
+function this.SaveMissionStartMineArea()
   local e,E=mvars.rev_missionStartMineAreaVarsName,mvars.rev_LastVisitedMineAreaVarsName
   if not e then
     return
@@ -461,12 +462,12 @@ function e.SaveMissionStartMineArea()
     gvars[e][n]=gvars[E][n]
   end
 end
-function e.SetUpRevengeMine()
+function this.SetUpRevengeMine()
   if TppMission.IsMissionStart()then
     e._SetUpRevengeMine()
   end
 end
-function e._SetUpRevengeMine()
+function this._SetUpRevengeMine()
   local t=mvars.rev_missionStartMineAreaVarsName
   if not t then
     return
@@ -523,13 +524,13 @@ function e._SetUpRevengeMine()
     end
   end
 end
-function e._GetDecoyType(e)
+function this._GetDecoyType(e)
   local n={PF_A=1,PF_B=2,PF_C=3}
   local e=_(e)
   local e=TppEnemy.GetCpSubType(e)
   return n[e]
 end
-function e._EnableDecoy(n,t,E)
+function this._EnableDecoy(n,t,E)
   local n=n.."_cp"
   local n=e._GetDecoyType(n)
   local r=e.IsUsingActiveDecoy()
@@ -543,7 +544,7 @@ function e._EnableDecoy(n,t,E)
     TppPlaced.SetEnableByLocatorName(e,E)
   end
 end
-function e._SetupCamera()
+function this._SetupCamera()
   if not GameObject.DoesGameObjectExistWithTypeName"TppSecurityCamera2"then
     return
   end
@@ -563,7 +564,7 @@ function e._SetupCamera()
     GameObject.SendCommand({type="TppSecurityCamera2"},{id="SetNormalCamera"})
   end
 end
-function e.OnAllocate(n)
+function this.OnAllocate(n)
   mvars.revenge_isEnabledSuperReinforce=true
   e.SetUpMineAreaVarsName()
   if n.sequence then
@@ -578,7 +579,7 @@ function e.OnAllocate(n)
     end
   end
 end
-function e.SetUpMineAreaVarsName()
+function this.SetUpMineAreaVarsName()
   if TppLocation.IsAfghan()then
     mvars.rev_missionStartMineAreaVarsName="rev_baseMissionStartMineAreaAfgh"
     mvars.rev_LastVisitedMineAreaVarsName="rev_baseLastVisitedMineAreaAfgh"
@@ -589,7 +590,7 @@ function e.SetUpMineAreaVarsName()
     return
   end
 end
-function e.DecideRevenge(n)
+function this.DecideRevenge(n)
   e._SetUiParameters()
   mvars.revenge_revengeConfig=mvars.revenge_revengeConfig or{}
   mvars.revenge_revengeType=mvars.revenge_forceRevengeType
@@ -601,7 +602,7 @@ function e.DecideRevenge(n)
     e._AllocateResources(mvars.revenge_revengeConfig)
   end
 end
-function e.SetUpEnemy()
+function this.SetUpEnemy()
   if mvars.ene_soldierDefine==nil then
     return
   end
@@ -629,7 +630,7 @@ function e.SetUpEnemy()
     end
   end
 end
-function e.GetRevengeLvLimitRank()
+function this.GetRevengeLvLimitRank()
   local e=gvars.str_storySequence
   if e<TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON then
     return 1
@@ -646,10 +647,10 @@ function e.GetRevengeLvLimitRank()
   end
   return 6
 end
-function e.GetRevengeLv(e)
+function this.GetRevengeLv(e)
   return gvars.rev_revengeLv[e]
 end
-function e.GetRevengeLvMax(E,n)
+function this.GetRevengeLvMax(E,n)
   local n=n or e.GetRevengeLvLimitRank()
   local e=e.REVENGE_LV_MAX[E]
   if Tpp.IsTypeTable(e)then
@@ -658,13 +659,13 @@ function e.GetRevengeLvMax(E,n)
   end
   return 0
 end
-function e.GetRevengePoint(e)
+function this.GetRevengePoint(e)
   return gvars.rev_revengePoint[e]
 end
-function e.AddRevengePoint(n,E)
+function this.AddRevengePoint(n,E)
   e.SetRevengePoint(n,gvars.rev_revengePoint[n]+E)
 end
-function e.GetRevengeTriggerName(n)
+function this.GetRevengeTriggerName(n)
   for e,E in pairs(e.REVENGE_TRIGGER_TYPE)do
     if E==n then
       return e
@@ -672,7 +673,7 @@ function e.GetRevengeTriggerName(n)
   end
   return""
 end
-function e.AddRevengePointByTriggerType(n)
+function this.AddRevengePointByTriggerType(n)
   local E=TppMission.GetMissionID()
   if e.IsNoRevengeMission(E)then
     return
@@ -688,7 +689,7 @@ function e.AddRevengePointByTriggerType(n)
     t=t..(e.REVENGE_TYPE_NAME[n+1]..(":"..(tostring(r)..("->"..(tostring(E).." ")))))
   end
 end
-function e.SetRevengePoint(E,n)
+function this.SetRevengePoint(E,n)
   local t=e.GetRevengeLvMax(E)
   local e=t*e.REVENGE_POINT_PER_LV+e.REVENGE_POINT_OVER_MARGINE
   if n<0 then
@@ -699,13 +700,13 @@ function e.SetRevengePoint(E,n)
   end
   gvars.rev_revengePoint[E]=n
 end
-function e.ResetRevenge()
+function this.ResetRevenge()
   for n=0,e.REVENGE_TYPE.MAX-1 do
     e.SetRevengePoint(n,0)
   end
   e.UpdateRevengeLv()
 end
-function e.UpdateRevengeLv(n)
+function this.UpdateRevengeLv(n)
   if n==nil then
     n=TppMission.GetMissionID()
   end
@@ -720,7 +721,7 @@ function e.UpdateRevengeLv(n)
   end
   e._SetEnmityLv()
 end
-function e._GetUiParameterValue(E)
+function this._GetUiParameterValue(E)
   local r=4
   local t=5
   local n=e.GetRevengeLv(E)
@@ -733,7 +734,7 @@ function e._GetUiParameterValue(E)
   end
   return 0
 end
-function e._SetUiParameters()
+function this._SetUiParameters()
   local a=e._GetUiParameterValue(e.REVENGE_TYPE.FULTON)
   local r=e._GetUiParameterValue(e.REVENGE_TYPE.HEAD_SHOT)
   local E=e._GetUiParameterValue(e.REVENGE_TYPE.STEALTH)
@@ -742,7 +743,7 @@ function e._SetUiParameters()
   local e=e._GetUiParameterValue(e.REVENGE_TYPE.LONG_RANGE)
   TppUiCommand.RegisterEnemyRevengeParameters{fulton=a,headShot=r,stealth=E,combat=n,night=t,longRange=e}
 end
-function e._SetMbInterrogate()
+function this._SetMbInterrogate()
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
@@ -760,7 +761,7 @@ function e._SetMbInterrogate()
   end
   GameObject.SendCommand({type="TppSoldier2"},{id="SetMbInterrogate",enableMask=E})
 end
-function e._SetEnmityLv()
+function this._SetEnmityLv()
   local n=e.GetRevengePoint(e.REVENGE_TYPE.STEALTH)
   local e=e.GetRevengePoint(e.REVENGE_TYPE.COMBAT)
   local t=math.max(n,e)
@@ -774,7 +775,7 @@ function e._SetEnmityLv()
   local e=e[n]
   TppMotherBaseManagement.SetStaffInitEnmityLv{lv=e}
 end
-function e.OnMissionClearOrAbort(n)
+function this.OnMissionClearOrAbort(n)
   gvars.rev_revengeRandomValue=math.random(0,2147483647)
   e.ApplyMissionTendency(n)
   e._ReduceRevengePointByChickenCap(n)
@@ -783,7 +784,7 @@ function e.OnMissionClearOrAbort(n)
   e.UpdateRevengeLv(n)
   e._AddDeployRevengeMission()
 end
-function e._ReduceBlockedCount(n)
+function this._ReduceBlockedCount(n)
   if not TppMission.IsHelicopterSpace(n)then
     return
   end
@@ -794,7 +795,7 @@ function e._ReduceBlockedCount(n)
     end
   end
 end
-function e._GetBlockedName(n)
+function this._GetBlockedName(n)
   for E,e in pairs(e.BLOCKED_TYPE)do
     if e==n then
       return E
@@ -802,7 +803,7 @@ function e._GetBlockedName(n)
   end
   return"unknown"
 end
-function e._ReceiveClearedDeployRevengeMission()
+function this._ReceiveClearedDeployRevengeMission()
   if not TppMotherBaseManagement.GetClearedDeployRevengeMissionFlag then
     return
   end
@@ -814,7 +815,7 @@ function e._ReceiveClearedDeployRevengeMission()
     end
   end
 end
-function e._AddDeployRevengeMission()
+function this._AddDeployRevengeMission()
   for n,E in pairs(e.DEPLOY_REVENGE_MISSION_CONDITION_LIST)do
     local t=e.DEPLOY_REVENGE_MISSION_BLOCKED_LIST[n]
     if not e.IsBlocked(t)and e.GetRevengeLv(E.revengeType)>=E.lv then
@@ -827,7 +828,7 @@ function e._AddDeployRevengeMission()
     end
   end
 end
-function e._ReduceRevengePointStealthCombat()
+function this._ReduceRevengePointStealthCombat()
   for n,E in pairs(e.REDUCE_TENDENCY_POINT_TABLE)do
     local t=e.GetRevengePoint(n)
     local r=e.GetRevengeLv(n)
@@ -835,7 +836,7 @@ function e._ReduceRevengePointStealthCombat()
     e.SetRevengePoint(n,(t+E))
   end
 end
-function e._ReduceRevengePointOther()
+function this._ReduceRevengePointOther()
   local r={[e.REVENGE_TYPE.STEALTH]=true,[e.REVENGE_TYPE.COMBAT]=true,[e.REVENGE_TYPE.M_STEALTH]=true,[e.REVENGE_TYPE.M_COMBAT]=true}
   for E=0,e.REVENGE_TYPE.MAX-1 do
     local a=e.GetRevengePoint(E)
@@ -861,7 +862,7 @@ function e._ReduceRevengePointOther()
     e.SetRevengePoint(E,a-n)
   end
 end
-function e.ReduceRevengePointOnMissionClear(n)
+function this.ReduceRevengePointOnMissionClear(n)
   if n==nil then
     n=TppMission.GetMissionID()
   end
@@ -873,7 +874,7 @@ function e.ReduceRevengePointOnMissionClear(n)
   end
   e._ReduceRevengePointOther()
 end
-function e._ReduceRevengePointByChickenCap(n)
+function this._ReduceRevengePointByChickenCap(n)
   if n==nil then
     n=TppMission.GetMissionID()
   end
@@ -885,9 +886,9 @@ function e._ReduceRevengePointByChickenCap(n)
     e._ReduceRevengePointOther()
   end
 end
-function e.ReduceRevengePointOnAbort(e)
+function this.ReduceRevengePointOnAbort(e)
 end
-function e._GetMissionTendency(n)
+function this._GetMissionTendency(n)
   local n=e.GetRevengePoint(e.REVENGE_TYPE.M_STEALTH)
   local e=e.GetRevengePoint(e.REVENGE_TYPE.M_COMBAT)
   if n==0 and e==0 then
@@ -914,7 +915,7 @@ function e._GetMissionTendency(n)
   end
   return n
 end
-function e.ApplyMissionTendency(n)
+function this.ApplyMissionTendency(n)
   if n==nil then
     n=TppMission.GetMissionID()
   end
@@ -937,14 +938,14 @@ function e.ApplyMissionTendency(n)
   e.SetRevengePoint(e.REVENGE_TYPE.M_STEALTH,0)
   e.SetRevengePoint(e.REVENGE_TYPE.M_COMBAT,0)
 end
-function e.CanUseReinforceVehicle()
+function this.CanUseReinforceVehicle()
   local n=TppMission.GetMissionID()
   return e.USE_SUPER_REINFORCE_VEHICLE_MISSION[n]
 end
-function e.CanUseReinforceHeli()
+function this.CanUseReinforceHeli()
   return not GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli"
 end
-function e.SelectReinforceType()
+function this.SelectReinforceType()
   if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then
     return TppReinforceBlock.REINFORCE_TYPE.HELI
   end
@@ -971,7 +972,7 @@ function e.SelectReinforceType()
   local e=math.random(1,#n)
   return n[e]
 end
-function e.ApplyPowerSettingsForReinforce(r)
+function this.ApplyPowerSettingsForReinforce(r)
   for n,e in ipairs(r)do
     GameObject.SendCommand(e,{id="RegenerateStaffIdForReinforce"})
   end
@@ -1014,7 +1015,7 @@ function e.ApplyPowerSettingsForReinforce(r)
     TppEnemy.ApplyPowerSetting(e,n)
   end
 end
-function e._CreateRevengeConfig(E)
+function this._CreateRevengeConfig(E)
   local n={}
   local t=mvars.ene_disablePowerSettings
   do
@@ -1104,7 +1105,7 @@ function e._CreateRevengeConfig(E)
   end
   return n
 end
-function e._AllocateResources(_)
+function this._AllocateResources(_)
   mvars.revenge_loadedEquip={}
   local r=mvars.ene_missionRequiresPowerSettings
   local a={}
@@ -1212,7 +1213,7 @@ function e._AllocateResources(_)
     TppEquip.RequestLoadToEquipMissionBlock(e)
   end
 end
-function e._GetSettingSoldierCount(t,n,E)
+function this._GetSettingSoldierCount(t,n,E)
   local e={NO_KILL_WEAPON=true,STRONG_WEAPON=true,STRONG_PATROL=true,STRONG_NOTICE_TRANQ=true,STEALTH_SPECIAL=true,STEALTH_HIGH=true,STEALTH_LOW=true,COMBAT_SPECIAL=true,COMBAT_HIGH=true,COMBAT_LOW=true,FULTON_SPECIAL=true,FULTON_HIGH=true,FULTON_LOW=true,HOLDUP_SPECIAL=true,HOLDUP_HIGH=true,HOLDUP_LOW=true}
   if e[t]then
     return E
@@ -1238,7 +1239,7 @@ function e._GetSettingSoldierCount(t,n,E)
   end
   return e
 end
-function e._ApplyRevengeToCp(t,l,a)
+function this._ApplyRevengeToCp(t,l,a)
   local E=mvars.ene_soldierIDList[t]
   local o={}
   local n=0
@@ -1405,7 +1406,7 @@ function e._ApplyRevengeToCp(t,l,a)
     end
   end
 end
-function e.Messages()
+function this.Messages()
   return Tpp.StrCode32Table{
     GameObject={
       {msg="HeadShot",func=e._OnHeadShot},
@@ -1423,13 +1424,13 @@ function e.Messages()
     Trap={{msg="Enter",func=e._OnEnterTrap}}
   }
 end
-function e.Init(n)
+function this.Init(n)
   e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
-function e.OnReload(n)
+function this.OnReload(n)
   e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
-function e.OnMessage(r,E,n,t,a,o,_)
+function this.OnMessage(r,E,n,t,a,o,_)
   Tpp.DoMessage(e.messageExecTable,TppMission.CheckMessageOption,r,E,n,t,a,o,_)
 end
 local r=function(e)
@@ -1438,7 +1439,7 @@ local r=function(e)
   end
   return false
 end
-function e._OnReinforceRespawn(n)
+function this._OnReinforceRespawn(n)
   if TppMission.IsFOBMission(vars.missionCode)then
     TppEnemy.AddPowerSetting(n,{})
     o50050_enemy.AssignAndSetupRespawnSoldier(n)
@@ -1446,7 +1447,7 @@ function e._OnReinforceRespawn(n)
     e.ApplyPowerSettingsForReinforce{n}
   end
 end
-function e._OnHeadShot(E,t,t,n)
+function this._OnHeadShot(E,t,t,n)
   if a(E)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
@@ -1468,7 +1469,7 @@ local E=function(n)
     e.AddRevengePointByTriggerType(e.REVENGE_TRIGGER_TYPE.ELIMINATED_AT_NIGHT)
   end
 end
-function e._OnDead(t,n,i)
+function this._OnDead(t,n,i)
   if a(t)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
@@ -1484,7 +1485,7 @@ function e._OnDead(t,n,i)
     e.AddRevengePointByTriggerType(e.REVENGE_TRIGGER_TYPE.KILLED_BY_HELI)
   end
 end
-function e._OnUnconscious(e,t,n)
+function this._OnUnconscious(e,t,n)
   if a(e)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
@@ -1494,7 +1495,7 @@ function e._OnUnconscious(e,t,n)
   end
   E(n)
 end
-function e._OnAnnihilated(E,n,t)
+function this._OnAnnihilated(E,n,t)
   if t==0 then
     if TppEnemy.IsBaseCp(E)or TppEnemy.IsOuterBaseCp(E)then
       if n==nil then
@@ -1508,7 +1509,7 @@ function e._OnAnnihilated(E,n,t)
     end
   end
 end
-function e._OnChangePhase(E,n)
+function this._OnChangePhase(E,n)
   if n~=TppGameObject.PHASE_ALERT then
     return
   end
@@ -1516,7 +1517,7 @@ function e._OnChangePhase(E,n)
     e.AddRevengePointByTriggerType(e.REVENGE_TRIGGER_TYPE.DISCOVERY_AT_NIGHT)
   end
 end
-function e._OnComradeFultonDiscovered(n,n)
+function this._OnComradeFultonDiscovered(n,n)
   e.AddRevengePointByTriggerType(e.REVENGE_TRIGGER_TYPE.FULTON)
 end
 local n=function(e)
@@ -1525,7 +1526,7 @@ local n=function(e)
   end
   return false
 end
-function e._OnDamage(t,E,r)
+function this._OnDamage(t,E,r)
   if a(t)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
@@ -1533,16 +1534,16 @@ function e._OnDamage(t,E,r)
     e.AddRevengePointByTriggerType(e.REVENGE_TRIGGER_TYPE.SMOKE)
   end
 end
-function e._OnSmokeDiscovered(n)
+function this._OnSmokeDiscovered(n)
   e.AddRevengePointByTriggerType(e.REVENGE_TRIGGER_TYPE.WATCH_SMOKE)
 end
-function e._OnAntiSniperNoticed(n)
+function this._OnAntiSniperNoticed(n)
   e.AddRevengePointByTriggerType(e.REVENGE_TRIGGER_TYPE.SNIPED)
 end
-function e._OnSleepingComradeRecoverd(n)
+function this._OnSleepingComradeRecoverd(n)
   e.AddRevengePointByTriggerType(e.REVENGE_TRIGGER_TYPE.WAKE_A_COMRADE)
 end
-function e._OnEnterTrap(n)
+function this._OnEnterTrap(n)
   e.OnEnterRevengeMineTrap(n)
 end
-return e
+return this

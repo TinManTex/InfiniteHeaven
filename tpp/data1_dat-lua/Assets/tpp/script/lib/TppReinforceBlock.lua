@@ -23,17 +23,20 @@ function e.IsProcessing()
   return e.GetReinforceBlockState()==ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING
 end
 function e.GetFpk(r,i,n)
-  local e=e.REINFORCE_FPK[r]if Tpp.IsTypeTable(e)then
+  local e=e.REINFORCE_FPK[r]
+  if Tpp.IsTypeTable(e)then
     local r=""
     if TppLocation.IsAfghan()then
       r="AFGH"
     elseif TppLocation.IsMiddleAfrica()then
       r="MAFR"
     end
-    local r=e[i]or e[r]if Tpp.IsTypeTable(r)then
+    local r=e[i]or e[r]
+    if Tpp.IsTypeTable(r)then
       n=n or"_DEFAULT"
       if r[n]then
-        r=r[n]else
+        r=r[n]
+      else
         r=nil
       end
     end
@@ -54,16 +57,19 @@ function e.GetFpk(r,i,n)
   end
   return e
 end
-function e.SetUpReinforceBlock()mvars.reinforce_reinforceBlockName="reinforce_block"
+function e.SetUpReinforceBlock()
+  mvars.reinforce_reinforceBlockName="reinforce_block"
   local n=false
-  local i=e.GetReinforceBlockId()n=(i~=ScriptBlock.SCRIPT_BLOCK_ID_INVALID)mvars.reinforce_hasReinforceBlock=n
+  local i=e.GetReinforceBlockId()n=(i~=ScriptBlock.SCRIPT_BLOCK_ID_INVALID)
+  mvars.reinforce_hasReinforceBlock=n
   if not mvars.reinforce_hasReinforceBlock then
     return
   end
   for n,r in ipairs(e.REINFORCE_SOLDIER_NAMES)do
     e._SetEnabledSoldier(r,false)
   end
-  e._SetEnabledVehicle(e.REINFORCE_VEHICLE_NAME,false)mvars.reinforce_reinforceType=e.REINFORCE_TYPE.NONE
+  e._SetEnabledVehicle(e.REINFORCE_VEHICLE_NAME,false)
+  mvars.reinforce_reinforceType=e.REINFORCE_TYPE.NONE
   mvars.reinforce_reinforceColoringType=nil
   mvars.reinforce_reinforceCpId=r
   mvars.reinforce_activated=false
@@ -88,10 +94,12 @@ function e.LoadReinforceBlock(i,o,t)
     i=e.REINFORCE_TYPE.NONE
     c=""
   end
-  ScriptBlock.Load(a,c)mvars.reinforce_reinforceType=i
+  ScriptBlock.Load(a,c)
+  mvars.reinforce_reinforceType=i
   mvars.reinforce_reinforceColoringType=t
   if i~=e.REINFORCE_TYPE.NONE then
-    n({type="TppCommandPost2"},{id="SetReinforceEnable"})mvars.reinforce_reinforceCpId=o
+    n({type="TppCommandPost2"},{id="SetReinforceEnable"})
+    mvars.reinforce_reinforceCpId=o
     local o=e._HasVehicle()
     local t=e._HasSoldier()
     local c,i
@@ -102,7 +110,8 @@ function e.LoadReinforceBlock(i,o,t)
       end
     end
     if o then
-      c=GameObject.GetGameObjectId("TppVehicle2",e.REINFORCE_VEHICLE_NAME)i=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_DRIVER_SOLDIER_NAME)
+      c=GameObject.GetGameObjectId("TppVehicle2",e.REINFORCE_VEHICLE_NAME)
+      i=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_DRIVER_SOLDIER_NAME)
     end
     n({type="TppCommandPost2"},{id="SetNominateList",driver=i,vehicle=c,sol01=r[1],sol02=r[2],sol03=r[3],sol04=r[4]})
   else
@@ -120,7 +129,8 @@ function e.UnloadReinforceBlock(n)
   if e.GetReinforceBlockState()>ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE then
     e.ReinforceBlockOnDeactivate()
   end
-  ScriptBlock.Load(n,"")mvars.reinforce_reinforceType=e.REINFORCE_TYPE.NONE
+  ScriptBlock.Load(n,"")
+  mvars.reinforce_reinforceType=e.REINFORCE_TYPE.NONE
   mvars.reinforce_reinforceColoringType=nil
   mvars.reinforce_reinforceCpId=r
 end
@@ -134,7 +144,8 @@ function e.StartReinforce(n)
   if(n~=nil and n~=r)and mvars.reinforce_reinforceCpId~=n then
     return
   end
-  local e=e.GetReinforceBlockId()ScriptBlock.Activate(e)mvars.reinforce_activated=true
+  local e=e.GetReinforceBlockId()ScriptBlock.Activate(e)
+  mvars.reinforce_activated=true
 end
 function e.FinishReinforce(n)
   if not mvars.reinforce_hasReinforceBlock then
@@ -143,10 +154,13 @@ function e.FinishReinforce(n)
   if(n~=nil and n~=r)and mvars.reinforce_reinforceCpId~=n then
     return
   end
-  local e=e.GetReinforceBlockId()ScriptBlock.Deactivate(e)mvars.reinforce_activated=false
+  local e=e.GetReinforceBlockId()ScriptBlock.Deactivate(e)
+  mvars.reinforce_activated=false
   mvars.reinforce_reinforceCpId=r
 end
-function e.ReinforceBlockOnInitialize()mvars.reinforce_lastReinforceBlockState=e.GetReinforceBlockState()mvars.reinforce_isEnabledVehicle=false
+function e.ReinforceBlockOnInitialize()
+  mvars.reinforce_lastReinforceBlockState=e.GetReinforceBlockState()
+  mvars.reinforce_isEnabledVehicle=false
   mvars.reinforce_isEnabledSoldiers=false
 end
 function e.ReinforceBlockOnUpdate()
@@ -175,9 +189,11 @@ function e.ReinforceBlockOnUpdate()
   end
   r.reinforce_lastReinforceBlockState=n
 end
-function e.ReinforceBlockOnActivate()e._ActivateReinforce()
+function e.ReinforceBlockOnActivate()
+  e._ActivateReinforce()
 end
-function e.ReinforceBlockOnDeactivate()e._DeactivateReinforce()
+function e.ReinforceBlockOnDeactivate()
+  e._DeactivateReinforce()
 end
 function e.ReinforceBlockOnTerminate()
 end
@@ -248,16 +264,29 @@ function e._ActivateReinforce()
     for n,r in ipairs(e.REINFORCE_SOLDIER_NAMES)do
       e._SetEnabledSoldier(r,true)
     end
-    i=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_SOLDIER_NAMES[1])c=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_SOLDIER_NAMES[2])t=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_SOLDIER_NAMES[3])o=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_SOLDIER_NAMES[4])table.insert(r,i)table.insert(r,c)table.insert(r,t)table.insert(r,o)
+    i=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_SOLDIER_NAMES[1])
+    c=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_SOLDIER_NAMES[2])
+    t=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_SOLDIER_NAMES[3])
+    o=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_SOLDIER_NAMES[4])
+    table.insert(r,i)
+    table.insert(r,c)
+    table.insert(r,t)
+    table.insert(r,o)
   end
   if E then
     mvars.reinforce_isEnabledVehicle=true
-    e._SetEnabledVehicle(e.REINFORCE_VEHICLE_NAME,true)e._SetEnabledSoldier(e.REINFORCE_DRIVER_SOLDIER_NAME,true)_=GameObject.GetGameObjectId("TppVehicle2",e.REINFORCE_VEHICLE_NAME)a=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_DRIVER_SOLDIER_NAME)table.insert(r,a)
+    e._SetEnabledVehicle(e.REINFORCE_VEHICLE_NAME,true)
+    e._SetEnabledSoldier(e.REINFORCE_DRIVER_SOLDIER_NAME,true)
+    _=GameObject.GetGameObjectId("TppVehicle2",e.REINFORCE_VEHICLE_NAME)
+    a=GameObject.GetGameObjectId("TppSoldier2",e.REINFORCE_DRIVER_SOLDIER_NAME)
+    table.insert(r,a)
   end
   if f then
     local r=GameObject.GetGameObjectId(e.REINFORCE_HELI_NAME)
     local e=e._GetHeliRoute(mvars.reinforce_cpId)
-    local e=mvars.ene_cpList[mvars.reinforce_reinforceCpId]n(r,{id="RequestReinforce",toCp=e})n(r,{id="SetCommandPost",cp=e})
+    local e=mvars.ene_cpList[mvars.reinforce_reinforceCpId]
+    n(r,{id="RequestReinforce",toCp=e})
+    n(r,{id="SetCommandPost",cp=e})
     if mvars.reinforce_reinforceColoringType then
       TppHelicopter.SetEnemyColoring(mvars.reinforce_reinforceColoringType)
     end
@@ -274,16 +303,19 @@ function e._DeactivateReinforce()
   end
   if mvars.reinforce_isEnabledVehicle then
     mvars.reinforce_isEnabledVehicle=false
-    e._SetEnabledVehicle(e.REINFORCE_VEHICLE_NAME,false)e._SetEnabledSoldier(e.REINFORCE_DRIVER_SOLDIER_NAME,false)
+    e._SetEnabledVehicle(e.REINFORCE_VEHICLE_NAME,false)
+    e._SetEnabledSoldier(e.REINFORCE_DRIVER_SOLDIER_NAME,false)
   end
   GameObject.SendCommand({type="TppCommandPost2"},{id="SetNominateList"})
 end
 function e.Messages()
   return Tpp.StrCode32Table{GameObject={{msg="RequestLoadReinforce",func=e._OnRequestLoadReinforce},{msg="RequestAppearReinforce",func=e._OnRequestAppearReinforce},{msg="CancelReinforce",func=e._OnCancelReinforce}}}
 end
-function e.Init(r)e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function e.Init(r)
+  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
-function e.OnReload(r)e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function e.OnReload(r)
+  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
 function e.OnMessage(r,n,a,o,t,c,i)
   Tpp.DoMessage(e.messageExecTable,TppMission.CheckMessageOption,r,n,a,o,t,c,i)
@@ -300,7 +332,8 @@ function e._OnRequestLoadReinforce(i)
   end
   e.LoadReinforceBlock(n,i,r)
 end
-function e._OnRequestAppearReinforce(r)e.StartReinforce(r)
+function e._OnRequestAppearReinforce(r)
+  e.StartReinforce(r)
 end
 function e._OnCancelReinforce(r)
   if mvars.reinforce_activated then

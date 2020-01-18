@@ -1316,10 +1316,10 @@ function e.UpdateStorySequence(t)
   if i=="BeforeBuddyBlockLoad"or i=="OnMissionClear"then
     e._UpdateS10260OpenFlag(storySequence)
   end
-  --tex quietreturn call
-  if e.IsMissionCleard(10260) then
+
+  --[[--tex OFF: FIXME: if e.IsMissionCleard(10260) then--tex quietreturn call
     e.QuietReturn()
-  end--
+  end--]]
   if i=="OnMissionClear"then
     local t=t.missionId
     n=e.UpdateStorySequenceOnMissionClear(t)
