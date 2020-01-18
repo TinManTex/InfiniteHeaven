@@ -7,7 +7,7 @@ local e={}
 local this=e--tex DEMINIFY:
 --tex shit I want to keep at top for easy manual changing
 this.DEBUGMODE=false
-this.modVersion = "r34"
+this.modVersion = "r37"
 this.modName = "Infinite Heaven"
 --tex strings, till we figure out how to access custom values in .lang files this will have to do.
 --tex SYNC: with uses of TppUiCommand.AnnounceLogView
@@ -20,7 +20,7 @@ local IsFunc=Tpp.IsTypeFunc
 local Enum=TppDefine.Enum
 --tex the bulk of my shit REFACTOR: until we can load our own lua files this is a good a spot as any
 --tex button press system. TODO: work out the duplicate bitmasks/those that don't work, and those that are missing
-this.buttonMasks={--tex: SYNC: buttonstate
+this.buttonMasks={--tex: SYNC: buttonStates
   PlayerPad.DECIDE,
   PlayerPad.STANCE,
   PlayerPad.ACTION,
@@ -59,52 +59,51 @@ this.buttonMasks={--tex: SYNC: buttonstate
   PlayerPad.TRIGGER_BREAK,
   --PlayerPad.ALL--]]
 }
-this.buttonState={--tex: SYNC: buttonmasks
-  [PlayerPad.DECIDE]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.STANCE]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.ACTION]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.RELOAD]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.STOCK]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.MB_DEVICE]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.CALL]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.UP]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.DOWN]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.LEFT]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.RIGHT]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.SIDE_ROLL]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.ZOOM_CHANGE]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.LIGHT_SWITCH]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.EVADE]={isPressed=false,holdTime=0,startTime=0},
-  --[[[PlayerPad.VEHICLE_FIRE]={isPressed=false,holdTime=0,startTime=0},--]]--tex button/bitmask always set for some reason
-  [PlayerPad.VEHICLE_CALL]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.VEHICLE_DASH]={isPressed=false,holdTime=0,startTime=0},
-  --[[[PlayerPad.BUTTON_PLACE_MARKER]={isPressed=false,holdTime=0,startTime=0},--]]--tex button/bitmask always set for some reason
-  --[[[PlayerPad.PLACE_MARKER]={isPressed=false,holdTime=0,startTime=0},--]]--tex button/bitmask always set for some reason
-  [PlayerPad.INTERROGATE]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.RIDE_ON]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.RIDE_OFF]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.VEHICLE_CHANGE_SIGHT]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.VEHICLE_LIGHT_SWITCH]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.VEHICLE_TOGGLE_WEAPON]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.JUMP]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.MOVE_ACTION]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.PRIMARY_WEAPON]={isPressed=false,holdTime=0,startTime=0},
-  [PlayerPad.SECONDARY_WEAPON]={isPressed=false,holdTime=0,startTime=0},
+this.buttonStates={--tex: for defaults, not specfic button setups. SYNC: buttonmasks
+  [PlayerPad.DECIDE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.STANCE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.ACTION]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.RELOAD]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.STOCK]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.MB_DEVICE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.CALL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.UP]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.DOWN]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.LEFT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.RIGHT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.SIDE_ROLL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.ZOOM_CHANGE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.LIGHT_SWITCH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.EVADE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  --[[[PlayerPad.VEHICLE_FIRE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
+  [PlayerPad.VEHICLE_CALL]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.VEHICLE_DASH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  --[[[PlayerPad.BUTTON_PLACE_MARKER]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
+  --[[[PlayerPad.PLACE_MARKER]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},--]]--tex button/bitmask always set for some reason
+  [PlayerPad.INTERROGATE]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.RIDE_ON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.RIDE_OFF]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.VEHICLE_CHANGE_SIGHT]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.VEHICLE_LIGHT_SWITCH]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.VEHICLE_TOGGLE_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.JUMP]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.MOVE_ACTION]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.PRIMARY_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
+  [PlayerPad.SECONDARY_WEAPON]={isPressed=false,holdTime=0.9,startTime=0,currentRate=0.9,minRate=0.3,decrement=0},
 }
-this.toggleMenuButton=PlayerPad.RELOAD
 function this.UpdatePressedButtons()
   for i, button in pairs(this.buttonMasks) do
-    this.buttonState[button].isPressed = this.ButtonDown(button)
+    this.buttonStates[button].isPressed = this.ButtonDown(button)
   end
 end
 function this.UpdateHeldButtons()
   for i, button in pairs(this.buttonMasks) do
-    if this.buttonState[button].holdTime~=0 then
+    if this.buttonStates[button].holdTime~=0 then
       if this.OnButtonDown(button)then
-        this.buttonState[button].startTime=Time.GetRawElapsedTimeSinceStartUp()
+        this.buttonStates[button].startTime=Time.GetRawElapsedTimeSinceStartUp()
       end
-      if not this.ButtonDown(button)then
-        this.buttonState[button].startTime=0
+      if not (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then--this.ButtonDown(button)then
+        this.buttonStates[button].startTime=0
       end
     end
   end
@@ -117,13 +116,13 @@ function this.ButtonDown(button)
 end
 --tex GOTCHA: OnButton functions will have a gameframe of latency, sorry to dissapoint all the pro gamers
 function this.OnButtonDown(button)
-  return not this.buttonState[button].isPressed and (bit.band(PlayerVars.scannedButtonsDirect,button)==button)
+  return not this.buttonStates[button].isPressed and (bit.band(PlayerVars.scannedButtonsDirect,button)==button)
 end
 function this.OnButtonUp(button)
-  return this.buttonState[button].isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,button)==button)
+  return this.buttonStates[button].isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,button)==button)
 end
 function this.OnButtonHoldTime(button)
-  local buttonState = this.buttonState[button]
+  local buttonState = this.buttonStates[button]
   if buttonState.holdTime~=0 and buttonState.startTime~=0 then
     if Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > buttonState.holdTime then
       buttonState.startTime=0
@@ -131,6 +130,29 @@ function this.OnButtonHoldTime(button)
     end
   end
   return false
+end
+function this.OnButtonRepeat(button)
+  local buttonState = this.buttonStates[button]
+  --tex REF: {isPressed=false,holdTime=0,startTime=0,currentRate=0,minRate=0,decrement=0},
+  if buttonState.decrement ~= 0 then
+    if buttonState.isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then--tex OnButtonUp reset
+      buttonState.currentRate=buttonState.holdTime
+      return false
+    end
+    local currentRate=buttonState.currentRate
+    --if currentRate~=0 and 
+    if buttonState.startTime~=0 then
+      if Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > currentRate then
+        buttonState.startTime=Time.GetRawElapsedTimeSinceStartUp()
+        if currentRate > buttonState.minRate then
+          currentRate=currentRate-buttonState.decrement
+        end
+        buttonState.currentRate=currentRate
+        return true
+      end
+    end
+  end
+  return false  
 end
 --[[function this.TimerReset(timer,length)--tex REF: CULL: using the code straight for now, no point in throwing extra function calls at it for no real benefit, and the games timer system will do for most uses
   timer.holdTime=length
@@ -149,7 +171,9 @@ this.subsistenceLoadouts={--tex pure,secondary.
   TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE,
   TppDefine.SUBSISTENCE_SECONDARY_INITIAL_WEAPON_TABLE
 }
+this.numQuests=157--tex added SYNC: number of quests REFACTOR: better place, but hangs modsettings if in tppdefine or tppquest
 this.SUBSISTENCE_BOUND=2--tex: SPECIAL: RETRY:
+this.SETTING_UNLOCK_SIDEOPS_ENUM=Enum{"OFF","REPOP","OPEN","MAX"}--tex SYNC: unlocksideops setting names TODO: overhaul, rectify with sliders
 this.switchSlider={max=1,min=0,increment=1}
 this.healthMultSlider={max=4,min=0,increment=0.2}
 this.switchSettingNames={"Off","On"}
@@ -169,7 +193,7 @@ this.modSettings={
       elseif gvars.subsistenceLoadout==0 then
         gvars.subsistenceLoadout=1
       end
-    end
+    end,
   },
   {
     name="OSP Weapon Loadout",
@@ -177,7 +201,7 @@ this.modSettings={
     default=0,
     slider={max=#this.subsistenceLoadouts,min=0,increment=1},
     settingNames={"Off","Pure","Secondary enabled"},
-    helpText="Start with no primary and secondary weapons, can be used seperately from subsistence mode"
+    helpText="Start with no primary and secondary weapons, can be used seperately from subsistence mode",
   },
   {
     name="Enemy Preparedness",
@@ -209,12 +233,40 @@ this.modSettings={
     isFloatSetting=true,
   },
   {
-    name="Unlock Sideops (some currently don't spawn objectives)",
+    name="Unlock random Sideops for areas",
     gvarName="unlockSideOps",
     default=0,
-    slider=this.switchSlider,
-    settingNames={"Off","Enabled"},
+    slider={max=(this.SETTING_UNLOCK_SIDEOPS_ENUM.MAX-1),min=0,increment=1},
+    settingNames={"Off","Force Replayable","Force Open"},--[[--tex SYNC: SETTING_UNLOCK_SIDEOPS_ENUM--]]
+    helpText="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area.",
+    onChange=function()
+      TppQuest.UpdateActiveQuest()
+    end,
   },
+  {
+    name="Open specific sideop #",
+    gvarName="unlockSideOpNumber",
+    default=0,
+    slider={max=this.numQuests,min=0,increment=1},
+    onChange=function()
+      TppQuest.UpdateActiveQuest()
+    end,
+  },
+  {
+    name="Return Quiet (not reversable)",
+    default=0,
+    slider=this.switchSlider,
+    settingNames={">","Returned"},
+    onChange=function()
+      if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
+        TppUiCommand.AnnounceLogView("Quiet has already returned.")
+      else
+        --if TppStory.IsMissionCleard(10260) then
+          TppStory.QuietReturn()
+        --end
+      end
+    end,
+  },  
   {
     name="Reset all settings",
     default=0,
@@ -222,7 +274,7 @@ this.modSettings={
     settingNames={">","Reset"},
     onChange=function()
       this.ResetSettingsDisplay()        
-    end
+    end,
   },
   {
     name="Turn off menu",
@@ -233,14 +285,23 @@ this.modSettings={
       this.modMenuOn=false
       this.currentOption=1
       TppUiCommand.AnnounceLogView(TppMain.modStrings.menuOff)    
-    end
+    end,
   },
 }
 this.currentOption=1--tex lua tables are indexed from 1
 this.currentSetting=0--tex settings from 0, to better fit variables
 this.lastDisplay=0
-this.autoDisplayRate=2.8
+this.autoDisplayDefault=2.8
+this.autoRateHeld=0.9
+this.autoDisplayRate=this.autoDisplayDefault
 this.modMenuOn=false
+this.toggleMenuButton=PlayerPad.RELOAD
+this.toggleMenuHoldTime=1
+this.menuRightButton=PlayerPad.RIGHT
+this.menuLeftButton=PlayerPad.LEFT
+this.menuUpButton=PlayerPad.UP
+this.menuDownButton=PlayerPad.DOWN
+this.resetSettingButton=PlayerPad.STANCE
 --tex mod settings menu manipulation
 function this.NextOption()
   this.currentOption=this.currentOption+1
@@ -277,6 +338,15 @@ function this.ChangeSetting(modSetting,value)
     if gvar ~= nil then
       --TppUiCommand.AnnounceLogView("DBG:MNU: gvar:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:
       newSetting=gvar+value
+      if value > 0 then
+        if newSetting > modSetting.slider.max then
+          newSetting = modSetting.slider.min
+        end
+      elseif value < 0 then
+        if newSetting < modSetting.slider.min then
+          newSetting = modSetting.slider.max
+        end      
+      end
       --TppUiCommand.AnnounceLogView("DBG:MNU: newsetting:"..newSetting)--tex DEBUG: CULL:
       newSetting=TppMath.Clamp(newSetting,modSetting.slider.min,modSetting.slider.max)
       --TppUiCommand.AnnounceLogView("DBG:MNU: newsetting clamped:"..newSetting)--tex DEBUG: CULL:
@@ -294,16 +364,25 @@ function this.ChangeSetting(modSetting,value)
       --TppUiCommand.AnnounceLogView("DBG:MNU: gvar set:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:
       if IsFunc(modSetting.onChange) then
         modSetting.onChange()
-      end      
+      end
     end
   else--gvar nil
     newSetting=this.currentSetting+value
-    newSetting=TppMath.Clamp(newSetting,modSetting.slider.min,modSetting.slider.max)
+    if value > 0 then
+      if newSetting > modSetting.slider.max then
+        newSetting = modSetting.slider.min
+      end
+    elseif value < 0 then
+      if newSetting < modSetting.slider.min then
+        newSetting = modSetting.slider.max
+      end      
+    end
+    --newSetting=TppMath.Clamp(newSetting,modSetting.slider.min,modSetting.slider.max)
     if IsFunc(modSetting.onChange) then
       modSetting.onChange()
     end   
   end
-  --TppUiCommand.AnnounceLogView("DBG:MNU: new currentSetting:" .. newSetting)
+  --TppUiCommand.AnnounceLogView("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
   return newSetting
 end
 function this.ConfirmCurrent()
@@ -321,6 +400,22 @@ function this.ConfirmSetting(modSetting,value)
       end
     end
   end
+end
+function this.SetCurrent()
+  this.SetSetting(this.modSettings[this.currentOption],this.currentSetting)
+end
+function this.SetSetting(modSetting,value)
+  --if modSetting.set ~= nil then
+    if modSetting.gvarName~=nil then
+      local gvar=gvars[modSetting.gvarName]
+      if gvar ~= nil then
+        gvars[modSetting.gvarName]=value
+        if IsFunc(modSetting.onChange) then
+          modSetting.onChange()
+        end
+      end
+    end
+  --end
 end
 function this.NextSetting()
   local modSetting=this.modSettings[this.currentOption]
@@ -382,11 +477,26 @@ function this.AutoDisplay()
     end
   end
 end
+function this.DisplayHelpText()
+  local modSetting=this.modSettings[this.currentOption]
+  if modSetting.helpText ~= nil then
+    --this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
+    TppUiCommand.AnnounceLogView(modSetting.helpText)
+  end
+end
+function this.ResetSetting()
+  local modSetting=this.modSettings[this.currentOption]
+  if modSetting.gvarName~=nil then
+    gvars[modSetting.gvarName]=modSetting.default
+    this.currentSetting=modSetting.default
+  end
+end
 function this.ResetSettings()
   for i=1,#this.modSettings do
-    local gvarName=this.modSettings[i].gvarName
-    if gvarName~=nil then
-      gvars[gvarName]=this.modSettings[i].default
+    local modSetting=this.modSettings[i]
+    if modSetting.gvarName~=nil then
+      gvars[modSetting.gvarName]=modSetting.default
+      this.currentSetting=modSetting.default
     end
   end
 end
@@ -405,7 +515,7 @@ end
 function this.UpdateModMenu()--tex RETRY: called from TppMission.Update, had 'troubles' running in main
 --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
 --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
-  ModStart()--tex: TODO: move to actual run once on startup init thing, make sure to check ModStart itself to see affected code
+  this.ModStart()--tex: TODO: move to actual run once on startup init thing, make sure to check ModStart itself to see affected code
   this.UpdateHeldButtons()
   if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
     if TppMission.IsHelicopterSpace(vars.missionCode)then
@@ -414,11 +524,11 @@ function this.UpdateModMenu()--tex RETRY: called from TppMission.Update, had 'tr
         this.modMenuOn = not this.modMenuOn
         if this.modMenuOn then
           this.GetSetting()
-          TppUiCommand.AnnounceLogView(this.modName.." "..this.modVersion)
+          TppUiCommand.AnnounceLogView(this.modName.." "..this.modVersion.." (Press Up/Down,Left/Right to navigate menu)")
           --this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
-          if this.autoDisplayRate==0 then
-            this.DisplayCurrentSetting()
-          end
+          --if this.autoDisplayRate==0 then
+          --  this.DisplayCurrentSetting()
+          --end
         else
           TppUiCommand.AnnounceLogView(this.modStrings.menuOff)
         end
@@ -428,9 +538,10 @@ function this.UpdateModMenu()--tex RETRY: called from TppMission.Update, had 'tr
           this.modMenuOn=false
           TppUiCommand.AnnounceLogView(this.modStrings.menuOff)
         end
-        --[[if this.OnButtonDown(PlayerPad.RELOAD) then
-          this.ConfirmCurrent()
-        end--]]
+        if this.OnButtonDown(this.toggleMenuButton) then
+          this.SetCurrent()
+          this.DisplayCurrentSetting()
+        end 
         if this.OnButtonDown(PlayerPad.UP) then
           this.PreviousOption()
           this.DisplayCurrentSetting()
@@ -439,12 +550,30 @@ function this.UpdateModMenu()--tex RETRY: called from TppMission.Update, had 'tr
           this.NextOption()
           this.DisplayCurrentSetting()
         end
-        if this.OnButtonDown(PlayerPad.LEFT) then
+        
+        if this.OnButtonDown(this.menuRightButton) then
+          this.NextSetting()
+          this.DisplayCurrentSetting()
+        elseif this.OnButtonUp(this.menuRightButton) then
+          this.autoDisplayRate=this.autoDisplayDefault
+        elseif this.OnButtonRepeat(this.menuRightButton) then          
+          this.autoDisplayRate=this.autoRateHeld
+          this.NextSetting()
+        end
+        
+        if this.OnButtonDown(this.menuLeftButton) then
           this.PreviousSetting()
           this.DisplayCurrentSetting()
+        elseif this.OnButtonUp(this.menuLeftButton) then
+          this.autoDisplayRate=this.autoDisplayDefault
+        elseif this.OnButtonRepeat(this.menuLeftButton) then         
+          this.autoDisplayRate=this.autoRateHeld
+          this.PreviousSetting()
         end
-        if this.OnButtonDown(PlayerPad.RIGHT) then
-          this.NextSetting()
+        
+        if this.OnButtonDown(this.resetSettingButton) then
+          this.ResetSetting()
+          TppUiCommand.AnnounceLogView"Setting to default.."
           this.DisplayCurrentSetting()
         end
       end
@@ -464,10 +593,11 @@ function this.UpdateModMenu()--tex RETRY: called from TppMission.Update, had 'tr
 --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
 --SplashScreen.Show(debugSplash,0,0.3,0)--tex dog
 end
-function ModStart()--tex currently called from UpdateModMenu, RETRY: find an actual place for on start/run once init.
+function this.ModStart()--tex currently called from UpdateModMenu, RETRY: find an actual place for on start/run once init.
   gvars.isManualHard = false--tex PATCHUP: not currently exposed to mod menu, force off to patch those that might have saves from prior mod with it on 
-  this.buttonState[PlayerPad.LIGHT_SWITCH].holdTime=1--tex set up hold buttons
-  this.buttonState[PlayerPad.RELOAD].holdTime=1
+  this.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime--tex set up hold buttons
+  this.buttonStates[this.menuRightButton].decrement=0.1
+  this.buttonStates[this.menuLeftButton].decrement=0.1
 end
 function this.ModWelcome()
   TppUiCommand.AnnounceLogView(this.modName .. " " .. this.modVersion)
@@ -1204,7 +1334,7 @@ function this.OnInitialize(n)
     end
   end
   TppDemo.UpdateNuclearAbolitionFlag()
-  TppQuest.AcquireKeyItemOnMissionStart()--tex NMC: 0006 patch
+  TppQuest.AcquireKeyItemOnMissionStart()--tex NMC: 0006 RETAILPATCH:
 end
 function this.SetUpdateFunction(e)
   o={}

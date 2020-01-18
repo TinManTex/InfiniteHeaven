@@ -285,7 +285,7 @@ e.DeclareGVarsTable={
   {name="playerHealthMult",type=TppScriptVars.TYPE_FLOAT,value=1,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="enemyHealthMult",type=TppScriptVars.TYPE_FLOAT,value=1,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="unlockSideOps",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
-  
+  {name="unlockSideOpNumber",type=TppScriptVars.TYPE_UINT32,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   nil
 }
 TppScriptVars.DeclareGVars(e.DeclareGVarsTable)

@@ -4,6 +4,7 @@ local t=Tpp.StrCode32Table
 local O=2
 local b="/Assets/tpp/pack/mission2/free/f30050/f30050_mbQuiet.fpk"
 local c="/Assets/tpp/pack/mission2/free/f30050/f30050_Buddy.fpk"
+local this=e--tex DEMINIFY:
 e.demoList={
   EntrustDdog="p51_010010",
   DdogComeToGet="p51_010020_000_final",
@@ -117,7 +118,7 @@ e._PazPhantomPain4Settings={
   clusterName="Medical"
 }
 
-e.demoOptions={
+this.demoOptions={
   EntrustDdog={OnEnd=function()
     TppStory.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_COME_TO_GET,TppDefine.INIT_ELAPSED_MISSION_COUNT.D_DOG_COME_TO_GET)
     TppStory.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME,TppDefine.INIT_ELAPSED_MISSION_COUNT.D_DOG_GO_WITH_ME)
@@ -233,22 +234,22 @@ e.demoOptions={
     enableOcelotDemoEnd=true},
   HappyBirthDay={
     GetNextDemoNameOrNil=function()
-    local n=TppStory.IsMissionCleard(10086)
-    local e=TppBuddyService.DidObtainBuddyType(BuddyType.QUIET)
-    local l=not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)
-    local t=not TppBuddyService.IsDeadBuddyType(BuddyType.QUIET)
-    if((n and e)and l)and t then
-      return"HappyBirthDayWithQuiet"
-    end
-    return nil
-  end,
-  OnEnd=function()
-    gvars.isPlayedHappyBirthDayToday=true
-  end,
-  time="18:00:00",
-  weather=TppDefine.WEATHER.SUNNY,
-  heliEnableAfterDemo=true,
-  telopLangIdList={"birthday","area_demo_mb","platform_main"}
+      local n=TppStory.IsMissionCleard(10086)
+      local e=TppBuddyService.DidObtainBuddyType(BuddyType.QUIET)
+      local l=not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)
+      local t=not TppBuddyService.IsDeadBuddyType(BuddyType.QUIET)
+      if((n and e)and l)and t then
+        return"HappyBirthDayWithQuiet"
+      end
+      return nil
+    end,
+    OnEnd=function()
+      gvars.isPlayedHappyBirthDayToday=true
+    end,
+    time="18:00:00",
+    weather=TppDefine.WEATHER.SUNNY,
+    heliEnableAfterDemo=true,
+    telopLangIdList={"birthday","area_demo_mb","platform_main"}
   },
   HappyBirthDayWithQuiet={time="19:00:00",weather=TppDefine.WEATHER.SUNNY,OnEnter=function()
     local e="ly003_cl00_item0000|cl00pl0mb_fndt_plnt_gimmick2_nowep0000|mtbs_cran001_vrtn002_gim_n0000|srt_mtbs_cran001_vrtn002"
@@ -277,18 +278,18 @@ e.demoOptions={
     svars.isCollect_Aflo=gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_Aflo]
     svars.isCollect_ShortAflo=gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_ShortAflo]
     svars.isCollect_BlackCoat=gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
-    end,
-    OnEnd=function()
-      TppBuddyService.QuietHospitalized()
-      local t={8.647,.8,-28.748}
-      local e=-25
-      t,e=mtbs_cluster.GetPosAndRotY("Medical","plnt0",t,e)
-      TppPlayer.Warp{pos=t,rotY=e}
-      TppPlayer.SetInitialPosition(t,e)
-      mvars.f30050_isOverwriteDemoEndPos=true
-      Player.RequestToSetCameraRotation{rotX=0,rotY=e}
-    end,
-    telopLangIdList={"area_demo_mb","platform_medical"}},
+  end,
+  OnEnd=function()
+    TppBuddyService.QuietHospitalized()
+    local t={8.647,.8,-28.748}
+    local e=-25
+    t,e=mtbs_cluster.GetPosAndRotY("Medical","plnt0",t,e)
+    TppPlayer.Warp{pos=t,rotY=e}
+    TppPlayer.SetInitialPosition(t,e)
+    mvars.f30050_isOverwriteDemoEndPos=true
+    Player.RequestToSetCameraRotation{rotX=0,rotY=e}
+  end,
+  telopLangIdList={"area_demo_mb","platform_medical"}},
   QuietWishGoMission={OnEnd=function()
     TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.QUIET_WITH_GO_MISSION)
     TppCassette.Acquire{cassetteList={"tp_c_00000_13"},
@@ -471,20 +472,20 @@ e.demoOptions={
     heliEnableAfterDemo=true,
     telopLangIdList={"area_demo_mb","platform_main"},
     loadBuddyBlock=true
-    },
+  },
   ArrivedMotherBaseLiquid={time="20:00:00",weather=TppDefine.WEATHER.SUNNY,
-  OnEnd=function()
-  gvars.mbFreeDemoPlayRequestFlag[TppDefine.MB_FREEPLAY_DEMO_REQUESTFLAG_DEFINE.PlayAfterWhiteMamba]=false
+    OnEnd=function()
+      gvars.mbFreeDemoPlayRequestFlag[TppDefine.MB_FREEPLAY_DEMO_REQUESTFLAG_DEFINE.PlayAfterWhiteMamba]=false
     end,
     heliEnableAfterDemo=true,telopLangIdList={"area_demo_mb","platform_main"},
     forceMaleLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0005","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt1_0000","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003"}},
   ArrivedMotherBaseFromDeathFactory={weather=TppDefine.WEATHER.SUNNY,time="18:00:00",heliEnableAfterDemo=true,telopLangIdList={"area_demo_mb","platform_main"},
     OnPrevPlayRequest=function()
-    svars.isCollect_Injury=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_Injury]
-    svars.isCollect_YellowHood=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_YellowHood]
-    svars.isCollect_Aflo=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_Aflo]
-    svars.isCollect_ShortAflo=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_ShortAflo]
-    svars.isCollect_BlackCoat=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
+      svars.isCollect_Injury=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_Injury]
+      svars.isCollect_YellowHood=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_YellowHood]
+      svars.isCollect_Aflo=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_Aflo]
+      svars.isCollect_ShortAflo=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_ShortAflo]
+      svars.isCollect_BlackCoat=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
     end,
     OnEnd=function()gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_Injury]=svars.isCollect_Injury
       gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_YellowHood]=svars.isCollect_YellowHood
@@ -501,13 +502,13 @@ e.demoOptions={
       TppSoundDaemon.ResetMute"Outro"
     end,
     OnPrevPlayRequest=function()
-    svars.isCollect_Injury=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_Injury]
-    svars.isCollect_YellowHood=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_YellowHood]
-    svars.isCollect_Aflo=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_Aflo]
-    svars.isCollect_ShortAflo=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_ShortAflo]
-    svars.isCollect_BlackCoat=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
+      svars.isCollect_Injury=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_Injury]
+      svars.isCollect_YellowHood=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_YellowHood]
+      svars.isCollect_Aflo=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_Aflo]
+      svars.isCollect_ShortAflo=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_ShortAflo]
+      svars.isCollect_BlackCoat=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
     end
-    },
+  },
   NuclearEliminationCeremony={weather=TppDefine.WEATHER.SUNNY,time="17:20:00",GetNextDemoNameOrNil=function()
     if TppMotherBaseManagement.IsNuclearDeveloped()then
       return"DetailsNuclearDevelop"
@@ -649,7 +650,7 @@ e.demoOptions={
   time="17:00:00",weather=TppDefine.WEATHER.SUNNY,clusterName="Medical"},
   PazPhantomPain4=e._PazPhantomPain4Settings,PazPhantomPain4_jp=e._PazPhantomPain4Settings}
 
-function e.PlayMtbsEventDemo(o)
+function this.PlayMtbsEventDemo(o)
   if not Tpp.IsTypeTable(o)then
   end
   local l=o.demoName
@@ -662,7 +663,7 @@ function e.PlayMtbsEventDemo(o)
   local b=o.onEnd
   local r=nil
   local p=nil
-  local t=e.demoOptions[l]local i,a=nil,nil
+  local t=this.demoOptions[l]local i,a=nil,nil
   local n=e.GetNextDemo(l)
   local S=nil
   local T=nil
@@ -744,8 +745,8 @@ function e.PlayMtbsEventDemo(o)
     end
   end,
   onEnd=function()
-  e.DisableBuddyForForceRealized(l)
-  vars.buddyType=mvars.f30050_buddyTypeOnMissionStart
+    e.DisableBuddyForForceRealized(l)
+    vars.buddyType=mvars.f30050_buddyTypeOnMissionStart
     TppBuddyService.SetIgnoreDisableNpc(false)
     local t=TppDefine.MB_FREEPLAY_DEMO_ENUM[l]
     if t then
@@ -794,11 +795,12 @@ function e.PlayMtbsEventDemo(o)
     TppDemo.Play(l,t,n)
   end
 end
-function e.DisableBuddyForForceRealized(t)
+function this.DisableBuddyForForceRealized(t)
   if vars.buddyType~=BuddyType.QUIET and vars.buddyType~=BuddyType.DOG then
     return
   end
-  local e=e.demoOptions[t]if e and(e.forceEnableBuddyType or e.disableBuddyAfterDemo)then
+  local e=this.demoOptions[t]
+  if e and(e.forceEnableBuddyType or e.disableBuddyAfterDemo)then
     local t={id="SetEnabled",enabled=false}
     local e={type="TppBuddyDog2",index=0}
     if vars.buddyType==BuddyType.QUIET then
@@ -807,13 +809,13 @@ function e.DisableBuddyForForceRealized(t)
     GameObject.SendCommand(e,t)
   end
 end
-function e.SetupDemoEndRoute(e)
+function this.SetupDemoEndRoute(e)
   for t,e in ipairs(e)do
     local t=GameObject.GetGameObjectId(e.locatorName)
     local e={id="SetSneakRoute",route=e.routeName}GameObject.SendCommand(t,e)
   end
 end
-function e.SetInvisibleUniqueCharacter(t)
+function this.SetInvisibleUniqueCharacter(t)
   local e={}
   if not TppStory.CanArrivalLiquidInMB()then
     table.insert(e,"Liquid")
@@ -846,14 +848,14 @@ function e.SetInvisibleUniqueCharacter(t)
   end
   TppDemoUtility.SetInvisibleUniqueCharacter{invisible=e}
 end
-function e.DisableOcelot()
+function this.DisableOcelot()
   local e=GameObject.GetGameObjectId"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
   local t={id="SetEnabled",enabled=false}
   if e~=GameObject.NULL_ID then
     GameObject.SendCommand(e,t)
   end
 end
-function e.ChangeBlock(t,l)
+function this.ChangeBlock(t,l)
   local t=e.demoBlockList[t]
   local o=e.demoBlockList[l]
   local n=#t~=#o
@@ -875,17 +877,18 @@ function e.ChangeBlock(t,l)
     TppScriptBlock.LoadDemoBlock(l,true)
   end
 end
-function e.GetNextDemo(l)
+function this.GetNextDemo(l)
   local t=nil
-  local e=e.demoOptions[l]if e and e.GetNextDemoNameOrNil then
+  local e=this.demoOptions[l]
+  if e and e.GetNextDemoNameOrNil then
     t=e.GetNextDemoNameOrNil()
   end
   return t
 end
-function e.GetDemoPlayCluster(n)
+function this.GetDemoPlayCluster(n)
   local t="Command"
   local l="plnt0"
-  local e=e.demoOptions[n]
+  local e=this.demoOptions[n]
   if e and e.clusterName then
     t=e.clusterName
   end
@@ -894,18 +897,19 @@ function e.GetDemoPlayCluster(n)
   end
   return t,l
 end
-function e.HasPlant(t)
+function this.HasPlant(t)
   local e,t=e.GetDemoPlayCluster(t)
   return mtbs_cluster.HasPlant(e,t)
 end
-function e.GetDemoTime(l)
+function this.GetDemoTime(l)
   local t=nil
-  local e=e.demoOptions[l]if e and e.time then
+  local e=this.demoOptions[l]
+  if e and e.time then
     t=e.time
   end
   return t
 end
-function e.UpdatePackList(t)
+function this.UpdatePackList(t)
   if not t then
     return
   end
@@ -913,7 +917,7 @@ function e.UpdatePackList(t)
   local n=false
   if e.demoBlockList[t]then
     Tpp.ApendArray(l[t],e.demoBlockList[t])
-    local e=e.demoOptions[t]
+    local e=this.demoOptions[t]
     if e and e.loadBuddyBlock then
       table.insert(l[t],c)
     end
@@ -931,11 +935,11 @@ function e.UpdatePackList(t)
     TppQuest.RegisterQuestPackList(l,"demo_block")
   end
 end
-function e.RegisterFovaPack(e)
-mvars.f30050demo_fovaPackList=e
+function this.RegisterFovaPack(e)
+  mvars.f30050demo_fovaPackList=e
 end
-function e.GetPackListForStorySequence()
-mvars.f30050_isSetLiquid=false
+function this.GetPackListForStorySequence()
+  mvars.f30050_isSetLiquid=false
   mvars.f30050_isSetCodeTalker=false
   local e={}
   local t=MotherBaseStage.GetCurrentCluster()
@@ -972,13 +976,14 @@ mvars.f30050_isSetLiquid=false
   end
   return e
 end
-function e.ShowMissionRewardAfterDemo()
+function this.ShowMissionRewardAfterDemo()
   TppMission.ShowMissionReward()
   mvars.f30050_showMissionRewardAfterDemo=true
 end
-function e.GetSoldierListInDemo(l)
+function this.GetSoldierListInDemo(l)
   local t={}
-  local e=e.demoOptions[l]if e then
+  local e=this.demoOptions[l]
+  if e then
     if e.forceMaleLocator then
       Tpp.ApendArray(t,e.forceMaleLocator)
     end
@@ -988,22 +993,22 @@ function e.GetSoldierListInDemo(l)
   end
   return t
 end
-function e.GetForceMaleSoldierList(l)
+function this.GetForceMaleSoldierList(l)
   local t={}
-  local e=e.demoOptions[l]
+  local e=this.demoOptions[l]
   if e and e.forceMaleLocator then
     t=e.forceMaleLocator
   end
   return t
 end
-function e.SetupEnemy(t)
+function this.SetupEnemy(t)
   local l=e.GetDemoPlayCluster(t)
   local l=TppDefine.CLUSTER_DEFINE[l]+1
   local e=e.GetSoldierListInDemo(t)
   mtbs_enemy.SetSoldierForDemo(l,e)
 end
-function e.IsBalaclava(t,l)
-  local e=e.demoOptions[t]
+function this.IsBalaclava(t,l)
+  local e=this.demoOptions[t]
   if e and e.forceBalaclavaLocator then
     for t,e in ipairs(e.forceBalaclavaLocator)do
       if e==l then
@@ -1013,8 +1018,8 @@ function e.IsBalaclava(t,l)
   end
   return false
 end
-function e.NeedLoadBuddyBlock(t)
-  local e=e.demoOptions[t]
+function this.NeedLoadBuddyBlock(t)
+  local e=this.demoOptions[t]
   if e and e.loadBuddyBlock then
     if e.forceEnableBuddyType then
       return true
@@ -1025,9 +1030,9 @@ function e.NeedLoadBuddyBlock(t)
   end
   return false
 end
-function e.SetupBuddy(t)
+function this.SetupBuddy(t)
   if e.NeedLoadBuddyBlock(t)then
-    local e=e.demoOptions[t]
+    local e=this.demoOptions[t]
     if e and e.forceEnableBuddyType then
       vars.buddyType=e.forceEnableBuddyType
     end
@@ -1035,11 +1040,11 @@ function e.SetupBuddy(t)
     TppBuddy2BlockController.ReserveCallBuddy(vars.buddyType,BuddyInitStatus.RIDE,Vector3(0,0,0),0)
   end
 end
-function e.IsShowReward(t)
-  local e=e.demoOptions[t]
+function this.IsShowReward(t)
+  local e=this.demoOptions[t]
   if e then
     return e.isShowReward
   end
   return false
 end
-return e
+return this

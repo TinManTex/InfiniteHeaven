@@ -11,9 +11,9 @@ local T=0
 local m="quest_block"
 local d="QStep_Clear"
 local N=Fox.StrCode32
-local C=Tpp.StrCode32Table
 local r=Tpp.IsTypeFunc
 local o=Tpp.IsTypeTable
+local C=Tpp.StrCode32Table
 local I=Tpp.IsTypeString
 local i=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
 local t=TppDefine.Enum{"MISSION","FREE","HELI"}
@@ -22,171 +22,173 @@ local D={"tent","field","ruins","waterway","cliffTown","commFacility","sovietBas
 local O={"outland","pfCamp","savannah","hill","banana","diamond","lab"}
 local f={
   Command="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|Marker_shootingPractice",
-  Develop="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|Marker_shootingPractice",
   Support="ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|Marker_shootingPractice",
+  Develop="ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|Marker_shootingPractice",
   BaseDev="ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|Marker_shootingPractice",
   Medical="ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|Marker_shootingPractice",
   Spy="ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|Marker_shootingPractice",
-  Combat="ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|Marker_shootingPractice"}
+  Combat="ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|Marker_shootingPractice"
+}
 e.prevMissionType=t.HELI
+--sideOps
 local u={
-  {questName="ruins_q19010",questId="ruins_q19010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1622.974,322.257,1062.973),radius=5},
-  {questName="commFacility_q19013",questId="commFacility_q19013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1589.157,352.634,47.628),radius=5},
-  {questName="outland_q19011",questId="outland_q19011",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(222.113,20.445,-930.962),radius=5},
-  {questName="hill_q19012",questId="hill_q19012",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1910.658,59.872,-231.274),radius=5},
-  {questName="ruins_q60115",questId="quest_q60115",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(501.702,321.852,1194.651),radius=4.5},
-  {questName="sovietBase_q60110",questId="quest_q60110",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-719.57,536.851,-1571.775),radius=4.5},
-  {questName="citadel_q60112",questId="quest_q60112",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(785.013,473.162,-916.954),radius=4.5},
-  {questName="outland_q60113",questId="quest_q60113",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-281.612,-8.36,751.687),radius=4.5},
-  {questName="pfCamp_q60114",questId="quest_q60114",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(712.931,-3.225,1221.926),radius=4.5},
-  {questName="sovietBase_q60111",questId="quest_q60111",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2330.799,438.515,-1568.261),radius=4.5},
-  {questName="tent_q10010",questId="tent_q10010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1426.164,319.449,1053.029),radius=5.5},
-  {questName="field_q10020",questId="field_q10020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(574.394,320.805,1091.39),radius=5},
-  {questName="fort_q10080",questId="fort_q10080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2144.585,459.984,-1764.566),radius=5},
-  {questName="cliffTown_q10050",questId="cliffTown_q10050",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(545.646,339.103,7.983),radius=5},
-  {questName="waterway_q10040",questId="waterway_q10040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1200,399,-660),radius=5},
-  {questName="commFacility_q10060",questId="commFacility_q10060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1580.025,346.609,47.889),radius=5},
-  {questName="pfCamp_q10200",questId="pfCamp_q10200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1830.153,-12.065,1217.415),radius=5},
-  {questName="outland_q10100",questId="outland_q10100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-1117,-22,-250),radius=5},
-  {questName="savannah_q10300",questId="savannah_q10300",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(352.291,-5.991,.927),radius=5},
-  {questName="banana_q10500",questId="banana_q10500",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(846.97,36.452,-917.762),radius=5},
-  {questName="hill_q10400",questId="hill_q10400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2155.126,56.012,392.11),radius=5},
-  {questName="diamond_q10600",questId="diamond_q10600",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1611.429,128.189,-848.904),radius=5},
-  {questName="ruins_q10030",questId="ruins_q10030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1301.97,331.741,1746.641),radius=5},
-  {questName="sovietBase_q10070",questId="sovietBase_q10070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2081.274,436.152,-1532.619),radius=5},
-  {questName="lab_q10700",questId="lab_q10700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2695.907,154.625,-2304.778),radius=5},
-  {questName="citadel_q10090",questId="citadel_q10090",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1258.72,598.68,-3055.925),radius=5},
-  {questName="quest_q20065",questId="quest_q20065",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1481.748,359.7492,467.3845),radius=4.5},
-  {questName="quest_q20025",questId="quest_q20025",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(419.7284,270.3819,2206.412),radius=4.5},
-  {questName="quest_q20075",questId="quest_q20075",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2200.667,443.142,-1632.121),radius=5},
-  {questName="quest_q20805",questId="quest_q20805",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1876.726,321.956,-426.263),radius=4.5},
-  {questName="quest_q20905",questId="quest_q20905",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1807.693,468.119,-1232.137),radius=4.5},
-  {questName="quest_q20305",questId="quest_q20305",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(303.023,-5.295,401.582),radius=5},
-  {questName="quest_q20035",questId="quest_q20035",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1444.029,332.4536,1493.478),radius=4.5},
-  {questName="quest_q23005",questId="quest_q23005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(269.693,43.457,-1208.378),radius=4.5},
-  {questName="quest_q20045",questId="quest_q20045",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1721.014,349.7935,-300.9322),radius=4.5},
-  {questName="quest_q21005",questId="quest_q21005",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-902.816,288.046,1905.899),radius=4.5},
-  {questName="quest_q20105",questId="quest_q20105",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-318.246,-13.006,1078.101),radius=4},
-  {questName="quest_q24005",questId="quest_q24005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2527.301,71.168,-817.188),radius=4.5},
-  {questName="quest_q20505",questId="quest_q20505",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(592.412,52.144,-955.067),radius=4},
-  {questName="quest_q20605",questId="quest_q20605",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1532.148,127.692,-1296.662),radius=5},
-  {questName="quest_q25005",questId="quest_q25005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(967.334,-11.938,1269.883),radius=4.5},
-  {questName="quest_q27005",questId="quest_q27005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2073.421,51.254,355.372),radius=4.5},
-  {questName="quest_q26005",questId="quest_q26005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1728.982,155.168,-1869.883),radius=4.5},
-  {questName="quest_q20055",questId="quest_q20055",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(784.1397,474.0518,-1008.116),radius=4},
-  {questName="quest_q22005",questId="quest_q22005",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1326.552,598.564,-3041.07),radius=4.5},
-  {questName="quest_q20405",questId="quest_q20405",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2172.657,56.106,377.634),radius=4},
-  {questName="field_q30010",questId="field_q30010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(516.088,321.572,1065.328),radius=5},
-  {questName="waterway_q39010",questId="waterway_q39010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-473.987,417.258,-496.137),radius=7},
-  {questName="lab_q39011",questId="lab_q39011",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2656.23,144.117,-2173.246),radius=7},
-  {questName="pfCamp_q39012",questId="pfCamp_q39012",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1367.551,-3.12,1892.457),radius=7},
-  {questName="commFacility_q80060",questId="commFacility_q80060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1385.748,368,-23.469),radius=5},
-  {questName="field_q80020",questId="field_q80020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(482.031,286.844,2474.655),radius=5},
-  {questName="outland_q80100",questId="outland_q80100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-454.016,3.955,977.738),radius=5},
-  {questName="pfCamp_q80200",questId="pfCamp_q80200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(338.505,1.002,1746.528),radius=5},
-  {questName="diamond_q80600",questId="diamond_q80600",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1460.408,121.347,-1411.282),radius=5},
-  {questName="hill_q80400",questId="hill_q80400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2566.009,68,-200.753),radius=5},
-  {questName="tent_q80010",questId="tent_q80010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1396.746,286.758,1009.375),radius=5},
-  {questName="lab_q80700",questId="lab_q80700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2702.945,127.026,-1972.265),radius=5},
-  {questName="fort_q80080",questId="fort_q80080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1408.371,500.486,-1300.667),radius=5},
-  {questName="waterway_q80040",questId="waterway_q80040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1839.279,358.371,-339.326),radius=5},
-  {questName="quest_q20015",questId="quest_q20015",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1764.669,311.1947,805.5405),radius=4.5},
-  {questName="quest_q20085",questId="quest_q20085",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2154.21,458.245,-1782.244),radius=4.5},
-  {questName="quest_q20205",questId="quest_q20205",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(911.094,-3.444,1072.21),radius=6},
-  {questName="quest_q20705",questId="quest_q20705",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2643.892,143.728,-2179.943),radius=7},
-  {questName="quest_q20095",questId="quest_q20095",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1216.737,609.074,-3102.734),radius=5.5},
-  {questName="tent_q11010",questId="tent_q11010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1058.028,290.648,1472.578),radius=5},
-  {questName="tent_q11020",questId="tent_q11020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1143.261,322.876,839.478),radius=5},
-  {questName="waterway_q11030",questId="waterway_q11030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1347.736,397.481,-729.448),radius=5},
-  {questName="cliffTown_q11040",questId="cliffTown_q11040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(369.861,413.892,-905.375),radius=5},
-  {questName="savannah_q11400",questId="savannah_q11400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1200.66,7.889,113.637),radius=5},
-  {questName="pfCamp_q11200",questId="pfCamp_q11200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1555.195,-12.034,1790.219),radius=5},
-  {questName="commFacility_q11080",questId="commFacility_q11080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1475.388,344.972,13.41),radius=5},
-  {questName="fort_q11060",questId="fort_q11060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1812.198,465.938,-1241.909),radius=5},
-  {questName="outland_q11090",questId="outland_q11090",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-386.984,9.648,762.663),radius=5},
-  {questName="banana_q11600",questId="banana_q11600",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(563.844,77.95,-1070.378),radius=5},
-  {questName="cliffTown_q11050",questId="cliffTown_q11050",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2383.08,86.157,-1125.214),radius=5},
-  {questName="hill_q11500",questId="hill_q11500",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2342.049,68.132,-104.587),radius=5},
-  {questName="savannah_q11300",questId="savannah_q11300",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(965.708,-4.035,287.023),radius=5},
-  {questName="banana_q11700",questId="banana_q11700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(713.795,33.409,-904.592),radius=5},
-  {questName="fort_q11070",questId="fort_q11070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2194.519,429.075,-1284.068),radius=5},
-  {questName="outland_q11100",questId="outland_q11100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-552.513,-.011,-197.752),radius=5},
-  {questName="sovietBase_q99020",questId="sovietBase_q99020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-716.5531,536.7278,-1485.517),radius=5,isImportant=true},
-  {questName="ruins_q60010",questId="ruins_q60010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1331.732,295.46,2164.405),radius=4},
-  {questName="tent_q60011",questId="tent_q60011",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-513.1647,372.9764,1148.782),radius=5},
-  {questName="outland_q60024",questId="outland_q60024",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-1205.26,-21.20666,129.0079),radius=5},
-  {questName="fort_q60013",questId="fort_q60013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1921.452,456.3248,-1253.83),radius=4},
-  {questName="hill_q60021",questId="hill_q60021",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2151.132,70.83097,-116.7761),radius=4.5},
-  {questName="pfCamp_q60020",questId="pfCamp_q60020",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1555.736,-8.822165,1725.071),radius=4},
-  {questName="cliffTown_q60012",questId="cliffTown_q60012",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(369.4612,412.6812,-844.1393),radius=4},
-  {questName="banana_q60023",questId="banana_q60023",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(646.064,103.2225,-1122.37),radius=4},
-  {questName="sovietBase_q60014",questId="sovietBase_q60014",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1440.167,415.0882,-1282.796),radius=4},
-  {questName="lab_q60022",questId="lab_q60022",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2658.126,139.3819,-2146.524),radius=4},
-  {questName="quest_q52030",questId="quest_q52030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1889.494,332.666,546.761),radius=5},
-  {questName="quest_q52010",questId="quest_q52010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1388.719,299.004,1976.527),radius=6},
-  {questName="quest_q52040",questId="quest_q52040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1589.128,511.561,-2113.037),radius=5},
-  {questName="quest_q52020",questId="quest_q52020",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-380.063,-2.53,490.478),radius=5},
-  {questName="quest_q52050",questId="quest_q52050",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(672.542,-3.727,108.875),radius=6},
-  {questName="quest_q52070",questId="quest_q52070",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2364.716,56.688,314.611),radius=5},
-  {questName="quest_q52060",questId="quest_q52060",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1156.773,-12.097,1524.507),radius=5},
-  {questName="quest_q52080",questId="quest_q52080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(793.002,347.536,255.957),radius=5},
-  {questName="quest_q52090",questId="quest_q52090",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1722.589,152.294,-2079.907),radius=5},
-  {questName="quest_q52100",questId="quest_q52100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(810.898,-11.701,1194.177),radius=5},
-  {questName="quest_q52130",questId="quest_q52130",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1836.664,358.543,-326.481),radius=6},
-  {questName="quest_q52110",questId="quest_q52110",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-1007.882,-14.2,-231.401),radius=5},
-  {questName="quest_q52120",questId="quest_q52120",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(840.141,4.947,-130.741),radius=5},
-  {questName="quest_q52140",questId="quest_q52140",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-608.622,278.374,1694.876),radius=5},
-  {questName="outland_q99071",questId="quest_q99071",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-648.583,-18.483,1032.586),radius=5},
-  {questName="sovietBase_q99070",questId="quest_q99070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2127.887,436.594,-1564.366),radius=5},
-  {questName="tent_q99072",questId="quest_q99072",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1761.536,310.333,806.76),radius=5},
-  {questName="outland_q40010",questId="outland_q40010",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(222.904,20.496,-932.784),radius=5},
-  {questName="mtbs_q99011",questId="mtbs_q99011",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special,isImportant=true},
-  {questName="cliffTown_q99080",questId="cliffTown_q99080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(530.911,335.119,29.67),radius=5},
-  {questName="mtbs_q99050",questId="mtbs_q99050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Develop,plntId=TppDefine.PLNT_DEFINE.Common1,isImportant=true},
-  {questName="quest_q52035",questId="quest_q52035",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(730.943,320.818,88.148),radius=5},
-  {questName="quest_q52025",questId="quest_q52025",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-608.622,278.374,1694.876),radius=5},
-  {questName="quest_q52015",questId="quest_q52015",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1836.664,358.543,-326.481),radius=6},
-  {questName="quest_q52075",questId="quest_q52075",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1349.26,11.259,285.945),radius=5},
-  {questName="quest_q52065",questId="quest_q52065",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(811.036,-11.657,1193.033),radius=5},
-  {questName="quest_q52045",questId="quest_q52045",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1722.589,152.294,-2079.907),radius=5},
-  {questName="quest_q52055",questId="quest_q52055",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-350.247,-2.555,-190.417),radius=5},
-  {questName="quest_q52095",questId="quest_q52095",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2429.92,61.019,189.081),radius=6},
-  {questName="quest_q52085",questId="quest_q52085",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1898.048,316.223,610.601),radius=5},
-  {questName="quest_q52105",questId="quest_q52105",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(672.542,-3.727,108.875),radius=5},
-  {questName="quest_q52135",questId="quest_q52135",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1393.775,299.887,1910.528),radius=5},
-  {questName="quest_q52115",questId="quest_q52115",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-775.086,-3.786,563.539),radius=6},
-  {questName="quest_q52125",questId="quest_q52125",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1156.773,-12.097,1524.507),radius=6},
-  {questName="quest_q52145",questId="quest_q52145",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1589.128,511.561,-2113.037),radius=5},
-  {questName="tent_q71010",questId="quest_q71010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1759.032,310.695,806.245),radius=5},
-  {questName="savannah_q71300",questId="quest_q71300",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(803.255,-11.806,1225.636),radius=5},
-  {questName="field_q71020",questId="quest_q71020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(421.778,269.679,2207.088),radius=5},
-  {questName="lab_q71600",questId="quest_q71600",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2522.474,100.128,-896.065),radius=5},
-  {questName="tent_q71030",questId="quest_q71030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-859.822,301.749,1954.213),radius=5},
-  {questName="sovietBase_q71070",questId="quest_q71070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-675.085,533.228,-1482.026),radius=5},
-  {questName="cliffTown_q71050",questId="quest_q71050",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(527.023,328.63,50),radius=5},
-  {questName="lab_q71700",questId="quest_q71700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2746.635,200.042,-2401.35),radius=5},
-  {questName="field_q71090",questId="quest_q71090",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(474.7,322.281,1062.864),radius=5},
-  {questName="waterway_q71040",questId="quest_q71040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1490.294,396.138,-792.581),radius=5},
-  {questName="fort_q71080",questId="quest_q71080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2080.718,456.726,-1927.582),radius=5},
-  {questName="cliffTown_q71060",questId="quest_q71060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(782.651,463.722,-1027.08),radius=5},
-  {questName="diamond_q71500",questId="quest_q71500",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1518,145,-2115),radius=5},
-  {questName="banana_q71400",questId="quest_q71400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(278.127,42.996,-1232.378),radius=5},
-  {questName="outland_q71200",questId="quest_q71200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-594.489,-17.482,1095.318),radius=5},
-  {questName="sovietBase_q99030",questId="sovietBase_q99030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2199.997,456.352,-1581.944),radius=6,isImportant=true},
-  {questName="tent_q99040",questId="tent_q99040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1762.503,310.288,802.482),radius=5,isImportant=true},
-  {questName="outland_q20913",questId="quest_q20913",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-958.532,-14.1,-224.044),radius=5,isImportant=true},
-  {questName="lab_q20914",questId="quest_q20914",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2747.504,200.042,-2401.418),radius=5,isImportant=true},
-  {questName="sovietBase_q20912",questId="quest_q20912",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1573.917,369.848,-321.113),radius=5,isImportant=true},
-  {questName="tent_q20910",questId="quest_q20910",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-865.471,300.445,1949.157),radius=5,isImportant=true},
-  {questName="fort_q20911",questId="quest_q20911",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2181.73,470.912,-1815.881),radius=5,isImportant=true},
-  {questName="waterway_q99012",questId="waterway_q99012",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1335.904,398.264,-739.165),radius=5,isImportant=true},
-  {questName="mtbs_q42010",questId="mtbs_q42010",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Command,plntId=TppDefine.PLNT_DEFINE.Special},
-  {questName="mtbs_q42020",questId="mtbs_q42020",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Develop,plntId=TppDefine.PLNT_DEFINE.Special},
-  {questName="mtbs_q42030",questId="mtbs_q42030",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Support,plntId=TppDefine.PLNT_DEFINE.Special},
-  {questName="mtbs_q42040",questId="mtbs_q42040",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.BaseDev,plntId=TppDefine.PLNT_DEFINE.Special},
-  {questName="mtbs_q42060",questId="mtbs_q42060",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Spy,plntId=TppDefine.PLNT_DEFINE.Special},
-  {questName="mtbs_q42050",questId="mtbs_q42050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special},
-  {questName="mtbs_q42070",questId="mtbs_q42070",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special}
+  --[[001--]]{questName="ruins_q19010",questId="ruins_q19010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1622.974,322.257,1062.973),radius=5},
+  --[[XXX--]]{questName="commFacility_q19013",questId="commFacility_q19013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1589.157,352.634,47.628),radius=5},
+  --[[XXX--]]{questName="outland_q19011",questId="outland_q19011",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(222.113,20.445,-930.962),radius=5},
+  --[[XXX--]]{questName="hill_q19012",questId="hill_q19012",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1910.658,59.872,-231.274),radius=5},
+  --[[XXX--]]{questName="ruins_q60115",questId="quest_q60115",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(501.702,321.852,1194.651),radius=4.5},
+  --[[XXX--]]{questName="sovietBase_q60110",questId="quest_q60110",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-719.57,536.851,-1571.775),radius=4.5},
+  --[[XXX--]]{questName="citadel_q60112",questId="quest_q60112",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(785.013,473.162,-916.954),radius=4.5},
+  --[[XXX--]]{questName="outland_q60113",questId="quest_q60113",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-281.612,-8.36,751.687),radius=4.5},
+  --[[XXX--]]{questName="pfCamp_q60114",questId="quest_q60114",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(712.931,-3.225,1221.926),radius=4.5},
+  --[[010--]]{questName="sovietBase_q60111",questId="quest_q60111",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2330.799,438.515,-1568.261),radius=4.5},
+  --[[XXX--]]{questName="tent_q10010",questId="tent_q10010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1426.164,319.449,1053.029),radius=5.5},
+  --[[XXX--]]{questName="field_q10020",questId="field_q10020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(574.394,320.805,1091.39),radius=5},
+  --[[XXX--]]{questName="fort_q10080",questId="fort_q10080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2144.585,459.984,-1764.566),radius=5},
+  --[[XXX--]]{questName="cliffTown_q10050",questId="cliffTown_q10050",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(545.646,339.103,7.983),radius=5},
+  --[[XXX--]]{questName="waterway_q10040",questId="waterway_q10040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1200,399,-660),radius=5},
+  --[[XXX--]]{questName="commFacility_q10060",questId="commFacility_q10060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1580.025,346.609,47.889),radius=5},
+  --[[XXX--]]{questName="pfCamp_q10200",questId="pfCamp_q10200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1830.153,-12.065,1217.415),radius=5},
+  --[[XXX--]]{questName="outland_q10100",questId="outland_q10100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-1117,-22,-250),radius=5},
+  --[[XXX--]]{questName="savannah_q10300",questId="savannah_q10300",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(352.291,-5.991,.927),radius=5},
+  --[[020--]]{questName="banana_q10500",questId="banana_q10500",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(846.97,36.452,-917.762),radius=5},
+  --[[XXX--]]{questName="hill_q10400",questId="hill_q10400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2155.126,56.012,392.11),radius=5},
+  --[[XXX--]]{questName="diamond_q10600",questId="diamond_q10600",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1611.429,128.189,-848.904),radius=5},
+  --[[XXX--]]{questName="ruins_q10030",questId="ruins_q10030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1301.97,331.741,1746.641),radius=5},
+  --[[XXX--]]{questName="sovietBase_q10070",questId="sovietBase_q10070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2081.274,436.152,-1532.619),radius=5},
+  --[[XXX--]]{questName="lab_q10700",questId="lab_q10700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2695.907,154.625,-2304.778),radius=5},
+  --[[XXX--]]{questName="citadel_q10090",questId="citadel_q10090",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1258.72,598.68,-3055.925),radius=5},
+  --[[XXX--]]{questName="quest_q20065",questId="quest_q20065",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1481.748,359.7492,467.3845),radius=4.5},
+  --[[XXX--]]{questName="quest_q20025",questId="quest_q20025",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(419.7284,270.3819,2206.412),radius=4.5},
+  --[[XXX--]]{questName="quest_q20075",questId="quest_q20075",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2200.667,443.142,-1632.121),radius=5},
+  --[[030--]]{questName="quest_q20805",questId="quest_q20805",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1876.726,321.956,-426.263),radius=4.5},
+  --[[XXX--]]{questName="quest_q20905",questId="quest_q20905",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1807.693,468.119,-1232.137),radius=4.5},
+  --[[XXX--]]{questName="quest_q20305",questId="quest_q20305",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(303.023,-5.295,401.582),radius=5},
+  --[[XXX--]]{questName="quest_q20035",questId="quest_q20035",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1444.029,332.4536,1493.478),radius=4.5},
+  --[[XXX--]]{questName="quest_q23005",questId="quest_q23005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(269.693,43.457,-1208.378),radius=4.5},
+  --[[XXX--]]{questName="quest_q20045",questId="quest_q20045",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1721.014,349.7935,-300.9322),radius=4.5},
+  --[[XXX--]]{questName="quest_q21005",questId="quest_q21005",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-902.816,288.046,1905.899),radius=4.5},
+  --[[XXX--]]{questName="quest_q20105",questId="quest_q20105",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-318.246,-13.006,1078.101),radius=4},
+  --[[XXX--]]{questName="quest_q24005",questId="quest_q24005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2527.301,71.168,-817.188),radius=4.5},
+  --[[XXX--]]{questName="quest_q20505",questId="quest_q20505",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(592.412,52.144,-955.067),radius=4},
+  --[[040--]]{questName="quest_q20605",questId="quest_q20605",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1532.148,127.692,-1296.662),radius=5},
+  --[[XXX--]]{questName="quest_q25005",questId="quest_q25005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(967.334,-11.938,1269.883),radius=4.5},
+  --[[XXX--]]{questName="quest_q27005",questId="quest_q27005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2073.421,51.254,355.372),radius=4.5},
+  --[[XXX--]]{questName="quest_q26005",questId="quest_q26005",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1728.982,155.168,-1869.883),radius=4.5},
+  --[[XXX--]]{questName="quest_q20055",questId="quest_q20055",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(784.1397,474.0518,-1008.116),radius=4},
+  --[[XXX--]]{questName="quest_q22005",questId="quest_q22005",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1326.552,598.564,-3041.07),radius=4.5},
+  --[[XXX--]]{questName="quest_q20405",questId="quest_q20405",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2172.657,56.106,377.634),radius=4},
+  --[[XXX--]]{questName="field_q30010",questId="field_q30010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(516.088,321.572,1065.328),radius=5},
+  --[[XXX--]]{questName="waterway_q39010",questId="waterway_q39010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-473.987,417.258,-496.137),radius=7},
+  --[[XXX--]]{questName="lab_q39011",questId="lab_q39011",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2656.23,144.117,-2173.246),radius=7},
+  --[[050--]]{questName="pfCamp_q39012",questId="pfCamp_q39012",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1367.551,-3.12,1892.457),radius=7},
+  --[[XXX--]]{questName="commFacility_q80060",questId="commFacility_q80060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1385.748,368,-23.469),radius=5},
+  --[[XXX--]]{questName="field_q80020",questId="field_q80020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(482.031,286.844,2474.655),radius=5},
+  --[[XXX--]]{questName="outland_q80100",questId="outland_q80100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-454.016,3.955,977.738),radius=5},
+  --[[XXX--]]{questName="pfCamp_q80200",questId="pfCamp_q80200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(338.505,1.002,1746.528),radius=5},
+  --[[XXX--]]{questName="diamond_q80600",questId="diamond_q80600",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1460.408,121.347,-1411.282),radius=5},
+  --[[XXX--]]{questName="hill_q80400",questId="hill_q80400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2566.009,68,-200.753),radius=5},
+  --[[XXX--]]{questName="tent_q80010",questId="tent_q80010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1396.746,286.758,1009.375),radius=5},
+  --[[XXX--]]{questName="lab_q80700",questId="lab_q80700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2702.945,127.026,-1972.265),radius=5},
+  --[[XXX--]]{questName="fort_q80080",questId="fort_q80080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1408.371,500.486,-1300.667),radius=5},
+  --[[060--]]{questName="waterway_q80040",questId="waterway_q80040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1839.279,358.371,-339.326),radius=5},
+  --[[XXX--]]{questName="quest_q20015",questId="quest_q20015",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1764.669,311.1947,805.5405),radius=4.5},
+  --[[XXX--]]{questName="quest_q20085",questId="quest_q20085",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2154.21,458.245,-1782.244),radius=4.5},
+  --[[XXX--]]{questName="quest_q20205",questId="quest_q20205",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(911.094,-3.444,1072.21),radius=6},
+  --[[XXX--]]{questName="quest_q20705",questId="quest_q20705",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2643.892,143.728,-2179.943),radius=7},
+  --[[XXX--]]{questName="quest_q20095",questId="quest_q20095",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1216.737,609.074,-3102.734),radius=5.5},
+  --[[XXX--]]{questName="tent_q11010",questId="tent_q11010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1058.028,290.648,1472.578),radius=5},
+  --[[XXX--]]{questName="tent_q11020",questId="tent_q11020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1143.261,322.876,839.478),radius=5},
+  --[[XXX--]]{questName="waterway_q11030",questId="waterway_q11030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1347.736,397.481,-729.448),radius=5},
+  --[[XXX--]]{questName="cliffTown_q11040",questId="cliffTown_q11040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(369.861,413.892,-905.375),radius=5},
+  --[[070--]]{questName="savannah_q11400",questId="savannah_q11400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1200.66,7.889,113.637),radius=5},
+  --[[XXX--]]{questName="pfCamp_q11200",questId="pfCamp_q11200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1555.195,-12.034,1790.219),radius=5},
+  --[[XXX--]]{questName="commFacility_q11080",questId="commFacility_q11080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1475.388,344.972,13.41),radius=5},
+  --[[XXX--]]{questName="fort_q11060",questId="fort_q11060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1812.198,465.938,-1241.909),radius=5},
+  --[[XXX--]]{questName="outland_q11090",questId="outland_q11090",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-386.984,9.648,762.663),radius=5},
+  --[[XXX--]]{questName="banana_q11600",questId="banana_q11600",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(563.844,77.95,-1070.378),radius=5},
+  --[[XXX--]]{questName="cliffTown_q11050",questId="cliffTown_q11050",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2383.08,86.157,-1125.214),radius=5},
+  --[[XXX--]]{questName="hill_q11500",questId="hill_q11500",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2342.049,68.132,-104.587),radius=5},
+  --[[XXX--]]{questName="savannah_q11300",questId="savannah_q11300",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(965.708,-4.035,287.023),radius=5},
+  --[[XXX--]]{questName="banana_q11700",questId="banana_q11700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(713.795,33.409,-904.592),radius=5},
+  --[[080--]]{questName="fort_q11070",questId="fort_q11070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2194.519,429.075,-1284.068),radius=5},
+  --[[XXX--]]{questName="outland_q11100",questId="outland_q11100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-552.513,-.011,-197.752),radius=5},
+  --[[XXX--]]{questName="sovietBase_q99020",questId="sovietBase_q99020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-716.5531,536.7278,-1485.517),radius=5,isImportant=true},
+  --[[XXX--]]{questName="ruins_q60010",questId="ruins_q60010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1331.732,295.46,2164.405),radius=4},
+  --[[XXX--]]{questName="tent_q60011",questId="tent_q60011",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-513.1647,372.9764,1148.782),radius=5},
+  --[[XXX--]]{questName="outland_q60024",questId="outland_q60024",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-1205.26,-21.20666,129.0079),radius=5},
+  --[[XXX--]]{questName="fort_q60013",questId="fort_q60013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1921.452,456.3248,-1253.83),radius=4},
+  --[[XXX--]]{questName="hill_q60021",questId="hill_q60021",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2151.132,70.83097,-116.7761),radius=4.5},
+  --[[XXX--]]{questName="pfCamp_q60020",questId="pfCamp_q60020",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1555.736,-8.822165,1725.071),radius=4},
+  --[[XXX--]]{questName="cliffTown_q60012",questId="cliffTown_q60012",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(369.4612,412.6812,-844.1393),radius=4},
+  --[[090--]]{questName="banana_q60023",questId="banana_q60023",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(646.064,103.2225,-1122.37),radius=4},
+  --[[XXX--]]{questName="sovietBase_q60014",questId="sovietBase_q60014",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1440.167,415.0882,-1282.796),radius=4},
+  --[[XXX--]]{questName="lab_q60022",questId="lab_q60022",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2658.126,139.3819,-2146.524),radius=4},
+  --[[XXX--]]{questName="quest_q52030",questId="quest_q52030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1889.494,332.666,546.761),radius=5},
+  --[[XXX--]]{questName="quest_q52010",questId="quest_q52010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1388.719,299.004,1976.527),radius=6},
+  --[[XXX--]]{questName="quest_q52040",questId="quest_q52040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1589.128,511.561,-2113.037),radius=5},
+  --[[XXX--]]{questName="quest_q52020",questId="quest_q52020",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-380.063,-2.53,490.478),radius=5},
+  --[[XXX--]]{questName="quest_q52050",questId="quest_q52050",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(672.542,-3.727,108.875),radius=6},
+  --[[XXX--]]{questName="quest_q52070",questId="quest_q52070",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2364.716,56.688,314.611),radius=5},
+  --[[XXX--]]{questName="quest_q52060",questId="quest_q52060",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1156.773,-12.097,1524.507),radius=5},
+  --[[100--]]{questName="quest_q52080",questId="quest_q52080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(793.002,347.536,255.957),radius=5},
+  --[[XXX--]]{questName="quest_q52090",questId="quest_q52090",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1722.589,152.294,-2079.907),radius=5},
+  --[[XXX--]]{questName="quest_q52100",questId="quest_q52100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(810.898,-11.701,1194.177),radius=5},
+  --[[XXX--]]{questName="quest_q52130",questId="quest_q52130",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1836.664,358.543,-326.481),radius=6},
+  --[[XXX--]]{questName="quest_q52110",questId="quest_q52110",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-1007.882,-14.2,-231.401),radius=5},
+  --[[XXX--]]{questName="quest_q52120",questId="quest_q52120",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(840.141,4.947,-130.741),radius=5},
+  --[[XXX--]]{questName="quest_q52140",questId="quest_q52140",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-608.622,278.374,1694.876),radius=5},
+  --[[XXX--]]{questName="outland_q99071",questId="quest_q99071",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-648.583,-18.483,1032.586),radius=5},
+  --[[XXX--]]{questName="sovietBase_q99070",questId="quest_q99070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2127.887,436.594,-1564.366),radius=5},
+  --[[XXX--]]{questName="tent_q99072",questId="quest_q99072",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1761.536,310.333,806.76),radius=5},
+  --[[110--]]{questName="outland_q40010",questId="outland_q40010",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(222.904,20.496,-932.784),radius=5},
+  --[[XXX--]]{questName="mtbs_q99011",questId="mtbs_q99011",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special,isImportant=true},
+  --[[XXX--]]{questName="cliffTown_q99080",questId="cliffTown_q99080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(530.911,335.119,29.67),radius=5},
+  --[[XXX--]]{questName="mtbs_q99050",questId="mtbs_q99050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Develop,plntId=TppDefine.PLNT_DEFINE.Common1,isImportant=true},
+  --[[XXX--]]{questName="quest_q52035",questId="quest_q52035",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(730.943,320.818,88.148),radius=5},
+  --[[XXX--]]{questName="quest_q52025",questId="quest_q52025",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-608.622,278.374,1694.876),radius=5},
+  --[[XXX--]]{questName="quest_q52015",questId="quest_q52015",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1836.664,358.543,-326.481),radius=6},
+  --[[XXX--]]{questName="quest_q52075",questId="quest_q52075",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1349.26,11.259,285.945),radius=5},
+  --[[XXX--]]{questName="quest_q52065",questId="quest_q52065",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(811.036,-11.657,1193.033),radius=5},
+  --[[XXX--]]{questName="quest_q52045",questId="quest_q52045",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1722.589,152.294,-2079.907),radius=5},
+  --[[120--]]{questName="quest_q52055",questId="quest_q52055",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-350.247,-2.555,-190.417),radius=5},
+  --[[XXX--]]{questName="quest_q52095",questId="quest_q52095",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2429.92,61.019,189.081),radius=6},
+  --[[XXX--]]{questName="quest_q52085",questId="quest_q52085",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1898.048,316.223,610.601),radius=5},
+  --[[XXX--]]{questName="quest_q52105",questId="quest_q52105",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(672.542,-3.727,108.875),radius=5},
+  --[[XXX--]]{questName="quest_q52135",questId="quest_q52135",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1393.775,299.887,1910.528),radius=5},
+  --[[XXX--]]{questName="quest_q52115",questId="quest_q52115",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-775.086,-3.786,563.539),radius=6},
+  --[[XXX--]]{questName="quest_q52125",questId="quest_q52125",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1156.773,-12.097,1524.507),radius=6},
+  --[[XXX--]]{questName="quest_q52145",questId="quest_q52145",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1589.128,511.561,-2113.037),radius=5},
+  --[[XXX--]]{questName="tent_q71010",questId="quest_q71010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1759.032,310.695,806.245),radius=5},
+  --[[XXX--]]{questName="savannah_q71300",questId="quest_q71300",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(803.255,-11.806,1225.636),radius=5},
+  --[[130--]]{questName="field_q71020",questId="quest_q71020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(421.778,269.679,2207.088),radius=5},
+  --[[XXX--]]{questName="lab_q71600",questId="quest_q71600",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2522.474,100.128,-896.065),radius=5},
+  --[[XXX--]]{questName="tent_q71030",questId="quest_q71030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-859.822,301.749,1954.213),radius=5},
+  --[[XXX--]]{questName="sovietBase_q71070",questId="quest_q71070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-675.085,533.228,-1482.026),radius=5},
+  --[[XXX--]]{questName="cliffTown_q71050",questId="quest_q71050",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(527.023,328.63,50),radius=5},
+  --[[XXX--]]{questName="lab_q71700",questId="quest_q71700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2746.635,200.042,-2401.35),radius=5},
+  --[[XXX--]]{questName="field_q71090",questId="quest_q71090",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(474.7,322.281,1062.864),radius=5},
+  --[[XXX--]]{questName="waterway_q71040",questId="quest_q71040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1490.294,396.138,-792.581),radius=5},
+  --[[XXX--]]{questName="fort_q71080",questId="quest_q71080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2080.718,456.726,-1927.582),radius=5},
+  --[[XXX--]]{questName="cliffTown_q71060",questId="quest_q71060",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(782.651,463.722,-1027.08),radius=5},
+  --[[140--]]{questName="diamond_q71500",questId="quest_q71500",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1518,145,-2115),radius=5},
+  --[[XXX--]]{questName="banana_q71400",questId="quest_q71400",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(278.127,42.996,-1232.378),radius=5},
+  --[[XXX--]]{questName="outland_q71200",questId="quest_q71200",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-594.489,-17.482,1095.318),radius=5},
+  --[[XXX--]]{questName="sovietBase_q99030",questId="sovietBase_q99030",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-2199.997,456.352,-1581.944),radius=6,isImportant=true},
+  --[[XXX--]]{questName="tent_q99040",questId="tent_q99040",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1762.503,310.288,802.482),radius=5,isImportant=true},
+  --[[XXX--]]{questName="outland_q20913",questId="quest_q20913",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-958.532,-14.1,-224.044),radius=5,isImportant=true},
+  --[[XXX--]]{questName="lab_q20914",questId="quest_q20914",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2747.504,200.042,-2401.418),radius=5,isImportant=true},
+  --[[XXX--]]{questName="sovietBase_q20912",questId="quest_q20912",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1573.917,369.848,-321.113),radius=5,isImportant=true},
+  --[[XXX--]]{questName="tent_q20910",questId="quest_q20910",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-865.471,300.445,1949.157),radius=5,isImportant=true},
+  --[[XXX--]]{questName="fort_q20911",questId="quest_q20911",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2181.73,470.912,-1815.881),radius=5,isImportant=true},
+  --[[150--]]{questName="waterway_q99012",questId="waterway_q99012",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1335.904,398.264,-739.165),radius=5,isImportant=true},
+  --[[XXX--]]{questName="mtbs_q42010",questId="mtbs_q42010",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Command,plntId=TppDefine.PLNT_DEFINE.Special},
+  --[[XXX--]]{questName="mtbs_q42020",questId="mtbs_q42020",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Develop,plntId=TppDefine.PLNT_DEFINE.Special},
+  --[[XXX--]]{questName="mtbs_q42030",questId="mtbs_q42030",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Support,plntId=TppDefine.PLNT_DEFINE.Special},
+  --[[XXX--]]{questName="mtbs_q42040",questId="mtbs_q42040",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.BaseDev,plntId=TppDefine.PLNT_DEFINE.Special},
+  --[[XXX--]]{questName="mtbs_q42060",questId="mtbs_q42060",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Spy,plntId=TppDefine.PLNT_DEFINE.Special},
+  --[[XXX--]]{questName="mtbs_q42050",questId="mtbs_q42050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special},
+  --[[XXX--]]{questName="mtbs_q42070",questId="mtbs_q42070",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special}
 }
 local g={
   ruins_q19010={radioNameFirst="f1000_rtrg0700"},
@@ -1071,14 +1073,14 @@ end
 --local S=256
 --local c=0
 --local T=0
---local m="quest_block"
+local defaultQuestBlockName=m--"quest_block"
 --local d="QStep_Clear"
 local StrCode32=N
 local StrCode32Table=C
 local IsTypeFunc=r
 local IsTypeTable=o
 local IsTypeString=I
---local i=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
+local BLOCKSTATE=i--TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
 --local t=TppDefine.Enum{"MISSION","FREE","HELI"}
 --local s=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
 --local D={"tent","field","ruins","waterway","cliffTown","commFacility","sovietBase","fort","citadel"}
@@ -1387,21 +1389,22 @@ function this.Failure(t)
 end
 function this.Update(t)
   if t==nil then
-    t=e.GetCurrentQuestName()
+    t=this.GetCurrentQuestName()
     if t==nil then
       return
     end
   end
-  local n=e.GetQuestIndex(t)
+  local n=this.GetQuestIndex(t)
   if n==nil then
     return
   end
   local o,i=TppEnemy.GetQuestCount()
   local n,a=TppGimmick.GetQuestShootingPracticeCount()
   if o>0 and i>1 then
-    e.ShowAnnounceLog(s.UPDATE,t,o,i)
+    this.ShowAnnounceLog(s.UPDATE,t,o,i)
   elseif n>0 and a>1 then
-    e.UpdateShootingPracticeUi()e.ShowAnnounceLog(s.UPDATE,t,n,a)
+    this.UpdateShootingPracticeUi()
+    this.ShowAnnounceLog(s.UPDATE,t,n,a)
   end
 end
 function this.Retry(t)
@@ -1438,25 +1441,25 @@ function this.SetClearFlag(e)
   end
 end
 function this.ReserveOpenQuestDynamicUpdate()
-mvars.qst_reserveDynamicQuestOpen=true
+  mvars.qst_reserveDynamicQuestOpen=true
 end
 function this.FadeOutAndDeativateQuestBlock()
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeOutOnOutOfMissionArea")
 end
 function this.SetQuestBlockName(e)
-mvars.qst_blockName=e
+  mvars.qst_blockName=e
 end
 function this.GetQuestBlockName(e)
   return mvars.qst_blockName
 end
 function this.OnAllocate(t)
-e.SetDefaultQuestBlock()
+  e.SetDefaultQuestBlock()
 end
 function this.Init(t)
-e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
 function this.OnReload(t)
-e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 end
 function this.Messages()
   local t=e.DeactiveQuestAreaTrapMessages()
@@ -1567,80 +1570,80 @@ function this.RegisterQuestList(t)
   end
   return mvars.qst_questList
 end
-function this.RegisterQuestPackList(t,s)
-  if not o(t)then
+function this.RegisterQuestPackList(questPackList,blockName)--tex ex TppQuestList.questPackList,
+  if not IsTypeTable(questPackList)then
     return
-  end
-  s=s or m
-  local o=TppLocation.IsMotherBase()
-  local a={}
-  for t,n in pairs(t)do
-    a[t]={}
-    for s,n in pairs(n)do
-      if type(n)=="number"then
-        table.insert(a[t],n)
-      elseif s=="faceIdList"then
-        local e=TppSoldierFace.GetFaceFpkFileCodeList{face=n,useHair=o}
-        if e~=nil then
-          for n,e in ipairs(e)do
-            table.insert(a[t],e)
-          end
+end
+blockName=blockName or defaultQuestBlockName
+local isMotherBase=TppLocation.IsMotherBase()
+local a={}
+for i,questPack in pairs(questPackList)do
+  a[i]={}
+  for s,value in pairs(questPack)do
+    if type(value)=="number"then
+      table.insert(a[i],value)
+    elseif s=="faceIdList"then
+      local e=TppSoldierFace.GetFaceFpkFileCodeList{face=value,useHair=isMotherBase}
+      if e~=nil then
+        for n,e in ipairs(e)do
+          table.insert(a[i],e)
         end
-      elseif s=="bodyIdList"then
-        local e=TppSoldierFace.GetBodyFpkFileCodeList{body=n}
-        if e~=nil then
-          for n,e in ipairs(e)do
-            table.insert(a[t],e)
-          end
-        end
-      elseif s=="randomFaceList"then
-        if e.IsRandomFaceQuestName(t)then
-          if n.race and n.gender then
-            if TppMission.IsMissionStart()then
-              local a=(math.random(0,65535)*65536)+math.random(1,65535)
-              local a=TppSoldierFace.CreateFaceTable{race=n.race,gender=n.gender,needCount=1,maxUsedFovaCount=1,seed=a}
-              if a~=nil then
-                for a,n in ipairs(a)do
-                  e.SetRandomFaceId(t,n)
-                end
-              else
-                if n.gender==TppDefine.QUEST_GENDER_TYPE.MAN then
-                  e.SetRandomFaceId(t,TppDefine.QUEST_FACE_ID_LIST.DEFAULT_MAN)
-                elseif n.gender==TppDefine.QUEST_GENDER_TYPE.WOMAN then
-                  e.SetRandomFaceId(t,TppDefine.QUEST_FACE_ID_LIST.DEFAULT_WOMAN)
-                end
-              end
-            end
-            local e=e.GetRandomFaceId(t)
-            local e={e}
-            local e=TppSoldierFace.GetFaceFpkFileCodeList{face=e}
-            if e~=nil then
-              for n,e in ipairs(e)do
-                table.insert(a[t],e)
-              end
-            end
-          end
-        end
-      else
-        table.insert(a[t],n)
       end
+    elseif s=="bodyIdList"then
+      local bodyFpkFileCodeList=TppSoldierFace.GetBodyFpkFileCodeList{body=value}
+      if bodyFpkFileCodeList~=nil then
+        for n,bodyFpkFileCode in ipairs(bodyFpkFileCodeList)do
+          table.insert(a[i],bodyFpkFileCode)
+        end
+      end
+    elseif s=="randomFaceList"then
+      if this.IsRandomFaceQuestName(i)then
+        if value.race and value.gender then
+          if TppMission.IsMissionStart()then
+            local a=(math.random(0,65535)*65536)+math.random(1,65535)
+            local faceTable=TppSoldierFace.CreateFaceTable{race=value.race,gender=value.gender,needCount=1,maxUsedFovaCount=1,seed=a}
+            if faceTable~=nil then
+              for a,face in ipairs(faceTable)do
+                this.SetRandomFaceId(i,face)
+              end
+            else
+              if value.gender==TppDefine.QUEST_GENDER_TYPE.MAN then
+                this.SetRandomFaceId(i,TppDefine.QUEST_FACE_ID_LIST.DEFAULT_MAN)
+              elseif value.gender==TppDefine.QUEST_GENDER_TYPE.WOMAN then
+                this.SetRandomFaceId(i,TppDefine.QUEST_FACE_ID_LIST.DEFAULT_WOMAN)
+              end
+            end
+          end
+          local randomFaceId=this.GetRandomFaceId(i)
+          local e={randomFaceId}
+          local faceFpkFileCodeList=TppSoldierFace.GetFaceFpkFileCodeList{face=e}
+          if faceFpkFileCodeList~=nil then
+            for n,faceFpkFileCode in ipairs(faceFpkFileCodeList)do
+              table.insert(a[i],faceFpkFileCode)
+            end
+          end
+        end
+      end
+    else
+      table.insert(a[i],value)
     end
   end
-  TppScriptBlock.RegisterCommonBlockPackList(s,a)
+end
+TppScriptBlock.RegisterCommonBlockPackList(blockName,a)
 end
 function this.SetDefaultQuestBlock()
-  mvars.qst_blockName=m
+  mvars.qst_blockName=defaultQuestBlockName
 end
-function this.InitializeQuestLoad(t)
-  local n=e.GetQuestBlockState()
-  if n==nil then
+function this.InitializeQuestLoad(clusterId)
+  local questBlockState=this.GetQuestBlockState()
+  if questBlockState==nil then
     return
   end
-  if vars.missionCode==30050 and t==nil then
+  if vars.missionCode==30050 and clusterId==nil then
     return
   end
   local n,a=Tpp.GetCurrentStageSmallBlockIndex()
-  e.UpdateQuestBlockStateAtNotLoaded(n,a,t)
+  this.UpdateQuestBlockStateAtNotLoaded(n,a,clusterId)
 end
 function this.InitializeQuestActiveStatus(n)
   local t=e.GetQuestBlockState()
@@ -1793,30 +1796,30 @@ function this.ShowAnnounceLogQuestOpen()
     e.ShowAnnounceLog(s.OPEN)
   end
 end
-function this.OnUpdateSmallBlockIndex(a,n,s)
-  local t=e.GetQuestBlockState()
-  if t==nil then
+function this.OnUpdateSmallBlockIndex(a,n,clusterId)
+  local questBlockState=this.GetQuestBlockState()
+  if questBlockState==nil then
     return
   end
-  local o=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
-  local l=ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING
-  local r=ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE
-  local i=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
+  local SCRIPT_BLOCK_STATE_EMPTY=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
+  local SCRIPT_BLOCK_STATE_PROCESSING=ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING
+  local SCRIPT_BLOCK_STATE_INACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE
+  local SCRIPT_BLOCK_STATE_ACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
   mvars.qst_invokeReserveOnActivate=false
-  if(t==o)or(t==l)then
+  if(questBlockState==SCRIPT_BLOCK_STATE_EMPTY)or(questBlockState==SCRIPT_BLOCK_STATE_PROCESSING)then
     if mvars.qst_reserveDynamicQuestOpen then
-      e.UpdateOpenQuest()
+      this.UpdateOpenQuest()
       mvars.qst_reserveDynamicQuestOpen=false
     end
-    e.UpdateQuestBlockStateAtNotLoaded(a,n,s)
-  elseif(t==r)then
-    e.UpdateQuestBlockStateAtInactive(a,n,s)
-  elseif(t==i)then
-    e.UpdateQuestBlockStateAtActive(a,n)
+    this.UpdateQuestBlockStateAtNotLoaded(a,n,clusterId)
+  elseif(questBlockState==SCRIPT_BLOCK_STATE_INACTIVE)then
+    this.UpdateQuestBlockStateAtInactive(a,n,clusterId)
+  elseif(questBlockState==SCRIPT_BLOCK_STATE_ACTIVE)then
+    this.UpdateQuestBlockStateAtActive(a,n)
   end
 end
 function this.OnUpdateClusterIndex(n)
-  local t=e.GetQuestBlockState()
+  local t=this.GetQuestBlockState()
   if t==nil then
     return
   end
@@ -1824,79 +1827,80 @@ function this.OnUpdateClusterIndex(n)
     e.UpdateOpenQuest()
     mvars.qst_reserveDynamicQuestOpen=false
   end
-  local e=e.UpdateQuestBlockStateAtNotLoaded(0,0,n)
+  local e=this.UpdateQuestBlockStateAtNotLoaded(0,0,n)
   mvars.qst_skipTerminateFlag=e
   return e
 end
-function this.UpdateQuestBlockStateAtNotLoaded(a,t,s)
+function this.UpdateQuestBlockStateAtNotLoaded(a,t,clusterId)
   if not mvars.qst_questList then
     return
   end
-  local n=e.GetCurrentQuestName()
-  local t=e.SearchQuestFromAllSpecifiedArea("loadArea",a,t,s)
-  if t==nil then
-    e.UnloadCurrentQuestBlock()
-    e.ClearCurrentQuestName()
-    e.ResetQuestStatus()
+  local currentQuestName=this.GetCurrentQuestName()
+  local questFromAllSpecifiedArea=this.SearchQuestFromAllSpecifiedArea("loadArea",a,t,clusterId)
+  if questFromAllSpecifiedArea==nil then
+    this.UnloadCurrentQuestBlock()
+    this.ClearCurrentQuestName()
+    this.ResetQuestStatus()
   end
-  if n then
-    local s=e.GetQuestBlockState()
-    local a=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
-    if t then
-      if(s==a or n~=t)then
-        e.SetNewQuestAndLoadQuestBlock(t)
+  if currentQuestName then
+    local questBlockState=this.GetQuestBlockState()
+    local SCRIPT_BLOCK_STATE_EMPTY=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
+    if questFromAllSpecifiedArea then
+      if(questBlockState==SCRIPT_BLOCK_STATE_EMPTY or currentQuestName~=questFromAllSpecifiedArea)then
+        this.SetNewQuestAndLoadQuestBlock(questFromAllSpecifiedArea)
       end
-      if(s~=a)and(n==t)then
-        mvars.qst_currentQuestTable=e.GetQuestTable(t)
+      if(questBlockState~=SCRIPT_BLOCK_STATE_EMPTY)and(currentQuestName==questFromAllSpecifiedArea)then
+        mvars.qst_currentQuestTable=this.GetQuestTable(questFromAllSpecifiedArea)
       end
     end
   else
-    if t then
-      e.SetNewQuestAndLoadQuestBlock(t)
+    if questFromAllSpecifiedArea then
+      this.SetNewQuestAndLoadQuestBlock(questFromAllSpecifiedArea)
     end
   end
-  return t
+  return questFromAllSpecifiedArea
 end
 function this.UpdateQuestBlockStateAtInactive(a,n)
-  local t=e.GetCurrentQuestTable()
-  if not e.IsInsideArea("loadArea",t,a,n)then
-    e.UnloadCurrentQuestBlock()
+  local currentQuestTable=this.GetCurrentQuestTable()
+  if not this.IsInsideArea("loadArea",currentQuestTable,a,n)then
+    this.UnloadCurrentQuestBlock()
     return
   end
-  if e.IsInsideArea("activeArea",t,a,n)then
-    if not e.IsInvoking()then
-      if e.IsInsideArea("invokeArea",t,a,n)then
+  if this.IsInsideArea("activeArea",currentQuestTable,a,n)then
+    if not this.IsInvoking()then
+      if this.IsInsideArea("invokeArea",currentQuestTable,a,n)then
         mvars.qst_invokeReserveOnActivate=true
       end
     end
-    mvars.qst_blockStateRequest=i.ACTIVATE
+    mvars.qst_blockStateRequest=BLOCKSTATE.ACTIVATE
     return
   end
 end
 function this.UpdateQuestBlockStateAtActive(t,n)
-  local a=e.GetCurrentQuestTable()
-  if not e.IsInsideArea("activeArea",a,t,n)then
-    if mvars.qst_blockStateRequest~=i.DEACTIVATING then
-      mvars.qst_blockStateRequest=i.DEACTIVATING
-      local e=e.ExecuteSystemCallback"OnOutOfAcitveArea"if not e then
-        mvars.qst_blockStateRequest=i.DEACTIVATE
+  local currentQuestTable=this.GetCurrentQuestTable()
+  if not this.IsInsideArea("activeArea",currentQuestTable,t,n)then
+    if mvars.qst_blockStateRequest~=BLOCKSTATE.DEACTIVATING then
+      mvars.qst_blockStateRequest=BLOCKSTATE.DEACTIVATING
+      local e=this.ExecuteSystemCallback"OnOutOfAcitveArea"
+      if not e then
+        mvars.qst_blockStateRequest=BLOCKSTATE.DEACTIVATE
       end
     end
     return
   end
-  if not e.IsInvoking()then
-    if e.IsInsideArea("invokeArea",a,t,n)then
-      e.Invoke()
+  if not this.IsInvoking()then
+    if this.IsInsideArea("invokeArea",currentQuestTable,t,n)then
+      this.Invoke()
     end
   end
 end
 function this.QuestBlockOnInitialize(t)
   local t=t.Messages
-  if r(t)then
+  if IsTypeFunc(t)then
     local e=t()
     mvars.qst_questScriptBlockMessageExecTable=Tpp.MakeMessageExecTable(e)
   end
-  e.MakeQuestStepMessageExecTable()
+  this.MakeQuestStepMessageExecTable()
   mvars.qst_skipTerminateFlag=nil
   mvars.qst_isRadioTarget=false
 end
@@ -1924,92 +1928,226 @@ function this._CanActivateQuest()
   end
   return true
 end
+
 function this.QuestBlockOnUpdate()
-  local t=e
-  local a=t.GetQuestBlockState()
-  if a==nil then
+  local this=this
+  local questBlockState=this.GetQuestBlockState()
+  if questBlockState==nil then
     return
   end
-  local n=ScriptBlock
-  local e=mvars
-  local s=e.qst_lastQuestBlockState
-  local o=n.SCRIPT_BLOCK_STATE_INACTIVE
-  local n=n.SCRIPT_BLOCK_STATE_ACTIVE
-  if e.qst_requestInitializeQuestActiveStatus then
-    t.InitializeQuestActiveStatus(e.qst_requestInitializeQuestActiveCluster)
+  local ScriptBlock=ScriptBlock
+  local mvars=mvars
+  local lastQuestBlockState=mvars.qst_lastQuestBlockState
+  local SCRIPT_BLOCK_STATE_INACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE
+  local SCRIPT_BLOCK_STATE_ACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
+  if mvars.qst_requestInitializeQuestActiveStatus then
+    this.InitializeQuestActiveStatus(mvars.qst_requestInitializeQuestActiveCluster)
     return
   end
-  if a==o then
-    if s==n then
-      t._DoDeactivate()
+  if questBlockState==SCRIPT_BLOCK_STATE_INACTIVE then
+    if lastQuestBlockState==SCRIPT_BLOCK_STATE_ACTIVE then
+      this._DoDeactivate()
     end
-    if e.qst_blockStateRequest==i.ACTIVATE then
-      if t._CanActivateQuest()then
-        t.ActivateCurrentQuestBlock()t.ClearBlockStateRequest()
+    if mvars.qst_blockStateRequest==BLOCKSTATE.ACTIVATE then
+      if this._CanActivateQuest()then
+        this.ActivateCurrentQuestBlock()
+        this.ClearBlockStateRequest()
       end
     end
-    e.qst_lastInactiveToActive=false
-  elseif a==n then
-    if not t._CanActivateQuest()then
+    mvars.qst_lastInactiveToActive=false
+  elseif questBlockState==SCRIPT_BLOCK_STATE_ACTIVE then
+    if not this._CanActivateQuest()then
       return
     end
-    local n
-    if t.IsInvoking()then
-      n=t.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
+    local questStepTable
+    if this.IsInvoking()then
+      questStepTable=this.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
     end
-    if e.qst_lastInactiveToActive then
-      e.qst_lastInactiveToActive=false
-      e.qst_deactivated=false
-      t.ExecuteSystemCallback"OnActivate"e.qst_allocated=true
-      if e.qst_invokeReserveOnActivate then
-        e.qst_invokeReserveOnActivate=false
-        t.Invoke()n=t.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
+    if mvars.qst_lastInactiveToActive then
+      mvars.qst_lastInactiveToActive=false
+      mvars.qst_deactivated=false
+      this.ExecuteSystemCallback"OnActivate"
+      mvars.qst_allocated=true
+      if mvars.qst_invokeReserveOnActivate then
+        mvars.qst_invokeReserveOnActivate=false
+        this.Invoke()
+        questStepTable=this.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
       end
-      if n and r(n.OnEnter)then
-        n.OnEnter(n)
+      if questStepTable and IsTypeFunc(questStepTable.OnEnter)then
+        questStepTable.OnEnter(questStepTable)
       end
     end
-    if(not s)or s<=o then
-      e.qst_lastInactiveToActive=true
+    if(not lastQuestBlockState)or lastQuestBlockState<=SCRIPT_BLOCK_STATE_INACTIVE then
+      mvars.qst_lastInactiveToActive=true
     end
-    if n and r(n.OnUpdate)then
-      n.OnUpdate(n)
+    if questStepTable and IsTypeFunc(questStepTable.OnUpdate)then
+      questStepTable.OnUpdate(questStepTable)
     end
-    if e.qst_blockStateRequest==i.DEACTIVATE then
-      t.DeactivateCurrentQuestBlock()t.ClearBlockStateRequest()
+    if mvars.qst_blockStateRequest==BLOCKSTATE.DEACTIVATE then
+      this.DeactivateCurrentQuestBlock()
+      this.ClearBlockStateRequest()
     end
   else
-    e.qst_lastInactiveToActive=false
-    t.ClearBlockStateRequest()
+    mvars.qst_lastInactiveToActive=false
+    this.ClearBlockStateRequest()
   end
-  e.qst_lastQuestBlockState=a
+  mvars.qst_lastQuestBlockState=questBlockState
 end
+--[[--tex ORIG: DEMINIFY:
+
+function this.QuestBlockOnUpdate()
+
+  local t=e
+
+  local a=t.GetQuestBlockState()
+
+  if a==nil then
+
+    return
+
+  end
+
+  local n=ScriptBlock
+
+  local e=mvars
+
+  local s=e.qst_lastQuestBlockState
+
+  local o=n.SCRIPT_BLOCK_STATE_INACTIVE
+
+  local n=n.SCRIPT_BLOCK_STATE_ACTIVE
+
+  if e.qst_requestInitializeQuestActiveStatus then
+
+    t.InitializeQuestActiveStatus(e.qst_requestInitializeQuestActiveCluster)
+
+    return
+
+  end
+
+  if a==o then
+
+    if s==n then
+
+      t._DoDeactivate()
+
+    end
+
+    if e.qst_blockStateRequest==i.ACTIVATE then
+
+      if t._CanActivateQuest()then
+
+        t.ActivateCurrentQuestBlock()
+
+        t.ClearBlockStateRequest()
+
+      end
+
+    end
+
+    e.qst_lastInactiveToActive=false
+
+  elseif a==n then
+
+    if not t._CanActivateQuest()then
+
+      return
+
+    end
+
+    local n
+
+    if t.IsInvoking()then
+
+      n=t.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
+
+    end
+
+    if e.qst_lastInactiveToActive then
+
+      e.qst_lastInactiveToActive=false
+
+      e.qst_deactivated=false
+
+      t.ExecuteSystemCallback"OnActivate"e.qst_allocated=true
+
+      if e.qst_invokeReserveOnActivate then
+
+        e.qst_invokeReserveOnActivate=false
+
+        t.Invoke()n=t.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
+
+      end
+
+      if n and r(n.OnEnter)then
+
+        n.OnEnter(n)
+
+      end
+
+    end
+
+    if(not s)or s<=o then
+
+      e.qst_lastInactiveToActive=true
+
+    end
+
+    if n and r(n.OnUpdate)then
+
+      n.OnUpdate(n)
+
+    end
+
+    if e.qst_blockStateRequest==i.DEACTIVATE then
+
+      t.DeactivateCurrentQuestBlock()
+
+      t.ClearBlockStateRequest()
+
+    end
+
+  else
+
+    e.qst_lastInactiveToActive=false
+
+    t.ClearBlockStateRequest()
+
+  end
+
+  e.qst_lastQuestBlockState=a
+
+end
+
+--]]
 function this.OnMissionGameEnd()
-  local t=e.GetQuestBlockState()mvars.qst_isMissionEnd=true
-  if t==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
-    e._DoDeactivate()
+  local questBlockState=this.GetQuestBlockState()
+  mvars.qst_isMissionEnd=true
+  if questBlockState==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
+    this._DoDeactivate()
   end
 end
 function this.ClearBlockStateRequest()
   mvars.qst_blockStateRequest=i.NONE
 end
 function this.Invoke()
-  local t=e.GetCurrentQuestName()
-  local n,t=e.GetQuestTable(t)
-  local t=t.invokeStepName
-  e.SetNextQuestStep(t)
+  local currentQuestName=this.GetCurrentQuestName()
+  local n,t=this.GetQuestTable(currentQuestName)
+  local invokeStepName=t.invokeStepName
+  this.SetNextQuestStep(invokeStepName)
+  --TppUiCommand.AnnounceLogView("DBG:QST:Invoke:"..currentQuestName.."|"..invokeStepName)--tex DEBUG: CULL:
 end
-function this.SetNewQuestAndLoadQuestBlock(t)
+function this.SetNewQuestAndLoadQuestBlock(questName)
   if TppLocation.IsMotherBase()then
-    f30050_demo.UpdatePackList(t)
+    f30050_demo.UpdatePackList(questName)
   end
-  local n=TppScriptBlock.Load(mvars.qst_blockName,t)
+  local n=TppScriptBlock.Load(mvars.qst_blockName,questName)
   if n==false then
     return
   end
-  e.ResetQuestStatus()
-  e.SetCurrentQuestName(t)
-  mvars.qst_currentQuestTable=e.GetQuestTable(t)
+  this.ResetQuestStatus()
+  this.SetCurrentQuestName(questName)
+  mvars.qst_currentQuestTable=this.GetQuestTable(questName)
 end
 function this.GetCurrentQuestName()
   return mvars.qst_currentQuestName
@@ -2042,41 +2180,41 @@ function this.ActivateCurrentQuestBlock()
   TppScriptBlock.ActivateScriptBlockState(e)
 end
 function this.DeactivateCurrentQuestBlock()
-  local e=ScriptBlock.GetScriptBlockId(mvars.qst_blockName)
-  TppScriptBlock.DeactivateScriptBlockState(e)
+  local scriptBlockId=ScriptBlock.GetScriptBlockId(mvars.qst_blockName)
+  TppScriptBlock.DeactivateScriptBlockState(scriptBlockId)
 end
-function this.SearchQuestFromAllSpecifiedArea(o,s,a,n)
-  local t=#mvars.qst_questList
-  for t=1,t do
-    local t=mvars.qst_questList[t]
-    if e.IsInsideArea(o,t,s,a,n)then
-      local n={}
-      for n,t in ipairs(t.infoList)do
-        local t=t.name
-        if e.IsActive(t)then
-          return t
+function this.SearchQuestFromAllSpecifiedArea(areaName,s,a,clusterId)
+  local questList=#mvars.qst_questList
+  for i=1,questList do
+    local quest=mvars.qst_questList[i]
+    if this.IsInsideArea(areaName,quest,s,a,clusterId)then
+      --local n={}--tex OFF: NMC: orphaned?
+      for n,info in ipairs(quest.infoList)do
+        local name=info.name
+        if this.IsActive(name)then
+          return name
         end
       end
     end
   end
 end
-function this.IsInsideArea(o,e,s,a,n)
+function this.IsInsideArea(areaName,quest,s,a,clusterId)
   do
     local locationName=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
     local missionLocation=TppDefine.LOCATION_ID[locationName]
-    if e.locationId~=missionLocation then
+    if quest.locationId~=missionLocation then
       return false
     end
   end
-  if e.clusterName then
-    return TppDefine.CLUSTER_NAME[n]==e.clusterName
+  if quest.clusterName then
+    return TppDefine.CLUSTER_NAME[clusterId]==quest.clusterName
   else
-    local t=e.areaName
-    local e=e[o]
-    if e==nil then
+    --local t=quest.areaName tex: OFF: NMC:
+    local questName=quest[areaName]
+    if questName==nil then
       return
     end
-    return Tpp.CheckBlockArea(e,s,a)
+    return Tpp.CheckBlockArea(questName,s,a)
   end
 end
 function this.GetCurrentQuestTable()
@@ -2140,7 +2278,8 @@ function this.ExecuteSystemCallback(e)
   if mvars.qst_systemCallbacks==nil then
     return
   end
-  local e=mvars.qst_systemCallbacks[e]if e then
+  local e=mvars.qst_systemCallbacks[e]
+  if e then
     return e()
   end
 end
@@ -2155,11 +2294,11 @@ function this.UpdateOpenQuest()
   mvars.qst_isQuestNewOpenFlag=false
   for i,questIndex in pairs(TppDefine.QUEST_INDEX)do
     local canOpenQuestFunc=canOpenQuestChecks[i]
-    if (canOpenQuestFunc and canOpenQuestFunc()) or (gvars.unlockSideOps~=0 and gvars.qst_questClearedFlag[questIndex]) then--tex  unlockSideOps 2 to force open?
+    if (canOpenQuestFunc and canOpenQuestFunc()) or gvars.unlockSideOps==TppMain.SETTING_UNLOCK_SIDEOPS_ENUM.OPEN then--tex
       if gvars.qst_questOpenFlag[questIndex]==false then
         mvars.qst_isQuestNewOpenFlag=true
-    end
-    gvars.qst_questOpenFlag[questIndex]=true
+      end
+      gvars.qst_questOpenFlag[questIndex]=true
     end
   end
 end
@@ -2168,53 +2307,104 @@ function this.UpdateActiveQuest(t)
     return
   end
   if this.NeedUpdateActiveQuest(t)then
-    this.UpdateOpenQuest()
-    for n,t in ipairs(mvars.qst_questList)do
+    this.UpdateOpenQuest()   
+    local unlockedName=nil--tex unlockSideOpNumber
+    local unlockedArea=nil
+    local done=false
+    if gvars.unlockSideOpNumber > 0 then--tex find name and area for unlocksideop SANITY:
+      unlockedName=sideOps[gvars.unlockSideOpNumber].questName--tex
+      if unlockedName ~= nil then
+        for n,areaQuests in ipairs(mvars.qst_questList)do
+          for i,info in ipairs(areaQuests.infoList)do
+            if info.name == unlockedName then
+              unlockedArea=areaQuests.areaName
+              break
+            end
+          end
+          if done then
+            break
+          end
+        end
+      end
+    end--
+    for n,areaQuests in ipairs(mvars.qst_questList)do
       local n=nil
       local n={}
       local storyQuests={}
       local nonStoryQuests={}
       local repopQuests={}
-      for i,info in ipairs(t.infoList)do
-        local questName=info.name
-        local questIndex=TppDefine.QUEST_INDEX[questName]
-        if questIndex then
-          gvars.qst_questActiveFlag[questIndex]=false
-          local n=l[questName]--tex NMC: some list of conditions, not as bug as thr t list
-          if this.IsOpen(questName)and (not n or n())then
-            if not this.IsCleard(questName)then
-              if info.isStory then
-                table.insert(storyQuests,questName)
-              else
-                table.insert(nonStoryQuests,questName)
+      if unlockedArea ~= nil and areaQuests.areaName==unlockedArea then--tex add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.  
+         for i,info in ipairs(areaQuests.infoList)do
+          if info.name==unlockedName then
+             table.insert(storyQuests,info.name)--tex ASSUMPTION: storyquests has priority
+            break
+          end
+        end
+      else
+        for i,info in ipairs(areaQuests.infoList)do
+          local questName=info.name
+          local questIndex=TppDefine.QUEST_INDEX[questName]
+          if questIndex then
+            gvars.qst_questActiveFlag[questIndex]=false
+            local n=l[questName]--tex NMC: some list of conditions, not as bug as thr t list
+            if this.IsOpen(questName)and (not n or n())then
+              if not this.IsCleard(questName)then
+                if info.isStory then
+                  table.insert(storyQuests,questName)
+                else
+                  table.insert(nonStoryQuests,questName)
+                end
+              elseif this.IsRepop(questName)then
+                table.insert(repopQuests,questName)
               end
-            elseif this.IsRepop(questName)then
-              table.insert(repopQuests,questName)
             end
           end
         end
       end
       local questName=nil
-      for i,quest in ipairs{storyQuests,nonStoryQuests,repopQuests}do--tex: NMC: would seem this is how it choses a few quests to be active at a time
+      local list=nil--tex choose which quest to activate per area
+      local index=1
+      if #storyQuests > 0 then--tex broken into lists to manage priority
+        list=storyQuests
+      elseif #nonStoryQuests > 0 then
+        list=nonStoryQuests
+      elseif #repopQuests > 0 then
+        list=repopQuests
+      end
+      if list ~= nil then
+        --[[if gvars.unlockSideOps == TppMain.SETTING_UNLOCK_SIDEOPS_ENUM.FIRST then
+          index=1
+        elseif gvars.unlockSideOps == TppMain.SETTING_UNLOCK_SIDEOPS_ENUM.LAST then
+          index=#list
+        elseif gvars.unlockSideOps == TppMain.SETTING_UNLOCK_SIDEOPS_ENUM.RANDOM then
+          index=math.random(#list)
+        end--]]
+        if gvars.unlockSideOps > 0 then
+          index=math.random(#list)
+        end
+        questName=list[index]
+      end--
+      --[[--tex ORIG: for i,quest in ipairs{storyQuests,nonStoryQuests,repopQuests}do--tex: NMC: would seem this is how it choses a few quests to be active at a time, questlist is broken into areas so that's how it prevents too much overlap
         if not questName then
           questName=quest[1]
-      end
-      end
+        end
+      end--]]
       if questName then
+        --TppUiCommand.AnnounceLogView("DBG:QST:UpdateActiveQuest [".. index .."][".. questName  .."]")--tex DEBUG: CULL:
         gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
       end
     end
   elseif TppMission.IsStoryMission(vars.missionCode)then
-    for i,t in ipairs(TppDefine.QUEST_DEFINE)do
-      if not this.CanActiveQuestInMission(vars.missionCode,t)then
-        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[t]]=false
+    for i,questName in ipairs(TppDefine.QUEST_DEFINE)do
+      if not this.CanActiveQuestInMission(vars.missionCode,questName)then
+        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=false
       end
     end
   else
     for i=0,9,1 do
       if gvars.qst_failedIndex[i]~=-1 then
-        local t=gvars.qst_failedIndex[i]
-        gvars.qst_questActiveFlag[t]=true
+        local failedIndex=gvars.qst_failedIndex[i]
+        gvars.qst_questActiveFlag[failedIndex]=true
         gvars.qst_failedIndex[i]=-1
       end
     end
@@ -2227,7 +2417,7 @@ function this.UpdateActiveQuest(t)
     if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]==true then
       TppMotherBaseManagement.SetLockedTanFlag{locked=true}
       return
-  end
+    end
   end
 end
 function this.CanActiveQuestInMission(e,t)
@@ -2245,9 +2435,9 @@ function this.CanActiveQuestInMission(e,t)
   end
 end
 function this.IsImportant(t)
-  local e=e.GetSideOpsInfo(t)
-  if e then
-    return e.isImportant
+  local sideOpsInfo=this.GetSideOpsInfo(t)
+  if sideOpsInfo then
+    return sideOpsInfo.isImportant
   end
   return false
 end
@@ -2276,7 +2466,7 @@ function this.OpenQuestForce(e)
   end
 end
 function this.CanOpenAndActivateSpecialQuest(questNames)
-  local n=a[questNames]--tex NMC: list of special quests, deffed before OpenAndActivateSpecialQuest
+  local n=a[questNames]--tex NMC: list of special quests, wtf is a special quest, declared before OpenAndActivateSpecialQuest
   if not n then
     return false
   end
@@ -2319,23 +2509,18 @@ function this.IsRepop(questName)
   end
 end
 function this.IsOpen(questName)
+  if gvars.unlockSideops==TppMain.SETTING_UNLOCK_SIDEOPS_ENUM.OPEN then--tex just force this here, don't want to touch the actual flag as it's saved/cant be easily reversed
+    return true
+  end--
   local questIndex=TppDefine.QUEST_INDEX[questName]
   if questIndex then
     return gvars.qst_questOpenFlag[questIndex]
   end
 end
 function this.IsActive(questName)
-  if gvars.unlockSideOps~=0 then--tex given up trying to make this play nice, hacking it right here
-    local questIndex=TppDefine.QUEST_INDEX[questName]
-    if questIndex then
-      gvars.qst_questActiveFlag[questIndex]=true
-      return true
-    end
-  else--
-    local index=TppDefine.QUEST_INDEX[questName]
-    if index then
-      return gvars.qst_questActiveFlag[index]
-    end
+  local index=TppDefine.QUEST_INDEX[questName]
+  if index then
+    return gvars.qst_questActiveFlag[index]
   end
 end
 function this.IsCleard(questName)
@@ -2418,13 +2603,6 @@ function this.UpdateRepopFlag(questIndex)
 end
 function this.UpdateRepopFlagImpl(questTable)
   local n=0
-  if gvars.unlockSideOps~=0 then--tex
-    for i,info in ipairs(questTable.infoList)do
-      questTable.infoList[i].isOnce=false
-      --gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[info.name]]=true--tex CULL:
-  end
-  --return
-  end--
   for t,a in ipairs(questTable.infoList)do
     local t=a.name
     if e.IsOpen(t) then
@@ -2443,11 +2621,11 @@ function this.UpdateRepopFlagImpl(questTable)
     return
   end
   for n,info in ipairs(questTable.infoList)do
-    if (this.IsCleard(info.name)and not info.isOnce) then
+    if this.IsCleard(info.name)and (not info.isOnce or gvars.unlockSideOps~=0) then--tex added issub
       gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[info.name]]=true
     end
     local e=l[info.name]
-    if (e and(not e())) and gvars.unlockSideOps==0 then --tex
+    if (e and(not e())) then --and gvars.unlockSideOps==0 then --tex
       gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[info.name]]=false
     end
   end
@@ -2597,7 +2775,9 @@ function this.ShowAnnounceLog(n,t,l,u)
     return
   end
   if n==s.OPEN then
-    TppUI.ShowAnnounceLog"quest_list_update"TppUI.ShowAnnounceLog"quest_add"elseif n==s.CLEAR then
+    TppUI.ShowAnnounceLog"quest_list_update"
+    TppUI.ShowAnnounceLog"quest_add"
+  elseif n==s.CLEAR then
     if not t then
       return
     end
@@ -2612,11 +2792,13 @@ function this.ShowAnnounceLog(n,t,l,u)
           TppUI.ShowAnnounceLog(n,o,i)
         end
       end
-      TppUI.ShowAnnounceLog"quest_list_update"TppUI.ShowAnnounceLog("quest_complete",a)
+      TppUI.ShowAnnounceLog"quest_list_update"
+      TppUI.ShowAnnounceLog("quest_complete",a)
       local e=e.GetQuestNameId(t)
       if(e~=false)and(e~="q99012")then
         TppUiCommand.ShowSideFobInfo("end",string.format("name_%s",e),"hud_quest_finish")
-        TppSoundDaemon.PostEvent"sfx_s_sideops_sted"end
+        TppSoundDaemon.PostEvent"sfx_s_sideops_sted"
+      end
     end
   elseif n==s.FAILURE then
     if not t then
@@ -2624,13 +2806,15 @@ function this.ShowAnnounceLog(n,t,l,u)
     end
     local e=e.GetQuestNameLangId(t)
     if e~=false then
-      TppUI.ShowAnnounceLog"quest_list_update"TppUI.ShowAnnounceLog("quest_delete",e)
+      TppUI.ShowAnnounceLog"quest_list_update"
+      TppUI.ShowAnnounceLog("quest_delete",e)
     end
   elseif n==s.UPDATE then
     if not t then
       return
     end
-    local e=q[t]if e then
+    local e=q[t]
+    if e then
       TppUI.ShowAnnounceLog(e,l,u)
     end
   end
@@ -2642,7 +2826,8 @@ function this.IsRandomFaceQuestName(t)
       return
     end
   end
-  local e=TppDefine.QUEST_RANDOM_FACE_INDEX[t]if e then
+  local e=TppDefine.QUEST_RANDOM_FACE_INDEX[t]
+  if e then
     return true
   end
   return false
@@ -2684,7 +2869,8 @@ function this.OnQuestAreaAnnounceText(t)
     if t~=nil then
       TppRadio.Play(t,{delayTime="mid"})
     end
-    TppSoundDaemon.PostEvent"sfx_s_sideops_sted"end
+    TppSoundDaemon.PostEvent"sfx_s_sideops_sted"
+  end
 end
 function this.IsActiveQuestHeli()
   for i,questName in ipairs(TppDefine.QUEST_HELI_DEFINE)do
@@ -2722,7 +2908,8 @@ function this._ChangeToEnable(a,a,t,n)
     local a=TppGimmick.IsQuestTarget(t)
     local t=TppAnimal.IsQuestTarget(t)
     if(n or a)or t then
-      TppSoundDaemon.PostEvent"sfx_s_enemytag_quest_tgt"if mvars.qst_isRadioTarget==false then
+      TppSoundDaemon.PostEvent"sfx_s_enemytag_quest_tgt"
+      if mvars.qst_isRadioTarget==false then
         local e=e.GetCurrentQuestName()
         if(((e=="tent_q20910"or e=="fort_q20911")or e=="sovietBase_q20912")or e=="outland_q20913")or e=="lab_q20914"then
           TppRadio.Play("f2000_rtrg8330",{delayTime="short"})
@@ -2745,14 +2932,17 @@ end
 function this.StartShootingPractice()e.UpdateShootingPracticeUi()
   TppUiCommand.StartDisplayTimer(mvars.gim_questDisplayTimeSec,mvars.gim_questCautionTimeSec)
   TppGimmick.StartQuestShootingPractice()
-  TppGimmick.SetQuestSootingTargetInvincible(false)f30050_sound.SetScene_ShootingRange()
-  TppSoundDaemon.PostEvent"sfx_m_tra_tgt_get_up_alot"Player.SetInfiniteAmmoFromScript(true)
+  TppGimmick.SetQuestSootingTargetInvincible(false)
+  f30050_sound.SetScene_ShootingRange()
+  TppSoundDaemon.PostEvent"sfx_m_tra_tgt_get_up_alot"
+  Player.SetInfiniteAmmoFromScript(true)
 end
 function this.OnFinishShootingPractice(n,t)
   if n or t then
     e.ProcessFinishShootingPractice(n,t)
   end
-  Player.SetInfiniteAmmoFromScript(false)mvars.qst_isShootingPracticeStarted=false
+  Player.SetInfiniteAmmoFromScript(false)
+  mvars.qst_isShootingPracticeStarted=false
 end
 function this.IsShootingPracticeStarted()
   if not mvars.qst_isShootingPracticeStarted then
@@ -2766,7 +2956,8 @@ function this.IsShootingPracticeActivated()
   end
   return true
 end
-function this.ProcessFinishShootingPractice(t,n)e.UpdateShootingPracticeUi()
+function this.ProcessFinishShootingPractice(t,n)
+  e.UpdateShootingPracticeUi()
   TppUiStatusManager.SetStatus("DisplayTimer","STOP_VISIBLE")
   e.StartSafeTimer("TimerShootingPracticeEnd",8)
   TppSound.StopSceneBGM()
@@ -2793,7 +2984,12 @@ function this.ProcessFinishShootingPractice(t,n)e.UpdateShootingPracticeUi()
   end
 end
 function this.CancelShootingPractice()
-  local t=e.GetCurrentQuestName()e.ShowAnnounceLog(s.FAILURE,t)e.OnFinishShootingPractice(nil,true)e.ShootingPracticeStopAllTimer()e.OnQuestShootingTimerEnd()e.SetCancelShootingPracticeStartUi()
+  local t=e.GetCurrentQuestName()
+  e.ShowAnnounceLog(s.FAILURE,t)
+  e.OnFinishShootingPractice(nil,true)
+  e.ShootingPracticeStopAllTimer()
+  e.OnQuestShootingTimerEnd()
+  e.SetCancelShootingPracticeStartUi()
 end
 function this.StartSafeTimer(t,n)
   e.StopTimer(t)

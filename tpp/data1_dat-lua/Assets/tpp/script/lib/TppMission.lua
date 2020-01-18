@@ -39,6 +39,40 @@ local function h()
   n"MISSION_TIMER_UPDATE"
 end
 local this=e--tex DEMINIFY
+local StrCode32=o
+--local i=Tpp.IsTypeFunc
+--local s=Tpp.IsTypeTable
+--local l=Tpp.IsTypeString
+--local m=Tpp.IsTypeNumber
+--local n=GkEventTimerManager.Start
+--local n=GameObject.GetGameObjectId
+--local n=GameObject.NULL_ID
+--local d=TppScriptVars.SVarsIsSynchronized
+--local n=PlayRecord.RegistPlayRecord
+--local t=bit.bnot
+--local I,t,t=bit.band,bit.bor,bit.bxor
+--local t=GkEventTimerManager.Start
+--local C=GkEventTimerManager.Stop
+--local p=GkEventTimerManager.IsTimerActive
+--local a=Tpp.IsHelicopter
+--local v=Tpp.IsNotAlert
+--local g=Tpp.IsPlayerStatusNormal
+--local r=DemoDaemon.IsDemoPlaying
+--local r=10
+--local r=3
+--local y=5
+--local A=2.5
+--local r="Timer_outsideOfInnerZone"
+--local u=0
+--local _=64
+--local D=2
+--local E=4
+--local R=(24*60)*60
+--local c=2
+--local c=TppDefine.MAX_32BIT_UINT
+--local function h()
+--  n"MISSION_TIMER_UPDATE"
+--end
 function this.GetMissionID()
   return vars.missionCode
 end
@@ -296,29 +330,30 @@ function this.AcceptStartFobSneaking(i,s,n)
   mvars.mis_nextLayoutCode=TppLocation.ModifyMbsLayoutCode(i)
   mvars.mis_nextClusterId=s
 end
-function this.SelectNextMissionHeliStartRoute(n,i,t)
-  local s
-  if not t then
-    s=e.IsEmergencyMission(n)
+--   mvars.heliSequence_nextMissionCode, mvars.heliSequence_heliRoute, mvars.heliSequence_startFobSneaking )
+function this.SelectNextMissionHeliStartRoute(missionCode,heliRoute,startFobSneaking)
+  local isEmergencyMission
+  if not startFobSneaking then
+    isEmergencyMission=this.IsEmergencyMission(missionCode)
   end
-  local t=TppDefine.NO_HELICOPTER_ROUTE_ENUM[tostring(n)]
-  if not t then
-    local e=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[n]
-    if e then
-      i=o(e)
+  local noHeliRouteEnum=TppDefine.NO_HELICOPTER_ROUTE_ENUM[tostring(missionCode)]
+  if not noHeliRouteEnum then
+    local noOrderFixHeliRoute=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[missionCode]
+    if noOrderFixHeliRoute then
+      heliRoute=StrCode32(noOrderFixHeliRoute)
     end
   else
-    i=0
+    heliRoute=0
   end
-  if not t then
-    if i==0 then
+  if not noHeliRouteEnum then
+    if heliRoute==0 then
     end
   end
-  if s then
-    gvars.mis_nextMissionCodeForEmergency=n
+  if isEmergencyMission then
+    gvars.mis_nextMissionCodeForEmergency=missionCode
   else
-    e.SetNextMissionCodeForMissionClear(n)
-    gvars.heli_missionStartRoute=i
+    this.SetNextMissionCodeForMissionClear(missionCode)
+    gvars.heli_missionStartRoute=heliRoute
   end
 end
 function this.SetHelicopterMissionStartPosition(s,i,n,e)

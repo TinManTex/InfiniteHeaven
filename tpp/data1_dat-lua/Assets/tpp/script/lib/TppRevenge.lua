@@ -168,7 +168,7 @@ e.revengeDefine={
   HEAD_SHOT_9={HELMET="90%"},
   HEAD_SHOT_10={HELMET="100%"},
   TRANQ_1={STRONG_NOTICE_TRANQ=true},
-  FULTON_0={},--[[--tex BUGFIX: VERIFY: possible bug fixed, fulton was 0 low 1 blank 2 high, now 0 blank 1 low 2 high--]]
+  FULTON_0={},--[[--tex RETAILBUG: VERIFY: possible bug fixed, fulton was 0 low 1 blank 2 high, now 0 blank 1 low 2 high--]]
   FULTON_1={FULTON_LOW=true},
   FULTON_2={FULTON_HIGH=true},
   FULTON_3={FULTON_SPECIAL=true},
@@ -700,7 +700,7 @@ end
 function this.GetRevengeLv(e)
   local missionId=TppMission.GetMissionID()
   if TppMission.IsHardMission(missionId) or gvars.revengeMode>0 then--tex added
-    return this.GetRevengeLvMax(e,this.REVENGE_LV_LIMIT_RANK_MAX)--tex BUGFIX: was just REVE, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
+    return this.GetRevengeLvMax(e,this.REVENGE_LV_LIMIT_RANK_MAX)--tex RETAILBUG: was just REVE, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
   else
     return gvars.rev_revengeLv[e]
   end

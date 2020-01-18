@@ -839,7 +839,8 @@ function this.AddTrapSettingForQuest(e)
   mvars.ply_questNameReverse[a(e)]=e
   mvars.ply_questStartFlagInfo=mvars.ply_questStartFlagInfo or{}
   mvars.ply_questStartFlagInfo[e]=false
-  mvars.ply_questTrapList=mvars.ply_questTrapList or{}table.insert(mvars.ply_questTrapList,t)
+  mvars.ply_questTrapList=mvars.ply_questTrapList or{}
+  table.insert(mvars.ply_questTrapList,t)
   mvars.ply_questStartTrapInfo[a(t)]=e
   Player.AddTrapDetailCondition{trapName=t,condition=PlayerTrap.FINE,action=PlayerTrap.NORMAL,stance=(PlayerTrap.STAND+PlayerTrap.SQUAT),direction=n,directionRange=o}
 end
@@ -865,7 +866,8 @@ function this.QuestStarted(a)
   end
   e.HideIconForQuest()
 end
-function this.HideIconForQuest()Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING}
+function this.HideIconForQuest()
+Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING}
 end
 function this.ResetIconForQuest(e)
   mvars.ply_questStartFlagInfo.ShootingPractice=false
@@ -895,7 +897,8 @@ end
 function this._StartGameOverCamera(e,e)
   TppUiStatusManager.ClearStatus"AnnounceLog"
   FadeFunction.SetFadeColor(64,0,0,255)
-  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_HIGHSPEED,mvars.ply_gameOverCameraStartTimerName,nil,{exceptGameStatus={AnnounceLog=false}})Player.RequestToSetCameraFocalLengthAndDistance{focalLength=16,interpTime=TppUI.FADE_SPEED.FADE_HIGHSPEED}
+  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_HIGHSPEED,mvars.ply_gameOverCameraStartTimerName,nil,{exceptGameStatus={AnnounceLog=false}})
+  Player.RequestToSetCameraFocalLengthAndDistance{focalLength=16,interpTime=TppUI.FADE_SPEED.FADE_HIGHSPEED}
 end
 function this.PrepareStartGameOverCamera()
   FadeFunction.ResetFadeColor()
@@ -992,14 +995,16 @@ function this.SetPressStartCamera()
   if e==t then
     return
   end
-  Player.RequestToStopCameraAnimation{}Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,0)},skeletonBoundings={Vector3(.5,.45,.1)},offsetPos=Vector3(-.8,0,-1.4),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
+  Player.RequestToStopCameraAnimation{}
+  Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,0)},skeletonBoundings={Vector3(.5,.45,.1)},offsetPos=Vector3(-.8,0,-1.4),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
 end
 function this.SetTitleCamera()
   local e=i"Player"
   if e==t then
     return
   end
-  Player.RequestToStopCameraAnimation{}Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,.1)},skeletonBoundings={Vector3(.5,.45,.9)},offsetPos=Vector3(-.8,0,-1.8),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
+  Player.RequestToStopCameraAnimation{}
+  Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,.1)},skeletonBoundings={Vector3(.5,.45,.9)},offsetPos=Vector3(-.8,0,-1.8),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
 end
 function this.SetSearchTarget(o,i,s,l,e,r,n,a)
   if(o==nil or i==nil)then
@@ -2093,8 +2098,10 @@ function this.OnIntelIconDisplayContinue(a,t,t)
   e.ShowIconForIntel(a)
 end
 function this.OnEnterQuestTrap(a,t)
+     TppUiCommand.AnnounceLogView("DBG:Player:OnEnterQuestTrap")--tex DEBUG: CULL:
+
   local a=mvars.ply_questStartTrapInfo[a]
-  e.ShowIconForQuest(a)
+  this.ShowIconForQuest(a)
   local e=mvars.ply_questStartFlagInfo[a]
   if e~=nil and e==false then
     TppSoundDaemon.PostEvent"sfx_s_ifb_mbox_arrival"

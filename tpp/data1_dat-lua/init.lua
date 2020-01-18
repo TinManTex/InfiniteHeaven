@@ -52,10 +52,12 @@ elseif e=="PS4"then
 elseif e=="Android"then
   AssetConfiguration.SetDefaultTargetDirectory"#Android"
   elseif e=="iOS"then
-  AssetConfiguration.SetDefaultTargetDirectory"#iOS"end
+  AssetConfiguration.SetDefaultTargetDirectory"#iOS"
+end
 AssetConfiguration.SetDefaultCategory("Language","jpn")
 if SubtitlesDaemon then
-  SubtitlesDaemon.SetDefaultVoiceLanguage"jpn"end
+  SubtitlesDaemon.SetDefaultVoiceLanguage"jpn"
+end
 AssetConfiguration.RegisterExtensionInfo{extensions={"bnk","col","demo","demox","dfrm","evb","fclo","fcnp","fdes","fmdl","fmdlb","info","fpk","fpkd","frdv","frig","fstb","ftex","ftexs","gani","lani","mtar","mtard","caar","geom","gskl","nav","nav2","sani","sand","mog","fv2","cani","fmtt","lpsh","ffnt","fova","pftxs","frl","frld","frt","atsh","pcsp","uia","uif","uilb","uigb","fnt","rdf","nta","subp","lba","ladb","lng"},categories={"Target"}}
 AssetConfiguration.RegisterExtensionInfo{extensions={"sad","evfl"},categories={"Language"}}
 AssetConfiguration.RegisterExtensionInfo{extensions={"sbp","stm","mas","wem","fsm"},categories={"Target","Language"}}
@@ -64,11 +66,13 @@ if GrDaemon then
     if o=="directx9"then
       GrTools.LoadShaderPack"shaders/win32/GrSystemShaders_win32.fsop"
       GrTools.LoadShaderPack"shaders/win32/GrModelShaders_win32.fsop"
-      GrTools.LoadShaderPack"shaders/win32/FxShaders_win32.fsop"end
+      GrTools.LoadShaderPack"shaders/win32/FxShaders_win32.fsop"
+      end
     if o=="directx11"then
       GrTools.LoadShaderPack"shaders/dx11/GrSystemShaders_dx11.fsop"
       GrTools.LoadShaderPack"shaders/dx11/GrModelShaders_dx11.fsop"
-      GrTools.LoadShaderPack"shaders/dx11/FxShaders_dx11.fsop"end
+      GrTools.LoadShaderPack"shaders/dx11/FxShaders_dx11.fsop"
+      end
   elseif e=="Xbox360"then
     GrTools.LoadShaderPack"shaders\\xbox360\\GrSystemShaders_x360.fsop"
     GrTools.LoadShaderPack"shaders\\xbox360\\GrModelShaders_x360.fsop"
@@ -84,7 +88,8 @@ if GrDaemon then
     elseif e=="PS4"then
     GrTools.LoadShaderPack"shaders/ps4/GrSystemShaders_ps4.fsop"
     GrTools.LoadShaderPack"shaders/ps4/GrModelShaders_ps4.fsop"
-    GrTools.LoadShaderPack"shaders/ps4/FxShaders_ps4.fsop"end
+    GrTools.LoadShaderPack"shaders/ps4/FxShaders_ps4.fsop"
+    end
   GrTools.SetupSystemShaderResources()
 end
 if GrDaemon then
@@ -151,7 +156,8 @@ else
 end
 r:AddGame(t)
 r:SetMainGame(t)
-local r=t:CreateScene"MainScene"local i=t:CreateBucket("MainBucket",r)
+local r=t:CreateScene"MainScene"
+local i=t:CreateBucket("MainBucket",r)
 t:SetMainBucket(i)
 PathMapper.Add("AiSampleGame","Fox/Tests/Scripts/Character")
 if EditableBlockPackage then
@@ -164,19 +170,39 @@ if GrDaemon then
   if e=="Windows"then
     if o=="directx9"then
       if n then
-        dofile"shaders/win32/GrSystemShadersNoLnm_win32.lua"dofile"shaders/win32/GrModelShadersNoLnm_win32.lua"dofile"shaders/win32/FxShadersNoLnm_win32.lua"else
-        dofile"shaders/win32/GrSystemShaders_win32.lua"dofile"shaders/win32/GrModelShaders_win32.lua"dofile"shaders/win32/FxShaders_win32.lua"end
+        dofile"shaders/win32/GrSystemShadersNoLnm_win32.lua"
+        dofile"shaders/win32/GrModelShadersNoLnm_win32.lua"
+        dofile"shaders/win32/FxShadersNoLnm_win32.lua"
+        else
+        dofile"shaders/win32/GrSystemShaders_win32.lua"
+        dofile"shaders/win32/GrModelShaders_win32.lua"
+        dofile"shaders/win32/FxShaders_win32.lua"
+        end
     end
     if o=="directx11"then
       if n then
-        dofile"shaders/dx11/GrSystemShadersNoLnm_dx11.lua"dofile"shaders/dx11/GrModelShadersNoLnm_dx11.lua"dofile"shaders/dx11/FxShadersNoLnm_dx11.lua"else
-        dofile"shaders/dx11/GrSystemShaders_dx11.lua"dofile"shaders/dx11/GrModelShaders_dx11.lua"dofile"shaders/dx11/FxShaders_dx11.lua"end
+        dofile"shaders/dx11/GrSystemShadersNoLnm_dx11.lua"
+dofile"shaders/dx11/GrModelShadersNoLnm_dx11.lua"
+dofile"shaders/dx11/FxShadersNoLnm_dx11.lua"else
+        dofile"shaders/dx11/GrSystemShaders_dx11.lua"
+dofile"shaders/dx11/GrModelShaders_dx11.lua"
+dofile"shaders/dx11/FxShaders_dx11.lua"
+end
     end
   elseif e=="Xbox360"then
-    dofile"shaders/xbox360/GrSystemShaders_x360.lua"dofile"shaders/xbox360/GrModelShaders_x360.lua"dofile"shaders/xbox360/FxShaders_x360.lua"elseif e=="XboxOne"then
-    dofile"shaders/xboxone/GrSystemShadersNoLnm_xone.lua"dofile"shaders/xboxone/GrModelShadersNoLnm_xone.lua"dofile"shaders/xboxone/FxShadersNoLnm_xone.lua"elseif e=="PS3"then
-    dofile"shaders/ps3/GrSystemShaders_ps3.lua"dofile"shaders/ps3/GrModelShaders_ps3.lua"dofile"shaders/ps3/FxShaders_ps3.lua"elseif e=="PS4"then
-    dofile"shaders/ps4/GrSystemShadersNoLnm_ps4.lua"dofile"shaders/ps4/GrModelShadersNoLnm_ps4.lua"dofile"shaders/ps4/FxShadersNoLnm_ps4.lua"end
+    dofile"shaders/xbox360/GrSystemShaders_x360.lua"
+dofile"shaders/xbox360/GrModelShaders_x360.lua"
+dofile"shaders/xbox360/FxShaders_x360.lua"elseif e=="XboxOne"then
+    dofile"shaders/xboxone/GrSystemShadersNoLnm_xone.lua"
+dofile"shaders/xboxone/GrModelShadersNoLnm_xone.lua"
+dofile"shaders/xboxone/FxShadersNoLnm_xone.lua"elseif e=="PS3"then
+    dofile"shaders/ps3/GrSystemShaders_ps3.lua"
+dofile"shaders/ps3/GrModelShaders_ps3.lua"
+dofile"shaders/ps3/FxShaders_ps3.lua"elseif e=="PS4"then
+    dofile"shaders/ps4/GrSystemShadersNoLnm_ps4.lua"
+dofile"shaders/ps4/GrModelShadersNoLnm_ps4.lua"
+dofile"shaders/ps4/FxShadersNoLnm_ps4.lua"
+end
 end
 if SoundCoreDaemon then
   SoundCoreDaemon.Create()
@@ -233,7 +259,8 @@ if ReplayService then
   ReplayService.Boot()
 end
 if NavWorldDaemon then
-  NavWorldDaemon.AddScene"MainScene"end
+  NavWorldDaemon.AddScene"MainScene"
+end
 if PhDaemon then
   PhDaemon.SetMemorySize(2560,1536,1024)
   PhDaemon.SetMaxRigidBodyNum(500)
@@ -241,7 +268,8 @@ if PhDaemon then
 end
 if SimDaemon then
   local e=SimDaemon()
-  e.defaultViewPort="MainViewport"end
+  e.defaultViewPort="MainViewport"
+end
 if DesDaemon then
   local e=DesDaemon()
 end
@@ -329,7 +357,8 @@ if SoundCommand then
   local e=SoundCommand{}
 end
 if Editor then
-  Fox.SetActMode"EDIT"end
+  Fox.SetActMode"EDIT"
+end
 if e=="Windows"then
   if GrxLightCapture then
     GrxLightCapture():InitInstance()
