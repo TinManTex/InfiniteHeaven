@@ -6,9 +6,9 @@ this.parametersMenu={
   options={
     Ivars.enemyParameters,
     Ivars.enemyHealthMult,
-    --Ivars.playerHealthMult,
+    Ivars.playerHealthMult,
     --Ivars.ogrePointChange,
-    InfMenuCommands.giveOgrePoint,
+    --InfMenuCommands.giveOgrePoint,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -153,21 +153,19 @@ this.playerRestrictionsMenu={
   }
 }
 
---[[this.appearanceMenu={--OFF have to comment out even if not referenced since resetall iterates the whole module
+this.appearanceMenu={
   options={
     Ivars.playerPartsTypeApearance,
     Ivars.playerFaceEquipIdApearance,
     Ivars.playerTypeApearance,
     Ivars.cammoTypesApearance,
     Ivars.playerFaceIdApearance,
-    Ivars.playerBalaclava,    
+    Ivars.playerHeadgear,    
     this.printCurrentAppearanceItem,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
-}--]]
-
-
+}
 
 this.phaseMenu={
   options={
@@ -183,9 +181,9 @@ this.phaseMenu={
     InfMenuCommands.goBackItem,
   },
   disabled=false,
+  disabledReason="phase_menu_cannot_subsistence",
   OnSelect=function(self)
     if not (Ivars.subsistenceProfile:Is("DEFAULT") or Ivars.subsistenceProfile:Is("CUSTOM")) then
-      InfMenu.PrintLangId("phase_menu_cannot_subsistence")
       self.disabled=true
     else
       self.disabled=false
@@ -198,6 +196,7 @@ this.heliSpaceMenu={
     --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
     Ivars.startOnFoot,
     Ivars.clockTimeScale,
+    Ivars.playerHeadgear,
     this.playerRestrictionsMenu,
     this.parametersMenu,
     this.phaseMenu,
@@ -216,16 +215,16 @@ this.heliSpaceMenu={
 this.debugInMissionMenu={
   options={
     InfMenuCommands.DEBUG_ShowRevengeConfigItem,
-    --this.DEBUG_ShowPhaseEnums,
-    --this.DEBUG_ChangePhaseItem,
-    --this.DEBUG_KeepPhaseOnItem,
-    --this.DEBUG_KeepPhaseOffItem,
-    --this.printPlayerPhase,
-    --this.DEBUG_SetPlayerPhaseToIvar,
-    --this.DEBUG_ClearAnnounceLogItem,
-    this.showMissionCodeItem,
-    this.showMbEquipGradeItem,
-    this.showPositionItem,  
+    --InfMenuCommands.DEBUG_ShowPhaseEnums,--CULL
+    --InfMenuCommands.DEBUG_ChangePhaseItem,
+    --InfMenuCommands.DEBUG_KeepPhaseOnItem,
+    --InfMenuCommands.DEBUG_KeepPhaseOffItem,
+    --InfMenuCommands.printPlayerPhase,
+    --InfMenuCommands.DEBUG_SetPlayerPhaseToIvar,
+    --InfMenuCommands.DEBUG_ClearAnnounceLogItem,
+    InfMenuCommands.showMissionCodeItem,
+    InfMenuCommands.showMbEquipGradeItem,
+    InfMenuCommands.showPositionItem,  
     InfMenuCommands.goBackItem,
   }
 }
@@ -234,7 +233,7 @@ this.inMissionMenu={
   options={
     Ivars.clockTimeScale,
     this.phaseMenu,
-    --this.appearanceMenu,
+    --this.appearanceMenu,--WIP
     this.debugInMissionMenu,    
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.menuOffItem,
@@ -245,13 +244,10 @@ this.inMissionMenu={
 local IsTable=Tpp.IsTypeTable
 for name,item in pairs(this) do
   if IsTable(item) then   
-    if item.range or item.settings or item.options then
+    if item.options then
       item.name=name
-      item.default=item.default or 0
-      if item.options then
-        item.disabled=false
-        item.parent=nil
-      end
+      item.disabled=false
+      item.parent=nil
     end
   end
 end

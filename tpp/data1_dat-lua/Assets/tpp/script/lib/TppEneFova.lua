@@ -315,8 +315,8 @@ function this.SetHostageFaceTable(missionId)
     end
   end
 end
-function this.GetFaceGroupTableAtGroupType(e)
-  local faceGroupTable=TppEnemyFaceGroup.GetFaceGroupTable(e)
+function this.GetFaceGroupTableAtGroupType(faceGroupType)
+  local faceGroupTable=TppEnemyFaceGroup.GetFaceGroupTable(faceGroupType)
   local a={}
   local e=EnemyFova.MAX_REALIZED_COUNT
   for t,n in pairs(faceGroupTable)do
@@ -513,15 +513,15 @@ function fovaSetupFuncs.Afghan(n,missionId)
   end
   local o=15
   local n=gvars.solface_groupNumber%o
-  local l=TppEnemyFaceGroupId.AFGAN_GRP_00+n
-  local faceGroupTable=this.GetFaceGroupTableAtGroupType(l)
+  local faceGroupType=TppEnemyFaceGroupId.AFGAN_GRP_00+n
+  local faceGroupTable=this.GetFaceGroupTableAtGroupType(faceGroupType)
   TppSoldierFace.OverwriteMissionFovaData{face=faceGroupTable}
   if moreVariationMode>0 then
     for e=1,2 do
       n=n+2
       local e=(n%o)*2
-      local e=TppEnemyFaceGroupId.AFGAN_GRP_00+(e)
-      local face=this.GetFaceGroupTableAtGroupType(e)
+      local faceGroupType=TppEnemyFaceGroupId.AFGAN_GRP_00+(e)
+      local face=this.GetFaceGroupTableAtGroupType(faceGroupType)
       TppSoldierFace.OverwriteMissionFovaData{face=face}
     end
   end

@@ -1,12 +1,12 @@
 -- DOBUILD: 1
---tex lines kinda blurry between Commands and Ivars
+
 local this={}
+--tex lines kinda blurry between Commands and Ivars
 
 this.switchRange={max=1,min=0,increment=1}
 
 --menu menu items
 this.menuOffItem={
-  range=this.switchRange,
   settingNames="set_menu_off",
   OnChange=function()
     InfMenu.MenuOff()
@@ -14,7 +14,6 @@ this.menuOffItem={
   end,
 }
 this.resetSettingsItem={
-  range=this.switchRange,
   settingNames="set_menu_reset",
   OnChange=function()
     InfMenu.ResetSettingsDisplay()
@@ -22,7 +21,6 @@ this.resetSettingsItem={
   end,
 }
 this.resetAllSettingsItem={
-  range=this.switchRange,
   settingNames="set_menu_reset",
   OnChange=function()
     InfMenu.PrintLangId"setting_all_defaults"
@@ -31,7 +29,6 @@ this.resetAllSettingsItem={
   end,
 }
 this.goBackItem={
-  range=this.switchRange,
   settingNames="set_goBackItem",
   OnChange=function()
     InfMenu.GoBackCurrent()
@@ -40,24 +37,18 @@ this.goBackItem={
 
 --menu items
 this.showPositionItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     TppUiCommand.AnnounceLogView(string.format("%.2f,%.2f,%.2f | %.2f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY))
   end,
 }
 
 this.showMissionCodeItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     TppUiCommand.AnnounceLogView("MissionCode: "..vars.missionCode)--ADDLANG
   end,
 }
 
 this.showMbEquipGradeItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     local soldierGrade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
     local infGrade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()
@@ -67,8 +58,6 @@ this.showMbEquipGradeItem={
 }
 
 this.showLangCodeItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     local languageCode=AssetConfiguration.GetDefaultCategory"Language"
     TppUiCommand.AnnounceLogView(InfMenu.LangString"language_code"..": "..languageCode)
@@ -76,17 +65,13 @@ this.showLangCodeItem={
 }
 
 this.showQuietReunionMissionCountItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     TppUiCommand.AnnounceLogView("quietReunionMissionCount: "..gvars.str_quietReunionMissionCount)
   end,
 }
 
---[[--DEBUGNOW
+--[[CULL
 this.giveOgrePoint={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function(self)
     local ogrePointChange=Ivars.ogrePointChange.setting
     if ogrePointChange > 0 then
@@ -96,11 +81,9 @@ this.giveOgrePoint={
     end
     TppHero.SetOgrePoint(ogrePointChange) 
   end,
-}
---]]
+}--]]
+
 this.printCurrentAppearanceItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     InfMenu.Print("playerType: " .. tostring(vars.playerType))
     InfMenu.Print("playerCamoType: " .. tostring(vars.playerCamoType))
@@ -111,10 +94,8 @@ this.printCurrentAppearanceItem={
 }
 
 this.DEBUG_ShowRevengeConfigItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
-    InfMenu.DebugPrint("RevRandomValue): "..gvars.rev_revengeRandomValue)
+    --InfMenu.DebugPrint("RevRandomValue: "..gvars.rev_revengeRandomValue)
     InfMenu.DebugPrint("RevengeType:")
     local revengeType=InfInspect.Inspect(mvars.revenge_revengeType)
     InfMenu.DebugPrint(revengeType)  
@@ -125,13 +106,7 @@ this.DEBUG_ShowRevengeConfigItem={
   end,
 }
 
-
-local GetGameObjectId=GameObject.GetGameObjectId
-local NULL_ID=GameObject.NULL_ID
-
 this.DEBUG_ChangePhaseItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     InfMenu.DebugPrint("Changephase b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do      
@@ -139,20 +114,9 @@ this.DEBUG_ChangePhaseItem={
     end
     InfMenu.DebugPrint("Changephase e")
   end
-  
-  --[[CULL
-       for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
-    local cpId=GetGameObjectId(cpName)
-    if cpId==NULL_ID then
-    else   local phase=Ivars.maxPhase.settingsTable[gvars.maxPhase+1]
-      local command={id="SetPhase",phase=phase}
-      GameObject.SendCommand(cpId,command)
-  --]]
 }
 
 this.DEBUG_KeepPhaseOnItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     InfMenu.DebugPrint("DEBUG_KeepPhaseOnItem b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do      
@@ -163,8 +127,6 @@ this.DEBUG_KeepPhaseOnItem={
 }
 
 this.DEBUG_KeepPhaseOffItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     InfMenu.DebugPrint("DEBUG_KeepPhaseOffItem b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do      
@@ -175,24 +137,18 @@ this.DEBUG_KeepPhaseOffItem={
 }
 
 this.printPlayerPhase={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     InfMenu.DebugPrint("vars.playerPhase=".. vars.playerPhase ..":".. Ivars.phaseSettings[vars.playerPhase+1])
   end,
 }
 
 this.DEBUG_SetPlayerPhaseToIvar={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     vars.playerPhase=gvars.maxPhase
   end,
 }
 
 this.DEBUG_ShowPhaseEnums={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     for n, phaseName in ipairs(Ivars.maxPhase.settings) do
       InfMenu.DebugPrint(phaseName..":".. Ivars.maxPhase.settingsTable[n])
@@ -202,11 +158,7 @@ this.DEBUG_ShowPhaseEnums={
 
 
 this.DEBUG_Item2={
-  range=this.switchRange,
-  settingNames="set_do",
-  OnChange=function()
-    
-    
+  OnChange=function() 
     InfMenu.DebugPrint("EnemyTypes:")
     InfMenu.DebugPrint("TYPE_DD:"..EnemyType.TYPE_DD)
     InfMenu.DebugPrint("TYPE_SKULL:"..EnemyType.TYPE_SKULL )
@@ -221,8 +173,6 @@ this.DEBUG_Item2={
 }
 
 this.DEBUG_ClearAnnounceLogItem={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")--pretty sure this is disable
     --TppUiStatusManager.ClearStatus"AnnounceLog"
@@ -230,7 +180,6 @@ this.DEBUG_ClearAnnounceLogItem={
 }
 
 this.returnQuietItem={
-  range=this.switchRange,
   settingNames="set_quiet_return",
   OnChange=function()
     if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
@@ -243,8 +192,6 @@ this.returnQuietItem={
 }
 
 this.resetRevenge={
-  range=this.switchRange,
-  settingNames="set_do",
   OnChange=function()
     Ivars.revengeMode:Set(0)
     TppRevenge.ResetRevenge()
@@ -256,14 +203,14 @@ this.resetRevenge={
 --TABLESETUP: MenuCommands
 local IsTable=Tpp.IsTypeTable
 for name,item in pairs(this) do
-  if IsTable(item) then   
-    if item.range or item.settings then
+  if IsTable(item) then
+    --if item.range or item.settings then
       item.name=name
       item.default=item.default or 0
-      if item.options then
-        item.parent=nil
-      end
-    end
+      item.setting=item.default
+    --end
+    item.range=item.range or this.switchRange
+    item.settingNames=item.settingNames or "set_do" 
   end
 end
 

@@ -48,7 +48,7 @@ function this.PreviousOption()
 end
 function this.GetSetting()
   local option=this.currentMenuOptions[this.currentIndex]
-  option.setting=option.default or 0
+  --CULL option.setting=option.default or 0
   if option.save then
     local gvar=gvars[option.name]
     if gvar ~= nil then
@@ -211,6 +211,12 @@ function this.NextSetting(incrementMult)
   if option.options then--tex is menu
     if not option.disabled then
       this.GoMenu(option)
+    else
+      if option.disabledReason then
+        this.PrintLangId(option.disabledReason)
+      else
+        this.PrintLangId("menu_disabled")
+      end
     end
   else
     this.ChangeSetting(option,option.range.increment,incrementMult)
@@ -440,7 +446,6 @@ function this.Update()
   end
   InfButton.UpdateHeld()
   if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
-    --tex RETRY: still not happy, want to read menu status but cant find a way
     local inHeliSpace = TppMission.IsHelicopterSpace(vars.missionCode)
     if inHeliSpace then
       if this.topMenu~=InfMenuDefs.heliSpaceMenu then
@@ -453,13 +458,16 @@ function this.Update()
         this.GoMenu(this.topMenu)
       end
     end
-
+    --tex RETRY: still not happy, want to read menu status but cant find a way
     if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
       local playerVehicleId=vars.playerVehicleGameObjectId
       local onVehicle = false
       if not inHeliSpace then
       --tex still conflicts with mother base heli reroute, but player should be tapping not holding to do that anyway
         onVehicle = (Tpp.IsVehicle(playerVehicleId) and not Tpp.IsHelicopter(playerVehicleId)) or Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId) or Tpp.IsEnemyWalkerGear(playerVehicleId) 
+      end
+      if onVehicle then
+      InfMenu.DebugPrint("onVehicle")--DEBUGNOW
       end
       if not onVehicle then
         ToggleMenu()

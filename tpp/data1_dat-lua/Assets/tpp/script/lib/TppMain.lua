@@ -287,7 +287,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppCheckPoint.RegisterCheckPointList(missionTable.sequence.checkPointList)
   end
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate end")--DEBUG
-  --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUGNOW
+  --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator
 end
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize begin")--DEBUG

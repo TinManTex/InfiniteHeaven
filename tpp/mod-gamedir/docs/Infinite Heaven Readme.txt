@@ -1,48 +1,47 @@
 = Infinite heaven =
-r75 2015-11-14
+r80 2015-11-17
 by tin man tex
 For MGSV version 1.0.6.0 (1.06 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-Note for r75:
-Requires Snakebite 0.8 to install, available via the snakebite autoupdate on 0.6 and later.
+Note for r80:
+Requires Snakebite 0.8 to install.
+
+New in r80:
+Enemy phases menu:
+Change minimum and max phase of CPs in an area around player.
+Examples: 
+minimum and maximum to SNEAK, will return enemies to the lowest alert level.
+Minimum to caution will set the enemies to the minimum alerted/run everywhere/gun ready phase.
+EVASION and ALERT are a bit more tricky, as they have a lot of enemy behaviours associated with them.
+EVASION normally automatically downgrades to CAUTION if there's no last-known-position for the player.
+ALERT automatically sets last-known to player position, even if no enemies have no line of sight.
+So in my implmentation EVASION will initially set ALERT.
+
+Don't downgrade phase - independant of above, prevents the game auto downgrade of phases after player not being spotted for a while, this however leads to odd behaviour at ALERT as the enemy will infinitely suppress the last-known-position. It's usually better to just set the minimum phase.
+
+Demonstration of phase settings: https://youtu.be/veL0btXaOb4
+
+
+Headgear (cosmetic) - Chose from a variety of balaclavas, helmets with NVG and Gas masks. Cosmetic only (no headgear bonuses)
+Demonstration: https://youtu.be/1DlkIV3KduI
+
 
 New in r75
 Option: Start Offline - Start the game in offline mode, this also removes the connect option from the menu.
 Option: Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, the will however spawn off map, use the call menu to have them respawn near.
 Feature: Abort Mission (Return to ACC) added to Motherbase pause menu.
 
-New in r74:
-New 'Show assets Menu' in Mother base Menu.
-Options: Show mother base assets, Big Boss posters, Nuke Elimination Monument, Sahelanthropus, Eli (in theory, haven't actually seen him though), Code Talker (the game doesn't animate or have collision for him).
-Option: Don't lock goal doors - useless unless you like swishing doors.
-Option: Don't disable Ocelot after cutscenes - with this you can leave Occelot on MB in person after some cutscenes.
-
-New in r71:
-All options that were previously bundled as part of subsistence profiles now individually setable.
-Highlights:
-Disable Head markers independantly from objective/placed markers (markers for other objects like vehicles/fultonable weapons are also disabled however due to the game function).
-
-Arm abilitiy levels - Sonar, Mobility, Precision, Medical - can now be individually set.
-
-Weapon OSP/clearing now can be set individually per slot - primary, secondary, back
-
-New Enemy preparedness options:
-Command: Reset enemy preparedness levels - sets to 0
-Option: Resupply in #missions - the number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
-
-Fixed: Unlocking sideops would conflict with other sideop in area
-
-Want to help out?
-------------------------------
-
-Translation: Check out the file InfLang.txt in the infinite heaven .zip and see what you can do. Contact me by pm if you want more detail/want to send me your translation. You will be credited in the main infinite heaven description for your kind work.
-
-Features video: My system is not currently set up to record game footage, if someone wants to do a review/spotlight of all the different features of infinite heaven that would be awesome.
-
 Infinite Heaven features:
 ------------------------------
+Demonstrations:
+Mother base settings: 
+https://youtu.be/PSWTQwJNaRU
+Phase settings: 
+https://youtu.be/veL0btXaOb4
+Headgear: 
+https://youtu.be/1DlkIV3KduI
 
 Player Restriction - disable of game settings to customize your challenge
 
@@ -54,9 +53,22 @@ Bounder - Pure as base but allows: Buddy, changing Suit (which should also allow
 
 OSP Weapon settings - Seperate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, individually setable.
 
+Arm abilitiy levels - Sonar, Mobility, Precision, Medical - can now be individually set.
+
+Disable Head markers independantly from objective/placed markers (markers for other objects like vehicles/fultonable weapons are also disabled however due to the game function).
+
+Mission Entance/Exit options:
+
+Start on foot - skip heli ride into mission and start on the ground.
+
+Abort Mission (Return to ACC) added to Motherbase pause menu.
+
 Enemy Preparedness:
+
 Reset - to 0
+
 Max - the same 'revenge system' max as the extreme missions. Most soldiers have gear equipped, such as helmets, body armor, nvg, many heavy weapons deployed.
+
 Resupply in #missions - the number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
 
 Mother Base soldier tweaks:
@@ -67,7 +79,10 @@ Suits - same range as fob missions
 
 War Games - set mother base soliders hostile with non-lethal or lethal weapons
 
+Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, the will however spawn off map, use the call menu to have them respawn near.
+
 Parameters:
+
 General Enemy parameter tweaks - switch to default if youre combining with a mod like TPP Harcore.
 	Increased enemy sight at night time, because it's always full moon/so bright anyway.
 
@@ -75,7 +90,8 @@ Player health scaling 400-0%(1hp)
 
 Enemy health scaling 400-0% (requires Enemy Parameters Tweaked)
 
-(slightly updated) From the readme: 
+Side ops:
+
 Unlock random Sideops for areas - The normal games sideops system breaks the map into areas, with only one sideop allowed to be active at a time. In the retail game it's chosen in a first found manner. Uncompleted story missions and uncompleted sideops get priority of selection over replayable sideops.
 This setting changes it to a random selection of potential sideops, with the same priorities. Force replay adds completed sideops to the potential selection. Force Open adds most sideops to the selection pool.
 
@@ -84,17 +100,33 @@ Open specific sideop - enables that specifc sideop.
 Warning: still largely untested, unknown how replaying the story missions affect things.
 
 Cutscenes:
+
 Use current soldier in cutscenes instead of snake.
 
 Disable Mother Base cutscenes - Disables some arrive at motherbase cutscenes that cause infinite loading screens on some saves. This bug also occurs on unmodified games. If you have a save already stuck in this state (already at the MB loading screen) try my seperate 'MB loading screen fix' mod.
 
 Play selected mother base cutscene - Can choose from many of the mother base cutscenes that play on returning. Requires the setting 'MB cutscene play mode' to be set to 'Play selected'
 
+'Show assets Menu' in Mother base Menu:
+
+Show mother base assets - Big Boss posters, Nuke Elimination Monument, Sahelanthropus, Eli (in theory, haven't actually seen him though), Code Talker (the game doesn't animate or have collision for him).
+
+Don't lock goal doors - useless unless you like swishing doors.
+
+Don't disable Ocelot after cutscenes - with this you can leave Occelot on MB in person after some cutscenes.
+
 Patchups:
+
 Unlock playable avatar - unlock avatar before mission 46
 
+Return Quiet - instanly runs same code as the Reunion mission 11 replay.
+
+Start Offline - Start the game in offline mode, this also removes the connect option from the pause menu.
+
 Retail Bug fixes:
+
 Enemies Revenge system level for Fulton was fulton was 0 low, 1 blank, 2 high, now 0 blank 1 low 2 high.
+
 
 By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu. 
 All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. Snakebite mod manager allows easy toggling of mods.
@@ -196,12 +228,38 @@ There may be some overrides for Max Prepare that I've missed, I've noticed on sm
 
 Changelog:
 ------------------------------
-r75 - r75 2015-11-14 - public release
+r80 - 2015-11-17 - public release
+Settings: enablePhaseMod, phaseUpdateRate, phaseUpdateRange, minPhase, maxPhase.
+InfMain: Update(), added to TppMain updateList.
+InfMain.Update: phaseMod functionality.
+TppHero: no heroic point loss on alert if phasemod on.
+Menu: Non gvar Options no longer set to default on selection
+Menu: disable option with disableReason langid
+Option: ogrePointChange, with no feedback on current value I'm not happy about implementation
+Refactor: InfMenuDefs, split to InfMenuCommands
+
+r79
+DebugCommands: testing various phase functions
+
+r78
+Menu: In mission mod menu no longer open if in walker gear or vehicle - thanks for report SkySta
+Fix:  Secondary and Back weapon osp settings swapped - thanks for the report ThereisnoLion
+
+r77
+Various player appearance vars.
+InfMenu: option:OnSelect call in GetSetting()
+
+r76 - 2015-11-14 - public release
+Option: abortMenuItemControl, added to Subsistence Pure profile - thanks for thesuggestion MayonnaisePlant
+Fix: startOffline not checking if save value nil first, only would hit on r75 for new users to the mod. - thanks animefreakIIX for the report.
+
+r75 - 2015-11-14 - public release
 Fix: subsistence mission without subsistence profile set hang on loading screen
 Fix: setting change increment mult not rounded to integer
 Option: startOffline
 Fix: CanArriveQuietInMb - Quiet not showing in motherbase cell/demos.
 Option: mbEnableBuddies
+Menu: commands to in mission debug submenu
 Build with snakebite 0.8
 
 r74 - 2015-11-12 - public release

@@ -308,6 +308,7 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(1,true)
       
       Ivars.abortMenuItemControl:Set(1,true)
+      Ivars.enablePhaseMod:Set(0,true)
     end,
     BOUNDER=function() 
       Ivars.noCentralLzs:Set(1,true)
@@ -340,6 +341,7 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(1,true)
       
       Ivars.abortMenuItemControl:Set(0,true)
+      Ivars.enablePhaseMod:Set(0,true)
     end,
     CUSTOM=nil,
   },
@@ -965,14 +967,14 @@ this.playerFaceIdApearance={
   end,
 }
 
-this.playerBalaclava={
+this.playerHeadgear={--DOC: player appearance.txt
   save=MISSION,
   range={max=7},--TODO: needed something, anything here, RETRY now that I've changed unset max default to 1 from 0
   maleSettingsTable={
     0,
     550,--Balaclava Male
     551,--Balaclava Male
-    --552,--DD armor helmet (green top) 
+    552,--DD armor helmet (green top) 
     558,--Gas mask and clava Male
     560,--Gas mask DD helm Male
     561,--Gas mask DD greentop helm Male
@@ -981,7 +983,7 @@ this.playerBalaclava={
   },
   femaleSettingsTable={
     0,
-    --555,--DD armor helmet (green top) female - i cant really tell any difference between
+    555,--DD armor helmet (green top) female - i cant really tell any difference between
     559,--Gas mask and clava Female
     562,--Gas mask DD helm Female
     563,--Gas mask DD greentop helm Female
@@ -991,13 +993,13 @@ this.playerBalaclava={
   OnSelect=function(self)
     if vars.playerType==PlayerType.DD_FEMALE then
       if self.settingsTable~=self.femaleSettingsTable then
-        self.settingNames="playerBalaclavaFemaleSettings"
+        self.settingNames="playerHeadgearFemaleSettings"
         self.settingsTable=self.femaleSettingsTable
         self.range.max=#self.femaleSettingsTable-1
       end
     else
       if self.settingsTable~=self.maleSettingsTable then
-        self.settingNames="playerBalaclavaMaleSettings"
+        self.settingNames="playerHeadgearMaleSettings"
         self.settingsTable=self.maleSettingsTable
         self.range.max=#self.maleSettingsTable-1 
       end    
@@ -1009,11 +1011,10 @@ this.playerBalaclava={
     end
   end,
   OnChange=function(self)
-    --if gvars.useAppearance==1 then
+    if self.setting>0 then
       vars.playerFaceId=self.settingsTable[self.setting+1]
-   -- end
+    end
   end,
-  --trackVariable=vars.playerType,
 }
 
 --
@@ -1095,11 +1096,27 @@ this.printPhaseChanges={
 
 --[[
 this.ogrePointChange={
-  save=MISSION,
+  --save=MISSION,
   default=-100,
   range={min=-10000,max=10000,increment=100},
 }
 --]]
+--[[
+this.ogrePointChange={
+  save=MISSION,
+  settings={"DEFAULT","NORMAL","DEMON"},
+  settingNames="ogrePointChangeSettings",
+  settingsTable=99999999,
+  OnChange=function(self)
+    if self.setting==3 then
+      TppMotherBaseManagement.SubOgrePoint{ogrePoint=-99999999}
+    elseif self.setting==2 then
+      TppMotherBaseManagement.AddOgrePoint{ogrePoint=99999999}
+    end
+  end,
+}
+--]]
+
 local function IsIvar(ivar)
   return IsTable(ivar) and (ivar.range or ivar.settings)   
 end

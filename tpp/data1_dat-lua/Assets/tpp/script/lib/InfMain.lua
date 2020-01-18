@@ -1,5 +1,4 @@
 -- DOBUILD: 1 --
---tex mostly acting as InfDefine at the moment
 local this={}
 
 this.DEBUGMODE=false

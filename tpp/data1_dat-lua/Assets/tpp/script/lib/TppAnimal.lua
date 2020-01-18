@@ -1,4 +1,4 @@
-local e={}
+local this={}
 local n=Fox.StrCode32
 local n=Tpp.IsTypeFunc
 local n=Tpp.IsTypeTable
@@ -10,33 +10,38 @@ local n=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
 local n=GameObject.NULL_ID
 local a=GameObject.SendCommand
 local a=Tpp.DEBUG_StrCode32ToString
-e.AnimalExtraId={UNIQUE_ANIMAL_00=TppAnimalId.COUNT+0,UNIQUE_ANIMAL_01=TppAnimalId.COUNT+1,UNIQUE_ANIMAL_02=TppAnimalId.COUNT+2,UNIQUE_ANIMAL_03=TppAnimalId.COUNT+3}
-e.AnimalIdTable={[e.AnimalExtraId.UNIQUE_ANIMAL_00]=TppMotherBaseManagementConst.ANIMAL_1900,[e.AnimalExtraId.UNIQUE_ANIMAL_01]=TppMotherBaseManagementConst.ANIMAL_610,[e.AnimalExtraId.UNIQUE_ANIMAL_02]=TppMotherBaseManagementConst.ANIMAL_130,[e.AnimalExtraId.UNIQUE_ANIMAL_03]=TppMotherBaseManagementConst.ANIMAL_2250}
-function e.Messages()
+this.AnimalExtraId={UNIQUE_ANIMAL_00=TppAnimalId.COUNT+0,UNIQUE_ANIMAL_01=TppAnimalId.COUNT+1,UNIQUE_ANIMAL_02=TppAnimalId.COUNT+2,UNIQUE_ANIMAL_03=TppAnimalId.COUNT+3}
+this.AnimalIdTable={
+  [this.AnimalExtraId.UNIQUE_ANIMAL_00]=TppMotherBaseManagementConst.ANIMAL_1900,
+  [this.AnimalExtraId.UNIQUE_ANIMAL_01]=TppMotherBaseManagementConst.ANIMAL_610,
+  [this.AnimalExtraId.UNIQUE_ANIMAL_02]=TppMotherBaseManagementConst.ANIMAL_130,
+  [this.AnimalExtraId.UNIQUE_ANIMAL_03]=TppMotherBaseManagementConst.ANIMAL_2250
+}
+function this.Messages()
   return
 end
-function e.OnAllocate(e)
+function this.OnAllocate(e)
 end
-function e.Init(n)
-  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function this.Init(n)
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
   mvars.ani_questTargetList={}
   mvars.ani_questGameObjectIdList={}
   mvars.ani_isQuestSetup=false
 end
-function e.OnReload()
-  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function this.OnReload()
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function e.OnMessage(l,d,n,a,i,t,s)
-  Tpp.DoMessage(e.messageExecTable,TppMission.CheckMessageOption,l,d,n,a,i,t,s)
+function this.OnMessage(l,d,n,a,i,t,s)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,l,d,n,a,i,t,s)
 end
-function e.GetDataBaseIdFromAnimalId(n)
+function this.GetDataBaseIdFromAnimalId(n)
   if n<TppAnimalId.COUNT then
     return TppAnimalSystem.GetDataBaseIdFromAnimalId(n)
   else
-    return e.AnimalIdTable[n]
+    return this.AnimalIdTable[n]
   end
 end
-function e.SetEnabled(e,t,a)
+function this.SetEnabled(e,t,a)
   local e={type=e,index=0}
   if e==n then
     return
@@ -44,7 +49,7 @@ function e.SetEnabled(e,t,a)
   local n={id="SetEnabled",name=t,enabled=a}
   GameObject.SendCommand(e,n)
 end
-function e.SetRoute(e,t,a)
+function this.SetRoute(e,t,a)
   local e={type=e,index=0}
   if e==n then
     return
@@ -52,7 +57,7 @@ function e.SetRoute(e,t,a)
   local n={id="SetRoute",name=t,route=a}
   GameObject.SendCommand(e,n)
 end
-function e.SetHerdRoute(e,a,t)
+function this.SetHerdRoute(e,a,t)
   local e={type=e,index=0}
   if e==n then
     return
@@ -60,7 +65,7 @@ function e.SetHerdRoute(e,a,t)
   local n={id="SetHerdEnabledCommand",type="Route",name=a,instanceIndex=0,route=t}
   GameObject.SendCommand(e,n)
 end
-function e.SetKind(e,t,a)
+function this.SetKind(e,t,a)
   if a==nil then
     return
   end
@@ -71,7 +76,7 @@ function e.SetKind(e,t,a)
   local n={id="SetKind",name=t,fv2Index=a}
   GameObject.SendCommand(e,n)
 end
-function e.SetFova(e,a,d,t)
+function this.SetFova(e,a,d,t)
   local i={type=e,index=0}
   if i==n then
     return
@@ -84,7 +89,7 @@ function e.SetFova(e,a,d,t)
   end
   GameObject.SendCommand(i,e)
 end
-function e.SetNotice(e,a,t)
+function this.SetNotice(e,a,t)
   local e={type=e,index=0}
   if e==n then
     return
@@ -92,7 +97,7 @@ function e.SetNotice(e,a,t)
   local n={id="SetNoticeEnabled",name=a,enabled=t}
   GameObject.SendCommand(e,n)
 end
-function e.SetIgnoreNotice(a,t,e)
+function this.SetIgnoreNotice(a,t,e)
   local a={type=a,index=0}
   if a==n then
     return
@@ -100,7 +105,7 @@ function e.SetIgnoreNotice(a,t,e)
   local e={id="SetIgnoreNotice",isPlayer=e,isSoldier=e}
   GameObject.SendCommand(a,e)
 end
-function e.SetSleep(e,t,a)
+function this.SetSleep(e,t,a)
   local e={type=e,index=0}
   if e==n then
     return
@@ -108,7 +113,7 @@ function e.SetSleep(e,t,a)
   local n={id="SetStatus",status="Sleep",set=a}
   GameObject.SendCommand(e,n)
 end
-function e.SetAnimalId(e,a,t)
+function this.SetAnimalId(e,a,t)
   local e={type=e,index=0}
   if e==n then
     return
@@ -116,7 +121,7 @@ function e.SetAnimalId(e,a,t)
   local n={id="SetAnimalId",name=a,animalId=t}
   GameObject.SendCommand(e,n)
 end
-function e.SetBird(e)
+function this.SetBird(e)
   for n,e in ipairs(e)do
     local n={type=e.birdType,index=0}
     local a={id="SetEnabled",name=e.name,birdIndex=0,enabled=true}
@@ -141,7 +146,7 @@ function TppRatBird._EnableBirds(e)
   for e,e in ipairs(mvars.rat_bird_birdList)do
   end
 end
-function e.OnActivateQuest(t)
+function this.OnActivateQuest(t)
   if mvars.ani_isQuestSetup==false then
     mvars.ani_questTargetList={}
     mvars.ani_questGameObjectIdList={}
@@ -151,34 +156,34 @@ function e.OnActivateQuest(t)
     for t,n in pairs(t.animalList)do
       if n.animalName then
         if n.colorId then
-          e.SetFova(n.animalType,n.animalName,n.colorId)a=true
+          this.SetFova(n.animalType,n.animalName,n.colorId)a=true
         end
         if n.animalId then
-          e.SetAnimalId(n.animalType,n.animalName,n.animalId)a=true
+          this.SetAnimalId(n.animalType,n.animalName,n.animalId)a=true
         end
         if n.kindId then
-          e.SetKind(n.animalType,n.animalName,n.kindId)a=true
+          this.SetKind(n.animalType,n.animalName,n.kindId)a=true
         end
         if n.routeName then
           if n.animalType=="TppBear"then
-            e.SetRoute(n.animalType,n.animalName,n.routeName)
+            this.SetRoute(n.animalType,n.animalName,n.routeName)
           else
-            e.SetHerdRoute(n.animalType,n.animalName,n.routeName)
+            this.SetHerdRoute(n.animalType,n.animalName,n.routeName)
           end
           a=true
         end
         if n.isNotice then
-          e.SetNotice(n.animalType,n.animalName,false)a=true
+          this.SetNotice(n.animalType,n.animalName,false)a=true
         end
         if n.isIgnoreNotice then
-          e.SetIgnoreNotice(n.animalType,n.animalName,true)a=true
+          this.SetIgnoreNotice(n.animalType,n.animalName,true)a=true
         end
         if n.isSleep then
-          e.SetSleep(n.animalType,n.animalName,n.isSleep)a=true
+          this.SetSleep(n.animalType,n.animalName,n.isSleep)a=true
         end
       end
       if n.birdList then
-        e.SetBird(n.birdList)a=true
+        this.SetBird(n.birdList)a=true
       end
     end
   end
@@ -213,23 +218,23 @@ function e.OnActivateQuest(t)
     mvars.ani_isQuestSetup=true
   end
 end
-function e.OnDeactivateQuest(n)
+function this.OnDeactivateQuest(n)
   if mvars.ani_isQuestSetup==true then
     if(n.animalList and Tpp.IsTypeTable(n.animalList))and next(n.animalList)then
       for a,n in pairs(n.animalList)do
         if n.animalName then
           if n.isNotice then
-            e.SetNotice(n.animalType,n.animalName,true)
+            this.SetNotice(n.animalType,n.animalName,true)
           end
           if n.isIgnoreNotice then
-            e.SetIgnoreNotice(n.animalType,n.animalName,false)
+            this.SetIgnoreNotice(n.animalType,n.animalName,false)
           end
         end
       end
     end
   end
 end
-function e.OnTerminateQuest(e)
+function this.OnTerminateQuest(e)
   TppBuddyService.RemoveTargetAnimalId()
   if mvars.ani_isQuestSetup==true then
     mvars.ani_questTargetList={}
@@ -237,12 +242,12 @@ function e.OnTerminateQuest(e)
     mvars.ani_isQuestSetup=false
   end
 end
-function e.CheckQuestAllTarget(d,a,n,t)
+function this.CheckQuestAllTarget(d,a,n,t)
   if not Tpp.IsAnimal(n)then
     return
   end
   local n=TppDefine.QUEST_CLEAR_TYPE.NONE
-  local i=e.GetDataBaseIdFromAnimalId(t)
+  local i=this.GetDataBaseIdFromAnimalId(t)
   local t=t
   local e=TppQuest.GetCurrentQuestName()
   if TppQuest.IsEnd(e)then
@@ -287,7 +292,7 @@ function e.CheckQuestAllTarget(d,a,n,t)
   end
   return n
 end
-function e.IsQuestTarget(e)
+function this.IsQuestTarget(e)
   if mvars.ani_isQuestSetup==false then
     return false
   end
@@ -301,4 +306,4 @@ function e.IsQuestTarget(e)
   end
   return false
 end
-return e
+return this

@@ -137,18 +137,21 @@ this.eng={--english
   startOffline="Start offline",--r75-v-
   mbEnableBuddies="Enable all buddies",
   abortMenuItemControl="Disable abort mission from pause",--r76
-  playerBalaclavaMaleSettings={
-    "Off",
+  playerHeadgear="Headgear (cosmetic)",
+  playerHeadgearMaleSettings={
+    "Don't set",
     "Balaclava 1",
     "Balaclava 2",
+    "DD heavy headgear",
     "Gas mask and balaclava",
     "Gas mask and DD headgear",
     "Gas mask and DD heavy headgear",
     "NVG and DD heavy headgear",
     "NVG, Gas mask and DD heavy headgear",
   },
-  playerBalaclavaFemaleSettings={
-    "Off",
+  playerHeadgearFemaleSettings={
+    "Don't set",
+    "DD heavy headgear",
     "Gas mask and balaclava",
     "Gas mask and DD headgear",
     "Gas mask and DD heavy headgear",
@@ -163,7 +166,13 @@ this.eng={--english
   phaseUpdateRate="Phase mod update rate (seconds)",
   phaseUpdateRange="Phase mod random variation",
   printPhaseChanges="Print phase changes",
-  phase_menu_cannot_subsistence="Cannot be used with Subsistence profile", 
+  phase_menu_cannot_subsistence="Cannot be used with Subsistence profile",
+  menu_disabled="Menu is currently disabled",
+  ogrePointChange="Set demon snake",
+  ogrePointChangeSettings={"Default","Normal","Demon"},
+  --ogrePointChange="Demon points to set",
+  --giveOgrePoint="Give set demon points",
+  debugInMissionMenu="Debug stuff",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

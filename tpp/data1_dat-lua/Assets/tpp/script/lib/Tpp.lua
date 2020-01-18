@@ -79,7 +79,7 @@ this.requires={
 "/Assets/tpp/script/lib/TppRanking.lua",
 "/Assets/tpp/script/lib/TppTrophy.lua",
 "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
-"/Assets/tpp/script/lib/Ivars.lua",--tex for Init
+"/Assets/tpp/script/lib/Ivars.lua",--tex
 "/Assets/tpp/script/lib/InfLang.lua",
 "/Assets/tpp/script/lib/InfMain.lua",
 "/Assets/tpp/script/lib/InfButton.lua",
