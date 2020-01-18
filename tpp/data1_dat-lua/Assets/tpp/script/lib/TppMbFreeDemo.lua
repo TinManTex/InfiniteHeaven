@@ -731,7 +731,9 @@ function e.PlayMtbsEventDemo(o)
       local e={type="TppOcelot2",index=0}
       local t={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=371}GameObject.SendCommand(e,t)
     end
-    e.SetInvisibleUniqueCharacter(u)GkEventTimerManager.Start("TelopStartOnDemo",O)mvars.f30050_demoTelopLangIdList=d
+    e.SetInvisibleUniqueCharacter(u)
+    GkEventTimerManager.Start("TelopStartOnDemo",O)
+    mvars.f30050_demoTelopLangIdList=d
   end,
   onStart=function()
     if s then

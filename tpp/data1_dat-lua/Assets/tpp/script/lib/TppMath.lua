@@ -21,7 +21,7 @@ function this.FindDistance(r,t)
   return n
 end
 function this.Clamp(n,min,max)--tex
-  return n > max and max or n < min and min or n
+  return math.min(math.max(n, min), max);
 end
 function this.ScaleValueClamp1(value,mult)--tex
   local newValue=value*mult

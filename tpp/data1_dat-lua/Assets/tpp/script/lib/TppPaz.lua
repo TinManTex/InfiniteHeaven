@@ -566,7 +566,20 @@ end
 function e.GetRotationY()
   return GameObject.SendCommand(e.GetPazGameObjectId(),{id="GetRotationY"})
 end
-function e.InitTimer()GkEventTimerManager.Stop(p)GkEventTimerManager.Stop(m)GkEventTimerManager.Stop(v)GkEventTimerManager.Stop(u)GkEventTimerManager.Stop(h)GkEventTimerManager.Stop(f)GkEventTimerManager.Stop(l)GkEventTimerManager.Stop(T)GkEventTimerManager.Stop(g)GkEventTimerManager.Stop(z)GkEventTimerManager.Stop(c)GkEventTimerManager.Stop(d)GkEventTimerManager.Stop(t)
+function e.InitTimer()
+GkEventTimerManager.Stop(p)
+GkEventTimerManager.Stop(m)
+GkEventTimerManager.Stop(v)
+GkEventTimerManager.Stop(u)
+GkEventTimerManager.Stop(h)
+GkEventTimerManager.Stop(f)
+GkEventTimerManager.Stop(l)
+GkEventTimerManager.Stop(T)
+GkEventTimerManager.Stop(g)
+GkEventTimerManager.Stop(z)
+GkEventTimerManager.Stop(c)
+GkEventTimerManager.Stop(d)
+GkEventTimerManager.Stop(t)
 end
 function e.InitUi()
   TppUI.OverrideFadeInGameStatus{EquipHud=false,EquipPanel=false,AnnounceLog=false}
@@ -613,7 +626,9 @@ function e.UpdateIcon()
     if not mvars.paz_isIconVisible then
       Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.INTEL,message=Fox.StrCode32"IconOk",messageArg=""}mvars.paz_isIconVisible=true
       if((mvars.paz_doesSnakeHasPicture and mvars.paz_isShowMeMonologueEnabled)and not mvars.paz_isSpeeching)and mvars.paz_lastMonologueLabel~=x then
-        e.SendCommandCallMonologue(x)GkEventTimerManager.Start(m,30)mvars.paz_isShowMeMonologueEnabled=false
+        e.SendCommandCallMonologue(x)
+        GkEventTimerManager.Start(m,30)
+        mvars.paz_isShowMeMonologueEnabled=false
       end
     end
   else

@@ -273,6 +273,7 @@ e.DeclareGVarsTable={
   --[[--tex mod settings save vars--]]
   {name="isManualSubsistence",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="isManualHard",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="revengeMode",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="playerHealthMult",type=TppScriptVars.TYPE_FLOAT,value=1,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="enemyHealthMult",type=TppScriptVars.TYPE_FLOAT,value=1,save=true,category=TppScriptVars.CATEGORY_MISSION},
   nil

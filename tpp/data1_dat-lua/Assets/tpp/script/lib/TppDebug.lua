@@ -545,13 +545,15 @@ function r.DebugUpdate()
   if e.debug.openEmergencyTimer then
     e.debug.openEmergencyTimer=false
     if e.mis_openEmergencyMissionTimerName then
-      GkEventTimerManager.Stop(e.mis_openEmergencyMissionTimerName)GkEventTimerManager.Start(e.mis_openEmergencyMissionTimerName,1)
+      GkEventTimerManager.Stop(e.mis_openEmergencyMissionTimerName)
+      GkEventTimerManager.Start(e.mis_openEmergencyMissionTimerName,1)
     end
   end
   if e.debug.closeEmergencyTimer then
     e.debug.closeEmergencyTimer=false
     if e.mis_closeEmergencyMissionTimerName then
-      GkEventTimerManager.Stop(e.mis_closeEmergencyMissionTimerName)GkEventTimerManager.Start(e.mis_closeEmergencyMissionTimerName,1)
+      GkEventTimerManager.Stop(e.mis_closeEmergencyMissionTimerName)
+      GkEventTimerManager.Start(e.mis_closeEmergencyMissionTimerName,1)
     end
   end
   if t.showSysSVars then

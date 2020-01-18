@@ -27,7 +27,6 @@ local a={
   "SetHighSpeeCameraAtCQCSnatchWeapon"
 }
 Player.RegisterScriptFunc("/Assets/tpp/level_asset/chara/player/game_object/TppPlayer2CallbackScript.lua",a)
-
 local a={
 {name="CqcStandThrowFront",filePath={"/Assets/tpp/motion/SI_game/fani/cameras/gcam_cqc/gcam_cqc_s_thw_s_com_f_01.cani","/Assets/tpp/motion/SI_game/fani/cameras/gcam_cqc/gcam_cqc_s_thw_s_com_f_02.cani"},recoverPreOrientation=false},
 {name="CqcStandThrowBack",filePath={"/Assets/tpp/motion/SI_game/fani/cameras/gcam_cqc/gcam_cqc_s_thw_s_com_b_01.cani","/Assets/tpp/motion/SI_game/fani/cameras/gcam_cqc/gcam_cqc_s_thw_s_com_b_02.cani"},recoverPreOrientation=false},

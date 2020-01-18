@@ -2236,7 +2236,11 @@ function e._ChangeToEnable(a,a,t,n)
   end
 end
 function e.SetQuestShootingPractice()
-  TppSoundDaemon.PostEvent"sfx_s_training_ready_go"GkEventTimerManager.Start("TimerShootingPracticeStart",3.5)e.StopTimer"TimerShootingPracticeRetryConfirm"e.HideShootingPracticeStartUi()mvars.qst_isShootingPracticeStarted=true
+  TppSoundDaemon.PostEvent"sfx_s_training_ready_go"
+  GkEventTimerManager.Start("TimerShootingPracticeStart",3.5)
+  e.StopTimer"TimerShootingPracticeRetryConfirm"
+  e.HideShootingPracticeStartUi()
+  mvars.qst_isShootingPracticeStarted=true
   GameObject.SendCommand({type="TppHeli2",index=0},{id="PullOut"})
 end
 function e.StartShootingPractice()e.UpdateShootingPracticeUi()
@@ -2292,7 +2296,9 @@ end
 function e.CancelShootingPractice()
   local t=e.GetCurrentQuestName()e.ShowAnnounceLog(s.FAILURE,t)e.OnFinishShootingPractice(nil,true)e.ShootingPracticeStopAllTimer()e.OnQuestShootingTimerEnd()e.SetCancelShootingPracticeStartUi()
 end
-function e.StartSafeTimer(t,n)e.StopTimer(t)GkEventTimerManager.Start(t,n)
+function e.StartSafeTimer(t,n)
+e.StopTimer(t)
+GkEventTimerManager.Start(t,n)
 end
 function e.StopTimer(e)
   if GkEventTimerManager.IsTimerActive(e)then

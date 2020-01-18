@@ -1,13 +1,5 @@
 local this={}
 local e=this
---tex
-this.manualSubsistence = false
-this.manualHard = false
-this.manualPerfectStealth = false
-this.subsistenceLoadouts = {
-  TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE,
-  TppDefine.SUBSISTENCE_SECONDARY_INITIAL_WEAPON_TABLE
-}--
 local o=Fox.StrCode32
 local i=Tpp.IsTypeFunc
 local s=Tpp.IsTypeTable
@@ -1415,7 +1407,7 @@ function this.IsHelicopterSpace(e)
     return false
   end
 end
-function this.IsFreeMission(e)
+function this.IsFreeMission(e)--tex: NMC: free mission ids are in the 30000 range, see TppDefine.SYS_MISSION_ID
   local e=math.floor(e/1e4)
   if e==3 then
     return true
@@ -1451,7 +1443,7 @@ function this.IsManualHardMission()
 end
 --tex end
 function this.IsActualHardMission(e)--tex was IsHardMission
-  --function this.IsHardMission(e)
+--function this.IsHardMission(e)
   local n=math.floor(e/1e3)
   local e=math.floor(e/1e4)*10
   if(n-e)==1 then
@@ -1491,11 +1483,6 @@ function this.IsActualSubsistenceMission()
   end
 end
 function this.IsPerfectStealthMission()
-  --tex
-  if e.manualPerfectStealth then
-    return true
-  end
-  --
   if(((vars.missionCode==11082)or(vars.missionCode==11033))or(vars.missionCode==11080))or(vars.missionCode==11121)then
     return true
   else
@@ -1653,7 +1640,6 @@ function this.Messages()
         end
         TppTerminal.GetFobStatus()
         e.ShowAnnounceLogOnGameStart()
-
       end},
       {msg="EndFadeIn",sender="FadeInOnStartMissionGame",func=function()
         e.ShowAnnounceLogOnGameStart()
@@ -1769,7 +1755,8 @@ function this.Messages()
           TppSound.PostJingleOnDecendingLandingZoneWithOutCanMissionClear()
         end
       end},
-      {msg="StartedPullingOut",func=function()t("Timer_RemoveUserMarker",1)
+      {msg="StartedPullingOut",func=function()
+        t("Timer_RemoveUserMarker",1)
         end},
       {msg="LostControl",func=function(e,n,i)
         local e=GameObject.GetTypeIndex(e)
@@ -2298,57 +2285,11 @@ function this.OnPlayerFultoned()
     e.AbortForRideFultonContainer()
   end
 end
-
 function this.Update()
+  TppMain.UpdateModMenu()--tex
   local n=mvars
   local s=svars
   local o=e.GetMissionName()
-  --tex crude settings menu stuff. should be in TppMain/custom func off that, but had 'troubles' running in main, aka can't debug to find out what the fuck
-  if not n.mis_missionStateIsNotInGame then --tex actually loaded game, ie at least 'continued' from title screen
-    if TppMission.IsHelicopterSpace(vars.missionCode)then
-      --tex RETRY: still not happy, want to read menu status but cant find any way
-      if TppMain.OnButtonDown(PlayerPad.LIGHT_SWITCH) then    
-        TppMission.modMenuOn = not TppMission.modMenuOn
-        if TppMission.modMenuOn then
-          TppMain.DisplayCurrentSetting()
-        end
-      end
-      if TppMain.OnButtonDown(PlayerPad.RELOAD) then    
-        if TppMission.modMenuOn then
-          --tex CULL:TppMain.DisplayCurrentSetting()
-          TppMain.ResetSettings()       
-        end
-      end
-      
-      if TppMission.modMenuOn then
-        if TppMain.OnButtonDown(PlayerPad.UP) then
-          TppMain.PreviousOption()
-          TppMain.DisplayCurrentSetting()
-        end
-        if TppMain.OnButtonDown(PlayerPad.DOWN) then
-          TppMain.NextOption()
-          TppMain.DisplayCurrentSetting()
-        end
-        if TppMain.OnButtonDown(PlayerPad.LEFT) then
-          TppMain.PreviousSetting()
-          TppMain.DisplayCurrentSetting()
-        end
-        if TppMain.OnButtonDown(PlayerPad.RIGHT) then
-          TppMain.NextSetting()
-          TppMain.DisplayCurrentSetting()
-        end
-      else
-        TppMission.modMenuOn = false
-      end
-    else--!ishelispace
-      if TppMain.OnButtonDown(PlayerPad.LIGHT_SWITCH) then    
-        TppMain.DisplaySettings()
-        --TppUiCommand.AnnounceLogViewLangId("announce_trial_time",TppMain.lifeParameterTableMod.maxLife,TppMain.lifeParameterTableMod.maxLimbLife,TppMain.lifeParameterTableMod.maxArmorLife)--tex CULL: DEBUG: 
-      end
-    end
-  end --ingame
-  TppMain.UpdateKeys() --tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
-  --tex end
   if n.mis_needSetCanMissionClear then
     e._SetCanMissionClear()
   end

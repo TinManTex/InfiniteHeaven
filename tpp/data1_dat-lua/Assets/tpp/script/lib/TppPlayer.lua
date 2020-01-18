@@ -1675,11 +1675,8 @@ function this.Init(a)
 end
 function this.SetSelfSubsistenceOnHardMission()
   if TppMission.IsSubsistenceMission()then
-    if gvars.isManualSubsistence == 0 then --tex subs loadouts
-      e.SetInitWeapons(TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE)--tex was just this
-    else
-      e.SetInitWeapons(TppMission.subsistenceLoadouts[gvars.isManualSubsistence])
-    end--
+    e.SetInitWeapons(TppMain.subsistenceLoadouts[gvars.isManualSubsistence+1])--tex subs loadouts, lua index from 1
+    --e.SetInitWeapons(TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE)--tex ORIG:
     e.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
     e.RegisterTemporaryPlayerType{partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
   end

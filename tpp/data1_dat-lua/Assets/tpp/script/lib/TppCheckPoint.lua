@@ -12,9 +12,9 @@ local f=Tpp.IsNotAlert
 local s=0
 function e.DeclareSVars()
   return{
-  {name="chk_checkPointName",arraySize=TppDefine.CHECK_POINT_MAX,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-  {name="chk_checkPointEnable",arraySize=TppDefine.CHECK_POINT_MAX,type=TppScriptVars.TYPE_BOOL,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
-  nil
+    {name="chk_checkPointName",arraySize=TppDefine.CHECK_POINT_MAX,type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="chk_checkPointEnable",arraySize=TppDefine.CHECK_POINT_MAX,type=TppScriptVars.TYPE_BOOL,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    nil
   }
 end
 function e.Messages()
@@ -27,11 +27,11 @@ function e.Messages()
       for t,i in pairs(i)do
         local t="trap_"..i
         local e={msg="Enter",sender=t,
-        func=function(n,n)
-        e.Update{checkPoint=i,trapName=t,safetyCurrentPosition=true}
+          func=function(n,n)
+            e.Update{checkPoint=i,trapName=t,safetyCurrentPosition=true}
           end
-          }
-          table.insert(n,e)
+        }
+        table.insert(n,e)
       end
       table.insert(n,nil)
     end
@@ -200,11 +200,12 @@ function e.Update(n)
   TppMission.VarSaveOnUpdateCheckPoint(n)
   GkEventTimerManager.Start("Timer_UpdateCheckPoint",.01)
 end
-function e.UpdateAtCurrentPosition()e.Update{atCurrentPosition=true}
+function e.UpdateAtCurrentPosition()
+  e.Update{atCurrentPosition=true}
 end
 function e.DEBUG_Init()
-mvars.debug.showCheckPointList=false;
-(nil).AddDebugMenu("LuaCheckPoint","CHK.showCheckPointList","bool",mvars.debug,"showCheckPointList")
+  mvars.debug.showCheckPointList=false;
+  (nil).AddDebugMenu("LuaCheckPoint","CHK.showCheckPointList","bool",mvars.debug,"showCheckPointList")
 end
 function e.DebugUpdate()
   local i=(nil).NewContext()
@@ -212,7 +213,7 @@ function e.DebugUpdate()
     (nil).Print(i,{.5,.5,1},"TppCheckPoint: showCheckPointList")
     for o,n in pairs(mvars.mis_checkPointList)do
       if t(n)and e.IsEnable(n)then
-      (nil).Print(i,{1,1,1},n)
+        (nil).Print(i,{1,1,1},n)
       end
     end
   end

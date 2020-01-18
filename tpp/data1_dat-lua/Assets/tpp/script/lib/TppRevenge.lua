@@ -42,8 +42,36 @@ e.REDUCE_POINT_TABLE={[e.REVENGE_TYPE.NIGHT_S]={-10,-50,-50,-50,-50,-50,-50,-50,
 e.REVENGE_TRIGGER_TYPE={HEAD_SHOT=1,ELIMINATED_IN_STEALTH=2,ELIMINATED_IN_COMBAT=3,FULTON=4,SMOKE=5,KILLED_BY_HELI=6,ANNIHILATED_IN_STEALTH=7,ANNIHILATED_IN_COMBAT=8,WAKE_A_COMRADE=9,DISCOVERY_AT_NIGHT=10,ELIMINATED_AT_NIGHT=11,SNIPED=12,KILLED_BY_VEHICLE=13,WATCH_SMOKE=14}
 e.BLOCKED_TYPE={GAS_MASK=0,HELMET=1,CAMERA=2,DECOY=3,MINE=4,NVG=5,SHOTGUN=6,MG=7,SOFT_ARMOR=8,SHIELD=9,ARMOR=10,GUN_LIGHT=11,SNIPER=12,MISSILE=13,MAX=14}
 e.BLOCKED_FOR_MISSION_COUNT=3
-e.DEPLOY_REVENGE_MISSION_BLOCKED_LIST={[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]=e.BLOCKED_TYPE.GAS_MASK,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]=e.BLOCKED_TYPE.HELMET,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]=e.BLOCKED_TYPE.CAMERA,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]=e.BLOCKED_TYPE.DECOY,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]=e.BLOCKED_TYPE.MINE,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]=e.BLOCKED_TYPE.NVG,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]=e.BLOCKED_TYPE.SHOTGUN,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]=e.BLOCKED_TYPE.MG,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]=e.BLOCKED_TYPE.SOFT_ARMOR,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]=e.BLOCKED_TYPE.SHIELD,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]=e.BLOCKED_TYPE.ARMOR,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]=e.BLOCKED_TYPE.GUN_LIGHT,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]=e.BLOCKED_TYPE.SNIPER,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]=e.BLOCKED_TYPE.MISSILE}
-e.DEPLOY_REVENGE_MISSION_CONDITION_LIST={[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]={revengeType=e.REVENGE_TYPE.SMOKE,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]={revengeType=e.REVENGE_TYPE.HEAD_SHOT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]={revengeType=e.REVENGE_TYPE.STEALTH,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]={revengeType=e.REVENGE_TYPE.STEALTH,lv=2},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]={revengeType=e.REVENGE_TYPE.STEALTH,lv=3},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]={revengeType=e.REVENGE_TYPE.NIGHT_S,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]={revengeType=e.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]={revengeType=e.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]={revengeType=e.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]={revengeType=e.REVENGE_TYPE.COMBAT,lv=2},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]={revengeType=e.REVENGE_TYPE.COMBAT,lv=3},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]={revengeType=e.REVENGE_TYPE.NIGHT_C,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]={revengeType=e.REVENGE_TYPE.LONG_RANGE,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]={revengeType=e.REVENGE_TYPE.VEHICLE,lv=1}}
+e.DEPLOY_REVENGE_MISSION_BLOCKED_LIST={
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]=e.BLOCKED_TYPE.GAS_MASK,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]=e.BLOCKED_TYPE.HELMET,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]=e.BLOCKED_TYPE.CAMERA,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]=e.BLOCKED_TYPE.DECOY,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]=e.BLOCKED_TYPE.MINE,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]=e.BLOCKED_TYPE.NVG,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]=e.BLOCKED_TYPE.SHOTGUN,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]=e.BLOCKED_TYPE.MG,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]=e.BLOCKED_TYPE.SOFT_ARMOR,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]=e.BLOCKED_TYPE.SHIELD,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]=e.BLOCKED_TYPE.ARMOR,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]=e.BLOCKED_TYPE.GUN_LIGHT,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]=e.BLOCKED_TYPE.SNIPER,
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]=e.BLOCKED_TYPE.MISSILE}
+e.DEPLOY_REVENGE_MISSION_CONDITION_LIST={
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]={revengeType=e.REVENGE_TYPE.SMOKE,lv=1},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]={revengeType=e.REVENGE_TYPE.HEAD_SHOT,lv=1},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]={revengeType=e.REVENGE_TYPE.STEALTH,lv=1},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]={revengeType=e.REVENGE_TYPE.STEALTH,lv=2},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]={revengeType=e.REVENGE_TYPE.STEALTH,lv=3},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]={revengeType=e.REVENGE_TYPE.NIGHT_S,lv=1},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]={revengeType=e.REVENGE_TYPE.COMBAT,lv=1},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]={revengeType=e.REVENGE_TYPE.COMBAT,lv=1},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]={revengeType=e.REVENGE_TYPE.COMBAT,lv=1},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]={revengeType=e.REVENGE_TYPE.COMBAT,lv=2},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]={revengeType=e.REVENGE_TYPE.COMBAT,lv=3},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]={revengeType=e.REVENGE_TYPE.NIGHT_C,lv=1},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]={revengeType=e.REVENGE_TYPE.LONG_RANGE,lv=1},
+[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]={revengeType=e.REVENGE_TYPE.VEHICLE,lv=1}}
 e.REVENGE_POINT_TABLE={
   [e.REVENGE_TRIGGER_TYPE.HEAD_SHOT]={[e.REVENGE_TYPE.HEAD_SHOT]=5},
   [e.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_STEALTH]={[e.REVENGE_TYPE.M_STEALTH]=5},
@@ -117,7 +145,7 @@ e.revengeDefine={
   HEAD_SHOT_9={HELMET="90%"},
   HEAD_SHOT_10={HELMET="100%"},
   TRANQ_1={STRONG_NOTICE_TRANQ=true},
-  FULTON_0={},--[[--tex BUGFIX: VERIFY: possible bug fixed, fulto was 0 low 1 blank 2 high, now 0 blank 1 low 2 high--]]
+  FULTON_0={},--[[--tex BUGFIX: VERIFY: possible bug fixed, fulton was 0 low 1 blank 2 high, now 0 blank 1 low 2 high--]]
   FULTON_1={FULTON_LOW=true},
   FULTON_2={FULTON_HIGH=true},
   FULTON_3={FULTON_SPECIAL=true},
@@ -178,8 +206,8 @@ function this.SelectRevengeType()
   local t={}
   for E=0,e.REVENGE_TYPE.MAX-1 do
     local n
-    if r then
-      n=e.GetRevengeLvMax(E,REVENGE_LV_LIMIT_RANK_MAX)
+    if r or gvars.revengeMode>0 then--tex was just r
+      n=e.GetRevengeLvMax(E,REVENGE_LV_LIMIT_RANK_MAX)--tex NMC: actual bug, should be e.REVE, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
     else
       n=e.GetRevengeLv(E)
     end
@@ -650,12 +678,12 @@ end
 function this.GetRevengeLv(e)
   return gvars.rev_revengeLv[e]
 end
-function this.GetRevengeLvMax(E,n)
-  local n=n or e.GetRevengeLvLimitRank()
-  local e=e.REVENGE_LV_MAX[E]
-  if Tpp.IsTypeTable(e)then
-    local e=e[n]
-    return e or 0
+function this.GetRevengeLvMax(type,rankLimit)
+  local rankLimit=rankLimit or this.GetRevengeLvLimitRank()
+  local limits=this.REVENGE_LV_MAX[type]
+  if Tpp.IsTypeTable(limits)then
+    local maxLvl=limits[rankLimit]
+    return maxLvl or 0
   end
   return 0
 end
@@ -721,15 +749,13 @@ function this.UpdateRevengeLv(n)
   end
   e._SetEnmityLv()
 end
-function this._GetUiParameterValue(E)
-  local r=4
-  local t=5
-  local n=e.GetRevengeLv(E)
-  if n>=e.GetRevengeLvMax(E,t)then
+function this._GetUiParameterValue(revengeType)
+  local revengeLevel=e.GetRevengeLv(revengeType)
+  if revengeLevel>=e.GetRevengeLvMax(revengeType,5)then
     return 3
-  elseif n>=e.GetRevengeLvMax(E,r)then
+  elseif revengeLevel>=e.GetRevengeLvMax(revengeType,4)then
     return 2
-  elseif n>=1 then
+  elseif revengeLevel>=1 then
     return 1
   end
   return 0
@@ -748,7 +774,22 @@ function this._SetMbInterrogate()
     return
   end
   local E=0
-  local n={{MbInterrogate.FULUTON,e.REVENGE_TYPE.FULTON,1},{MbInterrogate.GAS,e.REVENGE_TYPE.SMOKE,1,e.BLOCKED_TYPE.GAS_MASK},{MbInterrogate.MET,e.REVENGE_TYPE.HEAD_SHOT,1,e.BLOCKED_TYPE.HELMET},{MbInterrogate.FLASH,e.REVENGE_TYPE.NIGHT_C,1,e.BLOCKED_TYPE.GUN_LIGHT},{MbInterrogate.SNIPER,e.REVENGE_TYPE.LONG_RANGE,1,e.BLOCKED_TYPE.SNIPER},{MbInterrogate.MISSILE,e.REVENGE_TYPE.VEHICLE,1,e.BLOCKED_TYPE.MISSILE},{MbInterrogate.NIGHT,e.REVENGE_TYPE.NIGHT_S,1,e.BLOCKED_TYPE.NVG},{MbInterrogate.CAMERA,e.REVENGE_TYPE.STEALTH,e.revengeDefine._ENABLE_CAMERA_LV,e.BLOCKED_TYPE.CAMERA},{MbInterrogate.DECOY,e.REVENGE_TYPE.STEALTH,e.revengeDefine._ENABLE_DECOY_LV,e.BLOCKED_TYPE.DECOY},{MbInterrogate.MINE,e.REVENGE_TYPE.STEALTH,e.revengeDefine._ENABLE_MINE_LV,e.BLOCKED_TYPE.MINE},{MbInterrogate.SHOTGUN,e.REVENGE_TYPE.COMBAT,e.revengeDefine._ENABLE_SHOTGUN_LV,e.BLOCKED_TYPE.SHOTGUN},{MbInterrogate.MACHINEGUN,e.REVENGE_TYPE.COMBAT,e.revengeDefine._ENABLE_MG_LV,e.BLOCKED_TYPE.MG},{MbInterrogate.BODY,e.REVENGE_TYPE.COMBAT,e.revengeDefine._ENABLE_SOFT_ARMOR_LV,e.BLOCKED_TYPE.SOFT_ARMOR},{MbInterrogate.SHIELD,e.REVENGE_TYPE.COMBAT,e.revengeDefine._ENABLE_SHIELD_LV,e.BLOCKED_TYPE.SHIELD},{MbInterrogate.ARMOR,e.REVENGE_TYPE.COMBAT,e.revengeDefine._ENABLE_ARMOR_LV,e.BLOCKED_TYPE.ARMOR}}
+  local n={
+    {MbInterrogate.FULUTON,e.REVENGE_TYPE.FULTON,1},
+    {MbInterrogate.GAS,e.REVENGE_TYPE.SMOKE,1,e.BLOCKED_TYPE.GAS_MASK},
+    {MbInterrogate.MET,e.REVENGE_TYPE.HEAD_SHOT,1,e.BLOCKED_TYPE.HELMET},
+    {MbInterrogate.FLASH,e.REVENGE_TYPE.NIGHT_C,1,e.BLOCKED_TYPE.GUN_LIGHT},
+    {MbInterrogate.SNIPER,e.REVENGE_TYPE.LONG_RANGE,1,e.BLOCKED_TYPE.SNIPER},
+    {MbInterrogate.MISSILE,e.REVENGE_TYPE.VEHICLE,1,e.BLOCKED_TYPE.MISSILE},
+    {MbInterrogate.NIGHT,e.REVENGE_TYPE.NIGHT_S,1,e.BLOCKED_TYPE.NVG},
+    {MbInterrogate.CAMERA,e.REVENGE_TYPE.STEALTH,e.revengeDefine._ENABLE_CAMERA_LV,e.BLOCKED_TYPE.CAMERA},
+    {MbInterrogate.DECOY,e.REVENGE_TYPE.STEALTH,e.revengeDefine._ENABLE_DECOY_LV,e.BLOCKED_TYPE.DECOY},
+    {MbInterrogate.MINE,e.REVENGE_TYPE.STEALTH,e.revengeDefine._ENABLE_MINE_LV,e.BLOCKED_TYPE.MINE},
+    {MbInterrogate.SHOTGUN,e.REVENGE_TYPE.COMBAT,e.revengeDefine._ENABLE_SHOTGUN_LV,e.BLOCKED_TYPE.SHOTGUN},
+    {MbInterrogate.MACHINEGUN,e.REVENGE_TYPE.COMBAT,e.revengeDefine._ENABLE_MG_LV,e.BLOCKED_TYPE.MG},
+    {MbInterrogate.BODY,e.REVENGE_TYPE.COMBAT,e.revengeDefine._ENABLE_SOFT_ARMOR_LV,e.BLOCKED_TYPE.SOFT_ARMOR},
+    {MbInterrogate.SHIELD,e.REVENGE_TYPE.COMBAT,e.revengeDefine._ENABLE_SHIELD_LV,e.BLOCKED_TYPE.SHIELD},
+    {MbInterrogate.ARMOR,e.REVENGE_TYPE.COMBAT,e.revengeDefine._ENABLE_ARMOR_LV,e.BLOCKED_TYPE.ARMOR}}
   for t,n in ipairs(n)do
     local t=n[1]
     local a=n[2]
@@ -765,7 +806,18 @@ function this._SetEnmityLv()
   local n=e.GetRevengePoint(e.REVENGE_TYPE.STEALTH)
   local e=e.GetRevengePoint(e.REVENGE_TYPE.COMBAT)
   local t=math.max(n,e)
-  local e={TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_NONE,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_10,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_20,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_30,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_40,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_50,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_60,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_70,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_80,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_90,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_100}
+  local e={
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_NONE,
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_10,
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_20,
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_30,
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_40,
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_50,
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_60,
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_70,
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_80,
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_90,
+  TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_100}
   local n=500
   local E=#e
   local n=math.floor((t*(E-1))/n)+1

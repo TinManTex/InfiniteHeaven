@@ -1,7 +1,11 @@
 local this={}
+this.modVersion = "r20"
+this.modName = "Infinite Heaven"
 local e=this--tex CULL: once deminified
 local IsFunc=Tpp.IsTypeFunc
-this.prevButtons={--tex REFACTOR: better placing
+--tex button press system
+--tex REFACTOR: until we can load our own lua files this is a good a spot as any
+this.prevButtons={
   [bit.tohex(PlayerPad.DECIDE)]=false,
   [bit.tohex(PlayerPad.STANCE)]=false,
   [bit.tohex(PlayerPad.ACTION)]=false,
@@ -17,11 +21,11 @@ this.prevButtons={--tex REFACTOR: better placing
   [bit.tohex(PlayerPad.ZOOM_CHANGE)]=false,
   [bit.tohex(PlayerPad.LIGHT_SWITCH)]=false,
   [bit.tohex(PlayerPad.EVADE)]=false,
-  [bit.tohex(PlayerPad.VEHICLE_FIRE)]=false,
+  --[[[bit.tohex(PlayerPad.VEHICLE_FIRE)]=false,--]]--tex button/bitmask always set for some reason
   [bit.tohex(PlayerPad.VEHICLE_CALL)]=false,
   [bit.tohex(PlayerPad.VEHICLE_DASH)]=false,
-  [bit.tohex(PlayerPad.BUTTON_PLACE_MARKER)]=false,
-  [bit.tohex(PlayerPad.PLACE_MARKER)]=false,
+  --[[[bit.tohex(PlayerPad.BUTTON_PLACE_MARKER)]=false,--]]--tex button/bitmask always set for some reason
+  --[[[bit.tohex(PlayerPad.PLACE_MARKER)]=false,--]]--tex button/bitmask always set for some reason
   [bit.tohex(PlayerPad.INTERROGATE)]=false,
   [bit.tohex(PlayerPad.RIDE_ON)]=false,
   [bit.tohex(PlayerPad.RIDE_OFF)]=false,
@@ -40,54 +44,6 @@ this.prevButtons={--tex REFACTOR: better placing
   [bit.tohex(PlayerPad.TRIGGER_BREAK)]=false,
   --[bit.tohex(PlayerPad.ALL)]=false--]]
 }
---tex mod settings setup
-this.SETTING_NAMES={
-  "SUBSISTENCE",
-  "HARD",
-  "PLAYER_HEALTH_MULT",
-  "ENEMY_HEALTH_MULT",
-  "MAX"
-}
-this.SETTING_TYPE=TppDefine.Enum(this.SETTING_NAMES)
-
-this.switchSlider={max=1,min=0,increment=1}
-this.subsistenceLoadoutSlider={max=#TppMission.subsistenceLoadouts,min=0,increment=1}
-this.healthMultSlider={max=4,min=0,increment=0.2}
-function this.SettingInfoHealth()
-  return vars.playerLifeMax
-end
-function this.ChangeSetting(modSetting,value)
-  gvars[modSetting.gvar]=gvars[modSetting.gvar]+value
-  gvars[modSetting.gvar]=TppMath.Clamp(gvars[modSetting.gvar],modSetting.slider.min,modSetting.slider.max)
-end
-this.modSettings = {
-  [this.SETTING_TYPE.SUBSISTENCE] = {
-    gvar="isManualSubsistence",
-    default=0,
-    slider=this.subsistenceLoadoutSlider,
-  },
-  [this.SETTING_TYPE.HARD] = {
-    gvar="isManualHard",    
-    default=0,
-    slider=this.switchSlider,
-  },
-  [this.SETTING_TYPE.PLAYER_HEALTH_MULT] = {
-    gvar="playerHealthMult",
-    default=1,
-    slider=this.healthMultSlider,
-    isFloatOption=true,
-    infoFunc=this.SettingInfoHealth
-  },
-  [this.SETTING_TYPE.ENEMY_HEALTH_MULT] = {
-    gvar="enemyHealthMult",
-    default=1,
-    slider=this.healthMultSlider,
-    isFloatOption=true,
-  }
-}
-this.currentOption=0--tex lua tables are indexed from 1, but fox enum implementation seems to be 0 indexed
-this.modMenuOn=false--tex RETRY: scoured for ways to get menu status, give up for now HAX
---tex button press system
 function this.UpdateKeys()
   --tex cant figure out anything with no feedback, 
   -- RETRY: again some day
@@ -111,11 +67,11 @@ function this.UpdateKeys()
   this.prevButtons[bit.tohex(PlayerPad.ZOOM_CHANGE)] = this.ButtonDown(PlayerPad.ZOOM_CHANGE)
   this.prevButtons[bit.tohex(PlayerPad.LIGHT_SWITCH)] = this.ButtonDown(PlayerPad.LIGHT_SWITCH)
   this.prevButtons[bit.tohex(PlayerPad.EVADE)] = this.ButtonDown(PlayerPad.EVADE)
-  this.prevButtons[bit.tohex(PlayerPad.VEHICLE_FIRE)] = this.ButtonDown(PlayerPad.VEHICLE_FIRE)
+  --this.prevButtons[bit.tohex(PlayerPad.VEHICLE_FIRE)] = this.ButtonDown(PlayerPad.VEHICLE_FIRE)--tex button/bitmask always set for some reason
   this.prevButtons[bit.tohex(PlayerPad.VEHICLE_CALL)] = this.ButtonDown(PlayerPad.VEHICLE_CALL)
   this.prevButtons[bit.tohex(PlayerPad.VEHICLE_DASH)] = this.ButtonDown(PlayerPad.VEHICLE_DASH)
-  this.prevButtons[bit.tohex(PlayerPad.BUTTON_PLACE_MARKER)] = this.ButtonDown(PlayerPad.BUTTON_PLACE_MARKER)
-  this.prevButtons[bit.tohex(PlayerPad.PLACE_MARKER)] = this.ButtonDown(PlayerPad.PLACE_MARKER)
+  --this.prevButtons[bit.tohex(PlayerPad.BUTTON_PLACE_MARKER)] = this.ButtonDown(PlayerPad.BUTTON_PLACE_MARKER)--tex button/bitmask always set for some reason
+  --this.prevButtons[bit.tohex(PlayerPad.PLACE_MARKER)] = this.ButtonDown(PlayerPad.PLACE_MARKER)--tex button/bitmask always set for some reason
   this.prevButtons[bit.tohex(PlayerPad.INTERROGATE)] = this.ButtonDown(PlayerPad.INTERROGATE)
   this.prevButtons[bit.tohex(PlayerPad.RIDE_ON)] = this.ButtonDown(PlayerPad.RIDE_ON)
   this.prevButtons[bit.tohex(PlayerPad.RIDE_OFF)] = this.ButtonDown(PlayerPad.RIDE_OFF)
@@ -135,6 +91,9 @@ function this.UpdateKeys()
   --this.prevButtons[bit.tohex(PlayerPad.ALL)] = this.ButtonDown(PlayerPad.ALL)--]]
 end
 function this.ButtonDown(button)
+  --[[if (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then
+    TppUiCommand.AnnounceLogView("ButtonPressed:" .. bit.tohex(button))--tex DEBUG: CULL:
+  end--]]
   if (bit.band(PlayerVars.scannedButtonsDirect,button)==button) then
     return true
   end
@@ -153,6 +112,65 @@ function this.OnButtonUp(button)
   end
   return false
 end
+--tex mod settings setup
+this.SETTING_NAMES={
+  "SUBSISTENCE",
+  "REVENGE",
+  --[["HARD",--]]
+  "PLAYER_HEALTH_MULT",
+  "ENEMY_HEALTH_MULT",
+  "MAX"
+}
+this.SETTING_TYPE=TppDefine.Enum(this.SETTING_NAMES)
+this.subsistenceLoadouts={--tex off,pure,secondary. off (but still need table for normal subsistence missions)
+  TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE,
+  TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE,
+  TppDefine.SUBSISTENCE_SECONDARY_INITIAL_WEAPON_TABLE
+}
+this.switchSlider={max=1,min=0,increment=1}
+this.subsistenceLoadoutSlider={max=#this.subsistenceLoadouts-1,min=0,increment=1}
+this.healthMultSlider={max=4,min=0,increment=0.2}
+this.switchSettingNames={"Off","On"}
+function this.SettingInfoHealth()
+  return vars.playerLifeMax
+end
+function this.ChangeSetting(modSetting,value)
+  gvars[modSetting.gvar]=gvars[modSetting.gvar]+value
+  gvars[modSetting.gvar]=TppMath.Clamp(gvars[modSetting.gvar],modSetting.slider.min,modSetting.slider.max)
+end
+this.modSettings = {
+  [this.SETTING_TYPE.SUBSISTENCE] = {
+    name="Subsistence",
+    gvar="isManualSubsistence",
+    default=0,
+    slider=this.subsistenceLoadoutSlider,
+    settingNames={"Off","Pure","Secondary enabled"},
+  },
+  [this.SETTING_TYPE.REVENGE] = {
+    name="Enemy Preparedness",
+    gvar="revengeMode",    
+    default=0,
+    slider=this.switchSlider,
+    settingNames={"Regular","Unrestrained"},
+  },
+  [this.SETTING_TYPE.PLAYER_HEALTH_MULT] = {
+    name="Player life scale",
+    gvar="playerHealthMult",
+    default=1,
+    slider=this.healthMultSlider,
+    isFloatOption=true,
+    infoFunc=this.SettingInfoHealth,
+  },
+  [this.SETTING_TYPE.ENEMY_HEALTH_MULT] = {
+    name="Enemy life scale",
+    gvar="enemyHealthMult",
+    default=1,
+    slider=this.healthMultSlider,
+    isFloatOption=true,
+  }
+}
+this.currentOption=0--tex lua tables are indexed from 1, but fox enum implementation seems to be 0 indexed
+this.modMenuOn=false--tex RETRY: scoured for ways to get menu status, give up for now HAX
 --tex mod settings menu manipulation
 function this.NextOption()
   this.currentOption=this.currentOption+1
@@ -178,16 +196,19 @@ function this.DisplayCurrentSetting()
   this.DisplaySetting(this.currentOption)
 end
 function this.DisplaySetting(index)
-  local option=gvars[this.modSettings[index].gvar] --tex getting a bit dense to parse lol
-  if this.modSettings[index].isFloatOption then
-    option=100*option
+  local modSetting = this.modSettings[index]
+  local option=gvars[modSetting.gvar] --tex getting a bit dense to parse lol
+  if modSetting.settingNames ~= nil then
+    option=modSetting.settingNames[option+1]--tex !SANITY: check you're in bounds dude lol
+  elseif modSetting.isFloatOption then
+    option=math.floor(100*option) .. "%"
   end
   local info = 0
-  if IsFunc(this.modSettings[index].infoFunc) then
-    info = this.modSettings[index].infoFunc()
+  if IsFunc(modSetting.infoFunc) then
+    info = modSetting.infoFunc()
   end
-  --tex RETRY: need custom text output damnit
-  TppUiCommand.AnnounceLogViewLangId("announce_trial_time",index,option,info)
+  TppUiCommand.AnnounceLogDelayTime(0)
+  TppUiCommand.AnnounceLogView(index .. ":" .. modSetting.name .. "=" .. option)--tex thank you ThreeSocks3, you're a god damn legend for finding custom text output, heres a better way to do things than string.format, in lua .. concatenates strings, does simple format conversion
 end
 function this.DisplaySettings()--tex display all
   for i=0,this.SETTING_TYPE.MAX-1 do
@@ -196,24 +217,76 @@ function this.DisplaySettings()--tex display all
 end
 function this.ResetSettings()
   for i=0,(this.SETTING_TYPE.MAX-1) do
-    this.DisplaySetting(i)
+    gvars[this.modSettings[i].gvar] = this.modSettings[i].default
+  end
+end
+function this.ResetSettingsDisplay()
+  TppUiCommand.AnnounceLogDelayTime(0)
+  TppUiCommand.AnnounceLogView("Setting mod options to defaults...")
+  for i=0,(this.SETTING_TYPE.MAX-1) do
     gvars[this.modSettings[i].gvar] = this.modSettings[i].default
     this.DisplaySetting(i)
   end
 end
+function this.UpdateModMenu()--tex RETRY: called from TppMain.Update, had 'troubles' running in main
+  ModStart()
+  if not mvars.mis_missionStateIsNotInGame then --tex actually loaded game, ie at least 'continued' from title screen
+    if TppMission.IsHelicopterSpace(vars.missionCode)then
+      --tex RETRY: still not happy, want to read menu status but cant find any way
+      if this.OnButtonDown(PlayerPad.LIGHT_SWITCH) then    
+        this.modMenuOn = not this.modMenuOn
+        if this.modMenuOn then
+          TppUiCommand.AnnounceLogDelayTime(0)       
+          TppUiCommand.AnnounceLogView(this.modName .. " " .. this.modVersion)
+          this.DisplayCurrentSetting()
+        else
+          TppUiCommand.AnnounceLogDelayTime(0)
+          TppUiCommand.AnnounceLogView("Menu Off")
+        end
+      end
+      if this.OnButtonDown(PlayerPad.RELOAD) then    
+        if this.modMenuOn then
+          this.ResetSettingsDisplay()
+        end
+      end
+      if this.OnButtonDown(PlayerPad.STANCE) then
+      --this.DEBUG_DisplayButtonsHex()
+      end
+      if this.modMenuOn then
+        if this.OnButtonDown(PlayerPad.UP) then
+          this.PreviousOption()
+          this.DisplayCurrentSetting()
+        end
+        if this.OnButtonDown(PlayerPad.DOWN) then
+          this.NextOption()
+          this.DisplayCurrentSetting()
+        end
+        if this.OnButtonDown(PlayerPad.LEFT) then
+          this.PreviousSetting()
+          this.DisplayCurrentSetting()
+        end
+        if this.OnButtonDown(PlayerPad.RIGHT) then
+          this.NextSetting()
+          this.DisplayCurrentSetting()
+        end
+      end
+    else--!ishelispace
+      this.modMenuOn = false
+      if this.OnButtonDown(PlayerPad.LIGHT_SWITCH) then
+        TppUiCommand.AnnounceLogView(TppMain.modName .. " " .. TppMain.modVersion .. " current settings:")
+        this.DisplaySettings() 
+      end
+      --[[if this.OnButtonDown(PlayerPad.STANCE) then
+        
+      end--]]
+    end
+  end --ingame
+  this.UpdateKeys()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
+end
+function ModStart()--tex currently called from UpdateModMenu, RETRY: find an actual place for on start/run once init.
+  gvars.isManualHard = false--tex PATCHUP: not currently exposed to mod menu, force off to patch those that might have saves from prior mod with it on  
+end
 --tex soldier2parametertables shiz REFACTOR: find somewhere nicer to put/compartmentalize this, Solider2ParameterTables.lua aparently can't be referenced even though there's a TppSolder2Parameter string in the exe, load hang on trying to do anything with it (and again no debug feedback to know why the fuck anything)
-local nightSightDefault={
-  discovery={distance=10,verticalAngle=30,horizontalAngle=40},
-  indis={distance=15,verticalAngle=60,horizontalAngle=60},
-  dim={distance=40,verticalAngle=60,horizontalAngle=60},
-  far={distance=0,verticalAngle=0,horizontalAngle=0}
-}
-local nightSightImproved={
-  discovery={distance=10,verticalAngle=30,horizontalAngle=40},
-  indis={distance=15,verticalAngle=60,horizontalAngle=60},
-  dim={distance=40,verticalAngle=60,horizontalAngle=60},
-  far={distance=50,verticalAngle=8,horizontalAngle=6}
-}
 local nightSightDebug={
   discovery={distance=10,verticalAngle=30,horizontalAngle=40},
   indis={distance=15,verticalAngle=60,horizontalAngle=60},
@@ -233,7 +306,7 @@ local foggySightImproved={distanceRate=.5,angleRate=.6}
 
 this.lifeParameterTableDefault={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}
 this.lifeParameterTableMod={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}--tex modified in-place by enemy health scale
-this.soldierParametersDefault = {--tex actually using my slight tweaks rather than true default
+this.soldierParametersDefault = {--tex  SYNC: soldierParametersMod. actually using my slight tweaks rather than true default
   sightFormParameter={
     contactSightForm={distance=2,verticalAngle=160,horizontalAngle=130},
     normalSightForm={distance=60,verticalAngle=60,horizontalAngle=100},
@@ -246,7 +319,12 @@ this.soldierParametersDefault = {--tex actually using my slight tweaks rather th
       dim={distance=45,verticalAngle=60,horizontalAngle=80},
       far={distance=70,verticalAngle=12,horizontalAngle=8}
     },
-    nightSight=nightSightImproved,
+    nightSight=={
+      discovery={distance=10,verticalAngle=30,horizontalAngle=40},
+      indis={distance=15,verticalAngle=60,horizontalAngle=60},
+      dim={distance=40,verticalAngle=60,horizontalAngle=60},
+      far={distance=50,verticalAngle=8,horizontalAngle=6}
+    },
     combatSight={
       discovery={distance=10,verticalAngle=36,horizontalAngle=60},
       indis={distance=25,verticalAngle=60,horizontalAngle=100},
@@ -318,7 +396,7 @@ this.soldierParametersDefault = {--tex actually using my slight tweaks rather th
   lifeParameterTable=this.lifeParameterTableMod,
   zombieParameterTable={highHeroicValue=1e3}
 }
-this.soldierParametersHard = {--tex: currently no different, don't know if i want to spend time tweaking
+this.soldierParametersMod={--tex: SYNC: soldierParametersDefault. Ugly, but don't want to blow out the stack by doing table copies at runtime
   sightFormParameter={
     contactSightForm={distance=2,verticalAngle=160,horizontalAngle=130},
     normalSightForm={distance=60,verticalAngle=60,horizontalAngle=100},
@@ -331,7 +409,7 @@ this.soldierParametersHard = {--tex: currently no different, don't know if i wan
       dim={distance=45,verticalAngle=60,horizontalAngle=80},
       far={distance=70,verticalAngle=12,horizontalAngle=8}
     },
-    nightSight={
+    nightSight=={
       discovery={distance=10,verticalAngle=30,horizontalAngle=40},
       indis={distance=15,verticalAngle=60,horizontalAngle=60},
       dim={distance=40,verticalAngle=60,horizontalAngle=60},
@@ -490,6 +568,7 @@ function this.OnAllocate(n)
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
   if TppMission.IsFOBMission(vars.missionCode)then
+    this.ResetSettings()--tex reset settings on FOB
     TppMission.SetFOBMissionFlag()
     TppGameStatus.Set("Mission","S_IS_ONLINE")
   else
@@ -640,12 +719,8 @@ function this.OnAllocate(n)
   this.lifeParameterTableMod.maxLimbLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxLimbLife,healthMult)
   this.lifeParameterTableMod.maxArmorLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxArmorLife,healthMult)
   this.lifeParameterTableMod.maxHelmetLife = TppMath.ScaleValueClamp1(this.lifeParameterTableDefault.maxHelmetLife,healthMult)
-  if not TppMission.IsManualHardMission() then--tex reloadsoldierparams for difficulty
-    TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParametersDefault)
-  else
-    TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParametersHard)
-  end --
-  
+  TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParametersDefault)--tex reloadsoldierparams changes
+  --
   if n.enemy then
     if t(n.enemy.soldierPowerSettings)then
       TppEnemy.SetUpPowerSettings(n.enemy.soldierPowerSettings)
