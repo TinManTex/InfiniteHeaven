@@ -132,17 +132,17 @@ function this.ShowColorAnnounceLog(t,i,a,n)
     TppUiCommand.AnnounceLogViewLangId(e,i,a,0,0,true)
   end
 end
-function this.ShowJoinAnnounceLog(i,a,t,o,n)
+function this.ShowJoinAnnounceLog(announceId1,announceId2,param1,param2,delayTime)
   if gvars.ini_isTitleMode then
     return
   end
-  local i=this.ANNOUNCE_LOG_TYPE[i]
-  local e=this.ANNOUNCE_LOG_TYPE[a]
-  if i and e then
-    if n then
-      TppUiCommand.AnnounceLogDelayTime(n)
+  local langId1=this.ANNOUNCE_LOG_TYPE[announceId1]
+  local langId2=this.ANNOUNCE_LOG_TYPE[announceId2]
+  if langId1 and langId2 then
+    if delayTime then
+      TppUiCommand.AnnounceLogDelayTime(delayTime)
     end
-    TppUiCommand.AnnounceLogViewJoinLangId(i,e,t,o)
+    TppUiCommand.AnnounceLogViewJoinLangId(langId1,langId2,param1,param2)
   end
 end
 function this.ShowColorJoinAnnounceLog(i,o,t,a,n)

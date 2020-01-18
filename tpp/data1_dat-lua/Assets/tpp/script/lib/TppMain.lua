@@ -111,7 +111,7 @@ function this.OnAllocate(n)
   this.ClearStageBlockMessage()
   TppQuest.OnAllocate(n)
   TppAnimal.OnAllocate(n)
-  local function s()
+  local function locationOnAllocate()
     if TppLocation.IsAfghan()then
       if afgh then
         afgh.OnAllocate()
@@ -130,7 +130,7 @@ function this.OnAllocate(n)
       end
     end
   end
-  s()
+  locationOnAllocate()
   if n.sequence then
     if f30050_sequence then--
       function f30050_sequence.NeedPlayQuietWishGoMission()--RETAILPATCH: 1.0.4.1 PATCHUP: in general I understand the need for patch ups, and in cases like this i even admire the method, however the implementation of just shoving them seemingly anywhere... needs better execution.
@@ -514,10 +514,10 @@ function this.OnMissionCanStart()
       MotherBaseConstructConnector.RefreshGimmicks()
     end
   end
-  if vars.missionCode==10240 and TppLocation.IsMBQF()then
+  if vars.missionCode==10240 and TppLocation.IsMBQF()then--PATCHUP:
     Player.AttachGasMask()
   end
-  if(vars.missionCode==10150)then
+  if(vars.missionCode==10150)then--PATCHUP:
     local e=TppSequence.GetMissionStartSequenceIndex()
     if(e~=nil)and(e<TppSequence.GetSequenceIndex"Seq_Game_SkullFaceToPlant")then
       if(svars.mis_objectiveEnable[17]==false)then
@@ -544,7 +544,9 @@ function this.OnMissionGameStart(n)
     TppMission.EnableAlertOutOfMissionAreaIfAlertAreaStart()
   end
   TppSoundDaemon.ResetMute"Telop"end
-function this.ClearStageBlockMessage()StageBlock.ClearLargeBlockNameForMessage()StageBlock.ClearSmallBlockIndexForMessage()
+function this.ClearStageBlockMessage()
+StageBlock.ClearLargeBlockNameForMessage()
+StageBlock.ClearSmallBlockIndexForMessage()
 end
 function this.ReservePlayerLoadingPosition(n,s,o,t,i,a,p)
   this.DisableGameStatus()

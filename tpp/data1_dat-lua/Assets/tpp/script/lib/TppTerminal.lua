@@ -953,14 +953,14 @@ function this.SetUp()
   this.SetUpArmsMBDVCMenu()
   this.SetUpBuddyMBDVCMenu()
   this.SetUpCustomWeaponMBDVCMenu()
-  if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it
+  --[[if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it
     --TppUiCommand.AnnounceLogView("Tppterminal set dvcmenu")--tex DEBUG: CULL:
     local dvcMenu={
       {menu=this.MBDVCMENU.MSN_BUDDY,active=true},
     }
-  this.EnableDvcMenuByList(dvcMenu)
-  TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
-  end--
+    this.EnableDvcMenuByList(dvcMenu)
+    TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
+  end--]]
   if TppMission.IsSubsistenceMission()then
     local dvcMenu={
       {menu=this.MBDVCMENU.MSN_DROP,active=false},
@@ -1369,20 +1369,21 @@ function this.AddTempDataBaseAnimal(e,t)
 end
 local n=4
 local n=1.67
-function this.AddPickedUpResourceToTempBuffer(t,a)
-  if not this.RESOURCE_INFORMATION_TABLE[t]then
+function this.AddPickedUpResourceToTempBuffer(resourceType,langId)
+  if not this.RESOURCE_INFORMATION_TABLE[resourceType]then
     return
   end
-  local n=this.RESOURCE_INFORMATION_TABLE[t].resourceName
-  local e=this.RESOURCE_INFORMATION_TABLE[t].count
-  if TppCollection.IsHerbByType(t)then
-    local t=Player.GetRateOfGettingHarb()e=e*t
-    TppUI.ShowAnnounceLog("find_plant",a,e)
+  local resourceName=this.RESOURCE_INFORMATION_TABLE[resourceType].resourceName
+  local resourceCount=this.RESOURCE_INFORMATION_TABLE[resourceType].count
+  if TppCollection.IsHerbByType(resourceType)then
+    local getHerbRate=Player.GetRateOfGettingHarb()
+    resourceCount=resourceCount*getHerbRate
+    TppUI.ShowAnnounceLog("find_plant",langId,resourceCount)
   end
-  if t>=TppCollection.TYPE_POSTER_SOL_AFGN and t<=TppCollection.TYPE_POSTER_MOE_H then
-    TppMotherBaseManagement.DirectAddResource{resource=n,count=e,isNew=true}
+  if resourceType>=TppCollection.TYPE_POSTER_SOL_AFGN and resourceType<=TppCollection.TYPE_POSTER_MOE_H then
+    TppMotherBaseManagement.DirectAddResource{resource=resourceName,count=resourceCount,isNew=true}
   else
-    TppMotherBaseManagement.AddTempResource{resource=n,count=e}
+    TppMotherBaseManagement.AddTempResource{resource=resourceName,count=resourceCount}
   end
 end
 function this.SetUpOnHelicopterSpace()
@@ -1647,13 +1648,17 @@ function this.TerminalVoiceOnSunSet()
   if mvars.trm_stopChangeDayTerminalAnnounce then
     return
   end
-  this.PlayTerminalVoice"VOICE_SUN_SET"TppUI.ShowAnnounceLog"sunset"TppTutorial.DispGuide_Comufrage()
+  this.PlayTerminalVoice"VOICE_SUN_SET"
+  TppUI.ShowAnnounceLog"sunset"
+  TppTutorial.DispGuide_Comufrage()
 end
 function this.TerminalVoiceOnSunRise()
   if mvars.trm_stopChangeDayTerminalAnnounce then
     return
   end
-  this.PlayTerminalVoice"VOICE_SUN_RISE"TppUI.ShowAnnounceLog"sunrise"TppTutorial.DispGuide_DayAndNight()
+  this.PlayTerminalVoice"VOICE_SUN_RISE"
+  TppUI.ShowAnnounceLog"sunrise"
+  TppTutorial.DispGuide_DayAndNight()
 end
 function this.TerminalVoiceOnSupportFireIncoming()
   this.PlayTerminalVoice"VOICE_SUPPORT_FIRE_INCOMING"end

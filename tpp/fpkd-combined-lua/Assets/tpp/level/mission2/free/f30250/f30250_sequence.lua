@@ -1,8 +1,3 @@
--- DOBUILD: 0
--- ORIGINALQAR: chunk0
--- FILEPATH: \Assets\tpp\level\mission2\free\f30250\f30250_sequence.lua
--- PACKPATH: \Assets\tpp\pack\mission2\free\f30250.fpkd
--- QARPATH: \init_fpkd
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table

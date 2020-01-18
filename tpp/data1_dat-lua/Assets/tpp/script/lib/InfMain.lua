@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r49"
+this.modVersion = "r52"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
@@ -95,7 +95,6 @@ function this.IsSubTypeCorrectForType(soldierType,subType)
   return false
 end
 function this.ForceSoldierType(soldierId,soldierType)
-  
   --TppEnemy.GetDefaultSoldierSubType(soldierType)
 end
 
@@ -121,15 +120,13 @@ function this.GetMbsClusterSecuritySoldierEquipGrade()--SYNC: mbSoldierEquipGrad
   return grade
 end
 function this.GetMbsClusterSecuritySoldierEquipRange() 
-  --[[
-  local range = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
-      if gvars.mbSoldierEquipRange==InfMain.SETTING_MB_EQUIPRANGE.RANDOM then
-        range = math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
-      elseif gvars.mbSoldierEquipRange>0 then
-        range = gvars.mbSoldierEquipRange-1
-      end
-      return range
---]]
+  --[[local range = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
+    if gvars.mbSoldierEquipRange==InfMain.SETTING_MB_EQUIPRANGE.RANDOM then
+      range = math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
+    elseif gvars.mbSoldierEquipRange>0 then
+      range = gvars.mbSoldierEquipRange-1
+    end
+    return range--]]
 end
 function this.GetMbsClusterSecurityIsNoKillMode()
     local isNoKillMode=TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
@@ -138,11 +135,9 @@ function this.GetMbsClusterSecurityIsNoKillMode()
     end
     return isNoKillMode
 end
-
-function this.DisplayFox32(foxString)
-    TppUiCommand.AnnounceLogView("string: "..foxString)
-    local str32 = Fox.StrCode32(foxString)
-    TppUiCommand.AnnounceLogView(str32)
+function this.DisplayFox32(foxString)    
+  local str32 = Fox.StrCode32(foxString)
+  TppUiCommand.AnnounceLogView("string :"..foxString .. "="..str32)
 end
 
 return this

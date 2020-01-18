@@ -1,7 +1,7 @@
 = Infinite heaven =
-r49 2015-10-23
+r52 2015-10-26
 by tin man tex
-For MGSV version 1.0.4.1 (1.04 in title screen)
+For MGSV version 1.0.4.3 (1.04 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
@@ -36,10 +36,21 @@ Unlock random Sideops for areas - The sideops system breaks the map into areas, 
 This setting changes it to a random selection of potential sideops, with the same priorities. Force replay adds completed sideops to the potential selection. Force Open adds most sideops to the selection pool.
 Warning: still largely untested, unknown how replaying the story missions affect things if multiple sideops work in the same area.
 
-Return Quiet - returns quiet. Not reversable.
+Cutscenes:
+Use current soldier in cutscenes instead of snake.
+
+Disable Mother Base cutscenes - Disables some arrive at motherbase cutscenes that cause infinite loading screens on some saves. This bug also occurs on unmodified games. If you have a save already stuck in this state (already at the MB loading screen) try my seperate 'MB loading screen fix' mod.
+
+Play selected mother base cutscene - Can choose from many of the mother base cutscenes that play on returning. Requires the setting 'MB cutscene play mode' to be set to 'Play selected'
+
+Patchups:
+
+Return Quiet - returns quiet. Not reversable, but not run by default.
 
 Retail Bug fixes:
 Enemies Revenge system level for Fulton was fulton was 0 low, 1 blank, 2 high, now 0 blank 1 low 2 high.
+
+By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
 
 Disclaimers:
 Use the mod at you own risk (which can be mitigated by backing up saves and files replaced by mod)
@@ -81,11 +92,11 @@ If it gets stuck at 0% for more than a few minutes steam is being stupid, valida
 It should say 1 file needs to be redownloaded, so go to steam downloads and make sure that happens.
 
 Instalation:
-Use SnakeBite Mod Manager 0.31 or later: nexusmods.com/metalgearsolidvtpp/mods/106/
+Use SnakeBite Mod Manager 0.5 or later: nexusmods.com/metalgearsolidvtpp/mods/106/
 Uninstall any earlier version of Infinite Heaven
 Install Infinite Heaven.msgv
 
-WARNING: Applying this mod to any version after 1.0.4.0 that has updated the file will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
+WARNING: Applying this mod to any game version after the one stated at the top of the readme involved will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
 
 Uninstallation:
 Exit any missions, return to the ACC.
@@ -127,7 +138,20 @@ When changing General Enemy Parameters back to Default you must exit to title to
 There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
 
 Changelog:
-r49 2015-10-23 - public release
+r52 2015-10-26 - public release
+Current soldier in demos
+Select mb return demo
+
+r51
+Disable mb triggered prioritylist demos switch
+
+r50
+Added localization files for many mod strings. Other languages are currently just english, hopefully can get the community to translate if I can work out the rest (combining multiple localized strings is troublesome)
+
+r49a 2015-10-23 - public release
+Snakebite msgv update to 1.0.4.3
+
+r49 2015-10-23 
 Fix soldiers not driving their patrolling trucks - thanks bindleford
 
 r48 2015-10-20 - public release

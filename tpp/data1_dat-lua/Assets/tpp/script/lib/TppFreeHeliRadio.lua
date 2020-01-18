@@ -115,7 +115,8 @@ return e.ON_ENTER_RESULT.START_PANDEMIC_TUTORIAL
 end
 if not svars.freeRadio_isPlayed then
 svars.freeRadio_isPlayed=true
-local n=TppStory.GetForceMBDemoNameOrRadioList"freeHeliRadio"if n then
+local n=TppStory.GetForceMBDemoNameOrRadioList"freeHeliRadio"
+if n then
 e._PlayRadio(n)
 end
 end

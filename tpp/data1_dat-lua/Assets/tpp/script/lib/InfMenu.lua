@@ -5,11 +5,34 @@ local this={}
 --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
 
 --tex strings, till we figure out how to access custom values in .lang files this will have to do.
---tex SYNC: with uses of TppUiCommand.AnnounceLogView
-this.modStrings={
-  menuOff="Menu Off",
-  settingDefaults="Setting mod options to defaults...",
-  settingDisallowed=" is currently disallowed"
+--tex SYNC: with uses of TppUiCommand.AnnounceLogView --CULL:
+local modStrings={
+    ["inf_turn_off_menu"]="Turn off menu",
+    ["inf_reset_all_settings"]="Reset all settings",
+    ["inf_menu_back"]="Menu Back",
+    ["inf_menu_off"]="Menu Off",
+    ["inf_main_menu"]="Main Menu",
+    ["inf_parameters_menu"]="Parameters Menu",
+    ["inf_mother_base_menu"]="Mother Base Menu",
+    ["inf_demos_menu"]="Cutscenes Menu",
+    ["inf_patchup_menu"]="Patchup Menu",
+    ["inf_general_enemy_parameters"]="General Enemy Parameters",
+    ["inf_enemy_life_scale"]="Enemy life scale (REQ: Tweaked Enemy Parameters)",
+    ["inf_player_life_scale"]="Player life scale",
+    ["inf_dd_equip_grade"]="DD Equip Grade",
+    ["inf_dd_equip_range"]="DD Equip Range",
+    ["inf_dd_suit"]="DD Suit (Requires Equip Grade On)",
+    ["inf_mother_base_war_games"]="Mother Base War Games",
+    ["inf_return_quiet"]="Return Quiet (not reversable)",
+    ["inf_quiet_already_returned"]="Quiet has already returned.",
+    ["inf_subsistence_mode"]="Subsistence Mode",
+    ["inf_osp_weapon_loadout"]="OSP Weapon Loadout",
+    ["inf_enemy_preparedness"]="Enemy Preparedness",
+    ["inf_unlock_random_sideops"]="Unlock random Sideops for areas",
+    ["inf_open_specific_sideop"]="Open specific sideop #",
+    ["inf_use_soldier_for_demos"]="Use selected soldier in cutscenes",
+    ["inf_mb_demo_selection"]="MB cutscene play mode",
+    ["inf_mb_select_demo"]="Select MB cutscene (REQ: Play selected)",
 }
 --LOCALOPT:
 local Buttons=InfButton
@@ -18,62 +41,58 @@ local Enum=TppDefine.Enum
 
 this.switchSlider={max=1,min=0,increment=1}
 this.healthMultSlider={max=4,min=0,increment=0.2}
-this.switchSettingNames={"Off","On"}
+this.switchSettingNames={"Off","On"}--ADDLANG
 
 local menuItemMenuOff={
-  name="Turn off menu",
+  name="inf_turn_off_menu",--"Turn off menu"
   default=0,
   slider=this.switchSlider,
-  settingNames={">","Off"},
+  settingNames={">","Off"},--ADDLANG
   onChange=function()
     this.ModMenuOff()
     this.currentOption=1
   end,
 }
 local menuItemResetSettings={
-  name="Reset all settings",
+  name="inf_reset_all_settings",--"Reset all settings"
   default=0,
   slider=this.switchSlider,
-  settingNames={">","Reset"},
+  settingNames={">","Reset"},--ADDLANG
   onChange=function()
     this.ResetSettingsDisplay()
     this.ModMenuOff()
   end,
 }
 local menuItemGoBack={
-  name="Menu Back",
+  name="inf_menu_back",--"Menu Back"
   default=0,
   slider=this.switchSlider,
-  settingNames={">","Back"},
+  settingNames={">","Back"},--ADDLANG
   onChange=function()
     this.GoBackCurrent()
   end,
 }
-
 local parametersMenu={
-  name="Parameters Menu",
+  name="inf_parameters_menu",
   parent=nil,
   default=0,
-  --onChange=this.GoMenu(patchupMenu),
-  --[[slider=this.switchSlider,
-  settingNames={">","Returned"},--]]
   options={
     {
-      name="General Enemy Parameters",
+      name="inf_general_enemy_parameters",--"General Enemy Parameters"
       gvarName="enemyParameters",
       default=0,
       slider=this.switchSlider,
-      settingNames={"Default (mods can override)","Tweaked"},
+      settingNames={"Default (mods can override)","Tweaked"},--ADDLANG
     },
     {
-      name="Enemy life scale (Requires Tweaked Enemy Parameters)",
+      name="inf_enemy_life_scale",--"Enemy life scale (Requires Tweaked Enemy Parameters)"
       gvarName="enemyHealthMult",
       default=1,
       slider=this.healthMultSlider,
       isFloatSetting=true,
     },
     {
-      name="Player life scale",
+      name="inf_player_life_scale",--"Player life scale"
       gvarName="playerHealthMult",
       default=1,
       slider=this.healthMultSlider,
@@ -84,12 +103,12 @@ local parametersMenu={
   }
 }
 local motherBaseMenu={
-  name="Mother Base Menu",
+  name="inf_mother_base_menu",
   parent=nil,
   default=0,
   options={
     {
-      name="DD Equip Grade",
+      name="inf_dd_equip_grade",--"DD Equip Grade",
       gvarName="mbSoldierEquipGrade",
       default=0,
       slider={max=InfMain.SETTING_MB_EQUIPGRADE.MAX-1,min=0,increment=1},
@@ -103,14 +122,14 @@ local motherBaseMenu={
       end
     },
     {
-      name="DD Equip Range",
+      name="inf_dd_equip_range",--"DD Equip Range",
       gvarName="mbSoldierEquipRange",
       default=0,
       slider={max=InfMain.SETTING_MB_EQUIPRANGE.MAX-1,min=0,increment=1},
       settingNames={"Default (FOB Setting)", "All Short", "All Medium","All Long","Random"},
     },
     {
-      name="DD Suit (Requires Equip Grade On)",
+      name="inf_dd_suit",--"DD Suit (Requires Equip Grade On)",
       gvarName="mbDDSuit",
       default=0,
       slider={max=InfMain.SETTING_MB_DD_SUITS.MAX-1,min=0,increment=1},
@@ -124,39 +143,61 @@ local motherBaseMenu={
       settingNames={"Use Equip Grade", "Force Off"},
     },--]]
     {
-      name="Mother Base War Games",
+      name="inf_mother_base_war_games",--"Mother Base War Games",
       gvarName="mbWarGames",
       default=0,
       slider={max=2,min=0,increment=1},
       settingNames={"Off","DD Non Lethal","DD Lethal"},
     },
-    --[[{
-      name="Motherbase playtime REF: CULL: REFACTOR: this is not a user control, just a depenant switch",
-      gvarName="mbPlayTime",
-      default=0,
-      slider={max=1,min=0,increment=1},
-      settingNames={"Off","ZZZZZZZZZZZZt"},
-    },--]]
     menuItemResetSettings,
     menuItemGoBack,
   }
 }
-local patchupMenu={
-  name="Patchup Menu",
+local demosMenu={
+  name="inf_demos_menu",
   parent=nil,
   default=0,
-  --onChange=this.GoMenu(patchupMenu),
-  --[[slider=this.switchSlider,
-  settingNames={">","Returned"},--]]
   options={
     {
-      name="Return Quiet (not reversable)",
+      name="inf_use_soldier_for_demos",
+      gvarName="useSoldierForDemos",
+      default=0,
+      slider=this.switchSlider,
+      settingNames={"Off","On"}
+    },
+    {
+      name="inf_mb_demo_selection",--"MB return demo play mode",
+      helpText="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",--ADDLANG:
+      gvarName="mbDemoSelection",
+      default=0,
+      slider={max=2,min=0,increment=1},
+      settingNames={"Default","Cutscenes disabled","Play selected"}
+    },
+    {
+      name="inf_mb_select_demo",--"Select MB return demo (REQ: Play selected above)",
+      gvarName="mbSelectedDemo",
+      default=0,
+      slider={max=(#TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST-1),min=0,increment=1},--tex #Enumtable doesn't seem to work, have a look how .
+      settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST,
+    },
+    menuItemResetSettings,    
+    menuItemGoBack,
+  }
+}
+
+local patchupMenu={
+  name="inf_patchup_menu",
+  parent=nil,
+  default=0,
+  options={
+    {
+      name="inf_return_quiet",--"Return Quiet (not reversable)",
       default=0,
       slider=this.switchSlider,
       settingNames={">","Returned"},
       onChange=function()
         if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
-          TppUiCommand.AnnounceLogView("Quiet has already returned.")
+          TppUiCommand.AnnounceLogViewLangId"inf_quiet_already_returned"--"Quiet has already returned."
         else
           --if TppStory.IsMissionCleard(10260) then
           InfPatch.QuietReturn()
@@ -164,16 +205,17 @@ local patchupMenu={
         end
       end,
     },
+    
     menuItemGoBack,
   }
 }
 
 this.mainMenu={
-  name="Main Menu",
+  name="inf_main_menu",
   parent=nil,
   options={
     {
-      name="Subsistence Mode",
+      name="inf_subsistence_mode",--"Subsistence Mode",
       gvarName="isManualSubsistence",
       default=0,
       slider={max=2,min=0,increment=1},
@@ -189,7 +231,7 @@ this.mainMenu={
       end,
     },
     {
-      name="OSP Weapon Loadout",
+      name="inf_osp_weapon_loadout",--"OSP Weapon Loadout",
       gvarName="subsistenceLoadout",
       default=0,
       slider={max=#InfMain.subsistenceLoadouts,min=0,increment=1},
@@ -197,27 +239,27 @@ this.mainMenu={
       helpText="Start with no primary and secondary weapons, can be used seperately from subsistence mode",
     },
     {
-      name="Enemy Preparedness",
+      name="inf_enemy_preparedness",--"Enemy Preparedness",
       gvarName="revengeMode",
       default=0,
       slider=this.switchSlider,
       settingNames={"Regular","Max"},
     },
     --[[{
-      name="No Central Lzs",
+      name="No Central Lzs",--ADDLANG
       gvarName="noCentralLzs",
       default=0,
       slider=this.switchSlider,
     },--]]
     --[[{
-      name="LZ Waveoff (periodically disable random landing zones)",
+      name="LZ Waveoff (periodically disable random landing zones)",--ADDLANG
       gvarName="landingZoneWaveOff",
       default=1,
       slider={max=1,min=0,increment=0.2},
       isFloatSetting=true,
     },--]]
     {
-      name="Unlock random Sideops for areas",
+      name="inf_unlock_random_sideops",--"Unlock random Sideops for areas",
       gvarName="unlockSideOps",
       default=0,
       slider={max=(InfMain.SETTING_UNLOCK_SIDEOPS.MAX-1),min=0,increment=1},
@@ -228,7 +270,7 @@ this.mainMenu={
       end,
     },
     {
-      name="Open specific sideop #",
+      name="inf_open_specific_sideop",--"Open specific sideop #",
       gvarName="unlockSideOpNumber",
       default=0,
       slider={max=InfMain.numQuests,min=0,increment=1},
@@ -239,9 +281,9 @@ this.mainMenu={
     },
     parametersMenu,
     motherBaseMenu,
+    demosMenu,
     patchupMenu,
-    --[[--tex cant get startoffline to read in init sequence, yet isnewgame seems to be fine? (well haven't checked, it is read as if it is).
-    {
+    --[[{--tex cant get gvar startoffline to read in init sequence, yet isnewgame seems to be fine?
       name="Start Offline",
       gvarName="startOffline",
       default=0,
@@ -253,10 +295,11 @@ this.mainMenu={
   }
 }
 
-this.allMenus={
+this.allMenus={--SYNC: currently used for resetall
   this.mainMenu,
   parametersMenu,
   motherBaseMenu,
+  demosMenu, 
   patchupMenu,
 }
 
@@ -350,7 +393,7 @@ function this.ChangeSetting(modSetting,value,incrementMult)
       newSetting=this.IncrementSetting(gvar,value,modSetting.slider.min,modSetting.slider.max)
       if modSetting.skipValues ~= nil then
         while modSetting.skipValues[newSetting] do
-          TppUiCommand.AnnounceLogView(newSetting .. this.modStrings.settingDisallowed)
+          TppUiCommand.AnnounceLogViewLangId("inf_setting_disallowed",newSetting)--"%d is currently disallowed"
           newSetting=this.IncrementSetting(newSetting,value,modSetting.slider.min,modSetting.slider.max)
         end
       end
@@ -360,19 +403,19 @@ function this.ChangeSetting(modSetting,value,incrementMult)
     else
       TppUiCommand.AnnounceLogView("Option Menu Error: gvar -" .. modSetting.gvarName .. "- not found")
     end
-    if modSetting.confirm == nil then
+    --if modSetting.confirm == nil then
       gvars[modSetting.gvarName]=newSetting
       --TppUiCommand.AnnounceLogView("DBG:MNU: gvar set:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:
       if IsFunc(modSetting.onChange) then
         modSetting.onChange()
       end
-    elseif newSetting==modSetting.default then--tex let confirm settings turn off without having to confirm lol
+    --[[elseif newSetting==modSetting.default then--tex let confirm settings turn off without having to confirm lol
       gvars[modSetting.gvarName]=newSetting
       --TppUiCommand.AnnounceLogView("DBG:MNU: gvar set:" .. modSetting.gvarName .. "=" .. gvar)--tex DEBUG: CULL:
       if IsFunc(modSetting.onChange) then
         modSetting.onChange()
-      end
-    end
+      end--]]
+    --end
   else--gvar nil
     if modSetting.slider~=nil then
       newSetting=this.currentSetting+value
@@ -414,7 +457,6 @@ function this.SetCurrent()
   this.SetSetting(this.currentMenuOptions[this.currentOption],this.currentSetting)
 end
 function this.SetSetting(modSetting,value)
-  --if modSetting.set ~= nil then
   if modSetting.gvarName~=nil then
     local gvar=gvars[modSetting.gvarName]
     if gvar ~= nil then
@@ -424,7 +466,6 @@ function this.SetSetting(modSetting,value)
       end
     end
   end
-  --end
 end
 function this.NextSetting(incrementMult)
   local modSetting=this.currentMenuOptions[this.currentOption]
@@ -446,7 +487,8 @@ function this.GoMenu(menu)
   this.currentOption=1
   this.GetSetting()
   if menu.name then
-    TppUiCommand.AnnounceLogView(menu.name)
+    --TppUiCommand.AnnounceLogViewLangId(menu.name)
+    TppUiCommand.AnnounceLogView(modStrings[menu.name])
   end
   if menu.parent==nil then
     TppUiCommand.AnnounceLogView("Option Menu Error: parent = nil")
@@ -478,13 +520,13 @@ end
 function this.DisplaySetting(optionIndex)
   this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
   local modSetting=this.currentMenuOptions[optionIndex]
-  local settingText="UNDEFINED"
+  local settingText=""
   if modSetting.settingNames ~= nil then
     if this.currentSetting < 0 or this.currentSetting > #modSetting.settingNames-1 then
-      settingText="CURRENTSETTING OUT OF BOUNDS"
+      settingText="inf_setting_out_of_bounds"--"CURRENTSETTING OUT OF BOUNDS"
     else
       settingText="= "..modSetting.settingNames[this.currentSetting+1]--tex lua indexed from 1, but settings from 0
-      if modSetting.confirm ~= nil then
+      --[[if modSetting.confirm ~= nil then
         if this.currentSetting ~= modSetting.default then
           if modSetting.gvarName ~= nil and gvars[modSetting.gvarName] ~= nil then
             if gvars[modSetting.gvarName] ~= this.currentSetting then
@@ -494,7 +536,7 @@ function this.DisplaySetting(optionIndex)
             end
           end
         end
-      end
+      end--]]
     end
   elseif modSetting.isFloatSetting then
     settingText="= "..math.floor(100*this.currentSetting) .. "%"
@@ -503,12 +545,20 @@ function this.DisplaySetting(optionIndex)
   else
     settingText="= "..tostring(this.currentSetting)
   end
-  local info = 0
-  if IsFunc(modSetting.infoFunc) then
-    info = modSetting.infoFunc()
-  end
   TppUiCommand.AnnounceLogDelayTime(0)
-  TppUiCommand.AnnounceLogView(optionIndex..":"..modSetting.name.." "..settingText)--tex thank you ThreeSocks3, you're a god damn legend for finding custom text output, heres a better way to do things than string.format, in lua .. concatenates strings, does simple format conversion
+  local settingName = modStrings[modSetting.name]
+  TppUiCommand.AnnounceLogView(optionIndex..":"..settingName.." "..settingText)
+  --[[
+settingText modes
+straight text - for errors
+settingname - could be langid
+number - could be lang id
+[percentage]"%"
+Menu >>
+--]]
+  --TppUiCommand.AnnounceLogView(optionIndex..":"..settingName.." "..settingText)
+  --"inf_display_option_number",modSetting.name,"inf_display_option_seperator",settingLangId
+  --"inf_display_option_number",modSetting.name,"inf_display_option_seperator",settingLangId
 end
 function this.DisplaySettings()--tex display all
   for i=1,#this.currentMenuOptions do
@@ -528,7 +578,7 @@ function this.DisplayHelpText()
   local modSetting=this.currentMenuOptions[this.currentOption]
   if modSetting.helpText ~= nil then
     --this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
-    TppUiCommand.AnnounceLogView(modSetting.helpText)
+    TppUiCommand.AnnounceLogView(modSetting.helpText)--ADDLANG:
   end
 end
 function this.ResetSetting()
@@ -548,7 +598,7 @@ function this.ResetSettings()
   end
 end
 function this.ResetSettingsDisplay()
-  TppUiCommand.AnnounceLogView(this.modStrings.settingDefaults)--tex "Setting mod options to defaults..."
+  TppUiCommand.AnnounceLogViewLangId"inf_setting_defaults"--"Setting mod options to defaults..."
   for i=1,#this.currentMenuOptions do
     local modSetting=this.currentMenuOptions[i]
     if modSetting.gvarName~=nil then
@@ -563,7 +613,7 @@ end
 --
 function this.ModMenuOff()
   this.modMenuOn=false
-  TppUiCommand.AnnounceLogView(this.modStrings.menuOff)
+  TppUiCommand.AnnounceLogViewLangId"inf_menu_off"--"Menu Off"
 end
 function this.UpdateModMenu()
   --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
@@ -574,17 +624,15 @@ function this.UpdateModMenu()
   end
   InfButton.UpdateHeld()
   if not mvars.mis_missionStateIsNotInGame then--tex actually loaded game, ie at least 'continued' from title screen
-    if TppMission.IsHelicopterSpace(vars.missionCode)then    
-      --tex RETRY: still not happy, want to read menu status but cant find any way
+    if TppMission.IsHelicopterSpace(vars.missionCode)then
+      --tex RETRY: still not happy, want to read menu status but cant find a way
       if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
         this.modMenuOn = not this.modMenuOn
         if this.modMenuOn then
           this.GetSetting()
-          TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." (Press Up/Down,Left/Right to navigate menu)")
-          --this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
-          --if this.autoDisplayRate==0 then
-          --  this.DisplayCurrentSetting()
-          --end
+          TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." (Press Up/Down,Left/Right to navigate menu)")--ADDLANG:
+          --TppUiCommand.AnnounceLogViewJoinLangId("inf_modname_version_help", "inf_menu_open_help", InfMain.modVersion)--"Infinite Heaven r%d %s" --"(Press Up/Down,Left/Right to navigate menu)"
+          --TppUiCommand.AnnounceLogViewLangId("inf_modname_version_help",InfMain.modVersion,"inf_menu_open_help")--RETAILBUG: or rather, poor implementation, AnnounceLogViewLangId will only accept the string, number, or number, number as it's paramaters, other combinations lock the game up. Evidence from other localization strings in lng2 files suggest other functions are less restricted.
         else
           this.ModMenuOff()
         end
@@ -630,7 +678,7 @@ function this.UpdateModMenu()
 
         if InfButton.OnButtonDown(this.resetSettingButton) then
           this.ResetSetting()
-          TppUiCommand.AnnounceLogView"Setting to default.."
+          TppUiCommand.AnnounceLogViewLangId"inf_setting_default"--"Setting to default.."
           this.DisplayCurrentSetting()
         end
         if InfButton.OnButtonDown(this.menuBackButton) then
@@ -660,11 +708,11 @@ function this.ModStart()--tex currently called from UpdateModMenu, RETRY: find a
   InfButton.buttonStates[this.menuLeftButton].decrement=0.1
 end
 function this.ModWelcome()
-  TppUiCommand.AnnounceLogView(InfMain.modName .. " " .. InfMain.modVersion)
-  TppUiCommand.AnnounceLogView("Hold X key or Dpad Right for 1 second to enable menu")--tex TODO: modstring
+  TppUiCommand.AnnounceLogView(InfMain.modName .. " r" .. InfMain.modVersion)--ADDLANG:
+  TppUiCommand.AnnounceLogView("Hold X key or Dpad Right for 1 second to enable menu")--ADDLANG:
 end
 function this.ModMissionMessage()
-  TppUiCommand.AnnounceLogView("ModMissionMessage test")--tex TODO: modstring
+  TppUiCommand.AnnounceLogView("ModMissionMessage test")--ADDLANG
 end
 
 return this

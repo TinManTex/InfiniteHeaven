@@ -557,7 +557,8 @@ function this._ConvertSoldierNameKeysToId(e)
     if IsTypeString(n)then
       local t=GetGameObjectId("TppSoldier2",n)
       if t~=NULL_ID then
-        table.insert(i,n)e[t]=s
+        table.insert(i,n)
+		e[t]=s
       end
     end
   end
@@ -649,6 +650,7 @@ function this.SetSoldierType(e,n)
   mvars.ene_soldierTypes[e]=n
   GameObject.SendCommand(e,{id="SetSoldier2Type",type=n})
 end
+
 function this.GetSoldierType(n)
   local missionCode=TppMission.GetMissionID()
   if n==nil or n==NULL_ID then
@@ -687,16 +689,6 @@ function this.SetSoldierSubType(soldierId,subType)
   mvars.ene_soldierSubType[soldierId]=subType
 end
 function this.GetSoldierSubType(soldierId,subType)
-  --[[if soldierType==EnemyType.TYPE_PF then
-
-    local forceType = "PF_C"
-
-    --mvars.ene_soldierSubType[gameId]=forceType
-
-    return forceType
-
-  end--]]
-  --tex DEBUGNOW:
   local missionCode=TppMission.GetMissionID()
   if missionCode==10115 or missionCode==11115 then
     return"DD_PW"
@@ -1711,7 +1703,9 @@ function this.SetTargetOption(e)
   local e=GetGameObjectId(e)
   if e==NULL_ID then
   else
-    SendCommand(e,{id="SetVip"})SendCommand(e,{id="SetForceRealize"})SendCommand(e,{id="SetIgnoreSupportBlastInUnreal",enabled=true})
+    SendCommand(e,{id="SetVip"})
+	SendCommand(e,{id="SetForceRealize"})
+	SendCommand(e,{id="SetIgnoreSupportBlastInUnreal",enabled=true})
   end
 end
 function this.LetCpHasTarget(e,t)
@@ -2126,7 +2120,8 @@ function this.OnAllocate(n)
   mvars.ene_missionRequiresPowerSettings={}
   mvars.ene_soldierPersonalAbilitySettings={}
   mvars.ene_missionSoldierPersonalAbilitySettings={}
-  mvars.ene_soldier2CommonBlockPackageLabel="default"mvars.ene_questTargetList={}
+  mvars.ene_soldier2CommonBlockPackageLabel="default"
+  mvars.ene_questTargetList={}
   mvars.ene_questVehicleList={}
   mvars.ene_questGetLoadedFaceTable={}
   mvars.ene_questArmorId=0
@@ -2313,7 +2308,8 @@ function this.RestoreOnMissionStart2()
   if mvars.ene_cpList~=nil then
     for t,e in pairs(mvars.ene_cpList)do
       if n<mvars.ene_cpCount then
-        svars.cpNames[n]=StrCode32(e)svars.cpFlags[n]=0
+        svars.cpNames[n]=StrCode32(e)
+		svars.cpFlags[n]=0
         n=n+1
       end
     end
@@ -2390,14 +2386,17 @@ function this.RestoreOnMissionStart2()
   end
 end
 function this.RestoreOnContinueFromCheckPoint2()do
-  local e={type="TppCommandPost2"}SendCommand(e,{id="RestoreFromSVars"})
+  local e={type="TppCommandPost2"}
+  SendCommand(e,{id="RestoreFromSVars"})
 end
 if GameObject.GetGameObjectIdByIndex("TppSoldier2",0)~=NULL_ID then
-  local e={type="TppSoldier2"}SendCommand(e,{id="RestoreFromSVars"})
+  local e={type="TppSoldier2"}
+  SendCommand(e,{id="RestoreFromSVars"})
 end
 this._RestoreOnContinueFromCheckPoint_Hostage2()
 if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
-  local e={type="TppEnemyHeli"}SendCommand(e,{id="RestoreFromSVars"})
+  local e={type="TppEnemyHeli"}
+  SendCommand(e,{id="RestoreFromSVars"})
 end
 if GameObject.GetGameObjectIdByIndex("TppVehicle2",0)~=NULL_ID then
   SendCommand({type="TppVehicle2"},{id="RestoreFromSVars"})
@@ -2427,10 +2426,12 @@ function this.StoreSVars(i)
     t=true
   end
   do
-    local e={type="TppCommandPost2"}SendCommand(e,{id="StoreToSVars"})
+    local e={type="TppCommandPost2"}
+	SendCommand(e,{id="StoreToSVars"})
   end
   if GameObject.GetGameObjectIdByIndex("TppSoldier2",0)~=NULL_ID then
-    local e={type="TppSoldier2"}SendCommand(e,{id="StoreToSVars",markerOnly=t})
+    local e={type="TppSoldier2"}
+	SendCommand(e,{id="StoreToSVars",markerOnly=t})
   end
   this._StoreSVars_Hostage(t)
   if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
@@ -2673,7 +2674,8 @@ function this.AssignSoldiersToCP()
         mvars.ene_soldierLrrp[t]=true
         if mvars.ene_lrrpVehicle[a]then
           local e=GameObject.GetGameObjectId("TppVehicle2",mvars.ene_lrrpVehicle[a])
-          local e={id="SetRelativeVehicle",targetId=e,rideFromBeginning=true}SendCommand(t,e)
+          local e={id="SetRelativeVehicle",targetId=e,rideFromBeginning=true}
+		  SendCommand(t,e)
         end
       end
       local n
@@ -2724,7 +2726,8 @@ function this.SetCommonCpGroups()
 end
 function this.SetCpGroups()
   local t={type="TppCommandPost2"}
-  local e={id="SetCpGroups",cpGroups=mvars.ene_cpGroups}SendCommand(t,e)
+  local e={id="SetCpGroups",cpGroups=mvars.ene_cpGroups}
+  SendCommand(t,e)
 end
 function this.RegistVehicleSettings(e)
   if not IsTypeTable(e)then
@@ -3883,10 +3886,14 @@ function this._SpawnTakingOverHostage(t,e)
   end
   if t<gvars.ene_takingOverHostageCount then
     local i=gvars.ene_takingOverHostageStaffIdsUpper[infoIndex]
-    local a=gvars.ene_takingOverHostageStaffIdsLower[infoIndex]SendCommand(e,{id="SetStaffId",divided=true,staffId=i,staffId2=a})
+    local a=gvars.ene_takingOverHostageStaffIdsLower[infoIndex]
+	SendCommand(e,{id="SetStaffId",divided=true,staffId=i,staffId2=a})
     if TppMission.IsMissionStart()then
       SendCommand(e,{id="SetEnabled",enabled=true})
-      local a=Vector3(gvars.ene_takingOverHostagePositions[t*3],gvars.ene_takingOverHostagePositions[t*3+1],gvars.ene_takingOverHostagePositions[t*3+2])SendCommand(e,{id="Warp",position=a})SendCommand(e,{id="SetFaceId",faceId=gvars.ene_takingOverHostageFaceIds[t]})SendCommand(e,{id="SetKeepFlagValue",keepFlagValue=gvars.ene_takingOverHostageFlags[t]})
+      local a=Vector3(gvars.ene_takingOverHostagePositions[t*3],gvars.ene_takingOverHostagePositions[t*3+1],gvars.ene_takingOverHostagePositions[t*3+2])
+	  SendCommand(e,{id="Warp",position=a})
+	  SendCommand(e,{id="SetFaceId",faceId=gvars.ene_takingOverHostageFaceIds[t]})
+	  SendCommand(e,{id="SetKeepFlagValue",keepFlagValue=gvars.ene_takingOverHostageFlags[t]})
     end
   else
     SendCommand(e,{id="SetEnabled",enabled=false})
@@ -4838,7 +4845,8 @@ function this.CheckQuestAllTarget(T,f,u,t,a)
     if p==true then
       if Tpp.IsSoldier(l)or Tpp.IsHostage(l)then
         if this.CheckQuestDistance(l)then
-          n.messageId="Fulton"a=a+1
+          n.messageId="Fulton"
+		  a=a+1
           d=false
           t=true
         end

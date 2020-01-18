@@ -1747,8 +1747,10 @@ function this.Messages()
       {msg="HeliDoorClosed",sender="SupportHeli",func=this.MissionClearOrAbortOnHeliDoorClosed},
       {msg="CalledFromStandby",sender="SupportHeli",func=function()
         if this.GetMissionName()~="s10020"then
-          TppUI.ShowAnnounceLog"callHeliRecieved"local e=TppSupportRequest.GetCallRescueHeliGmpCost()
-          TppTerminal.UpdateGMP{gmp=-e,gmpCostType=TppDefine.GMP_COST_TYPE.CALL_HELLI}svars.supportGmpCost=svars.supportGmpCost+e
+          TppUI.ShowAnnounceLog"callHeliRecieved"
+          local e=TppSupportRequest.GetCallRescueHeliGmpCost()
+          TppTerminal.UpdateGMP{gmp=-e,gmpCostType=TppDefine.GMP_COST_TYPE.CALL_HELLI}
+          svars.supportGmpCost=svars.supportGmpCost+e
         end
         TppSound.ClearOnDecendingLandingZoneJingleFlag()
       end},
@@ -1772,7 +1774,8 @@ function this.Messages()
           TppHelicopter.SetNewestPassengerTable()
           local e=TppHelicopter.GetPassengerlist()
           if IsTypeTable(e)and next(e)then
-            TppUI.ShowAnnounceLog"extractionFailed"end
+            TppUI.ShowAnnounceLog"extractionFailed"
+          end
         end
         if n==StrCode32"End"then
           local e=TppSupportRequest.GetCrashRescueHeliGmpCost()
@@ -1831,7 +1834,7 @@ function this.Messages()
         TppStory.UpdateStorySequence{updateTiming="OnCompletedPlatform",isInGame=true}
       end},
       {msg="RequestSaveMbManagement",func=function()
-        if vars.missionCode==10030 then
+        if vars.missionCode==10030 then--PATCHUP:
           TppMotherBaseManagement.SetRequestSaveResultFailure()
           return
         end
@@ -2143,7 +2146,8 @@ function this.EnableAlertOutOfMissionArea()
   end
   if not IsHelicopter(vars.playerVehicleGameObjectId)then
     mvars.mis_enableAlertOutOfMissionArea=true
-    TppUI.ShowAnnounceLog"closeOutOfMissionArea"TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.OUTSIDE_MISSION_AREA)
+    TppUI.ShowAnnounceLog"closeOutOfMissionArea"
+    TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.OUTSIDE_MISSION_AREA)
     if not e then
       TppTerminal.PlayTerminalVoice("VOICE_WARN_MISSION_AREA",true,1)
       TppOutOfMissionRangeEffect.Enable(3)
@@ -2157,7 +2161,8 @@ function this.DisableAlertOutOfMissionArea()
 end
 function this.ExitHotZone()
   this.ExecuteSystemCallback"OnOutOfHotZone"if svars.mis_canMissionClear then
-    TppUI.ShowAnnounceLog"leaveHotZone"if not IsNotAlert()and not IsHelicopter(vars.playerVehicleGameObjectId)then
+    TppUI.ShowAnnounceLog"leaveHotZone"
+    if not IsNotAlert()and not IsHelicopter(vars.playerVehicleGameObjectId)then
       TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.OUTSIDE_HOTZONE_ALERT)
     else
       TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.OUTSIDE_HOTZONE)
@@ -3533,19 +3538,19 @@ function this.ForceGoToMbFreeIfExistMbDemo()
   if not clearType[missionClearType]then
     return
   end
-  local n=TppStory.GetForceMBDemoNameOrRadioList"forceMBDemo"
-  if n then
-    TppDemo.SetNextMBDemo(n)
-    if TppDefine.MB_FREEPLAY_RIDEONHELI_DEMO_DEFINE[n]~=nil then
+  local forceDemoName=TppStory.GetForceMBDemoNameOrRadioList"forceMBDemo"
+  if forceDemoName then
+    TppDemo.SetNextMBDemo(forceDemoName)
+    if TppDefine.MB_FREEPLAY_RIDEONHELI_DEMO_DEFINE[forceDemoName]~=nil then
       this.SetNextMissionStartHeliRoute"ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_apr"
-      end
+    end
     this.SetNextMissionCodeForMissionClear(TppDefine.SYS_MISSION_ID.MTBS_FREE)
     this.SeizeReliefVehicleOnForceGoToMb()
   end
-  local n=TppStory.GetForceMBDemoNameOrRadioList("blackTelephone",{demoName=n})
+  local n=TppStory.GetForceMBDemoNameOrRadioList("blackTelephone",{demoName=forceDemoName})
   if n then
     TppRadio.SaveRewardEndRadioList(n)
-    if n[1]=="f6000_rtrg0310"then
+    if n[1]=="f6000_rtrg0310"then--PATCHUP:
       this.SetNextMissionCodeForMissionClear(TppDefine.SYS_MISSION_ID.MAFR_HELI)
     else
       this.SetNextMissionCodeForMissionClear(TppDefine.SYS_MISSION_ID.MTBS_FREE)
@@ -3631,7 +3636,9 @@ function this.ShowAnnounceLogOnGameStart()
   local n,e=this.ParseMissionName(this.GetMissionName())
   if(e=="free"or e=="heli")then
     if gvars.mis_isExistOpenMissionFlag then
-      TppUI.ShowAnnounceLog"missionListUpdate"TppUI.ShowAnnounceLog"missionAdd"gvars.mis_isExistOpenMissionFlag=false
+      TppUI.ShowAnnounceLog"missionListUpdate"
+      TppUI.ShowAnnounceLog"missionAdd"
+      gvars.mis_isExistOpenMissionFlag=false
     end
     TppQuest.ShowAnnounceLogQuestOpen()
   end

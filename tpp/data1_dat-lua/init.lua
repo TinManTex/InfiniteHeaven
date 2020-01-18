@@ -97,9 +97,9 @@ else
 end
 mainApplication:AddGame(game)
 mainApplication:SetMainGame(game)
-local r=game:CreateScene"MainScene"
-local i=game:CreateBucket("MainBucket",r)
-game:SetMainBucket(i)
+local mainScene=game:CreateScene"MainScene"
+local mainBucket=game:CreateBucket("MainBucket",mainScene)
+game:SetMainBucket(mainBucket)
 PathMapper.Add("AiSampleGame","Fox/Tests/Scripts/Character")
 if EditableBlockPackage then
   EditableBlockPackage.RegisterPackageExtensionInfo{{"fmdl",false},{"geom",false},{"gskl",false},{"fcnp",false},{"frdv",false},{"fdes",false},{"gani",false},{"lani",false},{"sani",false},{"sand",false},{"evb",false},{"mtar",false},{"mtard",false},{"caar",false},{"uif",false},{"uia",false},{"uilb",false},{"uigb",false},{"mog",false},{"fclo",false},{"rdf",false},{"lba",false},{"dmy",false},{"pcsp",false},{"ladb",false},{"lua",true},{"sdf",true},{"fsd",true},{"lad",true},{"sim",true},{"ph",true},{"phsd",true},{"tgt",true},{"bnd",true},{"des",true},{"path",true},{"veh",true},{"clo",true},{"fcnpx",true},{"vfxlf",true},{"vfx",true},{"parts",true},{"evf",true},{"fsml",true},{"fage",true},{"fago",true},{"fag",true},{"fagx",true},{"aibc",true},{"aib",true},{"uil",true},{"uig",true},{"testd",true},{"fox2",true},{"fxp2",true}}
@@ -120,25 +120,32 @@ if GrDaemon then
     end
     if o=="directx11"then
       if n then
-        dofile"shaders/dx11/GrSystemShadersNoLnm_dx11.lua"dofile"shaders/dx11/GrModelShadersNoLnm_dx11.lua"
-        dofile"shaders/dx11/FxShadersNoLnm_dx11.lua"else
+        dofile"shaders/dx11/GrSystemShadersNoLnm_dx11.lua"
+        dofile"shaders/dx11/GrModelShadersNoLnm_dx11.lua"
+        dofile"shaders/dx11/FxShadersNoLnm_dx11.lua"
+      else
         dofile"shaders/dx11/GrSystemShaders_dx11.lua"
         dofile"shaders/dx11/GrModelShaders_dx11.lua"
-        dofile"shaders/dx11/FxShaders_dx11.lua"end
+        dofile"shaders/dx11/FxShaders_dx11.lua"
+      end
     end
   elseif e=="Xbox360"then
     dofile"shaders/xbox360/GrSystemShaders_x360.lua"
     dofile"shaders/xbox360/GrModelShaders_x360.lua"
-    dofile"shaders/xbox360/FxShaders_x360.lua"elseif e=="XboxOne"then
+    dofile"shaders/xbox360/FxShaders_x360.lua"
+  elseif e=="XboxOne"then
     dofile"shaders/xboxone/GrSystemShadersNoLnm_xone.lua"
     dofile"shaders/xboxone/GrModelShadersNoLnm_xone.lua"
-    dofile"shaders/xboxone/FxShadersNoLnm_xone.lua"elseif e=="PS3"then
+    dofile"shaders/xboxone/FxShadersNoLnm_xone.lua"
+  elseif e=="PS3"then
     dofile"shaders/ps3/GrSystemShaders_ps3.lua"
     dofile"shaders/ps3/GrModelShaders_ps3.lua"
-    dofile"shaders/ps3/FxShaders_ps3.lua"elseif e=="PS4"then
+    dofile"shaders/ps3/FxShaders_ps3.lua"
+  elseif e=="PS4"then
     dofile"shaders/ps4/GrSystemShadersNoLnm_ps4.lua"
     dofile"shaders/ps4/GrModelShadersNoLnm_ps4.lua"
-    dofile"shaders/ps4/FxShadersNoLnm_ps4.lua"end
+    dofile"shaders/ps4/FxShadersNoLnm_ps4.lua"
+  end
 end
 if SoundCoreDaemon then
   SoundCoreDaemon.Create()
@@ -159,7 +166,9 @@ if CameraPriority then
   CameraPriority.RegisterPriorities{"Debug","Editor","Demo","Game","GameWeakest"}
 end
 if CameraSelector then
-  local e=CameraSelector{name="MainCameraSelector",scene="MainScene",viewport="MainViewport",priorities={"Debug","Editor","Demo","Game","GameWeakest"},listener="MainListener",rumble={0,1,2,3}}e:SetMainListener()CameraSelector.SetMainInstance(e)
+  local e=CameraSelector{name="MainCameraSelector",scene="MainScene",viewport="MainViewport",priorities={"Debug","Editor","Demo","Game","GameWeakest"},listener="MainListener",rumble={0,1,2,3}}
+  e:SetMainListener()
+  CameraSelector.SetMainInstance(e)
 end
 if editor then
   editor:Setup()
@@ -173,7 +182,13 @@ if editor then
   end
 end
 if FxDaemon then
-  FxDaemon.Initialize()FxDaemon.InitializeReserveObject"FxShaderPool"FxDaemon.InitializeReserveObject"FxMaterialManager"FxDaemon.InitializeReserveObject"FxTextureManager"FxDaemon.InitializeReserveObject"FxDecalSurfaceManager"FxDaemon.InitializeReserveObject"FxBlowOutEffectManager"end
+  FxDaemon.Initialize()
+  FxDaemon.InitializeReserveObject"FxShaderPool"
+  FxDaemon.InitializeReserveObject"FxMaterialManager"
+  FxDaemon.InitializeReserveObject"FxTextureManager"
+  FxDaemon.InitializeReserveObject"FxDecalSurfaceManager"
+  FxDaemon.InitializeReserveObject"FxBlowOutEffectManager"
+end
 if Pad2 then
   Pad2.Init{logCount=60}
 end
@@ -190,12 +205,14 @@ if NavWorldDaemon then
   NavWorldDaemon.AddScene"MainScene"
 end
 if PhDaemon then
-  PhDaemon.SetMemorySize(2560,1536,1024)PhDaemon.SetMaxRigidBodyNum(500)
+  PhDaemon.SetMemorySize(2560,1536,1024)
+  PhDaemon.SetMaxRigidBodyNum(500)
   local e=PhDaemon()
 end
 if SimDaemon then
   local e=SimDaemon()
-  e.defaultViewPort="MainViewport"end
+  e.defaultViewPort="MainViewport"
+end
 if DesDaemon then
   local e=DesDaemon()
 end
@@ -217,8 +234,10 @@ if SubtitlesDaemon then
   local e=SubtitlesDaemon{name="SubtitlesDaemon"}
 end
 if SubtitlesCommand then
-  local e=SubtitlesDaemon.GetDefaultVoiceLanguage()SubtitlesCommand.SetVoiceLanguage(e)
-  local e=AssetConfiguration.GetDefaultCategory"Language"SubtitlesCommand.SetLanguage(e)
+  local e=SubtitlesDaemon.GetDefaultVoiceLanguage()
+  SubtitlesCommand.SetVoiceLanguage(e)
+  local e=AssetConfiguration.GetDefaultCategory"Language"
+  SubtitlesCommand.SetLanguage(e)
 end
 if PreviewDaemon then
   local e=PreviewDaemon{}
@@ -232,27 +251,38 @@ end
 local e=Fox.GetPlatformName()
 if GrDaemon then
   if e=="Windows"then
-    local e=""if GrTools then
+    local e=""
+    if GrTools then
       e=GrTools.GetDeviceName()
     end
     if e=="directx11"then
-      FoxGameFrame.SetGameFrameWaitType"VirtualVsyncDx11"else
-      FoxGameFrame.SetGameFrameWaitType"VirtualVsync"end
+      FoxGameFrame.SetGameFrameWaitType"VirtualVsyncDx11"
+    else
+      FoxGameFrame.SetGameFrameWaitType"VirtualVsync"
+    end
   end
   if e=="Xbox360"then
-    FoxGameFrame.SetGameFrameWaitType"ExternalVsyncOffset"end
+    FoxGameFrame.SetGameFrameWaitType"ExternalVsyncOffset"
+  end
   if e=="PS3"then
-    FoxGameFrame.SetGameFrameWaitType"ExternalWait"end
+    FoxGameFrame.SetGameFrameWaitType"ExternalWait"
+  end
   if e=="XboxOne"then
-    FoxGameFrame.SetGameFrameWaitType"ExternalWait"end
+    FoxGameFrame.SetGameFrameWaitType"ExternalWait"
+  end
   if e=="PS4"then
-    FoxGameFrame.SetGameFrameWaitType"VirtualVsyncDx11"end
+    FoxGameFrame.SetGameFrameWaitType"VirtualVsyncDx11"
+  end
 end
 if PerformanceViewer then
-  local e=PerformanceViewer{name="PerformanceViewer"}e:Invisible()r:AddActor(e)
+  local e=PerformanceViewer{name="PerformanceViewer"}
+  e:Invisible()
+  mainScene:AddActor(e)
 end
 if MemoryViewer then
-  local e=MemoryViewer{name="MemoryViewer"}e:Invisible()r:AddActor(e)
+  local e=MemoryViewer{name="MemoryViewer"}
+  e:Invisible()
+  mainScene:AddActor(e)
 end
 if MiniPerfView then
   MiniPerfView.SetEnable(true)
@@ -282,10 +312,15 @@ if FoxFadeIo then
   FoxFadeIo.Create()
 end
 if Editor then
-  package.path=package.path..";/Assets/fox/editor_scripts/?.lua"package.path=package.path..";/Assets/mgo/editor_scripts/?.lua"end
+  package.path=package.path..";/Assets/fox/editor_scripts/?.lua"
+  package.path=package.path..";/Assets/mgo/editor_scripts/?.lua"
+end
 if Editor then
-  EdDemoEditBlockController.AddToolsBlockPath"/Assets/fox/demo/event/info/EdDemoEditTools.fpk"EdDemoEditBlockController.AddToolsBlockPath"/Assets/fox/demo/event/info/EdProceduralDemoEditTools.fpk"end
+  EdDemoEditBlockController.AddToolsBlockPath"/Assets/fox/demo/event/info/EdDemoEditTools.fpk"
+  EdDemoEditBlockController.AddToolsBlockPath"/Assets/fox/demo/event/info/EdProceduralDemoEditTools.fpk"
+end
 if EdRouteDataNodeEvent then
-  EdRouteDataNodeEvent.SetEventDefinitionPath("DummyRoute","Fox/Scripts/RouteEvents/AiRtEvDummyRoute.lua")EdRouteDataEdgeEvent.SetEventDefinitionPath("DummyRoute","Fox/Scripts/RouteEvents/AiRtEvDummyRoute.lua")
+  EdRouteDataNodeEvent.SetEventDefinitionPath("DummyRoute","Fox/Scripts/RouteEvents/AiRtEvDummyRoute.lua")
+  EdRouteDataEdgeEvent.SetEventDefinitionPath("DummyRoute","Fox/Scripts/RouteEvents/AiRtEvDummyRoute.lua")
 end
 Fox.SetBreakIgnore(true)

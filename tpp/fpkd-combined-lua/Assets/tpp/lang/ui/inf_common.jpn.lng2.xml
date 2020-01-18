@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LangFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Endianess="BigEndian">
+  <Entries>
+    <Entry LangId="inf_modname_version_help" Key="615787889" Value="Infinite Heaven r%d %s" />
+    <Entry LangId="inf_setting_out_of_bounds" Key="2261212770" Value="CURRENTSETTING OUT OF BOUNDS" />
+    <Entry LangId="inf_menu_open_help" Key="288563441" Value=" (Press Up/Down,Left/Right to navigate menu)" />
+    <Entry LangId="inf_setting_defaults" Key="1691912224" Value="Setting mod options to defaults..." />
+    <Entry LangId="inf_setting_default" Key="918514685" Value="Setting to default.." />
+    <Entry LangId="inf_setting_disallowed" Key="790292624" Value="%d is currently disallowed" />
+    <Entry LangId="inf_turn_off_menu" Key="2953798929" Value="Turn off menu" />
+    <Entry LangId="inf_reset_all_settings" Key="252431376" Value="Reset all settings" />
+    <Entry LangId="inf_menu_back" Key="1827183139" Value="Menu Back" />
+    <Entry LangId="inf_menu_off" Key="933071030" Value="Menu Off" />
+    <Entry LangId="inf_parameters_menu" Key="253251428" Value="Parameters Menu" />
+    <Entry LangId="inf_general_enemy_parameters" Key="522533215" Value="General Enemy Parameters" />
+    <Entry LangId="inf_enemy_life_scale" Key="2715336208" Value="Enemy life scale (Requires Tweaked Enemy Parameters)" />
+    <Entry LangId="inf_player_life_scale" Key="440737905" Value="Player life scale" />
+    <Entry LangId="inf_mother_base_menu" Key="1771778377" Value="Mother Base Menu" />
+    <Entry LangId="inf_dd_equip_grade" Key="2859229757" Value="DD Equip Grade" />
+    <Entry LangId="inf_dd_equip_range" Key="33554237" Value="DD Equip Range" />
+    <Entry LangId="inf_dd_suit" Key="977219456" Value="DD Suit (Requires Equip Grade On)" />
+    <Entry LangId="inf_mother_base_war_games" Key="690639655" Value="Mother Base War Games" />
+    <Entry LangId="inf_patchup_menu" Key="3207761436" Value="Patchup Menu" />
+    <Entry LangId="inf_return_quiet" Key="3266730257" Value="Return Quiet (not reversable)" />
+    <Entry LangId="inf_quiet_already_returned" Key="608516804" Value="Quiet has already returned." />
+    <Entry LangId="inf_main_menu" Key="3184945086" Value="Main Menu" />
+    <Entry LangId="inf_subsistence_mode" Key="4225507463" Value="Subsistence Mode" />
+    <Entry LangId="inf_osp_weapon_loadout" Key="2301658059" Value="OSP Weapon Loadout" />
+    <Entry LangId="inf_enemy_preparedness" Key="3557756750" Value="Enemy Preparedness" />
+    <Entry LangId="inf_unlock_random_sideops" Key="3591904999" Value="Unlock random Sideops for areas" />
+    <Entry LangId="inf_open_specific_sideop" Key="2523031577" Value="Open specific sideop #" />
+    <Entry LangId="inf_mb_demo_selection" Key="3211655081" Value="Disable Mother Base return cutscenes" />
+    <Entry LangId="inf_tripple_langid" Key="3675817013" Value="%s bleh" />
+  </Entries>
+</LangFile>

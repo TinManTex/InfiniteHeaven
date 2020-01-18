@@ -541,7 +541,8 @@ else
   TppFreeHeliRadio.OnMessage(n"Radio",n"Finish",n(i),nil,nil,nil,e)
 end
 end
-function e._PlayDebugLine(e,a)SubtitlesCommand.DisplayText(e,"Default",a*1e3)
+function e._PlayDebugLine(e,a)
+SubtitlesCommand.DisplayText(e,"Default",a*1e3)
 end
 function e.PlaySelectBuddy(a)
   if TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_FORCE_HOSPITALIZE)then

@@ -67,13 +67,17 @@ function e.OnEndExceptionDialogForSignInUserChange()
   end
   gvars.isLoadedInitMissionOnSignInUserChanged=true
   e.isLoadedInitMissionOnSignInUserChanged=true
-  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,"FadeOutOnEndExceptionDialogForSignInUserChange",nil,{setMute=true})FadeFunction.SetFadeCallEnable(false)SignIn.SetStartupProcessCompleted(false)
+  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,"FadeOutOnEndExceptionDialogForSignInUserChange",nil,{setMute=true})
+  FadeFunction.SetFadeCallEnable(false)SignIn.SetStartupProcessCompleted(false)
   TppUI.SetFadeColorToBlack()StageBlockCurrentPositionSetter.SetEnable(false)
-  TppUiCommand.SetLoadIndicatorVisible(true)SubtitlesCommand.SetIsEnabledUiPrioStrong(false)
+  TppUiCommand.SetLoadIndicatorVisible(true)
+  SubtitlesCommand.SetIsEnabledUiPrioStrong(false)
   TppRadio.Stop()
   TppMusicManager.StopMusicPlayer(1)
   TppMusicManager.EndSceneMode()
-  TppRadioCommand.SetEnableIgnoreGamePause(false)GkEventTimerManager.StopAll()Mission.AddFinalizer(function()
+  TppRadioCommand.SetEnableIgnoreGamePause(false)
+  GkEventTimerManager.StopAll()
+  Mission.AddFinalizer(function()
     e.waitPatchDlcCheckCoroutine=nil
     TppSave.missionStartSaveFilePool=nil
     TppMission.DisablePauseForShowResult()
@@ -88,7 +92,8 @@ function e.OnEndExceptionDialogForSignInUserChange()
     for t,e in ipairs(n.slot)do
       TppScriptVars.CopySlot({n.savingSlot,e},e)
     end
-    TppUiStatusManager.UnsetStatus("All","ABORT")FadeFunction.SetFadeCallEnable(true)
+    TppUiStatusManager.UnsetStatus("All","ABORT")
+    FadeFunction.SetFadeCallEnable(true)
   end)
   TppVarInit.StartInitMission()
   return e.PROCESS_STATE.FINISH

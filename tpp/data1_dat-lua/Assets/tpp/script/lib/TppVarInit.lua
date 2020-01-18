@@ -8,7 +8,7 @@ local i,i,i=bit.band,bit.bor,bit.bxor
 function e.StartTitle(i)
   TppSystemLua.UseAiSystem(true)
   TppSimpleGameSequenceSystem.Start()
-  local function a()
+  local function DoStart()
     TppSave.CopyGameDataFromSavingSlot()
     e.InitializeForNewMission{}
     gvars.elapsedTimeSinceLastPlay=TppScriptVars.GetElapsedTimeSinceLastPlay()
@@ -19,7 +19,7 @@ function e.StartTitle(i)
   local missionIdInit=TppDefine.SYS_MISSION_ID.INIT
   if TppSave.IsGameDataLoadResultOK()then
     do
-      a()
+      DoStart()
     end
     if gvars.str_storySequence<TppDefine.STORY_SEQUENCE.CLEARD_ESCAPE_THE_HOSPITAL then
       e.SetVarsTitleCypr()
@@ -39,7 +39,8 @@ function e.StartTitle(i)
   end
   local e=Fox.GetActMode()
   if(e=="EDIT")then
-    Fox.SetActMode"GAME"end
+    Fox.SetActMode"GAME"
+  end
 end
 function e.SetVarsTitleCypr()
   TppMission.VarResetOnNewMission()
