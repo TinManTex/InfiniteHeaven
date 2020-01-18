@@ -244,17 +244,21 @@ end
 function this.ReinforceBlockOnTerminate()
 end
 function this._HasSoldier()
-  if((mvars.reinforce_reinforceType==this.REINFORCE_TYPE.HELI or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_WAV_ROCKET)or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_TANK)or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.WEST_TANK then
+  if((mvars.reinforce_reinforceType==this.REINFORCE_TYPE.HELI or 
+    mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_WAV_ROCKET)or 
+    mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_TANK)or 
+    mvars.reinforce_reinforceType==this.REINFORCE_TYPE.WEST_TANK then
     return false
   end
   return true
 end
 function this._HasVehicle()
-  if((((mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_WAV or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_WAV_ROCKET)
+  if((((mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_WAV 
+    or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_WAV_ROCKET)
     or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.WEST_WAV)
-      or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.WEST_WAV_CANNON)
-        or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_TANK)
-          or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.WEST_TANK then
+    or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.WEST_WAV_CANNON)
+    or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_TANK)
+    or mvars.reinforce_reinforceType==this.REINFORCE_TYPE.WEST_TANK then
     --InfMenu.DebugPrint("_HasVehicle reinforce_reinforceType="..mvars.reinforce_reinforceType.."="..this.REINFORCE_TYPE_NAME[mvars.reinforce_reinforceType+1] )         
     return true
   end

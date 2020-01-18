@@ -539,9 +539,12 @@ this.demoOptions={
   NuclearEliminationCeremony={weather=TppDefine.WEATHER.SUNNY,time="17:20:00",
     GetNextDemoNameOrNil=function()
       if TppMotherBaseManagement.IsNuclearDeveloped()then
-        return"DetailsNuclearDevelop"elseif TppMotherBaseManagement.IsNuclearDiscarded()then
-        return"ForKeepNuclearElimination"else
-        return"SacrificeOfNuclearElimination"end
+        return"DetailsNuclearDevelop"
+      elseif TppMotherBaseManagement.IsNuclearDiscarded()then
+        return"ForKeepNuclearElimination"
+      else
+        return"SacrificeOfNuclearElimination"
+      end
     end,
     OnEnter=function()
       TppPlayer.Refresh()
@@ -579,7 +582,7 @@ this.demoOptions={
     end,
     OnEnd=function()
       TppSoundDaemon.SetMute"Result"
-      end},
+    end},
   DetailsNuclearDevelop={isMovie=true,OnEnter=function()
     TppSoundDaemon.SetMute"Result"
   end,
@@ -591,17 +594,17 @@ this.demoOptions={
     end
   end},
   EndingSacrificeOfNuclear={isMovie=true,
-  OnEnter=function()
-    TppSound.SetSceneBGM"bgm_nuclear_ending"
-    TppUiCommand.NukeCountDownText("set","cmmn_nuclear_weapon_num",5,166666,15)
-  end,
-  OnEnd=function()
-    local e=TppServerManager.GetNuclearAbolitionCount()
-    if e>0 then
-      gvars.f30050_NuclearAbolitionCount=e
-    end
-    TppUiCommand.NukeCountDownText"reset"
-  end},
+    OnEnter=function()
+      TppSound.SetSceneBGM"bgm_nuclear_ending"
+      TppUiCommand.NukeCountDownText("set","cmmn_nuclear_weapon_num",5,166666,15)
+    end,
+    OnEnd=function()
+      local e=TppServerManager.GetNuclearAbolitionCount()
+      if e>0 then
+        gvars.f30050_NuclearAbolitionCount=e
+      end
+      TppUiCommand.NukeCountDownText"reset"
+    end},
   TheGreatEscapeLiquid={
     OnEnter=function()
       TppPlayer.Refresh()
@@ -698,7 +701,7 @@ function this.PlayMtbsEventDemo(params)
   Player.UnsetPause()
   mvars.mbDemo_isFirstPlay=not TppDemo.IsPlayedMBEventDemo(demoName)
   local hasNextDemo=false
-  local onEnd=params.onEnd
+  local ParamsOnEnd=params.onEnd
   local DemoOnEnd=nil
   local DemoOnEnter=nil
   local demoOptions=this.demoOptions[demoName]
@@ -771,9 +774,9 @@ function this.PlayMtbsEventDemo(params)
         end
       end
       if isUseGrassOcelot then
-        local e={type="TppOcelot2",index=0}
-        local t={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=371}
-        GameObject.SendCommand(e,t)
+        local tppOcelot={type="TppOcelot2",index=0}
+        local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=371}
+        GameObject.SendCommand(tppOcelot,command)
       end
       this.SetInvisibleUniqueCharacter(isVisibleCurrentBudy)
       GkEventTimerManager.Start("TelopStartOnDemo",O)
@@ -800,8 +803,8 @@ function this.PlayMtbsEventDemo(params)
         DemoOnEnd()
       end
 
-      if onEnd then
-        onEnd()
+      if ParamsOnEnd then
+        ParamsOnEnd()
       end
 
       if not enableOcelotDemoEnd then
@@ -841,7 +844,7 @@ function this.PlayMtbsEventDemo(params)
   end
   if isMovie then
     local videoName=this.demoList[demoName]
-    TppMovie.Play{videoName=videoName,onStart=demoFuncs.onStart,onEnd=demoFuncs.onend,memoryPool=videoName}--tex BUGFIX: was onEnd=demoFuncs.onend VERIFY: any movies actually use an onEnd ?
+    TppMovie.Play{videoName=videoName,onStart=demoFuncs.onStart,onEnd=demoFuncs.onEnd,memoryPool=videoName}--RETAILBUG: was onEnd=demoFuncs.onend VERIFY: any movies actually use an onEnd ?
   else
     TppDemo.Play(demoName,demoFuncs,options)
   end
@@ -967,7 +970,8 @@ function this.UpdatePackList(t)
   if not t then
     return
   end
-  local l={}l[t]={}
+  local l={}
+  l[t]={}
   local n=false
   if this.demoBlockList[t]then
     Tpp.ApendArray(l[t],this.demoBlockList[t])

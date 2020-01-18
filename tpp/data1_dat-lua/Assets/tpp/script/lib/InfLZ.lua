@@ -4,7 +4,7 @@ local this = {}
 local StrCode32=Fox.StrCode32
 
 this.groundStartPositionMotherBase={pos={9,0.8,-42.5},rotY=1}--tex command platform helipad
-this.groundStartPositions={
+this.groundStartPositions={--tex built from /Assets/tpp/ui/Script/mbdvc_map_mission_parameter.lua, intial 'drop' lzs, other lzs in game are called 'assault' lzs??
 --story missions unique lzs
   [StrCode32"lz_drp_hillNorth_W0000|rt_drp_hillNorth_W_0000"]={pos={1734.22,66.01,-407.54},},
   [StrCode32"lz_drp_outland_N0000|rt_drp_outland_N_0000"]={pos={-807.61,3.47,516.01},},

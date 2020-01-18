@@ -313,7 +313,7 @@ this.debugInMissionMenu={
 
 this.inMissionMenu={
   options={
-    --InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUGNOW
+    --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,
     Ivars.clockTimeScale,

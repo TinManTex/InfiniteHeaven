@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 -- NODEPS
---tex debug inspect shit, usage local stringout = InfInspect.Inspect(sometable) tpp...announcelog(stringout) -- cant do (someotherstring + stringout), must be by itself
+--tex debug inspect shiz, usage local stringout = InfInspect.Inspect(sometable) InfMenu.DebugPrint(stringout) -- cant do (someotherstring .. stringout), must be by itself
 local this={}
 local inspect ={
   _VERSION = 'inspect.lua 3.0.0',

@@ -1,77 +1,80 @@
-local e={}
-local i=Fox.StrCode32
-local t=Tpp.IsTypeFunc
-local o=Tpp.IsTypeTable
-local l=Tpp.IsTypeString
-e.CallbackFunctionTable={}
-function e.Play(n)
-local a
-if TppGameSequence.GetTargetArea()=="Japan"then
-a="_jp"else
-a="_en"end
-if not o(n)then
-return
+local this={}
+local StrCode32=Fox.StrCode32
+local IsTypeFunc=Tpp.IsTypeFunc
+local IsTypeTable=Tpp.IsTypeTable
+local IsTypeString=Tpp.IsTypeString
+this.CallbackFunctionTable={}
+function this.Play(demoFlags)
+  local a
+  if TppGameSequence.GetTargetArea()=="Japan"then
+    a="_jp"
+    else
+    a="_en"
+    end
+  if not IsTypeTable(demoFlags)then
+    return
+  end
+  local o=demoFlags.videoName
+  if not IsTypeString(o)then
+    return
+  end
+  o=o..a
+  local subTitleName=demoFlags.subtitleName or""
+  local a=false
+  if demoFlags.isLoop then
+    a=true
+  end
+  local onStart=demoFlags.onStart
+  if onStart then
+    if not IsTypeFunc(onStart)then
+      return
+    end
+  end
+  local onEnd=demoFlags.onEnd
+  if onEnd then
+    if not IsTypeFunc(onEnd)then
+      return
+    end
+  end
+  local t=demoFlags.memoryPool
+  if not t then
+  end
+  local n=StrCode32(o)
+  this.CallbackFunctionTable[n]={videoName=o,onStart=onStart,onEnd=onEnd}
+  local o=TppVideoPlayer.LoadVideo{VideoName=o,SubtitleName=subTitleName,MemoryPool=t}
+  if not o then
+    TppVideoPlayer.PlayVideo()
+  else
+    this.DoMessage(n,"onStart")
+    this.DoMessage(n,"onEnd")
+  end
 end
-local o=n.videoName
-if not l(o)then
-return
+this.CommonDoMessage={}
+function this.CommonDoMessage.onStart()
+  local e={}
+  for n,o in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+    e[n]=false
+  end
+  for n,o in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+    e[n]=false
+  end
+  e.PauseMenu=nil
+  TppUI.FadeIn(TppUI.FADE_SPEED.FADE_MOMENT,"FadeInForMovieStart",nil,{exceptGameStatus=e})
+  TppUiStatusManager.ClearStatus"PauseMenu"Player.SetPause()
 end
-o=o..a
-local d=n.subtitleName or""local a=false
-if n.isLoop then
-a=true
+function this.CommonDoMessage.onEnd()
+  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT)Player.UnsetPause()
 end
-local a=n.onStart
-if a then
-if not t(a)then
-return
+function this.DoMessage(n,o)
+  local n=this.CallbackFunctionTable[n]
+  if not n then
+    return
+  end
+  local a=n.videoName
+  this.CommonDoMessage[o]()
+  local e=n[o]
+  if e then
+    e()
+  end
 end
-end
-local l=n.onEnd
-if l then
-if not t(l)then
-return
-end
-end
-local t=n.memoryPool
-if not t then
-end
-local n=i(o)
-e.CallbackFunctionTable[n]={videoName=o,onStart=a,onEnd=l}
-local o=TppVideoPlayer.LoadVideo{VideoName=o,SubtitleName=d,MemoryPool=t}
-if not o then
-TppVideoPlayer.PlayVideo()
-else
-e.DoMessage(n,"onStart")
-e.DoMessage(n,"onEnd")
-end
-end
-e.CommonDoMessage={}
-function e.CommonDoMessage.onStart()
-local e={}
-for n,o in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-e[n]=false
-end
-for n,o in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-e[n]=false
-end
-e.PauseMenu=nil
-TppUI.FadeIn(TppUI.FADE_SPEED.FADE_MOMENT,"FadeInForMovieStart",nil,{exceptGameStatus=e})
-TppUiStatusManager.ClearStatus"PauseMenu"Player.SetPause()
-end
-function e.CommonDoMessage.onEnd()
-TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT)Player.UnsetPause()
-end
-function e.DoMessage(n,o)
-local n=e.CallbackFunctionTable[n]
-if not n then
-return
-end
-local a=n.videoName
-e.CommonDoMessage[o]()
-local e=n[o]
-if e then
-e()
-end
-end
-return e
+return this

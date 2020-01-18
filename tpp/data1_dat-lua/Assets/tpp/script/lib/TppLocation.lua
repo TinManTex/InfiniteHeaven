@@ -241,8 +241,8 @@ end
 function this.GetLocalMbStageClusterGrade(e)
   return TppMotherBaseManagement.GetClusterGrade{base="MotherBase",category=TppDefine.CLUSTER_NAME[e]}
 end
-function this.MbFreeSpecialMissionStartSetting(e)
-  if e==TppDefine.MISSION_CLEAR_TYPE.HELI_TAX_MB_FREE_CLEAR then
+function this.MbFreeSpecialMissionStartSetting(missionClearType)
+  if missionClearType==TppDefine.MISSION_CLEAR_TYPE.HELI_TAX_MB_FREE_CLEAR then
     if mvars.mis_helicopterMissionStartPosition then
       TppPlayer.SetInitialPosition(mvars.mis_helicopterMissionStartPosition,0)
       TppPlayer.SetMissionStartPosition(mvars.mis_helicopterMissionStartPosition,0)

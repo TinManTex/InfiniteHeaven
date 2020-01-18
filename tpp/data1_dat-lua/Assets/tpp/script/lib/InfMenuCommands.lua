@@ -372,19 +372,11 @@ this.unlockWeaponCustomizationItem={
 this.doEnemyReinforce={--WIP DEUBNOW
   OnChange=function()
   --TODO: GetClosestCp
-  --[[
+--  _OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestLoadReinforce"
 
-  _OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestLoadReinforce"
+--or 
 
-
-
-or 
-
-
-
-  TppReinforceBlock.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)  
-
-  --]]
+--  TppReinforceBlock.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)  
   end,
 }
 

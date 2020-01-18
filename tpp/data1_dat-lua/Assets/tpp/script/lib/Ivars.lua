@@ -798,6 +798,13 @@ this.disableReinforceHeliPullOut={--NONUSER
 --  save=MISSION,
 --  range={max=100},
 --}
+--vehicle replace stuff
+this.replaceVehicles={--WIP
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 
 this.startOnFoot={
   save=MISSION,

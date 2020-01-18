@@ -207,6 +207,7 @@ this.eng={--english
   forceReinforceRequest="Force reinforce request",
   enableHeliReinforce="Enable enemy heli reinforce (disable heli sideops)",
   enemyReinforceMenu="Enemy reinforcements menu",
+  heli_hold_pulling_out="Holding",--r97
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

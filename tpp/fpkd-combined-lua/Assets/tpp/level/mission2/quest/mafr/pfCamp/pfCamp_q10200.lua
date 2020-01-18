@@ -1,3 +1,7 @@
+-- DOBUILD: 0
+-- ORIGINALQAR: chunk4
+-- PACKPATH: \Assets\tpp\pack\mission2\quest\mafr\pfCamp\pfCamp_q10200.fpkd
+
 local this = {}
 local quest_step = {}
 
@@ -101,6 +105,9 @@ this.QUEST_TABLE = {
 
 
 function this.OnAllocate()
+  local debugSplash=SplashScreen.Create("ooop","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",640,640)--tex ghetto as 'does it run?' indicator
+  SplashScreen.Show(debugSplash,0,1,0)--tex eagle DEBUGNOW
+
 	 TppQuest.RegisterQuestStepList{
 		"QStep_Start",
 		"QStep_Main",
@@ -114,7 +121,7 @@ function this.OnAllocate()
 	TppQuest.RegisterQuestSystemCallbacks{
 		OnActivate = function()
 			Fox.Log("quest_recv_child OnActivate")
-			
+			InfMenu.DebugPrint("quest_recv_child OnActivate")--DEBUGNOW
 			TppEnemy.OnActivateQuest( this.QUEST_TABLE )
 		end,
 		OnDeactivate = function()

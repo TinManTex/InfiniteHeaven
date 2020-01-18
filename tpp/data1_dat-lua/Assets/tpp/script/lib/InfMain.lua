@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r96"
+this.modVersion="r97"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -15,6 +15,7 @@ local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local Enum=TppDefine.Enum
 local StrCode32=Fox.StrCode32
+local IsTimerActive=GkEventTimerManager.IsTimerActive
 
 this.debugSplash=SplashScreen.Create("debugEagle","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",640,640)
 
@@ -250,14 +251,14 @@ function this.ResetCpTableToDefault()
 end
 
 --function this.GetGameId(gameId,type)
-  --if IsString(gameId) then
-    --gameId=GetGameObjectId(gameId) 
-    --local soldierId=GetGameObjectId("TppSoldier2",soldierName)
-      --if soldierId~=NULL_ID then
-  --end
-  --if gameId==nil or gameId==NULL_ID then
-    --return nil
-  --end
+--if IsString(gameId) then
+--gameId=GetGameObjectId(gameId)
+--local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+--if soldierId~=NULL_ID then
+--end
+--if gameId==nil or gameId==NULL_ID then
+--return nil
+--end
 --end
 
 function this.ChangePhase(cpName,phase)
@@ -307,6 +308,161 @@ function this.GetClosestCp()
     end
   end
 end
+
+--<cp stuff
+--vehicle stuff>
+--local vehicleBaseType={
+--  "LIGHT_VEHICLE",
+--  "TRUCK",
+--  "WHEELED_ARMORED_VEHICLE",
+--  "TRACKED_TANK",
+--}
+--
+--local vehicles={
+--  ["EASTERN_LIGHT_VEHICLE"]={
+--    baseType="LIGHT_VEHICLE",
+--    type=Vehicle.Type.EASTERN_LIGHT_VEHICLE,
+--    subType=Vehicle.subType.NONE,
+--  },
+--  ["WESTERN_LIGHT_VEHICLE"]={
+--    baseType="LIGHT_VEHICLE",
+--    type=Vehicle.Type.WESTERN_LIGHT_VEHICLE,
+--    subType=Vehicle.subType.NONE,
+--  },
+--  
+--  ["EASTERN_TRUCK"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.EASTERN_TRUCK,
+--    subType=Vehicle.subType.NONE,
+--  },
+--  ["EASTERN_TRUCK_CARGO_AMMUNITION"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.EASTERN_TRUCK,
+--    subType=Vehicle.subType.EASTERN_TRUCK_CARGO_AMMUNITION,
+--  },
+--  ["EASTERN_TRUCK_CARGO_MATERIAL"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.EASTERN_TRUCK,
+--    subType=Vehicle.subType.EASTERN_TRUCK_CARGO_MATERIAL,
+--  },
+--  ["EASTERN_TRUCK_CARGO_DRUM"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.EASTERN_TRUCK,
+--    subType=Vehicle.subType.EASTERN_TRUCK_CARGO_DRUM,
+--  },
+--  ["EASTERN_TRUCK_CARGO_GENERATOR"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.EASTERN_TRUCK,
+--    subType=Vehicle.subType.EASTERN_TRUCK_CARGO_GENERATOR,
+--  },
+--  
+--  ["WESTERN_TRUCK"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.WESTERN_TRUCK,
+--    subType=Vehicle.subType.NONE,
+--  },
+--  
+--  ["WESTERN_TRUCK_CARGO_ITEM_BOX"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.WESTERN_TRUCK,
+--    subType=Vehicle.subType.WESTERN_TRUCK_CARGO_ITEM_BOX,
+--  },
+--  
+--  ["WESTERN_TRUCK_CARGO_CONTAINER"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.WESTERN_TRUCK,
+--    subType=Vehicle.subType.WESTERN_TRUCK_CARGO_CONTAINER,
+--  },
+--  
+--  ["WESTERN_TRUCK_CARGO_CISTERN"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.WESTERN_TRUCK,
+--    subType=Vehicle.subType.WESTERN_TRUCK_CARGO_CISTERN,
+--  },
+--  
+--  ["WESTERN_TRUCK_HOOD"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.WESTERN_TRUCK,
+--    subType=Vehicle.subType.WESTERN_TRUCK_HOOD,
+--  },
+--
+--  ["EASTERN_WHEELED_ARMORED_VEHICLE"]={
+--    baseType="WHEELED_ARMORED_VEHICLE",
+--    type=Vehicle.Type.EASTERN_WHEELED_ARMORED_VEHICLE,
+--    subType=Vehicle.subType.NONE,
+--  },
+--  
+--  ["EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY"]={
+--    baseType="WHEELED_ARMORED_VEHICLE",
+--    type=Vehicle.Type.EASTERN_WHEELED_ARMORED_VEHICLE,
+--    subType=Vehicle.subType.EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY,
+--  },
+--  
+--  
+--  ["WESTERN_WHEELED_ARMORED_VEHICLE"]={
+--    baseType="WHEELED_ARMORED_VEHICLE",
+--    type=Vehicle.Type.WESTERN_WHEELED_ARMORED_VEHICLE,
+--    subType=Vehicle.subType.NONE,
+--  },
+--  
+--  ["WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.WESTERN_WHEELED_ARMORED_VEHICLE,
+--    subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN,
+--  },
+--  
+--  ["WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON"]={
+--    baseType="TRUCK",
+--    type=Vehicle.Type.WESTERN_WHEELED_ARMORED_VEHICLE,
+--    subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON,
+--  },
+--  
+--  ["EASTERN_TRACKED_TANK"]={
+--    baseType="TRACKED_TANK",
+--    type=Vehicle.Type.EASTERN_TRACKED_TANK,
+--    subType=Vehicle.subType.NONE,
+--  },
+--  
+--  ["WESTERN_TRACKED_TANK"]={
+--    baseType="TRACKED_TANK",
+--    type=Vehicle.Type.WESTERN_TRACKED_TANK,
+--    subType=Vehicle.subType.NONE,
+--  },  
+--}
+--
+--local vehicleTypes={
+--  ["EASTERN_LIGHT_VEHICLE"]=Vehicle.type.EASTERN_LIGHT_VEHICLE,
+--  ["WESTERN_LIGHT_VEHICLE"]=Vehicle.type.WESTERN_LIGHT_VEHICLE,
+--  ["EASTERN_TRUCK"]=Vehicle.type.EASTERN_TRUCK,
+--  ["WESTERN_TRUCK"]=Vehicle.type.WESTERN_TRUCK,
+--  ["EASTERN_WHEELED_ARMORED_VEHICLE"]=Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE,
+--  ["WESTERN_WHEELED_ARMORED_VEHICLE"]=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
+--  ["EASTERN_TRACKED_TANK"]=Vehicle.type.EASTERN_TRACKED_TANK,
+--  ["WESTERN_TRACKED_TANK"]=Vehicle.type.WESTERN_TRACKED_TANK,
+--}
+--
+--local vehicleSubTypes={
+--  ["NONE"]=Vehicle.subType.NONE,
+--
+--  ["WESTERN_TRUCK_CARGO_ITEM_BOX"]=Vehicle.subType.WESTERN_TRUCK_CARGO_ITEM_BOX,
+--  ["WESTERN_TRUCK_CARGO_CONTAINER"]=Vehicle.subType.WESTERN_TRUCK_CARGO_CONTAINER,
+--  ["WESTERN_TRUCK_CARGO_CISTERN"]=Vehicle.subType.WESTERN_TRUCK_CARGO_CISTERN,
+--  ["WESTERN_TRUCK_HOOD"]=Vehicle.subType.WESTERN_TRUCK_HOOD,--only s10090
+--  
+--  ["EASTERN_TRUCK_CARGO_AMMUNITION"]=Vehicle.subType.EASTERN_TRUCK_CARGO_AMMUNITION,
+--  ["EASTERN_TRUCK_CARGO_MATERIAL"]=Vehicle.subType.EASTERN_TRUCK_CARGO_MATERIAL,
+--  ["EASTERN_TRUCK_CARGO_DRUM"]=Vehicle.subType.EASTERN_TRUCK_CARGO_DRUM,
+--  ["EASTERN_TRUCK_CARGO_GENERATOR"]=Vehicle.subType.EASTERN_TRUCK_CARGO_GENERATOR,
+--  
+--  ["WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN"]=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN,
+--  ["WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON"]=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON,
+--  
+--  ["EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY"]=Vehicle.subType.EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY,
+--}
+
+
+--<vehicle stuff
+
 
 --splash stuff
 local oneOffSplashes={
@@ -390,11 +546,11 @@ this.currentRandomSplash=nil
 --OUT: this.oneOffSplashes, this.currentRandomSplash, SplashScreen - a splashscreen
 --ASSUMPTION: heavy on emblemTypes data layout assumptions, so if you change it, this do break
 function this.CreateRandomEmblemSplash()
---  if this.currentRandomSplash~=nil then
---    if SplashScreen.GetSplashScreenWithName(this.currentRandomSplash) then
---      return
---    end
---  end
+  --  if this.currentRandomSplash~=nil then
+  --    if SplashScreen.GetSplashScreenWithName(this.currentRandomSplash) then
+  --      return
+  --    end
+  --  end
 
   local groupNumber=math.random(#emblemTypes)
   local group=emblemTypes[groupNumber]
@@ -409,11 +565,11 @@ function this.CreateRandomEmblemSplash()
   end
 
   local lowOrHi="h"--tex low is full opaque, i guess for being in background thus 'low' display order, hi is more detailed stencil
---  if math.random()<0.5 then
---    lowOrHi="l"
---  else
---    lowOrHi="h"
---  end
+  --  if math.random()<0.5 then
+  --    lowOrHi="l"
+  --  else
+  --    lowOrHi="h"
+  --  end
 
   local name=emblemType..emblemNumber
 
@@ -483,6 +639,9 @@ function this.Messages()
       {msg="CancelReinforce",func=this.OnCancelReinforce},
       {msg="LostControl",func=this.OnHeliLostControlReinforce},--DOC: Helicopter shiz.txt
       {msg="VehicleBroken",func=this.OnVehicleBrokenReinforce},
+      {msg="RequestedHeliTaxi",func=function(gameObjectId,currentLandingZoneName,nextLandingZoneName)
+        --InfMenu.DebugPrint("RequestedHeliTaxi currentLZ:"..currentLandingZoneName.. " nextLZ:"..nextLandingZoneName)--DEBUG
+      end},
     },
     Player={
       {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers()},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
@@ -503,10 +662,21 @@ function this.Messages()
         --InfMenu.DebugPrint"OnEndGameStartFadeIn"--DEBUG
         this.FadeInOnGameStart()
       end},
-      --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
+    --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
     },
     Timer={
       {msg="Finish",sender="Timer_FinishReinforce",func=this.OnTimer_FinishReinforce,nil},
+    },
+    Terminal={
+      {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
+        --InfMenu.DebugPrint("MbDvcActSelectLandPoint:"..tostring(routeName))--DEBUG
+      end},
+      {msg="MbDvcActSelectLandPointTaxi",func=function(nextMissionId,routeName,layoutCode,clusterId)
+        --InfMenu.DebugPrint("MbDvcActSelectLandPointTaxi:"..tostring(routeName))--DEBUG
+      end},
+      {msg="MbDvcActHeliLandStartPos",func=function(set,x,y,z)
+        --InfMenu.DebugPrint("HeliLandStartPos:"..x..","..y..","..z)--DEBUG
+      end},
     },
   }
 end
@@ -516,12 +686,12 @@ end
 
 function this.OnDead(gameId,killerId,playerPhase,deadMessageFlag)
   --InfMenu.DebugPrint("InfMain.OnDead")
---  local heliId=GetGameObjectId(TppReinforceBlock.REINFORCE_HELI_NAME)--CULL not for heli I guess
---  if heliId~=NULL_ID then
---    if heliId==gameId then
---    --InfMenu.DebugPrint("InfMain.OnDead is heli")
---    end
---  end
+  --  local heliId=GetGameObjectId(TppReinforceBlock.REINFORCE_HELI_NAME)--CULL not for heli I guess
+  --  if heliId~=NULL_ID then
+  --    if heliId==gameId then
+  --    --InfMenu.DebugPrint("InfMain.OnDead is heli")
+  --    end
+  --  end
 
   if GetTypeIndex(gameId)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
@@ -547,10 +717,10 @@ local AttackIsVehicle=function(attackId)--RETAILBUG: seems like attackid must be
     or attackId==TppDamage.ATK_HeliMiniGun)
     or attackId==TppDamage.ATK_HeliChainGun)
 --or attackId==TppDamage.ATK_WalkerGear_BodyAttack
-  then
-    return true
-  end
-  return false
+then
+  return true
+end
+return false
 end
 function this.OnDamage(gameId,attackId,attackerId)
   --InfMenu.DebugPrint"OnDamage"
@@ -562,7 +732,7 @@ function this.OnDamage(gameId,attackId,attackerId)
     if gvars.soldierAlertOnHeavyVehicleDamage>0 then
       if AttackIsVehicle(attackId) then
         --InfMenu.DebugPrint"OnDamage AttackIsVehicle"
-        for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do--tex TODO:find or build a better soldierid>cpid lookup 
+        for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do--tex TODO:find or build a better soldierid>cpid lookup
           if TppEnemy.GetPhaseByCPID(cpId)<gvars.soldierAlertOnHeavyVehicleDamage then
             if soldierIds[gameId]~=nil then
               --InfMenu.DebugPrint"OnDamage found soldier in idlist"
@@ -570,10 +740,10 @@ function this.OnDamage(gameId,attackId,attackerId)
               SendCommand(cpId,command)
               break
             end
-          end--if cp not phase
+        end--if cp not phase
         end--for soldieridlist
       end--attackisvehicle
-    end--gvar 
+    end--gvar
   end--player is attacker
 end
 
@@ -589,7 +759,7 @@ end
 
 function this.FadeInOnGameStart()
   this.ClearMarkers()
-  
+
   --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
   --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
   --RETRY: push back up again, you may just have fucked something up lol
@@ -603,7 +773,7 @@ function this.FadeInOnGameStart()
     end
     Player.ChangeLifeMaxValue(newMax)
   end
-  
+
   --TppUiStatusManager.ClearStatus"AnnounceLog"
   --InfMenu.ModWelcome()
 end
@@ -626,7 +796,9 @@ local updateIvars={
   Ivars.heliUpdate,
 }
 
-function this.Init(missionTable)
+function this.Init(missionTable)--tex called from TppMain.OnInitialize
+  this.abortToAcc=false
+
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
   for i, ivar in ipairs(updateIvars) do
@@ -634,9 +806,87 @@ function this.Init(missionTable)
       ivar.ExecInit()
     end
   end
+
+  this.UpdateHeliVars()
+
+  --DEBUGNOW
+  --  local reinforceBlockId=ScriptBlock.GetScriptBlockId("reinforce_block")
+  --  local hasReinforceBlock=(reinforceBlockId~=ScriptBlock.SCRIPT_BLOCK_ID_INVALID)
+  --  if not hasReinforceBlock then
+  --    InfMenu.DebugPrint"not hasReinforceBlock"
+  --    return
+  --  else
+  --    InfMenu.DebugPrint"hasReinforceBlock"
+  --  end
+  --
+  --  local fpk="/Assets/tpp/pack/soldier/reinforce/reinforce_veh_west_wav_a.fpk"
+  --  --local fpk="/Assets/tpp/pack/soldier/reinforce/reinforce_veh_west_wav_b.fpk"
+  --  --local fpk="/Assets/tpp/pack/soldier/reinforce/reinforce_veh_west_wav_c.fpk"
+  --
+  --  ScriptBlock.Load(reinforceBlockId,fpk)
+  --  local blockState=ScriptBlock.GetScriptBlockState(reinforceBlockId)
+  --  if blockState==ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
+  --    InfMenu.DebugPrint"SCRIPT_BLOCK_ID_INVALID"
+  --  end
+  --  if blockState==ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY then
+  --    InfMenu.DebugPrint"SCRIPT_BLOCK_STATE_EMPTY"
+  --  end
+  --  local scriptBlockStateNames={}
+  --      scriptBlockStateNames[ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY]="EMPTY"
+  --    scriptBlockStateNames[ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING]="PROCESSING"
+  --    scriptBlockStateNames[ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE]="INACTIVE"
+  --    scriptBlockStateNames[ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE]="ACTIVE"
+  --   InfMenu.DebugPrint("block state : "..tostring(scriptBlockStateNames[blockState]))
+  --
 end
 function this.OnReload(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
+
+--local blockName="quest_block"--tex DEBUGNOW
+local blockName="reinforce_block"--tex DEBUGNOW
+local questName="pfCamp_q10200"--tex DEBUGNOW
+local packPath="/Assets/tpp/pack/mission2/quest/mafr/pfCamp/pfCamp_q10200.fpk"--DEBUGNOW
+--local packPath="/Assets/tpp/pack/soldier/reinforce/reinforce_veh_west_wav_a.fpk"
+--local packPath="/Assets/tpp/pack/soldier/reinforce/reinforce_veh_west_wav_b.fpk"
+--local packPath="/Assets/tpp/pack/soldier/reinforce/reinforce_veh_west_wav_c.fpk"
+--local packPath="/Assets/tpp/pack/soldier/reinforce/reinforce_veh_west_wav_can_a.fpk"
+ --   local packPath="/Assets/tpp/pack/soldier/reinforce/reinforce_veh_west_wav_can_b.fpk"
+--local packPath="/Assets/tpp/pack/soldier/reinforce/reinforce_veh_west_wav_can_c.fpk"
+function this.GetQuestBlockState()
+  local blockId=ScriptBlock.GetScriptBlockId(blockName)
+  if blockId==ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
+    return
+  end
+  return ScriptBlock.GetScriptBlockState(blockId)
+end
+function this.OnMissionCanStart()
+
+
+if true then return end--DEBUGNOW OFF
+
+  local blockState=this.GetQuestBlockState()
+  if blockState==nil then
+    InfMenu.DebugPrint"no blockstate"--DEBUGNOW
+    return
+  end
+  
+  
+  local blockId=ScriptBlock.GetScriptBlockId(blockName)
+  if blockId==ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
+    return
+  end
+  
+  --local loaded=TppScriptBlock.Load(blockName,questName)
+  ScriptBlock.Load(blockId,packPath)
+end
+
+function this.OnMissionGameStart(n)
+  if true then return end--DEBUGNOW OFF
+
+--TppScriptBlock.Load(blockName,"pfCamp_q10200")
+  local blockId=ScriptBlock.GetScriptBlockId(blockName)
+  TppScriptBlock.ActivateScriptBlockState(blockId)
 end
 
 this.execChecks={
@@ -652,6 +902,8 @@ this.execChecks={
 
 local playerVehicleId=0
 this.currentTime=0
+
+this.abortToAcc=false--tex
 
 function this.Update()
   -- InfMenu.DebugPrint("InfMain.Update")
@@ -684,13 +936,26 @@ function this.Update()
     if not currentChecks.inHeliSpace then
       currentChecks.initialAction=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
       --if not initialAction then
-        --InfMenu.DebugPrint"not initialAction"
+      --InfMenu.DebugPrint"not initialAction"
       --end
 
       currentChecks.inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
       currentChecks.inGroundVehicle=Tpp.IsVehicle(playerVehicleId) and not currentChecks.inSupportHeli-- or Tpp.IsEnemyWalkerGear(playerVehicleId)?? VERIFY
       currentChecks.onBuddy=Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId)
     end
+  else
+      
+    local abortButton=InfButton.ESCAPE
+    InfButton.buttonStates[abortButton].holdTime=1.5
+    if InfButton.OnButtonHoldTime(abortButton) then
+      local splash=SplashScreen.Create("startend","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
+      SplashScreen.Show(splash,0,0.3,0)
+      this.abortToAcc=true
+    end
+    --if this.abortToAcc then
+    --  this.abortToAcc=false
+    --  TppMission.ExecuteMissionAbort()
+    --end
   end
 
   this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
@@ -785,11 +1050,11 @@ function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateR
   local minPhase=gvars.minPhase
   local maxPhase=gvars.maxPhase
 
---CULL  if currentPhase~=execState.lastPhase then
---    if gvars.printPhaseChanges==1 then
---      InfMenu.Print(InfMenu.LangString("phase_changed"..":"..PhaseName(currentPhase)))
---    end
---  end
+  --CULL  if currentPhase~=execState.lastPhase then
+  --    if gvars.printPhaseChanges==1 then
+  --      InfMenu.Print(InfMenu.LangString("phase_changed"..":"..PhaseName(currentPhase)))
+  --    end
+  --  end
 
   --InfMenu.DebugPrint("InfMain.Update phase mod")
 
@@ -815,10 +1080,10 @@ function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateR
     --evasion is - is no last pos, downgrade to caution, else group advance on last know pos
     --ideally would be able to set last know pos independant of phase
     --if minPhase==PHASE_ALERT then
-      --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
-      --if currentPhase==PHASE_ALERT and execState.lastPhase==PHASE_ALERT then
-        --this.ChangePhase(cpName,minPhase-1)--gvars.minPhase)
-      --end
+    --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
+    --if currentPhase==PHASE_ALERT and execState.lastPhase==PHASE_ALERT then
+    --this.ChangePhase(cpName,minPhase-1)--gvars.minPhase)
+    --end
     --end
     if minPhase==TppGameObject.PHASE_EVASION then
       if execState.alertBump then
@@ -835,8 +1100,8 @@ function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateR
   end
 
   --if debugMessage then--DEBUG--tex not a good idea to keep on cause playerphase only updates in certain radius of a cp
-    --InfMenu.DebugPrint(debugMessage)
-    --end  
+  --InfMenu.DebugPrint(debugMessage)
+  --end
 
   --  if currentChecks.inGame then---
   -- InfMenu.DebugPrint("currentTime: "..tostring(currentTime).." updateRate:"..tostring(updateRate))
@@ -976,7 +1241,7 @@ function this.UpdateHeliVars()
     SendCommand(heliId,{id="SetTakeOffWaitTime",time=gvars.setTakeOffWaitTime})
   end
   if gvars.disablePullOutHeli==1 then
-    --if not TppLocation.IsMotherBase() and not TppLocation.IsMBQF() then--tex aparently disablepullout overrides the mother base taxi service
+    --if not TppLocation.IsMotherBase() and not TppLocation.IsMBQF() then--tex aparently disablepullout overrides the mother base taxi service TODO: not sure if I want to turn this off to save user confusion, or keep consistant behaviour
     SendCommand(heliId,{id="DisablePullOut"})
     --end
   end
@@ -989,6 +1254,10 @@ function this.UpdateHeliVars()
   if gvars.setSearchLightForcedHeli==1 then
     SendCommand(heliId,{id="SetSearchLightForcedType",type="Off"})
   end
+
+  --if TppMission.IsMbFreeMissions(vars.missionCode) then--TEST no aparent result on initial testing, in-engine pullout check must be overriding
+  --  TppUiStatusManager.UnsetStatus( "MbMap", "BLOCK_TAXI_CHANGE_LOCATION" )
+  --end
 end
 
 function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
@@ -997,19 +1266,25 @@ function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRa
     return
   end
 
-  --if gvars.enableGetOutHeli==1 then
+  --if gvars.enableGetOutHeli==1 then--TEST not that useful
   -- SendCommand(heliId, { id="SetGettingOutEnabled", enabled=true })
   --end
 
   if not currentChecks.inMenu and currentChecks.inSupportHeli then
     if gvars.disablePullOutHeli==1 then--or not currentChecks.initialAction then
       if InfButton.OnButtonDown(InfButton.STANCE) then
-        if not currentChecks.initialAction then--tex heli ride in
+        --if not currentChecks.initialAction then--tex heli ride in TODO: RETRY: A reliable mission start parameter
+        if IsTimerActive"Timer_MissionStartHeliDoorOpen" then
           SendCommand(heliId,{id="RequestSnedDoorOpen"})
         else
-          Ivars.disablePullOutHeli:Set(0,true,true)--tex seems this overrules all, but we can tell it to not save so that's ok
-          InfMenu.PrintLangId"heli_pulling_out"
-          --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player
+          if Ivars.disablePullOutHeli.setting==1 then
+            --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player in heli
+            Ivars.disablePullOutHeli:Set(0,true,true)--tex overrules all, but we can tell it to not save so that's ok
+            InfMenu.PrintLangId"heli_pulling_out"
+          else
+            Ivars.disablePullOutHeli:Set(1,true,true)
+            InfMenu.PrintLangId"heli_hold_pulling_out"
+          end
         end
     end--button down
     end--nopullout or initialact
@@ -1045,7 +1320,7 @@ function this.OnRequestAppearReinforce(cpId)
   this.reinforceCount.count=this.reinforceCount.count+1
 end
 function this.OnCancelReinforce(cpId)
-  --InfMenu.DebugPrint"_OnCancelReinforce"--DEBUG
+--InfMenu.DebugPrint"_OnCancelReinforce"--DEBUG
 end
 
 function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopter shiz.txt
@@ -1054,17 +1329,17 @@ function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopt
   if gameObjectType~=TppGameObject.GAME_OBJECT_TYPE_ENEMY_HELI then
     return
   end
-  
+
   local heliId=GetGameObjectId(TppReinforceBlock.REINFORCE_HELI_NAME)
   if heliId~=gameId then
     return
-  end    
-  
+  end
+
   if not mvars.reinforce_activated then
     --InfMenu.DebugPrint"OnHeliLostControlReinforce is reinforce heli but not reinforce_activated"
     return
   end
-  
+
   if (state==StrCode32("Start")) then
   elseif (state==StrCode32("End")) then
     --InfMenu.DebugPrint"OnHeliLostControlReinforce is reinforce heli"
@@ -1077,8 +1352,8 @@ function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopt
       local StartTimer=GkEventTimerManager.Start
       StartTimer("Timer_FinishReinforce",2)--tex heli doesn't like it if reinforceblock is deactivated, even though I can't see it acually deactivating heli in finish.
     end
-  end    
-end      
+  end
+end
 
 function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after TppEnemy._OnVehicleBroken
   --InfMenu.DebugPrint"OnVehicleBroken"
@@ -1091,10 +1366,10 @@ function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after T
   if not mvars.reinforce_activated then
     --InfMenu.DebugPrint"OnVehicleBrokenReinforce is reinforce vehicle but not reinforce_activated"
     return
-  end    
-    
+  end
+
   if (state==StrCode32("Start")) then
-  elseif (state==StrCode32("End")) then  
+  elseif (state==StrCode32("End")) then
     --InfMenu.DebugPrint"OnVehicleBrokenReinforce is reinforce vehicle"
     --this.CheckAndFinishReinforce()
     if TppReinforceBlock._HasVehicle() then--tex reinforcetype is heli
@@ -1116,7 +1391,7 @@ end
 
 function this.CheckAndFinishReinforce()
   if not mvars.reinforce_activated then
-     return false
+    return false
   end
   if this.CheckReinforceDeactivate() then
     --InfMenu.DebugPrint"Do FinishReinforce"
@@ -1125,14 +1400,14 @@ function this.CheckAndFinishReinforce()
   end
 end
 function this.CheckReinforceDeactivate()
- --if not mvars.reinforce_activated then
- --   return false
- -- end
+  --if not mvars.reinforce_activated then
+  --   return false
+  -- end
   --mvars.reinforce_reinforceType
   local hasVehicle=TppReinforceBlock._HasVehicle()
   local hasSoldier=TppReinforceBlock._HasSoldier()
   local hasHeli=TppReinforceBlock._HasHeli()
-   --local cp=mvars.ene_cpList[mvars.reinforce_reinforceCpId]
+  --local cp=mvars.ene_cpList[mvars.reinforce_reinforceCpId]
   local soldiersDead=false
   local vehicleBroken=false
   local heliBroken=false
@@ -1140,9 +1415,9 @@ function this.CheckReinforceDeactivate()
   local vehicleReal
   local heliAlive
   local heliReal
-  
- InfMenu.DebugPrint("hasVehicle: "..tostring(hasVehicle).." hasHeli: "..tostring(hasHeli).." hasSoldier: "..tostring(hasSoldier))
-  
+
+  InfMenu.DebugPrint("hasVehicle: "..tostring(hasVehicle).." hasHeli: "..tostring(hasHeli).." hasSoldier: "..tostring(hasSoldier))
+
   local deadCount=0
   for n,soldierName in ipairs(TppReinforceBlock.REINFORCE_SOLDIER_NAMES)do
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
@@ -1158,28 +1433,28 @@ function this.CheckReinforceDeactivate()
   if deadCount==#TppReinforceBlock.REINFORCE_SOLDIER_NAMES then
     soldiersDead=true
   end
-  
+
   InfMenu.DebugPrint("soldiersEliminated:"..tostring(soldiersDead))
- 
+
 
 
   local vehicleId=GetGameObjectId("TppVehicle2",TppReinforceBlock.REINFORCE_VEHICLE_NAME)
   local driverId=GetGameObjectId("TppSoldier2",TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME)
-    
+
   if vehicleId~=NULL_ID then
---    if TppEnemy.IsVehicleBroken(vehicleId)then--tex only initied for quest eliminate targets
---      vehicleEliminated=true
---    end--    
---      if TppEnemy.IsRecovered(vehicleId)then
---      vehicleEliminated=true
---    end
-      vehicleBroken=SendCommand(heliId,{id="IsBroken"})
+    --    if TppEnemy.IsVehicleBroken(vehicleId)then--tex only initied for quest eliminate targets
+    --      vehicleEliminated=true
+    --    end--
+    --      if TppEnemy.IsRecovered(vehicleId)then
+    --      vehicleEliminated=true
+    --    end
+    vehicleBroken=SendCommand(heliId,{id="IsBroken"})
 
     vehicleAlive=SendCommand(vehicleId,{id="IsAlive"})
     vehicleReal=SendCommand(vehicleId,{id="IsReal"})
-    InfMenu.DebugPrint("vehicleBroken:"..tostring(vehicleBroken).." vehicleAlive:"..tostring(vehicleAlive))--.." vehicleReal:"..tostring(vehicleReal)) 
+    InfMenu.DebugPrint("vehicleBroken:"..tostring(vehicleBroken).." vehicleAlive:"..tostring(vehicleAlive))--.." vehicleReal:"..tostring(vehicleReal))
   end
-  
+
 
   local heliId=GetGameObjectId(TppReinforceBlock.REINFORCE_HELI_NAME)
   if heliId~=NULL_ID then
@@ -1187,27 +1462,41 @@ function this.CheckReinforceDeactivate()
     heliAlive=SendCommand(heliId,{id="IsAlive"})
     --heliReal=SendCommand(heliId,{id="IsReal"})
     InfMenu.DebugPrint("heliBroken:"..tostring(heliBroken).." heliAlive:"..tostring(heliAlive))--.." heliReal:"..tostring(heliReal))
- 
-    --[[local aiState = SendCommand(heliId,{id="GetAiState"})--tex CULL only support heli aparently, returns strcode32 ""
-    --InfMenu.DebugPrint("heliAiState:"..tostring(aiState))
-    if aiState==StrCode32("WaitPoint") then
-      InfMenu.DebugPrint("heliAiState: WaitPoint")
-    elseif aiState==StrCode32("Descent") then   
-      InfMenu.DebugPrint("heliAiState: Descent")
-    elseif aiState==StrCode32("Landing") then  
-      InfMenu.DebugPrint("heliAiState: Landing")
-    elseif aiState==StrCode32("PullOut") then   
-      InfMenu.DebugPrint("heliAiState: PullOut")
-    elseif aiState==StrCode32("") then
-    InfMenu.DebugPrint("heliAiState: errr")
-    else
-      InfMenu.DebugPrint("heliAiState: unknown")
-    end--]]
- 
-  end
-  
 
-  
+    --[[local aiState = SendCommand(heliId,{id="GetAiState"})--tex CULL only support heli aparently, returns strcode32 ""
+
+    --InfMenu.DebugPrint("heliAiState:"..tostring(aiState))
+
+    if aiState==StrCode32("WaitPoint") then
+
+      InfMenu.DebugPrint("heliAiState: WaitPoint")
+
+    elseif aiState==StrCode32("Descent") then   
+
+      InfMenu.DebugPrint("heliAiState: Descent")
+
+    elseif aiState==StrCode32("Landing") then  
+
+      InfMenu.DebugPrint("heliAiState: Landing")
+
+    elseif aiState==StrCode32("PullOut") then   
+
+      InfMenu.DebugPrint("heliAiState: PullOut")
+
+    elseif aiState==StrCode32("") then
+
+    InfMenu.DebugPrint("heliAiState: errr")
+
+    else
+
+      InfMenu.DebugPrint("heliAiState: unknown")
+
+    end--]]
+
+  end
+
+
+
   if hasHeli and heliBroken then
     return true
   end

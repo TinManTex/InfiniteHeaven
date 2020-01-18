@@ -166,7 +166,7 @@ this.PLAY_REQUEST_START_CHECK_FUNC={
     end
     return e
   end,
-  playerMoveToPosition=function(demoIde)
+  playerMoveToPosition=function(demoId)
     if mvars.dem_waitingMoveToPosition then
       return false
     else

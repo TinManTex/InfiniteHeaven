@@ -2872,6 +2872,27 @@ mvars.ene_vehicleDefine.instanceCount=instanceCount
 end
 function this.SpawnVehicles(vehicleSpawnList)--*_enemy.lua .VEHICLE_SPAWN_LIST
   for t,spawnInfo in ipairs(vehicleSpawnList)do
+    if spawnInfo.locator then--tex WIP DEBUGNOW
+      if vars.missionCode==30010 or vars.missionCode==30020 then
+        if string.find(spawnInfo.locator, "veh_trc_000") then
+              spawnInfo.type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE
+              spawnInfo.subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN
+              --spawnInfo.class=Vehicle.class.DEFAULT
+              spawnInfo.paintType=Vehicle.paintType.FOVA_0
+        
+    --      spawnInfo.type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE
+      --    spawnInfo.subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN
+      --    spawnInfo.paintType=Vehicle.paintType.FOVA_0 
+          --spawnInfo.type=Vehicle.type.WESTERN_LIGHT_VEHICLE
+          --spawnInfo.subType=Vehicle.subType.NONE
+          --spawnInfo.type=Vehicle.type.WESTERN_TRUCK
+          --spawnInfo.subType=Vehicle.subType.WESTERN_TRUCK_CARGO_ITEM_BOX
+          --WESTERN_TRUCK_CARGO_CISTERN
+          --spawnInfo.subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN
+          --spawnInfo.paintType=Vehicle.paintType.FOVA_0 
+        end
+      end
+    end--
     this.SpawnVehicle(spawnInfo)
   end
 end
@@ -4361,8 +4382,8 @@ function this.OnActivateQuest(questTable)
     isQuestSetup=true
   end
   if questTable.isQuestZombie==true then
-    local e={type="TppSoldier2"}
-    GameObject.SendCommand(e,{id="RegistSwarmEffect"})
+    local tppSoldier={type="TppSoldier2"}
+    GameObject.SendCommand(tppSoldier,{id="RegistSwarmEffect"})
     isQuestSetup=true
   end
   if(questTable.hostageList and Tpp.IsTypeTable(questTable.hostageList))and next(questTable.hostageList)then
@@ -4392,17 +4413,18 @@ function this.SetupActivateQuestVehicle(vehicleList,targetList)
   if mvars.ene_isQuestSetup==false then
     mvars.ene_questVehicleList={}
     this.SpawnVehicles(vehicleList)
-    for a,n in ipairs(vehicleList)do
-      if n.locator then
-        local command={id="Despawn",locator=n.locator}
+    --InfMenu.DebugPrint"OnActivateQuest vehicleList"--DEBUG
+    for a,vehicleInfo in ipairs(vehicleList)do
+      if vehicleInfo.locator then
+        local command={id="Despawn",locator=vehicleInfo.locator}
         table.insert(mvars.ene_questVehicleList,command)
       end
       for a,t in ipairs(targetList)do
-        if n.locator==t then
-          this.SetQuestEnemy(n.locator,true)
-          TppMarker.SetQuestMarker(n.locator)
+        if vehicleInfo.locator==t then
+          this.SetQuestEnemy(vehicleInfo.locator,true)
+          TppMarker.SetQuestMarker(vehicleInfo.locator)
         else
-          this.SetQuestEnemy(n.locator,false)
+          this.SetQuestEnemy(vehicleInfo.locator,false)
         end
       end
     end

@@ -319,9 +319,9 @@ function this.SelectNextMissionHeliStartRoute(missionCode,heliRoute,startFobSnea
     gvars.heli_missionStartRoute=heliRoute
   end
 end
-function this.SetHelicopterMissionStartPosition(s,i,n,e)
-  if s==1 then
-    mvars.mis_helicopterMissionStartPosition={i,n,e}
+function this.SetHelicopterMissionStartPosition(set,x,y,z)
+  if set==1 then
+    mvars.mis_helicopterMissionStartPosition={x,y,z}
   else
     mvars.mis_helicopterMissionStartPosition=nil
   end
@@ -1914,18 +1914,18 @@ local f=StrCode32"FallDeath"local u=StrCode32"Suicide"function this.OnPlayerDead
     svars.mis_fobDefenceGameOver=TppDefine.FOB_DEFENCE_GAME_OVER_TYPE.PLAYER_DEAD
   end
 end
-function this.OnEndMissionPreparation(n,i)
+function this.OnEndMissionPreparation(n,clusterId)
   mvars.mis_selectedDeployTime=n
   if gvars.mis_nextMissionCodeForEmergency==0 then
-    local s
+    local missionStartRoute
     if gvars.heli_missionStartRoute==0 then
-      s=mvars.heli_missionStartRoute
+      missionStartRoute=mvars.heli_missionStartRoute
     end
-    local n=TppDefine.STORY_MISSION_CLUSTER_ID[gvars.mis_nextMissionCodeForMissionClear]
-    if i then
-      n=i
+    local nextClusterId=TppDefine.STORY_MISSION_CLUSTER_ID[gvars.mis_nextMissionCodeForMissionClear]
+    if clusterId then
+      nextClusterId=clusterId
     end
-    this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,nextMissionId=gvars.mis_nextMissionCodeForMissionClear,nextHeliRoute=s,nextClusterId=n}
+    this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,nextMissionId=gvars.mis_nextMissionCodeForMissionClear,nextHeliRoute=missionStartRoute,nextClusterId=nextClusterId}
   else
     gvars.usingNormalMissionSlot=false
     this.GoToEmergencyMission()
@@ -3665,9 +3665,9 @@ function this.UnsetFobSneakFlag(missionCode)
   end
 end
 function this.StartHelicopterDoorOpenTimer()
-  local e=mvars.mis_helicopterDoorOpenTimerTimeSec
+  local time=mvars.mis_helicopterDoorOpenTimerTimeSec
   GameObject.SendCommand({type="TppHeli2",index=0},{id="SetSendDoorOpenManually",enabled=true})
-  StartTimer("Timer_MissionStartHeliDoorOpen",e)
+  StartTimer("Timer_MissionStartHeliDoorOpen",time)
 end
 function this.GetObjectiveRadioOption(n)
   local e={}

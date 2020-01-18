@@ -1,9 +1,9 @@
 local this={}
 local missionTypeNameCodes={"s","e","f","h","o"}
 local missionTypeNames={"story","extra","free","heli","online"}
-function this.MakeDefaultMissionPackList(n)
-  this.AddDefaultMissionAreaPack(n)
-  this.AddLocationCommonScriptPack(n)
+function this.MakeDefaultMissionPackList(missionCode)
+  this.AddDefaultMissionAreaPack(missionCode)
+  this.AddLocationCommonScriptPack(missionCode)
 end
 function this.AddMissionPack(packPath)
   if Tpp.IsTypeString(packPath)then
@@ -95,7 +95,8 @@ function this.AddColoringPack(missionCode)
       this.AddMissionPack(n)
     end
   else
-    this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk"this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk"
+    this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk"
+    this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk"
   end
 end
 function this.AddFOBLayoutPack(missionCode)
@@ -125,8 +126,8 @@ function this.AddAvatarEditPack()
   end
   this.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AVATAR_EDIT)
 end
-function this.SetUseDdEmblemFova(e)
-  if((e==10030)or(e==10050))or(e==10240)then
+function this.SetUseDdEmblemFova(missionCode)
+  if((missionCode==10030)or(missionCode==10050))or(missionCode==10240)then
     TppSoldierFace.SetUseBlackDdFova{enabled=false}
     return
   end

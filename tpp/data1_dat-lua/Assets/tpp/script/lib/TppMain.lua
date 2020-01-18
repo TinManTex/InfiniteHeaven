@@ -337,7 +337,6 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
       _G[lib].Init(missionTable)
     end
   end
-  InfMain.UpdateHeliVars()--tex
   if missionTable.enemy then
     if GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
       GameObject.SendCommand({type="TppSoldier2"},{id="CreateFaceIdList"})
@@ -373,16 +372,16 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
       TppInterrogation.InitUniqueInterrogation(missionTable.enemy.uniqueInterrogation)
     end
     do
-      local e
+      local routeSets
       if IsTypeTable(missionTable.enemy.routeSets)then
-        e=missionTable.enemy.routeSets
-        for cpName,n in pairs(e)do
+        routeSets=missionTable.enemy.routeSets
+        for cpName,n in pairs(routeSets)do
           if not IsTypeTable(mvars.ene_soldierDefine[cpName])then
           end
         end
       end
-      if e then
-        TppEnemy.RegisterRouteSet(e)
+      if routeSets then
+        TppEnemy.RegisterRouteSet(routeSets)
         TppEnemy.MakeShiftChangeTable()
         TppEnemy.SetUpCommandPost()
         TppEnemy.SetUpSwitchRouteFunc()
@@ -508,6 +507,7 @@ function this.OnMissionCanStart()
   TppMarker.OnMissionCanStart()
   TppResult.OnMissionCanStart()
   TppQuest.InitializeQuestLoad()
+  --InfMain.OnMissionCanStart()--DEBUGNOW
   TppRatBird.OnMissionCanStart()
   TppMission.OnMissionStart()
   if mvars.loc_locationCommonTable then
@@ -538,8 +538,10 @@ end
 function this.OnMissionGameStart(n)
   TppClock.Start()
   if not gvars.ini_isTitleMode then
-    PlayRecord.RegistPlayRecord"MISSION_START"end
+    PlayRecord.RegistPlayRecord"MISSION_START"
+    end
   TppQuest.InitializeQuestActiveStatus()
+  --InfMain.OnMissionGameStart(n)--DEBUGNOW
   if mvars.seq_demoSequneceList[mvars.seq_missionStartSequence]then
     this.EnableGameStatusForDemo()
   else
@@ -571,26 +573,25 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
     elseif isHeliSpace then
       local isGroundStart=false--tex
       if gvars.heli_missionStartRoute~=0 then
-        local groundStart=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]--tex
-        local isMbFree = vars.missionCode==30050 and (nextIsFreeMission or isFreeMission)
+        local groundStart=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]--tex startOnFoot>
+        local rotY=0
+        local isMbFree=TppMission.IsMbFreeMissions(vars.missionCode) and (nextIsFreeMission or isFreeMission)
         if gvars.startOnFoot==1 and (groundStart~=nil or isMbFree) then
-          if isMbFree then
-            TppMission.ResetMBFreeStartPositionToCommand()
-          else
-            TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
-            local groundRot = groundStart.rot or 0
-            TppPlayer.SetInitialPosition(groundStart.pos,groundRot)
-            TppPlayer.SetMissionStartPosition(groundStart.pos,groundRot)
+          TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
+          --TppHelicopter.ResetMissionStartHelicopterRoute()
+          if groundStart~=nil then
             isGroundStart=true
+            rotY=groundStart.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest 
+            mvars.mis_helicopterMissionStartPosition=groundStart.pos
           end
-        else--
+        else--not ground start --tex <startOnFoot
           TppPlayer.SetStartStatusRideOnHelicopter()
-          if mvars.mis_helicopterMissionStartPosition then
-            TppPlayer.SetInitialPosition(mvars.mis_helicopterMissionStartPosition,0)
-            TppPlayer.SetMissionStartPosition(mvars.mis_helicopterMissionStartPosition,0)
-          end
         end
-      else
+        if mvars.mis_helicopterMissionStartPosition then
+          TppPlayer.SetInitialPosition(mvars.mis_helicopterMissionStartPosition,rotY)--tex added rotY was 0
+          TppPlayer.SetMissionStartPosition(mvars.mis_helicopterMissionStartPosition,rotY)
+        end      
+      else--heli_missionStartRoute~=0
         TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
         local noHeliMissionStartPos=TppDefine.NO_HELICOPTER_MISSION_START_POSITION[vars.missionCode]
         if noHeliMissionStartPos then
@@ -604,7 +605,7 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
       TppPlayer.ResetNoOrderBoxMissionStartPosition()
       TppMission.SetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
-      if isGroundStart then--tex
+      if isGroundStart then--tex 10054,11054 mission timer fix, but doing all to be safe
         TppMission.ResetIsStartFromHelispace()
         TppMission.SetIsStartFromFreePlay()
       end--

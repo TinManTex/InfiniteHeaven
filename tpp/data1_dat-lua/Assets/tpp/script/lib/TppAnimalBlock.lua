@@ -4,8 +4,8 @@ local t=ScriptBlock.GetScriptBlockState
 local r=GameObject.NULL_ID
 local i=Tpp.IsTypeTable
 local c=Tpp.IsTypeString
-local n="animal_block"
-local p=Tpp.CheckBlockArea
+local animalBlockName="animal_block"
+local CheckBlockArea=Tpp.CheckBlockArea
 local animalsTable={
   Goat={type="TppGoat",locatorFormat="anml_goat_%02d",routeFormat="rt_anml_goat_%02d",nightRouteFormat="rt_anml_goat_n%02d",isHerd=true,isDead=false},
   Wolf={type="TppWolf",locatorFormat="anml_wolf_%02d",routeFormat="rt_anml_wolf_%02d",nightRouteFormat="rt_anml_wolf_n%02d",isHerd=true,isDead=false},
@@ -68,22 +68,22 @@ function this.UpdateLoadAnimalBlock(i,o)
   if mvars.anm_stopAnimalBlockLoad then
     return
   end
-  local t=mvars
-  local a=t.loc_locationAnimalSettingTable
-  local l=a.animalAreaSetting
-  local a=a.MAX_AREA_NUM
-  if not a then
+  local mvars=mvars
+  local locationAnimalSettingTable=mvars.loc_locationAnimalSettingTable
+  local animalAreaSetting=locationAnimalSettingTable.animalAreaSetting
+  local MAX_AREA_NUM=locationAnimalSettingTable.MAX_AREA_NUM
+  if not MAX_AREA_NUM then
     return
   end
-  local e,a=this._GetAnimalBlockAreaName(l,a,"loadArea",i,o)
-  if e~=nil then
-    t.animalBlockAreaName=a
-    t.animalBlockKeyName=e
-    TppScriptBlock.Load(n,e)
+  local animalBlockKeyName,animalBlockAreaName=this._GetAnimalBlockAreaName(animalAreaSetting,MAX_AREA_NUM,"loadArea",i,o)
+  if animalBlockKeyName~=nil then
+    mvars.animalBlockAreaName=animalBlockAreaName
+    mvars.animalBlockKeyName=animalBlockKeyName
+    TppScriptBlock.Load(animalBlockName,animalBlockKeyName)
   else
-    t.animalBlockAreaName=nil
-    t.animalBlockKeyName=nil
-    TppScriptBlock.Unload(n)
+    mvars.animalBlockAreaName=nil
+    mvars.animalBlockKeyName=nil
+    TppScriptBlock.Unload(animalBlockName)
   end
 end
 function this.GetCurrentAnimalBlockAreaName()
@@ -101,22 +101,23 @@ function this._UpdateActiveAnimalBlock(a,o)
   end
   local t,e=this._GetAnimalBlockAreaName(l,t,"activeArea",a,o)
   if e~=nil then
-    local e=ScriptBlock.GetScriptBlockId(n)
+    local e=ScriptBlock.GetScriptBlockId(animalBlockName)
     TppScriptBlock.ActivateScriptBlockState(e)
   else
-    local e=ScriptBlock.GetScriptBlockId(n)
+    local e=ScriptBlock.GetScriptBlockId(animalBlockName)
     TppScriptBlock.DeactivateScriptBlockState(e)
   end
 end
-function this._GetAnimalBlockAreaName(e,t,l,n,a)
-  local o=e
-  for t=1,t do
-    local t=e[t]
-    local e=t[l]
-    if p(e,n,a)then
+function this._GetAnimalBlockAreaName(areaSetting,maxAreaNum,areaId,n,a)
+  --local o=areaSetting
+  for t=1,maxAreaNum do
+    local t=areaSetting[t]
+    local e=t[areaId]
+    if CheckBlockArea(e,n,a)then
       for a,e in ipairs(t.defines)do
         if(not Tpp.IsTypeFunc(e.conditionFunc))or(e.conditionFunc())then
-          local a=TppClock.GetTime"number"return e.keyList[a%#e.keyList+1],t.areaName
+          local time=TppClock.GetTime"number"
+          return e.keyList[time%#e.keyList+1],t.areaName
         end
       end
     end
@@ -337,14 +338,14 @@ function this._MakeMessageExecTable()
   mvars.animalBlockScript.messageExecTable=Tpp.MakeMessageExecTable(mvars.animalBlockScript.Messages)
 end
 function this._GetAnimalBlockState()
-  local e=ScriptBlock.GetScriptBlockId(n)
+  local e=ScriptBlock.GetScriptBlockId(animalBlockName)
   if e==ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
     return
   end
   return ScriptBlock.GetScriptBlockState(e)
 end
 function this.InitializeBlockStatus()
-  local e=ScriptBlock.GetScriptBlockId(n)
+  local e=ScriptBlock.GetScriptBlockId(animalBlockName)
   if e==ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
     return
   end
