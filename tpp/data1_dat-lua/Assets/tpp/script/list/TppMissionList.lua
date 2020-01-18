@@ -683,7 +683,8 @@ end
 missionPackTable[30150]=function(p)
   TppPackList.AddLocationCommonScriptPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
-  TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30150/f30150.fpk"end
+  TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30150/f30150.fpk"
+end
 missionPackTable[30250]=function(p)
   TppPackList.AddLocationCommonScriptPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT)

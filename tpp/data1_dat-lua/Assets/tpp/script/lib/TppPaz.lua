@@ -557,7 +557,20 @@ end
 function e.GetRotationY()
   return GameObject.SendCommand(e.GetPazGameObjectId(),{id="GetRotationY"})
 end
-function e.InitTimer()GkEventTimerManager.Stop(p)GkEventTimerManager.Stop(m)GkEventTimerManager.Stop(v)GkEventTimerManager.Stop(u)GkEventTimerManager.Stop(h)GkEventTimerManager.Stop(f)GkEventTimerManager.Stop(l)GkEventTimerManager.Stop(T)GkEventTimerManager.Stop(g)GkEventTimerManager.Stop(z)GkEventTimerManager.Stop(c)GkEventTimerManager.Stop(d)GkEventTimerManager.Stop(t)
+function e.InitTimer()
+GkEventTimerManager.Stop(p)
+GkEventTimerManager.Stop(m)
+GkEventTimerManager.Stop(v)
+GkEventTimerManager.Stop(u)
+GkEventTimerManager.Stop(h)
+GkEventTimerManager.Stop(f)
+GkEventTimerManager.Stop(l)
+GkEventTimerManager.Stop(T)
+GkEventTimerManager.Stop(g)
+GkEventTimerManager.Stop(z)
+GkEventTimerManager.Stop(c)
+GkEventTimerManager.Stop(d)
+GkEventTimerManager.Stop(t)
 end
 function e.InitUi()
   TppUI.OverrideFadeInGameStatus{EquipHud=false,EquipPanel=false,AnnounceLog=false}
@@ -571,9 +584,15 @@ function e.TermUi()
   TppUiStatusManager.UnsetStatus("AnnounceLog","INVALID_LOG")
   TppUiStatusManager.UnsetStatus("AnnounceLog","SUSPEND_LOG")
 end
-function e.InitPlayer()Player.SetAroundCameraManualMode(true)Player.SetAroundCameraManualModeParams{offset=Vector3(-.2,.7,0),distance=1.2,focalLength=21,focusDistance=8.175,target=Vector3(2,10,10),targetInterpTime=.2,targetIsPlayer=true,ignoreCollisionGameObjectName="Player",rotationLimitMinX=-50,rotationLimitMaxX=50,alphaDistance=.5}Player.UpdateAroundCameraManualModeParams()Player.RequestToSetCameraStock{direction="right"}Player.SetCurrentItemIndex{itemIndex=0}Player.RequestToSetTargetStance(PlayerStance.STAND)
+function e.InitPlayer()
+Player.SetAroundCameraManualMode(true)
+Player.SetAroundCameraManualModeParams{offset=Vector3(-.2,.7,0),distance=1.2,focalLength=21,focusDistance=8.175,target=Vector3(2,10,10),targetInterpTime=.2,targetIsPlayer=true,ignoreCollisionGameObjectName="Player",rotationLimitMinX=-50,rotationLimitMaxX=50,alphaDistance=.5}
+Player.UpdateAroundCameraManualModeParams()Player.RequestToSetCameraStock{direction="right"}
+Player.SetCurrentItemIndex{itemIndex=0}
+Player.RequestToSetTargetStance(PlayerStance.STAND)
 end
-function e.TermPlayer()Player.SetAroundCameraManualMode(false)
+function e.TermPlayer()
+Player.SetAroundCameraManualMode(false)
 end
 function e.InitMusic()
   TppMusicManager.StopMusicPlayer(500)

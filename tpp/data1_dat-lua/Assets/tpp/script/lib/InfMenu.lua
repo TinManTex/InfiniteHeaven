@@ -7,7 +7,7 @@ local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
 local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 
-this.MAX_ANNOUNCE_STRING=256--tex sting length announcde log can handle before crashing the game, actually 288 but that worries me, so keep a little lower
+this.MAX_ANNOUNCE_STRING=256--tex sting length announce log can handle before crashing the game, actually 288 but that worries me, so keep a little lower
 
 --tex REFACTOR: most of these can be local
 this.currentMenu=InfMenuDefs.heliSpaceMenu
@@ -27,6 +27,9 @@ this.menuUpButton=InfButton.UP
 this.menuDownButton=InfButton.DOWN
 this.resetSettingButton=InfButton.CALL
 this.menuBackButton=InfButton.STANCE
+
+this.lastAutoDisplayString=""
+this.maxAutoDisplayRepeat=3
 
 --tex mod settings menu manipulation
 function this.NextOption()
@@ -54,6 +57,9 @@ function this.GetSetting()
       TppUiCommand.AnnounceLogView("Option Menu Error: gvar -"..option.name.."- not found")
     end
   end
+  if IsFunc(option.OnSelect) then
+    option:OnSelect()
+  end
 end
 function this.IscurrentIndexMenu()
   local option=this.currentMenuOptions[this.currentIndex]
@@ -62,7 +68,66 @@ function this.IscurrentIndexMenu()
   end
   return false
 end
-local function IncrementWrap_l(current,increment,min,max)
+
+--takes a table of numbers and number ranges, ex: {1,5,{6-10},{14-20}}
+--returns the next valid for a given value
+function this.NextInRange(rangeTable,value,direction)
+  local bottom=1
+  local top=#rangeTable
+
+  local start
+  if direction>0 then
+    start=bottom
+  else
+    start=top
+  end
+  local ending
+   if direction>0 then
+    ending=top
+  else
+    ending=bottom
+  end 
+
+  for i=start,ending,direction do
+    local range=rangeTable[i] 
+    
+    local low, hi
+       
+    --tex check direct match
+    if value >= range[1] and value <= range[2] then
+      return value
+    end
+    
+    --tex figure out gap values
+    if direction>0 then
+      low=range[2] or range
+    else
+      hi=range[1] or range
+    end
+    
+    local dirRange=rangeTable[i+direction]
+    if dirRange==nil then--tex reached an end, let the callee handle the wrap
+      return -1
+    end
+    
+    if direction>0 then
+      hi=dirRange[1] or dirRange
+    else
+      low=dirRange[2] or dirRange
+    end
+    
+    --in gap?
+    if value>low and value<hi then
+      if direction>0 then
+        return hi
+      else
+        return low
+      end      
+    end
+  end--for
+end 
+
+function this.IncrementWrap(current,increment,min,max)
   local newSetting=current+increment
   if increment > 0 then
     if newSetting > max then
@@ -75,6 +140,7 @@ local function IncrementWrap_l(current,increment,min,max)
   end
   return newSetting
 end
+
 function this.ChangeSetting(option,value,incrementMult)
   incrementMult = incrementMult or 1
   local newSetting=option.setting
@@ -88,11 +154,11 @@ function this.ChangeSetting(option,value,incrementMult)
     end
   end
   
-  newSetting=IncrementWrap_l(newSetting,value,option.range.min,option.range.max)
+  newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
   if option.skipValues then
     while option.skipValues[newSetting] do
       TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
-      newSetting=IncrementWrap_l(newSetting,value,option.range.min,option.range.max)
+      newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
     end
   end
   
@@ -143,7 +209,9 @@ function this.NextSetting(incrementMult)
     return
   end
   if option.options then--tex is menu
-    this.GoMenu(option)
+    if not option.disabled then
+      this.GoMenu(option)
+    end
   else
     this.ChangeSetting(option,option.range.increment,incrementMult)
   end
@@ -278,6 +346,7 @@ local function ToggleMenu()--TODO: break out
   this.menuOn = not this.menuOn
   if this.menuOn then
     this.GetSetting()
+    TppUiStatusManager.ClearStatus"AnnounceLog"
     TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
   else
     this.MenuOff()
@@ -285,8 +354,13 @@ local function ToggleMenu()--TODO: break out
 end
 
 --
-this.Print=TppUiCommand.AnnounceLogView
-this.DebugPrint=TppUiCommand.AnnounceLogView
+function this.Print(message)
+  TppUiCommand.AnnounceLogView(message)
+end
+
+function this.DebugPrint(message)
+  TppUiCommand.AnnounceLogView(message)
+end
 
 --tex my own shizzy langid stuff since games is too limitied
 function this.LangString(langId)
@@ -336,7 +410,7 @@ function this.LangTableString(langId,index)--remember lua tables from 1
   end
   
   if langTable==nil or langTable=="" or not IsTable(langTable) then
-    --TppUiCommand.AnnounceLogView"PrintLangId langTable empty"
+    --TppUiCommand.AnnounceLogView"LangTableString langTable empty"
     return langId .. ":" .. index
   end
   
@@ -382,11 +456,12 @@ function this.Update()
 
     if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
       local playerVehicleId=vars.playerVehicleGameObjectId
-      local onHorse = false
+      local onVehicle = false
       if not inHeliSpace then
-        onHorse = Tpp.IsHorse(playerVehicleId)
+      --tex still conflicts with mother base heli reroute, but player should be tapping not holding to do that anyway
+        onVehicle = (Tpp.IsVehicle(playerVehicleId) and not Tpp.IsHelicopter(playerVehicleId)) or Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId) or Tpp.IsEnemyWalkerGear(playerVehicleId) 
       end
-      if not onHorse then
+      if not onVehicle then
         ToggleMenu()
       end
     end

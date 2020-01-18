@@ -136,6 +136,34 @@ this.eng={--english
   mbDontDemoDisableOcelot="Don't disable Ocelot after cutscenes",
   startOffline="Start offline",--r75-v-
   mbEnableBuddies="Enable all buddies",
+  abortMenuItemControl="Disable abort mission from pause",--r76
+  playerBalaclavaMaleSettings={
+    "Off",
+    "Balaclava 1",
+    "Balaclava 2",
+    "Gas mask and balaclava",
+    "Gas mask and DD headgear",
+    "Gas mask and DD heavy headgear",
+    "NVG and DD heavy headgear",
+    "NVG, Gas mask and DD heavy headgear",
+  },
+  playerBalaclavaFemaleSettings={
+    "Off",
+    "Gas mask and balaclava",
+    "Gas mask and DD headgear",
+    "Gas mask and DD heavy headgear",
+    "NVG and DD heavy headgear",
+    "NVG, Gas mask and DD heavy headgear",
+  },
+  phaseMenu="Enemy phases menu",--r80-v-
+  enablePhaseMod="Enable phase modifications",
+  minPhase="Minimum phase",
+  maxPhase="Maximum phase",
+  keepPhase="Don't downgrade phase",
+  phaseUpdateRate="Phase mod update rate (seconds)",
+  phaseUpdateRange="Phase mod random variation",
+  printPhaseChanges="Print phase changes",
+  phase_menu_cannot_subsistence="Cannot be used with Subsistence profile", 
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

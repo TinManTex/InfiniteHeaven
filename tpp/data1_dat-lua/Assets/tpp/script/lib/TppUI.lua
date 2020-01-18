@@ -931,7 +931,9 @@ function this.Init()
         if(vars.missionCode==30050)then
           table.insert(pauseMenuItems,2,GamePauseMenu.RESTART_FROM_MISSION_START)
         end
+        if gvars.abortMenuItemControl==0 then--tex
         table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)--tex
+        end
       else
         table.insert(pauseMenuItems,2,GamePauseMenu.RESTART_FROM_HELICOPTER)
       end
@@ -963,11 +965,13 @@ function this.Init()
       if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE then
         table.insert(pauseMenuItems,6,GamePauseMenu.RECORDS_ITEM)
       end
-      if TppMission.IsStartFromHelispace()then
-        table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)
-      end
-      if TppMission.IsStartFromFreePlay()then
-        table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION)
+      if gvars.abortMenuItemControl==0 then--tex added switch
+        if TppMission.IsStartFromHelispace()then
+          table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)
+        end
+        if TppMission.IsStartFromFreePlay()then
+          table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION)
+        end
       end
       if vars.missionCode~=10115 then
         table.insert(pauseMenuItems,1,GamePauseMenu.RESTART_FROM_CHECK_POINT)
@@ -982,22 +986,24 @@ function this.Init()
   end
   if hasUi then
     if isFreeMission then
-      local e={GameOverMenu.GAME_OVER_CONTINUE,GameOverMenu.GAME_OVER_TITLE}
+      local gameOverMenuItems={GameOverMenu.GAME_OVER_CONTINUE,GameOverMenu.GAME_OVER_TITLE}
       if vars.missionCode~=30050 then
-        table.insert(e,2,GameOverMenu.GAME_OVER_RESTART_HELI)
+        table.insert(gameOverMenuItems,2,GameOverMenu.GAME_OVER_RESTART_HELI)
       end
-      TppUiCommand.RegisterGameOverMenuItems(e)
+      TppUiCommand.RegisterGameOverMenuItems(gameOverMenuItems)
     elseif TppMission.IsEmergencyMission()then
       TppUiCommand.RegisterGameOverMenuItems{GameOverMenu.GAME_OVER_RETURN_TO_MISSION}
     elseif isFOBMission then
       this.RegisterFobSneakGameOverMenuItems()
     else
       local gameOverMenuItems={GameOverMenu.GAME_OVER_RESTART,GameOverMenu.GAME_OVER_TITLE}
+      if gvars.abortMenuItemControl==0 then--tex added switch
       if TppMission.IsStartFromHelispace()then
         table.insert(gameOverMenuItems,3,GameOverMenu.GAME_OVER_ABORT_RETURN_TO_ACC)
       end
       if TppMission.IsStartFromFreePlay()then
         table.insert(gameOverMenuItems,3,GameOverMenu.GAME_OVER_ABORT)
+      end
       end
       if vars.missionCode~=10115 then
         table.insert(gameOverMenuItems,1,GameOverMenu.GAME_OVER_CONTINUE)

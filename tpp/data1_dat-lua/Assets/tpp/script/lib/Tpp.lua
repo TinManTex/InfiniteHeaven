@@ -83,6 +83,7 @@ this.requires={
 "/Assets/tpp/script/lib/InfLang.lua",
 "/Assets/tpp/script/lib/InfMain.lua",
 "/Assets/tpp/script/lib/InfButton.lua",
+"/Assets/tpp/script/lib/InfMenuCommands.lua",
 "/Assets/tpp/script/lib/InfMenuDefs.lua",
 "/Assets/tpp/script/lib/InfMenu.lua",
 --CULL"/Assets/tpp/script/lib/InfPatch.lua",
@@ -413,22 +414,22 @@ function this.GetHelicopterStartExceptGameStatus()
   status.WorldMarker=false
   return status
 end
-local function n(e,n)
-  if e==nil then
+local function IsGameObjectType(gameObject,checkType)
+  if gameObject==nil then
     return
   end
-  if e==NULL_ID then
+  if gameObject==NULL_ID then
     return
   end
-  local e=GetTypeIndex(e)
-  if e==n then
+  local e=GetTypeIndex(gameObject)
+  if e==checkType then
     return true
   else
     return false
   end
 end
 function this.IsPlayer(e)
-  return n(e,B)
+  return IsGameObjectType(e,B)
 end
 function this.IsLocalPlayer(playerIndex)
   if playerIndex==PlayerInfo.GetLocalPlayerIndex()then
@@ -438,10 +439,10 @@ function this.IsLocalPlayer(playerIndex)
   end
 end
 function this.IsSoldier(e)
-  return n(e,M)
+  return IsGameObjectType(e,M)
 end
 function this.IsCommandPost(e)
-  return n(e,U)
+  return IsGameObjectType(e,U)
 end
 function this.IsHostage(e)
   if e==nil then
@@ -454,28 +455,28 @@ function this.IsHostage(e)
   return TppDefine.HOSTAGE_GM_TYPE[e]
 end
 function this.IsVolgin(e)
-  return n(e,g)
+  return IsGameObjectType(e,g)
 end
 function this.IsHelicopter(e)
-  return n(e,E)
+  return IsGameObjectType(e,E)
 end
 function this.IsEnemyHelicopter(e)
-  return n(e,O)
+  return IsGameObjectType(e,O)
 end
 function this.IsHorse(e)
-  return n(e,D)
+  return IsGameObjectType(e,D)
 end
 function this.IsVehicle(e)
-  return n(e,C)
+  return IsGameObjectType(e,C)
 end
 function this.IsPlayerWalkerGear(e)
-  return n(e,m)
+  return IsGameObjectType(e,m)
 end
 function this.IsEnemyWalkerGear(e)
-  return n(e,b)
+  return IsGameObjectType(e,b)
 end
 function this.IsFultonContainer(e)
-  return n(e,TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER)
+  return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER)
 end
 function this.IsFultonableGimmick(e)
   if e==nil then
@@ -498,7 +499,7 @@ function this.GetBuddyTypeFromGameObjectId(e)
   return TppDefine.BUDDY_GM_TYPE_TO_BUDDY_TYPE[e]
 end
 function this.IsMarkerLocator(e)
-  return n(e,_)
+  return IsGameObjectType(e,_)
 end
 function this.IsAnimal(e)
   if e==nil then
@@ -511,13 +512,13 @@ function this.IsAnimal(e)
   return TppDefine.ANIMAL_GAMEOBJECT_TYPE[e]
 end
 function this.IsBossQuiet(e)
-  return n(e,P)
+  return IsGameObjectType(e,P)
 end
 function this.IsParasiteSquad(e)
-  return n(e,S)
+  return IsGameObjectType(e,S)
 end
 function this.IsSecurityCamera(e)
-  return n(e,I)
+  return IsGameObjectType(e,I)
 end
 function this.IsGunCamera(n)
   if n==NULL_ID then
@@ -529,7 +530,7 @@ function this.IsGunCamera(n)
   return e
 end
 function this.IsUAV(e)
-  return n(e,G)
+  return IsGameObjectType(e,G)
 end
 function this.IncrementPlayData(e)
   if gvars[e]==nil then

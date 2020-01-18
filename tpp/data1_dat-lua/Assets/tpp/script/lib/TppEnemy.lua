@@ -13,6 +13,7 @@ local SendCommand=GameObject.SendCommand
 local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
 local questCp="quest_cp"
 local enemySubType=EnemySubType or{}
+
 local function RENAMEsomeFunction(i)--tex NMC: cant actually find reference to function, it looks similar to setsolidertype/subtype
   local e={}
   for t,n in ipairs(i)do
@@ -27,6 +28,7 @@ local function RENAMEsomeFunction(i)--tex NMC: cant actually find reference to f
   end
   return e
 end
+
 function this.Messages()
   return Tpp.StrCode32Table{
     Player={{msg="RideHelicopterWithHuman",func=this._RideHelicopterWithHuman}},
@@ -1542,31 +1544,31 @@ end
 function this.SetSoldier2CommonPackageLabel(e)
   mvars.ene_soldier2CommonBlockPackageLabel=e
 end
-function this.AssignUniqueStaffType(e)
-  if not IsTypeTable(e)then
+function this.AssignUniqueStaffType(info)
+  if not IsTypeTable(info)then
     return
   end
-  local t=e.locaterName
-  local i=e.gameObjectId
-  local n=e.uniqueStaffTypeId
-  local s=e.alreadyExistParam
-  if not IsTypeNumber(n)then
+  local locatorName=info.locaterName
+  local gameObjectId=info.gameObjectId
+  local uniqueStaffTypeId=info.uniqueStaffTypeId
+  local alreadyExistParam=info.alreadyExistParam
+  if not IsTypeNumber(uniqueStaffTypeId)then
     return
   end
-  if(not IsTypeNumber(i))and(not IsTypeString(t))then
+  if(not IsTypeNumber(gameObjectId))and(not IsTypeString(locatorName))then
     return
   end
-  local e
-  if IsTypeNumber(i)then
-    e=i
-  elseif IsTypeString(t)then
-    e=GetGameObjectId(t)
+  local gameId
+  if IsTypeNumber(gameObjectId)then
+    gameId=gameObjectId
+  elseif IsTypeString(locatorName)then
+    gameId=GetGameObjectId(locatorName)
   end
-  if not TppDefine.IGNORE_EXIST_STAFF_CHECK[n]then
-    if TppMotherBaseManagement.IsExistStaff{uniqueTypeId=n}then
-      if s then
-        local e={gameObjectId=e}
-        for n,t in pairs(s)do
+  if not TppDefine.IGNORE_EXIST_STAFF_CHECK[uniqueStaffTypeId]then
+    if TppMotherBaseManagement.IsExistStaff{uniqueTypeId=uniqueStaffTypeId}then
+      if alreadyExistParam then
+        local e={gameObjectId=gameId}
+        for n,t in pairs(alreadyExistParam)do
           e[n]=t
         end
         TppMotherBaseManagement.RegenerateGameObjectStaffParameter(e)
@@ -1576,8 +1578,8 @@ function this.AssignUniqueStaffType(e)
       end
     end
   end
-  if e~=NULL_ID then
-    TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=e,staffType="Unique",uniqueTypeId=n}
+  if gameId~=NULL_ID then
+    TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=gameId,staffType="Unique",uniqueTypeId=uniqueStaffTypeId}
   end
 end
 function this.IsActiveSoldierInRange(t,e)

@@ -1658,15 +1658,15 @@ function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below
     Ivars.ospWeaponProfile:Set("PURE",true,true)--tex don't want to save due to normal subsistence missions
   end
 
-  this.SetInitWeapons(Ivars.primaryWeaponOsp:data())
-  this.SetInitWeapons(Ivars.secondaryWeaponOsp:data())
-  this.SetInitWeapons(Ivars.tertiaryWeaponOsp:data())
+  this.SetInitWeapons(Ivars.primaryWeaponOsp:GetTable())
+  this.SetInitWeapons(Ivars.secondaryWeaponOsp:GetTable())
+  this.SetInitWeapons(Ivars.tertiaryWeaponOsp:GetTable())
 
   if isActual or gvars.clearSupportItems>0 then
-    this.SetInitWeapons(InfMain.SUBSISTENCE_CLEAR_SUPPORT_WEAPON_TABLE)
+    this.SetInitWeapons(Ivars.clearSupportItems.settingsTable)
   end
   if isActual or gvars.clearItems>0 then
-    this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
+    this.SetInitItems(Ivars.clearItems.settingsTable)
   end
   
   if isActual or gvars.setSubsistenceSuit>0 then

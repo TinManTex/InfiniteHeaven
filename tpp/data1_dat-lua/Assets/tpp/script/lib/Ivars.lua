@@ -180,7 +180,7 @@ this.mbDDSuit={--DEPENDANCY: mbPlayTime
   },
   settingNames="set_dd_suit",
 }
---[[this.mbDDBalaclava={--DEPENDANCY: mbPlayTime OFF: Buggy, RETRY ADDLANG
+--[[this.mbDDBalaclava={--DEPENDANCY: mbPlayTime OFF: Buggy, is setting female bala faceids to male, RETRY ADDLANG
   save=MISSION,
   range=this.switchRange,
   settingNames={"Use Equip Grade", "Force Off"},
@@ -275,6 +275,8 @@ this.subsistenceProfile={
       Ivars.disableMenuAttack:Set(0,true)
       Ivars.disableMenuHeliAttack:Set(0,true)
       Ivars.disableSupportMenu:Set(0,true)
+      
+      Ivars.abortMenuItemControl:Set(0,true)
     end,
     PURE=function() 
       Ivars.noCentralLzs:Set(1,true)
@@ -304,6 +306,8 @@ this.subsistenceProfile={
       Ivars.disableMenuAttack:Set(1,true)
       Ivars.disableMenuHeliAttack:Set(1,true)
       Ivars.disableSupportMenu:Set(1,true)
+      
+      Ivars.abortMenuItemControl:Set(1,true)
     end,
     BOUNDER=function() 
       Ivars.noCentralLzs:Set(1,true)
@@ -334,6 +338,8 @@ this.subsistenceProfile={
       Ivars.disableMenuAttack:Set(1,true)
       Ivars.disableMenuHeliAttack:Set(1,true)
       Ivars.disableSupportMenu:Set(1,true)
+      
+      Ivars.abortMenuItemControl:Set(0,true)
     end,
     CUSTOM=nil,
   },
@@ -395,6 +401,7 @@ this.clearItems={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  settingsTable={"EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None"},
   profile=this.subsistenceProfile,
 }
 
@@ -402,6 +409,7 @@ this.clearSupportItems={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  settingsTable={{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"}},
   profile=this.subsistenceProfile,
 }
 
@@ -455,6 +463,13 @@ this.disableMenuIvars={
 }
 
 this.disableSupportMenu={--tex doesnt use dvcmenu, RESEARCH, not sure actually what it is
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.subsistenceProfile,
+}
+
+this.abortMenuItemControl={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -574,7 +589,6 @@ this.itemLevelWormhole={
   equipId=TppEquip.EQP_IT_Fulton_WormHole,
   profile=this.fultonLevelProfile,
 }
---]]
 
 this.ospWeaponProfile={
   save=MISSION,
@@ -618,7 +632,7 @@ this.primaryWeaponOsp={
     EQUIP_NONE={{primaryHip="EQP_None"}},
   },
   profile=this.ospWeaponProfile,
-  data=this.ReturnCurrent,
+  GetTable=this.ReturnCurrent,
 }
 this.secondaryWeaponOsp={
   save=MISSION,
@@ -627,10 +641,10 @@ this.secondaryWeaponOsp={
   settingNames="weaponOspSettings",
   settingsTable={
     OFF={},
-    EQUIP_NONE={{primaryBack="EQP_None"}},
+    EQUIP_NONE={{secondary="EQP_None"}},
   },
   profile=this.ospWeaponProfile,
-  data=this.ReturnCurrent,
+  GetTable=this.ReturnCurrent,
 }
 this.tertiaryWeaponOsp={
   save=MISSION,
@@ -639,10 +653,10 @@ this.tertiaryWeaponOsp={
   settingNames="weaponOspSettings",
   settingsTable={
     OFF={},
-    EQUIP_NONE={{secondary="EQP_None"}},
+    EQUIP_NONE={{primaryBack="EQP_None"}},
   },  
   profile=this.ospWeaponProfile,
-  data=this.ReturnCurrent,
+  GetTable=this.ReturnCurrent,
 }
 
 this.revengeMode={
@@ -774,7 +788,318 @@ this.mbDontDemoDisableOcelot={
   range=this.switchRange,
   settingNames="set_switch",
 }
+--appearance
+--[[CULL this.useAppearance={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}--]]
 
+this.playerTypeApearance={
+  save=MISSION,
+  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
+  settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3 
+    PlayerType.SNAKE,
+    PlayerType.AVATAR,
+    PlayerType.DD_MALE,
+    PlayerType.DD_FEMALE
+  },
+  --settingNames="set_",
+  OnChange=function(self)
+    vars.playerType=self.settingsTable[self.setting+1]
+  end,
+}
+
+--categories: avatar:avatar,snake dd:dd_male,dd_female
+this.cammoTypesApearance={
+  save=MISSION,
+  settings={
+    "OLIVEDRAB",
+    "SPLITTER",
+    "SQUARE",
+    "TIGERSTRIPE",
+    "GOLDTIGER",
+    "FOXTROT",
+    "WOODLAND",
+    "WETWORK",    
+    "PANTHER",
+    --"ARBANGRAY",--hang on ddmale,avatar
+    --"ARBANBLUE",
+    "REALTREE",--shows as olive
+    "INVISIBLE",--shows as olive
+    "SNEAKING_SUIT_GZ",--avatar
+    "SNEAKING_SUIT_TPP",
+    "BATTLEDRESS",
+    "PARASITE",
+    "NAKED",--shows as olive
+    "LEATHER",--avatar
+    "SOLIDSNAKE",
+    "NINJA",
+    "RAIDEN",
+    "GOLD",--avatar
+    "SILVER",--avatar
+    --"AVATAR_EDIT_MAN",--just part of upper body that fits the zoomed cam, lel
+    "MGS3",
+    "MGS3_NAKED",
+    "MGS3_SNEAKING",
+    "MGS3_TUXEDO",--not DD_FEMALE
+    "EVA_CLOSE",--dd_fem, also works on avatar/snake but they dont have right head lol
+    "EVA_OPEN",
+    "BOSS_CLOSE",
+    "BOSS_OPEN",
+    --[["C23",--in exe in same area but may be nothing to do with
+    "C27",
+    "C30",
+    "C35",
+    "C38",
+    "C39",
+    "C42",
+    "C49",--]]
+  },
+  settingsTable={
+    PlayerCamoType.OLIVEDRAB,
+    PlayerCamoType.SPLITTER,
+    PlayerCamoType.SQUARE,
+    PlayerCamoType.TIGERSTRIPE,
+    PlayerCamoType.GOLDTIGER,
+    PlayerCamoType.FOXTROT,
+    PlayerCamoType.WOODLAND,
+    PlayerCamoType.WETWORK,    
+    PlayerCamoType.PANTHER,
+    --PlayerCamoType.ARBANGRAY,
+    --PlayerCamoType.ARBANBLUE,
+    --PlayerCamoType.REALTREE,
+    --PlayerCamoType.INVISIBLE,
+    PlayerCamoType.SNEAKING_SUIT_GZ,
+    PlayerCamoType.SNEAKING_SUIT_TPP,
+    PlayerCamoType.BATTLEDRESS,
+    PlayerCamoType.PARASITE,
+    PlayerCamoType.NAKED,
+    PlayerCamoType.LEATHER,
+    PlayerCamoType.SOLIDSNAKE,
+    PlayerCamoType.NINJA,
+    PlayerCamoType.RAIDEN,
+    PlayerCamoType.GOLD,
+    PlayerCamoType.SILVER,
+    --PlayerCamoType.AVATAR_EDIT_MAN,
+    PlayerCamoType.MGS3,
+    PlayerCamoType.MGS3_NAKED,
+    PlayerCamoType.MGS3_SNEAKING,
+    PlayerCamoType.MGS3_TUXEDO,
+    PlayerCamoType.EVA_CLOSE,
+    PlayerCamoType.EVA_OPEN,
+    PlayerCamoType.BOSS_CLOSE,
+    PlayerCamoType.BOSS_OPEN,
+    --[[PlayerCamoType.C23,
+    PlayerCamoType.C27,
+    PlayerCamoType.C30,
+    PlayerCamoType.C35,
+    PlayerCamoType.C38,
+    PlayerCamoType.C39,
+    PlayerCamoType.C42,
+    PlayerCamoType.C49,--]]
+  },
+  --settingNames="set_",
+  OnChange=function(self)
+    vars.playerCamoType=self.settingsTable[self.setting+1]--tex playercammotype is just a enum so could just use setting, but this is if we want to re-arrange
+    vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
+    vars.playerFaceEquipId=0
+  end,
+}
+
+this.playerPartsTypeApearance={
+  save=MISSION,
+  range={min=0,max=100},--TODO: figure out max range
+
+  --[[
+  settingsTable={
+    "NORMAL",
+    "NORMAL_SCARF",
+    "SNEAKING_SUIT",
+    "MGS1",
+    "HOSPITAL",
+    "AVATAR_EDIT_MAN",
+    "NAKED",
+  },
+  settingsTable={
+    PlayerPartsType.NORMAL,
+    PlayerPartsType.NORMAL_SCARF,
+    PlayerPartsType.SNEAKING_SUIT,
+    PlayerPartsType.MGS1,
+    PlayerPartsType.HOSPITAL,
+    PlayerPartsType.AVATAR_EDIT_MAN,
+    PlayerPartsType.NAKED,
+  },
+  --]]
+  OnChange=function(self)
+    vars.playerPartsType=self.setting
+  end,
+}
+
+this.playerFaceEquipIdApearance={
+  save=MISSION,
+  range={min=0,max=100},--TODO
+
+  --NONE=0??
+  --BOSS_BANDANA=1
+  --[[
+  settingsTable={
+    "NORMAL",
+
+  },
+  settingsTable={
+    0,
+    1,
+  },
+  --]]
+  OnChange=function(self)
+    vars.playerFaceEquipId=self.setting
+  end,
+}
+
+this.playerFaceIdApearance={
+  save=MISSION,
+  range={min=0,max=687},
+  OnChange=function(self)
+   vars.playerFaceId=self.setting
+  end,
+}
+
+this.playerBalaclava={
+  save=MISSION,
+  range={max=7},--TODO: needed something, anything here, RETRY now that I've changed unset max default to 1 from 0
+  maleSettingsTable={
+    0,
+    550,--Balaclava Male
+    551,--Balaclava Male
+    --552,--DD armor helmet (green top) 
+    558,--Gas mask and clava Male
+    560,--Gas mask DD helm Male
+    561,--Gas mask DD greentop helm Male
+    564,--NVG DDgreentop Male
+    565,--NVG DDgreentop GasMask Male
+  },
+  femaleSettingsTable={
+    0,
+    --555,--DD armor helmet (green top) female - i cant really tell any difference between
+    559,--Gas mask and clava Female
+    562,--Gas mask DD helm Female
+    563,--Gas mask DD greentop helm Female
+    566,--NVG DDgreentop Female (or just small head male lol, total cover)  
+    567,--NVG DDgreentop GasMask 
+  },
+  OnSelect=function(self)
+    if vars.playerType==PlayerType.DD_FEMALE then
+      if self.settingsTable~=self.femaleSettingsTable then
+        self.settingNames="playerBalaclavaFemaleSettings"
+        self.settingsTable=self.femaleSettingsTable
+        self.range.max=#self.femaleSettingsTable-1
+      end
+    else
+      if self.settingsTable~=self.maleSettingsTable then
+        self.settingNames="playerBalaclavaMaleSettings"
+        self.settingsTable=self.maleSettingsTable
+        self.range.max=#self.maleSettingsTable-1 
+      end    
+    end
+    if self.setting>self.range.max then
+      self:Set(1)
+    elseif self.setting>0 then
+      self:Set(self.setting)
+    end
+  end,
+  OnChange=function(self)
+    --if gvars.useAppearance==1 then
+      vars.playerFaceId=self.settingsTable[self.setting+1]
+   -- end
+  end,
+  --trackVariable=vars.playerType,
+}
+
+--
+this.phaseSettings={
+  "PHASE_SNEAK",
+  "PHASE_CAUTION",
+  "PHASE_EVASION",
+  "PHASE_ALERT",
+}
+
+--[[this.phaseTable={
+  TppGameObject.PHASE_SNEAK,--0
+  TppGameObject.PHASE_CAUTION,--1
+  TppGameObject.PHASE_EVASION,--2
+  TppGameObject.PHASE_ALERT,--3
+}--]]
+
+this.minPhase={
+  save=MISSION,
+  settings=this.phaseSettings,
+  --settingsTable=this.phaseTable,
+  OnChange=function(self)
+    if self.setting>gvars.maxPhase then
+      InfMenu.PrintLangId("cannot_set_above_max_phase")--DEBUGNOW ADDLANG
+      self:Set(gvars.maxPhase)
+    end
+  end,
+  profile=this.subsistenceProfile,
+}
+
+this.maxPhase={
+  save=MISSION,
+  settings=this.phaseSettings,
+  default=#this.phaseSettings-1,
+  --settingsTable=this.phaseTable,
+  OnChange=function(self)
+    if self.setting<gvars.minPhase then
+      InfMenu.PrintLangId("cannot_set_below_max_phase")--DEBUGNOW ADDLANG
+      self:Set(gvars.minPhase)
+    end
+  end,
+  profile=this.subsistenceProfile,
+}
+
+this.keepPhase={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.enablePhaseMod={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.phaseUpdateRate={--seconds
+  save=MISSION,
+  range={min=1,max=255},
+}
+this.phaseUpdateRange={--seconds
+  save=MISSION,
+  range={min=0,max=255},
+}
+
+this.enablePhaseMod={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.subsistenceProfile,
+}
+
+this.printPhaseChanges={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.subsistenceProfile,
+}
+
+--[[
+this.ogrePointChange={
+  save=MISSION,
+  default=-100,
+  range={min=-10000,max=10000,increment=100},
+}
+--]]
 local function IsIvar(ivar)
   return IsTable(ivar) and (ivar.range or ivar.settings)   
 end
@@ -793,7 +1118,7 @@ for name,ivar in pairs(this) do
     ivar.name=name
     
     ivar.range=ivar.range or {}
-    ivar.range.max=ivar.range.max or 0
+    ivar.range.max=ivar.range.max or 1
     ivar.range.min=ivar.range.min or 0
     ivar.range.increment=ivar.range.increment or 1
     
@@ -868,7 +1193,7 @@ function this.DeclareVars()
   
   for name, ivar in pairs(Ivars) do
     if IsIvar(ivar) then
-      if ivar.save and ivar.save~="NOSAVE" then
+      if ivar.save then
         local ok=true          
         local svarType=0
         local max=ivar.range.max or 0

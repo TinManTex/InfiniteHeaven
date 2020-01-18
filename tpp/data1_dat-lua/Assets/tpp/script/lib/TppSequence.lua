@@ -5,10 +5,10 @@ local S=256
 local c=0
 local _=180
 local StrCode32=Fox.StrCode32
-local p=Tpp.IsTypeFunc
-local i=Tpp.IsTypeTable
-local n=GkEventTimerManager.Start
-local s=TppScriptVars.SVarsIsSynchronized
+local IsFunc=Tpp.IsTypeFunc
+local IsTable=Tpp.IsTypeTable
+local StartTime=GkEventTimerManager.Start
+local SVarsIsSynchronized=TppScriptVars.SVarsIsSynchronized
 this.MISSION_PREPARE_STATE=Tpp.Enum{"START","WAIT_INITALIZE","WAIT_TEXTURE_LOADING","END_TEXTURE_LOADING","WAIT_SAVING_FILE","END_SAVING_FILE","FINISH"}
 local function s(n)
   local e=mvars.seq_sequenceTable
@@ -23,7 +23,7 @@ local function d(n)
   end
 end
 function this.RegisterSequences(n)
-  if not i(n)then
+  if not IsTable(n)then
     return
   end
   local s=#n
@@ -60,26 +60,26 @@ function this.RegisterSequenceTable(e)
     end
   end
 end
-function this.SetNextSequence(s,e)
-  local n=nil
+function this.SetNextSequence(sequenceName,e)
+  local sequenceId=nil
   if mvars.seq_sequenceNames then
-    n=mvars.seq_sequenceNames[s]
+    sequenceId=mvars.seq_sequenceNames[sequenceName]
   end
-  if n==nil then
+  if sequenceId==nil then
     return
   end
-  local a=false
-  local t=false
-  local r=false
-  local s=true
-  if e and i(e)then
-    a=e.isExecMissionClear
-    t=e.isExecGameOver
-    r=e.isExecDemoPlaying
-    s=e.isExecMissionPrepare
+  local isExecMissionClear=false
+  local isExecGameOver=false
+  local isExecDemoPlaying=false
+  local isExecMissionPrepare=true
+  if e and IsTable(e)then
+    isExecMissionClear=e.isExecMissionClear
+    isExecGameOver=e.isExecGameOver
+    isExecDemoPlaying=e.isExecDemoPlaying
+    isExecMissionPrepare=e.isExecMissionPrepare
   end
-  if TppMission.CheckMissionState(a,t,r,s)then
-    svars.seq_sequence=n
+  if TppMission.CheckMissionState(isExecMissionClear,isExecGameOver,isExecDemoPlaying,isExecMissionPrepare)then
+    svars.seq_sequence=sequenceId
     return
   end
 end
@@ -149,13 +149,13 @@ r={"Seq_Mission_Prepare"}
 this.SYS_SEQUENCE_LENGTH=#r
 a.Seq_Mission_Prepare={Messages=function(e)
   return Tpp.StrCode32Table{UI={{msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
-    end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="StartMissionTelopFadeIn",func=function()n("Timer_HelicopterMoveStart",s)
+    end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="StartMissionTelopFadeIn",func=function()StartTime("Timer_HelicopterMoveStart",s)
     end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="StartMissionTelopFadeOut",func=function()
       mvars.seq_nowWaitingStartMissionTelopFadeOut=nil
       e.FadeInStartOnGameStart()
     end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="PushEndLoadingTips",func=function()
       mvars.seq_nowWaitingPushEndLoadingTips=nil
-      n("Timer_WaitStartingGame",1)
+      StartTime("Timer_WaitStartingGame",1)
     end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}},Timer={{msg="Finish",sender="Timer_WaitStartingGame",func=e.MissionGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="Finish",sender="Timer_HelicopterMoveStart",func=e.HelicopterMoveStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="Finish",sender="Timer_FadeInStartOnNoTelopHelicopter",func=e.FadeInStartOnGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}}}
 end,OnEnter=function(n)
   mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.WAIT_INITALIZE
@@ -187,7 +187,7 @@ end,MissionGameStart=function()
   else
     if mvars.seq_isHelicopterStart then
       if mvars.seq_noMissionTelopOnHelicopter then
-        a.Seq_Mission_Prepare.HelicopterMoveStart()n("Timer_FadeInStartOnNoTelopHelicopter",t)
+        a.Seq_Mission_Prepare.HelicopterMoveStart()StartTime("Timer_FadeInStartOnNoTelopHelicopter",t)
       else
         TppSoundDaemon.ResetMute"Loading"mvars.seq_nowWaitingStartMissionTelopFadeOut=true
         TppUI.StartMissionTelop()
@@ -280,13 +280,13 @@ end,OnUpdate=function(t)
     end
     TppMain.OnMissionCanStart()
     if TppUiCommand.IsEndLoadingTips()then
-      TppUI.FinishLoadingTips()n("Timer_WaitStartingGame",o)
+      TppUI.FinishLoadingTips()StartTime("Timer_WaitStartingGame",o)
     else
       if gvars.waitLoadingTipsEnd then
         mvars.seq_nowWaitingPushEndLoadingTips=true
         TppUiCommand.PermitEndLoadingTips()
       else
-        TppUI.FinishLoadingTips()n("Timer_WaitStartingGame",o)
+        TppUI.FinishLoadingTips()StartTime("Timer_WaitStartingGame",o)
       end
     end
   end
@@ -411,7 +411,7 @@ function this.MakeSequenceMessageExecTable()
     return
   end
   for n,e in pairs(mvars.seq_sequenceTable)do
-    if e.Messages and p(e.Messages)then
+    if e.Messages and IsFunc(e.Messages)then
       local e=e.Messages(e)
       mvars.seq_sequenceTable[n]._messageExecTable=Tpp.MakeMessageExecTable(e)
     end

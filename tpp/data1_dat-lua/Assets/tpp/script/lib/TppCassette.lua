@@ -70,7 +70,8 @@ function e.OnEstablishMissionClear()
     end
   end
   if TppRadio.IsPlayed"f2000_rtrg8400"then
-    local _="tp_m_10190_04"if not TppMotherBaseManagement.IsGotCassetteTapeTrack(_)and TppBuddy2BlockController.DidObtainBuddyType(BuddyType.DOG)then
+    local _="tp_m_10190_04"
+    if not TppMotherBaseManagement.IsGotCassetteTapeTrack(_)and TppBuddy2BlockController.DidObtainBuddyType(BuddyType.DOG)then
       e.Acquire{cassetteList={_},pushReward=true}
     end
   end

@@ -77,7 +77,8 @@ TppUiCommand.ErasePopup()
 end
 gvars.isLoadedInitMissionOnSignInUserChanged=true
 e.isLoadedInitMissionOnSignInUserChanged=true
-TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,"FadeOutOnEndExceptionDialogForSignInUserChange",nil,{setMute=true})FadeFunction.SetFadeCallEnable(false)SignIn.SetStartupProcessCompleted(false)
+TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,"FadeOutOnEndExceptionDialogForSignInUserChange",nil,{setMute=true})
+FadeFunction.SetFadeCallEnable(false)SignIn.SetStartupProcessCompleted(false)
 TppUI.SetFadeColorToBlack()StageBlockCurrentPositionSetter.SetEnable(false)
 TppUiCommand.SetLoadIndicatorVisible(true)SubtitlesCommand.SetIsEnabledUiPrioStrong(false)
 TppRadio.Stop()

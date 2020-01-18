@@ -9,10 +9,10 @@ local UpdateScriptsInScriptBlocks=ScriptBlock.UpdateScriptsInScriptBlocks
 local GetCurrentMessageResendCount=Mission.GetCurrentMessageResendCount
 local updateList={}
 local numUpdate=0
-local c={}
-local o=0
-local T={}
-local u=0
+local onUpdateList={}--NMC: from mission scripts, sequences use this, RESEARCH but does this also grab OnUpdate in mission_main.lua?
+local numOnUpdate=0
+--NMC: OFF local RENAMEsomeupdatetable2={}
+--NMC: OFF local RENAMEsomeupdate2=0
 local n={}
 local n=0
 local onMessageTable={}
@@ -80,8 +80,8 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   TppClock.Stop()
   updateList={}
   numUpdate=0
-  T={}
-  u=0
+  --NMC: OFF RENAMEsomeupdatetable2={}
+  --NMC: OFF RENAMEsomeupdate2=0
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
   if TppMission.IsFOBMission(vars.missionCode)then
@@ -470,19 +470,28 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize end")--DEBUG
   --SplashScreen.Show(SplashScreen.Create("dbeonin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.1,0)--tex eagle--tex ghetto as 'does it run?' indicator
 end
-function this.SetUpdateFunction(e)
+function this.SetUpdateFunction(missionTable)
   updateList={}
   numUpdate=0
-  c={}
-  o=0
-  T={}
-  u=0
-  updateList={TppMission.Update,TppSequence.Update,TppSave.Update,TppDemo.Update,TppPlayer.Update,TppMission.UpdateForMissionLoad,InfMenu.Update}--tex added infmenu
+  onUpdateList={}
+  numOnUpdate=0
+  --NMC: OFF RENAMEsomeupdatetable2={}
+  --NMC: OFF RENAMEsomeupdate2=0
+  updateList={
+    TppMission.Update,
+    TppSequence.Update,
+    TppSave.Update,
+    TppDemo.Update,
+    TppPlayer.Update,
+    TppMission.UpdateForMissionLoad,
+    InfMenu.Update,--tex
+    InfMain.Update,--tex
+  }
   numUpdate=#updateList
-  for n,e in pairs(e)do
+  for n,e in pairs(missionTable)do
     if IsTypeFunc(e.OnUpdate)then
-      o=o+1
-      c[o]=e.OnUpdate
+      numOnUpdate=numOnUpdate+1
+      onUpdateList[numOnUpdate]=e.OnUpdate
     end
   end
 end
@@ -765,15 +774,15 @@ function this.OnReload(missionTable)
   this.SetMessageFunction(missionTable)
 end
 function this.OnUpdate(e)
-  local e
+  --NMC OFF local e
   local update=updateList
-  local e=c
-  local t=T
-  for e=1,numUpdate do
-    update[e]()
+  local onUpdate=onUpdateList
+  --NMC OFF local t=RENAMEsomeupdatetable2
+  for n=1,numUpdate do
+    update[n]()
   end
-  for n=1,o do
-    e[n]()
+  for m=1,numOnUpdate do
+    onUpdate[m]()
   end
   UpdateScriptsInScriptBlocks()
 end
@@ -803,11 +812,11 @@ function this.SetMessageFunction(missionTable)--RENAME:
   end
 end
 function this.OnMessage(n,e,t,i,o,a,r)
-  local n=mvars
+  local mvars=mvars--LOCALOPT
   local l=""
   local T
-  local c=Tpp.DoMessage
-  local u=TppMission.CheckMessageOption
+  local DoMessage=Tpp.DoMessage--LOCALOPT
+  local CheckMessageOption=TppMission.CheckMessageOption--LOCALOPT
   local T=TppDebug
   local T=P
   local T=h
@@ -825,16 +834,16 @@ function this.OnMessage(n,e,t,i,o,a,r)
   end
   for n=1,messageExecTableSize do
     local s=l
-    c(messageExecTable[n],u,e,t,i,o,a,r,s)
+    DoMessage(messageExecTable[n],CheckMessageOption,e,t,i,o,a,r,s)
   end
-  if n.loc_locationCommonTable then
-    n.loc_locationCommonTable.OnMessage(e,t,i,o,a,r,l)
+  if mvars.loc_locationCommonTable then
+    mvars.loc_locationCommonTable.OnMessage(e,t,i,o,a,r,l)
   end
-  if n.order_box_script then
-    n.order_box_script.OnMessage(e,t,i,o,a,r,l)
+  if mvars.order_box_script then
+    mvars.order_box_script.OnMessage(e,t,i,o,a,r,l)
   end
-  if n.animalBlockScript and n.animalBlockScript.OnMessage then
-    n.animalBlockScript.OnMessage(e,t,i,o,a,r,l)
+  if mvars.animalBlockScript and mvars.animalBlockScript.OnMessage then
+    mvars.animalBlockScript.OnMessage(e,t,i,o,a,r,l)
   end
 end
 function this.OnTerminate(e)

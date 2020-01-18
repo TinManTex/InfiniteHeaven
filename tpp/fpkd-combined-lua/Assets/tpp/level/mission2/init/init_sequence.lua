@@ -406,6 +406,8 @@ sequences.Seq_Demo_WaitCopyRightLogo = {
   end,
 
   ignoreSignInUserChanged = true,
+  --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
+  
 }
 
 sequences.Seq_Demo_SetInitialLanguage = {
@@ -2116,9 +2118,9 @@ local function CreateOrLoadSaveData()
 
   local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }--tex
   local startOffline = TppScriptVars.GetVarValueInSlot( globalSlotForSaving, "gvars", "startOffline", 0 )
-  if startOffline > 0 then
+  if startOffline and startOffline > 0 then
     return "Seq_Demo_Init"
-  else--
+  else
     return "Seq_Demo_LogInKonamiServer"
   end
 end
@@ -2132,6 +2134,7 @@ sequences.Seq_Demo_CreateOrLoadSaveData = {
     this.saveCoroutine = nil
   end,
   OnUpdate = function(self)
+   
     if this.saveCoroutine then
       local status, ret1 = coroutine.resume(this.saveCoroutine)
       if not status then
@@ -2348,7 +2351,7 @@ sequences.Seq_Demo_UseBackUpLoadGameSaveData = {
           func = function()
             local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }--tex
             local startOffline = TppScriptVars.GetVarValueInSlot( globalSlotForSaving, "gvars", "startOffline", 0 )
-            if startOffline > 0 then--tex
+            if startOffline and startOffline > 0 then--tex
               return "Seq_Demo_Init"
             else--
               TppSequence.SetNextSequence("Seq_Demo_LogInKonamiServer")

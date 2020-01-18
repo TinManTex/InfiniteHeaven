@@ -14,7 +14,24 @@ function this._Random(min,max)
   local E=(max-min)+1
   return(revRandomVal%E)+min
 end
-this.NO_REVENGE_MISSION_LIST={[10010]=true,[10030]=true,[10050]=true,[11050]=true,[10120]=true,[10140]=true,[11140]=true,[10151]=true,[10230]=true,[10240]=true,[10280]=true,[30050]=true,[40010]=true,[40020]=true,[40050]=true,[50050]=true}
+this.NO_REVENGE_MISSION_LIST={
+  [10010]=true,--prologue
+  [10030]=true,--diamond dogd
+  [10050]=true,--cloaked in silence
+  [11050]=true,--cloaked extr
+  [10120]=true,--white mambe
+  [10140]=true,--metallic archaea
+  [11140]=true,--archaea extr
+  [10151]=true,--sahel
+  [10230]=true,--???
+  [10240]=true,--shining lights
+  [10280]=true,--man who sold the world
+  [30050]=true,--mb free
+  [40010]=true,--helispace
+  [40020]=true,--helispace
+  [40050]=true,--helispace
+  [50050]=true--fob
+}
 this.NO_STEALTH_COMBAT_REVENGE_MISSION_LIST={[30010]=true,[30020]=true,[30050]=true,[30150]=true}
 this.USE_SUPER_REINFORCE_VEHICLE_MISSION={[10036]=true,[11036]=true,[10093]=true}
 this.CANNOT_USE_ALL_WEAPON_MISSION={[10030]=true,[10070]=true,[10080]=true,[11080]=true,[10090]=true,[11090]=true,[10151]=true,[11151]=true,[10211]=true,[11211]=true,[30050]=true}
@@ -47,33 +64,78 @@ this.REDUCE_POINT_TABLE={
   [this.REVENGE_TYPE.NIGHT_C]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
   [this.REVENGE_TYPE.SMOKE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
   [this.REVENGE_TYPE.LONG_RANGE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
-  [this.REVENGE_TYPE.VEHICLE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50}}
+  [this.REVENGE_TYPE.VEHICLE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50}
+}
 this.REVENGE_TRIGGER_TYPE={
-  HEAD_SHOT=1,ELIMINATED_IN_STEALTH=2,ELIMINATED_IN_COMBAT=3,FULTON=4,SMOKE=5,KILLED_BY_HELI=6,ANNIHILATED_IN_STEALTH=7,ANNIHILATED_IN_COMBAT=8,WAKE_A_COMRADE=9,DISCOVERY_AT_NIGHT=10,ELIMINATED_AT_NIGHT=11,SNIPED=12,KILLED_BY_VEHICLE=13,WATCH_SMOKE=14}
+  HEAD_SHOT=1,
+  ELIMINATED_IN_STEALTH=2,
+  ELIMINATED_IN_COMBAT=3,
+  FULTON=4,
+  SMOKE=5,
+  KILLED_BY_HELI=6,
+  ANNIHILATED_IN_STEALTH=7,
+  ANNIHILATED_IN_COMBAT=8,
+  WAKE_A_COMRADE=9,
+  DISCOVERY_AT_NIGHT=10,
+  ELIMINATED_AT_NIGHT=11,
+  SNIPED=12,
+  KILLED_BY_VEHICLE=13,
+  WATCH_SMOKE=14
+}
 this.BLOCKED_TYPE={GAS_MASK=0,HELMET=1,CAMERA=2,DECOY=3,MINE=4,NVG=5,SHOTGUN=6,MG=7,SOFT_ARMOR=8,SHIELD=9,ARMOR=10,GUN_LIGHT=11,SNIPER=12,MISSILE=13,MAX=14}
 this.BLOCKED_FOR_MISSION_COUNT=3
-this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST={[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]=this.BLOCKED_TYPE.GAS_MASK,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]=this.BLOCKED_TYPE.HELMET,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]=this.BLOCKED_TYPE.CAMERA,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]=this.BLOCKED_TYPE.DECOY,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]=this.BLOCKED_TYPE.MINE,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]=this.BLOCKED_TYPE.NVG,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]=this.BLOCKED_TYPE.SHOTGUN,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]=this.BLOCKED_TYPE.MG,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]=this.BLOCKED_TYPE.SOFT_ARMOR,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]=this.BLOCKED_TYPE.SHIELD,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]=this.BLOCKED_TYPE.ARMOR,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]=this.BLOCKED_TYPE.GUN_LIGHT,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]=this.BLOCKED_TYPE.SNIPER,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]=this.BLOCKED_TYPE.MISSILE}
-this.DEPLOY_REVENGE_MISSION_CONDITION_LIST={[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]={revengeType=this.REVENGE_TYPE.SMOKE,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]={revengeType=this.REVENGE_TYPE.HEAD_SHOT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]={revengeType=this.REVENGE_TYPE.STEALTH,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]={revengeType=this.REVENGE_TYPE.STEALTH,lv=2},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]={revengeType=this.REVENGE_TYPE.STEALTH,lv=3},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]={revengeType=this.REVENGE_TYPE.NIGHT_S,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]={revengeType=this.REVENGE_TYPE.COMBAT,lv=2},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]={revengeType=this.REVENGE_TYPE.COMBAT,lv=3},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]={revengeType=this.REVENGE_TYPE.NIGHT_C,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]={revengeType=this.REVENGE_TYPE.LONG_RANGE,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]={revengeType=this.REVENGE_TYPE.VEHICLE,lv=1}}
+this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST={
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]=this.BLOCKED_TYPE.GAS_MASK,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]=this.BLOCKED_TYPE.HELMET,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]=this.BLOCKED_TYPE.CAMERA,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]=this.BLOCKED_TYPE.DECOY,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]=this.BLOCKED_TYPE.MINE,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]=this.BLOCKED_TYPE.NVG,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]=this.BLOCKED_TYPE.SHOTGUN,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]=this.BLOCKED_TYPE.MG,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]=this.BLOCKED_TYPE.SOFT_ARMOR,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]=this.BLOCKED_TYPE.SHIELD,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]=this.BLOCKED_TYPE.ARMOR,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]=this.BLOCKED_TYPE.GUN_LIGHT,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]=this.BLOCKED_TYPE.SNIPER,
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]=this.BLOCKED_TYPE.MISSILE
+}
+this.DEPLOY_REVENGE_MISSION_CONDITION_LIST={
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]={revengeType=this.REVENGE_TYPE.SMOKE,lv=1},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]={revengeType=this.REVENGE_TYPE.HEAD_SHOT,lv=1},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]={revengeType=this.REVENGE_TYPE.STEALTH,lv=1},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]={revengeType=this.REVENGE_TYPE.STEALTH,lv=2},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]={revengeType=this.REVENGE_TYPE.STEALTH,lv=3},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]={revengeType=this.REVENGE_TYPE.NIGHT_S,lv=1},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]={revengeType=this.REVENGE_TYPE.COMBAT,lv=2},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]={revengeType=this.REVENGE_TYPE.COMBAT,lv=3},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]={revengeType=this.REVENGE_TYPE.NIGHT_C,lv=1},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]={revengeType=this.REVENGE_TYPE.LONG_RANGE,lv=1},
+  [TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]={revengeType=this.REVENGE_TYPE.VEHICLE,lv=1}
+}
 this.REVENGE_POINT_TABLE={
-  [this.REVENGE_TRIGGER_TYPE.HEAD_SHOT]={[this.REVENGE_TYPE.HEAD_SHOT]=5},
-  [this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_STEALTH]={[this.REVENGE_TYPE.M_STEALTH]=5},
-  [this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_COMBAT]={[this.REVENGE_TYPE.M_COMBAT]=5},
-  [this.REVENGE_TRIGGER_TYPE.FULTON]={[this.REVENGE_TYPE.FULTON]=15},
-  [this.REVENGE_TRIGGER_TYPE.SMOKE]={[this.REVENGE_TYPE.SMOKE]=15},
-  [this.REVENGE_TRIGGER_TYPE.WATCH_SMOKE]={[this.REVENGE_TYPE.SMOKE]=15},
-  [this.REVENGE_TRIGGER_TYPE.KILLED_BY_HELI]={[this.REVENGE_TYPE.VEHICLE]=10},
-  [this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_STEALTH]={[this.REVENGE_TYPE.M_STEALTH]=15},
-  [this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_COMBAT]={[this.REVENGE_TYPE.M_COMBAT]=15},
-  [this.REVENGE_TRIGGER_TYPE.WAKE_A_COMRADE]={[this.REVENGE_TYPE.TRANQ]=5},
-  [this.REVENGE_TRIGGER_TYPE.DISCOVERY_AT_NIGHT]={[this.REVENGE_TYPE.NIGHT_S]=15},
-  [this.REVENGE_TRIGGER_TYPE.ELIMINATED_AT_NIGHT]={[this.REVENGE_TYPE.NIGHT_C]=10},
-  [this.REVENGE_TRIGGER_TYPE.SNIPED]={[this.REVENGE_TYPE.LONG_RANGE]=30},
-  [this.REVENGE_TRIGGER_TYPE.KILLED_BY_VEHICLE]={[this.REVENGE_TYPE.VEHICLE]=10}
+  [this.REVENGE_TRIGGER_TYPE.HEAD_SHOT]=              {[this.REVENGE_TYPE.HEAD_SHOT]= 5},
+  [this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_STEALTH]=  {[this.REVENGE_TYPE.M_STEALTH]= 5},
+  [this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_COMBAT]=   {[this.REVENGE_TYPE.M_COMBAT]=  5},
+  [this.REVENGE_TRIGGER_TYPE.FULTON]=                 {[this.REVENGE_TYPE.FULTON]=    15},
+  [this.REVENGE_TRIGGER_TYPE.SMOKE]=                  {[this.REVENGE_TYPE.SMOKE]=     15},
+  [this.REVENGE_TRIGGER_TYPE.WATCH_SMOKE]=            {[this.REVENGE_TYPE.SMOKE]=     15},
+  [this.REVENGE_TRIGGER_TYPE.KILLED_BY_HELI]=         {[this.REVENGE_TYPE.VEHICLE]=   10},
+  [this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_STEALTH]= {[this.REVENGE_TYPE.M_STEALTH]= 15},
+  [this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_COMBAT]=  {[this.REVENGE_TYPE.M_COMBAT]=  15},
+  [this.REVENGE_TRIGGER_TYPE.WAKE_A_COMRADE]=         {[this.REVENGE_TYPE.TRANQ]=     5},
+  [this.REVENGE_TRIGGER_TYPE.DISCOVERY_AT_NIGHT]=     {[this.REVENGE_TYPE.NIGHT_S]=   15},
+  [this.REVENGE_TRIGGER_TYPE.ELIMINATED_AT_NIGHT]=    {[this.REVENGE_TYPE.NIGHT_C]=   10},
+  [this.REVENGE_TRIGGER_TYPE.SNIPED]=                 {[this.REVENGE_TYPE.LONG_RANGE]=30},
+  [this.REVENGE_TRIGGER_TYPE.KILLED_BY_VEHICLE]=      {[this.REVENGE_TYPE.VEHICLE]=   10}
 }
 this.MISSION_TENDENCY_POINT_TABLE={
-  STEALTH={STEALTH={25,25,25,25,50,50},COMBAT={0,0,-5,-10,-50,-50}},
-  DRAW={STEALTH={20,20,20,0,-25,-10},COMBAT={20,20,20,0,-25,-10}},
-  COMBAT={STEALTH={0,0,-5,-10,-50,-50},COMBAT={25,25,25,25,50,50}}
+  STEALTH={STEALTH={25,25,25,25,50,50}, COMBAT={0,0,-5,-10,-50,-50}},
+  DRAW=   {STEALTH={20,20,20,0,-25,-10},COMBAT={20,20,20,0,-25,-10}},
+  COMBAT= {STEALTH={0,0,-5,-10,-50,-50},COMBAT={25,25,25,25,50,50}}
 }
 this.revengeDefine={
   HARD_MISSION={IGNORE_BLOCKED=true},
@@ -216,7 +278,7 @@ this.revengeDefine={
 }
 function this.SelectRevengeType()
   local missionCode=TppMission.GetMissionID()
-  if this.IsNoRevengeMission(missionCode)or missionCode==10115 then
+  if this.IsNoRevengeMission(missionCode)or missionCode==10115 then--NMC retake the platform, not revenge mission because mb/ddogs use different system?
     return{}
   end
   local isHardMission=TppMission.IsHardMission(missionCode)
@@ -237,83 +299,53 @@ function this.SelectRevengeType()
   return revengeTypes
 end
 --[[ORIG: function e.SelectRevengeType()
-
   local n=TppMission.GetMissionID()
-
   if e.IsNoRevengeMission(n)or n==10115 then
-
     return{}
-
   end
-
   local r=TppMission.IsHardMission(n)
-
   local t={}
-
   for E=0,e.REVENGE_TYPE.MAX-1 do
-
     local n
-
     if r then
-
       n=e.GetRevengeLvMax(E,REVENGE_LV_LIMIT_RANK_MAX)
-
     else
-
       n=e.GetRevengeLv(E)
-
     end
-
     if n>=0 then
-
       local n=e.REVENGE_TYPE_NAME[E+1]..("_"..tostring(n))
-
       local e=e.revengeDefine[n]
-
       if e then
-
         table.insert(t,n)
-
       end
-
     end
-
   end
-
   if r then
-
     table.insert(t,"HARD_MISSION")
-
   end
-
   return t
-
 end--]]
-function this.SetForceRevengeType(e)
-  --TppUiCommand.AnnounceLogView("SetForceRevengeType")--tex DEBUG: CULL:
-  --local revtype = InfInspect.Inspect(e)
-  --TppUiCommand.AnnounceLogView(revtype)
-  --tex ^
-  if not Tpp.IsTypeTable(e)then
-    e={e}
+function this.SetForceRevengeType(config)
+  if not Tpp.IsTypeTable(config)then
+    config={config}
   end
-  mvars.revenge_forceRevengeType=e
+  mvars.revenge_forceRevengeType=config
 end
-function this.IsNoRevengeMission(n)
-  if n==nil then
+function this.IsNoRevengeMission(missionCode)
+  if missionCode==nil then
     return false
   end
-  local e=this.NO_REVENGE_MISSION_LIST[n]
+  local e=this.NO_REVENGE_MISSION_LIST[missionCode]
   if e==nil then
     return false
   end
   return e
 end
-function this.IsNoStealthCombatRevengeMission(n)
-  if n==nil then
+function this.IsNoStealthCombatRevengeMission(missionCofr)
+  if missionCofr==nil then
     return false
   end
-  local e=this.NO_STEALTH_COMBAT_REVENGE_MISSION_LIST[n]
+  local e=this.NO_STEALTH_COMBAT_REVENGE_MISSION_LIST[missionCofr]
   if e==nil then
     return false
   end
@@ -462,8 +494,8 @@ function this.RegisterMissionMineList(n)
   end
 end
 function this.AddBaseMissionMineList(e,n)
-  local a=mvars.rev_revengeMineList[e]
-  if not a then
+  local mineListForAreas=mvars.rev_revengeMineList[e]
+  if not mineListForAreas then
     return
   end
   if not Tpp.IsTypeTable(n)then
@@ -480,21 +512,21 @@ function this.AddBaseMissionMineList(e,n)
   for t,r in pairs(n)do
     local e=mvars.rev_mineTrapTable[Fox.StrCode32(t)]
     if e then
-      local e=e.areaIndex
-      local e=a[e]
-      local n=r.mineLocatorList
-      if n then
-        e.mineLocatorList=e.mineLocatorList or{}
-        for E,n in ipairs(n)do
-          table.insert(e.mineLocatorList,n)
+      local areaIndex=e.areaIndex
+      local mineList=mineListForAreas[areaIndex]
+      local mineLocatorList=r.mineLocatorList
+      if mineLocatorList then
+        mineList.mineLocatorList=mineList.mineLocatorList or{}
+        for E,n in ipairs(mineLocatorList)do
+          table.insert(mineList.mineLocatorList,n)
         end
       end
       if not E then
         local n=r.decoyLocatorList
         if n then
-          e.decoyLocatorList=e.decoyLocatorList or{}
+          mineList.decoyLocatorList=mineList.decoyLocatorList or{}
           for E,n in ipairs(n)do
-            table.insert(e.decoyLocatorList,n)
+            table.insert(mineList.decoyLocatorList,n)
           end
         end
       end
@@ -505,23 +537,23 @@ function this.AddBaseMissionMineList(e,n)
   end
 end
 function this._CopyRevengeMineArea(e,n,E,E)
-  local E=n.trapName
-  if E then
-    e.trapName=E
+  local trapName=n.trapName
+  if trapName then
+    e.trapName=trapName
   else
     return
   end
-  local E=n.mineLocatorList
-  if E then
+  local mineLocatorList=n.mineLocatorList
+  if mineLocatorList then
     e.mineLocatorList={}
-    for E,n in ipairs(E)do
+    for E,n in ipairs(mineLocatorList)do
       e.mineLocatorList[E]=n
     end
   end
-  local n=n.decoyLocatorList
-  if n then
+  local decoyLocatorList=n.decoyLocatorList
+  if decoyLocatorList then
     e.decoyLocatorList={}
-    for n,E in ipairs(n)do
+    for n,E in ipairs(decoyLocatorList)do
       e.decoyLocatorList[n]=E
     end
   end
@@ -534,8 +566,8 @@ function this.OnEnterRevengeMineTrap(n)
   if not n then
     return
   end
-  local t,n,E=n.areaIndex,n.baseName,n.trapName
-  this.UpdateLastVisitedMineArea(n,t,E)
+  local areaIndex,baseName,trapName=n.areaIndex,n.baseName,n.trapName
+  this.UpdateLastVisitedMineArea(baseName,areaIndex,trapName)
 end
 function this.ClearLastRevengeMineBaseName()
   gvars.rev_lastUpdatedBaseName=0
@@ -708,8 +740,8 @@ function this.SetUpEnemy()
     return
   end
   this._SetMbInterrogate()
-  local n=this.GetReinforceCount()
-  GameObject.SendCommand({type="TppCommandPost2"},{id="SetReinforceCount",count=n})
+  local reinforceCount=this.GetReinforceCount()
+  GameObject.SendCommand({type="TppCommandPost2"},{id="SetReinforceCount",count=reinforceCount})
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
     TppEnemy.SetUpDDParameter()
   end
@@ -777,20 +809,22 @@ function this.GetRevengeTriggerName(n)
       return e
     end
   end
-  return""end
+  return""
+end
 function this.AddRevengePointByTriggerType(n)
-  local E=TppMission.GetMissionID()
-  if this.IsNoRevengeMission(E)then
+  local missionCode=TppMission.GetMissionID()
+  if this.IsNoRevengeMission(missionCode)then
     return
   end
-  local t="###REVENGE### "..(tostring(E)..(" / AddRevengePointBy ["..(this.GetRevengeTriggerName(n).."] : ")))
-  local n=this.REVENGE_POINT_TABLE[n]
-  for n,E in pairs(n)do
-    n=n+0
-    E=E+0
-    local r=gvars.rev_revengePoint[n]
-    this.SetRevengePoint(n,gvars.rev_revengePoint[n]+E)
-    local E=gvars.rev_revengePoint[n]t=t..(this.REVENGE_TYPE_NAME[n+1]..(":"..(tostring(r)..("->"..(tostring(E).." ")))))
+  local t="###REVENGE### "..(tostring(missionCode)..(" / AddRevengePointBy ["..(this.GetRevengeTriggerName(n).."] : ")))
+  local revTypePoint=this.REVENGE_POINT_TABLE[n]
+  for revType,revPoint in pairs(revTypePoint)do
+    revType=revType+0
+    revPoint=revPoint+0
+    local revRevPoint=gvars.rev_revengePoint[revType]
+    this.SetRevengePoint(revType,gvars.rev_revengePoint[revType]+revPoint)
+    local E=gvars.rev_revengePoint[revType]
+    t=t..(this.REVENGE_TYPE_NAME[revType+1]..(":"..(tostring(revRevPoint)..("->"..(tostring(E).." ")))))
   end
 end
 function this.SetRevengePoint(E,n)
@@ -839,37 +873,65 @@ function this._GetUiParameterValue(E)
   return 0
 end
 function this._SetUiParameters()
-  local a=this._GetUiParameterValue(this.REVENGE_TYPE.FULTON)
-  local r=this._GetUiParameterValue(this.REVENGE_TYPE.HEAD_SHOT)
-  local E=this._GetUiParameterValue(this.REVENGE_TYPE.STEALTH)
-  local n=this._GetUiParameterValue(this.REVENGE_TYPE.COMBAT)
-  local t=math.min(3,math.max(this.GetRevengeLv(this.REVENGE_TYPE.NIGHT_S),this.GetRevengeLv(this.REVENGE_TYPE.NIGHT_C)))
-  local e=this._GetUiParameterValue(this.REVENGE_TYPE.LONG_RANGE)
-  TppUiCommand.RegisterEnemyRevengeParameters{fulton=a,headShot=r,stealth=E,combat=n,night=t,longRange=e}
+  local fulton=this._GetUiParameterValue(this.REVENGE_TYPE.FULTON)
+  local headShot=this._GetUiParameterValue(this.REVENGE_TYPE.HEAD_SHOT)
+  local stealth=this._GetUiParameterValue(this.REVENGE_TYPE.STEALTH)
+  local combat=this._GetUiParameterValue(this.REVENGE_TYPE.COMBAT)
+  local night=math.min(3,math.max(this.GetRevengeLv(this.REVENGE_TYPE.NIGHT_S),this.GetRevengeLv(this.REVENGE_TYPE.NIGHT_C)))
+  local longRange=this._GetUiParameterValue(this.REVENGE_TYPE.LONG_RANGE)
+  TppUiCommand.RegisterEnemyRevengeParameters{fulton=fulton,headShot=headShot,stealth=stealth,combat=combat,night=night,longRange=longRange}
 end
 function this._SetMbInterrogate()
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
-  local E=0
-  local n={{MbInterrogate.FULUTON,this.REVENGE_TYPE.FULTON,1},{MbInterrogate.GAS,this.REVENGE_TYPE.SMOKE,1,this.BLOCKED_TYPE.GAS_MASK},{MbInterrogate.MET,this.REVENGE_TYPE.HEAD_SHOT,1,this.BLOCKED_TYPE.HELMET},{MbInterrogate.FLASH,this.REVENGE_TYPE.NIGHT_C,1,this.BLOCKED_TYPE.GUN_LIGHT},{MbInterrogate.SNIPER,this.REVENGE_TYPE.LONG_RANGE,1,this.BLOCKED_TYPE.SNIPER},{MbInterrogate.MISSILE,this.REVENGE_TYPE.VEHICLE,1,this.BLOCKED_TYPE.MISSILE},{MbInterrogate.NIGHT,this.REVENGE_TYPE.NIGHT_S,1,this.BLOCKED_TYPE.NVG},{MbInterrogate.CAMERA,this.REVENGE_TYPE.STEALTH,this.revengeDefine._ENABLE_CAMERA_LV,this.BLOCKED_TYPE.CAMERA},{MbInterrogate.DECOY,this.REVENGE_TYPE.STEALTH,this.revengeDefine._ENABLE_DECOY_LV,this.BLOCKED_TYPE.DECOY},{MbInterrogate.MINE,this.REVENGE_TYPE.STEALTH,this.revengeDefine._ENABLE_MINE_LV,this.BLOCKED_TYPE.MINE},{MbInterrogate.SHOTGUN,this.REVENGE_TYPE.COMBAT,this.revengeDefine._ENABLE_SHOTGUN_LV,this.BLOCKED_TYPE.SHOTGUN},{MbInterrogate.MACHINEGUN,this.REVENGE_TYPE.COMBAT,this.revengeDefine._ENABLE_MG_LV,this.BLOCKED_TYPE.MG},{MbInterrogate.BODY,this.REVENGE_TYPE.COMBAT,this.revengeDefine._ENABLE_SOFT_ARMOR_LV,this.BLOCKED_TYPE.SOFT_ARMOR},{MbInterrogate.SHIELD,this.REVENGE_TYPE.COMBAT,this.revengeDefine._ENABLE_SHIELD_LV,this.BLOCKED_TYPE.SHIELD},{MbInterrogate.ARMOR,this.REVENGE_TYPE.COMBAT,this.revengeDefine._ENABLE_ARMOR_LV,this.BLOCKED_TYPE.ARMOR}}
-  for t,n in ipairs(n)do
-    local t=n[1]
-    local a=n[2]
-    local r=n[3]
-    local n=n[4]
-    if n and this.IsBlocked(n)then
-    elseif this.GetRevengeLv(a)>=r then
-      E=bit.bor(E,t)
+  local enableMask=0
+  local interrogateRevengeList={
+    {MbInterrogate.FULUTON,   this.REVENGE_TYPE.FULTON,     1},
+    {MbInterrogate.GAS,       this.REVENGE_TYPE.SMOKE,      1,                                        this.BLOCKED_TYPE.GAS_MASK},
+    {MbInterrogate.MET,       this.REVENGE_TYPE.HEAD_SHOT,  1,                                        this.BLOCKED_TYPE.HELMET},
+    {MbInterrogate.FLASH,     this.REVENGE_TYPE.NIGHT_C,    1,                                        this.BLOCKED_TYPE.GUN_LIGHT},
+    {MbInterrogate.SNIPER,    this.REVENGE_TYPE.LONG_RANGE, 1,                                        this.BLOCKED_TYPE.SNIPER},
+    {MbInterrogate.MISSILE,   this.REVENGE_TYPE.VEHICLE,    1,                                        this.BLOCKED_TYPE.MISSILE},
+    {MbInterrogate.NIGHT,     this.REVENGE_TYPE.NIGHT_S,    1,                                        this.BLOCKED_TYPE.NVG},
+    {MbInterrogate.CAMERA,    this.REVENGE_TYPE.STEALTH,    this.revengeDefine._ENABLE_CAMERA_LV,     this.BLOCKED_TYPE.CAMERA},
+    {MbInterrogate.DECOY,     this.REVENGE_TYPE.STEALTH,    this.revengeDefine._ENABLE_DECOY_LV,      this.BLOCKED_TYPE.DECOY},
+    {MbInterrogate.MINE,      this.REVENGE_TYPE.STEALTH,    this.revengeDefine._ENABLE_MINE_LV,       this.BLOCKED_TYPE.MINE},
+    {MbInterrogate.SHOTGUN,   this.REVENGE_TYPE.COMBAT,     this.revengeDefine._ENABLE_SHOTGUN_LV,    this.BLOCKED_TYPE.SHOTGUN},
+    {MbInterrogate.MACHINEGUN,this.REVENGE_TYPE.COMBAT,     this.revengeDefine._ENABLE_MG_LV,         this.BLOCKED_TYPE.MG},
+    {MbInterrogate.BODY,      this.REVENGE_TYPE.COMBAT,     this.revengeDefine._ENABLE_SOFT_ARMOR_LV, this.BLOCKED_TYPE.SOFT_ARMOR},
+    {MbInterrogate.SHIELD,    this.REVENGE_TYPE.COMBAT,     this.revengeDefine._ENABLE_SHIELD_LV,     this.BLOCKED_TYPE.SHIELD},
+    {MbInterrogate.ARMOR,     this.REVENGE_TYPE.COMBAT,     this.revengeDefine._ENABLE_ARMOR_LV,      this.BLOCKED_TYPE.ARMOR}
+  }
+  for t,table in ipairs(interrogateRevengeList)do
+    local interrogateType=table[1]
+    local revengeType=table[2]
+    local minLevel=table[3]
+    local blockedType=table[4]
+    if blockedType and this.IsBlocked(blockedType)then
+    elseif this.GetRevengeLv(revengeType)>=minLevel then
+      enableMask=bit.bor(enableMask,interrogateType)
     end
   end
-  GameObject.SendCommand({type="TppSoldier2"},{id="SetMbInterrogate",enableMask=E})
+  GameObject.SendCommand({type="TppSoldier2"},{id="SetMbInterrogate",enableMask=enableMask})
 end
 function this._SetEnmityLv()
   local revengeStealth=this.GetRevengePoint(this.REVENGE_TYPE.STEALTH)
   local revengeCombat=this.GetRevengePoint(this.REVENGE_TYPE.COMBAT)
   local t=math.max(revengeStealth,revengeCombat)
-  local enmityLevels={TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_NONE,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_10,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_20,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_30,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_40,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_50,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_60,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_70,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_80,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_90,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_100}
+  local enmityLevels={
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_NONE,
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_10,
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_20,
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_30,
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_40,
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_50,
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_60,
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_70,
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_80,
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_90,
+    TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_100
+  }
   local n=500
   local numLevels=#enmityLevels
   local enmityLevel=math.floor((t*(numLevels-1))/n)+1
@@ -1541,7 +1603,20 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,a)
   end
 end
 function this.Messages()
-  return Tpp.StrCode32Table{GameObject={{msg="HeadShot",func=this._OnHeadShot},{msg="Dead",func=this._OnDead},{msg="Unconscious",func=this._OnUnconscious},{msg="ComradeFultonDiscovered",func=this._OnComradeFultonDiscovered},{msg="CommandPostAnnihilated",func=this._OnAnnihilated},{msg="ChangePhase",func=this._OnChangePhase},{msg="Damage",func=this._OnDamage},{msg="AntiSniperNoticed",func=this._OnAntiSniperNoticed},{msg="SleepingComradeRecoverd",func=this._OnSleepingComradeRecoverd},{msg="SmokeDiscovered",func=this._OnSmokeDiscovered},{msg="ReinforceRespawn",func=this._OnReinforceRespawn}},Trap={{msg="Enter",func=this._OnEnterTrap}}}
+  return Tpp.StrCode32Table{
+    GameObject={
+      {msg="HeadShot",func=this._OnHeadShot},
+      {msg="Dead",func=this._OnDead},
+      {msg="Unconscious",func=this._OnUnconscious},
+      {msg="ComradeFultonDiscovered",func=this._OnComradeFultonDiscovered},
+      {msg="CommandPostAnnihilated",func=this._OnAnnihilated},
+      {msg="ChangePhase",func=this._OnChangePhase},
+      {msg="Damage",func=this._OnDamage},
+      {msg="AntiSniperNoticed",func=this._OnAntiSniperNoticed},
+      {msg="SleepingComradeRecoverd",func=this._OnSleepingComradeRecoverd},
+      {msg="SmokeDiscovered",func=this._OnSmokeDiscovered},
+      {msg="ReinforceRespawn",func=this._OnReinforceRespawn}},
+Trap={{msg="Enter",func=this._OnEnterTrap}}}
 end
 function this.Init(n)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
@@ -1628,8 +1703,8 @@ function this._OnAnnihilated(E,playerPhase,t)
     end
   end
 end
-function this._OnChangePhase(E,n)
-  if n~=TppGameObject.PHASE_ALERT then
+function this._OnChangePhase(cpId,phase)
+  if phase~=TppGameObject.PHASE_ALERT then
     return
   end
   if TppClock.GetTimeOfDay()=="night"then

@@ -1017,7 +1017,8 @@ function this.MissionGameEnd(sequence)
     this.ResetNeedWaitMissionInitialize()
   end
   mvars.mis_missionGameEndDelayTime=s
-  this.FadeOutOnMissionGameEnd(t,i,"MissionGameEndFadeOutFinish")PlayRecord.RegistPlayRecord"MISSION_CLEAR"
+  this.FadeOutOnMissionGameEnd(t,i,"MissionGameEndFadeOutFinish")
+  PlayRecord.RegistPlayRecord"MISSION_CLEAR"
 end
 function this.FadeOutOnMissionGameEnd(n,i,s)
   if n==0 then
@@ -1127,7 +1128,9 @@ end
 function this.ShowMissionResult()
   TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")
   TppRadio.Stop()
-  TppSoundDaemon.SetMute"Loading"TppSoundDaemon.SetMute"Result"TppSound.EndJingleOnClearHeli()
+  TppSoundDaemon.SetMute"Loading"
+  TppSoundDaemon.SetMute"Result"
+  TppSound.EndJingleOnClearHeli()
   this.EnablePauseForShowResult()
   TppMotherBaseManagement.AddBonusPopupFromBonusPopupFlagStaffs()
   TppRadioCommand.SetEnableIgnoreGamePause(true)
@@ -1758,9 +1761,9 @@ function this.Messages()
       end}
     },
     GameObject={
-      {msg="ChangePhase",func=function(i,n)
+      {msg="ChangePhase",func=function(cpId,phase)
         if mvars.mis_isExecuteGameOverOnDiscoveryNotice then
-          if n==TppGameObject.PHASE_ALERT then
+          if phase==TppGameObject.PHASE_ALERT then
             this.ReserveGameOver(TppDefine.GAME_OVER_TYPE.ON_DISCOVERY,TppDefine.GAME_OVER_RADIO.OTHERS)
           end
         end
@@ -2521,7 +2524,8 @@ end
 function this.FadeOutOnMissionAbort()
   local e
   if mvars.mis_abortWithSave then
-    TppHero.MissionAbort()e={AnnounceLog="SUSPEND_LOG"}
+    TppHero.MissionAbort()
+    e={AnnounceLog="SUSPEND_LOG"}
   else
     e={AnnounceLog="INVALID_LOG"}
   end

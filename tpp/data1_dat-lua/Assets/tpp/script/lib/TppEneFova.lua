@@ -708,16 +708,16 @@ function fovaSetupFuncs.Mb(n,missionId)
   if TppMission.IsFOBMission(missionId) or InfMain.IsMbPlayTime(missionId) then--tex broken out from below balaclavas
     if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then--tex break this out from balaclavas -v-
       TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts"
-  elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
-    TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts"
-  elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
-    TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts"
-  else
-    TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts"
-  end
+    elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
+      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts"
+    elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
+      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts"
+    else
+      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts"
+    end
   end
 
-  if TppMission.IsFOBMission(missionId) or (InfMain.IsMbPlayTime(missionId) and gvars.mbDDBalaclava==0) then--tex added isplay
+  if TppMission.IsFOBMission(missionId) or (InfMain.IsMbPlayTime(missionId) and gvars.mbDDBalaclava==0) then--tex added isplay RETRY: female balaclava being se to male
     local fobStaff=TppMotherBaseManagement.GetStaffsFob()
     if InfMain.IsMbPlayTime(missionId) then--tex
       fobStaff=TppMotherBaseManagement.GetOutOnMotherBaseStaffs{sectionId=TppMotherBaseManagementConst.SECTION_SECURITY}--tex mbplaytime override
@@ -1225,13 +1225,6 @@ function this.ApplyUniqueSetting()
   end
 end
 function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalaclava)
-  if InfMain.IsMbPlayTime(vars.missionCode) then--
-    if gvars.mbDDBalaclava==1 then--tex DEBUGNOW:
-    --forceNoBalaclava=true
-    --return
-    end
-  end--
-
   local bodyId=0
   local balaclavaFaceId=EnemyFova.INVALID_FOVA_VALUE
   local ddSuit=TppEnemy.GetDDSuit()
@@ -1399,11 +1392,11 @@ function this.IsUseGasMaskInFOB()
   return e
 end
 function this.GetUavSetting()--RETAILPATCH: 1060 reworked
-  local o=TppMotherBaseManagement.GetMbsUavLevel{}
-  local i=TppMotherBaseManagement.GetMbsUavSmokeGrenadeLevel{}
-  local _=TppMotherBaseManagement.GetMbsUavSleepingGusGrenadeLevel{}
-  local a=InfMain.GetMbsClusterSecuritySoldierEquipGrade{}--tex was TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
-  local c=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex was TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+  local uavLevel=TppMotherBaseManagement.GetMbsUavLevel{}
+  local uavSmokeLevel=TppMotherBaseManagement.GetMbsUavSmokeGrenadeLevel{}
+  local uavSleepingLevel=TppMotherBaseManagement.GetMbsUavSleepingGusGrenadeLevel{}
+  local soldierEquipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade{}--tex was TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
+  local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex was TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
   local l=TppUav.DEVELOP_LEVEL_LMG_0
   local t=false
   local s=false
@@ -1419,21 +1412,21 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
   local f=3
   local r=6
   local T=7
-  if a<f then
+  if soldierEquipGrade<f then
     e=d
-  elseif o>0 then
-    if o==1 then
+  elseif uavLevel>0 then
+    if uavLevel==1 then
       e=TppUav.DEVELOP_LEVEL_LMG_0
-    elseif o==2 then
-      if a>=r then
+    elseif uavLevel==2 then
+      if soldierEquipGrade>=r then
         e=TppUav.DEVELOP_LEVEL_LMG_1
       else
         e=TppUav.DEVELOP_LEVEL_LMG_0
       end
-    elseif o==3 then
-      if a>=T then
+    elseif uavLevel==3 then
+      if soldierEquipGrade>=T then
         e=TppUav.DEVELOP_LEVEL_LMG_2
-      elseif a>=r then
+      elseif soldierEquipGrade>=r then
         e=TppUav.DEVELOP_LEVEL_LMG_1
       else
         e=TppUav.DEVELOP_LEVEL_LMG_0
@@ -1443,21 +1436,21 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
   local f=4
   local r=6
   local T=7
-  if a<f then
+  if soldierEquipGrade<f then
     n=d
-  elseif o>0 then
-    if i==1 then
+  elseif uavLevel>0 then
+    if uavSmokeLevel==1 then
       n=TppUav.DEVELOP_LEVEL_SMOKE_0
-    elseif i==2 then
-      if a>=r then
+    elseif uavSmokeLevel==2 then
+      if soldierEquipGrade>=r then
         n=TppUav.DEVELOP_LEVEL_SMOKE_1
       else
         n=TppUav.DEVELOP_LEVEL_SMOKE_0
       end
-    elseif i==3 then
-      if a>=T then
+    elseif uavSmokeLevel==3 then
+      if soldierEquipGrade>=T then
         n=TppUav.DEVELOP_LEVEL_SMOKE_2
-      elseif a>=r then
+      elseif soldierEquipGrade>=r then
         n=TppUav.DEVELOP_LEVEL_SMOKE_1
       else
         n=TppUav.DEVELOP_LEVEL_SMOKE_0
@@ -1465,17 +1458,17 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
     end
   end
   local i=8
-  if a<i then
+  if soldierEquipGrade<i then
     p=d
   else
-    if _==1 then
+    if uavSleepingLevel==1 then
       p=TppUav.DEVELOP_LEVEL_SLEEP_0
     end
   end
-  if o==0 then
+  if uavLevel==0 then
     t=false
   else
-    if c==true then
+    if isNoKillMode==true then
       if p~=d then
         l=p
         t=true
