@@ -217,74 +217,74 @@ end
 function this.IsStartFromFreePlay()
   return gvars.mis_isStartFromFreePlay
 end
-function this.AcceptMission(n)
-  if this.IsEmergencyMission(n)then
+function this.AcceptMission(missionCode)
+  if this.IsEmergencyMission(missionCode)then
     return
   end
   if not this.IsHelicopterSpace(vars.missionCode)then
     return
   end
-  this.SetNextMissionCodeForMissionClear(n)
+  this.SetNextMissionCodeForMissionClear(missionCode)
   TppUiCommand.StartMissionPreparation()
 end
-function this.AcceptMissionOnFreeMission(n,s,t)
-  if this.IsEmergencyMission(n)then
+function this.AcceptMissionOnFreeMission(missionCode,orderBoxBlockList,svarSet)
+  if this.IsEmergencyMission(missionCode)then
     return
   end
-  local i=this.IsMatchStartLocation(n)
-  if not i then
+  local isMatchStarLocation=this.IsMatchStartLocation(missionCode)
+  if not isMatchStarLocation then
     return
   end
-  local i=TppDefine.NO_ORDER_BOX_MISSION_ENUM[tostring(n)]
-  if i then
-    local i=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[n]
-    if i then
-      this.ReserveMissionClear{nextMissionId=n,nextHeliRoute=i,missionClearType=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX}
+  local noOrderBoxMissionEnum=TppDefine.NO_ORDER_BOX_MISSION_ENUM[tostring(missionCode)]
+  if noOrderBoxMissionEnum then
+    local noOrderFixHeliRoute=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[missionCode]
+    if noOrderFixHeliRoute then
+      this.ReserveMissionClear{nextMissionId=missionCode,nextHeliRoute=noOrderFixHeliRoute,missionClearType=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX}
     else
-      this.ReserveMissionClear{nextMissionId=n,missionClearType=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX}
+      this.ReserveMissionClear{nextMissionId=missionCode,missionClearType=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX}
     end
     return
   end
-  local i=n
-  if this.IsHardMission(i)then
-    i=this.GetNormalMissionCodeFromHardMission(i)
+  local normalMissionCode=missionCode
+  if this.IsHardMission(normalMissionCode)then
+    normalMissionCode=this.GetNormalMissionCodeFromHardMission(normalMissionCode)
   end
-  local e=s[i]
-  if e==nil then
+  local orderBoxBlock=orderBoxBlockList[normalMissionCode]
+  if orderBoxBlock==nil then
     return
   end
-  svars[t]=n
-  TppScriptBlock.Load("orderBoxBlock",i,true)
+  svars[svarSet]=missionCode
+  TppScriptBlock.Load("orderBoxBlock",normalMissionCode,true)
   return true
 end
-function this.AcceptMissionOnMBFreeMission(n,s,t)
-  if this.IsEmergencyMission(n)then
+function this.AcceptMissionOnMBFreeMission(missionCode,clusterGrade,mbHeliRouteTable)
+  if this.IsEmergencyMission(missionCode)then
     return
   end
-  local i=this.IsMatchStartLocation(n)
-  if not i then
+  local isMatchStartLocation=this.IsMatchStartLocation(missionCode)
+  if not isMatchStartLocation then
     return
   end
-  local i=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[n]
-  if n==10115 then
-    i=t[s][1]
+  local fixedRoute=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[missionCode]
+  if missionCode==10115 then
+    fixedRoute=mbHeliRouteTable[clusterGrade][1]
   end
-  if i then
-    this.ReserveMissionClear{nextHeliRoute=i,nextMissionId=n,missionClearType=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX}
+  if fixedRoute then
+    this.ReserveMissionClear{nextHeliRoute=fixedRoute,nextMissionId=missionCode,missionClearType=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX}
   else
-    this.ReserveMissionClear{nextMissionId=n,missionClearType=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX}
+    this.ReserveMissionClear{nextMissionId=missionCode,missionClearType=TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX}
   end
 end
-function this.AcceptEmergencyMission(n,s,i,t)
-  if not this.IsEmergencyMission(n)then
+function this.AcceptEmergencyMission(missionCode,nextLayoutCode,nextClusterId,nextMissionStartRoute)
+  if not this.IsEmergencyMission(missionCode)then
     return
   end
-  local o=this.GetCurrentLocationHeliMissionAndLocationCode()
-  if this.IsFOBMission(n)==true then
+  local currentLocationHeliMissionAndLocationCode=this.GetCurrentLocationHeliMissionAndLocationCode()
+  if this.IsFOBMission(missionCode)==true then
     vars.returnStaffHeader=vars.playerStaffHeader
     vars.returnStaffSeeds=vars.playerStaffSeed
   end
-  this.AbortMission{emergencyMissionId=n,nextMissionId=o,nextLayoutCode=s,nextClusterId=i,nextMissionStartRoute=t,isNoSave=true,isInterrupt=true}
+  this.AbortMission{emergencyMissionId=missionCode,nextMissionId=currentLocationHeliMissionAndLocationCode,nextLayoutCode=nextLayoutCode,nextClusterId=nextClusterId,nextMissionStartRoute=nextMissionStartRoute,isNoSave=true,isInterrupt=true}
 end
 function this.AcceptStartFobSneaking(layout,cluster,missionId)
   this.SetNextMissionCodeForMissionClear(missionId)
@@ -298,7 +298,7 @@ function this.SelectNextMissionHeliStartRoute(missionCode,heliRoute,startFobSnea
   end
   local noHeliRoute=TppDefine.NO_HELICOPTER_ROUTE_ENUM[tostring(missionCode)]
   if not noHeliRoute then
-    local fixedRoute=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[missionCode]--PATCHUP:
+    local fixedRoute=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[missionCode]
     if fixedRoute then
       heliRoute=StrCode32(fixedRoute)
     end
@@ -327,15 +327,15 @@ function this.StartEmergencyMissionTimer(n)
   if not IsTypeTable(n)then
     return
   end
-  local i=n.openTimer
-  if not IsTypeTable(i)then
+  local openTimer=n.openTimer
+  if not IsTypeTable(openTimer)then
     return
   end
   local n=n.closeTimer
   if not IsTypeTable(n)then
     return
   end
-  local s,t,a=i.name,i.timeSecFromHeli,i.timeSecFromLand
+  local s,t,a=openTimer.name,openTimer.timeSecFromHeli,openTimer.timeSecFromLand
   local o,r,i=n.name,n.timeSecFromHeli,n.timeSecFromLand
   local n
   n=this._StartEmergencyMissionTimer(s,t,a)
@@ -710,13 +710,13 @@ function this.VarSaveForMissionAbort()
     TppVarInit.InitializeForNewMission{}Player.SetPause()
   end
   mvars.mis_missionAbortLoadingOption={}
-  local i=this.IsHelicopterSpace(missionCode)
-  local a=this.IsFreeMission(missionCode)
-  local s=this.IsHelicopterSpace(mvars.mis_nextMissionCodeForAbort)
-  local t=this.IsFreeMission(mvars.mis_nextMissionCodeForAbort)
+  local isHeliSpace=this.IsHelicopterSpace(missionCode)
+  local isFreeMission=this.IsFreeMission(missionCode)
+  local nextIsHeliSpace=this.IsHelicopterSpace(mvars.mis_nextMissionCodeForAbort)
+  local nextIsFreeMission=this.IsFreeMission(mvars.mis_nextMissionCodeForAbort)
   if mvars.mis_isInterruptMission then
     gvars.usingNormalMissionSlot=false
-    if i then
+    if isHeliSpace then
       mvars.mis_missionAbortLoadingOption.showLoadingTips=false
     else
       mvars.mis_missionAbortLoadingOption.showLoadingTips=true
@@ -750,13 +750,13 @@ function this.VarSaveForMissionAbort()
       end
     end
   end
-  TppTerminal.ClearStaffNewIcon(i,a,s,t)
+  TppTerminal.ClearStaffNewIcon(isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission)
   TppEnemy.ClearDDParameter()
   if(not this.IsFOBMission(missionCode)and not this.IsFreeMission(missionCode))and not this.IsHelicopterSpace(missionCode)then
     TppRevenge.ReduceRevengePointOnAbort(missionCode)
   end
   if mvars.mis_abortWithSave then
-    if t then
+    if nextIsFreeMission then
       this.ReserveMissionStartRecoverSoundDemo()
     else
       this.ClearMissionStartRecoverSoundDemo()
@@ -765,7 +765,7 @@ function this.VarSaveForMissionAbort()
       TppEnemy.FultonRecoverOnMissionGameEnd()
       TppHero.AnnounceMissionAbort()
     end
-    if s then
+    if nextIsHeliSpace then
       TppPlaced.DeleteAllCaptureCage()
     else
       TppPlayer.SaveCaptureAnimal()
@@ -794,7 +794,7 @@ function this.VarSaveForMissionAbort()
     this.ExecuteVehicleSaveCarryOnAbort()
     TppBuddyService.SetVarsMissionStart()
     this.KillDyingQuiet()
-    if(not i)and t then
+    if(not isHeliSpace)and nextIsFreeMission then
       TppUiCommand.LoadoutSetMissionEndFromMissionToFree()
     end
     if gvars.usingNormalMissionSlot then
@@ -812,7 +812,7 @@ function this.VarSaveForMissionAbort()
     TppPlayer.ResetMissionStartPosition()
     TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")
   end
-  if s then
+  if nextIsHeliSpace then
     TppUiCommand.LoadoutSetReturnHelicopter()
   end
   local o={[10091]=TppMotherBaseManagement.UnlockedStaffsS10091,[10081]=TppMotherBaseManagement.UnlockedStaffS10081,[10115]=TppMotherBaseManagement.UnlockedStaffsS10115}
@@ -823,7 +823,7 @@ function this.VarSaveForMissionAbort()
     end
   end
   TppBuddyService.BuddyMissionInit()
-  TppMain.ReservePlayerLoadingPosition(TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT,i,a,s,t,mvars.mis_abortWithSave)
+  TppMain.ReservePlayerLoadingPosition(TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,mvars.mis_abortWithSave)
   TppWeather.OnEndMissionPrepareFunction()
   this.VarResetOnNewMission()
   gvars.mis_orderBoxName=0
@@ -1097,7 +1097,8 @@ function this.ShowMissionGameEndAnnounceLog()
 end
 function this.ShowAnnounceLogOnFadeOut(e)
   if TppUiCommand.GetSuspendAnnounceLogNum()>0 then
-    TppUiStatusManager.ClearStatus"AnnounceLog"mvars.mis_endAnnounceLogFunction=e
+    TppUiStatusManager.ClearStatus"AnnounceLog"
+    mvars.mis_endAnnounceLogFunction=e
   else
     e()
   end
@@ -1201,21 +1202,21 @@ function this.ExecuteMissionFinalize()
     this.systemCallbacks.OnFinishBlackTelephoneRadio=nil
     this.systemCallbacks.OnEndMissionCredit=nil
   end
-  local r
+  local waitOnLoadingTipsEnd
   local missionCode=vars.missionCode
   local locationCode=vars.locationCode
-  local i,a
-  local t,s
+  local isHeliSpace,nextIsHeliSpace
+  local isFreeMission,nextIsFreeMission
   if this.IsFOBMission(gvars.mis_nextMissionCodeForMissionClear)then
-    r=false
+    waitOnLoadingTipsEnd=false
     TppSave.VarSave(missionCode,true)
     TppSave.SaveGameData(missionCode,nil,nil,nil,true)
   end
   if gvars.mis_nextMissionCodeForMissionClear~=c then
-    i=this.IsHelicopterSpace(vars.missionCode)
-    t=this.IsFreeMission(vars.missionCode)
-    a=this.IsHelicopterSpace(gvars.mis_nextMissionCodeForMissionClear)
-    s=this.IsFreeMission(gvars.mis_nextMissionCodeForMissionClear)
+    isHeliSpace=this.IsHelicopterSpace(vars.missionCode)
+    isFreeMission=this.IsFreeMission(vars.missionCode)
+    nextIsHeliSpace=this.IsHelicopterSpace(gvars.mis_nextMissionCodeForMissionClear)
+    nextIsFreeMission=this.IsFreeMission(gvars.mis_nextMissionCodeForMissionClear)
     if mvars.heli_missionStartRoute then
       if Tpp.IsTypeString(mvars.heli_missionStartRoute)then
         gvars.heli_missionStartRoute=StrCode32(mvars.heli_missionStartRoute)
@@ -1245,8 +1246,8 @@ function this.ExecuteMissionFinalize()
       return
     end
   end
-  TppTerminal.ClearStaffNewIcon(i,t,a,s)
-  if i then
+  TppTerminal.ClearStaffNewIcon(isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission)
+  if isHeliSpace then
     TppClock.SetTimeFromHelicopterSpace(mvars.mis_selectedDeployTime,locationCode,vars.locationCode)
     if TppSave.CanSaveMbMangementData()then
       TppTerminal.ReserveMissionStartMbSync()
@@ -1267,45 +1268,51 @@ function this.ExecuteMissionFinalize()
     TppUiCommand.LoadoutSetItemEquipInfoInMission{slotIndex=2,equipId=TppEquip.EQP_IT_TimeCigarette,level=1}
     TppUiCommand.LoadoutSetItemEquipInfoInMission{slotIndex=3,equipId=TppEquip.EQP_IT_Nvg,level=1}
   end
-  if(not i)then
+  if(not isHeliSpace)then
     if this.IsMbFreeMissions(gvars.mis_nextMissionCodeForMissionClear)then
       TppUiCommand.LoadoutSetMissionRecieveFromFreeToMission()
-    elseif s then
+    elseif nextIsFreeMission then
       TppUiCommand.LoadoutSetMissionEndFromMissionToFree()
     end
   end
-  if not(i and s)then
+  if not(isHeliSpace and nextIsFreeMission)then
     TppUiCommand.RemovedAllUserMarker()
   end
-  if a then
+  if nextIsHeliSpace then
     TppUiCommand.LoadoutSetReturnHelicopter()
   end
-  if not i and not t then
-    TppGimmick.DecrementCollectionRepopCount()Gimmick.StoreSaveDataPermanentGimmickForMissionClear()Gimmick.StoreSaveDataPermanentGimmickFromMissionAfterClear()
+  if not isHeliSpace and not isFreeMission then
+    TppGimmick.DecrementCollectionRepopCount()
+    Gimmick.StoreSaveDataPermanentGimmickForMissionClear()
+    Gimmick.StoreSaveDataPermanentGimmickFromMissionAfterClear()
   end
-  if t then
+  if isFreeMission then
     Gimmick.StoreSaveDataPermanentGimmickFromMission()
   end
-  local o={[10091]=function()
+  local lockStaffForMission={
+    [10091]=function()
     if TppMotherBaseManagement.CanOpenS10091()then
       TppMotherBaseManagement.LockedStaffsS10091()
     end
-  end,[10081]=function()
+  end,
+    [10081]=function()
     if TppMotherBaseManagement.CanOpenS10081()then
       TppMotherBaseManagement.LockedStaffS10081()
     end
-  end,[10115]=function()
+  end,
+    [10115]=function()
     if TppMotherBaseManagement.CanOpenS10115{section="Develop"}then
       TppMotherBaseManagement.LockedStaffsS10115{section="Develop"}
     end
-  end}
-  local o=o[gvars.mis_nextMissionCodeForMissionClear]
-  if o then
+  end
+  }
+  local LockStaff=lockStaffForMission[gvars.mis_nextMissionCodeForMissionClear]
+  if LockStaff then
     if TppStory.IsMissionCleard(vars.missionCode)then
-      o()
+      LockStaff()
     end
   end
-  if s then
+  if nextIsFreeMission then
     vars.requestFlagsAboutEquip=255
   end
   TppEnemy.ClearDDParameter()
@@ -1323,8 +1330,8 @@ function this.ExecuteMissionFinalize()
   if vars.missionCode==10115 then
     o=true
   end
-  local l=(vars.locationCode~=locationCode)
-  if not i then
+  local locationChange=(vars.locationCode~=locationCode)
+  if not isHeliSpace then
     TppTerminal.AddStaffsFromTempBuffer(nil,o)
   end
   TppClock.SaveMissionStartClock()
@@ -1332,7 +1339,7 @@ function this.ExecuteMissionFinalize()
   TppBuddyService.SetVarsMissionStart()
   TppBuddyService.BuddyMissionInit()
   TppRevenge.SaveMissionStartMineArea()
-  TppMain.ReservePlayerLoadingPosition(TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE,i,t,a,s,nil,l)
+  TppMain.ReservePlayerLoadingPosition(TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,nil,locationChange)
   TppWeather.OnEndMissionPrepareFunction()
   this.VarResetOnNewMission()
   if not this.IsFOBMission(vars.missionCode)then
@@ -1368,7 +1375,7 @@ function this.ExecuteMissionFinalize()
   if TppRadio.playingBlackTelInfo then
     mvars.mis_showLoadingTipsOnMissionFinalize=false
   end
-  this.RequestLoad(vars.missionCode,missionCode,{showLoadingTips=mvars.mis_showLoadingTipsOnMissionFinalize,waitOnLoadingTipsEnd=r,ignoreMtbsLoadLocationForce=mvars.mis_missionFinalizeIgnoreMtbsLoadLocationForce})
+  this.RequestLoad(vars.missionCode,missionCode,{showLoadingTips=mvars.mis_showLoadingTipsOnMissionFinalize,waitOnLoadingTipsEnd=waitOnLoadingTipsEnd,ignoreMtbsLoadLocationForce=mvars.mis_missionFinalizeIgnoreMtbsLoadLocationForce})
 end
 function this.ParseMissionName(e)
   local i=string.sub(e,2)
@@ -1394,8 +1401,8 @@ function this.IsStoryMission(e)
     return false
   end
 end
-function this.IsHelicopterSpace(e)
-  local e=math.floor(e/1e4)
+function this.IsHelicopterSpace(missionId)
+  local e=math.floor(missionId/1e4)
   if e==4 then
     return true
   else
@@ -3567,14 +3574,14 @@ function this.ResetMBFreeStartPositionToCommand()
   this.ResetIsStartFromFreePlay()
   vars.mbClusterId=TppDefine.CLUSTER_DEFINE.Command
 end
-function this.SetNextMissionStartHeliRoute(e)
-  mvars.heli_missionStartRoute=e
+function this.SetNextMissionStartHeliRoute(heliRoute)
+  mvars.heli_missionStartRoute=heliRoute
 end
 function this.ClearFobMode()
   vars.fobSneakMode=FobMode.MODE_NONE
 end
-function this.UnsetFobSneakFlag(n)
-  if not this.IsFOBMission(n)then
+function this.UnsetFobSneakFlag(missionCode)
+  if not this.IsFOBMission(missionCode)then
     if TppServerManager.FobIsSneak()then
       vars.fobIsSneak=0
     end

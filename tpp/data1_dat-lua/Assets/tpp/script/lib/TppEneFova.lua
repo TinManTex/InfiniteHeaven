@@ -102,8 +102,8 @@ this.S10030_FaceIdList={78,200,283,30,88,124,138,169,213,222,243,264,293,322,343
 this.S10030_useBalaclavaNum=3
 this.S10240_FemaleFaceIdList={394,351,373,456,463,455,511,502}
 this.S10240_MaleFaceIdList={195,144,214,6,217,83,273,60,87,71,256,201,290,178,102,255,293,165,85,18,228,12,65,134,31,132,161,342,107,274,184,226,153,247,344,242,56,183,54,126,223}
-local someFovaSetupFuncTableRENAME={}--tex NMC: TODO: RENAME: index [mission] and [Area]
-local function someFocaSetupFuncReturnObjectRENAME(DoShitRENAME)
+local fovaSetupFuncs={}--tex NMC: TODO: RENAME: index [mission] and [Area]
+local function FovaFuncObject(DoShitRENAME)
   function DoShitRENAME:case(a,n)
     local fovaFunc=self[a]or self.default
     if fovaFunc then
@@ -324,27 +324,27 @@ function this.GetFaceGroupTableAtGroupType(e)
   end
   return a
 end
-someFovaSetupFuncTableRENAME[10200]=function(d,missionId)
+fovaSetupFuncs[10200]=function(d,missionId)
   this.SetHostageFaceTable(missionId)
   local e={{TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v01,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v02,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v03,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v04,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v05,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v06,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v07,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v08,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v09,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v10,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v11,MAX_REALIZED_COUNT},{TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=e}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
-someFovaSetupFuncTableRENAME[11200]=someFovaSetupFuncTableRENAME[10200]
-someFovaSetupFuncTableRENAME[10120]=function(d,missionId)this.SetHostageFaceTable(missionId)
+fovaSetupFuncs[11200]=fovaSetupFuncs[10200]
+fovaSetupFuncs[10120]=function(d,missionId)this.SetHostageFaceTable(missionId)
   local e={{TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v01,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v02,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v03,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v04,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v05,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v06,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v07,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v08,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v09,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v10,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v11,MAX_REALIZED_COUNT},{TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=e}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
-someFovaSetupFuncTableRENAME[10040]=function(a,e)
-  local a=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)
+fovaSetupFuncs[10040]=function(a,e)
+  local a=FovaFuncObject(fovaSetupFuncs)
   a:case("Afghan",e)
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
-someFovaSetupFuncTableRENAME[10045]=function(e,a)
-  local e=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)
+fovaSetupFuncs[10045]=function(e,a)
+  local e=FovaFuncObject(fovaSetupFuncs)
   e:case("Afghan",a)
   local e={}
   for a=0,9 do
@@ -369,19 +369,20 @@ someFovaSetupFuncTableRENAME[10045]=function(e,a)
   local e={{a,1}}
   TppSoldierFace.OverwriteMissionFovaData{body=e,additionalMode=true}
 end
-someFovaSetupFuncTableRENAME[10052]=function(e,a)
-  local e=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)e:case("Afghan",a)
+fovaSetupFuncs[10052]=function(e,a)
+  local e=FovaFuncObject(fovaSetupFuncs)
+  e:case("Afghan",a)
   TppSoldierFace.SetSplitRaceForHostageRandomFaceId{enabled=true}
 end
-someFovaSetupFuncTableRENAME[11052]=someFovaSetupFuncTableRENAME[10052]
-someFovaSetupFuncTableRENAME[10090]=function(a,e)
-  local a=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)
+fovaSetupFuncs[11052]=fovaSetupFuncs[10052]
+fovaSetupFuncs[10090]=function(a,e)
+  local a=FovaFuncObject(fovaSetupFuncs)
   a:case("Africa",e)
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
-someFovaSetupFuncTableRENAME[11090]=someFovaSetupFuncTableRENAME[10090]
-someFovaSetupFuncTableRENAME[10091]=function(e,a)
-  local e=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)
+fovaSetupFuncs[11090]=fovaSetupFuncs[10090]
+fovaSetupFuncs[10091]=function(e,a)
+  local e=FovaFuncObject(fovaSetupFuncs)
   e:case("Africa",a)
   local e={}
   for a=0,9 do
@@ -412,9 +413,9 @@ someFovaSetupFuncTableRENAME[10091]=function(e,a)
   local e={{a,1},{e,1}}
   TppSoldierFace.OverwriteMissionFovaData{body=e,additionalMode=true}
 end
-someFovaSetupFuncTableRENAME[11091]=someFovaSetupFuncTableRENAME[10091]
-someFovaSetupFuncTableRENAME[10080]=function(a,t)
-  local a=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)
+fovaSetupFuncs[11091]=fovaSetupFuncs[10091]
+fovaSetupFuncs[10080]=function(a,t)
+  local a=FovaFuncObject(fovaSetupFuncs)
   a:case("Africa",t)
   if TppPackList.IsMissionPackLabel"afterPumpStopDemo"then
   else
@@ -423,8 +424,8 @@ someFovaSetupFuncTableRENAME[10080]=function(a,t)
     TppSoldierFace.OverwriteMissionFovaData{body=e}
   end
 end
-someFovaSetupFuncTableRENAME[11080]=someFovaSetupFuncTableRENAME[10080]
-someFovaSetupFuncTableRENAME[10115]=function(a,a)
+fovaSetupFuncs[11080]=fovaSetupFuncs[10080]
+fovaSetupFuncs[10115]=function(a,a)
   local faces={}
   for e=0,9 do
     table.insert(faces,e)
@@ -447,20 +448,20 @@ someFovaSetupFuncTableRENAME[10115]=function(a,a)
   TppHostage2.SetDefaultBodyFovaId{parts=dds5_main0_def_v00,bodyId=TppEnemyBodyId.dds5_main0_v00}
   TppSoldierFace.OverwriteMissionFovaData{body=body}
 end
-someFovaSetupFuncTableRENAME[11115]=someFovaSetupFuncTableRENAME[10115]
-someFovaSetupFuncTableRENAME[10130]=function(a,e)
-  local a=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)
+fovaSetupFuncs[11115]=fovaSetupFuncs[10115]
+fovaSetupFuncs[10130]=function(a,e)
+  local a=FovaFuncObject(fovaSetupFuncs)
   a:case("Africa",e)
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
-someFovaSetupFuncTableRENAME[11130]=someFovaSetupFuncTableRENAME[10130]
-someFovaSetupFuncTableRENAME[10140]=function(e,a)
-  local e=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)
+fovaSetupFuncs[11130]=fovaSetupFuncs[10130]
+fovaSetupFuncs[10140]=function(e,a)
+  local e=FovaFuncObject(fovaSetupFuncs)
   e:case("Africa",a)
   TppSoldierFace.SetUseZombieFova{enabled=true}
 end
-someFovaSetupFuncTableRENAME[11140]=someFovaSetupFuncTableRENAME[10140]
-someFovaSetupFuncTableRENAME[10150]=function(a,a)
+fovaSetupFuncs[11140]=fovaSetupFuncs[10140]
+fovaSetupFuncs[10150]=function(a,a)
   local a={}
   for e=0,9 do
     table.insert(a,e)
@@ -481,11 +482,11 @@ someFovaSetupFuncTableRENAME[10150]=function(a,a)
   local e={{TppEnemyBodyId.wss4_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=e}
 end
-someFovaSetupFuncTableRENAME[10151]=function(e,e)
+fovaSetupFuncs[10151]=function(e,e)
 end
-someFovaSetupFuncTableRENAME[11151]=someFovaSetupFuncTableRENAME[10151]
-someFovaSetupFuncTableRENAME[30010]=function(a,t)
-  local a=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)
+fovaSetupFuncs[11151]=fovaSetupFuncs[10151]
+fovaSetupFuncs[30010]=function(a,t)
+  local a=FovaFuncObject(fovaSetupFuncs)
   a:case("Afghan",t)
   TppSoldierFace.SetUseZombieFova{enabled=true}
   local body={{TppEnemyBodyId.prs3_main0_v00,MAX_REALIZED_COUNT}}
@@ -493,8 +494,8 @@ someFovaSetupFuncTableRENAME[30010]=function(a,t)
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs3_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfghanFree,bodyId=TppEnemyBodyId.prs3_main0_v00}
 end
-someFovaSetupFuncTableRENAME[30020]=function(t,a)
-  local n=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)
+fovaSetupFuncs[30020]=function(t,a)
+  local n=FovaFuncObject(fovaSetupFuncs)
   n:case("Africa",a)
   TppSoldierFace.SetUseZombieFova{enabled=true}
   local body={{TppEnemyBodyId.prs6_main0_v00,MAX_REALIZED_COUNT}}
@@ -502,7 +503,7 @@ someFovaSetupFuncTableRENAME[30020]=function(t,a)
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs6_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfricaFree,bodyId=TppEnemyBodyId.prs6_main0_v00}
 end
-function someFovaSetupFuncTableRENAME.Afghan(n,missionId)
+function fovaSetupFuncs.Afghan(n,missionId)
   if missionId==10010 then
     return
   end
@@ -513,8 +514,8 @@ function someFovaSetupFuncTableRENAME.Afghan(n,missionId)
   local o=15
   local n=gvars.solface_groupNumber%o
   local l=TppEnemyFaceGroupId.AFGAN_GRP_00+n
-  local l=this.GetFaceGroupTableAtGroupType(l)
-  TppSoldierFace.OverwriteMissionFovaData{face=l}
+  local faceGroupTable=this.GetFaceGroupTableAtGroupType(l)
+  TppSoldierFace.OverwriteMissionFovaData{face=faceGroupTable}
   if moreVariationMode>0 then
     for e=1,2 do
       n=n+2
@@ -553,10 +554,10 @@ function someFovaSetupFuncTableRENAME.Afghan(n,missionId)
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs2_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfghan,bodyId=TppEnemyBodyId.prs2_main0_v00}
 end
-function someFovaSetupFuncTableRENAME.Africa(n,missionId)
-  local l=0
+function fovaSetupFuncs.Africa(n,missionId)
+  local isMoreVariationMode=0
   if TppSoldierFace.IsMoreVariationMode~=nil then
-    l=TppSoldierFace.IsMoreVariationMode()
+    isMoreVariationMode=TppSoldierFace.IsMoreVariationMode()
   end
   local t=30
   local solface_groupNumber=gvars.solface_groupNumber
@@ -564,7 +565,7 @@ function someFovaSetupFuncTableRENAME.Africa(n,missionId)
   local faceGroupType=TppEnemyFaceGroupId.AFRICA_GRP000_B+(faceGroup)
   local i=this.GetFaceGroupTableAtGroupType(faceGroupType)
   TppSoldierFace.OverwriteMissionFovaData{face=i}
-  if l>0 then
+  if isMoreVariationMode>0 then
     for e=1,2 do
       solface_groupNumber=solface_groupNumber+2
       local faceGroup=(solface_groupNumber%t)*2
@@ -579,7 +580,7 @@ function someFovaSetupFuncTableRENAME.Africa(n,missionId)
   faceGroupType=TppEnemyFaceGroupId.AFRICA_GRP000_W+(faceGroup)
   local face=this.GetFaceGroupTableAtGroupType(faceGroupType)
   TppSoldierFace.OverwriteMissionFovaData{face=face}
-  if l>0 then
+  if isMoreVariationMode>0 then
     for e=1,2 do
       solface_groupNumber=solface_groupNumber+2
       local faceGroup=(solface_groupNumber%t)*2
@@ -590,7 +591,24 @@ function someFovaSetupFuncTableRENAME.Africa(n,missionId)
   end
   this.SetHostageFaceTable(missionId)
   TppSoldierFace.SetUseFaceIdListMode{enabled=true,staffCheck=true,raceSplit=60}
-  local body={{50,MAX_REALIZED_COUNT},{51,MAX_REALIZED_COUNT},{55,MAX_REALIZED_COUNT},{60,MAX_REALIZED_COUNT},{61,MAX_REALIZED_COUNT},{70,MAX_REALIZED_COUNT},{71,MAX_REALIZED_COUNT},{75,MAX_REALIZED_COUNT},{80,MAX_REALIZED_COUNT},{81,MAX_REALIZED_COUNT},{90,MAX_REALIZED_COUNT},{91,MAX_REALIZED_COUNT},{95,MAX_REALIZED_COUNT},{100,MAX_REALIZED_COUNT},{101,MAX_REALIZED_COUNT},{TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}}
+  local body={
+    {50,MAX_REALIZED_COUNT},
+    {51,MAX_REALIZED_COUNT},
+    {55,MAX_REALIZED_COUNT},
+    {60,MAX_REALIZED_COUNT},
+    {61,MAX_REALIZED_COUNT},
+    {70,MAX_REALIZED_COUNT},
+    {71,MAX_REALIZED_COUNT},
+    {75,MAX_REALIZED_COUNT},
+    {80,MAX_REALIZED_COUNT},
+    {81,MAX_REALIZED_COUNT},
+    {90,MAX_REALIZED_COUNT},
+    {91,MAX_REALIZED_COUNT},
+    {95,MAX_REALIZED_COUNT},
+    {100,MAX_REALIZED_COUNT},
+    {101,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}
+  }
   local armorTypeTable=this.GetArmorTypeTable(missionId)
   if armorTypeTable~=nil then
     local numArmorTypes=#armorTypeTable
@@ -612,7 +630,7 @@ function someFovaSetupFuncTableRENAME.Africa(n,missionId)
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
-function someFovaSetupFuncTableRENAME.Mbqf(n,n)
+function fovaSetupFuncs.Mbqf(n,n)
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
   TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
   local face={}
@@ -679,7 +697,7 @@ function someFovaSetupFuncTableRENAME.Mbqf(n,n)
   TppSoldierFace.OverwriteMissionFovaData{face=face,body=body}
   TppSoldierFace.SetSoldierUseHairFova(true)
 end
-function someFovaSetupFuncTableRENAME.Mb(n,missionId)
+function fovaSetupFuncs.Mb(n,missionId)
   if TppMission.IsHelicopterSpace(missionId)then
     return
   end
@@ -868,7 +886,7 @@ function someFovaSetupFuncTableRENAME.Mb(n,missionId)
   end
   TppSoldierFace.SetSoldierUseHairFova(true)
 end
-function someFovaSetupFuncTableRENAME.Cyprus(a,a)
+function fovaSetupFuncs.Cyprus(a,a)
   local a={}
   for e=0,5 do
     table.insert(a,e)
@@ -878,7 +896,7 @@ function someFovaSetupFuncTableRENAME.Cyprus(a,a)
   local e={{TppEnemyBodyId.wss0_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=e}
 end
-function someFovaSetupFuncTableRENAME.default(n,a)
+function fovaSetupFuncs.default(n,a)
   TppSoldierFace.SetMissionFovaData{face={},body={}}
   if a>6e4 then
     local e={{30,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT}}
@@ -909,8 +927,8 @@ function this.PreMissionLoad(missionId,currentMissionId)
     local mbsClusterSecurityIsNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
     TppEnemy.PrepareDDParameter(mbsClusterSecuritySoldierEquipGrade,mbsClusterSecurityIsNoKillMode)
   end
-  local a=someFocaSetupFuncReturnObjectRENAME(someFovaSetupFuncTableRENAME)
-  if someFovaSetupFuncTableRENAME[missionId]==nil then
+  local a=FovaFuncObject(fovaSetupFuncs)
+  if fovaSetupFuncs[missionId]==nil then
     if TppMission.IsHelicopterSpace(missionId)then
       a:case("default",missionId)
     elseif TppLocation.IsAfghan()then

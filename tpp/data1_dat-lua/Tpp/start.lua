@@ -154,9 +154,11 @@ if FxDaemon then
   end
 end
 AssetConfiguration.SetLanguageGroupExtention{group={"Sound"},extensions={"mas","fsm","sbp","wem","evf","sani","sad","stm"}}
-local e="jpn"do
+local e="jpn"
+do
   if(TppGameSequence.GetTargetArea()~="Japan")then
-    e="eng"end
+    e="eng"
+    end
 end
 AssetConfiguration.SetDefaultCategory("Language",e)
 if e=="jpn"then
@@ -166,14 +168,18 @@ else
 end
 if e=="jpn"then
   SubtitlesDaemon.SetDefaultVoiceLanguage"jpn"
-  SubtitlesCommand.SetVoiceLanguage"jpn"else
+  SubtitlesCommand.SetVoiceLanguage"jpn"
+  else
   SubtitlesDaemon.SetDefaultVoiceLanguage"eng"
-  SubtitlesCommand.SetVoiceLanguage"eng"end
+  SubtitlesCommand.SetVoiceLanguage"eng"
+  end
 SubtitlesCommand.SetLanguage(e)
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-  SoundCoreDaemon.SetAssetPath"/Assets/mgo/sound/asset/"else
+  SoundCoreDaemon.SetAssetPath"/Assets/mgo/sound/asset/"
+  else
   if LuaUnitTest then
-    SoundCoreDaemon.SetAssetPath"/Assets/tpp/sound/asset/"else
+    SoundCoreDaemon.SetAssetPath"/Assets/tpp/sound/asset/"
+    else
     SoundCoreDaemon.SetAssetPath"/Assets/tpp/sound/asset/"
   end
 end
@@ -263,7 +269,8 @@ if Bush then
 end
 local a=Fox.GetPlatformName()
 if a~="Windows"or not Editor then
-  Fox.SetActMode"GAME"end
+  Fox.SetActMode"GAME"
+  end
 GeoPathService.RegisterPathTag("Elude",0)
 GeoPathService.RegisterPathTag("Jump",1)
 GeoPathService.RegisterPathTag("Fence",2)
@@ -638,12 +645,14 @@ if Script.LoadLibrary then
       Script.LoadLibrary"/Assets/tpp/script/list/TppMissionPrxList.lua"
     end
   end
+  Script.LoadLibrary"/Assets/tpp/script/lib/InfLang.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfMain.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfButton.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfMenu.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfPatch.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfEnemyParams.lua"--tex
   Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
+  Script.LoadLibrary"/Assets/tpp/script/lib/InfLZ.lua"--tex  
 end
 yield()
 pcall(dofile,"/Assets/tpp/ui/Script/UiRegisterInfo.lua")

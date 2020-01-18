@@ -230,364 +230,78 @@ function this.IsBrokenGimmick(gimmickId)
 end
 function this.OverwriteBuddyVehiclePosForALZ()
   local posTable={
-    cliffTown={[Fox.StrCode32"lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000"]={
+    cliffTown={
+      [Fox.StrCode32"lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000"]={
         [EntryBuddyType.VEHICLE]={Vector3(784.236,435.562,-1237.65),TppMath.DegreeToRadian(-4.08)},
         [EntryBuddyType.BUDDY]={Vector3(783.114,435.136,-1246.231),-4.08}}},
-    commFacility={[Fox.StrCode32"lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(1345.682,357.239,434.999),TppMath.DegreeToRadian(30.64)},
-      [EntryBuddyType.BUDDY]={Vector3(1340.923,358.53,438.866),42.41}}},
-    enemyBase={[Fox.StrCode32"lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(-407.628,315.992,482.41),TppMath.DegreeToRadian(1.8)},
-      [EntryBuddyType.BUDDY]={Vector3(-410.208,316.399,508.065),176.17}}},
-    field={[Fox.StrCode32"lz_drp_field_I0000|rt_drp_field_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(368.004,278.145,2361.91),TppMath.DegreeToRadian(116.9)},
-      [EntryBuddyType.BUDDY]={Vector3(367.974,279.287,2355.952),102.35}}},
-    fort={[Fox.StrCode32"lz_drp_fort_I0000|rt_drp_fort_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(2041.735,479.324,-1594.738),TppMath.DegreeToRadian(140.63)},
-      [EntryBuddyType.BUDDY]={Vector3(2044.589,478.915,-1588.505),151.95}}},
-    powerPlant={[Fox.StrCode32"lz_drp_powerPlant_E0000|rt_drp_powerPlant_E_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(-830.87,511.191,-1243.93),TppMath.DegreeToRadian(-144.68)},
-      [EntryBuddyType.BUDDY]={Vector3(-829.978,511.451,-1236.262),-150.97}}},
-    remnants={[Fox.StrCode32"lz_drp_remnants_I0000|rt_drp_remnants_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(-709.726,289.695,1735.643),TppMath.DegreeToRadian(-49.07)},
-      [EntryBuddyType.BUDDY]={Vector3(-702.429,289.014,1740.65),-38.93}}},
-    slopedTown={[Fox.StrCode32"lz_drp_slopedTown_I0000|rt_drp_slopedTown_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(495.854,333.515,232.89),TppMath.DegreeToRadian(111.55)},
-      [EntryBuddyType.BUDDY]={Vector3(496.236,334.679,237.834),108.72}}},
-    sovietBase={[Fox.StrCode32"lz_drp_sovietBase_E0000|rt_drp_sovietBase_E_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(-2006.886,425.727,-1127.261),TppMath.DegreeToRadian(-5.26)},
-      [EntryBuddyType.BUDDY]={Vector3(-2003.57,426.474,-1128.173),-5.26}}},
-    tent={[Fox.StrCode32"lz_drp_tent_I0000|rt_drp_tent_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(-1883.463,323.868,746.783),TppMath.DegreeToRadian(44.64)},
-      [EntryBuddyType.BUDDY]={Vector3(-1873.108,323.846,736.65),35.82}}},
-    banana={[Fox.StrCode32"lz_drp_banana_I0000|rt_drp_banana_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(394.645,60.24,-1318.929),TppMath.DegreeToRadian(-40.98)},
-      [EntryBuddyType.BUDDY]={Vector3(390.86,59.935,-1321.727),-40.98}}},
-    diamond={[Fox.StrCode32"lz_drp_diamond_I0000|rt_drp_diamond_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(1196.886,143.309,-1639.064),TppMath.DegreeToRadian(51.3)},
-      [EntryBuddyType.BUDDY]={Vector3(1199.647,143.293,-1645.311),51.3}}},
-    flowStation={[Fox.StrCode32"lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(-1090.728,-12.305,-45.368),TppMath.DegreeToRadian(-172.81)},
-      [EntryBuddyType.BUDDY]={Vector3(-1083.825,-12.284,-44.864),-178.15}}},
-    hill={[Fox.StrCode32"lz_drp_hill_I0000|rt_drp_hill_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(1962.906,44.372,356.735),TppMath.DegreeToRadian(83.13)},
-      [EntryBuddyType.BUDDY]={Vector3(1961.012,43.662,364.622),83.13}}},
-    pfCamp={[Fox.StrCode32"lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(659.712,-11.962,1016.94),TppMath.DegreeToRadian(93.6)},
-      [EntryBuddyType.BUDDY]={Vector3(657.349,-11.296,1010.927),93.6}}},
-    svannah={[Fox.StrCode32"lz_drp_savannah_I0000|rt_drp_savannah_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(1025.44,18.729,-295.689),TppMath.DegreeToRadian(-71.73)},
-      [EntryBuddyType.BUDDY]={Vector3(1026.319,18.662,-302.596),-71.73}}},
-    swamp={[Fox.StrCode32"lz_drp_swamp_I0000|rt_drp_swamp_I_0000"]={
-      [EntryBuddyType.VEHICLE]={Vector3(6.412,-5.952,294.757),TppMath.DegreeToRadian(-153.76)},
-      [EntryBuddyType.BUDDY]={Vector3(2.113,-5.436,299.302),-153.76}}}
+    commFacility={
+      [Fox.StrCode32"lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(1345.682,357.239,434.999),TppMath.DegreeToRadian(30.64)},
+        [EntryBuddyType.BUDDY]={Vector3(1340.923,358.53,438.866),42.41}}},
+    enemyBase={
+      [Fox.StrCode32"lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(-407.628,315.992,482.41),TppMath.DegreeToRadian(1.8)},
+        [EntryBuddyType.BUDDY]={Vector3(-410.208,316.399,508.065),176.17}}},
+    field={
+      [Fox.StrCode32"lz_drp_field_I0000|rt_drp_field_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(368.004,278.145,2361.91),TppMath.DegreeToRadian(116.9)},
+        [EntryBuddyType.BUDDY]={Vector3(367.974,279.287,2355.952),102.35}}},
+    fort={
+      [Fox.StrCode32"lz_drp_fort_I0000|rt_drp_fort_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(2041.735,479.324,-1594.738),TppMath.DegreeToRadian(140.63)},
+        [EntryBuddyType.BUDDY]={Vector3(2044.589,478.915,-1588.505),151.95}}},
+    powerPlant={
+      [Fox.StrCode32"lz_drp_powerPlant_E0000|rt_drp_powerPlant_E_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(-830.87,511.191,-1243.93),TppMath.DegreeToRadian(-144.68)},
+        [EntryBuddyType.BUDDY]={Vector3(-829.978,511.451,-1236.262),-150.97}}},
+    remnants={
+      [Fox.StrCode32"lz_drp_remnants_I0000|rt_drp_remnants_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(-709.726,289.695,1735.643),TppMath.DegreeToRadian(-49.07)},
+        [EntryBuddyType.BUDDY]={Vector3(-702.429,289.014,1740.65),-38.93}}},
+    slopedTown={
+      [Fox.StrCode32"lz_drp_slopedTown_I0000|rt_drp_slopedTown_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(495.854,333.515,232.89),TppMath.DegreeToRadian(111.55)},
+        [EntryBuddyType.BUDDY]={Vector3(496.236,334.679,237.834),108.72}}},
+    sovietBase={
+      [Fox.StrCode32"lz_drp_sovietBase_E0000|rt_drp_sovietBase_E_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(-2006.886,425.727,-1127.261),TppMath.DegreeToRadian(-5.26)},
+        [EntryBuddyType.BUDDY]={Vector3(-2003.57,426.474,-1128.173),-5.26}}},
+    tent={
+      [Fox.StrCode32"lz_drp_tent_I0000|rt_drp_tent_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(-1883.463,323.868,746.783),TppMath.DegreeToRadian(44.64)},
+        [EntryBuddyType.BUDDY]={Vector3(-1873.108,323.846,736.65),35.82}}},
+    banana={
+      [Fox.StrCode32"lz_drp_banana_I0000|rt_drp_banana_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(394.645,60.24,-1318.929),TppMath.DegreeToRadian(-40.98)},
+        [EntryBuddyType.BUDDY]={Vector3(390.86,59.935,-1321.727),-40.98}}},
+    diamond={
+      [Fox.StrCode32"lz_drp_diamond_I0000|rt_drp_diamond_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(1196.886,143.309,-1639.064),TppMath.DegreeToRadian(51.3)},
+        [EntryBuddyType.BUDDY]={Vector3(1199.647,143.293,-1645.311),51.3}}},
+    flowStation={
+      [Fox.StrCode32"lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(-1090.728,-12.305,-45.368),TppMath.DegreeToRadian(-172.81)},
+        [EntryBuddyType.BUDDY]={Vector3(-1083.825,-12.284,-44.864),-178.15}}},
+    hill={
+      [Fox.StrCode32"lz_drp_hill_I0000|rt_drp_hill_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(1962.906,44.372,356.735),TppMath.DegreeToRadian(83.13)},
+        [EntryBuddyType.BUDDY]={Vector3(1961.012,43.662,364.622),83.13}}},
+    pfCamp={
+      [Fox.StrCode32"lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(659.712,-11.962,1016.94),TppMath.DegreeToRadian(93.6)},
+        [EntryBuddyType.BUDDY]={Vector3(657.349,-11.296,1010.927),93.6}}},
+    svannah={
+      [Fox.StrCode32"lz_drp_savannah_I0000|rt_drp_savannah_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(1025.44,18.729,-295.689),TppMath.DegreeToRadian(-71.73)},
+        [EntryBuddyType.BUDDY]={Vector3(1026.319,18.662,-302.596),-71.73}}},
+    swamp={
+      [Fox.StrCode32"lz_drp_swamp_I0000|rt_drp_swamp_I_0000"]={
+        [EntryBuddyType.VEHICLE]={Vector3(6.412,-5.952,294.757),TppMath.DegreeToRadian(-153.76)},
+        [EntryBuddyType.BUDDY]={Vector3(2.113,-5.436,299.302),-153.76}}}
   }
-  for n,posForArea in pairs(posTable)do
-    TppEnemy.NPCEntryPointSetting(posForArea)
+  for n,posForLz in pairs(posTable)do
+    TppEnemy.NPCEntryPointSetting(posForLz)
   end
 end
---tex SYS: landing zone waveoff
-this.disablePeriodMin = 22 --tex game hours, want in minutes?
-this.disablePeriodMax = 26
-this.cooloffPeriodMin = 10
-this.cooloffPeriodMax = 14
-this.numWavedOff = 0
-this.disablePercent = 0
-this.lzWaveOffTimes={--tex indexed by lz name
-  }
-this.lzWavedOff={--tex lzWavedOff[lzName]=bool
-  }
 
-function this.UpdateWaveOff()
- 
-  --[[
-  --tex TODO: schedule reenables via timer system instead of polling
-  local lzsForMission = this.lzsForMission[vars.missionCode];
-  if lzsForMission == nil then
-    return
-  end
-   if #lzsForMission == 1 then 
-    return
-   end
-    
-   this.disablePercent = 5--tex TODO: calc to num lzs, TODO: calc when setting changed?
- 
-
-  
-  for n, lz in this.lzWaveOffTimes do
-    if time????????? - this.lzWaveOffTimes[lz].disabledTime  > math.random(this.disablePeriodMin, this.disablePeriodMax)
-      WaveOffEnable(lz)
-    end
-  end
-  
-  --tex TODO: instead of polling, schedule another disable via timer system each time a lz is reenabled? (some point after cooldown)
-  --tex still would have to handle init though -> this.OnMissionCanStart()? also probably earlier, on helispace init
-  --tex also saving??
-  if this.numWavedOff < this.disablePercent then
-    local chosing=0
-    local i = math.random(1,#this.lzWaveOffTimes)
-    while chosing < #lzWaveOffTimes do
-      local lzName = ??????
-      if not this.lzWavedOff[lzName] then
-        if time????? - this.lzWaveOffTimes[lz].disabledTime > math.random(this.cooloffPeriodMin, this.cooloffPeriodMax) then
-          
-          this.WaveOffDisable(lz)
-        end
-      end
-      i=i+1
-      if i >= #lzWaveOffTimes then
-        i = 1
-      end 
-      chosing=chosing+1
-    end
-  end
-  --]]
-end
-function this.WaveOffDisable(lzName)
---[[
-  if this.lzWavedOff[lzName] then
-    return
-  end
-  
-give message - if lz in same theater, or if in helispace
-  this.numWavedOff = this.numWavedOff + 1
-  this.lzWaveOffTimes[lzName].disabledTime = now 
-  this.lzWavedOff[lzName]=false
-  TppLandingZone.DisableLandingZone -=actually dsiable
-  --]]
-end
-function this.WaveOffEnable(lzName)
---[[
-  if not this.lzWavedOff[lzName] then
-    return
-  end
-
-  give message -  - if lz in same theater
-  this.numWavedOff = numWavedOff - 1
-  this.lzWaveOffTimes[lzName].disabledTime = now --tex doubles as a cooldown timer
-  this.lzWavedOff[lzName]=true
-  TppHelicopter.SeEnableLandingZone
-  --]]
-end
-------------
-lzsForMission={--tex built from ??.fpk /Assets/tpp/ui/Script/mbdvc_map_mission_parameter.lua
-  --[0]={},
-  --[10010]={},
-  --[10020]={},
-  --[10030]={},
-  [10033]={
-    "lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000",
-    "lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000",
-    "lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000",
-  },
-  [10036]={
-    "lz_drp_field_I0000|rt_drp_field_I_0000",
-    "lz_drp_field_N0000|rt_drp_field_N_0000",
-    "lz_drp_field_W0000|rt_drp_field_W_0000",
-  },
-  [10040]={
-    "lz_drp_fort_I0000|rt_drp_fort_I_0000",
-    "lz_drp_slopedTownEast_E0000|rt_drp_slopedTownEast_E_0000",
-  },
-  [10041]={
-    "lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000",
-    "lz_drp_field_N0000|rt_drp_field_N_0000",
-    "lz_drp_field_W0000|rt_drp_field_W_0000",
-    "lz_drp_slopedTown_E0000|rt_drp_slopedTown_E_0000",
-    "lz_drp_slopedTown_I0000|rt_drp_slopedTown_I_0000",
-    "lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000",
-    "lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000",
-    "lz_drp_field_I0000|rt_drp_field_I_0000",
-    "lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000",
-  },
-  [10043]={
-    "lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000",
-    "lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000",
-  },
-  [10044]={
-    "lz_drp_fort_I0000|rt_drp_fort_I_0000",
-    "lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000",
-    "lz_drp_cliffTown_N0000|rt_drp_clifftown_N_0000",
-    "lz_drp_cliffTown_S0000|rt_drp_cliffTown_S_0000",
-  },
-  [10045]={
-    "lz_drp_field_N0000|rt_drp_field_N_0000",
-    "lz_drp_field_I0000|rt_drp_field_I_0000",
-    "lz_drp_remnants_I0000|rt_drp_remnants_I_0000",
-  },
-  --[10050]={},
-  [10052]={
-    "lz_drp_tent_I0000|rt_drp_tent_I_0000",
-    "lz_drp_remnants_I0000|rt_drp_remnants_I_0000",
-    "lz_drp_remnants_S0000|rt_drp_remnants_S_0000",
-  },
-  [10054]={
-    "lz_drp_tent_N0000|rt_drp_tent_N_0000",
-    "lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000",
-    "lz_drp_tent_I0000|rt_drp_tent_I_0000",
-    "lz_drp_remnantsNorth_N0000|rt_drp_remnantsNorth_N_0000",
-    "lz_drp_remnants_I0000|rt_drp_remnants_I_0000",
-    "lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000",
-  },
-  --[10070]={},
-  --[10080]={},
-  [10081]={"lz_drp_diamondSouth_W0000|rt_drp_diamondSouth_W_0000"},
-  [10082]={
-    "lz_drp_savannah_I0000|rt_drp_savannah_I_0000",
-    "lz_drp_pfCampNorth_S0000|rt_drp_pfCampNorth_S_0000",
-  },
-  [10085]={
-    "lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000",
-    "lz_drp_hillNorth_W0000|rt_drp_hillNorth_W_0000",
-    "lz_drp_hill_I0000|rt_drp_hill_I_0000",
-  },
-  [10086]={
-    "lz_drp_swamp_I0000|rt_drp_swamp_I_0000",
-    "lz_drp_swamp_S0000|rt_drp_swamp_S_0000",
-    "lz_drp_swamp_W0000|lz_drp_swamp_W_0000",
-  },
-  [10090]={
-    "lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000",
-    "lz_drp_savannah_I0000|rt_drp_savannah_I_0000",
-    "lz_drp_pfCampNorth_S0000|rt_drp_pfCampNorth_S_0000",
-    "lz_drp_swamp_I0000|rt_drp_swamp_I_0000",
-    "lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000",
-  },
-  [10091]={
-    "lz_drp_flowStation_E0000|lz_drp_flowStation_E_0000",
-    "lz_drp_swamp_I0000|rt_drp_swamp_I_0000",
-    "lz_drp_swamp_W0000|lz_drp_swamp_W_0000",
-  },
-  [10093]={
-    "lz_drp_lab_W0000|rt_drp_lab_W_0000",
-    "lz_drp_lab_S0000|rt_drp_lab_S_0000",
-  },
-  [10100]={
-    "lz_drp_savannahWest_N0000|lz_drp_savannahWest_N_0000",
-    "lz_drp_diamond_I0000|rt_drp_diamond_I_0000",
-    "lz_drp_banana_I0000|rt_drp_banana_I_0000",
-  },
-  [10110]={
-    "lz_drp_hill_I0000|rt_drp_hill_I_0000",
-    "lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000",
-  },
-  --[10115]={},
-  [10120]={"lz_drp_outland_N0000|rt_drp_outland_N_0000"},
-  [10121]={
-    "lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000",
-    "lz_drp_pfCamp_N0000|rt_drp_pfcamp_N_0000",
-  },
-  [10130]={"rts_drp_lab_S_0000"},
-  [10140]={},
-  [10150]={},
-  [10151]={},
-  [10156]={
-    "lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000",
-    "lz_drp_ruins_S0000|rt_drp_ruins_S_0000",
-  },
-  [10171]={
-    "lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000",
-    "lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000",
-    "lz_drp_swamp_N0000|lz_drp_swamp_N_0000",
-    "lz_drp_savannahEast_S0000|lz_drp_savannahEast_S_0000",
-  },
-  [10195]={
-    "lz_drp_savannah_I0000|rt_drp_savannah_I_0000",
-    "lz_drp_savannahEast_S0000|lz_drp_savannahEast_S_0000",
-    "lz_drp_savannahEast_N0000|rt_drp_savannahEast_N_0000",
-  },
-  [10200]={"lz_drp_hillNorth_N0000|rt_drp_hillNorth_N_0000"},
-  [10211]={
-    "lz_drp_savannahEast_N0000|rt_drp_savannahEast_N_0000",
-    "lz_drp_savannah_I0000|rt_drp_savannah_I_0000",
-    "lz_drp_swamp_S0000|rt_drp_swamp_S_0000",
-    "lz_drp_bananaSouth_N0000|rt_drp_bananaSouth_N_0000",
-    "lz_drp_swamp_I0000|rt_drp_swamp_I_0000",
-  },
-  --[10230]={},
-  [10240]={"rt_drp_mbqf_N"},
-  --[10260]={},
-  --[10280]={},
-  [30010]={
-    "lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000",
-    "lz_drp_field_N0000|rt_drp_field_N_0000",
-    "lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000",
-    "lz_drp_citadelSouth_S0000|rt_drp_citadelSouth_S_0000",
-    "lz_drp_commFacility_S0000|rt_drp_commFacility_S_0000",
-    "lz_drp_cliffTown_N0000|rt_drp_clifftown_N_0000",
-    "lz_drp_sovietBase_N0000|rt_drp_sovietBase_N_0000",
-    "lz_drp_cliffTownWest_S0000|rt_drp_cliffTownWest_S_0000",
-    "lz_drp_field_W0000|rt_drp_field_W_0000",
-    "lz_drp_field_I0000|rt_drp_field_I_0000",
-    "lz_drp_remnantsNorth_N0000|rt_drp_remnantsNorth_N_0000",
-    "lz_drp_fort_E0000|rt_drp_fort_E_0000",
-    "lz_drp_slopedTownEast_E0000|rt_drp_slopedTownEast_E_0000",
-    "lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000",
-    "lz_drp_waterway_I0000|rt_drp_waterway_I_0000",
-    "lz_drp_sovietBase_S0000|rt_drp_sovietBase_S_0000",
-    "lz_drp_powerPlant_S0000|rt_drp_powerPlant_S_0000",
-    "lz_drp_bridge_S0000|rt_drp_bridge_S_0000",
-    "lz_drp_fieldWest_S0000|rt_drp_fiieldWest_S_0000",
-    "lz_drp_remnants_S0000|rt_drp_remnants_S_0000",
-    "lz_drp_slopedTown_E0000|rt_drp_slopedTown_E_0000",
-    "lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000",
-    "lz_drp_slopedTown_I0000|rt_drp_slopedTown_I_0000",
-    "lz_drp_fort_I0000|rt_drp_fort_I_0000",
-    "lz_drp_tent_I0000|rt_drp_tent_I_0000",
-    "lz_drp_village_W0000|rt_drp_village_W_0000",
-    "lz_drp_remnantsNorth_S0000|rt_drp_remnantsNorth_S_0000",
-    "lz_drp_village_N0000|rt_drp_village_N_0000",
-    "lz_drp_tent_N0000|rt_drp_tent_N_0000",
-    "lz_drp_tent_E0000|rt_drp_tent_E_0000",
-    "lz_drp_slopedTown_W0000|rt_drp_slopedTown_W_0000",
-    "lz_drp_remnants_I0000|rt_drp_remnants_I_0000",
-    "lz_drp_fort_W0000|rt_drp_fort_W_0000",
-    "lz_drp_commFacility_W0000|rt_drp_commFacility_W_0000",
-    "lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000",
-    "lz_drp_powerPlant_E0000|rt_drp_powerPlant_E_0000",
-    "lz_drp_cliffTown_S0000|rt_drp_cliffTown_S_0000",
-    "lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000",
-    "lz_drp_ruins_S0000|rt_drp_ruins_S_0000",
-    "lz_drp_sovietBase_E0000|rt_drp_sovietBase_E_0000",
-    "lz_drp_sovietSouth_S0000|rt_drp_sovietSouth_S_0000",
-  },
-  [30020]={
-    "lz_drp_lab_W0000|rt_drp_lab_W_0000",
-    "lz_drp_hill_I0000|rt_drp_hill_I_0000",
-    "lz_drp_diamond_N0000|rt_drp_diamond_N_0000",
-    "lz_drp_swamp_S0000|rt_drp_swamp_S_0000",
-    "lz_drp_savannahWest_N0000|lz_drp_savannahWest_N_0000",
-    "lz_drp_diamondWest_S0000|lz_drp_diamondWest_S_0000",
-    "lz_drp_swamp_I0000|rt_drp_swamp_I_0000",
-    "lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000",
-    "lz_drp_savannah_I0000|rt_drp_savannah_I_0000",
-    "lz_drp_pfCamp_N0000|rt_drp_pfcamp_N_0000",
-    "lz_drp_diamond_I0000|rt_drp_diamond_I_0000",
-    "lz_drp_diamondSouth_W0000|rt_drp_diamondSouth_W_0000",
-    "lz_drp_factoryWest_S0000|lz_drp_factoryWest_S_0000",
-    "lz_drp_pfCamp_S0000|lz_drp_pfCamp_S_0000",
-    "lz_drp_swamp_N0000|lz_drp_swamp_N_0000",
-    "lz_drp_labWest_W0000|rt_drp_labWest_W_0000",
-    "lz_drp_lab_S0000|rt_drp_lab_S_0000",
-    "lz_drp_savannahEast_S0000|lz_drp_savannahEast_S_0000",
-    "lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000",
-    "lz_drp_hill_N0000|lz_drp_hill_N_0000",
-    "lz_drp_pfCampNorth_S0000|rt_drp_pfCampNorth_S_0000",
-    "lz_drp_swamp_W0000|lz_drp_swamp_W_0000",
-    "lz_drp_bananaSouth_N0000|rt_drp_bananaSouth_N_0000",
-    "lz_drp_swampEast_N0000|lz_drp_swampEast_N_0000",
-    "lz_drp_diamondSouth_S0000|lz_drp_diamondSouth_S_0000",
-    "lz_drp_hillSouth_W0000|lz_drp_hillSouth_W_0000",
-    "lz_drp_banana_I0000|rt_drp_banana_I_0000",
-    "lz_drp_hill_E0000|lz_drp_hill_E_0000",
-    "lz_drp_factory_N0000|rt_drp_factory_N_0000",
-    "lz_drp_savannahEast_N0000|rt_drp_savannahEast_N_0000",
-    "lz_drp_flowStation_E0000|lz_drp_flowStation_E_0000",
-    "lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000",
-    "lz_drp_outland_S0000|rt_drp_outland_S_0000",
-  },
-  --[30050]={},
-  --[50050]={},
-}
---
 return this

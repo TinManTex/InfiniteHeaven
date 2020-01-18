@@ -3,7 +3,14 @@ local r=Tpp.IsTypeFunc
 local r=Tpp.IsTypeTable
 local a=Tpp.IsTypeString
 e.TYPE=Tpp.Enum{"MIN","COMMON","CASSET_TAPE","KEY_ITEM","BLUE_PRINT","EMBLEM","ANIMAL","RANKING","MAX"}
-e.REWARD_FIRST_LANG={[e.TYPE.COMMON]=nil,[e.TYPE.CASSET_TAPE]=nil,[e.TYPE.KEY_ITEM]="announce_find_keyitem",[e.TYPE.BLUE_PRINT]="announce_get_blueprint",[e.TYPE.EMBLEM]=nil,[e.TYPE.ANIMAL]="announce_extract_animal",[e.TYPE.RANKING]="reward_607"}
+e.REWARD_FIRST_LANG={
+[e.TYPE.COMMON]=nil,
+[e.TYPE.CASSET_TAPE]=nil,
+[e.TYPE.KEY_ITEM]="announce_find_keyitem",
+[e.TYPE.BLUE_PRINT]="announce_get_blueprint",
+[e.TYPE.EMBLEM]=nil,
+[e.TYPE.ANIMAL]="announce_extract_animal",
+[e.TYPE.RANKING]="reward_607"}
 e.REWARD_MAX={[TppScriptVars.CATEGORY_MISSION]=TppDefine.REWARD_MAX.MISSION,[TppScriptVars.CATEGORY_MB_MANAGEMENT]=TppDefine.REWARD_MAX.MB_MANAGEMENT,[TppScriptVars.CATEGORY_QUEST]=TppDefine.REWARD_MAX.QUEST}
 e.LANG_ENUM={[TppScriptVars.CATEGORY_MISSION]=Tpp.Enum{"reward_fob_goal_staff","reward_fob_goal_resources","reward_fob_goal_herbs","reward_fob_goal_wormhole"},[TppScriptVars.CATEGORY_MB_MANAGEMENT]=Tpp.Enum{"key_item_3013","key_item_3003","key_item_3008","reward_100","reward_101","reward_102","reward_103","reward_104","reward_105","reward_106","reward_107","reward_108","reward_109","reward_110","reward_111","reward_112","reward_113","reward_300","reward_301","reward_302","reward_303","reward_304","reward_305","reward_306","reward_400","reward_401","reward_402","reward_403","reward_404","reward_405","reward_406","reward_500","reward_501","reward_502","reward_503","reward_504","reward_600","reward_601","reward_602","reward_603","reward_604","reward_605","reward_606","reward_607","dummy","reward_114","reward_115","key_item_3014","key_item_3015","key_item_3016","key_item_3017","key_item_3018","key_item_3019","key_item_3007","reward_307","key_item_3010","key_item_3020"},[TppScriptVars.CATEGORY_QUEST]=Tpp.Enum{"dummy"}}
 e.GVARS_NAME={[TppScriptVars.CATEGORY_MISSION]={langEnumName="rwd_missionRewardLangEnum",stackSizeName="rwd_missionRewardStackSize",paramName="rwd_missionRewardParam"},[TppScriptVars.CATEGORY_MB_MANAGEMENT]={langEnumName="rwd_mbManagementRewardLangEnum",stackSizeName="rwd_mbManagementRewardStackSize",paramName="rwd_mbManagementRewardParam"},[TppScriptVars.CATEGORY_QUEST]={langEnumName="rwd_questRewardLangEnum",stackSizeName="rwd_questRewardStackSize",paramName="rwd_questRewardParam"}}

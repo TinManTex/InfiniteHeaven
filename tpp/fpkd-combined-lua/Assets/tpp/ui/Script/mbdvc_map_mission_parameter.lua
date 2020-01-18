@@ -2,29 +2,6 @@
 -- ORIGINALQAR: chunk0
 -- PACKPATH: \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd
 
---[[--tex REF: CULL
-afghanistanLZObject.ConnectLandingZoneTable={
-  cliffTown_aacr001={aprLandingZoneName={"lz_cliffTown_I0000|lz_cliffTown_I_0000"},drpLandingZoneName={"lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000"}},
-  commFacility_aacr001={aprLandingZoneName={"lz_commFacility_I0000|lz_commFacility_I_0000"},drpLandingZoneName={"lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000"}},
-  enemyBase_aacr001={aprLandingZoneName={"lz_enemyBase_I0000|lz_enemyBase_I_0000"},drpLandingZoneName={"lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"}},
-  field_aacr001={aprLandingZoneName={"lz_field_I0000|lz_field_I_0000"},drpLandingZoneName={"lz_drp_field_I0000|rt_drp_field_I_0000"}},
-  fort_aacr001={aprLandingZoneName={"lz_fort_I0000|lz_fort_I_0000"},drpLandingZoneName={"lz_drp_fort_I0000|rt_drp_fort_I_0000"}},
-  powerPlant_aacr001={aprLandingZoneName={"lz_powerPlant_E0000|lz_powerPlant_E_0000"},drpLandingZoneName={"lz_drp_powerPlant_E0000|rt_drp_powerPlant_E_0000"}},
-  remnants_aacr001={aprLandingZoneName={"lz_remnants_I0000|lz_remnants_I_0000"},drpLandingZoneName={"lz_drp_remnants_I0000|rt_drp_remnants_I_0000"}},
-  slopedTown_aacr001={aprLandingZoneName={"lz_slopedTown_I0000|lz_slopedTown_I_0000"},drpLandingZoneName={"lz_drp_slopedTown_I0000|rt_drp_slopedTown_I_0000"}},
-  sovietBase_aacr001={aprLandingZoneName={"lz_sovietBase_E0000|lz_sovietBase_E_0000"},drpLandingZoneName={"lz_drp_sovietBase_E0000|rt_drp_sovietBase_E_0000"}},
-  tent_aacr001={aprLandingZoneName={"lz_tent_I0000|lz_tent_I_0000"},drpLandingZoneName={"lz_drp_tent_I0000|rt_drp_tent_I_0000"}}
-  
-  middleAfricaLZObject.ConnectLandingZoneTable={
-  banana_aacr001={aprLandingZoneName={"lz_banana_I0000|lz_banana_I_0000"},drpLandingZoneName={"lz_drp_banana_I0000|rt_drp_banana_I_0000"}},
-  diamond_aacr001={aprLandingZoneName={"lz_diamond_I0000|lz_diamond_I_0000"},drpLandingZoneName={"lz_drp_diamond_I0000|rt_drp_diamond_I_0000"}},
-  flowStation_aacr001={aprLandingZoneName={"lz_flowStation_I0000|lz_flowStation_I_0000"},drpLandingZoneName={"lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000"}},
-  hill_aacr001={aprLandingZoneName={"lz_hill_I0000|lz_hill_I_0000"},drpLandingZoneName={"lz_drp_hill_I0000|rt_drp_hill_I_0000"}},
-  pfCamp_aacr001={aprLandingZoneName={"lz_pfCamp_I0000|lz_pfCamp_I_0000"},drpLandingZoneName={"lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"}},
-  savannah_aacr001={aprLandingZoneName={"lz_savannah_I0000|lz_savannah_I_0000"},drpLandingZoneName={"lz_drp_savannah_I0000|rt_drp_savannah_I_0000"}},
-  swamp_aacr001={aprLandingZoneName={"lz_swamp_I0000|lz_swamp_I_0000"},drpLandingZoneName={"lz_drp_swamp_I0000|rt_drp_swamp_I_0000"}}
-}--]]
-
 mbdvc_map_mission_parameter = {
 
 

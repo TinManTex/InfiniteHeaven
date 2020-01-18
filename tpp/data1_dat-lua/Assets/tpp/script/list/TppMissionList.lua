@@ -14,6 +14,7 @@ locationPackTable[TppDefine.LOCATION_ID.FLYK]={"/Assets/tpp/pack/location/flyk/f
 locationPackTable[TppDefine.LOCATION_ID.SAND_AFGH]={"/Assets/tpp_sandbox/pack/game_core/stage/gc_afgh.fpk"}
 locationPackTable[TppDefine.LOCATION_ID.SAND_MAFR]={"/Assets/tpp/pack/location/mafr/mafr.fpk"}
 locationPackTable[TppDefine.LOCATION_ID.SAND_MTBS]={"/Assets/tpp_sandbox/pack/game_core/stage/gc_mtbs.fpk"}
+
 local missionPackTable={}
 missionPackTable[1]={"/Assets/tpp/pack/ui/gz/gz_pause_key_setting_data.fpk","/Assets/tpp/pack/mission2/init/init.fpk"}
 missionPackTable[5]=function(p)
@@ -81,7 +82,8 @@ missionPackTable[10033]=function(p)
   TppPackList.AddLocationCommonMissionAreaPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_HOSTAGE)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_LV)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="hos_s10033_0000"
     local s={{type="hostage",name=s,faceId=602,bodyId=110}}
     TppEneFova.AddUniqueSettingPackage(s)
@@ -91,7 +93,8 @@ missionPackTable[10036]=function(p)
   TppPackList.AddLocationCommonScriptPack(p)
   TppPackList.AddLocationCommonMissionAreaPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_LV)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="sol_vip_0000"
     local s={{type="enemy",name=s,faceId=600,bodyId=TppEnemyBodyId.svs0_unq_v010}}
     TppEneFova.AddUniqueSettingPackage(s)
@@ -102,7 +105,8 @@ missionPackTable[10040]=function(p)
   TppPackList.AddLocationCommonMissionAreaPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_LV)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local a="sol_s10040_0000"
     local p="sol_s10040_0001"
     local s="sol_s10040_0002"
@@ -115,7 +119,8 @@ missionPackTable[10041]=function(p)
   TppPackList.AddLocationCommonMissionAreaPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_HOSTAGE)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_LV)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local a="sol_vip_field"
     local s="sol_vip_village"
     local p="sol_vip_enemyBase"
@@ -152,7 +157,8 @@ missionPackTable[10052]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_HOSTAGE)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_LV)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_WAV)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="hos_target_0000"
     local p="sol_s10052_transportVehicle_0000"
     local s={{type="hostage",name=s,faceId=607,bodyId=200},{type="enemy",name=p,faceId=608,bodyId=263}}
@@ -172,7 +178,8 @@ missionPackTable[10054]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_TANK)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_WAV)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_WAV_ROCKET)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local p="hos_s10054_0002"
     local s="hos_s10054_0004"
     local s={{type="hostage",name=p,faceId="female",bodyId=113},{type="hostage",name=s,faceId="female",bodyId=113}}
@@ -217,7 +224,8 @@ missionPackTable[10086]=function(p)
   TppPackList.AddLocationCommonMissionAreaPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_HOSTAGE)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_HOSTAGE_WOMAN)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local p="hos_mis_0000"
     local s="hos_mis_0001"
     local e="hos_mis_0002"
@@ -255,7 +263,8 @@ missionPackTable[10121]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_LV)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)
   TppPackList.AddMissionPack(TppHelicopter.GetEnemyColoringPack(TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK))
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="sol_pfCamp_vip_0001"
     local p="sol_pfCamp_vip_guard"
     local s={{type="enemy",name=s,faceId=617,bodyId=TppEnemyBodyId.pfa0_v00_b},{type="enemy",name=p,faceId=618,bodyId=254}}
@@ -271,7 +280,8 @@ missionPackTable[10091]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_TRUCK_CONTAINER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_LV)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_HOSTAGE)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s={{type="hostage",name="hos_s10091_0001",faceId="dd",bodyId=176},{type="hostage",name="hos_s10091_0000",faceId="dd",bodyId=143}}
     TppEneFova.AddUniqueSettingPackage(s)
   end
@@ -284,7 +294,8 @@ missionPackTable[10100]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_DECOY)
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local o="sol_target_0000"
     local s=EnemyFova.INVALID_FOVA_VALUE
     local t="hos_diamond_0000"
@@ -324,7 +335,8 @@ missionPackTable[10195]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_HOSTAGE)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_LV)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="sol_dealer"
     local p="sol_vip"
     local s={{type="enemy",name=s,faceId=614,bodyId=250},{type="enemy",name=p,faceId=615,bodyId=256}}
@@ -353,7 +365,8 @@ missionPackTable[10120]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.CHILD_SOLDIER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.LIQUID)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_HOSTAGE_WOMAN)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="hos_mis_woman"
     local s={{type="hostage",name=s,faceId="female",bodyId=113}}
     TppEneFova.AddUniqueSettingPackage(s)
@@ -365,7 +378,8 @@ missionPackTable[10085]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_HOSTAGE)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_HOSTAGE_WOMAN)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_LV)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local p="hos_target_0000"
     local s="hos_target_0001"
     local p={{type="hostage",name=p,faceId=642,bodyId=111}}
@@ -379,7 +393,8 @@ missionPackTable[10211]=function(p)
   TppPackList.AddLocationCommonMissionAreaPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_HOSTAGE)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_LV)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="sol_mis_0000"
     local s={{type="enemy",name=s,faceId=620,bodyId=253}}
     TppEneFova.AddUniqueSettingPackage(s)
@@ -392,7 +407,8 @@ missionPackTable[10200]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_HOSTAGE)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_LV)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="hos_hillNorth_0000"
     local p="sol_hillNorth_0004"
     local s={{type="hostage",name=s,faceId=619,bodyId=201}}
@@ -406,7 +422,8 @@ missionPackTable[10081]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_LV)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_TRUCK)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_TRUCK_ITEMBOX)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="hos_spy"
     local s={{type="hostage",name=s,faceId="dd",bodyId=201}}
     TppEneFova.AddUniqueSettingPackage(s)
@@ -477,7 +494,8 @@ missionPackTable[10045]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_HOSTAGE)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_LV)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="hos_vip_0000"
     local p="sol_executioner_0000"
     local s={{type="hostage",name=s,faceId=644,bodyId=271}}
@@ -497,7 +515,8 @@ missionPackTable[10093]=function(p)
   TppPackList.AddLocationCommonMissionAreaPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WEST_LV)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
-  TppPackList.AddDefaultMissionAreaPack(p)do
+  TppPackList.AddDefaultMissionAreaPack(p)
+do
     local s="sol_vip_0000"
     local s={{type="enemy",name=s,faceId=649,bodyId=272}}
     TppEneFova.AddUniqueSettingPackage(s)
@@ -578,16 +597,16 @@ missionPackTable[30010]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ORDER_BOX)
   if TppPackList.IsMissionPackLabel"recoverVolginDemo"then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30010/f30011.fpk"
-    else
+  else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30010/f30010.fpk"
-    end
+  end
 end
 missionPackTable[30020]=function(p)
   TppPackList.AddLocationCommonScriptPack(p)
   TppPackList.AddLocationCommonMissionAreaPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ORDER_BOX)
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30020/f30020.fpk"
-  end
+end
 missionPackTable[30050]=function(missionCode)
   TppPackList.AddLocationCommonScriptPack(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)

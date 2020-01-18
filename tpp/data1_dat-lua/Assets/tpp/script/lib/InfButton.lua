@@ -2,8 +2,8 @@
 local this={}
 --local debugSplash=SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
 --SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
-local incrementMultIncrementMult=1.4--tex i r good at naming
-local maxIncrementMult=35
+local incrementMultIncrementMult=1.5--tex i r good at naming
+local maxIncrementMult=50
 local defaultIncrementMult=1
 local currentIncrementMult=defaultIncrementMult
 --TODO: work out the duplicate bitmasks/those that don't work, and those that are missing

@@ -8,16 +8,45 @@ if not AssetConfiguration.IsDiscOrHddImage()then
   n=AssetConfiguration.GetConfigurationFromAssetManager"EnableWindowsDX11Texture"end
 if e=="Windows"then
   AssetConfiguration.SetDefaultTargetDirectory"#Win"if n then
-    AssetConfiguration.SetTargetDirectory("ftex","#windx11")AssetConfiguration.SetTargetDirectory("ftexs","#windx11")AssetConfiguration.SetTargetDirectory("pftxs","#windx11")AssetConfiguration.SetTargetDirectory("fpk","#windx11")AssetConfiguration.SetTargetDirectory("fpkd","#windx11")
+    AssetConfiguration.SetTargetDirectory("ftex","#windx11")
+    AssetConfiguration.SetTargetDirectory("ftexs","#windx11")
+    AssetConfiguration.SetTargetDirectory("pftxs","#windx11")
+    AssetConfiguration.SetTargetDirectory("fpk","#windx11")
+    AssetConfiguration.SetTargetDirectory("fpkd","#windx11")
   else
-    AssetConfiguration.SetTargetDirectory("ftex","#Win")AssetConfiguration.SetTargetDirectory("ftexs","#Win")
+    AssetConfiguration.SetTargetDirectory("ftex","#Win")
+    AssetConfiguration.SetTargetDirectory("ftexs","#Win")
   end
 elseif e=="Xbox360"then
-  AssetConfiguration.SetDefaultTargetDirectory"#Xbox"elseif e=="PS3"then
-  AssetConfiguration.SetDefaultTargetDirectory"#PS3"elseif e=="XboxOne"then
-  AssetConfiguration.SetDefaultTargetDirectory"#Win"AssetConfiguration.SetTargetDirectory("ftex","#windx11")AssetConfiguration.SetTargetDirectory("ftexs","#windx11")AssetConfiguration.SetTargetDirectory("ffnt","#windx11")AssetConfiguration.SetTargetDirectory("fnt","#windx11")AssetConfiguration.SetTargetDirectory("pftxs","#xone")AssetConfiguration.SetTargetDirectory("fpk","#xone")AssetConfiguration.SetTargetDirectory("fpkd","#xone")AssetConfiguration.SetTargetDirectory("bnk","#xone")AssetConfiguration.SetTargetDirectory("sbp","#xone")AssetConfiguration.SetTargetDirectory("fsm","#Win")AssetConfiguration.SetTargetDirectory("mas","#Win")
+  AssetConfiguration.SetDefaultTargetDirectory"#Xbox"
+  elseif e=="PS3"then
+  AssetConfiguration.SetDefaultTargetDirectory"#PS3"
+  elseif e=="XboxOne"then
+  AssetConfiguration.SetDefaultTargetDirectory"#Win"
+  AssetConfiguration.SetTargetDirectory("ftex","#windx11")
+  AssetConfiguration.SetTargetDirectory("ftexs","#windx11")
+  AssetConfiguration.SetTargetDirectory("ffnt","#windx11")
+  AssetConfiguration.SetTargetDirectory("fnt","#windx11")
+  AssetConfiguration.SetTargetDirectory("pftxs","#xone")
+  AssetConfiguration.SetTargetDirectory("fpk","#xone")
+  AssetConfiguration.SetTargetDirectory("fpkd","#xone")
+  AssetConfiguration.SetTargetDirectory("bnk","#xone")
+  AssetConfiguration.SetTargetDirectory("sbp","#xone")
+  AssetConfiguration.SetTargetDirectory("fsm","#Win")
+  AssetConfiguration.SetTargetDirectory("mas","#Win")
 elseif e=="PS4"then
-  AssetConfiguration.SetDefaultTargetDirectory"#Win"AssetConfiguration.SetTargetDirectory("ftex","#windx11")AssetConfiguration.SetTargetDirectory("ftexs","#windx11")AssetConfiguration.SetTargetDirectory("ffnt","#windx11")AssetConfiguration.SetTargetDirectory("fnt","#windx11")AssetConfiguration.SetTargetDirectory("pftxs","#ps4")AssetConfiguration.SetTargetDirectory("fpk","#ps4")AssetConfiguration.SetTargetDirectory("fpkd","#ps4")AssetConfiguration.SetTargetDirectory("bnk","#ps4")AssetConfiguration.SetTargetDirectory("sbp","#ps4")AssetConfiguration.SetTargetDirectory("fsm","#Win")AssetConfiguration.SetTargetDirectory("mas","#Win")
+  AssetConfiguration.SetDefaultTargetDirectory"#Win"
+  AssetConfiguration.SetTargetDirectory("ftex","#windx11")
+  AssetConfiguration.SetTargetDirectory("ftexs","#windx11")
+  AssetConfiguration.SetTargetDirectory("ffnt","#windx11")
+  AssetConfiguration.SetTargetDirectory("fnt","#windx11")
+  AssetConfiguration.SetTargetDirectory("pftxs","#ps4")
+  AssetConfiguration.SetTargetDirectory("fpk","#ps4")
+  AssetConfiguration.SetTargetDirectory("fpkd","#ps4")
+  AssetConfiguration.SetTargetDirectory("bnk","#ps4")
+  AssetConfiguration.SetTargetDirectory("sbp","#ps4")
+  AssetConfiguration.SetTargetDirectory("fsm","#Win")
+  AssetConfiguration.SetTargetDirectory("mas","#Win")
 elseif e=="Android"then
   AssetConfiguration.SetDefaultTargetDirectory"#Android"elseif e=="iOS"then
   AssetConfiguration.SetDefaultTargetDirectory"#iOS"end
@@ -31,14 +60,32 @@ AssetConfiguration.RegisterExtensionInfo{extensions={"sbp","stm","mas","wem","fs
 if GrDaemon then
   if e=="Windows"then
     if o=="directx9"then
-      GrTools.LoadShaderPack"shaders/win32/GrSystemShaders_win32.fsop"GrTools.LoadShaderPack"shaders/win32/GrModelShaders_win32.fsop"GrTools.LoadShaderPack"shaders/win32/FxShaders_win32.fsop"end
+      GrTools.LoadShaderPack"shaders/win32/GrSystemShaders_win32.fsop"
+      GrTools.LoadShaderPack"shaders/win32/GrModelShaders_win32.fsop"
+      GrTools.LoadShaderPack"shaders/win32/FxShaders_win32.fsop"
+      end
     if o=="directx11"then
-      GrTools.LoadShaderPack"shaders/dx11/GrSystemShaders_dx11.fsop"GrTools.LoadShaderPack"shaders/dx11/GrModelShaders_dx11.fsop"GrTools.LoadShaderPack"shaders/dx11/FxShaders_dx11.fsop"end
+      GrTools.LoadShaderPack"shaders/dx11/GrSystemShaders_dx11.fsop"
+      GrTools.LoadShaderPack"shaders/dx11/GrModelShaders_dx11.fsop"
+      GrTools.LoadShaderPack"shaders/dx11/FxShaders_dx11.fsop"
+      end
   elseif e=="Xbox360"then
-    GrTools.LoadShaderPack"shaders\\xbox360\\GrSystemShaders_x360.fsop"GrTools.LoadShaderPack"shaders\\xbox360\\GrModelShaders_x360.fsop"GrTools.LoadShaderPack"shaders\\xbox360\\FxShaders_x360.fsop"elseif e=="XboxOne"then
-    GrTools.LoadShaderPack"shaders\\xboxone\\GrSystemShaders_xone.fsop"GrTools.LoadShaderPack"shaders\\xboxone\\GrModelShaders_xone.fsop"GrTools.LoadShaderPack"shaders\\xboxone\\FxShaders_xone.fsop"elseif e=="PS3"then
-    GrTools.LoadShaderPack"shaders/ps3/GrSystemShaders_ps3.fsop.sdat"GrTools.LoadShaderPack"shaders/ps3/GrModelShaders_ps3.fsop.sdat"GrTools.LoadShaderPack"shaders/ps3/FxShaders_ps3.fsop.sdat"elseif e=="PS4"then
-    GrTools.LoadShaderPack"shaders/ps4/GrSystemShaders_ps4.fsop"GrTools.LoadShaderPack"shaders/ps4/GrModelShaders_ps4.fsop"GrTools.LoadShaderPack"shaders/ps4/FxShaders_ps4.fsop"end
+    GrTools.LoadShaderPack"shaders\\xbox360\\GrSystemShaders_x360.fsop"
+    GrTools.LoadShaderPack"shaders\\xbox360\\GrModelShaders_x360.fsop"
+    GrTools.LoadShaderPack"shaders\\xbox360\\FxShaders_x360.fsop"
+    elseif e=="XboxOne"then
+    GrTools.LoadShaderPack"shaders\\xboxone\\GrSystemShaders_xone.fsop"
+    GrTools.LoadShaderPack"shaders\\xboxone\\GrModelShaders_xone.fsop"
+    GrTools.LoadShaderPack"shaders\\xboxone\\FxShaders_xone.fsop"
+    elseif e=="PS3"then
+    GrTools.LoadShaderPack"shaders/ps3/GrSystemShaders_ps3.fsop.sdat"
+    GrTools.LoadShaderPack"shaders/ps3/GrModelShaders_ps3.fsop.sdat"
+    GrTools.LoadShaderPack"shaders/ps3/FxShaders_ps3.fsop.sdat"
+    elseif e=="PS4"then
+    GrTools.LoadShaderPack"shaders/ps4/GrSystemShaders_ps4.fsop"
+    GrTools.LoadShaderPack"shaders/ps4/GrModelShaders_ps4.fsop"
+    GrTools.LoadShaderPack"shaders/ps4/FxShaders_ps4.fsop"
+    end
   GrTools.SetupSystemShaderResources()
 end
 if GrDaemon then
@@ -62,25 +109,33 @@ if GrDaemon then
       end
     end
   elseif e=="Xbox360"then
-    dofile"Fox/Scripts/Gr/gr_init_x360.lua"GrTools.SetEnablePackedSmallTextureStreaming(true)
+    dofile"Fox/Scripts/Gr/gr_init_x360.lua"
+    GrTools.SetEnablePackedSmallTextureStreaming(true)
   elseif e=="XboxOne"then
-    dofile"Fox/Scripts/Gr/gr_init_xone.lua"GrTools.SetEnablePackedSmallTextureStreaming(true)
+    dofile"Fox/Scripts/Gr/gr_init_xone.lua"
+    GrTools.SetEnablePackedSmallTextureStreaming(true)
   elseif e=="PS3"then
-    dofile"Fox/Scripts/Gr/gr_init_ps3.lua"GrTools.SetEnablePackedSmallTextureStreaming(true)
+    dofile"Fox/Scripts/Gr/gr_init_ps3.lua"
+    GrTools.SetEnablePackedSmallTextureStreaming(true)
   elseif e=="PS4"then
-    dofile"Fox/Scripts/Gr/gr_init_ps4.lua"GrTools.SetEnablePackedSmallTextureStreaming(true)
+    dofile"Fox/Scripts/Gr/gr_init_ps4.lua"
+    GrTools.SetEnablePackedSmallTextureStreaming(true)
   end
   GrTools.SetTextureStreamingLoadRateBaseCount(512)
   if n then
-    GrTools.SetEnableLnmForTerrainNormal(false)GrTools.SetEnableLnmForDecalNormal(false)
+    GrTools.SetEnableLnmForTerrainNormal(false)
+    GrTools.SetEnableLnmForDecalNormal(false)
   else
-    GrTools.SetEnableLnmForTerrainNormal(true)GrTools.SetEnableLnmForDecalNormal(true)
+    GrTools.SetEnableLnmForTerrainNormal(true)
+    GrTools.SetEnableLnmForDecalNormal(true)
   end
   if e=="XboxOne"or e=="PS4"then
-    GrTools.SetEnableLnmForTerrainNormal(false)GrTools.SetEnableLnmForDecalNormal(false)
+    GrTools.SetEnableLnmForTerrainNormal(false)
+    GrTools.SetEnableLnmForDecalNormal(false)
   end
   if e=="Xbox360"or e=="PS3"then
-    GrTools.SetEnableLnmForTerrainNormal(true)GrTools.SetEnableLnmForDecalNormal(true)
+    GrTools.SetEnableLnmForTerrainNormal(true)
+    GrTools.SetEnableLnmForDecalNormal(true)
   end
 end
 local mainApplication=Application{name="MainApplication"}

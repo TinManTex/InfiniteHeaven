@@ -23,182 +23,199 @@ this.REVENGE_TYPE=TppDefine.Enum(this.REVENGE_TYPE_NAME)
 this.REVENGE_LV_LIMIT_RANK_MAX=6
 this.REVENGE_LV_MAX={
   [this.REVENGE_TYPE.STEALTH]={0,1,2,3,4,5},
-[this.REVENGE_TYPE.NIGHT_S]={0,1,1,2,3,3},
-[this.REVENGE_TYPE.COMBAT]={0,1,2,3,4,5},
-[this.REVENGE_TYPE.NIGHT_C]={0,1,1,1,1,1},
-[this.REVENGE_TYPE.LONG_RANGE]={0,1,1,2,2,2},
-[this.REVENGE_TYPE.VEHICLE]={0,1,1,2,3,3},
-[this.REVENGE_TYPE.HEAD_SHOT]={0,1,2,3,5,7},
-[this.REVENGE_TYPE.TRANQ]={0,1,1,1,1,1},
-[this.REVENGE_TYPE.FULTON]={0,1,2,2,3,3},
-[this.REVENGE_TYPE.SMOKE]={0,1,1,2,3,3},
-[this.REVENGE_TYPE.M_STEALTH]={9,9,9,9,9,9},
-[this.REVENGE_TYPE.M_COMBAT]={9,9,9,9,9,9}
+  [this.REVENGE_TYPE.NIGHT_S]={0,1,1,2,3,3},
+  [this.REVENGE_TYPE.COMBAT]={0,1,2,3,4,5},
+  [this.REVENGE_TYPE.NIGHT_C]={0,1,1,1,1,1},
+  [this.REVENGE_TYPE.LONG_RANGE]={0,1,1,2,2,2},
+  [this.REVENGE_TYPE.VEHICLE]={0,1,1,2,3,3},
+  [this.REVENGE_TYPE.HEAD_SHOT]={0,1,2,3,5,7},
+  [this.REVENGE_TYPE.TRANQ]={0,1,1,1,1,1},
+  [this.REVENGE_TYPE.FULTON]={0,1,2,2,3,3},
+  [this.REVENGE_TYPE.SMOKE]={0,1,1,2,3,3},
+  [this.REVENGE_TYPE.M_STEALTH]={9,9,9,9,9,9},
+  [this.REVENGE_TYPE.M_COMBAT]={9,9,9,9,9,9}
 }
 this.REVENGE_POINT_OVER_MARGINE=100-1
 this.REVENGE_POINT_PER_LV=100
 this.REDUCE_REVENGE_POINT=10
 this.REDUCE_TENDENCY_POINT_TABLE={
-[this.REVENGE_TYPE.STEALTH]={-20,-20,-20,-20,-25,-50},
-[this.REVENGE_TYPE.COMBAT]={-20,-20,-20,-20,-25,-50}}
+  [this.REVENGE_TYPE.STEALTH]={-20,-20,-20,-20,-25,-50},
+  [this.REVENGE_TYPE.COMBAT]={-20,-20,-20,-20,-25,-50}
+}
 this.REDUCE_POINT_TABLE={
-[this.REVENGE_TYPE.NIGHT_S]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
-[this.REVENGE_TYPE.NIGHT_C]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
-[this.REVENGE_TYPE.SMOKE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
-[this.REVENGE_TYPE.LONG_RANGE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
-[this.REVENGE_TYPE.VEHICLE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50}}
+  [this.REVENGE_TYPE.NIGHT_S]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
+  [this.REVENGE_TYPE.NIGHT_C]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
+  [this.REVENGE_TYPE.SMOKE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
+  [this.REVENGE_TYPE.LONG_RANGE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50},
+  [this.REVENGE_TYPE.VEHICLE]={-10,-50,-50,-50,-50,-50,-50,-50,-50,-50,-50}}
 this.REVENGE_TRIGGER_TYPE={HEAD_SHOT=1,ELIMINATED_IN_STEALTH=2,ELIMINATED_IN_COMBAT=3,FULTON=4,SMOKE=5,KILLED_BY_HELI=6,ANNIHILATED_IN_STEALTH=7,ANNIHILATED_IN_COMBAT=8,WAKE_A_COMRADE=9,DISCOVERY_AT_NIGHT=10,ELIMINATED_AT_NIGHT=11,SNIPED=12,KILLED_BY_VEHICLE=13,WATCH_SMOKE=14}
 this.BLOCKED_TYPE={GAS_MASK=0,HELMET=1,CAMERA=2,DECOY=3,MINE=4,NVG=5,SHOTGUN=6,MG=7,SOFT_ARMOR=8,SHIELD=9,ARMOR=10,GUN_LIGHT=11,SNIPER=12,MISSILE=13,MAX=14}
 this.BLOCKED_FOR_MISSION_COUNT=3
 this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST={[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]=this.BLOCKED_TYPE.GAS_MASK,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]=this.BLOCKED_TYPE.HELMET,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]=this.BLOCKED_TYPE.CAMERA,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]=this.BLOCKED_TYPE.DECOY,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]=this.BLOCKED_TYPE.MINE,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]=this.BLOCKED_TYPE.NVG,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]=this.BLOCKED_TYPE.SHOTGUN,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]=this.BLOCKED_TYPE.MG,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]=this.BLOCKED_TYPE.SOFT_ARMOR,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]=this.BLOCKED_TYPE.SHIELD,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]=this.BLOCKED_TYPE.ARMOR,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]=this.BLOCKED_TYPE.GUN_LIGHT,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]=this.BLOCKED_TYPE.SNIPER,[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]=this.BLOCKED_TYPE.MISSILE}
 this.DEPLOY_REVENGE_MISSION_CONDITION_LIST={[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE]={revengeType=this.REVENGE_TYPE.SMOKE,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT]={revengeType=this.REVENGE_TYPE.HEAD_SHOT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1]={revengeType=this.REVENGE_TYPE.STEALTH,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2]={revengeType=this.REVENGE_TYPE.STEALTH,lv=2},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3]={revengeType=this.REVENGE_TYPE.STEALTH,lv=3},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH]={revengeType=this.REVENGE_TYPE.NIGHT_S,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3]={revengeType=this.REVENGE_TYPE.COMBAT,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4]={revengeType=this.REVENGE_TYPE.COMBAT,lv=2},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5]={revengeType=this.REVENGE_TYPE.COMBAT,lv=3},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT]={revengeType=this.REVENGE_TYPE.NIGHT_C,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE]={revengeType=this.REVENGE_TYPE.LONG_RANGE,lv=1},[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE]={revengeType=this.REVENGE_TYPE.VEHICLE,lv=1}}
-this.REVENGE_POINT_TABLE={[this.REVENGE_TRIGGER_TYPE.HEAD_SHOT]={[this.REVENGE_TYPE.HEAD_SHOT]=5},[this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_STEALTH]={[this.REVENGE_TYPE.M_STEALTH]=5},[this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_COMBAT]={[this.REVENGE_TYPE.M_COMBAT]=5},[this.REVENGE_TRIGGER_TYPE.FULTON]={[this.REVENGE_TYPE.FULTON]=15},[this.REVENGE_TRIGGER_TYPE.SMOKE]={[this.REVENGE_TYPE.SMOKE]=15},[this.REVENGE_TRIGGER_TYPE.WATCH_SMOKE]={[this.REVENGE_TYPE.SMOKE]=15},[this.REVENGE_TRIGGER_TYPE.KILLED_BY_HELI]={[this.REVENGE_TYPE.VEHICLE]=10},[this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_STEALTH]={[this.REVENGE_TYPE.M_STEALTH]=15},[this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_COMBAT]={[this.REVENGE_TYPE.M_COMBAT]=15},[this.REVENGE_TRIGGER_TYPE.WAKE_A_COMRADE]={[this.REVENGE_TYPE.TRANQ]=5},[this.REVENGE_TRIGGER_TYPE.DISCOVERY_AT_NIGHT]={[this.REVENGE_TYPE.NIGHT_S]=15},[this.REVENGE_TRIGGER_TYPE.ELIMINATED_AT_NIGHT]={[this.REVENGE_TYPE.NIGHT_C]=10},[this.REVENGE_TRIGGER_TYPE.SNIPED]={[this.REVENGE_TYPE.LONG_RANGE]=30},[this.REVENGE_TRIGGER_TYPE.KILLED_BY_VEHICLE]={[this.REVENGE_TYPE.VEHICLE]=10}}
+this.REVENGE_POINT_TABLE={
+  [this.REVENGE_TRIGGER_TYPE.HEAD_SHOT]={[this.REVENGE_TYPE.HEAD_SHOT]=5},
+  [this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_STEALTH]={[this.REVENGE_TYPE.M_STEALTH]=5},
+  [this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_COMBAT]={[this.REVENGE_TYPE.M_COMBAT]=5},
+  [this.REVENGE_TRIGGER_TYPE.FULTON]={[this.REVENGE_TYPE.FULTON]=15},
+  [this.REVENGE_TRIGGER_TYPE.SMOKE]={[this.REVENGE_TYPE.SMOKE]=15},
+  [this.REVENGE_TRIGGER_TYPE.WATCH_SMOKE]={[this.REVENGE_TYPE.SMOKE]=15},
+  [this.REVENGE_TRIGGER_TYPE.KILLED_BY_HELI]={[this.REVENGE_TYPE.VEHICLE]=10},
+  [this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_STEALTH]={[this.REVENGE_TYPE.M_STEALTH]=15},
+  [this.REVENGE_TRIGGER_TYPE.ANNIHILATED_IN_COMBAT]={[this.REVENGE_TYPE.M_COMBAT]=15},
+  [this.REVENGE_TRIGGER_TYPE.WAKE_A_COMRADE]={[this.REVENGE_TYPE.TRANQ]=5},
+  [this.REVENGE_TRIGGER_TYPE.DISCOVERY_AT_NIGHT]={[this.REVENGE_TYPE.NIGHT_S]=15},
+  [this.REVENGE_TRIGGER_TYPE.ELIMINATED_AT_NIGHT]={[this.REVENGE_TYPE.NIGHT_C]=10},
+  [this.REVENGE_TRIGGER_TYPE.SNIPED]={[this.REVENGE_TYPE.LONG_RANGE]=30},
+  [this.REVENGE_TRIGGER_TYPE.KILLED_BY_VEHICLE]={[this.REVENGE_TYPE.VEHICLE]=10}
+}
 this.MISSION_TENDENCY_POINT_TABLE={
-STEALTH={
-STEALTH={25,25,25,25,50,50},COMBAT={0,0,-5,-10,-50,-50}},
-DRAW={STEALTH={20,20,20,0,-25,-10},COMBAT={20,20,20,0,-25,-10}},
-COMBAT={STEALTH={0,0,-5,-10,-50,-50},COMBAT={25,25,25,25,50,50}}
+  STEALTH={STEALTH={25,25,25,25,50,50},COMBAT={0,0,-5,-10,-50,-50}},
+  DRAW={STEALTH={20,20,20,0,-25,-10},COMBAT={20,20,20,0,-25,-10}},
+  COMBAT={STEALTH={0,0,-5,-10,-50,-50},COMBAT={25,25,25,25,50,50}}
 }
 this.revengeDefine={
-HARD_MISSION={IGNORE_BLOCKED=true},
-_ENABLE_CAMERA_LV=1,
-_ENABLE_DECOY_LV=2,
-_ENABLE_MINE_LV=3,
-STEALTH_0={
-STEALTH_LOW=true,
-HOLDUP_LOW=true
-},
-STEALTH_1={
-CAMERA="100%",
-HOLDUP_LOW=true
-},
-STEALTH_2={
-DECOY="100%",
-CAMERA="100%"
-},
-STEALTH_3={
-DECOY="100%",
-MINE="100%",
-CAMERA="100%",
-STEALTH_HIGH=true
-},
-STEALTH_4={
-DECOY="100%",
-MINE="100%",
-CAMERA="100%",
-STEALTH_HIGH=true,
-HOLDUP_HIGH=true,
-ACTIVE_DECOY=true,
-GUN_CAMERA=true},
-STEALTH_5={
-DECOY="100%",
-MINE="100%",
-CAMERA="100%",
-STEALTH_SPECIAL=true,
-HOLDUP_HIGH=true,
-ACTIVE_DECOY=true,
-GUN_CAMERA=true},
-NIGHT_S_1={NVG="25%"},
-NIGHT_S_2={NVG="50%"},
-NIGHT_S_3={NVG="75%"},
-_ENABLE_SOFT_ARMOR_LV=1,
-_ENABLE_SHOTGUN_LV=1,
-_ENABLE_MG_LV=1,
-_ENABLE_SHIELD_LV=2,
-_ENABLE_ARMOR_LV=3,
-COMBAT_0={COMBAT_LOW=true},
-COMBAT_1={
-{SOFT_ARMOR="25%",SHOTGUN=2},
-{SOFT_ARMOR="25%",MG=2}},
-COMBAT_2={
-{SOFT_ARMOR="50%",SHOTGUN=2,SHIELD=1},
-{SOFT_ARMOR="50%",MG=2,SHIELD=1}
-},
-COMBAT_3={
-{SOFT_ARMOR="75%",SHOTGUN=2,SHIELD=1,ARMOR=1,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true},
-{SOFT_ARMOR="75%",MG=2,SHIELD=1,ARMOR=1,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true}
-},
-COMBAT_4={
-{SOFT_ARMOR="100%",SHOTGUN=4,SHIELD=2,ARMOR=2,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true,REINFORCE_COUNT=2},
-{SOFT_ARMOR="100%",MG=4,SHIELD=2,ARMOR=2,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true,REINFORCE_COUNT=2}
-},
-COMBAT_5={
-{SOFT_ARMOR="100%",SHOTGUN=4,SHIELD=4,ARMOR=4,STRONG_WEAPON=true,COMBAT_SPECIAL=true,SUPER_REINFORCE=true,BLACK_SUPER_REINFORCE=true,REINFORCE_COUNT=3},
-{SOFT_ARMOR="100%",MG=4,SHIELD=4,ARMOR=4,STRONG_WEAPON=true,COMBAT_SPECIAL=true,SUPER_REINFORCE=true,BLACK_SUPER_REINFORCE=true,REINFORCE_COUNT=3}
-},
-NIGHT_C_1={GUN_LIGHT="75%"},
-LONG_RANGE_1={SNIPER=2},
-LONG_RANGE_2={SNIPER=2,
-STRONG_SNIPER=true},
-VEHICLE_1={MISSILE=2},
-VEHICLE_2={MISSILE=2,
-STRONG_MISSILE=true},
-VEHICLE_3={MISSILE=4,
-STRONG_MISSILE=true},
-HEAD_SHOT_1={HELMET="10%"},
-HEAD_SHOT_2={HELMET="20%"},
-HEAD_SHOT_3={HELMET="30%"},
-HEAD_SHOT_4={HELMET="40%"},
-HEAD_SHOT_5={HELMET="50%"},
-HEAD_SHOT_6={HELMET="60%"},
-HEAD_SHOT_7={HELMET="70%"},
-HEAD_SHOT_8={HELMET="80%"},
-HEAD_SHOT_9={HELMET="90%"},
-HEAD_SHOT_10={HELMET="100%"},
-TRANQ_1={STRONG_NOTICE_TRANQ=true},
-FULTON_0={},
-FULTON_1={FULTON_LOW=true},
-FULTON_2={FULTON_HIGH=true},
-FULTON_3={FULTON_SPECIAL=true}--[[--tex RETAILBUG: VERIFY: possible bug fixed,
+  HARD_MISSION={IGNORE_BLOCKED=true},
+  _ENABLE_CAMERA_LV=1,
+  _ENABLE_DECOY_LV=2,
+  _ENABLE_MINE_LV=3,
+  STEALTH_0={
+    STEALTH_LOW=true,
+    HOLDUP_LOW=true
+  },
+  STEALTH_1={
+    CAMERA="100%",
+    HOLDUP_LOW=true
+  },
+  STEALTH_2={
+    DECOY="100%",
+    CAMERA="100%"
+  },
+  STEALTH_3={
+    DECOY="100%",
+    MINE="100%",
+    CAMERA="100%",
+    STEALTH_HIGH=true
+  },
+  STEALTH_4={
+    DECOY="100%",
+    MINE="100%",
+    CAMERA="100%",
+    STEALTH_HIGH=true,
+    HOLDUP_HIGH=true,
+    ACTIVE_DECOY=true,
+    GUN_CAMERA=true},
+  STEALTH_5={
+    DECOY="100%",
+    MINE="100%",
+    CAMERA="100%",
+    STEALTH_SPECIAL=true,
+    HOLDUP_HIGH=true,
+    ACTIVE_DECOY=true,
+    GUN_CAMERA=true},
+  NIGHT_S_1={NVG="25%"},
+  NIGHT_S_2={NVG="50%"},
+  NIGHT_S_3={NVG="75%"},
+  _ENABLE_SOFT_ARMOR_LV=1,
+  _ENABLE_SHOTGUN_LV=1,
+  _ENABLE_MG_LV=1,
+  _ENABLE_SHIELD_LV=2,
+  _ENABLE_ARMOR_LV=3,
+  COMBAT_0={COMBAT_LOW=true},
+  COMBAT_1={
+    {SOFT_ARMOR="25%",SHOTGUN=2},
+    {SOFT_ARMOR="25%",MG=2}},
+  COMBAT_2={
+    {SOFT_ARMOR="50%",SHOTGUN=2,SHIELD=1},
+    {SOFT_ARMOR="50%",MG=2,SHIELD=1}
+  },
+  COMBAT_3={
+    {SOFT_ARMOR="75%",SHOTGUN=2,SHIELD=1,ARMOR=1,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true},
+    {SOFT_ARMOR="75%",MG=2,SHIELD=1,ARMOR=1,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true}
+  },
+  COMBAT_4={
+    {SOFT_ARMOR="100%",SHOTGUN=4,SHIELD=2,ARMOR=2,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true,REINFORCE_COUNT=2},
+    {SOFT_ARMOR="100%",MG=4,SHIELD=2,ARMOR=2,STRONG_WEAPON=true,COMBAT_HIGH=true,SUPER_REINFORCE=true,REINFORCE_COUNT=2}
+  },
+  COMBAT_5={
+    {SOFT_ARMOR="100%",SHOTGUN=4,SHIELD=4,ARMOR=4,STRONG_WEAPON=true,COMBAT_SPECIAL=true,SUPER_REINFORCE=true,BLACK_SUPER_REINFORCE=true,REINFORCE_COUNT=3},
+    {SOFT_ARMOR="100%",MG=4,SHIELD=4,ARMOR=4,STRONG_WEAPON=true,COMBAT_SPECIAL=true,SUPER_REINFORCE=true,BLACK_SUPER_REINFORCE=true,REINFORCE_COUNT=3}
+  },
+  NIGHT_C_1={GUN_LIGHT="75%"},
+  LONG_RANGE_1={SNIPER=2},
+  LONG_RANGE_2={SNIPER=2,
+    STRONG_SNIPER=true},
+  VEHICLE_1={MISSILE=2},
+  VEHICLE_2={MISSILE=2,
+    STRONG_MISSILE=true},
+  VEHICLE_3={MISSILE=4,
+    STRONG_MISSILE=true},
+  HEAD_SHOT_1={HELMET="10%"},
+  HEAD_SHOT_2={HELMET="20%"},
+  HEAD_SHOT_3={HELMET="30%"},
+  HEAD_SHOT_4={HELMET="40%"},
+  HEAD_SHOT_5={HELMET="50%"},
+  HEAD_SHOT_6={HELMET="60%"},
+  HEAD_SHOT_7={HELMET="70%"},
+  HEAD_SHOT_8={HELMET="80%"},
+  HEAD_SHOT_9={HELMET="90%"},
+  HEAD_SHOT_10={HELMET="100%"},
+  TRANQ_1={STRONG_NOTICE_TRANQ=true},
+  FULTON_0={},
+  FULTON_1={FULTON_LOW=true},
+  FULTON_2={FULTON_HIGH=true},
+  FULTON_3={FULTON_SPECIAL=true}--[[--tex RETAILBUG: VERIFY: possible bug fixed,
+
  fulton was 0 low 1 blank 2 high,
+
  now 0 blank 1 low 2 high--]],
-SMOKE_1={GAS_MASK="25%"},
-SMOKE_2={GAS_MASK="50%"},
-SMOKE_3={GAS_MASK="75%"},
-FOB_NoKill={NO_KILL_WEAPON=true},
-FOB_EquipGrade_1={EQUIP_GRADE_LIMIT=1},
-FOB_EquipGrade_2={EQUIP_GRADE_LIMIT=2},
-FOB_EquipGrade_3={EQUIP_GRADE_LIMIT=3},
-FOB_EquipGrade_4={EQUIP_GRADE_LIMIT=4},
-FOB_EquipGrade_5={EQUIP_GRADE_LIMIT=5},
-FOB_EquipGrade_6={EQUIP_GRADE_LIMIT=6},
-FOB_EquipGrade_7={EQUIP_GRADE_LIMIT=7},
-FOB_EquipGrade_8={EQUIP_GRADE_LIMIT=8},
-FOB_EquipGrade_9={EQUIP_GRADE_LIMIT=9},
-FOB_EquipGrade_10={EQUIP_GRADE_LIMIT=10},
-FOB_ShortRange={SHOTGUN="30%",SHIELD="60%",SMG="100%"},
-FOB_MiddleRange={MG="40%",MISSILE="15%"},
-FOB_LongRange={SNIPER="50%"},
-FOB_ShortRange_1={},
-FOB_ShortRange_2={SHOTGUN="10%"},
-FOB_ShortRange_3={SHOTGUN="10%"},
-FOB_ShortRange_4={SMG="10%",SHOTGUN="10%",SHIELD="10%"},
-FOB_ShortRange_5={SMG="10%",SHOTGUN="10%",SHIELD="10%"},
-FOB_ShortRange_6={SMG="20%",SHOTGUN="10%",SHIELD="20%"},
-FOB_ShortRange_7={SMG="20%",SHOTGUN="20%",SHIELD="20%"},
-FOB_ShortRange_8={STRONG_WEAPON=true,SMG="20%",SHOTGUN="20%",SHIELD="20%"},
-FOB_ShortRange_9={STRONG_WEAPON=true,SMG="20%",SHOTGUN="25%",SHIELD="20%"},
-FOB_ShortRange_10={STRONG_WEAPON=true,SMG="30%",SHOTGUN="30%",SHIELD="30%"},
-FOB_MiddleRange_1={},
-FOB_MiddleRange_2={MG="10%"},
-FOB_MiddleRange_3={MG="10%"},
-FOB_MiddleRange_4={MG="20%"},
-FOB_MiddleRange_5={MG="20%"},
-FOB_MiddleRange_6={STRONG_WEAPON=true,MG="20%"},
-FOB_MiddleRange_7={STRONG_WEAPON=true,MG="30%"},
-FOB_MiddleRange_8={STRONG_WEAPON=true,MG="30%",SHOTGUN="10%"},
-FOB_MiddleRange_9={STRONG_WEAPON=true,MG="30%",SHOTGUN="10%",MISSILE="10%"},
-FOB_MiddleRange_10={STRONG_WEAPON=true,MG="40%",SHOTGUN="10%",SNIPER="10%",MISSILE="10%"},
-FOB_LongRange_1={},
-FOB_LongRange_2={SNIPER="10%"},
-FOB_LongRange_3={SNIPER="10%"},
-FOB_LongRange_4={SNIPER="15%"},
-FOB_LongRange_5={STRONG_SNIPER=true,SNIPER="15%"},
-FOB_LongRange_6={STRONG_SNIPER=true,SNIPER="20%",MISSILE="10%"},
-FOB_LongRange_7={STRONG_SNIPER=true,SNIPER="20%",MISSILE="10%"},
-FOB_LongRange_8={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="20%",MISSILE="10%"},
-FOB_LongRange_9={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="25%",MISSILE="10%"},
-FOB_LongRange_10={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="30%",MISSILE="20%",MG="10%"}
+  SMOKE_1={GAS_MASK="25%"},
+  SMOKE_2={GAS_MASK="50%"},
+  SMOKE_3={GAS_MASK="75%"},
+  FOB_NoKill={NO_KILL_WEAPON=true},
+  FOB_EquipGrade_1={EQUIP_GRADE_LIMIT=1},
+  FOB_EquipGrade_2={EQUIP_GRADE_LIMIT=2},
+  FOB_EquipGrade_3={EQUIP_GRADE_LIMIT=3},
+  FOB_EquipGrade_4={EQUIP_GRADE_LIMIT=4},
+  FOB_EquipGrade_5={EQUIP_GRADE_LIMIT=5},
+  FOB_EquipGrade_6={EQUIP_GRADE_LIMIT=6},
+  FOB_EquipGrade_7={EQUIP_GRADE_LIMIT=7},
+  FOB_EquipGrade_8={EQUIP_GRADE_LIMIT=8},
+  FOB_EquipGrade_9={EQUIP_GRADE_LIMIT=9},
+  FOB_EquipGrade_10={EQUIP_GRADE_LIMIT=10},
+  FOB_ShortRange={SHOTGUN="30%",SHIELD="60%",SMG="100%"},
+  FOB_MiddleRange={MG="40%",MISSILE="15%"},
+  FOB_LongRange={SNIPER="50%"},
+  FOB_ShortRange_1={},
+  FOB_ShortRange_2={SHOTGUN="10%"},
+  FOB_ShortRange_3={SHOTGUN="10%"},
+  FOB_ShortRange_4={SMG="10%",SHOTGUN="10%",SHIELD="10%"},
+  FOB_ShortRange_5={SMG="10%",SHOTGUN="10%",SHIELD="10%"},
+  FOB_ShortRange_6={SMG="20%",SHOTGUN="10%",SHIELD="20%"},
+  FOB_ShortRange_7={SMG="20%",SHOTGUN="20%",SHIELD="20%"},
+  FOB_ShortRange_8={STRONG_WEAPON=true,SMG="20%",SHOTGUN="20%",SHIELD="20%"},
+  FOB_ShortRange_9={STRONG_WEAPON=true,SMG="20%",SHOTGUN="25%",SHIELD="20%"},
+  FOB_ShortRange_10={STRONG_WEAPON=true,SMG="30%",SHOTGUN="30%",SHIELD="30%"},
+  FOB_MiddleRange_1={},
+  FOB_MiddleRange_2={MG="10%"},
+  FOB_MiddleRange_3={MG="10%"},
+  FOB_MiddleRange_4={MG="20%"},
+  FOB_MiddleRange_5={MG="20%"},
+  FOB_MiddleRange_6={STRONG_WEAPON=true,MG="20%"},
+  FOB_MiddleRange_7={STRONG_WEAPON=true,MG="30%"},
+  FOB_MiddleRange_8={STRONG_WEAPON=true,MG="30%",SHOTGUN="10%"},
+  FOB_MiddleRange_9={STRONG_WEAPON=true,MG="30%",SHOTGUN="10%",MISSILE="10%"},
+  FOB_MiddleRange_10={STRONG_WEAPON=true,MG="40%",SHOTGUN="10%",SNIPER="10%",MISSILE="10%"},
+  FOB_LongRange_1={},
+  FOB_LongRange_2={SNIPER="10%"},
+  FOB_LongRange_3={SNIPER="10%"},
+  FOB_LongRange_4={SNIPER="15%"},
+  FOB_LongRange_5={STRONG_SNIPER=true,SNIPER="15%"},
+  FOB_LongRange_6={STRONG_SNIPER=true,SNIPER="20%",MISSILE="10%"},
+  FOB_LongRange_7={STRONG_SNIPER=true,SNIPER="20%",MISSILE="10%"},
+  FOB_LongRange_8={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="20%",MISSILE="10%"},
+  FOB_LongRange_9={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="25%",MISSILE="10%"},
+  FOB_LongRange_10={STRONG_WEAPON=true,STRONG_SNIPER=true,STRONG_MISSILE=true,SNIPER="30%",MISSILE="20%",MG="10%"}
 }
 function this.SelectRevengeType()
   local n=TppMission.GetMissionID()
@@ -223,31 +240,57 @@ function this.SelectRevengeType()
   return t
 end
 --[[ORIG: function e.SelectRevengeType()
+
   local n=TppMission.GetMissionID()
+
   if e.IsNoRevengeMission(n)or n==10115 then
+
     return{}
+
   end
+
   local r=TppMission.IsHardMission(n)
+
   local t={}
+
   for E=0,e.REVENGE_TYPE.MAX-1 do
+
     local n
+
     if r then
+
       n=e.GetRevengeLvMax(E,REVENGE_LV_LIMIT_RANK_MAX)
+
     else
+
       n=e.GetRevengeLv(E)
+
     end
+
     if n>=0 then
+
       local n=e.REVENGE_TYPE_NAME[E+1]..("_"..tostring(n))
+
       local e=e.revengeDefine[n]
+
       if e then
+
         table.insert(t,n)
+
       end
+
     end
+
   end
+
   if r then
+
     table.insert(t,"HARD_MISSION")
+
   end
+
   return t
+
 end--]]
 function this.SetForceRevengeType(e)
   --TppUiCommand.AnnounceLogView("SetForceRevengeType")--tex DEBUG: CULL:
@@ -822,36 +865,36 @@ function this._SetMbInterrogate()
   GameObject.SendCommand({type="TppSoldier2"},{id="SetMbInterrogate",enableMask=E})
 end
 function this._SetEnmityLv()
-  local n=this.GetRevengePoint(this.REVENGE_TYPE.STEALTH)
-  local e=this.GetRevengePoint(this.REVENGE_TYPE.COMBAT)
-  local t=math.max(n,e)
-  local e={TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_NONE,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_10,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_20,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_30,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_40,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_50,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_60,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_70,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_80,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_90,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_100}
+  local revengeStealth=this.GetRevengePoint(this.REVENGE_TYPE.STEALTH)
+  local revengeCombat=this.GetRevengePoint(this.REVENGE_TYPE.COMBAT)
+  local t=math.max(revengeStealth,revengeCombat)
+  local enmityLevels={TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_NONE,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_10,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_20,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_30,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_40,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_50,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_60,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_70,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_80,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_90,TppMotherBaseManagementConst.STAFF_INIT_ENMITY_LV_100}
   local n=500
-  local E=#e
-  local n=math.floor((t*(E-1))/n)+1
-  if n>=E then
-    n=#e
+  local numLevels=#enmityLevels
+  local enmityLevel=math.floor((t*(numLevels-1))/n)+1
+  if enmityLevel>=numLevels then
+    enmityLevel=#enmityLevels
   end
-  local e=e[n]
-  TppMotherBaseManagement.SetStaffInitEnmityLv{lv=e}
+  local staffEnmityLv=enmityLevels[enmityLevel]
+  TppMotherBaseManagement.SetStaffInitEnmityLv{lv=staffEnmityLv}
 end
-function this.OnMissionClearOrAbort(n)
+function this.OnMissionClearOrAbort(missionId)
   gvars.rev_revengeRandomValue=math.random(0,2147483647)
-  this.ApplyMissionTendency(n)
-  this._ReduceRevengePointByChickenCap(n)
-  this._ReduceBlockedCount(n)
+  this.ApplyMissionTendency(missionId)
+  this._ReduceRevengePointByChickenCap(missionId)
+  this._ReduceBlockedCount(missionId)
   this._ReceiveClearedDeployRevengeMission()
-  this.UpdateRevengeLv(n)
+  this.UpdateRevengeLv(missionId)
   this._AddDeployRevengeMission()
 end
-function this._ReduceBlockedCount(n)
-  if not TppMission.IsHelicopterSpace(n)then
+function this._ReduceBlockedCount(missionId)
+  if not TppMission.IsHelicopterSpace(missionId)then
     return
   end
   for n=0,this.BLOCKED_TYPE.MAX-1 do
-    local e=gvars.rev_revengeBlockedCount[n]
-    if e>0 then
-      gvars.rev_revengeBlockedCount[n]=e-1
+    local blockedCountDorType=gvars.rev_revengeBlockedCount[n]
+    if blockedCountDorType>0 then
+      gvars.rev_revengeBlockedCount[n]=blockedCountDorType-1
     end
   end
 end
@@ -921,11 +964,11 @@ function this._ReduceRevengePointOther()
     this.SetRevengePoint(E,a-n)
   end
 end
-function this.ReduceRevengePointOnMissionClear(n)
-  if n==nil then
-    n=TppMission.GetMissionID()
+function this.ReduceRevengePointOnMissionClear(missionId)
+  if missionId==nil then
+    missionId=TppMission.GetMissionID()
   end
-  if this.IsNoRevengeMission(n)then
+  if this.IsNoRevengeMission(missionId)then
     return
   end
   if bit.band(vars.playerPlayFlag,PlayerPlayFlag.USE_CHICKEN_CAP)==PlayerPlayFlag.USE_CHICKEN_CAP then
@@ -933,11 +976,11 @@ function this.ReduceRevengePointOnMissionClear(n)
   end
   this._ReduceRevengePointOther()
 end
-function this._ReduceRevengePointByChickenCap(n)
-  if n==nil then
-    n=TppMission.GetMissionID()
+function this._ReduceRevengePointByChickenCap(missionId)
+  if missionId==nil then
+    missionId=TppMission.GetMissionID()
   end
-  if this.IsNoRevengeMission(n)then
+  if this.IsNoRevengeMission(missionId)then
     return
   end
   if bit.band(vars.playerPlayFlag,PlayerPlayFlag.USE_CHICKEN_CAP)==PlayerPlayFlag.USE_CHICKEN_CAP then
@@ -947,56 +990,60 @@ function this._ReduceRevengePointByChickenCap(n)
 end
 function this.ReduceRevengePointOnAbort(e)
 end
-function this._GetMissionTendency(n)
-  local n=this.GetRevengePoint(this.REVENGE_TYPE.M_STEALTH)
-  local e=this.GetRevengePoint(this.REVENGE_TYPE.M_COMBAT)
-  if n==0 and e==0 then
+function this._GetMissionTendency(missionId)
+  local mStealth=this.GetRevengePoint(this.REVENGE_TYPE.M_STEALTH)
+  local mCombat=this.GetRevengePoint(this.REVENGE_TYPE.M_COMBAT)
+  if mStealth==0 and mCombat==0 then
     return"STEALTH"end
-  if e==0 then
+  if mCombat==0 then
     return"STEALTH"end
-  if n==0 then
+  if mStealth==0 then
     return"COMBAT"end
-  local t=n-e
+  local tendencyDifference=mStealth-mCombat
   local r=.3
-  local E=10
-  local e=(n+e)*r
-  if e<E then
-    e=E
+  local maxLevel=10--VERIFY: name
+  local e=(mStealth+mCombat)*r
+  if e<maxLevel then
+    e=maxLevel
   end
-  local n="DRAW"if t>=e then
-    n="STEALTH"elseif t<=-e then
-    n="COMBAT"end
-  return n
+  local tendency="DRAW"
+  if tendencyDifference>=e then
+    tendency="STEALTH"
+  elseif tendencyDifference<=-e then
+    tendency="COMBAT"
+  end
+  return tendency
 end
-function this.ApplyMissionTendency(n)
-  if n==nil then
-    n=TppMission.GetMissionID()
+function this.ApplyMissionTendency(missionId)
+  if missionId==nil then
+    missionId=TppMission.GetMissionID()
   end
-  if(not this.IsNoRevengeMission(n)and not this.IsNoStealthCombatRevengeMission(n))and bit.band(vars.playerPlayFlag,PlayerPlayFlag.USE_CHICKEN_CAP)~=PlayerPlayFlag.USE_CHICKEN_CAP then
-    local n=this._GetMissionTendency(n)
-    local n=this.MISSION_TENDENCY_POINT_TABLE[n]
-    if n then
-      local E=this.GetRevengeLv(this.REVENGE_TYPE.STEALTH)+1
-      local t=this.GetRevengeLv(this.REVENGE_TYPE.COMBAT)+1
-      if E>#n.STEALTH then
-        E=#n.STEALTH
+  if(not this.IsNoRevengeMission(missionId)and not this.IsNoStealthCombatRevengeMission(missionId))and bit.band(vars.playerPlayFlag,PlayerPlayFlag.USE_CHICKEN_CAP)~=PlayerPlayFlag.USE_CHICKEN_CAP then
+    local missionTendancy=this._GetMissionTendency(missionId)
+    local missionTendancyPoint=this.MISSION_TENDENCY_POINT_TABLE[missionTendancy]
+    if missionTendancyPoint then
+      local nextStealthLevel=this.GetRevengeLv(this.REVENGE_TYPE.STEALTH)+1
+      local nextCombatLevel=this.GetRevengeLv(this.REVENGE_TYPE.COMBAT)+1
+      if nextStealthLevel>#missionTendancyPoint.STEALTH then
+        nextStealthLevel=#missionTendancyPoint.STEALTH
       end
-      if t>#n.COMBAT then
-        t=#n.COMBAT
+      if nextCombatLevel>#missionTendancyPoint.COMBAT then
+        nextCombatLevel=#missionTendancyPoint.COMBAT
       end
-      this.AddRevengePoint(this.REVENGE_TYPE.STEALTH,n.STEALTH[E])
-      this.AddRevengePoint(this.REVENGE_TYPE.COMBAT,n.COMBAT[t])
+      this.AddRevengePoint(this.REVENGE_TYPE.STEALTH,missionTendancyPoint.STEALTH[nextStealthLevel])
+      this.AddRevengePoint(this.REVENGE_TYPE.COMBAT,missionTendancyPoint.COMBAT[nextCombatLevel])
     end
   end
   this.SetRevengePoint(this.REVENGE_TYPE.M_STEALTH,0)
   this.SetRevengePoint(this.REVENGE_TYPE.M_COMBAT,0)
 end
 function this.CanUseReinforceVehicle()
-  local n=TppMission.GetMissionID()
-  return this.USE_SUPER_REINFORCE_VEHICLE_MISSION[n]
+  local missionId=TppMission.GetMissionID()
+  return this.USE_SUPER_REINFORCE_VEHICLE_MISSION[missionId]
 end
 function this.CanUseReinforceHeli()
-  return not GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli"end
+  return not GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli"
+end
 function this.SelectReinforceType()
   if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then
     return TppReinforceBlock.REINFORCE_TYPE.HELI
@@ -1004,25 +1051,27 @@ function this.SelectReinforceType()
   if not this.IsUsingSuperReinforce()then
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
-  local n={}
-  local t=this.CanUseReinforceVehicle()
-  local E=this.CanUseReinforceHeli()
-  if t then
-    local e={AFGH={TppReinforceBlock.REINFORCE_TYPE.EAST_WAV,TppReinforceBlock.REINFORCE_TYPE.EAST_TANK},MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}}
+  local reinforceVehicleTypes={}
+  local canuseReinforceVehicle=this.CanUseReinforceVehicle()
+  local canUseReinforceHeli=this.CanUseReinforceHeli()
+  if canuseReinforceVehicle then
+    local reinforceVehiclesForLocation={
+      AFGH={TppReinforceBlock.REINFORCE_TYPE.EAST_WAV,TppReinforceBlock.REINFORCE_TYPE.EAST_TANK},
+      MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}}
     if TppLocation.IsAfghan()then
-      n=e.AFGH
+      reinforceVehicleTypes=reinforceVehiclesForLocation.AFGH
     elseif TppLocation.IsMiddleAfrica()then
-      n=e.MAFR
+      reinforceVehicleTypes=reinforceVehiclesForLocation.MAFR
     end
   end
-  if E then
-    table.insert(n,TppReinforceBlock.REINFORCE_TYPE.HELI)
+  if canUseReinforceHeli then
+    table.insert(reinforceVehicleTypes,TppReinforceBlock.REINFORCE_TYPE.HELI)
   end
-  if#n==0 then
+  if#reinforceVehicleTypes==0 then
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
-  local e=math.random(1,#n)
-  return n[e]
+  local randomVehicleType=math.random(1,#reinforceVehicleTypes)
+  return reinforceVehicleTypes[randomVehicleType]
 end
 function this.ApplyPowerSettingsForReinforce(r)
   for n,e in ipairs(r)do
@@ -1153,11 +1202,13 @@ function this._CreateRevengeConfig(revengeType)
         end
       end
     end
-  end  
+  end
   --[[TppUiCommand.AnnounceLogView("_CreateRevengeConfig")--tex DEBUG: CULL:
+
   local insrev = InfInspect.Inspect(revengeConfig)
+
   TppUiCommand.AnnounceLogView(insrev)--]]
-  
+
   return revengeConfig
 end
 function this._AllocateResources(config)
@@ -1462,11 +1513,11 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,a)
         local holdup
         if loadout.HOLDUP_SPECIAL then
           holdup="sp"
-          elseif loadout.HOLDUP_HIGH then
+        elseif loadout.HOLDUP_HIGH then
           holdup="high"
-          elseif loadout.HOLDUP_LOW then
+        elseif loadout.HOLDUP_LOW then
           holdup="low"
-          end
+        end
         personalAbilitySettings.holdup=holdup
       end
       TppEnemy.ApplyPersonalAbilitySettings(soldierId,personalAbilitySettings)
@@ -1508,11 +1559,11 @@ function this._OnHeadShot(E,t,t,n)
   end
   this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.HEAD_SHOT)
 end
-local E=function(n)
-  if n==nil then
-    n=vars.playerPhase
+local AddRevengePointByEliminationType=function(playerPhase)
+  if playerPhase==nil then
+    playerPhase=vars.playerPhase
   end
-  if n~=TppGameObject.PHASE_SNEAK or vars.playerPhase~=TppGameObject.PHASE_SNEAK then
+  if playerPhase~=TppGameObject.PHASE_SNEAK or vars.playerPhase~=TppGameObject.PHASE_SNEAK then
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_COMBAT)
   else
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.ELIMINATED_IN_STEALTH)
@@ -1521,31 +1572,31 @@ local E=function(n)
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.ELIMINATED_AT_NIGHT)
   end
 end
-function this._OnDead(t,n,i)
+function this._OnDead(t,n,playerPhase)
   if GetTypeIndex(t)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
-  local o=(Tpp.IsVehicle(vars.playerVehicleGameObjectId)or Tpp.IsEnemyWalkerGear(vars.playerVehicleGameObjectId))or Tpp.IsPlayerWalkerGear(vars.playerVehicleGameObjectId)
+  local isPlayerVehicle=(Tpp.IsVehicle(vars.playerVehicleGameObjectId)or Tpp.IsEnemyWalkerGear(vars.playerVehicleGameObjectId))or Tpp.IsPlayerWalkerGear(vars.playerVehicleGameObjectId)
   local _=r(attackId)
   local r=Tpp.IsEnemyWalkerGear(n)or Tpp.IsPlayerWalkerGear(n)
   local t=(n==GameObject.GetGameObjectIdByIndex("TppPlayer2",PlayerInfo.GetLocalPlayerIndex()))
-  if(r or _)or(t and o)then
+  if(r or _)or(t and isPlayerVehicle)then
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.KILLED_BY_VEHICLE)
   end
-  E(i)
+  AddRevengePointByEliminationType(playerPhase)
   if GetTypeIndex(n)==TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.KILLED_BY_HELI)
   end
 end
-function this._OnUnconscious(e,t,n)
-  if GetTypeIndex(e)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+function this._OnUnconscious(gameId,t,playerPhase)
+  if GetTypeIndex(gameId)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
-  local e=GameObject.SendCommand(e,{id="GetLifeStatus"})
-  if e==TppGameObject.NPC_LIFE_STATE_DYING or e==TppGameObject.NPC_LIFE_STATE_DEAD then
+  local lifeStatus=GameObject.SendCommand(gameId,{id="GetLifeStatus"})
+  if lifeStatus==TppGameObject.NPC_LIFE_STATE_DYING or lifeStatus==TppGameObject.NPC_LIFE_STATE_DEAD then
     return
   end
-  E(n)
+  AddRevengePointByEliminationType(playerPhase)
 end
 function this._OnAnnihilated(E,n,t)
   if t==0 then

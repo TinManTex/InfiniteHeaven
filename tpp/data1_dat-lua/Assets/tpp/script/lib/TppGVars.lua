@@ -274,7 +274,7 @@ this.DeclareGVarsTable={
   {name="ui_isControlGuidShownInThisGame",arraySize=TppDefine.MAX_CONTROL_GUIDE_SHOWN_ONCE,type=TppScriptVars.TYPE_BOOL,value=false,save=false,category=TppScriptVars.CATEGORY_MISSION},
   {name="dbg_forceMaster",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="dbg_autoMissionOpenClearCheck",type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},
-  --[[--tex mod settings save vars--]]
+  --[[--tex mod settings save vars--]]--DEBUGNOW: startoffline
   {name="startOffline",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},--[[--tex cant get it to read, yet isNewgame is fine? does it only work with bools?--]]
   {name="isManualSubsistence",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="subsistenceLoadout",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
@@ -290,14 +290,18 @@ this.DeclareGVarsTable={
   {name="mbSoldierEquipGrade",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="mbSoldierEquipRange",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="mbWarGames",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
-  {name="mbPlayTime",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="mbPlayTime",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONSETTING
   {name="mbDDSuit",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="mbDDBalaclava",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
-  {name="forceSoldierType",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="forceSoldierSubType",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="soldierTypeForced",type=TppScriptVars.TYPE_BOOL,value=false,arraySize=360,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONSETTING MAX_SOLDIER_STATE_COUNT
   {name="mbDemoSelection",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="mbSelectedDemo",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
   {name="useSoldierForDemos",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="unlockPlayableAvatar",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
+  {name="startOnFoot",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},
+  {name="clockTimeScale",type=TppScriptVars.TYPE_UINT32,value=20,save=true,category=TppScriptVars.CATEGORY_GAME_GLOBAL},
+  {name="warpToDropLz",type=TppScriptVars.TYPE_UINT32,value=0,save=false},
   nil
 }
 TppScriptVars.DeclareGVars(this.DeclareGVarsTable)

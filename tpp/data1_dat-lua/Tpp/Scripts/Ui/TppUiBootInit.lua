@@ -26,7 +26,7 @@ if Fox.GetPlatformName()=="Windows"then
 else
   TppUiCommand.SetPlatformLanguage()
 end
-local m=AssetConfiguration.GetDefaultCategory"Language"
+local languageCode=AssetConfiguration.GetDefaultCategory"Language"
 local s=""
 local o=""
 local _=""
@@ -40,20 +40,20 @@ if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   e="/Assets/mgo"
 end
 local packPath=e.."/pack/ui/lang/lang_default_data_eng.fpk"
-if m=="jpn"then
+if languageCode=="jpn"then
   s="FontSystem_KanjiFont"
   o="/Assets/tpp/font/font_def_jp.ffnt"
   _="FontSystem_Slot3"
   p="/Assets/tpp/font/KanjiFont.ffnt"i=2
   t=3
   packPath=e.."/pack/ui/lang/lang_default_data_jpn.fpk"
-  elseif m=="eng"then
+  elseif languageCode=="eng"then
   s="FontSystem_LatinFont"
   o="/Assets/tpp/font/font_def_ltn.ffnt"
   _="FontSystem_Slot3"
   p="/Assets/tpp/font/LatinFont.ffnt"i=1
   t=3
-elseif m=="rus"then
+elseif languageCode=="rus"then
   s="FontSystem_LatinFont"
   o="/Assets/tpp/font/font_def_rus.ffnt"
   _="FontSystem_Slot3"
@@ -63,7 +63,7 @@ elseif m=="rus"then
   i=1
   t=3
   packPath=e.."/pack/ui/lang/lang_default_data_rus.fpk"
-  elseif m=="ara"then
+  elseif languageCode=="ara"then
   s="FontSystem_LatinFont"
   o="/Assets/tpp/font/arabia.ffnt"
   _="FontSystem_Slot3"
@@ -82,7 +82,7 @@ GrTools.FontSystemLoad(s,o)
 GrTools.FontSystemLoad(_,p)
 UiDaemon.SetFontTypeTransTable(0,i)
 UiDaemon.SetFontTypeTransTable(1,t)
-if m=="rus"then
+if languageCode=="rus"then
   GrTools.FontSystemLoad(n,a)
 end
 TppUiCommand.ChangeLanguage()

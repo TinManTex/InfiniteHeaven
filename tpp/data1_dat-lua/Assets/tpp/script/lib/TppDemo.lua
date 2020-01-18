@@ -491,12 +491,12 @@ function this.SetPlayerPause()
   mvars.dem_isPlayerPausing=true
   Player.SetPause()
 end
-function this.SetPlayerWarp(e,a)
+function this.SetPlayerWarp(position,rotationY)
   mvars.dem_isPlayerPausing=true
   Player.SetPause()
-  local n={type="TppPlayer2",index=0}
-  local e={id="WarpAndWaitBlock",pos={e:GetX(),e:GetY(),e:GetZ()},rotY=a}
-  GameObject.SendCommand(n,e)
+  local playerId={type="TppPlayer2",index=0}
+  local command={id="WarpAndWaitBlock",pos={position:GetX(),position:GetY(),position:GetZ()},rotY=rotationY}
+  GameObject.SendCommand(playerId,command)
 end
 function this.UnsetStageBlockLoadPosition()
   TppGameStatus.Reset("TppDemo.ReserveInTheBackground","S_IS_BLACK_LOADING")

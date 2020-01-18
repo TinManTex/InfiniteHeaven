@@ -1,88 +1,126 @@
-local e={}
-local _=Fox.StrCode32
+local this={}
+local StrCode32=Fox.StrCode32
 local n=Tpp.Code32Table
 local n=GameObject.SendCommand
-local t=bit.band
-local o=GameObject.GetGameObjectId
-local r=GameObject.GetTypeIndex
-local c=Tpp.IsTypeString
-e.MISSION_ABORT={heroicPoint=-50,ogrePoint=0}
-e.MISSION_CLEAR={S={heroicPoint=1600,ogrePoint=0},A={heroicPoint=800,ogrePoint=0},B={heroicPoint=400,ogrePoint=0},C={heroicPoint=200,ogrePoint=0},D={heroicPoint=100,ogrePoint=0},E={heroicPoint=50,ogrepoint=0}}
-e.ALL_MISSION_CLEAR={heroicPoint=1e4,ogrePoint=0}
-e.ALL_MISSION_S_RANK_CLEAR={heroicPoint=5e4,ogrePoint=0}
-e.QUEST_CLEAR={[TppDefine.QUEST_RANK.S]={heroicPoint=500,ogrePoint=0},[TppDefine.QUEST_RANK.A]={heroicPoint=400,ogrePoint=0},[TppDefine.QUEST_RANK.B]={heroicPoint=400,ogrePoint=0},[TppDefine.QUEST_RANK.C]={heroicPoint=300,ogrePoint=0},[TppDefine.QUEST_RANK.D]={heroicPoint=300,ogrePoint=0},[TppDefine.QUEST_RANK.E]={heroicPoint=200,ogrePoint=0},[TppDefine.QUEST_RANK.F]={heroicPoint=200,ogrePoint=0},[TppDefine.QUEST_RANK.G]={heroicPoint=100,ogrePoint=0},[TppDefine.QUEST_RANK.H]={heroicPoint=100,ogrePoint=0},[TppDefine.QUEST_RANK.I]={heroicPoint=0,ogrePoint=0}}
-e.QUEST_ALL_CLEAR={heroicPoint=3e4,ogrePoint=0}
-e.MINE_QUEST_ALL_CLEAR={heroicPoint=5e3,ogrePoint=-5e3}
-e.ENEMY_HOLD_UP={heroicPoint=5,ogrePoint=0}
-e.ENEMY_INTERROGATE={heroicPoint=5,ogrePoint=0}
-e.PLAYER_ON_INJURY={heroicPoint=-10,ogrePoint=0}
-e.PLAYER_DEAD={heroicPoint=-30,ogrePoint=0}
-e.STARTED_COMBAT={heroicPoint=-10,ogrePoint=0}
-e.FULTON_DYING_ENEMY={heroicPoint=30,ogrePoint=-30}
-e.FULTON_HOSTAGE={heroicPoint=60,ogrePoint=-60}
-e.FULTON_PARASITE={heroicPoint=30,ogrePoint=-30}
-e.ON_HELI_DYING_ENEMY={heroicPoint=60,ogrePoint=-60}
-e.ON_HELI_HOSTAGE={heroicPoint=120,ogrePoint=-120}
-e.ON_HELI_LIQUID={heroicPoint=240,ogrePoint=-240}
-e.FIRE_KILL_SOLDIER={heroicPoint=0,ogrePoint=120}
-e.FIRE_KILL_SOLDIER_FOB_SNEAK={heroicPoint="HEROIC_POINT_FIRE_KILL_SOLDIER_FOB_SNEAK",ogrePoint="OGRE_POINT_FIRE_KILL_SOLDIER_FOB_SNEAK"}
-e.KILL_SOLDIER={heroicPoint=0,ogrePoint=60}
-e.KILL_SOLDIER_FOB_SNEAK={heroicPoint="HEROIC_POINT_KILL_SOLDIER_FOB_SNEAK",ogrePoint="OGRE_POINT_KILL_SOLDIER_FOB_SNEAK"}
-e.KILL_HOSTAGE={heroicPoint=-60,ogrePoint=100}
-e.FIRE_KILL_HOSTAGE={heroicPoint=-90,ogrePoint=200}
-e.FIRE_KILL_DD_HOSTAGE={heroicPoint=-90,ogrePoint=180}
-e.FIRE_KILL_DD_SOLDIER={heroicPoint=-90,ogrePoint=180}
-e.KILL_DD_SOLDIER={heroicPoint=-60,ogrePoint=180}
-e.KILL_DD_HOSTAGE={heroicPoint=-60,ogrePoint=90}
-e.DEAD_HOSTAGE={heroicPoint=-30,ogrePoint=0}
-e.DEAD_DD_SOLDIER={heroicPoint=-30,ogrePoint=0}
-e.DYING_SOLDIER={heroicPoint=0,ogrePoint=30}
-e.RECOVERED_SOLDIER={heroicPoint=0,ogrePoint=-30}
-e.VEHICLE_BROKEN={[Vehicle.type.EASTERN_LIGHT_VEHICLE]={heroicPoint=0,ogrePoint=0},[Vehicle.type.WESTERN_LIGHT_VEHICLE]={heroicPoint=0,ogrePoint=0},[Vehicle.type.EASTERN_TRUCK]={heroicPoint=0,ogrePoint=0},[Vehicle.type.WESTERN_TRUCK]={heroicPoint=0,ogrePoint=0},[Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]={heroicPoint=0,ogrePoint=0},[Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]={heroicPoint=0,ogrePoint=0},[Vehicle.type.EASTERN_TRACKED_TANK]={heroicPoint=0,ogrePoint=0},[Vehicle.type.WESTERN_TRACKED_TANK]={heroicPoint=0,ogrePoint=0}}
-e.BREAK_GIMMICK={[TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN]={heroicPoint=0,ogrePoint=0},[TppGameObject.GAME_OBJECT_TYPE_MORTAR]={heroicPoint=0,ogrePoint=0},[TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN]={heroicPoint=0,ogrePoint=0}}
-e.BREAK_GIMMICK_BY_TYPE={[TppGimmick.GIMMICK_TYPE.ANTN]={heroicPoint=0,ogrePoint=0},[TppGimmick.GIMMICK_TYPE.MCHN]={heroicPoint=0,ogrePoint=0},[TppGimmick.GIMMICK_TYPE.CMMN]={heroicPoint=0,ogrePoint=0},[TppGimmick.GIMMICK_TYPE.GNRT]={heroicPoint=0,ogrePoint=0},[TppGimmick.GIMMICK_TYPE.SWTC]={heroicPoint=0,ogrePoint=0},[TppGimmick.GIMMICK_TYPE.AACR]={heroicPoint=0,ogrePoint=0}}
-e.SUPPORT_HELI_LOST_CONTROLE={heroicPoint=-60,ogrePoint=150}
-e.BREAK_SUPPORT_HELI={heroicPoint=-30,ogrePoint=0}
-e.ENEMY_HELI_LOST_CONTROLE={heroicPoint=0,ogrePoint=120}
-e.ON_ANNIHILATE_BASE={heroicPoint=300,ogrePoint=0}
-e.ON_ANNIHILATE_OUTER_BASE={heroicPoint=30,ogrePoint=0}
-e.CONSTRUCT_FIRST_FOB={heroicPoint=1e3,ogrePoint=0}
-e.CONSTRUCT_SECOND_FOB={heroicPoint=2e3,ogrePoint=0}
-e.CONSTRUCT_THIRD_FOB={heroicPoint=3e3,ogrePoint=0}
-e.CONSTRUCT_FOURTH_FOB={heroicPoint=4e3,ogrePoint=0}
-e.HORSE_RIDED={heroicPoint=-5,ogrePoint=0}
-e.BREAK_MINE={heroicPoint=30,ogrePoint=0}
-e.BREAK_DECOY={heroicPoint=5,ogrePoint=0}
-e.PICK_UP_MINE={heroicPoint=30,ogrePoint=0}
-e.BREAK_SECURITY_CAMERA={heroicPoint=0,ogrePoint=0}
-e.BREAK_SECURITY_UAV={heroicPoint=0,ogrePoint=0}
-e.DYING_PARASITE={heroicPoint=60,ogrePoint=0}
-e.NuclearAbolition={heroicPoint=5e4,ogrePoint=-5e5}
-e.STARTED_COMBAT_ON_FOB={heroicPoint="HEROIC_POINT_STARTED_COMBAT_ON_FOB",ogrePoint=0}
-e.STARTED_COMBAT_ON_FOB_HERO={heroicPoint="HEROIC_POINT_STARTED_COMBAT_ON_FOB_HERO",ogrePoint=0}
-e.DISCOVER_ATTACKER={heroicPoint="HEROIC_POINT_DISCOVER_ATTACKER",ogrePoint=0}
-e.OFFENCE_WIN_ON_FOB={heroicPoint="HEROIC_POINT_OFFENSE_WIN",ogrePoint=0}
-e.OFFENCE_LOSE_ON_FOB={heroicPoint="HEROIC_POINT_OFFENSE_LOSE",ogrePoint=0}
-e.DEFENCE_WIN_ELIMINATE={heroicPoint="HEROIC_POINT_DEFENSE_WIN_ELIMINATE",ogrePoint=0}
-e.DEFENCE_WIN_ABORT={heroicPoint="HEROIC_POINT_DEFENSE_WIN_ABORT",ogrePoint=0}
-e.DEFENCE_LOSE={heroicPoint="HEROIC_POINT_DEFENSE_LOSE",ogrePoint=0}
-e.DEFENCE_FULTON_OFFENCE={heroicPoint="HEROIC_POINT_FULTONED_PLAYER",ogrePoint="OGRE_POINT_FULTONED_PLAYER"}
-e.OFFENCE_FULTONED_BY_DEFENCE={heroicPoint="HEROIC_POINT_FULTONED",ogrePoint=0}
-e.RETAKE_STAFF_FROM_FOB={heroicPoint="HEROIC_POINT_RETAKE_STAFF_FROM_FOB",ogrePoint=0}
-e.KILLED_PLAYER={heroicPoint=0,ogrePoint="OGRE_POINT_KILLED_PLAYER"}
-e.OFFENCE_WIN_ON_FOB_FOR_FRIEND={heroicPoint="HEROIC_POINT_OFFENSE_WIN_ON_FOB_FOR_FRIEND",ogrePoint=0}
-e.DEFENCE_WIN_FOR_FRIEND={heroicPoint="HEROIC_POINT_DEFENSE_WIN_FOR_FRIEND",ogrePoint=0}
-e.BREAK_PTW_MACHINEGUN={heroicPoint="HEROIC_POINT_BREAK_PTW_MACHINEGUN",ogrePoint="OGRE_POINT_BREAK_PTW_MACHINEGUN"}
-e.BREAK_PTW_MORTAR={heroicPoint="HEROIC_POINT_BREAK_PTW_MORTAR",ogrePoint="OGRE_POINT_BREAK_PTW_MORTAR"}
-e.BREAK_PTW_ANTIAIR={heroicPoint="HEROIC_POINT_BREAK_PTW_ANTIAIR",ogrePoint="OGRE_POINT_BREAK_PTW_ANTIAIR"}
-e.FULTON_SUPPORTER_CONTAINER={heroicPoint="HEROIC_POINT_FULTON_CONTAINER",ogrePoint="OGRE_POINT_FULTON_CONTAINER"}
-e.NOTICE_CRIME={heroicPoint="HEROIC_POINT_NOTICE_CRIME",ogrePoint=0}
-e.KILLED_DDS={heroicPoint="HEROIC_POINT_KILLED_DDS",ogrePoint="OGRE_POINT_KILLED_DDS"}
-e.FOB_ABORT_BY_MENU={heroicPoint="HEROIC_POINT_FOB_ABORT_BY_MENU",ogrePoint=0}
-function e.IsHero()
+local band=bit.band
+local GetGameObjectId=GameObject.GetGameObjectId
+local GetTypeIndex=GameObject.GetTypeIndex
+local IsTypeString=Tpp.IsTypeString
+this.MISSION_ABORT={heroicPoint=-50,ogrePoint=0}
+this.MISSION_CLEAR={
+  S={heroicPoint=1600,ogrePoint=0},
+A={heroicPoint=800,ogrePoint=0},
+B={heroicPoint=400,ogrePoint=0},
+C={heroicPoint=200,ogrePoint=0},
+D={heroicPoint=100,ogrePoint=0},
+E={heroicPoint=50,ogrepoint=0}
+}
+this.ALL_MISSION_CLEAR={heroicPoint=1e4,ogrePoint=0}
+this.ALL_MISSION_S_RANK_CLEAR={heroicPoint=5e4,ogrePoint=0}
+this.QUEST_CLEAR={
+[TppDefine.QUEST_RANK.S]={heroicPoint=500,ogrePoint=0},
+[TppDefine.QUEST_RANK.A]={heroicPoint=400,ogrePoint=0},
+[TppDefine.QUEST_RANK.B]={heroicPoint=400,ogrePoint=0},
+[TppDefine.QUEST_RANK.C]={heroicPoint=300,ogrePoint=0},
+[TppDefine.QUEST_RANK.D]={heroicPoint=300,ogrePoint=0},
+[TppDefine.QUEST_RANK.E]={heroicPoint=200,ogrePoint=0},
+[TppDefine.QUEST_RANK.F]={heroicPoint=200,ogrePoint=0},
+[TppDefine.QUEST_RANK.G]={heroicPoint=100,ogrePoint=0},
+[TppDefine.QUEST_RANK.H]={heroicPoint=100,ogrePoint=0},
+[TppDefine.QUEST_RANK.I]={heroicPoint=0,ogrePoint=0}
+}
+this.QUEST_ALL_CLEAR={heroicPoint=3e4,ogrePoint=0}
+this.MINE_QUEST_ALL_CLEAR={heroicPoint=5e3,ogrePoint=-5e3}
+this.ENEMY_HOLD_UP={heroicPoint=5,ogrePoint=0}
+this.ENEMY_INTERROGATE={heroicPoint=5,ogrePoint=0}
+this.PLAYER_ON_INJURY={heroicPoint=-10,ogrePoint=0}
+this.PLAYER_DEAD={heroicPoint=-30,ogrePoint=0}
+this.STARTED_COMBAT={heroicPoint=-10,ogrePoint=0}
+this.FULTON_DYING_ENEMY={heroicPoint=30,ogrePoint=-30}
+this.FULTON_HOSTAGE={heroicPoint=60,ogrePoint=-60}
+this.FULTON_PARASITE={heroicPoint=30,ogrePoint=-30}
+this.ON_HELI_DYING_ENEMY={heroicPoint=60,ogrePoint=-60}
+this.ON_HELI_HOSTAGE={heroicPoint=120,ogrePoint=-120}
+this.ON_HELI_LIQUID={heroicPoint=240,ogrePoint=-240}
+this.FIRE_KILL_SOLDIER={heroicPoint=0,ogrePoint=120}
+this.FIRE_KILL_SOLDIER_FOB_SNEAK={heroicPoint="HEROIC_POINT_FIRE_KILL_SOLDIER_FOB_SNEAK",ogrePoint="OGRE_POINT_FIRE_KILL_SOLDIER_FOB_SNEAK"}
+this.KILL_SOLDIER={heroicPoint=0,ogrePoint=60}
+this.KILL_SOLDIER_FOB_SNEAK={heroicPoint="HEROIC_POINT_KILL_SOLDIER_FOB_SNEAK",ogrePoint="OGRE_POINT_KILL_SOLDIER_FOB_SNEAK"}
+this.KILL_HOSTAGE={heroicPoint=-60,ogrePoint=100}
+this.FIRE_KILL_HOSTAGE={heroicPoint=-90,ogrePoint=200}
+this.FIRE_KILL_DD_HOSTAGE={heroicPoint=-90,ogrePoint=180}
+this.FIRE_KILL_DD_SOLDIER={heroicPoint=-90,ogrePoint=180}
+this.KILL_DD_SOLDIER={heroicPoint=-60,ogrePoint=180}
+this.KILL_DD_HOSTAGE={heroicPoint=-60,ogrePoint=90}
+this.DEAD_HOSTAGE={heroicPoint=-30,ogrePoint=0}
+this.DEAD_DD_SOLDIER={heroicPoint=-30,ogrePoint=0}
+this.DYING_SOLDIER={heroicPoint=0,ogrePoint=30}
+this.RECOVERED_SOLDIER={heroicPoint=0,ogrePoint=-30}
+this.VEHICLE_BROKEN={
+[Vehicle.type.EASTERN_LIGHT_VEHICLE]={heroicPoint=0,ogrePoint=0},
+[Vehicle.type.WESTERN_LIGHT_VEHICLE]={heroicPoint=0,ogrePoint=0},
+[Vehicle.type.EASTERN_TRUCK]={heroicPoint=0,ogrePoint=0},
+[Vehicle.type.WESTERN_TRUCK]={heroicPoint=0,ogrePoint=0},
+[Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]={heroicPoint=0,ogrePoint=0},
+[Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]={heroicPoint=0,ogrePoint=0},
+[Vehicle.type.EASTERN_TRACKED_TANK]={heroicPoint=0,ogrePoint=0},
+[Vehicle.type.WESTERN_TRACKED_TANK]={heroicPoint=0,ogrePoint=0}
+}
+this.BREAK_GIMMICK={
+[TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN]={heroicPoint=0,ogrePoint=0},
+[TppGameObject.GAME_OBJECT_TYPE_MORTAR]={heroicPoint=0,ogrePoint=0},
+[TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN]={heroicPoint=0,ogrePoint=0}
+}
+this.BREAK_GIMMICK_BY_TYPE={
+[TppGimmick.GIMMICK_TYPE.ANTN]={heroicPoint=0,ogrePoint=0},
+[TppGimmick.GIMMICK_TYPE.MCHN]={heroicPoint=0,ogrePoint=0},
+[TppGimmick.GIMMICK_TYPE.CMMN]={heroicPoint=0,ogrePoint=0},
+[TppGimmick.GIMMICK_TYPE.GNRT]={heroicPoint=0,ogrePoint=0},
+[TppGimmick.GIMMICK_TYPE.SWTC]={heroicPoint=0,ogrePoint=0},
+[TppGimmick.GIMMICK_TYPE.AACR]={heroicPoint=0,ogrePoint=0}
+}
+this.SUPPORT_HELI_LOST_CONTROLE={heroicPoint=-60,ogrePoint=150}
+this.BREAK_SUPPORT_HELI={heroicPoint=-30,ogrePoint=0}
+this.ENEMY_HELI_LOST_CONTROLE={heroicPoint=0,ogrePoint=120}
+this.ON_ANNIHILATE_BASE={heroicPoint=300,ogrePoint=0}
+this.ON_ANNIHILATE_OUTER_BASE={heroicPoint=30,ogrePoint=0}
+this.CONSTRUCT_FIRST_FOB={heroicPoint=1e3,ogrePoint=0}
+this.CONSTRUCT_SECOND_FOB={heroicPoint=2e3,ogrePoint=0}
+this.CONSTRUCT_THIRD_FOB={heroicPoint=3e3,ogrePoint=0}
+this.CONSTRUCT_FOURTH_FOB={heroicPoint=4e3,ogrePoint=0}
+this.HORSE_RIDED={heroicPoint=-5,ogrePoint=0}
+this.BREAK_MINE={heroicPoint=30,ogrePoint=0}
+this.BREAK_DECOY={heroicPoint=5,ogrePoint=0}
+this.PICK_UP_MINE={heroicPoint=30,ogrePoint=0}
+this.BREAK_SECURITY_CAMERA={heroicPoint=0,ogrePoint=0}
+this.BREAK_SECURITY_UAV={heroicPoint=0,ogrePoint=0}
+this.DYING_PARASITE={heroicPoint=60,ogrePoint=0}
+this.NuclearAbolition={heroicPoint=5e4,ogrePoint=-5e5}
+this.STARTED_COMBAT_ON_FOB={heroicPoint="HEROIC_POINT_STARTED_COMBAT_ON_FOB",ogrePoint=0}
+this.STARTED_COMBAT_ON_FOB_HERO={heroicPoint="HEROIC_POINT_STARTED_COMBAT_ON_FOB_HERO",ogrePoint=0}
+this.DISCOVER_ATTACKER={heroicPoint="HEROIC_POINT_DISCOVER_ATTACKER",ogrePoint=0}
+this.OFFENCE_WIN_ON_FOB={heroicPoint="HEROIC_POINT_OFFENSE_WIN",ogrePoint=0}
+this.OFFENCE_LOSE_ON_FOB={heroicPoint="HEROIC_POINT_OFFENSE_LOSE",ogrePoint=0}
+this.DEFENCE_WIN_ELIMINATE={heroicPoint="HEROIC_POINT_DEFENSE_WIN_ELIMINATE",ogrePoint=0}
+this.DEFENCE_WIN_ABORT={heroicPoint="HEROIC_POINT_DEFENSE_WIN_ABORT",ogrePoint=0}
+this.DEFENCE_LOSE={heroicPoint="HEROIC_POINT_DEFENSE_LOSE",ogrePoint=0}
+this.DEFENCE_FULTON_OFFENCE={heroicPoint="HEROIC_POINT_FULTONED_PLAYER",ogrePoint="OGRE_POINT_FULTONED_PLAYER"}
+this.OFFENCE_FULTONED_BY_DEFENCE={heroicPoint="HEROIC_POINT_FULTONED",ogrePoint=0}
+this.RETAKE_STAFF_FROM_FOB={heroicPoint="HEROIC_POINT_RETAKE_STAFF_FROM_FOB",ogrePoint=0}
+this.KILLED_PLAYER={heroicPoint=0,ogrePoint="OGRE_POINT_KILLED_PLAYER"}
+this.OFFENCE_WIN_ON_FOB_FOR_FRIEND={heroicPoint="HEROIC_POINT_OFFENSE_WIN_ON_FOB_FOR_FRIEND",ogrePoint=0}
+this.DEFENCE_WIN_FOR_FRIEND={heroicPoint="HEROIC_POINT_DEFENSE_WIN_FOR_FRIEND",ogrePoint=0}
+this.BREAK_PTW_MACHINEGUN={heroicPoint="HEROIC_POINT_BREAK_PTW_MACHINEGUN",ogrePoint="OGRE_POINT_BREAK_PTW_MACHINEGUN"}
+this.BREAK_PTW_MORTAR={heroicPoint="HEROIC_POINT_BREAK_PTW_MORTAR",ogrePoint="OGRE_POINT_BREAK_PTW_MORTAR"}
+this.BREAK_PTW_ANTIAIR={heroicPoint="HEROIC_POINT_BREAK_PTW_ANTIAIR",ogrePoint="OGRE_POINT_BREAK_PTW_ANTIAIR"}
+this.FULTON_SUPPORTER_CONTAINER={heroicPoint="HEROIC_POINT_FULTON_CONTAINER",ogrePoint="OGRE_POINT_FULTON_CONTAINER"}
+this.NOTICE_CRIME={heroicPoint="HEROIC_POINT_NOTICE_CRIME",ogrePoint=0}
+this.KILLED_DDS={heroicPoint="HEROIC_POINT_KILLED_DDS",ogrePoint="OGRE_POINT_KILLED_DDS"}
+this.FOB_ABORT_BY_MENU={heroicPoint="HEROIC_POINT_FOB_ABORT_BY_MENU",ogrePoint=0}
+function this.IsHero()
   return gvars.isHero
 end
-function e.AddTargetLifesavingHeroicPoint(e,n)
+function this.AddTargetLifesavingHeroicPoint(e,n)
   if n then
     if e then
       TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=240,subOgrePoint=240}
@@ -97,7 +135,7 @@ function e.AddTargetLifesavingHeroicPoint(e,n)
     end
   end
 end
-function e.OnFultonSoldier(gameId,i)
+function this.OnFultonSoldier(gameId,i)
   local _=n(gameId,{id="GetStateFlag"})
   local r=n(gameId,{id="IsZombieOrMsf"})
   local n=n(gameId,{id="IsChild"})
@@ -108,62 +146,62 @@ function e.OnFultonSoldier(gameId,i)
       TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=30,subOgrePoint=30}
     end
   elseif n then
-    e.AddTargetLifesavingHeroicPoint(n,i)
+    this.AddTargetLifesavingHeroicPoint(n,i)
   else
-    if t(_,StateFlag.DYING_LIFE)~=0 then
+    if band(_,StateFlag.DYING_LIFE)~=0 then
       if i then
-        e.SetAndAnnounceHeroicOgrePoint(e.ON_HELI_DYING_ENEMY)
+        this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_DYING_ENEMY)
       else
         if((not TppMission.IsFOBMission(vars.missionCode))or TppServerManager.FobIsSneak())then
-          e.SetAndAnnounceHeroicOgrePoint(e.FULTON_DYING_ENEMY)
+          this.SetAndAnnounceHeroicOgrePoint(this.FULTON_DYING_ENEMY)
         else
-          e.SetAndAnnounceHeroicOgrePoint{heroicPoint="HEROIC_POINT_FULTONED_DYING_STAFF",ogrePoint="OGRE_POINT_FULTONED_DYING_STAFF"}
+          this.SetAndAnnounceHeroicOgrePoint{heroicPoint="HEROIC_POINT_FULTONED_DYING_STAFF",ogrePoint="OGRE_POINT_FULTONED_DYING_STAFF"}
         end
       end
     else
-      e.SetAndAnnounceHeroicOgrePoint(e.RECOVERED_SOLDIER)
+      this.SetAndAnnounceHeroicOgrePoint(this.RECOVERED_SOLDIER)
     end
   end
 end
-function e.OnFultonHostage(o,i)
+function this.OnFultonHostage(o,i)
   local r=n(o,{id="GetLifeStatus"})
   local t=n(o,{id="IsChild"})
   if r~=TppEnemy.LIFE_STATUS.DEAD then
     local n=n(o,{id="GetStateFlag"})
     if i then
       if TppEnemy.IsRescueTarget(o)then
-        e.AddTargetLifesavingHeroicPoint(t,i)
+        this.AddTargetLifesavingHeroicPoint(t,i)
       else
-        e.SetAndAnnounceHeroicOgrePoint(e.ON_HELI_HOSTAGE)
+        this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_HOSTAGE)
       end
     else
       if TppEnemy.IsRescueTarget(o)then
-        e.AddTargetLifesavingHeroicPoint(t,i)
+        this.AddTargetLifesavingHeroicPoint(t,i)
       else
-        e.SetAndAnnounceHeroicOgrePoint(e.FULTON_HOSTAGE)
+        this.SetAndAnnounceHeroicOgrePoint(this.FULTON_HOSTAGE)
       end
     end
   end
 end
-function e.OnFultonEli(n,e)
+function this.OnFultonEli(n,e)
   if e then
     TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=240,subOgrePoint=240}
   else
     TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=120,subOgrePoint=120}
   end
 end
-function e.GetFobServerParameter(e)
-  local n,o
-  if c(e)then
-    o=e
-    n=TppNetworkUtil.GetFobServerParameterByName(e)
+function this.GetFobServerParameter(_name)
+  local parameter,name
+  if IsTypeString(_name)then
+    name=_name
+    parameter=TppNetworkUtil.GetFobServerParameterByName(_name)
   else
-    n=e
+    parameter=_name
   end
-  return n,o
+  return parameter,name
 end
-function e.SetHeroicPoint(n)
-  local e,n=e.GetFobServerParameter(n)
+function this.SetHeroicPoint(n)
+  local e,n=this.GetFobServerParameter(n)
   if e<0 then
     TppMotherBaseManagement.SubHeroicPoint{heroicPoint=-e}
   elseif e>0 then
@@ -171,8 +209,8 @@ function e.SetHeroicPoint(n)
   end
   return e
 end
-function e.SetOgrePoint(n)
-  local e,n=e.GetFobServerParameter(n)
+function this.SetOgrePoint(ogrePoint)
+  local e,n=this.GetFobServerParameter(ogrePoint)
   if e<0 then
     TppMotherBaseManagement.SubOgrePoint{ogrePoint=-e}
   elseif e>0 then
@@ -180,103 +218,111 @@ function e.SetOgrePoint(n)
   end
   svars.her_missionOgrePoint=svars.her_missionOgrePoint+e
 end
-function e.GetMissionOgrePoint()
+function this.GetMissionOgrePoint()
   return svars.her_missionOgrePoint
 end
-function e.AnnounceHeroicPoint(i,o,n)
-  local o=o or"heroicPointDown"local n=n or"heroicPointUp"if vars.missionCode>=6e4 then
+function this.AnnounceHeroicPoint(i,o,n)
+  local o=o or"heroicPointDown"
+  local n=n or"heroicPointUp"
+  if vars.missionCode>=6e4 then
     return
   end
-  local e=e.GetFobServerParameter(i.heroicPoint)
+  local e=this.GetFobServerParameter(i.heroicPoint)
   if e<0 then
     TppUI.ShowAnnounceLog(o,-e)
   elseif e>0 then
     TppUI.ShowAnnounceLog(n,e)
   end
 end
-function e.SetAndAnnounceHeroicOgrePoint(n,i,o)
+function this.SetAndAnnounceHeroicOgrePoint(n,i,o)
   if TppMission.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_SHAM)then
     return
   end
-  e.SetHeroicPoint(n.heroicPoint)
-  e.AnnounceHeroicPoint(n,i,o)
-  e.SetOgrePoint(n.ogrePoint)
+  this.SetHeroicPoint(n.heroicPoint)
+  this.AnnounceHeroicPoint(n,i,o)
+  this.SetOgrePoint(n.ogrePoint)
 end
-function e.AnnounceMissionAbort()
-  e.AnnounceHeroicPoint(e.MISSION_ABORT)
+function this.AnnounceMissionAbort()
+  this.AnnounceHeroicPoint(this.MISSION_ABORT)
 end
-function e.MissionAbort()
-  e.SetHeroicPoint(e.MISSION_ABORT.heroicPoint)
+function this.MissionAbort()
+  this.SetHeroicPoint(this.MISSION_ABORT.heroicPoint)
 end
-function e.MissionClear(n)
-  local n=e.MISSION_CLEAR[TppDefine.MISSION_CLEAR_RANK_LIST[n]].heroicPoint
-  e.SetHeroicPoint(n)svars.her_missionHeroPoint=n
+function this.MissionClear(n)
+  local n=this.MISSION_CLEAR[TppDefine.MISSION_CLEAR_RANK_LIST[n]].heroicPoint
+  this.SetHeroicPoint(n)
+  svars.her_missionHeroPoint=n
 end
-function e.SetFirstMissionClearHeroPoint()
+function this.SetFirstMissionClearHeroPoint()
   if TppStory.IsMissionCleard(vars.missionCode)==false then
     mvars.her_reserveFirstMissionClear=true
   end
 end
-function e.AnnounceFirstMissionClearHeroPoint()
+function this.AnnounceFirstMissionClearHeroPoint()
   if mvars.her_reserveFirstMissionClear then
   end
 end
-function e.AnnounceVehicleBroken(o)
+function this.AnnounceVehicleBroken(o)
   local n=n(o,{id="GetVehicleType"})
-  local n=e.VEHICLE_BROKEN[n]
+  local n=this.VEHICLE_BROKEN[n]
   if n then
-    PlayRecord.RegistPlayRecord"VEHICLE_DESTROY"Tpp.IncrementPlayData"totalBreakVehicleCount"e.SetAndAnnounceHeroicOgrePoint(n)
+    PlayRecord.RegistPlayRecord"VEHICLE_DESTROY"
+    Tpp.IncrementPlayData"totalBreakVehicleCount"
+    this.SetAndAnnounceHeroicOgrePoint(n)
   end
 end
-function e.AnnounceBreakGimmick(n,i,i,o)
+function this.AnnounceBreakGimmick(n,i,i,o)
   if not Tpp.IsLocalPlayer(o)then
     return
   end
-  local n=r(n)
-  local n=e.BREAK_GIMMICK[n]
+  local n=GetTypeIndex(n)
+  local n=this.BREAK_GIMMICK[n]
   if n then
-    Tpp.IncrementPlayData"totalBreakPlacedGimmickCount"e.SetAndAnnounceHeroicOgrePoint(n)
+    Tpp.IncrementPlayData"totalBreakPlacedGimmickCount"
+    this.SetAndAnnounceHeroicOgrePoint(n)
   end
 end
-function e.AnnounceBreakGimmickByGimmickType(n)
-  local n=e.BREAK_GIMMICK_BY_TYPE[n]
+function this.AnnounceBreakGimmickByGimmickType(n)
+  local n=this.BREAK_GIMMICK_BY_TYPE[n]
   if n then
-    e.SetAndAnnounceHeroicOgrePoint(n)
+    this.SetAndAnnounceHeroicOgrePoint(n)
   end
 end
-function e.OnHelicopterLostControl(o,n)
-  local o=r(o)
+function this.OnHelicopterLostControl(o,n)
+  local o=GetTypeIndex(o)
   local n=Tpp.IsLocalPlayer(n)
   if o==TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     if n then
-      e.SetAndAnnounceHeroicOgrePoint(e.SUPPORT_HELI_LOST_CONTROLE,"destroyed_support_heli")
+      this.SetAndAnnounceHeroicOgrePoint(this.SUPPORT_HELI_LOST_CONTROLE,"destroyed_support_heli")
     else
-      e.SetAndAnnounceHeroicOgrePoint(e.BREAK_SUPPORT_HELI,"destroyed_support_heli")
+      this.SetAndAnnounceHeroicOgrePoint(this.BREAK_SUPPORT_HELI,"destroyed_support_heli")
     end
   elseif n then
-    PlayRecord.RegistPlayRecord"HERI_DESTROY"Tpp.IncrementPlayData"totalHelicopterDestoryCount"e.SetAndAnnounceHeroicOgrePoint(e.ENEMY_HELI_LOST_CONTROLE)
+    PlayRecord.RegistPlayRecord"HERI_DESTROY"
+    Tpp.IncrementPlayData"totalHelicopterDestoryCount"
+    this.SetAndAnnounceHeroicOgrePoint(this.ENEMY_HELI_LOST_CONTROLE)
   end
 end
-function e.SetAndAnnounceHeroicOgrePointForAnnihilateCp(i,o)
+function this.SetAndAnnounceHeroicOgrePointForAnnihilateCp(i,o)
   local n
   if o then
     n="outpost_neutralize"else
     n="guradpost_neutralize"end
-  e.SetAndAnnounceHeroicOgrePoint(i,nil,n)
+  this.SetAndAnnounceHeroicOgrePoint(i,nil,n)
 end
-function e.SetAndAnnounceHeroicOgrePointForQuestClear(n)
-  local n=e.QUEST_CLEAR[n]
+function this.SetAndAnnounceHeroicOgrePointForQuestClear(n)
+  local n=this.QUEST_CLEAR[n]
   if n then
-    e.SetAndAnnounceHeroicOgrePoint(n)
+    this.SetAndAnnounceHeroicOgrePoint(n)
   end
 end
-function e.HorseRided(n)
+function this.HorseRided(n)
   if not Tpp.IsLocalPlayer(n)then
     return
   end
-  e.SetAndAnnounceHeroicOgrePoint(e.HORSE_RIDED)
+  this.SetAndAnnounceHeroicOgrePoint(this.HORSE_RIDED)
 end
-function e.OnBreakPlaced(o,n,t,i)
+function this.OnBreakPlaced(o,n,t,i)
   if vars.missionCode==50050 then
     return
   end
@@ -287,13 +333,14 @@ function e.OnBreakPlaced(o,n,t,i)
     return
   end
   if TppPlayer.IsDecoy(n)then
-    e.SetAndAnnounceHeroicOgrePoint(e.BREAK_DECOY,nil,"disposal_decoy")
+    this.SetAndAnnounceHeroicOgrePoint(this.BREAK_DECOY,nil,"disposal_decoy")
   end
   if TppPlayer.IsMine(n)then
-    Tpp.IncrementPlayData"totalMineRemoveCount"e.SetAndAnnounceHeroicOgrePoint(e.BREAK_MINE,nil,"disposal_mine")
+    Tpp.IncrementPlayData"totalMineRemoveCount"
+    this.SetAndAnnounceHeroicOgrePoint(this.BREAK_MINE,nil,"disposal_mine")
   end
 end
-function e.OnPickUpPlaced(i,o,t,n)
+function this.OnPickUpPlaced(i,o,t,n)
   if vars.missionCode==50050 then
     return
   end
@@ -304,57 +351,58 @@ function e.OnPickUpPlaced(i,o,t,n)
     return
   end
   if TppPlayer.IsMine(o)then
-    Tpp.IncrementPlayData"totalMineRemoveCount"e.SetAndAnnounceHeroicOgrePoint(e.PICK_UP_MINE,nil,"disposal_mine")
+    Tpp.IncrementPlayData"totalMineRemoveCount"
+    this.SetAndAnnounceHeroicOgrePoint(this.PICK_UP_MINE,nil,"disposal_mine")
   end
 end
-function e._RideOnHeli(o)
+function this._RideOnHeli(o)
   if Tpp.IsSoldier(o)then
     local n=n(o,{id="GetStateFlag"})
     if bit.band(n,StateFlag.DYING_LIFE)~=0 then
-      e.SetAndAnnounceHeroicOgrePoint(e.ON_HELI_DYING_ENEMY)
+      this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_DYING_ENEMY)
     end
   elseif Tpp.IsHostage(o)then
     local n=n(o,{id="GetLifeStatus"})
     if n~=TppEnemy.LIFE_STATUS.DEAD then
       if TppEnemy.IsRescueTarget(o)then
-        e.SetAndAnnounceHeroicOgrePoint(e.ON_HELI_RESCUE_TARGET)
+        this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_RESCUE_TARGET)
       else
-        e.SetAndAnnounceHeroicOgrePoint(e.ON_HELI_HOSTAGE)
+        this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_HOSTAGE)
       end
     end
   end
 end
-function e.Messages()
+function this.Messages()
   return Tpp.StrCode32Table{GameObject={{msg="Holdup",func=function(o)
     if o then
       if not n(o,{id="IsDoneHoldup"})then
-        e.SetAndAnnounceHeroicOgrePoint(e.ENEMY_HOLD_UP)n(o,{id="SetDoneHoldup"})
+        this.SetAndAnnounceHeroicOgrePoint(this.ENEMY_HOLD_UP)n(o,{id="SetDoneHoldup"})
       end
     end
   end},{msg="InterrogateUpHero",func=function()
-    e.SetAndAnnounceHeroicOgrePoint(e.ENEMY_INTERROGATE)
+    this.SetAndAnnounceHeroicOgrePoint(this.ENEMY_INTERROGATE)
   end},{msg="ChangePhase",func=function(o,n)
     if(vars.missionCode==50050)and(not TppServerManager.FobIsSneak())then
       return
     end
     if(n==TppGameObject.PHASE_ALERT)and Tpp.IsCommandPost(o)then
-      e.SetAndAnnounceHeroicOgrePoint(e.STARTED_COMBAT)
+      this.SetAndAnnounceHeroicOgrePoint(this.STARTED_COMBAT)
     end
   end},{msg="Dead",func=function(gameId,r,_,i)
     if r and Tpp.IsLocalPlayer(r)then
       if Tpp.IsHostage(gameId)then
         if n(gameId,{id="IsDD"})and(not TppMission.IsFOBMission(vars.missionCode))then
-          if(i~=nil)and(t(i,DeadMessageFlag.FIRE)~=0)then
-            e.SetAndAnnounceHeroicOgrePoint(e.FIRE_KILL_DD_HOSTAGE,"mbstaff_died")
+          if(i~=nil)and(band(i,DeadMessageFlag.FIRE)~=0)then
+            this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_DD_HOSTAGE,"mbstaff_died")
           else
-            e.SetAndAnnounceHeroicOgrePoint(e.KILL_DD_HOSTAGE,"mbstaff_died")
+            this.SetAndAnnounceHeroicOgrePoint(this.KILL_DD_HOSTAGE,"mbstaff_died")
           end
         else
           if not n(gameId,{id="IsChild"})then
-            if(i~=nil)and(t(i,DeadMessageFlag.FIRE)~=0)then
-              e.SetAndAnnounceHeroicOgrePoint(e.FIRE_KILL_HOSTAGE,"hostage_died")
+            if(i~=nil)and(band(i,DeadMessageFlag.FIRE)~=0)then
+              this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_HOSTAGE,"hostage_died")
             else
-              e.SetAndAnnounceHeroicOgrePoint(e.KILL_HOSTAGE,"hostage_died")
+              this.SetAndAnnounceHeroicOgrePoint(this.KILL_HOSTAGE,"hostage_died")
             end
           end
         end
@@ -362,10 +410,10 @@ function e.Messages()
         Tpp.IncrementPlayData"totalKillCount"
         local soldierType=TppEnemy.GetSoldierType(gameId)
         if(n(gameId,{id="IsDD"}))then
-          if(i~=nil)and(t(i,DeadMessageFlag.FIRE)~=0)then
-            e.SetAndAnnounceHeroicOgrePoint(e.FIRE_KILL_DD_SOLDIER,"mbstaff_died")
+          if(i~=nil)and(band(i,DeadMessageFlag.FIRE)~=0)then
+            this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_DD_SOLDIER,"mbstaff_died")
           else
-            e.SetAndAnnounceHeroicOgrePoint(e.KILL_DD_SOLDIER,"mbstaff_died")
+            this.SetAndAnnounceHeroicOgrePoint(this.KILL_DD_SOLDIER,"mbstaff_died")
           end
         else
           if(soldierType~=EnemyType.TYPE_CHILD)then
@@ -374,43 +422,43 @@ function e.Messages()
               n=DeadMessageFlag.FIRE_OR_DYING
             end
             local o=TppMission.IsFOBMission(vars.missionCode)and TppServerManager.FobIsSneak()
-            if(i~=nil)and(t(i,n)~=0)then
+            if(i~=nil)and(band(i,n)~=0)then
               if not o then
-                e.SetAndAnnounceHeroicOgrePoint(e.FIRE_KILL_SOLDIER)
+                this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_SOLDIER)
               else
-                e.SetAndAnnounceHeroicOgrePoint(e.FIRE_KILL_SOLDIER_FOB_SNEAK)
+                this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_SOLDIER_FOB_SNEAK)
               end
             else
               if not o then
-                e.SetAndAnnounceHeroicOgrePoint(e.KILL_SOLDIER)
+                this.SetAndAnnounceHeroicOgrePoint(this.KILL_SOLDIER)
               else
-                e.SetAndAnnounceHeroicOgrePoint(e.KILL_SOLDIER_FOB_SNEAK)
+                this.SetAndAnnounceHeroicOgrePoint(this.KILL_SOLDIER_FOB_SNEAK)
               end
             end
           end
         end
       end
       if Tpp.IsAnimal(gameId)then
-        if(i~=nil)and(t(i,DeadMessageFlag.FIRE)~=0)then
-          e.SetAndAnnounceHeroicOgrePoint{heroicPoint=0,ogrePoint=40}
+        if(i~=nil)and(band(i,DeadMessageFlag.FIRE)~=0)then
+          this.SetAndAnnounceHeroicOgrePoint{heroicPoint=0,ogrePoint=40}
         else
-          e.SetAndAnnounceHeroicOgrePoint{heroicPoint=0,ogrePoint=20}
+          this.SetAndAnnounceHeroicOgrePoint{heroicPoint=0,ogrePoint=20}
         end
       end
     else
       if Tpp.IsHostage(gameId)then
         if n(gameId,{id="IsDD"})and(not TppMission.IsFOBMission(vars.missionCode))then
-          e.SetAndAnnounceHeroicOgrePoint(e.DEAD_DD_SOLDIER,"mbstaff_died")
+          this.SetAndAnnounceHeroicOgrePoint(this.DEAD_DD_SOLDIER,"mbstaff_died")
         else
           if not n(gameId,{id="IsChild"})then
-            e.SetAndAnnounceHeroicOgrePoint(e.DEAD_HOSTAGE,"hostage_died")
+            this.SetAndAnnounceHeroicOgrePoint(this.DEAD_HOSTAGE,"hostage_died")
           end
         end
       elseif Tpp.IsSoldier(gameId)then
         if TppMission.IsFOBMission(vars.missionCode)then
         else
           if(n(gameId,{id="IsDD"}))then
-            e.SetAndAnnounceHeroicOgrePoint(e.DEAD_DD_SOLDIER,"mbstaff_died")
+            this.SetAndAnnounceHeroicOgrePoint(this.DEAD_DD_SOLDIER,"mbstaff_died")
           end
         end
       end
@@ -418,23 +466,23 @@ function e.Messages()
   end},{msg="Dying",func=function(o,i)
     if Tpp.IsSoldier(o)then
       if not n(o,{id="IsDD"})then
-        e.SetAndAnnounceHeroicOgrePoint(e.DYING_SOLDIER)
+        this.SetAndAnnounceHeroicOgrePoint(this.DYING_SOLDIER)
       end
     elseif Tpp.IsParasiteSquad(o)then
-      e.SetAndAnnounceHeroicOgrePoint(e.DYING_PARASITE,"destroyed_skull","destroyed_skull")
+      this.SetAndAnnounceHeroicOgrePoint(this.DYING_PARASITE,"destroyed_skull","destroyed_skull")
     elseif Tpp.IsBossQuiet(o)then
       local n=n({type="TppBossQuiet2"},{id="GetQuietType"})
       if n==Fox.StrCode32"Cam"then
-        e.SetAndAnnounceHeroicOgrePoint(e.DYING_PARASITE,"destroyed_skull","destroyed_skull")
+        this.SetAndAnnounceHeroicOgrePoint(this.DYING_PARASITE,"destroyed_skull","destroyed_skull")
       end
     end
-  end},{msg="BreakGimmick",func=e.AnnounceBreakGimmick},{msg="VehicleBroken",func=function(o,n)
-    if n==_"Start"then
-      e.AnnounceVehicleBroken(o)
+  end},{msg="BreakGimmick",func=this.AnnounceBreakGimmick},{msg="VehicleBroken",func=function(o,n)
+    if n==StrCode32"Start"then
+      this.AnnounceVehicleBroken(o)
     end
   end},{msg="LostControl",func=function(i,o,n)
-    if o==_"Start"then
-      e.OnHelicopterLostControl(i,n)
+    if o==StrCode32"Start"then
+      this.OnHelicopterLostControl(i,n)
     end
   end},{msg="CommandPostAnnihilated",func=function(n,o,i)
     local o=false
@@ -444,13 +492,13 @@ function e.Messages()
     if i==0 then
       if TppEnemy.IsBaseCp(n)then
         if o then
-          PlayRecord.RegistPlayRecord"BASE_SUPPRESSION"e.SetAndAnnounceHeroicOgrePointForAnnihilateCp(e.ON_ANNIHILATE_BASE,true)
+          PlayRecord.RegistPlayRecord"BASE_SUPPRESSION"this.SetAndAnnounceHeroicOgrePointForAnnihilateCp(this.ON_ANNIHILATE_BASE,true)
           TppTrophy.Unlock(18)
           Tpp.IncrementPlayData"totalAnnihilateBaseCount"end
         TppEmblem.AcquireOnCommandPostAnnihilated(n)
       elseif TppEnemy.IsOuterBaseCp(n)then
         if o then
-          e.SetAndAnnounceHeroicOgrePointForAnnihilateCp(e.ON_ANNIHILATE_OUTER_BASE,false)
+          this.SetAndAnnounceHeroicOgrePointForAnnihilateCp(this.ON_ANNIHILATE_OUTER_BASE,false)
           Tpp.IncrementPlayData"totalAnnihilateOutPostCount"TppTrophy.Unlock(18)
         end
         TppEmblem.AcquireOnCommandPostAnnihilated(n)
@@ -472,24 +520,28 @@ function e.Messages()
       end
     end
   end}},Player={{msg="OnInjury",func=function()
-    e.SetAndAnnounceHeroicOgrePoint(e.PLAYER_ON_INJURY)
-  end},{msg="DogBiteConnect",func=e.HorseRided},{msg="ZombBiteConnect",func=e.HorseRided},{msg="OnPickUpPlaced",func=e.OnPickUpPlaced},{msg="LiquidPutInHeli",func=function(n)
-    e.SetAndAnnounceHeroicOgrePoint(e.ON_HELI_LIQUID)
-  end}},Placed={{msg="OnBreakPlaced",func=e.OnBreakPlaced}}}
+    this.SetAndAnnounceHeroicOgrePoint(this.PLAYER_ON_INJURY)
+  end},{msg="DogBiteConnect",func=this.HorseRided},{msg="ZombBiteConnect",func=this.HorseRided},{msg="OnPickUpPlaced",func=this.OnPickUpPlaced},{msg="LiquidPutInHeli",func=function(n)
+    this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_LIQUID)
+  end}},Placed={{msg="OnBreakPlaced",func=this.OnBreakPlaced}}}
 end
-function e.Init(n)
-  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function this.Init(n)
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function e.OnReload(n)
-  e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+function this.OnReload(n)
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function e.OnMessage(t,i,o,n,r,c,_)
-  Tpp.DoMessage(e.messageExecTable,TppMission.CheckMessageOption,t,i,o,n,r,c,_)
+function this.OnMessage(t,i,o,n,r,c,_)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,t,i,o,n,r,c,_)
 end
-function e.DeclareSVars()
-  return{{name="her_missionOgrePoint",type=TppScriptVars.TYPE_INT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MB_MANAGEMENT},{name="her_missionHeroPoint",type=TppScriptVars.TYPE_INT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},nil}
+function this.DeclareSVars()
+  return{
+    {name="her_missionOgrePoint",type=TppScriptVars.TYPE_INT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MB_MANAGEMENT},
+    {name="her_missionHeroPoint",type=TppScriptVars.TYPE_INT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    nil
+  }
 end
-function e.UpdateHero()
+function this.UpdateHero()
   local n=gvars.isHero
   local e=TppMotherBaseManagement.GetHeroicPoint()
   if(e>=vars.mbmHeroThreshold)then
@@ -513,4 +565,4 @@ function e.UpdateHero()
     end
   end
 end
-return e
+return this

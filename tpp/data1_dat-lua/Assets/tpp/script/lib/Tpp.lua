@@ -1,8 +1,8 @@
 local this={}
-local i=Fox.StrCode32
-local t=type
-local L=GameObject.GetGameObjectId
-local u=GameObject.GetTypeIndex
+local StrCode32=Fox.StrCode32
+local type=type
+local GetGameObjectId=GameObject.GetGameObjectId
+local GetTypeIndex=GameObject.GetTypeIndex
 local B=TppGameObject.GAME_OBJECT_TYPE_PLAYER2
 local M=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2
 local U=TppGameObject.GAME_OBJECT_TYPE_COMMAND_POST2
@@ -80,16 +80,20 @@ this.requires={
 "/Assets/tpp/script/lib/TppMbFreeDemo.lua"
 }
 function this.IsTypeFunc(e)
-  return t(e)=="function"end
+  return type(e)=="function"
+  end
 local f=this.IsTypeFunc
 function this.IsTypeTable(e)
-  return t(e)=="table"end
+  return type(e)=="table"
+  end
 local a=this.IsTypeTable
 function this.IsTypeString(e)
-  return t(e)=="string"end
+  return type(e)=="string"
+  end
 local n=this.IsTypeString
 function this.IsTypeNumber(e)
-  return t(e)=="number"end
+  return type(e)=="number"
+  end
 local n=this.IsTypeNumber
 function this.Enum(e)
   if e==nil then
@@ -128,10 +132,10 @@ function this.StrCode32Table(n)
   local l={}
   for n,r in pairs(n)do
     local n=n
-    if t(n)=="string"then
-      n=i(n)
+    if type(n)=="string"then
+      n=StrCode32(n)
     end
-    if t(r)=="table"then
+    if type(r)=="table"then
       l[n]=this.StrCode32Table(r)
     else
       l[n]=r
@@ -187,31 +191,31 @@ function this.MakeMessageExecTable(e)
     return
   end
   local n={}
-  local T=i"msg"local u=i"func"local c=i"sender"local h=i"option"for e,l in pairs(e)do
+  local T=StrCode32"msg"local u=StrCode32"func"local c=StrCode32"sender"local h=StrCode32"option"for e,l in pairs(e)do
     n[e]=n[e]or{}
     for l,r in pairs(l)do
       local l,s,d,o=l,nil,nil,nil
       if f(r)then
         d=r
       elseif a(r)and f(r[u])then
-        l=i(r[T])
+        l=StrCode32(r[T])
         local n={}
-        if(t(r[c])=="string")or(t(r[c])=="number")then
+        if(type(r[c])=="string")or(type(r[c])=="number")then
           n[1]=r[c]
         elseif a(r[c])then
           n=r[c]
         end
         s={}
         for l,n in pairs(n)do
-          if t(n)=="string"then
-            if e==i"GameObject"then
-              s[l]=L(n)
+          if type(n)=="string"then
+            if e==StrCode32"GameObject"then
+              s[l]=GetGameObjectId(n)
               if msgSndr==p then
               end
             else
-              s[l]=i(n)
+              s[l]=StrCode32(n)
             end
-          elseif t(n)=="number"then
+          elseif type(n)=="number"then
             s[l]=n
           end
         end
@@ -274,7 +278,7 @@ function this.GetRotationY(e)
   if not e then
     return
   end
-  if(t(e.Rotate)=="function")then
+  if(type(e.Rotate)=="function")then
     local e=e:Rotate(Vector3(0,0,1))
     local e=foxmath.Atan2(e:GetX(),e:GetZ())
     return TppMath.RadianToDegree(e)
@@ -404,7 +408,7 @@ local function n(e,n)
   if e==p then
     return
   end
-  local e=u(e)
+  local e=GetTypeIndex(e)
   if e==n then
     return true
   else
@@ -434,7 +438,7 @@ function this.IsHostage(e)
   if e==p then
     return
   end
-  local e=u(e)
+  local e=GetTypeIndex(e)
   return TppDefine.HOSTAGE_GM_TYPE[e]
 end
 function this.IsVolgin(e)
@@ -468,7 +472,7 @@ function this.IsFultonableGimmick(e)
   if e==p then
     return
   end
-  local e=u(e)
+  local e=GetTypeIndex(e)
   return TppDefine.FULTONABLE_GIMMICK_TYPE[e]
 end
 function this.GetBuddyTypeFromGameObjectId(e)
@@ -478,7 +482,7 @@ function this.GetBuddyTypeFromGameObjectId(e)
   if e==p then
     return
   end
-  local e=u(e)
+  local e=GetTypeIndex(e)
   return TppDefine.BUDDY_GM_TYPE_TO_BUDDY_TYPE[e]
 end
 function this.IsMarkerLocator(e)
@@ -491,7 +495,7 @@ function this.IsAnimal(e)
   if e==p then
     return
   end
-  local e=u(e)
+  local e=GetTypeIndex(e)
   return TppDefine.ANIMAL_GAMEOBJECT_TYPE[e]
 end
 function this.IsBossQuiet(e)
@@ -576,7 +580,7 @@ function this.IsLoadedSmallBlock(n,t)
   return((e<=n and i>=n)and r<=t)and l>=t
 end
 function this.IsLoadedLargeBlock(e)
-  local n=i(e)
+  local n=StrCode32(e)
   local e=StageBlock.GetLoadedLargeBlocks(0)
   for t,e in pairs(e)do
     if e==n then
@@ -721,7 +725,7 @@ end
 function this.DEBUG_DumpTable(l,n)
   if n==nil then
   end
-  if(t(l)~="table")then
+  if(type(l)~="table")then
     return
   end
   local r=""if n then
@@ -729,12 +733,12 @@ function this.DEBUG_DumpTable(l,n)
       r=r.." "end
   end
   for r,l in pairs(l)do
-    if t(l)=="table"then
+    if type(l)=="table"then
       local n=n or 0
       n=n+1
       this.DEBUG_DumpTable(l,n)
     else
-      if t(l)=="number"then
+      if type(l)=="number"then
       end
     end
   end
@@ -755,7 +759,7 @@ function this.DEBUG_StrCode32ToString(e)
     if n then
       return n
     else
-      if t(e)=="string"then
+      if type(e)=="string"then
       end
       return tostring(e)
     end
@@ -777,12 +781,12 @@ function this.DEBUG_SetPreference(n,t,l)
 end
 this._requireList={}
 do
-  for t,n in ipairs(this.requires)do
-    local n=this.SplitString(n,"/")
-    local n=string.sub(n[#n],1,#n[#n]-4)
-    local t={TppMain=true,TppDemoBlock=true,mafr_luxury_block_list=true}
-    if not t[n]then
-      this._requireList[#this._requireList+1]=n
+  for t,libPath in ipairs(this.requires)do
+    local split=this.SplitString(libPath,"/")
+    local libName=string.sub(split[#split],1,#split[#split]-4)
+    local disallow={TppMain=true,TppDemoBlock=true,mafr_luxury_block_list=true}
+    if not disallow[libName]then
+      this._requireList[#this._requireList+1]=libName
     end
   end
 end

@@ -46,23 +46,23 @@ end
 function this.GetRotation()
   return vars.playerRotY
 end
-function this.Warp(e)
-  if not IsTypeTable(e)then
+function this.Warp(info)
+  if not IsTypeTable(info)then
     return
   end
-  local a=e.pos
-  if not IsTypeTable(a)or(#a~=3)then
+  local pos=info.pos
+  if not IsTypeTable(pos)or(#pos~=3)then
     return
   end
-  local n=foxmath.NormalizeRadian(foxmath.DegreeToRadian(e.rotY or 0))
-  local t
-  if e.fobRespawn==true then
-    t={type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()}
+  local rotY=foxmath.NormalizeRadian(foxmath.DegreeToRadian(info.rotY or 0))
+  local playerId
+  if info.fobRespawn==true then
+    playerId={type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()}
   else
-    t={type="TppPlayer2",index=0}
+    playerId={type="TppPlayer2",index=0}
   end
-  local e={id="WarpAndWaitBlock",pos=a,rotY=n}
-  GameObject.SendCommand(t,e)
+  local command={id="WarpAndWaitBlock",pos=pos,rotY=rotY}
+  GameObject.SendCommand(playerId,command)
 end
 function this.SetForceFultonPercent(e,a)
   if not Tpp.IsTypeNumber(e)then
@@ -155,12 +155,12 @@ function this.SetMissionStartPositionToCurrentPosition()
   gvars.mis_orderBoxName=0
   this.SetInitialPositionFromMissionStartPosition()
 end
-function this.SetNoOrderBoxMissionStartPosition(e,a)
+function this.SetNoOrderBoxMissionStartPosition(pos,rotY)
   gvars.ply_useMissionStartPosForNoOrderBox=true
-  gvars.ply_missionStartPosForNoOrderBox[0]=e[1]
-  gvars.ply_missionStartPosForNoOrderBox[1]=e[2]
-  gvars.ply_missionStartPosForNoOrderBox[2]=e[3]
-  gvars.ply_missionStartRotForNoOrderBox=a
+  gvars.ply_missionStartPosForNoOrderBox[0]=pos[1]
+  gvars.ply_missionStartPosForNoOrderBox[1]=pos[2]
+  gvars.ply_missionStartPosForNoOrderBox[2]=pos[3]
+  gvars.ply_missionStartRotForNoOrderBox=rotY
 end
 function this.SetNoOrderBoxMissionStartPositionToCurrentPosition()
   gvars.ply_useMissionStartPosForNoOrderBox=true
@@ -169,12 +169,12 @@ function this.SetNoOrderBoxMissionStartPositionToCurrentPosition()
   gvars.ply_missionStartPosForNoOrderBox[2]=vars.playerPosZ
   gvars.ply_missionStartRotForNoOrderBox=vars.playerRotY
 end
-function this.SetMissionStartPosition(e,a)
+function this.SetMissionStartPosition(pos,rotY)
   gvars.ply_useMissionStartPos=true
-  gvars.ply_missionStartPos[0]=e[1]
-  gvars.ply_missionStartPos[1]=e[2]
-  gvars.ply_missionStartPos[2]=e[3]
-  gvars.ply_missionStartRot=a
+  gvars.ply_missionStartPos[0]=pos[1]
+  gvars.ply_missionStartPos[1]=pos[2]
+  gvars.ply_missionStartPos[2]=pos[3]
+  gvars.ply_missionStartRot=rotY
 end
 function this.ResetMissionStartPosition()
   gvars.ply_useMissionStartPos=false
@@ -323,92 +323,92 @@ function this.RestoreTemporaryPlayerType()
     gvars.ply_lastPlayerHandTypeUsingTemp=TppEquip.EQP_HAND_NORMAL
   end
 end
-function this.SetWeapons(a)
-  this._SetWeapons(a,"weapons")
+function this.SetWeapons(weaponTable)
+  this._SetWeapons(weaponTable,"weapons")
 end
-function this.SetInitWeapons(a)
+function this.SetInitWeapons(weaponTable)
   if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_RECUE_MILLER then
-    this.SaveWeaponsToUsingTemp(a)
+    this.SaveWeaponsToUsingTemp(weaponTable)
   end
-  this._SetWeapons(a,"initWeapons")
+  this._SetWeapons(weaponTable,"initWeapons")
 end
-function this._SetWeapons(l,c)
-  if not IsTypeTable(l)then
+function this._SetWeapons(weaponTable,category)
+  if not IsTypeTable(weaponTable)then
     return
   end
-  local t=TppDefine.WEAPONSLOT.SUPPORT_0-1
-  local a,r,o,n,i
-  for s,l in pairs(l)do
-    a,t,r,o,n,i=this.GetWeaponSlotInfoFromWeaponSet(l,t)
-    local r=TppEquip[r]
+  local slotNum=TppDefine.WEAPONSLOT.SUPPORT_0-1
+  local slotType,slotName,magazine,ammo,underBarrelAmmo
+  for idx,weaponInfo in pairs(weaponTable)do
+    slotType,slotNum,slotName,magazine,ammo,underBarrelAmmo=this.GetWeaponSlotInfoFromWeaponSet(weaponInfo,slotNum)
+    local r=TppEquip[slotName]
     if r==nil then
     else
-      local l,s,p,m,d,T=TppEquip.GetAmmoInfo(r)
-      if a then
-        vars[c][a]=r
+      local l,s,RENAMEdefaultAmmo,m,d,T=TppEquip.GetAmmoInfo(r)
+      if slotType then
+        vars[category][slotType]=r
         local e,t
-        if o then
-          e=o*s
-        elseif n then
-          e=n
+        if magazine then
+          e=magazine*s
+        elseif ammo then
+          e=ammo
         else
-          e=p
+          e=RENAMEdefaultAmmo
         end
-        gvars.initAmmoStockIds[a]=l
-        gvars.initAmmoStockCounts[a]=e
-        gvars.initAmmoInWeapons[a]=s
+        gvars.initAmmoStockIds[slotType]=l
+        gvars.initAmmoStockCounts[slotType]=e
+        gvars.initAmmoInWeapons[slotType]=s
         if(m~=TppEquip.BL_None)then
-          if i then
-            t=i
+          if underBarrelAmmo then
+            t=underBarrelAmmo
           else
             t=T
           end
-          gvars.initAmmoStockIds[a+TppDefine.WEAPONSLOT.MAX]=m
-          gvars.initAmmoStockCounts[a+TppDefine.WEAPONSLOT.MAX]=t
-          gvars.initAmmoSubInWeapons[a]=d
+          gvars.initAmmoStockIds[slotType+TppDefine.WEAPONSLOT.MAX]=m
+          gvars.initAmmoStockCounts[slotType+TppDefine.WEAPONSLOT.MAX]=t
+          gvars.initAmmoSubInWeapons[slotType]=d
         end
-        if c=="initWeapons"then
-          vars.isInitialWeapon[a]=1
+        if category=="initWeapons"then
+          vars.isInitialWeapon[slotType]=1
         end
-      elseif t>=TppDefine.WEAPONSLOT.SUPPORT_0 and t<=TppDefine.WEAPONSLOT.SUPPORT_7 then
-        local e=t-TppDefine.WEAPONSLOT.SUPPORT_0
+      elseif slotNum>=TppDefine.WEAPONSLOT.SUPPORT_0 and slotNum<=TppDefine.WEAPONSLOT.SUPPORT_7 then
+        local e=slotNum-TppDefine.WEAPONSLOT.SUPPORT_0
         vars.initSupportWeapons[e]=r
-        gvars.initAmmoStockIds[t]=l
-        local e
-        if n then
-          e=n
+        gvars.initAmmoStockIds[slotNum]=l
+        local ammoCount
+        if ammo then
+          ammoCount=ammo
         else
-          e=p
+          ammoCount=RENAMEdefaultAmmo
         end
-        gvars.initAmmoStockCounts[t]=e
+        gvars.initAmmoStockCounts[slotNum]=ammoCount
       end
     end
   end
 end
-function this.GetWeaponSlotInfoFromWeaponSet(e,o)
-  local n,t,r,a,i
-  if e.primaryHip then
-    n=TppDefine.WEAPONSLOT.PRIMARY_HIP
-    t=e.primaryHip
-    r=e.magazine
-    a=e.ammo
-    i=e.underBarrelAmmo
-  elseif e.primaryBack then
-    n=TppDefine.WEAPONSLOT.PRIMARY_BACK
-    t=e.primaryBack
-    r=e.magazine
-    a=e.ammo
-  elseif e.secondary then
-    n=TppDefine.WEAPONSLOT.SECONDARY
-    t=e.secondary
-    r=e.magazine
-    a=e.ammo
-  elseif e.support then
-    o=o+1
-    t=e.support
-    a=e.ammo
+function this.GetWeaponSlotInfoFromWeaponSet(weaponInfo,slotNum)
+  local slotType,slotName,magazine,ammo,underBarrelAmmo
+  if weaponInfo.primaryHip then
+    slotType=TppDefine.WEAPONSLOT.PRIMARY_HIP
+    slotName=weaponInfo.primaryHip
+    magazine=weaponInfo.magazine
+    ammo=weaponInfo.ammo
+    underBarrelAmmo=weaponInfo.underBarrelAmmo
+  elseif weaponInfo.primaryBack then
+    slotType=TppDefine.WEAPONSLOT.PRIMARY_BACK
+    slotName=weaponInfo.primaryBack
+    magazine=weaponInfo.magazine
+    ammo=weaponInfo.ammo
+  elseif weaponInfo.secondary then
+    slotType=TppDefine.WEAPONSLOT.SECONDARY
+    slotName=weaponInfo.secondary
+    magazine=weaponInfo.magazine
+    ammo=weaponInfo.ammo
+  elseif weaponInfo.support then
+    slotNum=slotNum+1
+    slotName=weaponInfo.support
+    ammo=weaponInfo.ammo
   end
-  return n,o,t,r,a,i
+  return slotType,slotNum,slotName,magazine,ammo,underBarrelAmmo
 end
 function this.SaveWeaponsToUsingTemp(n)
   if gvars.ply_isUsingTempWeapons then
@@ -1404,7 +1404,9 @@ function this.PlayFallDeadCameraOnWalkerGear(a)
 end
 this.VEHICLE_FALL_DEAD_CAMERA={[Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayFallDeadCameraOnRideLightVehicle,[Vehicle.type.EASTERN_TRACKED_TANK]=this.PlayFallDeadCameraOnRideTank,[Vehicle.type.EASTERN_TRUCK]=this.PlayFallDeadCameraOnRideTruck,[Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE]=this.PlayFallDeadCameraOnRideArmoredVehicle,[Vehicle.type.WESTERN_LIGHT_VEHICLE]=this.PlayFallDeadCameraOnRideLightVehicle,[Vehicle.type.WESTERN_TRACKED_TANK]=this.PlayFallDeadCameraOnRideTank,[Vehicle.type.WESTERN_TRUCK]=this.PlayFallDeadCameraOnRideTruck,[Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE]=this.PlayFallDeadCameraOnRideArmoredVehicle}
 function this.Messages()
-  local n=Tpp.StrCode32Table{Player={{msg="CalcFultonPercent",func=function(t,n,o,a,r)
+  local n=Tpp.StrCode32Table{
+    Player={
+    {msg="CalcFultonPercent",func=function(t,n,o,a,r)
     this.MakeFultonRecoverSucceedRatio(t,n,o,a,r,false)
   end},
   {msg="CalcDogFultonPercent",func=function(r,n,o,a,t)
@@ -1630,15 +1632,22 @@ function this.Init(a)
   end
   TppEffectUtility.SetSandWindEnable(false)
 end
-function this.SetSelfSubsistenceOnHardMission()--tex reworked
+function this.SetSelfSubsistenceOnHardMission()--tex reworked, see below for original
   local loadout = gvars.subsistenceLoadout
   if TppMission.IsSubsistenceMission() and loadout==0 then
     loadout=1
   end
-  if loadout > 0 and loadout <= #InfMain.subsistenceLoadouts  then
+  if gvars.isManualSubsistence == InfMain.SETTING_SUBSISTENCE_PROFILE.PURE then
+    if loadout==3 then--tex tertiary not allowed on pure
+      loadout=1
+      gvars.isManualSubsistence=1
+    end
+  end
+  if loadout > 0 and loadout <= #InfMain.subsistenceLoadouts then
     this.SetInitWeapons(InfMain.subsistenceLoadouts[loadout])--tex subs loadouts, lua index from 1
   end
   if TppMission.IsSubsistenceMission() then
+    this.SetInitWeapons(InfMain.SUBSISTENCE_CLEAR_SUPPORT_WEAPON_TABLE)
     this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
     local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}--tex subs settings, moved and broken up from retail which put table straight in regtempplayer
     if gvars.isManualSubsistence==InfMain.SETTING_SUBSISTENCE_PROFILE.BOUNDER then
@@ -1673,23 +1682,11 @@ function this.SetSelfSubsistenceOnHardMission()--tex reworked
   end--
 end
 --[[function e.SetSelfSubsistenceOnHardMission()--tex ORIG:
-
-
   if TppMission.IsSubsistenceMission()then
-
-
     e.SetInitWeapons(TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE)
-
-
     e.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
-
-
     e.RegisterTemporaryPlayerType{partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
-
-
   end
-
-
 end--]]
 function this.OnReload()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
@@ -1700,42 +1697,59 @@ end
 function this.Update()
   this.UpdateDeliveryWarp()
 end
-local c={[TppDefine.WEATHER.SUNNY]=0,[TppDefine.WEATHER.CLOUDY]=-10,[TppDefine.WEATHER.RAINY]=-30,[TppDefine.WEATHER.FOGGY]=-50,[TppDefine.WEATHER.SANDSTORM]=-70}
-function this.MakeFultonRecoverSucceedRatio(t,a,p,r,l,i)
-  local o={[TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_C]=30,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_D]=20,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_E]=10,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,[TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0}
-  local t=a
-  local a=0
+local fultonWeatherSuccessTable={
+  [TppDefine.WEATHER.SUNNY]=0,
+  [TppDefine.WEATHER.CLOUDY]=-10,
+  [TppDefine.WEATHER.RAINY]=-30,
+  [TppDefine.WEATHER.FOGGY]=-50,
+  [TppDefine.WEATHER.SANDSTORM]=-70
+}
+function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrReourceId,i)
+  local mbSectionRankSuccessTable={--NMC: Why is this table defined in the function? OPT: move out
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_C]=30,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_D]=20,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_E]=10,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
+    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
+  }
+  local gameId=_gameId
+  local percentage=0
   local s=100
-  local n=0
-  n=TppTerminal.DoFuncByFultonTypeSwitch(t,p,r,l,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
-  if n==nil then
-    n=100
+  local doFuncSuccess=0
+  --RETAILPATCH: 1.0.4.4, was: -v- guess they missed updating this call when they added the param last patch CULL:
+  --TppTerminal.DoFuncByFultonTypeSwitch(t,p,r,l,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
+  doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,r,staffOrReourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
+  if doFuncSuccess==nil then
+    doFuncSuccess=100
   end
-  local e=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
-  local r=o[e]or 0
-  local e=c[vars.weather]or 0
-  e=e+r
-  if e>0 then
-    e=0
+  local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
+  local mbSectionSuccess=mbSectionRankSuccessTable[mbFultonRank]or 0
+  local successMod=fultonWeatherSuccessTable[vars.weather]or 0
+  successMod=successMod+mbSectionSuccess
+  if successMod>0 then
+    successMod=0
   end
-  a=(s+n)+e
+  percentage=(s+doFuncSuccess)+successMod
   if mvars.ply_allways_100percent_fulton then
-    a=100
+    percentage=100
   end
-  if TppEnemy.IsRescueTarget(t)then
-    a=100
+  if TppEnemy.IsRescueTarget(gameId)then
+    percentage=100
   end
-  local e
+  local forcePercent
   if mvars.ply_forceFultonPercent then
-    e=mvars.ply_forceFultonPercent[t]
+    forcePercent=mvars.ply_forceFultonPercent[gameId]
   end
-  if e then
-    a=e
+  if forcePercent then
+    percentage=forcePercent
   end
   if i then
-    Player.SetDogFultonIconPercentage{percentage=a,targetId=t}
+    Player.SetDogFultonIconPercentage{percentage=percentage,targetId=gameId}
   else
-    Player.SetFultonIconPercentage{percentage=a,targetId=t}
+    Player.SetFultonIconPercentage{percentage=percentage,targetId=gameId}
   end
 end
 function this.GetSoldierFultonSucceedRatio(t)
@@ -1782,10 +1796,21 @@ function this.OnPlayerFulton(playerIndex,r)
   local e=1e4
   local a=1e4
   local t=5e3
-  local a={[TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2]=e,[TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2]=e,[TppGameObject.GAME_OBJECT_TYPE_BATTLEGEAR]=e,[TppGameObject.GAME_OBJECT_TYPE_VEHICLE]=a,[TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER]=a,[TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN]=a,[TppGameObject.GAME_OBJECT_TYPE_MORTAR]=t,[TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN]=t}
+  local a={
+    [TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2]=e,
+    [TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2]=e,
+    [TppGameObject.GAME_OBJECT_TYPE_BATTLEGEAR]=e,
+    [TppGameObject.GAME_OBJECT_TYPE_VEHICLE]=a,
+    [TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER]=a,
+    [TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN]=a,
+    [TppGameObject.GAME_OBJECT_TYPE_MORTAR]=t,
+    [TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN]=t
+    }
   local e
-  local t=GameObject.GetTypeIndex(r)e=a[t]or n
-  TppTerminal.UpdateGMP{gmp=-e,gmpCostType=TppDefine.GMP_COST_TYPE.FULTON}svars.supportGmpCost=svars.supportGmpCost+e
+  local t=GameObject.GetTypeIndex(r)
+  e=a[t]or n
+  TppTerminal.UpdateGMP{gmp=-e,gmpCostType=TppDefine.GMP_COST_TYPE.FULTON}
+  svars.supportGmpCost=svars.supportGmpCost+e
 end
 function this.QuietRideHeli(e)
   if e==GameObject.GetGameObjectIdByIndex("TppBuddyQuiet2",0)then
@@ -1928,7 +1953,8 @@ end
 local t=7.5
 local a=3.5
 this.DELIVERY_WARP_STATE=Tpp.Enum{"START_FADE_OUT","START_WARP","END_WARP","START_FADE_IN"}
-function this.OnSelectCboxDelivery(a)Player.SetPadMask{settingName="CboxDelivery",except=true}
+function this.OnSelectCboxDelivery(a)
+  Player.SetPadMask{settingName="CboxDelivery",except=true}
   mvars.ply_deliveryWarpState=this.DELIVERY_WARP_STATE.START_FADE_OUT
   mvars.ply_selectedCboxDeliveryUniqueId=a
   mvars.ply_playingDeliveryWarpSoundHandle=TppSoundDaemon.PostEventAndGetHandle("Play_truck_transfer","Loading")

@@ -1,11 +1,35 @@
 = Infinite heaven =
-r52 2015-10-26
+r56 2015-10-30
 by tin man tex
 For MGSV version 1.0.4.3 (1.04 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-Features:
+New Options for r56:
+Finally became aware that OSP actually clears support weapons, going against my (unchecked) claim that it only affected the main weapons (was lulled into false sense of security by the items not being cleared, and lack of testing heh).
+New OSP mode added - Tertiary free (though disallowed in subsistence pure), clears primary and secondary on mission, leaves your chosen tertiaray weapon free.
+Start on foot - Skip helicopter ride into missions/free mode.
+Menu translations - have a translation system for the menu, but no current actual translations, see below for more info.
+Unlock player avatar - without having to complete mission 46
+Clock timescale - adjust day/weather clock, simulation clock unaffected.
+
+New Options for r52:
+Cutscenes menu:
+Always use current soldier for cutscenes
+Disable return-to-mother base cutscenes
+Play specific mother base cutscene
+
+New Options for r48:
+Change Mother base soldiers equipment
+Turn Mother base soldiers hostile
+
+Want to help out?
+
+Translation: Check out the file InfLang.txt in the infinite heaven .zip and see what you can do. Contact me by pm if you want more detail/want to send me your translation. You will be credited in the main infinite heaven description for your kind work.
+
+Features video: My system is not currently set up to record game footage, if someone wants to do a review/spotlight of all the different features of infinite heaven that would be awesome.
+
+Infinite Heaven full features:
 Subsistence Mode toggle - Lets you go into any mission or free roam with same restrictions as subsistence missions, or with just a secondary of your choice.
 Comes in two profiles:
 Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgrades off, ASAP time forced, vehicle off, fulton  off, support off, head markers off, heli attack off, central landing zones off.
@@ -44,13 +68,15 @@ Disable Mother Base cutscenes - Disables some arrive at motherbase cutscenes tha
 Play selected mother base cutscene - Can choose from many of the mother base cutscenes that play on returning. Requires the setting 'MB cutscene play mode' to be set to 'Play selected'
 
 Patchups:
+Unlock playable avatar - unlock avatar before mission 46
 
 Return Quiet - returns quiet. Not reversable, but not run by default.
 
 Retail Bug fixes:
 Enemies Revenge system level for Fulton was fulton was 0 low, 1 blank, 2 high, now 0 blank 1 low 2 high.
 
-By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
+By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu. 
+All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. A future version of snakebite will allow easily toggling of mods.
 
 Disclaimers:
 Use the mod at you own risk (which can be mitigated by backing up saves and files replaced by mod)
@@ -104,7 +130,7 @@ The mod saves some varables to the save file, but on initial testing (I welcome 
 Use uninstall in SnakeBite.
 
 Usage:
-While in ACC Heli
+While in ACC Heli (full menu), or in-mission (small menu)
 Hold the weapon <Reload> button (default R on keyboard, or B on controller) for a second to toggle the mod menu.
 (modding limitation, currently no know way to detect if in idroid menu where navigation keys conflict)
 So toggle mod menu on, change setting, toggle it off before you use idroid.
@@ -129,6 +155,8 @@ it should refresh when you change any settings, or if you exit to the title menu
 
 Buddy may have to be repicked after turning off subsidence.
 
+Turning off subsitence pure will still prevent you from selecting buddy, exiting to title and back might fix it, entering a mission will.
+
 Enemy Life percentage doesn't seem to effect stun.
 
 Subsidence mode will still technically do a full deployment cost of what's set. Manual solution, have a loadout with all items set to none and cheapest weapons.
@@ -138,6 +166,26 @@ When changing General Enemy Parameters back to Default you must exit to title to
 There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
 
 Changelog:
+r56
+Clock timescale
+OSP now correctly only affects main weapons.
+OSP tertiary free
+Start on foot
+InfMenu: In game/helispace menu switching
+Fixed issue with subsistence mode not turning off centralLzs if an OSP mode was already on.
+
+r55
+Moved incomplete feature out of TppLandingZone to own file
+Setting: Unlock player avatar
+
+r54
+Revert from game localization system
+Own localization system created, functions in InfMenu, strings in InfLang
+
+r53
+Call setting onChange on setting reset
+1.0.4.4 TppPlayer fulton call fix. They had added an extra parameter to the fulton function, but forgot to add the parameter to a call. There's only two calls to the function in the scripts... oh well mistakes happen.
+
 r52 2015-10-26 - public release
 Current soldier in demos
 Select mb return demo

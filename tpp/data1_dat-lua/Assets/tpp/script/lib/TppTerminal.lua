@@ -186,24 +186,24 @@ if TppDefine.GMP_COST_TYPE then
   gmpCostNames[TppDefine.GMP_COST_TYPE.CLEAR_SIDE_OPS]="gmpGet"
   gmpCostNames[TppDefine.GMP_COST_TYPE.DESTROY_SUPPORT_HELI]="add_alt_machine"
 end
-function this.UpdateGMP(e)
+function this.UpdateGMP(info)
   if not TppMotherBaseManagement.AddGmp then
     return
   end
-  if not IsTypeTable(e)then
+  if not IsTypeTable(info)then
     return
   end
-  local gmp=e.gmp
+  local gmp=info.gmp
   local absGmp=math.abs(gmp)
-  local withoutAnnounceLog=e.withOutAnnouceLog
+  local withoutAnnounceLog=info.withOutAnnouceLog
   if gmp>0 then
     TppMotherBaseManagement.AddGmp{gmp=gmp}
   else
     TppMotherBaseManagement.SubGmp{gmp=absGmp}
   end
   if not withoutAnnounceLog then
-    if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_RECUE_MILLER and e.gmpCostType then
-      local gmpCostName=gmpCostNames[e.gmpCostType]
+    if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_RECUE_MILLER and info.gmpCostType then
+      local gmpCostName=gmpCostNames[info.gmpCostType]
       if gmpCostName then
         TppUI.ShowAnnounceLog(gmpCostName,absGmp)
       end
@@ -319,17 +319,17 @@ function this.AddVolunteerStaffs()
   if noAddStaffMissions[vars.missionCode]then
     return
   end
-  local e=TppMission.IsHelicopterSpace(vars.missionCode)
-  if e then
+  local isHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
+  if isHeliSpace then
     return
   end
-  local t=svars.killCount
-  local e=(svars.scoreTime/1e3)/60
-  local e={missionId=vars.missionCode,clearTimeMinute=e,killCount=t}
+  local killCount=svars.killCount
+  local clearTimeMinute=(svars.scoreTime/1e3)/60
+  local missionResult={missionId=vars.missionCode,clearTimeMinute=clearTimeMinute,killCount=killCount}
   if(vars.missionCode~=30010)and(vars.missionCode~=30020)then
-    TppMotherBaseManagement.AddVolunteerStaffs(e)
+    TppMotherBaseManagement.AddVolunteerStaffs(missionResult)
   else
-    TppMotherBaseManagement.AddOgreUserVolunteerStaffs(e)
+    TppMotherBaseManagement.AddOgreUserVolunteerStaffs(missionResult)
   end
   if TppMotherBaseManagement.AddMinimumSecurityStaffs then
     TppMotherBaseManagement.AddMinimumSecurityStaffs()
@@ -523,24 +523,24 @@ function this.AcquirePrivilegeStaff()
     end
   end
 end
-function this._AcquireGzPrivilegeStaff(t)
-  return this._AcquirePrivilegeStaff(t,"fromGZ")
+function this._AcquireGzPrivilegeStaff(uniqueStaffType)
+  return this._AcquirePrivilegeStaff(uniqueStaffType,"fromGZ")
 end
 function this._AcquireDlcItemStaff(n,t)
-  for n,t in ipairs(t)do
-    local e=this._AcquirePrivilegeStaff(t,"fromExtra")
+  for n,uniqueStaffType in ipairs(t)do
+    local e=this._AcquirePrivilegeStaff(uniqueStaffType,"fromExtra")
     if not e then
       return
     end
   end
   return true
 end
-function this._AcquirePrivilegeStaff(t,n)
-  local t=TppDefine.UNIQUE_STAFF_TYPE_ID[t]
-  if not t then
+function this._AcquirePrivilegeStaff(uniqueStaffType,n)
+  local staffId=TppDefine.UNIQUE_STAFF_TYPE_ID[uniqueStaffType]
+  if not staffId then
     return
   end
-  return this._AddUniqueVolunteerStaff(t,n)
+  return this._AddUniqueVolunteerStaff(staffId,n)
 end
 function this.AcquirePrivilegeInTitleScreen()
   this.AcquireGzPrivilegeKeyItem()
@@ -1830,8 +1830,8 @@ function this.OnEstablishMissionClear()
     TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_302",rewardType=TppReward.TYPE.COMMON}
     TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_401",rewardType=TppReward.TYPE.COMMON}
   end
-  local n=TppStory.GetCurrentStorySequence()
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA then
+  local currentStorySequence=TppStory.GetCurrentStorySequence()
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA then
     if not gvars.trm_isPushRewardCanDevParasiteSuit then
       gvars.trm_isPushRewardCanDevParasiteSuit=true
       TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_307",rewardType=TppReward.TYPE.COMMON}
@@ -1849,7 +1849,7 @@ function this.OnEstablishMissionClear()
       TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_402",rewardType=TppReward.TYPE.COMMON}
     end
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_DESTROY_THE_FLOW_STATION then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_DESTROY_THE_FLOW_STATION then
     TppBuddyService.SetObtainedBuddyType(BuddyType.WALKER_GEAR)
     TppBuddyService.SetSortieBuddyType(BuddyType.WALKER_GEAR)
     if not gvars.trm_isPushRewardCanDevDWalker then
@@ -1871,7 +1871,7 @@ function this.OnEstablishMissionClear()
       TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_112",rewardType=TppReward.TYPE.COMMON}
     end
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
     if not gvars.trm_isPushRewardCanDevNuclear then
       gvars.trm_isPushRewardCanDevNuclear=true
       vars.mbmIsEnableNuclearDevelop=1
@@ -1897,73 +1897,73 @@ function this.OnEstablishMissionClear()
       end
     end
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY then
     TppMotherBaseManagement.EnableStaffInitLangKikongo()
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON then
     local t={tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1001,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1002,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1003,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1004,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1005,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1006,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1007}
     this.OpenDeployMission(t)
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY then
     local t={tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1008,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1009,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1010,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1011}
     this.OpenDeployMission(t)
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_TAKE_OUT_THE_CONVOY then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_TAKE_OUT_THE_CONVOY then
     local t={tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1012}
     this.OpenDeployMission(t)
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_DEATH_FACTORY then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_DEATH_FACTORY then
     local t={tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1013,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1014}
     this.OpenDeployMission(t)
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA then
     if not gvars.trm_doneUpdatePandemicLimit then
       gvars.trm_doneUpdatePandemicLimit=true
       TppMotherBaseManagement.UpdatePandemicEventLimit()
     end
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
     local t={tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1015,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1016,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1017,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1018,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1019,tppMotherBaseManagementConst.DEPLOY_MISSION_ID_SEQ_1020}
     this.OpenDeployMission(t)
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
     TppServerManager.StartFobPickup()
   end
-  if n>=TppDefine.STORY_SEQUENCE.CLEARD_THE_TRUTH then
+  if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_THE_TRUTH then
     vars.isAvatarPlayerEnable=1
   end
   this.AddUniqueCharactor()
 end
-function this.AddUniqueVolunteerStaff(a)
+function this.AddUniqueVolunteerStaff(missionId)
   local staffIdsTable={{186},{209},{210,211},{212},{213},{214},{215},{216,217},{218},{187},{185},{188,189,190,191,192,193},{194,195,196,197,198,199}}
   local idsIndexForMission={[10033]=1,[10036]=1,[10043]=1,[10080]=2,[10086]=3,[10082]=4,[10091]=5,[10195]=6,[10100]=7,[10110]=8,[10121]=9,[10070]=10,[10090]=11,[10151]=12,[10280]=13}
-  local t=idsIndexForMission[a]
-  if t then
-    local staffIds=staffIdsTable[t]
+  local index=idsIndexForMission[missionId]
+  if index then
+    local staffIds=staffIdsTable[index]
     for n,staffId in ipairs(staffIds)do
       this._AddUniqueVolunteerStaff(staffId)
     end
   end
 end
-function this._AddUniqueVolunteerStaff(e,t)
-  if TppMotherBaseManagement.IsExistStaff{uniqueTypeId=e}then
+function this._AddUniqueVolunteerStaff(uniqueTypeId,t)
+  if TppMotherBaseManagement.IsExistStaff{uniqueTypeId=uniqueTypeId}then
     return
   end
-  local n=false
+  local specialContract=false
   if t~=nil then
-    n=true
+    specialContract=true
   end
-  local e=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=e}
-  TppMotherBaseManagement.DirectAddStaff{staffId=e,section="Wait",isNew=true,specialContract=n}
-  TppUiCommand.ShowBonusPopupStaff(e,t)
+  local staffId=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=uniqueTypeId}
+  TppMotherBaseManagement.DirectAddStaff{staffId=staffId,section="Wait",isNew=true,specialContract=specialContract}
+  TppUiCommand.ShowBonusPopupStaff(staffId,t)
   return true
 end
-function this.ForceStartBuildPlatform(e,n)
-  local t=TppMotherBaseManagement.GetClusterGrade{base="MotherBase",category=e}
-  if t<n then
-    local t=TppMotherBaseManagement.GetClusterBuildStatus{base="MotherBase",category=e}
-    if t=="Completed"then
-      TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category=e,grade=0,buildStatus="Building",timeMinute=0,isNew=true}
+function this.ForceStartBuildPlatform(category,n)
+  local clusterGrade=TppMotherBaseManagement.GetClusterGrade{base="MotherBase",category=category}
+  if clusterGrade<n then
+    local buildStatus=TppMotherBaseManagement.GetClusterBuildStatus{base="MotherBase",category=category}
+    if buildStatus=="Completed"then
+      TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category=category,grade=0,buildStatus="Building",timeMinute=0,isNew=true}
     end
   end
 end
@@ -1981,15 +1981,15 @@ this.RewardLangIdTable={
   Hospital={"reward_104"}
 }
 function this.PushRewardOnMbSectionOpen()
-  for a,n in ipairs(this.MOTHER_BASE_SECTION_LIST)do
-    local t=this.RewardLangIdTable[n]
-    local e=this.IsReleaseSection(n)
-    if e~=nil and t then
-      if e then
+  for a,section in ipairs(this.MOTHER_BASE_SECTION_LIST)do
+    local rewardLangIdTable=this.RewardLangIdTable[section]
+    local isReleaseSection=this.IsReleaseSection(section)
+    if isReleaseSection~=nil and rewardLangIdTable then
+      if isReleaseSection then
         if not gvars.trm_isPushRewardOpenSection[a]then
           gvars.trm_isPushRewardOpenSection[a]=true
-          for t,e in ipairs(t)do
-            TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId=e,rewardType=TppReward.TYPE.COMMON}
+          for t,langId in ipairs(rewardLangIdTable)do
+            TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId=langId,rewardType=TppReward.TYPE.COMMON}
           end
         end
       end

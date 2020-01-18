@@ -141,18 +141,19 @@ function this.SetMissionPackLabelName(e)
   end
 end
 function this.SetDefaultMissionPackLabelName()
-  this.SetMissionPackLabelName"default"end
-function this.MakeMissionPackList(n,i)
+  this.SetMissionPackLabelName"default"
+end
+function this.MakeMissionPackList(missionCode,missionPackList)
   this.missionPackList={}
-  if Tpp.IsTypeFunc(i)then
-    i(n)
+  if Tpp.IsTypeFunc(missionPackList)then
+    missionPackList(missionCode)
   end
-  local i=true
-  if n==10010 and this.IsMissionPackLabel"afterMissionClearMovie"then
-    i=false
+  local addColoringPack=true
+  if missionCode==10010 and this.IsMissionPackLabel"afterMissionClearMovie"then
+    addColoringPack=false
   end
-  if i then
-    this.AddColoringPack(n)
+  if addColoringPack then
+    this.AddColoringPack(missionCode)
   end
   return this.missionPackList
 end

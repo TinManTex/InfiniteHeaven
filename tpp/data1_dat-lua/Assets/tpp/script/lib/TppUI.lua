@@ -7,7 +7,166 @@ local p=FadeFunction.CallFadeIn
 local r=FadeFunction.CallFadeOut
 local d=0
 this.FADE_SPEED={FADE_MOMENT=0,FADE_HIGHESTSPEED=.5,FADE_HIGHSPEED=1,FADE_NORMALSPEED=2,FADE_LOWSPEED=4,FADE_LOWESTSPEED=8}
-this.ANNOUNCE_LOG_TYPE={updateMissionInfo="announce_mission_info_update",updateMissionInfo_AddDocument="announce_doc_add",updateMap="announce_map_update",recoverTarget="announce_target_extract",eliminateTarget="announce_target_eliminate",destroyTarget="announce_target_destroy",achieveObjectiveCount="announce_objective_complete_num",achieveAllObjectives="announce_objective_complete",emergencyMissionOccur="announce_mission_add_emerg",deleteEmergencyMission="announce_mission_del_emerg",getIntel="announce_get_intel_file",recoverTargetCount="announce_target_extract_num",recoverEnemy="announce_collection_enemy",recoverHostage="announce_collection_hostage",target_died="announce_target_died",target_eliminate_failed="announce_target_eliminate_failed",target_extract_failed="announce_target_extract_failed",staff_dead="announce_staff_dead",staff_dying="announce_staff_dying",hostage_died="announce_hostage_died",fob_sneaking_failed="announce_fob_sneaking_failed",boy_died="announce_boy_died",leaveHotZone="announce_left_hot_zone",closeOutOfMissionArea="announce_mission_area_warning",callHeliRecieved="announce_support_callheli_received",heliArrivedLZ="announce_heli_arrive_LZ",callSupportBuddyReceived="announce_support_callboddy_received",gmpGet="announce_ops_get_gmp",gmpCostFulton="announce_gmp_cost_fulton",gmpCostSupply="announce_gmp_cost_supply",gmpCostAttack="announce_gmp_cost_attack",gmpCostHeli="announce_gmp_cost_heli",gmpCostOps="announce_gmp_cost_ops",extractionAllived="announce_extraction_arrived",extractSoldiers="announce_extract_soldier",extractPrisoners="announce_extract_prisoner",getDiamond="announce_get_diamond",unitLvUpRd="announce_unit_lvup_RD",unitLvUpBaseDev="announce_unit_lvup_base_dev",unitLvUpSupport="announce_unit_lvup_support",unitLvUpIntel="announce_unit_lvup_intel",unitLvUpCombat="announce_unit_lvup_combat",unitLvUpSecurity="announce_unit_lvup_security",unitLvUpMedical="announce_unit_lvup_medical",unitLvDownRd="announce_unit_lvdown_RD",unitLvDownBaseDev="announce_unit_lvdown_base_dev",unitLvDownSupport="announce_unit_lvdown_support",unitLvDownIntel="announce_unit_lvdown_intel",unitLvDownCombat="announce_unit_lvdown_combat",unitLvDownSecurity="announce_unit_lvdown_security",unitLvDownMedical="announce_unit_lvdown_medical",missionListUpdate="announce_mission_list_update",missionAdd="announce_mission_add",extractionFailed="announce_extraction_failed",sunset="announce_sunset",sunrise="announce_sunrise",weather_sunny="announce_weather_sunny",weather_cloudy="announce_weather_cloudy",weather_rainy="announce_weather_rain",weather_sandstorm="announce_weather_sandstorm",weather_foggy="announce_weather_fog",getKyeItem="announce_ops_get_item",getPoster="announce_get_gravure",destroyRadar="announce_destroy_radar",unlockLz="announce_unlock_lz",heroicPointUp="announce_fame_up",heroicPointDown="announce_fame_down",outpost_neutralize="announce_outpost_neutralize",guradpost_neutralize="announce_guradpost_neutralize",announce_nuclear_zero="announce_nuclear_zero",fob_add="announce_fob_add",fobReqHelp="announce_fob_req_help",fobFindIntruder="announce_fob_find_intruder",fobFound="announce_fob_found",fobWormholeFrom="announce_fob_wormhole_from",fobWormholeTo="announce_fob_wormhole_to",fobReport="announce_online_910_from_0_prio_0",fobStolenStaff="announce_staff_num",task_complete="announce_task_complete",fobDefFailed="announce_fob_def_failed",fobDefSuccess="announce_fob_def_success",fobDefSuccessPra="announce_fob_def_success_pra",fobRivalArrive="announce_fob_helper_arrive",fobRivalEscape="announce_fob_helper_escape",fobIntruderEscape="announce_fob_intruder_escape",fobNoticeIntruder="announce_online_900_from_0_prio_0",fobReqPractice="announce_fob_req_practice",fobVisitFob="announce_fob_visit_fob",fobVisitFob1="announce_fob_visit_fob1",fobVisitFob2="announce_fob_visit_fob2",fobVisitFob3="announce_fob_visit_fob3",fobVisitFob4="announce_fob_visit_fob4",fobBatrayed="announce_fob_batrayed",fobBetray="announce_fob_betray",espPf_a="announce_esp_pf_a",espFulton_a="announce_esp_fulton_a",espFulton_d="announce_esp_fulton_d",espFultonContainer_a="announce_esp_container_fulton_a",espFultonContainer_d="announce_esp_container_fulton_d",espKill_a="announce_esp_kill_a",espKill_d="announce_esp_kill_d",espDestroy_a="announce_esp_destroy_a",espDestroy_d="announce_esp_destroy_d",espKillStaff_a="announce_esp_killstaff_a",espKillStaff_d="announce_esp_killstaff_d",espMarking_d="announce_esp_marking_d",espKillTarget_d="announce_esp_kill_target_d",fob_leave_owner="announce_fob_leave_owner",fob_leave_visiter="announce_fob_leave_fob",espFultonTarget_d="announce_esp_target_fulton_d",fob_practice_fin="announce_fob_practice_fin",esp_stun="announce_esp_stun",esp_sleep="announce_esp_sleep",esp_stun_d="announce_esp_stun_df",esp_sleep_d="announce_esp_sleep_df",esp_stun_a="announce_esp_stun_at",esp_sleep_a="announce_esp_sleep_at",mbstaff_died="announce_mbstaff_died",horse_died="announce_horse_died",quiet_died="announce_quiet_died",ddog_died="announce_ddog_died",dwalker_died="announce_dwalker_died",quest_add="announce_quest_add",quest_complete="announce_quest_complete",quest_delete="announce_quest_delete",quest_list_update="announce_quest_list_update",quest_defeat_armor="announce_quest_defeat_armor",quest_defeat_zombie="announce_quest_defeat_zombie",mine_quest_log="announce_quest_disposal_mine",quest_extract_elite="announce_quest_extract_elite",quest_extract_hostage="announce_quest_extract_hostage",quest_defeat_armor_vehicle="announce_quest_defeat_armor_vehicle",quest_defeat_tunk="announce_quest_defeat_tunk",quest_get_photo="announce_get_photo",quest_target_eliminate="announce_quest_target_destroy",find_keyitem="announce_find_keyitem",find_em_string="announce_find_em_string",find_em_back="announce_find_em_back",find_em_front="announce_find_em_front",get_tape="announce_get_tape",looting_weapon="announce_looting_weapon",get_wgear="announce_get_wgear",add_delivery_point="announce_add_delivery_point",get_invoice="announce_get_invoice",disposal_mine="announce_disposal_mine",disposal_decoy="announce_disposal_decoy",destroyed_skull="announce_destroyed_skull",trial_update="announce_trial_update",destroyed_support_heli="announce_destroyed_support_heli",add_alt_machine="announce_add_alt_machine",get_blueprint="announce_get_blueprint",recoveredFilmCase="announce_get_film_case",find_processed_res="announce_find_processed_res",find_diamond="announce_find_diamond",find_plant="announce_find_plant",refresh="announce_refresh",get_hero="announce_get_hero",lost_hero="announce_lost_hero"}
+this.ANNOUNCE_LOG_TYPE={
+  updateMissionInfo="announce_mission_info_update",
+  updateMissionInfo_AddDocument="announce_doc_add",
+  updateMap="announce_map_update",
+  recoverTarget="announce_target_extract",
+  eliminateTarget="announce_target_eliminate",
+  destroyTarget="announce_target_destroy",
+  achieveObjectiveCount="announce_objective_complete_num",
+  achieveAllObjectives="announce_objective_complete",
+  emergencyMissionOccur="announce_mission_add_emerg",
+  deleteEmergencyMission="announce_mission_del_emerg",
+  getIntel="announce_get_intel_file",
+  recoverTargetCount="announce_target_extract_num",
+  recoverEnemy="announce_collection_enemy",
+  recoverHostage="announce_collection_hostage",
+  target_died="announce_target_died",
+  target_eliminate_failed="announce_target_eliminate_failed",
+  target_extract_failed="announce_target_extract_failed",
+  staff_dead="announce_staff_dead",
+  staff_dying="announce_staff_dying",
+  hostage_died="announce_hostage_died",
+  fob_sneaking_failed="announce_fob_sneaking_failed",
+  boy_died="announce_boy_died",
+  leaveHotZone="announce_left_hot_zone",
+  closeOutOfMissionArea="announce_mission_area_warning",
+  callHeliRecieved="announce_support_callheli_received",
+  heliArrivedLZ="announce_heli_arrive_LZ",
+  callSupportBuddyReceived="announce_support_callboddy_received",
+  gmpGet="announce_ops_get_gmp",
+  gmpCostFulton="announce_gmp_cost_fulton",
+  gmpCostSupply="announce_gmp_cost_supply",
+  gmpCostAttack="announce_gmp_cost_attack",
+  gmpCostHeli="announce_gmp_cost_heli",
+  gmpCostOps="announce_gmp_cost_ops",
+  extractionAllived="announce_extraction_arrived",
+  extractSoldiers="announce_extract_soldier",
+  extractPrisoners="announce_extract_prisoner",
+  getDiamond="announce_get_diamond",
+  unitLvUpRd="announce_unit_lvup_RD",
+  unitLvUpBaseDev="announce_unit_lvup_base_dev",
+  unitLvUpSupport="announce_unit_lvup_support",
+  unitLvUpIntel="announce_unit_lvup_intel",
+  unitLvUpCombat="announce_unit_lvup_combat",
+  unitLvUpSecurity="announce_unit_lvup_security",
+  unitLvUpMedical="announce_unit_lvup_medical",
+  unitLvDownRd="announce_unit_lvdown_RD",
+  unitLvDownBaseDev="announce_unit_lvdown_base_dev",
+  unitLvDownSupport="announce_unit_lvdown_support",
+  unitLvDownIntel="announce_unit_lvdown_intel",
+  unitLvDownCombat="announce_unit_lvdown_combat",
+  unitLvDownSecurity="announce_unit_lvdown_security",
+  unitLvDownMedical="announce_unit_lvdown_medical",
+  missionListUpdate="announce_mission_list_update",
+  missionAdd="announce_mission_add",
+  extractionFailed="announce_extraction_failed",
+  sunset="announce_sunset",
+  sunrise="announce_sunrise",
+  weather_sunny="announce_weather_sunny",
+  weather_cloudy="announce_weather_cloudy",
+  weather_rainy="announce_weather_rain",
+  weather_sandstorm="announce_weather_sandstorm",
+  weather_foggy="announce_weather_fog",
+  getKyeItem="announce_ops_get_item",
+  getPoster="announce_get_gravure",
+  destroyRadar="announce_destroy_radar",
+  unlockLz="announce_unlock_lz",
+  heroicPointUp="announce_fame_up",
+  heroicPointDown="announce_fame_down",
+  outpost_neutralize="announce_outpost_neutralize",
+  guradpost_neutralize="announce_guradpost_neutralize",
+  announce_nuclear_zero="announce_nuclear_zero",
+  fob_add="announce_fob_add",
+  fobReqHelp="announce_fob_req_help",
+  fobFindIntruder="announce_fob_find_intruder",
+  fobFound="announce_fob_found",
+  fobWormholeFrom="announce_fob_wormhole_from",
+  fobWormholeTo="announce_fob_wormhole_to",
+  fobReport="announce_online_910_from_0_prio_0",
+  fobStolenStaff="announce_staff_num",
+  task_complete="announce_task_complete",
+  fobDefFailed="announce_fob_def_failed",
+  fobDefSuccess="announce_fob_def_success",
+  fobDefSuccessPra="announce_fob_def_success_pra",
+  fobRivalArrive="announce_fob_helper_arrive",
+  fobRivalEscape="announce_fob_helper_escape",
+  fobIntruderEscape="announce_fob_intruder_escape",
+  fobNoticeIntruder="announce_online_900_from_0_prio_0",
+  fobReqPractice="announce_fob_req_practice",
+  fobVisitFob="announce_fob_visit_fob",
+  fobVisitFob1="announce_fob_visit_fob1",
+  fobVisitFob2="announce_fob_visit_fob2",
+  fobVisitFob3="announce_fob_visit_fob3",
+  fobVisitFob4="announce_fob_visit_fob4",
+  fobBatrayed="announce_fob_batrayed",
+  fobBetray="announce_fob_betray",
+  espPf_a="announce_esp_pf_a",
+  espFulton_a="announce_esp_fulton_a",
+  espFulton_d="announce_esp_fulton_d",
+  espFultonContainer_a="announce_esp_container_fulton_a",
+  espFultonContainer_d="announce_esp_container_fulton_d",
+  espKill_a="announce_esp_kill_a",
+  espKill_d="announce_esp_kill_d",
+  espDestroy_a="announce_esp_destroy_a",
+  espDestroy_d="announce_esp_destroy_d",
+  espKillStaff_a="announce_esp_killstaff_a",
+  espKillStaff_d="announce_esp_killstaff_d",
+  espMarking_d="announce_esp_marking_d",
+  espKillTarget_d="announce_esp_kill_target_d",
+  fob_leave_owner="announce_fob_leave_owner",
+  fob_leave_visiter="announce_fob_leave_fob",
+  espFultonTarget_d="announce_esp_target_fulton_d",
+  fob_practice_fin="announce_fob_practice_fin",
+  esp_stun="announce_esp_stun",
+  esp_sleep="announce_esp_sleep",
+  esp_stun_d="announce_esp_stun_df",
+  esp_sleep_d="announce_esp_sleep_df",
+  esp_stun_a="announce_esp_stun_at",
+  esp_sleep_a="announce_esp_sleep_at",
+  mbstaff_died="announce_mbstaff_died",
+  horse_died="announce_horse_died",
+  quiet_died="announce_quiet_died",
+  ddog_died="announce_ddog_died",
+  dwalker_died="announce_dwalker_died",
+  quest_add="announce_quest_add",
+  quest_complete="announce_quest_complete",
+  quest_delete="announce_quest_delete",
+  quest_list_update="announce_quest_list_update",
+  quest_defeat_armor="announce_quest_defeat_armor",
+  quest_defeat_zombie="announce_quest_defeat_zombie",
+  mine_quest_log="announce_quest_disposal_mine",
+  quest_extract_elite="announce_quest_extract_elite",
+  quest_extract_hostage="announce_quest_extract_hostage",
+  quest_defeat_armor_vehicle="announce_quest_defeat_armor_vehicle",
+  quest_defeat_tunk="announce_quest_defeat_tunk",
+  quest_get_photo="announce_get_photo",
+  quest_target_eliminate="announce_quest_target_destroy",
+  find_keyitem="announce_find_keyitem",
+  find_em_string="announce_find_em_string",
+  find_em_back="announce_find_em_back",
+  find_em_front="announce_find_em_front",
+  get_tape="announce_get_tape",
+  looting_weapon="announce_looting_weapon",
+  get_wgear="announce_get_wgear",
+  add_delivery_point="announce_add_delivery_point",
+  get_invoice="announce_get_invoice",
+  disposal_mine="announce_disposal_mine",
+  disposal_decoy="announce_disposal_decoy",
+  destroyed_skull="announce_destroyed_skull",
+  trial_update="announce_trial_update",
+  destroyed_support_heli="announce_destroyed_support_heli",
+  add_alt_machine="announce_add_alt_machine",
+  get_blueprint="announce_get_blueprint",
+  recoveredFilmCase="announce_get_film_case",
+  find_processed_res="announce_find_processed_res",
+  find_diamond="announce_find_diamond",
+  find_plant="announce_find_plant",
+  refresh="announce_refresh",
+  get_hero="announce_get_hero",
+  lost_hero="announce_lost_hero"
+}
 this.ANNOUNCE_LOG_PRIORITY={"eliminateTarget","recoveredFilmCase","recoverTarget","destroyTarget","achieveAllObjectives","achieveObjectiveCount","getIntel","updateMissionInfo","updateMissionInfo_AddDocument","updateMap"}
 this.BUDDY_LANG_ID={[BuddyType.HORSE]="name_buddy_dh",[BuddyType.DOG]="name_buddy_dd",[BuddyType.QUIET]="marker_chara_quiet"}
 this.EMBLEM_ANNOUNCE_LOG_TYPE={[Fox.StrCode32"front"]="find_em_front",[Fox.StrCode32"base"]="find_em_back",[Fox.StrCode32"word"]="find_em_string"}
@@ -559,7 +718,8 @@ function this.ShowCallSupportBuddyAnnounceLog()
   if n then
     local i=TppSupportRequest.GetCallBuddyGmpCost(mvars.ui_callSupportBuddyType)
     this.ShowAnnounceLog("callSupportBuddyReceived",n)
-    TppTerminal.UpdateGMP{gmp=-i,gmpCostType=TppDefine.GMP_COST_TYPE.BUDDY}svars.supportGmpCost=svars.supportGmpCost+i
+    TppTerminal.UpdateGMP{gmp=-i,gmpCostType=TppDefine.GMP_COST_TYPE.BUDDY}
+    svars.supportGmpCost=svars.supportGmpCost+i
     mvars.ui_callSupportBuddyType=nil
   end
 end
@@ -708,13 +868,13 @@ function this.LoadAndWaitUiDefaultBlock()
   end
 end
 function this.OnMissionStart()
-  local e=vars.missionCode
-  local n=TppMission.IsHelicopterSpace(e)
-  if n then
+  local missionCode=vars.missionCode
+  local isHeliSpace=TppMission.IsHelicopterSpace(missionCode)
+  if isHeliSpace then
     return
   end
-  local e=TppMission.IsFreeMission(e)
-  if e then
+  local isFreeMission=TppMission.IsFreeMission(missionCode)
+  if isFreeMission then
     return
   end
   TppUiCommand.RemovedAllUserMarker()
@@ -940,10 +1100,10 @@ function this.EnableGameStatusOnFade()
   Tpp.SetGameStatus{target="all",enable=true,except=e,scriptName="TppUI.lua"}
 end
 function this._RegisterDefaultLandPoint()
-  local e=TppDefine.DEFAULT_DROP_ROUTE
-  for n,e in pairs(e)do
-    if e then
-      TppUiCommand.RegisterDefaultLandPoint{missionId=n,routeId=e}
+  local DEFAULT_DROP_ROUTE=TppDefine.DEFAULT_DROP_ROUTE
+  for missionId,routeId in pairs(DEFAULT_DROP_ROUTE)do
+    if routeId then
+      TppUiCommand.RegisterDefaultLandPoint{missionId=missionId,routeId=routeId}
     end
   end
 end

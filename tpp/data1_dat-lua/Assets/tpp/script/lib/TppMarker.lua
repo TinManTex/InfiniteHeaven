@@ -246,12 +246,14 @@ function this.OnMessage(i,n,s,r,t,o,a)
 end
 function this.RestoreMarkerLocator()
   if this.IsExistMarkerLocatorSystem()then
-    local e={type="TppMarker2LocatorSystem"}SendCommand(e,{id="RestoreFromSVars"})
+    local e={type="TppMarker2LocatorSystem"}
+    SendCommand(e,{id="RestoreFromSVars"})
   end
 end
 function this.StoreMarkerLocator()
   if this.IsExistMarkerLocatorSystem()then
-    local e={type="TppMarker2LocatorSystem"}SendCommand(e,{id="StoreToSVars"})
+    local e={type="TppMarker2LocatorSystem"}
+    SendCommand(e,{id="StoreToSVars"})
   end
 end
 function this.IsExistMarkerLocatorSystem()

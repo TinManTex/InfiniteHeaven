@@ -1,16 +1,16 @@
-local e={}
+local this={}
 local i=Tpp.IsTypeFunc
 local s=Tpp.IsTypeTable
 local i=Tpp.IsTypeString
 local i=Tpp.IsTypeNumber
 local i=bit.bnot
 local i,i,i=bit.band,bit.bor,bit.bxor
-function e.StartTitle(i)
+function this.StartTitle(i)
   TppSystemLua.UseAiSystem(true)
   TppSimpleGameSequenceSystem.Start()
   local function DoStart()
     TppSave.CopyGameDataFromSavingSlot()
-    e.InitializeForNewMission{}
+    this.InitializeForNewMission{}
     gvars.elapsedTimeSinceLastPlay=TppScriptVars.GetElapsedTimeSinceLastPlay()
     gvars.elapsedTimeSinceLastUseChickCap=gvars.elapsedTimeSinceLastUseChickCap+gvars.elapsedTimeSinceLastPlay
     TppSave.VarSaveOnlyGlobalData()
@@ -22,14 +22,14 @@ function e.StartTitle(i)
       DoStart()
     end
     if gvars.str_storySequence<TppDefine.STORY_SEQUENCE.CLEARD_ESCAPE_THE_HOSPITAL then
-      e.SetVarsTitleCypr()
+      this.SetVarsTitleCypr()
     else
-      e.SetVarsTitleHeliSpace()
+      this.SetVarsTitleHeliSpace()
     end
   else
     if gvars.gameDataLoadingResult==TppDefine.SAVE_FILE_LOAD_RESULT.NOT_EXIST_FILE then
     end
-    e.SetVarsTitleCypr()
+    this.SetVarsTitleCypr()
   end
   PlayRecord.RegistPlayRecord"TPP_START_UP"TppSave.VarSavePersonalData()
   if gvars.str_storySequence<TppDefine.STORY_SEQUENCE.CLEARD_ESCAPE_THE_HOSPITAL then
@@ -42,7 +42,7 @@ function e.StartTitle(i)
     Fox.SetActMode"GAME"
   end
 end
-function e.SetVarsTitleCypr()
+function this.SetVarsTitleCypr()
   TppMission.VarResetOnNewMission()
   vars.locationCode=TppDefine.LOCATION_ID.CYPR
   vars.missionCode=10010
@@ -51,7 +51,7 @@ function e.SetVarsTitleCypr()
   gvars.title_nextLocationCode=vars.locationCode
   gvars.title_nextMissionCode=vars.missionCode
 end
-function e.SetVarsTitleHeliSpace()
+function this.SetVarsTitleHeliSpace()
   TppMission.VarResetOnNewMission()
   local i,e=TppMission.GetCurrentLocationHeliMissionAndLocationCode()
   gvars.title_nextMissionCode=vars.missionCode
@@ -63,12 +63,12 @@ function e.SetVarsTitleHeliSpace()
   TppPlayer.ResetInitialPosition()
   TppPlayer.ResetMissionStartPosition()
 end
-function e.InitializeOnStartTitle()
-  e.InitializeOnStatingMainFrame()
-  e.InitializeOnNewGameAtFirstTime()
-  e.InitializeOnNewGame()
+function this.InitializeOnStartTitle()
+  this.InitializeOnStatingMainFrame()
+  this.InitializeOnNewGameAtFirstTime()
+  this.InitializeOnNewGame()
 end
-function e.InitializeOnStatingMainFrame()
+function this.InitializeOnStatingMainFrame()
   local i=1024
   local e={[TppDefine.SAVE_SLOT.GLOBAL+1]=14*i,[TppDefine.SAVE_SLOT.CHECK_POINT+1]=65*i,[TppDefine.SAVE_SLOT.RETRY+1]=11*i,[TppDefine.SAVE_SLOT.MB_MANAGEMENT+1]=80.5*i+2688,[TppDefine.SAVE_SLOT.QUEST+1]=2*i,[TppDefine.SAVE_SLOT.MISSION_START+1]=10*i,[TppDefine.SAVE_SLOT.CHECK_POINT_RESTARTABLE+1]=10*i}
   local t={}
@@ -100,11 +100,11 @@ function e.InitializeOnStatingMainFrame()
   TppSave.SetUpCompositSlot()
   TppScriptVars.SetFileSizeList{{TppSave.GetGameSaveFileName(),e[TppDefine.SAVE_SLOT.SAVING+1]},{TppDefine.CONFIG_SAVE_FILE_NAME,e[TppDefine.SAVE_SLOT.CONFIG+1]},{TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,e[TppDefine.SAVE_SLOT.PERSONAL+1]},{TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,e[TppDefine.SAVE_SLOT.PERSONAL+1]},{"MGO_GAME_DATA",16*i}}
 end
-function e.InitializeOnNewGameAtFirstTime()
+function this.InitializeOnNewGameAtFirstTime()
   vars.locationCode=TppDefine.LOCATION_ID.CYPR
   vars.missionCode=10010
 end
-function e.InitializeOnNewGame()
+function this.InitializeOnNewGame()
   gvars.ply_initialPlayerState=TppDefine.INITIAL_PLAYER_STATE.ON_FOOT
   gvars.ply_missionStartPoint=0
   gvars.heli_missionStartRoute=0
@@ -157,35 +157,35 @@ function e.InitializeOnNewGame()
   do
     i={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,equip=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SECONDARY,equip=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SUPPORT_0,equip=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SUPPORT_1,equip=TppEquip.EQP_None}}a={TppEquip.EQP_None,TppEquip.EQP_None,TppEquip.EQP_None,TppEquip.EQP_None}
   end
-  e.SetInitPlayerWeapons(i)
+  this.SetInitPlayerWeapons(i)
   TppPlayer.SupplyAllAmmoFullOnMissionFinalize()
-  e.SetInitPlayerItems(a)
-  e.InitializeAllPlatformForNewGame()
+  this.SetInitPlayerItems(a)
+  this.InitializeAllPlatformForNewGame()
 end
-function e.InitializeForNewMission(e)
+function this.InitializeForNewMission(missionTable)
   TppSave.VarRestoreOnMissionStart()
   TppStory.DisableMissionNewOpenFlag(vars.missionCode)
   TppClock.RestoreMissionStartClock()
-  if e.sequence and e.sequence.MISSION_START_INITIAL_WEATHER then
-    TppWeather.SetMissionStartWeather(e.sequence.MISSION_START_INITIAL_WEATHER)
+  if missionTable.sequence and missionTable.sequence.MISSION_START_INITIAL_WEATHER then
+    TppWeather.SetMissionStartWeather(missionTable.sequence.MISSION_START_INITIAL_WEATHER)
   end
   TppWeather.RestoreMissionStartWeather()
-  TppPlayer.SetInitialPlayerState(e)
+  TppPlayer.SetInitialPlayerState(missionTable)
   TppPlayer.ResetDisableAction()
   TppEnemy.RestoreOnMissionStart()
-  if e.sequence then
+  if missionTable.sequence then
     TppPlayer.InitItemStockCount()
   end
   Player.ResetVarsOnMissionStart()
   TppPlayer.SetSelfSubsistenceOnHardMission()
   TppPlayer.RestoreChimeraWeaponParameter()
-  if e.sequence and s(e.sequence.playerInitialWeaponTable)then
-    TppPlayer.SetInitWeapons(e.sequence.playerInitialWeaponTable)
+  if missionTable.sequence and s(missionTable.sequence.playerInitialWeaponTable)then
+    TppPlayer.SetInitWeapons(missionTable.sequence.playerInitialWeaponTable)
   end
   TppPlayer.RestorePlayerWeaponsOnMissionStart()
   TppPlayer.SetMissionStartAmmoCount()
-  if e.sequence and s(e.sequence.playerInitialItemTable)then
-    TppPlayer.SetInitItems(e.sequence.playerInitialItemTable)
+  if missionTable.sequence and s(missionTable.sequence.playerInitialItemTable)then
+    TppPlayer.SetInitItems(missionTable.sequence.playerInitialItemTable)
   end
   TppPlayer.RestorePlayerItemsOnMissionStart()
   TppUI.OnMissionStart()
@@ -204,7 +204,7 @@ function e.InitializeForNewMission(e)
   Gimmick.RestoreSaveDataPermanentGimmickFromMission()
   TppMotherBaseManagement.SetupAfterRestoreFromSVars()
 end
-function e.InitializeForContinue(e)
+function this.InitializeForContinue(e)
   TppSave.VarRestoreOnContinueFromCheckPoint()
   TppEnemy.RestoreOnContinueFromCheckPoint()
   if not TppMission.IsFOBMission(vars.missionCode)then
@@ -223,10 +223,10 @@ function e.InitializeForContinue(e)
     TppSave.VarSaveOnRetry()
   end
 end
-function e.ClearIsContinueFromTitle()
+function this.ClearIsContinueFromTitle()
   gvars.isContinueFromTitle=false
 end
-function e.StartInitMission()
+function this.StartInitMission()
   TppSystemLua.UseAiSystem(true)
   TppSimpleGameSequenceSystem.Start()
   vars.locationCode=TppDefine.LOCATION_ID.INIT
@@ -243,7 +243,7 @@ function e.StartInitMission()
   if(e=="EDIT")then
     Fox.SetActMode"GAME"end
 end
-function e.SetInitPlayerWeapons(e)
+function this.SetInitPlayerWeapons(e)
   for e,i in pairs(e)do
     local a=i.ammo
     local e=i.slot
@@ -264,16 +264,16 @@ function e.SetInitPlayerWeapons(e)
     end
   end
 end
-function e.SetInitPlayerItems(e)
+function this.SetInitPlayerItems(e)
   for e,i in pairs(e)do
     vars.initItems[e-1]=i
     vars.items[e-1]=i
   end
 end
-function e.DEBUG_GetDefaultPlayerWeaponAndItemTable()
+function this.DEBUG_GetDefaultPlayerWeaponAndItemTable()
   return{{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,equip=TppEquip.EQP_WP_30101,bulletId=TppEquip.BL_Rf556x45mm,ammoMax=30,ammo=240},{slot=TppDefine.WEAPONSLOT.SECONDARY,equip=TppEquip.EQP_WP_10101,bulletId=TppEquip.BL_HgTranq,ammoMax=7,ammo=21},{slot=TppDefine.WEAPONSLOT.SUPPORT_0,equip=TppEquip.EQP_SWP_Grenade,bulletId=TppEquip.BL_SWP_Grenade,ammoMax=8,ammo=8},{slot=TppDefine.WEAPONSLOT.SUPPORT_1,equip=TppEquip.EQP_SWP_Magazine,bulletId=TppEquip.BL_SWP_Magazine,ammoMax=-1,ammo=-1}},{TppEquip.EQP_None,TppEquip.EQP_IT_Nvg,TppEquip.EQP_IT_TimeCigarette,TppEquip.EQP_IT_CBox}
 end
-function e.InitializeAllPlatformForNewGame()
+function this.InitializeAllPlatformForNewGame()
   local t=0
   local n=1
   local a={"Command","Combat","Develop","BaseDev","Support","Spy","Medical"}
@@ -285,8 +285,8 @@ function e.InitializeAllPlatformForNewGame()
   end
   TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Command",grade=n,buildStatus="Completed",timeMinute=0,isNew=true}
 end
-function e.SetHorseObtainedAndCanSortie()
+function this.SetHorseObtainedAndCanSortie()
   TppBuddyService.SetObtainedBuddyType(BuddyType.HORSE)
   TppBuddyService.SetSortieBuddyType(BuddyType.HORSE)
 end
-return e
+return this

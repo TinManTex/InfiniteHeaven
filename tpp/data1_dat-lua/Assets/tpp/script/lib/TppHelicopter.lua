@@ -1,18 +1,10 @@
-local e={}
-local n=Fox.StrCode32
-local t=Tpp.IsTypeTable
-local i=Tpp.IsTypeString
-local a=GameObject.SendCommand
-local o=GameObject.GetGameObjectId
-local n=GameObject.NULL_ID
-local this=e--DEMINDEF:
-local StrCode32=n
-local IsTypeTable=t
-local IsTypeString=i
-local SendCommand=a
-local GetGameObjectId=o
-local NULL_ID=n
---
+local this={}
+local StrCode32=Fox.StrCode32
+local IsTypeTable=Tpp.IsTypeTable
+local IsTypeString=Tpp.IsTypeString
+local SendCommand=GameObject.SendCommand
+local GetGameObjectId=GameObject.GetGameObjectId
+local NULL_ID=GameObject.NULL_ID
 function this.GetSupportHeliGameObjectId()
   if not mvars.hel_isExistSupportHelicopter then
     return
@@ -37,7 +29,7 @@ function this.ForceCallToLandingZone(a)
     return
   end
   local gameId=this.GetSupportHeliGameObjectId()
-  if gameId~=n then
+  if gameId~=NULL_ID then
     GameObject.SendCommand(gameId,{id="CallToLandingZoneAtName",name=landingZoneName})
     GameObject.SendCommand(gameId,{id="DisablePullOut"})
     GameObject.SendCommand(gameId,{id="EnableDescentToLandingZone"})
@@ -57,7 +49,7 @@ function this.CallToLandingZone(a)
     return
   end
   local gameId=this.GetSupportHeliGameObjectId()
-  if gameId~=n then
+  if gameId~=NULL_ID then
     GameObject.SendCommand(gameId,{id="CallToLandingZoneAtName",name=landingZoneName})
     GameObject.SendCommand(gameId,{id="EnableDescentToLandingZone"})
   else
@@ -76,7 +68,7 @@ function this.SetEnableLandingZone(a)
     return
   end
   local gameId=this.GetSupportHeliGameObjectId()
-  if gameId~=n then
+  if gameId~=NULL_ID then
     GameObject.SendCommand(gameId,{id="EnableLandingZone",name=landingZoneName})
   else
     return
@@ -94,7 +86,7 @@ function this.SetDisableLandingZone(landingZoneName)
     return
   end
   local e=this.GetSupportHeliGameObjectId()
-  if e~=n then
+  if e~=NULL_ID then
     GameObject.SendCommand(e,{id="DisableLandingZone",name=t})
   else
     return
@@ -112,7 +104,7 @@ function this.GetLandingZoneExists(a)
     return
   end
   local e=this.GetSupportHeliGameObjectId()
-  if e~=n then
+  if e~=NULL_ID then
     return GameObject.SendCommand(e,{id="DoesLandingZoneExists",name=t})
   else
     return false
@@ -125,7 +117,7 @@ function this.SetNewestPassengerTable()
   end
   local passengerIds
   local e=this.GetSupportHeliGameObjectId()
-  if e~=n then
+  if e~=NULL_ID then
     passengerIds=SendCommand(e,{id="GetPassengerIdsStaffOnly"})
     mvars.hel_passengerListGameObjectId=e
   else
@@ -173,7 +165,7 @@ function this.AdjustBuddyDropPoint()
     TppBuddyService.AdjustFromDropPoint(gvars.heli_missionStartRoute,EntryBuddyType.VEHICLE,6,0)
   end
 end
-function this.Init(t)
+function this.Init(missionTable)
   local gameId=GetGameObjectId("TppHeli2","SupportHeli")
   if gameId==NULL_ID then
     mvars.hel_isExistSupportHelicopter=false
@@ -189,9 +181,9 @@ function this.Init(t)
     return
   end
   local helicopterRouteList=nil
-  if(t.sequence and t.sequence.missionStartPosition)and t.sequence.missionStartPosition.helicopterRouteList then
-    if not Tpp.IsTypeFunc(t.sequence.missionStartPosition.IsUseRoute)or t.sequence.missionStartPosition.IsUseRoute()then
-      helicopterRouteList=t.sequence.missionStartPosition.helicopterRouteList
+  if(missionTable.sequence and missionTable.sequence.missionStartPosition)and missionTable.sequence.missionStartPosition.helicopterRouteList then
+    if not Tpp.IsTypeFunc(missionTable.sequence.missionStartPosition.IsUseRoute)or missionTable.sequence.missionStartPosition.IsUseRoute()then
+      helicopterRouteList=missionTable.sequence.missionStartPosition.helicopterRouteList
     end
   end
   if helicopterRouteList==nil then
@@ -212,7 +204,7 @@ function this.SetDefaultTakeOffTime()
   if(e==nil)then
     return
   end
-  if e==n then
+  if e==NULL_ID then
     return
   end
   GameObject.SendCommand(e,{id="SetTakeOffWaitTime",time=5})
@@ -222,7 +214,7 @@ function this.SetNoTakeOffTime()
   if(e==nil)then
     return
   end
-  if e==n then
+  if e==NULL_ID then
     return
   end
   GameObject.SendCommand(e,{id="SetTakeOffWaitTime",time=0})
@@ -232,7 +224,7 @@ function this.SetRouteToHelicopterOnStartMission()
   if(e==nil)then
     return
   end
-  if e==n then
+  if e==NULL_ID then
     return
   end
   if gvars.heli_missionStartRoute~=0 then

@@ -120,7 +120,8 @@ function a.DEBUG_WarpHelicopter(i,o,s,r,n)
     end
     e(a,{id="SetEnabled",enabled=true})
   end
-  local a=t(i)e(a,{id="SetPosition",position=s,rotY=0})
+  local a=t(i)
+  e(a,{id="SetPosition",position=s,rotY=0})
 end
 function a.DEBUG_WarpVehicleAndSoldier(o,s,n,i,r,l)
   if not IsTypeTable(o)then
@@ -448,10 +449,13 @@ function a.QAReleaseDebugUpdate()
     end
   end
   if o.qaDebug.showPlayerPartsType then
-    Print(newContext,{.5,.5,1},"LuaSystem ShowPlayerPartsType")Print(newContext,"gvars.ply_isUsingTempPlayerType = "..tostring(gvars.ply_isUsingTempPlayerType))Print(newContext,string.format("vars.playerPartsType = %04d, gvars.ply_lastPlayerPartsTypeUsingTemp = %04d",vars.playerPartsType,gvars.ply_lastPlayerPartsTypeUsingTemp))Print(newContext,string.format("vars.playerCamoType = %04d, gvars.ply_lastPlayerCamoTypeUsingTemp = %04d",vars.playerCamoType,gvars.ply_lastPlayerCamoTypeUsingTemp))Print(newContext,string.format("vars.playerType = %04d, gvars.ply_lastPlayerTypeUsingTemp = %04d",vars.playerType,gvars.ply_lastPlayerTypeUsingTemp))
+    Print(newContext,{.5,.5,1},"LuaSystem ShowPlayerPartsType")
+    Print(newContext,"gvars.ply_isUsingTempPlayerType = "..tostring(gvars.ply_isUsingTempPlayerType))
+    Print(newContext,string.format("vars.playerPartsType = %04d, gvars.ply_lastPlayerPartsTypeUsingTemp = %04d",vars.playerPartsType,gvars.ply_lastPlayerPartsTypeUsingTemp))Print(newContext,string.format("vars.playerCamoType = %04d, gvars.ply_lastPlayerCamoTypeUsingTemp = %04d",vars.playerCamoType,gvars.ply_lastPlayerCamoTypeUsingTemp))Print(newContext,string.format("vars.playerType = %04d, gvars.ply_lastPlayerTypeUsingTemp = %04d",vars.playerType,gvars.ply_lastPlayerTypeUsingTemp))
   end
   if o.qaDebug.gotFobStatusCount then
-    Print(newContext,{.5,.5,1},">> Done TppServerManager.GetFobStatus()")o.qaDebug.gotFobStatusCount=o.qaDebug.gotFobStatusCount+1
+    Print(newContext,{.5,.5,1},">> Done TppServerManager.GetFobStatus()")
+    o.qaDebug.gotFobStatusCount=o.qaDebug.gotFobStatusCount+1
     if o.qaDebug.gotFobStatusCount>120 then
       o.qaDebug.gotFobStatusCount=nil
     end
@@ -605,7 +609,9 @@ function a.DebugUpdate()
     if e.mis_isOutsideOfHotZone then
       a="Outside"else
       a="Inside"end
-    o(r,"hotZone : "..a)o(r,"hotZone clear check : isNotAlert = "..(tostring(e.debug.notHotZone_isNotAlert)..(", isPlayerStatusNormal = "..(tostring(e.debug.notHotZone_isPlayerStatusNormal)..(", isNotHelicopter = "..tostring(e.debug.notHotZone_isNotHelicopter))))))o(r,"Mission clear timer: "..tostring(IsTimerActive"Timer_OutsideOfHotZoneCount"))o(r,{.5,1,.5},"Recent all target status")
+    o(r,"hotZone : "..a)
+    o(r,"hotZone clear check : isNotAlert = "..(tostring(e.debug.notHotZone_isNotAlert)..(", isPlayerStatusNormal = "..(tostring(e.debug.notHotZone_isPlayerStatusNormal)..(", isNotHelicopter = "..tostring(e.debug.notHotZone_isNotHelicopter))))))
+    o(r,"Mission clear timer: "..tostring(IsTimerActive"Timer_OutsideOfHotZoneCount"))o(r,{.5,1,.5},"Recent all target status")
     local e=e.debug.checkedTargetStatus or{}
     for a,e in pairs(e)do
       o(r,"  TargetName = "..(a..(" : "..e)))

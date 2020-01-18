@@ -16,12 +16,12 @@ local T={}
 local u=0
 local n={}
 local n=0
-local S={}
+local onMessageTable={}
 local P={}
-local s=0
-local d={}
+local onMessageTableSize=0
+local messageExecTable={}
 local h={}
-local p=0
+local messageExecTableSize=0
 local function n()--tex NMC: cant actually see this referenced anywhere
   if QuarkSystem.GetCompilerState()==QuarkSystem.COMPILER_STATE_WAITING_TO_LOAD then
     QuarkSystem.PostRequestToLoad()
@@ -154,10 +154,10 @@ function this.OnAllocate(n)
   end
   do
     local o={}
-    for t,e in ipairs(Tpp._requireList)do
-      if _G[e]then
-        if _G[e].DeclareSVars then
-          ApendArray(o,_G[e].DeclareSVars(n))
+    for t,lib in ipairs(Tpp._requireList)do
+      if _G[lib]then
+        if _G[lib].DeclareSVars then
+          ApendArray(o,_G[lib].DeclareSVars(n))
         end
       end
     end
@@ -329,9 +329,9 @@ function this.OnInitialize(missionTable)
     mvars.loc_locationCommonTable.OnInitialize()
   end
   TppLandingZone.OnInitialize()
-  for t,e in ipairs(Tpp._requireList)do
-    if _G[e].Init then
-      _G[e].Init(missionTable)
+  for t,lib in ipairs(Tpp._requireList)do
+    if _G[lib].Init then
+      _G[lib].Init(missionTable)
     end
   end
   if TppMission.IsManualSubsistence() then--tex disable heli be fightan
@@ -463,7 +463,7 @@ function this.SetUpdateFunction(e)
   o=0
   T={}
   u=0
-  updateList={TppMission.Update,TppSequence.Update,TppSave.Update,TppDemo.Update,TppPlayer.Update,TppMission.UpdateForMissionLoad,InfMenu.UpdateModMenu}--tex added infmenu
+  updateList={TppMission.Update,TppSequence.Update,TppSave.Update,TppDemo.Update,TppPlayer.Update,TppMission.UpdateForMissionLoad,InfMenu.Update}--tex added infmenu
   numUpdate=#updateList
   for n,e in pairs(e)do
     if IsTypeFunc(e.OnUpdate)then
@@ -548,29 +548,36 @@ function this.ClearStageBlockMessage()
 StageBlock.ClearLargeBlockNameForMessage()
 StageBlock.ClearSmallBlockIndexForMessage()
 end
-function this.ReservePlayerLoadingPosition(n,s,o,t,i,a,p)
+function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMission,nextIsHeliSpace,nextIsFreeMission,abortWithSave,isLocationChange)
   this.DisableGameStatus()
-  if n==TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE then
-    if t then
+  if missionLoadType==TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE then
+    if nextIsHeliSpace then
       TppHelicopter.ResetMissionStartHelicopterRoute()
       TppPlayer.ResetInitialPosition()
       TppPlayer.ResetMissionStartPosition()
       TppPlayer.ResetNoOrderBoxMissionStartPosition()
       TppMission.ResetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
-    elseif s then
+    elseif isHeliSpace then
       if gvars.heli_missionStartRoute~=0 then
-        TppPlayer.SetStartStatusRideOnHelicopter()
-        if mvars.mis_helicopterMissionStartPosition then
-          TppPlayer.SetInitialPosition(mvars.mis_helicopterMissionStartPosition,0)
-          TppPlayer.SetMissionStartPosition(mvars.mis_helicopterMissionStartPosition,0)
+        local groundStart=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]--tex
+        if gvars.startOnFoot==1 and groundStart~=nil then
+          local groundRot = groundStart.rot or 0
+          TppPlayer.SetInitialPosition(groundStart.pos,groundRot)
+          TppPlayer.SetMissionStartPosition(groundStart.pos,groundRot)         
+        else--
+          TppPlayer.SetStartStatusRideOnHelicopter()
+          if mvars.mis_helicopterMissionStartPosition then
+            TppPlayer.SetInitialPosition(mvars.mis_helicopterMissionStartPosition,0)
+            TppPlayer.SetMissionStartPosition(mvars.mis_helicopterMissionStartPosition,0)
+          end
         end
       else
         TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
-        local e=TppDefine.NO_HELICOPTER_MISSION_START_POSITION[vars.missionCode]
-        if e then
-          TppPlayer.SetInitialPosition(e,0)
-          TppPlayer.SetMissionStartPosition(e,0)
+        local noHeliMissionStartPos=TppDefine.NO_HELICOPTER_MISSION_START_POSITION[vars.missionCode]
+        if noHeliMissionStartPos then
+          TppPlayer.SetInitialPosition(noHeliMissionStartPos,0)
+          TppPlayer.SetMissionStartPosition(noHeliMissionStartPos,0)
         else
           TppPlayer.ResetInitialPosition()
           TppPlayer.ResetMissionStartPosition()
@@ -579,7 +586,7 @@ function this.ReservePlayerLoadingPosition(n,s,o,t,i,a,p)
       TppPlayer.ResetNoOrderBoxMissionStartPosition()
       TppMission.SetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
-    elseif i then
+    elseif nextIsFreeMission then
       if TppLocation.IsMotherBase()then
         TppPlayer.SetStartStatusRideOnHelicopter()
       else
@@ -592,7 +599,7 @@ function this.ReservePlayerLoadingPosition(n,s,o,t,i,a,p)
       TppMission.ResetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
       TppLocation.MbFreeSpecialMissionStartSetting(TppMission.GetMissionClearType())
-    elseif(o and TppLocation.IsMotherBase())then
+    elseif(isFreeMission and TppLocation.IsMotherBase())then
       if gvars.heli_missionStartRoute~=0 then
         TppPlayer.SetStartStatusRideOnHelicopter()
       else
@@ -603,14 +610,14 @@ function this.ReservePlayerLoadingPosition(n,s,o,t,i,a,p)
       TppMission.SetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
     else
-      if o then
+      if isFreeMission then
         if mvars.mis_orderBoxName then
           TppMission.SetMissionOrderBoxPosition()
           TppPlayer.ResetNoOrderBoxMissionStartPosition()
         else
           TppPlayer.ResetInitialPosition()
           TppPlayer.ResetMissionStartPosition()
-          local e={
+          local noBoxMissionStartPos={
           [10020]={1449.3460693359,339.18698120117,1467.4300537109,-104},
           [10050]={-1820.7060546875,349.78659057617,-146.44400024414,139},
           [10070]={-792.00512695313,537.3740234375,-1381.4598388672,136},
@@ -619,20 +626,20 @@ function this.ReservePlayerLoadingPosition(n,s,o,t,i,a,p)
           [10150]={-1732.0286865234,543.94067382813,-2225.7587890625,162},
           [10260]={-1260.0454101563,298.75305175781,1325.6383056641,51}
           }
-          e[11050]=e[10050]
-          e[11080]=e[10080]
-          e[11140]=e[10140]
-          e[10151]=e[10150]
-          e[11151]=e[10150]
-          local e=e[vars.missionCode]
-          if TppDefine.NO_ORDER_BOX_MISSION_ENUM[tostring(vars.missionCode)]and e then
-            TppPlayer.SetNoOrderBoxMissionStartPosition(e,e[4])
+          noBoxMissionStartPos[11050]=noBoxMissionStartPos[10050]
+          noBoxMissionStartPos[11080]=noBoxMissionStartPos[10080]
+          noBoxMissionStartPos[11140]=noBoxMissionStartPos[10140]
+          noBoxMissionStartPos[10151]=noBoxMissionStartPos[10150]
+          noBoxMissionStartPos[11151]=noBoxMissionStartPos[10150]
+          local posrot=noBoxMissionStartPos[vars.missionCode]
+          if TppDefine.NO_ORDER_BOX_MISSION_ENUM[tostring(vars.missionCode)]and posrot then
+            TppPlayer.SetNoOrderBoxMissionStartPosition(posrot,posrot[4])
           else
             TppPlayer.ResetNoOrderBoxMissionStartPosition()
           end
         end
-        local e=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[vars.missionCode]
-        if e then
+        local noOrderFixHeliRoute=TppDefine.NO_ORDER_FIX_HELICOPTER_ROUTE[vars.missionCode]
+        if noOrderFixHeliRoute then
           TppPlayer.SetStartStatusRideOnHelicopter()
           TppMission.SetIsStartFromHelispace()
           TppMission.ResetIsStartFromFreePlay()
@@ -642,8 +649,8 @@ function this.ReservePlayerLoadingPosition(n,s,o,t,i,a,p)
           TppMission.ResetIsStartFromHelispace()
           TppMission.SetIsStartFromFreePlay()
         end
-        local e=TppMission.GetMissionClearType()
-        TppQuest.SpecialMissionStartSetting(e)
+        local missionClearType=TppMission.GetMissionClearType()
+        TppQuest.SpecialMissionStartSetting(missionClearType)
       else
         TppPlayer.ResetInitialPosition()
         TppPlayer.ResetMissionStartPosition()
@@ -652,50 +659,50 @@ function this.ReservePlayerLoadingPosition(n,s,o,t,i,a,p)
         TppMission.ResetIsStartFromFreePlay()
       end
     end
-  elseif n==TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT then
+  elseif missionLoadType==TppDefine.MISSION_LOAD_TYPE.MISSION_ABORT then
     TppPlayer.ResetInitialPosition()
     TppHelicopter.ResetMissionStartHelicopterRoute()
     TppMission.ResetIsStartFromHelispace()
     TppMission.ResetIsStartFromFreePlay()
-    if a then
-      if i then
+    if abortWithSave then
+      if nextIsFreeMission then
         TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
         TppHelicopter.ResetMissionStartHelicopterRoute()
         TppPlayer.SetMissionStartPositionToCurrentPosition()
         TppPlayer.ResetNoOrderBoxMissionStartPosition()
-      elseif t then
+      elseif nextIsHeliSpace then
         TppPlayer.ResetMissionStartPosition()
       elseif vars.missionCode~=5 then
       end
     else
-      if t then
+      if nextIsHeliSpace then
         TppHelicopter.ResetMissionStartHelicopterRoute()
         TppPlayer.ResetInitialPosition()
         TppPlayer.ResetMissionStartPosition()
-      elseif i then
+      elseif nextIsFreeMission then
         TppMission.SetMissionOrderBoxPosition()
       elseif vars.missionCode~=5 then
       end
     end
-  elseif n==TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART then
-  elseif n==TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT then
+  elseif missionLoadType==TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART then
+  elseif missionLoadType==TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT then
   end
-  if s and p then
-    Mission.AddLocationFinalizer(function()
-      this.StageBlockCurrentPosition()
-    end)
+  if isHeliSpace and isLocationChange then
+    Mission.AddLocationFinalizer(function()this.StageBlockCurrentPosition()end)
   else
     this.StageBlockCurrentPosition()
   end
 end
 function this.StageBlockCurrentPosition(e)
   if vars.initialPlayerFlag==PlayerFlag.USE_VARS_FOR_INITIAL_POS then
-    StageBlockCurrentPositionSetter.SetEnable(true)StageBlockCurrentPositionSetter.SetPosition(vars.initialPlayerPosX,vars.initialPlayerPosZ)
+    StageBlockCurrentPositionSetter.SetEnable(true)
+    StageBlockCurrentPositionSetter.SetPosition(vars.initialPlayerPosX,vars.initialPlayerPosZ)
   else
     StageBlockCurrentPositionSetter.SetEnable(false)
   end
   if TppMission.IsHelicopterSpace(vars.missionCode)then
-    StageBlockCurrentPositionSetter.SetEnable(true)StageBlockCurrentPositionSetter.DisablePosition()
+    StageBlockCurrentPositionSetter.SetEnable(true)
+    StageBlockCurrentPositionSetter.DisablePosition()
     if e then
       while not StageBlock.LargeAndSmallBlocksAreEmpty()do
         coroutine.yield()
@@ -703,34 +710,36 @@ function this.StageBlockCurrentPosition(e)
     end
   end
 end
-function this.OnReload(n)
-  for t,e in pairs(n)do
+function this.OnReload(missionTable)
+  for t,e in pairs(missionTable)do
     if IsTypeFunc(e.OnLoad)then
       e.OnLoad()
     end
     if IsTypeFunc(e.Messages)then
-      n[t]._messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+      missionTable[t]._messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
     end
   end
-  if n.enemy then
-    if IsTypeTable(n.enemy.routeSets)then
-      TppClock.UnregisterClockMessage"ShiftChangeAtNight"TppClock.UnregisterClockMessage"ShiftChangeAtMorning"TppEnemy.RegisterRouteSet(n.enemy.routeSets)
+  if missionTable.enemy then
+    if IsTypeTable(missionTable.enemy.routeSets)then
+      TppClock.UnregisterClockMessage"ShiftChangeAtNight"
+      TppClock.UnregisterClockMessage"ShiftChangeAtMorning"
+      TppEnemy.RegisterRouteSet(missionTable.enemy.routeSets)
       TppEnemy.MakeShiftChangeTable()
     end
   end
-  for t,e in ipairs(Tpp._requireList)do
-    if _G[e].OnReload then
-      _G[e].OnReload(n)
+  for t,lib in ipairs(Tpp._requireList)do
+    if _G[lib].OnReload then
+      _G[lib].OnReload(missionTable)
     end
   end
   if mvars.loc_locationCommonTable then
     mvars.loc_locationCommonTable.OnReload()
   end
-  if n.sequence then
-    TppCheckPoint.RegisterCheckPointList(n.sequence.checkPointList)
+  if missionTable.sequence then
+    TppCheckPoint.RegisterCheckPointList(missionTable.sequence.checkPointList)
   end
-  this.SetUpdateFunction(n)
-  this.SetMessageFunction(n)
+  this.SetUpdateFunction(missionTable)
+  this.SetMessageFunction(missionTable)
 end
 function this.OnUpdate(e)
   local e
@@ -746,27 +755,27 @@ function this.OnUpdate(e)
   UpdateScriptsInScriptBlocks()
 end
 function this.OnChangeSVars(e,n,t)
-  for i,e in ipairs(Tpp._requireList)do
-    if _G[e].OnChangeSVars then
-      _G[e].OnChangeSVars(n,t)
+  for i,lib in ipairs(Tpp._requireList)do
+    if _G[lib].OnChangeSVars then
+      _G[lib].OnChangeSVars(n,t)
     end
   end
 end
-function this.SetMessageFunction(e)
-  S={}
-  s=0
-  d={}
-  p=0
-  for n,e in ipairs(Tpp._requireList)do
-    if _G[e].OnMessage then
-      s=s+1
-      S[s]=_G[e].OnMessage
+function this.SetMessageFunction(missionTable)--RENAME:
+  onMessageTable={}
+  onMessageTableSize=0
+  messageExecTable={}
+  messageExecTableSize=0
+  for n,lib in ipairs(Tpp._requireList)do
+    if _G[lib].OnMessage then
+      onMessageTableSize=onMessageTableSize+1
+      onMessageTable[onMessageTableSize]=_G[lib].OnMessage
     end
   end
-  for n,t in pairs(e)do
-    if e[n]._messageExecTable then
-      p=p+1
-      d[p]=e[n]._messageExecTable
+  for n,t in pairs(missionTable)do
+    if missionTable[n]._messageExecTable then
+      messageExecTableSize=messageExecTableSize+1
+      messageExecTable[messageExecTableSize]=missionTable[n]._messageExecTable
     end
   end
 end
@@ -787,13 +796,13 @@ function this.OnMessage(n,e,t,i,o,a,r)
   if m<T then
     return Mission.ON_MESSAGE_RESULT_RESEND
   end
-  for s=1,s do
+  for s=1,onMessageTableSize do
     local n=l
-    S[s](e,t,i,o,a,r,n)
+    onMessageTable[s](e,t,i,o,a,r,n)
   end
-  for n=1,p do
+  for n=1,messageExecTableSize do
     local s=l
-    c(d[n],u,e,t,i,o,a,r,s)
+    c(messageExecTable[n],u,e,t,i,o,a,r,s)
   end
   if n.loc_locationCommonTable then
     n.loc_locationCommonTable.OnMessage(e,t,i,o,a,r,l)
