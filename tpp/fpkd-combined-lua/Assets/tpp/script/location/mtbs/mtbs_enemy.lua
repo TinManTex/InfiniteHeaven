@@ -1292,15 +1292,9 @@ mtbs_enemy.OnLoad = function ( clusterId, isNoUseRevenge )
 	if not isNoUseRevenge then
 		
 		local grade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade()
-		local range = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
+		local range = InfMain.GetMbsClusterSecuritySoldierEquipRange()--ORIG: TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
 		local isNoKill = InfMain.GetMbsClusterSecurityIsNoKillMode()--tex OTIG: TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-    if InfMain.IsMbPlayTime() then--
-      if gvars.mbSoldierEquipRange==Ivars.mbSoldierEquipRange.enum.RANDOM then
-        range = math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
-      elseif gvars.mbSoldierEquipRange>0 then
-        range = gvars.mbSoldierEquipRange-1
-      end
-    end--
+
 		local revengeType = mtbs_enemy._GetEquipTable( grade, range, isNoKill )
 		TppRevenge.SetForceRevengeType( revengeType )
 	end

@@ -21,6 +21,14 @@ this.resetSettingsItem={
     InfMenu.MenuOff()
   end,
 }
+this.resetAllSettingsReallyItem={--DEBUG ADDLANG
+  range=this.switchRange,
+  settingNames="set_menu_reset",
+  onChange=function()
+    InfMenu.ResetSettings()
+    InfMenu.MenuOff()
+  end,
+}
 this.goBackItem={
   range=this.switchRange,
   settingNames="set_goBackItem",
@@ -105,6 +113,7 @@ this.patchupMenu={
 
 this.heliSpaceMenu={
   options={
+    --this.resetAllSettingsReallyItem,--DEBUGNOW
     --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
     Ivars.subsistenceProfile,
     Ivars.ospWeaponLoadout,

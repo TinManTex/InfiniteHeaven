@@ -441,7 +441,7 @@ this.OnLoad = function()
 	for clusterId = 1, #TppDefine.CLUSTER_NAME do
 		mvars.clusterConstructTable[clusterId] = 1	
 		local noUseRevenge = true
-		if gvars.mbSoldierEquipGrade>0 then--tex
+		if InfMain.IsMbPlayTime() and gvars.mbSoldierEquipGrade>0 then--tex
 		  noUseRevenge=false
 		end
 		mtbs_enemy.OnLoad( clusterId, noUseRevenge )

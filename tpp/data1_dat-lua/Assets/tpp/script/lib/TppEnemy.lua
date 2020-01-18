@@ -760,44 +760,44 @@ function this.GetDefaultSoldierSubType(soldierType)
     end
   return nil
 end
-function this._CreateDDWeaponIdTable(s,o,p)
-  local r={NORMAL={}}
-  local t=r.NORMAL
+function this._CreateDDWeaponIdTable(developedGradeTable,securityGradeTable,isNoKillMode)
+  local ddWeaponIdTable={NORMAL={}}
+  local ddWeaponNormalTable=ddWeaponIdTable.NORMAL
   mvars.ene_ddWeaponCount=0
-  t.IS_NOKILL={}
-  local e=this.DDWeaponIdInfo
-  for a,e in pairs(e)do
+  ddWeaponNormalTable.IS_NOKILL={}
+  local DDWeaponIdInfo=this.DDWeaponIdInfo
+  for a,e in pairs(DDWeaponIdInfo)do
     for n,e in ipairs(e)do
-      local n=false
-      local i=e.developedEquipType
-      if i==nil then
-        n=true
-      elseif e.isNoKill and not p then
-        n=false
+      local addWeapon=false
+      local developedEquipType=e.developedEquipType
+      if developedEquipType==nil then
+        addWeapon=true
+      elseif e.isNoKill and not isNoKillMode then
+        addWeapon=false
       else
-        local e=e.developId
-        local developRank=TppMotherBaseManagement.GetEquipDevelopRank(e)
-        --[[DEBUGNOWif gvars.mbSoldierEquipGrade == Ivars.mbSoldierEquipGrade.enum.GRADE10 then--tex
-          developRank=1
-        end--]]
+        local developId=e.developId
+        local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
+        if InfMain.IsMbPlayTime() and gvars.mbSoldierEquipGrade == Ivars.mbSoldierEquipGrade.enum.GRADE10 then--tex
+          developRank=1--tex drop to min so developedgradetable overrides
+        end
         -- TppUiCommand.AnnounceLogView("_CreateDDWeaponIdTable developrank:" .. developRank)--tex DEBUG: CULL:
-        if(o>=developRank and s[i]>=developRank)then
-          n=true
+        if(securityGradeTable>=developRank and developedGradeTable[developedEquipType]>=developRank)then
+          addWeapon=true
         end
       end
-      if n then
+      if addWeapon then
         mvars.ene_ddWeaponCount=mvars.ene_ddWeaponCount+1
-        if t[a]then
+        if ddWeaponNormalTable[a]then
         else
-          t[a]=e.equipId
+          ddWeaponNormalTable[a]=e.equipId
           if e.isNoKill then
-            t.IS_NOKILL[a]=true
+            ddWeaponNormalTable.IS_NOKILL[a]=true
           end
         end
       end
     end
   end
-  return r
+  return ddWeaponIdTable
 end
 function this.GetDDWeaponCount()
   return mvars.ene_ddWeaponCount
@@ -805,46 +805,47 @@ end
 function this.ClearDDParameter()
   this.weaponIdTable.DD=nil
 end
-function this.PrepareDDParameter(n,a)
+function this.PrepareDDParameter(mbsClusterSecuritySoldierEquipGrade,mbsClusterSecurityIsNoKillMode)
   if TppMotherBaseManagement.GetMbsDevelopedEquipGradeTable==nil then
     this.weaponIdTable.DD={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
     return
   end
-  local i=TppMotherBaseManagement.GetMbsDevelopedEquipGradeTable()n=n or 9999
+  local mbsDevelopedEquipGradeTable=TppMotherBaseManagement.GetMbsDevelopedEquipGradeTable()
+  mbsClusterSecuritySoldierEquipGrade=mbsClusterSecuritySoldierEquipGrade or 9999
   if gvars.ini_isTitleMode then
     this.ClearDDParameter()
   end
   if this.weaponIdTable.DD~=nil then
   else
-    this.weaponIdTable.DD=this._CreateDDWeaponIdTable(i,n,a)
+    this.weaponIdTable.DD=this._CreateDDWeaponIdTable(mbsDevelopedEquipGradeTable,mbsClusterSecuritySoldierEquipGrade,mbsClusterSecurityIsNoKillMode)
   end
   --TppUiCommand.AnnounceLogView("PrepareDDParameter securitySoldierEquipGrade:"..securitySoldierEquipGrade)--tex DEBUG: CULL:
   --[[TppUiCommand.AnnounceLogView("PrepareDDParameter weaponIdTable.DD")--tex DEBUG: CULL:
     local dd = this.weaponIdTable.DD
     local inss = InfInspect.Inspect(dd)
     TppUiCommand.AnnounceLogView(inss)--]]
-  local a=i[mbsDevelopedEquipType.FULTON_16001]
-  local t=i[mbsDevelopedEquipType.FULTON_16008]
-  if a>n then
-    a=n
+  local fultonGrade=mbsDevelopedEquipGradeTable[mbsDevelopedEquipType.FULTON_16001]
+  local wormholeGrade=mbsDevelopedEquipGradeTable[mbsDevelopedEquipType.FULTON_16008]
+  if fultonGrade>mbsClusterSecuritySoldierEquipGrade then
+    fultonGrade=mbsClusterSecuritySoldierEquipGrade
   end
-  if t>n then
-    t=n
+  if wormholeGrade>mbsClusterSecuritySoldierEquipGrade then
+    wormholeGrade=mbsClusterSecuritySoldierEquipGrade
   end
-  local n=0
-  if a>=4 then
-    n=3
-  elseif a>=3 then
-    n=2
-  elseif a>=1 then
-    n=1
+  local fultonLevel=0
+  if fultonGrade>=4 then
+    fultonLevel=3
+  elseif fultonGrade>=3 then
+    fultonLevel=2
+  elseif fultonGrade>=1 then
+    fultonLevel=1
   end
-  local a=false
-  if t~=0 then
-    a=true
+  local wormholeLevel=false
+  if wormholeGrade~=0 then
+    wormholeLevel=true
   end
-  this.weaponIdTable.DD.NORMAL.FULTON_LV=n
-  this.weaponIdTable.DD.NORMAL.WORMHOLE_FULTON=a
+  this.weaponIdTable.DD.NORMAL.FULTON_LV=fultonLevel
+  this.weaponIdTable.DD.NORMAL.WORMHOLE_FULTON=wormholeLevel
 end
 function this.SetUpDDParameter()
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then

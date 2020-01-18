@@ -3,7 +3,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r63"
+this.modVersion = "r64"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
@@ -145,35 +145,33 @@ function this.IsForceSoldierSubType()
   return gvars.forceSoldierSubType>0 and TppMission.IsFreeMission(vars.missionCode)
 end
 function this.GetMbsClusterSecuritySoldierEquipGrade()--SYNC: mbSoldierEquipGrade
-  local grade = 1
-  
+  local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   if this.IsMbPlayTime() and gvars.mbSoldierEquipGrade>Ivars.mbSoldierEquipGrade.enum.MBDEVEL then
     if gvars.mbSoldierEquipGrade==Ivars.mbSoldierEquipGrade.enum.RANDOM then
       grade = math.random(1,10)
     else
       grade = gvars.mbSoldierEquipGrade-Ivars.mbSoldierEquipGrade.enum.RANDOM
     end
-  else
-    TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   end
   --TppUiCommand.AnnounceLogView("DBG: GetMbsClusterSecuritySoldierEquipGrade="..grade)--tex DEBUG: CULL:
   return grade
 end
-function this.GetMbsClusterSecuritySoldierEquipRange() 
-  --[[local range = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
+function this.GetMbsClusterSecuritySoldierEquipRange()
+  local range = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
+  if InfMain.IsMbPlayTime() then
     if gvars.mbSoldierEquipRange==Ivars.mbSoldierEquipRange.enum.RANDOM then
       range = math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
     elseif gvars.mbSoldierEquipRange>0 then
       range = gvars.mbSoldierEquipRange-1
     end
-    return range--]]
+  end
 end
 function this.GetMbsClusterSecurityIsNoKillMode()
-    local isNoKillMode=TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-    if InfMain.IsMbPlayTime() then--tex PrepareDDParameter mbwargames, mbsoldierequipgrade
-      isNoKillMode=(gvars.mbWarGames==Ivars.mbWarGames.enum.NONLETHAL)
-    end
-    return isNoKillMode
+  local isNoKillMode=TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+  if this.IsMbPlayTime() then--tex PrepareDDParameter mbwargames, mbsoldierequipgrade
+    isNoKillMode=(gvars.mbWarGames==Ivars.mbWarGames.enum.NONLETHAL)
+  end
+  return isNoKillMode
 end
 function this.DisplayFox32(foxString)    
   local str32 = Fox.StrCode32(foxString)

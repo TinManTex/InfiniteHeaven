@@ -1,5 +1,5 @@
 = Infinite heaven =
-r63 2015-11-05
+r64 2015-11-05
 by tin man tex
 For MGSV version 1.0.4.5 (1.04 in title screen)
 
@@ -61,9 +61,15 @@ Player health scaling 400-0%(1hp)
 
 Enemy health scaling 400-0% (requires Enemy Parameters Tweaked)
 
-Unlock random Sideops for areas - The sideops system breaks the map into areas, with only one sideop allowed to be active at a time. In the retail game it's chosen in a first found manner. Uncompleted story missions and uncompleted sideops get priority of selection over replayable sideops.
+(slightly updated) From the readme: 
+Unlock random Sideops for areas - The normal games sideops system breaks the map into areas, with only one sideop allowed to be active at a time. In the retail game it's chosen in a first found manner. Uncompleted story missions and uncompleted sideops get priority of selection over replayable sideops.
 This setting changes it to a random selection of potential sideops, with the same priorities. Force replay adds completed sideops to the potential selection. Force Open adds most sideops to the selection pool.
-Warning: still largely untested, unknown how replaying the story missions affect things if multiple sideops work in the same area.
+
+Open specific sideop - enables that specifc sideop. Known bug: if there's already a side op in that area the other sideop won't load, even though quest area makers and even activation notice will still play. Complete the other side op first.
+
+Warning: still largely untested, unknown how replaying the story missions affect things.
+
+
 
 Cutscenes:
 Use current soldier in cutscenes instead of snake.
@@ -175,8 +181,11 @@ When changing General Enemy Parameters back to Default you must exit to title to
 There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
 
 Changelog:
+r64 2015-11-05 - public release
+Fixed bug where I set FOB equip grade to 1, like a stupid - Thanks for the report xmetalx59x
+
 r63 2015-11-05 - public release
-Fixed bug I introduced in r56 to CloserToPlayerThanDistSqr resulting in quests being cleared to soldier being auto fultoned as player moved out of area.
+Fixed bug I introduced in r56 to CloserToPlayerThanDistSqr resulting in quests being cleared to soldier being auto fultoned as player moved out of area. - Thanks for the report bumbousdude25
 
 r62 
 Refactor InfMenuDefs to Ivars, now builds svars from settings in Ivars via InfMain.DeclareSvars.
@@ -199,6 +208,7 @@ r58
 Show player position
 Start on foot for motherbase, starts on command platform
 Even more info added to InfLang for translators
+Option: Override Japanese lang code with Chinese for menu translation
 
 r57 - 2015-10-31 - test release
 Chinese translation included, unconfirmed language code - thanks to rikimtasu

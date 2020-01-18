@@ -1479,21 +1479,21 @@ function this.OnDeactivate(t)
     this.ClearShootingPracticeMvars()
   end
 end
-function this.RegisterQuestList(t)
-  if not IsTypeTable(t)then
+function this.RegisterQuestList(questList)
+  if not IsTypeTable(questList)then
     return
   end
-  local a=#t
+  local a=#questList
   if a==0 then
     return
   end
   for e=1,a do
-    if not IsTypeTable(t[e])then
+    if not IsTypeTable(questList[e])then
       return
     end
-    local n=t[e].infoList
+    local n=questList[e].infoList
     if not IsTypeTable(n)then
-      Tpp.DEBUG_DumpTable(t,2)
+      Tpp.DEBUG_DumpTable(questList,2)
       return
     end
     if#n==0 then
@@ -1507,21 +1507,21 @@ function this.RegisterQuestList(t)
         return
       end
     end
-    if not t[e].clusterName then
-      if not IsTypeTable(t[e].loadArea)then
+    if not questList[e].clusterName then
+      if not IsTypeTable(questList[e].loadArea)then
         return
       end
-      if not IsTypeTable(t[e].activeArea)then
+      if not IsTypeTable(questList[e].activeArea)then
         return
       end
-      if not IsTypeTable(t[e].invokeArea)then
+      if not IsTypeTable(questList[e].invokeArea)then
         return
       end
     end
   end
-  mvars.qst_questList=t
+  mvars.qst_questList=questList
   for n=1,a do
-    for n,t in ipairs(t[n].infoList)do
+    for n,t in ipairs(questList[n].infoList)do
       local t=t.name
       if StrCode32(t)==gvars.qst_currentQuestName then
         this.SetCurrentQuestName(t)
@@ -2147,31 +2147,39 @@ end
     end
   end
 end--]]
-function this.UpdateActiveQuest(t)--tex DEMINIFIED: incomplete
+function this.UpdateActiveQuest(debugUpdate)
   if not mvars.qst_questList then
     return
-end
-if this.NeedUpdateActiveQuest(t)then
-  this.UpdateOpenQuest()
-  local unlockedName=nil--tex unlockSideOpNumber
-  local unlockedArea=nil
-  local done=false
-  if gvars.unlockSideOpNumber > 0 then--tex find name and area for unlocksideop SANITY:
-    unlockedName=sideOpsTable[gvars.unlockSideOpNumber].questName--tex
-    if unlockedName ~= nil then
-      for n,areaQuests in ipairs(mvars.qst_questList)do
-        for i,info in ipairs(areaQuests.infoList)do
-          if info.name == unlockedName then
-            unlockedArea=areaQuests.areaName
-            break
-          end
-        end
-        if done then
-          break
-        end
-      end
-    end
-  end--
+  end
+  if this.NeedUpdateActiveQuest(debugUpdate)then
+    this.UpdateOpenQuest()
+    local unlockedName=nil--tex unlockSideOpNumber
+    local unlockedArea=nil
+    local done=false
+    if gvars.unlockSideOpNumber > 0 then--tex find name and area for unlocksideop SANITY:
+      unlockedName=sideOpsTable[gvars.unlockSideOpNumber].questName--tex
+      if unlockedName ~= nil then
+        for n,areaQuests in ipairs(mvars.qst_questList)do--tex questList is TppQuestList.questList (VERIFY that this is always the case)
+          if areaQuests.locationId==vars.locationCode or TppMission.IsHelicopterSpace(vars.missionCode) then
+            for i,info in ipairs(areaQuests.infoList)do
+              if info.name == unlockedName then
+                unlockedArea=areaQuests.areaName
+                done=true
+                break
+              end
+            end--for infolist
+            if done then
+              break
+            end
+          end--location check
+        end--for questlist
+      end--unlockedname
+      --[[if (unlockedArea) then--DEBUGNOW
+        TppUiCommand.AnnounceLogView("no unlockedArea!")--DEBUGNOW
+      else
+        TppUiCommand.AnnounceLogView("has unlockedArea")--DEBUGNOW
+      end--]]--DEBUGNOW
+    end--
   for n,areaQuests in ipairs(mvars.qst_questList)do
     local n={}
     local storyQuests={}
@@ -2219,53 +2227,11 @@ if this.NeedUpdateActiveQuest(t)then
     end
     if list ~= nil then
       --[[if gvars.unlockSideOps == Ivars.unlockSideOps.enum.FIRST then
-
-
-
-
-
-
-
           index=1
-
-
-
-
-
-
-
         elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.LAST then
-
-
-
-
-
-
-
           index=#list
-
-
-
-
-
-
-
         elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.RANDOM then
-
-
-
-
-
-
-
           index=math.random(#list)
-
-
-
-
-
-
-
         end--]]
       if gvars.unlockSideOps > 0 then
         index=math.random(#list)
@@ -2273,67 +2239,39 @@ if this.NeedUpdateActiveQuest(t)then
       questName=list[index]
     end--
     --[[--tex ORIG: for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
-
-
-
-
-
-
-
         if not questName then
-
-
-
-
-
-
-
           questName=t[1]
-
-
-
-
-
-
-
         end
-
-
-
-
-
-
-
       end--]]
     if questName then
       gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
     end
   end
-elseif TppMission.IsStoryMission(vars.missionCode)then
-  for n,questName in ipairs(TppDefine.QUEST_DEFINE)do
-    if not this.CanActiveQuestInMission(vars.missionCode,questName)then
-      gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=false
+  elseif TppMission.IsStoryMission(vars.missionCode)then
+    for n,questName in ipairs(TppDefine.QUEST_DEFINE)do
+      if not this.CanActiveQuestInMission(vars.missionCode,questName)then
+        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=false
+      end
+    end
+  else
+    for i=0,9,1 do
+      if gvars.qst_failedIndex[i]~=-1 then
+        local failedIndex=gvars.qst_failedIndex[i]
+        gvars.qst_questActiveFlag[failedIndex]=true
+        gvars.qst_failedIndex[i]=-1
+      end
     end
   end
-else
   for i=0,9,1 do
-    if gvars.qst_failedIndex[i]~=-1 then
-      local failedIndex=gvars.qst_failedIndex[i]
-      gvars.qst_questActiveFlag[failedIndex]=true
-      gvars.qst_failedIndex[i]=-1
+    gvars.qst_failedIndex[i]=-1
+  end
+  TppUiCommand.SetSideOpsListUpdate()
+  for i,questName in ipairs(m)do
+    if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]==true then
+      TppMotherBaseManagement.SetLockedTanFlag{locked=true}
+      return
     end
   end
-end
-for i=0,9,1 do
-  gvars.qst_failedIndex[i]=-1
-end
-TppUiCommand.SetSideOpsListUpdate()
-for i,questName in ipairs(m)do
-  if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]==true then
-    TppMotherBaseManagement.SetLockedTanFlag{locked=true}
-    return
-  end
-end
 end
 --[[function e.UpdateActiveQuest(t)--tex ORIG:
   if not mvars.qst_questList then
