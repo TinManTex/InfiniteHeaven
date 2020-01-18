@@ -4912,7 +4912,8 @@ function this.CheckDeactiveQuestAreaForceFulton()
         if this.CheckQuestNpcLifeStatus(n)then
           GameObject.SendCommand(n,{id="RequestForceFulton"})
           TppRadio.Play"f1000_rtrg5140"
-          TppSoundDaemon.PostEvent"sfx_s_rescue_pow"else
+          TppSoundDaemon.PostEvent"sfx_s_rescue_pow"
+          else
           GameObject.SendCommand(n,{id="RequestDisableWithFadeout"})
         end
       end

@@ -1,56 +1,57 @@
 = Infinite heaven =
-r86 2015-11-19
+r92 2015-11-25
 by tin man tex
 For MGSV version 1.0.6.0 (1.06 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-Note for r86:
-Swapped the Mb cutecene mode settings disable and play, if you had these set prior to this version change it to what you wanted.
+Note for r92, a lot of menu items moved around and a few varables changed, if you are coming from a previous version take a while to check the settings.
 
-New in r86
-Fix: A few cutscenes I broken in r56, oops
-Fix: mbDontDemoDisableOcelot dont disable occelot on cutscene hanging many cutscene ends
-- thanks TheChosenOne896 for the reports
+New for r92:
+Warp Mode:
+-----------------
+Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry.
 
-Don't disable Ocelot after cutscenes - expanded to cover more cutscenes
+The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.
 
+Be careful when warping up as gravity will kill you quick. One method to cope is to hold warp up, let gravity slowly take over then just after you touch the ground and start warping up again let go.
 
-New in r85
-Fix: osp weapon settings only set if profile not default - temporary fix for empty magazines on mission start (will still happen with individual osp settings though)
-Fix: some unexposed appearance settings running on set-to-default, manifested as player changing to snake, olive drab on FOB.
-Fix: fulton being set to level 1 on mission start
-- thanks GaKoDuck for the reports
+[youtube]AhkFPtQlqnM[/youtube]
 
-Unlock weapon customization - game progression unlock without having to complete legendary gunsmith sideops, good for newgame in combo with the previous unlock player avatar.
-Disable mission intro credits
-Extended Enable all buddies in motherbase option to allow buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
-[youtube]N9xfnH8ivAI[/youtube] 
-https://www.youtube.com/watch?v=N9xfnH8ivAI
+Support Heli menu - ACC and in-mission menu:
+----------------------------------------------------
+Start on foot option has been moved here.
+Disable heli attack - also here (but still in subsistence menu too).
 
+Set heli invincible - heli will not take damage.
 
-New in r80:
-Enemy phases menu:
-Change minimum and max phase of CPs in an area around player.
-Examples:
-minimum and maximum to SNEAK, will return enemies to the lowest alert level.
-Minimum to caution will set the enemies to the minimum alerted/run everywhere/gun ready phase.
-EVASION and ALERT are a bit more tricky, as they have a lot of enemy behaviors associated with them.
-EVASION normally automatically downgrades to CAUTION if there's no last-known-position for the player.
-ALERT automatically sets last-known to player position, even if no enemies have no line of sight.
-So in my implmentation EVASION will initially set ALERT.
+Disable pull-out - prevents heli from leaving when you jump on-board, so you can use the gun from a stationary position, or just change your mind and jump out again.
+Press <STANCE> while in the heli to get it to pull-out again (or use menu).
+NOTE: Disable pull-out whill prevent the mother base helitaxi selection menu, press <STANCE> to re-enable or use the mod menu.
 
-Don't downgrade phase - independent of above, prevents the game auto downgrade of phases after player not being spotted for a while, this however leads to odd behavior at ALERT as the enemy will infinitely suppress the last-known-position. It's usually better to just set the minimum phase.
+Mission start time till open door - Time from mission start to you opening the door to sit on the side. You can set this lower or 0 to do it immediately, or longer to ride the heli in first person.
+Press <STANCE> to manually open the door.
 
-Demonstration of phase settings: 
-[youtube]veL0btXaOb4[/youtube]
-https://www.youtube.com/watch?v=veL0btXaOb4
+Set LZ wait height - the height at which the heli hovers in wait mode (not landing mode).
 
+Force searchlight - change the heli searchlight state
 
-Headgear (cosmetic) - Chose from a variety of balaclavas, helmets with NVG and Gas masks. Cosmetic only (no headgear bonuses)
-Demonstration: 
-[youtube]1DlkIV3KduI[/youtube]
-https://www.youtube.com/watch?v=1DlkIV3KduI
+Other features:
+
+Soldier sight scale - A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in log - all tab)' to see exact values.
+
+Disable Xray marking - buddies that mark still cause the effect though.
+
+General Improvements:
+
+Initial game start Splash screens adjusted to be more spread through load process (also acts as an indicator to me what loading stage the game is at), random emblem screens for your amusement during the final stage.
+
+ButtonRepeat enabled on navigate up/down menu.
+Equip menu disabled on menu open.
+Should improve the experience a bit for gamepad bros.
+
+Fix: Menu off when iDroid open improved
+
 
 
 Infinite Heaven features:
@@ -59,6 +60,15 @@ Demonstrations:
 Mother base settings:
 [youtube]PSWTQwJNaRU[/youtube]
 https://www.youtube.com/watch?v=PSWTQwJNaRU
+Headgear:
+[youtube]1DlkIV3KduI[/youtube]
+https://www.youtube.com/watch?v=1DlkIV3KduI
+Phase settings:
+[youtube]veL0btXaOb4[/youtube]
+https://www.youtube.com/watch?v=veL0btXaOb4
+Buddies at zoo:
+[youtube]N9xfnH8ivAI[/youtube] 
+https://www.youtube.com/watch?v=N9xfnH8ivAI
 
 Player Restriction - disable of game settings to customize your challenge
 
@@ -73,6 +83,8 @@ OSP Weapon settings - Seperate from subsistence mode (but subsistence uses it), 
 Arm abilitiy levels - Sonar, Mobility, Precision, Medical - can now be individually set.
 
 Disable Head markers independantly from objective/placed markers (markers for other objects like vehicles/fultonable weapons are also disabled however due to the game function).
+
+Disable Xray marking - buddies that mark still cause the effect though.
 
 Mission Entance/Exit options:
 
@@ -96,7 +108,8 @@ Suits - same range as fob missions
 
 War Games - set mother base soliders hostile with non-lethal or lethal weapons
 
-Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, the will however spawn off map, use the call menu to have them respawn near.
+Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they will however spawn inside building geometry, use the call menu to have them respawn near.
+Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
 
 Parameters:
 
@@ -150,6 +163,8 @@ Retail Bug fixes:
 Enemies Revenge system level for Fulton was fulton was 0 low, 1 blank, 2 high, now 0 blank 1 low 2 high.
 
 TppMission.GoToEmergencyMission() -> TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode] instead of vars.missionCode
+
+Disable mission intro credits
 
 
 By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
@@ -219,9 +234,6 @@ While in ACC Heli (full menu), or in-mission (small menu)
 Hold the weapon <Reload> button (default R on keyboard, or B on controller) for a second to toggle the mod menu when in the ACC
 Or hold <Quick dive> (space key or X button)when in mission.
 
-(modding limitation, currently no know way to detect if in idroid menu where navigation keys conflict)
-So toggle mod menu on, change setting, toggle it off before you use idroid.
-
 Use either Arrow keys or Dpad to navigate the menu.
 Up/Down to select option.
 Left/Right to change setting or open submenu.
@@ -229,6 +241,8 @@ Left/Right to change setting or open submenu.
 Press <Change Stance> button to go to previous menu.
 
 Press <Call> button to reset current setting.
+
+Tap mod menu button <Quick dive> while menu is open to refresh current setting.
 
 Known issues:
 The Announce Log used for the display has a delay on entries, so slow down your button presses when changing the settings.
@@ -252,7 +266,62 @@ There may be some overrides for Max Prepare that I've missed, I've noticed on sm
 
 Changelog:
 ------------------------------
-r86
+r92
+Thought I was done with heli? Ho ho.
+UpdateHeli > manually open door on mission start by pressing <STANCE>, a fun combo is to set 'Mission start open door wait time' to a max and just ride in first person, then pop out whenever you want.
+Start missions on foot shifter to support heli menu.
+NOTE: Aparently DisablePullOut overrides the motherbase taxi service, use the <STANCE> to disable then hit the usual <EVADE> to open the taxi menu
+Option: setSearchLightForcedHeli - ok really Disable search light, but the ivar name is closer to command name
+Order recieved announclog for a couple of heli settings.
+
+r91
+disableHeliAttack - switch via OnChange, so now can update in-mission,
+activation block in TppMain.Oninitialize now InfMain.UpdateHeliVars
+Option: setInvincibleHeli
+Option: DisablePullOut
+Command: PullOut
+Feature: Force heli pull-out by pressing STANCE while in heli.
+Various other heli commands explored that turned out not useful.
+InfMain.SplashStateCallback_r, tying in with RandomEmblemSplash to have splashes cover the load period (like the original splashes did that I rashly killed lol), splashes do not block loading, there is a hit however long the splash texture load is though.
+title_sequence - kills off the current random splash, title_sequence usually wait for the normal splashes (that I removed), but in practice they were usually done by then (so I can't really claim any loading speed improvement) and I think the nvidia splash was added to cover the rest.
+
+r90
+Splash screens added to start/end of start.lua, end one is a good indicator that the main luas have loaded/compiled ok and from that point on its onto init mission/init_squence
+InfMain.DeleteSplash
+InfMain.RandomEmblemSplash
+Refactor: InfMain.Update > ExecUpdate - phaseUpdate and warpPlayerUpdate using unified update system.
+Ivar: enablePhaseMod renamed phaseUpdate - users will have to redo their setting
+
+r89
+Refactor:InfSoldierParams, soldierParamsProfile, soldierHealthScale - various renaming, shifting block out of TppMain
+Option: soldierSightDistScale
+Options: *DistScaleSightParam - incomplete, still don't know the approach to take here, there's a heck of a lot of settings in SoldierParameterTables, how granular do I want to let the user mod this? scale vs exact value? managing profiles (something closer to TPPHC)?
+Command: printSightFormParameterItem
+Command: printhealthTableParameterItem
+Fix: Refresh current setting (tapping mod menu button) not checking if it was an actual setting (menu) (would do no harm only wanring message, I knew I put it there for a reason)
+Project: MockTest - why didn't I think of this sooner.
+Ivar.enemyPrameters renamed soldierParamsProfile, now a profile to soldierHealthMult(also renamed) and  soldierSightDistScale
+
+r88
+Fix: Menu off when iDroid open improved
+Ivars: Is/OptionIsSetting catch case of no enum
+IsDefault added
+OnSubSettingChanged - doesnt flip profile if subsetting is default or profile is default or custom 
+Option: defaultHeliDoorOpenTime
+InfMain.Update - common execution check flags expanded, passed to the various mod feature update functions
+Option:quietRadioMode
+
+r87
+Command: warpPlayerMode
+Refactor: InfMenu.EndFadeIn, FinishOpeningDemoOnHeli - pull in stuff from TppMission msgs
+Option: disableXrayMark - buddies that mark still cause the effect though.
+InfMenuDef allTables setup check IfTable
+Equip menu disabled on menu open -- playerWarpMode messes with it though
+ButtonRepeat enabled on navigate up/down menu.
+Should improve the experience a bit for gamepad bros.
+InfMenu - disable state extended from menus to all options
+
+r86 - 2015-11-19 - public release
 Fix: A few cutscenes I broken in r56, oops
 Fix: mbDontDemoDisableOcelot dont disable occelot on cutscene hanging cutscene end
 TppMbFreeDemo.PlayMtbsEventDemo, dont nil DemoOnEnd, instead case by case it in demoOptions

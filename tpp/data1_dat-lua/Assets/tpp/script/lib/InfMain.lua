@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r89"
+this.modVersion = "r92"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:
@@ -506,7 +506,7 @@ this.execChecks={
   inGame=false,--tex actually loaded game, ie at least 'continued' from title screen
   inHeliSpace=false,
   inMission=false,
-  inMissionOnGround=false,--tex mission actually started/reached ground, triggers on checkpoint save so might not be valid for some uses
+  initialAction=false,--tex mission actually started/reached ground, triggers on checkpoint save so might not be valid for some uses
   inGroundVehicle=false,
   inSupportHeli=false,
   onBuddy=false,--tex sexy
@@ -546,9 +546,9 @@ function this.Update()
     playerVehicleId=vars.playerVehicleGameObjectId
 
     if not currentChecks.inHeliSpace then
-      currentChecks.inMissionOnGround=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
-    --[[   if not inMissionOnGround then
-        InfMenu.DebugPrint"not inMissionOnGround"--DEBUGNOW
+      currentChecks.initialAction=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
+    --[[   if not initialAction then
+        InfMenu.DebugPrint"not initialAction"--DEBUGNOW
       end --]]
 
       currentChecks.inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
@@ -846,7 +846,9 @@ function this.UpdateHeliVars()
     SendCommand(heliId,{id="SetTakeOffWaitTime",time=gvars.setTakeOffWaitTime})
   end
   if gvars.disablePullOutHeli==1 then
-    SendCommand(heliId,{id="DisablePullOut"})  
+    --if not TppLocation.IsMotherBase() and not TppLocation.IsMBQF() then--tex aparently disablepullout overrides the mother base taxi service
+      SendCommand(heliId,{id="DisablePullOut"})
+    --end 
   end
   if not Ivars.setLandingZoneWaitHeightTop:IsDefault() then
     SendCommand(heliId,{id="SetLandingZoneWaitHeightTop",height=gvars.setLandingZoneWaitHeightTop})
@@ -854,7 +856,9 @@ function this.UpdateHeliVars()
   if gvars.disableDescentToLandingZone==1 then
     SendCommand(heliId,{id="DisableDescentToLandingZone"})  
   end 
-  
+  if gvars.setSearchLightForcedHeli==1 then
+    SendCommand(heliId,{id="SetSearchLightForcedType",type="Off"})
+  end
 end
 
 function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate) 
@@ -867,12 +871,25 @@ function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRa
    --DEBUGNOW SendCommand(heliId, { id="SetGettingOutEnabled", enabled=true })
   --end
   
-  if not currentChecks.inMenu and currentChecks.inSupportHeli and gvars.disablePullOutHeli==1 then
-    if InfButton.OnButtonDown(InfButton.STANCE) then
-      InfMenu.PrintLangId"heli_pulling_out"
-      Ivars.disablePullOutHeli:Set(0,true,true)--tex seems this overrules all, but we can tell it to not save so that's ok
-      --SendCommand(heliId,{id="PullOut",forced=true})--even with forced wont go with player
-    end
+  if not currentChecks.inMenu and currentChecks.inSupportHeli then
+    if gvars.disablePullOutHeli==1 then--or not currentChecks.initialAction then
+      if InfButton.OnButtonDown(InfButton.STANCE) then
+        if not currentChecks.initialAction then--tex heli ride in
+          SendCommand(heliId,{id="RequestSnedDoorOpen"})
+        else
+
+          Ivars.disablePullOutHeli:Set(0,true,true)--tex seems this overrules all, but we can tell it to not save so that's ok
+          InfMenu.PrintLangId"heli_pulling_out"
+          --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player
+        end
+      end--button down
+    end--nopullout or initialact
+  end--not menu, insupportheli
+end
+
+function this.HeliOrderRecieved()
+  if this.execChecks.inGame and not this.execChecks.inHeliSpace then
+    InfMenu.PrintLangId"order_recieved"
   end
 end
 

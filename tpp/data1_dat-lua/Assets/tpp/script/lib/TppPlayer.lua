@@ -2035,7 +2035,9 @@ function this.UpdateDeliveryWarp()
     mvars.ply_selectedCboxDeliveryUniqueId=nil
     mvars.ply_deliveryWarpState=nil
     mvars.ply_deliveryWarpSoundCannotCancel=nil
-    TppSoundDaemon.PostEventAndGetHandle("Stop_truck_transfer","Loading")TimerStop"Timer_DeliveryWarpSoundCannotCancel"return
+    TppSoundDaemon.PostEventAndGetHandle("Stop_truck_transfer","Loading")
+    TimerStop"Timer_DeliveryWarpSoundCannotCancel"
+    return
   end
   if mvars.ply_playingDeliveryWarpSoundHandle then
     local e=TppSoundDaemon.IsEventPlaying("Play_truck_transfer",mvars.ply_playingDeliveryWarpSoundHandle)

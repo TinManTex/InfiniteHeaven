@@ -526,7 +526,8 @@ this.demoOptions={
     forceBalaclavaLocator={}},
   ArrivedMotherBaseChildren={weather=TppDefine.WEATHER.SUNNY,time="11:00:00",heliEnableAfterDemo=true,telopLangIdList={"area_demo_mb","platform_main"},
     OnEnter=function()
-      TppSoundDaemon.ResetMute"Outro"end,
+      TppSoundDaemon.ResetMute"Outro"
+    end,
     OnPrevPlayRequest=function()
       svars.isCollect_Injury=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_Injury]
       svars.isCollect_YellowHood=gvars.s10100_boyEscapeCurrentPlay[TppDefine.S10100_BOY_ENUM.Collect_YellowHood]
@@ -577,7 +578,8 @@ this.demoOptions={
       TppDataUtility.SetVisibleDataFromIdentifier("MtbsCommon","sahelan_spl",false,false)
     end,
     OnEnd=function()
-      TppSoundDaemon.SetMute"Result"end},
+      TppSoundDaemon.SetMute"Result"
+      end},
   DetailsNuclearDevelop={isMovie=true,OnEnter=function()
     TppSoundDaemon.SetMute"Result"
   end,
@@ -588,7 +590,8 @@ this.demoOptions={
       return"SacrificeOfNuclearElimination"
     end
   end},
-  EndingSacrificeOfNuclear={isMovie=true,OnEnter=function()
+  EndingSacrificeOfNuclear={isMovie=true,
+  OnEnter=function()
     TppSound.SetSceneBGM"bgm_nuclear_ending"
     TppUiCommand.NukeCountDownText("set","cmmn_nuclear_weapon_num",5,166666,15)
   end,

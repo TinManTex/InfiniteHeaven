@@ -194,7 +194,11 @@ this.eng={--english
   setInvincibleHeli="Set heli invincible",
   disablePullOutHeli="Disable pull-out",
   setLandingZoneWaitHeightTop="Set LZ wait height",
-  defaultHeliDoorOpenTime="Mission start door open wait time",
+  defaultHeliDoorOpenTime="Mission start time till open door",
+  setSearchLightForcedHeli="Force searchlight",--r92
+  set_disable={"On","Off"},
+  order_recieved="Order recieved",
+  missionEntryExitMenu="Mission entry/exit menu",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

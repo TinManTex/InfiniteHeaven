@@ -932,7 +932,7 @@ function this.Init()
           table.insert(pauseMenuItems,2,GamePauseMenu.RESTART_FROM_MISSION_START)
         end
         if gvars.abortMenuItemControl==0 then--tex
-        table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)--tex
+          table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)--tex
         end
       else
         table.insert(pauseMenuItems,2,GamePauseMenu.RESTART_FROM_HELICOPTER)

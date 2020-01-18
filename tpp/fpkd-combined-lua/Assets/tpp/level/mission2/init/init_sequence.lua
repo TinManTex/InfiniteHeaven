@@ -2867,7 +2867,7 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
     local konamiLogoScreenId = SplashScreen.Create("knm", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_konami_logo_clp_nmp.ftex", 640, 640);--tex
     SplashScreen.SetStateCallback(konamiLogoScreenId, InfMain.SplashStateCallback_r)
     SplashScreen.Show( konamiLogoScreenId, 0.4, 2.0, 0.4)--
-    --InfMain.SplashStateCallback_r(nil, SplashScreen.STATE_DELETE)--tex do splashes till title sequence loaded
+    --InfMain.SplashStateCallback_r(nil, SplashScreen.STATE_DELETE)--tex do splashes till title sequence loaded, ugly looking bootstrap I know CULL
     
     
    

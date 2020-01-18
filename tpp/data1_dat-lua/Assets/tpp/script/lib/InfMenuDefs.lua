@@ -85,8 +85,17 @@ this.demosMenu={
   }
 }
 
+--[[this.missionEntryExitMenu={
+    Ivars.telopMode,
+    Ivars.startOnFoot,
+    Ivars.abortMenuItemControl,
+    InfMenuCommands.resetSettingsItem,
+    InfMenuCommands.goBackItem,
+}--]]
+
 this.patchupMenu={
   options={
+    Ivars.telopMode,
     InfMenuCommands.unlockPlayableAvatarItem,
     InfMenuCommands.unlockWeaponCustomizationItem,
     Ivars.startOffline,   
@@ -230,9 +239,11 @@ this.supportHeliMenu={
     --InfMenuCommands.changeToIdleStateHeliItem,--DEBUGNOW
     Ivars.disableHeliAttack,
     Ivars.setInvincibleHeli,
+    Ivars.setSearchLightForcedHeli,
     Ivars.disablePullOutHeli,
     Ivars.setLandingZoneWaitHeightTop,
     Ivars.defaultHeliDoorOpenTime,
+    Ivars.startOnFoot,
     --Ivars.disableDescentToLandingZone,
     --Ivars.enableGetOutHeli,--WIP
     --Ivars.heliUpdate,
@@ -246,9 +257,7 @@ this.heliSpaceMenu={
     --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
     --Ivars.manualMissionCode,--tex DEBUGNOW WIP
     --InfMenuCommands.loadMissionItem,--tex DEBUGNOW WIP
-    Ivars.startOnFoot,
     Ivars.clockTimeScale,
-    Ivars.telopMode,
     this.playerRestrictionsMenu,
     this.playerSettingsMenu,
     this.soldierParamsMenu,
@@ -258,6 +267,7 @@ this.heliSpaceMenu={
     this.motherBaseMenu,
     this.demosMenu,
     this.supportHeliMenu,
+    --this.missionEntryExitMenu,
     --this.appearanceMenu,--tex DEBUGNOW WIP
     this.patchupMenu,
     InfMenuCommands.resetSettingsItem,

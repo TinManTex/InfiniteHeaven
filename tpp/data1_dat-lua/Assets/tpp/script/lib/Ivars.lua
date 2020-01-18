@@ -1423,7 +1423,7 @@ this.heliUpdateRange={--seconds
 this.defaultHeliDoorOpenTime={--seconds
   save=MISSION,
   default=15,
-  range={min=0,max=60},
+  range={min=0,max=120},
 }
 
 local HeliEnabledGameCommand=function(self)
@@ -1472,7 +1472,7 @@ this.disablePullOutHeli={
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self)
-    if TppMission.IsFOBMission(vars.missionCode) then return end
+    if TppMission.IsFOBMission(vars.missionCode) then return end    
     local set=self.setting==1
     local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
@@ -1483,6 +1483,7 @@ this.disablePullOutHeli={
         command="EnablePullOut"
       end
       GameObject.SendCommand(gameObjectId,{id=command})
+      InfMain.HeliOrderRecieved()
     end
   end,
 }
@@ -1516,6 +1517,27 @@ this.disableDescentToLandingZone={
         command="EnableDescentToLandingZone"
       end
       GameObject.SendCommand(gameObjectId,{id=command})
+    end
+  end,
+}
+
+this.setSearchLightForcedHeli={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_disable",
+  OnChange=function(self)
+    if TppMission.IsFOBMission(vars.missionCode) then return end    
+    local set=self.setting==1
+    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+      local command
+      if set then
+        command={id="SetSearchLightForcedType",type="Off"}
+      else
+        command={id="SetSearchLightForcedType",type="On"}
+      end
+      GameObject.SendCommand(gameObjectId,command)
+      InfMain.HeliOrderRecieved()
     end
   end,
 }
