@@ -470,21 +470,25 @@ mtbs_enemy._GetSecurityCameraSetting = function ()
 	local INIT_GRADE_GUN_CAMERA = 4
 
 	
-	if eqGrade < INIT_GRADE_SEC_CAMERA then
+	local CAM_GRADE_Lv1 = 3
+	local CAM_GRADE_Lv2 = 5
+	local CAM_GRADE_Lv3 = 6
+	
+	if eqGrade < CAM_GRADE_Lv1 then
 		numSetSecCamLv = NOT_SET
 	else
 		if numDevSecCamLv == 1 then
 			numSetSecCamLv = 1
 		elseif numDevSecCamLv == 2 then
-			if eqGrade >= (numDevSecCamLv + INIT_GRADE_SEC_CAMERA - 1) then
+			if eqGrade >= CAM_GRADE_Lv2 then
 				numSetSecCamLv = 2
 			else
 				numSetSecCamLv = 1
 			end
 		elseif numDevSecCamLv == 3 then
-			if eqGrade >= (numDevSecCamLv + INIT_GRADE_SEC_CAMERA - 1) then
+			if eqGrade >= CAM_GRADE_Lv3 then
 				numSetSecCamLv = 3
-			elseif eqGrade >= (2 + INIT_GRADE_SEC_CAMERA - 1) then
+			elseif eqGrade >= CAM_GRADE_Lv2 then
 				numSetSecCamLv = 2
 			else
 				numSetSecCamLv = 1
@@ -493,21 +497,25 @@ mtbs_enemy._GetSecurityCameraSetting = function ()
 	end
 
 	
-	if eqGrade < INIT_GRADE_GUN_CAMERA then
+	local GUN_CAM_GRADE_Lv1 = 6
+	local GUN_CAM_GRADE_Lv2 = 7
+	local GUN_CAM_GRADE_Lv3 = 8
+	
+	if eqGrade < GUN_CAM_GRADE_Lv1 then
 		numSetGunCamLv = NOT_SET
 	else
 		if numDevGunCamLv == 1 then
 			numSetGunCamLv = 1
 		elseif numDevGunCamLv == 2 then
-			if eqGrade >= (numDevGunCamLv + INIT_GRADE_GUN_CAMERA - 1) then
+			if eqGrade >= GUN_CAM_GRADE_Lv2 then
 				numSetGunCamLv = 2
 			else
 				numSetGunCamLv = 1
 			end
 		elseif numDevGunCamLv == 3 then
-			if eqGrade >= (numDevGunCamLv + INIT_GRADE_GUN_CAMERA - 1) then
+			if eqGrade >= GUN_CAM_GRADE_Lv3 then
 				numSetGunCamLv = 3
-			elseif eqGrade >= (2 + INIT_GRADE_GUN_CAMERA - 1) then
+			elseif eqGrade >= GUN_CAM_GRADE_Lv2 then
 				numSetGunCamLv = 2
 			else
 				numSetGunCamLv = 1
@@ -1300,7 +1308,7 @@ mtbs_enemy.OnLoad = function ( clusterId, isNoUseRevenge )
 	end
 	
 	
-	mvars.rad_debugRadioLineTable["DBG_MTBS_ENEMY_FOCUS_CHECK"] = {"å�„å“¡ã€�ç‰¹åˆ¥è­¦æˆ’ã€‚æ‰€å®šã�®ä½�ç½®ã‚’é˜²è¡›ã�›ã‚ˆ"}
+	mvars.rad_debugRadioLineTable["DBG_MTBS_ENEMY_FOCUS_CHECK"] = {"各員、特別警戒。所定の位置を防衛せよ"}
 end
 
 

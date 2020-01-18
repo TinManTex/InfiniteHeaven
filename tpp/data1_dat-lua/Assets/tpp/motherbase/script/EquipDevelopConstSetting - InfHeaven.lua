@@ -2,26 +2,7 @@
 this={}
 
 local equipDevelopConstSetting={
-{
-p00=1e3,
-p01=TppEquip.EQP_WP_10101,
-p02=TppMbDev.EQP_DEV_TYPE_Handgun,
-p03=0,
-p04=0,
-p05=65535,
-p06="name_wp_1000",
-p07="info_wp_1000",
-p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg01_00_10_alp",
-p09=TppMbDev.EQP_DEV_GROUP_WEAPON_010,
-p10="ability_0300",
-p30="real_wp_1000",
-p31=0,
-p32=1,
-p33=1,
-p34=1,
-p35=0,
-p36=0
-},
+{p00=1000,p01=TppEquip.EQP_WP_10101,p02=TppMbDev.EQP_DEV_TYPE_Handgun,p03=0,p04=0,p05=65535,p06="name_wp_1000",p07="info_wp_1000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg01_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_010,p10="ability_0300",p30="real_wp_1000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=1001,p01=TppEquip.EQP_WP_10102,p02=TppMbDev.EQP_DEV_TYPE_Handgun,p03=1e3,p04=0,p05=65535,p06="name_wp_1000",p07="info_wp_1000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg01_00_20_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_010,p10="ability_0516",p11="ability_0700",p12="ability_0801",p13="ability_0010",p30="real_wp_1000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=1002,p01=TppEquip.EQP_WP_10103,p02=TppMbDev.EQP_DEV_TYPE_Handgun,p03=1001,p04=0,p05=65535,p06="name_wp_1000",p07="info_wp_1000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg01_00_30_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_010,p10="ability_0106",p30="real_wp_1000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=1003,p01=TppEquip.EQP_WP_10104,p02=TppMbDev.EQP_DEV_TYPE_Handgun,p03=1002,p04=0,p05=65535,p06="name_wp_1000",p07="info_wp_1000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg01_00_40_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_010,p10="ability_0800",p11="ability_0010",p30="real_wp_1000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
@@ -77,7 +58,7 @@ p36=0
 {p00=1082,p01=TppEquip.EQP_WP_10705,p02=TppMbDev.EQP_DEV_TYPE_Handgun,p03=1081,p04=0,p05=65535,p06="name_wp_1080",p07="info_wp_1080",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg11_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_080,p10="ability_0903",p30="real_wp_1080",p31=0,p32=0,p33=0,p34=1,p35=0,p36=0},
 {p00=1090,p01=TppEquip.EQP_WP_SP_hg_020,p02=TppMbDev.EQP_DEV_TYPE_Handgun,p03=0,p04=0,p05=TppMotherBaseManagementConst.EXTRA_4024,p06="name_wp_1090",p07="info_wp_1090",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg00_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_020,p30="real_wp_1090",p31=0,p32=0,p33=0,p34=0,p35=0,p36=1},
 {p00=1091,p01=TppEquip.EQP_WP_SP_hg_010,p02=TppMbDev.EQP_DEV_TYPE_Handgun,p03=0,p04=0,p05=TppMotherBaseManagementConst.EXTRA_4025,p06="name_wp_1091",p07="info_wp_1091",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg06_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_050,p30="real_wp_1091",p31=0,p32=0,p33=0,p34=0,p35=0,p36=1},
-{p00=2e3,p01=TppEquip.EQP_WP_20002,p02=TppMbDev.EQP_DEV_TYPE_Submachinegun,p03=0,p04=0,p05=65535,p06="name_wp_2000",p07="info_wp_2000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sm00_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_090,p10="ability_0300",p11="ability_0607",p30="real_wp_2000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
+{p00=2000,p01=TppEquip.EQP_WP_20002,p02=TppMbDev.EQP_DEV_TYPE_Submachinegun,p03=0,p04=0,p05=65535,p06="name_wp_2000",p07="info_wp_2000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sm00_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_090,p10="ability_0300",p11="ability_0607",p30="real_wp_2000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=2001,p01=TppEquip.EQP_WP_20003,p02=TppMbDev.EQP_DEV_TYPE_Submachinegun,p03=2e3,p04=0,p05=65535,p06="name_wp_2000",p07="info_wp_2000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sm00_00_20_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_090,p10="ability_0113",p30="real_wp_2000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=2002,p01=TppEquip.EQP_WP_20004,p02=TppMbDev.EQP_DEV_TYPE_Submachinegun,p03=2001,p04=0,p05=65535,p06="name_wp_2000",p07="info_wp_2000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sm00_00_30_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_090,p10="ability_0703",p11="ability_0251",p12="ability_0700",p13="ability_0256",p30="real_wp_2000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=2003,p01=TppEquip.EQP_WP_20005,p02=TppMbDev.EQP_DEV_TYPE_Submachinegun,p03=2002,p04=0,p05=65535,p06="name_wp_2000",p07="info_wp_2000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sm00_00_40_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_090,p10="ability_0303",p11="ability_0121",p30="real_wp_2000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
@@ -96,7 +77,7 @@ p36=0
 {p00=2025,p01=TppEquip.EQP_WP_20216,p02=TppMbDev.EQP_DEV_TYPE_Submachinegun,p03=2024,p04=0,p05=65535,p06="name_wp_2024",p07="info_wp_2020",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sm02_01_20_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_110,p10="ability_0603",p30="real_wp_2020",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=2026,p01=TppEquip.EQP_WP_20225,p02=TppMbDev.EQP_DEV_TYPE_Submachinegun,p03=2021,p04="GunsmithSubmachineGun",p05=65535,p06="name_wp_2026",p07="info_wp_2020",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sm02_02_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_110,p10="ability_0501",p11="ability_0703",p12="ability_0252",p30="real_wp_2020",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=2030,p01=TppEquip.EQP_WP_SP_sm_010,p02=TppMbDev.EQP_DEV_TYPE_Submachinegun,p03=0,p04=0,p05=TppMotherBaseManagementConst.EXTRA_4000,p06="name_wp_2030",p07="info_wp_2030",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sm02_03_01_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_110,p30="real_wp_2030",p31=0,p32=0,p33=0,p34=0,p35=0,p36=1},
-{p00=3e3,p01=TppEquip.EQP_WP_30001,p02=TppMbDev.EQP_DEV_TYPE_Assault,p03=0,p04=0,p05=65535,p06="name_wp_3000",p07="info_wp_3002",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_ar01_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_120,p10="ability_0403",p11="ability_0607",p30="real_wp_3000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
+{p00=3000,p01=TppEquip.EQP_WP_30001,p02=TppMbDev.EQP_DEV_TYPE_Assault,p03=0,p04=0,p05=65535,p06="name_wp_3000",p07="info_wp_3002",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_ar01_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_120,p10="ability_0403",p11="ability_0607",p30="real_wp_3000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=3001,p01=TppEquip.EQP_WP_30002,p02=TppMbDev.EQP_DEV_TYPE_Assault,p03=3e3,p04=0,p05=65535,p06="name_wp_3000",p07="info_wp_3002",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_ar01_00_20_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_120,p10="ability_0406",p11="ability_0606",p30="real_wp_3000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=3002,p01=TppEquip.EQP_WP_30003,p02=TppMbDev.EQP_DEV_TYPE_Assault,p03=3001,p04=0,p05=65535,p06="name_wp_3000",p07="info_wp_3002",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_ar01_00_30_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_120,p10="ability_0703",p11="ability_0250",p12="ability_0104",p30="real_wp_3000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
 {p00=3003,p01=TppEquip.EQP_WP_30004,p02=TppMbDev.EQP_DEV_TYPE_Assault,p03=3002,p04=0,p05=65535,p06="name_wp_3000",p07="info_wp_3002",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_ar01_00_40_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_120,p10="ability_0702",p11="ability_0802",p12="ability_0700",p13="ability_0651",p30="real_wp_3000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
@@ -506,9 +487,63 @@ p36=0
 {p00=17011,p01=TppEquip.EQP_HAND_PRECISION,p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,p03=17030,p04="MechatronicsEngineer",p05=65535,p06="name_arm_17011",p07="info_arm_17001",p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_option_alp",p09=TppMbDev.EQP_DEV_GROUP_TOOL_190,p10="ability_1030",p30="name_arm_17011",p31=0,p32=0,p33=0,p34=1,p35=0,p36=0},
 {p00=17012,p01=TppEquip.EQP_HAND_PRECISION,p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,p03=17011,p04=0,p05=65535,p06="name_arm_17012",p07="info_arm_17001",p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_option_alp",p09=TppMbDev.EQP_DEV_GROUP_TOOL_190,p10="ability_1031",p30="name_arm_17012",p31=0,p32=0,p33=0,p34=1,p35=0,p36=0},
 {p00=17013,p01=TppEquip.EQP_HAND_PRECISION,p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,p03=17012,p04=0,p05=65535,p06="name_arm_17013",p07="info_arm_17001",p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_option_alp",p09=TppMbDev.EQP_DEV_GROUP_TOOL_190,p10="ability_1032",p30="name_arm_17013",p31=0,p32=0,p33=0,p34=1,p35=0,p36=0},
-{p00=17021,p01=TppEquip.EQP_HAND_MEDICAL,p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,p03=17030,p04="CyberneticsEngineer",p05=65535,p06="name_arm_17021",p07="info_arm_17001",p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_option_alp",p09=TppMbDev.EQP_DEV_GROUP_TOOL_200,p10="ability_1033",p30="name_arm_17021",p31=0,p32=0,p33=0,p34=1,p35=0,p36=0},
-{p00=17022,p01=TppEquip.EQP_HAND_MEDICAL,p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,p03=17021,p04=0,p05=65535,p06="name_arm_17022",p07="info_arm_17001",p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_option_alp",p09=TppMbDev.EQP_DEV_GROUP_TOOL_200,p10="ability_1034",p30="name_arm_17022",p31=0,p32=0,p33=0,p34=1,p35=0,p36=0},
-{p00=17023,p01=TppEquip.EQP_HAND_MEDICAL,p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,p03=17022,p04=0,p05=65535,p06="name_arm_17023",p07="info_arm_17001",p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_option_alp",p09=TppMbDev.EQP_DEV_GROUP_TOOL_200,p10="ability_1035",p30="name_arm_17023",p31=0,p32=0,p33=0,p34=1,p35=0,p36=0},
+{p00=17021,
+p01=TppEquip.EQP_HAND_MEDICAL,
+p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,
+p03=17030,
+p04="CyberneticsEngineer",
+p05=65535,
+p06="name_arm_17021",
+p07="info_arm_17001",
+p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_option_alp",
+p09=TppMbDev.EQP_DEV_GROUP_TOOL_200,
+p10="ability_1033",
+p30="name_arm_17021",
+p31=0,
+p32=0,
+p33=0,
+p34=1,
+p35=0,
+p36=0},
+
+{p00=17022,
+p01=TppEquip.EQP_HAND_MEDICAL,
+p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,
+p03=17021,
+p04=0,
+p05=65535,
+p06="name_arm_17022",
+p07="info_arm_17001",
+p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_option_alp",
+p09=TppMbDev.EQP_DEV_GROUP_TOOL_200,
+p10="ability_1034",
+p30="name_arm_17022",
+p31=0,
+p32=0,
+p33=0,
+p34=1,
+p35=0,
+p36=0},
+
+{p00=17023,
+p01=TppEquip.EQP_HAND_MEDICAL,
+p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,
+p03=17022,
+p04=0,
+p05=65535,
+p06="name_arm_17023",
+p07="info_arm_17001",
+p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_option_alp",
+p09=TppMbDev.EQP_DEV_GROUP_TOOL_200,
+p10="ability_1035",
+p30="name_arm_17023",
+p31=0,
+p32=0,
+p33=0,
+p34=1,
+p35=0,
+p36=0},
+
 {p00=18001,p01=TppEquip.EQP_HAND_STUNARM,p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,p03=0,p04=0,p05=65535,p06="name_wp_18001",p07="info_wp_18001",p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_alp",p09=TppMbDev.EQP_DEV_GROUP_TOOL_210,p30="name_wp_18001",p31=0,p32=0,p33=0,p34=1,p35=0,p36=0},
 {p00=18002,p01=TppEquip.EQP_HAND_STUNARM,p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,p03=18001,p04=0,p05=TppMotherBaseManagementConst.DESIGN_2020,p06="name_wp_18001",p07="info_wp_18001",p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_alp",p09=TppMbDev.EQP_DEV_GROUP_TOOL_210,p10="ability_1017",p30="name_wp_18001",p31=0,p32=0,p33=0,p34=1,p35=0,p36=0},
 {p00=18003,p01=TppEquip.EQP_HAND_STUNARM,p02=TppMbDev.EQP_DEV_TYPE_ArtificialArm,p03=18002,p04=0,p05=65535,p06="name_wp_18001",p07="info_wp_18001",p08="/Assets/tpp/ui/texture/EquipIcon/arm/ui_arm_sna0_arm0_alp",p09=TppMbDev.EQP_DEV_GROUP_TOOL_210,p10="ability_1018",p30="name_wp_18001",p31=0,p32=0,p33=0,p34=1,p35=0,p36=0},
@@ -730,7 +765,7 @@ p36=0
 {p00=50064,p01=TppEquip.EQP_WP_Com_sg_023,p02=TppMbDev.EQP_DEV_TYPE_Shotgun,p03=0,p04=0,p05=65535,p06="name_wp_50018",p07="info_wp_50057",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sg01_00_30_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_170,p10="ability_0022",p30="real_wp_4020",p31=0,p32=0,p33=0,p34=0,p35=0,p36=1},
 {p00=4036,p01=TppEquip.EQP_WP_40124,p02=TppMbDev.EQP_DEV_TYPE_Shotgun,p03=4035,p04=0,p05=65535,p06="name_wp_4027",p07="info_wp_4020",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sg01_00_15_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_170,p10="ability_0804",p30="real_wp_4020",p31=0,p32=1,p33=1,p34=0,p35=1,p36=0},
 {p00=4037,p01=TppEquip.EQP_WP_40125,p02=TppMbDev.EQP_DEV_TYPE_Shotgun,p03=4036,p04=0,p05=65535,p06="name_wp_4027",p07="info_wp_4020",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sg01_00_20_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_170,p10="ability_0250",p30="real_wp_4020",p31=0,p32=1,p33=1,p34=0,p35=1,p36=0},
---[[
+
 {p00=38033,p01=TppEquip.EQP_None,p02=TppMbDev.EQP_DEV_TYPE_SecurityGadgets,p03=0,p04=0,p05=TppMotherBaseManagementConst.EXTRA_5000,p06="name_mb_38033",p07="info_mb_38033",p08="/Assets/tpp/ui/texture/EquipIcon/item/ui_it_nvg_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_OTHER_124,p30="name_mb_38033",p31=0,p32=0,p33=0,p34=0,p35=1,p36=0},
 {p00=38034,p01=TppEquip.EQP_None,p02=TppMbDev.EQP_DEV_TYPE_SecurityGadgets,p03=0,p04=0,p05=TppMotherBaseManagementConst.EXTRA_5001,p06="name_mb_38034",p07="info_mb_38034",p08="/Assets/tpp/ui/texture/EquipIcon/item/ui_it_nvg_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_OTHER_124,p30="name_mb_38034",p31=0,p32=0,p33=0,p34=0,p35=1,p36=0},
 {p00=2044,p01=TppEquip.EQP_WP_20307,p02=TppMbDev.EQP_DEV_TYPE_Submachinegun,p03=2043,p04=0,p05=65535,p06="name_wp_2040",p07="info_wp_2040",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_sm01_01_40_alp",p09=TppMbDev.EQP_DEV_GROUP_None,p30="real_wp_2040",p31=0,p32=1,p33=1,p34=0,p35=1,p36=0},
@@ -739,32 +774,59 @@ p36=0
 {p00=10045,p01=TppEquip.EQP_SWP_Grenade_G05,p02=TppMbDev.EQP_DEV_TYPE_Throwing,p03=10044,p04=0,p05=65535,p06="name_wp_10040",p07="info_wp_10040",p08="/Assets/tpp/ui/texture/EquipIcon/supportweapon/ui_swp_grenade_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_SUPPORT_070,p10="ability_1005",p30="name_wp_10040",p31=0,p32=0,p33=0,p34=0,p35=1,p36=0},
 {p00=10063,p01=TppEquip.EQP_SWP_StunGrenade_G03,p02=TppMbDev.EQP_DEV_TYPE_Throwing,p03=10062,p04=0,p05=65535,p06="name_wp_10060",p07="info_wp_10060",p08="/Assets/tpp/ui/texture/EquipIcon/supportweapon/ui_swp_stungrenade_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_SUPPORT_090,p10="ability_1005",p30="name_wp_10060",p31=0,p32=0,p33=0,p34=0,p35=1,p36=0},
 {p00=11043,p01=TppEquip.EQP_SWP_DMine_G03,p02=TppMbDev.EQP_DEV_TYPE_Placed,p03=11042,p04=0,p05=65535,p06="name_wp_11040",p07="info_wp_11040",p08="/Assets/tpp/ui/texture/EquipIcon/supportweapon/ui_swp_mine_00_10_alp.psd",p09=TppMbDev.EQP_DEV_GROUP_SUPPORT_150,p10="ability_1005",p30="name_wp_11040",p31=0,p32=0,p33=0,p34=0,p35=0,p36=0},
---]]
 }
 
+
+--[[
+From https://github.com/NuLLxD/MGSVLUA
+TppMotherBaseManagement.RegCstDev 
+{ 
+   p00=50071, //Item ID 
+   p01=TppEquip.EQP_WP_Com_sg_020_FL, //Asset name 
+   p02=TppMbDev.EQP_DEV_TYPE_Shotgun, //Asset type 
+   p03=0, //Prerequisite Item ID 
+   p04=0, //Specialist requirement (handgun specialist, cybernetics specialist, etc) 
+   p05=65535, //Required flag (set 0 to disable check) - 65535, TppMotherBaseManagementConst.DESIGN_2000, 
+   p06="name_wp_4040", //Item name (displayed in iDroid) 
+   p07="info_wp_4040", //Item description (displayed in iDroid) 
+   p08="/Assets/tpp/ui/texture/EquipIcon/npc/ui_wp_com_sg_020_alp", //Item picture (displayed in iDroid) 
+   p09=TppMbDev.EQP_DEV_GROUP_WEAPON_180, //Item group (tool/item/skin/etc) 
+   p30="real_wp_4040", //Base item 
+   p31=0, //??? (boolean) 
+   p32=0, //??? (boolean 
+   p33=0, //??? (boolean) 
+   p34=0, //??? (boolean) 
+   p35=0 //Equippable by security staff (boolean) 
+}
+--]]
+
+local removeItemRequirements=false--goes through the unlock announce roll but chrashes on idroid open, given that there's many without prereqs its a matter of finding the bad apple(s)
 local removeStaffSkillRequirements=true
 local removeDesignRequirements=true
-local iDontEvenKnowP34=true
+local iDontEvenKnow=true
 local removeWhatIsThisItWasAddedDuringAPatchP36=true
-
 for n,developSetting in ipairs(equipDevelopConstSetting)do
+  if removeItemRequirements then
+    developSetting.p03=0
+  end
   if removeStaffSkillRequirements then
     developSetting.p04=0
   end
   if removeDesignRequirements then
-    developSetting.p05=65535--tex seems to be 'zero', I guess actual index 0 is taken
+    developSetting.p05=0
   end
-   if iDontEvenKnowP34 then
-    p34=0
+   if iDontEvenKnow then--tex dont know why, but that's what the modded file did
+    p32=1
+    p33=1
+    p34=1
   end 
   if removeWhatIsThisItWasAddedDuringAPatchP36 then
-    p36=nil
+    p36=0
   end
 end  
 
 for n,developSetting in ipairs(equipDevelopConstSetting)do
-  --TppMotherBaseManagement.RegCstDev(developSetting)
+  TppMotherBaseManagement.RegCstDev(developSetting)
 end
 equipDevelopConstSetting=nil
-
 return this

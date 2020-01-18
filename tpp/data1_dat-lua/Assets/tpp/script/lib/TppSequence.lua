@@ -240,8 +240,10 @@ end,OnUpdate=function(t)
   if not l then
     return
   end
-  TppTerminal.VarSaveMbMissionStartSyncEnd()
-  TppSave.DoReservedSaveOnMissionStart()
+  if(not TppMission.IsDefiniteMissionClear())then--RETAILPATCH: 1060 - check added
+    TppTerminal.VarSaveMbMissionStartSyncEnd()
+    TppSave.DoReservedSaveOnMissionStart()
+  end
   if TppMission.IsFOBMission(vars.missionCode)==true then
     if TppNetworkUtil.IsRequestFobServerParameterBusy()then
       return

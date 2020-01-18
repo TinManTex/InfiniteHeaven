@@ -255,6 +255,19 @@ function this.ResetInitialPosition()
   vars.initialPlayerPosZ=0
   vars.initialPlayerRotY=0
 end
+function this.FailSafeInitialPositionForFreePlay()--RETAILPATCH: 1060
+  if not((vars.missionCode==30010)or(vars.missionCode==30020))then
+    return
+  end
+  if vars.initialPlayerFlag~=PlayerFlag.USE_VARS_FOR_INITIAL_POS then
+    return
+  end
+  if(((vars.initialPlayerPosX>3500)or(vars.initialPlayerPosX<-3500))or(vars.initialPlayerPosZ>3500))or(vars.initialPlayerPosZ<-3500)then
+    local e={[30010]={1448.61,337.787,1466.4},[30020]={-510.73,5.09,1183.02}}
+    local e=e[vars.missionCode]
+    vars.initialPlayerPosX,vars.initialPlayerPosY,vars.initialPlayerPosZ=e[1],e[2],e[3]
+  end
+end--
 function this.RegisterTemporaryPlayerType(playerSetting)
   if not IsTypeTable(playerSetting)then
     return

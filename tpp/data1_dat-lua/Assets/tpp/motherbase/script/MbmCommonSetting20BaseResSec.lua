@@ -335,9 +335,10 @@ TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBase
 TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_ENEMY_SEARCH,fLv=1,eLv=9,dLv=19,cLv=33,bLv=51,aLv=73,sLv=99}
 TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_RESOURCE_SEARCH,eLv=9,dLv=19,cLv=33,bLv=51,aLv=73,sLv=99}
 TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_WEATHER_INFO,eLv=5,dLv=14,cLv=25,bLv=41,aLv=61,sLv=85}
-TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_SECURITY_INFO,fLv=1,eLv=9,dLv=19,cLv=33,bLv=51,aLv=73,sLv=99}
+TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_SECURITY_INFO,cLv=25,bLv=41,aLv=61,sLv=85}
 TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY,fLv=1,eLv=9,dLv=19,cLv=33,bLv=51,aLv=73,sLv=99}
 TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_TREATMENT,fLv=1,eLv=5,dLv=14,cLv=25,bLv=41,aLv=61,sLv=85}
+TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_ANTI_REFLEX,cLv=25,bLv=41,aLv=61,sLv=85}
 TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_STAFF,fLv=1,eLv=9,dLv=19,cLv=33,bLv=51,aLv=73,sLv=99}
 TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_MACHINE,fLv=1,eLv=5,dLv=14,cLv=25,bLv=41,aLv=61,sLv=85}
 TppMotherBaseManagement.RegisterSectionFuncRankLines{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_BLOCKADE,fLv=1,eLv=9,dLv=19,cLv=33,bLv=51,aLv=73,sLv=99}

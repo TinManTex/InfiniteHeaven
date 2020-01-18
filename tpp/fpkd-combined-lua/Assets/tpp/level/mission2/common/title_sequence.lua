@@ -208,6 +208,227 @@ end
 
 
 
+function this.IsBrokenSaveData( missionCode )
+	if not TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "svars", "mis_isDefiniteMissionClear", 0 ) then
+		
+		if ( missionCode == 10150 )
+		and ( TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "svars", "seq_sequence", 0 ) == 2 ) then
+			return true
+		end
+		
+		return false
+	end
+	local SEQUENCE_MAX = 256
+	local clearedSequenceTable = {
+		
+		[10010] = true,
+		[10280] = true,
+		
+		[10020] = { 16, SEQUENCE_MAX },	
+		
+		[10036] = true,
+		[10043] = true,
+		[11043] = true,	
+		[10033] = true,
+		[11033] = true,	
+		[10040] = true,
+		[10041] = true,
+		[10044] = true,
+		[11044] = true,	
+		[10052] = true,
+		[10054] = true,	
+		[11054] = true,	
+		[10050] = true,
+		[11050] = true,	
+		[10070] = true,	
+		
+		[10080] = true,
+		[11080] = true,	
+		[10086] = true,
+		[10082] = true,
+		[11082] = true,	
+		[10090] = true,
+		[11090] = true,	
+		[10195] = true,
+		[10091] = true,
+		[10100] = true,
+		[10110] = true,
+		[10121] = true,
+		[11121] = true,	
+		
+		[10120] = true,
+		[10085] = true,
+		[10200] = true,
+		[10211] = true,
+		[10081] = true,
+		[10130] = { 8, 9 },	
+		[11130] = { 8, 9 },	
+		[10140] = { 6, SEQUENCE_MAX },	
+		[11140] = { 6, SEQUENCE_MAX },	
+		[10150] = { 7, SEQUENCE_MAX },	
+		[10151] = { 1, SEQUENCE_MAX },	
+		[11151] = { 17, SEQUENCE_MAX },	
+		[10045] = true,
+		[10156] = true,
+		[10093] = true,
+		[10171] = true,
+		[10240] = true,
+		[10260] = true,
+		[30010] = true,
+		[30020] = true,
+	}
+	local clearedSequence = clearedSequenceTable[missionCode]
+
+	if not clearedSequence then
+		
+		return false
+	end
+	if ( clearedSequence == true ) then
+		
+		return true
+	end
+	local missionSequenceIndex = TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "svars", "seq_sequence", 0 )
+	if ( missionCode == 10151 ) then
+		
+		
+		
+		local s10151ClearedSequence = {
+			[5] = true,		
+			[8] = true,		
+			[17] = true,	
+		}
+		if s10151ClearedSequence[missionSequenceIndex] then
+			return false 
+		else
+			return true
+		end
+	end
+
+	if ( missionSequenceIndex >= clearedSequence[1] )
+	and ( missionSequenceIndex <= clearedSequence[2] ) then
+		
+		
+		return false
+	else
+		
+		return true
+	end
+end
+
+function this.ReverseMissionClearedFlag()
+	local missionEnum = TppDefine.MISSION_ENUM[tostring(vars.missionCode)]
+	if missionEnum then
+		Fox.Log("this.ReverseMissionClearedFlag : vars.missionCode = " .. tostring(vars.missionCode))
+		gvars.str_missionClearedFlag[missionEnum] = false
+	end
+end
+
+
+function this.ReverseStorySequence()
+	local storySequenceTable = TppStory.GetCurrentStorySequenceTable()
+	if not storySequenceTable then
+		Fox.Hungup("arienai story sequence de arienai save data ga dekita")
+		return
+	end
+	local function MissionClose( missionName, defaultClose )
+		Fox.Log("ReverseStorySequence : close mission " .. missionName )
+		local missionCode = TppMission.ParseMissionName( missionName )
+		TppStory.SetMissionOpenFlag( missionCode, false )
+		local missionEnum = TppDefine.MISSION_ENUM[tostring(missionCode)]
+		if missionEnum then
+			gvars.str_missionOpenPermission[missionEnum] = false
+		end
+	end
+
+	
+	if storySequenceTable.main then
+		MissionClose(storySequenceTable.main)
+	end
+	if storySequenceTable.flag then
+		for index, missionName in pairs(storySequenceTable.flag) do
+			MissionClose( missionName )
+		end
+	end
+	if storySequenceTable.sub then
+		for index, missionName in pairs(storySequenceTable.sub) do
+			MissionClose( missionName )
+		end
+	end
+	Fox.Log("ReverseStorySequence : decriment story sequence.")
+	gvars.str_storySequence = gvars.str_storySequence - 1
+end
+
+
+
+
+function this.RecoverSaveDataIfForceGoToMbDemo()
+	local mbDemoName = TppDemo.GetMBDemoName()
+	if not mbDemoName then
+		return
+	end
+
+	local function ReverseElapsedCount()
+		if ( vars.missionCode == 30010 ) or ( vars.missionCode == 30020 ) then
+			TppQuest.StartElapsedEvent( TppQuest.GetElapsedCount() + 1 )
+		else
+			local elapsedMissionCount = TppStory.GetElapsedMissionCount( TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE )
+			TppStory.StartElapsedMissionEvent( TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE, elapsedMissionCount + 1 )
+		end
+	end
+
+	local needRecoveryMbDemoTable = {
+		
+		EliLookSnake = ReverseElapsedCount,
+		
+		DevelopedBattleGear5 = ReverseElapsedCount,
+		
+		TheGreatEscapeLiquid = function()
+			this.ReverseStorySequence()
+			this.ReverseMissionClearedFlag()	
+		end,
+		
+		DecisionHuey = function()
+			this.ReverseStorySequence()
+			
+			TppStory.StartElapsedMissionEvent( TppDefine.ELAPSED_MISSION_EVENT.STORY_SEQUENCE, 1 )
+			TppQuest.StartElapsedEvent( 1 )
+		end,
+	}
+	TppDemo.SetNextMBDemo()
+	local recoveryFunc = needRecoveryMbDemoTable[mbDemoName]
+	if recoveryFunc then
+		recoveryFunc()
+	end
+end
+
+function this.RecoverSaveDataIfPandemicTutorial()
+	if not ( TppStory.GetCurrentStorySequence() == TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_WHITE_MAMBA ) then
+		return
+	end
+	if ( ( vars.missionCode == 10085 ) or ( vars.missionCode == 10200 ) )
+	and ( not TppTerminal.IsPandemicTutorialFinished() )then
+		this.ReverseMissionClearedFlag()
+		this.ReverseStorySequence()
+		gvars.trm_isPushRewardSeparationPlatform = false 
+		gvars.forceMbRadioPlayedFlag[ TppDefine.FORCE_MB_RETURN_RADIO_ENUM["ParasiticWormCarrierQuarantine"] ] = false
+	end
+end
+
+function this.RecoverSaveDataIfRetrieveVolgin()
+	if not ( vars.missionCode == 30010 ) then
+		return
+	end
+	local missionSequenceIndex = TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "svars", "seq_sequence", 0 )
+	if ( missionSequenceIndex == 3 ) then 
+		
+		
+		gvars.qst_volginQuestCleared = false
+	end
+end
+
+
+
+
 
 
 
@@ -354,6 +575,20 @@ sequences.Seq_Demo_StartHasTitleMission = {
 
 		
 		if gvars.ini_isTitleMode then
+
+			
+			if not mvars.doneSyncNuclearLocalToServer then
+				mvars.doneSyncNuclearLocalToServer = true
+				TppMotherBaseManagement.SyncNuclearLocalToServer()
+			end
+
+			if TppMotherBaseManagement.IsSynchronizeBusy() then
+				if DebugText then
+					local context = DebugText.NewContext()
+					DebugText.Print(context, "Waiting finihs TppMotherBaseManagement.SyncNuclearLocalToServer() ...")
+				end
+			end
+		
 			if not mvars.startHasTitleSeqeunceMbSyc then
 				mvars.startHasTitleSeqeunceMbSyc = true
 				TppMotherBaseManagement.OnTitleLoaded() 
@@ -495,6 +730,8 @@ sequences.Seq_Game_TitleMenu = {
 				{
 					msg = "GzSaveDataLoaded",
 					func = function()
+						
+						gvars.mb_isRecoverd_dlc_staffs = false
 						TppSave.SaveOnlyGlobalData()
 					end,
 				},
@@ -792,14 +1029,71 @@ sequences.Seq_Game_ChunkInstalled = {
 		TppMission.SafeStopSettingOnMissionReload()	
 		TppSave.VarRestoreOnContinueFromCheckPoint()
 		this.ClearTitleMode()
+		if not this.IsBrokenSaveData( vars.missionCode ) then	
 		TppMain.ReservePlayerLoadingPosition(
 			TppDefine.MISSION_LOAD_TYPE.CONTINUE_FROM_CHECK_POINT
 		)
 		gvars.isContinueFromTitle = true
 		TppTerminal.AcquirePrivilegeInTitleScreen()
 
+			
+			if	( vars.missionCode == 10240 )
+			and ( not TppPackList.IsMissionPackLabel( "InQuarantineFacility" ) )
+			and ( vars.locationCode == TppDefine.LOCATION_ID.MBQF ) then
+				
+				vars.locationCode = TppDefine.LOCATION_ID.MTBS
+				TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "vars", "locationCode", TppDefine.LOCATION_ID.MTBS)
+			end
+			
+			
+			this.RestoreSaveDetaForBtk44624()
+			
 		TppSave.VarSaveMbMangement( titleMissionCode )
 		TppSave.CheckAndSavePersonalData()
+		else
+			if not Tpp.IsMaster() then
+				
+				TppSave.DEBUG_RecoverSaveDataCount = 3.0
+			end
+			
+			
+			
+			
+			TppPlayer.ResetInitialPosition()
+			TppMain.ReservePlayerLoadingPosition( TppDefine.MISSION_LOAD_TYPE.MISSION_RESTART )
+			TppMission.VarResetOnNewMission()
+			this.ClearTitleMode()
+			
+
+			
+			this.RecoverSaveDataIfPandemicTutorial()
+			
+			this.RecoverSaveDataIfForceGoToMbDemo()
+			
+			this.RecoverSaveDataIfRetrieveVolgin()
+
+			
+			gvars.mbFreeDemoPlayRequestFlag[TppDefine.MB_FREEPLAY_DEMO_REQUESTFLAG_DEFINE.PlayAfterQuietBattle] = false
+			gvars.mbFreeDemoPlayRequestFlag[TppDefine.MB_FREEPLAY_DEMO_REQUESTFLAG_DEFINE.PlayAfterDethFactory] = false
+			gvars.mbFreeDemoPlayRequestFlag[TppDefine.MB_FREEPLAY_DEMO_REQUESTFLAG_DEFINE.PlayAfterWhiteMamba] = false
+
+			
+			local locationName = TppPackList.GetLocationNameFormMissionCode( vars.missionCode )
+			if locationName then
+				local locationCode = TppDefine.LOCATION_ID[locationName]
+				if locationCode then
+					Fox.Log("Reset locationCode. locationCode = " .. tostring(locationCode) )
+					vars.locationCode = locationCode
+				end
+			end
+			TppTerminal.AcquirePrivilegeInTitleScreen()
+
+			
+
+			
+			TppSave.VarSave()
+			TppSave.CheckAndSavePersonalData()
+		end
 		TppMission.Load( vars.missionCode, currentMissionCode )
 	end,
 
@@ -897,5 +1191,84 @@ sequences.Seq_Game_ChunkInstalled = {
 		Mission.SwitchApplication("mgo")
 	end,
 }
+
+
+
+this.RestoreSaveDetaForBtk44624 = function()
+	if vars.missionCode ~= 30050 then
+		return
+	end
+	
+	local CheckPlayerOnPlntXZ = function(playerPos)
+		local plntNameList = {"plnt0","plnt1","plnt2","plnt3"}
+		local plntSizeSqr = 3000 
+		for _, clusterName in ipairs( TppDefine.CLUSTER_NAME ) do
+			for _, plntName in ipairs( plntNameList ) do
+				if not mtbs_cluster.HasPlant(clusterName, plntName) then
+					break 
+				end
+				local plntCenterPos = mtbs_cluster.GetDemoCenter( clusterName, plntName )
+				local distVec = plntCenterPos - playerPos
+				local distSqr = distVec:GetX()*distVec:GetX() + distVec:GetZ()*distVec:GetZ()	
+				if distSqr < plntSizeSqr then
+					Fox.Log("Player on Cluster: cluster:"..tostring(clusterName) .. " : plntName: " ..tostring(plntName) .. " : distSqr:" ..tostring(distSqr) )
+					return true, clusterName, plntName
+				end
+			end
+		end
+		return false
+	end
+	
+	
+	local CheckPlayerOnPlntY = function(playerPos, clusterName, plntName )
+		local thresholdY = 0.0 
+		if clusterName == "Medical" and plntName == "plnt0" then
+			thresholdY = -3.5 
+		elseif clusterName == "Develop" and plntName == "plnt0" then
+			thresholdY = -7.8 
+		elseif clusterName == "Command" and plntName == "plnt0" then
+			thresholdY = -8.5 
+		end
+		return playerPos:GetY() > thresholdY
+	end
+	
+	
+	local isUseMissionStartPos = not TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "gvars", "sav_varRestoreForContinue" )
+	local playerPos = Vector3(vars.initialPlayerPosX, vars.initialPlayerPosY, vars.initialPlayerPosZ)
+	if isUseMissionStartPos then
+		
+		playerPos = Vector3(
+			TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "gvars", "ply_missionStartPos",0 ),
+			TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "gvars", "ply_missionStartPos",1 ),
+			TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "gvars", "ply_missionStartPos",2 ) )
+	end	
+	local isOnPlntXZ, clusterName, plntName = CheckPlayerOnPlntXZ( playerPos )
+	if isOnPlntXZ then
+		if CheckPlayerOnPlntY(playerPos, clusterName, plntName ) then
+			return 
+		end
+	end
+	
+	
+	
+	local MB_COMMAND_POS = { 9, 0.8, -42 } 
+	if isUseMissionStartPos then 
+		TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "gvars", "ply_missionStartPos", 0, MB_COMMAND_POS[1])
+		TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "gvars", "ply_missionStartPos", 1, MB_COMMAND_POS[2])
+		TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "gvars", "ply_missionStartPos", 2, MB_COMMAND_POS[3])
+		Fox.Log("Restore mission start position for btk:44624")
+	else
+		TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "vars", "initialPlayerPosX", MB_COMMAND_POS[1])
+		TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "vars", "initialPlayerPosY", MB_COMMAND_POS[2])
+		TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "vars", "initialPlayerPosZ", MB_COMMAND_POS[3])
+		
+		local sequenceIndex = TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "svars", "seq_sequence" )
+		if 	9 <= sequenceIndex and sequenceIndex <= 16 then 
+			TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "svars", "seq_sequence", 8 ) 
+			TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT, "svars", "isPazRoomStart", false ) 
+		end
+		Fox.Log("Restore player initial position for btk:44624")
+	end
+end
 
 return this

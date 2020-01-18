@@ -68,6 +68,19 @@ function this.InitializeOnStartTitle()
   this.InitializeOnNewGameAtFirstTime()
   this.InitializeOnNewGame()
 end
+function this.ClearAllVarsAndSlot()--RETAILPATCH: 1006
+  vars.locationCode=TppDefine.LOCATION_ID.INIT
+  vars.missionCode=TppDefine.SYS_MISSION_ID.INIT
+  TppScriptVars.InitForNewGame()
+  TppGVars.AllInitialize()
+  TppSave.VarSave(TppDefine.SYS_MISSION_ID.INIT,true)
+  TppSave.VarSaveConfig()
+  TppSave.VarSavePersonalData()
+  local i=TppSave.GetSaveGameDataQueue(vars.missionCode)
+  for a,e in ipairs(i.slot)do
+    TppScriptVars.CopySlot({i.savingSlot,e},e)
+  end
+end--
 function this.InitializeOnStatingMainFrame()
   local i=1024
   local e={[TppDefine.SAVE_SLOT.GLOBAL+1]=14*i,[TppDefine.SAVE_SLOT.CHECK_POINT+1]=65*i,[TppDefine.SAVE_SLOT.RETRY+1]=11*i,[TppDefine.SAVE_SLOT.MB_MANAGEMENT+1]=80.5*i+2688,[TppDefine.SAVE_SLOT.QUEST+1]=2*i,[TppDefine.SAVE_SLOT.MISSION_START+1]=10*i,[TppDefine.SAVE_SLOT.CHECK_POINT_RESTARTABLE+1]=10*i}

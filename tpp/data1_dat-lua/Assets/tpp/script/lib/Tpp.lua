@@ -1,4 +1,4 @@
--- DOBUILD: 1
+-- DOBUILD: 1 --
 local this={}
 local StrCode32=Fox.StrCode32
 --local type=type
@@ -85,7 +85,7 @@ this.requires={
 "/Assets/tpp/script/lib/InfButton.lua",
 "/Assets/tpp/script/lib/InfMenuDefs.lua",
 "/Assets/tpp/script/lib/InfMenu.lua",
-"/Assets/tpp/script/lib/InfPatch.lua",
+--CULL"/Assets/tpp/script/lib/InfPatch.lua",
 "/Assets/tpp/script/lib/InfEnemyParams.lua",
 "/Assets/tpp/script/lib/InfInspect.lua",
 "/Assets/tpp/script/lib/InfLZ.lua",

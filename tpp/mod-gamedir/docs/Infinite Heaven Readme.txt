@@ -1,9 +1,19 @@
 = Infinite heaven =
-r71 2015-11-09
+r74 2015-11-12
 by tin man tex
-For MGSV version 1.0.4.5 (1.04 in title screen)
+For MGSV version 1.0.6.0 (1.06 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
+
+Note for r74:
+With the 1.0.6.0 patch Konami swapped the file override order for 01.dat and 00.dat, snakebite support for this change is a little way off, till then run snakebitecustom in the Infinite Heaven r74 zip.
+This is a custom version hardcoded to install r74 to 00.dat with overwrite forced. This should be soon supersceded by a new official Snakebite version by LordRama/Topher.
+
+New in r74:
+New 'Show assets Menu' in Mother base Menu.
+Options: Show mother base assets, Big Boss posters, Nuke Elimination Monument, Sahelanthropus, Eli (in theory, haven't actually seen him though), Code Talker (the game doesn't animate or have collision for him).
+Option: Don't lock goal doors - useless unless you like swishing doors.
+Option: Don't disable Ocelot after cutscenes - with this you can leave Occelot on MB in person after some cutscenes.
 
 New in r71:
 All options that were previously bundled as part of subsistence profiles now individually setable.
@@ -21,7 +31,7 @@ Option: Resupply in #missions - the number of missions the enemy dispatch/resupp
 Fixed: Unlocking sideops would conflict with other sideop in area
 
 Want to help out?
------------------
+------------------------------
 
 Translation: Check out the file InfLang.txt in the infinite heaven .zip and see what you can do. Contact me by pm if you want more detail/want to send me your translation. You will be credited in the main infinite heaven description for your kind work.
 
@@ -79,8 +89,6 @@ Play selected mother base cutscene - Can choose from many of the mother base cut
 Patchups:
 Unlock playable avatar - unlock avatar before mission 46
 
-Return Quiet - returns quiet. Not reversable, but not run by default.
-
 Retail Bug fixes:
 Enemies Revenge system level for Fulton was fulton was 0 low, 1 blank, 2 high, now 0 blank 1 low 2 high.
 
@@ -88,10 +96,12 @@ By design I try to keep the initial install to all regular game settings and onl
 All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. A future version of snakebite will allow easily toggling of mods.
 
 Disclaimers:
+------------------------------
 Use the mod at you own risk (which can be mitigated by backing up saves and files replaced by mod)
 This mod is still largely untested, feedback at Nexus page welcome.
 
 Thanks:
+------------------------------
 Kojima Productions for the great game
 Sergeanur for qartool
 atvaark for his fox tools
@@ -103,6 +113,7 @@ rikimtasu for Chinese translation
 All the mod users on nexus for trying the mod and bug reports
 
 Preperation/insurance:
+------------------------------
 Back up your save files for safety
 <steam path>\userdata\<user id>\287700 and
 <steam path>\userdata\<user id>\311340
@@ -129,6 +140,7 @@ If it gets stuck at 0% for more than a few minutes steam is being stupid, valida
 It should say 1 file needs to be redownloaded, so go to steam downloads and make sure that happens.
 
 Instalation:
+------------------------------
 Use SnakeBite Mod Manager 0.5 or later: nexusmods.com/metalgearsolidvtpp/mods/106/
 Uninstall any earlier version of Infinite Heaven
 Install Infinite Heaven.msgv
@@ -136,11 +148,13 @@ Install Infinite Heaven.msgv
 WARNING: Applying this mod to any game version after the one stated at the top of the readme involved will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
 
 Uninstallation:
+------------------------------
 Exit any missions, return to the ACC.
 The mod saves some varables to the save file, but on initial testing (I welcome feedback on this) there is no issue with loading a save from this mod after the mod has been removed (provided you have exited to ACC)
 Use uninstall in SnakeBite.
 
 Usage:
+------------------------------
 While in ACC Heli (full menu), or in-mission (small menu)
 Hold the weapon <Reload> button (default R on keyboard, or B on controller) for a second to toggle the mod menu when in the ACC
 Or hold <Quick dive> (space key or X button)when in mission.
@@ -176,9 +190,25 @@ When changing General Enemy Parameters back to Default you must exit to title to
 
 There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
 
-
 Changelog:
-r71 - r71 2015-11-09 - public release
+------------------------------
+r74 - 2015-11-12 - public release
+Update to 1.0.6.0
+
+r73
+Options: Show mother base assets, mbShowBigBossPosters,mbShowMbEliminationMonument,mbShowSahelan,mbShowEli,mbShowCodeTalker - thanks qwertyuiop1234567899 for the suggestion
+Option: Don't lock goal doors. Useless unless you like swishing doors.
+Option: Don't disable Ocelot after cutscenes - with this you can leave Occelot on mb in person after some cutscenes.
+
+r72
+Fixed: enemies secondary not being set
+ModStart to Init, no longer run each Update
+Shifted lua file references into the Tpp.lua requires system, in line with how tpp does it. start.lua now unmoddified.
+
+r71a
+Fix: dev setting startoffline was on
+
+r71 - 2015-11-09 - public release
 Command: ResetRevenge/Enemy preparedness - thanks for the prodding TruckerHatRyan
 Option: revengeBlockForMissionCount
 Revenge options _SetUiParameters 
@@ -190,7 +220,7 @@ Ivar: default to range.min if not set
 r70
 Weapon OSP submenu to Player restrictions
 More options broken out from subsistence profile:
-Hand equipment levels. Own profile and menu. - thanks snsonic for suggestion
+Hand equipment levels. Own profile and menu. - thanks for suggestion snsonic
 Fulton and Wormhole equipment levels, including 0/Disable. Own profile and menu.
 disableBuddies, disableHeliAttack
 disableSelectVehicle, disableSelectTime

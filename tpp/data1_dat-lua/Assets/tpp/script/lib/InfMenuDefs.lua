@@ -1,4 +1,4 @@
--- DOBUILD: 1
+-- DOBUILD: 1 --
 --MOVE? this is data not lib
 local this={}
 
@@ -142,7 +142,7 @@ this.DEBUG_Item2={--DEBUGNOW
 }
 
 
-this.returnQuietItem={
+--[[ CULL this.returnQuietItem={
   range=this.switchRange,
   settingNames="set_quiet_return",
   OnChange=function()
@@ -152,7 +152,7 @@ this.returnQuietItem={
       InfPatch.QuietReturn()
     end
   end,
-}
+}--]]
 
 this.resetRevenge={
   range=this.switchRange,
@@ -225,7 +225,7 @@ this.demosMenu={
 this.patchupMenu={
   options={
     Ivars.unlockPlayableAvatar,
-    this.returnQuietItem,
+    --CULL this.returnQuietItem,
     Ivars.langOverride,
     this.showLangCodeItem,
     this.showPositionItem,

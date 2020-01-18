@@ -1,4 +1,3 @@
--- DOBUILD: 0
 local function yield()
   coroutine.yield()
 end

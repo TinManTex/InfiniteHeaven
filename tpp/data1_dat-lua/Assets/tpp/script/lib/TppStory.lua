@@ -1533,6 +1533,9 @@ function this.UpdateStorySequenceOnMissionClear(n)
   this.UpdateMissionCleardFlag(n)
   this.DecreaseElapsedMissionClearCount()
   this.UpdateDemoFlagQuietWishGoMission()
+  if n~=10050 then--RETAILPATCH: 1060
+    this.ResetCounterReunionQuiet()
+  end--
   local e=this._UpdateStorySequence()
   TppTerminal.AcquirePrivilegeStaff()
   return e
@@ -1684,6 +1687,27 @@ function this.IsOccuringBossQuiet()
     return false
   end
 end
+function this.RequestReunionQuiet()--RETAILPATCH: 1060
+  TppBuddyService.UnsetBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)
+  TppBuddyService.SetObtainedBuddyType(BuddyType.QUIET)
+  TppBuddyService.SetSortieBuddyType(BuddyType.QUIET)
+  TppBuddyService.UnsetBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_DYING)
+  TppBuddyService.SetFriendlyPoint(BuddyFriendlyType.QUIET,100)
+  this.ResetCounterReunionQuiet()
+  TppMotherBaseManagement.RefreshQuietStatus()
+end
+function this.UpdateCounterReunionQuiet()
+  gvars.str_quietReunionMissionCount=gvars.str_quietReunionMissionCount+1
+end
+function this.ResetCounterReunionQuiet()
+  gvars.str_quietReunionMissionCount=0
+end
+function this.CanPlayReunionQuietMission()
+  return gvars.str_quietReunionMissionCount>=TppDefine.QUIET_REUNION_MISSION_COUNT
+end
+function this.CanReunionQuiet()
+  return gvars.str_quietReunionMissionCount>TppDefine.QUIET_REUNION_MISSION_COUNT
+end--
 function this.CanArrivalQuietInMB(n)
   local disObtainQuiet=TppBuddy2BlockController.DidObtainBuddyType(BuddyType.QUIET)
   local notInHospital=not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_HOSPITALIZE)

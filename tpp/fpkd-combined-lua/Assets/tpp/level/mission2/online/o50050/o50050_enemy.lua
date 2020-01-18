@@ -4,7 +4,7 @@ local StrCode32Table = Tpp.StrCode32Table
 
 this.requires = {}
 
-local TIME_CHECK_FOCUS_AREA = 3*60	
+local TIME_CHECK_FOCUS_AREA = 1*60	
 
 local TIMER_NAME_CHECK_FOCUS_AREA = "CheckFocusArea"
 local TIMER_NAME_PERMIT_SEARCHING_DEFENDER = "PermitSearchingDefender"
@@ -352,6 +352,10 @@ end
 
 this.SetTimerCheckFocusArea = function()
 	GkEventTimerManager.StartRaw(TIMER_NAME_CHECK_FOCUS_AREA, TIME_CHECK_FOCUS_AREA )
+end
+
+this.SetTimerCheckFocusArea_1st = function()
+	GkEventTimerManager.StartRaw(TIMER_NAME_CHECK_FOCUS_AREA, math.random(1,5) )
 end
 
 this.SetupPracticeMode = function()

@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- NODEPS
 local this={}
 
 local incrementMultIncrementMult=1.5--tex i r good at naming

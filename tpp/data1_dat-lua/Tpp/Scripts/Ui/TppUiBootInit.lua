@@ -11,12 +11,21 @@ if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   dofile"Tpp/Scripts/Ui/MgoUiBlocksConfig.lua"
   TppUiCommand.CreateResidentBlockController(152720,"/Assets/mgo/pack/ui/ui_resident_data.fpk")
 elseif TppGameSequence.GetGameTitleName()=="TPP"then
-  TppUiCommand.CreateResidentBlockController(338*1024,"/Assets/tpp/pack/ui/ui_resident_data.fpk")
+if TppGameSequence.GetTargetArea()=="ChinaKorea"then--RETAILPATCH: 1006 added _ck
+TppUiCommand.CreateResidentBlockController(348*1024,"/Assets/tpp/pack/ui/ui_resident_data_ck.fpk")
+else
+TppUiCommand.CreateResidentBlockController(338*1024,"/Assets/tpp/pack/ui/ui_resident_data.fpk")
+end
 else
   TppUiCommand.CreateResidentBlockController(460*1024,"/Assets/tpp/pack/ui/gz/gz_ui_resident_data.fpk")
 end
 TppUiCommand.UiPlatFormSetting()
-TppUiCommand.UiAreaSetting()LanguageBlock.Create(610*1024)LanguageBlock.Create(96*1024)
+TppUiCommand.UiAreaSetting()
+if TppGameSequence.GetTargetArea()=="ChinaKorea"then--RETAILPATCH: 1006 added _ck
+LanguageBlock.Create(640*1024)LanguageBlock.Create(96*1024)
+else
+LanguageBlock.Create(660*1024)LanguageBlock.Create(96*1024)
+end
 if Fox.GetPlatformName()=="Windows"then
   if Editor then
     TppUiCommand.SetVarsLanguage(8)

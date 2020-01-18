@@ -1,6 +1,5 @@
 -- DOBUILD: 1
 local this={}
-
 local ApendArray=Tpp.ApendArray
 local n=Tpp.DEBUG_StrCode32ToString
 local IsTypeFunc=Tpp.IsTypeFunc
@@ -22,7 +21,7 @@ local onMessageTableSize=0
 local messageExecTable={}
 local h={}
 local messageExecTableSize=0
-local function n()--tex NMC: cant actually see this referenced anywhere
+local function n()--NMC: cant actually see this referenced anywhere
   if QuarkSystem.GetCompilerState()==QuarkSystem.COMPILER_STATE_WAITING_TO_LOAD then
     QuarkSystem.PostRequestToLoad()
     coroutine.yield()
@@ -73,8 +72,7 @@ function this.DisableBlackLoading()
 end
 function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")--DEBUG
-  --local dbb=SplashScreen.Create("dbbonal","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
-  --SplashScreen.Show(dbb,0,0.1,0)--tex dog
+  --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUGNOW
   
   TppWeather.OnEndMissionPrepareFunction()
   this.DisableGameStatus()
@@ -196,9 +194,11 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       end
       TppVarInit.ClearIsContinueFromTitle()
     end
-    --TppUiCommand.ExcludeNonPermissionContents()--RETAILPATCH: 1.0.4.1 --tex trying to lock down dlc mods?
+    TppUiCommand.ExcludeNonPermissionContents()--RETAILPATCH: 1.0.4.1 --tex trying to lock down dlc mods?
     TppStory.SetMissionClearedS10030()
-    TppTerminal.StartSyncMbManagementOnMissionStart()
+    if(not TppMission.IsDefiniteMissionClear())then--RETAILPATCH: 1060 check added
+      TppTerminal.StartSyncMbManagementOnMissionStart()
+    end
     if TppLocation.IsMotherBase()then
       if layoutCode~=vars.mbLayoutCode then
         if vars.missionCode==30050 then
@@ -208,8 +208,10 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
         end
       end
     end
+    TppPlayer.FailSafeInitialPositionForFreePlay()--RETAILPATCH: 1060
     this.StageBlockCurrentPosition(true)
     TppMission.SetSortieBuddy()
+    TppMission.ResetQuietEquipIfUndevelop()--RETAILPATCH: 1060
     TppStory.UpdateStorySequence{updateTiming="BeforeBuddyBlockLoad"}
     if missionTable.sequence then
       local dbt=missionTable.sequence.DISABLE_BUDDY_TYPE
@@ -229,7 +231,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       end
     end
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then--tex ORIG: changed to issubs check, more robust even without my mod
-    if TppMission.IsActualSubsistenceMission() or Ivars.disableBuddies.setting==1 then--tex disablebuddy, was just IsSubsistenceMission
+    if TppMission.IsActualSubsistenceMission() or gvars.disableBuddies==1 then--tex disablebuddy, was just IsSubsistenceMission
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then
@@ -285,13 +287,11 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppCheckPoint.RegisterCheckPointList(missionTable.sequence.checkPointList)
   end
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate end")--DEBUG
-  --local dbe=SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
-  --SplashScreen.Show(dbe,0,0.1,0)--tex dog
+  --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUGNOW
 end
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize begin")--DEBUG
-  --local dbb=SplashScreen.Create("dbbinin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
-  --SplashScreen.Show(dbb)--tex eagle
+  --SplashScreen.Show(SplashScreen.Create("dbbinin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640))--tex eagle--tex ghetto as 'does it run?' indicator
   
   if TppMission.IsFOBMission(vars.missionCode)then
     TppMission.SetFobPlayerStartPoint()
@@ -468,8 +468,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   TppQuest.AcquireKeyItemOnMissionStart()
   
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize end")--DEBUG
-  --local dbe=SplashScreen.Create("dbeonin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
-  --SplashScreen.Show(dbe,0,0.1,0)--tex eagle
+  --SplashScreen.Show(SplashScreen.Create("dbeonin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.1,0)--tex eagle--tex ghetto as 'does it run?' indicator
 end
 function this.SetUpdateFunction(e)
   updateList={}

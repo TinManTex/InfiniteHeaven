@@ -5,9 +5,11 @@ if GrTools then
 end
 local n=true
 if not AssetConfiguration.IsDiscOrHddImage()then
-  n=AssetConfiguration.GetConfigurationFromAssetManager"EnableWindowsDX11Texture"end
+  n=AssetConfiguration.GetConfigurationFromAssetManager"EnableWindowsDX11Texture"
+  end
 if e=="Windows"then
-  AssetConfiguration.SetDefaultTargetDirectory"#Win"if n then
+  AssetConfiguration.SetDefaultTargetDirectory"#Win"
+  if n then
     AssetConfiguration.SetTargetDirectory("ftex","#windx11")
     AssetConfiguration.SetTargetDirectory("ftexs","#windx11")
     AssetConfiguration.SetTargetDirectory("pftxs","#windx11")
@@ -93,7 +95,7 @@ end
 if GrDaemon then
   GrTools():EnableTextureStreaming()
   if(e=="Windows"or e=="XboxOne")or e=="PS4"then
-    GrTools.FontSystemInit((((1024*1024)*2)+(1024*200)))
+    GrTools.FontSystemInit((((1024*1024)*2)+(1024*500)))--RETAILPATCH: 1006 was *200
   else
     GrTools.FontSystemInit((((1024*1024)*1)+(1024*700)))
   end

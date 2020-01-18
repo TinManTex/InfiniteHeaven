@@ -1779,6 +1779,7 @@ sequences.Seq_Demo_Ending1 = {
 		
 		if vars.buddyType == BuddyType.DOG then
 			Fox.Log( "**********vars.buddyType is BuddyType.DOG :  TppBuddy2BlockController.Load() start ")
+			TppBuddy2BlockController.ReserveCallBuddy( BuddyType.NONE, BuddyInitStatus.NORMAL, Vector3(0, 0, 0), 0.0 )
 			TppBuddy2BlockController.Load()
 		else
 			Fox.Log( "**********vars.buddyType ~= BuddyType.DOG********************")

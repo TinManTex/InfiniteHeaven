@@ -1,9 +1,9 @@
--- DOBUILD: 1
+-- DOBUILD: 1 --
 --tex mostly acting as InfDefine at the moment
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion = "r73"
+this.modVersion = "r74"
 this.modName = "Infinite Heaven"
 
 --LOCALOPT:

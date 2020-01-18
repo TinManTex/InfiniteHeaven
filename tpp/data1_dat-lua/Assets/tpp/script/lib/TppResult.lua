@@ -165,6 +165,7 @@ TppTrophy.Unlock(11)
 end
 a=e.UpdateGmpOnMissionClear(vars.missionCode,t,n)
 if vars.totalBatteryPowerAsGmp then
+TppUiCommand.SetResultBatteryGmp(vars.totalBatteryPowerAsGmp)--RETAILPATCH: 1060 added
 TppTerminal.UpdateGMP{gmp=vars.totalBatteryPowerAsGmp}
 end
 e.SetBestRank(vars.missionCode,t)
@@ -197,7 +198,7 @@ end
 end
 function e.RegistUsedLimitedItemLangId()
 mvars.res_isUsedRankLimitedItem=false
-local e={{PlayerPlayFlag.USE_CHICKEN_CAP,"name_st_chiken"},{PlayerPlayFlag.USE_STEALTH,"name_it_12043"},{PlayerPlayFlag.USE_INSTANT_STEALTH,"name_it_12040"},{PlayerPlayFlag.USE_FULTON_MISSILE,"name_dw_31007"},{PlayerPlayFlag.USE_PARASITE_CAMO,"name_it_13050"},{PlayerPlayFlag.USE_MUGEN_BANDANA,"name_st_37002"}}
+local e={{PlayerPlayFlag.USE_CHICKEN_CAP,"name_st_chiken"},{PlayerPlayFlag.USE_STEALTH,"name_it_12043"},{PlayerPlayFlag.USE_INSTANT_STEALTH,"name_it_12040"},{PlayerPlayFlag.USE_FULTON_MISSILE,"name_dw_31007"},{PlayerPlayFlag.USE_PARASITE_CAMO,"name_it_13050"},{PlayerPlayFlag.USE_MUGEN_BANDANA,"name_st_37002"},{PlayerPlayFlag.USE_HIGHGRADE_EQUIP,"result_spcialitem_etc"}}--RETAILPATCH: 1060 higrade added
 for t,e in ipairs(e)do
 local e,t=e[1],e[2]
 if e then

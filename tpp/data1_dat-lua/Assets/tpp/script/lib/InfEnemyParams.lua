@@ -1,4 +1,5 @@
--- DOBUILD: 1
+-- DOBUILD: 1 --
+-- NODEPS
 --tex SYS: enemyparams
 local this={}
 --tex soldier2parametertables shiz RETRY Solider2ParameterTables.lua aparently can't be referenced even though there's a TppSolder2Parameter string in the exe, load hang on trying to do anything with it (and again no debug feedback to know why the fuck anything)

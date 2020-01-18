@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- NODEPS
 --TODO: MOVE this is data not lib
 local this={}
 --InfLang for Infinite Heaven r63
@@ -48,7 +49,7 @@ this.eng={--english
   startOnFoot="Start missions on foot",
   clockTimeScale="Clock time scale",
   unlockPlayableAvatar="Unlock playable avatar",
-  returnQuietItem="Return Quiet (not reversable)",
+  --CULL returnQuietItem="Return Quiet (not reversable)",
   quiet_already_returned="Quiet has already returned.",
   subsistenceProfile="Subsistence Mode",
   revengeMode="Enemy Preparedness",
@@ -165,7 +166,7 @@ this.cht={--chinese traditional, translation by rikimtasu,  unconfirmed lang cod
   startOnFoot="徒步开始任务",
   clockTimeScale="时钟时间比例",
   unlockPlayableAvatar="解锁Avatar",
-  returnQuietItem="静静回归 (不可逆转)",
+  --CULL returnQuietItem="静静回归 (不可逆转)",
   quiet_already_returned="静静已经回来了.",
   subsistenceProfile="Subsistence 模式",
   revengeMode="敌人准备度",

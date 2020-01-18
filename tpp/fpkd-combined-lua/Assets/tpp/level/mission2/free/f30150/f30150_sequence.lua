@@ -21,8 +21,8 @@ local PlayerDisableActionFlagInBirdCage = PlayerDisableAction.KILLING_WEAPON + P
 
 local VISIBLE_ANIMALS = {
 	{ TppMotherBaseManagementConst.ANIMAL_100, "TppWolf", "anml_wolf_00", nil, animalKey = "Wolf", isGot = false },				
-	{ TppMotherBaseManagementConst.ANIMAL_110, "TppJackal", "anml_jackal_00", 0, animalKey = "Jackal", isGot = false },			
-	{ TppMotherBaseManagementConst.ANIMAL_120, "TppJackal", "anml_jackal_01", 1, animalKey = "Jackal", isGot = false },			
+	{ TppMotherBaseManagementConst.ANIMAL_110, "TppJackal", "anml_jackal_00", 1, animalKey = "Jackal", isGot = false },			
+	{ TppMotherBaseManagementConst.ANIMAL_120, "TppJackal", "anml_jackal_01", 0, animalKey = "Jackal", isGot = false },			
 	{ TppMotherBaseManagementConst.ANIMAL_130, "TppJackal", "anml_jackal_02", 2, animalKey = "Jackal", isGot = false }, 		
 
 	{ TppMotherBaseManagementConst.ANIMAL_200, "TppZebra", "anml_Zebra_00", 0, animalKey = "Zebra", isGot = false },			

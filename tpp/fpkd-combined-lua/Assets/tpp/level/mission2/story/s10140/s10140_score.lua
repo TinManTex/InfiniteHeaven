@@ -21,7 +21,7 @@ else
 			
 			
 			
-			S = 840, A = 800, B = 890, C = 980, D = 1100, E = 2000, 
+			S = 840, A = 860, B = 890, C = 980, D = 1100, E = 2000, 
 		},
 		tacticalTakeDownPoint = { countLimit = 15 },
 	}

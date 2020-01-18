@@ -1,4 +1,4 @@
--- DOBUILD: 1
+-- DOBUILD: 0
 -- tex patch functions
 local this={}
 

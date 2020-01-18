@@ -1,4 +1,5 @@
--- DOBUILD: 1
+-- DOBUILD: 1 --
+-- NODEPS
 local this = {}
 local StrCode32=Fox.StrCode32
 

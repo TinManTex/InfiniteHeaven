@@ -395,6 +395,14 @@ function a.QAReleaseDebugUpdate()
   if(vars.fobSneakMode==FobMode.MODE_SHAM)and(not((vars.missionCode==50050)or(TppMission.IsHelicopterSpace(vars.missionCode))))then
     Print(newContext,{1,.5,.5},"Now vars.fobSneakMode isFobMode.MODE_SHAM, but not fob mission. Call scripter!!!!!!")
   end
+  if TppSave.DEBUG_EraseAllGameDataCounter then--RETAILPATCH: 1060
+    if TppSave.DEBUG_EraseAllGameDataCounter>0 then
+      Print(newContext,{1,.5,.5},"TppSave.EraseAllGameDataSaveRequest : erase game data save request!")
+      TppSave.DEBUG_EraseAllGameDataCounter=TppSave.DEBUG_EraseAllGameDataCounter-Time.GetFrameTime()
+      else
+      TppSave.DEBUG_EraseAllGameDataCounter=nil
+    end
+  end--
   if o.qaDebug.forceCheckPointSave then
     o.qaDebug.forceCheckPointSave=false
     TppMission.UpdateCheckPoint{ignoreAlert=true,atCurrentPosition=true}

@@ -1,4 +1,4 @@
--- DOBUILD: 1
+-- DOBUILD: 1 --
 --tex Ivar system
 --combines gvar setup, enums, functions per setting in one ungodly mess.
 local this={}
@@ -878,8 +878,7 @@ function this.DeclareVars()
           svarType=TppScriptVars.TYPE_INT32
         else
           ok=false
-          local debugSplash=SplashScreen.Create("svarfail","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
-          SplashScreen.Show(debugSplash,0,0.3,0)--tex dog
+          SplashScreen.Show(SplashScreen.Create("svarfail","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
         end
 
         local svar={name=name,type=svarType,value=ivar.default,save=true,sync=false,wait=false,category=ivar.save}--tex what is sync? think it's network synce, but MakeSVarsTable for seqences sets it to true for all (but then 50050/fob does make a lot of use of it)          

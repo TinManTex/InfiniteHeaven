@@ -26,8 +26,8 @@ local g=2.5
 local r="Timer_outsideOfInnerZone"
 local c=0
 local M=64
-local y=2
-local h=4
+local y=1--RETAILPATCH 1060 was 2
+local h=3--RETAILPATCH 1060 was 4
 local I=(24*60)*60
 local u=2
 local u=TppDefine.MAX_32BIT_UINT
@@ -43,6 +43,9 @@ end
 function this.GetMissionClearType()
   return svars.mis_missionClearType
 end
+function this.IsDefiniteMissionClear()--RETAILPATCH: 1060
+  return svars.mis_isDefiniteMissionClear
+end--
 function this.RegiserMissionSystemCallback(n)
   this.RegisterMissionSystemCallback(n)
 end
@@ -1370,6 +1373,15 @@ function this.ExecuteMissionFinalize()
       this.ResetMBFreeStartPositionToCommand()
     end
     this.VarResetOnNewMission()
+    if(vars.missionCode==10240)then--RETAILPATCH: 1060 added
+      local e=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
+      if e then
+        local e=TppDefine.LOCATION_ID[e]
+        if e then
+          vars.locationCode=e
+        end
+      end
+    end--
     TppSave.VarSave()
     this.SetHeroicAndOgrePointInSlot(i,n)
     TppSave.SaveGameData(vars.missionCode)
@@ -3021,6 +3033,7 @@ function this.OnMissionGameEndFadeOutFinish2nd()
   this.ExecuteVehicleSaveCarryOnClear()
   this.ForceGoToMbFreeIfExistMbDemo()
   if not this.IsFOBMission(gvars.mis_nextMissionCodeForMissionClear)then
+    TppSave.EraseAllGameDataSaveRequest()--RETAILPATCH: 1060
     TppSave.VarSave()
   end
   StartTimer("Timer_MissionGameEndStart2nd",.1)
@@ -3551,6 +3564,13 @@ function this.SetSortieBuddy()
     end
   end
 end
+function this.ResetQuietEquipIfUndevelop()--RETAILPATCH: 1060
+  if vars.buddyQuietEquipType==4 then
+    if not TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=6094}then
+      TppBuddyService.SetVarsQuietWeaponType(0)
+    end
+  end
+end--
 local mbMission={[30050]=true,[50050]=true}
 local clearType={[TppDefine.MISSION_CLEAR_TYPE.ON_FOOT]=true,[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER]=true,[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_VEHILCE]=true,[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_FULTON_CONTAINER]=true}
 function this.ForceGoToMbFreeIfExistMbDemo()

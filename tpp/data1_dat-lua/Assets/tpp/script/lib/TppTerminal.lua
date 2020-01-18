@@ -15,7 +15,54 @@ this.keyItemRewardTable={[TppMotherBaseManagementConst.DESIGN_3013]="key_item_30
 this.parasiteSquadFultonResouceId={[Fox.StrCode32"Cam"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CAMOFLA,5},[Fox.StrCode32"Fog"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_FOG,5},[Fox.StrCode32"Metal"]={TppMotherBaseManagementConst.RESOURCE_ID_PARASITE_CURING,5}}
 this.MOTHER_BASE_SECTION_LIST={"Combat","BaseDev","Spy","Medical","Security","Hospital","Prison","Separation"}
 local tppMotherBaseManagementConst=TppMotherBaseManagementConst or{}
-local E={Combat={DispatchSoldier=tppMotherBaseManagementConst.SECTION_FUNC_ID_COMBAT_DEPLOY,DispatchFobDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_COMBAT_DEFENCE},Develop={Weapon=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_WEAPON,SupportHelicopter=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_HELI,Quiet=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_QUIET,D_Dog=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_DOG,D_Horse=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_HORSE,D_Walker=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_WALKER,BattleGear=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_BATTLE_GEAR,SecurityDevice=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_SECURITY_DEVICE},BaseDev={Mining=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_RESOURCE_MINING,Processing=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_RESOURCE_PROCESSING,Extention=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_PLATFORM_EXTENTION,Construct=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_FOB_CONSTRUCT,NuclearDevelop=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_NUCLEAR_DEVELOP},Support={Fulton=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON,Supply=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SUPPLY,Battle=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_BATTLE,BattleArtillery=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_STRIKE,BattleSmoke=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SMOKE,BattleSleepGas=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SLEEP_GAS,BattleChaff=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_CHAFF,BattleWeather=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_WEATHER,TranslationRussian=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_RUSSIAN_TRANSLATE,TranslationAfrikaans=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_AFRIKAANS_TRANSLATE,TranslationKikongo=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_KIKONGO_TRANSLATE,TranslationPashto=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_PASHTO_TRANSLATE},Spy={Information=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_MISSION_INFO_COLLECTING,Scouting=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_ENEMY_SEARCH,SearchResource=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_RESOURCE_SEARCH,WeatherInformation=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_WEATHER_INFO},Medical={Emergency=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY,Treatment=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_TREATMENT},Security={BaseDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_STAFF,MachineDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_MACHINE,BaseBlockade=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_BLOCKADE,SecurityInfo=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_SECURITY_INFO}}
+local E={
+Combat={
+DispatchSoldier=tppMotherBaseManagementConst.SECTION_FUNC_ID_COMBAT_DEPLOY,
+DispatchFobDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_COMBAT_DEFENCE},
+Develop={
+Weapon=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_WEAPON,
+SupportHelicopter=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_HELI,
+Quiet=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_QUIET,
+D_Dog=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_DOG,
+D_Horse=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_HORSE,
+D_Walker=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_D_WALKER,
+BattleGear=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_BATTLE_GEAR,
+SecurityDevice=tppMotherBaseManagementConst.SECTION_FUNC_ID_DEVELOP_SECURITY_DEVICE},
+BaseDev={
+Mining=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_RESOURCE_MINING,
+Processing=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_RESOURCE_PROCESSING,
+Extention=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_PLATFORM_EXTENTION,
+Construct=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_FOB_CONSTRUCT,
+NuclearDevelop=tppMotherBaseManagementConst.SECTION_FUNC_ID_BASE_DEV_NUCLEAR_DEVELOP},
+Support={
+Fulton=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON,
+Supply=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SUPPLY,
+Battle=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_BATTLE,
+BattleArtillery=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_STRIKE,
+BattleSmoke=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SMOKE,
+BattleSleepGas=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_SLEEP_GAS,
+BattleChaff=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_CHAFF,
+BattleWeather=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_WEATHER,
+TranslationRussian=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_RUSSIAN_TRANSLATE,
+TranslationAfrikaans=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_AFRIKAANS_TRANSLATE,
+TranslationKikongo=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_KIKONGO_TRANSLATE,
+TranslationPashto=tppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_PASHTO_TRANSLATE},
+Spy={
+Information=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_MISSION_INFO_COLLECTING,
+Scouting=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_ENEMY_SEARCH,
+SearchResource=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_RESOURCE_SEARCH,
+WeatherInformation=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_WEATHER_INFO},
+Medical={
+Emergency=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY,
+Treatment=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_TREATMENT,
+AntiReflex=tppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_ANTI_REFLEX},--RETAILPATCH: 1060
+Security={
+BaseDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_STAFF,
+MachineDefence=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_DEFENCE_MACHINE,
+BaseBlockade=tppMotherBaseManagementConst.SECTION_FUNC_ID_SECURITY_BASE_BLOCKADE,
+SecurityInfo=tppMotherBaseManagementConst.SECTION_FUNC_ID_SPY_SECURITY_INFO
+}
+}
 this.setUpMenuList={}
 this.MBDVCMENU={
   ALL="all",
@@ -522,6 +569,7 @@ function this.AcquirePrivilegeStaff()
       end
     end
   end
+  gvars.mb_isRecoverd_dlc_staffs=true--RETAILPATCH: 1060
 end
 function this._AcquireGzPrivilegeStaff(uniqueStaffType)
   return this._AcquirePrivilegeStaff(uniqueStaffType,"fromGZ")
@@ -588,9 +636,15 @@ function this.AcquireDlcItemKeyItem()
     TppMotherBaseManagement.DirectAddDataBase{dataBaseId=dataBaseId,isNew=true}
     return true
   end
-  local function funcRemove(n,e)--RETAILPATCH: 1.0.4.1
-    local dataBaseId=dlcList[e]
-    TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=dataBaseId}
+  local function funcRemove(a,e)--RETAILPATCH: 1060
+    local a=Fox.GetPlatformName()
+    local daraBaseId=dlcList[e]
+    if a=="Xbox360"or a=="XboxOne"then
+      if((daraBaseId==t.EXTRA_4025)or(daraBaseId==t.EXTRA_4003))or(daraBaseId==t.EXTRA_4008)then
+        return false
+      end
+    end
+     TppMotherBaseManagement.DirectRemoveDataBase{dataBaseId=dataBaseId}
     return true
   end--
   for n,t in pairs(dlcList)do
@@ -621,7 +675,7 @@ function this.AcquireGzPrivilege(e,t)
   if not TppUiCommand.CheckGzSaveDataFlag(e)then
     return
   end
-  if TppUiCommand.CheckGzPrivilegeAcquiredFlag(e)then
+  if TppUiCommand.CheckGzPrivilegeAcquiredFlag(e)and gvars.mb_isRecoverd_dlc_staffs then--RETAILPATCH 1060 gvar added
     return
   end
   if not Tpp.IsTypeFunc(t)then
@@ -657,7 +711,7 @@ function this.EraseDlcItem(e,t,n)
   if not Tpp.IsTypeFunc(t)then
     return
   end
-  local t=t(e,n)
+  local t=true--RETAILPATCH: 1060 was t(e,n)
   if t then
     TppUiCommand.ResetDlcAcquired(e)
   end
@@ -2066,7 +2120,8 @@ this.SectionFuncOpenCondition={
   SecurityDevice=this.IsConstructedFirstFob},
   BaseDev={Mining=true,Processing=true,Extention=true,Construct=this.IsCleardRetakeThePlatform,NuclearDevelop=this.IsReleaseFunctionNuclearDevelop},
   Support={Fulton=true,Supply=true,Battle=this.IsReleaseFunctionBattle,BattleArtillery=this.IsReleaseFunctionBattle,BattleSmoke=this.IsReleaseFunctionBattle,BattleSleepGas=this.IsReleaseFunctionBattle,BattleChaff=this.IsReleaseFunctionBattle,BattleWeather=this.IsReleaseFunctionBattle},
-  Spy={Information=true,Scouting=true,SearchResource=true,WeatherInformation=true},Medical={Emergency=true,Treatment=true},
+  Spy={Information=true,Scouting=true,SearchResource=true,WeatherInformation=true},
+  Medical={Emergency=true,Treatment=true,AntiReflex=this.IsConstructedFirstFob},--RETAILPATCH: 1060 antireflex added
   Security={BaseDefence=true,MachineDefence=this.IsConstructedFirstFob,BaseBlockade=this.IsConstructedFirstFob,SecurityInfo=this.IsConstructedFirstFob}
 }
 function this.ReleaseFunctionOfMbSection()

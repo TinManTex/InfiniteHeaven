@@ -836,6 +836,9 @@ this.QuietDown = function()
 	Fox.Log( "#### s10050_sequence.QuietDown ### isPlayerStayInDemoTrap = "..tostring(svars.isPlayerStayInDemoTrap) )
 	
 	
+	TppRadioCommand.StopDirect()
+
+	
 	TppSound.SetSceneBGMSwitch("Set_Switch_bgm_boss_phase_ed")
 
 	TppMission.UpdateObjective{	objectives = {"announce_defeatQuiet",}}
@@ -1789,10 +1792,18 @@ sequences.Seq_Demo_RideHeliWithQuiet = {
 		
 		
 		gvars.mbFreeDemoPlayRequestFlag[TppDefine.MB_FREEPLAY_DEMO_REQUESTFLAG_DEFINE.PlayAfterQuietBattle] = true
+				
 		
-		
-		if TppBuddyService.CheckBuddyCommonFlag( BuddyCommonFlag.BUDDY_QUIET_LOST ) then
-			Fox.Log("Now quiet lost. Ignore obtain quiet")
+		if TppBuddyService.CheckBuddyCommonFlag( BuddyCommonFlag.BUDDY_QUIET_LOST )
+		and TppStory.IsMissionCleard(10260) then
+			if vars.missionCode == 10050 then 
+				
+				TppStory.UpdateCounterReunionQuiet()
+				
+				if TppStory.CanReunionQuiet() then
+					TppStory.RequestReunionQuiet()
+				end
+			end
 		else
 			
 			
@@ -1807,6 +1818,7 @@ sequences.Seq_Demo_RideHeliWithQuiet = {
 				end
 			end
 		end
+		
 		
 		
 		
@@ -1888,6 +1900,11 @@ sequences.Seq_Game_QuietDead = {
 		svars.killCount = svars.killCount + 1
 		Tpp.IncrementPlayData( "totalKillCount" )
 
+		if vars.missionCode == 10050 then 
+			
+			TppStory.ResetCounterReunionQuiet()
+		end
+		
 	end,
 }
 

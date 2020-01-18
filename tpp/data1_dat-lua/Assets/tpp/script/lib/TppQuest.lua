@@ -178,143 +178,143 @@ local sideOpsTable={
 }
 local g={ruins_q19010={radioNameFirst="f1000_rtrg0700"},outland_q19011={radioNameFirst="f1000_rtrg4380"},hill_q19012={radioNameFirst="f1000_rtrg4390"},commFacility_q19013={radioNameFirst="f1000_rtrg4370"},tent_q20910={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},fort_q20911={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},sovietBase_q20912={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},outland_q20913={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},lab_q20914={radioNameFirst="f2000_rtrg8320",radioNameSecond="f2000_rtrg1560"},cliffTown_q99080={radioNameFirst="f2000_rtrg1561"}}
 local questCompleteLangIds={
-tent_q10010="quest_extract_elite",
-field_q10020="quest_extract_elite",
-ruins_q10030="quest_extract_elite",
-waterway_q10040="quest_extract_elite",
-cliffTown_q10050="quest_extract_elite",
-commFacility_q10060="quest_extract_elite",
-sovietBase_q10070="quest_extract_elite",
-fort_q10080="quest_extract_elite",
-citadel_q10090="quest_extract_elite",
-outland_q10100="quest_extract_elite",
-pfCamp_q10200="quest_extract_elite",
-savannah_q10300="quest_extract_elite",
-hill_q10400="quest_extract_elite",
-banana_q10500="quest_extract_elite",
-diamond_q10600="quest_extract_elite",
-lab_q10700="quest_extract_elite",
-tent_q11010="quest_defeat_armor",
-tent_q11020="quest_defeat_armor",
-waterway_q11030="quest_defeat_armor",
-cliffTown_q11040="quest_defeat_armor",
-cliffTown_q11050="quest_defeat_armor",
-fort_q11060="quest_defeat_armor",
-fort_q11070="quest_defeat_armor",
-commFacility_q11080="quest_defeat_armor",
-outland_q11090="quest_defeat_armor",
-outland_q11100="quest_defeat_armor",
-pfCamp_q11200="quest_defeat_armor",
-savannah_q11300="quest_defeat_armor",
-savannah_q11400="quest_defeat_armor",
-hill_q11500="quest_defeat_armor",
-banana_q11600="quest_defeat_armor",
-banana_q11700="quest_defeat_armor",
-tent_q71010="quest_defeat_zombie",
-field_q71020="quest_defeat_zombie",
-tent_q71030="quest_defeat_zombie",
-waterway_q71040="quest_defeat_zombie",
-cliffTown_q71050="quest_defeat_zombie",
-cliffTown_q71060="quest_defeat_zombie",
-sovietBase_q71070="quest_defeat_zombie",
-fort_q71080="quest_defeat_zombie",
-field_q71090="quest_defeat_zombie",
-outland_q71200="quest_defeat_zombie",
-savannah_q71300="quest_defeat_zombie",
-banana_q71400="quest_defeat_zombie",
-diamond_q71500="quest_defeat_zombie",
-lab_q71600="quest_defeat_zombie",
-lab_q71700="quest_defeat_zombie",
-quest_q20015="quest_extract_hostage",
-quest_q20025="quest_extract_hostage",
-quest_q20035="quest_extract_hostage",
-quest_q20045="quest_extract_hostage",
-quest_q20055="quest_extract_hostage",
-quest_q20065="quest_extract_hostage",
-quest_q20075="quest_extract_hostage",
-quest_q20085="quest_extract_hostage",
-quest_q20095="quest_extract_hostage",
-quest_q20105="quest_extract_hostage",
-quest_q20205="quest_extract_hostage",
-quest_q20305="quest_extract_hostage",
-quest_q20405="quest_extract_hostage",
-quest_q20505="quest_extract_hostage",
-quest_q20605="quest_extract_hostage",
-quest_q20705="quest_extract_hostage",
-quest_q20805="quest_extract_hostage",
-quest_q20905="quest_extract_hostage",
-quest_q21005="quest_extract_hostage",
-quest_q22005="quest_extract_hostage",
-quest_q23005="quest_extract_hostage",
-quest_q24005="quest_extract_hostage",
-quest_q25005="quest_extract_hostage",
-quest_q26005="quest_extract_hostage",
-quest_q27005="quest_extract_hostage",
-quest_q52010="quest_defeat_armor_vehicle",
-quest_q52020="quest_defeat_armor_vehicle",
-quest_q52030="quest_defeat_armor_vehicle",
-quest_q52040="quest_defeat_armor_vehicle",
-quest_q52050="quest_defeat_armor_vehicle",
-quest_q52060="quest_defeat_armor_vehicle",
-quest_q52070="quest_defeat_armor_vehicle",
-quest_q52080="quest_defeat_armor_vehicle",
-quest_q52090="quest_defeat_armor_vehicle",
-quest_q52100="quest_defeat_armor_vehicle",
-quest_q52110="quest_defeat_armor_vehicle",
-quest_q52120="quest_defeat_armor_vehicle",
-quest_q52130="quest_defeat_armor_vehicle",
-quest_q52140="quest_defeat_armor_vehicle",
-quest_q52015="quest_defeat_tunk",
-quest_q52025="quest_defeat_tunk",
-quest_q52035="quest_defeat_tunk",
-quest_q52045="quest_defeat_tunk",
-quest_q52055="quest_defeat_tunk",
-quest_q52065="quest_defeat_tunk",
-quest_q52075="quest_defeat_tunk",
-quest_q52085="quest_defeat_tunk",
-quest_q52095="quest_defeat_tunk",
-quest_q52105="quest_defeat_tunk",
-quest_q52115="quest_defeat_tunk",
-quest_q52125="quest_defeat_tunk",
-quest_q52135="quest_defeat_tunk",
-quest_q52145="quest_defeat_tunk",
-mtbs_q42020="quest_target_eliminate",
-mtbs_q42030="quest_target_eliminate",
-mtbs_q42040="quest_target_eliminate",
-mtbs_q42050="quest_target_eliminate",
-mtbs_q42060="quest_target_eliminate",
-mtbs_q42070="quest_target_eliminate",
-mtbs_q42010="quest_target_eliminate"}
+  tent_q10010="quest_extract_elite",
+  field_q10020="quest_extract_elite",
+  ruins_q10030="quest_extract_elite",
+  waterway_q10040="quest_extract_elite",
+  cliffTown_q10050="quest_extract_elite",
+  commFacility_q10060="quest_extract_elite",
+  sovietBase_q10070="quest_extract_elite",
+  fort_q10080="quest_extract_elite",
+  citadel_q10090="quest_extract_elite",
+  outland_q10100="quest_extract_elite",
+  pfCamp_q10200="quest_extract_elite",
+  savannah_q10300="quest_extract_elite",
+  hill_q10400="quest_extract_elite",
+  banana_q10500="quest_extract_elite",
+  diamond_q10600="quest_extract_elite",
+  lab_q10700="quest_extract_elite",
+  tent_q11010="quest_defeat_armor",
+  tent_q11020="quest_defeat_armor",
+  waterway_q11030="quest_defeat_armor",
+  cliffTown_q11040="quest_defeat_armor",
+  cliffTown_q11050="quest_defeat_armor",
+  fort_q11060="quest_defeat_armor",
+  fort_q11070="quest_defeat_armor",
+  commFacility_q11080="quest_defeat_armor",
+  outland_q11090="quest_defeat_armor",
+  outland_q11100="quest_defeat_armor",
+  pfCamp_q11200="quest_defeat_armor",
+  savannah_q11300="quest_defeat_armor",
+  savannah_q11400="quest_defeat_armor",
+  hill_q11500="quest_defeat_armor",
+  banana_q11600="quest_defeat_armor",
+  banana_q11700="quest_defeat_armor",
+  tent_q71010="quest_defeat_zombie",
+  field_q71020="quest_defeat_zombie",
+  tent_q71030="quest_defeat_zombie",
+  waterway_q71040="quest_defeat_zombie",
+  cliffTown_q71050="quest_defeat_zombie",
+  cliffTown_q71060="quest_defeat_zombie",
+  sovietBase_q71070="quest_defeat_zombie",
+  fort_q71080="quest_defeat_zombie",
+  field_q71090="quest_defeat_zombie",
+  outland_q71200="quest_defeat_zombie",
+  savannah_q71300="quest_defeat_zombie",
+  banana_q71400="quest_defeat_zombie",
+  diamond_q71500="quest_defeat_zombie",
+  lab_q71600="quest_defeat_zombie",
+  lab_q71700="quest_defeat_zombie",
+  quest_q20015="quest_extract_hostage",
+  quest_q20025="quest_extract_hostage",
+  quest_q20035="quest_extract_hostage",
+  quest_q20045="quest_extract_hostage",
+  quest_q20055="quest_extract_hostage",
+  quest_q20065="quest_extract_hostage",
+  quest_q20075="quest_extract_hostage",
+  quest_q20085="quest_extract_hostage",
+  quest_q20095="quest_extract_hostage",
+  quest_q20105="quest_extract_hostage",
+  quest_q20205="quest_extract_hostage",
+  quest_q20305="quest_extract_hostage",
+  quest_q20405="quest_extract_hostage",
+  quest_q20505="quest_extract_hostage",
+  quest_q20605="quest_extract_hostage",
+  quest_q20705="quest_extract_hostage",
+  quest_q20805="quest_extract_hostage",
+  quest_q20905="quest_extract_hostage",
+  quest_q21005="quest_extract_hostage",
+  quest_q22005="quest_extract_hostage",
+  quest_q23005="quest_extract_hostage",
+  quest_q24005="quest_extract_hostage",
+  quest_q25005="quest_extract_hostage",
+  quest_q26005="quest_extract_hostage",
+  quest_q27005="quest_extract_hostage",
+  quest_q52010="quest_defeat_armor_vehicle",
+  quest_q52020="quest_defeat_armor_vehicle",
+  quest_q52030="quest_defeat_armor_vehicle",
+  quest_q52040="quest_defeat_armor_vehicle",
+  quest_q52050="quest_defeat_armor_vehicle",
+  quest_q52060="quest_defeat_armor_vehicle",
+  quest_q52070="quest_defeat_armor_vehicle",
+  quest_q52080="quest_defeat_armor_vehicle",
+  quest_q52090="quest_defeat_armor_vehicle",
+  quest_q52100="quest_defeat_armor_vehicle",
+  quest_q52110="quest_defeat_armor_vehicle",
+  quest_q52120="quest_defeat_armor_vehicle",
+  quest_q52130="quest_defeat_armor_vehicle",
+  quest_q52140="quest_defeat_armor_vehicle",
+  quest_q52015="quest_defeat_tunk",
+  quest_q52025="quest_defeat_tunk",
+  quest_q52035="quest_defeat_tunk",
+  quest_q52045="quest_defeat_tunk",
+  quest_q52055="quest_defeat_tunk",
+  quest_q52065="quest_defeat_tunk",
+  quest_q52075="quest_defeat_tunk",
+  quest_q52085="quest_defeat_tunk",
+  quest_q52095="quest_defeat_tunk",
+  quest_q52105="quest_defeat_tunk",
+  quest_q52115="quest_defeat_tunk",
+  quest_q52125="quest_defeat_tunk",
+  quest_q52135="quest_defeat_tunk",
+  quest_q52145="quest_defeat_tunk",
+  mtbs_q42020="quest_target_eliminate",
+  mtbs_q42030="quest_target_eliminate",
+  mtbs_q42040="quest_target_eliminate",
+  mtbs_q42050="quest_target_eliminate",
+  mtbs_q42060="quest_target_eliminate",
+  mtbs_q42070="quest_target_eliminate",
+  mtbs_q42010="quest_target_eliminate"}
 local questPhotos={
-tent_q80010=TppMotherBaseManagementConst.PHOTO_1006,
-field_q80020=TppMotherBaseManagementConst.PHOTO_1007,
-waterway_q80040=TppMotherBaseManagementConst.PHOTO_1009,
-commFacility_q80060=TppMotherBaseManagementConst.PHOTO_1000,
-fort_q80080=TppMotherBaseManagementConst.PHOTO_1008,
-outland_q80100=TppMotherBaseManagementConst.PHOTO_1002,
-pfCamp_q80200=TppMotherBaseManagementConst.PHOTO_1003,
-hill_q80400=TppMotherBaseManagementConst.PHOTO_1005,
-diamond_q80600=TppMotherBaseManagementConst.PHOTO_1004,
-lab_q80700=TppMotherBaseManagementConst.PHOTO_1001,
-sovietBase_q99030=TppMotherBaseManagementConst.DESIGN_3009,
-tent_q99040=TppMotherBaseManagementConst.DESIGN_3002,
-mtbs_q99050=TppMotherBaseManagementConst.DESIGN_3000}
+  tent_q80010=TppMotherBaseManagementConst.PHOTO_1006,
+  field_q80020=TppMotherBaseManagementConst.PHOTO_1007,
+  waterway_q80040=TppMotherBaseManagementConst.PHOTO_1009,
+  commFacility_q80060=TppMotherBaseManagementConst.PHOTO_1000,
+  fort_q80080=TppMotherBaseManagementConst.PHOTO_1008,
+  outland_q80100=TppMotherBaseManagementConst.PHOTO_1002,
+  pfCamp_q80200=TppMotherBaseManagementConst.PHOTO_1003,
+  hill_q80400=TppMotherBaseManagementConst.PHOTO_1005,
+  diamond_q80600=TppMotherBaseManagementConst.PHOTO_1004,
+  lab_q80700=TppMotherBaseManagementConst.PHOTO_1001,
+  sovietBase_q99030=TppMotherBaseManagementConst.DESIGN_3009,
+  tent_q99040=TppMotherBaseManagementConst.DESIGN_3002,
+  mtbs_q99050=TppMotherBaseManagementConst.DESIGN_3000}
 local questPhotos2={
   tent_q80010="key_photo_1006",
-field_q80020="key_photo_1007",
-waterway_q80040="key_photo_1009",
-commFacility_q80060="key_photo_1000",
-fort_q80080="key_photo_1008",
-outland_q80100="key_photo_1002",
-pfCamp_q80200="key_photo_1003",
-hill_q80400="key_photo_1005",
-diamond_q80600="key_photo_1004",
-lab_q80700="key_photo_1001"}
+  field_q80020="key_photo_1007",
+  waterway_q80040="key_photo_1009",
+  commFacility_q80060="key_photo_1000",
+  fort_q80080="key_photo_1008",
+  outland_q80100="key_photo_1002",
+  pfCamp_q80200="key_photo_1003",
+  hill_q80400="key_photo_1005",
+  diamond_q80600="key_photo_1004",
+  lab_q80700="key_photo_1001"}
 local RENAMEquestEmblems={
   mtbs_q99060={"base44","front62"},
-sovietBase_q99020={"word14","word15","word51","front49"},
-sovietBase_q99030={"word122","word123","word124","word125","word126"},
-tent_q99040={"word78","word79","word87","word91"}
+  sovietBase_q99020={"word14","word15","word51","front49"},
+  sovietBase_q99030={"word122","word123","word124","word125","word126"},
+  tent_q99040={"word78","word79","word87","word91"}
 }
 local m={"quest_q20015","quest_q20085","quest_q20205","quest_q20705","quest_q20095"}
 local canOpenQuestChecks={}
@@ -329,7 +329,7 @@ function canOpenQuestChecks.sovietBase_q99020()
 end
 function canOpenQuestChecks.sovietBase_q99030()
   return TppStory.CanPlayDemoOrRadio"OpenSideOpsAiPod"
-  end
+end
 function canOpenQuestChecks.tent_q99040()
   return this.IsCleard"sovietBase_q99030"end
 function canOpenQuestChecks.cliffTown_q99080()
@@ -2138,7 +2138,7 @@ function this.UpdateActiveQuest(debugUpdate)
   if not mvars.qst_questList then
     return
   end
-  
+
   local unlockedName=nil--tex unlockSideOpNumber
   local unlockedArea=nil
   if gvars.unlockSideOpNumber > 0 then--tex find name and area for unlocksideop SANITY:
@@ -2147,7 +2147,7 @@ function this.UpdateActiveQuest(debugUpdate)
       unlockedArea=TppQuestList.questAreaTable[unlockedName]
     end
   end--
-  
+
   if this.NeedUpdateActiveQuest(debugUpdate)then
     this.UpdateOpenQuest()
     for n,areaQuests in ipairs(mvars.qst_questList)do
@@ -2159,16 +2159,16 @@ function this.UpdateActiveQuest(debugUpdate)
         for t,info in ipairs(areaQuests.infoList)do--tex still gotta clear
           local questName=info.name
           local questIndex=TppDefine.QUEST_INDEX[questName]
-          if questIndex then              
+          if questIndex then
             gvars.qst_questActiveFlag[questIndex]=false
           end
-        end
-        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[unlockedName]]=true
+      end
+      gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[unlockedName]]=true
       else--
         for t,info in ipairs(areaQuests.infoList)do
           local questName=info.name
           local questIndex=TppDefine.QUEST_INDEX[questName]
-          if questIndex then              
+          if questIndex then
             gvars.qst_questActiveFlag[questIndex]=false
             if Ivars.unlockSideOpNumber.skipValues[questIndex+1] ~= true then--tex disallowSideOps
               local RENAMEsomeCondition=RENAMEsomeConditions[questName]--NMC: some list of conditions, not as big as the 't' list
@@ -2185,43 +2185,53 @@ function this.UpdateActiveQuest(debugUpdate)
               end--quest open
             end--skip
           end--questindex
-        end--for infolist
-      
-        local questName=nil
-        local list=nil--tex choose which quest to activate per area
-        local index=1
-        if #storyQuests > 0 then--tex broken into lists to manage priority
-          list=storyQuests
-        elseif #nonStoryQuests > 0 then
-          list=nonStoryQuests
-        elseif #repopQuests > 0 then
-          list=repopQuests
-        end
-        if list ~= nil then
-          --[[if gvars.unlockSideOps == Ivars.unlockSideOps.enum.FIRST then
+      end--for infolist
+
+      local questName=nil
+      local list=nil--tex choose which quest to activate per area
+      local index=1
+      if #storyQuests > 0 then--tex broken into lists to manage priority
+        list=storyQuests
+      elseif #nonStoryQuests > 0 then
+        list=nonStoryQuests
+      elseif #repopQuests > 0 then
+        list=repopQuests
+      end
+      if list ~= nil then
+        --[[if gvars.unlockSideOps == Ivars.unlockSideOps.enum.FIRST then
+
               index=1
+
             elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.LAST then
+
               index=#list
+
             elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.RANDOM then
+
               index=math.random(#list)
+
             end--]]
-          if gvars.unlockSideOps > 0 then
-            index=math.random(#list)
-          end
-          questName=list[index]
-        end--
-        --[[--tex ORIG: for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
-            if not questName then
-              questName=t[1]
-            end
-          end--]]
-        if questName then
-          gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
+        if gvars.unlockSideOps > 0 then
+          index=math.random(#list)
         end
+        questName=list[index]
+      end--
+      --[[--tex ORIG: for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
+
+            if not questName then
+
+              questName=t[1]
+
+            end
+
+          end--]]
+      if questName then
+        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
+      end
       end--unlockedArea switch
     end-- for questlist
   elseif TppMission.IsStoryMission(vars.missionCode)then
-    for n,questName in ipairs(TppDefine.QUEST_DEFINE)do 
+    for n,questName in ipairs(TppDefine.QUEST_DEFINE)do
       if not this.CanActiveQuestInMission(vars.missionCode,questName) then
         gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=false
       end
@@ -2247,72 +2257,140 @@ function this.UpdateActiveQuest(debugUpdate)
   end
 end
 --[[function e.UpdateActiveQuest(t)--tex ORIG:
+
   if not mvars.qst_questList then
+
     return
+
   end
+
   if e.NeedUpdateActiveQuest(t)then
+
     e.UpdateOpenQuest()
+
     for n,t in ipairs(mvars.qst_questList)do
+
       local n=nil
+
       local n={}
+
       local a={}
+
       local s={}
+
       local i={}
+
       for t,o in ipairs(t.infoList)do
+
         local t=o.name
+
         local n=TppDefine.QUEST_INDEX[t]
+
         if n then
+
           gvars.qst_questActiveFlag[n]=false
+
           local n=r[t]
+
           if e.IsOpen(t)and(not n or n())then
+
             if not e.IsCleard(t)then
+
               if o.isStory then
+
                 table.insert(a,t)
+
               else
+
                 table.insert(s,t)
+
               end
+
             elseif e.IsRepop(t)then
+
               table.insert(i,t)
+
             end
+
           end
+
         end
+
       end
+
       local e=nil
+
       for n,t in ipairs{a,s,i}do
+
         if not e then
+
           e=t[1]
+
         end
+
       end
+
       if e then
+
         gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[e] ]=true
+
       end
+
     end
+
   elseif TppMission.IsStoryMission(vars.missionCode)then
+
     for n,t in ipairs(TppDefine.QUEST_DEFINE)do
+
       if not e.CanActiveQuestInMission(vars.missionCode,t)then
+
         gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[t] ]=false
+
       end
+
     end
+
   else
+
     for e=0,9,1 do
 
+
+
       if gvars.qst_failedIndex[e]~=-1 then
+
         local t=gvars.qst_failedIndex[e]
+
         gvars.qst_questActiveFlag[t]=true
+
         gvars.qst_failedIndex[e]=-1
+
       end
+
     end
+
   end
+
   for e=0,9,1 do
+
     gvars.qst_failedIndex[e]=-1
+
   end
+
   TppUiCommand.SetSideOpsListUpdate()
+
   for t,e in ipairs(m)do
+
     if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[e] ]==true then
+
       TppMotherBaseManagement.SetLockedTanFlag{locked=true}
+
       return
+
     end
+
   end
+
+
 
 end--]]
 function this.CanActiveQuestInMission(e,t)
@@ -2594,6 +2672,9 @@ end
 function this.StartElapsedEvent(e)
   gvars.qst_elapseCount=e
 end
+function this.GetElapsedCount()--RETAILPATCH: 1060
+  return gvars.qst_elapseCount
+end--
 function this.IsNowOccurringElapsed()
   return gvars.qst_elapseCount==TppDefine.ELAPSED_QUEST_COUNT.NOW_OCCURRING
 end
@@ -2966,23 +3047,44 @@ function this.UpdateShootingPracticeUi()
   local t,e=TppGimmick.GetQuestShootingPracticeCount()
   TppUiCommand.SetDisplayTimerText("time_quest",t,e)
 end
-local t={ruins_q60115=TppMotherBaseManagementConst.DESIGN_2027,sovietBase_q60110=TppMotherBaseManagementConst.DESIGN_2020,sovietBase_q60111=TppMotherBaseManagementConst.DESIGN_2024}
-local a={pfCamp_q39012={dataBaseId=TppMotherBaseManagementConst.ANIMAL_130,areaName="anml_quest_00"}}
+--RETAILPATCH: 1060 big additions to below
+local a={ruins_q60115=TppMotherBaseManagementConst.DESIGN_2027,sovietBase_q60110=TppMotherBaseManagementConst.DESIGN_2020,citadel_q60112=TppMotherBaseManagementConst.DESIGN_2021,outland_q60113=TppMotherBaseManagementConst.DESIGN_2022,pfCamp_q60114=TppMotherBaseManagementConst.DESIGN_2023,sovietBase_q60111=TppMotherBaseManagementConst.DESIGN_2024}
+local t={pfCamp_q39012={dataBaseId=TppMotherBaseManagementConst.ANIMAL_130},waterway_q39010={dataBaseId=TppMotherBaseManagementConst.ANIMAL_610},lab_q39011={dataBaseId=TppMotherBaseManagementConst.ANIMAL_2250}}
 function this.AcquireKeyItemOnMissionStart()
   for t,n in pairs(questPhotos)do
     if this.IsCleard(t)then
       TppTerminal.AcquireKeyItem{dataBaseId=n,isShowAnnounceLog=true}
     end
   end
-  for n,t in pairs(t)do
-    if this.IsCleard(n)then
-      TppTerminal.AcquireKeyItem{dataBaseId=t,isShowAnnounceLog=true}
+  if TppStory.IsMissionCleard(11050)then
+    TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3014,pushReward=true}
+    TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3015,pushReward=true}
+  end
+  if TppDemo.IsPlayedMBEventDemo"DecisionHuey"then
+    TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3007,pushReward=true}
+  end
+  if TppStory.IsMissionCleard(10280)then
+    TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3008,pushReward=true}
+    TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3010,pushReward=true}
+  end
+  if TppStory.IsMissionCleard(10100)then
+    TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3013,pushReward=true}
+  end
+  if this.IsCleard"mtbs_q99060"then
+    TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.PHOTO_1010,pushReward=true}
+  end
+  for t,n in pairs(a)do
+    if this.IsCleard(t)then
+      TppTerminal.AcquireKeyItem{dataBaseId=n,isShowAnnounceLog=true}
     end
   end
-  for n,t in pairs(a)do
+  for n,t in pairs(t)do
     if this.IsCleard(n)and not TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.dataBaseId}then
       TppMotherBaseManagement.DirectAddDataBaseAnimal{dataBaseId=t.dataBaseId,areaName=t.areaName,isNew=true}
     end
+  end
+  if TppUiCommand.HasEmblemTexture"front5019"then
+    TppTerminal.AcquireKeyItem{dataBaseId=428,isShowAnnounceLog=true}
   end
   if this.IsCleard"ruins_q19010"then
     vars.isRussianTranslatable=1
@@ -2998,6 +3100,34 @@ function this.AcquireKeyItemOnMissionStart()
   end
   if this.IsCleard"tent_q99072"then
     vars.mbmMasterGunsmithSkill=1
+  end
+  do
+    local t={{questName="mtbs_q99060",cassetteList={"tp_m_99060_01","tp_m_99060_02","tp_m_99060_03","tp_m_99060_04","tp_m_99060_05","tp_sp_01_03"}},{questName="sovietBase_q99030",cassetteList={"tp_m_10150_20","tp_m_10150_29","tp_m_10150_30"}},{questName="tent_q99040",cassetteList={"tp_m_10150_21","tp_m_10150_22","tp_m_10150_24","tp_m_10150_25"}},{questName="mtbs_q99011",cassetteList={"tp_c_00000_13","tp_m_10050_03"}},{storySequence=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,cassetteList={"tp_m_10050_01"}},{storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_ENDRESS_PROXY_WAR,cassetteList={"tp_m_10160_06","tp_m_10160_07","tp_m_10160_08","tp_m_10160_09","tp_m_10160_10","tp_m_10160_05"}},{storySequence=TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS,cassetteList={"tp_m_10160_11","tp_m_10160_04","tp_c_00000_18","tp_m_10240_05","tp_m_10190_02","tp_m_10190_03"}},{demoName="DecisionHuey",cassetteList={"tp_m_10190_05","tp_m_10190_06","tp_m_10240_03","tp_m_10240_04","tp_m_10190_01"}}}
+    for n,t in pairs(t)do
+      if((t.questName and this.IsCleard(t.questName))or(t.storySequence and(TppStory.GetCurrentStorySequence()>=t.storySequence)))or(t.demoName and TppDemo.IsPlayedMBEventDemo(t.demoName))then
+        TppCassette.Acquire{cassetteList=t.cassetteList,isShowAnnounceLog=true}
+      end
+    end
+  end
+  do
+    local t=110
+    if this.IsCleard"cliffTown_q99080"and not TppMotherBaseManagement.IsExistStaff{uniqueTypeId=t}then
+      local e=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=t}
+      TppMotherBaseManagement.DirectAddStaff{staffId=e}
+    end
+    local t=111
+    if this.IsCleard"quest_q20095"and not TppMotherBaseManagement.IsExistStaff{uniqueTypeId=t}then
+      local e=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=t}
+      TppMotherBaseManagement.DirectAddStaff{staffId=e}
+      TppMotherBaseManagement.SetLockedTanFlag{locked=false}
+    end
+  end
+  do
+    for t,n in pairs(RENAMEquestEmblems)do
+      if this.IsCleard(t)then
+        this.GetClearEmblem(t)
+      end
+    end
   end
 end
 return this

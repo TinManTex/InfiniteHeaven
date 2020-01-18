@@ -33,8 +33,8 @@ mbdvc_pause_help_table = {
 		local GetMbMenuCommonPage = function()
 			return {	
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_249"), helpMessageId = Fox.StrCode("mbhelp_info_249"), helpPosX = X_RIGHT_SHORT, helpPosY = Y_RIGHT_BOTTOM, coordType = COORD_ABS, verticalAlign = ALIGN_BOTTOM, iconPosX = 0, iconPosY = 0 },
-				{ type = 0, number = 1, titleLangId = Fox.StrCode("mbhelp_name_247"), helpMessageId = Fox.StrCode("mbhelp_info_247"), helpPosX = X_LEFT_SHORT, helpPosY = Y_LEFT_BOTTOM, coordType = COORD_ABS, verticalAlign = ALIGN_BOTTOM, iconPosX = 755, iconPosY = 358 },
-				{ type = 0, number = 1, titleLangId = Fox.StrCode("mbhelp_name_247_2"), helpMessageId = Fox.StrCode("mbhelp_info_247_2_new"), helpPosX = 0, helpPosY = -Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_BOTTOM, iconPosX = 755, iconPosY = 140 },
+				{ type = 0, number = 1, titleLangId = Fox.StrCode("mbhelp_name_247"), helpMessageId = Fox.StrCode("mbhelp_info_247"), helpPosX = X_LEFT_SHORT, helpPosY = Y_LEFT_BOTTOM-20, coordType = COORD_ABS, verticalAlign = ALIGN_BOTTOM, iconPosX = 755, iconPosY = 358 },
+				{ type = 0, number = 1, titleLangId = Fox.StrCode("mbhelp_name_247_2"), helpMessageId = Fox.StrCode("mbhelp_info_247_2_new"), helpPosX = 0, helpPosY = -Y_INTERVAL-20, coordType = COORD_REL, verticalAlign = ALIGN_BOTTOM, iconPosX = 755, iconPosY = 140 },
 				{ type = 1, textAreaType = TEXT_SHORT },
 			}
 		end
@@ -53,11 +53,11 @@ mbdvc_pause_help_table = {
 			
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_func_skill_sento_name"), helpMessageId = Fox.StrCode("mbhelp_func_skill_sento_info"), helpPosX = X_LEFT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_bttl_deploy"), helpMessageId = Fox.StrCode("func_bttl_deploy_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_bttl_defence"), helpMessageId = Fox.StrCode("func_bttl_defence_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_bttl_defence_d60"), helpMessageId = Fox.StrCode("func_bttl_defence_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 			
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_func_skill_keibi_name"), helpMessageId = Fox.StrCode("mbhelp_func_skill_keibi_info"), helpPosX = X_RIGHT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_sec_base_defence"), helpMessageId = Fox.StrCode("func_sec_base_defence_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_sec_base_blockade"), helpMessageId = Fox.StrCode("func_sec_base_blockade_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_sec_base_defence_d60"), helpMessageId = Fox.StrCode("func_sec_base_defence2_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_sec_base_blockade_d60"), helpMessageId = Fox.StrCode("func_sec_base_blockade_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 1, textAreaType = TEXT_LONG },
 			}
 		end
@@ -67,7 +67,7 @@ mbdvc_pause_help_table = {
 			
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_func_skill_sento_name"), helpMessageId = Fox.StrCode("mbhelp_func_skill_sento_info"), helpPosX = X_LEFT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_bttl_deploy"), helpMessageId = Fox.StrCode("func_bttl_deploy_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_bttl_defence"), helpMessageId = Fox.StrCode("func_bttl_defence_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_bttl_defence_d60"), helpMessageId = Fox.StrCode("func_bttl_defence_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 1, textAreaType = TEXT_LONG },
 			}
 		end
@@ -76,8 +76,8 @@ mbdvc_pause_help_table = {
 			return {
 			
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_func_skill_keibi_name"), helpMessageId = Fox.StrCode("mbhelp_func_skill_keibi_info"), helpPosX = X_LEFT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_sec_base_defence"), helpMessageId = Fox.StrCode("func_sec_base_defence_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_sec_base_blockade"), helpMessageId = Fox.StrCode("func_sec_base_blockade_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_sec_base_defence_d60"), helpMessageId = Fox.StrCode("func_sec_base_defence2_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_sec_base_blockade_d60"), helpMessageId = Fox.StrCode("func_sec_base_blockade_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 1, textAreaType = TEXT_LONG },
 			}
 		end
@@ -87,12 +87,12 @@ mbdvc_pause_help_table = {
 			
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_func_skill_kenkyu_name"), helpMessageId = Fox.StrCode("mbhelp_func_skill_kenkyu_info"), helpPosX = X_LEFT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_dev_weapon"), helpMessageId = Fox.StrCode("func_dev_weapon_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_dev_sec_device_d60"), helpMessageId = Fox.StrCode("func_dev_sec_device_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_dev_heli"), helpMessageId = Fox.StrCode("func_dev_heli_help"), helpPosX = X_RIGHT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_dev_dhorse"), helpMessageId = Fox.StrCode("func_dev_dhorse_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 
 
-
-
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_dev_dwalker"), helpMessageId = Fox.StrCode("func_dev_dwalker_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 1, textAreaType = TEXT_LONG },
 			}
 		end
@@ -105,7 +105,7 @@ mbdvc_pause_help_table = {
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_fob_processing"), helpMessageId = Fox.StrCode("func_fob_processing_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_fob_extention"), helpMessageId = Fox.StrCode("func_fob_extention_help"), helpPosX = X_RIGHT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_fob_construct"), helpMessageId = Fox.StrCode("func_fob_construct_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_sec_machine_defence"), helpMessageId = Fox.StrCode("func_sec_machine_defence_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_sec_machine_defence_d60"), helpMessageId = Fox.StrCode("func_sec_machine_defence_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 
 				{ type = 1, textAreaType = TEXT_LONG },
 			}
@@ -142,7 +142,7 @@ mbdvc_pause_help_table = {
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_intel_search_ene1"), helpMessageId = Fox.StrCode("func_intel_search_ene1_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_intel_search_plant"), helpMessageId = Fox.StrCode("func_intel_search_plant_help"), helpPosX = X_RIGHT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_intel_weather_info"), helpMessageId = Fox.StrCode("func_intel_weather_info_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_intel_fob_sec"), helpMessageId = Fox.StrCode("func_intel_fob_sec_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_intel_fob_sec_d60"), helpMessageId = Fox.StrCode("func_intel_fob_sec_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 1, textAreaType = TEXT_LONG },
 			}
 		end
@@ -153,6 +153,7 @@ mbdvc_pause_help_table = {
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_func_skill_iryo_name"), helpMessageId = Fox.StrCode("mbhelp_func_skill_iryo_info"), helpPosX = X_LEFT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_med_emergency"), helpMessageId = Fox.StrCode("func_med_emergency_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_med_treatment"), helpMessageId = Fox.StrCode("func_med_treatment_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+				{ type = 0, number = 0, titleLangId = Fox.StrCode("h_func_med_anti_reflex_d60"), helpMessageId = Fox.StrCode("func_med_anti_reflex_help"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 				{ type = 1, textAreaType = TEXT_LONG },
 			}
 		end
@@ -427,7 +428,7 @@ pages = {
 	{ type = 1, textAreaType = TEXT_SHORT },
 
 	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_100"), helpMessageId = Fox.StrCode("mbhelp_info_100"), helpPosX = X_LEFT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_102"), helpMessageId = Fox.StrCode("mbhelp_info_102"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_102"), helpMessageId = Fox.StrCode("mbhelp_info_102_new"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_101"), helpMessageId = Fox.StrCode("mbhelp_info_101_1_new"), helpPosX = X_RIGHT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 	{ type = 1, textAreaType = TEXT_LONG },
 
@@ -457,7 +458,7 @@ pages = {
 
 
 	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_100"), helpMessageId = Fox.StrCode("mbhelp_info_100"), helpPosX = X_LEFT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_102"), helpMessageId = Fox.StrCode("mbhelp_info_102"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_102"), helpMessageId = Fox.StrCode("mbhelp_info_102_new"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_101"), helpMessageId = Fox.StrCode("mbhelp_info_101_1_new"), helpPosX = X_RIGHT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 	{ type = 1, textAreaType = TEXT_LONG },
 
@@ -482,7 +483,7 @@ pages = {
 	{ type = 1, textAreaType = TEXT_SHORT },
 
 	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_100"), helpMessageId = Fox.StrCode("mbhelp_info_100"), helpPosX = X_LEFT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_102"), helpMessageId = Fox.StrCode("mbhelp_info_102"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_102"), helpMessageId = Fox.StrCode("mbhelp_info_102_new"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 
 	{ type = 1, textAreaType = TEXT_LONG },
 
@@ -505,7 +506,7 @@ pages = {
 	{ type = 1, textAreaType = TEXT_SHORT },
 
 	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_100"), helpMessageId = Fox.StrCode("mbhelp_info_100"), helpPosX = X_LEFT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_102"), helpMessageId = Fox.StrCode("mbhelp_info_102"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_102"), helpMessageId = Fox.StrCode("mbhelp_info_102_new"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_101"), helpMessageId = Fox.StrCode("mbhelp_info_101_1_new"), helpPosX = X_RIGHT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 	{ type = 1, textAreaType = TEXT_LONG },
 
@@ -526,7 +527,7 @@ pages = {
 	{ type = 1, textAreaType = TEXT_SHORT },
 
 	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_100"), helpMessageId = Fox.StrCode("mbhelp_info_100"), helpPosX = X_LEFT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
-	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_102"), helpMessageId = Fox.StrCode("mbhelp_info_102"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
+	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_102"), helpMessageId = Fox.StrCode("mbhelp_info_102_new"), helpPosX = 0, helpPosY = Y_INTERVAL, coordType = COORD_REL, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_name_101"), helpMessageId = Fox.StrCode("mbhelp_info_101_1_new"), helpPosX = X_RIGHT_LONG, helpPosY = Y_LEFT, coordType = COORD_ABS, verticalAlign = ALIGN_TOP, iconPosX = 0, iconPosY = 0 },
 	{ type = 1, textAreaType = TEXT_LONG },
 

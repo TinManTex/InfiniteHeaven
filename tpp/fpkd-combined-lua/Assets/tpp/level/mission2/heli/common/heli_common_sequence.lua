@@ -138,6 +138,13 @@ function this.MissionPrepare()
 
 	this.OverrideFadeInGameStatus()
 
+	
+	
+		
+		
+		
+	
+	
 	local systemCallbackTable ={
 		OnEstablishMissionClear = function()
 			Tpp.SetGameStatus{
@@ -214,7 +221,9 @@ function this.MissionPrepare()
 	
 	TppTerminal.StopChangeDayTerminalAnnounce()
 	
+	
 	this.AddHeliSpaceDebugMenu()
+	
 	
 	if not gvars.usingNormalMissionSlot then
 		TppException.SuspendFobExceptionHandling()
@@ -323,6 +332,10 @@ function this.OnRestoreSVars()
 		TppDataUtility.InvisibleMeshFromIdentifier( "HeliModelIdentifier", "uth0_intr0_def_0000", "MESH_WINDOWRIGHT" )
 	end
 
+	
+	
+	
+	
 	TppBuddy2BlockController.Load()
 	
 	mvars.heliSpace_SkipMissionPreparetion = {
@@ -527,6 +540,7 @@ function this.SetTerminalAttentionIcon( menuId, switch )
 end
 
 function this.ClearTerminalAttentionIcon()
+	
 	this.SetTerminalAttentionIcon(TppTerminal.MBDVCMENU.MBM_STAFF, false)
 	this.SetTerminalAttentionIcon(TppTerminal.MBDVCMENU.MBM_DEVELOP_WEAPON, false)
 	this.SetTerminalAttentionIcon(TppTerminal.MBDVCMENU.MSN_HELI_RENDEZVOUS, false)
@@ -810,6 +824,23 @@ local function HeliSpaceGoToMgoCoroutine()
 
 	local function existPatchDlcFunc()
 		TppUiCommand.ErasePopup()
+
+		
+		--RETAILPATCH: 1060
+		TppMotherBaseManagement.ProcessBeforeSync()
+		TppMotherBaseManagement.StartSyncControl{}
+		TppSave.SaveMBAndGlobal()
+		TppMission.CreateMbSaveCoroutine()
+		
+		
+		
+		while TppMission.waitMbSyncAndSaveCoroutine or TppSave.IsSaving() do
+			
+			
+			coroutine.yield()
+			DebugPrintState("waiting save end.")
+		end
+		--
 		TppException.isNowGoingToMgo = true		
 		TppUI.FadeOut( TppUI.FADE_SPEED.FADE_HIGHSPEED, "FadeOutGoToMGO", nil, { setMute = true } )
 	end
@@ -831,12 +862,14 @@ function this.OnUpdateChunkInstalling()
 		return
 	end
 	
+	
+
+
 	if DebugText then
 		local context = DebugText.NewContext()
 		DebugText.Print(context, "")
 		DebugText.Print(context, {1.0, 0.0, 0.0}, "Select GoToMGO : " )
 	end
-	
 	
 	TppUI.ShowAccessIconContinue()
 
@@ -961,6 +994,8 @@ function this.GetFobTutorialSequenceName()
 		[TppTerminal.FOB_TUTORIAL_STATE.INIT]							= "Seq_Game_TutorialIntroductionFobConstruct",
 		[TppTerminal.FOB_TUTORIAL_STATE.INTRODUCTION_CONSTRUCT_FOB]	= "Seq_Game_TutorialIntroductionFobConstruct",
 		[TppTerminal.FOB_TUTORIAL_STATE.CONSTRUCT_FOB]					= "Seq_Game_TutorialFobConstruct",
+		
+		
 	}
 
 	return fobTutorialSequenceNameTable[gvars.trm_fobTutorialState]
@@ -1028,10 +1063,14 @@ sequences.Seq_Game_MainGame = {
 					end,
 				},
 				{
+					
 					msg = "MbDvcActOpenMissionList",
 					func = function()
+						
 						if mvars.heliSpace_nowMissionListGuidance then
+							
 							if not gvars.rad_isFinishMissionListTutorial then
+								
 								gvars.rad_isFinishMissionListTutorial = true
 								this.ClearTerminalAttentionIcon()
 								TppTerminal.SetUpOnHelicopterSpace()
@@ -1117,6 +1156,10 @@ sequences.Seq_Game_MainGame = {
 			TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_CANCEL_OPERATION" )
 		end
 		
+		
+		TppMission.ClearFobMode()--RETAILPATCH 1060
+		vars.fobIsSneak = 0--RETAILPATCH 1060
+
 		if not svars.showInfoTypingText then
 			svars.showInfoTypingText = true
 			TppUiCommand.RegistInfoTypingText( "location", 1 )
@@ -1185,6 +1228,10 @@ sequences.Seq_Game_MainGame = {
 		Fox.Log("StartMissionListGuidance")
 		
 		mvars.heliSpace_nowMissionListGuidance = true
+		
+		
+		
+
 		
 		TppUiCommand.SetTutorialMode( true )
 
@@ -1330,22 +1377,27 @@ sequences.Seq_Game_MissionPreparationTop = {
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_SORTIE_TIME" )
 		end
 		
+		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
 		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or gvars.disableBuddies==1 then--tex buddy subsistence mode
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
 		end
 		
+		
 		if ( nextMissionCode == 10050 )
 		or ( nextMissionCode == 10260 )
 		or ( nextMissionCode == 11050 ) then
+			
 			TppBuddyService.SetDisableCallBuddyType(BuddyType.QUIET)
 		end
+		
 		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_VEHICLE" )
 		if mvars.heliSpace_NoVehicleMenuFromMissionPreparetion[nextMissionCode] or gvars.disableSelectVehicle==1 then--tex added issub
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_VEHICLE" )
 		end
 
+		
 		if nextMissionCode == 50050 then
 			TppUiStatusManager.SetStatus( 'MissionPrep2', 'FOB_MISSION' )
 		else
@@ -1399,6 +1451,8 @@ local SelectCameraParameter = {
 	[ Fox.StrCode32( "MissionPrep_FocusTarget_Player" ) ]
 		= { "PlayerPosition_Up", 3.3, rotX = -5, rotY = 170, interpTime = 0.3 },
 
+
+	
 	[ Fox.StrCode32( "MissionPrep_FocusTarget_BuddyQuiet" ) ]
 		= { "BuddyQuietPosition", 3.6, rotX = -5, rotY = 170, interpTime = 0.3 },
 
@@ -1427,6 +1481,8 @@ local SelectCameraParameter = {
 		= { "CustomizeWeaponPosition", 1.7, rotX = -5, rotY = 170, interpTime = 0.3},
 	[ Fox.StrCode32( "Customize_Target_Buddy" ) ]
 		= { "CustomizeBuddyPosition", 4.5, rotX = -5, rotY = 170, interpTime = 0.3 },
+
+	
 	[ Fox.StrCode32( "Customize_Weapon_Handgun" ) ]
 		= { "CustomizeWeaponPosition", 1.0, rotX = 0, rotY = 180, interpTime = 0.3 },
 	[ Fox.StrCode32( "Customize_Weapon_SubMachinegun" ) ]
@@ -1443,12 +1499,17 @@ local SelectCameraParameter = {
 		= { "CustomizeWeaponPosition", 1.7, rotX = 0, rotY = 180, interpTime = 0.3 },
 	[ Fox.StrCode32( "Customize_Weapon_Missile" ) ]
 		= { "CustomizeWeaponPosition", 1.7, rotX = 0, rotY = 180, interpTime = 0.3 },
+
+
+	
 	[ Fox.StrCode32( "Customize_Target_BuddyDog" ) ]
 		= { "CustomizeBuddyPosition", 4.5, rotX = -5, rotY = 170, interpTime = 0.3 },
 	[ Fox.StrCode32( "Customize_Target_Dog_Body" ) ]
 		= { "CustomizeBuddyPosition", 4.5, rotX = -5, rotY = 170, interpTime = 0.3 },
 	[ Fox.StrCode32( "Customize_Target_Dog_Eye" ) ]
 		= { "CustomizeBuddyPosition", 4.5, rotX = -5, rotY = 170, interpTime = 0.3 },
+
+	
 	[ Fox.StrCode32( "Customize_Target_BuddyHorse" ) ]
 		= { "CustomizeBuddyPosition_HorsePos", 4.5, rotX = -5, rotY = 170, interpTime = 0.3 },
 	[ Fox.StrCode32( "Customize_Target_Horse_Body" ) ]
@@ -1457,6 +1518,8 @@ local SelectCameraParameter = {
 		= { "CustomizeBuddyPosition_HorsePos", 4.5, rotX = -5, rotY = 170, interpTime = 0.3 },
 	[ Fox.StrCode32( "Customize_Target_Horse_Leg" ) ]
 		= { "CustomizeBuddyPosition_HorsePos", 4.5, rotX = -5, rotY = 170, interpTime = 0.3 },
+
+	
 	[ Fox.StrCode32( "Customize_Target_BuddyWalker" ) ]
 		= { "CustomizeBuddyPosition_DWPos", 4.8, rotX = -5, rotY = 170, interpTime = 0.3 },
 	[ Fox.StrCode32( "Customize_Target_DW_Body" ) ]
@@ -1471,6 +1534,8 @@ local SelectCameraParameter = {
 		= { "CustomizeBuddyPosition_Head", 3.0, rotX = 25, rotY = 90, interpTime = 0.3 },
 	[ Fox.StrCode32( "Customize_Target_DW_Color" ) ]
 		= { "CustomizeBuddyPosition_DWPos", 4.8, rotX = -5, rotY = 170, interpTime = 0.3 },
+
+	
 	[ Fox.StrCode32( "Customize_Target_Heli_Body" ) ]
 		= { "CustomizeHelicopterCameraPosition", 16 , rotX = -5, rotY = 170, interpTime = 0.3 },
 	[ Fox.StrCode32( "Customize_Target_Heli_Main" ) ]
@@ -2484,6 +2549,7 @@ sequences.Seq_Game_TutorialFobConstruct = {
 						if result == TERMINAL_TUTORIAL_RESULT.OK then
 							
 							TppTerminal.ReleaseFunctionOfMbSection()
+							TppMotherBaseManagement.UpdateSections()--RETAILPATCH 1060
 							TppSequence.SetNextSequence("Seq_Game_MainGame")
 						else
 							TppSequence.SetNextSequence("Seq_Game_MainGame")
