@@ -246,9 +246,9 @@ function this.ResetSetting()
   this.SetSetting(option,option.default)
 end
 function this.ResetSettings()
-  for n,menu in ipairs(InfMenuDefs.allMenus) do
+  for n,menu in pairs(InfMenuDefs.allMenus) do
     --InfMenu.DebugPrint(menu.name)
-    for m,option in ipairs(menu.options) do
+    for m,option in pairs(menu.options) do
       --InfMenu.DebugPrint(option.name)
       if option.save then--tex using identifier for all ivar/resetable settings
         --InfMenu.DebugPrint(option.name)

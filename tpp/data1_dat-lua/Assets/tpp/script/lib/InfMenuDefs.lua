@@ -21,7 +21,7 @@ this.resetSettingsItem={
     InfMenu.MenuOff()
   end,
 }
-this.resetAllSettingsItem={--DEBUGNOW ADDLANG
+this.resetAllSettingsItem={
   range=this.switchRange,
   settingNames="set_menu_reset",
   OnChange=function()
@@ -91,6 +91,7 @@ this.resetRevenge={--DEBUGNOW: ADDLANG
   range=this.switchRange,
   settingNames="set_do",--DEBUGNOW: ADDLANG
   OnChange=function()
+    Ivars.revengeMode:Set(0)
     TppRevenge.ResetRevenge()
     TppRevenge._SetUiParameters()
     InfMenu.PrintLangId("revenge_reset")
@@ -196,9 +197,9 @@ this.disableMenuMenu={
 
 this.revengeMenu={
   options={
-    Ivars.revengeMode,
     this.resetRevenge,
-    this.revengeBlockForMissionCount,
+    Ivars.revengeMode,
+    Ivars.revengeBlockForMissionCount,
     this.goBackItem,
   }
 }
@@ -215,7 +216,8 @@ this.playerRestrictionsMenu={
     Ivars.clearItems,
     Ivars.clearSupportItems,
     Ivars.setSubsistenceSuit,
-    Ivars.setDefaultHand,    
+    Ivars.setDefaultHand,
+    Ivars.noCentralLzs,
     this.handLevelMenu,
     this.fultonLevelMenu,
     this.ospMenu,
@@ -283,9 +285,9 @@ end
 this.allMenus={}
 --TABLESETUP: allMenus
 local i=1
-for n,menu in ipairs(this) do
+for n,menu in pairs(this) do
   if menu.options then--tex is menu
-    this.allMenus[i]=menu
+    this.allMenus[n]=menu
     i=i+1
   end
 end

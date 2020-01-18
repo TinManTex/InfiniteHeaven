@@ -1,49 +1,49 @@
 = Infinite heaven =
-r65 2015-11-05
+r71 2015-11-09
 by tin man tex
 For MGSV version 1.0.4.5 (1.04 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-Note for r63:
-In both ACC and game menu toggle changed to Hold-<Quick dive> (space key or X button)
+New in r71:
+All options that were previously bundled as part of subsistence profiles now individually setable.
+Highlights:
+Disable Head markers independantly from objective/placed markers (markers for other objects like vehicles/fultonable weapons are also disabled however due to the game function).
 
-Many of the settings save variable have been renamed, if you are updating from a previous version first finish any current missions or free mode and return to ACC in game.
+Arm abilitiy levels - Sonar, Mobility, Precision, Medical - can now be individually set.
 
-New Options for r56:
-OSP modes now only affect the main weapons as was originally instended and does not clear support weapons.
-New OSP mode added - Tertiary free (though disallowed in subsistence pure), clears primary and secondary on mission, leaves your chosen tertiaray weapon free.
-Start on foot - Skip helicopter ride into missions/free mode.
-Menu translations - have a translation system for the menu, but no current actual translations, see below for more info.
-Unlock player avatar - without having to complete mission 46
-Clock timescale - adjust the day/weather clock, simulation clock unaffected.
+Weapon OSP/clearing now can be set individually per slot - primary, secondary, back
 
-New Options for r52:
-Cutscenes menu:
-Always use current soldier for cutscenes
-Disable return-to-mother base cutscenes
-Play specific mother base cutscene
+New Enemy preparedness options:
+Command: Reset enemy preparedness levels - sets to 0
+Option: Resupply in #missions - the number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
 
-New Options for r48:
-Change Mother base soldiers equipment
-Turn Mother base soldiers hostile
+Fixed: Unlocking sideops would conflict with other sideop in area
 
 Want to help out?
+-----------------
 
 Translation: Check out the file InfLang.txt in the infinite heaven .zip and see what you can do. Contact me by pm if you want more detail/want to send me your translation. You will be credited in the main infinite heaven description for your kind work.
 
 Features video: My system is not currently set up to record game footage, if someone wants to do a review/spotlight of all the different features of infinite heaven that would be awesome.
 
-Infinite Heaven full features:
-Subsistence Mode toggle - Lets you go into any mission or free roam with same restrictions as subsistence missions, or with just a secondary of your choice.
-Comes in two profiles:
+Infinite Heaven features:
+------------------------------
+
+Player Restriction - disable of game settings to customize your challenge
+
+Includes Subsistence profiles, sets of customised settings that lets you go into any mission or free roam with same (and more) restrictions as subsistence missions, or with just a secondary of your choice.
+
 Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgrades off, ASAP time forced, vehicle off, fulton  off, support off, head markers off, heli attack off, central landing zones off.
 
 Bounder - Pure as base but allows: Buddy, changing Suit (which should also allow model swaps), Level 1 Fulton, head markers
 
-OSP Weapon Loadout - Seperate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, or just primary set to none.
+OSP Weapon settings - Seperate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, individually setable.
 
-Enemy Preparedness max - the same 'revenge system' max as the extreme missions. Most soldiers have gear equipped, such as helmets, body armor, nvg, many heavy weapons deployed.
+Enemy Preparedness:
+Reset - to 0
+Max - the same 'revenge system' max as the extreme missions. Most soldiers have gear equipped, such as helmets, body armor, nvg, many heavy weapons deployed.
+Resupply in #missions - the number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
 
 Mother Base soldier tweaks:
 
@@ -65,11 +65,9 @@ Enemy health scaling 400-0% (requires Enemy Parameters Tweaked)
 Unlock random Sideops for areas - The normal games sideops system breaks the map into areas, with only one sideop allowed to be active at a time. In the retail game it's chosen in a first found manner. Uncompleted story missions and uncompleted sideops get priority of selection over replayable sideops.
 This setting changes it to a random selection of potential sideops, with the same priorities. Force replay adds completed sideops to the potential selection. Force Open adds most sideops to the selection pool.
 
-Open specific sideop - enables that specifc sideop. Known bug: if there's already a side op in that area the other sideop won't load, even though quest area makers and even activation notice will still play. Complete the other side op first.
+Open specific sideop - enables that specifc sideop.
 
 Warning: still largely untested, unknown how replaying the story missions affect things.
-
-
 
 Cutscenes:
 Use current soldier in cutscenes instead of snake.
@@ -163,8 +161,6 @@ The Announce Log used for the display has a delay on entries, so slow down your 
 
 Replaying sideop 144, Remains of Man on Fire, will leave your character stuck in the Quarantine helipad and unable to abort the mission and requiring you to restore your save. Avoid completing the mission (extracting body).
 
-Manual selection of a sideop will not prevent games sideop selection from opeining a sideop in the same area. Even though both will show on map and will give ui que of sideop start, one of the two will not actually activate its script, so you will not encounter the objective items or characters.
-
 Starting a mission with subsistence will still show the loadout screen, and will show the last missions visual setup, 
 it should refresh when you change any settings, or if you exit to the title menu, or just enter the mission.
 
@@ -180,9 +176,51 @@ When changing General Enemy Parameters back to Default you must exit to title to
 
 There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
 
+
 Changelog:
+r71 - r71 2015-11-09 - public release
+Command: ResetRevenge/Enemy preparedness - thanks for the prodding TruckerHatRyan
+Option: revengeBlockForMissionCount
+Revenge options _SetUiParameters 
+Menu: revenge system options
+InfMenu: allMenus now set up with all in InfMenuDefs instead of needing updating by hand
+langStrings added for all new options.
+Ivar: default to range.min if not set
+
+r70
+Weapon OSP submenu to Player restrictions
+More options broken out from subsistence profile:
+Hand equipment levels. Own profile and menu. - thanks snsonic for suggestion
+Fulton and Wormhole equipment levels, including 0/Disable. Own profile and menu.
+disableBuddies, disableHeliAttack
+disableSelectVehicle, disableSelectTime
+Disable mission support menus - disableMenuDrop, disableMenuBuddy, disableMenuAttack, disableMenuHeliAttack, disableSupportMenu
+
+r69
+Menu: Player Restrictions added, includes Subsistence and OSP settings.
+Subsistence mode converted to new profile system, previous settings that were lumped into single subsistence option now broken out
+disableBuddies - not currently user facing
+Option: disableHeadmarkers
+Option: disableFulton
+Menu: Only display menu name on GoBack, not all GoMenu
+
+r68
+Ivars: Setting/getting via .Set, Is, Above, BelowOrIs...
+Ivars: settingsTable for custom function per setting, either run on setting change, or value return via ivar.data()
+Ivars: SubSetting>parent profile OnSubSettingChanged, just notifies user and sets profile to CUSTOM. Too much effort to do subsettings combination validation for now.
+Option: ospWeaponLoadout now ospWeaponProfile with the original Pure, Secondary
+Subsettings: to ospWeaponLoadout - primary/secondary/tertiaryWeaponOsp
+
+r67
+Command: showequipgrade
+InfHooks added, test out another to keep my impact on other files minimized, though at this point with no other substantial mods and it being unlikely that there will be many more patches I don't know why.
+
+r66
+TppQuestList: questAreaTable.
+Fixed unlockSideopsNum not clearing other quests in area
+
 r65 2015-11-05 - public release
-Same dealth with equip range, ugh.
+Same dealt with equip range, ugh.
 
 r64 2015-11-05 - public release
 Fixed bug where I set FOB equip grade to 1, like a stupid - Thanks for the report xmetalx59x
@@ -191,7 +229,7 @@ r63 2015-11-05 - public release
 Fixed bug I introduced in r56 to CloserToPlayerThanDistSqr resulting in quests being cleared to soldier being auto fultoned as player moved out of area. - Thanks for the report bumbousdude25
 
 r62 
-Refactor InfMenuDefs to Ivars, now builds svars from settings in Ivars via InfMain.DeclareSvars.
+Refactor InfMenuDefs to Ivars, now builds svars from settings in Ivars via InfMain.DeclareVars.
 InfMain: most enums now part of their ivar
 InfMenu: Set to previous option on Menu Back
 Helispace menu toggle changed to EVADE same as inMissionMenu

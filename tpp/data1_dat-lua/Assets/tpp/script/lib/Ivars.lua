@@ -186,7 +186,6 @@ this.mbDDSuit={--DEPENDANCY: mbPlayTime
 }
 --[[this.mbDDBalaclava={--DEPENDANCY: mbPlayTime OFF: Buggy, RETRY DEBUGNOW: ADDLANG
   save=MISSION,
-  default=0,
   range=this.switchRange,
   settingNames={"Use Equip Grade", "Force Off"},
 }--]]
@@ -264,8 +263,8 @@ this.subsistenceProfile={
       Ivars.clearSupportItems:Set(0,true)
       Ivars.setSubsistenceSuit:Set(0,true)
       Ivars.setDefaultHand:Set(0,true)      
-      --handLevelProfile --game auto sets to max developed
-      --fultonLevelProfile -- game auto turns on wormhole, user can manually chose overall level in ui
+      Ivars.handLevelProfile:Set(0,true) --game auto sets to max developed, but still need this to stop override
+      Ivars.fultonLevelProfile:Set(0,true) -- game auto turns on wormhole, user can manually chose overall level in ui
       Ivars.ospWeaponProfile:Set(0,true)
       
       Ivars.disableMenuDrop:Set(0,true)
@@ -339,96 +338,111 @@ this.subsistenceProfile={
   OnSubSettingChanged=this.OnSubSettingChanged,
 }
 
-this.noCentralLzs={--NONUSER:
+this.noCentralLzs={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
-this.disableHeliAttack={--DEBUGNOW: ADDLANG
+this.disableHeliAttack={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
-this.disableBuddies={--DEBUGNOW: ADDLANG
+this.disableBuddies={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
-this.disableSelectTime={--DEBUGNOW: ADDLANG
+this.disableSelectTime={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
-this.disableSelectVehicle={--DEBUGNOW: ADDLANG
+this.disableSelectVehicle={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
-this.disableHeadMarkers={--DEBUGNOW: ADDLANG
+this.disableHeadMarkers={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
-this.disableFulton={--DEBUGNOW: ADDLANG
+this.disableFulton={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
 --tex TODO: RENAME RETRY this is OSP shiz
-this.clearItems={--DEBUGNOW: ADDLANG
+this.clearItems={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
-this.clearSupportItems={--DEBUGNOW: ADDLANG
+this.clearSupportItems={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
-this.setSubsistenceSuit={--DEBUGNOW: ADDLANG
+this.setSubsistenceSuit={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
-this.setDefaultHand={--DEBUGNOW: ADDLANG
+this.setDefaultHand={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
 
-this.disableMenuDrop={--DEBUGNOW: ADDLANG
+this.disableMenuDrop={
   save=MISSION,
   range=this.switchRange,
-  --settingNames="disableMenuSettings",--DEBUGNOW: ADDLANG 
+  settingNames="set_switch",
   menuId=TppTerminal.MBDVCMENU.MSN_DROP,
+  profile=this.subsistenceProfile,
 }
-this.disableMenuBuddy={--DEBUGNOW: ADDLANG
+this.disableMenuBuddy={
   save=MISSION,
   range=this.switchRange,
-  --settingNames="disableMenuSettings",--DEBUGNOW: ADDLANG 
+  settingNames="set_switch", 
   menuId=TppTerminal.MBDVCMENU.MSN_BUDDY,
+  profile=this.subsistenceProfile,
 }
-this.disableMenuAttack={--DEBUGNOW: ADDLANG
+this.disableMenuAttack={
   save=MISSION,
   range=this.switchRange,
-  --settingNames="disableMenuSettings",--DEBUGNOW: ADDLANG 
+  settingNames="set_switch", 
   menuId=TppTerminal.MBDVCMENU.MSN_ATTACK,
+  profile=this.subsistenceProfile,
 }
-this.disableMenuHeliAttack={--DEBUGNOW: ADDLANG
+this.disableMenuHeliAttack={
   save=MISSION,
   range=this.switchRange,
-  --settingNames="disableMenuSettings",--DEBUGNOW: ADDLANG 
+  settingNames="set_switch", 
   menuId=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,
+  profile=this.subsistenceProfile,
 }
 this.disableMenuIvars={
   this.disableMenuDrop,
@@ -437,16 +451,18 @@ this.disableMenuIvars={
   this.disableMenuHeliAttack,
 }
 
-this.disableSupportMenu={--tex doesnt use dvcmenu--DEBUGNOW: ADDLANG 
+this.disableSupportMenu={--tex doesnt use dvcmenu, RESEARCH, not sure actually what it is
   save=MISSION,
-  range=this.switchRange,  
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.subsistenceProfile,
 }
 
 this.handLevelRange={max=4,min=1,increment=1}
-this.handLevelProfile={--DEBUGNOW: ADDLANG --tex can't be set in ui by user
+this.handLevelProfile={--tex can't be set in ui by user
   save=MISSION,
   settings={"DEFAULT","ITEM_OFF","ITEM_MAX","CUSTOM"},
-  --settingNames="handLevelProfileSettings",--DEBUGNOW: ADDLANG
+  settingNames="handLevelProfileSettings",
   settingsTable={
     DEFAULT=function()--the game auto sets to max developed but lets set it for apearance sake
       for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
@@ -510,7 +526,7 @@ this.fultonLevelRange={max=4,min=0,increment=1}
 this.fultonLevelProfile={--DEBUGNOW: ADDLANG
   save=MISSION,
   settings={"DEFAULT","ITEM_OFF","ITEM_MAX","CUSTOM"},
-  --settingNames="fultonLevelProfileSettings",--DEBUGNOW: ADDLANG
+  settingNames="fultonLevelProfileSettings",--DEBUGNOW: ADDLANG
   settingsTable={
     DEFAULT=function()--the game auto sets to max developed but lets set it for apearance sake 
       for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
@@ -540,18 +556,18 @@ this.fultonLevelProfile={--DEBUGNOW: ADDLANG
   profile=this.subsistenceProfile,
 }
 
-this.itemLevelFulton={--DEBUGNOW: ADDLANG
+this.itemLevelFulton={
   save=MISSION,
   range={max=4,min=1,increment=1},
   equipId=TppEquip.EQP_IT_Fulton,
   profile=this.fultonLevelProfile,
 }
 
-this.itemLevelWormhole={--DEBUGNOW: ADDLANG
+this.itemLevelWormhole={
   save=MISSION,
   range=this.switchRange,
   settings=this.switchSettings,
-  settingsNames="set_switch",--DEBUGNAOW ADDLANG
+  settingNames="set_switch",
   equipId=TppEquip.EQP_IT_Fulton_WormHole,
   profile=this.fultonLevelProfile,
 }
@@ -637,7 +653,8 @@ this.revengeMode={
 
 this.revengeBlockForMissionCount={
   save=MISSION,
-  range={max=10,min=0,default=3},
+  default=3,
+  range={max=10},
 }
 
 this.startOnFoot={
@@ -716,12 +733,15 @@ end
 for name,ivar in pairs(this) do
   if IsIvar(ivar) then   
     ivar.name=name
-    ivar.default=ivar.default or 0
-    ivar.setting=ivar.default
+    
     ivar.range=ivar.range or {}
     ivar.range.max=ivar.range.max or 0
     ivar.range.min=ivar.range.min or 0
     ivar.range.increment=ivar.range.increment or 1
+    
+    ivar.default=ivar.default or ivar.range.min
+    ivar.setting=ivar.default
+    
     if ivar.settings then
       ivar.enum=Enum(ivar.settings)
       --[[for name,enum in ipairs(ivar.enum) do
