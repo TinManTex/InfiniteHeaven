@@ -211,9 +211,11 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     end
   end
   --TppUiCommand.AnnounceLogView("SetSetting:" .. option.name)--DEBUG
-  if setting < self.range.min or setting > self.range.max then
-    TppUiCommand.AnnounceLogView("WARNING: SetSetting for "..self.name.." OUT OF BOUNDS")
-    return
+  if self.noBounds~=true then
+    if setting < self.range.min or setting > self.range.max then
+      TppUiCommand.AnnounceLogView("WARNING: SetSetting for "..self.name.." OUT OF BOUNDS")
+      return
+    end
   end
   --TppUiCommand.AnnounceLogView("SetSetting:" .. self.name)--DEBUG
   local prevSetting=self.setting
@@ -225,11 +227,11 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     end
   end
   if self.OnChange then
-    if noOnChangeSub and self.OnSubSettingChanged then
-    --elseif noOnChangeSub and self.OnChange==Ivars.RunCurrentSetting then
-    else
+--    if noOnChangeSub and self.OnSubSettingChanged then --CULL
+--    --elseif noOnChangeSub and self.OnChange==Ivars.RunCurrentSetting then
+--    else
       self:OnChange(prevSetting)
-    end
+   -- end
   end
   if self.profile and not noOnChangeSub then
     Ivars.OnChangeSubSetting(self)

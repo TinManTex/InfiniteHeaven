@@ -1798,12 +1798,12 @@ function this.CanArrivalAIPodInMB()
   return TppQuest.IsCleard"sovietBase_q99030" or Ivars.mbShowAiPod:Is(1)--tex added mbshow
 end
 function this.GetBattleGearDevelopLevel()
-  local n=this.GetCurrentStorySequence()
+  local currentStorySequence=this.GetCurrentStorySequence()
   if gvars.forceMbRadioPlayedFlag[TppDefine.FORCE_MB_RETURN_RADIO_ENUM.CompliteDevelopBattleGearRadio]or TppDemo.IsPlayedMBEventDemo"DevelopedBattleGear5"then
     return 5
-  elseif n>=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA then
+  elseif currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA then
     return 4
-  elseif n>=TppDefine.STORY_SEQUENCE.CLEARD_ELIMINATE_THE_COMMANDER then
+  elseif currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_ELIMINATE_THE_COMMANDER then
     return 3
   elseif this.GetClearedMissionCount{10085,10200}>=1 then
     return 2

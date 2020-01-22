@@ -571,8 +571,8 @@ function this.IsNotAlert()
   end
 end
 function this.IsPlayerStatusNormal()
-  local e=vars
-  if e.playerLife>0 and e.playerStamina>0 then
+  local vars=vars
+  if vars.playerLife>0 and vars.playerStamina>0 then
     return true
   else
     return false

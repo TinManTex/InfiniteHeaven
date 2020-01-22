@@ -391,9 +391,8 @@ this.demoOptions={
       vars.mbmBipedalismWeaponDevelopmentSkill=1
     end
     if f30050_sequence then
-      local e={pos={-30,-7.4,6.35},
-        rotY=-90}
-      TppPlayer.Warp(e)
+      local warpInfo={pos={-30,-7.4,6.35},rotY=-90}
+      TppPlayer.Warp(warpInfo)
       if Ivars.mbDemoSelection:Is(0) then--tex skip demo onend
         TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_114",rewardType=TppReward.TYPE.COMMON}
         f30050_sequence.EnableBattleHangerMarker()
@@ -968,7 +967,7 @@ function this.GetDemoTime(demoName)
   if Ivars.mbDemoOverrideTime:Is"CURRENT" then--tex>
     return nil
   elseif Ivars.mbDemoOverrideTime:Is"CUSTOM" then
-    return string.format("%02d:%02d:00",Ivars.mbDemoHour:Get(),Ivars.mbDemoHour:Get())
+    return string.format("%02d:%02d:00",Ivars.mbDemoHour:Get(),Ivars.mbDemoMinute:Get())
   end--<  
   
   local demoOptions=this.demoOptions[demoName]

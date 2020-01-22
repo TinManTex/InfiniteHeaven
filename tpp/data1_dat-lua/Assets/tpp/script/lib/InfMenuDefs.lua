@@ -8,8 +8,6 @@ this.playerSettingsMenu={
     InfMenuCommands.setDemon,
     Ivars.useSoldierForDemos,
     Ivars.playerHeadgear,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 this.soldierParamsMenu={
@@ -19,8 +17,6 @@ this.soldierParamsMenu={
     Ivars.soldierSightDistScale,
     InfMenuCommands.printHealthTableParameter,
     InfMenuCommands.printSightFormParameter,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 
@@ -39,8 +35,6 @@ this.sideOpsMenu={
     Ivars.unlockSideOps,
     Ivars.unlockSideOpNumber,
     Ivars.enableHeliReinforce,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 
@@ -53,8 +47,6 @@ this.motherBaseShowAssetsMenu={
     Ivars.mbShowEli,
     Ivars.mbShowCodeTalker,
     Ivars.mbUnlockGoalDoors,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 
@@ -62,11 +54,10 @@ this.dDEquipMenu={
   options={    
     Ivars.enableMbDDEquip,
     Ivars.enableEnemyDDEquip,
+    Ivars.enableEnemyDDEquipMissions,
     Ivars.mbSoldierEquipGrade_MIN,
     Ivars.mbSoldierEquipGrade_MAX,
     Ivars.allowUndevelopedDDEquip,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 
@@ -81,8 +72,6 @@ this.motherBaseMenu={
     Ivars.mbWarGames,
     Ivars.mbEnableBuddies,
     this.motherBaseShowAssetsMenu,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 
@@ -97,8 +86,6 @@ this.demosMenu={
     Ivars.mbDemoOverrideWeather,
     Ivars.mbDontDemoDisableOcelot,
     --Ivars.mbDontDemoDisableBuddy,--WIP
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 
@@ -119,38 +106,36 @@ this.patchupMenu={
     InfMenuCommands.printCustomRevengeConfig,
     --InfMenuCommands.showMbEquipGrade,
     InfMenuCommands.forceAllQuestOpenFlagFalse,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 
 this.ospMenu={
+  noResetItem=true,
   options={
     Ivars.ospWeaponProfile,
     Ivars.primaryWeaponOsp,
     Ivars.secondaryWeaponOsp,
     Ivars.tertiaryWeaponOsp,--tex user can set in UI, but still have it for setting the profile changes, and also if they want to set it while they're doing the other settings    
-    InfMenuCommands.goBackItem,
   }
 }
 
 this.handLevelMenu={
+  noResetItem=true,
   options={
     Ivars.handLevelProfile,
     Ivars.handLevelSonar,
     Ivars.handLevelPhysical,
     Ivars.handLevelPrecision,
     Ivars.handLevelMedical,
-    InfMenuCommands.goBackItem,
   }
 }
 
 this.fultonLevelMenu={
+  noResetItem=true,
   options={
     Ivars.fultonLevelProfile,    
     Ivars.itemLevelFulton,
     Ivars.itemLevelWormhole,
-    InfMenuCommands.goBackItem,
   }
 }
 
@@ -163,6 +148,7 @@ this.fultonSuccessMenu={
     Ivars.fultonSleepPenalty,
     Ivars.fultonHoldupPenalty,
     Ivars.fultonDontApplyMbMedicalToSleep,
+    Ivars.fultonHostageHandling,  
   },
 }
 
@@ -173,8 +159,6 @@ this.disableMenuMenu={
     Ivars.disableMenuAttack,
     Ivars.disableMenuHeliAttack,
     Ivars.disableSupportMenu,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 
@@ -195,8 +179,6 @@ this.revengeSystemMenu={
     Ivars.randomizeSmallCpPowers,
     Ivars.disableConvertArmorToShield,    
     --Ivars.balanceWeaponPowers,--WIP
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 --
@@ -214,9 +196,6 @@ for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
     table.insert(menuOptions,Ivars[powerType.."_MIN"])
     table.insert(menuOptions,Ivars[powerType.."_MAX"])
   end
-  
-  table.insert(menuOptions,InfMenuCommands.resetSettingsItem)
-  table.insert(menuOptions,InfMenuCommands.goBackItem)
 end
 
 this.abilityCustomMenu={
@@ -228,8 +207,6 @@ for n,powerType in ipairs(Ivars.abilitiesWithLevels)do
   table.insert(menuOptions,Ivars[powerType.."_MIN"])
   table.insert(menuOptions,Ivars[powerType.."_MAX"])
 end
-table.insert(menuOptions,InfMenuCommands.resetSettingsItem)
-table.insert(menuOptions,InfMenuCommands.goBackItem)
 
 this.weaponStrengthCustomMenu={
   options={
@@ -274,8 +251,6 @@ table.insert(revengeMenu,Ivars.reinforceLevel_MIN)
 table.insert(revengeMenu,Ivars.reinforceLevel_MAX)
 table.insert(revengeMenu,Ivars.revengeIgnoreBlocked_MIN)
 table.insert(revengeMenu,Ivars.revengeIgnoreBlocked_MAX)
-table.insert(revengeMenu,InfMenuCommands.resetSettingsItem)
-table.insert(revengeMenu,InfMenuCommands.goBackItem)
 
 this.revengeMenu={
   options={
@@ -288,8 +263,6 @@ this.revengeMenu={
     InfMenuCommands.resetRevenge,
     Ivars.changeCpSubTypeFree,
     Ivars.changeCpSubTypeForMissions,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 --
@@ -317,8 +290,7 @@ this.playerRestrictionsMenu={
     this.fultonSuccessMenu,
     this.ospMenu,
     this.disableMenuMenu,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
+    Ivars.blockInMissionSubsistenceIvars,
   }
 }
 
@@ -331,8 +303,6 @@ this.appearanceMenu={
     Ivars.playerFaceIdApearance,
     Ivars.playerHeadgear,    
     this.printCurrentAppearance,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 
@@ -357,8 +327,6 @@ this.phaseMenu={
     Ivars.phaseUpdateRange,
     Ivars.soldierAlertOnHeavyVehicleDamage,--tex this and
     Ivars.printPhaseChanges,--tex this don't rely on phaseUpdate
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   },
   disabled=false,
   disabledReason="item_disabled_subsistence",
@@ -380,8 +348,6 @@ this.supportHeliMenu={
     --Ivars.disableDescentToLandingZone,
     --Ivars.enableGetOutHeli,--WIP
     --Ivars.heliUpdate,--NONUSER
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   },
 }
 
@@ -392,8 +358,6 @@ this.enemyReinforceMenu={
     Ivars.forceReinforceRequest,
     Ivars.disableReinforceHeliPullOut,
     Ivars.enableSoldiersWithVehicleReinforce,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   },  
 }
 
@@ -405,8 +369,6 @@ this.vehiclePatrolMenu={
     Ivars.vehiclePatrolWavEnable,
     Ivars.vehiclePatrolWavHeavyEnable,
     Ivars.vehiclePatrolTankEnable,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
   }
 }
 
@@ -415,19 +377,19 @@ this.cameraMenu={
     Ivars.adjustCameraUpdate,
     Ivars.cameraMode,
     Ivars.moveScale,
---    Ivars.focalLength,
+--    Ivars.focalLength,--CULL
 --    Ivars.focusDistance,
 --    Ivars.aperture,
-    InfMenuCommands.resetCameraSettings,--tex just reset cam pos at the moment
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
+    --DEBUGNOW InfMenuCommands.resetCameraSettings,--tex just reset cam pos at the moment
   }
 }
 
 this.heliSpaceMenu={
+  noResetItem=true,
+  noGoBackItem=true,
   options={
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
-    --InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
+    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUGNOW
     --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
@@ -451,7 +413,7 @@ this.heliSpaceMenu={
     --this.missionEntryExitMenu,
     --this.appearanceMenu,--tex  WIP
     this.patchupMenu,
-    InfMenuCommands.resetSettingsItem,
+    --InfMenuCommands.resetSettingsItem,
     InfMenuCommands.resetAllSettingsItem,
     InfMenuCommands.menuOffItem,
   }
@@ -484,13 +446,15 @@ this.debugInMissionMenu={
     --InfMenuCommands.showMbEquipGrade,
     InfMenuCommands.showPosition,
     --InfMenuCommands.DEBUG_ClearAnnounceLog,  
-    InfMenuCommands.goBackItem,
   }
 }
 
-this.inMissionMenu={
+this.inMissionMenu={  
+  noResetItem=true,--tex KLUDGE, to keep menuoffitem order
+  noGoBack=true,--tex is root
   options={
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    Ivars.selectedCp,--DEBUGNOW
     --Ivars.selectedChangeWeapon,--WIP
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
     --InfMenuCommands.doEnemyReinforce,--WIP
@@ -516,6 +480,12 @@ for name,item in pairs(this) do
       item.name=name
       item.disabled=false
       item.parent=nil
+      if item.noResetItem~=true then   
+        table.insert(item.options,InfMenuCommands.resetSettingsItem)        
+      end
+      if item.noGoBackItem~=true then
+        table.insert(item.options,InfMenuCommands.goBackItem)      
+      end
     end
   end
 end

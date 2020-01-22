@@ -162,12 +162,12 @@ local function MinMaxIvar(name,minSettings,maxSettings,ivarSettings)
 end
 
 --ivar definitions
-this.disableEquipOnMenu={--DEBUGNOW
-  save=MISSION,
-  default=1,
-  range=this.switchRange,
-  settingNames="set_switch",
-}
+--this.disableEquipOnMenu={
+--  save=MISSION,
+--  default=1,
+--  range=this.switchRange,
+--  settingNames="set_switch",
+--}
 
 --parameters
 this.soldierParamsProfile={
@@ -342,7 +342,7 @@ this.useSoldierForDemos={
   range=this.switchRange,
   settingNames="set_switch",
 }
-this.mbDemoSelection={  helpText="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",--ADDLANG:
+this.mbDemoSelection={  
   save=MISSION,
   settings={"DEFAULT","PLAY","DISABLED"},
   settingNames="set_mbDemoSelection",
@@ -407,12 +407,20 @@ this.isManualHard={--tex not currently user option, but left over for legacy, mo
   range=this.switchRange,
 }
 
+this.blockInMissionSubsistenceIvars={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 this.subsistenceProfile={
   save=MISSION,
   settings={"DEFAULT","PURE","BOUNDER","CUSTOM"},
   settingNames="subsistenceProfileSettings",
   settingsTable={
     DEFAULT=function()
+      Ivars.blockInMissionSubsistenceIvars:Set(0,true)
+    
       Ivars.noCentralLzs:Set(0,true)
       Ivars.disableBuddies:Set(0,true)
       Ivars.disableHeliAttack:Set(0,true)
@@ -440,8 +448,11 @@ this.subsistenceProfile={
       Ivars.gameOverOnDiscovery:Set(0,true)
 
       Ivars.fultonLevelProfile:Set(0,true)
+      Ivars.fultonSuccessProfile:Set(0,true)
     end,
     PURE=function()
+      Ivars.blockInMissionSubsistenceIvars:Set(1,true)
+      
       Ivars.noCentralLzs:Set(1,true)
       Ivars.disableBuddies:Set(1,true)
       Ivars.disableHeliAttack:Set(1,true)
@@ -457,12 +468,9 @@ this.subsistenceProfile={
       if Ivars.ospWeaponProfile:IsDefault() or Ivars.ospWeaponProfile:Is"CUSTOM" then
         Ivars.ospWeaponProfile:Set(1,true)
       end
-      if not Ivars.handLevelProfile:Is(1) then
-        Ivars.handLevelProfile:Set(1,true)
-      end
-      if not Ivars.fultonLevelProfile:Is(1) then
-        Ivars.fultonLevelProfile:Set(1,true)
-      end
+
+      Ivars.handLevelProfile:Set(1,true)
+      Ivars.fultonLevelProfile:Set(1,true)
 
       Ivars.disableMenuDrop:Set(1,true)
       Ivars.disableMenuBuddy:Set(1,true)
@@ -476,8 +484,11 @@ this.subsistenceProfile={
       Ivars.maxPhase:Reset()
 
       Ivars.fultonLevelProfile:Set(1,true)
+      Ivars.fultonSuccessProfile:Set(1,true)
     end,
     BOUNDER=function()
+      Ivars.blockInMissionSubsistenceIvars:Set(1,true)
+    
       Ivars.noCentralLzs:Set(1,true)
       Ivars.disableBuddies:Set(0,true)
       Ivars.disableHeliAttack:Set(1,true)
@@ -494,12 +505,8 @@ this.subsistenceProfile={
         Ivars.ospWeaponProfile:Set(1,true)
       end
 
-      if Ivars.handLevelProfile:IsDefault() or Ivars.handLevelProfile:Is"CUSTOM" then
-        Ivars.handLevelProfile:Set(1,true)
-      end
-      if Ivars.fultonLevelProfile:IsDefault() or Ivars.fultonLevelProfile:Is"CUSTOM" then
-        Ivars.fultonLevelProfile:Set(1,true)
-      end
+      Ivars.handLevelProfile:Set(1,true)
+      Ivars.fultonLevelProfile:Set(1,true)
 
       Ivars.disableMenuDrop:Set(1,true)
       Ivars.disableMenuBuddy:Set(0,true)
@@ -513,6 +520,7 @@ this.subsistenceProfile={
       Ivars.maxPhase:Reset()
 
       Ivars.fultonLevelProfile:Set(1,true)
+      Ivars.fultonSuccessProfile:Set(1,true)
     end,
     CUSTOM=nil,
   },
@@ -698,6 +706,7 @@ this.fultonSuccessProfile={
       Ivars.fultonSleepPenalty:Reset()
       Ivars.fultonHoldupPenalty:Reset()
       Ivars.fultonDontApplyMbMedicalToSleep:Reset()
+      Ivars.fultonHostageHandling:Reset()
     end,
     HEAVEN=function()
       Ivars.fultonNoMbSupport:Set(1,true)
@@ -706,6 +715,7 @@ this.fultonSuccessProfile={
       Ivars.fultonSleepPenalty:Set(20,true)
       Ivars.fultonHoldupPenalty:Set(0,true)
       Ivars.fultonDontApplyMbMedicalToSleep:Set(1,true)
+      Ivars.fultonHostageHandling:Set(1,true)--DEFAULT,(ZERO)
     end,
     CUSTOM=nil,
   },
@@ -781,6 +791,13 @@ this.fultonDontApplyMbMedicalToSleep={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  profile=this.fultonSuccessProfile,
+}
+
+this.fultonHostageHandling={
+  save=MISSION,
+  settings={"DEFAULT","ZERO"},
+  settingNames="fultonHostageHandlingSettings",
   profile=this.fultonSuccessProfile,
 }
 --<fulton success
@@ -862,14 +879,18 @@ this.fultonLevelProfile={
     --    end
     end,
     ITEM_OFF=function()
-      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
-        itemIvar:Set(itemIvar.range.min,true)
-      end
+      Ivars.itemLevelFulton:Set(1,true)
+      Ivars.itemLevelWormhole:Set(0,true)
+--      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+--        itemIvar:Set(itemIvar.range.min,true)
+--      end
     end,
     ITEM_MAX=function()
-      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
-        itemIvar:Set(itemIvar.range.max,true)
-      end
+      Ivars.itemLevelFulton:Set(4,true)
+      Ivars.itemLevelWormhole:Set(1,true)
+--      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+--        itemIvar:Set(itemIvar.range.max,true)
+--      end
     end,
     CUSTOM=nil,
   },
@@ -893,9 +914,9 @@ this.itemLevelFulton={
 
 this.itemLevelWormhole={
   save=MISSION,
-  range=this.switchRange,
-  settings=this.switchSettings,
-  settingNames="set_switch",
+  --range=this.switchRange,
+  settings={"DISABLE","ENABLE"},
+  --settingNames="itemLevelWormholeSettings",
   equipId=TppEquip.EQP_IT_Fulton_WormHole,
   profile=this.fultonLevelProfile,
 }
@@ -1184,6 +1205,12 @@ this.randomizeSmallCpPowers={
 
 --
 this.enableEnemyDDEquip={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.enableEnemyDDEquipMissions={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -1930,17 +1957,17 @@ this.cammoTypesApearance={
     "WOODLAND",
     "WETWORK",
     "PANTHER",
-    "ARBANGRAY",--hang on ddmale,avatar
-    "ARBANBLUE",
+    --"ARBANGRAY",--hang on ddmale,avatar
+    --"ARBANBLUE",
     "REALTREE",--shows as olive
-    --"INVISIBLE",--shows as olive
-    "SANDSTORM",
-    "BLACK",
+    "INVISIBLE",--shows as olive
+    --"SANDSTORM",--blank/hang model sys
+    --"BLACK",--blank/hang model sys
     "SNEAKING_SUIT_GZ",--avatar
     "SNEAKING_SUIT_TPP",
     "BATTLEDRESS",
     "PARASITE",
-    "NAKED",--shows as olive
+    "NAKED",--shows as parasite
     "LEATHER",--avatar
     "SOLIDSNAKE",
     "NINJA",
@@ -1981,12 +2008,12 @@ this.cammoTypesApearance={
     PlayerCamoType.WOODLAND,
     PlayerCamoType.WETWORK,
     PlayerCamoType.PANTHER,
-    PlayerCamoType.ARBANGRAY,
-    PlayerCamoType.ARBANBLUE,
+    --PlayerCamoType.ARBANGRAY,
+    --PlayerCamoType.ARBANBLUE,
     PlayerCamoType.REALTREE,
-    --PlayerCamoType.INVISIBLE,
-    PlayerCamoType.SANDSTORM,
-    PlayerCamoType.BLACK,
+    PlayerCamoType.INVISIBLE,
+    --PlayerCamoType.SANDSTORM,
+    --PlayerCamoType.BLACK,
     PlayerCamoType.SNEAKING_SUIT_GZ,
     PlayerCamoType.SNEAKING_SUIT_TPP,
     PlayerCamoType.BATTLEDRESS,
@@ -2024,7 +2051,7 @@ this.cammoTypesApearance={
   --settingNames="set_",
   OnChange=function(self)
     if self.setting>0 then--TODO: add off/default/noset setting
-    --vars.playerCamoType=self.settingsTable[self.setting+1]--tex playercammotype is just a enum so could just use setting, but this is if we want to re-arrange
+      vars.playerCamoType=self.settingsTable[self.setting+1]--tex playercammotype is just a enum so could just use setting, but this is if we want to re-arrange
     -- vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
     -- vars.playerFaceEquipId=0
     end
@@ -2034,17 +2061,46 @@ this.cammoTypesApearance={
 this.playerPartsTypeApearance={
   --OFF save=MISSION,
   range={min=0,max=100},--TODO: figure out max range
-  --  settingsTable={
-  --    "NORMAL",
-  --    "NORMAL_SCARF",
-  --    "SNEAKING_SUIT",
-  --    "MGS1",
+  --  settings={
+  --    "NORMAL",--uses set camo type
+  --    "NORMAL_SCARF",--uses set camo type
+  --    "SNEAKING_SUIT_GZ",--GZ/MSF  --crash on avatar
   --    "HOSPITAL",
+  --    "MGS1",
+  --    "NINJA",
+  --    "RAIDEN", 
+  --    "NAKED",--uses set camo type?
+  --    "SNEAKING_SUIT_TPP",
+  --    "BATTLEDRESS",
+  --    "PARASITE_SUIT",
+  --    "LEATHER_JACKET",
+  --    "GOLD",
+  --    "SILVER",    
   --    "AVATAR_EDIT_MAN",
-  --    "NAKED",
+  --    "MGS3"--
+  --    "MGS3_NAKED",--can avatar naked? muddy, normal naked is more sooty?
+  --    "MGS_SNEAKING",
+  --    "MG3_TUXEDO",  
+  --    "EVA_CLOSE",--fem>
+  --    "EVA_OPEN",
+  --    "BOSS_CLOSE",
+  --    "BOSS_OPEN",--<
+  --    "TIGER_NOHEAD",--? for DD? placeholder? Repeats
+  --    "TIGER_NOHEAD2",--? for DD?
+  --    "SNEAKING_SUIT_GZ",
+  --    "HOSPITAL2",--
+  --    "MGS1",
+  --    "NINJA",
+  --    "RAIDEN", 
+  --    "NAKED",--> no head
+  --    "SNEAKING_SUIT_TPP",
+  --    "BATTLEDRESS",--<
+  --    "PARASITE_SUIT",  
+  --    "LEATHER_JACKET",--the truth leather? has brown glove. no head, no hand
+  --    35-blank, hang model system 
   --  },
   --
-  --  settingsTable={
+  --  settingsTable={-- TODO: build own setting enum, currently above is setting ordee
   --    PlayerPartsType.NORMAL,
   --    PlayerPartsType.NORMAL_SCARF,
   --    PlayerPartsType.SNEAKING_SUIT,
@@ -2055,7 +2111,8 @@ this.playerPartsTypeApearance={
   --  },
   OnChange=function(self)
     if self.setting>0 then--TODO: add off/default/noset setting
-    -- vars.playerPartsType=self.setting-1
+      vars.playerPartsType=self.setting
+      -- vars.playerPartsType=self.settingsTable[self.setting+1]
     end
   end,
 }
@@ -2074,7 +2131,7 @@ this.playerFaceEquipIdApearance={
   --    1,
   --  },
   OnChange=function(self)--TODO: add off/default/noset setting
-  --vars.playerFaceEquipId=self.setting
+    vars.playerFaceEquipId=self.setting
   end,
 }
 
@@ -2257,13 +2314,10 @@ function this.DisableOnSubsistence(self)
   --if TppMission.IsHelicopterSpace(vars.missionCode) then
   --  return
   --end
-
-  if not (Ivars.subsistenceProfile:IsDefault() or Ivars.subsistenceProfile:Is"CUSTOM") then
+  if Ivars.blockInMissionSubsistenceIvars:Is(1) then
     self.disabled=true
-    --InfMenu.DebugPrint("is subs")--DEBUG
-  else
+  else   
     self.disabled=false
-    --InfMenu.DebugPrint("not subs")--DEBUG
   end
 end
 
@@ -2319,20 +2373,26 @@ this.adjustCameraUpdate={
       return
     end
     
-    if InfMenu.menuOn then
-      InfMain.RestoreActionFlag()--DEBGNOW only restore those that menu disables that this doesnt
-      InfMenu.menuOn=false
-    end
-
     if self.setting==1 then
-      InfMenu.PrintLangId"cam_mode_on"
-      --InfMain.ResetCamDefaults()
-      InfMain.OnActivateCameraAdjust()
-      Ivars.cameraMode:Set(1)
+      if Ivars.cameraMode:Is(0) then
+        InfMenu.PrintLangId"cannot_edit_default_cam"
+        self.setting=0
+        return
+      else
+        InfMenu.PrintLangId"cam_mode_on"
+        --InfMain.ResetCamDefaults()
+        InfMain.OnActivateCameraAdjust()
+        --Ivars.cameraMode:Set(1)--DEBUGNOW
+      end
     else
       InfMenu.PrintLangId"cam_mode_off"
       InfMain.OnDectivateCameraAdjust()
-      Ivars.cameraMode:Set(0)
+      --Ivars.cameraMode:Set(0)
+    end    
+    
+    if InfMenu.menuOn then
+      InfMain.RestoreActionFlag()--DEBGNOW only restore those that menu disables that this doesnt
+      InfMenu.menuOn=false
     end
   end,
   execChecks={inGame=true,inHeliSpace=false},
@@ -2345,18 +2405,18 @@ this.adjustCameraUpdate={
 
 this.cameraMode={
   --save=MISSION,
-  settings={"PLAYER","CAMERA"},
+  settings={"DEFAULT","PLAYER","CAMERA"},
   settingNames="cameraModeSettings",
   OnChange=function(self,previousSetting)
     --    if Ivars.adjustCameraUpdate:Is(0) then
     --      return
     --    end
 
-    if self:Is"CAMERA" then
+    if self:Is"DEFAULT" then
+      Player.SetAroundCameraManualMode(false)
+    else
       Player.SetAroundCameraManualMode(true)
       InfMain.UpdateCameraManualMode()
-    elseif self:Is"PLAYER" then
-      Player.SetAroundCameraManualMode(false)
     end
 
     --    if self.setting==self.enum.PLAYER then
@@ -2388,27 +2448,62 @@ this.moveScale={
   range={max=1,min=0.1,increment=0.1},
 }
 
-this.focalLength={
-  --save=MISSION,
-  default=21,
-  range={max=10000,min=0.1,increment=1},
+this.camNames={
+  "FreeCam",
+  "PlayerStand",
+  "PlayerSquat",
+  "PlayerCrawl",
+  "PlayerDash",
 }
 
-this.focusDistance={
-  --save=MISSION,
-  default=8.175,
-  range={max=1000,min=0.01,increment=0.1},
-}
+for i,camName in ipairs(this.camNames) do
+  this["focalLength"..camName]={
+    save=MISSION,
+    default=21,
+    range={max=10000,min=0.1,increment=1},
+  }
 
-this.aperture={
-  --save=MISSION,
-  default=1.875,
-  range={max=100,min=0.001,increment=0.1},
-}
+  this["focusDistance"..camName]={
+    save=MISSION,
+    default=8.175,
+    range={max=1000,min=0.01,increment=0.1},
+  }
+
+  this["aperture"..camName]={
+    save=MISSION,
+    default=1.875,
+    range={max=100,min=0.001,increment=0.1},
+  }
+  
+  this["distance"..camName]={
+    save=MISSION,
+    default=5,
+    range={max=100,min=0,increment=0.1},
+  }
+  
+  this["positionX"..camName]={
+    save=MISSION,
+    default=0,
+    range={max=1000,min=0,increment=0.1},
+    noBounds=true,
+  } 
+  this["positionY"..camName]={
+    save=MISSION,
+    default=0.75,
+    range={max=1000,min=0,increment=0.1},
+    noBounds=true,
+  } 
+  this["positionZ"..camName]={
+    save=MISSION,
+    default=0,
+    range={max=1000,min=0,increment=0.1},
+    noBounds=true,
+  } 
+end
 
 --quiet
 this.disableQuietHumming={--tex no go
-  save=MISSION,
+  --OFF save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self)
@@ -2472,7 +2567,7 @@ local HeliEnabledGameCommand=function(self)
 end
 
 this.enableGetOutHeli={--WIP TEST force every frame via update to see if it actually does anything beyond the allow get out when allready at LZ
-  save=MISSION,
+  --OFF save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
   gameEnabledCommand="SetGettingOutEnabled",

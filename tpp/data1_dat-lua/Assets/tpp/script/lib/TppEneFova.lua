@@ -1050,7 +1050,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
   TppSoldier2.SetExtendPartsInfo{}
   TppHostage2.ClearDefaultBodyFovaId()
   --InfMenu.DebugPrint("PreMissionLoad - mission:" .. tostring(missionId) .. " currentMissionId:" .. tostring(currentMissionId).. " vars.missionCode:"..tostring(vars.missionCode))--DEBUG
-  if TppLocation.IsMotherBase()or TppLocation.IsMBQF() or Ivars.enableEnemyDDEquip:Is(1)then--tex
+  if TppLocation.IsMotherBase()or TppLocation.IsMBQF() or InfMain.IsDDEquip(missionId) then--tex
     local soldierEquipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade(missionId)--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
     local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
     --InfMenu.DebugPrint("soliderequipgrade: ".. tostring(soldierEquipGrade).. " isNoKillMode:"..tostring(isNoKillMode))--DEBUG

@@ -905,7 +905,7 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   --ORPHAN local n={}
   local weaponIdTable={}
 
-  if Ivars.enableEnemyDDEquip:Is(1) then--tex>
+  if InfMain.IsDDEquip() then--tex>
     weaponIdTable=this.weaponIdTable.DD
     return weaponIdTable
   end--<
@@ -4073,11 +4073,11 @@ function this.DisableUseGimmickRouteOnShiftChange(a,e)
     end
   end
 end
-function this.IsEliminateTarget(e)
-  local isTarget=mvars.ene_eliminateTargetList and mvars.ene_eliminateTargetList[e]
-  local isHeliTarget=mvars.ene_eliminateHelicopterList and mvars.ene_eliminateHelicopterList[e]
-  local isVehicleTarget=mvars.ene_eliminateVehicleList and mvars.ene_eliminateVehicleList[e]
-  local isWalkerTarget=mvars.ene_eliminateWalkerGearList and mvars.ene_eliminateWalkerGearList[e]
+function this.IsEliminateTarget(gameId)
+  local isTarget=mvars.ene_eliminateTargetList and mvars.ene_eliminateTargetList[gameId]
+  local isHeliTarget=mvars.ene_eliminateHelicopterList and mvars.ene_eliminateHelicopterList[gameId]
+  local isVehicleTarget=mvars.ene_eliminateVehicleList and mvars.ene_eliminateVehicleList[gameId]
+  local isWalkerTarget=mvars.ene_eliminateWalkerGearList and mvars.ene_eliminateWalkerGearList[gameId]
   local isEliminateTarget=((isTarget or isHeliTarget)or isVehicleTarget)or isWalkerTarget
   return isEliminateTarget
 end
@@ -4249,9 +4249,9 @@ function this.SetupQuestEnemy()
     return
   end
   for n,soldierName in ipairs(mvars.ene_soldierDefine.quest_cp)do
-    local e=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-    if e~=NULL_ID then
-      GameObject.SendCommand(e,{id="SetEnabled",enabled=false})
+    local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+    if soldierId~=NULL_ID then
+      GameObject.SendCommand(soldierId,{id="SetEnabled",enabled=false})
     end
   end
   TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=t,locatorSetName=n}
@@ -4766,84 +4766,84 @@ function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_T
     end
   end
 end
-function this.SetupActivateQuestHostage(n)
-  local r=TppLocation.IsAfghan()
-  local i=TppLocation.IsMiddleAfrica()
-  for t,n in pairs(n)do
-    if n.hostageName then
-      local t=n.hostageName
-      if IsTypeString(t)then
-        t=GameObject.GetGameObjectId(t)
+function this.SetupActivateQuestHostage(hostageList)
+  local isAfghan=TppLocation.IsAfghan()
+  local isMiddleAfrica=TppLocation.IsMiddleAfrica()
+  for t,hostageInfo in pairs(hostageList)do
+    if hostageInfo.hostageName then
+      local hostageId=hostageInfo.hostageName
+      if IsTypeString(hostageId)then
+        hostageId=GameObject.GetGameObjectId(hostageId)
       end
-      if t==NULL_ID then
+      if hostageId==NULL_ID then
       else
         if mvars.ene_isQuestSetup==false then
-          if(n.staffTypeId or n.skill)or n.uniqueTypeId then
-            local a=n.staffTypeId or TppDefine.STAFF_TYPE_ID.NORMAL
-            local e=n.skill or false
-            local n=n.uniqueTypeId or false
-            if e==false and n==false then
-              TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=t,staffTypeId=a}
-            elseif e~=false and IsTypeString(e)then
-              TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=t,staffTypeId=a,skill=e}
-            elseif n~=false then
-              TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=t,staffType="Unique",uniqueTypeId=n}
+          if(hostageInfo.staffTypeId or hostageInfo.skill)or hostageInfo.uniqueTypeId then
+            local staffTypeId=hostageInfo.staffTypeId or TppDefine.STAFF_TYPE_ID.NORMAL
+            local skill=hostageInfo.skill or false
+            local uniqueTypeId=hostageInfo.uniqueTypeId or false
+            if skill==false and uniqueTypeId==false then
+              TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=hostageId,staffTypeId=staffTypeId}
+            elseif skill~=false and IsTypeString(skill)then
+              TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=hostageId,staffTypeId=staffTypeId,skill=skill}
+            elseif uniqueTypeId~=false then
+              TppMotherBaseManagement.RegenerateGameObjectStaffParameter{gameObjectId=hostageId,staffType="Unique",uniqueTypeId=uniqueTypeId}
             end
           else
-            if mvars.ene_questTargetList[t]then
-              TppMotherBaseManagement.RegenerateGameObjectQuestStaffParameter{gameObjectId=t}
+            if mvars.ene_questTargetList[hostageId]then
+              TppMotherBaseManagement.RegenerateGameObjectQuestStaffParameter{gameObjectId=hostageId}
             end
           end
-          if n.voiceType then
-            if IsTypeTable(n.voiceType)then
-              local e=#n.voiceType
-              local e=math.random(e)
-              local e=n.voiceType[e]
-              if((e=="hostage_a"or e=="hostage_b")or e=="hostage_c")or e=="hostage_d"then
-                GameObject.SendCommand(t,{id="SetVoiceType",voiceType=e})
+          if hostageInfo.voiceType then
+            if IsTypeTable(hostageInfo.voiceType)then
+              local e=#hostageInfo.voiceType
+              local rnd=math.random(e)
+              local rndVoice=hostageInfo.voiceType[rnd]
+              if((rndVoice=="hostage_a"or rndVoice=="hostage_b")or rndVoice=="hostage_c")or rndVoice=="hostage_d"then
+                GameObject.SendCommand(hostageId,{id="SetVoiceType",voiceType=rndVoice})
               end
             else
-              local e=n.voiceType
-              if((e=="hostage_a"or e=="hostage_b")or e=="hostage_c")or e=="hostage_d"then
-                GameObject.SendCommand(t,{id="SetVoiceType",voiceType=e})
+              local voiceType=hostageInfo.voiceType
+              if((voiceType=="hostage_a"or voiceType=="hostage_b")or voiceType=="hostage_c")or voiceType=="hostage_d"then
+                GameObject.SendCommand(hostageId,{id="SetVoiceType",voiceType=voiceType})
               end
             end
           else
             local e={"hostage_a","hostage_b","hostage_c","hostage_d"}
-            local n=math.random(4)
-            local e=e[n]
-            GameObject.SendCommand(t,{id="SetVoiceType",voiceType=e})
+            local rnd=math.random(4)
+            local rndVoice=e[rnd]
+            GameObject.SendCommand(hostageId,{id="SetVoiceType",voiceType=rndVoice})
           end
-          if n.langType then
-            GameObject.SendCommand(t,{id="SetLangType",langType=n.langType})
+          if hostageInfo.langType then
+            GameObject.SendCommand(hostageId,{id="SetLangType",langType=hostageInfo.langType})
           else
-            if this.IsFemaleHostage(t)==false then
-              if r==true then
-                GameObject.SendCommand(t,{id="SetLangType",langType="russian"})
-              elseif i==true then
-                GameObject.SendCommand(t,{id="SetLangType",langType="afrikaans"})
+            if this.IsFemaleHostage(hostageId)==false then
+              if isAfghan==true then
+                GameObject.SendCommand(hostageId,{id="SetLangType",langType="russian"})
+              elseif isMiddleAfrica==true then
+                GameObject.SendCommand(hostageId,{id="SetLangType",langType="afrikaans"})
               end
             else
-              GameObject.SendCommand(t,{id="SetLangType",langType="english"})
+              GameObject.SendCommand(hostageId,{id="SetLangType",langType="english"})
             end
           end
-          if n.path then
-            GameObject.SendCommand(t,{id="SpecialAction",action="PlayMotion",path=n.path,autoFinish=false,enableMessage=true,commandId=Fox.StrCode32"CommandA",enableGravity=false,enableCollision=false})
+          if hostageInfo.path then
+            GameObject.SendCommand(hostageId,{id="SpecialAction",action="PlayMotion",path=hostageInfo.path,autoFinish=false,enableMessage=true,commandId=Fox.StrCode32"CommandA",enableGravity=false,enableCollision=false})
           end
-          this.SetQuestEnemy(t,false)
+          this.SetQuestEnemy(hostageId,false)
         end
-        if(n.bodyId or n.faceId)or n.isFaceRandom then
-          local faceId=n.faceId or false
-          local bodyId=n.bodyId or false
-          if n.isFaceRandom then
+        if(hostageInfo.bodyId or hostageInfo.faceId)or hostageInfo.isFaceRandom then
+          local faceId=hostageInfo.faceId or false
+          local bodyId=hostageInfo.bodyId or false
+          if hostageInfo.isFaceRandom then
             faceId=TppQuest.GetRandomFaceId()
           end
           if IsTypeNumber(bodyId)and IsTypeNumber(faceId)then
-            GameObject.SendCommand(t,{id="ChangeFova",bodyId=bodyId,faceId=faceId})
+            GameObject.SendCommand(hostageId,{id="ChangeFova",bodyId=bodyId,faceId=faceId})
           elseif IsTypeNumber(faceId)then
-            GameObject.SendCommand(t,{id="ChangeFova",faceId=faceId})
+            GameObject.SendCommand(hostageId,{id="ChangeFova",faceId=faceId})
           elseif IsTypeNumber(bodyId)then
-            GameObject.SendCommand(t,{id="ChangeFova",bodyId=bodyId})
+            GameObject.SendCommand(hostageId,{id="ChangeFova",bodyId=bodyId})
           end
         end
       end
@@ -5137,15 +5137,15 @@ function this.GetQuestCount()
   end
   return n,e
 end
-function this.SetQuestEnemy(e,n)
-  if IsTypeString(e)then
-    e=GameObject.GetGameObjectId(e)
+function this.SetQuestEnemy(gameObjectId,isTarget)
+  if IsTypeString(gameObjectId)then
+    gameObjectId=GameObject.GetGameObjectId(gameObjectId)
   end
-  if e==NULL_ID then
+  if gameObjectId==NULL_ID then
   end
-  if not mvars.ene_questTargetList[e]then
-    local n={messageId="None",isTarget=n}
-    mvars.ene_questTargetList[e]=n
+  if not mvars.ene_questTargetList[gameObjectId]then
+    local n={messageId="None",isTarget=isTarget}
+    mvars.ene_questTargetList[gameObjectId]=n
   end
 end
 function this.CheckDeactiveQuestAreaForceFulton()

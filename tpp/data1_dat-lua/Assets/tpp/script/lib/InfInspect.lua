@@ -9,7 +9,7 @@ local inspect ={
   _LICENSE = [[
     MIT LICENSE
 
-    Copyright (c) 2013 Enrique García Cota
+    Copyright (c) 2013 Enrique Garcï¿½a Cota
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the
@@ -332,13 +332,15 @@ this.Inspect=inspect
 
 --------------------
 --tex other debug stuff, nor related to the inspect system above
-function PrintGlobals()
+function this.PrintGlobals()
+  local globals=""
   for k,v in pairs(_G) do
-      print("Global key", k, "value", v)
+    globals=globals..tostring(k)..":"..tostring(v).."\n"
   end
+  InfMenu.DebugPrint(globals)
 end
 
-function locals()
+function this.locals()
   local variables = {}
   local idx = 1
   while true do
@@ -353,7 +355,7 @@ function locals()
   return variables
 end
 
-function upvalues()
+function this.upvalues()
   local variables = {}
   local idx = 1
   local func = debug.getinfo(2, "f").func

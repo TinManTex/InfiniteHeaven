@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r124"
+this.modVersion="r125"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -151,10 +151,11 @@ end
 -- mb dd equip
 function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
-  if missionCode~=50050 then
-    local mbDDEquip = missionCode==30050 and Ivars.enableMbDDEquip:Is(1)
-    local enemyDDEquip = missionCode~=30050 and Ivars.enableEnemyDDEquip:Is(1)
-    return mbDDEquip or enemyDDEquip
+  if missionCode~=50050 and missionCode >5 then--tex IsFreeMission hangs on startup?
+    local mbDDEquip = Ivars.enableMbDDEquip:Is(1) and missionCode==30050
+    local enemyDDEquipFreeRoam = Ivars.enableEnemyDDEquip:Is(1) and TppMission.IsFreeMission(missionCode) and missionCode~=30050--DEBUGNOW
+    local enemyDDEquipMissions = Ivars.enableEnemyDDEquipMissions:Is(1) and TppMission.IsStoryMission(missionCode)
+    return mbDDEquip or enemyDDEquipFreeRoam or enemyDDEquipMissions
   end
   return false
 end
@@ -566,7 +567,7 @@ function this.SetUpMBZombie()
         end
       end
     end
-end
+  end
 
 end
 
@@ -1576,14 +1577,14 @@ local menuDisableActions=PlayerDisableAction.OPEN_EQUIP_MENU
 function this.RestoreActionFlag()
   local activeControlMode=this.GetActiveControlMode()
   --DEBUGNOW WIP
---  if activeControlMode then
---    if bit.band(vars.playerDisableActionFlag,menuDisableActions)==menuDisableActions then 
---    else
---      this.EnableAction(menuDisableActions) 
---    end
---  else
-    this.EnableAction(menuDisableActions)    
---  end
+  --  if activeControlMode then
+  --    if bit.band(vars.playerDisableActionFlag,menuDisableActions)==menuDisableActions then
+  --    else
+  --      this.EnableAction(menuDisableActions)
+  --    end
+  --  else
+  this.EnableAction(menuDisableActions)
+  --  end
 end
 
 function this.DisableAction(actionFlag)
@@ -1605,15 +1606,11 @@ function this.ActionIsDisabled(actionFlag)
 end
 
 --
-
 local allButCamPadMask={
   settingName="allButCam",
   except=true,
+  --buttons=PlayerPad.STANCE,
   sticks=PlayerPad.STICK_R,
-}
-local allButSticksPadMask={
-  settingName="allButSticks",
-  except=true,
 }
 --CULL REF
 --local commonControlPadMask={
@@ -1624,7 +1621,6 @@ local allButSticksPadMask={
 --  triggers=PlayerPad.TRIGGER_L+PlayerPad.TRIGGER_R,
 --}
 
-local menuPadMask=allButSticksPadMask
 --
 local function UpdateRangeToMinMax(updateRate,updateRange)
   local min=updateRate-updateRange*0.5
@@ -2039,18 +2035,19 @@ this.moveBackButton=InfButton.DOWN
 this.moveUpButton=InfButton.STANCE
 this.moveDownButton=InfButton.CALL
 --cam buttons
-this.zoomInButton=InfButton.ZOOM_CHANGE
-this.zoomOutButton=InfButton.SUBJECT
-
+--CULL
+--this.zoomInButton=InfButton.ZOOM_CHANGE
+--this.zoomOutButton=InfButton.SUBJECT
 
 this.resetModeButton=InfButton.ACTION
-
 this.verticalModeButton=InfButton.SUBJECT
-
 this.zoomModeButton=InfButton.FIRE
-
 this.apertureModeButton=InfButton.RELOAD
 this.focusDistanceModeButton=InfButton.STANCE
+this.distanceModeButton=InfButton.CALL
+
+this.nextEditCamButton=InfButton.RIGHT
+this.prevEditCamButton=InfButton.LEFT
 
 this.warpModeButtons={
   this.moveRightButton,
@@ -2081,7 +2078,7 @@ function this.OnActivateWarpPlayer()
   InfButton.buttonStates[this.moveBackButton].decrement=0.1
   InfButton.buttonStates[this.moveUpButton].decrement=0.1
   InfButton.buttonStates[this.moveDownButton].decrement=0.1
-  
+
   local repeatRate=0.06
   local repeatRateUp=0.04
   InfButton.buttonStates[this.moveRightButton].repeatRate=repeatRate
@@ -2090,12 +2087,12 @@ function this.OnActivateWarpPlayer()
   InfButton.buttonStates[this.moveBackButton].repeatRate=repeatRate
   InfButton.buttonStates[this.moveUpButton].repeatRate=repeatRateUp
   InfButton.buttonStates[this.moveDownButton].repeatRate=repeatRate
-  
+
   --DEBUGNOWthis.DisableAction(Ivars.warpPlayerUpdate.disableActions)
 end
 
 function this.OnDeactivateWarpPlayer()
-  --this.EnableAction(Ivars.warpPlayerUpdate.disableActions)
+--this.EnableAction(Ivars.warpPlayerUpdate.disableActions)
 end
 
 function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
@@ -2170,44 +2167,113 @@ function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,up
   end
 end
 --
-local cameraOffsetDefault=Vector3(0,1,0)
-this.cameraPosition=cameraOffsetDefault
+local cameraOffsetDefault=Vector3(0,0.75,0)
+--this.cameraPosition=cameraOffsetDefault--CULL
+--this.cameraOffset=cameraOffsetDefault
 
-function this.ResetCamDefaults()
-  local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
-  this.cameraPosition=currentPos+cameraOffsetDefault
+--function this.ResetCamDefaults()--CULL
+--  local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
+--  this.cameraPosition=currentPos+cameraOffsetDefault
+--end
+
+--function this.ResetCamPosition()--CULL
+--  local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
+--  this.cameraPosition=currentPos+cameraOffsetDefault
+--end
+--SYNC: Ivars camNames
+local function GetCurrentCamName()
+  if Ivars.cameraMode:Is"PLAYER" then
+    if PlayerInfo.OrCheckStatus{PlayerStatus.STAND}then
+      return "PlayerStand"
+    elseif PlayerInfo.OrCheckStatus{PlayerStatus.SQUAT}then
+      return "PlayerSquat"
+    elseif  PlayerInfo.OrCheckStatus{PlayerStatus.CRAWL}then
+      return "PlayerCrawl"
+    elseif  PlayerInfo.OrCheckStatus{PlayerStatus.DASH}then
+      return "PlayerDash"
+    else
+      InfMenu.DebugPrint"UpdateCameraManualMode: unknow PlayerStatus"
+    end
+  else
+    return "FreeCam"
+  end
 end
 
-function this.ResetCamPosition()
-  local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
-  this.cameraPosition=currentPos+cameraOffsetDefault
+local function ReadPosition(camName)
+  return Vector3(Ivars["positionX"..camName]:Get(),Ivars["positionY"..camName]:Get(),Ivars["positionZ"..camName]:Get())
 end
+
+local function WritePosition(camName,position)
+  Ivars["positionX"..camName]:Set(position:GetX())
+  Ivars["positionY"..camName]:Set(position:GetY())
+  Ivars["positionZ"..camName]:Set(position:GetZ())
+end
+
+--REF
+--    Player.SetAroundCameraManualModeParams{
+--      --offset=this.cameraOffset,
+--      distance=0,--1.2,
+--      focalLength=focalLength:Get(),
+--      focusDistance=focusDistance:Get(),
+--      aperture=aperture:Get(),
+--      --target=Vector3(0,0,0),--tex only if targetIsPlayer?--Vector3(0,1000,0),--Vector3(2,10,10),
+--      target=movePosition,
+--      targetInterpTime=.2,
+--      --targetIsPlayer=true,
+--      --targetOffsetFromPlayer=Vector3(0,0,0.5),
+--      --rotationBasedOnPlayer = true,
+--      ignoreCollisionGameObjectName="Player",
+--      --ignoreCollisionGameObjectId
+--      rotationLimitMinX=-90,
+--      rotationLimitMaxX=90,
+--      alphaDistance=.5,
+--    --interpImmediately = immediately,
+--    --enableStockChangeSe = true,
+--    --rotationBasedOnPlayer = true,
+--    --useShakeParam = true
+--    }
 
 function this.UpdateCameraManualMode()
-  --Player.SetAroundCameraManualMode(true)
-  Player.SetAroundCameraManualModeParams{
-    --offset=this.cameraOffset,
-    distance=0,--1.2,
-    focalLength=Ivars.focalLength:Get(),
-    focusDistance=Ivars.focusDistance:Get(),
-    aperture=Ivars.aperture:Get(),
-    --target=Vector3(0,0,0),--tex only if targetIsPlayer?--Vector3(0,1000,0),--Vector3(2,10,10),
-    target=this.cameraPosition,
-    targetInterpTime=.2,
-    --targetIsPlayer=true,
-    --targetOffsetFromPlayer=Vector3(0,0,0.5),
-    --rotationBasedOnPlayer = true,
-    ignoreCollisionGameObjectName="Player",
-    --ignoreCollisionGameObjectId
-    rotationLimitMinX=-90,
-    rotationLimitMaxX=90,
-    alphaDistance=.5,
-  --interpImmediately = immediately,
-  --enableStockChangeSe = true,
-  --rotationBasedOnPlayer = true,
-  --useShakeParam = true
-  }
+  local currentCamName=GetCurrentCamName()
+  local focalLength=Ivars["focalLength"..currentCamName]
+  local aperture=Ivars["aperture"..currentCamName]
+  local focusDistance=Ivars["focusDistance"..currentCamName]
+  local cameraDistance=Ivars["distance"..currentCamName]
+  local movePosition=ReadPosition(currentCamName)
 
+  if Ivars.cameraMode:Is"PLAYER" then
+    Player.SetAroundCameraManualModeParams{
+      offset=movePosition,--this.cameraOffset,--Vector3(0.0,0.75,0),--this.cameraOffset,
+      distance=cameraDistance:Get(),
+      focalLength=focalLength:Get(),
+      focusDistance=focusDistance:Get(),
+      aperture=aperture:Get(),
+      --target=Vector3(0,0,0),--tex only if targetIsPlayer?--Vector3(0,1000,0),--Vector3(2,10,10),--this.cameraPosition,
+      targetInterpTime=.2,
+      targetIsPlayer=true,
+      --targetOffsetFromPlayer=Vector3(0,0,0.5),
+      --rotationBasedOnPlayer = true,
+      ignoreCollisionGameObjectName="Player",
+      --DEBUGNOW rotationLimitMinX=-60,
+      --DEBUGNOW rotationLimitMaxX=80,
+      alphaDistance=.5,--3--.5,
+    --enableStockChangeSe = false,
+    --useShakeParam = true
+    }
+  else
+    Player.SetAroundCameraManualModeParams{
+      target=movePosition,
+      distance=cameraDistance:Get(),
+      focalLength=focalLength:Get(),
+      focusDistance=focusDistance:Get(),
+      aperture=aperture:Get(),
+      targetInterpTime=.2,
+      ignoreCollisionGameObjectName="Player",
+      rotationLimitMinX=-90,
+      rotationLimitMaxX=90,
+      alphaDistance=.5,
+    }
+  end
   Player.UpdateAroundCameraManualModeParams()
 end
 
@@ -2232,11 +2298,19 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
   end
 
   if Ivars.adjustCameraUpdate:Is(0) then
-    if Ivars.cameraMode:Is"CAMERA" then
+    if Ivars.cameraMode:Is()>0 then
       this.UpdateCameraManualMode()
     end
     return
   end
+
+  if Ivars.cameraMode:Is(0) then
+    InfMenu.PrintLangId"cannot_edit_default_cam"
+    Ivars.adjustCameraUpdate:Set(0)
+    return
+  end
+
+  local isFreeCam=Ivars.cameraMode:Is"CAMERA"
 
   local moveAmount=1
   local zoomAmount=4
@@ -2250,15 +2324,25 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
   if math.abs(PlayerVars.leftStickXDirect)>deadZone or math.abs(PlayerVars.leftStickYDirect)>deadZone then--tex seem like game already handles deadzone?
     didMove=true
   end
+
+  local currentCamName=GetCurrentCamName()
+  local focalLength=Ivars["focalLength"..currentCamName]
+  local aperture=Ivars["aperture"..currentCamName]
+  local focusDistance=Ivars["focusDistance"..currentCamName]
+  local cameraDistance=Ivars["distance"..currentCamName]
+  local movePosition=ReadPosition(currentCamName)
+
   local moveScale=Ivars.moveScale:Get()
+  if not isFreeCam then
+    moveScale=moveScale*0.1
+  end
   --tex pretty much doing voodoo to tune these
-  local focalLengthScale=Ivars.focalLength:Get()/100--1
-  local apertureScale=Ivars.aperture:Get()/50--0.1
-  local focusDistanceScale=Ivars.aperture:Get()/10--0.1
+  local focalLengthScale=focalLength:Get()/100--1
+  local apertureScale=aperture:Get()/50--0.1
+  local focusDistanceScale=focusDistance:Get()/10--0.1--DEBUGNOW fixed a bug, so re-test
 
   moveX=-PlayerVars.leftStickXDirect*moveScale
   moveZ=-PlayerVars.leftStickYDirect*moveScale
-
 
   if not currentChecks.inMenu then
     local function IvarClamp(ivar,value)
@@ -2272,17 +2356,17 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
 
     if didMove then
       if InfButton.ButtonDown(this.zoomModeButton) then
-        local newValue=Ivars.focalLength:Get()-PlayerVars.leftStickYDirect*focalLengthScale
-        newValue=IvarClamp(Ivars.focalLength,newValue)
-        Ivars.focalLength:Set(newValue)
+        local newValue=focalLength:Get()-PlayerVars.leftStickYDirect*focalLengthScale
+        newValue=IvarClamp(focalLength,newValue)
+        focalLength:Set(newValue)
       elseif InfButton.ButtonDown(this.apertureModeButton) then
-        local newValue=Ivars.aperture:Get()-PlayerVars.leftStickYDirect*apertureScale
-        newValue=IvarClamp(Ivars.aperture,newValue)
-        Ivars.aperture:Set(newValue)
+        local newValue=aperture:Get()-PlayerVars.leftStickYDirect*apertureScale
+        newValue=IvarClamp(aperture,newValue)
+        aperture:Set(newValue)
       elseif InfButton.ButtonDown(this.focusDistanceModeButton) then
-        local newValue=Ivars.focusDistance:Get()-PlayerVars.leftStickYDirect*focusDistanceScale
-        newValue=IvarClamp(Ivars.focusDistance,newValue)
-        Ivars.focusDistance:Set(newValue)
+        local newValue=focusDistance:Get()-PlayerVars.leftStickYDirect*focusDistanceScale
+        newValue=IvarClamp(focusDistance,newValue)
+        focusDistance:Set(newValue)
       elseif InfButton.ButtonDown(this.verticalModeButton) then
         moveY=moveZ
         moveZ=0
@@ -2290,41 +2374,59 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
         local vMoveDir=Vector3(moveX,moveY,moveZ)
         local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerCameraRotation[1]))
         local camMoveDir=rotYQuat:Rotate(vMoveDir)
-        this.cameraPosition=this.cameraPosition+camMoveDir
+        movePosition=movePosition+camMoveDir
+      elseif InfButton.ButtonDown(this.distanceModeButton) then
+        local newValue=cameraDistance:Get()+PlayerVars.leftStickYDirect*focusDistanceScale--DEBUGNOW TODO own scale
+        newValue=IvarClamp(cameraDistance,newValue)
+        cameraDistance:Set(newValue)
       else
         local vMoveDir=Vector3(moveX,moveY,moveZ)
         local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerCameraRotation[1]))
         local camMoveDir=rotYQuat:Rotate(vMoveDir)
-        this.cameraPosition=this.cameraPosition+camMoveDir
+        movePosition=movePosition+camMoveDir
       end
     end--didmove
     --
     if InfButton.ButtonDown(this.resetModeButton) then
       if InfButton.OnButtonDown(this.zoomModeButton) then
-        Ivars.focalLength:Reset()
+        focalLength:Reset()
       elseif InfButton.OnButtonDown(this.apertureModeButton) then
-        Ivars.aperture:Reset()
+        aperture:Reset()
       elseif InfButton.OnButtonDown(this.focusDistanceModeButton) then
-        Ivars.focusDistance:Reset()
+        focusDistance:Reset()
       elseif InfButton.OnButtonDown(this.verticalModeButton) then
-        this.ResetCamPosition()
+        if isFreeCam then
+          local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
+          movePosition=currentPos+cameraOffsetDefault
+        else
+          movePosition=cameraOffsetDefault
+        end
+      elseif InfButton.OnButtonDown(this.distanceModeButton) then
+        if isFreeCam then--tex KLUDGE
+          cameraDistance:Set(0)
+        else
+        cameraDistance:Reset()
+        end
       end
     end
     --
     if InfButton.OnButtonDown(this.zoomModeButton) then
-      InfMenu.Print(InfMenu.LangString"focal_length_mode".." "..Ivars.focalLength:Get())
+      InfMenu.Print(currentCamName.." "..InfMenu.LangString"focal_length_mode".." "..focalLength:Get())
     end
     if InfButton.OnButtonDown(this.apertureModeButton) then
-      InfMenu.Print(InfMenu.LangString"aperture_mode".." "..Ivars.aperture:Get())
+      InfMenu.Print(currentCamName.." "..InfMenu.LangString"aperture_mode".." "..aperture:Get())
     end
     if InfButton.OnButtonDown(this.focusDistanceModeButton) then
-      InfMenu.Print(InfMenu.LangString"focus_distance_mode".." "..Ivars.focusDistance:Get())
+      InfMenu.Print(currentCamName.." "..InfMenu.LangString"focus_distance_mode".." "..focusDistance:Get())
     end
     if InfButton.OnButtonDown(this.verticalModeButton) then
-      InfMenu.Print(InfMenu.LangString"vertical_mode")
+      InfMenu.Print(currentCamName.." "..InfMenu.LangString"vertical_mode")
+    end
+    if InfButton.OnButtonDown(this.distanceModeButton) then
+      InfMenu.Print(currentCamName.." "..InfMenu.LangString"distance_mode".." "..cameraDistance:Get())
     end
     if InfButton.OnButtonDown(this.resetModeButton) then
-      InfMenu.Print(InfMenu.LangString"reset_mode")
+      InfMenu.Print(currentCamName.." "..InfMenu.LangString"reset_mode")
     end
     --inmenu-v-
   else
@@ -2332,12 +2434,12 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
       local vMoveDir=Vector3(moveX,moveY,moveZ)
       local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerCameraRotation[1]))
       local camMoveDir=rotYQuat:Rotate(vMoveDir)
-      this.cameraPosition=this.cameraPosition+camMoveDir
-      --InfMenu.DebugPrint("cameraPosition "..this.cameraPosition:GetX()..","..this.cameraPosition:GetY()..","..InfMain.cameraPosition:GetZ())
+      movePosition=movePosition+camMoveDir
+      --InfMenu.DebugPrint("movePosition "..movePosition:GetX()..","..movePosition:GetY()..","..movePosition:GetZ())
     end
   end
 
-
+  WritePosition(currentCamName,movePosition)
   this.UpdateCameraManualMode()
 end
 
@@ -2411,7 +2513,6 @@ function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRa
     end--nopullout or initialact
   end--not menu, insupportheli
 end
-
 ---
 function this.OnMenuOpen()
 
@@ -2422,7 +2523,7 @@ function this.OnMenuClose()
     if IsFunc(activeControlMode.OnActivate) then
       activeControlMode.OnActivate()
     end
-  end  
+  end
 end
 
 
@@ -2438,7 +2539,6 @@ function this.GetActiveControlMode()
   end
   return nil
 end
-
 --
 
 function this.HeliOrderRecieved()

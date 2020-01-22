@@ -70,7 +70,8 @@ missionPackTable[10020]=function(missionCode)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_TRUCK_MATERIAL)
     TppPackList.AddDefaultMissionAreaPack(missionCode)
     local bodyTable={{TppEnemyBodyId.oce0_main0_v00,1},{TppEnemyBodyId.oce0_main0_v01,1}}
-    TppEneFova.AddUniquePackage{type="hostage",body=bodyTable}do
+    TppEneFova.AddUniquePackage{type="hostage",body=bodyTable}
+    do
       local name="sol_enemyBase_0014"
       local uniqueSettingPackage={{type="enemy",name=name,faceId=635,bodyId=273}}
       TppEneFova.AddUniqueSettingPackage(uniqueSettingPackage)
@@ -203,31 +204,37 @@ missionPackTable[10070]=function(p)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.OCELOT)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MILLER)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HUEY)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10070/s10070_area04.fpk"elseif TppPackList.IsMissionPackLabel"beforeSahelanAttackDemo"then
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10070/s10070_area04.fpk"
+    elseif TppPackList.IsMissionPackLabel"beforeSahelanAttackDemo"then
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HUEY)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.SAHELAN)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MANTIS)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10070/s10070_area03.fpk"elseif TppPackList.IsMissionPackLabel"afterSahelanTestDemo"then
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10070/s10070_area03.fpk"
+    elseif TppPackList.IsMissionPackLabel"afterSahelanTestDemo"then
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_MISSION_AREA)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.AFGH_DECOY)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ENEMY_HELI)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10070/s10070_area02.fpk"else
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10070/s10070_area02.fpk"
+    else
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HUEY)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.SKULLFACE)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_LV)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_TRUCK)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10070/s10070_area01.fpk"end
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10070/s10070_area01.fpk"
+    end
 end
 missionPackTable[10080]=function(p)
   TppPackList.AddLocationCommonScriptPack(p)
   TppPackList.AddLocationCommonMissionAreaPack(p)
   if TppPackList.IsMissionPackLabel"afterPumpStopDemo"then
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10080/s10080_area02.fpk"else
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10080/s10080_area01.fpk"end
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10080/s10080_area02.fpk"
+    else
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10080/s10080_area01.fpk"
+    end
 end
 missionPackTable[10086]=function(p)
   TppPackList.AddLocationCommonScriptPack(p)
@@ -329,7 +336,8 @@ missionPackTable[10110]=function(p)
   if TppPackList.IsMissionPackLabel"AfterVolginDemo"then
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MANTIS)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.VOLGIN)
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10110/s10110_area02.fpk"else
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10110/s10110_area02.fpk"
+    else
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MAFR_MISSION_AREA)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.RAVEN)
     TppPackList.AddDefaultMissionAreaPack(p)
@@ -588,7 +596,8 @@ missionPackTable[10050]=function(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.QUIET)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.RAVEN)
   if TppPackList.IsMissionPackLabel"MotherBaseDemo"then
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10050/s10050_area01.fpk"else
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10050/s10050_area01.fpk"
+    else
     TppPackList.AddDefaultMissionAreaPack(p)
   end
 end
@@ -644,7 +653,6 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddLocationCommonScriptPack(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
-
   --tex IsDDBodyEquip add mission packs>
   if InfMain.IsDDBodyEquip(missionCode) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
@@ -744,7 +752,8 @@ missionPackTable[40010]=function(missionCode)
   elseif TppPackList.IsMissionPackLabel"avatarEdit"then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
     TppPackList.AddAvatarEditPack()
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/h40010/h40010_avatar.fpk"else
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/h40010/h40010_avatar.fpk"
+    else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/heli_ui.fpk"
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
@@ -785,7 +794,8 @@ missionPackTable[40050]=function(missionCode)
   elseif TppPackList.IsMissionPackLabel"avatarEdit"then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
     TppPackList.AddAvatarEditPack()
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/h40050/h40050_avatar.fpk"else
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/h40050/h40050_avatar.fpk"
+    else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/heli_ui.fpk"
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)

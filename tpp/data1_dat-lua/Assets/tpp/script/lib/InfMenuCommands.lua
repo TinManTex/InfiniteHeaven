@@ -154,12 +154,12 @@ this.unlockWeaponCustomization={
 }
 
 --
-this.resetCameraSettings={
-  OnChange=function()
-    InfMain.ResetCamPosition()
-    InfMenu.PrintLangId"cam_settings_reset"
-  end,
-}
+--this.resetCameraSettings={--CULL
+--  OnChange=function()
+--    InfMain.ResetCamPosition()
+--    InfMenu.PrintLangId"cam_settings_reset"
+--  end,
+--}
 --
 this.doEnemyReinforce={--WIP
   OnChange=function()
@@ -246,17 +246,46 @@ this.warpPlayerCommand={--WIP
 --
 this.DEBUG_SomeShiz={
   OnChange=function()
+
+    --   if GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli" then
+    --    InfMenu.DebugPrint"has heli"
+    --
+    --   else
+    --   InfMenu.DebugPrint"does not have heli"
+    --   end
+
+    if Ivars.selectedCp:Is()>0 then
+      local cpId=Ivars.selectedCp:Get()
+      local colorType=nil
+      --TppReinforceBlock._OnRequestLoadReinforce(cpId)
+      --TppReinforceBlock.StartReinforce()
+      --if not TppReinforceBlock.IsLoaded()then
+      --GameObject.SendCommand({type="TppCommandPost2"},{id="SetReinforceEnable"})
+      TppReinforceBlock.LoadReinforceBlock(TppReinforceBlock.REINFORCE_TYPE.HELI,cpId,colorType)
+      --end
+      --InfMain.ChangePhase(cpName,TppGameObject.PHASE_ALERT)
+--      for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
+--          this.ChangePhase(cpName,TppGameObject.PHASE_ALERT)
+--      end
+
+      InfMenu.DebugPrint"past loadreinf"--DEBUGNOW
+      TppReinforceBlock.StartReinforce(cpId)
+    end
+
     --InfMenu.DebugPrint"DEBUG_PrintSomeShiz"
     --InfMenu.DebugPrint("usermarkerposx: "..tostring(vars.userMarkerPosX))
-    local ins=InfInspect.Inspect(vars,{depth=1})
-    InfMenu.DebugPrint(ins)
---    userMarkerPosX
---userMarkerPosY
---userMarkerPosZ
---userMarkerAddFlag
---userMarkerGameObjId
---userMarkerLocationId
---userMarkerSaveCount
+    --    local ins=InfInspect.Inspect(vars,{depth=1})
+    --    InfMenu.DebugPrint(ins)
+
+    -- InfInspect.PrintGlobals()
+
+    --    userMarkerPosX
+    --userMarkerPosY
+    --userMarkerPosZ
+    --userMarkerAddFlag
+    --userMarkerGameObjId
+    --userMarkerLocationId
+    --userMarkerSaveCount
   end
 }
 

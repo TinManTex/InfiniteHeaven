@@ -628,9 +628,9 @@ function this.Update()
 end
 function this.Register(list)
   mvars.dem_demoList=list
-  for n,e in pairs(list)do
-    mvars.dem_invDemoList[e]=n
-    mvars.dem_invScdDemolist[StrCode32(e)]=n
+  for demoName,e in pairs(list)do
+    mvars.dem_invDemoList[e]=demoName
+    mvars.dem_invScdDemolist[StrCode32(e)]=demoName
   end
 end
 function this.AddDemo(demoName,demoId)

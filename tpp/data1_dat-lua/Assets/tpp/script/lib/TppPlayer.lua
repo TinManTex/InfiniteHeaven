@@ -85,8 +85,8 @@ function this.ForceChangePlayerToSnake(basic)
     if not TppMission.IsFOBMission(vars.missionCode) then--tex 50050 sequence calls this a couple of times, I can't reason it out as being a meaningful change but I don't want to change default behaviour
       if not (vars.missionCode==10240) then-- and DemoDaemon.IsDemoPlaying()) then--tex demo not actually playing at that point aparently --tex PATCHUP: stop stupid sexy snake player body/snake head for shining lights funeral scene
         return
-      end
     end
+  end
   end--
   vars.playerType=PlayerType.SNAKE
   if basic then
@@ -973,7 +973,7 @@ function this.SetTargetHeliCamera(r)
     l=r.gameObjectName or""
     a=r.gameObjectId
     o=r.announceLog or"target_eliminate_failed"
-    end
+  end
   a=a or GetGameObjectId(l)
   if a==NULL_ID then
     return
@@ -1078,37 +1078,37 @@ function this.ResetMissionEndCamera()
 end
 function this.PlayCommonMissionEndCamera(i,r,s,l,t,n)
   local a
-  local e=vars.playerVehicleGameObjectId
-  if Tpp.IsHorse(e)then
-    GameObject.SendCommand(e,{id="HorseForceStop"})
-    a=i(e,t,n)
-  elseif Tpp.IsVehicle(e)then
-    local o=GameObject.SendCommand(e,{id="GetVehicleType"})
-    GameObject.SendCommand(e,{id="ForceStop",enabled=true})
+  local vehicleId=vars.playerVehicleGameObjectId
+  if Tpp.IsHorse(vehicleId)then
+    GameObject.SendCommand(vehicleId,{id="HorseForceStop"})
+    a=i(vehicleId,t,n)
+  elseif Tpp.IsVehicle(vehicleId)then
+    local o=GameObject.SendCommand(vehicleId,{id="GetVehicleType"})
+    GameObject.SendCommand(vehicleId,{id="ForceStop",enabled=true})
     local r=r[o]
     if r then
-      a=r(e,t,n)
+      a=r(vehicleId,t,n)
     end
-  elseif(Tpp.IsPlayerWalkerGear(e)or Tpp.IsEnemyWalkerGear(e))then
-    GameObject.SendCommand(e,{id="ForceStop",enabled=true})
-    a=s(e,t,n)
-  elseif Tpp.IsHelicopter(e)then
+  elseif(Tpp.IsPlayerWalkerGear(vehicleId)or Tpp.IsEnemyWalkerGear(vehicleId))then
+    GameObject.SendCommand(vehicleId,{id="ForceStop",enabled=true})
+    a=s(vehicleId,t,n)
+  elseif Tpp.IsHelicopter(vehicleId)then
   else
     a=l(t,n)
   end
   if a then
-    local e="Timer_StartPlayMissionClearCameraStep"..tostring(t+1)
-    TimerStart(e,a)
+    local timerName="Timer_StartPlayMissionClearCameraStep"..tostring(t+1)
+    TimerStart(timerName,a)
   end
 end
-function this._PlayMissionClearCamera(a,t)
-  if a==1 then
+function this._PlayMissionClearCamera(playJingle,t)
+  if playJingle==1 then
     TppMusicManager.PostJingleEvent("SingleShot","Play_bgm_common_jingle_clear")
   end
-  this.PlayCommonMissionEndCamera(this.PlayMissionClearCameraOnRideHorse,this.VEHICLE_MISSION_CLEAR_CAMERA,this.PlayMissionClearCameraOnWalkerGear,this.PlayMissionClearCameraOnFoot,a,t)
+  this.PlayCommonMissionEndCamera(this.PlayMissionClearCameraOnRideHorse,this.VEHICLE_MISSION_CLEAR_CAMERA,this.PlayMissionClearCameraOnWalkerGear,this.PlayMissionClearCameraOnFoot,playJingle,t)
 end
 function this.RequestMissionClearMotion()
-Player.RequestToPlayDirectMotion{"missionClearMotion",{"/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_f_idl7.gani",false,"","","",false}}
+  Player.RequestToPlayDirectMotion{"missionClearMotion",{"/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_f_idl7.gani",false,"","","",false}}
 end
 function this.PlayMissionClearCameraOnFoot(p,c)
   if PlayerInfo.AndCheckStatus{PlayerStatus.NORMAL_ACTION}then
@@ -1121,45 +1121,67 @@ function this.PlayMissionClearCameraOnFoot(p,c)
       end
     end
   end
-  local a={"SKL_004_HEAD","SKL_002_CHEST"}
-  local t={Vector3(0,0,.05),Vector3(.15,0,0)}
-  local n={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
-  local r=Vector3(0,0,-4.5)
-  local e=.3
+  local skeletonNames={"SKL_004_HEAD","SKL_002_CHEST"}
+  local skeletonCenterOffsets={Vector3(0,0,.05),Vector3(.15,0,0)}
+  local skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
+  local offsetPos=Vector3(0,0,-4.5)
+  local interpTimeAtStart=.3
   local s
-  local o=false
-  local i=20
-  local l=false
+  local callSeOfCameraInterp=false
+  local timeToSleep=20
+  local useLastSelectedIndex=false
   if p==1 then
-    a={"SKL_004_HEAD","SKL_002_CHEST"}t={Vector3(0,0,.05),Vector3(.15,0,0)}
-    n={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
-    r=Vector3(0,0,-1.5)
-    e=.3
+    skeletonNames={"SKL_004_HEAD","SKL_002_CHEST"}
+    skeletonCenterOffsets={Vector3(0,0,.05),Vector3(.15,0,0)}
+    skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
+    offsetPos=Vector3(0,0,-1.5)
+    interpTimeAtStart=.3
     s=1
-    o=true
+    callSeOfCameraInterp=true
   elseif c then
-    a={"SKL_004_HEAD"}
-    t={Vector3(0,0,.05)}
-    n={Vector3(.1,.125,.1)}
-    r=Vector3(0,-.5,-3.5)
-    e=3
-    i=4
+    skeletonNames={"SKL_004_HEAD"}
+    skeletonCenterOffsets={Vector3(0,0,.05)}
+    skeletonBoundings={Vector3(.1,.125,.1)}
+    offsetPos=Vector3(0,-.5,-3.5)
+    interpTimeAtStart=3
+    timeToSleep=4
   else
-    a={"SKL_004_HEAD","SKL_031_LLEG","SKL_041_RLEG"}
-    t={Vector3(0,0,.05),Vector3(.15,0,0),Vector3(-.15,0,0)}
-    n={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)}
-    r=Vector3(0,0,-3.2)
-    e=3
-    l=true
+    skeletonNames={"SKL_004_HEAD","SKL_031_LLEG","SKL_041_RLEG"}
+    skeletonCenterOffsets={Vector3(0,0,.05),Vector3(.15,0,0),Vector3(-.15,0,0)}
+    skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)}
+    offsetPos=Vector3(0,0,-3.2)
+    interpTimeAtStart=3
+    useLastSelectedIndex=true
   end
-  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=4,followDelayTime=.1,candidateRots={{1,168},{1,-164}},skeletonNames=a,skeletonCenterOffsets=t,skeletonBoundings=n,offsetPos=r,focalLength=28,aperture=1.875,timeToSleep=i,interpTimeAtStart=e,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=o,useLastSelectedIndex=l}
+  Player.RequestToPlayCameraNonAnimation{
+    characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),
+    isFollowPos=true,
+    isFollowRot=true,
+    followTime=4,
+    followDelayTime=.1,
+    candidateRots={{1,168},{1,-164}},
+    skeletonNames=skeletonNames,
+    skeletonCenterOffsets=skeletonCenterOffsets,
+    skeletonBoundings=skeletonBoundings,
+    offsetPos=offsetPos,
+    focalLength=28,
+    aperture=1.875,
+    timeToSleep=timeToSleep,
+    interpTimeAtStart=interpTimeAtStart,
+    fitOnCamera=false,
+    timeToStartToFitCamera=1,
+    fitCameraInterpTime=.3,
+    diffFocalLengthToReFitCamera=16,
+    callSeOfCameraInterp=callSeOfCameraInterp,
+    useLastSelectedIndex=useLastSelectedIndex
+  }
   return s
 end
 function this.PlayMissionClearCameraOnRideHorse(e,c,p)
-  local e={"SKL_004_HEAD","SKL_002_CHEST"}
-  local a={Vector3(0,0,.05),Vector3(.15,0,0)}
-  local r={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
-  local n=Vector3(0,0,-3.2)
+  local skeletonNames={"SKL_004_HEAD","SKL_002_CHEST"}
+  local skeletonCenterOffsets={Vector3(0,0,.05),Vector3(.15,0,0)}
+  local skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
+  local offsetPos=Vector3(0,0,-3.2)
   local t=.2
   local o
   local i=false
@@ -1169,20 +1191,51 @@ function this.PlayMissionClearCameraOnRideHorse(e,c,p)
     l=4
   end
   if c==1 then
-    e={"SKL_004_HEAD","SKL_002_CHEST"}
-    a={Vector3(0,-.125,.05),Vector3(.15,-.125,0)}
-    r={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
-    n=Vector3(0,0,-3.2)t=.2
+    skeletonNames={"SKL_004_HEAD","SKL_002_CHEST"}
+    skeletonCenterOffsets={Vector3(0,-.125,.05),Vector3(.15,-.125,0)}
+    skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
+    offsetPos=Vector3(0,0,-3.2)t=.2
     o=1
     i=true
   else
-    e={"SKL_004_HEAD","SKL_031_LLEG","SKL_041_RLEG"}
-    a={Vector3(0,-.125,.05),Vector3(.15,-.125,0),Vector3(-.15,-.125,0)}
-    r={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)}
-    n=Vector3(0,0,-4.5)t=3
+    skeletonNames={"SKL_004_HEAD","SKL_031_LLEG","SKL_041_RLEG"}
+    skeletonCenterOffsets={Vector3(0,-.125,.05),Vector3(.15,-.125,0),Vector3(-.15,-.125,0)}
+    skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)}
+    offsetPos=Vector3(0,0,-4.5)t=3
     s=true
   end
-  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=4,followDelayTime=.1,candidateRots={{0,160},{0,-160}},skeletonNames=e,skeletonCenterOffsets={Vector3(0,-.125,.05),Vector3(.15,-.125,0),Vector3(-.15,-.125,0)},skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)},skeletonCenterOffsets=a,skeletonBoundings=r,offsetPos=n,focalLength=28,aperture=1.875,timeToSleep=l,interpTimeAtStart=t,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=i,useLastSelectedIndex=s}
+  Player.RequestToPlayCameraNonAnimation{
+    characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),
+    isFollowPos=true,
+    isFollowRot=true,
+    followTime=4,
+    followDelayTime=.1,
+    candidateRots={{0,160},{0,-160}},
+    skeletonNames=skeletonNames,
+    skeletonCenterOffsets={
+      Vector3(0,-.125,.05),
+      Vector3(.15,-.125,0),
+      Vector3(-.15,-.125,0)
+    },
+    skeletonBoundings={
+      Vector3(.1,.125,.1),
+      Vector3(.15,.1,.05),
+      Vector3(.15,.1,.05)
+    },
+    skeletonCenterOffsets=skeletonCenterOffsets,
+    skeletonBoundings=skeletonBoundings,
+    offsetPos=offsetPos,
+    focalLength=28,
+    aperture=1.875,
+    timeToSleep=l,
+    interpTimeAtStart=t,
+    fitOnCamera=false,
+    timeToStartToFitCamera=1,
+    fitCameraInterpTime=.3,
+    diffFocalLengthToReFitCamera=16,
+    callSeOfCameraInterp=i,
+    useLastSelectedIndex=s
+  }
   return o
 end
 function this.PlayMissionClearCameraOnRideLightVehicle(e,l,s)
@@ -1273,7 +1326,7 @@ function this.PlayMissionClearCameraOnRideEasternArmoredVehicle(t,n,r)
 end
 function this.PlayMissionClearCameraOnRideWesternArmoredVehicle(t,n)
   local a
-  a=this.PlayMissionClearCameraOnRideCommonArmoredVehicle(t,n,2,isQuest)--RETAILBUG: 
+  a=this.PlayMissionClearCameraOnRideCommonArmoredVehicle(t,n,2,isQuest)--RETAILBUG:
   return a
 end
 function this.PlayMissionClearCameraOnRideTank(e,l,i)
@@ -1835,8 +1888,8 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   local mbSectionSuccess=this.mbSectionRankSuccessTable[mbFultonRank]or 0
   if Ivars.fultonNoMbSupport:Is(1) then--tex
     mbSectionSuccess=0
-  end-- 
-  
+  end--
+
   local successMod=fultonWeatherSuccessTable[vars.weather]or 0
   successMod=successMod+mbSectionSuccess
   if successMod>0 then
@@ -1844,35 +1897,44 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   end
   percentage=(baseLine+doFuncSuccess)+successMod
 
---  if Tpp.IsSoldier(gameId)then--tex fulton success variation WIP
---    if gvars.fultonSoldierVariationRange>0 then--tex
---      local frequency=0.1
---      local rate=gvars.fultonVariationInvRate/gvars.clockscale
---      local t=math.fmod(vars.clock/rate,2*math.pi)--tex mod to sine range
---      local amplitude=gvars.fultonSoldierVariationRange*0.5
---      local bias=-amplitude
---      local variationMod=amplitude*math.sin(t)+bias
---    
---      --percentage=math.random(percentage-gvars.fultonVariationRange,percentage)
---      percentage=percentage+variationMod
---    end
---  else
---    if gvars.fultonOtherVariationRange>0 then--tex
---      --TODO 
---    end
---  end--
-  
+  --  if Tpp.IsSoldier(gameId)then--tex fulton success variation WIP
+  --    if gvars.fultonSoldierVariationRange>0 then--tex
+  --      local frequency=0.1
+  --      local rate=gvars.fultonVariationInvRate/gvars.clockscale
+  --      local t=math.fmod(vars.clock/rate,2*math.pi)--tex mod to sine range
+  --      local amplitude=gvars.fultonSoldierVariationRange*0.5
+  --      local bias=-amplitude
+  --      local variationMod=amplitude*math.sin(t)+bias
+  --
+  --      --percentage=math.random(percentage-gvars.fultonVariationRange,percentage)
+  --      percentage=percentage+variationMod
+  --    end
+  --  else
+  --    if gvars.fultonOtherVariationRange>0 then--tex
+  --      --TODO
+  --    end
+  --  end--
+
   if mvars.ply_allways_100percent_fulton then
     percentage=100
   end
   if TppEnemy.IsRescueTarget(gameId)then
-    percentage=100
-  end
+      percentage=100
+  end    
+  
+  if Tpp.IsHostage(gameId) then--tex>
+    if Ivars.fultonHostageHandling:Is"ZERO" then
+      percentage=0
+    end
+  end--<
+    
+    
   local forcePercent
   if mvars.ply_forceFultonPercent then
     forcePercent=mvars.ply_forceFultonPercent[gameId]
   end
   if forcePercent then
+    InfMenu.DebugPrint"forcepercent"--DEBUGNOW--DEBUGNOW
     percentage=forcePercent
   end
   if isDogFultoning then
@@ -1898,16 +1960,16 @@ function this.GetSoldierFultonSucceedRatio(gameId)
     return
   end
   --tex OFF, using this.mbSectionRankSuccessTable instead
---  local mbSectionRankSuccessTable={
---    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,
---    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,
---    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,
---    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_C]=30,
---    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_D]=20,
---    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_E]=10,
---    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
---    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
---  }
+  --  local mbSectionRankSuccessTable={
+  --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,
+  --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,
+  --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,
+  --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_C]=30,
+  --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_D]=20,
+  --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_E]=10,
+  --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
+  --    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
+  --  }
   local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
   local mbSectionSuccess=this.mbSectionRankSuccessTable[mbFultonRank]or 0--tex changed from table local to function to in module
   if Ivars.fultonNoMbMedical:Is(1) then--tex>
@@ -2330,8 +2392,8 @@ function this._IsStartStatusValid(a)
   end
   return true
 end
-function this._IsAbilityNameValid(a)
-  if(this.DisableAbilityList[a]==nil)then
+function this._IsAbilityNameValid(name)
+  if(this.DisableAbilityList[name]==nil)then
     return false
   end
   return true
