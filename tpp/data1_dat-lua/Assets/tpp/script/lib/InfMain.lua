@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r119"
+this.modVersion="r120"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -151,8 +151,18 @@ end
 -- mb dd equip
 function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
+  if missionCode~=50050 then
+    local mbDDEquip = missionCode==30050 and Ivars.enableMbDDEquip:Is(1)
+    local enemyDDEquip = missionCode~=30050 and Ivars.enableEnemyDDEquip:Is(1)
+    return mbDDEquip or enemyDDEquip
+  end
+  return false
+end
+
+function this.IsDDBodyEquip(missionId)
+  local missionCode=missionId or vars.missionCode
   if missionCode==30050 then
-    return Ivars.mbSoldierEquipGrade:Is()>0
+    return Ivars.mbDDSuit:Is()>0 --or Ivars.mbDDHeadGear
   end
   return false
 end
@@ -325,13 +335,12 @@ this.ddHeadGearSelection={
   },
 }
 
-
 function this.GetCurrentDDBodyInfo()
   local suitName=nil
-  if Ivars.mbDDSuit:Is(0) then
+  if Ivars.mbDDSuit:Is"EQUIPGRADE" then
     local ddSuit=TppEnemy.GetDDSuit()
     suitName=this.ddSuitToDDBodyInfo[ddSuit]
-  elseif Ivars.mbDDSuit:Is()>0 then
+  elseif Ivars.mbDDSuit:Is()>1 then--0=OFF,EQUIPGRADE,..specific suits
     suitName=Ivars.mbDDSuit.settings[Ivars.mbDDSuit:Get()+1]
   end
   if suitName==nil then
@@ -398,11 +407,9 @@ function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldier
   local missionCode=missionId or vars.missionCode
   local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   if this.IsDDEquip(missionCode) then
-    if Ivars.mbSoldierEquipGrade:Is"RANDOM" then
-      grade = math.random(1,10)
-    else
-      grade = Ivars.mbSoldierEquipGrade:Get()-Ivars.mbSoldierEquipGrade.enum.RANDOM
-    end
+    math.randomseed(gvars.rev_revengeRandomValue)
+    grade=this.MinMaxIvarRandom"mbSoldierEquipGrade"
+    math.randomseed(os.time())
   end
   --TppUiCommand.AnnounceLogView("GetEquipGrade: gvar:".. Ivars.mbSoldierEquipGrade:Get() .." grade: ".. grade)--DEBUG
   --TppUiCommand.AnnounceLogView("Caller: ".. tostring(debug.getinfo(2).name) .." ".. tostring(debug.getinfo(2).source))--DEBUG
@@ -411,7 +418,7 @@ end
 
 function this.GetMbsClusterSecuritySoldierEquipRange(missionId)
   local missionCode=missionId or vars.missionCode
-  if InfMain.IsDDEquip(missionCode) then
+  if this.IsDDEquip(missionCode) then
     if Ivars.mbSoldierEquipRange:Is"RANDOM" then
       return math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
     elseif Ivars.mbSoldierEquipRange:Is()>0 then
@@ -530,6 +537,12 @@ end
 --tex TODO: put in some util or math module
 function this.round(num,idp)
   return tonumber(string.format("%." .. (idp or 0) .. "f", num))
+end
+
+function this.MinMaxIvarRandom(ivarName)
+  local ivarMin=Ivars[ivarName.."_MIN"]
+  local ivarMax=Ivars[ivarName.."_MAX"]
+  return math.random(ivarMin:Get(),ivarMax:Get())
 end
 
 function this.CreateCustomRevengeConfig()

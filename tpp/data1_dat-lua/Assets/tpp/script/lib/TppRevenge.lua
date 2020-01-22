@@ -1349,10 +1349,10 @@ function this._AllocateResources(config)
   local nullId=NULL_ID
   local defaultSoldierType=TppEnemy.GetSoldierType(nullId)
   local defaultSubType=TppEnemy.GetSoldierSubType(nullId)
-  local weaponIdTableFull=TppEnemy.GetWeaponIdTable(defaultSoldierType,defaultSubType)
-  if weaponIdTableFull==nil then
+  local weaponIdTable=TppEnemy.GetWeaponIdTable(defaultSoldierType,defaultSubType)
+  if weaponIdTable==nil then
     TppEnemy.weaponIdTable.DD={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
-    weaponIdTableFull=TppEnemy.weaponIdTable.DD
+    weaponIdTable=TppEnemy.weaponIdTable.DD
   end
   local disablePowerSettings=mvars.ene_disablePowerSettings
   local missionId=TppMission.GetMissionID()
@@ -1396,14 +1396,14 @@ function this._AllocateResources(config)
     disablePowerSettings[powerType]=nil
   end
   do
-    local RENalwaysLoaded={HANDGUN=true,SMG=true,ASSAULT=true,SHOTGUN=true,MG=true,SHIELD=true}
-    local weaponIdTable=weaponIdTableFull.NORMAL
-    if this.IsUsingStrongWeapon()and weaponIdTableFull.STRONG then
-      weaponIdTable=weaponIdTableFull.STRONG
+    local basePowerTypes={HANDGUN=true,SMG=true,ASSAULT=true,SHOTGUN=true,MG=true,SHIELD=true}
+    local baseWeaponIdTable=weaponIdTable.NORMAL
+    if this.IsUsingStrongWeapon()and weaponIdTable.STRONG then
+      baseWeaponIdTable=weaponIdTable.STRONG
     end
-    if Tpp.IsTypeTable(weaponIdTable)then
-      for powerType,weaponId in pairs(weaponIdTable)do
-        if not RENalwaysLoaded[powerType]then
+    if Tpp.IsTypeTable(baseWeaponIdTable)then
+      for powerType,weaponId in pairs(baseWeaponIdTable)do
+        if not basePowerTypes[powerType]then
         elseif disablePowerSettings[powerType]then
         elseif restrictWeaponTable[powerType]then
         else
@@ -1416,10 +1416,10 @@ function this._AllocateResources(config)
 
   if not disablePowerSettings.MISSILE and not restrictWeaponTable.MISSILE then
     local missileIdTable={}
-    if this.IsUsingStrongMissile()and weaponIdTableFull.STRONG then
-      missileIdTable=weaponIdTableFull.STRONG
+    if this.IsUsingStrongMissile()and weaponIdTable.STRONG then
+      missileIdTable=weaponIdTable.STRONG
     else
-      missileIdTable=weaponIdTableFull.NORMAL
+      missileIdTable=weaponIdTable.NORMAL
     end
     local missileId=missileIdTable.MISSILE
     if missileId then
@@ -1429,10 +1429,10 @@ function this._AllocateResources(config)
   end
   if not disablePowerSettings.SNIPER and not restrictWeaponTable.SNIPER then
     local sniperIdTable={}
-    if this.IsUsingStrongSniper()and weaponIdTableFull.STRONG then
-      sniperIdTable=weaponIdTableFull.STRONG
+    if this.IsUsingStrongSniper()and weaponIdTable.STRONG then
+      sniperIdTable=weaponIdTable.STRONG
     else
-      sniperIdTable=weaponIdTableFull.NORMAL
+      sniperIdTable=weaponIdTable.NORMAL
     end
     local sniperId=sniperIdTable.SNIPER
     if sniperId then

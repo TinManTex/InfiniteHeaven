@@ -63,7 +63,8 @@ end
 missionPackTable[10020]=function(missionCode)
   TppPackList.AddLocationCommonScriptPack(missionCode)
   if TppPackList.IsMissionPackLabel"afterMissionClearMovie"then
-    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10020/s10020_area02.fpk"else
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10020/s10020_area02.fpk"
+    else
     TppPackList.AddLocationCommonMissionAreaPack(missionCode)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_TRUCK)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_TRUCK_MATERIAL)
@@ -644,8 +645,8 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
 
-  --tex IsDDEquip addmissionpacks>
-  if InfMain.IsDDEquip(missionCode) then
+  --tex IsDDBodyEquip add mission packs>
+  if InfMain.IsDDBodyEquip(missionCode) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
     InfMain.AddBodyPack(bodyInfo)
     

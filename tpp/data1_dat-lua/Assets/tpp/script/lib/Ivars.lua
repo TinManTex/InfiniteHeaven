@@ -117,6 +117,50 @@ function this.ResetSetting(self,noOnChangeSub,noSave)
   InfMenu.SetSetting(self,self.default,noOnChangeSub,noSave)
 end
 
+--paired min/max ivar setup
+local function PushMax(ivar)
+  local maxName=ivar.subName.."_MAX"
+  if ivar.setting>Ivars[maxName]:Get() then
+    Ivars[maxName]:Set(ivar.setting,true)
+  end
+end
+local function PushMin(ivar)
+  local minName=ivar.subName.."_MIN"
+  if ivar.setting<Ivars[minName]:Get() then
+    Ivars[minName]:Set(ivar.setting,true)
+  end
+end
+
+local function MinMaxIvar(name,minSettings,maxSettings,ivarSettings)
+  local ivarMin={
+    subName=name,
+    save=MISSION,
+    OnChange=PushMin,
+  }
+  local ivarMax={
+    subName=name,
+    save=MISSION,
+    OnChange=PushMax,
+  }
+  
+  for k,v in pairs(minSettings) do
+    ivarMin[k]=v
+  end
+  
+  for k,v in pairs(maxSettings) do
+    ivarMax[k]=v
+  end
+  
+  for k,v in pairs(ivarSettings) do
+    ivarMin[k]=v
+    ivarMax[k]=v
+  end
+  
+  this[name.."_MIN"]=ivarMin
+  this[name.."_MAX"]=ivarMax
+  return ivarMin,ivarMax
+ end
+
 --parameters
 this.soldierParamsProfile={
   save=GLOBAL,--tex global since user still has to restart to get default/modded/reset
@@ -222,23 +266,25 @@ this.playerHealthScale={
   end,
 }
 --motherbase>
-this.mbSoldierEquipGrade={
+this.enableMbDDEquip={--DEBUGNOW addlang
   save=MISSION,
-  settings={
-    "DEFAULT",
-    "RANDOM",
-    "GRADE1",
-    "GRADE2",
-    "GRADE3",
-    "GRADE4",
-    "GRADE5",
-    "GRADE6",
-    "GRADE7",
-    "GRADE8",
-    "GRADE9",
-    "GRADE10"
-  },
-  settingNames="set_dd_equip_grade",
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+MinMaxIvar(
+  "mbSoldierEquipGrade",
+  {default=3},--tex 3 is the min grade at which all weapon types are available
+  {default=10},
+  {
+    range={min=1,max=10}
+  }
+)
+
+this.allowUndevelopedDDEquip={--DEBUGNOW addlang
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 this.mbSoldierEquipRange={
@@ -250,6 +296,7 @@ this.mbSoldierEquipRange={
 this.mbDDSuit={
   save=MISSION,
   settings={
+    "OFF",
     "EQUIPGRADE",
     "DRAB",
     "TIGER",
@@ -1066,6 +1113,14 @@ this.randomizeSmallCpPowers={
   profile=this.revengeProfile,
 }
 
+--
+this.enableEnemyDDEquip={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+
 --custom revenge config
 
 function this.SetPercentagePowersRange(min,max)
@@ -1232,24 +1287,13 @@ this.percentagePowerTables={
   "cpEquipPowers",
 }
 
-local function PushMax(ivar)
-  local maxName=ivar.subName.."_MAX"
-  if ivar.setting>Ivars[maxName]:Get() then
-    Ivars[maxName]:Set(ivar.setting,true)
-  end
-end
-local function PushMin(ivar)
-  local minName=ivar.subName.."_MIN"
-  if ivar.setting<Ivars[minName]:Get() then
-    Ivars[minName]:Set(ivar.setting,true)
-  end
-end
+--
 
-local function OnChangeMin(self)
+local function OnChangeCustomRevengeMin(self)
   PushMax(self)
   InfMain.SetCustomRevengeUiParameters()
 end
-local function OnChangeMax(self)
+local function OnChangeCustomeRevengeMax(self)
   PushMin(self)
   InfMain.SetCustomRevengeUiParameters()
 end
@@ -1257,27 +1301,22 @@ end
 for n,powerTableName in ipairs(this.percentagePowerTables)do
   local powerTable=this[powerTableName]
   for m,powerType in ipairs(powerTable)do
-    local ivarMin={
-      subName=powerType,
-      save=MISSION,
-      default=0,
-      range=this.revengePowerRange,
-      powerType=powerType,
-      OnChange=OnChangeMin,
-      profile=this.revengeConfigProfile,
-    }
-    local ivarMax={
-      subName=powerType,
-      save=MISSION,
-      default=1,
-      range=this.revengePowerRange,
-      powerType=powerType,
-      OnChange=OnChangeMax,
-      profile=this.revengeConfigProfile,
-    }
-
-    this[powerType.."_MIN"]=ivarMin
-    this[powerType.."_MAX"]=ivarMax
+    MinMaxIvar(
+      powerType,
+      {
+        default=0,
+        OnChange=OnChangeCustomRevengeMin,
+      },
+      {
+        default=1,
+        OnChange=OnChangeCustomeRevengeMax,
+      },
+      {
+        range=this.revengePowerRange,
+        powerType=powerType,
+        profile=this.revengeConfigProfile,       
+      }
+    )
   end
 end
 
@@ -1296,30 +1335,22 @@ this.abilitiesWithLevels={
 }
 
 for n,powerType in ipairs(this.abilitiesWithLevels)do
-  local ivarMin={
-    subName=powerType,
-    save=MISSION,
-    default=0,
-    settings=this.abiltiyLevels,
-    powerType=powerType,
-    subName=powerType,
-    OnChange=OnChangeMin,
-    profile=this.revengeConfigProfile,
-  }
-
-  local ivarMax={
-    subName=powerType,
-    save=MISSION,
-    default=3,--SPECIAL
-    settings=this.abiltiyLevels,
-    powerType=powerType,
-    subName=powerType,
-    OnChange=OnChangeMax,
-    profile=this.revengeConfigProfile,
-  }
-
-  this[powerType.."_MIN"]=ivarMin
-  this[powerType.."_MAX"]=ivarMax
+  MinMaxIvar(
+    powerType,
+    {
+      default=0,
+      OnChange=OnChangeCustomRevengeMin,
+    },
+    {
+      default=3,--SPECIAL
+      OnChange=OnChangeCustomeRevengeMax,
+    },
+    {
+      settings=this.abiltiyLevels,
+      powerType=powerType,
+      profile=this.revengeConfigProfile,       
+    }
+  )
 end
 
 this.weaponStrengthPowers={--tex bools
@@ -1329,30 +1360,23 @@ this.weaponStrengthPowers={--tex bools
 }
 
 for n,powerType in ipairs(this.weaponStrengthPowers)do
-  local ivarMin={
-    subName=powerType,
-    save=MISSION,
-    default=0,
-    range=this.switchRange,
-    settingNames="set_switch",
-    powerType=powerType,
-    OnChange=OnChangeMin,
-    profile=this.revengeConfigProfile,
-  }
-
-  local ivarMax={    
-    subName=powerType,
-    save=MISSION,
-    default=1,
-    range=this.switchRange,
-    settingNames="set_switch",
-    powerType=powerType,
-    OnChange=OnChangeMax,
-    profile=this.revengeConfigProfile,
-  }
-
-  this[powerType.."_MIN"]=ivarMin
-  this[powerType.."_MAX"]=ivarMax
+  MinMaxIvar(
+    powerType,
+    {
+      default=0,
+      OnChange=OnChangeCustomRevengeMin,
+    },
+    {
+      default=1,
+      OnChange=OnChangeCustomeRevengeMax,
+    },
+    {
+      range=this.switchRange,
+      settingNames="set_switch",
+      powerType=powerType,
+      profile=this.revengeConfigProfile,       
+    }
+  )
 end
 
 this.cpEquipBoolPowers={--TODO: don't actually seem to work
@@ -1374,62 +1398,42 @@ local reinforceLevelSettings={
   "SUPER_REINFORCE",
   "BLACK_SUPER_REINFORCE",
 }
-this.reinforceLevel_MIN={--tex applied additionally
-  subName="reinforceLevel",
-  save=MISSION,
-  default=0,
-  settings=reinforceLevelSettings,
-  OnChange=OnChangeMin,
-  profile=this.revengeConfigProfile,
-}
+MinMaxIvar(
+  "reinforceLevel",
+  {
+    default=0,
+    OnChange=OnChangeCustomRevengeMin
+  },
+  {
+    default=2,--BLACK_SUPER_REINFORCE
+    OnChange=OnChangeCustomeRevengeMax
+  },
+  {
+    settings=reinforceLevelSettings,
+    profile=this.revengeConfigProfile,    
+  }
+)
 
-this.reinforceLevel_MAX={--tex applied additionally
-  subName="reinforceLevel",
-  save=MISSION,
-  default=2,--BLACK_SUPER_REINFORCE
-  settings=reinforceLevelSettings,
-  OnChange=OnChangeMax,
-  profile=this.revengeConfigProfile,
-}
+MinMaxIvar(
+  "reinforceCount",
+  {default=1,OnChange=OnChangeCustomRevengeMin},
+  {default=5,OnChange=OnChangeCustomeRevengeMax},
+  {
+    range={max=99,min=1},
+    profile=this.revengeConfigProfile,    
+  }
+)
 
-this.reinforceCount_MIN={
-  subName="reinforceCount",
-  save=MISSION,
-  default=1,
-  range={max=99,min=1},
-  OnChange=OnChangeMin,
-  profile=this.revengeConfigProfile,
-}
-
-this.reinforceCount_MAX={
-  subName="reinforceCount",
-  save=MISSION,
-  default=5,
-  range={max=99,min=1},
-  OnChange=OnChangeMax,
-  profile=this.revengeConfigProfile,
-}
-
-this.revengeIgnoreBlocked_MIN={
-  subName="revengeIgnoreBlocked",
-  save=MISSION,
-  default=0,
-  range=this.switchRange,
-  settingNames="set_switch",
-  OnChange=OnChangeMin,
-  profile=this.revengeConfigProfile,
-}
-
-this.revengeIgnoreBlocked_MAX={
-  subName="revengeIgnoreBlocked",
-  save=MISSION,
-  default=0,
-  range=this.switchRange,
-  settingNames="set_switch",
-  OnChange=OnChangeMax,
-  profile=this.revengeConfigProfile,
-}
-
+MinMaxIvar(
+  "revengeIgnoreBlocked",
+  {default=0,OnChange=OnChangeCustomRevengeMin},
+  {default=0,OnChange=OnChangeCustomeRevengeMax},
+  {
+    range=this.switchRange,
+    settingNames="set_switch",
+    profile=this.revengeConfigProfile,   
+  }
+)
 
 --<revenge stuff
 --reinforce stuff DOC: Reinforcements Soldier Vehicle Heli.txt
@@ -1452,6 +1456,12 @@ this.enableHeliReinforce={--tex chance of heli being chosen for a rienforce, als
   OnChange=function()
     TppQuest.UpdateActiveQuest()--tex update since quests may have changed
   end,
+}
+
+this.enableSoldiersWithVehicleReinforce={--DEBUGNOW
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 this.disableReinforceHeliPullOut={

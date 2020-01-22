@@ -1300,8 +1300,8 @@ function this.CloseEmergencyMission()
   for e,e in ipairs(TppDefine.EMERGENCY_MISSION_LIST)do
   end
 end
-function this.GetStorySequenceName(e)
-  return TppDefine.STORY_SEQUENCE_LIST[e+1]
+function this.GetStorySequenceName(index)
+  return TppDefine.STORY_SEQUENCE_LIST[index+1]
 end
 function this.GetStorySequenceTable(n)
   return this.storySequenceTable[n+1]
@@ -2043,16 +2043,17 @@ for e=0,TppDefine.MISSION_COUNT_MAX do
   gvars.str_missionNewOpenFlag[e]=false
 end
 if TppDebugMbDevelop then
-  local n
+  local DebugStorySequenceFunc
   local i
-  for t=TppDefine.STORY_SEQUENCE.STORY_START,gvars.str_storySequence do
-    local e=this.GetStorySequenceName(t)
-    if TppDebugMbDevelop[e]then
-      n=TppDebugMbDevelop[e]i=e
+  for index=TppDefine.STORY_SEQUENCE.STORY_START,gvars.str_storySequence do
+    local storySequenceName=this.GetStorySequenceName(index)
+    if TppDebugMbDevelop[storySequenceName]then
+      DebugStorySequenceFunc=TppDebugMbDevelop[storySequenceName]
+      i=storySequenceName
     end
   end
-  if n then
-    n()
+  if DebugStorySequenceFunc then
+    DebugStorySequenceFunc()
   else
     TppDebugMbDevelop.AllDeveloped()
   end

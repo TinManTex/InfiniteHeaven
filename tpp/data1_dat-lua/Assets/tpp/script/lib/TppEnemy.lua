@@ -446,102 +446,102 @@ local mbsDevelopedEquipType=MbsDevelopedEquipType or{}
 this.DDWeaponIdInfo={
   HANDGUN={{equipId=TppEquip.EQP_WP_West_hg_010}},
   SMG={
-    {equipId=TppEquip.EQP_WP_East_sm_047,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2044},
-    {equipId=TppEquip.EQP_WP_East_sm_045,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2043},
-    {equipId=TppEquip.EQP_WP_East_sm_044,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2042},
-    {equipId=TppEquip.EQP_WP_East_sm_043,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2041},
-    {equipId=TppEquip.EQP_WP_East_sm_042,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2040},
-    {equipId=TppEquip.EQP_WP_West_sm_017,developedEquipType=mbsDevelopedEquipType.SM_2014,developId=2014},
-    {equipId=TppEquip.EQP_WP_West_sm_016,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2013},
-    {equipId=TppEquip.EQP_WP_West_sm_015,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2012},
-    {equipId=TppEquip.EQP_WP_West_sm_014,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2011},
-    {equipId=TppEquip.EQP_WP_West_sm_010,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2010}
+    {equipId=TppEquip.EQP_WP_East_sm_047,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2044},--grade7
+    {equipId=TppEquip.EQP_WP_East_sm_045,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2043},--grade5
+    {equipId=TppEquip.EQP_WP_East_sm_044,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2042},--grade4
+    {equipId=TppEquip.EQP_WP_East_sm_043,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2041},--grade3
+    {equipId=TppEquip.EQP_WP_East_sm_042,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2040},--grade2
+    {equipId=TppEquip.EQP_WP_West_sm_017,developedEquipType=mbsDevelopedEquipType.SM_2014,developId=2014},--grade7
+    {equipId=TppEquip.EQP_WP_West_sm_016,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2013},--grade6
+    {equipId=TppEquip.EQP_WP_West_sm_015,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2012},--grade5
+    {equipId=TppEquip.EQP_WP_West_sm_014,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2011},--grade4
+    {equipId=TppEquip.EQP_WP_West_sm_010,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2010}--grade3
   },
   SHOTGUN={
-    {equipId=TppEquip.EQP_WP_Com_sg_038,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4027_NOKILL,developId=4028},
-    {equipId=TppEquip.EQP_WP_Com_sg_030,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4027_NOKILL,developId=4027},
-    {equipId=TppEquip.EQP_WP_Com_sg_025,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4035_NOKILL,developId=4037},
-    {equipId=TppEquip.EQP_WP_Com_sg_024,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4035_NOKILL,developId=4036},
-    {equipId=TppEquip.EQP_WP_Com_sg_023,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4035_NOKILL,developId=4035},
-    {equipId=TppEquip.EQP_WP_Com_sg_018,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4044},
-    {equipId=TppEquip.EQP_WP_Com_sg_016,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4043},
-    {equipId=TppEquip.EQP_WP_Com_sg_015,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4042},
-    {equipId=TppEquip.EQP_WP_Com_sg_020,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4041},
-    {equipId=TppEquip.EQP_WP_Com_sg_013,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4040},
-    {equipId=TppEquip.EQP_WP_Com_sg_011,developedEquipType=mbsDevelopedEquipType.SG_4020,developId=4020}
+    {equipId=TppEquip.EQP_WP_Com_sg_038,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4027_NOKILL,developId=4028},--grade8
+    {equipId=TppEquip.EQP_WP_Com_sg_030,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4027_NOKILL,developId=4027},--grade7
+    {equipId=TppEquip.EQP_WP_Com_sg_025,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4035_NOKILL,developId=4037},--grade5
+    {equipId=TppEquip.EQP_WP_Com_sg_024,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4035_NOKILL,developId=4036},--grade4
+    {equipId=TppEquip.EQP_WP_Com_sg_023,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4035_NOKILL,developId=4035},--grade3
+    {equipId=TppEquip.EQP_WP_Com_sg_018,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4044},--grade8
+    {equipId=TppEquip.EQP_WP_Com_sg_016,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4043},--grade6
+    {equipId=TppEquip.EQP_WP_Com_sg_015,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4042},--grade5
+    {equipId=TppEquip.EQP_WP_Com_sg_020,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4041},--grade4
+    {equipId=TppEquip.EQP_WP_Com_sg_013,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4040},--grade3
+    {equipId=TppEquip.EQP_WP_Com_sg_011,developedEquipType=mbsDevelopedEquipType.SG_4020,developId=4020}--grade2
   },
   ASSAULT={
-    {equipId=TppEquip.EQP_WP_West_ar_077,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3064},
-    {equipId=TppEquip.EQP_WP_West_ar_075,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3063},
-    {equipId=TppEquip.EQP_WP_West_ar_070,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3062},
-    {equipId=TppEquip.EQP_WP_West_ar_063,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3061},
-    {equipId=TppEquip.EQP_WP_West_ar_060,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3060},
-    {equipId=TppEquip.EQP_WP_West_ar_057,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3042},
-    {equipId=TppEquip.EQP_WP_West_ar_050,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3038},
-    {equipId=TppEquip.EQP_WP_West_ar_055,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3037},
-    {equipId=TppEquip.EQP_WP_West_ar_010,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3036},
-    {equipId=TppEquip.EQP_WP_West_ar_042,developedEquipType=mbsDevelopedEquipType.AR_3030,developId=3031},
+    {equipId=TppEquip.EQP_WP_West_ar_077,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3064},--grade7
+    {equipId=TppEquip.EQP_WP_West_ar_075,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3063},--grade5
+    {equipId=TppEquip.EQP_WP_West_ar_070,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3062},--grade4
+    {equipId=TppEquip.EQP_WP_West_ar_063,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3061},--grade3
+    {equipId=TppEquip.EQP_WP_West_ar_060,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3060},--grade2
+    {equipId=TppEquip.EQP_WP_West_ar_057,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3042},--grade7
+    {equipId=TppEquip.EQP_WP_West_ar_050,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3038},--grade5
+    {equipId=TppEquip.EQP_WP_West_ar_055,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3037},--grade4
+    {equipId=TppEquip.EQP_WP_West_ar_010,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3036},--grade3
+    {equipId=TppEquip.EQP_WP_West_ar_042,developedEquipType=mbsDevelopedEquipType.AR_3030,developId=3031},--grade2
     {equipId=TppEquip.EQP_WP_West_ar_040}
   },
   SNIPER={
-    {equipId=TppEquip.EQP_WP_West_sr_048,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6037_NOKILL,developId=6039},
-    {equipId=TppEquip.EQP_WP_West_sr_047,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6037_NOKILL,developId=6038},
-    {equipId=TppEquip.EQP_WP_West_sr_037,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6037_NOKILL,developId=6037},
-    {equipId=TppEquip.EQP_WP_East_sr_034,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6005_NOKILL,developId=6006},
-    {equipId=TppEquip.EQP_WP_East_sr_033,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6005_NOKILL,developId=6008},
-    {equipId=TppEquip.EQP_WP_East_sr_032,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6005_NOKILL,developId=6005},
-    {equipId=TppEquip.EQP_WP_West_sr_027,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6033},
-    {equipId=TppEquip.EQP_WP_West_sr_020,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6032},
-    {equipId=TppEquip.EQP_WP_West_sr_014,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6031},
-    {equipId=TppEquip.EQP_WP_West_sr_013,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6030},
-    {equipId=TppEquip.EQP_WP_West_sr_011,developedEquipType=mbsDevelopedEquipType.SR_6010,developId=6010}
+    {equipId=TppEquip.EQP_WP_West_sr_048,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6037_NOKILL,developId=6039},--grade8
+    {equipId=TppEquip.EQP_WP_West_sr_047,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6037_NOKILL,developId=6038},--grade7
+    {equipId=TppEquip.EQP_WP_West_sr_037,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6037_NOKILL,developId=6037},--grade5
+    {equipId=TppEquip.EQP_WP_East_sr_034,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6005_NOKILL,developId=6006},--grade4
+    {equipId=TppEquip.EQP_WP_East_sr_033,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6005_NOKILL,developId=6008},--grade3
+    {equipId=TppEquip.EQP_WP_East_sr_032,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6005_NOKILL,developId=6005},--grade2
+    {equipId=TppEquip.EQP_WP_West_sr_027,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6033},--grade7
+    {equipId=TppEquip.EQP_WP_West_sr_020,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6032},--grade5
+    {equipId=TppEquip.EQP_WP_West_sr_014,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6031},--grade4
+    {equipId=TppEquip.EQP_WP_West_sr_013,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6030},--grade3
+    {equipId=TppEquip.EQP_WP_West_sr_011,developedEquipType=mbsDevelopedEquipType.SR_6010,developId=6010}--grade2
   },
   MG={
-    {equipId=TppEquip.EQP_WP_West_mg_037,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7004},
-    {equipId=TppEquip.EQP_WP_West_mg_030,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7003},
-    {equipId=TppEquip.EQP_WP_West_mg_024,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7002},
-    {equipId=TppEquip.EQP_WP_West_mg_023,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7001},
-    {equipId=TppEquip.EQP_WP_West_mg_020,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7e3}
+    {equipId=TppEquip.EQP_WP_West_mg_037,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7004},--grade7
+    {equipId=TppEquip.EQP_WP_West_mg_030,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7003},--grad5
+    {equipId=TppEquip.EQP_WP_West_mg_024,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7002},--grade4
+    {equipId=TppEquip.EQP_WP_West_mg_023,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7001},--grade3
+    {equipId=TppEquip.EQP_WP_West_mg_020,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7e3}--grade2
   },
   MISSILE={
-    {equipId=TppEquip.EQP_WP_West_ms_020,isNoKill=true,developedEquipType=mbsDevelopedEquipType.MS_8013_NOKILL,developId=8013},
-    {equipId=TppEquip.EQP_WP_Com_ms_026,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8023},
-    {equipId=TppEquip.EQP_WP_Com_ms_020,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8022},
-    {equipId=TppEquip.EQP_WP_Com_ms_024,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8021},
-    {equipId=TppEquip.EQP_WP_Com_ms_023,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8020}
+    {equipId=TppEquip.EQP_WP_West_ms_020,isNoKill=true,developedEquipType=mbsDevelopedEquipType.MS_8013_NOKILL,developId=8013},--grade7
+    {equipId=TppEquip.EQP_WP_Com_ms_026,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8023},--grade6
+    {equipId=TppEquip.EQP_WP_Com_ms_020,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8022},--grade5
+    {equipId=TppEquip.EQP_WP_Com_ms_024,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8021},--grade4
+    {equipId=TppEquip.EQP_WP_Com_ms_023,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8020}--grade3
   },
   SHIELD={
-    {equipId=TppEquip.EQP_SLD_DD,developedEquipType=mbsDevelopedEquipType.SD_9000,developId=9e3}
+    {equipId=TppEquip.EQP_SLD_DD,developedEquipType=mbsDevelopedEquipType.SD_9000,developId=9e3}--grade2
   },
   GRENADE={
-    {equipId=TppEquip.EQP_SWP_Grenade_G05,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10045},
-    {equipId=TppEquip.EQP_SWP_Grenade_G04,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10044},
-    {equipId=TppEquip.EQP_SWP_Grenade_G03,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10043},
-    {equipId=TppEquip.EQP_SWP_Grenade_G02,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10042},
-    {equipId=TppEquip.EQP_SWP_Grenade_G01,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10041},
+    {equipId=TppEquip.EQP_SWP_Grenade_G05,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10045},--grade8
+    {equipId=TppEquip.EQP_SWP_Grenade_G04,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10044},--grade5
+    {equipId=TppEquip.EQP_SWP_Grenade_G03,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10043},--grade4
+    {equipId=TppEquip.EQP_SWP_Grenade_G02,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10042},--grade3
+    {equipId=TppEquip.EQP_SWP_Grenade_G01,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10041},--grade2
     {equipId=TppEquip.EQP_SWP_Grenade}
   },
   STUN_GRENADE={
-    {equipId=TppEquip.EQP_SWP_StunGrenade_G03,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10063},
-    {equipId=TppEquip.EQP_SWP_StunGrenade_G02,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10062},
-    {equipId=TppEquip.EQP_SWP_StunGrenade_G01,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10061},
-    {equipId=TppEquip.EQP_SWP_StunGrenade,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10060}
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G03,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10063},--grade8
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G02,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10062},--grade5
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G01,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10061},--grade4
+    {equipId=TppEquip.EQP_SWP_StunGrenade,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10060}--grade3
   },
   SNEAKING_SUIT={
-    {equipId=6,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19042},--RETAILPATCH: 1060 added
-    {equipId=5,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19057},
-    {equipId=4,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19056},--
-    {equipId=3,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19052},
-    {equipId=2,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19051},
-    {equipId=1,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19050}
+    {equipId=6,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19042},--grade8 --RETAILPATCH: 1060 added>
+    {equipId=5,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19057},--grade7
+    {equipId=4,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19056},--grade6--<
+    {equipId=3,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19052},--grade4
+    {equipId=2,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19051},--grade3
+    {equipId=1,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19050}--grade2
   },
   BATTLE_DRESS={
-    {equipId=6,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19043},--RETAILPATCH: 1060 added
-    {equipId=5,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19059},
-    {equipId=4,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19058},--
-    {equipId=3,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19055},
-    {equipId=2,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19054},
-    {equipId=1,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19053}
+    {equipId=6,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19043},--grade8--RETAILPATCH: 1060 added>
+    {equipId=5,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19059},--grade7
+    {equipId=4,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19058},--grade6<
+    {equipId=3,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19055},--grade5
+    {equipId=2,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19054},--grade4
+    {equipId=1,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19053}--grade3
   }
 }
 do
@@ -730,7 +730,7 @@ function this.GetSoldierSubType(soldierId,soldierType)
   if missionCode==10115 or missionCode==11115 then
     return"DD_PW"
   end
-  if TppMission.IsFOBMission(missionCode)or InfMain.IsDDEquip(missionCode) then--tex added ismbplay
+  if TppMission.IsFOBMission(missionCode)or InfMain.IsDDBodyEquip(missionCode) then--tex added ismbplay
     return"DD_FOB"
   end
   local soldierSubType=nil
@@ -781,7 +781,7 @@ function this.GetDefaultSoldierSubType(soldierType)
   end
   return nil
 end
-function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoKillMode)
+function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,isNoKillMode)
   local ddWeaponIdTable={NORMAL={}}
   local ddWeaponNormalTable=ddWeaponIdTable.NORMAL
   mvars.ene_ddWeaponCount=0
@@ -791,6 +791,16 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
     for n,value in ipairs(weaponInfo)do
       local addWeapon=false
       local developedEquipType=value.developedEquipType
+
+      --DEBUGNOW-->
+      local developId=value.developId
+      local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
+      local developedGrade=developedEquipGradeTable[developedEquipType]--DEBUGNOW
+      if value.isNoKill~=true then
+      --  InfMenu.DebugPrint("_CreateDDWeaponIdTable developId:"..tostring(developId).." developrank:"..tostring(developRank).." developedGrade:"..tostring(developedGrade).." soldierEquipGrade:"..tostring(soldierEquipGrade))--tex DEBUG: CULL:
+      end
+      --<
+
       if developedEquipType==nil then
         addWeapon=true
       elseif value.isNoKill and not isNoKillMode then
@@ -798,9 +808,25 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
       else
         local developId=value.developId
         local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-        --InfMenu.DebugPrint("_CreateDDWeaponIdTable developrank:" .. developRank .. " soldierEquipGrade: " .. soldierEquipGrade)--tex DEBUG: CULL:
-        local overrideDeveloped = InfMain.IsDDEquip() --tex RETHINK and Ivars.mbSoldierEquipGrade:Is() >= Ivars.mbSoldierEquipGrade.enum.GRADE1
-        if(soldierEquipGrade>=developRank and (developedGradeTable[developedEquipType]>=developRank or overrideDeveloped))then--tex added override
+
+
+        local developedGrade=developedEquipGradeTable[developedEquipType]--DEBUGNOW>
+        if value.isNoKill~=true then
+        --InfMenu.DebugPrint("_CreateDDWeaponIdTable developId:"..developId.." developrank:"..developRank.." developedGrade:"..developedGrade.." soldierEquipGrade:"..soldierEquipGrade)--tex DEBUG: CULL:
+        end--<
+
+        local overrideDeveloped=false--tex>
+        if InfMain.IsDDEquip() then
+          if Ivars.allowUndevelopedDDEquip:Is(0) then--tex WORKAROUND developedEquipGradeTable is zeroed if mission is not motherbase
+            if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=developId} then
+              overrideDeveloped=true
+            end
+          else
+            overrideDeveloped=true
+          end
+        end--<
+
+        if(soldierEquipGrade>=developRank and (developedEquipGradeTable[developedEquipType]>=developRank or overrideDeveloped))then--tex added override
           addWeapon=true
         end
       end
@@ -808,6 +834,13 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
         mvars.ene_ddWeaponCount=mvars.ene_ddWeaponCount+1
         if ddWeaponNormalTable[powerType]then
         else
+          --DEBUGNOW
+          local developId=value.developId
+          local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
+          local developedGrade=developedEquipGradeTable[developedEquipType]--DEBUGNOW
+          --InfMenu.DebugPrint("_CreateDDWeaponIdTable developId:"..tostring(developId).." developrank:"..tostring(developRank).." developedGrade:"..tostring(developedGrade).." soldierEquipGrade:"..tostring(soldierEquipGrade))--tex DEBUG: CULL:
+          --<
+
           ddWeaponNormalTable[powerType]=value.equipId
           if value.isNoKill then
             ddWeaponNormalTable.IS_NOKILL[powerType]=true
@@ -816,6 +849,11 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
       end
     end
   end
+
+  --DEBUGNOW
+  local ins=InfInspect.Inspect(ddWeaponIdTable)
+  InfMenu.DebugPrint(ins)
+  --<
   return ddWeaponIdTable
 end
 function this.GetDDWeaponCount()
@@ -829,6 +867,7 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
     this.weaponIdTable.DD={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
     return
   end
+
   local developedGradeTable=TppMotherBaseManagement.GetMbsDevelopedEquipGradeTable()
   soldierEquipGrade=soldierEquipGrade or 9999
   if gvars.ini_isTitleMode then
@@ -838,10 +877,11 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   else
     this.weaponIdTable.DD=this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoKillMode)
   end
- -- InfMenu.DebugPrint("PrepareDDParameter weaponIdTable.DD")--tex DEBUG
- -- local dd = this.weaponIdTable.DD
- -- local inss = InfInspect.Inspect(dd)
- -- InfMenu.DebugPrint(inss)--<
+
+  -- InfMenu.DebugPrint("PrepareDDParameter weaponIdTable.DD")--tex DEBUG
+  -- local dd = this.weaponIdTable.DD
+  -- local inss = InfInspect.Inspect(dd)
+  -- InfMenu.DebugPrint(inss)--<
   local fultonGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16001]
   local wormholeGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16008]
   if fultonGrade>soldierEquipGrade then
@@ -883,6 +923,12 @@ end
 function this.GetWeaponIdTable(soldierType,soldierSubType)
   --ORPHAN local n={}
   local weaponIdTable={}
+
+  if Ivars.enableEnemyDDEquip:Is(1) then--tex>
+    weaponIdTable=this.weaponIdTable.DD
+    return weaponIdTable
+  end--<
+
   if soldierType==EnemyType.TYPE_SOVIET then
     weaponIdTable=this.weaponIdTable.SOVIET_A
   elseif soldierType==EnemyType.TYPE_PF then
@@ -939,7 +985,7 @@ function this.GetWeaponId(soldierId,config)
   else
     missileIdTable=weaponIdTableFull.NORMAL
   end
-  
+
   if config.SNIPER and sniperIdTable.SNIPER then
     primary=sniperIdTable.SNIPER
   elseif config.SHOTGUN and weaponIdTable.SHOTGUN then
@@ -1125,9 +1171,9 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   for e,t in pairs(powerSettings)do--NMC: handles input of {"<POWER_TYPE>",...} and {<POWER_TYPE>=<powerSetting>,...}, does not care about actual values of setting in this func, just whether it's set or not
     if Tpp.IsTypeNumber(e)then
       powerLoadout[t]=true
-    else
-      powerLoadout[e]=t
-    end
+  else
+    powerLoadout[e]=t
+  end
   end
   local checkLoadedPowers={SMG=true,MG=true,SHOTGUN=true,SNIPER=true,MISSILE=true,SHIELD=true}
   for powerType,t in pairs(checkLoadedPowers)do
@@ -1153,7 +1199,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   if powerLoadout.QUEST_ARMOR then
     powerLoadout.ARMOR=true
   end
-  
+
   if powerLoadout.ARMOR then
     powerLoadout.SNIPER=nil
     powerLoadout.SHIELD=nil
@@ -1173,37 +1219,43 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
       powerLoadout.MG=nil
     end
   end
-  
---  if powerLoadout.MISSILE or powerLoadout.SHIELD then--ORIG
---    powerLoadout.SNIPER=nil
---    powerLoadout.SHOTGUN=nil
---    powerLoadout.MG=nil
---    powerLoadout.SMG=true
---  end
+
+  --  if powerLoadout.MISSILE or powerLoadout.SHIELD then--ORIG
+  --    powerLoadout.SNIPER=nil
+  --    powerLoadout.SHOTGUN=nil
+  --    powerLoadout.MG=nil
+  --    powerLoadout.SMG=true
+  --  end
   if powerLoadout.SHIELD then--tex split from missile
     powerLoadout.SNIPER=nil
     powerLoadout.SHOTGUN=nil
     powerLoadout.MG=nil
     powerLoadout.SMG=true
-    --TEST powerLoadout.ASSAULT=nil
   end
   if powerLoadout.MISSILE then--tex split from shield
-    powerLoadout.SNIPER=nil    
+    powerLoadout.SNIPER=nil
     if not powerLoadout.MISSILE_COMBO then--tex added CONFIG_TYPE to bypass, _ApplyRevengeToCp has control of SMG
       powerLoadout.SHOTGUN=nil
       powerLoadout.MG=nil
       powerLoadout.SMG=true
     end
-    --TEST powerLoadout.ASSAULT=nil
   end
+
+  if subTypeName=="DD_FOB"then--tex>mbDDHeadGear clear headgear
+    if vars.missionCode==30050 and Ivars.mbDDHeadGear:Is(0) then
+      powerLoadout.HELMET=nil
+      powerLoadout.GAS_MASK=nil
+      powerLoadout.NVG=nil
+    end
+  end --<
 
   if powerLoadout.GAS_MASK then
     if subTypeName~="DD_FOB"then
       if powerLoadout.HEADGEAR_COMBO then--tex> --gvars.allowHeadGearCombo>0 then--
         powerLoadout.NVG=nil
       else--tex< ORIG-v-
-      powerLoadout.HELMET=nil
-      powerLoadout.NVG=nil
+        powerLoadout.HELMET=nil
+        powerLoadout.NVG=nil
       end
     end
   end
@@ -1222,7 +1274,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
       if powerLoadout.HEADGEAR_COMBO then--tex>
         if powerLoadout.GAS_MASK and powerLoadout.NVG then
           powerLoadout.NVG=nil
-        end
+      end
       else--tex< ORIG-v-
         powerLoadout.GAS_MASK=nil
         powerLoadout.NVG=nil
@@ -2799,9 +2851,9 @@ function this.SetUpSoldiers()
   if not IsTypeTable(mvars.ene_soldierDefine)then
     return
   end
-  
+
   InfMain.RandomizeCpSubTypeTable()--tex
-  
+
   local missionId=TppMission.GetMissionID()
   for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
     local cpId=GetGameObjectId(cpName)
@@ -2912,7 +2964,7 @@ function this.AssignSoldiersToCP()
       local command
       local soldierType=this.GetSoldierType(soldierId)
       --if InfMain.IsForceSoldierSubType() then--tex WIP:
-          --this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
+      --this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
       --end
       command={id="SetSoldier2Type",type=soldierType}
       SendCommand(soldierId,command)
@@ -3511,11 +3563,11 @@ function this.MakeCpLinkDefineTable(t,e)
   end
   return n
 end
-function this.MakeReinforceTravelPlan(i,a,s,toCp,n)
+function this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName,toCp,n)--lrrpNumberDefine,cpLinkDefine
   if not Tpp.IsTypeTable(n)then
     return
   end
-  local a=a[toCp]
+  local a=cpLinkDefine[toCp]
   if a==nil then
     return
   end
@@ -3524,25 +3576,25 @@ function this.MakeReinforceTravelPlan(i,a,s,toCp,n)
   for r,fromCp in pairs(n)do
     if mvars.ene_soldierDefine[fromCp]then
       if a[fromCp]then
-        local o=i[toCp]
-        local r=i[fromCp]
+        local lrrpNumToCp=lrrpNumberDefine[toCp]
+        local lrrpNumFromCp=lrrpNumberDefine[fromCp]
         local reinforcePlan="rp_"..(toCp..("_From_"..fromCp))
         mvars.ene_travelPlans[reinforcePlan]=mvars.ene_travelPlans[reinforcePlan]or{}
-        local  lrrpRoute=string.format("rp_%02dto%02d",r,o)
-        local lrrpCp=this.GetFormattedLrrpCpNameByLrrpNum(o,r,s,i)
+        local  lrrpRoute=string.format("rp_%02dto%02d",lrrpNumFromCp,lrrpNumToCp)
+        local lrrpCp=this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumToCp,lrrpNumFromCp,locationName,lrrpNumberDefine)
         mvars.ene_travelPlans[reinforcePlan]={{cp=lrrpCp,routeGroup={"travel",lrrpRoute}},{cp=toCp,finishTravel=true}}
         mvars.ene_reinforcePlans[reinforcePlan]={{toCp=toCp,fromCp=fromCp,type="respawn"}}
       end
     end
   end
 end
-function this.MakeTravelPlanTable(T,d,_,t,n,l)
+function this.MakeTravelPlanTable(lrrpNumberDefine,cpLinkDefine,locationName,t,n,holdTime)
   if((not Tpp.IsTypeTable(n)or not Tpp.IsTypeTable(n[1]))or not Tpp.IsTypeString(t))or(n[1].cp==nil and n[1].base==nil)then
     return
   end
   mvars.ene_travelPlans=mvars.ene_travelPlans or{}
   mvars.ene_travelPlans[t]=mvars.ene_travelPlans[t]or{}
-  local s=mvars.ene_travelPlans[t]
+  local travelPlan=mvars.ene_travelPlans[t]
   local o=#n
   local r,i
   if(not n.ONE_WAY)and n[#n].base then
@@ -3559,16 +3611,16 @@ function this.MakeTravelPlanTable(T,d,_,t,n,l)
       else
         r=n[t-1]i=n[t]
       end
-      this.AddLinkedBaseTravelCourse(T,d,_,l,s,r,i,a)
+      this.AddLinkedBaseTravelCourse(lrrpNumberDefine,cpLinkDefine,locationName,holdTime,travelPlan,r,i,a)
     elseif n[t].cp then
       local n=n[t]
       if IsTypeTable(n)then
-        this.AddTravelCourse(s,n,a)
+        this.AddTravelCourse(travelPlan,n,a)
       end
     end
   end
 end
-function this.AddLinkedBaseTravelCourse(l,i,r,p,s,a,t,d)
+function this.AddLinkedBaseTravelCourse(lrrpNumberDefine,cpLinkDefine,locationName,holdTime,travelPlan,a,t,d)
   local n
   if a and a.base then
     n=a.base
@@ -3576,19 +3628,19 @@ function this.AddLinkedBaseTravelCourse(l,i,r,p,s,a,t,d)
   local a=t.base
   local o=false
   if n then
-    o=i[n][a]
+    o=cpLinkDefine[n][a]
   end
   if o then
-    local t,n=this.GetFormattedLrrpCpName(n,a,r,l)
-    local n={cp=t,routeGroup={"travel",n}}
-    this.AddTravelCourse(s,n)
+    local lrrpCpName,n=this.GetFormattedLrrpCpName(n,a,locationName,lrrpNumberDefine)
+    local n={cp=lrrpCpName,routeGroup={"travel",n}}
+    this.AddTravelCourse(travelPlan,n)
   elseif n==nil then
   end
   local wait
   if t.wait then
     wait=t.wait
   else
-    wait=p
+    wait=holdTime
   end
   local routeGroup
   if t.routeGroup and Tpp.IsTypeTable(t.routeGroup)then
@@ -3606,56 +3658,67 @@ function this.AddLinkedBaseTravelCourse(l,i,r,p,s,a,t,d)
     end
   end
   local n={cp=a,routeGroup=routeGroup,wait=wait}
-  this.AddTravelCourse(s,n,d)
+  this.AddTravelCourse(travelPlan,n,d)
 end
-function this.GetFormattedLrrpCpNameByLrrpNum(n,e,i,t)
+function this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumToCp,lrrpNumFromCp,locationName,lrrpNumberDefine)
   local t,a
-  if n<e then
-    t=n
-    a=e
+  if lrrpNumToCp<lrrpNumFromCp then
+    t=lrrpNumToCp
+    a=lrrpNumFromCp
   else
-    t=e
-    a=n
+    t=lrrpNumFromCp
+    a=lrrpNumToCp
   end
-  local t=string.format("%s_%02d_%02d_lrrp",i,t,a)
-  local e=string.format("lrrp_%02dto%02d",n,e)
-  return t,e
+  local lrrpCpName=string.format("%s_%02d_%02d_lrrp",locationName,t,a)
+  local e=string.format("lrrp_%02dto%02d",lrrpNumToCp,lrrpNumFromCp)
+  return lrrpCpName,e
 end
-function this.GetFormattedLrrpCpName(a,t,i,n)
-  local a=n[a]
-  local t=n[t]
-  return this.GetFormattedLrrpCpNameByLrrpNum(a,t,i,n)
+function this.GetFormattedLrrpCpName(a,t,locationName,lrrpNumberDefine)
+  local lrrpNumToCp=lrrpNumberDefine[a]
+  local lrrpNumFromCp=lrrpNumberDefine[t]
+  return this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumToCp,lrrpNumFromCp,locationName,lrrpNumberDefine)
 end
-function this.AddTravelCourse(n,e,t)
+function this.AddTravelCourse(travelPlan,e,t)
   if t then
     e.finishTravel=true
   else
     e.finishTravel=nil
   end
-  table.insert(n,e)
+  table.insert(travelPlan,e)
 end
-function this.SetTravelPlans(i)
+--REF travelPlans
+--={
+--  travelArea1_02 = {
+--    { cp="afgh_21_28_lrrp",     routeGroup={ "travel", "lrrp_28to21" }, },
+--    ...
+--  },
+--  travelvillageEast = {
+--    { base = "afgh_villageEast_ob", },
+--    ...
+--   },
+--}
+function this.SetTravelPlans(travelPlans)--missionTable.enemy.travelPlans
   mvars.ene_reinforcePlans={}
   mvars.ene_travelPlans={}
   if mvars.loc_locationCommonTravelPlans then
-    local n=TppLocation.GetLocationName()
-    if n then
-      local r=mvars.ene_lrrpNumberDefine
-      local a=mvars.ene_cpLinkDefine
-      for i,t in pairs(i)do
-        this.MakeTravelPlanTable(r,a,n,i,t,this.DEFAULT_TRAVEL_HOLD_TIME)
+    local locationName=TppLocation.GetLocationName()
+    if locationName then
+      local lrrpNumberDefine=mvars.ene_lrrpNumberDefine
+      local cpLinkDefine=mvars.ene_cpLinkDefine
+      for i,t in pairs(travelPlans)do
+        this.MakeTravelPlanTable(lrrpNumberDefine,cpLinkDefine,locationName,i,t,this.DEFAULT_TRAVEL_HOLD_TIME)
       end
       local reinforceTravelPlan=mvars.loc_locationCommonTravelPlans.reinforceTravelPlan
       if mvars.ene_useCommonReinforcePlan and reinforceTravelPlan then
         for cpName,i in pairs(reinforceTravelPlan)do
           if mvars.ene_soldierDefine[cpName]then
-            this.MakeReinforceTravelPlan(r,a,n,cpName,i)
+            this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName,cpName,i)
           end
         end
       end
     end
   else
-    mvars.ene_travelPlans=i
+    mvars.ene_travelPlans=travelPlans
   end
   SendCommand({type="TppSoldier2"},{id="SetTravelPlan",travelPlan=mvars.ene_travelPlans})
   if next(mvars.ene_reinforcePlans)then
@@ -4181,10 +4244,10 @@ function this.SetIgnoreDisableNpc(npcId,enable)
 end
 
 --REF: NpcEntrypointsetting
-  --    [Fox.StrCode32"lz_drp_swamp_I0000|rt_drp_swamp_I_0000"]={
-  --      [EntryBuddyType.VEHICLE]={Vector3(6.412,-5.952,294.757),TppMath.DegreeToRadian(-153.76)},
-  --      [EntryBuddyType.BUDDY]={Vector3(2.113,-5.436,299.302),-153.76}}
- --      }
+--    [Fox.StrCode32"lz_drp_swamp_I0000|rt_drp_swamp_I_0000"]={
+--      [EntryBuddyType.VEHICLE]={Vector3(6.412,-5.952,294.757),TppMath.DegreeToRadian(-153.76)},
+--      [EntryBuddyType.BUDDY]={Vector3(2.113,-5.436,299.302),-153.76}}
+--      }
 function this.NPCEntryPointSetting(settings)
   local npcsEntryPoints=settings[gvars.heli_missionStartRoute]
   if not npcsEntryPoints then
@@ -4250,7 +4313,7 @@ function this.OnAllocateQuest(body,face,a)
           table.insert(hostageBodyTable,e[1])
         end
       end
-      TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG: hostageBodyTable is named and not minified in retail, and from context I suspect the table minified to n is what was intended, this is only called from mtbs_enemy, and with an empty table so as far as i can see it's not used (faces are though), however it does in OnAllocateQuestFova 
+      TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG: hostageBodyTable is named and not minified in retail, and from context I suspect the table minified to n is what was intended, this is only called from mtbs_enemy, and with an empty table so as far as i can see it's not used (faces are though), however it does in OnAllocateQuestFova
     end
     --    if body then --ORIG, for ref for retailbug
     --      local n={}
@@ -5302,7 +5365,7 @@ function this.IsZombieEventFOB()--RETAILPATCH 1070>
       return true
     end
   end
-  return false  
+  return false
 end
 function this.IsParasiteMetalEventFOB()
   local e=TppDefine.FOB_EVENT_ID_LIST.PARASITE_METAL

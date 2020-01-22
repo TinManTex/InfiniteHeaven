@@ -794,7 +794,7 @@ function fovaSetupFuncs.Mb(n,missionId)
   local ddSuit=TppEnemy.GetDDSuit()
 
   --tex> ddsuit SetDefaultPartsPath
-  if InfMain.IsDDEquip(missionId) then
+  if InfMain.IsDDBodyEquip(missionId) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
     if bodyInfo then
       if bodyInfo.partsPath then
@@ -958,7 +958,7 @@ function fovaSetupFuncs.Mb(n,missionId)
   TppSoldierFace.OverwriteMissionFovaData{face=faces}
   local bodies={}
   --tex> ddsuit bodies
-  if InfMain.IsDDEquip(missionId) then
+  if InfMain.IsDDBodyEquip(missionId) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
     if bodyInfo then
       if bodyInfo.maleBodyId then
@@ -987,7 +987,7 @@ function fovaSetupFuncs.Mb(n,missionId)
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
 
   --tex> dd suit SetExtendPartsInfo
-  if InfMain.IsDDEquip(missionId) then
+  if InfMain.IsDDBodyEquip(missionId) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
     if bodyInfo then
       if bodyInfo.extendedPartsInfo then
@@ -1036,7 +1036,8 @@ function this.AddTakingOverHostagePack()
     if a>=gvars.ene_takingOverHostageCount then
       break
     end
-    local a={type="hostage",name=t,faceId=gvars.ene_takingOverHostageFaceIds[a]}table.insert(e,a)
+    local a={type="hostage",name=t,faceId=gvars.ene_takingOverHostageFaceIds[a]}
+    table.insert(e,a)
   end
   this.AddUniqueSettingPackage(e)
 end
@@ -1049,7 +1050,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
   TppSoldier2.SetExtendPartsInfo{}
   TppHostage2.ClearDefaultBodyFovaId()
   --InfMenu.DebugPrint("PreMissionLoad - mission:" .. tostring(missionId) .. " currentMissionId:" .. tostring(currentMissionId).. " vars.missionCode:"..tostring(vars.missionCode))--DEBUG
-  if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
+  if TppLocation.IsMotherBase()or TppLocation.IsMBQF() or Ivars.enableEnemyDDEquip:Is(1)then--tex
     local soldierEquipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade(missionId)--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
     local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
     --InfMenu.DebugPrint("soliderequipgrade: ".. tostring(soldierEquipGrade).. " isNoKillMode:"..tostring(isNoKillMode))--DEBUG
@@ -1361,7 +1362,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     return isFemale and isFemale[1]==1
   end
   --tex set bodyid >
-  if InfMain.IsDDEquip(vars.missionCode) then
+  if InfMain.IsDDBodyEquip(vars.missionCode) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
     if bodyInfo then
       if IsFemale(faceId)==true and bodyInfo.femaleBodyId then
@@ -1388,7 +1389,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     end
 
 
-    if bodyInfo and not bodyInfo.hasHeadGear then --DEBUNOW
+    if bodyInfo and not bodyInfo.hasHeadGear then --DEBUGNOW
       if this.IsUseGasMaskInFOB() then
         TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
     end
@@ -1593,8 +1594,8 @@ function this.IsUseGasMaskInMBFree(e)
   return isPandemic and isCommand
 end
 function this.IsUseGasMaskInFOB()
-  local a,a,e=this.GetUavSetting()
-  return e
+  local setUav,uavType,isNLUav=this.GetUavSetting()
+  return isNLUav
 end
 function this.GetUavSetting()--RETAILPATCH: 1060 reworked
   local uavLevel=TppMotherBaseManagement.GetMbsUavLevel{}
@@ -1602,102 +1603,103 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
   local uavSleepingLevel=TppMotherBaseManagement.GetMbsUavSleepingGusGrenadeLevel{}
   local soldierEquipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade()--tex was TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex was TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-  local l=TppUav.DEVELOP_LEVEL_LMG_0
-  local t=false
-  local s=false
-  local e=0
-  local n=0
-  local p=0
-  local d=100
-  local r=7
-  local r=4
-  local r=3
-  local r=3
-  local r=3
-  local f=3
-  local r=6
-  local T=7
-  if soldierEquipGrade<f then
-    e=d
+  local uavType=TppUav.DEVELOP_LEVEL_LMG_0
+  local setUav=false
+  local isNLUav=false
+  local lethalUavType=0
+  local nonLethalUavType=0
+  local sleepUavType=0
+  local defaultUavType=100
+--ORPHAN:
+--  local r=7
+--  local r=4
+--  local r=3
+--  local r=3
+--  local r=3
+  local minEquipGrade=3
+  local lmgLv1EquipGrade=6
+  local lmgLv2EquipGrade=7
+  if soldierEquipGrade<minEquipGrade then
+    lethalUavType=defaultUavType
   elseif uavLevel>0 then
     if uavLevel==1 then
-      e=TppUav.DEVELOP_LEVEL_LMG_0
+      lethalUavType=TppUav.DEVELOP_LEVEL_LMG_0
     elseif uavLevel==2 then
-      if soldierEquipGrade>=r then
-        e=TppUav.DEVELOP_LEVEL_LMG_1
+      if soldierEquipGrade>=lmgLv1EquipGrade then
+        lethalUavType=TppUav.DEVELOP_LEVEL_LMG_1
       else
-        e=TppUav.DEVELOP_LEVEL_LMG_0
+        lethalUavType=TppUav.DEVELOP_LEVEL_LMG_0
       end
     elseif uavLevel==3 then
-      if soldierEquipGrade>=T then
-        e=TppUav.DEVELOP_LEVEL_LMG_2
-      elseif soldierEquipGrade>=r then
-        e=TppUav.DEVELOP_LEVEL_LMG_1
+      if soldierEquipGrade>=lmgLv2EquipGrade then
+        lethalUavType=TppUav.DEVELOP_LEVEL_LMG_2
+      elseif soldierEquipGrade>=lmgLv1EquipGrade then
+        lethalUavType=TppUav.DEVELOP_LEVEL_LMG_1
       else
-        e=TppUav.DEVELOP_LEVEL_LMG_0
+        lethalUavType=TppUav.DEVELOP_LEVEL_LMG_0
       end
     end
   end
-  local f=4
-  local r=6
-  local T=7
-  if soldierEquipGrade<f then
-    n=d
+  local minNLEquipGrade=4
+  local smokeLv1EquipGrade=6
+  local smokeLv2EquipGrade=7
+  if soldierEquipGrade<minNLEquipGrade then
+    nonLethalUavType=defaultUavType
   elseif uavLevel>0 then
     if uavSmokeLevel==1 then
-      n=TppUav.DEVELOP_LEVEL_SMOKE_0
+      nonLethalUavType=TppUav.DEVELOP_LEVEL_SMOKE_0
     elseif uavSmokeLevel==2 then
-      if soldierEquipGrade>=r then
-        n=TppUav.DEVELOP_LEVEL_SMOKE_1
+      if soldierEquipGrade>=smokeLv1EquipGrade then
+        nonLethalUavType=TppUav.DEVELOP_LEVEL_SMOKE_1
       else
-        n=TppUav.DEVELOP_LEVEL_SMOKE_0
+        nonLethalUavType=TppUav.DEVELOP_LEVEL_SMOKE_0
       end
     elseif uavSmokeLevel==3 then
-      if soldierEquipGrade>=T then
-        n=TppUav.DEVELOP_LEVEL_SMOKE_2
-      elseif soldierEquipGrade>=r then
-        n=TppUav.DEVELOP_LEVEL_SMOKE_1
+      if soldierEquipGrade>=smokeLv2EquipGrade then
+        nonLethalUavType=TppUav.DEVELOP_LEVEL_SMOKE_2
+      elseif soldierEquipGrade>=smokeLv1EquipGrade then
+        nonLethalUavType=TppUav.DEVELOP_LEVEL_SMOKE_1
       else
-        n=TppUav.DEVELOP_LEVEL_SMOKE_0
+        nonLethalUavType=TppUav.DEVELOP_LEVEL_SMOKE_0
       end
     end
   end
-  local i=8
-  if soldierEquipGrade<i then
-    p=d
+  local sleepEquipGrade=8
+  if soldierEquipGrade<sleepEquipGrade then
+    sleepUavType=defaultUavType
   else
     if uavSleepingLevel==1 then
-      p=TppUav.DEVELOP_LEVEL_SLEEP_0
+      sleepUavType=TppUav.DEVELOP_LEVEL_SLEEP_0
     end
   end
   if uavLevel==0 then
-    t=false
+    setUav=false
   else
     if isNoKillMode==true then
-      if p~=d then
-        l=p
-        t=true
-        s=true
-      elseif n~=d then
-        l=n
-        t=true
-        s=true
-      elseif e~=d then
-        l=e
-        t=true
+      if sleepUavType~=defaultUavType then
+        uavType=sleepUavType
+        setUav=true
+        isNLUav=true
+      elseif nonLethalUavType~=defaultUavType then
+        uavType=nonLethalUavType
+        setUav=true
+        isNLUav=true
+      elseif lethalUavType~=defaultUavType then
+        uavType=lethalUavType
+        setUav=true
       else
-        t=false
+        setUav=false
       end
     else
-      if e~=d then
-        l=e
-        t=true
+      if lethalUavType~=defaultUavType then
+        uavType=lethalUavType
+        setUav=true
       else
-        t=false
+        setUav=false
       end
     end
   end
-  return t,l,s
+  return setUav,uavType,isNLUav
 end
 
 ---

@@ -60,7 +60,10 @@ this.motherBaseShowAssetsMenu={
 
 this.motherBaseMenu={
   options={
-    Ivars.mbSoldierEquipGrade,
+    Ivars.enableMbDDEquip,
+    Ivars.mbSoldierEquipGrade_MIN,
+    Ivars.mbSoldierEquipGrade_MAX,
+    Ivars.allowUndevelopedDDEquip,
     Ivars.mbSoldierEquipRange,
     Ivars.mbDDSuit,
     Ivars.mbDDHeadGear,
@@ -260,10 +263,22 @@ table.insert(revengeMenu,InfMenuCommands.resetSettingsItem)
 table.insert(revengeMenu,InfMenuCommands.goBackItem)
 
 
+this.enemyDDEquipMenu={
+  options={    
+    Ivars.enableEnemyDDEquip,
+    Ivars.mbSoldierEquipGrade_MIN,
+    Ivars.mbSoldierEquipGrade_MAX,
+    Ivars.allowUndevelopedDDEquip,
+    InfMenuCommands.resetSettingsItem,
+    InfMenuCommands.goBackItem,
+  }
+}
+
 this.revengeMenu={
   options={
     this.revengeCustomMenu,
     this.revengeSystemMenu,
+    this.enemyDDEquipMenu,
     InfMenuCommands.resetRevenge,
     Ivars.changeCpSubTypeFree,
     Ivars.changeCpSubTypeForMissions,
@@ -368,6 +383,7 @@ this.enemyReinforceMenu={
     Ivars.enableHeliReinforce,
     Ivars.forceReinforceRequest,
     Ivars.disableReinforceHeliPullOut,
+    Ivars.enableSoldiersWithVehicleReinforce,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   },  
@@ -388,7 +404,7 @@ this.vehiclePatrolMenu={
 
 this.heliSpaceMenu={
   options={
-    --InfMenuCommands.DEBUG_PrintSomeShiz,--DEBUG
+    InfMenuCommands.DEBUG_PrintSomeShiz,--DEBUGNOW
     --InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
     --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --Ivars.vehiclePatrolPaintType,
@@ -451,7 +467,7 @@ this.debugInMissionMenu={
 
 this.inMissionMenu={
   options={
-    --InfMenuCommands.DEBUG_PrintSomeShiz,--DEBUGNOW
+    InfMenuCommands.DEBUG_PrintSomeShiz,--DEBUGNOW
     --Ivars.selectedChangeWeapon,--WIP
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
     --InfMenuCommands.doEnemyReinforce,--WIP

@@ -241,6 +241,15 @@ this.warpPlayerCommand={--WIP
 this.DEBUG_PrintSomeShiz={
   OnChange=function()
     InfMenu.DebugPrint"DEBUG_PrintSomeShiz"
+    
+--    local devGradeTable=TppMotherBaseManagement.GetMbsDevelopedEquipGradeTable()
+--     local ins=InfInspect.Inspect(devGradeTable)
+--    InfMenu.DebugPrint(ins)   
+    
+    
+         local ins=InfInspect.Inspect(TppEnemy.weaponIdTable.DD)
+    InfMenu.DebugPrint(ins)   
+    
     --    for n,powerType in ipairs(Ivars.percentagePowerTypes)do
     --      InfMenu.DebugPrint("n:"..n.." powertype:"..powerType)
     --    end

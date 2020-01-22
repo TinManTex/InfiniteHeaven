@@ -244,6 +244,10 @@ end
 function this.ReinforceBlockOnTerminate()
 end
 function this._HasSoldier()
+  if Ivars.enableSoldiersWithVehicleReinforce:Is(1) then--tex> DEBUGNOW
+    return true
+  end--<
+
   if((mvars.reinforce_reinforceType==this.REINFORCE_TYPE.HELI or 
     mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_WAV_ROCKET)or 
     mvars.reinforce_reinforceType==this.REINFORCE_TYPE.EAST_TANK)or 
@@ -348,7 +352,7 @@ function this._ActivateReinforce()
   if hasHeli then
     --InfMenu.DebugPrint("_ActivateReinforce hasheli")--DEBUG
     local heliId=GameObject.GetGameObjectId(this.REINFORCE_HELI_NAME)
-    local heliRoute=this._GetHeliRoute(mvars.reinforce_cpId)
+    --ORPHAN local heliRoute=this._GetHeliRoute(mvars.reinforce_cpId)
     local cp=mvars.ene_cpList[mvars.reinforce_reinforceCpId]
     SendCommand(heliId,{id="RequestReinforce",toCp=cp})
     SendCommand(heliId,{id="SetCommandPost",cp=cp})--tex i think this is the cause of the heli ! sound on reinforce (because the cp is already at alert when it's assigned), don't know how to supress it, disabling or shifting order prevents reinforce from happening
