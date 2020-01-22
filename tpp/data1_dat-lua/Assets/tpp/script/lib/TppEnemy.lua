@@ -650,12 +650,12 @@ function this.SetUpPersonalAbilitySettings(e)
   mvars.ene_missionSoldierPersonalAbilitySettings=e
 end
 function this.ApplyPersonalAbilitySettingsOnInitialize()
-  local n=mvars.ene_missionSoldierPersonalAbilitySettings
-  for n,t in pairs(n)do
-    local n=GetGameObjectId(n)
-    if n==NULL_ID then
+  local abilitySettings=mvars.ene_missionSoldierPersonalAbilitySettings
+  for soldierName,soldierAbilitySettings in pairs(abilitySettings)do
+    local soldierId=GetGameObjectId(soldierName)
+    if soldierId==NULL_ID then
     else
-      this.ApplyPersonalAbilitySettings(n,t)
+      this.ApplyPersonalAbilitySettings(soldierId,soldierAbilitySettings)
     end
   end
 end
@@ -799,7 +799,7 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
         local developId=value.developId
         local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
         --InfMenu.DebugPrint("_CreateDDWeaponIdTable developrank:" .. developRank .. " soldierEquipGrade: " .. soldierEquipGrade)--tex DEBUG: CULL:
-        local overrideDeveloped = InfMain.IsDDEquip() --DEBUGNOW and Ivars.mbSoldierEquipGrade:Is() >= Ivars.mbSoldierEquipGrade.enum.GRADE1
+        local overrideDeveloped = InfMain.IsDDEquip() --tex RETHINK and Ivars.mbSoldierEquipGrade:Is() >= Ivars.mbSoldierEquipGrade.enum.GRADE1
         if(soldierEquipGrade>=developRank and (developedGradeTable[developedEquipType]>=developRank or overrideDeveloped))then--tex added override
           addWeapon=true
         end
@@ -962,7 +962,7 @@ function this.GetWeaponId(soldierId,config)
   end
   return primary,secondary,tertiary
 end
-function this.GetBodyId(soldierId,soldierType,soldierSubType,loadoutType)
+function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSettings)
   local bodyId
   local bodyIdTable={}
   --InfMenu.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG: CULL:
@@ -1007,34 +1007,34 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,loadoutType)
     return loadoutBodies[(selection%#loadoutBodies)+1]--NMC: looks like it uses the solider id to 'randomly'(ie each solider id is uniqe) choose (assuming theres multiple bodies in the input list)
   end
 
-  if loadoutType.ARMOR and bodyIdTable.ARMOR then
+  if soldierPowerSettings.ARMOR and bodyIdTable.ARMOR then
     return _GetBodyId(soldierId,bodyIdTable.ARMOR)
   end
-  if(mvars.ene_soldierLrrp[soldierId]or loadoutType.RADIO)and bodyIdTable.RADIO then
+  if(mvars.ene_soldierLrrp[soldierId]or soldierPowerSettings.RADIO)and bodyIdTable.RADIO then
     return _GetBodyId(soldierId,bodyIdTable.RADIO)
   end
-  if loadoutType.MISSILE and bodyIdTable.MISSILE then
+  if soldierPowerSettings.MISSILE and bodyIdTable.MISSILE then
     return _GetBodyId(soldierId,bodyIdTable.MISSILE)
   end
-  if loadoutType.SHIELD and bodyIdTable.SHIELD then
+  if soldierPowerSettings.SHIELD and bodyIdTable.SHIELD then
     return _GetBodyId(soldierId,bodyIdTable.SHIELD)
   end
-  if loadoutType.SNIPER and bodyIdTable.SNIPER then
+  if soldierPowerSettings.SNIPER and bodyIdTable.SNIPER then
     bodyId=_GetBodyId(soldierId,bodyIdTable.SNIPER)
-  elseif loadoutType.SHOTGUN and bodyIdTable.SHOTGUN then
-    if loadoutType.OB and bodyIdTable.SHOTGUN_OB then
+  elseif soldierPowerSettings.SHOTGUN and bodyIdTable.SHOTGUN then
+    if soldierPowerSettings.OB and bodyIdTable.SHOTGUN_OB then
       bodyId=_GetBodyId(soldierId,bodyIdTable.SHOTGUN_OB)
     else
       bodyId=_GetBodyId(soldierId,bodyIdTable.SHOTGUN)
     end
-  elseif loadoutType.MG and bodyIdTable.MG then
-    if loadoutType.OB and bodyIdTable.MG_OB then
+  elseif soldierPowerSettings.MG and bodyIdTable.MG then
+    if soldierPowerSettings.OB and bodyIdTable.MG_OB then
       bodyId=_GetBodyId(soldierId,bodyIdTable.MG_OB)
     else
       bodyId=_GetBodyId(soldierId,bodyIdTable.MG)
     end
   elseif bodyIdTable.ASSAULT then
-    if loadoutType.OB and bodyIdTable.ASSAULT_OB then
+    if soldierPowerSettings.OB and bodyIdTable.ASSAULT_OB then
       bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT_OB)
     else
       bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT)
@@ -1268,12 +1268,12 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   }
   GameObject.SendCommand(soldierId,{id="SetSoldier2SubType",type=enemySubTypeForSubTypeName[subTypeName]})
 end
-function this.ApplyPersonalAbilitySettings(soldierId,ability)
+function this.ApplyPersonalAbilitySettings(soldierId,abilitySettings)
   if soldierId==NULL_ID then
     return
   end
-  mvars.ene_soldierPersonalAbilitySettings[soldierId]=ability
-  GameObject.SendCommand(soldierId,{id="SetPersonalAbility",ability=ability})
+  mvars.ene_soldierPersonalAbilitySettings[soldierId]=abilitySettings
+  GameObject.SendCommand(soldierId,{id="SetPersonalAbility",ability=abilitySettings})
 end
 function this.SetOccasionalChatList()
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
@@ -3976,7 +3976,7 @@ function this.CheckQuestTargetOnOutOfActiveArea(n)
   local distSqr=checkDist*checkDist
   local recovered=false
   for n,n in pairs(n)do
-    local gameId=GetGameObjectId(soliderName)--RETAILBUG: TODO: investigate soldiername was undefined assume its supposed to be key name - n, but there's no lua references to this. add an debug announcelog, grab a hostage and see what happens when you go out of hotzone (reuirees a mission with one) and out of mission area (all actual missions  have them)
+    local gameId=GetGameObjectId(soliderName)--RETAILBUG: TODO: investigate, soldiername was undefined assume its supposed to be key name - n, but there's no lua references to this. add an debug announcelog, grab a hostage and see what happens when you go out of hotzone (reuirees a mission with one) and out of mission area (all actual missions  have them)
     if gameId~=NULL_ID then
       if CloserToPlayerThanDistSqr(distSqr,playerPosition,gameId)then
         recovered=true

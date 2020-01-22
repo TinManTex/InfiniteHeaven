@@ -226,7 +226,7 @@ function this.StartPreTitleSequence()
 end
 
 function this._StartPreTitleSequence()
-  --DEBUGNOW InfMain.DeleteOneOffSplashes()--tex
+  --OFF InfMain.DeleteOneOffSplashes()--tex
   gvars.canExceptionHandling = false
   TppUiCommand.ErasePopup()
   TppUiCommand.StartPreTitleSequence()

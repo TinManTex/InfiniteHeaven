@@ -1,19 +1,19 @@
 -- DOBUILD: 1
 local this={}
 local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
-local n=0
-local defaultLang=1
-local d=2
-local c=3
-local i=4
-local p=5
-local r=6
+local RENlang0=0
+local RENlang1=1
+local RENland2=2
+local RENlang3=3
+local RENlang4=4
+local RENlang5=5
+local RENlang6=6
 local defaultPartsAfghan="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00.parts"
 local defaultPartsAfrica="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts"
 local defaultPartsAfghanFree="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00.parts"
 local defaultPartsAfricaFree="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts"
 local dds5_main0_def_v00Parts="/Assets/tpp/parts/chara/dds/dds5_main0_def_v00.parts"
-local notRequiredArmorForMission={
+local noArmorForMission={
   [10010]=1,
   [10020]=1,
   [10030]=1,
@@ -60,43 +60,43 @@ local missionArmorType={
 local missionHostageInfos={
   [10020]={count=0},
   [10030]={count=0},
-  [10033]={count=1,lang=d},
-  [11033]={count=1,lang=d},
+  [10033]={count=1,lang=RENland2},
+  [11033]={count=1,lang=RENland2},
   [10036]={count=0},
   [11036]={count=0},
-  [10040]={count=1,lang=i},
-  [10041]={count=2,lang=d},
-  [11041]={count=2,lang=d},
-  [10043]={count=2,lang=i},
-  [11043]={count=2,lang=i},
-  [10044]={count=1,lang=d,overlap=true},
-  [11044]={count=1,lang=d,overlap=true},
-  [10045]={count=2,lang=d},
+  [10040]={count=1,lang=RENlang4},
+  [10041]={count=2,lang=RENland2},
+  [11041]={count=2,lang=RENland2},
+  [10043]={count=2,lang=RENlang4},
+  [11043]={count=2,lang=RENlang4},
+  [10044]={count=1,lang=RENland2,overlap=true},
+  [11044]={count=1,lang=RENland2,overlap=true},
+  [10045]={count=2,lang=RENland2},
   [10050]={count=0},
   [11050]={count=0},
-  [10052]={count=6,lang=r,overlap=true,ignoreList={40,41,42,43,44,45,46,47,48,49},modelNum=5},
-  [11052]={count=6,lang=r,overlap=true,ignoreList={40,41,42,43,44,45,46,47,48,49},modelNum=5},
-  [10054]={count=4,lang=defaultLang,overlap=true},
-  [11054]={count=4,lang=defaultLang,overlap=true},
+  [10052]={count=6,lang=RENlang6,overlap=true,ignoreList={40,41,42,43,44,45,46,47,48,49},modelNum=5},
+  [11052]={count=6,lang=RENlang6,overlap=true,ignoreList={40,41,42,43,44,45,46,47,48,49},modelNum=5},
+  [10054]={count=4,lang=RENlang1,overlap=true},
+  [11054]={count=4,lang=RENlang1,overlap=true},
   [10070]={count=0},
   [10080]={count=0},
   [11080]={count=0},
   [10081]={count=0},
-  [10082]={count=2,lang=p,overlap=true},
-  [11082]={count=2,lang=p,overlap=true},
+  [10082]={count=2,lang=RENlang5,overlap=true},
+  [11082]={count=2,lang=RENlang5,overlap=true},
   [10085]={count=0},
   [11085]={count=0},
   [10086]={count=0},
   [10090]={count=0},
   [11090]={count=0},
-  [10091]={count=1,lang=defaultLang,useHair=true,overlap=true},
-  [11091]={count=1,lang=defaultLang,useHair=true,overlap=true},
+  [10091]={count=1,lang=RENlang1,useHair=true,overlap=true},
+  [11091]={count=1,lang=RENlang1,useHair=true,overlap=true},
   [10093]={count=0},
   [10100]={count=0},
   [10110]={count=0},
   [10115]={count=0},
   [11115]={count=0},
-  [10120]={count=1,lang=defaultLang,overlap=true},
+  [10120]={count=1,lang=RENlang1,overlap=true},
   [10121]={count=0},
   [11121]={count=0},
   [10130]={count=0},
@@ -109,14 +109,14 @@ local missionHostageInfos={
   [11151]={count=0},
   [10171]={count=0},
   [11171]={count=0},
-  [10156]={count=1,lang=d,overlap=true},
-  [10195]={count=1,lang=p},
-  [11195]={count=1,lang=p},
-  [10200]={count=1,lang=p},
-  [11200]={count=1,lang=p},
+  [10156]={count=1,lang=RENland2,overlap=true},
+  [10195]={count=1,lang=RENlang5},
+  [11195]={count=1,lang=RENlang5},
+  [10200]={count=1,lang=RENlang5},
+  [11200]={count=1,lang=RENlang5},
   [10240]={count=0},
-  [10211]={count=4,lang=c,overlap=true},
-  [11211]={count=4,lang=i,overlap=true},
+  [10211]={count=4,lang=RENlang3,overlap=true},
+  [11211]={count=4,lang=RENlang4,overlap=true},
   [10260]={count=0},
   [10280]={count=0}
 }
@@ -138,7 +138,7 @@ function this.IsNotRequiredArmorSoldier(missionCode)
   if InfMain.ForceArmor(missionCode) then--tex >
     return false
   end--<
-  if notRequiredArmorForMission[missionCode]~=nil then
+  if noArmorForMission[missionCode]~=nil then
     return true
   end
   return false
@@ -175,7 +175,7 @@ function this.GetHostageCountAtMissionId(missionCode)
   return default
 end
 function this.GetHostageLangAtMissionId(missionCode)
-  local default=defaultLang
+  local default=RENlang1
   if missionHostageInfos[missionCode]~=nil then
     local hostagesInfo=missionHostageInfos[missionCode]
     if hostagesInfo~=nil then
@@ -234,24 +234,26 @@ function this.GetHostageIgnoreFaceList(missionCode)
   end
   return default
 end
-function this.GetArmorTypeTable(missionCode)--tex reworked
+--tex reworked
+function this.GetArmorTypeTable(missionCode)
   if this.IsNotRequiredArmorSoldier(missionCode)then
     return{}
-end
-if not TppLocation.IsMiddleAfrica()then
-  return{}
-end
-local default={TppDefine.AFR_ARMOR.TYPE_ZRS}
+  end
+  if not TppLocation.IsMiddleAfrica()then
+    return{}
+  end
+  local default={TppDefine.AFR_ARMOR.TYPE_ZRS}
 
-local armorType=missionArmorType[missionCode]
-if armorType~=nil then
-  return armorType
-else--tex>
-  if InfMain.ForceArmor(missionCode) then--tex
-    return {pfArmorTypes.PF_A,pfArmorTypes.PF_B,pfArmorTypes.PF_C}--tex would like to be soldiersubtypespecific but fova setup isnt that granular
-end
-end--<
-return default
+  local armorType=missionArmorType[missionCode]
+  if armorType~=nil then
+    return armorType
+  else--tex>
+    if InfMain.ForceArmor(missionCode) then
+      --tex would like to be soldiersubtypespecific but fova setup isnt that granular
+      return {pfArmorTypes.PF_A,pfArmorTypes.PF_B,pfArmorTypes.PF_C}
+  end
+  end--<
+  return default
 end
 --ORIG
 --function this.GetArmorTypeTable(missionCode)
@@ -276,27 +278,27 @@ function this.SetHostageFaceTable(missionId)
   local raceHalfMode=0
   if hostageCount>0 then
     local race={}
-    if hostageLang==defaultLang then
+    if hostageLang==RENlang1 then
       table.insert(race,3)
       local e=bit.rshift(gvars.hosface_groupNumber,8)%100
       if e<40 then
         table.insert(race,0)
       end
-    elseif hostageLang==d then
+    elseif hostageLang==RENland2 then
       table.insert(race,0)
-    elseif hostageLang==p then
+    elseif hostageLang==RENlang5 then
       table.insert(race,2)
       local e=bit.rshift(gvars.hosface_groupNumber,8)%100
       if e<10 then
         table.insert(race,0)
       end
-    elseif hostageLang==r then
+    elseif hostageLang==RENlang6 then
       table.insert(race,0)
       table.insert(race,1)
       raceHalfMode=1
-    elseif hostageLang==i then
+    elseif hostageLang==RENlang4 then
       table.insert(race,1)
-    elseif hostageLang==c then
+    elseif hostageLang==RENlang3 then
       table.insert(race,2)
     else
       if TppLocation.IsAfghan()then
@@ -342,15 +344,15 @@ function this.SetHostageFaceTable(missionId)
     else
       local face={}
       local n=gvars.hosface_groupNumber%9
-      if hostageLang==defaultLang then
+      if hostageLang==RENlang1 then
         table.insert(face,{25+n,0,0,MAX_REALIZED_COUNT})
-      elseif hostageLang==d then
+      elseif hostageLang==RENland2 then
         table.insert(face,{100+n,0,0,MAX_REALIZED_COUNT})
-      elseif hostageLang==p then
+      elseif hostageLang==RENlang5 then
         table.insert(face,{210+n,0,0,MAX_REALIZED_COUNT})
-      elseif hostageLang==i then
+      elseif hostageLang==RENlang4 then
         table.insert(face,{9+n,0,0,MAX_REALIZED_COUNT})
-      elseif hostageLang==c then
+      elseif hostageLang==RENlang3 then
         table.insert(face,{260+n,0,0,MAX_REALIZED_COUNT})
       else
         table.insert(face,{55+n,0,0,MAX_REALIZED_COUNT})
@@ -632,8 +634,8 @@ function fovaSetupFuncs.Afghan(n,missionId)
     {TppEnemyBodyId.prs2_main0_v00,MAX_REALIZED_COUNT}
   }
   if not this.IsNotRequiredArmorSoldier(missionId)then
-    local e={TppEnemyBodyId.sva0_v00_a,MAX_REALIZED_COUNT}
-    table.insert(bodies,e)
+    local body={TppEnemyBodyId.sva0_v00_a,MAX_REALIZED_COUNT}
+    table.insert(bodies,body)
   end
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs2_main0_v00}}
@@ -1020,9 +1022,9 @@ function fovaSetupFuncs.Cyprus(a,a)
   local e={{TppEnemyBodyId.wss0_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=e}
 end
-function fovaSetupFuncs.default(n,a)
+function fovaSetupFuncs.default(n,missionId)
   TppSoldierFace.SetMissionFovaData{face={},body={}}
-  if a>6e4 then
+  if missionId>6e4 then
     local e={{30,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT}}
     TppSoldierFace.OverwriteMissionFovaData{face=e}
   end
@@ -1374,7 +1376,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       if bodyInfo.isArmor then
         TppEnemy.AddPowerSetting(soldierId,{"ARMOR"})
       end
-      
+
       if bodyInfo.hasHeadGear then--tex TODO: handle this on the config level?
         local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
         if powerSettings then
@@ -1384,16 +1386,16 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
         end
       end
     end
-    
+
 
     if bodyInfo and not bodyInfo.hasHeadGear then --DEBUNOW
       if this.IsUseGasMaskInFOB() then
         TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
-      end
---tex TEST: I'm guessing this would return 0/1 like the rest of the TppMotherBaseManagement grades when in mbfree so not much point
---      if((TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS and TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)and TppMotherBaseManagement.GetMbsNvgBattleLevel)and TppMotherBaseManagement.GetMbsNvgBattleLevel()>0 then
---        TppEnemy.AddPowerSetting(soldierId,{"NVG"})
---      end
+    end
+    --tex TEST: I'm guessing this would return 0/1 like the rest of the TppMotherBaseManagement grades when in mbfree so not much point
+    --      if((TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS and TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)and TppMotherBaseManagement.GetMbsNvgBattleLevel)and TppMotherBaseManagement.GetMbsNvgBattleLevel()>0 then
+    --        TppEnemy.AddPowerSetting(soldierId,{"NVG"})
+    --      end
     end
 
     --tex PATCHUP there's no heads with nvg and no helmet/greentop
@@ -1404,26 +1406,26 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
         TppEnemy.AddPowerSetting(soldierId,{"HELMET"})
       end
     end
-    
+
     if Ivars.mbDDHeadGear:Is(0) then
       powerSettings.HELMET=nil
       powerSettings.GAS_MASK=nil
-      powerSettings.NVG=nil      
+      powerSettings.NVG=nil
     end
-    
+
     --tex -v-gasmask trumps force head-^- like vanilla RETHINK
     if this.IsUseGasMaskInMBFree()then
       TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
     end
-    
---    if powerSettings then--DEBUG
---      powerSettings.HELMET=nil
---      powerSettings.GAS_MASK=nil
---      powerSettings.NVG=true
---    end--<
- 
+
+    --    if powerSettings then--DEBUG
+    --      powerSettings.HELMET=nil
+    --      powerSettings.GAS_MASK=nil
+    --      powerSettings.NVG=true
+    --    end--<
+
     local wantHeadgear = useBalaclava or powerSettings.HELMET or powerSettings.GAS_MASK or powerSettings.NVG
-    
+
     if wantHeadgear then
       local validHeadGearIds=InfMain.GetHeadGearForPowers(powerSettings,faceId)
       if validHeadGearIds[1] then--WIP

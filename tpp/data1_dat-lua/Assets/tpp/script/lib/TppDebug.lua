@@ -271,7 +271,50 @@ function this.DEBUG_SetFobPlayerSneak()
   vars.handEquip=TppEquip.EQP_HAND_KILL_ROCKET
   vars.playerFaceEquipId=1
   vars.itemLevels[TppEquip.EQP_SUIT-TppEquip.EQP_IT_InstantStealth]=1
-  local e={{equipId=TppEquip.EQP_WP_30105,partsInfo={barrel=TppEquip.BA_30124,ammo=TppEquip.AM_30125,stock=TppEquip.SK_60304,muzzle=TppEquip.MZ_30105,muzzleOption=TppEquip.MO_30102,rearSight=TppEquip.ST_30305,frontSight=TppEquip.ST_30306,option1=TppEquip.LT_30105,option2=TppEquip.LS_40034,underBarrel=TppEquip.UB_50102,underBarrelAmmo=TppEquip.AM_40102}},{equipId=TppEquip.EQP_WP_60206,partsInfo={barrel=TppEquip.BA_60205,ammo=TppEquip.AM_30055,stock=TppEquip.SK_60203,muzzle=TppEquip.MZ_60203,muzzleOption=TppEquip.MO_60204,rearSight=TppEquip.ST_30204,frontSight=TppEquip.ST_20205,option1=TppEquip.LT_30025,option2=TppEquip.LS_30104,underBarrel=TppEquip.UB_40144,underBarrelAmmo=TppEquip.AM_40102}},{equipId=TppEquip.EQP_WP_20004,partsInfo={ammo=TppEquip.AM_20105,stock=TppEquip.SK_20002,muzzleOption=TppEquip.MO_10101,rearSight=TppEquip.ST_30114,option1=TppEquip.LT_10104}}}
+  local e={
+    {
+      equipId=TppEquip.EQP_WP_30105,
+      partsInfo={
+        barrel=TppEquip.BA_30124,
+        ammo=TppEquip.AM_30125,
+        stock=TppEquip.SK_60304,
+        muzzle=TppEquip.MZ_30105,
+        muzzleOption=TppEquip.MO_30102,
+        rearSight=TppEquip.ST_30305,
+        frontSight=TppEquip.ST_30306,
+        option1=TppEquip.LT_30105,
+        option2=TppEquip.LS_40034,
+        underBarrel=TppEquip.UB_50102,
+        underBarrelAmmo=TppEquip.AM_40102
+      }
+    },
+    {
+      equipId=TppEquip.EQP_WP_60206,
+      partsInfo={
+        barrel=TppEquip.BA_60205,
+        ammo=TppEquip.AM_30055,
+        stock=TppEquip.SK_60203,
+        muzzle=TppEquip.MZ_60203,
+        muzzleOption=TppEquip.MO_60204,
+        rearSight=TppEquip.ST_30204,
+        frontSight=TppEquip.ST_20205,
+        option1=TppEquip.LT_30025,
+        option2=TppEquip.LS_30104,
+        underBarrel=TppEquip.UB_40144,
+        underBarrelAmmo=TppEquip.AM_40102
+      }
+    },
+    {
+      equipId=TppEquip.EQP_WP_20004,
+      partsInfo={
+        ammo=TppEquip.AM_20105,
+        stock=TppEquip.SK_20002,
+        muzzleOption=TppEquip.MO_10101,
+        rearSight=TppEquip.ST_30114,
+        option1=TppEquip.LT_10104
+      }
+    }
+  }
   GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeChimeraWeapon",chimeraInfo=e})
   GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId=TppEquip.EQP_HAND_KILL_ROCKET})
 end
@@ -574,7 +617,19 @@ function this.DEBUG_Init()
   mvars.debug.showLibraryMessageTable=0;(nil).AddDebugMenu("LuaMessage","library","int32",mvars.debug,"showLibraryMessageTable")
   mvars.debug.showWeaponSelect=false;(nil).AddDebugMenu("LuaWeapon","showWeaponSelect","bool",mvars.debug,"showWeaponSelect")
   mvars.debug.weaponCategory=1;(nil).AddDebugMenu("LuaWeapon","category","int32",mvars.debug,"weaponCategory")
-  mvars.debug.weaponCategoryList={{"Develop:Hundgan",8,{"EQP_WP_1"}},{"Develop:Submachingun",8,{"EQP_WP_2"}},{"Develop:AssaultRifle",8,{"EQP_WP_3"}},{"Develop:Shotgun",8,{"EQP_WP_4"}},{"Develop:Granader",8,{"EQP_WP_5"}},{"Develop:SniperRifle",8,{"EQP_WP_6"}},{"Develop:MachineGun",8,{"EQP_WP_7"}},{"Develop:Missile",8,{"EQP_WP_8"}},{"EnemyWeapon",8,{"EQP_WP_W","EQP_WP_E","EQP_WP_Q","EQP_WP_C"}},{"SupportWeapon",7,{"EQP_SWP"}},{"Equipment",7,{"EQP_IT_"}}}
+  mvars.debug.weaponCategoryList={
+  {"Develop:Hundgan",8,{"EQP_WP_1"}},
+  {"Develop:Submachingun",8,{"EQP_WP_2"}},
+  {"Develop:AssaultRifle",8,{"EQP_WP_3"}},
+  {"Develop:Shotgun",8,{"EQP_WP_4"}},
+  {"Develop:Granader",8,{"EQP_WP_5"}},
+  {"Develop:SniperRifle",8,{"EQP_WP_6"}},
+  {"Develop:MachineGun",8,{"EQP_WP_7"}},
+  {"Develop:Missile",8,{"EQP_WP_8"}},
+  {"EnemyWeapon",8,{"EQP_WP_W","EQP_WP_E","EQP_WP_Q","EQP_WP_C"}},
+  {"SupportWeapon",7,{"EQP_SWP"}},
+  {"Equipment",7,{"EQP_IT_"}}
+  }
   mvars.debug.selectedWeaponId=0;(nil).AddDebugMenu("LuaWeapon","weaponSelect","int32",mvars.debug,"selectedWeaponId")
   mvars.debug.enableWeaponChange=false;(nil).AddDebugMenu("LuaWeapon","enableWeaponChange","bool",mvars.debug,"enableWeaponChange")
 end
@@ -596,95 +651,103 @@ function this.DEBUG_OnReload(r)
 end
 ---
 function this.DebugUpdate()
-  local n=svars
-  local e=mvars
-  local t=e.debug
-  local o=(nil).Print
-  local r=(nil).NewContext()
+  local svars=svars
+  local mvars=mvars
+  local mvarsDebug=mvars.debug
+  local Print=(nil).Print
+  local newContext=(nil).NewContext()
   if(not TppUiCommand.IsEndMissionTelop())then
-    o(r,{.5,.5,1},"Now showing result.")
+    Print(newContext,{.5,.5,1},"Now showing result.")
   end
   if gvars.needWaitMissionInitialize then
-    o(r,{.5,.5,1},"Now neew wait mission initialize.")
+    Print(newContext,{.5,.5,1},"Now neew wait mission initialize.")
   end
-  if t.returnSelect then
+  if mvarsDebug.returnSelect then
     TppUI.FadeOut(0)
     TppSave.ReserveVarRestoreForMissionStart()
-    TppMission.SafeStopSettingOnMissionReload()tpp_editor_menu2.StartTestStage(6e4)t.returnSelect=false
+    TppMission.SafeStopSettingOnMissionReload()
+    tpp_editor_menu2.StartTestStage(6e4)
+    mvarsDebug.returnSelect=false
   end
-  if t.showSVars then
-    o(r,"")o(r,{.5,.5,1},"LuaMission DBG.showSVars")
-    for a,e in pairs(e.dbg_userSaveVarList)do
-      o(r,string.format(" %s = %s",tostring(e),tostring(n[e])))
+  if mvarsDebug.showSVars then
+    Print(newContext,"")
+    Print(newContext,{.5,.5,1},"LuaMission DBG.showSVars")
+    for a,e in pairs(mvars.dbg_userSaveVarList)do
+      Print(newContext,string.format(" %s = %s",tostring(e),tostring(svars[e])))
     end
   end
-  if t.showMVars then
-    o(r,{.5,.5,1},"LuaMission DBG.showMVars")
-    for a,e in pairs(e)do
-      o(r,string.format(" %s = %s",tostring(a),tostring(e)))
+  if mvarsDebug.showMVars then
+    Print(newContext,{.5,.5,1},"LuaMission DBG.showMVars")
+    for a,e in pairs(mvars)do
+      Print(newContext,string.format(" %s = %s",tostring(a),tostring(e)))
     end
   end
-  if t.showMissionArea then
-    o(r,{.5,.5,1},"LuaMission MIS.missionArea")
+  if mvarsDebug.showMissionArea then
+    Print(newContext,{.5,.5,1},"LuaMission MIS.missionArea")
     local a
-    if e.mis_isOutsideOfMissionArea then
+    if mvars.mis_isOutsideOfMissionArea then
       a="Outside"else
       a="Inside"end
-    o(r,"outerZone : "..a)
-    if e.mis_isAlertOutOfMissionArea then
+    Print(newContext,"outerZone : "..a)
+    if mvars.mis_isAlertOutOfMissionArea then
       a="Outside"else
       a="Inside"end
-    o(r,"innerZone : "..a)
-    if e.mis_isOutsideOfHotZone then
+    Print(newContext,"innerZone : "..a)
+    if mvars.mis_isOutsideOfHotZone then
       a="Outside"else
       a="Inside"end
-    o(r,"hotZone : "..a)
-    o(r,"hotZone clear check : isNotAlert = "..(tostring(e.debug.notHotZone_isNotAlert)..(", isPlayerStatusNormal = "..(tostring(e.debug.notHotZone_isPlayerStatusNormal)..(", isNotHelicopter = "..tostring(e.debug.notHotZone_isNotHelicopter))))))
-    o(r,"Mission clear timer: "..tostring(IsTimerActive"Timer_OutsideOfHotZoneCount"))o(r,{.5,1,.5},"Recent all target status")
-    local e=e.debug.checkedTargetStatus or{}
+    Print(newContext,"hotZone : "..a)
+    Print(newContext,"hotZone clear check : isNotAlert = "..(tostring(mvars.debug.notHotZone_isNotAlert)..(", isPlayerStatusNormal = "..(tostring(mvars.debug.notHotZone_isPlayerStatusNormal)..(", isNotHelicopter = "..tostring(mvars.debug.notHotZone_isNotHelicopter))))))
+    Print(newContext,"Mission clear timer: "..tostring(IsTimerActive"Timer_OutsideOfHotZoneCount"))
+    Print(newContext,{.5,1,.5},"Recent all target status")
+    local e=mvars.debug.checkedTargetStatus or{}
     for a,e in pairs(e)do
-      o(r,"  TargetName = "..(a..(" : "..e)))
+      Print(newContext,"  TargetName = "..(a..(" : "..e)))
     end
   end
-  if e.debug.showClearState then
-    o(r,{.5,.5,1},"LuaMission MIS.showClearState")o(r,"missionClearState = "..tostring(TppDefine.MISSION_CLEAR_STATE_LIST[gvars.mis_missionClearState+1]))
+  if mvars.debug.showClearState then
+    Print(newContext,{.5,.5,1},"LuaMission MIS.showClearState")
+    Print(newContext,"missionClearState = "..tostring(TppDefine.MISSION_CLEAR_STATE_LIST[gvars.mis_missionClearState+1]))
   end
-  if e.debug.openEmergencyTimer then
-    e.debug.openEmergencyTimer=false
-    if e.mis_openEmergencyMissionTimerName then
-      GkEventTimerManager.Stop(e.mis_openEmergencyMissionTimerName)GkEventTimerManager.Start(e.mis_openEmergencyMissionTimerName,1)
+  if mvars.debug.openEmergencyTimer then
+    mvars.debug.openEmergencyTimer=false
+    if mvars.mis_openEmergencyMissionTimerName then
+      GkEventTimerManager.Stop(mvars.mis_openEmergencyMissionTimerName)
+      GkEventTimerManager.Start(mvars.mis_openEmergencyMissionTimerName,1)
     end
   end
-  if e.debug.closeEmergencyTimer then
-    e.debug.closeEmergencyTimer=false
-    if e.mis_closeEmergencyMissionTimerName then
-      GkEventTimerManager.Stop(e.mis_closeEmergencyMissionTimerName)GkEventTimerManager.Start(e.mis_closeEmergencyMissionTimerName,1)
+  if mvars.debug.closeEmergencyTimer then
+    mvars.debug.closeEmergencyTimer=false
+    if mvars.mis_closeEmergencyMissionTimerName then
+      GkEventTimerManager.Stop(mvars.mis_closeEmergencyMissionTimerName)
+      GkEventTimerManager.Start(mvars.mis_closeEmergencyMissionTimerName,1)
     end
   end
-  if t.showSysSVars then
-    o(r,"")o(r,{.5,.5,1},"LuaSystem DBG.showSysSVars")
-    for e,a in pairs(n.__as)do
+  if mvarsDebug.showSysSVars then
+    Print(newContext,"")
+    Print(newContext,{.5,.5,1},"LuaSystem DBG.showSysSVars")
+    for e,a in pairs(svars.__as)do
       if(a<=1)then
-        o(r,string.format(" %s = %s",tostring(e),tostring(n[e])))
+        Print(newContext,string.format(" %s = %s",tostring(e),tostring(svars[e])))
       else
-        o(r,string.format(" %s = %s",tostring(e),tostring(a)))
+        Print(newContext,string.format(" %s = %s",tostring(e),tostring(a)))
         for a=0,(a-1)do
-          o(r,string.format("   %s[%d] = %s",tostring(e),a,tostring(n[e][a])))
+          Print(newContext,string.format("   %s[%d] = %s",tostring(e),a,tostring(svars[e][a])))
         end
       end
     end
   end
-  if t.showDebugPerfCheck then
-    o(r,{.5,.5,1},"LuaSystem DBG.showPerf")
+  if mvarsDebug.showDebugPerfCheck then
+    Print(newContext,{.5,.5,1},"LuaSystem DBG.showPerf")
     for t,e in pairs(l)do
-      o(r," perf["..(this.PERF_CHECK_TYPE[t]..("] = "..e)))
+      Print(newContext," perf["..(this.PERF_CHECK_TYPE[t]..("] = "..e)))
     end
   end
-  if e.debug.AnimalBlock then
-    o(r,{.5,.5,1},"LuaSystem DBG.AnimalBlock")
+  if mvars.debug.AnimalBlock then
+    Print(newContext,{.5,.5,1},"LuaSystem DBG.AnimalBlock")
     local n,t=Tpp.GetCurrentStageSmallBlockIndex()
-    o(r,string.format("current block position (x,y) = (%03d, %03d)",n,t))
-    o(r,"Load animal block area = "..tostring(e.animalBlockAreaName))
+    Print(newContext,string.format("current block position (x,y) = (%03d, %03d)",n,t))
+    Print(newContext,"Load animal block area = "..tostring(mvars.animalBlockAreaName))
     local n=ScriptBlock.GetScriptBlockId"animal_block"local t
     if n~=ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
       t=ScriptBlock.GetScriptBlockState(n)
@@ -692,116 +755,118 @@ function this.DebugUpdate()
     local n
     if t==ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY then
       n="SCRIPT_BLOCK_STATE_EMPTY"
-      elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING then
+    elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING then
       n="SCRIPT_BLOCK_STATE_PROCESSING"
-      elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE then
+    elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE then
       n="SCRIPT_BLOCK_STATE_INACTIVE"
-      elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
+    elseif t==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
       n="SCRIPT_BLOCK_STATE_ACTIVE"
-      end
-    o(r,"animal block state : "..tostring(n))
-    if e.animalBlockScript then
-      o(r,"animalBlockScript exist")
-      local t=""if e.animalBlockScript.OnMessage then
+    end
+    Print(newContext,"animal block state : "..tostring(n))
+    if mvars.animalBlockScript then
+      Print(newContext,"animalBlockScript exist")
+      local t=""if mvars.animalBlockScript.OnMessage then
         t="exist"else
         t="  not"end
-      local n=""if e.animalBlockScript.OnReload then
+      local n=""if mvars.animalBlockScript.OnReload then
         n="exist"else
         n="  not"end
-      o(r,"OnMessage "..(tostring(t)..(" OnReload "..tostring(n))))this.ShowMessageTable(r,"MessageTable",e.animalBlockScript.messageExecTable)
+      Print(newContext,"OnMessage "..(tostring(t)..(" OnReload "..tostring(n))))
+      this.ShowMessageTable(newContext,"MessageTable",mvars.animalBlockScript.messageExecTable)
     else
       if t==ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE or t==ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE then
-        o(r,{1,0,0},"this data is invalid!!!! please check data!!!")
+        Print(newContext,{1,0,0},"this data is invalid!!!! please check data!!!")
       else
-        o(r,"animalBlockScript   not")
+        Print(newContext,"animalBlockScript   not")
       end
     end
   end
-  if e.debug.ply_intelTrap then
-    o(r,{.5,.5,1},"LuaSystem PLY.intelTrap")
-    for e,a in pairs(e.ply_intelTrapInfo)do
+  if mvars.debug.ply_intelTrap then
+    Print(newContext,{.5,.5,1},"LuaSystem PLY.intelTrap")
+    for e,a in pairs(mvars.ply_intelTrapInfo)do
       if Tpp.IsTypeString(e)then
-        o(r,{.5,1,.5},"intelName = "..tostring(e))
+        Print(newContext,{.5,1,.5},"intelName = "..tostring(e))
         for e,a in pairs(a)do
-          o(r,tostring(e)..(" = "..tostring(a)))
+          Print(newContext,tostring(e)..(" = "..tostring(a)))
         end
       end
     end
   end
-  if(t.showSubscriptMessageTable>0)then
-    o(r,{.5,.5,1},"LuaMessage subScripts")
+  if(mvarsDebug.showSubscriptMessageTable>0)then
+    Print(newContext,{.5,.5,1},"LuaMessage subScripts")
     local o={"sequence","enemy","demo","radio","sound"}
-    local o=o[e.debug.showSubscriptMessageTable]
+    local o=o[mvars.debug.showSubscriptMessageTable]
     if o then
       local t=TppMission.GetMissionName()..("_"..o)
-      if e.rad_subScripts[o]then
-        local e=e.rad_subScripts[o]._messageExecTable
-        this.ShowMessageTable(r,t,e)
+      if mvars.rad_subScripts[o]then
+        local e=mvars.rad_subScripts[o]._messageExecTable
+        this.ShowMessageTable(newContext,t,e)
       end
     end
   end
-  if(t.showSequenceMessageTable>0)then
-    o(r,{.5,.5,1},"LuaMessage sequence")
-    local o=TppSequence.GetSequenceNameWithIndex(e.debug.showSequenceMessageTable)
-    if e.seq_sequenceTable then
-      local e=e.seq_sequenceTable[o]
+  if(mvarsDebug.showSequenceMessageTable>0)then
+    Print(newContext,{.5,.5,1},"LuaMessage sequence")
+    local o=TppSequence.GetSequenceNameWithIndex(mvars.debug.showSequenceMessageTable)
+    if mvars.seq_sequenceTable then
+      local e=mvars.seq_sequenceTable[o]
       if e then
         local e=e._messageExecTable
-        this.ShowMessageTable(r,o,e)
+        this.ShowMessageTable(newContext,o,e)
       end
     end
   end
-  if(t.showLocationMessageTable>0)then
-    o(r,{.5,.5,1},"LuaMessage location")
+  if(mvarsDebug.showLocationMessageTable>0)then
+    Print(newContext,{.5,.5,1},"LuaMessage location")
   end
-  if(t.showLibraryMessageTable>0)then
-    o(r,{.5,.5,1},"LuaMessage library")
-    local e=Tpp._requireList[t.showLibraryMessageTable]
+  if(mvarsDebug.showLibraryMessageTable>0)then
+    Print(newContext,{.5,.5,1},"LuaMessage library")
+    local e=Tpp._requireList[mvarsDebug.showLibraryMessageTable]
     local o=_G[e].messageExecTable
-    this.ShowMessageTable(r,e,o)
+    this.ShowMessageTable(newContext,e,o)
   end
-  if e.debug.showWeaponSelect then
-    o(r,{.5,.5,1},"LuaWeapon")
-    if e.debug.weaponCategory<1 then
-      e.debug.weaponCategory=1
+  if mvars.debug.showWeaponSelect then
+    Print(newContext,{.5,.5,1},"LuaWeapon")
+    if mvars.debug.weaponCategory<1 then
+      mvars.debug.weaponCategory=1
     end
-    if e.debug.weaponCategory>#e.debug.weaponCategoryList then
-      e.debug.weaponCategory=#e.debug.weaponCategoryList
+    if mvars.debug.weaponCategory>#mvars.debug.weaponCategoryList then
+      mvars.debug.weaponCategory=#mvars.debug.weaponCategoryList
     end
-    local a=e.debug.weaponCategory
-    local n=e.debug.weaponCategoryList[e.debug.weaponCategory]o(r,{.5,1,.5},"Current weapon category : "..n[1])
-    local l,p
-    local a,t,i=0,1,5
-    if e.debug.selectedWeaponId>0 then
-      t=e.debug.selectedWeaponId
+    local weaponCategory=mvars.debug.weaponCategory
+    local weaponCategoryList=mvars.debug.weaponCategoryList[mvars.debug.weaponCategory]
+    Print(newContext,{.5,1,.5},"Current weapon category : "..weaponCategoryList[1])
+    local equipId,RENwhatIsThis
+    local currentWeaponId,selectedWeaponId,max=0,1,5
+    if mvars.debug.selectedWeaponId>0 then
+      selectedWeaponId=mvars.debug.selectedWeaponId
     end
-    for e,u in pairs(TppEquip)do
-      local d=string.sub(e,1,n[2])
-      local s=false
-      for a,e in ipairs(n[3])do
-        if d==e then
-          s=true
+    for k,v in pairs(TppEquip)do
+      local categoryId=string.sub(k,1,weaponCategoryList[2])
+      local isInCurrentCategory=false
+      for a,listCategoryId in ipairs(weaponCategoryList[3])do
+        if categoryId==listCategoryId then
+          isInCurrentCategory=true
         end
       end
-      if s then
-        a=a+1
-        if(t-a)<=i then
-          if a==t then
-            l=u
-            p=e
-            o(r,{.5,1,.5},"> EquipId = TppEquip."..e)
+      if isInCurrentCategory then
+        currentWeaponId=currentWeaponId+1
+        if(selectedWeaponId-currentWeaponId)<=max then
+          if currentWeaponId==selectedWeaponId then
+            equipId=v
+            RENwhatIsThis=k
+            Print(newContext,{.5,1,.5},"> EquipId = TppEquip."..k)
           else
-            o(r,"  EquipId = TppEquip."..e)
+            Print(newContext,"  EquipId = TppEquip."..k)
           end
         end
-        if a==(t+i)then
+        if currentWeaponId==(selectedWeaponId+max)then
           break
         end
       end
     end
-    if e.debug.enableWeaponChange then
-      GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId={l}})
-      e.debug.enableWeaponChange=false
+    if mvars.debug.enableWeaponChange then
+      GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId={equipId}})
+      mvars.debug.enableWeaponChange=false
     end
   end
 end

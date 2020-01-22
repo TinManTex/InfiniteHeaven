@@ -34,7 +34,7 @@ this.MissionCollectionMissionTaskTable={
   [10171]={40}
 }
 this.GIMMICK_TYPE={NONE=0,ANTN=1,MCHN=2,CMMN=3,GUN=4,MORTAR=5,GNRT=6,CNTN=7,ANTIAIR=8,AACR=9,LIGHT=10,TOWER=11,TLET=12,TRSH=13,CSET=14,SWTC=15,FLOWSTATION_TANK001=100,FLOWSTATION_TANK002=101,FACTORY_WALL=102,FACTORY_FRAME=103,FACTORY_WTTR=104,FACTORY_TNNL=105,LAB_BRDG=106,FACTORY_TANK=107,FACTORY_WTNK=108,FACTORY_WSST=109,FLOWSTATION_PDOR=110,FACTORY_CRTN=111,FLOWSTATION_COPS=112,MAX=255}
-local s={[this.GIMMICK_TYPE.AACR]="destroyRadar"}
+local gimmickToAnnounceType={[this.GIMMICK_TYPE.AACR]="destroyRadar"}
 this.COLLECTION_REPOP_COUNT_DECREMENT_TABLE={
   [TppCollection.TYPE_DIAMOND_LARGE]=60,
   [TppCollection.TYPE_DIAMOND_SMALL]=100,
@@ -92,14 +92,14 @@ this.COLLECTION_REPOP_COUNT_DECREMENT_TABLE={
 function this.Messages()
   return Tpp.StrCode32Table{
     Radio={
-    {msg="Finish",sender="f1000_rtrg2020",func=function()
-      TppUI.ShowAnnounceLog"unlockLz"
-    end}},
+      {msg="Finish",sender="f1000_rtrg2020",func=function()
+        TppUI.ShowAnnounceLog"unlockLz"
+      end}},
     UI={
-    {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
-      this.OnMissionGameStart()
-    end,
-    option={isExecMissionPrepare=true,isExecMissionClear=true}}},
+      {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
+        this.OnMissionGameStart()
+      end,
+      option={isExecMissionPrepare=true,isExecMissionClear=true}}},
     nil}
 end
 function this.IsBroken(isBrokenParams)
@@ -180,7 +180,8 @@ function this.Init(n)
       local n=(vars.missionCode==i)
       if n==false then
         if TppMission.IsHardMission(vars.missionCode)then
-          local e=TppMission.GetNormalMissionCodeFromHardMission(vars.missionCode)n=(e==i)
+          local e=TppMission.GetNormalMissionCodeFromHardMission(vars.missionCode)
+          n=(e==i)
         end
       end
       this.EnableCollectionTable(t,n,true)
@@ -309,25 +310,38 @@ function this.Init(n)
   else
     this.RepopMissionTaskCollection()
     if vars.missionCode==10200 then
-      local n=this.MissionCollectionTable[10200]
-      local e=0
-      for i,n in pairs(n)do
+      local missionCollection=this.MissionCollectionTable[10200]
+      local count=0
+      for i,n in pairs(missionCollection)do
         if TppCollection.RepopCountOperation("GetAt",n)>0 then
-          e=e+1
+          count=count+1
         end
       end
-      local e=e-svars.CollectiveCount
-      for i,n in pairs(n)do
-        if e>0 then
+      local count2=count-svars.CollectiveCount
+      for i,n in pairs(missionCollection)do
+        if count2>0 then
           if TppCollection.RepopCountOperation("GetAt",n)>0 then
-            TppCollection.RepopCountOperation("SetAt",n,0)e=e-1
+            TppCollection.RepopCountOperation("SetAt",n,0)
+            count2=count2-1
           end
         end
       end
     end
   end
-  local n={"col_develop_BullpupAR","col_develop_LongtubeShotgun","col_develop_RevolverGrenade0001","col_develop_RevolverGrenade0002","col_develop_RevolverGrenade0003","col_develop_RevolverGrenade0004","col_develop_EuropeSMG0001","col_develop_EuropeSMG0002","col_develop_EuropeSMG0003","col_develop_EuropeSMG0004","col_develop_Stungrenade"}
-  this.EnableCollectionTable(n,true)
+  local collectionTable={
+    "col_develop_BullpupAR",
+    "col_develop_LongtubeShotgun",
+    "col_develop_RevolverGrenade0001",
+    "col_develop_RevolverGrenade0002",
+    "col_develop_RevolverGrenade0003",
+    "col_develop_RevolverGrenade0004",
+    "col_develop_EuropeSMG0001",
+    "col_develop_EuropeSMG0002",
+    "col_develop_EuropeSMG0003",
+    "col_develop_EuropeSMG0004",
+    "col_develop_Stungrenade"
+  }
+  this.EnableCollectionTable(collectionTable,true)
   this.InitQuest()
 end
 function this.RepopMissionTaskCollection()
@@ -635,13 +649,13 @@ function this.UnlockLandingZone(e)
   end
 end
 function this.ShowAnnounceLog(n)
-  local i=mvars.gim_identifierParamTable[n].gimmickType
-  if not i then
+  local gimmickType=mvars.gim_identifierParamTable[n].gimmickType
+  if not gimmickType then
     return
   end
-  local i=s[i]
-  if i then
-    TppUI.ShowAnnounceLog(i)
+  local announceType=gimmickToAnnounceType[gimmickType]
+  if announceType then
+    TppUI.ShowAnnounceLog(announceType)
   end
   this._ShowCommCutOffAnnounceLog(n)
 end

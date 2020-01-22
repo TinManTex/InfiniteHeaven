@@ -613,7 +613,7 @@ sequences.Seq_Demo_StartHasTitleMission = {
 		if not mvars.startHasTitileSeqeunce then
 			mvars.startHasTitileSeqeunce = true
 			self.OnEndShowSplashScreen()		
-			--DEBUGNOW InfMain.DeleteStartSplashes()--tex
+			--OFF InfMain.DeleteStartSplashes()--tex
 		end
 
 	end,

@@ -19,7 +19,7 @@ this.autoDisplayDefault=2.8
 this.autoRateHeld=0.85
 this.autoDisplayRate=this.autoDisplayDefault
 this.menuOn=false
-this.toggleMenuHoldTime=1
+this.toggleMenuHoldTime=1.25
 this.toggleMenuButton=InfButton.EVADE--SYNC: InfLang "menu_keys"
 this.menuRightButton=InfButton.RIGHT
 this.menuLeftButton=InfButton.LEFT
@@ -27,6 +27,7 @@ this.menuUpButton=InfButton.UP
 this.menuDownButton=InfButton.DOWN
 this.resetSettingButton=InfButton.CALL
 this.menuBackButton=InfButton.STANCE
+this.activateSettingButton=InfButton.ACTION
 
 this.lastAutoDisplayString=""
 this.maxAutoDisplayRepeat=3
@@ -48,7 +49,20 @@ function this.PreviousOption()
 end
 function this.GetSetting()
   local option=this.currentMenuOptions[this.currentIndex]
-  --CULL option.setting=option.default or 0
+  if this.currentMenuOptions==nil then
+    InfMenu.DebugPrint("WARNING: currentMenuOptions == nil!")--DEBUG
+    return
+  end
+  
+--  for k,v in pairs(this.currentMenuOptions)do--DEBUG
+--    InfMenu.DebugPrint("currentMenuOptions "..tostring(k).." "..tostring(v))
+--  end--<
+
+  if option==nil then
+    InfMenu.DebugPrint("WARNING: option == nil! currentIndex="..tostring(this.currentIndex))--DEBUG
+    return
+  end
+
   if option.save then
     local gvar=gvars[option.name]
     if gvar~=nil then
@@ -61,6 +75,7 @@ function this.GetSetting()
     option:OnSelect()
   end
 end
+
 function this.IscurrentIndexMenu()
   local option=this.currentMenuOptions[this.currentIndex]
   if option.options~=nil then
@@ -151,12 +166,21 @@ function this.ChangeSetting(option,value)
   this.SetSetting(option,newSetting)
   --InfMenu.DebugPrint("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
 end
+
 function this.SetCurrent()--tex refresh current setting/re-call OnChange
   local option=this.currentMenuOptions[this.currentIndex]
   if option.setting then
     this.SetSetting(option,option.setting)
   end
 end
+
+function this.ActivateCurrent()--tex run activate function
+  local option=this.currentMenuOptions[this.currentIndex]
+  if IsFunc(option.OnActivate) then
+    option:OnActivate()
+  end
+end
+
 function this.SetSetting(self,setting,noOnChangeSub,noSave)
   if self==nil then
     InfMenu.DebugPrint("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?")
@@ -259,6 +283,11 @@ function this.PreviousSetting(incrementMult)
 end
 
 function this.GoMenu(menu,goBack)
+  if menu.options==nil then
+    InfMenu.DebugPrint("WARNING: GoMenu menu var "..tostring(menu.name).." is not a menu")
+    return
+  end
+
   if not goBack and menu ~= this.topMenu then
     menu.parent=this.currentMenu
     menu.parentOption=this.currentIndex
@@ -313,7 +342,7 @@ function this.DisplaySetting(optionIndex)
       settingText=this.LangTableString(settingNames,option.setting+1)--tex lua indexed from 1, but settings from 0
     end
   elseif IsFunc(option.GetSettingText) then
-    settingText=option:GetSettingText()
+    settingText=tostring(option:GetSettingText())
   elseif option.isFloat then
     settingText=math.floor(100*option.setting) .. "%"
   elseif option.options~=nil then--tex menu
@@ -386,7 +415,6 @@ local function ToggleMenu()
   this.menuOn = not this.menuOn
   if this.menuOn then
     InfMain.DisableActionFlagEquipMenu()
-  
     this.GetSetting()
     TppUiStatusManager.ClearStatus"AnnounceLog"
     TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
@@ -502,8 +530,10 @@ function this.Update(execCheck)
     end
   end
   
+  local disallowMenu=execCheck.inGroundVehicle or execCheck.onBuddy or execCheck.inBox
+  
   if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
-    if not execCheck.inGroundVehicle and not execCheck.onBuddy then
+    if not disallowMenu then
       local repeatRate=0.85
       InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
       InfButton.buttonStates[this.menuDownButton].repeatRate=repeatRate
@@ -517,7 +547,7 @@ function this.Update(execCheck)
   end
 
   if this.menuOn then
-    if execCheck.inGroundVehicle then
+    if disallowMenu then
       this.MenuOff()
     end
   
@@ -529,6 +559,12 @@ function this.Update(execCheck)
       this.SetCurrent()
       this.DisplayCurrentSetting()
     end
+    
+    if InfButton.OnButtonDown(this.activateSettingButton) then
+      this.ActivateCurrent()
+      --this.DisplayCurrentSetting()
+    end
+    
     if InfButton.OnButtonDown(this.menuUpButton) 
     or InfButton.OnButtonRepeat(this.menuUpButton) then
       this.PreviousOption()
@@ -575,17 +611,23 @@ function this.Update(execCheck)
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
 end
 
+local didWelcome=false
 function this.ModWelcome()
   if this.menuOn then
     return
   end
+  if didWelcome then
+    return
+  end
+  didWelcome=true
+  
   --if gvars.disableModWelcome==1 and InfMain.version==InfMain.lastVersion then TODO:
   --  return
   --end
-  TppUiCommand.AnnounceLogDelayTime(1.5)
+  TppUiCommand.AnnounceLogDelayTime(0)  
+
   InfMenu.Print(InfMain.modName.." "..InfMain.modVersion)
   InfMenu.PrintLangId"menu_keys"
-  TppUiCommand.AnnounceLogDelayTime(0)
 end
 function this.ModMissionMessage()
   TppUiCommand.AnnounceLogView("ModMissionMessage test")--ADDLANG

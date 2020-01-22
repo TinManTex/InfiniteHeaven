@@ -1215,6 +1215,8 @@ sequences.Seq_Game_MainGame = {
 			Fox.Log("No free heli radio.")
 			TppUiStatusManager.SetStatus( "ResourcePanel", "SHOW_IN_HELI" )
 		end
+		
+		InfMenu.ModWelcome()--tex TODO: a better place?--DEBUGNOW
 	end,
 	
 	OnLeave = function( self, nextSequenceName )

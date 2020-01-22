@@ -319,7 +319,7 @@ function this._ActivateReinforce()
   --InfMenu.DebugPrint("ActRein: hasVehicle:"..tostring(hasVehicle).." hasHeli:"..tostring(hasHeli))--DEBUG
   local vehicleId,driverId,soldier1Id,soldier2Id,soldier3Id,soldier4Id
   local reinforceSoldiers={}
-  if hasSoldier and (gvars.forceSuperReinforce==0 or not mvars.reinforce_isEnabledSoldiers) then--tex added conditions
+  if hasSoldier and (Ivars.forceSuperReinforce:Is(0) or not mvars.reinforce_isEnabledSoldiers) then--tex added conditions
     --InfMenu.DebugPrint("_ActivateReinforce hassoldier")--DEBUG
     mvars.reinforce_isEnabledSoldiers=true
     for n,soldierName in ipairs(this.REINFORCE_SOLDIER_NAMES)do
@@ -351,7 +351,7 @@ function this._ActivateReinforce()
     local heliRoute=this._GetHeliRoute(mvars.reinforce_cpId)
     local cp=mvars.ene_cpList[mvars.reinforce_reinforceCpId]
     SendCommand(heliId,{id="RequestReinforce",toCp=cp})
-    SendCommand(heliId,{id="SetCommandPost",cp=cp})--tex i think this is the cause of the heli ! sound on reinforce, don't know how to supress it, disabling or shifting order prevents reinforce from happening
+    SendCommand(heliId,{id="SetCommandPost",cp=cp})--tex i think this is the cause of the heli ! sound on reinforce (because the cp is already at alert when it's assigned), don't know how to supress it, disabling or shifting order prevents reinforce from happening
     if Ivars.disableReinforceHeliPullOut:Is(1) then--tex
       SendCommand(heliId,{id="DisablePullOut"})
     end
@@ -364,7 +364,7 @@ function this._ActivateReinforce()
 end
 function this._DeactivateReinforce()
   if mvars.reinforce_isEnabledSoldiers then
-    local leaveSoldiers=this._HasSoldier and gvars.forceSuperReinforce>0--tex 
+    local leaveSoldiers=this._HasSoldier and Ivars.forceSuperReinforce:Is()>0--tex 
     if not leaveSoldiers then--tex added check
       mvars.reinforce_isEnabledSoldiers=false
       for n,r in ipairs(this.REINFORCE_SOLDIER_NAMES)do

@@ -211,37 +211,37 @@ function this.SetHeroicPoint(n)
   return e
 end
 function this.SetOgrePoint(ogrePoint)
-  local e,n=this.GetFobServerParameter(ogrePoint)
-  if e<0 then
-    TppMotherBaseManagement.SubOgrePoint{ogrePoint=-e}
-  elseif e>0 then
-    TppMotherBaseManagement.AddOgrePoint{ogrePoint=e}
+  local amount,n=this.GetFobServerParameter(ogrePoint)
+  if amount<0 then
+    TppMotherBaseManagement.SubOgrePoint{ogrePoint=-amount}
+  elseif amount>0 then
+    TppMotherBaseManagement.AddOgrePoint{ogrePoint=amount}
   end
-  svars.her_missionOgrePoint=svars.her_missionOgrePoint+e
+  svars.her_missionOgrePoint=svars.her_missionOgrePoint+amount
 end
 function this.GetMissionOgrePoint()
   return svars.her_missionOgrePoint
 end
-function this.AnnounceHeroicPoint(i,o,n)
-  local o=o or"heroicPointDown"
-  local n=n or"heroicPointUp"
+function this.AnnounceHeroicPoint(pointTable,downLangId,upLangId)
+  local subLangId=downLangId or"heroicPointDown"
+  local addLangId=upLangId or"heroicPointUp"
   if vars.missionCode>=6e4 then
     return
   end
-  local e=this.GetFobServerParameter(i.heroicPoint)
-  if e<0 then
-    TppUI.ShowAnnounceLog(o,-e)
-  elseif e>0 then
-    TppUI.ShowAnnounceLog(n,e)
+  local amount=this.GetFobServerParameter(pointTable.heroicPoint)
+  if amount<0 then
+    TppUI.ShowAnnounceLog(subLangId,-amount)
+  elseif amount>0 then
+    TppUI.ShowAnnounceLog(addLangId,amount)
   end
 end
-function this.SetAndAnnounceHeroicOgrePoint(n,i,o)
+function this.SetAndAnnounceHeroicOgrePoint(pointTable,downLangId,upLangId)
   if TppMission.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_SHAM)then
     return
   end
-  this.SetHeroicPoint(n.heroicPoint)
-  this.AnnounceHeroicPoint(n,i,o)
-  this.SetOgrePoint(n.ogrePoint)
+  this.SetHeroicPoint(pointTable.heroicPoint)
+  this.AnnounceHeroicPoint(pointTable,downLangId,upLangId)
+  this.SetOgrePoint(pointTable.ogrePoint)
 end
 function this.AnnounceMissionAbort()
   this.AnnounceHeroicPoint(this.MISSION_ABORT)

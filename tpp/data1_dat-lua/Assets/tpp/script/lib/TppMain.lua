@@ -57,9 +57,11 @@ function this.DisablePlayerPad()
   TppGameStatus.Set("TppMain.lua","S_DISABLE_PLAYER_PAD")
 end
 function this.EnablePause()
-  TppPause.RegisterPause"TppMain.lua"end
+  TppPause.RegisterPause"TppMain.lua"
+end
 function this.DisablePause()
-  TppPause.UnregisterPause"TppMain.lua"end
+  TppPause.UnregisterPause"TppMain.lua"
+end
 function this.EnableBlackLoading(e)
   TppGameStatus.Set("TppMain.lua","S_IS_BLACK_LOADING")
   if e then
@@ -72,20 +74,18 @@ function this.DisableBlackLoading()
 end
 function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")
-  --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUGN
-  
+  --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUG 
   TppWeather.OnEndMissionPrepareFunction()
   this.DisableGameStatus()
   this.EnablePause()
   TppClock.Stop()
   updateList={}
   numUpdate=0
-  --NMC: OFF RENAMEsomeupdatetable2={}
-  --NMC: OFF RENAMEsomeupdate2=0
+  --ORPHAN: RENAMEsomeupdatetable2={}
+  --ORPHAN: RENAMEsomeupdate2=0
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
   if TppMission.IsFOBMission(vars.missionCode)then
-    InfMain.OnAllocateFob()--tex
     TppMission.SetFOBMissionFlag()
     TppGameStatus.Set("Mission","S_IS_ONLINE")
   else
@@ -113,6 +113,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   this.ClearStageBlockMessage()
   TppQuest.OnAllocate(missionTable)
   TppAnimal.OnAllocate(missionTable)
+  InfMain.OnAllocate(missionTable)--tex
   local function locationOnAllocate()
     if TppLocation.IsAfghan()then
       if afgh then
@@ -149,9 +150,9 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       TppSequence.SetOnEndMissionPrepareFunction(missionTable.sequence.OnEndMissionPrepareSequence)
     end
   end
-  for n,e in pairs(missionTable)do
-    if IsTypeFunc(e.OnLoad)then
-      e.OnLoad()
+  for n,missionScript in pairs(missionTable)do
+    if IsTypeFunc(missionScript.OnLoad)then
+      missionScript.OnLoad()
     end
   end
   do
@@ -255,10 +256,11 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   end
   TppRevenge.DecideRevenge(missionTable)
   if TppEquip.CreateEquipMissionBlockGroup then
-    if(vars.missionCode>6e4)then
-      TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*24}
+    if(vars.missionCode>6e4)then--NMC the e3/tradeshow demos I think
+      TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*24}--=9338880 -- nearly 5x the max retail block size
     else
-      TppPlayer.SetEquipMissionBlockGroupSize()
+      --TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*32}--DEBUGNOW TEST
+      TppPlayer.SetEquipMissionBlockGroupSize()--TppDefing.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721, sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE= max 1887437 (s10054)
     end
   end
   if TppEquip.CreateEquipGhostBlockGroups then
@@ -286,7 +288,6 @@ end
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize begin")--DEBUG
   --SplashScreen.Show(SplashScreen.Create("dbbinin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640))--tex eagle--tex ghetto as 'does it run?' indicator
-  
   if TppMission.IsFOBMission(vars.missionCode)then
     TppMission.SetFobPlayerStartPoint()
   elseif TppMission.IsNeedSetMissionStartPositionToClusterPosition()then
@@ -456,7 +457,6 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   end
   TppDemo.UpdateNuclearAbolitionFlag()
   TppQuest.AcquireKeyItemOnMissionStart()
-  
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize end")--DEBUG
   --SplashScreen.Show(SplashScreen.Create("dbeonin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.1,0)--tex eagle--tex ghetto as 'does it run?' indicator
 end
@@ -465,8 +465,8 @@ function this.SetUpdateFunction(missionTable)
   numUpdate=0
   onUpdateList={}
   numOnUpdate=0
-  --NMC: OFF RENAMEsomeupdatetable2={}
-  --NMC: OFF RENAMEsomeupdate2=0
+  --ORPHANL RENAMEsomeupdatetable2={}
+  --ORPHAN: RENAMEsomeupdate2=0
   updateList={
     TppMission.Update,
     TppSequence.Update,

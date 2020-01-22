@@ -127,9 +127,9 @@ function this.UpdateRepeatReset()
 end
 
 function this.ButtonDown(buttonMask)
-  --[[if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then
-    TppUiCommand.AnnounceLogView("ButtonDown:" .. buttonMask)--tex DEBUG: CULL:
-  end--]]
+--  if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then
+--    TppUiCommand.AnnounceLogView("ButtonDown:" .. buttonMask)--tex DEBUG: CULL:
+--  end
   return bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask
 end
 --tex GOTCHA: OnButton functions will have a gameframe of latency, sorry to dissapoint all the pro gamers
@@ -171,10 +171,10 @@ function this.OnButtonRepeat(buttonMask)
     if buttonState.startTime~=0 then
       if Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > buttonState.repeatRate then
         buttonState.startTime=Time.GetRawElapsedTimeSinceStartUp()
-        --[[OFF: if repeatRate > buttonState.minRate then
-          repeatRate=repeatRate-buttonState.decrement
-        end
-        buttonState.repeatRate=repeatRate--]]
+--OFF:    if repeatRate > buttonState.minRate then
+--          repeatRate=repeatRate-buttonState.decrement
+--        end
+--        buttonState.repeatRate=repeatRate--]]
         currentIncrementMult=currentIncrementMult*incrementMultIncrementMult
         --TppUiCommand.AnnounceLogView("DBG:MNU: currentIncrementMult:".. currentIncrementMult)--tex DEBUG: CULL:
         if currentIncrementMult>maxIncrementMult then

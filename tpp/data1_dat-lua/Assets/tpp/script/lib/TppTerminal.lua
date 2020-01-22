@@ -1062,18 +1062,18 @@ function this.SetUp()
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
   end
   --ORIG
---  if TppMission.IsSubsistenceMission() then
---    local dvcMenu={
---      {menu=this.MBDVCMENU.MSN_DROP,active=false},
---      {menu=this.MBDVCMENU.MSN_BUDDY,active=false},
---      {menu=this.MBDVCMENU.MSN_ATTACK,active=false},
---      {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=false}
---    }
---    this.EnableDvcMenuByList(dvcMenu)
---    TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
---  else
---    TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
---  end
+  --  if TppMission.IsSubsistenceMission() then
+  --    local dvcMenu={
+  --      {menu=this.MBDVCMENU.MSN_DROP,active=false},
+  --      {menu=this.MBDVCMENU.MSN_BUDDY,active=false},
+  --      {menu=this.MBDVCMENU.MSN_ATTACK,active=false},
+  --      {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=false}
+  --    }
+  --    this.EnableDvcMenuByList(dvcMenu)
+  --    TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
+  --  else
+  --    TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
+  --  end
 end
 function this.SetUpArmsMBDVCMenu()
   if this.IsOpenMBDvcArmsMenu()then
@@ -1100,44 +1100,44 @@ function this.SetUpBuddyMBDVCMenu()
   end
   this.EnableDvcMenuByList{{menu=this.MBDVCMENU.MSN_BUDDY,active=true}}
   this.EnableDvcMenuByList{{menu=this.MBDVCMENU.MSN_BUDDY_EQUIP,active=true}}
-  local t={HORSE=BuddyType.HORSE,DDOG=BuddyType.DOG,QUIET=BuddyType.QUIET,WALKER_GEAR=BuddyType.WALKER_GEAR,BATTLE_GEAR=BuddyType.BATTLE_GEAR}
-  for n,t in pairs(t)do
-    local canSortieBuddy=TppBuddyService.CanSortieBuddyType(t) or (TppMission.IsMbFreeMissions(vars.missionCode) and Ivars.mbEnableBuddies:Is(1))
+  local buddyTypes={HORSE=BuddyType.HORSE,DDOG=BuddyType.DOG,QUIET=BuddyType.QUIET,WALKER_GEAR=BuddyType.WALKER_GEAR,BATTLE_GEAR=BuddyType.BATTLE_GEAR}
+  for n,buddyType in pairs(buddyTypes)do
+    local canSortieBuddy=TppBuddyService.CanSortieBuddyType(buddyType) or (TppMission.IsMbFreeMissions(vars.missionCode) and Ivars.mbEnableBuddies:Is(1))
     if canSortieBuddy then
-      local t=this.BUDDY_MB_DVC_MENU[t]
-      if t then
-        this.EnableDvcMenuByList(t)
+      local buddyMenu=this.BUDDY_MB_DVC_MENU[buddyType]
+      if buddyMenu then
+        this.EnableDvcMenuByList(buddyMenu)
       end
     end
   end
 end
-function this.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex,RENAMEmysteryPatchvar,OnFultonSoldier,OnFultonVolgin,OnFultonHostage,OnFultonVehicle,OnFultonContainer,OnFultonGimmickCommon,OnFultonBuddy,OnFultonEnemyWalkerGear,OnFultonAnimal,OnFultonBossQuiet,OnFultonParasiteSquad) --RENAME:
+function this.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex,RENAMEmysteryPatchvar,OnFultonSoldier,OnFultonVolgin,OnFultonHostage,OnFultonVehicle,OnFultonContainer,OnFultonGimmickCommon,OnFultonBuddy,OnFultonEnemyWalkerGear,OnFultonAnimal,OnFultonBossQuiet,OnFultonParasiteSquad)
   if Tpp.IsSoldier(gameId)then
     return OnFultonSoldier(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex)
-elseif Tpp.IsVolgin(gameId)then
-  return OnFultonVolgin(gameId)
-elseif Tpp.IsHostage(gameId)then
-  return OnFultonHostage(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex)
-elseif Tpp.IsVehicle(gameId)then
-  return OnFultonVehicle(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
-elseif Tpp.IsFultonContainer(gameId)then
-  return OnFultonContainer(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex,RENAMEmysteryPatchvar)
-elseif Tpp.IsFultonableGimmick(gameId)then
-  return OnFultonGimmickCommon(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
-elseif Tpp.IsEnemyWalkerGear(gameId)then
-  return OnFultonEnemyWalkerGear(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
-elseif Tpp.IsAnimal(gameId)then
-  return OnFultonAnimal(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
-elseif Tpp.IsBossQuiet(gameId)then
-  return OnFultonBossQuiet(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex)
-elseif Tpp.IsParasiteSquad(gameId)then
-  return OnFultonParasiteSquad(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
-else
-  local buddyType=Tpp.GetBuddyTypeFromGameObjectId(gameId)
-  if buddyType then
-    return OnFultonBuddy(gameId,RENAMEanimalId,n,staffOrResourceId,buddyType,playerIndex)
+  elseif Tpp.IsVolgin(gameId)then
+    return OnFultonVolgin(gameId)
+  elseif Tpp.IsHostage(gameId)then
+    return OnFultonHostage(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex)
+  elseif Tpp.IsVehicle(gameId)then
+    return OnFultonVehicle(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+  elseif Tpp.IsFultonContainer(gameId)then
+    return OnFultonContainer(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex,RENAMEmysteryPatchvar)
+  elseif Tpp.IsFultonableGimmick(gameId)then
+    return OnFultonGimmickCommon(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+  elseif Tpp.IsEnemyWalkerGear(gameId)then
+    return OnFultonEnemyWalkerGear(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+  elseif Tpp.IsAnimal(gameId)then
+    return OnFultonAnimal(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+  elseif Tpp.IsBossQuiet(gameId)then
+    return OnFultonBossQuiet(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex)
+  elseif Tpp.IsParasiteSquad(gameId)then
+    return OnFultonParasiteSquad(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+  else
+    local buddyType=Tpp.GetBuddyTypeFromGameObjectId(gameId)
+    if buddyType then
+      return OnFultonBuddy(gameId,RENAMEanimalId,n,staffOrResourceId,buddyType,playerIndex)
+    end
   end
-end
 end
 function this.OnFulton(someGameId,a,o,staffOrResourceId,someBool,possiblyNotHelicopter,playerIndex,i)--RENAME:
   if possiblyNotHelicopter then

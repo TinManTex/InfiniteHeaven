@@ -756,13 +756,9 @@ this.fultonLevelProfile={
   settingNames="fultonLevelProfileSettings",
   settingsTable={
     DEFAULT=function()--the game auto sets to max developed
-    --[[for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
-
-
-        itemIvar:Set(itemIvar.range.max,true)
-
-
-      end--]]
+    --    for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+    --      itemIvar:Set(itemIvar.range.max,true)
+    --    end
     end,
     ITEM_OFF=function()
       for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
@@ -875,8 +871,29 @@ this.tertiaryWeaponOsp={
 -- revenge/enemy prep stuff>
 this.revengeMode={
   save=MISSION,
-  range=this.switchRange,
-  settingNames="set_revenge",
+  settings={"DEFAULT","MAX","CUSTOM"},
+  settingNames="revengeModeSettings",
+  IsCheck=function(self)
+    if TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode) then
+      return true
+    end
+    return false
+  end,
+  OnChange=function()
+    TppRevenge._SetUiParameters()
+  end,
+}
+
+this.revengeModeForMissions={
+  save=MISSION,
+  settings={"DEFAULT","MAX","CUSTOM"},
+  settingNames="revengeModeSettings",
+  IsCheck=function(self)
+    if TppMission.IsStoryMission(vars.missionCode) then
+      return true
+    end
+    return false
+  end,
   OnChange=function()
     TppRevenge._SetUiParameters()
   end,
@@ -899,12 +916,13 @@ this.revengeProfile={
       Ivars.balanceHeadGear:Set(0,true)
       Ivars.balanceWeaponPowers:Set(0,true)
       Ivars.disableConvertArmorToShield:Set(0,true)
+      Ivars.disableNoRevengeMissions:Set(0,true)
       Ivars.disableMissionsWeaponRestriction:Set(0,true)
       Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
       Ivars.enableMgVsShotgunVariation:Set(0,true)
       Ivars.randomizeSmallCpPowers:Set(0,true)
-      Ivars.changeCpSubTypeFree:Set(0,true)
-      Ivars.changeCpSubTypeForMissions:Set(0,true)
+      --Ivars.changeCpSubTypeFree:Set(0,true)
+      --Ivars.changeCpSubTypeForMissions:Set(0,true)
     end,
     HEAVEN=function()
       Ivars.revengeBlockForMissionCount:Set(4,true)
@@ -918,12 +936,13 @@ this.revengeProfile={
       Ivars.balanceHeadGear:Set(0,true)--tex allow headgearcombo is sufficient
       Ivars.balanceWeaponPowers:Set(0,true)--WIP
       Ivars.disableConvertArmorToShield:Set(1,true)
+      Ivars.disableNoRevengeMissions:Set(0,true)
       Ivars.disableMissionsWeaponRestriction:Set(0,true)
       Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
       Ivars.enableMgVsShotgunVariation:Set(1,true)
       Ivars.randomizeSmallCpPowers:Set(1,true)
-      Ivars.changeCpSubTypeFree:Set(1,true)
-      Ivars.changeCpSubTypeForMissions:Set(0,true)
+      --Ivars.changeCpSubTypeFree:Set(1,true)
+      --Ivars.changeCpSubTypeForMissions:Set(0,true)
     end,
     CUSTOM=nil,
   },
@@ -935,6 +954,13 @@ this.revengeBlockForMissionCount={
   save=MISSION,
   default=3,
   range={max=10},
+  profile=this.revengeProfile,
+}
+
+this.disableNoRevengeMissions={--DEBUGNOW
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
   profile=this.revengeProfile,
 }
 
@@ -1039,6 +1065,210 @@ this.randomizeSmallCpPowers={
   settingNames="set_switch",
   profile=this.revengeProfile,
 }
+
+--custom revenge config
+
+function this.SetRevengePowersRange(min,max)
+  for n,powerTableName in ipairs(this.percentagePowerTables)do
+    local powerTable=this[powerTableName]
+    for m,powerType in ipairs(powerTable)do
+      local ivarMin=this[powerType.."PercentageMin"]
+      local ivarMax=this[powerType.."PercentageMax"]
+      ivarMin:Set(min,true)
+      ivarMin:Set(max,true)
+    end
+  end
+end
+
+function this.SetPowerRange(powerType,min,max)
+  local ivarMin=this[powerType.."PercentageMin"]
+  local ivarMax=this[powerType.."PercentageMax"]
+  ivarMin:Set(min,true)
+  ivarMin:Set(max,true)
+end
+
+function this.SetPowerBool(powerType,bool)--tex not actually bool but intbool
+  this[powerType.."Power"]:Set(bool,true)
+end
+
+this.revengeConfigProfile={--WIP
+  save=MISSION,
+  settings={"DEFAULT","MAX","MIN","UPPER","LOWER","CUSTOM"},--tex default==wide,max=emulation of revenge config max
+  settingNames="revengeConfigProfileSettings",
+  settingsTable={
+    DEFAULT=function()
+      this.SetRevengePowersRange(0,1)
+    end,
+    MAX=function()
+      this.SetRevengePowersRange(1,1)
+      for n,powerType in ipairs(this.cpEquipPowers)do
+        this.SetPowerRange(powerType,1,1)
+      end
+      this.SetPowerRange("SOFT_ARMOR",1,1)
+      this.SetPowerRange("HELMET",1,1)
+      this.SetPowerRange("NVG",0.75,0.75)
+      this.SetPowerRange("GAS_MASK",0.75,0.75)
+      this.SetPowerRange("GUN_LIGHT",0.75,0.75)
+      this.SetPowerBool("STRONG_WEAPON",1)
+      this.SetPowerBool("STRONG_MISSILE",1)
+      this.SetPowerBool("STRONG_SNIPER",1)
+    end,
+    CUSTOM=nil,
+  },
+  OnChange=this.RunCurrentSetting,
+  OnSubSettingChanged=this.OnSubSettingChanged,
+}
+
+this.revengePowerRange={max=1,min=0,increment=0.1}
+
+this.weaponPowers={
+  "SNIPER",
+  "MISSILE",
+  "MG",
+  "SHOTGUN",
+  "SMG",
+  "ASSAULT",
+  "GUN_LIGHT",--tex kind of an odd one out
+}
+
+this.armorPowers={
+  "ARMOR",
+  "SOFT_ARMOR",
+  "SHIELD",
+}
+this.gearPowers={
+  "HELMET",
+  "NVG",
+  "GAS_MASK",
+}
+this.cpEquipPowers={
+  "DECOY",
+  "MINE",
+  "CAMERA",
+}
+
+this.percentagePowerTables={
+  "weaponPowers",
+  "armorPowers",
+  "gearPowers",
+  "cpEquipPowers",
+}
+
+for n,powerTableName in ipairs(this.percentagePowerTables)do
+  local powerTable=this[powerTableName]
+  for m,powerType in ipairs(powerTable)do
+    local minName=powerType.."PercentageMin"
+    local maxName=powerType.."PercentageMax"
+
+    local ivarMin={
+      save=MISSION,
+      default=0,
+      range=this.revengePowerRange,
+      powerType=powerType,
+      OnChange=function(self)
+        if self.setting>Ivars[maxName]:Get() then
+          Ivars[maxName]:Set(self.setting)
+        end
+      end,
+    }
+    local ivarMax={
+      save=MISSION,
+      default=1,
+      range=this.revengePowerRange,
+      powerType=powerType,
+      OnChange=function(self)
+        if self.setting<Ivars[minName]:Get() then
+          Ivars[minName]:Set(self.setting)
+        end
+      end,
+    }
+
+    this[minName]=ivarMin
+    this[maxName]=ivarMax
+  end
+end
+
+this.abiltiyLevels={
+  "NONE",
+  "LOW",
+  "HIGH",
+  "SPECIAL",
+}
+
+this.abilitiesWithLevels={
+  "STEALTH",
+  "COMBAT",
+  "HOLDUP",
+  "FULTON",
+}
+
+for n,powerType in ipairs(this.abilitiesWithLevels)do
+  local ivarName=powerType.."Ability"
+
+  local ivar={
+    save=MISSION,
+    settings=this.abiltiyLevels,
+    powerType=powerType,
+  }
+
+  this[ivarName]=ivar
+end
+
+this.weaponStrengthPowers={--tex bools
+  "STRONG_WEAPON",
+  "STRONG_SNIPER",
+  "STRONG_MISSILE",
+}
+
+for n,powerType in ipairs(this.weaponStrengthPowers)do
+  local ivarName=powerType.."Power"
+
+  local ivar={
+    save=MISSION,
+    range=this.switchRange,
+    settingNames="set_switch",
+    powerType=powerType,
+  }
+
+  this[ivarName]=ivar
+end
+
+this.cpEquipBoolPowers={--TODO:
+  "ACTIVE_DECOY",
+  "GUN_CAMERA",
+}
+
+this.moreAbilities={
+  "STRONG_NOTICE_TRANQ",--tex TODO: unused?
+}
+
+this.boolPowers={
+  "NO_KILL_WEAPON",--fob/dd weapontable only --TODO:?
+  "STRONG_PATROL",--tex appears un-used
+}
+
+this.reinforceLevelCustom={--tex applied additionally
+  save=MISSION,
+  settings={
+    "NONE",--tex aka no flag
+    "SUPER_REINFORCE",
+    "BLACK_SUPER_REINFORCE",
+  }
+}
+
+this.reinforceCount={
+  save=MISSION,
+  default=2,
+  range={max=99,min=1},
+}
+
+this.revengeCustomIgnoreBlocked={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+
 --<revenge stuff
 --reinforce stuff DOC: Reinforcements Soldier Vehicle Heli.txt
 this.forceSuperReinforce={
@@ -1291,127 +1521,45 @@ this.manualMissionCode={
     "1",--INIT
     "5",--TITLE
     --storyMissions
-    --[[
-
-
-  "10010",--CYPR
-
-
-  "10020",
-
-
-  "10030",
-
-
-  "10036",
-
-
-  "10043",
-
-
-  "10033",
-
-
-  "10040",
-
-
-  "10041",
-
-
-  "10044",
-
-
-  "10052",
-
-
-  "10054",
-
-
-  "10050",
-
-
-  "10070",
-
-
-  "10080",
-
-
-  "10086",
-
-
-  "10082",
-
-
-  "10090",
-
-
-  "10195",
-
-
-  "10091",
-
-
-  "10100",
-
-
-  "10110",
-
-
-  "10121",
-
-
-  "10115",
-
-
-  "10120",
-
-
-  "10085",
-
-
-  "10200",
-
-
-  "10211",
-
-
-  "10081",
-
-
-  "10130",
-
-
-  "10140",
-
-
-  "10150",
-
-
-  "10151",
-
-
-  "10045",
-
-
-  "10156",
-
-
-  "10093",
-
-
-  "10171",
-
-
-  "10240",
-
-
-  "10260",
-
-
-  "10280",--CYPR
-
-
-  --]]
+    --  "10010",--CYPR
+    --  "10020",
+    --  "10030",
+    --  "10036",
+    --  "10043",
+    --  "10033",
+    --  "10040",
+    --  "10041",
+    --  "10044",
+    --  "10052",
+    --  "10054",
+    --  "10050",
+    --  "10070",
+    --  "10080",
+    --  "10086",
+    --  "10082",
+    --  "10090",
+    --  "10195",
+    --  "10091",
+    --  "10100",
+    --  "10110",
+    --  "10121",
+    --  "10115",
+    --  "10120",
+    --  "10085",
+    --  "10200",
+    --  "10211",
+    --  "10081",
+    --  "10130",
+    --  "10140",
+    --  "10150",
+    --  "10151",
+    --  "10045",
+    --  "10156",
+    --  "10093",
+    --  "10171",
+    --  "10240",
+    --  "10260",
+    --  "10280",--CYPR
     --hard missions
     --"11043",
     "11041",--missingno
@@ -1479,19 +1627,11 @@ this.manualMissionCode={
 --MTBS={10030,10115,11115,10240},
 
 --appearance
---[[CULL this.useAppearance={
-
-
-  save=MISSION,
-
-
-  range=this.switchRange,
-
-
-  settingNames="set_switch",
-
-
-}--]]
+--CULL this.useAppearance={
+--  save=MISSION,
+--  range=this.switchRange,
+--  settingNames="set_switch",
+--}
 
 this.playerTypeApearance={
   save=MISSION,
@@ -1548,14 +1688,14 @@ this.cammoTypesApearance={
     "EVA_OPEN",
     "BOSS_CLOSE",
     "BOSS_OPEN",
-  --[["C23",--in exe in same area but may be nothing to do with
-  "C27",
-  "C30",
-  "C35",
-  "C38",
-  "C39",
-  "C42",
-  "C49",--]]
+  --  "C23",--in exe in same area but may be nothing to do with
+  --  "C27",
+  --  "C30",
+  --  "C35",
+  --  "C38",
+  --  "C39",
+  --  "C42",
+  --  "C49",
   },
   settingsTable={
     PlayerCamoType.OLIVEDRAB,
@@ -1591,14 +1731,14 @@ this.cammoTypesApearance={
     PlayerCamoType.EVA_OPEN,
     PlayerCamoType.BOSS_CLOSE,
     PlayerCamoType.BOSS_OPEN,
-  --[[PlayerCamoType.C23,
-  PlayerCamoType.C27,
-  PlayerCamoType.C30,
-  PlayerCamoType.C35,
-  PlayerCamoType.C38,
-  PlayerCamoType.C39,
-  PlayerCamoType.C42,
-  PlayerCamoType.C49,--]]
+  --  PlayerCamoType.C23,
+  --  PlayerCamoType.C27,
+  --  PlayerCamoType.C30,
+  --  PlayerCamoType.C35,
+  --  PlayerCamoType.C38,
+  --  PlayerCamoType.C39,
+  --  PlayerCamoType.C42,
+  --  PlayerCamoType.C49,
   },
   --settingNames="set_",
   OnChange=function(self)
@@ -1613,65 +1753,25 @@ this.cammoTypesApearance={
 this.playerPartsTypeApearance={
   save=MISSION,
   range={min=0,max=100},--TODO: figure out max range
-
-  --[[
-
-
-  settingsTable={
-
-
-    "NORMAL",
-
-
-    "NORMAL_SCARF",
-
-
-    "SNEAKING_SUIT",
-
-
-    "MGS1",
-
-
-    "HOSPITAL",
-
-
-    "AVATAR_EDIT_MAN",
-
-
-    "NAKED",
-
-
-  },
-
-
-  settingsTable={
-
-
-    PlayerPartsType.NORMAL,
-
-
-    PlayerPartsType.NORMAL_SCARF,
-
-
-    PlayerPartsType.SNEAKING_SUIT,
-
-
-    PlayerPartsType.MGS1,
-
-
-    PlayerPartsType.HOSPITAL,
-
-
-    PlayerPartsType.AVATAR_EDIT_MAN,
-
-
-    PlayerPartsType.NAKED,
-
-
-  },
-
-
-  --]]
+  --  settingsTable={
+  --    "NORMAL",
+  --    "NORMAL_SCARF",
+  --    "SNEAKING_SUIT",
+  --    "MGS1",
+  --    "HOSPITAL",
+  --    "AVATAR_EDIT_MAN",
+  --    "NAKED",
+  --  },
+  --
+  --  settingsTable={
+  --    PlayerPartsType.NORMAL,
+  --    PlayerPartsType.NORMAL_SCARF,
+  --    PlayerPartsType.SNEAKING_SUIT,
+  --    PlayerPartsType.MGS1,
+  --    PlayerPartsType.HOSPITAL,
+  --    PlayerPartsType.AVATAR_EDIT_MAN,
+  --    PlayerPartsType.NAKED,
+  --  },
   OnChange=function(self)
     if self.setting>0 then--TODO: add off/default/noset setting
     -- vars.playerPartsType=self.setting-1
@@ -1685,34 +1785,13 @@ this.playerFaceEquipIdApearance={
 
   --NONE=0??
   --BOSS_BANDANA=1
-  --[[
-
-
-  settingsTable={
-
-
-    "NORMAL",
-
-
-
-
-
-  },
-
-
-  settingsTable={
-
-
-    0,
-
-
-    1,
-
-
-  },
-
-
-  --]]
+  --  settingsTable={
+  --    "NORMAL",
+  --  },
+  --  settingsTable={
+  --    0,
+  --    1,
+  --  },
   OnChange=function(self)--TODO: add off/default/noset setting
   --vars.playerFaceEquipId=self.setting
   end,
@@ -1790,22 +1869,12 @@ this.phaseSettings={
   "PHASE_ALERT",
 }
 
---[[this.phaseTable={
-
-
-  TppGameObject.PHASE_SNEAK,--0
-
-
-  TppGameObject.PHASE_CAUTION,--1
-
-
-  TppGameObject.PHASE_EVASION,--2
-
-
-  TppGameObject.PHASE_ALERT,--3
-
-
-}--]]
+--this.phaseTable={
+--  TppGameObject.PHASE_SNEAK,--0
+--  TppGameObject.PHASE_CAUTION,--1
+--  TppGameObject.PHASE_EVASION,--2
+--  TppGameObject.PHASE_ALERT,--3
+--}
 
 this.minPhase={
   save=MISSION,
@@ -1876,68 +1945,25 @@ this.soldierAlertOnHeavyVehicleDamage={
   settings=this.phaseSettings,
 }
 
---[[
+--this.ogrePointChange={
+--  --save=MISSION,
+--  default=-100,
+--  range={min=-10000,max=10000,increment=100},
+--}
 
-
-this.ogrePointChange={
-
-
-  --save=MISSION,
-
-
-  default=-100,
-
-
-  range={min=-10000,max=10000,increment=100},
-
-
-}
-
-
---]]
---[[
-
-
-this.ogrePointChange={
-
-
-  save=MISSION,
-
-
-  settings={"DEFAULT","NORMAL","DEMON"},
-
-
-  settingNames="ogrePointChangeSettings",
-
-
-  settingsTable=99999999,
-
-
-  OnChange=function(self)
-
-
-    if self.setting==3 then
-
-
-      TppMotherBaseManagement.SubOgrePoint{ogrePoint=-99999999}
-
-
-    elseif self.setting==2 then
-
-
-      TppMotherBaseManagement.AddOgrePoint{ogrePoint=99999999}
-
-
-    end
-
-
-  end,
-
-
-}
-
-
---]]
+--this.ogrePointChange={
+--  save=MISSION,
+--  settings={"DEFAULT","NORMAL","DEMON"},
+--  settingNames="ogrePointChangeSettings",
+--  settingsTable=99999999,
+--  OnChange=function(self)
+--    if self.setting==3 then
+--      TppMotherBaseManagement.SubOgrePoint{ogrePoint=-99999999}
+--    elseif self.setting==2 then
+--      TppMotherBaseManagement.AddOgrePoint{ogrePoint=99999999}
+--    end
+--  end,
+--}
 
 --telop
 this.telopMode={
@@ -1969,43 +1995,18 @@ this.warpPlayerUpdate={
   disabledReason="item_disabled_subsistence",
   OnSelect=this.DisableOnSubsistence,
   OnChange=function(self,previousSetting)--tex REFACTOR what a mess VERIFY that you can bitcheck disableflags
-    --[[
+    --    local OPEN_EQUIP=PlayerDisableAction.OPEN_EQUIP_MENU
+    --    if self.setting==0 and previousSetting~=0 then
+    --      if bit.band(vars.playerDisableActionFlag,OPEN_EQUIP)==OPEN_EQUIP then
+    --       vars.playerDisableActionFlag=vars.playerDisableActionFlag-OPEN_EQUIP
+    --      end
+    --    elseif self.setting==1 and previousSetting~=1 then
+    --      if not (bit.band(vars.playerDisableActionFlag,OPEN_EQUIP)==OPEN_EQUIP) then
+    --       vars.playerDisableActionFlag=vars.playerDisableActionFlag+OPEN_EQUIP
+    --      end
+    --      vars.playerDisableActionFlag=PlayerDisableAction.OPEN_EQUIP_MENU
+    --    end
 
-
-    local OPEN_EQUIP=PlayerDisableAction.OPEN_EQUIP_MENU
-
-
-    if self.setting==0 and previousSetting~=0 then
-
-
-      if bit.band(vars.playerDisableActionFlag,OPEN_EQUIP)==OPEN_EQUIP then
-
-
-       vars.playerDisableActionFlag=vars.playerDisableActionFlag-OPEN_EQUIP
-
-
-      end
-
-
-    elseif self.setting==1 and previousSetting~=1 then
-
-
-      if not (bit.band(vars.playerDisableActionFlag,OPEN_EQUIP)==OPEN_EQUIP) then
-
-
-       vars.playerDisableActionFlag=vars.playerDisableActionFlag+OPEN_EQUIP
-
-
-      end 
-
-
-      vars.playerDisableActionFlag=PlayerDisableAction.OPEN_EQUIP_MENU
-
-
-    end
-
-
-    --]]
     if InfMenu.menuOn then
       InfMain.RestoreActionFlag()
       InfMenu.menuOn=false
@@ -2024,7 +2025,20 @@ this.warpPlayerUpdate={
   ExecUpdate=function(...)InfMain.UpdateWarpPlayer(...)end,
 }
 
---
+--quiet
+this.disableQuietHumming={--tex no go
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self)
+    if self.setting==1 then
+      InfMain.SetQuietHumming(false)
+    else
+      InfMain.SetQuietHumming(true)
+    end
+  end,
+}
+
 this.quietRadioMode={
   save=MISSION,
   range={min=0,max=31},
@@ -2050,37 +2064,16 @@ this.heliUpdate={--tex NONUSER, for now, need it alive to pick up pull out
   ExecUpdate=function(...)InfMain.UpdateHeli(...)end,
 }
 
---[[
+--this.heliUpdateRate={--seconds
+--  save=MISSION,
+--  default=3,
+--  range={min=1,max=255},
+--}
 
-
-this.heliUpdateRate={--seconds
-
-
-  save=MISSION,
-
-
-  default=3,
-
-
-  range={min=1,max=255},
-
-
-}
-
-
-this.heliUpdateRange={--seconds
-
-
-  save=MISSION,
-
-
-  range={min=0,max=255},
-
-
-}
-
-
---]]
+--this.heliUpdateRange={--seconds
+--  save=MISSION,
+--  range={min=0,max=255},
+--}
 
 this.defaultHeliDoorOpenTime={--seconds
   save=MISSION,
@@ -2248,6 +2241,50 @@ this.selectedCp={
   end,
 }
 
+--
+this.selectedChangeWeapon={--WIP
+  save=MISSION,
+  range={max=490,min=1},--tex SYNC: tppEquipTable
+  GetSettingText=function(self)
+    return InfMain.tppEquipTable[self.setting]
+  end,
+  OnActivate=function(self)
+    local equipName=InfMain.tppEquipTable[self.setting]
+    local equipId=TppEquip[equipName]
+    if equipId==nil then
+      InfMenu.DebugPrint("no equipId found for "..equipName)
+      return
+    else
+      InfMenu.DebugPrint("set "..equipName)
+      Player.ChangeEquip{
+        equipId = equipId,
+        stock = 30,
+        stockSub = 30,
+        ammo = 30,
+        ammoSub = 30,
+        suppressorLife = 100,
+        isSuppressorOn = false,
+        isLightOn = false,
+        dropPrevEquip = true,
+      -- toActive = true,
+      }
+    end
+
+    --      Player.ChangeEquip{
+    --        equipId = equipId,
+    --        stock = 30,
+    --        stockSub = 0,
+    --        ammo = 30,
+    --        ammoSub = 0,
+    --        suppressorLife = 0,
+    --        isSuppressorOn = false,
+    --        isLightOn = false,
+    --        toActive = false,
+    --        dropPrevEquip = false,
+    --        temporaryChange = true,
+    --      }
+  end,
+}
 --end ivar defines
 
 local function IsIvar(ivar)--TYPEID
@@ -2265,40 +2302,46 @@ this.OptionIsDefault=function(self)
   return currentSetting==self.default
 end
 
-this.OptionIsSetting=function(self,setting)--tex for getting setting via name or enum index, just use gvar. if you want the value, or Ivars. if it has none
+this.OptionIsSetting=function(self,setting)
   if self==nil then
     InfMenu.DebugPrint("WARNING OptionIsSetting self==nil, Is or Get called with . instead of :")
     return
+  end
+
+  if not IsIvar(self) then
+    InfMenu.DebugPrint("self not Ivar. Is or Get called with . instead of :")
+    return
+  end
+
+  local currentSetting
+  if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
+    currentSetting=self.default
+  else
+    currentSetting=self.setting
+  end
+
+  if setting==nil then
+    return currentSetting
+  elseif type(setting)=="number" then
+    return setting==currentSetting
+  end
+
+  if self.enum==nil then
+    InfMenu.DebugPrint("Is function called on ivar "..self.name.." which has no settings enum")
+    return false
+  end
+
+  if IsFunc(self.IsCheck) then
+    if self:IsCheck()==false then
+      return false
+    end
+  end
+
+  local settingIndex=self.enum[setting]
+  return settingIndex==currentSetting
 end
 
-if not IsIvar(self) then
-  InfMenu.DebugPrint("self not Ivar. Is or Get called with . instead of :")
-  return
-end
-
-local currentSetting
-if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
-  currentSetting=self.default
-else
-  currentSetting=self.setting
-end
-
-if setting==nil then
-  return currentSetting
-elseif type(setting)=="number" then
-  return setting==currentSetting
-end
-
-if self.enum==nil then
-  InfMenu.DebugPrint("Is function called on ivar "..self.name.." which has no settings enum")
-  return false
-end
-
-local settingIndex=self.enum[setting]
-return settingIndex==currentSetting
-end
-
-
+--tex TODO handle fob is default
 this.OptionAboveSetting=function(self,settingName)
   local settingIndex=self.enum[settingName]
   return self.setting>settingIndex
@@ -2354,28 +2397,13 @@ for name,ivar in pairs(this) do
 
     if ivar.settings then
       ivar.enum=Enum(ivar.settings)
-      --[[for name,enum in ipairs(ivar.enum) do
-
-
-        ivar[name]=false
-
-
-        if enum==ivar.default then
-
-
-          ivar[name]=true
-
-
-        end
-
-
-      end
-
-
-      ivar[ivar.settings[ivar.default] ]=true
-
-
-      --]]
+      --      for name,enum in ipairs(ivar.enum) do
+      --        ivar[name]=false
+      --        if enum==ivar.default then
+      --          ivar[name]=true
+      --        end
+      --      end
+      --      ivar[ivar.settings[ivar.default] ]=true
       ivar.range.max=#ivar.settings-1--tex ivars are indexed by 1, lua tables (settings) by 1
     end
     local i,f = math.modf(ivar.range.increment)--tex get fractional part
@@ -2385,19 +2413,11 @@ for name,ivar in pairs(this) do
       ivar.isFloat=true
     end
 
-    --[[if ivar.profile then--tex is subsetting
-
-
-      if ivar.OnChangeSubSetting==nil then
-
-
-        ivar.OnChangeSubSetting=OnChangeSubSetting
-
-
-      end
-
-
-    end--]]
+    --    if ivar.profile then--tex is subsetting
+    --      if ivar.OnChangeSubSetting==nil then
+    --        ivar.OnChangeSubSetting=OnChangeSubSetting
+    --      end
+    --    end
 
     ivar.IsDefault=this.OptionIsDefault
     ivar.Is=this.OptionIsSetting
@@ -2435,47 +2455,24 @@ function this.Init(missionTable)
   end
 end
 
+this.varTable={}--tex WIP DEBUGNOW changed from local to function so I can run some debug tests, revert to save some memory
 function this.DeclareVars()
-  -- local
-  local varTable={
-    --   {name="ene_typeForcedName",type=TppScriptVars.UINT32,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
-    --   {name="ene_typeIsForced",type=TppScriptVars.TYPE_BOOL,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
-    --CULL{name="vehiclePatrolSpawnedTypes",type=TppScriptVars.TYPE_UINT8,value=0,arraySize=this.MAX_PATROL_VEHICLES,save=true,category=TppScriptVars.CATEGORY_MISSION},
-    }
-  --[[ from MakeSVarsTable, a bit looser, but strings to strcode is interesting
-
-
-    local valueType=type(value)
-
-
-    if valueType=="boolean"then
-
-
-      type=TppScriptVars.TYPE_BOOL,value=value
-
-
-    elseif valueType=="number"then
-
-
-      type=TppScriptVars.TYPE_INT32,value=value
-
-
-    elseif valueType=="string"then
-
-
-      type=TppScriptVars.TYPE_UINT32,value=StrCode32(value)
-
-
-    elseif valueType=="table"then
-
-
-      value=value
-
-
-    end
-
-
-  --]]
+  local varTable=this.varTable
+  --varTable={
+  --   {name="ene_typeForcedName",type=TppScriptVars.UINT32,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
+  --   {name="ene_typeIsForced",type=TppScriptVars.TYPE_BOOL,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
+  --}
+  --  from MakeSVarsTable, a bit looser, but strings to strcode is interesting
+  --    local valueType=type(value)
+  --    if valueType=="boolean"then
+  --      type=TppScriptVars.TYPE_BOOL,value=value
+  --    elseif valueType=="number"then
+  --      type=TppScriptVars.TYPE_INT32,value=value
+  --    elseif valueType=="string"then
+  --      type=TppScriptVars.TYPE_UINT32,value=StrCode32(value)
+  --    elseif valueType=="table"then
+  --      value=value
+  --    end
 
   for name, ivar in pairs(Ivars) do
     if IsIvar(ivar) then
@@ -2486,7 +2483,7 @@ function this.DeclareVars()
         local min=ivar.range.min
         if ivar.isFloat then
           svarType=TppScriptVars.TYPE_FLOAT
-          --elseif max < 2 then --TODO: tex bool supprt
+          --elseif max < 2 then --tex TODO: bool support
           --svar.type=TppScriptVars.TYPE_BOOL
         elseif max < int8 then
           svarType=TppScriptVars.TYPE_UINT8
@@ -2508,6 +2505,43 @@ function this.DeclareVars()
   end
 
   return varTable
+end
+
+--tex only catches save vars
+function this.PrintNonDefaultVars()
+  if this.varTable==nil then
+    InfMenu.DebugPrint("varTable not found, has it been reverted to DeclareVars local?")
+    return
+  end
+
+  for n,gvarInfo in pairs(this.varTable) do
+    local gvar=gvars[gvarInfo.name]
+    if gvar==nil then
+      InfMenu.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
+    else
+      if gvar ~= gvarInfo.value then
+        InfMenu.DebugPrint("DEBUG: "..gvarInfo.name.." current value is not default")
+      end
+    end
+  end
+end
+
+function this.PrintSaveVarCount()
+  if this.varTable==nil then
+    InfMenu.DebugPrint("varTable not found, has it been reverted to DeclareVars local?")
+    return
+  end
+
+  local count=0
+  for n,gvarInfo in pairs(this.varTable) do
+    local gvar=gvars[gvarInfo.name]
+    if gvar==nil then
+      InfMenu.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
+    else
+      count=count+1
+    end
+  end
+  InfMenu.DebugPrint("count:"..count.." "..#this.varTable )
 end
 
 function this.DeclareSVars()--tex svars are created/cleared on new missions

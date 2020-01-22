@@ -50,13 +50,12 @@ function this.Seq_Demo_RecoverVolgin_OnEnter_Patch()--tex patchup shit
   --end
 end
 function this.PatchSequenceTable()
-  --[[--tex OFF: no luck so far
-  if vars.missionCode == 30250 then
-    if mvars.seq_sequenceTable["Seq_Demo_RecoverVolgin"] ~= nil then
-      mvars.seq_sequenceTable["Seq_Demo_RecoverVolgin"].OnEnter=this.Seq_Demo_RecoverVolgin_OnEnter_Patch
-    end
-  end
-  --]]
+--tex OFF: no luck so far
+--  if vars.missionCode == 30250 then
+--    if mvars.seq_sequenceTable["Seq_Demo_RecoverVolgin"] ~= nil then
+--      mvars.seq_sequenceTable["Seq_Demo_RecoverVolgin"].OnEnter=this.Seq_Demo_RecoverVolgin_OnEnter_Patch
+--    end
+--  end
 end
 
 return this

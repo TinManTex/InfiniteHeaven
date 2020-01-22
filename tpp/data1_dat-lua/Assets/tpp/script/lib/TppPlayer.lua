@@ -486,34 +486,35 @@ function this.RestoreWeaponsFromUsingTemp()
   gvars.ply_isUsingTempWeapons=false
   return true
 end
-function this.SetItems(a)
-  if not IsTypeTable(a)then
+function this.SetItems(itemNames)
+  if not IsTypeTable(itemNames)then
     return
   end
-  for t,a in ipairs(a)do
-    if TppEquip[a]==nil then
+  for t,equipName in ipairs(itemNames)do
+    if TppEquip[equipName]==nil then
       return
     end
   end
-  this._SetItems(a,"items")
+  this._SetItems(itemNames,"items")
 end
-function this.SetInitItems(a)
-  if not IsTypeTable(a)then
+function this.SetInitItems(itemNames)
+  if not IsTypeTable(itemNames)then
     return
   end
-  for a,e in ipairs(a)do
-    if TppEquip[e]==nil then
+  for a,equipName in ipairs(itemNames)do
+    if TppEquip[equipName]==nil then
       return
     end
   end
   if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_RECUE_MILLER then
-    this.SaveItemsToUsingTemp(a)
+    this.SaveItemsToUsingTemp(itemNames)
   end
-  this._SetItems(a,"initItems")
+  this._SetItems(itemNames,"initItems")
 end
-function this._SetItems(a,e)vars[e][0]=TppEquip.EQP_None
-  for a,t in pairs(a)do
-    vars[e][a]=TppEquip[t]
+function this._SetItems(itemNames,e)
+  vars[e][0]=TppEquip.EQP_None
+  for a,equipName in pairs(itemNames)do
+    vars[e][a]=TppEquip[equipName]
   end
 end
 function this.SaveItemsToUsingTemp(e)
@@ -702,9 +703,9 @@ function this.SetMissionStartAmmoCount()
   end
 end
 function this.SetEquipMissionBlockGroupSize()
-  local e=mvars.ply_equipMissionBlockGroupSize
-  if e>0 then
-    TppEquip.CreateEquipMissionBlockGroup{size=e}
+  local size=mvars.ply_equipMissionBlockGroupSize
+  if size>0 then
+    TppEquip.CreateEquipMissionBlockGroup{size=size}
   end
 end
 function this.SetMaxPickableLocatorCount()
@@ -2181,7 +2182,8 @@ function this.OnEnterQuestTrap(a,t)
   this.ShowIconForQuest(a)
   local e=mvars.ply_questStartFlagInfo[a]
   if e~=nil and e==false then
-    TppSoundDaemon.PostEvent"sfx_s_ifb_mbox_arrival"end
+    TppSoundDaemon.PostEvent"sfx_s_ifb_mbox_arrival"
+  end
 end
 function this.OnExitQuestTrap(a,a)
   this.HideIconForQuest()

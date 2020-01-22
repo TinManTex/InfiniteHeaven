@@ -247,7 +247,7 @@ this.revengeDefine={
   FULTON_0={},
   FULTON_1={FULTON_LOW=true},
   FULTON_2={FULTON_HIGH=true},
-  FULTON_3={FULTON_SPECIAL=true}--[[--RETAILBUG: fulton was 0 low 1 blank 2 high,now 0 blank 1 low 2 high--]],
+  FULTON_3={FULTON_SPECIAL=true},--RETAILBUG: fulton was 0 low 1 blank 2 high,now 0 blank 1 low 2 high
   SMOKE_1={GAS_MASK="25%"},
   SMOKE_2={GAS_MASK="50%"},
   SMOKE_3={GAS_MASK="75%"},
@@ -298,7 +298,7 @@ this.revengeDefine={
 }
 function this.SelectRevengeType()
   local missionCode=TppMission.GetMissionID()
-  if this.IsNoRevengeMission(missionCode)or missionCode==10115 then--NMC retake the platform, not revenge mission because mb/ddogs use different system?
+  if (this.IsNoRevengeMission(missionCode)or missionCode==10115) and Ivars.disableNoRevengeMissions:Is(0) then--tex added disable --NMC retake the platform, not revenge mission because mb/ddogs use different system?
     return{}
   end
   local isHardMission=TppMission.IsHardMission(missionCode)
@@ -403,6 +403,10 @@ function this.IsUsingBlackSuperReinforce()
   return mvars.revenge_revengeConfig.BLACK_SUPER_REINFORCE
 end
 function this.GetReinforceCount()
+  if not Ivars.reinforceCount:IsDefault() then--tex>
+    return Ivars.reinforceCount:Get()
+  end--<
+
   local count=mvars.revenge_revengeConfig.REINFORCE_COUNT
   if count then
     return count+0
@@ -454,7 +458,7 @@ function this.IsIgnoreBlocked()
   return mvars.revenge_revengeConfig.IGNORE_BLOCKED
 end
 function this.IsBlocked(category)
-  if Ivars.revengeMode:Is()>0 then--tex revengemax
+  if Ivars.revengeMode:Is"MAX" or Ivars.revengeModeForMissions:Is"MAX" then--tex revengemax
     return false
   end--
   if category==nil then
@@ -810,7 +814,7 @@ function this.GetRevengeLvLimitRank()
 end
 function this.GetRevengeLv(revengeType)
   local missionId=TppMission.GetMissionID()
-  if TppMission.IsHardMission(missionId) or Ivars.revengeMode:Is()>0 then--tex added
+  if TppMission.IsHardMission(missionId) or Ivars.revengeMode:Is"MAX" or Ivars.revengeModeForMissions:Is"MAX" then--tex added
     return this.GetRevengeLvMax(revengeType,this.REVENGE_LV_LIMIT_RANK_MAX)--RETAILBUG: was just REVENGE_LV_LIMIT_RANK_MAX, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
   else
     return gvars.rev_revengeLv[revengeType]
@@ -1134,7 +1138,7 @@ function this.ApplyMissionTendency(missionId)
   this.SetRevengePoint(this.REVENGE_TYPE.M_COMBAT,0)
 end
 function this.CanUseReinforceVehicle()
-  if gvars.forceSuperReinforce>0 then--tex
+  if Ivars.forceSuperReinforce:Is()>0 then--tex
     return true
   end--
   local missionId=TppMission.GetMissionID()
@@ -1245,21 +1249,29 @@ function this._CreateRevengeConfig(revengeTypes)
       end
     end
   end
-  --NMC: actually add stuff to revengeConfig
-  for n,revengeType in ipairs(revengeTypes)do
-    local category=this.revengeDefine[revengeType]
-    if category~=nil then
-      if category[1]~=nil then
-        local rnd=this._Random(1,#category)
-        category=category[rnd]
-      end
-      for powerType,powerSetting in pairs(category)do
-        if disablePowerSettings[powerType]then
-        else
-          revengeConfig[powerType]=powerSetting
+
+  --tex>customrevengeconfig
+  local doCustom=Ivars.revengeMode:Is"CUSTOM" or Ivars.revengeModeForMissions:Is"CUSTOM"
+  if doCustom then
+    revengeConfig=InfMain.CreateCustomRevengeConfig()
+  --<
+  else
+    --NMC: actually add stuff to revengeConfig
+    for n,revengeType in ipairs(revengeTypes)do
+      local category=this.revengeDefine[revengeType]
+      if category~=nil then
+        if category[1]~=nil then
+          local rnd=this._Random(1,#category)
+          category=category[rnd]
+        end
+        for powerType,powerSetting in pairs(category)do
+          if disablePowerSettings[powerType]then
+          else
+            revengeConfig[powerType]=powerSetting
+          end
         end
       end
-    end
+  end--for revengetypes
   end
 
   if not revengeConfig.IGNORE_BLOCKED then
@@ -1700,7 +1712,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
         if not Tpp.IsTypeNumber(currentSetting)then
           currentSetting=TppRevenge._GetSettingSoldierCount(powerType,revengeConfigCp[powerType],totalSoldierCount)
         end
-        
+
         revengeConfigCp[powerType]=math.random(range[1],math.min(currentSetting,range[2]))
         if revengeConfigCp[powerType]==0 then
           revengeConfigCp[powerType]=nil
@@ -1859,10 +1871,10 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
   --    --end--
   --  end--<
   --
---  if Ivars.selectedCp:Is()==cpId then--tex DEBUG
---    local instr=InfInspect.Inspect(cpConfig)
---    InfMenu.DebugPrint(instr)
---  end--<
+  --  if Ivars.selectedCp:Is()==cpId then--tex DEBUG
+  --    local instr=InfInspect.Inspect(cpConfig)
+  --    InfMenu.DebugPrint(instr)
+  --  end--<
 
   for soldierConfigId,soldierConfig in ipairs(cpConfig)do
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]
@@ -1870,64 +1882,64 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
     if missionAbilitySoldiers[soldierId]==nil then
       local personalAbilitySettings={}
       do
-        local stealth
+        local abilityLevel
         if soldierConfig.STEALTH_SPECIAL then
-          stealth="sp"
+          abilityLevel="sp"
         elseif soldierConfig.STEALTH_HIGH then
-          stealth="high"
+          abilityLevel="high"
         elseif soldierConfig.STEALTH_LOW then
-          stealth="low"
+          abilityLevel="low"
         end
-        personalAbilitySettings.notice=stealth
-        personalAbilitySettings.cure=stealth
-        personalAbilitySettings.reflex=stealth
+        personalAbilitySettings.notice=abilityLevel
+        personalAbilitySettings.cure=abilityLevel
+        personalAbilitySettings.reflex=abilityLevel
       end
       do
-        local combat
+        local abilityLevel
         if soldierConfig.COMBAT_SPECIAL then
-          combat="sp"
+          abilityLevel="sp"
         elseif soldierConfig.COMBAT_HIGH then
-          combat="high"
+          abilityLevel="high"
         elseif soldierConfig.COMBAT_LOW then
-          combat="low"
+          abilityLevel="low"
         end
-        personalAbilitySettings.shot=combat
-        personalAbilitySettings.grenade=combat
-        personalAbilitySettings.reload=combat
-        personalAbilitySettings.hp=combat
+        personalAbilitySettings.shot=abilityLevel
+        personalAbilitySettings.grenade=abilityLevel
+        personalAbilitySettings.reload=abilityLevel
+        personalAbilitySettings.hp=abilityLevel
       end
       do
-        local speed
+        local abilityLevel
         if soldierConfig.STEALTH_SPECIAL or soldierConfig.COMBAT_SPECIAL then
-          speed="sp"
+          abilityLevel="sp"
         elseif soldierConfig.STEALTH_HIGH or soldierConfig.COMBAT_HIGH then
-          speed="high"
+          abilityLevel="high"
         elseif soldierConfig.STEALTH_LOW or soldierConfig.COMBAT_LOW then
-          speed="low"
+          abilityLevel="low"
         end
-        personalAbilitySettings.speed=speed
+        personalAbilitySettings.speed=abilityLevel
       end
       do
-        local fulton
+        local abilitiyLevel
         if soldierConfig.FULTON_SPECIAL then
-          fulton="sp"
+          abilitiyLevel="sp"
         elseif soldierConfig.FULTON_HIGH then
-          fulton="high"
+          abilitiyLevel="high"
         elseif soldierConfig.FULTON_LOW then
-          fulton="low"
+          abilitiyLevel="low"
         end
-        personalAbilitySettings.fulton=fulton
+        personalAbilitySettings.fulton=abilitiyLevel
       end
       do
-        local holdup
+        local abilityLevel
         if soldierConfig.HOLDUP_SPECIAL then
-          holdup="sp"
+          abilityLevel="sp"
         elseif soldierConfig.HOLDUP_HIGH then
-          holdup="high"
+          abilityLevel="high"
         elseif soldierConfig.HOLDUP_LOW then
-          holdup="low"
+          abilityLevel="low"
         end
-        personalAbilitySettings.holdup=holdup
+        personalAbilitySettings.holdup=abilityLevel
       end
       TppEnemy.ApplyPersonalAbilitySettings(soldierId,personalAbilitySettings)
     end

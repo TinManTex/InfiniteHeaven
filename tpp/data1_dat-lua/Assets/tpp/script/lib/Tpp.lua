@@ -79,7 +79,7 @@ this.requires={
   "/Assets/tpp/script/lib/TppRanking.lua",
   "/Assets/tpp/script/lib/TppTrophy.lua",
   "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
-  "/Assets/tpp/script/lib/Ivars.lua",--tex
+  "/Assets/tpp/script/lib/Ivars.lua",--tex>
   "/Assets/tpp/script/lib/InfLang.lua",
   "/Assets/tpp/script/lib/InfButton.lua",
   "/Assets/tpp/script/lib/InfMain.lua",
@@ -90,7 +90,7 @@ this.requires={
   "/Assets/tpp/script/lib/InfSoldierParams.lua",
   "/Assets/tpp/script/lib/InfInspect.lua",
   "/Assets/tpp/script/lib/InfLZ.lua",
-  "/Assets/tpp/script/lib/InfHooks.lua",--
+  "/Assets/tpp/script/lib/InfHooks.lua",--<
 }
 function this.IsTypeFunc(e)
   return type(e)=="function"
@@ -108,17 +108,17 @@ function this.IsTypeNumber(e)
   return type(e)=="number"
 end
 local IsTypeNumber=this.IsTypeNumber
-function this.Enum(e)
-  if e==nil then
+function this.Enum(nameTable)
+  if nameTable==nil then
     return
   end
-  if#e==0 then
-    return e
+  if#nameTable==0 then
+    return nameTable
   end
-  for n=1,#e do
-    e[e[n]]=n
+  for n=1,#nameTable do
+    nameTable[nameTable[n]]=n
   end
-  return e
+  return nameTable
 end
 function this.IsMaster()do
   return true
@@ -134,7 +134,8 @@ function this.SplitString(e,l)
   while true do
     n=string.find(e,l)
     if(n==nil)then
-      table.insert(t,e)break
+      table.insert(t,e)
+      break
     else
       local l=string.sub(e,0,n-1)
       table.insert(t,l)
@@ -322,7 +323,9 @@ function this.GetLocatorByTransform(identifier,key)
 end
 function this.GetDataWithIdentifier(identifier,key,typeName)
   local data=DataIdentifier.GetDataWithIdentifier(identifier,key)
-  if data==nil then--RETAILBUG: was ==NULL
+  --GOTCHA: NULL seems to be a valid return, likely used as SQL NULL - https://www.exasol.com/support/browse/SOL-129
+  --either way the game relies on this value in a couple of calls, but this makes me worried with stuff like above testing for this function returning nil
+  if data==NULL then
     return
   end
   if(data:IsKindOf(typeName)==false)then
@@ -504,15 +507,15 @@ function this.IsFultonableGimmick(e)
   local e=GetTypeIndex(e)
   return TppDefine.FULTONABLE_GIMMICK_TYPE[e]
 end
-function this.GetBuddyTypeFromGameObjectId(e)
-  if e==nil then
+function this.GetBuddyTypeFromGameObjectId(gameObjectType)
+  if gameObjectType==nil then
     return
   end
-  if e==NULL_ID then
+  if gameObjectType==NULL_ID then
     return
   end
-  local e=GetTypeIndex(e)
-  return TppDefine.BUDDY_GM_TYPE_TO_BUDDY_TYPE[e]
+  local typeIndex=GetTypeIndex(gameObjectType)
+  return TppDefine.BUDDY_GM_TYPE_TO_BUDDY_TYPE[typeIndex]
 end
 function this.IsMarkerLocator(e)
   return IsGameObjectType(e,GAME_OBJECT_TYPE_MARKER2_LOCATOR)

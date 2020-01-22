@@ -80,7 +80,8 @@ function this.UpdateScore(a,t)
       end
     end
     if a then
-      this.ShowUpdateScoreAnnounceLog(n,t)gvars[o]=t
+      this.ShowUpdateScoreAnnounceLog(n,t)
+      gvars[o]=t
     end
   else
     if r then
@@ -163,7 +164,8 @@ function this.SendCurrentRankingScore()
   for a=1,(TppDefine.RANKING_MAX-1)do
     if svars.rnk_isUpdated[a]then
       local t=TppDefine.RANKING_ENUM[a]
-      local e=this.GetScore(t)table.insert(n,{a,e})
+      local e=this.GetScore(t)
+      table.insert(n,{a,e})
     end
   end
   if mvars.rnk_missionClearRankingResult then
@@ -185,7 +187,12 @@ function this.UpdateShootingPracticeClearTime(n,a)
   this.UpdateScore(n,a)
 end
 function this.Messages()
-  return Tpp.StrCode32Table{Player={{msg="CBoxSlideEnd",func=this.OnCBoxSlideEnd}},GameObject={{msg="Neutralize",func=this.OnNeutralize},{msg="HeadShot",func=this.OnHeadShot}}}
+  return Tpp.StrCode32Table{
+    Player={{msg="CBoxSlideEnd",func=this.OnCBoxSlideEnd}},
+    GameObject={
+      {msg="Neutralize",func=this.OnNeutralize},
+      {msg="HeadShot",func=this.OnHeadShot}}
+  }
 end
 function this.Init(n)
   TppChallengeTask.RegisterCheckerFunction("PLAY_RECORD","TppRanking","CheckPlayRecordChallengeTask")
@@ -217,7 +224,8 @@ function this.OnMessage(r,t,n,o,a,i,s)
 end
 function this.OnNeutralize(n,n,e,n)
   if e==NeutralizeType.HOLDUP then
-    PlayRecord.RegistPlayRecord"PLAYER_HOLDUP"end
+    PlayRecord.RegistPlayRecord"PLAYER_HOLDUP"
+  end
 end
 function this.OnHeadShot(a,a,n,e)
   if not Tpp.IsPlayer(n)then
@@ -227,15 +235,18 @@ function this.OnHeadShot(a,a,n,e)
     return
   end
   if bit.band(e,HeadshotMessageFlag.IS_TRANQ_HANDGUN)==HeadshotMessageFlag.IS_TRANQ_HANDGUN then
-    PlayRecord.RegistPlayRecord"PLAYER_HEADSHOT_STUN"else
-    PlayRecord.RegistPlayRecord"PLAYER_HEADSHOT"end
+    PlayRecord.RegistPlayRecord"PLAYER_HEADSHOT_STUN"
+  else
+    PlayRecord.RegistPlayRecord"PLAYER_HEADSHOT"
+  end
 end
 function this.OnCBoxSlideEnd(n,e)
   local e=e/10
   PlayRecord.RegistPlayRecord("CBOX_SLIDING",e)
   if(e>gvars.rnk_CboxGlidingDistance)then
     gvars.rnk_CboxGlidingDistance=e
-    TppChallengeTask.RequestUpdate"PLAY_RECORD"end
+    TppChallengeTask.RequestUpdate"PLAY_RECORD"
+  end
 end
 function TppResult.IsEqualOrMoreCboxGlidingDistance(e)
   if gvars.rnk_CboxGlidingDistance>=e then

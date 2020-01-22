@@ -1244,13 +1244,13 @@ function this.UpdateMBDemo()
     end
   end
 end
-function this.IsUseMBDemoStage(e)
+function this.IsUseMBDemoStage(demoName)
   if not TppMission.IsMissionStart()then
     return false
   end
-  if e then
-    for a,n in pairs(TppDefine.MB_FREEPLAY_LARGEDEMO)do
-      if n==e then
+  if demoName then
+    for n,demoStageDemoName in pairs(TppDefine.MB_FREEPLAY_LARGEDEMO)do
+      if demoStageDemoName==demoName then
         return true
       end
     end

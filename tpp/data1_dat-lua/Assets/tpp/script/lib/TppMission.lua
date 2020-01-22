@@ -1489,13 +1489,9 @@ else
   return missionId
 end
 end
---[[function this.GetNormalMissionCodeFromHardMission(e)--tex ORIG:
-
-
-  return e-1e3
-
-
-end--]]
+--function this.GetNormalMissionCodeFromHardMission(e)--tex ORIG:
+--  return e-1e3
+--end
 function this.IsSubsistenceMission()
   if(vars.missionCode==11043)or(vars.missionCode==11044)or this.IsManualSubsistence()then--tex IsSubsistenceMission() - added subsitence toggle
     return true
@@ -3732,7 +3728,6 @@ function this.ShowAnnounceLogOnGameStart()
     end
     TppQuest.ShowAnnounceLogQuestOpen()
   end
-  --CULL InfMenu.ModWelcome()--tex
 end
 function this.SetHeroicAndOgrePointInSlot(e,n)
   TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.MISSION_START,"vars","missionHeroicPoint",e)

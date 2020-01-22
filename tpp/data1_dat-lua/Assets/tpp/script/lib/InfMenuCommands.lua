@@ -21,6 +21,8 @@ this.resetAllSettingsItem={
   OnChange=function()
     InfMenu.PrintLangId"setting_all_defaults"
     InfMenu.ResetSettings()
+    Ivars.PrintNonDefaultVars()
+    InfMenu.PrintLangId"done"
     InfMenu.MenuOff()
   end,
 }
@@ -97,29 +99,66 @@ this.removeDemon={
   end,
 }
 
-this.printCurrentAppearance={
+this.returnQuiet={
+  settingNames="set_quiet_return",
   OnChange=function()
-    InfMenu.Print("playerType: " .. tostring(vars.playerType))
-    InfMenu.Print("playerCamoType: " .. tostring(vars.playerCamoType))
-    InfMenu.Print("playerPartsType: " .. tostring(vars.playerPartsType))
-    InfMenu.Print("playerFaceEquipId: " .. tostring(vars.playerFaceEquipId))
-    InfMenu.Print("playerFaceId: " .. tostring(vars.playerFaceId))
+    if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
+      InfMenu.PrintLangId"quiet_already_returned"--"Quiet has already returned."
+    else
+      --InfPatch.QuietReturn()
+      TppStory.RequestReunionQuiet()
+    end
+  end,
+}
+
+this.resetRevenge={
+  OnChange=function()
+    --Ivars.revengeMode:Set(0)
+    TppRevenge.ResetRevenge()
+    TppRevenge._SetUiParameters()
+    InfMenu.PrintLangId("revenge_reset")
+  end,
+}
+
+this.pullOutHeli={
+  OnChange=function()
+    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+      GameObject.SendCommand(gameObjectId,{id="PullOut",forced=true})
+    end
+  end
+}
+
+--game progression unlocks
+
+this.unlockPlayableAvatar={
+  OnChange=function()
+    if vars.isAvatarPlayerEnable==1 then
+      InfMenu.PrintLangId"allready_unlocked"
+    else
+      vars.isAvatarPlayerEnable=1
+    end
+  end,
+}
+this.unlockWeaponCustomization={
+  OnChange=function()
+    if vars.mbmMasterGunsmithSkill==1 then
+      InfMenu.PrintLangId"allready_unlocked"
+    else
+      vars.mbmMasterGunsmithSkill=1
+    end
   end,
 }
 
 --
-this.forceAllQuestsOpen={
+this.doEnemyReinforce={--WIP
   OnChange=function()
-  end,
-}
-this.forceAllQuestOpenFlagFalse={
-  OnChange=function()
-    for n,questIndex in ipairs(TppDefine.QUEST_INDEX)do
-      gvars.qst_questOpenFlag[questIndex]=false
-      gvars.qst_questActiveFlag[questIndex]=false
-    end
-    TppQuest.UpdateActiveQuest()
-    InfMenu.PrintLangId"done"
+  --TODO: GetClosestCp
+  --  _OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestLoadReinforce"
+
+  --or
+
+  --  TppReinforceBlock.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)
   end,
 }
 
@@ -141,27 +180,110 @@ this.printHealthTableParameter={
   end,
 }
 
+this.printCustomRevengeConfig={
+  OnChange=function()
+    local revengeConfig=InfMain.CreateCustomRevengeConfig()
+    local ins=InfInspect.Inspect(revengeConfig)
+    InfMenu.DebugPrint(ins)
+  end
+}
+
+--debug commands
+
+this.printCurrentAppearance={
+  OnChange=function()
+    InfMenu.Print("playerType: " .. tostring(vars.playerType))
+    InfMenu.Print("playerCamoType: " .. tostring(vars.playerCamoType))
+    InfMenu.Print("playerPartsType: " .. tostring(vars.playerPartsType))
+    InfMenu.Print("playerFaceEquipId: " .. tostring(vars.playerFaceEquipId))
+    InfMenu.Print("playerFaceId: " .. tostring(vars.playerFaceId))
+  end,
+}
+
+this.forceAllQuestOpenFlagFalse={
+  OnChange=function()
+    for n,questIndex in ipairs(TppDefine.QUEST_INDEX)do
+      gvars.qst_questOpenFlag[questIndex]=false
+      gvars.qst_questActiveFlag[questIndex]=false
+    end
+    TppQuest.UpdateActiveQuest()
+    InfMenu.PrintLangId"done"
+  end,
+}
+
+--
+this.warpPlayerCommand={--WIP
+  OnChange=function()
+    --    local playerId={type="TppPlayer2",index=0}
+    --    local position=Vector3(9,.8,-42.5)
+    --    GameObject.SendCommand(playerId,{id="Warp",position=position})
+
+    --local pos={8.647,.8,-28.748}
+    --local rotY=-25
+    --pos,rotY=mtbs_cluster.GetPosAndRotY("Medical","plnt0",pos,rotY)
+    local rotY=0
+    --local pos={9,.8,-42.5}--command helipad
+    local pos={-139,-3.20,-975}
+
+
+    TppPlayer.Warp{pos=pos,rotY=rotY}
+    --Player.RequestToSetCameraRotation{rotX=0,rotY=rotY}
+
+    --TppPlayer.SetInitialPosition(pos,rotY)
+  end,
+}
+
+--
+
+this.DEBUG_PrintSomeShit={
+  OnChange=function()
+    InfMenu.DebugPrint"DEBUG_PrintSomeShit"
+    --    for n,powerType in ipairs(Ivars.percentagePowerTypes)do
+    --      InfMenu.DebugPrint("n:"..n.." powertype:"..powerType)
+    --    end
+--    local ins=InfInspect.Inspect(InfMenuDefs.revengeCustomMenu)
+--    InfMenu.DebugPrint(ins)
+--    for k,v in ipairs(InfMenuDefs.revengeCustomMenu.options)do
+--      InfMenu.DebugPrint("k:"..k.." v:"..v)
+--    end
+
+--    local revengeConfig=InfMain.CreateCustomRevengeConfig()
+--    local ins=InfInspect.Inspect(revengeConfig)
+--    InfMenu.DebugPrint(ins)
+
+  if Player.IsVarsCurrentItemCBox() then--DEBUGNOW
+    InfMenu.DebugPrint"IsVarsCurrentItemCBox"
+  end
+  end
+}
+
 this.DEBUG_PrintVarsClock={
   OnChange=function()
     InfMenu.DebugPrint("vars.clock:"..vars.clock)
   end,
 }
 
+this.DEBUG_PrintPrologueTrapVars={
+  OnChange=function()
+    InfMenu.DebugPrint("playerInCorridorDemoTrap:"..mvars.playerInCorridorDemoTrap.." ishmaelInCorridorDemoTrap:"..mvars.ishmaelInCorridorDemoTrap)
+  end,
+}
+
 this.DEBUG_PrintFultonSuccessInfo={
   OnChange=function()
-  local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
-  local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
-  
-  InfMenu.DebugPrint("mbFultonRank:"..mbFultonRank.." mbSectionSuccess:"..mbSectionSuccess)
-  
---  local doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,r,staffOrReourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
---  
---  if doFuncSuccess==nil then
---    InfMenu.DebugPrint"doFuncSuccess nil, bumped to 100"
---    doFuncSuccess=100
---  end
---  InfMenu.DebugPrint("doFuncSuccess:"..doFuncSuccess)
-  
+    local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
+    local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
+
+    InfMenu.DebugPrint("mbFultonRank:"..mbFultonRank.." mbSectionSuccess:"..mbSectionSuccess)
+
+    --  local doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,r,staffOrReourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
+    --
+    --  if doFuncSuccess==nil then
+    --    InfMenu.DebugPrint"doFuncSuccess nil, bumped to 100"
+    --    doFuncSuccess=100
+    --  end
+    --  InfMenu.DebugPrint("doFuncSuccess:"..doFuncSuccess)
+
   end,
 }
 
@@ -209,11 +331,11 @@ this.DEBUG_PrintReinforceVars={
 this.DEBUG_PrintVehicleTypes={
   OnChange=function()
     InfMenu.DebugPrint("Vehicle.type.EASTERN_LIGHT_VEHICLE="..Vehicle.type.EASTERN_LIGHT_VEHICLE)
-    InfMenu.DebugPrint("Vehicle.type.WESTERN_LIGHT_VEHICLE="..Vehicle.type.WESTERN_LIGHT_VEHICLE) 
+    InfMenu.DebugPrint("Vehicle.type.WESTERN_LIGHT_VEHICLE="..Vehicle.type.WESTERN_LIGHT_VEHICLE)
     InfMenu.DebugPrint("Vehicle.type.EASTERN_TRUCK="..Vehicle.type.EASTERN_TRUCK)
     InfMenu.DebugPrint("Vehicle.type.WESTERN_TRUCK="..Vehicle.type.WESTERN_TRUCK)
     InfMenu.DebugPrint("Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE)
-    InfMenu.DebugPrint("Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE) 
+    InfMenu.DebugPrint("Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE)
     InfMenu.DebugPrint("Vehicle.type.EASTERN_TRACKED_TANK="..Vehicle.type.EASTERN_TRACKED_TANK)
     InfMenu.DebugPrint("Vehicle.type.WESTERN_TRACKED_TANK="..Vehicle.type.WESTERN_TRACKED_TANK)
   end,
@@ -262,7 +384,7 @@ this.DEBUG_PrintPowersCount={
     --local ins=InfInspect.Inspect(mvars.ene_soldierPowerSettings)
     --InfMenu.DebugPrint(ins)
     local totalPowerSettings={}
-  
+
     local totalSoldierCount=0
     local armorCount=0
     local lrrpCount=0
@@ -272,7 +394,7 @@ this.DEBUG_PrintPowersCount={
         if totalPowerSettings[powerType]==nil then
           totalPowerSettings[powerType]=0
         end
-      
+
         totalPowerSettings[powerType]=totalPowerSettings[powerType]+1
       end
     end
@@ -282,20 +404,16 @@ this.DEBUG_PrintPowersCount={
   end
 }
 
-
-
-
-
 this.DEBUG_PrintCpPowerSettings={
   OnChange=function()
     --local ins=InfInspect.Inspect(mvars.ene_soldierPowerSettings)
-   -- InfMenu.DebugPrint(ins)
+    -- InfMenu.DebugPrint(ins)
     if Ivars.selectedCp:Is()>0 then
       local soldierList=mvars.ene_soldierIDList[Ivars.selectedCp:Get()]
       if soldierList then
         for soldierId,n in pairs(soldierList)do
           local ins=InfInspect.Inspect(mvars.ene_soldierPowerSettings[soldierId])
-          InfMenu.DebugPrint(ins)          
+          InfMenu.DebugPrint(ins)
         end
       end
     end
@@ -308,22 +426,22 @@ this.DEBUG_PrintCpSizes={
       cp=0,
       ob=0,
       lrrp=0,
-    }     
+    }
     local cpTypesTotal={
       cp=0,
       ob=0,
       lrrp=0,
     }
-     local cpTypesAverage={
+    local cpTypesAverage={
       cp=0,
       ob=0,
       lrrp=0,
     }
-  
+
     local cpSizes={}
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       local soldierCount=0
-      
+
 
       for key,value in pairs(soldierList)do
         if type(value)=="string" then
@@ -341,23 +459,23 @@ this.DEBUG_PrintCpSizes={
         elseif string.find(cpName, "_lrrp")~=nil then
           cpTypesCount.lrrp=cpTypesCount.lrrp+1
           cpTypesTotal.lrrp=cpTypesTotal.lrrp+soldierCount
-        end    
-      
+        end
+
         cpSizes[cpName]=soldierCount
-      end    
+      end
     end
-    
+
     for cpType,total in pairs(cpTypesTotal)do
       if cpTypesCount[cpType]~=0 then
         cpTypesAverage[cpType]=total/cpTypesCount[cpType]
       end
     end
-    
+
     local ins=InfInspect.Inspect(cpSizes)
-    InfMenu.DebugPrint(ins)   
-  
+    InfMenu.DebugPrint(ins)
+
     local ins=InfInspect.Inspect(cpTypesAverage)
-    InfMenu.DebugPrint(ins)    
+    InfMenu.DebugPrint(ins)
   end
 }
 
@@ -453,7 +571,7 @@ this.DEBUG_WarpToReinforceVehicle={
   OnChange=function()
     local vehicleId=GameObject.GetGameObjectId("TppVehicle2",TppReinforceBlock.REINFORCE_VEHICLE_NAME)
     local driverId=GameObject.GetGameObjectId("TppSoldier2",TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME)
-      
+
     if vehicleId==GameObject.NULL_ID then
       InfMenu.DebugPrint"vehicleId==NULL_ID"
       return
@@ -464,72 +582,31 @@ this.DEBUG_WarpToReinforceVehicle={
   end,
 }
 
-this.warpPlayerCommand={
+this.DEBUG_PrintNonDefaultVars={
   OnChange=function()
-    --[[ local playerId={type="TppPlayer2",index=0}
-
-    local position=Vector3(9,.8,-42.5)
-
-    GameObject.SendCommand(playerId,{id="Warp",position=position})--]]
-
-    --local pos={8.647,.8,-28.748}
-    --local rotY=-25
-    --pos,rotY=mtbs_cluster.GetPosAndRotY("Medical","plnt0",pos,rotY)
-    local rotY=0
-    --local pos={9,.8,-42.5}--command helipad
-    local pos={-139,-3.20,-975}
-
-
-    TppPlayer.Warp{pos=pos,rotY=rotY}
-    --Player.RequestToSetCameraRotation{rotX=0,rotY=rotY}
-
-    --TppPlayer.SetInitialPosition(pos,rotY)
+    Ivars.PrintNonDefaultVars()
   end,
 }
 
-this.returnQuiet={
-  settingNames="set_quiet_return",
+this.DEBUG_PrintSaveVarCount={
   OnChange=function()
-    if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
-      InfMenu.PrintLangId"quiet_already_returned"--"Quiet has already returned."
-    else
-      --InfPatch.QuietReturn()
-      TppStory.RequestReunionQuiet()
-    end
+    Ivars.PrintSaveVarCount()
   end,
 }
 
-this.resetRevenge={
-  OnChange=function()
-    Ivars.revengeMode:Set(0)
-    TppRevenge.ResetRevenge()
-    TppRevenge._SetUiParameters()
-    InfMenu.PrintLangId("revenge_reset")
-  end,
-}
 
-this.HeliMenuOnTest={--WIP CULL UI system overrides it :(
+this.HeliMenuOnTest={--CULL: UI system overrides it :(
   OnChange=function()
     local dvcMenu={
-
-        {menu=TppTerminal.MBDVCMENU.MSN_HELI,active=true},
-        {menu=TppTerminal.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
-        {menu=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,active=true},
-        {menu=TppTerminal.MBDVCMENU.MSN_HELI_DISMISS,active=true},
+      {menu=TppTerminal.MBDVCMENU.MSN_HELI,active=true},
+      {menu=TppTerminal.MBDVCMENU.MSN_HELI_RENDEZVOUS,active=true},
+      {menu=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,active=true},
+      {menu=TppTerminal.MBDVCMENU.MSN_HELI_DISMISS,active=true},
     }
     InfMenu.DebugPrint("blih")--DEBUG
     TppTerminal.EnableDvcMenuByList(dvcMenu)
     InfMenu.DebugPrint("bleh")--DEBUG
   end,
-}
-
-this.pullOutHeli={
-  OnChange=function()
-    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
-    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
-      GameObject.SendCommand(gameObjectId,{id="PullOut",forced=true})
-    end
-  end
 }
 
 this.changeToIdleStateHeli={--tex seems to set heli into 'not called'/invisible/wherever it goes after it's 'left'
@@ -539,39 +616,6 @@ this.changeToIdleStateHeli={--tex seems to set heli into 'not called'/invisible/
       GameObject.SendCommand(gameObjectId,{id="ChangeToIdleState"})
     end
   end
-}
-
---game progression unlocks
-
-this.unlockPlayableAvatar={
-  OnChange=function()
-    if vars.isAvatarPlayerEnable==1 then
-      InfMenu.PrintLangId"allready_unlocked"
-    else
-      vars.isAvatarPlayerEnable=1
-    end
-  end,
-}
-this.unlockWeaponCustomization={
-  OnChange=function()
-    if vars.mbmMasterGunsmithSkill==1 then
-      InfMenu.PrintLangId"allready_unlocked"
-    else
-      vars.mbmMasterGunsmithSkill=1
-    end
-  end,
-}
-
---
-this.doEnemyReinforce={--WIP
-  OnChange=function()
-  --TODO: GetClosestCp
---  _OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestLoadReinforce"
-
---or 
-
---  TppReinforceBlock.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)  
-  end,
 }
 
 --TABLESETUP: MenuCommands

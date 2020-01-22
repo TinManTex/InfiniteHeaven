@@ -1,5 +1,5 @@
 = Infinite heaven =
-r115 - 2015-12-27
+r116 - 2015-12-30
 by tin man tex
 For MGSV version 1.0.7.0 (1.07 in title screen)
 
@@ -381,6 +381,9 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r116 - 2015-12-30 - public release
+Un-fixed a Retail bug, the game is aparently relying on it's broken behaviour lol. Manifested as: Some end of cutscene loadscreen hangs, prologue/truth post heli hallway non-trigger. Possibly much more.
+
 r115 - 2015-12-27 - public release
 Fix: AddPowerSetting, was trashing it by using same name in two variables, the perils of deminification. Possibly affected fob soldier settings.
 Powersettings to DD headgear

@@ -961,7 +961,27 @@ this.MB_FREEPLAY_DEMO_PRIORITY_LIST={
   "ArrivedMotherBaseChildren"
 }
 this.MB_FREEPLAY_DEMO_ENUM=this.Enum(this.MB_FREEPLAY_DEMO_PRIORITY_LIST)
-this.FORCE_MB_RETURN_RADIO_LIST={"OpenDecisionHuey","EliImprisonment","PermitParasiticWormCarrierKill","InterrogateQuietRadio","QuietHasFriendshipWithChildRadio","AnableDevBattleGearRadio","ParasiticWormCarrierQuarantine","CompliteDevelopBattleGearRadio","DevelopedBattleGear_1Radio","EliLookSnakeRadio","EntrustDdogRadio","DdogComeToGetRadio","DdogGoWithMeRadio","HappyBirthDayRadio","AttackedFromOtherPlayerRadio","NuclearEliminationCeremonyRadio","MoraleOfMBIsLowRadio","GeneralPurposeRadio","QuietReceivesPersecutionRadio"}
+this.FORCE_MB_RETURN_RADIO_LIST={
+  "OpenDecisionHuey",
+  "EliImprisonment",
+  "PermitParasiticWormCarrierKill",
+  "InterrogateQuietRadio",
+  "QuietHasFriendshipWithChildRadio",
+  "AnableDevBattleGearRadio",
+  "ParasiticWormCarrierQuarantine",
+  "CompliteDevelopBattleGearRadio",
+  "DevelopedBattleGear_1Radio",
+  "EliLookSnakeRadio",
+  "EntrustDdogRadio",
+  "DdogComeToGetRadio",
+  "DdogGoWithMeRadio",
+  "HappyBirthDayRadio",
+  "AttackedFromOtherPlayerRadio",
+  "NuclearEliminationCeremonyRadio",
+  "MoraleOfMBIsLowRadio",
+  "GeneralPurposeRadio",
+  "QuietReceivesPersecutionRadio"
+}
 this.FORCE_MB_RETURN_RADIO_ENUM=this.Enum(this.FORCE_MB_RETURN_RADIO_LIST)
 this.S10100_BOY_LIST={"Collect_Injury","Collect_YellowHood","Collect_Aflo","Collect_ShortAflo","Collect_BlackCoat"}
 this.S10100_BOY_ENUM=this.Enum(this.S10100_BOY_LIST)

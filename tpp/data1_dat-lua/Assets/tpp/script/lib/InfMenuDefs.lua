@@ -1,12 +1,11 @@
--- DOBUILD: 1 --
---MOVE? this is data not lib
+-- DOBUILD: 1
 local this={}
 --menus
 this.playerSettingsMenu={
   options={
     Ivars.playerHealthScale,
     InfMenuCommands.removeDemon,
-    InfMenuCommands.setDemon,
+    --InfMenuCommands.setDemon,--tex removed because some people seem to have a bug where remove demon function fails
     Ivars.useSoldierForDemos,
     Ivars.playerHeadgear,
     InfMenuCommands.resetSettingsItem,
@@ -25,17 +24,15 @@ this.soldierParamsMenu={
   }
 }
 
---[[ 
-local sightDistScaleName=Ivars.sightDistScaleName
-local i=1
-for n,listName in ipairs(Ivars.sightIvarLists) do
-  for m,name in ipairs(Ivars[listName]) do
-    local ivarName=name..sightDistScaleName
-    this.soldierParamsMenu.options[i]=Ivars[ivarName]
-    i=i+1
-  end
-end
---]]
+--local sightDistScaleName=Ivars.sightDistScaleName
+--local i=1
+--for n,listName in ipairs(Ivars.sightIvarLists) do
+--  for m,name in ipairs(Ivars[listName]) do
+--    local ivarName=name..sightDistScaleName
+--    this.soldierParamsMenu.options[i]=Ivars[ivarName]
+--    i=i+1
+--  end
+--end
 
 this.sideOpsMenu={
   options={
@@ -88,13 +85,13 @@ this.demosMenu={
   }
 }
 
---[[this.missionEntryExitMenu={
-    Ivars.telopMode,
-    Ivars.startOnFoot,
-    Ivars.abortMenuItemControl,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
-}--]]
+--this.missionEntryExitMenu={
+--    Ivars.telopMode,
+--    Ivars.startOnFoot,
+--    Ivars.abortMenuItemControl,
+--    InfMenuCommands.resetSettingsItem,
+--    InfMenuCommands.goBackItem,
+--}
 
 this.patchupMenu={
   options={
@@ -110,6 +107,7 @@ this.patchupMenu={
     InfMenuCommands.showLangCode,
     InfMenuCommands.showPosition,
     InfMenuCommands.showMissionCode,
+    InfMenuCommands.printCustomRevengeConfig,
     --InfMenuCommands.showMbEquipGrade,
     InfMenuCommands.forceAllQuestOpenFlagFalse,
     InfMenuCommands.resetSettingsItem,
@@ -171,10 +169,8 @@ this.disableMenuMenu={
   }
 }
 
-this.revengeMenu={
+this.revengeSystemMenu={
   options={
-    InfMenuCommands.resetRevenge,
-    Ivars.revengeMode,
     Ivars.revengeProfile,
     Ivars.revengeBlockForMissionCount,
     Ivars.applyPowersToOuterBase,
@@ -190,12 +186,90 @@ this.revengeMenu={
     Ivars.randomizeSmallCpPowers,
     Ivars.disableConvertArmorToShield,    
     --Ivars.balanceWeaponPowers,--WIP
+    InfMenuCommands.resetSettingsItem,
+    InfMenuCommands.goBackItem,
+  }
+}
+--
+for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
+  local powerTable=Ivars[powerTableName]
+  
+  local powerMenu={
+    options={
+    }
+  }
+  this[powerTableName.."Menu"]=powerMenu
+
+  local menuOptions=powerMenu.options
+  for m,powerType in ipairs(powerTable)do
+    local ivarName=powerType.."Percentage"
+    
+    table.insert(menuOptions,Ivars[ivarName.."Min"])
+    table.insert(menuOptions,Ivars[ivarName.."Max"])
+  end
+  
+  table.insert(menuOptions,InfMenuCommands.resetSettingsItem)
+  table.insert(menuOptions,InfMenuCommands.goBackItem)
+end
+
+this.abilityCustomMenu={
+  options={
+  }
+}
+
+local menuOptions=this.abilityCustomMenu.options
+for n,powerType in ipairs(Ivars.abilitiesWithLevels)do
+  local ivarName=powerType.."Ability"
+  table.insert(menuOptions,Ivars[ivarName])
+end
+table.insert(menuOptions,InfMenuCommands.resetSettingsItem)
+table.insert(menuOptions,InfMenuCommands.goBackItem)
+
+
+this.weaponStrengthCustomMenu={
+  options={
+  }
+}
+
+local menuOptions=this.weaponStrengthCustomMenu.options
+for n,powerType in ipairs(Ivars.weaponStrengthPowers)do
+  local ivarName=powerType.."Power"
+  table.insert(menuOptions,Ivars[ivarName])
+end
+table.insert(menuOptions,InfMenuCommands.resetSettingsItem)
+table.insert(menuOptions,InfMenuCommands.goBackItem)
+
+this.revengeCustomMenu={
+  options={
+  }
+}
+local revengeMenu=this.revengeCustomMenu.options
+for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
+  table.insert(revengeMenu,this[powerTableName.."Menu"])
+end
+table.insert(revengeMenu,this.abilityCustomMenu)
+table.insert(revengeMenu,this.weaponStrengthCustomMenu)
+table.insert(revengeMenu,Ivars.reinforceCount)
+table.insert(revengeMenu,Ivars.reinforceLevelCustom)
+table.insert(revengeMenu,Ivars.revengeCustomIgnoreBlocked)
+table.insert(revengeMenu,InfMenuCommands.resetSettingsItem)
+table.insert(revengeMenu,InfMenuCommands.goBackItem)
+
+
+this.revengeMenu={
+  options={
+    InfMenuCommands.resetRevenge,
+    Ivars.revengeMode,
+    Ivars.revengeModeForMissions,
+    this.revengeCustomMenu,
+    this.revengeSystemMenu,
     Ivars.changeCpSubTypeFree,
     Ivars.changeCpSubTypeForMissions,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
 }
+--
 
 this.playerRestrictionsMenu={
   options={
@@ -312,6 +386,9 @@ this.vehiclePatrolMenu={
 
 this.heliSpaceMenu={
   options={
+    --InfMenuCommands.DEBUG_PrintSomeShit,--DEBUG
+    --InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
+    --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
@@ -341,10 +418,9 @@ this.heliSpaceMenu={
 
 this.debugInMissionMenu={
   options={
-    
     --InfMenuCommands.DEBUG_RandomizeCp,
     --InfMenuCommands.DEBUG_PrintRealizedCount,
-    --InfMenuCommands.DEBUG_PrintEnemyFova,    
+    --InfMenuCommands.DEBUG_PrintEnemyFova,   
     Ivars.selectedCp,
     InfMenuCommands.DEBUG_PrintCpPowerSettings,
     InfMenuCommands.DEBUG_PrintPowersCount,
@@ -373,6 +449,8 @@ this.debugInMissionMenu={
 
 this.inMissionMenu={
   options={
+    InfMenuCommands.DEBUG_PrintSomeShit,--DEBUGNOW
+    --Ivars.selectedChangeWeapon,--WIP DEBUGNOW
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,
