@@ -108,6 +108,22 @@ this.printCurrentAppearance={
 }
 
 --
+this.forceAllQuestsOpen={
+  OnChange=function()
+  end,
+}
+this.forceAllQuestOpenFlagFalse={
+  OnChange=function()
+    for n,questIndex in ipairs(TppDefine.QUEST_INDEX)do
+      gvars.qst_questOpenFlag[questIndex]=false
+      gvars.qst_questActiveFlag[questIndex]=false
+    end
+    TppQuest.UpdateActiveQuest()
+    InfMenu.PrintLangId"done"
+  end,
+}
+
+--
 this.printSightFormParameter={
   OnChange=function()
     InfSoldierParams.ApplySightIvarsToSoldierParams()

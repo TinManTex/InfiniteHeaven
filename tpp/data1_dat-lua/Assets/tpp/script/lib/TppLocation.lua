@@ -111,21 +111,22 @@ function this.SetForceConstructDevelopCluster()
     TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Develop",grade=forceGrade,buildStatus="Completed",timeMinute=0,isNew=true}
   end
 end
-function this.RegistBaseAssetTable(n,e)
-  if n then
+function this.RegistBaseAssetTable(onActiveTable,onActiveSmallBlockTable)
+  if onActiveTable then
     mvars.loc_locationBaseAssetOnActive={}
-    for e,n in pairs(n)do
-      mvars.loc_locationBaseAssetOnActive[Fox.StrCode32(e)]=n
+    for name,OnActive in pairs(onActiveTable)do
+      mvars.loc_locationBaseAssetOnActive[Fox.StrCode32(name)]=OnActive
     end
   end
-  if e then
-    mvars.loc_locationBaseOnActiveSmallBlock=e
-    for e,n in pairs(e)do
-      local e=n.activeArea
-      if e then
-        local e=Tpp.AreaToIndices(e)StageBlock.AddSmallBlockIndexForMessage(e)
+  if onActiveSmallBlockTable then
+    mvars.loc_locationBaseOnActiveSmallBlock=onActiveSmallBlockTable
+    for name,info in pairs(onActiveSmallBlockTable)do
+      local activeArea=info.activeArea
+      if activeArea then
+        local e=Tpp.AreaToIndices(activeArea)
+        StageBlock.AddSmallBlockIndexForMessage(e)
       end
-      if not n.OnActive then
+      if not info.OnActive then
       end
     end
   end

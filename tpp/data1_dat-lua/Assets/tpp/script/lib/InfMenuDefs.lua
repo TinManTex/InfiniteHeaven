@@ -67,6 +67,7 @@ this.motherBaseMenu={
     Ivars.mbSoldierEquipRange,
     Ivars.mbDDSuit,
     --Ivars.mbDDBalaclava,
+    --Ivars.disableMotherbaseWeaponRestriction,--WIP
     Ivars.mbWarGames,
     Ivars.mbEnableBuddies,
     this.motherBaseShowAssetsMenu,
@@ -109,7 +110,8 @@ this.patchupMenu={
     InfMenuCommands.showLangCode,
     InfMenuCommands.showPosition,
     InfMenuCommands.showMissionCode,
-    InfMenuCommands.showMbEquipGrade,
+    --InfMenuCommands.showMbEquipGrade,
+    InfMenuCommands.forceAllQuestOpenFlagFalse,--DEBUGNOW ADDLANG
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -178,8 +180,12 @@ this.revengeMenu={
     Ivars.applyPowersToLrrp,
     Ivars.allowHeavyArmorInFreeMode,
     Ivars.allowHeavyArmorInAllMissions,
+    Ivars.disableMissionsWeaponRestriction,
     Ivars.allowHeadGearCombo,
     Ivars.balanceHeadGear,
+    --Ivars.balanceWeaponPowers,--WIP
+    Ivars.allowMissileWeaponsCombo,
+    Ivars.disableConvertArmorToShield,
     Ivars.changeCpSubTypeFree,
     Ivars.changeCpSubTypeForMissions,
     InfMenuCommands.resetSettingsItem,
@@ -296,7 +302,7 @@ this.vehiclePatrolMenu={
     Ivars.vehiclePatrolWavHeavyEnable,
     Ivars.vehiclePatrolTankEnable,
     InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,    
+    InfMenuCommands.goBackItem,
   }
 }
 
@@ -333,7 +339,7 @@ this.heliSpaceMenu={
 this.debugInMissionMenu={
   options={
     Ivars.selectedCp,
-    InfMenuCommands.DEBUG_RandomizeCp,
+    --InfMenuCommands.DEBUG_RandomizeCp,
     InfMenuCommands.DEBUG_PrintRealizedCount,
     InfMenuCommands.DEBUG_PrintEnemyFova,
     InfMenuCommands.DEBUG_PrintPowersCountArmor,

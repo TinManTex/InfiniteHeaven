@@ -141,7 +141,7 @@ end
 
 function this.ChangeSetting(option,value)
   local newSetting=this.IncrementWrap(option.setting,value,option.range.min,option.range.max)
-  if option.skipValues then
+  if option.skipValues~=nil then
     while option.skipValues[newSetting] do
       TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
       newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
@@ -201,7 +201,7 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     --elseif noOnChangeSub and self.OnChange==Ivars.RunCurrentSetting then
     else
       self:OnChange(prevSetting)
-    end 
+    end
   end
   if self.profile and not noOnChangeSub then
     Ivars.OnChangeSubSetting(self)

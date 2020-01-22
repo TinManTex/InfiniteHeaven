@@ -34,7 +34,19 @@ this.NO_REVENGE_MISSION_LIST={
 }
 this.NO_STEALTH_COMBAT_REVENGE_MISSION_LIST={[30010]=true,[30020]=true,[30050]=true,[30150]=true}
 this.USE_SUPER_REINFORCE_VEHICLE_MISSION={[10036]=true,[11036]=true,[10093]=true}
-this.CANNOT_USE_ALL_WEAPON_MISSION={[10030]=true,[10070]=true,[10080]=true,[11080]=true,[10090]=true,[11090]=true,[10151]=true,[11151]=true,[10211]=true,[11211]=true,[30050]=true}
+this.CANNOT_USE_ALL_WEAPON_MISSION={
+  [10030]=true,--Mission 2 - Flashback Diamond Dogs
+  [10070]=true,--Mission 12 - Hellbound
+  [10080]=true,--Mission 13 - Pitch Dark
+  [11080]=true,
+  [10090]=true,--Mission 16 - Traitors Caravan
+  [11090]=true,
+  [10151]=true,--Mission 31 - Sahelanthropus
+  [11151]=true,--
+  [10211]=true,--Mission 26 - Hunting Down
+  [11211]=true,--Hunting down hard?
+  [30050]=true--mbfree
+}
 this.REVENGE_TYPE_NAME={"STEALTH","NIGHT_S","COMBAT","NIGHT_C","LONG_RANGE","VEHICLE","HEAD_SHOT","TRANQ","FULTON","SMOKE","M_STEALTH","M_COMBAT","DUMMY","DUMMY2","DUMMY3","DUMMY4","MAX"}
 this.REVENGE_TYPE=TppDefine.Enum(this.REVENGE_TYPE_NAME)
 this.REVENGE_LV_LIMIT_RANK_MAX=6
@@ -1209,25 +1221,27 @@ function this.ApplyPowerSettingsForReinforce(soldierIds)
     TppEnemy.ApplyPowerSetting(soldierId,loadout)
   end
 end
-function this._CreateRevengeConfig(revengeTypes)--NMC: ==mvars.revenge_revengeType == (mvars.revenge_forceRevengeType(via mtbs_enemy) or this.SelectRevengeType())
+
+function this._CreateRevengeConfig(revengeTypes)
+  --NMC: ==mvars.revenge_revengeType == (mvars.revenge_forceRevengeType(via mtbs_enemy) or this.SelectRevengeType())
   local revengeConfig={}
   local disablePowerSettings=mvars.ene_disablePowerSettings
 
   do
-  local requiredPowerSettings=mvars.ene_missionRequiresPowerSettings--NMC: TppEnemy.SetUpPowerSettings>ene_missionRequiresPowerSettings
-  local powerComboExclusionList={MISSILE={"SHIELD"},SHIELD={"MISSILE"},SHOTGUN={"MG"},MG={"SHOTGUN"}}
-  for powerType,E in pairs(requiredPowerSettings)do
-    local exclusionList=powerComboExclusionList[powerType]
-    if exclusionList then
-      for n,powerType in ipairs(exclusionList)do
-        if not mvars.ene_missionRequiresPowerSettings[powerType]then
-          disablePowerSettings[powerType]=true
+    local requiredPowerSettings=mvars.ene_missionRequiresPowerSettings--NMC: TppEnemy.SetUpPowerSettings>ene_missionRequiresPowerSettings
+    local revengeComboExclusionList={MISSILE={"SHIELD"},SHIELD={"MISSILE"},SHOTGUN={"MG"},MG={"SHOTGUN"}}
+    for powerType,E in pairs(requiredPowerSettings)do
+      local exclusionList=revengeComboExclusionList[powerType]
+      if exclusionList then
+        for n,powerType in ipairs(exclusionList)do
+          if not mvars.ene_missionRequiresPowerSettings[powerType]then
+            disablePowerSettings[powerType]=true
+          end
         end
       end
     end
   end
-  end
-
+  --NMC: actually add stuff to revengeConfig
   for n,revengeType in ipairs(revengeTypes)do
     local category=this.revengeDefine[revengeType]
     if category~=nil then
@@ -1243,6 +1257,7 @@ function this._CreateRevengeConfig(revengeTypes)--NMC: ==mvars.revenge_revengeTy
       end
     end
   end
+
   if not revengeConfig.IGNORE_BLOCKED then
     for powerType,powerSetting in pairs(revengeConfig)do
       if this.IsBlocked(this.BLOCKED_TYPE[powerType])then
@@ -1250,33 +1265,35 @@ function this._CreateRevengeConfig(revengeTypes)--NMC: ==mvars.revenge_revengeTy
       end
     end
   end
-  if Tpp.IsTypeNumber(revengeConfig.ARMOR)and not this.CanUseArmor()then--NMC: downgrade armor to shield
+  --NMC: downgrade armor to shield
+  if Tpp.IsTypeNumber(revengeConfig.ARMOR)and not this.CanUseArmor() then
     if not disablePowerSettings.SHIELD then
       local shieldCount=revengeConfig.SHIELD or 0
-      if Tpp.IsTypeNumber(shieldCount)then
-        revengeConfig.SHIELD=shieldCount+revengeConfig.ARMOR
+      if Ivars.disableConvertArmorToShield:Is(0) or shieldCount==0 then--tex added disable
+        if Tpp.IsTypeNumber(shieldCount)then
+          revengeConfig.SHIELD=shieldCount+revengeConfig.ARMOR
+        end
       end
+    end
+    revengeConfig.ARMOR=nil
   end
-  --InfMenu.DebugPrint"_CreateRevengeConfig clearing armor"--DEBUG
-  revengeConfig.ARMOR=nil
-  end
-  local e={NO_KILL_WEAPON={"MG"}}
+  local revengeComboExclusionNonRequire={NO_KILL_WEAPON={"MG"}}
   if not mvars.ene_missionRequiresPowerSettings.SHIELD then
-    e.MISSILE={"SHIELD"}
+    revengeComboExclusionNonRequire.MISSILE={"SHIELD"}
   end
   if not mvars.ene_missionRequiresPowerSettings.MG then
-    e.SHOTGUN={"MG"}
+    revengeComboExclusionNonRequire.SHOTGUN={"MG"}
   end
-  local E={}
-  for e,t in pairs(e)do
-    if revengeConfig[e]and not E[e]then
-      for n,e in ipairs(t)do
-        E[e]=true
+  local doExcludePower={}
+  for powerType,excludePowers in pairs(revengeComboExclusionNonRequire)do
+    if revengeConfig[powerType]and not doExcludePower[powerType]then
+      for n,powerType in ipairs(excludePowers)do
+        doExcludePower[powerType]=true
       end
     end
   end
-  for e,E in pairs(E)do
-    revengeConfig[e]=nil
+  for powerType,bool in pairs(doExcludePower)do
+    revengeConfig[powerType]=nil
   end
   local missionId=TppMission.GetMissionID()
   if TppMission.IsFOBMission(missionId)or InfMain.IsMbPlayTime(missionId) then--tex
@@ -1321,6 +1338,10 @@ function this._AllocateResources(config)
   if this.CANNOT_USE_ALL_WEAPON_MISSION[missionId]then
     useAllWeapons=false
   end
+  --tex>
+  if (gvars.disableMissionsWeaponRestriction>0 and vars.missionCode~=30050)or(gvars.disableMotherbaseWeaponRestriction>0 and vars.missionCode==30050) then
+    useAllWeapons=true
+  end--<
   local restrictWeaponTable={}
   if not useAllWeapons then
     if not config.SHIELD or config.MISSILE then
@@ -1370,7 +1391,7 @@ function this._AllocateResources(config)
       end
     end
   end
-  
+
   if not disablePowerSettings.MISSILE and not restrictWeaponTable.MISSILE then
     local missileIdTable={}
     if this.IsUsingStrongMissile()and weaponIdTableFull.STRONG then
@@ -1397,7 +1418,7 @@ function this._AllocateResources(config)
       mvars.revenge_loadedEquip.SNIPER=sniperId
     end
   end
-  
+
   do
     local primary,secondary,tertiary=TppEnemy.GetWeaponId(NULL_ID,{})
     TppSoldier2.SetDefaultSoldierWeapon{primary=primary,secondary=secondary,tertiary=tertiary}
@@ -1457,6 +1478,78 @@ function this._GetSettingSoldierCount(power,powerSetting,soldierCount)
   return settingSoldierCount
 end
 
+--tex broken out from _ApplyRevengeToCp and reworked
+local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function, added unfulfilledPowers
+  for r,powerType in ipairs(TppEnemy.POWER_SETTING)do
+    local powerSetting=revengeConfig[powerType]
+    --tex> RETAILBUG well, kinda, armor doesnt load up collision or sometimes visual model (until reload checkpoint) for non main cps
+    --TEST disable this, turn on allowarmonrinfree (and applypower toouter base), go to outerpabse/guardpost in middle of afgh, hitting a limit somewhere
+    if powerType=="ARMOR" and InfMain.ForceArmorFree(vars.missionCode)then
+      if isOuterBaseCp or isLrrpCp then
+        powerSetting=nil
+      end
+    end--<
+
+    if powerSetting then
+      local settingSoldierCount=this._GetSettingSoldierCount(powerType,powerSetting,totalSoldierCount)
+      if unfulfilledPowers[powerType]~=nil then--tex>
+        settingSoldierCount=unfulfilledPowers[powerType]
+      end--<
+
+--      if Ivars.selectedCp:Is()==cpId then--tex DEBUG
+--        InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
+--      end--
+
+      local comboExcludeList=powerComboExclusionList[powerType]or{}
+      local soldierCount=settingSoldierCount
+      for soldierConfigId=1,totalSoldierCount do
+        local isPowerElimOrChild=powerElimOrChildSoldierTable[soldierConfigId]
+        local isAbility=abilitiesList[powerType]--tex reworked to save mental gymnastics, original game allows ability set for outerbase and lrrp
+        local doOuterBase=isOuterBaseCp and (isAbility or Ivars.applyPowersToOuterBase:Is(1))
+        local doLrrp=isLrrpCp and (isAbility or Ivars.applyPowersToLrrp:Is(1))
+        local isMainBase=(not isPowerElimOrChild) and (not isOuterBaseCp) and (not isLrrpCp)
+        --local nonAbilityNonBase=(not abilitiesList[powerType])and outerBaseSoldierTable[soldierConfigId]--tex was
+        --if(not powerElimOrChild and not nonAbilityNonBase)and soldierCount>0  then--tex was
+        if soldierCount>0 and (isMainBase or doOuterBase or doLrrp) then
+          local setPower=true
+          if cpConfig[soldierConfigId][powerType]then
+            soldierCount=soldierCount-1
+            setPower=false
+          end
+
+          if setPower then
+            for m,excludePower in ipairs(comboExcludeList)do
+              if cpConfig[soldierConfigId][excludePower]then
+                setPower=false
+              end
+            end
+          end
+          if setPower then
+            soldierCount=soldierCount-1
+            cpConfig[soldierConfigId][powerType]=true
+            if powerType=="MISSILE"and this.IsUsingStrongMissile()then
+              cpConfig[soldierConfigId].STRONG_MISSILE=true
+            end
+            if powerType=="SNIPER"and this.IsUsingStrongSniper()then
+              cpConfig[soldierConfigId].STRONG_SNIPER=true
+            end
+            --tex>
+            if addConfigFlags~=nil then
+              for name,setting in pairs(addConfigFlags)do
+                cpConfig[soldierConfigId][name]=setting
+              end
+            end--<
+          end
+
+        end--if applythisshit
+      end--for soldiers
+
+      unfulfilledPowers[powerType]=soldierCount--tex
+    end--if configPower
+end--for TppEnemy.POWER_SETTINGS
+return cpConfig
+end
+
 --CALLER: SetUpEnemy
 --INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig
 function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
@@ -1484,6 +1577,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
   if soldierIds==nil then
     return
   end
+
   local missionPowerSoldiers={}
   for soldierName,missionPowerSetting in pairs(mvars.ene_missionSoldierPowerSettings)do
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
@@ -1494,11 +1588,13 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
     missionAbilitySoldiers[soldierId]=missionAbilitySetting
   end
+
   local isOuterBaseCp=mvars.ene_outerBaseCpList[cpId]
   local isLrrpCp=mvars.ene_lrrpTravelPlan[cpId]--tex added, was below
   local powerElimOrChildSoldierTable={}
   local outerBaseSoldierTable={}
   local lrrpSoldierTable={}--tex added, was combined with above
+
   for soldierId,E in pairs(soldierIds)do
     table.insert(soldierIdForConfigIdTable,soldierId)
     totalSoldierCount=totalSoldierCount+1
@@ -1515,12 +1611,18 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
       lrrpSoldierTable[totalSoldierCount]=true--tex was combined in above outerBase table
     end
   end
+  
+  
+  if totalSoldierCount==0 then--tex>
+    return
+  end--<
+
   local cpConfig={}--NMC: the main point of the function
-  for n=1,totalSoldierCount do
+  for soldierConfigId=1,totalSoldierCount do
     if isOuterBaseCp then
-      cpConfig[n]={OB=true}
+      cpConfig[soldierConfigId]={OB=true}
     else
-      cpConfig[n]={}
+      cpConfig[soldierConfigId]={}
     end
   end
   local powerComboExclusionList={
@@ -1551,194 +1653,140 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
     FULTON_HIGH=true,
     FULTON_SPECIAL=true
   }
-  
-  local balanceGearTypes={--tex>
-    "ARMOR",
-    "HELMET",
-    "NVG",
-    "GAS_MASK",
-  }
-  local originalSettingsTable={}
-  local sumBalance=0    
-  local numBalance=0
-  if gvars.allowHeadGearCombo>0 or gvars.balanceHeadGear>0 then
-    --in balanceGearTypes, revengeconfig, totalSoldierCount, out sumbalance, numbalance, originalSettingsTable
-    for n,powerType in ipairs(balanceGearTypes) do
-      local powerSetting=revengeConfig[powerType]
-      if powerSetting then
-        local percentage=0
-        if Tpp.IsTypeNumber(powerSetting)then--tex convert from num soldiers to percentage
-          if powerSetting>totalSoldierCount then
-            powerSetting=totalSoldierCount
-          end
-          percentage=(powerSetting/totalSoldierCount)*100
-          originalSettingsTable[powerType]=percentage
-          numBalance=numBalance+1
-          sumBalance=sumBalance+percentage
-        elseif Tpp.IsTypeString(powerSetting)then
-          if powerSetting:sub(-1)=="%"then
-            percentage=powerSetting:sub(1,-2)+0
-            originalSettingsTable[powerType]=percentage
-            numBalance=numBalance+1
-            sumBalance=sumBalance+percentage
-            --InfMenu.DebugPrint("powerType:"..powerType.." percentage:"..percentage.." numBalance:"..numBalance.." sumBalance:"..sumBalance)--DEBUG
-          end
-        end
-      end
-    end--for balanceGearTypes
-  end--if gvars
 
-  --in numballance, sumballance, originalSettingsTable, out revengetable
-  if gvars.balanceHeadGear>0 and sumBalance>Ivars.balanceHeadGear.balanceHeadGearThreshold then
-    local balancePercent=0
-    if numBalance>0 then
-      balancePercent=100/numBalance
-      --tex bump up the balance percent from those that are under
-      --TODO: bump up on an individual power basis biased by those that have higher original requested percentage
-      local aboveBalance=numBalance
-      local underflow=0
-      for powerType,percentage in pairs(originalSettingsTable) do
-        if percentage < balancePercent then
-          underflow=underflow+(balancePercent-percentage)
-          aboveBalance=aboveBalance-1
-        end
-      end
-      --OFF if underflow>0 then--tex distribute underflow evenly
-       -- balancePercent=balancePercent+(underflow/aboveBalance)
-       -- underflow=0
-      --end
 
-      for powerType,percentage in pairs(originalSettingsTable) do--tex distribute underflow in ballanceGearType order
-        if percentage>balancePercent then
-          local toOriginalPercent=originalSettingsTable[powerType]-balancePercent
-          local bump=math.min(underflow,toOriginalPercent)
-          underflow=underflow-bump
-          revengeConfig[powerType]=tostring(balancePercent+bump).."%"
-        end
-      end
-      --InfMenu.DebugPrint("numBalance:"..numBalance.." sumBalance:"..sumBalance.." average:"..balancePercent)--DEBUG
-    end--if numbalance
-  end--if gvar
 
-  local unfulfilledPowers={}--tex
-  
-  local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,abilitiesList,outerBaseSoldierTable,unfulfilledPowers,cpConfig)--tex now function, added unfulfilledPowers
-    for r,powerType in ipairs(TppEnemy.POWER_SETTING)do
-      local powerSetting=revengeConfig[powerType]
-      if powerType=="ARMOR" and InfMain.ForceArmorFree(vars.missionCode)then--tex> RETAILBUG well, kinda, armor doesnt load up collision or sometimes visual model (until reload checkpoint) for non main cps TEST disable this, turn on allowarmonrinfree (and applypower toouter base), go to outerpabse/guardpost in middle of afgh, hitting a limit somewhere
-        if isOuterBaseCp or isLrrpCp then
-          powerSetting=nil
-        end
-      end--<
-      
-      if powerSetting then
-        local settingSoldierCount=this._GetSettingSoldierCount(powerType,powerSetting,totalSoldierCount)
-        if unfulfilledPowers[powerType]~=nil then--tex>
-          settingSoldierCount=unfulfilledPowers[powerType]
-        end--<
+  if Ivars.allowMissileWeaponsCombo:Is(1) then
+    local weaponBalanceComboExclusionList={MISSILE={"ARMOR","SHIELD","SNIPER"}}
+    for powerType,excludeList in pairs(weaponBalanceComboExclusionList) do
+      powerComboExclusionList[powerType]=excludeList
+    end
+  end
 
---        if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--tex DEBUG
---          InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
---        end--
-
-        local comboExcludeList=powerComboExclusionList[powerType]or{}
-        local soldierCount=settingSoldierCount
-        for soldierConfigId=1,totalSoldierCount do
-          local powerElimOrChild=powerElimOrChildSoldierTable[soldierConfigId]
-          local isAbility=abilitiesList[powerType]--tex reworked to save mental gymnastics, original game allows ability set for outerbase and lrrp
-          local isOuterBase=outerBaseSoldierTable[soldierConfigId]
-          local doOuterBase=isOuterBase and (isAbility or gvars.applyPowersToOuterBase>0)
-          local isLrrp=lrrpSoldierTable[soldierConfigId]
-          local doLrrp=isLrrp and (isAbility or gvars.applyPowersToLrrp>0)
-          local isMainBase=(not powerElimOrChild) and (not isOuterBase) and (not isLrrp)
-          --local nonAbilityNonBase=(not abilitiesList[powerType])and outerBaseSoldierTable[soldierConfigId]--tex was
-          --if(not powerElimOrChild and not nonAbilityNonBase)and soldierCount>0  then--tex was
-          if soldierCount>0 and (isMainBase or doOuterBase or doLrrp) then
-            local setPower=true
-            if cpConfig[soldierConfigId][powerType]then
-              soldierCount=soldierCount-1
-              setPower=false
-            end
-            if setPower then
-              for m,excludePower in ipairs(comboExcludeList)do
-                if cpConfig[soldierConfigId][excludePower]then
-                  setPower=false
-                end
-              end
-            end
-            if setPower then
-              soldierCount=soldierCount-1
-              cpConfig[soldierConfigId][powerType]=true
-              if powerType=="MISSILE"and this.IsUsingStrongMissile()then
-                cpConfig[soldierConfigId].STRONG_MISSILE=true
-              end
-              if powerType=="SNIPER"and this.IsUsingStrongSniper()then
-                cpConfig[soldierConfigId].STRONG_SNIPER=true
-              end
-            end
-
-          end--if applythisshit
-          --soldierConfigId=soldierConfigId+1--RETAILBUG: added, game didn't actually increment count, didn't seem to hurt it though--DEBUG figure out why it actually works without lol
-        end--for soldiers
-
-        if soldierCount then--tex>
-          unfulfilledPowers[powerType]=soldierCount
-        end--<
-        
-      end--if configPower
-    end--for TppEnemy.POWER_SETTINGS
-  end--function
-
-  CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,abilitiesList,outerBaseSoldierTable,unfulfilledPowers,cpConfig)--tex now function
-
-  if gvars.allowHeadGearCombo>0 and sumBalance>Ivars.allowHeadGearCombo.allowHeadGearComboThreshold then--tex>
-    local headGearComboExclusions={
-      ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},
-      SOFT_ARMOR={"ARMOR"},
-      SNIPER={"SHOTGUN","MG","MISSILE","GUN_LIGHT","ARMOR","SHIELD","SMG"},
-      SHOTGUN={"SNIPER","MG","MISSILE","SHIELD","SMG"},
-      MG={"SNIPER","SHOTGUN","MISSILE","GUN_LIGHT","SHIELD","SMG"},
-      SMG={"SNIPER","SHOTGUN","MG"},
-      MISSILE={"ARMOR","SHIELD","SNIPER","SHOTGUN","MG"},
-      SHIELD={"ARMOR","SNIPER","MISSILE","SHOTGUN","MG"},
-      HELMET={"ARMOR"},--
-      GAS_MASK={"ARMOR","NVG"},--
-      NVG={"ARMOR","GAS_MASK"},--
-      GUN_LIGHT={"SNIPER","MG"}
+  if Ivars.balanceWeaponPowers:Is(1) then--tex WIP
+    local balanceWeaponTypes={--tex>
+      "SHOTGUN",
+      "MG",
+      "SMG",
+      "ASSAULT",
     }
---    if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--tex DEBUG
---      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
---        InfMenu.DebugPrint"CreateCpConfig unfulfilled"
---      --end--
---    end--<
-    CreateCpConfig(revengeConfig,totalSoldierCount,headGearComboExclusions,powerElimOrChildSoldierTable,abilitiesList,outerBaseSoldierTable,unfulfilledPowers,cpConfig)--tex now function
+
+    --tex TODO: need a way to account for the shield force applying SMGs when smgs is also set?? or does this not actually happen
+    --      local smgTypes={
+    --        --"SMG",
+    --        "SHIELD",--tex this is forced in TppEnemy.ApplyPowerSetting
+    --        --"MISSILE",--TODO: need to include if allowMissileWeaponsCombo is off
+    --      }
+    --      local totalSmgs=0
+    --      for n, powerType in ipairs(smgTypes) do
+    --        totalSmgs=totalSmgs+this._GetSettingSoldierCount(powerType,revengeConfig[powerType],totalSoldierCount)
+    --      end
+    local smgForced=revengeConfig.SHIELD and not revengeConfig.SMG
+    if smgForced then
+      local powerType="SHIELD"
+      local totalSmgs=TppRevenge._GetSettingSoldierCount(powerType,revengeConfig[powerType],totalSoldierCount)
+      revengeConfig.SMG=totalSmgs
+    elseif revengeConfig.MISSILE then
+      local powerType="MISSILE"
+      local totalSmgs=TppRevenge._GetSettingSoldierCount(powerType,revengeConfig[powerType],totalSoldierCount)
+      revengeConfig.SMG=totalSmgs
+
+      if Ivars.allowMissileWeaponsCombo:Is(0) then
+        smgForced=true
+      end
+    end
+
+    --revengeConfig.ASSAULT=1--tex TODO:?
+
+    local originalWeaponSettings={}
+    local sumBalance=0
+    local numBalance=0
+    numBalance,sumBalance,originalWeaponSettings=InfMain.GetSumBalance(balanceWeaponTypes,revengeConfig,totalSoldierCount,originalWeaponSettings)
+    
+--    local ins=InfInspect.Inspect(originalWeaponSettings)--DEBUGNOW
+--    InfMenu.DebugPrint(ins)--DEBUGNOW
+    
+    if numBalance>0 and sumBalance>Ivars.balanceWeaponPowers.balanceWeaponsThreshold then
+      local reservePercent=0--tex TODO: reserve some for assault? or handle that
+      revengeConfig=InfMain.BalancePowers(numBalance,reservePercent,originalWeaponSettings,revengeConfig)
+    end
+
+    --revengeConfig.ASSAULT=nil--tex TODO:
+    if smgForced then
+      revengeConfig.SMG=nil--tex don't want CreateCpConfig to actually assign since these will be forced in TppEnemy.ApplyPowerSetting
+    end
+  end--balanceWeaponPowers
+
+  local originalHeadGearSettings={}--tex
+  local sumBalance=0
+  local numBalance=0
+  if (Ivars.allowHeadGearCombo:Is(1) or Ivars.balanceHeadGear:Is(1)) then
+    local balanceGearTypes={--tex>
+      "ARMOR",
+      "HELMET",
+      "NVG",
+      "GAS_MASK",
+    }
+
+    numBalance,sumBalance,originalHeadGearSettings=InfMain.GetSumBalance(balanceGearTypes,revengeConfig,totalSoldierCount,originalHeadGearSettings)
+  end
+
+  if (Ivars.balanceHeadGear:Is(1) and sumBalance>Ivars.balanceHeadGear.balanceHeadGearThreshold) then--tex> only need to balance if oversubscribed
+    local reservePercent=0
+    revengeConfig=InfMain.BalancePowers(numBalance,reservePercent,originalHeadGearSettings,revengeConfig)
   end--<
-  
---    if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--tex DEBUG
---      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
---        InfMenu.DebugPrint"unfulfilledPowers:"
---        local instr=InfInspect.Inspect(unfulfilledPowers)
---        InfMenu.DebugPrint(instr)
---      --end--
+
+  local unfulfilledPowers={}--tex>
+  local addConfigFlags={}
+
+  if Ivars.allowMissileWeaponsCombo:Is(1) then
+    addConfigFlags={MISSILE_COMBO=true}
+  end--<
+
+  cpConfig=CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function
+
+  --tex> rerun CreateCpConfig without headgear restrictions
+  if (Ivars.allowHeadGearCombo:Is(1) and sumBalance>Ivars.allowHeadGearCombo.allowHeadGearComboThreshold) then
+    local headGearComboExclusions={
+      HELMET={"ARMOR"},
+      GAS_MASK={"ARMOR","NVG"},
+      NVG={"ARMOR","GAS_MASK"},
+    }
+    for powerType,excludeList in pairs(headGearComboExclusions) do
+      powerComboExclusionList[powerType]=excludeList
+    end
+
+    local gearConfigFlags={
+      HEADGEAR_COMBO=true
+    }
+    cpConfig=CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,gearConfigFlags,cpConfig,cpId)--tex now function
+  end--<
+
+  --  if Ivars.selectedCp:Is()==cpId then--tex DEBUGNOW
+  --    --if not InfMain.IsTableEmpty(unfulfilledPowers) then
+  --    InfMenu.DebugPrint"unfulfilledPowers:"
+  --    local instr=InfInspect.Inspect(unfulfilledPowers)
+  --    InfMenu.DebugPrint(instr)
+  --    --end--
+  --  end--<
+  --
+--    if Ivars.selectedCp:Is()==cpId then--tex DEBUGNOW
+--      local instr=InfInspect.Inspect(cpConfig)
+--      InfMenu.DebugPrint(instr)
 --    end--<
 
---  if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--tex DEBUG
---    local instr=InfInspect.Inspect(cpConfig)
---    InfMenu.DebugPrint(instr)
---  end--<
-
-  for soldierConfigId,powerSetting in ipairs(cpConfig)do
+  for soldierConfigId,soldierConfig in ipairs(cpConfig)do
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]
-    TppEnemy.ApplyPowerSetting(soldierId,powerSetting)
+    TppEnemy.ApplyPowerSetting(soldierId,soldierConfig)
     if missionAbilitySoldiers[soldierId]==nil then
       local personalAbilitySettings={}
       do
         local stealth
-        if powerSetting.STEALTH_SPECIAL then
+        if soldierConfig.STEALTH_SPECIAL then
           stealth="sp"
-        elseif powerSetting.STEALTH_HIGH then
+        elseif soldierConfig.STEALTH_HIGH then
           stealth="high"
-        elseif powerSetting.STEALTH_LOW then
+        elseif soldierConfig.STEALTH_LOW then
           stealth="low"
         end
         personalAbilitySettings.notice=stealth
@@ -1747,11 +1795,11 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
       end
       do
         local combat
-        if powerSetting.COMBAT_SPECIAL then
+        if soldierConfig.COMBAT_SPECIAL then
           combat="sp"
-        elseif powerSetting.COMBAT_HIGH then
+        elseif soldierConfig.COMBAT_HIGH then
           combat="high"
-        elseif powerSetting.COMBAT_LOW then
+        elseif soldierConfig.COMBAT_LOW then
           combat="low"
         end
         personalAbilitySettings.shot=combat
@@ -1761,33 +1809,33 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
       end
       do
         local speed
-        if powerSetting.STEALTH_SPECIAL or powerSetting.COMBAT_SPECIAL then
+        if soldierConfig.STEALTH_SPECIAL or soldierConfig.COMBAT_SPECIAL then
           speed="sp"
-        elseif powerSetting.STEALTH_HIGH or powerSetting.COMBAT_HIGH then
+        elseif soldierConfig.STEALTH_HIGH or soldierConfig.COMBAT_HIGH then
           speed="high"
-        elseif powerSetting.STEALTH_LOW or powerSetting.COMBAT_LOW then
+        elseif soldierConfig.STEALTH_LOW or soldierConfig.COMBAT_LOW then
           speed="low"
         end
         personalAbilitySettings.speed=speed
       end
       do
         local fulton
-        if powerSetting.FULTON_SPECIAL then
+        if soldierConfig.FULTON_SPECIAL then
           fulton="sp"
-        elseif powerSetting.FULTON_HIGH then
+        elseif soldierConfig.FULTON_HIGH then
           fulton="high"
-        elseif powerSetting.FULTON_LOW then
+        elseif soldierConfig.FULTON_LOW then
           fulton="low"
         end
         personalAbilitySettings.fulton=fulton
       end
       do
         local holdup
-        if powerSetting.HOLDUP_SPECIAL then
+        if soldierConfig.HOLDUP_SPECIAL then
           holdup="sp"
-        elseif powerSetting.HOLDUP_HIGH then
+        elseif soldierConfig.HOLDUP_HIGH then
           holdup="high"
-        elseif powerSetting.HOLDUP_LOW then
+        elseif soldierConfig.HOLDUP_LOW then
           holdup="low"
         end
         personalAbilitySettings.holdup=holdup
@@ -1796,6 +1844,197 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
     end
   end
 end
+--ORIG
+--function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
+--  local GetGameObjectId=GameObject.GetGameObjectId
+--
+--  local soldierIds=mvars.ene_soldierIDList[cpId]
+--  local soldierIdForConfigIdTable={}
+--  local totalSoldierCount=0
+--  if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
+--    local r=0
+--    local cpName=mvars.ene_cpList[cpId]
+--    if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
+--      local clusterIdList=mtbs_enemy.cpNameToClsterIdList[cpName]
+--      if clusterIdList then
+--        soldierIds={}
+--        local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterIdList]
+--        for n,soldierName in ipairs(soldierLocators)do
+--          local RENsomeMbSomethingId=tonumber(string.sub(soldierName,-6,-6))
+--          if RENsomeMbSomethingId~=nil and RENsomeMbSomethingId==RENsomeMBcounter then
+--            local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+--            soldierIds[soldierId]=r
+--          end
+--        end
+--      end
+--    end
+--  end
+--  if soldierIds==nil then
+--    return
+--  end
+--
+--  local missionPowerSoldiers={}
+--  for soldierName,missionPowerSetting in pairs(mvars.ene_missionSoldierPowerSettings)do
+--    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+--    missionPowerSoldiers[soldierId]=missionPowerSetting
+--  end
+--  local missionAbilitySoldiers={}
+--  for soldierName,e in pairs(mvars.ene_missionSoldierPersonalAbilitySettings)do
+--    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+--    missionAbilitySoldiers[soldierId]=e
+--  end
+--
+--  local isOuterBaseCp=mvars.ene_outerBaseCpList[cpId]
+--  local powerElimOrChildSoldierTable={}
+--  local outerBaseOrLrrpSoldierTable={}
+--  for soldierId,E in pairs(soldierIds)do
+--    table.insert(soldierIdForConfigIdTable,soldierId)
+--    totalSoldierCount=totalSoldierCount+1
+--    if missionPowerSoldiers[soldierId]then
+--      powerElimOrChildSoldierTable[totalSoldierCount]=true
+--    elseif mvars.ene_eliminateTargetList[soldierId]then
+--      powerElimOrChildSoldierTable[totalSoldierCount]=true
+--    elseif TppEnemy.GetSoldierType(soldierId)==EnemyType.TYPE_CHILD then
+--      powerElimOrChildSoldierTable[totalSoldierCount]=true
+--    elseif isOuterBaseCp then
+--      outerBaseOrLrrpSoldierTable[totalSoldierCount]=true
+--    elseif mvars.ene_lrrpTravelPlan[cpId]then
+--      outerBaseOrLrrpSoldierTable[totalSoldierCount]=true
+--    end
+--  end
+--
+--  local cpConfig={}--NMC: the main point of the function
+--
+--  for soldierConfigId=1,totalSoldierCount do
+--    if isOuterBaseCp then
+--      cpConfig[soldierConfigId]={OB=true}
+--    else
+--      cpConfig[soldierConfigId]={}
+--    end
+--  end
+--
+--  local powerComboExclusionList={
+--    ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},
+--    SOFT_ARMOR={"ARMOR"},SNIPER={"SHOTGUN","MG","MISSILE","GUN_LIGHT","ARMOR","SHIELD","SMG"},
+--    SHOTGUN={"SNIPER","MG","MISSILE","SHIELD","SMG"},
+--    MG={"SNIPER","SHOTGUN","MISSILE","GUN_LIGHT","SHIELD","SMG"},
+--    SMG={"SNIPER","SHOTGUN","MG"},
+--    MISSILE={"ARMOR","SHIELD","SNIPER","SHOTGUN","MG"},
+--    SHIELD={"ARMOR","SNIPER","MISSILE","SHOTGUN","MG"},
+--    HELMET={"ARMOR","GAS_MASK","NVG"},
+--    GAS_MASK={"ARMOR","HELMET","NVG"},
+--    NVG={"ARMOR","HELMET","GAS_MASK"},
+--    GUN_LIGHT={"SNIPER","MG"}
+--  }
+--  local abilitiesList={STEALTH_LOW=true,STEALTH_HIGH=true,STEALTH_SPECIAL=true,COMBAT_LOW=true,COMBAT_HIGH=true,COMBAT_SPECIAL=true,HOLDUP_LOW=true,HOLDUP_HIGH=true,HOLDUP_SPECIAL=true,FULTON_LOW=true,FULTON_HIGH=true,FULTON_SPECIAL=true}
+--
+--  --MNC: create cp config
+--  for r,powerType in ipairs(TppEnemy.POWER_SETTING)do
+--    local powerSetting=revengeConfig[powerType]
+--    if powerSetting then
+--      local settingSoldierCount=this._GetSettingSoldierCount(powerType,powerSetting,totalSoldierCount)
+--      local comboExcludeList=powerComboExclusionList[powerType]or{}
+--      local soldierCount=settingSoldierCount
+--      for soldierConfigId=1,totalSoldierCount do
+--        local isPowerElimOrChild=powerElimOrChildSoldierTable[soldierConfigId]
+--        local nonAbilityNonBaseSoldier=(not abilitiesList[powerType])and outerBaseOrLrrpSoldierTable[soldierConfigId]
+--        if(not isPowerElimOrChild and not nonAbilityNonBaseSoldier)and soldierCount>0 then
+--          local setPower=true
+--          if cpConfig[soldierConfigId][powerType]then
+--            soldierCount=soldierCount-1
+--            setPower=false
+--          end
+--          if setPower then
+--            for n,excludePower in ipairs(comboExcludeList)do
+--              if cpConfig[soldierConfigId][excludePower]then
+--                setPower=false
+--              end
+--            end
+--          end
+--          if setPower then
+--            soldierCount=soldierCount-1
+--            cpConfig[soldierConfigId][powerType]=true
+--            if powerType=="MISSILE"and this.IsUsingStrongMissile()then
+--              cpConfig[soldierConfigId].STRONG_MISSILE=true
+--            end
+--            if powerType=="SNIPER"and this.IsUsingStrongSniper()then
+--              cpConfig[soldierConfigId].STRONG_SNIPER=true
+--            end
+--          end
+--        end
+--      end
+--    end
+--  end
+--
+--  for soldierConfigId,soldierConfig in ipairs(cpConfig)do
+--    local soldierId=soldierIdForConfigIdTable[soldierConfigId]
+--    TppEnemy.ApplyPowerSetting(soldierId,soldierConfig)
+--    if missionAbilitySoldiers[soldierId]==nil then
+--      local personalAbilitySettings={}
+--      do
+--        local stealth
+--        if soldierConfig.STEALTH_SPECIAL then
+--          stealth="sp"
+--        elseif soldierConfig.STEALTH_HIGH then
+--          stealth="high"
+--        elseif soldierConfig.STEALTH_LOW then
+--          stealth="low"
+--        end
+--        personalAbilitySettings.notice=stealth
+--        personalAbilitySettings.cure=stealth
+--        personalAbilitySettings.reflex=stealth
+--      end
+--      do
+--        local combat
+--        if soldierConfig.COMBAT_SPECIAL then
+--          combat="sp"
+--        elseif soldierConfig.COMBAT_HIGH then
+--          combat="high"
+--        elseif soldierConfig.COMBAT_LOW then
+--          combat="low"
+--        end
+--        personalAbilitySettings.shot=combat
+--        personalAbilitySettings.grenade=combat
+--        personalAbilitySettings.reload=combat
+--        personalAbilitySettings.hp=combat
+--      end
+--      do
+--        local speed
+--        if soldierConfig.STEALTH_SPECIAL or soldierConfig.COMBAT_SPECIAL then
+--          speed="sp"
+--        elseif soldierConfig.STEALTH_HIGH or soldierConfig.COMBAT_HIGH then
+--          speed="high"
+--        elseif soldierConfig.STEALTH_LOW or soldierConfig.COMBAT_LOW then
+--          speed="low"
+--        end
+--        personalAbilitySettings.speed=speed
+--      end
+--      do
+--        local fulton
+--        if soldierConfig.FULTON_SPECIAL then
+--          fulton="sp"
+--        elseif soldierConfig.FULTON_HIGH then
+--          fulton="high"
+--        elseif soldierConfig.FULTON_LOW then
+--          fulton="low"
+--        end
+--        personalAbilitySettings.fulton=fulton
+--      end
+--      do
+--        local holdup
+--        if soldierConfig.HOLDUP_SPECIAL then
+--          holdup="sp"
+--        elseif soldierConfig.HOLDUP_HIGH then
+--          holdup="high"
+--        elseif soldierConfig.HOLDUP_LOW then
+--          holdup="low"
+--        end
+--        personalAbilitySettings.holdup=holdup
+--      end
+--      TppEnemy.ApplyPersonalAbilitySettings(soldierId,personalAbilitySettings)
+--    end
+--  end
+--end
 function this.Messages()
   return Tpp.StrCode32Table{
     GameObject={

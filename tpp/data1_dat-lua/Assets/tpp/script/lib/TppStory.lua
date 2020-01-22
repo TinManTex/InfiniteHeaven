@@ -287,7 +287,8 @@ this.radioDemoTable={
     local t=not TppRadio.IsPlayed"f2000_rtrg1345"
     local n=TppBuddyService.DidObtainBuddyType(BuddyType.QUIET)
     local e=not TppQuest.IsOpen"sovietBase_q99020"
-    local i=TppQuest.IsCleard"sovietBase_q99020"return(t and n)and(e or i)
+    local i=TppQuest.IsCleard"sovietBase_q99020"
+    return(t and n)and(e or i)
   end,
   radioList={"f2000_rtrg1345","f2000_rtrg1346"}},
   QuietReceivesPersecution={storyCondition=function()
@@ -1959,11 +1960,11 @@ function this.DEBUG_TestStorySequence()
   this.DEBUG_SkipDemoRadio=nil
 end
 function this.DEBUG_InitQuestFlagsForTest()
-  for n,e in ipairs(TppDefine.QUEST_INDEX)do
-    gvars.qst_questOpenFlag[e]=false
-    gvars.qst_questActiveFlag[e]=false
-    gvars.qst_questClearedFlag[e]=false
-    gvars.qst_questRepopFlag[e]=false
+  for n,questIndex in ipairs(TppDefine.QUEST_INDEX)do
+    gvars.qst_questOpenFlag[questIndex]=false
+    gvars.qst_questActiveFlag[questIndex]=false
+    gvars.qst_questClearedFlag[questIndex]=false
+    gvars.qst_questRepopFlag[questIndex]=false
   end
 end
 function this.DEBUG_ClearQuestForTest(e)

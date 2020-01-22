@@ -397,7 +397,8 @@ function canOpenQuestChecks.ruins_q19010()
   return true
 end
 function canOpenQuestChecks.commFacility_q19013()
-  return this.IsCleard"quest_q20065"end
+  return this.IsCleard"quest_q20065"
+end
 function canOpenQuestChecks.outland_q19011()
   return TppStory.IsMissionCleard(10086)
 end
@@ -432,7 +433,8 @@ function canOpenQuestChecks.pfCamp_q60114()
   return TppStory.IsMissionCleard(10121)
 end
 function canOpenQuestChecks.ruins_q60115()
-  return this.IsCleard"ruins_q19010"end
+  return this.IsCleard"ruins_q19010"
+end
 function canOpenQuestChecks.tent_q10010()
   return true
 end
@@ -807,7 +809,8 @@ function canOpenQuestChecks.tent_q80010()
 end
 function canOpenQuestChecks.lab_q80700()
   local t=TppStory.IsMissionCleard(10093)
-  local e=this.IsCleard"tent_q80010"if t==true and e==true then
+  local e=this.IsCleard"tent_q80010"
+  if t==true and e==true then
     return true
   end
   return false
@@ -854,7 +857,8 @@ function canOpenQuestChecks.quest_q52070()
   return t and e
 end
 function canOpenQuestChecks.quest_q52080()
-  local t=this.IsCleard"tent_q99040"local e=this.IsCleard"quest_q52040"
+  local t=this.IsCleard"tent_q99040"
+  local e=this.IsCleard"quest_q52040"
   return t and e
 end
 function canOpenQuestChecks.quest_q52090()
@@ -1248,30 +1252,30 @@ function this.SetNextQuestStep(n)
     end
   end
 end
-function this.ClearWithSave(t,n)
-  if not n then
-    n=this.GetCurrentQuestName()
+function this.ClearWithSave(clearType,questName)
+  if not questName then
+    questName=this.GetCurrentQuestName()
   end
-  local a=this.GetQuestIndex(n)
-  if t==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR or t==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY then
-    this.OnFinishShootingPractice(t)
+  local questIndex=this.GetQuestIndex(questName)
+  if clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR or clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY then
+    this.OnFinishShootingPractice(clearType)
   end
-  if t==TppDefine.QUEST_CLEAR_TYPE.CLEAR or t==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
-    if t~=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
+  if clearType==TppDefine.QUEST_CLEAR_TYPE.CLEAR or clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
+    if clearType~=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
       this.AddStaffsFromTempBuffer()
     end
-    this.Clear(n)
-    if t~=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
+    this.Clear(questName)
+    if clearType~=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
       this.Save()
     end
-  elseif t==TppDefine.QUEST_CLEAR_TYPE.FAILURE then
+  elseif clearType==TppDefine.QUEST_CLEAR_TYPE.FAILURE then
     this.AddStaffsFromTempBuffer()
-    this.Failure(n)
+    this.Failure(questName)
     this.Save()
-  elseif t==TppDefine.QUEST_CLEAR_TYPE.UPDATE then
-    this.Update(n)
-  elseif t==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY then
-    this.Retry(n)
+  elseif clearType==TppDefine.QUEST_CLEAR_TYPE.UPDATE then
+    this.Update(questName)
+  elseif clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY then
+    this.Retry(questName)
     this.SetRetryShootingPracticeStartUi()
   end
 end
@@ -1282,42 +1286,42 @@ function this.ClearWithSaveMtbsDDQuest()
   this.UpdateRepopFlag(t)
   this.Save()
 end
-function this.Clear(t)
-  if t==nil then
-    t=this.GetCurrentQuestName()
-    if t==nil then
+function this.Clear(questName)
+  if questName==nil then
+    questName=this.GetCurrentQuestName()
+    if questName==nil then
       return
     end
   end
-  local n=this.GetQuestIndex(t)
+  local n=this.GetQuestIndex(questName)
   if n==nil then
     return
   end
   this.SetNextQuestStep(d)
-  this.ShowAnnounceLog(QUEST_STATUS_TYPES.CLEAR,t)
-  this.CheckClearBounus(n,t)
+  this.ShowAnnounceLog(QUEST_STATUS_TYPES.CLEAR,questName)
+  this.CheckClearBounus(n,questName)
   this.UpdateClearFlag(n,true)
   this.UpdateRepopFlag(n)
   this.CheckAllClearBounus()
   this.CheckAllClearMineQuest()
   if not TppLocation.IsMotherBase()then
-    this.DecreaseElapsedClearCount(t)
+    this.DecreaseElapsedClearCount(questName)
   end
   TppStory.UpdateStorySequence{updateTiming="OnSideOpsClear"}
-  if not this.PlayClearRadio(t)then
-    this.GoToMBAfterClear(t)
+  if not this.PlayClearRadio(questName)then
+    this.GoToMBAfterClear(questName)
   end
-  this.GetClearKeyItem(t)
-  this.GetClearCassette(t)
-  this.GetClearEmblem(t)
-  if this.GetSideOpsInfo(t)then
+  this.GetClearKeyItem(questName)
+  this.GetClearCassette(questName)
+  this.GetClearEmblem(questName)
+  if this.GetSideOpsInfo(questName)then
     TppTrophy.Unlock(15)
   end
   TppMission.SetPlayRecordClearInfo()--RETAILPATCH 1070
   TppChallengeTask.RequestUpdate"SIDEOPS"--RETAILPATCH 1070
   TppUiCommand.SetSideOpsListUpdate()
   for n,e in ipairs(m)do
-    if t==e then
+    if questName==e then
       TppMotherBaseManagement.SetLockedTanFlag{locked=false}
       return
     end
@@ -1347,17 +1351,17 @@ function this.Failure(questName)
       return
     end
   end
-  local n=this.GetQuestIndex(questName)
-  if n==nil then
+  local questIndex=this.GetQuestIndex(questName)
+  if questIndex==nil then
     return
   end
-  this.UpdateClearFlag(n,false)
+  this.UpdateClearFlag(questIndex,false)
   this.SetNextQuestStep(d)
   this.ShowAnnounceLog(QUEST_STATUS_TYPES.FAILURE,questName)
   TppUiCommand.SetSideOpsListUpdate()
   for e=0,9,1 do
     if gvars.qst_failedIndex[e]==-1 then
-      gvars.qst_failedIndex[e]=n
+      gvars.qst_failedIndex[e]=questIndex
       break
     end
   end
@@ -1776,10 +1780,10 @@ function this.DebugUpdate()
       if o then
         local i=o.infoList[s]
         if i then
-          local e=TppDefine.QUEST_INDEX[i.name]
-          gvars.qst_questOpenFlag[e]=mvars.debug.updateOpenFlagSelectQuest
-          gvars.qst_questClearedFlag[e]=mvars.debug.updateClearFlagSelectQuest
-          gvars.qst_questActiveFlag[e]=mvars.debug.updateActiveFlagSelectQuest
+          local questIndex=TppDefine.QUEST_INDEX[i.name]
+          gvars.qst_questOpenFlag[questIndex]=mvars.debug.updateOpenFlagSelectQuest
+          gvars.qst_questClearedFlag[questIndex]=mvars.debug.updateClearFlagSelectQuest
+          gvars.qst_questActiveFlag[questIndex]=mvars.debug.updateActiveFlagSelectQuest
           if mvars.debug.updateActiveFlagSelectQuest then
             for t,e in pairs(o.infoList)do
               if e.name~=i.name then
@@ -2178,11 +2182,11 @@ function this.UpdateOpenQuest()
   mvars.qst_isQuestNewOpenFlag=false
   for key,questIndex in pairs(TppDefine.QUEST_INDEX) do
     local canOpenQuestFunc=canOpenQuestChecks[key]
-    if (canOpenQuestFunc and canOpenQuestFunc()) or gvars.unlockSideOps==Ivars.unlockSideOps.enum.OPEN then--tex, canopenchecks were origninally nested
+    if (canOpenQuestFunc and canOpenQuestFunc()) then --DEBUGNOW or Ivars.unlockSideOps:Is"OPEN" then--tex, canopenchecks were origninally nested
       if gvars.qst_questOpenFlag[questIndex]==false then
         mvars.qst_isQuestNewOpenFlag=true
-    end
-    gvars.qst_questOpenFlag[questIndex]=true
+      end
+      gvars.qst_questOpenFlag[questIndex]=true
     end
   end
 end
@@ -2191,9 +2195,9 @@ function this.UpdateActiveQuest(debugUpdate)
     return
   end
 
-  local unlockedName=nil--tex unlockSideOpNumber
+  local unlockedName=nil--tex unlockSideOpNumber>
   local unlockedArea=nil
-  if gvars.unlockSideOpNumber > 0 then--tex find name and area for unlocksideop SANITY:
+  if gvars.unlockSideOpNumber>0 then--tex find name and area for unlocksideop SANITY:
     unlockedName=sideOpsTable[gvars.unlockSideOpNumber].questName--tex
     if unlockedName ~= nil then
       unlockedArea=TppQuestList.questAreaTable[unlockedName]
@@ -2314,211 +2318,73 @@ function this.UpdateActiveQuest(debugUpdate)
     end
   end
 end
---[[function e.UpdateActiveQuest(t)--tex ORIG:
-
-
-  if not mvars.qst_questList then
-
-
-    return
-
-
-  end
-
-
-  if e.NeedUpdateActiveQuest(t)then
-
-
-    e.UpdateOpenQuest()
-
-
-    for n,t in ipairs(mvars.qst_questList)do
-
-
-      local n=nil
-
-
-      local n={}
-
-
-      local a={}
-
-
-      local s={}
-
-
-      local i={}
-
-
-      for t,o in ipairs(t.infoList)do
-
-
-        local t=o.name
-
-
-        local n=TppDefine.QUEST_INDEX[t]
-
-
-        if n then
-
-
-          gvars.qst_questActiveFlag[n]=false
-
-
-          local n=r[t]
-
-
-          if e.IsOpen(t)and(not n or n())then
-
-
-            if not e.IsCleard(t)then
-
-
-              if o.isStory then
-
-
-                table.insert(a,t)
-
-
-              else
-
-
-                table.insert(s,t)
-
-
-              end
-
-
-            elseif e.IsRepop(t)then
-
-
-              table.insert(i,t)
-
-
-            end
-
-
-          end
-
-
-        end
-
-
-      end
-
-
-      local e=nil
-
-
-      for n,t in ipairs{a,s,i}do
-
-
-        if not e then
-
-
-          e=t[1]
-
-
-        end
-
-
-      end
-
-
-      if e then
-
-
-        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[e] ]=true
-
-
-      end
-
-
-    end
-
-
-  elseif TppMission.IsStoryMission(vars.missionCode)then
-
-
-    for n,t in ipairs(TppDefine.QUEST_DEFINE)do
-
-
-      if not e.CanActiveQuestInMission(vars.missionCode,t)then
-
-
-        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[t] ]=false
-
-
-      end
-
-
-    end
-
-
-  else
-
-
-    for e=0,9,1 do
-
-
-
-
-
-      if gvars.qst_failedIndex[e]~=-1 then
-
-
-        local t=gvars.qst_failedIndex[e]
-
-
-        gvars.qst_questActiveFlag[t]=true
-
-
-        gvars.qst_failedIndex[e]=-1
-
-
-      end
-
-
-    end
-
-
-  end
-
-
-  for e=0,9,1 do
-
-
-    gvars.qst_failedIndex[e]=-1
-
-
-  end
-
-
-  TppUiCommand.SetSideOpsListUpdate()
-
-
-  for t,e in ipairs(m)do
-
-
-    if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[e] ]==true then
-
-
-      TppMotherBaseManagement.SetLockedTanFlag{locked=true}
-
-
-      return
-
-
-    end
-
-
-  end
-
-
-
-
-
-end--]]
+--function e.UpdateActiveQuest(t)--tex ORIG:
+--  if not mvars.qst_questList then
+--    return
+--  end
+--  if e.NeedUpdateActiveQuest(t)then
+--    e.UpdateOpenQuest()
+--    for n,t in ipairs(mvars.qst_questList)do
+--      local n=nil
+--      local n={}
+--      local a={}
+--      local s={}
+--      local i={}
+--      for t,o in ipairs(t.infoList)do
+--        local t=o.name
+--        local n=TppDefine.QUEST_INDEX[t]
+--        if n then
+--          gvars.qst_questActiveFlag[n]=false
+--          local n=r[t]
+--          if e.IsOpen(t)and(not n or n())then
+--            if not e.IsCleard(t)then
+--              if o.isStory then
+--                table.insert(a,t)
+--              else
+--                table.insert(s,t)
+--              end
+--            elseif e.IsRepop(t)then
+--              table.insert(i,t)
+--            end
+--          end
+--        end
+--      end
+--      local e=nil
+--      for n,t in ipairs{a,s,i}do
+--        if not e then
+--          e=t[1]
+--        end
+--      end
+--      if e then
+--        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[e] ]=true
+--      end
+--    end
+--  elseif TppMission.IsStoryMission(vars.missionCode)then
+--    for n,t in ipairs(TppDefine.QUEST_DEFINE)do
+--      if not e.CanActiveQuestInMission(vars.missionCode,t)then
+--        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[t] ]=false
+--      end
+--    end
+--  else
+--    for e=0,9,1 do
+--      if gvars.qst_failedIndex[e]~=-1 then
+--        local t=gvars.qst_failedIndex[e]
+--        gvars.qst_questActiveFlag[t]=true
+--        gvars.qst_failedIndex[e]=-1
+--      end
+--    end
+--  end
+--  for e=0,9,1 do
+--    gvars.qst_failedIndex[e]=-1
+--  end
+--  TppUiCommand.SetSideOpsListUpdate()
+--  for t,e in ipairs(m)do
+--    if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[e] ]==true then
+--      TppMotherBaseManagement.SetLockedTanFlag{locked=true}
+--      return
+--    end
+--  end
+--end
 function this.CanActiveQuestInMission(e,t)
   if(not TppMission.IsStoryMission(e))then
     return true
@@ -2559,9 +2425,9 @@ function this.OpenAndActivateSpecialQuest(questNames)
   return n
 end
 function this.OpenQuestForce(e)
-  local e=TppDefine.QUEST_INDEX[e]
-  if e then
-    gvars.qst_questOpenFlag[e]=true
+  local questIndex=TppDefine.QUEST_INDEX[e]
+  if questIndex then
+    gvars.qst_questOpenFlag[questIndex]=true
   end
 end
 function this.CanOpenAndActivateSpecialQuest(questName)
@@ -2608,7 +2474,7 @@ function this.IsRepop(e)
   end
 end
 function this.IsOpen(questName)--tex DEMINIFIED:
-  if gvars.unlockSideops==Ivars.unlockSideOps.enum.OPEN then--tex just force this here, don't want to touch the actual flag as it's saved/cant be easily reversed
+  if Ivars.unlockSideOps:Is"OPEN" then--tex just force this here, don't want to touch the actual flag as it's saved/cant be easily reversed
     return true
 end
 local questIndex=TppDefine.QUEST_INDEX[questName]
@@ -2616,8 +2482,8 @@ if questIndex then
   return gvars.qst_questOpenFlag[questIndex]
 end
 end
-function this.IsActive(e)
-  local e=TppDefine.QUEST_INDEX[e]
+function this.IsActive(questName)
+  local e=TppDefine.QUEST_INDEX[questName]
   if e then
     return gvars.qst_questActiveFlag[e]
   end
@@ -2735,48 +2601,48 @@ function this.CheckAllClearBounus()
     TppTrophy.UnlockOnAllQuestClear()
     return
   end
-  local e=true
-  for n,t in ipairs(sideOpsTable)do
-    local t=t.questName
-    local t=TppDefine.QUEST_INDEX[t]
-    if not gvars.qst_questClearedFlag[t]then
-      e=false
+  local allCleared=true
+  for n,questInfo in ipairs(sideOpsTable)do
+    local questName=questInfo.questName
+    local questIndex=TppDefine.QUEST_INDEX[questName]
+    if not gvars.qst_questClearedFlag[questIndex]then
+      allCleared=false
       break
     end
   end
-  if e then
+  if allCleared then
     gvars.qst_allQuestCleared=true
     TppTrophy.UnlockOnAllQuestClear()
     TppHero.SetAndAnnounceHeroicOgrePoint(TppHero.QUEST_ALL_CLEAR)
   end
 end
 function this.CalcQuestClearedCount()
-  local e=0
-  local t=0
-  for a,n in ipairs(sideOpsTable)do
-    local n=n.questName
-    local n=TppDefine.QUEST_INDEX[n]
-    if gvars.qst_questClearedFlag[n]then
-      e=e+1
+  local clearedCount=0
+  local totalCount=0
+  for n,questInfo in ipairs(sideOpsTable)do
+    local questName=questInfo.questName
+    local questIndex=TppDefine.QUEST_INDEX[questName]
+    if gvars.qst_questClearedFlag[questIndex]then
+      clearedCount=clearedCount+1
     end
-    t=t+1
+    totalCount=totalCount+1
   end
-  return e,t
+  return clearedCount,totalCount
 end
 function this.CheckAllClearMineQuest()
   if gvars.qst_allQuestCleared then
     TppTrophy.Unlock(16)
     return
   end
-  local e=true
+  local allCleared=true
   for t,n in pairs(TppDefine.REMOVAL_TROPHY_QUEST)do
-    local t=gvars.qst_questClearedFlag[TppDefine.QUEST_INDEX[t]]
-    if not t then
-      e=false
+    local isCleared=gvars.qst_questClearedFlag[TppDefine.QUEST_INDEX[t]]
+    if not isCleared then
+      allCleared=false
       break
     end
   end
-  if e then
+  if allCleared then
     TppTrophy.Unlock(16,TppHero.MINE_QUEST_ALL_CLEAR.heroicPoint,TppHero.MINE_QUEST_ALL_CLEAR.ogrePoint)
   end
 end

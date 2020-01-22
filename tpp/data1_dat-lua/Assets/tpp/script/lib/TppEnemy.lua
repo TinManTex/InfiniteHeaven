@@ -787,16 +787,16 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
   mvars.ene_ddWeaponCount=0
   ddWeaponNormalTable.IS_NOKILL={}
   local DDWeaponIdInfo=this.DDWeaponIdInfo
-  for a,e in pairs(DDWeaponIdInfo)do
-    for n,e in ipairs(e)do
+  for powerType,weaponInfo in pairs(DDWeaponIdInfo)do
+    for n,value in ipairs(weaponInfo)do
       local addWeapon=false
-      local developedEquipType=e.developedEquipType
+      local developedEquipType=value.developedEquipType
       if developedEquipType==nil then
         addWeapon=true
-      elseif e.isNoKill and not isNoKillMode then
+      elseif value.isNoKill and not isNoKillMode then
         addWeapon=false
       else
-        local developId=e.developId
+        local developId=value.developId
         local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
         --if InfMain.IsMbPlayTime() then
         --InfMenu.DebugPrint("_CreateDDWeaponIdTable developrank:" .. developRank .. " soldierEquipGrade: " .. soldierEquipGrade)--tex DEBUG: CULL:
@@ -808,11 +808,11 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
       end
       if addWeapon then
         mvars.ene_ddWeaponCount=mvars.ene_ddWeaponCount+1
-        if ddWeaponNormalTable[a]then
+        if ddWeaponNormalTable[powerType]then
         else
-          ddWeaponNormalTable[a]=e.equipId
-          if e.isNoKill then
-            ddWeaponNormalTable.IS_NOKILL[a]=true
+          ddWeaponNormalTable[powerType]=value.equipId
+          if value.isNoKill then
+            ddWeaponNormalTable.IS_NOKILL[powerType]=true
           end
         end
       end
@@ -1115,6 +1115,7 @@ function this.AddPowerSetting(soldierId,powerSetting)
   end
   this.ApplyPowerSetting(soldierId,powerSetting)
 end
+
 function this.ApplyPowerSetting(soldierId,powerSettings)
   if soldierId==NULL_ID then
     return
@@ -1153,6 +1154,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   if powerLoadout.QUEST_ARMOR then
     powerLoadout.ARMOR=true
   end
+  
   if powerLoadout.ARMOR then
     powerLoadout.SNIPER=nil
     powerLoadout.SHIELD=nil
@@ -1172,15 +1174,33 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
       powerLoadout.MG=nil
     end
   end
-  if powerLoadout.MISSILE or powerLoadout.SHIELD then
+  
+--  if powerLoadout.MISSILE or powerLoadout.SHIELD then--ORIG
+--    powerLoadout.SNIPER=nil
+--    powerLoadout.SHOTGUN=nil
+--    powerLoadout.MG=nil
+--    powerLoadout.SMG=true
+--  end
+  if powerLoadout.SHIELD then--tex split from missile
     powerLoadout.SNIPER=nil
     powerLoadout.SHOTGUN=nil
     powerLoadout.MG=nil
     powerLoadout.SMG=true
+    --TEST powerLoadout.ASSAULT=nil
   end
+  if powerLoadout.MISSILE then--tex split from shield
+    powerLoadout.SNIPER=nil    
+    if powerLoadout.MISSILE_COMBO then--tex added CONFIG_TYPE to bypass, _ApplyRevengeToCp has control of SMG
+      powerLoadout.SHOTGUN=nil
+      powerLoadout.MG=nil
+      powerLoadout.SMG=true
+    end
+    --TEST powerLoadout.ASSAULT=nil
+  end
+
   if powerLoadout.GAS_MASK then
     if subTypeName~="DD_FOB"then
-      if gvars.allowHeadGearCombo>0 then--tex>
+      if powerLoadout.HEADGEAR_COMBO then--tex> --gvars.allowHeadGearCombo>0 then--
         powerLoadout.NVG=nil
       else--tex< ORIG-v-
       powerLoadout.HELMET=nil
@@ -1190,7 +1210,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   end
   if powerLoadout.NVG then
     if subTypeName~="DD_FOB"then
-      if gvars.allowHeadGearCombo>0 then--tex>
+      if powerLoadout.HEADGEAR_COMBO then--tex>
         powerLoadout.GAS_MASK=nil
       else--tex< ORIG-v-
         powerLoadout.HELMET=nil
@@ -1200,7 +1220,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   end
   if powerLoadout.HELMET then
     if subTypeName~="DD_FOB"then
-      if gvars.allowHeadGearCombo>0 then--tex>
+      if powerLoadout.HEADGEAR_COMBO then--tex>
         if powerLoadout.GAS_MASK and powerLoadout.NVG then
           powerLoadout.NVG=nil
         end
@@ -4807,8 +4827,8 @@ function this.OnDeactivateQuest(questTable)
       this.SetupDeactivateQuestHostage(questTable.hostageList)
     end
     if not mvars.qst_isMissionEnd then
-      local e=this.CheckQuestAllTarget(questTable.questType,nil,nil,true)
-      TppQuest.ClearWithSave(e)
+      local clearType=this.CheckQuestAllTarget(questTable.questType,nil,nil,true)
+      TppQuest.ClearWithSave(clearType)
     end
   end
 end
@@ -4821,27 +4841,27 @@ end
 function this.SetupDeactivateQuestEnemy(n)
   for n,t in pairs(n)do
     if t.enemyName then
-      local n=t.enemyName
-      if IsTypeString(n)then
-        n=GameObject.GetGameObjectId(n)
+      local enemyId=t.enemyName
+      if IsTypeString(enemyId)then
+        enemyId=GameObject.GetGameObjectId(enemyId)
       end
-      if n==NULL_ID then
+      if enemyId==NULL_ID then
       else
         local a={type="TppCorpse"}
-        if this.CheckQuestDistance(n)then
+        if this.CheckQuestDistance(enemyId)then
           if TppMission.CheckMissionState(true,false,true,false)then
-            this.AutoFultonRecoverNeutralizedTarget(n,true)
+            this.AutoFultonRecoverNeutralizedTarget(enemyId,true)
           end
         end
         if t.bodyId or t.faceId then
           local e={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
-          GameObject.SendCommand(n,e)
+          GameObject.SendCommand(enemyId,e)
           local e={id="ChangeFovaCorpse",name=t.enemyName,faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
           GameObject.SendCommand(a,e)
         end
-        if this.CheckQuestDistance(n)then
+        if this.CheckQuestDistance(enemyId)then
           if TppMission.CheckMissionState(true,false,true,false)then
-            GameObject.SendCommand(n,{id="RequestVanish"})
+            GameObject.SendCommand(enemyId,{id="RequestVanish"})
             GameObject.SendCommand(a,{id="RequestDisableWithFadeout",name=t.enemyName})
           end
         end

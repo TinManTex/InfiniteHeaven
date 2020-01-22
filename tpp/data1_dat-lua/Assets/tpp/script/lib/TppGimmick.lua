@@ -801,8 +801,8 @@ function this.OnActivateQuest(questTable)
 end
 function this.OnDeactivateQuest(n)
   if mvars.gim_isQuestSetup==true then
-    local n=this.CheckQuestAllTarget(n.questType,nil,true)
-    TppQuest.ClearWithSave(n)
+    local clearType=this.CheckQuestAllTarget(n.questType,nil,true)
+    TppQuest.ClearWithSave(clearType)
     this.SetQuestInvisibleGimmick(0,true,true)
   end
 end
@@ -811,23 +811,23 @@ function this.OnTerminateQuest(questTable)
     this.InitQuest()
   end
 end
-function this.CheckQuestAllTarget(n,a,l)
-  local t=TppDefine.QUEST_CLEAR_TYPE.NONE
+function this.CheckQuestAllTarget(questType,a,l)
+  local clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
   local r=l or false
   local l=false
   local s=TppQuest.GetCurrentQuestName()
   if TppQuest.IsEnd(s)then
-    return t
+    return clearType
   end
   if r==false then
-    if n==TppDefine.QUEST_TYPE.DEVELOP_RECOVERED then
+    if questType==TppDefine.QUEST_TYPE.DEVELOP_RECOVERED then
       for n,e in pairs(mvars.gim_questTargetList)do
         if e.idType=="Develop"then
           if a==TppCollection.GetUniqueIdByLocatorName(e.developId)then
             e.messageId="Recovered"end
         end
       end
-    elseif n==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
+    elseif questType==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
       for n,e in pairs(mvars.gim_questTargetList)do
         local n=StrCode32(e.locatorName)
         if a==n then
@@ -836,7 +836,7 @@ function this.CheckQuestAllTarget(n,a,l)
           break
         end
       end
-    elseif n==TppDefine.QUEST_TYPE.GIMMICK_RECOVERED then
+    elseif questType==TppDefine.QUEST_TYPE.GIMMICK_RECOVERED then
       if Tpp.IsFultonContainer(a)then
         for i,n in pairs(mvars.gim_questTargetList)do
           if n.idType=="Gimmick"then
@@ -851,7 +851,7 @@ function this.CheckQuestAllTarget(n,a,l)
       end
     end
   end
-  if n==TppDefine.QUEST_TYPE.DEVELOP_RECOVERED or n==TppDefine.QUEST_TYPE.GIMMICK_RECOVERED then
+  if questType==TppDefine.QUEST_TYPE.DEVELOP_RECOVERED or questType==TppDefine.QUEST_TYPE.GIMMICK_RECOVERED then
     local n=0
     local e=0
     for t,i in pairs(mvars.gim_questTargetList)do
@@ -862,10 +862,10 @@ function this.CheckQuestAllTarget(n,a,l)
     end
     if e>0 then
       if n>=e then
-        t=TppDefine.QUEST_CLEAR_TYPE.CLEAR
+        clearType=TppDefine.QUEST_CLEAR_TYPE.CLEAR
       end
     end
-  elseif n==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
+  elseif questType==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
     if l==true then
       local n={}
       local n=true
@@ -883,19 +883,19 @@ function this.CheckQuestAllTarget(n,a,l)
         end
       end
       if mvars.gim_questMarkCount>=mvars.gim_questMarkTotalCount then
-        t=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR
+        clearType=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR
       else
-        t=TppDefine.QUEST_CLEAR_TYPE.UPDATE
+        clearType=TppDefine.QUEST_CLEAR_TYPE.UPDATE
       end
     else
       if r==true then
         if mvars.gim_isquestMarkStart==true then
-          t=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY
+          clearType=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY
         end
       end
     end
   end
-  return t
+  return clearType
 end
 function this.IsQuestTarget(i)
   if mvars.gim_isQuestSetup==false then

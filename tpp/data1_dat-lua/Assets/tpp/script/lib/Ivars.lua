@@ -915,6 +915,12 @@ this.allowHeadGearCombo={
   allowHeadGearComboThreshold=120,
 }
 
+this.allowMissileWeaponsCombo={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 this.balanceHeadGear={
   save=MISSION,
   range=this.switchRange,
@@ -922,6 +928,30 @@ this.balanceHeadGear={
   balanceHeadGearThreshold=100,
 }
 
+this.balanceWeaponPowers={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  balanceWeaponsThreshold=100,
+}
+
+this.disableConvertArmorToShield={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.disableMissionsWeaponRestriction={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.disableMotherbaseWeaponRestriction={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
 --<revenge stuff
 --reinforce stuff DOC: Reinforcements Soldier Vehicle Heli.txt
 this.forceSuperReinforce={
@@ -1900,6 +1930,22 @@ this.OptionIsDefault=function(self)
 end
 
 this.OptionIsSetting=function(self,setting)--tex for getting setting via name or enum index, just use gvar. if you want the value, or Ivars. if it has none
+  if setting==nil then
+    if TppMission.IsFOBMission(vars.missionCode) then
+      return self.default
+    else
+      return self.setting
+    end
+  end
+  
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return self.setting==self.default
+  end
+  
+  if type(setting)=="number" then
+    return self.setting==setting
+  end
+
   if self.enum==nil then
     InfMenu.DebugPrint("Is function called on ivar "..self.name.." which has no settings enum")
     return false
@@ -1909,7 +1955,7 @@ this.OptionIsSetting=function(self,setting)--tex for getting setting via name or
 end
 
 
-this.OptionAboveSetting=function(self,settingName) 
+this.OptionAboveSetting=function(self,settingName)
   local settingIndex=self.enum[settingName]
   return self.setting>settingIndex
 end

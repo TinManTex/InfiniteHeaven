@@ -89,7 +89,7 @@ this.eng={--english
   resetAllSettingsItem="Reset all Infinite Heaven settings",
   disableHeadMarkers="Disable head markers",
   disableBuddies="Disable buddies",
-  disableHeliAttack="Disable heli attack",
+  disableHeliAttack="Disable support heli attack",
   disableSelectTime="Disable select sortie time",
   disableSelectVehicle="Disable select vehicle",
   disableFulton="Disable fulton action",
@@ -240,6 +240,12 @@ this.eng={--english
   balanceHeadGear="Ballance heavy armor and head gear distribution",
   changeCpSubTypeFree="Random CP subtype in free mode",--r109 
   changeCpSubTypeForMissions="Random CP subtype in missions",
+  done="Done",--r112
+  forceAllQuestOpenFlagFalse="Set questOpenFlag array to false",
+  disableMissionsWeaponRestriction="Disable weapon restrictions in certain missions",
+  balanceWeaponPowers="Balance primary weapon distribution",
+  allowMissileWeaponsCombo="Allow missile combo with other weapons",
+  disableConvertArmorToShield="Disable convert armor to sheild (if armor off)",
 }
 
 this.eng_help={

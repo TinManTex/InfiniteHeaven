@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r111"
+this.modVersion="r112"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -306,6 +306,90 @@ function this.SetKeepAlert(cpName,enable)
   GameObject.SendCommand(gameId,command)
 end
 
+--
+-- revenge system stuff>
+
+--CALLER: TppRevenge._ApplyRevengeToCp
+function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,originalSettingsTable)
+  local sumBalance=0
+  local numBalance=0
+      
+  for n,powerType in pairs(balanceTypes) do
+    local powerSetting=revengeConfig[powerType]
+    if powerSetting~=nil and powerSetting~=0 then--tex powersetting should never be 0 from what I've seen, but checking anyway
+
+      local percentage=0
+      --tex convert from num soldiers to percentage
+      if Tpp.IsTypeNumber(powerSetting)then
+        if powerSetting>totalSoldierCount then
+          powerSetting=totalSoldierCount
+        end
+        if totalSoldierCount~=0 then
+          percentage=(powerSetting/totalSoldierCount)*100
+          originalSettingsTable[powerType]=percentage
+          numBalance=numBalance+1
+          sumBalance=sumBalance+percentage      
+          --InfMenu.DebugPrint("powerType:"..powerType.." powerSetting:"..tostring(powerSetting).." numtopercentage:"..percentage)--DEBUG
+        end
+      elseif Tpp.IsTypeString(powerSetting)then
+        if powerSetting:sub(-1)=="%"then
+          percentage=powerSetting:sub(1,-2)+0
+          originalSettingsTable[powerType]=percentage
+          numBalance=numBalance+1
+          sumBalance=sumBalance+percentage
+          --InfMenu.DebugPrint("powerType:"..powerType.." powerSetting:"..powerSetting.." stringtopercentage:"..percentage)--DEBUG
+        end
+      end
+    end--if powersetting
+  end--for balanceGearTypes
+  
+  return numBalance,sumBalance,originalSettingsTable
+end
+
+
+--CALLER: TppRevenge._ApplyRevengeToCp
+function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,revengeConfig)
+  if numBalance==0 then
+    InfMenu.DebugPrint"BalancePowers numballance==0"
+    return
+  end
+
+  local balancePercent=0
+  if numBalance>0 then
+    local maxPercent=100-reservePercent
+    balancePercent=maxPercent/numBalance
+    --tex bump up the balance percent from those that are under
+    --TODO: bump up on an individual power basis biased by those that have higher original requested percentage
+    local aboveBalance=numBalance
+    local underflow=0
+    for powerType,percentage in pairs(originalSettingsTable) do
+      if percentage < balancePercent then
+        underflow=underflow+(balancePercent-percentage)
+        aboveBalance=aboveBalance-1
+      end
+    end
+    
+    --InfMenu.DebugPrint("numBalance:"..numBalance.." balancePercent:"..balancePercent.." underflow:"..underflow)--DEBUG
+    
+    --OFF if underflow>0 then--tex distribute underflow evenly
+    -- balancePercent=balancePercent+(underflow/aboveBalance)
+    -- underflow=0
+    --end
+
+    --tex distribute underflow in ballanceGearType order
+    for powerType,percentage in pairs(originalSettingsTable) do
+      if percentage>balancePercent then
+        local toOriginalPercent=originalSettingsTable[powerType]-balancePercent
+        local bump=math.min(underflow,toOriginalPercent)
+        underflow=underflow-bump
+       -- InfMenu.DebugPrint("numBalance:"..numBalance.." powerType:"..powerType.." balancePercent:"..balancePercent.." bump:"..bump)--DEBUG
+        revengeConfig[powerType]=tostring(balancePercent+bump).."%"
+      end
+    end
+    --InfMenu.DebugPrint("numBalance:"..numBalance.." sumBalance:"..sumBalance.." balancePercent:"..balancePercent)--DEBUG
+  end--if numbalance
+  return revengeConfig--tex already been edited in-place, but this is clearer
+end--function
 --
 
 this.SetFriendlyCp = function()
@@ -958,7 +1042,7 @@ end
 
 function this.OnAllocateFob()
   InfMenu.ResetSettings()--tex TODO: would like a nosave reset, but would need to change to reading ivar.setting instead of gvars, then would need to VERFY that .setting is restored on gvar restore
-  --DEBUGNOWTppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
+  TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
 end
 
 
