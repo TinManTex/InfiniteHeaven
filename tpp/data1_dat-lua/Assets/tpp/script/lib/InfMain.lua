@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r100"
+this.modVersion="r102"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -635,10 +635,7 @@ function this.RestoreVehiclePatrol(vehicleTypeNumber, spawnInfo)
 
 
   --InfMenu.DebugPrint("restoring "..spawnInfo.locator.." with "..vehicleType)--DEBUG
-  spawnInfo.type=vehicle.type
-  spawnInfo.subType=vehicle.subType
-  spawnInfo.class=vehicle.class
-  spawnInfo.paintType=vehicle.paintType 
+  this.SetPatrolSpawnInfo(vehicle,spawnInfo)
 end
 
 function this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
@@ -695,11 +692,20 @@ function this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
   end
   svars.vehiclePatrolSpawnedTypes[vehicleNumber]=this.VEHICLE_SPAWN_TYPE_ENUM[vehicleType]+1
   
+  this.SetPatrolSpawnInfo(vehicle,spawnInfo)
+end
+
+function this.SetPatrolSpawnInfo(vehicle,spawnInfo)
   spawnInfo.type=vehicle.type
   spawnInfo.subType=vehicle.subType
-  spawnInfo.class=vehicle.class
-  spawnInfo.paintType=vehicle.paintType
+  --spawnInfo.class=vehicle.class
+  --spawnInfo.paintType=vehicle.paintType
+
+  --spawnInfo.class=gvars.vehiclePatrolClass
+  --spawnInfo.paintType=gvars.vehiclePatrolPaintType
+  --spawnInfo.emblemType=gvars.vehiclePatrolEmblemType 
 end
+
 --OUT: missionPackPath
 local function AddMissionPack(packPath,missionPackPath)
   if Tpp.IsTypeString(packPath)then
@@ -729,17 +735,24 @@ end
 --<vehicle stuff
 
 --splash stuff>
-local oneOffSplashes={
+this.oneOffSplashes={
   "startstart",
   "startend",
+  "knm",
 }
 function this.AddOneOffSplash(splashName)
-  oneOffSplashes[#oneOffSplashes+1]=splashName
+ -- this.oneOffSplashes[#this.oneOffSplashes+1]=splashName
 end
 function this.DeleteOneOffSplashes()
-  for n,splashName in ipairs(oneOffSplashes) do
+  for n,splashName in pairs(this.oneOffSplashes) do
     this.DeleteSplash(splashName)
   end
+ this.oneOffSplashes={}
+end
+
+function this.DeleteStartSplashes()
+  this.DeleteSplash(this.currentRandomSplash)
+  this.DeleteOneOffSplashes()
 end
 
 
@@ -906,7 +919,7 @@ function this.Messages()
       end},
     },
     Player={
-      {msg="FinishOpening1DemoOnHeli",func=this.ClearMarkers()},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
+      {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers()},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
     },
     UI={
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
@@ -987,10 +1000,12 @@ end
 return false
 end
 function this.OnDamage(gameId,attackId,attackerId)
-  --InfMenu.DebugPrint"OnDamage"
-  if GetTypeIndex(gameId)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+  --InfMenu.DebugPrint"OnDamage"--DEBUG
+  local typeIndex=GameObject.GetTypeIndex(gameId)
+  if typeIndex~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then--and typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     return
   end
+  
   if Tpp.IsPlayer(attackerId) then
     --InfMenu.DebugPrint"OnDamage attacked by player"
     if gvars.soldierAlertOnHeavyVehicleDamage>0 then
@@ -1004,7 +1019,7 @@ function this.OnDamage(gameId,attackId,attackerId)
               SendCommand(cpId,command)
               break
             end
-        end--if cp not phase
+          end--if cp not phase
         end--for soldieridlist
       end--attackisvehicle
     end--gvar
@@ -1136,7 +1151,7 @@ function this.Update()
     local abortButton=InfButton.ESCAPE
     InfButton.buttonStates[abortButton].holdTime=1.5
     if InfButton.OnButtonHoldTime(abortButton) then
-      local splash=SplashScreen.Create("startend","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
+      local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
       SplashScreen.Show(splash,0,0.3,0)
       this.abortToAcc=true
     end

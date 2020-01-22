@@ -102,13 +102,13 @@ function this.Messages()
     option={isExecMissionPrepare=true,isExecMissionClear=true}}},
     nil}
 end
-function this.IsBroken(e)
-  if not IsTypeTable(e)then
+function this.IsBroken(isBrokenParams)
+  if not IsTypeTable(isBrokenParams)then
     return
   end
   local gimmickId,searchFromSaveData
-  gimmickId=e.gimmickId
-  searchFromSaveData=e.searchFromSaveData
+  gimmickId=isBrokenParams.gimmickId
+  searchFromSaveData=isBrokenParams.searchFromSaveData
   if not gimmickId then
     return
   end
@@ -124,21 +124,21 @@ function this.IsBroken(e)
     end
   end
 end
-function this.ResetGimmick(n)
-  if not IsTypeTable(n)then
+function this.ResetGimmick(resetParams)
+  if not IsTypeTable(resetParams)then
     return
   end
-  if not this.IsBroken(n)then
+  if not this.IsBroken(resetParams)then
     return
   end
-  local e
-  e=n.gimmickId
-  if not e then
+  local gimmickId
+  gimmickId=resetParams.gimmickId
+  if not gimmickId then
     return
   end
-  local e=mvars.gim_identifierParamTable[e]
-  if Gimmick.ResetGimmick and e then
-    Gimmick.ResetGimmick(e.type,e.locatorName,e.dataSetName)
+  local gimmickIdParams=mvars.gim_identifierParamTable[gimmickId]
+  if Gimmick.ResetGimmick and gimmickIdParams then
+    Gimmick.ResetGimmick(gimmickIdParams.type,gimmickIdParams.locatorName,gimmickIdParams.dataSetName)
   end
 end
 function this.EnableMarkerGimmick(e)
@@ -691,24 +691,24 @@ function this.EnableCollectionTable(t,e,o)
   if not e then
     n=1
   end
-  local function i(e)
-    local n=TppCollection.GetTypeIdByLocatorName(e)
-    if n~=TppCollection.TYPE_DEVELOPMENT_FILE then
+  local function IsGotKeyItem(locator)
+    local typeId=TppCollection.GetTypeIdByLocatorName(locator)
+    if typeId~=TppCollection.TYPE_DEVELOPMENT_FILE then
       return false
     end
-    local e=TppCollection.GetUniqueIdByLocatorName(e)
-    local e=TppTerminal.GetBluePrintKeyItemId(e)
-    if e then
-      if TppMotherBaseManagement.IsGotDataBase{dataBaseId=e}then
+    local uniqueId=TppCollection.GetUniqueIdByLocatorName(locator)
+    local keyItemId=TppTerminal.GetBluePrintKeyItemId(uniqueId)
+    if keyItemId then
+      if TppMotherBaseManagement.IsGotDataBase{dataBaseId=keyItemId}then
         return true
       end
     end
     return false
   end
-  for t,e in pairs(t)do
-    if TppCollection.IsExistLocator(e)then
-      if not i(e)or o then
-        TppCollection.RepopCountOperation("SetAt",e,n)
+  for t,locator in pairs(t)do
+    if TppCollection.IsExistLocator(locator)then
+      if not IsGotKeyItem(locator)or o then
+        TppCollection.RepopCountOperation("SetAt",locator,n)
       end
     end
   end

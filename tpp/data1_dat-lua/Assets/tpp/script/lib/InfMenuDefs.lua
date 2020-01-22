@@ -5,8 +5,8 @@ local this={}
 this.playerSettingsMenu={
   options={
     Ivars.playerHealthScale,
-    --Ivars.ogrePointChange,
-    --InfMenuCommands.giveOgrePoint,
+    InfMenuCommands.removeDemon,
+    InfMenuCommands.setDemon,
     Ivars.useSoldierForDemos,
     Ivars.playerHeadgear,
     InfMenuCommands.resetSettingsItem,
@@ -18,8 +18,8 @@ this.soldierParamsMenu={
     Ivars.soldierParamsProfile,
     Ivars.soldierHealthScale,
     Ivars.soldierSightDistScale,
-    InfMenuCommands.printHealthTableParameterItem,
-    InfMenuCommands.printSightFormParameterItem,
+    InfMenuCommands.printHealthTableParameter,
+    InfMenuCommands.printSightFormParameter,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -98,18 +98,18 @@ this.demosMenu={
 this.patchupMenu={
   options={
     Ivars.telopMode,
-    InfMenuCommands.unlockPlayableAvatarItem,
-    InfMenuCommands.unlockWeaponCustomizationItem,
+    InfMenuCommands.unlockPlayableAvatar,
+    InfMenuCommands.unlockWeaponCustomization,
     Ivars.startOffline,   
     --Ivars.blockFobTutorial,
     --Ivars.setFirstFobBuilt,
     Ivars.langOverride,
-    InfMenuCommands.returnQuietItem,
-    InfMenuCommands.showQuietReunionMissionCountItem,
-    InfMenuCommands.showLangCodeItem,
-    InfMenuCommands.showPositionItem,
-    InfMenuCommands.showMissionCodeItem,
-    InfMenuCommands.showMbEquipGradeItem,
+    InfMenuCommands.returnQuiet,
+    InfMenuCommands.showQuietReunionMissionCount,
+    InfMenuCommands.showLangCode,
+    InfMenuCommands.showPosition,
+    InfMenuCommands.showMissionCode,
+    InfMenuCommands.showMbEquipGrade,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -200,7 +200,7 @@ this.appearanceMenu={
     Ivars.cammoTypesApearance,
     Ivars.playerFaceIdApearance,
     Ivars.playerHeadgear,    
-    this.printCurrentAppearanceItem,
+    this.printCurrentAppearance,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -238,8 +238,8 @@ this.phaseMenu={
 this.supportHeliMenu={
   options={
     --Ivars.setTakeOffWaitTime,
-    --InfMenuCommands.pullOutHeliItem,
-    --InfMenuCommands.changeToIdleStateHeliItem,
+    --InfMenuCommands.pullOutHeli,
+    --InfMenuCommands.changeToIdleStateHeli,
     Ivars.disableHeliAttack,
     Ivars.setInvincibleHeli,
     Ivars.setSearchLightForcedHeli,
@@ -281,9 +281,12 @@ this.vehiclePatrolMenu={
 
 this.heliSpaceMenu={
   options={
+    --Ivars.vehiclePatrolPaintType,
+    --Ivars.vehiclePatrolClass,
+    --Ivars.vehiclePatrolEmblemType,
     --Ivars.forceSoldierSubType,--tex WIP 
     --Ivars.manualMissionCode,--tex  WIP
-    --InfMenuCommands.loadMissionItem,--tex  WIP
+    --InfMenuCommands.loadMission,--tex  WIP
     Ivars.clockTimeScale,
     this.playerRestrictionsMenu,
     this.playerSettingsMenu,
@@ -308,21 +311,22 @@ this.heliSpaceMenu={
 this.debugInMissionMenu={
   options={
     --InfMenuCommands.warpPlayerCommand,
-
-    InfMenuCommands.DEBUG_PrintReinforceVarsItem,
-    InfMenuCommands.DEBUG_PrintSoldierDefineItem,
-    InfMenuCommands.DEBUG_PrintSoldierIDListItem,
-    InfMenuCommands.DEBUG_ShowRevengeConfigItem,
+    InfMenuCommands.DEBUG_PrintReinforceVars,
+    InfMenuCommands.DEBUG_PrintVehicleTypes,
+    InfMenuCommands.DEBUG_PrintVehiclePaint,
+    InfMenuCommands.DEBUG_PrintSoldierDefine,
+    InfMenuCommands.DEBUG_PrintSoldierIDList,
+    InfMenuCommands.DEBUG_ShowRevengeConfig,
     --InfMenuCommands.DEBUG_ShowPhaseEnums,--CULL
-    --InfMenuCommands.DEBUG_ChangePhaseItem,
-    --InfMenuCommands.DEBUG_KeepPhaseOnItem,
-    --InfMenuCommands.DEBUG_KeepPhaseOffItem,
+    --InfMenuCommands.DEBUG_ChangePhase,
+    --InfMenuCommands.DEBUG_KeepPhaseOn,
+    --InfMenuCommands.DEBUG_KeepPhaseOff,
     --InfMenuCommands.printPlayerPhase,
     --InfMenuCommands.DEBUG_SetPlayerPhaseToIvar,
-    InfMenuCommands.showMissionCodeItem,
-    InfMenuCommands.showMbEquipGradeItem,
-    InfMenuCommands.showPositionItem,    
-    InfMenuCommands.DEBUG_ClearAnnounceLogItem,  
+    InfMenuCommands.showMissionCode,
+    InfMenuCommands.showMbEquipGrade,
+    InfMenuCommands.showPosition,    
+    InfMenuCommands.DEBUG_ClearAnnounceLog,  
     InfMenuCommands.goBackItem,
   }
 }

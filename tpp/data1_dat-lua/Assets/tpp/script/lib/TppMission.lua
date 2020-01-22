@@ -1794,8 +1794,8 @@ function this.Messages()
         end
       end},
       {msg="Damage",func=function(gameId,attackId,attackerId)
-        local e=GameObject.GetTypeIndex(gameId)
-        if e~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
+        local typeIndex=GameObject.GetTypeIndex(gameId)
+        if typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
           return
         end
         if Tpp.IsPlayer(attackerId)and TppDamage.IsActiveByAttackId(attackId)then
@@ -2680,7 +2680,8 @@ function this.ReserveMissionClearOnRideOnFultonContainer()
 end
 function this.AbortMissionByMenu()
   if this.IsFOBMission(vars.missionCode)then
-    TppSoundDaemon.PostEvent"env_wormhole_out"this.ReserveGameOver(TppDefine.GAME_OVER_TYPE.FOB_ABORT,TppDefine.GAME_OVER_RADIO.OUT_OF_MISSION_AREA)
+    TppSoundDaemon.PostEvent"env_wormhole_out"
+    this.ReserveGameOver(TppDefine.GAME_OVER_TYPE.FOB_ABORT,TppDefine.GAME_OVER_RADIO.OUT_OF_MISSION_AREA)
   else
     if gvars.mis_isStartFromHelispace then
       this.AbortForRideOnHelicopter()

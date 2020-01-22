@@ -351,7 +351,7 @@ function this._ActivateReinforce()
     local heliRoute=this._GetHeliRoute(mvars.reinforce_cpId)
     local cp=mvars.ene_cpList[mvars.reinforce_reinforceCpId]
     SendCommand(heliId,{id="RequestReinforce",toCp=cp})
-    SendCommand(heliId,{id="SetCommandPost",cp=cp})
+    SendCommand(heliId,{id="SetCommandPost",cp=cp})--tex i think this is the cause of the heli ! sound on reinforce, don't know how to supress it, disabling or shifting order prevents reinforce from happening
     if gvars.disableReinforceHeliPullOut>0 then--tex
       SendCommand(heliId,{id="DisablePullOut"})
     end

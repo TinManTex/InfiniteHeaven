@@ -121,36 +121,36 @@ this.FOB_ABORT_BY_MENU={heroicPoint="HEROIC_POINT_FOB_ABORT_BY_MENU",ogrePoint=0
 function this.IsHero()
   return gvars.isHero
 end
-function this.AddTargetLifesavingHeroicPoint(e,n)
-  if n then
-    if e then
+function this.AddTargetLifesavingHeroicPoint(isChild,recoveredByHeli)
+  if recoveredByHeli then
+    if isChild then
       TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=240,subOgrePoint=240}
     else
       TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=120,subOgrePoint=120}
     end
   else
-    if e then
+    if isChild then
       TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=120,subOgrePoint=120}
     else
       TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=60,subOgrePoint=60}
     end
   end
 end
-function this.OnFultonSoldier(gameId,i)
-  local _=SendCommand(gameId,{id="GetStateFlag"})
-  local r=SendCommand(gameId,{id="IsZombieOrMsf"})
-  local n=SendCommand(gameId,{id="IsChild"})
-  if r then
-    if i then
+function this.OnFultonSoldier(gameId,recoveredByHeli)
+  local stateFlag=SendCommand(gameId,{id="GetStateFlag"})
+  local isZombieOrMsf=SendCommand(gameId,{id="IsZombieOrMsf"})
+  local isChild=SendCommand(gameId,{id="IsChild"})
+  if isZombieOrMsf then
+    if recoveredByHeli then
       TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=60,subOgrePoint=60}
     else
       TppMotherBaseManagement.AddTempLifesavingLog{heroicPoint=30,subOgrePoint=30}
     end
-  elseif n then
-    this.AddTargetLifesavingHeroicPoint(n,i)
+  elseif isChild then
+    this.AddTargetLifesavingHeroicPoint(isChild,recoveredByHeli)
   else
-    if band(_,StateFlag.DYING_LIFE)~=0 then
-      if i then
+    if band(stateFlag,StateFlag.DYING_LIFE)~=0 then
+      if recoveredByHeli then
         this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_DYING_ENEMY)
       else
         if((not TppMission.IsFOBMission(vars.missionCode))or TppServerManager.FobIsSneak())then
@@ -164,20 +164,20 @@ function this.OnFultonSoldier(gameId,i)
     end
   end
 end
-function this.OnFultonHostage(gameId,i)
+function this.OnFultonHostage(gameId,recoveredByHeli)
   local lifeStatus=SendCommand(gameId,{id="GetLifeStatus"})
   local isChild=SendCommand(gameId,{id="IsChild"})
   if lifeStatus~=TppEnemy.LIFE_STATUS.DEAD then
     local stateFlag=SendCommand(gameId,{id="GetStateFlag"})
-    if i then
+    if recoveredByHeli then
       if TppEnemy.IsRescueTarget(gameId)then
-        this.AddTargetLifesavingHeroicPoint(isChild,i)
+        this.AddTargetLifesavingHeroicPoint(isChild,recoveredByHeli)
       else
         this.SetAndAnnounceHeroicOgrePoint(this.ON_HELI_HOSTAGE)
       end
     else
       if TppEnemy.IsRescueTarget(gameId)then
-        this.AddTargetLifesavingHeroicPoint(isChild,i)
+        this.AddTargetLifesavingHeroicPoint(isChild,recoveredByHeli)
       else
         this.SetAndAnnounceHeroicOgrePoint(this.FULTON_HOSTAGE)
       end

@@ -64,21 +64,21 @@ function this.Warp(info)
   local command={id="WarpAndWaitBlock",pos=pos,rotY=rotY}
   GameObject.SendCommand(playerId,command)
 end
-function this.SetForceFultonPercent(e,a)
-  if not Tpp.IsTypeNumber(e)then
+function this.SetForceFultonPercent(gameId,percentage)
+  if not Tpp.IsTypeNumber(gameId)then
     return
   end
-  if not Tpp.IsTypeNumber(a)then
+  if not Tpp.IsTypeNumber(percentage)then
     return
   end
-  if(e<0)or(e>=NULL_ID)then
+  if(gameId<0)or(gameId>=NULL_ID)then
     return
   end
-  if(a<0)or(a>100)then
+  if(percentage<0)or(percentage>100)then
     return
   end
   mvars.ply_forceFultonPercent=mvars.ply_forceFultonPercent or{}
-  mvars.ply_forceFultonPercent[e]=a
+  mvars.ply_forceFultonPercent[gameId]=percentage
 end
 function this.ForceChangePlayerToSnake(basic)
   if gvars.useSoldierForDemos==1 then--tex catch more cases the isSnakeOnly in demo didn't catch
@@ -1477,11 +1477,11 @@ this.VEHICLE_FALL_DEAD_CAMERA={[Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayFal
 function this.Messages()
   local messageTable=Tpp.StrCode32Table{
     Player={
-      {msg="CalcFultonPercent",func=function(t,n,o,a,r)
-        this.MakeFultonRecoverSucceedRatio(t,n,o,a,r,false)
+      {msg="CalcFultonPercent",func=function(t,gameId,o,a,staffOrResourceId)
+        this.MakeFultonRecoverSucceedRatio(t,gameId,o,a,staffOrResourceId,false)
       end},
-      {msg="CalcDogFultonPercent",func=function(r,n,o,a,t)
-        this.MakeFultonRecoverSucceedRatio(r,n,o,a,t,true)
+      {msg="CalcDogFultonPercent",func=function(r,gameId,o,a,staffOrResourceId)
+        this.MakeFultonRecoverSucceedRatio(r,gameId,o,a,staffOrResourceId,true)
       end},
       {msg="RideHelicopter",func=this.SetHelicopterInsideAction},
       {msg="PlayerFulton",func=this.OnPlayerFulton},
@@ -1619,30 +1619,30 @@ function this.MissionStartPlayerTypeSetting()
     end
   end
 end
-function this.Init(a)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
   if gvars.ini_isTitleMode then
     vars.isInitialWeapon[TppDefine.WEAPONSLOT.PRIMARY_HIP]=1
     vars.isInitialWeapon[TppDefine.WEAPONSLOT.PRIMARY_BACK]=1
     vars.isInitialWeapon[TppDefine.WEAPONSLOT.SECONDARY]=1
   end
-  if a.sequence and a.sequence.ALLWAYS_100_PERCENT_FULTON then
+  if missionTable.sequence and missionTable.sequence.ALLWAYS_100_PERCENT_FULTON then
     mvars.ply_allways_100percent_fulton=true
   end
   if TppMission.IsMissionStart()then
-    local e
-    if a.sequence and a.sequence.INITIAL_HAND_EQUIP then
-      e=a.sequence.INITIAL_HAND_EQUIP
+    local initialHandEquip
+    if missionTable.sequence and missionTable.sequence.INITIAL_HAND_EQUIP then
+      initialHandEquip=missionTable.sequence.INITIAL_HAND_EQUIP
     end
-    if e then
+    if initialHandEquip then
     end
-    local e
-    if a.sequence and a.sequence.INITIAL_CAMERA_ROTATION then
-      e=a.sequence.INITIAL_CAMERA_ROTATION
+    local initialCameraRotation
+    if missionTable.sequence and missionTable.sequence.INITIAL_CAMERA_ROTATION then
+      initialCameraRotation=missionTable.sequence.INITIAL_CAMERA_ROTATION
     end
-    if e then
-      vars.playerCameraRotation[0]=e[1]
-      vars.playerCameraRotation[1]=e[2]
+    if initialCameraRotation then
+      vars.playerCameraRotation[0]=initialCameraRotation[1]
+      vars.playerCameraRotation[1]=initialCameraRotation[2]
     end
   end
   if gvars.s10240_isPlayedFuneralDemo then
@@ -1650,40 +1650,40 @@ function this.Init(a)
   else
     Player.SetUseBlackDiamondEmblem(false)
   end
-  local e=0
+  local currentItemIndex=0
   if TppMission.IsHelicopterSpace(vars.missionCode)then
-    vars.currentItemIndex=e
+    vars.currentItemIndex=currentItemIndex
     vars.initialPlayerAction=PlayerInitialAction.HELI_SPACE
     return
   end
   if TppMission.IsMissionStart()then
     if((vars.missionCode==30010)or(vars.missionCode==30020))and(Player.IsVarsCurrentItemCBox())then
     else
-      vars.currentItemIndex=e
+      vars.currentItemIndex=currentItemIndex
     end
   end
   if(gvars.ply_initialPlayerState==TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)and(svars.ply_isUsedPlayerInitialAction==false)then
-    local e=GetGameObjectId("TppHeli2","SupportHeli")
-    if e~=NULL_ID then
+    local heliId=GetGameObjectId("TppHeli2","SupportHeli")
+    if heliId~=NULL_ID then
       vars.initialPlayerAction=PlayerInitialAction.FROM_HELI_SPACE
-      vars.initialPlayerPairGameObjectId=e
+      vars.initialPlayerPairGameObjectId=heliId
     end
   else
     if TppMission.IsMissionStart()then
-      local e
-      if a.sequence and a.sequence.MISSION_START_INITIAL_ACTION then
-        e=a.sequence.MISSION_START_INITIAL_ACTION
+      local initialPlayerAction
+      if missionTable.sequence and missionTable.sequence.MISSION_START_INITIAL_ACTION then
+        initialPlayerAction=missionTable.sequence.MISSION_START_INITIAL_ACTION
       end
-      if e then
-        vars.initialPlayerAction=e
+      if initialPlayerAction then
+        vars.initialPlayerAction=initialPlayerAction
       end
     end
   end
   mvars.ply_locationStationTable={}
   mvars.ply_stationLocatorList={}
-  local e=TppLocation.GetLocationName()
-  if e=="afgh"or e=="mafr"then
-    local a=TppDefine.STATION_LIST[e]
+  local locationName=TppLocation.GetLocationName()
+  if locationName=="afgh"or locationName=="mafr"then
+    local a=TppDefine.STATION_LIST[locationName]
     if a and TppCollection.GetUniqueIdByLocatorName then
       for a,e in ipairs(a)do
         local a="col_labl_"..e
@@ -1695,7 +1695,7 @@ function this.Init(a)
         end
       end
     end
-    local e=TppDefine.STATION_LIST[e]
+    local e=TppDefine.STATION_LIST[locationName]
     if e then
       for a,e in ipairs(e)do
         local e="col_labl_"..e
@@ -1776,35 +1776,36 @@ local fultonWeatherSuccessTable={
   [TppDefine.WEATHER.FOGGY]=-50,
   [TppDefine.WEATHER.SANDSTORM]=-70
 }
-function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrReourceId,i)
-  local mbSectionRankSuccessTable={--NMC: Why is this table defined in the function? OPT: move out
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_C]=30,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_D]=20,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_E]=10,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
-  }
+this.mbSectionRankSuccessTable={--NMC: tex was in MakeFultonRecoverSucceedRatio, was local
+  [TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,
+  [TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,
+  [TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,
+  [TppMotherBaseManagementConst.SECTION_FUNC_RANK_C]=30,
+  [TppMotherBaseManagementConst.SECTION_FUNC_RANK_D]=20,
+  [TppMotherBaseManagementConst.SECTION_FUNC_RANK_E]=10,
+  [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
+  [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
+}
+function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrResourceId,isDogFultoning)
+
   local gameId=_gameId
   local percentage=0
-  local s=100
+  local baseLine=100
   local doFuncSuccess=0
   --RETAILPATCH: 1.0.4.4, was: -v- guess they missed updating this call when they added the param last patch CULL:
   --TppTerminal.DoFuncByFultonTypeSwitch(t,p,r,l,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
-  doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,r,staffOrReourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
+  doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,r,staffOrResourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
   if doFuncSuccess==nil then
     doFuncSuccess=100
   end
   local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
-  local mbSectionSuccess=mbSectionRankSuccessTable[mbFultonRank]or 0
+  local mbSectionSuccess=this.mbSectionRankSuccessTable[mbFultonRank]or 0
   local successMod=fultonWeatherSuccessTable[vars.weather]or 0
   successMod=successMod+mbSectionSuccess
   if successMod>0 then
     successMod=0
   end
-  percentage=(s+doFuncSuccess)+successMod
+  percentage=(baseLine+doFuncSuccess)+successMod
   if mvars.ply_allways_100percent_fulton then
     percentage=100
   end
@@ -1818,28 +1819,28 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   if forcePercent then
     percentage=forcePercent
   end
-  if i then
+  if isDogFultoning then
     Player.SetDogFultonIconPercentage{percentage=percentage,targetId=gameId}
   else
     Player.SetFultonIconPercentage{percentage=percentage,targetId=gameId}
   end
 end
 function this.GetSoldierFultonSucceedRatio(gameId)
-  local e=0
-  local n=0
+  local successMod=0
+  local holdupSuccessMod=0
   local lifeStatus=SendCommand(gameId,{id="GetLifeStatus"})
   local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
   if(bit.band(stateFlag,StateFlag.DYING_LIFE)~=0)then
-    e=-70
+    successMod=-70
   elseif(lifeStatus==TppGameObject.NPC_LIFE_STATE_SLEEP)or(lifeStatus==TppGameObject.NPC_LIFE_STATE_FAINT)then
-    e=0
+    successMod=0
     if mvars.ply_OnFultonIconDying then
       mvars.ply_OnFultonIconDying()
     end
   elseif(lifeStatus==TppGameObject.NPC_LIFE_STATE_DEAD)then
     return
   end
-  local a={
+  local mbSectionRankSuccessTable={
     [TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,
     [TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,
     [TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,
@@ -1849,17 +1850,17 @@ function this.GetSoldierFultonSucceedRatio(gameId)
     [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
     [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
   }
-  local sectionFuncRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
-  local a=a[sectionFuncRank]or 0
-  e=e+a
-  if e>0 then
-    e=0
+  local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
+  local mbSectionSuccess=mbSectionRankSuccessTable[mbFultonRank]or 0
+  successMod=successMod+mbSectionSuccess
+  if successMod>0 then
+    successMod=0
   end
   local status=SendCommand(gameId,{id="GetStatus"})
   if status==EnemyState.STAND_HOLDUP then
-    n=-10
+    holdupSuccessMod=-10
   end
-  return(e+n)
+  return(successMod+holdupSuccessMod)
 end
 function this.GetDefaultSucceedRatio(e)
   return 0

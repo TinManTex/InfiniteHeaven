@@ -551,9 +551,7 @@ sequences.Seq_Demo_StartHasTitleMission = {
 		end
 	end,
 
-	OnUpdate = function ( self )
-	  InfMain.DeleteSplash(InfMain.currentRandomSplash)--tex
-	     
+	OnUpdate = function ( self )	  
 		local konamiLogoScreenId = SplashScreen.GetSplashScreenWithName("konamiLogo")
 		if konamiLogoScreenId then
 			if DebugText then
@@ -614,9 +612,10 @@ sequences.Seq_Demo_StartHasTitleMission = {
 		
 		if not mvars.startHasTitileSeqeunce then
 			mvars.startHasTitileSeqeunce = true
-			self.OnEndShowSplashScreen()
+			self.OnEndShowSplashScreen()		
+			InfMain.DeleteStartSplashes()--tex
 		end
-		
+
 	end,
 
 	OnLeave = function ()

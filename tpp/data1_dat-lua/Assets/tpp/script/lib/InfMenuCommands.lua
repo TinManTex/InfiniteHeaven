@@ -32,19 +32,19 @@ this.goBackItem={
 }
 
 --commands
-this.showPositionItem={
+this.showPosition={
   OnChange=function()
     TppUiCommand.AnnounceLogView(string.format("%.2f,%.2f,%.2f | %.2f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY))
   end,
 }
 
-this.showMissionCodeItem={
+this.showMissionCode={
   OnChange=function()
     TppUiCommand.AnnounceLogView("MissionCode: "..vars.missionCode)--ADDLANG
   end,
 }
 
-this.showMbEquipGradeItem={
+this.showMbEquipGrade={
   OnChange=function()
     local soldierGrade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
     local infGrade = InfMain.GetMbsClusterSecuritySoldierEquipGrade()
@@ -53,20 +53,20 @@ this.showMbEquipGradeItem={
   end,
 }
 
-this.showLangCodeItem={
+this.showLangCode={
   OnChange=function()
     local languageCode=AssetConfiguration.GetDefaultCategory"Language"
     TppUiCommand.AnnounceLogView(InfMenu.LangString"language_code"..": "..languageCode)
   end,
 }
 
-this.showQuietReunionMissionCountItem={
+this.showQuietReunionMissionCount={
   OnChange=function()
     TppUiCommand.AnnounceLogView("quietReunionMissionCount: "..gvars.str_quietReunionMissionCount)
   end,
 }
 
-this.loadMissionItem={
+this.loadMission={
   OnChange=function()
     local settingStr=Ivars.manualMissionCode.settings[gvars.manualMissionCode+1]
     InfMenu.DebugPrint("TppMission.Load "..settingStr)
@@ -84,31 +84,20 @@ this.loadMissionItem={
   end,
 }
 
---[[CULL
-
-this.giveOgrePoint={
-
+this.setDemon={
   OnChange=function(self)
-
-    local ogrePointChange=Ivars.ogrePointChange.setting
-
-    if ogrePointChange > 0 then
-
-      InfMenu.Print(InfMenu.LangString("adding_ogre_points"))--TODO ADDLANG
-
-    elseif ogrePointChange < 0 then
-
-      InfMenu.Print(InfMenu.LangString("subtracting_ogre_points"))--TODO ADDLANG
-
-    end
-
-    TppHero.SetOgrePoint(ogrePointChange) 
-
+    TppMotherBaseManagement.SetOgrePoint{ogrePoint=99999999}
+    InfMenu.PrintLangId"set_demon"
   end,
+}
+this.removeDemon={
+  OnChange=function(self)
+    TppMotherBaseManagement.SetOgrePoint{ogrePoint=1}
+    InfMenu.PrintLangId"removed_demon"
+  end,
+}
 
-}--]]
-
-this.printCurrentAppearanceItem={
+this.printCurrentAppearance={
   OnChange=function()
     InfMenu.Print("playerType: " .. tostring(vars.playerType))
     InfMenu.Print("playerCamoType: " .. tostring(vars.playerCamoType))
@@ -119,7 +108,7 @@ this.printCurrentAppearanceItem={
 }
 
 --
-this.printSightFormParameterItem={
+this.printSightFormParameter={
   OnChange=function()
     InfSoldierParams.ApplySightIvarsToSoldierParams()
     --local sightFormStr=InfInspect.Inspect(InfSoldierParams.soldierParameters.sightFormParameter)
@@ -128,7 +117,7 @@ this.printSightFormParameterItem={
   end,
 }
 
-this.printHealthTableParameterItem={
+this.printHealthTableParameter={
   OnChange=function()
     InfSoldierParams.ApplyHealthIvarsToSoldierParams()
     local sightFormStr=InfInspect.Inspect(InfSoldierParams.lifeParameterTable)
@@ -136,7 +125,25 @@ this.printHealthTableParameterItem={
   end,
 }
 
-this.DEBUG_ShowRevengeConfigItem={
+this.DEBUG_PrintFultonSuccessInfo={
+  OnChange=function()
+  local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
+  local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
+  
+  InfMenu.DebugPrint("mbFultonRank:"..mbFultonRank.." mbSectionSuccess:"..mbSectionSuccess)
+  
+--  local doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,r,staffOrReourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
+--  
+--  if doFuncSuccess==nil then
+--    InfMenu.DebugPrint"doFuncSuccess nil, bumped to 100"
+--    doFuncSuccess=100
+--  end
+--  InfMenu.DebugPrint("doFuncSuccess:"..doFuncSuccess)
+  
+  end,
+}
+
+this.DEBUG_ShowRevengeConfig={
   OnChange=function()
     --InfMenu.DebugPrint("RevRandomValue: "..gvars.rev_revengeRandomValue)
     InfMenu.DebugPrint("RevengeType:")
@@ -149,7 +156,7 @@ this.DEBUG_ShowRevengeConfigItem={
   end,
 }
 
-this.DEBUG_PrintSoldierDefineItem={
+this.DEBUG_PrintSoldierDefine={
   OnChange=function()
     InfMenu.DebugPrint("SoldierDefine:")
     local soldierDefine=InfInspect.Inspect(mvars.ene_soldierDefine)
@@ -158,7 +165,7 @@ this.DEBUG_PrintSoldierDefineItem={
 }
 
 
-this.DEBUG_PrintSoldierIDListItem={
+this.DEBUG_PrintSoldierIDList={
   OnChange=function()
     InfMenu.DebugPrint("SoldierIdList:")
     local soldierIdList=InfInspect.Inspect(mvars.ene_soldierIDList)
@@ -167,7 +174,7 @@ this.DEBUG_PrintSoldierIDListItem={
 }
 
 
-this.DEBUG_PrintReinforceVarsItem={
+this.DEBUG_PrintReinforceVars={
   OnChange=function()
     InfMenu.DebugPrint("reinforce_activated: "..tostring(mvars.reinforce_activated))
     InfMenu.DebugPrint("reinforceType: "..mvars.reinforce_reinforceType)
@@ -177,13 +184,38 @@ this.DEBUG_PrintReinforceVarsItem={
   end,
 }
 
+this.DEBUG_PrintVehicleTypes={
+  OnChange=function()
+    InfMenu.DebugPrint("Vehicle.type.EASTERN_LIGHT_VEHICLE="..Vehicle.type.EASTERN_LIGHT_VEHICLE)
+    InfMenu.DebugPrint("Vehicle.type.WESTERN_LIGHT_VEHICLE="..Vehicle.type.WESTERN_LIGHT_VEHICLE) 
+    InfMenu.DebugPrint("Vehicle.type.EASTERN_TRUCK="..Vehicle.type.EASTERN_TRUCK)
+    InfMenu.DebugPrint("Vehicle.type.WESTERN_TRUCK="..Vehicle.type.WESTERN_TRUCK)
+    InfMenu.DebugPrint("Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE)
+    InfMenu.DebugPrint("Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE) 
+    InfMenu.DebugPrint("Vehicle.type.EASTERN_TRACKED_TANK="..Vehicle.type.EASTERN_TRACKED_TANK)
+    InfMenu.DebugPrint("Vehicle.type.WESTERN_TRACKED_TANK="..Vehicle.type.WESTERN_TRACKED_TANK)
+  end,
+}
+
+this.DEBUG_PrintVehiclePaint={
+  OnChange=function()
+    InfMenu.DebugPrint("Vehicle.class.DEFAULT="..Vehicle.class.DEFAULT)
+    InfMenu.DebugPrint("Vehicle.class.DARK_GRAY="..Vehicle.class.DARK_GRAY)
+    InfMenu.DebugPrint("Vehicle.class.OXIDE_RED="..Vehicle.class.OXIDE_RED)
+    InfMenu.DebugPrint("Vehicle.paintType.NONE="..Vehicle.paintType.NONE)
+    InfMenu.DebugPrint("Vehicle.paintType.FOVA_0="..Vehicle.paintType.FOVA_0)
+    InfMenu.DebugPrint("Vehicle.paintType.FOVA_1="..Vehicle.paintType.FOVA_1)
+    InfMenu.DebugPrint("Vehicle.paintType.FOVA_2="..Vehicle.paintType.FOVA_2)
+  end,
+}
+
 this.DEBUG_CheckReinforceDeactivate={
   OnChange=function()
     InfMain.CheckReinforceDeactivate()
   end,
 }
 
-this.DEBUG_ChangePhaseItem={
+this.DEBUG_ChangePhase={
   OnChange=function()
     InfMenu.DebugPrint("Changephase b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
@@ -193,23 +225,23 @@ this.DEBUG_ChangePhaseItem={
   end
 }
 
-this.DEBUG_KeepPhaseOnItem={
+this.DEBUG_KeepPhaseOn={
   OnChange=function()
-    InfMenu.DebugPrint("DEBUG_KeepPhaseOnItem b")
+    InfMenu.DebugPrint("DEBUG_KeepPhaseOn b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.SetKeepAlert(cpName,true)
     end
-    InfMenu.DebugPrint("DEBUG_KeepPhaseOnItem e")
+    InfMenu.DebugPrint("DEBUG_KeepPhaseOn e")
   end
 }
 
-this.DEBUG_KeepPhaseOffItem={
+this.DEBUG_KeepPhaseOff={
   OnChange=function()
-    InfMenu.DebugPrint("DEBUG_KeepPhaseOffItem b")
+    InfMenu.DebugPrint("DEBUG_KeepPhaseOff b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.SetKeepAlert(cpName,false)
     end
-    InfMenu.DebugPrint("DEBUG_KeepPhaseOffItem e")
+    InfMenu.DebugPrint("DEBUG_KeepPhaseOff e")
   end
 }
 
@@ -249,7 +281,7 @@ this.DEBUG_Item2={
   end,
 }
 
-this.DEBUG_ClearAnnounceLogItem={
+this.DEBUG_ClearAnnounceLog={
   OnChange=function()
     --TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")--pretty sure this is disable
     TppUiStatusManager.ClearStatus"AnnounceLog"
@@ -293,7 +325,7 @@ this.warpPlayerCommand={
   end,
 }
 
-this.returnQuietItem={
+this.returnQuiet={
   settingNames="set_quiet_return",
   OnChange=function()
     if not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
@@ -314,7 +346,7 @@ this.resetRevenge={
   end,
 }
 
-this.HeliMenuOnTestItem={--WIP CULL UI system overrides it :(
+this.HeliMenuOnTest={--WIP CULL UI system overrides it :(
   OnChange=function()
     local dvcMenu={
 
@@ -329,7 +361,7 @@ this.HeliMenuOnTestItem={--WIP CULL UI system overrides it :(
   end,
 }
 
-this.pullOutHeliItem={
+this.pullOutHeli={
   OnChange=function()
     local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
@@ -338,7 +370,7 @@ this.pullOutHeliItem={
   end
 }
 
-this.changeToIdleStateHeliItem={--tex seems to set heli into 'not called'/invisible/wherever it goes after it's 'left'
+this.changeToIdleStateHeli={--tex seems to set heli into 'not called'/invisible/wherever it goes after it's 'left'
   OnChange=function()
     local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
@@ -349,7 +381,7 @@ this.changeToIdleStateHeliItem={--tex seems to set heli into 'not called'/invisi
 
 --game progression unlocks
 
-this.unlockPlayableAvatarItem={
+this.unlockPlayableAvatar={
   OnChange=function()
     if vars.isAvatarPlayerEnable==1 then
       InfMenu.PrintLangId"allready_unlocked"
@@ -358,7 +390,7 @@ this.unlockPlayableAvatarItem={
     end
   end,
 }
-this.unlockWeaponCustomizationItem={
+this.unlockWeaponCustomization={
   OnChange=function()
     if vars.mbmMasterGunsmithSkill==1 then
       InfMenu.PrintLangId"allready_unlocked"

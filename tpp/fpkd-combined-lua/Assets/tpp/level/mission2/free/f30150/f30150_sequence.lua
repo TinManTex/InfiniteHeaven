@@ -1,7 +1,6 @@
 -- DOBUILD: 1
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\free\f30150\f30150.fpkd
-SplashScreen.Show(SplashScreen.Create("dSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table

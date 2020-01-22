@@ -191,7 +191,8 @@ this.subTypeOfCpTable={
     mafr_15_23_lrrp=true,
     mafr_16_23_lrrp=true,
     mafr_16_24_lrrp=true,
-    mafr_23_33_lrrp=true},
+    mafr_23_33_lrrp=true
+  },
   PF_B={
     mafr_factory_cp=true,
     mafr_lab_cp=true,
@@ -838,31 +839,10 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
     this.weaponIdTable.DD=this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoKillMode)
   end
   --TppUiCommand.AnnounceLogView("PrepareDDParameter securitySoldierEquipGrade:"..securitySoldierEquipGrade)--tex DEBUG: CULL:
-  --[[TppUiCommand.AnnounceLogView("PrepareDDParameter weaponIdTable.DD")--tex DEBUG: CULL:
-
-
-
-
-
-
-
-    local dd = this.weaponIdTable.DD
-
-
-
-
-
-
-
-    local inss = InfInspect.Inspect(dd)
-
-
-
-
-
-
-
-    TppUiCommand.AnnounceLogView(inss)--]]
+  --TppUiCommand.AnnounceLogView("PrepareDDParameter weaponIdTable.DD")--tex DEBUG: CULL:
+  --local dd = this.weaponIdTable.DD
+  --local inss = InfInspect.Inspect(dd)
+  --TppUiCommand.AnnounceLogView(inss)
   local fultonGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16001]
   local wormholeGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16008]
   if fultonGrade>soldierEquipGrade then
@@ -1706,19 +1686,19 @@ function this.DeleteEliminateTargetSetting(soldierName)
   end
   return true
 end
-function this.SetRescueTargets(t,n)
+function this.SetRescueTargets(rescueTargetNames,rescueTargetOptions)
   mvars.ene_rescueTargetList={}
-  mvars.ene_rescueTargetOptions=n or{}
-  for t,name in pairs(t)do
-    local t=GetGameObjectId(name)
-    if t~=NULL_ID then
-      mvars.ene_rescueTargetList[t]=name
+  mvars.ene_rescueTargetOptions=rescueTargetOptions or{}
+  for t,name in pairs(rescueTargetNames)do
+    local gameId=GetGameObjectId(name)
+    if gameId~=NULL_ID then
+      mvars.ene_rescueTargetList[gameId]=name
       this.RegistHoldRecoveredState(name)
     end
   end
 end
-function this.SetVipHostage(n)
-  this.SetRescueTargets(n)
+function this.SetVipHostage(names)--NMC: ORPHAN aparently
+  this.SetRescueTargets(names)
 end
 function this.SetExcludeHostage(e)
   mvars.ene_excludeHostageGameObjectId=GetGameObjectId(e)
@@ -3066,16 +3046,20 @@ function this.RouteSelector(cpId,i,a)
     end
   end
 end
-this.STR32_CAN_USE_SEARCH_LIGHT=StrCode32"CanUseSearchLight"this.STR32_CAN_NOT_USE_SEARCH_LIGHT=StrCode32"CanNotUseSearchLight"this.STR32_IS_GIMMICK_BROKEN=StrCode32"IsGimmickBroken"this.STR32_IS_NOT_GIMMICK_BROKEN=StrCode32"IsNotGimmickBroken"function this.SetUpSwitchRouteFunc()
+this.STR32_CAN_USE_SEARCH_LIGHT=StrCode32"CanUseSearchLight"
+this.STR32_CAN_NOT_USE_SEARCH_LIGHT=StrCode32"CanNotUseSearchLight"
+this.STR32_IS_GIMMICK_BROKEN=StrCode32"IsGimmickBroken"
+this.STR32_IS_NOT_GIMMICK_BROKEN=StrCode32"IsNotGimmickBroken"
+function this.SetUpSwitchRouteFunc()
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
   SendCommand({type="TppSoldier2"},{id="SetSwitchRouteFunc",func=this.SwitchRouteFunc})
 end
-function this.SwitchRouteFunc(a,n,t,a,a)
-  if n==this.STR32_CAN_USE_SEARCH_LIGHT then
-    local e=mvars.gim_gimmackNameStrCode32Table[t]
-    if TppGimmick.IsBroken{gimmickId=e}then
+function this.SwitchRouteFunc(a,RENAMEgimmickState,gimmickName,a,a)
+  if RENAMEgimmickState==this.STR32_CAN_USE_SEARCH_LIGHT then
+    local gimmickId=mvars.gim_gimmackNameStrCode32Table[gimmickName]
+    if TppGimmick.IsBroken{gimmickId=gimmickId}then
       return false
     else
       if TppClock.GetTimeOfDay()~="night"then
@@ -3084,9 +3068,9 @@ function this.SwitchRouteFunc(a,n,t,a,a)
       return true
     end
   end
-  if n==this.STR32_CAN_NOT_USE_SEARCH_LIGHT then
-    local e=mvars.gim_gimmackNameStrCode32Table[t]
-    if TppGimmick.IsBroken{gimmickId=e}then
+  if RENAMEgimmickState==this.STR32_CAN_NOT_USE_SEARCH_LIGHT then
+    local gimmickId=mvars.gim_gimmackNameStrCode32Table[gimmickName]
+    if TppGimmick.IsBroken{gimmickId=gimmickId}then
       return true
     else
       if TppClock.GetTimeOfDay()~="night"then
@@ -3095,17 +3079,17 @@ function this.SwitchRouteFunc(a,n,t,a,a)
       return false
     end
   end
-  if n==this.STR32_IS_GIMMICK_BROKEN then
-    local e=mvars.gim_gimmackNameStrCode32Table[t]
-    if TppGimmick.IsBroken{gimmickId=e}then
+  if RENAMEgimmickState==this.STR32_IS_GIMMICK_BROKEN then
+    local gimmickId=mvars.gim_gimmackNameStrCode32Table[gimmickName]
+    if TppGimmick.IsBroken{gimmickId=gimmickId}then
       return true
     else
       return false
     end
   end
-  if n==this.STR32_IS_NOT_GIMMICK_BROKEN then
-    local e=mvars.gim_gimmackNameStrCode32Table[t]
-    if TppGimmick.IsBroken{gimmickId=e}then
+  if RENAMEgimmickState==this.STR32_IS_NOT_GIMMICK_BROKEN then
+    local gimmickId=mvars.gim_gimmackNameStrCode32Table[gimmickName]
+    if TppGimmick.IsBroken{gimmickId=gimmickId}then
       return false
     else
       return true
@@ -3117,8 +3101,8 @@ function this.SetUpCommandPost()
   if not IsTypeTable(mvars.ene_soldierIDList)then
     return
   end
-  for t,a in pairs(mvars.ene_cpList)do
-    SendCommand(t,{id="SetRouteSelector",func=this.RouteSelector})
+  for cpId,a in pairs(mvars.ene_cpList)do
+    SendCommand(cpId,{id="SetRouteSelector",func=this.RouteSelector})
   end
 end
 function this.RegisterRouteAnimation()
@@ -3634,18 +3618,18 @@ function this.IsVehicleAlive(vehicleNameOrId)
   end
   return SendCommand(vehicleId,{id="IsAlive"})
 end
-function this.PlayTargetRescuedRadio(n)
-  local t=this.IsEliminateTarget(n)
-  local e=this.IsRescueTarget(n)
-  if t then
+function this.PlayTargetRescuedRadio(gameId)
+  local isEliminateTarget=this.IsEliminateTarget(gameId)
+  local isRescueTarget=this.IsRescueTarget(gameId)
+  if isEliminateTarget then
     TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.TARGET_ELIMINATED)
-  elseif e then
+  elseif isRescueTarget then
     TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.TARGET_RECOVERED)
   end
 end
-function this.PlayTargetEliminatedRadio(n)
-  local e=this.IsEliminateTarget(n)
-  if e then
+function this.PlayTargetEliminatedRadio(gameId)
+  local isEliminateTarget=this.IsEliminateTarget(gameId)
+  if isEliminateTarget then
     TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.TARGET_ELIMINATED)
   end
 end
@@ -3745,8 +3729,8 @@ function this.CheckAllTargetClear(n)
   end
   if mvars.ene_rescueTargetOptions and mvars.ene_rescueTargetOptions.orCheck then
     local t=false
-    for n,i in pairs(mvars.ene_rescueTargetList)do
-      if thisLocal.CheckRescueTarget(n,playerPosition,i)then
+    for gameId,i in pairs(mvars.ene_rescueTargetList)do
+      if thisLocal.CheckRescueTarget(gameId,playerPosition,i)then
         t=true
       end
     end
@@ -3910,8 +3894,8 @@ function this.DisableUseGimmickRouteOnShiftChange(a,e)
     if gameId then
       SendCommand(gameId,{id="SetSneakRoute",route=""})
     end
-    local t=mvars.gim_routeGimmickConnectTable[StrCode32(route)]
-    if(t~=nil)and TppGimmick.IsBroken{gimmickId=t}then
+    local gimmickId=mvars.gim_routeGimmickConnectTable[StrCode32(route)]
+    if(gimmickId~=nil)and TppGimmick.IsBroken{gimmickId=gimmickId}then
       local command={id="SetRouteEnabled",routes={route},enabled=false}
       SendCommand(a,command)
     end
@@ -3925,12 +3909,12 @@ function this.IsEliminateTarget(e)
   local isEliminateTarget=((isTarget or isHeliTarget)or isVehicleTarget)or isWalkerTarget
   return isEliminateTarget
 end
-function this.IsRescueTarget(e)
-  local isRescueTarget=mvars.ene_rescueTargetList and mvars.ene_rescueTargetList[e]
+function this.IsRescueTarget(gameId)
+  local isRescueTarget=mvars.ene_rescueTargetList and mvars.ene_rescueTargetList[gameId]
   return isRescueTarget
 end
-function this.IsChildTarget(e)
-  local isChildTarget=mvars.ene_childTargetList and mvars.ene_childTargetList[e]
+function this.IsChildTarget(gameId)
+  local isChildTarget=mvars.ene_childTargetList and mvars.ene_childTargetList[gameId]
   return isChildTarget
 end
 function this.IsChildHostage(gameId)

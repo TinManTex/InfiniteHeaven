@@ -2865,11 +2865,7 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
     --NMC: no nvidia splash? in exe? in ui?, it is tied to show on the delete of foxlogo though.
     
     local konamiLogoScreenId = SplashScreen.Create("knm", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_konami_logo_clp_nmp.ftex", 640, 640);--tex
-    SplashScreen.SetStateCallback(konamiLogoScreenId, InfMain.SplashStateCallback_r)
-    SplashScreen.Show( konamiLogoScreenId, 0.4, 2.0, 0.4)--
-    --InfMain.SplashStateCallback_r(nil, SplashScreen.STATE_DELETE)--tex do splashes till title sequence loaded, ugly looking bootstrap I know CULL
-    
-    
+    --DEBUGNOW OFF SplashScreen.SetStateCallback(konamiLogoScreenId, InfMain.SplashStateCallback_r)--tex do splashes till title sequence loaded
    
     this._StartPreTitleSequence()
   end,

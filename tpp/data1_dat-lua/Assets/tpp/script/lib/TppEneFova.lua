@@ -951,7 +951,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
   end
 end
 
-local c={}
+local l_uniqueSettings={}
 local l_uniqueFaceFovas={}
 local l_uniqueBodyFovas={}
 local l_hostageFovas={}
@@ -966,7 +966,7 @@ local _=32
 local defaultStaffId=0
 
 function this.InitializeUniqueSetting()
-  c={}
+  l_uniqueSettings={}
   l_uniqueFaceFovas={}
   l_uniqueBodyFovas={}
   l_hostageFovas={}
@@ -1096,28 +1096,29 @@ function this.GetFaceIdAndFlag(n,e)
   end
   return e,0
 end
-function this.RegisterUniqueSetting(d,i,p,n)
-  local e=EnemyFova.NOT_USED_FOVA_VALUE
-  local a,p=this.GetFaceIdAndFlag(d,p)
-  if a==nil then
-    a=e
+function this.RegisterUniqueSetting(d,name,p,bodyId)
+  local NOT_USED_FOVA_VALUE=EnemyFova.NOT_USED_FOVA_VALUE
+  local faceId,flag=this.GetFaceIdAndFlag(d,p)
+  if faceId==nil then
+    faceId=NOT_USED_FOVA_VALUE
   end
-  if n==nil then
-    n=e
+  if bodyId==nil then
+    bodyId=NOT_USED_FOVA_VALUE
   end
-  table.insert(c,{name=i,faceId=a,bodyId=n,flag=p})do
+  table.insert(l_uniqueSettings,{name=name,faceId=faceId,bodyId=bodyId,flag=flag})do
     local p=1
     local l=2
     local t=3
     local n=4
     local e=nil
     for t,n in ipairs(l_uniqueFaceFovas)do
-      if n[p]==a then
+      if n[p]==faceId then
         e=n
       end
     end
     if not e then
-      e={a,0,0,0}table.insert(l_uniqueFaceFovas,e)
+      e={faceId,0,0,0}
+      table.insert(l_uniqueFaceFovas,e)
     end
     if d=="enemy"then
       e[l]=e[l]+1
@@ -1131,19 +1132,19 @@ function this.RegisterUniqueSetting(d,i,p,n)
     local o=2
     local e=nil
     for t,a in ipairs(l_uniqueBodyFovas)do
-      if a[p]==n then
+      if a[p]==bodyId then
         e=a
       end
     end
     if not e then
-      e={n,0}
+      e={bodyId,0}
       table.insert(l_uniqueBodyFovas,e)
     end
     e[o]=e[o]+1
     if d=="hostage"then
-      local e=n
+      local e=bodyId
       for t,a in ipairs(l_hostageFovas)do
-        if a==n then
+        if a==bodyId then
           e=nil
           break
         end
@@ -1182,7 +1183,7 @@ function this.ApplyUniqueSetting()
   local e=EnemyFova.NOT_USED_FOVA_VALUE
   if gvars.ene_fovaUniqueTargetIds[0]==NULL_ID then
     local i=0
-    for n,uniqueSetting in ipairs(c)do
+    for n,uniqueSetting in ipairs(l_uniqueSettings)do
       local soldierId=GameObject.GetGameObjectId(uniqueSetting.name)
       if soldierId~=NULL_ID then
         if i<TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT then

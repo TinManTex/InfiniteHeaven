@@ -211,7 +211,8 @@ baseSequences.Seq_Mission_Prepare={
           baseSequences.Seq_Mission_Prepare.HelicopterMoveStart()
           StartTimer("Timer_FadeInStartOnNoTelopHelicopter",t)
         else
-          TppSoundDaemon.ResetMute"Loading"mvars.seq_nowWaitingStartMissionTelopFadeOut=true
+          TppSoundDaemon.ResetMute"Loading"
+          mvars.seq_nowWaitingStartMissionTelopFadeOut=true
           TppUI.StartMissionTelop()
         end
       else

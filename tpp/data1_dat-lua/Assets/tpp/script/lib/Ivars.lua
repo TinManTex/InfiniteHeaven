@@ -768,7 +768,7 @@ this.revengeBlockForMissionCount={
 --reinforce stuff DOC: Reinforcements Soldier Vehicle Heli.txt
 this.forceSuperReinforce={
   save=MISSION,
-  settings={"OFF","ON_CONFIG","FORCE_CONFIG","FORCE_REINFORCE"},
+  settings={"OFF","ON_CONFIG","FORCE_CONFIG"},
   settingNames="forceSuperReinforceSettings",
 }
 
@@ -805,39 +805,62 @@ this.vehiclePatrolProfile={
   settingNames="vehiclePatrolProfileSettings",
 }
 
+local function TypeChange()
+  InfMain.BuildEnabledList()
+end
 this.vehiclePatrolLvEnable={
   save=MISSION,
   default=1,
   range=this.switchRange,
-  settingNames="set_switch",  
+  settingNames="set_switch",
+  OnChange=TypeChange,
 }
 
 this.vehiclePatrolTruckEnable={
   save=MISSION,
   default=1,
   range=this.switchRange,
-  settingNames="set_switch",  
+  settingNames="set_switch",
+  OnChange=TypeChange, 
 }
 
 this.vehiclePatrolWavEnable={
   save=MISSION,
   default=1,
   range=this.switchRange,
-  settingNames="set_switch",  
+  settingNames="set_switch",
+  OnChange=TypeChange,  
 }
 
 this.vehiclePatrolWavHeavyEnable={
   save=MISSION,
   default=1,
   range=this.switchRange,
-  settingNames="set_switch",  
+  settingNames="set_switch",
+  OnChange=TypeChange,
 }
 
 this.vehiclePatrolTankEnable={
   save=MISSION,
   default=1,
   range=this.switchRange,
-  settingNames="set_switch",  
+  settingNames="set_switch",
+  OnChange=TypeChange,
+}
+
+this.vehiclePatrolPaintType={
+  save=MISSION,
+  range={max=10},
+}
+
+this.vehiclePatrolClass={
+  save=MISSION,
+  range={max=10},
+}
+
+this.vehiclePatrolEmblemType={
+  save=MISSION,
+  range={max=10},
 }
 
 --<patrol vehicle stuff

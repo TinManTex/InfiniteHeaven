@@ -399,7 +399,8 @@ function this.DisableSpySearch(e)
   TppUiCommand.DeactivateSpySearchForGameObject(e)
 end
 function this.StartMissionTelop(e,n,i)
-  TppSoundDaemon.SetMute"Telop"if e then
+  TppSoundDaemon.SetMute"Telop"
+  if e then
     TppUiCommand.SetMissionStartTelopId(e)
   end
   TppUiCommand.CallMissionStartTelop(n,i)

@@ -363,9 +363,9 @@ function this._CallSearchTargetEnabledRadio(a)
   end
   TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.SEARCH_TARGET_ENABLED)
 end
-function this._IsRadioTarget(e)
-  local isEliminateTarget=TppEnemy.IsEliminateTarget(e)
-  local isRescueTarget=TppEnemy.IsRescueTarget(e)
+function this._IsRadioTarget(gameId)
+  local isEliminateTarget=TppEnemy.IsEliminateTarget(gameId)
+  local isRescueTarget=TppEnemy.IsRescueTarget(gameId)
   if not isEliminateTarget and not isRescueTarget then
     return false
   end
