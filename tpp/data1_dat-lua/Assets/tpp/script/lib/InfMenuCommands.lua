@@ -282,6 +282,10 @@ this.DEBUG_PrintPowersCount={
   end
 }
 
+
+
+
+
 this.DEBUG_PrintCpPowerSettings={
   OnChange=function()
     --local ins=InfInspect.Inspect(mvars.ene_soldierPowerSettings)
@@ -297,9 +301,6 @@ this.DEBUG_PrintCpPowerSettings={
     end
   end
 }
-
-
-
 
 this.DEBUG_PrintCpSizes={
   OnChange=function()

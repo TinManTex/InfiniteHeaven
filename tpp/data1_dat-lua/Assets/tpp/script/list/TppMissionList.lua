@@ -478,12 +478,12 @@ missionPackTable[10140]=function(p)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10140/s10140_area01.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_Buddy.fpk"
-    elseif TppPackList.IsMissionPackLabel"AfterClear"then
+  elseif TppPackList.IsMissionPackLabel"AfterClear"then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.OCELOT)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.CODETALKER)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10140/s10140_area00.fpk"
-    else
+  else
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.CODETALKER)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk"
     TppPackList.AddDefaultMissionAreaPack(p)
@@ -644,38 +644,17 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
 
-  --tex bunch of packs added to motherbase free for mbequip
-  if InfMain.IsDDEquip(30050) and Ivars.mbDDSuit2:Is()>0 then--tex>--DEBUGNOW
-    local suitName=Ivars.mbDDSuit2.settings[Ivars.mbDDSuit2:Get()+1]
-    if suitName then
-      local bodyInfo=InfMain.ddBodyInfo[suitName]
-      if bodyInfo and bodyInfo.missionPackPath then
-        TppPackList.AddMissionPack(bodyInfo.missionPackPath)
-      end
+  --tex IsDDEquip addmissionpacks>
+  if InfMain.IsDDEquip(missionCode) then
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    InfMain.AddBodyPack(bodyInfo)
+    
+    if bodyInfo and bodyInfo.fallBack then
+      bodyInfo=InfMain.ddBodyInfo[bodyInfo.fallBack]
+      InfMain.AddBodyPack(bodyInfo)
     end
   end--<
-  
-  --DEBUGNOW
---  if InfMain.IsDDEquip() then--tex -v- hauled in from fob mission--DEBUGNOW
---    local ddSuit=TppEnemy.GetDDSuit()
---    if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
---      TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING)
---    elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
---      TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS)
---    elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
---      TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR)
---    else
---      TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER)
---    end
---    --    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_DECOY)
---    --    if TppEnemy.IsHostageEventFOB()then
---    --      TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.FOB_HOSTAGE)do
---    --        local s={{type="hostage",name="hos_o50050_event5_0000",faceId=621,bodyId=143},{type="hostage",name="hos_o50050_event5_0001",faceId=640,bodyId=143},{type="hostage",name="hos_o50050_event5_0002",faceId=641,bodyId=143},{type="hostage",name="hos_o50050_event5_0003",faceId=646,bodyId=143}}
---    --        TppEneFova.AddUniqueSettingPackage(s)
---    --      end
---    --    end
---  end
-  --tex TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50050_additional.fpk"
+
   do
     if TppPackList.IsMissionPackLabel"AfterDemo"or TppPackList.IsMissionPackLabel"BattleHanger"then
       TppDemo.SetNextMBDemo(nil)

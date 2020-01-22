@@ -2182,7 +2182,7 @@ function this.UpdateOpenQuest()
   mvars.qst_isQuestNewOpenFlag=false
   for key,questIndex in pairs(TppDefine.QUEST_INDEX) do
     local canOpenQuestFunc=canOpenQuestChecks[key]
-    if (canOpenQuestFunc and canOpenQuestFunc()) then --DEBUGNOW or Ivars.unlockSideOps:Is"OPEN" then--tex, canopenchecks were origninally nested
+    if (canOpenQuestFunc and canOpenQuestFunc()) then--tex, canopenchecks were originally nested --CULL or Ivars.unlockSideOps:Is"OPEN" then
       if gvars.qst_questOpenFlag[questIndex]==false then
         mvars.qst_isQuestNewOpenFlag=true
       end

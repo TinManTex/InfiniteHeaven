@@ -1,28 +1,101 @@
 = Infinite heaven =
-r111 - 2015-12-19
+r115 - 2015-12-27
 by tin man tex
 For MGSV version 1.0.7.0 (1.07 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-New for r111:
-Fix: Prevent a crash on loading FOB
+New for r115
+Settings no longer reset on returning from FOB (Infinite Heaven will remain disabled during FOB).
+
+Enemy prep profile 'Heaven'
+The current prefered settings for the options below it.
+
+Enemy prep options:
+"Allow missile combo with other weapons" - in the normal game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them. 
+
+"Disable convert armor to sheild (if armor off)" - Where heavy armor is disabled (free mode by default) the normal game converts armor to sheilds in addition to the normal shield application, this often leads to it feeling like there's just too many.
+
+"Disable weapon restrictions in certain missions" - Missions 2, 12, 13, 16, 26, 31 prevent the application of shields, missiles, shotguns and mgs to the general CP enemy prep (though some may have custom enemy prep).
+
+"Enable Mg vs Shotgun variation" - In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
+
+"Balance small CPs" - adds limits and some randomisation to small cp/lrrps enemy prep application, best for the "Apply enemy prep to guard posts" and " to LRRP"
+
+Motherbbase DD soldier equip:
+DD Head gear - Off,Use Equip Grade
+Drab added to DD suit
+
+Regression fix: in mission menu when on buddy (horse,walker) - thanks Crotaro for report
+
+Load screen splashes reverted to original. Kjp did too much voodoo in respect to the Nvidia splash screen for me to be happy with touching it.
 
 New for r110:
 Enemy prep options:
 "Allow heavy armor in free mode"
 "Allow heavy armor in all missions"
 "Allow helmet and NVG or Gas mask combo"
-"Ballance heavy armor and head gear distribution"
-"Random CP subtype in free mode"
+"Ballance heavy armor and head gear distribution" - adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if "Allow helmet and NVG or Gas mask combo" is on 
+"Random CP subtype in free mode" - randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
 "Random CP subtype in missions"
 
-New for r106:
-Enemy prep options:
-"Apply enemy prep to guard posts"
-"Apply enemy prep to LLRP soldiers"
+Infinite Heaven features:
+------------------------------
+Demonstrations:
+Enemy reactions to vehicle:
+[youtube]BUqPYDlA42A[/youtube]
+https://www.youtube.com/watch?v=BUqPYDlA42A
+Support heli settings:
+[youtube]frxAuiwCaEk[/youtube]
+https://www.youtube.com/watch?v=frxAuiwCaEk
+Mother base settings:
+[youtube]PSWTQwJNaRU[/youtube]
+https://www.youtube.com/watch?v=PSWTQwJNaRU
+Headgear:
+[youtube]1DlkIV3KduI[/youtube]
+https://www.youtube.com/watch?v=1DlkIV3KduI
+Phase settings:
+[youtube]veL0btXaOb4[/youtube]
+https://www.youtube.com/watch?v=veL0btXaOb4
+Buddies at zoo:
+[youtube]N9xfnH8ivAI[/youtube] 
+https://www.youtube.com/watch?v=N9xfnH8ivAI
+Warp mode:
+[youtube]AhkFPtQlqnM[/youtube]
+https://www.youtube.com/watch?v=AhkFPtQlqnM
+[youtube]ScF8OdQkFU8[/youtube]
+https://www.youtube.com/watch?v=ScF8OdQkFU8
+Remove demon snake, in Player settings menu:
+[youtube]OrxIwLmM_Tc[/youtube]
+https://www.youtube.com/watch?v=OrxIwLmM_Tc
+Heli reinforce and other vehicle stuff:
+[youtube]g4NXeCuK9Jk[/youtube]
+https://www.youtube.com/watch?v=g4NXeCuK9Jk
+
+Player Restriction - disable of game settings to customize your challenge
+-----------------
+Includes Subsistence profiles, sets of customized settings that lets you go into any mission or free roam with same (and more) restrictions as subsistence missions, or with just a secondary of your choice.
+
+Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgrades off, ASAP time forced, vehicle off, fulton  off, support off, head markers off, heli attack off, central landing zones off.
+
+Bounder - Pure as base but allows: Buddy, changing Suit (which should also allow model swaps), Level 1 Fulton, head markers
+
+OSP Weapon settings - Seperate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, individually setable.
+
+Arm abilitiy levels - Sonar, Mobility, Precision, Medical - can now be individually set.
+
+Disable Head markers independently from objective/placed markers (markers for other objects like vehicles/fultonable weapons are also disabled however due to the game function).
+
+Disable Xray marking - buddies that mark still cause the effect though.
+
+Mission Entrance/Exit options:
+
+Start on foot - skip heli ride into mission and start on the ground.
+
+Abort Mission (Return to ACC) added to Motherbase pause menu.
 
 Fulton success profile/options:
+------------------------------
 Found in Player restrictions\Fulton success menu
 Options:
 "Disable MB fulton support" - disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.
@@ -54,58 +127,6 @@ Target holdup penalty - reduced to 5.
 In the game having a held-up/awake target is already dangerous, they are noisy when being fultoned, having a success penalty on top of this promotes the easy/safer option of sleeping target too much.
 Holdup is however the fallback value so I'm giving it at least some value to keep some impact and push the player to manual extraction if they want a guaranteed success. 
 
-Infinite Heaven features:
-------------------------------
-Demonstrations:
-Enemy reactions to vehicle:
-[youtube]BUqPYDlA42A[/youtube]
-https://www.youtube.com/watch?v=BUqPYDlA42A
-Support heli settings:
-[youtube]frxAuiwCaEk[/youtube]
-https://www.youtube.com/watch?v=frxAuiwCaEk
-Mother base settings:
-[youtube]PSWTQwJNaRU[/youtube]
-https://www.youtube.com/watch?v=PSWTQwJNaRU
-Headgear:
-[youtube]1DlkIV3KduI[/youtube]
-https://www.youtube.com/watch?v=1DlkIV3KduI
-Phase settings:
-[youtube]veL0btXaOb4[/youtube]
-https://www.youtube.com/watch?v=veL0btXaOb4
-Buddies at zoo:
-[youtube]N9xfnH8ivAI[/youtube] 
-https://www.youtube.com/watch?v=N9xfnH8ivAI
-Warp mode:
-[youtube]AhkFPtQlqnM[/youtube]
-https://www.youtube.com/watch?v=AhkFPtQlqnM
-[youtube]ScF8OdQkFU8[/youtube]
-https://www.youtube.com/watch?v=ScF8OdQkFU8
-Remove demon snake, in Player settings menu:
-[youtube]OrxIwLmM_Tc[/youtube]
-https://www.youtube.com/watch?v=OrxIwLmM_Tc
-
-Player Restriction - disable of game settings to customize your challenge
------------------
-Includes Subsistence profiles, sets of customized settings that lets you go into any mission or free roam with same (and more) restrictions as subsistence missions, or with just a secondary of your choice.
-
-Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgrades off, ASAP time forced, vehicle off, fulton  off, support off, head markers off, heli attack off, central landing zones off.
-
-Bounder - Pure as base but allows: Buddy, changing Suit (which should also allow model swaps), Level 1 Fulton, head markers
-
-OSP Weapon settings - Seperate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, individually setable.
-
-Arm abilitiy levels - Sonar, Mobility, Precision, Medical - can now be individually set.
-
-Disable Head markers independently from objective/placed markers (markers for other objects like vehicles/fultonable weapons are also disabled however due to the game function).
-
-Disable Xray marking - buddies that mark still cause the effect though.
-
-Mission Entrance/Exit options:
-
-Start on foot - skip heli ride into mission and start on the ground.
-
-Abort Mission (Return to ACC) added to Motherbase pause menu.
-
 Enemy Preparedness:
 -----------------
 Reset - to 0
@@ -113,6 +134,10 @@ Reset - to 0
 Max - the same 'revenge system' max as the extreme missions. Most soldiers have gear equipped, such as helmets, body armor, nvg, many heavy weapons deployed.
 
 Resupply in #missions - the number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
+
+"Apply enemy prep to guard posts"
+
+"Apply enemy prep to LLRP soldiers"
 
 Mother Base soldier tweaks:
 -----------------
@@ -155,9 +180,6 @@ Enemy vehicle reinforcements
 ---------------------------
 Options to enable the games 'super reinforce' which by default was only used in a few missions (and the normal mission scripting makes it less noticeable)
 In free mode currently only enemy heli reinforce works, in missions other vehicles will work if the mission is set up right (but still in more missions than default).
-
-[youtube]g4NXeCuK9Jk[/youtube]
-https://www.youtube.com/watch?v=g4NXeCuK9Jk
 
 Enable enemy reinforce - Enemy prep: Uses the Enemy preparation combat value. Force Prep: Ignores if the Enemy prep value is not set.
 
@@ -266,7 +288,7 @@ Thanks:
 Kojima Productions for the great game
 Sergeanur for qartool
 atvaark for his fox tools
-ThreeSocks3 for finding the custom text output for Announce log. Check out his Basic Trainer mod.
+ThreeSocks3 for finding the custom text output for Announce log. Check out his mods.
 emoose for cracking lua in fpks
 jRavens for testing
 Topher for the great mod manager Snakebite
@@ -359,6 +381,32 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r115 - 2015-12-27 - public release
+Fix: AddPowerSetting, was trashing it by using same name in two variables, the perils of deminification. Possibly affected fob soldier settings.
+Powersettings to DD headgear
+Load screen splashes reverted to base game. Kjp did too much voodoo in respect to the Nvidia splash screen for me to be happy with touching it.
+
+r114
+Refactor: complete ivar get, removed fobs reset settings - instead returns off/default on ivar access.
+Refactor: mbDDsuit - pull various body setup data to single table ddBodyInfo and reference that
+
+r113
+Regression fix: in mission menu when on buddy (horse,walker) - thanks Crotaro for report
+Refactor: ivar get via ivar functions instead of gvar value (started, not yet complete)
+Option: revengeProfile, default, heaven - to manage the profusion of revenge ivars
+Option: enableMgVsShotgunVariation
+Option: randomizeSmallCpPowers
+
+r112
+Options: disableMissionsWeaponRestriction, disableMotherbaseWeaponRestriction -> revenge CANNOT_USE_ALL_WEAPON_MISSION
+Ivar:Is/OptionIsSetting support direct value insead of only enum
+Option: balanceWeaponPowers - WIP
+Option: allowMissileWeaponsCombo
+Option: disableConvertArmorToSheild
+Refactor: InfMain.GetSumBalance, InfMain.BalancePowers, CreateCpConfig split from TppRevenge._ApplyRevengeToCp
+Command: debug - forceAllQuestOpenFlagFalse
+Refactor: various options now communicated to ApplyPowerSetting via soldierConfig
+
 r111 - 2015-12-19 - public release
 Fixes to ResetSettings, as a result also fixes FOB loading.
 

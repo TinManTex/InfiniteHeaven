@@ -239,40 +239,40 @@ function this.ApplySightIvarsToSoldierParams()
     if item.distance and item.distance>0 then
       
       if sightParamsDefaults[name]==nil then--
-        InfMenu.DebugPrint"woh"--DEBUGNOW
+        InfMenu.DebugPrint"woh"--
         return
       end   
       if sightParamsDefaults[name].distance==nil then--
-        InfMenu.DebugPrint"wuh"--DEBUGNOW
+        InfMenu.DebugPrint"wuh"--
         return
       end         
       
       local default=sightParamsDefaults[name].distance
       item.distance=default*gvars.soldierSightDistScale
-      --InfMenu.DebugPrint(name)--DEBUGNOW
-      --InfMenu.DebugPrint(name..".distance="..default)--DEBUGNOW
+      --InfMenu.DebugPrint(name)--
+      --InfMenu.DebugPrint(name..".distance="..default)--
     else
       for childName,item in pairs(item) do
         if IsTable(item) and item.distance and item.distance>0 then
           
           if sightParamsDefaults[name]==nil then
-          InfMenu.DebugPrint"weh"--DEBUGNOW
+          InfMenu.DebugPrint"weh"--
           return
           end
           if sightParamsDefaults[name][childName]==nil then
-            InfMenu.DebugPrint"wah"--DEBUGNOW
+            InfMenu.DebugPrint"wah"--
             return
           end
           local default=sightParamsDefaults[name][childName].distance
           item.distance=default*gvars.soldierSightDistScale
-          --InfMenu.DebugPrint(name.."."..childName..".distance="..default)--DEBUGNOW
-          --InfMenu.DebugPrint(name.."."..childName)--DEBUGNOW
+          --InfMenu.DebugPrint(name.."."..childName..".distance="..default)--
+          --InfMenu.DebugPrint(name.."."..childName)--
         end
       end
       --]]
     end--if else
   end--for sightmod
-  InfMenu.DebugPrint"doop"--DEBUGNOW
+  InfMenu.DebugPrint"doop"--
 end
 
 SplashScreen={}

@@ -244,35 +244,6 @@ end
 local tppEnemyBodyId=TppEnemyBodyId or{}
 this.childBodyIdTable={tppEnemyBodyId.chd0_v00,tppEnemyBodyId.chd0_v01,tppEnemyBodyId.chd0_v02,tppEnemyBodyId.chd0_v03,tppEnemyBodyId.chd0_v05,tppEnemyBodyId.chd0_v06,tppEnemyBodyId.chd0_v07,tppEnemyBodyId.chd0_v08,tppEnemyBodyId.chd0_v09,tppEnemyBodyId.chd0_v10,tppEnemyBodyId.chd0_v11}
 this.bodyIdTable={
---DEBUGNOW force to armor body type to see what is
---[[
-  SOVIET_A={
-    ASSAULT={tppEnemyBodyId.sva0_v00_a},
-    ASSAULT_OB={tppEnemyBodyId.sva0_v00_a},
-    SNIPER={tppEnemyBodyId.sva0_v00_a},
-    SHOTGUN={tppEnemyBodyId.sva0_v00_a},
-    SHOTGUN_OB={tppEnemyBodyId.sva0_v00_a},
-    MG={tppEnemyBodyId.sva0_v00_a},
-    MG_OB={tppEnemyBodyId.sva0_v00_a},
-    MISSILE={tppEnemyBodyId.sva0_v00_a},
-    SHIELD={tppEnemyBodyId.sva0_v00_a},
-    ARMOR={tppEnemyBodyId.sva0_v00_a},
-    RADIO={tppEnemyBodyId.sva0_v00_a}
-  },
-  SOVIET_B={
-    ASSAULT={tppEnemyBodyId.sva0_v00_a},
-    ASSAULT_OB={tppEnemyBodyId.sva0_v00_a},
-    SNIPER={tppEnemyBodyId.sva0_v00_a},
-    SHOTGUN={tppEnemyBodyId.sva0_v00_a},
-    SHOTGUN_OB={tppEnemyBodyId.sva0_v00_a},
-    MG={tppEnemyBodyId.sva0_v00_a},
-    MG_OB={tppEnemyBodyId.sva0_v00_a},
-    MISSILE={tppEnemyBodyId.sva0_v00_a},
-    SHIELD={tppEnemyBodyId.sva0_v00_a},
-    ARMOR={tppEnemyBodyId.sva0_v00_a},
-    RADIO={tppEnemyBodyId.sva0_v00_a}
-  },
-  --]]
   SOVIET_A={
     ASSAULT={tppEnemyBodyId.svs0_rfl_v00_a,tppEnemyBodyId.svs0_rfl_v00_a,tppEnemyBodyId.svs0_rfl_v01_a,tppEnemyBodyId.svs0_mcg_v00_a},
     ASSAULT_OB={tppEnemyBodyId.svs0_rfl_v02_a,tppEnemyBodyId.svs0_mcg_v02_a},
@@ -759,7 +730,7 @@ function this.GetSoldierSubType(soldierId,soldierType)
   if missionCode==10115 or missionCode==11115 then
     return"DD_PW"
   end
-  if TppMission.IsFOBMission(missionCode) or InfMain.IsDDEquip(missionCode) then--tex added isdd
+  if TppMission.IsFOBMission(missionCode)or InfMain.IsDDEquip(missionCode) then--tex added ismbplay
     return"DD_FOB"
   end
   local soldierSubType=nil
@@ -827,8 +798,8 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
       else
         local developId=value.developId
         local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-        --InfMenu.DebugPrint("_CreateDDWeaponIdTable developrank:" .. tostring(developRank) .. " soldierEquipGrade: " .. tostring(soldierEquipGrade))--tex DEBUGNOW
-        local overrideDeveloped = InfMain.IsDDEquip()--DEBGUGNOW and Ivars.mbSoldierEquipGrade:Is()>=Ivars.mbSoldierEquipGrade.enum.GRADE1
+        --InfMenu.DebugPrint("_CreateDDWeaponIdTable developrank:" .. developRank .. " soldierEquipGrade: " .. soldierEquipGrade)--tex DEBUG: CULL:
+        local overrideDeveloped = InfMain.IsDDEquip() --DEBUGNOW and Ivars.mbSoldierEquipGrade:Is() >= Ivars.mbSoldierEquipGrade.enum.GRADE1
         if(soldierEquipGrade>=developRank and (developedGradeTable[developedEquipType]>=developRank or overrideDeveloped))then--tex added override
           addWeapon=true
         end
@@ -867,10 +838,10 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   else
     this.weaponIdTable.DD=this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoKillMode)
   end
-  InfMenu.DebugPrint("PrepareDDParameter weaponIdTable.DD")--tex DEBUGNOW
-  local dd = this.weaponIdTable.DD
-  local inss = InfInspect.Inspect(dd)
-  InfMenu.DebugPrint(inss)--tex DEBUGNOW
+ -- InfMenu.DebugPrint("PrepareDDParameter weaponIdTable.DD")--tex DEBUG
+ -- local dd = this.weaponIdTable.DD
+ -- local inss = InfInspect.Inspect(dd)
+ -- InfMenu.DebugPrint(inss)--<
   local fultonGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16001]
   local wormholeGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16008]
   if fultonGrade>soldierEquipGrade then
@@ -1135,12 +1106,13 @@ function this.IsNVG(soldierId)
   end
   return false
 end
-function this.AddPowerSetting(soldierId,powerSetting)
-  local powerSetting=mvars.ene_soldierPowerSettings[soldierId]or{}
-  for n,power in pairs(powerSetting)do
-    powerSetting[n]=power
+
+function this.AddPowerSetting(soldierId,applySettings)
+  local powerSettings=mvars.ene_soldierPowerSettings[soldierId]or{}
+  for powerType,setting in pairs(applySettings)do
+    powerSettings[powerType]=setting
   end
-  this.ApplyPowerSetting(soldierId,powerSetting)
+  this.ApplyPowerSetting(soldierId,powerSettings)
 end
 
 function this.ApplyPowerSetting(soldierId,powerSettings)
@@ -5294,12 +5266,6 @@ function this.IsQuestHeli()
   return mvars.ene_isQuestHeli
 end
 function this.GetDDSuit()
---  if InfMain.IsDDEquip() then--tex>
---    if Ivars.mbDDSuit:Is()>0 then
---      return Ivars.mbDDSuit:Get()
---    end
---  end--<
-
   local eventArmor=TppDefine.FOB_EVENT_ID_LIST.ARMOR
 
   local eventId=TppServerManager.GetEventId()

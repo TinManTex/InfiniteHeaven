@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r114"
+this.modVersion="r115"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -17,7 +17,7 @@ local Enum=TppDefine.Enum
 local StrCode32=Fox.StrCode32
 local IsTimerActive=GkEventTimerManager.IsTimerActive
 
-this.debugSplash=SplashScreen.Create("debugEagle","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",640,640)
+--this.debugSplash=SplashScreen.Create("debugEagle","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",640,640)
 
 function this.IsTableEmpty(checkTable)--tex TODO: shove in a utility module
   local next=next
@@ -32,13 +32,13 @@ function this.ForceArmor(missionCode)
   if Ivars.allowHeavyArmorInAllMissions:Is(1) and not TppMission.IsFreeMission(missionCode) then
     return true
   end
-  if Ivars.allowHeavyArmorInFreeMode:Is()>0 and TppMission.IsFreeMission(missionCode) then--DEBUGNOW allowHeavyArmorInFreeMode actiting as armor limit for debug
+  if Ivars.allowHeavyArmorInFreeMode:Is()>0 and TppMission.IsFreeMission(missionCode) then--DEBUG allowHeavyArmorInFreeMode actiting as armor limit for debug
     return true
   end
   if Ivars.allowLrrpArmorInFree:Is(1) and TppMission.IsFreeMission(missionCode) then
     return true
-  end  
-  
+  end
+
   return false
 end
 
@@ -144,6 +144,10 @@ function this.IsSubTypeCorrectForType(soldierType,subType)--returns true on nil 
   return true
 end
 
+function this.IsForceSoldierSubType()
+  return Ivars.forceSoldierSubType:Is()>0 and TppMission.IsFreeMission(vars.missionCode)
+end
+
 -- mb dd equip
 function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
@@ -174,6 +178,9 @@ this.ddBodyInfo={
     noFemaleExtended=true,
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR,
+    isArmor=true,
+    hasHeadGear=true,
+    fallBack="BATTLE_DRESS",
   },
   TIGER={
     maleBodyId=TppEnemyBodyId.dds5_main0_v00,
@@ -189,12 +196,160 @@ this.ddBodyInfo={
   },
 }
 
+this.ddSuitToDDBodyInfo={
+  [TppEnemy.FOB_DD_SUIT_SNEAKING]="SNEAKING_SUIT",
+  [TppEnemy.FOB_DD_SUIT_BTRDRS]="BATTLE_DRESS",
+  [TppEnemy.FOB_PF_SUIT_ARMOR]="PFA_ARMOR",
+  [TppEnemy.FOB_DD_SUIT_ATTCKER]="TIGER",
+}
 
--- mb dd equip <
+--tex see TppEnemyFaceId
+this.ddHeadGearInfo={
+  --HMT=DD greentop
+  --tex OFF till I put selection in
+--  svs_balaclava={--550,  --[M][---][---][---] Balaclava
+--    MALE=true,
+--  },
+--  pfs_balaclava={--551,  --[M][---][---][---] Balaclava
+--    MALE=true,
+--  },
+  dds_balaclava0={--552, --[M][---][---][HMT] DD
+    MALE=true,
+    HELMET=true,
+  },
+  dds_balaclava1={--553, --[M][---][---][---] DD blacktop  - some oddness here this shows as helmet/greentop (like 552) when player face set to this, so is the fova for player not set right? TODO:
+    MALE=true,
+  },
+  dds_balaclava2={--554, --[M][---][---][---] DD no blacktop - same issue as above
+    MALE=true,
+  },
+  dds_balaclava3={--555, --[F][---][---][HMT] DD
+    FEMALE=true,
+    HELMET=true,
+  },
+  dds_balaclava4={--556, --[F][---][---][---] DD blacktop - same issue as above (but shows as equivalent 555)
+    FEMALE=true,
+  },
+  dds_balaclava5={--557, --[F][---][---][---] DD blacktop - same issue as above
+    FEMALE=true,
+  },
+  dds_balaclava6={--558, --[M][GAS][---][---] DD open clava
+    MALE=true,
+    GAS_MASK=true,
+  },
+  dds_balaclava7={--559, --[F][GAS][---][---] DD open clava
+    FEMALE=true,
+    GAS_MASK=true,
+  },
+  dds_balaclava8={--560, --[M][GAS][---][---] DD clava and blacktop
+    MALE=true,
+    GAS_MASK=true,
+  },
+  dds_balaclava9={--561, --[M][GAS][---][HMT] DD
+    MALE=true,
+    GAS_MASK=true,
+    HELMET=true,
+  },
+  dds_balaclava10={--562,--[F][GAS][---][---] DD clava and blacktop
+    FEMALE=true,
+    GAS_MASK=true,
+  },
+  dds_balaclava11={--563,--[F][GAS][---][HMT] DD
+    FEMALE=true,
+    GAS_MASK=true,
+    HELMET=true,
+  },
+  dds_balaclava12={--564,--[M][---][NVG][HMT] DD
+    MALE=true,
+    NVG=true,
+    HELMET=true,
+  },
+  dds_balaclava13={--565,--[M][GAS][NVG][HMT] DD
+    MALE=true,
+    GAS_MASK=true,
+    NVG=true,
+    HELMET=true,
+  },
+  dds_balaclava14={--566,--[F][---][NVG][HMT] DD
+    FEMALE=true,
+    NVG=true,
+    HELMET=true,
+  },
+  dds_balaclava15={--567,--[F][GAS][NVG][HMT] DD
+    FEMALE=true,
+    GAS_MASK=true,
+    NVG=true,
+    HELMET=true,
+  },
+}
 
-function this.IsForceSoldierSubType()
-  return Ivars.forceSoldierSubType:Is()>0 and TppMission.IsFreeMission(vars.missionCode)
+function this.GetCurrentDDBodyInfo()
+  local suitName=nil
+  if Ivars.mbDDSuit:Is(0) then
+    local ddSuit=TppEnemy.GetDDSuit()
+    suitName=this.ddSuitToDDBodyInfo[ddSuit]
+  elseif Ivars.mbDDSuit:Is()>0 then
+    suitName=Ivars.mbDDSuit.settings[Ivars.mbDDSuit:Get()+1]
+  end
+  if suitName==nil then
+    return nil
+  end
+
+  return this.ddBodyInfo[suitName]
 end
+
+function this.AddBodyPack(bodyInfo)
+  if not bodyInfo then
+    return
+  end
+  if bodyInfo.missionPackPath then
+    TppPackList.AddMissionPack(bodyInfo.missionPackPath)
+  end      
+end
+
+function this.GetHeadGearForPowers(powerSettings,faceId)
+  local validHeadGearIds={}
+  --CULL local powerSettings=mvars.ene_soldierPowerSettings[soldierId]or nil
+  if powerSettings then
+    local gearPowerTypes={
+      HELMET=true,
+      GAS_MASK=true,
+      NVG=true,
+    }
+    local function IsFemale(faceId)
+      local isFemale=TppSoldierFace.CheckFemale{face={faceId}}
+      return isFemale and isFemale[1]==1
+    end
+    for headGearId, headGearInfo in pairs(InfMain.ddHeadGearInfo)do
+      local isMatch=true  
+      if IsFemale(faceId)==true then
+        if not headGearInfo.FEMALE then
+          isMatch=false
+        end
+      else
+        if not headGearInfo.MALE then
+          isMatch=false
+        end        
+      end
+      
+      if isMatch then
+        for powerType, bool in pairs(gearPowerTypes)do
+          if powerSettings[powerType] and not headGearInfo[powerType] then
+            isMatch=false
+          end
+          if headGearInfo[powerType] and not powerSettings[powerType] then
+            isMatch=false
+          end            
+        end
+      end
+      if isMatch then
+        table.insert(validHeadGearIds,headGearId)
+      end
+    end
+  end
+
+  return validHeadGearIds
+end  
 
 function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldierEquipGrade
   local missionCode=missionId or vars.missionCode
@@ -266,7 +421,7 @@ function this.RandomizeCpSubTypeTable()
   if Ivars.changeCpSubTypeFree:Is(0) and Ivars.changeCpSubTypeForMissions:Is(0) then
     return
   end
-  
+
   if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
     if Ivars.changeCpSubTypeFree:Is(0) then
       return
@@ -276,7 +431,7 @@ function this.RandomizeCpSubTypeTable()
       return
     end
   end
-  
+
   math.randomseed(gvars.rev_revengeRandomValue)--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
   local subTypeOfCp=TppEnemy.subTypeOfCp
   for cp, subType in pairs(subTypeOfCp)do
@@ -289,7 +444,7 @@ function this.RandomizeCpSubTypeTable()
       --local rnd=TppRevenge._Random(1,#mafrSubTypes)
       local rnd=math.random(1,#mafrSubTypes)
       --InfMenu.DebugPrint("rnd:"..rnd)--DEBUG
-      subTypeOfCp[cp]=mafrSubTypes[rnd]    
+      subTypeOfCp[cp]=mafrSubTypes[rnd]
     end
   end
   math.randomseed(os.time())--tex back to 'truly random' /s for good measure
@@ -333,7 +488,7 @@ end
 function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,originalSettingsTable)
   local sumBalance=0
   local numBalance=0
-      
+
   for n,powerType in pairs(balanceTypes) do
     local powerSetting=revengeConfig[powerType]
     if powerSetting~=nil and powerSetting~=0 then--tex powersetting should never be 0 from what I've seen, but checking anyway
@@ -348,7 +503,7 @@ function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,origina
           percentage=(powerSetting/totalSoldierCount)*100
           originalSettingsTable[powerType]=percentage
           numBalance=numBalance+1
-          sumBalance=sumBalance+percentage      
+          sumBalance=sumBalance+percentage
           --InfMenu.DebugPrint("powerType:"..powerType.." powerSetting:"..tostring(powerSetting).." numtopercentage:"..percentage)--DEBUG
         end
       elseif Tpp.IsTypeString(powerSetting)then
@@ -362,7 +517,7 @@ function this.GetSumBalance(balanceTypes,revengeConfig,totalSoldierCount,origina
       end
     end--if powersetting
   end--for balanceGearTypes
-  
+
   return numBalance,sumBalance,originalSettingsTable
 end
 
@@ -388,9 +543,9 @@ function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,reve
         aboveBalance=aboveBalance-1
       end
     end
-    
+
     --InfMenu.DebugPrint("numBalance:"..numBalance.." balancePercent:"..balancePercent.." underflow:"..underflow)--DEBUG
-    
+
     --OFF if underflow>0 then--tex distribute underflow evenly
     -- balancePercent=balancePercent+(underflow/aboveBalance)
     -- underflow=0
@@ -402,7 +557,7 @@ function this.BalancePowers(numBalance,reservePercent,originalSettingsTable,reve
         local toOriginalPercent=originalSettingsTable[powerType]-balancePercent
         local bump=math.min(underflow,toOriginalPercent)
         underflow=underflow-bump
-       -- InfMenu.DebugPrint("numBalance:"..numBalance.." powerType:"..powerType.." balancePercent:"..balancePercent.." bump:"..bump)--DEBUG
+        -- InfMenu.DebugPrint("numBalance:"..numBalance.." powerType:"..powerType.." balancePercent:"..balancePercent.." bump:"..bump)--DEBUG
         revengeConfig[powerType]=tostring(balancePercent+bump).."%"
       end
     end
@@ -607,7 +762,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     paintType=nil,
     --packPath="/Assets/tpp/pack/ih_east_wavs.fpk",
     packPath="/Assets/tpp/pack/vehicle/veh_rl_east_wav.fpk",
-    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52130.fpk",
+  --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52130.fpk",
   },
 
   EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY={
@@ -618,7 +773,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     paintType=nil,
     --OWpackPath="/Assets/tpp/pack/ih_east_wavs.fpk",
     packPath="/Assets/tpp/pack/vehicle/veh_rl_east_wav_rocket.fpk",
-    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52130.fpk",
+  --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52130.fpk",
   },
 
 
@@ -638,7 +793,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     paintType=nil,
     -- packPath="/Assets/tpp/pack/ih_west_wavs.fpk",
     packPath="/Assets/tpp/pack/vehicle/veh_rl_west_wav_machinegun.fpk",
-    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52110.fpk",
+  --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52110.fpk",
   },
 
   WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON={
@@ -649,7 +804,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     paintType=nil,
     --packPath="/Assets/tpp/pack/ih_west_wavs.fpk",
     packPath="/Assets/tpp/pack/vehicle/veh_rl_west_wav_cannon.fpk",
-    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52110.fpk",
+  --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52110.fpk",
   },
 
   EASTERN_TRACKED_TANK={
@@ -660,7 +815,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     paintType=nil,
     --packPath="/Assets/tpp/pack/ih_east_tank.fpk",
     packPath="/Assets/tpp/pack/vehicle/veh_rl_east_tnk.fpk",
-    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52015.fpk",
+  --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52015.fpk",
   },
 
   WESTERN_TRACKED_TANK={
@@ -671,7 +826,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     paintType=nil,
     --packPath="/Assets/tpp/pack/ih_west_tank.fpk",
     packPath="/Assets/tpp/pack/vehicle/veh_rl_west_tnk.fpk",
-    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52045.fpk",
+  --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52045.fpk",
   },
 }
 
@@ -860,60 +1015,60 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
     return
   end
 
---  for baseType,typeInfo in ipairs(vehicleBaseTypes) do
---    if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
---      --InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
---
---      local vehicles=nil
---      local vehicleType=""
---      local locationName=""
---      if TppLocation.IsAfghan()then
---        vehicles=typeInfo.easternVehicles
---        locationName="EASTERN_"
---      elseif TppLocation.IsMiddleAfrica()then
---        vehicles=typeInfo.westernVehicles
---        locationName="WESTERN_"
---      end
---
---
---      local GetPackPath=function(vehicleType)
---        local vehicle=vehicleSpawnInfoTable[vehicleType]
---        if vehicle~=nil then
---          if Ivars.vehiclePatrolPackType:Is"QUESTPACK" then
---            return vehicle.packPathAlt or nil
---          else
---            return vehicle.packPath or nil
---          end
---        end
---      end
---
---      if vehicles==nil then
---        vehicleType=locationName..typeInfo
---        local packPath=GetPackPath(vehicleType)
---        if packPath~=nil then
---           InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
---          AddMissionPack(packPath,missionPackPath)
---        end
---
---      else
---        for n, vehicleType in ipairs(vehicles) do
---          local packPath=GetPackPath(vehicleType)
---          if packPath~=nil then
---            InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
---            AddMissionPack(packPath,missionPackPath)
---          end              
---        end
---      end
---    end--if gvar
---  end--for vehicle base types
+  --  for baseType,typeInfo in ipairs(vehicleBaseTypes) do
+  --    if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
+  --      --InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
+  --
+  --      local vehicles=nil
+  --      local vehicleType=""
+  --      local locationName=""
+  --      if TppLocation.IsAfghan()then
+  --        vehicles=typeInfo.easternVehicles
+  --        locationName="EASTERN_"
+  --      elseif TppLocation.IsMiddleAfrica()then
+  --        vehicles=typeInfo.westernVehicles
+  --        locationName="WESTERN_"
+  --      end
+  --
+  --
+  --      local GetPackPath=function(vehicleType)
+  --        local vehicle=vehicleSpawnInfoTable[vehicleType]
+  --        if vehicle~=nil then
+  --          if Ivars.vehiclePatrolPackType:Is"QUESTPACK" then
+  --            return vehicle.packPathAlt or nil
+  --          else
+  --            return vehicle.packPath or nil
+  --          end
+  --        end
+  --      end
+  --
+  --      if vehicles==nil then
+  --        vehicleType=locationName..typeInfo
+  --        local packPath=GetPackPath(vehicleType)
+  --        if packPath~=nil then
+  --           InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
+  --          AddMissionPack(packPath,missionPackPath)
+  --        end
+  --
+  --      else
+  --        for n, vehicleType in ipairs(vehicles) do
+  --          local packPath=GetPackPath(vehicleType)
+  --          if packPath~=nil then
+  --            InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
+  --            AddMissionPack(packPath,missionPackPath)
+  --          end
+  --        end
+  --      end
+  --    end--if gvar
+  --  end--for vehicle base types
 
   local packPath
   for vehicleType,spawnInfo in pairs(vehicleSpawnInfoTable) do
     --CULLif Ivars.vehiclePatrolPackType:Is"QUESTPACK" then
     --  packPath=spawnInfo.packPathAlt
     --else
-      packPath=spawnInfo.packPath
-    --end 
+    packPath=spawnInfo.packPath
+    --end
     if packPath then
       AddMissionPack(packPath,missionPackPath)
     end
@@ -1061,7 +1216,6 @@ end
 --<splash stuff
 
 function this.OnAllocateFob()
-  --CULL InfMenu.ResetSettings()--tex TODO: would like a nosave reset, but would need to change to reading ivar.setting instead of gvars, then would need to VERFY that .setting is restored on gvar restore
   TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
 end
 
@@ -1264,7 +1418,7 @@ local updateIvars={
 
 function this.Init(missionTable)--tex called from TppMain.OnInitialize
   this.abortToAcc=false
-  
+
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end

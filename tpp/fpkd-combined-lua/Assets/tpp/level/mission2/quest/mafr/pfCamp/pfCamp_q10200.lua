@@ -118,7 +118,6 @@ function this.OnAllocate()
 	TppQuest.RegisterQuestSystemCallbacks{
 		OnActivate = function()
 			Fox.Log("quest_recv_child OnActivate")
-			InfMenu.DebugPrint("quest_recv_child OnActivate")--DEBUGNOW
 			TppEnemy.OnActivateQuest( this.QUEST_TABLE )
 		end,
 		OnDeactivate = function()

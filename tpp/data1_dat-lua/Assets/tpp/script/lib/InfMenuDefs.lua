@@ -66,7 +66,7 @@ this.motherBaseMenu={
     Ivars.mbSoldierEquipGrade,
     Ivars.mbSoldierEquipRange,
     Ivars.mbDDSuit,
-    --Ivars.mbDDBalaclava,
+    Ivars.mbDDHeadGear,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
     Ivars.mbWarGames,
     Ivars.mbEnableBuddies,
@@ -182,7 +182,7 @@ this.revengeMenu={
     Ivars.allowHeavyArmorInFreeMode,
     Ivars.allowHeavyArmorInAllMissions,
     Ivars.disableMissionsWeaponRestriction,
-    Ivars.disableMotherbaseWeaponRestriction,--DEBUGNOW
+    --Ivars.disableMotherbaseWeaponRestriction,--WIP TODO
     Ivars.allowHeadGearCombo,
     Ivars.balanceHeadGear,
     Ivars.allowMissileWeaponsCombo,
@@ -312,8 +312,6 @@ this.vehiclePatrolMenu={
 
 this.heliSpaceMenu={
   options={
-    Ivars.mbDDSuit2,--DEBUGNOW
-    --InfMenuCommands.DEBUG_InspectAllMenus,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
@@ -346,12 +344,12 @@ this.debugInMissionMenu={
     
     --InfMenuCommands.DEBUG_RandomizeCp,
     --InfMenuCommands.DEBUG_PrintRealizedCount,
-    --InfMenuCommands.DEBUG_PrintEnemyFova,
+    --InfMenuCommands.DEBUG_PrintEnemyFova,    
+    Ivars.selectedCp,
     InfMenuCommands.DEBUG_PrintCpPowerSettings,
     InfMenuCommands.DEBUG_PrintPowersCount,
     InfMenuCommands.DEBUG_PrintCpSizes,
     --InfMenuCommands.warpPlayerCommand,
-    Ivars.selectedCp,
     InfMenuCommands.DEBUG_PrintReinforceVars,
     --InfMenuCommands.DEBUG_PrintVehicleTypes,
     --InfMenuCommands.DEBUG_PrintVehiclePaint,

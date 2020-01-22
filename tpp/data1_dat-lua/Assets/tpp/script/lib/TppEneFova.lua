@@ -790,38 +790,21 @@ function fovaSetupFuncs.Mb(n,missionId)
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
   local faces={}
   local ddSuit=TppEnemy.GetDDSuit()
-  --tex broken out from below balaclavas
-  if TppMission.IsFOBMission(missionId) then --DEBUGNOWor InfMain.IsDDEquip(missionId) then
-    if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
-      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts"
-  elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
-    TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts"
-  elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
-    TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts"
-  else
-    TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts"
-  end
-  end
 
-  if InfMain.IsDDEquip(missionId) then--tex>--DEBUGNOW
-    if Ivars.mbDDSuit2:Is()>0 then
-      local suitName=Ivars.mbDDSuit2.settings[Ivars.mbDDSuit2:Get()+1]
-      if suitName then
-        local bodyInfo=InfMain.ddBodyInfo[suitName]
-        if bodyInfo and bodyInfo.partsPath then
-          TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
-        end
+  --tex> ddsuit SetDefaultPartsPath
+  if InfMain.IsDDEquip(missionId) then
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    if bodyInfo then
+      if bodyInfo.partsPath then
+        TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
       end
-  end
-  end--<
+    end
 
-
-
-  if TppMission.IsFOBMission(missionId) then--DEBUGNOW or (InfMain.IsMbPlayTime(missionId) and gvars.mbDDBalaclava==0) then--tex added isplay RETRY: female balaclava being se to male--DEBUGNOW
+    for faceId, faceInfo in pairs(InfMain.ddHeadGearInfo) do
+      table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    end
+  elseif TppMission.IsFOBMission(missionId) then
     local fobStaff=TppMotherBaseManagement.GetStaffsFob()
-    --    if InfMain.IsMbPlayTime(missionId) then--tex --DEBUGNOW
-    --      fobStaff=TppMotherBaseManagement.GetOutOnMotherBaseStaffs{sectionId=TppMotherBaseManagementConst.SECTION_SECURITY}--tex mbplaytime override
-    --    end
     local FACE_SOLDIER_NUM=36--NAMEGUESS: from mtbs_enemy.lua
     local maxSolNum=100--NAMEGUESS: from mtbs_enemy again
     local faceCountTable={}--RENAME:
@@ -846,67 +829,81 @@ function fovaSetupFuncs.Mb(n,missionId)
       for faceId,numUsed in pairs(faceCountTable)do
         table.insert(faces,{faceId,numUsed,numUsed,0})
       end
-  end--do
-  do
-    for i=FACE_SOLDIER_NUM+1,FACE_SOLDIER_NUM+maxSolNum do
-      local staffId=fobStaff[i]
-      if staffId==nil then
-        break
+    end--do
+    do
+      for i=FACE_SOLDIER_NUM+1,FACE_SOLDIER_NUM+maxSolNum do
+        local staffId=fobStaff[i]
+        if staffId==nil then
+          break
+        end
+        local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
+        if faceCountTable[faceId]==nil then
+          hasFaceTable[faceId]=1
+        end
+        if i==maxSolNum then
+          break
+        end
       end
-      local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
-      if faceCountTable[faceId]==nil then
-        hasFaceTable[faceId]=1
+      for faceId,hasFace in pairs(hasFaceTable)do
+        table.insert(faces,{faceId,0,0,0})
       end
-      if i==maxSolNum then
-        break
-      end
+    end--do
+
+    --tex seperated out from below
+    if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
+      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts"
+    elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
+      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts"
+    elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
+      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts"
+    else
+      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts"
     end
-    for faceId,hasFace in pairs(hasFaceTable)do
-      table.insert(faces,{faceId,0,0,0})
+
+    local balaclavas={}
+    if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava12,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava3,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava4,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava14,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava12,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava3,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava4,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava14,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
+    else
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava3,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava5,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
     end
-  end--do
-  local balaclavas={}
-  if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava12,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava3,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava4,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava14,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-  elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava12,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava3,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava4,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava14,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-  elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
+
+    if this.IsUseGasMaskInFOB()then
+      balaclavas={
+        {TppEnemyFaceId.dds_balaclava8,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {TppEnemyFaceId.dds_balaclava9,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {TppEnemyFaceId.dds_balaclava10,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {TppEnemyFaceId.dds_balaclava11,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {TppEnemyFaceId.dds_balaclava13,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {TppEnemyFaceId.dds_balaclava15,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0}
+      }
+    end
+    for a,e in ipairs(balaclavas)do
+      table.insert(faces,e)
+    end
+    -- not fob
   else
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava3,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(balaclavas,{TppEnemyFaceId.dds_balaclava5,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-  end
-  if this.IsUseGasMaskInFOB()then
-    balaclavas={
-      {TppEnemyFaceId.dds_balaclava8,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {TppEnemyFaceId.dds_balaclava9,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {TppEnemyFaceId.dds_balaclava10,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {TppEnemyFaceId.dds_balaclava11,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {TppEnemyFaceId.dds_balaclava13,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {TppEnemyFaceId.dds_balaclava15,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0}
-    }
-  end
-  for a,e in ipairs(balaclavas)do
-    table.insert(faces,e)
-  end
-  else-- not fob
     if missionId==30050 then
     elseif missionId==30150 then--NMC: zoo
     elseif missionId==30250 then--NMC: ward
       local securityStaff=TppMotherBaseManagement.GetOutOnMotherBaseStaffs{sectionId=TppMotherBaseManagementConst.SECTION_SECURITY}
       --local e=#securityStaff
-      local RENmaxStaffFaces = 7--tex shifted constant from below, not 100% sure on name/purpose
+      local RENmaxStaffFaces=7--tex shifted constant from below, not 100% sure on name/purpose
       local faceCounts={}
       for n,staffId in pairs(securityStaff)do
         local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
@@ -923,43 +920,56 @@ function fovaSetupFuncs.Mb(n,missionId)
         table.insert(faces,{faceId,faceCount,faceCount,0})
       end
       table.insert(faces,{TppEnemyFaceId.dds_balaclava6,RENmaxStaffFaces,RENmaxStaffFaces,0})
-  elseif missionId==10240 then
-    faces={
-      {1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {3,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {4,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {5,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {6,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {7,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {8,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {9,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {14,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {15,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {16,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {17,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
-      {18,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0}
-    }
-    table.insert(faces,{TppEnemyFaceId.dds_balaclava6,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-  elseif missionId==10030 then--Mission: Diamond Dogs
-    for a,e in ipairs(this.S10030_FaceIdList)do
-      table.insert(faces,{e,1,1,0})
-  end
-  table.insert(faces,{TppEnemyFaceId.dds_balaclava0,this.S10030_useBalaclavaNum,this.S10030_useBalaclavaNum,0})
-  else
-    for a=0,35 do
-      table.insert(faces,{a,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    elseif missionId==10240 then
+      faces={
+        {1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {3,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {4,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {5,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {6,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {7,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {8,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {9,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {14,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {15,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {16,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {17,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0},
+        {18,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0}
+      }
+      table.insert(faces,{TppEnemyFaceId.dds_balaclava6,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    elseif missionId==10030 then--Mission: Diamond Dogs
+      for a,e in ipairs(this.S10030_FaceIdList)do
+        table.insert(faces,{e,1,1,0})
     end
-    table.insert(faces,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(faces,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-    table.insert(faces,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-  end
+    table.insert(faces,{TppEnemyFaceId.dds_balaclava0,this.S10030_useBalaclavaNum,this.S10030_useBalaclavaNum,0})
+    else
+      for a=0,35 do
+        table.insert(faces,{a,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      end
+      table.insert(faces,{TppEnemyFaceId.dds_balaclava0,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(faces,{TppEnemyFaceId.dds_balaclava1,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+      table.insert(faces,{TppEnemyFaceId.dds_balaclava2,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    end
   end-- face stuff i guess
 
   TppSoldierFace.OverwriteMissionFovaData{face=faces}
   local bodies={}
-  --tex added IsDDEquip
-  if TppMission.IsFOBMission(missionId) then--DEBUGNOW or InfMain.IsDDEquip(missionId) then
+  --tex> ddsuit bodies
+  if InfMain.IsDDEquip(missionId) then
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    if bodyInfo then
+      if bodyInfo.maleBodyId then
+        local bodyTable={bodyInfo.maleBodyId,MAX_REALIZED_COUNT}
+        table.insert(bodies,bodyTable)
+      end
+      if bodyInfo.femaleBodyId then
+        local bodyTable={bodyInfo.femaleBodyId,MAX_REALIZED_COUNT}
+        table.insert(bodies,bodyTable)
+      end
+    end
+    --<
+  elseif TppMission.IsFOBMission(missionId) then
     if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
       bodies={{TppEnemyBodyId.dds4_enem0_def,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds4_enef0_def,MAX_REALIZED_COUNT}}
     elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
@@ -969,52 +979,34 @@ function fovaSetupFuncs.Mb(n,missionId)
     else
       bodies={{TppEnemyBodyId.dds5_main0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds6_main0_v00,MAX_REALIZED_COUNT}}
     end
-  elseif InfMain.IsDDEquip(missionId) and Ivars.mbDDSuit2:Is()>0 then--tex>--DEBUGNOW
-    local suitName=Ivars.mbDDSuit2.settings[Ivars.mbDDSuit2:Get()+1]
-    if suitName then
-      local bodyInfo=InfMain.ddBodyInfo[suitName]
-      if bodyInfo then
-        if bodyInfo.maleBodyId then
-          local bodyTable={{bodyInfo.maleBodyId,MAX_REALIZED_COUNT}}
-          Tpp.MergeTable(bodies,bodyTable)
-        end
-        if bodyInfo.femaleBodyId then
-          local bodyTable={{bodyInfo.femaleBodyId,MAX_REALIZED_COUNT}}
-          Tpp.MergeTable(bodies,bodyTable)
-        end
-      end
-    end
-  --<
-    
   else
     bodies={{TppEnemyBodyId.dds3_main0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.dds8_main0_v00,MAX_REALIZED_COUNT}}
   end
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
-  
-  
-  if InfMain.IsDDEquip(missionId) and Ivars.mbDDSuit2:Is()>0 then--tex>--DEBUGNOW
-    local suitName=Ivars.mbDDSuit2.settings[Ivars.mbDDSuit2:Get()+1]
-    if suitName then
-      local bodyInfo=InfMain.ddBodyInfo[suitName]
-      if bodyInfo then
-        if bodyInfo.extendedPartsInfo then
-          TppSoldier2.SetExtendPartsInfo(bodyInfo.extendedPartsInfo)
-        end
+
+  --tex> dd suit SetExtendPartsInfo
+  if InfMain.IsDDEquip(missionId) then
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    if bodyInfo then
+      if bodyInfo.extendedPartsInfo then
+        TppSoldier2.SetExtendPartsInfo(bodyInfo.extendedPartsInfo)
       end
-    end--<
-  elseif not(missionId==10030 or missionId==10240)then--ddogs, shining lights
-    if TppMission.IsFOBMission(missionId) then--DEBUGNOWor InfMain.IsDDEquip(missionId) then--tex added playtime
+    end
+    --<
+    --not ddogs, shining lights
+  elseif not(missionId==10030 or missionId==10240)then
+    if TppMission.IsFOBMission(missionId) then
       if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
         TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts"}
-    elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
-      TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts"}
-    elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
-    else
-      TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts"}
+      elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
+        TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts"}
+      elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
+      else
+        TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts"}
+      end
+    elseif missionId~=10115 and missionId~=11115 then
+      TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"}
     end
-  elseif missionId~=10115 and missionId~=11115 then
-    TppSoldier2.SetExtendPartsInfo{type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"}
-  end
   end
   TppSoldierFace.SetSoldierUseHairFova(true)
 end
@@ -1054,11 +1046,11 @@ function this.PreMissionLoad(missionId,currentMissionId)
   TppSoldier2.SetDefaultPartsPath()
   TppSoldier2.SetExtendPartsInfo{}
   TppHostage2.ClearDefaultBodyFovaId()
-  InfMenu.DebugPrint("PreMissionLoad - mission:" .. tostring(missionId) .. " currentMissionId:" .. tostring(currentMissionId).. " vars.missionCode:"..tostring(vars.missionCode))--DEBUGNOW
+  --InfMenu.DebugPrint("PreMissionLoad - mission:" .. tostring(missionId) .. " currentMissionId:" .. tostring(currentMissionId).. " vars.missionCode:"..tostring(vars.missionCode))--DEBUG
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
     local soldierEquipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade(missionId)--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
     local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-    InfMenu.DebugPrint("soliderequipgrade: ".. tostring(soldierEquipGrade).. " isNoKillMode:"..tostring(isNoKillMode))--DEBUGNOW
+    --InfMenu.DebugPrint("soliderequipgrade: ".. tostring(soldierEquipGrade).. " isNoKillMode:"..tostring(isNoKillMode))--DEBUG
     TppEnemy.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   end
   local MissionFovaFunc=Select(fovaSetupFuncs)
@@ -1366,31 +1358,80 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     local isFemale=TppSoldierFace.CheckFemale{face={faceId}}
     return isFemale and isFemale[1]==1
   end
-  --TODO--DEBUGNOW
-  if InfMain.IsDDEquip(vars.missionCode) and Ivars.mbDDSuit2:Is()>0 then--tex>--DEBUGNOW
-    local suitName=Ivars.mbDDSuit2.settings[Ivars.mbDDSuit2:Get()+1]
-    if suitName then
-      local bodyInfo=InfMain.ddBodyInfo[suitName]
-      if bodyInfo then
-        if IsFemale(faceId)==true then
-          if bodyInfo.femaleBodyId then
-            bodyId=bodyInfo.femaleBodyId
-            local command={id="UseExtendParts",enabled=true}
-            GameObject.SendCommand(soldierId,command)
-          else
-            bodyId=bodyInfo.maleBodyId
-            local command={id="UseExtendParts",enabled=false}
-            GameObject.SendCommand(soldierId,command)            
-          end
-        else
-          bodyId=bodyInfo.maleBodyId
-          local command={id="UseExtendParts",enabled=false}
-          GameObject.SendCommand(soldierId,command)
-        end     
+  --tex set bodyid >
+  if InfMain.IsDDEquip(vars.missionCode) then
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    if bodyInfo then
+      if IsFemale(faceId)==true and bodyInfo.femaleBodyId then
+        bodyId=bodyInfo.femaleBodyId
+        local command={id="UseExtendParts",enabled=true}
+        GameObject.SendCommand(soldierId,command)
+      else
+        bodyId=bodyInfo.maleBodyId
+        local command={id="UseExtendParts",enabled=false}
+        GameObject.SendCommand(soldierId,command)
+      end
+      if bodyInfo.isArmor then
+        TppEnemy.AddPowerSetting(soldierId,{"ARMOR"})
+      end
+      
+      if bodyInfo.hasHeadGear then--tex TODO: handle this on the config level?
+        local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
+        if powerSettings then
+          powerSettings.HELMET=nil
+          powerSettings.GAS_MASK=nil
+          powerSettings.NVG=nil
+        end
+      end
+    end
+    
+
+    if bodyInfo and not bodyInfo.hasHeadGear then --DEBUNOW
+      if this.IsUseGasMaskInFOB() then
+        TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
+      end
+--tex TEST: I'm guessing this would return 0/1 like the rest of the TppMotherBaseManagement grades when in mbfree so not much point
+--      if((TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS and TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)and TppMotherBaseManagement.GetMbsNvgBattleLevel)and TppMotherBaseManagement.GetMbsNvgBattleLevel()>0 then
+--        TppEnemy.AddPowerSetting(soldierId,{"NVG"})
+--      end
+    end
+
+    --tex PATCHUP there's no heads with nvg and no helmet/greentop
+    local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
+    if powerSettings then
+      if powerSettings.NVG then
+        --powerSettings.HELMET=true
+        TppEnemy.AddPowerSetting(soldierId,{"HELMET"})
+      end
+    end
+    
+    if Ivars.mbDDHeadGear:Is(0) then
+      powerSettings.HELMET=nil
+      powerSettings.GAS_MASK=nil
+      powerSettings.NVG=nil      
+    end
+    
+    --tex -v-gasmask trumps force head-^- like vanilla RETHINK
+    if this.IsUseGasMaskInMBFree()then
+      TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
+    end
+    
+--    if powerSettings then--DEBUG
+--      powerSettings.HELMET=nil
+--      powerSettings.GAS_MASK=nil
+--      powerSettings.NVG=true
+--    end--<
+ 
+    local wantHeadgear = useBalaclava or powerSettings.HELMET or powerSettings.GAS_MASK or powerSettings.NVG
+    
+    if wantHeadgear then
+      local validHeadGearIds=InfMain.GetHeadGearForPowers(powerSettings,faceId)
+      if validHeadGearIds[1] then--WIP
+        balaclavaFaceId=TppEnemyFaceId[validHeadGearIds[1] ]
       end
     end
     --<
-  elseif TppMission.IsFOBMission(vars.missionCode) then --DEBUGNOWor InfMain.IsDDEquip(vars.missionCode) then--tex added playtime
+  elseif TppMission.IsFOBMission(vars.missionCode) then
     if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
       if((TppEnemy.weaponIdTable.DD.NORMAL.SNEAKING_SUIT and TppEnemy.weaponIdTable.DD.NORMAL.SNEAKING_SUIT>=3)
         and TppMotherBaseManagement.GetMbsNvgSneakingLevel)and TppMotherBaseManagement.GetMbsNvgSneakingLevel()>0 then
@@ -1423,94 +1464,94 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
           balaclavaFaceId=TppEnemyFaceId.dds_balaclava1
         end
       end
-  elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
-    if((TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS and TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)and TppMotherBaseManagement.GetMbsNvgBattleLevel)and TppMotherBaseManagement.GetMbsNvgBattleLevel()>0 then
-      TppEnemy.AddPowerSetting(soldierId,{"NVG"})
-    end
-    if IsFemale(faceId)==true then
-      bodyId=TppEnemyBodyId.dds5_enef0_def
-      local command={id="UseExtendParts",enabled=true}
-      GameObject.SendCommand(soldierId,command)
-      if TppEnemy.IsHelmet(soldierId)then
-        if TppEnemy.IsNVG(soldierId)then
-          balaclavaFaceId=TppEnemyFaceId.dds_balaclava14
-        else
-          balaclavaFaceId=TppEnemyFaceId.dds_balaclava3
-        end
-      elseif useBalaclava then
-        balaclavaFaceId=TppEnemyFaceId.dds_balaclava4
+    elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
+      if((TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS and TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)and TppMotherBaseManagement.GetMbsNvgBattleLevel)and TppMotherBaseManagement.GetMbsNvgBattleLevel()>0 then
+        TppEnemy.AddPowerSetting(soldierId,{"NVG"})
       end
+      if IsFemale(faceId)==true then
+        bodyId=TppEnemyBodyId.dds5_enef0_def
+        local command={id="UseExtendParts",enabled=true}
+        GameObject.SendCommand(soldierId,command)
+        if TppEnemy.IsHelmet(soldierId)then
+          if TppEnemy.IsNVG(soldierId)then
+            balaclavaFaceId=TppEnemyFaceId.dds_balaclava14
+          else
+            balaclavaFaceId=TppEnemyFaceId.dds_balaclava3
+          end
+        elseif useBalaclava then
+          balaclavaFaceId=TppEnemyFaceId.dds_balaclava4
+        end
+      else
+        bodyId=TppEnemyBodyId.dds5_enem0_def
+        local command={id="UseExtendParts",enabled=false}
+        GameObject.SendCommand(soldierId,command)
+        if TppEnemy.IsHelmet(soldierId)then
+          if TppEnemy.IsNVG(soldierId)then
+            balaclavaFaceId=TppEnemyFaceId.dds_balaclava12
+          else
+            balaclavaFaceId=TppEnemyFaceId.dds_balaclava0
+          end
+        elseif useBalaclava then
+          balaclavaFaceId=TppEnemyFaceId.dds_balaclava1
+        end
+      end
+    elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
+      if not IsFemale(faceId)==true then
+        bodyId=TppEnemyBodyId.pfa0_v00_a
+        local command={id="UseExtendParts",enabled=false}
+        GameObject.SendCommand(soldierId,command)
+        TppEnemy.AddPowerSetting(soldierId,{"ARMOR"})
+      end
+    else-- no special suit
+      if IsFemale(faceId)==true then
+        bodyId=TppEnemyBodyId.dds6_main0_v00
+        local command={id="UseExtendParts",enabled=true}
+        GameObject.SendCommand(soldierId,command)
+        if useBalaclava then
+          if TppEnemy.IsHelmet(soldierId)then
+            balaclavaFaceId=TppEnemyFaceId.dds_balaclava3
+          else
+            balaclavaFaceId=TppEnemyFaceId.dds_balaclava5
+          end
+        end
     else
-      bodyId=TppEnemyBodyId.dds5_enem0_def
+      bodyId=TppEnemyBodyId.dds5_main0_v00
       local command={id="UseExtendParts",enabled=false}
-      GameObject.SendCommand(soldierId,command)
-      if TppEnemy.IsHelmet(soldierId)then
-        if TppEnemy.IsNVG(soldierId)then
-          balaclavaFaceId=TppEnemyFaceId.dds_balaclava12
-        else
-          balaclavaFaceId=TppEnemyFaceId.dds_balaclava0
-        end
-      elseif useBalaclava then
-        balaclavaFaceId=TppEnemyFaceId.dds_balaclava1
-      end
-    end
-  elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
-    if not IsFemale(faceId)==true then
-      bodyId=TppEnemyBodyId.pfa0_v00_a
-      local command={id="UseExtendParts",enabled=false}
-      GameObject.SendCommand(soldierId,command)
-      TppEnemy.AddPowerSetting(soldierId,{"ARMOR"})
-    end
-  else-- no special suit
-    if IsFemale(faceId)==true then
-      bodyId=TppEnemyBodyId.dds6_main0_v00
-      local command={id="UseExtendParts",enabled=true}
       GameObject.SendCommand(soldierId,command)
       if useBalaclava then
         if TppEnemy.IsHelmet(soldierId)then
-          balaclavaFaceId=TppEnemyFaceId.dds_balaclava3
+          balaclavaFaceId=TppEnemyFaceId.dds_balaclava0
         else
-          balaclavaFaceId=TppEnemyFaceId.dds_balaclava5
+          balaclavaFaceId=TppEnemyFaceId.dds_balaclava2
         end
       end
-  else
-    bodyId=TppEnemyBodyId.dds5_main0_v00
-    local command={id="UseExtendParts",enabled=false}
-    GameObject.SendCommand(soldierId,command)
-    if useBalaclava then
-      if TppEnemy.IsHelmet(soldierId)then
-        balaclavaFaceId=TppEnemyFaceId.dds_balaclava0
-      else
-        balaclavaFaceId=TppEnemyFaceId.dds_balaclava2
-      end
     end
-  end
-  end--if fob suits/body
+    end--if fob suits/body
 
-  if this.IsUseGasMaskInFOB()and ddSuit~=TppEnemy.FOB_PF_SUIT_ARMOR then
-    if IsFemale(faceId)then
-      if TppEnemy.IsHelmet(soldierId)then
-        if TppEnemy.IsNVG(soldierId)then
-          balaclavaFaceId=TppEnemyFaceId.dds_balaclava15
+    if this.IsUseGasMaskInFOB()and ddSuit~=TppEnemy.FOB_PF_SUIT_ARMOR then
+      if IsFemale(faceId)then
+        if TppEnemy.IsHelmet(soldierId)then
+          if TppEnemy.IsNVG(soldierId)then
+            balaclavaFaceId=TppEnemyFaceId.dds_balaclava15
+          else
+            balaclavaFaceId=TppEnemyFaceId.dds_balaclava11
+          end
         else
-          balaclavaFaceId=TppEnemyFaceId.dds_balaclava11
+          balaclavaFaceId=TppEnemyFaceId.dds_balaclava10
         end
       else
-        balaclavaFaceId=TppEnemyFaceId.dds_balaclava10
-      end
-    else
-      if TppEnemy.IsHelmet(soldierId)then
-        if TppEnemy.IsNVG(soldierId)then
-          balaclavaFaceId=TppEnemyFaceId.dds_balaclava13
+        if TppEnemy.IsHelmet(soldierId)then
+          if TppEnemy.IsNVG(soldierId)then
+            balaclavaFaceId=TppEnemyFaceId.dds_balaclava13
+          else
+            balaclavaFaceId=TppEnemyFaceId.dds_balaclava9
+          end
         else
-          balaclavaFaceId=TppEnemyFaceId.dds_balaclava9
+          balaclavaFaceId=TppEnemyFaceId.dds_balaclava8
         end
-      else
-        balaclavaFaceId=TppEnemyFaceId.dds_balaclava8
       end
-    end
-    TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
-  end--if gasmaskfob
+      TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
+    end--if gasmaskfob
 
   else-- not fob
     if IsFemale(faceId)then
