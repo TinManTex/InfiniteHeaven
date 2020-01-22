@@ -1,11 +1,20 @@
 = Infinite heaven =
-r133 - 2015-03-01
+r135 - 2015-03-05
 by tin man tex
 For MGSV version 1.071
 
 A mod for MGSV intended to extend gameplay through customisable settings and features.
 
-New for 133:
+New for r135:
+Don't disable Ocelot after mb cutscenes now Enable Ocelot in the Motherbase menu - allows Ocelot to roam the command platform.
+[youtube]Wgi-OJ4_-sM[/youtube]
+https://www.youtube.com/watch?v=Wgi-OJ4_-sM
+
+Vehicle patrols should no longer cause vehicle sideops vehicles to be invisible.
+
+Wildcard soldiers: number increased to 1/5 of total cps, number of female wildcard soldiers increased to 2. Added full range of female faces. to wildcard females
+
+New for r133:
 Fix: Head markers off did not work on heli entry - thanks washtubs for the report.
 Player restriction option: Disable world markers - thanks brunovisk114 for the suggestion
 In mission menu: Markers menu, includes head and world marker options, toggling xray at runtime unforntunately doesnt work via script.
@@ -13,12 +22,14 @@ In mission menu: Markers menu, includes head and world marker options, toggling 
 Feature: Wildcard soldiers
 Enabled using "Enable Wildcard soldiers Free roam" in the Enemy prep menu
 Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.
-[youtube]-xhMemet6EF8[/youtube]
+[youtube]EalBTUetKRc[/youtube]
+https://www.youtube.com/watch?v=EalBTUetKRc
+[youtube]xhMemet6EF8[/youtube]
 https://www.youtube.com/watch?v=xhMemet6EF8
 
 MB suit (male) options added: Soviet All, PF All - randomly chooses suit from all options of that type including unique.
 
-New for r131
+New for r131:
 Fix: Hang at FOB load screen, thanks SoullessMadness for the report. FOB defense hang on load unconfirmed since it's harder to test.
 
 Soldier Parameters option: Hearing distance scale
@@ -474,7 +485,20 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
-133 - 2015-03-01 
+r135 - 2015-03-05 - public release
+Wildard soldiers: Number of soldiers incread to #Cps/5, number of females increased to 2.
+mbDontDemoDisableOcelot removed.
+Option: mbEnableOcelot - runs an update function to enable/warp and set a route for ocelot on motherbase
+Decreased alphaDistance on free cam to 0.1, should be able to get closer to character without them fading out.
+
+r134
+veh_rl_*.fpkd/*fox2 - bodyInstances,attachmentInstanceCount increased to 4. 1 - player vehicle + 2 (quests max) + 1 patrol. See modfpk.txt
+Blockquests: removed armor vehicle quest block on vehicle patrol
+Regression: Patrol vehicle spawn type random to level seed
+Refactor: TppEnemyFova> break out WildCardFova
+Added full range of female faces to wildcard females
+
+r133 - 2015-03-01 
 Fix: Head markers off did not work on heli entry - thanks washtubs for the report.
 Option: disableWorldMarkers - thanks brunovisk114 for the suggestion
 In mission menu: playerRestrictionsInMissionMenu

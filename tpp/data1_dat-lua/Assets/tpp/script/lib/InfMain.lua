@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r133"
+this.modVersion="r135"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -664,14 +664,18 @@ this.wildCardBodiesMafr={
   TppEnemyBodyId.pfs0_unq_v450,--red beret, brown leather top, light tan muddy pants
   TppEnemyBodyId.pfs0_unq_v440,--red beret, black leather top, black pants
 }
-
---NOTE: make sure SetLevelRandomSeed is setup
---TODO, there's still a couple of quest uniques that are single/not in a range, face and body ids.txt
+--see face and body ids.txt
+local maleFaceIds={
+  {min=0,max=303},
+  {min=320,max=349},
+}
+--TODO, there's still a couple of quest uniques that are single/not in a range, see face and body ids.txt
 local femaleFaceIds={
   {min=350,max=399},--european
   {min=440,max=479},--african
   {min=500,max=519},--asian
 }
+--NOTE: make sure SetLevelRandomSeed is setup
 local function RandomFemaleFaceId()
   local type=femaleFaceIds[math.random(#femaleFaceIds)]
   return math.random(type.min,type.max)
@@ -1875,7 +1879,7 @@ function this.OnAllocate(missionTable)
   --  local equipLoadTable={}
   --  --tex TODO: find a better indicator of equipable mission loading
   --  if missionTable.enemy then
-  --    for n,equipName in ipairs(this.tppEquipTable)do--DEBUGNOW still working on the indexed not grouped table
+  --    for n,equipName in ipairs(this.tppEquipTable)do--TODO: still working on the indexed not grouped table
   --      local equipId=TppEquip[equipName]
   --      if equipId~=nil then
   --        table.insert(equipLoadTable,equipId)
@@ -2137,6 +2141,7 @@ local updateIvars={
   Ivars.warpPlayerUpdate,
   Ivars.adjustCameraUpdate,
   Ivars.heliUpdate,
+  Ivars.npcUpdate,
 }
 
 this.initTest=0--DEBUGNOW
@@ -2428,9 +2433,6 @@ function this.InitWarpPlayerUpdate()
 --  InfButton.buttonStates[this.moveDownButton].decrement=0.1
 end
 
-function this.InitWarpPlayerUpdate()
-end
-
 function this.OnActivateWarpPlayer()
   InfButton.buttonStates[this.moveRightButton].decrement=0.1
   InfButton.buttonStates[this.moveLeftButton].decrement=0.1
@@ -2616,7 +2618,7 @@ function this.UpdateCameraManualMode()
       ignoreCollisionGameObjectName="Player",
       --TEST OFF rotationLimitMinX=-60,
       --TEST OFF rotationLimitMaxX=80,
-      alphaDistance=.5,--3--.5,
+      alphaDistance=0--.1,--3--.5,
     --enableStockChangeSe = false,
     --useShakeParam = true
     }
@@ -2874,6 +2876,80 @@ function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRa
     end--button down
     end--nopullout or initialact
   end--not menu, insupportheli
+end
+--
+local commandCoreStartPos=Vector3(5.56,24.83,-5.57)
+local commandCoreStartRot=144
+
+local npcName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
+
+local npcRoutes={
+  "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0000",
+  "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0001",
+  "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0002",
+  "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0003",
+  "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0004",
+  "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0005",
+}
+
+this.mbDemoWasPlay=false
+function this.InitNPCUpdate()
+  this.mbDemoWasPlay=false
+  this.setupNpc=false
+end
+function this.UpdateNPC(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  if not currentChecks.inGame then
+    return
+  end
+
+  if vars.missionCode~=30050 then
+    return
+  end
+
+  if Ivars.mbEnableOcelot:Is(0) then
+    return
+  end
+
+  local demoName=TppDemo.GetMBDemoName()
+  if demoName then
+    this.mbDemoWasPlay=true
+    return
+  end
+
+  if not this.setupNpc then
+    this.setupNpc=true
+    local gameId=GameObject.GetGameObjectId(npcName)
+    if gameId==GameObject.NULL_ID then
+    --InfMenu.DebugPrint("gameId==NULL_ID")
+    else
+      --InfMenu.DebugPrint("setupNpc")--DEBUG
+
+      if this.mbDemoWasPlay then
+      --InfMenu.DebugPrint("mbDemoWasPlay")--DEBUG
+      else
+        local command={id="Warp",position=commandCoreStartPos,degRotationY = commandCoreStartRot}
+        GameObject.SendCommand(gameId,command)
+      end
+
+      local command={id="SetEnabled",enabled=true}
+      GameObject.SendCommand(gameId,command)
+
+      local ocelotBodies={
+        TppEnemyBodyId.oce0_main0_v00,
+        TppEnemyBodyId.oce0_main0_v01,
+        TppEnemyBodyId.oce0_main0_v02,
+      }
+      local bodyId=ocelotBodies[math.random(#ocelotBodies)]--tex TODO: seed it if it's a big enough change to be jarring
+
+      local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=bodyId}
+      GameObject.SendCommand(gameId,command)
+
+      local routeIdx=math.random(#npcRoutes)
+      --InfMenu.DebugPrint("routeIdx:"..routeIdx)--DEBUG
+      local command={id="SetSneakRoute",route=npcRoutes[routeIdx]}
+      GameObject.SendCommand(gameId,command)
+    end
+  end
 end
 ---
 function this.OnMenuOpen()
@@ -3367,6 +3443,7 @@ this.tppEquipTable={--SYNC: EquipIdTable
 -- tex some kind of dlc box, defaults to regular texture though
 --    "EQP_IT_CBox_LIMITED",
 --    "EQP_IT_CBox_LIMITED_G01",
+
 --  "EQP_IT_InstantStealth",
 --  "EQP_IT_Pentazemin",
 --  "EQP_IT_Clairvoyance",
@@ -4019,9 +4096,14 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
   elseif TppLocation.IsMiddleAfrica()then
     wildCardSubType="PF_WILDCARD"
   end
-  local femaleWildCard="WILDCARD_FEMALE"
 
-
+  local gearPowers={
+    "HELMET",
+    "SOFT_ARMOR",
+    "GUN_LIGHT",
+    "NVG",
+  --"GAS_MASK",
+  }
   local weaponPowers={
     "ASSAULT",
     "SMG",
@@ -4030,6 +4112,8 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     "SNIPER",
   --"MISSILE",
   }
+
+
   local weaponPool={}
 
   local abilityLevel="sp"
@@ -4046,8 +4130,8 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     holdup=abilityLevel
   }
 
-  local numWildCards=math.max(1,math.floor(#baseNamePool/6))
-  local numFemale=1--math.max(1,math.floor(numWildCards/3))--SYNC: MAX_WILDCARD_FACES
+  local numWildCards=math.max(1,math.ceil(#baseNamePool/5))
+  local numFemale=2--math.max(1,math.ceil(numWildCards/3))--SYNC: MAX_WILDCARD_FACES
   --InfMenu.DebugPrint("numwildcards: "..numWildCards .. " numFemale:"..numFemale)--DEBUG
 
   local faceIdPool={}
@@ -4124,12 +4208,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       soldierSubTypes[wildCardSubType]=soldierSubTypes[wildCardSubType] or {}
       table.insert(soldierSubTypes[wildCardSubType],soldierName)
 
-      soldierPowerSettings[soldierName]={
-        "HELMET",
-        "SOFT_ARMOR",
-        "GUN_LIGHT",
-      --"GAS_MASK",
-      }
+      soldierPowerSettings[soldierName]=gearPowers
       if #weaponPool==0 then
         weaponPool=ResetPool(weaponPowers)
       end

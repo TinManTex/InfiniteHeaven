@@ -2906,12 +2906,12 @@ function this.SetFobPlayerStartPoint()
     cluster=MotherBaseStage.GetFirstCluster()
   end
   local clusterName=clusterNames[cluster+1]
-  local n=TppMotherBaseManagement.GetMbsClusterGrade{category=clusterName}
+  local clusterGrade=TppMotherBaseManagement.GetMbsClusterGrade{category=clusterName}
   if TppMotherBaseManagement.GetMbsClusterBuildStatus{category=clusterName}~="Completed"then
-    n=n-1
+    clusterGrade=clusterGrade-1
   end
-  local n=n-1
-  if n<0 then
+  local gradeByOne=clusterGrade-1
+  if gradeByOne<0 then
     return false
   end
   local locatorName=""
@@ -2949,11 +2949,11 @@ function this.SetMissionStartPositionMtbsClusterPosition()
   if mtbs_cluster==nil then
     return
   end
-  local e=MotherBaseStage.GetFirstCluster()
-  local n=mtbs_cluster.GetClusterName(MotherBaseStage.GetFirstCluster()+1)
-  local e=MotherBaseStage.GetDemoCenter(e)
-  local e=TppMath.Vector3toTable(e)
-  TppPlayer.SetInitialPosition(e,0)
+  local firstCluster=MotherBaseStage.GetFirstCluster()
+  local firstClusterName=mtbs_cluster.GetClusterName(MotherBaseStage.GetFirstCluster()+1)
+  local demoCenter=MotherBaseStage.GetDemoCenter(firstCluster)
+  local position=TppMath.Vector3toTable(demoCenter)
+  TppPlayer.SetInitialPosition(position,0)
 end
 function this.EstablishedMissionClear()
   DemoDaemon.StopAll()

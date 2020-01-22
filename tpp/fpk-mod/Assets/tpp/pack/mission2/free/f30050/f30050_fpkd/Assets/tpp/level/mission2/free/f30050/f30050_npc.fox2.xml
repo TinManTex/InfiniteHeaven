@@ -8,9 +8,11 @@
     <class name="ScriptBlockData" super="" version="0" />
     <class name="TppSoldier2Parameter" super="" version="3" />
     <class name="TppCorpseParameter" super="" version="0" />
+    <class name="TppHostage2Parameter" super="" version="1" />
     <class name="GameObjectLocator" super="" version="2" />
     <class name="TransformEntity" super="" version="0" />
     <class name="TppCorpseLocatorParameter" super="" version="0" />
+    <class name="TppHostage2LocatorParameter" super="" version="0" />
     <class name="TppWalkerGear2LocatorParameter" super="" version="0" />
     <class name="TppVfxFileLoader" super="" version="2" />
     <class name="TexturePackLoadConditioner" super="" version="0" />
@@ -34,6 +36,10 @@
           <value key="TppCorpseGameObjectLocator0002">0x047E4680</value>
           <value key="TppCorpseGameObjectLocator0003">0x047E47D0</value>
           <value key="TppCorpseGameObjectLocator0004">0x047E4920</value>
+          <value key="GameObjectTppHostage2">0x07D6B990</value>
+          <value key="GameObjectTppHostage2unique">0x07D6BA70</value>
+          <value key="hos_ih_0000">0x07D6BB50</value>
+          <value key="hos_ih_0001">0x07D6BD80</value>
           <value key="wkr_WalkerGear_0000">0x14000000</value>
           <value key="TppVfxFileLoader0000">0x04634FB0</value>
           <value key="TexturePackLoadConditioner0000">0x0463D4B0</value>
@@ -295,7 +301,7 @@
       <dynamicProperties />
     </entity>
 
- <entity class="GameObjectLocator" classVersion="2" addr="0x047E4530" unknown1="272" unknown2="1839133">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x047E4530" unknown1="272" unknown2="1839133">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>TppCorpseGameObjectLocator0001</value>
@@ -564,8 +570,235 @@
       <dynamicProperties />
     </entity>
 
+    <entity class="GameObject" classVersion="2" addr="0x07D6B990" unknown1="88" unknown2="28857370">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>GameObjectTppHostage2</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x046345A0</value>
+        </property>
+        <property name="typeName" type="String" container="StaticArray" arraySize="1">
+          <value>TppHostage2</value>
+        </property>
+        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="totalCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="realizedCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x07D6BA00</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppHostage2Parameter" classVersion="1" addr="0x07D6BA00" unknown1="176" unknown2="28857372">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x07D6B990</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts</value>
+        </property>
+        <property name="motionGraphFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/motion_graph/hostage2/Hostage2_layers.mog</value>
+        </property>
+        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1"><value>/Assets/tpp/motion/mtar/paz2/Paz2_facial.mtar</value>
+          
+        </property>
+        <property name="extensionMtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/hostage2/Hostage2_layers.mtar</value>
+        </property>
+        <property name="vfxFiles" type="FilePtr" container="StringMap" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
 
-  <entity class="GameObjectLocator" classVersion="2" addr="0x14000000" unknown1="272" unknown2="9079604">
+    <entity class="GameObject" classVersion="2" addr="0x07D6BA70" unknown1="88" unknown2="28857374">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>GameObjectTppHostage2unique</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x046345A0</value>
+        </property>
+        <property name="typeName" type="String" container="StaticArray" arraySize="1">
+          <value>TppHostageUnique2</value>
+        </property>
+        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="totalCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="realizedCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x07D6BAE0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppHostage2Parameter" classVersion="1" addr="0x07D6BAE0" unknown1="176" unknown2="28857376">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x07D6BA70</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts</value>
+        </property>
+        <property name="motionGraphFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/motion_graph/hostage2/Hostage2_layers.mog</value>
+        </property>
+        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/paz2/Paz2_facial.mtar</value>
+        </property>
+        <property name="extensionMtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/hostage2/Hostage2_layers.mtar</value>
+        </property>
+        <property name="vfxFiles" type="FilePtr" container="StringMap" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+
+    <entity class="GameObjectLocator" classVersion="2" addr="0x07D6BB50" unknown1="272" unknown2="28857378">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>hos_ih_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x046345A0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x07D6BBC0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="typeName" type="String" container="StaticArray" arraySize="1">
+          <value>TppHostageUnique2</value>
+        </property>
+        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x07D6BCA0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x07D6BBC0" unknown1="80" unknown2="28857381">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x07D6BB50</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.291085" z="0" w="0.956697" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-613.8055" y="342.6367" z="470.67453" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+
+    <entity class="TppHostage2LocatorParameter" classVersion="0" addr="0x07D6BCA0" unknown1="32" unknown2="28857385">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x07D6BB50</value>
+        </property>
+        <property name="identifier" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+
+    <entity class="GameObjectLocator" classVersion="2" addr="0x07D6BD80" unknown1="272" unknown2="28857390">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>hos_s10054_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x046345A0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x07D6BDF0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="typeName" type="String" container="StaticArray" arraySize="1">
+          <value>TppHostageUnique2</value>
+        </property>
+        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x07D6BE60</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x07D6BDF0" unknown1="80" unknown2="28857393">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x07D6BD80</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.065464" z="0" w="0.997855" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-907.846" y="281.16" z="1509.634" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppHostage2LocatorParameter" classVersion="0" addr="0x07D6BE60" unknown1="32" unknown2="28857395">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x07D6BD80</value>
+        </property>
+        <property name="identifier" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+
+
+    <entity class="GameObjectLocator" classVersion="2" addr="0x14000000" unknown1="272" unknown2="9079604">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>wkr_WalkerGear_0000</value>

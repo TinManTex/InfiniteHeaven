@@ -251,16 +251,114 @@ this.warpPlayerCommand={--WIP
   end,
 }
 
---
+
+
+
 this.DEBUG_SomeShiz={
   OnChange=function()
-    InfMenu.DebugPrint("inittest="..InfMain.initTest)
+  
+    local ins=InfInspect.Inspect(vars.weapons)
+    InfMenu.DebugPrint(ins)
+
+    local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
+
+    --local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"
+
+    --local objectName="TppHuey2GameObjectLocator"
+
+    --local objectName="hos_ih_0000"
+
+    local gameId=GameObject.GetGameObjectId(objectName)
+    if gameId==GameObject.NULL_ID then
+      InfMenu.DebugPrint("gameId==NULL_ID")
+    else
+      InfMenu.DebugPrint("bip")
+
+      local command={id="SetEnabled",enabled=true}
+      GameObject.SendCommand(gameId,command)
+
+      --        GameObject.SendCommand( gameId, { id = "SetMotherbaseMode"} )
+      --        GameObject.SendCommand( gameId, { id = "InitiateCombat"} )
+      local startX=-1.0001540184021
+      local startY=34.23641204834
+      local startZ=-13.921287536621
+
+      local currentPosition=GameObject.SendCommand(gameId,{id="GetPosition"})
+      InfMenu.DebugPrint(objectName.." pos:".. currentPosition:GetX()..",".. currentPosition:GetY().. ","..currentPosition:GetZ())
+      
+     -- if currentPosition:GetX()==startX and currentPosition:GetY()==startY and currentPosition:GetZ()==startZ then
+
+        local position=Vector3(9.8,0.9,-18)
+        local rotY=-180
+
+        --      local position=Vector3(44,8.511,-15.1)
+        --      local rotY=-180
+        --
+        --      local position=Vector3(.14,24.83,-5.37)
+        --      local rotY=79
 
 
-    local ins = InfInspect.Inspect(InfMain.ene_wildCardSoldiers)
-    InfMenu.DebugPrint(ins)
-    local ins = InfInspect.Inspect(InfMain.ene_femaleWildCardSoldiers)
-    InfMenu.DebugPrint(ins)
+        local command={id="Warp",position=position,degRotationY = rotY}
+        GameObject.SendCommand(gameId,command)
+
+        -- local isReal=GameObject.SendCommand(gameId,{id="IsReal"})
+
+        --       local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_FLEE }
+        --  GameObject.SendCommand( gameId , command )
+        --
+        --  --TppEnemy.RegistHoldRecoveredState(objectName)
+        --
+        --  local command = {
+        --    id = "SetHostage2Flag",
+        --    flag = "unlocked",
+        --    on = true,
+        --  }
+        ----
+        -- GameObject.SendCommand( gameId, command )
+
+
+
+        --    local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_EXECUTE_READY }
+        --
+        --      GameObject.SendCommand( gameObjectId, { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_EXECUTED } )
+
+        --  local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_NORMAL }
+        --  GameObject.SendCommand( gameId , command )
+
+        --    local command = { id = "SetHostage2Flag", flag = "commonNpc", on = true, }
+        --    GameObject.SendCommand( gameId, command )
+
+        --    local cmdHosState = {
+        --        id = "SetHostage2Flag",
+        --        flag = "disableFulton",
+        --        on = true,
+        --    }
+
+        --oce0_main0_v00=370,
+        --oce0_main0_v01=371,
+        --oce0_main0_v02=372,
+
+        local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=371}
+        GameObject.SendCommand(gameId,command)
+
+        local position=GameObject.SendCommand(gameId,{id="GetPosition"})
+        InfMenu.DebugPrint(objectName.." pos:".. position:GetX()..",".. position:GetY().. ","..position:GetZ())
+      end
+
+      InfMenu.DebugPrint("bop")
+    --end
+
+
+    --
+    --    InfMenu.DebugPrint("inittest="..tostring(InfMain.initTest))
+    --
+    --
+    --    local ins = InfInspect.Inspect(InfMain.ene_wildCardSoldiers)
+    --    InfMenu.DebugPrint(ins)
+    --    local ins = InfInspect.Inspect(InfMain.ene_femaleWildCardSoldiers)
+    --    InfMenu.DebugPrint(ins)
+    --
+
 
     --    local ins = InfInspect.Inspect(InfMain.soldierPool)
     --    InfMenu.DebugPrint(ins)
@@ -356,6 +454,84 @@ this.DEBUG_SomeShiz={
     --userMarkerGameObjId
     --userMarkerLocationId
     --userMarkerSaveCount
+  end
+}
+
+
+this.DEBUG_SomeShiz2={
+  OnChange=function()
+    local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
+
+    --   local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"
+    --local objectName="TppHuey2GameObjectLocator"
+
+    --local objectName="hos_ih_0000"
+
+    local gameId=GameObject.GetGameObjectId(objectName)
+    if gameId==GameObject.NULL_ID then
+      InfMenu.DebugPrint("gameid==NULL_ID")
+    else
+
+      local routes={
+
+          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0000",
+          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0001",
+          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0002",
+          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0003",
+          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0004",
+          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0005",
+
+      --          "ly003_cl00_route0000|cl00pl1_0_dv_0090_free|rt_free_d_0000",
+      --          "ly003_cl00_route0000|cl00pl1_0_dv_0090_free|rt_free_d_0001",
+      --
+      --          "ly003_cl00_route0000|cl00pl1_1_dv_0080_free|rt_free_d_0000",
+      --          "ly003_cl00_route0000|cl00pl1_1_dv_0080_free|rt_free_d_0001",
+      --          "ly003_cl00_route0000|cl00pl1_1_dv_0080_free|rt_free_d_0002",
+      --
+      --          "ly003_cl00_route0000|cl00pl1_2_dv_0030_free|rt_free_d_0000",
+      --          "ly003_cl00_route0000|cl00pl1_2_dv_0030_free|rt_free_d_0001",
+      --          "ly003_cl00_route0000|cl00pl1_2_dv_0030_free|rt_free_d_0002",
+      --
+      --          "ly003_cl00_route0000|cl00pl1_3_dv_0000_free|rt_free_d_0000",
+      --          "ly003_cl00_route0000|cl00pl1_3_dv_0000_free|rt_free_d_0001",
+      --
+      --          "ly003_cl00_route0000|cl00pl1_mb_fndt_plnt_free|rt_free_d_0000",
+      --          "ly003_cl00_route0000|cl00pl1_mb_fndt_plnt_free|rt_free_d_0001",
+      }
+
+      local routeIdx=math.random(#routes)
+      InfMenu.DebugPrint("routeIdx:"..routeIdx)
+      local command={id="SetSneakRoute",route=routes[routeIdx]}
+      GameObject.SendCommand(gameId,command)
+
+    end
+  end
+}
+
+this.DEBUG_DropItem={
+  OnChange=function()
+
+    local downposition=Vector3(vars.playerPosX,vars.playerPosY+1,vars.playerPosZ)
+    --  TppPickable.DropItem{
+    --    equipId =  TppEquip.EQP_IT_DevelopmentFile,
+    --    number = TppMotherBaseManagementConst.DESIGN_2006,
+    --    position = downposition,
+    --    rotation = Quat.RotationY( 0 ),
+    --    linearVelocity = Vector3(0,2,0),--Vector3( 0, 2, 0 ),
+    --    angularVelocity = Vector3(0,2,0),--Vector3( 0, 2, 0 )
+    --  }
+
+    local linearMax=2
+    local angularMax=14
+    TppPickable.DropItem{
+      equipId =  TppEquip.EQP_SWP_SmokeGrenade_G01,--EQP_SWP_C4_G04,
+      number = 65535,
+      position = downposition,
+      rotation = Quat.RotationY( 0 ),
+      linearVelocity = Vector3(math.random(-linearMax,linearMax),math.random(-linearMax,linearMax),math.random(-linearMax,linearMax)),
+      angularVelocity = Vector3(math.random(-angularMax,angularMax),math.random(-angularMax,angularMax),math.random(-angularMax,angularMax)),
+    }
+
   end
 }
 
@@ -675,7 +851,13 @@ this.DEBUG_WarpToSoldier={
   OnChange=function()
     --local soldierList=InfMain.reserveSoldierNames
 
-    local soldierList=InfMain.ene_wildCardSoldiers
+    --local soldierList=InfMain.ene_wildCardSoldiers
+
+    --local soldierList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
+
+    local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
+
+    --local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
 
     if soldierList==nil then
       InfMenu.DebugPrint"soldierList nil"
@@ -692,7 +874,7 @@ this.DEBUG_WarpToSoldier={
     local soldierName="NULL"
     local function Step()
       soldierName=soldierList[currentSoldier]
-      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+      local gameId=GameObject.GetGameObjectId(soldierName)--("TppSoldier2",soldierName)
       if gameId==GameObject.NULL_ID then
         InfMenu.DebugPrint"gameId==NULL_ID"
         warpPos=Vector3(0,0,0)
@@ -712,8 +894,8 @@ this.DEBUG_WarpToSoldier={
       Step()
     end
 
-    InfMenu.DebugPrint(soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
-    if warpPos:GetX()~=0 and warpPos:GetY()~=0 and warpPos:GetZ()~=0 then
+    InfMenu.DebugPrint(currentSoldier..":"..soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+    if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
       TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 
       --      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)

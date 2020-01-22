@@ -742,44 +742,7 @@ function fovaSetupFuncs.Africa(n,missionId)
   --tex> wildcard pf bodies
   if InfMain.IsWildCardEnabled(missionId) then
     InfMain.WildCardFova(bodies)
-    --DEBUGNOW CULL
--- --tex TODO: assign DD headgear
---    --    for faceId, faceInfo in pairs(InfMain.ddHeadGearInfo) do
---    --      table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
---    --    end
---
---    InfMain.SetLevelRandomSeed()
---    local faces={}
---    InfMain.ene_wildCardFaceList={}
---    for i=1,InfMain.MAX_WILDCARD_FACES do
---      local faceId=math.random(350,399)
---      table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
---      table.insert(InfMain.ene_wildCardFaceList,faceId)
---    end
---    TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
---    InfMain.ResetTrueRandom()
---
---    InfMain.wildCardSuitName=InfMain.femaleSuits[math.random(#InfMain.femaleSuits)]
---    local bodyInfo=InfMain.GetCurrentWildCardBodyInfo(true)--tex female
---    if bodyInfo then
---      if bodyInfo.femaleBodyId then
---        this.SetupBodies(bodyInfo.femaleBodyId,bodies)
---      end
---      if bodyInfo.soldierSubType then
---        local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
---        if bodyIdTable then
---          for powerType,bodyTable in pairs(bodyIdTable)do
---            this.SetupBodies(bodyTable,bodies)
---          end
---        end
---      end
---
---      if bodyInfo.extendPartsInfo then
---        TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
---      end
---    end
---    --
-  
+   
     for n,bodyId in pairs(InfMain.wildCardBodiesMafr)do
       local entry={bodyId,MAX_REALIZED_COUNT}
       table.insert(bodies,entry)

@@ -662,11 +662,17 @@ missionPackTable[30020]=function(missionCode)
     end
   end--<
 end
-missionPackTable[30050]=function(missionCode)
+missionPackTable[30050]=function(missionCode)  
   TppPackList.AddLocationCommonScriptPack(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--DEBUGNOW
+  TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"--DEBUGNOW
+  
+  if Ivars.mbEnableOcelot:Is(1) then
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_ocelot.fpk"
+  end  
+ 
   --tex IsDDBodyEquip add mission packs>
   if InfMain.IsDDBodyEquip(missionCode) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()

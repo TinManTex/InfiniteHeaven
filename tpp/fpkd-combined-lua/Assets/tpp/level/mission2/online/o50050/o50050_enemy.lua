@@ -682,7 +682,7 @@ this.SetUpEnemy = function ()
 						if plantNum <= grade then
 							local command = { id="Warp", degRotationY=vars.playerRotY, position = Vector3( hostagePos[1], hostagePos[2]+0.8, hostagePos[3] ) }	
 							if gameObjectId ~= nil then
-								GameObject.SendCommand( gameObjectId, command )
+								GameObject.SendCommand( 1, command )
 							end
 						else
 							local command = { id="SetEnabled", enabled=false }

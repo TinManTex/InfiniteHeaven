@@ -127,7 +127,6 @@ this.eng={--english
   mbShowEli="Show Eli",
   mbShowCodeTalker="Show Code Talker",
   mbUnlockGoalDoors="Unlock goal doors",
-  mbDontDemoDisableOcelot="Don't disable Ocelot after mb cutscenes",
   startOffline="Start offline",--r75-v-
   mbEnableBuddies="Enable all buddies",
   abortMenuItemControl="Disable abort mission from pause",--r76
@@ -346,6 +345,7 @@ this.eng={--english
   enableWildCardFreeRoam="Enable Wildcard soldiers Free roam",--r132
   disableWorldMarkers="Disable world markers",
   playerRestrictionsInMissionMenu="Markers menu",
+  mbEnableOcelot="Enable Ocelot",--r135
 }
 
 this.eng_help={

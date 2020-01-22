@@ -75,6 +75,7 @@ this.motherBaseMenu={
     Ivars.mbPrioritizeFemale,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
     Ivars.mbEnableBuddies,
+    Ivars.mbEnableOcelot,
     this.motherBaseShowAssetsMenu,    
     Ivars.mbWarGamesProfile,
   }
@@ -89,7 +90,6 @@ this.demosMenu={
     Ivars.mbDemoHour,
     Ivars.mbDemoMinute,
     Ivars.mbDemoOverrideWeather,
-    Ivars.mbDontDemoDisableOcelot,
   --Ivars.mbDontDemoDisableBuddy,--WIP
   }
 }
@@ -470,12 +470,13 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG 
-    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUGNOW
+    --InfMenuCommands.DEBUG_WarpToSoldier,--DEBUG
     --Ivars.selectedCp,--DEBUG
     --Ivars.selectedChangeWeapon,--WIP DEBUG
-    --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
+    --InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,
     this.cameraMenu,

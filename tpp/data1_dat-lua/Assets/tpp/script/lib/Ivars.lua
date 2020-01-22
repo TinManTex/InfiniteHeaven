@@ -2016,7 +2016,7 @@ this.mbUnlockGoalDoors={
   settingNames="set_switch",
 }
 
-this.mbDontDemoDisableOcelot={
+this.mbEnableOcelot={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -2727,6 +2727,21 @@ this.quietRadioMode={
       end
     end
   end,
+}
+
+--
+
+this.npcUpdate={--tex NONUSER, for now, need it alive to pick up pull out
+  --save=MISSION,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",
+  execChecks={inGame=true,inHeliSpace=false},
+  execState={
+    nextUpdate=0,
+  },
+    ExecInit=function()InfMain.InitNPCUpdate()end,
+  ExecUpdate=function(...)InfMain.UpdateNPC(...)end,
 }
 
 --heli

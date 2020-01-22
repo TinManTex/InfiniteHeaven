@@ -867,11 +867,11 @@ function this.DisableBuddyForForceRealized(demoName)
     GameObject.SendCommand(buddyId,command)
   end
 end
-function this.SetupDemoEndRoute(e)
-  for t,e in ipairs(e)do
-    local t=GameObject.GetGameObjectId(e.locatorName)
-    local e={id="SetSneakRoute",route=e.routeName}
-    GameObject.SendCommand(t,e)
+function this.SetupDemoEndRoute(demoEndRouteList)
+  for n,endRoute in ipairs(demoEndRouteList)do
+    local gameId=GameObject.GetGameObjectId(endRoute.locatorName)
+    local command={id="SetSneakRoute",route=endRoute.routeName}
+    GameObject.SendCommand(gameId,command)
   end
 end
 function this.SetInvisibleUniqueCharacter(isVisibleCurrentBudy)
@@ -909,9 +909,6 @@ function this.SetInvisibleUniqueCharacter(isVisibleCurrentBudy)
   TppDemoUtility.SetInvisibleUniqueCharacter{invisible=setInvisibleTable}
 end
 function this.DisableOcelot()
-  if Ivars.mbDontDemoDisableOcelot:Is(1) then--tex
-    return
-  end--
   local gameId=GameObject.GetGameObjectId"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
   local command={id="SetEnabled",enabled=false}
   if gameId~=GameObject.NULL_ID then

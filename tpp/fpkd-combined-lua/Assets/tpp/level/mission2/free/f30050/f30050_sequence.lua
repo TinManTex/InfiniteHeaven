@@ -1110,7 +1110,7 @@ this.RegisterFovaFpk = function( clusterId )
 		Tpp.ApendArray( fovaPackList, TppSoldierFace.GetFaceFpkFileCodeList{ face={TppEnemyFaceId.dds_balaclava5, TppEnemyFaceId.dds_balaclava2} } )
 	end
 		
-	--tex DEBUGNOW TODO generate face ids for mode
+	--tex TODO generate face ids for mode
 	--if free mix choose random 0-303
 	--if afgh choose TppEnemy.GetFaceGroupTable( ) 0-14
 	--mafr 15-74

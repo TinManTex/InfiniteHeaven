@@ -282,7 +282,7 @@ this.bodyIdTable={
       TppEnemyBodyId.svs0_unq_v100,
       TppEnemyBodyId.svs0_unq_v420,
     },
-    SNIPER={ 
+    SNIPER={
       TppEnemyBodyId.svs0_unq_v020,
       TppEnemyBodyId.svs0_unq_v070,
       TppEnemyBodyId.svs0_unq_v071,
@@ -300,7 +300,7 @@ this.bodyIdTable={
       TppEnemyBodyId.svs0_unq_v009,
       TppEnemyBodyId.svs0_unq_v060,
       TppEnemyBodyId.svs0_unq_v100,
-      TppEnemyBodyId.svs0_unq_v420,      
+      TppEnemyBodyId.svs0_unq_v420,
       TppEnemyBodyId.svs0_unq_v010,
       TppEnemyBodyId.svs0_unq_v020,
     },
@@ -310,7 +310,7 @@ this.bodyIdTable={
       TppEnemyBodyId.svs0_unq_v009,
       TppEnemyBodyId.svs0_unq_v060,
       TppEnemyBodyId.svs0_unq_v100,
-      TppEnemyBodyId.svs0_unq_v420,      
+      TppEnemyBodyId.svs0_unq_v420,
       TppEnemyBodyId.svs0_unq_v010,
       TppEnemyBodyId.svs0_unq_v020,
       TppEnemyBodyId.svs0_unq_v070,
@@ -320,7 +320,7 @@ this.bodyIdTable={
       TppEnemyBodyId.svs0_unq_v009,
       TppEnemyBodyId.svs0_unq_v060,
       TppEnemyBodyId.svs0_unq_v100,
-      TppEnemyBodyId.svs0_unq_v420,      
+      TppEnemyBodyId.svs0_unq_v420,
       TppEnemyBodyId.svs0_unq_v010,
       TppEnemyBodyId.svs0_unq_v020,
       TppEnemyBodyId.svs0_unq_v070,
@@ -330,7 +330,7 @@ this.bodyIdTable={
       TppEnemyBodyId.svs0_unq_v009,
       TppEnemyBodyId.svs0_unq_v060,
       TppEnemyBodyId.svs0_unq_v100,
-      TppEnemyBodyId.svs0_unq_v420,      
+      TppEnemyBodyId.svs0_unq_v420,
       TppEnemyBodyId.svs0_unq_v010,
       TppEnemyBodyId.svs0_unq_v020,
       TppEnemyBodyId.svs0_unq_v070,
@@ -341,7 +341,7 @@ this.bodyIdTable={
     RADIO={
       TppEnemyBodyId.svs0_unq_v060,
       TppEnemyBodyId.svs0_unq_v100,
-      TppEnemyBodyId.svs0_unq_v420,      
+      TppEnemyBodyId.svs0_unq_v420,
       TppEnemyBodyId.svs0_unq_v010,
       TppEnemyBodyId.svs0_unq_v020,
       TppEnemyBodyId.svs0_unq_v070,
@@ -370,7 +370,7 @@ this.bodyIdTable={
       TppEnemyBodyId.pfs0_unq_v140,
       TppEnemyBodyId.pfs0_unq_v241,
       TppEnemyBodyId.pfs0_unq_v450,
-      TppEnemyBodyId.pfs0_unq_v440,      
+      TppEnemyBodyId.pfs0_unq_v440,
       TppEnemyBodyId.pfs0_unq_v210,
     },
     SHOTGUN={
@@ -390,7 +390,7 @@ this.bodyIdTable={
       TppEnemyBodyId.pfs0_unq_v140,
       TppEnemyBodyId.pfs0_unq_v241,
       TppEnemyBodyId.pfs0_unq_v450,
-      TppEnemyBodyId.pfs0_unq_v440,      
+      TppEnemyBodyId.pfs0_unq_v440,
       TppEnemyBodyId.pfs0_unq_v210,
       TppEnemyBodyId.pfs0_unq_v250,
       TppEnemyBodyId.pfs0_unq_v360,
@@ -400,7 +400,7 @@ this.bodyIdTable={
       TppEnemyBodyId.pfs0_unq_v140,
       TppEnemyBodyId.pfs0_unq_v241,
       TppEnemyBodyId.pfs0_unq_v450,
-      TppEnemyBodyId.pfs0_unq_v440,      
+      TppEnemyBodyId.pfs0_unq_v440,
       TppEnemyBodyId.pfs0_unq_v210,
       TppEnemyBodyId.pfs0_unq_v250,
       TppEnemyBodyId.pfs0_unq_v360,
@@ -410,7 +410,7 @@ this.bodyIdTable={
       TppEnemyBodyId.pfs0_unq_v140,
       TppEnemyBodyId.pfs0_unq_v241,
       TppEnemyBodyId.pfs0_unq_v450,
-      TppEnemyBodyId.pfs0_unq_v440,      
+      TppEnemyBodyId.pfs0_unq_v440,
       TppEnemyBodyId.pfs0_unq_v210,
       TppEnemyBodyId.pfs0_unq_v250,
       TppEnemyBodyId.pfs0_unq_v360,
@@ -421,7 +421,7 @@ this.bodyIdTable={
     RADIO={
       TppEnemyBodyId.pfs0_unq_v241,
       TppEnemyBodyId.pfs0_unq_v450,
-      TppEnemyBodyId.pfs0_unq_v440,      
+      TppEnemyBodyId.pfs0_unq_v440,
       TppEnemyBodyId.pfs0_unq_v210,
       TppEnemyBodyId.pfs0_unq_v250,
       TppEnemyBodyId.pfs0_unq_v360,
@@ -498,7 +498,7 @@ this.weaponIdTable={
   },
   WILDCARD={--tex> dd max grades except for noted
     NORMAL={
-      HANDGUN=TppEquip.EQP_WP_West_hg_030,--geist p3 machine pistol grade 4 - shows shotgun icon but clearly isnt, 
+      HANDGUN=TppEquip.EQP_WP_West_hg_030,--geist p3 machine pistol grade 4 - shows shotgun icon but clearly isnt,
       SMG=TppEquip.EQP_WP_West_sm_017,
       ASSAULT=TppEquip.EQP_WP_West_ar_057,
       SNIPER=TppEquip.EQP_WP_EX_sr_000,--molotok-68 grade 9
@@ -614,106 +614,106 @@ this.gunLightWeaponIds={
   [TppEquip.EQP_WP_East_ar_010]=TppEquip.EQP_WP_East_ar_010_FL,
   [TppEquip.EQP_WP_East_ar_030]=TppEquip.EQP_WP_East_ar_030_FL
 }
-local mbsDevelopedEquipType=MbsDevelopedEquipType or{}
+local MbsDevelopedEquipType=MbsDevelopedEquipType or{}
 this.DDWeaponIdInfo={
   HANDGUN={{equipId=TppEquip.EQP_WP_West_hg_010}},
   SMG={
-    {equipId=TppEquip.EQP_WP_East_sm_047,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2044},--grade7
-    {equipId=TppEquip.EQP_WP_East_sm_045,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2043},--grade5
-    {equipId=TppEquip.EQP_WP_East_sm_044,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2042},--grade4
-    {equipId=TppEquip.EQP_WP_East_sm_043,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2041},--grade3
-    {equipId=TppEquip.EQP_WP_East_sm_042,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SM_2040_NOKILL,developId=2040},--grade2
-    {equipId=TppEquip.EQP_WP_West_sm_017,developedEquipType=mbsDevelopedEquipType.SM_2014,developId=2014},--grade7
-    {equipId=TppEquip.EQP_WP_West_sm_016,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2013},--grade6
-    {equipId=TppEquip.EQP_WP_West_sm_015,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2012},--grade5
-    {equipId=TppEquip.EQP_WP_West_sm_014,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2011},--grade4
-    {equipId=TppEquip.EQP_WP_West_sm_010,developedEquipType=mbsDevelopedEquipType.SM_2010,developId=2010}--grade3
+    {equipId=TppEquip.EQP_WP_East_sm_047,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2044},--grade7
+    {equipId=TppEquip.EQP_WP_East_sm_045,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2043},--grade5
+    {equipId=TppEquip.EQP_WP_East_sm_044,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2042},--grade4
+    {equipId=TppEquip.EQP_WP_East_sm_043,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2041},--grade3
+    {equipId=TppEquip.EQP_WP_East_sm_042,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2040},--grade2
+    {equipId=TppEquip.EQP_WP_West_sm_017,developedEquipType=MbsDevelopedEquipType.SM_2014,developId=2014},--grade7
+    {equipId=TppEquip.EQP_WP_West_sm_016,developedEquipType=MbsDevelopedEquipType.SM_2010,developId=2013},--grade6
+    {equipId=TppEquip.EQP_WP_West_sm_015,developedEquipType=MbsDevelopedEquipType.SM_2010,developId=2012},--grade5
+    {equipId=TppEquip.EQP_WP_West_sm_014,developedEquipType=MbsDevelopedEquipType.SM_2010,developId=2011},--grade4
+    {equipId=TppEquip.EQP_WP_West_sm_010,developedEquipType=MbsDevelopedEquipType.SM_2010,developId=2010}--grade3
   },
   SHOTGUN={
-    {equipId=TppEquip.EQP_WP_Com_sg_038,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4027_NOKILL,developId=4028},--grade8
-    {equipId=TppEquip.EQP_WP_Com_sg_030,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4027_NOKILL,developId=4027},--grade7
-    {equipId=TppEquip.EQP_WP_Com_sg_025,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4035_NOKILL,developId=4037},--grade5
-    {equipId=TppEquip.EQP_WP_Com_sg_024,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4035_NOKILL,developId=4036},--grade4
-    {equipId=TppEquip.EQP_WP_Com_sg_023,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SG_4035_NOKILL,developId=4035},--grade3
-    {equipId=TppEquip.EQP_WP_Com_sg_018,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4044},--grade8
-    {equipId=TppEquip.EQP_WP_Com_sg_016,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4043},--grade6
-    {equipId=TppEquip.EQP_WP_Com_sg_015,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4042},--grade5
-    {equipId=TppEquip.EQP_WP_Com_sg_020,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4041},--grade4
-    {equipId=TppEquip.EQP_WP_Com_sg_013,developedEquipType=mbsDevelopedEquipType.SG_4040,developId=4040},--grade3
-    {equipId=TppEquip.EQP_WP_Com_sg_011,developedEquipType=mbsDevelopedEquipType.SG_4020,developId=4020}--grade2
+    {equipId=TppEquip.EQP_WP_Com_sg_038,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SG_4027_NOKILL,developId=4028},--grade8
+    {equipId=TppEquip.EQP_WP_Com_sg_030,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SG_4027_NOKILL,developId=4027},--grade7
+    {equipId=TppEquip.EQP_WP_Com_sg_025,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SG_4035_NOKILL,developId=4037},--grade5
+    {equipId=TppEquip.EQP_WP_Com_sg_024,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SG_4035_NOKILL,developId=4036},--grade4
+    {equipId=TppEquip.EQP_WP_Com_sg_023,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SG_4035_NOKILL,developId=4035},--grade3
+    {equipId=TppEquip.EQP_WP_Com_sg_018,developedEquipType=MbsDevelopedEquipType.SG_4040,developId=4044},--grade8
+    {equipId=TppEquip.EQP_WP_Com_sg_016,developedEquipType=MbsDevelopedEquipType.SG_4040,developId=4043},--grade6
+    {equipId=TppEquip.EQP_WP_Com_sg_015,developedEquipType=MbsDevelopedEquipType.SG_4040,developId=4042},--grade5
+    {equipId=TppEquip.EQP_WP_Com_sg_020,developedEquipType=MbsDevelopedEquipType.SG_4040,developId=4041},--grade4
+    {equipId=TppEquip.EQP_WP_Com_sg_013,developedEquipType=MbsDevelopedEquipType.SG_4040,developId=4040},--grade3
+    {equipId=TppEquip.EQP_WP_Com_sg_011,developedEquipType=MbsDevelopedEquipType.SG_4020,developId=4020}--grade2
   },
   ASSAULT={
-    {equipId=TppEquip.EQP_WP_West_ar_077,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3064},--grade7
-    {equipId=TppEquip.EQP_WP_West_ar_075,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3063},--grade5
-    {equipId=TppEquip.EQP_WP_West_ar_070,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3062},--grade4
-    {equipId=TppEquip.EQP_WP_West_ar_063,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3061},--grade3
-    {equipId=TppEquip.EQP_WP_West_ar_060,isNoKill=true,developedEquipType=mbsDevelopedEquipType.AR_3060_NOKILL,developId=3060},--grade2
-    {equipId=TppEquip.EQP_WP_West_ar_057,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3042},--grade7
-    {equipId=TppEquip.EQP_WP_West_ar_050,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3038},--grade5
-    {equipId=TppEquip.EQP_WP_West_ar_055,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3037},--grade4
-    {equipId=TppEquip.EQP_WP_West_ar_010,developedEquipType=mbsDevelopedEquipType.AR_3036,developId=3036},--grade3
-    {equipId=TppEquip.EQP_WP_West_ar_042,developedEquipType=mbsDevelopedEquipType.AR_3030,developId=3031},--grade2
+    {equipId=TppEquip.EQP_WP_West_ar_077,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3064},--grade7
+    {equipId=TppEquip.EQP_WP_West_ar_075,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3063},--grade5
+    {equipId=TppEquip.EQP_WP_West_ar_070,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3062},--grade4
+    {equipId=TppEquip.EQP_WP_West_ar_063,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3061},--grade3
+    {equipId=TppEquip.EQP_WP_West_ar_060,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3060},--grade2
+    {equipId=TppEquip.EQP_WP_West_ar_057,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3042},--grade7
+    {equipId=TppEquip.EQP_WP_West_ar_050,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3038},--grade5
+    {equipId=TppEquip.EQP_WP_West_ar_055,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3037},--grade4
+    {equipId=TppEquip.EQP_WP_West_ar_010,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3036},--grade3
+    {equipId=TppEquip.EQP_WP_West_ar_042,developedEquipType=MbsDevelopedEquipType.AR_3030,developId=3031},--grade2
     {equipId=TppEquip.EQP_WP_West_ar_040}
   },
   SNIPER={
-    {equipId=TppEquip.EQP_WP_West_sr_048,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6037_NOKILL,developId=6039},--grade8
-    {equipId=TppEquip.EQP_WP_West_sr_047,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6037_NOKILL,developId=6038},--grade7
-    {equipId=TppEquip.EQP_WP_West_sr_037,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6037_NOKILL,developId=6037},--grade5
-    {equipId=TppEquip.EQP_WP_East_sr_034,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6005_NOKILL,developId=6006},--grade4
-    {equipId=TppEquip.EQP_WP_East_sr_033,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6005_NOKILL,developId=6008},--grade3
-    {equipId=TppEquip.EQP_WP_East_sr_032,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SR_6005_NOKILL,developId=6005},--grade2
-    {equipId=TppEquip.EQP_WP_West_sr_027,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6033},--grade7
-    {equipId=TppEquip.EQP_WP_West_sr_020,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6032},--grade5
-    {equipId=TppEquip.EQP_WP_West_sr_014,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6031},--grade4
-    {equipId=TppEquip.EQP_WP_West_sr_013,developedEquipType=mbsDevelopedEquipType.SR_6030,developId=6030},--grade3
-    {equipId=TppEquip.EQP_WP_West_sr_011,developedEquipType=mbsDevelopedEquipType.SR_6010,developId=6010}--grade2
+    {equipId=TppEquip.EQP_WP_West_sr_048,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6037_NOKILL,developId=6039},--grade8
+    {equipId=TppEquip.EQP_WP_West_sr_047,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6037_NOKILL,developId=6038},--grade7
+    {equipId=TppEquip.EQP_WP_West_sr_037,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6037_NOKILL,developId=6037},--grade5
+    {equipId=TppEquip.EQP_WP_East_sr_034,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6005_NOKILL,developId=6006},--grade4
+    {equipId=TppEquip.EQP_WP_East_sr_033,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6005_NOKILL,developId=6008},--grade3
+    {equipId=TppEquip.EQP_WP_East_sr_032,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6005_NOKILL,developId=6005},--grade2
+    {equipId=TppEquip.EQP_WP_West_sr_027,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6033},--grade7
+    {equipId=TppEquip.EQP_WP_West_sr_020,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6032},--grade5
+    {equipId=TppEquip.EQP_WP_West_sr_014,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6031},--grade4
+    {equipId=TppEquip.EQP_WP_West_sr_013,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6030},--grade3
+    {equipId=TppEquip.EQP_WP_West_sr_011,developedEquipType=MbsDevelopedEquipType.SR_6010,developId=6010}--grade2
   },
   MG={
-    {equipId=TppEquip.EQP_WP_West_mg_037,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7004},--grade7
-    {equipId=TppEquip.EQP_WP_West_mg_030,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7003},--grad5
-    {equipId=TppEquip.EQP_WP_West_mg_024,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7002},--grade4
-    {equipId=TppEquip.EQP_WP_West_mg_023,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7001},--grade3
-    {equipId=TppEquip.EQP_WP_West_mg_020,developedEquipType=mbsDevelopedEquipType.MG_7000,developId=7e3}--grade2
+    {equipId=TppEquip.EQP_WP_West_mg_037,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7004},--grade7
+    {equipId=TppEquip.EQP_WP_West_mg_030,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7003},--grad5
+    {equipId=TppEquip.EQP_WP_West_mg_024,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7002},--grade4
+    {equipId=TppEquip.EQP_WP_West_mg_023,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7001},--grade3
+    {equipId=TppEquip.EQP_WP_West_mg_020,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7e3}--grade2
   },
   MISSILE={
-    {equipId=TppEquip.EQP_WP_West_ms_020,isNoKill=true,developedEquipType=mbsDevelopedEquipType.MS_8013_NOKILL,developId=8013},--grade7
-    {equipId=TppEquip.EQP_WP_Com_ms_026,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8023},--grade6
-    {equipId=TppEquip.EQP_WP_Com_ms_020,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8022},--grade5
-    {equipId=TppEquip.EQP_WP_Com_ms_024,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8021},--grade4
-    {equipId=TppEquip.EQP_WP_Com_ms_023,developedEquipType=mbsDevelopedEquipType.MS_8020,developId=8020}--grade3
+    {equipId=TppEquip.EQP_WP_West_ms_020,isNoKill=true,developedEquipType=MbsDevelopedEquipType.MS_8013_NOKILL,developId=8013},--grade7
+    {equipId=TppEquip.EQP_WP_Com_ms_026,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8023},--grade6
+    {equipId=TppEquip.EQP_WP_Com_ms_020,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8022},--grade5
+    {equipId=TppEquip.EQP_WP_Com_ms_024,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8021},--grade4
+    {equipId=TppEquip.EQP_WP_Com_ms_023,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8020}--grade3
   },
   SHIELD={
-    {equipId=TppEquip.EQP_SLD_DD,developedEquipType=mbsDevelopedEquipType.SD_9000,developId=9e3}--grade2
+    {equipId=TppEquip.EQP_SLD_DD,developedEquipType=MbsDevelopedEquipType.SD_9000,developId=9e3}--grade2
   },
   GRENADE={
-    {equipId=TppEquip.EQP_SWP_Grenade_G05,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10045},--grade8
-    {equipId=TppEquip.EQP_SWP_Grenade_G04,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10044},--grade5
-    {equipId=TppEquip.EQP_SWP_Grenade_G03,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10043},--grade4
-    {equipId=TppEquip.EQP_SWP_Grenade_G02,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10042},--grade3
-    {equipId=TppEquip.EQP_SWP_Grenade_G01,developedEquipType=mbsDevelopedEquipType.GRENADE,developId=10041},--grade2
+    {equipId=TppEquip.EQP_SWP_Grenade_G05,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=10045},--grade8
+    {equipId=TppEquip.EQP_SWP_Grenade_G04,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=10044},--grade5
+    {equipId=TppEquip.EQP_SWP_Grenade_G03,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=10043},--grade4
+    {equipId=TppEquip.EQP_SWP_Grenade_G02,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=10042},--grade3
+    {equipId=TppEquip.EQP_SWP_Grenade_G01,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=10041},--grade2
     {equipId=TppEquip.EQP_SWP_Grenade}
   },
   STUN_GRENADE={
-    {equipId=TppEquip.EQP_SWP_StunGrenade_G03,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10063},--grade8
-    {equipId=TppEquip.EQP_SWP_StunGrenade_G02,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10062},--grade5
-    {equipId=TppEquip.EQP_SWP_StunGrenade_G01,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10061},--grade4
-    {equipId=TppEquip.EQP_SWP_StunGrenade,isNoKill=true,developedEquipType=mbsDevelopedEquipType.STUN_GRENADE,developId=10060}--grade3
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G03,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=10063},--grade8
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G02,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=10062},--grade5
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G01,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=10061},--grade4
+    {equipId=TppEquip.EQP_SWP_StunGrenade,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=10060}--grade3
   },
   SNEAKING_SUIT={
-    {equipId=6,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19042},--grade8 --RETAILPATCH: 1060 added>
-    {equipId=5,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19057},--grade7
-    {equipId=4,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19056},--grade6--<
-    {equipId=3,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19052},--grade4
-    {equipId=2,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19051},--grade3
-    {equipId=1,isNoKill=true,developedEquipType=mbsDevelopedEquipType.SNEAKING_SUIT,developId=19050}--grade2
+    {equipId=6,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19042},--grade8 --RETAILPATCH: 1060 added>
+    {equipId=5,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19057},--grade7
+    {equipId=4,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19056},--grade6--<
+    {equipId=3,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19052},--grade4
+    {equipId=2,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19051},--grade3
+    {equipId=1,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19050}--grade2
   },
   BATTLE_DRESS={
-    {equipId=6,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19043},--grade8--RETAILPATCH: 1060 added>
-    {equipId=5,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19059},--grade7
-    {equipId=4,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19058},--grade6<
-    {equipId=3,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19055},--grade5
-    {equipId=2,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19054},--grade4
-    {equipId=1,developedEquipType=mbsDevelopedEquipType.BATTLE_DRESS,developId=19053}--grade3
+    {equipId=6,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19043},--grade8--RETAILPATCH: 1060 added>
+    {equipId=5,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19059},--grade7
+    {equipId=4,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19058},--grade6<
+    {equipId=3,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19055},--grade5
+    {equipId=2,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19054},--grade4
+    {equipId=1,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19053}--grade3
   }
 }
 do
@@ -1002,14 +1002,13 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
         local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
 
         local overrideDeveloped=false--tex>
-        if InfMain.IsDDEquip() then
-          if Ivars.allowUndevelopedDDEquip:Is(0) then--tex WORKAROUND developedEquipGradeTable is zeroed if mission is not motherbase
-            if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=developId} then
-              overrideDeveloped=true
-          end
-          else
+        if InfMain.IsDDEquip() and Ivars.allowUndevelopedDDEquip:Is(0) then        
+          --tex WORKAROUND developedEquipGradeTable is zeroed if mission is not motherbase
+          if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=developId} then
             overrideDeveloped=true
           end
+        else
+          overrideDeveloped=true
         end--<
 
         if(soldierEquipGrade>=developRank and (developedEquipGradeTable[developedEquipType]>=developRank or overrideDeveloped))then--tex added override
@@ -1058,8 +1057,8 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   -- local dd = this.weaponIdTable.DD
   -- local inss = InfInspect.Inspect(dd)
   -- InfMenu.DebugPrint(inss)--<
-  local fultonGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16001]
-  local wormholeGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16008]
+  local fultonGrade=developedGradeTable[MbsDevelopedEquipType.FULTON_16001]
+  local wormholeGrade=developedGradeTable[MbsDevelopedEquipType.FULTON_16008]
   if fultonGrade>soldierEquipGrade then
     fultonGrade=soldierEquipGrade
   end
