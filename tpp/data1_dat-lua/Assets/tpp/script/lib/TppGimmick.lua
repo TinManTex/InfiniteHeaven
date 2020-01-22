@@ -838,14 +838,16 @@ function this.CheckQuestAllTarget(questType,a,l)
       for n,e in pairs(mvars.gim_questTargetList)do
         if e.idType=="Develop"then
           if a==TppCollection.GetUniqueIdByLocatorName(e.developId)then
-            e.messageId="Recovered"end
+            e.messageId="Recovered"
+            end
         end
       end
     elseif questType==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
       for n,e in pairs(mvars.gim_questTargetList)do
         local n=StrCode32(e.locatorName)
         if a==n then
-          e.messageId="Break"l=true
+          e.messageId="Break"
+          l=true
           mvars.gim_questMarkCount=mvars.gim_questMarkCount+1
           break
         end
@@ -858,7 +860,8 @@ function this.CheckQuestAllTarget(questType,a,l)
             if e==NULL_ID then
             else
               if a==e then
-                n.messageId="Recovered"end
+                n.messageId="Recovered"
+                end
             end
           end
         end
@@ -958,7 +961,8 @@ function this.EndQuestShootingPractice(e)
   if e==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY then
     mvars.gim_isquestMarkStart=false
     for n,e in pairs(mvars.gim_questTargetList)do
-      e.messageId="None"end
+      e.messageId="None"
+      end
     mvars.gim_questMarkCount=0
   end
 end

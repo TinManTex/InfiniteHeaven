@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r122"
+this.modVersion="r124"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -532,6 +532,44 @@ function this.SetKeepAlert(cpName,enable)
 end
 
 --
+function this.SetUpMBZombie()
+  --  for idx = 1, table.getn(this.soldierDefine[mtbs_enemy.cpNameDefine]) do
+  --    local gameObjectId = GameObject.GetGameObjectId("TppSoldier2", this.soldierDefine[mtbs_enemy.cpNameDefine][idx])
+  --    if gameObjectId ~= NULL_ID then
+  --      InfMenu.DebugPrint("idx:".. idx .. "soldiername: ".. tostring(this.soldierDefine[mtbs_enemy.cpNameDefine][idx]) )--DEBUG
+  --      GameObject.SendCommand( gameObjectId, { id = "SetZombie", enabled = true, isMsf = false, isZombieSkin = true, isHagure = false } )
+  --    end
+  --  end
+  for cpName, soldierNameList in pairs( mtbs_enemy.soldierDefine ) do
+    for _, soldierName in pairs( soldierNameList ) do
+      local gameObjectId = GetGameObjectId("TppSoldier2", soldierName)
+      if gameObjectId ~= NULL_ID then
+        local command =  {
+          id = "SetZombie",
+          enabled = true,
+          isMsf = math.random()>0.7,
+          isZombieSkin = false,--math.random()>0.5,
+          isHagure = math.random()>0.7,--tex donn't even know
+          isHalf=math.random()>0.7,--tex donn't even know
+        }
+        if not command.isMsf then
+          command.isZombieSkin=true
+        end
+        GameObject.SendCommand( gameObjectId, command )
+        if command.isMsf then
+          local command = { id = "SetMsfCombatLevel", level = math.random(9) }
+          GameObject.SendCommand( gameObjectId, command )
+        end
+
+        if math.random()>0.8 then
+          GameObject.SendCommand( gameObjectId, { id = "SetEnableHotThroat", enabled = true } )
+        end
+      end
+    end
+end
+
+end
+
 -- revenge system stuff>
 
 --tex TODO: put in some util or math module
@@ -795,7 +833,7 @@ end--function
 
 this.SetFriendlyCp = function()
   local gameObjectId = { type="TppCommandPost2", index=0 }
-  local command = { id = "SetFriendlyCp" }
+  local command = { id="SetFriendlyCp" }
   GameObject.SendCommand( gameObjectId, command )
 end
 
@@ -1524,20 +1562,69 @@ function this.OnAllocate(missionTable)
   --  end--<
 end
 
-this.prevDisableActionFlag=nil
-function this.DisableActionFlagEquipMenu()
-  if this.prevDisableActionFlag==nil then
-    this.prevDisableActionFlag=vars.playerDisableActionFlag
-    vars.playerDisableActionFlag=vars.playerDisableActionFlag+PlayerDisableAction.OPEN_EQUIP_MENU
-  end
-end
-function this.RestoreActionFlag()
-  if this.prevDisableActionFlag~=nil then
-    vars.playerDisableActionFlag=this.prevDisableActionFlag
-    this.prevDisableActionFlag=nil
+function this.MissionPrepare()
+  if TppMission.IsStoryMission(vars.missionCode) then
+    if Ivars.gameOverOnDiscovery:Is(1) then
+      TppMission.RegistDiscoveryGameOver()
+    end
   end
 end
 
+local disableActionMenus=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU
+local menuDisableActions=PlayerDisableAction.OPEN_EQUIP_MENU
+
+function this.RestoreActionFlag()
+  local activeControlMode=this.GetActiveControlMode()
+  --DEBUGNOW WIP
+--  if activeControlMode then
+--    if bit.band(vars.playerDisableActionFlag,menuDisableActions)==menuDisableActions then 
+--    else
+--      this.EnableAction(menuDisableActions) 
+--    end
+--  else
+    this.EnableAction(menuDisableActions)    
+--  end
+end
+
+function this.DisableAction(actionFlag)
+  if not this.ActionIsDisabled(actionFlag) then
+    vars.playerDisableActionFlag=vars.playerDisableActionFlag+actionFlag
+  end
+end
+function this.EnableAction(actionFlag)
+  if this.ActionIsDisabled(actionFlag) then
+    vars.playerDisableActionFlag=vars.playerDisableActionFlag-actionFlag
+  end
+end
+
+function this.ActionIsDisabled(actionFlag)
+  if bit.band(vars.playerDisableActionFlag,actionFlag)==actionFlag then
+    return true
+  end
+  return false
+end
+
+--
+
+local allButCamPadMask={
+  settingName="allButCam",
+  except=true,
+  sticks=PlayerPad.STICK_R,
+}
+local allButSticksPadMask={
+  settingName="allButSticks",
+  except=true,
+}
+--CULL REF
+--local commonControlPadMask={
+--  settingName="controlMode",
+--  except=false,
+--  buttons=PlayerPad.ALL,
+--  sticks=PlayerPad.STICK_L,--+PlayerPad.STICK_R,
+--  triggers=PlayerPad.TRIGGER_L+PlayerPad.TRIGGER_R,
+--}
+
+local menuPadMask=allButSticksPadMask
 --
 local function UpdateRangeToMinMax(updateRate,updateRange)
   local min=updateRate-updateRange*0.5
@@ -1721,6 +1808,7 @@ end
 local updateIvars={
   Ivars.phaseUpdate,
   Ivars.warpPlayerUpdate,
+  Ivars.adjustCameraUpdate,
   Ivars.heliUpdate,
 }
 
@@ -1950,6 +2038,19 @@ this.moveForwardButton=InfButton.UP
 this.moveBackButton=InfButton.DOWN
 this.moveUpButton=InfButton.STANCE
 this.moveDownButton=InfButton.CALL
+--cam buttons
+this.zoomInButton=InfButton.ZOOM_CHANGE
+this.zoomOutButton=InfButton.SUBJECT
+
+
+this.resetModeButton=InfButton.ACTION
+
+this.verticalModeButton=InfButton.SUBJECT
+
+this.zoomModeButton=InfButton.FIRE
+
+this.apertureModeButton=InfButton.RELOAD
+this.focusDistanceModeButton=InfButton.STANCE
 
 this.warpModeButtons={
   this.moveRightButton,
@@ -1962,12 +2063,39 @@ this.warpModeButtons={
 
 --init
 function this.InitWarpPlayerUpdate()
+--  InfButton.buttonStates[this.moveRightButton].decrement=0.1
+--  InfButton.buttonStates[this.moveLeftButton].decrement=0.1
+--  InfButton.buttonStates[this.moveForwardButton].decrement=0.1
+--  InfButton.buttonStates[this.moveBackButton].decrement=0.1
+--  InfButton.buttonStates[this.moveUpButton].decrement=0.1
+--  InfButton.buttonStates[this.moveDownButton].decrement=0.1
+end
+
+function this.InitWarpPlayerUpdate()
+end
+
+function this.OnActivateWarpPlayer()
   InfButton.buttonStates[this.moveRightButton].decrement=0.1
   InfButton.buttonStates[this.moveLeftButton].decrement=0.1
   InfButton.buttonStates[this.moveForwardButton].decrement=0.1
   InfButton.buttonStates[this.moveBackButton].decrement=0.1
   InfButton.buttonStates[this.moveUpButton].decrement=0.1
   InfButton.buttonStates[this.moveDownButton].decrement=0.1
+  
+  local repeatRate=0.06
+  local repeatRateUp=0.04
+  InfButton.buttonStates[this.moveRightButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.moveLeftButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.moveForwardButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.moveBackButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.moveUpButton].repeatRate=repeatRateUp
+  InfButton.buttonStates[this.moveDownButton].repeatRate=repeatRate
+  
+  --DEBUGNOWthis.DisableAction(Ivars.warpPlayerUpdate.disableActions)
+end
+
+function this.OnDeactivateWarpPlayer()
+  --this.EnableAction(Ivars.warpPlayerUpdate.disableActions)
 end
 
 function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
@@ -1985,16 +2113,6 @@ function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,up
   if Ivars.warpPlayerUpdate.setting==0 then
     return
   end
-
-  --TODO: refactor, in InfMenu.Update too
-  local repeatRate=0.06
-  local repeatRateUp=0.04
-  InfButton.buttonStates[this.moveRightButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.moveLeftButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.moveForwardButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.moveBackButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.moveUpButton].repeatRate=repeatRateUp
-  InfButton.buttonStates[this.moveDownButton].repeatRate=repeatRate
 
   local warpAmount=1
   local warpUpAmount=1
@@ -2050,6 +2168,177 @@ function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,up
     local warpPos=currentPos+playerMoveDir
     TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
   end
+end
+--
+local cameraOffsetDefault=Vector3(0,1,0)
+this.cameraPosition=cameraOffsetDefault
+
+function this.ResetCamDefaults()
+  local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
+  this.cameraPosition=currentPos+cameraOffsetDefault
+end
+
+function this.ResetCamPosition()
+  local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
+  this.cameraPosition=currentPos+cameraOffsetDefault
+end
+
+function this.UpdateCameraManualMode()
+  --Player.SetAroundCameraManualMode(true)
+  Player.SetAroundCameraManualModeParams{
+    --offset=this.cameraOffset,
+    distance=0,--1.2,
+    focalLength=Ivars.focalLength:Get(),
+    focusDistance=Ivars.focusDistance:Get(),
+    aperture=Ivars.aperture:Get(),
+    --target=Vector3(0,0,0),--tex only if targetIsPlayer?--Vector3(0,1000,0),--Vector3(2,10,10),
+    target=this.cameraPosition,
+    targetInterpTime=.2,
+    --targetIsPlayer=true,
+    --targetOffsetFromPlayer=Vector3(0,0,0.5),
+    --rotationBasedOnPlayer = true,
+    ignoreCollisionGameObjectName="Player",
+    --ignoreCollisionGameObjectId
+    rotationLimitMinX=-90,
+    rotationLimitMaxX=90,
+    alphaDistance=.5,
+  --interpImmediately = immediately,
+  --enableStockChangeSe = true,
+  --rotationBasedOnPlayer = true,
+  --useShakeParam = true
+  }
+
+  Player.UpdateAroundCameraManualModeParams()
+end
+
+function this.OnActivateCameraAdjust()
+  --this.DisableAction(Ivars.adjustCameraUpdate.disableActions)--tex OFF not really needed, padmask is sufficient
+  Player.SetPadMask(allButCamPadMask)
+end
+
+function this.OnDectivateCameraAdjust()
+  --this.EnableAction(Ivars.adjustCameraUpdate.disableActions)--tex OFF not really needed, padmask is sufficient
+  Player.ResetPadMask {
+    settingName = "allButCam",
+  }
+end
+
+function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  if not currentChecks.inGame then
+    if Ivars.adjustCameraUpdate.setting==1 then
+      Ivars.adjustCameraUpdate:Set(0)
+    end
+    return
+  end
+
+  if Ivars.adjustCameraUpdate:Is(0) then
+    if Ivars.cameraMode:Is"CAMERA" then
+      this.UpdateCameraManualMode()
+    end
+    return
+  end
+
+  local moveAmount=1
+  local zoomAmount=4
+  local deadZone=0
+
+  local moveX=0
+  local moveY=0
+  local moveZ=0
+
+  local didMove=false
+  if math.abs(PlayerVars.leftStickXDirect)>deadZone or math.abs(PlayerVars.leftStickYDirect)>deadZone then--tex seem like game already handles deadzone?
+    didMove=true
+  end
+  local moveScale=Ivars.moveScale:Get()
+  --tex pretty much doing voodoo to tune these
+  local focalLengthScale=Ivars.focalLength:Get()/100--1
+  local apertureScale=Ivars.aperture:Get()/50--0.1
+  local focusDistanceScale=Ivars.aperture:Get()/10--0.1
+
+  moveX=-PlayerVars.leftStickXDirect*moveScale
+  moveZ=-PlayerVars.leftStickYDirect*moveScale
+
+
+  if not currentChecks.inMenu then
+    local function IvarClamp(ivar,value)
+      if value>ivar.range.max then
+        value=ivar.range.max
+      elseif value<ivar.range.min then
+        value=ivar.range.min
+      end
+      return value
+    end
+
+    if didMove then
+      if InfButton.ButtonDown(this.zoomModeButton) then
+        local newValue=Ivars.focalLength:Get()-PlayerVars.leftStickYDirect*focalLengthScale
+        newValue=IvarClamp(Ivars.focalLength,newValue)
+        Ivars.focalLength:Set(newValue)
+      elseif InfButton.ButtonDown(this.apertureModeButton) then
+        local newValue=Ivars.aperture:Get()-PlayerVars.leftStickYDirect*apertureScale
+        newValue=IvarClamp(Ivars.aperture,newValue)
+        Ivars.aperture:Set(newValue)
+      elseif InfButton.ButtonDown(this.focusDistanceModeButton) then
+        local newValue=Ivars.focusDistance:Get()-PlayerVars.leftStickYDirect*focusDistanceScale
+        newValue=IvarClamp(Ivars.focusDistance,newValue)
+        Ivars.focusDistance:Set(newValue)
+      elseif InfButton.ButtonDown(this.verticalModeButton) then
+        moveY=moveZ
+        moveZ=0
+        moveX=0
+        local vMoveDir=Vector3(moveX,moveY,moveZ)
+        local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerCameraRotation[1]))
+        local camMoveDir=rotYQuat:Rotate(vMoveDir)
+        this.cameraPosition=this.cameraPosition+camMoveDir
+      else
+        local vMoveDir=Vector3(moveX,moveY,moveZ)
+        local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerCameraRotation[1]))
+        local camMoveDir=rotYQuat:Rotate(vMoveDir)
+        this.cameraPosition=this.cameraPosition+camMoveDir
+      end
+    end--didmove
+    --
+    if InfButton.ButtonDown(this.resetModeButton) then
+      if InfButton.OnButtonDown(this.zoomModeButton) then
+        Ivars.focalLength:Reset()
+      elseif InfButton.OnButtonDown(this.apertureModeButton) then
+        Ivars.aperture:Reset()
+      elseif InfButton.OnButtonDown(this.focusDistanceModeButton) then
+        Ivars.focusDistance:Reset()
+      elseif InfButton.OnButtonDown(this.verticalModeButton) then
+        this.ResetCamPosition()
+      end
+    end
+    --
+    if InfButton.OnButtonDown(this.zoomModeButton) then
+      InfMenu.Print(InfMenu.LangString"focal_length_mode".." "..Ivars.focalLength:Get())
+    end
+    if InfButton.OnButtonDown(this.apertureModeButton) then
+      InfMenu.Print(InfMenu.LangString"aperture_mode".." "..Ivars.aperture:Get())
+    end
+    if InfButton.OnButtonDown(this.focusDistanceModeButton) then
+      InfMenu.Print(InfMenu.LangString"focus_distance_mode".." "..Ivars.focusDistance:Get())
+    end
+    if InfButton.OnButtonDown(this.verticalModeButton) then
+      InfMenu.Print(InfMenu.LangString"vertical_mode")
+    end
+    if InfButton.OnButtonDown(this.resetModeButton) then
+      InfMenu.Print(InfMenu.LangString"reset_mode")
+    end
+    --inmenu-v-
+  else
+    if didMove then
+      local vMoveDir=Vector3(moveX,moveY,moveZ)
+      local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerCameraRotation[1]))
+      local camMoveDir=rotYQuat:Rotate(vMoveDir)
+      this.cameraPosition=this.cameraPosition+camMoveDir
+      --InfMenu.DebugPrint("cameraPosition "..this.cameraPosition:GetX()..","..this.cameraPosition:GetY()..","..InfMain.cameraPosition:GetZ())
+    end
+  end
+
+
+  this.UpdateCameraManualMode()
 end
 
 --heli, called from TppMain.Onitiialize, so should only be 'enable/change from default', VERIFY it's in the right spot to override each setting
@@ -2122,6 +2411,35 @@ function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRa
     end--nopullout or initialact
   end--not menu, insupportheli
 end
+
+---
+function this.OnMenuOpen()
+
+end
+function this.OnMenuClose()
+  local activeControlMode=this.GetActiveControlMode()
+  if activeControlMode then
+    if IsFunc(activeControlMode.OnActivate) then
+      activeControlMode.OnActivate()
+    end
+  end  
+end
+
+
+local controlModes={
+  Ivars.warpPlayerUpdate,
+  Ivars.adjustCameraUpdate,
+}
+function this.GetActiveControlMode()
+  for i,ivar in ipairs(controlModes)do
+    if ivar:Is(1) then
+      return ivar
+    end
+  end
+  return nil
+end
+
+--
 
 function this.HeliOrderRecieved()
   if this.execChecks.inGame and not this.execChecks.inHeliSpace then

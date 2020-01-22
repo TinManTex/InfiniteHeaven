@@ -118,7 +118,8 @@ this.PLAY_REQUEST_START_FUNC={
     if not e.direction then
       return false
     end
-    Player.RequestToSetTargetStance(PlayerStance.STAND)Player.RequestToMoveToPosition{name="DemoStartMoveToPosition",position=e.position,direction=e.direction,onlyInterpPosition=true,timeout=10}
+    Player.RequestToSetTargetStance(PlayerStance.STAND)
+    Player.RequestToMoveToPosition{name="DemoStartMoveToPosition",position=e.position,direction=e.direction,onlyInterpPosition=true,timeout=10}
     mvars.dem_waitingMoveToPosition=true
     return true
   end,
@@ -521,33 +522,33 @@ function this.ClearReserveInTheBackGround()
   mvars.dem_reservedDemoId=nil
   mvars.dem_reservedDemoLoadPosition=nil
 end
-function this.CheckEventDemoDoor(r,n,e)
-  local t=TppPlayer.GetPosition()
-  local a=30
-  if r==nil then
+function this.CheckEventDemoDoor(doorId,n,e)
+  local position=TppPlayer.GetPosition()
+  local range=30
+  if doorId==nil then
     return false
   end
   if Tpp.IsTypeTable(n)then
-    t=n
+    position=n
   elseif n==nil then
   end
   if Tpp.IsTypeNumber(e)and e>0 then
-    a=e
+    range=e
   elseif e==nil then
   end
-  local n=0
+  local isNgIcon=0
   local i,l=0,1
   local isNotAlert=Tpp.IsNotAlert()
-  local a=TppEnemy.IsActiveSoldierInRange(t,a)
+  local a=TppEnemy.IsActiveSoldierInRange(position,range)
   local e
   if isNotAlert==true and a==false then
-    n=i
+    isNgIcon=i
     e=true
   else
-    n=l
+    isNgIcon=l
     e=false
   end
-  Player.SetEventLockDoorIcon{doorId=r,isNgIcon=n}
+  Player.SetEventLockDoorIcon{doorId=doorId,isNgIcon=isNgIcon}
   return e,isNotAlert,(not a)
 end
 function this.SpecifyIgnoreNpcDisable(e)

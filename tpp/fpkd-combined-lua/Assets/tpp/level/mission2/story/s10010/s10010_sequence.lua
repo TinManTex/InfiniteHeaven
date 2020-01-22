@@ -4247,7 +4247,7 @@ s10010_sequence.StopPlayerAndStartNearCamera = function( enabled, targetLocatorN
 			Player.SetAroundCameraManualMode( true )
 			Player.SetAroundCameraManualModeParams{
 				offset = Vector3( -0.25, 0.35, 0 ),	
-				target = targetPosition,
+				target = targetPosition,--RETAILBUG: targetPosition not defined
 				distance = 1.5,	
 				focalLength = focalLength,	
 				targetIsPlayer = true,	

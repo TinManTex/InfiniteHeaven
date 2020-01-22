@@ -1,9 +1,22 @@
 = Infinite heaven =
-r122 - 2015-01-23
+r124 - 2015-01-30
 by tin man tex
 For MGSV version 1.071
 
 A mod for MGSV intended to extend play through customisable settings and features.
+
+New for 124
+Free cam: Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings.
+[youtube]aJ3lvD1JiJ0[/youtube]
+https://www.youtube.com/watch?v=aJ3lvD1JiJ0
+[youtube]1CygEjTfF_c[/youtube]
+https://www.youtube.com/watch?v=1CygEjTfF_c
+
+Infection mode under mother base wargames, turns DD soldiers to a mix of puppet soldiers and wandering soldiers.
+[youtube]t_6fj8Rkvic[/youtube]
+https://www.youtube.com/watch?v=t_6fj8Rkvic
+
+Options: "Disable retry", "Game over on combat alert" - to replicate perfect stealth settings
 
 New for r120
 Setting vehicle patrols to any type of armored vehicle will disable the sideops with multiple armored vehicles to sidestep the invisible vehicle bug.
@@ -417,6 +430,22 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r124 - 2015-01-30 publiv release
+mbWargames: Zombie mode - mixes regular puppet and msf. 
+Options: disableRetry, gameOverOnDiscovery - to replicate perfect stealth settings
+
+r123
+InfButton: some bitmasks added/renamed to proper from lua, don't seem to be in the playerpad section in the exe though
+Refactor InfMenu refresh current setting now combined with Activate (ACTION key)
+MenuOn/Off() -> OnActivate OnDeactivate
+Activate/deactivate checks > CheckActivate
+revengeModeForMb check moved out of IsNoRevengeMission to selectrevengetype itself so it doesnt cause any revenge points change.
+Refactor
+Added free cam mode, similar implmentation to warp mode but disabling normal controls via padmask to open up keys for own use.
+Menu open equip disableActionFlag now bit flipping instead of just saving/restoring previous. Still have odd issues when trying to mix with multiple disables (with free cam for example) seemingly flipping unrelated flags.
+Update-ivars now (manually in Onchange) call an OnActivate/Deactivate, key repeat settings shifted there instead of in update.
+
+
 r122 - 2015-01-23 - public release
 Headmarkers should remain disabled in all situations, hopefully - thanks Psithen for the report
 Refactor: blocking quests due to reinforcement and patrol vehicle settings via unlockSideOpNumber and TppQuest.UpdateActiveQuest unified to InfMain.BlockQuest. unlockSideOpNumber now silently skips.

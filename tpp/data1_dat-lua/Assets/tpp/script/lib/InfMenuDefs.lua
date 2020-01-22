@@ -310,6 +310,8 @@ this.playerRestrictionsMenu={
     Ivars.setDefaultHand,
     Ivars.noCentralLzs,
     Ivars.abortMenuItemControl,
+    Ivars.disableRetry,
+    Ivars.gameOverOnDiscovery,
     this.handLevelMenu,
     this.fultonLevelMenu,
     this.fultonSuccessMenu,
@@ -408,9 +410,23 @@ this.vehiclePatrolMenu={
   }
 }
 
+this.cameraMenu={
+  options={
+    Ivars.adjustCameraUpdate,
+    Ivars.cameraMode,
+    Ivars.moveScale,
+--    Ivars.focalLength,
+--    Ivars.focusDistance,
+--    Ivars.aperture,
+    InfMenuCommands.resetCameraSettings,--tex just reset cam pos at the moment
+    InfMenuCommands.resetSettingsItem,
+    InfMenuCommands.goBackItem,
+  }
+}
+
 this.heliSpaceMenu={
   options={
-    InfMenuCommands.DEBUG_PrintSomeShiz,--DEBUGNOW
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
     --InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
     --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --Ivars.vehiclePatrolPaintType,
@@ -430,6 +446,7 @@ this.heliSpaceMenu={
     this.sideOpsMenu,
     this.motherBaseMenu,
     this.demosMenu,
+    this.cameraMenu,
     this.supportHeliMenu,
     --this.missionEntryExitMenu,
     --this.appearanceMenu,--tex  WIP
@@ -448,13 +465,13 @@ this.debugInMissionMenu={
     Ivars.selectedCp,
     InfMenuCommands.DEBUG_PrintCpPowerSettings,
     InfMenuCommands.DEBUG_PrintPowersCount,
-    InfMenuCommands.DEBUG_PrintCpSizes,
+    --InfMenuCommands.DEBUG_PrintCpSizes,
     --InfMenuCommands.warpPlayerCommand,
     InfMenuCommands.DEBUG_PrintReinforceVars,
     --InfMenuCommands.DEBUG_PrintVehicleTypes,
     --InfMenuCommands.DEBUG_PrintVehiclePaint,
-    InfMenuCommands.DEBUG_PrintSoldierDefine,
-    InfMenuCommands.DEBUG_PrintSoldierIDList,
+    --InfMenuCommands.DEBUG_PrintSoldierDefine,
+    --InfMenuCommands.DEBUG_PrintSoldierIDList,
     InfMenuCommands.DEBUG_ShowRevengeConfig,
     --InfMenuCommands.DEBUG_ShowPhaseEnums,--CULL
     --InfMenuCommands.DEBUG_ChangePhase,
@@ -464,7 +481,7 @@ this.debugInMissionMenu={
     --InfMenuCommands.DEBUG_SetPlayerPhaseToIvar,
     --InfMenuCommands.DEBUG_PrintVarsClock,
    --InfMenuCommands.showMissionCode,
-    InfMenuCommands.showMbEquipGrade,
+    --InfMenuCommands.showMbEquipGrade,
     InfMenuCommands.showPosition,
     --InfMenuCommands.DEBUG_ClearAnnounceLog,  
     InfMenuCommands.goBackItem,
@@ -473,11 +490,12 @@ this.debugInMissionMenu={
 
 this.inMissionMenu={
   options={
-    InfMenuCommands.DEBUG_PrintSomeShiz,--DEBUGNOW
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
     --Ivars.selectedChangeWeapon,--WIP
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,
+    this.cameraMenu,
     Ivars.clockTimeScale,
     --this.appearanceMenu,--WIP
     Ivars.quietRadioMode,

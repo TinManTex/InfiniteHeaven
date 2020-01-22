@@ -363,12 +363,15 @@ function this._OnInterrogationEnd(r,n,i,e)
     else
       mvars.interTable[n].layer.normal[e].func(r,n,i)
     end
-    local n=svars.InterrogationNormal[a]svars.InterrogationNormal[a]=bit.band(svars.InterrogationNormal[a],bit.bnot(bit.lshift(1,e-1)))
+    local n=svars.InterrogationNormal[a]
+    svars.InterrogationNormal[a]=bit.band(svars.InterrogationNormal[a],bit.bnot(bit.lshift(1,e-1)))
   end
 end
-function this._AssignInterrogation(e,n,a)r(e,{id="AssignInterrogation",messageId=n,index=a})
+function this._AssignInterrogation(e,n,a)
+r(e,{id="AssignInterrogation",messageId=n,index=a})
 end
-function this._AssignInterrogationCollection(e)r(e,{id="AssignInterrogationCollection"})
+function this._AssignInterrogationCollection(e)
+r(e,{id="AssignInterrogationCollection"})
 end
 function this._SelectInterrogation(n,a)
   if mvars.interTable==nil then

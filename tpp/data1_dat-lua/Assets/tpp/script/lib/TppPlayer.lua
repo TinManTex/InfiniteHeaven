@@ -130,15 +130,15 @@ function this.CheckRotationSetting(a)
   end
 end
 function this.CheckRotation()
-  local a=mvars
-  if a.ply_checkDirectionList==nil then
+  local mvars=mvars
+  if mvars.ply_checkDirectionList==nil then
     return
   end
-  for n,t in pairs(a.ply_checkDirectionList)do
+  for n,t in pairs(mvars.ply_checkDirectionList)do
     local e=this._CheckRotation(t.directionX,t.directionRangeX,t.directionY,t.directionRangeY,n)
-    if e~=a.ply_checkRotationResult[n]then
-      a.ply_checkRotationResult[n]=e
-      a.ply_checkDirectionList[n].func(e)
+    if e~=mvars.ply_checkRotationResult[n]then
+      mvars.ply_checkRotationResult[n]=e
+      mvars.ply_checkDirectionList[n].func(e)
     end
   end
 end
@@ -970,8 +970,10 @@ function this.SetTargetHeliCamera(r)
   local a
   local o
   if IsTypeTable(r)then
-    l=r.gameObjectName or""a=r.gameObjectId
-    o=r.announceLog or"target_eliminate_failed"end
+    l=r.gameObjectName or""
+    a=r.gameObjectId
+    o=r.announceLog or"target_eliminate_failed"
+    end
   a=a or GetGameObjectId(l)
   if a==NULL_ID then
     return
@@ -999,7 +1001,7 @@ function this.SetTargetTruckCamera(r)
 end
 function this._SetTargetTruckCamera(a)
   this.PrepareStartGameOverCamera()
-  Player.RequestToPlayCameraNonAnimation{characterId=mvars.ply_gameOverCameraGameObjectId,isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,candidateRots={{10,0},{10,45},{10,90},{10,135},{10,180},{10,225},{10,270}},skeletonNames={"SKL_005_WIPERC"},skeletonCenterOffsets={Vector3(0,-.75,-2)},skeletonBoundings={Vector3(1.5,2,4)},offsetPos=Vector3(2.5,3,7.5),focalLength=21,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.01,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=999999}
+  Player.RequestToPlayCameraNonAnimation{characterId=mvars.ply_gameOverCameraGameObjectId,isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,candidateRots={{10,0},{10,45},{10,90},{10,135},{10,180},{10,225},{10,270}},StartCameraAnimation={"SKL_005_WIPERC"},skeletonCenterOffsets={Vector3(0,-.75,-2)},skeletonBoundings={Vector3(1.5,2,4)},offsetPos=Vector3(2.5,3,7.5),focalLength=21,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.01,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=999999}
 end
 function this.SetPlayerKilledChildCamera()
   if mvars.mis_childGameObjectIdKilledPlayer then
@@ -1078,7 +1080,8 @@ function this.PlayCommonMissionEndCamera(i,r,s,l,t,n)
   local a
   local e=vars.playerVehicleGameObjectId
   if Tpp.IsHorse(e)then
-    GameObject.SendCommand(e,{id="HorseForceStop"})a=i(e,t,n)
+    GameObject.SendCommand(e,{id="HorseForceStop"})
+    a=i(e,t,n)
   elseif Tpp.IsVehicle(e)then
     local o=GameObject.SendCommand(e,{id="GetVehicleType"})
     GameObject.SendCommand(e,{id="ForceStop",enabled=true})
@@ -1087,13 +1090,15 @@ function this.PlayCommonMissionEndCamera(i,r,s,l,t,n)
       a=r(e,t,n)
     end
   elseif(Tpp.IsPlayerWalkerGear(e)or Tpp.IsEnemyWalkerGear(e))then
-    GameObject.SendCommand(e,{id="ForceStop",enabled=true})a=s(e,t,n)
+    GameObject.SendCommand(e,{id="ForceStop",enabled=true})
+    a=s(e,t,n)
   elseif Tpp.IsHelicopter(e)then
   else
     a=l(t,n)
   end
   if a then
-    local e="Timer_StartPlayMissionClearCameraStep"..tostring(t+1)TimerStart(e,a)
+    local e="Timer_StartPlayMissionClearCameraStep"..tostring(t+1)
+    TimerStart(e,a)
   end
 end
 function this._PlayMissionClearCamera(a,t)
@@ -1102,7 +1107,8 @@ function this._PlayMissionClearCamera(a,t)
   end
   this.PlayCommonMissionEndCamera(this.PlayMissionClearCameraOnRideHorse,this.VEHICLE_MISSION_CLEAR_CAMERA,this.PlayMissionClearCameraOnWalkerGear,this.PlayMissionClearCameraOnFoot,a,t)
 end
-function this.RequestMissionClearMotion()Player.RequestToPlayDirectMotion{"missionClearMotion",{"/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_f_idl7.gani",false,"","","",false}}
+function this.RequestMissionClearMotion()
+Player.RequestToPlayDirectMotion{"missionClearMotion",{"/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_f_idl7.gani",false,"","","",false}}
 end
 function this.PlayMissionClearCameraOnFoot(p,c)
   if PlayerInfo.AndCheckStatus{PlayerStatus.NORMAL_ACTION}then
@@ -1125,14 +1131,25 @@ function this.PlayMissionClearCameraOnFoot(p,c)
   local i=20
   local l=false
   if p==1 then
-    a={"SKL_004_HEAD","SKL_002_CHEST"}t={Vector3(0,0,.05),Vector3(.15,0,0)}n={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}r=Vector3(0,0,-1.5)e=.3
+    a={"SKL_004_HEAD","SKL_002_CHEST"}t={Vector3(0,0,.05),Vector3(.15,0,0)}
+    n={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
+    r=Vector3(0,0,-1.5)
+    e=.3
     s=1
     o=true
   elseif c then
-    a={"SKL_004_HEAD"}t={Vector3(0,0,.05)}n={Vector3(.1,.125,.1)}r=Vector3(0,-.5,-3.5)e=3
+    a={"SKL_004_HEAD"}
+    t={Vector3(0,0,.05)}
+    n={Vector3(.1,.125,.1)}
+    r=Vector3(0,-.5,-3.5)
+    e=3
     i=4
   else
-    a={"SKL_004_HEAD","SKL_031_LLEG","SKL_041_RLEG"}t={Vector3(0,0,.05),Vector3(.15,0,0),Vector3(-.15,0,0)}n={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)}r=Vector3(0,0,-3.2)e=3
+    a={"SKL_004_HEAD","SKL_031_LLEG","SKL_041_RLEG"}
+    t={Vector3(0,0,.05),Vector3(.15,0,0),Vector3(-.15,0,0)}
+    n={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)}
+    r=Vector3(0,0,-3.2)
+    e=3
     l=true
   end
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=4,followDelayTime=.1,candidateRots={{1,168},{1,-164}},skeletonNames=a,skeletonCenterOffsets=t,skeletonBoundings=n,offsetPos=r,focalLength=28,aperture=1.875,timeToSleep=i,interpTimeAtStart=e,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=o,useLastSelectedIndex=l}
@@ -1152,11 +1169,17 @@ function this.PlayMissionClearCameraOnRideHorse(e,c,p)
     l=4
   end
   if c==1 then
-    e={"SKL_004_HEAD","SKL_002_CHEST"}a={Vector3(0,-.125,.05),Vector3(.15,-.125,0)}r={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}n=Vector3(0,0,-3.2)t=.2
+    e={"SKL_004_HEAD","SKL_002_CHEST"}
+    a={Vector3(0,-.125,.05),Vector3(.15,-.125,0)}
+    r={Vector3(.1,.125,.1),Vector3(.15,.1,.05)}
+    n=Vector3(0,0,-3.2)t=.2
     o=1
     i=true
   else
-    e={"SKL_004_HEAD","SKL_031_LLEG","SKL_041_RLEG"}a={Vector3(0,-.125,.05),Vector3(.15,-.125,0),Vector3(-.15,-.125,0)}r={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)}n=Vector3(0,0,-4.5)t=3
+    e={"SKL_004_HEAD","SKL_031_LLEG","SKL_041_RLEG"}
+    a={Vector3(0,-.125,.05),Vector3(.15,-.125,0),Vector3(-.15,-.125,0)}
+    r={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)}
+    n=Vector3(0,0,-4.5)t=3
     s=true
   end
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=4,followDelayTime=.1,candidateRots={{0,160},{0,-160}},skeletonNames=e,skeletonCenterOffsets={Vector3(0,-.125,.05),Vector3(.15,-.125,0),Vector3(-.15,-.125,0)},skeletonBoundings={Vector3(.1,.125,.1),Vector3(.15,.1,.05),Vector3(.15,.1,.05)},skeletonCenterOffsets=a,skeletonBoundings=r,offsetPos=n,focalLength=28,aperture=1.875,timeToSleep=l,interpTimeAtStart=t,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=i,useLastSelectedIndex=s}
@@ -1214,33 +1237,33 @@ function this.PlayMissionClearCameraOnRideTruck(e,s,l)
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{3,160},{3,-160}},offsetTarget=t,offsetPos=a,focalLength=28,aperture=1.875,timeToSleep=o,interpTimeAtStart=e,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=r,useLastSelectedIndex=i}
   return n
 end
-function this.PlayMissionClearCameraOnRideCommonArmoredVehicle(a,s,e,l)
-  local t=Vector3(.05,-.5,-2.2)
+function this.PlayMissionClearCameraOnRideCommonArmoredVehicle(a,s,e,RENisQuest)
+  local offsetTarget=Vector3(.05,-.5,-2.2)
   if e==1 then
-    t=Vector3(.05,-.5,-2.2)
+    offsetTarget=Vector3(.05,-.5,-2.2)
   else
-    t=Vector3(-.05,-1,0)
+    offsetTarget=Vector3(-.05,-1,0)
   end
-  local e=Vector3(0,0,-7.5)
-  local a=.2
+  local offsetPos=Vector3(0,0,-7.5)
+  local interpTimeAtStart=.2
   local r
-  local n=false
-  local i=20
-  local o=false
-  if l then
-    i=4
+  local callSeOfCameraInterp=false
+  local timeToSleep=20
+  local useLastSelectedIndex=false
+  if RENisQuest then
+    timeToSleep=4
   end
   if s==1 then
-    e=Vector3(0,0,-7.5)
-    a=.2
+    offsetPos=Vector3(0,0,-7.5)
+    interpTimeAtStart=.2
     r=.5
-    n=true
+    callSeOfCameraInterp=true
   else
-    e=Vector3(0,0,-13.25)
-    a=.75
-    o=true
+    offsetPos=Vector3(0,0,-13.25)
+    interpTimeAtStart=.75
+    useLastSelectedIndex=true
   end
-  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{8,165},{8,-165}},offsetTarget=t,offsetPos=e,focalLength=28,aperture=1.875,timeToSleep=i,interpTimeAtStart=a,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=n,useLastSelectedIndex=o}
+  Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{8,165},{8,-165}},offsetTarget=offsetTarget,offsetPos=offsetPos,focalLength=28,aperture=1.875,timeToSleep=timeToSleep,interpTimeAtStart=interpTimeAtStart,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=callSeOfCameraInterp,useLastSelectedIndex=useLastSelectedIndex}
   return r
 end
 function this.PlayMissionClearCameraOnRideEasternArmoredVehicle(t,n,r)
@@ -1250,7 +1273,7 @@ function this.PlayMissionClearCameraOnRideEasternArmoredVehicle(t,n,r)
 end
 function this.PlayMissionClearCameraOnRideWesternArmoredVehicle(t,n)
   local a
-  a=this.PlayMissionClearCameraOnRideCommonArmoredVehicle(t,n,2,isQuest)
+  a=this.PlayMissionClearCameraOnRideCommonArmoredVehicle(t,n,2,isQuest)--RETAILBUG: 
   return a
 end
 function this.PlayMissionClearCameraOnRideTank(e,l,i)
@@ -1264,11 +1287,13 @@ function this.PlayMissionClearCameraOnRideTank(e,l,i)
     o=4
   end
   if l==1 then
-    e=Vector3(0,0,-6.5)a=.2
+    e=Vector3(0,0,-6.5)
+    a=.2
     n=.5
     r=true
   else
-    e=Vector3(0,0,-9)a=.75
+    e=Vector3(0,0,-9)
+    a=.75
     t=true
   end
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=5,followDelayTime=0,candidateRots={{9,165},{9,-165}},offsetTarget=Vector3(0,-.85,3.25),offsetPos=e,focalLength=28,aperture=1.875,timeToSleep=o,interpTimeAtStart=a,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=r,useLastSelectedIndex=t}
@@ -1327,7 +1352,8 @@ function this.FOBPlayCommonMissionEndCamera(t,a)
     local a="Timer_FOBStartPlayMissionClearCameraStep"..tostring(a+1)TimerStart(a,e)
   end
 end
-function this.FOBRequestMissionClearMotion()Player.RequestToPlayDirectMotion{"missionClearMotionFob",{"/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_win_idl.gani",false,"","","",false}}
+function this.FOBRequestMissionClearMotion()
+  Player.RequestToPlayDirectMotion{"missionClearMotionFob",{"/Assets/tpp/motion/SI_game/fani/bodies/snap/snapnon/snapnon_s_win_idl.gani",false,"","","",false}}
 end
 function this.FOBPlayMissionClearCameraOnFoot(l)
   Player.SetCurrentSlot{slotType=PlayerSlotType.ITEM,subIndex=0}
@@ -1336,7 +1362,8 @@ function this.FOBPlayMissionClearCameraOnFoot(l)
       mvars.ply_requestedMissionClearCameraCarryOff=true
       GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="RequestCarryOff"})
     elseif PlayerInfo.OrCheckStatus{PlayerStatus.SQUAT,PlayerStatus.CRAWL}then
-      Player.RequestToSetTargetStance(PlayerStance.STAND)TimerStart("Timer_FOBWaitStandStance",1)
+      Player.RequestToSetTargetStance(PlayerStance.STAND)
+      TimerStart("Timer_FOBWaitStandStance",1)
     else
       this.FOBRequestMissionClearMotion()
     end
@@ -1349,11 +1376,17 @@ function this.FOBPlayMissionClearCameraOnFoot(l)
   local i
   local o=false
   if l==1 then
-    r={"SKL_004_HEAD","SKL_002_CHEST"}t={Vector3(0,.25,0),Vector3(0,-.05,0)}n={Vector3(.1,.125,.1),Vector3(.1,.125,.1)}a=Vector3(0,0,-1)e=.3
+    r={"SKL_004_HEAD","SKL_002_CHEST"}
+    t={Vector3(0,.25,0),Vector3(0,-.05,0)}
+    n={Vector3(.1,.125,.1),Vector3(.1,.125,.1)}
+    a=Vector3(0,0,-1)e=.3
     i=1
     o=true
   else
-    r={"SKL_004_HEAD","SKL_002_CHEST"}t={Vector3(0,.15,0),Vector3(0,-.05,0)}n={Vector3(.1,.125,.1),Vector3(.1,.125,.1)}a=Vector3(0,0,-1.5)e=3
+    r={"SKL_004_HEAD","SKL_002_CHEST"}
+    t={Vector3(0,.15,0),Vector3(0,-.05,0)}
+    n={Vector3(.1,.125,.1),Vector3(.1,.125,.1)}
+    a=Vector3(0,0,-1.5)e=3
   end
   Player.RequestToPlayCameraNonAnimation{characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),isFollowPos=true,isFollowRot=true,followTime=4,followDelayTime=.1,candidateRots={{-10,170},{-10,-170}},skeletonNames=r,skeletonCenterOffsets=t,skeletonBoundings=n,offsetPos=a,focalLength=28,aperture=1.875,timeToSleep=20,interpTimeAtStart=e,fitOnCamera=false,timeToStartToFitCamera=1,fitCameraInterpTime=.3,diffFocalLengthToReFitCamera=16,callSeOfCameraInterp=o}
   return i
@@ -1735,7 +1768,7 @@ function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below
     mvars.ply_tempPlayerHandEquip={handEquip=TppEquip.EQP_HAND_NORMAL}
   end
   if Ivars.disableFulton:Is(1) then--tex
-    vars.playerDisableActionFlag=PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
+    vars.playerDisableActionFlag=vars.playerDisableActionFlag+PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
   end
 
   if Ivars.handLevelProfile:Is()>0 then
@@ -2210,8 +2243,8 @@ function this.SaveCaptureAnimal()
   if mvars.loc_locationAnimalSettingTable==nil then
     return
   end
-  local a=TppPlaced.GetCaptureCageInfo()
-  for t,a in pairs(a)do
+  local cageInfo=TppPlaced.GetCaptureCageInfo()
+  for t,a in pairs(cageInfo)do
     local a,e,t,t=this.EvaluateCaptureCage(a.x,a.z,a.grade,a.material)
     if e~=0 then
       CaptureCage.RegisterCaptureAnimal(e,a)
@@ -2220,19 +2253,20 @@ function this.SaveCaptureAnimal()
   TppPlaced.DeleteAllCaptureCage()
 end
 function this.AggregateCaptureAnimal()
-  local a=0
-  local e=0
-  local t=CaptureCage.GetCaptureAnimalList()
-  for t,n in pairs(t)do
-    local t=n.animalId
-    local n=n.areaName
-    TppMotherBaseManagement.DirectAddDataBaseAnimal{dataBaseId=t,areaNameHash=n,isNew=true}
-    local n,r=TppMotherBaseManagement.GetAnimalHeroicPointAndGmp{dataBaseId=t}a=a+n
-    e=e+r
-    TppUiCommand.ShowBonusPopupAnimal(t,"regist")
+  local heroicPoint=0
+  local gmp=0
+  local animalList=CaptureCage.GetCaptureAnimalList()
+  for t,n in pairs(animalList)do
+    local animalId=n.animalId
+    local areaName=n.areaName
+    TppMotherBaseManagement.DirectAddDataBaseAnimal{dataBaseId=animalId,areaNameHash=areaName,isNew=true}
+    local n,r=TppMotherBaseManagement.GetAnimalHeroicPointAndGmp{dataBaseId=animalId}
+    heroicPoint=heroicPoint+n
+    gmp=gmp+r
+    TppUiCommand.ShowBonusPopupAnimal(animalId,"regist")
   end
-  if a>0 or e>0 then
-    TppMotherBaseManagement.AddHeroicPointAndGmpByCageAnimal{heroicPoint=a,gmp=e,isAnnounce=true}
+  if heroicPoint>0 or gmp>0 then
+    TppMotherBaseManagement.AddHeroicPointAndGmpByCageAnimal{heroicPoint=heroicPoint,gmp=gmp,isAnnounce=true}
   end
 end
 function this.CheckCaptureCage(n,r)
@@ -2243,24 +2277,24 @@ function this.CheckCaptureCage(n,r)
     return
   end
   local t={}
-  local a=5
-  local o=r/a
+  local count=5
+  local o=r/count
   for r=1,o do
     if n==2 then
-      Player.DEBUG_PlaceAround{radius=5,count=a,equipId=TppEquip.EQP_SWP_CaptureCage}
+      Player.DEBUG_PlaceAround{radius=5,count=count,equipId=TppEquip.EQP_SWP_CaptureCage}
     elseif n==3 then
-      Player.DEBUG_PlaceAround{radius=5,count=a,equipId=TppEquip.EQP_SWP_CaptureCage_G01}
+      Player.DEBUG_PlaceAround{radius=5,count=count,equipId=TppEquip.EQP_SWP_CaptureCage_G01}
     elseif n==4 then
-      Player.DEBUG_PlaceAround{radius=5,count=a,equipId=TppEquip.EQP_SWP_CaptureCage_G02}
+      Player.DEBUG_PlaceAround{radius=5,count=count,equipId=TppEquip.EQP_SWP_CaptureCage_G02}
     end
-    for e=1,a do
+    for e=1,count do
       coroutine.yield()
     end
     local a=TppPlaced.GetCaptureCageInfo()
     for n,a in pairs(a)do
-      local n,a,r,e=this.EvaluateCaptureCage(a.x,a.z,a.grade,a.material)
-      if a~=0 then
-        TppMotherBaseManagement.DirectAddDataBaseAnimal{dataBaseId=a,areaName=n,isNew=true}
+      local areaName,animalId,r,e=this.EvaluateCaptureCage(a.x,a.z,a.grade,a.material)
+      if animalId~=0 then
+        TppMotherBaseManagement.DirectAddDataBaseAnimal{dataBaseId=animalId,areaName=areaName,isNew=true}
         if t[e]==nil then
           t[e]=1
         else
@@ -2308,33 +2342,36 @@ function this._IsControlModeValid(a)
   end
   return true
 end
-function this._CheckRotation(n,o,r,a,e)
-  local e=mvars
-  local e=vars.playerCameraRotation[0]
-  local t=vars.playerCameraRotation[1]
-  local e=foxmath.DegreeToRadian(e-n)e=foxmath.NormalizeRadian(e)
-  local n=foxmath.RadianToDegree(e)
-  local e=foxmath.DegreeToRadian(t-r)e=foxmath.NormalizeRadian(e)
-  local e=foxmath.RadianToDegree(e)
-  if(foxmath.Absf(n)<o)and(foxmath.Absf(e)<a)then
+function this._CheckRotation(x,rangeX,y,rangeY,e)
+  --ORPHAN local mvars=mvars
+  local rotX=vars.playerCameraRotation[0]
+  local rotY=vars.playerCameraRotation[1]
+  local deltaX=foxmath.DegreeToRadian(rotX-x)
+  deltaX=foxmath.NormalizeRadian(deltaX)
+  local deltaXRad=foxmath.RadianToDegree(deltaX)
+  local deltaY=foxmath.DegreeToRadian(rotY-y)
+  deltaY=foxmath.NormalizeRadian(deltaY)
+  local deltaYRad=foxmath.RadianToDegree(deltaY)
+  if(foxmath.Absf(deltaXRad)<rangeX)and(foxmath.Absf(deltaYRad)<rangeY)then
     return true
   else
     return false
   end
 end
-local function n(a)
-  local n=math.random(0,99)
+local function RandomFromCageTable(cageTable)
+  local rnd=math.random(0,99)
   local e=0
   local t=-1
-  for r,a in pairs(a)do
+  for r,a in pairs(cageTable)do
     e=e+a[2]
-    if n<e then
-      t=a[1]break
+    if rnd<e then
+      t=a[1]
+      break
     end
   end
   return t
 end
-local function p(e,a)
+local function RENdoesMatch(e,a)
   for t,e in pairs(e)do
     if e==a then
       return true
@@ -2342,37 +2379,38 @@ local function p(e,a)
   end
   return false
 end
-function this.EvaluateCaptureCage(i,a,o,c)
-  local t=mvars
-  local r=t.loc_locationAnimalSettingTable
-  local l=r.captureCageAnimalAreaSetting
+function this.EvaluateCaptureCage(i,a,grade,material)
+  local mvars=mvars
+  local loc_locationAnimalSettingTable=mvars.loc_locationAnimalSettingTable
+  local captureCageAnimalAreaSetting=loc_locationAnimalSettingTable.captureCageAnimalAreaSetting
   local t="wholeArea"
-  for n,e in pairs(l)do
+  for n,e in pairs(captureCageAnimalAreaSetting)do
     if((i>=e.activeArea[1]and i<=e.activeArea[3])and a>=e.activeArea[2])and a<=e.activeArea[4]then
       t=e.areaName
       break
     end
   end
   local a=0
-  if o==2 then
-    a=n(this.CageRandomTableG3)
-  elseif o==1 then
-    a=n(this.CageRandomTableG2)
+  if grade==2 then
+    a=RandomFromCageTable(this.CageRandomTableG3)
+  elseif grade==1 then
+    a=RandomFromCageTable(this.CageRandomTableG2)
   else
-    a=n(this.CageRandomTableG1)
+    a=RandomFromCageTable(this.CageRandomTableG1)
   end
-  local e=r.captureAnimalList
-  local l=r.animalRareLevel
-  local s=r.animalInfoList
+  local captureAnimalList=loc_locationAnimalSettingTable.captureAnimalList
+  local animalRareLevel=loc_locationAnimalSettingTable.animalRareLevel
+  local animalInfoList=loc_locationAnimalSettingTable.animalInfoList
   local n={}
-  if e[t]==nil then
+  if captureAnimalList[t]==nil then
     t="wholeArea"end
   local i=false
-  for t,e in pairs(e[t])do
-    local t=l[e]
-    if t>=TppMotherBaseManagementConst.ANIMAL_RARE_SR and o==2 then
-      if not TppMotherBaseManagement.IsGotDataBase{dataBaseId=e}then
-        table.insert(n,e)a=t
+  for t,dataBaseId in pairs(captureAnimalList[t])do
+    local t=animalRareLevel[dataBaseId]
+    if t>=TppMotherBaseManagementConst.ANIMAL_RARE_SR and grade==2 then
+      if not TppMotherBaseManagement.IsGotDataBase{dataBaseId=dataBaseId}then
+        table.insert(n,dataBaseId)
+        a=t
         i=true
         break
       end
@@ -2381,8 +2419,8 @@ function this.EvaluateCaptureCage(i,a,o,c)
   if not i then
     local r=a
     while a>=0 do
-      for t,e in pairs(e[t])do
-        if l[e]==a then
+      for t,e in pairs(captureAnimalList[t])do
+        if animalRareLevel[e]==a then
           table.insert(n,e)
         end
       end
@@ -2393,9 +2431,10 @@ function this.EvaluateCaptureCage(i,a,o,c)
     end
     if a<0 then
       a=r
-      t="wholeArea"while a>=0 do
-        for t,e in pairs(e[t])do
-          if l[e]==a then
+      t="wholeArea"
+      while a>=0 do
+        for t,e in pairs(captureAnimalList[t])do
+          if animalRareLevel[e]==a then
             table.insert(n,e)
           end
         end
@@ -2406,13 +2445,13 @@ function this.EvaluateCaptureCage(i,a,o,c)
       end
     end
   end
-  local i=r.animalMaterial
+  local animalMaterial=loc_locationAnimalSettingTable.animalMaterial
   local o={}
   local r=a
-  if i~=nil then
+  if animalMaterial~=nil then
     while r>=0 do
-      for a,e in pairs(e.wholeArea)do
-        if i[e]==nil and l[e]==r then
+      for a,e in pairs(captureAnimalList.wholeArea)do
+        if animalMaterial[e]==nil and animalRareLevel[e]==r then
           table.insert(o,e)
         end
       end
@@ -2427,22 +2466,27 @@ function this.EvaluateCaptureCage(i,a,o,c)
   if l==1 then
     e=n[1]
   elseif l>1 then
-    local a=math.random(1,l)e=n[a]
+    local a=math.random(1,l)
+    e=n[a]
   end
   if#o==0 then
-    local n=""return t,e,a,n
+    local n=""
+    return t,e,a,n
   end
-  if i~=nil then
-    local t=i[e]
+  if animalMaterial~=nil then
+    local t=animalMaterial[e]
     if t~=nil then
-      if p(t,c)==false then
-        local t=math.random(1,#o)e=o[t]a=r
+      if RENdoesMatch(t,material)==false then
+        local t=math.random(1,#o)
+        e=o[t]
+        a=r
       end
     end
   end
-  local n=""if s~=nil then
+  local n=""
+  if animalInfoList~=nil then
     if e~=0 then
-      n=s[e].name
+      n=animalInfoList[e].name
     end
   end
   return t,e,a,n

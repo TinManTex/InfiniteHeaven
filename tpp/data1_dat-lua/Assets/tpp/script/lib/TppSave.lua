@@ -151,7 +151,8 @@ function this.CheckAndSavePersonalData(n)
     this.SavePersonalData(nil,nil,n)
   end
 end
-function this.SaveAvatarData()Player.SetEnableUpdateAvatarInfo(true)
+function this.SaveAvatarData()
+Player.SetEnableUpdateAvatarInfo(true)
   this.VarSavePersonalData()
   this.SavePersonalData()
 end

@@ -646,8 +646,8 @@ function this.DisablePowerSettings(loadout)
     mvars.ene_disablePowerSettings.SHIELD=true
   end
 end
-function this.SetUpPersonalAbilitySettings(e)
-  mvars.ene_missionSoldierPersonalAbilitySettings=e
+function this.SetUpPersonalAbilitySettings(settings)
+  mvars.ene_missionSoldierPersonalAbilitySettings=settings
 end
 function this.ApplyPersonalAbilitySettingsOnInitialize()
   local abilitySettings=mvars.ene_missionSoldierPersonalAbilitySettings
@@ -1993,10 +1993,12 @@ function this.ChangeLifeState(stateInfo)
   local minIndex=0
   local maxIndex=4
   if not((lifeState>minIndex)and(lifeState<maxIndex))then
-    return"lifeState must be index"end
+    return"lifeState must be index"
+    end
   local targetName=stateInfo.targetName
   if not IsTypeString(targetName)then
-    return"targetName must be string"end
+    return"targetName must be string"
+    end
   local gameId=GetGameObjectId(targetName)
   if gameId~=NULL_ID then
     GameObject.SendCommand(gameId,{id="ChangeLifeState",state=lifeState})
@@ -4831,17 +4833,17 @@ function this.SetupActivateQuestHostage(n)
           this.SetQuestEnemy(t,false)
         end
         if(n.bodyId or n.faceId)or n.isFaceRandom then
-          local e=n.faceId or false
-          local a=n.bodyId or false
+          local faceId=n.faceId or false
+          local bodyId=n.bodyId or false
           if n.isFaceRandom then
-            e=TppQuest.GetRandomFaceId()
+            faceId=TppQuest.GetRandomFaceId()
           end
-          if IsTypeNumber(a)and IsTypeNumber(e)then
-            GameObject.SendCommand(t,{id="ChangeFova",bodyId=a,faceId=e})
-          elseif IsTypeNumber(e)then
-            GameObject.SendCommand(t,{id="ChangeFova",faceId=e})
-          elseif IsTypeNumber(a)then
-            GameObject.SendCommand(t,{id="ChangeFova",bodyId=a})
+          if IsTypeNumber(bodyId)and IsTypeNumber(faceId)then
+            GameObject.SendCommand(t,{id="ChangeFova",bodyId=bodyId,faceId=faceId})
+          elseif IsTypeNumber(faceId)then
+            GameObject.SendCommand(t,{id="ChangeFova",faceId=faceId})
+          elseif IsTypeNumber(bodyId)then
+            GameObject.SendCommand(t,{id="ChangeFova",bodyId=bodyId})
           end
         end
       end
@@ -4999,7 +5001,7 @@ function this.SetupTerminateQuestEnemy(i)
     if enemyId==NULL_ID then
     else
       if RENAMEsomeBool==false then
-        local t={type="TppCorpse"}
+        local gameObjectCorpse={type="TppCorpse"}
         GameObject.SendCommand(enemyId,{id="SetEnabled",enabled=false})
         GameObject.SendCommand(enemyId,{id="SetCommandPost",cp="quest_cp"})
         GameObject.SendCommand(enemyId,{id="SetZombie",enabled=false,isMsf=false,isZombieSkin=true,isHagure=false})
@@ -5007,14 +5009,14 @@ function this.SetupTerminateQuestEnemy(i)
         GameObject.SendCommand(enemyId,{id="SetEverDown",enabled=false})
         GameObject.SendCommand(enemyId,{id="SetSoldier2Flag",flag="highRank",on=false})
         GameObject.SendCommand(enemyId,{id="Refresh"})
-        GameObject.SendCommand(t,{id="RequestVanish",name=setupInfo.enemyName})
+        GameObject.SendCommand(gameObjectCorpse,{id="RequestVanish",name=setupInfo.enemyName})
         if setupInfo.powerSetting then
           for i,powerType in ipairs(setupInfo.powerSetting)do
             if powerType=="QUEST_ARMOR"then
               local a={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
               GameObject.SendCommand(enemyId,a)
               local e={id="ChangeFovaCorpse",name=setupInfo.enemyName,faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
-              GameObject.SendCommand(t,e)
+              GameObject.SendCommand(gameObjectCorpse,e)
             end
           end
         end
@@ -5329,9 +5331,9 @@ function this.GetDDSuit()
   return this.FOB_DD_SUIT_ATTCKER
 end
 function this.IsHostageEventFOB()
-  local eventHostage=TppDefine.FOB_EVENT_ID_LIST.HOSTAGE
+  local eventIdList=TppDefine.FOB_EVENT_ID_LIST.HOSTAGE
   local eventId=TppServerManager.GetEventId()
-  for t,e in ipairs(eventHostage)do
+  for t,e in ipairs(eventIdList)do
     if eventId==e then
       return true
     end
@@ -5339,9 +5341,9 @@ function this.IsHostageEventFOB()
   return false
 end
 function this.IsZombieEventFOB()--RETAILPATCH 1070>
-  local eventHostage=TppDefine.FOB_EVENT_ID_LIST.ZOMBIE
+  local eventIdList=TppDefine.FOB_EVENT_ID_LIST.ZOMBIE
   local eventId=TppServerManager.GetEventId()
-  for t,e in ipairs(eventHostage)do
+  for t,e in ipairs(eventIdList)do
     if eventId==e then
       return true
     end
@@ -5349,10 +5351,10 @@ function this.IsZombieEventFOB()--RETAILPATCH 1070>
   return false
 end
 function this.IsParasiteMetalEventFOB()
-  local e=TppDefine.FOB_EVENT_ID_LIST.PARASITE_METAL
-  local n=TppServerManager.GetEventId()
-  for t,e in ipairs(e)do
-    if n==e then
+  local eventIdList=TppDefine.FOB_EVENT_ID_LIST.PARASITE_METAL
+  local eventId=TppServerManager.GetEventId()
+  for t,e in ipairs(eventIdList)do
+    if eventId==e then
       return true
     end
   end

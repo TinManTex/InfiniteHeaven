@@ -901,7 +901,7 @@ function this.RestoreSoldier()
 		
 		mtbs_enemy.SetStaffId( gameObjectId , staffId )
 		
-		mtbs_enemy.SetStaffAbirity( serverStaffId, gameObjectId )
+		mtbs_enemy.SetStaffAbirity( serverStaffId, gameObjectId )--RETAILBUG: should be staffId, bug propably due to copy/paste from AssignAndSetupRespawnSoldier
 		
 		local faceId = TppMotherBaseManagement.StaffIdToFaceId{ staffId=staffId }
 		TppEneFova.ApplyMTBSUniqueSetting( gameObjectId, faceId, mvars.o50050_sortieSoldierNum < serverStaffIndex )

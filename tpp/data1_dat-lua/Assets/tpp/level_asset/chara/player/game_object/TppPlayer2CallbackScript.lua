@@ -10,8 +10,8 @@ TppPlayer2CallbackScript={
   end,
   StartCameraAnimationForSnatchWeapon=function(e,e,e,e,e,e,e,e,e,e,e)
   end,
-  StopCameraAnimation=function(a,a,a,a,a,a,a,a,e,a,a)
-    Player.RequestToStopCameraAnimation{fileSet=e}
+  StopCameraAnimation=function(a,a,a,a,a,a,a,a,fileSet,a,a)
+    Player.RequestToStopCameraAnimation{fileSet=fileSet}
   end,
   StartCureDemoEffectStart=function(e,e,e,e,e,e,e,e,e,e,e)
   end,
@@ -83,18 +83,18 @@ TppPlayer2CallbackScript={
     Player.RequestToSetCameraNoise{levelX=r,levelY=t,time=e,decayRate=a}
   end,
   SetCameraNoiseOnMissileFire=function(e,e,e,e,e,e,e,e,e,e,e)
-    local r=.5
-    local t=.5
-    local a=.75
-    local e=.08
-    Player.RequestToSetCameraNoise{levelX=r,levelY=t,time=a,decayRate=e}
+    local levelX=.5
+    local levelY=.5
+    local time=.75
+    local decayRate=.08
+    Player.RequestToSetCameraNoise{levelX=levelX,levelY=levelY,time=time,decayRate=decayRate}
   end,
   SetCameraNoiseOnRideOnAntiAircraftGun=function(e,e,e,e,e,e,e,e,e,e,e)
-    local e=.2
-    local a=.2
-    local t=.3
-    local r=.08
-    Player.RequestToSetCameraNoise{levelX=e,levelY=a,time=t,decayRate=r}
+    local levelX=.2
+    local levelY=.2
+    local time=.3
+    local decayRate=.08
+    Player.RequestToSetCameraNoise{levelX=levelX,levelY=levelY,time=time,decayRate=decayRate}
   end,
   SetNonAnimationCutInCameraFallDeath=function()
   end,
@@ -113,30 +113,30 @@ TppPlayer2CallbackScript={
   defaultInterpTimeToRecoverOrientation=.24,
   defaultStopRecoverInterpByPadOperation=true,
   defaultInterpType=2,
-  _StartCameraAnimation=function(r,a,e,t,i,l,n,o)
-    local a=(a-r)+l
-    local t=t
-    if(((StringId.IsEqual(e,"CureGunShotWoundBodyLeft")or StringId.IsEqual(e,"CureGunShotWoundBodyRight"))or StringId.IsEqual(e,"CureGunShotWoundBodyCrawl"))or StringId.IsEqual(e,"CureGunShotWoundBodySupine"))then
+  _StartCameraAnimation=function(r,a,fileSet,t,ignoreCollisionCheckOnStart,l,isRiding,o)
+    local startFrame=(a-r)+l
+    local recoverPreOrientation=t
+    if(((StringId.IsEqual(fileSet,"CureGunShotWoundBodyLeft")or StringId.IsEqual(fileSet,"CureGunShotWoundBodyRight"))or StringId.IsEqual(fileSet,"CureGunShotWoundBodyCrawl"))or StringId.IsEqual(fileSet,"CureGunShotWoundBodySupine"))then
       Player.SetFocusParamForCameraAnimation{aperture=3,focusDistance=.6}
     end
-    Player.RequestToPlayCameraAnimation{fileSet=e,startFrame=a,ignoreCollisionCheckOnStart=i,recoverPreOrientation=t,isRiding=n,stopPlayingByCollision=true,enableCamera=TppPlayer2CallbackScript.defaultEnableCamera,interpTimeToRecoverOrientation=TppPlayer2CallbackScript.defaultInterpTimeToRecoverOrientation,stopRecoverInterpByPadOperation=TppPlayer2CallbackScript.defaultStopRecoverInterpByPadOperation,interpType=TppPlayer2CallbackScript.defaultInterpType}
+    Player.RequestToPlayCameraAnimation{fileSet=fileSet,startFrame=startFrame,ignoreCollisionCheckOnStart=ignoreCollisionCheckOnStart,recoverPreOrientation=recoverPreOrientation,isRiding=isRiding,stopPlayingByCollision=true,enableCamera=TppPlayer2CallbackScript.defaultEnableCamera,interpTimeToRecoverOrientation=TppPlayer2CallbackScript.defaultInterpTimeToRecoverOrientation,stopRecoverInterpByPadOperation=TppPlayer2CallbackScript.defaultStopRecoverInterpByPadOperation,interpType=TppPlayer2CallbackScript.defaultInterpType}
   end,
-  _StartCameraAnimationUseFileSetName=function(t,n,e,a,r)
-    local t=n-t
-    local a=a
-    if(e=="CqcSnatchAssaultRight"or e=="CqcSnatchAssaultLeft")then
+  _StartCameraAnimationUseFileSetName=function(t,n,fileSetName,a,ignoreCollisionCheckOnStart)
+    local startFrame=n-t
+    local recoverPreOrientation=a
+    if(fileSetName=="CqcSnatchAssaultRight"or fileSetName=="CqcSnatchAssaultLeft")then
       Player.SetFocusParamForCameraAnimation{aperture=20}
     end
-    Player.RequestToPlayCameraAnimation{fileSetName=e,startFrame=t,ignoreCollisionCheckOnStart=r,recoverPreOrientation=a,stopPlayingByCollision=TppPlayer2CallbackScript.defaultStopPlayingByCollision,enableCamera=TppPlayer2CallbackScript.defaultEnableCamera,interpTimeToRecoverOrientation=TppPlayer2CallbackScript.defaultInterpTimeToRecoverOrientation,stopRecoverInterpByPadOperation=TppPlayer2CallbackScript.defaultStopRecoverInterpByPadOperation,interpType=TppPlayer2CallbackScript.defaultInterpType}
+    Player.RequestToPlayCameraAnimation{fileSetName=fileSetName,startFrame=startFrame,ignoreCollisionCheckOnStart=ignoreCollisionCheckOnStart,recoverPreOrientation=recoverPreOrientation,stopPlayingByCollision=TppPlayer2CallbackScript.defaultStopPlayingByCollision,enableCamera=TppPlayer2CallbackScript.defaultEnableCamera,interpTimeToRecoverOrientation=TppPlayer2CallbackScript.defaultInterpTimeToRecoverOrientation,stopRecoverInterpByPadOperation=TppPlayer2CallbackScript.defaultStopRecoverInterpByPadOperation,interpType=TppPlayer2CallbackScript.defaultInterpType}
   end,
-  _SetCameraNoise=function(t,a,e)
-    local t=t
-    local a=a
-    local e=e
-    local r=.15
-    Player.RequestToSetCameraNoise{levelX=t,levelY=a,time=e,decayRate=r}
+  _SetCameraNoise=function(levelX,levelY,time)
+    local _levelX=levelX
+    local _levelY=levelY
+    local _time=time
+    local decayRate=.15
+    Player.RequestToSetCameraNoise{levelX=_levelX,levelY=_levelY,time=_time,decayRate=decayRate}
   end,
-  _SetHighSpeedCamera=function(a,e)
-    HighSpeedCamera.RequestEvent{continueTime=a,worldTimeRate=e,localPlayerTimeRate=e,timeRateInterpTimeAtStart=0,timeRateInterpTimeAtEnd=0,cameraSetUpTime=0}
+  _SetHighSpeedCamera=function(decayRate,timeRate)
+    HighSpeedCamera.RequestEvent{continueTime=decayRate,worldTimeRate=timeRate,localPlayerTimeRate=timeRate,timeRateInterpTimeAtStart=0,timeRateInterpTimeAtEnd=0,cameraSetUpTime=0}
   end
 }

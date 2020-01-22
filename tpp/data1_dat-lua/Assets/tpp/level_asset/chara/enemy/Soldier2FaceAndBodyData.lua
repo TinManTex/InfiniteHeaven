@@ -163,7 +163,7 @@ local hairDecoFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f002.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fpk"}}
 local bodyFile={--NMC: see also bodyFova table
-  {"/Assets/tpp/fova/chara/svs/svs0_rfl_v00_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/svs/svs0_rfl_v00_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},--0
   {"/Assets/tpp/fova/chara/svs/svs0_rfl_v01_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_rfl_v02_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_mcg_v00_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
@@ -173,7 +173,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/svs/svs0_rdo_v00_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_rfl_v00_b.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_rfl_v01_b.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/svs/svs0_rfl_v02_b.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/svs/svs0_rfl_v02_b.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},--10
   {"/Assets/tpp/fova/chara/svs/svs0_mcg_v00_b.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_mcg_v01_b.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_mcg_v02_b.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
@@ -183,7 +183,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/pfs/pfs0_rfl_v00_a.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_rfl_v01_a.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_mcg_v00_a.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/pfs/pfs0_snp_v00_a.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/pfs/pfs0_snp_v00_a.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},--20
   {"/Assets/tpp/fova/chara/pfs/pfs0_rdo_v00_a.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_rfl_v00_b.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_rfl_v01_b.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
@@ -193,7 +193,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/pfs/pfs0_rfl_v00_c.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_rfl_v01_c.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_mcg_v00_c.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/pfs/pfs0_snp_v00_c.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/pfs/pfs0_snp_v00_c.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},--30
   {"/Assets/tpp/fova/chara/pfs/pfs0_rdo_v00_c.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfa0_v00_b.fv2","/Assets/tpp/pack/fova/chara/pfs/pfa0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfa0_v00_c.fv2","/Assets/tpp/pack/fova/chara/pfs/pfa0_main0_v00.fpk"},
@@ -203,7 +203,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/prs/prs3_main0_v00.fv2","/Assets/tpp/pack/fova/chara/prs/prs3_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/prs/prs6_main0_v00.fv2","/Assets/tpp/pack/fova/chara/prs/prs6_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/chd/chd0_v00.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/chd/chd0_v01.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/chd/chd0_v01.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},--40
   {"/Assets/tpp/fova/chara/chd/chd0_v02.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/chd/chd0_v03.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/chd/chd0_v04.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},
@@ -213,7 +213,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/chd/chd0_v08.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/chd/chd0_v09.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/chd/chd0_v10.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/chd/chd0_v11.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/chd/chd0_v11.fv2","/Assets/tpp/pack/fova/chara/chd/chd0_main0_v00.fpk"},--50
   {"/Assets/tpp/fova/chara/chd/chd1_v00.fv2","/Assets/tpp/pack/fova/chara/chd/chd1_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/chd/chd1_v01.fv2","/Assets/tpp/pack/fova/chara/chd/chd1_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/chd/chd1_v02.fv2","/Assets/tpp/pack/fova/chara/chd/chd1_main0_v00.fpk"},
@@ -223,7 +223,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/dds/dds0_main1_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main1_v00.fpk"},
   {"/Assets/tpp/fova/chara/dds/dds0_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/dds0_main1_v00.fpk"},
   {"/Assets/tpp/fova/chara/dds/dds3_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds3_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/dds/dds5_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds5_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/dds/dds5_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds5_main0_v00.fpk"},--60
   {"/Assets/tpp/fova/chara/dds/dds5_main0_v01.fv2",""},
   {"/Assets/tpp/fova/chara/dds/dds5_main0_v02.fv2",""},
   {"/Assets/tpp/fova/chara/dds/ddr0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},
@@ -233,7 +233,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v02.fv2",""},
   {"/Assets/tpp/fova/chara/dds/ddr0_main1_v03.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v04.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/dds/ddr0_main1_v04.fv2","/Assets/tpp/pack/fova/chara/dds/ddr0_main0_v00.fpk"},--70
   {"/Assets/tpp/fova/chara/dds/ddr1_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/dds/ddr1_main0_v01.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/dds/ddr1_main0_v02.fv2","/Assets/tpp/pack/fova/chara/dds/ddr1_main0_v00.fpk"},
@@ -243,7 +243,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/dds/dds3_main0_v01.fv2",""},
   {"/Assets/tpp/fova/chara/dds/dds5_main0_v03.fv2",""},
   {"/Assets/tpp/fova/chara/dds/dds6_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds6_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/dds/dds6_main0_v01.fv2",""},
+  {"/Assets/tpp/fova/chara/dds/dds6_main0_v01.fv2",""},--80
   {"/Assets/tpp/fova/chara/dds/dds8_main0_v00.fv2","/Assets/tpp/pack/fova/chara/dds/dds8_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/dds/dds8_main0_v01.fv2",""},
   {"/Assets/tpp/fova/chara/dds/ddr0_main0_v03.fv2",""},
@@ -253,7 +253,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/dds/dds3_main0_v02.fv2",""},
   {"/Assets/tpp/fova/chara/dds/dds8_main0_v02.fv2",""},
   {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},--90
   {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},
   {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},
   {"/Assets/tpp/fova/chara/dds/dds5_main0_v04.fv2","/Assets/tpp/pack/fova/chara/dds/dds5_main0_v01.fpk"},
@@ -263,7 +263,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/sna/sna4_plym0_def_v00.fv2","/Assets/tpp/pack/fova/chara/sna/sna4_plym0_v00.fpk"},
   {"/Assets/tpp/fova/chara/dlc/dlc1_plyf0_v00.fv2","/Assets/tpp/pack/fova/chara/dlc/dlc1_plyf0_v00.fpk"},
   {"/Assets/tpp/fova/chara/dld/dld0_plym0_v00.fv2","/Assets/tpp/pack/fova/chara/dld/dld0_plym0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/dle/dle0_plyf0_v00.fv2","/Assets/tpp/pack/fova/chara/dle/dle0_plyf0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/dle/dle0_plyf0_v00.fv2","/Assets/tpp/pack/fova/chara/dle/dle0_plyf0_v00.fpk"},--100
   {"/Assets/tpp/fova/chara/dle/dle1_plyf0_v00.fv2","/Assets/tpp/pack/fova/chara/dle/dle1_plyf0_v00.fpk"},
   {"/Assets/tpp/fova/chara/wss/wss4_main0_v00.fv2","/Assets/tpp/pack/fova/chara/wss/wss4_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/wss/wss4_main0_v01.fv2",""},
@@ -273,7 +273,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/prs/prs2_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs2_main0_v01.fpk"},
   {"/Assets/tpp/fova/chara/prs/prs5_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs5_main0_v01.fpk"},
   {"/Assets/tpp/fova/chara/prs/prs3_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs3_main0_v01.fpk"},
-  {"/Assets/tpp/fova/chara/prs/prs6_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs6_main0_v01.fpk"},
+  {"/Assets/tpp/fova/chara/prs/prs6_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs6_main0_v01.fpk"},--110
   {"/Assets/tpp/fova/chara/chd/chd2_v00.fv2","/Assets/tpp/pack/fova/chara/chd/chd2_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/chd/chd2_v01.fv2","/Assets/tpp/pack/fova/chara/chd/chd2_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/chd/chd2_v02.fv2","/Assets/tpp/pack/fova/chara/chd/chd2_main0_v00.fpk"},
@@ -283,7 +283,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v250.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v01.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v360.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v03.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v280.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v04.fpk"},
-  {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v150.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v05.fpk"},
+  {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v150.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v05.fpk"},--120
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v220.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v06.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_unq_v010.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_unq_v080.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v01.fpk"},
@@ -293,7 +293,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/svs/svs0_unq_v060.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v05.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_unq_v100.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v06.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v140.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v07.fpk"},
-  {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v241.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v08.fpk"},
+  {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v241.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v08.fpk"},--130
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v242.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v09.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v450.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v10.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_unq_v070.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v07.fpk"},
@@ -303,7 +303,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v440.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v11.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_unq_v009.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v11.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_unq_v421.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_uniq0_v12.fpk"},
-  {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v155.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v12.fpk"},
+  {"/Assets/tpp/fova/chara/pfs/pfs0_unq_v155.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_uniq0_v12.fpk"},--140
   {"/Assets/tpp/fova/chara/svs/svs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_dds0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_dds0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_dds0_v00.fpk"},
@@ -313,7 +313,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/svs/svs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_dds0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_dds0_v00.fpk"},
   {"/Assets/tpp/fova/chara/svs/svs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_dds0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/svs/svs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_dds0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/svs/svs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_dds0_v00.fpk"},--150
   {"/Assets/tpp/fova/chara/pfs/pfs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_dds0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_dds0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_dds0_v00.fpk"},
@@ -323,7 +323,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/pfs/pfs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_dds0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_dds0_v00.fpk"},
   {"/Assets/tpp/fova/chara/pfs/pfs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_dds0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/pfs/pfs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_dds0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/pfs/pfs0_dds0_v00.fv2","/Assets/tpp/pack/fova/chara/pfs/pfs0_dds0_v00.fpk"},--160
   {"/Assets/tpp/fova/chara/ptn/ptn0_v00.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v01.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v02.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
@@ -333,7 +333,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/ptn/ptn0_v06.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v07.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v08.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/ptn/ptn0_v09.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/ptn/ptn0_v09.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},--170
   {"/Assets/tpp/fova/chara/ptn/ptn0_v10.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v11.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v12.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
@@ -343,7 +343,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/ptn/ptn0_v16.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v17.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v18.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/ptn/ptn0_v19.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/ptn/ptn0_v19.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},--180
   {"/Assets/tpp/fova/chara/ptn/ptn0_v20.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v21.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v22.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
@@ -353,7 +353,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/ptn/ptn0_v26.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v27.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v28.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/ptn/ptn0_v29.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/ptn/ptn0_v29.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},--190
   {"/Assets/tpp/fova/chara/ptn/ptn0_v30.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v31.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/ptn/ptn0_v32.fv2","/Assets/tpp/pack/fova/chara/ptn/ptn0_main0_v00.fpk"},
@@ -363,7 +363,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/ptn/ptn2_v00.fv2",""},
   {"/Assets/tpp/fova/chara/nrs/nrs0_v00.fv2","/Assets/tpp/pack/fova/chara/nrs/nrs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/nrs/nrs0_v01.fv2","/Assets/tpp/pack/fova/chara/nrs/nrs0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/nrs/nrs0_v02.fv2","/Assets/tpp/pack/fova/chara/nrs/nrs0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/nrs/nrs0_v02.fv2","/Assets/tpp/pack/fova/chara/nrs/nrs0_main0_v00.fpk"},--200
   {"/Assets/tpp/fova/chara/nrs/nrs0_v03.fv2","/Assets/tpp/pack/fova/chara/nrs/nrs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/nrs/nrs0_v04.fv2","/Assets/tpp/pack/fova/chara/nrs/nrs0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/nrs/nrs0_v05.fv2","/Assets/tpp/pack/fova/chara/nrs/nrs0_main0_v00.fpk"},
@@ -373,7 +373,7 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/dct/dct0_v01.fv2","/Assets/tpp/pack/fova/chara/dct/dct0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/plh/plh0_v00.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/plh/plh0_v01.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/plh/plh0_v02.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},
+  {"/Assets/tpp/fova/chara/plh/plh0_v02.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},--210
   {"/Assets/tpp/fova/chara/plh/plh0_v03.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/plh/plh0_v04.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/plh/plh0_v05.fv2","/Assets/tpp/pack/fova/chara/plh/plh0_main0_v00.fpk"},
@@ -383,14 +383,14 @@ local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/oce/oce0_main0_v01.fv2","/Assets/tpp/pack/fova/chara/oce/oce0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/oce/oce0_main0_v02.fv2","/Assets/tpp/pack/fova/chara/oce/oce0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/prs/prs7_main0_v00.fv2","/Assets/tpp/pack/fova/chara/prs/prs7_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/prs/prs7_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs7_main0_v01.fpk"},
+  {"/Assets/tpp/fova/chara/prs/prs7_main0_v01.fv2","/Assets/tpp/pack/fova/chara/prs/prs7_main0_v01.fpk"},--220
   {"/Assets/tpp/fova/chara/wsp/wsp_def.fv2","/Assets/tpp/pack/fova/chara/wsp/wsp0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/wsp/wsp_dam.fv2","/Assets/tpp/pack/fova/chara/wsp/wsp0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/hyu/hyu0_main0_v00.fv2","/Assets/tpp/pack/fova/chara/hyu/hyu0_main0_v00.fpk"},
   {"/Assets/tpp/fova/chara/hyu/hyu0_main0_v01.fv2","/Assets/tpp/pack/fova/chara/hyu/hyu0_main0_v01.fpk"},
   {"/Assets/tpp/fova/chara/hyu/hyu0_main0_v02.fv2","/Assets/tpp/pack/fova/chara/hyu/hyu0_main0_v02.fpk"},
   {"/Assets/tpp/fova/chara/ish/ish0_v00.fv2","/Assets/tpp/pack/fova/chara/ish/ish0_main0_v00.fpk"},
-  {"/Assets/tpp/fova/chara/ish/ish0_v01.fv2","/Assets/tpp/pack/fova/chara/ish/ish0_main0_v00.fpk"}
+  {"/Assets/tpp/fova/chara/ish/ish0_v01.fv2","/Assets/tpp/pack/fova/chara/ish/ish0_main0_v00.fpk"}--227
 }
 if TppSoldierFace~=nil then
   TppSoldierFace.SetFovaFileTable{

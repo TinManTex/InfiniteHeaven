@@ -16,11 +16,11 @@ this.buttonMasks={
   DECIDE=0,
   STANCE=1,
   --UNKNOWN1dash=2,--DEBUG: see if it fires anywhere else than dash
-  DASH=2,--tex Not in PlayerPad
+  DASH=2,
+  HOLD=3,--ready weapon
   --UNKNOWN2RWep=3,--DEBUG: see if it fires anywhere else than ready_weapon
-  READY_WEAPON=3,--tex Not in PlayerPad
   --UNKNOWN3atta=4,--DEBUG: see if it fires anywhere else than attack
-  ATTACK=4,--tex Not in PlayerPad, might actually be CQC, but no way to differentiat
+  FIRE=4,
   RIDE_ON=5,
   RIDE_OFF=5,
   ACTION=5,
@@ -33,8 +33,8 @@ this.buttonMasks={
   MB_DEVICE=8,
   CALL=9,
   INTERROGATE=9,
-  UNKNOWN4binoc=10,--DEBUG: see if it fires anywhere else than binoc
-  BINOCULARS=10,--tex Not in PlayerPad
+  --UNKNOWN4binoc=10,--DEBUG: see if it fires anywhere else than binoc
+  SUBJECT=10,--tap=recent, hold binoc/FP --DEBUGNOW see if trigger on binocular, and see if disable butttons is the same
   UP=11,
   PRIMARY_WEAPON=11,
   DOWN=12,
@@ -44,7 +44,7 @@ this.buttonMasks={
   VEHICLE_LIGHT_SWITCH=14,
   VEHICLE_TOGGLE_WEAPON=14,
   UNKNOWN5cqc=15,
-  CQC=15,--tex Not in PlayerPad, might actually be ATTACK, but no way to differentiat
+  CQC=15,
   SIDE_ROLL=16,
   LIGHT_SWITCH=17,
   EVADE=18,
@@ -66,6 +66,7 @@ this.buttonMasks={
   --MAX=2^31,--tex max_int=(2^31)-1, guess at a sane enough limit, though should check bitops to figure out actual.
   --ALL=-1
 }
+
 --TABLESETUP: buttonMasks --tex convert mask index to bitmask
 for name,maskIndex in pairs(this.buttonMasks) do
   this.buttonMasks[name]=2^maskIndex

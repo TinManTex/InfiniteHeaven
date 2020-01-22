@@ -150,6 +150,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       TppSequence.SetOnEndMissionPrepareFunction(missionTable.sequence.OnEndMissionPrepareSequence)
     end
   end
+  InfMain.MissionPrepare()--tex
   for n,missionScript in pairs(missionTable)do
     if IsTypeFunc(missionScript.OnLoad)then
       missionScript.OnLoad()

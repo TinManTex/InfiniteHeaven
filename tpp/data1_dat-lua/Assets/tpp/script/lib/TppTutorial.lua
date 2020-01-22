@@ -546,10 +546,13 @@ function this.OnMarking(i,i,n,E)
   end
   if Tpp.IsSecurityCamera(n)then
     if Tpp.IsGunCamera(n)then
-      this.PlayTutorialRadioOnly"f1000_rtrg4610"else
-      this.PlayTutorialRadioOnly"f1000_rtrg4600"end
+      this.PlayTutorialRadioOnly"f1000_rtrg4610"
+      else
+      this.PlayTutorialRadioOnly"f1000_rtrg4600"
+      end
   elseif Tpp.IsUAV(n)then
-    this.PlayTutorialRadioOnly"f1000_rtrg4620"end
+    this.PlayTutorialRadioOnly"f1000_rtrg4620"
+    end
 end
 function this.OnFultonRecovered(T)
   local n=GameObject.GetTypeIndex(T)
@@ -571,7 +574,10 @@ function this._UnregisterIntelRadioAfterPlayed(E)
   end
   for n,e in pairs(this.IntelRadioSetting)do
     if T(e)==E then
-      local e={}e[n]="Invalid"TppRadio.ChangeIntelRadio(e)break
+      local e={}
+      e[n]="Invalid"
+      TppRadio.ChangeIntelRadio(e)
+      break
     end
   end
 end

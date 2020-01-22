@@ -53,10 +53,10 @@ function this.GetSetting()
     InfMenu.DebugPrint("WARNING: currentMenuOptions == nil!")--DEBUG
     return
   end
-  
---  for k,v in pairs(this.currentMenuOptions)do--DEBUG
---    InfMenu.DebugPrint("currentMenuOptions "..tostring(k).." "..tostring(v))
---  end--<
+
+  --  for k,v in pairs(this.currentMenuOptions)do--DEBUG
+  --    InfMenu.DebugPrint("currentMenuOptions "..tostring(k).." "..tostring(v))
+  --  end--<
 
   if option==nil then
     InfMenu.DebugPrint("WARNING: option == nil! currentIndex="..tostring(this.currentIndex))--DEBUG
@@ -97,48 +97,48 @@ function this.NextInRange(rangeTable,value,direction)
     start=top
   end
   local ending
-   if direction>0 then
+  if direction>0 then
     ending=top
   else
     ending=bottom
-  end 
+  end
 
   for i=start,ending,direction do
-    local range=rangeTable[i] 
+    local range=rangeTable[i]
     local low, hi
     --tex check direct match
     if value >= range[1] and value <= range[2] then
       return value
     end
-    
+
     --tex figure out gap values
     if direction>0 then
       low=range[2] or range
     else
       hi=range[1] or range
     end
-    
+
     local dirRange=rangeTable[i+direction]
     if dirRange==nil then--tex reached an end, let the callee handle the wrap
       return -1
     end
-    
+
     if direction>0 then
       hi=dirRange[1] or dirRange
     else
       low=dirRange[2] or dirRange
     end
-    
+
     --in gap?
     if value>low and value<hi then
       if direction>0 then
         return hi
       else
         return low
-      end      
+      end
     end
   end--for
-end 
+end
 
 function this.IncrementWrap(current,increment,min,max)
   local newSetting=current+increment
@@ -157,15 +157,14 @@ end
 function this.ChangeSetting(option,value)
   local newSetting=this.IncrementWrap(option.setting,value,option.range.min,option.range.max)
   if option.skipValues~=nil then
-    --CULL while option.skipValues[newSetting] do
     if IsFunc(option.skipValues) then
       while option:skipValues(newSetting) do
-        --DEBUGNOW TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
+        --OFF TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
         newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
       end
     end
   end
-  
+
   this.SetSetting(option,newSetting)
   --InfMenu.DebugPrint("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
 end
@@ -181,6 +180,8 @@ function this.ActivateCurrent()--tex run activate function
   local option=this.currentMenuOptions[this.currentIndex]
   if IsFunc(option.OnActivate) then
     option:OnActivate()
+  else
+    this.SetCurrent()
   end
 end
 
@@ -190,8 +191,8 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     return
   end
   if not IsTable(self) then
-     InfMenu.DebugPrint("WARNING: SetSetting: self ~= table!")
-    return   
+    InfMenu.DebugPrint("WARNING: SetSetting: self ~= table!")
+    return
   end
   if self.setting==nil then
     InfMenu.DebugPrint("WARNING: SetSetting: setting==nil")
@@ -240,16 +241,16 @@ function this.NextSetting(incrementMult)
     InfMenu.DebugPrint"WARNING: cannot find option for currentindex"
     return
   end
-  
+
   if option.disabled then
-   if option.disabledReason then
+    if option.disabledReason then
       this.PrintLangId(option.disabledReason)
     else
       this.PrintLangId"item_disabled"
     end
     return
   end
-  
+
   if option.options then--tex is menu
     this.GoMenu(option)
   elseif IsFunc(option.GetNext) then
@@ -263,13 +264,13 @@ function this.NextSetting(incrementMult)
         increment=math.ceil(increment)
       end
     end
-  
+
     this.ChangeSetting(option,increment)
   end
 end
 function this.PreviousSetting(incrementMult)
   local option=this.currentMenuOptions[this.currentIndex]
-  
+
   if IsFunc(option.GetPrev) then
     local newSetting=option:GetPrev()
     this.SetSetting(option,newSetting)
@@ -295,11 +296,11 @@ function this.GoMenu(menu,goBack)
     menu.parent=this.currentMenu
     menu.parentOption=this.currentIndex
   end
-  
+
   if goBack then
-      this.currentIndex=this.currentMenu.parentOption
+    this.currentIndex=this.currentMenu.parentOption
   else
-      this.currentIndex=1
+    this.currentIndex=1
   end
   this.currentMenu=menu
   this.currentMenuOptions=menu.options
@@ -346,7 +347,7 @@ function this.DisplaySetting(optionIndex)
     end
   elseif IsFunc(option.GetSettingText) then
     settingText=tostring(option:GetSettingText())
-  elseif option.isFloat then
+  elseif option.isPercent then
     settingText=math.floor(100*option.setting) .. "%"
   elseif option.options~=nil then--tex menu
     settingText=""
@@ -361,7 +362,7 @@ end
 function this.DisplaySettings()--tex display all
   for i=1,#this.currentMenuOptions do
     this.DisplaySetting(i)
-  end
+end
 end
 function this.DisplayProfileChangedToCustom(profile)
   TppUiCommand.AnnounceLogView("Profile "..this.LangString(profile.name).." set to Custom")--TODO: ADDLANG:
@@ -407,25 +408,6 @@ function this.ResetSettingsDisplay()
   end
   this.GetSetting()
 end
-
-function this.MenuOff()
-  this.menuOn=false
-  this.PrintLangId"menu_off"--"Menu Off"
-  InfMain.RestoreActionFlag()
-end
-
-local function ToggleMenu()
-  this.menuOn = not this.menuOn
-  if this.menuOn then
-    InfMain.DisableActionFlagEquipMenu()
-    this.GetSetting()
-    TppUiStatusManager.ClearStatus"AnnounceLog"
-    TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
-  else
-    this.MenuOff()
-  end
-end
-
 --
 function this.Print(message)
   TppUiCommand.AnnounceLogView(message)
@@ -451,9 +433,9 @@ function this.LangString(langId)
   if Ivars.langOverride:Is(1) then--Cht over Jpn
     if languageCode=="jpn" then
       languageCode="cht"
-    end
   end
-  
+  end
+
   if InfLang[languageCode]==nil then
     --TppUiCommand.AnnounceLogView("no lang in inflang")
     languageCode="eng"
@@ -476,29 +458,29 @@ function this.LangTableString(langId,index)--remember lua tables from 1
   if langId==nil or langId=="" then
     TppUiCommand.AnnounceLogView"PrintLangId langId empty"
     return ""
-  end
-  local languageCode=GetAssetConfig"Language"
-  if InfLang[languageCode]==nil then
-    --TppUiCommand.AnnounceLogView("no lang in inflang")
-    languageCode="eng"
-  end
-  local langTable=InfLang[languageCode][langId]
-  if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
-    --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)
-    langTable=InfLang.eng[langId]
-  end
-  
-  if langTable==nil or langTable=="" or not IsTable(langTable) then
-    --TppUiCommand.AnnounceLogView"LangTableString langTable empty"
-    return langId .. ":" .. index
-  end
-  
-  if index < 1 or index > #langTable then
-    --TppUiCommand.AnnounceLogView("LangTableString - index for " .. langId " out of bounds")
-    return langId .. " OUTOFBOUNDS:" .. index
-  end
-  
-  return langTable[index]
+end
+local languageCode=GetAssetConfig"Language"
+if InfLang[languageCode]==nil then
+  --TppUiCommand.AnnounceLogView("no lang in inflang")
+  languageCode="eng"
+end
+local langTable=InfLang[languageCode][langId]
+if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
+  --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)
+  langTable=InfLang.eng[langId]
+end
+
+if langTable==nil or langTable=="" or not IsTable(langTable) then
+  --TppUiCommand.AnnounceLogView"LangTableString langTable empty"
+  return langId .. ":" .. index
+end
+
+if index < 1 or index > #langTable then
+  --TppUiCommand.AnnounceLogView("LangTableString - index for " .. langId " out of bounds")
+  return langId .. " OUTOFBOUNDS:" .. index
+end
+
+return langTable[index]
 end
 
 function this.PrintLangId(langId)
@@ -506,21 +488,76 @@ function this.PrintLangId(langId)
 end
 
 function this.Init(missionTable)
-  gvars.isManualHard = false--tex PATCHUP: not currently exposed to mod menu, force off to patch those that might have saves from prior mod with it on
+end
+
+function this.MenuOff()
+  this.menuOn=false
+  this.OnDeactivate()
+end
+
+function this.OnActivate()
   InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime--tex set up hold buttons
+  
   InfButton.buttonStates[this.menuUpButton].decrement=0.1
   InfButton.buttonStates[this.menuDownButton].decrement=0.1
   InfButton.buttonStates[this.menuRightButton].decrement=0.1
   InfButton.buttonStates[this.menuLeftButton].decrement=0.1
+
+  local repeatRate=0.85
+  InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.menuDownButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.menuRightButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.menuLeftButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.resetSettingButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.menuBackButton].repeatRate=repeatRate
+
+  InfMain.DisableAction(PlayerDisableAction.OPEN_EQUIP_MENU)
+  this.GetSetting()
+  TppUiStatusManager.ClearStatus"AnnounceLog"
+  TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
+  
+  InfMain.OnMenuOpen()
+end
+
+function this.OnDeactivate()
+  this.PrintLangId"menu_off"--"Menu Off"
+  InfMain.RestoreActionFlag()
+  InfMain.OnMenuClose()
+end
+
+function this.CheckActivate(execCheck)
+  local disallowCheck=execCheck.inGroundVehicle or execCheck.onBuddy or execCheck.inBox
+  return not disallowCheck and not TppUiCommand.IsMbDvcTerminalOpened()
 end
 
 function this.Update(execCheck)
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
+  --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   if not execCheck.inGame then
     this.menuOn = false
     return
   end
-  
+
+  if this.menuOn then
+    if not this.CheckActivate(execCheck) then
+      this.menuOn=false
+      this.OnDeactivate()
+      return
+    end
+  end
+
+  if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+    if this.CheckActivate(execCheck) then
+      this.menuOn = not this.menuOn
+      if this.menuOn then
+        this.OnActivate()
+      else
+        this.OnDeactivate()
+        return
+      end
+    end
+  end
+
   if execCheck.inHeliSpace then
     if this.topMenu~=InfMenuDefs.heliSpaceMenu then
       Ivars.PrintGvarSettingMismatch()--DEBUGNOW
@@ -532,51 +569,27 @@ function this.Update(execCheck)
       Ivars.PrintGvarSettingMismatch()--DEBUGNOW
       this.topMenu=InfMenuDefs.inMissionMenu
       this.GoMenu(this.topMenu)
-    end
   end
-  
-  local disallowMenu=execCheck.inGroundVehicle or execCheck.onBuddy or execCheck.inBox
-  
-  if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
-    if not disallowMenu then
-      local repeatRate=0.85
-      InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
-      InfButton.buttonStates[this.menuDownButton].repeatRate=repeatRate
-      InfButton.buttonStates[this.menuRightButton].repeatRate=repeatRate
-      InfButton.buttonStates[this.menuLeftButton].repeatRate=repeatRate
-      InfButton.buttonStates[this.resetSettingButton].repeatRate=repeatRate
-      InfButton.buttonStates[this.menuBackButton].repeatRate=repeatRate
-       
-      ToggleMenu()
-    end
   end
 
   if this.menuOn then
-    if disallowMenu then
-      this.MenuOff()
-    end
-  
-    if TppUiCommand.IsMbDvcTerminalOpened() then--InfButton.OnButtonDown(InfButton.MB_DEVICE) then
-      this.MenuOff()
-    end
+    --    if InfButton.OnButtonDown(this.toggleMenuButton) then--tex update gvar of current
+    --      this.SetCurrent()
+    --      this.DisplayCurrentSetting()
+    --    end
 
-    if InfButton.OnButtonDown(this.toggleMenuButton) then--tex update gvar of current
-      this.SetCurrent()
-      this.DisplayCurrentSetting()
-    end
-    
     if InfButton.OnButtonDown(this.activateSettingButton) then
       this.ActivateCurrent()
       --this.DisplayCurrentSetting()
     end
-    
-    if InfButton.OnButtonDown(this.menuUpButton) 
-    or InfButton.OnButtonRepeat(this.menuUpButton) then
+
+    if InfButton.OnButtonDown(this.menuUpButton)
+      or InfButton.OnButtonRepeat(this.menuUpButton) then
       this.PreviousOption()
       this.DisplayCurrentSetting()
     end
-    if InfButton.OnButtonDown(this.menuDownButton) 
-    or InfButton.OnButtonRepeat(this.menuDownButton) then
+    if InfButton.OnButtonDown(this.menuDownButton)
+      or InfButton.OnButtonRepeat(this.menuDownButton) then
       this.NextOption()
       this.DisplayCurrentSetting()
     end
@@ -625,11 +638,11 @@ function this.ModWelcome()
     return
   end
   didWelcome=true
-  
+
   --if gvars.disableModWelcome==1 and InfMain.version==InfMain.lastVersion then TODO:
   --  return
   --end
-  TppUiCommand.AnnounceLogDelayTime(0)  
+  TppUiCommand.AnnounceLogDelayTime(0)
 
   InfMenu.Print(InfMain.modName.." "..InfMain.modVersion)
   InfMenu.PrintLangId"menu_keys"

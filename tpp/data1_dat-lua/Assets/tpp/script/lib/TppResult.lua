@@ -956,9 +956,11 @@ end
 function this.SaveMissionClearPlayStyleParameter()
   if svars.bestScorePerfectStealthNoKillBonusScore>0 then
     gvars.res_isPerfectStealth[0]=true
-    Tpp.IncrementPlayData"totalPerfectStealthMissionClearCount"elseif svars.alertCount==0 then
+    Tpp.IncrementPlayData"totalPerfectStealthMissionClearCount"
+    elseif svars.alertCount==0 then
     gvars.res_isStealth[0]=true
-    Tpp.IncrementPlayData"totalStealthMissionClearCount"end
+    Tpp.IncrementPlayData"totalStealthMissionClearCount"
+    end
 end
 function this.DecidePlayStyle()
   local t=TppStory.GetCurrentStorySequence()

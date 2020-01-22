@@ -2232,22 +2232,6 @@ function this.UpdateActiveQuest(debugUpdate)
           if questIndex then
             gvars.qst_questActiveFlag[questIndex]=false
             local RENAMEsomeCondition=RENAMEsomeConditions[questName]--NMC: some list of conditions, not as big as the 't' list
-
---            local blockQuest=false--tex skipvalues, heliblock> --DEBUGNOW CULL
---            if Ivars.unlockSideOpNumber.skipValues[questIndex+1]==true then--tex disallowSideOps
---              blockQuest=true
---            end
---            if Ivars.enableHeliReinforce:Is(1) then--tex block heli quests to allow super reinforce
---              if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
---                for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
---                  if name==questName then
---                    blockQuest=true
---                    break
---                  end
---                end
---              end
---            end--<skipvalues, heliblock
-
             if this.IsOpen(questName)and(not RENAMEsomeCondition or RENAMEsomeCondition())and(not InfMain.BlockQuest(questName)) then--tex added blockQuest
               if not this.IsCleard(questName)then
                 if info.isStory then

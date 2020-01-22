@@ -154,6 +154,13 @@ this.unlockWeaponCustomization={
 }
 
 --
+this.resetCameraSettings={
+  OnChange=function()
+    InfMain.ResetCamPosition()
+    InfMenu.PrintLangId"cam_settings_reset"
+  end,
+}
+--
 this.doEnemyReinforce={--WIP
   OnChange=function()
   --TODO: GetClosestCp
@@ -237,77 +244,19 @@ this.warpPlayerCommand={--WIP
 }
 
 --
-
-this.DEBUG_PrintSomeShiz={
+this.DEBUG_SomeShiz={
   OnChange=function()
-    InfMenu.DebugPrint"DEBUG_PrintSomeShiz"
-    
- for baseType,typeInfo in pairs(vehicleBaseTypes) do
-    if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
-      InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
-      local vehicles=nil
-      local vehicleType=""
-      local locationName=""
-      if TppLocation.IsAfghan()then
-        vehicles=typeInfo.easternVehicles
-        locationName="EASTERN_"
-      elseif TppLocation.IsMiddleAfrica()then
-        vehicles=typeInfo.westernVehicles
-        locationName="WESTERN_"
-      end
-
-
-      local GetPackPath=function(vehicleType)
-        local vehicle=vehicleSpawnInfoTable[vehicleType]
-        if vehicle~=nil then
-          return vehicle.packPath or nil
-        end
-      end
-
-      if vehicles==nil then
-        vehicleType=locationName..baseType
-        local packPath=GetPackPath(vehicleType)
-        if packPath~=nil then
-          InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
-          --DEBUGNOW AddMissionPack(packPath,missionPackPath)
-        end
-
-      else
-        for n, vehicleType in pairs(vehicles) do
-          local packPath=GetPackPath(vehicleType)
-          if packPath~=nil then
-            InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
-           --DEBUGNOW AddMissionPack(packPath,missionPackPath)
-          end
-        end
-      end
-    end--if gvar
-  end--for vehicle base types
-    
---    local devGradeTable=TppMotherBaseManagement.GetMbsDevelopedEquipGradeTable()
---     local ins=InfInspect.Inspect(devGradeTable)
---    InfMenu.DebugPrint(ins)   
-    
-    
---         local ins=InfInspect.Inspect(TppEnemy.weaponIdTable.DD)
---    InfMenu.DebugPrint(ins)   
-    
-    --    for n,powerType in ipairs(Ivars.percentagePowerTypes)do
-    --      InfMenu.DebugPrint("n:"..n.." powertype:"..powerType)
-    --    end
---    local ins=InfInspect.Inspect(InfMenuDefs.revengeCustomMenu)
---    InfMenu.DebugPrint(ins)
---    for k,v in ipairs(InfMenuDefs.revengeCustomMenu.options)do
---      InfMenu.DebugPrint("k:"..k.." v:"..v)
---    end
-
---    local revengeConfig=InfMain.CreateCustomRevengeConfig()
---    local ins=InfInspect.Inspect(revengeConfig)
---    InfMenu.DebugPrint(ins)
-
---  if Player.IsVarsCurrentItemCBox() then
---    InfMenu.DebugPrint"IsVarsCurrentItemCBox"
---  end
+    --InfMenu.DebugPrint"DEBUG_PrintSomeShiz"
+    --InfMenu.DebugPrint("usermarkerposx: "..tostring(vars.userMarkerPosX))
+    local ins=InfInspect.Inspect(vars,{depth=1})
+    InfMenu.DebugPrint(ins)
+--    userMarkerPosX
+--userMarkerPosY
+--userMarkerPosZ
+--userMarkerAddFlag
+--userMarkerGameObjId
+--userMarkerLocationId
+--userMarkerSaveCount
   end
 }
 

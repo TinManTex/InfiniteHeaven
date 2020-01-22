@@ -256,10 +256,12 @@ function this.CheckQuestAllTarget(d,a,n,t)
   for n,e in pairs(mvars.ani_questTargetList)do
     if e.idType=="animalId"then
       if n==t then
-        e.messageId=a or"None"end
+        e.messageId=a or"None"
+        end
     elseif e.idType=="databaseId"then
       if n==i then
-        e.messageId=a or"None"end
+        e.messageId=a or"None"
+        end
     end
   end
   local i=0

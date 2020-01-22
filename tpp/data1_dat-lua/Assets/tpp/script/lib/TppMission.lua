@@ -512,7 +512,7 @@ function this.ReturnToMission(n)
   this.SetHeroicAndOgrePointInSlot(s,i)
   this.RestartMission(n)
 end
-function this.ExecuteContinueFromCheckPoint(i,a,o)
+function this.ExecuteContinueFromCheckPoint(RENpopupId,a,RENdoMissionCallback)
   TppQuest.OnMissionGameEnd()
   TppWeather.OnEndMissionPrepareFunction()
   this.SafeStopSettingOnMissionReload()
@@ -538,20 +538,20 @@ function this.ExecuteContinueFromCheckPoint(i,a,o)
   TppPlayer.StoreSupportAttack()
   TppPlayer.StorePlayerDecoyInfos()
   TppRadioCommand.StoreRadioState()
-  local s
-  if o then
-    s=this.ExecuteOnReturnToMissionCallback()
+  local showAnnounceLog
+  if RENdoMissionCallback then
+    showAnnounceLog=this.ExecuteOnReturnToMissionCallback()
   end
   if usingNormalMissionSlot then
     if a==GameOverMenu.POPUP_RESULT_YES then
-      if i==GameOverMenu.STEALTH_ASSIST_POPUP then
+      if RENpopupId==GameOverMenu.STEALTH_ASSIST_POPUP then
         svars.dialogPlayerDeadCount=0
       end
-      if i==GameOverMenu.PERFECT_STEALTH_POPUP then
+      if RENpopupId==GameOverMenu.PERFECT_STEALTH_POPUP then
         svars.chickCapEnabled=true
       end
     end
-    if this.IsHardMission(vars.missionCode)then
+    if this.IsHardMission(vars.missionCode)or Ivars.disableRetry:Is(1)then--tex 
       TppPlayer.UnsetRetryFlag()
     else
       if svars.chickCapEnabled then
@@ -579,7 +579,7 @@ function this.ExecuteContinueFromCheckPoint(i,a,o)
       this.Load(vars.missionCode,currentMissionCode,loadOptions)
     end
   end
-  if s then
+  if showAnnounceLog then
     this.ShowAnnounceLogOnFadeOut(DoLoad)
   else
     DoLoad()
@@ -2949,7 +2949,9 @@ function this.SetMissionStartPositionMtbsClusterPosition()
   local e=TppMath.Vector3toTable(e)
   TppPlayer.SetInitialPosition(e,0)
 end
-function this.EstablishedMissionClear()DemoDaemon.StopAll()GkEventTimerManager.StopAll()
+function this.EstablishedMissionClear()
+  DemoDaemon.StopAll()
+  GkEventTimerManager.StopAll()
   if Tpp.IsHorse(vars.playerVehicleGameObjectId)then
     GameObject.SendCommand(vars.playerVehicleGameObjectId,{id="HorseForceStop"})
   end

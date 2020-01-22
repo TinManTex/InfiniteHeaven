@@ -161,6 +161,14 @@ local function MinMaxIvar(name,minSettings,maxSettings,ivarSettings)
   return ivarMin,ivarMax
 end
 
+--ivar definitions
+this.disableEquipOnMenu={--DEBUGNOW
+  save=MISSION,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 --parameters
 this.soldierParamsProfile={
   save=GLOBAL,--tex global since user still has to restart to get default/modded/reset
@@ -185,6 +193,7 @@ this.soldierSightDistScale={
   save=MISSION,
   default=1,
   range=this.sightScaleRange,
+  isPercent=true,
   profile=this.soldierParamsProfile,
 }
 
@@ -242,6 +251,7 @@ this.soldierHealthScale={
   save=MISSION,
   default=1,
   range=this.healthScaleRange,
+  isPercent=true,
   profile=this.soldierParamsProfile,
 }
 ---end soldier params
@@ -249,6 +259,7 @@ this.playerHealthScale={
   save=MISSION,
   default=1,
   range=this.healthScaleRange,
+  isPercent=true,
   OnChange=function(self)
     if mvars.mis_missionStateIsNotInGame then
       return
@@ -314,8 +325,8 @@ this.mbDDHeadGear={
 }
 this.mbWarGames={
   save=MISSION,
-  settings={"OFF","NONLETHAL","HOSTILE"},
-  settingNames="set_mb_wargames",
+  settings={"OFF","NONLETHAL","HOSTILE","ZOMBIE"},
+  settingNames="mbWarGamesSettings",
 }
 
 this.mbEnableBuddies={
@@ -380,13 +391,13 @@ this.startOffline={
 }
 
 this.blockFobTutorial={
-  save=GLOBAL,
+  --OFF save=GLOBAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
 this.setFirstFobBuilt={
-  save=GLOBAL,
+  --OFF save=GLOBAL,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -425,6 +436,8 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(0,true)
 
       Ivars.abortMenuItemControl:Set(0,true)
+      Ivars.disableRetry:Set(0,true)
+      Ivars.gameOverOnDiscovery:Set(0,true)
 
       Ivars.fultonLevelProfile:Set(0,true)
     end,
@@ -458,6 +471,8 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(1,true)
 
       Ivars.abortMenuItemControl:Set(1,true)
+      Ivars.disableRetry:Set(0,true)
+      Ivars.gameOverOnDiscovery:Set(0,true)
       Ivars.maxPhase:Reset()
 
       Ivars.fultonLevelProfile:Set(1,true)
@@ -493,6 +508,8 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(1,true)
 
       Ivars.abortMenuItemControl:Set(0,true)
+      Ivars.disableRetry:Set(0,true)
+      Ivars.gameOverOnDiscovery:Set(0,true)
       Ivars.maxPhase:Reset()
 
       Ivars.fultonLevelProfile:Set(1,true)
@@ -648,6 +665,20 @@ this.disableSupportMenu={--tex doesnt use dvcmenu, RESEARCH, not sure actually w
 }
 
 this.abortMenuItemControl={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.subsistenceProfile,
+}
+
+this.disableRetry={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.subsistenceProfile,
+}
+
+this.gameOverOnDiscovery={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -1191,18 +1222,18 @@ this.revengeConfigProfile={--WIP
       for n,powerType in ipairs(this.abilitiesWithLevels)do
         this.SetMinMax(powerType,"NONE","SPECIAL")
       end
-      
+
       this.SetMinMax("STRONG_WEAPON",0,1)
       this.SetMinMax("STRONG_MISSILE",0,1)
       this.SetMinMax("STRONG_SNIPER",0,1)
 
       Ivars.reinforceLevel_MIN:Set("NONE",true)
       Ivars.reinforceLevel_MAX:Set("BLACK_SUPER_REINFORCE",true)
-      
+
       this.SetMinMax("revengeIgnoreBlocked",0,0)
 
       this.SetMinMax("reinforceCount",1,5)
-      
+
       this.SetMinMax("ACTIVE_DECOY",0,1)
       this.SetMinMax("GUN_CAMERA",0,1)
     end,
@@ -1241,7 +1272,7 @@ this.revengeConfigProfile={--WIP
       this.SetMinMax("revengeIgnoreBlocked",1,1)
 
       this.SetMinMax("reinforceCount",4,4)
-      
+
       this.SetMinMax("ACTIVE_DECOY",1,1)
       this.SetMinMax("GUN_CAMERA",1,1)
     end,
@@ -1269,7 +1300,7 @@ this.revengeConfigProfile={--WIP
       this.SetMinMax("SHOTGUN",0,0)
       this.SetMinMax("SMG",0,0)
       this.SetMinMax("ASSAULT",0,0)
-      
+
       this.SetMinMax("STRONG_WEAPON",0,0)
       this.SetMinMax("STRONG_MISSILE",0,0)
       this.SetMinMax("STRONG_SNIPER",0,0)
@@ -1280,7 +1311,7 @@ this.revengeConfigProfile={--WIP
       this.SetMinMax("revengeIgnoreBlocked",0,0)
 
       this.SetMinMax("reinforceCount",1,1)
-      
+
       this.SetMinMax("ACTIVE_DECOY",0,0)
       this.SetMinMax("GUN_CAMERA",0,0)
     end,
@@ -1353,6 +1384,7 @@ for n,powerTableName in ipairs(this.percentagePowerTables)do
       },
       {
         range=this.revengePowerRange,
+        isPercent=true,
         powerType=powerType,
         profile=this.revengeConfigProfile,
       }
@@ -1419,7 +1451,7 @@ for n,powerType in ipairs(this.weaponStrengthPowers)do
   )
 end
 
-this.cpEquipBoolPowers={--DEBUGNOW
+this.cpEquipBoolPowers={
   "ACTIVE_DECOY",--tex doesn't actually seem to work
   "GUN_CAMERA",--tex dont think there are any cams in free mode?
 }
@@ -1586,17 +1618,17 @@ this.vehiclePatrolTankEnable={
 }
 
 this.vehiclePatrolPaintType={
-  save=MISSION,
+  --OFF save=MISSION,
   range={max=10},
 }
 
 this.vehiclePatrolClass={
-  save=MISSION,
+  --OFF save=MISSION,
   range={max=10},
 }
 
 this.vehiclePatrolEmblemType={
-  save=MISSION,
+  --OFF save=MISSION,
   range={max=10},
 }
 
@@ -1695,7 +1727,7 @@ this.mbShowBigBossPosters={
 }
 
 this.mbShowQuietCellSigns={
-  save=MISSION,
+  --OFF save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -1749,7 +1781,7 @@ this.mbDontDemoDisableBuddy={
 }
 
 this.manualMissionCode={
-  save=MISSION,
+  --OFF save=MISSION,
   settings={
     --LOC,TYPE,Notes
     "1",--INIT
@@ -1868,7 +1900,7 @@ this.manualMissionCode={
 --}
 
 this.playerTypeApearance={
-  save=MISSION,
+  --OFF save=MISSION,
   settings={"DEFAULT","SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
   settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
     0,
@@ -1887,7 +1919,7 @@ this.playerTypeApearance={
 
 --categories: avatar:avatar,snake dd:dd_male,dd_female
 this.cammoTypesApearance={
-  save=MISSION,
+  --OFF save=MISSION,
   settings={
     "OLIVEDRAB",
     "SPLITTER",
@@ -1898,10 +1930,12 @@ this.cammoTypesApearance={
     "WOODLAND",
     "WETWORK",
     "PANTHER",
-    --"ARBANGRAY",--hang on ddmale,avatar
-    --"ARBANBLUE",
+    "ARBANGRAY",--hang on ddmale,avatar
+    "ARBANBLUE",
     "REALTREE",--shows as olive
-    "INVISIBLE",--shows as olive
+    --"INVISIBLE",--shows as olive
+    "SANDSTORM",
+    "BLACK",
     "SNEAKING_SUIT_GZ",--avatar
     "SNEAKING_SUIT_TPP",
     "BATTLEDRESS",
@@ -1922,15 +1956,21 @@ this.cammoTypesApearance={
     "EVA_OPEN",
     "BOSS_CLOSE",
     "BOSS_OPEN",
-  --  "C23",--in exe in same area but may be nothing to do with
-  --  "C27",
-  --  "C30",
-  --  "C35",
-  --  "C38",
-  --  "C39",
-  --  "C42",
-  --  "C49",
+
+    "C23",
+    "C24",
+    "C27",
+    "C29",
+    "C30",
+    "C35",
+    "C38",
+    "C39",
+    "C42",
+    "C46",
+    "C49",
+    "C52",
   },
+
   settingsTable={
     PlayerCamoType.OLIVEDRAB,
     PlayerCamoType.SPLITTER,
@@ -1941,10 +1981,12 @@ this.cammoTypesApearance={
     PlayerCamoType.WOODLAND,
     PlayerCamoType.WETWORK,
     PlayerCamoType.PANTHER,
-    --PlayerCamoType.ARBANGRAY,
-    --PlayerCamoType.ARBANBLUE,
-    --PlayerCamoType.REALTREE,
+    PlayerCamoType.ARBANGRAY,
+    PlayerCamoType.ARBANBLUE,
+    PlayerCamoType.REALTREE,
     --PlayerCamoType.INVISIBLE,
+    PlayerCamoType.SANDSTORM,
+    PlayerCamoType.BLACK,
     PlayerCamoType.SNEAKING_SUIT_GZ,
     PlayerCamoType.SNEAKING_SUIT_TPP,
     PlayerCamoType.BATTLEDRESS,
@@ -1965,14 +2007,19 @@ this.cammoTypesApearance={
     PlayerCamoType.EVA_OPEN,
     PlayerCamoType.BOSS_CLOSE,
     PlayerCamoType.BOSS_OPEN,
-  --  PlayerCamoType.C23,
-  --  PlayerCamoType.C27,
-  --  PlayerCamoType.C30,
-  --  PlayerCamoType.C35,
-  --  PlayerCamoType.C38,
-  --  PlayerCamoType.C39,
-  --  PlayerCamoType.C42,
-  --  PlayerCamoType.C49,
+
+    PlayerCamoType.C23,
+    PlayerCamoType.C24,
+    PlayerCamoType.C27,
+    PlayerCamoType.C29,
+    PlayerCamoType.C30,
+    PlayerCamoType.C35,
+    PlayerCamoType.C38,
+    PlayerCamoType.C39,
+    PlayerCamoType.C42,
+    PlayerCamoType.C46,
+    PlayerCamoType.C49,
+    PlayerCamoType.C52,
   },
   --settingNames="set_",
   OnChange=function(self)
@@ -1985,7 +2032,7 @@ this.cammoTypesApearance={
 }
 
 this.playerPartsTypeApearance={
-  save=MISSION,
+  --OFF save=MISSION,
   range={min=0,max=100},--TODO: figure out max range
   --  settingsTable={
   --    "NORMAL",
@@ -2014,7 +2061,7 @@ this.playerPartsTypeApearance={
 }
 
 this.playerFaceEquipIdApearance={
-  save=MISSION,
+  --OFF save=MISSION,
   range={min=0,max=100},--TODO
 
   --NONE=0??
@@ -2151,7 +2198,6 @@ this.phaseUpdate={
     lastPhase=0,
     alertBump=false,
   },
-  ExecInit=function()InfMain.InitWarpPlayerUpdate()end,
   ExecUpdate=function(...)InfMain.UpdatePhase(...)end,
 --profile=this.subsistenceProfile,
 }
@@ -2228,35 +2274,136 @@ this.warpPlayerUpdate={
   disabled=false,
   disabledReason="item_disabled_subsistence",
   OnSelect=this.DisableOnSubsistence,
-  OnChange=function(self,previousSetting)--tex REFACTOR what a mess VERIFY that you can bitcheck disableflags
-    --    local OPEN_EQUIP=PlayerDisableAction.OPEN_EQUIP_MENU
-    --    if self.setting==0 and previousSetting~=0 then
-    --      if bit.band(vars.playerDisableActionFlag,OPEN_EQUIP)==OPEN_EQUIP then
-    --       vars.playerDisableActionFlag=vars.playerDisableActionFlag-OPEN_EQUIP
-    --      end
-    --    elseif self.setting==1 and previousSetting~=1 then
-    --      if not (bit.band(vars.playerDisableActionFlag,OPEN_EQUIP)==OPEN_EQUIP) then
-    --       vars.playerDisableActionFlag=vars.playerDisableActionFlag+OPEN_EQUIP
-    --      end
-    --      vars.playerDisableActionFlag=PlayerDisableAction.OPEN_EQUIP_MENU
-    --    end
+  --DEBUGNOW OFF disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,
+  OnActivate=function()InfMain.OnActivateWarpPlayer()end,
+  OnChange=function(self,previousSetting)
+    if Ivars.adjustCameraUpdate:Is(1) then
+      self.setting=0
+      InfMenu.PrintLangId"other_control_active"
+    end
+   
+    if self.setting==1 then
+      InfMenu.PrintLangId"warp_mode_on"
+      InfMain.OnActivateWarpPlayer()
+    else
+      InfMenu.PrintLangId"warp_mode_off"
+      InfMain.OnDeactivateWarpPlayer()
+    end
 
     if InfMenu.menuOn then
       InfMain.RestoreActionFlag()
       InfMenu.menuOn=false
-  end
-
-  if self.setting==1 then
-    InfMenu.PrintLangId"warp_mode_on"
-  else
-    InfMenu.PrintLangId"warp_mode_off"
-  end
+    end
   end,
   execChecks={inGame=true,inHeliSpace=false},
   execState={
     nextUpdate=0,
   },
+  ExecInit=function()InfMain.InitWarpPlayerUpdate()end,
   ExecUpdate=function(...)InfMain.UpdateWarpPlayer(...)end,
+}
+
+this.adjustCameraUpdate={
+  --save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  disabled=false,
+  disabledReason="item_disabled_subsistence",
+  OnSelect=this.DisableOnSubsistence,
+  --disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,--tex OFF not really needed, padmask is sufficient
+  OnActivate=function()InfMain.OnActivateCameraAdjust()end,
+  OnChange=function(self,previousSetting)
+    if Ivars.warpPlayerUpdate:Is(1) then
+      self.setting=0
+      InfMenu.PrintLangId"other_control_active"
+      return
+    end
+    
+    if InfMenu.menuOn then
+      InfMain.RestoreActionFlag()--DEBGNOW only restore those that menu disables that this doesnt
+      InfMenu.menuOn=false
+    end
+
+    if self.setting==1 then
+      InfMenu.PrintLangId"cam_mode_on"
+      --InfMain.ResetCamDefaults()
+      InfMain.OnActivateCameraAdjust()
+      Ivars.cameraMode:Set(1)
+    else
+      InfMenu.PrintLangId"cam_mode_off"
+      InfMain.OnDectivateCameraAdjust()
+      Ivars.cameraMode:Set(0)
+    end
+  end,
+  execChecks={inGame=true,inHeliSpace=false},
+  execState={
+    nextUpdate=0,
+  },
+  --ExecInit=function()InfMain.InitWarpPlayerUpdate()end,
+  ExecUpdate=function(...)InfMain.UpdateCameraAdjust(...)end,
+}
+
+this.cameraMode={
+  --save=MISSION,
+  settings={"PLAYER","CAMERA"},
+  settingNames="cameraModeSettings",
+  OnChange=function(self,previousSetting)
+    --    if Ivars.adjustCameraUpdate:Is(0) then
+    --      return
+    --    end
+
+    if self:Is"CAMERA" then
+      Player.SetAroundCameraManualMode(true)
+      InfMain.UpdateCameraManualMode()
+    elseif self:Is"PLAYER" then
+      Player.SetAroundCameraManualMode(false)
+    end
+
+    --    if self.setting==self.enum.PLAYER then
+    --      Player.ResetPadMask {
+    --        settingName = "controlMode",
+    --      }
+    --      InfMenu.PrintLangId"control_mode_player"
+    --    else
+    --      Player.SetPadMask {
+    --        settingName="controlMode",
+    --        except=false,
+    --        buttons=PlayerPad.ALL,
+    --        sticks=PlayerPad.STICK_L,--+PlayerPad.STICK_R,
+    --        triggers=PlayerPad.TRIGGER_L+PlayerPad.TRIGGER_R,
+    --      }
+    --      InfMenu.PrintLangId"control_mode_camera"
+    --    end
+    --
+    --    if InfMenu.menuOn then
+    --      InfMain.RestoreActionFlag()
+    --      InfMenu.menuOn=false
+    --    end
+  end,
+}
+
+this.moveScale={
+  save=MISSION,
+  default=0.5,
+  range={max=1,min=0.1,increment=0.1},
+}
+
+this.focalLength={
+  --save=MISSION,
+  default=21,
+  range={max=10000,min=0.1,increment=1},
+}
+
+this.focusDistance={
+  --save=MISSION,
+  default=8.175,
+  range={max=1000,min=0.01,increment=0.1},
+}
+
+this.aperture={
+  --save=MISSION,
+  default=1.875,
+  range={max=100,min=0.001,increment=0.1},
 }
 
 --quiet

@@ -299,7 +299,9 @@ this.revengeDefine={
 function this.SelectRevengeType()
   local missionCode=TppMission.GetMissionID()
   if (this.IsNoRevengeMission(missionCode)or missionCode==10115) and Ivars.disableNoRevengeMissions:Is(0) then--tex added disable --NMC retake the platform, not revenge mission because mb/ddogs use different system?
+    if missionCode~=30050 or Ivars.revengeModeForMb:Is()<=Ivars.revengeModeForMb.enum.FOB then --tex added check
     return{}
+    end
   end
   local isHardMission=TppMission.IsHardMission(missionCode)
   local revengeTypes={}
@@ -358,9 +360,6 @@ function this.IsNoRevengeMission(missionCode)
   if missionCode==nil then
     return false
   end
-  if Ivars.revengeModeForMb:Is()>Ivars.revengeModeForMb.enum.FOB then--tex
-    return false
-  end--<
   local e=this.NO_REVENGE_MISSION_LIST[missionCode]
   if e==nil then
     return false

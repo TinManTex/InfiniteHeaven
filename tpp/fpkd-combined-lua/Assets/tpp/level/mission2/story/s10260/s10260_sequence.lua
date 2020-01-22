@@ -747,7 +747,7 @@ function this.SetCombatLocator( enemyId, locatorName )
 
 	local command = {
 		id = "AssignMemberRoleInLocator",
-		locatorName = LocatorName,
+		locatorName = LocatorName,--RETAILBUG
 		soldier2GameObjectId = soldierId,
 	}
 	SendCommand(gameObjectId, command)
