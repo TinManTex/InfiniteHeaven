@@ -196,8 +196,12 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
       gvars[self.name]=setting
     end
   end
-  if self.OnChange then -- and not noOnChange then 
-    self:OnChange(prevSetting) 
+  if self.OnChange then
+    if noOnChangeSub and self.OnSubSettingChanged then
+    --elseif noOnChangeSub and self.OnChange==Ivars.RunCurrentSetting then
+    else
+      self:OnChange(prevSetting)
+    end 
   end
   if self.profile and not noOnChangeSub then
     Ivars.OnChangeSubSetting(self)

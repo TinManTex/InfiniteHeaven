@@ -208,6 +208,9 @@ this.playerHealthScale={
   default=1,
   range=this.healthScaleRange,
   OnChange=function()
+    if mvars.mis_missionStateIsNotInGame then
+      return
+    end
     local healthScale=gvars.playerHealthScale
     --if healthScale~=1 then
       Player.ResetLifeMaxValue()
@@ -488,10 +491,10 @@ this.disableXrayMarkers={
   range=this.switchRange,
   settingNames="set_switch",
   profile=this.subsistenceProfile,
-  --[[OnChange=function(self)
-    local enabled=self.setting==1
-    TppSoldier2.SetDisableMarkerModelEffect{enabled=enabled}
-  end,--]]
+  --OnChange=function(self)--DEBUGNOW Actually why did I disable this?
+  --  local enabled=self.setting==1
+  --  TppSoldier2.SetDisableMarkerModelEffect{enabled=enabled}
+  --end,
 }
 
 this.disableFulton={

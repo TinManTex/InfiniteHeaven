@@ -971,9 +971,9 @@ function this._ReduceBlockedCount(missionId)
     return
   end
   for n=0,this.BLOCKED_TYPE.MAX-1 do
-    local blockedCountDorType=gvars.rev_revengeBlockedCount[n]
-    if blockedCountDorType>0 then
-      gvars.rev_revengeBlockedCount[n]=blockedCountDorType-1
+    local blockedCount=gvars.rev_revengeBlockedCount[n]
+    if blockedCount>0 then
+      gvars.rev_revengeBlockedCount[n]=blockedCount-1
     end
   end
 end
@@ -1567,7 +1567,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
       local powerSetting=revengeConfig[powerType]
       if powerSetting then
         local percentage=0
-        if Tpp.IsTypeNumber(powerSetting)then
+        if Tpp.IsTypeNumber(powerSetting)then--tex convert from num soldiers to percentage
           if powerSetting>totalSoldierCount then
             powerSetting=totalSoldierCount
           end
@@ -1603,11 +1603,12 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
           aboveBalance=aboveBalance-1
         end
       end
-      if underflow>0 then
-        balancePercent=balancePercent+(underflow/aboveBalance)
-      end
+      --OFF if underflow>0 then--tex distribute underflow evenly
+       -- balancePercent=balancePercent+(underflow/aboveBalance)
+       -- underflow=0
+      --end
 
-      for powerType,percentage in pairs(originalSettingsTable) do
+      for powerType,percentage in pairs(originalSettingsTable) do--tex distribute underflow in ballanceGearType order
         if percentage>balancePercent then
           local toOriginalPercent=originalSettingsTable[powerType]-balancePercent
           local bump=math.min(underflow,toOriginalPercent)
@@ -1620,7 +1621,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
   end--if gvar
 
   local unfulfilledPowers={}--tex
-
+  
   local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,abilitiesList,outerBaseSoldierTable,unfulfilledPowers,cpConfig)--tex now function, added unfulfilledPowers
     for r,powerType in ipairs(TppEnemy.POWER_SETTING)do
       local powerSetting=revengeConfig[powerType]
@@ -1645,12 +1646,14 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
         for soldierConfigId=1,totalSoldierCount do
           local powerElimOrChild=powerElimOrChildSoldierTable[soldierConfigId]
           local isAbility=abilitiesList[powerType]--tex reworked to save mental gymnastics, original game allows ability set for outerbase and lrrp
-          local isOuterBase=outerBaseSoldierTable[soldierConfigId] and gvars.applyPowersToOuterBase==0 and not isAbility
-          local isLrrp=lrrpSoldierTable[soldierConfigId] and gvars.applyPowersToLrrp==0 and not isAbility
+          local isOuterBase=outerBaseSoldierTable[soldierConfigId]
+          local doOuterBase=isOuterBase and (isAbility or gvars.applyPowersToOuterBase>0)
+          local isLrrp=lrrpSoldierTable[soldierConfigId]
+          local doLrrp=isLrrp and (isAbility or gvars.applyPowersToLrrp>0)
+          local isMainBase=(not powerElimOrChild) and (not isOuterBase) and (not isLrrp)
           --local nonAbilityNonBase=(not abilitiesList[powerType])and outerBaseSoldierTable[soldierConfigId]--tex was
           --if(not powerElimOrChild and not nonAbilityNonBase)and soldierCount>0  then--tex was
-          if soldierCount>0 and (not powerElimOrChild and (not isOuterBase) and (not isLrrp)) then
-            --true or not
+          if soldierCount>0 and (isMainBase or doOuterBase or doLrrp) then
             local setPower=true
             if cpConfig[soldierConfigId][powerType]then
               soldierCount=soldierCount-1

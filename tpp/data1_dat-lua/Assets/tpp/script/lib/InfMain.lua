@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r110"
+this.modVersion="r111"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -152,6 +152,10 @@ function this.IsMbWarGames(missionId)
   return gvars.mbWarGames>0 and missionId==30050
 end
 function this.IsMbPlayTime(missionId)
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return false
+  end
+
   missionId=missionId or vars.missionCode
   if missionId==30050 then
     return gvars.mbPlayTime>0 or gvars.mbSoldierEquipGrade>0
@@ -163,6 +167,10 @@ function this.IsForceSoldierSubType()
 end
 
 function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldierEquipGrade
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
+  end
+
   local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   if this.IsMbPlayTime(missionId) and gvars.mbSoldierEquipGrade>Ivars.mbSoldierEquipGrade.enum.MBDEVEL then
     --TppUiCommand.AnnounceLogView("GetEquipGrade ismbplay, grade > devel")--DEBUG
@@ -178,6 +186,10 @@ function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldier
 end
 
 function this.GetMbsClusterSecuritySoldierEquipRange(missionId)
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
+  end
+
   if InfMain.IsMbPlayTime(missionId) then
     if gvars.mbSoldierEquipRange==Ivars.mbSoldierEquipRange.enum.RANDOM then
       return math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
@@ -189,6 +201,10 @@ function this.GetMbsClusterSecuritySoldierEquipRange(missionId)
 end
 
 function this.GetMbsClusterSecurityIsNoKillMode(missionId)
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
+  end  
+
   if this.IsMbPlayTime(missionId) then--tex PrepareDDParameter mbwargames, mbsoldierequipgrade
     return gvars.mbWarGames==Ivars.mbWarGames.enum.NONLETHAL
   end
@@ -942,7 +958,7 @@ end
 
 function this.OnAllocateFob()
   InfMenu.ResetSettings()--tex TODO: would like a nosave reset, but would need to change to reading ivar.setting instead of gvars, then would need to VERFY that .setting is restored on gvar restore
-  TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
+  --DEBUGNOWTppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
 end
 
 
@@ -1144,6 +1160,10 @@ local updateIvars={
 
 function this.Init(missionTable)--tex called from TppMain.OnInitialize
   this.abortToAcc=false
+  
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return
+  end
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
@@ -1157,6 +1177,10 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
 end
 
 function this.OnReload(missionTable)
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return
+  end
+
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 

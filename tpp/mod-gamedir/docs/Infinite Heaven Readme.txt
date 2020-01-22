@@ -1,9 +1,12 @@
 = Infinite heaven =
-r110 - 2015-12-18
+r111 - 2015-12-19
 by tin man tex
 For MGSV version 1.0.7.0 (1.07 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
+
+New for r111:
+Fix: Prevent a crash on loading FOB
 
 New for r110:
 Enemy prep options:
@@ -356,10 +359,13 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r111 - 2015-12-19 - public release
+Fixes to ResetSettings, as a result also fixes FOB loading.
+
 r110 - 2015-12-18 - public release
 Update to TPP 1.0.7.0
 
-r109:
+r109
 Options: changeCpSubTypeFree, changeCpSubTypeForMissions
 Refactor: InfMenu. Next/PrevSetting/ChangeSetting. Support <ivar>.GetNext(), <ivar>.GetSettingText()
 
