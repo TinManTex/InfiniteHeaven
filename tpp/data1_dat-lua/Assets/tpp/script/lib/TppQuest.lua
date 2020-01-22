@@ -184,6 +184,10 @@ local sideOpsTable={
   --[[XXX--]]{questName="mtbs_q42050",questId="mtbs_q42050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special},
   --[[XXX--]]{questName="mtbs_q42070",questId="mtbs_q42070",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special}
 }
+this.questNameForUiIndex={}--tex
+for index,questInfo in ipairs(sideOpsTable) do
+  this.questNameForUiIndex[index]=questInfo.questName
+end--<
 local questRadioList={
   ruins_q19010={radioNameFirst="f1000_rtrg0700"},
   outland_q19011={radioNameFirst="f1000_rtrg4380"},
@@ -1280,10 +1284,10 @@ function this.ClearWithSave(clearType,questName)
   end
 end
 function this.ClearWithSaveMtbsDDQuest()
-  local t=this.GetCurrentQuestName()
-  local t=this.GetQuestIndex(t)
-  this.UpdateClearFlag(t,true)
-  this.UpdateRepopFlag(t)
+  local questName=this.GetCurrentQuestName()
+  local questIndex=this.GetQuestIndex(questName)
+  this.UpdateClearFlag(questIndex,true)
+  this.UpdateRepopFlag(questIndex)
   this.Save()
 end
 function this.Clear(questName)
@@ -1293,15 +1297,15 @@ function this.Clear(questName)
       return
     end
   end
-  local n=this.GetQuestIndex(questName)
-  if n==nil then
+  local questIndex=this.GetQuestIndex(questName)
+  if questIndex==nil then
     return
   end
   this.SetNextQuestStep(d)
   this.ShowAnnounceLog(QUEST_STATUS_TYPES.CLEAR,questName)
-  this.CheckClearBounus(n,questName)
-  this.UpdateClearFlag(n,true)
-  this.UpdateRepopFlag(n)
+  this.CheckClearBounus(questIndex,questName)
+  this.UpdateClearFlag(questIndex,true)
+  this.UpdateRepopFlag(questIndex)
   this.CheckAllClearBounus()
   this.CheckAllClearMineQuest()
   if not TppLocation.IsMotherBase()then
@@ -2229,22 +2233,22 @@ function this.UpdateActiveQuest(debugUpdate)
             gvars.qst_questActiveFlag[questIndex]=false
             local RENAMEsomeCondition=RENAMEsomeConditions[questName]--NMC: some list of conditions, not as big as the 't' list
 
-            local blockQuest=false--tex skipvalues, heliblock>
-            if Ivars.unlockSideOpNumber.skipValues[questIndex+1]==true then--tex disallowSideOps
-              blockQuest=true
-            end
-            if Ivars.enableHeliReinforce:Is(1) then--tex block heli quests to allow super reinforce
-              if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
-                for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
-                  if name==questName then
-                    blockQuest=true
-                    break
-                  end
-                end
-              end
-            end--<skipvalues, heliblock
+--            local blockQuest=false--tex skipvalues, heliblock> --DEBUGNOW CULL
+--            if Ivars.unlockSideOpNumber.skipValues[questIndex+1]==true then--tex disallowSideOps
+--              blockQuest=true
+--            end
+--            if Ivars.enableHeliReinforce:Is(1) then--tex block heli quests to allow super reinforce
+--              if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+--                for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
+--                  if name==questName then
+--                    blockQuest=true
+--                    break
+--                  end
+--                end
+--              end
+--            end--<skipvalues, heliblock
 
-            if this.IsOpen(questName)and(not RENAMEsomeCondition or RENAMEsomeCondition())and(not blockQuest) then--tex added blockQuest
+            if this.IsOpen(questName)and(not RENAMEsomeCondition or RENAMEsomeCondition())and(not InfMain.BlockQuest(questName)) then--tex added blockQuest
               if not this.IsCleard(questName)then
                 if info.isStory then
                   table.insert(storyQuests,questName)
@@ -2559,40 +2563,40 @@ function this.UpdateClearFlag(e,t)
   end
   gvars.qst_questActiveFlag[e]=false
 end
-function this.UpdateRepopFlag(t)
-  gvars.qst_questRepopFlag[t]=false
+function this.UpdateRepopFlag(questIndex)
+  gvars.qst_questRepopFlag[questIndex]=false
   local questAreaTable=this.GetCurrentQuestTable()
   if not questAreaTable then
     return
   end
   this.UpdateRepopFlagImpl(questAreaTable)
 end
-function this.UpdateRepopFlagImpl(a)
-  local n=0
-  for t,a in ipairs(a.infoList)do
-    local t=a.name
-    if this.IsOpen(t)then
-      if not a.isOnce then
-        n=n+1
+function this.UpdateRepopFlagImpl(locationQuests)
+  local numOpen=0
+  for n,questInfo in ipairs(locationQuests.infoList)do
+    local questName=questInfo.name
+    if this.IsOpen(questName)then
+      if not questInfo.isOnce then
+        numOpen=numOpen+1
       end
-      if this.IsRepop(t)or not this.IsCleard(t)then
-        local e=RENAMEsomeConditions[t]
+      if this.IsRepop(questName)or not this.IsCleard(questName)then
+        local e=RENAMEsomeConditions[questName]
         if(e==nil)or e()then
           return
         end
       end
     end
   end
-  if n<=1 and(not TppLocation.IsMotherBase())then
+  if numOpen<=1 and(not TppLocation.IsMotherBase())then
     return
   end
-  for n,t in ipairs(a.infoList)do
-    if this.IsCleard(t.name)and (not t.isOnce or Ivars.unlockSideOps:Get()~=0) then--tex added issub
-      gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[t.name]]=true
+  for n,questInfo in ipairs(locationQuests.infoList)do
+    if this.IsCleard(questInfo.name)and (not questInfo.isOnce or Ivars.unlockSideOps:Get()~=0) then--tex added issub
+      gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=true
     end
-    local e=RENAMEsomeConditions[t.name]
+    local e=RENAMEsomeConditions[questInfo.name]
     if e and(not e())then--and Ivars.unlockSideOps:Is(0) then --tex
-      gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[t.name]]=false
+      gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=false
     end
   end
 end

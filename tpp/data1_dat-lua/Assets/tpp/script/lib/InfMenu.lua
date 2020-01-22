@@ -157,9 +157,12 @@ end
 function this.ChangeSetting(option,value)
   local newSetting=this.IncrementWrap(option.setting,value,option.range.min,option.range.max)
   if option.skipValues~=nil then
-    while option.skipValues[newSetting] do
-      TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
-      newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
+    --CULL while option.skipValues[newSetting] do
+    if IsFunc(option.skipValues) then
+      while option:skipValues(newSetting) do
+        --DEBUGNOW TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
+        newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
+      end
     end
   end
   
@@ -520,11 +523,13 @@ function this.Update(execCheck)
   
   if execCheck.inHeliSpace then
     if this.topMenu~=InfMenuDefs.heliSpaceMenu then
+      Ivars.PrintGvarSettingMismatch()--DEBUGNOW
       this.topMenu=InfMenuDefs.heliSpaceMenu
       this.GoMenu(this.topMenu)
     end
   else--!ishelispace
     if this.topMenu~=InfMenuDefs.inMissionMenu then
+      Ivars.PrintGvarSettingMismatch()--DEBUGNOW
       this.topMenu=InfMenuDefs.inMissionMenu
       this.GoMenu(this.topMenu)
     end

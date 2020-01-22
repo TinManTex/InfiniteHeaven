@@ -142,24 +142,24 @@ local function MinMaxIvar(name,minSettings,maxSettings,ivarSettings)
     save=MISSION,
     OnChange=PushMax,
   }
-  
+
   for k,v in pairs(minSettings) do
     ivarMin[k]=v
   end
-  
+
   for k,v in pairs(maxSettings) do
     ivarMax[k]=v
   end
-  
+
   for k,v in pairs(ivarSettings) do
     ivarMin[k]=v
     ivarMax[k]=v
   end
-  
+
   this[name.."_MIN"]=ivarMin
   this[name.."_MAX"]=ivarMax
   return ivarMin,ivarMax
- end
+end
 
 --parameters
 this.soldierParamsProfile={
@@ -458,7 +458,7 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(1,true)
 
       Ivars.abortMenuItemControl:Set(1,true)
-      --DEBUGNOW Ivars.maxPhase:Reset()
+      Ivars.maxPhase:Reset()
 
       Ivars.fultonLevelProfile:Set(1,true)
     end,
@@ -493,7 +493,7 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(1,true)
 
       Ivars.abortMenuItemControl:Set(0,true)
-      --DEBUGNOW Ivars.maxPhase:Reset()
+      Ivars.maxPhase:Reset()
 
       Ivars.fultonLevelProfile:Set(1,true)
     end,
@@ -1170,11 +1170,11 @@ function this.SetPercentagePowersRange(min,max)
   end
 end
 
-function this.SetPowerRange(powerType,min,max)
-  local ivarMin=this[powerType.."_MIN"]
-  local ivarMax=this[powerType.."_MAX"]
+function this.SetMinMax(baseName,min,max)
+  local ivarMin=this[baseName.."_MIN"]
+  local ivarMax=this[baseName.."_MAX"]
   if ivarMin==nil or ivarMax==nil then
-    InfMenu.DebugPrint("SetPowerRange: could not find ivar for "..powerType)
+    InfMenu.DebugPrint("SetMinMax: could not find ivar for "..baseName)
     return
   end
   ivarMin:Set(min,true)
@@ -1189,98 +1189,100 @@ this.revengeConfigProfile={--WIP
     WIDE=function()
       this.SetPercentagePowersRange(0,1)
       for n,powerType in ipairs(this.abilitiesWithLevels)do
-        this.SetPowerRange(powerType,"NONE","SPECIAL")
+        this.SetMinMax(powerType,"NONE","SPECIAL")
       end
-
-      this.SetPowerRange("STRONG_WEAPON",0,1)
-      this.SetPowerRange("STRONG_MISSILE",0,1)
-      this.SetPowerRange("STRONG_SNIPER",0,1)
+      
+      this.SetMinMax("STRONG_WEAPON",0,1)
+      this.SetMinMax("STRONG_MISSILE",0,1)
+      this.SetMinMax("STRONG_SNIPER",0,1)
 
       Ivars.reinforceLevel_MIN:Set("NONE",true)
       Ivars.reinforceLevel_MAX:Set("BLACK_SUPER_REINFORCE",true)
-
-      this.revengeIgnoreBlocked_MIN:Set(0,true)
-      this.revengeIgnoreBlocked_MAX:Set(0,true)
       
-      this.reinforceCount_MIN:Set(1,true)
-      this.reinforceCount_MAX:Set(5,true)
+      this.SetMinMax("revengeIgnoreBlocked",0,0)
+
+      this.SetMinMax("reinforceCount",1,5)
+      
+      this.SetMinMax("ACTIVE_DECOY",0,1)
+      this.SetMinMax("GUN_CAMERA",0,1)
     end,
     MAX=function()
       for n,powerType in ipairs(this.cpEquipPowers)do
-        this.SetPowerRange(powerType,1,1)
+        this.SetMinMax(powerType,1,1)
       end
       for n,powerType in ipairs(this.abilitiesWithLevels)do
-        this.SetPowerRange(powerType,"SPECIAL","SPECIAL")
+        this.SetMinMax(powerType,"SPECIAL","SPECIAL")
       end
 
-      this.SetPowerRange("ARMOR",0.4,0.4)
-      this.SetPowerRange("SHIELD",0.4,0.4)
+      this.SetMinMax("ARMOR",0.4,0.4)
+      this.SetMinMax("SHIELD",0.4,0.4)
 
-      this.SetPowerRange("SOFT_ARMOR",1,1)
-      this.SetPowerRange("HELMET",1,1)
-      this.SetPowerRange("NVG",0.75,0.75)
-      this.SetPowerRange("GAS_MASK",0.75,0.75)
-      this.SetPowerRange("GUN_LIGHT",0.75,0.75)
+      this.SetMinMax("SOFT_ARMOR",1,1)
+      this.SetMinMax("HELMET",1,1)
+      this.SetMinMax("NVG",0.75,0.75)
+      this.SetMinMax("GAS_MASK",0.75,0.75)
+      this.SetMinMax("GUN_LIGHT",0.75,0.75)
 
-      this.SetPowerRange("SNIPER",0.2,0.2)
-      this.SetPowerRange("MISSILE",0.4,0.4)
+      this.SetMinMax("SNIPER",0.2,0.2)
+      this.SetMinMax("MISSILE",0.4,0.4)
 
-      this.SetPowerRange("MG",0.4,0.4)
-      this.SetPowerRange("SHOTGUN",0.4,0.4)
-      this.SetPowerRange("SMG",0,0)
-      this.SetPowerRange("ASSAULT",0,0)
+      this.SetMinMax("MG",0.4,0.4)
+      this.SetMinMax("SHOTGUN",0.4,0.4)
+      this.SetMinMax("SMG",0,0)
+      this.SetMinMax("ASSAULT",0,0)
 
-      this.SetPowerRange("STRONG_WEAPON",1,1)
-      this.SetPowerRange("STRONG_MISSILE",1,1)
-      this.SetPowerRange("STRONG_SNIPER",1,1)
+      this.SetMinMax("STRONG_WEAPON",1,1)
+      this.SetMinMax("STRONG_MISSILE",1,1)
+      this.SetMinMax("STRONG_SNIPER",1,1)
 
       this.reinforceLevel_MIN:Set("BLACK_SUPER_REINFORCE",true)
       this.reinforceLevel_MAX:Set("BLACK_SUPER_REINFORCE",true)
 
-      this.revengeIgnoreBlocked_MIN:Set(1,true)
-      this.revengeIgnoreBlocked_MAX:Set(1,true)
+      this.SetMinMax("revengeIgnoreBlocked",1,1)
 
-      this.reinforceCount_MIN:Set(4,true)
-      this.reinforceCount_MAX:Set(4,true)
+      this.SetMinMax("reinforceCount",4,4)
+      
+      this.SetMinMax("ACTIVE_DECOY",1,1)
+      this.SetMinMax("GUN_CAMERA",1,1)
     end,
     MIN=function()
       for n,powerType in ipairs(this.cpEquipPowers)do
-        this.SetPowerRange(powerType,0,0)
+        this.SetMinMax(powerType,0,0)
       end
       for n,powerType in ipairs(this.abilitiesWithLevels)do
-        this.SetPowerRange(powerType,"NONE","NONE")
+        this.SetMinMax(powerType,"NONE","NONE")
       end
 
-      this.SetPowerRange("ARMOR",0,0)
-      this.SetPowerRange("SHIELD",0,0)
+      this.SetMinMax("ARMOR",0,0)
+      this.SetMinMax("SHIELD",0,0)
 
-      this.SetPowerRange("SOFT_ARMOR",0,0)
-      this.SetPowerRange("HELMET",0,0)
-      this.SetPowerRange("NVG",0,0)
-      this.SetPowerRange("GAS_MASK",0,0)
-      this.SetPowerRange("GUN_LIGHT",0,0)
+      this.SetMinMax("SOFT_ARMOR",0,0)
+      this.SetMinMax("HELMET",0,0)
+      this.SetMinMax("NVG",0,0)
+      this.SetMinMax("GAS_MASK",0,0)
+      this.SetMinMax("GUN_LIGHT",0,0)
 
-      this.SetPowerRange("SNIPER",0,0)
-      this.SetPowerRange("MISSILE",0,0)
+      this.SetMinMax("SNIPER",0,0)
+      this.SetMinMax("MISSILE",0,0)
 
-      this.SetPowerRange("MG",0,0)
-      this.SetPowerRange("SHOTGUN",0,0)
-      this.SetPowerRange("SMG",0,0)
-      this.SetPowerRange("ASSAULT",0,0)
-
-      this.SetPowerRange("STRONG_WEAPON",0,0)
-      this.SetPowerRange("STRONG_MISSILE",0,0)
-      this.SetPowerRange("STRONG_SNIPER",0,0)
+      this.SetMinMax("MG",0,0)
+      this.SetMinMax("SHOTGUN",0,0)
+      this.SetMinMax("SMG",0,0)
+      this.SetMinMax("ASSAULT",0,0)
+      
+      this.SetMinMax("STRONG_WEAPON",0,0)
+      this.SetMinMax("STRONG_MISSILE",0,0)
+      this.SetMinMax("STRONG_SNIPER",0,0)
 
       this.reinforceLevel_MIN:Set("NONE",true)
       this.reinforceLevel_MAX:Set("NONE",true)
 
-      this.revengeIgnoreBlocked_MIN:Set(0,true)
-      this.revengeIgnoreBlocked_MAX:Set(0,true)
+      this.SetMinMax("revengeIgnoreBlocked",0,0)
 
-
-      this.reinforceCount_MIN:Set(1,true)
-      this.reinforceCount_MAX:Set(1,true)
+      this.SetMinMax("reinforceCount",1,1)
+      
+      this.SetMinMax("ACTIVE_DECOY",0,0)
+      this.SetMinMax("GUN_CAMERA",0,0)
     end,
     UPPER=nil,
     LOWER=nil,
@@ -1352,7 +1354,7 @@ for n,powerTableName in ipairs(this.percentagePowerTables)do
       {
         range=this.revengePowerRange,
         powerType=powerType,
-        profile=this.revengeConfigProfile,       
+        profile=this.revengeConfigProfile,
       }
     )
   end
@@ -1386,7 +1388,7 @@ for n,powerType in ipairs(this.abilitiesWithLevels)do
     {
       settings=this.abiltiyLevels,
       powerType=powerType,
-      profile=this.revengeConfigProfile,       
+      profile=this.revengeConfigProfile,
     }
   )
 end
@@ -1412,22 +1414,41 @@ for n,powerType in ipairs(this.weaponStrengthPowers)do
       range=this.switchRange,
       settingNames="set_switch",
       powerType=powerType,
-      profile=this.revengeConfigProfile,       
+      profile=this.revengeConfigProfile,
     }
   )
 end
 
-this.cpEquipBoolPowers={--TODO: don't actually seem to work
-  "ACTIVE_DECOY",
-  "GUN_CAMERA",
+this.cpEquipBoolPowers={--DEBUGNOW
+  "ACTIVE_DECOY",--tex doesn't actually seem to work
+  "GUN_CAMERA",--tex dont think there are any cams in free mode?
 }
+
+for n,powerType in ipairs(this.cpEquipBoolPowers)do
+  MinMaxIvar(
+    powerType,
+    {
+      default=0,
+      OnChange=OnChangeCustomRevengeMin,
+    },
+    {
+      default=1,
+      OnChange=OnChangeCustomeRevengeMax,
+    },
+    {
+      range=this.switchRange,
+      settingNames="set_switch",
+      powerType=powerType,
+      profile=this.revengeConfigProfile,
+    }
+  )
+end
 
 this.moreAbilities={
   "STRONG_NOTICE_TRANQ",--tex TODO: unused?
 }
 
 this.boolPowers={
-  "NO_KILL_WEAPON",--fob/dd weapontable only --TODO:?
   "STRONG_PATROL",--tex appears un-used
 }
 
@@ -1448,7 +1469,7 @@ MinMaxIvar(
   },
   {
     settings=reinforceLevelSettings,
-    profile=this.revengeConfigProfile,    
+    profile=this.revengeConfigProfile,
   }
 )
 
@@ -1458,7 +1479,7 @@ MinMaxIvar(
   {default=5,OnChange=OnChangeCustomeRevengeMax},
   {
     range={max=99,min=1},
-    profile=this.revengeConfigProfile,    
+    profile=this.revengeConfigProfile,
   }
 )
 
@@ -1469,7 +1490,7 @@ MinMaxIvar(
   {
     range=this.switchRange,
     settingNames="set_switch",
-    profile=this.revengeConfigProfile,   
+    profile=this.revengeConfigProfile,
   }
 )
 
@@ -1657,7 +1678,10 @@ this.unlockSideOps={
 this.unlockSideOpNumber={
   save=MISSION,
   range={max=this.numQuests},
-  skipValues={[144]=true},
+  skipValues=function(self,newSetting)
+    local questName=TppQuest.questNameForUiIndex[newSetting]
+    return InfMain.BlockQuest(questName)
+  end,
   OnChange=function()
     TppQuest.UpdateActiveQuest()
   end,
@@ -2732,6 +2756,23 @@ function this.PrintNonDefaultVars()
     else
       if gvar ~= gvarInfo.value then
         InfMenu.DebugPrint("DEBUG: "..gvarInfo.name.." current value is not default")
+      end
+    end
+  end
+end
+
+function this.PrintGvarSettingMismatch()
+  for name, ivar in pairs(Ivars) do
+    if IsIvar(ivar) then
+      if ivar.save then
+        local gvar=gvars[ivar.name]
+        if gvar==nil then
+          InfMenu.DebugPrint("WARNING ".. ivar.name.." has no gvar")
+        else
+          if ivar.setting~=gvar then
+            InfMenu.DebugPrint("WARNING: ivar setting/gvar mismatch for "..name)
+          end
+        end
       end
     end
   end

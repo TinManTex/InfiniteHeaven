@@ -240,6 +240,16 @@ for n,powerType in ipairs(Ivars.weaponStrengthPowers)do
   table.insert(menuOptions,Ivars[powerType.."_MIN"])
   table.insert(menuOptions,Ivars[powerType.."_MAX"])
 end
+
+this.cpEquipBoolPowersMenu={
+  options={
+  }
+}
+local menuOptions=this.cpEquipBoolPowersMenu.options
+for n,powerType in ipairs(Ivars.cpEquipBoolPowers)do
+  table.insert(menuOptions,Ivars[powerType.."_MIN"])
+  table.insert(menuOptions,Ivars[powerType.."_MAX"])
+end
 table.insert(menuOptions,InfMenuCommands.resetSettingsItem)
 table.insert(menuOptions,InfMenuCommands.goBackItem)
 
@@ -257,6 +267,7 @@ for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
 end
 table.insert(revengeMenu,this.abilityCustomMenu)
 table.insert(revengeMenu,this.weaponStrengthCustomMenu)
+table.insert(revengeMenu,this.cpEquipBoolPowersMenu)
 table.insert(revengeMenu,Ivars.reinforceCount_MIN)
 table.insert(revengeMenu,Ivars.reinforceCount_MAX)
 table.insert(revengeMenu,Ivars.reinforceLevel_MIN)
@@ -349,7 +360,7 @@ this.phaseMenu={
   },
   disabled=false,
   disabledReason="item_disabled_subsistence",
-  --DEBUGNOW OnSelect=Ivars.DisableOnSubsistence,
+  OnSelect=Ivars.DisableOnSubsistence,
 }
 
 this.supportHeliMenu={

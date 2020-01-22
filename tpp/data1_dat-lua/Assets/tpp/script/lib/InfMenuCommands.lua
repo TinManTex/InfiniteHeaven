@@ -242,13 +242,55 @@ this.DEBUG_PrintSomeShiz={
   OnChange=function()
     InfMenu.DebugPrint"DEBUG_PrintSomeShiz"
     
+ for baseType,typeInfo in pairs(vehicleBaseTypes) do
+    if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
+      InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
+      local vehicles=nil
+      local vehicleType=""
+      local locationName=""
+      if TppLocation.IsAfghan()then
+        vehicles=typeInfo.easternVehicles
+        locationName="EASTERN_"
+      elseif TppLocation.IsMiddleAfrica()then
+        vehicles=typeInfo.westernVehicles
+        locationName="WESTERN_"
+      end
+
+
+      local GetPackPath=function(vehicleType)
+        local vehicle=vehicleSpawnInfoTable[vehicleType]
+        if vehicle~=nil then
+          return vehicle.packPath or nil
+        end
+      end
+
+      if vehicles==nil then
+        vehicleType=locationName..baseType
+        local packPath=GetPackPath(vehicleType)
+        if packPath~=nil then
+          InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
+          --DEBUGNOW AddMissionPack(packPath,missionPackPath)
+        end
+
+      else
+        for n, vehicleType in pairs(vehicles) do
+          local packPath=GetPackPath(vehicleType)
+          if packPath~=nil then
+            InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
+           --DEBUGNOW AddMissionPack(packPath,missionPackPath)
+          end
+        end
+      end
+    end--if gvar
+  end--for vehicle base types
+    
 --    local devGradeTable=TppMotherBaseManagement.GetMbsDevelopedEquipGradeTable()
 --     local ins=InfInspect.Inspect(devGradeTable)
 --    InfMenu.DebugPrint(ins)   
     
     
-         local ins=InfInspect.Inspect(TppEnemy.weaponIdTable.DD)
-    InfMenu.DebugPrint(ins)   
+--         local ins=InfInspect.Inspect(TppEnemy.weaponIdTable.DD)
+--    InfMenu.DebugPrint(ins)   
     
     --    for n,powerType in ipairs(Ivars.percentagePowerTypes)do
     --      InfMenu.DebugPrint("n:"..n.." powertype:"..powerType)

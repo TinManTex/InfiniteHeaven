@@ -727,7 +727,7 @@ function this.PlayMtbsEventDemo(params)
     DemoOnEnter=demoOptions.OnEnter
     DemoOnEnd=demoOptions.OnEnd
     weather=demoOptions.weather
-    if Ivars.mbDemoOverrideWeather:Is"CURRENT" then--tex>--DEBUGNOW
+    if Ivars.mbDemoOverrideWeather:Is"CURRENT" then--tex>
       weather=nil
     elseif Ivars.mbDemoOverrideWeather:Is()>Ivars.mbDemoOverrideWeather.enum.CURRENT then
       weather=Ivars.mbDemoOverrideWeather:Get()-(Ivars.mbDemoOverrideWeather.enum.CURRENT+1)
@@ -965,7 +965,7 @@ function this.HasPlant(t)
 end
 function this.GetDemoTime(demoName)
   local time=nil
-  if Ivars.mbDemoOverrideTime:Is"CURRENT" then--tex>--DEBUGNOW
+  if Ivars.mbDemoOverrideTime:Is"CURRENT" then--tex>
     return nil
   elseif Ivars.mbDemoOverrideTime:Is"CUSTOM" then
     return string.format("%02d:%02d:00",Ivars.mbDemoHour:Get(),Ivars.mbDemoHour:Get())

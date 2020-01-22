@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r120"
+this.modVersion="r122"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -571,7 +571,7 @@ function this.CreateCustomRevengeConfig()
       revengeConfig[powerType]=true
     end
   end
-  
+
   for n,powerType in ipairs(Ivars.weaponStrengthPowers)do
     local ivarMin=Ivars[powerType.."_MIN"]
     local ivarMax=Ivars[powerType.."_MAX"]
@@ -580,7 +580,16 @@ function this.CreateCustomRevengeConfig()
       revengeConfig[powerType]=true
     end
   end
-  
+
+  for n,powerType in ipairs(Ivars.cpEquipBoolPowers)do
+    local ivarMin=Ivars[powerType.."_MIN"]
+    local ivarMax=Ivars[powerType.."_MAX"]
+    local random=math.random(ivarMin:Get(),ivarMax:Get())
+    if random==1 then
+      revengeConfig[powerType]=true
+    end
+  end
+
   local random=math.random(Ivars.reinforceLevel_MIN:Get(),Ivars.reinforceLevel_MAX:Get())
   if random>0 then
     revengeConfig.SUPER_REINFORCE=true
@@ -588,17 +597,23 @@ function this.CreateCustomRevengeConfig()
   if random==Ivars.reinforceLevel_MIN.enum.BLACK_SUPER_REINFORCE then
     revengeConfig.BLACK_SUPER_REINFORCE=true
   end
-  
+
   local random=math.random(Ivars.revengeIgnoreBlocked_MIN:Get(),Ivars.revengeIgnoreBlocked_MAX:Get())
   if random>0 then
     revengeConfig.IGNORE_BLOCKED=true
   end
-  
+
   local random=math.random(Ivars.reinforceCount_MIN:Get(),Ivars.reinforceCount_MAX:Get())
---  if random>0 then
-    revengeConfig.REINFORCE_COUNT=random
---  end
-  
+  --  if random>0 then
+  revengeConfig.REINFORCE_COUNT=random
+  --  end
+
+  if vars.missionCode==30050 then
+    if Ivars.mbWarGames:Is"NONLETHAL" then
+      revengeConfig.NO_KILL_WEAPON=true
+    end
+  end
+
   math.randomseed(os.time())
   return revengeConfig
 end
@@ -615,32 +630,32 @@ end
 function this.SetCustomRevengeUiParameters()
   --tex ui params range is 0-3
   local uiRange=3
-  
+
   --tex just averaging between min/max, could probably save actual chosen value somewhere but would only be accurate for Global config and not per cp config mode
-  local fulton=this.round(AvePowerSetting"FULTON") 
-  
-  local headShot=this.round(uiRange*AvePowerSetting"HELMET") 
-  
+  local fulton=this.round(AvePowerSetting"FULTON")
+
+  local headShot=this.round(uiRange*AvePowerSetting"HELMET")
+
   --REF stealth 5
---    STEALTH_SPECIAL=true,
---    HOLDUP_HIGH=true,
---    ACTIVE_DECOY=true,
---    GUN_CAMERA=true},
+  --    STEALTH_SPECIAL=true,
+  --    HOLDUP_HIGH=true,
+  --    ACTIVE_DECOY=true,
+  --    GUN_CAMERA=true},
 
   local stealthPowers={
     "DECOY",
     "MINE",
     "CAMERA",
   }
-  
+
   local ave=0
   for n,powerType in ipairs(stealthPowers) do
     ave=ave+AvePowerSetting(powerType)
   end
   ave=ave/#stealthPowers
-  
+
   local stealth=this.round(uiRange*ave)--TODO incorporate-^- stralth and holdup abilities at least
-  
+
   --REF combat 5
   --STRONG_WEAPON=true,
   --COMBAT_SPECIAL=true,
@@ -660,9 +675,9 @@ function this.SetCustomRevengeUiParameters()
     ave=ave+AvePowerSetting(powerType)
   end
   ave=ave/(#combatPowers/2)--tex KLUDGE half the count
-  
+
   local combat=this.round(uiRange*ave)--tex TODO incorporate rest of combat powers
-  
+
   local nightPowers={
     "NVG",
     "GUN_LIGHT",
@@ -690,7 +705,7 @@ function this.SetCustomRevengeUiParameters()
     ave=1
   end
   local longRange=this.round(uiRange*ave)
-  
+
   --InfMenu.DebugPrint("fulton="..fulton.." headShot="..headShot.." stealth="..stealth.." combat="..combat.." night="..night.." longRange="..longRange)--DEBUG
   TppUiCommand.RegisterEnemyRevengeParameters{fulton=fulton,headShot=headShot,stealth=stealth,combat=combat,night=night,longRange=longRange}
 end
@@ -1065,6 +1080,72 @@ function this.BuildEnabledList()
   end
 end
 
+--DOC: vehicle quests.txt
+this.disableVehicleQuests={--tex WORKAROUND, using the player vehicle/veh_rl* packs for patrol vehicle replace has a side effect of breaking quests with multiple vehicles (invis vehcile), TODO if ever get custom packs going/fix this remove this
+  "quest_q52040",
+  "quest_q52050",
+  "quest_q52070",
+  "quest_q52060",
+  "quest_q52090",
+  "quest_q52100",
+  "quest_q52130",
+  "quest_q52110",
+  "quest_q52025",
+  "quest_q52120",
+  "quest_q52140",
+  "quest_q52045",
+  "quest_q52055",
+  "quest_q52105",
+  "quest_q52125",
+  "quest_q52145",
+}
+
+--
+local blockQuests={
+  "tent_q99040" -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
+}
+
+function this.BlockQuest(questName)
+  for n,name in ipairs(blockQuests)do
+    if name==questName then
+      if TppQuest.IsCleard(questName) then
+        return true
+      end
+    end
+  end
+
+  if Ivars.enableHeliReinforce:Is(1) then--tex block heli quests to allow super reinforce
+    --if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+    for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
+      if name==questName then
+        return true
+      end
+  end
+  --end
+  end
+
+  if Ivars.vehiclePatrolProfile:Is()>0 then
+    local isVehiclePack=false
+    for baseType,typeInfo in pairs(vehicleBaseTypes) do
+      if typeInfo.ivar~="vehiclePatrolLvEnable" and typeInfo.ivar~="vehiclePatrolTruckEnable" then
+        if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
+          isVehiclePack=true
+        end
+      end
+    end
+    if isVehiclePack==true then
+      --if this.IsPatrolVehicleMission() then
+      for n,name in ipairs(this.disableVehicleQuests)do
+        if name==questName then
+          return true
+        end
+      end
+      --end
+    end
+  end
+  return false
+end
+
 --CALLER: TppEnemy.SpawnVehicle
 --IN: spawnInfo
 --OUT: spawnInfo
@@ -1226,64 +1307,58 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
     return
   end
 
-  --  for baseType,typeInfo in ipairs(vehicleBaseTypes) do
-  --    if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
-  --      --InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
-  --
-  --      local vehicles=nil
-  --      local vehicleType=""
-  --      local locationName=""
-  --      if TppLocation.IsAfghan()then
-  --        vehicles=typeInfo.easternVehicles
-  --        locationName="EASTERN_"
-  --      elseif TppLocation.IsMiddleAfrica()then
-  --        vehicles=typeInfo.westernVehicles
-  --        locationName="WESTERN_"
-  --      end
-  --
-  --
-  --      local GetPackPath=function(vehicleType)
-  --        local vehicle=vehicleSpawnInfoTable[vehicleType]
-  --        if vehicle~=nil then
-  --          if Ivars.vehiclePatrolPackType:Is"QUESTPACK" then
-  --            return vehicle.packPathAlt or nil
-  --          else
-  --            return vehicle.packPath or nil
-  --          end
-  --        end
-  --      end
-  --
-  --      if vehicles==nil then
-  --        vehicleType=locationName..typeInfo
-  --        local packPath=GetPackPath(vehicleType)
-  --        if packPath~=nil then
-  --           InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
-  --          AddMissionPack(packPath,missionPackPath)
-  --        end
-  --
-  --      else
-  --        for n, vehicleType in ipairs(vehicles) do
-  --          local packPath=GetPackPath(vehicleType)
-  --          if packPath~=nil then
-  --            InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
-  --            AddMissionPack(packPath,missionPackPath)
-  --          end
-  --        end
-  --      end
-  --    end--if gvar
-  --  end--for vehicle base types
+  for baseType,typeInfo in pairs(vehicleBaseTypes) do
+    if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
+      --InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
+      local vehicles=nil
+      local vehicleType=""
+      local locationName=""
+      if TppLocation.IsAfghan()then
+        vehicles=typeInfo.easternVehicles
+        locationName="EASTERN_"
+      elseif TppLocation.IsMiddleAfrica()then
+        vehicles=typeInfo.westernVehicles
+        locationName="WESTERN_"
+      end
 
-  local packPath
-  for vehicleType,spawnInfo in pairs(vehicleSpawnInfoTable) do
-    --CULLif Ivars.vehiclePatrolPackType:Is"QUESTPACK" then
-    --  packPath=spawnInfo.packPathAlt
-    --else
-    packPath=spawnInfo.packPath
-    --end
-    if packPath then
-      AddMissionPack(packPath,missionPackPath)
-    end
-  end
+
+      local GetPackPath=function(vehicleType)
+        local vehicle=vehicleSpawnInfoTable[vehicleType]
+        if vehicle~=nil then
+          return vehicle.packPath or nil
+        end
+      end
+
+      if vehicles==nil then
+        vehicleType=locationName..baseType
+        local packPath=GetPackPath(vehicleType)
+        if packPath~=nil then
+          --InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
+          AddMissionPack(packPath,missionPackPath)
+        end
+      else
+        for n, vehicleType in pairs(vehicles) do
+          local packPath=GetPackPath(vehicleType)
+          if packPath~=nil then
+            --InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
+            AddMissionPack(packPath,missionPackPath)
+          end
+        end
+      end
+    end--if gvar
+  end--for vehicle base types
+  --CULL
+  --    local packPath
+  --    for vehicleType,spawnInfo in pairs(vehicleSpawnInfoTable) do
+  --      --CULLif Ivars.vehiclePatrolPackType:Is"QUESTPACK" then
+  --      --  packPath=spawnInfo.packPathAlt
+  --      --else
+  --      packPath=spawnInfo.packPath
+  --      --end
+  --      if packPath then
+  --        AddMissionPack(packPath,missionPackPath)
+  --      end
+  --    end
 end
 --<vehicle stuff
 
@@ -1433,20 +1508,20 @@ function this.OnAllocate(missionTable)
 
 
   --WIP >
---  local equipLoadTable={}
---  --tex TODO: find a better indicator of equipable mission loading
---  if missionTable.enemy then
---    for k,equipName in pairs(this.tppEquipTable)do
---      local equipId=TppEquip[equipName]
---      if equipId~=nil then
---        table.insert(equipLoadTable,equipId)
---      end
---    end
---
---    if TppEquip.RequestLoadToEquipMissionBlock then
---      TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
---    end
---  end--<
+  --  local equipLoadTable={}
+  --  --tex TODO: find a better indicator of equipable mission loading
+  --  if missionTable.enemy then
+  --    for k,equipName in pairs(this.tppEquipTable)do
+  --      local equipId=TppEquip[equipName]
+  --      if equipId~=nil then
+  --        table.insert(equipLoadTable,equipId)
+  --      end
+  --    end
+  --
+  --    if TppEquip.RequestLoadToEquipMissionBlock then
+  --      TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
+  --    end
+  --  end--<
 end
 
 this.prevDisableActionFlag=nil
@@ -1696,7 +1771,7 @@ function this.Update()
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
-  
+
   playerVehicleId=NULL_ID
   local currentChecks=this.execChecks
   --for k,v in ipairs(this.execChecks) do
@@ -2786,7 +2861,7 @@ function this.SetQuietHumming(hummingFlag)
     --InfMenu.DebugPrint("sethumming:"..tostring(hummingFlag))--DEBUG
     SendCommand(gameObjectId, command)
   else
-    --InfMenu.DebugPrint"no TppBuddyQuiet2 found"--DEBUG
+  --InfMenu.DebugPrint"no TppBuddyQuiet2 found"--DEBUG
   end
 end
 

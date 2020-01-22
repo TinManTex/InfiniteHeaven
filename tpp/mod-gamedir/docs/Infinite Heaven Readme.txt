@@ -1,12 +1,26 @@
 = Infinite heaven =
-r119 - 2015-01-17
+r122 - 2015-01-23
 by tin man tex
-For MGSV version 1.07 or 1.071
+For MGSV version 1.071
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
+New for r120
+Setting vehicle patrols to any type of armored vehicle will disable the sideops with multiple armored vehicles to sidestep the invisible vehicle bug.
+
+"DD prep mode" - "Off","FOB style","Enemy prep levels","Custom prep"
+MB cutscene Options: Override Time, Override weather  - thanks qwertyuiop1234567899 for the suggestion
+
+Option: Soldier reinforce with all vehicle reinforce types
+
+DD equip options reworked and extended to enemy soldiers via DD Equip menu (via enemy prep menu or mother base menu)
+The DD equipment table is decided by a random grade between DD Equip Grade Min/Max, and by default is limited to the equipment you have developed with Allow undeveloped DD equipment chosing from the full range of (security equipable) equipment.
+Note: Equip grade 3 is the minum grade that has all types of weapons.
+
+Known issue: Some weapons will not give the proper name when picked up and have a blank icon, some weapons scopes will be blacked out.
+
 New for r119
-Change remove demon, set deom to add demon points, remove demon points, less ideal since there's no demon value feedback, but prior set direct value didn't work on some peoples games.
+Changed remove demon/set demon to add demon points/remove demon points, less ideal since there's no demon value feedback, but prior set direct value didn't work on some peoples games.
 
 Custom enemy prep config. Sidesteps the enemy prep levels and gives more control over enemy prep loadout, chooses randomly between min/max of each setting:
 Weapon deployment percentages - 
@@ -26,6 +40,14 @@ The prior Max enemy prep is now just a profile in the config menu.
 Infinite Heaven features:
 ------------------------------
 Demonstrations:
+Enemy DD Equip:
+[youtube]6CDv5RBU5dU[/youtube]
+https://www.youtube.com/watch?v=6CDv5RBU5dU
+Custom Prep config:
+[youtube]UAdGbtAPykM[/youtube]
+https://www.youtube.com/watch?v=UAdGbtAPykM
+[youtube]aTy-2pAw28c[/youtube]
+https://www.youtube.com/watch?v=aTy-2pAw28c
 Enemy prep settings:
 [youtube]Pt_jpD0y8XQ[/youtube]
 https://www.youtube.com/watch?v=Pt_jpD0y8XQ
@@ -37,9 +59,11 @@ https://www.youtube.com/watch?v=BUqPYDlA42A
 Support heli settings:
 [youtube]frxAuiwCaEk[/youtube]
 https://www.youtube.com/watch?v=frxAuiwCaEk
-Mother base settings:
+Mother base settings and wargames:
 [youtube]PSWTQwJNaRU[/youtube]
 https://www.youtube.com/watch?v=PSWTQwJNaRU
+[youtube]cW3noRDtpTg[/youtube]
+https://www.youtube.com/watch?v=cW3noRDtpTg
 Headgear:
 [youtube]1DlkIV3KduI[/youtube]
 https://www.youtube.com/watch?v=1DlkIV3KduI
@@ -330,16 +354,22 @@ It should say 1 file needs to be redownloaded, so go to steam downloads and make
 
 Installation:
 ------------------------------
-Use SnakeBite Mod Manager 0.8 or later: nexusmods.com/metalgearsolidvtpp/mods/106/
+Use SnakeBite Mod Manager 0.8.3 or later: 
+Get 0.8 from nexusmods.com/metalgearsolidvtpp/mods/106/
+And use snakebites in-app update system.
+
 Uninstall any earlier version of Infinite Heaven
 Install Infinite Heaven.msgv
 
 WARNING: Applying this mod to any game version after the one stated at the top of the readme involved will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
 
+NOTE: Snakebite sometimes has issues after game updates, to reset snakebite choose it's Settings > Restore Original files, confirm snakebite.xml was deleted in your MGS_TPP folder, then revalidate the game cache in steam and reinstall the mod.
+
 Using alongside other mods:
 ------------------------------
 Infinite Heaven modifies a lot of the core game lua scripts, if other mods that have their own versions of those files will break things in either obvious or subtle ways.
 Mods that shouldn't have a conflict with Infinite Heaven are: Model swaps, data table mods like development unlocks or times.
+Ask the mod author for a snakebite install or use makebite (comes with snakebite) to convert the mod if it provides lua files.
 If you want to manually check to see if a mod conflicts unzip the Infinite Heaven .mgsv with the zip tool of your choice and check to see if any of the files match files in the other mod.
 
 Uninstallation:
@@ -387,6 +417,29 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r122 - 2015-01-23 - public release
+Headmarkers should remain disabled in all situations, hopefully - thanks Psithen for the report
+Refactor: blocking quests due to reinforcement and patrol vehicle settings via unlockSideOpNumber and TppQuest.UpdateActiveQuest unified to InfMain.BlockQuest. unlockSideOpNumber now silently skips.
+"ACTIVE_DECOY","GUN_CAMERA" added to custom config
+Mb wargames non-lethal extended to custom config.
+
+r121
+Option: revengeModeForMb - "Mother base prep mode" - "Off","FOB style","Enemy prep levels","Custom prep"
+Options: mbDemoOverrideTime, mbDemoOverrideWeather - thanks qwertyuiop1234567899 for the suggestion
+Various renames to solidify terms:
+Subsistence Mode renamed Subsistence profile to match other uses of the term in the menu, and since that's what the varable has been named for months lol.
+Free mode to Free roam, mode should be a term reserved for specific behaviour, possibly with multiple settings.
+Profile is a curated set of option settings.
+
+r120
+Option: enableSoldiersWithVehicleReinforce
+IsDDBodyEquip to make body/headgear independant from mbSoldierEquipGrade
+Refactor: MinMaxIvar for creating such paired ivars.
+Refactor: mbSoldierEquipGrade split to min, max, changed to grade value 1-10
+Option: allowUndevelopedDDEquip
+Options: enableMbDDEquip, enableEnemyDDEquip, replace mbSoldierEquipGrade 0/OFF, drives IsDDEquip 
+Option: enableEnemyDDEquip - overrides weaponIdTable with DD
+
 r119 - 2015-01-17 - public release
 Ivars - subName, PushMin, PushMax to handle adjusting paired ivars.
 Reworking of custom prep menu order and item names.

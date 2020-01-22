@@ -1788,7 +1788,6 @@ this.mbSectionRankSuccessTable={--NMC: tex was in MakeFultonRecoverSucceedRatio,
   [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
 }
 function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrResourceId,isDogFultoning)
-
   local gameId=_gameId
   local percentage=0
   local baseLine=100

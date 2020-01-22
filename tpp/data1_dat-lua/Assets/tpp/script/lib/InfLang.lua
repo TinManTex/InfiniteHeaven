@@ -288,6 +288,7 @@ this.eng={--english
   mbDemoMinute="Minute",
   mbDemoOverrideWeather="Override weather",
   mbDemoOverrideWeatherSettings={"Cutscene default","Current","Sunny","Cloudy","Rainy","Sandstorm","Foggy","Pouring"},
+  cpEquipBoolPowersMenu="CP equip strength menu",
 }
 
 this.eng_help={

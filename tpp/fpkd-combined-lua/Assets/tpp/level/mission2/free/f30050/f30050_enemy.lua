@@ -441,7 +441,7 @@ this.OnLoad = function()
 	for clusterId = 1, #TppDefine.CLUSTER_NAME do
 		mvars.clusterConstructTable[clusterId] = 1	
 		local noUseRevenge = true
-		if Ivars.revengeModeForMb:Is"FOB" then--InfMain.IsDDEquip() then--tex>
+		if Ivars.revengeModeForMb:Is"FOB" then--tex>
 		  noUseRevenge=false
 		end--<
 		mtbs_enemy.OnLoad( clusterId, noUseRevenge )
