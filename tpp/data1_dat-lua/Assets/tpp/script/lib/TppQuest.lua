@@ -1,10 +1,10 @@
 -- DOBUILD: 1
 local this={}
-local S=256
+local maxSteps=256
 local defaultStepNumber=0
-local p=0
+local questNameNone=0
 local defaultQuestBlockName="quest_block"
-local d="QStep_Clear"
+local RENsomeIdentifier="QStep_Clear"
 local StrCode32=Fox.StrCode32
 local StrCode32Table=Tpp.StrCode32Table
 local IsTypeFunc=Tpp.IsTypeFunc
@@ -1193,17 +1193,17 @@ function this.RegisterQuestStepList(e)
   if t==0 then
     return
   end
-  if t>=S then
+  if t>=maxSteps then
     return
   end
-  table.insert(e,d)
+  table.insert(e,RENsomeIdentifier)
   mvars.qst_questStepList=Tpp.Enum(e)
 end
 function this.RegisterQuestStepTable(e)
   if not IsTypeTable(e)then
     return
   end
-  e[d]={}
+  e[RENsomeIdentifier]={}
   mvars.qst_questStepTable=e
   if mtbs_enemy and vars.missionCode==30050 then
     mtbs_enemy.OnAllocateDemoBlock()
@@ -1301,7 +1301,7 @@ function this.Clear(questName)
   if questIndex==nil then
     return
   end
-  this.SetNextQuestStep(d)
+  this.SetNextQuestStep(RENsomeIdentifier)
   this.ShowAnnounceLog(QUEST_STATUS_TYPES.CLEAR,questName)
   this.CheckClearBounus(questIndex,questName)
   this.UpdateClearFlag(questIndex,true)
@@ -1360,7 +1360,7 @@ function this.Failure(questName)
     return
   end
   this.UpdateClearFlag(questIndex,false)
-  this.SetNextQuestStep(d)
+  this.SetNextQuestStep(RENsomeIdentifier)
   this.ShowAnnounceLog(QUEST_STATUS_TYPES.FAILURE,questName)
   TppUiCommand.SetSideOpsListUpdate()
   for e=0,9,1 do
@@ -2027,18 +2027,18 @@ function this.Invoke()
   local invokeStepName=questInfo.invokeStepName
   this.SetNextQuestStep(invokeStepName)
 end
-function this.SetNewQuestAndLoadQuestBlock(questName)  
+function this.SetNewQuestAndLoadQuestBlock(questName)
   if TppLocation.IsMotherBase()then
     f30050_demo.UpdatePackList(questName)
   end
 
   local loaded=TppScriptBlock.Load(mvars.qst_blockName,questName)
---InfMenu.DebugPrint("SetNewQuestAndLoadQuestBlock:"..mvars.qst_blockName.." "..questName)--DEBUG
+  --InfMenu.DebugPrint("SetNewQuestAndLoadQuestBlock:"..mvars.qst_blockName.." "..questName)--DEBUG
   if loaded==false then
     return
-  end  
-  this.ResetQuestStatus() 
-  this.SetCurrentQuestName(questName) 
+  end
+  this.ResetQuestStatus()
+  this.SetCurrentQuestName(questName)
   mvars.qst_currentQuestTable=this.GetQuestTable(questName)
 end
 function this.GetCurrentQuestName()
@@ -2058,10 +2058,10 @@ function this.SetCurrentQuestName(e)
 end
 function this.ClearCurrentQuestName()
   mvars.qst_currentQuestName=nil
-  gvars.qst_currentQuestName=p
+  gvars.qst_currentQuestName=questNameNone
 end
 function this.ResetQuestStatus()
-  gvars.qst_currentQuestName=p
+  gvars.qst_currentQuestName=questNameNone
   gvars.qst_currentQuestStepNumber=defaultStepNumber
 end
 function this.UnloadCurrentQuestBlock()
@@ -2186,11 +2186,11 @@ function this.UpdateOpenQuest()
   mvars.qst_isQuestNewOpenFlag=false
   for key,questIndex in pairs(TppDefine.QUEST_INDEX) do
     local canOpenQuestFunc=canOpenQuestChecks[key]
-    if (canOpenQuestFunc and canOpenQuestFunc()) then--tex, canopenchecks were originally nested --CULL or Ivars.unlockSideOps:Is"OPEN" then
+    if canOpenQuestFunc and canOpenQuestFunc() then--tex, canopenchecks were originally nested
       if gvars.qst_questOpenFlag[questIndex]==false then
         mvars.qst_isQuestNewOpenFlag=true
-      end
-      gvars.qst_questOpenFlag[questIndex]=true
+    end
+    gvars.qst_questOpenFlag[questIndex]=true
     end
   end
 end
@@ -2215,23 +2215,25 @@ function this.UpdateActiveQuest(debugUpdate)
       local storyQuests={}
       local nonStoryQuests={}
       local repopQuests={}
-
-      if unlockedArea and areaQuests.areaName==unlockedArea then--tex unlockSideOpNumber>  add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
+      --tex unlockSideOpNumber>  add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
+      if unlockedArea and areaQuests.areaName==unlockedArea then
         for t,info in ipairs(areaQuests.infoList)do--tex still gotta clear
           local questName=info.name
           local questIndex=TppDefine.QUEST_INDEX[questName]
           if questIndex then
             gvars.qst_questActiveFlag[questIndex]=false
           end
-      end
-      gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[unlockedName]]=true
-      else--<unlockSideOpNumber
+        end
+        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[unlockedName]]=true
+        --<unlockSideOpNumber
+      else
         for t,info in ipairs(areaQuests.infoList)do
           local questName=info.name
           local questIndex=TppDefine.QUEST_INDEX[questName]
           if questIndex then
             gvars.qst_questActiveFlag[questIndex]=false
-            local RENAMEsomeCondition=RENAMEsomeConditions[questName]--NMC: some list of conditions, not as big as the 't' list
+            --NMC: -v- some list of conditions, not as big as the 't' list
+            local RENAMEsomeCondition=RENAMEsomeConditions[questName]
             if this.IsOpen(questName)and(not RENAMEsomeCondition or RENAMEsomeCondition())and(not InfMain.BlockQuest(questName)) then--tex added blockQuest
               if not this.IsCleard(questName)then
                 if info.isStory then
@@ -2239,45 +2241,48 @@ function this.UpdateActiveQuest(debugUpdate)
                 else
                   table.insert(nonStoryQuests,questName)
                 end
-            elseif this.IsRepop(questName)then
-              table.insert(repopQuests,questName)
+              elseif this.IsRepop(questName)then
+                table.insert(repopQuests,questName)
+              end
+            --quest open
             end
-            end--quest open
-          end--questindex
-      end--for infolist
-
-      local questName=nil
-      local list=nil--tex reworked, choose which quest to activate per area
-      local index=1
-      if #storyQuests > 0 then--tex broken into lists to manage priority
-        list=storyQuests
-      elseif #nonStoryQuests > 0 then
-        list=nonStoryQuests
-      elseif #repopQuests > 0 then
-        list=repopQuests
-      end
-      if list ~= nil then
---        if gvars.unlockSideOps == Ivars.unlockSideOps.enum.FIRST then
---          index=1
---        elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.LAST then
---          index=#list
---        elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.RANDOM then
---          index=math.random(#list)
---        end
-        if Ivars.unlockSideOps:Is() > 0 then
-          index=math.random(#list)
+            --questindex
+          end
+          --for infolist
         end
-        questName=list[index]
-      end--
-      --tex ORIG: 
-      --for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
-      --  if not questName then
-      --    questName=t[1]
-      --  end
-      -- end
-      if questName then
-        gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
-      end
+
+        local questName=nil
+        local list=nil--tex reworked, choose which quest to activate per area
+        local index=1
+        if #storyQuests > 0 then--tex broken into lists to manage priority
+          list=storyQuests
+        elseif #nonStoryQuests > 0 then
+          list=nonStoryQuests
+        elseif #repopQuests > 0 then
+          list=repopQuests
+        end
+        if list ~= nil then
+          --        if gvars.unlockSideOps == Ivars.unlockSideOps.enum.FIRST then
+          --          index=1
+          --        elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.LAST then
+          --          index=#list
+          --        elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.RANDOM then
+          --          index=math.random(#list)
+          --        end
+          if Ivars.unlockSideOps:Is() > 0 then
+            index=math.random(#list)
+          end
+          questName=list[index]
+        end--
+        --tex ORIG:
+        --for n,t in ipairs{storyQuests,nonStoryQuests,repopQuests}do
+        --  if not questName then
+        --    questName=t[1]
+        --  end
+        -- end
+        if questName then
+          gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]=true
+        end
       end--unlockedArea switch
     end-- for questlist
   elseif TppMission.IsStoryMission(vars.missionCode)then
@@ -2489,7 +2494,7 @@ function this.IsEnd(t)
       return
     end
   end
-  if mvars.qst_questStepList[gvars.qst_currentQuestStepNumber]==d then
+  if mvars.qst_questStepList[gvars.qst_currentQuestStepNumber]==RENsomeIdentifier then
     return true
   end
   return false

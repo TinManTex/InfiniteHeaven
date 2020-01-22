@@ -2,10 +2,10 @@
 local this={}
 local IsTypeTable=Tpp.IsTypeTable
 local SendCommand=GameObject.SendCommand
-local t=GameObject.GetGameObjectId
-local t=GameObject.NULL_ID
-local u=500
-local s=1e3
+local GetGameObjectId=GameObject.GetGameObjectId
+local NULL_ID=GameObject.NULL_ID
+local recoverReward1RecoverCount=500
+local recoverReward2RecoverCount=1e3
 local budyIdLimit=4
 this.GMP_POSTER=500
 this.FOB_TUTORIAL_STATE={INIT=0,INTRODUCTION_CONSTRUCT_FOB=1,CONSTRUCT_FOB=2,INTRODUCTION_FOB_MISSIONS=3,FOB_MISSIONS=4,FINISH=127}
@@ -675,7 +675,7 @@ function this.AcquireDlcItemKeyItem()
     local a=Fox.GetPlatformName()
     local daraBaseId=dlcList[e]
     if a=="Xbox360"or a=="XboxOne"then
-      if((daraBaseId==t.EXTRA_4025)or(daraBaseId==t.EXTRA_4003))or(daraBaseId==t.EXTRA_4008)then
+      if((daraBaseId==NULL_ID.EXTRA_4025)or(daraBaseId==NULL_ID.EXTRA_4003))or(daraBaseId==NULL_ID.EXTRA_4008)then
         return false
       end
     end
@@ -1174,11 +1174,11 @@ function this.GetRecoveredHostageCount()
   return gvars.trm_recoveredHostageCount
 end
 function this.GetFultonCountKeyItem()
-  local n=gvars.trm_recoveredSoldierCount+gvars.trm_recoveredHostageCount
-  if n>=u then
+  local recoveredCount=gvars.trm_recoveredSoldierCount+gvars.trm_recoveredHostageCount
+  if recoveredCount>=recoverReward1RecoverCount then
     this.AcquireKeyItem{dataBaseId=MBMConst.DESIGN_3006,isShowAnnounceLog=true}
   end
-  if n>=s then
+  if recoveredCount>=recoverReward2RecoverCount then
     this.AcquireKeyItem{dataBaseId=MBMConst.DESIGN_3005,isShowAnnounceLog=true}
   end
 end

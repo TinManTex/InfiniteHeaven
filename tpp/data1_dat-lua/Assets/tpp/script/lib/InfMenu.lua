@@ -84,8 +84,9 @@ function this.IscurrentIndexMenu()
   return false
 end
 
---takes a table of numbers and number ranges, ex: {1,5,{6-10},{14-20}}
+--tex takes a table of numbers and number ranges, ex: {1,5,{6-10},{14-20}}
 --returns the next valid for a given value
+--I'm obviously no mathmagitian
 function this.NextInRange(rangeTable,value,direction)
   local bottom=1
   local top=#rangeTable

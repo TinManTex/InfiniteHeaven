@@ -682,8 +682,9 @@ function this.GetSoldierType(soldierId)--tex now pulls type for subtype> ORIG is
     end
   end
 
-  if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+  if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then    
+    local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo(isFemale)
     if bodyInfo and bodyInfo.soldierSubType then
       return InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
     end
@@ -737,7 +738,8 @@ function this.GetSoldierSubType(soldierId,soldierType)
     return InfMain.enemySubTypes[gvars.forceSoldierSubType]
   end--<
   if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then--tex>
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo(isFemale)
     if bodyInfo and bodyInfo.soldierSubType then
       return bodyInfo.soldierSubType
     else
@@ -916,7 +918,7 @@ function this.SetUpDDParameter()
   GameObject.SendCommand(typeCp,command)
   if(this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT and this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT>=3)
     or(this.weaponIdTable.DD.NORMAL.BATTLE_DRESS and this.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)then
-    if vars.missionCode~=30050 and Ivar.mbDDHeadGear:Is(1) then--tex added check to stop this from interfering with player settings, only triggering on mbDDHeadGear may seem odd, but I'm really just using it as a search marker lol, a later mbheadgear check will clear the helmet
+    if vars.missionCode~=30050 then--tex added check to stop this from interfering with player settings
       TppRevenge.SetHelmetAll()
     end
   end
@@ -1276,10 +1278,11 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   end
   if powerLoadout.HELMET then
     if subTypeName~="DD_FOB"then
-      if powerLoadout.HEADGEAR_COMBO then--tex>
+      --tex>
+      if powerLoadout.HEADGEAR_COMBO then
         if powerLoadout.GAS_MASK and powerLoadout.NVG then
           powerLoadout.NVG=nil
-      end
+        end
       else--tex< ORIG-v-
         powerLoadout.GAS_MASK=nil
         powerLoadout.NVG=nil
@@ -2796,9 +2799,9 @@ function this.Init(missionTable)
     skullFultonable=false
   end
   local skullTypes={"TppBossQuiet2","TppParasite2"}
-  for n,type in ipairs(skullTypes)do
-    if GameObject.DoesGameObjectExistWithTypeName(type)then
-      GameObject.SendCommand({type=type},{id="SetFultonEnabled",enabled=skullFultonable})
+  for n,skullType in ipairs(skullTypes)do
+    if GameObject.DoesGameObjectExistWithTypeName(skullType)then
+      GameObject.SendCommand({type=skullType},{id="SetFultonEnabled",enabled=skullFultonable})
     end
   end
 end
@@ -2957,12 +2960,12 @@ function this.AssignSoldiersToCP()
     local cpSubType=subTypeOfCp[cp]
     local isChild=false
     for soldierId,p in pairs(soldierIds)do
-      if InfMain.IsForceSoldierSubType() then--tex WIP
-        --InfMenu.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
-        --   gvars.soldierTypeForced[soldierId]=true
-        --  InfMenu.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )
-        mvars.ene_soldierSubType[soldierId]=forceSubType
-      end--
+--      if InfMain.IsForceSoldierSubType() then--tex> WIP Why is this hanging FOB?
+--        --InfMenu.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
+--        --   gvars.soldierTypeForced[soldierId]=true
+--        --  InfMenu.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )
+--        mvars.ene_soldierSubType[soldierId]=forceSubType
+--      end--<
       SendCommand(soldierId,{id="SetCommandPost",cp=cp})
       if mvars.ene_lrrpTravelPlan[cpId]then
         SendCommand(soldierId,{id="SetLrrp",travelPlan=mvars.ene_lrrpTravelPlan[cpId]})
@@ -2975,9 +2978,9 @@ function this.AssignSoldiersToCP()
       end
       local command
       local soldierType=this.GetSoldierType(soldierId)
-      if InfMain.IsForceSoldierSubType() then--tex WIP:
+      if InfMain.IsForceSoldierSubType() then--tex> WIP:
         this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
-      end
+      end--<
       command={id="SetSoldier2Type",type=soldierType}
       SendCommand(soldierId,command)
       if(soldierType~=EnemyType.TYPE_SKULL and soldierType~=EnemyType.TYPE_CHILD)and cpSubType then
@@ -3042,10 +3045,14 @@ mvars.ene_vehicleDefine.instanceCount=instanceCount
 end
 --NMC vehicleSpawnList = *_enemy.lua .VEHICLE_SPAWN_LIST
 function this.SpawnVehicles(vehicleSpawnList)
+  InfMain.SetLevelRandomSeed()--tex
+  mvars.patrolVehicleBaseInfo={}--tex
+  
   for t,spawnInfo in ipairs(vehicleSpawnList)do
     InfMain.PreSpawnVehicle(spawnInfo)--tex
     this.SpawnVehicle(spawnInfo)
   end
+  InfMain.ResetTrueRandom()--tex
 end
 function this.SpawnVehicle(spawnInfo)
   if not IsTypeTable(spawnInfo)then

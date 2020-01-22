@@ -10,8 +10,8 @@ local n=GameObject.GetGameObjectId
 local n=GameObject.NULL_ID
 local SVarsIsSynchronized=TppScriptVars.SVarsIsSynchronized
 local RegistPlayRecord=PlayRecord.RegistPlayRecord
-local t=bit.bnot
-local E,t,t=bit.band,bit.bor,bit.bxor
+local bnot=bit.bnot
+local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local StartTimer=GkEventTimerManager.Start
 local StopTimer=GkEventTimerManager.Stop
 local IsTimerActive=GkEventTimerManager.IsTimerActive
@@ -21,16 +21,16 @@ local IsPlayerStatusNormal=Tpp.IsPlayerStatusNormal
 local r=DemoDaemon.IsDemoPlaying
 local r=10
 local r=3
-local A=5
-local g=2.5
-local r="Timer_outsideOfInnerZone"
+local outSideOfHotZoneCount=5
+local outSideOfInnerZoneTime=2.5
+local Timer_outsideOfInnerZone="Timer_outsideOfInnerZone"
 local missionClearCodeNone=0
-local M=64
+local maxObjective=64
 local RENsomebalancedval1=1--RETAILPATCH 1060 was 2
 local RENsomebalancedval2=0--RETAILPATCH 1060 was 4 --RETAILPATCH 1070 to 0 from 3
-local I=(24*60)*60
-local u=2
-local u=TppDefine.MAX_32BIT_UINT
+local dayInSeconds=(24*60)*60
+local RENsomenumber=2
+local MAX_32BIT_UINT=TppDefine.MAX_32BIT_UINT
 local function RegistMissionTimerPlayRecord()
   RegistPlayRecord"MISSION_TIMER_UPDATE"
 end
@@ -711,7 +711,8 @@ function this.VarSaveForMissionAbort()
   if gvars.ini_isTitleMode then
     gvars.title_nextMissionCode=missionCode
     gvars.title_nextLocationCode=vars.locationCode
-    TppVarInit.InitializeForNewMission{}Player.SetPause()
+    TppVarInit.InitializeForNewMission{}
+    Player.SetPause()
   end
   mvars.mis_missionAbortLoadingOption={}
   local isHeliSpace=this.IsHelicopterSpace(missionCode)
@@ -1046,7 +1047,7 @@ function this.CheckGameOverDemo(e)
   if e>TppDefine.GAME_OVER_TYPE.GAME_OVER_DEMO_MASK then
     return false
   end
-  if E(svars.mis_gameOverType,TppDefine.GAME_OVER_TYPE.GAME_OVER_DEMO_MASK)==e then
+  if band(svars.mis_gameOverType,TppDefine.GAME_OVER_TYPE.GAME_OVER_DEMO_MASK)==e then
     return true
   else
     return false
@@ -1080,7 +1081,7 @@ function this.ShowStealthAssistPopup()
   end
   if GameConfig.GetStealthAssistEnabled()then
     if svars.dialogPlayerDeadCount>RENsomebalancedval2 then
-      if gvars.elapsedTimeSinceLastUseChickCap>=I then
+      if gvars.elapsedTimeSinceLastUseChickCap>=dayInSeconds then
         return GameOverMenu.PERFECT_STEALTH_POPUP
       else
         return GameOverMenu.NO_POPUP
@@ -1729,7 +1730,7 @@ function this.Messages()
           TppUiCommand.RemovedAllUserMarker()
         end
       end},
-      {msg="Finish",sender=r,func=function()
+      {msg="Finish",sender=Timer_outsideOfInnerZone,func=function()
         if(mvars.mis_isAlertOutOfMissionArea==false)then
           return
         end
@@ -2126,7 +2127,7 @@ function this.DeclareSVars()
     {name="mis_gameOverRadio",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="mis_isDefiniteMissionClear",type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
     {name="mis_missionClearType",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
-    {name="mis_objectiveEnable",arraySize=M,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
+    {name="mis_objectiveEnable",arraySize=maxObjective,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
     {name="mis_fobDefenceGameOver",type=TppScriptVars.TYPE_UINT8,value=0,save=false,sync=true,wait=true,category=TppScriptVars.CATEGORY_MISSION},
     {name="chickCapEnabled",type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
     {name="dialogPlayerDeadCount",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_RETRY},
@@ -2364,12 +2365,12 @@ function this.Update()
       end
     end
     if isAlertOutOfMissionArea then
-      if not IsTimerActive(r)then
-        StartTimer(r,g)
+      if not IsTimerActive(Timer_outsideOfInnerZone)then
+        StartTimer(Timer_outsideOfInnerZone,outSideOfInnerZoneTime)
       end
     else
-      if IsTimerActive(r)then
-        StopTimer(r)
+      if IsTimerActive(Timer_outsideOfInnerZone)then
+        StopTimer(Timer_outsideOfInnerZone)
       end
     end
   end
@@ -2632,7 +2633,7 @@ function this.UpdateAtCanMissionClear(n,o)
   else
     if(isNotAlert and isPlayerStatusNormal)and notHelicopter then
       if not IsTimerActive"Timer_OutsideOfHotZoneCount"then
-        StartTimer("Timer_OutsideOfHotZoneCount",A)
+        StartTimer("Timer_OutsideOfHotZoneCount",RENsomenumber)
       end
     else
       if not isNotAlert then
@@ -3056,9 +3057,9 @@ function this.OnMissionGameEndFadeOutFinish2nd()
   TppRanking.UpdateScore("NuclearDisposeCount",n)
   TppRanking.SendCurrentRankingScore()
   do
-    local n=this.GetMissionID()
-    if(not this.IsFOBMission(n)and not this.IsFreeMission(n))and not this.IsHelicopterSpace(n)then
-      TppRevenge.ReduceRevengePointOnMissionClear(n)
+    local missionCode=this.GetMissionID()
+    if(not this.IsFOBMission(missionCode)and not this.IsFreeMission(missionCode))and not this.IsHelicopterSpace(missionCode)then
+      TppRevenge.ReduceRevengePointOnMissionClear(missionCode)
     end
   end
   TppTutorial.OpenTipsOnCurrentStory()
@@ -3100,7 +3101,7 @@ function this.SetMissionObjectives(objectiveDefine,ojectiveTree,objectiveEnum)
   if mvars.mis_missionObjectiveTree and mvars.mis_missionObjectiveEnum==nil then
     return
   end
-  if#mvars.mis_missionObjectiveEnum>M then
+  if#mvars.mis_missionObjectiveEnum>maxObjective then
     return
   end
 end

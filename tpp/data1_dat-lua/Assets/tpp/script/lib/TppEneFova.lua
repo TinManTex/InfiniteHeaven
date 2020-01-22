@@ -438,12 +438,12 @@ fovaSetupFuncs[10045]=function(e,a)
   local a=#e
   local a=gvars.hosface_groupNumber%a
   local e=e[a]
-  local a={{TppEnemyFaceId.svs_balaclava,1,1,0},{e,1,1,0}}
-  TppSoldierFace.OverwriteMissionFovaData{face=a,additionalMode=true}
-  local a=274
-  TppSoldierFace.SetSpecialFovaId{face={e},body={a}}
-  local e={{a,1}}
-  TppSoldierFace.OverwriteMissionFovaData{body=e,additionalMode=true}
+  local faces={{TppEnemyFaceId.svs_balaclava,1,1,0},{e,1,1,0}}
+  TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
+  local svs0_unq_v421=274
+  TppSoldierFace.SetSpecialFovaId{face={e},body={svs0_unq_v421}}
+  local bodyIds={{svs0_unq_v421,1}}
+  TppSoldierFace.OverwriteMissionFovaData{body=bodyIds,additionalMode=true}
 end
 fovaSetupFuncs[10052]=function(e,a)
   local e=Select(fovaSetupFuncs)
@@ -713,7 +713,6 @@ function fovaSetupFuncs.Africa(n,missionId)
       end
     end
   end
-  --TppSoldier2.SetDefaultPartsPath("/Assets/tpp/parts/chara/wss/wss4_main0_def_v00.parts")--DEBUGNOW
   TppSoldierFace.OverwriteMissionFovaData{body=body}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
@@ -798,15 +797,14 @@ function fovaSetupFuncs.Mb(n,missionId)
   --tex> ddsuit SetDefaultPartsPath
   if InfMain.IsDDBodyEquip(missionId) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
-    if bodyInfo then
-      if bodyInfo.partsPath then
-        TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
-      end
+    if bodyInfo and bodyInfo.partsPath then
+      TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
     end
 
     for faceId, faceInfo in pairs(InfMain.ddHeadGearInfo) do
       table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
     end
+    --<
   elseif TppMission.IsFOBMission(missionId) then
     local fobStaff=TppMotherBaseManagement.GetStaffsFob()
     local FACE_SOLDIER_NUM=36--NAMEGUESS: from mtbs_enemy.lua
@@ -853,7 +851,7 @@ function fovaSetupFuncs.Mb(n,missionId)
       end
     end--do
 
-    --tex seperated out from below
+    --tex seperated out from below TODO: revert, no longer usng this branch
     if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then
       TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts"
     elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
@@ -961,24 +959,46 @@ function fovaSetupFuncs.Mb(n,missionId)
   local bodies={}
   --tex> ddsuit bodies
   if InfMain.IsDDBodyEquip(missionId) then
+  
+    local function SetupBodies(bodyIds,bodies)
+      if bodyIds==nil then return end
+      
+      if type(bodyIds)=="number"then
+        local bodyEntry={bodyIds,MAX_REALIZED_COUNT}
+        table.insert(bodies,bodyEntry)
+      elseif type(bodyIds)=="table"then
+        for n,bodyId in ipairs(bodyIds)do
+          local bodyEntry={bodyId,MAX_REALIZED_COUNT}
+          table.insert(bodies,bodyEntry)
+        end
+      end
+    end
+
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
     if bodyInfo then
       if bodyInfo.maleBodyId then
-        local bodyEntry={bodyInfo.maleBodyId,MAX_REALIZED_COUNT}
-        table.insert(bodies,bodyEntry)
-      end
-      if bodyInfo.femaleBodyId then
-        local bodyEntry={bodyInfo.femaleBodyId,MAX_REALIZED_COUNT}
-        table.insert(bodies,bodyEntry)
+        SetupBodies(bodyInfo.maleBodyId,bodies)
       end
       if bodyInfo.soldierSubType then
         local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
         if bodyIdTable then
           for powerType,bodyTable in pairs(bodyIdTable)do
-            for n,bodyId in ipairs(bodyTable)do
-              local bodyEntry={bodyId,MAX_REALIZED_COUNT}
-              table.insert(bodies,bodyEntry)
-            end
+            SetupBodies(bodyTable,bodies)
+          end
+        end
+      end
+    end
+
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo(true)--tex female
+    if bodyInfo then
+      if bodyInfo.maleBodyId then
+        SetupBodies(bodyInfo.femaleBodyId,bodies)
+      end
+      if bodyInfo.soldierSubType then
+        local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
+        if bodyIdTable then
+          for powerType,bodyTable in pairs(bodyIdTable)do
+            SetupBodies(bodyTable,bodies)
           end
         end
       end
@@ -1001,11 +1021,16 @@ function fovaSetupFuncs.Mb(n,missionId)
 
   --tex> dd suit SetExtendPartsInfo
   if InfMain.IsDDBodyEquip(missionId) then
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
-    if bodyInfo then
-      if bodyInfo.extendPartsInfo then
-        TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
-      end
+    --tex CULL only female uses extendparts
+    --    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    --    if bodyInfo then
+    --      if bodyInfo.extendPartsInfo then
+    --        TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
+    --      end
+    --    end
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo(true)--tex female
+    if bodyInfo and bodyInfo.extendPartsInfo then
+      TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
     end
     --<
     --not ddogs, shining lights
@@ -1219,33 +1244,34 @@ function this.GetFaceIdForFemaleHostage(e)
   end
   return faceId,n
 end
-function this.GetFaceIdAndFlag(n,e)
-  local t=EnemyFova.NOT_USED_FOVA_VALUE
-  if e=="female"then
-    if n=="hostage"then
+function this.GetFaceIdAndFlag(fovaType,faceId)
+  local NOT_USED_FOVA_VALUE=EnemyFova.NOT_USED_FOVA_VALUE
+  if faceId=="female"then
+    if fovaType=="hostage"then
       return this.GetFaceIdForFemaleHostage(vars.missionCode)
     else
-      return t,0
+      return NOT_USED_FOVA_VALUE,0
     end
-  elseif e=="dd"then
-    if n=="hostage"then
+  elseif faceId=="dd"then
+    if fovaType=="hostage"then
       return this.GetFaceIdForDdHostage(vars.missionCode)
     else
-      return t,0
+      return NOT_USED_FOVA_VALUE,0
     end
   end
-  return e,0
+  return faceId,0
 end
-function this.RegisterUniqueSetting(d,name,p,bodyId)
+function this.RegisterUniqueSetting(fovaType,name,faceId,bodyId)
   local NOT_USED_FOVA_VALUE=EnemyFova.NOT_USED_FOVA_VALUE
-  local faceId,flag=this.GetFaceIdAndFlag(d,p)
+  local faceId,flag=this.GetFaceIdAndFlag(fovaType,faceId)
   if faceId==nil then
     faceId=NOT_USED_FOVA_VALUE
   end
   if bodyId==nil then
     bodyId=NOT_USED_FOVA_VALUE
   end
-  table.insert(l_uniqueSettings,{name=name,faceId=faceId,bodyId=bodyId,flag=flag})do
+  table.insert(l_uniqueSettings,{name=name,faceId=faceId,bodyId=bodyId,flag=flag})
+  do
     local p=1
     local l=2
     local t=3
@@ -1260,10 +1286,10 @@ function this.RegisterUniqueSetting(d,name,p,bodyId)
       e={faceId,0,0,0}
       table.insert(l_uniqueFaceFovas,e)
     end
-    if d=="enemy"then
+    if fovaType=="enemy"then
       e[l]=e[l]+1
       e[t]=e[t]+1
-    elseif d=="hostage"then
+    elseif fovaType=="hostage"then
       e[n]=e[n]+1
     end
   end
@@ -1281,7 +1307,7 @@ function this.RegisterUniqueSetting(d,name,p,bodyId)
       table.insert(l_uniqueBodyFovas,e)
     end
     e[o]=e[o]+1
-    if d=="hostage"then
+    if fovaType=="hostage"then
       local e=bodyId
       for t,a in ipairs(l_hostageFovas)do
         if a==bodyId then
@@ -1376,22 +1402,26 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
   end
   --tex set bodyid >
   if InfMain.IsDDBodyEquip(vars.missionCode) then
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    local isFemale=IsFemale(faceId)
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo(isFemale)
     if bodyInfo then
-      if IsFemale(faceId)==true and bodyInfo.femaleBodyId then
+      if isFemale and bodyInfo.femaleBodyId then
         bodyId=bodyInfo.femaleBodyId
         GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=true})
       else
         bodyId=bodyInfo.maleBodyId
         GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=false})
       end
+      if bodyId and type(bodyId)=="table"then
+        bodyId=bodyId[math.random(#bodyId)]
+      end
 
-      if bodyId==0 or bodyId==nil then--tex dont set body, rely on GetBodyId DEBUGNOW
+      if bodyId==0 or bodyId==nil then--tex dont set body, rely on GetBodyId DEBUG
         local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
         local soldierType=TppEnemy.GetSoldierType(soldierId)
         local subTypeName=TppEnemy.GetSoldierSubType(soldierId,soldierType)
         bodyId=TppEnemy.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
-        --InfMenu.DebugPrint("bodyid:".. tostring(bodyId))--DEBUGNOW
+        --InfMenu.DebugPrint("bodyid:".. tostring(bodyId))--DEBUG
       end
 
 
@@ -1449,16 +1479,13 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     --      powerSettings.NVG=true
     --    end--<
 
-    --DEBUGNOW
     if Ivars.mbDDHeadGear:Is(1) then
       local wantHeadgear = useBalaclava or powerSettings.HELMET or powerSettings.GAS_MASK or powerSettings.NVG
       if wantHeadgear and bodyInfo and not bodyInfo.noDDHeadgear then
         local validHeadGearIds=InfMain.GetHeadGearForPowers(powerSettings,faceId,bodyInfo.hasHelmet)
         if #validHeadGearIds>0 then
-          math.randomseed(gvars.rev_revengeRandomValue)
-          local rnd=math.random(#validHeadGearIds)
+          local rnd=math.random(#validHeadGearIds)--tex random seed management outside the function since it's called in a loop
           balaclavaFaceId=TppEnemyFaceId[ validHeadGearIds[rnd] ]
-          math.randomseed(os.time())
         end
       end
     end

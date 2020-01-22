@@ -1,8 +1,8 @@
 -- DOBUILD: 1
 local this={}
-local t=Fox.StrCode32
-local t=Tpp.StrCode32Table
-local O=2
+--ORPHAN local StrCode32=Fox.StrCode32
+--ORPHAN local StrCode32Table=Tpp.StrCode32Table
+local telopStartOnDemoTime=2
 local quietFpk="/Assets/tpp/pack/mission2/free/f30050/f30050_mbQuiet.fpk"
 local buddyFpk="/Assets/tpp/pack/mission2/free/f30050/f30050_Buddy.fpk"
 this.demoList={
@@ -783,7 +783,7 @@ function this.PlayMtbsEventDemo(params)
         GameObject.SendCommand(tppOcelot,command)
       end
       this.SetInvisibleUniqueCharacter(isVisibleCurrentBudy)
-      GkEventTimerManager.Start("TelopStartOnDemo",O)
+      GkEventTimerManager.Start("TelopStartOnDemo",telopStartOnDemoTime)
       mvars.f30050_demoTelopLangIdList=telopLangIdList
     end,
     onStart=function()

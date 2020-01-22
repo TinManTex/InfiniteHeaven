@@ -1,5 +1,6 @@
 local this={
 --NMC: maps a friendly id (in this case something close to the fv2 name) to an enum. in Soldier2FacaAndBodyData the enum is then mapped(via bodyFova table)to the actual fv2 path and fpk (bodyFile table > 
+--SOVIET see TppEnemy.bodyIdTable
 svs0_rfl_v00_a=0,
 svs0_rfl_v01_a=1,
 svs0_rfl_v02_a=2,
@@ -16,7 +17,8 @@ svs0_mcg_v01_b=26,
 svs0_mcg_v02_b=27,
 svs0_snp_v00_b=30,
 svs0_rdo_v00_b=31,
-sva0_v00_a=49,
+sva0_v00_a=49,--armor
+--PF see TppEnemy.bodyIdTable
 pfs0_rfl_v00_a=50,
 pfs0_rfl_v01_a=51,
 pfs0_mcg_v00_a=55,
@@ -32,13 +34,14 @@ pfs0_rfl_v01_c=91,
 pfs0_mcg_v00_c=95,
 pfs0_snp_v00_c=100,
 pfs0_rdo_v00_c=101,
-pfa0_v00_b=107,
+pfa0_v00_b=107,--armor
 pfa0_v00_c=108,
-pfa0_v00_a=109,
-prs2_main0_v00=110,
-prs5_main0_v00=111,
-prs3_main0_v00=112,
-prs6_main0_v00=113,
+pfa0_v00_a=109,--pfa armor, Quest MAFR_ARMOR
+prs2_main0_v00=110,--AFGH_HOSTAGE_MALE
+prs5_main0_v00=111,--MAFR_HOSTAGE_MALE
+prs3_main0_v00=112,--AFGH_HOSTAGE_FEMALE
+prs6_main0_v00=113,--MAFR_HOSTAGE_FEMALE
+--children
 chd0_v00=115,
 chd0_v01=116,
 chd0_v02=117,
@@ -57,12 +60,12 @@ chd1_v02=132,
 chd1_v03=133,
 chd1_v04=134,
 chd1_v05=135,
-dds0_main1_v00=140,
-dds0_main1_v01=141,
-dds3_main0_v00=142,
-dds5_main0_v00=143,
-dds5_main0_v01=144,
-dds5_main0_v02=145,
+dds0_main1_v00=140,--DD_PW
+dds0_main1_v01=141,--unused?
+dds3_main0_v00=142,--DD_A default/drab
+dds5_main0_v00=143,--DD_FOB Tiger
+dds5_main0_v01=144,--unused?
+dds5_main0_v02=145,--unused?
 ddr0_main0_v00=146,
 ddr0_main0_v01=147,
 ddr0_main0_v02=148,
@@ -116,6 +119,7 @@ chd2_v01=206,
 chd2_v02=207,
 chd2_v03=208,
 chd2_v04=209,
+--unique bodies
 pfs0_unq_v210=250,
 pfs0_unq_v250=251,
 pfs0_unq_v360=253,
@@ -141,6 +145,7 @@ pfs0_unq_v440=272,
 svs0_unq_v009=273,
 svs0_unq_v421=274,
 pfs0_unq_v155=275,
+
 pfs0_dds0_v00=280,
 pfs0_dds0_v01=281,
 pfs0_dds0_v02=282,
@@ -151,6 +156,7 @@ pfs0_dds0_v06=286,
 pfs0_dds0_v07=287,
 pfs0_dds0_v08=288,
 pfs0_dds0_v09=289,
+
 svs0_dds0_v00=290,
 svs0_dds0_v01=291,
 svs0_dds0_v02=292,
@@ -161,6 +167,7 @@ svs0_dds0_v06=296,
 svs0_dds0_v07=297,
 svs0_dds0_v08=298,
 svs0_dds0_v09=299,
+
 ptn0_v00=300,
 ptn0_v01=301,
 ptn0_v02=302,

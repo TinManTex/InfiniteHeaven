@@ -653,18 +653,17 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddLocationCommonScriptPack(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
-  TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--DEBUGNOW TODO if ivar
+  TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--DEBUGNOW
   --tex IsDDBodyEquip add mission packs>
   if InfMain.IsDDBodyEquip(missionCode) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
     end
-    
---    if bodyInfo and bodyInfo.fallBack then
---      bodyInfo=InfMain.ddBodyInfo[bodyInfo.fallBack]
---      InfMain.AddBodyPack(bodyInfo)
---    end
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo(true)--tex female
+    if bodyInfo and bodyInfo.missionPackPath then
+      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
+    end
   end--<
   if Ivars.mbZombies:Is(1)then--tex>
     TppSoldierFace.SetUseZombieFova{enabled=true}

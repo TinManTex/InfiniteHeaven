@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r129"
+this.modVersion="r131"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -27,6 +27,19 @@ function this.IsTableEmpty(checkTable)--tex TODO: shove in a utility module
   return false
 end
 
+function this.SetLevelRandomSeed()
+  math.randomseed(gvars.rev_revengeRandomValue)
+  math.random()
+  math.random()
+  math.random()
+end
+
+function this.ResetTrueRandom()
+  math.randomseed(os.time())
+  math.random()
+  math.random()
+  math.random()
+end
 
 function this.ForceArmor(missionCode)
   if Ivars.allowHeavyArmorInAllMissions:Is(1) and not TppMission.IsFreeMission(missionCode) then
@@ -204,6 +217,7 @@ this.ddBodyInfo={
     maleBodyId=TppEnemyBodyId.dds3_main0_v00,
     femaleBodyId=TppEnemyBodyId.dds8_main0_v00,
     extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"},
+    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT,
   },
   XOF={--tex Test: when XOF mission fpk loaded it stops salute morale from working?
     maleBodyId=TppEnemyBodyId.wss4_main0_v00,--wss4_main0_v01,wss4_main0_v02
@@ -248,15 +262,133 @@ this.ddBodyInfo={
     soldierSubType="PF_C",
     hasArmor=true,
   },
-
---  GZ={
---    maleBodyId=TppEnemyBodyId.pfa0_v00_a,
---    partsPath="/Assets/tpp/parts/chara/dds/dds0_main2_def_v00.parts",
---    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_gz.fpk",
---    hasHeadGear=true,
---    fallBack="BATTLE_DRESS",
---  },
+  GZ={
+    maleBodyId=TppEnemyBodyId.dds0_main1_v00,--,TppEnemyBodyId.dds0_main1_v01
+    partsPath="/Assets/tpp/parts/chara/dds/dds0_main2_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_gz.fpk",
+  },
+  MSF={--tex WIP shows, but combined with whatever other fpk is loaded, need to find right parts file?
+    maleBodyId=TppEnemyBodyId.pfs0_dds0_v00,--svs0_dds0_v00,--pfs0_dds0_v00,
+  --partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
+  --missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
+  --    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
+  --    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
+  --soldierSubType="PF_A",
+  },
+  SOVIET_BERETS={
+    maleBodyId=--TppEnemyBodyId.svs0_unq_v010,
+    {
+      TppEnemyBodyId.svs0_unq_v010,
+      TppEnemyBodyId.svs0_unq_v020,
+      TppEnemyBodyId.svs0_unq_v070,
+      TppEnemyBodyId.svs0_unq_v071,
+      TppEnemyBodyId.svs0_unq_v072,
+      TppEnemyBodyId.svs0_unq_v009,
+    },
+    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
+    noDDHeadgear=true,
+    noHelmet=true,--tex TODO: just do a whole equip allowed/disallowed
+  --soldierSubType="SOVIET_B",
+  },
+  SOVIET_HOODIES={
+    maleBodyId={
+      TppEnemyBodyId.svs0_unq_v060,
+      TppEnemyBodyId.svs0_unq_v100,
+      TppEnemyBodyId.svs0_unq_v420,
+    },
+    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
+    noDDHeadgear=true,
+  --soldierSubType="SOVIET_B",
+  },
+  PF_MISC={
+    maleBodyId={
+      TppEnemyBodyId.pfs0_unq_v210,--black beret, glases, black vest, red shirt, tan pants
+      TppEnemyBodyId.pfs0_unq_v250,--black beret, white coyote tshirt, black pants
+      TppEnemyBodyId.pfs0_unq_v360,--red long sleeve shirt, black pants
+      TppEnemyBodyId.pfs0_unq_v280,--black suit, white shirt, red white striped tie
+      TppEnemyBodyId.pfs0_unq_v150,--green beret, brown leather top, light tan muddy pants
+      TppEnemyBodyId.pfs0_unq_v140,--cap, glases, badly clipping medal, brown leather top, light tan muddy pants
+      TppEnemyBodyId.pfs0_unq_v241,--brown leather top, light tan muddy pants
+      --TppEnemyBodyId.pfs0_unq_v242,--brown leather top, light tan muddy pants, cant tell any difference?
+      TppEnemyBodyId.pfs0_unq_v450,--red beret, brown leather top, light tan muddy pants
+      TppEnemyBodyId.pfs0_unq_v440,--red beret, black leather top, black pants
+    },
+    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
+    noDDHeadgear=true,
+  --soldierSubType="PF_C",
+  },
 }
+
+--pfs0_unq_v210=250,--black beret, glases, black vest, red shirt, tan pants
+--pfs0_unq_v250=251,--black beret, white coyote tshirt, black pants
+--pfs0_unq_v360=253,--red long sleeve shirt, black pants
+--pfs0_unq_v280=254,--black suit, white shirt, red white striped tie
+--pfs0_unq_v150=255,--green beret, brown leather top, light tan muddy pants
+--pfs0_unq_v220=256,--cfa light tan short pants, red shoulder decorations maybe?
+--pfs0_unq_v140=264,--cap, glases, badly clipping medal, brown leather top, light tan muddy pants
+--pfs0_unq_v241=265,--brown leather top, light tan muddy pants
+--pfs0_unq_v242=266,--brown leather top, light tan muddy pants, cant tell any difference?
+--pfs0_unq_v450=267,--red beret, brown leather top, light tan muddy pants
+--pfs0_unq_v440=272,--red beret, black leather top, black pants
+--pfs0_unq_v155=275,--red beret cfa light tank shortpants
+
+--pfs0_dds0_v00=280,
+--pfs0_dds0_v01=281,
+--pfs0_dds0_v02=282,
+--pfs0_dds0_v03=283,
+--pfs0_dds0_v04=284,
+--pfs0_dds0_v05=285,
+--pfs0_dds0_v06=286,
+--pfs0_dds0_v07=287,
+--pfs0_dds0_v08=288,
+--pfs0_dds0_v09=289,
+
+--"svs0_rfl_v00_a",
+--"svs0_rfl_v01_a",
+--"svs0_rfl_v02_a",
+--"svs0_mcg_v00_a",
+--"svs0_mcg_v01_a",
+--"svs0_mcg_v02_a",
+--"svs0_snp_v00_a",
+--"svs0_rdo_v00_a",
+--"svs0_rfl_v00_b",
+--"svs0_rfl_v01_b",
+--"svs0_rfl_v02_b",
+--"svs0_mcg_v00_b",
+--"svs0_mcg_v01_b",
+--"svs0_mcg_v02_b",
+--"svs0_snp_v00_b",
+--"svs0_rdo_v00_b",
+--"sva0_v00_a",--armor
+
+--soviet (unless otherwise said)
+--svs0_unq_v010=257,--red beret, looks ok with DD headgear, but not greentop (so no nvg either)
+--svs0_unq_v080=258,--digital camo, seems like it would be in the normal soviet body selection, dont know.
+--svs0_unq_v020=259,--green beret, brown coat
+--svs0_unq_v040=260,--urban camo radio, headgear works nice with DD headgear (but not greentop
+--svs0_unq_v050=261,--urban camo, cap, dd non green ok
+--svs0_unq_v060=262,--black hoodie, green vest, urban pants, dd non green ok
+--svs0_unq_v100=263,--tan/brown hoodie, brown pants
+--svs0_unq_v070=268,--red beret, green vest, tan top, pants
+--svs0_unq_v071=269,--red beret, woodland camo
+--svs0_unq_v072=270,--red beret, glases, urban, so no headgear
+--svs0_unq_v420=271,--dark brown hoodie
+--svs0_unq_v009=273,--red beret, green vest, grey top, pants
+--svs0_unq_v421=274,--wood camo
+
+--svs0_dds0_v00=290,
+--svs0_dds0_v01=291,
+--svs0_dds0_v02=292,
+--svs0_dds0_v03=293,
+--svs0_dds0_v04=294,
+--svs0_dds0_v05=295,
+--svs0_dds0_v06=296,
+--svs0_dds0_v07=297,
+--svs0_dds0_v08=298,
+--svs0_dds0_v09=299,
 
 this.ddSuitToDDBodyInfo={
   [TppEnemy.FOB_DD_SUIT_SNEAKING]="SNEAKING_SUIT",
@@ -388,13 +520,18 @@ this.ddHeadGearSelection={
   },
 }
 
-function this.GetCurrentDDBodyInfo()
+function this.GetCurrentDDBodyInfo(isFemale)
   local suitName=nil
   if Ivars.mbDDSuit:Is"EQUIPGRADE" then
     local ddSuit=TppEnemy.GetDDSuit()
     suitName=this.ddSuitToDDBodyInfo[ddSuit]
-  elseif Ivars.mbDDSuit:Is()>1 then--0=OFF,EQUIPGRADE,..specific suits
-    suitName=Ivars.mbDDSuit.settings[Ivars.mbDDSuit:Get()+1]
+    --0=OFF,EQUIPGRADE,..specific suits
+  elseif Ivars.mbDDSuit:Is()>1 then
+    if isFemale then
+      suitName=Ivars.mbDDSuitFemale.settings[Ivars.mbDDSuitFemale:Get()+1]
+    else
+      suitName=Ivars.mbDDSuit.settings[Ivars.mbDDSuit:Get()+1]
+    end
   else
     return nil
   end
@@ -471,9 +608,9 @@ function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldier
   local missionCode=missionId or vars.missionCode
   local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   if this.IsDDEquip(missionCode) then
-    math.randomseed(gvars.rev_revengeRandomValue)
+    InfMain.SetLevelRandomSeed()
     grade=this.MinMaxIvarRandom"mbSoldierEquipGrade"
-    math.randomseed(os.time())
+    InfMain.ResetTrueRandom()
   end
   --TppUiCommand.AnnounceLogView("GetEquipGrade: gvar:".. Ivars.mbSoldierEquipGrade:Get() .." grade: ".. grade)--DEBUG
   --TppUiCommand.AnnounceLogView("Caller: ".. tostring(debug.getinfo(2).name) .." ".. tostring(debug.getinfo(2).source))--DEBUG
@@ -717,7 +854,7 @@ function this.CreateCustomRevengeConfig()
   end
 
   local bodyInfo=this.GetCurrentDDBodyInfo()
-  if bodyInfo and (not bodyInfo.hasArmor) and vars.missionCode==30050 then--tex TODO: handle mother base special case
+  if bodyInfo and (not bodyInfo.hasArmor) and vars.missionCode==30050 then--tex TODO: handle mother base special case better, especially with the male/female split
     revengeConfig.ARMOR=nil
   end
 
@@ -953,7 +1090,7 @@ local vehicleBaseTypes={
   },
   WHEELED_ARMORED_VEHICLE={
     ivar="vehiclePatrolWavEnable",
-    seats=2,
+    seats=1,--6,
     easternVehicles={
       "EASTERN_WHEELED_ARMORED_VEHICLE",
     },
@@ -963,7 +1100,7 @@ local vehicleBaseTypes={
   },
   WHEELED_ARMORED_VEHICLE_HEAVY={
     ivar="vehiclePatrolWavHeavyEnable",
-    seats=2,
+    seats=2,--6,
     easternVehicles={
       "EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY",
     },
@@ -973,7 +1110,7 @@ local vehicleBaseTypes={
   },
   TRACKED_TANK={
     ivar="vehiclePatrolTankEnable",
-    seats=1,
+    seats=1,--tex actually seats 2, but still behaviour with it stopping, dropping off a dude, then attacking
   },
 }
 
@@ -1193,76 +1330,6 @@ function this.BuildEnabledList()
   end
 end
 
---DOC: vehicle quests.txt
-this.disableVehicleQuests={--tex WORKAROUND, using the player vehicle/veh_rl* packs for patrol vehicle replace has a side effect of breaking quests with multiple vehicles (invis vehcile), TODO if ever get custom packs going/fix this remove this
-  "quest_q52040",
-  "quest_q52050",
-  "quest_q52070",
-  "quest_q52060",
-  "quest_q52090",
-  "quest_q52100",
-  "quest_q52130",
-  "quest_q52110",
-  "quest_q52025",
-  "quest_q52120",
-  "quest_q52140",
-  "quest_q52045",
-  "quest_q52055",
-  "quest_q52105",
-  "quest_q52125",
-  "quest_q52145",
-}
-
---
-local blockQuests={
-  "tent_q99040" -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
-}
-
-function this.BlockQuest(questName)
-  if vars.missionCode==30050 and Ivars.mbWarGamesProfile:Is()>1 then--DEBUGNOW
-    return true
-  end
-
-  for n,name in ipairs(blockQuests)do
-    if name==questName then
-      if TppQuest.IsCleard(questName) then
-        return true
-  end
-  end
-end
-
-  if Ivars.enableHeliReinforce:Is(1) then--tex block heli quests to allow super reinforce
-    --if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
-    for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
-      if name==questName then
-        return true
-      end
-  end
-  --end
-  end
-
-  if Ivars.vehiclePatrolProfile:Is()>0 then
-    local isVehiclePack=false
-    for baseType,typeInfo in pairs(vehicleBaseTypes) do
-      if typeInfo.ivar~="vehiclePatrolLvEnable" and typeInfo.ivar~="vehiclePatrolTruckEnable" then
-        if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
-          isVehiclePack=true
-  end
-      end
-    end
-    if isVehiclePack==true then
-      --if this.IsPatrolVehicleMission() then
-      for n,name in ipairs(this.disableVehicleQuests)do
-        if name==questName then
-          return true
-        end
-      end
-      --end
-    end
-  end
-  return false
-end
-
 --CALLER: TppEnemy.SpawnVehicle
 --IN: spawnInfo
 --OUT: spawnInfo
@@ -1275,7 +1342,7 @@ function this.PreSpawnVehicle(spawnInfo)
     InfMenu.DebugPrint("ERROR no locator on spawninfo")
     return
   end
-  
+
   if not string.find(spawnInfo.locator, "veh_trc_000") then--tex only replacing certain ids, seen in free mission vehicle spawn list
     return
   end
@@ -1297,19 +1364,20 @@ function this.PreSpawnVehicle(spawnInfo)
     vehicleNumber=0
   end
 
-  local vehicleTypeNumber=svars.vehiclePatrolSpawnedTypes[vehicleNumber]
+  --CULL
+  --  local vehicleTypeNumber=svars.vehiclePatrolSpawnedTypes[vehicleNumber]
+  --
+  --  if vehicleTypeNumber==nil then
+  --    InfMenu.DebugPrint("ERROR: vehicleTypeNumber==nil")
+  --    return
+  --  end
 
-  if vehicleTypeNumber==nil then
-    InfMenu.DebugPrint("ERROR: vehicleTypeNumber==nil")
-    return
-  end
-
-  if vehicleTypeNumber==0 then
-    --InfMenu.DebugPrint("vehicleTypeNumber==0")--DEBUG
-    this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
-  else
-    this.RestoreVehiclePatrol(vehicleTypeNumber,spawnInfo)
-  end
+  -- if vehicleTypeNumber==0 then
+  --InfMenu.DebugPrint("vehicleTypeNumber==0")--DEBUG
+  this.ModifyVehicleSpawn(spawnInfo.locator,vehicleNumber,spawnInfo)
+  --  else
+  --    this.RestoreVehiclePatrol(vehicleTypeNumber,spawnInfo)
+  --  end
 end
 
 function this.RestoreVehiclePatrol(vehicleTypeNumber, spawnInfo)
@@ -1331,7 +1399,7 @@ function this.RestoreVehiclePatrol(vehicleTypeNumber, spawnInfo)
   this.SetPatrolSpawnInfo(vehicle,spawnInfo)
 end
 
-function this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
+function this.ModifyVehicleSpawn(locator,vehicleNumber,spawnInfo)
   if patrolVehicleEnabledList==nil then
     this.BuildEnabledList()
   end
@@ -1340,10 +1408,10 @@ function this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
     --InfMenu.DebugPrint"ModifyVehicleSpawn - enabledList empty"--DEBUG
     return
   end
-  
+
   local vehicle=nil
   local vehicleType=nil
-  
+
   --CULL if Ivars.vehiclePatrolProfile:Is"EACH_VEHICLE" or svars.vehiclePatrolSpawnedTypes[0]==0 then--tex using first in array set as indicator of Is"SINGULAR" set
   local baseType=patrolVehicleEnabledList[math.random(#patrolVehicleEnabledList)]
   local baseTypeInfo=vehicleBaseTypes[baseType]
@@ -1380,12 +1448,13 @@ function this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
     return
   end
 
+  mvars.patrolVehicleBaseInfo[locator]=baseTypeInfo
   --InfMenu.DebugPrint("spawning "..spawnInfo.locator.." with "..vehicleType)--DEBUG
-
-  if svars.vehiclePatrolSpawnedTypes==nil then
-    InfMenu.DebugPrint"svars.vehiclePatrolSpawnedTypes==nil"--DEBUG
-  end
-  svars.vehiclePatrolSpawnedTypes[vehicleNumber]=this.VEHICLE_SPAWN_TYPE_ENUM[vehicleType]+1
+  --CULL
+  --  if svars.vehiclePatrolSpawnedTypes==nil then
+  --    InfMenu.DebugPrint"svars.vehiclePatrolSpawnedTypes==nil"--DEBUG
+  --  end
+  --  svars.vehiclePatrolSpawnedTypes[vehicleNumber]=this.VEHICLE_SPAWN_TYPE_ENUM[vehicleType]+1
 
   this.SetPatrolSpawnInfo(vehicle,spawnInfo)
 end
@@ -1473,6 +1542,76 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
 end
 --<vehicle stuff
 
+--block quests>
+--DOC: vehicle quests.txt
+this.disableVehicleQuests={--tex WORKAROUND, using the player vehicle/veh_rl* packs for patrol vehicle replace has a side effect of breaking quests with multiple vehicles (invis vehcile), TODO if ever get custom packs going/fix this remove this
+  "quest_q52040",
+  "quest_q52050",
+  "quest_q52070",
+  "quest_q52060",
+  "quest_q52090",
+  "quest_q52100",
+  "quest_q52130",
+  "quest_q52110",
+  "quest_q52025",
+  "quest_q52120",
+  "quest_q52140",
+  "quest_q52045",
+  "quest_q52055",
+  "quest_q52105",
+  "quest_q52125",
+  "quest_q52145",
+}
+
+--
+local blockQuests={
+  "tent_q99040" -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
+}
+
+function this.BlockQuest(questName)
+  if vars.missionCode==30050 and Ivars.mbWarGamesProfile:Is()>1 then
+    return true
+  end
+
+  for n,name in ipairs(blockQuests)do
+    if name==questName then
+      if TppQuest.IsCleard(questName) then
+        return true
+      end
+    end
+  end
+  --tex block heli quests to allow super reinforce
+  if Ivars.enableHeliReinforce:Is(1) then
+    --if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
+    for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
+      if name==questName then
+        return true
+      end
+    end
+    --end
+  end
+
+  if Ivars.vehiclePatrolProfile:Is()>0 then
+    local isVehiclePack=false
+    for baseType,typeInfo in pairs(vehicleBaseTypes) do
+      if not (typeInfo.ivar~="vehiclePatrolLvEnable" or typeInfo.ivar~="vehiclePatrolTruckEnable") then
+        if Ivars[typeInfo.ivar] and Ivars[typeInfo.ivar]:Is()>0 then
+          isVehiclePack=true
+        end
+      end
+    end
+    if isVehiclePack==true then
+      --if this.IsPatrolVehicleMission() then
+      for n,name in ipairs(this.disableVehicleQuests)do
+        if name==questName then
+          return true
+        end
+      end
+      --end
+    end
+  end
+  return false
+end
 --splash stuff>
 this.oneOffSplashes={
   "startstart",
@@ -3435,13 +3574,13 @@ local mafrBaseNames={
   "mafr_swampWestNear_ob",
   "mafr_chicoVilWest_ob",
   "mafr_chicoVil_cp",
-}
+}--#34
 
 
 this.reserveSoldierNames={}
 local solPrefix="sol_ih_"
-local numReserveSoldiers=30--30--tex SYNC number of soldier locators i added to fox2s
-for i=0,numReserveSoldiers-1 do
+this.numReserveSoldiers=40--tex SYNC number of soldier locators i added to fox2s
+for i=0,this.numReserveSoldiers-1 do
   local name=solPrefix..string.format("%04d", i)
   table.insert(this.reserveSoldierNames,name)
 end
@@ -3451,14 +3590,9 @@ function this.AddToLrrp(_soldierDefine,travelPlans)
   mvars.ene_soldierDefine={}
   Tpp.MergeTable(mvars.ene_soldierDefine,_soldierDefine,true)
 
-  if Ivars.enableLrrpFreeRoam:Is(0) then
+  if vars.missionCode~=30010 and vars.missionCode~=30020 then
     return
   end
-
-  if vars.missionCode~=30010 and vars.missionCode~=30020 then  --DEBUGNOW
-    return
-  end
-  --if true then return end --DEBUGNOW
 
   local soldierDefine=mvars.ene_soldierDefine
 
@@ -3482,17 +3616,7 @@ function this.AddToLrrp(_soldierDefine,travelPlans)
       end
     end
   end
-
-  local baseNamePool={}
-  if TppLocation.IsAfghan()then
-    for n,baseName in ipairs(afghBaseNames) do
-      table.insert(baseNamePool,baseName)
-    end
-  elseif TppLocation.IsMiddleAfrica()then
-    for n,baseName in ipairs(mafrBaseNames) do
-      table.insert(baseNamePool,baseName)
-    end
-  end
+  --InfMenu.DebugPrint("cpPool"..#cpPool)--DEBUG
 
   local function FillLrrp(num,soldierPool,cpDefine)
     while num>0 and #soldierPool>0 do
@@ -3505,77 +3629,171 @@ function this.AddToLrrp(_soldierDefine,travelPlans)
     end
   end
 
-  math.randomseed(gvars.rev_revengeRandomValue)
+  this.SetLevelRandomSeed()
 
-  for cpName,cpDefine in pairs(soldierDefine)do
-    local numCpSoldiers=0
-    for n,soldierName in ipairs(cpDefine)do
-      numCpSoldiers=numCpSoldiers+1
-    end
+  if Ivars.vehiclePatrolProfile:Is()>0 and Ivars.vehiclePatrolProfile:ExecCheck() then
+    local initPoolSize=#soldierPool
+    for cpName,cpDefine in pairs(soldierDefine)do
+      local numCpSoldiers=0
+      for n,soldierName in ipairs(cpDefine)do
+        numCpSoldiers=numCpSoldiers+1
+      end
 
-    if cpDefine.lrrpVehicle then
-      local numSeats=5
-      if numCpSoldiers>numSeats then
-        local gotSeat=0
-        local clearIndices={}
-        for n,soldierName in ipairs(cpDefine)do
-          gotSeat=gotSeat+1
-          if gotSeat>numSeats then
-            table.insert(this.reserveSoldierPool,soldierName)
-            cpDefine[n]=nil
+      if cpDefine.lrrpVehicle then
+        local numSeats=2
+        if mvars.patrolVehicleBaseInfo then
+          local baseTypeInfo=mvars.patrolVehicleBaseInfo[cpDefine.lrrpVehicle]
+          if baseTypeInfo then
+            numSeats=math.random(math.min(numSeats,baseTypeInfo.seats),baseTypeInfo.seats)
+            --InfMenu.DebugPrint(cpDefine.lrrpVehicle .. " numVehSeats "..numSeats)--DEBUG
           end
         end
-      else
-        numSeats=numSeats-numCpSoldiers
-        --DEBUGNOW FillLrrp(numSeats,soldierPool,cpDefine)
+        --
+        if numCpSoldiers>numSeats then
+          local gotSeat=0
+          local clearIndices={}
+          for n,soldierName in ipairs(cpDefine)do
+            gotSeat=gotSeat+1
+            if gotSeat>numSeats then
+              table.insert(soldierPool,soldierName)
+              cpDefine[n]=nil
+            end
+          end
+        else
+          numSeats=numSeats-numCpSoldiers
+          --InfMenu.DebugPrint(cpDefine.lrrpVehicle .. " numfillSeats "..numSeats)--DEBUG
+          if numSeats>0 then
+            FillLrrp(numSeats,soldierPool,cpDefine) --tex TODO why is this crashing out?
+          end
+        end
+        --if lrrpVehicle<
       end
-      --if lrrpVehicle<
+      --for soldierdefine<
     end
-    --for soldierdefine<
+    local poolChange=#soldierPool-initPoolSize
+    --InfMenu.DebugPrint("pool change:"..poolChange)--DEBUG
+    --if vehiclePatrol<
   end
 
+  if Ivars.enableLrrpFreeRoam:Is(0) then
+    this.ResetTrueRandom()
+    return
+  end
 
-  local lrrpSize=2
-  local numPatrols=10
+  local function ResetBasePool(baseNames)
+    local baseNamePool={}
+    for n,baseName in ipairs(baseNames) do
+      table.insert(baseNamePool,baseName)
+    end
+    return baseNamePool
+  end
 
-  local function GetRandomBase(baseNames)
+  local function GetRandomBase(baseNames,startBases)
     local rndIndex=math.random(#baseNames)
     local baseName=baseNames[rndIndex]
     table.remove(baseNames,rndIndex)
+    --tex RETHINK, ugly bad
+    if startBases then
+      for i,startBaseName in ipairs(startBases) do
+        if baseName==startBaseName then
+          table.remove(baseNames,i)
+        end
+      end
+    end
+
     return baseName
   end
 
   local planStr="travelIH_"
-  for i=1,numPatrols do
+
+  local reserved=0--6
+  --tex OFF
+  --  local minSize=Ivars.lrrpSizeFreeRoam_MIN:Get()
+  --  local maxSize=Ivars.lrrpSizeFreeRoam_MAX:Get()
+  --  if maxSize>#soldierPool then
+  --    maxSize=#soldierPool
+  --  end
+  local numLrrps=0
+
+  local baseNamePool={}
+  local startBases={}
+  if TppLocation.IsAfghan()then
+    startBases=ResetBasePool(afghBaseNames)
+  elseif TppLocation.IsMiddleAfrica()then
+    startBases=ResetBasePool(mafrBaseNames)
+  end
+  baseNamePool=ResetBasePool(startBases)
+
+
+  while #soldierPool-reserved>0 do
+    --DEBUGNOW
+    --    if numLrrps>=#afghBaseNames then
+    --      break
+    --    end
+    --tex TODO horrible performance
+    if #startBases==0 then
+      --InfMenu.DebugPrint"#startBases==0, each base should have a lrrp starting there"--DEBUG
+      break
+    end
+
     if #cpPool==0 then
+      --InfMenu.DebugPrint"#cpPool==0"--DEBUG
       break
     end
     if #soldierPool==0 then
+      --InfMenu.DebugPrint"#soldierPool==0"--DEBUG
       break
     end
+
+    --tex done, this limits to one lrrp per base (or rather starting at base, the end is much more random)
+    if #startBases==0 then
+      --InfMenu.DebugPrint"#startBases==0"--DEBUG
+      break
+    end
+
+    --tex 2 are used per lrrp (start>>end) so if num bases odd then will be left with 1
+    --TODO: just choose a random from bases (and check it's not the same as currently in soldierpool
+    if #startBases==1 then
+      --InfMenu.DebugPrint"#startBases==1"--DEBUG
+      break
+    end
+
+    --tex feeding from startbases gives a bit of an odd distribution
+    --or we can quit here with a guarantees each base will be in a lrrp as a start or an end
+    if #baseNamePool==0 or #baseNamePool==1 then
+      break
+      --baseNamePool=ResetBasePool(startBases)
+    end
+
+    local lrrpSize=2 --WIP custom lrrp size OFF to give coverage till I can come up with something better math.random(minSize,maxSize)
+    --tex TODO: stop it from eating reserved
+    --InfMenu.DebugPrint("lrrpSize "..lrrpSize)--DEBUG
 
     local cpName=cpPool[#cpPool]
     table.remove(cpPool)
 
-    --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUGNOW
+    --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
 
     local cpDefine={}
     soldierDefine[cpName]=cpDefine
 
     --tex TODO: random% filled to user settings
-    FillLrrp(lrrpSize,soldierPool,cpDefine,cpName)
+    FillLrrp(lrrpSize,soldierPool,cpDefine)
     local planName=planStr..cpName
     cpDefine.lrrpTravelPlan=planName
     --DEBUGNOW GOTCHA writing to actual table here, TODO see if travelplans is handled the same as soldierdefine
     travelPlans[planName]={
-      {base=GetRandomBase(baseNamePool)},
+      {base=GetRandomBase(baseNamePool,startBases)},
       {base=GetRandomBase(baseNamePool)},
     }
+    numLrrps=numLrrps+1
   end
+--  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
 
-  math.randomseed(os.time())
+--  local ins = InfInspect.Inspect(startBases)
+--  InfMenu.DebugPrint(ins)
+
+  this.ResetTrueRandom()
 end
-
-
 
 return this

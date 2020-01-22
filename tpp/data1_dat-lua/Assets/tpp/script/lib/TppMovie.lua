@@ -63,7 +63,8 @@ function this.CommonDoMessage.onStart()
   TppUiStatusManager.ClearStatus"PauseMenu"Player.SetPause()
 end
 function this.CommonDoMessage.onEnd()
-  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT)Player.UnsetPause()
+  TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT)
+  Player.UnsetPause()
 end
 function this.DoMessage(n,o)
   local n=this.CallbackFunctionTable[n]

@@ -1,15 +1,15 @@
 local this={}
-local n=Fox.StrCode32
-local n=Tpp.IsTypeFunc
-local n=Tpp.IsTypeTable
-local n=Tpp.IsTypeString
-local n=Tpp.IsTypeNumber
-local d=GameObject.GetGameObjectId
-local n=GameObject.GetGameObjectIdByIndex
-local n=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
-local n=GameObject.NULL_ID
-local a=GameObject.SendCommand
-local a=Tpp.DEBUG_StrCode32ToString
+local StrCode32=Fox.StrCode32
+local IsFunc=Tpp.IsTypeFunc
+local IsTable=Tpp.IsTypeTable
+local IsString=Tpp.IsTypeString
+local IsNumber=Tpp.IsTypeNumber
+local GetGameObjectId=GameObject.GetGameObjectId
+local GetGameObjectIdByIndex=GameObject.GetGameObjectIdByIndex
+local GAME_OBJECT_TYPE_VEHICLE=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
+local NULL_ID=GameObject.NULL_ID
+local SendCommand=GameObject.SendCommand
+local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
 this.AnimalExtraId={UNIQUE_ANIMAL_00=TppAnimalId.COUNT+0,UNIQUE_ANIMAL_01=TppAnimalId.COUNT+1,UNIQUE_ANIMAL_02=TppAnimalId.COUNT+2,UNIQUE_ANIMAL_03=TppAnimalId.COUNT+3}
 this.AnimalIdTable={
   [this.AnimalExtraId.UNIQUE_ANIMAL_00]=TppMotherBaseManagementConst.ANIMAL_1900,
@@ -43,7 +43,7 @@ function this.GetDataBaseIdFromAnimalId(n)
 end
 function this.SetEnabled(e,t,a)
   local e={type=e,index=0}
-  if e==n then
+  if e==NULL_ID then
     return
   end
   local n={id="SetEnabled",name=t,enabled=a}
@@ -51,7 +51,7 @@ function this.SetEnabled(e,t,a)
 end
 function this.SetRoute(e,t,a)
   local e={type=e,index=0}
-  if e==n then
+  if e==NULL_ID then
     return
   end
   local n={id="SetRoute",name=t,route=a}
@@ -59,7 +59,7 @@ function this.SetRoute(e,t,a)
 end
 function this.SetHerdRoute(e,a,t)
   local e={type=e,index=0}
-  if e==n then
+  if e==NULL_ID then
     return
   end
   local n={id="SetHerdEnabledCommand",type="Route",name=a,instanceIndex=0,route=t}
@@ -70,7 +70,7 @@ function this.SetKind(e,t,a)
     return
   end
   local e={type=e,index=0}
-  if e==n then
+  if e==NULL_ID then
     return
   end
   local n={id="SetKind",name=t,fv2Index=a}
@@ -78,7 +78,7 @@ function this.SetKind(e,t,a)
 end
 function this.SetFova(e,a,d,t)
   local i={type=e,index=0}
-  if i==n then
+  if i==NULL_ID then
     return
   end
   local e=nil
@@ -91,7 +91,7 @@ function this.SetFova(e,a,d,t)
 end
 function this.SetNotice(e,a,t)
   local e={type=e,index=0}
-  if e==n then
+  if e==NULL_ID then
     return
   end
   local n={id="SetNoticeEnabled",name=a,enabled=t}
@@ -99,7 +99,7 @@ function this.SetNotice(e,a,t)
 end
 function this.SetIgnoreNotice(a,t,e)
   local a={type=a,index=0}
-  if a==n then
+  if a==NULL_ID then
     return
   end
   local e={id="SetIgnoreNotice",isPlayer=e,isSoldier=e}
@@ -107,7 +107,7 @@ function this.SetIgnoreNotice(a,t,e)
 end
 function this.SetSleep(e,t,a)
   local e={type=e,index=0}
-  if e==n then
+  if e==NULL_ID then
     return
   end
   local n={id="SetStatus",status="Sleep",set=a}
@@ -115,7 +115,7 @@ function this.SetSleep(e,t,a)
 end
 function this.SetAnimalId(e,a,t)
   local e={type=e,index=0}
-  if e==n then
+  if e==NULL_ID then
     return
   end
   local n={id="SetAnimalId",name=a,animalId=t}
@@ -195,7 +195,7 @@ function this.OnActivateQuest(t)
       if e.markerList then
         for n,e in pairs(e.markerList)do
           TppMarker.SetQuestMarker(e)
-          local e=d(e)
+          local e=GetGameObjectId(e)
           TppBuddyService.SetTargetAnimalId(e)
           table.insert(mvars.ani_questGameObjectIdList,e)
         end

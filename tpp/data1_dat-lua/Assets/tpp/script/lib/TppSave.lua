@@ -2,10 +2,10 @@ local this={}
 local IsSavingOrLoading=TppScriptVars.IsSavingOrLoading
 this.saveQueueDepth=0
 this.saveQueueList={}
-local function SetRequestSaveResult(a)
+local function SetRequestSaveResult(requestSuccess)
   if gvars.sav_isReservedMbSaveResultNotify then
     gvars.sav_isReservedMbSaveResultNotify=false
-    if a then
+    if requestSuccess then
       TppMotherBaseManagement.SetRequestSaveResultSuccess()
     else
       TppMotherBaseManagement.SetRequestSaveResultFailure()
@@ -60,38 +60,38 @@ function this.IsSaving()
   end
   return false
 end
-function this.IsSavingWithFileName(e)
-  if gvars.sav_SaveResultCheckFileName==Fox.StrCode32(e)then
+function this.IsSavingWithFileName(fileName)
+  if gvars.sav_SaveResultCheckFileName==Fox.StrCode32(fileName)then
     return true
   else
     return false
   end
 end
-function this.HasQueue(a)
-  if(this.GetSaveRequestFromQueue(a)~=nil)then
+function this.HasQueue(fileName)
+  if(this.GetSaveRequestFromQueue(fileName)~=nil)then
     return true
   else
     return false
   end
 end
-function this.GetSaveRequestFromQueue(n)
-  for a=1,this.saveQueueDepth do
-    if this.saveQueueList[a].fileName==n then
-      return a,this.saveQueueList[a]
+function this.GetSaveRequestFromQueue(fileName)
+  for i=1,this.saveQueueDepth do
+    if this.saveQueueList[i].fileName==fileName then
+      return i,this.saveQueueList[i]
     end
   end
 end
 function this.EraseAllGameDataSaveRequest()
-  local a,n
+  local index,saveInfo
   repeat
-    a,n=this.GetSaveRequestFromQueue(this.GetGameSaveFileName())
-    if a then
-      if(n.doSaveFunc==this.ReserveNoticeOfMbSaveResult)then
+    index,saveInfo=this.GetSaveRequestFromQueue(this.GetGameSaveFileName())
+    if index then
+      if(saveInfo.doSaveFunc==this.ReserveNoticeOfMbSaveResult)then
         TppMotherBaseManagement.SetRequestSaveResultFailure()
       end
-      this.DequeueSave(a)
+      this.DequeueSave(index)
     end
-  until(a==nil)
+  until(index==nil)
 end
 function this.IsEnqueuedSaveData()
   if this.saveQueueDepth>0 then
@@ -113,8 +113,8 @@ function this.SaveGameData(missionCode,needIcon,doSaveFunc,reserveNextMissionSta
   if reserveNextMissionStartSave then
     this.ReserveNextMissionStartSave(this.GetGameSaveFileName(),isCheckPoiunt)
   else
-    local a=this.GetSaveGameDataQueue(missionCode,needIcon,doSaveFunc,isCheckPoiunt)
-    this.EnqueueSave(a)
+    local saveInfo=this.GetSaveGameDataQueue(missionCode,needIcon,doSaveFunc,isCheckPoiunt)
+    this.EnqueueSave(saveInfo)
   end
   this.CheckAndSavePersonalData(reserveNextMissionStartSave)
 end
@@ -129,27 +129,27 @@ function this.GetSaveGameDataQueue(missionCode,needIcon,doSaveFunc,isCheckPoint)
   saveInfo=this._SaveQuestData(saveInfo)
   return saveInfo
 end
-function this.SaveConfigData(a,t,n)
+function this.SaveConfigData(needIcon,t,n)
   if t then
-    local a=this.MakeNewSaveQueue(TppDefine.SAVE_SLOT.CONFIG,TppDefine.SAVE_SLOT.CONFIG_SAVE,TppScriptVars.CATEGORY_CONFIG,TppDefine.CONFIG_SAVE_FILE_NAME,a)
-    return this.DoSave(a,true)
+    local saveInfo=this.MakeNewSaveQueue(TppDefine.SAVE_SLOT.CONFIG,TppDefine.SAVE_SLOT.CONFIG_SAVE,TppScriptVars.CATEGORY_CONFIG,TppDefine.CONFIG_SAVE_FILE_NAME,needIcon)
+    return this.DoSave(saveInfo,true)
   elseif n then
     this.ReserveNextMissionStartSave(TppDefine.CONFIG_SAVE_FILE_NAME)
   else
-    this.EnqueueSave(TppDefine.SAVE_SLOT.CONFIG,TppDefine.SAVE_SLOT.CONFIG_SAVE,TppScriptVars.CATEGORY_CONFIG,TppDefine.CONFIG_SAVE_FILE_NAME,a)
+    this.EnqueueSave(TppDefine.SAVE_SLOT.CONFIG,TppDefine.SAVE_SLOT.CONFIG_SAVE,TppScriptVars.CATEGORY_CONFIG,TppDefine.CONFIG_SAVE_FILE_NAME,needIcon)
   end
 end
 function this.SaveMGOData()
   this.EnqueueSave(TppDefine.SAVE_SLOT.MGO,TppDefine.SAVE_SLOT.MGO_SAVE,TppScriptVars.CATEGORY_MGO,TppDefine.MGO_SAVE_FILE_NAME)
 end
-function this.SavePersonalData(a,t,reserveNextMissionStartSave)
+function this.SavePersonalData(needIcon,t,reserveNextMissionStartSave)
   if t then
-    local a=this.MakeNewSaveQueue(TppDefine.SAVE_SLOT.PERSONAL,TppDefine.SAVE_SLOT.PERSONAL_SAVE,TppScriptVars.CATEGORY_PERSONAL,TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,a)
-    return this.DoSave(a,true)
+    local saveInfo=this.MakeNewSaveQueue(TppDefine.SAVE_SLOT.PERSONAL,TppDefine.SAVE_SLOT.PERSONAL_SAVE,TppScriptVars.CATEGORY_PERSONAL,TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,needIcon)
+    return this.DoSave(saveInfo,true)
   elseif reserveNextMissionStartSave then
     this.ReserveNextMissionStartSave(TppDefine.PERSONAL_DATA_SAVE_FILE_NAME)
   else
-    this.EnqueueSave(TppDefine.SAVE_SLOT.PERSONAL,TppDefine.SAVE_SLOT.PERSONAL_SAVE,TppScriptVars.CATEGORY_PERSONAL,TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,a)
+    this.EnqueueSave(TppDefine.SAVE_SLOT.PERSONAL,TppDefine.SAVE_SLOT.PERSONAL_SAVE,TppScriptVars.CATEGORY_PERSONAL,TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,needIcon)
   end
 end
 function this.CheckAndSavePersonalData(reserveNextMissionStartSave)
@@ -184,7 +184,8 @@ function this.SaveGzPrivilege()
 end
 function this.SaveMBAndGlobal()
   this.VarSaveMBAndGlobal()
-  this.SaveGameData(currentMissionCode)--RETAILBUG: orphan
+  --this.SaveGameData(currentMissionCode)--RETAILBUG: orphan, variable isn't actually used though
+  this.SaveGameData(vars.missionCode)
 end
 function this.VarSaveMBAndGlobal()
   local a=vars.missionCode
@@ -303,21 +304,21 @@ function this.AddSlotToSaveQueue(saveInfo,slot,savingSlot,category)
   returnSaveInfo.category[n]=category
   return returnSaveInfo
 end
-function this.EnqueueSave(a,S,t,r,i)
-  if a==nil then
+function this.EnqueueSave(saveInfoOrType,slot,category,fileName,needIcon)
+  if saveInfoOrType==nil then
     return
   end
   if(gvars.isLoadedInitMissionOnSignInUserChanged or TppException.isLoadedInitMissionOnSignInUserChanged)or TppException.isNowGoingToMgo then
     return
   end
   local n
-  if Tpp.IsTypeTable(a)then
-    n=a
+  if Tpp.IsTypeTable(saveInfoOrType)then
+    n=saveInfoOrType
   else
-    if S==nil then
+    if slot==nil then
       return
     end
-    if t==nil then
+    if category==nil then
       return
     end
   end
@@ -328,25 +329,25 @@ function this.EnqueueSave(a,S,t,r,i)
   if n then
     this.saveQueueList[this.saveQueueDepth]=n
   else
-    this.saveQueueList[this.saveQueueDepth]=this.MakeNewSaveQueue(a,S,t,r,i)
+    this.saveQueueList[this.saveQueueDepth]=this.MakeNewSaveQueue(saveInfoOrType,slot,category,fileName,needIcon)
   end
 end
-function this.MakeNewSaveQueue(n,a,t,i,S,r)
-  local e={}
-  e.slot=n
-  e.savingSlot=a
-  e.category=t
-  e.fileName=i
-  e.needIcon=S
-  e.doSaveFunc=r
-  return e
+function this.MakeNewSaveQueue(slot,savingSlot,category,fileName,needIcon,saveFunc)
+  local saveInfo={}
+  saveInfo.slot=slot
+  saveInfo.savingSlot=savingSlot
+  saveInfo.category=category
+  saveInfo.fileName=fileName
+  saveInfo.needIcon=needIcon
+  saveInfo.doSaveFunc=saveFunc
+  return saveInfo
 end
-function this.DequeueSave(a)
-  if(a==nil)then
-    a=1
+function this.DequeueSave(index)
+  if(index==nil)then
+    index=1
   end
-  for a=a,(this.saveQueueDepth-1)do
-    this.saveQueueList[a]=this.saveQueueList[a+1]
+  for i=index,(this.saveQueueDepth-1)do
+    this.saveQueueList[i]=this.saveQueueList[i+1]
   end
   if(this.saveQueueDepth<=0)then
     return

@@ -12,14 +12,10 @@ local currentIncrementMult=defaultIncrementMult
 --Currently either labeled UNKOWN, as seen from the existing codes it's possible that there's multiple buttons triggering/sharing one bitmask, so even after 'finding it' copy off instead of rename
 --fox engine seems to be using bitops http://bitop.luajit.org
 this.buttonMasks={
-  NONE=0,
   DECIDE=0,
   STANCE=1,
-  --UNKNOWN1dash=2,--DEBUG: see if it fires anywhere else than dash
   DASH=2,
-  HOLD=3,--ready weapon
-  --UNKNOWN2RWep=3,--DEBUG: see if it fires anywhere else than ready_weapon
-  --UNKNOWN3atta=4,--DEBUG: see if it fires anywhere else than attack
+  HOLD=3,--tex ready weapon
   FIRE=4,
   RIDE_ON=5,
   RIDE_OFF=5,
@@ -27,14 +23,13 @@ this.buttonMasks={
   MOVE_ACTION=5,
   JUMP=5,
   RELOAD=6,
-  STOCK=7,--tex recenter cam i think
+  STOCK=7,--tex recenter cam
   ZOOM_CHANGE=7,
   VEHICLE_CHANGE_SIGHT=7,
   MB_DEVICE=8,
   CALL=9,
   INTERROGATE=9,
-  --UNKNOWN4binoc=10,--DEBUG: see if it fires anywhere else than binoc
-  SUBJECT=10,--tap=recent, hold binoc/FP --DEBUGNOW see if trigger on binocular, and see if disable butttons is the same
+  SUBJECT=10,--tex tap=recent, hold binoc/FP --TODO see if trigger on binocular, and see if disable butttons is the same
   UP=11,
   PRIMARY_WEAPON=11,
   DOWN=12,
@@ -43,7 +38,6 @@ this.buttonMasks={
   RIGHT=14,
   VEHICLE_LIGHT_SWITCH=14,
   VEHICLE_TOGGLE_WEAPON=14,
-  UNKNOWN5cqc=15,
   CQC=15,
   SIDE_ROLL=16,
   LIGHT_SWITCH=17,
@@ -53,8 +47,7 @@ this.buttonMasks={
   VEHICLE_DASH=21,
   BUTTON_PLACE_MARKER=22,
   PLACE_MARKER=22,
-  --UNKNOWN6esc=23,--DEBUG: see if it fires anywhere else than escape
-  ESCAPE=23,--tex Not in PlayerPad
+  ESCAPE=23,--tex Not in PlayerPad, own name
   UNKNOWN7=24,--tex triggered with Space/Quick dive, and RS click (which also triggers zoom change, stock, decide,vehicle_change_sight), don't know what it's supposed to indicate
   --
   UNKNOWN8=25,
@@ -64,8 +57,9 @@ this.buttonMasks={
   UNKNOWN12=29,
   UNKNOWN13=30,
   --MAX=2^31,--tex max_int=(2^31)-1, guess at a sane enough limit, though should check bitops to figure out actual.
-  --ALL=-1
 }
+this.NONE=0
+this.ALL=-1
 
 --TABLESETUP: buttonMasks --tex convert mask index to bitmask
 for name,maskIndex in pairs(this.buttonMasks) do

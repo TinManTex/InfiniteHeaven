@@ -1,9 +1,30 @@
 = Infinite heaven =
-r128 - 2015-02-11
+r131 - 2015-02-22
 by tin man tex
 For MGSV version 1.071
 
-A mod for MGSV intended to extend play through customisable settings and features.
+A mod for MGSV intended to extend gameplay through customisable settings and features.
+
+New for r131
+Fix: Hang at FOB load screen, thanks SoullessMadness for the report. FOB defense hang on load unconfirmed since it's harder to test.
+
+Mother base option: "Female staff selection" - "Default","None","All available"
+In the regular game it tries to put at least 2 female staff per cluster (from that section)
+All available will prioritize putting your female staff first. 
+None will prevent any female staff appearing on mother base.
+
+Mother base option: DD Suit female - lets you select the suit of females independantly as there are more suits that are male only.
+[youtube]VHxRsD64Zm4[/youtube]
+https://www.youtube.com/watch?v=VHxRsD64Zm4
+
+Vehicle patrols menu renamed Enemy patrols menu
+
+Vehicle Patrols: Improved soldier assignment, jeeps may have 2-4 soldiers, tanks now have just the driver, to fix the sillyness of a guy hopping in and out every time it spots you.
+[youtube]5uWBfTL7HVM[/youtube]
+https://www.youtube.com/watch?v=5uWBfTL7HVM
+
+Enemy partrols option: Foot patrols in free roam - adds ~13 foot patrols between CPs, since the start-end bases are chosen randomly they may be difficult to find or you may be surprised by them in the wilderness between rather than following roads.
+
 
 New for r128
 Motherbase menu:
@@ -18,20 +39,14 @@ https://www.youtube.com/watch?v=oK-uxbaQ2Ic
 
 Fixes to Custom prep that were preventing some settings from working as intended.
 
-New for r124
-Free cam: Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings.
+Infinite Heaven features:
+------------------------------
+Demonstrations:
+Free cam:
 [youtube]aJ3lvD1JiJ0[/youtube]
 https://www.youtube.com/watch?v=aJ3lvD1JiJ0
 [youtube]1CygEjTfF_c[/youtube]
 https://www.youtube.com/watch?v=1CygEjTfF_c
-
-Infection mode under mother base wargames, turns DD soldiers to a mix of puppet soldiers and wandering soldiers.
-[youtube]t_6fj8Rkvic[/youtube]
-https://www.youtube.com/watch?v=t_6fj8Rkvic
-
-Infinite Heaven features:
-------------------------------
-Demonstrations:
 Enemy DD Equip:
 [youtube]6CDv5RBU5dU[/youtube]
 https://www.youtube.com/watch?v=6CDv5RBU5dU
@@ -56,6 +71,8 @@ Mother base settings and wargames:
 https://www.youtube.com/watch?v=PSWTQwJNaRU
 [youtube]cW3noRDtpTg[/youtube]
 https://www.youtube.com/watch?v=cW3noRDtpTg
+[youtube]t_6fj8Rkvic[/youtube]
+https://www.youtube.com/watch?v=t_6fj8Rkvic
 Headgear:
 [youtube]1DlkIV3KduI[/youtube]
 https://www.youtube.com/watch?v=1DlkIV3KduI
@@ -191,7 +208,7 @@ Suits - same range as fob missions
 
 DD Head gear - Off,Use Equip Grade
 
-War Games - set mother base soldiers hostile with non-lethal or lethal weapons
+War Games - set mother base soldiers hostile with non-lethal or lethal weapons, zombified, as true enemies (non staff).
 
 Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they will however spawn inside building geometry, use the call menu to have them respawn near.
 Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
@@ -267,8 +284,6 @@ Don't disable Ocelot after cutscenes - with this you can leave Occelot on MB in 
 
 Don't disable buddies after cutscenes - likewise with buddies (ddog mostly)
 
-
-
 Enemy phases:
 -----------------
 Adjust minimum and maximum alert phase for enemy Cps
@@ -283,6 +298,10 @@ Essentially no-clip mode (for those that remember what that means). It teleports
 The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.
 
 Be careful when warping up as gravity will kill you quick. One method to cope is to hold warp up, let gravity slowly take over then just after you touch the ground and start warping up again let go.
+
+Free cam: 
+-----------------
+Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings.
 
 
 Support Heli menu - ACC and in-mission menu:
@@ -305,7 +324,7 @@ Force searchlight - change the heli searchlight state
 
 
 Patchups:
--------------
+-----------------
 Unlock playable avatar - unlock avatar before mission 46
 
 Unlock weapon customization - game progression unlock without having to complete legendary gunsmith missions
@@ -439,6 +458,27 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+
+r131 - 2015-02-22 - public release
+Fix: Hang of FOB all load, thanks SoullessMadness for the report. FOB defense hang on load unconfirmed since it's hard to test.
+Vehicle Patrols: Improved soldier assignment, Soldier assigned from reserve pool to fill rnd min(2,vehicleSeats),vehicleSeats (seats defined in base vehicle info), soldier already assigned above seat count get put into pool. 
+Gives more variation, allows jeeps to have up to 4 people, fixes sillyness with tanks stopping, dropping off a dude, then attacking.
+NOTE: all other vehicles than crash on setrelativevehicle if soldiers assigned > 2. APCs carrying are handled differently.
+Also hits the same non realize bug as below, soldiers do sometimes finally realize. Vehicle will initially drive off as if it's full, but if soldier realizes will wait till soldier reaches it an gets in.
+Don't know if it's something due to my method of warping to soliders for testing.
+Changed from saving/restoring vehicle type enum from svar to random by same seed, vehicle basicType is stored in mvar.
+Options: lrrpSizeFreeRoam min, max, disabled for now to get decent coverage
+
+r130
+Option: mbPrioritizeFemale, by default the game tries to put a minimum of 2 female DD on that cluster (from that cluster), MAX bumps it to MAX_STAFF_NUM_ON_CLUSTER, so basicall all the females you have, does not include Command cluster, None clears the staff selection of females
+Option: mbDDSuitFemale, extendedparts does work indepenently so was reletively painless
+More options for DD Suit, Soviet berets, hoodies, PF misc, using the unique quest/mission bodies from missions/quests.
+
+r129
+Fix: Missing Tpp.IsUav, kjp decided to add this at some point even though there's an identical IsUAV. May fix the incorrect or unregistered fob fulton task types.
+Option: enableLrrpFreeRoam - bunch of soldier locators added to free roam fox2s which are assigned a cp(lrrp) and a travelplan between two randomly chosen bases.
+Some odd things: Setting to coppied travelplans often causes soldier to not realize (even with force enable and realize), adding too many copied travelplans to the mission luas breaks the normal vehicle lrrps (soliers still spawn but thy wont get in vehicle)
+
 r128 - 2015-02-11 - public release
 Expanded mbDDSuit to Xof, Soviet a/b, PF a/b/c
 ddBodyInfo extended to include soldiersubtype, hasHeadgear renamed helmetOnly, noDDHeadgear, hasHelmet, hasFace to allow various combinations of dd headgear and model gear.

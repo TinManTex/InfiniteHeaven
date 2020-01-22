@@ -772,6 +772,9 @@ mtbs_enemy.SetupSortieSoldiers = function(clusterId )
 		return 0 
 	end
 
+  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+    InfMain.SetLevelRandomSeed()
+  end--<
 	
 	local sortieSolNum = 0
 	for i, locatorName in ipairs(mvars.mbSoldier_enableSoldierLocatorList[clusterId]) do
@@ -803,6 +806,10 @@ mtbs_enemy.SetupSortieSoldiers = function(clusterId )
 	and TppEnemy.DEBUG_o50050_memoryDump then
 		mtbs_enemy.SetupSortieSoldierFovaForMemoryDump( clusterId )
 	end	
+	
+	if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+    InfMain.ResetTrueRandom()
+  end--<
 	
 	return sortieSolNum
 end
@@ -1138,7 +1145,7 @@ mtbs_enemy.SetEnemyLocationType = function ()
 		local gameObjectId = { type="TppSoldier2" } 
 		
 		--tex> the helmet model that pops off seems to be in-engine coded to soldier type (and also requires the relevant fpk), even though I override soldier type during soldier setup it's somewhere after this set command and there--DEBUGNOW
-		if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then
+		if InfMain.IsDDBodyEquip() then
 		local bodyInfo=InfMain.GetCurrentDDBodyInfo()
 		local soldierType=EnemyType.TYPE_DD
 		if bodyInfo and bodyInfo.soldierSubType then

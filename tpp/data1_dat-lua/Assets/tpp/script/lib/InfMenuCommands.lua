@@ -182,6 +182,14 @@ this.printSightFormParameter={
   end,
 }
 
+this.printHearingTable={
+  OnChange=function()
+    InfSoldierParams.ApplyHearingIvarsToSoldierParams()
+    local ins=InfInspect.Inspect(InfSoldierParams.soldierParameters.hearingRangeParameter)
+    InfMenu.DebugPrint(ins)
+  end,
+}
+
 this.printHealthTableParameter={
   OnChange=function()
     InfSoldierParams.ApplyHealthIvarsToSoldierParams()
@@ -244,32 +252,9 @@ this.warpPlayerCommand={--WIP
 }
 
 --
+local toggle=true
 this.DEBUG_SomeShiz={
   OnChange=function()
-    local travelPlans=mvars.ene_travelPlans
-    local soldierDefine=mvars.ene_soldierDefine
-
-
-    --    local usedPlans={}
-    --    for cpName,cpDefine in pairs(soldierDefine)do
-    --      if cpDefine and cpDefine.lrrpTravelPlan then
-    --        usedPlans[cpDefine.lrrpTravelPlan]=true
-    --      end
-    --    end
-    --
-    --    local travelPlanNames={}
-    --    if travelPlans then
-    --      for travelPlanName,cpTravelAreas in pairs(travelPlans) do
-    --        if not usedPlans[travelPlanName] then--DEBUGNOW assuming we dont want overlap
-    --          table.insert(travelPlanNames,travelPlanName)
-    --        end
-    --      end
-    --    end
-    --
-    --    local ins=InfInspect.Inspect(travelPlanNames)
-    --    InfMenu.DebugPrint(ins)
-
-
     local soldierPositions={}
     for n,soldierName in ipairs(InfMain.reserveSoldierNames) do
       local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)

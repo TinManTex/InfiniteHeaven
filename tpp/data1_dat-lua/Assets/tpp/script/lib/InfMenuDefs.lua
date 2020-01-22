@@ -15,8 +15,10 @@ this.soldierParamsMenu={
     Ivars.soldierParamsProfile,
     Ivars.soldierHealthScale,
     Ivars.soldierSightDistScale,
+    Ivars.soldierHearingDistScale,
     InfMenuCommands.printHealthTableParameter,
     InfMenuCommands.printSightFormParameter,
+    InfMenuCommands.printHearingTable,
   }
 }
 
@@ -68,7 +70,9 @@ this.motherBaseMenu={
     Ivars.revengeModeForMb,
     this.dDEquipMenu,
     Ivars.mbDDSuit,
-    Ivars.mbDDHeadGear,
+    Ivars.mbDDSuitFemale,
+    Ivars.mbDDHeadGear,    
+    Ivars.mbPrioritizeFemale,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
     Ivars.mbEnableBuddies,
     this.motherBaseShowAssetsMenu,    
@@ -363,14 +367,23 @@ this.enemyReinforceMenu={
   },
 }
 
-this.vehiclePatrolMenu={
+this.enemyPatrolMenu={
   options={
+    Ivars.enableLrrpFreeRoam,
     Ivars.vehiclePatrolProfile,
     Ivars.vehiclePatrolLvEnable,
     Ivars.vehiclePatrolTruckEnable,
     Ivars.vehiclePatrolWavEnable,
     Ivars.vehiclePatrolWavHeavyEnable,
     Ivars.vehiclePatrolTankEnable,
+  }
+}
+
+this.footPatrolMenu={
+  options={
+    Ivars.enableLrrpFreeRoam,--DEBUGNOW
+--    Ivars.lrrpSizeFreeRoam_MIN,
+--    Ivars.lrrpSizeFreeRoam_MAX,
   }
 }
 
@@ -391,12 +404,11 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    Ivars.enableLrrpFreeRoam,--DEBUGNOW
-    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
-    --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
+    --Ivars.forceSoldierSubType,--tex WIP DEBUG
     --Ivars.manualMissionCode,--tex  WIP
     --InfMenuCommands.loadMission,--tex  WIP
     Ivars.clockTimeScale,
@@ -406,7 +418,7 @@ this.heliSpaceMenu={
     this.phaseMenu,
     this.revengeMenu,
     this.enemyReinforceMenu,
-    this.vehiclePatrolMenu,
+    this.enemyPatrolMenu,
     this.sideOpsMenu,
     this.motherBaseMenu,
     this.demosMenu,
@@ -434,7 +446,7 @@ this.debugInMissionMenu={
     InfMenuCommands.DEBUG_PrintReinforceVars,
     --InfMenuCommands.DEBUG_PrintVehicleTypes,
     --InfMenuCommands.DEBUG_PrintVehiclePaint,
-    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUGNOW
+    InfMenuCommands.DEBUG_PrintSoldierDefine,
     --InfMenuCommands.DEBUG_PrintSoldierIDList,
     InfMenuCommands.DEBUG_ShowRevengeConfig,
     --InfMenuCommands.DEBUG_ShowPhaseEnums,--CULL
@@ -455,9 +467,9 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
-    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
-    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUGNOW    
-    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUGNOW
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+--    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUGNOW    
+--    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUGNOW
 --    Ivars.selectedCp,--DEBUGNOW
     --Ivars.selectedChangeWeapon,--WIP
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,

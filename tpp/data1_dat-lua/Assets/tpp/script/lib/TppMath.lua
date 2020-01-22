@@ -1,18 +1,17 @@
--- DOBUILD: 1
 local this={}
-function this.Vector3toTable(n)
-  return{n:GetX(),n:GetY(),n:GetZ()}
+function this.Vector3toTable(vector)
+  return{vector:GetX(),vector:GetY(),vector:GetZ()}
 end
-function this.AddVector(e,n)
-  return{e[1]+n[1],e[2]+n[2],e[3]+n[3]}
+function this.AddVector(v1,v2)
+  return{v1[1]+v2[1],v1[2]+v2[2],v1[3]+v2[3]}
 end
 local e=180/foxmath.PI
 local t=1/e
-function this.RadianToDegree(n)
-  return n*e
+function this.RadianToDegree(rad)
+  return rad*e
 end
-function this.DegreeToRadian(n)
-  return n*t
+function this.DegreeToRadian(deg)
+  return deg*t
 end
 function this.FindDistance(pos1,pos2)
   local distSqr=0
@@ -21,16 +20,4 @@ function this.FindDistance(pos1,pos2)
   end
   return distSqr
 end
---tex SYS: mathstuff
-function this.Clamp(n,min,max)--tex
-  return math.min(math.max(n, min), max);
-end
-function this.ScaleValueClamp1(value,mult)--tex  
-  local newValue=value*mult
-  if newValue < 1 then
-    newValue = 1
-  end  
-  return newValue
-end
---tex end SYS: mathstuff
 return this

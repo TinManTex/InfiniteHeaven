@@ -4,28 +4,28 @@ local StrCode32=Fox.StrCode32
 local type=type
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
-local B=TppGameObject.GAME_OBJECT_TYPE_PLAYER2
-local M=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2
-local U=TppGameObject.GAME_OBJECT_TYPE_COMMAND_POST2
-local n=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2
-local n=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE_UNIQUE
-local n=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE_UNIQUE2
-local E=TppGameObject.GAME_OBJECT_TYPE_HELI2
-local O=TppGameObject.GAME_OBJECT_TYPE_ENEMY_HELI
-local D=TppGameObject.GAME_OBJECT_TYPE_HORSE2
-local C=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
-local m=TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2
-local b=TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2
-local g=TppGameObject.GAME_OBJECT_TYPE_VOLGIN2
+local GAME_OBJECT_TYPE_PLAYER2=TppGameObject.GAME_OBJECT_TYPE_PLAYER2
+local GAME_OBJECT_TYPE_SOLDIER2=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2
+local GAME_OBJECT_TYPE_COMMAND_POST2=TppGameObject.GAME_OBJECT_TYPE_COMMAND_POST2
+local GAME_OBJECT_TYPE_HOSTAGE2=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2
+local GAME_OBJECT_TYPE_HOSTAGE_UNIQUE=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE_UNIQUE
+local GAME_OBJECT_TYPE_HOSTAGE_UNIQUE2=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE_UNIQUE2
+local GAME_OBJECT_TYPE_HELI2=TppGameObject.GAME_OBJECT_TYPE_HELI2
+local GAME_OBJECT_TYPE_ENEMY_HELI=TppGameObject.GAME_OBJECT_TYPE_ENEMY_HELI
+local GAME_OBJECT_TYPE_HORSE2=TppGameObject.GAME_OBJECT_TYPE_HORSE2
+local GAME_OBJECT_TYPE_VEHICLE=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
+local GAME_OBJECT_TYPE_WALKERGEAR2=TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2
+local GAME_OBJECT_TYPE_COMMON_WALKERGEAR2=TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2
+local GAME_OBJECT_TYPE_VOLGIN2=TppGameObject.GAME_OBJECT_TYPE_VOLGIN2
 local GAME_OBJECT_TYPE_MARKER2_LOCATOR=TppGameObject.GAME_OBJECT_TYPE_MARKER2_LOCATOR
-local P=TppGameObject.GAME_OBJECT_TYPE_BOSSQUIET2
-local S=TppGameObject.GAME_OBJECT_TYPE_PARASITE2
-local I=TppGameObject.GAME_OBJECT_TYPE_SECURITYCAMERA2
-local G=TppGameObject.GAME_OBJECT_TYPE_UAV
+local GAME_OBJECT_TYPE_BOSSQUIET2=TppGameObject.GAME_OBJECT_TYPE_BOSSQUIET2
+local GAME_OBJECT_TYPE_PARASITE2=TppGameObject.GAME_OBJECT_TYPE_PARASITE2
+local GAME_OBJECT_TYPE_SECURITYCAMERA2=TppGameObject.GAME_OBJECT_TYPE_SECURITYCAMERA2
+local GAME_OBJECT_TYPE_UAV=TppGameObject.GAME_OBJECT_TYPE_UAV
 local PHASE_ALERT=TppGameObject.PHASE_ALERT
 local NULL_ID=GameObject.NULL_ID
-local n=bit.bnot
-local n,n,n=bit.band,bit.bor,bit.bxor
+local bnot=bit.bnot
+local band,bor,bxor=bit.band,bit.bor,bit.bxor
 this.requires={
   "/Assets/tpp/script/lib/TppDefine.lua",
   "/Assets/tpp/script/lib/TppMath.lua",
@@ -108,6 +108,7 @@ function this.IsTypeNumber(e)
   return type(e)=="number"
 end
 local IsTypeNumber=this.IsTypeNumber
+
 function this.Enum(nameTable)
   if nameTable==nil then
     return
@@ -120,7 +121,9 @@ function this.Enum(nameTable)
   end
   return nameTable
 end
-function this.IsMaster()do
+
+function this.IsMaster()
+do
   return true
 end
 end
@@ -199,11 +202,12 @@ function this.BfsPairs(r)
 end
 this._DEBUG_svars={}
 this._DEBUG_gvars={}
-function this.MakeMessageExecTable(e)
-  if e==nil then
+--IN: messages table from various lua .Messages() func
+function this.MakeMessageExecTable(messages)
+  if messages==nil then
     return
   end
-  if next(e)==nil then
+  if next(messages)==nil then
     return
   end
   local n={}
@@ -211,7 +215,7 @@ function this.MakeMessageExecTable(e)
   local s32_func=StrCode32"func"
   local s32_sender=StrCode32"sender"
   local s32_option=StrCode32"option"
-  for e,l in pairs(e)do
+  for e,l in pairs(messages)do
     n[e]=n[e]or{}
     for l,r in pairs(l)do
       local l,s,d,o=l,nil,nil,nil
@@ -381,7 +385,7 @@ function this.SetGameStatus(status)
     for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do    
       local t=target[uiName]
       local unsetUiSetting=mvars.ui_unsetUiSetting
-      if Ivars.disableHeadMarkers:Is(1) and uiName=="HeadMarker" then--tex> bit of a kludge implementation, but lua doesnt support continue in for loops--DEBUGNOW TEST
+      if Ivars.disableHeadMarkers:Is(1) and uiName=="HeadMarker" then--tex> bit of a kludge implementation, but lua doesnt support continue in for loops--TODO more testing
         t=nil
         unsetUiSetting=nil
       end--<
@@ -443,7 +447,7 @@ local function IsGameObjectType(gameObject,checkType)
   end
 end
 function this.IsPlayer(gameId)
-  return IsGameObjectType(gameId,B)
+  return IsGameObjectType(gameId,GAME_OBJECT_TYPE_PLAYER2)
 end
 function this.IsLocalPlayer(playerIndex)
   if playerIndex==PlayerInfo.GetLocalPlayerIndex()then
@@ -453,10 +457,10 @@ function this.IsLocalPlayer(playerIndex)
   end
 end
 function this.IsSoldier(e)
-  return IsGameObjectType(e,M)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_SOLDIER2)
 end
 function this.IsCommandPost(e)
-  return IsGameObjectType(e,U)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_COMMAND_POST2)
 end
 function this.IsHostage(e)
   if e==nil then
@@ -469,34 +473,34 @@ function this.IsHostage(e)
   return TppDefine.HOSTAGE_GM_TYPE[e]
 end
 function this.IsVolgin(e)
-  return IsGameObjectType(e,g)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_VOLGIN2)
 end
 function this.IsHelicopter(e)
-  return IsGameObjectType(e,E)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_HELI2)
 end
 function this.IsEnemyHelicopter(e)
-  return IsGameObjectType(e,O)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_ENEMY_HELI)
 end
 function this.IsHorse(e)
-  return IsGameObjectType(e,D)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_HORSE2)
 end
 function this.IsVehicle(e)
-  return IsGameObjectType(e,C)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_VEHICLE)
 end
 function this.IsPlayerWalkerGear(e)
-  return IsGameObjectType(e,m)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_WALKERGEAR2)
 end
 function this.IsEnemyWalkerGear(e)
-  return IsGameObjectType(e,b)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_COMMON_WALKERGEAR2)
 end
 function this.IsUav(e)--RETAILBUG well not really, just that there's two identical functions with different cap, IsUav and IsUAV
-  return IsGameObjectType(e,G)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_UAV)
 end
 function this.IsFultonContainer(e)
   return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER)
 end
 function this.IsMortar(e)--RETAILPATCH 1070
-  return n(e,TppGameObject.GAME_OBJECT_TYPE_MORTAR)
+  return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_MORTAR)
 end
 function this.IsGatlingGun(e)
   return IsGameObjectTypen(e,TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN)
@@ -538,13 +542,13 @@ function this.IsAnimal(e)
   return TppDefine.ANIMAL_GAMEOBJECT_TYPE[e]
 end
 function this.IsBossQuiet(e)
-  return IsGameObjectType(e,P)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_BOSSQUIET2)
 end
 function this.IsParasiteSquad(e)
-  return IsGameObjectType(e,S)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_PARASITE2)
 end
 function this.IsSecurityCamera(e)
-  return IsGameObjectType(e,I)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_SECURITYCAMERA2)
 end
 function this.IsGunCamera(gameId)
   if gameId==NULL_ID then
@@ -556,7 +560,7 @@ function this.IsGunCamera(gameId)
   return isGunCamera
 end
 function this.IsUAV(e)
-  return IsGameObjectType(e,G)
+  return IsGameObjectType(e,GAME_OBJECT_TYPE_UAV)
 end
 function this.IncrementPlayData(e)
   if gvars[e]==nil then

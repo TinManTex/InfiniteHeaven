@@ -293,9 +293,9 @@ function this.Play(demoName,demoFuncs,demoFlags)
   if(demoId=="p51_070020_000_final")or(demoId=="p21_020010")then--PATCHUP:
     mvars.dem_resereveEnableInGameFlag=false
   end
-  if Ivars.useSoldierForDemos:Is(1) and demoName~="Demo_Funeral" then--tex force snake off for demo, also PATCHUP: shining lights end cinematic forces snake head for ash
+  if Ivars.useSoldierForDemos:Is(1) and demoName~="Demo_Funeral" then--tex> force snake off for demo, also PATCHUP: shining lights end cinematic forces snake head for ash
     demoFlags.isSnakeOnly=false
-  end--
+  end--<
   mvars.dem_demoFlags[demoName]=demoFlags
   return this.AddPlayReqeustInfo(demoId,demoFlags)
 end
@@ -589,7 +589,7 @@ function this.ClearPlayedMBEventDemoFlag(e)
     gvars.mbFreeDemoPlayedFlag[e]=false
   end
 end
-function this.OnAllocate(n)
+function this.OnAllocate(missionTable)
   mvars.dem_demoList={}
   mvars.dem_invDemoList={}
   mvars.dem_invScdDemolist={}
@@ -601,7 +601,7 @@ function this.OnAllocate(n)
   mvars.demo_playRequestInfo={}
   mvars.demo_playRequestInfo={missionBlock={},demoBlock={}}
   mvars.demo_finishWaitRequestInfo={}
-  local n=n.demo
+  local n=missionTable.demo
   if n and IsTypeTable(n.demoList)then
     this.Register(n.demoList)
   end
@@ -1231,12 +1231,12 @@ end
 function this.UpdateMBDemo()
   this.UpdateHappyBirthDayFlag()
   gvars.mbFreeDemoPlayNextIndex=0
-  if Ivars.mbDemoSelection:Is"DISABLED" then--tex disable mb demo
+  if Ivars.mbDemoSelection:Is"DISABLED" then--tex> disable mb demo
     return
-  elseif Ivars.mbDemoSelection:Is"PLAY" then--tex
-    gvars.mbFreeDemoPlayNextIndex=Ivars.mbSelectedDemo:Get()+1--TODO: sanity check
+  elseif Ivars.mbDemoSelection:Is"PLAY" then
+    gvars.mbFreeDemoPlayNextIndex=Ivars.mbSelectedDemo:Get()+1--tex TODO: sanity check
     return
-  end--
+  end--<
   for n,demoName in ipairs(TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST)do
     local canRunDemo=this.mtbsPriorityFuncList[demoName]
     if canRunDemo and canRunDemo()then

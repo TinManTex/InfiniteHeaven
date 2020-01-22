@@ -1,6 +1,6 @@
 local this={}
-local r=60
-local t=60*60
+local minuteInSeconds=60
+local hourInSeconds=60*60
 local weatherProbabilitiesTable={
   AFGH={
     {TppDefine.WEATHER.SUNNY,80},
@@ -20,11 +20,11 @@ local weatherProbabilitiesTable={
   }
 }
 local weatherDurations={
-  {TppDefine.WEATHER.SUNNY,5*t,8*t},
-  {TppDefine.WEATHER.CLOUDY,3*t,5*t},
-  {TppDefine.WEATHER.SANDSTORM,13*r,20*r},
-  {TppDefine.WEATHER.RAINY,1*t,2*t},
-  {TppDefine.WEATHER.FOGGY,13*r,20*r}
+  {TppDefine.WEATHER.SUNNY,5*hourInSeconds,8*hourInSeconds},
+  {TppDefine.WEATHER.CLOUDY,3*hourInSeconds,5*hourInSeconds},
+  {TppDefine.WEATHER.SANDSTORM,13*minuteInSeconds,20*minuteInSeconds},
+  {TppDefine.WEATHER.RAINY,1*hourInSeconds,2*hourInSeconds},
+  {TppDefine.WEATHER.FOGGY,13*minuteInSeconds,20*minuteInSeconds}
 }
 local extraWeatherProbabilitiesTable={
   AFGH={{TppDefine.WEATHER.SANDSTORM,100}},
@@ -39,43 +39,43 @@ local extraWeatherProbabilitiesTable={
   AFGH_NO_SANDSTORM={}
 }
 local sandStormOrFoggy={[TppDefine.WEATHER.SANDSTORM]=true,[TppDefine.WEATHER.FOGGY]=true}
-local userId="Script"
-local userId="WeatherSystem"
+local userIdScript="Script"
+local userIdWeather="WeatherSystem"
 local defaultInterpTime=20
 local RENnoWeather=255
-function this.RequestWeather(weatherType,t,fogInfo)
-  local interpTime,fogInfo=this._GetRequestWeatherArgs(t,fogInfo)
+function this.RequestWeather(weatherType,param1,param2)
+  local interpTime,fogInfo=this._GetRequestWeatherArgs(param1,param2)
   WeatherManager.PauseNewWeatherChangeRandom(true)
   if interpTime==nil then
     interpTime=defaultInterpTime
   end
-  WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userId,weatherType=weatherType,interpTime=interpTime,fogDensity=fogInfo.fogDensity,fogType=fogInfo.fogType}
+  WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userIdScript,weatherType=weatherType,interpTime=interpTime,fogDensity=fogInfo.fogDensity,fogType=fogInfo.fogType}
 end
-function this.CancelRequestWeather(weatherType,r,i)
-  local interpTime,fogInfo=this._GetRequestWeatherArgs(r,i)
+function this.CancelRequestWeather(weatherType,param1,param2)
+  local interpTime,fogInfo=this._GetRequestWeatherArgs(param1,param2)
   WeatherManager.PauseNewWeatherChangeRandom(false)
   if interpTime==nil then
     interpTime=defaultInterpTime
   end
   if weatherType~=nil then
-    WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userId,weatherType=weatherType,interpTime=interpTime,fogDensity=fogInfo.fogDensity,fogType=fogInfo.fogType}
+    WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userIdScript,weatherType=weatherType,interpTime=interpTime,fogDensity=fogInfo.fogDensity,fogType=fogInfo.fogType}
   end
 end
-function this.ForceRequestWeather(weatherType,t,i)
-  local interpTime,fogInfo=this._GetRequestWeatherArgs(t,i)
+function this.ForceRequestWeather(weatherType,param1,param2)
+  local interpTime,fogInfo=this._GetRequestWeatherArgs(param1,param2)
   if interpTime==nil then
     interpTime=defaultInterpTime
   end
-  WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_FORCE,userId=userId,weatherType=weatherType,interpTime=interpTime,fogDensity=fogInfo.fogDensity,fogType=fogInfo.fogType}
+  WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_FORCE,userId=userIdScript,weatherType=weatherType,interpTime=interpTime,fogDensity=fogInfo.fogDensity,fogType=fogInfo.fogType}
 end
-function this.CancelForceRequestWeather(weatherType,t,i)
-  local interpTime,fogInfo=this._GetRequestWeatherArgs(t,i)
+function this.CancelForceRequestWeather(weatherType,param1,param2)
+  local interpTime,fogInfo=this._GetRequestWeatherArgs(param1,param2)
   if interpTime==nil then
     interpTime=defaultInterpTime
   end
-  WeatherManager.CancelRequestWeather{priority=WeatherManager.REQUEST_PRIORITY_FORCE,userId=userId}
+  WeatherManager.CancelRequestWeather{priority=WeatherManager.REQUEST_PRIORITY_FORCE,userId=userIdScript}
   if weatherType~=nil then
-    WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userId,weatherType=weatherType,interpTime=interpTime,fogDensity=fogInfo.fogDensity,fogType=fogInfo.fogType}
+    WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userIdScript,weatherType=weatherType,interpTime=interpTime,fogDensity=fogInfo.fogDensity,fogType=fogInfo.fogType}
   end
 end
 function this.SetDefaultWeatherDurations()
@@ -83,7 +83,7 @@ function this.SetDefaultWeatherDurations()
   if not WeatherManager.SetExtraWeatherInterval then
     return
   end
-  WeatherManager.SetExtraWeatherInterval(5*t,8*t)
+  WeatherManager.SetExtraWeatherInterval(5*hourInSeconds,8*hourInSeconds)
 end
 function this.SetDefaultWeatherProbabilities()
   local weatherProbabilities
@@ -144,9 +144,9 @@ function this.RestoreMissionStartWeather()
   else
     defaultWeatherType=missionStartWeather
   end
-  WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userId,weatherType=defaultWeatherType,interpTime=defaultInterpTime}
+  WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userIdWeather,weatherType=defaultWeatherType,interpTime=defaultInterpTime}
   if weatherType~=nil then
-    WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_EXTRA,userId=userId,weatherType=weatherType,interpTime=defaultInterpTime}
+    WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_EXTRA,userId=userIdWeather,weatherType=weatherType,interpTime=defaultInterpTime}
   end
   WeatherManager.StoreToSVars()
   vars.weatherNextTime=gvars.missionStartWeatherNextTime
@@ -196,8 +196,7 @@ function this.OnMissionCanStart()
     TppEffectWeatherParameterMediator.RestoreDefaultParameters()
   end
 end
-local SetDefaultReflectionTexture=WeatherManager.SetDefaultReflectionTexture or function()
-  end
+local SetDefaultReflectionTexture=WeatherManager.SetDefaultReflectionTexture or function()end
 function this.OnEndMissionPrepareFunction()
   if WeatherManager.ClearTag then
     WeatherManager.ClearTag()
@@ -206,13 +205,14 @@ function this.OnEndMissionPrepareFunction()
   end
   SetDefaultReflectionTexture()
 end
-function this._GetRequestWeatherArgs(e,fogInfo)
-  if Tpp.IsTypeTable(e)then
-    return nil,e
-  elseif Tpp.IsTypeTable(fogInfo)then
-    return e,fogInfo
+--returns interpTime (integer), fogInfo (table)
+function this._GetRequestWeatherArgs(param1,param2)
+  if Tpp.IsTypeTable(param1)then
+    return nil,param1
+  elseif Tpp.IsTypeTable(param2)then
+    return param1,param2
   else
-    return e,{}
+    return param1,{}
   end
 end
 return this

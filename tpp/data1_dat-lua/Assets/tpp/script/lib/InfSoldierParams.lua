@@ -276,7 +276,32 @@ function this.PrintSightForm()
   end--for sightmod
   InfMenu.DebugPrint(toPrint)
 end
+
+--IN: this.soldierParametersDefault.sightFormParameter
+--OUT: this.soldierParameters.sightFormParameter
+function this.ApplyHearingIvarsToSoldierParams()
+  local hearingParams=this.soldierParameters.hearingRangeParameter
+  local hearingParamsDefault=this.soldierParametersDefaults.hearingRangeParameter
   
+  for name,distanceTypes in pairs(hearingParams) do
+    for distanceName,distance in pairs(distanceTypes)do
+      local default=hearingParamsDefault[name][distanceName]
+      if default>0 then
+        distanceTypes[distanceName]=default*(Ivars.soldierHearingDistScale:Get()/100)
+        --InfMenu.DebugPrint(name..".distance="..item.distance)
+      end
+    end
+  end--for sightmod
+end
+  
+  
+--function this.ScaleValueClamp1(value,mult)--tex  
+--  local newValue=value*mult
+--  if newValue < 1 then
+--    newValue = 1
+--  end  
+--  return newValue
+--end  
 --IN: this.soldierParametersDefault, *Ivars.<sightForm>DistScaleSightParam
 --OUT: this.soldierParameters
 --WIP: more granular control of sightFormParameters
@@ -325,12 +350,12 @@ end
 --          InfMenu.DebugPrint("gvars."..gvarName.."==nil")
 --        end
 --        
---        sightForm.distance=TppMath.ScaleValueClamp1(sightFormDefault.distance,formScale)
---        sightForm.distance=TppMath.ScaleValueClamp1(sightFormDefault.distance,typeScale)
+--        sightForm.distance=this.ScaleValueClamp1(sightFormDefault.distance,formScale)
+--        sightForm.distance=this.ScaleValueClamp1(sightFormDefault.distance,typeScale)
 --     
 --        --InfMenu.DebugPrint(typeName.."."..formName.." dist=".. sightForm.distance.. " defdist="..sightFormDefault.distance .. " scale="..scale)
 --        
---        --sightType[formName].distance=TppMath.ScaleValueClamp1(sightFormDefault.distance,scale)
+--        --sightType[formName].distance=this.ScaleValueClamp1(sightFormDefault.distance,scale)
 --         --InfMenu.DebugPrint(formName..".distance="..sightForm.distance)
 --      end--if sightForm
 --    end--for sightFormNames
@@ -344,6 +369,7 @@ function this.SoldierParametersMod()
   end
   this.ApplyHealthIvarsToSoldierParams()
   this.ApplySightIvarsToSoldierParams()
+  this.ApplyHearingIvarsToSoldierParams()
   TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParameters)
 end
 

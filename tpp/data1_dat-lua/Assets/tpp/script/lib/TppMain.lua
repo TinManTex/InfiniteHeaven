@@ -11,8 +11,8 @@ local updateList={}
 local numUpdate=0
 local onUpdateList={}--NMC: from mission scripts, sequences use this, RESEARCH but does this also grab OnUpdate in mission_main.lua?
 local numOnUpdate=0
---NMC: OFF local RENAMEsomeupdatetable2={}
---NMC: OFF local RENAMEsomeupdate2=0
+--ORPHAN local RENAMEsomeupdatetable2={}
+--ORPHAN local RENAMEsomeupdate2=0
 local n={}
 local n=0
 local onMessageTable={}
@@ -262,7 +262,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*24}--=9338880 -- nearly 5x the max retail block size
     else
       --TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*32}--DEBUG TEST
-      TppPlayer.SetEquipMissionBlockGroupSize()--TppDefing.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721, sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE= max 1887437 (s10054)
+      TppPlayer.SetEquipMissionBlockGroupSize()--TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721, sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE= max 1887437 (s10054)
     end
   end
   if TppEquip.CreateEquipGhostBlockGroups then

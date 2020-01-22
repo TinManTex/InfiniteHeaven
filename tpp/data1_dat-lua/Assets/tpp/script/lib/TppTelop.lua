@@ -2,9 +2,9 @@
 local this={}
 local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString
-local t=3
-local n=6
-local s=1
+local RENsomeNumber=3
+local RENsomeNumber2=6
+local RENsomeNumber3=1
 local sideStartInfo={
   CAST_MODE={
     LEFT_START={"LeftCenter","RightCenter","LeftUp","RightUp"},
@@ -53,7 +53,7 @@ function this.StartCastTelop(startSide)
   if startSide then
     mvars.tlp_startSide=startSide
   end
-  if Ivars.telopMode:Is(0) then--tex cast telop
+  if Ivars.telopMode:Is(0) then--tex cast telop bypass
     this.PostMainCharacters(mvars.tlp_mainCharacters)
     this.PostEnemyCombatants(mvars.tlp_enemyCombatants)
     this.PostGuestCharacters(mvars.tlp_guestCharacters)
@@ -82,7 +82,7 @@ function this.PostMainCharacters(characters)
     local i=this.GetFirstLangId(a,"post_starring")
     local a=this.GetTelopPosition("CAST_MODE",s,a-1)
     local e=this.GetLangIdTable(n)
-    TppUiCommand.RegistTelopCast(a,t,i,e[1],e[2],e[3],e[4])
+    TppUiCommand.RegistTelopCast(a,RENsomeNumber,i,e[1],e[2],e[3],e[4])
     TppUiCommand.RegistTelopCast("PageBreak",1)
   end
 end
@@ -95,7 +95,7 @@ function this.PostGuestCharacters(a)
     local n=this.GetFirstLangId(a,"post_guest_characters")
     local a=this.GetTelopPosition("CAST_MODE",s,a-1)
     local e=this.GetLangIdTable(i)
-    TppUiCommand.RegistTelopCast(a,t,n,e[1],e[2],e[3],e[4])
+    TppUiCommand.RegistTelopCast(a,RENsomeNumber,n,e[1],e[2],e[3],e[4])
     TppUiCommand.RegistTelopCast("PageBreak",1)
   end
 end
@@ -108,7 +108,7 @@ function this.PostEnemyCombatants(a)
     local n=this.GetFirstLangId(a,"post_Enemy_Combatants")
     local a=this.GetTelopPosition("CAST_MODE",s,a-1)
     local e=this.GetLangIdTable(i)
-    TppUiCommand.RegistTelopCast(a,t,n,e[1],e[2],e[3],e[4])
+    TppUiCommand.RegistTelopCast(a,RENsomeNumber,n,e[1],e[2],e[3],e[4])
     TppUiCommand.RegistTelopCast("PageBreak",1)
   end
 end
@@ -121,7 +121,7 @@ function this.PostSpecialMechanics(a)
     local i=this.GetFirstLangId(a,"post_special_mechanic")
     local a=this.GetTelopPosition("CAST_MODE",s,a-1)
     local e=this.GetLangIdTable(n)
-    TppUiCommand.RegistTelopCast(a,t,i,e[1],e[2],e[3],e[4])
+    TppUiCommand.RegistTelopCast(a,RENsomeNumber,i,e[1],e[2],e[3],e[4])
     TppUiCommand.RegistTelopCast("PageBreak",1)
   end
 end
@@ -131,22 +131,22 @@ function this.PostLevelDesign(a)
   end
   local n=this.GetRandomStartSide()
   local e=this.GetTelopPosition("STAFF_MODE",n,1)
-  TppUiCommand.RegistTelopCast(e,t,"post_level_design",a[1],a[2])
+  TppUiCommand.RegistTelopCast(e,RENsomeNumber,"post_level_design",a[1],a[2])
   TppUiCommand.RegistTelopCast("PageBreak",1)
 end
 function this.PostWrittenBy(e)
   if not next(e)then
     return
   end
-  TppUiCommand.RegistTelopCast("LeftUp",t,"post_wrriten_by",e[1],e[2])
+  TppUiCommand.RegistTelopCast("LeftUp",RENsomeNumber,"post_wrriten_by",e[1],e[2])
   TppUiCommand.RegistTelopCast("PageBreak",1)
 end
 function this.PostCreativeProducers()
-  TppUiCommand.RegistTelopCast("RightUp",t,"post_Creative_Producers","staff_yoshikazu_matsuhana","staff_yuji_korekado")
+  TppUiCommand.RegistTelopCast("RightUp",RENsomeNumber,"post_Creative_Producers","staff_yoshikazu_matsuhana","staff_yuji_korekado")
   TppUiCommand.RegistTelopCast("PageBreak",1)
 end
 function this.PostDirectedBy()
-  TppUiCommand.RegistTelopCast("RightCenter",t,"post_Created_and_Directed_by","staff_hideo_kojima")
+  TppUiCommand.RegistTelopCast("RightCenter",RENsomeNumber,"post_Created_and_Directed_by","staff_hideo_kojima")
   TppUiCommand.RegistTelopCast("PageBreak",1)
 end
 function this.PostMissionObjective(locationCode,missionCode)
@@ -156,9 +156,9 @@ function this.PostMissionObjective(locationCode,missionCode)
   local t=string.format("obj_mission_%2d_%5d_00",locationCode,missionCode)
   local e=string.format("obj_mission_en_%2d_%5d_00",locationCode,missionCode)
   if AssetConfiguration.GetDefaultCategory"Language"=="jpn"then
-    TppUiCommand.RegistTelopCast("CenterLarge",n,t,e)
+    TppUiCommand.RegistTelopCast("CenterLarge",RENsomeNumber2,t,e)
   else
-    TppUiCommand.RegistTelopCast("CenterLarge",n,t)
+    TppUiCommand.RegistTelopCast("CenterLarge",RENsomeNumber2,t)
   end
   TppUiCommand.RegistTelopCast("PageBreak",1)
 end

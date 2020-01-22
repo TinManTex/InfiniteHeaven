@@ -6,7 +6,7 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 local CallFadeIn=FadeFunction.CallFadeIn
 local CallFadeOut=FadeFunction.CallFadeOut
-local d=0
+local subGoal0=0
 this.FADE_SPEED={FADE_MOMENT=0,FADE_HIGHESTSPEED=.5,FADE_HIGHSPEED=1,FADE_NORMALSPEED=2,FADE_LOWSPEED=4,FADE_LOWESTSPEED=8}
 this.ANNOUNCE_LOG_TYPE={
   updateMissionInfo="announce_mission_info_update",
@@ -862,7 +862,7 @@ function this.OnAllocate(missionTable)
     mvars.ui_unsetUiSetting=missionTable.sequence.UNSET_UI_SETTING
   end
   if TppMission.IsMissionStart()then
-    this.EnableMissionSubGoal(d)
+    this.EnableMissionSubGoal(subGoal0)
   end
   if TppUiCommand.InitAllEnemyRoutePoints then
     TppUiCommand.InitAllEnemyRoutePoints()

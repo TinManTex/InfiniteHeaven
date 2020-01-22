@@ -1,5 +1,5 @@
-local e={}
-function e.OnMissionCanStart()
+local this={}
+function this.OnMissionCanStart()
   if TppLocation.IsAfghan()then
     if TppQuest.IsActive"sovietBase_q60110"==true then
       TppCollection.RepopCountOperation("SetAt","col_develop_Stungun",0)
@@ -34,4 +34,4 @@ function e.OnMissionCanStart()
     end
   end
 end
-return e
+return this

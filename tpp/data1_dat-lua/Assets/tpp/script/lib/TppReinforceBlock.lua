@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 local this={}
-local r=GameObject.GetGameObjectId
-local r=GameObject.GetTypeIndex
+local GetGameObjectId=GameObject.GetGameObjectId
+local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local NULL_ID=GameObject.NULL_ID
 this.REINFORCE_TYPE_NAME={"NONE","EAST_WAV","EAST_WAV_ROCKET","WEST_WAV","WEST_WAV_CANNON","EAST_TANK","WEST_TANK","HELI"}

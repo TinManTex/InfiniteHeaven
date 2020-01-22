@@ -1,25 +1,25 @@
-local a={}
-local e=Fox.StrCode32
-local e=Tpp.IsTypeFunc
-local e=Tpp.IsTypeTable
-local t=Tpp.IsTypeString
-local r=64
-function a.OnAllocate(a)
-  if a.sequence and a.sequence.VARIABLE_TRAP_SETTING then
-    if not e(a.sequence.VARIABLE_TRAP_SETTING)then
+local this={}
+local StrCode32=Fox.StrCode32
+local IsFunc=Tpp.IsTypeFunc
+local IsTable=Tpp.IsTypeTable
+local IsString=Tpp.IsTypeString
+local trapListMax=64
+function this.OnAllocate(missionTable)
+  if missionTable.sequence and missionTable.sequence.VARIABLE_TRAP_SETTING then
+    if not IsTable(missionTable.sequence.VARIABLE_TRAP_SETTING)then
       return
     end
-    mvars.trp_variableTrapList=a.sequence.VARIABLE_TRAP_SETTING
+    mvars.trp_variableTrapList=missionTable.sequence.VARIABLE_TRAP_SETTING
     if#mvars.trp_variableTrapList==0 then
       return
     end
-    if#mvars.trp_variableTrapList>r then
+    if#mvars.trp_variableTrapList>trapListMax then
       return
     end
     mvars.trp_variableTrapTable={}
     for r,e in ipairs(mvars.trp_variableTrapList)do
       local a=e.name
-      if not t(a)then
+      if not IsString(a)then
         return
       end
       if e.initialState==nil then
@@ -36,11 +36,11 @@ function a.OnAllocate(a)
     end
   end
 end
-function a.DEBUG_Init()
+function this.DEBUG_Init()
   mvars.debug.showTrapStatus=false;(nil).AddDebugMenu("LuaSystem","TRP.trapStatus","bool",mvars.debug,"showTrapStatus")
   mvars.debug.trapStatusScroll=0;(nil).AddDebugMenu("LuaSystem","TRP.trapScroll","int32",mvars.debug,"trapStatusScroll")
 end
-function a.DebugUpdate()
+function this.DebugUpdate()
   local a=mvars
   local e=a.debug
   local t=(nil).Print
@@ -59,7 +59,7 @@ function a.DebugUpdate()
     end
   end
 end
-function a.InitializeVariableTraps()
+function this.InitializeVariableTraps()
   if mvars.trp_variableTrapList==nil then
     return
   end
@@ -70,16 +70,16 @@ function a.InitializeVariableTraps()
     end
     if t then
       if e.initialState==TppDefine.TRAP_STATE.ENABLE then
-        a.Enable(e.name)
+        this.Enable(e.name)
       elseif e.initialState==TppDefine.TRAP_STATE.DISABLE then
-        a.Disable(e.name)
+        this.Disable(e.name)
       else
-        a.Enable(e.name)
+        this.Enable(e.name)
       end
     end
   end
 end
-function a.RestoreVariableTrapState()
+function this.RestoreVariableTrapState()
   if mvars.trp_variableTrapList==nil then
     return
   end
@@ -90,21 +90,21 @@ function a.RestoreVariableTrapState()
     end
     if t then
       if svars.trp_variableTrapEnable[r]then
-        a.Enable(e.name)
+        this.Enable(e.name)
       else
-        a.Disable(e.name)
+        this.Disable(e.name)
       end
     end
   end
 end
-function a.DeclareSVars()
-  return{{name="trp_variableTrapEnable",arraySize=r,type=TppScriptVars.TYPE_BOOL,value=true,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},nil}
+function this.DeclareSVars()
+  return{{name="trp_variableTrapEnable",arraySize=trapListMax,type=TppScriptVars.TYPE_BOOL,value=true,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},nil}
 end
-function a.Enable(e)a.ChangeTrapState(e,true)
+function this.Enable(e)this.ChangeTrapState(e,true)
 end
-function a.Disable(e)a.ChangeTrapState(e,false)
+function this.Disable(e)this.ChangeTrapState(e,false)
 end
-function a.ChangeTrapState(e,t)
+function this.ChangeTrapState(e,t)
   local r=mvars.trp_variableTrapTable[e]
   if r==nil then
     return
@@ -112,24 +112,24 @@ function a.ChangeTrapState(e,t)
   local i=r.index
   local n
   if r.type==TppDefine.TRAP_TYPE.NORMAL then
-    n=a.ChangeNormalTrapState(e,t)
+    n=this.ChangeNormalTrapState(e,t)
   elseif r.type==TppDefine.TRAP_TYPE.TRIGGER then
-    n=a.ChangeTriggerTrapState(e,t)
+    n=this.ChangeTriggerTrapState(e,t)
   else
-    n=a.ChangeNormalTrapState(e,t)
+    n=this.ChangeNormalTrapState(e,t)
   end
   if n then
     svars.trp_variableTrapEnable[i]=t
   end
 end
-function a.ChangeNormalTrapState(a,t)
+function this.ChangeNormalTrapState(a,t)
   local e=Tpp.GetDataBodyWithIdentifier("VariableTrapIdentifier",a,"GeoTrap")
   if e then
     TppDataUtility.SetEnableDataFromIdentifier("VariableTrapIdentifier",a,t)
     return true
   end
 end
-function a.ChangeTriggerTrapState(e,a)Geo.GeoLuaEnableTriggerTrap(e,a)
+function this.ChangeTriggerTrapState(e,a)Geo.GeoLuaEnableTriggerTrap(e,a)
   return true
 end
-return a
+return this

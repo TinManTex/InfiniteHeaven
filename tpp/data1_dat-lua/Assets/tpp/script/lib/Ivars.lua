@@ -178,6 +178,7 @@ this.soldierParamsProfile={
   settingsTable={
     DEFAULT=function()
       Ivars.soldierSightDistScale:Set(100,true)
+      Ivars.soldierHearingDistScale:Set(100,true)
       Ivars.soldierHealthScale:Set(100,true)
     end,
     CUSTOM=nil,
@@ -196,6 +197,15 @@ this.soldierSightDistScale={
   isPercent=true,
   profile=this.soldierParamsProfile,
 }
+
+this.soldierHearingDistScale={
+  save=MISSION,
+  default=100,
+  range={max=400,min=0,increment=5},
+  isPercent=true,
+  profile=this.soldierParamsProfile,
+}
+
 
 --this.sightForms={
 --  "contactSightForm",
@@ -326,8 +336,25 @@ this.mbDDSuit={
     "PF_A",
     "PF_B",
     "PF_C",
+    --"GZ",
+    --"MSF",
+    "SOVIET_BERETS",
+    "SOVIET_HOODIES",
+    "PF_MISC",
   },
   settingNames="mbDDSuitSettings",
+}
+
+this.mbDDSuitFemale={
+  save=MISSION,
+  settings={
+    "EQUIPGRADE",
+    "DRAB",
+    "TIGER",
+    "SNEAKING_SUIT",
+    "BATTLE_DRESS",
+  },
+  settingNames="mbDDSuitFemaleSettings",
 }
 
 this.mbDDHeadGear={
@@ -419,31 +446,31 @@ this.mbWarGamesProfile={
   OnSubSettingChanged=this.OnSubSettingChanged,
 }
 
-this.mbHostileSoldiers={ --DEBUGNOW
+this.mbHostileSoldiers={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
-this.mbEnableLethalActions={--tex also disables negative ogre on kill --DEBUGNOW
+this.mbEnableLethalActions={--tex also disables negative ogre on kill
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
-this.mbNonStaff={--DEBUGNOW
+this.mbNonStaff={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
-this.mbZombies={--DEBUGNOW
+this.mbZombies={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
-this.mbEnableFultonAddStaff={--DEBUGNOW
+this.mbEnableFultonAddStaff={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -454,6 +481,12 @@ this.mbEnableBuddies={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+}
+
+this.mbPrioritizeFemale={
+  save=MISSION,
+  settings={"OFF","DISABLE","MAX"},
+  settingNames="mbPrioritizeFemaleSettings",
 }
 --<motherbase
 
@@ -1715,11 +1748,21 @@ this.disableReinforceHeliPullOut={
 --}
 
 --lrrp
-this.enableLrrpFreeRoam={--DEBUGNOW
+this.enableLrrpFreeRoam={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
+
+--tex WIP ideally would have defaults of 2-5, and also let user modify, but while base assignment is random need to spread it as far as posible to get coverage 
+--MinMaxIvar(
+--  "lrrpSizeFreeRoam",
+--  {default=2},
+--  {default=2},
+--  {
+--    range={min=1,max=10}
+--  }
+--)
 
 --patrol vehicle stuff>
 this.vehiclePatrolProfile={
@@ -2462,7 +2505,7 @@ this.warpPlayerUpdate={
   disabled=false,
   disabledReason="item_disabled_subsistence",
   OnSelect=this.DisableOnSubsistence,
-  --DEBUGNOW OFF disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,
+  --tex WIP OFF disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,
   OnActivate=function()InfMain.OnActivateWarpPlayer()end,
   OnChange=function(self,previousSetting)
     if Ivars.adjustCameraUpdate:Is(1) then
@@ -3190,7 +3233,7 @@ function this.PrintSaveVarCount()
   local typeCounts,arrayCounts,totalCount=CountVarTable(scriptVarTypes,this.varTable,TppScriptVars.CATEGORY_MISSION)
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
---  InfMenu.DebugPrint"arrayCounts" --DEBUGNOW
+--  InfMenu.DebugPrint"arrayCounts"
 --  local ins=InfInspect.Inspect(arrayCounts)
 --  InfMenu.DebugPrint(ins)
   InfMenu.DebugPrint("totalcount:"..totalCount)
@@ -3246,11 +3289,11 @@ function this.PrintSaveVarCount()
 
 end
 
-function this.DeclareSVars()--tex svars are created/cleared on new missions
-  return{
-    {name="vehiclePatrolSpawnedTypes",type=TppScriptVars.TYPE_UINT8,value=0,arraySize=this.MAX_PATROL_VEHICLES,save=true,category=TppScriptVars.CATEGORY_MISSION},
-    nil
-  }
-end
+--function this.DeclareSVars()--tex svars are created/cleared on new missions
+--  return{
+--    {name="vehiclePatrolSpawnedTypes",type=TppScriptVars.TYPE_UINT8,value=0,arraySize=this.MAX_PATROL_VEHICLES,save=true,category=TppScriptVars.CATEGORY_MISSION},--CULL
+--    nil
+--  }
+--end
 
 return this

@@ -772,6 +772,29 @@ function this.SetupStaffList()
 			table.remove( tmpList,index )
 		end
 	end
+	if InfMain.IsDDBodyEquip() and Ivars.mbPrioritizeFemale:Is"DISABLE" then--tex> clear staff list of female
+    local newList={}
+    for sectionId = TppMotherBaseManagementConst.SECTION_COMBAT, TppMotherBaseManagementConst.SECTION_SECURITY do
+      
+      local newStaffListOnCluster={}
+      newList[sectionId]=newStaffListOnCluster
+      
+      local staffListOnCluster=staffList[sectionId]
+      local staffNum = #staffListOnCluster
+      local staffListIndex = 1
+      for i = 1, staffNum do
+        local staffId = staffListOnCluster[staffListIndex]
+        if staffId == nil then
+          break
+        end
+        if not this.IsFemale( staffId ) then
+          table.insert(newStaffListOnCluster,staffId)
+        end
+      end
+    end
+    staffList=newList
+	end
+	--<
 	mvars.f30050_staffIdList = {}
 	
 	
@@ -790,8 +813,13 @@ function this.SetupStaffList()
 	mvars.f30050_staffIdList[TppDefine.CLUSTER_DEFINE.Command+1] = commandStaffList
 
 	local _SetupStaffIdOnCluster = function(staffListOnCluster, clusterIndex)
+    local minFemaleStaffOnCluster = 2--tex> game default=2
+    if Ivars.mbPrioritizeFemale:Is"MAX" then
+      minFemaleStaffOnCluster=MAX_STAFF_NUM_ON_CLUSTER
+    end--<
 		mvars.f30050_staffIdList[clusterIndex+1] = {}
-		do 
+		--NMC: force select some females
+		if not Ivars.mbPrioritizeFemale:Is"DISABLE" then--tex was do 
 			local staffNum = #staffListOnCluster
 			local staffListIndex = 1
 			for i = 1, staffNum do
@@ -803,7 +831,7 @@ function this.SetupStaffList()
 					table.insert( mvars.f30050_staffIdList[clusterIndex+1], staffId )			
 					table.remove( staffListOnCluster, staffListIndex )
 					staffListIndex = staffListIndex - 1
-					if #mvars.f30050_staffIdList[clusterIndex+1] >= 2 then
+					if #mvars.f30050_staffIdList[clusterIndex+1] >= minFemaleStaffOnCluster then--tex was 2
 						break
 					end
 				end
@@ -811,7 +839,7 @@ function this.SetupStaffList()
 			end
 		end
 
-		do 
+		do
 			local staffNum = MAX_STAFF_NUM_ON_CLUSTER - #mvars.f30050_staffIdList[clusterIndex+1]
 			for i = 1, staffNum do
 				local staffId = staffListOnCluster[1]

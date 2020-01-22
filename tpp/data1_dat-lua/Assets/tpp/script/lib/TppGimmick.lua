@@ -148,7 +148,7 @@ function this.EnableMarkerGimmick(e)
   end
   Gimmick.EnableMarkerGimmick(e.type,e.locatorName,e.dataSetName,true)
 end
-function this.OnAllocate(e)
+function this.OnAllocate(missionTable)
   if TppLocation.IsAfghan()then
     TppCollection.SetScriptDeclVars("col_daimondStatus_afgh","col_markerStatus_afgh","col_isRegisteredInDb_afgh")
   elseif TppLocation.IsMiddleAfrica()then

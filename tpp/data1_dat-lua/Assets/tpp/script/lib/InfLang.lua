@@ -231,7 +231,7 @@ this.eng={--english
   fulton_mb_support="Current MB support bonus +",
   fulton_mb_medical="Current MB medical bonus +",
   applyPowersToOuterBase="Apply enemy prep to guard posts",--r105
-  applyPowersToLrrp="Apply enemy prep to LRRP soldiers",
+  applyPowersToLrrp="Apply enemy prep to patrol soldiers",
   allowHeavyArmorInFreeRoam="Allow heavy armor in free roam (has issues)",
   allowHeavyArmorInAllMissions="Allow heavy armor in all missions (may have issues)",
   allowHeadGearCombo="Allow helmet and NVG or Gas mask combo",--r108
@@ -250,7 +250,7 @@ this.eng={--english
   randomizeSmallCpPowers="Balance small CPs",
   mbDDHeadGear="DD Head gear",--r115
   mbDDHeadGearSettings={"Off","Current prep"},
-  mbDDSuitSettings={"Off","Use Equip Grade","Drab","Tiger","Sneaking","Battle Dress","PF Riot Suit (bugs female face)","XOF","Soviet","Soviet Urban","CFA","ZRS","Rogue Coyote"},
+  mbDDSuitSettings={"Off","Use Equip Grade","Drab","Tiger","Sneaking","Battle Dress","PF Riot Suit (bugs female face)","XOF","Soviet","Soviet Urban","CFA","ZRS","Rogue Coyote","Soviet berets","Soviet hoodies","PF misc"},
   revengeCustomMenu="Custom prep menu",--r117
   revengeSystemMenu="Prep system menu",
   revengeModeSettings={"Enemy prep levels","Custom prep"},
@@ -313,6 +313,17 @@ this.eng={--english
   blockInMissionSubsistenceIvars="Block in-mission menu restriction options",
   disableCamText="Disable mode text feedback",--r128
   mbDDEquipNonLethal="MB DD Equip non-lethal",
+  mbDDSuitFemale="DD Suit female",--r130
+  mbDDSuitFemaleSettings={"Use Equip Grade","Drab","Tiger","Sneaking","Battle Dress"},
+  mbPrioritizeFemale="Female staff selection",
+  mbPrioritizeFemaleSettings={"Default","None","All available"},
+  footPatrolMenu="Foot patrols Menu",--r131
+  enableLrrpFreeRoam="Foot patrols in free roam",
+  lrrpSizeFreeRoam_MIN="Patrol size min",
+  lrrpSizeFreeRoam_MAX="Patrol size max",
+  soldierHearingDistScale="Soldier hearing distance scale",
+  printHearingTable="Print hearing distance table (look in log - all tab)",
+  enemyPatrolMenu="Enemy patrols menu",
 }
 
 this.eng_help={
@@ -329,6 +340,7 @@ this.eng_help={
   balanceHeadGear="- adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if Allow helmet and NVG or Gas mask combo option is on",
   changeCpSubTypeFree="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
   changeCpSubTypeForMissions="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
+  mbPrioritizeFemale="By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available is self explanitory, None will prevent any females from showing on mother base",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on
