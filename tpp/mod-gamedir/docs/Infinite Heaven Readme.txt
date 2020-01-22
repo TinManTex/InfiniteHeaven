@@ -1,5 +1,5 @@
 = Infinite heaven =
-r102 - 2015-12-09
+r103 - 2015-12-10
 by tin man tex
 For MGSV version 1.0.6.0 (1.06 in title screen)
 
@@ -317,6 +317,9 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r103 - 2015-12-10 - public release
+Fix: Vehicle patrol all of one type loading hang - thanks mgs5tppfan for the report
+
 r102 - 2015-12-09 - public release
 Commands: setDemon, removeDemon - thanks PIESOFTHENORTH for the suggestion 
 Refactor: Removed Item suffix from non menu item names.
@@ -739,24 +742,30 @@ Reset settings moved to menu option
 r31 2015-09-30 - public release
 Enemy Parameters bug fix, was causing night parameters to be zeroed - Thanks Psithen for the report
 Unlock all Side-Ops.
-r30 Option Menu refactor
-    Confirm setting option for menu items
+r30 
+Option Menu refactor
+Confirm setting option for menu items
+
 r29
 Subsistence: 'Buddy enabled' profile changed to 'Bounded (+Buddy +Suit)' - so you can use your model swaps
 
 r28 2015-09-26 - public release
 Enemy Prepared max kinks worked out, now confirmed works like the normal game would if all values maxed.
-r27    Buddy Support for subsistence (Allow Quiets Attack/Scout, downside(?) is enables buddy change in field)
-    Subsistence Weapon Loadout renamed OSP Weapon Loadout to make it clearer it's independent from Subsistence
+r27    
+Buddy Support for subsistence (Allow Quiets Attack/Scout, downside(?) is enables buddy change in field)
+Subsistence Weapon Loadout renamed OSP Weapon Loadout to make it clearer it's independent from Subsistence
 
 r26 - 2015-09-23 - public release 5
 General Params setting for allowing default files/mods to override
-r25 Subsidence loadouts broken out to separate option
-    Buddy enabled setting for Subsistence
-r24 Buttons system refactor
-    Menu toggle changed to 1 second button hold
-    In game settings display removed
-    Menu off on idroid key press
+
+r25 
+Subsidence loadouts broken out to separate option
+Buddy enabled setting for Subsistence
+r24 
+Buttons system refactor
+Menu toggle changed to 1 second button hold
+In game settings display removed
+Menu off on idroid key press
 
 r21 - 2015-09-23 - 4th public release
 Buttons system refactor

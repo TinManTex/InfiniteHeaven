@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r102"
+this.modVersion="r103"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -535,7 +535,6 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
 }
 
 local enabledList=nil--tex cleared on Init, TODO: don't like this setup
-local selectedVehicle=nil--tex cleared on Init, TODO: don't like this setup
 
 function this.IsPatrolVehicleMission()
   if vars.missionCode~=TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode~=TppDefine.SYS_MISSION_ID.MAFR_FREE then
@@ -547,7 +546,6 @@ end
 this.MAX_PATROL_VEHICLES=16--SYNC: ivars MAX_PATROL_VEHICLES
 function this.ClearPatrolVehicles()--CULL
   enabledList=nil
-  selectedVehicle=nil
   InfMenu.DebugPrint"in ClearPatrolVehicles"--DEBUG
   if not this.IsPatrolVehicleMission() then
     InfMenu.DebugPrint"ClearPatrolVehicles()"--DEBUG
@@ -578,11 +576,11 @@ function this.PreSpawnVehicle(spawnInfo)
     return
   end
   
-  if not spawnInfo.locator then
-    return
-  end
-  
   if not this.IsPatrolVehicleMission() then
+    return
+  end  
+  
+  if not spawnInfo.locator then
     return
   end
   
@@ -599,23 +597,26 @@ function this.PreSpawnVehicle(spawnInfo)
   end
   
   if vehicleNumber<0 or vehicleNumber>=this.MAX_PATROL_VEHICLES then
-    InfMenu.DebugPrint("vehicleNumber out of bounds: "..vehicleNumber)
+    InfMenu.DebugPrint("WARNING: vehicleNumber out of bounds: "..vehicleNumber)
     return
   end
   
-  local vehicleTypeNumber=0
+  if Ivars.vehiclePatrolProfile:Is"SINGULAR" then
+    vehicleNumber=0
+  end
   
-  vehicleTypeNumber=svars.vehiclePatrolSpawnedTypes[vehicleNumber]
+  local vehicleTypeNumber=svars.vehiclePatrolSpawnedTypes[vehicleNumber]
+
   if vehicleTypeNumber==nil then
-    InfMenu.DebugPrint("vehicleTypeNumber==nil")
+    InfMenu.DebugPrint("ERROR: vehicleTypeNumber==nil")
     return    
   end
   
-  if vehicleTypeNumber~=0 then
-    this.RestoreVehiclePatrol(vehicleTypeNumber,spawnInfo)
-  else
+  if vehicleTypeNumber==0 then
     --InfMenu.DebugPrint("vehicleTypeNumber==0")--DEBUG
-    this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
+    this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)  
+  else
+    this.RestoreVehiclePatrol(vehicleTypeNumber,spawnInfo)
   end
 end
 
@@ -649,9 +650,9 @@ function this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
   end
   
   local vehicle=nil
-  local vehicleType="" 
+  local vehicleType=nil
 
-  if Ivars.vehiclePatrolProfile:Is"EACH_VEHICLE" or selectedVehicle==nil then--tex selected==nil covers Is"SINGULAR"
+  --CULL if Ivars.vehiclePatrolProfile:Is"EACH_VEHICLE" or svars.vehiclePatrolSpawnedTypes[0]==0 then--tex using first in array set as indicator of Is"SINGULAR" set
     local baseType=enabledList[math.random(#enabledList)]
     local baseTypeInfo=vehicleBaseTypes[baseType]
     if baseTypeInfo==nil then
@@ -674,18 +675,20 @@ function this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
     else
       vehicleType=vehicles[math.random(#vehicles)]
     end
-    --tex TODO: more sanity checking
-       
-    selectedVehicle=vehicleSpawnInfoTable[vehicleType]
-  end
+  --end
   
-  vehicle=selectedVehicle
-  
-  if vehicle==nil then
+  if vehicleType==nil then
+    InfMenu.DebugPrint("warning: vehicleType==nil")
     return
   end
-  local vehicleTypeNumber=this.VEHICLE_SPAWN_TYPE_ENUM[vehicleType]+1
-  --InfMenu.DebugPrint("spawning "..vehicleType.." with vehicleTypeNum: "..vehicleTypeNumber)--DEBUG
+  
+  vehicle=vehicleSpawnInfoTable[vehicleType]
+  if vehicle==nil then
+    InfMenu.DebugPrint("warning: vehicle==nil")
+    return
+  end
+  
+  --InfMenu.DebugPrint("spawning "..spawnInfo.locator.." with "..vehicleType)--DEBUG
   
   if svars.vehiclePatrolSpawnedTypes==nil then
     InfMenu.DebugPrint"svars.vehiclePatrolSpawnedTypes==nil"--DEBUG
