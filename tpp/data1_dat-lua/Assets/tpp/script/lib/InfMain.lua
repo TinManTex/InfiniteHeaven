@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r117"
+this.modVersion="r118"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -529,25 +529,20 @@ end
 -- revenge system stuff>
 
 --tex TODO: put in some util or math module
-local function round(num,idp)
+function this.round(num,idp)
   return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
 function this.CreateCustomRevengeConfig()
-  --  if not Ivars.revengeMode:Is"CUSTOM" then
-  --    return
-  --  end
-
   local revengeConfig={}
   math.randomseed(gvars.rev_revengeRandomValue)
   for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
     local powerTable=Ivars[powerTableName]
     for m,powerType in ipairs(powerTable)do
-      local ivarName=powerType.."Percentage"
-      local min=Ivars[ivarName.."Min"].setting*100
-      local max=Ivars[ivarName.."Max"].setting*100
+      local min=Ivars[powerType.."_MIN"].setting*100
+      local max=Ivars[powerType.."_MAX"].setting*100
       local random=math.random(min,max)
-      random=round(random)
+      random=this.round(random)
       --InfMenu.DebugPrint(ivarName.." min:"..tostring(min).." max:"..tostring(max).. " random:"..tostring(random))--DEBUG
       if random>0 then
         revengeConfig[powerType]=tostring(random).."%"
@@ -555,40 +550,137 @@ function this.CreateCustomRevengeConfig()
     end
   end
 
-  for n,ability in ipairs(Ivars.abilitiesWithLevels)do
-    local ivarName=ability.."Ability"
-    local ivar=Ivars[ivarName]
-    if ivar:Is()>0 then
-      local powerType=ability.."_"..ivar.settings[ivar.setting]
+  for n,powerType in ipairs(Ivars.abilitiesWithLevels)do
+    local ivarMin=Ivars[powerType.."_MIN"]
+    local ivarMax=Ivars[powerType.."_MAX"]
+    local random=math.random(ivarMin:Get(),ivarMax:Get())
+    if random>0 then
+      local powerType=powerType.."_"..ivarMin.settings[random+1]
       revengeConfig[powerType]=true
     end
   end
   
   for n,powerType in ipairs(Ivars.weaponStrengthPowers)do
-    local ivarName=powerType.."Power"
-    local ivar=Ivars[ivarName]
-    if ivar:Is(1) then
+    local ivarMin=Ivars[powerType.."_MIN"]
+    local ivarMax=Ivars[powerType.."_MAX"]
+    local random=math.random(ivarMin:Get(),ivarMax:Get())
+    if random==1 then
       revengeConfig[powerType]=true
     end
   end
   
-  if Ivars.reinforceLevelCustom:Is()>0 then
+  local random=math.random(Ivars.reinforceLevelMin:Get(),Ivars.reinforceLevelMax:Get())
+  if random>0 then
     revengeConfig.SUPER_REINFORCE=true
   end
-  if Ivars.reinforceLevelCustom:Is"BLACK_SUPER_REINFORCE" then
+  if random==Ivars.reinforceLevelMin.enum.BLACK_SUPER_REINFORCE then
     revengeConfig.BLACK_SUPER_REINFORCE=true
   end
   
-  if Ivars.revengeCustomIgnoreBlocked:Is(1) then
+  local random=math.random(Ivars.revengeIgnoreBlockedMin:Get(),Ivars.revengeIgnoreBlockedMax:Get())
+  if random>0 then
     revengeConfig.IGNORE_BLOCKED=true
   end
   
-  if Ivars.reinforceCount:Is()>0 then
-    revengeConfig.REINFORCE_COUNT=Ivars.reinforceCount:Get()
-  end
-
+  local random=math.random(Ivars.reinforceCountMin:Get(),Ivars.reinforceCountMax:Get())
+--  if random>0 then
+    revengeConfig.REINFORCE_COUNT=random
+--  end
+  
   math.randomseed(os.time())
   return revengeConfig
+end
+
+local function AvePowerSetting(powerType)
+  if Ivars[powerType.."_MIN"]==nil or Ivars[powerType.."_MAX"]==nil then
+    InfMenu.DebugPrint("AvePowerSetting cannot find powertype:"..powerType)--DEBUG
+    return 0
+  end
+
+  return (Ivars[powerType.."_MIN"]:Get()+Ivars[powerType.."_MAX"]:Get())/2
+end
+
+function this.SetCustomRevengeUiParameters()
+  --tex ui params range is 0-3
+  local uiRange=3
+  
+  --tex just averaging between min/max, could probably save actual chosen value somewhere but would only be accurate for Global config and not per cp config mode
+  local fulton=this.round(AvePowerSetting"FULTON") 
+  
+  local headShot=this.round(uiRange*AvePowerSetting"HELMET") 
+  
+  --REF stealth 5
+--    STEALTH_SPECIAL=true,
+--    HOLDUP_HIGH=true,
+--    ACTIVE_DECOY=true,
+--    GUN_CAMERA=true},
+
+  local stealthPowers={
+    "DECOY",
+    "MINE",
+    "CAMERA",
+  }
+  
+  local ave=0
+  for n,powerType in ipairs(stealthPowers) do
+    ave=ave+AvePowerSetting(powerType)
+  end
+  ave=ave/#stealthPowers
+  
+  local stealth=this.round(uiRange*ave)--TODO incorporate-^- stralth and holdup abilities at least
+  
+  --REF combat 5
+  --STRONG_WEAPON=true,
+  --COMBAT_SPECIAL=true,
+  --SUPER_REINFORCE=true,
+  --BLACK_SUPER_REINFORCE=true,
+  --REINFORCE_COUNT=3},
+  local combatPowers={
+    "ARMOR",
+    "SOFT_ARMOR",
+    "SHIELD",
+    "MG",
+    "SHOTGUN",
+    "MISSILE",--tex in normal game I don't think missile is even accounted for in ui params?
+  }
+  local ave=0
+  for n,powerType in ipairs(combatPowers) do
+    ave=ave+AvePowerSetting(powerType)
+  end
+  ave=ave/(#combatPowers/2)--tex KLUDGE half the count
+  
+  local combat=this.round(uiRange*ave)--tex TODO incorporate rest of combat powers
+  
+  local nightPowers={
+    "NVG",
+    "GUN_LIGHT",
+  }
+  local ave=0
+  for n,powerType in ipairs(nightPowers) do
+    ave=ave+AvePowerSetting(powerType)
+  end
+  ave=ave/(#nightPowers/2)--tex KLUDGE bump
+  if ave>1 then
+    ave=1
+  end
+  local night=this.round(uiRange*ave)
+
+  local sniperPowers={
+    "SNIPER",
+    "STRONG_SNIPER",--tex mixing unalike values here, sniper is percentage, strong is intbool
+  }
+  local ave=0
+  for n,powerType in ipairs(sniperPowers) do
+    ave=ave+AvePowerSetting(powerType)
+  end
+  ave=ave/(#sniperPowers/2)--tex KLUDGE bump
+  if ave>1 then
+    ave=1
+  end
+  local longRange=this.round(uiRange*ave)
+  
+  --InfMenu.DebugPrint("fulton="..fulton.." headShot="..headShot.." stealth="..stealth.." combat="..combat.." night="..night.." longRange="..longRange)--DEBUG
+  TppUiCommand.RegisterEnemyRevengeParameters{fulton=fulton,headShot=headShot,stealth=stealth,combat=combat,night=night,longRange=longRange}
 end
 
 --CALLER: TppRevenge._ApplyRevengeToCp
@@ -1959,16 +2051,16 @@ this.reinforceInfo={
 
 function this.OnRequestLoadReinforce(cpId)
   --InfMenu.DebugPrint"_OnRequestLoadReinforce"--DEBUG
-  if this.reinforceCount.cpId~=cpId then
-    this.reinforceCount.cpId=cpId
-    this.reinforceCount.count=0
-    this.reinforceCount.request=0
+  if this.reinforceInfo.cpId~=cpId then
+    this.reinforceInfo.cpId=cpId
+    this.reinforceInfo.count=0
+    this.reinforceInfo.request=0
   end
-  this.reinforceCount.request=this.reinforceCount.request+1
+  this.reinforceInfo.request=this.reinforceInfo.request+1
 end
 function this.OnRequestAppearReinforce(cpId)
   --InfMenu.DebugPrint"_OnRequestAppearReinforce"--DEBUG
-  this.reinforceCount.count=this.reinforceCount.count+1
+  this.reinforceInfo.count=this.reinforceInfo.count+1
 end
 function this.OnCancelReinforce(cpId)
 --InfMenu.DebugPrint"_OnCancelReinforce"--DEBUG

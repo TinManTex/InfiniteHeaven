@@ -403,9 +403,9 @@ function this.IsUsingBlackSuperReinforce()
   return mvars.revenge_revengeConfig.BLACK_SUPER_REINFORCE
 end
 function this.GetReinforceCount()
-  if not Ivars.reinforceCount:IsDefault() then--tex>
-    return Ivars.reinforceCount:Get()
-  end--<
+--  if not Ivars.reinforceCount:IsDefault() then--tex>--CULL
+--    return Ivars.reinforceCount:Get()
+--  end--<
 
   local count=mvars.revenge_revengeConfig.REINFORCE_COUNT
   if count then
@@ -458,9 +458,9 @@ function this.IsIgnoreBlocked()
   return mvars.revenge_revengeConfig.IGNORE_BLOCKED
 end
 function this.IsBlocked(category)
-  if Ivars.revengeMode:Is"MAX" or Ivars.revengeModeForMissions:Is"MAX" then--tex revengemax
-    return false
-  end--
+--  if Ivars.revengeMode:Is"MAX" or Ivars.revengeModeForMissions:Is"MAX" then--tex revengemax--CULL
+--    return false
+--  end--
   if category==nil then
     return false
   end
@@ -814,7 +814,7 @@ function this.GetRevengeLvLimitRank()
 end
 function this.GetRevengeLv(revengeType)
   local missionId=TppMission.GetMissionID()
-  if TppMission.IsHardMission(missionId) or Ivars.revengeMode:Is"MAX" or Ivars.revengeModeForMissions:Is"MAX" then--tex added
+  if TppMission.IsHardMission(missionId) then --CULL or Ivars.revengeMode:Is"MAX" or Ivars.revengeModeForMissions:Is"MAX" then--tex added
     return this.GetRevengeLvMax(revengeType,this.REVENGE_LV_LIMIT_RANK_MAX)--RETAILBUG: was just REVENGE_LV_LIMIT_RANK_MAX, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
   else
     return gvars.rev_revengeLv[revengeType]
@@ -909,6 +909,12 @@ function this._GetUiParameterValue(revengeLevel)
   return 0
 end
 function this._SetUiParameters()
+  local doCustom=Ivars.revengeMode:Is"CUSTOM" or Ivars.revengeModeForMissions:Is"CUSTOM"--tex>
+  if doCustom then
+    InfMain.SetCustomRevengeUiParameters()
+    return
+  end--<
+
   local fulton=this._GetUiParameterValue(this.REVENGE_TYPE.FULTON)
   local headShot=this._GetUiParameterValue(this.REVENGE_TYPE.HEAD_SHOT)
   local stealth=this._GetUiParameterValue(this.REVENGE_TYPE.STEALTH)
@@ -1271,7 +1277,7 @@ function this._CreateRevengeConfig(revengeTypes)
           end
         end
       end
-  end--for revengetypes
+    end--for revengetypes
   end
 
   if not revengeConfig.IGNORE_BLOCKED then

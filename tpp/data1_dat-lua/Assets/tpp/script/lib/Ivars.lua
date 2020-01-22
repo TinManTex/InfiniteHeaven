@@ -871,7 +871,7 @@ this.tertiaryWeaponOsp={
 -- revenge/enemy prep stuff>
 this.revengeMode={
   save=MISSION,
-  settings={"DEFAULT","MAX","CUSTOM"},
+  settings={"DEFAULT","CUSTOM"},--"MAX","CUSTOM"},
   settingNames="revengeModeSettings",
   IsCheck=function(self)
     if TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode) then
@@ -886,7 +886,7 @@ this.revengeMode={
 
 this.revengeModeForMissions={
   save=MISSION,
-  settings={"DEFAULT","MAX","CUSTOM"},
+  settings={"DEFAULT","CUSTOM"},--"MAX","CUSTOM"},
   settingNames="revengeModeSettings",
   IsCheck=function(self)
     if TppMission.IsStoryMission(vars.missionCode) then
@@ -1068,51 +1068,129 @@ this.randomizeSmallCpPowers={
 
 --custom revenge config
 
-function this.SetRevengePowersRange(min,max)
+function this.SetPercentagePowersRange(min,max)
   for n,powerTableName in ipairs(this.percentagePowerTables)do
     local powerTable=this[powerTableName]
     for m,powerType in ipairs(powerTable)do
-      local ivarMin=this[powerType.."PercentageMin"]
-      local ivarMax=this[powerType.."PercentageMax"]
-      ivarMin:Set(min,true)
-      ivarMin:Set(max,true)
+      this.SetPowerRange(powerType,min,max)
     end
   end
 end
 
 function this.SetPowerRange(powerType,min,max)
-  local ivarMin=this[powerType.."PercentageMin"]
-  local ivarMax=this[powerType.."PercentageMax"]
+  local ivarMin=this[powerType.."_MIN"]
+  local ivarMax=this[powerType.."_MAX"]
+  if ivarMin==nil or ivarMax==nil then
+    InfMenu.DebugPrint("SetPowerRange: could not find ivar for "..powerType)
+    return
+  end
   ivarMin:Set(min,true)
-  ivarMin:Set(max,true)
-end
-
-function this.SetPowerBool(powerType,bool)--tex not actually bool but intbool
-  this[powerType.."Power"]:Set(bool,true)
+  ivarMax:Set(max,true)
 end
 
 this.revengeConfigProfile={--WIP
   save=MISSION,
-  settings={"DEFAULT","MAX","MIN","UPPER","LOWER","CUSTOM"},--tex default==wide,max=emulation of revenge config max
-  settingNames="revengeConfigProfileSettings",
+  settings={"WIDE","MAX","MIN","CUSTOM"},--"UPPER","LOWER","CUSTOM"},--tex default==wide,max=emulation of revenge config max
+  --settingNames="revengeConfigProfileSettings",--ADDLANG
   settingsTable={
-    DEFAULT=function()
-      this.SetRevengePowersRange(0,1)
+    WIDE=function()
+      this.SetPercentagePowersRange(0,1)
+      for n,powerType in ipairs(this.abilitiesWithLevels)do
+        this.SetPowerRange(powerType,"NONE","SPECIAL")
+      end
+
+      this.SetPowerRange("STRONG_WEAPON",0,1)
+      this.SetPowerRange("STRONG_MISSILE",0,1)
+      this.SetPowerRange("STRONG_SNIPER",0,1)
+
+      Ivars.reinforceLevelMin:Set("NONE",true)
+      Ivars.reinforceLevelMax:Set("BLACK_SUPER_REINFORCE",true)
+
+      this.revengeIgnoreBlockedMin:Set(0,true)
+      this.revengeIgnoreBlockedMax:Set(1,true)
+      
+      this.reinforceCountMin:Set(1,true)
+      this.reinforceCountMax:Set(3,true)
     end,
     MAX=function()
-      this.SetRevengePowersRange(1,1)
       for n,powerType in ipairs(this.cpEquipPowers)do
         this.SetPowerRange(powerType,1,1)
       end
+      for n,powerType in ipairs(this.abilitiesWithLevels)do
+        this.SetPowerRange(powerType,"SPECIAL","SPECIAL")
+      end
+
+      this.SetPowerRange("ARMOR",0.4,0.4)
+      this.SetPowerRange("SHIELD",0.4,0.4)
+
       this.SetPowerRange("SOFT_ARMOR",1,1)
       this.SetPowerRange("HELMET",1,1)
       this.SetPowerRange("NVG",0.75,0.75)
       this.SetPowerRange("GAS_MASK",0.75,0.75)
       this.SetPowerRange("GUN_LIGHT",0.75,0.75)
-      this.SetPowerBool("STRONG_WEAPON",1)
-      this.SetPowerBool("STRONG_MISSILE",1)
-      this.SetPowerBool("STRONG_SNIPER",1)
+
+      this.SetPowerRange("SNIPER",0.2,0.2)
+      this.SetPowerRange("MISSILE",0.4,0.4)
+
+      this.SetPowerRange("MG",0.4,0.4)
+      this.SetPowerRange("SHOTGUN",0.4,0.4)
+      this.SetPowerRange("SMG",0,0)
+      this.SetPowerRange("ASSAULT",0,0)
+
+      this.SetPowerRange("STRONG_WEAPON",1,1)
+      this.SetPowerRange("STRONG_MISSILE",1,1)
+      this.SetPowerRange("STRONG_SNIPER",1,1)
+
+      this.reinforceLevelMin:Set("BLACK_SUPER_REINFORCE",true)
+      this.reinforceLevelMax:Set("BLACK_SUPER_REINFORCE",true)
+
+      this.revengeIgnoreBlockedMin:Set(1,true)
+      this.revengeIgnoreBlockedMax:Set(1,true)
+
+      this.reinforceCountMin:Set(4,true)
+      this.reinforceCountMax:Set(4,true)
     end,
+    MIN=function()
+      for n,powerType in ipairs(this.cpEquipPowers)do
+        this.SetPowerRange(powerType,0,0)
+      end
+      for n,powerType in ipairs(this.abilitiesWithLevels)do
+        this.SetPowerRange(powerType,"NONE","NONE")
+      end
+
+      this.SetPowerRange("ARMOR",0,0)
+      this.SetPowerRange("SHIELD",0,0)
+
+      this.SetPowerRange("SOFT_ARMOR",0,0)
+      this.SetPowerRange("HELMET",0,0)
+      this.SetPowerRange("NVG",0,0)
+      this.SetPowerRange("GAS_MASK",0,0)
+      this.SetPowerRange("GUN_LIGHT",0,0)
+
+      this.SetPowerRange("SNIPER",0,0)
+      this.SetPowerRange("MISSILE",0,0)
+
+      this.SetPowerRange("MG",0,0)
+      this.SetPowerRange("SHOTGUN",0,0)
+      this.SetPowerRange("SMG",0,0)
+      this.SetPowerRange("ASSAULT",0,0)
+
+      this.SetPowerRange("STRONG_WEAPON",0,0)
+      this.SetPowerRange("STRONG_MISSILE",0,0)
+      this.SetPowerRange("STRONG_SNIPER",0,0)
+
+      this.reinforceLevelMin:Set("NONE",true)
+      this.reinforceLevelMax:Set("NONE",true)
+
+      this.revengeIgnoreBlockedMin:Set(0,true)
+      this.revengeIgnoreBlockedMax:Set(0,true)
+
+
+      this.reinforceCountMin:Set(1,true)
+      this.reinforceCountMax:Set(1,true)
+    end,
+    UPPER=nil,
+    LOWER=nil,
     CUSTOM=nil,
   },
   OnChange=this.RunCurrentSetting,
@@ -1157,19 +1235,20 @@ this.percentagePowerTables={
 for n,powerTableName in ipairs(this.percentagePowerTables)do
   local powerTable=this[powerTableName]
   for m,powerType in ipairs(powerTable)do
-    local minName=powerType.."PercentageMin"
-    local maxName=powerType.."PercentageMax"
-
     local ivarMin={
       save=MISSION,
       default=0,
       range=this.revengePowerRange,
       powerType=powerType,
       OnChange=function(self)
+        local maxName=self.powerType.."_MAX"
         if self.setting>Ivars[maxName]:Get() then
-          Ivars[maxName]:Set(self.setting)
+          Ivars[maxName]:Set(self.setting,true)
         end
+
+        InfMain.SetCustomRevengeUiParameters()
       end,
+      profile=this.revengeConfigProfile,
     }
     local ivarMax={
       save=MISSION,
@@ -1177,14 +1256,18 @@ for n,powerTableName in ipairs(this.percentagePowerTables)do
       range=this.revengePowerRange,
       powerType=powerType,
       OnChange=function(self)
+        local minName=self.powerType.."_MIN"
         if self.setting<Ivars[minName]:Get() then
-          Ivars[minName]:Set(self.setting)
+          Ivars[minName]:Set(self.setting,true)
         end
+
+        InfMain.SetCustomRevengeUiParameters()
       end,
+      profile=this.revengeConfigProfile,
     }
 
-    this[minName]=ivarMin
-    this[maxName]=ivarMax
+    this[powerType.."_MIN"]=ivarMin
+    this[powerType.."_MAX"]=ivarMax
   end
 end
 
@@ -1203,15 +1286,28 @@ this.abilitiesWithLevels={
 }
 
 for n,powerType in ipairs(this.abilitiesWithLevels)do
-  local ivarName=powerType.."Ability"
-
-  local ivar={
+  local ivarMin={
     save=MISSION,
     settings=this.abiltiyLevels,
     powerType=powerType,
+    OnChange=function(self)
+      InfMain.SetCustomRevengeUiParameters()
+    end,
+    profile=this.revengeConfigProfile,
   }
 
-  this[ivarName]=ivar
+  local ivarMax={
+    save=MISSION,
+    settings=this.abiltiyLevels,
+    powerType=powerType,
+    OnChange=function(self)
+      InfMain.SetCustomRevengeUiParameters()
+    end,
+    profile=this.revengeConfigProfile,
+  }
+
+  this[powerType.."_MIN"]=ivarMin
+  this[powerType.."_MAX"]=ivarMax
 end
 
 this.weaponStrengthPowers={--tex bools
@@ -1221,16 +1317,30 @@ this.weaponStrengthPowers={--tex bools
 }
 
 for n,powerType in ipairs(this.weaponStrengthPowers)do
-  local ivarName=powerType.."Power"
-
-  local ivar={
+  local ivarMin={
     save=MISSION,
     range=this.switchRange,
     settingNames="set_switch",
     powerType=powerType,
+    OnChange=function(self)
+      InfMain.SetCustomRevengeUiParameters()
+    end,
+    profile=this.revengeConfigProfile,
   }
 
-  this[ivarName]=ivar
+  local ivarMax={
+    save=MISSION,
+    range=this.switchRange,
+    settingNames="set_switch",
+    powerType=powerType,
+    OnChange=function(self)
+      InfMain.SetCustomRevengeUiParameters()
+    end,
+    profile=this.revengeConfigProfile,
+  }
+
+  this[powerType.."_MIN"]=ivarMin
+  this[powerType.."_MAX"]=ivarMax
 end
 
 this.cpEquipBoolPowers={--TODO:
@@ -1247,25 +1357,67 @@ this.boolPowers={
   "STRONG_PATROL",--tex appears un-used
 }
 
-this.reinforceLevelCustom={--tex applied additionally
+local reinforceLevelSettings={
+  "NONE",--tex aka no flag
+  "SUPER_REINFORCE",
+  "BLACK_SUPER_REINFORCE",
+}
+this.reinforceLevelMin={--tex applied additionally
   save=MISSION,
-  settings={
-    "NONE",--tex aka no flag
-    "SUPER_REINFORCE",
-    "BLACK_SUPER_REINFORCE",
-  }
+  settings=reinforceLevelSettings,
+  OnChange=function(self)
+    InfMain.SetCustomRevengeUiParameters()
+  end,
+  profile=this.revengeConfigProfile,
 }
 
-this.reinforceCount={
+this.reinforceLevelMax={--tex applied additionally
+  save=MISSION,
+  settings=reinforceLevelSettings,
+  OnChange=function(self)
+    InfMain.SetCustomRevengeUiParameters()
+  end,
+  profile=this.revengeConfigProfile,
+}
+
+this.reinforceCountMin={
   save=MISSION,
   default=2,
   range={max=99,min=1},
+  OnChange=function(self)
+    InfMain.SetCustomRevengeUiParameters()
+  end,
+  profile=this.revengeConfigProfile,
 }
 
-this.revengeCustomIgnoreBlocked={
+this.reinforceCountMax={
+  save=MISSION,
+  default=2,
+  range={max=99,min=1},
+  OnChange=function(self)
+    InfMain.SetCustomRevengeUiParameters()
+  end,
+  profile=this.revengeConfigProfile,
+}
+
+this.revengeIgnoreBlockedMin={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  OnChange=function(self)
+    InfMain.SetCustomRevengeUiParameters()
+  end,
+  profile=this.revengeConfigProfile,
+}
+
+this.revengeIgnoreBlockedMax={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self)
+    InfMain.SetCustomRevengeUiParameters()
+  end,
+  profile=this.revengeConfigProfile,
 }
 
 
@@ -2385,6 +2537,7 @@ end
 --TABLESETUP: Ivars
 for name,ivar in pairs(this) do
   if IsIvar(ivar) then
+    --ivar.name=ivar.name or name
     ivar.name=name
 
     ivar.range=ivar.range or {}

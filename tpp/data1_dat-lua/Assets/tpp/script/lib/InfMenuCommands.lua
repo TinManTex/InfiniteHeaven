@@ -70,7 +70,7 @@ this.showQuietReunionMissionCount={
 
 this.loadMission={
   OnChange=function()
-    local settingStr=Ivars.manualMissionCode.settings[Ivars.manualMissionCode.Get()+1]
+    local settingStr=Ivars.manualMissionCode.settings[Ivars.manualMissionCode:Get()+1]
     InfMenu.DebugPrint("TppMission.Load "..settingStr)
     --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
     --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
@@ -86,16 +86,20 @@ this.loadMission={
   end,
 }
 
+this.ogrePointChange=999999
 this.setDemon={
   OnChange=function(self)
-    TppMotherBaseManagement.SetOgrePoint{ogrePoint=99999999}
-    InfMenu.PrintLangId"set_demon"
+    --TppMotherBaseManagement.SetOgrePoint{ogrePoint=99999999}
+    TppHero.SetOgrePoint(this.ogrePointChange)
+    InfMenu.Print("-"..this.ogrePointChange .. InfMenu.LangString"set_demon")
   end,
 }
 this.removeDemon={
   OnChange=function(self)
-    TppMotherBaseManagement.SetOgrePoint{ogrePoint=1}
-    InfMenu.PrintLangId"removed_demon"
+    --TppMotherBaseManagement.SetOgrePoint{ogrePoint=1}
+    --TppMotherBaseManagement.SubOgrePoint{ogrePoint=-999999999}
+    TppHero.SetOgrePoint(-this.ogrePointChange)
+    InfMenu.Print(this.ogrePointChange .. InfMenu.LangString"removed_demon")
   end,
 }
 
@@ -113,7 +117,6 @@ this.returnQuiet={
 
 this.resetRevenge={
   OnChange=function()
-    --Ivars.revengeMode:Set(0)
     TppRevenge.ResetRevenge()
     TppRevenge._SetUiParameters()
     InfMenu.PrintLangId("revenge_reset")
@@ -235,9 +238,9 @@ this.warpPlayerCommand={--WIP
 
 --
 
-this.DEBUG_PrintSomeShit={
+this.DEBUG_PrintSomeShiz={
   OnChange=function()
-    InfMenu.DebugPrint"DEBUG_PrintSomeShit"
+    InfMenu.DebugPrint"DEBUG_PrintSomeShiz"
     --    for n,powerType in ipairs(Ivars.percentagePowerTypes)do
     --      InfMenu.DebugPrint("n:"..n.." powertype:"..powerType)
     --    end
@@ -251,9 +254,9 @@ this.DEBUG_PrintSomeShit={
 --    local ins=InfInspect.Inspect(revengeConfig)
 --    InfMenu.DebugPrint(ins)
 
-  if Player.IsVarsCurrentItemCBox() then--DEBUGNOW
-    InfMenu.DebugPrint"IsVarsCurrentItemCBox"
-  end
+--  if Player.IsVarsCurrentItemCBox() then
+--    InfMenu.DebugPrint"IsVarsCurrentItemCBox"
+--  end
   end
 }
 
