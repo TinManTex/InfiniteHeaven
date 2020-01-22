@@ -51,13 +51,15 @@ this.motherBaseShowAssetsMenu={
 }
 
 this.dDEquipMenu={
-  options={    
+  options={
     Ivars.enableMbDDEquip,
     Ivars.enableEnemyDDEquip,
     Ivars.enableEnemyDDEquipMissions,
     Ivars.mbSoldierEquipGrade_MIN,
     Ivars.mbSoldierEquipGrade_MAX,
     Ivars.allowUndevelopedDDEquip,
+    Ivars.mbDDEquipNonLethal,
+    Ivars.mbSoldierEquipRange,
   }
 }
 
@@ -65,13 +67,12 @@ this.motherBaseMenu={
   options={
     Ivars.revengeModeForMb,
     this.dDEquipMenu,
-    Ivars.mbSoldierEquipRange,
     Ivars.mbDDSuit,
     Ivars.mbDDHeadGear,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
-    Ivars.mbWarGames,
     Ivars.mbEnableBuddies,
-    this.motherBaseShowAssetsMenu,
+    this.motherBaseShowAssetsMenu,    
+    Ivars.mbWarGamesProfile,
   }
 }
 
@@ -85,7 +86,7 @@ this.demosMenu={
     Ivars.mbDemoMinute,
     Ivars.mbDemoOverrideWeather,
     Ivars.mbDontDemoDisableOcelot,
-    --Ivars.mbDontDemoDisableBuddy,--WIP
+  --Ivars.mbDontDemoDisableBuddy,--WIP
   }
 }
 
@@ -94,7 +95,7 @@ this.patchupMenu={
     Ivars.telopMode,
     InfMenuCommands.unlockPlayableAvatar,
     InfMenuCommands.unlockWeaponCustomization,
-    Ivars.startOffline,   
+    Ivars.startOffline,
     --Ivars.blockFobTutorial,
     --Ivars.setFirstFobBuilt,
     Ivars.langOverride,
@@ -106,6 +107,7 @@ this.patchupMenu={
     InfMenuCommands.printCustomRevengeConfig,
     --InfMenuCommands.showMbEquipGrade,
     InfMenuCommands.forceAllQuestOpenFlagFalse,
+    InfMenuCommands.DEBUG_PrintSaveVarCount,
   }
 }
 
@@ -115,7 +117,7 @@ this.ospMenu={
     Ivars.ospWeaponProfile,
     Ivars.primaryWeaponOsp,
     Ivars.secondaryWeaponOsp,
-    Ivars.tertiaryWeaponOsp,--tex user can set in UI, but still have it for setting the profile changes, and also if they want to set it while they're doing the other settings    
+    Ivars.tertiaryWeaponOsp,--tex user can set in UI, but still have it for setting the profile changes, and also if they want to set it while they're doing the other settings
   }
 }
 
@@ -133,7 +135,7 @@ this.handLevelMenu={
 this.fultonLevelMenu={
   noResetItem=true,
   options={
-    Ivars.fultonLevelProfile,    
+    Ivars.fultonLevelProfile,
     Ivars.itemLevelFulton,
     Ivars.itemLevelWormhole,
   }
@@ -148,7 +150,7 @@ this.fultonSuccessMenu={
     Ivars.fultonSleepPenalty,
     Ivars.fultonHoldupPenalty,
     Ivars.fultonDontApplyMbMedicalToSleep,
-    Ivars.fultonHostageHandling,  
+    Ivars.fultonHostageHandling,
   },
 }
 
@@ -175,16 +177,16 @@ this.revengeSystemMenu={
     Ivars.allowHeadGearCombo,
     Ivars.balanceHeadGear,
     Ivars.allowMissileWeaponsCombo,
-    Ivars.enableMgVsShotgunVariation,  
+    Ivars.enableMgVsShotgunVariation,
     Ivars.randomizeSmallCpPowers,
-    Ivars.disableConvertArmorToShield,    
-    --Ivars.balanceWeaponPowers,--WIP
+    Ivars.disableConvertArmorToShield,
+  --Ivars.balanceWeaponPowers,--WIP
   }
 }
 --
 for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
   local powerTable=Ivars[powerTableName]
-  
+
   local powerMenu={
     options={
     }
@@ -192,7 +194,7 @@ for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
   this[powerTableName.."Menu"]=powerMenu
 
   local menuOptions=powerMenu.options
-  for m,powerType in ipairs(powerTable)do    
+  for m,powerType in ipairs(powerTable)do
     table.insert(menuOptions,Ivars[powerType.."_MIN"])
     table.insert(menuOptions,Ivars[powerType.."_MAX"])
   end
@@ -301,7 +303,7 @@ this.appearanceMenu={
     Ivars.playerTypeApearance,
     Ivars.cammoTypesApearance,
     Ivars.playerFaceIdApearance,
-    Ivars.playerHeadgear,    
+    Ivars.playerHeadgear,
     this.printCurrentAppearance,
   }
 }
@@ -309,7 +311,7 @@ this.appearanceMenu={
 this.playerRestrictionsInMissionMenu={
   options={
     Ivars.disableHeadMarkers,
-    Ivars.disableXrayMarkers,  
+    Ivars.disableXrayMarkers,
   },
   disabled=false,
   disabledReason="item_disabled_subsistence",
@@ -345,9 +347,9 @@ this.supportHeliMenu={
     Ivars.setLandingZoneWaitHeightTop,
     Ivars.defaultHeliDoorOpenTime,
     Ivars.startOnFoot,
-    --Ivars.disableDescentToLandingZone,
-    --Ivars.enableGetOutHeli,--WIP
-    --Ivars.heliUpdate,--NONUSER
+  --Ivars.disableDescentToLandingZone,
+  --Ivars.enableGetOutHeli,--WIP
+  --Ivars.heliUpdate,--NONUSER
   },
 }
 
@@ -358,7 +360,7 @@ this.enemyReinforceMenu={
     Ivars.forceReinforceRequest,
     Ivars.disableReinforceHeliPullOut,
     Ivars.enableSoldiersWithVehicleReinforce,
-  },  
+  },
 }
 
 this.vehiclePatrolMenu={
@@ -377,10 +379,11 @@ this.cameraMenu={
     Ivars.adjustCameraUpdate,
     Ivars.cameraMode,
     Ivars.moveScale,
---    Ivars.focalLength,--CULL
---    Ivars.focusDistance,
---    Ivars.aperture,
-    --DEBUGNOW InfMenuCommands.resetCameraSettings,--tex just reset cam pos at the moment
+    Ivars.disableCamText,
+  --    Ivars.focalLength,--CULL
+  --    Ivars.focusDistance,
+  --    Ivars.aperture,
+  --DEBUGNOW InfMenuCommands.resetCameraSettings,--tex just reset cam pos at the moment
   }
 }
 
@@ -388,18 +391,11 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    Ivars.mbEnableLethal,--DEBUGNOW
-    Ivars.mbNonStaff,--DEBUGNOW
-    Ivars.mbEnableFultonAddStaff,--DEBUGNOW
-    this.motherBaseMenu,--DEBUGNOW
-    this.revengeMenu,
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
-    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUGNOW
-    --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
-    Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
+    --Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
     --Ivars.manualMissionCode,--tex  WIP
     --InfMenuCommands.loadMission,--tex  WIP
     Ivars.clockTimeScale,
@@ -428,7 +424,7 @@ this.debugInMissionMenu={
   options={
     --InfMenuCommands.DEBUG_RandomizeCp,
     --InfMenuCommands.DEBUG_PrintRealizedCount,
-    --InfMenuCommands.DEBUG_PrintEnemyFova,   
+    --InfMenuCommands.DEBUG_PrintEnemyFova,
     Ivars.selectedCp,
     InfMenuCommands.DEBUG_PrintCpPowerSettings,
     InfMenuCommands.DEBUG_PrintPowersCount,
@@ -447,19 +443,19 @@ this.debugInMissionMenu={
     --InfMenuCommands.printPlayerPhase,
     --InfMenuCommands.DEBUG_SetPlayerPhaseToIvar,
     --InfMenuCommands.DEBUG_PrintVarsClock,
-   --InfMenuCommands.showMissionCode,
+    --InfMenuCommands.showMissionCode,
     --InfMenuCommands.showMbEquipGrade,
     InfMenuCommands.showPosition,
-    --InfMenuCommands.DEBUG_ClearAnnounceLog,  
+  --InfMenuCommands.DEBUG_ClearAnnounceLog,
   }
 }
 
-this.inMissionMenu={  
+this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
-    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
-    Ivars.selectedCp,--DEBUGNOW
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+--    Ivars.selectedCp,--DEBUGNOW
     --Ivars.selectedChangeWeapon,--WIP
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
     --InfMenuCommands.doEnemyReinforce,--WIP
@@ -471,7 +467,7 @@ this.inMissionMenu={
     this.phaseMenu,
     --this.enemyReinforceMenu,
     this.supportHeliMenu,
-    this.debugInMissionMenu,    
+    this.debugInMissionMenu,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.menuOffItem,
   }
@@ -480,16 +476,16 @@ this.inMissionMenu={
 --TABLESETUP: MenuDefs
 local IsTable=Tpp.IsTypeTable
 for name,item in pairs(this) do
-  if IsTable(item) then   
+  if IsTable(item) then
     if item.options then
       item.name=name
       item.disabled=false
       item.parent=nil
-      if item.noResetItem~=true then   
-        table.insert(item.options,InfMenuCommands.resetSettingsItem)        
+      if item.noResetItem~=true then
+        table.insert(item.options,InfMenuCommands.resetSettingsItem)
       end
       if item.noGoBackItem~=true then
-        table.insert(item.options,InfMenuCommands.goBackItem)      
+        table.insert(item.options,InfMenuCommands.goBackItem)
       end
     end
   end
@@ -499,7 +495,7 @@ this.allMenus={}
 --TABLESETUP: allMenus, for reset, also means you have to comment out whole menu, not just references from other menus since resetall iterates the whole module
 local i=1
 for n,item in pairs(this) do
-  if IsTable(item) then   
+  if IsTable(item) then
     if item.options then--tex is menu
       this.allMenus[i]=item
       i=i+1

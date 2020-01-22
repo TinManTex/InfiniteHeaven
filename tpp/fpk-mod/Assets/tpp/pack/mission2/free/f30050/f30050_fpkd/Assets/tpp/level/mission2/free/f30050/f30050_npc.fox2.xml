@@ -29,10 +29,10 @@
           <value key="TppCorpseGameObject">0x04634C30</value>
           <value key="TppCorpseGameObjectLocator">0x04634D10</value>
           <value key="TppCorpseGameObjectLocator0000">0x04634E60</value>
-          <value key="TppCorpseGameObjectLocator0002">0x047E4530</value>
-          <value key="TppCorpseGameObjectLocator0003">0x047E4680</value>
-          <value key="TppCorpseGameObjectLocator0004">0x047E47D0</value>
-          <value key="TppCorpseGameObjectLocator0005">0x047E4920</value>
+          <value key="TppCorpseGameObjectLocator0001">0x047E4530</value>
+          <value key="TppCorpseGameObjectLocator0002">0x047E4680</value>
+          <value key="TppCorpseGameObjectLocator0003">0x047E47D0</value>
+          <value key="TppCorpseGameObjectLocator0004">0x047E4920</value>
           <value key="TppVfxFileLoader0000">0x04634FB0</value>
           <value key="TexturePackLoadConditioner0000">0x0463D4B0</value>
         </property>
@@ -296,7 +296,7 @@
  <entity class="GameObjectLocator" classVersion="2" addr="0x047E4530" unknown1="272" unknown2="1839133">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>TppCorpseGameObjectLocator0002</value>
+          <value>TppCorpseGameObjectLocator0001</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x047E40D0</value>
@@ -363,7 +363,7 @@
     <entity class="GameObjectLocator" classVersion="2" addr="0x047E4680" unknown1="272" unknown2="1839135">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>TppCorpseGameObjectLocator0003</value>
+          <value>TppCorpseGameObjectLocator0002</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x047E40D0</value>
@@ -430,7 +430,7 @@
     <entity class="GameObjectLocator" classVersion="2" addr="0x047E47D0" unknown1="272" unknown2="1839137">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>TppCorpseGameObjectLocator0004</value>
+          <value>TppCorpseGameObjectLocator0003</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x047E40D0</value>
@@ -497,7 +497,7 @@
     <entity class="GameObjectLocator" classVersion="2" addr="0x047E4920" unknown1="272" unknown2="1839139">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>TppCorpseGameObjectLocator0005</value>
+          <value>TppCorpseGameObjectLocator0004</value>
         </property>
         <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
           <value>0x047E40D0</value>

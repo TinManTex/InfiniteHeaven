@@ -1321,7 +1321,7 @@ function this._CreateRevengeConfig(revengeTypes)
       end
     end
   end
-  if not doCustom then--tex added bypass if custom--DEBUGNOW remove test
+  if not doCustom then--tex added bypass if custom--DEBUGNOW remove, test
     for powerType,bool in pairs(doExcludePower)do
       revengeConfig[powerType]=nil
   end
@@ -1404,6 +1404,7 @@ function this._AllocateResources(config)
     restrictWeaponTable[powerType]=nil
     disablePowerSettings[powerType]=nil
   end
+  
   do
     local basePowerTypes={HANDGUN=true,SMG=true,ASSAULT=true,SHOTGUN=true,MG=true,SHIELD=true}
     local baseWeaponIdTable=weaponIdTable.NORMAL
@@ -1525,9 +1526,9 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
       local comboExcludeList=powerComboExclusionList[powerType]or{}
       local soldierCount=settingSoldierCount
       local soldierConfigId=0--tex added
-      soldierConfigId=math.random(totalSoldierCount)--tex DEBUGNOW random start pos to shake up distribution, the default does in order so it means ARMOR will get the good weapons, which is actually good, could have a seperate filter for what powertypes get a random distribution, mainly its weapons and headgear and rest shouldnt have random start?
+      --soldierConfigId=math.random(totalSoldierCount)--tex WIP DEBUGNOW random start pos to shake up distribution, the default does in order so it means ARMOR will get the good weapons, which is actually good, could have a seperate filter for what powertypes get a random distribution, mainly its weapons and headgear and rest shouldnt have random start?
     --WAS for soldierConfigId=1,totalSoldierCount do  
-	for count=1,totalSoldierCount do
+      for count=1,totalSoldierCount do
         soldierConfigId=soldierConfigId+1--tex>
         if soldierConfigId>totalSoldierCount then
           soldierConfigId=1

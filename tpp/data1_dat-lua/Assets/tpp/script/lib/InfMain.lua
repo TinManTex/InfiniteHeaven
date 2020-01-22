@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r125"
+this.modVersion="r128"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -191,6 +191,7 @@ this.ddBodyInfo={
     isArmor=true,
     helmetOnly=true,
     noDDHeadgear=true,
+    hasArmor=true,
   },
   TIGER={
     maleBodyId=TppEnemyBodyId.dds5_main0_v00,
@@ -217,30 +218,35 @@ this.ddBodyInfo={
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
     noDDHeadgear=true,
     soldierSubType="SOVIET_A",
+    hasArmor=true,
   },
   SOVIET_B={
     partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
     noDDHeadgear=true,
     soldierSubType="SOVIET_B",
+    hasArmor=true,
   },
   PF_A={
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
     noDDHeadgear=true,
     soldierSubType="PF_A",
+    hasArmor=true,
   },
   PF_B={
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
     noDDHeadgear=true,
     soldierSubType="PF_B",
+    hasArmor=true,
   },
   PF_C={
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
     noDDHeadgear=true,
     soldierSubType="PF_C",
+    hasArmor=true,
   },
 
 --  GZ={
@@ -416,7 +422,7 @@ function this.GetHeadGearForPowers(powerSettings,faceId,hasHelmet)
       NVG=true,
     }
     if hasHelmet then
-      gearPowerTypes.HELMET=nil--DEBUGNOW
+      gearPowerTypes.HELMET=nil
     end
 
     local function IsFemale(faceId)
@@ -490,7 +496,7 @@ end
 function this.GetMbsClusterSecurityIsNoKillMode(missionId)
   local missionCode=missionId or vars.missionCode
   if this.IsDDEquip(missionCode) then
-    return Ivars.mbWarGames:Is"NONLETHAL"
+    return Ivars.mbDDEquipNonLethal:Is(1)
   end
   return TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
 end
@@ -706,12 +712,13 @@ function this.CreateCustomRevengeConfig()
   --  end
 
   if vars.missionCode==30050 then
-    if Ivars.mbWarGames:Is"NONLETHAL" then
+    if Ivars.mbDDEquipNonLethal:Is(1) then
       revengeConfig.NO_KILL_WEAPON=true
     end
   end
 
-  if not TppRevenge.CanUseArmor() or vars.missionCode==30050 then--tex TODO: handle mother base special case
+  local bodyInfo=this.GetCurrentDDBodyInfo()
+  if bodyInfo and (not bodyInfo.hasArmor) and vars.missionCode==30050 then--tex TODO: handle mother base special case
     revengeConfig.ARMOR=nil
   end
 
@@ -1207,7 +1214,7 @@ local blockQuests={
 }
 
 function this.BlockQuest(questName)
-  if vars.missionCode==30050 and Ivars.mbWarGames:Is(1) then
+  if vars.missionCode==30050 and Ivars.mbWarGamesProfile:Is()>1 then--DEBUGNOW
     return true
   end
 
@@ -1642,7 +1649,7 @@ local menuDisableActions=PlayerDisableAction.OPEN_EQUIP_MENU
 
 function this.RestoreActionFlag()
   local activeControlMode=this.GetActiveControlMode()
-  --DEBUGNOW WIP
+  -- WIP
   --  if activeControlMode then
   --    if bit.band(vars.playerDisableActionFlag,menuDisableActions)==menuDisableActions then
   --    else
@@ -2154,7 +2161,7 @@ function this.OnActivateWarpPlayer()
   InfButton.buttonStates[this.moveUpButton].repeatRate=repeatRateUp
   InfButton.buttonStates[this.moveDownButton].repeatRate=repeatRate
 
-  --DEBUGNOWthis.DisableAction(Ivars.warpPlayerUpdate.disableActions)
+  --WIP this.DisableAction(Ivars.warpPlayerUpdate.disableActions)
 end
 
 function this.OnDeactivateWarpPlayer()
@@ -2320,8 +2327,8 @@ function this.UpdateCameraManualMode()
       --targetOffsetFromPlayer=Vector3(0,0,0.5),
       --rotationBasedOnPlayer = true,
       ignoreCollisionGameObjectName="Player",
-      --DEBUGNOW rotationLimitMinX=-60,
-      --DEBUGNOW rotationLimitMaxX=80,
+      --TEST OFF rotationLimitMinX=-60,
+      --TEST OFF rotationLimitMaxX=80,
       alphaDistance=.5,--3--.5,
     --enableStockChangeSe = false,
     --useShakeParam = true
@@ -2371,7 +2378,7 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
   end
 
   if Ivars.cameraMode:Is(0) then
-    InfMenu.PrintLangId"cannot_edit_default_cam"
+--OFF    InfMenu.PrintLangId"cannot_edit_default_cam"
     Ivars.adjustCameraUpdate:Set(0)
     return
   end
@@ -2442,7 +2449,7 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
         local camMoveDir=rotYQuat:Rotate(vMoveDir)
         movePosition=movePosition+camMoveDir
       elseif InfButton.ButtonDown(this.distanceModeButton) then
-        local newValue=cameraDistance:Get()+PlayerVars.leftStickYDirect*focusDistanceScale--DEBUGNOW TODO own scale
+        local newValue=cameraDistance:Get()+PlayerVars.leftStickYDirect*focusDistanceScale--WIP TODO own scale
         newValue=IvarClamp(cameraDistance,newValue)
         cameraDistance:Set(newValue)
       else
@@ -2476,23 +2483,25 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
       end
     end
     --
-    if InfButton.OnButtonDown(this.zoomModeButton) then
-      InfMenu.Print(currentCamName.." "..InfMenu.LangString"focal_length_mode".." "..focalLength:Get())
-    end
-    if InfButton.OnButtonDown(this.apertureModeButton) then
-      InfMenu.Print(currentCamName.." "..InfMenu.LangString"aperture_mode".." "..aperture:Get())
-    end
-    if InfButton.OnButtonDown(this.focusDistanceModeButton) then
-      InfMenu.Print(currentCamName.." "..InfMenu.LangString"focus_distance_mode".." "..focusDistance:Get())
-    end
-    if InfButton.OnButtonDown(this.verticalModeButton) then
-      InfMenu.Print(currentCamName.." "..InfMenu.LangString"vertical_mode")
-    end
-    if InfButton.OnButtonDown(this.distanceModeButton) then
-      InfMenu.Print(currentCamName.." "..InfMenu.LangString"distance_mode".." "..cameraDistance:Get())
-    end
-    if InfButton.OnButtonDown(this.resetModeButton) then
-      InfMenu.Print(currentCamName.." "..InfMenu.LangString"reset_mode")
+    if Ivars.disableCamText:Is(0) then
+      if InfButton.OnButtonDown(this.zoomModeButton) then
+        InfMenu.Print(currentCamName.." "..InfMenu.LangString"focal_length_mode".." "..focalLength:Get())
+      end
+      if InfButton.OnButtonDown(this.apertureModeButton) then
+        InfMenu.Print(currentCamName.." "..InfMenu.LangString"aperture_mode".." "..aperture:Get())
+      end
+      if InfButton.OnButtonDown(this.focusDistanceModeButton) then
+        InfMenu.Print(currentCamName.." "..InfMenu.LangString"focus_distance_mode".." "..focusDistance:Get())
+      end
+      if InfButton.OnButtonDown(this.verticalModeButton) then
+        InfMenu.Print(currentCamName.." "..InfMenu.LangString"vertical_mode")
+      end
+      if InfButton.OnButtonDown(this.distanceModeButton) then
+        InfMenu.Print(currentCamName.." "..InfMenu.LangString"distance_mode".." "..cameraDistance:Get())
+      end
+      if InfButton.OnButtonDown(this.resetModeButton) then
+        InfMenu.Print(currentCamName.." "..InfMenu.LangString"reset_mode")
+      end
     end
     --inmenu-v-
   else

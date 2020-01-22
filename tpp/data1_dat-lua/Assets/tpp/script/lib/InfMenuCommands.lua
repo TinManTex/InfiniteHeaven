@@ -275,7 +275,7 @@ this.DEBUG_SomeShiz={
 --          this.ChangePhase(cpName,TppGameObject.PHASE_ALERT)
 --      end
 
-      InfMenu.DebugPrint"past loadreinf"--DEBUGNOW
+      InfMenu.DebugPrint"past loadreinf"--DEBUG
       TppReinforceBlock.StartReinforce(cpId)
     end
 

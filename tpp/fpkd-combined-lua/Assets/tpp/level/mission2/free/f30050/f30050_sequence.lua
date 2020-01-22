@@ -674,7 +674,7 @@ end
 
 
 function this.MissionPrepare()
-  if Ivars.mbEnableLethal:Is(1) then--tex>
+  if Ivars.mbEnableLethalActions:Is(1) then--tex>
   PlayerDisableActionFlagMtbsDefault = PlayerDisableAction.NONE
   end--<
   if Ivars.mbEnableFultonAddStaff:Is(1) then--tex>
@@ -910,7 +910,7 @@ function this.SetupStaffList()
 end
 
 function this.OnEndMissionPrepareSequence()
-	if Ivars.mbEnableLethal:Is(0) then--tex added check
+	if Ivars.mbEnableLethalActions:Is(0) then--tex added check
 	TppUiStatusManager.SetStatus(	"EquipHudAll", "ALL_KILL_NOUSE" )
 	end
 	
@@ -1086,9 +1086,8 @@ this.RegisterFovaFpk = function( clusterId )
 	--if free mix choose random 0-303
 	--if afgh choose TppEnemy.GetFaceGroupTable( ) 0-14
 	--mafr 15-74
-	--if #GetFaceGroupTable table < 18 then choose another and keep adding till 18
-  --if true then--DEBUGNOW
-  if vars.missionCode==30050 and Ivars.mbNonStaff:Is(1) then--tex>
+	--if #GetFaceGroupTable table < MAX_FACE_NUM_IN_CLUSTER then choose another and keep adding till MAX_FACE_NUM_IN_CLUSTER
+  if Ivars.mbNonStaff:Is(1) then--tex>
     mvars.f30050_soldierStaffIdList = {}
     local securityStaffFaceIds = {} 
     math.randomseed(gvars.rev_revengeRandomValue)
@@ -1097,7 +1096,6 @@ this.RegisterFovaFpk = function( clusterId )
       table.insert(securityStaffFaceIds,math.random(0,303))--tex DOC face and bodyids.txt
       --table.insert(securityStaffFaceIds,math.random(350,399))
     end
-
     math.randomseed(os.time())
 
     mvars.f30050_soldierFaceIdListPriority = securityStaffFaceIds
@@ -1162,7 +1160,7 @@ function this.Messages()
 				func = function(gameObjectId)
 					if not Tpp.IsPlayer(gameObjectId) then
 						mvars.f30050_deadGameObjectId = gameObjectId
-						if Ivars.mbWarGames:Is(0) and Ivars.mbEnableLethal:Is(0) then--tex added check
+						if Ivars.mbNonStaff:Is(0) then--tex added check
 						TppMission.ReserveGameOver( TppDefine.GAME_OVER_TYPE.TARGET_DEAD, TppDefine.GAME_OVER_RADIO.PLAYER_KILL_DD )
 						end
 					end
@@ -1173,7 +1171,7 @@ function this.Messages()
 				func = function(gameObjectId)
 					if not Tpp.IsPlayer(gameObjectId) then
 						mvars.f30050_deadGameObjectId = gameObjectId
-						if Ivars.mbWarGames:Is(0) and Ivars.mbEnableLethal:Is(0) then--tex added check
+						if Ivars.mbNonStaff:Is(0) then--tex added check
 						TppMission.ReserveGameOver( TppDefine.GAME_OVER_TYPE.TARGET_DEAD, TppDefine.GAME_OVER_RADIO.PLAYER_KILL_DD )
 						end
 					end
@@ -3093,7 +3091,7 @@ function this.PazRoomOnLeave()
 	TppGameStatus.Reset("f30050_PazRoom","S_IS_DEMO_CAMERA")
 	
 	this.SetEnableQuestUI(true)
-	if Ivars.mbEnableLethal:Is(0) then--tex added check
+	if Ivars.mbEnableLethalActions:Is(0) then--tex added check
 	TppUiStatusManager.SetStatus( "EquipHudAll", "ALL_KILL_NOUSE" )
 	end
 	TppPaz.OnLeave()

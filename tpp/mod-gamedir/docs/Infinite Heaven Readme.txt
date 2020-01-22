@@ -1,11 +1,24 @@
 = Infinite heaven =
-r124 - 2015-01-30
+r128 - 2015-02-11
 by tin man tex
 For MGSV version 1.071
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-New for 124
+New for r128
+Motherbase menu:
+Expanded DD Suit to include XOF,Soviet and each PF. This changes the soldierType so the normal type of body model and equipment is selected (assuming other options aren't set to override), however non english speaking soldiertypes will be mostly silent as they don't have equivalent lines in their soundbanks.
+
+MB DD nonlethal shifted to the DD Equip menu.
+
+Mother Base War Games expanded to include Enemy Invasion, and Zombie Obliteration, both replace the motherbase soldier with non-staff member and enable players use of lethal weapons and also disable demon points for kill actions.
+
+[youtube]oK-uxbaQ2Ic[/youtube]
+https://www.youtube.com/watch?v=oK-uxbaQ2Ic
+
+Fixes to Custom prep that were preventing some settings from working as intended.
+
+New for r124
 Free cam: Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings.
 [youtube]aJ3lvD1JiJ0[/youtube]
 https://www.youtube.com/watch?v=aJ3lvD1JiJ0
@@ -15,40 +28,6 @@ https://www.youtube.com/watch?v=1CygEjTfF_c
 Infection mode under mother base wargames, turns DD soldiers to a mix of puppet soldiers and wandering soldiers.
 [youtube]t_6fj8Rkvic[/youtube]
 https://www.youtube.com/watch?v=t_6fj8Rkvic
-
-Options: "Disable retry", "Game over on combat alert" - to replicate perfect stealth settings
-
-New for r120
-Setting vehicle patrols to any type of armored vehicle will disable the sideops with multiple armored vehicles to sidestep the invisible vehicle bug.
-
-"DD prep mode" - "Off","FOB style","Enemy prep levels","Custom prep"
-MB cutscene Options: Override Time, Override weather  - thanks qwertyuiop1234567899 for the suggestion
-
-Option: Soldier reinforce with all vehicle reinforce types
-
-DD equip options reworked and extended to enemy soldiers via DD Equip menu (via enemy prep menu or mother base menu)
-The DD equipment table is decided by a random grade between DD Equip Grade Min/Max, and by default is limited to the equipment you have developed with Allow undeveloped DD equipment chosing from the full range of (security equipable) equipment.
-Note: Equip grade 3 is the minum grade that has all types of weapons.
-
-Known issue: Some weapons will not give the proper name when picked up and have a blank icon, some weapons scopes will be blacked out.
-
-New for r119
-Changed remove demon/set demon to add demon points/remove demon points, less ideal since there's no demon value feedback, but prior set direct value didn't work on some peoples games.
-
-Custom enemy prep config. Sidesteps the enemy prep levels and gives more control over enemy prep loadout, chooses randomly between min/max of each setting:
-Weapon deployment percentages - 
-Armor deployment percentages - Armor, soft armod (body vest), sheild.
-Headgear deployment percentages - helmet, gas mask, nvg.
-CP detterant percentages - mines, decoys, cameras.
-Soldier ability/counter levels.
-Weapon strength menus. 'Strong weapons' are different variant/model of weapon for that chosen type.
-Reinforce count - number of reinforcment calls a CP has.
-Vehicle reinforcment level: Works with the vehicle reinforcement settings.
-Ignore combat-deploy supply blocks - Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.
-
-The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
-
-The prior Max enemy prep is now just a profile in the config menu.
 
 Infinite Heaven features:
 ------------------------------
@@ -120,6 +99,8 @@ Start on foot - skip heli ride into mission and start on the ground.
 
 Abort Mission (Return to ACC) added to Motherbase pause menu.
 
+"Disable retry", "Game over on combat alert" - to replicate total stealth settings
+
 Fulton success profile/options:
 ------------------------------
 Found in Player restrictions\Fulton success menu
@@ -180,6 +161,28 @@ Resupply in #missions - the number of missions the enemy dispatch/resupply with 
 "Enable Mg vs Shotgun variation" - In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
 "Balance small CPs" - adds limits and some randomisation to small cp/lrrps enemy prep application, best for the "Apply enemy prep to guard posts" and " to LRRP"
 
+Custom enemy prep config. Sidesteps the enemy prep levels and gives more control over enemy prep loadout, chooses randomly between min/max of each setting:
+Weapon deployment percentages - 
+Armor deployment percentages - Armor, soft armod (body vest), sheild.
+Headgear deployment percentages - helmet, gas mask, nvg.
+CP detterant percentages - mines, decoys, cameras.
+Soldier ability/counter levels.
+Weapon strength menus. 'Strong weapons' are different variant/model of weapon for that chosen type.
+Reinforce count - number of reinforcment calls a CP has.
+Vehicle reinforcment level: Works with the vehicle reinforcement settings.
+Ignore combat-deploy supply blocks - Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.
+
+The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
+
+DD Equip:
+-------------
+DD equip options reworked and extended to enemy soldiers via DD Equip menu (via enemy prep menu or mother base menu)
+The DD equipment table is decided by a random grade between DD Equip Grade Min/Max, and by default is limited to the equipment you have developed with Allow undeveloped DD equipment chosing from the full range of (security equipable) equipment.
+Note: Equip grade 3 is the minum grade that has all types of weapons.
+
+Known issue: Some weapons will not give the proper name when picked up and have a blank icon, some weapons scopes will be blacked out.
+
+
 Mother Base soldier tweaks:
 -----------------
 Weapon loadout - using fob equip grade and range
@@ -207,6 +210,8 @@ Player health scaling 900-0%(1hp)
 Use selected soldier in cutscenes and missions - shows your avatar or selected dd solidier in cutscenes and missions that usually dont allow.
 
 Headgear (Cosmetic) - Several diffrent headgear options.
+
+Subtract/Add demon points - changes demon score.
 
 Vehicle patrol vehicle types:
 ------------------
@@ -250,6 +255,8 @@ Disable Mother Base cutscenes - Disables some arrive at motherbase cutscenes tha
 
 Play selected mother base cutscene - Can choose from many of the mother base cutscenes that play on returning. Requires the setting 'MB cutscene play mode' to be set to 'Play selected'
 
+Override Time, Override weather  - thanks qwertyuiop1234567899 for the suggestion
+
 'Show assets Menu' in Mother base Menu:
 
 Show mother base assets - Big Boss posters, Nuke Elimination Monument, Sahelanthropus, Eli (in theory, haven't actually seen him though), Code Talker (the game doesn't animate or have collision for him).
@@ -259,6 +266,8 @@ Don't lock goal doors - useless unless you like swishing doors.
 Don't disable Ocelot after cutscenes - with this you can leave Occelot on MB in person after some cutscenes.
 
 Don't disable buddies after cutscenes - likewise with buddies (ddog mostly)
+
+
 
 Enemy phases:
 -----------------
@@ -430,9 +439,45 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
-r124 - 2015-01-30 publiv release
+r128 - 2015-02-11 - public release
+Expanded mbDDSuit to Xof, Soviet a/b, PF a/b/c
+ddBodyInfo extended to include soldiersubtype, hasHeadgear renamed helmetOnly, noDDHeadgear, hasHelmet, hasFace to allow various combinations of dd headgear and model gear.
+f30050_npc: add reinforce_block scriptblock
+add more corpse game objects, mother base only had 2, interesting note: also corpse system seems keeps one in reserve or something
+vox_f30050.sdf - soundbank load refs for enemy_af/mafr/zombie added
+mbts_enemy, override soldiertype depending on GetCurrentDDBodyInfo
+GetSoldierType, GetSubsoldier - override depending on currentddbody
+mbEnableLethal - enable lethal actions on motherbase
+mbEnableFultonAddStaff
+mbNonStaff - also no demon points increase on mbnonstaff kills
+No game over on soldier die in mother base when mbwargames and enablelethal
+disableCamText
+mbWarGames->mbWarGamesProfile, toggling some of above, the individual settings are currently non-user facing.
+
+r127
+Percentage floats changed to int, will fall into uint8/16, saves save file space
+Fix: SetPercentagePowersRange using orphaned/prior name of SetMinMax, since it was called by revengeConfigProfile.WIDE it's likely that it wouldnt set its subsettings.
+Fix: Custom enemy prep clear armor if it can't be used.
+Custom config bypass some (config wide) combination restrictions, namely shield and missile, shotgun and mg in same config.
+Made allowmissileweapon combo actually work, and not just allow assault, decided to not allow with mg though
+
+r126
+Camera refactor: 
+Cam edit mode and current cam split.
+Player cams for each stance/move mode
+Ivars for cam variables. This is where I seem to have hit the save file limit, no, just unrelated varables acting odd as if forgotten or overflowed.
+Research/deminification of TppSave and other save functions, bumping the save size for the mission category is likely to be a reciepie for disaster since it combines categories in one file and it's smack in the middle of some. Looks like I could add my own save file if I could add a category, but categories ar pow2 and max is at 255 suggesting there's no room even if it would just accept the field from lua/not require it in exe, or it would be if mgo category didn't fit into this scheme, but then that's only defined in mgo exe.
+
+r125
+Refactor InfMenuDefs, on table build adds reset settings and go back items 
+Fix: Mb cutscene time using hour setting for minute.
+Split Enemy use DD equipment into Free roam and Missions
+Fix: noOnChangeSub also blocking OnChange for profiles - basically any profile that set other profiles was broken.
+Fix: Wormhole disable was reversed, also renamed to Wormhole Level since it's the same implementation as Fulton Level
+
+r124 - 2015-01-30 - public release
 mbWargames: Zombie mode - mixes regular puppet and msf. 
-Options: disableRetry, gameOverOnDiscovery - to replicate perfect stealth settings
+Options: disableRetry, gameOverOnDiscovery - to replicate total stealth settings
 
 r123
 InfButton: some bitmasks added/renamed to proper from lua, don't seem to be in the playerpad section in the exe though

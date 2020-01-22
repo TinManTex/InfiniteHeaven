@@ -98,10 +98,10 @@ function this.SetUpReinforceBlock()
   mvars.reinforce_hasReinforceBlock=hasReinforceBlock
  
   if not mvars.reinforce_hasReinforceBlock then
-    InfMenu.DebugPrint"not reinforce_hasReinforceBlock"--DEBUGNOW
+    --InfMenu.DebugPrint"not reinforce_hasReinforceBlock"--DEBUG
     return
   end 
-  InfMenu.DebugPrint"SetUpReinforceBlock"--DEBUGNOW
+  --InfMenu.DebugPrint"SetUpReinforceBlock"--DEBUG
   for n,soldierName in ipairs(this.REINFORCE_SOLDIER_NAMES)do
     this._SetEnabledSoldier(soldierName,false)
   end
@@ -112,21 +112,21 @@ function this.SetUpReinforceBlock()
   mvars.reinforce_activated=false
 end
 function this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)
-  InfMenu.DebugPrint"LoadReinforceBlock"--DEBUGNOW
+  --InfMenu.DebugPrint"LoadReinforceBlock"--DEBUG
   if mvars.reinforce_activated then
-    InfMenu.DebugPrint"LoadReinforceBlock reinforce_activated already true"--DEBUGNOW
+    --InfMenu.DebugPrint"LoadReinforceBlock reinforce_activated already true"--DEBUG
     return
   end
   if mvars.reinforce_reinforceCpId~=NULL_ID and mvars.reinforce_reinforceCpId~=reinforceCpId then
-    InfMenu.DebugPrint"LoadReinforceBlock cpId doesnt match reinforce_reinforceCpId"--DEBUGNOW
+    --InfMenu.DebugPrint"LoadReinforceBlock cpId doesnt match reinforce_reinforceCpId"--DEBUG
     return
   end
   if not mvars.reinforce_hasReinforceBlock then
-    InfMenu.DebugPrint"LoadReinforceBlock no reinforceblock"--DEBUGNOW
+    --InfMenu.DebugPrint"LoadReinforceBlock no reinforceblock"--DEBUG
     return
   end
   if reinforceType==this.REINFORCE_TYPE.HELI and GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli"then
-    InfMenu.DebugPrint"LoadReinforceBlock reinforcetype heli, has TppEnemyHeli"--DEBUGNOW
+    --InfMenu.DebugPrint"LoadReinforceBlock reinforcetype heli, has TppEnemyHeli"--DEBUGN
     return
   end
   local reinforceBlockId=this.GetReinforceBlockId()
@@ -136,12 +136,12 @@ function this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringTy
     reinforceType=this.REINFORCE_TYPE.NONE
     fpk=""
   end
-  InfMenu.DebugPrint("LoadReinforceBlock fpk: "..tostring(fpk))--DEBUGNOW
+  --InfMenu.DebugPrint("LoadReinforceBlock fpk: "..tostring(fpk))--DEBUG
   ScriptBlock.Load(reinforceBlockId,fpk)
   mvars.reinforce_reinforceType=reinforceType
   mvars.reinforce_reinforceColoringType=reinforceColoringType
   if reinforceType~=this.REINFORCE_TYPE.NONE then
-    InfMenu.DebugPrint"LoadReinforceBlock SetReinforceEnable"--DEBUGNOW
+    --InfMenu.DebugPrint"LoadReinforceBlock SetReinforceEnable"--DEBUG
     SendCommand({type="TppCommandPost2"},{id="SetReinforceEnable"})
     mvars.reinforce_reinforceCpId=reinforceCpId
     local hasVehicle=this._HasVehicle()
@@ -158,7 +158,7 @@ function this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringTy
       vehicleId=GameObject.GetGameObjectId("TppVehicle2",this.REINFORCE_VEHICLE_NAME)
       driverId=GameObject.GetGameObjectId("TppSoldier2",this.REINFORCE_DRIVER_SOLDIER_NAME)
     end
-    InfMenu.DebugPrint"LoadReinforceBlock pre setnom"--DEBUGNOW
+    --InfMenu.DebugPrint"LoadReinforceBlock pre setnom"--DEBUG
     SendCommand({type="TppCommandPost2"},{id="SetNominateList",driver=driverId,vehicle=vehicleId,sol01=reinforceSoldiers[1],sol02=reinforceSoldiers[2],sol03=reinforceSoldiers[3],sol04=reinforceSoldiers[4]})
   else
     mvars.reinforce_reinforceCpId=NULL_ID
@@ -182,18 +182,18 @@ function this.UnloadReinforceBlock(cpId)
 end
 function this.StartReinforce(cpId)
   if not mvars.reinforce_hasReinforceBlock then
-    InfMenu.DebugPrint"StartReinforce not reinforce_hasReinforceBlock"--DEBUGNOW
+    --InfMenu.DebugPrint"StartReinforce not reinforce_hasReinforceBlock"--DEBUG
     return
   end
   if mvars.reinforce_reinforceType==this.REINFORCE_TYPE.NONE then
-    InfMenu.DebugPrint"StartReinforce REINFORCE_TYPE.NONE"--DEBUGNOW
+    --InfMenu.DebugPrint"StartReinforce REINFORCE_TYPE.NONE"--DEBUG
     return
   end
   if(cpId~=nil and cpId~=NULL_ID)and mvars.reinforce_reinforceCpId~=cpId then
     InfMenu.DebugPrint"StartReinforce cpId doesnt match"
     return
   end
-  InfMenu.DebugPrint"StartReinforce do ScriptBlock.Activate"--DEBUGNOW
+  --InfMenu.DebugPrint"StartReinforce do ScriptBlock.Activate"--DEBUG
   local reinforceBlockId=this.GetReinforceBlockId()
   ScriptBlock.Activate(reinforceBlockId)
   mvars.reinforce_activated=true
@@ -356,7 +356,7 @@ function this._ActivateReinforce()
     --TppMarker2System.EnableMarker{gameObjectId=driverId}--DEBUG
   end
   if hasHeli then
-    InfMenu.DebugPrint("_ActivateReinforce hasheli")--DEBUGNOW
+    --InfMenu.DebugPrint("_ActivateReinforce hasheli")--DEBUG
     local heliId=GameObject.GetGameObjectId(this.REINFORCE_HELI_NAME)
     --ORPHAN local heliRoute=this._GetHeliRoute(mvars.reinforce_cpId)
     local cp=mvars.ene_cpList[mvars.reinforce_reinforceCpId]

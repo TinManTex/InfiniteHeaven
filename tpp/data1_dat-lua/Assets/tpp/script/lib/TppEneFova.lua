@@ -1386,15 +1386,13 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
         GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=false})
       end
 
-      -- if bodyId==0 or bodyId==nil then--tex dont set body, rely on GetBodyId DEBUGNOW
-      local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
-      local soldierType=TppEnemy.GetSoldierType(soldierId)
-      local subTypeName=TppEnemy.GetSoldierSubType(soldierId,soldierType)
-
-
-      bodyId=TppEnemy.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
-      --InfMenu.DebugPrint("bodyid:".. tostring(bodyId))--DEBUGNOW
-      -- end
+      if bodyId==0 or bodyId==nil then--tex dont set body, rely on GetBodyId DEBUGNOW
+        local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
+        local soldierType=TppEnemy.GetSoldierType(soldierId)
+        local subTypeName=TppEnemy.GetSoldierSubType(soldierId,soldierType)
+        bodyId=TppEnemy.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
+        --InfMenu.DebugPrint("bodyid:".. tostring(bodyId))--DEBUGNOW
+      end
 
 
       if bodyInfo.isArmor then
@@ -1425,7 +1423,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     end
 
     local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
-    
+
     --tex PATCHUP there's no heads with nvg and no helmet/greentop
     if powerSettings and powerSettings.NVG then
       if bodyInfo and not bodyInfo.noDDHeadgear then

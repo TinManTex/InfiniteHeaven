@@ -665,7 +665,7 @@ missionPackTable[30050]=function(missionCode)
 --      InfMain.AddBodyPack(bodyInfo)
 --    end
   end--<
-  if Ivars.mbWarGames:Is"ZOMBIE"then--tex
+  if Ivars.mbZombies:Is(1)then--tex>
     TppSoldierFace.SetUseZombieFova{enabled=true}
   end--<
     

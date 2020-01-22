@@ -304,6 +304,12 @@ this.mbSoldierEquipRange={
   settingNames="set_dd_equip_range",
 }
 
+this.mbDDEquipNonLethal={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 this.mbDDSuit={
   save=MISSION,
   settings={
@@ -314,14 +320,14 @@ this.mbDDSuit={
     "SNEAKING_SUIT",
     "BATTLE_DRESS",
     "PFA_ARMOR",
-    "XOF",--DEBUGNOW
+    "XOF",
     "SOVIET_A",
     "SOVIET_B",
     "PF_A",
     "PF_B",
     "PF_C",
   },
-  --DEBUGNOW settingNames="mbDDSuitSettings",
+  settingNames="mbDDSuitSettings",
 }
 
 this.mbDDHeadGear={
@@ -329,30 +335,121 @@ this.mbDDHeadGear={
   range=this.switchRange,
   settingNames="mbDDHeadGearSettings",
 }
-this.mbWarGames={
+
+this.mbWarGamesProfile={
   save=MISSION,
-  settings={"OFF","NONLETHAL","HOSTILE","ZOMBIE"},
-  settingNames="mbWarGamesSettings",
+  settings={"OFF","TRAINING","INVASION","ZOMBIE","ZOMBIE_OBLITERATION"},
+  settingNames="mbWarGamesProfileSettings",
+  settingsTable={
+    OFF=function()
+      --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDSuit:Set(0,true)
+      --Ivars.enableMbDDEquip:Set(0,true)
+      Ivars.mbDDEquipNonLethal:Set(0,true)
+      Ivars.mbHostileSoldiers:Set(0,true)
+      Ivars.mbEnableLethalActions:Set(0,true)
+      Ivars.mbNonStaff:Set(0,true)
+      Ivars.mbEnableFultonAddStaff:Set(0,true)
+      Ivars.mbZombies:Set(0,true)
+    end,
+--    NONLETHAL=function()
+--      --Ivars.mbDDHeadGear:Set(0,true)
+--      --Ivars.mbDDSuit:Set(0,true)
+--      Ivars.enableMbDDEquip:Set(1,true)
+--      Ivars.mbDDEquipNonLethal:Set(1,true)
+--      Ivars.mbHostileSoldiers:Set(1,true)
+--      Ivars.mbEnableLethalActions:Set(0,true)
+--      Ivars.mbNonStaff:Set(0,true)
+--      Ivars.mbEnableFultonAddStaff:Set(0,true)
+--      Ivars.mbZombies:Set(0,true)
+--    end,
+    TRAINING=function()
+      --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDSuit:Set(0,true)
+--      Ivars.enableMbDDEquip:Set(0,true)
+--      Ivars.mbDDEquipNonLethal:Set(0,true)
+      Ivars.mbHostileSoldiers:Set(1,true)
+      Ivars.mbEnableLethalActions:Set(0,true)
+      Ivars.mbNonStaff:Set(0,true)
+      Ivars.mbEnableFultonAddStaff:Set(0,true)
+      Ivars.mbZombies:Set(0,true)
+    end,
+    INVASION=function()
+       --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDSuit:Set(0,true)
+      --Ivars.enableMbDDEquip:Set(0,true)
+      Ivars.mbDDEquipNonLethal:Set(0,true)
+      Ivars.mbHostileSoldiers:Set(1,true)
+      Ivars.mbEnableLethalActions:Set(1,true)
+      Ivars.mbNonStaff:Set(1,true)
+      Ivars.mbEnableFultonAddStaff:Set(0,true)
+      Ivars.mbZombies:Set(0,true)   
+    end,
+--    XOF=function()
+--      Ivars.mbDDHeadGear:Set(1,true)
+--      Ivars.mbDDSuit:Set("XOF",true)
+--      Ivars.enableMbDDEquip:Set(0,true)
+--      Ivars.mbHostileSoldiers:Set(1,true)
+--    end,
+    ZOMBIE=function()
+      --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDSuit:Set(0,true)
+--      Ivars.enableMbDDEquip:Set(0,true)
+--      Ivars.mbDDEquipNonLethal:Set(0,true)
+      Ivars.mbHostileSoldiers:Set(1,true)
+      Ivars.mbEnableLethalActions:Set(0,true)
+      Ivars.mbNonStaff:Set(0,true)
+      Ivars.mbEnableFultonAddStaff:Set(0,true)
+      Ivars.mbZombies:Set(1,true)
+    end,
+    ZOMBIE_OBLITERATION=function()
+      --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDSuit:Set(0,true)
+      Ivars.enableMbDDEquip:Set(0,true)
+      Ivars.mbDDEquipNonLethal:Set(0,true)
+      Ivars.mbHostileSoldiers:Set(1,true)
+      Ivars.mbEnableLethalActions:Set(1,true)
+      Ivars.mbNonStaff:Set(1,true)
+      Ivars.mbEnableFultonAddStaff:Set(0,true)
+      Ivars.mbZombies:Set(1,true)
+    end,
+    --CUSTOM=nil,
+  },
+  OnChange=this.RunCurrentSetting,
+  OnSubSettingChanged=this.OnSubSettingChanged,
 }
 
-this.mbEnableLethal={
+this.mbHostileSoldiers={ --DEBUGNOW
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
-this.mbNonStaff={
+this.mbEnableLethalActions={--tex also disables negative ogre on kill --DEBUGNOW
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
-this.mbEnableFultonAddStaff={
+this.mbNonStaff={--DEBUGNOW
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
+this.mbZombies={--DEBUGNOW
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbEnableFultonAddStaff={--DEBUGNOW
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+--
 this.mbEnableBuddies={
   save=MISSION,
   range=this.switchRange,
@@ -2398,20 +2495,20 @@ this.adjustCameraUpdate={
     end
 
     if self.setting==1 then
-      if Ivars.cameraMode:Is(0) then
-        InfMenu.PrintLangId"cannot_edit_default_cam"
-        self.setting=0
-        return
-      else
-        InfMenu.PrintLangId"cam_mode_on"
-        --InfMain.ResetCamDefaults()
-        InfMain.OnActivateCameraAdjust()
-        --Ivars.cameraMode:Set(1)--DEBUGNOW
-      end
+      --      if Ivars.cameraMode:Is(0) then
+      --        InfMenu.PrintLangId"cannot_edit_default_cam"
+      --        self.setting=0
+      --        return
+      --      else
+      InfMenu.PrintLangId"cam_mode_on"
+      --InfMain.ResetCamDefaults()
+      InfMain.OnActivateCameraAdjust()
+      Ivars.cameraMode:Set(1)
+      --end
     else
       InfMenu.PrintLangId"cam_mode_off"
       InfMain.OnDectivateCameraAdjust()
-      --Ivars.cameraMode:Set(0)
+      Ivars.cameraMode:Set(0)
     end
 
     if InfMenu.menuOn then
@@ -2429,40 +2526,15 @@ this.adjustCameraUpdate={
 
 this.cameraMode={
   --save=MISSION,
-  settings={"DEFAULT","PLAYER","CAMERA"},
+  settings={"DEFAULT","CAMERA"},--"PLAYER","CAMERA"},
   settingNames="cameraModeSettings",
   OnChange=function(self,previousSetting)
-    --    if Ivars.adjustCameraUpdate:Is(0) then
-    --      return
-    --    end
-
     if self:Is"DEFAULT" then
       Player.SetAroundCameraManualMode(false)
     else
       Player.SetAroundCameraManualMode(true)
       InfMain.UpdateCameraManualMode()
     end
-
-    --    if self.setting==self.enum.PLAYER then
-    --      Player.ResetPadMask {
-    --        settingName = "controlMode",
-    --      }
-    --      InfMenu.PrintLangId"control_mode_player"
-    --    else
-    --      Player.SetPadMask {
-    --        settingName="controlMode",
-    --        except=false,
-    --        buttons=PlayerPad.ALL,
-    --        sticks=PlayerPad.STICK_L,--+PlayerPad.STICK_R,
-    --        triggers=PlayerPad.TRIGGER_L+PlayerPad.TRIGGER_R,
-    --      }
-    --      InfMenu.PrintLangId"control_mode_camera"
-    --    end
-    --
-    --    if InfMenu.menuOn then
-    --      InfMain.RestoreActionFlag()
-    --      InfMenu.menuOn=false
-    --    end
   end,
 }
 
@@ -2472,53 +2544,59 @@ this.moveScale={
   range={max=1,min=0.1,increment=0.1},
 }
 
+this.disableCamText={
+  --OFF save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 this.camNames={
   "FreeCam",
-  "PlayerStand",
-  "PlayerSquat",
-  "PlayerCrawl",
-  "PlayerDash",
+--  "PlayerStand",
+--  "PlayerSquat",
+--  "PlayerCrawl",
+--  "PlayerDash",
 }
 
 for i,camName in ipairs(this.camNames) do
   this["focalLength"..camName]={
-    save=MISSION,
+    --OFF save=MISSION,
     default=21,
     range={max=10000,min=0.1,increment=1},
   }
 
   this["focusDistance"..camName]={
-    save=MISSION,
+    --OFF save=MISSION,
     default=8.175,
     range={max=1000,min=0.01,increment=0.1},
   }
 
   this["aperture"..camName]={
-    save=MISSION,
+    --OFF save=MISSION,
     default=1.875,
     range={max=100,min=0.001,increment=0.1},
   }
 
   this["distance"..camName]={
-    save=MISSION,
-    default=5,
+    --OFF save=MISSION,
+    default=0,--WIP TODO need seperate default for playercam and freemode (player wants to be about 5, free 0)
     range={max=100,min=0,increment=0.1},
   }
 
   this["positionX"..camName]={
-    save=MISSION,
+    --OFF save=MISSION,
     default=0,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
   }
   this["positionY"..camName]={
-    save=MISSION,
+    --OFF save=MISSION,
     default=0.75,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
   }
   this["positionZ"..camName]={
-    save=MISSION,
+    --OFF save=MISSION,
     default=0,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
@@ -3075,25 +3153,33 @@ function this.PrintSaveVarCount()
   local function CountVarTable(scriptVarTypes,varTable,category)
     local totalCount=0
     local typeCounts={}
+    local arrayCounts={}
     for scriptVarType, typeName in pairs(scriptVarTypes) do
       typeCounts[typeName]=0
+      arrayCounts[typeName]=0
     end
-
 
     for n, gvarInfo in pairs(varTable)do
       if category==nil or gvarInfo.category==category then
         local scriptVarTypeName=scriptVarTypes[gvarInfo.type]
         typeCounts[scriptVarTypeName]=typeCounts[scriptVarTypeName]+1
+        if Tpp.IsTypeNumber(gvarInfo.arraySize) then
+          arrayCounts[scriptVarTypeName]=arrayCounts[scriptVarTypeName]+gvarInfo.arraySize
+        end
         totalCount=totalCount+1
       end
     end
-    return typeCounts,totalCount
+    return typeCounts,arrayCounts,totalCount
   end
 
   InfMenu.DebugPrint"Ivars.varTable"
-  local typeCounts,totalCount=CountVarTable(scriptVarTypes,this.varTable,TppScriptVars.CATEGORY_MISSION)
+  InfMenu.DebugPrint"typeCounts"
+  local typeCounts,arrayCounts,totalCount=CountVarTable(scriptVarTypes,this.varTable,TppScriptVars.CATEGORY_MISSION)
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
+--  InfMenu.DebugPrint"arrayCounts" --DEBUGNOW
+--  local ins=InfInspect.Inspect(arrayCounts)
+--  InfMenu.DebugPrint(ins)
   InfMenu.DebugPrint("totalcount:"..totalCount)
 
   local bools=0

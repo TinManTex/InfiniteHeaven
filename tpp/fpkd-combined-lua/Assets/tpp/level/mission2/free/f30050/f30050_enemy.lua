@@ -414,13 +414,13 @@ this.SetUpEnemy = function()
     mtbs_enemy.SetupEnemy( clusterId )
   end
 
-  if Ivars.mbWarGames:Is(0) then--tex added check
+  if Ivars.mbHostileSoldiers:Is(0) then--tex added bypass
     mtbs_enemy.SetFriendly()
   end
 
-  if Ivars.mbWarGames:Is"ZOMBIE" then
+  if Ivars.mbZombies:Is(1) then--tex>
     InfMain.SetUpMBZombie()
-  end
+  end--<
 
 
   TppEnemy.SetSaluteVoiceList()
