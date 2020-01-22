@@ -1,7 +1,3 @@
--- DOBUILD: 0
--- ORIGINALQAR: chunk4
--- PACKPATH: \Assets\tpp\pack\mission2\quest\mafr\pfCamp\pfCamp_q10200.fpkd
-
 local this = {}
 local quest_step = {}
 
@@ -118,6 +114,7 @@ function this.OnAllocate()
 	TppQuest.RegisterQuestSystemCallbacks{
 		OnActivate = function()
 			Fox.Log("quest_recv_child OnActivate")
+			
 			TppEnemy.OnActivateQuest( this.QUEST_TABLE )
 		end,
 		OnDeactivate = function()

@@ -65,6 +65,7 @@ function this.OnAllocate()
 		nil
 	}
 
+	
 	TppHostage2.SetHostageType{
 		gameObjectType	= "TppHostageUnique",
 		hostageType		= "Volgin",
@@ -97,6 +98,8 @@ function this.OnAllocate()
 			TppEnemy.OnTerminateQuest( this.QUEST_TABLE )
 		end,
 	}
+
+	
 	mvars.isHeliStart = false
 
 end
@@ -174,6 +177,31 @@ quest_step.QStep_Main = {
 				},
 			},
 			Trap = {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
 				{
 					msg = "Enter",	
 					func = function (arg0,arg1)
@@ -182,6 +210,7 @@ quest_step.QStep_Main = {
 						end
 					end
 				},
+				
 				{
 					msg = "Exit",	
 					func = function (arg0,arg1)
@@ -192,6 +221,7 @@ quest_step.QStep_Main = {
 				},
 			},
 			Player = {
+				
 				{
 					msg = "Volgin_Start", sender = "Volgin",
 					func = function()
@@ -262,7 +292,9 @@ function this.ShowIconForVolginDemo( demoName, doneCheckFlag )
 		elseif trapName then
 			this.HideIconForVolginDemo()
 			Player.SetWaitingTimeToTrapDetailCondition { trapName = trapName, time = 2.0 }
+			
 		else
+			
 		end
 	end
 end
@@ -278,6 +310,7 @@ end
 function this.Reload_BeforeDemoPlay()
 	Fox.Log("**** tent_q99040:Reload_BeforeDemoPlay ****")
 	
+	
 	TppMission.Reload{
 		isNoFade = false,
 		showLoadingTips = false,
@@ -286,6 +319,10 @@ function this.Reload_BeforeDemoPlay()
 			TppSequence.SetNextSequence("Seq_Demo_RecoverVolgin")
 			
 			TppMission.UpdateCheckPointAtCurrentPosition()
+			
+			
+			
+			
 		end,
 	}
 end

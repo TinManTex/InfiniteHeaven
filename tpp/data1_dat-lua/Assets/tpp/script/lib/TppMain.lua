@@ -347,7 +347,8 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
       GameObject.SendCommand({type="TppSoldier2"},{id="CreateFaceIdList"})
     end
     if IsTypeTable(missionTable.enemy.soldierDefine)then
-      TppEnemy.DefineSoldiers(missionTable.enemy.soldierDefine)
+        InfMain.AddToLrrp(missionTable.enemy.soldierDefine,missionTable.enemy.travelPlans)--tex
+        TppEnemy.DefineSoldiers(mvars.ene_soldierDefine)--tex WAS missionTable.enemy.soldierDefine
     end
     if missionTable.enemy.InitEnemy and IsTypeFunc(missionTable.enemy.InitEnemy)then
       missionTable.enemy.InitEnemy()

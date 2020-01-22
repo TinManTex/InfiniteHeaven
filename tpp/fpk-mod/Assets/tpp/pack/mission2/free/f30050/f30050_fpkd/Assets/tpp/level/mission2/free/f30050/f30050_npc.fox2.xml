@@ -11,6 +11,7 @@
     <class name="GameObjectLocator" super="" version="2" />
     <class name="TransformEntity" super="" version="0" />
     <class name="TppCorpseLocatorParameter" super="" version="0" />
+    <class name="TppWalkerGear2LocatorParameter" super="" version="0" />
     <class name="TppVfxFileLoader" super="" version="2" />
     <class name="TexturePackLoadConditioner" super="" version="0" />
   </classes>
@@ -33,6 +34,7 @@
           <value key="TppCorpseGameObjectLocator0002">0x047E4680</value>
           <value key="TppCorpseGameObjectLocator0003">0x047E47D0</value>
           <value key="TppCorpseGameObjectLocator0004">0x047E4920</value>
+          <value key="wkr_WalkerGear_0000">0x14000000</value>
           <value key="TppVfxFileLoader0000">0x04634FB0</value>
           <value key="TexturePackLoadConditioner0000">0x0463D4B0</value>
         </property>
@@ -563,6 +565,70 @@
     </entity>
 
 
+  <entity class="GameObjectLocator" classVersion="2" addr="0x14000000" unknown1="272" unknown2="9079604">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>wkr_WalkerGear_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x046345A0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x14000001</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="typeName" type="String" container="StaticArray" arraySize="1">
+          <value>TppCommonWalkerGear2</value>
+        </property>
+        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x14000002</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x14000001" unknown1="80" unknown2="9079607">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x14000000</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1.79" y="0.8" z="-30.71" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000002" unknown1="32" unknown2="9079613">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x14000000</value>
+        </property>
+        <property name="identifier" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
 
 
 

@@ -1,3 +1,6 @@
+-- DOBUILD: 0
+-- ORIGINALQAR: chunk4
+-- PACKPATH: \Assets\tpp\pack\mission2\free\f30020\f30020.fpkd
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -1107,6 +1110,145 @@ this.travelPlans = {
 		{ cp="mafr_lab_cp",				routeGroup={ "travel", "lrrpHold" }, },
 		{ cp="mafr_lab_cp",				routeGroup={ "travel", 					"out_lrrpHold_W" }, },
 	},
+	
+	
+	--tex generic(common route set or whatev) travelplans from missions>
+	--10080
+  travelOutland01 = {
+    { cp="mafr_01_20_lrrp",     routeGroup={ "travel", "lrrp_01to20" } }, 
+    { cp="mafr_outland_cp",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="mafr_03_20_lrrp",     routeGroup={ "travel", "lrrp_20to03" } }, 
+    { cp="mafr_outlandEast_ob",   routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="mafr_03_20_lrrp",     routeGroup={ "travel", "lrrp_03to20" } }, 
+    { cp="mafr_outland_cp",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="mafr_01_20_lrrp",     routeGroup={ "travel", "lrrp_20to01" } }, 
+    { cp="mafr_outlandNorth_ob",  routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+  },
+
+  --10081
+  travelDiamond = {
+    { base="mafr_diamondSouth_ob" },
+    { base="mafr_diamond_cp" },
+  },
+
+  travelBanana = {
+    { base="mafr_savannahNorth_ob" },
+    { base="mafr_banana_cp" },
+  },
+
+  --10082
+  travel_swampEast_pfCampNorth = {
+    { base = "mafr_swampEast_ob", },
+    { base = "mafr_pfCampNorth_ob", },
+  },
+  
+  travel_savannahWest_savannah = {
+    { base = "mafr_savannah_cp", },
+    { base = "mafr_savannahWest_ob", },
+  },
+  
+  travel_savannahEast_savannah = {
+    { base = "mafr_savannah_cp", },
+    { base = "mafr_savannahEast_ob", },
+  },
+
+  --10086
+  travel_05_22 = {
+    { base="mafr_swampSouth_ob", },
+    { base="mafr_swamp_cp", },
+  },
+  travel_06_22 = {
+    { base="mafr_swampEast_ob", },
+    { base="mafr_swamp_cp", },
+  },
+
+  --10090
+  travel_lrrp_01 = {
+    { cp = "mafr_02_21_lrrp",       routeGroup = { "travel", "lrrp_21to02"  } },
+    { cp = "mafr_swampWest_ob",     routeGroup = { "travel", "lrrpHold"   } },
+    { cp = "mafr_02_22_lrrp",       routeGroup = { "travel", "lrrp_02to22"  } },
+    { cp = "mafr_swamp_cp",       routeGroup = { "travel", "lrrpHold01" } },
+    { cp = "mafr_02_22_lrrp",     routeGroup = { "travel", "lrrp_22to02"  } },
+    { cp = "mafr_swampWest_ob",     routeGroup = { "travel", "lrrpHold"   } },
+    { cp = "mafr_02_21_lrrp",     routeGroup = { "travel", "lrrp_02to21"  } },
+    { cp = "mafr_flowStation_cp",   routeGroup = { "travel", "lrrpHold"   } },
+  },
+  travel_lrrp_03 = {
+    { cp = "mafr_13_15_lrrp",       routeGroup = { "travel", "lrrp_15to13"  } },
+    { cp = "mafr_savannahEast_ob",    routeGroup = { "travel", "lrrpHold"   } },
+    { cp = "mafr_13_24_lrrp",       routeGroup = { "travel", "lrrp_13to24"  } },
+    { cp = "mafr_savannah_cp",      routeGroup = { "travel", "lrrpHold"   } },
+    { cp = "mafr_16_24_lrrp",       routeGroup = { "travel", "lrrp_24to16"  } },
+    { cp = "mafr_pfCampNorth_ob",     routeGroup = { "travel", "lrrpHold"   } },
+    { cp = "mafr_15_16_lrrp",       routeGroup = { "travel", "lrrp_16to15"  } },
+    { cp = "mafr_pfCampEast_ob",    routeGroup = { "travel", "lrrpHold"   } },
+  },
+
+  --10091
+  travel_swamp = {
+      { base = "mafr_swampSouth_ob"},
+      { cp="mafr_05_22_lrrp",     routeGroup={ "travel", "lrrp_05to22" }, },
+      { cp="mafr_swamp_cp",     routeGroup={ "travel", "lrrpHold" }, },
+      { cp="mafr_06_22_lrrp",     routeGroup={ "travel", "lrrp_22to06" }, },
+      { base = "mafr_swampEast_ob"},
+      { cp="mafr_06_22_lrrp",     routeGroup={ "travel", "lrrp_06to22" }, },
+      { cp="mafr_swamp_cp",     routeGroup={ "travel", "lrrpHold" }, },
+      { cp="mafr_05_22_lrrp",     routeGroup={ "travel", "lrrp_22to05" }, },
+    },
+
+  --10093
+  travelLab01 = {
+    { cp="mafr_lab_cp",       routeGroup={ "travel", "out_lrrpHold_W" }, }, 
+    { cp="mafr_19_29_lrrp",     routeGroup={ "travel", "lrrp_29to19" }, },  
+    { cp="mafr_labWest_ob",     routeGroup={ "travel", "in_lrrpHold_W" }, },  
+    { cp="mafr_labWest_ob",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="mafr_labWest_ob",     routeGroup={ "travel", "out_lrrpHold_E" }, }, 
+    { cp="mafr_18_19_lrrp",     routeGroup={ "travel", "lrrp_19to18" }, },  
+    { cp="mafr_diamondNorth_ob",  routeGroup={ "travel", "in_lrrpHold_W" }, },  
+    { cp="mafr_diamondNorth_ob",  routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="mafr_diamondNorth_ob",  routeGroup={ "travel", "out_lrrpHold_W" }, }, 
+    { cp="mafr_18_19_lrrp",     routeGroup={ "travel", "lrrp_18to19" }, },  
+    { cp="mafr_labWest_ob",     routeGroup={ "travel", "in_lrrpHold_E" }, },  
+    { cp="mafr_labWest_ob",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="mafr_labWest_ob",     routeGroup={ "travel", "out_lrrpHold_W" }, }, 
+    { cp="mafr_19_29_lrrp",     routeGroup={ "travel", "lrrp_19to29" }, },  
+    { cp="mafr_lab_cp",       routeGroup={ "travel", "in_lrrpHold_W" }, },  
+    { cp="mafr_lab_cp",       routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+  },
+
+  --10121
+  respawn_01 ={
+    { cp="mafr_15_23_lrrp",   routeGroup={ "travel", "rp_15to23" } },
+    { cp="mafr_pfCamp_cp" },
+  },
+  respawn_02 ={
+    { cp="mafr_23_33_lrrp",   routeGroup={ "travel", "rp_33to23" } },
+    { cp="mafr_pfCamp_cp" },
+  },
+
+  --10211
+  lrrp_swampSouth_to_sanannahEast = {
+    { base = "mafr_pfCampNorth_ob",   },
+    { base = "mafr_swampEast_ob",   },
+    { base = "mafr_swamp_cp",     },
+    { base = "mafr_swampSouth_ob",    },
+    { base = "mafr_swamp_cp", },
+    { base = "mafr_swampEast_ob", },
+    { base = "mafr_savannah_cp",  },
+    { base = "mafr_savannahEast_ob",  },
+  },
+
+  lrrp_swampSouth_to_sanannahEast2 = {
+    { base = "mafr_swampSouth_ob",    },
+    { base = "mafr_swamp_cp", },
+    { base = "mafr_swampEast_ob", },
+    { base = "mafr_savannah_cp",  },
+    { base = "mafr_savannahEast_ob",  },
+    { base = "mafr_pfCampNorth_ob",   },
+    { base = "mafr_swampEast_ob",   },
+    { base = "mafr_swamp_cp",     },
+  },
+  --<
 
 }
 

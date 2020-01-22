@@ -744,7 +744,7 @@ function this.GetSoldierSubType(soldierId,soldierType)
       return "DD_FOB"
     end
   end--<
-  
+
   local missionCode=TppMission.GetMissionID()
   if missionCode==10115 or missionCode==11115 then
     return"DD_PW"
@@ -1239,7 +1239,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   end
   if powerLoadout.MISSILE then--tex split from shield
     powerLoadout.SNIPER=nil
-    powerLoadout.MG=nil    
+    powerLoadout.MG=nil
     if not powerLoadout.MISSILE_COMBO then--tex added CONFIG_TYPE to bypass, _ApplyRevengeToCp has control of SMG
       powerLoadout.SHOTGUN=nil
       powerLoadout.SMG=true
@@ -2755,29 +2755,29 @@ function this.Init(missionTable)
   end
   if mvars.loc_locationCommonTravelPlans then
     mvars.ene_lrrpNumberDefine={}
-    for e,n in pairs(mvars.loc_locationCommonTravelPlans.lrrpNumberDefine)do
-      mvars.ene_lrrpNumberDefine[e]=n
+    for cpName,enum in pairs(mvars.loc_locationCommonTravelPlans.lrrpNumberDefine)do
+      mvars.ene_lrrpNumberDefine[cpName]=enum
     end
     mvars.ene_cpLinkDefine=this.MakeCpLinkDefineTable(mvars.ene_lrrpNumberDefine,mvars.loc_locationCommonTravelPlans.cpLinkMatrix)
     mvars.ene_defaultTravelRouteGroup=mvars.loc_locationCommonTravelPlans.defaultTravelRouteGroup
-    local e
+    local lrrpNumberDefine
     if missionTable.enemy and missionTable.enemy.lrrpNumberDefine then
-      e=missionTable.enemy.lrrpNumberDefine
+      lrrpNumberDefine=missionTable.enemy.lrrpNumberDefine
     end
-    if e then
-      for n,e in ipairs(missionTable.enemy.lrrpNumberDefine)do
-        local n=#mvars.ene_lrrpNumberDefine+1
-        mvars.ene_lrrpNumberDefine[n]=e
-        mvars.ene_lrrpNumberDefine[e]=n
+    if lrrpNumberDefine then
+      for cpName,enum in ipairs(missionTable.enemy.lrrpNumberDefine)do
+        local endEnum=#mvars.ene_lrrpNumberDefine+1
+        mvars.ene_lrrpNumberDefine[endEnum]=enum
+        mvars.ene_lrrpNumberDefine[enum]=endEnum
       end
     end
     if missionTable.enemy and missionTable.enemy.cpLink then
-      local t=missionTable.enemy.cpLink
-      for e,n in pairs(t)do
+      local cpLink=missionTable.enemy.cpLink
+      for e,n in pairs(cpLink)do
         mvars.ene_cpLinkDefine[e]=mvars.ene_cpLinkDefine[e]or{}
         for a,n in ipairs(mvars.ene_lrrpNumberDefine)do
           mvars.ene_cpLinkDefine[n]=mvars.ene_cpLinkDefine[n]or{}
-          if t[e][n]then
+          if cpLink[e][n]then
             mvars.ene_cpLinkDefine[e][n]=true
             mvars.ene_cpLinkDefine[n][e]=true
           else
@@ -2795,10 +2795,10 @@ function this.Init(missionTable)
   else
     skullFultonable=false
   end
-  local n={"TppBossQuiet2","TppParasite2"}
-  for t,n in ipairs(n)do
-    if GameObject.DoesGameObjectExistWithTypeName(n)then
-      GameObject.SendCommand({type=n},{id="SetFultonEnabled",enabled=skullFultonable})
+  local skullTypes={"TppBossQuiet2","TppParasite2"}
+  for n,type in ipairs(skullTypes)do
+    if GameObject.DoesGameObjectExistWithTypeName(type)then
+      GameObject.SendCommand({type=type},{id="SetFultonEnabled",enabled=skullFultonable})
     end
   end
 end
@@ -2815,9 +2815,13 @@ end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
+--IN: missionTable.enemy.soldierDefine
 function this.DefineSoldiers(soldierDefine)
-  mvars.ene_soldierDefine={}
-  Tpp.MergeTable(mvars.ene_soldierDefine,soldierDefine,true)
+  if soldierDefine~=mvars.ene_soldierDefine then--tex added bypass due to ugly hack
+    mvars.ene_soldierDefine={}
+    Tpp.MergeTable(mvars.ene_soldierDefine,soldierDefine,true)
+  end
+
   mvars.ene_soldierIDList={}
   mvars.ene_cpList={}
   mvars.ene_baseCpList={}
@@ -2826,7 +2830,7 @@ function this.DefineSoldiers(soldierDefine)
   mvars.ene_sleepTimes={}
   mvars.ene_lrrpTravelPlan={}
   mvars.ene_lrrpVehicle={}
-  for cpName,soldierNames in pairs(soldierDefine)do
+  for cpName,cpDefine in pairs(soldierDefine)do
     local cpId=GetGameObjectId(cpName)
     if cpId==NULL_ID then
     else
@@ -2834,21 +2838,21 @@ function this.DefineSoldiers(soldierDefine)
       mvars.ene_holdTimes[cpId]=this.DEFAULT_HOLD_TIME
       mvars.ene_sleepTimes[cpId]=this.DEFAULT_SLEEP_TIME
       mvars.ene_soldierIDList[cpId]={}
-      if soldierNames.lrrpTravelPlan then
-        mvars.ene_lrrpTravelPlan[cpId]=soldierNames.lrrpTravelPlan
+      if cpDefine.lrrpTravelPlan then
+        mvars.ene_lrrpTravelPlan[cpId]=cpDefine.lrrpTravelPlan
       end
-      if soldierNames.lrrpVehicle then
-        mvars.ene_lrrpVehicle[cpId]=soldierNames.lrrpVehicle
+      if cpDefine.lrrpVehicle then
+        mvars.ene_lrrpVehicle[cpId]=cpDefine.lrrpVehicle
       end
-      for reserveTableName,soldierName in pairs(soldierNames)do
-        if IsTypeString(reserveTableName)then
-          if not this.SOLDIER_DEFINE_RESERVE_TABLE_NAME[reserveTableName]then
+      for k,v in pairs(cpDefine)do
+        if IsTypeString(k)then
+          if not this.SOLDIER_DEFINE_RESERVE_TABLE_NAME[k]then
           end
         else
-          local soldierId=GetGameObjectId(soldierName)
+          local soldierId=GetGameObjectId(v)
           if soldierId==NULL_ID then
           else
-            mvars.ene_soldierIDList[cpId][soldierId]=reserveTableName
+            mvars.ene_soldierIDList[cpId][soldierId]=k
           end
         end
       end
@@ -3036,11 +3040,12 @@ end
 mvars.ene_vehicleDefine=mvars.ene_vehicleDefine or{}
 mvars.ene_vehicleDefine.instanceCount=instanceCount
 end
-function this.SpawnVehicles(vehicleSpawnList)--*_enemy.lua .VEHICLE_SPAWN_LIST
+--NMC vehicleSpawnList = *_enemy.lua .VEHICLE_SPAWN_LIST
+function this.SpawnVehicles(vehicleSpawnList)
   for t,spawnInfo in ipairs(vehicleSpawnList)do
     InfMain.PreSpawnVehicle(spawnInfo)--tex
     this.SpawnVehicle(spawnInfo)
-end
+  end
 end
 function this.SpawnVehicle(spawnInfo)
   if not IsTypeTable(spawnInfo)then
@@ -3113,12 +3118,12 @@ end
 function this.GetCpIntelTrapTable()
   return mvars.ene_cpIntelTrapTable
 end
-function this.GetCurrentRouteSetType(t,i,r)
-  local a=function(n,e)
-    if not e then
-      e=TppClock.GetTimeOfDayIncludeMidNight()
+function this.GetCurrentRouteSetType(routeTypeStr32,phase,r)
+  local SetForTime=function(n,timeOfDay)
+    if not timeOfDay then
+      timeOfDay=TppClock.GetTimeOfDayIncludeMidNight()
     end
-    local e="sneak"..("_"..e)
+    local e="sneak"..("_"..timeOfDay)
     if n then
       local n=not next(mvars.ene_routeSets[n].sneak_midnight)
       if e=="sneak_midnight"and n then
@@ -3126,29 +3131,33 @@ function this.GetCurrentRouteSetType(t,i,r)
     end
     return e
   end
-  if t==0 then
-    t=false
+  if routeTypeStr32==0 then
+    routeTypeStr32=false
   end
-  local n
-  if t then
-    local t=this.ROUTE_SET_TYPETAG[t]
-    if t=="travel"then
-      return"travel"end
-    if t=="hold"then
-      return"hold"end
-    if t=="sleep"then
-      return"sleep"end
-    if i==this.PHASE.SNEAK then
-      n=a(r,t)
+  local routeSetType
+  if routeTypeStr32 then
+    local routeSetType=this.ROUTE_SET_TYPETAG[routeTypeStr32]
+    if routeSetType=="travel"then
+      return"travel"
+      end
+    if routeSetType=="hold"then
+      return"hold"
+      end
+    if routeSetType=="sleep"then
+      return"sleep"
+      end
+    if phase==this.PHASE.SNEAK then
+      routeSetType=SetForTime(r,routeSetType)
     else
-      n="caution"end
+      routeSetType="caution"
+      end
   else
-    if i==this.PHASE.SNEAK then
-      n=a(r)
+    if phase==this.PHASE.SNEAK then
+      routeSetType=SetForTime(r)
     else
-      n="caution"end
+      routeSetType="caution"end
   end
-  return n
+  return routeSetType
 end
 function this.GetPrioritizedRouteTable(e,n,t,r)
   local i={}
@@ -3571,59 +3580,60 @@ function this.MakeCpLinkDefineTable(t,e)
   end
   return n
 end
-function this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName,toCp,n)--lrrpNumberDefine,cpLinkDefine
+function this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName,toCp,n)
   if not Tpp.IsTypeTable(n)then
     return
-end
-local a=cpLinkDefine[toCp]
-if a==nil then
-  return
-end
-mvars.ene_travelPlans=mvars.ene_travelPlans or{}
-local r=0
-for r,fromCp in pairs(n)do
-  if mvars.ene_soldierDefine[fromCp]then
-    if a[fromCp]then
-      local lrrpNumToCp=lrrpNumberDefine[toCp]
-      local lrrpNumFromCp=lrrpNumberDefine[fromCp]
-      local reinforcePlan="rp_"..(toCp..("_From_"..fromCp))
-      mvars.ene_travelPlans[reinforcePlan]=mvars.ene_travelPlans[reinforcePlan]or{}
-      local  lrrpRoute=string.format("rp_%02dto%02d",lrrpNumFromCp,lrrpNumToCp)
-      local lrrpCp=this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumToCp,lrrpNumFromCp,locationName,lrrpNumberDefine)
-      mvars.ene_travelPlans[reinforcePlan]={{cp=lrrpCp,routeGroup={"travel",lrrpRoute}},{cp=toCp,finishTravel=true}}
-      mvars.ene_reinforcePlans[reinforcePlan]={{toCp=toCp,fromCp=fromCp,type="respawn"}}
-    end
   end
-end
-end
-function this.MakeTravelPlanTable(lrrpNumberDefine,cpLinkDefine,locationName,t,n,holdTime)
-  if((not Tpp.IsTypeTable(n)or not Tpp.IsTypeTable(n[1]))or not Tpp.IsTypeString(t))or(n[1].cp==nil and n[1].base==nil)then
+  local a=cpLinkDefine[toCp]
+  if a==nil then
     return
   end
   mvars.ene_travelPlans=mvars.ene_travelPlans or{}
-  mvars.ene_travelPlans[t]=mvars.ene_travelPlans[t]or{}
-  local travelPlan=mvars.ene_travelPlans[t]
-  local o=#n
-  local r,i
-  if(not n.ONE_WAY)and n[#n].base then
-    r=n[#n]
-  end
-  for t=1,o do
-    local a
-    if n.ONE_WAY and(t==o)then
-      a=true
-    end
-    if n[t].base then
-      if t==1 then
-        i=n[t]
-      else
-        r=n[t-1]i=n[t]
+  local r=0
+  for r,fromCp in pairs(n)do
+    if mvars.ene_soldierDefine[fromCp]then
+      if a[fromCp]then
+        local lrrpNumToCp=lrrpNumberDefine[toCp]
+        local lrrpNumFromCp=lrrpNumberDefine[fromCp]
+        local reinforcePlan="rp_"..(toCp..("_From_"..fromCp))
+        mvars.ene_travelPlans[reinforcePlan]=mvars.ene_travelPlans[reinforcePlan]or{}
+        local  lrrpRoute=string.format("rp_%02dto%02d",lrrpNumFromCp,lrrpNumToCp)
+        local lrrpCp=this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumToCp,lrrpNumFromCp,locationName,lrrpNumberDefine)
+        mvars.ene_travelPlans[reinforcePlan]={{cp=lrrpCp,routeGroup={"travel",lrrpRoute}},{cp=toCp,finishTravel=true}}
+        mvars.ene_reinforcePlans[reinforcePlan]={{toCp=toCp,fromCp=fromCp,type="respawn"}}
       end
-      this.AddLinkedBaseTravelCourse(lrrpNumberDefine,cpLinkDefine,locationName,holdTime,travelPlan,r,i,a)
-    elseif n[t].cp then
-      local n=n[t]
-      if IsTypeTable(n)then
-        this.AddTravelCourse(travelPlan,n,a)
+    end
+  end
+end
+function this.MakeTravelPlanTable(lrrpNumberDefine,cpLinkDefine,locationName,planName,cpPlans,holdTime)
+  if((not Tpp.IsTypeTable(cpPlans)or not Tpp.IsTypeTable(cpPlans[1]))or not Tpp.IsTypeString(planName))or(cpPlans[1].cp==nil and cpPlans[1].base==nil)then
+    return
+  end
+  mvars.ene_travelPlans=mvars.ene_travelPlans or{}
+  mvars.ene_travelPlans[planName]=mvars.ene_travelPlans[planName]or{}
+  local travelPlan=mvars.ene_travelPlans[planName]
+  local numCpPlans=#cpPlans
+  local r,i
+  if(not cpPlans.ONE_WAY)and cpPlans[#cpPlans].base then
+    r=cpPlans[#cpPlans]
+  end
+  for n=1,numCpPlans do
+    local oneWay
+    if cpPlans.ONE_WAY and(n==numCpPlans)then
+      oneWay=true
+    end
+    if cpPlans[n].base then
+      if n==1 then
+        i=cpPlans[n]
+      else
+        r=cpPlans[n-1]
+        i=cpPlans[n]
+      end
+      this.AddLinkedBaseTravelCourse(lrrpNumberDefine,cpLinkDefine,locationName,holdTime,travelPlan,r,i,oneWay)
+    elseif cpPlans[n].cp then
+      local plan=cpPlans[n]
+      if IsTypeTable(plan)then
+        this.AddTravelCourse(travelPlan,plan,oneWay)
       end
     end
   end
@@ -3686,13 +3696,13 @@ function this.GetFormattedLrrpCpName(a,t,locationName,lrrpNumberDefine)
   local lrrpNumFromCp=lrrpNumberDefine[t]
   return this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumToCp,lrrpNumFromCp,locationName,lrrpNumberDefine)
 end
-function this.AddTravelCourse(travelPlan,e,t)
-  if t then
-    e.finishTravel=true
+function this.AddTravelCourse(travelPlan,plan,oneWay)
+  if oneWay then
+    plan.finishTravel=true
   else
-    e.finishTravel=nil
+    plan.finishTravel=nil
   end
-  table.insert(travelPlan,e)
+  table.insert(travelPlan,plan)
 end
 --REF travelPlans
 --={
@@ -3713,8 +3723,8 @@ function this.SetTravelPlans(travelPlans)--missionTable.enemy.travelPlans
     if locationName then
       local lrrpNumberDefine=mvars.ene_lrrpNumberDefine
       local cpLinkDefine=mvars.ene_cpLinkDefine
-      for i,t in pairs(travelPlans)do
-        this.MakeTravelPlanTable(lrrpNumberDefine,cpLinkDefine,locationName,i,t,this.DEFAULT_TRAVEL_HOLD_TIME)
+      for planName,cpPlans in pairs(travelPlans)do
+        this.MakeTravelPlanTable(lrrpNumberDefine,cpLinkDefine,locationName,planName,cpPlans,this.DEFAULT_TRAVEL_HOLD_TIME)
       end
       local reinforceTravelPlan=mvars.loc_locationCommonTravelPlans.reinforceTravelPlan
       if mvars.ene_useCommonReinforcePlan and reinforceTravelPlan then
@@ -4738,11 +4748,11 @@ function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_T
             this.SetAlertRoute(soldierId,enemyDef.route_a)
           end
           if enemyDef.rideFromVehicleId then
-            local e=enemyDef.rideFromVehicleId
-            if IsTypeString(e)then
-              e=GameObject.GetGameObjectId(e)
+            local vehicleId=enemyDef.rideFromVehicleId
+            if IsTypeString(vehicleId)then
+              vehicleId=GameObject.GetGameObjectId(vehicleId)
             end
-            GameObject.SendCommand(soldierId,{id="SetRelativeVehicle",targetId=e,rideFromBeginning=true})
+            GameObject.SendCommand(soldierId,{id="SetRelativeVehicle",targetId=vehicleId,rideFromBeginning=true})
           end
           if enemyDef.isZombie then
             GameObject.SendCommand(soldierId,{id="SetZombie",enabled=true,isMsf=false,isZombieSkin=true,isHagure=true})

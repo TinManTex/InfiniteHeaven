@@ -1714,11 +1714,24 @@ this.disableReinforceHeliPullOut={
 --  range={max=100},
 --}
 
+--lrrp
+this.enableLrrpFreeRoam={--DEBUGNOW
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 --patrol vehicle stuff>
 this.vehiclePatrolProfile={
   save=MISSION,
   settings={"OFF","SINGULAR","EACH_VEHICLE"},
   settingNames="vehiclePatrolProfileSettings",
+  ExecCheck=function(self)
+    if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
+      return true
+    end
+    return false
+  end,
 }
 
 local function TypeChange()

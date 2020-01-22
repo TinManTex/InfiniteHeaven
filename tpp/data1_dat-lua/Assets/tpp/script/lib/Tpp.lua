@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 local this={}
 local StrCode32=Fox.StrCode32
---local type=type
+local type=type
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local B=TppGameObject.GAME_OBJECT_TYPE_PLAYER2
@@ -230,7 +230,7 @@ function this.MakeMessageExecTable(e)
           if type(n)=="string"then
             if e==StrCode32"GameObject"then
               s[l]=GetGameObjectId(n)
-              if msgSndr==NULL_ID then
+              if msgSndr==NULL_ID then--RETAILBUG not defined
               end
             else
               s[l]=StrCode32(n)
@@ -488,6 +488,9 @@ function this.IsPlayerWalkerGear(e)
 end
 function this.IsEnemyWalkerGear(e)
   return IsGameObjectType(e,b)
+end
+function this.IsUav(e)--RETAILBUG well not really, just that there's two identical functions with different cap, IsUav and IsUAV
+  return IsGameObjectType(e,G)
 end
 function this.IsFultonContainer(e)
   return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER)

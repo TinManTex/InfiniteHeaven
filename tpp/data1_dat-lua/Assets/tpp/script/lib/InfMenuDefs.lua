@@ -391,7 +391,8 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    Ivars.enableLrrpFreeRoam,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
@@ -433,7 +434,7 @@ this.debugInMissionMenu={
     InfMenuCommands.DEBUG_PrintReinforceVars,
     --InfMenuCommands.DEBUG_PrintVehicleTypes,
     --InfMenuCommands.DEBUG_PrintVehiclePaint,
-    --InfMenuCommands.DEBUG_PrintSoldierDefine,
+    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUGNOW
     --InfMenuCommands.DEBUG_PrintSoldierIDList,
     InfMenuCommands.DEBUG_ShowRevengeConfig,
     --InfMenuCommands.DEBUG_ShowPhaseEnums,--CULL
@@ -454,7 +455,9 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUGNOW    
+    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUGNOW
 --    Ivars.selectedCp,--DEBUGNOW
     --Ivars.selectedChangeWeapon,--WIP
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,

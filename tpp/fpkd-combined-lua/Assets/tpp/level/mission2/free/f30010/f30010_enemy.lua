@@ -1,3 +1,6 @@
+-- DOBUILD: 0
+-- ORIGINALQAR: chunk2
+-- PACKPATH: \Assets\tpp\pack\mission2\free\f30010\f30010.fpkd
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -578,11 +581,13 @@ this.soldierDefine = {
 	afgh_01_13_lrrp = {
 		"sol_01_13_0000",
 		"sol_01_13_0001",
+--		"sol_ih_0010",--DEBUGNOW
+--		"sol_ih_0011",
 		lrrpTravelPlan	= "travelArea2_01",
 		lrrpVehicle		= "veh_trc_0000",
 	},
 
-	afgh_01_32_lrrp = {
+	afgh_01_32_lrrp = {  
 		nil
 	},
 
@@ -598,45 +603,49 @@ this.soldierDefine = {
 		nil
 	},
 
-	afgh_03_08_lrrp = {
+	afgh_03_08_lrrp = {--DEBUGNOW -- no go 
 		nil
 	},
 
-	afgh_03_11_lrrp = {
+	afgh_03_11_lrrp = {--DEBUGNOW not "travelArea2_01",   
 		nil
 	},
 
-	afgh_04_32_lrrp = {
+	afgh_04_32_lrrp = {--DEBUGNOW not "travelArea2_01",
 		nil
 	},
 
 	afgh_04_36_lrrp = {
 		"sol_04_36_0000",
 		"sol_04_36_0001",
+--		    "sol_ih_0012",--DEBUGNOW
+--    "sol_ih_0013",
 		lrrpTravelPlan	= "travelArea2_02",
 		lrrpVehicle		= "veh_trc_0001",
 	},
 
-	afgh_05_11_lrrp = {
-		nil
+	afgh_05_11_lrrp = {--DEBUGNOW not "travelArea2_01",  
+    nil
 	},
 
 	afgh_05_33_lrrp = {
 		"sol_05_33_0000",
 		"sol_05_33_0001",
+--		        "sol_ih_0014",--DEBUGNOW
+--    "sol_ih_0015",
 		lrrpTravelPlan	= "travelArea2_03",
 		lrrpVehicle		= "veh_trc_0002",
 	},
 
-	afgh_06_24_lrrp = {
+	afgh_06_24_lrrp = {--DEBUGNOW no go
 		nil
 	},
 
-	afgh_07_08_lrrp = {
+	afgh_07_08_lrrp = {--DEBUGNOW no go
 		nil
 	},
 
-	afgh_08_23_lrrp = {
+	afgh_08_23_lrrp = {--DEBUGNOW no go
 		nil
 	},
 
@@ -683,6 +692,8 @@ this.soldierDefine = {
 	afgh_16_29_lrrp = {
 		"sol_16_29_0000",
 		"sol_16_29_0001",
+--		        "sol_ih_0016",--DEBUGNOW
+--    "sol_ih_0017",
 		lrrpTravelPlan	= "travelArea1_01",
 		lrrpVehicle		= "veh_trc_0003",
 	},
@@ -694,6 +705,8 @@ this.soldierDefine = {
 	afgh_19_26_lrrp = {
 		"sol_19_26_0000",
 		"sol_19_26_0001",
+--		        "sol_ih_0018",--DEBUGNOW
+--    "sol_ih_0019",
 		lrrpTravelPlan	= "travelArea4_01",
 		lrrpVehicle		= "veh_trc_0005",
 	},
@@ -721,6 +734,8 @@ this.soldierDefine = {
 	afgh_21_28_lrrp = {
 		"sol_21_28_0000",
 		"sol_21_28_0001",
+--		        "sol_ih_0006",--DEBUGNOW
+--    "sol_ih_0007",
 		lrrpTravelPlan	= "travelArea1_02",
 		lrrpVehicle		= "veh_trc_0004",
 	},
@@ -741,7 +756,7 @@ this.soldierDefine = {
 		nil
 	},
 
-	afgh_36_38_lrrp = {
+	afgh_36_38_lrrp = {--DEBUGNOW ok
 		nil
 	},
 
@@ -1142,7 +1157,237 @@ this.travelPlans = {
 		{ cp="afgh_powerPlant_cp",		routeGroup={ "travel", 					"out_lrrpHold_B03" }, },
 	},
 
-	
+  --tex generic(common route set or whatev) travelplans from missions>
+  --10020
+--  travelCommFacility01 = {
+--    { cp="afgh_02_34_lrrp",     routeGroup={ "travel", "lrrp_02to34" } }, 
+--    { cp="afgh_commFacility_cp",  routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_13_34_lrrp",     routeGroup={ "travel", "lrrp_34to13" } }, 
+--    { cp="afgh_ruinsNorth_ob",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_13_34_lrrp",     routeGroup={ "travel", "lrrp_13to34" } }, 
+--    { cp="afgh_commFacility_cp",  routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_02_34_lrrp",     routeGroup={ "travel", "lrrp_34to02" } }, 
+--    { cp="afgh_commWest_ob",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--  },
+--  
+--  travelSlopedTown01 = {
+--    { cp="afgh_14_35_lrrp",     routeGroup={ "travel", "lrrp_35to14" } }, 
+--    { cp="afgh_villageNorth_ob",  routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_14_32_lrrp",     routeGroup={ "travel", "lrrp_14to32" } }, 
+--    { cp="afgh_village_cp",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_14_32_lrrp",     routeGroup={ "travel", "lrrp_32to14" } }, 
+--    { cp="afgh_villageNorth_ob",  routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_14_35_lrrp",     routeGroup={ "travel", "lrrp_14to35" } }, 
+--    { cp="afgh_slopedTown_cp",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--  },
+----  
+--  travelSlopedTown02 = {
+--    { cp="afgh_02_14_lrrp",     routeGroup={ "travel", "lrrp_14to02" } }, 
+--    { cp="afgh_commWest_ob",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_02_35_lrrp",     routeGroup={ "travel", "lrrp_02to35" } }, 
+--    { cp="afgh_slopedTown_cp",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_02_35_lrrp",     routeGroup={ "travel", "lrrp_35to02" } }, 
+--    { cp="afgh_commWest_ob",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_02_14_lrrp",     routeGroup={ "travel", "lrrp_02to14" } }, 
+--    { cp="afgh_villageNorth_ob",  routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--  },
+--  
+  travelEnemyBase01_10020 = {
+    { cp="afgh_15_36_lrrp",     routeGroup={ "travel", "lrrp_36to15" } }, 
+    { cp="afgh_slopedWest_ob",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_15_35_lrrp",     routeGroup={ "travel", "lrrp_15to35" } }, 
+    { cp="afgh_slopedTown_cp",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_15_35_lrrp",     routeGroup={ "travel", "lrrp_35to15" } }, 
+    { cp="afgh_slopedWest_ob",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_15_36_lrrp",     routeGroup={ "travel", "lrrp_15to36" } }, 
+    { cp="afgh_enemyBase_cp",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+  },
+  
+  ---10033
+--  travelEnemyBase01_10033 = {
+--    { base = "afgh_villageWest_ob"},
+--    { base = "afgh_enemyBase_cp"},
+--    { base = "afgh_enemyEast_ob"},
+--    { base = "afgh_enemyBase_cp"},
+--  },
+--
+--  
+--  travelEnemyBase02_10033 = {
+--    { base = "afgh_enemyEast_ob"},
+--    { base = "afgh_enemyBase_cp"},
+--    { base = "afgh_tentEast_ob"},
+--    { base = "afgh_enemyBase_cp"},
+--  },
+--
+  travelEnemyBase03_10033 = {
+    { cp="afgh_slopedWest_ob",    routeGroup={ "travel", "out_lrrpHold_W" } },  
+    { cp="afgh_15_36_lrrp",     routeGroup={ "travel", "lrrp_15to36" } }, 
+    { cp="afgh_enemyBase_cp",     routeGroup={ "travel", "in_lrrpHold_N" } }, 
+    { cp="afgh_enemyBase_cp",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_enemyBase_cp",     routeGroup={ "travel", "out_lrrpHold_S" } },  
+    { cp="afgh_04_36_lrrp",     routeGroup={ "travel", "lrrp_36to04" } }, 
+    { cp="afgh_villageWest_ob",   routeGroup={ "travel", "in_lrrpHold_W" } }, 
+    { cp="afgh_villageWest_ob",   routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_villageWest_ob",   routeGroup={ "travel", "out_lrrpHold_E" } },  
+    { cp="afgh_04_32_lrrp",     routeGroup={ "travel", "lrrp_04to32" } }, 
+    { cp="afgh_04_32_lrrp",     routeGroup={ "travel", "lrrp_32to04" } }, 
+    { cp="afgh_villageWest_ob",   routeGroup={ "travel", "in_lrrpHold_E" } }, 
+    { cp="afgh_villageWest_ob",   routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_villageWest_ob",   routeGroup={ "travel", "out_lrrpHold_W" } },  
+    { cp="afgh_04_36_lrrp",     routeGroup={ "travel", "lrrp_04to36" } }, 
+    { cp="afgh_enemyBase_cp",     routeGroup={ "travel", "in_lrrpHold_S" } }, 
+    { cp="afgh_enemyBase_cp",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_enemyBase_cp",     routeGroup={ "travel", "out_lrrpHold_N" } },  
+    { cp="afgh_15_36_lrrp",     routeGroup={ "travel", "lrrp_36to15" } }, 
+    { cp="afgh_slopedWest_ob",    routeGroup={ "travel", "in_lrrpHold_W" } }, 
+    { cp="afgh_slopedWest_ob",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_slopedWest_ob",    routeGroup={ "travel", "out_lrrpHold_E" } },  
+    { cp="afgh_15_35_lrrp",     routeGroup={ "travel", "lrrp_15to35" } }, 
+    { cp="afgh_slopedTown_cp",    routeGroup={ "travel", "in_lrrpHold_W" } }, 
+    { cp="afgh_slopedTown_cp",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_slopedTown_cp",    routeGroup={ "travel", "out_lrrpHold_W" } },  
+    { cp="afgh_15_35_lrrp",     routeGroup={ "travel", "lrrp_35to15" } }, 
+    { cp="afgh_slopedWest_ob",    routeGroup={ "travel", "in_lrrpHold_E" } }, 
+    { cp="afgh_slopedWest_ob",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+  },
+  
+ --10036
+--  travelField = {
+--    { base = "afgh_fieldEast_ob" },
+--    { base = "afgh_field_cp" },
+--    { base = "afgh_fieldWest_ob" },
+--    { base = "afgh_field_cp" },
+--  },
+  
+  --10040
+--  travel_mount = {
+--    { base="afgh_fortSouth_ob", },
+--    { base="afgh_bridgeNorth_ob", },
+--  },
+--  travel_cliff = {
+--    { base = "afgh_bridgeWest_ob"},
+--    { base = "afgh_slopedEast_ob"},
+--  },
+--
+--  --10041
+--  lrrp_villageNorth_to_slopedTown = {
+--    { base = "afgh_commWest_ob",    },
+--    { base = "afgh_slopedTown_cp",    },
+--    { base = "afgh_commWest_ob",    },
+--    { base = "afgh_villageNorth_ob",  },
+--  },
+--  lrrp_enemyBase_to_villageNotrh = {
+--    { base = "afgh_slopedWest_ob",    },
+--    { base = "afgh_slopedTown_cp",    },
+--    { base = "afgh_villageNorth_ob",  },
+--    { base = "afgh_slopedTown_cp",    },
+--    { base = "afgh_slopedWest_ob",    },
+--    { base = "afgh_enemyBase_cp",   },
+--
+--  },
+--  lrrp_field_to_remnantsNotrh = {
+--    { base = "afgh_remnantsNorth_ob",   },
+--    { base = "afgh_fieldWest_ob",   },
+--    { base = "afgh_field_cp",   },
+--    { base = "afgh_fieldWest_ob",   },
+--  },
+--
+--  --10043
+  travelCommFacility = {
+    { cp = "afgh_commFacility_cp",    routeGroup = { "travel",          "in_lrrpHold_E" }, },
+    { cp = "afgh_commFacility_cp",    routeGroup = { "travel", "lrrpHold" }   },
+    { cp = "afgh_commFacility_cp",    routeGroup = { "travel",          "out_lrrpHold_W" }, },
+    { cp = "afgh_02_34_lrrp",       routeGroup = { "travel", "lrrp_34to02" }  },
+    { cp = "afgh_commWest_ob",      routeGroup = { "travel", "lrrpHold" }   },
+    { cp = "afgh_02_34_lrrp",       routeGroup = { "travel", "lrrp_02to34" }  },
+    { cp = "afgh_commFacility_cp",    routeGroup = { "travel",          "in_lrrpHold_W" }, },
+    { cp = "afgh_commFacility_cp",    routeGroup = { "travel", "lrrpHold" }   },
+    { cp = "afgh_commFacility_cp",    routeGroup = { "travel",          "out_lrrpHold_E" }, },
+    { cp = "afgh_13_34_lrrp",       routeGroup = { "travel", "lrrp_34to13" }  },
+    { cp = "afgh_ruinsNorth_ob",    routeGroup = { "travel", "lrrpHold" }   },
+    { cp = "afgh_13_34_lrrp",       routeGroup = { "travel", "lrrp_13to34" }  },
+  },
+  
+  travelVehicle_= {
+    { cp="afgh_13_34_lrrp",       routeGroup={ "travel", "lrrp_34to13" }, },
+    { cp="afgh_ruinsNorth_ob",      routeGroup={ "travel",          "in_lrrpHold_N" }, },
+    { cp="afgh_ruinsNorth_ob",      routeGroup={ "travel",          "out_lrrpHold_S" }, },
+    { cp="afgh_01_13_lrrp",       routeGroup={ "travel", "lrrp_13to01" }, },
+    { cp="afgh_villageEast_ob",     routeGroup={ "travel",          "in_lrrpHold_E" }, },
+    { cp="afgh_villageEast_ob",     routeGroup={ "travel",          "out_lrrpHold_W" }, },
+    { cp="afgh_01_32_lrrp",       routeGroup={ "travel", "lrrp_01to32" }, },
+    { cp="afgh_village_cp",       routeGroup={ "travel",          "in_lrrpHold_E" }, },
+    { cp="afgh_village_cp",       routeGroup={ "travel", "lrrpHold" }, },
+    { cp="afgh_village_cp",       routeGroup={ "travel",          "out_lrrpHold_W" }, },
+    { cp="afgh_14_32_lrrp",       routeGroup={ "travel", "lrrp_32to14" }, },
+    { cp="afgh_villageNorth_ob",    routeGroup={ "travel",          "in_lrrpHold_S_E" }, },
+    { cp="afgh_villageNorth_ob",    routeGroup={ "travel",          "out_lrrpHold_E" }, },
+    { cp="afgh_02_14_lrrp",       routeGroup={ "travel", "lrrp_14to02" }, },
+    { cp="afgh_commWest_ob",      routeGroup={ "travel",          "in_lrrpHold_S_E" }, },
+    { cp="afgh_commWest_ob",      routeGroup={ "travel",          "out_lrrpHold_E" }, },
+    { cp="afgh_02_34_lrrp",       routeGroup={ "travel", "lrrp_02to34" }, },
+    { cp="afgh_commFacility_cp",    routeGroup={ "travel",          "in_lrrpHold_W" }, },
+    { cp="afgh_commFacility_cp",    routeGroup={ "travel", "lrrpHold" }, },
+    { cp="afgh_commFacility_cp",    routeGroup={ "travel",          "out_lrrpHold_E" }, },
+  },
+--  
+--  travelvillageEast = {
+--    { base = "afgh_villageEast_ob", },
+--    { base = "afgh_village_cp", },
+--    { base = "afgh_villageNorth_ob", },
+--    { base = "afgh_commWest_ob", },
+--    { base = "afgh_villageNorth_ob", },
+--    { base = "afgh_village_cp", },
+--  },
+----  
+----  
+--  travelcommWest = {
+--    { base = "afgh_commWest_ob", },
+--    { base = "afgh_villageNorth_ob", },
+--    { base = "afgh_village_cp", },
+--    { base = "afgh_villageEast_ob", },
+--    { base = "afgh_village_cp", },
+--    { base = "afgh_villageNorth_ob", },
+--  },
+--
+--  --10045
+--  travelfieldWest = {
+--    { base = "afgh_fieldWest_ob", },
+--    { base = "afgh_field_cp", },
+--  },
+--  
+--  --10070
+--  travel_powerPlant = {
+--    { cp="afgh_19_26_lrrp",     routeGroup={ "travel", "lrrp_26to19" } }, 
+--    { cp="afgh_plantWest_ob",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_19_39_lrrp",     routeGroup={ "travel", "lrrp_19to39" } }, 
+--    { cp="afgh_sovietSouth_ob",   routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_27_39_lrrp",     routeGroup={ "travel", "lrrp_39to27" } }, 
+--    { cp="afgh_sovietBase_cp",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_27_39_lrrp",     routeGroup={ "travel", "lrrp_27to39" } }, 
+--    { cp="afgh_sovietSouth_ob",   routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_19_39_lrrp",     routeGroup={ "travel", "lrrp_39to19" } }, 
+--    { cp="afgh_plantWest_ob",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--    { cp="afgh_19_26_lrrp",     routeGroup={ "travel", "lrrp_19to26" } }, 
+--    { cp="afgh_powerPlant_cp",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+--  },
+--
+  travel_sovietBase = {  
+    { cp="afgh_27_39_lrrp",     routeGroup={ "travel", "lrrp_27to39" } }, 
+    { cp="afgh_sovietSouth_ob",   routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_19_39_lrrp",     routeGroup={ "travel", "lrrp_39to19" } }, 
+    { cp="afgh_plantWest_ob",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_19_26_lrrp",     routeGroup={ "travel", "lrrp_19to26" } }, 
+    { cp="afgh_powerPlant_cp",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_19_26_lrrp",     routeGroup={ "travel", "lrrp_26to19" } }, 
+    { cp="afgh_plantWest_ob",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_19_39_lrrp",     routeGroup={ "travel", "lrrp_19to39" } }, 
+    { cp="afgh_sovietSouth_ob",   routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+    { cp="afgh_27_39_lrrp",     routeGroup={ "travel", "lrrp_39to27" } }, 
+    { cp="afgh_sovietBase_cp",    routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
+  }, 
+  
+  --<
 }
 
 

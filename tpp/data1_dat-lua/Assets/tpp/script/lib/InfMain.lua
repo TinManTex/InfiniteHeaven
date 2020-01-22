@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r128"
+this.modVersion="r129"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -164,7 +164,7 @@ end
 function this.IsDDBodyEquip(missionId)
   local missionCode=missionId or vars.missionCode
   if missionCode==30050 then
-    return Ivars.mbDDSuit:Is()>0 --or Ivars.mbDDHeadGear
+    return Ivars.mbDDSuit:Is()>0
   end
   return false
 end
@@ -395,8 +395,7 @@ function this.GetCurrentDDBodyInfo()
     suitName=this.ddSuitToDDBodyInfo[ddSuit]
   elseif Ivars.mbDDSuit:Is()>1 then--0=OFF,EQUIPGRADE,..specific suits
     suitName=Ivars.mbDDSuit.settings[Ivars.mbDDSuit:Get()+1]
-  end
-  if suitName==nil then
+  else
     return nil
   end
 
@@ -933,9 +932,11 @@ end
 local vehicleBaseTypes={
   LIGHT_VEHICLE={--jeep
     ivar="vehiclePatrolLvEnable",
+    seats=4,
   },
   TRUCK={
     ivar="vehiclePatrolTruckEnable",
+    seats=2,
     easternVehicles={
       "EASTERN_TRUCK",
       "EASTERN_TRUCK_CARGO_AMMUNITION",
@@ -952,6 +953,7 @@ local vehicleBaseTypes={
   },
   WHEELED_ARMORED_VEHICLE={
     ivar="vehiclePatrolWavEnable",
+    seats=2,
     easternVehicles={
       "EASTERN_WHEELED_ARMORED_VEHICLE",
     },
@@ -961,6 +963,7 @@ local vehicleBaseTypes={
   },
   WHEELED_ARMORED_VEHICLE_HEAVY={
     ivar="vehiclePatrolWavHeavyEnable",
+    seats=2,
     easternVehicles={
       "EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY",
     },
@@ -970,6 +973,7 @@ local vehicleBaseTypes={
   },
   TRACKED_TANK={
     ivar="vehiclePatrolTankEnable",
+    seats=1,
   },
 }
 
@@ -1149,6 +1153,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     paintType=nil,
     --packPath="/Assets/tpp/pack/ih_east_tank.fpk",
     packPath="/Assets/tpp/pack/vehicle/veh_rl_east_tnk.fpk",
+  --packPath="/Assets/tpp/pack/soldier/reinforce/reinforce_veh_east_tnk.fpk",
   --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52015.fpk",
   },
 
@@ -1164,7 +1169,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
   },
 }
 
-local enabledList=nil--tex cleared on Init, TODO: don't like this setup
+local patrolVehicleEnabledList=nil--tex cleared on Init, TODO: don't like this setup
 
 function this.IsPatrolVehicleMission()
   if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
@@ -1176,12 +1181,12 @@ end
 this.MAX_PATROL_VEHICLES=16--SYNC: ivars MAX_PATROL_VEHICLES
 
 function this.BuildEnabledList()
-  enabledList={}
+  patrolVehicleEnabledList={}
   for baseType,typeInfo in pairs(vehicleBaseTypes) do
     if typeInfo.ivar then
       --InfMenu.DebugPrint("spawnInfo.ivar="..spawnInfo.ivar)--DEBUG
-      if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
-        enabledList[#enabledList+1]=baseType
+      if Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then
+        patrolVehicleEnabledList[#patrolVehicleEnabledList+1]=baseType
         --InfMenu.DebugPrint(baseType.." added to enabledList")--DEBUG
       end
     end
@@ -1222,9 +1227,9 @@ function this.BlockQuest(questName)
     if name==questName then
       if TppQuest.IsCleard(questName) then
         return true
-      end
-    end
   end
+  end
+end
 
   if Ivars.enableHeliReinforce:Is(1) then--tex block heli quests to allow super reinforce
     --if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
@@ -1242,7 +1247,7 @@ function this.BlockQuest(questName)
       if typeInfo.ivar~="vehiclePatrolLvEnable" and typeInfo.ivar~="vehiclePatrolTruckEnable" then
         if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
           isVehiclePack=true
-        end
+  end
       end
     end
     if isVehiclePack==true then
@@ -1262,18 +1267,15 @@ end
 --IN: spawnInfo
 --OUT: spawnInfo
 function this.PreSpawnVehicle(spawnInfo)
-  if Ivars.vehiclePatrolProfile:Is(0) then
-    return
-  end
-
-  if not this.IsPatrolVehicleMission() then
+  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:ExecCheck() then
     return
   end
 
   if not spawnInfo.locator then
+    InfMenu.DebugPrint("ERROR no locator on spawninfo")
     return
   end
-
+  
   if not string.find(spawnInfo.locator, "veh_trc_000") then--tex only replacing certain ids, seen in free mission vehicle spawn list
     return
   end
@@ -1330,20 +1332,20 @@ function this.RestoreVehiclePatrol(vehicleTypeNumber, spawnInfo)
 end
 
 function this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
-  if enabledList==nil then
+  if patrolVehicleEnabledList==nil then
     this.BuildEnabledList()
   end
 
-  if #enabledList==0 then
+  if #patrolVehicleEnabledList==0 then
     --InfMenu.DebugPrint"ModifyVehicleSpawn - enabledList empty"--DEBUG
     return
   end
-
+  
   local vehicle=nil
   local vehicleType=nil
-
+  
   --CULL if Ivars.vehiclePatrolProfile:Is"EACH_VEHICLE" or svars.vehiclePatrolSpawnedTypes[0]==0 then--tex using first in array set as indicator of Is"SINGULAR" set
-  local baseType=enabledList[math.random(#enabledList)]
+  local baseType=patrolVehicleEnabledList[math.random(#patrolVehicleEnabledList)]
   local baseTypeInfo=vehicleBaseTypes[baseType]
   if baseTypeInfo==nil then
     InfMenu.DebugPrint("No baseTypeInfo for baseType "..baseType)
@@ -1412,15 +1414,12 @@ end
 --TODO: only add those packs of active vehicles
 --ditto reinforce vehicle types (or maybe an seperate equivalent function)
 function this.AddVehiclePacks(missionCode,missionPackPath)
-  if Ivars.vehiclePatrolProfile:Is(0) then
-    return
-  end
-  if not this.IsPatrolVehicleMission() then
+  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:ExecCheck() then
     return
   end
 
   for baseType,typeInfo in pairs(vehicleBaseTypes) do
-    if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
+    if Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then
       --InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
       local vehicles=nil
       local vehicleType=""
@@ -1844,7 +1843,7 @@ function this.FadeInOnGameStart()
   --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
   --RETRY: push back up again, you may just have fucked something up lol, the actual one use case is in sequence.OnEndMissionPrepareSequence which is the middle of tppmain.onallocate
   local healthScale=Ivars.playerHealthScale:Get()/100
-  if healthScale~=100 then
+  if healthScale~=1 then
     Player.ResetLifeMaxValue()
     local newMax=vars.playerLifeMax
     newMax=newMax*healthScale
@@ -2066,7 +2065,7 @@ function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateR
       InfMain.ChangePhase(cpName,maxPhase)
     end
 
-    if gvars.keepPhase==1 then
+    if Ivars.keepPhase:Is(1) then
       InfMain.SetKeepAlert(cpName,true)
     else
     --InfMain.SetKeepAlert(cpName,false)--tex this would trash any vanilla setting, but updating this to off would only be important if ivar was updated at mission time
@@ -2378,7 +2377,7 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
   end
 
   if Ivars.cameraMode:Is(0) then
---OFF    InfMenu.PrintLangId"cannot_edit_default_cam"
+    --OFF    InfMenu.PrintLangId"cannot_edit_default_cam"
     Ivars.adjustCameraUpdate:Set(0)
     return
   end
@@ -3357,5 +3356,226 @@ function this.SetQuietHumming(hummingFlag)
   --InfMenu.DebugPrint"no TppBuddyQuiet2 found"--DEBUG
   end
 end
+
+--lrrp plus
+local afghBaseNames={
+  "afgh_villageEast_ob",
+  "afgh_commWest_ob",
+  "afgh_cliffSouth_ob",
+  "afgh_villageWest_ob",
+  "afgh_bridgeWest_ob",
+  "afgh_tentEast_ob",
+  "afgh_enemyNorth_ob",
+  "afgh_cliffWest_ob",
+  "afgh_cliffEast_ob",
+  "afgh_fortWest_ob",
+  "afgh_slopedEast_ob",
+  "afgh_fortSouth_ob",
+  "afgh_ruinsNorth_ob",
+  "afgh_villageNorth_ob",
+  "afgh_slopedWest_ob",
+  "afgh_fieldEast_ob",
+  "afgh_plantSouth_ob",
+  "afgh_waterwayEast_ob",
+  "afgh_plantWest_ob",
+  "afgh_fieldWest_ob",
+  "afgh_remnantsNorth_ob",
+  "afgh_tentNorth_ob",
+  "afgh_cliffTown_cp",
+  "afgh_tent_cp",
+  "afgh_waterway_cp",
+  "afgh_powerPlant_cp",
+  "afgh_sovietBase_cp",
+  "afgh_remnants_cp",
+  "afgh_field_cp",
+  "afgh_citadel_cp",
+  "afgh_fort_cp",
+  "afgh_village_cp",
+  "afgh_bridge_cp",
+  "afgh_commFacility_cp",
+  "afgh_slopedTown_cp",
+  "afgh_enemyBase_cp",
+  "afgh_bridgeNorth_ob",
+  "afgh_enemyEast_ob",
+  "afgh_sovietSouth_ob",
+}--#39
+
+local mafrBaseNames={
+  "mafr_outlandNorth_ob",
+  "mafr_swampWest_ob",
+  "mafr_outlandEast_ob",
+  "mafr_bananaSouth_ob",
+  "mafr_swampSouth_ob",
+  "mafr_swampEast_ob",
+  "mafr_savannahWest_ob",
+  "mafr_bananaEast_ob",
+  "mafr_savannahNorth_ob",
+  "mafr_diamondWest_ob",
+  "mafr_diamondSouth_ob",
+  "mafr_hillNorth_ob",
+  "mafr_savannahEast_ob",
+  "mafr_hillWest_ob",
+  "mafr_pfCampEast_ob",
+  "mafr_pfCampNorth_ob",
+  "mafr_factorySouth_ob",
+  "mafr_diamondNorth_ob",
+  "mafr_labWest_ob",
+  "mafr_outland_cp",
+  "mafr_flowStation_cp",
+  "mafr_swamp_cp",
+  "mafr_pfCamp_cp",
+  "mafr_savannah_cp",
+  "mafr_banana_cp",
+  "mafr_diamond_cp",
+  "mafr_hill_cp",
+  "mafr_factory_cp",
+  "mafr_lab_cp",
+  "mafr_hillWestNear_ob",
+  "mafr_hillSouth_ob",
+  "mafr_swampWestNear_ob",
+  "mafr_chicoVilWest_ob",
+  "mafr_chicoVil_cp",
+}
+
+
+this.reserveSoldierNames={}
+local solPrefix="sol_ih_"
+local numReserveSoldiers=30--30--tex SYNC number of soldier locators i added to fox2s
+for i=0,numReserveSoldiers-1 do
+  local name=solPrefix..string.format("%04d", i)
+  table.insert(this.reserveSoldierNames,name)
+end
+
+--IN/OUT,SIDE reserveSoldierPool
+function this.AddToLrrp(_soldierDefine,travelPlans)
+  mvars.ene_soldierDefine={}
+  Tpp.MergeTable(mvars.ene_soldierDefine,_soldierDefine,true)
+
+  if Ivars.enableLrrpFreeRoam:Is(0) then
+    return
+  end
+
+  if vars.missionCode~=30010 and vars.missionCode~=30020 then  --DEBUGNOW
+    return
+  end
+  --if true then return end --DEBUGNOW
+
+  local soldierDefine=mvars.ene_soldierDefine
+
+  local soldierPool={}
+  for n,soldierName in ipairs(this.reserveSoldierNames) do
+    table.insert(soldierPool,soldierName)
+  end
+
+  local cpPool={}
+
+  local lrrpInd="_lrrp"
+  for cpName,cpDefine in pairs(soldierDefine)do
+    local cpId=GetGameObjectId(cpName)
+    if cpId==NULL_ID then
+      InfMenu.DebugPrint(cpName.."==NULL_ID")
+    else
+      if string.find(cpName,lrrpInd)~=nil then
+        if #cpDefine==0 then
+          table.insert(cpPool,cpName)
+        end
+      end
+    end
+  end
+
+  local baseNamePool={}
+  if TppLocation.IsAfghan()then
+    for n,baseName in ipairs(afghBaseNames) do
+      table.insert(baseNamePool,baseName)
+    end
+  elseif TppLocation.IsMiddleAfrica()then
+    for n,baseName in ipairs(mafrBaseNames) do
+      table.insert(baseNamePool,baseName)
+    end
+  end
+
+  local function FillLrrp(num,soldierPool,cpDefine)
+    while num>0 and #soldierPool>0 do
+      local soldierName=soldierPool[#soldierPool]
+      if soldierName then
+        table.remove(soldierPool)--pop
+        table.insert(cpDefine,#cpDefine+1,soldierName)
+        num=num-1
+      end
+    end
+  end
+
+  math.randomseed(gvars.rev_revengeRandomValue)
+
+  for cpName,cpDefine in pairs(soldierDefine)do
+    local numCpSoldiers=0
+    for n,soldierName in ipairs(cpDefine)do
+      numCpSoldiers=numCpSoldiers+1
+    end
+
+    if cpDefine.lrrpVehicle then
+      local numSeats=5
+      if numCpSoldiers>numSeats then
+        local gotSeat=0
+        local clearIndices={}
+        for n,soldierName in ipairs(cpDefine)do
+          gotSeat=gotSeat+1
+          if gotSeat>numSeats then
+            table.insert(this.reserveSoldierPool,soldierName)
+            cpDefine[n]=nil
+          end
+        end
+      else
+        numSeats=numSeats-numCpSoldiers
+        --DEBUGNOW FillLrrp(numSeats,soldierPool,cpDefine)
+      end
+      --if lrrpVehicle<
+    end
+    --for soldierdefine<
+  end
+
+
+  local lrrpSize=2
+  local numPatrols=10
+
+  local function GetRandomBase(baseNames)
+    local rndIndex=math.random(#baseNames)
+    local baseName=baseNames[rndIndex]
+    table.remove(baseNames,rndIndex)
+    return baseName
+  end
+
+  local planStr="travelIH_"
+  for i=1,numPatrols do
+    if #cpPool==0 then
+      break
+    end
+    if #soldierPool==0 then
+      break
+    end
+
+    local cpName=cpPool[#cpPool]
+    table.remove(cpPool)
+
+    --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUGNOW
+
+    local cpDefine={}
+    soldierDefine[cpName]=cpDefine
+
+    --tex TODO: random% filled to user settings
+    FillLrrp(lrrpSize,soldierPool,cpDefine,cpName)
+    local planName=planStr..cpName
+    cpDefine.lrrpTravelPlan=planName
+    --DEBUGNOW GOTCHA writing to actual table here, TODO see if travelplans is handled the same as soldierdefine
+    travelPlans[planName]={
+      {base=GetRandomBase(baseNamePool)},
+      {base=GetRandomBase(baseNamePool)},
+    }
+  end
+
+  math.randomseed(os.time())
+end
+
+
 
 return this
