@@ -275,7 +275,8 @@ function this._AddClockMessage(n,t,a,r)
   if t==nil then
     t=this.GetDefaultTimeTable(n).timeLag
   end
-  local t=TppClock.ParseTimeString(t,"number")l=0
+  local t=TppClock.ParseTimeString(t,"number")
+  l=0
   for a=r,m-1 do
     this._RegisterClockMessage(this.CLOCK_MESSAGE_AT_NIGHT_FORMAT,c,t,true,a)
     this._RegisterClockMessage(this.CLOCK_MESSAGE_AT_MORNING_FORMAT,i,t,false,a)o=o+1

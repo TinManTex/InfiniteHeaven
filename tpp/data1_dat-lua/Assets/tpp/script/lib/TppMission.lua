@@ -1431,9 +1431,9 @@ function this.IsHelicopterSpace(missionId)
     return false
   end
 end
-function this.IsFreeMission(e)
-  local e=math.floor(e/1e4)
-  if e==3 then
+function this.IsFreeMission(missionCode)
+  local missionRange=math.floor(missionCode/1e4)
+  if missionRange==3 then
     return true
   else
     return false

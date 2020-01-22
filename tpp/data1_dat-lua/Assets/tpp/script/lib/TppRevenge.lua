@@ -209,10 +209,14 @@ this.revengeDefine={
   LONG_RANGE_2={SNIPER=2,
     STRONG_SNIPER=true},
   VEHICLE_1={MISSILE=2},
-  VEHICLE_2={MISSILE=2,
-    STRONG_MISSILE=true},
-  VEHICLE_3={MISSILE=4,
-    STRONG_MISSILE=true},
+  VEHICLE_2={
+    MISSILE=2,
+    STRONG_MISSILE=true
+  },
+  VEHICLE_3={
+    MISSILE=4,
+    STRONG_MISSILE=true
+  },
   HEAD_SHOT_1={HELMET="10%"},
   HEAD_SHOT_2={HELMET="20%"},
   HEAD_SHOT_3={HELMET="30%"},
@@ -298,38 +302,39 @@ function this.SelectRevengeType()
   end
   return revengeTypes
 end
---[[ORIG: function e.SelectRevengeType()
-  local n=TppMission.GetMissionID()
-  if e.IsNoRevengeMission(n)or n==10115 then
-    return{}
+--ORIG: 
+--function e.SelectRevengeType()
+--  local n=TppMission.GetMissionID()
+--  if e.IsNoRevengeMission(n)or n==10115 then
+--    return{}
+--  end
+--  local r=TppMission.IsHardMission(n)
+--  local t={}
+--  for E=0,e.REVENGE_TYPE.MAX-1 do
+--    local n
+--    if r then
+--      n=e.GetRevengeLvMax(E,REVENGE_LV_LIMIT_RANK_MAX)
+--    else
+--      n=e.GetRevengeLv(E)
+--    end
+--    if n>=0 then
+--      local n=e.REVENGE_TYPE_NAME[E+1]..("_"..tostring(n))
+--      local e=e.revengeDefine[n]
+--      if e then
+--        table.insert(t,n)
+--      end
+--    end
+--  end
+--  if r then
+--    table.insert(t,"HARD_MISSION")
+--  end
+--  return t
+--end
+function this.SetForceRevengeType(revengeType)--SINGLECASE: ==mtbs_enemy._GetEquipTable
+  if not Tpp.IsTypeTable(revengeType)then
+    revengeType={revengeType}
   end
-  local r=TppMission.IsHardMission(n)
-  local t={}
-  for E=0,e.REVENGE_TYPE.MAX-1 do
-    local n
-    if r then
-      n=e.GetRevengeLvMax(E,REVENGE_LV_LIMIT_RANK_MAX)
-    else
-      n=e.GetRevengeLv(E)
-    end
-    if n>=0 then
-      local n=e.REVENGE_TYPE_NAME[E+1]..("_"..tostring(n))
-      local e=e.revengeDefine[n]
-      if e then
-        table.insert(t,n)
-      end
-    end
-  end
-  if r then
-    table.insert(t,"HARD_MISSION")
-  end
-  return t
-end--]]
-function this.SetForceRevengeType(config)
-  if not Tpp.IsTypeTable(config)then
-    config={config}
-  end
-  mvars.revenge_forceRevengeType=config
+  mvars.revenge_forceRevengeType=revengeType
 end
 function this.IsNoRevengeMission(missionCode)
   if missionCode==nil then
@@ -392,9 +397,13 @@ function this.CanUseArmor(soldierSubType)
   end
   local missionId=TppMission.GetMissionID()
   if TppEneFova.IsNotRequiredArmorSoldier(missionId)then
+    InfMenu.DebugPrint"CanUseArmor IsNotRequiredArmorSoldier"--DEBUGNOW
     return false
   end
   if soldierSubType then
+  if not TppEneFova.CanUseArmorType(missionId,soldierSubType) then--DEBUGNOW
+  InfMenu.DebugPrint"CanUseArmor CanUseArmorType==false"--DEBUGNOW
+  end--DEBUGNOW
     return TppEneFova.CanUseArmorType(missionId,soldierSubType)
   end
   return true
@@ -755,8 +764,8 @@ function this.SetUpEnemy()
     if cpId==NULL_ID then
     else
       if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
-        for E=0,3 do
-          this._ApplyRevengeToCp(cpId,mvars.revenge_revengeConfig,E)
+        for RenamesomeMotherBaseCounter=0,3 do
+          this._ApplyRevengeToCp(cpId,mvars.revenge_revengeConfig,RenamesomeMotherBaseCounter)
         end
       else
         this._ApplyRevengeToCp(cpId,mvars.revenge_revengeConfig)
@@ -815,21 +824,22 @@ function this.GetRevengeTriggerName(n)
   end
   return""
 end
-function this.AddRevengePointByTriggerType(n)
+function this.AddRevengePointByTriggerType(revengeTriggerType)
   local missionCode=TppMission.GetMissionID()
   if this.IsNoRevengeMission(missionCode)then
     return
   end
-  local t="###REVENGE### "..(tostring(missionCode)..(" / AddRevengePointBy ["..(this.GetRevengeTriggerName(n).."] : ")))
-  local revTypePoint=this.REVENGE_POINT_TABLE[n]
+  --NMC ORPHAN local debugText="###REVENGE### "..(tostring(missionCode)..(" / AddRevengePointBy ["..(this.GetRevengeTriggerName(revengeTriggerType).."] : ")))
+  local revTypePoint=this.REVENGE_POINT_TABLE[revengeTriggerType]
   for revType,revPoint in pairs(revTypePoint)do
     revType=revType+0
     revPoint=revPoint+0
-    local revRevPoint=gvars.rev_revengePoint[revType]
+    --NMC ORPHAN local currentRevengePoints=gvars.rev_revengePoint[revType]
     this.SetRevengePoint(revType,gvars.rev_revengePoint[revType]+revPoint)
-    local E=gvars.rev_revengePoint[revType]
-    t=t..(this.REVENGE_TYPE_NAME[revType+1]..(":"..(tostring(revRevPoint)..("->"..(tostring(E).." ")))))
+    local newPoints=gvars.rev_revengePoint[revType]
+    --NMC ORPHAN debugText=debugText..(this.REVENGE_TYPE_NAME[revType+1]..(":"..(tostring(currentRevengePoints)..("->"..(tostring(newPoints).." ")))))
   end
+  --InfMenu.DebugPrint(debugText)--tex might as well use their helpfully created string
 end
 function this.SetRevengePoint(revengeType,points)
   local maxLevel=this.GetRevengeLvMax(revengeType)
@@ -1153,15 +1163,15 @@ function this.SelectReinforceType()
   --InfMenu.DebugPrint("SelectReinforceType randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[reinforceVehicleTypes[randomVehicleType]+1])--DEBUG
   return reinforceVehicleTypes[randomVehicleType]
 end
-function this.ApplyPowerSettingsForReinforce(r)
-  for n,e in ipairs(r)do
-    GameObject.SendCommand(e,{id="RegenerateStaffIdForReinforce"})
+function this.ApplyPowerSettingsForReinforce(soldierIds)
+  for n,soldierId in ipairs(soldierIds)do
+    GameObject.SendCommand(soldierId,{id="RegenerateStaffIdForReinforce"})--NMC: named on the assumption it follows something along the lines of RegenerateGameObjectStaffParameter where gameobjectid is it's main input
   end
   local loadout={}
   do
-    local E=this.GetRevengeLv(this.REVENGE_TYPE.HEAD_SHOT)
-    local E=E/10
-    if math.random()<E and(this.IsIgnoreBlocked()or not this.IsBlocked(this.BLOCKED_TYPE.HELMET))then
+    local headShotLevel=this.GetRevengeLv(this.REVENGE_TYPE.HEAD_SHOT)
+    local helmetLimit=headShotLevel/10
+    if math.random()<helmetLimit and(this.IsIgnoreBlocked()or not this.IsBlocked(this.BLOCKED_TYPE.HELMET))then
       table.insert(loadout,"HELMET")
     end
   end
@@ -1172,19 +1182,19 @@ function this.ApplyPowerSettingsForReinforce(r)
     table.insert(loadout,"NO_KILL_WEAPON")
   end
   do
-    local E=0
-    local t=this.GetRevengeLv(this.REVENGE_TYPE.COMBAT)
-    if t>=4 then
-      E=99
-    elseif t>=3 then
-      E=.75
-    elseif t>=1 then
-      E=.5
+    local combatLimit=0
+    local combatLevel=this.GetRevengeLv(this.REVENGE_TYPE.COMBAT)
+    if combatLevel>=4 then
+      combatLimit=99
+    elseif combatLevel>=3 then
+      combatLimit=.75
+    elseif combatLevel>=1 then
+      combatLimit=.5
     end
-    if math.random()<E and(this.IsIgnoreBlocked()or not this.IsBlocked(this.BLOCKED_TYPE.SOFT_ARMOR))then
+    if math.random()<combatLimit and(this.IsIgnoreBlocked()or not this.IsBlocked(this.BLOCKED_TYPE.SOFT_ARMOR))then
       table.insert(loadout,"SOFT_ARMOR")
     end
-    if math.random()<E then
+    if math.random()<combatLimit then
       if mvars.revenge_loadedEquip.SHOTGUN and(this.IsIgnoreBlocked()or not this.IsBlocked(this.BLOCKED_TYPE.SHOTGUN))then
         table.insert(loadout,"SHOTGUN")
       elseif mvars.revenge_loadedEquip.MG and(this.IsIgnoreBlocked()or not this.IsBlocked(this.BLOCKED_TYPE.MG))then
@@ -1192,56 +1202,57 @@ function this.ApplyPowerSettingsForReinforce(r)
       end
     end
   end
-  for E,soldierId in ipairs(r)do
+  for E,soldierId in ipairs(soldierIds)do
     TppEnemy.ApplyPowerSetting(soldierId,loadout)
   end
 end
-function this._CreateRevengeConfig(revengeTypes)
+function this._CreateRevengeConfig(revengeTypes)--NMC: ==mvars.revenge_revengeType == (mvars.revenge_forceRevengeType(via mtbs_enemy) or this.SelectRevengeType())
   local revengeConfig={}
   local disablePowerSettings=mvars.ene_disablePowerSettings
   do
-    local requiredPowerSettings=mvars.ene_missionRequiresPowerSettings
-    local n={MISSILE={"SHIELD"},SHIELD={"MISSILE"},SHOTGUN={"MG"},MG={"SHOTGUN"}}
-    for e,E in pairs(requiredPowerSettings)do
-      local e=n[e]
-      if e then
-        for n,e in ipairs(e)do
-          if not mvars.ene_missionRequiresPowerSettings[e]then
-            disablePowerSettings[e]=true
+    local requiredPowerSettings=mvars.ene_missionRequiresPowerSettings--NMC: TppEnemy.SetUpPowerSettings>ene_missionRequiresPowerSettings
+    local powerComboExclusionList={MISSILE={"SHIELD"},SHIELD={"MISSILE"},SHOTGUN={"MG"},MG={"SHOTGUN"}}
+    for powerType,E in pairs(requiredPowerSettings)do
+      local exclusionList=powerComboExclusionList[powerType]
+      if exclusionList then
+        for n,powerType in ipairs(exclusionList)do
+          if not mvars.ene_missionRequiresPowerSettings[powerType]then
+            disablePowerSettings[powerType]=true
           end
         end
       end
     end
   end
-  for r,revengeType in ipairs(revengeTypes)do
-    local setting=this.revengeDefine[revengeType]
-    if setting~=nil then
-      if setting[1]~=nil then
-        local rnd=this._Random(1,#setting)
-        setting=setting[rnd]
+  for n,revengeType in ipairs(revengeTypes)do
+    local category=this.revengeDefine[revengeType]
+    if category~=nil then
+      if category[1]~=nil then
+        local rnd=this._Random(1,#category)
+        category=category[rnd]
       end
-      for e,E in pairs(setting)do
-        if disablePowerSettings[e]then
+      for powerType,powerSetting in pairs(category)do
+        if disablePowerSettings[powerType]then
         else
-          revengeConfig[e]=E
+          revengeConfig[powerType]=powerSetting
         end
       end
     end
   end
   if not revengeConfig.IGNORE_BLOCKED then
-    for E,t in pairs(revengeConfig)do
-      if this.IsBlocked(this.BLOCKED_TYPE[E])then
-        revengeConfig[E]=nil
+    for powerType,powerSetting in pairs(revengeConfig)do
+      if this.IsBlocked(this.BLOCKED_TYPE[powerType])then
+        revengeConfig[powerType]=nil
       end
     end
   end
-  if Tpp.IsTypeNumber(revengeConfig.ARMOR)and not this.CanUseArmor()then
+  if Tpp.IsTypeNumber(revengeConfig.ARMOR)and not this.CanUseArmor()then--NMC: downgrade armor to shield
     if not disablePowerSettings.SHIELD then
-      local e=revengeConfig.SHIELD or 0
-      if Tpp.IsTypeNumber(e)then
-        revengeConfig.SHIELD=e+revengeConfig.ARMOR
+      local shieldCount=revengeConfig.SHIELD or 0
+      if Tpp.IsTypeNumber(shieldCount)then
+        revengeConfig.SHIELD=shieldCount+revengeConfig.ARMOR
       end
     end
+    InfMenu.DebugPrint"_CreateRevengeConfig clearing armor"--DEBUGNOW
     revengeConfig.ARMOR=nil
   end
   local e={NO_KILL_WEAPON={"MG"}}
@@ -1284,11 +1295,12 @@ function this._CreateRevengeConfig(revengeTypes)
       end
     end
   end
-  --[[TppUiCommand.AnnounceLogView("_CreateRevengeConfig")--tex DEBUG: CULL:
-  local insrev = InfInspect.Inspect(revengeConfig)
-  TppUiCommand.AnnounceLogView(insrev)--]]
+  --InfMenu.DebugPrint("_CreateRevengeConfig")--tex DEBUG: CULL:
+  --local insrev=InfInspect.Inspect(revengeConfig)
+  --TInfMenu.DebugPrint(insrev)
   return revengeConfig
 end
+--INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig
 function this._AllocateResources(config)
   mvars.revenge_loadedEquip={}
   local missionSettings=mvars.ene_missionRequiresPowerSettings
@@ -1357,29 +1369,29 @@ function this._AllocateResources(config)
     end
   end
   if not disablePowerSettings.MISSILE and not E.MISSILE then
-    local E={}
+    local RENweaponTableMissile={}
     if this.IsUsingStrongMissile()and weaponTable.STRONG then
-      E=weaponTable.STRONG
+      RENweaponTableMissile=weaponTable.STRONG
     else
-      E=weaponTable.NORMAL
+      RENweaponTableMissile=weaponTable.NORMAL
     end
-    local e=E.MISSILE
-    if e then
-      a[e]=true
-      mvars.revenge_loadedEquip.MISSILE=e
+    local missileSetting=RENweaponTableMissile.MISSILE
+    if missileSetting then
+      a[missileSetting]=true
+      mvars.revenge_loadedEquip.MISSILE=missileSetting
     end
   end
   if not disablePowerSettings.SNIPER and not E.SNIPER then
-    local E={}
+    local RENweaponTableSniper={}
     if this.IsUsingStrongSniper()and weaponTable.STRONG then
-      E=weaponTable.STRONG
+      RENweaponTableSniper=weaponTable.STRONG
     else
-      E=weaponTable.NORMAL
+      RENweaponTableSniper=weaponTable.NORMAL
     end
-    local e=E.SNIPER
-    if e then
-      a[e]=true
-      mvars.revenge_loadedEquip.SNIPER=e
+    local sniperSetting=RENweaponTableSniper.SNIPER
+    if sniperSetting then
+      a[sniperSetting]=true
+      mvars.revenge_loadedEquip.SNIPER=sniperSetting
     end
   end
   do
@@ -1397,7 +1409,7 @@ function this._AllocateResources(config)
     TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
   end
 end
-function this._GetSettingSoldierCount(ability,n,E)
+function this._GetSettingSoldierCount(power,powerConfig,soldierCount)
   local abilities={
     NO_KILL_WEAPON=true,
     STRONG_WEAPON=true,
@@ -1416,34 +1428,36 @@ function this._GetSettingSoldierCount(ability,n,E)
     HOLDUP_HIGH=true,
     HOLDUP_LOW=true
   }
-  if abilities[ability]then
-    return E
+  if abilities[power]then
+    return soldierCount
   end
   local settingSoldierCount=0
-  if Tpp.IsTypeNumber(n)then
-    settingSoldierCount=n
-  elseif Tpp.IsTypeString(n)then
-    if n:sub(-1)=="%"then
-      local n=n:sub(1,-2)+0
-      settingSoldierCount=math.ceil(E*(n/100))
+  if Tpp.IsTypeNumber(powerConfig)then
+    settingSoldierCount=powerConfig
+  elseif Tpp.IsTypeString(powerConfig)then
+    if powerConfig:sub(-1)=="%"then
+      local n=powerConfig:sub(1,-2)+0
+      settingSoldierCount=math.ceil(soldierCount*(n/100))
     end
   end
-  if settingSoldierCount>E then
-    settingSoldierCount=E
+  if settingSoldierCount>soldierCount then
+    settingSoldierCount=soldierCount
   end
   do
     local max={ARMOR=4}
-    local maxArmor=max[ability]
+    local maxArmor=max[power]
     if maxArmor and settingSoldierCount>maxArmor then
       settingSoldierCount=maxArmor
     end
   end
   return settingSoldierCount
 end
-function this._ApplyRevengeToCp(cpId,revengeConfig,a)
+--CALLER: SetUpEnemy
+--INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig
+function this._ApplyRevengeToCp(cpId,revengeConfig,RENAMEsomeMotherbasecounter)
   local soldierIds=mvars.ene_soldierIDList[cpId]
-  local o={}
-  local RENAMEsomeCount=0
+  local soldierIdForConfigIdTable={}
+  local soldierCount=0
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
     local r=0
     local cp=mvars.ene_cpList[cpId]
@@ -1453,8 +1467,8 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,a)
         soldierIds={}
         local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterIdList]
         for n,soldierName in ipairs(soldierLocators)do
-          local n=tonumber(string.sub(soldierName,-6,-6))
-          if n~=nil and n==a then
+          local RENAMEsomembsomethingid=tonumber(string.sub(soldierName,-6,-6))
+          if RENAMEsomembsomethingid~=nil and RENAMEsomembsomethingid==RENAMEsomeMotherbasecounter then
             local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
             soldierIds[soldierId]=r
           end
@@ -1476,34 +1490,36 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,a)
     missionAbilitySoldiers[missionPowerAbilitySoldierId]=missionAbilitySetting
   end
   local outerBaseCp=mvars.ene_outerBaseCpList[cpId]
-  local a={}
-  local _={}
+  local powerElimOrChildSoldierTable={}
+  local outerBaseSoldierTable={}
+  local llrpSoldierTable={}--tex added, was combined with above
   for gameId,E in pairs(soldierIds)do
-    table.insert(o,gameId)
-    RENAMEsomeCount=RENAMEsomeCount+1
+    table.insert(soldierIdForConfigIdTable,gameId)
+    soldierCount=soldierCount+1
     if missionPowerSoldiers[gameId]then
-      a[RENAMEsomeCount]=true
+      powerElimOrChildSoldierTable[soldierCount]=true
     elseif mvars.ene_eliminateTargetList[gameId]then
-      a[RENAMEsomeCount]=true
+      powerElimOrChildSoldierTable[soldierCount]=true
     elseif TppEnemy.GetSoldierType(gameId)==EnemyType.TYPE_CHILD then
-      a[RENAMEsomeCount]=true
+      powerElimOrChildSoldierTable[soldierCount]=true
     elseif outerBaseCp then
-      _[RENAMEsomeCount]=true
+      outerBaseSoldierTable[soldierCount]=true
     elseif mvars.ene_lrrpTravelPlan[cpId]then
-      _[RENAMEsomeCount]=true
+      llrpSoldierTable[soldierCount]=true--tex was combined in above outerBase table
     end
   end
-  local t={}
-  for i=1,RENAMEsomeCount do
+  local cpConfig={}
+  for n=1,soldierCount do
     if outerBaseCp then
-      t[i]={OB=true}
+      cpConfig[n]={OB=true}
     else
-      t[i]={}
+      cpConfig[n]={}
     end
   end
-  local T={
+  local powerComboExclusionList={
     ARMOR={"SOFT_ARMOR","HELMET","GAS_MASK","NVG","SNIPER","SHIELD","MISSILE"},
-    SOFT_ARMOR={"ARMOR"},SNIPER={"SHOTGUN","MG","MISSILE","GUN_LIGHT","ARMOR","SHIELD","SMG"},
+    SOFT_ARMOR={"ARMOR"},
+    SNIPER={"SHOTGUN","MG","MISSILE","GUN_LIGHT","ARMOR","SHIELD","SMG"},
     SHOTGUN={"SNIPER","MG","MISSILE","SHIELD","SMG"},
     MG={"SNIPER","SHOTGUN","MISSILE","GUN_LIGHT","SHIELD","SMG"},
     SMG={"SNIPER","SHOTGUN","MG"},
@@ -1514,54 +1530,69 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,a)
     NVG={"ARMOR","HELMET","GAS_MASK"},
     GUN_LIGHT={"SNIPER","MG"}
   }
-  local s={STEALTH_LOW=true,STEALTH_HIGH=true,STEALTH_SPECIAL=true,COMBAT_LOW=true,COMBAT_HIGH=true,COMBAT_SPECIAL=true,HOLDUP_LOW=true,HOLDUP_HIGH=true,HOLDUP_SPECIAL=true,FULTON_LOW=true,FULTON_HIGH=true,FULTON_SPECIAL=true}
-  for r,POWER_SETTING in ipairs(TppEnemy.POWER_SETTING)do
+  local abilitiesList={
+    STEALTH_LOW=true,
+    STEALTH_HIGH=true,
+    STEALTH_SPECIAL=true,
+    COMBAT_LOW=true,
+    COMBAT_HIGH=true,
+    COMBAT_SPECIAL=true,
+    HOLDUP_LOW=true,
+    HOLDUP_HIGH=true,
+    HOLDUP_SPECIAL=true,
+    FULTON_LOW=true,
+    FULTON_HIGH=true,
+    FULTON_SPECIAL=true
+  }
+  for n,POWER_SETTING in ipairs(TppEnemy.POWER_SETTING)do
     local config=revengeConfig[POWER_SETTING]
     if config then
-      local settingSoldierCount=this._GetSettingSoldierCount(POWER_SETTING,config,RENAMEsomeCount)
-      local o=T[POWER_SETTING]or{}
+      local settingSoldierCount=this._GetSettingSoldierCount(POWER_SETTING,config,soldierCount)
+      local comboExcludeList=powerComboExclusionList[POWER_SETTING]or{}
       local soldierCount=settingSoldierCount
-      for n=1,RENAMEsomeCount do
-        local a=a[n]
-        local _=(not s[POWER_SETTING])and _[n]
-        if(not a and not _)and soldierCount>0 then
-          local a=true
-          if t[n][POWER_SETTING]then
+      for soldierConfigId=1,soldierCount do
+        local powerElimOrChild=powerElimOrChildSoldierTable[soldierConfigId]
+        local nonAbilityNonBase=(not abilitiesList[POWER_SETTING])and((outerBaseSoldierTable[soldierConfigId] and gvars.applyPowersToOuterBase==0)and(llrpSoldierTable[soldierConfigId] and gvars.applyPowersToLlrp==0))
+        --local nonAbilityNonBase=(not abilitiesList[POWER_SETTING])and outerBaseOrLlrpSoldierTable[soldierConfigId]--tex was
+        if(not powerElimOrChild and not nonAbilityNonBase)and soldierCount>0 then
+          local setPower=true
+          if cpConfig[soldierConfigId][POWER_SETTING]then
             soldierCount=soldierCount-1
-            a=false
+            setPower=false
           end
-          if a then
-            for E,e in ipairs(o)do
-              if t[n][e]then
-                a=false
+          if setPower then
+            for m,excludePower in ipairs(comboExcludeList)do
+              if cpConfig[soldierConfigId][excludePower]then
+                setPower=false
               end
             end
           end
-          if a then
+          if setPower then
             soldierCount=soldierCount-1
-            t[n][POWER_SETTING]=true
+            cpConfig[soldierConfigId][POWER_SETTING]=true
             if POWER_SETTING=="MISSILE"and this.IsUsingStrongMissile()then
-              t[n].STRONG_MISSILE=true
+              cpConfig[soldierConfigId].STRONG_MISSILE=true
             end
             if POWER_SETTING=="SNIPER"and this.IsUsingStrongSniper()then
-              t[n].STRONG_SNIPER=true
+              cpConfig[soldierConfigId].STRONG_SNIPER=true
             end
           end
         end
       end
     end
   end
-  for n,loadout in ipairs(t)do
-    local soldierId=o[n]
-    TppEnemy.ApplyPowerSetting(soldierId,loadout)
+  for soldierConfigId,powerSetting in ipairs(cpConfig)do
+    local soldierId=soldierIdForConfigIdTable[soldierConfigId]
+    TppEnemy.ApplyPowerSetting(soldierId,powerSetting)
     if missionAbilitySoldiers[soldierId]==nil then
-      local personalAbilitySettings={}do
+      local personalAbilitySettings={}
+      do
         local stealth
-        if loadout.STEALTH_SPECIAL then
+        if powerSetting.STEALTH_SPECIAL then
           stealth="sp"
-        elseif loadout.STEALTH_HIGH then
+        elseif powerSetting.STEALTH_HIGH then
           stealth="high"
-        elseif loadout.STEALTH_LOW then
+        elseif powerSetting.STEALTH_LOW then
           stealth="low"
         end
         personalAbilitySettings.notice=stealth
@@ -1570,11 +1601,11 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,a)
       end
       do
         local combat
-        if loadout.COMBAT_SPECIAL then
+        if powerSetting.COMBAT_SPECIAL then
           combat="sp"
-        elseif loadout.COMBAT_HIGH then
+        elseif powerSetting.COMBAT_HIGH then
           combat="high"
-        elseif loadout.COMBAT_LOW then
+        elseif powerSetting.COMBAT_LOW then
           combat="low"
         end
         personalAbilitySettings.shot=combat
@@ -1584,33 +1615,33 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,a)
       end
       do
         local speed
-        if loadout.STEALTH_SPECIAL or loadout.COMBAT_SPECIAL then
+        if powerSetting.STEALTH_SPECIAL or powerSetting.COMBAT_SPECIAL then
           speed="sp"
-        elseif loadout.STEALTH_HIGH or loadout.COMBAT_HIGH then
+        elseif powerSetting.STEALTH_HIGH or powerSetting.COMBAT_HIGH then
           speed="high"
-        elseif loadout.STEALTH_LOW or loadout.COMBAT_LOW then
+        elseif powerSetting.STEALTH_LOW or powerSetting.COMBAT_LOW then
           speed="low"
         end
         personalAbilitySettings.speed=speed
       end
       do
         local fulton
-        if loadout.FULTON_SPECIAL then
+        if powerSetting.FULTON_SPECIAL then
           fulton="sp"
-        elseif loadout.FULTON_HIGH then
+        elseif powerSetting.FULTON_HIGH then
           fulton="high"
-        elseif loadout.FULTON_LOW then
+        elseif powerSetting.FULTON_LOW then
           fulton="low"
         end
         personalAbilitySettings.fulton=fulton
       end
       do
         local holdup
-        if loadout.HOLDUP_SPECIAL then
+        if powerSetting.HOLDUP_SPECIAL then
           holdup="sp"
-        elseif loadout.HOLDUP_HIGH then
+        elseif powerSetting.HOLDUP_HIGH then
           holdup="high"
-        elseif loadout.HOLDUP_LOW then
+        elseif powerSetting.HOLDUP_LOW then
           holdup="low"
         end
         personalAbilitySettings.holdup=holdup

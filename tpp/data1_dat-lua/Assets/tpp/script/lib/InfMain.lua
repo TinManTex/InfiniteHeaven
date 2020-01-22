@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r103"
+this.modVersion="r104"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -18,6 +18,24 @@ local StrCode32=Fox.StrCode32
 local IsTimerActive=GkEventTimerManager.IsTimerActive
 
 this.debugSplash=SplashScreen.Create("debugEagle","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",640,640)
+
+function this.IsTableEmpty(checkTable)--tex TODO: shove in a utility module
+  local next=next
+  if next(checkTable)==nil then
+    return true
+  end
+  return false
+end
+
+
+function this.ForceArmor(missionCode)
+  if gvars.allowHeavyArmorInAllMissions>0 and not TppMission.IsFreeMission(missionCode) then
+    return true
+  end
+  if gvars.allowHeavyArmorInFreeMode>0 and TppMission.IsFreeMission(missionCode) then
+    return true
+  end
+end
 
 this.SETTING_FORCE_ENEMY_TYPE=Enum{
   "DEFAULT",
@@ -476,7 +494,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     subType=Vehicle.subType.NONE,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/mission2/quest/extra/quest_q52130.fpk",
+    packPath="/Assets/tpp/pack/ih_east_wavs.fpk",
   },
 
   EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY={
@@ -485,7 +503,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     subType=Vehicle.subType.EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/mission2/quest/extra/quest_q52130.fpk",
+    packPath="/Assets/tpp/pack/ih_east_wavs.fpk",
   },
 
   
@@ -503,7 +521,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/mission2/quest/extra/quest_q52110.fpk",
+    packPath="/Assets/tpp/pack/ih_west_wavs.fpk",
   },
   
   WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON={
@@ -512,7 +530,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/mission2/quest/extra/quest_q52110.fpk",
+    packPath="/Assets/tpp/pack/ih_west_wavs.fpk",
   },
   
   EASTERN_TRACKED_TANK={
@@ -521,7 +539,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     subType=Vehicle.subType.NONE,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/mission2/quest/extra/quest_q52015.fpk",
+    packPath="/Assets/tpp/pack/ih_east_tank.fpk",
   },
   
   WESTERN_TRACKED_TANK={
@@ -530,14 +548,14 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     subType=Vehicle.subType.NONE,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/mission2/quest/extra/quest_q52045.fpk",
+    packPath="/Assets/tpp/pack/ih_west_tank.fpk",
   },  
 }
 
 local enabledList=nil--tex cleared on Init, TODO: don't like this setup
 
 function this.IsPatrolVehicleMission()
-  if vars.missionCode~=TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode~=TppDefine.SYS_MISSION_ID.MAFR_FREE then
+  if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
     return true
   end
   return false
@@ -722,13 +740,12 @@ end
 --TODO: only add those packs of active vehicles
 --ditto reinforce vehicle types (or maybe an seperate equivalent function)
 function this.AddVehiclePacks(missionCode,missionPackPath)
-  --if missionCode~=TppDefine.SYS_MISSION_ID.AFGH_FREE and missionCode~=TppDefine.SYS_MISSION_ID.MAFR_FREE then
-  --  return
-  --end
   if gvars.vehiclePatrolProfile==0 then
     return
   end
-  
+  if not this.IsPatrolVehicleMission() then
+    return
+  end   
   for vehicleType,spawnInfo in pairs(vehicleSpawnInfoTable) do
     if spawnInfo.packPath then
       AddMissionPack(spawnInfo.packPath,missionPackPath)

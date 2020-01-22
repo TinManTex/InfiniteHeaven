@@ -145,6 +145,18 @@ this.fultonLevelMenu={
   }
 }
 
+this.fultonSuccessMenu={
+  options={
+    Ivars.fultonSuccessProfile,
+    Ivars.fultonNoMbSupport,
+    Ivars.fultonNoMbMedical,
+    Ivars.fultonDyingPenalty,
+    Ivars.fultonSleepPenalty,
+    Ivars.fultonHoldupPenalty,
+    Ivars.fultonDontApplyMbMedicalToSleep,
+  },
+}
+
 this.disableMenuMenu={
   options={
     Ivars.disableMenuDrop,
@@ -162,6 +174,10 @@ this.revengeMenu={
     InfMenuCommands.resetRevenge,
     Ivars.revengeMode,
     Ivars.revengeBlockForMissionCount,
+    Ivars.applyPowersToOuterBase,
+    Ivars.applyPowersToLlrp,
+    Ivars.allowHeavyArmorInFreeMode,
+    Ivars.allowHeavyArmorInAllMissions,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -185,6 +201,7 @@ this.playerRestrictionsMenu={
     Ivars.abortMenuItemControl,
     this.handLevelMenu,
     this.fultonLevelMenu,
+    this.fultonSuccessMenu,
     this.ospMenu,
     this.disableMenuMenu,
     InfMenuCommands.resetSettingsItem,
@@ -281,6 +298,7 @@ this.vehiclePatrolMenu={
 
 this.heliSpaceMenu={
   options={
+    --InfMenuCommands.DEBUG_InspectAllMenus,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
@@ -312,8 +330,8 @@ this.debugInMissionMenu={
   options={
     --InfMenuCommands.warpPlayerCommand,
     InfMenuCommands.DEBUG_PrintReinforceVars,
-    InfMenuCommands.DEBUG_PrintVehicleTypes,
-    InfMenuCommands.DEBUG_PrintVehiclePaint,
+    --InfMenuCommands.DEBUG_PrintVehicleTypes,
+    --InfMenuCommands.DEBUG_PrintVehiclePaint,
     InfMenuCommands.DEBUG_PrintSoldierDefine,
     InfMenuCommands.DEBUG_PrintSoldierIDList,
     InfMenuCommands.DEBUG_ShowRevengeConfig,
@@ -323,10 +341,11 @@ this.debugInMissionMenu={
     --InfMenuCommands.DEBUG_KeepPhaseOff,
     --InfMenuCommands.printPlayerPhase,
     --InfMenuCommands.DEBUG_SetPlayerPhaseToIvar,
-    InfMenuCommands.showMissionCode,
+    --InfMenuCommands.DEBUG_PrintVarsClock,
+   --InfMenuCommands.showMissionCode,
     InfMenuCommands.showMbEquipGrade,
     InfMenuCommands.showPosition,    
-    InfMenuCommands.DEBUG_ClearAnnounceLog,  
+    --InfMenuCommands.DEBUG_ClearAnnounceLog,  
     InfMenuCommands.goBackItem,
   }
 }
@@ -363,10 +382,10 @@ end
 this.allMenus={}
 --TABLESETUP: allMenus, for reset, also means you have to comment out whole menu, not just references from other menus since resetall iterates the whole module
 local i=1
-for n,menu in pairs(this) do
+for n,item in pairs(this) do
   if IsTable(item) then   
-    if menu.options then--tex is menu
-      this.allMenus[n]=menu
+    if item.options then--tex is menu
+      this.allMenus[i]=item
       i=i+1
     end
   end

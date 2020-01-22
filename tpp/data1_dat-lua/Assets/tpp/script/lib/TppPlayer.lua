@@ -22,9 +22,9 @@ this.CageRandomTableG1={{1,20},{0,80}}
 this.CageRandomTableG2={{2,15},{1,20},{0,65}}
 this.CageRandomTableG3={{4,5},{3,10},{2,15},{1,20},{0,50}}
 this.RareLevelList={"N","NR","R","SR","SSR"}
-function this.RegisterCallbacks(e)
-  if IsTypeFunc(e.OnFultonIconDying)then
-    mvars.ply_OnFultonIconDying=e.OnFultonIconDying
+function this.RegisterCallbacks(callBacks)
+  if IsTypeFunc(callBacks.OnFultonIconDying)then
+    mvars.ply_OnFultonIconDying=callBacks.OnFultonIconDying
   end
 end
 function this.SetStartStatus(status)
@@ -1800,12 +1800,35 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   end
   local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
   local mbSectionSuccess=this.mbSectionRankSuccessTable[mbFultonRank]or 0
+  if gvars.fultonNoMbSupport>0 then--tex
+    mbSectionSuccess=0
+  end-- 
+  
   local successMod=fultonWeatherSuccessTable[vars.weather]or 0
   successMod=successMod+mbSectionSuccess
   if successMod>0 then
     successMod=0
   end
   percentage=(baseLine+doFuncSuccess)+successMod
+
+--  if Tpp.IsSoldier(gameId)then--tex fulton success variation WIP
+--    if gvars.fultonSoldierVariationRange>0 then--tex
+--      local frequency=0.1
+--      local rate=gvars.fultonVariationInvRate/gvars.clockscale
+--      local t=math.fmod(vars.clock/rate,2*math.pi)--tex mod to sine range
+--      local amplitude=gvars.fultonSoldierVariationRange*0.5
+--      local bias=-amplitude
+--      local variationMod=amplitude*math.sin(t)+bias
+--    
+--      --percentage=math.random(percentage-gvars.fultonVariationRange,percentage)
+--      percentage=percentage+variationMod
+--    end
+--  else
+--    if gvars.fultonOtherVariationRange>0 then--tex
+--      --DEBUGNOW TODO 
+--    end
+--  end--
+  
   if mvars.ply_allways_100percent_fulton then
     percentage=100
   end
@@ -1830,35 +1853,43 @@ function this.GetSoldierFultonSucceedRatio(gameId)
   local holdupSuccessMod=0
   local lifeStatus=SendCommand(gameId,{id="GetLifeStatus"})
   local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
-  if(bit.band(stateFlag,StateFlag.DYING_LIFE)~=0)then
-    successMod=-70
+  local dying=bit.band(stateFlag,StateFlag.DYING_LIFE)~=0
+  if(dying)then
+    successMod=-(gvars.fultonDyingPenalty)--tex was -70
   elseif(lifeStatus==TppGameObject.NPC_LIFE_STATE_SLEEP)or(lifeStatus==TppGameObject.NPC_LIFE_STATE_FAINT)then
-    successMod=0
+    successMod=-(gvars.fultonSleepPenalty)--tex was 0
     if mvars.ply_OnFultonIconDying then
       mvars.ply_OnFultonIconDying()
     end
   elseif(lifeStatus==TppGameObject.NPC_LIFE_STATE_DEAD)then
     return
   end
-  local mbSectionRankSuccessTable={
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_C]=30,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_D]=20,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_E]=10,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
-    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
-  }
+  --tex OFF, using this.mbSectionRankSuccessTable instead
+--  local mbSectionRankSuccessTable={
+--    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_S]=60,
+--    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_A]=50,
+--    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_B]=40,
+--    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_C]=30,
+--    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_D]=20,
+--    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_E]=10,
+--    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
+--    [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
+--  }
   local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
-  local mbSectionSuccess=mbSectionRankSuccessTable[mbFultonRank]or 0
+  local mbSectionSuccess=this.mbSectionRankSuccessTable[mbFultonRank]or 0--tex changed from table local to function to in module
+  if gvars.fultonNoMbMedical>0 then--tex
+    mbSectionSuccess=0
+  end
+  if gvars.fultonDontApplyMbMedicalToSleep>0 and not dying then--tex don't apply medical bonus to sleeping
+    mbSectionSuccess=0
+  end--
   successMod=successMod+mbSectionSuccess
   if successMod>0 then
     successMod=0
   end
   local status=SendCommand(gameId,{id="GetStatus"})
   if status==EnemyState.STAND_HOLDUP then
-    holdupSuccessMod=-10
+    holdupSuccessMod=-(gvars.fultonHoldupPenalty)--tex was -10
   end
   return(successMod+holdupSuccessMod)
 end

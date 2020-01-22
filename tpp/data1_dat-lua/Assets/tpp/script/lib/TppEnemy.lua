@@ -606,27 +606,27 @@ function this.SetUpSoldierSubTypes(soldierSubTypes)
     this._SetUpSoldierSubTypes(subTypes,soldierName)
   end
 end
-function this.SetUpPowerSettings(e)
-  mvars.ene_missionSoldierPowerSettings=e
-  local n={}
-  for t,e in pairs(e)do
-    for e,t in pairs(e)do
+function this.SetUpPowerSettings(soldierPowerSettings)-- ==missionTable.enemy.soldierPowerSettings { soldierName={powerSetting...}...}
+  mvars.ene_missionSoldierPowerSettings=soldierPowerSettings
+  local missionRequireSettings={}
+  for t,powerSettings in pairs(soldierPowerSettings)do
+    for e,t in pairs(powerSettings)do
       local e=e
       if Tpp.IsTypeNumber(e)then
         e=t
       end
-      n[e]=true
+      missionRequireSettings[e]=true
     end
   end
-  mvars.ene_missionRequiresPowerSettings=n
+  mvars.ene_missionRequiresPowerSettings=missionRequireSettings
 end
 function this.ApplyPowerSettingsOnInitialize()
-  local n=mvars.ene_missionSoldierPowerSettings
-  for soldierName,t in pairs(n)do
-    local n=GetGameObjectId(soldierName)
-    if n==NULL_ID then
+  local missionSoldierPowerSettings=mvars.ene_missionSoldierPowerSettings
+  for soldierName,powerSetting in pairs(missionSoldierPowerSettings)do
+    local soldierId=GetGameObjectId(soldierName)
+    if soldierId==NULL_ID then
     else
-      this.ApplyPowerSetting(n,t)
+      this.ApplyPowerSetting(soldierId,powerSetting)
     end
   end
 end
@@ -876,12 +876,12 @@ function this.SetUpDDParameter()
   if(this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT and this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT>=3)or(this.weaponIdTable.DD.NORMAL.BATTLE_DRESS and this.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)then
     TppRevenge.SetHelmetAll()
   end
-  local n=this.weaponIdTable.DD.NORMAL.GRENADE or TppEquip.EQP_SWP_Grenade
-  local e=this.weaponIdTable.DD.NORMAL.STUN_GRENADE or TppEquip.EQP_None
-  GameObject.SendCommand({type="TppSoldier2"},{id="RegistGrenadeId",grenadeId=n,stunId=e})
+  local grenadeId=this.weaponIdTable.DD.NORMAL.GRENADE or TppEquip.EQP_SWP_Grenade
+  local stunId=this.weaponIdTable.DD.NORMAL.STUN_GRENADE or TppEquip.EQP_None
+  GameObject.SendCommand({type="TppSoldier2"},{id="RegistGrenadeId",grenadeId=grenadeId,stunId=stunId})
 end
 function this.GetWeaponIdTable(soldierType,soldierSubType)
-  --local n={}
+  --ORPHAN local n={}
   local weaponIdTable={}
   if soldierType==EnemyType.TYPE_SOVIET then
     weaponIdTable=this.weaponIdTable.SOVIET_A
@@ -964,7 +964,7 @@ end
 function this.GetBodyId(soldierId,soldierType,soldierSubType,loadoutType)
   local bodyId
   local bodyIdTable={}
-  --TppUiCommand.AnnounceLogView("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG: CULL:
+  --InfMenu.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG: CULL:
   if soldierType==EnemyType.TYPE_SOVIET then
     bodyIdTable=this.bodyIdTable.SOVIET_A
     if soldierSubType=="SOVIET_B"then
@@ -998,12 +998,14 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,loadoutType)
   if bodyIdTable==nil then
     return nil
   end
+  
   local _GetBodyId=function(selection,loadoutBodies)
     if#loadoutBodies==0 then
       return loadoutBodies[1]
     end
     return loadoutBodies[(selection%#loadoutBodies)+1]--NMC: looks like it uses the solider id to 'randomly'(ie each solider id is uniqe) choose (assuming theres multiple bodies in the input list)
   end
+  
   if loadoutType.ARMOR and bodyIdTable.ARMOR then
     return _GetBodyId(soldierId,bodyIdTable.ARMOR)
   end
@@ -1039,21 +1041,21 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,loadoutType)
   end
   return bodyId
 end
-function this.GetFaceId(n,e,n,n)
-  if e==EnemyType.TYPE_SKULL then
+function this.GetFaceId(n,enemyType,n,n)
+  if enemyType==EnemyType.TYPE_SKULL then
     return EnemyFova.INVALID_FOVA_VALUE
-  elseif e==EnemyType.TYPE_DD then
+  elseif enemyType==EnemyType.TYPE_DD then
     return EnemyFova.INVALID_FOVA_VALUE
-  elseif e==EnemyType.TYPE_CHILD then
+  elseif enemyType==EnemyType.TYPE_CHILD then
     return 630
   end
   return nil
 end
-function this.GetBalaclavaFaceId(t,e,t,n)
-  if e==EnemyType.TYPE_SKULL then
+function this.GetBalaclavaFaceId(t,enemyType,t,config)
+  if enemyType==EnemyType.TYPE_SKULL then
     return EnemyFova.NOT_USED_FOVA_VALUE
-  elseif e==EnemyType.TYPE_DD then
-    if n.HELMET then
+  elseif enemyType==EnemyType.TYPE_DD then
+    if config.HELMET then
       return TppEnemyFaceId.dds_balaclava0
     else
       return TppEnemyFaceId.dds_balaclava2
@@ -1061,153 +1063,153 @@ function this.GetBalaclavaFaceId(t,e,t,n)
   end
   return nil
 end
-function this.IsSniper(e)
-  local e=mvars.ene_soldierPowerSettings[e]
-  if e~=nil and e.SNIPER then
+function this.IsSniper(soldierName)
+  local config=mvars.ene_soldierPowerSettings[soldierName]
+  if config~=nil and config.SNIPER then
     return true
   end
   return false
 end
-function this.IsMissile(e)
-  local e=mvars.ene_soldierPowerSettings[e]
-  if e~=nil and e.MISSILE then
+function this.IsMissile(soldierName)
+  local config=mvars.ene_soldierPowerSettings[soldierName]
+  if config~=nil and config.MISSILE then
     return true
   end
   return false
 end
-function this.IsShield(e)
-  local e=mvars.ene_soldierPowerSettings[e]
-  if e~=nil and e.SHIELD then
+function this.IsShield(soldierName)
+  local config=mvars.ene_soldierPowerSettings[soldierName]
+  if config~=nil and config.SHIELD then
     return true
   end
   return false
 end
-function this.IsArmor(e)
-  local e=mvars.ene_soldierPowerSettings[e]
-  if e~=nil and e.ARMOR then
+function this.IsArmor(soldierName)
+  local config=mvars.ene_soldierPowerSettings[soldierName]
+  if config~=nil and config.ARMOR then
     return true
   end
   return false
 end
-function this.IsHelmet(e)
-  local e=mvars.ene_soldierPowerSettings[e]
-  if e~=nil and e.HELMET then
+function this.IsHelmet(soldierName)
+  local config=mvars.ene_soldierPowerSettings[soldierName]
+  if config~=nil and config.HELMET then
     return true
   end
   return false
 end
-function this.IsNVG(e)
-  local e=mvars.ene_soldierPowerSettings[e]
-  if e~=nil and e.NVG then
+function this.IsNVG(soldierName)
+  local config=mvars.ene_soldierPowerSettings[soldierName]
+  if config~=nil and config.NVG then
     return true
   end
   return false
 end
-function this.AddPowerSetting(t,a)
-  local n=mvars.ene_soldierPowerSettings[t]or{}
-  for t,a in pairs(a)do
-    n[t]=a
+function this.AddPowerSetting(soldierId,powerSetting)
+  local powerSetting=mvars.ene_soldierPowerSettings[soldierId]or{}
+  for n,power in pairs(powerSetting)do
+    powerSetting[n]=power
   end
-  this.ApplyPowerSetting(t,n)
+  this.ApplyPowerSetting(soldierId,powerSetting)
 end
-function this.ApplyPowerSetting(soldierId,_loadout)
+function this.ApplyPowerSetting(soldierId,powerSetting)
   if soldierId==NULL_ID then
     return
   end
   local soldierType=this.GetSoldierType(soldierId)
   local subTypeName=this.GetSoldierSubType(soldierId,soldierType)
-  local newLoadout={}
-  for e,t in pairs(_loadout)do
+  local powerLoadout={}
+  for e,t in pairs(powerSetting)do
     if Tpp.IsTypeNumber(e)then
-      newLoadout[t]=true
+      powerLoadout[t]=true
     else
-      newLoadout[e]=t
+      powerLoadout[e]=t
     end
   end
   local categories={SMG=true,MG=true,SHOTGUN=true,SNIPER=true,MISSILE=true,SHIELD=true}
-  for e,t in pairs(categories)do
-    if newLoadout[e]and not mvars.revenge_loadedEquip[e]then
-      newLoadout[e]=nil
+  for power,t in pairs(categories)do
+    if powerLoadout[power]and not mvars.revenge_loadedEquip[power]then
+      powerLoadout[power]=nil
     end
   end
   if soldierType==EnemyType.TYPE_SKULL then
     if subTypeName=="SKULL_CYPR"then
-      newLoadout.SNIPER=nil
-      newLoadout.SHOTGUN=nil
-      newLoadout.MG=nil
-      newLoadout.SMG=true
-      newLoadout.GUN_LIGHT=true
+      powerLoadout.SNIPER=nil
+      powerLoadout.SHOTGUN=nil
+      powerLoadout.MG=nil
+      powerLoadout.SMG=true
+      powerLoadout.GUN_LIGHT=true
     else
-      newLoadout.HELMET=true
-      newLoadout.SOFT_ARMOR=true
+      powerLoadout.HELMET=true
+      powerLoadout.SOFT_ARMOR=true
     end
   end
-  if newLoadout.ARMOR and not TppRevenge.CanUseArmor(subTypeName)then
-    newLoadout.ARMOR=nil
+  if powerLoadout.ARMOR and not TppRevenge.CanUseArmor(subTypeName)then
+    powerLoadout.ARMOR=nil
   end
-  if newLoadout.QUEST_ARMOR then
-    newLoadout.ARMOR=true
+  if powerLoadout.QUEST_ARMOR then
+    powerLoadout.ARMOR=true
   end
-  if newLoadout.ARMOR then
-    newLoadout.SNIPER=nil
-    newLoadout.SHIELD=nil
-    newLoadout.MISSILE=nil
-    newLoadout.SMG=nil
-    if not newLoadout.SHOTGUN and not newLoadout.MG then
+  if powerLoadout.ARMOR then
+    powerLoadout.SNIPER=nil
+    powerLoadout.SHIELD=nil
+    powerLoadout.MISSILE=nil
+    powerLoadout.SMG=nil
+    if not powerLoadout.SHOTGUN and not powerLoadout.MG then
       if mvars.revenge_loadedEquip.MG then
-        newLoadout.MG=true
+        powerLoadout.MG=true
       elseif mvars.revenge_loadedEquip.SHOTGUN then
-        newLoadout.SHOTGUN=true
+        powerLoadout.SHOTGUN=true
       end
     end
-    if newLoadout.MG then
-      newLoadout.SHOTGUN=nil
+    if powerLoadout.MG then
+      powerLoadout.SHOTGUN=nil
     end
-    if newLoadout.SHOTGUN then
-      newLoadout.MG=nil
+    if powerLoadout.SHOTGUN then
+      powerLoadout.MG=nil
     end
   end
-  if newLoadout.MISSILE or newLoadout.SHIELD then
-    newLoadout.SNIPER=nil
-    newLoadout.SHOTGUN=nil
-    newLoadout.MG=nil
-    newLoadout.SMG=true
+  if powerLoadout.MISSILE or powerLoadout.SHIELD then
+    powerLoadout.SNIPER=nil
+    powerLoadout.SHOTGUN=nil
+    powerLoadout.MG=nil
+    powerLoadout.SMG=true
   end
-  if newLoadout.GAS_MASK then
+  if powerLoadout.GAS_MASK then
     if subTypeName~="DD_FOB"then
-      newLoadout.HELMET=nil
-      newLoadout.NVG=nil
+      powerLoadout.HELMET=nil
+      powerLoadout.NVG=nil
     end
   end
-  if newLoadout.NVG then
+  if powerLoadout.NVG then
     if subTypeName~="DD_FOB"then
-      newLoadout.HELMET=nil
-      newLoadout.GAS_MASK=nil
+      powerLoadout.HELMET=nil
+      powerLoadout.GAS_MASK=nil
     end
   end
-  if newLoadout.HELMET then
+  if powerLoadout.HELMET then
     if subTypeName~="DD_FOB"then
-      newLoadout.GAS_MASK=nil
-      newLoadout.NVG=nil
+      powerLoadout.GAS_MASK=nil
+      powerLoadout.NVG=nil
     end
   end
-  mvars.ene_soldierPowerSettings[soldierId]=newLoadout
-  _loadout=newLoadout
+  mvars.ene_soldierPowerSettings[soldierId]=powerLoadout
+  powerSetting=powerLoadout
   local wearEquipFlag=0
-  local bodyId=this.GetBodyId(soldierId,soldierType,subTypeName,_loadout)
-  local faceId=this.GetFaceId(soldierId,soldierType,subTypeName,_loadout)
-  local balaclavaId=this.GetBalaclavaFaceId(soldierId,soldierType,subTypeName,_loadout)
-  local primaryId,secondaryId,tertiaryId=this.GetWeaponId(soldierId,_loadout)
-  if _loadout.HELMET then
+  local bodyId=this.GetBodyId(soldierId,soldierType,subTypeName,powerSetting)
+  local faceId=this.GetFaceId(soldierId,soldierType,subTypeName,powerSetting)
+  local balaclavaId=this.GetBalaclavaFaceId(soldierId,soldierType,subTypeName,powerSetting)
+  local primaryId,secondaryId,tertiaryId=this.GetWeaponId(soldierId,powerSetting)
+  if powerSetting.HELMET then
     wearEquipFlag=wearEquipFlag+WearEquip.HELMET
   end
-  if _loadout.GAS_MASK then
+  if powerSetting.GAS_MASK then
     wearEquipFlag=wearEquipFlag+WearEquip.GAS_MASK
   end
-  if _loadout.NVG then
+  if powerSetting.NVG then
     wearEquipFlag=wearEquipFlag+WearEquip.NVG
   end
-  if _loadout.SOFT_ARMOR then
+  if powerSetting.SOFT_ARMOR then
     wearEquipFlag=wearEquipFlag+WearEquip.SOFT_ARMOR
   end
   if(primaryId~=nil or secondaryId~=nil)or tertiaryId~=nil then
@@ -1241,10 +1243,35 @@ function this.SetOccasionalChatList()
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
-  local conversationList={}table.insert(conversationList,"USSR_story_04")table.insert(conversationList,"USSR_story_05")table.insert(conversationList,"USSR_story_06")table.insert(conversationList,"USSR_story_07")table.insert(conversationList,"USSR_story_08")table.insert(conversationList,"USSR_story_15")table.insert(conversationList,"USSR_story_16")table.insert(conversationList,"USSR_story_17")table.insert(conversationList,"USSR_story_18")table.insert(conversationList,"USSR_story_19")table.insert(conversationList,"PF_story_01")table.insert(conversationList,"PF_story_04")table.insert(conversationList,"PF_story_05")table.insert(conversationList,"PF_story_06")table.insert(conversationList,"PF_story_07")table.insert(conversationList,"PF_story_08")table.insert(conversationList,"PF_story_12")table.insert(conversationList,"PF_story_13")table.insert(conversationList,"PF_story_14")table.insert(conversationList,"PF_story_15")table.insert(conversationList,"MB_story_07")table.insert(conversationList,"MB_story_08")table.insert(conversationList,"MB_story_18")table.insert(conversationList,"MB_story_19")
+  local conversationList={}table.insert(conversationList,"USSR_story_04")
+  table.insert(conversationList,"USSR_story_05")
+  table.insert(conversationList,"USSR_story_06")
+  table.insert(conversationList,"USSR_story_07")
+  table.insert(conversationList,"USSR_story_08")
+  table.insert(conversationList,"USSR_story_15")
+  table.insert(conversationList,"USSR_story_16")
+  table.insert(conversationList,"USSR_story_17")
+  table.insert(conversationList,"USSR_story_18")
+  table.insert(conversationList,"USSR_story_19")
+  table.insert(conversationList,"PF_story_01")
+  table.insert(conversationList,"PF_story_04")
+  table.insert(conversationList,"PF_story_05")
+  table.insert(conversationList,"PF_story_06")
+  table.insert(conversationList,"PF_story_07")
+  table.insert(conversationList,"PF_story_08")
+  table.insert(conversationList,"PF_story_12")
+  table.insert(conversationList,"PF_story_13")
+  table.insert(conversationList,"PF_story_14")
+  table.insert(conversationList,"PF_story_15")
+  table.insert(conversationList,"MB_story_07")
+  table.insert(conversationList,"MB_story_08")
+  table.insert(conversationList,"MB_story_18")
+  table.insert(conversationList,"MB_story_19")
   local n=gvars.str_storySequence
   if n<TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY then
-    table.insert(conversationList,"USSR_story_01")table.insert(conversationList,"USSR_story_02")table.insert(conversationList,"USSR_story_03")
+    table.insert(conversationList,"USSR_story_01")
+    table.insert(conversationList,"USSR_story_02")
+    table.insert(conversationList,"USSR_story_03")
   end
   if not TppBuddyService.DidObtainBuddyType(BuddyType.QUIET)and not TppStory.IsMissionCleard(10050)then
     table.insert(conversationList,"USSR_story_10")
@@ -1253,7 +1280,8 @@ function this.SetOccasionalChatList()
     table.insert(conversationList,"USSR_story_11")
   end
   if n>=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON and n<TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY then
-    table.insert(conversationList,"USSR_story_12")table.insert(conversationList,"USSR_story_13")
+    table.insert(conversationList,"USSR_story_12")
+    table.insert(conversationList,"USSR_story_13")
   end
   if n>=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON and n<TppDefine.STORY_SEQUENCE.CLEARD_SKULLFACE then
     table.insert(conversationList,"USSR_story_14")
@@ -1316,126 +1344,157 @@ function this.SetOccasionalChatList()
     table.insert(conversationList,"MB_story_17")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.FULTON)==1 then
-    table.insert(conversationList,"USSR_revenge_01")table.insert(conversationList,"PF_revenge_01")
+    table.insert(conversationList,"USSR_revenge_01")
+    table.insert(conversationList,"PF_revenge_01")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.FULTON)>=2 then
-    table.insert(conversationList,"USSR_revenge_02")table.insert(conversationList,"PF_revenge_02")
+    table.insert(conversationList,"USSR_revenge_02")
+    table.insert(conversationList,"PF_revenge_02")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)==1 then
-    table.insert(conversationList,"USSR_revenge_03")table.insert(conversationList,"PF_revenge_03")
+    table.insert(conversationList,"USSR_revenge_03")
+    table.insert(conversationList,"PF_revenge_03")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)==2 then
-    table.insert(conversationList,"USSR_revenge_04")table.insert(conversationList,"PF_revenge_04")
+    table.insert(conversationList,"USSR_revenge_04")
+    table.insert(conversationList,"PF_revenge_04")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)==3 then
-    table.insert(conversationList,"USSR_revenge_05")table.insert(conversationList,"PF_revenge_05")
+    table.insert(conversationList,"USSR_revenge_05")
+    table.insert(conversationList,"PF_revenge_05")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.STEALTH)==1 then
-    table.insert(conversationList,"USSR_revenge_06")table.insert(conversationList,"PF_revenge_06")
+    table.insert(conversationList,"USSR_revenge_06")
+    table.insert(conversationList,"PF_revenge_06")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.STEALTH)==2 then
-    table.insert(conversationList,"USSR_revenge_07")table.insert(conversationList,"PF_revenge_07")
+    table.insert(conversationList,"USSR_revenge_07")
+    table.insert(conversationList,"PF_revenge_07")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.HEAD_SHOT)==0 and TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE.HEAD_SHOT)>=50 then
-    table.insert(conversationList,"USSR_revenge_08")table.insert(conversationList,"PF_revenge_08")
+    table.insert(conversationList,"USSR_revenge_08")
+    table.insert(conversationList,"PF_revenge_08")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.VEHICLE)==0 and TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE.VEHICLE)>=50 then
-    table.insert(conversationList,"USSR_revenge_09")table.insert(conversationList,"PF_revenge_09")
+    table.insert(conversationList,"USSR_revenge_09")
+    table.insert(conversationList,"PF_revenge_09")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.VEHICLE)==0 and TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE.VEHICLE)>=50 then
-    table.insert(conversationList,"USSR_revenge_10")table.insert(conversationList,"PF_revenge_10")
+    table.insert(conversationList,"USSR_revenge_10")
+    table.insert(conversationList,"PF_revenge_10")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.LONG_RANGE)==0 and TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE.LONG_RANGE)>=50 then
-    table.insert(conversationList,"USSR_revenge_11")table.insert(conversationList,"PF_revenge_11")
+    table.insert(conversationList,"USSR_revenge_11")
+    table.insert(conversationList,"PF_revenge_11")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.NIGHT_S)==0 and TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.NIGHT_C)==0 then
     if TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE.NIGHT_S)>=50 or TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE.NIGHT_C)>=50 then
-      table.insert(conversationList,"USSR_revenge_12")table.insert(conversationList,"PF_revenge_12")
+      table.insert(conversationList,"USSR_revenge_12")
+      table.insert(conversationList,"PF_revenge_12")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.STEALTH)==3 and TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE.TRANQ)>0 then
-    table.insert(conversationList,"USSR_revenge_13")table.insert(conversationList,"PF_revenge_13")
+    table.insert(conversationList,"USSR_revenge_13")
+    table.insert(conversationList,"PF_revenge_13")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.STEALTH)>=3 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.MINE)then
-      table.insert(conversationList,"USSR_counter_01")table.insert(conversationList,"PF_counter_01")
+      table.insert(conversationList,"USSR_counter_01")
+      table.insert(conversationList,"PF_counter_01")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.HEAD_SHOT)>=1 and TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.HEAD_SHOT)<=9 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.HELMET)then
-      table.insert(conversationList,"USSR_counter_03")table.insert(conversationList,"PF_counter_03")
+      table.insert(conversationList,"USSR_counter_03")
+      table.insert(conversationList,"PF_counter_03")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.HEAD_SHOT)==10 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.HELMET)then
-      table.insert(conversationList,"USSR_counter_04")table.insert(conversationList,"PF_counter_04")
+      table.insert(conversationList,"USSR_counter_04")
+      table.insert(conversationList,"PF_counter_04")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)>=1 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.SOFT_ARMOR)then
-      table.insert(conversationList,"USSR_counter_05")table.insert(conversationList,"PF_counter_05")
+      table.insert(conversationList,"USSR_counter_05")
+      table.insert(conversationList,"PF_counter_05")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)>=1 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.SHIELD)then
-      table.insert(conversationList,"USSR_counter_06")table.insert(conversationList,"PF_counter_06")
+      table.insert(conversationList,"USSR_counter_06")
+      table.insert(conversationList,"PF_counter_06")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.NIGHT_S)>=1 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.NVG)then
-      table.insert(conversationList,"USSR_counter_07")table.insert(conversationList,"PF_counter_07")
+      table.insert(conversationList,"USSR_counter_07")
+      table.insert(conversationList,"PF_counter_07")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.NIGHT_C)>=1 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.GUN_LIGHT)then
-      table.insert(conversationList,"USSR_counter_08")table.insert(conversationList,"PF_counter_08")
+      table.insert(conversationList,"USSR_counter_08")
+      table.insert(conversationList,"PF_counter_08")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)>=3 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.ARMOR)then
-      table.insert(conversationList,"USSR_counter_10")table.insert(conversationList,"PF_counter_10")
+      table.insert(conversationList,"USSR_counter_10")
+      table.insert(conversationList,"PF_counter_10")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)>=3 then
-    table.insert(conversationList,"USSR_counter_11")table.insert(conversationList,"PF_counter_11")
+    table.insert(conversationList,"USSR_counter_11")
+    table.insert(conversationList,"PF_counter_11")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)>=3 then
-    table.insert(conversationList,"USSR_counter_12")table.insert(conversationList,"PF_counter_12")
+    table.insert(conversationList,"USSR_counter_12")
+    table.insert(conversationList,"PF_counter_12")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)>=3 then
-    table.insert(conversationList,"USSR_counter_13")table.insert(conversationList,"PF_counter_13")
+    table.insert(conversationList,"USSR_counter_13")
+    table.insert(conversationList,"PF_counter_13")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)>=3 then
-    table.insert(conversationList,"USSR_counter_14")table.insert(conversationList,"PF_counter_14")
+    table.insert(conversationList,"USSR_counter_14")
+    table.insert(conversationList,"PF_counter_14")
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)>=3 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.SHOTGUN)or not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.MG)then
-      table.insert(conversationList,"USSR_counter_15")table.insert(conversationList,"PF_counter_15")
+      table.insert(conversationList,"USSR_counter_15")
+      table.insert(conversationList,"PF_counter_15")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.LONG_RANGE)>=2 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.SNIPER)then
-      table.insert(conversationList,"USSR_counter_16")table.insert(conversationList,"PF_counter_16")
+      table.insert(conversationList,"USSR_counter_16")
+      table.insert(conversationList,"PF_counter_16")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.VEHICLE)==1 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.MISSILE)then
-      table.insert(conversationList,"USSR_counter_17")table.insert(conversationList,"PF_counter_17")
+      table.insert(conversationList,"USSR_counter_17")
+      table.insert(conversationList,"PF_counter_17")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.VEHICLE)>=2 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.MISSILE)then
-      table.insert(conversationList,"USSR_counter_18")table.insert(conversationList,"PF_counter_18")
+      table.insert(conversationList,"USSR_counter_18")
+      table.insert(conversationList,"PF_counter_18")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.STEALTH)>=2 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.DECOY)then
-      table.insert(conversationList,"USSR_counter_19")table.insert(conversationList,"PF_counter_19")
+      table.insert(conversationList,"USSR_counter_19")
+      table.insert(conversationList,"PF_counter_19")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.STEALTH)>=1 then
     if not TppRevenge.IsBlocked(TppRevenge.BLOCKED_TYPE.CAMERA)then
-      table.insert(conversationList,"USSR_counter_20")table.insert(conversationList,"PF_counter_20")
+      table.insert(conversationList,"USSR_counter_20")
+      table.insert(conversationList,"PF_counter_20")
     end
   end
   if TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)>=3 then
@@ -1582,11 +1641,11 @@ function this.AssignUniqueStaffType(info)
   if not TppDefine.IGNORE_EXIST_STAFF_CHECK[uniqueStaffTypeId]then
     if TppMotherBaseManagement.IsExistStaff{uniqueTypeId=uniqueStaffTypeId}then
       if alreadyExistParam then
-        local e={gameObjectId=gameId}
+        local staffInfo={gameObjectId=gameId}
         for n,t in pairs(alreadyExistParam)do
-          e[n]=t
+          staffInfo[n]=t
         end
-        TppMotherBaseManagement.RegenerateGameObjectStaffParameter(e)
+        TppMotherBaseManagement.RegenerateGameObjectStaffParameter(staffInfo)
         return
       else
         return
@@ -2784,7 +2843,11 @@ function this.AssignSoldiersToCP()
       --[[if InfMain.IsForceSoldierSubType() then--tex WIP:
 
 
+
+
           this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
+
+
 
 
       end--]]
@@ -2854,7 +2917,7 @@ function this.SpawnVehicles(vehicleSpawnList)--*_enemy.lua .VEHICLE_SPAWN_LIST
   for t,spawnInfo in ipairs(vehicleSpawnList)do
     InfMain.PreSpawnVehicle(spawnInfo)--tex
     this.SpawnVehicle(spawnInfo)
-  end
+end
 end
 function this.SpawnVehicle(spawnInfo)
   if not IsTypeTable(spawnInfo)then
@@ -4062,7 +4125,17 @@ end
 
 
 
+
+
+
+
+
       [Fox.StrCode32"lz_drp_swamp_I0000|rt_drp_swamp_I_0000"]={
+
+
+
+
+
 
 
 
@@ -4078,6 +4151,11 @@ end
 
 
 
+
+
+
+
+
         [EntryBuddyType.BUDDY]={Vector3(2.113,-5.436,299.302),-153.76}}
 
 
@@ -4086,7 +4164,17 @@ end
 
 
 
+
+
+
+
+
        }
+
+
+
+
+
 
 
 
@@ -4162,16 +4250,16 @@ function this.OnAllocateQuest(body,face,a)
       end
       TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG:
     end
---    if body then --ORIG, for ref for retailbug 
---      local n={}
---      for t,e in ipairs(body)do
---        local t=e[1]
---        if IsTypeNumber(t)then
---          table.insert(n,e[1])
---        end
---      end
---      TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG: hostageBodyTable is named and not minified in retail, and from context I suspect the table minified to n is what was intended
---    end
+    --    if body then --ORIG, for ref for retailbug
+    --      local n={}
+    --      for t,e in ipairs(body)do
+    --        local t=e[1]
+    --        if IsTypeNumber(t)then
+    --          table.insert(n,e[1])
+    --        end
+    --      end
+    --      TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG: hostageBodyTable is named and not minified in retail, and from context I suspect the table minified to n is what was intended
+    --    end
     local t=SetAndConvertExtendFova(body,face)
     if t=="SetFaceAndBody"then
       TppSoldierFace.ReserveExtendFovaForHostage{face=face,body=body}

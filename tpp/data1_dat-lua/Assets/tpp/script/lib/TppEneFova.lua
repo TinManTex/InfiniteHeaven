@@ -13,7 +13,29 @@ local defaultPartsAfrica="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts"
 local defaultPartsAfghanFree="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00.parts"
 local defaultPartsAfricaFree="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts"
 local dds5_main0_def_v00="/Assets/tpp/parts/chara/dds/dds5_main0_def_v00.parts"
-local notRequiredArmorForMission={[10010]=1,[10020]=1,[10030]=1,[10054]=1,[11054]=1,[10070]=1,[10080]=1,[11080]=1,[10100]=1,[10110]=1,[10120]=1,[10130]=1,[11130]=1,[10140]=1,[11140]=1,[10150]=1,[10200]=1,[11200]=1,[10280]=1,[30010]=1,[30020]=1}
+local notRequiredArmorForMission={
+  [10010]=1,
+  [10020]=1,
+  [10030]=1,
+  [10054]=1,
+  [11054]=1,
+  [10070]=1,
+  [10080]=1,
+  [11080]=1,
+  [10100]=1,
+  [10110]=1,
+  [10120]=1,
+  [10130]=1,
+  [11130]=1,
+  [10140]=1,
+  [11140]=1,
+  [10150]=1,
+  [10200]=1,
+  [11200]=1,
+  [10280]=1,
+  [30010]=1,
+  [30020]=1
+}
 local missionArmorType={
   [10081]={TppDefine.AFR_ARMOR.TYPE_RC},
   [10082]={TppDefine.AFR_ARMOR.TYPE_CFA},
@@ -112,19 +134,23 @@ local function Select(_Select)
   end
   return _Select
 end
-function this.IsNotRequiredArmorSoldier(missionId)
-  if notRequiredArmorForMission[missionId]~=nil then
+function this.IsNotRequiredArmorSoldier(missionCode)
+  if InfMain.ForceArmor(missionCode) then--tex >
+    return false
+  end--<
+  if notRequiredArmorForMission[missionCode]~=nil then
     return true
   end
   return false
 end
-function this.CanUseArmorType(missionId,soldierSubType)
-  local pfArmorTypes={PF_A=TppDefine.AFR_ARMOR.TYPE_CFA,PF_B=TppDefine.AFR_ARMOR.TYPE_ZRS,PF_C=TppDefine.AFR_ARMOR.TYPE_RC}
+local pfArmorTypes={PF_A=TppDefine.AFR_ARMOR.TYPE_CFA,PF_B=TppDefine.AFR_ARMOR.TYPE_ZRS,PF_C=TppDefine.AFR_ARMOR.TYPE_RC}--tex made local to module so GetArmorTypeTable can use it
+function this.CanUseArmorType(missionCode,soldierSubType)
+  --tex ORIG OFF local pfArmorTypes={PF_A=TppDefine.AFR_ARMOR.TYPE_CFA,PF_B=TppDefine.AFR_ARMOR.TYPE_ZRS,PF_C=TppDefine.AFR_ARMOR.TYPE_RC}
   local pfArmorType=pfArmorTypes[soldierSubType]
   if pfArmorType==nil then
     return true
   end
-  local armorTypeTable=this.GetArmorTypeTable(missionId)
+  local armorTypeTable=this.GetArmorTypeTable(missionCode)
   for mission,armorType in ipairs(armorTypeTable)do
     if armorType==pfArmorType then
       return true
@@ -208,7 +234,7 @@ function this.GetHostageIgnoreFaceList(missionCode)
   end
   return default
 end
-function this.GetArmorTypeTable(missionCode)
+function this.GetArmorTypeTable(missionCode)--tex reworked
   if this.IsNotRequiredArmorSoldier(missionCode)then
     return{}
   end
@@ -216,14 +242,34 @@ function this.GetArmorTypeTable(missionCode)
     return{}
   end
   local default={TppDefine.AFR_ARMOR.TYPE_ZRS}
-  if missionArmorType[missionCode]~=nil then
-    local armorType=missionArmorType[missionCode]
-    if armorType~=nil then
-      return armorType
-    end
-  end
+  
+  local armorType=missionArmorType[missionCode]
+  if armorType~=nil then
+    return armorType
+  else--tex>
+    if InfMain.ForceArmor(missionCode) then--tex 
+      return {pfArmorTypes.PF_A,pfArmorTypes.PF_B,pfArmorTypes.PF_C}--tex would like to be soldiersubtypespecific but fova setup isnt that granular
+    end 
+  end--<
   return default
 end
+--ORIG
+--function this.GetArmorTypeTable(missionCode)
+--  if this.IsNotRequiredArmorSoldier(missionCode)then
+--    return{}
+--  end
+--  if not TppLocation.IsMiddleAfrica()then
+--    return{}
+--  end
+--  local default={TppDefine.AFR_ARMOR.TYPE_ZRS}
+--  if missionArmorType[missionCode]~=nil then
+--    local armorType=missionArmorType[missionCode]
+--    if armorType~=nil then
+--      return armorType
+--    end
+--  end
+--  return default
+--end
 function this.SetHostageFaceTable(missionId)
   local hostageCount=this.GetHostageCountAtMissionId(missionId)
   local hostageLang=this.GetHostageLangAtMissionId(missionId)

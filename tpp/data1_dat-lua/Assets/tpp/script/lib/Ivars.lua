@@ -34,6 +34,7 @@ this.MAX_PATROL_VEHICLES=16
 this.switchRange={max=1,min=0,increment=1}
 
 this.switchSettings={"OFF","ON"}
+this.simpleProfileSettings={"DEFAULT","CUSTOM"}
 
 --ivars
 --tex NOTE: should be mindful of max setting for save vars, 
@@ -109,6 +110,13 @@ this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt
   return returnValue
 end
 
+function this.ResetSetting(self,noOnChangeSub,noSave)
+  if noOnChangeSub==nil then 
+    noOnChangeSub=true
+  end
+  InfMenu.SetSetting(self,self.default,noOnChangeSub,noSave)
+end
+
 --parameters
 this.soldierParamsProfile={
   save=GLOBAL,--tex global since user still has to restart to get default/modded/reset
@@ -127,7 +135,7 @@ this.soldierParamsProfile={
 }
 
 --enemy parameters sight
-this.sightScaleRange={max=4,min=0,increment=0.1}
+this.sightScaleRange={max=4,min=0,increment=0.05}
 
 this.soldierSightDistScale={
   save=MISSION,
@@ -212,7 +220,7 @@ this.playerHealthScale={
     --end
   end,
 }
-----motherbase
+--motherbase>
 this.mbSoldierEquipGrade={--DEPENDANCY: mbPlayTime
   save=MISSION,
   settings={
@@ -266,6 +274,7 @@ this.mbEnableBuddies={
   range=this.switchRange,
   settingNames="set_switch",
 }
+--<motherbase
 
 --demos
 this.useSoldierForDemos={
@@ -273,11 +282,10 @@ this.useSoldierForDemos={
   range=this.switchRange,
   settingNames="set_switch",
 }
-this.mbDemoSelection={
+this.mbDemoSelection={  helpText="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",--ADDLANG:
   save=MISSION,
   settings={"DEFAULT","PLAY","DISABLED"},
   settingNames="set_mbDemoSelection",
-  helpText="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",--ADDLANG:
 }
 this.mbSelectedDemo={
   save=MISSION,
@@ -285,7 +293,7 @@ this.mbSelectedDemo={
   settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST,
 }
 
-----patchup
+--patchup
 this.langOverride={
   save=GLOBAL,
   range=this.switchRange,
@@ -344,6 +352,8 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(0,true)
       
       Ivars.abortMenuItemControl:Set(0,true)
+      
+      Ivars.fultonLevelProfile:Set(0,true)
     end,
     PURE=function() 
       Ivars.noCentralLzs:Set(1,true)
@@ -376,6 +386,8 @@ this.subsistenceProfile={
       
       Ivars.abortMenuItemControl:Set(1,true)
       Ivars.phaseUpdate:Set(0,true)
+      
+      Ivars.fultonLevelProfile:Set(1,true)
     end,
     BOUNDER=function() 
       Ivars.noCentralLzs:Set(1,true)
@@ -409,6 +421,8 @@ this.subsistenceProfile={
       
       Ivars.abortMenuItemControl:Set(0,true)
       Ivars.phaseUpdate:Set(0,true)
+      
+      Ivars.fultonLevelProfile:Set(1,true)
     end,
     CUSTOM=nil,
   },
@@ -566,7 +580,109 @@ this.abortMenuItemControl={
   settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
+--fulton success>
+--fultonSuccessProfile
+this.fultonSuccessProfile={
+  save=MISSION,
+  settings={"DEFAULT","HEAVEN","CUSTOM"},
+  settingNames="fultonSuccessProfileSettings",
+  settingsTable={
+    DEFAULT=function() 
+      Ivars.fultonNoMbSupport:Reset()
+      Ivars.fultonNoMbMedical:Reset()
+      Ivars.fultonDyingPenalty:Reset()
+      Ivars.fultonSleepPenalty:Reset()
+      Ivars.fultonHoldupPenalty:Reset()
+      Ivars.fultonDontApplyMbMedicalToSleep:Reset()
+    end,
+    HEAVEN=function()
+      Ivars.fultonNoMbSupport:Set(1,true)
+      Ivars.fultonNoMbMedical:Set(1,true)
+      Ivars.fultonDyingPenalty:Set(40,true)
+      Ivars.fultonSleepPenalty:Set(20,true)
+      Ivars.fultonHoldupPenalty:Set(0,true)
+      Ivars.fultonDontApplyMbMedicalToSleep:Set(1,true)
+    end,
+    CUSTOM=nil,
+  },
+  OnChange=this.RunCurrentSetting,
+  OnSubSettingChanged=this.OnSubSettingChanged,
+  profile=this.subsistenceProfile,
+  profileSetting="BOUNDER",
+}
+--this.fultonSoldierVariationRange={--WIP
+--  save=MISSION,
+--  default=0,
+--  range={max=100,min=0,increment=1},
+--  --profile=this.fultonSuccessProfile,
+--}
+--this.fultonOtherVariationRange={
+--  save=MISSION,
+--  default=0,
+--  range={max=100,min=0,increment=1},
+--  --profile=this.fultonSuccessProfile,
+--}
+--
+--this.fultonVariationInvRate={
+--  save=MISSION,
+--  range={max=500,min=10,increment=10},
+--  --profile=this.fultonSuccessProfile,
+--}
 
+this.fultonNoMbSupport={--NOTE: does not rely on fulton profile
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.fultonSuccessProfile,
+  OnSelect=function()
+    local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
+    local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
+    InfMenu.Print(InfMenu.LangString"fulton_mb_support"..":"..mbSectionSuccess)
+  end,
+}
+this.fultonNoMbMedical={--NOTE: does not rely on fulton profile
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.fultonSuccessProfile,
+  OnSelect=function()
+    local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
+    local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
+    InfMenu.Print(InfMenu.LangString"fulton_mb_medical"..":"..mbSectionSuccess)
+  end,
+}
+
+this.fultonDyingPenalty={
+  save=MISSION,
+  default=70,
+  range={max=100,min=0,increment=5},
+  profile=this.fultonSuccessProfile,
+}
+ 
+this.fultonSleepPenalty={
+  save=MISSION,
+  default=0,
+  range={max=100,min=0,increment=5},
+  profile=this.fultonSuccessProfile,
+}
+
+this.fultonHoldupPenalty={
+  save=MISSION,
+  default=10,
+  range={max=100,min=0,increment=5},
+  profile=this.fultonSuccessProfile,
+}
+
+this.fultonDontApplyMbMedicalToSleep={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.fultonSuccessProfile,
+}
+  
+--<fulton success
+
+--item levels>
 this.handLevelRange={max=4,min=1,increment=1}
 this.handLevelProfile={--tex can't be set in ui by user
   save=MISSION,
@@ -680,12 +796,12 @@ this.itemLevelWormhole={
   equipId=TppEquip.EQP_IT_Fulton_WormHole,
   profile=this.fultonLevelProfile,
 }
+--<item levels
 
 this.ospWeaponProfile={
   save=MISSION,
   settings={"DEFAULT","PURE","SECONDARY_FREE","CUSTOM"},
   settingNames="ospWeaponProfileSettings",
-  helpText="Start with no primary and secondary weapons, can be used seperately from subsistence mode",
   settingsTable={
     DEFAULT=function()
       Ivars.primaryWeaponOsp:Set(0,true)
@@ -765,6 +881,27 @@ this.revengeBlockForMissionCount={
   range={max=10},
 }
 
+this.applyPowersToLlrp={
+  save=MISSION,
+  range=this.switchRange,
+}
+
+this.applyPowersToOuterBase={
+  save=MISSION,
+  range=this.switchRange,
+}
+
+this.allowHeavyArmorInFreeMode={
+  save=MISSION,
+  range=this.switchRange,
+}
+
+this.allowHeavyArmorInAllMissions={
+  save=MISSION,
+  range=this.switchRange,
+}
+
+--<revenge stuff
 --reinforce stuff DOC: Reinforcements Soldier Vehicle Heli.txt
 this.forceSuperReinforce={
   save=MISSION,
@@ -911,7 +1048,6 @@ this.unlockSideOps={
   save=MISSION,
   settings={"OFF","REPOP","OPEN"},
   settingNames="set_unlock_sideops",
-  helpText="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area.",
   OnChange=function()
     TppQuest.UpdateActiveQuest()
   end,
@@ -1362,8 +1498,7 @@ this.minPhase={
   --settingsTable=this.phaseTable,
   OnChange=function(self)
     if self.setting>gvars.maxPhase then
-      InfMenu.PrintLangId("cannot_set_above_max_phase")
-      self:Set(gvars.maxPhase)
+      Ivars.maxPhase:Set(self.setting)
     end
   end,
   --profile=this.subsistenceProfile,
@@ -1376,8 +1511,7 @@ this.maxPhase={
   --settingsTable=this.phaseTable,
   OnChange=function(self)
     if self.setting<gvars.minPhase then
-      InfMenu.PrintLangId("cannot_set_below_max_phase")
-      self:Set(gvars.minPhase)
+      Ivars.minPhase:Set(self.setting)
     end
   end,
   profile=this.subsistenceProfile,
@@ -1799,6 +1933,7 @@ function this.Init(missionTable)
         ivar.range.max=GetMax()
       end
       ivar.Set=InfMenu.SetSetting
+      ivar.Reset=this.ResetSetting
     end
   end
 end

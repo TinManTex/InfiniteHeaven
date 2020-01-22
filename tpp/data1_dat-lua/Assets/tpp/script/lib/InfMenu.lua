@@ -340,7 +340,7 @@ function this.ResetSettings()
     for m,option in pairs(menu.options) do
       --InfMenu.DebugPrint(option.name)
       if option.save then--tex using identifier for all ivar/resetable settings
-        --InfMenu.DebugPrint(option.name)
+        --InfMenu.DebugPrint(option.name)--DEBUG
         this.SetSetting(option,option.default,true)
       end
     end

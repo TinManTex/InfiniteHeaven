@@ -125,6 +125,12 @@ this.printHealthTableParameter={
   end,
 }
 
+this.DEBUG_PrintVarsClock={
+  OnChange=function()
+    InfMenu.DebugPrint("vars.clock:"..vars.clock)
+  end,
+}
+
 this.DEBUG_PrintFultonSuccessInfo={
   OnChange=function()
   local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
@@ -278,6 +284,22 @@ this.DEBUG_Item2={
     -- local strout=InfInspect.Inspect(gvars.soldierTypeForced)
     -- InfMenu.DebugPrint(strout)
     -- InfMenu.DebugPrint("aft")
+  end,
+}
+
+this.DEBUG_InspectAllMenus={
+  OnChange=function()
+    --local instr=InfInspect.Inspect(InfMenuDefs.allMenus)
+    --InfMenu.DebugPrint(instr)
+    for n,menu in ipairs(InfMenuDefs.allMenus) do
+      if menu==nil then
+        InfMenu.DebugPrint("menu==nil at index "..n)
+      elseif menu.name==nil then
+        InfMenu.DebugPrint("menu.name==nil at index "..n)
+      else
+        InfMenu.DebugPrint(InfMenu.PrintLangId(menu.name))
+      end
+    end
   end,
 }
 
