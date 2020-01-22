@@ -264,7 +264,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   if TppEquip.CreateEquipGhostBlockGroups then
     if TppSystemUtility.GetCurrentGameMode()=="MGO"then
       TppEquip.CreateEquipGhostBlockGroups{ghostCount=16}
-    elseif TppMission.IsFOBMission(vars.missionCode)or InfMain.IsMbPlayTime(vars.missionCode) then--tex I dont actually know what this is lol
+    elseif TppMission.IsFOBMission(vars.missionCode) then--DEBUGNOWor InfMain.IsDDEqip(vars.missionCode) then--tex I dont actually know what this is lol
       TppEquip.CreateEquipGhostBlockGroups{ghostCount=1}
     end
   end

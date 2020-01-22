@@ -53,7 +53,7 @@ function this.StartCastTelop(startSide)
   if startSide then
     mvars.tlp_startSide=startSide
   end
-  if gvars.telopMode==0 then--tex cast telop
+  if Ivars.telopMode:Is(0) then--tex cast telop
     this.PostMainCharacters(mvars.tlp_mainCharacters)
     this.PostEnemyCombatants(mvars.tlp_enemyCombatants)
     this.PostGuestCharacters(mvars.tlp_guestCharacters)

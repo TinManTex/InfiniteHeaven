@@ -50,7 +50,7 @@ this.sideOpsMenu={
 this.motherBaseShowAssetsMenu={
   options={
     Ivars.mbShowBigBossPosters,
-    --Ivars.mbShowQuietCellSigns,
+    --Ivars.mbShowQuietCellSigns,--tex not that interesting
     Ivars.mbShowMbEliminationMonument,
     Ivars.mbShowSahelan,
     Ivars.mbShowEli,
@@ -111,7 +111,7 @@ this.patchupMenu={
     InfMenuCommands.showPosition,
     InfMenuCommands.showMissionCode,
     --InfMenuCommands.showMbEquipGrade,
-    InfMenuCommands.forceAllQuestOpenFlagFalse,--DEBUGNOW ADDLANG
+    InfMenuCommands.forceAllQuestOpenFlagFalse,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -175,18 +175,19 @@ this.revengeMenu={
   options={
     InfMenuCommands.resetRevenge,
     Ivars.revengeMode,
-    Ivars.revengeProfile,--DEBUGNOW ADDLANG
+    Ivars.revengeProfile,
     Ivars.revengeBlockForMissionCount,
     Ivars.applyPowersToOuterBase,
     Ivars.applyPowersToLrrp,
     Ivars.allowHeavyArmorInFreeMode,
     Ivars.allowHeavyArmorInAllMissions,
     Ivars.disableMissionsWeaponRestriction,
+    Ivars.disableMotherbaseWeaponRestriction,--DEBUGNOW
     Ivars.allowHeadGearCombo,
     Ivars.balanceHeadGear,
     Ivars.allowMissileWeaponsCombo,
-    Ivars.enableMgVsShotgunVariation,--DEBUGNOW WIP    
-    Ivars.randomizeSmallCpPowers,--DEBUGNOW ADDLANG
+    Ivars.enableMgVsShotgunVariation,  
+    Ivars.randomizeSmallCpPowers,
     Ivars.disableConvertArmorToShield,    
     --Ivars.balanceWeaponPowers,--WIP
     Ivars.changeCpSubTypeFree,
@@ -311,6 +312,7 @@ this.vehiclePatrolMenu={
 
 this.heliSpaceMenu={
   options={
+    Ivars.mbDDSuit2,--DEBUGNOW
     --InfMenuCommands.DEBUG_InspectAllMenus,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,

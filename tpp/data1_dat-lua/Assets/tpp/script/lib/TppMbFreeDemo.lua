@@ -854,7 +854,7 @@ function this.DisableBuddyForForceRealized(demoName)
     return
   end
   local demoOptions=this.demoOptions[demoName]
-  if demoOptions and(demoOptions.forceEnableBuddyType or (demoOptions.disableBuddyAfterDemo and gvars.mbDontDemoDisableBuddy==0))then--tex added override
+  if demoOptions and(demoOptions.forceEnableBuddyType or (demoOptions.disableBuddyAfterDemo and Ivars.mbDontDemoDisableBuddy:Is(0)))then--tex added override
     local command={id="SetEnabled",enabled=false}
     local buddyId={type="TppBuddyDog2",index=0}
     if vars.buddyType==BuddyType.QUIET then
@@ -905,7 +905,7 @@ function this.SetInvisibleUniqueCharacter(isVisibleCurrentBudy)
   TppDemoUtility.SetInvisibleUniqueCharacter{invisible=setInvisibleTable}
 end
 function this.DisableOcelot()
-  if gvars.mbDontDemoDisableOcelot==1 then--tex
+  if Ivars.mbDontDemoDisableOcelot:Is(1) then--tex
     return
   end--
   local gameId=GameObject.GetGameObjectId"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"

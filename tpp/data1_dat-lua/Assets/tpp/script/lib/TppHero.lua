@@ -392,7 +392,7 @@ function this.Messages()
           return
         end
         if(phase==TppGameObject.PHASE_ALERT)and Tpp.IsCommandPost(cpId)then
-          if not gvars.phaseUpdate==1 then --and gvars.minPhase>TppGameObject.PHASE_CAUTION) then--tex added check to filter out phasemod from heroicpoint TODO, cant get this to work right with specfic setting, so disable outright if phasemod
+          if not Ivars.phaseUpdate:Is(1) then --and Ivars.minPhase:Is()>TppGameObject.PHASE_CAUTION) then--tex added check to filter out phasemod from heroicpoint TODO, cant get this to work right with specfic setting, so disable outright if phasemod
           this.SetAndAnnounceHeroicOgrePoint(this.STARTED_COMBAT)
           end
         end

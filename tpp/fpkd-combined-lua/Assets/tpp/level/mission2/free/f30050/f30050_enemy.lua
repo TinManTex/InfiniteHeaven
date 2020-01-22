@@ -414,7 +414,7 @@ this.SetUpEnemy = function()
 		mtbs_enemy.SetupEnemy( clusterId )
 	end
 	
-	if Ivars.mbWarGames:Is(0) then--tex added check
+	if gvars.mbWarGames == 0 then--tex added check
     mtbs_enemy.SetFriendly()
 	end
 
@@ -441,9 +441,9 @@ this.OnLoad = function()
 	for clusterId = 1, #TppDefine.CLUSTER_NAME do
 		mvars.clusterConstructTable[clusterId] = 1	
 		local noUseRevenge = true
-		if InfMain.IsMbPlayTime() and Ivars.mbSoldierEquipGrade:Is()>0 then--tex
+		if InfMain.IsDDEquip() then--tex>
 		  noUseRevenge=false
-		end
+		end--<
 		mtbs_enemy.OnLoad( clusterId, noUseRevenge )
 		mtbs_enemy.SetupSoldierListFovaApplyPriority( clusterId )
 	end

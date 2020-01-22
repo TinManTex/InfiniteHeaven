@@ -759,7 +759,7 @@ function this.GetSoldierSubType(soldierId,soldierType)
   if missionCode==10115 or missionCode==11115 then
     return"DD_PW"
   end
-  if TppMission.IsFOBMission(missionCode)or InfMain.IsMbPlayTime(missionCode) then--tex added ismbplay
+  if TppMission.IsFOBMission(missionCode) or InfMain.IsDDEquip(missionCode) then--tex added isdd
     return"DD_FOB"
   end
   local soldierSubType=nil
@@ -827,10 +827,8 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
       else
         local developId=value.developId
         local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-        --if InfMain.IsMbPlayTime() then
-        --InfMenu.DebugPrint("_CreateDDWeaponIdTable developrank:" .. developRank .. " soldierEquipGrade: " .. soldierEquipGrade)--tex DEBUG: CULL:
-        --end--
-        local overrideDeveloped = InfMain.IsMbPlayTime() and Ivars.mbSoldierEquipGrade:Is() >= Ivars.mbSoldierEquipGrade.enum.GRADE1
+        --InfMenu.DebugPrint("_CreateDDWeaponIdTable developrank:" .. tostring(developRank) .. " soldierEquipGrade: " .. tostring(soldierEquipGrade))--tex DEBUGNOW
+        local overrideDeveloped = InfMain.IsDDEquip()--DEBGUGNOW and Ivars.mbSoldierEquipGrade:Is()>=Ivars.mbSoldierEquipGrade.enum.GRADE1
         if(soldierEquipGrade>=developRank and (developedGradeTable[developedEquipType]>=developRank or overrideDeveloped))then--tex added override
           addWeapon=true
         end
@@ -865,15 +863,14 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   if gvars.ini_isTitleMode then
     this.ClearDDParameter()
   end
-  if this.weaponIdTable.DD~=nil and not InfMain.IsMbPlayTime() then--tex rebuild if playtime cause we fsk wih soldiergrade
+  if this.weaponIdTable.DD~=nil and not InfMain.IsDDEquip() then--tex rebuild if playtime cause we fsk wih soldiergrade TODO: call _CreateDDWeaponIdTable from equipgrade ivar
   else
     this.weaponIdTable.DD=this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoKillMode)
   end
-  --TppUiCommand.AnnounceLogView("PrepareDDParameter securitySoldierEquipGrade:"..securitySoldierEquipGrade)--tex DEBUG: CULL:
-  --TppUiCommand.AnnounceLogView("PrepareDDParameter weaponIdTable.DD")--tex DEBUG: CULL:
-  --local dd = this.weaponIdTable.DD
-  --local inss = InfInspect.Inspect(dd)
-  --TppUiCommand.AnnounceLogView(inss)
+  InfMenu.DebugPrint("PrepareDDParameter weaponIdTable.DD")--tex DEBUGNOW
+  local dd = this.weaponIdTable.DD
+  local inss = InfInspect.Inspect(dd)
+  InfMenu.DebugPrint(inss)--tex DEBUGNOW
   local fultonGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16001]
   local wormholeGrade=developedGradeTable[mbsDevelopedEquipType.FULTON_16008]
   if fultonGrade>soldierEquipGrade then
@@ -904,7 +901,8 @@ function this.SetUpDDParameter()
   local typeCp={type="TppCommandPost2"}
   local command={id="SetFultonLevel",fultonLevel=this.weaponIdTable.DD.NORMAL.FULTON_LV,isWormHole=this.weaponIdTable.DD.NORMAL.WORMHOLE_FULTON}
   GameObject.SendCommand(typeCp,command)
-  if(this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT and this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT>=3)or(this.weaponIdTable.DD.NORMAL.BATTLE_DRESS and this.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)then
+  if(this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT and this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT>=3)
+    or(this.weaponIdTable.DD.NORMAL.BATTLE_DRESS and this.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)then
     TppRevenge.SetHelmetAll()
   end
   local grenadeId=this.weaponIdTable.DD.NORMAL.GRENADE or TppEquip.EQP_SWP_Grenade
@@ -5296,11 +5294,11 @@ function this.IsQuestHeli()
   return mvars.ene_isQuestHeli
 end
 function this.GetDDSuit()
-  if InfMain.IsMbPlayTime() then--tex
-    if Ivars.mbDDSuit:Is()>0 then
-      return Ivars.mbDDSuit:Get()
-    end
-  end--
+--  if InfMain.IsDDEquip() then--tex>
+--    if Ivars.mbDDSuit:Is()>0 then
+--      return Ivars.mbDDSuit:Get()
+--    end
+--  end--<
 
   local eventArmor=TppDefine.FOB_EVENT_ID_LIST.ARMOR
 

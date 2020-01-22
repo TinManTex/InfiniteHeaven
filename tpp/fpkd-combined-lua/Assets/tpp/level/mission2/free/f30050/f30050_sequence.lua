@@ -2291,8 +2291,8 @@ function this.PlayMusicFromQuietRoom()
 	if TppStory.CanArrivalQuietInMB( false ) and not TppQuest.IsActive("mtbs_q99011") then 
 		local totalPlayTime = TppScriptVars.GetTotalPlayTime()
 		local radioIndex = totalPlayTime%(#QUIET_RADIO_TELOP_LANG_LIST) + 1
-		if gvars.quietRadioMode>0 then--tex
-		  radioIndex=gvars.quietRadioMode
+		if Ivars.quietRadioMode:Is()>0 then--tex
+		  radioIndex=Ivars.quietRadioMode:Get()
 		end--
 		mvars.f30050_quietRadioName = string.format("sfx_m_prison_radio_%02d",radioIndex )
 		mvars.f30050_requestShowUIQuietRadioName = QUIET_RADIO_TELOP_LANG_LIST[radioIndex]
@@ -2523,7 +2523,7 @@ function this.EnableAssetsOnCluster(clusterId)
 	end
 	this.SwitchSahelanModel(clusterId == TppDefine.CLUSTER_DEFINE.Develop)
 	
-	if gvars.mbUnlockGoalDoors~=1 then--tex added mbunlock
+	if Ivars.mbUnlockGoalDoors:Get()~=1 then--tex added mbunlock
     this.LockGoalDoor( clusterId )
 	end
 end
@@ -2633,13 +2633,13 @@ end
 
 
 function this.EnableNuclearEliminationMonument()
-	if TppDemo.IsPlayedMBEventDemo("NuclearEliminationCeremony") or gvars.mbShowMbEliminationMonument>0 then--tex added mbshow
+	if TppDemo.IsPlayedMBEventDemo("NuclearEliminationCeremony") or Ivars.mbShowMbEliminationMonument:Is(1) then--tex added mbshow
 		TppDataUtility.SetVisibleDataFromIdentifier( "mtbs_plant0", "p51_020010_after", true, false)
 	end
 end
 
 function this.EnableQuietSolitaryConfinementAssets()
-	local isEnable = TppStory.CanArrivalQuietInMB( true ) or gvars.mbShowQuietCellSigns==1--tex added mbshow
+	local isEnable = TppStory.CanArrivalQuietInMB( true ) or Ivars.mbShowQuietCellSigns:Is(1)--tex added mbshow
 	TppDataUtility.SetVisibleDataFromIdentifier( "quiet_AssetIdentifier", "only_motherbase", isEnable, false)
 end
 
@@ -2647,7 +2647,7 @@ end
 function this.EnableBiggBossPosters()
 	if 	(TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO <= TppStory.GetCurrentStorySequence()
 	and not TppStory.IsMissionCleard( 10240 ))
-	  or gvars.mbShowBigBossPosters>0 then--tex added mbshow
+	  or Ivars.mbShowBigBossPosters:Is(1) then--tex added mbshow
 		local plantCount = MotherBaseStage.GetCompletionPlantCount()
 		if plantCount >= 1 then
 			TppDataUtility.SetVisibleDataFromIdentifier( "mtbs_plant0", "bwy00", true, false)
@@ -2683,12 +2683,12 @@ end
 
 
 function this.SetUniqueCharaVisibility( enable )
-	if mvars.f30050_isSetLiquid == true or gvars.mbShowEli>0 then--tex added mbshow
-	  if gvars.mbShowEli>0 then enable = true end
+	if mvars.f30050_isSetLiquid == true or Ivars.mbShowEli:Is(1) then--tex added mbshow
+	  if Ivars.mbShowEli:Is(1) then enable = true end
 		TppDataUtility.SetVisibleDataFromIdentifier( "f30050_liquid_DataIdentifier",		 "Liquid",		enable, false )
 	end
-	if mvars.f30050_isSetCodeTalker == true or gvars.mbShowCodeTalker>0 then--tex added mbshow
-		if gvars.mbShowCodeTalker>0 then enable = true end
+	if mvars.f30050_isSetCodeTalker == true or Ivars.mbShowCodeTalker:Is(1) then--tex added mbshow
+		if Ivars.mbShowCodeTalker:Is(1) then enable = true end
 		TppDataUtility.SetVisibleDataFromIdentifier( "f30050_codeTolker_DataIdentifier",	"CodeTalker",	enable, false )
 	end
 end

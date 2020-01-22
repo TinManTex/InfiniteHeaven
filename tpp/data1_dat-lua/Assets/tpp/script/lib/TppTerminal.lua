@@ -1047,28 +1047,6 @@ function this.SetUp()
   this.SetUpArmsMBDVCMenu()
   this.SetUpBuddyMBDVCMenu()
   this.SetUpCustomWeaponMBDVCMenu()
-  --[[if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it RETRY
-
-
-    --InfMenu.DebugPrint"Tppterminal set dvcmenu")--tex DEBUG: CULL:
-
-
-    local dvcMenu={
-
-
-      {menu=this.MBDVCMENU.MSN_BUDDY,active=true},
-
-
-    }
-
-
-    this.EnableDvcMenuByList(dvcMenu)
-
-
-    TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
-
-
-  end--]]
 
   --tex reworked, disable various support menus
   local isActual=TppMission.IsActualSubsistenceMission()

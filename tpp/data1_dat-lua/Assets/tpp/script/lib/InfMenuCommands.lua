@@ -68,7 +68,7 @@ this.showQuietReunionMissionCount={
 
 this.loadMission={
   OnChange=function()
-    local settingStr=Ivars.manualMissionCode.settings[gvars.manualMissionCode+1]
+    local settingStr=Ivars.manualMissionCode.settings[Ivars.manualMissionCode.Get()+1]
     InfMenu.DebugPrint("TppMission.Load "..settingStr)
     --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
     --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
@@ -364,7 +364,7 @@ this.DEBUG_ChangePhase={
   OnChange=function()
     InfMenu.DebugPrint("Changephase b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
-      InfMain.ChangePhase(cpName,gvars.maxPhase)
+      InfMain.ChangePhase(cpName,Ivars.maxPhase:Get())
     end
     InfMenu.DebugPrint("Changephase e")
   end
@@ -398,7 +398,7 @@ this.printPlayerPhase={
 
 this.DEBUG_SetPlayerPhaseToIvar={
   OnChange=function()
-    vars.playerPhase=gvars.maxPhase
+    vars.playerPhase=Ivars.maxPhase:Get()
   end,
 }
 

@@ -224,11 +224,10 @@ this.playerHealthScale={
   end,
 }
 --motherbase>
-this.mbSoldierEquipGrade={--DEPENDANCY: mbPlayTime
+this.mbSoldierEquipGrade={
   save=MISSION,
   settings={
     "DEFAULT",
-    "MBDEVEL",
     "RANDOM",
     "GRADE1",
     "GRADE2",
@@ -244,13 +243,13 @@ this.mbSoldierEquipGrade={--DEPENDANCY: mbPlayTime
   settingNames="set_dd_equip_grade",
 }
 
-this.mbSoldierEquipRange={--DEPENDANCY: mbPlayTime
+this.mbSoldierEquipRange={
   save=MISSION,
   settings={"DEFAULT","SHORT","MEDIUM","LONG","RANDOM"},
   settingNames="set_dd_equip_range",
 }
 
-this.mbDDSuit={--DEPENDANCY: mbPlayTime
+this.mbDDSuit={
   save=MISSION,
   settings={--SYNC: is manually indexed in TppEnemy
     "EQUIPGRADE",
@@ -261,6 +260,50 @@ this.mbDDSuit={--DEPENDANCY: mbPlayTime
   },
   settingNames="set_dd_suit",
 }
+
+this.mbDDSuit2={
+  save=MISSION,
+  settings={--SYNC: is manually indexed in TppEnemy    
+    "EQUIPGRADE",
+    "DRAB",
+    "TIGER",
+    "SNEAKING_SUIT",
+    "BATTLE_DRESS",
+    "PFA_ARMOR",
+  },
+  --settingNames="set_dd_suit",
+--  OnChange=function(self)--DEBUGNOW test shit
+--    --if InfMain.IsDDEquip(vars.missionCode) then--tex>
+--    InfMenu.DebugPrint"mbddsuit"
+--    if Ivars.mbDDSuit2:Is()>0 then
+--      InfMenu.DebugPrint"is>0"
+--      
+--      local suitName=Ivars.mbDDSuit2.settings[Ivars.mbDDSuit2:Get()+1]
+--      
+--      if suitName then
+--        InfMenu.DebugPrint("suitname:"..suitName)
+--      else
+--        InfMenu.DebugPrint"no suitname"
+--        return
+--      end
+--      
+--      local bodyInfo=InfMain.ddBodyInfo[suitName]
+--      if bodyInfo then
+--       if bodyInfo.partsPath then
+--          InfMenu.DebugPrint("partsPath:"..bodyInfo.partsPath)
+--        --  TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
+--        else
+--          InfMenu.DebugPrint"no partsPath"
+--        end
+--      
+--      else
+--        InfMenu.DebugPrint"no bodyInfo"
+--      end
+--    end
+--  
+--  end,
+}
+
 --[[this.mbDDBalaclava={--DEPENDANCY: mbPlayTime OFF: Buggy, is setting female bala faceids to male, RETRY ADDLANG
   save=MISSION,
   range=this.switchRange,
@@ -881,8 +924,8 @@ this.revengeMode={
 
 this.revengeProfile={
   save=MISSION,
-  settings=={"DEFAULT","HEAVEN","CUSTOM"},
-  --settingNames="revengeProfileSettings",--DEBUGNOW ADDLANG
+  settings={"DEFAULT","HEAVEN","CUSTOM"},
+  settingNames="revengeProfileSettings",
   settingsTable={
     DEFAULT=function()
       Ivars.revengeBlockForMissionCount:Set(3,true)
@@ -900,6 +943,8 @@ this.revengeProfile={
       Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
       Ivars.enableMgVsShotgunVariation:Set(0,true)
       Ivars.randomizeSmallCpPowers:Set(0,true)
+      Ivars.changeCpSubTypeFree:Set(0,true)
+      Ivars.changeCpSubTypeForMissions:Set(0,true)  
     end,
     HEAVEN=function()
       Ivars.revengeBlockForMissionCount:Set(4,true)
@@ -916,7 +961,9 @@ this.revengeProfile={
       Ivars.disableMissionsWeaponRestriction:Set(0,true)
       Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
       Ivars.enableMgVsShotgunVariation:Set(1,true)
-      Ivars.randomizeSmallCpPowers:Set(1,true)      
+      Ivars.randomizeSmallCpPowers:Set(1,true)
+      Ivars.changeCpSubTypeFree:Set(1,true)
+      Ivars.changeCpSubTypeForMissions:Set(0,true)    
     end,
     CUSTOM=nil,
   },
@@ -1215,7 +1262,7 @@ this.unlockSideOpNumber={
     TppQuest.UpdateActiveQuest()
   end,
 }
---DEBUGNOW ivar/fob refactor currently done above -^-, TODO: below -v-
+
 --mbshowstuff
 this.mbShowBigBossPosters={
   save=MISSION,
@@ -2173,8 +2220,6 @@ function this.DeclareVars()
  local varTable={
  --   {name="ene_typeForcedName",type=TppScriptVars.UINT32,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
  --   {name="ene_typeIsForced",type=TppScriptVars.TYPE_BOOL,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
-    
-    {name="mbPlayTime",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
     --CULL{name="vehiclePatrolSpawnedTypes",type=TppScriptVars.TYPE_UINT8,value=0,arraySize=this.MAX_PATROL_VEHICLES,save=true,category=TppScriptVars.CATEGORY_MISSION},
   }
   --[[ from MakeSVarsTable, a bit looser, but strings to strcode is interesting

@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r113"
+this.modVersion="r114"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -39,13 +39,6 @@ function this.ForceArmor(missionCode)
     return true
   end  
   
-  return false
-end
-
-function this.ForceArmorFree(missionCode)
-  if Ivars.allowHeavyArmorInFreeMode:Is()>0 and TppMission.IsFreeMission(missionCode) then--DEBUGNOW allowHeavyArmorInFreeMode actiting as armor limit for debug
-    return true
-  end
   return false
 end
 
@@ -151,50 +144,76 @@ function this.IsSubTypeCorrectForType(soldierType,subType)--returns true on nil 
   return true
 end
 
-function this.IsMbWarGames(missionId)
-  missionId=missionId or vars.missionCode
-  return Ivars.mbWarGames:Is(1) and missionId==30050
-end
-function this.IsMbPlayTime(missionId)
-  if TppMission.IsFOBMission(vars.missionCode) then
-    return false
-  end
-
-  missionId=missionId or vars.missionCode
-  if missionId==30050 then
-    return gvars.mbPlayTime>0 or Ivars.mbSoldierEquipGrade:Is()>0--tex mbPlayTime is not Ivar
+-- mb dd equip
+function this.IsDDEquip(missionId)
+  local missionCode=missionId or vars.missionCode
+  if missionCode==30050 then
+    return Ivars.mbSoldierEquipGrade:Is()>0
   end
   return false
 end
+
+
+this.ddBodyInfo={
+  SNEAKING_SUIT={
+    maleBodyId=TppEnemyBodyId.dds4_enem0_def,
+    femaleBodyId=TppEnemyBodyId.dds4_enef0_def,
+    partsPath="/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts",
+    extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts"},
+    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING,
+  },
+  BATTLE_DRESS={
+    maleBodyId=TppEnemyBodyId.dds5_enem0_def,
+    femaleBodyId=TppEnemyBodyId.dds5_enef0_def,
+    partsPath="/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts",
+    extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts"},
+    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS,
+  },
+  PFA_ARMOR={
+    maleBodyId=TppEnemyBodyId.pfa0_v00_a,
+    noFemaleExtended=true,
+    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
+    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR,
+  },
+  TIGER={
+    maleBodyId=TppEnemyBodyId.dds5_main0_v00,
+    femaleBodyId=TppEnemyBodyId.dds6_main0_v00,
+    partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",
+    extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts"},
+    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER,
+  },
+  DRAB={--?? mother base default
+    maleBodyId=TppEnemyBodyId.dds3_main0_v00,
+    femaleBodyId=TppEnemyBodyId.dds8_main0_v00,
+    extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"},
+  },
+}
+
+
+-- mb dd equip <
+
 function this.IsForceSoldierSubType()
   return Ivars.forceSoldierSubType:Is()>0 and TppMission.IsFreeMission(vars.missionCode)
 end
 
 function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldierEquipGrade
-  if TppMission.IsFOBMission(vars.missionCode) then
-    return TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
-  end
-
+  local missionCode=missionId or vars.missionCode
   local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
-  if this.IsMbPlayTime(missionId) and Ivars.mbSoldierEquipGrade:Is()>Ivars.mbSoldierEquipGrade.enum.MBDEVEL then
-    --TppUiCommand.AnnounceLogView("GetEquipGrade ismbplay, grade > devel")--DEBUG
+  if this.IsDDEquip(missionCode) then
     if Ivars.mbSoldierEquipGrade:Is"RANDOM" then
       grade = math.random(1,10)
     else
       grade = Ivars.mbSoldierEquipGrade:Get()-Ivars.mbSoldierEquipGrade.enum.RANDOM
     end
   end
-  --TppUiCommand.AnnounceLogView("GetEquipGrade: gvar:".. gvars.mbSoldierEquipGrade .." grade: ".. grade)--DEBUG
+  --TppUiCommand.AnnounceLogView("GetEquipGrade: gvar:".. Ivars.mbSoldierEquipGrade:Get() .." grade: ".. grade)--DEBUG
   --TppUiCommand.AnnounceLogView("Caller: ".. tostring(debug.getinfo(2).name) .." ".. tostring(debug.getinfo(2).source))--DEBUG
   return grade
 end
 
 function this.GetMbsClusterSecuritySoldierEquipRange(missionId)
-  if TppMission.IsFOBMission(vars.missionCode) then
-    return TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
-  end
-
-  if InfMain.IsMbPlayTime(missionId) then
+  local missionCode=missionId or vars.missionCode
+  if InfMain.IsDDEquip(missionCode) then
     if Ivars.mbSoldierEquipRange:Is"RANDOM" then
       return math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
     elseif Ivars.mbSoldierEquipRange:Is()>0 then
@@ -205,11 +224,8 @@ function this.GetMbsClusterSecuritySoldierEquipRange(missionId)
 end
 
 function this.GetMbsClusterSecurityIsNoKillMode(missionId)
-  if TppMission.IsFOBMission(vars.missionCode) then
-    return TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-  end  
-
-  if this.IsMbPlayTime(missionId) then--tex PrepareDDParameter mbwargames, mbsoldierequipgrade
+  local missionCode=missionId or vars.missionCode
+  if this.IsDDEquip(missionCode) then
     return Ivars.mbWarGames:Is"NONLETHAL"
   end
   return TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
@@ -1045,7 +1061,7 @@ end
 --<splash stuff
 
 function this.OnAllocateFob()
-  InfMenu.ResetSettings()--tex TODO: would like a nosave reset, but would need to change to reading ivar.setting instead of gvars, then would need to VERFY that .setting is restored on gvar restore
+  --CULL InfMenu.ResetSettings()--tex TODO: would like a nosave reset, but would need to change to reading ivar.setting instead of gvars, then would need to VERFY that .setting is restored on gvar restore
   TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
 end
 
@@ -1179,14 +1195,14 @@ function this.OnDamage(gameId,attackId,attackerId)
 
   if Tpp.IsPlayer(attackerId) then
     --InfMenu.DebugPrint"OnDamage attacked by player"
-    if gvars.soldierAlertOnHeavyVehicleDamage>0 then
+    if Ivars.soldierAlertOnHeavyVehicleDamage:Is()>0 then
       if AttackIsVehicle(attackId) then
         --InfMenu.DebugPrint"OnDamage AttackIsVehicle"
         for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do--tex TODO:find or build a better soldierid>cpid lookup
-          if TppEnemy.GetPhaseByCPID(cpId)<gvars.soldierAlertOnHeavyVehicleDamage then
+          if TppEnemy.GetPhaseByCPID(cpId)<Ivars.soldierAlertOnHeavyVehicleDamage:Is() then
             if soldierIds[gameId]~=nil then
               --InfMenu.DebugPrint"OnDamage found soldier in idlist"
-              local command={id="SetPhase",phase=gvars.soldierAlertOnHeavyVehicleDamage}
+              local command={id="SetPhase",phase=Ivars.soldierAlertOnHeavyVehicleDamage:Get()}
               SendCommand(cpId,command)
               break
             end
@@ -1201,7 +1217,7 @@ local function PhaseName(index)
   return Ivars.phaseSettings[index+1]
 end
 function this.OnPhaseChange(gameObjectId,phase,oldPhase)
-  if gvars.printPhaseChanges==1 then
+  if Ivars.printPhaseChanges:Is(1) then
     --tex TODO: cpId>cpName
     InfMenu.Print("cpId:"..gameObjectId.." Phase change from:"..PhaseName(oldPhase).." to:"..PhaseName(phase))--InfMenu.LangString("phase_changed"..":"..PhaseName(phase)))--ADDLANG
   end
@@ -1418,8 +1434,8 @@ function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateR
   end
 
   local currentPhase=vars.playerPhase
-  local minPhase=gvars.minPhase
-  local maxPhase=gvars.maxPhase
+  local minPhase=Ivars.minPhase:Get()
+  local maxPhase=Ivars.maxPhase:Get()
 
   for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
     if currentPhase<minPhase then
@@ -1590,7 +1606,7 @@ function this.UpdateHeliVars()
     SendCommand(heliId,{id="SetInvincible",enabled=true})
   end
   if not Ivars.setTakeOffWaitTime:IsDefault() then
-    SendCommand(heliId,{id="SetTakeOffWaitTime",time=gvars.setTakeOffWaitTime})
+    SendCommand(heliId,{id="SetTakeOffWaitTime",time=Ivars.setTakeOffWaitTime:Get()})
   end
   if Ivars.disablePullOutHeli:Is(1) then
     --if not TppLocation.IsMotherBase() and not TppLocation.IsMBQF() then--tex aparently disablepullout overrides the mother base taxi service TODO: not sure if I want to turn this off to save user confusion, or keep consistant behaviour
@@ -1598,7 +1614,7 @@ function this.UpdateHeliVars()
     --end
   end
   if not Ivars.setLandingZoneWaitHeightTop:IsDefault() then
-    SendCommand(heliId,{id="SetLandingZoneWaitHeightTop",height=gvars.setLandingZoneWaitHeightTop})
+    SendCommand(heliId,{id="SetLandingZoneWaitHeightTop",height=Ivars.setLandingZoneWaitHeightTop:Get()})
   end
   if Ivars.disableDescentToLandingZone:Is(1) then
     SendCommand(heliId,{id="DisableDescentToLandingZone"})
@@ -1618,7 +1634,7 @@ function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRa
     return
   end
 
-  --if gvars.enableGetOutHeli==1 then--TEST not that useful
+  --if Ivars.enableGetOutHeli:Is(1) then--TEST not that useful
   -- SendCommand(heliId, { id="SetGettingOutEnabled", enabled=true })
   --end
 
@@ -1629,7 +1645,7 @@ function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRa
         if IsTimerActive"Timer_MissionStartHeliDoorOpen" then
           SendCommand(heliId,{id="RequestSnedDoorOpen"})
         else
-          if Ivars.disablePullOutHeli.setting==1 then
+          if Ivars.disablePullOutHeli:Is(1) then
             --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player in heli
             Ivars.disablePullOutHeli:Set(0,true,true)--tex overrules all, but we can tell it to not save so that's ok
             InfMenu.PrintLangId"heli_pulling_out"

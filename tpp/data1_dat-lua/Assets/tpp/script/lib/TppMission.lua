@@ -2015,7 +2015,7 @@ function this.OnAllocate(missionTable)
     if missionTable.sequence.ENABLE_DEFAULT_HELI_MISSION_CLEAR then
       mvars.mis_enableDefaultHeliMisionClear=true
     end
-    mvars.mis_helicopterDoorOpenTimerTimeSec=gvars.defaultHeliDoorOpenTime--tex was 15, yeah a magic number
+    mvars.mis_helicopterDoorOpenTimerTimeSec=Ivars.defaultHeliDoorOpenTime:Get()--tex was 15, yeah a magic number
     if missionTable.sequence.HELICOPTER_DOOR_OPEN_TIME_SEC and Ivars.defaultHeliDoorOpenTime:IsDefault() then--tex allow override
       mvars.mis_helicopterDoorOpenTimerTimeSec=missionTable.sequence.HELICOPTER_DOOR_OPEN_TIME_SEC
     end

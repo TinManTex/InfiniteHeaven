@@ -61,7 +61,7 @@ this.eng={--english
   set_menu_off={">","Off"},
   --set_menu_reset={">","Reset"},
   set_goBackItem={">","Back"},
-  set_dd_equip_grade={"Off","Current MB Dev","Random","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9","Grade 10"},
+  set_dd_equip_grade={"Off","Random","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9","Grade 10"},
   set_dd_equip_range={"Default (FOB Setting)", "All Short", "All Medium","All Long","Random"},
   set_dd_suit={"Use Equip Grade", "Tiger","Sneaking","Battle Dress","PF Riot Suit"},
   set_mb_wargames={"Off","DD Non Lethal","DD Lethal"},
@@ -246,6 +246,10 @@ this.eng={--english
   balanceWeaponPowers="Balance primary weapon distribution",
   allowMissileWeaponsCombo="Allow missile combo with other weapons",
   disableConvertArmorToShield="Disable convert armor to sheild (if armor off)",
+  revengeProfile="Enemy prep profile",--r113
+  revengeProfileSettings={"Default","Heaven","Custom"},
+  enableMgVsShotgunVariation="Enable Mg vs Shotgun variation",
+  randomizeSmallCpPowers="Balance small CPs",
 }
 
 this.eng_help={
@@ -254,6 +258,14 @@ this.eng_help={
   mbDemoSelection="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",
   fultonNoMbSupport="Disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.",
   fultonNoMbMedical="Disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty",
+  enableMgVsShotgunVariation="In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.",--r113
+  allowMissileWeaponsCombo="In the default game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them.",
+  randomizeSmallCpPowers="Adds limits and some randomisation to small cp/lrrps enemy prep application",
+  disableMissionsWeaponRestriction="Missions 2, 12, 13, 16, 26, 31 prevent the application of shields, missiles, shotguns and mgs to the general CP enemy prep (though some may have custom enemy prep).",
+  disableConvertArmorToShield="Where heavy armor is disabled (free mode by default) the normal game converts armor to sheilds in addition to the normal shield application, this often leads to it feeling like there's just too many.",
+  balanceHeadGear="- adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if Allow helmet and NVG or Gas mask combo option is on",
+  changeCpSubTypeFree="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
+  changeCpSubTypeForMissions="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on
@@ -298,7 +310,7 @@ this.cht={--chinese traditional, translation by rikimtasu,  unconfirmed lang cod
   set_menu_off={">","关闭"},
   set_menu_reset={">","重置"},
   set_goBackItem={">","回"},
-  set_dd_equip_grade={"关闭","当前MB开发进度","随机","等级 1","等级 2","等级 3","等级 4","等级 5","等级 6","等级 7","等级 8","等级 9","等级 10"},
+  set_dd_equip_grade={"关闭","随机","等级 1","等级 2","等级 3","等级 4","等级 5","等级 6","等级 7","等级 8","等级 9","等级 10"},
   set_dd_equip_range={"默认 (FOB 设定)", "全短", "全中","全长","随机"},
   set_dd_suit={"使用装备等级", "虎","潜行","战袍","PF防暴服"},
   set_mb_wargames={"关闭","DD 非致命","DD 致命"},
