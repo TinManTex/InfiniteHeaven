@@ -881,9 +881,10 @@ this.revengeBlockForMissionCount={
   range={max=10},
 }
 
-this.applyPowersToLlrp={
+this.applyPowersToLrrp={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",  
 }
 
 this.applyPowersToOuterBase={
@@ -902,6 +903,20 @@ this.allowHeavyArmorInAllMissions={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+}
+
+this.allowHeadGearCombo={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  allowHeadGearComboThreshold=120,
+}
+
+this.balanceHeadGear={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  balanceHeadGearThreshold=100,
 }
 
 --<revenge stuff
@@ -948,6 +963,7 @@ this.vehiclePatrolProfile={
 local function TypeChange()
   InfMain.BuildEnabledList()
 end
+
 this.vehiclePatrolLvEnable={
   save=MISSION,
   default=1,

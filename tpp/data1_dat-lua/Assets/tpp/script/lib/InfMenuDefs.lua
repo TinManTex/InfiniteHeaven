@@ -175,9 +175,11 @@ this.revengeMenu={
     Ivars.revengeMode,
     Ivars.revengeBlockForMissionCount,
     Ivars.applyPowersToOuterBase,
-    Ivars.applyPowersToLlrp,
-    --Ivars.allowHeavyArmorInFreeMode,--WIP
-    --Ivars.allowHeavyArmorInAllMissions,
+    Ivars.applyPowersToLrrp,
+    Ivars.allowHeavyArmorInFreeMode,
+    Ivars.allowHeavyArmorInAllMissions,
+    Ivars.allowHeadGearCombo,
+    Ivars.balanceHeadGear,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }

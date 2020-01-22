@@ -202,7 +202,7 @@ this.eng={--english
   setting_only_for_dd="This setting is only for DD soliders",--r93
   menu_keys="(Hold Spacebar or X button for 1 second to enable menu)",
   soldierAlertOnHeavyVehicleDamage="Phase on vehicle attack",--r95
-  forceSuperReinforce="Enable vehicle reinforce",--r96
+  forceSuperReinforce="Enable vehicle reinforce (only heli in free, vehicles depend on mission)",--r96
   forceSuperReinforceSettings={"Off","Enemy Prep","Force Prep"},
   forceReinforceRequest="Force reinforce request",
   enableHeliReinforce="Force enable enemy heli reinforce (disable heli sideops)",
@@ -233,9 +233,11 @@ this.eng={--english
   fulton_mb_support="Current MB support bonus +",
   fulton_mb_medical="Current MB medical bonus +",
   applyPowersToOuterBase="Apply enemy prep to guard posts",--r105
-  applyPowersToLlrp="Apply enemy prep to LLRP soldiers",
+  applyPowersToLrrp="Apply enemy prep to LRRP soldiers",
   allowHeavyArmorInFreeMode="Allow heavy armor in free mode",
   allowHeavyArmorInAllMissions="Allow heavy armor in all missions",
+  allowHeadGearCombo="Allow helmet and NVG or Gas mask combo",--r108
+  balanceHeadGear="Ballance heavy armor and head gear distribution",
 }
 
 this.eng_help={

@@ -14,7 +14,7 @@ local IsTable=Tpp.IsTypeTable
 --local rainSightDefault={distanceRate=1,angleRate=1}
 --local cloudySightDefault={distanceRate=1,angleRate=1}
 --local foggySightDefault={distanceRate=.5,angleRate=.6}
---tex BALLANCE: being conservative, could be more agressive if coupled with a bump in the sight dist it modifies, but I like the retail settings in general
+--tex BALANCE: being conservative, could be more agressive if coupled with a bump in the sight dist it modifies, but I like the retail settings in general
 --local sandstormSightImproved={distanceRate=.6,angleRate=.8}
 --local rainSightImproved={distanceRate=.9,angleRate=0.95}
 --local cloudySightImproved={distanceRate=0.95,angleRate=1}

@@ -1000,14 +1000,14 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,loadoutType)
   if bodyIdTable==nil then
     return nil
   end
-  
+
   local _GetBodyId=function(selection,loadoutBodies)
     if#loadoutBodies==0 then
       return loadoutBodies[1]
     end
     return loadoutBodies[(selection%#loadoutBodies)+1]--NMC: looks like it uses the solider id to 'randomly'(ie each solider id is uniqe) choose (assuming theres multiple bodies in the input list)
   end
-  
+
   if loadoutType.ARMOR and bodyIdTable.ARMOR then
     return _GetBodyId(soldierId,bodyIdTable.ARMOR)
   end
@@ -1128,8 +1128,8 @@ function this.ApplyPowerSetting(soldierId,powerSetting)
       powerLoadout[e]=t
     end
   end
-  local categories={SMG=true,MG=true,SHOTGUN=true,SNIPER=true,MISSILE=true,SHIELD=true}
-  for power,t in pairs(categories)do
+  local checkLoadedPowers={SMG=true,MG=true,SHOTGUN=true,SNIPER=true,MISSILE=true,SHIELD=true}
+  for power,t in pairs(checkLoadedPowers)do
     if powerLoadout[power]and not mvars.revenge_loadedEquip[power]then
       powerLoadout[power]=nil
     end
@@ -1179,20 +1179,34 @@ function this.ApplyPowerSetting(soldierId,powerSetting)
   end
   if powerLoadout.GAS_MASK then
     if subTypeName~="DD_FOB"then
+      if gvars.allowHeadGearCombo>0 then--tex>
+        powerLoadout.NVG=nil
+      else--tex< ORIG-v-
       powerLoadout.HELMET=nil
       powerLoadout.NVG=nil
+      end
     end
   end
   if powerLoadout.NVG then
     if subTypeName~="DD_FOB"then
-      powerLoadout.HELMET=nil
-      powerLoadout.GAS_MASK=nil
+      if gvars.allowHeadGearCombo>0 then--tex>
+        powerLoadout.GAS_MASK=nil
+      else--tex< ORIG-v-
+        powerLoadout.HELMET=nil
+        powerLoadout.GAS_MASK=nil
+      end
     end
   end
   if powerLoadout.HELMET then
     if subTypeName~="DD_FOB"then
-      powerLoadout.GAS_MASK=nil
-      powerLoadout.NVG=nil
+      if gvars.allowHeadGearCombo>0 then--tex>
+        if powerLoadout.GAS_MASK and powerLoadout.NVG then
+          powerLoadout.NVG=nil
+        end
+      else--tex< ORIG-v-
+        powerLoadout.GAS_MASK=nil
+        powerLoadout.NVG=nil
+      end
     end
   end
   mvars.ene_soldierPowerSettings[soldierId]=powerLoadout
@@ -1214,7 +1228,7 @@ function this.ApplyPowerSetting(soldierId,powerSetting)
   if powerSetting.SOFT_ARMOR then
     wearEquipFlag=wearEquipFlag+WearEquip.SOFT_ARMOR
   end
-  if(primaryId~=nil or secondaryId~=nil)or tertiaryId~=nil then
+  if(primaryId~=nil or secondaryId~=nil)or tertiaryId~=nil then--RETAILBUG secondaryId (was named secondaryWeapon) had no declaration
     GameObject.SendCommand(soldierId,{id="SetEquipId",primary=primaryId,secondary=secondaryId,tertiary=tertiaryId})
   end
   GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId,faceId=faceId,balaclavaFaceId=balaclavaId})
@@ -1245,7 +1259,8 @@ function this.SetOccasionalChatList()
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
-  local conversationList={}table.insert(conversationList,"USSR_story_04")
+  local conversationList={}
+  table.insert(conversationList,"USSR_story_04")
   table.insert(conversationList,"USSR_story_05")
   table.insert(conversationList,"USSR_story_06")
   table.insert(conversationList,"USSR_story_07")
@@ -2847,7 +2862,23 @@ function this.AssignSoldiersToCP()
 
 
 
+
+
+
+
+
+
+
+
           this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
+
+
+
+
+
+
+
+
 
 
 
@@ -4132,7 +4163,49 @@ end
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       [Fox.StrCode32"lz_drp_swamp_I0000|rt_drp_swamp_I_0000"]={
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4158,6 +4231,27 @@ end
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         [EntryBuddyType.BUDDY]={Vector3(2.113,-5.436,299.302),-153.76}}
 
 
@@ -4171,7 +4265,49 @@ end
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

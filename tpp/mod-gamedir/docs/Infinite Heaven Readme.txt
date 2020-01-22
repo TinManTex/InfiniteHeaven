@@ -1,9 +1,13 @@
 = Infinite heaven =
-r106 - 2015-12-14
+r107 - 2015-12-15
 by tin man tex
 For MGSV version 1.0.6.0 (1.06 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
+
+New for r107:
+Interim workaround option for vehicle patrols:
+"qfpks - will break some sideops" , "Custom fpks - may crash the game"
 
 New for r106:
 Enemy prep options:
@@ -355,10 +359,13 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r107
+Option: vehiclePatrolPackType, switches between quest packs and custom fpks - thanks blejky for the report
+
 r106 - 2015-12-14 - public release
 ig_*.fpk/ fpkd. Initially started as copies of the respective quests I was using to get proper vehicle references for patrol vehicles, since using the quest fpks directly intereferes with quests - still not exactly sure what aspect, guessing the quest script block load given it went away when I deleted it, but tests showed the script itself wasn't loaded, so guessing the script block entity in the fox2 got engaged, don't know. 
 Stripping down the packs further revealed some troublesome issues with fox2 files relying on specifc file orders, or possibly something more.
-Fix: (due to above) vehicle patrols interfering with sideops.
+Fix: (due to above) vehicle patrols interfering with sideops - thanks blejky for the report
 
 r105
 Fix: Reset all settings was completely broken, varable but didnt cat all instances woops.

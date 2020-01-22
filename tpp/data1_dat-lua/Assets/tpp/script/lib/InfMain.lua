@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r106"
+this.modVersion="r107"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -35,6 +35,14 @@ function this.ForceArmor(missionCode)
   if gvars.allowHeavyArmorInFreeMode>0 and TppMission.IsFreeMission(missionCode) then
     return true
   end
+  return false
+end
+
+function this.ForceArmorFree(missionCode)
+  if gvars.allowHeavyArmorInFreeMode>0 and TppMission.IsFreeMission(missionCode) then
+    return true
+  end
+  return false
 end
 
 this.SETTING_FORCE_ENEMY_TYPE=Enum{
@@ -347,8 +355,8 @@ local vehicleBaseTypes={
       "WESTERN_TRUCK",
       "WESTERN_TRUCK_CARGO_ITEM_BOX",
       "WESTERN_TRUCK_CARGO_CONTAINER",
-      --"WESTERN_TRUCK_HOOD",--tex OFF only used in one mission TODO: build own pack with it
-    },  
+    --"WESTERN_TRUCK_HOOD",--tex OFF only used in one mission TODO: build own pack with it
+    },
   },
   WHEELED_ARMORED_VEHICLE={
     ivar="vehiclePatrolWavEnable",
@@ -411,7 +419,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     class=nil,
     paintType=nil,
   },
-  
+
   EASTERN_TRUCK={
     baseType="TRUCK",
     type=Vehicle.type.EASTERN_TRUCK,
@@ -447,7 +455,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     class=nil,
     paintType=nil,
   },
-  
+
   WESTERN_TRUCK={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_TRUCK,
@@ -455,7 +463,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     class=nil,
     paintType=nil,
   },
-  
+
   WESTERN_TRUCK_CARGO_ITEM_BOX={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_TRUCK,
@@ -463,7 +471,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     class=nil,
     paintType=nil,
   },
-  
+
   WESTERN_TRUCK_CARGO_CONTAINER={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_TRUCK,
@@ -471,7 +479,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     class=nil,
     paintType=nil,
   },
-  
+
   WESTERN_TRUCK_CARGO_CISTERN={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_TRUCK,
@@ -479,7 +487,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     class=nil,
     paintType=nil,
   },
-  
+
   WESTERN_TRUCK_HOOD={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_TRUCK,
@@ -494,7 +502,9 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     subType=Vehicle.subType.NONE,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/ih_east_wavs.fpk",
+    --packPath="/Assets/tpp/pack/ih_east_wavs.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_east_wav.fpk",
+    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52130.fpk",
   },
 
   EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY={
@@ -503,10 +513,12 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     subType=Vehicle.subType.EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/ih_east_wavs.fpk",
+    --OWpackPath="/Assets/tpp/pack/ih_east_wavs.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_east_wav_rocket.fpk",
+    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52130.fpk",
   },
 
-  
+
   WESTERN_WHEELED_ARMORED_VEHICLE={--Nope, vehicle seems almost complete, just no turret and no use cases in game
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
@@ -514,42 +526,50 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     class=nil,
     paintType=nil,
   },
-  
+
   WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/ih_west_wavs.fpk",
+    -- packPath="/Assets/tpp/pack/ih_west_wavs.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_west_wav_machinegun.fpk",
+    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52110.fpk",
   },
-  
+
   WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/ih_west_wavs.fpk",
+    --packPath="/Assets/tpp/pack/ih_west_wavs.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_west_wav_cannon.fpk",
+    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52110.fpk",
   },
-  
+
   EASTERN_TRACKED_TANK={
     baseType="TRACKED_TANK",
     type=Vehicle.type.EASTERN_TRACKED_TANK,
     subType=Vehicle.subType.NONE,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/ih_east_tank.fpk",
+    --packPath="/Assets/tpp/pack/ih_east_tank.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_east_tnk.fpk",
+    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52015.fpk",
   },
-  
+
   WESTERN_TRACKED_TANK={
     baseType="TRACKED_TANK",
     type=Vehicle.type.WESTERN_TRACKED_TANK,
     subType=Vehicle.subType.NONE,
     class=nil,
     paintType=nil,
-    packPath="/Assets/tpp/pack/ih_west_tank.fpk",
-  },  
+    --packPath="/Assets/tpp/pack/ih_west_tank.fpk",
+    packPath="/Assets/tpp/pack/vehicle/veh_rl_west_tnk.fpk",
+    --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52045.fpk",
+  },
 }
 
 local enabledList=nil--tex cleared on Init, TODO: don't like this setup
@@ -568,17 +588,17 @@ function this.ClearPatrolVehicles()--CULL
   if not this.IsPatrolVehicleMission() then
     InfMenu.DebugPrint"ClearPatrolVehicles()"--DEBUG
     for i=0,this.MAX_PATROL_VEHICLES-1 do
---      gvars.vehiclePatrolSpawnedTypes[i]=0
+    --      gvars.vehiclePatrolSpawnedTypes[i]=0
     end
   end
 end
 
 function this.BuildEnabledList()
   enabledList={}
-  for baseType,info in pairs(vehicleBaseTypes) do
-    if info.ivar then
+  for baseType,typeInfo in pairs(vehicleBaseTypes) do
+    if typeInfo.ivar then
       --InfMenu.DebugPrint("spawnInfo.ivar="..spawnInfo.ivar)--DEBUG
-      if gvars[info.ivar]~=nil and gvars[info.ivar]>0 then
+      if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
         enabledList[#enabledList+1]=baseType
         --InfMenu.DebugPrint(baseType.." added to enabledList")--DEBUG
       end
@@ -593,46 +613,46 @@ function this.PreSpawnVehicle(spawnInfo)
   if gvars.vehiclePatrolProfile==0 then
     return
   end
-  
+
   if not this.IsPatrolVehicleMission() then
     return
-  end  
-  
+  end
+
   if not spawnInfo.locator then
     return
   end
-  
+
   if not string.find(spawnInfo.locator, "veh_trc_000") then--tex only replacing certain ids, seen in free mission vehicle spawn list
     return
   end
-  
+
   local vehicleNumber=string.sub(spawnInfo.locator,9)
   vehicleNumber=tonumber(vehicleNumber)
-  
+
   if vehicleNumber==nil then
     InfMenu.DebugPrint("vehiclePatrolSpawned but could not convert "..spawnInfo.locator.." to number")
     return
   end
-  
+
   if vehicleNumber<0 or vehicleNumber>=this.MAX_PATROL_VEHICLES then
     InfMenu.DebugPrint("WARNING: vehicleNumber out of bounds: "..vehicleNumber)
     return
   end
-  
+
   if Ivars.vehiclePatrolProfile:Is"SINGULAR" then
     vehicleNumber=0
   end
-  
+
   local vehicleTypeNumber=svars.vehiclePatrolSpawnedTypes[vehicleNumber]
 
   if vehicleTypeNumber==nil then
     InfMenu.DebugPrint("ERROR: vehicleTypeNumber==nil")
-    return    
+    return
   end
-  
+
   if vehicleTypeNumber==0 then
     --InfMenu.DebugPrint("vehicleTypeNumber==0")--DEBUG
-    this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)  
+    this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
   else
     this.RestoreVehiclePatrol(vehicleTypeNumber,spawnInfo)
   end
@@ -642,10 +662,10 @@ function this.RestoreVehiclePatrol(vehicleTypeNumber, spawnInfo)
 
   local vehicleType=this.VEHICLE_SPAWN_TYPE[vehicleTypeNumber]
   if vehicleType==nil then
-     InfMenu.DebugPrint("could not restore vehicle "..spawnInfo.locator.." vehicletype nil with info type index "..vehicleTypeNumber)
-    return 
+    InfMenu.DebugPrint("could not restore vehicle "..spawnInfo.locator.." vehicletype nil with info type index "..vehicleTypeNumber)
+    return
   end
-  
+
   local vehicle=vehicleSpawnInfoTable[vehicleType]
   if vehicle==nil then
     InfMenu.DebugPrint("could not restore vehicle "..spawnInfo.locator.." vehicle nil with info type index "..vehicleTypeNumber)
@@ -661,58 +681,58 @@ function this.ModifyVehicleSpawn(vehicleNumber,spawnInfo)
   if enabledList==nil then
     this.BuildEnabledList()
   end
-  
+
   if #enabledList==0 then
     --InfMenu.DebugPrint"ModifyVehicleSpawn - enabledList empty"--DEBUG
     return
   end
-  
+
   local vehicle=nil
   local vehicleType=nil
 
   --CULL if Ivars.vehiclePatrolProfile:Is"EACH_VEHICLE" or svars.vehiclePatrolSpawnedTypes[0]==0 then--tex using first in array set as indicator of Is"SINGULAR" set
-    local baseType=enabledList[math.random(#enabledList)]
-    local baseTypeInfo=vehicleBaseTypes[baseType]
-    if baseTypeInfo==nil then
-      InfMenu.DebugPrint("No baseTypeInfo for baseType "..baseType)
-      return
-    end
+  local baseType=enabledList[math.random(#enabledList)]
+  local baseTypeInfo=vehicleBaseTypes[baseType]
+  if baseTypeInfo==nil then
+    InfMenu.DebugPrint("No baseTypeInfo for baseType "..baseType)
+    return
+  end
 
-    local vehicles=nil
-    local locationName=""
-    if TppLocation.IsAfghan()then
-      vehicles=baseTypeInfo.easternVehicles
-      locationName="EASTERN_"
-    elseif TppLocation.IsMiddleAfrica()then
-      vehicles=baseTypeInfo.westernVehicles
-      locationName="WESTERN_"
-    end
-    
-    if vehicles==nil then
-      vehicleType=locationName..baseType
-    else
-      vehicleType=vehicles[math.random(#vehicles)]
-    end
+  local vehicles=nil
+  local locationName=""
+  if TppLocation.IsAfghan()then
+    vehicles=baseTypeInfo.easternVehicles
+    locationName="EASTERN_"
+  elseif TppLocation.IsMiddleAfrica()then
+    vehicles=baseTypeInfo.westernVehicles
+    locationName="WESTERN_"
+  end
+
+  if vehicles==nil then
+    vehicleType=locationName..baseType
+  else
+    vehicleType=vehicles[math.random(#vehicles)]
+  end
   --end
-  
+
   if vehicleType==nil then
     InfMenu.DebugPrint("warning: vehicleType==nil")
     return
   end
-  
+
   vehicle=vehicleSpawnInfoTable[vehicleType]
   if vehicle==nil then
     InfMenu.DebugPrint("warning: vehicle==nil")
     return
   end
-  
+
   --InfMenu.DebugPrint("spawning "..spawnInfo.locator.." with "..vehicleType)--DEBUG
-  
+
   if svars.vehiclePatrolSpawnedTypes==nil then
     InfMenu.DebugPrint"svars.vehiclePatrolSpawnedTypes==nil"--DEBUG
   end
   svars.vehiclePatrolSpawnedTypes[vehicleNumber]=this.VEHICLE_SPAWN_TYPE_ENUM[vehicleType]+1
-  
+
   this.SetPatrolSpawnInfo(vehicle,spawnInfo)
 end
 
@@ -724,7 +744,7 @@ function this.SetPatrolSpawnInfo(vehicle,spawnInfo)
 
   --spawnInfo.class=gvars.vehiclePatrolClass
   --spawnInfo.paintType=gvars.vehiclePatrolPaintType
-  --spawnInfo.emblemType=gvars.vehiclePatrolEmblemType 
+  --spawnInfo.emblemType=gvars.vehiclePatrolEmblemType
 end
 
 --OUT: missionPackPath
@@ -745,10 +765,64 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
   end
   if not this.IsPatrolVehicleMission() then
     return
-  end   
+  end
+
+--  for baseType,typeInfo in ipairs(vehicleBaseTypes) do
+--    if gvars[typeInfo.ivar]~=nil and gvars[typeInfo.ivar]>0 then
+--      --InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
+--
+--      local vehicles=nil
+--      local vehicleType=""
+--      local locationName=""
+--      if TppLocation.IsAfghan()then
+--        vehicles=typeInfo.easternVehicles
+--        locationName="EASTERN_"
+--      elseif TppLocation.IsMiddleAfrica()then
+--        vehicles=typeInfo.westernVehicles
+--        locationName="WESTERN_"
+--      end
+--
+--
+--      local GetPackPath=function(vehicleType)
+--        local vehicle=vehicleSpawnInfoTable[vehicleType]
+--        if vehicle~=nil then
+--          if Ivars.vehiclePatrolPackType:Is"QUESTPACK" then
+--            return vehicle.packPathAlt or nil
+--          else
+--            return vehicle.packPath or nil
+--          end
+--        end
+--      end
+--
+--      if vehicles==nil then
+--        vehicleType=locationName..typeInfo
+--        local packPath=GetPackPath(vehicleType)
+--        if packPath~=nil then
+--           InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
+--          AddMissionPack(packPath,missionPackPath)
+--        end
+--
+--      else
+--        for n, vehicleType in ipairs(vehicles) do
+--          local packPath=GetPackPath(vehicleType)
+--          if packPath~=nil then
+--            InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
+--            AddMissionPack(packPath,missionPackPath)
+--          end              
+--        end
+--      end
+--    end--if gvar
+--  end--for vehicle base types
+
+  local packPath
   for vehicleType,spawnInfo in pairs(vehicleSpawnInfoTable) do
-    if spawnInfo.packPath then
-      AddMissionPack(spawnInfo.packPath,missionPackPath)
+    --CULLif Ivars.vehiclePatrolPackType:Is"QUESTPACK" then
+    --  packPath=spawnInfo.packPathAlt
+    --else
+      packPath=spawnInfo.packPath
+    --end 
+    if packPath then
+      AddMissionPack(packPath,missionPackPath)
     end
   end
 end
@@ -761,13 +835,13 @@ this.oneOffSplashes={
   "knm",
 }
 function this.AddOneOffSplash(splashName)
- -- this.oneOffSplashes[#this.oneOffSplashes+1]=splashName
+-- this.oneOffSplashes[#this.oneOffSplashes+1]=splashName
 end
 function this.DeleteOneOffSplashes()
   for n,splashName in pairs(this.oneOffSplashes) do
     this.DeleteSplash(splashName)
   end
- this.oneOffSplashes={}
+  this.oneOffSplashes={}
 end
 
 function this.DeleteStartSplashes()
@@ -936,7 +1010,7 @@ function this.Messages()
       {msg="VehicleBroken",func=this.OnVehicleBrokenReinforce},
       {msg="RequestedHeliTaxi",func=function(gameObjectId,currentLandingZoneName,nextLandingZoneName)
         --InfMenu.DebugPrint("RequestedHeliTaxi currentLZ:"..currentLandingZoneName.. " nextLZ:"..nextLandingZoneName)--DEBUG
-      end},
+        end},
     },
     Player={
       {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers()},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
@@ -965,13 +1039,13 @@ function this.Messages()
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
         --InfMenu.DebugPrint("MbDvcActSelectLandPoint:"..tostring(routeName))--DEBUG
-      end},
+        end},
       {msg="MbDvcActSelectLandPointTaxi",func=function(nextMissionId,routeName,layoutCode,clusterId)
         --InfMenu.DebugPrint("MbDvcActSelectLandPointTaxi:"..tostring(routeName))--DEBUG
-      end},
+        end},
       {msg="MbDvcActHeliLandStartPos",func=function(set,x,y,z)
         --InfMenu.DebugPrint("HeliLandStartPos:"..x..","..y..","..z)--DEBUG
-      end},
+        end},
     },
   }
 end
@@ -1025,7 +1099,7 @@ function this.OnDamage(gameId,attackId,attackerId)
   if typeIndex~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then--and typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     return
   end
-  
+
   if Tpp.IsPlayer(attackerId) then
     --InfMenu.DebugPrint"OnDamage attacked by player"
     if gvars.soldierAlertOnHeavyVehicleDamage>0 then
@@ -1039,7 +1113,7 @@ function this.OnDamage(gameId,attackId,attackerId)
               SendCommand(cpId,command)
               break
             end
-          end--if cp not phase
+        end--if cp not phase
         end--for soldieridlist
       end--attackisvehicle
     end--gvar
@@ -1107,8 +1181,8 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
   end
 
   this.UpdateHeliVars()
-  
---CULL  this.ClearPatrolVehicles()
+
+  --CULL  this.ClearPatrolVehicles()
 end
 
 function this.OnReload(missionTable)
@@ -1167,7 +1241,7 @@ function this.Update()
       currentChecks.onBuddy=Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId)
     end
   else
-      
+
     local abortButton=InfButton.ESCAPE
     InfButton.buttonStates[abortButton].holdTime=1.5
     if InfButton.OnButtonHoldTime(abortButton) then
@@ -1248,7 +1322,7 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   --end
 end
 
---Phase/Alert updates DOC: Phases-Alerts.txt  
+--Phase/Alert updates DOC: Phases-Alerts.txt
 --TODO RETRY, see if you can get when player comes into cp range better, playerPhase doesnt change till then
 --RESEARCH music also starts up
 --then can shift to game msg="ChangePhase" subscription
@@ -1587,12 +1661,12 @@ end
 function this.CheckAndFinishReinforce()--WIP/UNUSED
   if not mvars.reinforce_activated then
     return false
-  end
-  if this.CheckReinforceDeactivate() then
-    --InfMenu.DebugPrint"Do FinishReinforce"
-    local cpId=mvars.reinforce_reinforceCpId
-    TppReinforceBlock.FinishReinforce(cpId)
-  end
+end
+if this.CheckReinforceDeactivate() then
+  --InfMenu.DebugPrint"Do FinishReinforce"
+  local cpId=mvars.reinforce_reinforceCpId
+  TppReinforceBlock.FinishReinforce(cpId)
+end
 end
 function this.CheckReinforceDeactivate()--WIP/UNUSED
   --if not mvars.reinforce_activated then
@@ -1656,21 +1730,21 @@ function this.CheckReinforceDeactivate()--WIP/UNUSED
     --heliReal=SendCommand(heliId,{id="IsReal"})
     InfMenu.DebugPrint("heliBroken:"..tostring(heliBroken).." heliAlive:"..tostring(heliAlive))--.." heliReal:"..tostring(heliReal))
 
---    local aiState = SendCommand(heliId,{id="GetAiState"})--tex CULL only support heli aparently, returns strcode32 ""
---    --InfMenu.DebugPrint("heliAiState:"..tostring(aiState))
---    if aiState==StrCode32("WaitPoint") then
---      InfMenu.DebugPrint("heliAiState: WaitPoint")
---    elseif aiState==StrCode32("Descent") then   
---      InfMenu.DebugPrint("heliAiState: Descent")
---    elseif aiState==StrCode32("Landing") then  
---      InfMenu.DebugPrint("heliAiState: Landing")
---    elseif aiState==StrCode32("PullOut") then   
---      InfMenu.DebugPrint("heliAiState: PullOut")
---    elseif aiState==StrCode32("") then
---    InfMenu.DebugPrint("heliAiState: errr")
---    else
---      InfMenu.DebugPrint("heliAiState: unknown")
---    end
+    --    local aiState = SendCommand(heliId,{id="GetAiState"})--tex CULL only support heli aparently, returns strcode32 ""
+    --    --InfMenu.DebugPrint("heliAiState:"..tostring(aiState))
+    --    if aiState==StrCode32("WaitPoint") then
+    --      InfMenu.DebugPrint("heliAiState: WaitPoint")
+    --    elseif aiState==StrCode32("Descent") then
+    --      InfMenu.DebugPrint("heliAiState: Descent")
+    --    elseif aiState==StrCode32("Landing") then
+    --      InfMenu.DebugPrint("heliAiState: Landing")
+    --    elseif aiState==StrCode32("PullOut") then
+    --      InfMenu.DebugPrint("heliAiState: PullOut")
+    --    elseif aiState==StrCode32("") then
+    --    InfMenu.DebugPrint("heliAiState: errr")
+    --    else
+    --      InfMenu.DebugPrint("heliAiState: unknown")
+    --    end
 
   end
 
