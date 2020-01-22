@@ -205,7 +205,7 @@ function this.OnRestoreSVars()
 	this.SetEmblem()
 	
 	
-	if svars.isBuddyLoad == true or gvars.mbEnableBuddies==1 then--tex added buddy check
+	if svars.isBuddyLoad == true or Ivars.mbEnableBuddies:Is(1) then--tex added buddy check
 		TppBuddy2BlockController.Load()
 	end
 	

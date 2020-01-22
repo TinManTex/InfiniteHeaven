@@ -224,7 +224,7 @@ this.soldierParameters={--tex SYNC: soldierParametersDefault. Ugly, but don't wa
 --OUT: this.soldierParameters
 function this.ApplyHealthIvarsToSoldierParams()
   --tex REF: this.lifeParameterTableDefault={maxLife=2600,maxStamina=3e3,maxLimbLife=1500,maxArmorLife=7500,maxHelmetLife=500,sleepRecoverSec=300,faintRecoverSec=50,dyingSec=60}
-  local healthScale=gvars.soldierHealthScale--tex mod enemy health scale
+  local healthScale=Ivars.soldierHealthScale:Get()--tex mod enemy health scale
   this.lifeParameterTable.maxLife        = this.lifeParameterTableDefaults.maxLife*healthScale
   this.lifeParameterTable.maxLimbLife    = this.lifeParameterTableDefaults.maxLimbLife*healthScale
   this.lifeParameterTable.maxArmorLife   = this.lifeParameterTableDefaults.maxArmorLife*healthScale

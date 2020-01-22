@@ -1073,56 +1073,29 @@ function this.SetUp()
   --tex reworked, disable various support menus
   local isActual=TppMission.IsActualSubsistenceMission()
   for n, ivar in ipairs(Ivars.disableMenuIvars) do
-    if isActual or ivar.setting>0 then
+    if isActual or ivar:Is(1) then
       this.EnableDvcMenuByList{{menu=ivar.menuId,active=false}}
     end
   end
 
-  if isActual or gvars.disableSupportMenu>0 then
+  if isActual or Ivars.disableSupportMenu:Is(1) then
     TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
   else
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
   end
-  --[[ORIG
-
-
-  if TppMission.IsSubsistenceMission() then
-
-
-    local dvcMenu={
-
-
-      {menu=this.MBDVCMENU.MSN_DROP,active=false},
-
-
-      {menu=this.MBDVCMENU.MSN_BUDDY,active=false},
-
-
-      {menu=this.MBDVCMENU.MSN_ATTACK,active=false},
-
-
-      {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=false}
-
-
-    }
-
-
-    this.EnableDvcMenuByList(dvcMenu)
-
-
-    TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
-
-
-  else
-
-
-    TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
-
-
-  end
-
-
-  --]]
+  --ORIG
+--  if TppMission.IsSubsistenceMission() then
+--    local dvcMenu={
+--      {menu=this.MBDVCMENU.MSN_DROP,active=false},
+--      {menu=this.MBDVCMENU.MSN_BUDDY,active=false},
+--      {menu=this.MBDVCMENU.MSN_ATTACK,active=false},
+--      {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=false}
+--    }
+--    this.EnableDvcMenuByList(dvcMenu)
+--    TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
+--  else
+--    TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
+--  end
 end
 function this.SetUpArmsMBDVCMenu()
   if this.IsOpenMBDvcArmsMenu()then
@@ -1151,7 +1124,7 @@ function this.SetUpBuddyMBDVCMenu()
   this.EnableDvcMenuByList{{menu=this.MBDVCMENU.MSN_BUDDY_EQUIP,active=true}}
   local t={HORSE=BuddyType.HORSE,DDOG=BuddyType.DOG,QUIET=BuddyType.QUIET,WALKER_GEAR=BuddyType.WALKER_GEAR,BATTLE_GEAR=BuddyType.BATTLE_GEAR}
   for n,t in pairs(t)do
-    local canSortieBuddy=TppBuddyService.CanSortieBuddyType(t) or (TppMission.IsMbFreeMissions(vars.missionCode) and gvars.mbEnableBuddies==1)
+    local canSortieBuddy=TppBuddyService.CanSortieBuddyType(t) or (TppMission.IsMbFreeMissions(vars.missionCode) and Ivars.mbEnableBuddies:Is(1))
     if canSortieBuddy then
       local t=this.BUDDY_MB_DVC_MENU[t]
       if t then
@@ -2188,7 +2161,7 @@ function this.CanConstructFirstFob()
   return false
 end
 function this.IsConstructedFirstFob()
-  if gvars.setFirstFobBuilt==1 then--tex
+  if Ivars.setFirstFobBuilt:Is(1) then--tex
     return true
   end--
   if TppMotherBaseManagement.IsBuiltFirstFob then

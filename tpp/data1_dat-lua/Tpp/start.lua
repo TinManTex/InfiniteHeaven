@@ -162,7 +162,7 @@ local langCode="jpn"
 do
   if(TppGameSequence.GetTargetArea()~="Japan")then
     langCode="eng"
-    end
+  end
 end
 AssetConfiguration.SetDefaultCategory("Language",langCode)
 if langCode=="jpn"then
@@ -180,10 +180,10 @@ end
 SubtitlesCommand.SetLanguage(langCode)
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   SoundCoreDaemon.SetAssetPath"/Assets/mgo/sound/asset/"
-  else
+else
   if LuaUnitTest then
     SoundCoreDaemon.SetAssetPath"/Assets/tpp/sound/asset/"
-    else
+  else
     SoundCoreDaemon.SetAssetPath"/Assets/tpp/sound/asset/"
   end
 end
@@ -272,10 +272,10 @@ end
 if Bush then
   Bush.SetParameters{rotSpeedMax=foxmath.DegreeToRadian(1),alphaDistanceMin=1,alphaDistanceMax=3}
 end
-local a=Fox.GetPlatformName()
-if a~="Windows"or not Editor then
+local platformName=Fox.GetPlatformName()
+if platformName~="Windows"or not Editor then
   Fox.SetActMode"GAME"
-  end
+end
 GeoPathService.RegisterPathTag("Elude",0)
 GeoPathService.RegisterPathTag("Jump",1)
 GeoPathService.RegisterPathTag("Fence",2)
@@ -363,11 +363,11 @@ GeoPathService.BindEdgeTag("StepOn","Fulton")
 GeoPathService.BindEdgeTag("StepOn","LineCheck")
 GeoPathService.BindEdgeTag("StepOn","Window")
 local e=PhDaemon.GetInstance()
-if a=="Xbox360"then
+if platformName=="Xbox360"then
   PhDaemon.SetMemorySize(1792,1024,768)
-elseif a=="PS3"then
+elseif platformName=="PS3"then
   PhDaemon.SetMemorySize(1792,1024,768)
-elseif a=="Windows"then
+elseif platformName=="Windows"then
   if Editor then
     PhDaemon.SetMemorySize(5120,3072,2048)
   else
@@ -417,7 +417,7 @@ if Editor then
   local e=t:CreateBucket("SetupBucket",e)
   e:LoadProjectFile"/Assets/tpp/level/location/SetupLocation2.fxp"
 end
-if a=="Windows"then
+if platformName=="Windows"then
   if TppLightCapture then
     TppLightCapture.InitInstance()
   end
@@ -427,14 +427,14 @@ e=e+258*1024
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
   e=635*1024
 end
-if a=="Xbox360"then
+if platformName=="Xbox360"then
   e=e+20*1024
 end
-if a=="Windows"then
+if platformName=="Windows"then
   e=((e+450*1024)+400*1024)+100*1024
-elseif a=="XboxOne"then
+elseif platformName=="XboxOne"then
   e=((e+450*1024)+400*1024)+100*1024
-elseif a=="PS4"then
+elseif platformName=="PS4"then
   e=((e+450*1024)+400*1024)+100*1024
 end
 TppGameSequence.SetSystemBlockSize(e,(40.5*1024)*1024)
@@ -657,7 +657,7 @@ if Script.LoadLibrary then
   else
     Script.LoadLibrary"/Assets/tpp/script/list/TppMissionList.lua"
     Script.LoadLibrary"/Assets/tpp/script/list/TppQuestList.lua"
-    if a=="PS3"then
+    if platformName=="PS3"then
       Script.LoadLibrary"/Assets/tpp/script/list/TppMissionPrxList.lua"
     end
   end

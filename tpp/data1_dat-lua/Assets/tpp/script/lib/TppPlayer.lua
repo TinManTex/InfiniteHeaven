@@ -81,7 +81,7 @@ function this.SetForceFultonPercent(gameId,percentage)
   mvars.ply_forceFultonPercent[gameId]=percentage
 end
 function this.ForceChangePlayerToSnake(basic)
-  if gvars.useSoldierForDemos==1 then--tex catch more cases the isSnakeOnly in demo didn't catch
+  if Ivars.useSoldierForDemos:Is(1) then--tex catch more cases the isSnakeOnly in demo didn't catch
     if not TppMission.IsFOBMission(vars.missionCode) then--tex 50050 sequence calls this a couple of times, I can't reason it out as being a meaningful change but I don't want to change default behaviour
       if not (vars.missionCode==10240) then-- and DemoDaemon.IsDemoPlaying()) then--tex demo not actually playing at that point aparently --tex PATCHUP: stop stupid sexy snake player body/snake head for shining lights funeral scene
         return
@@ -276,7 +276,7 @@ if(((vars.initialPlayerPosX>3500)or(vars.initialPlayerPosX<-3500))or(vars.initia
 end
 end--
 function this.RegisterTemporaryPlayerType(playerSetting)
-  if gvars.useSoldierForDemos==1 then--tex allow player character for the few missions that override it
+  if Ivars.useSoldierForDemos:Is(1) then--tex allow player character for the few missions that override it
     if vars.missionCode==10030 or vars.missionCode==10240 then
       return
   end
@@ -1600,7 +1600,7 @@ function this.MissionStartPlayerTypeSetting()
   if not mvars.ply_isExistTempPlayerType then
     this.RestoreTemporaryPlayerType()
   end
-  if TppStory.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_ESCAPE_THE_HOSPITAL and gvars.useSoldierForDemos==0 then--tex added override
+  if TppStory.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_ESCAPE_THE_HOSPITAL and Ivars.useSoldierForDemos:Is(0)then--tex added override
     vars.playerType=PlayerType.SNAKE
     vars.playerPartsType=PlayerPartsType.NORMAL_SCARF
     vars.playerCamoType=PlayerCamoType.TIGERSTRIPE
@@ -1708,36 +1708,36 @@ end
 
 function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below for original
   local isActual=TppMission.IsActualSubsistenceMission()
-  if isActual and (Ivars.ospWeaponProfile:Is("DEFAULT") or Ivars.ospWeaponProfile:Is("CUSTOM")) then
+  if isActual and (Ivars.ospWeaponProfile:Is"DEFAULT" or Ivars.ospWeaponProfile:Is"CUSTOM") then
     Ivars.ospWeaponProfile:Set("PURE",true,true)--tex don't want to save due to normal subsistence missions
   end
 
-  if gvars.primaryWeaponOsp>0 then
+  if Ivars.ospWeaponProfile:Is()>0 then
     this.SetInitWeapons(Ivars.primaryWeaponOsp:GetTable())
     this.SetInitWeapons(Ivars.secondaryWeaponOsp:GetTable())
     this.SetInitWeapons(Ivars.tertiaryWeaponOsp:GetTable())
   end
 
-  if isActual or gvars.clearSupportItems>0 then
+  if isActual or Ivars.clearSupportItems:Is(1) then
     this.SetInitWeapons(Ivars.clearSupportItems.settingsTable)
   end
-  if isActual or gvars.clearItems>0 then
+  if isActual or Ivars.clearItems:Is(1) then
     this.SetInitItems(Ivars.clearItems.settingsTable)
   end
 
-  if isActual or gvars.setSubsistenceSuit>0 then
+  if isActual or Ivars.setSubsistenceSuit:Is(1) then
     local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
     this.RegisterTemporaryPlayerType(playerSettings)
   end
-  if isActual or gvars.setDefaultHand>0 then
+  if isActual or Ivars.setDefaultHand:Is(1) then
     mvars.ply_isExistTempPlayerType=true
     mvars.ply_tempPlayerHandEquip={handEquip=TppEquip.EQP_HAND_NORMAL}
   end
-  if gvars.disableFulton>0 then--tex
+  if Ivars.disableFulton:Is(1) then--tex
     vars.playerDisableActionFlag=PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
   end
 
-  if gvars.handLevelProfile>0 then
+  if Ivars.handLevelProfile:Is()>0 then
     for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
       --TODO: check against developed
       --local currentLevel=Player.GetItemLevel(equip)
@@ -1745,7 +1745,7 @@ function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below
     end
   end
 
-  if gvars.fultonLevelProfile>0 then
+  if Ivars.fultonLevelProfile:Is()>0 then
     for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
       --TODO: check against developed
       --REF local currentLevel=Player.GetItemLevel(equip)
@@ -1800,7 +1800,7 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   end
   local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
   local mbSectionSuccess=this.mbSectionRankSuccessTable[mbFultonRank]or 0
-  if gvars.fultonNoMbSupport>0 then--tex
+  if Ivars.fultonNoMbSupport:Is(1) then--tex
     mbSectionSuccess=0
   end-- 
   
@@ -1855,9 +1855,9 @@ function this.GetSoldierFultonSucceedRatio(gameId)
   local stateFlag=GameObject.SendCommand(gameId,{id="GetStateFlag"})
   local dying=bit.band(stateFlag,StateFlag.DYING_LIFE)~=0
   if(dying)then
-    successMod=-(gvars.fultonDyingPenalty)--tex was -70
+    successMod=-(Ivars.fultonDyingPenalty:Get())--tex was -70
   elseif(lifeStatus==TppGameObject.NPC_LIFE_STATE_SLEEP)or(lifeStatus==TppGameObject.NPC_LIFE_STATE_FAINT)then
-    successMod=-(gvars.fultonSleepPenalty)--tex was 0
+    successMod=-(Ivars.fultonSleepPenalty:Get())--tex was 0
     if mvars.ply_OnFultonIconDying then
       mvars.ply_OnFultonIconDying()
     end
@@ -1877,19 +1877,19 @@ function this.GetSoldierFultonSucceedRatio(gameId)
 --  }
   local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_MEDICAL_STAFF_EMERGENCY}
   local mbSectionSuccess=this.mbSectionRankSuccessTable[mbFultonRank]or 0--tex changed from table local to function to in module
-  if gvars.fultonNoMbMedical>0 then--tex
+  if Ivars.fultonNoMbMedical:Is(1) then--tex>
     mbSectionSuccess=0
   end
-  if gvars.fultonDontApplyMbMedicalToSleep>0 and not dying then--tex don't apply medical bonus to sleeping
+  if Ivars.fultonDontApplyMbMedicalToSleep:Is(1) and not dying then--tex don't apply medical bonus to sleeping
     mbSectionSuccess=0
-  end--
+  end--<
   successMod=successMod+mbSectionSuccess
   if successMod>0 then
     successMod=0
   end
   local status=SendCommand(gameId,{id="GetStatus"})
   if status==EnemyState.STAND_HOLDUP then
-    holdupSuccessMod=-(gvars.fultonHoldupPenalty)--tex was -10
+    holdupSuccessMod=-(Ivars.fultonHoldupPenalty:Get())--tex was -10
   end
   return(successMod+holdupSuccessMod)
 end

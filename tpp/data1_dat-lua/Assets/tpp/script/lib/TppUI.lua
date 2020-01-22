@@ -939,8 +939,8 @@ function this.Init()
         if(vars.missionCode==30050)then
           table.insert(pauseMenuItems,2,GamePauseMenu.RESTART_FROM_MISSION_START)
         end
-        if gvars.abortMenuItemControl==0 then--tex
-          table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)--tex
+        if Ivars.abortMenuItemControl:Is(0) then--tex
+          table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)--tex added
         end
       else
         table.insert(pauseMenuItems,2,GamePauseMenu.RESTART_FROM_HELICOPTER)
@@ -973,7 +973,7 @@ function this.Init()
       if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE then
         table.insert(pauseMenuItems,6,GamePauseMenu.RECORDS_ITEM)
       end
-      if gvars.abortMenuItemControl==0 then--tex added switch
+      if Ivars.abortMenuItemControl:Is(0) then--tex added switch
         if TppMission.IsStartFromHelispace()then
           table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)
         end
@@ -1005,7 +1005,7 @@ function this.Init()
       this.RegisterFobSneakGameOverMenuItems()
     else
       local gameOverMenuItems={GameOverMenu.GAME_OVER_RESTART,GameOverMenu.GAME_OVER_TITLE}
-      if gvars.abortMenuItemControl==0 then--tex added switch
+      if Ivars.abortMenuItemControl:Is(0) then--tex added switch
       if TppMission.IsStartFromHelispace()then
         table.insert(gameOverMenuItems,3,GameOverMenu.GAME_OVER_ABORT_RETURN_TO_ACC)
       end

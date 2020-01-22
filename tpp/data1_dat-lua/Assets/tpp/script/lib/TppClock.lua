@@ -119,7 +119,7 @@ function this.AddTimeFromHelicopterSpace(fromLocation,toLocation)
   this.AddTime(addTime*hour)
 end
 function this.Start()
-  TppCommand.Weather.SetClockTimeScale(gvars.clockTimeScale)--tex was 20
+  TppCommand.Weather.SetClockTimeScale(Ivars.clockTimeScale:Get())--tex was 20
 end
 function this.Stop()
   TppCommand.Weather.SetClockTimeScale(0)

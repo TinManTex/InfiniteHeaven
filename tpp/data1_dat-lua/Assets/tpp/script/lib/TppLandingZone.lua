@@ -174,7 +174,7 @@ function this.DisableLandingZoneForMission(missionLZTable,missionTypeCodeName)
 end
 function this._OnMissionCanStart(lzTable,missionNumber,missionTypeCodeName)
   for aacr,lzs in pairs(lzTable.ConnectLandingZoneTable)do
-    if not this.IsBrokenGimmick(aacr) or gvars.noCentralLzs>0 then--tex
+    if not this.IsBrokenGimmick(aacr) or Ivars.noCentralLzs:Is(1) then--tex
       this.DisableLandingZone(lzTable.ConnectLandingZoneTable[aacr],missionTypeCodeName)
     end
     this.RegisterAssaultDropLandingZone(lzs.drpLandingZoneName)

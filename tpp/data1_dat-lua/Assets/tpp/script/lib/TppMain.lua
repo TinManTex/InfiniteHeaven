@@ -217,7 +217,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppStory.UpdateStorySequence{updateTiming="BeforeBuddyBlockLoad"}
     if missionTable.sequence then
       local dbt=missionTable.sequence.DISABLE_BUDDY_TYPE
-      if TppMission.IsMbFreeMissions(vars.missionCode) and gvars.mbEnableBuddies==1 then--tex no DISABLE_BUDDY_TYPE
+      if TppMission.IsMbFreeMissions(vars.missionCode) and Ivars.mbEnableBuddies:Is(1) then--tex no DISABLE_BUDDY_TYPE
         dbt=nil
       end--
       if dbt ~= nil then
@@ -233,7 +233,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       end
     end
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then--tex ORIG: changed to issubs check, more robust even without my mod
-    if TppMission.IsActualSubsistenceMission() or gvars.disableBuddies==1 then--tex disablebuddy, was just IsSubsistenceMission
+    if TppMission.IsActualSubsistenceMission() or Ivars.disableBuddies:Is(1) then--tex disablebuddy, was just IsSubsistenceMission
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then
@@ -578,7 +578,7 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
         local groundStart=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]--tex startOnFoot>
         local rotY=0
         local isMbFree=TppMission.IsMbFreeMissions(vars.missionCode) and (nextIsFreeMission or isFreeMission)
-        if gvars.startOnFoot==1 and (groundStart~=nil or isMbFree) then
+        if Ivars.startOnFoot:Is(1) and (groundStart~=nil or isMbFree) then
           TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
           --TppHelicopter.ResetMissionStartHelicopterRoute()
           if groundStart~=nil then

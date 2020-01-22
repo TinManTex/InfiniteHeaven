@@ -975,7 +975,7 @@ function this.OnEndFadeOutSelectLandingPoint()
 end
 
 function this.GetFobTutorialSequenceName()
-  if gvars.blockFobTutorial==1 then--tex
+  if Ivars.blockFobTutorial:Is(1) then--tex
     return
   end--
 
@@ -1382,13 +1382,13 @@ sequences.Seq_Game_MissionPreparationTop = {
 			nextMissionCode = TppMission.GetNextMissionCodeForEmergency()	
 		end
 
-		if mvars.heliSpace_DisableSelectSortieTimeFromMissionPreparetion[nextMissionCode] or gvars.disableSelectTime==1 then--tex added issub
+		if mvars.heliSpace_DisableSelectSortieTimeFromMissionPreparetion[nextMissionCode] or Ivars.disableSelectTime:Is(1) then--tex added issub
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_SORTIE_TIME" )
 		end
 		
 		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
-		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or gvars.disableBuddies==1 then--tex buddy subsistence mode
+		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or Ivars.disableBuddies:Is(1) then--tex buddy subsistence mode
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
 		end
 		
@@ -1402,7 +1402,7 @@ sequences.Seq_Game_MissionPreparationTop = {
 		
 		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_VEHICLE" )
-		if mvars.heliSpace_NoVehicleMenuFromMissionPreparetion[nextMissionCode] or gvars.disableSelectVehicle==1 then--tex added issub
+		if mvars.heliSpace_NoVehicleMenuFromMissionPreparetion[nextMissionCode] or Ivars.disableSelectVehicle:Is(1) then--tex added issub
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_VEHICLE" )
 		end
 

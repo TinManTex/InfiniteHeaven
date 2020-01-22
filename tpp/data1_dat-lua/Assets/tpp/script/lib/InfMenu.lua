@@ -417,7 +417,7 @@ function this.LangString(langId)
     return ""
   end
   local languageCode=GetAssetConfig"Language"
-  if gvars.langOverride == 1 then--Cht over Jpn
+  if Ivars.langOverride:Is(1) then--Cht over Jpn
     if languageCode=="jpn" then
       languageCode="cht"
     end
@@ -503,7 +503,7 @@ function this.Update(execCheck)
   end
   
   if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
-    if not execCheck.inGroundVehicle then
+    if not execCheck.inGroundVehicle and not execCheck.onBuddy then
       local repeatRate=0.85
       InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
       InfButton.buttonStates[this.menuDownButton].repeatRate=repeatRate

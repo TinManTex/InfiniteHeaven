@@ -1463,13 +1463,13 @@ function this.IsFOBMission(missionCode)
   end
 end
 function this.IsHardMission(missionId)--tex is hard mission override
-  if (gvars.isManualHard > 0) then
+  if Ivars.isManualHard:Is(1) then
     return true
 end
 return this.IsActualHardMission(missionId)
 end
 function this.IsManualHardMission()
-  return (gvars.isManualHard > 0)
+  return Ivars.isManualHard:Is(1)
 end--
 function this.IsActualHardMission(missionId)--tex the ORIG: IsHardMission
   --function this.IsHardMission(missionId)
@@ -1511,7 +1511,7 @@ else
 end
 end
 function this.IsManualSubsistence()--tex
-  return gvars.subsistenceProfile > 0 --and not Ivars.subsistenceProfile:Is"CUSTOM"
+  return Ivars.subsistenceProfile:Is() > 0 --and not Ivars.subsistenceProfile:Is"CUSTOM"
 end--
 function this.IsPerfectStealthMission()
   if(((vars.missionCode==11082)or(vars.missionCode==11033))or(vars.missionCode==11080))or(vars.missionCode==11121)then

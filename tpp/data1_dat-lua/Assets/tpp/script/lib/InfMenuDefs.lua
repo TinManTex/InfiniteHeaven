@@ -175,6 +175,7 @@ this.revengeMenu={
   options={
     InfMenuCommands.resetRevenge,
     Ivars.revengeMode,
+    Ivars.revengeProfile,--DEBUGNOW ADDLANG
     Ivars.revengeBlockForMissionCount,
     Ivars.applyPowersToOuterBase,
     Ivars.applyPowersToLrrp,
@@ -183,9 +184,11 @@ this.revengeMenu={
     Ivars.disableMissionsWeaponRestriction,
     Ivars.allowHeadGearCombo,
     Ivars.balanceHeadGear,
-    --Ivars.balanceWeaponPowers,--WIP
     Ivars.allowMissileWeaponsCombo,
-    Ivars.disableConvertArmorToShield,
+    Ivars.enableMgVsShotgunVariation,--DEBUGNOW WIP    
+    Ivars.randomizeSmallCpPowers,--DEBUGNOW ADDLANG
+    Ivars.disableConvertArmorToShield,    
+    --Ivars.balanceWeaponPowers,--WIP
     Ivars.changeCpSubTypeFree,
     Ivars.changeCpSubTypeForMissions,
     InfMenuCommands.resetSettingsItem,
@@ -338,12 +341,15 @@ this.heliSpaceMenu={
 
 this.debugInMissionMenu={
   options={
-    Ivars.selectedCp,
+    
     --InfMenuCommands.DEBUG_RandomizeCp,
-    InfMenuCommands.DEBUG_PrintRealizedCount,
-    InfMenuCommands.DEBUG_PrintEnemyFova,
-    InfMenuCommands.DEBUG_PrintPowersCountArmor,
+    --InfMenuCommands.DEBUG_PrintRealizedCount,
+    --InfMenuCommands.DEBUG_PrintEnemyFova,
+    InfMenuCommands.DEBUG_PrintCpPowerSettings,
+    InfMenuCommands.DEBUG_PrintPowersCount,
+    InfMenuCommands.DEBUG_PrintCpSizes,
     --InfMenuCommands.warpPlayerCommand,
+    Ivars.selectedCp,
     InfMenuCommands.DEBUG_PrintReinforceVars,
     --InfMenuCommands.DEBUG_PrintVehicleTypes,
     --InfMenuCommands.DEBUG_PrintVehiclePaint,

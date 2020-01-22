@@ -2197,8 +2197,8 @@ function this.UpdateActiveQuest(debugUpdate)
 
   local unlockedName=nil--tex unlockSideOpNumber>
   local unlockedArea=nil
-  if gvars.unlockSideOpNumber>0 then--tex find name and area for unlocksideop SANITY:
-    unlockedName=sideOpsTable[gvars.unlockSideOpNumber].questName--tex
+  if Ivars.unlockSideOpNumber:Is()>0 then--tex find name and area for unlocksideop SANITY:
+    unlockedName=sideOpsTable[Ivars.unlockSideOpNumber:Get()].questName--tex
     if unlockedName ~= nil then
       unlockedArea=TppQuestList.questAreaTable[unlockedName]
     end
@@ -2233,7 +2233,7 @@ function this.UpdateActiveQuest(debugUpdate)
             if Ivars.unlockSideOpNumber.skipValues[questIndex+1]==true then--tex disallowSideOps
               blockQuest=true
             end
-            if gvars.enableHeliReinforce>0 then--tex block heli quests to allow super reinforce
+            if Ivars.enableHeliReinforce:Is(1) then--tex block heli quests to allow super reinforce
               if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
                 for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
                   if name==questName then
@@ -2276,7 +2276,7 @@ function this.UpdateActiveQuest(debugUpdate)
 --        elseif gvars.unlockSideOps == Ivars.unlockSideOps.enum.RANDOM then
 --          index=math.random(#list)
 --        end
-        if gvars.unlockSideOps > 0 then
+        if Ivars.unlockSideOps:Is() > 0 then
           index=math.random(#list)
         end
         questName=list[index]
@@ -2587,11 +2587,11 @@ function this.UpdateRepopFlagImpl(a)
     return
   end
   for n,t in ipairs(a.infoList)do
-    if this.IsCleard(t.name)and (not t.isOnce or gvars.unlockSideOps~=0) then--tex added issub
+    if this.IsCleard(t.name)and (not t.isOnce or Ivars.unlockSideOps:Get()~=0) then--tex added issub
       gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[t.name]]=true
     end
     local e=RENAMEsomeConditions[t.name]
-    if e and(not e())then--and gvars.unlockSideOps==0 then --tex
+    if e and(not e())then--and Ivars.unlockSideOps:Is(0) then --tex
       gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[t.name]]=false
     end
   end

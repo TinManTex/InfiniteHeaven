@@ -352,7 +352,7 @@ function this._ActivateReinforce()
     local cp=mvars.ene_cpList[mvars.reinforce_reinforceCpId]
     SendCommand(heliId,{id="RequestReinforce",toCp=cp})
     SendCommand(heliId,{id="SetCommandPost",cp=cp})--tex i think this is the cause of the heli ! sound on reinforce, don't know how to supress it, disabling or shifting order prevents reinforce from happening
-    if gvars.disableReinforceHeliPullOut>0 then--tex
+    if Ivars.disableReinforceHeliPullOut:Is(1) then--tex
       SendCommand(heliId,{id="DisablePullOut"})
     end
     if mvars.reinforce_reinforceColoringType then
@@ -408,7 +408,7 @@ function this._OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestL
     end
   end
   this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)
-  if gvars.forceReinforceRequest==1 then--tex
+  if Ivars.forceReinforceRequest:Is(1) then--tex
     --if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
       this.StartReinforce(reinforceCpId)--tex just force this shit, in vanilla missions that use super reinforce this is called via "RequestAppearReinforce"/_OnRequestAppearReinforce via engine, however in free mode this doesnt seem fire consistantly suggesting there's some condition stopping it
     --end

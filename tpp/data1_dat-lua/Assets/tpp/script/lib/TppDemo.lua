@@ -292,7 +292,7 @@ function this.Play(demoName,demoFuncs,demoFlags)
   if(demoId=="p51_070020_000_final")or(demoId=="p21_020010")then--PATCHUP:
     mvars.dem_resereveEnableInGameFlag=false
   end
-  if gvars.useSoldierForDemos==1 and demoName~="Demo_Funeral" then--tex force snake off for demo, also PATCHUP: shining lights end cinematic forces snake head for ash
+  if Ivars.useSoldierForDemos:Is(1) and demoName~="Demo_Funeral" then--tex force snake off for demo, also PATCHUP: shining lights end cinematic forces snake head for ash
     demoFlags.isSnakeOnly=false
   end--
   mvars.dem_demoFlags[demoName]=demoFlags
@@ -1233,7 +1233,7 @@ function this.UpdateMBDemo()
   if Ivars.mbDemoSelection:Is"DISABLED" then--tex disable mb demo
     return
   elseif Ivars.mbDemoSelection:Is"PLAY" then--tex
-    gvars.mbFreeDemoPlayNextIndex=gvars.mbSelectedDemo+1--TODO: sanity check
+    gvars.mbFreeDemoPlayNextIndex=Ivars.mbSelectedDemo:Get()+1--TODO: sanity check
     return
   end--
   for n,demoName in ipairs(TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST)do

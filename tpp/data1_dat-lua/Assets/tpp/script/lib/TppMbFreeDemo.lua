@@ -112,7 +112,7 @@ this._PazPhantomPain4Settings={
     TppDataUtility.SetEnableDataFromIdentifier("mtbs_uni0040_155641_587","Trap_PazRoom",true,false)
   end,
   OnEnd=function()
-    if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+    if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
     TppQuest.ClearWithSave(TppDefine.QUEST_CLEAR_TYPE.CLEAR,"mtbs_q99060")
   end,
   time="17:00:00",weather=TppDefine.WEATHER.SUNNY,clusterName="Medical"
@@ -122,7 +122,7 @@ this._PazPhantomPain4Settings={
 this.demoOptions={
   EntrustDdog={
     OnEnd=function()
-      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
       TppStory.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_COME_TO_GET,TppDefine.INIT_ELAPSED_MISSION_COUNT.D_DOG_COME_TO_GET)
       TppStory.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME,TppDefine.INIT_ELAPSED_MISSION_COUNT.D_DOG_GO_WITH_ME)
     end,
@@ -139,7 +139,7 @@ this.demoOptions={
     enableOcelotDemoEnd=true},
   DdogGoWithMe={
     OnEnd=function()
-      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
       TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME)
       TppBuddyService.SetSortieBuddyType(BuddyType.DOG)
       TppEmblem.Add("front63",true)
@@ -158,7 +158,7 @@ this.demoOptions={
     end,
     isFinishFadeOut=true,heliEnableAfterDemo=true},
   LongTimeNoSee_DDSoldier={time="14:30:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true,OnEnter=function()
-    if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+    if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
     local e="/Assets/tpp/level/mission2/free/f30050/f30050_gimmick_target.fox2"
     local t="mtbs_bord001_vrtn003_gim_n0000|srt_mtbs_bord001_vrtn003"
     local n="mtbs_bord001_vrtn003_gim_n0001|srt_mtbs_bord001_vrtn003"
@@ -178,7 +178,7 @@ this.demoOptions={
   forceBalaclavaLocator={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002","ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt2_0003"}},
   LongTimeNoSee_DdogPup={time="12:00:00",weather=TppDefine.WEATHER.SUNNY,
     OnEnd=function()
-      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
       TppBuddyService.SetBuddyPuppyMBDemoPlayed()
       gvars.elapsedTimeSinceLastPlay=0
     end,
@@ -204,7 +204,7 @@ this.demoOptions={
     enableOcelotDemoEnd=true,isUseGrassOcelot=true,loadBuddyBlock=true,forceEnableBuddyType=BuddyType.DOG},
   AttackedFromOtherPlayer_KnowWhereFrom={time="14:00:00",weather=TppDefine.WEATHER.CLOUDY,
     OnEnd=function()
-      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
       TppUiCommand.RequestMbDvcOpenCondition{isDisableTutorial=true}
       Player.RequestToOpenMBTerminal()
     end,
@@ -213,7 +213,7 @@ this.demoOptions={
     forceBalaclavaLocator={}},
   AttackedFromOtherPlayer_UnknowWhereFrom={time="14:00:00",weather=TppDefine.WEATHER.CLOUDY,
     OnEnd=function()
-      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
       TppUiCommand.RequestMbDvcOpenCondition{isDisableTutorial=true}
       Player.RequestToOpenMBTerminal()
     end,
@@ -283,7 +283,7 @@ this.demoOptions={
       svars.isCollect_BlackCoat=gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
     end,
     OnEnd=function()
-      if gvars.mbDemoSelection==0 then--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(0) then--tex skip demo onend
         TppBuddyService.QuietHospitalized()
       end
       local pos={8.647,.8,-28.748}
@@ -297,7 +297,7 @@ this.demoOptions={
     telopLangIdList={"area_demo_mb","platform_medical"}},
   QuietWishGoMission={
     OnEnd=function()
-      if gvars.mbDemoSelection==0 then--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(0) then--tex skip demo onend
         TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.QUIET_WITH_GO_MISSION)
         TppCassette.Acquire{cassetteList={"tp_c_00000_13"},isShowAnnounceLog=true}
         TppCassette.Acquire{cassetteList={"tp_m_10050_03"},isShowAnnounceLog=true}
@@ -323,7 +323,7 @@ this.demoOptions={
       TppPlayer.SetInitialPosition(pos,rotY)
       mvars.f30050_isOverwriteDemoEndPos=true
       mtbs_enemy.OnDeactivateDemoBlock(mtbs_cluster.GetCurrentClusterId())
-      if gvars.mbDemoSelection==0 then--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(0) then--tex skip demo onend
         svars.isPlayedAfterDeathFactory=true
       end
     end,
@@ -377,7 +377,7 @@ this.demoOptions={
     OnEnd=function()
       TppPlayer.SetInitialPosition({10.762,0,-6.521},90)
       mvars.f30050_isOverwriteDemoEndPos=true
-      if gvars.mbDemoSelection==0 then--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(0) then--tex skip demo onend
         TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3015,pushReward=true}
       end
     end,
@@ -387,14 +387,14 @@ this.demoOptions={
     TppPlayer.Refresh()
   end,
   OnEnd=function()
-    if gvars.mbDemoSelection==0 then--tex skip demo onend
+    if Ivars.mbDemoSelection:Is(0) then--tex skip demo onend
       vars.mbmBipedalismWeaponDevelopmentSkill=1
     end
     if f30050_sequence then
       local e={pos={-30,-7.4,6.35},
         rotY=-90}
       TppPlayer.Warp(e)
-      if gvars.mbDemoSelection==0 then--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(0) then--tex skip demo onend
         TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_114",rewardType=TppReward.TYPE.COMMON}
         f30050_sequence.EnableBattleHangerMarker()
       end
@@ -456,7 +456,7 @@ this.demoOptions={
   CodeTalkerSunBath={time="12:00:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true},
   ParasiticWormCarrierKill={time="07:00:00",weather=TppDefine.WEATHER.CLOUDY,
     OnEnd=function()
-      if gvars.mbDemoSelection==0 then--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(0) then--tex skip demo onend
         TppStory.MissionOpen(10240)
         TppUI.ShowAnnounceLog"missionListUpdate"
         TppUI.ShowAnnounceLog"missionAdd"
@@ -499,7 +499,7 @@ this.demoOptions={
     loadBuddyBlock=true},
   ArrivedMotherBaseLiquid={time="20:00:00",weather=TppDefine.WEATHER.SUNNY,
     OnEnd=function()
-      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
       gvars.mbFreeDemoPlayRequestFlag[TppDefine.MB_FREEPLAY_DEMO_REQUESTFLAG_DEFINE.PlayAfterWhiteMamba]=false
     end,
     heliEnableAfterDemo=true,telopLangIdList={"area_demo_mb","platform_main"},
@@ -513,7 +513,7 @@ this.demoOptions={
       svars.isCollect_BlackCoat=gvars.s10100_boyEscape[TppDefine.S10100_BOY_ENUM.Collect_BlackCoat]
     end,
     OnEnd=function()
-      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
       gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_Injury]=svars.isCollect_Injury
       gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_YellowHood]=svars.isCollect_YellowHood
       gvars.quietHasFriendshipWithChildFlag[TppDefine.S10100_BOY_ENUM.Collect_Aflo]=svars.isCollect_Aflo
@@ -610,7 +610,7 @@ this.demoOptions={
       TppPlayer.Refresh()
     end,
     OnEnd=function()
-      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
       TppStory.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.THE_GREAT_ESCAPE_LIQUID,TppDefine.INIT_ELAPSED_MISSION_COUNT.THE_GREAT_ESCAPE_LIQUID)
       TppCassette.Acquire{cassetteList={"tp_m_10160_04"},
         pushReward=true}
@@ -636,7 +636,7 @@ this.demoOptions={
       TppEffectUtility.SetOceanWaveAmplitude(.4)
     end,
     OnEnd=function()
-      if gvars.mbDemoSelection==0 then--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(0) then--tex skip demo onend
         TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.DECISION_HUEY)
         TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.DESIGN_3007,pushReward=true}
         TppCassette.Acquire{cassetteList={"tp_m_10190_05","tp_m_10190_06","tp_m_10240_03","tp_m_10240_04"},pushReward=true}
@@ -1029,7 +1029,7 @@ function this.GetPackListForStorySequence()
       mvars.f30050_isSetCodeTalker=true
     end
   end
-  if(vars.buddyType==BuddyType.DOG)or(vars.buddyType==BuddyType.QUIET)or(TppMission.IsMbFreeMissions(vars.missionCode) and gvars.mbEnableBuddies==1)then--tex
+  if(vars.buddyType==BuddyType.DOG)or(vars.buddyType==BuddyType.QUIET)or(TppMission.IsMbFreeMissions(vars.missionCode) and Ivars.mbEnableBuddies:Is(1))then--tex
     table.insert(packList,buddyFpk)
     mvars.f30050_needLoadBuddyController=true
   end

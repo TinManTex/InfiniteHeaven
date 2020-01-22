@@ -875,7 +875,7 @@ afgh_base.OnActiveTable = {
 		
 		if (currentStorySequence == TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_AFTER_FIND_THE_SECRET_WEAPON and not isHueyQuestCleard ) or
 		   currentMissionId == 10070 or currentMissionId == 10150 or currentMissionId == 10151 or currentMissionId == 11151 
-		   or (gvars.unlockSideOpNumber>0 and TppQuest.IsActive"sovietBase_q99020") or gvars.unlockSideOps==82 then--tex
+		   or (Ivars.unlockSideOpNumber:Is()>0 and TppQuest.IsActive"sovietBase_q99020") or Ivars.unlockSideOps:Is(82) then--tex
 			Fox.Log("afgh_powerPlant : free_mission_asset::Disable")
 			TppDataUtility.SetVisibleDataFromIdentifier( "powerPlant_asset_DataIdentifier", "free_misson_asset", false, true)
 			TppDataUtility.SetEnableDataFromIdentifier( "powerPlant_asset_DataIdentifier", "free_misson_asset_bounder", false, true)

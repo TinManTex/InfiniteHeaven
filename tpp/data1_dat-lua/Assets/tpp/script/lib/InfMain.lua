@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r112"
+this.modVersion="r113"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -29,17 +29,21 @@ end
 
 
 function this.ForceArmor(missionCode)
-  if gvars.allowHeavyArmorInAllMissions>0 and not TppMission.IsFreeMission(missionCode) then
+  if Ivars.allowHeavyArmorInAllMissions:Is(1) and not TppMission.IsFreeMission(missionCode) then
     return true
   end
-  if gvars.allowHeavyArmorInFreeMode>0 and TppMission.IsFreeMission(missionCode) then
+  if Ivars.allowHeavyArmorInFreeMode:Is()>0 and TppMission.IsFreeMission(missionCode) then--DEBUGNOW allowHeavyArmorInFreeMode actiting as armor limit for debug
     return true
   end
+  if Ivars.allowLrrpArmorInFree:Is(1) and TppMission.IsFreeMission(missionCode) then
+    return true
+  end  
+  
   return false
 end
 
 function this.ForceArmorFree(missionCode)
-  if gvars.allowHeavyArmorInFreeMode>0 and TppMission.IsFreeMission(missionCode) then
+  if Ivars.allowHeavyArmorInFreeMode:Is()>0 and TppMission.IsFreeMission(missionCode) then--DEBUGNOW allowHeavyArmorInFreeMode actiting as armor limit for debug
     return true
   end
   return false
@@ -149,7 +153,7 @@ end
 
 function this.IsMbWarGames(missionId)
   missionId=missionId or vars.missionCode
-  return gvars.mbWarGames>0 and missionId==30050
+  return Ivars.mbWarGames:Is(1) and missionId==30050
 end
 function this.IsMbPlayTime(missionId)
   if TppMission.IsFOBMission(vars.missionCode) then
@@ -158,12 +162,12 @@ function this.IsMbPlayTime(missionId)
 
   missionId=missionId or vars.missionCode
   if missionId==30050 then
-    return gvars.mbPlayTime>0 or gvars.mbSoldierEquipGrade>0
+    return gvars.mbPlayTime>0 or Ivars.mbSoldierEquipGrade:Is()>0--tex mbPlayTime is not Ivar
   end
   return false
 end
 function this.IsForceSoldierSubType()
-  return gvars.forceSoldierSubType>0 and TppMission.IsFreeMission(vars.missionCode)
+  return Ivars.forceSoldierSubType:Is()>0 and TppMission.IsFreeMission(vars.missionCode)
 end
 
 function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldierEquipGrade
@@ -172,12 +176,12 @@ function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldier
   end
 
   local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
-  if this.IsMbPlayTime(missionId) and gvars.mbSoldierEquipGrade>Ivars.mbSoldierEquipGrade.enum.MBDEVEL then
+  if this.IsMbPlayTime(missionId) and Ivars.mbSoldierEquipGrade:Is()>Ivars.mbSoldierEquipGrade.enum.MBDEVEL then
     --TppUiCommand.AnnounceLogView("GetEquipGrade ismbplay, grade > devel")--DEBUG
-    if gvars.mbSoldierEquipGrade==Ivars.mbSoldierEquipGrade.enum.RANDOM then
+    if Ivars.mbSoldierEquipGrade:Is"RANDOM" then
       grade = math.random(1,10)
     else
-      grade = gvars.mbSoldierEquipGrade-Ivars.mbSoldierEquipGrade.enum.RANDOM
+      grade = Ivars.mbSoldierEquipGrade:Get()-Ivars.mbSoldierEquipGrade.enum.RANDOM
     end
   end
   --TppUiCommand.AnnounceLogView("GetEquipGrade: gvar:".. gvars.mbSoldierEquipGrade .." grade: ".. grade)--DEBUG
@@ -191,10 +195,10 @@ function this.GetMbsClusterSecuritySoldierEquipRange(missionId)
   end
 
   if InfMain.IsMbPlayTime(missionId) then
-    if gvars.mbSoldierEquipRange==Ivars.mbSoldierEquipRange.enum.RANDOM then
+    if Ivars.mbSoldierEquipRange:Is"RANDOM" then
       return math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
-    elseif gvars.mbSoldierEquipRange>0 then
-      return gvars.mbSoldierEquipRange-1
+    elseif Ivars.mbSoldierEquipRange:Is()>0 then
+      return Ivars.mbSoldierEquipRange:Get()-1
     end
   end
   return TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()
@@ -206,7 +210,7 @@ function this.GetMbsClusterSecurityIsNoKillMode(missionId)
   end  
 
   if this.IsMbPlayTime(missionId) then--tex PrepareDDParameter mbwargames, mbsoldierequipgrade
-    return gvars.mbWarGames==Ivars.mbWarGames.enum.NONLETHAL
+    return Ivars.mbWarGames:Is"NONLETHAL"
   end
   return TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
 end
@@ -243,16 +247,16 @@ local isMafrSubType={
   PF_C=true,
 }
 function this.RandomizeCpSubTypeTable()
-  if gvars.changeCpSubTypeFree==0 and gvars.changeCpSubTypeForMissions==0 then
+  if Ivars.changeCpSubTypeFree:Is(0) and Ivars.changeCpSubTypeForMissions:Is(0) then
     return
   end
   
   if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
-    if gvars.changeCpSubTypeFree==0 then
+    if Ivars.changeCpSubTypeFree:Is(0) then
       return
     end
   else
-    if gvars.changeCpSubTypeForMissions==0 then
+    if Ivars.changeCpSubTypeForMissions:Is(0) then
       return
     end
   end
@@ -683,7 +687,7 @@ end
 --IN: spawnInfo
 --OUT: spawnInfo
 function this.PreSpawnVehicle(spawnInfo)
-  if gvars.vehiclePatrolProfile==0 then
+  if Ivars.vehiclePatrolProfile:Is(0) then
     return
   end
 
@@ -833,7 +837,7 @@ end
 --TODO: only add those packs of active vehicles
 --ditto reinforce vehicle types (or maybe an seperate equivalent function)
 function this.AddVehiclePacks(missionCode,missionPackPath)
-  if gvars.vehiclePatrolProfile==0 then
+  if Ivars.vehiclePatrolProfile:Is(0) then
     return
   end
   if not this.IsPatrolVehicleMission() then
@@ -1209,7 +1213,7 @@ function this.FadeInOnGameStart()
   --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
   --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
   --RETRY: push back up again, you may just have fucked something up lol, the actual one use case is in sequence.OnEndMissionPrepareSequence which is the middle of tppmain.onallocate
-  local healthScale=gvars.playerHealthScale
+  local healthScale=Ivars.playerHealthScale:Get()
   if healthScale~=1 then
     Player.ResetLifeMaxValue()
     local newMax=vars.playerLifeMax
@@ -1225,10 +1229,10 @@ function this.FadeInOnGameStart()
 end
 
 function this.ClearMarkers()
-  if gvars.disableHeadMarkers==1 then
+  if Ivars.disableHeadMarkers:Is(1) then
     TppUiStatusManager.SetStatus("HeadMarker","INVALID")
   end
-  if gvars.disableXrayMarkers==1 then
+  if Ivars.disableXrayMarkers:Is(1) then
     --TppSoldier2.DisableMarkerModelEffect()
     TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
   end
@@ -1579,16 +1583,16 @@ function this.UpdateHeliVars()
     return
   end
 
-  if gvars.disableHeliAttack==1 then--tex disable heli be fightan
+  if Ivars.disableHeliAttack:Is(1) then--tex disable heli be fightan
     SendCommand(heliId,{id="SetCombatEnabled",enabled=false})
   end
-  if gvars.setInvincibleHeli==1 then
+  if Ivars.setInvincibleHeli:Is(1) then
     SendCommand(heliId,{id="SetInvincible",enabled=true})
   end
   if not Ivars.setTakeOffWaitTime:IsDefault() then
     SendCommand(heliId,{id="SetTakeOffWaitTime",time=gvars.setTakeOffWaitTime})
   end
-  if gvars.disablePullOutHeli==1 then
+  if Ivars.disablePullOutHeli:Is(1) then
     --if not TppLocation.IsMotherBase() and not TppLocation.IsMBQF() then--tex aparently disablepullout overrides the mother base taxi service TODO: not sure if I want to turn this off to save user confusion, or keep consistant behaviour
     SendCommand(heliId,{id="DisablePullOut"})
     --end
@@ -1596,10 +1600,10 @@ function this.UpdateHeliVars()
   if not Ivars.setLandingZoneWaitHeightTop:IsDefault() then
     SendCommand(heliId,{id="SetLandingZoneWaitHeightTop",height=gvars.setLandingZoneWaitHeightTop})
   end
-  if gvars.disableDescentToLandingZone==1 then
+  if Ivars.disableDescentToLandingZone:Is(1) then
     SendCommand(heliId,{id="DisableDescentToLandingZone"})
   end
-  if gvars.setSearchLightForcedHeli==1 then
+  if Ivars.setSearchLightForcedHeli:Is(1) then
     SendCommand(heliId,{id="SetSearchLightForcedType",type="Off"})
   end
 

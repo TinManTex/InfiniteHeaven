@@ -244,6 +244,35 @@ end
 local tppEnemyBodyId=TppEnemyBodyId or{}
 this.childBodyIdTable={tppEnemyBodyId.chd0_v00,tppEnemyBodyId.chd0_v01,tppEnemyBodyId.chd0_v02,tppEnemyBodyId.chd0_v03,tppEnemyBodyId.chd0_v05,tppEnemyBodyId.chd0_v06,tppEnemyBodyId.chd0_v07,tppEnemyBodyId.chd0_v08,tppEnemyBodyId.chd0_v09,tppEnemyBodyId.chd0_v10,tppEnemyBodyId.chd0_v11}
 this.bodyIdTable={
+--DEBUGNOW force to armor body type to see what is
+--[[
+  SOVIET_A={
+    ASSAULT={tppEnemyBodyId.sva0_v00_a},
+    ASSAULT_OB={tppEnemyBodyId.sva0_v00_a},
+    SNIPER={tppEnemyBodyId.sva0_v00_a},
+    SHOTGUN={tppEnemyBodyId.sva0_v00_a},
+    SHOTGUN_OB={tppEnemyBodyId.sva0_v00_a},
+    MG={tppEnemyBodyId.sva0_v00_a},
+    MG_OB={tppEnemyBodyId.sva0_v00_a},
+    MISSILE={tppEnemyBodyId.sva0_v00_a},
+    SHIELD={tppEnemyBodyId.sva0_v00_a},
+    ARMOR={tppEnemyBodyId.sva0_v00_a},
+    RADIO={tppEnemyBodyId.sva0_v00_a}
+  },
+  SOVIET_B={
+    ASSAULT={tppEnemyBodyId.sva0_v00_a},
+    ASSAULT_OB={tppEnemyBodyId.sva0_v00_a},
+    SNIPER={tppEnemyBodyId.sva0_v00_a},
+    SHOTGUN={tppEnemyBodyId.sva0_v00_a},
+    SHOTGUN_OB={tppEnemyBodyId.sva0_v00_a},
+    MG={tppEnemyBodyId.sva0_v00_a},
+    MG_OB={tppEnemyBodyId.sva0_v00_a},
+    MISSILE={tppEnemyBodyId.sva0_v00_a},
+    SHIELD={tppEnemyBodyId.sva0_v00_a},
+    ARMOR={tppEnemyBodyId.sva0_v00_a},
+    RADIO={tppEnemyBodyId.sva0_v00_a}
+  },
+  --]]
   SOVIET_A={
     ASSAULT={tppEnemyBodyId.svs0_rfl_v00_a,tppEnemyBodyId.svs0_rfl_v00_a,tppEnemyBodyId.svs0_rfl_v01_a,tppEnemyBodyId.svs0_mcg_v00_a},
     ASSAULT_OB={tppEnemyBodyId.svs0_rfl_v02_a,tppEnemyBodyId.svs0_mcg_v02_a},
@@ -801,7 +830,7 @@ function this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoK
         --if InfMain.IsMbPlayTime() then
         --InfMenu.DebugPrint("_CreateDDWeaponIdTable developrank:" .. developRank .. " soldierEquipGrade: " .. soldierEquipGrade)--tex DEBUG: CULL:
         --end--
-        local overrideDeveloped = InfMain.IsMbPlayTime() and gvars.mbSoldierEquipGrade >= Ivars.mbSoldierEquipGrade.enum.GRADE1
+        local overrideDeveloped = InfMain.IsMbPlayTime() and Ivars.mbSoldierEquipGrade:Is() >= Ivars.mbSoldierEquipGrade.enum.GRADE1
         if(soldierEquipGrade>=developRank and (developedGradeTable[developedEquipType]>=developRank or overrideDeveloped))then--tex added override
           addWeapon=true
         end
@@ -1066,43 +1095,43 @@ function this.GetBalaclavaFaceId(t,enemyType,t,config)
   end
   return nil
 end
-function this.IsSniper(soldierName)
-  local config=mvars.ene_soldierPowerSettings[soldierName]
+function this.IsSniper(soldierId)
+  local config=mvars.ene_soldierPowerSettings[soldierId]
   if config~=nil and config.SNIPER then
     return true
   end
   return false
 end
-function this.IsMissile(soldierName)
-  local config=mvars.ene_soldierPowerSettings[soldierName]
+function this.IsMissile(soldierId)
+  local config=mvars.ene_soldierPowerSettings[soldierId]
   if config~=nil and config.MISSILE then
     return true
   end
   return false
 end
-function this.IsShield(soldierName)
-  local config=mvars.ene_soldierPowerSettings[soldierName]
+function this.IsShield(soldierId)
+  local config=mvars.ene_soldierPowerSettings[soldierId]
   if config~=nil and config.SHIELD then
     return true
   end
   return false
 end
-function this.IsArmor(soldierName)
-  local config=mvars.ene_soldierPowerSettings[soldierName]
+function this.IsArmor(soldierId)
+  local config=mvars.ene_soldierPowerSettings[soldierId]
   if config~=nil and config.ARMOR then
     return true
   end
   return false
 end
-function this.IsHelmet(soldierName)
-  local config=mvars.ene_soldierPowerSettings[soldierName]
+function this.IsHelmet(soldierId)
+  local config=mvars.ene_soldierPowerSettings[soldierId]
   if config~=nil and config.HELMET then
     return true
   end
   return false
 end
-function this.IsNVG(soldierName)
-  local config=mvars.ene_soldierPowerSettings[soldierName]
+function this.IsNVG(soldierId)
+  local config=mvars.ene_soldierPowerSettings[soldierId]
   if config~=nil and config.NVG then
     return true
   end
@@ -1190,7 +1219,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   end
   if powerLoadout.MISSILE then--tex split from shield
     powerLoadout.SNIPER=nil    
-    if powerLoadout.MISSILE_COMBO then--tex added CONFIG_TYPE to bypass, _ApplyRevengeToCp has control of SMG
+    if not powerLoadout.MISSILE_COMBO then--tex added CONFIG_TYPE to bypass, _ApplyRevengeToCp has control of SMG
       powerLoadout.SHOTGUN=nil
       powerLoadout.MG=nil
       powerLoadout.SMG=true
@@ -4583,8 +4612,8 @@ function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_T
           end
           local a=true
           if enemyDef.powerSetting then
-            for n,e in ipairs(enemyDef.powerSetting)do
-              if e=="QUEST_ARMOR"then
+            for n,powerType in ipairs(enemyDef.powerSetting)do
+              if powerType=="QUEST_ARMOR"then
                 if mvars.ene_questArmorId==0 then
                   a=false
                 end
@@ -4966,8 +4995,8 @@ function this.SetupTerminateQuestEnemy(i)
         GameObject.SendCommand(enemyId,{id="Refresh"})
         GameObject.SendCommand(t,{id="RequestVanish",name=setupInfo.enemyName})
         if setupInfo.powerSetting then
-          for i,a in ipairs(setupInfo.powerSetting)do
-            if a=="QUEST_ARMOR"then
+          for i,powerType in ipairs(setupInfo.powerSetting)do
+            if powerType=="QUEST_ARMOR"then
               local a={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
               GameObject.SendCommand(enemyId,a)
               local e={id="ChangeFovaCorpse",name=setupInfo.enemyName,faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
@@ -5268,9 +5297,9 @@ function this.IsQuestHeli()
 end
 function this.GetDDSuit()
   if InfMain.IsMbPlayTime() then--tex
-    if gvars.mbDDSuit>0 then
-      return gvars.mbDDSuit
-  end
+    if Ivars.mbDDSuit:Is()>0 then
+      return Ivars.mbDDSuit:Get()
+    end
   end--
 
   local eventArmor=TppDefine.FOB_EVENT_ID_LIST.ARMOR

@@ -257,18 +257,108 @@ this.DEBUG_PrintEnemyFova={
   end,
 }
 
-this.DEBUG_PrintPowersCountArmor={
+this.DEBUG_PrintPowersCount={
   OnChange=function()
+    --local ins=InfInspect.Inspect(mvars.ene_soldierPowerSettings)
+    --InfMenu.DebugPrint(ins)
+    local totalPowerSettings={}
+  
+    local totalSoldierCount=0
     local armorCount=0
+    local lrrpCount=0
     for soldierId, powerSettings in pairs(mvars.ene_soldierPowerSettings) do
-      if powerSettings.ARMOR then
-        armorCount=armorCount+1
+      totalSoldierCount=totalSoldierCount+1
+      for powerType,setting in pairs(powerSettings)do
+        if totalPowerSettings[powerType]==nil then
+          totalPowerSettings[powerType]=0
+        end
+      
+        totalPowerSettings[powerType]=totalPowerSettings[powerType]+1
       end
     end
-    InfMenu.DebugPrint("ARMOR count:"..armorCount)
+    InfMenu.DebugPrint("totalSoldierCount:"..totalSoldierCount)
+    local ins=InfInspect.Inspect(totalPowerSettings)
+    InfMenu.DebugPrint(ins)
   end
 }
 
+this.DEBUG_PrintCpPowerSettings={
+  OnChange=function()
+    --local ins=InfInspect.Inspect(mvars.ene_soldierPowerSettings)
+   -- InfMenu.DebugPrint(ins)
+    if Ivars.selectedCp:Is()>0 then
+      local soldierList=mvars.ene_soldierIDList[Ivars.selectedCp:Get()]
+      if soldierList then
+        for soldierId,n in pairs(soldierList)do
+          local ins=InfInspect.Inspect(mvars.ene_soldierPowerSettings[soldierId])
+          InfMenu.DebugPrint(ins)          
+        end
+      end
+    end
+  end
+}
+
+
+
+
+this.DEBUG_PrintCpSizes={
+  OnChange=function()
+    local cpTypesCount={
+      cp=0,
+      ob=0,
+      lrrp=0,
+    }     
+    local cpTypesTotal={
+      cp=0,
+      ob=0,
+      lrrp=0,
+    }
+     local cpTypesAverage={
+      cp=0,
+      ob=0,
+      lrrp=0,
+    }
+  
+    local cpSizes={}
+    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
+      local soldierCount=0
+      
+
+      for key,value in pairs(soldierList)do
+        if type(value)=="string" then
+          soldierCount=soldierCount+1
+        end
+      end
+
+      if soldierCount~=0 then
+        if string.find(cpName, "_cp")~=nil then
+          cpTypesCount.cp=cpTypesCount.cp+1
+          cpTypesTotal.cp=cpTypesTotal.cp+soldierCount
+        elseif string.find(cpName, "_ob")~=nil then
+          cpTypesCount.ob=cpTypesCount.cp+1
+          cpTypesTotal.ob=cpTypesTotal.ob+soldierCount
+        elseif string.find(cpName, "_lrrp")~=nil then
+          cpTypesCount.lrrp=cpTypesCount.lrrp+1
+          cpTypesTotal.lrrp=cpTypesTotal.lrrp+soldierCount
+        end    
+      
+        cpSizes[cpName]=soldierCount
+      end    
+    end
+    
+    for cpType,total in pairs(cpTypesTotal)do
+      if cpTypesCount[cpType]~=0 then
+        cpTypesAverage[cpType]=total/cpTypesCount[cpType]
+      end
+    end
+    
+    local ins=InfInspect.Inspect(cpSizes)
+    InfMenu.DebugPrint(ins)   
+  
+    local ins=InfInspect.Inspect(cpTypesAverage)
+    InfMenu.DebugPrint(ins)    
+  end
+}
 
 this.DEBUG_ChangePhase={
   OnChange=function()

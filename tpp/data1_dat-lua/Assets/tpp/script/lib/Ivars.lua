@@ -207,15 +207,15 @@ this.playerHealthScale={
   save=MISSION,
   default=1,
   range=this.healthScaleRange,
-  OnChange=function()
+  OnChange=function(self)
     if mvars.mis_missionStateIsNotInGame then
       return
     end
-    local healthScale=gvars.playerHealthScale
+    --local healthScale=self.setting
     --if healthScale~=1 then
       Player.ResetLifeMaxValue()
       local newMax=vars.playerLifeMax
-      newMax=newMax*healthScale
+      newMax=newMax*self.setting
       if newMax < 10 then
         newMax = 10
       end
@@ -301,6 +301,7 @@ this.langOverride={
   save=GLOBAL,
   range=this.switchRange,
   settingNames="set_lang_override",
+  allowFob=true,
 }
 
 this.startOffline={
@@ -445,9 +446,9 @@ this.disableHeliAttack={
   range=this.switchRange,
   settingNames="set_switch",
   profile=this.subsistenceProfile,
-  OnChange=function()
+  OnChange=function(self)
     if TppMission.IsFOBMission(vars.missionCode) then return end
-    local enable=gvars.disableHeliAttack==0
+    local enable=self.setting==0
     local gameObjectId = GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
       GameObject.SendCommand(gameObjectId,{id="SetCombatEnabled",enabled=enable}) 
@@ -682,7 +683,6 @@ this.fultonDontApplyMbMedicalToSleep={
   settingNames="set_switch",
   profile=this.fultonSuccessProfile,
 }
-  
 --<fulton success
 
 --item levels>
@@ -756,7 +756,7 @@ this.fultonLevelProfile={
   settings={"DEFAULT","ITEM_OFF","ITEM_MAX","CUSTOM"},
   settingNames="fultonLevelProfileSettings",
   settingsTable={
-    DEFAULT=function()--the game auto sets to max developed but lets set it for apearance sake 
+    DEFAULT=function()--the game auto sets to max developed
       --[[for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
         itemIvar:Set(itemIvar.range.max,true)
       end--]]
@@ -869,6 +869,7 @@ this.tertiaryWeaponOsp={
   GetTable=this.ReturnCurrent,
 }
 
+-- revenge/enemy prep stuff>
 this.revengeMode={
   save=MISSION,
   range=this.switchRange,
@@ -878,34 +879,92 @@ this.revengeMode={
   end,
 }
 
+this.revengeProfile={
+  save=MISSION,
+  settings=={"DEFAULT","HEAVEN","CUSTOM"},
+  --settingNames="revengeProfileSettings",--DEBUGNOW ADDLANG
+  settingsTable={
+    DEFAULT=function()
+      Ivars.revengeBlockForMissionCount:Set(3,true)
+      Ivars.applyPowersToLrrp:Set(0,true)
+      Ivars.applyPowersToOuterBase:Set(0,true)
+      Ivars.allowHeavyArmorInFreeMode:Set(0,true)
+      Ivars.allowHeavyArmorInAllMissions:Set(0,true)
+      Ivars.allowLrrpArmorInFree:Set(0,true)
+      Ivars.allowHeadGearCombo:Set(0,true)
+      Ivars.allowMissileWeaponsCombo:Set(0,true)
+      Ivars.balanceHeadGear:Set(0,true)
+      Ivars.balanceWeaponPowers:Set(0,true)
+      Ivars.disableConvertArmorToShield:Set(0,true)
+      Ivars.disableMissionsWeaponRestriction:Set(0,true)
+      Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
+      Ivars.enableMgVsShotgunVariation:Set(0,true)
+      Ivars.randomizeSmallCpPowers:Set(0,true)
+    end,
+    HEAVEN=function()
+      Ivars.revengeBlockForMissionCount:Set(4,true)
+      Ivars.applyPowersToLrrp:Set(1,true)
+      Ivars.applyPowersToOuterBase:Set(1,true)
+      Ivars.allowHeavyArmorInFreeMode:Set(0,true)
+      Ivars.allowHeavyArmorInAllMissions:Set(0,true)
+      Ivars.allowLrrpArmorInFree:Set(0,true)
+      Ivars.allowHeadGearCombo:Set(1,true)
+      Ivars.allowMissileWeaponsCombo:Set(1,true)
+      Ivars.balanceHeadGear:Set(0,true)--tex allow headgearcombo is sufficient
+      Ivars.balanceWeaponPowers:Set(0,true)--WIP
+      Ivars.disableConvertArmorToShield:Set(1,true)
+      Ivars.disableMissionsWeaponRestriction:Set(0,true)
+      Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
+      Ivars.enableMgVsShotgunVariation:Set(1,true)
+      Ivars.randomizeSmallCpPowers:Set(1,true)      
+    end,
+    CUSTOM=nil,
+  },
+  OnChange=this.RunCurrentSetting,
+  OnSubSettingChanged=this.OnSubSettingChanged,  
+}
+
 this.revengeBlockForMissionCount={
   save=MISSION,
   default=3,
   range={max=10},
+  profile=this.revengeProfile,
 }
 
 this.applyPowersToLrrp={
   save=MISSION,
   range=this.switchRange,
-  settingNames="set_switch",  
+  settingNames="set_switch",
+  profile=this.revengeProfile,  
 }
 
 this.applyPowersToOuterBase={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  profile=this.revengeProfile,
 }
 
 this.allowHeavyArmorInFreeMode={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  --DEBUGrange={max=1000},
+  profile=this.revengeProfile,
 }
 
 this.allowHeavyArmorInAllMissions={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  profile=this.revengeProfile,
+}
+
+this.allowLrrpArmorInFree={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.revengeProfile,
 }
 
 this.allowHeadGearCombo={
@@ -913,12 +972,14 @@ this.allowHeadGearCombo={
   range=this.switchRange,
   settingNames="set_switch",
   allowHeadGearComboThreshold=120,
+  profile=this.revengeProfile,
 }
 
 this.allowMissileWeaponsCombo={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  profile=this.revengeProfile,
 }
 
 this.balanceHeadGear={
@@ -926,6 +987,7 @@ this.balanceHeadGear={
   range=this.switchRange,
   settingNames="set_switch",
   balanceHeadGearThreshold=100,
+  profile=this.revengeProfile,
 }
 
 this.balanceWeaponPowers={
@@ -933,24 +995,42 @@ this.balanceWeaponPowers={
   range=this.switchRange,
   settingNames="set_switch",
   balanceWeaponsThreshold=100,
+  profile=this.revengeProfile,
 }
 
 this.disableConvertArmorToShield={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  profile=this.revengeProfile,
 }
 
 this.disableMissionsWeaponRestriction={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  profile=this.revengeProfile,
 }
 
-this.disableMotherbaseWeaponRestriction={
+this.disableMotherbaseWeaponRestriction={--WIP
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  profile=this.revengeProfile,
+}
+
+this.enableMgVsShotgunVariation={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.revengeProfile,
+}
+
+this.randomizeSmallCpPowers={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.revengeProfile,
 }
 --<revenge stuff
 --reinforce stuff DOC: Reinforcements Soldier Vehicle Heli.txt
@@ -1089,8 +1169,8 @@ this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
     "CHILD_A",
   },
   --settingNames=InfMain.enemySubTypes,
-  OnChange=function()
-    if gvars.forceSoldierSubType==0 then
+  OnChange=function(self)
+    if self.setting==0 then
       InfMain.ResetCpTableToDefault()
     end
   end,
@@ -1135,7 +1215,7 @@ this.unlockSideOpNumber={
     TppQuest.UpdateActiveQuest()
   end,
 }
-
+--DEBUGNOW ivar/fob refactor currently done above -^-, TODO: below -v-
 --mbshowstuff
 this.mbShowBigBossPosters={
   save=MISSION,
@@ -1571,7 +1651,7 @@ this.minPhase={
   settings=this.phaseSettings,
   --settingsTable=this.phaseTable,
   OnChange=function(self)
-    if self.setting>gvars.maxPhase then
+    if self.setting>Ivars.maxPhase:Get() then
       Ivars.maxPhase:Set(self.setting)
     end
   end,
@@ -1584,7 +1664,7 @@ this.maxPhase={
   default=#this.phaseSettings-1,
   --settingsTable=this.phaseTable,
   OnChange=function(self)
-    if self.setting<gvars.minPhase then
+    if self.setting<Ivars.minPhase:Get() then
       Ivars.minPhase:Set(self.setting)
     end
   end,
@@ -1925,33 +2005,52 @@ this.selectedCp={
 
 --end ivar defines
 
+local function IsIvar(ivar)--TYPEID
+  return type(ivar)=="table" and (ivar.range or ivar.settings)   
+end
+
 this.OptionIsDefault=function(self)
-  return self.setting==self.default
+  local currentSetting
+  if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
+    currentSetting=self.default
+  else
+    currentSetting=self.setting
+  end  
+
+  return currentSetting==self.default
 end
 
 this.OptionIsSetting=function(self,setting)--tex for getting setting via name or enum index, just use gvar. if you want the value, or Ivars. if it has none
+  if self==nil then
+    InfMenu.DebugPrint("WARNING OptionIsSetting self==nil, Is or Get called with . instead of :")
+    return
+  end
+  
+  if not IsIvar(self) then
+    InfMenu.DebugPrint("self not Ivar. Is or Get called with . instead of :")
+    return
+  end
+  
+  local currentSetting
+  if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
+    currentSetting=self.default
+  else
+    currentSetting=self.setting
+  end    
+  
   if setting==nil then
-    if TppMission.IsFOBMission(vars.missionCode) then
-      return self.default
-    else
-      return self.setting
-    end
-  end
-  
-  if TppMission.IsFOBMission(vars.missionCode) then
-    return self.setting==self.default
-  end
-  
-  if type(setting)=="number" then
-    return self.setting==setting
+    return currentSetting
+  elseif type(setting)=="number" then
+    return setting==currentSetting
   end
 
   if self.enum==nil then
     InfMenu.DebugPrint("Is function called on ivar "..self.name.." which has no settings enum")
     return false
   end
+  
   local settingIndex=self.enum[setting]
-  return self.setting==settingIndex
+  return settingIndex==currentSetting
 end
 
 
@@ -1965,7 +2064,7 @@ this.OptionBelowSetting=function(self,settingName)
   return self.setting<settingIndex
 end
 
-this.OptionIsOrAboveSetting=function(self,settingName)  
+this.OptionIsOrAboveSetting=function(self,settingName)
   local settingIndex=self.enum[settingName]
   return self.setting>=settingIndex
 end
@@ -1973,10 +2072,6 @@ end
 this.OptionIsOrBelowSetting=function(self,settingName)
   local settingIndex=self.enum[settingName]
   return self.setting<=settingIndex
-end
-
-local function IsIvar(ivar)--TYPEID
-  return IsTable(ivar) and (ivar.range or ivar.settings)   
 end
 
 this.UpdateSettingFromGvar=function(option)
@@ -2039,10 +2134,11 @@ for name,ivar in pairs(this) do
     
     ivar.IsDefault=this.OptionIsDefault
     ivar.Is=this.OptionIsSetting
+    ivar.Get=this.OptionIsSetting
     ivar.Above=this.OptionAboveSetting
     ivar.Below=this.OptionBelowSetting
-    ivar.AboveOrIs=this.OptionIsOrAboveSetting
-    ivar.BelowOrIs=this.OptionIsOrBelowSetting
+    ivar.IsOrAbove=this.OptionIsOrAboveSetting
+    ivar.IsOrBelow=this.OptionIsOrBelowSetting
     
     --ExecUpdate setup
     if ivar.ExecUpdate then

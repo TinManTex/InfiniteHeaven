@@ -1,4 +1,4 @@
--- DOBUILD: 1 --
+-- DOBUILD: 1
 local this={}
 local StrCode32=Fox.StrCode32
 --local type=type
@@ -206,23 +206,23 @@ function this.MakeMessageExecTable(e)
     return
   end
   local n={}
-  local T=StrCode32"msg"
-  local u=StrCode32"func"
-  local c=StrCode32"sender"
-  local h=StrCode32"option"
+  local s32_msg=StrCode32"msg"
+  local s32_func=StrCode32"func"
+  local s32_sender=StrCode32"sender"
+  local s32_option=StrCode32"option"
   for e,l in pairs(e)do
     n[e]=n[e]or{}
     for l,r in pairs(l)do
       local l,s,d,o=l,nil,nil,nil
       if IsTypeFunc(r)then
         d=r
-      elseif IsTypeTable(r)and IsTypeFunc(r[u])then
-        l=StrCode32(r[T])
+      elseif IsTypeTable(r)and IsTypeFunc(r[s32_func])then
+        l=StrCode32(r[s32_msg])
         local n={}
-        if(type(r[c])=="string")or(type(r[c])=="number")then
-          n[1]=r[c]
-        elseif IsTypeTable(r[c])then
-          n=r[c]
+        if(type(r[s32_sender])=="string")or(type(r[s32_sender])=="number")then
+          n[1]=r[s32_sender]
+        elseif IsTypeTable(r[s32_sender])then
+          n=r[s32_sender]
         end
         s={}
         for l,n in pairs(n)do
@@ -238,7 +238,7 @@ function this.MakeMessageExecTable(e)
             s[l]=n
           end
         end
-        d=r[u]o=r[h]
+        d=r[s32_func]o=r[s32_option]
       end
       if d then
         n[e][l]=n[e][l]or{}

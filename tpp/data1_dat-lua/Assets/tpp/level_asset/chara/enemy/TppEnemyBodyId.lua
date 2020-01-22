@@ -1,4 +1,5 @@
-local _={
+local this={
+--NMC: maps a friendly id (in this case something close to the fv2 name) to an enum. in Soldier2FacaAndBodyData the enum is then mapped(via bodyFova table)to the actual fv2 path and fpk (bodyFile table > 
 svs0_rfl_v00_a=0,
 svs0_rfl_v01_a=1,
 svs0_rfl_v02_a=2,
@@ -228,4 +229,4 @@ hyu0_main0_v02=379,
 ish0_v00=380,
 ish0_v01=381
 }
-return _
+return this

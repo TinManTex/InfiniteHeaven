@@ -180,7 +180,7 @@ this.eng={--english
   warp_mode_on="Warp mode on",
   warp_mode_off="Warp mode off",
   item_disabled="Menu item is currently disabled",
-  quietRadioMode="Quiets radio track (0=Auto)",--r88
+  quietRadioMode="Quiets cell radio track (0=Auto)",--r88
   soldierParamsProfile="Soldier Parameters Profile",--r89
   soldierParamsProfileSettings={"Off (use game/other mod settings, requires restart)","Custom"},
   soldierHealthScale="Soldier life scale",
@@ -234,8 +234,8 @@ this.eng={--english
   fulton_mb_medical="Current MB medical bonus +",
   applyPowersToOuterBase="Apply enemy prep to guard posts",--r105
   applyPowersToLrrp="Apply enemy prep to LRRP soldiers",
-  allowHeavyArmorInFreeMode="Allow heavy armor in free mode",
-  allowHeavyArmorInAllMissions="Allow heavy armor in all missions",
+  allowHeavyArmorInFreeMode="Allow heavy armor in free mode (has issues)",
+  allowHeavyArmorInAllMissions="Allow heavy armor in all missions (may have issues)",
   allowHeadGearCombo="Allow helmet and NVG or Gas mask combo",--r108
   balanceHeadGear="Ballance heavy armor and head gear distribution",
   changeCpSubTypeFree="Random CP subtype in free mode",--r109 

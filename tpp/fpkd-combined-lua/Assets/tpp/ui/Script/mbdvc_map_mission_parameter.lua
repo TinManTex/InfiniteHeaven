@@ -910,12 +910,12 @@ mbdvc_map_mission_parameter = {
       missionParameter[ "zoomScaleForMission" ]	= 4.0
       missionParameter[ "zoomScale2ForMission" ]	= 3.0
       
-      if missionParameter.heliLandPointNormal ~= nil then--tex gvars.noCentralLzs filter, I manualy split/copied heliland into normal/nocentral
+      if missionParameter.heliLandPointNormal ~= nil then--tex noCentralLzs filter, I manualy split/copied heliland into normal/nocentral
         missionParameter.heliLandPoint = missionParameter.heliLandPointNormal
       end
-      if gvars.noCentralLzs>0 then--tex filter idroid landing points
+      if Ivars.noCentralLzs:Is(1) then--tex filter idroid landing points
         --if missionId < 20000 then--actual missions
-          if missionParameter.heliLandPointNoCentral ~= nil then--tex gvars.noCentralLzs filter
+          if missionParameter.heliLandPointNoCentral ~= nil then--tex noCentralLzs filter
             missionParameter.heliLandPoint = missionParameter.heliLandPointNoCentral
           end          
         --end

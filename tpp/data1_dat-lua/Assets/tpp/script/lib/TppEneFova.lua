@@ -237,21 +237,21 @@ end
 function this.GetArmorTypeTable(missionCode)--tex reworked
   if this.IsNotRequiredArmorSoldier(missionCode)then
     return{}
-  end
-  if not TppLocation.IsMiddleAfrica()then
-    return{}
-  end
-  local default={TppDefine.AFR_ARMOR.TYPE_ZRS}
-  
-  local armorType=missionArmorType[missionCode]
-  if armorType~=nil then
-    return armorType
-  else--tex>
-    if InfMain.ForceArmor(missionCode) then--tex 
-      return {pfArmorTypes.PF_A,pfArmorTypes.PF_B,pfArmorTypes.PF_C}--tex would like to be soldiersubtypespecific but fova setup isnt that granular
-    end 
-  end--<
-  return default
+end
+if not TppLocation.IsMiddleAfrica()then
+  return{}
+end
+local default={TppDefine.AFR_ARMOR.TYPE_ZRS}
+
+local armorType=missionArmorType[missionCode]
+if armorType~=nil then
+  return armorType
+else--tex>
+  if InfMain.ForceArmor(missionCode) then--tex
+    return {pfArmorTypes.PF_A,pfArmorTypes.PF_B,pfArmorTypes.PF_C}--tex would like to be soldiersubtypespecific but fova setup isnt that granular
+end
+end--<
+return default
 end
 --ORIG
 --function this.GetArmorTypeTable(missionCode)
@@ -273,46 +273,48 @@ end
 function this.SetHostageFaceTable(missionId)
   local hostageCount=this.GetHostageCountAtMissionId(missionId)
   local hostageLang=this.GetHostageLangAtMissionId(missionId)
-  local f=0
+  local raceHalfMode=0
   if hostageCount>0 then
-    local n={}
+    local race={}
     if hostageLang==defaultLang then
-      table.insert(n,3)
+      table.insert(race,3)
       local e=bit.rshift(gvars.hosface_groupNumber,8)%100
       if e<40 then
-        table.insert(n,0)
+        table.insert(race,0)
       end
     elseif hostageLang==d then
-      table.insert(n,0)
+      table.insert(race,0)
     elseif hostageLang==p then
-      table.insert(n,2)
+      table.insert(race,2)
       local e=bit.rshift(gvars.hosface_groupNumber,8)%100
       if e<10 then
-        table.insert(n,0)
+        table.insert(race,0)
       end
     elseif hostageLang==r then
-      table.insert(n,0)table.insert(n,1)f=1
+      table.insert(race,0)
+      table.insert(race,1)
+      raceHalfMode=1
     elseif hostageLang==i then
-      table.insert(n,1)
+      table.insert(race,1)
     elseif hostageLang==c then
-      table.insert(n,2)
+      table.insert(race,2)
     else
       if TppLocation.IsAfghan()then
-        table.insert(n,0)
+        table.insert(race,0)
       elseif TppLocation.IsMiddleAfrica()then
-        table.insert(n,2)
+        table.insert(race,2)
       elseif TppLocation.IsMotherBase()then
-        table.insert(n,0)
+        table.insert(race,0)
       elseif TppLocation.IsMBQF()then
-        table.insert(n,0)
+        table.insert(race,0)
       elseif TppLocation.IsCyprus()then
-        table.insert(n,0)
+        table.insert(race,0)
       end
     end
     local hostageIsFaceModelOverlap=this.GetHostageIsFaceModelOverlap(missionId)
     local hostageIgnoreFaceList=this.GetHostageIgnoreFaceList(missionId)
     local hostageFaceModelCount=this.GetHostageFaceModelCount(missionId)
-    local faceTable=TppSoldierFace.CreateFaceTable{race=n,needCount=hostageCount,maxUsedFovaCount=hostageFaceModelCount,faceModelOverlap=hostageIsFaceModelOverlap,ignoreFaceList=hostageIgnoreFaceList,raceHalfMode=f}
+    local faceTable=TppSoldierFace.CreateFaceTable{race=race,needCount=hostageCount,maxUsedFovaCount=hostageFaceModelCount,faceModelOverlap=hostageIsFaceModelOverlap,ignoreFaceList=hostageIgnoreFaceList,raceHalfMode=raceHalfMode}
     if faceTable~=nil then
       local face={}
       local t={}
@@ -364,23 +366,49 @@ end
 function this.GetFaceGroupTableAtGroupType(faceGroupType)
   local faceGroupTable=TppEnemyFaceGroup.GetFaceGroupTable(faceGroupType)
   local a={}
-  local e=EnemyFova.MAX_REALIZED_COUNT
+  local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
   for t,n in pairs(faceGroupTable)do
-    table.insert(a,{n,e,e,0})
+    table.insert(a,{n,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
   end
   return a
 end
 fovaSetupFuncs[10200]=function(d,missionId)
   this.SetHostageFaceTable(missionId)
-  local e={{TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v01,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v02,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v03,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v04,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v05,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v06,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v07,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v08,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v09,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v10,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v11,MAX_REALIZED_COUNT},{TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}}
-  TppSoldierFace.OverwriteMissionFovaData{body=e}
+  local bodies={
+    {TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v01,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v02,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v03,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v04,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v05,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v06,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v07,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v08,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v09,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v10,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v11,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}}
+  TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
 fovaSetupFuncs[11200]=fovaSetupFuncs[10200]
 fovaSetupFuncs[10120]=function(d,missionId)this.SetHostageFaceTable(missionId)
-  local e={{TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v01,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v02,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v03,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v04,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v05,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v06,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v07,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v08,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v09,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v10,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v11,MAX_REALIZED_COUNT},{TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}}
-  TppSoldierFace.OverwriteMissionFovaData{body=e}
+  local bodies={
+    {TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v01,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v02,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v03,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v04,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v05,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v06,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v07,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v08,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v09,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v10,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.chd0_v11,MAX_REALIZED_COUNT},
+    {TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}}
+  TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
@@ -466,8 +494,19 @@ fovaSetupFuncs[10080]=function(a,t)
   if TppPackList.IsMissionPackLabel"afterPumpStopDemo"then
   else
     TppSoldier2.SetExtendPartsInfo{type=2,path="/Assets/tpp/parts/chara/chd/chd0_main0_def_v00.parts"}
-    local e={{TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v01,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v02,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v03,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v04,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v05,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v06,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v07,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v08,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v09,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v10,MAX_REALIZED_COUNT},{TppEnemyBodyId.chd0_v11,MAX_REALIZED_COUNT}}
-    TppSoldierFace.OverwriteMissionFovaData{body=e}
+    local bodies={{TppEnemyBodyId.chd0_v00,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v01,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v02,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v03,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v04,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v05,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v06,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v07,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v08,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v09,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v10,MAX_REALIZED_COUNT},
+      {TppEnemyBodyId.chd0_v11,MAX_REALIZED_COUNT}}
+    TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   end
 end
 fovaSetupFuncs[11080]=fovaSetupFuncs[10080]
@@ -573,7 +612,7 @@ function fovaSetupFuncs.Afghan(n,missionId)
   end
   TppSoldierFace.SetUseFaceIdListMode{enabled=true,staffCheck=true}
   this.SetHostageFaceTable(missionId)
-  local body={
+  local bodies={
     {0,MAX_REALIZED_COUNT},
     {1,MAX_REALIZED_COUNT},
     {2,MAX_REALIZED_COUNT},
@@ -594,9 +633,9 @@ function fovaSetupFuncs.Afghan(n,missionId)
   }
   if not this.IsNotRequiredArmorSoldier(missionId)then
     local e={TppEnemyBodyId.sva0_v00_a,MAX_REALIZED_COUNT}
-    table.insert(body,e)
+    table.insert(bodies,e)
   end
-  TppSoldierFace.OverwriteMissionFovaData{body=body}
+  TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs2_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfghan,bodyId=TppEnemyBodyId.prs2_main0_v00}
 end
@@ -754,13 +793,13 @@ function fovaSetupFuncs.Mb(n,missionId)
   if TppMission.IsFOBMission(missionId) or InfMain.IsMbPlayTime(missionId) then--tex broken out from below balaclavas
     if ddSuit==TppEnemy.FOB_DD_SUIT_SNEAKING then--tex break this out from balaclavas -v-
       TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts"
-    elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
-      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts"
-    elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
-      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts"
-    else
-      TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts"
-    end
+  elseif ddSuit==TppEnemy.FOB_DD_SUIT_BTRDRS then
+    TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts"
+  elseif ddSuit==TppEnemy.FOB_PF_SUIT_ARMOR then
+    TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts"
+  else
+    TppSoldier2.SetDefaultPartsPath"/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts"
+  end
   end
 
   if TppMission.IsFOBMission(missionId) or (InfMain.IsMbPlayTime(missionId) and gvars.mbDDBalaclava==0) then--tex added isplay RETRY: female balaclava being se to male
@@ -1008,7 +1047,7 @@ local faceIdS10091_0=0
 local faceIdS10091_1=0
 local m=15
 local T=16
-local _=32
+local RENsomeNumber=32
 local defaultStaffId=0
 
 function this.InitializeUniqueSetting()
@@ -1095,7 +1134,7 @@ function this.GetFaceId_s10091_1()
   return faceIdS10091_1
 end
 function this.GetFaceIdForFemaleHostage(e)
-  local n=_
+  local n=RENsomeNumber
   if e==10086 then
     return 613,n
   end
@@ -1116,12 +1155,12 @@ function this.GetFaceIdForFemaleHostage(e)
     if faceId~=EnemyFova.INVALID_FOVA_VALUE then
       return faceId,n
     else
-      local a=(gvars.hosface_groupNumber+t)%50
-      faceId=350+a
+      local faceGroup=(gvars.hosface_groupNumber+t)%50
+      faceId=350+faceGroup
     end
   else
-    local a=(gvars.hosface_groupNumber+t)%50
-    faceId=350+a
+    local faceGroup=(gvars.hosface_groupNumber+t)%50
+    faceId=350+faceGroup
   end
   return faceId,n
 end
@@ -1266,7 +1305,7 @@ function this.ApplyUniqueSetting()
       end
       local command={id="SetHostage2Flag",flag="dd",on=true}
       GameObject.SendCommand(soldierId,command)
-    elseif band(fovaUniqueFlags,_)~=0 then
+    elseif band(fovaUniqueFlags,RENsomeNumber)~=0 then
       local command={id="SetHostage2Flag",flag="female",on=true}
       GameObject.SendCommand(soldierId,command)
     end
