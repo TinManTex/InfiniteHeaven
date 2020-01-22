@@ -176,8 +176,8 @@ this.revengeMenu={
     Ivars.revengeBlockForMissionCount,
     Ivars.applyPowersToOuterBase,
     Ivars.applyPowersToLlrp,
-    Ivars.allowHeavyArmorInFreeMode,
-    Ivars.allowHeavyArmorInAllMissions,
+    --Ivars.allowHeavyArmorInFreeMode,--WIP
+    --Ivars.allowHeavyArmorInAllMissions,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }

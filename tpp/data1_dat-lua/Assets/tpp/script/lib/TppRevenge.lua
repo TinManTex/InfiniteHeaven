@@ -397,13 +397,9 @@ function this.CanUseArmor(soldierSubType)
   end
   local missionId=TppMission.GetMissionID()
   if TppEneFova.IsNotRequiredArmorSoldier(missionId)then
-    InfMenu.DebugPrint"CanUseArmor IsNotRequiredArmorSoldier"--DEBUGNOW
     return false
   end
   if soldierSubType then
-  if not TppEneFova.CanUseArmorType(missionId,soldierSubType) then--DEBUGNOW
-  InfMenu.DebugPrint"CanUseArmor CanUseArmorType==false"--DEBUGNOW
-  end--DEBUGNOW
     return TppEneFova.CanUseArmorType(missionId,soldierSubType)
   end
   return true
@@ -1165,7 +1161,7 @@ function this.SelectReinforceType()
 end
 function this.ApplyPowerSettingsForReinforce(soldierIds)
   for n,soldierId in ipairs(soldierIds)do
-    GameObject.SendCommand(soldierId,{id="RegenerateStaffIdForReinforce"})--NMC: named on the assumption it follows something along the lines of RegenerateGameObjectStaffParameter where gameobjectid is it's main input
+    GameObject.SendCommand(soldierId,{id="RegenerateStaffIdForReinforce"})
   end
   local loadout={}
   do
@@ -1705,12 +1701,12 @@ end
 --  return false
 --end
 
-function this._OnReinforceRespawn(n)
+function this._OnReinforceRespawn(soldierIds)
   if TppMission.IsFOBMission(vars.missionCode)then
-    TppEnemy.AddPowerSetting(n,{})
-    o50050_enemy.AssignAndSetupRespawnSoldier(n)
+    TppEnemy.AddPowerSetting(soldierIds,{})
+    o50050_enemy.AssignAndSetupRespawnSoldier(soldierIds)
   else
-    this.ApplyPowerSettingsForReinforce{n}
+    this.ApplyPowerSettingsForReinforce{soldierIds}
   end
 end
 function this._OnHeadShot(E,t,t,n)

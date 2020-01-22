@@ -406,7 +406,9 @@ this.weaponIdTable={
   SKULL_CYPR={
     NORMAL={
       HANDGUN=TppEquip.EQP_WP_West_hg_020,
-      SMG=TppEquip.EQP_WP_East_sm_030}},
+      SMG=TppEquip.EQP_WP_East_sm_030
+    }
+  },
   SKULL={
     NORMAL={
       HANDGUN=TppEquip.EQP_WP_West_hg_020,
@@ -4290,7 +4292,9 @@ function this.OnAllocateQuestFova(n)
     if mvars.ene_questGetLoadedFaceTable~=nil then
       local n=#mvars.ene_questGetLoadedFaceTable
       if mvars.ene_questBalaclavaId~=0 and n>0 then
-        e={mvars.ene_questBalaclavaId,TppDefine.QUEST_ENEMY_MAX,0}table.insert(face,e)s=true
+        e={mvars.ene_questBalaclavaId,TppDefine.QUEST_ENEMY_MAX,0}
+        table.insert(face,e)
+        s=true
       end
     end
   end
@@ -4308,7 +4312,9 @@ function this.OnAllocateQuestFova(n)
       end
     end
     if mvars.ene_questArmorId~=0 then
-      e={mvars.ene_questArmorId,TppDefine.QUEST_ENEMY_MAX,0}table.insert(body,e)o=true
+      e={mvars.ene_questArmorId,TppDefine.QUEST_ENEMY_MAX,0}
+      table.insert(body,e)
+      o=true
     end
   end
   if(n.enemyList and Tpp.IsTypeTable(n.enemyList))and next(n.enemyList)then

@@ -1825,7 +1825,7 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
 --    end
 --  else
 --    if gvars.fultonOtherVariationRange>0 then--tex
---      --DEBUGNOW TODO 
+--      --TODO 
 --    end
 --  end--
   

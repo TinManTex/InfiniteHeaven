@@ -1,9 +1,47 @@
 = Infinite heaven =
-r103 - 2015-12-10
+r106 - 2015-12-14
 by tin man tex
 For MGSV version 1.0.6.0 (1.06 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
+
+New for r106:
+Enemy prep options:
+"Apply enemy prep to guard posts"
+"Apply enemy prep to LLRP soldiers"
+
+Fulton success profile/options:
+Found in Player restrictions\Fulton success menu
+Options:
+"Disable MB fulton support" - disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.
+"Disable MB fulton medical" - disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty.
+"Target dying penalty"
+"Target sleeping penalty"
+"Target holdup penalty"
+"Dont apply MB medical to sleeping/fainted target" - lets you ballance sleeping penalty seperately from dying while keeping mb medical bonus. 
+
+Fulton profile: Heaven, 
+The extraction game mechanic in MGSV could do with an entire article, but the gist of the reasoning behind the settings I chose for the "Heaven" profile mostly revolve around soldier extraction. To promote the manual extraction actions (heli extraction, mission hotzone auto-fulton) which have a cost of player time, for a reward of a guaranteed success (providing you don't let the enemy kill them at the last second lol). Vs the quicker but possibly more dangerous fulton actions.
+Injured enemies already promote manual extraction from their success penalty.
+Sleeping or fainting enemies have no penalty in the default game, since they also make no noise above the fulton this pushes the player to use this option far too much. Heaven adds a success penalty to this state to push player to other options.
+Fultoning a held up soldier is already more risky due to their increased noise when they are fultoned, the default games success penalty on this pushes players away from this, the reduction of the penalty for this profile, combined with the sleeping penalty make it more viable.
+
+
+Extraction is a big part of the game, soldier extraction has the most actions associated with it.
+Even before we get to fulton extraction there's a number of manual extraction options:
+Heli extraction, manually transporting the target to the heli.
+Mission auto-extraction - for many missions and quests transporting the target out of the hotzone will autofulton them with 100% success.
+
+The profiles settings:
+
+Turned off both mother base bonuses and manually balanced around mid range of mb rank table, this is so the settings will remain impactful (and because I don't want to try and ballance over a wide range of values at the moment lol)
+"Target dying penalty" - mid range but a big impact, evens out to 40% fail.
+"Target sleeping penalty" - Increased from 0 to 20% fail, the main reason I started this feature. In the base game, ignoring the success rate, fultoning a sleeping/fainted enemy is the safest option, so the player will do it straight away most times.
+
+Target holdup penalty - reduced to 5.
+In the game having a held-up/awake target is already dangerous, they are noisy when being fultoned, having a success penalty on top of this promotes the easy/safer option of sleeping target too much.
+Holdup is however the fallback value so I'm giving it at least some value to keep some impact and push the player to manual extraction if they want a guaranteed success. 
+
 
 New for r102:
 Remove demon snake, in Player settings menu:
@@ -317,6 +355,33 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r106 - 2015-12-14 - public release
+ig_*.fpk/ fpkd. Initially started as copies of the respective quests I was using to get proper vehicle references for patrol vehicles, since using the quest fpks directly intereferes with quests - still not exactly sure what aspect, guessing the quest script block load given it went away when I deleted it, but tests showed the script itself wasn't loaded, so guessing the script block entity in the fox2 got engaged, don't know. 
+Stripping down the packs further revealed some troublesome issues with fox2 files relying on specifc file orders, or possibly something more.
+Fix: (due to above) vehicle patrols interfering with sideops.
+
+r105
+Fix: Reset all settings was completely broken, varable but didnt cat all instances woops.
+Options: applyPowersToOuterBase, applyPowersToLlrp.
+
+r104
+Options: allowHeavyArmorInFreeMode, allowHeavyArmorInAllMissions - currently armor has the same bug as mb armor where hits act like the armor isnt there, still same shots as non armor and no spang sounds of bullets hitting armor.
+Options:
+fultonSuccessMenu="Fulton success menu"
+fultonSuccessProfile="Fulton success profile",
+fultonSuccessSettings={"Default","Heaven","Custom"},
+fultonNoMbSupport="Disable MB fulton support",
+fultonNoMbMedical="Disable MB fulton medical",
+fultonDyingPenalty="Target dying penalty",
+fultonSleepPenalty="Target sleeping penalty",
+fultonHoldupPenalty="Target holdup penalty",
+fultonDontApplyMbMedicalToSleep="Dont apply MB medical to sleeping/fainted target",
+WIP fulton variation over time
+fultonSoldierVariationRange
+fultonOtherVariationRange
+fultonVariationInvRate
+Ivars: self.Reset->ResetSetting
+
 r103 - 2015-12-10 - public release
 Fix: Vehicle patrol all of one type loading hang - thanks mgs5tppfan for the report
 

@@ -889,16 +889,19 @@ this.applyPowersToLlrp={
 this.applyPowersToOuterBase={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
 }
 
 this.allowHeavyArmorInFreeMode={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
 }
 
 this.allowHeavyArmorInAllMissions={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
 }
 
 --<revenge stuff
