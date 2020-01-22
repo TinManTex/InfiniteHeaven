@@ -730,7 +730,7 @@ function this.GetSoldierSubType(soldierId,soldierType)
   if missionCode==10115 or missionCode==11115 then
     return"DD_PW"
   end
-  if TppMission.IsFOBMission(missionCode)or InfMain.IsDDBodyEquip(missionCode) then--tex added ismbplay
+  if TppMission.IsFOBMission(missionCode)or (missionCode==30050 and (InfMain.IsDDEquip(missionCode) or InfMain.IsDDBodyEquip(missionCode))) then--tex added ismbplay
     return"DD_FOB"
   end
   local soldierSubType=nil
@@ -791,16 +791,13 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
     for n,value in ipairs(weaponInfo)do
       local addWeapon=false
       local developedEquipType=value.developedEquipType
-
-      --DEBUGNOW-->
-      local developId=value.developId
-      local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-      local developedGrade=developedEquipGradeTable[developedEquipType]--DEBUGNOW
-      if value.isNoKill~=true then
-      --  InfMenu.DebugPrint("_CreateDDWeaponIdTable developId:"..tostring(developId).." developrank:"..tostring(developRank).." developedGrade:"..tostring(developedGrade).." soldierEquipGrade:"..tostring(soldierEquipGrade))--tex DEBUG: CULL:
-      end
-      --<
-
+--      local developId=value.developId--tex DEBUG-->
+--      local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
+--      local developedGrade=developedEquipGradeTable[developedEquipType]
+--      if value.isNoKill~=true then
+--        InfMenu.DebugPrint("_CreateDDWeaponIdTable developId:"..tostring(developId).." developrank:"..tostring(developRank).." developedGrade:"..tostring(developedGrade).." soldierEquipGrade:"..tostring(soldierEquipGrade))--tex DEBUG: CULL:
+--      end--<
+      
       if developedEquipType==nil then
         addWeapon=true
       elseif value.isNoKill and not isNoKillMode then
@@ -808,12 +805,6 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
       else
         local developId=value.developId
         local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-
-
-        local developedGrade=developedEquipGradeTable[developedEquipType]--DEBUGNOW>
-        if value.isNoKill~=true then
-        --InfMenu.DebugPrint("_CreateDDWeaponIdTable developId:"..developId.." developrank:"..developRank.." developedGrade:"..developedGrade.." soldierEquipGrade:"..soldierEquipGrade)--tex DEBUG: CULL:
-        end--<
 
         local overrideDeveloped=false--tex>
         if InfMain.IsDDEquip() then
@@ -834,13 +825,6 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
         mvars.ene_ddWeaponCount=mvars.ene_ddWeaponCount+1
         if ddWeaponNormalTable[powerType]then
         else
-          --DEBUGNOW
-          local developId=value.developId
-          local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-          local developedGrade=developedEquipGradeTable[developedEquipType]--DEBUGNOW
-          --InfMenu.DebugPrint("_CreateDDWeaponIdTable developId:"..tostring(developId).." developrank:"..tostring(developRank).." developedGrade:"..tostring(developedGrade).." soldierEquipGrade:"..tostring(soldierEquipGrade))--tex DEBUG: CULL:
-          --<
-
           ddWeaponNormalTable[powerType]=value.equipId
           if value.isNoKill then
             ddWeaponNormalTable.IS_NOKILL[powerType]=true
@@ -849,11 +833,8 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
       end
     end
   end
-
-  --DEBUGNOW
-  local ins=InfInspect.Inspect(ddWeaponIdTable)
-  InfMenu.DebugPrint(ins)
-  --<
+--  local ins=InfInspect.Inspect(ddWeaponIdTable)--tex DEBUG
+--  InfMenu.DebugPrint(ins)--<
   return ddWeaponIdTable
 end
 function this.GetDDWeaponCount()

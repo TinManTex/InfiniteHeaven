@@ -1389,7 +1389,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     end
 
 
-    if bodyInfo and not bodyInfo.hasHeadGear then --DEBUGNOW
+    if bodyInfo and not bodyInfo.hasHeadGear then
       if this.IsUseGasMaskInFOB() then
         TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
     end

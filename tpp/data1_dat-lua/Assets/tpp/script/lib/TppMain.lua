@@ -259,7 +259,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     if(vars.missionCode>6e4)then--NMC the e3/tradeshow demos I think
       TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*24}--=9338880 -- nearly 5x the max retail block size
     else
-      --TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*32}--DEBUGNOW TEST
+      --TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*32}--DEBUG TEST
       TppPlayer.SetEquipMissionBlockGroupSize()--TppDefing.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721, sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE= max 1887437 (s10054)
     end
   end

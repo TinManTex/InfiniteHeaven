@@ -83,36 +83,50 @@ function this.ClearAllVarsAndSlot()--RETAILPATCH: 1006
   end
 end--
 function this.InitializeOnStatingMainFrame()
-  local i=1024
-  local e={[TppDefine.SAVE_SLOT.GLOBAL+1]=14*i,[TppDefine.SAVE_SLOT.CHECK_POINT+1]=65*i,[TppDefine.SAVE_SLOT.RETRY+1]=11*i,[TppDefine.SAVE_SLOT.MB_MANAGEMENT+1]=80.5*i+2688,[TppDefine.SAVE_SLOT.QUEST+1]=2*i,[TppDefine.SAVE_SLOT.MISSION_START+1]=10*i,[TppDefine.SAVE_SLOT.CHECK_POINT_RESTARTABLE+1]=10*i}
+  local oneMb=1024
+  local saveSlotSizes={
+    [TppDefine.SAVE_SLOT.GLOBAL+1]=14*oneMb,
+    [TppDefine.SAVE_SLOT.CHECK_POINT+1]=65*oneMb,
+    [TppDefine.SAVE_SLOT.RETRY+1]=11*oneMb,
+    [TppDefine.SAVE_SLOT.MB_MANAGEMENT+1]=80.5*oneMb+2688,
+    [TppDefine.SAVE_SLOT.QUEST+1]=2*oneMb,
+    [TppDefine.SAVE_SLOT.MISSION_START+1]=10*oneMb,
+    [TppDefine.SAVE_SLOT.CHECK_POINT_RESTARTABLE+1]=10*oneMb
+  }
   local t={}
   local a=0
-  for n,i in ipairs(e)do
-    a=a+i
-    t[n]=i
+  for slotIndex,size in ipairs(saveSlotSizes)do
+    a=a+size
+    t[slotIndex]=size
   end
-  e[TppDefine.SAVE_SLOT.SAVING+1]=a+92
-  local n=1*i
-  local a=TppGameSequence.GetTargetPlatform()
-  if((a=="Steam"or a=="Win32")or a=="Win64")then
-    n=2*i
+  saveSlotSizes[TppDefine.SAVE_SLOT.SAVING+1]=a+92
+  local n=1*oneMb
+  local platform=TppGameSequence.GetTargetPlatform()
+  if((platform=="Steam"or platform=="Win32")or platform=="Win64")then
+    n=2*oneMb
   end
-  e[TppDefine.SAVE_SLOT.CONFIG+1]=n
-  e[TppDefine.SAVE_SLOT.CONFIG_SAVE+1]=e[TppDefine.SAVE_SLOT.CONFIG+1]
-  local a=3*i
-  e[TppDefine.SAVE_SLOT.PERSONAL+1]=a
-  e[TppDefine.SAVE_SLOT.PERSONAL_SAVE+1]=a
+  saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG+1]=n
+  saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG_SAVE+1]=saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG+1]
+  local a=3*oneMb
+  saveSlotSizes[TppDefine.SAVE_SLOT.PERSONAL+1]=a
+  saveSlotSizes[TppDefine.SAVE_SLOT.PERSONAL_SAVE+1]=a
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    local i=16*i
-    e[TppDefine.SAVE_SLOT.MGO+1]=i
-    e[TppDefine.SAVE_SLOT.MGO_SAVE+1]=i
+    local i=16*oneMb
+    saveSlotSizes[TppDefine.SAVE_SLOT.MGO+1]=i
+    saveSlotSizes[TppDefine.SAVE_SLOT.MGO_SAVE+1]=i
   end
   Tpp.DEBUG_DumpTable(t)
-  Tpp.DEBUG_DumpTable(e)
-  TppScriptVars.CreateSaveSlot(e)
+  Tpp.DEBUG_DumpTable(saveSlotSizes)
+  TppScriptVars.CreateSaveSlot(saveSlotSizes)
   TppSave.RegistCompositSlotSize(t)
   TppSave.SetUpCompositSlot()
-  TppScriptVars.SetFileSizeList{{TppSave.GetGameSaveFileName(),e[TppDefine.SAVE_SLOT.SAVING+1]},{TppDefine.CONFIG_SAVE_FILE_NAME,e[TppDefine.SAVE_SLOT.CONFIG+1]},{TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,e[TppDefine.SAVE_SLOT.PERSONAL+1]},{TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,e[TppDefine.SAVE_SLOT.PERSONAL+1]},{"MGO_GAME_DATA",16*i}}
+  TppScriptVars.SetFileSizeList{
+    {TppSave.GetGameSaveFileName(),saveSlotSizes[TppDefine.SAVE_SLOT.SAVING+1]},
+    {TppDefine.CONFIG_SAVE_FILE_NAME,saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG+1]},
+    {TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,saveSlotSizes[TppDefine.SAVE_SLOT.PERSONAL+1]},
+    {TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,saveSlotSizes[TppDefine.SAVE_SLOT.PERSONAL+1]},
+    {"MGO_GAME_DATA",16*oneMb}
+  }
 end
 function this.InitializeOnNewGameAtFirstTime()
   vars.locationCode=TppDefine.LOCATION_ID.CYPR
@@ -196,7 +210,7 @@ function this.InitializeForNewMission(missionTable)
   if missionTable.sequence then
     TppPlayer.InitItemStockCount()
   end
-  Player.ResetVarsOnMissionStart() 
+  Player.ResetVarsOnMissionStart()
   TppPlayer.SetSelfSubsistenceOnHardMission()
   TppPlayer.RestoreChimeraWeaponParameter()
   if missionTable.sequence and IsTable(missionTable.sequence.playerInitialWeaponTable)then

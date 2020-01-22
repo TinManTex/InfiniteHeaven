@@ -921,16 +921,16 @@ function this._StartGameOverCamera(e,e)
 end
 function this.PrepareStartGameOverCamera()
   FadeFunction.ResetFadeColor()
-  local e={}
-  for a,t in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-    e[a]=false
+  local exceptGameStatus={}
+  for gameStatusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+    exceptGameStatus[gameStatusName]=false
   end
-  for a,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-    e[a]=false
+  for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+    exceptGameStatus[uiName]=false
   end
-  e.S_DISABLE_NPC=nil
-  e.AnnounceLog=nil
-  TppUI.FadeIn(TppUI.FADE_SPEED.FADE_HIGHESTSPEED,nil,nil,{exceptGameStatus=e})
+  exceptGameStatus.S_DISABLE_NPC=nil
+  exceptGameStatus.AnnounceLog=nil
+  TppUI.FadeIn(TppUI.FADE_SPEED.FADE_HIGHESTSPEED,nil,nil,{exceptGameStatus=exceptGameStatus})
   Player.RequestToStopCameraAnimation{}
   if mvars.ply_gameOverCameraAnnounceLog then
     TppUiStatusManager.ClearStatus"AnnounceLog"

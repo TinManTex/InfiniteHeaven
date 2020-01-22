@@ -100,50 +100,53 @@ function this.DEBUG_GetSysVarsLog()
     "svars.scoreTime = "..tostring(a.scoreTime)}
   return e
 end
-function this.DEBUG_WarpHelicopter(i,o,s,r,n)
+function this.DEBUG_WarpHelicopter(RENHeliName,route,position,point,n)
   if not IsTypeTable(soldierNameTable)then
     soldierNameTable={soldierNameTable}
   end
-  local t=GameObject.GetGameObjectId
-  local e=GameObject.SendCommand
-  if not r then
-    r=0
+  local GetGameObjectId=GameObject.GetGameObjectId
+  local SendCommand=GameObject.SendCommand
+  if not point then
+    point=0
   end
   for s,a in pairs(soldierNameTable)do
-    local a=t(a)
-    e(a,{id="SetEnabled",enabled=false})
-    e(a,{id="SetSneakRoute",route=o,point=r})e(a,{id="SetCautionRoute",route=o,point=r})
+    local a=GetGameObjectId(a)
+    SendCommand(a,{id="SetEnabled",enabled=false})
+    SendCommand(a,{id="SetSneakRoute",route=route,point=point})
+    SendCommand(a,{id="SetCautionRoute",route=route,point=point})
     if n then
-      e(a,{id="SetAlertRoute",enabled=true,route=o,point=r})
+      SendCommand(a,{id="SetAlertRoute",enabled=true,route=route,point=point})
     else
-      e(a,{id="SetAlertRoute",enabled=false,route="",point=r})
+      SendCommand(a,{id="SetAlertRoute",enabled=false,route="",point=point})
     end
-    e(a,{id="SetEnabled",enabled=true})
+    SendCommand(a,{id="SetEnabled",enabled=true})
   end
-  local a=t(i)
-  e(a,{id="SetPosition",position=s,rotY=0})
+  local a=GetGameObjectId(RENHeliName)
+  SendCommand(a,{id="SetPosition",position=position,rotY=0})
 end
-function this.DEBUG_WarpVehicleAndSoldier(o,s,n,i,r,l)
-  if not IsTypeTable(o)then
-    o={o}
+function this.DEBUG_WarpVehicleAndSoldier(RENsoldierNameTable,RENvehiclename,route,position,point,l)
+  if not IsTypeTable(RENsoldierNameTable)then
+    RENsoldierNameTable={RENsoldierNameTable}
   end
-  local t=GameObject.GetGameObjectId
-  local e=GameObject.SendCommand
-  if not r then
-    r=0
+  local GetGameObjectId=GameObject.GetGameObjectId
+  local SendCommand=GameObject.SendCommand
+  if not point then
+    point=0
   end
-  for o,a in pairs(o)do
-    local a=t(a)
-    e(a,{id="SetEnabled",enabled=false})
-    e(a,{id="SetSneakRoute",route=n,point=r})e(a,{id="SetCautionRoute",route=n,point=r})
+  for o,a in pairs(RENsoldierNameTable)do
+    local a=GetGameObjectId(a)
+    SendCommand(a,{id="SetEnabled",enabled=false})
+    SendCommand(a,{id="SetSneakRoute",route=route,point=point})
+    SendCommand(a,{id="SetCautionRoute",route=route,point=point})
     if l then
-      e(a,{id="SetAlertRoute",enabled=true,route=n,point=r})
+      SendCommand(a,{id="SetAlertRoute",enabled=true,route=route,point=point})
     else
-      e(a,{id="SetAlertRoute",enabled=false,route="",point=r})
+      SendCommand(a,{id="SetAlertRoute",enabled=false,route="",point=point})
     end
-    e(a,{id="SetEnabled",enabled=true})
+    SendCommand(a,{id="SetEnabled",enabled=true})
   end
-  local r=t(s)e(r,{id="SetPosition",position=i,rotY=0})
+  local r=GetGameObjectId(RENvehiclename)
+  SendCommand(r,{id="SetPosition",position=position,rotY=0})
 end
 this.DEBUG_SkipOnChangeSVarsLog={timeLimitforSneaking=true,timeLimitforNonAbort=true}
 function this.DEBUG_AddSkipLogSVarsName(e)
@@ -271,7 +274,7 @@ function this.DEBUG_SetFobPlayerSneak()
   vars.handEquip=TppEquip.EQP_HAND_KILL_ROCKET
   vars.playerFaceEquipId=1
   vars.itemLevels[TppEquip.EQP_SUIT-TppEquip.EQP_IT_InstantStealth]=1
-  local e={
+  local chimeraInfo={
     {
       equipId=TppEquip.EQP_WP_30105,
       partsInfo={
@@ -315,7 +318,7 @@ function this.DEBUG_SetFobPlayerSneak()
       }
     }
   }
-  GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeChimeraWeapon",chimeraInfo=e})
+  GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeChimeraWeapon",chimeraInfo=chimeraInfo})
   GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId=TppEquip.EQP_HAND_KILL_ROCKET})
 end
 function this.DEBUG_SetFobPlayerDefence()
@@ -402,8 +405,47 @@ function this.DEBUG_SetFobPlayerDefence()
   vars.handEquip=TppEquip.EQP_HAND_KILL_ROCKET
   vars.playerFaceEquipId=1
   vars.itemLevels[TppEquip.EQP_SUIT-TppEquip.EQP_IT_InstantStealth]=1
-  local e={{equipId=TppEquip.EQP_WP_30235,partsInfo={barrel=TppEquip.BA_30214,ammo=TppEquip.AM_30232,stock=TppEquip.SK_30205,muzzle=TppEquip.MZ_30232,muzzleOption=TppEquip.MO_30235,rearSight=TppEquip.ST_30202,frontSight=TppEquip.ST_30114,option1=TppEquip.LT_40103,option2=TppEquip.LS_30104,underBarrel=TppEquip.UB_50002,underBarrelAmmo=TppEquip.AM_50002}},{equipId=TppEquip.EQP_WP_60317,partsInfo={barrel=TppEquip.BA_30044,ammo=TppEquip.AM_30102,stock=TppEquip.SK_60205,muzzle=TppEquip.MZ_30213,muzzleOption=TppEquip.MO_30105,rearSight=TppEquip.ST_50303,option1=TppEquip.LT_30025,option2=TppEquip.LS_30104,underBarrel=TppEquip.UB_40043,underBarrelAmmo=TppEquip.AM_40001}},{equipId=TppEquip.EQP_WP_20215,partsInfo={ammo=TppEquip.AM_20106,stock=TppEquip.SK_20216,muzzleOption=TppEquip.MO_20205,rearSight=TppEquip.ST_60102,option1=TppEquip.LS_10415}}}
-  GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeChimeraWeapon",chimeraInfo=e})
+  local chimeraInfo={
+    {
+      equipId=TppEquip.EQP_WP_30235,
+      partsInfo={barrel=TppEquip.BA_30214,
+        ammo=TppEquip.AM_30232,
+        stock=TppEquip.SK_30205,
+        muzzle=TppEquip.MZ_30232,
+        muzzleOption=TppEquip.MO_30235,
+        rearSight=TppEquip.ST_30202,
+        frontSight=TppEquip.ST_30114,
+        option1=TppEquip.LT_40103,
+        option2=TppEquip.LS_30104,
+        underBarrel=TppEquip.UB_50002,
+        underBarrelAmmo=TppEquip.AM_50002
+      }
+    },
+    {
+      equipId=TppEquip.EQP_WP_60317,
+      partsInfo={barrel=TppEquip.BA_30044,
+        ammo=TppEquip.AM_30102,
+        stock=TppEquip.SK_60205,
+        muzzle=TppEquip.MZ_30213,
+        muzzleOption=TppEquip.MO_30105,
+        rearSight=TppEquip.ST_50303,
+        option1=TppEquip.LT_30025,
+        option2=TppEquip.LS_30104,
+        underBarrel=TppEquip.UB_40043,
+        underBarrelAmmo=TppEquip.AM_40001
+      }
+    },
+    {
+      equipId=TppEquip.EQP_WP_20215,
+      partsInfo={ammo=TppEquip.AM_20106,
+        stock=TppEquip.SK_20216,
+        muzzleOption=TppEquip.MO_20205,
+        rearSight=TppEquip.ST_60102,
+        option1=TppEquip.LS_10415
+      }
+    }
+  }
+  GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeChimeraWeapon",chimeraInfo=chimeraInfo})
   GameObject.SendCommand({type="TppPlayer2",index=PlayerInfo.GetLocalPlayerIndex()},{id="DEBUG_ChangeEquip",equipId=TppEquip.EQP_HAND_KILL_ROCKET})
 end
 function this.QARELEASE_DEBUG_Init()
@@ -451,7 +493,8 @@ function this.QAReleaseDebugUpdate()
     TppMission.UpdateCheckPoint{ignoreAlert=true,atCurrentPosition=true}
   end
   if gvars.DEBUG_showSysVars then
-    local a=this.DEBUG_GetSysVarsLog()Print(newContext,{.5,.5,1},"LuaSystem showSysVars")
+    local a=this.DEBUG_GetSysVarsLog()
+    Print(newContext,{.5,.5,1},"LuaSystem showSysVars")
     for o,a in ipairs(a)do
       Print(newContext,a)
     end
@@ -467,10 +510,10 @@ function this.QAReleaseDebugUpdate()
   if gvars.DEBUG_showGameStatus then
     Print(newContext,"")
     Print(newContext,{.5,.5,1},"LuaSystem gameStatus")
-    for a,o in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      local o=TppGameStatus.IsSet("TppMain.lua",a)
-      if o then
-        Print(newContext," statusType = "..(tostring(a)..(", IsSet = "..tostring(o))))
+    for gameStatusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+      local isSet=TppGameStatus.IsSet("TppMain.lua",gameStatusName)
+      if isSet then
+        Print(newContext," statusType = "..(tostring(gameStatusName)..(", IsSet = "..tostring(isSet))))
       end
     end
     local a=TppGameStatus.IsSet("TppMain.lua","S_IS_BLACK_LOADING")
@@ -551,7 +594,8 @@ function this.QAReleaseDebugUpdate()
       if s then
         local o=mvars.qaDebug.debugEventTaskTextTable and mvars.qaDebug.debugEventTaskTextTable[s]
         if not o then
-          o="threshold is"end
+          o="threshold is"
+          end
         Print(newContext,string.format("   Task %1d : [%s] %s %06.2f : ( Current %06.2f )",a,n,o,t[a].threshold,FobUI.GetCurrentEventTaskValue(a,i)))
       end
     end
@@ -618,17 +662,17 @@ function this.DEBUG_Init()
   mvars.debug.showWeaponSelect=false;(nil).AddDebugMenu("LuaWeapon","showWeaponSelect","bool",mvars.debug,"showWeaponSelect")
   mvars.debug.weaponCategory=1;(nil).AddDebugMenu("LuaWeapon","category","int32",mvars.debug,"weaponCategory")
   mvars.debug.weaponCategoryList={
-  {"Develop:Hundgan",8,{"EQP_WP_1"}},
-  {"Develop:Submachingun",8,{"EQP_WP_2"}},
-  {"Develop:AssaultRifle",8,{"EQP_WP_3"}},
-  {"Develop:Shotgun",8,{"EQP_WP_4"}},
-  {"Develop:Granader",8,{"EQP_WP_5"}},
-  {"Develop:SniperRifle",8,{"EQP_WP_6"}},
-  {"Develop:MachineGun",8,{"EQP_WP_7"}},
-  {"Develop:Missile",8,{"EQP_WP_8"}},
-  {"EnemyWeapon",8,{"EQP_WP_W","EQP_WP_E","EQP_WP_Q","EQP_WP_C"}},
-  {"SupportWeapon",7,{"EQP_SWP"}},
-  {"Equipment",7,{"EQP_IT_"}}
+    {"Develop:Hundgan",8,{"EQP_WP_1"}},
+    {"Develop:Submachingun",8,{"EQP_WP_2"}},
+    {"Develop:AssaultRifle",8,{"EQP_WP_3"}},
+    {"Develop:Shotgun",8,{"EQP_WP_4"}},
+    {"Develop:Granader",8,{"EQP_WP_5"}},
+    {"Develop:SniperRifle",8,{"EQP_WP_6"}},
+    {"Develop:MachineGun",8,{"EQP_WP_7"}},
+    {"Develop:Missile",8,{"EQP_WP_8"}},
+    {"EnemyWeapon",8,{"EQP_WP_W","EQP_WP_E","EQP_WP_Q","EQP_WP_C"}},
+    {"SupportWeapon",7,{"EQP_SWP"}},
+    {"Equipment",7,{"EQP_IT_"}}
   }
   mvars.debug.selectedWeaponId=0;(nil).AddDebugMenu("LuaWeapon","weaponSelect","int32",mvars.debug,"selectedWeaponId")
   mvars.debug.enableWeaponChange=false;(nil).AddDebugMenu("LuaWeapon","enableWeaponChange","bool",mvars.debug,"enableWeaponChange")
@@ -686,16 +730,22 @@ function this.DebugUpdate()
     Print(newContext,{.5,.5,1},"LuaMission MIS.missionArea")
     local a
     if mvars.mis_isOutsideOfMissionArea then
-      a="Outside"else
-      a="Inside"end
+      a="Outside"
+      else
+      a="Inside"
+      end
     Print(newContext,"outerZone : "..a)
     if mvars.mis_isAlertOutOfMissionArea then
-      a="Outside"else
-      a="Inside"end
+      a="Outside"
+      else
+      a="Inside"
+      end
     Print(newContext,"innerZone : "..a)
     if mvars.mis_isOutsideOfHotZone then
-      a="Outside"else
-      a="Inside"end
+      a="Outside"
+      else
+      a="Inside"
+      end
     Print(newContext,"hotZone : "..a)
     Print(newContext,"hotZone clear check : isNotAlert = "..(tostring(mvars.debug.notHotZone_isNotAlert)..(", isPlayerStatusNormal = "..(tostring(mvars.debug.notHotZone_isPlayerStatusNormal)..(", isNotHelicopter = "..tostring(mvars.debug.notHotZone_isNotHelicopter))))))
     Print(newContext,"Mission clear timer: "..tostring(IsTimerActive"Timer_OutsideOfHotZoneCount"))

@@ -266,7 +266,7 @@ this.playerHealthScale={
   end,
 }
 --motherbase>
-this.enableMbDDEquip={--DEBUGNOW addlang
+this.enableMbDDEquip={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -281,7 +281,7 @@ MinMaxIvar(
   }
 )
 
-this.allowUndevelopedDDEquip={--DEBUGNOW addlang
+this.allowUndevelopedDDEquip={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -289,7 +289,7 @@ this.allowUndevelopedDDEquip={--DEBUGNOW addlang
 
 this.mbSoldierEquipRange={
   save=MISSION,
-  settings={"DEFAULT","SHORT","MEDIUM","LONG","RANDOM"},
+  settings={"SHORT","MEDIUM","LONG","RANDOM"},
   settingNames="set_dd_equip_range",
 }
 
@@ -341,6 +341,29 @@ this.mbSelectedDemo={
   range={max=#TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST-1},
   settingNames=TppDefine.MB_FREEPLAY_DEMO_PRIORITY_LIST,
 }
+
+this.mbDemoOverrideTime={
+  save=MISSION,
+  settings={"DEFAULT","CURRENT","CUSTOM"},
+  settingNames="mbDemoOverrideTimeSettings",
+}
+
+this.mbDemoHour={
+  save=MISSION,
+  range={min=0,max=23},
+}
+
+this.mbDemoMinute={
+  save=MISSION,
+  range={min=0,max=59},
+}
+
+this.mbDemoOverrideWeather={
+  save=MISSION,
+  settings={"DEFAULT","CURRENT","SUNNY","CLOUDY","RAINY","SANDSTORM","FOGGY","POURING"},
+  settingNames="mbDemoOverrideWeatherSettings",
+}
+
 
 --patchup
 this.langOverride={
@@ -435,7 +458,7 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(1,true)
 
       Ivars.abortMenuItemControl:Set(1,true)
-      Ivars.phaseUpdate:Set(0,true)
+      --DEBUGNOW Ivars.maxPhase:Reset()
 
       Ivars.fultonLevelProfile:Set(1,true)
     end,
@@ -470,7 +493,7 @@ this.subsistenceProfile={
       Ivars.disableSupportMenu:Set(1,true)
 
       Ivars.abortMenuItemControl:Set(0,true)
-      Ivars.phaseUpdate:Set(0,true)
+      --DEBUGNOW Ivars.maxPhase:Reset()
 
       Ivars.fultonLevelProfile:Set(1,true)
     end,
@@ -918,7 +941,7 @@ this.tertiaryWeaponOsp={
 -- revenge/enemy prep stuff>
 this.revengeMode={
   save=MISSION,
-  settings={"DEFAULT","CUSTOM"},--"MAX","CUSTOM"},--CULL
+  settings={"DEFAULT","CUSTOM"},
   settingNames="revengeModeSettings",
   IsCheck=function(self)
     if TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode) then
@@ -933,10 +956,25 @@ this.revengeMode={
 
 this.revengeModeForMissions={
   save=MISSION,
-  settings={"DEFAULT","CUSTOM"},--"MAX","CUSTOM"},
+  settings={"DEFAULT","CUSTOM"},
   settingNames="revengeModeSettings",
   IsCheck=function(self)
     if TppMission.IsStoryMission(vars.missionCode) then
+      return true
+    end
+    return false
+  end,
+  OnChange=function()
+    TppRevenge._SetUiParameters()
+  end,
+}
+
+this.revengeModeForMb={
+  save=MISSION,
+  settings={"OFF","FOB","DEFAULT","CUSTOM"},--DEFAULT = normal enemy prep system (which isn't usually used for MB)
+  settingNames="revengeModeForMbSettings",
+  IsCheck=function(self)
+    if TppMission.IsMbFreeMissions(vars.missionCode) then
       return true
     end
     return false
@@ -955,7 +993,7 @@ this.revengeProfile={
       Ivars.revengeBlockForMissionCount:Set(3,true)
       Ivars.applyPowersToLrrp:Set(0,true)
       Ivars.applyPowersToOuterBase:Set(0,true)
-      Ivars.allowHeavyArmorInFreeMode:Set(0,true)
+      Ivars.allowHeavyArmorInFreeRoam:Set(0,true)
       Ivars.allowHeavyArmorInAllMissions:Set(0,true)
       Ivars.allowLrrpArmorInFree:Set(0,true)
       Ivars.allowHeadGearCombo:Set(0,true)
@@ -975,7 +1013,7 @@ this.revengeProfile={
       Ivars.revengeBlockForMissionCount:Set(4,true)
       Ivars.applyPowersToLrrp:Set(1,true)
       Ivars.applyPowersToOuterBase:Set(1,true)
-      Ivars.allowHeavyArmorInFreeMode:Set(0,true)
+      Ivars.allowHeavyArmorInFreeRoam:Set(0,true)
       Ivars.allowHeavyArmorInAllMissions:Set(0,true)
       Ivars.allowLrrpArmorInFree:Set(0,true)
       Ivars.allowHeadGearCombo:Set(1,true)
@@ -1004,7 +1042,7 @@ this.revengeBlockForMissionCount={
   profile=this.revengeProfile,
 }
 
-this.disableNoRevengeMissions={--DEBUGNOW WIP
+this.disableNoRevengeMissions={--WIP
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -1025,7 +1063,7 @@ this.applyPowersToOuterBase={
   profile=this.revengeProfile,
 }
 
-this.allowHeavyArmorInFreeMode={
+this.allowHeavyArmorInFreeRoam={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -1458,7 +1496,7 @@ this.enableHeliReinforce={--tex chance of heli being chosen for a rienforce, als
   end,
 }
 
-this.enableSoldiersWithVehicleReinforce={--DEBUGNOW
+this.enableSoldiersWithVehicleReinforce={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -2628,7 +2666,7 @@ function this.Init(missionTable)
   end
 end
 
-this.varTable={}--tex WIP DEBUGNOW changed from local to function so I can run some debug tests, revert to save some memory
+this.varTable={}--tex DEBUG changed from local to function so I can run some debug tests, revert to save some memory
 function this.DeclareVars()
   local varTable=this.varTable
   --varTable={

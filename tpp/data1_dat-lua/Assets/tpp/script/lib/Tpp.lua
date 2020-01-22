@@ -356,11 +356,11 @@ function this.SetGameStatus(status)
   end
   if target=="all"then
     target={}
-    for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      target[n]=t
+    for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+      target[uiName]=statusType
     end
-    for t,n in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      target[t]=n
+    for gameStatusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+      target[gameStatusName]=statusType
     end
   elseif IsTypeTable(target)then
     target=target
@@ -373,48 +373,52 @@ function this.SetGameStatus(status)
     end
   end
   if enable then
-    for n,l in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      if target[n]then
-        TppGameStatus.Reset(scriptName,n)
+    for gameStatusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+      if target[gameStatusName]then
+        TppGameStatus.Reset(scriptName,gameStatusName)
       end
     end
-    for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      local t=target[n]
+    for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do    
+      local t=target[uiName]
       local unsetUiSetting=mvars.ui_unsetUiSetting
-      if IsTypeTable(unsetUiSetting)and unsetUiSetting[n]then
-        TppUiStatusManager.UnsetStatus(n,unsetUiSetting[n])
+      if Ivars.disableHeadMarkers:Is(1) and uiName=="HeadMarker" then--tex> bit of a kludge implementation, but lua doesnt support continue in for loops--DEBUGNOW TEST
+        --t=nil
+        --unsetUiSetting=nil
+      end--<
+      if IsTypeTable(unsetUiSetting)and unsetUiSetting[uiName]then
+        TppUiStatusManager.UnsetStatus(uiName,unsetUiSetting[uiName])
       else
         if t then
-          TppUiStatusManager.ClearStatus(n)
+          TppUiStatusManager.ClearStatus(uiName)
         end
       end
     end
   else
-    for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      local e=target[n]
+    for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+      local e=target[uiName]
       if e then
-        TppUiStatusManager.SetStatus(n,e)
+        TppUiStatusManager.SetStatus(uiName,e)
       else
-        TppUiStatusManager.ClearStatus(n)
+        TppUiStatusManager.ClearStatus(uiName)
       end
     end
-    for n,l in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-      local e=target[n]
+    for gameStatusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+      local e=target[gameStatusName]
       if e then
-        TppGameStatus.Set(scriptName,n)
+        TppGameStatus.Set(scriptName,gameStatusName)
       end
     end
   end
 end
 function this.GetAllDisableGameStatusTable()
-  local e={}
-  for n,t in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-    e[n]=false
+  local statusTable={}
+  for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+    statusTable[uiName]=false
   end
-  for n,t in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-    e[n]=false
+  for gameStatusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+    statusTable[gameStatusName]=false
   end
-  return e
+  return statusTable
 end
 function this.GetHelicopterStartExceptGameStatus()
   local status={}

@@ -51,15 +51,15 @@ function this.Play(demoFlags)
 end
 this.CommonDoMessage={}
 function this.CommonDoMessage.onStart()
-  local e={}
-  for n,o in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-    e[n]=false
+  local exceptGameStatus={}
+  for gameStatusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+    exceptGameStatus[gameStatusName]=false
   end
-  for n,o in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-    e[n]=false
+  for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+    exceptGameStatus[uiName]=false
   end
-  e.PauseMenu=nil
-  TppUI.FadeIn(TppUI.FADE_SPEED.FADE_MOMENT,"FadeInForMovieStart",nil,{exceptGameStatus=e})
+  exceptGameStatus.PauseMenu=nil
+  TppUI.FadeIn(TppUI.FADE_SPEED.FADE_MOMENT,"FadeInForMovieStart",nil,{exceptGameStatus=exceptGameStatus})
   TppUiStatusManager.ClearStatus"PauseMenu"Player.SetPause()
 end
 function this.CommonDoMessage.onEnd()

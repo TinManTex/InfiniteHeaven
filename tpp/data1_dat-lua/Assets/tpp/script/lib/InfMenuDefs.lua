@@ -58,12 +58,22 @@ this.motherBaseShowAssetsMenu={
   }
 }
 
-this.motherBaseMenu={
-  options={
+this.dDEquipMenu={
+  options={    
     Ivars.enableMbDDEquip,
+    Ivars.enableEnemyDDEquip,
     Ivars.mbSoldierEquipGrade_MIN,
     Ivars.mbSoldierEquipGrade_MAX,
     Ivars.allowUndevelopedDDEquip,
+    InfMenuCommands.resetSettingsItem,
+    InfMenuCommands.goBackItem,
+  }
+}
+
+this.motherBaseMenu={
+  options={
+    Ivars.revengeModeForMb,
+    this.dDEquipMenu,
     Ivars.mbSoldierEquipRange,
     Ivars.mbDDSuit,
     Ivars.mbDDHeadGear,
@@ -81,20 +91,16 @@ this.demosMenu={
     Ivars.useSoldierForDemos,
     Ivars.mbDemoSelection,
     Ivars.mbSelectedDemo,
+    Ivars.mbDemoOverrideTime,
+    Ivars.mbDemoHour,
+    Ivars.mbDemoMinute,
+    Ivars.mbDemoOverrideWeather,
     Ivars.mbDontDemoDisableOcelot,
     --Ivars.mbDontDemoDisableBuddy,--WIP
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
 }
-
---this.missionEntryExitMenu={
---    Ivars.telopMode,
---    Ivars.startOnFoot,
---    Ivars.abortMenuItemControl,
---    InfMenuCommands.resetSettingsItem,
---    InfMenuCommands.goBackItem,
---}
 
 this.patchupMenu={
   options={
@@ -178,7 +184,7 @@ this.revengeSystemMenu={
     Ivars.revengeBlockForMissionCount,
     Ivars.applyPowersToOuterBase,
     Ivars.applyPowersToLrrp,
-    Ivars.allowHeavyArmorInFreeMode,
+    Ivars.allowHeavyArmorInFreeRoam,
     Ivars.allowHeavyArmorInAllMissions,
     Ivars.disableMissionsWeaponRestriction,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP TODO
@@ -240,8 +246,6 @@ table.insert(menuOptions,InfMenuCommands.goBackItem)
 
 this.revengeCustomMenu={
   options={
-    Ivars.revengeMode,
-    Ivars.revengeModeForMissions,
   }
 }
 local revengeMenu=this.revengeCustomMenu.options
@@ -262,23 +266,14 @@ table.insert(revengeMenu,Ivars.revengeIgnoreBlocked_MAX)
 table.insert(revengeMenu,InfMenuCommands.resetSettingsItem)
 table.insert(revengeMenu,InfMenuCommands.goBackItem)
 
-
-this.enemyDDEquipMenu={
-  options={    
-    Ivars.enableEnemyDDEquip,
-    Ivars.mbSoldierEquipGrade_MIN,
-    Ivars.mbSoldierEquipGrade_MAX,
-    Ivars.allowUndevelopedDDEquip,
-    InfMenuCommands.resetSettingsItem,
-    InfMenuCommands.goBackItem,
-  }
-}
-
 this.revengeMenu={
   options={
+    Ivars.revengeMode,
+    Ivars.revengeModeForMissions,
+    Ivars.revengeModeForMb,
     this.revengeCustomMenu,
     this.revengeSystemMenu,
-    this.enemyDDEquipMenu,
+    this.dDEquipMenu,
     InfMenuCommands.resetRevenge,
     Ivars.changeCpSubTypeFree,
     Ivars.changeCpSubTypeForMissions,
@@ -354,7 +349,7 @@ this.phaseMenu={
   },
   disabled=false,
   disabledReason="item_disabled_subsistence",
-  OnSelect=Ivars.DisableOnSubsistence,
+  --DEBUGNOW OnSelect=Ivars.DisableOnSubsistence,
 }
 
 this.supportHeliMenu={

@@ -32,7 +32,7 @@ function this.ForceArmor(missionCode)
   if Ivars.allowHeavyArmorInAllMissions:Is(1) and not TppMission.IsFreeMission(missionCode) then
     return true
   end
-  if Ivars.allowHeavyArmorInFreeMode:Is()>0 and TppMission.IsFreeMission(missionCode) then--DEBUG allowHeavyArmorInFreeMode actiting as armor limit for debug
+  if Ivars.allowHeavyArmorInFreeRoam:Is()>0 and TppMission.IsFreeMission(missionCode) then--DEBUG allowHeavyArmorInFreeRoam actiting as armor limit for debug
     return true
   end
   if Ivars.allowLrrpArmorInFree:Is(1) and TppMission.IsFreeMission(missionCode) then
@@ -421,8 +421,8 @@ function this.GetMbsClusterSecuritySoldierEquipRange(missionId)
   if this.IsDDEquip(missionCode) then
     if Ivars.mbSoldierEquipRange:Is"RANDOM" then
       return math.random(0,2)--REF:{ "FOB_ShortRange", "FOB_MiddleRange", "FOB_LongRange", }, but range index from 0
-    elseif Ivars.mbSoldierEquipRange:Is()>0 then
-      return Ivars.mbSoldierEquipRange:Get()-1
+    else
+      return Ivars.mbSoldierEquipRange:Get()
     end
   end
   return TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipRange()

@@ -358,6 +358,9 @@ function this.IsNoRevengeMission(missionCode)
   if missionCode==nil then
     return false
   end
+  if Ivars.revengeModeForMb:Is()>Ivars.revengeModeForMb.enum.FOB then--tex
+    return false
+  end--<
   local e=this.NO_REVENGE_MISSION_LIST[missionCode]
   if e==nil then
     return false
@@ -909,7 +912,7 @@ function this._GetUiParameterValue(revengeLevel)
   return 0
 end
 function this._SetUiParameters()
-  local doCustom=Ivars.revengeMode:Is"CUSTOM" or Ivars.revengeModeForMissions:Is"CUSTOM"--tex>
+  local doCustom=Ivars.revengeMode:Is"CUSTOM" or Ivars.revengeModeForMissions:Is"CUSTOM" or Ivars.revengeModeForMb:Is"CUSTOM"--tex>
   if doCustom then
     InfMain.SetCustomRevengeUiParameters()
     return
@@ -1257,7 +1260,7 @@ function this._CreateRevengeConfig(revengeTypes)
   end
 
   --tex>customrevengeconfig
-  local doCustom=Ivars.revengeMode:Is"CUSTOM" or Ivars.revengeModeForMissions:Is"CUSTOM"
+  local doCustom=Ivars.revengeMode:Is"CUSTOM" or Ivars.revengeModeForMissions:Is"CUSTOM" or Ivars.revengeModeForMb:Is"CUSTOM"
   if doCustom then
     revengeConfig=InfMain.CreateCustomRevengeConfig()
   --<
@@ -1854,14 +1857,25 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
 
   --tex> rerun CreateCpConfig without headgear restrictions
   if (Ivars.allowHeadGearCombo:Is(1) and sumBalance>Ivars.allowHeadGearCombo.allowHeadGearComboThreshold) then
-    local headGearComboExclusions={
-      HELMET={"ARMOR"},
-      GAS_MASK={"ARMOR","NVG"},
-      NVG={"ARMOR","GAS_MASK"},
-    }
-    for powerType,excludeList in pairs(headGearComboExclusions) do
-      powerComboExclusionList[powerType]=excludeList
-    end
+      if vars.missionCode~=30050 then
+        local headGearComboExclusions={
+          HELMET={"ARMOR"},
+          GAS_MASK={"ARMOR","NVG"},
+          NVG={"ARMOR","GAS_MASK"},
+        }
+        for powerType,excludeList in pairs(headGearComboExclusions) do
+          powerComboExclusionList[powerType]=excludeList
+        end
+      else
+        local headGearComboExclusionsDD={
+          HELMET={"ARMOR"},
+          GAS_MASK={"ARMOR"},
+          NVG={"ARMOR"},
+        }
+        for powerType,excludeList in pairs(headGearComboExclusionsDD) do
+          powerComboExclusionList[powerType]=excludeList
+        end
+      end
 
     local gearConfigFlags={
       HEADGEAR_COMBO=true

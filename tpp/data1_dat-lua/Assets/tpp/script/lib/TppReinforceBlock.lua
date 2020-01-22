@@ -244,7 +244,7 @@ end
 function this.ReinforceBlockOnTerminate()
 end
 function this._HasSoldier()
-  if Ivars.enableSoldiersWithVehicleReinforce:Is(1) then--tex> DEBUGNOW
+  if Ivars.enableSoldiersWithVehicleReinforce:Is(1) then--tex>
     return true
   end--<
 

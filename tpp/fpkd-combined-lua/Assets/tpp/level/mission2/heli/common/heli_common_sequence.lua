@@ -1216,7 +1216,7 @@ sequences.Seq_Game_MainGame = {
 			TppUiStatusManager.SetStatus( "ResourcePanel", "SHOW_IN_HELI" )
 		end
 		
-		InfMenu.ModWelcome()--tex TODO: a better place?--DEBUGNOW
+		InfMenu.ModWelcome()--tex TODO: a better place?
 	end,
 	
 	OnLeave = function( self, nextSequenceName )

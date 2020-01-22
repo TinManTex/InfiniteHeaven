@@ -727,6 +727,11 @@ function this.PlayMtbsEventDemo(params)
     DemoOnEnter=demoOptions.OnEnter
     DemoOnEnd=demoOptions.OnEnd
     weather=demoOptions.weather
+    if Ivars.mbDemoOverrideWeather:Is"CURRENT" then--tex>--DEBUGNOW
+      weather=nil
+    elseif Ivars.mbDemoOverrideWeather:Is()>Ivars.mbDemoOverrideWeather.enum.CURRENT then
+      weather=Ivars.mbDemoOverrideWeather:Get()-(Ivars.mbDemoOverrideWeather.enum.CURRENT+1)
+    end--<
     outOfCluster=demoOptions.outOfCluster
     heliEnableAfterDemo=demoOptions.heliEnableAfterDemo
     isMovie=demoOptions.isMovie
@@ -958,13 +963,19 @@ function this.HasPlant(t)
   local e,t=this.GetDemoPlayCluster(t)
   return mtbs_cluster.HasPlant(e,t)
 end
-function this.GetDemoTime(l)
-  local t=nil
-  local e=this.demoOptions[l]
-  if e and e.time then
-    t=e.time
+function this.GetDemoTime(demoName)
+  local time=nil
+  if Ivars.mbDemoOverrideTime:Is"CURRENT" then--tex>--DEBUGNOW
+    return nil
+  elseif Ivars.mbDemoOverrideTime:Is"CUSTOM" then
+    return string.format("%02d:%02d:00",Ivars.mbDemoHour:Get(),Ivars.mbDemoHour:Get())
+  end--<  
+  
+  local demoOptions=this.demoOptions[demoName]
+  if demoOptions and demoOptions.time then
+    time=demoOptions.time
   end
-  return t
+  return time
 end
 function this.UpdatePackList(t)
   if not t then

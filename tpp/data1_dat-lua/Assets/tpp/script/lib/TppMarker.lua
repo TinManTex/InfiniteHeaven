@@ -340,17 +340,17 @@ function this._IsCheckSVarsSearchTarget(a,r)
   end
   return false
 end
-function this._OnMarkerChangeToEnable(n,n,r,a)
+function this._OnMarkerChangeToEnable(n,n,gameId,a)
   if a==Fox.StrCode32"Player"then
-    this._CallMarkerRadio(r)
+    this._CallMarkerRadio(gameId)
   end
 end
-function this._CallMarkerRadio(a)
-  if not this._IsRadioTarget(a)then
+function this._CallMarkerRadio(gameId)
+  if not this._IsRadioTarget(gameId)then
     return
   end
-  if mvars.mar_searchTargetList[a]and this._IsCheckSVarsSearchTarget(a,"mar_searchTargeEnable")then
-    if not this._IsCheckSVarsSearchTarget(a,"mar_searchTargeIsFound")then
+  if mvars.mar_searchTargetList[gameId]and this._IsCheckSVarsSearchTarget(gameId,"mar_searchTargeEnable")then
+    if not this._IsCheckSVarsSearchTarget(gameId,"mar_searchTargeIsFound")then
       TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.TARGET_MARKED)
     end
   else

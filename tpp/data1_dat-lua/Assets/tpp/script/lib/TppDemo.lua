@@ -1307,15 +1307,15 @@ end
 function this.EnableNpc(demoName)
   local demoFlags=mvars.dem_demoFlags[demoName]or{}
   if not demoFlags.isInGame then
-    local n="all"
+    local targetStatus="all"
     local demoId=mvars.dem_demoList[demoName]
     if demoFlags.finishFadeOut or mvars.dem_isSkipped[demoId]then
-      n={}
-      for a,e in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
-        n[a]=e
+      targetStatus={}
+      for gameStatusName,statusType in pairs(TppDefine.GAME_STATUS_TYPE_ALL)do
+        targetStatus[gameStatusName]=statusType
       end
     end
-    this.EnableGameStatus(n,demoFlags.exceptGameStatus)
+    this.EnableGameStatus(targetStatus,demoFlags.exceptGameStatus)
   end
   this.ClearIgnoreNpcDisableOnDemoEnd()
 end

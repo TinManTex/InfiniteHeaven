@@ -1151,8 +1151,8 @@ function this.EnableGameStatusOnFade()
   else
     if TppDemo.IsNotPlayable()then
       except=except or{}
-      for n,i in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-        except[n]=false
+      for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
+        except[uiName]=false
       end
       except.PauseMenu=nil
       except.InfoTypingText=nil
