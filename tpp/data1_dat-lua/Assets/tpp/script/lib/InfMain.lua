@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r118"
+this.modVersion="r119"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -157,27 +157,26 @@ function this.IsDDEquip(missionId)
   return false
 end
 
-
 this.ddBodyInfo={
   SNEAKING_SUIT={
     maleBodyId=TppEnemyBodyId.dds4_enem0_def,
     femaleBodyId=TppEnemyBodyId.dds4_enef0_def,
     partsPath="/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts",
     extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts"},
-    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING,
+    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",
   },
   BATTLE_DRESS={
     maleBodyId=TppEnemyBodyId.dds5_enem0_def,
     femaleBodyId=TppEnemyBodyId.dds5_enef0_def,
     partsPath="/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts",
     extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts"},
-    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS,
+    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",
   },
   PFA_ARMOR={
     maleBodyId=TppEnemyBodyId.pfa0_v00_a,
     noFemaleExtended=true,
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
-    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR,
+    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_armor.fpk",
     isArmor=true,
     hasHeadGear=true,
     fallBack="BATTLE_DRESS",
@@ -187,7 +186,7 @@ this.ddBodyInfo={
     femaleBodyId=TppEnemyBodyId.dds6_main0_v00,
     partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",
     extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts"},
-    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER,
+    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",
   },
   DRAB={--?? mother base default
     maleBodyId=TppEnemyBodyId.dds3_main0_v00,
@@ -569,20 +568,20 @@ function this.CreateCustomRevengeConfig()
     end
   end
   
-  local random=math.random(Ivars.reinforceLevelMin:Get(),Ivars.reinforceLevelMax:Get())
+  local random=math.random(Ivars.reinforceLevel_MIN:Get(),Ivars.reinforceLevel_MAX:Get())
   if random>0 then
     revengeConfig.SUPER_REINFORCE=true
   end
-  if random==Ivars.reinforceLevelMin.enum.BLACK_SUPER_REINFORCE then
+  if random==Ivars.reinforceLevel_MIN.enum.BLACK_SUPER_REINFORCE then
     revengeConfig.BLACK_SUPER_REINFORCE=true
   end
   
-  local random=math.random(Ivars.revengeIgnoreBlockedMin:Get(),Ivars.revengeIgnoreBlockedMax:Get())
+  local random=math.random(Ivars.revengeIgnoreBlocked_MIN:Get(),Ivars.revengeIgnoreBlocked_MAX:Get())
   if random>0 then
     revengeConfig.IGNORE_BLOCKED=true
   end
   
-  local random=math.random(Ivars.reinforceCountMin:Get(),Ivars.reinforceCountMax:Get())
+  local random=math.random(Ivars.reinforceCount_MIN:Get(),Ivars.reinforceCount_MAX:Get())
 --  if random>0 then
     revengeConfig.REINFORCE_COUNT=random
 --  end
@@ -1420,7 +1419,7 @@ function this.OnAllocate(missionTable)
   end
 
 
-  --WIP DEBUGNOW >
+  --WIP >
 --  local equipLoadTable={}
 --  --tex TODO: find a better indicator of equipable mission loading
 --  if missionTable.enemy then
@@ -2227,7 +2226,7 @@ function this.CheckReinforceDeactivate()--WIP/UNUSED
   end
 end
 
---WIP DEBUGNOW
+--WIP
 this.tppEquipTable={--SYNC: EquipIdTable
   --    "EQP_SLD_SV",
   --    "EQP_SLD_PF_00",

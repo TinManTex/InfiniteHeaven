@@ -237,6 +237,8 @@ table.insert(menuOptions,InfMenuCommands.goBackItem)
 
 this.revengeCustomMenu={
   options={
+    Ivars.revengeMode,
+    Ivars.revengeModeForMissions,
   }
 }
 local revengeMenu=this.revengeCustomMenu.options
@@ -248,20 +250,18 @@ for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
 end
 table.insert(revengeMenu,this.abilityCustomMenu)
 table.insert(revengeMenu,this.weaponStrengthCustomMenu)
-table.insert(revengeMenu,Ivars.reinforceCountMin)
-table.insert(revengeMenu,Ivars.reinforceCountMax)
-table.insert(revengeMenu,Ivars.reinforceLevelMin)
-table.insert(revengeMenu,Ivars.reinforceLevelMax)
-table.insert(revengeMenu,Ivars.revengeIgnoreBlockedMin)
-table.insert(revengeMenu,Ivars.revengeIgnoreBlockedMax)
+table.insert(revengeMenu,Ivars.reinforceCount_MIN)
+table.insert(revengeMenu,Ivars.reinforceCount_MAX)
+table.insert(revengeMenu,Ivars.reinforceLevel_MIN)
+table.insert(revengeMenu,Ivars.reinforceLevel_MAX)
+table.insert(revengeMenu,Ivars.revengeIgnoreBlocked_MIN)
+table.insert(revengeMenu,Ivars.revengeIgnoreBlocked_MAX)
 table.insert(revengeMenu,InfMenuCommands.resetSettingsItem)
 table.insert(revengeMenu,InfMenuCommands.goBackItem)
 
 
 this.revengeMenu={
   options={
-    Ivars.revengeMode,
-    Ivars.revengeModeForMissions,
     this.revengeCustomMenu,
     this.revengeSystemMenu,
     InfMenuCommands.resetRevenge,
@@ -452,7 +452,7 @@ this.debugInMissionMenu={
 this.inMissionMenu={
   options={
     --InfMenuCommands.DEBUG_PrintSomeShiz,--DEBUGNOW
-    --Ivars.selectedChangeWeapon,--WIP DEBUGNOW
+    --Ivars.selectedChangeWeapon,--WIP
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,

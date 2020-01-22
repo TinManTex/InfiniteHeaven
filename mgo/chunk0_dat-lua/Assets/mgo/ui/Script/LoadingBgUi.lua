@@ -1,0 +1,1 @@
+LoadingBgUi={widgets={{type="MgoUiAnimation",name="anim_background",source="",index="0",layout="UI_ID_BG_Black.UI_ID_BG_Black_On",states={{type="MgoUiAnimationStateSwitch",name="stateInit",mode="enter",control="play",layout="UI_ID_BG_Black.UI_ID_BG_Black_On"}}}}}

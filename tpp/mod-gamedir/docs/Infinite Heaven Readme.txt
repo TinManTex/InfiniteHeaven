@@ -1,47 +1,36 @@
 = Infinite heaven =
-r116 - 2015-12-30
+r119 - 2015-01-17
 by tin man tex
-For MGSV version 1.0.7.0 (1.07 in title screen)
+For MGSV version 1.07 or 1.071
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-New for r115
-Settings no longer reset on returning from FOB (Infinite Heaven will remain disabled during FOB).
+New for r119
+Change remove demon, set deom to add demon points, remove demon points, less ideal since there's no demon value feedback, but prior set direct value didn't work on some peoples games.
 
-Enemy prep profile 'Heaven'
-The current prefered settings for the options below it.
+Custom enemy prep config. Sidesteps the enemy prep levels and gives more control over enemy prep loadout, chooses randomly between min/max of each setting:
+Weapon deployment percentages - 
+Armor deployment percentages - Armor, soft armod (body vest), sheild.
+Headgear deployment percentages - helmet, gas mask, nvg.
+CP detterant percentages - mines, decoys, cameras.
+Soldier ability/counter levels.
+Weapon strength menus. 'Strong weapons' are different variant/model of weapon for that chosen type.
+Reinforce count - number of reinforcment calls a CP has.
+Vehicle reinforcment level: Works with the vehicle reinforcement settings.
+Ignore combat-deploy supply blocks - Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.
 
-Enemy prep options:
-"Allow missile combo with other weapons" - in the normal game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them. 
+The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
 
-"Disable convert armor to sheild (if armor off)" - Where heavy armor is disabled (free mode by default) the normal game converts armor to sheilds in addition to the normal shield application, this often leads to it feeling like there's just too many.
-
-"Disable weapon restrictions in certain missions" - Missions 2, 12, 13, 16, 26, 31 prevent the application of shields, missiles, shotguns and mgs to the general CP enemy prep (though some may have custom enemy prep).
-
-"Enable Mg vs Shotgun variation" - In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
-
-"Balance small CPs" - adds limits and some randomisation to small cp/lrrps enemy prep application, best for the "Apply enemy prep to guard posts" and " to LRRP"
-
-Motherbbase DD soldier equip:
-DD Head gear - Off,Use Equip Grade
-Drab added to DD suit
-
-Regression fix: in mission menu when on buddy (horse,walker) - thanks Crotaro for report
-
-Load screen splashes reverted to original. Kjp did too much voodoo in respect to the Nvidia splash screen for me to be happy with touching it.
-
-New for r110:
-Enemy prep options:
-"Allow heavy armor in free mode"
-"Allow heavy armor in all missions"
-"Allow helmet and NVG or Gas mask combo"
-"Ballance heavy armor and head gear distribution" - adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if "Allow helmet and NVG or Gas mask combo" is on 
-"Random CP subtype in free mode" - randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
-"Random CP subtype in missions"
+The prior Max enemy prep is now just a profile in the config menu.
 
 Infinite Heaven features:
 ------------------------------
 Demonstrations:
+Enemy prep settings:
+[youtube]Pt_jpD0y8XQ[/youtube]
+https://www.youtube.com/watch?v=Pt_jpD0y8XQ
+[youtube]u__vsvbrwfA[/youtube]
+https://www.youtube.com/watch?v=u__vsvbrwfA
 Enemy reactions to vehicle:
 [youtube]BUqPYDlA42A[/youtube]
 https://www.youtube.com/watch?v=BUqPYDlA42A
@@ -128,10 +117,13 @@ In the game having a held-up/awake target is already dangerous, they are noisy w
 Holdup is however the fallback value so I'm giving it at least some value to keep some impact and push the player to manual extraction if they want a guaranteed success. 
 
 Enemy Preparedness:
------------------
-Reset - to 0
+----------------
+Reset - resets enemy prep levels to 0
 
 Max - the same 'revenge system' max as the extreme missions. Most soldiers have gear equipped, such as helmets, body armor, nvg, many heavy weapons deployed.
+
+Enemy prep profile 'Heaven'
+The current prefered settings for the options below it.
 
 Resupply in #missions - the number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
 
@@ -139,11 +131,25 @@ Resupply in #missions - the number of missions the enemy dispatch/resupply with 
 
 "Apply enemy prep to LLRP soldiers"
 
+"Allow heavy armor in free mode"
+"Allow heavy armor in all missions"
+"Allow helmet and NVG or Gas mask combo"
+"Ballance heavy armor and head gear distribution" - adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if "Allow helmet and NVG or Gas mask combo" is on 
+"Random CP subtype in free mode" - randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
+"Random CP subtype in missions"
+"Allow missile combo with other weapons" - in the normal game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them. 
+"Disable convert armor to sheild (if armor off)" - Where heavy armor is disabled (free mode by default) the normal game converts armor to sheilds in addition to the normal shield application, this often leads to it feeling like there's just too many.
+"Disable weapon restrictions in certain missions" - Missions 2, 12, 13, 16, 26, 31 prevent the application of shields, missiles, shotguns and mgs to the general CP enemy prep (though some may have custom enemy prep).
+"Enable Mg vs Shotgun variation" - In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
+"Balance small CPs" - adds limits and some randomisation to small cp/lrrps enemy prep application, best for the "Apply enemy prep to guard posts" and " to LRRP"
+
 Mother Base soldier tweaks:
 -----------------
 Weapon loadout - using fob equip grade and range
 
 Suits - same range as fob missions
+
+DD Head gear - Off,Use Equip Grade
 
 War Games - set mother base soldiers hostile with non-lethal or lethal weapons
 
@@ -381,6 +387,26 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r119 - 2015-01-17 - public release
+Ivars - subName, PushMin, PushMax to handle adjusting paired ivars.
+Reworking of custom prep menu order and item names.
+
+r118
+Change remove demon to subtract demon points, less ideal since there's no feedback of current value so cant tell the lower bounds, but it works for people the prior method didn't - thanks drkcrstl for the feedback
+Custom prep profile with wide,max,min, max replaces prior revenge level based max.
+SetCustomRevengeUiParameters as rough indication of custom prep config.
+
+r117
+InfMenu: support for function call OnActivate when pressing action on selected option.
+Reasearch into Player.ChangeEquip
+Test of quiet humming command, result: only for boss quiet game object, sad.
+Welcome message added for entering acc from title.
+Ivars: support for IsCheck on named setting :Is
+Option: disableNoRevengeMissions
+Custom revenge config: WIP most indifidual revenge config settings settable
+Refactor: A number of gvar instead of ivar references missed in the prior refactor
+Disallow menu if in carboard box
+
 r116 - 2015-12-30 - public release
 Un-fixed a Retail bug, the game is aparently relying on it's broken behaviour lol. Manifested as: Some end of cutscene loadscreen hangs, prologue/truth post heli hallway non-trigger. Possibly much more.
 
