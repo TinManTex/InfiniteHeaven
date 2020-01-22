@@ -497,21 +497,21 @@ missionPackTable[10150]=function(p)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.SKULLFACE)
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.EAST_LV)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10150/s10150_area02.fpk"
-    elseif TppPackList.IsMissionPackLabel"StartingSahelan"then
+  elseif TppPackList.IsMissionPackLabel"StartingSahelan"then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10150/s10150_area03.fpk"
-    else
+  else
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MANTIS)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10150/s10150_area01.fpk"
-    end
+  end
 end
 missionPackTable[10151]=function(p)
   TppPackList.AddLocationCommonScriptPack(p)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   if TppPackList.IsMissionPackLabel"OkbEnding"then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10151/s10151_area02.fpk"
-    else
+  else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/story/s10151/s10151_area01.fpk"
-    end
+  end
   local p={{375,1},{376,1}}
   TppEneFova.AddUniquePackage{type="hostage",body=p}
 end
@@ -654,13 +654,13 @@ missionPackTable[30050]=function(missionCode)
     else
       TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER)
     end
---    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_DECOY)
---    if TppEnemy.IsHostageEventFOB()then
---      TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.FOB_HOSTAGE)do
---        local s={{type="hostage",name="hos_o50050_event5_0000",faceId=621,bodyId=143},{type="hostage",name="hos_o50050_event5_0001",faceId=640,bodyId=143},{type="hostage",name="hos_o50050_event5_0002",faceId=641,bodyId=143},{type="hostage",name="hos_o50050_event5_0003",faceId=646,bodyId=143}}
---        TppEneFova.AddUniqueSettingPackage(s)
---      end
---    end
+    --    TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_DECOY)
+    --    if TppEnemy.IsHostageEventFOB()then
+    --      TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.FOB_HOSTAGE)do
+    --        local s={{type="hostage",name="hos_o50050_event5_0000",faceId=621,bodyId=143},{type="hostage",name="hos_o50050_event5_0001",faceId=640,bodyId=143},{type="hostage",name="hos_o50050_event5_0002",faceId=641,bodyId=143},{type="hostage",name="hos_o50050_event5_0003",faceId=646,bodyId=143}}
+    --        TppEneFova.AddUniqueSettingPackage(s)
+    --      end
+    --    end
   end
   --tex TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50050_additional.fpk"
   do
@@ -769,7 +769,7 @@ missionPackTable[40020]=function(missionCode)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
     TppPackList.AddAvatarEditPack()
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/h40020/h40020_avatar.fpk"
-    else
+  else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/title_sequence.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/heli/heli_ui.fpk"
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
@@ -837,9 +837,19 @@ missionPackTable[50050]=function(missionCode)
       TppEneFova.AddUniqueSettingPackage(s)
     end
   end
+  if TppEnemy.IsZombieEventFOB()then--RETAILPATCH: 1070>
+    TppSoldierFace.SetUseZombieFova{enabled=true}
+  end
+  if TppEnemy.IsParasiteMetalEventFOB()then
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
+  end--<
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50050_additional.fpk"
-  TppPackList.AddLocationCommonScriptPack(missionCode)
-  TppPackList.AddDefaultMissionAreaPack(missionCode)
+  TppPackList.AddLocationCommonScriptPack(missionCode)--RETAILPATCH: 1070>
+  if TppEnemy.IsSpecialEventFOB()then
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_area.fpk"
+  else--<
+    TppPackList.AddDefaultMissionAreaPack(missionCode)
+  end
   TppPackList.AddFOBLayoutPack(missionCode)
 end
 function this.GetLocationPackagePath(locationId)

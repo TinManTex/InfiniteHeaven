@@ -1547,6 +1547,39 @@ return {
 headerLangId = Fox.StrCode("mbhelp_name_452"), headerInfoLangId = Fox.StrCode("mbhelp_info_452"),	
 pages = {	
 } 
+}--RETAILPATCH: 1070>
+
+
+
+elseif HelpID == MbPauseHelp.HELP_ID_EVENT_POINT then
+return {		
+headerLangId = Fox.StrCode("mbhelp_event_point_title"), headerInfoLangId = Fox.StrCode("mbhelp_event_point_help"),	
+pages = {	
+
+	{ type = 0, number = 1, titleLangId = Fox.StrCode("mbhelp_event_reward_title"), helpMessageId = Fox.StrCode("mbhelp_event_reward_help2"), helpPosX = X_RIGHT_SHORT, helpPosY = Y_RIGHT_BOTTOM, coordType = COORD_ABS, verticalAlign = ALIGN_BOTTOM, iconPosX = 580, iconPosY = 350 },
+
+} 	
+}
+
+
+elseif HelpID == MbPauseHelp.HELP_ID_NAMEPLATE then
+return {		
+headerLangId = Fox.StrCode("mbhelp_cstm_nameplate_title"), headerInfoLangId = Fox.StrCode("mbhelp_cstm_nameplate_help"),	
+pages = {	
+	{ type = 0, number = 0, titleLangId = Fox.StrCode("mbhelp_cstm_nameplate_cap"), helpMessageId = Fox.StrCode("mbhelp_cstm_nameplate_help2"), helpPosX = X_RIGHT_SHORT, helpPosY = Y_LEFT_BOTTOM, coordType = COORD_REL, verticalAlign = ALIGN_BOTTOM, iconPosX = 0, iconPosY = 0 },
+	{ type = 1, textAreaType = TEXT_SHORT },
+} 	
+}
+
+
+elseif HelpID == MbPauseHelp.HELP_ID_CHALLENGE_TASK then
+return {		
+headerLangId = Fox.StrCode("mbhelp_challenge_task_list_title"), headerInfoLangId = Fox.StrCode("mbhelp_challenge_task_help"),	
+pages = {	
+	{ type = 0, number = 1, titleLangId = Fox.StrCode("mbhelp_challenge_task_list_cap"), helpMessageId = Fox.StrCode("mbhelp_challenge_task_list_help"), helpPosX = X_RIGHT_SHORT, helpPosY = Y_RIGHT_BOTTOM, coordType = COORD_REL, verticalAlign = ALIGN_BOTTOM, iconPosX = 530, iconPosY = 314 },
+	{ type = 1, textAreaType = TEXT_SHORT },
+
+}--<
 }
 
 

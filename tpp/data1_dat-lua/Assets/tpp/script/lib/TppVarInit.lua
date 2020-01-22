@@ -223,6 +223,7 @@ function this.InitializeForNewMission(missionTable)
   end
   Gimmick.RestoreSaveDataPermanentGimmickFromMission()
   TppMotherBaseManagement.SetupAfterRestoreFromSVars()
+  RecordRanking.WriteServerRankingScore()--RETAILPATCH 1070: Added
 end
 function this.InitializeForContinue(e)
   TppSave.VarRestoreOnContinueFromCheckPoint()

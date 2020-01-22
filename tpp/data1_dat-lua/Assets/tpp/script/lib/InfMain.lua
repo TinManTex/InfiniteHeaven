@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r109"
+this.modVersion="r110"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:

@@ -1636,11 +1636,9 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
           settingSoldierCount=unfulfilledPowers[powerType]
         end--<
 
-        if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--DEBUGNOW
-          --if powerType=="ARMOR" or powerType=="HELMET" or powerType=="NVG" or powerType=="GAS_MASK" then
-            InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
-          --end
-        end--
+--        if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--tex DEBUG
+--          InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
+--        end--
 
         local comboExcludeList=powerComboExclusionList[powerType]or{}
         local soldierCount=settingSoldierCount
@@ -1705,31 +1703,26 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
       NVG={"ARMOR","GAS_MASK"},--
       GUN_LIGHT={"SNIPER","MG"}
     }
-    if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--DEBUGNOW
-      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
-        InfMenu.DebugPrint"CreateCpConfig unfulfilled"
-      --end--
-    end--DEBUGNOW
+--    if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--tex DEBUG
+--      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
+--        InfMenu.DebugPrint"CreateCpConfig unfulfilled"
+--      --end--
+--    end--<
     CreateCpConfig(revengeConfig,totalSoldierCount,headGearComboExclusions,powerElimOrChildSoldierTable,abilitiesList,outerBaseSoldierTable,unfulfilledPowers,cpConfig)--tex now function
-
-
-
-
   end--<
   
-    if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--DEBUGNOW
-      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
-        InfMenu.DebugPrint"unfulfilledPowers:"
-        local instr=InfInspect.Inspect(unfulfilledPowers)
-        InfMenu.DebugPrint(instr)
-      --end--
-    end--DEBUGNOW
+--    if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--tex DEBUG
+--      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
+--        InfMenu.DebugPrint"unfulfilledPowers:"
+--        local instr=InfInspect.Inspect(unfulfilledPowers)
+--        InfMenu.DebugPrint(instr)
+--      --end--
+--    end--<
 
-  if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--DEBUGNOW
-    local instr=InfInspect.Inspect(cpConfig)
-    InfMenu.DebugPrint(instr)
-  end--
-
+--  if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--tex DEBUG
+--    local instr=InfInspect.Inspect(cpConfig)
+--    InfMenu.DebugPrint(instr)
+--  end--<
 
   for soldierConfigId,powerSetting in ipairs(cpConfig)do
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]

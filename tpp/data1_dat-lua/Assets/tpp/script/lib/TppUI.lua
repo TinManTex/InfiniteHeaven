@@ -126,6 +126,11 @@ this.ANNOUNCE_LOG_TYPE={
   esp_sleep_d="announce_esp_sleep_df",
   esp_stun_a="announce_esp_stun_at",
   esp_sleep_a="announce_esp_sleep_at",
+  esp_headshot_d="announce_esp_hs_df",--RETAILPATCH 1070: added
+  esp_ttd_d="announce_esp_ttd_df",
+  esp_headshot_a="announce_esp_hs_at",
+  esp_ttd_a="announce_esp_ttd_at",
+  fob_get_ransom="announce_fob_get_ransom_d90",--<
   mbstaff_died="announce_mbstaff_died",
   horse_died="announce_horse_died",
   quiet_died="announce_quiet_died",
@@ -453,6 +458,8 @@ function this.EnableMissionTask(a,t)
         this.ShowAnnounceLog("task_complete",a,i)
       end
     end
+    TppMission.SetPlayRecordClearInfo()--RETAILPATCH 1070>
+    TppChallengeTask.RequestUpdate"MISSION_TASK"--<
     if this.IsAllTaskCompleted(n)then
       TppEmblem.AcquireOnAllMissionTaskComleted(n)
     end
@@ -1078,7 +1085,12 @@ function this.RegisterHeliSpacePauseMenuPage(n)
   TppUiCommand.RegisterPauseMenuPage(menuItems)
 end
 function this.RegisterFobSneakPauseMenuPage()
-  local e={GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC}
+  local e
+  if vars.fobIsPlaceMode~=1 then--RETAILPATCH 1070>
+    e={GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC}-- was just this line
+  else
+    e={GamePauseMenu.ABORT_MISSION_PLACEMENT_MODE}
+  end--<
   if(vars.fobSneakMode==FobMode.MODE_SHAM)and(TppNetworkUtil.GetSessionMemberCount()==1)then
     table.insert(e,1,GamePauseMenu.RESTART_FROM_MISSION_START)
   end
@@ -1097,19 +1109,10 @@ end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-function this.OnChangeSVars(name,n)
+function this.OnChangeSVars(name,RENparam2)
   local e=TppServerManager.FobIsSneak()
   if FobUI then
-    if name=="sneakEventTaskValue"then
-      if e then
-        FobUI.UpdateEventTaskView(n,e)
-      end
-    end
-    if name=="defenceEventTaskValue"then
-      if(not e)then
-        FobUI.UpdateEventTaskView(n,e)
-      end
-    end
+    FobUI.OnChangeSVars(name,RENparam2)--RETAILPATCH 1070 some stuff pushed from here into this function <<
   end
 end
 function this.DisableGameStatusOnFade(n)

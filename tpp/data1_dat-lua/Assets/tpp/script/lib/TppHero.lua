@@ -416,7 +416,14 @@ function this.Messages()
               end
             end
           elseif Tpp.IsSoldier(gameId)then
-            Tpp.IncrementPlayData"totalKillCount"
+            if(deadMessageFlag==nil)then--RETAILPATCH 1070 check added
+              Tpp.IncrementPlayData"totalKillCount"
+            else--RETAILPATCH 1070>
+              if(band(deadMessageFlag,DeadMessageFlag.NOT_DAMAGE_DEAD)==0)and(band(deadMessageFlag,DeadMessageFlag.INDIRECTLY_TARGET)==0)then
+                Tpp.IncrementPlayData"totalKillCount"
+              end
+            end--<
+          
             local soldierType=TppEnemy.GetSoldierType(gameId)
             if(SendCommand(gameId,{id="IsDD"}))then
               if(deadMessageFlag~=nil)and(band(deadMessageFlag,DeadMessageFlag.FIRE)~=0)then
@@ -431,22 +438,27 @@ function this.Messages()
                   checkDeadFlag=DeadMessageFlag.FIRE_OR_DYING
                 end
                 local isFobSneak=TppMission.IsFOBMission(vars.missionCode)and TppServerManager.FobIsSneak()
+                local n=SendCommand(gameId,{id="GetStateFlag"})--RETAILPATCH 1070
                 if(deadMessageFlag~=nil)and(band(deadMessageFlag,checkDeadFlag)~=0)then
                   if not isFobSneak then
                     this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_SOLDIER)
                   else
-                    this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_SOLDIER_FOB_SNEAK)
+                    if band(n,StateFlag.ZOMBIE)~=StateFlag.ZOMBIE then--RETAILPATCH 1070 check added
+                      this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_SOLDIER_FOB_SNEAK)
+                    end
                   end
                 else
                   if not isFobSneak then
                     this.SetAndAnnounceHeroicOgrePoint(this.KILL_SOLDIER)
                   else
-                    this.SetAndAnnounceHeroicOgrePoint(this.KILL_SOLDIER_FOB_SNEAK)
+                    if band(n,StateFlag.ZOMBIE)~=StateFlag.ZOMBIE then--RETAILPATCH 1070 check added
+                      this.SetAndAnnounceHeroicOgrePoint(this.KILL_SOLDIER_FOB_SNEAK)
+                    end
                   end
-                end
-              end
-            end
-          end
+                end--if deadmessageflag
+              end--not child
+            end--if dd or not
+          end--if issoldier
           if Tpp.IsAnimal(gameId)then
             if(deadMessageFlag~=nil)and(band(deadMessageFlag,DeadMessageFlag.FIRE)~=0)then
               this.SetAndAnnounceHeroicOgrePoint{heroicPoint=0,ogrePoint=40}
@@ -464,6 +476,9 @@ function this.Messages()
               end
             end
           elseif Tpp.IsSoldier(gameId)then
+            if(deadMessageFlag~=nil)and(band(deadMessageFlag,DeadMessageFlag.FROM_PLAYER_ORDER)~=0)then--RETAILPATCH 1070
+              Tpp.IncrementPlayData"totalKillCount"
+            end--<
             if TppMission.IsFOBMission(vars.missionCode)then
             else
               if(SendCommand(gameId,{id="IsDD"}))then
@@ -506,14 +521,19 @@ function this.Messages()
         if i==0 then
           if TppEnemy.IsBaseCp(n)then
             if o then
-              PlayRecord.RegistPlayRecord"BASE_SUPPRESSION"this.SetAndAnnounceHeroicOgrePointForAnnihilateCp(this.ON_ANNIHILATE_BASE,true)
+              PlayRecord.RegistPlayRecord"BASE_SUPPRESSION"
+              this.SetAndAnnounceHeroicOgrePointForAnnihilateCp(this.ON_ANNIHILATE_BASE,true)
               TppTrophy.Unlock(18)
-              Tpp.IncrementPlayData"totalAnnihilateBaseCount"end
+              Tpp.IncrementPlayData"totalAnnihilateBaseCount"
+              TppChallengeTask.RequestUpdate"ENEMY_BASE"--RETAILPATCH 1070
+              end
             TppEmblem.AcquireOnCommandPostAnnihilated(n)
           elseif TppEnemy.IsOuterBaseCp(n)then
             if o then
               this.SetAndAnnounceHeroicOgrePointForAnnihilateCp(this.ON_ANNIHILATE_OUTER_BASE,false)
-              Tpp.IncrementPlayData"totalAnnihilateOutPostCount"TppTrophy.Unlock(18)
+              TppChallengeTask.RequestUpdate"ENEMY_BASE"--RETAILPATCH 1070
+              Tpp.IncrementPlayData"totalAnnihilateOutPostCount"
+              TppTrophy.Unlock(18)
             end
             TppEmblem.AcquireOnCommandPostAnnihilated(n)
           end

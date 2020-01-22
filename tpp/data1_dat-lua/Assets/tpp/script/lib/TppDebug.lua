@@ -382,11 +382,11 @@ function this.QARELEASE_DEBUG_Init()
   e.AddDebugMenu("LuaUI","showEventTask","bool",mvars.qaDebug,"showEventTask")
 end
 function this.QAReleaseDebugUpdate()
-  local e=svars
-  local o=mvars
+  local svars=svars
+  local mvars=mvars
   local Print=(nil).Print
   local newContext=(nil).NewContext()
-  if o.seq_doneDumpCanMissionStartRefrainIds then
+  if mvars.seq_doneDumpCanMissionStartRefrainIds then
     Print(newContext,{1,0,0},"TppSequence: Mission.CanStart() wait is time out!\nPlease screen shot [Mission > ViewStartRefrain > true] , [Pause > ShowFlags > true] and [Pause > ShowInstances > true]")
   end
   if(gvars.usingNormalMissionSlot==false)and(not(((vars.missionCode==10115)or(vars.missionCode==50050))or(TppMission.IsHelicopterSpace(vars.missionCode))))then
@@ -403,8 +403,8 @@ function this.QAReleaseDebugUpdate()
     TppSave.DEBUG_EraseAllGameDataCounter=nil
   end
   end--
-  if o.qaDebug.forceCheckPointSave then
-    o.qaDebug.forceCheckPointSave=false
+  if mvars.qaDebug.forceCheckPointSave then
+    mvars.qaDebug.forceCheckPointSave=false
     TppMission.UpdateCheckPoint{ignoreAlert=true,atCurrentPosition=true}
   end
   if gvars.DEBUG_showSysVars then
@@ -418,6 +418,8 @@ function this.QAReleaseDebugUpdate()
     Print(newContext,"GMP(inSlot) = "..tostring(a))
     local a=TppScriptVars.GetVarValueInSlot(TppDefine.SAVE_SLOT.MB_MANAGEMENT,"vars","mbmTppHeroicPoint",0)
     Print(newContext,"HeroicPoint(inSlot) = "..tostring(a))
+    Print(newContext,"killCount = "..tostring(svars.killCount))
+    Print(newContext,"totalKillCount = "..tostring(gvars.totalKillCount))
   end
   if gvars.DEBUG_showGameStatus then
     Print(newContext,"")
@@ -461,7 +463,7 @@ function this.QAReleaseDebugUpdate()
       end
     end
   end
-  if o.qaDebug.showWeaponVars then
+  if mvars.qaDebug.showWeaponVars then
     local a={"PRIMARY_HIP","PRIMARY_BACK","SECONDARY"}
     Print(newContext,{.5,.5,1},"LuaSystem WeaponVars")
     for a,o in ipairs(a)do
@@ -475,25 +477,25 @@ function this.QAReleaseDebugUpdate()
       Print(newContext,string.format("Slot:%d : vars.items = %04d, vars.initItems = %04d, gvars.ply_lastItemsUsingTemp = %04d",a,vars.items[a],vars.initItems[a],gvars.ply_lastItemsUsingTemp[a]))
     end
   end
-  if o.qaDebug.showPlayerPartsType then
+  if mvars.qaDebug.showPlayerPartsType then
     Print(newContext,{.5,.5,1},"LuaSystem ShowPlayerPartsType")
     Print(newContext,"gvars.ply_isUsingTempPlayerType = "..tostring(gvars.ply_isUsingTempPlayerType))
     Print(newContext,string.format("vars.playerPartsType = %04d, gvars.ply_lastPlayerPartsTypeUsingTemp = %04d",vars.playerPartsType,gvars.ply_lastPlayerPartsTypeUsingTemp))Print(newContext,string.format("vars.playerCamoType = %04d, gvars.ply_lastPlayerCamoTypeUsingTemp = %04d",vars.playerCamoType,gvars.ply_lastPlayerCamoTypeUsingTemp))Print(newContext,string.format("vars.playerType = %04d, gvars.ply_lastPlayerTypeUsingTemp = %04d",vars.playerType,gvars.ply_lastPlayerTypeUsingTemp))
   end
-  if o.qaDebug.gotFobStatusCount then
+  if mvars.qaDebug.gotFobStatusCount then
     Print(newContext,{.5,.5,1},">> Done TppServerManager.GetFobStatus()")
-    o.qaDebug.gotFobStatusCount=o.qaDebug.gotFobStatusCount+1
-    if o.qaDebug.gotFobStatusCount>120 then
-      o.qaDebug.gotFobStatusCount=nil
+    mvars.qaDebug.gotFobStatusCount=mvars.qaDebug.gotFobStatusCount+1
+    if mvars.qaDebug.gotFobStatusCount>120 then
+      mvars.qaDebug.gotFobStatusCount=nil
     end
   end
-  if o.qaDebug.setFobForGPU then
-    o.qaDebug.setFobForGPU=false
+  if mvars.qaDebug.setFobForGPU then
+    mvars.qaDebug.setFobForGPU=false
     this.DEBUG_FobGPU()
   end
-  if o.qaDebug.showEventTask then
-    if not o.ui_eventTaskDefine then
-      o.qaDebug.showEventTask=false
+  if mvars.qaDebug.showEventTask then
+    if not mvars.ui_eventTaskDefine then
+      mvars.qaDebug.showEventTask=false
       return
     end
     Print(newContext,{.5,.5,1},"LuaUI ShowEventTask")
@@ -504,7 +506,7 @@ function this.QAReleaseDebugUpdate()
         n=" x "end
       local s=t[a]and t[a].detectType
       if s then
-        local o=o.qaDebug.debugEventTaskTextTable and o.qaDebug.debugEventTaskTextTable[s]
+        local o=mvars.qaDebug.debugEventTaskTextTable and mvars.qaDebug.debugEventTaskTextTable[s]
         if not o then
           o="threshold is"end
         Print(newContext,string.format("   Task %1d : [%s] %s %06.2f : ( Current %06.2f )",a,n,o,t[a].threshold,FobUI.GetCurrentEventTaskValue(a,i)))
@@ -512,14 +514,14 @@ function this.QAReleaseDebugUpdate()
     end
     Print(newContext,{.5,1,.5},"FobSneak eventTask")
     for a=0,7 do
-      local e=o.ui_eventTaskDefine.sneak
+      local e=mvars.ui_eventTaskDefine.sneak
       if e and e[a]then
         s(e,a,true)
       end
     end
     Print(newContext,{.5,1,.5},"FobDefence eventTask")
     for a=0,7 do
-      local e=o.ui_eventTaskDefine.defence
+      local e=mvars.ui_eventTaskDefine.defence
       if e and e[a]then
         s(e,a,false)
       end

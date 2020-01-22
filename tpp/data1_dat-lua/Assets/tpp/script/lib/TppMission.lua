@@ -26,8 +26,8 @@ local g=2.5
 local r="Timer_outsideOfInnerZone"
 local missionClearCodeNone=0
 local M=64
-local y=1--RETAILPATCH 1060 was 2
-local h=3--RETAILPATCH 1060 was 4
+local RENsomebalancedval1=1--RETAILPATCH 1060 was 2
+local RENsomebalancedval2=0--RETAILPATCH 1060 was 4 --RETAILPATCH 1070 to 0 from 3
 local I=(24*60)*60
 local u=2
 local u=TppDefine.MAX_32BIT_UINT
@@ -805,6 +805,7 @@ function this.VarSaveForMissionAbort()
     if gvars.usingNormalMissionSlot then
       TppStory.FailedRetakeThePlatformIfOpened()
     end
+    TppMotherBaseManagement.CheckMisogi()--RETAILPATCH 1070
   else
     if gvars.usingNormalMissionSlot then
       TppPlayer.RestoreWeaponsFromUsingTemp()
@@ -858,6 +859,9 @@ function this.LoadForMissionAbort()
   end
 end
 function this.ReturnToTitle()
+  if TppException.isNowGoingToMgo then--RETAILPATCH 1070>
+    return
+  end--<
   if this.IsHelicopterSpace(vars.missionCode)then
     TppMotherBaseManagement.ProcessBeforeSync()
     TppMotherBaseManagement.StartSyncControl{}
@@ -1071,7 +1075,7 @@ function this.ShowStealthAssistPopup()
     return GameOverMenu.NO_POPUP
   end
   if GameConfig.GetStealthAssistEnabled()then
-    if svars.dialogPlayerDeadCount>h then
+    if svars.dialogPlayerDeadCount>RENsomebalancedval2 then
       if gvars.elapsedTimeSinceLastUseChickCap>=I then
         return GameOverMenu.PERFECT_STEALTH_POPUP
       else
@@ -1081,7 +1085,7 @@ function this.ShowStealthAssistPopup()
       return GameOverMenu.NO_POPUP
     end
   else
-    if svars.dialogPlayerDeadCount>y then
+    if svars.dialogPlayerDeadCount>RENsomebalancedval1 then
       return GameOverMenu.STEALTH_ASSIST_POPUP
     else
       return GameOverMenu.NO_POPUP
@@ -1217,6 +1221,9 @@ function this.ExecuteMissionFinalize()
   local currentLocationCode=vars.locationCode
   local isHeliSpace,nextIsHeliSpace
   local isFreeMission,nextIsFreeMission
+  if not(mvars.mis_isInterruptMissionEnd or(not TppSave.CanSaveMbMangementData()))then--RETAILPATCH 1070
+    TppMotherBaseManagement.CheckMisogi()
+  end--<
   if this.IsFOBMission(gvars.mis_nextMissionCodeForMissionClear)then
     waitOnLoadingTipsEnd=false
     TppSave.VarSave(currentMissionCode,true)
@@ -1676,6 +1683,7 @@ function this.Messages()
       {msg="PauseMenuCheckpoint",func=this.ContinueFromCheckPoint},
       {msg="PauseMenuAbortMission",func=this.AbortMissionByMenu},
       {msg="PauseMenuAbortMissionGoToAcc",func=this.AbortMissionByMenu},
+      {msg="PauseMenuFinishFobManualPlaecementMode",func=this.AbortMissionByMenu},--RETAILPATCH 1070
       {msg="PauseMenuRestart",func=this.RestartMission},
       {msg="PauseMenuReturnToTitle",func=this.ReturnToTitle},
       {msg="PauseMenuRestartFromHelicopter",func=function()
@@ -1839,22 +1847,16 @@ function this.Messages()
         TppStory.UpdateStorySequence{updateTiming="OnCompletedPlatform",isInGame=true}
       end},
       {msg="RequestSaveMbManagement",func=function()
-        if vars.missionCode==10030 then--PATCHUP:
-          TppMotherBaseManagement.SetRequestSaveResultFailure()
-          return
-        end
-        if vars.missionCode==10115 then
-          TppMotherBaseManagement.SetRequestSaveResultFailure()
-          return
-        end
-        if not this.CheckMissionState()then
+        if((TppSave.IsForbidSave()or(vars.missionCode==10030))or(vars.missionCode==10115))or(not this.CheckMissionState())then--RETAILPATCH 1070 IsForbidSave added
           TppMotherBaseManagement.SetRequestSaveResultFailure()
           return
         end
         TppSave.SaveOnlyMbManagement(TppSave.ReserveNoticeOfMbSaveResult)
-      end,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true,isExecMissionPrepare=true}}
+      end,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true,isExecMissionPrepare=true}},
+      {msg="RequestSavePersonal",func=function()
+        TppSave.CheckAndSavePersonalData()
+      end}
     },
-
     Trap={
       {msg="Enter",sender="trap_mission_failed_area",func=function()
         if Tpp.IsHelicopter(vars.playerVehicleGameObjectId)then
@@ -3352,6 +3354,7 @@ function this.VarSaveOnUpdateCheckPoint(saveBusy)
   if Gimmick.StoreSaveDataPermanentGimmickFromCheckPoint then
     Gimmick.StoreSaveDataPermanentGimmickFromCheckPoint()
   end
+  TppMotherBaseManagement.CheckMisogi()--RETAILPATCH 1070
   TppSave.VarSave(vars.missionCode)
   if vars.missionCode==10115 then
     return
@@ -3657,6 +3660,7 @@ function this.SetNextMissionStartHeliRoute(heliRoute)
 end
 function this.ClearFobMode()
   vars.fobSneakMode=FobMode.MODE_NONE
+  vars.fobIsPlaceMode=0--RETAILPATCH 1070
 end
 function this.UnsetFobSneakFlag(missionCode)
   if not this.IsFOBMission(missionCode)then

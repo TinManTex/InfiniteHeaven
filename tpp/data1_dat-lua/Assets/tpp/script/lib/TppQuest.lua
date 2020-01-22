@@ -1313,6 +1313,8 @@ function this.Clear(t)
   if this.GetSideOpsInfo(t)then
     TppTrophy.Unlock(15)
   end
+  TppMission.SetPlayRecordClearInfo()--RETAILPATCH 1070
+  TppChallengeTask.RequestUpdate"SIDEOPS"--RETAILPATCH 1070
   TppUiCommand.SetSideOpsListUpdate()
   for n,e in ipairs(m)do
     if t==e then

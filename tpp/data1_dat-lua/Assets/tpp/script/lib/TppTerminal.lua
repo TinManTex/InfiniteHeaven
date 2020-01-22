@@ -167,6 +167,7 @@ this.MBDVCMENU={
   MSN_HELI_DISMISS="MSN_HELI_DISMISS",
   MSN_MISSIONLIST="MSN_MISSIONLIST",
   MSN_SIDEOPSLIST="MSN_SIDEOPSLIST",
+  MSN_CHALLENGE="MSN_CHALLENGE",--RETAILPATCH 1070
   MSN_LOCATION="MSN_LOCATION",
   MSN_RETURNMB="MSN_RETURNMB",
   MSN_FOB="MSN_FOB",
@@ -454,6 +455,7 @@ function this.UnSetUsageRestrictionOnFOB(t)
   TppUiCommand.SetMbTopMenuItemActive(this.MBDVCMENU.MSN_EMERGENCIE_F,t)
   TppUiCommand.SetMbTopMenuItemActive(this.MBDVCMENU.MSN_EMERGENCIE_N,t)
   TppUiCommand.SetMbTopMenuItemActive(this.MBDVCMENU.MSN_SIDEOPSLIST,t)
+  TppUiCommand.SetMbTopMenuItemActive(this.MBDVCMENU.MSN_CHALLENGE,t)--RETAILPATCH 1070 added
   TppUiCommand.SetMbTopMenuItemActive(this.MBDVCMENU.MSN_LOCATION,t)
   TppUiCommand.SetMbTopMenuItemActive(this.MBDVCMENU.MSN_RETURNMB,t)
   TppUiCommand.SetMbTopMenuItemActive(this.MBDVCMENU.MSN_DROP,t)
@@ -1047,17 +1049,24 @@ function this.SetUp()
   this.SetUpCustomWeaponMBDVCMenu()
   --[[if InfMain.IsMbPlayTime() then--tex MB menu stuff, I'll be fucked where the game usually disables it RETRY
 
+
     --InfMenu.DebugPrint"Tppterminal set dvcmenu")--tex DEBUG: CULL:
+
 
     local dvcMenu={
 
+
       {menu=this.MBDVCMENU.MSN_BUDDY,active=true},
+
 
     }
 
+
     this.EnableDvcMenuByList(dvcMenu)
 
+
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
+
 
   end--]]
 
@@ -1076,29 +1085,42 @@ function this.SetUp()
   end
   --[[ORIG
 
+
   if TppMission.IsSubsistenceMission() then
+
 
     local dvcMenu={
 
+
       {menu=this.MBDVCMENU.MSN_DROP,active=false},
+
 
       {menu=this.MBDVCMENU.MSN_BUDDY,active=false},
 
+
       {menu=this.MBDVCMENU.MSN_ATTACK,active=false},
+
 
       {menu=this.MBDVCMENU.MSN_HELI_ATTACK,active=false}
 
+
     }
+
 
     this.EnableDvcMenuByList(dvcMenu)
 
+
     TppUiStatusManager.SetStatus("Subjective","SUPPORT_NO_USE")
+
 
   else
 
+
     TppUiStatusManager.UnsetStatus("Subjective","SUPPORT_NO_USE")
 
+
   end
+
 
   --]]
 end
@@ -1186,6 +1208,7 @@ end
 function this.IncrementRecoveredSoldierCount()
   gvars.trm_recoveredSoldierCount=gvars.trm_recoveredSoldierCount+1
   this.GetFultonCountKeyItem()
+  TppChallengeTask.RequestUpdate"PLAY_RECORD"--RETAILPATCH 1070
 end
 function this.GetRecoveredSoldierCount()
   return gvars.trm_recoveredSoldierCount
@@ -1193,6 +1216,7 @@ end
 function this.IncrementRecoveredHostageCount()
   gvars.trm_recoveredHostageCount=gvars.trm_recoveredHostageCount+1
   this.GetFultonCountKeyItem()
+  TppChallengeTask.RequestUpdate"PLAY_RECORD"--RETAILPATCH 1070
 end
 function this.GetRecoveredHostageCount()
   return gvars.trm_recoveredHostageCount
@@ -1206,6 +1230,14 @@ function this.GetFultonCountKeyItem()
     this.AcquireKeyItem{dataBaseId=MBMConst.DESIGN_3005,isShowAnnounceLog=true}
   end
 end
+function this.IsEqualOrMoreTotalFultonCount(fultonCount)--RETAILPATCH 1070>
+  local totalFultonCount=gvars.trm_recoveredSoldierCount+gvars.trm_recoveredHostageCount
+  if(totalFultonCount>=fultonCount)then
+    return true
+  else
+    return false
+  end
+end--<
 function this.OnFultonSoldier(gameId,a,a,staffId,recoveredByHeli,fultonedPlayer)
   if recoveredByHeli then
     local command={id="SetToHeliRecoveredComplete"}

@@ -1851,10 +1851,9 @@ this.selectedCp={
   range={max=9999},--tex TODO
   prev=nil,
   GetNext=function(self)
-    --InfMenu.DebugPrint"selcp getnext"--DEBUGNOW
     self.prev=self.setting
-    if mvars.ene_cpList==nil then--DEBUGNOW
-     InfMenu.DebugPrint"mvars.ene_cpList==nil"--DEBUGNOW
+    if mvars.ene_cpList==nil then
+     InfMenu.DebugPrint"mvars.ene_cpList==nil"--DEBUG
      return 0
     end--
     
@@ -1865,14 +1864,12 @@ this.selectedCp={
       nextSetting=next(mvars.ene_cpList,self.setting)
     end
     if nextSetting==nil then
-      --InfMenu.DebugPrint"self setting==nil"--DEBUGNOW
+      --InfMenu.DebugPrint"self setting==nil"--DEBUG
       nextSetting=next(mvars.ene_cpList)
     end
-    --InfMenu.DebugPrint"selcp getnext done"--DEBUGNOW
     return nextSetting
   end,
   GetPrev=function(self)
-    --InfMenu.DebugPrint"selcp getprev"--DEBUGNOW
     local nextSetting=self.setting
     if self.prev~=nil then
       nextSetting=self.prev
@@ -1880,7 +1877,6 @@ this.selectedCp={
     else
       nextSetting=next(mvars.ene_cpList)--tex go back to start
     end
-    --InfMenu.DebugPrint"selcp getprev done"--DEBUGNOW
     return nextSetting
   end,
   GetSettingText=function(self)

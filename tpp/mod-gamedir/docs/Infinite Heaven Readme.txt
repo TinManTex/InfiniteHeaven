@@ -1,13 +1,18 @@
 = Infinite heaven =
-r107 - 2015-12-15
+r110 - 2015-12-18
 by tin man tex
-For MGSV version 1.0.6.0 (1.06 in title screen)
+For MGSV version 1.0.7.0 (1.07 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-New for r107:
-Interim workaround option for vehicle patrols:
-"qfpks - will break some sideops" , "Custom fpks - may crash the game"
+New for r110:
+Enemy prep options:
+"Allow heavy armor in free mode"
+"Allow heavy armor in all missions"
+"Allow helmet and NVG or Gas mask combo"
+"Ballance heavy armor and head gear distribution"
+"Random CP subtype in free mode"
+"Random CP subtype in missions"
 
 New for r106:
 Enemy prep options:
@@ -46,62 +51,12 @@ Target holdup penalty - reduced to 5.
 In the game having a held-up/awake target is already dangerous, they are noisy when being fultoned, having a success penalty on top of this promotes the easy/safer option of sleeping target too much.
 Holdup is however the fallback value so I'm giving it at least some value to keep some impact and push the player to manual extraction if they want a guaranteed success. 
 
-
-New for r102:
-Remove demon snake, in Player settings menu:
-[youtube]OrxIwLmM_Tc[/youtube]
-https://www.youtube.com/watch?v=OrxIwLmM_Tc
-
-New for r100:
-
-Vehicle patrol vehicle types:
-For free mode change the traveling  trucks to other vehicle types:
-Randomly selects from enabled vehicle type list with either one type for all, or each type chosen.
-Types:
-Jeeps
-Trucks
-Wheeled armored vehicles
-Heavy wheeled armored vehicles
-Tanks
-
-Enemy vehicle reinforcements
-Options to enable the games 'super reinforce' which by default was only used in a few missions (and the normal mission scripting makes it less noticeable)
-In free mode currently only enemy heli reinforce works, in missions other vehicles will work if the mission is set up right (but still in more missions than default).
-
-[youtube]g4NXeCuK9Jk[/youtube]
-https://www.youtube.com/watch?v=g4NXeCuK9Jk
-
-Enable enemy reinforce - Enemy prep: Uses the Enemy preparation combat value. Force Prep: Ignores if the Enemy prep value is not set.
-
-Force enable enemy heli reinforce (disable heli sideops) - the normal game actually hijacks the reinforce system for sideops with helis, this disables those sideops so the heli can be used.
-
-Force reinforce request - reinforce will ignore reinforce count limit or coms disabled.
-
-Disable reinforce heli pullout - prevents the heli retreating when damaged.
-
-Feature:
-Abort to ACC from title continue. Hold down ESCAPE for 1.5 seconds, the kjp logo will flash, clicking on continue will load ACC instead of continuing mission.
-
-Other options:
-Start on foot reworked to spawn at selected lz on mother base platforms - thanks to NasaNhak for pointer
-
-Phase on vehicle attack - the enemy reactions to heavy vehicle attack in the default game are lacking, you can kill someone and they'll act as if it's an unsourced attack. This option changes phase of soldiers command post on damaging the soldier. Setting it to ALERT recommended.
-In the Enemy phases menu but independent from Enable phase modifications
-
-https://www.youtube.com/watch?v=BUqPYDlA42A
-
-Use selected soldier in cutscenes now covers most cutscenes and also allows selected character in Diamond Dogs and Shining Lights missions - thanks NasaNhak and Solidcal for the suggestions.
-
-Player and enemy health scale option upper bounds increased to 900%
-
-Fixes:
-Mission timer on Backup Back Down (10054,11054) would not start, startOnFoot now SetIsStartFromFreePlay - thanks NasaNhak the report.
-Not being able to select weapon when toggling warp mode.
-Returning to ACC while in vehicle or on buddy preventing mod menu from opening.
-
 Infinite Heaven features:
 ------------------------------
 Demonstrations:
+Enemy reactions to vehicle:
+[youtube]BUqPYDlA42A[/youtube]
+https://www.youtube.com/watch?v=BUqPYDlA42A
 Support heli settings:
 [youtube]frxAuiwCaEk[/youtube]
 https://www.youtube.com/watch?v=frxAuiwCaEk
@@ -122,9 +77,12 @@ Warp mode:
 https://www.youtube.com/watch?v=AhkFPtQlqnM
 [youtube]ScF8OdQkFU8[/youtube]
 https://www.youtube.com/watch?v=ScF8OdQkFU8
+Remove demon snake, in Player settings menu:
+[youtube]OrxIwLmM_Tc[/youtube]
+https://www.youtube.com/watch?v=OrxIwLmM_Tc
 
 Player Restriction - disable of game settings to customize your challenge
-
+-----------------
 Includes Subsistence profiles, sets of customized settings that lets you go into any mission or free roam with same (and more) restrictions as subsistence missions, or with just a secondary of your choice.
 
 Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgrades off, ASAP time forced, vehicle off, fulton  off, support off, head markers off, heli attack off, central landing zones off.
@@ -146,7 +104,7 @@ Start on foot - skip heli ride into mission and start on the ground.
 Abort Mission (Return to ACC) added to Motherbase pause menu.
 
 Enemy Preparedness:
-
+-----------------
 Reset - to 0
 
 Max - the same 'revenge system' max as the extreme missions. Most soldiers have gear equipped, such as helmets, body armor, nvg, many heavy weapons deployed.
@@ -154,7 +112,7 @@ Max - the same 'revenge system' max as the extreme missions. Most soldiers have 
 Resupply in #missions - the number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
 
 Mother Base soldier tweaks:
-
+-----------------
 Weapon loadout - using fob equip grade and range
 
 Suits - same range as fob missions
@@ -165,7 +123,7 @@ Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set fr
 Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
 
 Enemy parameters:
-
+-----------------
 Soldier profile - switch to off if you're combining with a modded soldier parameter table, or custom to allow the following settings:
 
 Soldier health scaling 900-0% (requires Enemy Parameters Tweaked), 0% will kill off all enemies
@@ -179,8 +137,36 @@ Use selected soldier in cutscenes and missions - shows your avatar or selected d
 
 Headgear (Cosmetic) - Several diffrent headgear options.
 
-Side ops:
+Vehicle patrol vehicle types:
+------------------
+For free mode change the traveling  trucks to other vehicle types:
+Randomly selects from enabled vehicle type list with either one type for all, or each type chosen.
+Types:
+Jeeps
+Trucks
+Wheeled armored vehicles
+Heavy wheeled armored vehicles
+Tanks
 
+Enemy vehicle reinforcements
+---------------------------
+Options to enable the games 'super reinforce' which by default was only used in a few missions (and the normal mission scripting makes it less noticeable)
+In free mode currently only enemy heli reinforce works, in missions other vehicles will work if the mission is set up right (but still in more missions than default).
+
+[youtube]g4NXeCuK9Jk[/youtube]
+https://www.youtube.com/watch?v=g4NXeCuK9Jk
+
+Enable enemy reinforce - Enemy prep: Uses the Enemy preparation combat value. Force Prep: Ignores if the Enemy prep value is not set.
+
+Force enable enemy heli reinforce (disable heli sideops) - the normal game actually hijacks the reinforce system for sideops with helis, this disables those sideops so the heli can be used.
+
+Force reinforce request - reinforce will ignore reinforce count limit or coms disabled.
+
+Disable reinforce heli pullout - prevents the heli retreating when damaged.
+
+
+Side ops:
+-----------------
 Unlock random Sideops for areas - The normal games sideops system breaks the map into areas, with only one sideop allowed to be active at a time. In the retail game it's chosen in a first found manner. Uncompleted story missions and uncompleted sideops get priority of selection over replayable sideops.
 This setting changes it to a random selection of potential sideops, with the same priorities. Force replay adds completed sideops to the potential selection. Force Open adds most sideops to the selection pool.
 
@@ -189,7 +175,7 @@ Open specific sideop - enables that specifc sideop.
 Warning: still largely untested, unknown how replaying the story missions affect things.
 
 Cutscenes:
-
+-----------------
 Use current soldier in cutscenes instead of snake.
 
 Disable Mother Base cutscenes - Disables some arrive at motherbase cutscenes that cause infinite loading screens on some saves. This bug also occurs on unmodified games. If you have a save already stuck in this state (already at the MB loading screen) try my separate 'MB loading screen fix' mod.
@@ -205,6 +191,13 @@ Don't lock goal doors - useless unless you like swishing doors.
 Don't disable Ocelot after cutscenes - with this you can leave Occelot on MB in person after some cutscenes.
 
 Don't disable buddies after cutscenes - likewise with buddies (ddog mostly)
+
+Enemy phases:
+-----------------
+Adjust minimum and maximum alert phase for enemy Cps
+
+Phase on vehicle attack - the enemy reactions to heavy vehicle attack in the default game are lacking, you can kill someone and they'll act as if it's an unsourced attack. This option changes phase of soldiers command post on damaging the soldier. Setting it to ALERT recommended.
+In the Enemy phases menu but independent from Enable phase modifications
 
 Warp Mode:
 -----------------
@@ -235,7 +228,7 @@ Force searchlight - change the heli searchlight state
 
 
 Patchups:
-
+-------------
 Unlock playable avatar - unlock avatar before mission 46
 
 Unlock weapon customization - game progression unlock without having to complete legendary gunsmith missions
@@ -251,6 +244,10 @@ Enemies Revenge system level for Fulton was fulton was 0 low, 1 blank, 2 high, n
 TppMission.GoToEmergencyMission() -> TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode] instead of vars.missionCode
 
 Disable mission intro credits
+
+Feature:
+Abort to ACC from title continue. Hold down ESCAPE for 1.5 seconds, the kjp logo will flash, clicking on continue will load ACC instead of continuing mission.
+
 
 
 By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
@@ -359,6 +356,18 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r110 - 2015-12-18 - public release
+Update to TPP 1.0.7.0
+
+r109:
+Options: changeCpSubTypeFree, changeCpSubTypeForMissions
+Refactor: InfMenu. Next/PrevSetting/ChangeSetting. Support <ivar>.GetNext(), <ivar>.GetSettingText()
+
+r108
+Vehicle patrols changed to using releif vehicle(player vehicle) fpks
+Option: allowHeadGearCombo - calculates cp config a second time with headgear combinations allowed.
+Option: balanceHeadGear - adjust
+
 r107
 Option: vehiclePatrolPackType, switches between quest packs and custom fpks - thanks blejky for the report
 

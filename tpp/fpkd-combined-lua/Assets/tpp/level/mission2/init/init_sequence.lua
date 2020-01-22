@@ -97,6 +97,11 @@ local function IsPlaystationFamily()
   return false
 end
 
+local function GetSavingSlotStorySequence()--RETAILPATCH: 1070>
+	local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }
+	return TppScriptVars.GetVarValueInSlot( globalSlotForSaving, "gvars", "str_storySequence", 0 )
+end--<
+
 local sequenceTime = 0
 
 
@@ -179,6 +184,8 @@ function this.OnLoad()
     "Seq_Demo_CheckMgoInvitation",
     "Seq_Demo_CheckMgoChunkInstallation",
     "Seq_Demo_GoToMgo",
+		"Seq_Demo_CheckCompatibilityPatchDlc",--RETAILPATCH: 1070
+		"Seq_Demo_CheckBootTypeMgo",--RETAILPATCH: 1070
     "Seq_Demo_Init",
     "Seq_Demo_StartTitle",
     "Seq_Demo_ShowKonamiAndFoxLogo",
@@ -764,6 +771,8 @@ sequences.Seq_Demo_CheckInstalled = {
     end
 
     if Installer.IsCheckingInstallation() then
+			
+			TppUI.ShowAccessIconContinue()--RETAILPATCH: 1070
       return
     end
 
@@ -2121,11 +2130,11 @@ local function CreateOrLoadSaveData()
     end
   end
 
-  local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }--tex
+  local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }--tex startoffline>
   local startOffline = TppScriptVars.GetVarValueInSlot( globalSlotForSaving, "gvars", "startOffline", 0 )
   if startOffline and startOffline > 0 then
     return "Seq_Demo_Init"
-  else
+  else--<
     return "Seq_Demo_LogInKonamiServer"
   end
 end
@@ -2139,7 +2148,6 @@ sequences.Seq_Demo_CreateOrLoadSaveData = {
     this.saveCoroutine = nil
   end,
   OnUpdate = function(self)
-   
     if this.saveCoroutine then
       local status, ret1 = coroutine.resume(this.saveCoroutine)
       if not status then
@@ -2354,11 +2362,11 @@ sequences.Seq_Demo_UseBackUpLoadGameSaveData = {
           msg = "PopupClose",
           sender = TppDefine.ERROR_ID.LOAD_RESULT_BACKUP_ERROR,
           func = function()
-            local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }--tex
+            local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }--tex startoffline>
             local startOffline = TppScriptVars.GetVarValueInSlot( globalSlotForSaving, "gvars", "startOffline", 0 )
             if startOffline and startOffline > 0 then--tex
               return "Seq_Demo_Init"
-            else--
+            else--<
               TppSequence.SetNextSequence("Seq_Demo_LogInKonamiServer")
             end
           end,
@@ -2502,15 +2510,25 @@ sequences.Seq_Demo_CheckPatchDlcForInvitation = {
   end,
 }
 
-sequences.Seq_Demo_CheckPatchDlc = {
-  OnEnter = function(self)
 		
 
 
-    local function InitPatchDlcCheck()
+
+
+
+
+
+
+
+
+
+
+local function CommonPatchDlcCheckCoroutine( dlcType, DidCanceledDownloadRequest, OnCancelDownloadRequestFunc, popUpId_ConfirmDownloadRequest, popUpId_DownloadRequestFailed )
+	
       local function DebugPrintState(state)
         if DebugText then
-          DebugText.Print(DebugText.NewContext(), "InitPatchDlcCheck: " .. tostring(state))
+			local debugDlcTypeText = Tpp.DEBUG_debugDlcTypeTextTable[dlcType]
+			DebugText.Print(DebugText.NewContext(), "CommonPatchDlcCheckCoroutine: dltType = " .. tostring(debugDlcTypeText) .. ", " .. tostring(state))
         end
       end
       local function notExistPatchDlcFunc()
@@ -2520,28 +2538,19 @@ sequences.Seq_Demo_CheckPatchDlc = {
         end
 
 
-        if ( vars.didCancelPatchDlcDownloadRequest == 1 ) then
-          Fox.Log("Seq_Demo_CheckPatchDlc : PatchDlc download request cancel, because already canceled.")
+		if DidCanceledDownloadRequest() then
+			Fox.Log("PatchDlc download request cancel, because already canceled. dlcType = " .. tostring(dlcType))
           return
         end
 
-				
-
-
-
-
-
-
-        local buttonType
-        local platform = Fox.GetPlatformName()
-        if ( platform == "PS3" ) or ( platform == "PS4" ) then
-          buttonType = Popup.TYPE_TWO_BUTTON
-        else
+		if not Tpp.IsPatchDlcValidPlatform( dlcType ) then
 
           Fox.Error("Invalid platform. Stop PatchDlc down load request. platform = " .. tostring(platform) )
           return false
         end
-        TppUiCommand.ShowErrorPopup( 5101, buttonType )
+
+		
+		TppUiCommand.ShowErrorPopup( popUpId_ConfirmDownloadRequest, Popup.TYPE_TWO_BUTTON )
 
         while TppUiCommand.IsShowPopup() do
           DebugPrintState("waiting popup closed...")
@@ -2551,17 +2560,18 @@ sequences.Seq_Demo_CheckPatchDlc = {
 
         local popUpSelect = TppUiCommand.GetPopupSelect()
         if popUpSelect ~= Popup.SELECT_OK then
-
-          vars.didCancelPatchDlcDownloadRequest = 1
-          vars.isPersonalDirty = 1
-          TppSave.CheckAndSavePersonalData()
+			OnCancelDownloadRequestFunc() 
+			while TppSave.IsSaving() do
+				DebugPrintState("waiting saving end...")
+				coroutine.yield()
+			end
           return false
         end
 
 				
 
 
-        PatchDlc.RequestDownloadingPatchDlc()
+		PatchDlc.RequestDownloadingPatchDlc( dlcType )
         while PatchDlc.IsRequestingDownloadingPatchDlc() do
           DebugPrintState("PatchDlc download requesting ...")
           TppUI.ShowAccessIconContinue()
@@ -2570,21 +2580,58 @@ sequences.Seq_Demo_CheckPatchDlc = {
 
 
         if PatchDlc.GetRequestDownloadingResult() ~= PatchDlc.REQUEST_DOWNLOADING_RESULT_OK then
+			TppUiCommand.ShowErrorPopup( popUpId_DownloadRequestFailed, Popup.TYPE_ONE_BUTTON )
+
+			while TppUiCommand.IsShowPopup() do
+				DebugPrintState("waiting popup closed...")
+				coroutine.yield()
+			end
+		end
+
+	end
+
+	return Tpp.PatchDlcCheckCoroutine( nil, notExistPatchDlcFunc, nil, dlcType ) 
+end
+
+sequences.Seq_Demo_CheckPatchDlc = {
+	OnEnter = function(self)
 
 
 
-
-          TppUiCommand.ShowErrorPopup( 5102, Popup.TYPE_ONE_BUTTON )
-
-          while TppUiCommand.IsShowPopup() do
-            DebugPrintState("waiting popup closed...")
-            coroutine.yield()
+		local function InitPatchDlcCheck()
+			local function DidCancelMgoPathDlcDownloadRequest()
+				Fox.Log("DidCancelMgoPathDlcDownloadRequest")
+				if ( vars.didCancelPatchDlcDownloadRequest == 1 ) then					
+					return true
+				else
+					return false
+				end
           end
+			local function OnDenyMgoPathDlcDownloadRequest()
+				Fox.Log("OnDenyMgoPathDlcDownloadRequest")
+				vars.didCancelPatchDlcDownloadRequest = 1
+				vars.isPersonalDirty = 1
+				TppSave.CheckAndSavePersonalData()
         end
 
-      end
 
-      return Tpp.PatchDlcCheckCoroutine( nil, notExistPatchDlcFunc )
+
+
+
+
+			local popUpId_ConfirmDownloadRequest = 5101
+			
+
+
+
+			local popUpId_DownloadRequestFailed = 5102
+			return CommonPatchDlcCheckCoroutine(
+				PatchDlc.PATCH_DLC_TYPE_MGO_DATA,	
+				DidCancelMgoPathDlcDownloadRequest,
+				OnDenyMgoPathDlcDownloadRequest,
+				popUpId_ConfirmDownloadRequest,
+				popUpId_DownloadRequestFailed
+			)
     end
     mvars.init_patchDlcCheckCoroutine = coroutine.create(InitPatchDlcCheck)
   end,
@@ -2596,7 +2643,7 @@ sequences.Seq_Demo_CheckPatchDlc = {
 
       if not TppGameSequence.IsMaster() then
         if ( not status )then
-          Fox.Hungup()
+					Fox.Hungup("Script error in InitPatchDlcCheck")
         end
       end
 
@@ -2605,7 +2652,7 @@ sequences.Seq_Demo_CheckPatchDlc = {
       if ( coroutine.status(mvars.init_patchDlcCheckCoroutine) == "dead" )
         or ( not status ) then
         mvars.init_patchDlcCheckCoroutine = nil
-        TppSequence.SetNextSequence("Seq_Demo_Init")
+				TppSequence.SetNextSequence("Seq_Demo_CheckCompatibilityPatchDlc")
         return ret1
       end
     end
@@ -2637,9 +2684,7 @@ sequences.Seq_Demo_CheckMgoInvitation = {
 			return
 		end
 
-    local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }
-    local storySequence = TppScriptVars.GetVarValueInSlot( globalSlotForSaving, "gvars", "str_storySequence", 0 )
-
+		local storySequence = GetSavingSlotStorySequence()
 
     if not TppStory.CanPlayMgo( storySequence ) then
 
@@ -2726,7 +2771,12 @@ sequences.Seq_Demo_CheckMgoChunkInstallation = {
     TppUI.ShowAccessIconContinue()
 
     if not TppUiCommand.IsShowPopup( TppDefine.ERROR_ID.NOW_INSTALLING ) then
+			if InvitationManager.IsAccepted() then
       TppSequence.SetNextSequence("Seq_Demo_CheckDlc")
+			else
+				
+				TppSequence.SetNextSequence("Seq_Demo_Init")
+			end
     end
   end,
 
@@ -2740,9 +2790,15 @@ sequences.Seq_Demo_CheckMgoChunkInstallation = {
 
 sequences.Seq_Demo_GoToMgo = {
   OnEnter = function( self )
+		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
+		local popUpId
+		if InvitationManager.IsAccepted() then
+			popUpId = 5000	
+		else
 
-    TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-    TppUiCommand.ShowErrorPopup( 5000 )
+			popUpId = 5050	
+		end
+		TppUiCommand.ShowErrorPopup( popUpId )
     mvars.init_invitationAcceptedShowTime = 2.0
     TppException.isNowGoingToMgo = true
   end,
@@ -2767,6 +2823,130 @@ sequences.Seq_Demo_GoToMgo = {
     end
   end,
 }
+
+sequences.Seq_Demo_CheckCompatibilityPatchDlc = {
+	OnEnter = function(self)
+		
+
+
+		local function CompatibilityPatchDlcCoroutine()
+			local function DidCancelCompatibilityPatchDlcDownloadRequest()
+				Fox.Log("DidCancelCompatibilityPatchDlcDownloadRequest")
+				if ( vars.didCancelFobPatchDlcDownloadRequest == 1 ) then			
+					return true
+				else
+					return false
+				end
+			end
+			local function OnDenyCompatibilityPatchDlcDownloadRequest()
+				Fox.Log("OnDenyCompatibilityPatchDlcDownloadRequest")
+				vars.didCancelFobPatchDlcDownloadRequest = 1
+				vars.isPersonalDirty = 1
+				TppSave.CheckAndSavePersonalData()
+			end
+			
+
+
+			local popUpId_ConfirmDownloadRequest = 5151
+			
+
+
+			local popUpId_DownloadRequestFailed = 5152
+			return CommonPatchDlcCheckCoroutine(
+				PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA,	
+				DidCancelCompatibilityPatchDlcDownloadRequest,
+				OnDenyCompatibilityPatchDlcDownloadRequest,
+				popUpId_ConfirmDownloadRequest,
+				popUpId_DownloadRequestFailed
+			)
+		end
+		mvars.init_CompatibilityPatchDlcCoroutine = coroutine.create(CompatibilityPatchDlcCoroutine)
+	end,
+	
+	GoNextSequence = function( self )
+		TppSequence.SetNextSequence("Seq_Demo_CheckBootTypeMgo")
+	end,
+
+	OnUpdate = function( self )
+		if mvars.init_CompatibilityPatchDlcCoroutine then
+			local status, ret1 = coroutine.resume(mvars.init_CompatibilityPatchDlcCoroutine)
+
+			
+			if not TppGameSequence.IsMaster() then
+				if ( not status )then
+					Fox.Hungup("Script error in CompatibilityPatchDlcCoroutine")
+				end
+			end
+
+			
+			
+			if ( coroutine.status(mvars.init_CompatibilityPatchDlcCoroutine) == "dead" )
+			or ( not status ) then
+				mvars.init_CompatibilityPatchDlcCoroutine = nil
+				self.GoNextSequence()
+				return ret1
+			end
+		end
+	end,
+}
+
+sequences.Seq_Demo_CheckBootTypeMgo = {
+	OnEnter = function( self )
+		
+		if ( not TppUiCommand.IsBootTypeMGO() )
+		or Mission.IsBootedFromMgo() then
+			self.GoInitSequence()
+			return
+		else
+			
+			if ( not Tpp.IsMaster() ) and this.IsWindowsEditor() then
+				self.GoInitSequence()
+				return
+			end
+		end
+
+		local storySequence = GetSavingSlotStorySequence()
+		
+		if not TppStory.CanPlayMgo( storySequence ) then
+			
+
+
+
+			TppUiCommand.ShowErrorPopup( 5051, Popup.TYPE_ONE_BUTTON )
+			return
+		end
+
+		if not PatchDlc.DoesExistPatchDlc() then
+			
+
+
+
+			TppUiCommand.ShowErrorPopup( 5103, Popup.TYPE_ONE_BUTTON )
+			return
+		end
+
+		
+		TppSequence.SetNextSequence("Seq_Demo_CheckMgoChunkInstallation")
+	end,
+
+	OnUpdate = function( self )		
+		if TppUiCommand.IsShowPopup() then
+			return
+		end
+
+		
+		self.GoInitSequence()
+	end,
+
+	GoInitSequence = function( self )
+		TppSequence.SetNextSequence("Seq_Demo_Init")
+	end,
+
+	OnLeave = function(self, nextSequenceName)
+	end,
+	
+}
+
 
 sequences.Seq_Demo_Init = {
   OnEnter = function( self )
@@ -2853,6 +3033,7 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
     end
     SplashScreen.SetStateCallback(konamiLogoScreenId, StateCallback)
     
+		
     local function StateCallback(screenId, state)
       if state == SplashScreen.STATE_DELETE then
         Fox.Log("konamiLogoScreen is deleted. show fox logo.")
@@ -2860,6 +3041,7 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
       end
     end
     SplashScreen.SetStateCallback(kjpLogoScreenId, StateCallback)
+		
     SplashScreen.Show( konamiLogoScreenId, 1.0, 4.0, 1.0)
     --]]
     --NMC: no nvidia splash? in exe? in ui?, it is tied to show on the delete of foxlogo though.

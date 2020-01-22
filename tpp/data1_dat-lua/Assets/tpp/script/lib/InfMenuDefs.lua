@@ -333,10 +333,10 @@ this.heliSpaceMenu={
 this.debugInMissionMenu={
   options={
     Ivars.selectedCp,
-    InfMenuCommands.DEBUG_RandomizeCp,--DEBUGNOW
-    InfMenuCommands.DEBUG_PrintRealizedCount,--DEBUGNOW
-    InfMenuCommands.DEBUG_PrintEnemyFova,--DEBUGNOW
-    InfMenuCommands.DEBUG_PrintPowersCountArmor,--DEBUGNOW
+    InfMenuCommands.DEBUG_RandomizeCp,
+    InfMenuCommands.DEBUG_PrintRealizedCount,
+    InfMenuCommands.DEBUG_PrintEnemyFova,
+    InfMenuCommands.DEBUG_PrintPowersCountArmor,
     --InfMenuCommands.warpPlayerCommand,
     InfMenuCommands.DEBUG_PrintReinforceVars,
     --InfMenuCommands.DEBUG_PrintVehicleTypes,

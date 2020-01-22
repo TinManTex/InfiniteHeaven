@@ -56,6 +56,63 @@ local GDTGT_MEMBER_LIST = {
 		{ min = NUM_MEMBER_MIN, MAX = NUM_MEMBER_MAX },
 	},
 }
+
+
+local ANYWHARE_CAMERA_LIST = {
+	"AnyWhere_SecurityCameraLocator001",
+	"AnyWhere_SecurityCameraLocator002",
+	"AnyWhere_SecurityCameraLocator003",
+	"AnyWhere_SecurityCameraLocator004",
+}
+
+
+this.PARASITE_NAME_LIST = {
+	"Parasite0",
+	"Parasite1",
+	"Parasite2",
+	"Parasite3",
+}
+
+local PARASITE_DIFFICULTY = {
+	NORMAL = {
+		6,
+	},
+	HARD = {
+		7,
+	},
+}
+
+local PARASITE_PARAM = {
+	NORMAL = {
+		sightDistance = 30,
+		sightVertical = 55.0,
+		sightHorizontal = 48.0,
+	},
+	HARD = {
+		sightDistance = 30,
+		sightVertical = 55.0,
+		sightHorizontal = 48.0,
+	},
+}
+
+local PARASITE_GRADE = {
+	NORMAL = {
+		defMain = 4000,
+		defArmor = 7000,
+		defWall = 8000,
+		offGrade = 2,
+		defGrade = 7,
+	},
+	HARD = {
+		defMain = 4000,
+		defArmor = 8400,
+		defWall = 9600,
+		offGrade = 5,
+		defGrade = 7,
+	},
+}
+
+
 this.HOSTAGE_NAME_LIST = {
 	"hos_o50050_event5_0000",
 	"hos_o50050_event5_0001",
@@ -350,6 +407,21 @@ this.SetSaluteMoraleDisableAll = function()
 end
 
 
+
+this.isAnihilatedFOB = function()
+	Fox.Log("*** isAnihilatedFOB *** ")
+
+	for idx = 1, table.getn(this.soldierDefine[mtbs_enemy.cpNameDefine]) do
+		local isEliminated = TppEnemy.IsEliminated( this.soldierDefine[mtbs_enemy.cpNameDefine][idx] )
+		local isNeutralized = TppEnemy.IsNeutralized( this.soldierDefine[mtbs_enemy.cpNameDefine][idx] )
+		
+		if isEliminated == false and isNeutralized == false then
+			return false
+		end
+	end
+	return true
+end
+
 this.SetTimerCheckFocusArea = function()
 	GkEventTimerManager.StartRaw(TIMER_NAME_CHECK_FOCUS_AREA, TIME_CHECK_FOCUS_AREA )
 end
@@ -531,6 +603,10 @@ end
 
 this.SetUpEnemy = function ()
 	Fox.Log("*** o50050 SetUpEnemy ***")
+
+	
+	TppMotherBaseManagement.SetupFreePositionSecurityItems()
+
 	local clusterId = MotherBaseStage.GetFirstCluster() + 1
 	local sortieSoldierNum = mtbs_enemy.SetupEnemy( clusterId )
 
@@ -618,6 +694,21 @@ this.SetUpEnemy = function ()
 					return
 				end
 			end
+		end
+	end
+
+	
+	if TppEnemy.IsZombieEventFOB() then
+		this.SetUpEventFOBZombie()
+	end
+
+	
+	
+	if not TppEnemy.IsSpecialEventFOB() then	
+		for k,locatorName in pairs(ANYWHARE_CAMERA_LIST) do
+			local gameObjectId = GameObject.GetGameObjectId( "TppSecurityCamera2", locatorName )
+			GameObject.SendCommand( gameObjectId, {id = "SetEnabled", enabled = false } )
+			GameObject.SendCommand( gameObjectId, {id = "SetCommandPost", cp=mtbs_enemy.cpNameDefine } )
 		end
 	end
 
@@ -825,6 +916,140 @@ function this.InitializeFobUsingStaffIndex()
 		end
 	end
 end
+
+
+
+
+
+
+function this.SetUpEventFOBZombie()
+	Fox.Log("***** EventFOB:ZombieEvent *****")
+
+	for idx = 1, table.getn(this.soldierDefine[mtbs_enemy.cpNameDefine]) do
+		local gameObjectId = GameObject.GetGameObjectId("TppSoldier2", this.soldierDefine[mtbs_enemy.cpNameDefine][idx])
+		if gameObjectId ~= NULL_ID then
+			GameObject.SendCommand( gameObjectId, { id = "SetZombie", enabled = true, isMsf = false, isZombieSkin = true, isHagure = false } )
+		end
+	end
+
+end
+
+function this.UnsetEventFOBZombie()
+	Fox.Log("***** EventFOB:UnsetEventFOBZombie *****")
+
+	for idx = 1, table.getn(this.soldierDefine[mtbs_enemy.cpNameDefine]) do
+		local gameObjectId = GameObject.GetGameObjectId("TppSoldier2", this.soldierDefine[mtbs_enemy.cpNameDefine][idx])
+		if gameObjectId ~= NULL_ID then
+			GameObject.SendCommand( gameObjectId, { id = "SetZombie", enabled = false } )
+			GameObject.SendCommand( gameObjectId, { id = "SetEverDown", enabled = true } )
+		end
+	end
+
+end
+
+
+
+
+
+
+
+this.InitParasiteEvent = function ()
+	Fox.Log("***** this.InitParasiteEvent *****")
+
+	
+	TppWeather.ForceRequestWeather( TppDefine.WEATHER.FOGGY, 0, { fogDensity = 0.001 } )	
+
+end
+
+
+this.BeforeSpawnParasite = function ()
+	Fox.Log("***** this.BeforeSpawnParasite *****")
+
+	TppTerminal.TerminalVoiceWeatherForecast(TppDefine.WEATHER.FOGGY)
+	TppWeather.ForceRequestWeather( TppDefine.WEATHER.FOGGY, 15, { fogDensity = 0.09 } )	
+
+end
+
+
+this.SpawnParasite = function ()
+	Fox.Log("***** this.SpawnParasite *****")
+
+	WeatherManager.PauseNewWeatherChangeRandom(true)
+
+	
+	local params, grades = this.GetDifficultyParasite()
+	GameObject.SendCommand( { type="TppParasite2" }, { id="SetParameters", params=params } ) 
+	GameObject.SendCommand( { type="TppParasite2" }, { id="SetCombatGrade", defenseValueMain = grades.defMain, defenseValueArmor = grades.defArmor, defenseValueWall = grades.defWall, offenseGrade = grades.offGrade, defenseGrade = grades.defGrade, } )
+
+	
+	local clusterId = MotherBaseStage.GetFirstCluster() + 1
+	local posSpotList, rotSpotY = mtbs_cluster.GetPosAndRotY_FOB( TppDefine.CLUSTER_NAME[o50050_sequence.currentClusterSetting.numClstId], "plnt0", {0,0,0}, 0 )
+	GameObject.SendCommand( { type="TppParasite2" }, { id="StartAppearance", position=Vector3(posSpotList[1],posSpotList[2]+0.0001,posSpotList[3]), radius=15.0 } )
+
+end
+
+
+this.GetDifficultyParasite = function ()
+	Fox.Log("***** this.GetDifficultyParasite *****")
+
+	
+	return PARASITE_PARAM.HARD, PARASITE_GRADE.HARD
+
+
+
+
+
+
+
+
+
+
+
+end
+
+
+this.StartSearchParasite = function ()
+	Fox.Log("***** this.StartSearchParasite *****")
+
+	for k, parasiteName in pairs(this.PARASITE_NAME_LIST) do
+		local gameObjectId = GameObject.GetGameObjectId(parasiteName)
+		if gameObjectId ~= nil then
+			GameObject.SendCommand( gameObjectId, { id="StartSearch" })
+		end
+	end
+end
+
+
+this.StartCombatParasite = function ()
+	Fox.Log("***** this.StartCombatParasite *****")
+
+	for k, parasiteName in pairs(this.PARASITE_NAME_LIST) do
+		local gameObjectId = GameObject.GetGameObjectId(parasiteName)
+		if gameObjectId ~= nil then
+			GameObject.SendCommand( gameObjectId, { id="StartCombat" })
+		end
+	end
+end
+
+
+this.CountDyingParasite = function (gameObjectId)
+	Fox.Log("***** this.CountDyingParasite *****")
+
+	for k, parasiteName in pairs(this.PARASITE_NAME_LIST) do
+		if gameObjectId == GameObject.GetGameObjectId(parasiteName) then
+			mvars.parasiteDyingNum = mvars.parasiteDyingNum + 1
+		end
+	end
+	Fox.Log("#### o50050_enemy.CountDyingParasite #### dying count = "..mvars.parasiteDyingNum)
+
+	if mvars.parasiteDyingNum >= table.getn(this.PARASITE_NAME_LIST) then
+		return true
+	else
+		return false
+	end
+
+end
+
 
 
 

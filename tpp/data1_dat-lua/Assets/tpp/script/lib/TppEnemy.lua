@@ -5281,6 +5281,30 @@ function this.IsHostageEventFOB()
   end
   return false
 end
+function this.IsZombieEventFOB()--RETAILPATCH 1070>
+  local eventHostage=TppDefine.FOB_EVENT_ID_LIST.ZOMBIE
+  local eventId=TppServerManager.GetEventId()
+  for t,e in ipairs(eventHostage)do
+    if eventId==e then
+      return true
+    end
+  end
+  return false  
+end
+function this.IsParasiteMetalEventFOB()
+  local e=TppDefine.FOB_EVENT_ID_LIST.PARASITE_METAL
+  local n=TppServerManager.GetEventId()
+  for t,e in ipairs(e)do
+    if n==e then
+      return true
+    end
+  end
+  return false
+end
+function this.IsSpecialEventFOB()
+  return this.IsParasiteMetalEventFOB()
+end
+--<
 function this._OnDead(gameId,attackerId)
   local isPlayer
   if attackerId then

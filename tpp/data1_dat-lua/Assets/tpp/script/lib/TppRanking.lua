@@ -1,3 +1,4 @@
+--RETAILPATCH 1070 bunch of stuff
 local this={}
 this.IS_ONCE={false,true,true,true,true,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false}
 this.UPDATE_ORDER={true,false,false,false,false,true,true,true,false,false,true,true,true,true,true,true,true,true,true,true}
@@ -5,14 +6,7 @@ this.ANNOUNCE_LOG_TYPE={NONE=0,TIME=1,DISTANCE=2,NUMBER=3}
 this.SHOW_ANNOUNCE_LOG={this.ANNOUNCE_LOG_TYPE.NONE,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.DISTANCE,this.ANNOUNCE_LOG_TYPE.NONE,this.ANNOUNCE_LOG_TYPE.DISTANCE,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.NONE,this.ANNOUNCE_LOG_TYPE.NONE,this.ANNOUNCE_LOG_TYPE.NONE,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME,this.ANNOUNCE_LOG_TYPE.TIME}
 this.OPEN_CONDITION={
   true,
-  10043,
-  10036,
-  10033,
-  10041,
-  10044,
-  10054,
-  10052,
-  10086,
+  10043,10036,10033,10041,10044,10054,10052,10086,
   function()
     if gvars.rnk_isOpen[TppDefine.RANKING_ENUM.XRocketArmNeutralizeTime]then
       return true
@@ -23,9 +17,7 @@ this.OPEN_CONDITION={
       return false
     end
   end,
-  10115,
-  10115,
-  10151,
+  10115,10115,10151,
   TppQuest.ShootingPracticeOpenCondition.Command,
   TppQuest.ShootingPracticeOpenCondition.Develop,
   TppQuest.ShootingPracticeOpenCondition.Support,
@@ -44,18 +36,18 @@ function this.GetScore(e)
   end
   return e
 end
-function this.IncrementScore(n)
-  local a=this.GetScore(n)
-  if a then
-    this.UpdateScore(n,a+1)
+function this.IncrementScore(a)
+  local n=this.GetScore(a)
+  if n then
+    this.UpdateScore(a,n+1)
   end
 end
-function this.UpdateScore(t,a)
-  local n=TppDefine.RANKING_ENUM[t]
+function this.UpdateScore(a,t)
+  local n=TppDefine.RANKING_ENUM[a]
   if not n then
     return
   end
-  if not Tpp.IsTypeNumber(a)then
+  if not Tpp.IsTypeNumber(t)then
     return
   end
   if not gvars.rnk_isOpen[n]then
@@ -65,7 +57,7 @@ function this.UpdateScore(t,a)
   if o then
     return
   end
-  local o="rnk_"..t
+  local o="rnk_"..a
   if gvars[o]==nil then
     return
   end
@@ -73,22 +65,22 @@ function this.UpdateScore(t,a)
   if(svars.rnk_isUpdated[n]==false)or(r==false)then
     svars.rnk_isUpdated[n]=true
     local r=this.UPDATE_ORDER[n]
-    local t
+    local a
     if r then
-      if gvars[o]<a then
-        t=true
+      if gvars[o]<t then
+        a=true
       else
-        t=false
+        a=false
       end
     else
-      if gvars[o]>a then
-        t=true
+      if gvars[o]>t then
+        a=true
       else
-        t=false
+        a=false
       end
     end
-    if t then
-      this.ShowUpdateScoreAnnounceLog(n,a)gvars[o]=a
+    if a then
+      this.ShowUpdateScoreAnnounceLog(n,t)gvars[o]=t
     end
   else
     if r then
@@ -115,15 +107,14 @@ function this.GetRankingLangId(e)
   return string.format("ranking_name_%02d",e)
 end
 function this._ShowCommonUpdateScoreAnnounceLog(n)
-  TppUI.ShowAnnounceLog"trial_update"
-  local e=this.GetRankingLangId(n)
+  TppUI.ShowAnnounceLog"trial_update"local e=this.GetRankingLangId(n)
   TppUiCommand.AnnounceLogViewLangId(e)
 end
-function this._ShowScoreTimeAnnounceLog(e)
-  local n=math.floor(e/6e4)
-  local a=math.floor((e-n*6e4)/1e3)
-  local e=(e-n*6e4)-a*1e3
-  TppUiCommand.AnnounceLogViewLangId("announce_trial_time",n,a,e)
+function this._ShowScoreTimeAnnounceLog(n)
+  local e=math.floor(n/6e4)
+  local a=math.floor((n-e*6e4)/1e3)
+  local n=(n-e*6e4)-a*1e3
+  TppUiCommand.AnnounceLogViewLangId("announce_trial_time",e,a,n)
 end
 function this._ShowScoreDistanceAnnounceLog(n)
   local e=math.floor(n)
@@ -134,22 +125,22 @@ function this._ShowScoreNumberAnnounceLog(e)
   TppUiCommand.AnnounceLogViewLangId("announce_trial_num",e)
 end
 function this.UpdateOpenRanking()
-  for e,n in pairs(this.OPEN_CONDITION)do
+  for e,a in pairs(this.OPEN_CONDITION)do
     local t=gvars.rnk_isOpen[e]
-    local a=false
-    if n==true then
-      a=true
-    elseif Tpp.IsTypeNumber(n)then
-      a=TppStory.IsMissionCleard(n)
-    elseif Tpp.IsTypeFunc(n)then
-      a=n()
+    local n=false
+    if a==true then
+      n=true
+    elseif Tpp.IsTypeNumber(a)then
+      n=TppStory.IsMissionCleard(a)
+    elseif Tpp.IsTypeFunc(a)then
+      n=a()
     end
     if(((e==11)or(e==12))or(e==13))and(not t)then
-      if a then
+      if n then
         TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="dummy",rewardType=TppReward.TYPE.RANKING,arg1=e}
       end
     end
-    gvars.rnk_isOpen[e]=a
+    gvars.rnk_isOpen[e]=n
   end
 end
 function this.RegistMissionClearRankingResult(a,n,t)
@@ -197,13 +188,32 @@ function this.Messages()
   return Tpp.StrCode32Table{Player={{msg="CBoxSlideEnd",func=this.OnCBoxSlideEnd}},GameObject={{msg="Neutralize",func=this.OnNeutralize},{msg="HeadShot",func=this.OnHeadShot}}}
 end
 function this.Init(n)
+  TppChallengeTask.RegisterCheckerFunction("PLAY_RECORD","TppRanking","CheckPlayRecordChallengeTask")
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function TppResult.OnReload(n)
+local n={2250,2260,2270,2280,2290,2300,2310,2320,2330,2340}
+function this.CheckPlayRecordChallengeTask()
+  local e=TppTerminal.IsEqualOrMoreTotalFultonCount
+  local r={e,e,e,e,e,e,e,e,e,TppResult.IsEqualOrMoreCboxGlidingDistance}
+  local o={100,200,300,400,500,600,700,800,900,150}
+  local t={true,2250,2260,2270,2280,2290,2300,2310,2320,true}
+  local e={}
+  for n,a in ipairs(n)do
+    local o,t,n=r[n],o[n],t[n]
+    local t=o(t)
+    if n==true then
+      table.insert(e,{taskId=a,isVisible=true,isCompleted=t})
+    else
+      table.insert(e,{taskId=a,completedTaskIdForVisible=n,isCompleted=t})
+    end
+  end
+  return e
+end
+function this.OnReload(n)
   this.Init(n)
 end
-function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+function this.OnMessage(r,t,n,o,a,i,s)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,r,t,n,o,a,i,s)
 end
 function this.OnNeutralize(n,n,e,n)
   if e==NeutralizeType.HOLDUP then
@@ -223,6 +233,16 @@ end
 function this.OnCBoxSlideEnd(n,e)
   local e=e/10
   PlayRecord.RegistPlayRecord("CBOX_SLIDING",e)
+  if(e>gvars.rnk_CboxGlidingDistance)then
+    gvars.rnk_CboxGlidingDistance=e
+    TppChallengeTask.RequestUpdate"PLAY_RECORD"end
+end
+function TppResult.IsEqualOrMoreCboxGlidingDistance(e)
+  if gvars.rnk_CboxGlidingDistance>=e then
+    return true
+  else
+    return false
+  end
 end
 function this.DeclareSVars()
   return{{name="rnk_isUpdated",arraySize=TppDefine.RANKING_MAX,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION}}

@@ -2861,6 +2861,19 @@ sequences.Seq_Game_Escape = {
 				},
 				nil
 			},
+			Player = {--RETAILPATCH: 1070
+				{	
+					msg = "OnPickUpWeapon",
+					func = function( playerGameObjectId, equipId, number)
+						if equipId == TppEquip.EQP_WP_East_ms_020	then
+							TppMission.UpdateObjective{
+								objectives = { "missionTask_4_clear",},
+							}
+						else
+						end
+					end
+				},
+			},--<
 			Radio = {
 				{	
 					msg = "Finish",	sender = "s0054_rtrg3040",

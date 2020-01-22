@@ -211,7 +211,9 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppPlayer.FailSafeInitialPositionForFreePlay()--RETAILPATCH: 1060
     this.StageBlockCurrentPosition(true)
     TppMission.SetSortieBuddy()
-    TppMission.ResetQuietEquipIfUndevelop()--RETAILPATCH: 1060
+    if vars.missionCode~=10260 then--RETAILPATCH 1070 wrapped in check NMC why didnt you add this to the function itself konami?
+      TppMission.ResetQuietEquipIfUndevelop()--RETAILPATCH: 1060
+    end
     TppStory.UpdateStorySequence{updateTiming="BeforeBuddyBlockLoad"}
     if missionTable.sequence then
       local dbt=missionTable.sequence.DISABLE_BUDDY_TYPE
@@ -440,6 +442,8 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   else
     TppRadioCommand.RestoreRadioStateContinueFromCheckpoint()
   end
+  TppMission.SetPlayRecordClearInfo()--RETAILPATCH 1070
+  TppChallengeTask.RequestUpdateAllChecker()--RETAILPATCH 1070
   TppMission.PostMissionOrderBoxPositionToBuddyDog()
   this.SetUpdateFunction(missionTable)
   this.SetMessageFunction(missionTable)

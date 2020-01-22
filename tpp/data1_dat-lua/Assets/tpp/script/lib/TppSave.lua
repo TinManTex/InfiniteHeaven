@@ -33,6 +33,9 @@ end
 function this.ForbidSave()
   gvars.permitGameSave=false
 end
+function this.IsForbidSave()--RETAILPATCH 1070>
+  return(not gvars.permitGameSave)
+end--<
 function this.NeedWaitSavingErrorCheck()
   if gvars.sav_SaveResultCheckFileName==0 then
     return false

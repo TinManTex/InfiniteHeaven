@@ -167,8 +167,13 @@ function this.MissionPrepare()
 		title_sequence.RegisterGameStatusFunction( this.EnableGameStatusFunction, this.DisableGameStatusFunction )
 		title_sequence.RegisterTitleModeOnEnterFunction( this.TitleModeOnEnterFunction )
 		
+		local maxReceiverBlockSize	= 272 * 1024--RETAILPATCH: 1070	 added bigger recieverblocksize for non lastgen
+		local platform = Fox.GetPlatformName()
+		if not ( ( platform == "Xbox360" ) or ( platform == "PS3" ) ) then
+			maxReceiverBlockSize	= 300 * 1024	
+		end--<
 		TppEquip.CreateEquipPreviewSystem{
-			maxReceiverBlockSize	= 272 * 1024,	
+			maxReceiverBlockSize	= maxReceiverBlockSize,	
 			maxBarrelBlockSize		= 70 * 1024,	
 			maxAmmoBlockSize		= 80 * 1024,	
 			maxStockBlockSize		= 36 * 1024,	

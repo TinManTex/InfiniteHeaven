@@ -1,8 +1,8 @@
 local this={}
-local S=GameObject.SendCommand
-local r=Tpp.IsTypeTable
+local SendCommand=GameObject.SendCommand
+local IsTypeTable=Tpp.IsTypeTable
 local t,t,t=bit.band,bit.bor,bit.bxor
-local s=TppDefine.MAX_32BIT_UINT
+local MAX_32BIT_UINT=TppDefine.MAX_32BIT_UINT
 this.PLAYSTYLE_HEAD_SHOT=.9
 this.RANK_THRESHOLD={S=13e4,A=1e5,B=6e4,C=3e4,D=1e4,E=0}
 this.RANK_BASE_SCORE={S=11e4,A=9e4,B=7e4,C=5e4,D=3e4,E=0}
@@ -63,7 +63,7 @@ for a,missionCode in ipairs(this.HARD_MISSION_LIST)do
 end
 this.NO_SPECIAL_BONUS={[10030]=true,[10115]=true,[10240]=true}
 function this.AcquireSpecialBonus(t)
-  if not r(t)then
+  if not IsTypeTable(t)then
     return
   end
   if t.first then
@@ -166,7 +166,7 @@ function this.RegistNoMissionClearRank()
   mvars.res_noMissionClearRank=true
 end
 function this.SetMissionScoreTable(e)
-  if not r(e)then
+  if not IsTypeTable(e)then
     return
   end
   mvars.res_missionScoreTable=e
@@ -196,7 +196,7 @@ function this.SetMissionFinalScore()
   end
   TppMotherBaseManagement.AwardedMeritMedalPointToPlayerStaff{clearRank=t}
   if bit.band(vars.playerPlayFlag,PlayerPlayFlag.USE_CHICKEN_CAP)==PlayerPlayFlag.USE_CHICKEN_CAP then
-    if gvars.chickenCapClearCount<s then
+    if gvars.chickenCapClearCount<MAX_32BIT_UINT then
       gvars.chickenCapClearCount=gvars.chickenCapClearCount+1
     end
   end
@@ -498,13 +498,13 @@ function this.OnMissionCanStart()
   end
 end
 function this.SetScoreTable(e)
-  if not r(e)then
+  if not IsTypeTable(e)then
     return
   end
   mvars.res_scoreTable=e
 end
 function this.SetRankTable(t)
-  if not r(t)then
+  if not IsTypeTable(t)then
     return
   end
   mvars.res_rankTable=t
@@ -612,28 +612,29 @@ function this.CalcTimeScore(r,l)
 end
 this.calcScoreTable={bestScoreAlertScore={"alertCount","bestScoreAlert"},bestScoreHostageScore={"hostageCount","bestScoreHostage"},bestScoreTakeHitCountScore={"takeHitCount","takeHitCount"},bestScoreTacticalActionPointScore={"tacticalActionPoint","tacticalActionPoint","tacticalTakeDownPoint"},bestScoreMarkingCountScore={"markingCount",vars="playerMarkingCountInMission"},bestScoreInterrogateScore={"interrogateCount","interrogateCount"},bestScoreHeadShotBonusScore={"headShotCount","headshotCount2"},bestScoreNeutralizeBonusScore={"neutralizeCount","neutralizeCount"}}
 this.bonusScoreTable={bestScoreNoReflexScore={"reflexCount","noReflexBonus",nil},bestScoreAlertScore={"alertCount","noAlertBonus",true},bestScoreKillScore={"bestScoreKill","noKillBonus",nil},bestScoreNoRetryScore={"retryCount","noRetryBonus",true},bestScorePerfectStealthNoKillBonusScore={{"alertCount","bestScoreKill","reflexCount"},"perfectStealthNoKillBonus",true}}
+this.eachScoreLimit={bestScoreHeadShotBonusScore=100,bestScoreNeutralizeBonusScore=100,bestScoreMarkingCountScore=100,bestScoreInterrogateScore=100}--RETAILPATCH 1070
 function this.CalcEachScore()
-  local t=svars
+  local svars=svars
   for n,a in pairs(this.calcScoreTable)do
     local s
     if a.vars then
       s=vars[a.vars]
     else
-      s=t[a[2]]
+      s=svars[a[2]]
     end
-    t[n]=this.CalcScore(s,mvars.res_scoreTable[a[1]],mvars.res_missionScoreTable[a[3]])
+    svars[n]=this.CalcScore(s,mvars.res_scoreTable[a[1]],mvars.res_missionScoreTable[a[3]],this.eachScoreLimit[n])--RETAILPATCH 1070 eachScoreLimit added
   end
   if not this.IsUsedChickCap()then
     for n,e in pairs(this.bonusScoreTable)do
       local a
-      if r(e[1])then
+      if IsTypeTable(e[1])then
         a=e[1]
       else
         a={e[1]}
       end
       local s=true
       for a,e in ipairs(a)do
-        if t[e]>0 then
+        if svars[e]>0 then
           s=false
           break
         end
@@ -642,40 +643,41 @@ function this.CalcEachScore()
       if e[3]then
         a=mvars.res_bonusMissionClearTimeRatio
       end
-      if s and(not isUsedChickCap)then
-        t[n]=mvars.res_scoreTable[e[2]]*a
+      if s and(not isUsedChickCap)then--RETAILBUG: TODO:
+        svars[n]=mvars.res_scoreTable[e[2]]*a
       end
     end
-    t.bestScoreHitRatioBonusScore=this.CalcHitRatioBonusScore(vars.shootHitCountInMission,vars.playerShootCountInMission,vars.shootHitCountEliminatedInMission,t.shootNeutralizeCount,mvars.res_hitRatioBonusParam.hitRatioBaseScoreUnit,mvars.res_hitRatioBonusParam.numOfBulletsPerNeutralizeCount,mvars.res_hitRatioBonusParam.exponetHitRatio,mvars.res_hitRatioBonusParam.limitHitRatioBonus,mvars.res_hitRatioBonusParam.perfectBonusBase)
-    if bit.band(vars.playerPlayFlag,PlayerPlayFlag.FAILED_NO_TRACE_PLAY)==0 then
-      t.bestScoreNoTraceBonusScore=mvars.res_scoreTable.noTraceBonus*mvars.res_bonusMissionClearTimeRatio
+    svars.bestScoreHitRatioBonusScore=this.CalcHitRatioBonusScore(vars.shootHitCountInMission,vars.playerShootCountInMission,vars.shootHitCountEliminatedInMission,svars.shootNeutralizeCount,mvars.res_hitRatioBonusParam.hitRatioBaseScoreUnit,mvars.res_hitRatioBonusParam.numOfBulletsPerNeutralizeCount,mvars.res_hitRatioBonusParam.exponetHitRatio,mvars.res_hitRatioBonusParam.limitHitRatioBonus,mvars.res_hitRatioBonusParam.perfectBonusBase)
+    if(bit.band(vars.playerPlayFlag,PlayerPlayFlag.FAILED_NO_TRACE_PLAY)==0)and(svars.bestScorePerfectStealthNoKillBonusScore>0)then--RETAILPATCH 1070 bestScorePerfectStealthNoKillBonusScore check added
+      svars.bestScoreNoTraceBonusScore=mvars.res_scoreTable.noTraceBonus*mvars.res_bonusMissionClearTimeRatio
     end
   end
 end
-local r=999999
-local i=-999999
-function this.CalcScore(s,a,n)
-  local t=a.unitValue or 1
-  local s=s/t
-  local t=0
-  local o=a.valueToScoreRatio or 1
-  local a=999999
-  if n and n.countLimit then
-    a=n.countLimit
+local maxScore=999999--tex TODO RENAME all of this
+local minScore=-999999
+--REF svars[n]=this.CalcScore(s,mvars.res_scoreTable[a[1]],mvars.res_missionScoreTable[a[3]],this.eachScoreLimit[n])--RETAILPATCH 1070 eachScoreLimit added
+function this.CalcScore(p1,RENscoreTable,RENmissionScoreTable,scoreLimit)--RETAILPATCH 1070 scorelimit added
+  local unitValue=RENscoreTable.unitValue or 1
+  local l2=p1/unitValue
+  local score=0
+  local valueToScoreRatio=RENscoreTable.valueToScoreRatio or 1
+  local limit=scoreLimit or 999999--RETAILPATCH 1070 scorelimit added
+  if RENmissionScoreTable and RENmissionScoreTable.countLimit then
+    limit=RENmissionScoreTable.countLimit
   end
-  if s>a then
-    s=a
+  if l2>limit then
+    l2=limit
   end
-  t=s*o
-  if t<i then
-    t=i
-  elseif t>r then
-    t=r
+  score=l2*valueToScoreRatio
+  if score<minScore then
+    score=minScore
+  elseif score>maxScore then
+    score=maxScore
   end
   if this.IsUsedChickCap()then
-    t=0
+    score=0
   end
-  return t
+  return score
 end
 function this.CalcHitRatioBonusScore(o,t,r,a,l,u,c,s,n)
   local t=t-r
@@ -1121,10 +1123,18 @@ function this.Messages()
           Tpp.IncrementPlayData"totalWalkerGearDestoryCount"
         end
       end},
-      {msg="TapHeadShotFar",func=this.OnTacticalActionPoint},
-      {msg="TapRocketArm",func=this.OnTacticalActionPoint},
-      {msg="TapHoldup",func=this.OnTacticalActionPoint},
-      {msg="TapCqc",func=this.OnTacticalActionPoint},
+      {msg="TapHeadShotFar",func=function(t)--RETAILPATCH 1070 params added to all OnTacticalActionPoint calls-v-
+        this.OnTacticalActionPoint(t,"TapHeadShotFar")
+      end},
+      {msg="TapRocketArm",func=function(t)
+        this.OnTacticalActionPoint(t,"TapRocketArm")
+      end},
+      {msg="TapHoldup",func=function(t)
+        this.OnTacticalActionPoint(t,"TapHoldup")
+      end},
+      {msg="TapCqc",func=function(t)
+        this.OnTacticalActionPoint(t,"TapCqc")
+      end},
       {msg="HeadShot",func=this.OnHeadShot},
       {msg="Neutralize",func=this.OnNeutralize},
       {msg="InterrogateSetMarker",func=this.IncrementInterrogateCount},
@@ -1137,13 +1147,14 @@ function this.Messages()
     }
   }
 end
-local t=s
-local t=s
+local t=MAX_32BIT_UINT
+local t=MAX_32BIT_UINT
 local t=true
 local a=false
 function this.IncrementInterrogateCount()
   Tpp.IncrementPlayData"totalInterrogateCount"
-  if svars.interrogateCount<s then
+  TppChallengeTask.RequestUpdate"PLAY_RECORD"--RETAILPATCH 1070
+  if svars.interrogateCount<MAX_32BIT_UINT then
     svars.interrogateCount=svars.interrogateCount+1
   end
 end
@@ -1156,24 +1167,57 @@ function this.IncrementTakeHitCount()
     this.CallCountAnnounce("result_hit",svars.takeHitCount,t)
   end
 end
-function this.OnTacticalActionPoint(t)
-  if S(t,{id="IsDoneTacticalTakedown"})then
+function this.OnTacticalActionPoint(gameId,tacticalTakedownType)--RETAILPATCH 1070 tacticalTakedownType added
+  if SendCommand(gameId,tacticalTakedownType,{id="IsDoneTacticalTakedown"})then
   else
-    S(t,{id="SetTacticalTakedown"})
-    this.AddTacticalActionPoint()
+    SendCommand(gameId,tacticalTakedownType,{id="SetTacticalTakedown"})
+    this.AddTacticalActionPoint{isSneak=true,gameObjectId=gameId,tacticalTakeDownType=tacticalTakedownType}--RETAILPATCH 1070 params added
   end
 end
-function this.AddTacticalActionPoint()
+function this.GetTacticalActionPoint(e)--RETAILPATCH 1070>
+  if e then
+    return svars.tacticalActionPoint
+  else
+    if vars.missionCode~=50050 then
+      return 0
+    end
+    return svars.tacticalActionPointClient
+  end
+end--<
+function this.AddTacticalActionPoint(takedownInfo)--RETAILPATCH 1070 reworked
   if mvars.res_noTacticalTakeDown then
     return
   end
-  Tpp.IncrementPlayData"rnk_TotalTacticalTakeDownCount"
-  if svars.tacticalActionPoint>=mvars.res_missionScoreTable.tacticalTakeDownPoint.countLimit then
+  local function SetSvar(t,actionPoint)
+    if t then
+      svars.tacticalActionPoint=actionPoint
+    else
+      if vars.missionCode~=50050 then
+        return
+      end
+      svars.tacticalActionPointClient=actionPoint
+    end
+  end
+  local a=true
+  if takedownInfo and(takedownInfo.isSneak==false)then
+    a=false
+  end
+  local s=this.GetTacticalActionPoint(a)
+  if a then
+    Tpp.IncrementPlayData"rnk_TotalTacticalTakeDownCount"
+    TppChallengeTask.RequestUpdate"PLAY_RECORD"end
+  if s>=mvars.res_missionScoreTable.tacticalTakeDownPoint.countLimit then
     return
   end
-  svars.tacticalActionPoint=svars.tacticalActionPoint+1
-  this.CallCountAnnounce("result_tactical_takedown",svars.tacticalActionPoint,a)
-  TppTutorial.DispGuide("TAKE_DOWN",TppTutorial.DISPLAY_OPTION.TIPS)
+  SetSvar(a,s+1)
+  if a then
+    this.CallCountAnnounce("result_tactical_takedown",svars.tacticalActionPoint,n)
+    TppTutorial.DispGuide("TAKE_DOWN",TppTutorial.DISPLAY_OPTION.TIPS)
+    local e=takedownInfo and takedownInfo.tacticalTakeDownType
+    if e then
+      Mission.SendMessage("Mission","OnAddTacticalActionPoint",takedownInfo.gameObjectId,takedownInfo.tacticalTakeDownType)
+    end
+  end
 end
 function this.CallCountAnnounce(t,a,s)
   TppUiCommand.CallCountAnnounce(t,a,s)
@@ -1215,7 +1259,7 @@ function this.GetPlayStyleSaveIndex(n,r,a,t)
   if Tpp.IsPlayer(r)then
     local a={[NeutralizeCause.NO_KILL_BULLET]=true,[NeutralizeCause.HANDGUN]=true,[NeutralizeCause.SUBMACHINE_GUN]=true,[NeutralizeCause.SHOTGUN]=true,[NeutralizeCause.ASSAULT_RIFLE]=true,[NeutralizeCause.MACHINE_GUN]=true,[NeutralizeCause.SNIPER_RIFLE]=true,[NeutralizeCause.MISSILE]=true}
     if a[t]then
-      if svars.shootNeutralizeCount<s then
+      if svars.shootNeutralizeCount<MAX_32BIT_UINT then
         svars.shootNeutralizeCount=svars.shootNeutralizeCount+1
       end
     end
@@ -1236,7 +1280,7 @@ function this.OnNeutralize(r,n,a,t)
   if mvars.res_noResult then
     return
   end
-  if svars.neutralizeCount<s then
+  if svars.neutralizeCount<MAX_32BIT_UINT then
     svars.neutralizeCount=svars.neutralizeCount+1
   end
   local e=gvars.res_neutralizeCount[t]
@@ -1246,7 +1290,7 @@ function this.OnNeutralize(r,n,a,t)
   gvars.res_neutralizeCount[t]=e+1
 end
 function this.IncrementPlayDataNeutralizeCount(e)
-  Tpp.IncrementPlayData"totalNeutralizeCount"if gvars.res_neutralizeCountForPlayData[e]<s then
+  Tpp.IncrementPlayData"totalNeutralizeCount"if gvars.res_neutralizeCountForPlayData[e]<MAX_32BIT_UINT then
     gvars.res_neutralizeCountForPlayData[e]=gvars.res_neutralizeCountForPlayData[e]+1
   end
 end
@@ -1254,23 +1298,16 @@ function this.OnHeadShot(a,a,e,t)
   if not Tpp.IsPlayer(e)then
     return
   end
-  local e=false
-  if bit.band(t,HeadshotMessageFlag.IS_JUST_UNCONSCIOUS)==HeadshotMessageFlag.IS_JUST_UNCONSCIOUS then
-    if HeadshotMessageFlag.NEUTRALIZE_DONE==nil then
-      e=true
-    else
-      if bit.band(t,HeadshotMessageFlag.NEUTRALIZE_DONE)~=HeadshotMessageFlag.NEUTRALIZE_DONE then
-        e=true
-      end
-    end
-  end
+  local e=this.IsCountUpHeadShot(t)--RETAILPATCH 1070 stuff shifted into function
   if e then
-    Tpp.IncrementPlayData"totalheadShotCount"end
+    Tpp.IncrementPlayData"totalheadShotCount"
+    TppChallengeTask.RequestUpdate"PLAY_RECORD"--RETAILPATCH 1070
+  end
   if mvars.res_noResult then
     return
   end
   if e then
-    if svars.headshotCount2<s then
+    if svars.headshotCount2<MAX_32BIT_UINT then
       svars.headshotCount2=svars.headshotCount2+1
       TppUiCommand.CallCountAnnounce("playdata_playing_headshot",svars.headshotCount2,false)
     end
@@ -1278,6 +1315,19 @@ function this.OnHeadShot(a,a,e,t)
       gvars.res_headShotCount[0]=gvars.res_headShotCount[0]+1
     end
   end
+end
+function this.IsCountUpHeadShot(t)
+  local countUpHeadshot=false
+  if bit.band(t,HeadshotMessageFlag.IS_JUST_UNCONSCIOUS)==HeadshotMessageFlag.IS_JUST_UNCONSCIOUS then
+    if HeadshotMessageFlag.NEUTRALIZE_DONE==nil then
+      countUpHeadshot=true
+    else
+      if bit.band(t,HeadshotMessageFlag.NEUTRALIZE_DONE)~=HeadshotMessageFlag.NEUTRALIZE_DONE then
+        countUpHeadshot=true
+      end
+    end
+  end
+  return countUpHeadshot
 end
 function this.AddNewPlayStyleHistory()
   if gvars.res_neutralizeHistorySize<TppDefine.PLAYSTYLE_HISTORY_MAX then

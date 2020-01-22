@@ -174,7 +174,7 @@ mtbs_baseTelop.OnInitialize = function( subScripts )
 	
 	mvars.mbBaseTelop_plntTelopName				= PLNT_TELOP_NAME[1]
 	
-	if missionId == 30050 or missionId == 10115 or missionId == 50050 then
+	if missionId == 30050 or missionId == 10115 then--RETAILPATCH: 1070 or == 50050 removed
 		mvars.mbBaseTelop_clusterTelopName		= CLUSTER_TELOP_NAME[8]
 	elseif missionId == 30150 then
 		mvars.mbBaseTelop_clusterTelopName		= CLUSTER_TELOP_NAME_ZOO[1]
@@ -259,6 +259,12 @@ mtbs_baseTelop._OnTelop = function( playerId )
 			end
 		
 		elseif missionId == 50050 then
+			
+			if mvars.mbBaseTelop_clusterTelopName == nil then--RETAILPATCH: 1070>
+				Fox.Log( "mtbs_baseTelop._OnTelop :: It is not updated once. Don't Display telop on FOB")
+				return
+			end--<
+
 			local isSucces = false
 			
 			if playerId == nil then
@@ -299,6 +305,11 @@ mtbs_baseTelop._OnTrap = function( clusterId, grade, plnt, playerId )
 	local missionId		= TppMission.GetMissionID()
 	local isTelop		= false
 	if missionId == 30050 or missionId == 10115 or missionId == 50050 then
+		Fox.Log( "mtbs_baseTelop._OnTrap :: 30050 or 10115")--RETAILPATCH: 1070>
+		if missionId == 50050 and Tpp.IsLocalPlayer(playerId) == false then
+			Fox.Log( "mtbs_baseTelop._OnTrap :: 50050 :: OnTrap is not Local Player")
+			return
+		end--<
 		if mvars.mbBaseTelop_isTelop == true then
 			if PLNT_TELOP_NAME[plnt+1] == mvars.mbBaseTelop_plntTelopName then
 				return

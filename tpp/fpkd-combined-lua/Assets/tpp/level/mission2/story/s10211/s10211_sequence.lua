@@ -1776,7 +1776,15 @@ function this.Messages()
 						end
 						TppSequence.SetNextSequence("Seq_Game_Escape")
 					else
+						
+						local sequence = TppSequence.GetCurrentSequenceName()--RETAILPATCH: 1070
+						if ( sequence ~= "Seq_Game_Escape" ) then
+							Fox.Log("#### EscapeSequence not yet, Set Seq_Game_Escape ####")
+							TppSequence.SetNextSequence("Seq_Game_Escape")
+							s10211_radio.TargetDead()
+						else--<
 						Fox.Log("#### Already enter 　Seq_Game_Escape ####")
+						end
 					end
 				end
 			},

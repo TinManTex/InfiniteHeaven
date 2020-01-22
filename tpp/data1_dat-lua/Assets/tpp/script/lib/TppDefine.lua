@@ -1176,11 +1176,16 @@ this.SECURITY_SETTING={
   numInCommandPlatform={alarm={1,1,1,1,1,2,1,2,3,2,3,4,2,3,5,2,4,6,3,5,6}},
   numInBaseDevPlatform={alarm={1,1,1,1,1,2,2,4,6,3,6,10,4,9,14,6,12,18,7,14,22}}
 }
-this.FOB_EVENT_ID_LIST={ARMOR={3},HOSTAGE={3}}
+this.FOB_EVENT_ID_LIST={
+  ARMOR={3},
+  HOSTAGE={3},
+  ZOMBIE={5},--RETAILPATCH 1070
+  PARASITE_METAL={5}--RETAILPATCH 1070
+}
 this.STATION_LIST={
-afgh={"bridge","enemyBase","field","fort","tent","cliffTown","commFacility","powerPlant","remmnants","slopedTown","sovietBase","village"},
-mafr={"banana","diamond","lab","flowStation","hill","outland","pfCamp","savannah","swamp"},
-mtbs={"Command","Combat","Develop","Support","Medical","Spy","BaseDev"}
+  afgh={"bridge","enemyBase","field","fort","tent","cliffTown","commFacility","powerPlant","remmnants","slopedTown","sovietBase","village"},
+  mafr={"banana","diamond","lab","flowStation","hill","outland","pfCamp","savannah","swamp"},
+  mtbs={"Command","Combat","Develop","Support","Medical","Spy","BaseDev"}
 }
 this.STAFF_TYPE_ID={NORMAL=1,COMBAT=2,DEVELOP=3,BASE_DEV=4,SUPPORT=5,SPY=6,MEDICAL=7}
 this.UNIQUE_STAFF_TYPE_ID={

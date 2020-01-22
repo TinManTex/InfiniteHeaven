@@ -485,6 +485,15 @@ end
 function this.IsFultonContainer(e)
   return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER)
 end
+function this.IsMortar(e)--RETAILPATCH 1070
+  return n(e,TppGameObject.GAME_OBJECT_TYPE_MORTAR)
+end
+function this.IsGatlingGun(e)
+  return IsGameObjectTypen(e,TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN)
+end
+function this.IsMachineGun(e)
+  return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN)
+end--<
 function this.IsFultonableGimmick(e)
   if e==nil then
     return
@@ -689,50 +698,73 @@ function this.GetFormatedStorageSizePopupParam(t)
   local n=math.ceil(n)
   return n,e,2
 end
-function this.PatchDlcCheckCoroutine(t,l,r)
-  local function e(e)
+function this.PatchDlcCheckCoroutine(p1,p2,p3,p4)--RETAILPATCH 1070 reworked
+  if p4==nil then
+    p4=PatchDlc.PATCH_DLC_TYPE_MGO_DATA
   end
-  local function n()
+  local n={[PatchDlc.PATCH_DLC_TYPE_MGO_DATA]=true,[PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA]=true}
+  if not n[p4]then
+    Fox.Hungup"Invalid dlc type."return false
+  end
+  local function RENf1(e)
+  end
+  local function RENf2()
     if TppUiCommand.IsShowPopup()then
       TppUiCommand.ErasePopup()
       while TppUiCommand.IsShowPopup()do
-        e"waiting popup closed..."
+        RENf1"waiting popup closed..."
         coroutine.yield()
       end
     end
   end
-  local function i()
+  local function RENf3()
     while TppSave.IsSaving()do
-      e"waiting saving end..."
+      RENf1"waiting saving end..."
       coroutine.yield()
     end
   end
-  i()PatchDlc.StartCheckingPatchDlc()
+  RENf3()
+  PatchDlc.StartCheckingPatchDlc(p4)
   if PatchDlc.IsCheckingPatchDlc()then
-    if not r then
-      n()
+    if not p3 then
+      RENf2()
+      local n={[PatchDlc.PATCH_DLC_TYPE_MGO_DATA]=5100,[PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA]=5150}
+      local e=n[p4]
       TppUiCommand.SetPopupType"POPUP_TYPE_NO_BUTTON_NO_EFFECT"
-      TppUiCommand.ShowErrorPopup(5100)
+      TppUiCommand.ShowErrorPopup(e)
     end
     while PatchDlc.IsCheckingPatchDlc()do
-      e"waiting checking PatchDlc end..."
+      RENf1"waiting checking PatchDlc end..."
       coroutine.yield()
       TppUI.ShowAccessIconContinue()
     end
   end
-  n()
-  if PatchDlc.DoesExistPatchDlc()then
-    if t then
-      t()
+  RENf2()
+  if PatchDlc.DoesExistPatchDlc(p4)then
+    if p1 then
+      p1()
     end
     return true
   else
-    if l then
-      l()
+    if p2 then
+      p2()
     end
     return false
   end
 end
+function this.IsPatchDlcValidPlatform(n)--RETAILPATCH 1070
+  local e={[PatchDlc.PATCH_DLC_TYPE_MGO_DATA]={PS3=true,PS4=true},[PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA]={Xbox360=true,PS3=true,PS4=true}}
+  local e=e[n]
+  if not e then
+    Fox.Hungup"Invalid dlc type."return false
+  end
+  local n=Fox.GetPlatformName()
+  if e[n]then
+    return true
+  else
+    return false
+  end
+end--<
 function this.ClearDidCancelPatchDlcDownloadRequest()
   if(vars.didCancelPatchDlcDownloadRequest==1)then
     vars.didCancelPatchDlcDownloadRequest=0
