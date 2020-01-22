@@ -189,6 +189,7 @@ this.ddBodyInfo={
     partsPath="/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts",
     extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts"},
     missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",
+    soldierSubType="DD_FOB",
   },
   BATTLE_DRESS={
     maleBodyId=TppEnemyBodyId.dds5_enem0_def,
@@ -196,6 +197,7 @@ this.ddBodyInfo={
     partsPath="/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts",
     extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts"},
     missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",
+    soldierSubType="DD_FOB",
   },
   PFA_ARMOR={
     maleBodyId=TppEnemyBodyId.pfa0_v00_a,
@@ -205,6 +207,7 @@ this.ddBodyInfo={
     helmetOnly=true,
     noDDHeadgear=true,
     hasArmor=true,
+    soldierSubType="DD_FOB",
   },
   TIGER={
     maleBodyId=TppEnemyBodyId.dds5_main0_v00,
@@ -212,12 +215,14 @@ this.ddBodyInfo={
     partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",
     extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts"},
     missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",
+    soldierSubType="DD_FOB",
   },
   DRAB={--?? mother base default
     maleBodyId=TppEnemyBodyId.dds3_main0_v00,
     femaleBodyId=TppEnemyBodyId.dds8_main0_v00,
     extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"},
     missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT,
+    soldierSubType="DD_FOB",
   },
   XOF={--tex Test: when XOF mission fpk loaded it stops salute morale from working?
     maleBodyId=TppEnemyBodyId.wss4_main0_v00,--wss4_main0_v01,wss4_main0_v02
@@ -276,8 +281,7 @@ this.ddBodyInfo={
   --soldierSubType="PF_A",
   },
   SOVIET_BERETS={
-    maleBodyId=--TppEnemyBodyId.svs0_unq_v010,
-    {
+    maleBodyId={
       TppEnemyBodyId.svs0_unq_v010,
       TppEnemyBodyId.svs0_unq_v020,
       TppEnemyBodyId.svs0_unq_v070,
@@ -539,6 +543,11 @@ function this.GetCurrentDDBodyInfo(isFemale)
   return this.ddBodyInfo[suitName]
 end
 
+this.wildCardSuitName="SNEAKING_SUIT"--DEBUGNOW
+function this.GetCurrentWildCardBodyInfo(isFemale)
+  return this.ddBodyInfo[this.wildCardSuitName]
+end
+
 --function this.AddBodyPack(bodyInfo)--CULL
 --  if not bodyInfo then
 --    return
@@ -683,7 +692,7 @@ function this.RandomizeCpSubTypeTable()
     end
   end
 
-  math.randomseed(gvars.rev_revengeRandomValue)--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
+  this.SetLevelRandomSeed()--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
   local subTypeOfCp=TppEnemy.subTypeOfCp
   for cp, subType in pairs(subTypeOfCp)do
     local subType=subTypeOfCp[cp]
@@ -698,7 +707,7 @@ function this.RandomizeCpSubTypeTable()
       subTypeOfCp[cp]=mafrSubTypes[rnd]
     end
   end
-  math.randomseed(os.time())--tex back to 'truly random' /s for good measure
+  this.ResetTrueRandom()--tex back to 'truly random' /s for good measure
 end
 
 --function this.GetGameId(gameId,type)
@@ -786,7 +795,7 @@ end
 
 function this.CreateCustomRevengeConfig()
   local revengeConfig={}
-  math.randomseed(gvars.rev_revengeRandomValue)
+  this.SetLevelRandomSeed()
   for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
     local powerTable=Ivars[powerTableName]
     for m,powerType in ipairs(powerTable)do
@@ -858,7 +867,7 @@ function this.CreateCustomRevengeConfig()
     revengeConfig.ARMOR=nil
   end
 
-  math.randomseed(os.time())
+  this.ResetTrueRandom()
   return revengeConfig
 end
 
@@ -1330,135 +1339,6 @@ function this.BuildEnabledList()
   end
 end
 
---CALLER: TppEnemy.SpawnVehicle
---IN: spawnInfo
---OUT: spawnInfo
-function this.PreSpawnVehicle(spawnInfo)
-  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:ExecCheck() then
-    return
-  end
-
-  if not spawnInfo.locator then
-    InfMenu.DebugPrint("ERROR no locator on spawninfo")
-    return
-  end
-
-  if not string.find(spawnInfo.locator, "veh_trc_000") then--tex only replacing certain ids, seen in free mission vehicle spawn list
-    return
-  end
-
-  local vehicleNumber=string.sub(spawnInfo.locator,9)
-  vehicleNumber=tonumber(vehicleNumber)
-
-  if vehicleNumber==nil then
-    InfMenu.DebugPrint("vehiclePatrolSpawned but could not convert "..spawnInfo.locator.." to number")
-    return
-  end
-
-  if vehicleNumber<0 or vehicleNumber>=this.MAX_PATROL_VEHICLES then
-    InfMenu.DebugPrint("WARNING: vehicleNumber out of bounds: "..vehicleNumber)
-    return
-  end
-
-  if Ivars.vehiclePatrolProfile:Is"SINGULAR" then
-    vehicleNumber=0
-  end
-
-  --CULL
-  --  local vehicleTypeNumber=svars.vehiclePatrolSpawnedTypes[vehicleNumber]
-  --
-  --  if vehicleTypeNumber==nil then
-  --    InfMenu.DebugPrint("ERROR: vehicleTypeNumber==nil")
-  --    return
-  --  end
-
-  -- if vehicleTypeNumber==0 then
-  --InfMenu.DebugPrint("vehicleTypeNumber==0")--DEBUG
-  this.ModifyVehicleSpawn(spawnInfo.locator,vehicleNumber,spawnInfo)
-  --  else
-  --    this.RestoreVehiclePatrol(vehicleTypeNumber,spawnInfo)
-  --  end
-end
-
-function this.RestoreVehiclePatrol(vehicleTypeNumber, spawnInfo)
-
-  local vehicleType=this.VEHICLE_SPAWN_TYPE[vehicleTypeNumber]
-  if vehicleType==nil then
-    InfMenu.DebugPrint("could not restore vehicle "..spawnInfo.locator.." vehicletype nil with info type index "..vehicleTypeNumber)
-    return
-  end
-
-  local vehicle=vehicleSpawnInfoTable[vehicleType]
-  if vehicle==nil then
-    InfMenu.DebugPrint("could not restore vehicle "..spawnInfo.locator.." vehicle nil with info type index "..vehicleTypeNumber)
-    return
-  end
-
-
-  --InfMenu.DebugPrint("restoring "..spawnInfo.locator.." with "..vehicleType)--DEBUG
-  this.SetPatrolSpawnInfo(vehicle,spawnInfo)
-end
-
-function this.ModifyVehicleSpawn(locator,vehicleNumber,spawnInfo)
-  if patrolVehicleEnabledList==nil then
-    this.BuildEnabledList()
-  end
-
-  if #patrolVehicleEnabledList==0 then
-    --InfMenu.DebugPrint"ModifyVehicleSpawn - enabledList empty"--DEBUG
-    return
-  end
-
-  local vehicle=nil
-  local vehicleType=nil
-
-  --CULL if Ivars.vehiclePatrolProfile:Is"EACH_VEHICLE" or svars.vehiclePatrolSpawnedTypes[0]==0 then--tex using first in array set as indicator of Is"SINGULAR" set
-  local baseType=patrolVehicleEnabledList[math.random(#patrolVehicleEnabledList)]
-  local baseTypeInfo=vehicleBaseTypes[baseType]
-  if baseTypeInfo==nil then
-    InfMenu.DebugPrint("No baseTypeInfo for baseType "..baseType)
-    return
-  end
-
-  local vehicles=nil
-  local locationName=""
-  if TppLocation.IsAfghan()then
-    vehicles=baseTypeInfo.easternVehicles
-    locationName="EASTERN_"
-  elseif TppLocation.IsMiddleAfrica()then
-    vehicles=baseTypeInfo.westernVehicles
-    locationName="WESTERN_"
-  end
-
-  if vehicles==nil then
-    vehicleType=locationName..baseType
-  else
-    vehicleType=vehicles[math.random(#vehicles)]
-  end
-  --end
-
-  if vehicleType==nil then
-    InfMenu.DebugPrint("warning: vehicleType==nil")
-    return
-  end
-
-  vehicle=vehicleSpawnInfoTable[vehicleType]
-  if vehicle==nil then
-    InfMenu.DebugPrint("warning: vehicle==nil")
-    return
-  end
-
-  mvars.patrolVehicleBaseInfo[locator]=baseTypeInfo
-  --InfMenu.DebugPrint("spawning "..spawnInfo.locator.." with "..vehicleType)--DEBUG
-  --CULL
-  --  if svars.vehiclePatrolSpawnedTypes==nil then
-  --    InfMenu.DebugPrint"svars.vehiclePatrolSpawnedTypes==nil"--DEBUG
-  --  end
-  --  svars.vehiclePatrolSpawnedTypes[vehicleNumber]=this.VEHICLE_SPAWN_TYPE_ENUM[vehicleType]+1
-
-  this.SetPatrolSpawnInfo(vehicle,spawnInfo)
-end
-
 function this.SetPatrolSpawnInfo(vehicle,spawnInfo)
   spawnInfo.type=vehicle.type
   spawnInfo.subType=vehicle.subType
@@ -1468,6 +1348,74 @@ function this.SetPatrolSpawnInfo(vehicle,spawnInfo)
   --spawnInfo.class=gvars.vehiclePatrolClass
   --spawnInfo.paintType=gvars.vehiclePatrolPaintType
   --spawnInfo.emblemType=gvars.vehiclePatrolEmblemType
+end
+
+--IN: missionTable.enemy.VEHICLE_SPAWN_LIST, missionTable.enemy.soldierDefine
+function this.ModifyVehiclePatrol(vehicleSpawnList)
+  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:ExecCheck() then
+    return
+  end
+
+  if patrolVehicleEnabledList==nil then
+    this.BuildEnabledList()
+  end
+
+  if #patrolVehicleEnabledList==0 then
+    --InfMenu.DebugPrint"ModifyVehicleSpawn - enabledList empty"--DEBUG
+    return
+  end
+
+  mvars.patrolVehicleBaseInfo={}
+
+  local singularBaseType=nil
+  for n,spawnInfo in pairs(vehicleSpawnList)do
+    if string.find(spawnInfo.locator, "veh_trc_000") then--tex only replacing certain ids, seen in free mission vehicle spawn list
+      local vehicle=nil
+      local vehicleType=nil
+
+      local baseType=patrolVehicleEnabledList[math.random(#patrolVehicleEnabledList)]
+      if Ivars.vehiclePatrolProfile:Is"SINGULAR" then
+        if singularBaseType==nil then
+          singularBaseType=baseType
+        else
+          baseType=singularBaseType
+        end
+      end
+      local baseTypeInfo=vehicleBaseTypes[baseType]
+      if baseTypeInfo~=nil then
+        local vehicles=nil
+        local locationName=""
+        if TppLocation.IsAfghan()then
+          vehicles=baseTypeInfo.easternVehicles
+          locationName="EASTERN_"
+        elseif TppLocation.IsMiddleAfrica()then
+          vehicles=baseTypeInfo.westernVehicles
+          locationName="WESTERN_"
+        end
+
+        if vehicles==nil then
+          vehicleType=locationName..baseType
+        else
+          vehicleType=vehicles[math.random(#vehicles)]
+        end
+
+        if vehicleType==nil then
+          InfMenu.DebugPrint("warning: vehicleType==nil")
+          break
+        end
+
+        vehicle=vehicleSpawnInfoTable[vehicleType]
+        if vehicle==nil then
+          InfMenu.DebugPrint("warning: vehicle==nil")
+          break
+        end
+
+        mvars.patrolVehicleBaseInfo[spawnInfo.locator]=baseTypeInfo
+
+        this.SetPatrolSpawnInfo(vehicle,spawnInfo)
+      end
+    end
+  end
 end
 
 --OUT: missionPackPath
@@ -1761,17 +1709,20 @@ function this.OnAllocate(missionTable)
   --  local equipLoadTable={}
   --  --tex TODO: find a better indicator of equipable mission loading
   --  if missionTable.enemy then
-  --    for k,equipName in pairs(this.tppEquipTable)do
+  --    for n,equipName in ipairs(this.tppEquipTable)do--DEBUGNOW still working on the indexed not grouped table
   --      local equipId=TppEquip[equipName]
   --      if equipId~=nil then
   --        table.insert(equipLoadTable,equipId)
   --      end
   --    end
   --
-  --    if TppEquip.RequestLoadToEquipMissionBlock then
+  --    if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
   --      TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
   --    end
   --  end--<
+end
+
+function this.PreMissionLoad(missionCode,currentMissionCode)
 end
 
 function this.MissionPrepare()
@@ -2004,6 +1955,9 @@ function this.ClearMarkers()
   if Ivars.disableHeadMarkers:Is(1) then
     TppUiStatusManager.SetStatus("HeadMarker","INVALID")
   end
+  if Ivars.disableWorldMarkers:Is(1) then
+    TppUiStatusManager.SetStatus("WorldMarker","INVALID")
+  end  
   if Ivars.disableXrayMarkers:Is(1) then
     --TppSoldier2.DisableMarkerModelEffect()
     TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
@@ -2018,6 +1972,39 @@ local updateIvars={
   Ivars.adjustCameraUpdate,
   Ivars.heliUpdate,
 }
+
+this.initTest=0--DEBUGNOW
+--tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
+function this.OnInitializeTop(missionTable)
+  if missionTable.enemy then
+    local enemyTable=missionTable.enemy
+    this.ResetSoldierPool()
+    InfMain.SetLevelRandomSeed()
+    if IsTable(enemyTable.soldierDefine) then
+      if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
+        this.ModifyVehiclePatrol(enemyTable.VEHICLE_SPAWN_LIST)
+      end
+
+      enemyTable.soldierTypes=enemyTable.soldierTypes or {}
+      enemyTable.soldierSubTypes=enemyTable.soldierSubTypes or {}
+      enemyTable.soldierPowerSettings=enemyTable.soldierPowerSettings or {}
+      enemyTable.soldierPersonalAbilitySettings=enemyTable.soldierPersonalAbilitySettings or {}
+
+      this.initTest=this.initTest+1--DEBUGNOW
+      this.ModifyVehiclePatrolSoldiers(enemyTable.soldierDefine)
+      this.AddWildCards(enemyTable.soldierDefine,enemyTable.soldierTypes,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
+      this.AddLrrps(enemyTable.soldierDefine,enemyTable.travelPlans)
+    end
+
+    --    if IsTable(missionTable.enemy.soldierPowerSettings)then
+    --    --     this.SetUpPowerSettings(missionTable.enemy.soldierPowerSettings)--tex
+    --    end
+    InfMain.ResetTrueRandom()
+  end
+end
+function this.OnAllocateTop(missionTable)
+
+end
 
 function this.Init(missionTable)--tex called from TppMain.OnInitialize
   this.abortToAcc=false
@@ -2946,542 +2933,581 @@ function this.CheckReinforceDeactivate()--WIP/UNUSED
 end
 
 --WIP
+--NOTE: grade possibly matches current developed anyhoo?
 this.tppEquipTable={--SYNC: EquipIdTable
-  --    "EQP_SLD_SV",
-  --    "EQP_SLD_PF_00",
-  --    "EQP_SLD_PF_01",
-  --    "EQP_SLD_PF_02",
-  --    "EQP_SLD_DD",
-  --    "EQP_SLD_DD_G02",
-  --    "EQP_SLD_DD_G03",
-  --    "EQP_SLD_DD_01",
+  --  SHIELD={
+  --  "EQP_SLD_SV",
+  --  "EQP_SLD_PF_00",
+  --  "EQP_SLD_PF_01",
+  --  "EQP_SLD_PF_02",
+  --  "EQP_SLD_DD",
+  --  "EQP_SLD_DD_G02",
+  --  "EQP_SLD_DD_G03",
+  --  "EQP_SLD_DD_01",
+  --  },
+  --  HANDGUN={
+  --  "EQP_WP_West_hg_010",--AM D114 grade 1 -- PFs and DD hangun
+  --  "EQP_WP_West_hg_010_WG",--no name/icon/drop model
+  --  "EQP_WP_West_hg_020",--AM D114 with silencer(on icon) but no ext mag?  grade 4, skull normal strong
+  --  "EQP_WP_West_hg_030",--geist p3 - shows shotgun icon but clearly isnt, machine pistol grade 4
+  --  "EQP_WP_West_hg_030_cmn",--as above, no name/icon
+  --  "EQP_WP_East_hg_010",--burkov grade 1, sov normal strong
+  --  },
+  --  TRANQ_PISTOL={
+  --  "EQP_WP_West_thg_010",--wu s.pistol grade 1
+  --  "EQP_WP_West_thg_020",--grade 2
+  --  "EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
+  --  "EQP_WP_West_thg_040",--grade 5
+  --  "EQP_WP_West_thg_050",--wu s pistol cb grade7
+  --  "EQP_WP_EX_hg_000",--AM A114 RP, DD, silencer, grade 9
+  --  },
+  --  SMG={
+  --  "EQP_WP_West_sm_010",--ze'ev cs grade 3 pf normal, dd min grade
+  --  "EQP_WP_West_sm_010_WG",--as above, no icon/name
+  --  "EQP_WP_West_sm_020",--macht 37 grade 3, pf strong, skull normal strong
+  --  "EQP_WP_East_sm_010",--sz 336 grade 3, sov normal
+  --  "EQP_WP_East_sm_020",--sz 336 cs grade 5, sov strong
+  --  "EQP_WP_East_sm_030",--sz 336 cs grade 3 light, supressor, skull cypr normal
 
-  --not equipable, hang on equip
-  --  "EQP_AM_10001",
-  --  "EQP_AM_10003",
-  --  "EQP_AM_10015",
-  --  "EQP_AM_10101",
-  --  "EQP_AM_10103",
-  --  "EQP_AM_10125",
-  --  "EQP_AM_10134",
-  --  "EQP_AM_10201",
-  --  "EQP_AM_10203",
-  --  "EQP_AM_10214",
-  --  "EQP_AM_10302",
-  --  "EQP_AM_10303",
-  --  "EQP_AM_10305",
-  --  "EQP_AM_10403",
-  --  "EQP_AM_10404",
-  --  "EQP_AM_10405",
-  --  "EQP_AM_10407",
-  --  "EQP_AM_10503",
-  --  "EQP_AM_10515",
-  --  "EQP_AM_10526",
-  --  "EQP_AM_20002",
-  --  "EQP_AM_20003",
-  --  "EQP_AM_20005",
-  --  "EQP_AM_20103",
-  --  "EQP_AM_20104",
-  --  "EQP_AM_20105",
-  --  "EQP_AM_20106",
-  --  "EQP_AM_20116",
-  --  "EQP_AM_20203",
-  --  "EQP_AM_20206",
-  --  "EQP_AM_20302",
-  --  "EQP_AM_20303",
-  --  "EQP_AM_20304",
-  --  "EQP_AM_20305",
-  --  "EQP_AM_30001",
-  --  "EQP_AM_30003",
-  --  "EQP_AM_30014",
-  --  "EQP_AM_30034",
-  --  "EQP_AM_30043",
-  --  "EQP_AM_30047",
-  --  "EQP_AM_30054",
-  --  "EQP_AM_30055",
-  --  "EQP_AM_30102",
-  --  "EQP_AM_30103",
-  --  "EQP_AM_30123",
-  --  "EQP_AM_30125",
-  --  "EQP_AM_30201",
-  --  "EQP_AM_30203",
-  --  "EQP_AM_30223",
-  --  "EQP_AM_30225",
-  --  "EQP_AM_30232",
-  --  "EQP_AM_30303",
-  --  "EQP_AM_30305",
-  --  "EQP_AM_30306",
-  --  "EQP_AM_30325",
-  --  "EQP_AM_40001",
-  --  "EQP_AM_40004",
-  --  "EQP_AM_40012",
-  --  "EQP_AM_40015",
-  --  "EQP_AM_40023",
-  --  "EQP_AM_40102",
-  --  "EQP_AM_40105",
-  --  "EQP_AM_40115",
-  --  "EQP_AM_40123",
-  --  "EQP_AM_40126",
-  --  "EQP_AM_40133",
-  --  "EQP_AM_40135",
-  --  "EQP_AM_40136",
-  --  "EQP_AM_40143",
-  --  "EQP_AM_40203",
-  --  "EQP_AM_40204",
-  --  "EQP_AM_40206",
-  --  "EQP_AM_40304",
-  --  "EQP_AM_50102",
-  --  "EQP_AM_50115",
-  --  "EQP_AM_50126",
-  --  "EQP_AM_50147",
-  --  "EQP_AM_50136",
-  --  "EQP_AM_50202",
-  --  "EQP_AM_50215",
-  --  "EQP_AM_50226",
-  --  "EQP_AM_50237",
-  --  "EQP_AM_50303",
-  --  "EQP_AM_50304",
-  --  "EQP_AM_50306",
-  --  "EQP_AM_60001",
-  --  "EQP_AM_60007",
-  --  "EQP_AM_60013",
-  --  "EQP_AM_60102",
-  --  "EQP_AM_60107",
-  --  "EQP_AM_60114",
-  --  "EQP_AM_60203",
-  --  "EQP_AM_60303",
-  --  "EQP_AM_60315",
-  --  "EQP_AM_60325",
-  --  "EQP_AM_60404",
-  --  "EQP_AM_60406",
-  --  "EQP_AM_60415",
-  --  "EQP_AM_60417",
-  --  "EQP_AM_70002",
-  --  "EQP_AM_70003",
-  --  "EQP_AM_70005",
-  --  "EQP_AM_70103",
-  --  "EQP_AM_70104",
-  --  "EQP_AM_70105",
-  --  "EQP_AM_70114",
-  --  "EQP_AM_70115",
-  --  "EQP_AM_70116",
-  --  "EQP_AM_70203",
-  --  "EQP_AM_70204",
-  --  "EQP_AM_70205",
-  --  "EQP_AM_Quiet_sr_010",
-  --  "EQP_AM_Quiet_sr_020",
-  --  "EQP_AM_Quiet_sr_030",
-  --  "EQP_AM_Pr_sm_010",
-  --  "EQP_AM_Pr_ar_010",
-  --  "EQP_AM_Pr_sg_010",
-  --  "EQP_AM_Pr_sr_010",
-  --  "EQP_AM_SkullFace_hg_010",
-  --  "EQP_AM_SP_hg_010",
-  --  "EQP_AM_SP_hg_020",
-  --  "EQP_AM_SP_sm_010",
-  --  "EQP_AM_SP_sg_010",
-  --  "EQP_AM_EX_hg_000",
-  --  "EQP_AM_EX_gl_000",
-  --  "EQP_BL_EX_gl_000",
-  --  "EQP_AM_EX_sr_000",
-  --  "EQP_BL_HgGrenade",
-  --  "EQP_BL_HgSmoke",
-  --  "EQP_BL_HgSleep",
-  --  "EQP_BL_HgStun",
-  --  "EQP_BL_40mmGrenade",
-  --  "EQP_BL_40mmSmoke",
-  --  "EQP_BL_40mmSleep",
-  --  "EQP_BL_40mmStun",
-  --  "EQP_BL_20mmGrenade",
-  --  "EQP_BL_20mmRocket",
-  --  "EQP_BL_20mmSmoke",
-  --  "EQP_BL_20mmSleep",
-  --  "EQP_BL_20mmStun",
-  --  "EQP_BL_ms00",
-  --  "EQP_BL_ms00_G2",
-  --  "EQP_BL_ms00_G3",
-  --  "EQP_BL_ms02",
-  --  "EQP_BL_ms02_G2",
-  --  "EQP_BL_ms02_G3",
-  --  "EQP_BL_ms02Sleep",
-  --  "EQP_BL_ms02F",
-  --  "EQP_BL_ms02F_G2",
-  --  "EQP_BL_ms02F_G3",
-  --  "EQP_BL_ms03",
-  --  "EQP_BL_ms03_G2",
-  --  "EQP_BL_ms03_G3",
-  --  "EQP_BL_ms03_G4",
-  --  "EQP_BL_ms01",
-  --  "EQP_BL_ms01_G2",
-  --  "EQP_BL_ms01_G3",
-  --  "EQP_BL_ms01_G4",
-  --  "EQP_BL_ms01_Child",
-  --  "EQP_BL_ms01_G2_Child",
-  --  "EQP_BL_ms01_G3_Child",
-  --  "EQP_BL_ms01_G4_Child",
-  --  "EQP_BL_RocketPunchStun",
-  --  "EQP_BL_RocketPunchBlast",
-  --  "EQP_BL_uth0_ammo0",
-  --  "EQP_BL_uth0_ammo1",
-  --  "EQP_BL_mgm0_ammo0",
-  --  "EQP_BL_mgm0_cmn_ammo0",
-  --  "EQP_BL_mgm0_cmn_ammo1",
-  --  "EQP_BL_mgm0_famo0",
-  --  "EQP_BL_mgs0_miss1",
-  --  "EQP_BL_mgs0_miss0",
-  --  "EQP_BL_mgs0_srcm0",
-  --  "EQP_BL_mgs0_grnd0",
-  --  "EQP_BL_Mortar",
-  --  "EQP_BL_Flare",
-  --  "EQP_BL_Cannon",
-  --  "EQP_BL_WavCannon",
-  --  "EQP_BL_WavCannonHoming",
-  --  "EQP_BL_TankCannon",
-  --  "EQP_BL_TankCannonHoming",
-  --  "EQP_BL_WavRocket",
-  --  "EQP_BL_Tankgun_105mmRifledBoreGun",
-  --  "EQP_BL_Tankgun_120mmSmoothBoreGun",
-  --  "EQP_BL_Tankgun_125mmSmoothBoreGun",
-  --  "EQP_BL_Tankgun_105mmRifledBoreGun_Homing",
-  --  "EQP_BL_Tankgun_120mmSmoothBoreGun_Homing",
-  --  "EQP_BL_Tankgun_125mmSmoothBoreGun_Homing",
-  --  "EQP_BL_Tankgun_82mmRocketPoweredProjectile",
-  --  "EQP_BL_Tankgun_MultipleRocketLauncher",
-  --  "EQP_BL_SupplyBomb",
-  --  "EQP_BL_SupplySmoke",
-  --  "EQP_BL_SupplySleep",
-  --  "EQP_BL_SupplyChaff",
-  --  "EQP_BL_UavGrenade",
-  --  "EQP_BL_UavSmokeGrenade",
-  --  "EQP_BL_UavSleepGasGrenade",
-
-  --support weapons
-  --    "EQP_SWP_Magazine",
-  --    "EQP_SWP_Kibidango",--animal bait
-  --    "EQP_SWP_Kibidango_G01",
-  --    "EQP_SWP_Kibidango_G02",
-  --    "EQP_SWP_Grenade",
-  --    "EQP_SWP_Grenade_G01",
-  --    "EQP_SWP_Grenade_G02",
-  --    "EQP_SWP_Grenade_G03",
-  --    "EQP_SWP_Grenade_G04",
-  --    "EQP_SWP_Grenade_G05",
-  --    "EQP_SWP_SmokeGrenade",
-  --    "EQP_SWP_SmokeGrenade_G01",
-  --    "EQP_SWP_SmokeGrenade_G02",
-  --    "EQP_SWP_SmokeGrenade_G03",
-  --    "EQP_SWP_SmokeGrenade_G04",
-  --    "EQP_SWP_SupportHeliFlareGrenade",
-  --    "EQP_SWP_SupportHeliFlareGrenade_G01",
-  --    "EQP_SWP_SupportHeliFlareGrenade_G02",
-  --    "EQP_SWP_SupplyFlareGrenade",
-  --    "EQP_SWP_SupplyFlareGrenade_G01",
-  --    "EQP_SWP_SupplyFlareGrenade_G02",
-  --    "EQP_SWP_StunGrenade",
-  --    "EQP_SWP_StunGrenade_G01",
-  --    "EQP_SWP_StunGrenade_G02",
-  --    "EQP_SWP_StunGrenade_G03",
-  --    "EQP_SWP_SleepingGusGrenade",
-  --    "EQP_SWP_SleepingGusGrenade_G01",
-  --    "EQP_SWP_SleepingGusGrenade_G02",
-  --    "EQP_SWP_MolotovCocktail",
-  --    "EQP_SWP_MolotovCocktail_G01",
-  --    "EQP_SWP_MolotovCocktail_G02",
-  --    "EQP_SWP_MolotovCocktailPlaced",--tex just a clone, no point using
-  --  "EQP_SWP_C4",
-  --  "EQP_SWP_C4_G01",
-  --  "EQP_SWP_C4_G02",
-  --  "EQP_SWP_C4_G03",
-  --  "EQP_SWP_C4_G04",
-  --  "EQP_SWP_Decoy",
-  --  "EQP_SWP_Decoy_G01",
-  --  "EQP_SWP_Decoy_G02",
-  --  "EQP_SWP_ActiveDecoy",
-  --  "EQP_SWP_ActiveDecoy_G01",
-  --  "EQP_SWP_ActiveDecoy_G02",
-  --  "EQP_SWP_ShockDecoy",
-  --  "EQP_SWP_ShockDecoy_G01",
-  --  "EQP_SWP_ShockDecoy_G02",
-  --  "EQP_SWP_CaptureCage",
-  --  "EQP_SWP_CaptureCage_G01",
-  --  "EQP_SWP_CaptureCage_G02",
-  --  "EQP_SWP_DMine",
-  --  "EQP_SWP_DMine_G01",
-  --  "EQP_SWP_DMine_G02",
-  --  "EQP_SWP_DMine_G03",
-  --  "EQP_SWP_DMineLocator",
-  --  "EQP_SWP_SleepingGusMine",
-  --  "EQP_SWP_SleepingGusMine_G01",
-  --  "EQP_SWP_SleepingGusMine_G02",
-  --  "EQP_SWP_SleepingGusMineLocator",
-  --  "EQP_SWP_AntitankMine",
-  --  "EQP_SWP_AntitankMine_G01",
-  --  "EQP_SWP_AntitankMine_G02",
-  --  "EQP_SWP_ElectromagneticNetMine",
-  --  "EQP_SWP_ElectromagneticNetMine_G01",
-  --  "EQP_SWP_ElectromagneticNetMine_G02",
-  --  "EQP_SWP_WormholePortal",
-  --  "EQP_SWP_Dung",
-
-  --tex no go
-  --    "EQP_AB_PrimaryCommon",
-  --    "EQP_AB_PrimaryTranq",
-  --    "EQP_AB_PrimaryMissile",
-  --    "EQP_AB_PrimaryMissileTranq",
-  --    "EQP_AB_SecondaryCommon",
-  --    "EQP_AB_SecondaryTranq",
-  --    "EQP_AB_Support",
-  --    "EQP_AB_Suppressor",
-  --    "EQP_AB_Item",
-  --    "EQP_AB_Mecha",
-  --    "EQP_BX_Primary",
-  --    "EQP_BX_Secondary",
-  --    "EQP_BX_Support",
-
-  --hands
-  --    "EQP_HAND_STUNARM",
-  --    "EQP_HAND_JEHUTY",
-  --    "EQP_HAND_STUN_ROCKET",
-  --    "EQP_HAND_KILL_ROCKET",
-  --    "EQP_HAND_NORMAL",
-  --    "EQP_HAND_GOLD",
-  --    "EQP_HAND_SILVER",
-
-  --items
-  --  "EQP_IT_Fulton",
-  --  "EQP_IT_Fulton_Cargo",
-  --  "EQP_IT_Fulton_Child",
-  --  "EQP_IT_Fulton_WormHole",
-  --  "EQP_IT_Binocle",
-
-  --    "EQP_IT_CBox_DSR",
-  --    "EQP_IT_CBox_DSR_G01",
-  --    "EQP_IT_CBox_DSR_G02",
-  --    "EQP_IT_CBox_WR",
-  --    "EQP_IT_CBox_SMK",
-  --    "EQP_IT_CBox_FRST",
-  --    "EQP_IT_CBox_FRST_G01",
-  --    "EQP_IT_CBox_BOLE",
-  --    "EQP_IT_CBox_BOLE_G01",
-  --    "EQP_IT_CBox_CITY",
-  --    "EQP_IT_CBox_CITY_G01",
-
-  --tex no go
-  --    "EQP_IT_CBox_CLB_A",o
-  --    "EQP_IT_CBox_CLB_A_G01",
-  --    "EQP_IT_CBox_CLB_B",
-  --    "EQP_IT_CBox_CLB_B_G01",
-  --    "EQP_IT_CBox_CLB_C",
-  --    "EQP_IT_CBox_CLB_C_G01",
-  -- tex some kind of dlc box, defaults to regular texture though
-  --    "EQP_IT_CBox_LIMITED",
-  --    "EQP_IT_CBox_LIMITED_G01",
-  --  "EQP_IT_InstantStealth",
-  --  "EQP_IT_Pentazemin",
-  --  "EQP_IT_Clairvoyance",
-  --  "EQP_IT_ReflexMedicine",
-  --
-  --tex needs paracites/armor I guess?
-  --    "EQP_IT_ParasiteMist",
-  --    "EQP_IT_ParasiteCamouf",
-  --    "EQP_IT_ParasiteHard",
-
-  --  "EQP_IT_TimeCigarette",
-  --  "EQP_IT_Stealth",
-  --  "EQP_IT_Nvg",
-
-  --tex likely requires the specific mission assets
-  --    "EQP_IT_Infected",
-
-  --tex no go
-  --    "EQP_IT_IDroid",
-  --    "EQP_IT_CureSpray",
-  --    "EQP_IT_PickingToolR",
-  --    "EQP_IT_PickingToolL",
-  --    "EQP_IT_HandyLight",
-  --    "EQP_IT_Knife",
-  --    "EQP_IT_SKnife",
-  --    "EQP_IT_Cigarette",
-  --    "EQP_IT_CigaretteCase",
-  --    "EQP_IT_Radio",
-  --    "EQP_IT_SRadio",
-  --    "EQP_IT_BayonetWest",
-  --    "EQP_IT_Telescope",
-  --    "EQP_IT_Cassette",
-  --    "EQP_IT_FilmCase",
-  --    "EQP_IT_DevelopmentFile",
-  --    "EQP_IT_GasMask",--tex likely handled through attachgasmask/requires asset fpk
-  --    "EQP_IT_KnifePF",
-  --    "EQP_IT_ShotShell",
-  --    "EQP_IT_Machete",
-  --    "EQP_IT_MacheteLiquid",
-  --    "EQP_IT_KnifeLiquid",
-  --    "EQP_IT_PipeLiquid",
-  --    "EQP_IT_BottleLiquid",
-  --    "EQP_IT_ShellLiquid",
-  --    "EQP_IT_mgs0_msbl0",
-  --    "EQP_IT_DDogStunLod",
-  --TODO see if grades match currently developed
-  --TODO probably better to just figure out their langid
-  --handguns
-  --    "EQP_WP_West_hg_010",--AM D114 grade 1
-  --    "EQP_WP_West_hg_010_WG",--no name/icon/drop model
-  --    "EQP_WP_West_hg_020",--AM D114 with silencer(on icon) but no ext mag?  grade 4
-  --    "EQP_WP_West_hg_030",--geist p3 - shows shotgun icon but clearly isnt, machine pistol grade 4
-  --    "EQP_WP_West_hg_030_cmn",--as above, no name/icon
-  --    "EQP_WP_East_hg_010",--burkov grade 1
-  --tranq
-  --    "EQP_WP_West_thg_010",--wu s.pistol grade 1
-  --    "EQP_WP_West_thg_020",--grade 2
-  --    "EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
-  --    "EQP_WP_West_thg_040",--grade 5
-  --    "EQP_WP_West_thg_050",--wu s pistol cb grade7
-  --smgs
-  --    "EQP_WP_West_sm_010",--ze'ev cs grade 3
-  --    "EQP_WP_West_sm_010_WG",--as above, no icon/name
-  --    "EQP_WP_West_sm_014",--zeeve model, big scope no icon/name, supressor
-  --    "EQP_WP_West_sm_015",--as above
-  --    "EQP_WP_West_sm_020",--macht 37 grade 3
-  --    "EQP_WP_East_sm_010",--sz 336 grade 3
-  --    "EQP_WP_East_sm_020",--sz 336 cs grade 5
-  --    "EQP_WP_East_sm_030",--sz 336 cs grade 3 light, supressor
-  --    "EQP_WP_East_sm_042",--riot smg stn grd 1
-  --    "EQP_WP_East_sm_043",--as above, big scope supressor, no icon
-  --    "EQP_WP_East_sm_044",--as above ?
-  --    "EQP_WP_East_sm_045",--as above ?
-  --shotguns
-  --    "EQP_WP_Com_sg_010",--s1000 grade 2
-  --    "EQP_WP_Com_sg_011",--s1000 cs grade 2
-  --    "EQP_WP_Com_sg_011_FL",--as above, flashlight ?
-  --    "EQP_WP_Com_sg_013",--? mag shotgun no name no icon
-  --    "EQP_WP_Com_sg_015",--above + scope, light
-  --    "EQP_WP_Com_sg_020",--kabarga 83, grade 4, looks like same model as 013,14
-  --    "EQP_WP_Com_sg_020_FL",--as abovem flashlight ?
-  --    "EQP_WP_Com_sg_023",--s1000 air-s stn at least icon grade 3 - icon shows slilencer scope but not in game
-  --    "EQP_WP_Com_sg_024",--as above, light ?
-  --    "EQP_WP_Com_sg_025",--as above
-  --    "EQP_WP_Com_sg_030",--s1000 air-s cs grade 6
-  --assault rifles
-  --    "EQP_WP_West_ar_010",--AM MRS 4r Grade 3
-  --    "EQP_WP_West_ar_010_FL",--flashlight
-  --    "EQP_WP_West_ar_055",--scope, no icon name
-  --    "EQP_WP_West_ar_020",--un arc cs grade 3
-  --    "EQP_WP_West_ar_020_FL",--flashlight
-  --    "EQP_WP_West_ar_030",--un arc pt cs flashlight scope laser
-  --    "EQP_WP_West_ar_040",--am mrs 4 grade 1
-  --    "EQP_WP_West_ar_042",--above + supressor scope
-  --    "EQP_WP_West_ar_050",--am mrs 4r grade 5 scope laser
-  --    "EQP_WP_West_ar_060",--un arc nl stn grade 2
-  --    "EQP_WP_West_ar_063",--above + scope no icon name
-  --    "EQP_WP_West_ar_070",--un arc nl stn light grade 4
-  --    "EQP_WP_West_ar_075",--above + supressor
-  --    "EQP_WP_East_ar_010",--svg 76 grade 1
-  --    "EQP_WP_East_ar_010_FL",--+flashlight
-  --    "EQP_WP_East_ar_020",--svg 67 cs grade 4
-  --    "EQP_WP_East_ar_030",--above grade 6
-  --    "EQP_WP_East_ar_030_FL",--+ flashlight
-
-  --    "EQP_WP_West_sr_010",
-  --    "EQP_WP_West_sr_011",
-  --    "EQP_WP_West_sr_013",
-  --    "EQP_WP_West_sr_014",
-  --    "EQP_WP_West_sr_020",
-  --    "EQP_WP_West_sr_037",
-  --    "EQP_WP_East_sr_011",
-  --    "EQP_WP_East_sr_020",
-  --    "EQP_WP_East_sr_032",
-  --    "EQP_WP_East_sr_033",
-  --    "EQP_WP_East_sr_034",
-
-  --    "EQP_WP_West_mg_010",
-  --    "EQP_WP_West_mg_020",
-  --    "EQP_WP_West_mg_023",
-  --    "EQP_WP_West_mg_024",
-  --    "EQP_WP_West_mg_021",
-  --    "EQP_WP_West_mg_030",
-  --    "EQP_WP_East_mg_010",
-  --missile launchers
-  --    "EQP_WP_Com_ms_010",
-  --    "EQP_WP_Com_ms_020",
-  --    "EQP_WP_Com_ms_023",
-  --    "EQP_WP_Com_ms_024",
-  --    "EQP_WP_West_ms_010",
-  --    "EQP_WP_West_ms_020",
-  --    "EQP_WP_East_ms_010",
-  --    "EQP_WP_East_ms_020",
-
-  --special weapons
-  --    "EQP_WP_Wood_ar_010",
-  --no go
-  --    "EQP_WP_Quiet_sr_010",
-  --    "EQP_WP_Quiet_sr_020",
-  --    "EQP_WP_Quiet_sr_030",
-  --    "EQP_WP_BossQuiet_sr_010",
-  --    "EQP_WP_Pr_sm_010",
-  --    "EQP_WP_Pr_ar_010",
-  --    "EQP_WP_Pr_sg_010",
-  --    "EQP_WP_Pr_sr_010",
-  --    "EQP_WP_mgm0_mgun0",
-
-  --  "EQP_WP_HoneyBee",
-  --  "EQP_WP_Volgin_sg_010",--no go
-  --  "EQP_WP_SkullFace_hg_010",--holds weird, its actual use in its mission has it's own custom animation?
-
-  --hang on load --re test
-  --  "EQP_WP_DEBUG_sr_010",
-  --  "EQP_WP_DEMO_ar_010",
-  --  "EQP_WP_DEMO_ar_020",
-  --  "EQP_WP_DEMO_ar_030",
-  --  "EQP_WP_DEMO_sr_010",
-  --  "EQP_WP_DEMO_hg_010",
-  --  "EQP_WP_DEMO_hg_020",
-  --  "EQP_WP_DEMO_hg_030",
-  --  "EQP_WP_DEMO_sm_010",
-  --  "EQP_WP_DEMO_sm_020",
-  --  "EQP_WP_DEMO_mg_010",
-  --  "EQP_WP_DEMO_ms_010",
-  --  "EQP_WP_DEMO_ms_020",
-
-  --  "EQP_WP_SP_hg_010",
-  --  "EQP_WP_SP_hg_020",
-  --  "EQP_WP_SP_sm_010",
-  --  "EQP_WP_SP_sg_010",
-
-  --  "EQP_WP_SP_SLD_010",
-  --  "EQP_WP_SP_SLD_010_G01",
-  --  "EQP_WP_SP_SLD_010_G02",
-  --  "EQP_WP_SP_SLD_020",
-  --  "EQP_WP_SP_SLD_020_G01",
-  --  "EQP_WP_SP_SLD_020_G02",
-  --  "EQP_WP_SP_SLD_030",
-  --  "EQP_WP_SP_SLD_030_G01",
-  --  "EQP_WP_SP_SLD_030_G02",
-  --  "EQP_WP_SP_SLD_040",
-  --  "EQP_WP_SP_SLD_040_G01",
-  --  "EQP_WP_SP_SLD_040_G02",
-
-  --misc new weapons
-  --  "EQP_WP_EX_hg_000",
-  --  "EQP_WP_EX_gl_000",
-  --  "EQP_WP_EX_sr_000",
-
-  --loads, but missing icons and some blacked out sights
-  --  "EQP_WP_West_sm_016",
-  --  "EQP_WP_West_sm_017",
-  --  "EQP_WP_Com_sg_038",
-  --  "EQP_WP_Com_sg_016",
-  --  "EQP_WP_Com_sg_018",
-  --  "EQP_WP_West_sr_027",
-  --  "EQP_WP_West_sr_047",
-  --  "EQP_WP_West_sr_048",
-  --  "EQP_WP_West_mg_037",
-  --  "EQP_WP_Com_ms_026",
+  --dd table smg
+  "EQP_WP_West_sm_014",--zeeve model, big scope no icon/name, supressor, DD icon backing
+  "EQP_WP_West_sm_015",--as above
+  "EQP_WP_West_sm_016",--loads, but missing icons and some blacked out sights DD backing, DD weapon table
+  "EQP_WP_West_sm_017",--<
+  --  },
+  --    SMG_NONLETHAL={
+  --in dd table
+  --  "EQP_WP_East_sm_042",--riot smg stn grd 1 stun
+  --  "EQP_WP_East_sm_043",
+  --  "EQP_WP_East_sm_044",
+  --  "EQP_WP_East_sm_045",
   --  "EQP_WP_East_sm_047",
-  --  "EQP_WP_West_ar_057",
-  --  "EQP_WP_West_ar_077",
-  --requires fob mode/specifc set up i guess
-  --  "EQP_WP_SCamLocator",
-  }
+  --    },
+  --  SHOTGUN={
+  --  "EQP_WP_Com_sg_010",--s1000 grade 2
+  --  "EQP_WP_Com_sg_011",--s1000 cs grade 2, most normal shotty, sov a, pfs, skull, dd min
+  --  "EQP_WP_Com_sg_011_FL",--as above, flashlight ?
+  --  --in dd table
+  "EQP_WP_Com_sg_013",--? mag shotgun no name no icon
+  "EQP_WP_Com_sg_015",--above + scope, light
+  "EQP_WP_Com_sg_020",--kabarga 83, grade 4, looks like same model as 013,14
+  "EQP_WP_Com_sg_020_FL",--as abovem flashlight ?
+  "EQP_WP_Com_sg_016",
+  "EQP_WP_Com_sg_018",
+  --},
+  --SHOTGUN_NONLETHAL={
+  --dd
+  "EQP_WP_Com_sg_023",--s1000 air-s stn at least icon grade 3 - icon shows slilencer scope but not in game
+  "EQP_WP_Com_sg_024",--as above, light ?
+  "EQP_WP_Com_sg_025",--as above
+  "EQP_WP_Com_sg_030",--s1000 air-s cs grade 6
+  "EQP_WP_Com_sg_038",--loads, but missing icons and some blacked out sights
+--  },
+--  ASSAULT={
+--  "EQP_WP_West_ar_010",--AM MRS 4r Grade 3, pfs normal, dd 3rd
+--  "EQP_WP_West_ar_010_FL",--flashlight
+--
+--  "EQP_WP_West_ar_020",--un arc cs grade 3 PF strong
+--  "EQP_WP_West_ar_020_FL",--flashlight
+--  "EQP_WP_West_ar_030",--un arc pt cs flashlight scope laser, skull normal and strong
+--
+--  "EQP_WP_East_ar_010",--svg 76 grade 1, soviet normal
+--  "EQP_WP_East_ar_010_FL",--+flashlight
+--  "EQP_WP_East_ar_020",--svg 67 cs grade 4, child
+--  "EQP_WP_East_ar_030",--above grade 6, sov strong
+--  "EQP_WP_East_ar_030_FL",--+ flashlight
+--
+--  --in dd table
+--  "EQP_WP_West_ar_040",--am mrs 4 grade 1
+--  "EQP_WP_West_ar_042",--above + supressor scope
+--  "EQP_WP_West_ar_055",--scope, no icon name
+--  "EQP_WP_West_ar_050",--am mrs 4r grade 5 scope laser
+--  "EQP_WP_West_ar_057",--loads, but missing icons and some blacked out sights
+--  --  },
+--  --  ASSAULT_NONLETHAL={
+--  "EQP_WP_West_ar_060",--un arc nl stn grade 2
+--  "EQP_WP_West_ar_063",--above + scope no icon name
+--  "EQP_WP_West_ar_070",--un arc nl stn light grade 4
+--  "EQP_WP_West_ar_075",--above + supressor
+--  "EQP_WP_West_ar_077",
+--  --  },
+--  --  SNIPER={
+--  "EQP_WP_West_sr_010",--m2000 d grade 2
+--  "EQP_WP_West_sr_011",--PF normal, DD
+--  "EQP_WP_East_sr_011",--sov a normal
+--  "EQP_WP_East_sr_020",--sov a strong
+--
+--  "EQP_WP_EX_sr_000",--molotok-68 grade 9 --icon/scope issues
+--
+--  --dd table
+--  "EQP_WP_West_sr_013",
+--  "EQP_WP_West_sr_014",
+--  "EQP_WP_West_sr_020",
+--  "EQP_WP_West_sr_027",
+--  --  },
+--  --SNIPER_NONLETHAL={
+--  --ddtable
+--  "EQP_WP_East_sr_032",
+--  "EQP_WP_East_sr_033",
+--  "EQP_WP_East_sr_034",
+--  "EQP_WP_West_sr_037",
+--  "EQP_WP_West_sr_047",
+--  "EQP_WP_West_sr_048",
+--  --},
+--  --  MG={
+--  "EQP_WP_West_mg_010",--un am cs grade 4 PF normal,strong,
+--  "EQP_WP_West_mg_020",--alm 48 grade 2 skull normal strong, dd min
+--  "EQP_WP_West_mg_021",--alm48 flashlight grade 4
+--  "EQP_WP_East_mg_010",--lpg 61 grade 4, soviet normal
+--  --dd
+--  "EQP_WP_West_mg_023",--
+--  "EQP_WP_West_mg_024",
+--  "EQP_WP_West_mg_030",--alm 48 grade 5 flashlight
+--  "EQP_WP_West_mg_037",--
+--  --  },
+--  --  MISSILE={
+--  "EQP_WP_Com_ms_010",--killer bee grade 3, sov, pf, dd,skull strong
+--  "EQP_WP_West_ms_010",--fb mr r grade 3, pf,skull normal
+--  "EQP_WP_East_ms_010",--grom 11, grade 2, sov normal
+--  "EQP_WP_East_ms_020",--cgm 25, used in s10054
+--  --dd table
+--  "EQP_WP_Com_ms_023",
+--  "EQP_WP_Com_ms_024",
+--  "EQP_WP_Com_ms_020",--killer bee
+--  "EQP_WP_Com_ms_026",
+
+-- MISSILE_NONLETHAL={
+--"EQP_WP_West_ms_020",--fb mr rl nlsp
+--},
+
+--  GRENADE_LAUNCHER={
+--  "EQP_WP_EX_gl_000",--miraz zh 71 grade 9
+--  },
+
+--support weapons
+--    "EQP_SWP_Magazine",
+--    "EQP_SWP_Kibidango",--animal bait
+--    "EQP_SWP_Kibidango_G01",
+--    "EQP_SWP_Kibidango_G02",
+--    "EQP_SWP_Grenade",
+--    "EQP_SWP_Grenade_G01",
+--    "EQP_SWP_Grenade_G02",
+--    "EQP_SWP_Grenade_G03",
+--    "EQP_SWP_Grenade_G04",
+--    "EQP_SWP_Grenade_G05",
+--    "EQP_SWP_SmokeGrenade",
+--    "EQP_SWP_SmokeGrenade_G01",
+--    "EQP_SWP_SmokeGrenade_G02",
+--    "EQP_SWP_SmokeGrenade_G03",
+--    "EQP_SWP_SmokeGrenade_G04",
+--    "EQP_SWP_SupportHeliFlareGrenade",
+--    "EQP_SWP_SupportHeliFlareGrenade_G01",
+--    "EQP_SWP_SupportHeliFlareGrenade_G02",
+--    "EQP_SWP_SupplyFlareGrenade",
+--    "EQP_SWP_SupplyFlareGrenade_G01",
+--    "EQP_SWP_SupplyFlareGrenade_G02",
+--    "EQP_SWP_StunGrenade",
+--    "EQP_SWP_StunGrenade_G01",
+--    "EQP_SWP_StunGrenade_G02",
+--    "EQP_SWP_StunGrenade_G03",
+--    "EQP_SWP_SleepingGusGrenade",
+--    "EQP_SWP_SleepingGusGrenade_G01",
+--    "EQP_SWP_SleepingGusGrenade_G02",
+--    "EQP_SWP_MolotovCocktail",
+--    "EQP_SWP_MolotovCocktail_G01",
+--    "EQP_SWP_MolotovCocktail_G02",
+--    "EQP_SWP_MolotovCocktailPlaced",
+--  "EQP_SWP_C4",
+--  "EQP_SWP_C4_G01",
+--  "EQP_SWP_C4_G02",
+--  "EQP_SWP_C4_G03",
+--  "EQP_SWP_C4_G04",
+--  "EQP_SWP_Decoy",
+--  "EQP_SWP_Decoy_G01",
+--  "EQP_SWP_Decoy_G02",
+--  "EQP_SWP_ActiveDecoy",
+--  "EQP_SWP_ActiveDecoy_G01",
+--  "EQP_SWP_ActiveDecoy_G02",
+--  "EQP_SWP_ShockDecoy",
+--  "EQP_SWP_ShockDecoy_G01",
+--  "EQP_SWP_ShockDecoy_G02",
+--  "EQP_SWP_CaptureCage",
+--  "EQP_SWP_CaptureCage_G01",
+--  "EQP_SWP_CaptureCage_G02",
+--  "EQP_SWP_DMine",
+--  "EQP_SWP_DMine_G01",
+--  "EQP_SWP_DMine_G02",
+--  "EQP_SWP_DMine_G03",
+--  "EQP_SWP_DMineLocator",
+--  "EQP_SWP_SleepingGusMine",
+--  "EQP_SWP_SleepingGusMine_G01",
+--  "EQP_SWP_SleepingGusMine_G02",
+--  "EQP_SWP_SleepingGusMineLocator",
+--  "EQP_SWP_AntitankMine",
+--  "EQP_SWP_AntitankMine_G01",
+--  "EQP_SWP_AntitankMine_G02",
+--  "EQP_SWP_ElectromagneticNetMine",
+--  "EQP_SWP_ElectromagneticNetMine_G01",
+--  "EQP_SWP_ElectromagneticNetMine_G02",
+--  "EQP_SWP_WormholePortal",
+--  "EQP_SWP_Dung",
+
+--tex no go
+--    "EQP_AB_PrimaryCommon",
+--    "EQP_AB_PrimaryTranq",
+--    "EQP_AB_PrimaryMissile",
+--    "EQP_AB_PrimaryMissileTranq",
+--    "EQP_AB_SecondaryCommon",
+--    "EQP_AB_SecondaryTranq",
+--    "EQP_AB_Support",
+--    "EQP_AB_Suppressor",
+--    "EQP_AB_Item",
+--    "EQP_AB_Mecha",
+--    "EQP_BX_Primary",
+--    "EQP_BX_Secondary",
+--    "EQP_BX_Support",
+
+--hands
+--    "EQP_HAND_STUNARM",
+--    "EQP_HAND_JEHUTY",
+--    "EQP_HAND_STUN_ROCKET",
+--    "EQP_HAND_KILL_ROCKET",
+--    "EQP_HAND_NORMAL",
+--    "EQP_HAND_GOLD",
+--    "EQP_HAND_SILVER",
+
+--items
+--  "EQP_IT_Fulton",
+--  "EQP_IT_Fulton_Cargo",
+--  "EQP_IT_Fulton_Child",
+--  "EQP_IT_Fulton_WormHole",
+--  "EQP_IT_Binocle",
+
+--    "EQP_IT_CBox_DSR",
+--    "EQP_IT_CBox_DSR_G01",
+--    "EQP_IT_CBox_DSR_G02",
+--    "EQP_IT_CBox_WR",
+--    "EQP_IT_CBox_SMK",
+--    "EQP_IT_CBox_FRST",
+--    "EQP_IT_CBox_FRST_G01",
+--    "EQP_IT_CBox_BOLE",
+--    "EQP_IT_CBox_BOLE_G01",
+--    "EQP_IT_CBox_CITY",
+--    "EQP_IT_CBox_CITY_G01",
+
+--tex no go
+--    "EQP_IT_CBox_CLB_A",o
+--    "EQP_IT_CBox_CLB_A_G01",
+--    "EQP_IT_CBox_CLB_B",
+--    "EQP_IT_CBox_CLB_B_G01",
+--    "EQP_IT_CBox_CLB_C",
+--    "EQP_IT_CBox_CLB_C_G01",
+-- tex some kind of dlc box, defaults to regular texture though
+--    "EQP_IT_CBox_LIMITED",
+--    "EQP_IT_CBox_LIMITED_G01",
+--  "EQP_IT_InstantStealth",
+--  "EQP_IT_Pentazemin",
+--  "EQP_IT_Clairvoyance",
+--  "EQP_IT_ReflexMedicine",
+--
+--tex needs paracites/armor I guess?
+--    "EQP_IT_ParasiteMist",
+--    "EQP_IT_ParasiteCamouf",
+--    "EQP_IT_ParasiteHard",
+
+--  "EQP_IT_TimeCigarette",
+--  "EQP_IT_Stealth",
+--  "EQP_IT_Nvg",
+
+--tex likely requires the specific mission assets
+--    "EQP_IT_Infected",
+
+--tex no go
+--    "EQP_IT_IDroid",
+--    "EQP_IT_CureSpray",
+--    "EQP_IT_PickingToolR",
+--    "EQP_IT_PickingToolL",
+--    "EQP_IT_HandyLight",
+--    "EQP_IT_Knife",
+--    "EQP_IT_SKnife",
+--    "EQP_IT_Cigarette",
+--    "EQP_IT_CigaretteCase",
+--    "EQP_IT_Radio",
+--    "EQP_IT_SRadio",
+--    "EQP_IT_BayonetWest",
+--    "EQP_IT_Telescope",
+--    "EQP_IT_Cassette",
+--    "EQP_IT_FilmCase",
+--    "EQP_IT_DevelopmentFile",
+--    "EQP_IT_GasMask",--tex likely handled through attachgasmask/requires asset fpk
+--    "EQP_IT_KnifePF",
+--    "EQP_IT_ShotShell",
+--    "EQP_IT_Machete",
+--    "EQP_IT_MacheteLiquid",
+--    "EQP_IT_KnifeLiquid",
+--    "EQP_IT_PipeLiquid",
+--    "EQP_IT_BottleLiquid",
+--    "EQP_IT_ShellLiquid",
+--    "EQP_IT_mgs0_msbl0",
+--    "EQP_IT_DDogStunLod",
+
+--special weapons
+--    "EQP_WP_Wood_ar_010",
+----no go
+--    "EQP_WP_Quiet_sr_010",
+--    "EQP_WP_Quiet_sr_020",
+--    "EQP_WP_Quiet_sr_030",
+--    "EQP_WP_BossQuiet_sr_010",
+--    "EQP_WP_Pr_sm_010",
+--    "EQP_WP_Pr_ar_010",
+--    "EQP_WP_Pr_sg_010",
+--    "EQP_WP_Pr_sr_010",
+--    "EQP_WP_mgm0_mgun0",
+--
+--  "EQP_WP_HoneyBee",
+--  "EQP_WP_Volgin_sg_010",--no go
+--  "EQP_WP_SkullFace_hg_010",--holds weird, its actual use in its mission has it's own custom animation?
+
+--hang on load --re test
+--  "EQP_WP_DEBUG_sr_010",
+--  "EQP_WP_DEMO_ar_010",
+--  "EQP_WP_DEMO_ar_020",
+--  "EQP_WP_DEMO_ar_030",
+--  "EQP_WP_DEMO_sr_010",
+--  "EQP_WP_DEMO_hg_010",
+--  "EQP_WP_DEMO_hg_020",
+--  "EQP_WP_DEMO_hg_030",
+--  "EQP_WP_DEMO_sm_010",
+--  "EQP_WP_DEMO_sm_020",
+--  "EQP_WP_DEMO_mg_010",
+--  "EQP_WP_DEMO_ms_010",
+--  "EQP_WP_DEMO_ms_020",
+
+--  "EQP_WP_SP_hg_010",
+--  "EQP_WP_SP_hg_020",
+--  "EQP_WP_SP_sm_010",
+--  "EQP_WP_SP_sg_010",
+
+--  "EQP_WP_SP_SLD_010",
+--  "EQP_WP_SP_SLD_010_G01",
+--  "EQP_WP_SP_SLD_010_G02",
+--  "EQP_WP_SP_SLD_020",
+--  "EQP_WP_SP_SLD_020_G01",
+--  "EQP_WP_SP_SLD_020_G02",
+--  "EQP_WP_SP_SLD_030",
+--  "EQP_WP_SP_SLD_030_G01",
+--  "EQP_WP_SP_SLD_030_G02",
+--  "EQP_WP_SP_SLD_040",
+--  "EQP_WP_SP_SLD_040_G01",
+--  "EQP_WP_SP_SLD_040_G02",
+
+--requires fob mode/specifc set up i guess
+--  "EQP_WP_SCamLocator",
+
+--not equipable, hang on equip
+--  "EQP_AM_10001",
+--  "EQP_AM_10003",
+--  "EQP_AM_10015",
+--  "EQP_AM_10101",
+--  "EQP_AM_10103",
+--  "EQP_AM_10125",
+--  "EQP_AM_10134",
+--  "EQP_AM_10201",
+--  "EQP_AM_10203",
+--  "EQP_AM_10214",
+--  "EQP_AM_10302",
+--  "EQP_AM_10303",
+--  "EQP_AM_10305",
+--  "EQP_AM_10403",
+--  "EQP_AM_10404",
+--  "EQP_AM_10405",
+--  "EQP_AM_10407",
+--  "EQP_AM_10503",
+--  "EQP_AM_10515",
+--  "EQP_AM_10526",
+--  "EQP_AM_20002",
+--  "EQP_AM_20003",
+--  "EQP_AM_20005",
+--  "EQP_AM_20103",
+--  "EQP_AM_20104",
+--  "EQP_AM_20105",
+--  "EQP_AM_20106",
+--  "EQP_AM_20116",
+--  "EQP_AM_20203",
+--  "EQP_AM_20206",
+--  "EQP_AM_20302",
+--  "EQP_AM_20303",
+--  "EQP_AM_20304",
+--  "EQP_AM_20305",
+--  "EQP_AM_30001",
+--  "EQP_AM_30003",
+--  "EQP_AM_30014",
+--  "EQP_AM_30034",
+--  "EQP_AM_30043",
+--  "EQP_AM_30047",
+--  "EQP_AM_30054",
+--  "EQP_AM_30055",
+--  "EQP_AM_30102",
+--  "EQP_AM_30103",
+--  "EQP_AM_30123",
+--  "EQP_AM_30125",
+--  "EQP_AM_30201",
+--  "EQP_AM_30203",
+--  "EQP_AM_30223",
+--  "EQP_AM_30225",
+--  "EQP_AM_30232",
+--  "EQP_AM_30303",
+--  "EQP_AM_30305",
+--  "EQP_AM_30306",
+--  "EQP_AM_30325",
+--  "EQP_AM_40001",
+--  "EQP_AM_40004",
+--  "EQP_AM_40012",
+--  "EQP_AM_40015",
+--  "EQP_AM_40023",
+--  "EQP_AM_40102",
+--  "EQP_AM_40105",
+--  "EQP_AM_40115",
+--  "EQP_AM_40123",
+--  "EQP_AM_40126",
+--  "EQP_AM_40133",
+--  "EQP_AM_40135",
+--  "EQP_AM_40136",
+--  "EQP_AM_40143",
+--  "EQP_AM_40203",
+--  "EQP_AM_40204",
+--  "EQP_AM_40206",
+--  "EQP_AM_40304",
+--  "EQP_AM_50102",
+--  "EQP_AM_50115",
+--  "EQP_AM_50126",
+--  "EQP_AM_50147",
+--  "EQP_AM_50136",
+--  "EQP_AM_50202",
+--  "EQP_AM_50215",
+--  "EQP_AM_50226",
+--  "EQP_AM_50237",
+--  "EQP_AM_50303",
+--  "EQP_AM_50304",
+--  "EQP_AM_50306",
+--  "EQP_AM_60001",
+--  "EQP_AM_60007",
+--  "EQP_AM_60013",
+--  "EQP_AM_60102",
+--  "EQP_AM_60107",
+--  "EQP_AM_60114",
+--  "EQP_AM_60203",
+--  "EQP_AM_60303",
+--  "EQP_AM_60315",
+--  "EQP_AM_60325",
+--  "EQP_AM_60404",
+--  "EQP_AM_60406",
+--  "EQP_AM_60415",
+--  "EQP_AM_60417",
+--  "EQP_AM_70002",
+--  "EQP_AM_70003",
+--  "EQP_AM_70005",
+--  "EQP_AM_70103",
+--  "EQP_AM_70104",
+--  "EQP_AM_70105",
+--  "EQP_AM_70114",
+--  "EQP_AM_70115",
+--  "EQP_AM_70116",
+--  "EQP_AM_70203",
+--  "EQP_AM_70204",
+--  "EQP_AM_70205",
+--  "EQP_AM_Quiet_sr_010",
+--  "EQP_AM_Quiet_sr_020",
+--  "EQP_AM_Quiet_sr_030",
+--  "EQP_AM_Pr_sm_010",
+--  "EQP_AM_Pr_ar_010",
+--  "EQP_AM_Pr_sg_010",
+--  "EQP_AM_Pr_sr_010",
+--  "EQP_AM_SkullFace_hg_010",
+--  "EQP_AM_SP_hg_010",
+--  "EQP_AM_SP_hg_020",
+--  "EQP_AM_SP_sm_010",
+--  "EQP_AM_SP_sg_010",
+--  "EQP_AM_EX_hg_000",
+--  "EQP_AM_EX_gl_000",
+--  "EQP_BL_EX_gl_000",
+--  "EQP_AM_EX_sr_000",
+--  "EQP_BL_HgGrenade",
+--  "EQP_BL_HgSmoke",
+--  "EQP_BL_HgSleep",
+--  "EQP_BL_HgStun",
+--  "EQP_BL_40mmGrenade",
+--  "EQP_BL_40mmSmoke",
+--  "EQP_BL_40mmSleep",
+--  "EQP_BL_40mmStun",
+--  "EQP_BL_20mmGrenade",
+--  "EQP_BL_20mmRocket",
+--  "EQP_BL_20mmSmoke",
+--  "EQP_BL_20mmSleep",
+--  "EQP_BL_20mmStun",
+--  "EQP_BL_ms00",
+--  "EQP_BL_ms00_G2",
+--  "EQP_BL_ms00_G3",
+--  "EQP_BL_ms02",
+--  "EQP_BL_ms02_G2",
+--  "EQP_BL_ms02_G3",
+--  "EQP_BL_ms02Sleep",
+--  "EQP_BL_ms02F",
+--  "EQP_BL_ms02F_G2",
+--  "EQP_BL_ms02F_G3",
+--  "EQP_BL_ms03",
+--  "EQP_BL_ms03_G2",
+--  "EQP_BL_ms03_G3",
+--  "EQP_BL_ms03_G4",
+--  "EQP_BL_ms01",
+--  "EQP_BL_ms01_G2",
+--  "EQP_BL_ms01_G3",
+--  "EQP_BL_ms01_G4",
+--  "EQP_BL_ms01_Child",
+--  "EQP_BL_ms01_G2_Child",
+--  "EQP_BL_ms01_G3_Child",
+--  "EQP_BL_ms01_G4_Child",
+--  "EQP_BL_RocketPunchStun",
+--  "EQP_BL_RocketPunchBlast",
+--  "EQP_BL_uth0_ammo0",
+--  "EQP_BL_uth0_ammo1",
+--  "EQP_BL_mgm0_ammo0",
+--  "EQP_BL_mgm0_cmn_ammo0",
+--  "EQP_BL_mgm0_cmn_ammo1",
+--  "EQP_BL_mgm0_famo0",
+--  "EQP_BL_mgs0_miss1",
+--  "EQP_BL_mgs0_miss0",
+--  "EQP_BL_mgs0_srcm0",
+--  "EQP_BL_mgs0_grnd0",
+--  "EQP_BL_Mortar",
+--  "EQP_BL_Flare",
+--  "EQP_BL_Cannon",
+--  "EQP_BL_WavCannon",
+--  "EQP_BL_WavCannonHoming",
+--  "EQP_BL_TankCannon",
+--  "EQP_BL_TankCannonHoming",
+--  "EQP_BL_WavRocket",
+--  "EQP_BL_Tankgun_105mmRifledBoreGun",
+--  "EQP_BL_Tankgun_120mmSmoothBoreGun",
+--  "EQP_BL_Tankgun_125mmSmoothBoreGun",
+--  "EQP_BL_Tankgun_105mmRifledBoreGun_Homing",
+--  "EQP_BL_Tankgun_120mmSmoothBoreGun_Homing",
+--  "EQP_BL_Tankgun_125mmSmoothBoreGun_Homing",
+--  "EQP_BL_Tankgun_82mmRocketPoweredProjectile",
+--  "EQP_BL_Tankgun_MultipleRocketLauncher",
+--  "EQP_BL_SupplyBomb",
+--  "EQP_BL_SupplySmoke",
+--  "EQP_BL_SupplySleep",
+--  "EQP_BL_SupplyChaff",
+--  "EQP_BL_UavGrenade",
+--  "EQP_BL_UavSmokeGrenade",
+--  "EQP_BL_UavSleepGasGrenade",
+}
+
+local equipCategories={}
+for n,category in pairs(this.tppEquipTable)do
+  equipCategories[n]=category
+end
 
 --tex has no effect sadly, only boss quiet gameobject i guess
 function this.SetQuietHumming(hummingFlag)
@@ -3576,7 +3602,7 @@ local mafrBaseNames={
   "mafr_chicoVil_cp",
 }--#34
 
-
+--reserve soldierpool
 this.reserveSoldierNames={}
 local solPrefix="sol_ih_"
 this.numReserveSoldiers=40--tex SYNC number of soldier locators i added to fox2s
@@ -3585,54 +3611,67 @@ for i=0,this.numReserveSoldiers-1 do
   table.insert(this.reserveSoldierNames,name)
 end
 
---IN/OUT,SIDE reserveSoldierPool
-function this.AddToLrrp(_soldierDefine,travelPlans)
-  mvars.ene_soldierDefine={}
-  Tpp.MergeTable(mvars.ene_soldierDefine,_soldierDefine,true)
+function this.ResetSoldierPool()
+  this.soldierPool={}
+  for n,soldierName in ipairs(this.reserveSoldierNames) do
+    table.insert(this.soldierPool,soldierName)
+  end
+end
 
+function this.SoldierPoolPop()
+  if #this.soldierPool==0 then
+    return nil
+  end
+  local soldierName=this.soldierPool[this.soldierPool]
+  table.remove(this.soldierPool)
+  return soldierName
+end
+
+local function FillLrrp(num,soldierPool,cpDefine)
+  local soldiers={}
+  while num>0 and #soldierPool>0 do
+    local soldierName=soldierPool[#soldierPool]
+    if soldierName then
+      table.insert(soldiers,soldierName)
+      table.remove(soldierPool)--pop
+      table.insert(cpDefine,#cpDefine+1,soldierName)
+      num=num-1
+    end
+  end
+  return soldiers
+end
+
+local function ResetPool(baseNames)
+  local namePool={}
+  for n,name in ipairs(baseNames) do
+    table.insert(namePool,name)
+  end
+  return namePool
+end
+
+local function GetRandomPool(pool,startBases)
+  local rndIndex=math.random(#pool)
+  local name=pool[rndIndex]
+  table.remove(pool,rndIndex)
+  --tex RETHINK, ugly bad
+  if startBases then
+    for i,startBaseName in ipairs(startBases) do
+      if name==startBaseName then
+        table.remove(pool,i)
+      end
+    end
+  end
+
+  return name
+end
+
+function this.ModifyVehiclePatrolSoldiers(soldierDefine)
   if vars.missionCode~=30010 and vars.missionCode~=30020 then
     return
   end
 
-  local soldierDefine=mvars.ene_soldierDefine
-
-  local soldierPool={}
-  for n,soldierName in ipairs(this.reserveSoldierNames) do
-    table.insert(soldierPool,soldierName)
-  end
-
-  local cpPool={}
-
-  local lrrpInd="_lrrp"
-  for cpName,cpDefine in pairs(soldierDefine)do
-    local cpId=GetGameObjectId(cpName)
-    if cpId==NULL_ID then
-      InfMenu.DebugPrint(cpName.."==NULL_ID")
-    else
-      if string.find(cpName,lrrpInd)~=nil then
-        if #cpDefine==0 then
-          table.insert(cpPool,cpName)
-        end
-      end
-    end
-  end
-  --InfMenu.DebugPrint("cpPool"..#cpPool)--DEBUG
-
-  local function FillLrrp(num,soldierPool,cpDefine)
-    while num>0 and #soldierPool>0 do
-      local soldierName=soldierPool[#soldierPool]
-      if soldierName then
-        table.remove(soldierPool)--pop
-        table.insert(cpDefine,#cpDefine+1,soldierName)
-        num=num-1
-      end
-    end
-  end
-
-  this.SetLevelRandomSeed()
-
   if Ivars.vehiclePatrolProfile:Is()>0 and Ivars.vehiclePatrolProfile:ExecCheck() then
-    local initPoolSize=#soldierPool
+    local initPoolSize=#this.soldierPool
     for cpName,cpDefine in pairs(soldierDefine)do
       local numCpSoldiers=0
       for n,soldierName in ipairs(cpDefine)do
@@ -3655,7 +3694,7 @@ function this.AddToLrrp(_soldierDefine,travelPlans)
           for n,soldierName in ipairs(cpDefine)do
             gotSeat=gotSeat+1
             if gotSeat>numSeats then
-              table.insert(soldierPool,soldierName)
+              table.insert(this.soldierPool,soldierName)
               cpDefine[n]=nil
             end
           end
@@ -3663,46 +3702,45 @@ function this.AddToLrrp(_soldierDefine,travelPlans)
           numSeats=numSeats-numCpSoldiers
           --InfMenu.DebugPrint(cpDefine.lrrpVehicle .. " numfillSeats "..numSeats)--DEBUG
           if numSeats>0 then
-            FillLrrp(numSeats,soldierPool,cpDefine) --tex TODO why is this crashing out?
+            FillLrrp(numSeats,this.soldierPool,cpDefine) --tex TODO why is this crashing out?
           end
         end
         --if lrrpVehicle<
       end
       --for soldierdefine<
     end
-    local poolChange=#soldierPool-initPoolSize
-    --InfMenu.DebugPrint("pool change:"..poolChange)--DEBUG
+    local poolChange=#this.soldierPool-initPoolSize
+    InfMenu.DebugPrint("pool change:"..poolChange)--DEBUGNOW
     --if vehiclePatrol<
   end
+end
 
-  if Ivars.enableLrrpFreeRoam:Is(0) then
-    this.ResetTrueRandom()
+--IN/OUT,SIDE reserveSoldierPool
+function this.AddLrrps(soldierDefine,travelPlans)
+  if vars.missionCode~=30010 and vars.missionCode~=30020 then
     return
   end
 
-  local function ResetBasePool(baseNames)
-    local baseNamePool={}
-    for n,baseName in ipairs(baseNames) do
-      table.insert(baseNamePool,baseName)
-    end
-    return baseNamePool
+  if Ivars.enableLrrpFreeRoam:Is(0) then
+    return
   end
 
-  local function GetRandomBase(baseNames,startBases)
-    local rndIndex=math.random(#baseNames)
-    local baseName=baseNames[rndIndex]
-    table.remove(baseNames,rndIndex)
-    --tex RETHINK, ugly bad
-    if startBases then
-      for i,startBaseName in ipairs(startBases) do
-        if baseName==startBaseName then
-          table.remove(baseNames,i)
+  local cpPool={}
+
+  local lrrpInd="_lrrp"
+  for cpName,cpDefine in pairs(soldierDefine)do
+    local cpId=GetGameObjectId(cpName)
+    if cpId==NULL_ID then
+      InfMenu.DebugPrint(cpName.."==NULL_ID")
+    else
+      if string.find(cpName,lrrpInd)~=nil then
+        if #cpDefine==0 then
+          table.insert(cpPool,cpName)
         end
       end
     end
-
-    return baseName
   end
+  --InfMenu.DebugPrint("cpPool"..#cpPool)--DEBUG
 
   local planStr="travelIH_"
 
@@ -3710,27 +3748,35 @@ function this.AddToLrrp(_soldierDefine,travelPlans)
   --tex OFF
   --  local minSize=Ivars.lrrpSizeFreeRoam_MIN:Get()
   --  local maxSize=Ivars.lrrpSizeFreeRoam_MAX:Get()
-  --  if maxSize>#soldierPool then
-  --    maxSize=#soldierPool
+  --  if maxSize>#this.soldierPool then
+  --    maxSize=#this.soldierPool
   --  end
   local numLrrps=0
 
   local baseNamePool={}
   local startBases={}
   if TppLocation.IsAfghan()then
-    startBases=ResetBasePool(afghBaseNames)
+    startBases=ResetPool(afghBaseNames)
   elseif TppLocation.IsMiddleAfrica()then
-    startBases=ResetBasePool(mafrBaseNames)
+    startBases=ResetPool(mafrBaseNames)
   end
-  baseNamePool=ResetBasePool(startBases)
+  for n,cpName in pairs(startBases)do
+    local cpDefine=soldierDefine[cpName]
+    if cpDefine==nil then
+    --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
+    else
+      local cpId=GetGameObjectId(cpName)
+      if cpId==NULL_ID then
+      --InfMenu.DebugPrint(tostring(cpName).." cpId==NULL_ID")--DEBUG
+      else
+        table.insert(baseNamePool,cpName)
+      end
+    end
+  end
 
 
-  while #soldierPool-reserved>0 do
-    --DEBUGNOW
-    --    if numLrrps>=#afghBaseNames then
-    --      break
-    --    end
-    --tex TODO horrible performance
+  while #this.soldierPool-reserved>0 do
+    --tex done, this limits to one lrrp per base (or rather starting at base, the end is much more random)
     if #startBases==0 then
       --InfMenu.DebugPrint"#startBases==0, each base should have a lrrp starting there"--DEBUG
       break
@@ -3740,14 +3786,8 @@ function this.AddToLrrp(_soldierDefine,travelPlans)
       --InfMenu.DebugPrint"#cpPool==0"--DEBUG
       break
     end
-    if #soldierPool==0 then
+    if #this.soldierPool==0 then
       --InfMenu.DebugPrint"#soldierPool==0"--DEBUG
-      break
-    end
-
-    --tex done, this limits to one lrrp per base (or rather starting at base, the end is much more random)
-    if #startBases==0 then
-      --InfMenu.DebugPrint"#startBases==0"--DEBUG
       break
     end
 
@@ -3775,25 +3815,255 @@ function this.AddToLrrp(_soldierDefine,travelPlans)
     --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
 
     local cpDefine={}
-    soldierDefine[cpName]=cpDefine
+    soldierDefine[cpName]=cpDefine--tex GOTCHA clearing the cp here, wheres in AddWildCards we are reading existing
 
     --tex TODO: random% filled to user settings
-    FillLrrp(lrrpSize,soldierPool,cpDefine)
+    local soldiers=FillLrrp(lrrpSize,this.soldierPool,cpDefine)
     local planName=planStr..cpName
     cpDefine.lrrpTravelPlan=planName
-    --DEBUGNOW GOTCHA writing to actual table here, TODO see if travelplans is handled the same as soldierdefine
     travelPlans[planName]={
-      {base=GetRandomBase(baseNamePool,startBases)},
-      {base=GetRandomBase(baseNamePool)},
+      {base=GetRandomPool(baseNamePool,startBases)},
+      {base=GetRandomPool(baseNamePool)},
     }
     numLrrps=numLrrps+1
   end
---  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
+  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUGNOW
 
---  local ins = InfInspect.Inspect(startBases)
---  InfMenu.DebugPrint(ins)
-
-  this.ResetTrueRandom()
+  --  local ins = InfInspect.Inspect(startBases)
+  --  InfMenu.DebugPrint(ins)
 end
+
+this.MAX_WILDCARD_FACES=10--DEBUGNOW
+function this.IsWildCardEnabled(missionCode)
+  local missionCode=missionCode or vars.missionCode
+  return Ivars.enableWildCardFreeRoam:Is(1) and (missionCode==30010 or missionCode==30020)
+end
+
+function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
+  if not this.IsWildCardEnabled() then
+    return
+  end
+
+  InfMenu.DebugPrint"AddWildCards"--DEBUGNOW
+
+  local reserved=0
+
+  local numLrrps=0
+
+  local baseNamePool={}
+  --  local startBases={}
+  --  if TppLocation.IsAfghan()then
+  --    startBases=ResetPool(afghBaseNames)
+  --  elseif TppLocation.IsMiddleAfrica()then
+  --    startBases=ResetPool(mafrBaseNames)
+  --  end
+  --
+  --  --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
+  --  for n,cpName in pairs(startBases)do
+  --    local cpDefine=soldierDefine[cpName]
+  --    if cpDefine==nil then
+  --    --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
+  --    else
+  --      local cpId=GetGameObjectId(cpName)
+  --      if cpId==NULL_ID then
+  --      --InfMenu.DebugPrint(tostring(cpName).." cpId==NULL_ID")--DEBUG
+  --      else
+  --        table.insert(baseNamePool,cpName)
+  --      end
+  --    end
+  --  end
+  --
+  for cpName,cpDefine in pairs(soldierDefine)do
+    if #cpDefine>0 then
+      local cpId=GetGameObjectId(cpName)
+      if cpId~=NULL_ID then
+        if cpDefine.lrrpVehicle==nil then--tex TODO: think if you want to add wildcards to vehicle lrrps
+          table.insert(baseNamePool,cpName)
+        end
+      end
+    end
+  end
+
+  local wildCardSubType="SOVIET_WILDCARD"
+  if TppLocation.IsAfghan()then
+    wildCardSubType="SOVIET_WILDCARD"
+  elseif TppLocation.IsMiddleAfrica()then
+    wildCardSubType="PF_WILDCARD"
+  end
+  local femaleWildCard="WILDCARD_FEMALE"
+
+
+  local weaponPowers={
+    --DEBUGNOW
+    --    "ASSAULT",
+    --    "SMG",
+    --    "SHOTGUN",
+    --    "MG",
+    "SNIPER",
+  --"MISSILE",
+  }
+  local weaponPool={}
+
+  local abilityLevel="sp"
+  local personalAbilitySettings={
+    notice=abilityLevel,
+    cure=abilityLevel,
+    reflex=abilityLevel,
+    shot=abilityLevel,
+    grenade=abilityLevel,
+    reload=abilityLevel,
+    hp=abilityLevel,
+    speed=abilityLevel,
+    fulton=abilityLevel,
+    holdup=abilityLevel
+  }
+
+  local numWildCards=math.max(1,math.floor(#baseNamePool/2.5))--DEBGUNOW/6))--DEBUGNOW
+  local femaleChance=1--0.1--DEBUGNOW
+
+  mvars.ene_wildCards={}
+  local faceIdPool={}
+
+  InfMenu.DebugPrint"ene_wildCardFaceList"
+  local ins=InfInspect.Inspect(InfMain.ene_wildCardFaceList)--DEBUGNOW
+  InfMenu.DebugPrint(ins)
+
+
+
+  --while numLrrps<=numWildCards do
+  for i=1,numWildCards do
+    --    if #startBases==0 then
+    --      --InfMenu.DebugPrint"#startBases==0, each base should have a lrrp starting there"--DEBUG
+    --      break
+    --    end
+
+    --    if #this.soldierPool==0 then
+    --      --InfMenu.DebugPrint"#soldierPool==0"--DEBUG
+    --      break
+    --    end
+
+    if #baseNamePool==0 then
+      --InfMenu.DebugPrint"#baseNamePool==0"--DEBUG
+      break
+    end
+
+    local cpName=GetRandomPool(baseNamePool)
+    --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
+
+    local cpDefine=soldierDefine[cpName]
+    --    if cpDefine==nil then
+    --    --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
+    --    else
+    --      local cpId=GetGameObjectId(cpName)
+    --      if cpId==NULL_ID then
+    --      --InfMenu.DebugPrint(cpName.."==NULL_ID")--DEBUG
+    --      else
+
+
+    --InfMenu.DebugPrint("found cpname "..cpName)--DEBUGNOW
+
+    local wildCardsPerCp=1
+    --local soldiers=FillLrrp(wildCardsPerCp,this.soldierPool,cpDefine)
+    if #cpDefine>0 then
+      local soldierName=cpDefine[math.random(#cpDefine)]
+      local isFemale=math.random()<=femaleChance
+      --for n,soldierName in pairs(soldiers)do
+      --DEBUGNOW if isFemale then--DEBUGNOW
+      if InfMain.ene_wildCardFaceList then
+        --InfMenu.DebugPrint"RegisterUniqueSetting s"--DEBUGNOW
+        if #faceIdPool==0 then
+
+          faceIdPool=ResetPool(InfMain.ene_wildCardFaceList)
+
+          InfMenu.DebugPrint"faceIdPool"--DEBUGNOW
+          local ins=InfInspect.Inspect(faceIdPool)--DEBUGNOW
+          InfMenu.DebugPrint(ins)
+
+        end
+
+        local faceId=GetRandomPool(faceIdPool)--355--GetRandomBase(faceIdPool)
+        InfMenu.DebugPrint("random faceid:"..faceId)--DEBUGNOW
+        local bodyId=EnemyFova.INVALID_FOVA_VALUE
+        InfMenu.DebugPrint"RegisterUniqueSetting e"--DEBUGNOW
+        TppEneFova.RegisterUniqueSetting("enemy",soldierName,faceId,bodyId)
+      end
+      --            wildCardSubType="WILDCARD_FEMALE"
+
+      local gameObjectId = GameObject.GetGameObjectId( "TppSoldier2", soldierName )
+      if gameObjectId==NULL_ID then
+        InfMenu.DebugPrint"gameObjectId==NULL_ID"--DEBUGNOW
+      else
+
+        local command={id="UseExtendParts",enabled=true}
+        GameObject.SendCommand(gameObjectId,command)
+      end
+      mvars.ene_wildCards[soldierName]=true--DEBUGNOW differentiate between those that need extended and that dont
+      --end
+      soldierSubTypes[wildCardSubType]=soldierSubTypes[wildCardSubType] or {}
+      table.insert(soldierSubTypes[wildCardSubType],soldierName)
+
+      soldierPowerSettings[soldierName]={
+        "HELMET",
+        "SOFT_ARMOR",
+        "GUN_LIGHT",
+      --"GAS_MASK",
+      }
+      if #weaponPool==0 then
+        weaponPool=ResetPool(weaponPowers)
+      end
+      local weapon=GetRandomPool(weaponPool)
+      table.insert(soldierPowerSettings[soldierName],weapon)
+
+      soldierPersonalAbilitySettings[soldierName]=personalAbilitySettings
+      --end
+
+      numLrrps=numLrrps+1
+    end
+    --      end
+    --    end
+  end
+  InfMenu.DebugPrint("num wildCards"..numLrrps)--DEBUGNOW
+
+  --  local ins = InfInspect.Inspect(startBases)
+  --  InfMenu.DebugPrint(ins)
+end
+
+-- wildcard
+--In: missionTable.enemy.soldierPowerSettings
+function this.SetUpPowerSettings(soldierPowerSettings)
+
+--"STEALTH_SPECIAL","COMBAT_SPECIAL"
+--DEBUGNOW REF
+--  this.soldierPowerSettings = {
+--    sol_enemyNorth_lvVIP = { "HELMET", "MG", "SOFT_ARMOR" },
+--}
+
+
+end
+
+this.wildCardBodiesAfgh={
+  TppEnemyBodyId.svs0_unq_v010,
+  TppEnemyBodyId.svs0_unq_v020,
+  TppEnemyBodyId.svs0_unq_v070,
+  TppEnemyBodyId.svs0_unq_v071,
+  TppEnemyBodyId.svs0_unq_v072,
+  TppEnemyBodyId.svs0_unq_v009,
+  TppEnemyBodyId.svs0_unq_v060,
+  TppEnemyBodyId.svs0_unq_v100,
+  TppEnemyBodyId.svs0_unq_v420,
+}
+
+this.wildCardBodiesMafr={
+  TppEnemyBodyId.pfs0_unq_v210,--black beret, glases, black vest, red shirt, tan pants
+  TppEnemyBodyId.pfs0_unq_v250,--black beret, white coyote tshirt, black pants
+  TppEnemyBodyId.pfs0_unq_v360,--red long sleeve shirt, black pants
+  TppEnemyBodyId.pfs0_unq_v280,--black suit, white shirt, red white striped tie
+  TppEnemyBodyId.pfs0_unq_v150,--green beret, brown leather top, light tan muddy pants
+  TppEnemyBodyId.pfs0_unq_v140,--cap, glases, badly clipping medal, brown leather top, light tan muddy pants
+  TppEnemyBodyId.pfs0_unq_v241,--brown leather top, light tan muddy pants
+  --TppEnemyBodyId.pfs0_unq_v242,--brown leather top, light tan muddy pants, cant tell any difference?
+  TppEnemyBodyId.pfs0_unq_v450,--red beret, brown leather top, light tan muddy pants
+  TppEnemyBodyId.pfs0_unq_v440,--red beret, black leather top, black pants
+}
 
 return this

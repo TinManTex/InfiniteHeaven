@@ -241,76 +241,236 @@ for subType,cp in pairs(this.subTypeOfCpTable)do
     this.subTypeOfCpDefault[cpName]=subType--tex
   end
 end
-local tppEnemyBodyId=TppEnemyBodyId or{}
-this.childBodyIdTable={tppEnemyBodyId.chd0_v00,tppEnemyBodyId.chd0_v01,tppEnemyBodyId.chd0_v02,tppEnemyBodyId.chd0_v03,tppEnemyBodyId.chd0_v05,tppEnemyBodyId.chd0_v06,tppEnemyBodyId.chd0_v07,tppEnemyBodyId.chd0_v08,tppEnemyBodyId.chd0_v09,tppEnemyBodyId.chd0_v10,tppEnemyBodyId.chd0_v11}
+local TppEnemyBodyId=TppEnemyBodyId or{}
+this.childBodyIdTable={TppEnemyBodyId.chd0_v00,TppEnemyBodyId.chd0_v01,TppEnemyBodyId.chd0_v02,TppEnemyBodyId.chd0_v03,TppEnemyBodyId.chd0_v05,TppEnemyBodyId.chd0_v06,TppEnemyBodyId.chd0_v07,TppEnemyBodyId.chd0_v08,TppEnemyBodyId.chd0_v09,TppEnemyBodyId.chd0_v10,TppEnemyBodyId.chd0_v11}
 this.bodyIdTable={
   SOVIET_A={
-    ASSAULT={tppEnemyBodyId.svs0_rfl_v00_a,tppEnemyBodyId.svs0_rfl_v00_a,tppEnemyBodyId.svs0_rfl_v01_a,tppEnemyBodyId.svs0_mcg_v00_a},
-    ASSAULT_OB={tppEnemyBodyId.svs0_rfl_v02_a,tppEnemyBodyId.svs0_mcg_v02_a},
-    SNIPER={tppEnemyBodyId.svs0_snp_v00_a},
-    SHOTGUN={tppEnemyBodyId.svs0_rfl_v00_a,tppEnemyBodyId.svs0_rfl_v01_a},
-    SHOTGUN_OB={tppEnemyBodyId.svs0_rfl_v02_a},
-    MG={tppEnemyBodyId.svs0_mcg_v00_a,tppEnemyBodyId.svs0_mcg_v01_a},
-    MG_OB={tppEnemyBodyId.svs0_mcg_v02_a},
-    MISSILE={tppEnemyBodyId.svs0_rfl_v00_a},
-    SHIELD={tppEnemyBodyId.svs0_rfl_v00_a},
-    ARMOR={tppEnemyBodyId.sva0_v00_a},
-    RADIO={tppEnemyBodyId.svs0_rdo_v00_a}
+    ASSAULT={TppEnemyBodyId.svs0_rfl_v00_a,TppEnemyBodyId.svs0_rfl_v00_a,TppEnemyBodyId.svs0_rfl_v01_a,TppEnemyBodyId.svs0_mcg_v00_a},
+    ASSAULT_OB={TppEnemyBodyId.svs0_rfl_v02_a,TppEnemyBodyId.svs0_mcg_v02_a},
+    SNIPER={TppEnemyBodyId.svs0_snp_v00_a},
+    SHOTGUN={TppEnemyBodyId.svs0_rfl_v00_a,TppEnemyBodyId.svs0_rfl_v01_a},
+    SHOTGUN_OB={TppEnemyBodyId.svs0_rfl_v02_a},
+    MG={TppEnemyBodyId.svs0_mcg_v00_a,TppEnemyBodyId.svs0_mcg_v01_a},
+    MG_OB={TppEnemyBodyId.svs0_mcg_v02_a},
+    MISSILE={TppEnemyBodyId.svs0_rfl_v00_a},
+    SHIELD={TppEnemyBodyId.svs0_rfl_v00_a},
+    ARMOR={TppEnemyBodyId.sva0_v00_a},
+    RADIO={TppEnemyBodyId.svs0_rdo_v00_a}
   },
   SOVIET_B={
-    ASSAULT={tppEnemyBodyId.svs0_rfl_v00_b,tppEnemyBodyId.svs0_rfl_v00_b,tppEnemyBodyId.svs0_rfl_v01_b,tppEnemyBodyId.svs0_mcg_v00_b},
-    ASSAULT_OB={tppEnemyBodyId.svs0_rfl_v02_b,tppEnemyBodyId.svs0_mcg_v02_b},
-    SNIPER={tppEnemyBodyId.svs0_snp_v00_b},
-    SHOTGUN={tppEnemyBodyId.svs0_rfl_v00_b,tppEnemyBodyId.svs0_rfl_v01_b},
-    SHOTGUN_OB={tppEnemyBodyId.svs0_rfl_v02_b},
-    MG={tppEnemyBodyId.svs0_mcg_v00_b,tppEnemyBodyId.svs0_mcg_v01_b},
-    MG_OB={tppEnemyBodyId.svs0_mcg_v02_b},
-    MISSILE={tppEnemyBodyId.svs0_rfl_v00_b},
-    SHIELD={tppEnemyBodyId.svs0_rfl_v00_b},
-    ARMOR={tppEnemyBodyId.sva0_v00_a},
-    RADIO={tppEnemyBodyId.svs0_rdo_v00_b}
+    ASSAULT={TppEnemyBodyId.svs0_rfl_v00_b,TppEnemyBodyId.svs0_rfl_v00_b,TppEnemyBodyId.svs0_rfl_v01_b,TppEnemyBodyId.svs0_mcg_v00_b},
+    ASSAULT_OB={TppEnemyBodyId.svs0_rfl_v02_b,TppEnemyBodyId.svs0_mcg_v02_b},
+    SNIPER={TppEnemyBodyId.svs0_snp_v00_b},
+    SHOTGUN={TppEnemyBodyId.svs0_rfl_v00_b,TppEnemyBodyId.svs0_rfl_v01_b},
+    SHOTGUN_OB={TppEnemyBodyId.svs0_rfl_v02_b},
+    MG={TppEnemyBodyId.svs0_mcg_v00_b,TppEnemyBodyId.svs0_mcg_v01_b},
+    MG_OB={TppEnemyBodyId.svs0_mcg_v02_b},
+    MISSILE={TppEnemyBodyId.svs0_rfl_v00_b},
+    SHIELD={TppEnemyBodyId.svs0_rfl_v00_b},
+    ARMOR={TppEnemyBodyId.sva0_v00_a},
+    RADIO={TppEnemyBodyId.svs0_rdo_v00_b}
+  },
+  SOVIET_WILDCARD={
+    ASSAULT={
+      TppEnemyBodyId.svs0_unq_v010,
+      TppEnemyBodyId.svs0_unq_v020,
+      TppEnemyBodyId.svs0_unq_v070,
+      TppEnemyBodyId.svs0_unq_v071,
+      TppEnemyBodyId.svs0_unq_v072,
+      TppEnemyBodyId.svs0_unq_v009,
+      TppEnemyBodyId.svs0_unq_v060,
+      TppEnemyBodyId.svs0_unq_v100,
+      TppEnemyBodyId.svs0_unq_v420,
+    },
+    SNIPER={ 
+      TppEnemyBodyId.svs0_unq_v020,
+      TppEnemyBodyId.svs0_unq_v070,
+      TppEnemyBodyId.svs0_unq_v071,
+      TppEnemyBodyId.svs0_unq_v072,
+      TppEnemyBodyId.svs0_unq_v009,
+      TppEnemyBodyId.svs0_unq_v060,
+      TppEnemyBodyId.svs0_unq_v100,
+      TppEnemyBodyId.svs0_unq_v420,
+      TppEnemyBodyId.svs0_unq_v010,
+    },
+    SHOTGUN={
+      TppEnemyBodyId.svs0_unq_v070,
+      TppEnemyBodyId.svs0_unq_v071,
+      TppEnemyBodyId.svs0_unq_v072,
+      TppEnemyBodyId.svs0_unq_v009,
+      TppEnemyBodyId.svs0_unq_v060,
+      TppEnemyBodyId.svs0_unq_v100,
+      TppEnemyBodyId.svs0_unq_v420,      
+      TppEnemyBodyId.svs0_unq_v010,
+      TppEnemyBodyId.svs0_unq_v020,
+    },
+    MG={
+      TppEnemyBodyId.svs0_unq_v071,
+      TppEnemyBodyId.svs0_unq_v072,
+      TppEnemyBodyId.svs0_unq_v009,
+      TppEnemyBodyId.svs0_unq_v060,
+      TppEnemyBodyId.svs0_unq_v100,
+      TppEnemyBodyId.svs0_unq_v420,      
+      TppEnemyBodyId.svs0_unq_v010,
+      TppEnemyBodyId.svs0_unq_v020,
+      TppEnemyBodyId.svs0_unq_v070,
+    },
+    MISSILE={
+      TppEnemyBodyId.svs0_unq_v072,
+      TppEnemyBodyId.svs0_unq_v009,
+      TppEnemyBodyId.svs0_unq_v060,
+      TppEnemyBodyId.svs0_unq_v100,
+      TppEnemyBodyId.svs0_unq_v420,      
+      TppEnemyBodyId.svs0_unq_v010,
+      TppEnemyBodyId.svs0_unq_v020,
+      TppEnemyBodyId.svs0_unq_v070,
+      TppEnemyBodyId.svs0_unq_v071,
+    },
+    SHIELD={
+      TppEnemyBodyId.svs0_unq_v009,
+      TppEnemyBodyId.svs0_unq_v060,
+      TppEnemyBodyId.svs0_unq_v100,
+      TppEnemyBodyId.svs0_unq_v420,      
+      TppEnemyBodyId.svs0_unq_v010,
+      TppEnemyBodyId.svs0_unq_v020,
+      TppEnemyBodyId.svs0_unq_v070,
+      TppEnemyBodyId.svs0_unq_v071,
+      TppEnemyBodyId.svs0_unq_v072,
+    },
+    ARMOR={TppEnemyBodyId.sva0_v00_a},
+    RADIO={
+      TppEnemyBodyId.svs0_unq_v060,
+      TppEnemyBodyId.svs0_unq_v100,
+      TppEnemyBodyId.svs0_unq_v420,      
+      TppEnemyBodyId.svs0_unq_v010,
+      TppEnemyBodyId.svs0_unq_v020,
+      TppEnemyBodyId.svs0_unq_v070,
+      TppEnemyBodyId.svs0_unq_v071,
+      TppEnemyBodyId.svs0_unq_v072,
+      TppEnemyBodyId.svs0_unq_v009,
+    }
+  },
+  PF_WILDCARD={
+    ASSAULT={
+      TppEnemyBodyId.pfs0_unq_v210,
+      TppEnemyBodyId.pfs0_unq_v250,
+      TppEnemyBodyId.pfs0_unq_v360,
+      TppEnemyBodyId.pfs0_unq_v280,
+      TppEnemyBodyId.pfs0_unq_v150,
+      TppEnemyBodyId.pfs0_unq_v140,
+      TppEnemyBodyId.pfs0_unq_v241,
+      TppEnemyBodyId.pfs0_unq_v450,
+      TppEnemyBodyId.pfs0_unq_v440,
+    },
+    SNIPER={
+      TppEnemyBodyId.pfs0_unq_v250,
+      TppEnemyBodyId.pfs0_unq_v360,
+      TppEnemyBodyId.pfs0_unq_v280,
+      TppEnemyBodyId.pfs0_unq_v150,
+      TppEnemyBodyId.pfs0_unq_v140,
+      TppEnemyBodyId.pfs0_unq_v241,
+      TppEnemyBodyId.pfs0_unq_v450,
+      TppEnemyBodyId.pfs0_unq_v440,      
+      TppEnemyBodyId.pfs0_unq_v210,
+    },
+    SHOTGUN={
+      TppEnemyBodyId.pfs0_unq_v360,
+      TppEnemyBodyId.pfs0_unq_v280,
+      TppEnemyBodyId.pfs0_unq_v150,
+      TppEnemyBodyId.pfs0_unq_v140,
+      TppEnemyBodyId.pfs0_unq_v241,
+      TppEnemyBodyId.pfs0_unq_v450,
+      TppEnemyBodyId.pfs0_unq_v440,
+      TppEnemyBodyId.pfs0_unq_v210,
+      TppEnemyBodyId.pfs0_unq_v250,
+    },
+    MG={
+      TppEnemyBodyId.pfs0_unq_v280,
+      TppEnemyBodyId.pfs0_unq_v150,
+      TppEnemyBodyId.pfs0_unq_v140,
+      TppEnemyBodyId.pfs0_unq_v241,
+      TppEnemyBodyId.pfs0_unq_v450,
+      TppEnemyBodyId.pfs0_unq_v440,      
+      TppEnemyBodyId.pfs0_unq_v210,
+      TppEnemyBodyId.pfs0_unq_v250,
+      TppEnemyBodyId.pfs0_unq_v360,
+    },
+    MISSILE={
+      TppEnemyBodyId.pfs0_unq_v150,
+      TppEnemyBodyId.pfs0_unq_v140,
+      TppEnemyBodyId.pfs0_unq_v241,
+      TppEnemyBodyId.pfs0_unq_v450,
+      TppEnemyBodyId.pfs0_unq_v440,      
+      TppEnemyBodyId.pfs0_unq_v210,
+      TppEnemyBodyId.pfs0_unq_v250,
+      TppEnemyBodyId.pfs0_unq_v360,
+      TppEnemyBodyId.pfs0_unq_v280,
+    },
+    SHIELD={
+      TppEnemyBodyId.pfs0_unq_v140,
+      TppEnemyBodyId.pfs0_unq_v241,
+      TppEnemyBodyId.pfs0_unq_v450,
+      TppEnemyBodyId.pfs0_unq_v440,      
+      TppEnemyBodyId.pfs0_unq_v210,
+      TppEnemyBodyId.pfs0_unq_v250,
+      TppEnemyBodyId.pfs0_unq_v360,
+      TppEnemyBodyId.pfs0_unq_v280,
+      TppEnemyBodyId.pfs0_unq_v150,
+    },
+    ARMOR={TppEnemyBodyId.pfa0_v00_a,TppEnemyBodyId.pfa0_v00_b,TppEnemyBodyId.pfa0_v00_c},
+    RADIO={
+      TppEnemyBodyId.pfs0_unq_v241,
+      TppEnemyBodyId.pfs0_unq_v450,
+      TppEnemyBodyId.pfs0_unq_v440,      
+      TppEnemyBodyId.pfs0_unq_v210,
+      TppEnemyBodyId.pfs0_unq_v250,
+      TppEnemyBodyId.pfs0_unq_v360,
+      TppEnemyBodyId.pfs0_unq_v280,
+      TppEnemyBodyId.pfs0_unq_v150,
+      TppEnemyBodyId.pfs0_unq_v140,
+    },
   },
   PF_A={
-    ASSAULT={tppEnemyBodyId.pfs0_rfl_v00_a,tppEnemyBodyId.pfs0_mcg_v00_a},
-    ASSAULT_OB={tppEnemyBodyId.pfs0_rfl_v00_a,tppEnemyBodyId.pfs0_rfl_v01_a,tppEnemyBodyId.pfs0_mcg_v00_a},
-    SNIPER={tppEnemyBodyId.pfs0_snp_v00_a},
-    SHOTGUN={tppEnemyBodyId.pfs0_rfl_v00_a},
-    SHOTGUN_OB={tppEnemyBodyId.pfs0_rfl_v00_a,tppEnemyBodyId.pfs0_rfl_v01_a},
-    MG={tppEnemyBodyId.pfs0_mcg_v00_a},
-    MISSILE={tppEnemyBodyId.pfs0_rfl_v00_a},
-    SHIELD={tppEnemyBodyId.pfs0_rfl_v00_a},
-    ARMOR={tppEnemyBodyId.pfa0_v00_b},
-    RADIO={tppEnemyBodyId.pfs0_rdo_v00_a}
+    ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_mcg_v00_a},
+    ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_rfl_v01_a,TppEnemyBodyId.pfs0_mcg_v00_a},
+    SNIPER={TppEnemyBodyId.pfs0_snp_v00_a},
+    SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_a},
+    SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_a,TppEnemyBodyId.pfs0_rfl_v01_a},
+    MG={TppEnemyBodyId.pfs0_mcg_v00_a},
+    MISSILE={TppEnemyBodyId.pfs0_rfl_v00_a},
+    SHIELD={TppEnemyBodyId.pfs0_rfl_v00_a},
+    ARMOR={TppEnemyBodyId.pfa0_v00_b},
+    RADIO={TppEnemyBodyId.pfs0_rdo_v00_a}
   },
   PF_B={
-    ASSAULT={tppEnemyBodyId.pfs0_rfl_v00_b,tppEnemyBodyId.pfs0_mcg_v00_b},
-    ASSAULT_OB={tppEnemyBodyId.pfs0_rfl_v00_b,tppEnemyBodyId.pfs0_rfl_v01_b,tppEnemyBodyId.pfs0_mcg_v00_b},
-    SNIPER={tppEnemyBodyId.pfs0_snp_v00_b},
-    SHOTGUN={tppEnemyBodyId.pfs0_rfl_v00_b},
-    SHOTGUN_OB={tppEnemyBodyId.pfs0_rfl_v00_b,tppEnemyBodyId.pfs0_rfl_v01_b},
-    MG={tppEnemyBodyId.pfs0_mcg_v00_b},
-    MISSILE={tppEnemyBodyId.pfs0_rfl_v00_b},
-    SHIELD={tppEnemyBodyId.pfs0_rfl_v00_b},
-    ARMOR={tppEnemyBodyId.pfa0_v00_a},
-    RADIO={tppEnemyBodyId.pfs0_rdo_v00_b}
+    ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_mcg_v00_b},
+    ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_rfl_v01_b,TppEnemyBodyId.pfs0_mcg_v00_b},
+    SNIPER={TppEnemyBodyId.pfs0_snp_v00_b},
+    SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_b},
+    SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_b,TppEnemyBodyId.pfs0_rfl_v01_b},
+    MG={TppEnemyBodyId.pfs0_mcg_v00_b},
+    MISSILE={TppEnemyBodyId.pfs0_rfl_v00_b},
+    SHIELD={TppEnemyBodyId.pfs0_rfl_v00_b},
+    ARMOR={TppEnemyBodyId.pfa0_v00_a},
+    RADIO={TppEnemyBodyId.pfs0_rdo_v00_b}
   },
   PF_C={
-    ASSAULT={tppEnemyBodyId.pfs0_rfl_v00_c,tppEnemyBodyId.pfs0_mcg_v00_c},
-    ASSAULT_OB={tppEnemyBodyId.pfs0_rfl_v00_c,tppEnemyBodyId.pfs0_rfl_v01_c,tppEnemyBodyId.pfs0_mcg_v00_c},
-    SNIPER={tppEnemyBodyId.pfs0_snp_v00_c},
-    SHOTGUN={tppEnemyBodyId.pfs0_rfl_v00_c},
-    SHOTGUN_OB={tppEnemyBodyId.pfs0_rfl_v00_c,tppEnemyBodyId.pfs0_rfl_v01_c},
-    MG={tppEnemyBodyId.pfs0_mcg_v00_c},
-    MISSILE={tppEnemyBodyId.pfs0_rfl_v00_c},
-    SHIELD={tppEnemyBodyId.pfs0_rfl_v01_c},
-    ARMOR={tppEnemyBodyId.pfa0_v00_c},
-    RADIO={tppEnemyBodyId.pfs0_rdo_v00_c}
+    ASSAULT={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_mcg_v00_c},
+    ASSAULT_OB={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_rfl_v01_c,TppEnemyBodyId.pfs0_mcg_v00_c},
+    SNIPER={TppEnemyBodyId.pfs0_snp_v00_c},
+    SHOTGUN={TppEnemyBodyId.pfs0_rfl_v00_c},
+    SHOTGUN_OB={TppEnemyBodyId.pfs0_rfl_v00_c,TppEnemyBodyId.pfs0_rfl_v01_c},
+    MG={TppEnemyBodyId.pfs0_mcg_v00_c},
+    MISSILE={TppEnemyBodyId.pfs0_rfl_v00_c},
+    SHIELD={TppEnemyBodyId.pfs0_rfl_v01_c},
+    ARMOR={TppEnemyBodyId.pfa0_v00_c},
+    RADIO={TppEnemyBodyId.pfs0_rdo_v00_c}
   },
-  DD_A={ASSAULT={tppEnemyBodyId.dds3_main0_v00}},
-  DD_FOB={ASSAULT={tppEnemyBodyId.dds5_main0_v00}},
-  DD_PW={ASSAULT={tppEnemyBodyId.dds0_main1_v00}},
-  SKULL_CYPR={ASSAULT={tppEnemyBodyId.wss0_main0_v00}},
-  SKULL_AFGH={ASSAULT={tppEnemyBodyId.wss4_main0_v00}},
+  DD_A={ASSAULT={TppEnemyBodyId.dds3_main0_v00}},
+  DD_FOB={ASSAULT={TppEnemyBodyId.dds5_main0_v00}},
+  DD_PW={ASSAULT={TppEnemyBodyId.dds0_main1_v00}},
+  SKULL_CYPR={ASSAULT={TppEnemyBodyId.wss0_main0_v00}},
+  SKULL_AFGH={ASSAULT={TppEnemyBodyId.wss4_main0_v00}},
   CHILD={ASSAULT=this.childBodyIdTable}
 }
 this.weaponIdTable={
@@ -336,6 +496,18 @@ this.weaponIdTable={
       SHIELD=TppEquip.EQP_SLD_SV
     }
   },
+  WILDCARD={--tex> dd max grades except for noted
+    NORMAL={
+      HANDGUN=TppEquip.EQP_WP_West_hg_030,--geist p3 machine pistol grade 4 - shows shotgun icon but clearly isnt, 
+      SMG=TppEquip.EQP_WP_West_sm_017,
+      ASSAULT=TppEquip.EQP_WP_West_ar_057,
+      SNIPER=TppEquip.EQP_WP_EX_sr_000,--molotok-68 grade 9
+      SHOTGUN=TppEquip.EQP_WP_Com_sg_018,
+      MG=TppEquip.EQP_WP_West_mg_021,--alm48 flashlight grade 4 --TppEquip.EQP_WP_West_mg_037,
+      MISSILE=TppEquip.EQP_WP_Com_ms_010,
+      SHIELD=TppEquip.EQP_SLD_DD_01,
+    },
+  },--<
   PF_A={
     NORMAL={
       HANDGUN=TppEquip.EQP_WP_West_hg_010,
@@ -589,8 +761,8 @@ function this._SetUpSoldierTypes(soldierType,soldierIds)
   end
 end
 function this.SetUpSoldierTypes(soldierTypes)
-  for subTypes,soldierIds in pairs(soldierTypes)do
-    this._SetUpSoldierTypes(subTypes,soldierIds)
+  for subTypes,soldierNames in pairs(soldierTypes)do
+    this._SetUpSoldierTypes(subTypes,soldierNames)
   end
 end
 function this._SetUpSoldierSubTypes(subTypes,soldierNames)
@@ -613,11 +785,11 @@ function this.SetUpPowerSettings(soldierPowerSettings)-- ==missionTable.enemy.so
   local missionRequireSettings={}
   for t,powerSettings in pairs(soldierPowerSettings)do
     for e,t in pairs(powerSettings)do
-      local e=e
-      if Tpp.IsTypeNumber(e)then
-        e=t
+      local powerType=e
+      if Tpp.IsTypeNumber(powerType)then
+        powerType=t
       end
-      missionRequireSettings[e]=true
+      missionRequireSettings[powerType]=true
     end
   end
   mvars.ene_missionRequiresPowerSettings=missionRequireSettings
@@ -682,7 +854,7 @@ function this.GetSoldierType(soldierId)--tex now pulls type for subtype> ORIG is
     end
   end
 
-  if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then    
+  if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then
     local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
     local bodyInfo=InfMain.GetCurrentDDBodyInfo(isFemale)
     if bodyInfo and bodyInfo.soldierSubType then
@@ -931,8 +1103,10 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   local weaponIdTable={}
 
   if InfMain.IsDDEquip() then--tex>
-    weaponIdTable=this.weaponIdTable.DD
-    return weaponIdTable
+    return this.weaponIdTable.DD
+  end--<
+  if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD"then--tex>
+    return this.weaponIdTable.WILDCARD
   end--<
 
   if soldierType==EnemyType.TYPE_SOVIET then
@@ -1018,11 +1192,18 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
   local bodyId
   local bodyIdTable={}
   --InfMenu.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG
+  --tex>
+
+  --<
+
   if soldierType==EnemyType.TYPE_SOVIET then
     bodyIdTable=this.bodyIdTable.SOVIET_A
     if soldierSubType=="SOVIET_B"then
       bodyIdTable=this.bodyIdTable.SOVIET_B
     end
+    if soldierSubType=="SOVIET_WILDCARD" then--tex>
+      bodyIdTable=this.bodyIdTable.SOVIET_WILDCARD
+    end--<
   elseif soldierType==EnemyType.TYPE_PF then
     bodyIdTable=this.bodyIdTable.PF_A
     if soldierSubType=="PF_B"then
@@ -1030,6 +1211,9 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
     elseif soldierSubType=="PF_C"then
       bodyIdTable=this.bodyIdTable.PF_C
     end
+    if soldierSubType=="PF_WILDCARD" then--tex>
+      bodyIdTable=this.bodyIdTable.PF_WILDCARD
+    end--<
   elseif soldierType==EnemyType.TYPE_DD then
     bodyIdTable=this.bodyIdTable.DD_A
     if soldierSubType=="DD_FOB"then
@@ -1311,7 +1495,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   if(primaryId~=nil or secondaryId~=nil)or tertiaryId~=nil then--RETAILBUG secondaryId (was named secondaryWeapon) had no declaration
     GameObject.SendCommand(soldierId,{id="SetEquipId",primary=primaryId,secondary=secondaryId,tertiary=tertiaryId})
   end
-
+--DEBUGNOW faceId=355--DEBUGNOW
   GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId,faceId=faceId,balaclavaFaceId=balaclavaId})
   GameObject.SendCommand(soldierId,{id="SetWearEquip",flag=wearEquipFlag})
   local enemySubTypeForSubTypeName={
@@ -2820,10 +3004,8 @@ function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 --IN: missionTable.enemy.soldierDefine
 function this.DefineSoldiers(soldierDefine)
-  if soldierDefine~=mvars.ene_soldierDefine then--tex added bypass due to ugly hack
-    mvars.ene_soldierDefine={}
-    Tpp.MergeTable(mvars.ene_soldierDefine,soldierDefine,true)
-  end
+  mvars.ene_soldierDefine={}
+  Tpp.MergeTable(mvars.ene_soldierDefine,soldierDefine,true)
 
   mvars.ene_soldierIDList={}
   mvars.ene_cpList={}
@@ -2960,12 +3142,12 @@ function this.AssignSoldiersToCP()
     local cpSubType=subTypeOfCp[cp]
     local isChild=false
     for soldierId,p in pairs(soldierIds)do
---      if InfMain.IsForceSoldierSubType() then--tex> WIP Why is this hanging FOB?
---        --InfMenu.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
---        --   gvars.soldierTypeForced[soldierId]=true
---        --  InfMenu.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )
---        mvars.ene_soldierSubType[soldierId]=forceSubType
---      end--<
+      --      if InfMain.IsForceSoldierSubType() then--tex> WIP Why is this hanging FOB?
+      --        --InfMenu.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
+      --        --   gvars.soldierTypeForced[soldierId]=true
+      --        --  InfMenu.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )
+      --        mvars.ene_soldierSubType[soldierId]=forceSubType
+      --      end--<
       SendCommand(soldierId,{id="SetCommandPost",cp=cp})
       if mvars.ene_lrrpTravelPlan[cpId]then
         SendCommand(soldierId,{id="SetLrrp",travelPlan=mvars.ene_lrrpTravelPlan[cpId]})
@@ -3045,14 +3227,9 @@ mvars.ene_vehicleDefine.instanceCount=instanceCount
 end
 --NMC vehicleSpawnList = *_enemy.lua .VEHICLE_SPAWN_LIST
 function this.SpawnVehicles(vehicleSpawnList)
-  InfMain.SetLevelRandomSeed()--tex
-  mvars.patrolVehicleBaseInfo={}--tex
-  
   for t,spawnInfo in ipairs(vehicleSpawnList)do
-    InfMain.PreSpawnVehicle(spawnInfo)--tex
     this.SpawnVehicle(spawnInfo)
   end
-  InfMain.ResetTrueRandom()--tex
 end
 function this.SpawnVehicle(spawnInfo)
   if not IsTypeTable(spawnInfo)then
@@ -3146,18 +3323,18 @@ function this.GetCurrentRouteSetType(routeTypeStr32,phase,r)
     local routeSetType=this.ROUTE_SET_TYPETAG[routeTypeStr32]
     if routeSetType=="travel"then
       return"travel"
-      end
+    end
     if routeSetType=="hold"then
       return"hold"
-      end
+    end
     if routeSetType=="sleep"then
       return"sleep"
-      end
+    end
     if phase==this.PHASE.SNEAK then
       routeSetType=SetForTime(r,routeSetType)
     else
       routeSetType="caution"
-      end
+    end
   else
     if phase==this.PHASE.SNEAK then
       routeSetType=SetForTime(r)

@@ -1404,7 +1404,7 @@ function this._AllocateResources(config)
     restrictWeaponTable[powerType]=nil
     disablePowerSettings[powerType]=nil
   end
-  
+
   do
     local basePowerTypes={HANDGUN=true,SMG=true,ASSAULT=true,SHOTGUN=true,MG=true,SHIELD=true}
     local baseWeaponIdTable=weaponIdTable.NORMAL
@@ -1456,7 +1456,7 @@ function this._AllocateResources(config)
     TppSoldier2.SetDefaultSoldierWeapon{primary=primary,secondary=secondary,tertiary=tertiary}
   end
   local equipLoadTable={}
-  for weaponId,E in pairs(loadWeaponIds)do
+  for weaponId,bool in pairs(loadWeaponIds)do
     table.insert(equipLoadTable,weaponId)
   end
   if missionId==10080 or missionId==11080 then
@@ -1464,6 +1464,15 @@ function this._AllocateResources(config)
   end
   if TppEquip.RequestLoadToEquipMissionBlock then
     TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
+
+
+    if InfMain.IsWildCardEnabled(missionId) then--tex> TODO: pare it down to actual used
+      local equipLoadTable={}
+      for weaponType,weaponId in pairs(TppEnemy.weaponIdTable.WILDCARD.NORMAL)do
+        table.insert(equipLoadTable,weaponId)
+      end
+      TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
+    end--<
   end
 end
 function this._GetSettingSoldierCount(power,powerSetting,soldierCount)
@@ -1511,8 +1520,8 @@ function this._GetSettingSoldierCount(power,powerSetting,soldierCount)
 end
 
 --tex broken out from _ApplyRevengeToCp and reworked
-local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function, added unfulfilledPowers  
-  math.randomseed(gvars.rev_revengeRandomValue)--tex added
+local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function, added unfulfilledPowers
+  InfMain.SetLevelRandomSeed()--tex added
   for r,powerType in ipairs(TppEnemy.POWER_SETTING)do
     local powerSetting=revengeConfig[powerType]
     if powerSetting then
@@ -1520,14 +1529,14 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
       if unfulfilledPowers[powerType]~=nil then--tex>
         settingSoldierCount=unfulfilledPowers[powerType]
       end--<
---      if Ivars.selectedCp:Is()==cpId then--tex DEBUG
---        InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
---      end--
+      --      if Ivars.selectedCp:Is()==cpId then--tex DEBUG
+      --        InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
+      --      end--
       local comboExcludeList=powerComboExclusionList[powerType]or{}
       local soldierCount=settingSoldierCount
       local soldierConfigId=0--tex added
       --soldierConfigId=math.random(totalSoldierCount)--tex WIP DEBUGNOW random start pos to shake up distribution, the default does in order so it means ARMOR will get the good weapons, which is actually good, could have a seperate filter for what powertypes get a random distribution, mainly its weapons and headgear and rest shouldnt have random start?
-    --WAS for soldierConfigId=1,totalSoldierCount do  
+      --WAS for soldierConfigId=1,totalSoldierCount do
       for count=1,totalSoldierCount do
         soldierConfigId=soldierConfigId+1--tex>
         if soldierConfigId>totalSoldierCount then
@@ -1553,8 +1562,8 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
                 setPower=false
               end
             end
-          end             
-         
+          end
+
           if setPower then
             soldierCount=soldierCount-1
             cpConfig[soldierConfigId][powerType]=true
@@ -1579,7 +1588,7 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
       unfulfilledPowers[powerType]=soldierCount--tex
     end--if configPower
   end--for TppEnemy.POWER_SETTINGS
-  math.randomseed(os.time())--tex added
+  InfMain.ResetTrueRandom()--tex added
   return cpConfig
 end
 
@@ -1697,17 +1706,17 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
     local weaponBalanceComboExclusionList={
       MISSILE={"ARMOR","SHIELD","SNIPER"},
       SHOTGUN={"SNIPER","MG","SHIELD","SMG"},
-      --MG={"SNIPER","SHOTGUN","GUN_LIGHT","SHIELD","SMG"},
+    --MG={"SNIPER","SHOTGUN","GUN_LIGHT","SHIELD","SMG"},
     }
-    for powerType,excludeList in pairs(weaponBalanceComboExclusionList) do
-      powerComboExclusionList[powerType]=excludeList
-    end
+  for powerType,excludeList in pairs(weaponBalanceComboExclusionList) do
+    powerComboExclusionList[powerType]=excludeList
+  end
   end--<
 
   if Ivars.enableMgVsShotgunVariation:Is(1) then--tex>
     local setting=revengeConfigCp.MG_OR_SHOTGUN or 0
     if setting~=0 then
-      math.randomseed(gvars.rev_revengeRandomValue)
+      InfMain.SetLevelRandomSeed()
       local mgShottyLoadouts={
         {MG=setting,SHOTGUN=nil},
         {MG=nil,SHOTGUN=setting},
@@ -1718,7 +1727,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
         revengeConfigCp[powerType]=setting
       end
 
-      math.randomseed(os.time())
+      InfMain.ResetTrueRandom()
     end
   end--<
 
@@ -1734,7 +1743,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
       MG={0,totalSoldierCount},
       SHOTGUN={0,totalSoldierCount},
     }
-    math.randomseed(gvars.rev_revengeRandomValue)
+    InfMain.SetLevelRandomSeed()
     for powerType,range in pairs(smallCpBallanceList) do
       if revengeConfigCp[powerType] then
         local currentSetting=revengeConfigCp[powerType]
@@ -1748,7 +1757,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
         end
       end
     end
-    math.randomseed(os.time())
+    InfMain.ResetTrueRandom()
   end--<
 
   if Ivars.balanceWeaponPowers:Is(1) then--tex WIP
@@ -1872,7 +1881,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
   if Ivars.allowMissileWeaponsCombo:Is(1) then
     addConfigFlags={MISSILE_COMBO=true}
   end--<
-  
+
   cpConfig=CreateCpConfig(revengeConfigCp,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function
 
   --tex> rerun CreateCpConfig without headgear restrictions
@@ -1903,13 +1912,13 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
     cpConfig=CreateCpConfig(revengeConfigCp,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,gearConfigFlags,cpConfig,cpId)--tex now function
   end--<
 
---    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
---      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
---      InfMenu.DebugPrint"unfulfilledPowers:"
---      local instr=InfInspect.Inspect(unfulfilledPowers)
---      InfMenu.DebugPrint(instr)
---      --end--
---    end--<
+  --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
+  --      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
+  --      InfMenu.DebugPrint"unfulfilledPowers:"
+  --      local instr=InfInspect.Inspect(unfulfilledPowers)
+  --      InfMenu.DebugPrint(instr)
+  --      --end--
+  --    end--<
   --
   --  if Ivars.selectedCp:Is()==cpId then--tex DEBUG
   --    local instr=InfInspect.Inspect(cpConfig)

@@ -269,6 +269,7 @@ this.revengeMenu={
     InfMenuCommands.resetRevenge,
     Ivars.changeCpSubTypeFree,
     Ivars.changeCpSubTypeForMissions,
+    Ivars.enableWildCardFreeRoam,
   }
 }
 --
@@ -278,6 +279,7 @@ this.playerRestrictionsMenu={
     Ivars.subsistenceProfile,
     Ivars.disableHeadMarkers,
     Ivars.disableXrayMarkers,
+    Ivars.disableWorldMarkers,
     Ivars.disableBuddies,
     Ivars.disableHeliAttack,
     Ivars.disableSelectTime,
@@ -312,10 +314,11 @@ this.appearanceMenu={
   }
 }
 
-this.playerRestrictionsInMissionMenu={
+this.playerRestrictionsInMissionMenu={--DEBUGNOW
   options={
     Ivars.disableHeadMarkers,
-    Ivars.disableXrayMarkers,
+    Ivars.disableXrayMarkers,    
+    Ivars.disableWorldMarkers,
   },
   disabled=false,
   disabledReason="item_disabled_subsistence",
@@ -381,7 +384,7 @@ this.enemyPatrolMenu={
 
 this.footPatrolMenu={
   options={
-    Ivars.enableLrrpFreeRoam,--DEBUGNOW
+    Ivars.enableLrrpFreeRoam,
 --    Ivars.lrrpSizeFreeRoam_MIN,
 --    Ivars.lrrpSizeFreeRoam_MAX,
   }
@@ -396,7 +399,7 @@ this.cameraMenu={
   --    Ivars.focalLength,--CULL
   --    Ivars.focusDistance,
   --    Ivars.aperture,
-  --DEBUGNOW InfMenuCommands.resetCameraSettings,--tex just reset cam pos at the moment
+  --    InfMenuCommands.resetCameraSettings,--tex just reset cam pos at the moment
   }
 }
 
@@ -404,7 +407,7 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
@@ -467,11 +470,11 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
 --    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUGNOW    
---    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUGNOW
+    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUGNOW
 --    Ivars.selectedCp,--DEBUGNOW
-    --Ivars.selectedChangeWeapon,--WIP
+    Ivars.selectedChangeWeapon,--WIP DEBUGNOW
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,
@@ -479,6 +482,7 @@ this.inMissionMenu={
     Ivars.clockTimeScale,
     --this.appearanceMenu,--WIP
     Ivars.quietRadioMode,
+    Ivars.playerRestrictionsInMissionMenu,
     this.phaseMenu,
     --this.enemyReinforceMenu,
     this.supportHeliMenu,

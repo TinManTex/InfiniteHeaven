@@ -379,22 +379,22 @@ this.mbWarGamesProfile={
       Ivars.mbEnableFultonAddStaff:Set(0,true)
       Ivars.mbZombies:Set(0,true)
     end,
---    NONLETHAL=function()
---      --Ivars.mbDDHeadGear:Set(0,true)
---      --Ivars.mbDDSuit:Set(0,true)
---      Ivars.enableMbDDEquip:Set(1,true)
---      Ivars.mbDDEquipNonLethal:Set(1,true)
---      Ivars.mbHostileSoldiers:Set(1,true)
---      Ivars.mbEnableLethalActions:Set(0,true)
---      Ivars.mbNonStaff:Set(0,true)
---      Ivars.mbEnableFultonAddStaff:Set(0,true)
---      Ivars.mbZombies:Set(0,true)
---    end,
+    --    NONLETHAL=function()
+    --      --Ivars.mbDDHeadGear:Set(0,true)
+    --      --Ivars.mbDDSuit:Set(0,true)
+    --      Ivars.enableMbDDEquip:Set(1,true)
+    --      Ivars.mbDDEquipNonLethal:Set(1,true)
+    --      Ivars.mbHostileSoldiers:Set(1,true)
+    --      Ivars.mbEnableLethalActions:Set(0,true)
+    --      Ivars.mbNonStaff:Set(0,true)
+    --      Ivars.mbEnableFultonAddStaff:Set(0,true)
+    --      Ivars.mbZombies:Set(0,true)
+    --    end,
     TRAINING=function()
       --Ivars.mbDDHeadGear:Set(0,true)
       --Ivars.mbDDSuit:Set(0,true)
---      Ivars.enableMbDDEquip:Set(0,true)
---      Ivars.mbDDEquipNonLethal:Set(0,true)
+      --      Ivars.enableMbDDEquip:Set(0,true)
+      --      Ivars.mbDDEquipNonLethal:Set(0,true)
       Ivars.mbHostileSoldiers:Set(1,true)
       Ivars.mbEnableLethalActions:Set(0,true)
       Ivars.mbNonStaff:Set(0,true)
@@ -402,7 +402,7 @@ this.mbWarGamesProfile={
       Ivars.mbZombies:Set(0,true)
     end,
     INVASION=function()
-       --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDHeadGear:Set(0,true)
       --Ivars.mbDDSuit:Set(0,true)
       --Ivars.enableMbDDEquip:Set(0,true)
       Ivars.mbDDEquipNonLethal:Set(0,true)
@@ -410,19 +410,19 @@ this.mbWarGamesProfile={
       Ivars.mbEnableLethalActions:Set(1,true)
       Ivars.mbNonStaff:Set(1,true)
       Ivars.mbEnableFultonAddStaff:Set(0,true)
-      Ivars.mbZombies:Set(0,true)   
+      Ivars.mbZombies:Set(0,true)
     end,
---    XOF=function()
---      Ivars.mbDDHeadGear:Set(1,true)
---      Ivars.mbDDSuit:Set("XOF",true)
---      Ivars.enableMbDDEquip:Set(0,true)
---      Ivars.mbHostileSoldiers:Set(1,true)
---    end,
+    --    XOF=function()
+    --      Ivars.mbDDHeadGear:Set(1,true)
+    --      Ivars.mbDDSuit:Set("XOF",true)
+    --      Ivars.enableMbDDEquip:Set(0,true)
+    --      Ivars.mbHostileSoldiers:Set(1,true)
+    --    end,
     ZOMBIE=function()
       --Ivars.mbDDHeadGear:Set(0,true)
       --Ivars.mbDDSuit:Set(0,true)
---      Ivars.enableMbDDEquip:Set(0,true)
---      Ivars.mbDDEquipNonLethal:Set(0,true)
+      --      Ivars.enableMbDDEquip:Set(0,true)
+      --      Ivars.mbDDEquipNonLethal:Set(0,true)
       Ivars.mbHostileSoldiers:Set(1,true)
       Ivars.mbEnableLethalActions:Set(0,true)
       Ivars.mbNonStaff:Set(0,true)
@@ -440,7 +440,7 @@ this.mbWarGamesProfile={
       Ivars.mbEnableFultonAddStaff:Set(0,true)
       Ivars.mbZombies:Set(1,true)
     end,
-    --CUSTOM=nil,
+  --CUSTOM=nil,
   },
   OnChange=this.RunCurrentSetting,
   OnSubSettingChanged=this.OnSubSettingChanged,
@@ -582,6 +582,7 @@ this.subsistenceProfile={
       Ivars.disableSelectVehicle:Set(0,true)
       Ivars.disableHeadMarkers:Set(0,true)
       Ivars.disableXrayMarkers:Set(0,true)
+      Ivars.disableWorldMarkers:Set(0,true)
       Ivars.disableFulton:Set(0,true)
       Ivars.clearItems:Set(0,true)
       Ivars.clearSupportItems:Set(0,true)
@@ -613,6 +614,8 @@ this.subsistenceProfile={
       Ivars.disableSelectTime:Set(1,true)
       Ivars.disableSelectVehicle:Set(1,true)
       Ivars.disableHeadMarkers:Set(1,true)
+      Ivars.disableXrayMarkers:Set(0,true)
+      Ivars.disableWorldMarkers:Set(1,true)
       Ivars.disableFulton:Set(1,true)
       Ivars.clearItems:Set(1,true)
       Ivars.clearSupportItems:Set(1,true)
@@ -649,6 +652,9 @@ this.subsistenceProfile={
       Ivars.disableSelectTime:Set(1,true)
       Ivars.disableSelectVehicle:Set(1,true)
       Ivars.disableHeadMarkers:Set(0,true)
+      Ivars.disableXrayMarkers:Set(0,true)
+      Ivars.disableWorldMarkers:Set(0,true)
+
       Ivars.disableFulton:Set(0,true)
       Ivars.clearItems:Set(1,true)
       Ivars.clearSupportItems:Set(1,true)
@@ -733,6 +739,27 @@ this.disableHeadMarkers={
   range=this.switchRange,
   settingNames="set_switch",
   profile=this.subsistenceProfile,
+  OnChange=function(self)
+    if self.setting==1 then
+      TppUiStatusManager.SetStatus("HeadMarker","INVALID")
+    else
+      TppUiStatusManager.ClearStatus("HeadMarker")
+    end
+  end,
+}
+
+this.disableWorldMarkers={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.subsistenceProfile,
+  OnChange=function(self)
+    if self.setting==1 then
+      TppUiStatusManager.SetStatus("WorldMarker","INVALID")
+    else
+      TppUiStatusManager.ClearStatus("WorldMarker")
+    end
+  end,
 }
 
 this.disableXrayMarkers={
@@ -740,10 +767,10 @@ this.disableXrayMarkers={
   range=this.switchRange,
   settingNames="set_switch",
   profile=this.subsistenceProfile,
---OnChange=function(self)--TODO Actually why did I disable this?
---  local enabled=self.setting==1
---  TppSoldier2.SetDisableMarkerModelEffect{enabled=enabled}
---end,
+  OnChange=function(self)
+    local enabled=self.setting==1
+    TppSoldier2.SetDisableMarkerModelEffect{enabled=enabled}
+  end,
 }
 
 this.disableFulton={
@@ -1337,7 +1364,7 @@ this.disableMissionsWeaponRestriction={
 }
 
 this.disableMotherbaseWeaponRestriction={--WIP
-  save=MISSION,
+  --WIP save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
   profile=this.revengeProfile,
@@ -1754,7 +1781,14 @@ this.enableLrrpFreeRoam={
   settingNames="set_switch",
 }
 
---tex WIP ideally would have defaults of 2-5, and also let user modify, but while base assignment is random need to spread it as far as posible to get coverage 
+--wildcard
+this.enableWildCardFreeRoam={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+--tex WIP ideally would have defaults of 2-5, and also let user modify, but while base assignment is random need to spread it as far as posible to get coverage
 --MinMaxIvar(
 --  "lrrpSizeFreeRoam",
 --  {default=2},
@@ -2876,8 +2910,9 @@ this.selectedCp={
 }
 
 --
+local currentCategory=0
 this.selectedChangeWeapon={--WIP
-  save=MISSION,
+  --OFF save=MISSION,
   range={max=490,min=1},--tex SYNC: tppEquipTable
   GetSettingText=function(self)
     return InfMain.tppEquipTable[self.setting]
@@ -2897,7 +2932,7 @@ this.selectedChangeWeapon={--WIP
         ammo = 30,
         ammoSub = 30,
         suppressorLife = 100,
-        isSuppressorOn = false,
+        isSuppressorOn = true,
         isLightOn = false,
         dropPrevEquip = true,
       -- toActive = true,
@@ -3233,9 +3268,9 @@ function this.PrintSaveVarCount()
   local typeCounts,arrayCounts,totalCount=CountVarTable(scriptVarTypes,this.varTable,TppScriptVars.CATEGORY_MISSION)
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
---  InfMenu.DebugPrint"arrayCounts"
---  local ins=InfInspect.Inspect(arrayCounts)
---  InfMenu.DebugPrint(ins)
+  --  InfMenu.DebugPrint"arrayCounts"
+  --  local ins=InfInspect.Inspect(arrayCounts)
+  --  InfMenu.DebugPrint(ins)
   InfMenu.DebugPrint("totalcount:"..totalCount)
 
   local bools=0

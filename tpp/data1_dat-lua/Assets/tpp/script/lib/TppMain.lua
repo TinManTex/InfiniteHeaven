@@ -75,6 +75,7 @@ end
 function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")
   --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUG 
+  InfMain.OnAllocateTop(missionTable)--tex
   TppWeather.OnEndMissionPrepareFunction()
   this.DisableGameStatus()
   this.EnablePause()
@@ -290,6 +291,7 @@ end
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize begin")--DEBUG
   --SplashScreen.Show(SplashScreen.Create("dbbinin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640))--tex eagle--tex ghetto as 'does it run?' indicator
+  InfMain.OnInitializeTop(missionTable)--tex
   if TppMission.IsFOBMission(vars.missionCode)then
     TppMission.SetFobPlayerStartPoint()
   elseif TppMission.IsNeedSetMissionStartPositionToClusterPosition()then
@@ -313,9 +315,9 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   end
   TppHelicopter.AdjustBuddyDropPoint()
   if missionTable.sequence then
-    local e=missionTable.sequence.NPC_ENTRY_POINT_SETTING
-    if IsTypeTable(e)then
-      TppEnemy.NPCEntryPointSetting(e)
+    local settings=missionTable.sequence.NPC_ENTRY_POINT_SETTING
+    if IsTypeTable(settings)then
+      TppEnemy.NPCEntryPointSetting(settings)
     end
   end
   TppLandingZone.OverwriteBuddyVehiclePosForALZ()
@@ -347,8 +349,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
       GameObject.SendCommand({type="TppSoldier2"},{id="CreateFaceIdList"})
     end
     if IsTypeTable(missionTable.enemy.soldierDefine)then
-        InfMain.AddToLrrp(missionTable.enemy.soldierDefine,missionTable.enemy.travelPlans)--tex
-        TppEnemy.DefineSoldiers(mvars.ene_soldierDefine)--tex WAS missionTable.enemy.soldierDefine
+      TppEnemy.DefineSoldiers(missionTable.enemy.soldierDefine)
     end
     if missionTable.enemy.InitEnemy and IsTypeFunc(missionTable.enemy.InitEnemy)then
       missionTable.enemy.InitEnemy()
@@ -418,19 +419,19 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   TppPlayer.RestoreSupportAttack()
   TppTerminal.MakeMessage()
   if missionTable.sequence then
-    local e=missionTable.sequence.SetUpRoutes
-    if e and IsTypeFunc(e)then
-      e()
+    local SetUpRoutes=missionTable.sequence.SetUpRoutes
+    if SetUpRoutes and IsTypeFunc(SetUpRoutes)then
+      SetUpRoutes()
     end
     TppEnemy.RegisterRouteAnimation()
-    local e=missionTable.sequence.SetUpLocation
-    if e and IsTypeFunc(e)then
-      e()
+    local SetUpLocation=missionTable.sequence.SetUpLocation
+    if SetUpLocation and IsTypeFunc(SetUpLocation)then
+      SetUpLocation()
     end
   end
-  for n,e in pairs(missionTable)do
-    if e.OnRestoreSVars then
-      e.OnRestoreSVars()
+  for n,module in pairs(missionTable)do
+    if module.OnRestoreSVars then
+      module.OnRestoreSVars()
     end
   end
   TppMission.RestoreShowMissionObjective()

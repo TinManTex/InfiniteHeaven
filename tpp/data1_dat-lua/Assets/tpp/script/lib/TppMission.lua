@@ -3544,6 +3544,7 @@ function this.Load(missionCode,currentMissionCode,loadSettings)
       end
     end
     if TppSystemUtility.GetCurrentGameMode()=="TPP"then
+      InfMenu.DebugPrint"InitializeUniqueSetting"--DEBUGNOW
       TppEneFova.InitializeUniqueSetting()
       TppEnemy.PreMissionLoad(missionCode,currentMissionCode)
     end

@@ -190,7 +190,7 @@ function this.StartReinforce(cpId)
     return
   end
   if(cpId~=nil and cpId~=NULL_ID)and mvars.reinforce_reinforceCpId~=cpId then
-    InfMenu.DebugPrint"StartReinforce cpId doesnt match"
+    --InfMenu.DebugPrint"StartReinforce cpId doesnt match"--DEBUG
     return
   end
   --InfMenu.DebugPrint"StartReinforce do ScriptBlock.Activate"--DEBUG

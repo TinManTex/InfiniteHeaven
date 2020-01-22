@@ -73,8 +73,8 @@ missionPackTable[10020]=function(missionCode)
     TppEneFova.AddUniquePackage{type="hostage",body=bodyTable}
     do
       local name="sol_enemyBase_0014"
-      local uniqueSettingPackage={{type="enemy",name=name,faceId=635,bodyId=273}}
-      TppEneFova.AddUniqueSettingPackage(uniqueSettingPackage)
+      local settings={{type="enemy",name=name,faceId=635,bodyId=273}}
+      TppEneFova.AddUniqueSettingPackage(settings)
     end
   end
 end
@@ -96,8 +96,8 @@ missionPackTable[10033]=function(missionCode)
   TppPackList.AddDefaultMissionAreaPack(missionCode)
   do
     local name="hos_s10033_0000"
-    local body={{type="hostage",name=name,faceId=602,bodyId=110}}
-    TppEneFova.AddUniqueSettingPackage(body)
+    local settings={{type="hostage",name=name,faceId=602,bodyId=110}}
+    TppEneFova.AddUniqueSettingPackage(settings)
   end
 end
 missionPackTable[10036]=function(p)
@@ -284,11 +284,11 @@ missionPackTable[10121]=function(p)
   do
     local vipName="sol_pfCamp_vip_0001"
     local vipGuardName="sol_pfCamp_vip_guard"
-    local uniqueSettings={
+    local settings={
       {type="enemy",name=vipName,faceId=617,bodyId=TppEnemyBodyId.pfa0_v00_b},
       {type="enemy",name=vipGuardName,faceId=618,bodyId=254}
     }
-    TppEneFova.AddUniqueSettingPackage(uniqueSettings)
+    TppEneFova.AddUniqueSettingPackage(settings)
   end
 end
 missionPackTable[10091]=function(p)
@@ -642,12 +642,25 @@ missionPackTable[30010]=function(missionCode)
   else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30010/f30010.fpk"
   end
+  if InfMain.IsWildCardEnabled(missionCode) then--tex>
+    local bodyInfo=InfMain.GetCurrentWildCardBodyInfo(true)--tex female
+    if bodyInfo and bodyInfo.missionPackPath then
+      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
+    end
+  end--<
 end
 missionPackTable[30020]=function(missionCode)
   TppPackList.AddLocationCommonScriptPack(missionCode)
   TppPackList.AddLocationCommonMissionAreaPack(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ORDER_BOX)
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30020/f30020.fpk"
+   
+  if InfMain.IsWildCardEnabled(missionCode) then--tex>
+    local bodyInfo=InfMain.GetCurrentWildCardBodyInfo(true)--tex female
+    if bodyInfo and bodyInfo.missionPackPath then
+      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
+    end
+  end--<
 end
 missionPackTable[30050]=function(missionCode)
   TppPackList.AddLocationCommonScriptPack(missionCode)
@@ -694,9 +707,9 @@ missionPackTable[30050]=function(missionCode)
         if TppStory.HueyHasKantokuGrass()then
           bodyId=379
         end
-        local settingPackage={}
-        table.insert(settingPackage,{type="hostage",name="TppHuey2GameObjectLocator",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=bodyId})
-        TppEneFova.AddUniqueSettingPackage(settingPackage)
+        local settings={}
+        table.insert(settings,{type="hostage",name="TppHuey2GameObjectLocator",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=bodyId})
+        TppEneFova.AddUniqueSettingPackage(settings)
       end
       gvars.f30050_missionPackIndex=2
     elseif isUseMBDemoStage then

@@ -252,32 +252,33 @@ this.warpPlayerCommand={--WIP
 }
 
 --
-local toggle=true
 this.DEBUG_SomeShiz={
   OnChange=function()
-    local soldierPositions={}
-    for n,soldierName in ipairs(InfMain.reserveSoldierNames) do
-      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-      if gameId==GameObject.NULL_ID then
-        InfMenu.DebugPrint(soldierName.." gameId==NULL_ID")
-      else
-        local warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-        --InfMenu.DebugPrint(soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
-        local string=soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ()
-        table.insert(soldierPositions,string)
-      end
-    end
-    local ins=InfInspect.Inspect(soldierPositions)
-    InfMenu.DebugPrint(ins)
-    -------------
-    local lrrps={}
-    for cpName,cpDefine in pairs( mvars.ene_soldierDefine)do
-      if string.find(cpName, "_lrrp")~=nil then
-        lrrps[cpName]=cpDefine
-      end
-    end
-    local ins=InfInspect.Inspect(lrrps)
-    InfMenu.DebugPrint(ins)
+    InfMenu.DebugPrint("inittest="..InfMain.initTest)
+  
+--    local soldierPositions={}
+--    for n,soldierName in ipairs(InfMain.reserveSoldierNames) do
+--      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+--      if gameId==GameObject.NULL_ID then
+--        InfMenu.DebugPrint(soldierName.." gameId==NULL_ID")
+--      else
+--        local warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+--        --InfMenu.DebugPrint(soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+--        local string=soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ()
+--        table.insert(soldierPositions,string)
+--      end
+--    end
+--    local ins=InfInspect.Inspect(soldierPositions)
+--    InfMenu.DebugPrint(ins)
+--    -------------
+--    local lrrps={}
+--    for cpName,cpDefine in pairs( mvars.ene_soldierDefine)do
+--      if string.find(cpName, "_lrrp")~=nil then
+--        lrrps[cpName]=cpDefine
+--      end
+--    end
+--    local ins=InfInspect.Inspect(lrrps)
+--    InfMenu.DebugPrint(ins)
     ---------------
     --      --
     --      --
@@ -326,7 +327,7 @@ this.DEBUG_SomeShiz={
       InfMenu.DebugPrint"past loadreinf"--DEBUG
       TppReinforceBlock.StartReinforce(cpId)
     end
-
+-----
     --InfMenu.DebugPrint"DEBUG_PrintSomeShiz"
     --InfMenu.DebugPrint("usermarkerposx: "..tostring(vars.userMarkerPosX))
     --    local ins=InfInspect.Inspect(vars,{depth=1})
@@ -709,7 +710,7 @@ this.DEBUG_WarpToSoldier={
 
     InfMenu.DebugPrint(soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
     if warpPos:GetX()~=0 and warpPos:GetY()~=0 and warpPos:GetZ()~=0 then
-      TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+      TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 
 --      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
 --      if gameId==nil or  gameId==GameObject.NULL_ID then

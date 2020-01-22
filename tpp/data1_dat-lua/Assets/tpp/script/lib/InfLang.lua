@@ -324,6 +324,9 @@ this.eng={--english
   soldierHearingDistScale="Soldier hearing distance scale",
   printHearingTable="Print hearing distance table (look in log - all tab)",
   enemyPatrolMenu="Enemy patrols menu",
+  enableWildCardFreeRoam="Enable Wildcard soldiers Free roam",--r132
+  disableWorldMarkers="Disable world markers",
+  playerRestrictionsInMissionMenu="Markers menu",
 }
 
 this.eng_help={
