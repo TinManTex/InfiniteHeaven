@@ -249,7 +249,7 @@ this.supportHeliMenu={
     Ivars.startOnFoot,
     --Ivars.disableDescentToLandingZone,
     --Ivars.enableGetOutHeli,--WIP
-    --Ivars.heliUpdate,
+    --Ivars.heliUpdate,--NONUSER
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   },
@@ -259,9 +259,24 @@ this.enemyReinforceMenu={
   options={
     Ivars.forceSuperReinforce,
     Ivars.enableHeliReinforce,
+    Ivars.forceReinforceRequest,
+    Ivars.disableReinforceHeliPullOut,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   },  
+}
+
+this.vehiclePatrolMenu={
+  options={
+    Ivars.vehiclePatrolProfile,
+    Ivars.vehiclePatrolLvEnable,
+    Ivars.vehiclePatrolTruckEnable,
+    Ivars.vehiclePatrolWavEnable,
+    Ivars.vehiclePatrolWavHeavyEnable,
+    Ivars.vehiclePatrolTankEnable,
+    InfMenuCommands.resetSettingsItem,
+    InfMenuCommands.goBackItem,    
+  }
 }
 
 this.heliSpaceMenu={
@@ -276,6 +291,7 @@ this.heliSpaceMenu={
     this.phaseMenu,
     this.revengeMenu,
     this.enemyReinforceMenu,
+    this.vehiclePatrolMenu,
     this.sideOpsMenu,
     this.motherBaseMenu,
     this.demosMenu,

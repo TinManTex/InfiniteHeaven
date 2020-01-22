@@ -1105,6 +1105,9 @@ function this.ApplyMissionTendency(missionId)
   this.SetRevengePoint(this.REVENGE_TYPE.M_COMBAT,0)
 end
 function this.CanUseReinforceVehicle()
+  if gvars.forceSuperReinforce>0 then--tex
+    return true
+  end--
   local missionId=TppMission.GetMissionID()
   return this.USE_SUPER_REINFORCE_VEHICLE_MISSION[missionId]
 end
@@ -1122,7 +1125,7 @@ function this.SelectReinforceType()
   end
   local reinforceVehicleTypes={}
   local canuseReinforceVehicle=this.CanUseReinforceVehicle()
-  if gvars.forceSuperReinforce>0 then--tex
+  if canuseReinforceVehicle and gvars.forceSuperReinforce>0 then--tex
     canuseReinforceVehicle=not(vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE)--tex TODO: can't use reinforce vehicle in free mode till I figure out why it doesn't work vs missions
   end--
   local canUseReinforceHeli=this.CanUseReinforceHeli() and mvars.revenge_isEnabledSuperReinforce--tex added isEnabledSuper, which is only set by quest heli and shouldnt stop other vehicle
@@ -1130,7 +1133,8 @@ function this.SelectReinforceType()
     --InfMenu.DebugPrint("SelectReinforceType canuseReinforceVehicle")
     local reinforceVehiclesForLocation={
       AFGH={TppReinforceBlock.REINFORCE_TYPE.EAST_WAV,TppReinforceBlock.REINFORCE_TYPE.EAST_TANK},
-      MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}}
+      MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}
+    }
     if TppLocation.IsAfghan()then
       reinforceVehicleTypes=reinforceVehiclesForLocation.AFGH
     elseif TppLocation.IsMiddleAfrica()then

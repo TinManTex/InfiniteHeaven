@@ -369,7 +369,7 @@ this.unlockWeaponCustomizationItem={
 }
 
 --
-this.doEnemyReinforce={--WIP DEUBNOW
+this.doEnemyReinforce={--WIP
   OnChange=function()
   --TODO: GetClosestCp
 --  _OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestLoadReinforce"

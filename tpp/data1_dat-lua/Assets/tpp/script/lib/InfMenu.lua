@@ -51,7 +51,7 @@ function this.GetSetting()
   --CULL option.setting=option.default or 0
   if option.save then
     local gvar=gvars[option.name]
-    if gvar ~= nil then
+    if gvar~=nil then
       option.setting=gvar
     else
       TppUiCommand.AnnounceLogView("Option Menu Error: gvar -"..option.name.."- not found")
@@ -90,9 +90,7 @@ function this.NextInRange(rangeTable,value,direction)
 
   for i=start,ending,direction do
     local range=rangeTable[i] 
-    
     local low, hi
-       
     --tex check direct match
     if value >= range[1] and value <= range[2] then
       return value
@@ -206,7 +204,7 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
   self.setting=setting
   if self.save and not noSave then
     local gvar=gvars[self.name]
-    if gvar then
+    if gvar~=nil then
       gvars[self.name]=setting
     end
   end

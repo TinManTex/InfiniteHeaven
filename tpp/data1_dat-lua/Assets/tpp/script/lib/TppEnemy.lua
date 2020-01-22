@@ -2872,27 +2872,7 @@ mvars.ene_vehicleDefine.instanceCount=instanceCount
 end
 function this.SpawnVehicles(vehicleSpawnList)--*_enemy.lua .VEHICLE_SPAWN_LIST
   for t,spawnInfo in ipairs(vehicleSpawnList)do
-    if spawnInfo.locator then--tex WIP DEBUGNOW
-      if vars.missionCode==30010 or vars.missionCode==30020 then
-        if string.find(spawnInfo.locator, "veh_trc_000") then
-              spawnInfo.type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE
-              spawnInfo.subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN
-              --spawnInfo.class=Vehicle.class.DEFAULT
-              spawnInfo.paintType=Vehicle.paintType.FOVA_0
-        
-    --      spawnInfo.type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE
-      --    spawnInfo.subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN
-      --    spawnInfo.paintType=Vehicle.paintType.FOVA_0 
-          --spawnInfo.type=Vehicle.type.WESTERN_LIGHT_VEHICLE
-          --spawnInfo.subType=Vehicle.subType.NONE
-          --spawnInfo.type=Vehicle.type.WESTERN_TRUCK
-          --spawnInfo.subType=Vehicle.subType.WESTERN_TRUCK_CARGO_ITEM_BOX
-          --WESTERN_TRUCK_CARGO_CISTERN
-          --spawnInfo.subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN
-          --spawnInfo.paintType=Vehicle.paintType.FOVA_0 
-        end
-      end
-    end--
+    InfMain.PreSpawnVehicle(spawnInfo)--tex
     this.SpawnVehicle(spawnInfo)
   end
 end
@@ -3712,45 +3692,45 @@ function this.SetRecovered(gameId)
     svars.ene_isRecovered[index]=true
   end
 end
-function this.ExecuteOnRecoveredCallback(n,r,i,t,a,o,s)
+function this.ExecuteOnRecoveredCallback(gameId,r,i,t,a,o,s)
   if not mvars.ene_recoverdStateIndexByGameObjectId then
     return
   end
-  local e=mvars.ene_recoverdStateIndexByGameObjectId[n]
-  if not e then
+  local recoverdStateIndex=mvars.ene_recoverdStateIndexByGameObjectId[gameId]
+  if not recoverdStateIndex then
     return
   end
-  local e
+  local OnRecovered
   if TppMission.systemCallbacks and TppMission.systemCallbacks.OnRecovered then
-    e=TppMission.systemCallbacks.OnRecovered
+    OnRecovered=TppMission.systemCallbacks.OnRecovered
   end
-  if not e then
+  if not OnRecovered then
     return
   end
   if not TppMission.CheckMissionState(true,false,true,false)then
     return
   end
-  e(n,r,i,t,a,o,s)
+  OnRecovered(gameId,r,i,t,a,o,s)
 end
 local RENAMErescueDistSqr=10*10
 function this.CheckAllVipClear(n)
   return this.CheckAllTargetClear(n)
 end
 function this.CheckAllTargetClear(n)
-  local n=mvars
+  local mvars=mvars
   local thisLocal=this--NMC: tihs pattern is used in two functions in other files. why? is it really that performant?
   local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
   TppHelicopter.SetNewestPassengerTable()
   local t={
-    {n.ene_eliminateTargetList,thisLocal.CheckSoldierEliminateTarget,"EliminateTargetSoldier"},
-    {n.ene_eliminateHelicopterList,thisLocal.CheckHelicopterEliminateTarget,"EliminateTargetHelicopter"},
-    {n.ene_eliminateVehicleList,thisLocal.CheckVehicleEliminateTarget,"EliminateTargetVehicle"},
-    {n.ene_eliminateWalkerGearList,thisLocal.CheckWalkerGearEliminateTarget,"EliminateTargetWalkerGear"},
-    {n.ene_childTargetList,thisLocal.CheckRescueTarget,"childTarget"}
+    {mvars.ene_eliminateTargetList,thisLocal.CheckSoldierEliminateTarget,"EliminateTargetSoldier"},
+    {mvars.ene_eliminateHelicopterList,thisLocal.CheckHelicopterEliminateTarget,"EliminateTargetHelicopter"},
+    {mvars.ene_eliminateVehicleList,thisLocal.CheckVehicleEliminateTarget,"EliminateTargetVehicle"},
+    {mvars.ene_eliminateWalkerGearList,thisLocal.CheckWalkerGearEliminateTarget,"EliminateTargetWalkerGear"},
+    {mvars.ene_childTargetList,thisLocal.CheckRescueTarget,"childTarget"}
   }
-  if n.ene_rescueTargetOptions then
-    if not n.ene_rescueTargetOptions.orCheck then
-      table.insert(t,{n.ene_rescueTargetList,thisLocal.CheckRescueTarget,"RescueTarget"})
+  if mvars.ene_rescueTargetOptions then
+    if not mvars.ene_rescueTargetOptions.orCheck then
+      table.insert(t,{mvars.ene_rescueTargetList,thisLocal.CheckRescueTarget,"RescueTarget"})
     end
   end
   for e=1,#t do
@@ -3763,9 +3743,9 @@ function this.CheckAllTargetClear(n)
       end
     end
   end
-  if n.ene_rescueTargetOptions and n.ene_rescueTargetOptions.orCheck then
+  if mvars.ene_rescueTargetOptions and mvars.ene_rescueTargetOptions.orCheck then
     local t=false
-    for n,i in pairs(n.ene_rescueTargetList)do
+    for n,i in pairs(mvars.ene_rescueTargetList)do
       if thisLocal.CheckRescueTarget(n,playerPosition,i)then
         t=true
       end

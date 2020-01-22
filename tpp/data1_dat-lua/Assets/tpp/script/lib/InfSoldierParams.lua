@@ -296,7 +296,7 @@ end
 --    
 --    local gvarName=typeName..Ivars.sightDistScaleName
 --    local typeScale=gvars[gvarName] or 1
---    if not gvars[gvarName] then
+--    if gvars[gvarName]==nil then
 --      InfMenu.DebugPrint("gvars."..gvarName.."==nil")
 --    end
 --
@@ -321,7 +321,7 @@ end
 --        local gvarName=formName..sightDistScaleName
 --   
 --        local formScale=gvars[gvarName] or 1
---        if not gvars[gvarName] then
+--        if gvars[gvarName]==nil then
 --          InfMenu.DebugPrint("gvars."..gvarName.."==nil")
 --        end
 --        

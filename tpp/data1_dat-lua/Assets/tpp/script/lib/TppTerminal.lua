@@ -951,8 +951,8 @@ function this.Messages()
       end}
     },
     Terminal={
-      {msg="MbDvcActCallBuddy",func=function(e,t)
-        TppUI.SetSupportCallBuddyType(e)
+      {msg="MbDvcActCallBuddy",func=function(buddyType,t)
+        TppUI.SetSupportCallBuddyType(buddyType)
         TppUI.ShowCallSupportBuddyAnnounceLog()
       end}
     },

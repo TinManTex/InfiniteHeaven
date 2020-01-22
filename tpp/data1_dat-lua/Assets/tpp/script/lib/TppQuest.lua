@@ -1642,9 +1642,6 @@ function this.InitializeQuestLoad(clusterIndex)
   this.UpdateQuestBlockStateAtNotLoaded(n,a,clusterIndex)
 end
 function this.InitializeQuestActiveStatus(questActiveCluster)
-
---if true then return end--DEBUGNOW OFF
-
   local questBlockState=this.GetQuestBlockState()
   if questBlockState==nil then
     return
@@ -1665,7 +1662,6 @@ function this.InitializeQuestActiveStatus(questActiveCluster)
   end
   local a,s=Tpp.GetCurrentStageSmallBlockIndex()
   if this.IsInsideArea("activeArea",currentQuestTable,a,s,questActiveCluster)then
-    InfMenu.DebugPrint"do ActivateCurrentQuestBlock"--DEBUGNOW
     this.ActivateCurrentQuestBlock()
   end
   if not this.IsInvoking()then
@@ -1942,9 +1938,6 @@ function this._CanActivateQuest()
   return true
 end
 function this.QuestBlockOnUpdate()
-
---if true then return end--DEBUGNOW OFF
-
   local thisLocal=this--NMC: tihs pattern is used in two functions in other files. why? is it that really performant?
   local questBlockState=thisLocal.GetQuestBlockState()
   if questBlockState==nil then
@@ -2230,7 +2223,7 @@ function this.UpdateActiveQuest(debugUpdate)
             gvars.qst_questActiveFlag[questIndex]=false
             local RENAMEsomeCondition=RENAMEsomeConditions[questName]--NMC: some list of conditions, not as big as the 't' list
 
-            local blockQuest=true --DEBUGNOW OFF was false--tex skipvalues, heliblock>
+            local blockQuest=true--tex skipvalues, heliblock>
             if Ivars.unlockSideOpNumber.skipValues[questIndex+1] ~= true then--tex disallowSideOps
               blockQuest=true
             end

@@ -446,6 +446,23 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   end
 end
 
+
+local function AddMissionPack(packPath,missionPackPath)
+  if IsTypeString(packPath)then
+    table.insert(missionPackPath,packPath)
+  end
+end
+
+function this.AddVehiclePacks(missionCode,missionPackPath)
+ 
+
+  for vehicleType,spawnInfo in pairs(this.vehicleSpawnInfoTable) do
+    if spawnInfo.packPath then
+     -- AddMissionPack(spawnInfo.packPath,missionPackPath)
+    end
+  end
+end
+
 local this={}
 local function main()
   print"test"
@@ -468,5 +485,7 @@ local function main()
     
     InfMain.ExecUpdate(InfMain.currentChecks,this.currentTime,ivar.execChecks,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
   --end
+  
+  InfMain.AddVehiclePacks(1111,"\some\pack\path")
 end
 main()

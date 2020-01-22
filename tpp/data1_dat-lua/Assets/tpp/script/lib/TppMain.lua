@@ -507,7 +507,6 @@ function this.OnMissionCanStart()
   TppMarker.OnMissionCanStart()
   TppResult.OnMissionCanStart()
   TppQuest.InitializeQuestLoad()
-  --InfMain.OnMissionCanStart()--DEBUGNOW
   TppRatBird.OnMissionCanStart()
   TppMission.OnMissionStart()
   if mvars.loc_locationCommonTable then
@@ -541,7 +540,6 @@ function this.OnMissionGameStart(n)
     PlayRecord.RegistPlayRecord"MISSION_START"
     end
   TppQuest.InitializeQuestActiveStatus()
-  --InfMain.OnMissionGameStart(n)--DEBUGNOW
   if mvars.seq_demoSequneceList[mvars.seq_missionStartSequence]then
     this.EnableGameStatusForDemo()
   else

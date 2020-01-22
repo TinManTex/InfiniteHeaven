@@ -1,69 +1,60 @@
 = Infinite heaven =
-r95 2015-11-25
+r100 - 2015-12-08
 by tin man tex
 For MGSV version 1.0.6.0 (1.06 in title screen)
 
 A mod for MGSV intended to extend play through customisable settings and features.
 
-Note for r92, a lot of menu items moved around and a few varables changed, if you are coming from a previous version take a while to check the settings.
+New for r100:
 
-New for r92:
-Warp Mode:
------------------
-Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry.
+Vehicle patrol vehicle types:
+For free mode change the travelling trucks to other vehicle types:
+Randomly selects from enabled vehicle type list with either one type for all, or each type chosen.
+Types:
+Jeeps
+Trucks
+Wheeled armored vehicles
+Heavy wheeled armored vehicles
+Tanks
 
-The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.
+Enemy vehicle reinforcements
+Options to enable the games 'super reinforce' which by default was only used in a few missions (and the normal mission scripting makes it less noticable)
+In free mode currently only enemy heli reinforce works, in missions other vehicles will work if the mission is set up right (but still in more missions than default).
 
-Be careful when warping up as gravity will kill you quick. One method to cope is to hold warp up, let gravity slowly take over then just after you touch the ground and start warping up again let go.
+Enable enemy reinforce - Enemy prep: Uses the Enemy preperation combat value. Force Prep: Ignores if the Enemy prep value is not set.
 
-[youtube]AhkFPtQlqnM[/youtube]
-https://www.youtube.com/watch?v=AhkFPtQlqnM
+Force enable enemy heli reinforce (disable heli sideops) - the normal game actually hijacks the reinforce system for sideops with helis, this disables those sideops so the heli can be used.
 
-[youtube]ScF8OdQkFU8[/youtube]
-https://www.youtube.com/watch?v=ScF8OdQkFU8
+Force reinforce request - reinforce will ignore reinforce count limit or coms disabled.
 
-Support Heli menu - ACC and in-mission menu:
-----------------------------------------------------
-Start on foot option has been moved here.
-Disable heli attack - also here (but still in subsistence menu too).
+Disable reinforce heli pullout - prevents the heli retreating when damaged. 
 
-Set heli invincible - heli will not take damage.
+Feature: 
+Abort to ACC from title continue. Hold down ESCAPE for 1.5 seconds, the kjp logo will flash, clicking on continue will load ACC instead of continuing mission.
 
-Disable pull-out - prevents heli from leaving when you jump on-board, so you can use the gun from a stationary position, or just change your mind and jump out again.
-Press <STANCE> while in the heli to get it to pull-out again (or use menu).
-NOTE: Disable pull-out whill prevent the mother base helitaxi selection menu, press <STANCE> to re-enable or use the mod menu.
+Other options:
+Start on foot reworked to spawn at selected lz on mother base platforms - thanks to NasaNhak for pointer
 
-Mission start time till open door - Time from mission start to you opening the door to sit on the side. You can set this lower or 0 to do it immediately, or longer to ride the heli in first person.
-Press <STANCE> to manually open the door.
+Phase on vehicle attack - the enemy reactions to heavy vehicle attack in the default game are lacking, you can kill someone and they'll act as if it's an unsourced attack. This option changes phase of soldiers command post on damaging the soldier. Setting it to ALERT recommended.
+In the Enemy phases menu but independant from Enable phase modifications
+[youtube]BUqPYDlA42A[/youtube]
+https://www.youtube.com/watch?v=BUqPYDlA42A
 
-Set LZ wait height - the height at which the heli hovers in wait mode (not landing mode).
+Use selected soldier in cutscenes now covers most cutscenes and also allows selected character in Diamond Dogs and Shining Lights missions - thanks NasaNhak and Solidcal for the suggestions.
 
-Force searchlight - change the heli searchlight state
+Player and enemy health scale option upper bounds increased to 900%
 
-[youtube]frxAuiwCaEk[/youtube]
-https://www.youtube.com/watch?v=frxAuiwCaEk
-
-Other features:
-
-Soldier sight scale - A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in log - all tab)' to see exact values.
-
-Disable Xray marking - buddies that mark still cause the effect though.
-
-General Improvements:
-
-Initial game start Splash screens adjusted to be more spread through load process (also acts as an indicator to me what loading stage the game is at), random emblem screens for your amusement during the final stage.
-
-ButtonRepeat enabled on navigate up/down menu.
-Equip menu disabled on menu open.
-Should improve the experience a bit for gamepad bros.
-
-Fix: Menu off when iDroid open improved
-
-
+Fixes:
+Mission timer on Backup Back Down (10054,11054) would not start, startOnFoot now SetIsStartFromFreePlay - thanks NasaNhak the report.
+Not being able to select weapon when toggling warp mode.
+Returning to ACC while in vehicle or on buddy preventing mod menu from opening.
 
 Infinite Heaven features:
 ------------------------------
 Demonstrations:
+Support heli settings:
+[youtube]frxAuiwCaEk[/youtube]
+https://www.youtube.com/watch?v=frxAuiwCaEk
 Mother base settings:
 [youtube]PSWTQwJNaRU[/youtube]
 https://www.youtube.com/watch?v=PSWTQwJNaRU
@@ -76,9 +67,12 @@ https://www.youtube.com/watch?v=veL0btXaOb4
 Buddies at zoo:
 [youtube]N9xfnH8ivAI[/youtube] 
 https://www.youtube.com/watch?v=N9xfnH8ivAI
-Warp mode, messing around
-[youtube]AhkFPtQlqnM[/youtube] 
+Warp mode:
+[youtube]AhkFPtQlqnM[/youtube]
 https://www.youtube.com/watch?v=AhkFPtQlqnM
+
+[youtube]ScF8OdQkFU8[/youtube]
+https://www.youtube.com/watch?v=ScF8OdQkFU8
 
 Player Restriction - disable of game settings to customize your challenge
 
@@ -121,14 +115,20 @@ War Games - set mother base soliders hostile with non-lethal or lethal weapons
 Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they will however spawn inside building geometry, use the call menu to have them respawn near.
 Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
 
-Parameters:
+Enemy parameters:
 
-General Enemy parameter tweaks - switch to default if you're combining with a mod like TPP Harcore.
-    Increased enemy sight at night time, because it's always full moon/so bright anyway.
+Soldier profile - switch to off if you're combining with a modded soldier parameter table, or custom to allow the following settings:
 
-Player health scaling 400-0%(1hp)
+Soldier health scaling 900-0% (requires Enemy Parameters Tweaked), 0% will kill off all enemies
 
-Enemy health scaling 400-0% (requires Enemy Parameters Tweaked)
+Soldier sight scale - A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in log - all tab)' to see exact values.
+
+Player Settings:
+Player health scaling 900-0%(1hp)
+
+Use selected soldier in cutscenes and missions - shows your avatar or selected dd solidier in cutscenes and missions that usually dont allow.
+
+Headgear (Cosmetic) - Several diffrent headgear options.
 
 Side ops:
 
@@ -156,6 +156,34 @@ Don't lock goal doors - useless unless you like swishing doors.
 Don't disable Ocelot after cutscenes - with this you can leave Occelot on MB in person after some cutscenes.
 
 Don't disable buddies after cutscenes - likewise with buddies (ddog mostly)
+
+Warp Mode:
+-----------------
+Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry.
+
+The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.
+
+Be careful when warping up as gravity will kill you quick. One method to cope is to hold warp up, let gravity slowly take over then just after you touch the ground and start warping up again let go.
+
+
+Support Heli menu - ACC and in-mission menu:
+----------------------------------------------------
+Start on foot option has been moved here.
+Disable heli attack - also here (but still in subsistence menu too).
+
+Set heli invincible - heli will not take damage.
+
+Disable pull-out - prevents heli from leaving when you jump on-board, so you can use the gun from a stationary position, or just change your mind and jump out again.
+Press <STANCE> while in the heli to get it to pull-out again (or use menu).
+NOTE: Disable pull-out whill prevent the mother base helitaxi selection menu, press <STANCE> to re-enable or use the mod menu.
+
+Mission start time till open door - Time from mission start to you opening the door to sit on the side. You can set this lower or 0 to do it immediately, or longer to ride the heli in first person.
+Press <STANCE> to manually open the door.
+
+Set LZ wait height - the height at which the heli hovers in wait mode (not landing mode).
+
+Force searchlight - change the heli searchlight state
+
 
 
 Patchups:
@@ -226,13 +254,13 @@ It should say 1 file needs to be redownloaded, so go to steam downloads and make
 
 Instalation:
 ------------------------------
-Use SnakeBite Mod Manager 0.5 or later: nexusmods.com/metalgearsolidvtpp/mods/106/
+Use SnakeBite Mod Manager 0.8 or later: nexusmods.com/metalgearsolidvtpp/mods/106/
 Uninstall any earlier version of Infinite Heaven
 Install Infinite Heaven.msgv
 
 WARNING: Applying this mod to any game version after the one stated at the top of the readme involved will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
 
-Using along side other mods:
+Using alongside other mods:
 ------------------------------
 Infinite Heaven modifies a lot of the core game lua scripts, if other mods that have their own versions of those files will break things in either obvious or subtle ways.
 Mods that shouldn't have a conflict with Infinite Heaven are: Model swaps, data table mods like development unlocks or times.
@@ -247,8 +275,7 @@ Use uninstall in SnakeBite.
 Usage:
 ------------------------------
 While in ACC Heli (full menu), or in-mission (small menu)
-Hold the weapon <Reload> button (default R on keyboard, or B on controller) for a second to toggle the mod menu when in the ACC
-Or hold <Quick dive> (space key or X button)when in mission.
+Hold <Quick dive> (space key or X button on controller) for a second to toggle the mod menu when in the ACC or in-mission.
 
 Use either Arrow keys or Dpad to navigate the menu.
 Up/Down to select option.
@@ -278,10 +305,46 @@ Subsidence mode will still technically do a full deployment cost of what's set. 
 
 When changing General Enemy Parameters back to Default you must exit to title to have the setting save, then restart the game to have it load the default enemy parameters.
 
-There may be some overrides for Max Prepare that I've missed, I've noticed on small guard posts soldiers rarely have equipment. Also some items seem to override others, so you wont see many if any gas masks.
+Vehicle reinforcements:
+Currently if the heli leaves the reinforce variable will stay active so you will not have further vehicle reinforcements for the mission.
+Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a round of attack even though it's far away.
 
 Changelog:
 ------------------------------
+r100 - 2015-12-08 - public release
+vehicle patrol vehicle type saving - svar array vehiclePatrolSpawnedTypes, ModifyVehicleSpawn split into PreSpawnVehicle, RestoreVehiclePatrol, ModifyVehicleSpawn
+A few iterations till I got this right, was a gvar with a custom clear function, mission svar seems the better way to go though.
+
+r99
+vehicleBaseTypes/ModifyVehicleSpawn refactored to select from ivars/location.
+Options: 
+vehiclePatrolDistribution - off, singular, each
+vehiclePatrolLvEnable
+vehiclePatrolTruckEnable
+vehiclePatrolWavEnable
+vehiclePatrolWavHeavyEnable
+vehiclePatrolTankEnable
+
+r98
+InfMain vehicleSpawnInfoTable initial thrash out, ModifyVehicleSpawn() to intercept TppEnemy.SpawnVehicle
+Research: None of the fpks you'd expect - COMMON_whatever vehicle, or even reinforce fpks - actually seem to have full references/setup whatever of the mentioned vehicles, quest fpks do however. Built list of fpks for vehicle types.
+Fixes to force reinforce I inadvertantly introduced when cleaning up.
+
+r97
+Fix: <Stance> in support heli not setting pull out in mother base
+Feature: <Stance> in support heli now a (non saving) toggle for pull-out, requires you to jump out after setting hold though.
+Option: Start on foot reworked to spawn at selected lz on mother base platforms - thanks to NasaNhak for pointer
+Feature: Abort to Heli from title continue. Hold down ESCAPE for 1.5 seconds, the kjp logo will flash, clickin on continue will load ACC instead of continuing mission.
+Research: Vehicle swap. Vehicle spawning seems pretty loose, the issue is the assets/fpk loading.
+
+r96
+OnTimer_FinishReinforce firing on reinforce heli LostControl and reinforce vehicle VehicleBroken, resets heavy reinforce so it can retrigger
+heliReinforceChance changed to switch enableHeliReinforce, will revisit if I get vehicle reinforcement more consistant
+Disable super reinforce in free till can figure it out.
+Option: forceReinforceRequest
+Known Bug: Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a round of attack even though it's far away.
+Option: disableReinforceHeliPullOut, currently have no way to tell if heli has left so cant reset reinforce if it has, this at least removes one case
+
 r95
 Fix: turn off menu when in ground vehicle
 Option: soldierAlertOnHeavyVehicleDamage - changes phase of soldiers CP on damage, independant from Ivars.phaseUpate
@@ -290,6 +353,7 @@ Option: useSoldierForDemos now covers allowing selected character in Diamond Dog
 InfMenuDefs: useSoldierForDemos also added to playerSettingsMenu
 Fix: Mission timer on Backup Back Down (10054,11054) would not start, startOnFoot now SetIsStartFromFreePlay - thanks NasaNhak the report.
 Fix: changing subsistence profile would flip it to Custom via unsupressed onsubsettingchanged.
+Tonne of deminification
 
 r94
 Option: WIP: forceVehicleReinforce, heliReinforceChance - heli reinforcment initially working, vehicles aparently have a lot of setup in the engine I'm missing out on, but work for some actual missions not in the usual reinforce mission list.
@@ -308,7 +372,7 @@ Research: vehicle reinforcement, various things blocking the way, a mission list
 r92 - 2015-11-25 - public release
 Thought I was done with heli? Ho ho.
 UpdateHeli > manually open door on mission start by pressing <STANCE>, a fun combo is to set 'Mission start open door wait time' to a max and just ride in first person, then pop out whenever you want.
-Start missions on foot shifter to support heli menu.
+Start missions on foot shifted to support heli menu.
 NOTE: Aparently DisablePullOut overrides the motherbase taxi service, use the <STANCE> to disable then hit the usual <EVADE> to open the taxi menu
 Option: setSearchLightForcedHeli - ok really Disable search light, but the ivar name is closer to command name
 Order recieved announclog for a couple of heli settings.

@@ -10,17 +10,17 @@ function this.AddMissionPack(packPath)
     table.insert(this.missionPackList,packPath)
   end
 end
-function this.DeleteMissionPack(i)
-  if Tpp.IsTypeString(i)then
-    local n
-    for s,e in ipairs(this.missionPackList)do
-      if e==i then
-        n=s
+function this.DeleteMissionPack(packPath)
+  if Tpp.IsTypeString(packPath)then
+    local index
+    for n,_packPath in ipairs(this.missionPackList)do
+      if _packPath==packPath then
+        index=n
         break
       end
     end
-    if n then
-      table.remove(this.missionPackList,n)
+    if index then
+      table.remove(this.missionPackList,index)
     end
   end
 end
@@ -91,8 +91,8 @@ end
 function this.AddColoringPack(missionCode)
   if TppColoringSystem then
     local coloringPacks=TppColoringSystem.GetAdditionalColoringPackFilePaths{missionCode=missionCode}
-    for i,n in ipairs(coloringPacks)do
-      this.AddMissionPack(n)
+    for i,packPath in ipairs(coloringPacks)do
+      this.AddMissionPack(packPath)
     end
   else
     this.AddMissionPack"/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk"

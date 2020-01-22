@@ -1198,9 +1198,9 @@ function this.MissionFinalize(options)
   end
 end
 function this.ExecuteMissionFinalize()
-  local locationName=TppPackList.GetLocationNameFormMissionCode(gvars.mis_nextMissionCodeForMissionClear)
-  if locationName then
-    mvars.mis_nextLocationCode=TppDefine.LOCATION_ID[locationName]
+  local nextLocationName=TppPackList.GetLocationNameFormMissionCode(gvars.mis_nextMissionCodeForMissionClear)
+  if nextLocationName then
+    mvars.mis_nextLocationCode=TppDefine.LOCATION_ID[nextLocationName]
   end
   this.SafeStopSettingOnMissionReload{setMute=mvars.mis_setMuteOnMissionFinalize}
   this.SetMissionClearState(TppDefine.MISSION_CLEAR_STATE.MISSION_FINALIZED)
@@ -1264,10 +1264,10 @@ function this.ExecuteMissionFinalize()
     end
   end
   TppPlayer.SavePlayerCurrentWeapons()
-  local o=TppPlayer.RestoreWeaponsFromUsingTemp()
+  local restored=TppPlayer.RestoreWeaponsFromUsingTemp()
   TppPlayer.SavePlayerCurrentItems()
   TppPlayer.RestoreItemsFromUsingTemp()
-  if not o then
+  if not restored then
     TppPlayer.SavePlayerCurrentAmmoCount()
   end
   if currentMissionCode==10030 and TppSave.CanSaveMbMangementData(currentMissionCode)then--PATCHUP
@@ -2163,18 +2163,18 @@ function this.CheckMissionState(isExecMissionClear,isExecGameOver,isExecDemoPlay
   end
   local isMissionclear=mvars.mis_isReserveMissionClear or svars.mis_isDefiniteMissionClear
   local isGameOver=mvars.mis_isReserveGameOver or svars.mis_isDefiniteGameOver
-  local r=TppDemo.IsNotPlayable()
-  local n=false
+  local demoIsNotPlayable=TppDemo.IsNotPlayable()
+  local startSequence=false
   if svars.seq_sequence<=1 then
-    n=true
+    startSequence=true
   end
   if isMissionclear and not isExecMissionClear then
     return false
   elseif isGameOver and not isExecGameOver then
     return false
-  elseif r and not isExecDemoPlaying then
+  elseif demoIsNotPlayable and not isExecDemoPlaying then
     return false
-  elseif n and not isExecMissionPrepare then
+  elseif startSequence and not isExecMissionPrepare then
     return false
   else
     return true
@@ -2692,54 +2692,54 @@ function this.AbortMissionByMenu()
   end
 end
 function this.AbortForOutOfMissionArea(r)
-  local n=true
-  local i
-  local o,a
-  local t
+  local isNoSave=true
+  local presentationFunction
+  local fadeDelayTime,fadeSpeed
+  local playRadio
   if IsTypeTable(r)then
     if r.isNoSave then
-      n=true
+      isNoSave=true
     else
-      n=false
-      o=5.5
-      a=TppUI.FADE_SPEED.FADE_HIGHSPEED
-      i=TppPlayer.PlayMissionAbortCamera
-      t=true
+      isNoSave=false
+      fadeDelayTime=5.5
+      fadeSpeed=TppUI.FADE_SPEED.FADE_HIGHSPEED
+      presentationFunction=TppPlayer.PlayMissionAbortCamera
+      playRadio=true
     end
   end
   if TppLocation.IsAfghan()then
-    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE,isNoSave=n,fadeDelayTime=o,fadeSpeed=a,presentationFunction=i,playRadio=t}
+    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
   elseif TppLocation.IsMiddleAfrica()then
-    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_FREE,isNoSave=n,fadeDelayTime=o,fadeSpeed=a,presentationFunction=i,playRadio=t}
+    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
   else
-    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE,isNoSave=n,fadeDelayTime=o,fadeSpeed=a,presentationFunction=i,playRadio=t}
+    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_FREE,isNoSave=isNoSave,fadeDelayTime=fadeDelayTime,fadeSpeed=fadeSpeed,presentationFunction=presentationFunction,playRadio=playRadio}
   end
 end
 function this.AbortForRideOnHelicopter(t)
-  local n=true
-  local i=false
+  local isNoSave=true
+  local isAlreadyGameOver=false
   if IsTypeTable(t)then
     if t.isNoSave then
-      n=true
+      isNoSave=true
     else
-      n=false
+      isNoSave=false
     end
     if t.isAlreadyGameOver then
-      i=true
+      isAlreadyGameOver=true
     end
   end
   if TppLocation.IsAfghan()then
     gvars.ini_isTitleMode=false
-    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_HELI,isNoSave=n,isAlreadyGameOver=i}
+    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_HELI,isNoSave=isNoSave,isAlreadyGameOver=isAlreadyGameOver}
   elseif TppLocation.IsMiddleAfrica()then
     gvars.ini_isTitleMode=false
-    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_HELI,isNoSave=n,isAlreadyGameOver=i}
+    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.MAFR_HELI,isNoSave=isNoSave,isAlreadyGameOver=isAlreadyGameOver}
   elseif TppLocation.IsMotherBase()then
     gvars.ini_isTitleMode=false
-    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.MTBS_HELI,isNoSave=n,isAlreadyGameOver=i}
+    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.MTBS_HELI,isNoSave=isNoSave,isAlreadyGameOver=isAlreadyGameOver}
   else
     gvars.ini_isTitleMode=false
-    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_HELI,isNoSave=n,isAlreadyGameOver=i}
+    this.AbortMission{nextMissionId=TppDefine.SYS_MISSION_ID.AFGH_HELI,isNoSave=isNoSave,isAlreadyGameOver=isAlreadyGameOver}
   end
 end
 function this.AbortForRideFultonContainer(n)

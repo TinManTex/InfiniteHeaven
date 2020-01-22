@@ -176,7 +176,7 @@ function this.UnloadReinforceBlock(cpId)
 end
 function this.StartReinforce(cpId)
   if not mvars.reinforce_hasReinforceBlock then
-    --InfMenu.DebugPrint"StartReinforce not reinforce_hasReinforceBlock"
+    --InfMenu.DebugPrint"StartReinforce not reinforce_hasReinforceBlock"--DEBUG
     return
   end
   if mvars.reinforce_reinforceType==this.REINFORCE_TYPE.NONE then
@@ -187,7 +187,7 @@ function this.StartReinforce(cpId)
     --InfMenu.DebugPrint"StartReinforce cpId doesnt match"
     return
   end
-  --InfMenu.DebugPrint"StartReinforce do ScriptBlock.Activate "
+  --InfMenu.DebugPrint"StartReinforce do ScriptBlock.Activate"--DEBUG
   local reinforceBlockId=this.GetReinforceBlockId()
   ScriptBlock.Activate(reinforceBlockId)
   mvars.reinforce_activated=true
@@ -408,7 +408,7 @@ function this._OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestL
     end
   end
   this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)
-  if Ivars.forceReinforceRequest==1 then--tex
+  if gvars.forceReinforceRequest==1 then--tex
     --if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
       this.StartReinforce(reinforceCpId)--tex just force this shit, in vanilla missions that use super reinforce this is called via "RequestAppearReinforce"/_OnRequestAppearReinforce via engine, however in free mode this doesnt seem fire consistantly suggesting there's some condition stopping it
     --end

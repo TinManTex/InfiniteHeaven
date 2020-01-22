@@ -29,6 +29,7 @@ local int32=2^32
 
 this.numQuests=157--tex SYNC: number of quests
 this.MAX_SOLDIER_STATE_COUNT = 360--tex from <mission>_enemy.lua, free missions/whatever was highest
+this.MAX_PATROL_VEHICLES=16
 
 this.switchRange={max=1,min=0,increment=1}
 
@@ -293,7 +294,6 @@ this.langOverride={
 
 this.startOffline={
   save=GLOBAL,
-  default=0,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -787,9 +787,8 @@ this.enableHeliReinforce={--tex chance of heli being chosen for a rienforce, als
   end,
 }
 
-this.disableReinforceHeliPullOut={--NONUSER
+this.disableReinforceHeliPullOut={
   save=MISSION,
-  default=1,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -798,14 +797,50 @@ this.disableReinforceHeliPullOut={--NONUSER
 --  save=MISSION,
 --  range={max=100},
 --}
---vehicle replace stuff
-this.replaceVehicles={--WIP
+
+--patrol vehicle stuff>
+this.vehiclePatrolProfile={
   save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
+  settings={"OFF","SINGULAR","EACH_VEHICLE"},
+  settingNames="vehiclePatrolProfileSettings",
 }
 
+this.vehiclePatrolLvEnable={
+  save=MISSION,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",  
+}
 
+this.vehiclePatrolTruckEnable={
+  save=MISSION,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",  
+}
+
+this.vehiclePatrolWavEnable={
+  save=MISSION,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",  
+}
+
+this.vehiclePatrolWavHeavyEnable={
+  save=MISSION,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",  
+}
+
+this.vehiclePatrolTankEnable={
+  save=MISSION,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",  
+}
+
+--<patrol vehicle stuff
 this.startOnFoot={
   save=MISSION,
   range=this.switchRange,
@@ -1655,7 +1690,12 @@ end
 
 this.UpdateSettingFromGvar=function(option)
   if option.save then
-    option.setting=gvars[option.name]
+    local gvar=gvars[option.name]
+    if gvar~=nil then
+      option.setting=gvars[option.name]
+    else
+      InfMenu.DebugPrint"UpdateSettingFromGvar option.save but no gvar found"
+    end
   end
 end
 
@@ -1747,6 +1787,7 @@ function this.DeclareVars()
  --   {name="ene_typeIsForced",type=TppScriptVars.TYPE_BOOL,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
     
     {name="mbPlayTime",type=TppScriptVars.TYPE_UINT8,value=0,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
+    --CULL{name="vehiclePatrolSpawnedTypes",type=TppScriptVars.TYPE_UINT8,value=0,arraySize=this.MAX_PATROL_VEHICLES,save=true,category=TppScriptVars.CATEGORY_MISSION},
   }
   --[[ from MakeSVarsTable, a bit looser, but strings to strcode is interesting
     local valueType=type(value)
@@ -1792,6 +1833,13 @@ function this.DeclareVars()
   end
 
   return varTable
+end
+
+function this.DeclareSVars()--tex svars are created/cleared on new missions
+  return{
+    {name="vehiclePatrolSpawnedTypes",type=TppScriptVars.TYPE_UINT8,value=0,arraySize=this.MAX_PATROL_VEHICLES,save=true,category=TppScriptVars.CATEGORY_MISSION},
+    nil
+  }
 end
 
 return this

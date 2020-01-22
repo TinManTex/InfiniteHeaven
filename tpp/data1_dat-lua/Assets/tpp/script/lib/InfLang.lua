@@ -205,9 +205,18 @@ this.eng={--english
   forceSuperReinforce="Enable vehicle reinforce",--r96
   forceSuperReinforceSettings={"Off","Enemy Prep","Force Prep"},
   forceReinforceRequest="Force reinforce request",
-  enableHeliReinforce="Enable enemy heli reinforce (disable heli sideops)",
+  enableHeliReinforce="Force enable enemy heli reinforce (disable heli sideops)",
   enemyReinforceMenu="Enemy reinforcements menu",
   heli_hold_pulling_out="Holding",--r97
+  disableReinforceHeliPullOut="Disable reinforce heli pullout",--r98,
+  vehiclePatrolMenu="Vehicle patrols menu",--r99
+  vehiclePatrolProfile="Vehicle patrols profile",
+  vehiclePatrolProfileSettings={"Game default","All of one type (random)","Each vehicle differing type (random)"},
+  vehiclePatrolLvEnable="Enable jeeps",
+  vehiclePatrolTruckEnable="Enable trucks",
+  vehiclePatrolWavEnable="Enable wheeled armored vehicles",
+  vehiclePatrolWavHeavyEnable="Enable heavy wheeled armored vehicles",
+  vehiclePatrolTankEnable="Enable tanks",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on
