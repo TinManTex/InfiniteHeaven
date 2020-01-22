@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r138"
+this.modVersion="r139"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -364,38 +364,36 @@ this.ddBodyInfo={
   },
   PF_ALL={
     maleBodyId={
-    TppEnemyBodyId.pfs0_dds0_v00,
-    --DEBUGNOW
---      TppEnemyBodyId.pfs0_rfl_v00_a,
---      TppEnemyBodyId.pfs0_rfl_v01_a,
---      TppEnemyBodyId.pfs0_mcg_v00_a,
---      TppEnemyBodyId.pfs0_snp_v00_a,
---      TppEnemyBodyId.pfs0_rdo_v00_a,
---      TppEnemyBodyId.pfs0_rfl_v00_b,
---      TppEnemyBodyId.pfs0_rfl_v01_b,
---      TppEnemyBodyId.pfs0_mcg_v00_b,
---      TppEnemyBodyId.pfs0_snp_v00_b,
---      TppEnemyBodyId.pfs0_rdo_v00_b,
---      TppEnemyBodyId.pfs0_rfl_v00_c,
---      TppEnemyBodyId.pfs0_rfl_v01_c,
---      TppEnemyBodyId.pfs0_mcg_v00_c,
---      TppEnemyBodyId.pfs0_snp_v00_c,
---      TppEnemyBodyId.pfs0_rdo_v00_c,
---      TppEnemyBodyId.pfa0_v00_b,
---      TppEnemyBodyId.pfa0_v00_c,
---      TppEnemyBodyId.pfa0_v00_a,
---      TppEnemyBodyId.pfs0_unq_v210,
---      TppEnemyBodyId.pfs0_unq_v250,
---      TppEnemyBodyId.pfs0_unq_v360,
---      TppEnemyBodyId.pfs0_unq_v280,
---      TppEnemyBodyId.pfs0_unq_v150,
---      TppEnemyBodyId.pfs0_unq_v220,
---      TppEnemyBodyId.pfs0_unq_v140,
---      TppEnemyBodyId.pfs0_unq_v241,
---      TppEnemyBodyId.pfs0_unq_v242,
---      TppEnemyBodyId.pfs0_unq_v450,
---      TppEnemyBodyId.pfs0_unq_v440,
---      TppEnemyBodyId.pfs0_unq_v155,
+      TppEnemyBodyId.pfs0_rfl_v00_a,
+      TppEnemyBodyId.pfs0_rfl_v01_a,
+      TppEnemyBodyId.pfs0_mcg_v00_a,
+      TppEnemyBodyId.pfs0_snp_v00_a,
+      TppEnemyBodyId.pfs0_rdo_v00_a,
+      TppEnemyBodyId.pfs0_rfl_v00_b,
+      TppEnemyBodyId.pfs0_rfl_v01_b,
+      TppEnemyBodyId.pfs0_mcg_v00_b,
+      TppEnemyBodyId.pfs0_snp_v00_b,
+      TppEnemyBodyId.pfs0_rdo_v00_b,
+      TppEnemyBodyId.pfs0_rfl_v00_c,
+      TppEnemyBodyId.pfs0_rfl_v01_c,
+      TppEnemyBodyId.pfs0_mcg_v00_c,
+      TppEnemyBodyId.pfs0_snp_v00_c,
+      TppEnemyBodyId.pfs0_rdo_v00_c,
+      TppEnemyBodyId.pfa0_v00_b,
+      TppEnemyBodyId.pfa0_v00_c,
+      TppEnemyBodyId.pfa0_v00_a,
+      TppEnemyBodyId.pfs0_unq_v210,
+      TppEnemyBodyId.pfs0_unq_v250,
+      TppEnemyBodyId.pfs0_unq_v360,
+      TppEnemyBodyId.pfs0_unq_v280,
+      TppEnemyBodyId.pfs0_unq_v150,
+      TppEnemyBodyId.pfs0_unq_v220,
+      TppEnemyBodyId.pfs0_unq_v140,
+      TppEnemyBodyId.pfs0_unq_v241,
+      TppEnemyBodyId.pfs0_unq_v242,
+      TppEnemyBodyId.pfs0_unq_v450,
+      TppEnemyBodyId.pfs0_unq_v440,
+      TppEnemyBodyId.pfs0_unq_v155,
     },
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
@@ -625,7 +623,6 @@ function this.GetCurrentDDBodyInfo(isFemale)
   else
     return nil
   end
-
   return this.ddBodyInfo[suitName]
 end
 
@@ -2167,7 +2164,6 @@ local updateIvars={
   Ivars.npcHeliUpdate,
 }
 
-this.initTest=0--DEBUGNOW
 --tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
 function this.OnInitializeTop(missionTable)
   if missionTable.enemy then
@@ -2184,7 +2180,6 @@ function this.OnInitializeTop(missionTable)
       enemyTable.soldierPowerSettings=enemyTable.soldierPowerSettings or {}
       enemyTable.soldierPersonalAbilitySettings=enemyTable.soldierPersonalAbilitySettings or {}
 
-      --this.initTest=this.initTest+1--DEBUGNOW
       this.ModifyVehiclePatrolSoldiers(enemyTable.soldierDefine)
       this.AddLrrps(enemyTable.soldierDefine,enemyTable.travelPlans)
       this.AddWildCards(enemyTable.soldierDefine,enemyTable.soldierTypes,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
@@ -2213,6 +2208,10 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
 
   if vars.missionCode==30050 and Ivars.mbEnableFultonAddStaff:Is(1) then
     mvars.trm_isAlwaysDirectAddStaff=false
+  end
+  
+  if vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1) then
+    mvars.trm_isSkipAddResourceToTempBuffer=false
   end
 
   this.UpdateHeliVars()
@@ -2588,7 +2587,7 @@ local function GetCurrentCamName()
   end
 end
 
-local function ReadPosition(camName)
+function this.ReadPosition(camName)
   return Vector3(Ivars["positionX"..camName]:Get(),Ivars["positionY"..camName]:Get(),Ivars["positionZ"..camName]:Get())
 end
 
@@ -2628,7 +2627,7 @@ function this.UpdateCameraManualMode()
   local aperture=Ivars["aperture"..currentCamName]
   local focusDistance=Ivars["focusDistance"..currentCamName]
   local cameraDistance=Ivars["distance"..currentCamName]
-  local movePosition=ReadPosition(currentCamName)
+  local movePosition=this.ReadPosition(currentCamName)
 
   if Ivars.cameraMode:Is"PLAYER" then
     Player.SetAroundCameraManualModeParams{
@@ -2719,7 +2718,7 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
   local aperture=Ivars["aperture"..currentCamName]
   local focusDistance=Ivars["focusDistance"..currentCamName]
   local cameraDistance=Ivars["distance"..currentCamName]
-  local movePosition=ReadPosition(currentCamName)
+  local movePosition=this.ReadPosition(currentCamName)
 
   local moveScale=Ivars.moveScale:Get()
   if not isFreeCam then
@@ -2998,7 +2997,7 @@ function this.UpdateNPC(currentChecks,currentTime,execChecks,execState,updateRat
     end
     --if not setup<
   end
-
+       
   for n,npcName in ipairs(npcList) do
     local gameId=GameObject.GetGameObjectId(npcName)
     if gameId==GameObject.NULL_ID then
@@ -3011,9 +3010,8 @@ function this.UpdateNPC(currentChecks,currentTime,execChecks,execState,updateRat
 
         --        local routeTime=npcTimes[n]-Time.GetRawElapsedTimeSinceStartUp()--DEBUG
         --        InfMenu.DebugPrint(npcName .. " routeIdx ".. routeIdx .. " for "..routeTime)--DEBUG
-
         local command={id="SetSneakRoute",route=npcRoutes[routeIdx]}
-        GameObject.SendCommand(gameId,command)
+        SendCommand(gameId,command)
       end
     end
     --for npcs<
@@ -3143,24 +3141,6 @@ function this.InitNPCHeliUpdate()
   end
 end
 
---REF DEBUGNOW CULL
---  local heliRoute="ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_apr"
---    --local heliRoute="ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_apr_lz_plnt"
---    local heliRoute2="ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_rtn_lz_plnt"
---      --      local warpPos=Vector3(9,150,-42)
---      --GameObject.SendCommand( heliObjectId, { id = "SetForceRoute", route = heliRoute }
-
---      local command = { id = "SetPosition", pos=warpPos, rotY=0 }
---       GameObject.SendCommand(heliObjectId,command)
-----
-----             local command={id="Warp",position=warpPos,degRotationY = 0}
-----      GameObject.SendCommand(heliObjectId,command)
-----
---          GameObject.SendCommand(heliObjectId, { id="Realize" })
---          local command={id="SetEnabled",enabled=true}
---      GameObject.SendCommand(heliObjectId,command)
-
-
 local searchLightOn={id="SetSearchLightForcedType",type="On"}
 local searchLightOff={id="SetSearchLightForcedType",type="On"}
 local nightCheckTime=0
@@ -3209,7 +3189,7 @@ function this.UpdateNPCHeli(currentChecks,currentTime,execChecks,execState,updat
       --        nightCheckTime=elapsedTime+nightCheckMax+math.random(3)
       --
       --        if isNight then--tex manual searchligh, don't know why they dont come on during approach route, they do with other routes
-      --        --DEBUGNOW doesn't seem to work for TppOtherHeli anyway, and Enemy manages to do it itself
+      --        -- doesn't seem to work for TppOtherHeli anyway, and Enemy manages to do it itself
       --          SendCommand(heliObjectId,searchLightOn)
       --        else
       --          SendCommand(heliObjectId,searchLightOff)
@@ -3228,7 +3208,7 @@ function this.UpdateNPCHeli(currentChecks,currentTime,execChecks,execState,updat
         local clusterId=ChooseRandomHeliCluster(heliClusters,heliTimes,this.heliSelectClusterId)
         heliClusters[n]=clusterId
 
---        local clusterTime=heliTimes[n]-elapsedTime--DEBUGNOW
+--        local clusterTime=heliTimes[n]-elapsedTime--DEBUG
 --        InfMenu.DebugPrint(heliName .. " from ".. tostring(TppDefine.CLUSTER_NAME[prevCluster]) .." to cluster ".. tostring(TppDefine.CLUSTER_NAME[clusterId]) .. " for "..clusterTime)--DEBUG
 
         if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
@@ -4285,7 +4265,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
     if cpId==NULL_ID then
       InfMenu.DebugPrint(cpName.."==NULL_ID")--DEBUG
     else
-      --if #cpDefine==0 then --DEBUGNOW OFF wont be empty on restart from checkpoint
+      --if #cpDefine==0 then --OFF wont be empty on restart from checkpoint
       --tex cp is labeled _lrrp
       if string.find(cpName,lrrpInd) then
         if not cpDefine.lrrpVehicle then
@@ -4513,7 +4493,6 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
           TppEneFova.RegisterUniqueSetting("enemy",soldierName,faceId,bodyId)
         end
       else
-        this.initTest=this.initTest+1--DEBUGNOW
         InfMenu.DebugPrint"WARNING no ene_wildCardFaceList!"
       end
 
@@ -4521,7 +4500,6 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       if gameObjectId==NULL_ID then
         InfMenu.DebugPrint"AddWildCards gameObjectId==NULL_ID"--DEBUG
       else
-        --this.initTest=this.initTest+1--DEBUGNOW
         local command={id="UseExtendParts",enabled=isFemale}
         GameObject.SendCommand(gameObjectId,command)
       end

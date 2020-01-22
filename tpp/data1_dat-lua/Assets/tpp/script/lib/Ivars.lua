@@ -473,6 +473,7 @@ this.mbWarGamesProfile={
     --      Ivars.mbZombies:Set(0,true)
     --    end,
     TRAINING=function()
+    --tex TODO seperate gear/suit/equip setting combos into own profile
       --Ivars.mbDDHeadGear:Set(0,true)
       --Ivars.mbDDSuit:Set(0,true)
       --      Ivars.enableMbDDEquip:Set(0,true)
@@ -3464,7 +3465,6 @@ function this.PrintSaveVarCount()
 
 end
 
---this.repopDiamondCountdownMax=5
 --function this.DeclareSVars()--tex svars are created/cleared on new missions
 --  return{
 --    {name="inf_repopDiamondCountdown",type=TppScriptVars.TYPE_UINT8,value=this.repopDiamondCountdownMax,save=true,category=TppScriptVars.CATEGORY_MISSION}, 

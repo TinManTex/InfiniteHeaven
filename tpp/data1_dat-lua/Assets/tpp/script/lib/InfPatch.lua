@@ -6,9 +6,9 @@ function this.QuietReturn()--tex
   if TppStory.IsMissionCleard(10260) then
     -- if gvars.str_didLostQuiet then
     --if TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)then
-      local q=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=TppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_QUIET}
+      local staffId=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=TppMotherBaseManagementConst.STAFF_UNIQUE_TYPE_ID_QUIET}
       --if not TppMotherBaseManagement.IsExistStaff{staffId=q}then
-        TppMotherBaseManagement.DirectAddStaff{staffId=q}
+        TppMotherBaseManagement.DirectAddStaff{staffId=staffId}
         -- ,section="Wait",isNew=true,specialContract="fromExtra"} --tex nothing seems to work, some kind of internal check in directaddstaff i guess
         -- specialContract="fromGZ"
       --end

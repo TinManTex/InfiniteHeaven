@@ -398,6 +398,7 @@ this.cameraMenu={
   options={
     Ivars.adjustCameraUpdate,
     Ivars.cameraMode,
+    InfMenuCommands.warpToCamPos,
     Ivars.moveScale,
     Ivars.disableCamText,
   --    Ivars.focalLength,--CULL
@@ -474,9 +475,9 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
-    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUG    
+--    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUG
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG 
     --Ivars.selectedCp,--DEBUG
     --Ivars.selectedChangeWeapon,--WIP DEBUG

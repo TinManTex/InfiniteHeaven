@@ -7,28 +7,51 @@ local inspect ={
   _URL     = 'http://github.com/kikito/inspect.lua',
   _DESCRIPTION = 'human-readable representations of tables',
   _LICENSE = [[
+
     MIT LICENSE
+
+
 
     Copyright (c) 2013 Enrique Garc�a Cota
 
+
+
     Permission is hereby granted, free of charge, to any person obtaining a
+
     copy of this software and associated documentation files (the
+
     "Software"), to deal in the Software without restriction, including
+
     without limitation the rights to use, copy, modify, merge, publish,
+
     distribute, sublicense, and/or sell copies of the Software, and to
+
     permit persons to whom the Software is furnished to do so, subject to
+
     the following conditions:
 
+
+
     The above copyright notice and this permission notice shall be included
+
     in all copies or substantial portions of the Software.
 
+
+
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+
     OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+
     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
     IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+
     CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+
     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
   ]]
 }
 
@@ -60,9 +83,9 @@ end
 
 local function isSequenceKey(k, length)
   return type(k) == 'number'
-     and 1 <= k
-     and k <= length
-     and math.floor(k) == k
+    and 1 <= k
+    and k <= length
+    and math.floor(k) == k
 end
 
 local defaultTypeOrders = {
@@ -369,6 +392,13 @@ function this.upvalues()
     idx = 1 + idx
   end
   return variables
+end
+
+function this.TryFunc(func)
+  local status, err = pcall(func)
+  if err then
+    InfMenu.DebugPrint(tostring(err))
+  end
 end
 
 return this

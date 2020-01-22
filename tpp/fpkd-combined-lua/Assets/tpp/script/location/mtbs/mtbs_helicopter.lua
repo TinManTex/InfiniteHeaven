@@ -1,4 +1,4 @@
--- DOBUILD: 1 --DEBUGNOW
+-- DOBUILD: 1
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\location\mtbs\pack_common\mtbs_script.fpkd
 

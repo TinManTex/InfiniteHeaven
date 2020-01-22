@@ -769,6 +769,7 @@ function this.SetupStaffList()
 			table.remove( tmpList,index )
 		end
 	end
+
 	if InfMain.IsDDBodyEquip() and Ivars.mbPrioritizeFemale:Is"DISABLE" then--tex> clear staff list of female
     local newList={}
     for sectionId = TppMotherBaseManagementConst.SECTION_COMBAT, TppMotherBaseManagementConst.SECTION_SECURITY do

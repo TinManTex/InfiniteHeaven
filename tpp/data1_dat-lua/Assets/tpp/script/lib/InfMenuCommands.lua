@@ -251,31 +251,139 @@ this.warpPlayerCommand={--WIP
   end,
 }
 
+this.warpToCamPos={
+  OnChange=function()
+    local warpPos=InfMain.ReadPosition"FreeCam"
+    InfMenu.DebugPrint("warp pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+    TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+  end,
+}
 
-
-
+local toggle=false
 this.DEBUG_SomeShiz={
   OnChange=function()
-
-  InfMenu.DebugPrint("inf_repopDiamondCountdown=="..tostring(gvars.inf_repopDiamondCountdown))
-
+    InfMenu.DebugPrint(tostring(vars.mbLayoutCode))
   
-  local clusterId=1
-  if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
-          local clusterParam=mvars.mbSoldier_clusterParamList[clusterId]
-          local cpId=GameObject.GetGameObjectId(clusterParam.CP_NAME)
-          if cpId==GameObject.NULL_ID then
-            InfMenu.DebugPrint("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
-          else
-                local currentPosition=GameObject.SendCommand(cpId,{id="GetPosition"})
-                if currentPosition then
-      InfMenu.DebugPrint(" pos:".. currentPosition:GetX()..",".. currentPosition:GetY().. ","..currentPosition:GetZ())
-      else
-      end
+    local gameId=GameObject.GetGameObjectId("sol_ih_0000")
+    if gameId==GameObject.NULL_ID then
+      InfMenu.DebugPrint("gameId==NULL_ID")
+    else
+      InfMenu.DebugPrint("bip")
+
+      local command={id="SetEnabled",enabled=true}
+      GameObject.SendCommand(gameId,command)
+
+      local routes={
+
+          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0000",
+      }
+
+      local routeIdx=math.random(#routes)
+      InfMenu.DebugPrint("routeIdx:"..routeIdx)
+      local command={id="SetSneakRoute",route=routes[routeIdx]}
+      GameObject.SendCommand(gameId,command)
+
+    end
+
+    local ins=InfInspect.Inspect( mtbs_enemy.plntParamTable)
+    InfMenu.DebugPrint(ins)
+
+
+    if true then return end
+    --30050
+    if mvars.mbItem_funcGetAssetTable then
+      local clusterId=0
+
+
+
+
+
+      --    type = TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER,
+      --    locatorName = "gntn_cntn001_vrtn001_gim_n0001|srt_gntn_cntn001_vrtn001",
+      --    dataSetName = "/Assets/tpp/level/mission2/story/s10093/s10093_item.fox2",
+      --    gimmickType = TppGimmick.GIMMICK_TYPE.CNTN,
+
+      local layoutCode=vars.mbLayoutCode
+      local dataSet = string.format( "/Assets/tpp/level/location/mtbs/block_area/ly%03d/cl%02d/mtbs_ly%03d_cl%02d_item.fox2", layoutCode, clusterId, layoutCode, clusterId )
+
+
+      local assetTable = mvars.mbItem_funcGetAssetTable( clusterId + 1 )
+
+      --        local ins=InfInspect.Inspect(assetTable.containers)
+      --        InfMenu.DebugPrint(ins)
+      if assetTable.containers then
+        for k,v in ipairs(assetTable.containers)do
+          if (k % 4) == 0 then
+            if type(v)=="string" then
+              --InfMenu.DebugPrint(tostring(v))
+              --TppGimmick.Hide(v)
+              local status, err = pcall(function ()
+                Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER,v,dataSet,true)
+              end)
+              if err then
+                InfMenu.DebugPrint(tostring(err))
+              end
+            end
           end
         end
-        if true then return end
---==================================
+
+
+      end
+      InfMenu.DebugPrint("doop")
+
+    else
+      InfMenu.DebugPrint( mvars.mbItem_funcGetAssetTable==nil)
+    end
+
+    if true then return true end
+    --  InfMenu.DebugPrint"DEBUG_SomeShiz start"
+    --  --this.AllDeveloped()
+    --  local grade=4
+    --  local isNew=false
+    --
+    --  toggle=not toggle
+    --
+    --  if toggle then
+    --    InfMenu.DebugPrint"grade3"
+    --    TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Command",grade=3,buildStatus="Completed",timeMinute=10,isNew=isNew}
+    --  else
+    --    InfMenu.DebugPrint"grade4"
+    --    TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Command",grade=4,buildStatus="Completed",timeMinute=10,isNew=isNew}
+    --  end
+
+
+    InfMenu.DebugPrint"DEBUG_SomeShiz end"
+    if true then return true end
+
+
+    if InfMain.IsDDBodyEquip() then
+      InfMenu.DebugPrint"IsDDBodyEquip"
+    else
+      InfMenu.DebugPrint"not IsDDBodyEquip"
+    end
+
+    InfMain.GetCurrentDDBodyInfo()
+    InfMain.GetCurrentDDBodyInfo(true)
+
+    InfMenu.DebugPrint("mbRepopDiamondCountdown=="..tostring(Ivars.mbRepopDiamondCountdown:Get()))
+
+
+    local clusterId=1
+    if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
+      local clusterParam=mvars.mbSoldier_clusterParamList[clusterId]
+      local cpId=GameObject.GetGameObjectId(clusterParam.CP_NAME)
+      if cpId==GameObject.NULL_ID then
+        InfMenu.DebugPrint("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
+      else
+        local currentPosition=GameObject.SendCommand(cpId,{id="GetPosition"})
+        if currentPosition then
+          InfMenu.DebugPrint(" pos:".. currentPosition:GetX()..",".. currentPosition:GetY().. ","..currentPosition:GetZ())
+        else
+        end
+      end
+    end
+    if true then return end
+    --==================================
     local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
 
     --local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"
@@ -857,7 +965,7 @@ this.DEBUG_ClearAnnounceLog={
 local currentSoldier=1
 this.DEBUG_WarpToSoldier={
   OnChange=function()
-    --local soldierList=InfMain.reserveSoldierNames
+    local soldierList=InfMain.reserveSoldierNames
 
     --local soldierList=InfMain.ene_wildCardSoldiers
 
@@ -865,7 +973,8 @@ this.DEBUG_WarpToSoldier={
 
     --local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
     --local soldierList={"WestHeli0001","WestHeli0000","WestHeli0002"}
-    local soldierList={"EnemyHeli"}
+    --local soldierList={"EnemyHeli"}
+    --local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000"}
 
     --local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
 

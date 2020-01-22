@@ -377,7 +377,7 @@ missionPackTable[10115]=function(missionCode)
     local p="hos_s10115_0003"
     local a="hos_s10115_0004"
     local s="hos_s10115_0005"
-    local s={
+    local uniqueSettings={
       {type="hostage",name=t,faceId="dd",bodyId=143},
       {type="hostage",name=e,faceId="dd",bodyId=143},
       {type="hostage",name=i,faceId="dd",bodyId=143},
@@ -385,7 +385,7 @@ missionPackTable[10115]=function(missionCode)
       {type="hostage",name=a,faceId="dd",bodyId=143},
       {type="hostage",name=s,faceId="dd",bodyId=143}
     }
-    TppEneFova.AddUniqueSettingPackage(s)
+    TppEneFova.AddUniqueSettingPackage(uniqueSettings)
   end
 end
 missionPackTable[10120]=function(p)

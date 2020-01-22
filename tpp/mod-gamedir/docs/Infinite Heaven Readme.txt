@@ -1,5 +1,5 @@
 = Infinite heaven =
-r138 - 2015-03-05
+r139 - 2015-03-05
 by tin man tex
 For MGSV version 1.071
 
@@ -19,8 +19,8 @@ https://www.youtube.com/watch?v=Bl75OupPWS8
 Option: "Repopulate plants and diamonds" - regenerates plants on Zoo platform and diamonds on Mother base over time.
 
 Option: "Enable npc helis" - spawns some npc helis that roam around mother base.
-[youtube]yBrxE5LC7Hc[/youtube]
-https://www.youtube.com/watch?v=yBrxE5LC7Hc
+[youtube]AUbZMSjH4tM[/youtube]
+https://www.youtube.com/watch?v=AUbZMSjH4tM
 
 New for r135:
 Don't disable Ocelot after mb cutscenes now Enable Ocelot in the Motherbase menu - allows Ocelot to roam the command platform.
@@ -494,6 +494,13 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r139 - 2015-03-14 - public release
+Fixed: DD Suit PF All showing corrupted models.
+Option: Warp to FreeCam position
+Fixed: Black screen post-load hang on motherbase with DD suit and start-on foot on clusters not fully built out.
+Fixed: No staff on motherbase clusters with DD suit on clusters not fully built out. Thanks Crippsey for the report and save file.
+Fixed: Repopulated diamonds not giving gmp. Thanks plinkey for the report.
+
 r138 - 2015-03-05 - public release
 Fixed: Crash on some vehicle sideops with vehicle patrol on (op 98, possibly 97), missed an attachmentinstancecount in the west_wav_machinegun fox2, oops.
 

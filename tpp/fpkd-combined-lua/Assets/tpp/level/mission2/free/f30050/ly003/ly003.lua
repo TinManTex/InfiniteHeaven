@@ -1,3 +1,8 @@
+-- DOBUILD: 0 --DEBUGNOW
+-- ORIGINALQAR: chunk3
+-- PACKPATH: \Assets\tpp\pack\mission2\free\f30050\f30050_ly003.fpkd
+
+
 local this = {}
 
 
@@ -349,6 +354,28 @@ this.enemyAssetTable = {
 				"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003",
 				"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0004",
 				"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0005",
+				--DEBUGNOW
+--				"sol_ih_0000",
+--				"sol_ih_0001",
+--				"sol_ih_0002",
+--				"sol_ih_0003",
+--				"sol_ih_0004",
+--				"sol_ih_0005",
+--				"sol_ih_0006",
+--        "sol_ih_0007",
+--        "sol_ih_0008",
+--        "sol_ih_0009",
+--        "sol_ih_0010",
+--        "sol_ih_0011",
+--        "sol_ih_0012",
+--        "sol_ih_0013",
+--        "sol_ih_0014",
+--        "sol_ih_0015",
+--        "sol_ih_0016",
+--        "sol_ih_0017",
+--        "sol_ih_0018",
+--        "sol_ih_0019",
+--        "sol_ih_0020",
 			},
 			soldierRouteList = {
 				Sneak = {

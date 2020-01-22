@@ -1,3 +1,8 @@
+-- DOBUILD: 0--DEBUGNOW disable before release
+-- ORIGINALQAR: chunk0
+-- PACKPATH: \Assets\tpp\pack\mission2\story\s10010\s10010_l01.fpkd
+--DEBUGNOW also \Assets\tpp\pack\mission2\story\s10010\s10010_l02.fpkd
+
 local s10010_sequence = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -40,15 +45,23 @@ end
 
 
 
-
-
+--DEBUGNOW was
+--s10010_sequence.DEFAULT_OVERRIDE_SYSTEM_EXCEPT_GAME_STATUS = {
+--  CallMenu = false,
+--  EquipHud = false,
+--  EquipPanel = true,
+--  CqcIcon = false,
+--  AnnounceLog = false,
+--  BaseName = false,
+--  PauseMenu = true,
+--}
 
 s10010_sequence.DEFAULT_OVERRIDE_SYSTEM_EXCEPT_GAME_STATUS = {
-	CallMenu = false,
-	EquipHud = false,
+	CallMenu = true,
+	EquipHud = true,
 	EquipPanel = true,
 	CqcIcon = false,
-	AnnounceLog = false,
+	AnnounceLog = true,
 	BaseName = false,
 	PauseMenu = true,
 }
@@ -2615,7 +2628,7 @@ end
 
 
 s10010_sequence.StartRailAction = function( subEventTable, executed, skipped )
-
+--if true then return true end--DEBUGNOW
 	Fox.Log( "s10010_sequence.StartRailAction(): railIndex:" .. tostring( subEventTable.railIndex ) )
 
 	local railPathIndex = subEventTable.railIndex
@@ -2685,7 +2698,7 @@ end
 
 
 s10010_sequence.StartVolginRide = function( subEventTable, executed, skipped )
-
+if true then return end--DEBUGNOW
 	Fox.Log( "s10010_sequence.StartVolginRide()" )
 
 	if TppPackList.IsMissionPackLabel( "afterMissionClearMovie" ) then
@@ -3455,7 +3468,7 @@ s10010_sequence.SetDisabledPlayerAction = function( subEventTable, executed, ski
 	Fox.Log( "s10010_sequence.SetDisabledPlayerAction(): value:" .. tostring( subEventTable.value ) )
 
 	if executed then	
-		vars.playerDisableActionFlag = subEventTable.value
+		--DEBUGNOW vars.playerDisableActionFlag = subEventTable.value
 	end
 
 end
@@ -4097,21 +4110,22 @@ s10010_sequence.EnablePadMaskNormal = function( enabled )
 
 	if enabled then
 		Player.SetPadMask {
-			settingName = "cypr_normal",
+			settingName = "cypr_normal",			
 			except = false,
-			buttons =	PlayerPad.MB_DEVICE +
-						PlayerPad.CALL +
-						PlayerPad.UP +
-						PlayerPad.DOWN +
-						PlayerPad.LEFT +
-						PlayerPad.RIGHT +
-						PlayerPad.CQC +
-						PlayerPad.SIDE_ROLL +
-						PlayerPad.LIGHT_SWITCH +
-						PlayerPad.EVADE +
-						PlayerPad.VEHICLE_FIRE +
-						PlayerPad.VEHICLE_CALL +
-						PlayerPad.VEHICLE_DASH,
+--DEBUGNOW
+--			buttons =	PlayerPad.MB_DEVICE +
+--						PlayerPad.CALL +
+--						PlayerPad.UP +
+--						PlayerPad.DOWN +
+--						PlayerPad.LEFT +
+--						PlayerPad.RIGHT +
+--						PlayerPad.CQC +
+--						PlayerPad.SIDE_ROLL +
+--						PlayerPad.LIGHT_SWITCH +
+--						PlayerPad.EVADE +
+--						PlayerPad.VEHICLE_FIRE +
+--						PlayerPad.VEHICLE_CALL +
+--						PlayerPad.VEHICLE_DASH,
 		}
 	else
 		Player.ResetPadMask {
@@ -4133,7 +4147,8 @@ s10010_sequence.EnablePadMaskBeforeGetGun = function( enabled )
 		Player.SetPadMask {
 			settingName = "cypr_beforeGetGun",
 			except = false,
-			buttons = PlayerPad.HOLD,
+			--DEBUGNOW
+			--buttons = PlayerPad.HOLD,
 		}
 	else
 		Player.ResetPadMask {
@@ -4155,14 +4170,15 @@ s10010_sequence.EnablePadMaskCombat = function( enabled )
 		Player.SetPadMask {
 			settingName = "cypr_combat",
 			except = false,
-			buttons =	PlayerPad.MB_DEVICE +
-						PlayerPad.CALL +
-						PlayerPad.CQC +
-						PlayerPad.SIDE_ROLL +
-						PlayerPad.LIGHT_SWITCH +
-						PlayerPad.VEHICLE_FIRE +
-						PlayerPad.VEHICLE_CALL +
-						PlayerPad.VEHICLE_DASH,
+			--DEBUGNOW
+--			buttons =	PlayerPad.MB_DEVICE +
+--						PlayerPad.CALL +
+--						PlayerPad.CQC +
+--						PlayerPad.SIDE_ROLL +
+--						PlayerPad.LIGHT_SWITCH +
+--						PlayerPad.VEHICLE_FIRE +
+--						PlayerPad.VEHICLE_CALL +
+--						PlayerPad.VEHICLE_DASH,
 		}
 	else
 		Player.ResetPadMask {
@@ -4184,7 +4200,8 @@ s10010_sequence.ProhibitMove = function( enabled )
 		Player.SetPadMask {
 			settingName = "cypr_demo",
 			except = false,
-			sticks = PlayerPad.STICK_L,
+			--DEBUGNOW
+			--sticks = PlayerPad.STICK_L,
 		}
 		mvars.prohibitMoveEnabled = true
 	elseif mvars.prohibitMoveEnabled then
@@ -4282,7 +4299,8 @@ s10010_sequence.SetPadMaskLoading = function( enabled )
 		Player.SetPadMask {
 			settingName = "cypr_loading",
 			except = false,
-			sticks = PlayerPad.STICK_L,
+			--DEBUGNOW
+			--sticks = PlayerPad.STICK_L,
 		}
 	else
 		Player.ResetPadMask {
@@ -4303,8 +4321,9 @@ s10010_sequence.SetPadMaskAvatarEdit = function( enabled )
 	if enabled then
 		Player.SetPadMask {
 			settingName = "cypr_avatar",
-			except = true,
-			sticks = PlayerPad.STICK_R,
+			except = false,--DEBUGNOWtrue,
+			--DEBUGNOW
+			--sticks = PlayerPad.STICK_R,
 		}
 	else
 		Player.ResetPadMask {
@@ -4324,7 +4343,7 @@ s10010_sequence.SetPadMaskEntranceQTE = function( enabled )
 	if enabled then
 		Player.SetPadMask {
 			settingName = "cypr_entrance_qte",
-			except = true,
+			except = false,--DEBUGNOWtrue,
 		}
 	else
 		Player.ResetPadMask {
@@ -4345,9 +4364,9 @@ s10010_sequence.SetPadMaskCorridor = function( enabled )
 	if enabled then
 		Player.SetPadMask {
 			settingName = "cypr_corridor",
-			except = true,
-			sticks = PlayerPad.STICK_R,
-			buttons = PlayerPad.ZOOM_CHANGE,
+			except = false,--DEBUGNOW true,
+--			sticks = PlayerPad.STICK_R,
+--			buttons = PlayerPad.ZOOM_CHANGE,
 		}
 	else
 		Player.ResetPadMask {
@@ -4368,7 +4387,7 @@ s10010_sequence.SetPadMaskBed = function( enabled )
 	if enabled then
 		Player.SetPadMask {
 			settingName = "cypr_bed",
-			sticks = PlayerPad.STICK_R,
+			--DEBUGNOWsticks = PlayerPad.STICK_R,
 		}
 	else
 		Player.ResetPadMask {
@@ -4390,8 +4409,9 @@ s10010_sequence.SetPadMaskGameOver = function( enabled )
 		Player.SetPadMask {
 			settingName = "cypr_gameOver",
 			except = false,
-			sticks = PlayerPad.STICK_L,
-			buttons = PlayerPad.HOLD + PlayerPad.FIRE,
+			--DEBUGNOW
+--			sticks = PlayerPad.STICK_L,
+--			buttons = PlayerPad.HOLD + PlayerPad.FIRE,
 		}
 	else
 		Player.ResetPadMask {
@@ -4413,8 +4433,9 @@ s10010_sequence.SetPadMask2f = function( enabled )
 		Player.SetPadMask {
 			settingName = "cypr_2f",
 			except = false,
-			sticks = PlayerPad.STICK_L,
-			buttons = PlayerPad.HOLD + PlayerPad.FIRE + PlayerPad.STANCE,
+			--DEBUGNOW
+--			sticks = PlayerPad.STICK_L,
+--			buttons = PlayerPad.HOLD + PlayerPad.FIRE + PlayerPad.STANCE,
 		}
 	else
 		Player.ResetPadMask {
@@ -4436,8 +4457,9 @@ s10010_sequence.SetPadMaskCamera = function( enabled )
 		Player.SetPadMask {
 			settingName = "cypr_camera",
 			except = false,
-			sticks = PlayerPad.STICK_R,
-			buttons = PlayerPad.SUBJECT,
+			--DEBUGNOW
+--			sticks = PlayerPad.STICK_R,
+--			buttons = PlayerPad.SUBJECT,
 		}
 	else
 		Player.ResetPadMask {
@@ -4457,7 +4479,7 @@ s10010_sequence.SetPadMaskAll = function( enabled )
 	if enabled then
 		Player.SetPadMask {
 			settingName = "cypr_all",
-			except = true,
+			except = false,--DEBUGNOWtrue,
 		}
 	else
 		Player.ResetPadMask {
@@ -5016,6 +5038,8 @@ end
 
 
 function s10010_sequence.DisableGameStatusFunction()
+  if true then return end--DEBUGNOW
+
 	Fox.Log( "s10010_sequence.DisableGameStatusFunction" )
 	Tpp.SetGameStatus{
 		target = "all",
@@ -6559,17 +6583,17 @@ sequences.Seq_Game_FewDaysLater2 = {
 	OnEnter = function( self )
 
 		Fox.Log( "sequences.Seq_Game_FewDaysLater2.OnEnter()" )
-
-		TppUI.OverrideFadeInGameStatus{
-			CallMenu = false,
-			PauseMenu = false,
-			EquipHud = false,
-			EquipPanel = false,
-			CqcIcon = false,
-			ActionIcon = false,
-			AnnounceLog = false,
-			BaseName = false,
-		}
+--DEBUGNOW
+--		TppUI.OverrideFadeInGameStatus{
+--			CallMenu = false,
+--			PauseMenu = false,
+--			EquipHud = false,
+--			EquipPanel = false,
+--			CqcIcon = false,
+--			ActionIcon = false,
+--			AnnounceLog = false,
+--			BaseName = false,
+--		}
 
 		TppUiCommand.StartNameEntry()
 
@@ -7071,17 +7095,17 @@ sequences.Seq_Game_AvatarEdit = {
 	OnEnter = function( self )
 
 		Fox.Log( "sequences.Seq_Game_AvatarEdit.OnEnter()" )
-
-		TppUI.OverrideFadeInGameStatus{
-			CallMenu = false,
-			PauseMenu = false,
-			EquipHud = false,
-			EquipPanel = false,
-			CqcIcon = false,
-			ActionIcon = false,
-			AnnounceLog = false,
-			BaseName = false,
-		}
+--DEBUGNOW
+--		TppUI.OverrideFadeInGameStatus{
+--			CallMenu = false,
+--			PauseMenu = false,
+--			EquipHud = false,
+--			EquipPanel = false,
+--			CqcIcon = false,
+--			ActionIcon = false,
+--			AnnounceLog = false,
+--			BaseName = false,
+--		}
 
 		if TppUiCommand.StartAvatarEdit then
 			TppUiCommand.StartAvatarEdit()
@@ -9549,7 +9573,7 @@ sequences.Seq_Demo_CurtainRoom = {
 						Player.RequestToSetTargetStance( PlayerStance.CRAWL )
 
 						
-						vars.playerDisableActionFlag = vars.playerDisableActionFlag + PlayerDisableAction.BEHIND
+						--DEBUGNOWvars.playerDisableActionFlag = vars.playerDisableActionFlag + PlayerDisableAction.BEHIND
 					end,
 					option = { isExecDemoPlaying = true },
 				},
@@ -9572,7 +9596,7 @@ sequences.Seq_Demo_CurtainRoom = {
 						Fox.Log( "s10010_sequence.sequences.Seq_Demo_CurtainRoom.Messages(): Demo: FinishMotion: demoId:" .. tostring( demoId ) )
 
 						
-						vars.playerDisableActionFlag = vars.playerDisableActionFlag - PlayerDisableAction.BEHIND
+						--DEBUGNOWvars.playerDisableActionFlag = vars.playerDisableActionFlag - PlayerDisableAction.BEHIND
 					end,
 					option = { isExecDemoPlaying = true },
 				},
@@ -9772,17 +9796,17 @@ sequences.Seq_Game_AfterCurtainRoom = {
 				sender = "trap_Corridor0000",
 				func = function( trapName, gameObjectId )
 					Fox.Log( "s10010_sequence.sequences.Seq_Game_AfterCurtainRoom.Messages(): Trap: Enter: trap_Corridor0000: gameObjectId:" .. tostring( gameObjectId ) )
-
-					vars.playerDisableActionFlag = PlayerDisableAction.STEALTHASSIST +
-						PlayerDisableAction.REFLEXMODE +
-						PlayerDisableAction.CARRY +
-						PlayerDisableAction.FULTON +
-						PlayerDisableAction.CHANGE_STANCE_FROM_CRAWL +
-						PlayerDisableAction.MARKING +
-						PlayerDisableAction.RIDE_VEHICLE +
-						PlayerDisableAction.BINOCLE +
-						PlayerDisableAction.CQC +
-						PlayerDisableAction.OPEN_EQUIP_MENU
+--DEBUGNOW
+--					vars.playerDisableActionFlag = PlayerDisableAction.STEALTHASSIST +
+--						PlayerDisableAction.REFLEXMODE +
+--						PlayerDisableAction.CARRY +
+--						PlayerDisableAction.FULTON +
+--						PlayerDisableAction.CHANGE_STANCE_FROM_CRAWL +
+--						PlayerDisableAction.MARKING +
+--						PlayerDisableAction.RIDE_VEHICLE +
+--						PlayerDisableAction.BINOCLE +
+--						PlayerDisableAction.CQC +
+--						PlayerDisableAction.OPEN_EQUIP_MENU
 
 				end,
 			},
@@ -9791,16 +9815,16 @@ sequences.Seq_Game_AfterCurtainRoom = {
 				sender = "trap_Corridor0000",
 				func = function( trapName, gameObjectId )
 					Fox.Log( "s10010_sequence.sequences.Seq_Game_AfterCurtainRoom.Messages(): Trap: Enter: trap_Corridor0000: gameObjectId:" .. tostring( gameObjectId ) )
-
-					vars.playerDisableActionFlag = PlayerDisableAction.STEALTHASSIST +
-						PlayerDisableAction.REFLEXMODE +
-						PlayerDisableAction.CARRY +
-						PlayerDisableAction.FULTON +
-						PlayerDisableAction.MARKING +
-						PlayerDisableAction.RIDE_VEHICLE +
-						PlayerDisableAction.BINOCLE +
-						PlayerDisableAction.CQC +
-						PlayerDisableAction.OPEN_EQUIP_MENU
+--DEBUGNOW
+--					vars.playerDisableActionFlag = PlayerDisableAction.STEALTHASSIST +
+--						PlayerDisableAction.REFLEXMODE +
+--						PlayerDisableAction.CARRY +
+--						PlayerDisableAction.FULTON +
+--						PlayerDisableAction.MARKING +
+--						PlayerDisableAction.RIDE_VEHICLE +
+--						PlayerDisableAction.BINOCLE +
+--						PlayerDisableAction.CQC +
+--						PlayerDisableAction.OPEN_EQUIP_MENU
 
 				end,
 			},
@@ -9999,16 +10023,16 @@ sequences.Seq_Demo_VolginVsSkullSoldier = {
 		TppEffectUtility.ClearFxCutLevelMaximum()
 
 		s10010_sequence.SetPadMaskCorridor( false )
-
-		vars.playerDisableActionFlag = PlayerDisableAction.STEALTHASSIST +
-			PlayerDisableAction.REFLEXMODE +
-			PlayerDisableAction.CARRY +
-			PlayerDisableAction.FULTON +
-			PlayerDisableAction.MARKING +
-			PlayerDisableAction.RIDE_VEHICLE +
-			PlayerDisableAction.BINOCLE +
-			PlayerDisableAction.CQC +
-			PlayerDisableAction.OPEN_EQUIP_MENU
+--DEBUGNOW
+--		vars.playerDisableActionFlag = PlayerDisableAction.STEALTHASSIST +
+--			PlayerDisableAction.REFLEXMODE +
+--			PlayerDisableAction.CARRY +
+--			PlayerDisableAction.FULTON +
+--			PlayerDisableAction.MARKING +
+--			PlayerDisableAction.RIDE_VEHICLE +
+--			PlayerDisableAction.BINOCLE +
+--			PlayerDisableAction.CQC +
+--			PlayerDisableAction.OPEN_EQUIP_MENU
 
 	end,
 
@@ -11846,15 +11870,16 @@ sequences.Seq_Demo_FireWhaleTruth = {
 		s10010_demo.PlayFireWhaleTruthDemo( { onEnd = function() TppSequence.SetNextSequence( "Seq_Game_Load32", { isExecMissionClear = true } ) end, } )
 
 		s10010_sequence.EnableEnemy( { locatorName = "ishmael", enable = false, }, true, false )
-		TppUI.OverrideFadeInGameStatus{
-			CallMenu = false,
-			EquipHud = false,
-			EquipPanel = false,
-			CqcIcon = false,
-			ActionIcon = false,
-			AnnounceLog = false,
-			BaseName = false,
-		}
+		--DEBUGNOW
+--		TppUI.OverrideFadeInGameStatus{
+--			CallMenu = false,
+--			EquipHud = false,
+--			EquipPanel = false,
+--			CqcIcon = false,
+--			ActionIcon = false,
+--			AnnounceLog = false,
+--			BaseName = false,
+--		}
 	end,
 
 	OnLeave = function()
@@ -12723,17 +12748,17 @@ sequences.Seq_Game_History1 = {
 
 	OnEnter = function( self )
 		Fox.Log( "sequences.Seq_Game_History1.OnEnter()" )
-
-		TppUI.OverrideFadeInGameStatus{
-			CallMenu = false,
-			PauseMenu = false,
-			EquipHud = false,
-			EquipPanel = false,
-			CqcIcon = false,
-			ActionIcon = false,
-			AnnounceLog = false,
-			BaseName = false,
-		}
+--DEBUGNOW
+--		TppUI.OverrideFadeInGameStatus{
+--			CallMenu = false,
+--			PauseMenu = false,
+--			EquipHud = false,
+--			EquipPanel = false,
+--			CqcIcon = false,
+--			ActionIcon = false,
+--			AnnounceLog = false,
+--			BaseName = false,
+--		}
 		s10010_sequence.SetPadMaskAll( true )
 
 		TppEnding.Start( "Truth_History" )
@@ -12749,10 +12774,10 @@ sequences.Seq_Demo_TwoBigBoss = {
 
 	OnEnter = function( self )
 		Fox.Log( "sequences.Seq_Demo_TwoBigBoss.OnEnter()" )
-
-		TppUI.OverrideFadeInGameStatus{
-			PauseMenu = true,
-		}
+--DEBUGNOW
+--		TppUI.OverrideFadeInGameStatus{
+--			PauseMenu = true,
+--		}
 
 		TppPlayer.Refresh()
 		s10010_demo.PlayTwoBigBossDemo( { onEnd = function() TppSequence.SetNextSequence( "Seq_Game_EndRoll", { isExecMissionClear = true } ) end, } )
@@ -12765,10 +12790,10 @@ sequences.Seq_Demo_TwoBigBoss = {
 
 		
 		vars.playerFaceEquipId = mvars.oldPlayerFaceEquipId
-
-		TppUI.OverrideFadeInGameStatus{
-			PauseMenu = false,
-		}
+--DEBUGNOW
+--		TppUI.OverrideFadeInGameStatus{
+--			PauseMenu = false,
+--		}
 
 		TppDemoUtility.SetUseBlackDiamond( false )
 	end,
