@@ -157,7 +157,7 @@ function this.OnAllocate(missionTable)
     TppCollection.SetScriptDeclVars("col_daimondStatus_mtbs","col_markerStatus_mtbs","col_isRegisteredInDb_mtbs")
   end
 end
-function this.Init(n)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
   if TppMission.IsFreeMission(vars.missionCode)then
     Gimmick.EspionageBoxOnGround(false)
@@ -176,15 +176,15 @@ function this.Init(n)
   end
   TppTerminal.InitializeBluePrintLocatorIdTable()
   if TppMission.IsMissionStart()then
-    for i,t in pairs(this.MissionCollectionTable)do
-      local n=(vars.missionCode==i)
+    for missionCode,collectionNames in pairs(this.MissionCollectionTable)do
+      local n=(vars.missionCode==missionCode)
       if n==false then
         if TppMission.IsHardMission(vars.missionCode)then
           local e=TppMission.GetNormalMissionCodeFromHardMission(vars.missionCode)
-          n=(e==i)
+          n=(e==missionCode)
         end
       end
-      this.EnableCollectionTable(t,n,true)
+      this.EnableCollectionTable(collectionNames,n,true)
     end
     do
       local t={"col_develop_Revolver_Shotgun"}
@@ -555,12 +555,12 @@ function this.BreakGimmick(a,n,t,i)
   this.SetHeroicAndOrgPoint(n,i)
 end
 function this.GetGimmickID(gameId,n,i)
-  local t=IsTypeTable(gameId)
-  local e=mvars.gim_identifierTable
-  if not e then
+  local isTable=IsTypeTable(gameId)
+  local gim_identifierTable=mvars.gim_identifierTable
+  if not gim_identifierTable then
     return
   end
-  local e=e[t]
+  local e=gim_identifierTable[isTable]
   if not e then
     return
   end
@@ -575,19 +575,19 @@ function this.GetGimmickID(gameId,n,i)
   return n
 end
 function this.GetGameObjectId(e)
-  local e=mvars.gim_identifierParamTable[e]
-  if not e then
+  local gimmickIdParams=mvars.gim_identifierParamTable[e]
+  if not gimmickIdParams then
     return
   end
-  return Gimmick.GetGameObjectId(e.type,e.locatorName,e.dataSetName)
+  return Gimmick.GetGameObjectId(gimmickIdParams.type,gimmickIdParams.locatorName,gimmickIdParams.dataSetName)
 end
 function this.BreakConnectedGimmick(e)
   local e=mvars.gim_breakConnectTable[e]
   if not e then
     return
   end
-  local e=mvars.gim_identifierParamTable[e]
-  Gimmick.BreakGimmick(e.type,e.locatorName,e.dataSetName,false)
+  local gimmickIdParams=mvars.gim_identifierParamTable[e]
+  Gimmick.BreakGimmick(gimmickIdParams.type,gimmickIdParams.locatorName,gimmickIdParams.dataSetName,false)
 end
 function this.CheckBrokenAndBreakConnectedGimmick(n)
   if not mvars.gim_checkBrokenAndBreakConnectTable then
@@ -597,12 +597,12 @@ function this.CheckBrokenAndBreakConnectedGimmick(n)
   if not n then
     return
   end
-  local i=n.checkBrokenGimmickId
-  local n=n.breakGimmickId
-  if this.IsBroken{gimmickId=i}then
-    local e=mvars.gim_identifierParamTable[n]
-    if e then
-      Gimmick.BreakGimmick(e.type,e.locatorName,e.dataSetName,false)
+  local checkBrokenGimmickId=n.checkBrokenGimmickId
+  local breakGimmickId=n.breakGimmickId
+  if this.IsBroken{gimmickId=checkBrokenGimmickId}then
+    local gimmickIdParams=mvars.gim_identifierParamTable[breakGimmickId]
+    if gimmickIdParams then
+      Gimmick.BreakGimmick(gimmickIdParams.type,gimmickIdParams.locatorName,gimmickIdParams.dataSetName,false)
     end
   end
 end
@@ -615,11 +615,11 @@ function this.HideAsset(e)
     TppDataUtility.SetVisibleDataFromIdentifier(e.identifierName,n,false,true)
   end
 end
-function this.Show(n)
-  local e=this.SetVisibility(n,false)
+function this.Show(show)
+  local e=this.SetVisibility(show,false)
 end
-function this.Hide(n)
-  this.SetVisibility(n,true)
+function this.Hide(hide)
+  this.SetVisibility(hide,true)
 end
 function this.SetVisibility(e,n)
   local e=mvars.gim_identifierParamTable[e]
@@ -637,14 +637,14 @@ function this.UnlockLandingZone(e)
   if not e then
     return
   end
-  local n
-  for i,e in pairs(e)do
-    if TppHelicopter.GetLandingZoneExists{landingZoneName=e}then
-      TppHelicopter.SetEnableLandingZone{landingZoneName=e}
-      n=true
+  local doesExist
+  for i,landingZoneName in pairs(e)do
+    if TppHelicopter.GetLandingZoneExists{landingZoneName=landingZoneName}then
+      TppHelicopter.SetEnableLandingZone{landingZoneName=landingZoneName}
+      doesExist=true
     end
   end
-  if n then
+  if doesExist then
     TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.UNLOCK_LANDING_ZONE)
   end
 end
@@ -700,7 +700,7 @@ function this.SetHeroicAndOrgPoint(n,e)
   end
   TppHero.AnnounceBreakGimmickByGimmickType(e)
 end
-function this.EnableCollectionTable(t,e,o)
+function this.EnableCollectionTable(collectionNames,e,o)
   local n=0
   if not e then
     n=1
@@ -719,7 +719,7 @@ function this.EnableCollectionTable(t,e,o)
     end
     return false
   end
-  for t,locator in pairs(t)do
+  for t,locator in pairs(collectionNames)do
     if TppCollection.IsExistLocator(locator)then
       if not IsGotKeyItem(locator)or o then
         TppCollection.RepopCountOperation("SetAt",locator,n)
@@ -768,7 +768,8 @@ function this.OnActivateQuest(questTable)
     end
     if(questTable.targetDevelopList and Tpp.IsTypeTable(questTable.targetDevelopList))and next(questTable.targetDevelopList)then
       for n,e in pairs(questTable.targetDevelopList)do
-        local e={developId=e,messageId="None",idType="Develop"}table.insert(mvars.gim_questTargetList,e)
+        local e={developId=e,messageId="None",idType="Develop"}
+        table.insert(mvars.gim_questTargetList,e)
       end
       t=true
     end
@@ -780,7 +781,9 @@ function this.OnActivateQuest(questTable)
           mvars.gim_questMarkStartData=e.dataSetName
           Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,mvars.gim_questMarkStartLocator,mvars.gim_questMarkStartData,true)
         else
-          local e={locatorName=e.locatorName,dataSetName=e.dataSetName,messageId="None",setIndex=e.setIndex}table.insert(mvars.gim_questTargetList,e)t=true
+          local e={locatorName=e.locatorName,dataSetName=e.dataSetName,messageId="None",setIndex=e.setIndex}
+          table.insert(mvars.gim_questTargetList,e)
+          t=true
           mvars.gim_questMarkTotalCount=mvars.gim_questMarkTotalCount+1
         end
       end
@@ -829,8 +832,8 @@ function this.CheckQuestAllTarget(questType,a,l)
   local clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
   local r=l or false
   local l=false
-  local s=TppQuest.GetCurrentQuestName()
-  if TppQuest.IsEnd(s)then
+  local currentQuestName=TppQuest.GetCurrentQuestName()
+  if TppQuest.IsEnd(currentQuestName)then
     return clearType
   end
   if r==false then
@@ -844,8 +847,8 @@ function this.CheckQuestAllTarget(questType,a,l)
       end
     elseif questType==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
       for n,e in pairs(mvars.gim_questTargetList)do
-        local n=StrCode32(e.locatorName)
-        if a==n then
+        local locatorStrCode32=StrCode32(e.locatorName)
+        if a==locatorStrCode32 then
           e.messageId="Break"
           l=true
           mvars.gim_questMarkCount=mvars.gim_questMarkCount+1
@@ -941,7 +944,8 @@ function this.SetQuestInvisibleGimmick(t,i,e)
 end
 function this.SetQuestSootingTargetInvincible(n)
   for i,e in pairs(mvars.gim_questTargetList)do
-    Gimmick.InvincibleGimmickData(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,"mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev",e.dataSetName,n)break
+    Gimmick.InvincibleGimmickData(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,"mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev",e.dataSetName,n)
+    break--NMC wut
   end
 end
 function this.IsQuestStartSwitchGimmick(e)
@@ -957,8 +961,8 @@ end
 function this.SetQuestShootingPracticeTargetInvisible()
   this.SetQuestInvisibleGimmick(mvars.gim_questMarkSetIndex,true,true)
 end
-function this.EndQuestShootingPractice(e)
-  if e==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY then
+function this.EndQuestShootingPractice(questClearType)
+  if questClearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY then
     mvars.gim_isquestMarkStart=false
     for n,e in pairs(mvars.gim_questTargetList)do
       e.messageId="None"
@@ -972,10 +976,10 @@ end
 function this.GetQuestShootingPracticeCount()
   return mvars.gim_questMarkCount,mvars.gim_questMarkTotalCount
 end
-function this.SetUpMineQuest(e)
+function this.SetUpMineQuest(questmineTotalCount)
   if mvars.gim_isQuestSetup==false then
     mvars.gim_questmineCount=0
-    mvars.gim_questmineTotalCount=e
+    mvars.gim_questmineTotalCount=questmineTotalCount
     mvars.gim_isQuestSetup=true
   end
 end
@@ -986,8 +990,8 @@ function this.OnTerminateMineQuest()
     mvars.gim_isQuestSetup=false
   end
 end
-function this.CheckQuestPlaced(i,n)
-  if this.CheckQuestMine(i,n)then
+function this.CheckQuestPlaced(mineEquipId,n)
+  if this.CheckQuestMine(mineEquipId,n)then
     mvars.gim_questmineCount=mvars.gim_questmineCount+1
     TppUI.ShowAnnounceLog("mine_quest_log",mvars.gim_questmineCount,mvars.gim_questmineTotalCount)
   end
@@ -997,9 +1001,9 @@ function this.CheckQuestPlaced(i,n)
     return false
   end
 end
-function this.CheckQuestMine(n,e)
-  for t,i in pairs(TppDefine.QUEST_MINE_TYPE_LIST)do
-    if n==i then
+function this.CheckQuestMine(mineEquipId,e)
+  for n,equipId in pairs(TppDefine.QUEST_MINE_TYPE_LIST)do
+    if mineEquipId==equipId then
       if TppPlaced.IsQuestBlock(e)then
         return true
       else

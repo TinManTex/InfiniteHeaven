@@ -144,7 +144,7 @@ function this.MakeSVarsTable(saveVarsList)
 end
 local o=1
 local s=6
-local t=2
+local noTelopFadeinTime=2
 requiredSequences={"Seq_Mission_Prepare"}
 this.SYS_SEQUENCE_LENGTH=#requiredSequences
 baseSequences.Seq_Mission_Prepare={
@@ -209,7 +209,7 @@ baseSequences.Seq_Mission_Prepare={
       if mvars.seq_isHelicopterStart then
         if mvars.seq_noMissionTelopOnHelicopter then
           baseSequences.Seq_Mission_Prepare.HelicopterMoveStart()
-          StartTimer("Timer_FadeInStartOnNoTelopHelicopter",t)
+          StartTimer("Timer_FadeInStartOnNoTelopHelicopter",noTelopFadeinTime)
         else
           TppSoundDaemon.ResetMute"Loading"
           mvars.seq_nowWaitingStartMissionTelopFadeOut=true
@@ -222,17 +222,17 @@ baseSequences.Seq_Mission_Prepare={
   end,
   FadeInStartOnGameStart=function()
     TppMain.DisableBlackLoading()
-    local n
+    local exceptGameStatus
     if mvars.seq_isHelicopterStart then
       TppSound.SetHelicopterStartSceneBGM()
-      n=Tpp.GetHelicopterStartExceptGameStatus()
+      exceptGameStatus=Tpp.GetHelicopterStartExceptGameStatus()
     else
       if TppMission.IsMissionStart()and(not TppMission.IsFreeMission(vars.missionCode))then
-        n={AnnounceLog=false}
+        exceptGameStatus={AnnounceLog=false}
       end
     end
     this.SetMissionGameStartSequence()
-    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeInOnGameStart",nil,{exceptGameStatus=n})
+    TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeInOnGameStart",nil,{exceptGameStatus=exceptGameStatus})
   end,
   SkipTextureLoadingWait=function()
     if mvars.seq_skipTextureLoadingWait then
@@ -240,7 +240,8 @@ baseSequences.Seq_Mission_Prepare={
     end
   end,
   DEBUG_TextPrint=function(n)
-    local e=(nil).NewContext();(nil).Print(e,{.5,.5,1},n)
+    local e=(nil).NewContext();
+    (nil).Print(e,{.5,.5,1},n)
   end,
   OnUpdate=function(t)
     if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
@@ -340,10 +341,10 @@ function this.IsEndSaving()
   return false
 end
 function this.SaveMissionStartSequence()
-  local e=this.SYS_SEQUENCE_LENGTH+1
+  local sequenceLength=this.SYS_SEQUENCE_LENGTH+1
   mvars.seq_isHelicopterStart=false
-  mvars.seq_missionStartSequence=e
-  if svars.seq_sequence>e then
+  mvars.seq_missionStartSequence=sequenceLength
+  if svars.seq_sequence>sequenceLength then
     mvars.seq_missionStartSequence=svars.seq_sequence
   end
   if TppMission.IsHelicopterSpace(vars.missionCode)then
@@ -351,7 +352,7 @@ function this.SaveMissionStartSequence()
   end
   if(gvars.ply_initialPlayerState==TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)and(svars.ply_isUsedPlayerInitialAction==false)then
     mvars.seq_isHelicopterStart=true
-    if(mvars.seq_missionStartSequence<=e)then
+    if(mvars.seq_missionStartSequence<=sequenceLength)then
       mvars.seq_missionStartSequence=mvars.seq_heliStartSequence
     else
       mvars.seq_noMissionTelopOnHelicopter=true
@@ -362,8 +363,8 @@ function this.SetMissionGameStartSequence()
   mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.FINISH
   svars.seq_sequence=mvars.seq_missionStartSequence
 end
-function this.SetOnEndMissionPrepareFunction(e)
-  mvars.seq_onEndMissionPrepareFunction=e
+function this.SetOnEndMissionPrepareFunction(func)
+  mvars.seq_onEndMissionPrepareFunction=func
 end
 function this.DoOnEndMissionPrepareFunction()
   if mvars.seq_onEndMissionPrepareFunction then
@@ -422,15 +423,15 @@ function this.DeclareSVars()
 end
 function this.DEBUG_Init()
 end
-function this.Init(n)
-  this.MakeSequenceMessageExecTable()svars.seq_sequence=this.GetSequenceIndex"Seq_Mission_Prepare"if n.sequence then
-    if n.sequence.SKIP_TEXTURE_LOADING_WAIT then
+function this.Init(missionTable)
+  this.MakeSequenceMessageExecTable()svars.seq_sequence=this.GetSequenceIndex"Seq_Mission_Prepare"if missionTable.sequence then
+    if missionTable.sequence.SKIP_TEXTURE_LOADING_WAIT then
       mvars.seq_skipTextureLoadingWait=true
     end
-    if n.sequence.FORCE_STOP_MISSION_PREPARE_WHILE_NOT_PRESSED_PAD then
+    if missionTable.sequence.FORCE_STOP_MISSION_PREPARE_WHILE_NOT_PRESSED_PAD then
       mvars.seq_forceStopWhileNotPressedPad=true
     end
-    if n.sequence.NO_MISSION_TELOP_ON_START_HELICOPTER then
+    if missionTable.sequence.NO_MISSION_TELOP_ON_START_HELICOPTER then
       mvars.seq_noMissionTelopOnHelicopter=true
     end
   end

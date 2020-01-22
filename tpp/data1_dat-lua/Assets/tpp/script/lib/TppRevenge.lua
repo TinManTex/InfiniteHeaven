@@ -2202,7 +2202,7 @@ function this.Messages()
     Trap={{msg="Enter",func=this._OnEnterTrap}}
   }
 end
-function this.Init(n)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.OnReload(n)

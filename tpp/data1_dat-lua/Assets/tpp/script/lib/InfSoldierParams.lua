@@ -1,4 +1,4 @@
--- DOBUILD: 1 --
+-- DOBUILD: 1
 -- DEPS: gvars, TppSoldier2, Tpp
 local this={}
 

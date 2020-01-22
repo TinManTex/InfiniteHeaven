@@ -194,7 +194,7 @@ function this.Messages()
       {msg="HeadShot",func=this.OnHeadShot}}
   }
 end
-function this.Init(n)
+function this.Init(missionTable)
   TppChallengeTask.RegisterCheckerFunction("PLAY_RECORD","TppRanking","CheckPlayRecordChallengeTask")
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end

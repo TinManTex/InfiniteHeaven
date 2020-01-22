@@ -1,3 +1,6 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: chunk3
+-- PACKPATH: \Assets\tpp\pack\location\mtbs\pack_common\mtbs_script.fpkd
 local mtbs_cluster = {}
 
 local CLUSTER_INDEX = {}
@@ -134,7 +137,8 @@ end
 
 
 function mtbs_cluster.SetUpLandingZone( landingZoneTable, clusterId )
-	
+  local enabledLzs={}--tex>
+  InfMain.enabledLzs[clusterId]=enabledLzs--<
 	local disableLandingZoneTable = {
 		{ disableClusterIndex = 0 },
 		{ disableClusterIndex = ( TppDefine.CLUSTER_DEFINE.Develop + 1 ), layoutCode = 1, disableIndex = 1, },
@@ -171,6 +175,8 @@ function mtbs_cluster.SetUpLandingZone( landingZoneTable, clusterId )
 				end
 				if isDisable == true then
 					GameObject.SendCommand( gameObjectId, { id = "DisableLandingZone", name = landingZoneName })
+			  else
+			   table.insert(enabledLzs,landingZoneName)--tex
 				end
 			end
 		
@@ -178,11 +184,12 @@ function mtbs_cluster.SetUpLandingZone( landingZoneTable, clusterId )
 			for i, landingZoneName in pairs( plntLzNameTable ) do
 				if plntId > mvars.mtbsClst_constructTable[clusterId] then
 					GameObject.SendCommand( gameObjectId, { id = "DisableLandingZone", name = landingZoneName })
+				else
+				  table.insert(enabledLzs,landingZoneName)--tex
 				end
 			end
 		end
 	end
-
 end
 
 

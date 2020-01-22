@@ -1,5 +1,5 @@
 local faceFile={
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fpk"},--0
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v001_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v002_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v003_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v003_eye0.fpk"},
@@ -9,7 +9,7 @@ local faceFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v007_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v007_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v008_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v008_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v009_eye1.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v009_eye1.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v010_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v010_eye0.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v010_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v010_eye0.fpk"},--10
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v011_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v011_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v012_eye1.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v012_eye1.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v013_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v013_eye0.fpk"},
@@ -19,7 +19,7 @@ local faceFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v017_eye1.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v017_eye1.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v018_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v018_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h1_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h1_v000_eye0.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h1_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h1_v001_eye0.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h1_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h1_v001_eye0.fpk"},--20
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h1_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h1_v002_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h1_v003_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h1_v003_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h1_v004_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h1_v004_eye0.fpk"},
@@ -29,7 +29,7 @@ local faceFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_svs0_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_svs0_head_z_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_pfs0_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_pfs0_head_z_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds5_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds5_head_z_eye0.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds6_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds6_head_z_eye0.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds6_head_z_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds6_head_z_eye0.fpk"},--30
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds3_eqhd1_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds3_eqhd1_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds8_eqhd1_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds8_eqhd1_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds3_eqhd4_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds3_eqhd4_eye0.fpk"},
@@ -39,7 +39,7 @@ local faceFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds3_eqhd6_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds3_eqhd6_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds3_eqhd7_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds3_eqhd7_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds8_eqhd6_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds8_eqhd6_eye0.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds8_eqhd7_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds8_eqhd7_eye0.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_dds8_eqhd7_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_dds8_eqhd7_eye0.fpk"},--40
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_unq_v000_eye1.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_unq_v000_eye1.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_unq_v001_eye1.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_unq_v001_eye1.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_unq_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_unq_v002_eye0.fpk"},
@@ -49,7 +49,7 @@ local faceFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_unq_v006_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_unq_v006_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_unq_v007_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_unq_v007_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h0_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h0_v000_eye0.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h0_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h0_v001_eye0.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h0_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h0_v001_eye0.fpk"},--50
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h0_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h0_v002_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h0_v003_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h0_v003_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h1_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h1_v000_eye0.fpk"},
@@ -57,9 +57,10 @@ local faceFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h1_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h1_v002_eye0.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v001_eye0.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fpk"}}
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fpk"},--58
+  }
 local faceDecoFile={
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fpk"},--0
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w001_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w001_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w002_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w002_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w003_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w003_m.fpk"},
@@ -69,7 +70,7 @@ local faceDecoFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w007_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w007_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w008_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w008_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w009_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w009_m.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w010_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w010_m.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w010_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w010_m.fpk"},--10
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w011_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w011_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w012_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w012_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w013_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w013_m.fpk"},
@@ -79,7 +80,7 @@ local faceDecoFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w017_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w017_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w018_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w018_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w019_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w019_m.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b000_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b000_m.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b000_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b000_m.fpk"},--20
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b001_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b001_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b002_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b002_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b003_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b003_m.fpk"},
@@ -89,7 +90,7 @@ local faceDecoFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b007_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b007_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b008_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b008_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b009_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b009_m.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b010_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b010_m.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b010_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b010_m.fpk"},--30
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_y000_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_y000_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_y001_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_y001_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_y002_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_y002_m.fpk"},
@@ -99,7 +100,7 @@ local faceDecoFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w002_f.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w002_f.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w003_f.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w003_f.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b000_f.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b000_f.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b001_f.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b001_f.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b001_f.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b001_f.fpk"},--40
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_b002_f.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_b002_f.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_y000_f.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_y000_f.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_y001_f.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_y001_f.fpk"},
@@ -109,7 +110,7 @@ local faceDecoFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_w002_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_w002_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_w003_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_w003_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_w004_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_w004_m.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_b000_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_b000_m.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_b000_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_b000_m.fpk"},--50
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_y000_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_y000_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_y001_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_y001_m.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_face_m000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_face_m000.fpk"},
@@ -119,9 +120,10 @@ local faceDecoFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_face_f000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_face_f000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_face_f001.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_face_f001.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_face_f002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_face_f002.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_face_f003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_face_f003.fpk"}}
+  {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_face_f003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_face_f003.fpk"},--60
+  }
 local hairFile={
-  {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c000.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c000.fpk"},--0
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c001.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c001.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c002.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c003.fpk"},
@@ -131,13 +133,14 @@ local hairFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c100.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c100.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c101.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c101.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c102.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c102.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c103.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c103.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c103.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c103.fpk"},--10
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c104.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c104.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c105.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c105.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c106.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c106.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c107.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c107.fpk"}}
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c107.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c107.fpk"},--14
+  }
 local hairDecoFile={
-  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fpk"},--0
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c001.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c001.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c002.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c003.fpk"},
@@ -147,7 +150,7 @@ local hairDecoFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c003_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c003_c000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c004_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c004_c000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c005_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c005_c000.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c100_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c100_c000.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c100_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c100_c000.fpk"},--10
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c101_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c101_c000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c102_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c102_c000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c103_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c103_c000.fpk"},
@@ -157,11 +160,12 @@ local hairDecoFile={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c107_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c107_c000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_m000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_m000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_m001.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_m001.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_m002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_m002.fpk"},
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_m002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_m002.fpk"},--20
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f000.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f001.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f001.fpk"},
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f002.fpk"},
-  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fpk"}}
+  {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/sp_hair_f003.fpk"},--24
+  }
 local bodyFile={--NMC: see also bodyFova table
   {"/Assets/tpp/fova/chara/svs/svs0_rfl_v00_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},--0
   {"/Assets/tpp/fova/chara/svs/svs0_rfl_v01_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},
@@ -403,7 +407,12 @@ if TppSoldierFace~=nil then
 end
 local non=EnemyFova.INVALID_FOVA_VALUE
 local faceFova={
-  {0,0,0,0,3,0,non,non,0,0,0,"ui_face_000",3,4,2,6,3},
+--ui textures in \texture1_dat\Assets\tpp\ui\texture\StaffImage
+--maximums
+--{n,50,1,1,58,60,13,24,4,4,1,0,3,303,303,303,3}
+--faceFileIdx,faceDecoFile,hairFile,hairDecoFile guessed from max + order of the tables in this file
+--{faceId,?,male/female(0/1),?,faceFileIdx,faceDecoFile,hairFile,hairDecoFile,?,?,?,ui texture name,?,?,?,?,?},
+  {0,0,0,0,3,0,non,non,0,0,0,"ui_face_000",3,4,2,6,3},--male>
   {1,0,0,0,1,0,non,non,3,0,0,"ui_face_001",3,4,1,0,2},
   {2,0,0,0,2,0,non,non,1,0,0,"ui_face_002",3,4,9,10,3},
   {3,0,0,0,5,0,non,non,4,0,1,"ui_face_003",3,3,2,0,2},
@@ -706,8 +715,8 @@ local faceFova={
   {300,2,0,0,5,30,non,non,1,3,1,"ui_face_300",3,300,299,298,3},
   {301,2,0,0,7,30,non,non,1,3,0,"ui_face_301",3,299,297,0,2},
   {302,2,0,0,8,30,non,non,1,3,0,"ui_face_302",3,297,296,0,2},
-  {303,2,0,0,9,30,non,non,1,3,1,"ui_face_303",3,301,296,0,2},
-  {320,3,0,0,24,31,0,3,1,1,0,"ui_face_320",3,0,0,0,0},
+  {303,2,0,0,9,30,non,non,1,3,1,"ui_face_303",3,301,296,0,2},--male<
+  {320,3,0,0,24,31,0,3,1,1,0,"ui_face_320",3,0,0,0,0},--male>
   {321,3,0,0,25,31,0,3,4,1,0,"ui_face_321",3,0,0,0,0},
   {322,3,0,0,26,31,0,3,1,1,0,"ui_face_322",3,0,0,0,0},
   {323,3,0,0,12,31,6,8,4,1,1,"ui_face_323",3,0,0,0,0},
@@ -736,8 +745,8 @@ local faceFova={
   {346,3,0,0,25,51,6,8,1,1,0,"ui_face_346",3,0,0,0,0},
   {347,3,0,0,26,51,6,8,4,1,0,"ui_face_347",3,0,0,0,0},
   {348,3,0,0,2,51,0,3,1,1,0,"ui_face_348",3,0,0,0,0},
-  {349,3,0,0,5,51,0,3,4,1,1,"ui_face_349",3,0,0,0,0},
-  {350,32,1,0,49,35,7,10,1,0,0,"ui_face_350",3,0,0,0,0},
+  {349,3,0,0,5,51,0,3,4,1,1,"ui_face_349",3,0,0,0,0},--male<
+  {350,32,1,0,49,35,7,10,1,0,0,"ui_face_350",3,0,0,0,0},--female>
   {351,32,1,0,50,35,7,10,4,0,0,"ui_face_351",3,0,0,0,0},
   {352,32,1,0,51,35,7,10,0,0,0,"ui_face_352",3,0,0,0,0},
   {353,32,1,0,52,35,7,10,3,0,0,"ui_face_353",3,0,0,0,0},
@@ -786,8 +795,8 @@ local faceFova={
   {396,32,1,0,50,38,12,15,4,2,0,"ui_face_396",3,0,0,0,0},
   {397,32,1,0,51,38,12,15,0,2,0,"ui_face_397",3,0,0,0,0},
   {398,32,1,0,52,38,12,15,3,2,0,"ui_face_398",3,0,0,0,0},
-  {399,32,1,0,57,38,12,15,1,2,0,"ui_face_399",3,0,0,0,0},
-  {450,34,1,0,53,39,9,12,1,3,0,"ui_face_450",3,0,0,0,0},
+  {399,32,1,0,57,38,12,15,1,2,0,"ui_face_399",3,0,0,0,0},--female<
+  {450,34,1,0,53,39,9,12,1,3,0,"ui_face_450",3,0,0,0,0},--female>
   {451,34,1,0,54,39,9,12,1,3,0,"ui_face_451",3,0,0,0,0},
   {452,34,1,0,55,39,9,12,1,3,0,"ui_face_452",3,0,0,0,0},
   {453,34,1,0,56,39,9,12,1,3,1,"ui_face_453",3,0,0,0,0},
@@ -816,8 +825,8 @@ local faceFova={
   {476,34,1,0,55,41,9,12,1,4,0,"ui_face_476",3,0,0,0,0},
   {477,34,1,0,51,41,9,12,1,4,0,"ui_face_477",3,0,0,0,0},
   {478,34,1,0,53,41,11,14,1,4,0,"ui_face_478",3,0,0,0,0},
-  {479,34,1,0,56,41,11,14,1,4,1,"ui_face_479",3,0,0,0,0},
-  {500,35,1,0,56,42,11,14,1,1,1,"ui_face_500",3,0,0,0,0},
+  {479,34,1,0,56,41,11,14,1,4,1,"ui_face_479",3,0,0,0,0},--female<
+  {500,35,1,0,56,42,11,14,1,1,1,"ui_face_500",3,0,0,0,0},--female>
   {501,35,1,0,57,42,11,14,4,1,0,"ui_face_501",3,0,0,0,0},
   {502,35,1,0,58,42,11,14,1,1,0,"ui_face_502",3,0,0,0,0},
   {503,35,1,0,56,42,9,12,4,1,1,"ui_face_503",3,0,0,0,0},
@@ -836,35 +845,35 @@ local faceFova={
   {516,35,1,0,58,44,7,17,1,1,0,"ui_face_516",3,0,0,0,0},
   {517,35,1,0,56,44,10,13,4,1,1,"ui_face_517",3,0,0,0,0},
   {518,35,1,0,57,44,10,13,1,1,0,"ui_face_518",3,0,0,0,0},
-  {519,35,1,0,58,44,10,13,4,1,0,"ui_face_519",3,0,0,0,0},
-  {550,16,0,0,27,non,non,non,non,non,0,"",0},
-  {551,16,0,0,28,non,non,non,non,non,0,"",0},
-  {552,16,0,0,29,non,non,non,non,non,0,"",0},
-  {553,16,0,0,29,non,non,non,non,non,0,"",0},
-  {554,16,0,0,29,non,non,non,non,non,0,"",0},
-  {555,16,1,0,30,non,non,non,non,non,0,"",0},
-  {556,16,1,0,30,non,non,non,non,non,0,"",0},
-  {557,16,1,0,30,non,non,non,non,non,0,"",0},
-  {558,16,0,0,31,non,non,non,non,non,0,"",0},
-  {559,16,1,0,32,non,non,non,non,non,0,"",0},
-  {560,16,0,0,33,non,non,non,non,non,0,"",0},
-  {561,16,0,0,34,non,non,non,non,non,0,"",0},
-  {562,16,1,0,35,non,non,non,non,non,0,"",0},
-  {563,16,1,0,36,non,non,non,non,non,0,"",0},
-  {564,16,0,0,37,non,non,non,non,non,0,"",0},
-  {565,16,0,0,38,non,non,non,non,non,0,"",0},
-  {566,16,1,0,39,non,non,non,non,non,0,"",0},
-  {567,16,1,0,40,non,non,non,non,non,0,"",0},
+  {519,35,1,0,58,44,10,13,4,1,0,"ui_face_519",3,0,0,0,0},--female<
+  {550,16,0,0,27,non,non,non,non,non,0,"",0},--Balaclava Male
+  {551,16,0,0,28,non,non,non,non,non,0,"",0},--Balaclava Male
+  {552,16,0,0,29,non,non,non,non,non,0,"",0},--DD armor helmet (green top) male - i cant really tell any difference between
+  {553,16,0,0,29,non,non,non,non,non,0,"",0},--DD armor helmet (green top) male - i cant really tell any difference between
+  {554,16,0,0,29,non,non,non,non,non,0,"",0},--DD armor helmet (green top) male - i cant really tell any difference between
+  {555,16,1,0,30,non,non,non,non,non,0,"",0},--DD armor helmet (green top) female - i cant really tell any difference between
+  {556,16,1,0,30,non,non,non,non,non,0,"",0},--DD armor helmet (green top) female - i cant really tell any difference between
+  {557,16,1,0,30,non,non,non,non,non,0,"",0},--DD armor helmet (green top) female - i cant really tell any difference between
+  {558,16,0,0,31,non,non,non,non,non,0,"",0},--Gas mask and clava Male
+  {559,16,1,0,32,non,non,non,non,non,0,"",0},--Gas mask and clava Female
+  {560,16,0,0,33,non,non,non,non,non,0,"",0},--Gas mask DD helm Male
+  {561,16,0,0,34,non,non,non,non,non,0,"",0},--Gas mask DD greentop helm Mal
+  {562,16,1,0,35,non,non,non,non,non,0,"",0},--Gas mask DD helm Female
+  {563,16,1,0,36,non,non,non,non,non,0,"",0},--Gas mask DD greentop helm Female
+  {564,16,0,0,37,non,non,non,non,non,0,"",0},--NVG DDgreentop Male
+  {565,16,0,0,38,non,non,non,non,non,0,"",0},--NVG DDgreentop GasMask Male
+  {566,16,1,0,39,non,non,non,non,non,0,"",0},--NVG DDgreentop Female (or just small head male lol, total cover)
+  {567,16,1,0,40,non,non,non,non,non,0,"",0},--NVG DDgreentop GasMask Female (or just small head male lol, total cover)
   {600,16,0,1,7,10,1,4,1,0,0,"ui_face_600",1,0,0,0,0},
-  {601,16,0,1,16,0,non,non,0,0,1,"ui_face_601",1,0,0,0,0},
-  {602,48,0,1,41,48,2,6,1,0,1,"ui_face_602",1,0,0,0,0},
+  {601,16,0,1,16,0,non,non,0,0,1,"ui_face_601",1,0,0,0,0},--Q19010--ruins_q19010
+  {602,48,0,1,41,48,2,6,1,0,1,"ui_face_602",1,0,0,0,0},--10033 glasses DEBUGNOW ref, from the kojima mod it replaces this, namely cm_unq_v000_eye1 which matches faceFile table of index 41(assuming indexed from 0 like bodyfova)
   {603,17,0,1,18,1,non,non,1,1,0,"ui_face_603",1,0,0,0,0},
   {604,16,0,1,1,9,0,1,1,0,0,"ui_face_604",1,0,0,0,0},
   {605,16,0,1,0,11,2,6,1,0,0,"ui_face_605",1,0,0,0,0},
   {606,16,0,1,9,9,0,1,1,0,1,"ui_face_606",1,0,0,0,0},
   {607,17,0,1,1,4,non,non,1,1,0,"ui_face_607",1,0,0,0,0},
   {608,16,0,1,10,12,0,2,1,0,0,"ui_face_608",1,0,0,0,0},
-  {609,16,0,1,12,0,non,non,0,0,1,"ui_face_609",1,0,0,0,0},
+  {609,16,0,1,12,0,non,non,0,0,1,"ui_face_609",1,0,0,0,0},--Q19011--outland_q19011
   {610,48,0,1,11,6,0,0,0,0,0,"ui_face_610",1,0,0,0,0},
   {611,16,0,1,8,7,non,non,0,0,0,"ui_face_611",1,0,0,0,0},
   {612,48,0,1,9,12,0,2,1,0,1,"ui_face_612",1,0,0,0,0},
@@ -876,14 +885,14 @@ local faceFova={
   {618,16,0,1,42,45,non,non,1,0,1,"ui_face_618",1,0,0,0,0},
   {619,18,0,1,12,26,4,16,1,4,1,"ui_face_619",1,0,0,0,0},
   {620,16,0,1,2,5,non,non,1,0,0,"ui_face_620",1,0,0,0,0},
-  {621,19,0,1,43,51,non,non,1,1,0,"ui_face_621",1,0,0,0,0},
-  {622,19,0,1,0,0,non,non,0,0,0,"ui_face_622",1,0,0,0,0},
+  {621,19,0,1,43,51,non,non,1,1,0,"ui_face_621",1,0,0,0,0},--TAN--quest_q20015,quest_q20085,quest_q20095,quest_q20205,quest_q20705--serious asian with peircing eyes
+  {622,19,0,1,0,0,non,non,0,0,0,"ui_face_622",1,0,0,0,0},--Hideo
   {623,16,0,1,2,46,3,7,1,0,0,"ui_face_623",1,0,0,0,0},
   {624,16,0,1,2,13,3,7,1,0,0,"ui_face_624",1,0,0,0,0},
   {625,16,0,1,5,14,6,8,1,1,1,"ui_face_625",1,0,0,0,0},
   {626,16,0,1,23,15,non,non,1,1,0,"ui_face_626",1,0,0,0,0},
-  {627,16,0,1,10,16,non,non,1,0,0,"ui_face_627",1,0,0,0,0},
-  {628,18,0,1,47,28,non,non,1,4,0,"ui_face_628",1,0,0,0,0},
+  {627,16,0,1,10,16,non,non,1,0,0,"ui_face_627",1,0,0,0,0},--Finger
+  {628,18,0,1,47,28,non,non,1,4,0,"ui_face_628",1,0,0,0,0},--Eye
   {629,16,0,1,9,11,2,6,3,0,1,"ui_face_116",1,0,0,0,0},
   {630,18,0,1,0,0,non,non,0,0,0,"",0,0,0,0,0},
   {631,16,0,1,0,0,non,non,0,0,0,"",0,0,0,0,0},
@@ -895,24 +904,24 @@ local faceFova={
   {637,16,0,1,13,47,non,non,0,0,0,"ui_face_637",1,0,0,0,0},
   {638,16,0,1,8,11,2,6,1,0,0,"ui_face_638",1,0,0,0,0},
   {639,16,0,1,18,19,non,non,1,0,0,"ui_face_639",1,0,0,0,0},
-  {640,17,0,1,0,8,non,non,1,1,0,"ui_face_640",1,0,0,0,0},
-  {641,18,0,1,3,29,non,non,1,3,0,"ui_face_641",1,0,0,0,0},
+  {640,17,0,1,0,8,non,non,1,1,0,"ui_face_640",1,0,0,0,0},--Q99070--sovietBase_q99070
+  {641,18,0,1,3,29,non,non,1,3,0,"ui_face_641",1,0,0,0,0},--Q99071--outland_q99071
   {642,48,0,1,15,10,1,4,1,0,1,"ui_face_642",1,0,0,0,0},
-  {643,50,1,1,49,39,9,12,1,3,0,"ui_face_643",1,0,0,0,0},
+  {643,50,1,1,49,39,9,12,1,3,0,"ui_face_643",1,0,0,0,0},--female
   {644,16,0,1,11,3,non,non,1,2,0,"ui_face_644",1,0,0,0,0},
   {645,16,0,1,23,0,non,non,0,0,0,"ui_face_645",1,0,0,0,0},
-  {646,48,0,1,48,49,1,5,0,2,0,"ui_face_646",1,0,0,0,0},
-  {647,16,0,1,21,1,non,non,1,1,0,"ui_face_647",1,0,0,0,0},
-  {648,48,0,1,17,17,5,9,0,0,1,"ui_face_648",1,0,0,0,0},
-  {649,18,0,1,4,27,non,non,1,4,0,"ui_face_649",1,0,0,0,0},
-  {680,48,0,1,0,53,0,18,3,0,0,"ui_face_680",1,0,0,0,0},
-  {681,48,1,1,49,57,9,21,3,0,0,"ui_face_681",1,0,0,0,0},
-  {682,48,1,1,50,58,8,22,4,0,0,"ui_face_682",1,0,0,0,0},
-  {683,48,0,1,11,54,0,19,4,0,0,"ui_face_683",1,0,0,0,0},
-  {684,48,0,1,17,55,1,20,1,0,1,"ui_face_684",1,0,0,0,0},
-  {685,48,1,1,51,59,9,23,1,0,0,"ui_face_685",1,0,0,0,0},
-  {686,48,1,1,52,60,8,24,3,0,0,"ui_face_686",1,0,0,0,0},
-  {687,48,0,1,9,56,non,non,3,0,1,"ui_face_687",1,0,0,0,0}
+  {646,48,0,1,48,49,1,5,0,2,0,"ui_face_646",1,0,0,0,0},--Q99072--tent_q99072--beardy mcbeard
+  {647,16,0,1,21,1,non,non,1,1,0,"ui_face_647",1,0,0,0,0},--Q19013--commFacility_q19013
+  {648,48,0,1,17,17,5,9,0,0,1,"ui_face_648",1,0,0,0,0},--Q19012--hill_q19012
+  {649,18,0,1,4,27,non,non,1,4,0,"ui_face_649",1,0,0,0,0},--male--10093 vip bodyId 272
+  {680,48,0,1,0,53,0,18,3,0,0,"ui_face_680",1,0,0,0,0},--male tatoo skull black
+  {681,48,1,1,49,57,9,21,3,0,0,"ui_face_681",1,0,0,0,0},--female tatoo skull black
+  {682,48,1,1,50,58,8,22,4,0,0,"ui_face_682",1,0,0,0,0},--female tatoo whiteblack ddog red hair
+  {683,48,0,1,11,54,0,19,4,0,0,"ui_face_683",1,0,0,0,0},--male tatoo whiteblack ddog red hair
+  {684,48,0,1,17,55,1,20,1,0,1,"ui_face_684",1,0,0,0,0},--male tatoo fox black
+  {685,48,1,1,51,59,9,23,1,0,0,"ui_face_685",1,0,0,0,0},--female tatoo fox black
+  {686,48,1,1,52,60,8,24,3,0,0,"ui_face_686",1,0,0,0,0},--female tatoo skull white white hair
+  {687,48,0,1,9,56,non,non,3,0,1,"ui_face_687",1,0,0,0,0}--male tatoo skull white bald
 }
 if TppSoldierFace~=nil then
   TppSoldierFace.SetFaceFovaDefinitionTable{table=faceFova,uiTexBasePath="/Assets/tpp/ui/texture/StaffImage/"}
@@ -941,8 +950,9 @@ if TppSoldierFace.ModFaceFovaDefinitionTable~=nil then
   TppSoldierFace.ModFaceFovaDefinitionTable{table=modFaceFova}
 end
 local bodyFova={
---{<TppEnemyBodyId>+,bodyFile table index(from 0), isArmor? or something else common to armor?}
-  {0,0,0},
+--{bodyId,bodyFile table index(from 0), isArmor? or something else common to armor?}
+--following comment is most likely TppEnemyBodyId
+  {0,0,0},--svs0_rfl_v00_a
   {1,1,0},
   {2,2,0},
   {5,3,0},
@@ -977,10 +987,10 @@ local bodyFova={
   {107,32,1},--PF armor
   {108,33,1},--PF armor
   {109,34,1},--PF armor
-  {110,35,0},
-  {111,36,0},
-  {112,37,0},
-  {113,38,0},
+  {110,35,0},--prs2_main0_v00
+  {111,36,0},--prs5_main0_v00
+  {112,37,0},--prs3_main0_v00
+  {113,38,0},--prs6_main0_v00
   {115,39,0},
   {116,40,0},
   {117,41,0},
@@ -1158,18 +1168,18 @@ local bodyFova={
   {355,213,0},
   {356,214,0},
   {357,215,0},
-  {370,216,0},
-  {371,217,0},
-  {372,218,0},
-  {373,219,0},
-  {374,220,0},
-  {375,221,0},
-  {376,222,0},
-  {377,223,0},
-  {378,224,0},
-  {379,225,0},
-  {380,226,0},
-  {381,227,0}
+  {370,216,0},--oce0_main0_v00
+  {371,217,0},--oce0_main0_v01
+  {372,218,0},--oce0_main0_v02
+  {373,219,0},--prs7_main0_v00
+  {374,220,0},--prs7_main0_v01
+  {375,221,0},--wsp_def
+  {376,222,0},--wsp_dam
+  {377,223,0},--hyu0_main0_v00
+  {378,224,0},--hyu0_main0_v01
+  {379,225,0},--hyu0_main0_v02
+  {380,226,0},--ish0_v00
+  {381,227,0},--ish0_v01
 }
 if TppSoldierFace~=nil then
   TppSoldierFace.SetBodyFovaDefinitionTable{table=bodyFova}

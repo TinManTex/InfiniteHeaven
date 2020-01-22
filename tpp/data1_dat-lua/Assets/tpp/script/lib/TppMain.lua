@@ -614,7 +614,7 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
       if isGroundStart then--tex 10054,11054 mission timer fix, but doing all to be safe
         TppMission.ResetIsStartFromHelispace()
         TppMission.SetIsStartFromFreePlay()
-      end--
+      end--<
     elseif nextIsFreeMission then
       if TppLocation.IsMotherBase()then
         TppPlayer.SetStartStatusRideOnHelicopter()

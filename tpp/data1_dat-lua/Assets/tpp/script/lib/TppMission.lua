@@ -551,7 +551,7 @@ function this.ExecuteContinueFromCheckPoint(RENpopupId,a,RENdoMissionCallback)
         svars.chickCapEnabled=true
       end
     end
-    if this.IsHardMission(vars.missionCode)or Ivars.disableRetry:Is(1)then--tex 
+    if this.IsHardMission(vars.missionCode)or Ivars.disableRetry:Is(1)then--tex
       TppPlayer.UnsetRetryFlag()
     else
       if svars.chickCapEnabled then
@@ -1226,6 +1226,8 @@ function this.ExecuteMissionFinalize()
   local currentLocationCode=vars.locationCode
   local isHeliSpace,nextIsHeliSpace
   local isFreeMission,nextIsFreeMission
+  local isMotherBase--tex
+  local isZoo--tex
   if not(mvars.mis_isInterruptMissionEnd or(not TppSave.CanSaveMbMangementData()))then--RETAILPATCH 1070
     TppMotherBaseManagement.CheckMisogi()
   end--<
@@ -1239,6 +1241,8 @@ function this.ExecuteMissionFinalize()
     isFreeMission=this.IsFreeMission(vars.missionCode)
     nextIsHeliSpace=this.IsHelicopterSpace(gvars.mis_nextMissionCodeForMissionClear)
     nextIsFreeMission=this.IsFreeMission(gvars.mis_nextMissionCodeForMissionClear)
+    isMotherBase=TppLocation.IsMotherBase()--tex
+    isZoo=vars.missionCode==30150
     if mvars.heli_missionStartRoute then
       if Tpp.IsTypeString(mvars.heli_missionStartRoute)then
         gvars.heli_missionStartRoute=StrCode32(mvars.heli_missionStartRoute)
@@ -1309,9 +1313,19 @@ function this.ExecuteMissionFinalize()
     Gimmick.StoreSaveDataPermanentGimmickFromMissionAfterClear()
   end
   if isFreeMission then
-    if vars.missionCode==30150 then--
-      TppGimmick.DecrementCollectionRepopCount()--tex repop dec for plants on zoo
-    end--
+    --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear
+    if Ivars.mbCollectionRepop:Is(1) then--tex> repop count decrement for plants
+      if isZoo then
+      TppGimmick.DecrementCollectionRepopCount()
+      elseif isMotherBase then
+      --tex dont want it too OP
+        Ivars.mbRepopDiamondCountdown:Set(Ivars.mbRepopDiamondCountdown:Get()-1)
+        if Ivars.mbRepopDiamondCountdown:Is(0) then
+          Ivars.mbRepopDiamondCountdown:Reset()
+          TppGimmick.DecrementCollectionRepopCount()
+        end
+      end
+    end--<
     Gimmick.StoreSaveDataPermanentGimmickFromMission()
   end
   local lockStaffForMission={
@@ -1351,13 +1365,13 @@ function this.ExecuteMissionFinalize()
   TppPlayer.StoreSupplyCbox()
   TppPlayer.StoreSupportAttack()
   TppRadioCommand.StoreRadioState()
-  local offline=false
+  local RENoffline=false
   if vars.missionCode==10115 then
-    offline=true
+    RENoffline=true
   end
   local locationChange=(vars.locationCode~=currentLocationCode)
   if not isHeliSpace then
-    TppTerminal.AddStaffsFromTempBuffer(nil,offline)
+    TppTerminal.AddStaffsFromTempBuffer(nil,RENoffline)
   end
   TppClock.SaveMissionStartClock()
   TppWeather.SaveMissionStartWeather()
@@ -1374,7 +1388,7 @@ function this.ExecuteMissionFinalize()
     do
       i=true
     end
-    if i and(not offline)then
+    if i and(not RENoffline)then
       TppSave.SaveGameData(currentMissionCode,nil,nil,reserveNextMissionStartSave,true)
     end
     if mvars.mis_needSaveConfigOnNewMission then
@@ -1764,16 +1778,16 @@ function this.Messages()
       {msg="CalledFromStandby",sender="SupportHeli",func=function()
         if this.GetMissionName()~="s10020"then
           TppUI.ShowAnnounceLog"callHeliRecieved"
-          local e=TppSupportRequest.GetCallRescueHeliGmpCost()
-          TppTerminal.UpdateGMP{gmp=-e,gmpCostType=TppDefine.GMP_COST_TYPE.CALL_HELLI}
-          svars.supportGmpCost=svars.supportGmpCost+e
+          local gmp=TppSupportRequest.GetCallRescueHeliGmpCost()
+          TppTerminal.UpdateGMP{gmp=-gmp,gmpCostType=TppDefine.GMP_COST_TYPE.CALL_HELLI}
+          svars.supportGmpCost=svars.supportGmpCost+gmp
         end
         TppSound.ClearOnDecendingLandingZoneJingleFlag()
       end},
       {msg="DescendToLandingZone",func=function()
-        local e=this.CheckMissionClearOnOutOfMissionArea()
-        local n=svars.mis_canMissionClear
-        if e or n then
+        local missionClearOnOutOfMissionArea=this.CheckMissionClearOnOutOfMissionArea()
+        local canMissionClear=svars.mis_canMissionClear
+        if missionClearOnOutOfMissionArea or canMissionClear then
           TppSound.PostJingleOnDecendingLandingZone()
         else
           TppSound.PostJingleOnDecendingLandingZoneWithOutCanMissionClear()
@@ -1826,7 +1840,8 @@ function this.Messages()
       end}
     },
     Terminal={
-      {msg="MbDvcActCallRescueHeli",func=function(n,e)do
+      {msg="MbDvcActCallRescueHeli",func=function(n,e)
+      do
         if e==2 then
           TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.CALL_HELI_FIRST_TIME_HOT_ZONE)
         else
@@ -2034,13 +2049,13 @@ end
 function this.DisableInGameFlag()
   mvars.mis_missionStateIsNotInGame=true
 end
-function this.EnableInGameFlag(n)
+function this.EnableInGameFlag(resetMute)
   if(not gvars.usingNormalMissionSlot)and this.IsHelicopterSpace(vars.missionCode)then
-    n=true
+    resetMute=true
   end
   if gvars.mis_missionClearState<=TppDefine.MISSION_CLEAR_STATE.NOT_CLEARED_YET then
     mvars.mis_missionStateIsNotInGame=false
-    if not n then
+    if not resetMute then
       TppSoundDaemon.ResetMute"Loading"
     end
   else
@@ -2053,12 +2068,12 @@ function this.ExecuteSystemCallback(s,n)
     return e(n)
   end
 end
-function this.Init(n)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
   this.messageExecTableWhileLoading=Tpp.MakeMessageExecTable(this.MessagesWhileLoading())
-  local n=this.IsHelicopterSpace(vars.missionCode)
-  local e=this.IsFreeMission(vars.missionCode)
-  if((not n)and(not e))and(not TppLocation.IsCyprus())then
+  local isHeliSpace=this.IsHelicopterSpace(vars.missionCode)
+  local isFreeMission=this.IsFreeMission(vars.missionCode)
+  if((not isHeliSpace)and(not isFreeMission))and(not TppLocation.IsCyprus())then
     mvars.mis_isAlertOutOfMissionArea=true
   else
     mvars.mis_isAlertOutOfMissionArea=false
@@ -2332,17 +2347,18 @@ function this.Update()
   if mvars.mis_missionStateIsNotInGame then
     return
   end
-  local f,S,u,c=this.GetSyncMissionStatus()
+  local isSyncDefMissionClear,isSyncMissionClearType,isSyncDefGameOver,isSyncGameOverType=this.GetSyncMissionStatus()
   local isAlertOutOfMissionArea=mvars.mis_isAlertOutOfMissionArea
   local isOutsideOfMissionArea=mvars.mis_isOutsideOfMissionArea
   local isOutsideOfHotZone=mvars.mis_isOutsideOfHotZone
   local canMissionClear=svars.mis_canMissionClear
-  if f and S then
+  if isSyncDefMissionClear and isSyncMissionClearType then
     TppMain.DisableGameStatus()
     HighSpeedCamera.RequestToCancel()
     this.EstablishedMissionClear(svars.mis_missionClearType)
-  elseif u and c then
-    TppMain.DisableGameStatus()HighSpeedCamera.RequestToCancel()
+  elseif isSyncDefGameOver and isSyncGameOverType then
+    TppMain.DisableGameStatus()
+    HighSpeedCamera.RequestToCancel()
     if mvars.mis_isAborting then
       this.EstablishedMissionAbort()
     else
@@ -2421,26 +2437,29 @@ function this.GetSyncMissionStatus()
   local svars=svars
   local isHost=TppNetworkUtil.IsHost()
   local isSessionConnect=TppNetworkUtil.IsSessionConnect()
-  local isMisisonClear=false
-  local i=false
-  local isGameOver=false
-  local s=false
+  local isSyncDefMissionClear=false
+  local isSyncMissionClearType=false
+  local isSyncDefGameOver=false
+  local isSyncGameOverType=false
   if isHost then
-    isMisisonClear=svars.mis_isDefiniteMissionClear and SVarsIsSynchronized"mis_isDefiniteMissionClear"
-    i=SVarsIsSynchronized"mis_missionClearType"isGameOver=svars.mis_isDefiniteGameOver and SVarsIsSynchronized"mis_isDefiniteGameOver"s=SVarsIsSynchronized"mis_gameOverType"else
+    isSyncDefMissionClear=svars.mis_isDefiniteMissionClear and SVarsIsSynchronized"mis_isDefiniteMissionClear"
+    isSyncMissionClearType=SVarsIsSynchronized"mis_missionClearType"
+    isSyncDefGameOver=svars.mis_isDefiniteGameOver and SVarsIsSynchronized"mis_isDefiniteGameOver"
+    isSyncGameOverType=SVarsIsSynchronized"mis_gameOverType"
+  else
     if isSessionConnect then
-      isMisisonClear=svars.mis_isDefiniteMissionClear
-      i=true
-      isGameOver=svars.mis_isDefiniteGameOver
-      s=svars.mis_gameOverType
+      isSyncDefMissionClear=svars.mis_isDefiniteMissionClear
+      isSyncMissionClearType=true
+      isSyncDefGameOver=svars.mis_isDefiniteGameOver
+      isSyncGameOverType=svars.mis_gameOverType
     else
-      isMisisonClear=mvars.mis_isReserveMissionClear
-      i=true
-      isGameOver=mvars.mis_isDefiniteGameOver
-      s=true
+      isSyncDefMissionClear=mvars.mis_isReserveMissionClear
+      isSyncMissionClearType=true
+      isSyncDefGameOver=mvars.mis_isDefiniteGameOver
+      isSyncGameOverType=true
     end
   end
-  return isMisisonClear,i,isGameOver,s
+  return isSyncDefMissionClear,isSyncMissionClearType,isSyncDefGameOver,isSyncGameOverType
 end
 function this.SeizeReliefVehicleOnAbort()
   if mvars.mis_abortIsTitleMode then
@@ -2862,20 +2881,20 @@ function this.SetMissionOrderBoxPosition()
   if gvars.mis_orderBoxName==0 then
     return
   end
-  local n=this.FindOrderBoxName(gvars.mis_orderBoxName)
-  return this._SetMissionOrderBoxPosition(n)
+  local boxName=this.FindOrderBoxName(gvars.mis_orderBoxName)
+  return this._SetMissionOrderBoxPosition(boxName)
 end
-function this._SetMissionOrderBoxPosition(n)
-  local e,i=this.GetOrderBoxLocator(n)
-  if e then
-    local n=Vector3(0,-.75,1.98)
-    local s=Vector3(e[1],e[2],e[3])
-    local e=-Quat.RotationY(TppMath.DegreeToRadian(i)):Rotate(n)
-    local e=e+s
-    local n=TppMath.Vector3toTable(e)
-    local e=i
-    TppPlayer.SetInitialPosition(n,e)
-    TppPlayer.SetMissionStartPosition(n,e)
+function this._SetMissionOrderBoxPosition(boxName)
+  local boxPosition,boxRotation=this.GetOrderBoxLocator(boxName)
+  if boxPosition then
+    local posOffset=Vector3(0,-.75,1.98)
+    local fixedPos=Vector3(boxPosition[1],boxPosition[2],boxPosition[3])
+    local rotQuat=-Quat.RotationY(TppMath.DegreeToRadian(boxRotation)):Rotate(posOffset)
+    local position=rotQuat+fixedPos
+    local positionVecTable=TppMath.Vector3toTable(position)
+    local rotationDeg=boxRotation
+    TppPlayer.SetInitialPosition(positionVecTable,rotationDeg)
+    TppPlayer.SetMissionStartPosition(positionVecTable,rotationDeg)
     return true
   end
 end
@@ -3161,7 +3180,7 @@ function this.ShowUpdateObjective(n)
       end
     end
     TppSoundDaemon.PostEvent"sfx_s_terminal_data_fix"
-    end
+  end
   mvars.mis_objectiveSetting=nil
   mvars.mis_updateObjectiveRadioGroupName=nil
   mvars.mis_updateObjectiveOnHelicopterStart=nil
@@ -3621,7 +3640,12 @@ function this.ResetQuietEquipIfUndevelop()--RETAILPATCH: 1060
 end
 end--
 local mbMission={[30050]=true,[50050]=true}
-local clearType={[TppDefine.MISSION_CLEAR_TYPE.ON_FOOT]=true,[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER]=true,[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_VEHILCE]=true,[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_FULTON_CONTAINER]=true}
+local clearType={
+[TppDefine.MISSION_CLEAR_TYPE.ON_FOOT]=true,
+[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER]=true,
+[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_VEHILCE]=true,
+[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_FULTON_CONTAINER]=true
+}
 function this.ForceGoToMbFreeIfExistMbDemo()
   if mbMission[vars.missionCode]then
     return

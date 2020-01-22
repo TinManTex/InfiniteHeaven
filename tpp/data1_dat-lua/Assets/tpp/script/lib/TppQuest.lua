@@ -336,13 +336,13 @@ local questPhotos={
   diamond_q80600="key_photo_1004",
   lab_q80700="key_photo_1001"
 }
-local RENAMEquestEmblems={
+local questEmblems={
   mtbs_q99060={"base44","front62"},
   sovietBase_q99020={"word14","word15","word51","front49"},
   sovietBase_q99030={"word122","word123","word124","word125","word126"},
   tent_q99040={"word78","word79","word87","word91"}
 }
-local m={"quest_q20015","quest_q20085","quest_q20205","quest_q20705","quest_q20095"}
+local RENsetLockedTanQuests={"quest_q20015","quest_q20085","quest_q20205","quest_q20705","quest_q20095"}
 local canOpenQuestChecks={}
 function canOpenQuestChecks.waterway_q99010()
   return TppStory.IsOccuringBossQuiet()
@@ -537,7 +537,8 @@ function canOpenQuestChecks.quest_q20055()
   return t and e
 end
 function canOpenQuestChecks.quest_q20065()
-  return this.IsCleard"ruins_q60115"end
+  return this.IsCleard"ruins_q60115"
+end
 function canOpenQuestChecks.quest_q20075()
   local t=TppStory.IsMissionCleard(10044)
   local e=this.IsCleard"quest_q20025"
@@ -1137,20 +1138,20 @@ function this.IsOpenLocation(e)
   end
   return true
 end
-local RENAMEsomeConditions={}
-function RENAMEsomeConditions.mtbs_wait_quiet()
+local checkQuestFuncs={}
+function checkQuestFuncs.mtbs_wait_quiet()
   return TppStory.CanArrivalQuietInMB()
 end
-function RENAMEsomeConditions.Mtbs_child_dog()
+function checkQuestFuncs.Mtbs_child_dog()
   local e=TppBuddyService.CanSortieBuddyType(BuddyType.DOG)
   local t=not TppStory.IsNowOccurringElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME)
   return(not e)and t
 end
-function RENAMEsomeConditions.Mtbs_ddog_walking()
+function checkQuestFuncs.Mtbs_ddog_walking()
   local e=TppBuddyService.IsDeadBuddyType(BuddyType.DOG)
   return(not e)
 end
-function RENAMEsomeConditions.cliffTown_q99080()
+function checkQuestFuncs.cliffTown_q99080()
   local t=TppMotherBaseManagement.IsExistStaff{uniqueTypeId=110}
   local e=TppStory.IsMissionCleard(10240)
   return t or e
@@ -1324,8 +1325,8 @@ function this.Clear(questName)
   TppMission.SetPlayRecordClearInfo()--RETAILPATCH 1070
   TppChallengeTask.RequestUpdate"SIDEOPS"--RETAILPATCH 1070
   TppUiCommand.SetSideOpsListUpdate()
-  for n,e in ipairs(m)do
-    if questName==e then
+  for n,name in ipairs(RENsetLockedTanQuests)do
+    if questName==name then
       TppMotherBaseManagement.SetLockedTanFlag{locked=false}
       return
     end
@@ -1438,7 +1439,7 @@ end
 function this.OnAllocate(t)
   this.SetDefaultQuestBlock()
 end
-function this.Init(t)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.OnReload(t)
@@ -2199,6 +2200,7 @@ function this.UpdateActiveQuest(debugUpdate)
     return
   end
 
+
   local unlockedName=nil--tex unlockSideOpNumber>
   local unlockedArea=nil
   if Ivars.unlockSideOpNumber:Is()>0 then--tex find name and area for unlocksideop SANITY:
@@ -2233,8 +2235,8 @@ function this.UpdateActiveQuest(debugUpdate)
           if questIndex then
             gvars.qst_questActiveFlag[questIndex]=false
             --NMC: -v- some list of conditions, not as big as the 't' list
-            local RENAMEsomeCondition=RENAMEsomeConditions[questName]
-            if this.IsOpen(questName)and(not RENAMEsomeCondition or RENAMEsomeCondition())and(not InfMain.BlockQuest(questName)) then--tex added blockQuest
+            local CheckQuestFunc=checkQuestFuncs[questName]
+            if  this.IsOpen(questName)and(not CheckQuestFunc or CheckQuestFunc())and(not InfMain.BlockQuest(questName)) then--tex added blockQuest
               if not this.IsCleard(questName)then
                 if info.isStory then
                   table.insert(storyQuests,questName)
@@ -2304,7 +2306,7 @@ function this.UpdateActiveQuest(debugUpdate)
     gvars.qst_failedIndex[i]=-1
   end
   TppUiCommand.SetSideOpsListUpdate()
-  for i,questName in ipairs(m)do
+  for i,questName in ipairs(RENsetLockedTanQuests)do
     if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]==true then
       TppMotherBaseManagement.SetLockedTanFlag{locked=true}
       return
@@ -2569,7 +2571,7 @@ function this.UpdateRepopFlagImpl(locationQuests)
         numOpen=numOpen+1
       end
       if this.IsRepop(questName)or not this.IsCleard(questName)then
-        local e=RENAMEsomeConditions[questName]
+        local e=checkQuestFuncs[questName]
         if(e==nil)or e()then
           return
         end
@@ -2583,7 +2585,7 @@ function this.UpdateRepopFlagImpl(locationQuests)
     if this.IsCleard(questInfo.name)and (not questInfo.isOnce or Ivars.unlockSideOps:Get()~=0) then--tex added issub
       gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=true
     end
-    local e=RENAMEsomeConditions[questInfo.name]
+    local e=checkQuestFuncs[questInfo.name]
     if e and(not e())then--and Ivars.unlockSideOps:Is(0) then --tex
       gvars.qst_questRepopFlag[TppDefine.QUEST_INDEX[questInfo.name]]=false
     end
@@ -2707,7 +2709,7 @@ function this.GetClearKeyItem(t)
   end
 end
 function this.GetClearEmblem(e)
-  local e=RENAMEquestEmblems[e]
+  local e=questEmblems[e]
   if e then
     for t,e in ipairs(e)do
       TppEmblem.Add(e,false,true)
@@ -2784,29 +2786,29 @@ function this.ShowAnnounceLog(status,questName,u,l)
     end
   end
 end
-function this.IsRandomFaceQuestName(t)
-  if t==nil then
-    t=this.GetCurrentQuestName()
-    if t==nil then
+function this.IsRandomFaceQuestName(questName)
+  if questName==nil then
+    questName=this.GetCurrentQuestName()
+    if questName==nil then
       return
     end
   end
-  local e=TppDefine.QUEST_RANDOM_FACE_INDEX[t]
+  local e=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
   if e then
     return true
   end
   return false
 end
-function this.GetRandomFaceId(t)
-  if t==nil then
-    t=this.GetCurrentQuestName()
-    if t==nil then
+function this.GetRandomFaceId(questName)
+  if questName==nil then
+    questName=this.GetCurrentQuestName()
+    if questName==nil then
       return
     end
   end
-  local e=TppDefine.QUEST_RANDOM_FACE_INDEX[t]
-  if e then
-    return gvars.qst_randomFaceId[e]
+  local faceIndex=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
+  if faceIndex then
+    return gvars.qst_randomFaceId[faceIndex]
   end
 end
 function this.SetRandomFaceId(e,t)
@@ -3116,22 +3118,22 @@ function this.AcquireKeyItemOnMissionStart()
     end
   end
   do
-    local t=110
-    if this.IsCleard"cliffTown_q99080"and not TppMotherBaseManagement.IsExistStaff{uniqueTypeId=t}then
-      local e=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=t}
-      TppMotherBaseManagement.DirectAddStaff{staffId=e}
+    local uniqueTypeId=110
+    if this.IsCleard"cliffTown_q99080"and not TppMotherBaseManagement.IsExistStaff{uniqueTypeId=uniqueTypeId}then
+      local staffId=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=uniqueTypeId}
+      TppMotherBaseManagement.DirectAddStaff{staffId=staffId}
     end
-    local t=111
-    if this.IsCleard"quest_q20095"and not TppMotherBaseManagement.IsExistStaff{uniqueTypeId=t}then
-      local e=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=t}
-      TppMotherBaseManagement.DirectAddStaff{staffId=e}
+    local uniqueTypeId=111
+    if this.IsCleard"quest_q20095"and not TppMotherBaseManagement.IsExistStaff{uniqueTypeId= uniqueTypeId}then
+      local staffId=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=uniqueTypeId}
+      TppMotherBaseManagement.DirectAddStaff{staffId=staffId}
       TppMotherBaseManagement.SetLockedTanFlag{locked=false}
     end
   end
   do
-    for t,n in pairs(RENAMEquestEmblems)do
-      if this.IsCleard(t)then
-        this.GetClearEmblem(t)
+    for questName,emblems in pairs(questEmblems)do
+      if this.IsCleard(questName)then
+        this.GetClearEmblem(questName)
       end
     end
   end

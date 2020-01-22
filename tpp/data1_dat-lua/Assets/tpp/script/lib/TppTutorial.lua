@@ -707,7 +707,7 @@ end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-function this.Init(T)
+function this.Init(missionTable)
   this.MakeMessageExecTable()
   this.OpenTipsOnCurrentStory()
   this.SetEnemyHeliMessageWithinRange()

@@ -42,9 +42,9 @@ function this.OnAllocate()
   mvars.mis_checkPointList={}
 end
 function this.Init()
-  local n=this.Messages()
-  if n then
-    this.messageExecTable=Tpp.MakeMessageExecTable(n)
+  local messagesTable=this.Messages()
+  if messagesTable then
+    this.messageExecTable=Tpp.MakeMessageExecTable(messagesTable)
   end
 end
 function this.OnReload()
@@ -167,8 +167,8 @@ function this.Update(n)
   if checkPoint~=nil and not this.IsEnable(checkPoint)then
     return
   end
-  local t,t,n,t=TppMission.GetSyncMissionStatus()
-  if n then
+  local isSyncDefMissionClear,isSyncMissionClearType,isSyncDefGameOver,isSyncGameOverType=TppMission.GetSyncMissionStatus()
+  if isSyncDefGameOver then
     return
   end
   if not permitHelicopter and IsHelicopter(vars.playerVehicleGameObjectId)then

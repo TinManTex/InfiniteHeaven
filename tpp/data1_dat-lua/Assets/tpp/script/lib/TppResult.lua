@@ -183,7 +183,7 @@ function this.SetMissionFinalScore()
   this.CalcEachScore()
   local n=this.CalcTotalScore()
   local t=this.DecideMissionClearRank()
-  local a
+  local updateGmpOnMissionClear
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
@@ -203,21 +203,21 @@ function this.SetMissionFinalScore()
   if(vars.playerType==PlayerType.DD_MALE or vars.playerType==PlayerType.DD_FEMALE)then
     TppTrophy.Unlock(11)
   end
-  a=this.UpdateGmpOnMissionClear(vars.missionCode,t,n)
+  updateGmpOnMissionClear=this.UpdateGmpOnMissionClear(vars.missionCode,t,n)
   if vars.totalBatteryPowerAsGmp then
     TppUiCommand.SetResultBatteryGmp(vars.totalBatteryPowerAsGmp)--RETAILPATCH: 1060 added
     TppTerminal.UpdateGMP{gmp=vars.totalBatteryPowerAsGmp}
   end
   this.SetBestRank(vars.missionCode,t)
-  if a then
-    local t=this.CalcMissionClearHistorySize()
-    this.SetMissionClearHistorySize(t)
+  if updateGmpOnMissionClear then
+    local size=this.CalcMissionClearHistorySize()
+    this.SetMissionClearHistorySize(size)
     this.AddMissionClearHistory(vars.missionCode)
   end
   if vars.missionCode==10020 then
     if TppStory.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RECUE_MILLER then
-      local e=TppMotherBaseManagement.GetGmp()
-      gvars.firstRescueMillerClearedGMP=e
+      local gmp=TppMotherBaseManagement.GetGmp()
+      gvars.firstRescueMillerClearedGMP=gmp
     end
   end
   if mvars.res_enablePlayStyle then
@@ -364,7 +364,7 @@ function this.DeclareSVars()
     nil
   }
 end
-function this.Init(t)
+function this.Init(missionTable)
   this.SetRankTable(this.RANK_THRESHOLD)
   this.SetScoreTable(this.COMMON_SCORE_PARAM)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
@@ -374,38 +374,38 @@ function this.Init(t)
     end
   end
   do
-    for t,e in ipairs{10043,11043}do
-      local e=TppDefine.MISSION_ENUM[tostring(e)]
+    for t,missionCode in ipairs{10043,11043}do
+      local e=TppDefine.MISSION_ENUM[tostring(missionCode)]
       if gvars.res_bestRank[e]==TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED then
         gvars.res_bestRank[e]=TppDefine.MISSION_CLEAR_RANK.E+1
       end
     end
   end
-  if t.sequence then
-    if t.sequence.NO_TAKE_HIT_COUNT then
+  if missionTable.sequence then
+    if missionTable.sequence.NO_TAKE_HIT_COUNT then
       mvars.res_noTakeHitCount=true
     end
-    if t.sequence.NO_TACTICAL_TAKE_DOWN then
+    if missionTable.sequence.NO_TACTICAL_TAKE_DOWN then
       mvars.res_noTacticalTakeDown=true
     end
-    if t.sequence.NO_RESULT then
+    if missionTable.sequence.NO_RESULT then
       mvars.res_noResult=true
       mvars.res_noTakeHitCount=true
       mvars.res_noTacticalTakeDown=true
     end
-    if t.sequence.NO_PLAY_STYLE then
+    if missionTable.sequence.NO_PLAY_STYLE then
       mvars.res_enablePlayStyle=false
     else
       mvars.res_enablePlayStyle=true
     end
-    if t.sequence.NO_AQUIRE_GMP then
+    if missionTable.sequence.NO_AQUIRE_GMP then
       mvars.res_noAquireGmp=true
     end
-    if t.sequence.NO_MISSION_CLEAR_RANK then
+    if missionTable.sequence.NO_MISSION_CLEAR_RANK then
       mvars.res_noMissionClearRank=true
     end
-    if t.sequence.specialBonus then
-      local e=t.sequence.specialBonus.first
+    if missionTable.sequence.specialBonus then
+      local e=missionTable.sequence.specialBonus.first
       if e then
         mvars.res_isExistFirstSpecialBonus=true
         if e.maxCount then
@@ -426,7 +426,7 @@ function this.Init(t)
           end
         end
       end
-      local e=t.sequence.specialBonus.second
+      local e=missionTable.sequence.specialBonus.second
       if e then
         mvars.res_isExistSecondSpecialBonus=true
         if e.maxCount then
@@ -449,12 +449,12 @@ function this.Init(t)
       end
     end
     mvars.res_rankLimitedSetting={}
-    if t.sequence.rankLimitedSetting then
-      mvars.res_rankLimitedSetting=t.sequence.rankLimitedSetting
+    if missionTable.sequence.rankLimitedSetting then
+      mvars.res_rankLimitedSetting=missionTable.sequence.rankLimitedSetting
     end
     mvars.res_hitRatioBonusParam={hitRatioBaseScoreUnit=30,numOfBulletsPerNeutralizeCount=10,exponetHitRatio=6,limitHitRatioBonus=1e3,perfectBonusBase=3e4}
-    if t.sequence.hitRatioBonusParam then
-      for e,t in pairs(t.sequence.hitRatioBonusParam)do
+    if missionTable.sequence.hitRatioBonusParam then
+      for e,t in pairs(missionTable.sequence.hitRatioBonusParam)do
         mvars.res_hitRatioBonusParam[e]=t
       end
     end
@@ -465,8 +465,8 @@ function this.Init(t)
   if mvars.res_noResult then
     return
   end
-  if t.score and t.score.missionScoreTable then
-    this.SetMissionScoreTable(t.score.missionScoreTable)
+  if missionTable.score and missionTable.score.missionScoreTable then
+    this.SetMissionScoreTable(missionTable.score.missionScoreTable)
   else
     this.SetMissionScoreTable{baseTime={S=300,A=600,B=1800,C=5580,D=6480,E=8280},tacticalTakeDownPoint={countLimit=40},missionUniqueBonus={5e3,5e3}}
   end
@@ -752,71 +752,73 @@ function this.CalcTotalScore()
   return a
 end
 function this.DecideMissionClearRank()
-  local t
-  local s=svars.bestScore
-  local a=#TppDefine.MISSION_CLEAR_RANK_LIST
+  local bestRank
+  local bestScore=svars.bestScore
+  local numClearRanks=#TppDefine.MISSION_CLEAR_RANK_LIST
   if not mvars.res_noMissionClearRank then
-    for e=1,a do
-      local a=TppDefine.MISSION_CLEAR_RANK_LIST[e]
-      if s>=mvars.res_rankTable[a]then
-        t=e
+    for n=1,numClearRanks do
+      local rank=TppDefine.MISSION_CLEAR_RANK_LIST[n]
+      if bestScore>=mvars.res_rankTable[rank]then
+        bestRank=n
         break
       end
     end
-    if t==nil then
-      t=a
+    if bestRank==nil then
+      bestRank=numClearRanks
     end
   else
-    t=TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED
+    bestRank=TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED
   end
   if this.IsUsedRankLimitedItem()then
-    if t==TppDefine.MISSION_CLEAR_RANK.S then
-      t=TppDefine.MISSION_CLEAR_RANK.A
+    if bestRank==TppDefine.MISSION_CLEAR_RANK.S then
+      bestRank=TppDefine.MISSION_CLEAR_RANK.A
     end
   end
-  svars.bestRank=t
+  svars.bestRank=bestRank
   return svars.bestRank
 end
-function this.UpdateGmpOnMissionClear(t,a,n)
-  local s=this.MISSION_GUARANTEE_GMP[t]
-  if not s then
+function this.UpdateGmpOnMissionClear(missionCode,a,n)
+  local guaranteeGmp=this.MISSION_GUARANTEE_GMP[missionCode]
+  if not guaranteeGmp then
     return
   end
-  if t==10020 and(not TppStory.IsMissionCleard(t))then
+  if missionCode==10020 and(not TppStory.IsMissionCleard(missionCode))then
     return
   end
-  local s=this.GetMissionGuaranteeGMP(t)svars.gmpClear=TppTerminal.CorrectGMP{gmp=s}
+  local guaranteedGmp=this.GetMissionGuaranteeGMP(missionCode)
+  svars.gmpClear=TppTerminal.CorrectGMP{gmp=guaranteedGmp}
   if a~=TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED then
-    local e=this.GetMissionClearRankGMP(a,t)e=e+n
-    svars.gmpOutcome=TppTerminal.CorrectGMP{gmp=e}
+    local missionClearGmp=this.GetMissionClearRankGMP(a,missionCode)
+    missionClearGmp=missionClearGmp+n
+    svars.gmpOutcome=TppTerminal.CorrectGMP{gmp=missionClearGmp}
   else
     svars.gmpOutcome=0
   end
-  local e=svars.gmpClear+svars.gmpOutcome
-  TppTerminal.UpdateGMP{gmp=e,withOutAnnouceLog=true}
-  return e
+  local gmp=svars.gmpClear+svars.gmpOutcome
+  TppTerminal.UpdateGMP{gmp=gmp,withOutAnnouceLog=true}
+  return gmp
 end
-function this.SetBestRank(t,e)
-  local a=TppDefine.MISSION_ENUM[tostring(t)]
-  if not a then
+function this.SetBestRank(missionCode,rank)
+  local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if not missionEnum then
     return
   end
-  if(e<TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED)or(e>#TppDefine.MISSION_CLEAR_RANK_LIST)then
+  if(rank<TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED)or(rank>#TppDefine.MISSION_CLEAR_RANK_LIST)then
     return
   end
-  if((t==10043)or(t==11043))and(e==TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED)then
+  if((missionCode==10043)or(missionCode==11043))and(rank==TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED)then
     return
   end
-  if e<gvars.res_bestRank[a]then
-    gvars.res_bestRank[a]=e
+  if rank<gvars.res_bestRank[missionEnum]then
+    gvars.res_bestRank[missionEnum]=rank
   end
 end
-function this.GetBestRank(e)
-  local e=TppDefine.MISSION_ENUM[tostring(e)]
-  if not e then
+function this.GetBestRank(missionCode)
+  local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if not missionEnum then
     return
   end
-  return gvars.res_bestRank[e]
+  return gvars.res_bestRank[missionEnum]
 end
 function this.GetMissionClearRankGMP(n,t)
   local s=this.GetBestRank(t)
@@ -838,44 +840,48 @@ function this.GetMissionClearRankGMP(n,t)
   return t
 end
 function this.GetMbMissionListParameterTable()
-  local s={}
-  for t,a in pairs(TppDefine.MISSION_ENUM)do
-    local t=tonumber(t)
-    local a={}a.missionId=t
-    if this.MISSION_GUARANTEE_GMP[t]then
-      a.baseGmp=this.MISSION_GUARANTEE_GMP[t]a.currentGmp=this.GetMissionGuaranteeGMP(t)
+  local missionListParameterTable={}
+  for missionCodeStr,enum in pairs(TppDefine.MISSION_ENUM)do
+    local missionCode=tonumber(missionCodeStr)
+    local missionParameters={}
+    missionParameters.missionId=missionCode
+    if this.MISSION_GUARANTEE_GMP[missionCode]then
+      missionParameters.baseGmp=this.MISSION_GUARANTEE_GMP[missionCode]
+      missionParameters.currentGmp=this.GetMissionGuaranteeGMP(missionCode)
     end
-    if this.MISSION_TASK_LIST[t]then
-      a.completedTaskNum=TppUI.GetTaskCompletedNumber(t)a.maxTaskNum=#this.MISSION_TASK_LIST[t]a.taskList=this.MISSION_TASK_LIST[t]
+    if this.MISSION_TASK_LIST[missionCode]then
+      missionParameters.completedTaskNum=TppUI.GetTaskCompletedNumber(missionCode)
+      missionParameters.maxTaskNum=#this.MISSION_TASK_LIST[missionCode]
+      missionParameters.taskList=this.MISSION_TASK_LIST[missionCode]
     end
-    table.insert(s,a)
+    table.insert(missionListParameterTable,missionParameters)
   end
-  return s
+  return missionListParameterTable
 end
-function this.GetMissionGuaranteeGMP(t)
-  local s=this.MISSION_GUARANTEE_GMP[t]
-  local a=this.GetRepeatPlayGMPReduceRatio(t)
-  local t
+function this.GetMissionGuaranteeGMP(missionCode)
+  local guaranteedGmp=this.MISSION_GUARANTEE_GMP[missionCode]
+  local repeatPlayReduceRatio=this.GetRepeatPlayGMPReduceRatio(missionCode)
+  local gmp
   if this.IsUsedChickCap()then
-    t=(s*a)/2
+    gmp=(guaranteedGmp*repeatPlayReduceRatio)/2
   else
-    t=s*a
+    gmp=guaranteedGmp*repeatPlayReduceRatio
   end
-  return t
+  return gmp
 end
 local a=.5
-function this.GetRepeatPlayGMPReduceRatio(t)
-  local e=this.GetMissionClearCountFromHistory(t)
-  local e=a^e
-  return e
+function this.GetRepeatPlayGMPReduceRatio(missionCode)
+  local missionClearCount=this.GetMissionClearCountFromHistory(missionCode)
+  local reduceRatio=a^missionClearCount
+  return reduceRatio
 end
 local a=0
-function this.AddMissionClearHistory(a)
-  local t=gvars.res_missionClearHistorySize-1
-  for e=t,0,-1 do
+function this.AddMissionClearHistory(missionCode)
+  local size=gvars.res_missionClearHistorySize-1
+  for e=size,0,-1 do
     gvars.res_missionClearHistory[e+1]=gvars.res_missionClearHistory[e]
   end
-  gvars.res_missionClearHistory[0]=a
+  gvars.res_missionClearHistory[0]=missionCode
   this.ClearOverSizeHistory(gvars.res_missionClearHistorySize)
 end
 function this.GetMissionClearCountFromHistory(a)

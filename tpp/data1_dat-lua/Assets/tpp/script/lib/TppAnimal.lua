@@ -22,7 +22,7 @@ function this.Messages()
 end
 function this.OnAllocate(e)
 end
-function this.Init(n)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
   mvars.ani_questTargetList={}
   mvars.ani_questGameObjectIdList={}

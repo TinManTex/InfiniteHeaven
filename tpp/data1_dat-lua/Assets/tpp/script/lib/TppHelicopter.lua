@@ -96,16 +96,16 @@ function this.GetLandingZoneExists(a)
   if not IsTypeTable(a)then
     return
   end
-  local t=a.landingZoneName
-  if not IsTypeString(t)then
+  local landingZoneName=a.landingZoneName
+  if not IsTypeString(landingZoneName)then
     return
   end
   if not mvars.hel_isExistSupportHelicopter then
     return
   end
-  local e=this.GetSupportHeliGameObjectId()
-  if e~=NULL_ID then
-    return GameObject.SendCommand(e,{id="DoesLandingZoneExists",name=t})
+  local heliId=this.GetSupportHeliGameObjectId()
+  if heliId~=NULL_ID then
+    return GameObject.SendCommand(heliId,{id="DoesLandingZoneExists",name=landingZoneName})
   else
     return false
   end
@@ -116,10 +116,10 @@ function this.SetNewestPassengerTable()
     return
   end
   local passengerIds
-  local e=this.GetSupportHeliGameObjectId()
-  if e~=NULL_ID then
-    passengerIds=SendCommand(e,{id="GetPassengerIdsStaffOnly"})
-    mvars.hel_passengerListGameObjectId=e
+  local heliId=this.GetSupportHeliGameObjectId()
+  if heliId~=NULL_ID then
+    passengerIds=SendCommand(heliId,{id="GetPassengerIdsStaffOnly"})
+    mvars.hel_passengerListGameObjectId=heliId
   else
     return
   end
@@ -127,11 +127,11 @@ function this.SetNewestPassengerTable()
     return
   end
   mvars.hel_heliPassengerTable={}
-  for n,e in ipairs(passengerIds)do
-    mvars.hel_heliPassengerTable[e]=true
+  for n,gameId in ipairs(passengerIds)do
+    mvars.hel_heliPassengerTable[gameId]=true
   end
   mvars.hel_heliPassengerList=passengerIds
-  mvars.hel_passengerListGameObjectId=e
+  mvars.hel_passengerListGameObjectId=heliId
 end
 function this.GetPassengerlist()
   return mvars.hel_heliPassengerList
@@ -166,8 +166,8 @@ function this.AdjustBuddyDropPoint()
   end
 end
 function this.Init(missionTable)
-  local gameId=GetGameObjectId("TppHeli2","SupportHeli")
-  if gameId==NULL_ID then
+  local heliId=GetGameObjectId("TppHeli2","SupportHeli")
+  if heliId==NULL_ID then
     mvars.hel_isExistSupportHelicopter=false
     return
   end
@@ -190,11 +190,11 @@ function this.Init(missionTable)
     return
   end
   if TppMission.IsHelicopterSpace(vars.missionCode)then
-    GameObject.SendCommand(gameId,{id="Realize"})
+    GameObject.SendCommand(heliId,{id="Realize"})
   else
     if gvars.heli_missionStartRoute~=0 then
       if not svars.ply_isUsedPlayerInitialAction then
-        GameObject.SendCommand(gameId,{id="SendPlayerAtRouteReady",route=gvars.heli_missionStartRoute})
+        GameObject.SendCommand(heliId,{id="SendPlayerAtRouteReady",route=gvars.heli_missionStartRoute})
       end
     end
   end
@@ -220,15 +220,15 @@ function this.SetNoTakeOffTime()
   GameObject.SendCommand(e,{id="SetTakeOffWaitTime",time=0})
 end
 function this.SetRouteToHelicopterOnStartMission()
-  local e=this.GetSupportHeliGameObjectId()
-  if(e==nil)then
+  local heliId=this.GetSupportHeliGameObjectId()
+  if(heliId==nil)then
     return
   end
-  if e==NULL_ID then
+  if heliId==NULL_ID then
     return
   end
   if gvars.heli_missionStartRoute~=0 then
-    GameObject.SendCommand(e,{id="SendPlayerAtRouteStart",isAssault=TppLandingZone.IsAssaultDropLandingZone(gvars.heli_missionStartRoute)})
+    GameObject.SendCommand(heliId,{id="SendPlayerAtRouteStart",isAssault=TppLandingZone.IsAssaultDropLandingZone(gvars.heli_missionStartRoute)})
   end
 end
 function this.ResetMissionStartHelicopterRoute()
@@ -237,7 +237,11 @@ end
 function this.GetMissionStartHelicopterRoute()
   return gvars.heli_missionStartRoute
 end
-local heliColors={[TppDefine.ENEMY_HELI_COLORING_TYPE.DEFAULT]={pack="",fova=""},[TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2"},[TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2"}}
+local heliColors={
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.DEFAULT]={pack="",fova=""},
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2"},
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2"}
+}
 function this.GetEnemyColoringPack(heliColoringType)
   return heliColors[heliColoringType].pack
 end

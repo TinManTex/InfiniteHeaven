@@ -256,10 +256,26 @@ this.warpPlayerCommand={--WIP
 
 this.DEBUG_SomeShiz={
   OnChange=function()
-  
-    local ins=InfInspect.Inspect(vars.weapons)
-    InfMenu.DebugPrint(ins)
 
+  InfMenu.DebugPrint("inf_repopDiamondCountdown=="..tostring(gvars.inf_repopDiamondCountdown))
+
+  
+  local clusterId=1
+  if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
+          local clusterParam=mvars.mbSoldier_clusterParamList[clusterId]
+          local cpId=GameObject.GetGameObjectId(clusterParam.CP_NAME)
+          if cpId==GameObject.NULL_ID then
+            InfMenu.DebugPrint("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
+          else
+                local currentPosition=GameObject.SendCommand(cpId,{id="GetPosition"})
+                if currentPosition then
+      InfMenu.DebugPrint(" pos:".. currentPosition:GetX()..",".. currentPosition:GetY().. ","..currentPosition:GetZ())
+      else
+      end
+          end
+        end
+        if true then return end
+--==================================
     local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
 
     --local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"
@@ -285,67 +301,67 @@ this.DEBUG_SomeShiz={
 
       local currentPosition=GameObject.SendCommand(gameId,{id="GetPosition"})
       InfMenu.DebugPrint(objectName.." pos:".. currentPosition:GetX()..",".. currentPosition:GetY().. ","..currentPosition:GetZ())
-      
-     -- if currentPosition:GetX()==startX and currentPosition:GetY()==startY and currentPosition:GetZ()==startZ then
 
-        local position=Vector3(9.8,0.9,-18)
-        local rotY=-180
+      -- if currentPosition:GetX()==startX and currentPosition:GetY()==startY and currentPosition:GetZ()==startZ then
 
-        --      local position=Vector3(44,8.511,-15.1)
-        --      local rotY=-180
-        --
-        --      local position=Vector3(.14,24.83,-5.37)
-        --      local rotY=79
+      local position=Vector3(9.8,0.9,-18)
+      local rotY=-180
 
-
-        local command={id="Warp",position=position,degRotationY = rotY}
-        GameObject.SendCommand(gameId,command)
-
-        -- local isReal=GameObject.SendCommand(gameId,{id="IsReal"})
-
-        --       local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_FLEE }
-        --  GameObject.SendCommand( gameId , command )
-        --
-        --  --TppEnemy.RegistHoldRecoveredState(objectName)
-        --
-        --  local command = {
-        --    id = "SetHostage2Flag",
-        --    flag = "unlocked",
-        --    on = true,
-        --  }
-        ----
-        -- GameObject.SendCommand( gameId, command )
+      --      local position=Vector3(44,8.511,-15.1)
+      --      local rotY=-180
+      --
+      --      local position=Vector3(.14,24.83,-5.37)
+      --      local rotY=79
 
 
+      local command={id="Warp",position=position,degRotationY = rotY}
+      GameObject.SendCommand(gameId,command)
 
-        --    local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_EXECUTE_READY }
-        --
-        --      GameObject.SendCommand( gameObjectId, { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_EXECUTED } )
+      -- local isReal=GameObject.SendCommand(gameId,{id="IsReal"})
 
-        --  local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_NORMAL }
-        --  GameObject.SendCommand( gameId , command )
+      --       local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_FLEE }
+      --  GameObject.SendCommand( gameId , command )
+      --
+      --  --TppEnemy.RegistHoldRecoveredState(objectName)
+      --
+      --  local command = {
+      --    id = "SetHostage2Flag",
+      --    flag = "unlocked",
+      --    on = true,
+      --  }
+      ----
+      -- GameObject.SendCommand( gameId, command )
 
-        --    local command = { id = "SetHostage2Flag", flag = "commonNpc", on = true, }
-        --    GameObject.SendCommand( gameId, command )
 
-        --    local cmdHosState = {
-        --        id = "SetHostage2Flag",
-        --        flag = "disableFulton",
-        --        on = true,
-        --    }
 
-        --oce0_main0_v00=370,
-        --oce0_main0_v01=371,
-        --oce0_main0_v02=372,
+      --    local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_EXECUTE_READY }
+      --
+      --      GameObject.SendCommand( gameObjectId, { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_EXECUTED } )
 
-        local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=371}
-        GameObject.SendCommand(gameId,command)
+      --  local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_NORMAL }
+      --  GameObject.SendCommand( gameId , command )
 
-        local position=GameObject.SendCommand(gameId,{id="GetPosition"})
-        InfMenu.DebugPrint(objectName.." pos:".. position:GetX()..",".. position:GetY().. ","..position:GetZ())
-      end
+      --    local command = { id = "SetHostage2Flag", flag = "commonNpc", on = true, }
+      --    GameObject.SendCommand( gameId, command )
 
-      InfMenu.DebugPrint("bop")
+      --    local cmdHosState = {
+      --        id = "SetHostage2Flag",
+      --        flag = "disableFulton",
+      --        on = true,
+      --    }
+
+      --oce0_main0_v00=370,
+      --oce0_main0_v01=371,
+      --oce0_main0_v02=372,
+
+      local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=371}
+      GameObject.SendCommand(gameId,command)
+
+      local position=GameObject.SendCommand(gameId,{id="GetPosition"})
+      InfMenu.DebugPrint(objectName.." pos:".. position:GetX()..",".. position:GetY().. ","..position:GetZ())
+    end
+
+    InfMenu.DebugPrint("bop")
     --end
 
 
@@ -422,23 +438,7 @@ this.DEBUG_SomeShiz={
 
     if true then return end
     -------------
-    if Ivars.selectedCp:Is()>0 then
-      local cpId=Ivars.selectedCp:Get()
-      local colorType=nil
-      --TppReinforceBlock._OnRequestLoadReinforce(cpId)
-      --TppReinforceBlock.StartReinforce()
-      --if not TppReinforceBlock.IsLoaded()then
-      --GameObject.SendCommand({type="TppCommandPost2"},{id="SetReinforceEnable"})
-      TppReinforceBlock.LoadReinforceBlock(TppReinforceBlock.REINFORCE_TYPE.HELI,cpId,colorType)
-      --end
-      --InfMain.ChangePhase(cpName,TppGameObject.PHASE_ALERT)
-      --      for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
-      --          this.ChangePhase(cpName,TppGameObject.PHASE_ALERT)
-      --      end
 
-      InfMenu.DebugPrint"past loadreinf"--DEBUG
-      TppReinforceBlock.StartReinforce(cpId)
-    end
     -----
     --InfMenu.DebugPrint"DEBUG_PrintSomeShiz"
     --InfMenu.DebugPrint("usermarkerposx: "..tostring(vars.userMarkerPosX))
@@ -460,6 +460,14 @@ this.DEBUG_SomeShiz={
 
 this.DEBUG_SomeShiz2={
   OnChange=function()
+    local ins=InfInspect.Inspect(InfMain.mbdvc_map_mbstage_parameter)
+    InfMenu.DebugPrint(ins)--
+
+    local ins=InfInspect.Inspect(InfMain.heliLandPointTable)
+    InfMenu.DebugPrint(ins)--
+
+    if true then return true end
+    --
     local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
 
     --   local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"
@@ -855,7 +863,9 @@ this.DEBUG_WarpToSoldier={
 
     --local soldierList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
 
-    local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
+    --local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
+    --local soldierList={"WestHeli0001","WestHeli0000","WestHeli0002"}
+    local soldierList={"EnemyHeli"}
 
     --local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
 

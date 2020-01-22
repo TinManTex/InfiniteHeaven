@@ -215,7 +215,7 @@ function this.OnAllocate()
   mvars.mar_searchTargetList={}
   mvars.mar_searchTargetPrePareList={}
 end
-function this.Init(a)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.OnMissionCanStart()

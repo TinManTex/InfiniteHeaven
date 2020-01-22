@@ -76,7 +76,11 @@ this.motherBaseMenu={
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
     Ivars.mbEnableBuddies,
     Ivars.mbEnableOcelot,
-    this.motherBaseShowAssetsMenu,    
+    Ivars.npcHeliUpdate,
+    Ivars.mbCollectionRepop,
+    this.motherBaseShowAssetsMenu,
+    Ivars.mbWargameFemales,
+    Ivars.mbEnemyHeliColor,  
     Ivars.mbWarGamesProfile,
   }
 }
@@ -470,10 +474,10 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUG    
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG 
-    --InfMenuCommands.DEBUG_WarpToSoldier,--DEBUG
     --Ivars.selectedCp,--DEBUG
     --Ivars.selectedChangeWeapon,--WIP DEBUG
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG

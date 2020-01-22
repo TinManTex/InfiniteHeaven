@@ -1,3 +1,8 @@
+-- DOBUILD: 1 --DEBUGNOW
+-- ORIGINALQAR: chunk3
+-- PACKPATH: \Assets\tpp\pack\location\mtbs\pack_common\mtbs_script.fpkd
+
+
 local mtbs_helicopter = {}
 local IsTypeTable = Tpp.IsTypeTable
 local IsTypeString = Tpp.IsTypeString
@@ -517,7 +522,8 @@ mtbs_helicopter.RequestHeliTaxi = function( gameObjectId, currentLandingZoneName
 	Fox.Log( "### heliTaxiSettings ("..tostring(heliTaxiSettings.currentClusterRoute).." , "..tostring(heliTaxiSettings.relayRoute).. " , "..tostring(heliTaxiSettings.nextClusterRoute).. ") ###" )
 	if heliTaxiSettings then
 		GameObject.SendCommand(
-			{ type = "TppHeli2", index = 0, },
+		  gameObjectId,--tex
+			--DEBUGNOW ORIG { type = "TppHeli2", index = 0, },
 			{
 				id="SetTaxiRoute",
 				currentClusterRoute = heliTaxiSettings.currentClusterRoute,
@@ -528,6 +534,7 @@ mtbs_helicopter.RequestHeliTaxi = function( gameObjectId, currentLandingZoneName
 	else
 		Fox.Log( " ### this.RequestHeliTaxi(): ignore operation because heliTaxiSettings is nil. ### " )
 	end
+	return heliTaxiSettings--tex
 end
 
 

@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r135"
+this.modVersion="r138"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -364,36 +364,38 @@ this.ddBodyInfo={
   },
   PF_ALL={
     maleBodyId={
-      TppEnemyBodyId.pfs0_rfl_v00_a,
-      TppEnemyBodyId.pfs0_rfl_v01_a,
-      TppEnemyBodyId.pfs0_mcg_v00_a,
-      TppEnemyBodyId.pfs0_snp_v00_a,
-      TppEnemyBodyId.pfs0_rdo_v00_a,
-      TppEnemyBodyId.pfs0_rfl_v00_b,
-      TppEnemyBodyId.pfs0_rfl_v01_b,
-      TppEnemyBodyId.pfs0_mcg_v00_b,
-      TppEnemyBodyId.pfs0_snp_v00_b,
-      TppEnemyBodyId.pfs0_rdo_v00_b,
-      TppEnemyBodyId.pfs0_rfl_v00_c,
-      TppEnemyBodyId.pfs0_rfl_v01_c,
-      TppEnemyBodyId.pfs0_mcg_v00_c,
-      TppEnemyBodyId.pfs0_snp_v00_c,
-      TppEnemyBodyId.pfs0_rdo_v00_c,
-      TppEnemyBodyId.pfa0_v00_b,
-      TppEnemyBodyId.pfa0_v00_c,
-      TppEnemyBodyId.pfa0_v00_a,
-      TppEnemyBodyId.pfs0_unq_v210,
-      TppEnemyBodyId.pfs0_unq_v250,
-      TppEnemyBodyId.pfs0_unq_v360,
-      TppEnemyBodyId.pfs0_unq_v280,
-      TppEnemyBodyId.pfs0_unq_v150,
-      TppEnemyBodyId.pfs0_unq_v220,
-      TppEnemyBodyId.pfs0_unq_v140,
-      TppEnemyBodyId.pfs0_unq_v241,
-      TppEnemyBodyId.pfs0_unq_v242,
-      TppEnemyBodyId.pfs0_unq_v450,
-      TppEnemyBodyId.pfs0_unq_v440,
-      TppEnemyBodyId.pfs0_unq_v155,
+    TppEnemyBodyId.pfs0_dds0_v00,
+    --DEBUGNOW
+--      TppEnemyBodyId.pfs0_rfl_v00_a,
+--      TppEnemyBodyId.pfs0_rfl_v01_a,
+--      TppEnemyBodyId.pfs0_mcg_v00_a,
+--      TppEnemyBodyId.pfs0_snp_v00_a,
+--      TppEnemyBodyId.pfs0_rdo_v00_a,
+--      TppEnemyBodyId.pfs0_rfl_v00_b,
+--      TppEnemyBodyId.pfs0_rfl_v01_b,
+--      TppEnemyBodyId.pfs0_mcg_v00_b,
+--      TppEnemyBodyId.pfs0_snp_v00_b,
+--      TppEnemyBodyId.pfs0_rdo_v00_b,
+--      TppEnemyBodyId.pfs0_rfl_v00_c,
+--      TppEnemyBodyId.pfs0_rfl_v01_c,
+--      TppEnemyBodyId.pfs0_mcg_v00_c,
+--      TppEnemyBodyId.pfs0_snp_v00_c,
+--      TppEnemyBodyId.pfs0_rdo_v00_c,
+--      TppEnemyBodyId.pfa0_v00_b,
+--      TppEnemyBodyId.pfa0_v00_c,
+--      TppEnemyBodyId.pfa0_v00_a,
+--      TppEnemyBodyId.pfs0_unq_v210,
+--      TppEnemyBodyId.pfs0_unq_v250,
+--      TppEnemyBodyId.pfs0_unq_v360,
+--      TppEnemyBodyId.pfs0_unq_v280,
+--      TppEnemyBodyId.pfs0_unq_v150,
+--      TppEnemyBodyId.pfs0_unq_v220,
+--      TppEnemyBodyId.pfs0_unq_v140,
+--      TppEnemyBodyId.pfs0_unq_v241,
+--      TppEnemyBodyId.pfs0_unq_v242,
+--      TppEnemyBodyId.pfs0_unq_v450,
+--      TppEnemyBodyId.pfs0_unq_v440,
+--      TppEnemyBodyId.pfs0_unq_v155,
     },
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
@@ -664,20 +666,20 @@ this.wildCardBodiesMafr={
   TppEnemyBodyId.pfs0_unq_v450,--red beret, brown leather top, light tan muddy pants
   TppEnemyBodyId.pfs0_unq_v440,--red beret, black leather top, black pants
 }
---see face and body ids.txt
-local maleFaceIds={
+--tex non exhaustive, see face and body ids.txt
+this.maleFaceIds={
   {min=0,max=303},
   {min=320,max=349},
 }
---TODO, there's still a couple of quest uniques that are single/not in a range, see face and body ids.txt
-local femaleFaceIds={
+
+this.femaleFaceIds={
   {min=350,max=399},--european
   {min=440,max=479},--african
   {min=500,max=519},--asian
 }
 --NOTE: make sure SetLevelRandomSeed is setup
-local function RandomFemaleFaceId()
-  local type=femaleFaceIds[math.random(#femaleFaceIds)]
+function this.RandomFaceId(rangedFaceList)
+  local type=rangedFaceList[math.random(#rangedFaceList)]
   return math.random(type.min,type.max)
 end
 --called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
@@ -692,7 +694,7 @@ function this.WildCardFova(bodies)
   local faces={}
   this.ene_wildCardFaceList={}
   for i=1,InfMain.MAX_WILDCARD_FACES do
-    local faceId=RandomFemaleFaceId()
+    local faceId=this.RandomFaceId(this.femaleFaceIds)
     table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
     table.insert(this.ene_wildCardFaceList,faceId)
   end
@@ -1685,7 +1687,9 @@ local blockQuests={
 }
 
 function this.BlockQuest(questName)
-  if vars.missionCode==30050 and Ivars.mbWarGamesProfile:Is()>1 then
+  --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
+  if vars.missionCode==30050 and Ivars.mbWarGamesProfile:Is()>0 then
+    --InfMenu.DebugPrint("actually BlockQuest "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG CULL
     return true
   end
 
@@ -1974,9 +1978,20 @@ function this.Messages()
       {msg="CancelReinforce",func=this.OnCancelReinforce},
       {msg="LostControl",func=this.OnHeliLostControlReinforce},--DOC: Helicopter shiz.txt
       {msg="VehicleBroken",func=this.OnVehicleBrokenReinforce},
+      {msg="Returned", --[[sender = "EnemyHeli",--]]
+        func = function(gameObjectId)
+        --InfMenu.DebugPrint("GameObject msg: Returned")--DEBUG
+        end
+      },
       {msg="RequestedHeliTaxi",func=function(gameObjectId,currentLandingZoneName,nextLandingZoneName)
         --InfMenu.DebugPrint("RequestedHeliTaxi currentLZ:"..currentLandingZoneName.. " nextLZ:"..nextLandingZoneName)--DEBUG
         end},
+      {msg="StartedPullingOut",func=function()
+        --InfMenu.DebugPrint("StartedPullingOut")--DEBUG
+        if TppMission.IsMbFreeMissions(vars.missionCode) then
+        --this.heliSelectClusterId=nil
+        end
+      end},
     },
     Player={
       {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers()},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
@@ -2004,13 +2019,18 @@ function this.Messages()
     },
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
-        --InfMenu.DebugPrint("MbDvcActSelectLandPoint:"..tostring(routeName))--DEBUG
-        end},
+        --InfMenu.DebugPrint("MbDvcActSelectLandPoint:"..tostring(routeName).. " "..tostring(clusterId))--DEBUG
+        this.heliSelectClusterId=clusterId
+      end},
       {msg="MbDvcActSelectLandPointTaxi",func=function(nextMissionId,routeName,layoutCode,clusterId)
-        --InfMenu.DebugPrint("MbDvcActSelectLandPointTaxi:"..tostring(routeName))--DEBUG
-        end},
+        --InfMenu.DebugPrint("MbDvcActSelectLandPointTaxi:"..tostring(routeName).. " "..tostring(clusterId))--DEBUG
+        this.heliSelectClusterId=clusterId
+      end},
       {msg="MbDvcActHeliLandStartPos",func=function(set,x,y,z)
         --InfMenu.DebugPrint("HeliLandStartPos:"..x..","..y..","..z)--DEBUG
+        end},
+      {msg="MbDvcActCallRescueHeli",func=function(param1,param2)
+        --InfMenu.DebugPrint("MbDvcActCallRescueHeli: "..tostring(param1).." ".. tostring(param2))--DEBUG
         end},
     },
   }
@@ -2020,7 +2040,9 @@ function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 
 function this.OnDead(gameId,killerId,playerPhase,deadMessageFlag)
-  --InfMenu.DebugPrint("InfMain.OnDead")
+  --InfMenu.DebugPrint("InfMain.OnDead")--DEBUG
+
+  if true then return end
   --  local heliId=GetGameObjectId(TppReinforceBlock.REINFORCE_HELI_NAME)--CULL not for heli I guess
   --  if heliId~=NULL_ID then
   --    if heliId==gameId then
@@ -2142,6 +2164,7 @@ local updateIvars={
   Ivars.adjustCameraUpdate,
   Ivars.heliUpdate,
   Ivars.npcUpdate,
+  Ivars.npcHeliUpdate,
 }
 
 this.initTest=0--DEBUGNOW
@@ -2186,6 +2209,10 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
     if IsFunc(ivar.ExecInit) then
       ivar.ExecInit()
     end
+  end
+
+  if vars.missionCode==30050 and Ivars.mbEnableFultonAddStaff:Is(1) then
+    mvars.trm_isAlwaysDirectAddStaff=false
   end
 
   this.UpdateHeliVars()
@@ -2244,7 +2271,7 @@ function this.Update()
 
     if not currentChecks.inHeliSpace then
       currentChecks.initialAction=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
-      --if not initialAction then
+      --if not initialAction then--DEBUG
       --InfMenu.DebugPrint"not initialAction"
       --end
       currentChecks.inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
@@ -2629,11 +2656,11 @@ function this.UpdateCameraManualMode()
       focalLength=focalLength:Get(),
       focusDistance=focusDistance:Get(),
       aperture=aperture:Get(),
-      targetInterpTime=.2,
+      targetInterpTime=.4,
       ignoreCollisionGameObjectName="Player",
       rotationLimitMinX=-90,
       rotationLimitMaxX=90,
-      alphaDistance=.5,
+      alphaDistance=0,
     }
   end
   Player.UpdateAroundCameraManualModeParams()
@@ -2861,7 +2888,9 @@ function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRa
     if Ivars.disablePullOutHeli:Is(1) then--or not currentChecks.initialAction then
       if InfButton.OnButtonDown(InfButton.STANCE) then
         --if not currentChecks.initialAction then--tex heli ride in TODO: RETRY: A reliable mission start parameter
+        --InfMenu.DebugPrint"STANCE"--DEBUG
         if IsTimerActive"Timer_MissionStartHeliDoorOpen" then
+          --InfMenu.DebugPrint"IsTimerActive"--DEBUG
           SendCommand(heliId,{id="RequestSnedDoorOpen"})
         else
           if Ivars.disablePullOutHeli:Is(1) then
@@ -2881,7 +2910,9 @@ end
 local commandCoreStartPos=Vector3(5.56,24.83,-5.57)
 local commandCoreStartRot=144
 
-local npcName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
+local npcList={
+  "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",
+}
 
 local npcRoutes={
   "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0000",
@@ -2891,11 +2922,31 @@ local npcRoutes={
   "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0004",
   "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0005",
 }
+local npcBodies={
+  {
+    TppEnemyBodyId.oce0_main0_v00,
+    TppEnemyBodyId.oce0_main0_v01,--glasses
+    --TppEnemyBodyId.oce0_main0_v02,--looks normal but may be defaulting/need a pack, no references but may be used in a demo
+  },
+}
+
+local npcTimes={}
+
+local routeTimeMin=3*60
+local routeTimeMax=6*60
 
 this.mbDemoWasPlay=false
 function this.InitNPCUpdate()
+  if vars.missionCode~=30050 then
+    return
+  end
+
   this.mbDemoWasPlay=false
   this.setupNpc=false
+
+  for n,npcName in ipairs(npcList)do
+    npcTimes[n]=0
+  end
 end
 function this.UpdateNPC(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
   if not currentChecks.inGame then
@@ -2906,7 +2957,7 @@ function this.UpdateNPC(currentChecks,currentTime,execChecks,execState,updateRat
     return
   end
 
-  if Ivars.mbEnableOcelot:Is(0) then
+  if Ivars.mbEnableOcelot:Is(0) or Ivars.mbWarGamesProfile:Is()>0 then
     return
   end
 
@@ -2918,40 +2969,304 @@ function this.UpdateNPC(currentChecks,currentTime,execChecks,execState,updateRat
 
   if not this.setupNpc then
     this.setupNpc=true
+
+    for n,npcName in ipairs(npcList) do
+      local gameId=GameObject.GetGameObjectId(npcName)
+      if gameId==GameObject.NULL_ID then
+      --InfMenu.DebugPrint("gameId==NULL_ID")
+      else
+        --InfMenu.DebugPrint("setupNpc")--DEBUG
+
+        if this.mbDemoWasPlay then
+        --InfMenu.DebugPrint("mbDemoWasPlay")--DEBUG
+        else
+          local command={id="Warp",position=commandCoreStartPos,degRotationY=commandCoreStartRot}
+          GameObject.SendCommand(gameId,command)
+        end
+
+        local command={id="SetEnabled",enabled=true}
+        GameObject.SendCommand(gameId,command)
+
+
+        local bodyId=npcBodies[n][math.random(#npcBodies[n])]--tex TODO: seed it if it's a big enough change to be jarring
+
+        local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=bodyId}
+        GameObject.SendCommand(gameId,command)
+        --if NULL_ID<
+      end
+      --for npcs
+    end
+    --if not setup<
+  end
+
+  for n,npcName in ipairs(npcList) do
     local gameId=GameObject.GetGameObjectId(npcName)
     if gameId==GameObject.NULL_ID then
     --InfMenu.DebugPrint("gameId==NULL_ID")
     else
-      --InfMenu.DebugPrint("setupNpc")--DEBUG
+      if npcTimes[n]< Time.GetRawElapsedTimeSinceStartUp() then
+        npcTimes[n]=Time.GetRawElapsedTimeSinceStartUp()+math.random(routeTimeMin,routeTimeMax)
 
-      if this.mbDemoWasPlay then
-      --InfMenu.DebugPrint("mbDemoWasPlay")--DEBUG
-      else
-        local command={id="Warp",position=commandCoreStartPos,degRotationY = commandCoreStartRot}
+        local routeIdx=math.random(#npcRoutes)
+
+        --        local routeTime=npcTimes[n]-Time.GetRawElapsedTimeSinceStartUp()--DEBUG
+        --        InfMenu.DebugPrint(npcName .. " routeIdx ".. routeIdx .. " for "..routeTime)--DEBUG
+
+        local command={id="SetSneakRoute",route=npcRoutes[routeIdx]}
         GameObject.SendCommand(gameId,command)
       end
-
-      local command={id="SetEnabled",enabled=true}
-      GameObject.SendCommand(gameId,command)
-
-      local ocelotBodies={
-        TppEnemyBodyId.oce0_main0_v00,
-        TppEnemyBodyId.oce0_main0_v01,
-        TppEnemyBodyId.oce0_main0_v02,
-      }
-      local bodyId=ocelotBodies[math.random(#ocelotBodies)]--tex TODO: seed it if it's a big enough change to be jarring
-
-      local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=bodyId}
-      GameObject.SendCommand(gameId,command)
-
-      local routeIdx=math.random(#npcRoutes)
-      --InfMenu.DebugPrint("routeIdx:"..routeIdx)--DEBUG
-      local command={id="SetSneakRoute",route=npcRoutes[routeIdx]}
-      GameObject.SendCommand(gameId,command)
     end
+    --for npcs<
   end
+
 end
 ---
+
+
+local npcHeliList={
+  "WestHeli0000",
+  "WestHeli0001",
+  "WestHeli0002",
+}
+
+--tex don't know if I want to use it anyway since there's a lot of other stuff tied to its name via quest heli and reinforce heli
+local enemyHeliList={
+  --"EnemyHeli",
+  "EnemyHeli0000",
+  "EnemyHeli0001",
+  "EnemyHeli0002",
+  "EnemyHeli0003",
+  "EnemyHeli0004",
+  "EnemyHeli0005",
+  "EnemyHeli0006",
+}
+
+
+local heliTimes={}
+local heliClusters={}
+local heliColorType
+
+local clusterTimeMin=3*60
+local clusterTimeMax=6*60
+
+local function ChooseRandomHeliCluster(heliClusters,heliTimes,supportHeliClusterId)
+  local cohabitTimeLimit=60
+  local blockClusters={}
+  for n,heliCluster in ipairs(heliClusters)do
+    if heliTimes[n]-Time.GetRawElapsedTimeSinceStartUp() > cohabitTimeLimit then
+      blockClusters[heliCluster]=true
+    end
+  end
+
+  if supportHeliClusterId then
+  --OFF blockClusters[supportHeliClusterId]=true--tex TODO need to find an accurate way to get the cluster, or lz of a called in heli
+  end
+
+  local clusterPool={}
+
+  for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do
+    local grade=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[clusterId]}
+    if grade>0 and not blockClusters[clusterId] then
+      table.insert(clusterPool,clusterId)
+    end
+  end
+
+  return clusterPool[math.random(#clusterPool)]
+end
+
+local heliColors={
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.DEFAULT]={pack="",fova=""},
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2"},
+  [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2"}
+}
+
+function this.InitNPCHeliUpdate()
+  if vars.missionCode~=30050 then
+    return
+  end
+
+  local heliList=npcHeliList
+  if Ivars.mbEnemyHeli:Is(1) then
+    heliList=enemyHeliList
+  end
+
+  for n,heliName in ipairs(heliList)do
+    heliTimes[n]=0
+    heliClusters[n]=0
+  end
+
+
+
+  --      local heliMeshTypes={
+  --        "uth_v00",
+  --        "uth_v01",
+  --        "uth_v02",
+  --      }
+  --      local meshType=heliMeshTypes[math.random(#heliMeshTypes)]
+  --      GameObject.SendCommand( heliObjectId, { id = "SetMeshType", typeName = meshType, } )
+
+  if Ivars.mbEnemyHeli:Is(1) then
+    local cpId
+    local clusterId=1
+    if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
+      local clusterParam = mvars.mbSoldier_clusterParamList[clusterId]
+      cpId=GetGameObjectId(clusterParam.CP_NAME)
+      if cpId==NULL_ID then
+        InfMenu.DebugPrint("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
+      end
+    end
+    if cpId then
+      if Ivars.mbEnemyHeli:Is(1) then
+        heliColorType=Ivars.mbEnemyHeliColor:Get()+1--tex SYNC: TppDefine.ENEMY_HELI_COLORING_TYPE
+      else
+        heliColorType=nil
+      end
+
+      --tex doesnt work at this point, probably needs the fpk to be loaded
+      local numClusters=#mvars.mbSoldier_clusterParamList
+      --InfMenu.DebugPrint("numClusters "..numClusters)--DEBUG
+
+      for n,heliName in ipairs(heliList)do
+        if n>numClusters-1 then
+          break
+        end
+        local heliObjectId = GetGameObjectId(heliName)
+        if heliObjectId==NULL_ID then
+          InfMenu.DebugPrint(heliName.."==NULL_ID")--DEBUG
+        else
+          SendCommand(heliObjectId,{id="SetColoring",coloringType=heliColorType,fova=heliColors[heliColorType].fova})
+        end
+      end
+      --if cpid--<
+    end
+    --if mbEnemyHeli--<
+  end
+end
+
+--REF DEBUGNOW CULL
+--  local heliRoute="ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_apr"
+--    --local heliRoute="ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_apr_lz_plnt"
+--    local heliRoute2="ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_rtn_lz_plnt"
+--      --      local warpPos=Vector3(9,150,-42)
+--      --GameObject.SendCommand( heliObjectId, { id = "SetForceRoute", route = heliRoute }
+
+--      local command = { id = "SetPosition", pos=warpPos, rotY=0 }
+--       GameObject.SendCommand(heliObjectId,command)
+----
+----             local command={id="Warp",position=warpPos,degRotationY = 0}
+----      GameObject.SendCommand(heliObjectId,command)
+----
+--          GameObject.SendCommand(heliObjectId, { id="Realize" })
+--          local command={id="SetEnabled",enabled=true}
+--      GameObject.SendCommand(heliObjectId,command)
+
+
+local searchLightOn={id="SetSearchLightForcedType",type="On"}
+local searchLightOff={id="SetSearchLightForcedType",type="On"}
+local nightCheckTime=0
+local nightCheckMax=20
+local prepSet=false--tex WORKAROUND
+local prevHeliMode=nil--tex WORKAROUND
+function this.UpdateNPCHeli(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  if not currentChecks.inGame then
+    return
+  end
+
+  if vars.missionCode~=30050 then
+    return
+  end
+
+  if Ivars.npcHeliUpdate:Is(0) and Ivars.mbEnemyHeli:Is(0) then
+    return
+  end
+
+  local enabledLzs=InfMain.enabledLzs
+
+  local heliList=npcHeliList
+  if Ivars.mbEnemyHeli:Is(1) then
+    heliList=enemyHeliList
+  end
+
+  --WORKAROUND
+  if prevHeliMode==nil or prevHeliMode~=heliList then
+    prepSet=false
+  end
+
+  local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
+  local isNight=WeatherManager.IsNight()
+  local numClusters=#mvars.mbSoldier_clusterParamList
+  for n,heliName in ipairs(heliList)do
+    if n>numClusters-1 then
+      break
+    end
+
+    local heliObjectId = GetGameObjectId(heliName)
+    if heliObjectId==NULL_ID then
+      InfMenu.DebugPrint(heliName.."==NULL_ID")--DEBUGNOW
+    else
+      --DEBUGNOW
+      --      if nightCheckTime<elapsedTime then
+      --        nightCheckTime=elapsedTime+nightCheckMax+math.random(3)
+      --
+      --        if isNight then--tex manual searchligh, don't know why they dont come on during approach route, they do with other routes
+      --        --DEBUGNOW doesn't seem to work for TppOtherHeli anyway, and Enemy manages to do it itself
+      --          SendCommand(heliObjectId,searchLightOn)
+      --        else
+      --          SendCommand(heliObjectId,searchLightOff)
+      --        end
+      --      end
+
+      if heliTimes[n]< elapsedTime then
+        if heliTimes[n]==0 and not prepSet then--and ~=startonfoot --tex WORKAROUND, if starting on heli then the first heli set, on the first game load doesnt work for some reason, even though restart of the mission and even a quit and restart of mission works. DEBUGNOW
+          prepSet=true
+          heliTimes[n]=10
+        else
+          heliTimes[n]=elapsedTime+math.random(clusterTimeMin,clusterTimeMax)
+        end
+
+        local prevCluster=heliClusters[n]--DEBUG
+        local clusterId=ChooseRandomHeliCluster(heliClusters,heliTimes,this.heliSelectClusterId)
+        heliClusters[n]=clusterId
+
+--        local clusterTime=heliTimes[n]-elapsedTime--DEBUGNOW
+--        InfMenu.DebugPrint(heliName .. " from ".. tostring(TppDefine.CLUSTER_NAME[prevCluster]) .." to cluster ".. tostring(TppDefine.CLUSTER_NAME[clusterId]) .. " for "..clusterTime)--DEBUG
+
+        if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
+          local clusterParam=mvars.mbSoldier_clusterParamList[clusterId]
+          local cpId=GetGameObjectId(clusterParam.CP_NAME)
+          if cpId==NULL_ID then
+            InfMenu.DebugPrint("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
+          else
+            SendCommand(heliObjectId,{id="SetCommandPost",cp=clusterParam.CP_NAME})
+          end
+        end
+
+        if enabledLzs and #enabledLzs>0 then
+          local clusterLzs=enabledLzs[clusterId]
+          if clusterLzs and #clusterLzs>0 then
+            local currentLandingZoneName=clusterLzs[math.random(#clusterLzs)]
+            local nextLandingZoneName=clusterLzs[math.random(#clusterLzs)]
+            local heliTaxiSettings=mtbs_helicopter.RequestHeliTaxi(heliObjectId, StrCode32(currentLandingZoneName), StrCode32(nextLandingZoneName) )
+            if heliTaxiSettings then
+              local currentClusterRoute=heliTaxiSettings.currentClusterRoute
+              local relayRoute=heliTaxiSettings.relayRoute
+              local nextClusterRoute=heliTaxiSettings.nextClusterRoute
+
+              SendCommand(heliObjectId,{id="SetForceRoute",route=currentClusterRoute})
+            else
+              InfMenu.DebugPrint("Warning: UpdateNPCHeli - no heliTaxiSettings for".. currentLandingZoneName .." ".. nextLandingZoneName)
+            end
+          end
+        end
+        -- is > heliTime--<
+      end
+      --not NULL_ID<
+    end
+    --for heliname<
+  end
+
+end
+
 function this.OnMenuOpen()
 
 end
@@ -3010,7 +3325,10 @@ function this.OnCancelReinforce(cpId)
 end
 
 function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopter shiz.txt
-  --InfMenu.DebugPrint"OnHeliLostControlReinforce"
+  --InfMenu.DebugPrint"OnHeliLostControlReinforce"--DEBUG
+
+  if true then return end--DEBUG
+
   local gameObjectType=GameObject.GetTypeIndex(gameId)
   if gameObjectType~=TppGameObject.GAME_OBJECT_TYPE_ENEMY_HELI then
     return
@@ -3042,7 +3360,10 @@ function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopt
 end
 
 function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after TppEnemy._OnVehicleBroken
-  --InfMenu.DebugPrint"OnVehicleBroken"
+  --InfMenu.DebugPrint"OnVehicleBroken"--DEBUG
+
+  if true then return end--DEBUG
+
   --local gameObjectType=GameObject.GetTypeIndex(vehicleId)
   local reinforceId=GetGameObjectId(TppReinforceBlock.REINFORCE_VEHICLE_NAME)
   if reinforceId~=vehicleId then
@@ -3132,7 +3453,7 @@ function this.CheckReinforceDeactivate()--WIP/UNUSED
     --      if TppEnemy.IsRecovered(vehicleId)then
     --      vehicleEliminated=true
     --    end
-    vehicleBroken=SendCommand(heliId,{id="IsBroken"})
+    vehicleBroken=SendCommand(vehicleId,{id="IsBroken"})
 
     vehicleAlive=SendCommand(vehicleId,{id="IsAlive"})
     vehicleReal=SendCommand(vehicleId,{id="IsReal"})

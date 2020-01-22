@@ -30,7 +30,7 @@ function this.EnableBird(e)
   mvars.rat_bird_enableBird=true
   mvars.rat_bird_birdType=e
 end
-function this.Init(a)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.OnReload(a)

@@ -90,7 +90,7 @@ function this.ApplyPlatformParamToMbStage(missionCode,baseType)
   end
   return true
 end
-function this.GetMbStageHelicopterRoute(missionCode,e,a)
+function this.GetMbStageHelicopterRoute(missionCode,e,heliRoute)
   local heliRoute
   if missionCode==50050 then
     TppMotherBaseManagement.BaseFobToMbsParam()
@@ -99,7 +99,7 @@ function this.GetMbStageHelicopterRoute(missionCode,e,a)
     local mbsFirstClusterGrade=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[mbsFirstCluster+1]}
     heliRoute=string.format("ly%03d_cl%02d_%05d_heli0000|cl%02dpl%01d_mb_fndt_plnt_heli_%05d|rt_apr_of",mbsTopology,mbsFirstCluster,missionCode,mbsFirstCluster,mbsFirstClusterGrade-1,missionCode)
   else
-    heliRoute=a
+    heliRoute=heliRoute
   end
   return heliRoute
 end
@@ -150,7 +150,7 @@ function this.RegistMissionAssetInitializeTable(n,e)
     end
   end
 end
-function this.Init(n)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.ActivateBlock()
@@ -205,8 +205,8 @@ function this.OnActiveLargeBlock(n,e)
     end
   end
 end
-function this.OnActiveSmallBlock(t,n,e)
-  if e==StageBlock.INACTIVE then
+function this.OnActiveSmallBlock(t,n,status)
+  if status==StageBlock.INACTIVE then
     return
   end
   local e=mvars.loc_locationBaseOnActiveSmallBlock
@@ -232,15 +232,15 @@ function this.OnActiveSmallBlock(t,n,e)
     end
   end
 end
-function this.GetMbStageClusterGrade(n)
-  local e=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[n]}
-  if TppMotherBaseManagement.GetMbsClusterBuildStatus{category=TppDefine.CLUSTER_NAME[n]}=="Building"then
-    e=e-1
+function this.GetMbStageClusterGrade(clusterId)
+  local clusterGrade=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[clusterId]}
+  if TppMotherBaseManagement.GetMbsClusterBuildStatus{category=TppDefine.CLUSTER_NAME[clusterId]}=="Building"then
+    clusterGrade=clusterGrade-1
   end
-  return e
+  return clusterGrade
 end
-function this.GetLocalMbStageClusterGrade(e)
-  return TppMotherBaseManagement.GetClusterGrade{base="MotherBase",category=TppDefine.CLUSTER_NAME[e]}
+function this.GetLocalMbStageClusterGrade(clusterId)
+  return TppMotherBaseManagement.GetClusterGrade{base="MotherBase",category=TppDefine.CLUSTER_NAME[clusterId]}
 end
 function this.MbFreeSpecialMissionStartSetting(missionClearType)
   if missionClearType==TppDefine.MISSION_CLEAR_TYPE.HELI_TAX_MB_FREE_CLEAR then

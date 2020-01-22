@@ -1,4 +1,4 @@
--- DOBUILD: 1 --
+-- DOBUILD: 1
 --tex Ivar system
 --combines gvar setup, enums, functions per setting in one ungodly mess.
 --lots of shortcuts/ivar setup depending-on defined values is done in various Table setups at end of file.
@@ -380,6 +380,86 @@ this.mbWarGamesProfile={
       Ivars.mbNonStaff:Set(0,true)
       Ivars.mbEnableFultonAddStaff:Set(0,true)
       Ivars.mbZombies:Set(0,true)
+      Ivars.mbEnemyHeli:Set(0,true)
+    end,
+    --    NONLETHAL=function()
+    --      --Ivars.mbDDHeadGear:Set(0,true)
+    --      --Ivars.mbDDSuit:Set(0,true)
+    --      Ivars.enableMbDDEquip:Set(1,true)
+    --      Ivars.mbDDEquipNonLethal:Set(1,true)
+    --      Ivars.mbHostileSoldiers:Set(1,true)
+    --      Ivars.mbEnableLethalActions:Set(0,true)
+    --      Ivars.mbNonStaff:Set(0,true)
+    --      Ivars.mbEnableFultonAddStaff:Set(0,true)
+    --      Ivars.mbZombies:Set(0,true)
+    --    end,
+    TRAINING=function()
+      --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDSuit:Set(0,true)
+      --      Ivars.enableMbDDEquip:Set(0,true)
+      --      Ivars.mbDDEquipNonLethal:Set(0,true)
+      Ivars.mbHostileSoldiers:Set(1,true)
+      Ivars.mbEnableLethalActions:Set(0,true)
+      Ivars.mbNonStaff:Set(0,true)
+      Ivars.mbEnableFultonAddStaff:Set(0,true)
+      Ivars.mbZombies:Set(0,true)
+      Ivars.mbEnemyHeli:Set(0,true)
+    end,
+    INVASION=function()
+      --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDSuit:Set(0,true)
+      --Ivars.enableMbDDEquip:Set(0,true)
+      Ivars.mbDDEquipNonLethal:Set(0,true)
+      Ivars.mbHostileSoldiers:Set(1,true)
+      Ivars.mbEnableLethalActions:Set(1,true)
+      Ivars.mbNonStaff:Set(1,true)
+      Ivars.mbEnableFultonAddStaff:Set(1,true)--DEBUBNOW
+      Ivars.mbZombies:Set(0,true)
+      Ivars.mbEnemyHeli:Set(1,true)
+    end,
+    --    XOF=function()
+    --      Ivars.mbDDHeadGear:Set(1,true)
+    --      Ivars.mbDDSuit:Set("XOF",true)
+    --      Ivars.enableMbDDEquip:Set(0,true)
+    --      Ivars.mbHostileSoldiers:Set(1,true)
+    --    end,
+    ZOMBIE=function()
+      --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDSuit:Set(0,true)
+      --      Ivars.enableMbDDEquip:Set(0,true)
+      --      Ivars.mbDDEquipNonLethal:Set(0,true)
+      Ivars.mbHostileSoldiers:Set(1,true)
+      Ivars.mbEnableLethalActions:Set(0,true)
+      Ivars.mbNonStaff:Set(0,true)
+      Ivars.mbEnableFultonAddStaff:Set(0,true)
+      Ivars.mbZombies:Set(1,true)
+      Ivars.mbEnemyHeli:Set(0,true)
+    end,
+    ZOMBIE_OBLITERATION=function()
+      --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDSuit:Set(0,true)
+      --Ivars.enableMbDDEquip:Set(0,true,true)
+      Ivars.mbDDEquipNonLethal:Set(0,true)
+      Ivars.mbHostileSoldiers:Set(1,true)
+      Ivars.mbEnableLethalActions:Set(1,true)
+      Ivars.mbNonStaff:Set(1,true)
+      Ivars.mbEnableFultonAddStaff:Set(0,true)
+      Ivars.mbZombies:Set(1,true)
+      Ivars.mbEnemyHeli:Set(0,true)
+    end,
+  --CUSTOM=nil,
+  },
+  initSettingsTable={
+    OFF=function()
+      --Ivars.mbDDHeadGear:Set(0,true)
+      --Ivars.mbDDSuit:Set(0,true)
+      --Ivars.enableMbDDEquip:Set(0,true)
+      Ivars.mbDDEquipNonLethal:Set(0,true)
+      Ivars.mbHostileSoldiers:Set(0,true)
+      Ivars.mbEnableLethalActions:Set(0,true)
+      Ivars.mbNonStaff:Set(0,true)
+      Ivars.mbEnableFultonAddStaff:Set(0,true)
+      Ivars.mbZombies:Set(0,true)
     end,
     --    NONLETHAL=function()
     --      --Ivars.mbDDHeadGear:Set(0,true)
@@ -414,12 +494,6 @@ this.mbWarGamesProfile={
       Ivars.mbEnableFultonAddStaff:Set(0,true)
       Ivars.mbZombies:Set(0,true)
     end,
-    --    XOF=function()
-    --      Ivars.mbDDHeadGear:Set(1,true)
-    --      Ivars.mbDDSuit:Set("XOF",true)
-    --      Ivars.enableMbDDEquip:Set(0,true)
-    --      Ivars.mbHostileSoldiers:Set(1,true)
-    --    end,
     ZOMBIE=function()
       --Ivars.mbDDHeadGear:Set(0,true)
       --Ivars.mbDDSuit:Set(0,true)
@@ -434,7 +508,7 @@ this.mbWarGamesProfile={
     ZOMBIE_OBLITERATION=function()
       --Ivars.mbDDHeadGear:Set(0,true)
       --Ivars.mbDDSuit:Set(0,true)
-      Ivars.enableMbDDEquip:Set(0,true)
+      --Ivars.enableMbDDEquip:Set(0,true,true)
       Ivars.mbDDEquipNonLethal:Set(0,true)
       Ivars.mbHostileSoldiers:Set(1,true)
       Ivars.mbEnableLethalActions:Set(1,true)
@@ -442,10 +516,15 @@ this.mbWarGamesProfile={
       Ivars.mbEnableFultonAddStaff:Set(0,true)
       Ivars.mbZombies:Set(1,true)
     end,
-  --CUSTOM=nil,
   },
   OnChange=this.RunCurrentSetting,
   OnSubSettingChanged=this.OnSubSettingChanged,
+}
+
+this.mbWargameFemales={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 this.mbHostileSoldiers={
@@ -470,6 +549,18 @@ this.mbZombies={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+}
+
+this.mbEnemyHeli={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbEnemyHeliColor={
+  save=MISSION,
+  settings={"BLACK","RED"},
+  settingNames="mbEnemyHeliColorSettings",
 }
 
 this.mbEnableFultonAddStaff={
@@ -2028,6 +2119,18 @@ this.mbDontDemoDisableBuddy={
   settingNames="set_switch",
 }
 
+this.mbCollectionRepop={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbRepopDiamondCountdown={
+  save=MISSION,
+  default=4,
+  range={max=4,min=0,increment=1},
+}
+--
 this.manualMissionCode={
   --OFF save=MISSION,
   settings={
@@ -2731,7 +2834,7 @@ this.quietRadioMode={
 
 --
 
-this.npcUpdate={--tex NONUSER, for now, need it alive to pick up pull out
+this.npcUpdate={--tex NONUSER
   --save=MISSION,
   default=1,
   range=this.switchRange,
@@ -2742,6 +2845,18 @@ this.npcUpdate={--tex NONUSER, for now, need it alive to pick up pull out
   },
     ExecInit=function()InfMain.InitNPCUpdate()end,
   ExecUpdate=function(...)InfMain.UpdateNPC(...)end,
+}
+
+this.npcHeliUpdate={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  execChecks={inGame=true,inHeliSpace=false},
+  execState={
+    nextUpdate=0,
+  },
+    ExecInit=function()InfMain.InitNPCHeliUpdate()end,
+  ExecUpdate=function(...)InfMain.UpdateNPCHeli(...)end,
 }
 
 --heli
@@ -3349,9 +3464,10 @@ function this.PrintSaveVarCount()
 
 end
 
+--this.repopDiamondCountdownMax=5
 --function this.DeclareSVars()--tex svars are created/cleared on new missions
 --  return{
---    {name="vehiclePatrolSpawnedTypes",type=TppScriptVars.TYPE_UINT8,value=0,arraySize=this.MAX_PATROL_VEHICLES,save=true,category=TppScriptVars.CATEGORY_MISSION},--CULL
+--    {name="inf_repopDiamondCountdown",type=TppScriptVars.TYPE_UINT8,value=this.repopDiamondCountdownMax,save=true,category=TppScriptVars.CATEGORY_MISSION}, 
 --    nil
 --  }
 --end

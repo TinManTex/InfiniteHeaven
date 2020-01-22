@@ -1,3 +1,7 @@
+-- DOBUILD: 1 --DEBUGNOW
+-- ORIGINALQAR: chunk0
+-- PACKPATH: \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd
+
 mbdvc_map_mbstage_parameter = {
 
 	
@@ -6,8 +10,7 @@ mbdvc_map_mbstage_parameter = {
 	GetMissionParameter = function( parameterTable )
 		Fox.Log("mbdvc_map_mbstage_parameter.GetMissionParameter is called" )
 
-		
-		
+		InfMain.mbdvc_map_mbstage_parameter=parameterTable----DEBUGNOW
 		
 		
 		local missionId				= parameterTable["missionId"]
@@ -752,7 +755,7 @@ mbdvc_map_mbstage_parameter = {
 			Tpp.DEBUG_DumpTable(heliLandPointTable)
 		end
 		
-		
+		InfMain.heliLandPointTable=heliLandPointTable--DEBUGNOW
 		
 		return { heliLandPoint = heliLandPointTable }
 	end,

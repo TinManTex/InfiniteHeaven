@@ -151,7 +151,7 @@ TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=868,g=0,f=0,e=
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=882,g=0,f=0,e=0,d=0,c=3,b=10,a=17,s=70,sp=0,spp=0}
 TppMotherBaseManagement.RegisterStaffBaseRankRange{totalSectionLv=910,g=0,f=0,e=0,d=0,c=3,b=6,a=16,s=75,sp=0,spp=0}
 TppMotherBaseManagement.RegisterStaffMinBaseRank{minBaseRank="G"}
-local e={
+local lvlPointList={
   {lv=1,lineSectionPoint=43},
   {lv=2,lineSectionPoint=84},
   {lv=3,lineSectionPoint=134},
@@ -286,8 +286,8 @@ local e={
   {lv=132,lineSectionPoint=178140},
   {lv=133,lineSectionPoint=181400}
 }
-for n,e in pairs(e)do
-  TppMotherBaseManagement.RegisterSectionLvLine(e)
+for n,lvlPoint in pairs(lvlPointList)do
+  TppMotherBaseManagement.RegisterSectionLvLine(lvlPoint)
 end
 TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Reflex",section="Combat",rank="C",priority=98,rate=20,isLocked="false"}
 TppMotherBaseManagement.RegisterSkillDrawingParam{skill="Ninja",section="Combat",rank="B",priority=70,rate=10,isLocked="false"}
@@ -620,9 +620,29 @@ TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=7,heroicPoint=7e3,tim
 TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=8,heroicPoint=8e3,timeMinutePer1Enmity=10}
 TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=9,heroicPoint=9e3,timeMinutePer1Enmity=10}
 TppMotherBaseManagement.RegisterTimeMinutePer1Enmity{index=10,heroicPoint=1e4,timeMinutePer1Enmity=10}
-TppMotherBaseManagement.RegisterMoraleParam{moraleTimeMinute=36,defectionRates={morale0=4,morale1=2,morale2=1},defectionCountLimit=2,defectionLineStaffCount=16,powerUpPoints={morale8=2,morale9=4,morale10=6,morale11=8,morale12=10,morale13=15,morale14=20,morale15=31},baseMoveRate=50,redMoveRate=100,redMoveValue=-1,heroicPointsForInitMorale={add1=1e4,add2=2e4,add3=3e4}}
+TppMotherBaseManagement.RegisterMoraleParam{
+  moraleTimeMinute=36,
+  defectionRates={morale0=4,morale1=2,morale2=1},
+  defectionCountLimit=2,
+  defectionLineStaffCount=16,
+  powerUpPoints={morale8=2,morale9=4,morale10=6,morale11=8,morale12=10,morale13=15,morale14=20,morale15=31},
+  baseMoveRate=50,
+  redMoveRate=100,
+  redMoveValue=-1,
+  heroicPointsForInitMorale={add1=1e4,add2=2e4,add3=3e4}
+}
 TppMotherBaseManagement.RegisterMedalParam{meritMedalLinePoint=9,powerUpPoint=30}
-TppMotherBaseManagement.RegisterLanguageParam{spreadTimeMinute=12,spreadRates={count1=20,count2=10,count3=4,count4=0},kikongoBoostWhiteLang1Rate=4,kikongoBoostWhiteLang2Rate=25,kikongoBoostWhiteLang3Rate=12,kikongoBoostBlackLang1Rate=50,kikongoBoostBlackLang2Rate=40,kikongoBoostBlackLang3Rate=20,kikongoBoostSpreadCount=20}
+TppMotherBaseManagement.RegisterLanguageParam{
+spreadTimeMinute=12,
+spreadRates={count1=20,count2=10,count3=4,count4=0},
+kikongoBoostWhiteLang1Rate=4,
+kikongoBoostWhiteLang2Rate=25,
+kikongoBoostWhiteLang3Rate=12,
+kikongoBoostBlackLang1Rate=50,
+kikongoBoostBlackLang2Rate=40,
+kikongoBoostBlackLang3Rate=20,
+kikongoBoostSpreadCount=20
+}
 TppMotherBaseManagement.RegisterPandemicParam{startAttackStaffCount=8,startPositiveStaffCount=30,pandemicTimeMinute=12,pandemicRates={none=0,learning=70,master=90,native=100},pandemicCheckStaffCount=43,deadRate=30,deadCheckStaffCount=10,spreadAttackLimitRate=40,spreadAttackLimitCountMin=50,spreadAttackLimitCountMax=400}
 TppMotherBaseManagement.RegisterOgreUserVolunteerStaffParam{addRateWithKillCount=80,roughRate=10}
 TppMotherBaseManagement.RegisterOgreUserVolunteerStaffTypes{missionId=10020,limitCount=15,staffTypes={30,31,32,33,34,35}}

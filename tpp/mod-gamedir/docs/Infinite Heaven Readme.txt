@@ -1,9 +1,26 @@
 = Infinite heaven =
-r135 - 2015-03-05
+r138 - 2015-03-05
 by tin man tex
 For MGSV version 1.071
 
 A mod for MGSV intended to extend gameplay through customisable settings and features.
+
+New for r138:
+Fixed: Crash on some vehicle sideops with vehicle patrol on.
+
+Mother base menu:
+Enemy Invasion war game updated:
+Enemy helicopters - choose between Black, Red(more powerful) via "Heli type in Enemy Invasion mode"
+Female soldiers via "Women in Enemy Invasion mode"
+Had to disable fulton for this mode due to a last minute issue, manually extracting soldier by putting them in heli works though.
+[youtube]Bl75OupPWS8[/youtube]
+https://www.youtube.com/watch?v=Bl75OupPWS8
+
+Option: "Repopulate plants and diamonds" - regenerates plants on Zoo platform and diamonds on Mother base over time.
+
+Option: "Enable npc helis" - spawns some npc helis that roam around mother base.
+[youtube]yBrxE5LC7Hc[/youtube]
+https://www.youtube.com/watch?v=yBrxE5LC7Hc
 
 New for r135:
 Don't disable Ocelot after mb cutscenes now Enable Ocelot in the Motherbase menu - allows Ocelot to roam the command platform.
@@ -15,7 +32,7 @@ Vehicle patrols should no longer cause vehicle sideops vehicles to be invisible.
 Wildcard soldiers: number increased to 1/5 of total cps, number of female wildcard soldiers increased to 2. Added full range of female faces. to wildcard females
 
 New for r133:
-Fix: Head markers off did not work on heli entry - thanks washtubs for the report.
+Fixed: Head markers off did not work on heli entry - thanks washtubs for the report.
 Player restriction option: Disable world markers - thanks brunovisk114 for the suggestion
 In mission menu: Markers menu, includes head and world marker options, toggling xray at runtime unforntunately doesnt work via script.
 
@@ -30,7 +47,7 @@ https://www.youtube.com/watch?v=xhMemet6EF8
 MB suit (male) options added: Soviet All, PF All - randomly chooses suit from all options of that type including unique.
 
 New for r131:
-Fix: Hang at FOB load screen, thanks SoullessMadness for the report. FOB defense hang on load unconfirmed since it's harder to test.
+Fixed: Hang at FOB load screen, thanks SoullessMadness for the report. FOB defense hang on load unconfirmed since it's harder to test.
 
 Soldier Parameters option: Hearing distance scale
 
@@ -53,72 +70,61 @@ Enemy patrols option: Foot patrols in free roam - adds ~13 foot patrols between 
 [youtube]-vPVBpcz0iY[/youtube]
 https://www.youtube.com/watch?v=-vPVBpcz0iY
 
-New for r128
-Motherbase menu:
-Expanded DD Suit to include XOF,Soviet and each PF. This changes the soldierType so the normal type of body model and equipment is selected (assuming other options aren't set to override), however non english speaking soldiertypes will be mostly silent as they don't have equivalent lines in their soundbanks.
-
-MB DD nonlethal shifted to the DD Equip menu.
-
-Mother Base War Games expanded to include Enemy Invasion, and Zombie Obliteration, both replace the motherbase soldier with non-staff member and enable players use of lethal weapons and also disable demon points for kill actions.
-
-
-https://www.youtube.com/watch?v=oK-uxbaQ2Ic
-
-Fixes to Custom prep that were preventing some settings from working as intended.
-
 Infinite Heaven features:
 ------------------------------
 Demonstrations:
 Free cam:
-
+[youtube]aJ3lvD1JiJ0[/youtube]
 https://www.youtube.com/watch?v=aJ3lvD1JiJ0
-
+[youtube]1CygEjTfF_c[/youtube]
 https://www.youtube.com/watch?v=1CygEjTfF_c
 Enemy DD Equip:
-
+[youtube]6CDv5RBU5dU[/youtube]
 https://www.youtube.com/watch?v=6CDv5RBU5dU
 Custom Prep config:
-
+[youtube]UAdGbtAPykM[/youtube]
 https://www.youtube.com/watch?v=UAdGbtAPykM
-
+[youtube]aTy-2pAw28c[/youtube]
 https://www.youtube.com/watch?v=aTy-2pAw28c
 Enemy prep settings:
-
+[youtube]Pt_jpD0y8XQ[/youtube]
 https://www.youtube.com/watch?v=Pt_jpD0y8XQ
-
+[youtube]u__vsvbrwfA[/youtube]
 https://www.youtube.com/watch?v=u__vsvbrwfA
 Enemy reactions to vehicle:
-
+[youtube]BUqPYDlA42A[/youtube]
 https://www.youtube.com/watch?v=BUqPYDlA42A
 Support heli settings:
-
+[youtube]frxAuiwCaEk[/youtube]
 https://www.youtube.com/watch?v=frxAuiwCaEk
 Mother base settings and wargames:
-
+[youtube]oK-uxbaQ2Ic[/youtube]
+https://www.youtube.com/watch?v=oK-uxbaQ2Ic
+[youtube]PSWTQwJNaRU[/youtube]
 https://www.youtube.com/watch?v=PSWTQwJNaRU
-
+[youtube]cW3noRDtpTg[/youtube]
 https://www.youtube.com/watch?v=cW3noRDtpTg
-
+[youtube]t_6fj8Rkvic[/youtube]
 https://www.youtube.com/watch?v=t_6fj8Rkvic
 Headgear:
-
+[youtube]1DlkIV3KduI[/youtube]
 https://www.youtube.com/watch?v=1DlkIV3KduI
 Phase settings:
-
+[youtube]veL0btXaOb4[/youtube]
 https://www.youtube.com/watch?v=veL0btXaOb4
 Buddies at zoo:
-
+[youtube]N9xfnH8ivAI[/youtube] 
 https://www.youtube.com/watch?v=N9xfnH8ivAI
 Warp mode:
-
+[youtube]AhkFPtQlqnM[/youtube]
 https://www.youtube.com/watch?v=AhkFPtQlqnM
-
+[youtube]ScF8OdQkFU8[/youtube]
 https://www.youtube.com/watch?v=ScF8OdQkFU8
 Remove demon snake, in Player settings menu:
-
+[youtube]OrxIwLmM_Tc[/youtube]
 https://www.youtube.com/watch?v=OrxIwLmM_Tc
 Heli reinforce and other vehicle stuff:
-
+[youtube]g4NXeCuK9Jk[/youtube]
 https://www.youtube.com/watch?v=g4NXeCuK9Jk
 
 Player Restriction - disable of game settings to customize your challenge
@@ -227,15 +233,18 @@ Note: Equip grade 3 is the minimum grade that has all types of weapons.
 Known issue: Some weapons will not give the proper name when picked up and have a blank icon, some weapons scopes will be blacked out.
 
 
-Mother Base soldier tweaks:
+Mother Base menu:
 -----------------
 Weapon loadout - using fob equip grade and range
 
-Suits - same range as fob missions
+DD suits - Drab, Tiger, Sneaking, Battle Dress, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All
+DD Female suits - Drab, Tiger, Sneaking, Battle Dress
 
 DD Head gear - Off,Use Equip Grade
 
 War Games - set mother base soldiers hostile with non-lethal or lethal weapons, zombified, as true enemies (non staff).
+
+The war games Enemy Invasion, and Zombie Obliteration both replace the motherbase soldiers with non-staff member and enable players use of lethal weapons and also disable demon points for kill actions.
 
 Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they will however spawn inside building geometry, use the call menu to have them respawn near.
 Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
@@ -485,6 +494,26 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+r138 - 2015-03-05 - public release
+Fixed: Crash on some vehicle sideops with vehicle patrol on (op 98, possibly 97), missed an attachmentinstancecount in the west_wav_machinegun fox2, oops.
+
+r137
+f30050_heli.fox2 added enemyheli locators, rest of definition handled by reinforce fpk
+reinforce_heli_mafr fpkd enemy_heli_mafr.fox2 - increased instances to 8
+Ivar: mbEnemyHeli
+npcHeliUpdate switches to enemyHeliList on mbEnemyHeli
+Disable unique characters during wargames (ocelot,eli etc)
+Option: mbWargameFemales - "Females in Invasion mode"
+Fixed: mbEnableFultonAddStaff, wasn't in right spot and was getting overridden by what it was supposed to override lol, enabled for Invasion wargame
+Added RegisterMissionBaseStaffTypes 30050 to start2nd so I don't modify MbmCommonSetting.lua and tread on other mods toes. Invasion missions should get normal range of soldier ranks.
+Option: mbEnemyHeliColor - "Heli type in Invasion mode"
+Workaround: Fulton disable on Invasion. There's some weirdness with add tempstaff count off, still happens with manual heli extract but at least the soldiers seem to be capped right.
+
+r136
+Mother base colletables (diamonds,plants) repopulate, requires helicopter exits from mother base as pause menu abort skips the repop count decrement (you need to do that anyway if you want to save any actions you made while on motherbase). Takes several visits before repop, the same as the normal game, but at least may give you some incentive to roam motherbase and zoo for them again.
+f30050_heli.fox2 added westheli, westheli usually has it's own fox2 but the custom fpkd issue still remains.
+Feature: npcHeliUpdate - enables 3 TppOtherHelis in mother base, update function manages routes around Mb
+
 r135 - 2015-03-05 - public release
 Wildard soldiers: Number of soldiers incread to #Cps/5, number of females increased to 2.
 mbDontDemoDisableOcelot removed.
@@ -498,11 +527,11 @@ Regression: Patrol vehicle spawn type random to level seed
 Refactor: TppEnemyFova> break out WildCardFova
 Added full range of female faces to wildcard females
 
-r133 - 2015-03-01 
-Fix: Head markers off did not work on heli entry - thanks washtubs for the report.
+r133 - 2015-03-01 - public release
+Fixed: Head markers off did not work on heli entry - thanks washtubs for the report.
 Option: disableWorldMarkers - thanks brunovisk114 for the suggestion
 In mission menu: playerRestrictionsInMissionMenu
-MB suit male: SOVIET_ALL, PF_AlL
+MB suit male: SOVIET_ALL, PF_ALL
 
 r132
 Patrols setup refactor - shifted to OnInitializeTop, all now modify the missionTable scripts directly since they are unloaded/reloaded anyway.
@@ -513,7 +542,7 @@ Free mission .sdfs: add other soldier soundbanks
 
 
 r131 - 2015-02-22 - public release
-Fix: Hang of FOB all load, thanks SoullessMadness for the report. FOB defense hang on load unconfirmed since it's hard to test.
+Fixed: Hang of FOB all load, thanks SoullessMadness for the report. FOB defense hang on load unconfirmed since it's hard to test.
 Vehicle Patrols: Improved soldier assignment, Soldier assigned from reserve pool to fill rnd min(2,vehicleSeats),vehicleSeats (seats defined in base vehicle info), soldier already assigned above seat count get put into pool.
 Gives more variation, allows jeeps to have up to 4 people, fixes sillyness with tanks stopping, dropping off a dude, then attacking.
 NOTE: all other vehicles than crash on setrelativevehicle if soldiers assigned > 2. APCs carrying are handled differently.
@@ -528,7 +557,7 @@ Option: mbDDSuitFemale, extendedparts does work independently so was relatively 
 More options for DD Suit, Soviet berets, hoodies, PF misc, using the unique quest/mission bodies from missions/quests.
 
 r129
-Fix: Missing Tpp.IsUav, kjp decided to add this at some point even though there's an identical IsUAV. May fix the incorrect or unregistered fob fulton task types.
+Fixed: Missing Tpp.IsUav, kjp decided to add this at some point even though there's an identical IsUAV. May fix the incorrect or unregistered fob fulton task types.
 Option: enableLrrpFreeRoam - bunch of soldier locators added to free roam fox2s which are assigned a cp(lrrp) and a travelplan between two randomly chosen bases.
 Some odd things: Setting to coppied travelplans often causes soldier to not realize (even with force enable and realize), adding too many copied travelplans to the mission luas breaks the normal vehicle lrrps (soliers still spawn but thy wont get in vehicle)
 
@@ -549,8 +578,8 @@ mbWarGames->mbWarGamesProfile, toggling some of above, the individual settings a
 
 r127
 Percentage floats changed to int, will fall into uint8/16, saves save file space
-Fix: SetPercentagePowersRange using orphaned/prior name of SetMinMax, since it was called by revengeConfigProfile.WIDE it's likely that it wouldnt set its subsettings.
-Fix: Custom enemy prep clear armor if it can't be used.
+Fixed: SetPercentagePowersRange using orphaned/prior name of SetMinMax, since it was called by revengeConfigProfile.WIDE it's likely that it wouldnt set its subsettings.
+Fixed: Custom enemy prep clear armor if it can't be used.
 Custom config bypass some (config wide) combination restrictions, namely shield and missile, shotgun and mg in same config.
 Made allowmissileweapon combo actually work, and not just allow assault, decided to not allow with mg though
 
@@ -563,10 +592,10 @@ Research/deminification of TppSave and other save functions, bumping the save si
 
 r125
 Refactor InfMenuDefs, on table build adds reset settings and go back items
-Fix: Mb cutscene time using hour setting for minute.
+Fixed: Mb cutscene time using hour setting for minute.
 Split Enemy use DD equipment into Free roam and Missions
-Fix: noOnChangeSub also blocking OnChange for profiles - basically any profile that set other profiles was broken.
-Fix: Wormhole disable was reversed, also renamed to Wormhole Level since it's the same implementation as Fulton Level
+Fixed: noOnChangeSub also blocking OnChange for profiles - basically any profile that set other profiles was broken.
+Fixed: Wormhole disable was reversed, also renamed to Wormhole Level since it's the same implementation as Fulton Level
 Option: soldierHearingDistScale
 
 r124 - 2015-01-30 - public release
@@ -632,7 +661,7 @@ r116 - 2015-12-30 - public release
 Un-fixed a Retail bug, the game is apparently relying on it's broken behavior lol. Manifested as: Some end of cutscene loadscreen hangs, prologue/truth post heli hallway non-trigger. Possibly much more.
 
 r115 - 2015-12-27 - public release
-Fix: AddPowerSetting, was trashing it by using same name in two variables, the perils of deminification. Possibly affected fob soldier settings.
+Fixed: AddPowerSetting, was trashing it by using same name in two variables, the perils of deminification. Possibly affected fob soldier settings.
 Powersettings to DD headgear
 Load screen splashes reverted to base game. Kjp did too much voodoo in respect to the Nvidia splash screen for me to be happy with touching it.
 
@@ -641,7 +670,7 @@ Refactor: complete ivar get, removed fobs reset settings - instead returns off/d
 Refactor: mbDDsuit - pull various body setup data to single table ddBodyInfo and reference that
 
 r113
-Regression fix: in mission menu when on buddy (horse,walker) - thanks Crotaro for report
+Regression Fixed: in mission menu when on buddy (horse,walker) - thanks Crotaro for report
 Refactor: ivar get via ivar functions instead of gvar value (started, not yet complete)
 Option: revengeProfile, default, heaven - to manage the profusion of revenge ivars
 Option: enableMgVsShotgunVariation
@@ -678,10 +707,10 @@ Option: vehiclePatrolPackType, switches between quest packs and custom fpks - th
 r106 - 2015-12-14 - public release
 ig_*.fpk/ fpkd. Initially started as copies of the respective quests I was using to get proper vehicle references for patrol vehicles, since using the quest fpks directly intereferes with quests - still not exactly sure what aspect, guessing the quest script block load given it went away when I deleted it, but tests showed the script itself wasn't loaded, so guessing the script block entity in the fox2 got engaged, don't know.
 Stripping down the packs further revealed some troublesome issues with fox2 files relying on specifc file orders, or possibly something more.
-Fix: (due to above) vehicle patrols interfering with sideops - thanks blejky for the report
+Fixed: (due to above) vehicle patrols interfering with sideops - thanks blejky for the report
 
 r105
-Fix: Reset all settings was completely broken, varable but didnt cat all instances woops.
+Fixed: Reset all settings was completely broken, varable but didnt cat all instances woops.
 Options: applyPowersToOuterBase, applyPowersToLlrp.
 
 r104
@@ -703,23 +732,23 @@ fultonVariationInvRate
 Ivars: self.Reset->ResetSetting
 
 r103 - 2015-12-10 - public release
-Fix: Vehicle patrol all of one type loading hang - thanks mgs5tppfan for the report
+Fixed: Vehicle patrol all of one type loading hang - thanks mgs5tppfan for the report
 
 r102 - 2015-12-09 - public release
 Commands: setDemon, removeDemon - thanks PIESOFTHENORTH for the suggestion
 Refactor: Removed Item suffix from non menu item names.
-Fix: patrol vehicle enable types not rebuilding enabled list.
+Fixed: patrol vehicle enable types not rebuilding enabled list.
 Research options:
 vehiclePatrolClass
 vehiclePatrolPaintType
 vehiclePatrolEmblemType
 SetPatrolSpawnInfo, revert to default/unmodified painttype, currently only jeeps and trucks using.
-Fix: forceSuperReinforce out of bounds
+Fixed: forceSuperReinforce out of bounds
 Disabled random emblem splashes to see if it's cause of various reported issues.
 
 r101 - 2015-12-09 - public release
-Fix: xraymarkers
-Fix: A case of the Display menu not showing for some saves, possibly had other ramifications.
+Fixed: xraymarkers
+Fixed: A case of the Display menu not showing for some saves, possibly had other ramifications.
 
 r100 - 2015-12-08 - public release
 vehicle patrol vehicle type saving - svar array vehiclePatrolSpawnedTypes, ModifyVehicleSpawn split into PreSpawnVehicle, RestoreVehiclePatrol, ModifyVehicleSpawn
@@ -741,7 +770,7 @@ Research: None of the fpks you'd expect - COMMON_whatever vehicle, or even reinf
 Fixes to force reinforce I inadvertantly introduced when cleaning up.
 
 r97
-Fix: <Stance> in support heli not setting pull out in mother base
+Fixed: <Stance> in support heli not setting pull out in mother base
 Feature: <Stance> in support heli now a (non saving) toggle for pull-out, requires you to jump out after setting hold though.
 Option: Start on foot reworked to spawn at selected lz on mother base platforms - thanks to NasaNhak for pointer
 Feature: Abort to Heli from title continue. Hold down ESCAPE for 1.5 seconds, the kjp logo will flash, clickin on continue will load ACC instead of continuing mission.
@@ -756,13 +785,13 @@ Known Bug: Reinforce heli will spawn with combat alert, you'll hear the ! and it
 Option: disableReinforceHeliPullOut, currently have no way to tell if heli has left so cant reset reinforce if it has, this at least removes one case
 
 r95
-Fix: turn off menu when in ground vehicle
+Fixed: turn off menu when in ground vehicle
 Option: soldierAlertOnHeavyVehicleDamage - changes phase of soldiers CP on damage, independant from Ivars.phaseUpate
 printPhaseChanges - now via message, so independant from Ivars.phaseUpate, includes cpid and prevPhase, spams a bit more though.
 Option: useSoldierForDemos now covers allowing selected character in Diamond Dogs and Shining Lights missions - thanks NasaNhak and Solidcal for the suggestions.
 InfMenuDefs: useSoldierForDemos also added to playerSettingsMenu
-Fix: Mission timer on Backup Back Down (10054,11054) would not start, startOnFoot now SetIsStartFromFreePlay - thanks NasaNhak the report.
-Fix: changing subsistence profile would flip it to Custom via unsupressed onsubsettingchanged.
+Fixed: Mission timer on Backup Back Down (10054,11054) would not start, startOnFoot now SetIsStartFromFreePlay - thanks NasaNhak the report.
+Fixed: changing subsistence profile would flip it to Custom via unsupressed onsubsettingchanged.
 Tonne of deminification
 
 r94
@@ -773,10 +802,10 @@ playerHealthScale (and enemyhealtscale) reduced to 900%, hit some odd overflow/w
 
 r93
 Player and enemy health scale option upper bounds increased to 1000%
-Fix: Use selected soldier in cutscenes should catch all of them now - thanks VickoStojanov for the report.
+Fixed: Use selected soldier in cutscenes should catch all of them now - thanks VickoStojanov for the report.
 Message added to headgear to make clearer it only works for DD soliders - thanks gOKU1983 for the report.
-Fix: not being able to select weapon when toggling warp mode.
-Fix: returning to ACC while in vehicle or on buddy preventing mod menu from opening.
+Fixed: not being able to select weapon when toggling warp mode.
+Fixed: returning to ACC while in vehicle or on buddy preventing mod menu from opening.
 Research: vehicle reinforcement, various things blocking the way, a mission list check, surprisingly few missions used it, quest helis actually use part of the system, and the actual vehicle reinforce setup isn't called in free mode.
 
 r92 - 2015-11-25 - public release
@@ -811,12 +840,12 @@ Option: soldierSightDistScale
 Options: *DistScaleSightParam - incomplete, still don't know the approach to take here, there's a heck of a lot of settings in SoldierParameterTables, how granular do I want to let the user mod this? scale vs exact value? managing profiles (something closer to TPPHC)?
 Command: printSightFormParameterItem
 Command: printhealthTableParameterItem
-Fix: Refresh current setting (tapping mod menu button) not checking if it was an actual setting (menu) (would do no harm only wanring message, I knew I put it there for a reason)
+Fixed: Refresh current setting (tapping mod menu button) not checking if it was an actual setting (menu) (would do no harm only wanring message, I knew I put it there for a reason)
 Project: MockTest - why didn't I think of this sooner.
 Ivar.enemyPrameters renamed soldierParamsProfile, now a profile to soldierHealthMult(also renamed) and  soldierSightDistScale
 
 r88
-Fix: Menu off when iDroid open improved
+Fixed: Menu off when iDroid open improved
 Ivars: Is/OptionIsSetting catch case of no enum
 IsDefault added
 OnSubSettingChanged - doesnt flip profile if subsetting is default or profile is default or custom
@@ -835,18 +864,18 @@ Should improve the experience a bit for gamepad bros.
 InfMenu - disable state extended from menus to all options
 
 r86 - 2015-11-19 - public release
-Fix: A few cutscenes I broken in r56, oops
-Fix: mbDontDemoDisableOcelot dont disable occelot on cutscene hanging cutscene end
+Fixed: A few cutscenes I broken in r56, oops
+Fixed: mbDontDemoDisableOcelot dont disable occelot on cutscene hanging cutscene end
 TppMbFreeDemo.PlayMtbsEventDemo, dont nil DemoOnEnd, instead case by case it in demoOptions
 - thanks TheChosenOne896 for the reports
 Option: mbDontDemoDisableBuddy
 Option: mbDontDemoDisableOcelot expanded to more cases
-Fix: remebered to update in-game version string lol
+Fixed: remebered to update in-game version string lol
 
 r85 - 2015-11-19 - public release
-Fix: osp weapon settings only set if profile not default - temporary fix for empty magazines on mission start (will still happen with individual osp settings though)
-Fix: some unexposed appearence settings running on set-to-default, manifested as player changing to snake, olive drab on FOB.
-Fix: fulton being set to level 1 on mission start
+Fixed: osp weapon settings only set if profile not default - temporary fix for empty magazines on mission start (will still happen with individual osp settings though)
+Fixed: some unexposed appearence settings running on set-to-default, manifested as player changing to snake, olive drab on FOB.
+Fixed: fulton being set to level 1 on mission start
 - thanks GaKoDuck for the reports
 
 r84
@@ -855,7 +884,7 @@ Refactor: DebugPrint split and print strings larger than Announcelog limit
 Command: warpPlayerCommand - just initial testing with hard coded positions.
 Command: Unlock weapon customisation - game progression unlock
 Command: Exting unlock player avatar changed from Ivar to command - not that there's much difference, the deliniation is ivar is it's own setting, and almost always saved, command does a thing, and doesn't care about it's own state, in this case we're just setting another game var.
-Fix: Phase mod disabled for mother base. MB is not set up for caution routes aparently, also even with friendly set they will go hostil on alert
+Fixed: Phase mod disabled for mother base. MB is not set up for caution routes aparently, also even with friendly set they will go hostil on alert
 
 r83
 clockTimeScale upper bound increased
@@ -885,7 +914,7 @@ DebugCommands: testing various phase functions
 
 r78
 Menu: In mission mod menu no longer open if in walker gear or vehicle - thanks for report SkySta
-Fix:  Secondary and Back weapon osp settings swapped - thanks for the report ThereisnoLion
+Fixed:  Secondary and Back weapon osp settings swapped - thanks for the report ThereisnoLion
 
 r77
 Various player appearance vars.
@@ -893,13 +922,13 @@ InfMenu: option:OnSelect call in GetSetting()
 
 r76 - 2015-11-14 - public release
 Option: abortMenuItemControl, added to Subsistence Pure profile - thanks for thesuggestion MayonnaisePlant
-Fix: startOffline not checking if save value nil first, only would hit on r75 for new users to the mod. - thanks animefreakIIX for the report.
+Fixed: startOffline not checking if save value nil first, only would hit on r75 for new users to the mod. - thanks animefreakIIX for the report.
 
 r75 - 2015-11-14 - public release
-Fix: subsistence mission without subsistence profile set hang on loading screen
-Fix: setting change increment mult not rounded to integer
+Fixed: subsistence mission without subsistence profile set hang on loading screen
+Fixed: setting change increment mult not rounded to integer
 Option: startOffline
-Fix: CanArriveQuietInMb - Quiet not showing in motherbase cell/demos.
+Fixed: CanArriveQuietInMb - Quiet not showing in motherbase cell/demos.
 Option: mbEnableBuddies
 Menu: commands to in mission debug submenu
 Build with snakebite 0.8
@@ -918,7 +947,7 @@ ModStart to Init, no longer run each Update
 Shifted lua file references into the Tpp.lua requires system, in line with how tpp does it. start.lua now unmoddified.
 
 r71a
-Fix: dev setting startoffline was on
+Fixed: dev setting startoffline was on
 
 r71 - 2015-11-09 - public release
 Command: ResetRevenge/Enemy preparedness - thanks for the prodding TruckerHatRyan

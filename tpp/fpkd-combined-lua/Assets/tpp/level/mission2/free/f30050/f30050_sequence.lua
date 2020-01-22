@@ -677,9 +677,6 @@ function this.MissionPrepare()
   if Ivars.mbEnableLethalActions:Is(1) then--tex>
   PlayerDisableActionFlagMtbsDefault = PlayerDisableAction.NONE
   end--<
-  if Ivars.mbEnableFultonAddStaff:Is(1) then--tex>
-  mvars.trm_isAlwaysDirectAddStaff=false
-  end--<
 
 	do 
 		local missionName = TppMission.GetMissionName()
@@ -1110,7 +1107,7 @@ this.RegisterFovaFpk = function( clusterId )
 		Tpp.ApendArray( fovaPackList, TppSoldierFace.GetFaceFpkFileCodeList{ face={TppEnemyFaceId.dds_balaclava5, TppEnemyFaceId.dds_balaclava2} } )
 	end
 		
-	--tex TODO generate face ids for mode
+	--tex TODO generate face ids for suit
 	--if free mix choose random 0-303
 	--if afgh choose TppEnemy.GetFaceGroupTable( ) 0-14
 	--mafr 15-74
@@ -1120,9 +1117,12 @@ this.RegisterFovaFpk = function( clusterId )
     local securityStaffFaceIds = {} 
     InfMain.SetLevelRandomSeed()
     --local faceGroupTable=
-    for i=0,17 do
-      table.insert(securityStaffFaceIds,math.random(0,303))--tex DOC face and bodyids.txt
-      --table.insert(securityStaffFaceIds,math.random(350,399))
+    for i=1,MAX_FACE_NUM_IN_CLUSTER do
+      if Ivars.mbWargameFemales:Is(1) and math.random()<.15 then
+        table.insert(securityStaffFaceIds,InfMain.RandomFaceId(InfMain.femaleFaceIds))
+      else
+        table.insert(securityStaffFaceIds,InfMain.RandomFaceId(InfMain.maleFaceIds))--tex DOC face and bodyids.txt
+      end
     end
     InfMain.ResetTrueRandom()
 
@@ -2189,6 +2189,7 @@ sequences.Seq_Game_MainGame = {
 		
 		this.DisableLandingZoneForSeparationPlatform()
 		
+		InfMain.enabledLzs={}--tex
 		for clusterId, clusterName in ipairs( TppDefine.CLUSTER_NAME ) do
 			mtbs_cluster.SetUpLandingZone( this.CLST_PARAM[clusterId].LANDING_ZONE, clusterId )
 		end
@@ -2745,11 +2746,14 @@ end
 
 function this.SetUniqueCharaVisibility( enable )
 	if mvars.f30050_isSetLiquid == true or Ivars.mbShowEli:Is(1) then--tex added mbshow
-	  if Ivars.mbShowEli:Is(1) then enable = true end
+	  if Ivars.mbShowEli:Is(1) then enable = true end--tex
+	  if Ivars.mbWarGamesProfile:Is()>0 then enable = false end--tex
+	  
 		TppDataUtility.SetVisibleDataFromIdentifier( "f30050_liquid_DataIdentifier",		 "Liquid",		enable, false )
 	end
 	if mvars.f30050_isSetCodeTalker == true or Ivars.mbShowCodeTalker:Is(1) then--tex added mbshow
-		if Ivars.mbShowCodeTalker:Is(1) then enable = true end
+		if Ivars.mbShowCodeTalker:Is(1) then enable = true end--tex
+		if Ivars.mbWarGamesProfile:Is()>0 then enable = false end--tex
 		TppDataUtility.SetVisibleDataFromIdentifier( "f30050_codeTolker_DataIdentifier",	"CodeTalker",	enable, false )
 	end
 end

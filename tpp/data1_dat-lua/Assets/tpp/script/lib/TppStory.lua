@@ -1199,28 +1199,28 @@ function this.MissionOpen(missionCode)
   TppCassette.AcquireOnMissionOpen(missionCode)
   this.EnableMissionNewOpenFlag(missionCode)
 end
-function this.MissionClose(n)
-  this.SetMissionOpenFlag(n,false)
+function this.MissionClose(missionCode)
+  this.SetMissionOpenFlag(missionCode,false)
 end
-function this.SetMissionOpenFlag(e,t)
-  local e=TppDefine.MISSION_ENUM[tostring(e)]
-  if e then
-    local n=gvars.str_missionOpenPermission[e]
-    if n then
-      gvars.str_missionOpenFlag[e]=t
+function this.SetMissionOpenFlag(missionCode,open)
+  local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    local allowOpen=gvars.str_missionOpenPermission[missionEnum]
+    if allowOpen then
+      gvars.str_missionOpenFlag[missionEnum]=open
     end
   end
 end
-function this.IsMissionOpen(e)
-  local e=TppDefine.MISSION_ENUM[tostring(e)]
-  if e then
-    return gvars.str_missionOpenFlag[e]
+function this.IsMissionOpen(missionCode)
+  local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    return gvars.str_missionOpenFlag[missionEnum]
   end
 end
-function this.IsMissionCleard(e)
-  local e=TppDefine.MISSION_ENUM[tostring(e)]
-  if e then
-    return gvars.str_missionClearedFlag[e]
+function this.IsMissionCleard(missionCode)
+  local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    return gvars.str_missionClearedFlag[missionEnum]
   end
 end
 function this.CheckAllMissionCleared()
@@ -1497,9 +1497,9 @@ end
 function this.SetUpStorySequenceTable()
   this.storySequenceTable=this.storySequenceTable_Master
 end
-function this.Init(n)
+function this.Init(missionTable)
   if this.IsAlwaysOpenRetakeThePlatform()then
-    this.SetMissionOpenFlag(missionId,true)
+    this.SetMissionOpenFlag(missionId,true)--RETAILBUG: ORPHAN
   end
   this.UpdateStorySequence{updateTiming="OnMissionStart"}
 end
@@ -1755,7 +1755,7 @@ function this.RequestLoseQuiet()
   end
 end
 function this.CanArrivalLiquidInMB()
-  if Ivars.mbShowEli:Is(1) then return true end--tex added mbshow
+  if Ivars.mbShowEli:Is(1) and Ivars.mbWarGamesProfile:Is(0) then return true end--tex added mbshow
   local e=this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
   local n=not TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"return e and n
 end
@@ -1767,7 +1767,7 @@ function this.HueyHasKantokuGrass()
   return this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA
 end
 function this.CanArrivalCodeTalkerInMB()
-  return this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_CODE_TALKER or Ivars.mbShowCodeTalker:Is(1)--tex added mbshow
+  return this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_CODE_TALKER or (Ivars.mbShowCodeTalker:Is(1)and Ivars.mbWarGamesProfile:Is(0))--tex added mbshow
 end
 function this.CanArrivalDDogInMB()
   local e=TppBuddyService.CanSortieBuddyType(BuddyType.DOG)

@@ -318,9 +318,9 @@ function this.AddStaffsFromTempBuffer(readOnly,RENoffline)
   if(vars.fobSneakMode==FobMode.MODE_SHAM)then
     return
   end
-  local a=TppMotherBaseManagement.IsExistTempStaff{skill="TranslateRussian"}
-  local n=TppMotherBaseManagement.IsExistStaff{skill="TranslateRussian"}
-  if a and not n then
+  local gotTranslater=TppMotherBaseManagement.IsExistTempStaff{skill="TranslateRussian"}
+  local hasTranslater=TppMotherBaseManagement.IsExistStaff{skill="TranslateRussian"}
+  if gotTranslater and not hasTranslater then
     TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.RECOVERED_RUSSIAN_INTERPRETER)
   end
   for buddyId=0,(budyIdLimit-1)do
@@ -813,18 +813,18 @@ end
 function this.OnAllocate(e)
   mvars.trm_fultonInfo={}
 end
-function this.Init(t)
+function this.Init(missionTable)
   TppClock.RegisterClockMessage("TerminalVoiceOnSunSet",TppClock.DAY_TO_NIGHT)
   TppClock.RegisterClockMessage("TerminalVoiceOnSunRise",TppClock.NIGHT_TO_DAY)
   TppClock.RegisterClockMessage("WolfHowl","00:00:00")
-  if t.sequence then
-    if t.sequence.ALLWAYS_DIRECT_ADD_STAFF then
+  if missionTable.sequence then
+    if missionTable.sequence.ALLWAYS_DIRECT_ADD_STAFF then
       mvars.trm_isAlwaysDirectAddStaff=true
     end
-    if t.sequence.SKIP_ADD_STAFF_TO_TEMP_BUFFER then
+    if missionTable.sequence.SKIP_ADD_STAFF_TO_TEMP_BUFFER then
       mvars.trm_isAlwaysDirectAddStaff=true
     end
-    if t.sequence.SKIP_ADD_RESOURCE_TO_TEMP_BUFFER then
+    if missionTable.sequence.SKIP_ADD_RESOURCE_TO_TEMP_BUFFER then
       mvars.trm_isSkipAddResourceToTempBuffer=true
     end
     if vars.missionCode==30150 or vars.missionCode==30250 then
@@ -1474,12 +1474,12 @@ function this.AddTempStaffFulton(staffInfo)
     end
   end
 end
-function this.AddTempResource(resourceId,_count,a)
+function this.AddTempResource(resourceId,count,a)
   local a=a or 0
   if not this.CheckAddTempBuffer(a)then
     return
   end
-  local count=_count or 1
+  local count=count or 1
   TppMotherBaseManagement.AddTempResource{resourceId=resourceId,count=count}
 end
 function this.AddTempDataBase(dataBaseId)

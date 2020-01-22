@@ -3708,6 +3708,7 @@ sequences.Seq_Game_EscapeFromParasites = {
 		GameObject.SendCommand(gameObjectId, { id="SetForceRoute", route="rts_apr_villageNorth_N_0001" , point = 2 })
 		GameObject.SendCommand(gameObjectId, { id="SetRequestedLandingZoneToCurrent" } ) 
 		
+		
 		svars.isCanPlayParasiteDemo = true
 		
 		s10020_radio.GoToNewRVPointWithMiller()

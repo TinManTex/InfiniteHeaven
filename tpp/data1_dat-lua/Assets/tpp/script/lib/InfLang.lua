@@ -346,6 +346,11 @@ this.eng={--english
   disableWorldMarkers="Disable world markers",
   playerRestrictionsInMissionMenu="Markers menu",
   mbEnableOcelot="Enable Ocelot",--r135
+  mbCollectionRepop="Repopulate plants and diamonds",--r136
+  npcHeliUpdate="Enable npc helis",
+  mbWargameFemales="Women in Enemy Invasion mode",
+  mbEnemyHeliColor="Heli type in Enemy Invasion mode",
+  mbEnemyHeliColorSettings={"Black","Red"},
 }
 
 this.eng_help={

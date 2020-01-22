@@ -141,7 +141,7 @@ function this.InactiveMessages()
 end
 function this.OnAllocate(e)
 end
-function this.Init(e)
+function this.Init(missionTable)
 end
 function this.OnReload()
   if mvars.paz_isActive then

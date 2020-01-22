@@ -36,7 +36,12 @@ this.REINFORCE_FPK={
       _DEFAULT="/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk",
       [TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk","/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"},
       [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk","/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"}
-    }
+    },
+    MTBS={--tex>
+      _DEFAULT="/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk",
+      [TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk","/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"},
+      [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk","/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"}
+    }--<
   }
 }
 this.REINFORCE_VEHICLE_NAME="reinforce_vehicle_0000"
@@ -63,6 +68,8 @@ function this.GetFpk(reinforceType,pfcType,coloringType)--NMC: basically parses 
       locationString="AFGH"
     elseif TppLocation.IsMiddleAfrica()then
       locationString="MAFR"
+    elseif TppLocation.IsMotherBase() or TppLocation.IsMBQF() then--tex>
+      locationString="MTBS"--<
     end
     local fpkPath=fpkTableForReinforceType[pfcType]or fpkTableForReinforceType[locationString]
     if Tpp.IsTypeTable(fpkPath)then
@@ -126,7 +133,7 @@ function this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringTy
     return
   end
   if reinforceType==this.REINFORCE_TYPE.HELI and GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli"then
-    --InfMenu.DebugPrint"LoadReinforceBlock reinforcetype heli, has TppEnemyHeli"--DEBUGN
+    --InfMenu.DebugPrint"LoadReinforceBlock reinforcetype heli, has TppEnemyHeli"--DEBUG
     return
   end
   local reinforceBlockId=this.GetReinforceBlockId()
@@ -141,7 +148,7 @@ function this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringTy
   mvars.reinforce_reinforceType=reinforceType
   mvars.reinforce_reinforceColoringType=reinforceColoringType
   if reinforceType~=this.REINFORCE_TYPE.NONE then
-    --InfMenu.DebugPrint"LoadReinforceBlock SetReinforceEnable"--DEBUG
+--    InfMenu.DebugPrint"LoadReinforceBlock SetReinforceEnable"--DEBUG
     SendCommand({type="TppCommandPost2"},{id="SetReinforceEnable"})
     mvars.reinforce_reinforceCpId=reinforceCpId
     local hasVehicle=this._HasVehicle()
@@ -182,18 +189,18 @@ function this.UnloadReinforceBlock(cpId)
 end
 function this.StartReinforce(cpId)
   if not mvars.reinforce_hasReinforceBlock then
-    --InfMenu.DebugPrint"StartReinforce not reinforce_hasReinforceBlock"--DEBUG
+--    InfMenu.DebugPrint"StartReinforce not reinforce_hasReinforceBlock"--DEBUG
     return
   end
   if mvars.reinforce_reinforceType==this.REINFORCE_TYPE.NONE then
-    --InfMenu.DebugPrint"StartReinforce REINFORCE_TYPE.NONE"--DEBUG
+--    InfMenu.DebugPrint"StartReinforce REINFORCE_TYPE.NONE"--DEBUG
     return
   end
   if(cpId~=nil and cpId~=NULL_ID)and mvars.reinforce_reinforceCpId~=cpId then
-    --InfMenu.DebugPrint"StartReinforce cpId doesnt match"--DEBUG
+--    InfMenu.DebugPrint"StartReinforce cpId doesnt match"--DEBUG
     return
   end
-  --InfMenu.DebugPrint"StartReinforce do ScriptBlock.Activate"--DEBUG
+--  InfMenu.DebugPrint"StartReinforce do ScriptBlock.Activate"--DEBUG
   local reinforceBlockId=this.GetReinforceBlockId()
   ScriptBlock.Activate(reinforceBlockId)
   mvars.reinforce_activated=true
@@ -398,7 +405,7 @@ function this.Messages()
     }
   }
 end
-function this.Init(r)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.OnReload(r)

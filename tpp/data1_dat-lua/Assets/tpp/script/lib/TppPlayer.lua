@@ -237,12 +237,12 @@ function this.SetInitialPositionToCurrentPosition()
   vars.initialPlayerPosZ=vars.playerPosZ
   vars.initialPlayerRotY=vars.playerRotY
 end
-function this.SetInitialPosition(e,a)
+function this.SetInitialPosition(position,rotation)
   vars.initialPlayerFlag=PlayerFlag.USE_VARS_FOR_INITIAL_POS
-  vars.initialPlayerPosX=e[1]
-  vars.initialPlayerPosY=e[2]
-  vars.initialPlayerPosZ=e[3]
-  vars.initialPlayerRotY=a
+  vars.initialPlayerPosX=position[1]
+  vars.initialPlayerPosY=position[2]
+  vars.initialPlayerPosZ=position[3]
+  vars.initialPlayerRotY=rotation
 end
 function this.SetInitialPositionFromMissionStartPosition()
   if gvars.ply_useMissionStartPos then
@@ -1670,14 +1670,14 @@ function this.OnAllocate(missionTable)
     mvars.ply_maxPlacedLocatorCount=TppDefine.PLACED_MAX
   end
 end
-function this.SetInitialPlayerState(a)
-  local t
-  if(a.sequence and a.sequence.missionStartPosition)and a.sequence.missionStartPosition.helicopterRouteList then
-    if not Tpp.IsTypeFunc(a.sequence.missionStartPosition.IsUseRoute)or a.sequence.missionStartPosition.IsUseRoute()then
-      t=a.sequence.missionStartPosition.helicopterRouteList
+function this.SetInitialPlayerState(missionTable)
+  local helicopterRouteList
+  if(missionTable.sequence and missionTable.sequence.missionStartPosition)and missionTable.sequence.missionStartPosition.helicopterRouteList then
+    if not Tpp.IsTypeFunc(missionTable.sequence.missionStartPosition.IsUseRoute)or missionTable.sequence.missionStartPosition.IsUseRoute()then
+      helicopterRouteList=missionTable.sequence.missionStartPosition.helicopterRouteList
     end
   end
-  if t==nil then
+  if helicopterRouteList==nil then
     if gvars.ply_initialPlayerState==TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER then
     end
     this.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
@@ -1770,23 +1770,23 @@ function this.Init(missionTable)
   mvars.ply_stationLocatorList={}
   local locationName=TppLocation.GetLocationName()
   if locationName=="afgh"or locationName=="mafr"then
-    local a=TppDefine.STATION_LIST[locationName]
-    if a and TppCollection.GetUniqueIdByLocatorName then
-      for a,e in ipairs(a)do
-        local a="col_labl_"..e
-        local e="col_stat_"..e
-        local t=TppCollection.GetUniqueIdByLocatorName(a)
-        mvars.ply_locationStationTable[t]=e
-        if TppCollection.RepopCountOperation("GetAt",a)>0 then
-          TppCollection.SetValidStation(e)
+    local stations=TppDefine.STATION_LIST[locationName]
+    if stations and TppCollection.GetUniqueIdByLocatorName then
+      for n,stationName in ipairs(stations)do
+        local collectionLocator="col_labl_"..stationName
+        local collectionName="col_stat_"..stationName
+        local collectionId=TppCollection.GetUniqueIdByLocatorName(collectionLocator)
+        mvars.ply_locationStationTable[collectionId]=collectionName
+        if TppCollection.RepopCountOperation("GetAt",collectionLocator)>0 then
+          TppCollection.SetValidStation(collectionName)
         end
       end
     end
-    local e=TppDefine.STATION_LIST[locationName]
-    if e then
-      for a,e in ipairs(e)do
-        local e="col_labl_"..e
-        table.insert(mvars.ply_stationLocatorList,e)
+    local stations=TppDefine.STATION_LIST[locationName]
+    if stations then
+      for n,stationName in ipairs(stations)do
+        local collectionLocator="col_labl_"..stationName
+        table.insert(mvars.ply_stationLocatorList,collectionLocator)
       end
     end
   end
@@ -1886,9 +1886,9 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   end
   local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
   local mbSectionSuccess=this.mbSectionRankSuccessTable[mbFultonRank]or 0
-  if Ivars.fultonNoMbSupport:Is(1) then--tex
+  if Ivars.fultonNoMbSupport:Is(1) then--tex>
     mbSectionSuccess=0
-  end--
+  end--<
 
   local successMod=fultonWeatherSuccessTable[vars.weather]or 0
   successMod=successMod+mbSectionSuccess
@@ -1932,6 +1932,9 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
     if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD" then
       percentage=0
     end
+  end--<
+  if Ivars.mbWarGamesProfile:Is"INVASION" then--tex> WORKAROUND something weird happening with fuledtempstaff on map exit, disabling for now
+    percentage=0
   end--<
   local forcePercent
   if mvars.ply_forceFultonPercent then

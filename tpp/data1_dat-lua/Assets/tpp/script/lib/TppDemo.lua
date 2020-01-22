@@ -606,7 +606,7 @@ function this.OnAllocate(missionTable)
     this.Register(n.demoList)
   end
 end
-function this.Init(n)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.OnReload(n)

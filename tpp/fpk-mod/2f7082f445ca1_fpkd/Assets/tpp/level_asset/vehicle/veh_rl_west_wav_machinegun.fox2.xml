@@ -95,7 +95,7 @@
           <value>/Assets/tpp/parts/mecha/wav/wav0_turt1_def.parts</value>
         </property>
         <property name="attachmentInstanceCount" type="uint8" container="StaticArray" arraySize="1">
-          <value>1</value>
+          <value>4</value>
         </property>
         <property name="bodyCnpName" type="String" container="StaticArray" arraySize="1">
           <value>CNP_TURRET</value>

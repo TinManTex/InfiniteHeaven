@@ -836,7 +836,7 @@ function this.SetSoldierType(soldierId,soldierType)
   GameObject.SendCommand(soldierId,{id="SetSoldier2Type",type=soldierType})
 end
 
-function this.GetSoldierType(soldierId)--tex now pulls type for subtype> ORIG is below
+function this.GetSoldierType(soldierId)--tex> now pulls type for subtype> ORIG is below
   local soldierType = this._GetSoldierType(soldierId)
 
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." GetSoldierType Caller: " .. debug.getinfo(2).name.. " ".. debug.getinfo(2).source)
@@ -854,7 +854,7 @@ function this.GetSoldierType(soldierId)--tex now pulls type for subtype> ORIG is
     end
   end
 
-  if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then
+  if InfMain.IsDDBodyEquip(vars.missionCode) then
     local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
     local bodyInfo=InfMain.GetCurrentDDBodyInfo(isFemale)
     if bodyInfo and bodyInfo.soldierSubType then
@@ -909,7 +909,7 @@ function this.GetSoldierSubType(soldierId,soldierType)
     local soldierType=GameObject.SendCommand(soldierId,{id="GetSoldier2Type"})
     return InfMain.enemySubTypes[gvars.forceSoldierSubType]
   end--<
-  if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then--tex>
+  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
     local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
     local bodyInfo=InfMain.GetCurrentDDBodyInfo(isFemale)
     if bodyInfo and bodyInfo.soldierSubType then

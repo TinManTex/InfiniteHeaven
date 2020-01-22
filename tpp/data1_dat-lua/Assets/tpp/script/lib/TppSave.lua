@@ -474,7 +474,7 @@ function this.GetSaveResultErrorMessage(a)
     return TppDefine.ERROR_ID.SAVE_FAILED_UNKNOWN_REASON
   end
 end
-function this.Init(a)
+function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.OnReload(a)
@@ -502,7 +502,8 @@ function this.WaitingAllEnqueuedSaveOnStartMission()
   end
 end
 function this.CoroutineYieldWithShowSavingIcon()
-  TppUI.ShowSavingIcon()coroutine.yield()
+  TppUI.ShowSavingIcon()
+  coroutine.yield()
 end
 function this.SaveVarsToSlot(slot,group,category)
   local saveFileVersion=this.GetSaveFileVersion(category)
@@ -551,11 +552,11 @@ end
 function this.VarSavePersonalData()
   this.SaveVarsToSlot(TppDefine.SAVE_SLOT.PERSONAL,TppScriptVars.GROUP_BIT_ALL,TppScriptVars.CATEGORY_PERSONAL)
 end
-function this.LoadFromSaveFile(n,a,e)
-  if not e then
-    return TppScriptVars.ReadSlotFromFile(n,a)
+function this.LoadFromSaveFile(slot,area,fileName)
+  if not fileName then
+    return TppScriptVars.ReadSlotFromFile(slot,area)
   else
-    return TppScriptVars.ReadSlotFromAreaFile(n,e,a)
+    return TppScriptVars.ReadSlotFromAreaFile(slot,fileName,area)
   end
 end
 function this.GetGameSaveFileName()
@@ -578,12 +579,12 @@ function this.LoadGameDataFromSaveFile(area)
   return this.LoadFromSaveFile(TppDefine.SAVE_SLOT.SAVING,fileName,area)
 end
 local categories={
-TppScriptVars.CATEGORY_GAME_GLOBAL,
-TppScriptVars.CATEGORY_MISSION,
-TppScriptVars.CATEGORY_RETRY,
-TppScriptVars.CATEGORY_MB_MANAGEMENT,
-TppScriptVars.CATEGORY_QUEST,
-TppDefine.CATEGORY_MISSION_RESTARTABLE
+  TppScriptVars.CATEGORY_GAME_GLOBAL,
+  TppScriptVars.CATEGORY_MISSION,
+  TppScriptVars.CATEGORY_RETRY,
+  TppScriptVars.CATEGORY_MB_MANAGEMENT,
+  TppScriptVars.CATEGORY_QUEST,
+  TppDefine.CATEGORY_MISSION_RESTARTABLE
 }
 function this.CheckGameDataVersion()
   for n,category in ipairs(categories)do
@@ -614,11 +615,11 @@ end
 function this.LoadMGODataFromSaveFile()
   return this.LoadFromSaveFile(TppDefine.SAVE_SLOT.MGO,TppDefine.MGO_SAVE_FILE_NAME)
 end
-function this.LoadConfigDataFromSaveFile(a)
-  return this.LoadFromSaveFile(TppDefine.SAVE_SLOT.CONFIG,TppDefine.CONFIG_SAVE_FILE_NAME,a)
+function this.LoadConfigDataFromSaveFile(area)
+  return this.LoadFromSaveFile(TppDefine.SAVE_SLOT.CONFIG,TppDefine.CONFIG_SAVE_FILE_NAME,area)
 end
-function this.LoadPersonalDataFromSaveFile(a)
-  return this.LoadFromSaveFile(TppDefine.SAVE_SLOT.PERSONAL,TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,a)
+function this.LoadPersonalDataFromSaveFile(area)
+  return this.LoadFromSaveFile(TppDefine.SAVE_SLOT.PERSONAL,TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,area)
 end
 function this.CheckSlotVersion(category,n,useMissionStartSlot)
   local saveFileVersion=this.GetSaveFileVersion(category)

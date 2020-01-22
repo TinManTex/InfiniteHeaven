@@ -721,7 +721,7 @@ function this.PlayMtbsEventDemo(params)
   local RENAMEsetBuddyType2=false
   local enableWaitBlockLoadOnDemoSkip=nil
   local isFinishFadeOut=false
-  local isUseGrassOcelot=false
+  local isUseGlassesOcelot=false
   if demoOptions then
     DemoOnEnter=demoOptions.OnEnter
     DemoOnEnd=demoOptions.OnEnd
@@ -752,7 +752,7 @@ function this.PlayMtbsEventDemo(params)
     end
     enableWaitBlockLoadOnDemoSkip=demoOptions.enableWaitBlockLoadOnDemoSkip
     isFinishFadeOut=demoOptions.isFinishFadeOut
-    isUseGrassOcelot=demoOptions.isUseGrassOcelot
+    isUseGlassesOcelot=demoOptions.isUseGrassOcelot--NMC: actually glasses, not grass lol
   end
   local finishFadeOut=((hasNextDemo or mvars.f30050_needReload)or isShowReward)or isFinishFadeOut
   local demoFuncs={
@@ -777,7 +777,7 @@ function this.PlayMtbsEventDemo(params)
           GameObject.SendCommand({type="TppHeli2",index=0},{id="SetDemoToAfterDropEnabled",enabled=false,route="ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_tkof"})
         end
       end
-      if isUseGrassOcelot then
+      if isUseGlassesOcelot then
         local tppOcelot={type="TppOcelot2",index=0}
         local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=371}
         GameObject.SendCommand(tppOcelot,command)
