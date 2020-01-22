@@ -83,49 +83,49 @@ function this.ClearAllVarsAndSlot()--RETAILPATCH: 1006
   end
 end--
 function this.InitializeOnStatingMainFrame()
-  local oneMb=1024
+  local oneK=1024
   local saveSlotSizes={
-    [TppDefine.SAVE_SLOT.GLOBAL+1]=14*oneMb,
-    [TppDefine.SAVE_SLOT.CHECK_POINT+1]=65*oneMb,
-    [TppDefine.SAVE_SLOT.RETRY+1]=11*oneMb,
-    [TppDefine.SAVE_SLOT.MB_MANAGEMENT+1]=80.5*oneMb+2688,
-    [TppDefine.SAVE_SLOT.QUEST+1]=2*oneMb,
-    [TppDefine.SAVE_SLOT.MISSION_START+1]=10*oneMb,
-    [TppDefine.SAVE_SLOT.CHECK_POINT_RESTARTABLE+1]=10*oneMb
+    [TppDefine.SAVE_SLOT.GLOBAL+1]=14*oneK,
+    [TppDefine.SAVE_SLOT.CHECK_POINT+1]=65*oneK,
+    [TppDefine.SAVE_SLOT.RETRY+1]=11*oneK,
+    [TppDefine.SAVE_SLOT.MB_MANAGEMENT+1]=80.5*oneK+2688,
+    [TppDefine.SAVE_SLOT.QUEST+1]=2*oneK,
+    [TppDefine.SAVE_SLOT.MISSION_START+1]=10*oneK,
+    [TppDefine.SAVE_SLOT.CHECK_POINT_RESTARTABLE+1]=10*oneK
   }
-  local t={}
-  local a=0
+  local size={}
+  local slotsTotalSize=0
   for slotIndex,size in ipairs(saveSlotSizes)do
-    a=a+size
-    t[slotIndex]=size
+    slotsTotalSize=slotsTotalSize+size
+    size[slotIndex]=size
   end
-  saveSlotSizes[TppDefine.SAVE_SLOT.SAVING+1]=a+92
-  local n=1*oneMb
+  saveSlotSizes[TppDefine.SAVE_SLOT.SAVING+1]=slotsTotalSize+92
+  local n=1*oneK
   local platform=TppGameSequence.GetTargetPlatform()
   if((platform=="Steam"or platform=="Win32")or platform=="Win64")then
-    n=2*oneMb
+    n=2*oneK
   end
   saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG+1]=n
   saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG_SAVE+1]=saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG+1]
-  local a=3*oneMb
-  saveSlotSizes[TppDefine.SAVE_SLOT.PERSONAL+1]=a
-  saveSlotSizes[TppDefine.SAVE_SLOT.PERSONAL_SAVE+1]=a
+  local personalSize=3*oneK
+  saveSlotSizes[TppDefine.SAVE_SLOT.PERSONAL+1]=personalSize
+  saveSlotSizes[TppDefine.SAVE_SLOT.PERSONAL_SAVE+1]=personalSize
   if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    local i=16*oneMb
-    saveSlotSizes[TppDefine.SAVE_SLOT.MGO+1]=i
-    saveSlotSizes[TppDefine.SAVE_SLOT.MGO_SAVE+1]=i
+    local mgoSize=16*oneK
+    saveSlotSizes[TppDefine.SAVE_SLOT.MGO+1]=mgoSize
+    saveSlotSizes[TppDefine.SAVE_SLOT.MGO_SAVE+1]=mgoSize
   end
-  Tpp.DEBUG_DumpTable(t)
+  Tpp.DEBUG_DumpTable(size)
   Tpp.DEBUG_DumpTable(saveSlotSizes)
   TppScriptVars.CreateSaveSlot(saveSlotSizes)
-  TppSave.RegistCompositSlotSize(t)
+  TppSave.RegistCompositSlotSize(size)
   TppSave.SetUpCompositSlot()
   TppScriptVars.SetFileSizeList{
     {TppSave.GetGameSaveFileName(),saveSlotSizes[TppDefine.SAVE_SLOT.SAVING+1]},
     {TppDefine.CONFIG_SAVE_FILE_NAME,saveSlotSizes[TppDefine.SAVE_SLOT.CONFIG+1]},
     {TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,saveSlotSizes[TppDefine.SAVE_SLOT.PERSONAL+1]},
     {TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,saveSlotSizes[TppDefine.SAVE_SLOT.PERSONAL+1]},
-    {"MGO_GAME_DATA",16*oneMb}
+    {"MGO_GAME_DATA",16*oneK}
   }
 end
 function this.InitializeOnNewGameAtFirstTime()

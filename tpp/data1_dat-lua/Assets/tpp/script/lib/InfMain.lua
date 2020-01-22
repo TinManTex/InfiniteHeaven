@@ -109,23 +109,24 @@ this.soldierTypeForSubtypes={
   PF_C=EnemyType.TYPE_PF,
   CHILD_A=EnemyType.TYPE_CHILD,
 }
-function this.SoldierTypeNameForType(soldierType)--tex maybe I'm missing something but not having luck indexing by EnemyType
+--tex maybe I'm missing something but not having luck indexing by EnemyType
+function this.SoldierTypeNameForType(soldierType)
   if soldierType == nil then
     return nil
-end
+  end
 
-if soldierType==EnemyType.TYPE_DD then
-  return "TYPE_DD"
-elseif soldierType==EnemyType.TYPE_SKULL then
-  return "TYPE_SKULL"
-elseif soldierType==EnemyType.TYPE_SOVIET then
-  return "TYPE_SOVIET"
-elseif soldierType==EnemyType.TYPE_PF then
-  return "TYPE_PF"
-elseif soldierType==EnemyType.TYPE_CHILD then
-  return "TYPE_CHILD"
-end
-return nil
+  if soldierType==EnemyType.TYPE_DD then
+    return "TYPE_DD"
+  elseif soldierType==EnemyType.TYPE_SKULL then
+    return "TYPE_SKULL"
+  elseif soldierType==EnemyType.TYPE_SOVIET then
+    return "TYPE_SOVIET"
+  elseif soldierType==EnemyType.TYPE_PF then
+    return "TYPE_PF"
+  elseif soldierType==EnemyType.TYPE_CHILD then
+    return "TYPE_CHILD"
+  end
+  return nil
 end
 
 function this.IsSubTypeCorrectForType(soldierType,subType)--returns true on nil soldiertype because fsk that
@@ -153,7 +154,7 @@ function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
   if missionCode~=50050 and missionCode >5 then--tex IsFreeMission hangs on startup?
     local mbDDEquip = Ivars.enableMbDDEquip:Is(1) and missionCode==30050
-    local enemyDDEquipFreeRoam = Ivars.enableEnemyDDEquip:Is(1) and TppMission.IsFreeMission(missionCode) and missionCode~=30050--DEBUGNOW
+    local enemyDDEquipFreeRoam = Ivars.enableEnemyDDEquip:Is(1) and TppMission.IsFreeMission(missionCode) and missionCode~=30050
     local enemyDDEquipMissions = Ivars.enableEnemyDDEquipMissions:Is(1) and TppMission.IsStoryMission(missionCode)
     return mbDDEquip or enemyDDEquipFreeRoam or enemyDDEquipMissions
   end
@@ -173,37 +174,82 @@ this.ddBodyInfo={
     maleBodyId=TppEnemyBodyId.dds4_enem0_def,
     femaleBodyId=TppEnemyBodyId.dds4_enef0_def,
     partsPath="/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts",
-    extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts"},
+    extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts"},
     missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",
   },
   BATTLE_DRESS={
     maleBodyId=TppEnemyBodyId.dds5_enem0_def,
     femaleBodyId=TppEnemyBodyId.dds5_enef0_def,
     partsPath="/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts",
-    extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts"},
+    extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts"},
     missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",
   },
   PFA_ARMOR={
     maleBodyId=TppEnemyBodyId.pfa0_v00_a,
-    noFemaleExtended=true,
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_armor.fpk",
     isArmor=true,
-    hasHeadGear=true,
-    fallBack="BATTLE_DRESS",
+    helmetOnly=true,
+    noDDHeadgear=true,
   },
   TIGER={
     maleBodyId=TppEnemyBodyId.dds5_main0_v00,
     femaleBodyId=TppEnemyBodyId.dds6_main0_v00,
     partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",
-    extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts"},
+    extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts"},
     missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",
   },
   DRAB={--?? mother base default
     maleBodyId=TppEnemyBodyId.dds3_main0_v00,
     femaleBodyId=TppEnemyBodyId.dds8_main0_v00,
-    extendedPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"},
+    extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"},
   },
+  XOF={--tex Test: when XOF mission fpk loaded it stops salute morale from working?
+    maleBodyId=TppEnemyBodyId.wss4_main0_v00,--wss4_main0_v01,wss4_main0_v02
+    partsPath="/Assets/tpp/parts/chara/wss/wss4_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_xof_soldier.fpk",
+    hasFace=true,
+    hasHelmet=true,
+    soldierSubType="SKULL_AFGH",
+  },
+  SOVIET_A={
+    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
+    noDDHeadgear=true,
+    soldierSubType="SOVIET_A",
+  },
+  SOVIET_B={
+    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
+    noDDHeadgear=true,
+    soldierSubType="SOVIET_B",
+  },
+  PF_A={
+    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
+    noDDHeadgear=true,
+    soldierSubType="PF_A",
+  },
+  PF_B={
+    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
+    noDDHeadgear=true,
+    soldierSubType="PF_B",
+  },
+  PF_C={
+    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
+    noDDHeadgear=true,
+    soldierSubType="PF_C",
+  },
+
+--  GZ={
+--    maleBodyId=TppEnemyBodyId.pfa0_v00_a,
+--    partsPath="/Assets/tpp/parts/chara/dds/dds0_main2_def_v00.parts",
+--    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_gz.fpk",
+--    hasHeadGear=true,
+--    fallBack="BATTLE_DRESS",
+--  },
 }
 
 this.ddSuitToDDBodyInfo={
@@ -351,16 +397,16 @@ function this.GetCurrentDDBodyInfo()
   return this.ddBodyInfo[suitName]
 end
 
-function this.AddBodyPack(bodyInfo)
-  if not bodyInfo then
-    return
-  end
-  if bodyInfo.missionPackPath then
-    TppPackList.AddMissionPack(bodyInfo.missionPackPath)
-  end
-end
+--function this.AddBodyPack(bodyInfo)--CULL
+--  if not bodyInfo then
+--    return
+--  end
+--  if bodyInfo.missionPackPath then
+--    TppPackList.AddMissionPack(bodyInfo.missionPackPath)
+--  end
+--end
 
-function this.GetHeadGearForPowers(powerSettings,faceId)
+function this.GetHeadGearForPowers(powerSettings,faceId,hasHelmet)
   local validHeadGearIds={}
   --CULL local powerSettings=mvars.ene_soldierPowerSettings[soldierId]or nil
   if powerSettings then
@@ -369,11 +415,15 @@ function this.GetHeadGearForPowers(powerSettings,faceId)
       GAS_MASK=true,
       NVG=true,
     }
+    if hasHelmet then
+      gearPowerTypes.HELMET=nil--DEBUGNOW
+    end
+
     local function IsFemale(faceId)
       local isFemale=TppSoldierFace.CheckFemale{face={faceId}}
       return isFemale and isFemale[1]==1
     end
-    for headGearId, headGearInfo in pairs(InfMain.ddHeadGearInfo)do
+    for headGearId, headGearInfo in pairs(this.ddHeadGearInfo)do
       local isMatch=true
       if IsFemale(faceId)==true then
         if not headGearInfo.FEMALE then
@@ -383,6 +433,14 @@ function this.GetHeadGearForPowers(powerSettings,faceId)
         if not headGearInfo.MALE then
           isMatch=false
         end
+      end
+      --      if hasHelmet and headGearInfo.HELMET then --CULL
+      --        if powerSettings.HELMET and not (powerSettings.GAS_MASK or powerSettings.NVG) then--tex really only want to prevent DD helm+nothing
+      --          isMatch=false
+      --        end
+      --      end
+      if hasHelmet and (not headGearInfo.GAS_MASK and not headGearInfo.NVG) then
+        isMatch=false
       end
 
       if isMatch then
@@ -590,8 +648,8 @@ function this.CreateCustomRevengeConfig()
   for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
     local powerTable=Ivars[powerTableName]
     for m,powerType in ipairs(powerTable)do
-      local min=Ivars[powerType.."_MIN"].setting*100
-      local max=Ivars[powerType.."_MAX"].setting*100
+      local min=Ivars[powerType.."_MIN"].setting
+      local max=Ivars[powerType.."_MAX"].setting
       local random=math.random(min,max)
       random=this.round(random)
       --InfMenu.DebugPrint(ivarName.." min:"..tostring(min).." max:"..tostring(max).. " random:"..tostring(random))--DEBUG
@@ -651,6 +709,10 @@ function this.CreateCustomRevengeConfig()
     if Ivars.mbWarGames:Is"NONLETHAL" then
       revengeConfig.NO_KILL_WEAPON=true
     end
+  end
+
+  if not TppRevenge.CanUseArmor() or vars.missionCode==30050 then--tex TODO: handle mother base special case
+    revengeConfig.ARMOR=nil
   end
 
   math.randomseed(os.time())
@@ -1145,6 +1207,10 @@ local blockQuests={
 }
 
 function this.BlockQuest(questName)
+  if vars.missionCode==30050 and Ivars.mbWarGames:Is(1) then
+    return true
+  end
+
   for n,name in ipairs(blockQuests)do
     if name==questName then
       if TppQuest.IsCleard(questName) then
@@ -1770,8 +1836,8 @@ function this.FadeInOnGameStart()
   --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
   --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
   --RETRY: push back up again, you may just have fucked something up lol, the actual one use case is in sequence.OnEndMissionPrepareSequence which is the middle of tppmain.onallocate
-  local healthScale=Ivars.playerHealthScale:Get()
-  if healthScale~=1 then
+  local healthScale=Ivars.playerHealthScale:Get()/100
+  if healthScale~=100 then
     Player.ResetLifeMaxValue()
     local newMax=vars.playerLifeMax
     newMax=newMax*healthScale
@@ -2339,7 +2405,7 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
   --tex pretty much doing voodoo to tune these
   local focalLengthScale=focalLength:Get()/100--1
   local apertureScale=aperture:Get()/50--0.1
-  local focusDistanceScale=focusDistance:Get()/10--0.1--DEBUGNOW fixed a bug, so re-test
+  local focusDistanceScale=focusDistance:Get()/10--0.1
 
   moveX=-PlayerVars.leftStickXDirect*moveScale
   moveZ=-PlayerVars.leftStickYDirect*moveScale
@@ -2405,7 +2471,7 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
         if isFreeCam then--tex KLUDGE
           cameraDistance:Set(0)
         else
-        cameraDistance:Reset()
+          cameraDistance:Reset()
         end
       end
     end

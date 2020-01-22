@@ -253,7 +253,14 @@ this.DEBUG_SomeShiz={
     --   else
     --   InfMenu.DebugPrint"does not have heli"
     --   end
-
+    
+    
+    
+    InfMain.CreateCustomRevengeConfig()
+    TppRevenge._CreateRevengeConfig()
+    
+    if true then return end
+-------------
     if Ivars.selectedCp:Is()>0 then
       local cpId=Ivars.selectedCp:Get()
       local colorType=nil

@@ -674,6 +674,13 @@ end
 
 
 function this.MissionPrepare()
+  if Ivars.mbEnableLethal:Is(1) then--tex>
+  PlayerDisableActionFlagMtbsDefault = PlayerDisableAction.NONE
+  end--<
+  if Ivars.mbEnableFultonAddStaff:Is(1) then--tex>
+  mvars.trm_isAlwaysDirectAddStaff=false
+  end--<
+
 	do 
 		local missionName = TppMission.GetMissionName()
 		Fox.Log("*** " .. tostring(missionName) .. " MissionPrepare ***")
@@ -903,8 +910,9 @@ function this.SetupStaffList()
 end
 
 function this.OnEndMissionPrepareSequence()
-	
+	if Ivars.mbEnableLethal:Is(0) then--tex added check
 	TppUiStatusManager.SetStatus(	"EquipHudAll", "ALL_KILL_NOUSE" )
+	end
 	
 	TppUiStatusManager.SetStatus( "QuestAreaAnnounce", "INVALID" )
 	
@@ -1074,7 +1082,30 @@ this.RegisterFovaFpk = function( clusterId )
 		Tpp.ApendArray( fovaPackList, TppSoldierFace.GetFaceFpkFileCodeList{ face={TppEnemyFaceId.dds_balaclava5, TppEnemyFaceId.dds_balaclava2} } )
 	end
 		
-	
+	--tex DEBUGNOW TODO generate face ids for mode
+	--if free mix choose random 0-303
+	--if afgh choose TppEnemy.GetFaceGroupTable( ) 0-14
+	--mafr 15-74
+	--if #GetFaceGroupTable table < 18 then choose another and keep adding till 18
+  --if true then--DEBUGNOW
+  if vars.missionCode==30050 and Ivars.mbNonStaff:Is(1) then--tex>
+    mvars.f30050_soldierStaffIdList = {}
+    local securityStaffFaceIds = {} 
+    math.randomseed(gvars.rev_revengeRandomValue)
+    --local faceGroupTable=
+    for i=0,17 do
+      table.insert(securityStaffFaceIds,math.random(0,303))--tex DOC face and bodyids.txt
+      --table.insert(securityStaffFaceIds,math.random(350,399))
+    end
+
+    math.randomseed(os.time())
+
+    mvars.f30050_soldierFaceIdListPriority = securityStaffFaceIds
+    mvars.f30050_soldierFaceIdList = securityStaffFaceIds
+    mvars.f30050_soldierBalaclavaLocatorList = {}
+    mvars.f30050_soldierBalaclavaFaceIdList = {}--RETAILBUG even though is just used for debug, was f30050_soldierBalaclavaLocatorList which is already above
+  end--<
+  
 	if TppEnemy.MB_SET_FEMALE_ALL_STAFF or TppEnemy.MB_SET_MEMORY_DUMP then
 		local securityStaffFaceIds = {}	
 		if TppEnemy.MB_SET_FEMALE_ALL_STAFF then
@@ -1085,7 +1116,7 @@ this.RegisterFovaFpk = function( clusterId )
 		mvars.f30050_soldierFaceIdListPriority = securityStaffFaceIds
 		mvars.f30050_soldierFaceIdList = securityStaffFaceIds
 		mvars.f30050_soldierBalaclavaLocatorList = {}
-		mvars.f30050_soldierBalaclavaLocatorList = {}
+		mvars.f30050_soldierBalaclavaFaceIdList = {}--RETAILBUG even though is just used for debug, was f30050_soldierBalaclavaLocatorList which is already above
 	end
 	local faceFovaFpk = TppSoldierFace.GetFaceFpkFileCodeList{ face=mvars.f30050_soldierFaceIdList, deco = mvars.f30050_soldierBalaclavaFaceIdList, useHair=true }
 	if faceFovaFpk then
@@ -1131,7 +1162,9 @@ function this.Messages()
 				func = function(gameObjectId)
 					if not Tpp.IsPlayer(gameObjectId) then
 						mvars.f30050_deadGameObjectId = gameObjectId
+						if Ivars.mbWarGames:Is(0) and Ivars.mbEnableLethal:Is(0) then--tex added check
 						TppMission.ReserveGameOver( TppDefine.GAME_OVER_TYPE.TARGET_DEAD, TppDefine.GAME_OVER_RADIO.PLAYER_KILL_DD )
+						end
 					end
 				end,
 			},
@@ -1140,7 +1173,9 @@ function this.Messages()
 				func = function(gameObjectId)
 					if not Tpp.IsPlayer(gameObjectId) then
 						mvars.f30050_deadGameObjectId = gameObjectId
+						if Ivars.mbWarGames:Is(0) and Ivars.mbEnableLethal:Is(0) then--tex added check
 						TppMission.ReserveGameOver( TppDefine.GAME_OVER_TYPE.TARGET_DEAD, TppDefine.GAME_OVER_RADIO.PLAYER_KILL_DD )
+						end
 					end
 				end,				
 			},
@@ -3058,7 +3093,9 @@ function this.PazRoomOnLeave()
 	TppGameStatus.Reset("f30050_PazRoom","S_IS_DEMO_CAMERA")
 	
 	this.SetEnableQuestUI(true)
+	if Ivars.mbEnableLethal:Is(0) then--tex added check
 	TppUiStatusManager.SetStatus( "EquipHudAll", "ALL_KILL_NOUSE" )
+	end
 	TppPaz.OnLeave()
 	svars.isPazRoomStart = false 
 end

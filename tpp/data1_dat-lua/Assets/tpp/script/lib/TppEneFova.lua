@@ -8,10 +8,10 @@ local RENlang3=3
 local RENlang4=4
 local RENlang5=5
 local RENlang6=6
-local defaultPartsAfghan="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00.parts"
-local defaultPartsAfrica="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts"
-local defaultPartsAfghanFree="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00.parts"
-local defaultPartsAfricaFree="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts"
+local prs2_main0_def_v00PartsAfghan="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00.parts"
+local prs5_main0_def_v00PartsAfrica="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts"
+local prs3_main0_def_v00PartsAfghanFree="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00.parts"
+local prs6_main0_def_v00PartsAfricaFree="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts"
 local dds5_main0_def_v00Parts="/Assets/tpp/parts/chara/dds/dds5_main0_def_v00.parts"
 local noArmorForMission={
   [10010]=1,
@@ -367,12 +367,12 @@ function this.SetHostageFaceTable(missionId)
 end
 function this.GetFaceGroupTableAtGroupType(faceGroupType)
   local faceGroupTable=TppEnemyFaceGroup.GetFaceGroupTable(faceGroupType)
-  local a={}
+  local faces={}
   local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
-  for t,n in pairs(faceGroupTable)do
-    table.insert(a,{n,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+  for n,faceId in pairs(faceGroupTable)do
+    table.insert(faces,{faceId,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
   end
-  return a
+  return faces
 end
 fovaSetupFuncs[10200]=function(d,missionId)
   this.SetHostageFaceTable(missionId)
@@ -392,7 +392,7 @@ fovaSetupFuncs[10200]=function(d,missionId)
     {TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
-  TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
+  TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
 fovaSetupFuncs[11200]=fovaSetupFuncs[10200]
 fovaSetupFuncs[10120]=function(d,missionId)this.SetHostageFaceTable(missionId)
@@ -412,7 +412,7 @@ fovaSetupFuncs[10120]=function(d,missionId)this.SetHostageFaceTable(missionId)
     {TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
-  TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
+  TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
 fovaSetupFuncs[10040]=function(a,e)
   local a=Select(fovaSetupFuncs)
@@ -579,7 +579,7 @@ fovaSetupFuncs[30010]=function(a,t)
   local body={{TppEnemyBodyId.prs3_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=body}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs3_main0_v00}}
-  TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfghanFree,bodyId=TppEnemyBodyId.prs3_main0_v00}
+  TppHostage2.SetDefaultBodyFovaId{parts=prs3_main0_def_v00PartsAfghanFree,bodyId=TppEnemyBodyId.prs3_main0_v00}
 end
 fovaSetupFuncs[30020]=function(t,a)
   local n=Select(fovaSetupFuncs)
@@ -588,7 +588,7 @@ fovaSetupFuncs[30020]=function(t,a)
   local body={{TppEnemyBodyId.prs6_main0_v00,MAX_REALIZED_COUNT}}
   TppSoldierFace.OverwriteMissionFovaData{body=body}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs6_main0_v00}}
-  TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfricaFree,bodyId=TppEnemyBodyId.prs6_main0_v00}
+  TppHostage2.SetDefaultBodyFovaId{parts=prs6_main0_def_v00PartsAfricaFree,bodyId=TppEnemyBodyId.prs6_main0_v00}
 end
 function fovaSetupFuncs.Afghan(n,missionId)
   if missionId==10010 then
@@ -639,7 +639,7 @@ function fovaSetupFuncs.Afghan(n,missionId)
   end
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs2_main0_v00}}
-  TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfghan,bodyId=TppEnemyBodyId.prs2_main0_v00}
+  TppHostage2.SetDefaultBodyFovaId{parts=prs2_main0_def_v00PartsAfghan,bodyId=TppEnemyBodyId.prs2_main0_v00}
 end
 function fovaSetupFuncs.Africa(n,missionId)
   local isMoreVariationMode=0
@@ -713,9 +713,10 @@ function fovaSetupFuncs.Africa(n,missionId)
       end
     end
   end
+  --TppSoldier2.SetDefaultPartsPath("/Assets/tpp/parts/chara/wss/wss4_main0_def_v00.parts")--DEBUGNOW
   TppSoldierFace.OverwriteMissionFovaData{body=body}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
-  TppHostage2.SetDefaultBodyFovaId{parts=defaultPartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
+  TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
 end
 function fovaSetupFuncs.Mbqf(n,n)
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
@@ -789,6 +790,7 @@ function fovaSetupFuncs.Mb(n,missionId)
   if TppMission.IsHelicopterSpace(missionId)then
     return
   end
+
   TppSoldierFace.SetSoldierOutsideFaceMode(false)
   local faces={}
   local ddSuit=TppEnemy.GetDDSuit()
@@ -962,12 +964,23 @@ function fovaSetupFuncs.Mb(n,missionId)
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
     if bodyInfo then
       if bodyInfo.maleBodyId then
-        local bodyTable={bodyInfo.maleBodyId,MAX_REALIZED_COUNT}
-        table.insert(bodies,bodyTable)
+        local bodyEntry={bodyInfo.maleBodyId,MAX_REALIZED_COUNT}
+        table.insert(bodies,bodyEntry)
       end
       if bodyInfo.femaleBodyId then
-        local bodyTable={bodyInfo.femaleBodyId,MAX_REALIZED_COUNT}
-        table.insert(bodies,bodyTable)
+        local bodyEntry={bodyInfo.femaleBodyId,MAX_REALIZED_COUNT}
+        table.insert(bodies,bodyEntry)
+      end
+      if bodyInfo.soldierSubType then
+        local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
+        if bodyIdTable then
+          for powerType,bodyTable in pairs(bodyIdTable)do
+            for n,bodyId in ipairs(bodyTable)do
+              local bodyEntry={bodyId,MAX_REALIZED_COUNT}
+              table.insert(bodies,bodyEntry)
+            end
+          end
+        end
       end
     end
     --<
@@ -990,8 +1003,8 @@ function fovaSetupFuncs.Mb(n,missionId)
   if InfMain.IsDDBodyEquip(missionId) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
     if bodyInfo then
-      if bodyInfo.extendedPartsInfo then
-        TppSoldier2.SetExtendPartsInfo(bodyInfo.extendedPartsInfo)
+      if bodyInfo.extendPartsInfo then
+        TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
       end
     end
     --<
@@ -1090,7 +1103,7 @@ local faceIdS10091_1=0
 local m=15
 local T=16
 local RENsomeNumber=32
-local defaultStaffId=0
+local RENNoStaffId=0
 
 function this.InitializeUniqueSetting()
   l_uniqueSettings={}
@@ -1115,7 +1128,7 @@ function this.InitializeUniqueSetting()
   end
 end
 function this.GetStaffIdForDD(missionId,n)
-  local staffId=defaultStaffId
+  local staffId=RENNoStaffId
   if missionId==10081 then
     staffId=TppMotherBaseManagement.GetStaffS10081()
   elseif missionId==10091 or missionId==11091 then
@@ -1136,7 +1149,7 @@ function this.GetFaceIdForDdHostage(missionId)
   numDdHostages=numDdHostages+1
   local staffId=this.GetStaffIdForDD(missionId,num)
   local bor=bit.bor(T,num)
-  if staffId~=defaultStaffId then
+  if staffId~=RENNoStaffId then
     local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
     if missionId==10081 then
       faceIdS10081=faceId
@@ -1341,7 +1354,7 @@ function this.ApplyUniqueSetting()
       local missionId=vars.missionCode
       local t=band(fovaUniqueFlags,m)
       local staffId=this.GetStaffIdForDD(missionId,t)
-      if staffId~=defaultStaffId then
+      if staffId~=RENNoStaffId then
         local command={id="SetStaffId",staffId=staffId}
         GameObject.SendCommand(soldierId,command)
       end
@@ -1367,42 +1380,55 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     if bodyInfo then
       if IsFemale(faceId)==true and bodyInfo.femaleBodyId then
         bodyId=bodyInfo.femaleBodyId
-        local command={id="UseExtendParts",enabled=true}
-        GameObject.SendCommand(soldierId,command)
+        GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=true})
       else
         bodyId=bodyInfo.maleBodyId
-        local command={id="UseExtendParts",enabled=false}
-        GameObject.SendCommand(soldierId,command)
+        GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=false})
       end
+
+      -- if bodyId==0 or bodyId==nil then--tex dont set body, rely on GetBodyId DEBUGNOW
+      local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
+      local soldierType=TppEnemy.GetSoldierType(soldierId)
+      local subTypeName=TppEnemy.GetSoldierSubType(soldierId,soldierType)
+
+
+      bodyId=TppEnemy.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
+      --InfMenu.DebugPrint("bodyid:".. tostring(bodyId))--DEBUGNOW
+      -- end
+
+
       if bodyInfo.isArmor then
         TppEnemy.AddPowerSetting(soldierId,{"ARMOR"})
       end
 
-      if bodyInfo.hasHeadGear then--tex TODO: handle this on the config level?
+      if bodyInfo.helmetOnly then--tex TODO: handle this on the config level?
         local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
         if powerSettings then
-          powerSettings.HELMET=nil
           powerSettings.GAS_MASK=nil
           powerSettings.NVG=nil
         end
       end
+
+      if bodyInfo.hasFace then
+        faceId=EnemyFova.NOT_USED_FOVA_VALUE
+      end
+
+      if not bodyInfo.helmetOnly then
+        if this.IsUseGasMaskInFOB() then
+          TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
+        end
+        --tex TEST: I'm guessing this would return 0/1 like the rest of the TppMotherBaseManagement grades when in mbfree so not much point
+        --      if((TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS and TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)and TppMotherBaseManagement.GetMbsNvgBattleLevel)and TppMotherBaseManagement.GetMbsNvgBattleLevel()>0 then
+        --        TppEnemy.AddPowerSetting(soldierId,{"NVG"})
+        --      end
+      end
     end
 
-
-    if bodyInfo and not bodyInfo.hasHeadGear then
-      if this.IsUseGasMaskInFOB() then
-        TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
-    end
-    --tex TEST: I'm guessing this would return 0/1 like the rest of the TppMotherBaseManagement grades when in mbfree so not much point
-    --      if((TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS and TppEnemy.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)and TppMotherBaseManagement.GetMbsNvgBattleLevel)and TppMotherBaseManagement.GetMbsNvgBattleLevel()>0 then
-    --        TppEnemy.AddPowerSetting(soldierId,{"NVG"})
-    --      end
-    end
-
-    --tex PATCHUP there's no heads with nvg and no helmet/greentop
     local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
-    if powerSettings then
-      if powerSettings.NVG then
+    
+    --tex PATCHUP there's no heads with nvg and no helmet/greentop
+    if powerSettings and powerSettings.NVG then
+      if bodyInfo and not bodyInfo.noDDHeadgear then
         --powerSettings.HELMET=true
         TppEnemy.AddPowerSetting(soldierId,{"HELMET"})
       end
@@ -1419,18 +1445,23 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
     end
 
-    --    if powerSettings then--DEBUG
+    --    if powerSettings then--DEBUG CULL
     --      powerSettings.HELMET=nil
     --      powerSettings.GAS_MASK=nil
     --      powerSettings.NVG=true
     --    end--<
 
-    local wantHeadgear = useBalaclava or powerSettings.HELMET or powerSettings.GAS_MASK or powerSettings.NVG
-
-    if wantHeadgear then
-      local validHeadGearIds=InfMain.GetHeadGearForPowers(powerSettings,faceId)
-      if validHeadGearIds[1] then--WIP
-        balaclavaFaceId=TppEnemyFaceId[validHeadGearIds[1] ]
+    --DEBUGNOW
+    if Ivars.mbDDHeadGear:Is(1) then
+      local wantHeadgear = useBalaclava or powerSettings.HELMET or powerSettings.GAS_MASK or powerSettings.NVG
+      if wantHeadgear and bodyInfo and not bodyInfo.noDDHeadgear then
+        local validHeadGearIds=InfMain.GetHeadGearForPowers(powerSettings,faceId,bodyInfo.hasHelmet)
+        if #validHeadGearIds>0 then
+          math.randomseed(gvars.rev_revengeRandomValue)
+          local rnd=math.random(#validHeadGearIds)
+          balaclavaFaceId=TppEnemyFaceId[ validHeadGearIds[rnd] ]
+          math.randomseed(os.time())
+        end
       end
     end
     --<
@@ -1555,8 +1586,8 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       end
       TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
     end--if gasmaskfob
-
-  else-- not fob
+    -- not fob
+  else
     if IsFemale(faceId)then
       bodyId=TppEnemyBodyId.dds8_main0_v00
       local command={id="UseExtendParts",enabled=true}
@@ -1568,18 +1599,18 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
         balaclavaFaceId=TppEnemyFaceId.dds_balaclava7
         TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
       end
-  else
-    bodyId=TppEnemyBodyId.dds3_main0_v00
-    local command={id="UseExtendParts",enabled=false}
-    GameObject.SendCommand(soldierId,command)
-    if useBalaclava then
-      balaclavaFaceId=TppEnemyFaceId.dds_balaclava2
-    end
-    if this.IsUseGasMaskInMBFree()then
-      balaclavaFaceId=TppEnemyFaceId.dds_balaclava6
-      TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
-    end
-  end--if gender
+    else
+      bodyId=TppEnemyBodyId.dds3_main0_v00
+      local command={id="UseExtendParts",enabled=false}
+      GameObject.SendCommand(soldierId,command)
+      if useBalaclava then
+        balaclavaFaceId=TppEnemyFaceId.dds_balaclava2
+      end
+      if this.IsUseGasMaskInMBFree()then
+        balaclavaFaceId=TppEnemyFaceId.dds_balaclava6
+        TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
+      end
+    end--if gender
   end
 
   if forceNoBalaclava then
@@ -1610,12 +1641,12 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
   local nonLethalUavType=0
   local sleepUavType=0
   local defaultUavType=100
---ORPHAN:
---  local r=7
---  local r=4
---  local r=3
---  local r=3
---  local r=3
+  --ORPHAN:
+  --  local r=7
+  --  local r=4
+  --  local r=3
+  --  local r=3
+  --  local r=3
   local minEquipGrade=3
   local lmgLv1EquipGrade=6
   local lmgLv2EquipGrade=7

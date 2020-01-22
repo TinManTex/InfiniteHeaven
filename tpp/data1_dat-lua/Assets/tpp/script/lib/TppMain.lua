@@ -158,6 +158,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   end
   do
     local allSvars={}
+    this.allSvars=allSvars--tex DEBUGNOW see Ivars debug thingamy
     for t,lib in ipairs(Tpp._requireList)do
       if _G[lib]then
         if _G[lib].DeclareSVars then

@@ -388,13 +388,18 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
+    Ivars.mbEnableLethal,--DEBUGNOW
+    Ivars.mbNonStaff,--DEBUGNOW
+    Ivars.mbEnableFultonAddStaff,--DEBUGNOW
+    this.motherBaseMenu,--DEBUGNOW
+    this.revengeMenu,
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
     InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUGNOW
     --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
-    --Ivars.forceSoldierSubType,--tex WIP 
+    Ivars.forceSoldierSubType,--tex WIP DEBUGNOW
     --Ivars.manualMissionCode,--tex  WIP
     --InfMenuCommands.loadMission,--tex  WIP
     Ivars.clockTimeScale,

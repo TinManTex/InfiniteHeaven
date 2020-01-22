@@ -425,7 +425,7 @@ function this.Messages()
             end--<
           
             local soldierType=TppEnemy.GetSoldierType(gameId)
-            if(SendCommand(gameId,{id="IsDD"}))then
+            if(SendCommand(gameId,{id="IsDD"})) and not (vars.missionCode==30050 and Ivars.mbNonStaff:Is(1))then--tex added nonstaff
               if(deadMessageFlag~=nil)and(band(deadMessageFlag,DeadMessageFlag.FIRE)~=0)then
                 this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_DD_SOLDIER,"mbstaff_died")
               else
@@ -441,7 +441,9 @@ function this.Messages()
                 local n=SendCommand(gameId,{id="GetStateFlag"})--RETAILPATCH 1070
                 if(deadMessageFlag~=nil)and(band(deadMessageFlag,checkDeadFlag)~=0)then
                   if not isFobSneak then
+                    if not (vars.missionCode==30050 and Ivars.mbNonStaff:Is(1))then--tex added nonstaff
                     this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_SOLDIER)
+                    end
                   else
                     if band(n,StateFlag.ZOMBIE)~=StateFlag.ZOMBIE then--RETAILPATCH 1070 check added
                       this.SetAndAnnounceHeroicOgrePoint(this.FIRE_KILL_SOLDIER_FOB_SNEAK)
@@ -449,7 +451,9 @@ function this.Messages()
                   end
                 else
                   if not isFobSneak then
+                    if (vars.missionCode==30050 and Ivars.mbNonStaff:Is(1))then--tex added nonstaff
                     this.SetAndAnnounceHeroicOgrePoint(this.KILL_SOLDIER)
+                    end
                   else
                     if band(n,StateFlag.ZOMBIE)~=StateFlag.ZOMBIE then--RETAILPATCH 1070 check added
                       this.SetAndAnnounceHeroicOgrePoint(this.KILL_SOLDIER_FOB_SNEAK)
@@ -481,7 +485,7 @@ function this.Messages()
             end--<
             if TppMission.IsFOBMission(vars.missionCode)then
             else
-              if(SendCommand(gameId,{id="IsDD"}))then
+              if(SendCommand(gameId,{id="IsDD"}))and not (vars.missionCode==30050 and Ivars.mbNonStaff:Is(1))then--tex added nonstaff
                 this.SetAndAnnounceHeroicOgrePoint(this.DEAD_DD_SOLDIER,"mbstaff_died")
               end
             end
@@ -490,7 +494,7 @@ function this.Messages()
       end},
       {msg="Dying",func=function(soldierId,i)
         if Tpp.IsSoldier(soldierId)then
-          if not SendCommand(soldierId,{id="IsDD"})then
+          if not SendCommand(soldierId,{id="IsDD"}) and not (vars.missionCode==30050 and Ivars.mbNonStaff:Is(1))then--tex added nonstaff
             this.SetAndAnnounceHeroicOgrePoint(this.DYING_SOLDIER)
           end
         elseif Tpp.IsParasiteSquad(soldierId)then

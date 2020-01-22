@@ -1572,24 +1572,24 @@ function this.RegisterQuestPackList(questPackList,blockName)
   end
   blockName=blockName or defaultQuestBlockName
   local isMotherBase=TppLocation.IsMotherBase()
-  local a={}
+  local fpkList={}
   for t,n in pairs(questPackList)do
-    a[t]={}
+    fpkList[t]={}
     for listType,fova in pairs(n)do
       if type(fova)=="number"then
-        table.insert(a[t],fova)
+        table.insert(fpkList[t],fova)
       elseif listType=="faceIdList"then
-        local e=TppSoldierFace.GetFaceFpkFileCodeList{face=fova,useHair=isMotherBase}
-        if e~=nil then
-          for n,e in ipairs(e)do
-            table.insert(a[t],e)
+        local faceFpkFileCodeList=TppSoldierFace.GetFaceFpkFileCodeList{face=fova,useHair=isMotherBase}
+        if faceFpkFileCodeList~=nil then
+          for n,e in ipairs(faceFpkFileCodeList)do
+            table.insert(fpkList[t],e)
           end
         end
       elseif listType=="bodyIdList"then
         local e=TppSoldierFace.GetBodyFpkFileCodeList{body=fova}
         if e~=nil then
           for n,e in ipairs(e)do
-            table.insert(a[t],e)
+            table.insert(fpkList[t],e)
           end
         end
       elseif listType=="randomFaceList"then
@@ -1597,9 +1597,9 @@ function this.RegisterQuestPackList(questPackList,blockName)
           if fova.race and fova.gender then
             if TppMission.IsMissionStart()then
               local seed=(math.random(0,65535)*65536)+math.random(1,65535)
-              local a=TppSoldierFace.CreateFaceTable{race=fova.race,gender=fova.gender,needCount=1,maxUsedFovaCount=1,seed=seed}
-              if a~=nil then
-                for a,n in ipairs(a)do
+              local faceTable=TppSoldierFace.CreateFaceTable{race=fova.race,gender=fova.gender,needCount=1,maxUsedFovaCount=1,seed=seed}
+              if faceTable~=nil then
+                for a,n in ipairs(faceTable)do
                   this.SetRandomFaceId(t,n)
                 end
               else
@@ -1625,17 +1625,17 @@ function this.RegisterQuestPackList(questPackList,blockName)
             end
             if faceFpkFileCodeList~=nil then
               for n,e in ipairs(faceFpkFileCodeList)do
-                table.insert(a[t],e)
+                table.insert(fpkList[t],e)
               end
             end
           end
         end
       else
-        table.insert(a[t],fova)
+        table.insert(fpkList[t],fova)
       end
     end
   end
-  TppScriptBlock.RegisterCommonBlockPackList(blockName,a)
+  TppScriptBlock.RegisterCommonBlockPackList(blockName,fpkList)
 end
 function this.SetDefaultQuestBlock()
   mvars.qst_blockName=defaultQuestBlockName

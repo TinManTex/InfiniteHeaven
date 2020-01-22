@@ -300,8 +300,8 @@ function this.SelectRevengeType()
   local missionCode=TppMission.GetMissionID()
   if (this.IsNoRevengeMission(missionCode)or missionCode==10115) and Ivars.disableNoRevengeMissions:Is(0) then--tex added disable --NMC retake the platform, not revenge mission because mb/ddogs use different system?
     if missionCode~=30050 or Ivars.revengeModeForMb:Is()<=Ivars.revengeModeForMb.enum.FOB then --tex added check
-    return{}
-    end
+      return{}
+  end
   end
   local isHardMission=TppMission.IsHardMission(missionCode)
   local revengeTypes={}
@@ -405,9 +405,9 @@ function this.IsUsingBlackSuperReinforce()
   return mvars.revenge_revengeConfig.BLACK_SUPER_REINFORCE
 end
 function this.GetReinforceCount()
---  if not Ivars.reinforceCount:IsDefault() then--tex>--CULL
---    return Ivars.reinforceCount:Get()
---  end--<
+  --  if not Ivars.reinforceCount:IsDefault() then--tex>--CULL
+  --    return Ivars.reinforceCount:Get()
+  --  end--<
 
   local count=mvars.revenge_revengeConfig.REINFORCE_COUNT
   if count then
@@ -460,9 +460,9 @@ function this.IsIgnoreBlocked()
   return mvars.revenge_revengeConfig.IGNORE_BLOCKED
 end
 function this.IsBlocked(category)
---  if Ivars.revengeMode:Is"MAX" or Ivars.revengeModeForMissions:Is"MAX" then--tex revengemax--CULL
---    return false
---  end--
+  --  if Ivars.revengeMode:Is"MAX" or Ivars.revengeModeForMissions:Is"MAX" then--tex revengemax--CULL
+  --    return false
+  --  end--
   if category==nil then
     return false
   end
@@ -1262,7 +1262,12 @@ function this._CreateRevengeConfig(revengeTypes)
   local doCustom=Ivars.revengeMode:Is"CUSTOM" or Ivars.revengeModeForMissions:Is"CUSTOM" or Ivars.revengeModeForMb:Is"CUSTOM"
   if doCustom then
     revengeConfig=InfMain.CreateCustomRevengeConfig()
-  --<
+    for powerType,setting in pairs(revengeConfig)do
+      mvars.ene_missionRequiresPowerSettings[powerType]=setting
+    end
+    mvars.ene_disablePowerSettings={}
+    disablePowerSettings={}
+    --<
   else
     --NMC: actually add stuff to revengeConfig
     for n,revengeType in ipairs(revengeTypes)do
@@ -1293,7 +1298,7 @@ function this._CreateRevengeConfig(revengeTypes)
   if Tpp.IsTypeNumber(revengeConfig.ARMOR)and not this.CanUseArmor() then
     if not disablePowerSettings.SHIELD then
       local shieldCount=revengeConfig.SHIELD or 0
-      if Ivars.disableConvertArmorToShield:Is(0) or shieldCount==0 then--tex added disable
+      if Ivars.disableConvertArmorToShield:Is(0) or shieldCount==0 then--tex added disable/0 check
         if Tpp.IsTypeNumber(shieldCount)then
           revengeConfig.SHIELD=shieldCount+revengeConfig.ARMOR
       end
@@ -1316,8 +1321,10 @@ function this._CreateRevengeConfig(revengeTypes)
       end
     end
   end
-  for powerType,bool in pairs(doExcludePower)do
-    revengeConfig[powerType]=nil
+  if not doCustom then--tex added bypass if custom--DEBUGNOW remove test
+    for powerType,bool in pairs(doExcludePower)do
+      revengeConfig[powerType]=nil
+  end
   end
   local missionId=TppMission.GetMissionID()
   if TppMission.IsFOBMission(missionId)or InfMain.IsDDEquip(missionId) then--tex
@@ -1503,7 +1510,8 @@ function this._GetSettingSoldierCount(power,powerSetting,soldierCount)
 end
 
 --tex broken out from _ApplyRevengeToCp and reworked
-local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function, added unfulfilledPowers
+local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function, added unfulfilledPowers  
+  math.randomseed(gvars.rev_revengeRandomValue)--tex added
   for r,powerType in ipairs(TppEnemy.POWER_SETTING)do
     local powerSetting=revengeConfig[powerType]
     if powerSetting then
@@ -1511,14 +1519,21 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
       if unfulfilledPowers[powerType]~=nil then--tex>
         settingSoldierCount=unfulfilledPowers[powerType]
       end--<
-
-      --      if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-      --        InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
-      --      end--
-
+--      if Ivars.selectedCp:Is()==cpId then--tex DEBUG
+--        InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
+--      end--
       local comboExcludeList=powerComboExclusionList[powerType]or{}
       local soldierCount=settingSoldierCount
-      for soldierConfigId=1,totalSoldierCount do
+      local soldierConfigId=0--tex added
+      soldierConfigId=math.random(totalSoldierCount)--tex DEBUGNOW random start pos to shake up distribution, the default does in order so it means ARMOR will get the good weapons, which is actually good, could have a seperate filter for what powertypes get a random distribution, mainly its weapons and headgear and rest shouldnt have random start?
+    --WAS for soldierConfigId=1,totalSoldierCount do  
+	for count=1,totalSoldierCount do
+        soldierConfigId=soldierConfigId+1--tex>
+        if soldierConfigId>totalSoldierCount then
+          soldierConfigId=1
+        end
+        --<
+
         local isPowerElimOrChild=powerElimOrChildSoldierTable[soldierConfigId]
         local isAbility=abilitiesList[powerType]--tex reworked to save mental gymnastics, original game allows ability set for outerbase and lrrp
         local doOuterBase=isOuterBaseCp and (isAbility or Ivars.applyPowersToOuterBase:Is(1))
@@ -1537,8 +1552,8 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
                 setPower=false
               end
             end
-          end
-
+          end             
+         
           if setPower then
             soldierCount=soldierCount-1
             cpConfig[soldierConfigId][powerType]=true
@@ -1562,8 +1577,9 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
 
       unfulfilledPowers[powerType]=soldierCount--tex
     end--if configPower
-end--for TppEnemy.POWER_SETTINGS
-return cpConfig
+  end--for TppEnemy.POWER_SETTINGS
+  math.randomseed(os.time())--tex added
+  return cpConfig
 end
 
 --CALLER: SetUpEnemy
@@ -1677,7 +1693,11 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
   }
 
   if Ivars.allowMissileWeaponsCombo:Is(1) then--tex>
-    local weaponBalanceComboExclusionList={MISSILE={"ARMOR","SHIELD","SNIPER"}}
+    local weaponBalanceComboExclusionList={
+      MISSILE={"ARMOR","SHIELD","SNIPER"},
+      SHOTGUN={"SNIPER","MG","SHIELD","SMG"},
+      --MG={"SNIPER","SHOTGUN","GUN_LIGHT","SHIELD","SMG"},
+    }
     for powerType,excludeList in pairs(weaponBalanceComboExclusionList) do
       powerComboExclusionList[powerType]=excludeList
     end
@@ -1851,30 +1871,30 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
   if Ivars.allowMissileWeaponsCombo:Is(1) then
     addConfigFlags={MISSILE_COMBO=true}
   end--<
-
+  
   cpConfig=CreateCpConfig(revengeConfigCp,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function
 
   --tex> rerun CreateCpConfig without headgear restrictions
   if (Ivars.allowHeadGearCombo:Is(1) and sumBalance>Ivars.allowHeadGearCombo.allowHeadGearComboThreshold) then
-      if vars.missionCode~=30050 then
-        local headGearComboExclusions={
-          HELMET={"ARMOR"},
-          GAS_MASK={"ARMOR","NVG"},
-          NVG={"ARMOR","GAS_MASK"},
-        }
-        for powerType,excludeList in pairs(headGearComboExclusions) do
-          powerComboExclusionList[powerType]=excludeList
-        end
-      else
-        local headGearComboExclusionsDD={
-          HELMET={"ARMOR"},
-          GAS_MASK={"ARMOR"},
-          NVG={"ARMOR"},
-        }
-        for powerType,excludeList in pairs(headGearComboExclusionsDD) do
-          powerComboExclusionList[powerType]=excludeList
-        end
+    if vars.missionCode~=30050 then
+      local headGearComboExclusions={
+        HELMET={"ARMOR"},
+        GAS_MASK={"ARMOR","NVG"},
+        NVG={"ARMOR","GAS_MASK"},
+      }
+      for powerType,excludeList in pairs(headGearComboExclusions) do
+        powerComboExclusionList[powerType]=excludeList
       end
+    else
+      local headGearComboExclusionsDD={
+        HELMET={"ARMOR"},
+        GAS_MASK={"ARMOR"},
+        NVG={"ARMOR"},
+      }
+      for powerType,excludeList in pairs(headGearComboExclusionsDD) do
+        powerComboExclusionList[powerType]=excludeList
+      end
+    end
 
     local gearConfigFlags={
       HEADGEAR_COMBO=true
@@ -1882,13 +1902,13 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
     cpConfig=CreateCpConfig(revengeConfigCp,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,gearConfigFlags,cpConfig,cpId)--tex now function
   end--<
 
-  --  if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --    --if not InfMain.IsTableEmpty(unfulfilledPowers) then
-  --    InfMenu.DebugPrint"unfulfilledPowers:"
-  --    local instr=InfInspect.Inspect(unfulfilledPowers)
-  --    InfMenu.DebugPrint(instr)
-  --    --end--
-  --  end--<
+--    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
+--      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
+--      InfMenu.DebugPrint"unfulfilledPowers:"
+--      local instr=InfInspect.Inspect(unfulfilledPowers)
+--      InfMenu.DebugPrint(instr)
+--      --end--
+--    end--<
   --
   --  if Ivars.selectedCp:Is()==cpId then--tex DEBUG
   --    local instr=InfInspect.Inspect(cpConfig)

@@ -6,7 +6,7 @@ local t=GameObject.GetGameObjectId
 local t=GameObject.NULL_ID
 local u=500
 local s=1e3
-local r=4
+local budyIdLimit=4
 this.GMP_POSTER=500
 this.FOB_TUTORIAL_STATE={INIT=0,INTRODUCTION_CONSTRUCT_FOB=1,CONSTRUCT_FOB=2,INTRODUCTION_FOB_MISSIONS=3,FOB_MISSIONS=4,FINISH=127}
 this.unitLvAnnounceLogTable={
@@ -314,7 +314,7 @@ function this.ClearStaffNewIcon(a,n,e,t)
     end
   end
 end
-function this.AddStaffsFromTempBuffer(t,o)
+function this.AddStaffsFromTempBuffer(readOnly,RENoffline)
   if(vars.fobSneakMode==FobMode.MODE_SHAM)then
     return
   end
@@ -323,12 +323,12 @@ function this.AddStaffsFromTempBuffer(t,o)
   if a and not n then
     TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.RECOVERED_RUSSIAN_INTERPRETER)
   end
-  for e=0,(r-1)do
-    if svars.trm_isBuddyRecovered[e]then
-      TppBuddyService.SetObtainedBuddyType(e)
-      if e==BuddyType.QUIET then
+  for buddyId=0,(budyIdLimit-1)do
+    if svars.trm_isBuddyRecovered[buddyId]then
+      TppBuddyService.SetObtainedBuddyType(buddyId)
+      if buddyId==BuddyType.QUIET then
       end
-      if e==BuddyType.DOG then
+      if buddyId==BuddyType.DOG then
         TppEmblem.Add("word146",false,true)
         if(TppBuddyService.IsBuddyDogGot()==false)then
           TppBuddyService.SetBuddyDogGot()
@@ -344,9 +344,9 @@ function this.AddStaffsFromTempBuffer(t,o)
   end
   mvars.trm_needHeliSoundOnAddStaffsFromTempBuffer=false
   TppMotherBaseManagement.AddStaffsFromTempStaffBuffer()
-  if not o then
-    if t then
-      TppMotherBaseManagement.StartSyncControl{readOnly=t}
+  if not RENoffline then
+    if readOnly then
+      TppMotherBaseManagement.StartSyncControl{readOnly=readOnly}
     else
       this.ReserveMissionStartMbSync()
     end
@@ -789,21 +789,22 @@ function this.OnNoticeSupporterFobSneaked()
     return
   end
   TppMotherBaseManagement.SetFollowerFobEmergency{emergency=true}
-  this.ShowNoticeFobSneaked"fobReqHelp"end
-function this.IsDisableNoticeFobSneaked()
-  local e=false
-  local n={[10010]=true,[10030]=true,[10115]=true,[10150]=true,[10151]=true,[10240]=true,[10260]=true,[10280]=true,[11151]=true}
-  local t=vars.missionCode
-  if n[t]and(not TppStory.IsMissionCleard(t))then
-    e=true
+  this.ShowNoticeFobSneaked"fobReqHelp"
   end
-  if TppMission.IsFOBMission(t)then
-    e=true
+function this.IsDisableNoticeFobSneaked()
+  local isDisable=false
+  local missionTable={[10010]=true,[10030]=true,[10115]=true,[10150]=true,[10151]=true,[10240]=true,[10260]=true,[10280]=true,[11151]=true}
+  local missionCode=vars.missionCode
+  if missionTable[missionCode]and(not TppStory.IsMissionCleard(missionCode))then
+    isDisable=true
+  end
+  if TppMission.IsFOBMission(missionCode)then
+    isDisable=true
   end
   if gvars.ini_isTitleMode then
-    e=true
+    isDisable=true
   end
-  return e
+  return isDisable
 end
 function this.ShowNoticeFobSneaked(e)
   TppUI.ShowEmergencyAnnounceLog(true)
@@ -863,7 +864,7 @@ end
 function this.DeclareSVars()
   return{
     {name="trm_missionFultonCount",type=TppScriptVars.TYPE_UINT32,value=0,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MB_MANAGEMENT},
-    {name="trm_isBuddyRecovered",type=TppScriptVars.TYPE_BOOL,arraySize=r,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MB_MANAGEMENT},
+    {name="trm_isBuddyRecovered",type=TppScriptVars.TYPE_BOOL,arraySize=budyIdLimit,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MB_MANAGEMENT},
     nil
   }
 end
@@ -1465,11 +1466,11 @@ function this.CheckAddTempBuffer(e)
     return true
   end
 end
-function this.AddTempStaffFulton(t)
+function this.AddTempStaffFulton(staffInfo)
   if mvars.trm_isAlwaysDirectAddStaff~=true then
-    local n=t.fultonedPlayer or 0
-    if this.CheckAddTempBuffer(n)then
-      TppMotherBaseManagement.AddTempStaffFulton(t)
+    local fultonedPlayer=staffInfo.fultonedPlayer or 0
+    if this.CheckAddTempBuffer(fultonedPlayer)then
+      TppMotherBaseManagement.AddTempStaffFulton(staffInfo)
     end
   end
 end

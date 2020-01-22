@@ -656,12 +656,14 @@ missionPackTable[30050]=function(missionCode)
   --tex IsDDBodyEquip add mission packs>
   if InfMain.IsDDBodyEquip(missionCode) then
     local bodyInfo=InfMain.GetCurrentDDBodyInfo()
-    InfMain.AddBodyPack(bodyInfo)
-    
-    if bodyInfo and bodyInfo.fallBack then
-      bodyInfo=InfMain.ddBodyInfo[bodyInfo.fallBack]
-      InfMain.AddBodyPack(bodyInfo)
+    if bodyInfo and bodyInfo.missionPackPath then
+      TppPackList.AddMissionPack(bodyInfo.missionPackPath)
     end
+    
+--    if bodyInfo and bodyInfo.fallBack then
+--      bodyInfo=InfMain.ddBodyInfo[bodyInfo.fallBack]
+--      InfMain.AddBodyPack(bodyInfo)
+--    end
   end--<
   if Ivars.mbWarGames:Is"ZOMBIE"then--tex
     TppSoldierFace.SetUseZombieFova{enabled=true}

@@ -177,8 +177,8 @@ this.soldierParamsProfile={
   settingNames="soldierParamsProfileSettings",
   settingsTable={
     DEFAULT=function()
-      Ivars.soldierSightDistScale:Set(1,true)
-      Ivars.soldierHealthScale:Set(1,true)
+      Ivars.soldierSightDistScale:Set(100,true)
+      Ivars.soldierHealthScale:Set(100,true)
     end,
     CUSTOM=nil,
   },
@@ -187,11 +187,11 @@ this.soldierParamsProfile={
 }
 
 --enemy parameters sight
-this.sightScaleRange={max=4,min=0,increment=0.05}
+this.sightScaleRange={max=400,min=0,increment=5}
 
 this.soldierSightDistScale={
   save=MISSION,
-  default=1,
+  default=100,
   range=this.sightScaleRange,
   isPercent=true,
   profile=this.soldierParamsProfile,
@@ -246,10 +246,10 @@ this.soldierSightDistScale={
 --  end
 --end
 --
-this.healthScaleRange={max=9,min=0,increment=0.2}
+this.healthScaleRange={max=900,min=0,increment=20}
 this.soldierHealthScale={
   save=MISSION,
-  default=1,
+  default=100,
   range=this.healthScaleRange,
   isPercent=true,
   profile=this.soldierParamsProfile,
@@ -257,18 +257,18 @@ this.soldierHealthScale={
 ---end soldier params
 this.playerHealthScale={
   save=MISSION,
-  default=1,
+  default=100,
   range=this.healthScaleRange,
   isPercent=true,
   OnChange=function(self)
     if mvars.mis_missionStateIsNotInGame then
       return
     end
-    --local healthScale=self.setting
+    local healthScale=self.setting/100
     --if healthScale~=1 then
     Player.ResetLifeMaxValue()
     local newMax=vars.playerLifeMax
-    newMax=newMax*self.setting
+    newMax=newMax*healthScale
     if newMax < 10 then
       newMax = 10
     end
@@ -314,8 +314,14 @@ this.mbDDSuit={
     "SNEAKING_SUIT",
     "BATTLE_DRESS",
     "PFA_ARMOR",
+    "XOF",--DEBUGNOW
+    "SOVIET_A",
+    "SOVIET_B",
+    "PF_A",
+    "PF_B",
+    "PF_C",
   },
-  settingNames="mbDDSuitSettings",
+  --DEBUGNOW settingNames="mbDDSuitSettings",
 }
 
 this.mbDDHeadGear={
@@ -327,6 +333,24 @@ this.mbWarGames={
   save=MISSION,
   settings={"OFF","NONLETHAL","HOSTILE","ZOMBIE"},
   settingNames="mbWarGamesSettings",
+}
+
+this.mbEnableLethal={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbNonStaff={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbEnableFultonAddStaff={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 this.mbEnableBuddies={
@@ -342,7 +366,7 @@ this.useSoldierForDemos={
   range=this.switchRange,
   settingNames="set_switch",
 }
-this.mbDemoSelection={  
+this.mbDemoSelection={
   save=MISSION,
   settings={"DEFAULT","PLAY","DISABLED"},
   settingNames="set_mbDemoSelection",
@@ -420,7 +444,7 @@ this.subsistenceProfile={
   settingsTable={
     DEFAULT=function()
       Ivars.blockInMissionSubsistenceIvars:Set(0,true)
-    
+
       Ivars.noCentralLzs:Set(0,true)
       Ivars.disableBuddies:Set(0,true)
       Ivars.disableHeliAttack:Set(0,true)
@@ -452,7 +476,7 @@ this.subsistenceProfile={
     end,
     PURE=function()
       Ivars.blockInMissionSubsistenceIvars:Set(1,true)
-      
+
       Ivars.noCentralLzs:Set(1,true)
       Ivars.disableBuddies:Set(1,true)
       Ivars.disableHeliAttack:Set(1,true)
@@ -488,7 +512,7 @@ this.subsistenceProfile={
     end,
     BOUNDER=function()
       Ivars.blockInMissionSubsistenceIvars:Set(1,true)
-    
+
       Ivars.noCentralLzs:Set(1,true)
       Ivars.disableBuddies:Set(0,true)
       Ivars.disableHeliAttack:Set(1,true)
@@ -881,16 +905,16 @@ this.fultonLevelProfile={
     ITEM_OFF=function()
       Ivars.itemLevelFulton:Set(1,true)
       Ivars.itemLevelWormhole:Set(0,true)
---      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
---        itemIvar:Set(itemIvar.range.min,true)
---      end
+      --      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+      --        itemIvar:Set(itemIvar.range.min,true)
+      --      end
     end,
     ITEM_MAX=function()
       Ivars.itemLevelFulton:Set(4,true)
       Ivars.itemLevelWormhole:Set(1,true)
---      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
---        itemIvar:Set(itemIvar.range.max,true)
---      end
+      --      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+      --        itemIvar:Set(itemIvar.range.max,true)
+      --      end
     end,
     CUSTOM=nil,
   },
@@ -1223,7 +1247,7 @@ function this.SetPercentagePowersRange(min,max)
   for n,powerTableName in ipairs(this.percentagePowerTables)do
     local powerTable=this[powerTableName]
     for m,powerType in ipairs(powerTable)do
-      this.SetPowerRange(powerType,min,max)
+      this.SetMinMax(powerType,min,max)
     end
   end
 end
@@ -1245,7 +1269,7 @@ this.revengeConfigProfile={--WIP
   --settingNames="revengeConfigProfileSettings",--ADDLANG
   settingsTable={
     WIDE=function()
-      this.SetPercentagePowersRange(0,1)
+      this.SetPercentagePowersRange(0,100)
       for n,powerType in ipairs(this.abilitiesWithLevels)do
         this.SetMinMax(powerType,"NONE","SPECIAL")
       end
@@ -1266,26 +1290,26 @@ this.revengeConfigProfile={--WIP
     end,
     MAX=function()
       for n,powerType in ipairs(this.cpEquipPowers)do
-        this.SetMinMax(powerType,1,1)
+        this.SetMinMax(powerType,100,100)
       end
       for n,powerType in ipairs(this.abilitiesWithLevels)do
         this.SetMinMax(powerType,"SPECIAL","SPECIAL")
       end
 
-      this.SetMinMax("ARMOR",0.4,0.4)
-      this.SetMinMax("SHIELD",0.4,0.4)
+      this.SetMinMax("ARMOR",40,40)
+      this.SetMinMax("SHIELD",40,40)
 
-      this.SetMinMax("SOFT_ARMOR",1,1)
-      this.SetMinMax("HELMET",1,1)
-      this.SetMinMax("NVG",0.75,0.75)
-      this.SetMinMax("GAS_MASK",0.75,0.75)
-      this.SetMinMax("GUN_LIGHT",0.75,0.75)
+      this.SetMinMax("SOFT_ARMOR",100,100)
+      this.SetMinMax("HELMET",100,100)
+      this.SetMinMax("NVG",75,75)
+      this.SetMinMax("GAS_MASK",75,75)
+      this.SetMinMax("GUN_LIGHT",75,75)
 
-      this.SetMinMax("SNIPER",0.2,0.2)
-      this.SetMinMax("MISSILE",0.4,0.4)
+      this.SetMinMax("SNIPER",20,20)
+      this.SetMinMax("MISSILE",40,40)
 
-      this.SetMinMax("MG",0.4,0.4)
-      this.SetMinMax("SHOTGUN",0.4,0.4)
+      this.SetMinMax("MG",40,40)
+      this.SetMinMax("SHOTGUN",40,40)
       this.SetMinMax("SMG",0,0)
       this.SetMinMax("ASSAULT",0,0)
 
@@ -1350,7 +1374,7 @@ this.revengeConfigProfile={--WIP
   OnSubSettingChanged=this.OnSubSettingChanged,
 }
 
-this.revengePowerRange={max=1,min=0,increment=0.1}
+this.revengePowerRange={max=100,min=0,increment=10}
 
 this.weaponPowers={
   "SNIPER",
@@ -1406,7 +1430,7 @@ for n,powerTableName in ipairs(this.percentagePowerTables)do
         OnChange=OnChangeCustomRevengeMin,
       },
       {
-        default=1,
+        default=100,
         OnChange=OnChangeCustomeRevengeMax,
       },
       {
@@ -2052,8 +2076,8 @@ this.cammoTypesApearance={
   OnChange=function(self)
     if self.setting>0 then--TODO: add off/default/noset setting
       vars.playerCamoType=self.settingsTable[self.setting+1]--tex playercammotype is just a enum so could just use setting, but this is if we want to re-arrange
-    -- vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
-    -- vars.playerFaceEquipId=0
+      -- vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
+      -- vars.playerFaceEquipId=0
     end
   end,
 }
@@ -2068,19 +2092,19 @@ this.playerPartsTypeApearance={
   --    "HOSPITAL",
   --    "MGS1",
   --    "NINJA",
-  --    "RAIDEN", 
+  --    "RAIDEN",
   --    "NAKED",--uses set camo type?
   --    "SNEAKING_SUIT_TPP",
   --    "BATTLEDRESS",
   --    "PARASITE_SUIT",
   --    "LEATHER_JACKET",
   --    "GOLD",
-  --    "SILVER",    
+  --    "SILVER",
   --    "AVATAR_EDIT_MAN",
   --    "MGS3"--
   --    "MGS3_NAKED",--can avatar naked? muddy, normal naked is more sooty?
   --    "MGS_SNEAKING",
-  --    "MG3_TUXEDO",  
+  --    "MG3_TUXEDO",
   --    "EVA_CLOSE",--fem>
   --    "EVA_OPEN",
   --    "BOSS_CLOSE",
@@ -2091,13 +2115,13 @@ this.playerPartsTypeApearance={
   --    "HOSPITAL2",--
   --    "MGS1",
   --    "NINJA",
-  --    "RAIDEN", 
+  --    "RAIDEN",
   --    "NAKED",--> no head
   --    "SNEAKING_SUIT_TPP",
   --    "BATTLEDRESS",--<
-  --    "PARASITE_SUIT",  
+  --    "PARASITE_SUIT",
   --    "LEATHER_JACKET",--the truth leather? has brown glove. no head, no hand
-  --    35-blank, hang model system 
+  --    35-blank, hang model system
   --  },
   --
   --  settingsTable={-- TODO: build own setting enum, currently above is setting ordee
@@ -2316,7 +2340,7 @@ function this.DisableOnSubsistence(self)
   --end
   if Ivars.blockInMissionSubsistenceIvars:Is(1) then
     self.disabled=true
-  else   
+  else
     self.disabled=false
   end
 end
@@ -2335,7 +2359,7 @@ this.warpPlayerUpdate={
       self.setting=0
       InfMenu.PrintLangId"other_control_active"
     end
-   
+
     if self.setting==1 then
       InfMenu.PrintLangId"warp_mode_on"
       InfMain.OnActivateWarpPlayer()
@@ -2372,7 +2396,7 @@ this.adjustCameraUpdate={
       InfMenu.PrintLangId"other_control_active"
       return
     end
-    
+
     if self.setting==1 then
       if Ivars.cameraMode:Is(0) then
         InfMenu.PrintLangId"cannot_edit_default_cam"
@@ -2388,8 +2412,8 @@ this.adjustCameraUpdate={
       InfMenu.PrintLangId"cam_mode_off"
       InfMain.OnDectivateCameraAdjust()
       --Ivars.cameraMode:Set(0)
-    end    
-    
+    end
+
     if InfMenu.menuOn then
       InfMain.RestoreActionFlag()--DEBGNOW only restore those that menu disables that this doesnt
       InfMenu.menuOn=false
@@ -2474,31 +2498,31 @@ for i,camName in ipairs(this.camNames) do
     default=1.875,
     range={max=100,min=0.001,increment=0.1},
   }
-  
+
   this["distance"..camName]={
     save=MISSION,
     default=5,
     range={max=100,min=0,increment=0.1},
   }
-  
+
   this["positionX"..camName]={
     save=MISSION,
     default=0,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
-  } 
+  }
   this["positionY"..camName]={
     save=MISSION,
     default=0.75,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
-  } 
+  }
   this["positionZ"..camName]={
     save=MISSION,
     default=0,
     range={max=1000,min=0,increment=0.1},
     noBounds=true,
-  } 
+  }
 end
 
 --quiet
@@ -3036,6 +3060,91 @@ function this.PrintSaveVarCount()
     end
   end
   InfMenu.DebugPrint("count:"..count.." "..#this.varTable )
+
+  local scriptVarTypes={
+    [TppScriptVars.TYPE_BOOL]="TYPE_BOOL",
+    [TppScriptVars.TYPE_UINT8]="TYPE_UINT8",
+    [TppScriptVars.TYPE_INT8]="TYPE_INT8",
+    [TppScriptVars.TYPE_UINT16]="TYPE_UINT16",
+    [TppScriptVars.TYPE_INT16]="TYPE_INT16",
+    [TppScriptVars.TYPE_UINT32]="TYPE_UINT32",
+    [TppScriptVars.TYPE_INT32]="TYPE_INT32",
+    [TppScriptVars.TYPE_FLOAT]="TYPE_FLOAT",
+  }
+
+  local function CountVarTable(scriptVarTypes,varTable,category)
+    local totalCount=0
+    local typeCounts={}
+    for scriptVarType, typeName in pairs(scriptVarTypes) do
+      typeCounts[typeName]=0
+    end
+
+
+    for n, gvarInfo in pairs(varTable)do
+      if category==nil or gvarInfo.category==category then
+        local scriptVarTypeName=scriptVarTypes[gvarInfo.type]
+        typeCounts[scriptVarTypeName]=typeCounts[scriptVarTypeName]+1
+        totalCount=totalCount+1
+      end
+    end
+    return typeCounts,totalCount
+  end
+
+  InfMenu.DebugPrint"Ivars.varTable"
+  local typeCounts,totalCount=CountVarTable(scriptVarTypes,this.varTable,TppScriptVars.CATEGORY_MISSION)
+  local ins=InfInspect.Inspect(typeCounts)
+  InfMenu.DebugPrint(ins)
+  InfMenu.DebugPrint("totalcount:"..totalCount)
+
+  local bools=0
+  for name, ivar in pairs(Ivars) do
+    if IsIvar(ivar) then
+      if ivar.save then
+        if ivar.range.max==1 then
+          bools=bools+1
+        end
+      end
+    end
+  end
+  --InfMenu.DebugPrint("bools:"..bools)
+
+  --  local ins=InfInspect.Inspect(TppScriptVars)
+  --  InfMenu.DebugPrint(ins)
+
+  --  local categories={
+  --    [TppScriptVars.CATEGORY_NONE]="CATEGORY_NONE",
+  --    [TppScriptVars.CATEGORY_GAME_GLOBAL]="CATEGORY_GAME_GLOBAL",
+  --    [TppScriptVars.CATEGORY_MISSION]="CATEGORY_MISSION",
+  --    [TppScriptVars.CATEGORY_RETRY]="CATEGORY_RETRY",
+  --    [TppScriptVars.CATEGORY_MB_MANAGEMENT]="CATEGORY_MB_MANAGEMENT",
+  --    [TppScriptVars.CATEGORY_QUEST]="CATEGORY_QUEST",
+  --    [TppScriptVars.CATEGORY_CONFIG]="CATEGORY_CONFIG",
+  --    --[TppDefine.CATEGORY_MISSION_RESTARTABLE]="TppDefine CATEGORY_MISSION_RESTARTABLE",
+  --    [TppScriptVars.CATEGORY_MISSION_RESTARTABLE]="CATEGORY_MISSION_RESTARTABLE",
+  --    [TppScriptVars.CATEGORY_PERSONAL]="CATEGORY_PERSONAL",
+  --    --[TppScriptVars.CATEGORY_MGO]="CATEGORY_MGO",
+  --    [TppScriptVars.CATEGORY_ALL]="CATEGORY_ALL",
+  --  }
+
+  --  for categoryType, categoryName in pairs(categories) do
+  --    InfMenu.DebugPrint(categoryName..":"..tostring(categoryType))
+  --  end
+
+  InfMenu.DebugPrint"TppGVars.DeclareGVarsTable"
+  local typeCounts,totalCount=CountVarTable(scriptVarTypes,TppGVars.DeclareGVarsTable,TppScriptVars.CATEGORY_MISSION)
+  local ins=InfInspect.Inspect(typeCounts)
+  InfMenu.DebugPrint(ins)
+  InfMenu.DebugPrint("totalcount:"..totalCount)
+
+  InfMenu.DebugPrint"TppMain.allSvars"
+  local typeCounts,totalCount=CountVarTable(scriptVarTypes,TppMain.allSvars,TppScriptVars.CATEGORY_MISSION)
+  local ins=InfInspect.Inspect(typeCounts)
+  InfMenu.DebugPrint(ins)
+  InfMenu.DebugPrint("totalcount:"..totalCount)
+
+  --    local ins=InfInspect.Inspect(TppMain.allSvars)
+  --  InfMenu.DebugPrint(ins)
+
 end
 
 function this.DeclareSVars()--tex svars are created/cleared on new missions

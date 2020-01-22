@@ -795,9 +795,11 @@ function this.DEBUG_DumpTable(l,n)
   if(type(l)~="table")then
     return
   end
-  local r=""if n then
+  local r=""
+  if n then
     for e=0,n do
-      r=r.." "end
+      r=r.." "
+    end
   end
   for r,l in pairs(l)do
     if type(l)=="table"then

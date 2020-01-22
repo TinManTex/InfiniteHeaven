@@ -1136,8 +1136,23 @@ mtbs_enemy.SetEnemyLocationType = function ()
 	
 	if EnemyType ~= nil then
 		local gameObjectId = { type="TppSoldier2" } 
-		local command = { id = "SetSoldier2Type", type = EnemyType.TYPE_DD }
+		
+		--tex> the helmet model that pops off seems to be in-engine coded to soldier type (and also requires the relevant fpk), even though I override soldier type during soldier setup it's somewhere after this set command and there--DEBUGNOW
+		if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then
+		local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+		local soldierType=EnemyType.TYPE_DD
+		if bodyInfo and bodyInfo.soldierSubType then
+      soldierType=InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
+		end
+		local command = { id = "SetSoldier2Type", type = soldierType }
 		SendCommand( gameObjectId, command )
+		--<
+		else
+		local command = { id = "SetSoldier2Type", type = EnemyType.TYPE_DD }
+		SendCommand( gameObjectId, command )		
+		end
+		
+
 	end
 	
 	if CpType ~= nil then

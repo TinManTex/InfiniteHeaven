@@ -821,11 +821,15 @@ function this.VarSaveForMissionAbort()
   if nextIsHeliSpace then
     TppUiCommand.LoadoutSetReturnHelicopter()
   end
-  local o={[10091]=TppMotherBaseManagement.UnlockedStaffsS10091,[10081]=TppMotherBaseManagement.UnlockedStaffS10081,[10115]=TppMotherBaseManagement.UnlockedStaffsS10115}
-  local o=o[missionCode]
-  if o then
+  local unlockStaffTable={
+    [10091]=TppMotherBaseManagement.UnlockedStaffsS10091,
+    [10081]=TppMotherBaseManagement.UnlockedStaffS10081,
+    [10115]=TppMotherBaseManagement.UnlockedStaffsS10115
+  }
+  local unlockStaff=unlockStaffTable[missionCode]
+  if unlockStaff then
     if TppStory.IsMissionCleard(missionCode)then
-      o{crossMedal=false}
+      unlockStaff{crossMedal=false}
     end
   end
   TppBuddyService.BuddyMissionInit()
@@ -838,15 +842,15 @@ function this.VarSaveForMissionAbort()
     gvars.ini_isReturnToTitle=true
   else
     TppTerminal.ReserveMissionStartMbSync()
-    local e=false
+    local abortWithSave=false
     if mvars.mis_abortWithSave then
-      e=true
+      abortWithSave=true
     end
-    TppSave.VarSave(missionCode,e)
-    TppSave.SaveGameData(missionCode,nil,nil,true,e)
+    TppSave.VarSave(missionCode,abortWithSave)
+    TppSave.SaveGameData(missionCode,nil,nil,true,abortWithSave)
     if mvars.mis_needSaveConfigOnNewMission then
       TppSave.VarSaveConfig()
-      TppSave.SaveConfigData(nil,nil,reserveNextMissionStart)
+      TppSave.SaveConfigData(nil,nil,reserveNextMissionStart)--RETAILBUG: typo orphan
     end
   end
 end
@@ -1346,13 +1350,13 @@ function this.ExecuteMissionFinalize()
   TppPlayer.StoreSupplyCbox()
   TppPlayer.StoreSupportAttack()
   TppRadioCommand.StoreRadioState()
-  local o=false
+  local offline=false
   if vars.missionCode==10115 then
-    o=true
+    offline=true
   end
   local locationChange=(vars.locationCode~=currentLocationCode)
   if not isHeliSpace then
-    TppTerminal.AddStaffsFromTempBuffer(nil,o)
+    TppTerminal.AddStaffsFromTempBuffer(nil,offline)
   end
   TppClock.SaveMissionStartClock()
   TppWeather.SaveMissionStartWeather()
@@ -1363,22 +1367,22 @@ function this.ExecuteMissionFinalize()
   TppWeather.OnEndMissionPrepareFunction()
   this.VarResetOnNewMission()
   if not this.IsFOBMission(vars.missionCode)then
-    local e=true
+    local reserveNextMissionStartSave=true
     TppSave.VarSave(currentMissionCode,true)
     local i=false
     do
       i=true
     end
-    if i and(not o)then
-      TppSave.SaveGameData(currentMissionCode,nil,nil,e,true)
+    if i and(not offline)then
+      TppSave.SaveGameData(currentMissionCode,nil,nil,reserveNextMissionStartSave,true)
     end
     if mvars.mis_needSaveConfigOnNewMission then
       TppSave.VarSaveConfig()
-      TppSave.SaveConfigData(nil,nil,e)
+      TppSave.SaveConfigData(nil,nil,reserveNextMissionStartSave)
     end
   end
   if mvars.mis_isInterruptMissionEnd then
-    local i,n=vars.missionHeroicPoint,vars.missionOgrePoint
+    local missionHeroicPoint,missionOgrePoint=vars.missionHeroicPoint,vars.missionOgrePoint
     this.ResetEmegerncyMissionSetting()
     TppSave.VarSaveMBAndGlobal()
     TppSave.VarRestoreOnContinueFromCheckPoint()
@@ -1398,7 +1402,7 @@ function this.ExecuteMissionFinalize()
       end
     end--
     TppSave.VarSave()
-    this.SetHeroicAndOgrePointInSlot(i,n)
+    this.SetHeroicAndOgrePointInSlot(missionHeroicPoint,missionOgrePoint)
     TppSave.SaveGameData(vars.missionCode)
   end
   if TppRadio.playingBlackTelInfo then

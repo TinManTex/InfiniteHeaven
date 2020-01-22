@@ -1921,20 +1921,16 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   if TppEnemy.IsRescueTarget(gameId)then
       percentage=100
   end    
-  
   if Tpp.IsHostage(gameId) then--tex>
     if Ivars.fultonHostageHandling:Is"ZERO" then
       percentage=0
     end
-  end--<
-    
-    
+  end--< 
   local forcePercent
   if mvars.ply_forceFultonPercent then
     forcePercent=mvars.ply_forceFultonPercent[gameId]
   end
   if forcePercent then
-    InfMenu.DebugPrint"forcepercent"--DEBUGNOW--DEBUGNOW
     percentage=forcePercent
   end
   if isDogFultoning then

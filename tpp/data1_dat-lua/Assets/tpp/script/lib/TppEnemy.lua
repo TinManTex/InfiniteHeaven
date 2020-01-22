@@ -12,7 +12,7 @@ local NULL_ID=GameObject.NULL_ID
 local SendCommand=GameObject.SendCommand
 local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
 local questCp="quest_cp"
-local enemySubType=EnemySubType or{}
+local EnemySubType=EnemySubType or{}
 
 local function RENAMEsomeFunction(i)--tex NMC: cant actually find reference to function, it looks similar to setsolidertype/subtype
   local e={}
@@ -664,7 +664,7 @@ function this.SetSoldierType(soldierId,soldierType)
   GameObject.SendCommand(soldierId,{id="SetSoldier2Type",type=soldierType})
 end
 
-function this.GetSoldierType(soldierId)--tex now pulls type for subtype
+function this.GetSoldierType(soldierId)--tex now pulls type for subtype> ORIG is below
   local soldierType = this._GetSoldierType(soldierId)
 
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." GetSoldierType Caller: " .. debug.getinfo(2).name.. " ".. debug.getinfo(2).source)
@@ -682,27 +682,37 @@ function this.GetSoldierType(soldierId)--tex now pulls type for subtype
     end
   end
 
+  if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    if bodyInfo and bodyInfo.soldierSubType then
+      return InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
+    end
+  end
+
   return soldierType
-end
+end--<
 function this._GetSoldierType(soldierId)--tex was GetSoldierType
   local missionCode=TppMission.GetMissionID()
   if soldierId==nil or soldierId==NULL_ID then
     if missionCode==10080 or missionCode==11080 then
       return EnemyType.TYPE_PF
     end
-    for n,soldierType in pairs(mvars.ene_soldierTypes)do--NMC: used for quest enemies and a few story missions
+    --NMC: used for quest enemies and a few story missions
+    for n,soldierType in pairs(mvars.ene_soldierTypes)do
       if soldierType then
         return soldierType--NMC: no soliderid so just default to first type
-    end
+      end
     end
   else
-    if mvars.ene_soldierTypes then--NMC: used for quest enemies and a few story missions
+    --NMC: used for quest enemies and a few story missions
+    if mvars.ene_soldierTypes then
       local soldierType=mvars.ene_soldierTypes[soldierId]
       if soldierType then
         return soldierType
       end
     end
   end
+
   if(missionCode==10150 or missionCode==10151)or missionCode==11151 then
     return EnemyType.TYPE_SKULL
   end
@@ -722,14 +732,24 @@ function this.SetSoldierSubType(soldierId,subType)
   mvars.ene_soldierSubType[soldierId]=subType
 end
 function this.GetSoldierSubType(soldierId,soldierType)
-  if InfMain.IsForceSoldierSubType() then--tex WIP
+  if InfMain.IsForceSoldierSubType() then--tex WIP>
     local soldierType=GameObject.SendCommand(soldierId,{id="GetSoldier2Type"})
     return InfMain.enemySubTypes[gvars.forceSoldierSubType]
-  end
+  end--<
+  if vars.missionCode==30050 and Ivars.mbDDSuit:Is()>0 then--tex>
+    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    if bodyInfo and bodyInfo.soldierSubType then
+      return bodyInfo.soldierSubType
+    else
+      return "DD_FOB"
+    end
+  end--<
+  
   local missionCode=TppMission.GetMissionID()
   if missionCode==10115 or missionCode==11115 then
     return"DD_PW"
   end
+
   if TppMission.IsFOBMission(missionCode)or (missionCode==30050 and (InfMain.IsDDEquip(missionCode) or InfMain.IsDDBodyEquip(missionCode))) then--tex added ismbplay
     return"DD_FOB"
   end
@@ -765,7 +785,8 @@ function this.GetDefaultSoldierSubType(soldierType)
     soldierType=this.GetSoldierType(nil)
   end
   if TppLocation.IsCyprus()then
-    return"SKULL_CYPR"end
+    return"SKULL_CYPR"
+  end
   if soldierType==EnemyType.TYPE_SOVIET then
     return"SOVIET_A"
   elseif soldierType==EnemyType.TYPE_PF then
@@ -791,13 +812,13 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
     for n,value in ipairs(weaponInfo)do
       local addWeapon=false
       local developedEquipType=value.developedEquipType
---      local developId=value.developId--tex DEBUG-->
---      local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
---      local developedGrade=developedEquipGradeTable[developedEquipType]
---      if value.isNoKill~=true then
---        InfMenu.DebugPrint("_CreateDDWeaponIdTable developId:"..tostring(developId).." developrank:"..tostring(developRank).." developedGrade:"..tostring(developedGrade).." soldierEquipGrade:"..tostring(soldierEquipGrade))--tex DEBUG: CULL:
---      end--<
-      
+      --      local developId=value.developId--tex DEBUG-->
+      --      local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
+      --      local developedGrade=developedEquipGradeTable[developedEquipType]
+      --      if value.isNoKill~=true then
+      --        InfMenu.DebugPrint("_CreateDDWeaponIdTable developId:"..tostring(developId).." developrank:"..tostring(developRank).." developedGrade:"..tostring(developedGrade).." soldierEquipGrade:"..tostring(soldierEquipGrade))--tex DEBUG: CULL:
+      --      end--<
+
       if developedEquipType==nil then
         addWeapon=true
       elseif value.isNoKill and not isNoKillMode then
@@ -811,7 +832,7 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
           if Ivars.allowUndevelopedDDEquip:Is(0) then--tex WORKAROUND developedEquipGradeTable is zeroed if mission is not motherbase
             if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=developId} then
               overrideDeveloped=true
-            end
+          end
           else
             overrideDeveloped=true
           end
@@ -833,8 +854,8 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
       end
     end
   end
---  local ins=InfInspect.Inspect(ddWeaponIdTable)--tex DEBUG
---  InfMenu.DebugPrint(ins)--<
+  --  local ins=InfInspect.Inspect(ddWeaponIdTable)--tex DEBUG
+  --  InfMenu.DebugPrint(ins)--<
   return ddWeaponIdTable
 end
 function this.GetDDWeaponCount()
@@ -895,7 +916,9 @@ function this.SetUpDDParameter()
   GameObject.SendCommand(typeCp,command)
   if(this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT and this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT>=3)
     or(this.weaponIdTable.DD.NORMAL.BATTLE_DRESS and this.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)then
-    TppRevenge.SetHelmetAll()
+    if vars.missionCode~=30050 and Ivar.mbDDHeadGear:Is(1) then--tex added check to stop this from interfering with player settings, only triggering on mbDDHeadGear may seem odd, but I'm really just using it as a search marker lol, a later mbheadgear check will clear the helmet
+      TppRevenge.SetHelmetAll()
+    end
   end
   local grenadeId=this.weaponIdTable.DD.NORMAL.GRENADE or TppEquip.EQP_SWP_Grenade
   local stunId=this.weaponIdTable.DD.NORMAL.STUN_GRENADE or TppEquip.EQP_None
@@ -992,7 +1015,7 @@ end
 function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSettings)
   local bodyId
   local bodyIdTable={}
-  --InfMenu.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG: CULL:
+  --InfMenu.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG
   if soldierType==EnemyType.TYPE_SOVIET then
     bodyIdTable=this.bodyIdTable.SOVIET_A
     if soldierSubType=="SOVIET_B"then
@@ -1067,6 +1090,7 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
       bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT)
     end
   end
+  --InfMenu.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType.. " bodyId:".. tostring(bodyId))--tex DEBUG
   return bodyId
 end
 function this.GetFaceId(n,enemyType,n,n)
@@ -1215,14 +1239,14 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   end
   if powerLoadout.MISSILE then--tex split from shield
     powerLoadout.SNIPER=nil
+    powerLoadout.MG=nil    
     if not powerLoadout.MISSILE_COMBO then--tex added CONFIG_TYPE to bypass, _ApplyRevengeToCp has control of SMG
       powerLoadout.SHOTGUN=nil
-      powerLoadout.MG=nil
       powerLoadout.SMG=true
     end
   end
-
-  if subTypeName=="DD_FOB"then--tex>mbDDHeadGear clear headgear
+  --tex>mbDDHeadGear clear headgear
+  if subTypeName=="DD_FOB"then
     if vars.missionCode==30050 and Ivars.mbDDHeadGear:Is(0) then
       powerLoadout.HELMET=nil
       powerLoadout.GAS_MASK=nil
@@ -1284,20 +1308,21 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   if(primaryId~=nil or secondaryId~=nil)or tertiaryId~=nil then--RETAILBUG secondaryId (was named secondaryWeapon) had no declaration
     GameObject.SendCommand(soldierId,{id="SetEquipId",primary=primaryId,secondary=secondaryId,tertiary=tertiaryId})
   end
+
   GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId,faceId=faceId,balaclavaFaceId=balaclavaId})
   GameObject.SendCommand(soldierId,{id="SetWearEquip",flag=wearEquipFlag})
   local enemySubTypeForSubTypeName={
-    SOVIET_A=enemySubType.SOVIET_A,
-    SOVIET_B=enemySubType.SOVIET_B,
-    PF_A=enemySubType.PF_A,
-    PF_B=enemySubType.PF_B,
-    PF_C=enemySubType.PF_C,
-    DD_A=enemySubType.DD_A,
-    DD_FOB=enemySubType.DD_FOB,
-    DD_PW=enemySubType.DD_PW,
-    CHILD_A=enemySubType.CHILD_A,
-    SKULL_AFGH=enemySubType.SKULL_AFGH,
-    SKULL_CYPR=enemySubType.SKULL_CYPR
+    SOVIET_A=EnemySubType.SOVIET_A,
+    SOVIET_B=EnemySubType.SOVIET_B,
+    PF_A=EnemySubType.PF_A,
+    PF_B=EnemySubType.PF_B,
+    PF_C=EnemySubType.PF_C,
+    DD_A=EnemySubType.DD_A,
+    DD_FOB=EnemySubType.DD_FOB,
+    DD_PW=EnemySubType.DD_PW,
+    CHILD_A=EnemySubType.CHILD_A,
+    SKULL_AFGH=EnemySubType.SKULL_AFGH,
+    SKULL_CYPR=EnemySubType.SKULL_CYPR
   }
   GameObject.SendCommand(soldierId,{id="SetSoldier2SubType",type=enemySubTypeForSubTypeName[subTypeName]})
 end
@@ -1994,11 +2019,11 @@ function this.ChangeLifeState(stateInfo)
   local maxIndex=4
   if not((lifeState>minIndex)and(lifeState<maxIndex))then
     return"lifeState must be index"
-    end
+  end
   local targetName=stateInfo.targetName
   if not IsTypeString(targetName)then
     return"targetName must be string"
-    end
+  end
   local gameId=GetGameObjectId(targetName)
   if gameId~=NULL_ID then
     GameObject.SendCommand(gameId,{id="ChangeLifeState",state=lifeState})
@@ -2946,9 +2971,9 @@ function this.AssignSoldiersToCP()
       end
       local command
       local soldierType=this.GetSoldierType(soldierId)
-      --if InfMain.IsForceSoldierSubType() then--tex WIP:
-      --this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
-      --end
+      if InfMain.IsForceSoldierSubType() then--tex WIP:
+        this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
+      end
       command={id="SetSoldier2Type",type=soldierType}
       SendCommand(soldierId,command)
       if(soldierType~=EnemyType.TYPE_SKULL and soldierType~=EnemyType.TYPE_CHILD)and cpSubType then
@@ -3549,27 +3574,27 @@ end
 function this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName,toCp,n)--lrrpNumberDefine,cpLinkDefine
   if not Tpp.IsTypeTable(n)then
     return
-  end
-  local a=cpLinkDefine[toCp]
-  if a==nil then
-    return
-  end
-  mvars.ene_travelPlans=mvars.ene_travelPlans or{}
-  local r=0
-  for r,fromCp in pairs(n)do
-    if mvars.ene_soldierDefine[fromCp]then
-      if a[fromCp]then
-        local lrrpNumToCp=lrrpNumberDefine[toCp]
-        local lrrpNumFromCp=lrrpNumberDefine[fromCp]
-        local reinforcePlan="rp_"..(toCp..("_From_"..fromCp))
-        mvars.ene_travelPlans[reinforcePlan]=mvars.ene_travelPlans[reinforcePlan]or{}
-        local  lrrpRoute=string.format("rp_%02dto%02d",lrrpNumFromCp,lrrpNumToCp)
-        local lrrpCp=this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumToCp,lrrpNumFromCp,locationName,lrrpNumberDefine)
-        mvars.ene_travelPlans[reinforcePlan]={{cp=lrrpCp,routeGroup={"travel",lrrpRoute}},{cp=toCp,finishTravel=true}}
-        mvars.ene_reinforcePlans[reinforcePlan]={{toCp=toCp,fromCp=fromCp,type="respawn"}}
-      end
+end
+local a=cpLinkDefine[toCp]
+if a==nil then
+  return
+end
+mvars.ene_travelPlans=mvars.ene_travelPlans or{}
+local r=0
+for r,fromCp in pairs(n)do
+  if mvars.ene_soldierDefine[fromCp]then
+    if a[fromCp]then
+      local lrrpNumToCp=lrrpNumberDefine[toCp]
+      local lrrpNumFromCp=lrrpNumberDefine[fromCp]
+      local reinforcePlan="rp_"..(toCp..("_From_"..fromCp))
+      mvars.ene_travelPlans[reinforcePlan]=mvars.ene_travelPlans[reinforcePlan]or{}
+      local  lrrpRoute=string.format("rp_%02dto%02d",lrrpNumFromCp,lrrpNumToCp)
+      local lrrpCp=this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumToCp,lrrpNumFromCp,locationName,lrrpNumberDefine)
+      mvars.ene_travelPlans[reinforcePlan]={{cp=lrrpCp,routeGroup={"travel",lrrpRoute}},{cp=toCp,finishTravel=true}}
+      mvars.ene_reinforcePlans[reinforcePlan]={{toCp=toCp,fromCp=fromCp,type="respawn"}}
     end
   end
+end
 end
 function this.MakeTravelPlanTable(lrrpNumberDefine,cpLinkDefine,locationName,t,n,holdTime)
   if((not Tpp.IsTypeTable(n)or not Tpp.IsTypeTable(n[1]))or not Tpp.IsTypeString(t))or(n[1].cp==nil and n[1].base==nil)then
@@ -4182,7 +4207,7 @@ function this._SpawnTakingOverHostage(t,e)
     return
   end
   if t<gvars.ene_takingOverHostageCount then
-    local i=gvars.ene_takingOverHostageStaffIdsUpper[infoIndex]
+    local i=gvars.ene_takingOverHostageStaffIdsUpper[infoIndex]--RETAILBUG: orphaned
     local a=gvars.ene_takingOverHostageStaffIdsLower[infoIndex]
     SendCommand(e,{id="SetStaffId",divided=true,staffId=i,staffId2=a})
     if TppMission.IsMissionStart()then
@@ -4673,14 +4698,14 @@ function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_T
           end
         end
         if enemyDef.bodyId or enemyDef.faceId then
-          local e=enemyDef.faceId or false
-          local n=enemyDef.bodyId or false
-          if IsTypeNumber(n)and IsTypeNumber(e)then
-            GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=n,faceId=e})
-          elseif IsTypeNumber(e)then
-            GameObject.SendCommand(soldierId,{id="ChangeFova",faceId=e})
-          elseif IsTypeNumber(n)then
-            GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=n})
+          local faceId=enemyDef.faceId or false
+          local bodyId=enemyDef.bodyId or false
+          if IsTypeNumber(bodyId)and IsTypeNumber(faceId)then
+            GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId,faceId=faceId})
+          elseif IsTypeNumber(faceId)then
+            GameObject.SendCommand(soldierId,{id="ChangeFova",faceId=faceId})
+          elseif IsTypeNumber(bodyId)then
+            GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId})
           end
         end
         if enemyDef.isBalaclava==true then
@@ -4809,9 +4834,9 @@ function this.SetupActivateQuestHostage(hostageList)
               end
             end
           else
-            local e={"hostage_a","hostage_b","hostage_c","hostage_d"}
+            local voiceTable={"hostage_a","hostage_b","hostage_c","hostage_d"}
             local rnd=math.random(4)
-            local rndVoice=e[rnd]
+            local rndVoice=voiceTable[rnd]
             GameObject.SendCommand(hostageId,{id="SetVoiceType",voiceType=rndVoice})
           end
           if hostageInfo.langType then
@@ -5013,10 +5038,10 @@ function this.SetupTerminateQuestEnemy(i)
         if setupInfo.powerSetting then
           for i,powerType in ipairs(setupInfo.powerSetting)do
             if powerType=="QUEST_ARMOR"then
-              local a={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
-              GameObject.SendCommand(enemyId,a)
-              local e={id="ChangeFovaCorpse",name=setupInfo.enemyName,faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
-              GameObject.SendCommand(gameObjectCorpse,e)
+              local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
+              GameObject.SendCommand(enemyId,command)
+              local command={id="ChangeFovaCorpse",name=setupInfo.enemyName,faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
+              GameObject.SendCommand(gameObjectCorpse,command)
             end
           end
         end

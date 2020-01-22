@@ -350,7 +350,7 @@ function this.DisplaySetting(optionIndex)
   elseif IsFunc(option.GetSettingText) then
     settingText=tostring(option:GetSettingText())
   elseif option.isPercent then
-    settingText=math.floor(100*option.setting) .. "%"
+    settingText=option.setting .. "%"
   elseif option.options~=nil then--tex menu
     settingText=""
     optionSeperator=optionSeperators.menu
