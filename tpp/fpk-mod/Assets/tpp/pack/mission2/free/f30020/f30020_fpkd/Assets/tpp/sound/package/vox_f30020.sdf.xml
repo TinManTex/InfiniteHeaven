@@ -33,10 +33,7 @@
           <value>vox_free</value>
           <value>vox_generic_00</value>
           <value>vox_ene_common_af</value>
-          <value>vox_ene_common_ru</value>
-          <value>vox_ene_common</value>
           <value>vox_ene_common_fml</value>
-          <value>vox_zmb</value>
         </property>
         <property name="prepareBanks" type="String" container="DynamicArray" />
         <property name="prepareEvents" type="String" container="DynamicArray" />

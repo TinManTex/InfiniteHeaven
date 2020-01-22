@@ -184,7 +184,7 @@ local sideOpsTable={
   --[[XXX--]]{questName="mtbs_q42050",questId="mtbs_q42050",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Medical,plntId=TppDefine.PLNT_DEFINE.Special},
   --[[XXX--]]{questName="mtbs_q42070",questId="mtbs_q42070",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special}
 }
-this.questNameForUiIndex={}--tex
+this.questNameForUiIndex={}--tex>
 for index,questInfo in ipairs(sideOpsTable) do
   this.questNameForUiIndex[index]=questInfo.questName
 end--<

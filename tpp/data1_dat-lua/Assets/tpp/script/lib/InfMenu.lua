@@ -157,12 +157,10 @@ end
 
 function this.ChangeSetting(option,value)
   local newSetting=this.IncrementWrap(option.setting,value,option.range.min,option.range.max)
-  if option.skipValues~=nil then
-    if IsFunc(option.skipValues) then
-      while option:skipValues(newSetting) do
-        --OFF TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
-        newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
-      end
+  if option.SkipValues and IsFunc(option.SkipValues) then
+    while option:SkipValues(newSetting) do
+      --OFF TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
+      newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
     end
   end
 
@@ -228,11 +226,11 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     end
   end
   if self.OnChange then
---    if noOnChangeSub and self.OnSubSettingChanged then --CULL
---    --elseif noOnChangeSub and self.OnChange==Ivars.RunCurrentSetting then
---    else
-      self:OnChange(prevSetting)
-   -- end
+    --    if noOnChangeSub and self.OnSubSettingChanged then --CULL
+    --    --elseif noOnChangeSub and self.OnChange==Ivars.RunCurrentSetting then
+    --    else
+    self:OnChange(prevSetting)
+    -- end
   end
   if self.profile and not noOnChangeSub then
     Ivars.OnChangeSubSetting(self)
@@ -341,12 +339,16 @@ function this.DisplaySetting(optionIndex)
   local optionSeperator=optionSeperators.equals
   local settingNames=option.settingNames or option.settings
   if settingNames then
-    if option.setting < 0 or option.setting > #option.settings-1 then
-      settingText="current setting out of settingNames bounds"
-    elseif IsTable(settingNames) then--old style direct non localized table
-      settingText=option.setting..":"..settingNames[option.setting+1]--tex lua indexed from 1, but settings from 0
+    --tex old style direct non localized table
+    if IsTable(settingNames) then
+      if option.setting < 0 or option.setting > #settingNames-1 then
+        settingText="current setting out of settingNames bounds"
+      else
+        --tex lua indexed from 1, but settings from 0
+        settingText=option.setting..":"..settingNames[option.setting+1]
+      end
     else
-      settingText=this.LangTableString(settingNames,option.setting+1)--tex lua indexed from 1, but settings from 0
+      settingText=this.LangTableString(settingNames,option.setting+1)
     end
   elseif IsFunc(option.GetSettingText) then
     settingText=tostring(option:GetSettingText())
@@ -457,33 +459,33 @@ function this.LangString(langId)
   return langString
 end
 
-function this.LangTableString(langId,index)--remember lua tables from 1
+function this.LangTableString(langId,index)
   if langId==nil or langId=="" then
     TppUiCommand.AnnounceLogView"PrintLangId langId empty"
     return ""
-end
-local languageCode=GetAssetConfig"Language"
-if InfLang[languageCode]==nil then
-  --TppUiCommand.AnnounceLogView("no lang in inflang")
-  languageCode="eng"
-end
-local langTable=InfLang[languageCode][langId]
-if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
-  --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)
-  langTable=InfLang.eng[langId]
-end
+  end
+  local languageCode=GetAssetConfig"Language"
+  if InfLang[languageCode]==nil then
+    --TppUiCommand.AnnounceLogView("no lang in inflang")
+    languageCode="eng"
+  end
+  local langTable=InfLang[languageCode][langId]
+  if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
+    --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)
+    langTable=InfLang.eng[langId]
+  end
 
-if langTable==nil or langTable=="" or not IsTable(langTable) then
-  --TppUiCommand.AnnounceLogView"LangTableString langTable empty"
-  return langId .. ":" .. index
-end
+  if langTable==nil or langTable=="" or not IsTable(langTable) then
+    --TppUiCommand.AnnounceLogView"LangTableString langTable empty"
+    return langId .. ":" .. index
+  end
 
-if index < 1 or index > #langTable then
-  --TppUiCommand.AnnounceLogView("LangTableString - index for " .. langId " out of bounds")
-  return langId .. " OUTOFBOUNDS:" .. index
-end
+  if index < 1 or index > #langTable then
+    --TppUiCommand.AnnounceLogView("LangTableString - index for " .. langId " out of bounds")
+    return langId .. " OUTOFBOUNDS:" .. index
+  end
 
-return langTable[index]
+  return langTable[index]
 end
 
 function this.PrintLangId(langId)
@@ -500,7 +502,7 @@ end
 
 function this.OnActivate()
   InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime--tex set up hold buttons
-  
+
   InfButton.buttonStates[this.menuUpButton].decrement=0.1
   InfButton.buttonStates[this.menuDownButton].decrement=0.1
   InfButton.buttonStates[this.menuRightButton].decrement=0.1
@@ -518,7 +520,7 @@ function this.OnActivate()
   this.GetSetting()
   TppUiStatusManager.ClearStatus"AnnounceLog"
   TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
-  
+
   InfMain.OnMenuOpen()
 end
 

@@ -471,9 +471,9 @@ this.inMissionMenu={
   noGoBack=true,--tex is root
   options={
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG 
-    --InfMenuCommands.DEBUG_WarpToSoldier,--DEBUG
---    Ivars.selectedCp,--DEBUG
+    --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG 
+    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUGNOW
+    --Ivars.selectedCp,--DEBUG
     --Ivars.selectedChangeWeapon,--WIP DEBUG
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
     --InfMenuCommands.doEnemyReinforce,--WIP

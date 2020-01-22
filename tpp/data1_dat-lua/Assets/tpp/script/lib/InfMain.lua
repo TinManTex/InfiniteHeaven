@@ -665,6 +665,57 @@ this.wildCardBodiesMafr={
   TppEnemyBodyId.pfs0_unq_v440,--red beret, black leather top, black pants
 }
 
+--NOTE: make sure SetLevelRandomSeed is setup
+--TODO, there's still a couple of quest uniques that are single/not in a range, face and body ids.txt
+local femaleFaceIds={
+  {min=350,max=399},--european
+  {min=440,max=479},--african
+  {min=500,max=519},--asian
+}
+local function RandomFemaleFaceId()
+  local type=femaleFaceIds[math.random(#femaleFaceIds)]
+  return math.random(type.min,type.max)
+end
+--called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
+--IN/Out bodies
+function this.WildCardFova(bodies)
+  --tex TODO: assign DD headgear
+  --    for faceId, faceInfo in pairs(InfMain.ddHeadGearInfo) do
+  --      table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+  --    end
+
+  InfMain.SetLevelRandomSeed()
+  local faces={}
+  this.ene_wildCardFaceList={}
+  for i=1,InfMain.MAX_WILDCARD_FACES do
+    local faceId=RandomFemaleFaceId()
+    table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
+    table.insert(this.ene_wildCardFaceList,faceId)
+  end
+  TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
+  InfMain.ResetTrueRandom()
+
+  this.wildCardSuitName=this.femaleSuits[math.random(#this.femaleSuits)]
+  local bodyInfo=this.GetCurrentWildCardBodyInfo(true)--tex female
+  if bodyInfo then
+    if bodyInfo.femaleBodyId then
+      TppEneFova.SetupBodies(bodyInfo.femaleBodyId,bodies)
+    end
+    if bodyInfo.soldierSubType then
+      local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
+      if bodyIdTable then
+        for powerType,bodyTable in pairs(bodyIdTable)do
+          TppEneFova.SetupBodies(bodyTable,bodies)
+        end
+      end
+    end
+
+    if bodyInfo.extendPartsInfo then
+      TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
+    end
+  end
+end
+
 function this.GetHeadGearForPowers(powerSettings,faceId,hasHelmet)
   local validHeadGearIds={}
   if powerSettings then
@@ -1367,7 +1418,6 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
   --packPathAlt="/Assets/tpp/pack/mission2/quest/extra/quest_q52130.fpk",
   },
 
-
   WESTERN_WHEELED_ARMORED_VEHICLE={--Nope, vehicle seems almost complete, just no turret and no use cases in game
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
@@ -1377,7 +1427,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
   },
 
   WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN={
-    baseType="TRUCK",
+    baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN,
     class=nil,
@@ -1388,7 +1438,7 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
   },
 
   WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON={
-    baseType="TRUCK",
+    baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON,
     class=nil,
@@ -1463,14 +1513,19 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
     return
   end
 
-  if patrolVehicleEnabledList==nil then
-    this.BuildEnabledList()
-  end
+
+
+
+  --if patrolVehicleEnabledList==nil then
+  this.BuildEnabledList()
+  --end
 
   if #patrolVehicleEnabledList==0 then
     --InfMenu.DebugPrint"ModifyVehicleSpawn - enabledList empty"--DEBUG
     return
   end
+
+  --InfMain.SetLevelRandomSeed()
 
   mvars.patrolVehicleBaseInfo={}
 
@@ -1513,7 +1568,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
 
         vehicle=vehicleSpawnInfoTable[vehicleType]
         if vehicle==nil then
-          InfMenu.DebugPrint("warning: vehicle==nil")
+          InfMenu.DebugPrint("warning: vehicleSpawnInfoTable ".. vehicleType .."==nil")
           break
         end
 
@@ -1523,6 +1578,8 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
       end
     end
   end
+
+  --InfMain.ResetTrueRandom()
 end
 
 --OUT: missionPackPath
@@ -1580,7 +1637,7 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
           end
         end
       end
-    end--if gvar
+    end--if ivar
   end--for vehicle base types
   --CULL
   --    local packPath
@@ -1646,25 +1703,27 @@ function this.BlockQuest(questName)
     --end
   end
 
-  if Ivars.vehiclePatrolProfile:Is()>0 then
-    local isVehiclePack=false
-    for baseType,typeInfo in pairs(vehicleBaseTypes) do
-      if not (typeInfo.ivar~="vehiclePatrolLvEnable" or typeInfo.ivar~="vehiclePatrolTruckEnable") then
-        if Ivars[typeInfo.ivar] and Ivars[typeInfo.ivar]:Is()>0 then
-          isVehiclePack=true
-        end
-      end
-    end
-    if isVehiclePack==true then
-      --if this.IsPatrolVehicleMission() then
-      for n,name in ipairs(this.disableVehicleQuests)do
-        if name==questName then
-          return true
-        end
-      end
-      --end
-    end
-  end
+  --OFF CULL
+  --  if Ivars.vehiclePatrolProfile:Is()>0 then
+  --    local isVehiclePack=false
+  --    for baseType,typeInfo in pairs(vehicleBaseTypes) do
+  --      if not (typeInfo.ivar~="vehiclePatrolLvEnable" or typeInfo.ivar~="vehiclePatrolTruckEnable") then
+  --        if Ivars[typeInfo.ivar] and Ivars[typeInfo.ivar]:Is()>0 then
+  --          isVehiclePack=true
+  --        end
+  --      end
+  --    end
+  --    if isVehiclePack==true then
+  --      --if this.IsPatrolVehicleMission() then
+  --      for n,name in ipairs(this.disableVehicleQuests)do
+  --        if name==questName then
+  --          return true
+  --        end
+  --      end
+  --      --end
+  --    end
+  --  end
+
   return false
 end
 --splash stuff>
@@ -2086,7 +2145,7 @@ function this.OnInitializeTop(missionTable)
   if missionTable.enemy then
     local enemyTable=missionTable.enemy
     this.ResetSoldierPool()
-    --InfMain.SetLevelRandomSeed()
+    InfMain.SetLevelRandomSeed()
     if IsTable(enemyTable.soldierDefine) then
       if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
         this.ModifyVehiclePatrol(enemyTable.VEHICLE_SPAWN_LIST)
@@ -2102,7 +2161,7 @@ function this.OnInitializeTop(missionTable)
       this.AddLrrps(enemyTable.soldierDefine,enemyTable.travelPlans)
       this.AddWildCards(enemyTable.soldierDefine,enemyTable.soldierTypes,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
     end
-    --InfMain.ResetTrueRandom()
+    InfMain.ResetTrueRandom()
   end
 end
 function this.OnAllocateTop(missionTable)
@@ -3717,7 +3776,10 @@ end
 function this.ResetSoldierPool()
   this.soldierPool={}
   for n,soldierName in ipairs(this.reserveSoldierNames) do
-    table.insert(this.soldierPool,soldierName)
+    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+    if soldierId~=nil and soldierId~=NULL_ID then
+      table.insert(this.soldierPool,soldierName)
+    end
   end
 end
 
@@ -3756,7 +3818,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
   end
 
   if Ivars.vehiclePatrolProfile:Is()>0 and Ivars.vehiclePatrolProfile:ExecCheck() then
-    InfMain.SetLevelRandomSeed()
+    --InfMain.SetLevelRandomSeed()
 
     --local initPoolSize=#this.soldierPool--DEBUG
     for cpName,cpDefine in pairs(soldierDefine)do
@@ -3799,7 +3861,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
     --local poolChange=#this.soldierPool-initPoolSize--DEBUG
     --InfMenu.DebugPrint("pool change:"..poolChange)--DEBUG
 
-    InfMain.ResetTrueRandom()
+    --InfMain.ResetTrueRandom()
 
     --if vehiclePatrol
   end
@@ -3918,7 +3980,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
   end
   --InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
 
-  InfMain.ResetTrueRandom()
+  --InfMain.ResetTrueRandom()
 end
 
 this.MAX_WILDCARD_FACES=1--10
@@ -3932,7 +3994,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     return
   end
 
-  InfMain.SetLevelRandomSeed()
+  --InfMain.SetLevelRandomSeed()
 
   local reserved=0
 
@@ -4081,7 +4143,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     end
   end
   --InfMenu.DebugPrint("num wildCards"..numLrrps)--DEBUG
-  InfMain.ResetTrueRandom()
+  --InfMain.ResetTrueRandom()
 end
 
 return this

@@ -1820,7 +1820,7 @@ this.vehiclePatrolProfile={
   end,
 }
 
-local function TypeChange()
+local function TypeChange(self)
   InfMain.BuildEnabledList()
 end
 
@@ -1957,8 +1957,9 @@ this.unlockSideOps={
 this.unlockSideOpNumber={
   save=MISSION,
   range={max=this.numQuests},
-  skipValues=function(self,newSetting)
+  SkipValues=function(self,newSetting)
     local questName=TppQuest.questNameForUiIndex[newSetting]
+    --InfMenu.DebugPrint(questName)--DEBUG
     return InfMain.BlockQuest(questName)
   end,
   OnChange=function()
