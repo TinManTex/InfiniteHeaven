@@ -330,9 +330,9 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     end
     TppReinforceBlock.SetUpReinforceBlock()
   end
-  for t,e in pairs(missionTable)do
-    if IsTypeFunc(e.Messages)then
-      missionTable[t]._messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+  for name,entry in pairs(missionTable)do
+    if IsTypeFunc(entry.Messages)then
+      missionTable[name]._messageExecTable=Tpp.MakeMessageExecTable(entry.Messages())
     end
   end
   if mvars.loc_locationCommonTable then
@@ -740,12 +740,12 @@ function this.StageBlockCurrentPosition(e)
   end
 end
 function this.OnReload(missionTable)
-  for t,e in pairs(missionTable)do
-    if IsTypeFunc(e.OnLoad)then
-      e.OnLoad()
+  for name,entry in pairs(missionTable)do
+    if IsTypeFunc(entry.OnLoad)then
+      entry.OnLoad()
     end
-    if IsTypeFunc(e.Messages)then
-      missionTable[t]._messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
+    if IsTypeFunc(entry.Messages)then
+      missionTable[name]._messageExecTable=Tpp.MakeMessageExecTable(entry.Messages())
     end
   end
   if missionTable.enemy then

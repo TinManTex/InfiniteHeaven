@@ -662,7 +662,6 @@ function fovaSetupFuncs.Afghan(n,missionId)
     InfMain.SetLevelRandomSeed()
     local faces={}
     InfMain.ene_wildCardFaceList={}
-    InfMenu.DebugPrint"fovaSetupFuncs.Afghan"--DEBUGNOW
     for i=1,InfMain.MAX_WILDCARD_FACES do
       local faceId=math.random(350,399)
       table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
@@ -671,6 +670,7 @@ function fovaSetupFuncs.Afghan(n,missionId)
     TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
     InfMain.ResetTrueRandom()
 
+    InfMain.wildCardSuitName=InfMain.femaleSuits[math.random(#InfMain.femaleSuits)]
     local bodyInfo=InfMain.GetCurrentWildCardBodyInfo(true)--tex female
     if bodyInfo then
       if bodyInfo.femaleBodyId then
@@ -783,7 +783,6 @@ function fovaSetupFuncs.Africa(n,missionId)
     InfMain.SetLevelRandomSeed()
     local faces={}
     InfMain.ene_wildCardFaceList={}
-    InfMenu.DebugPrint"fovaSetupFuncs.Afghan"--DEBUGNOW
     for i=1,InfMain.MAX_WILDCARD_FACES do
       local faceId=math.random(350,399)
       table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
@@ -792,6 +791,7 @@ function fovaSetupFuncs.Africa(n,missionId)
     TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
     InfMain.ResetTrueRandom()
 
+    InfMain.wildCardSuitName=InfMain.femaleSuits[math.random(#InfMain.femaleSuits)]
     local bodyInfo=InfMain.GetCurrentWildCardBodyInfo(true)--tex female
     if bodyInfo then
       if bodyInfo.femaleBodyId then
@@ -1455,24 +1455,9 @@ end
 function this.ApplyUniqueSetting()
   local NULL_ID=GameObject.NULL_ID
   local NOT_USED_FOVA_VALUE=EnemyFova.NOT_USED_FOVA_VALUE
-
-  --  if InfMain.IsWildCardEnabled() and mvars.ene_wildCards then--tex>
-  --    for soldierName,bool in pairs(mvars.ene_wildCards)do--DEBUGNOW differentiate between those that need extended and that dont
-  --      local gameObjectId = GameObject.GetGameObjectId( "TppSoldier2", soldierName )
-  --      if gameObjectId==NULL_ID then
-  --        InfMenu.DebugPrint"ApplyUniqueSetting gameObjectId==NULL_ID"--DEBUGNOW
-  --      else
-  --        --InfMenu.DebugPrint("doop:"..soldierName)--DEBUGNOW
-  --        local command={id="UseExtendParts",enabled=true}
-  --        GameObject.SendCommand(gameObjectId,command)
-  --      end
-  --  end
-  --  end--<
-  InfMenu.DebugPrint"ApplyUniqueSetting"--DEBUGNOW
   if gvars.ene_fovaUniqueTargetIds[0]==NULL_ID then
     local i=0
     for n,uniqueSetting in ipairs(l_uniqueSettings)do
-      InfMenu.DebugPrint("uniqueSetting.name "..uniqueSetting.name)--DEBUGNOW
       local soldierId=GameObject.GetGameObjectId(uniqueSetting.name)
 
       if soldierId~=NULL_ID then
@@ -1494,7 +1479,6 @@ function this.ApplyUniqueSetting()
     if soldierId==NULL_ID then
       break
     end
-    InfMenu.DebugPrint("uniqueSetting")--DEBUGNOW
     local command={id="ChangeFova",faceId=gvars.ene_fovaUniqueFaceIds[n],bodyId=gvars.ene_fovaUniqueBodyIds[n]}
     GameObject.SendCommand(soldierId,command)
     local fovaUniqueFlags=0

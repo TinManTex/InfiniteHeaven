@@ -385,7 +385,7 @@ function this.SetGameStatus(status)
     for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do    
       local t=target[uiName]
       local unsetUiSetting=mvars.ui_unsetUiSetting
-      if Ivars.disableHeadMarkers:Is(1) and uiName=="HeadMarker" then--tex> bit of a kludge implementation, but lua doesnt support continue in for loops--TODO more testing
+      if Ivars.disableHeadMarkers:Is(1) and (uiName=="HeadMarker" or uiName=="WorldMarker" )then--tex> bit of a kludge implementation, but lua doesnt support continue in for loops--TODO more testing
         t=nil
         unsetUiSetting=nil
       end--<

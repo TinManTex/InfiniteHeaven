@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r131"
+this.modVersion="r133"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -306,6 +306,44 @@ this.ddBodyInfo={
     noDDHeadgear=true,
   --soldierSubType="SOVIET_B",
   },
+  SOVIET_ALL={
+    maleBodyId={
+      TppEnemyBodyId.svs0_rfl_v00_a,
+      TppEnemyBodyId.svs0_rfl_v01_a,
+      TppEnemyBodyId.svs0_rfl_v02_a,
+      TppEnemyBodyId.svs0_mcg_v00_a,
+      TppEnemyBodyId.svs0_mcg_v01_a,
+      TppEnemyBodyId.svs0_mcg_v02_a,
+      TppEnemyBodyId.svs0_snp_v00_a,
+      TppEnemyBodyId.svs0_rdo_v00_a,
+      TppEnemyBodyId.svs0_rfl_v00_b,
+      TppEnemyBodyId.svs0_rfl_v01_b,
+      TppEnemyBodyId.svs0_rfl_v02_b,
+      TppEnemyBodyId.svs0_mcg_v00_b,
+      TppEnemyBodyId.svs0_mcg_v01_b,
+      TppEnemyBodyId.svs0_mcg_v02_b,
+      TppEnemyBodyId.svs0_snp_v00_b,
+      TppEnemyBodyId.svs0_rdo_v00_b,
+      TppEnemyBodyId.sva0_v00_a,
+      TppEnemyBodyId.svs0_unq_v010,
+      TppEnemyBodyId.svs0_unq_v080,
+      TppEnemyBodyId.svs0_unq_v020,
+      TppEnemyBodyId.svs0_unq_v040,
+      TppEnemyBodyId.svs0_unq_v050,
+      TppEnemyBodyId.svs0_unq_v060,
+      TppEnemyBodyId.svs0_unq_v100,
+      TppEnemyBodyId.svs0_unq_v070,
+      TppEnemyBodyId.svs0_unq_v071,
+      TppEnemyBodyId.svs0_unq_v072,
+      TppEnemyBodyId.svs0_unq_v420,
+      TppEnemyBodyId.svs0_unq_v009,
+      TppEnemyBodyId.svs0_unq_v421,
+    },
+    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
+    noDDHeadgear=true,
+  --soldierSubType="SOVIET_B",
+  },
   PF_MISC={
     maleBodyId={
       TppEnemyBodyId.pfs0_unq_v210,--black beret, glases, black vest, red shirt, tan pants
@@ -324,7 +362,48 @@ this.ddBodyInfo={
     noDDHeadgear=true,
   --soldierSubType="PF_C",
   },
+  PF_ALL={
+    maleBodyId={
+      TppEnemyBodyId.pfs0_rfl_v00_a,
+      TppEnemyBodyId.pfs0_rfl_v01_a,
+      TppEnemyBodyId.pfs0_mcg_v00_a,
+      TppEnemyBodyId.pfs0_snp_v00_a,
+      TppEnemyBodyId.pfs0_rdo_v00_a,
+      TppEnemyBodyId.pfs0_rfl_v00_b,
+      TppEnemyBodyId.pfs0_rfl_v01_b,
+      TppEnemyBodyId.pfs0_mcg_v00_b,
+      TppEnemyBodyId.pfs0_snp_v00_b,
+      TppEnemyBodyId.pfs0_rdo_v00_b,
+      TppEnemyBodyId.pfs0_rfl_v00_c,
+      TppEnemyBodyId.pfs0_rfl_v01_c,
+      TppEnemyBodyId.pfs0_mcg_v00_c,
+      TppEnemyBodyId.pfs0_snp_v00_c,
+      TppEnemyBodyId.pfs0_rdo_v00_c,
+      TppEnemyBodyId.pfa0_v00_b,
+      TppEnemyBodyId.pfa0_v00_c,
+      TppEnemyBodyId.pfa0_v00_a,
+      TppEnemyBodyId.pfs0_unq_v210,
+      TppEnemyBodyId.pfs0_unq_v250,
+      TppEnemyBodyId.pfs0_unq_v360,
+      TppEnemyBodyId.pfs0_unq_v280,
+      TppEnemyBodyId.pfs0_unq_v150,
+      TppEnemyBodyId.pfs0_unq_v220,
+      TppEnemyBodyId.pfs0_unq_v140,
+      TppEnemyBodyId.pfs0_unq_v241,
+      TppEnemyBodyId.pfs0_unq_v242,
+      TppEnemyBodyId.pfs0_unq_v450,
+      TppEnemyBodyId.pfs0_unq_v440,
+      TppEnemyBodyId.pfs0_unq_v155,
+    },
+    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
+    noDDHeadgear=true,
+  --soldierSubType="PF_C",
+  },
 }
+
+
+
 
 --pfs0_unq_v210=250,--black beret, glases, black vest, red shirt, tan pants
 --pfs0_unq_v250=251,--black beret, white coyote tshirt, black pants
@@ -393,6 +472,11 @@ this.ddBodyInfo={
 --svs0_dds0_v07=297,
 --svs0_dds0_v08=298,
 --svs0_dds0_v09=299,
+
+
+---
+
+
 
 this.ddSuitToDDBodyInfo={
   [TppEnemy.FOB_DD_SUIT_SNEAKING]="SNEAKING_SUIT",
@@ -543,23 +627,46 @@ function this.GetCurrentDDBodyInfo(isFemale)
   return this.ddBodyInfo[suitName]
 end
 
-this.wildCardSuitName="SNEAKING_SUIT"--DEBUGNOW
+--
+this.femaleSuits={
+  "SNEAKING_SUIT",
+  "BATTLE_DRESS",
+  "TIGER",
+  "DRAB",
+}
+
+this.wildCardSuitName="SNEAKING_SUIT"
 function this.GetCurrentWildCardBodyInfo(isFemale)
   return this.ddBodyInfo[this.wildCardSuitName]
 end
 
---function this.AddBodyPack(bodyInfo)--CULL
---  if not bodyInfo then
---    return
---  end
---  if bodyInfo.missionPackPath then
---    TppPackList.AddMissionPack(bodyInfo.missionPackPath)
---  end
---end
+this.wildCardBodiesAfgh={
+  TppEnemyBodyId.svs0_unq_v010,
+  TppEnemyBodyId.svs0_unq_v020,
+  TppEnemyBodyId.svs0_unq_v070,
+  TppEnemyBodyId.svs0_unq_v071,
+  TppEnemyBodyId.svs0_unq_v072,
+  TppEnemyBodyId.svs0_unq_v009,
+  TppEnemyBodyId.svs0_unq_v060,
+  TppEnemyBodyId.svs0_unq_v100,
+  TppEnemyBodyId.svs0_unq_v420,
+}
+
+this.wildCardBodiesMafr={
+  TppEnemyBodyId.pfs0_unq_v210,--black beret, glases, black vest, red shirt, tan pants
+  TppEnemyBodyId.pfs0_unq_v250,--black beret, white coyote tshirt, black pants
+  TppEnemyBodyId.pfs0_unq_v360,--red long sleeve shirt, black pants
+  TppEnemyBodyId.pfs0_unq_v280,--black suit, white shirt, red white striped tie
+  TppEnemyBodyId.pfs0_unq_v150,--green beret, brown leather top, light tan muddy pants
+  TppEnemyBodyId.pfs0_unq_v140,--cap, glases, badly clipping medal, brown leather top, light tan muddy pants
+  TppEnemyBodyId.pfs0_unq_v241,--brown leather top, light tan muddy pants
+  --TppEnemyBodyId.pfs0_unq_v242,--brown leather top, light tan muddy pants, cant tell any difference?
+  TppEnemyBodyId.pfs0_unq_v450,--red beret, brown leather top, light tan muddy pants
+  TppEnemyBodyId.pfs0_unq_v440,--red beret, black leather top, black pants
+}
 
 function this.GetHeadGearForPowers(powerSettings,faceId,hasHelmet)
   local validHeadGearIds={}
-  --CULL local powerSettings=mvars.ene_soldierPowerSettings[soldierId]or nil
   if powerSettings then
     local gearPowerTypes={
       HELMET=true,
@@ -1957,7 +2064,7 @@ function this.ClearMarkers()
   end
   if Ivars.disableWorldMarkers:Is(1) then
     TppUiStatusManager.SetStatus("WorldMarker","INVALID")
-  end  
+  end
   if Ivars.disableXrayMarkers:Is(1) then
     --TppSoldier2.DisableMarkerModelEffect()
     TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
@@ -1979,7 +2086,7 @@ function this.OnInitializeTop(missionTable)
   if missionTable.enemy then
     local enemyTable=missionTable.enemy
     this.ResetSoldierPool()
-    InfMain.SetLevelRandomSeed()
+    --InfMain.SetLevelRandomSeed()
     if IsTable(enemyTable.soldierDefine) then
       if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
         this.ModifyVehiclePatrol(enemyTable.VEHICLE_SPAWN_LIST)
@@ -1990,16 +2097,12 @@ function this.OnInitializeTop(missionTable)
       enemyTable.soldierPowerSettings=enemyTable.soldierPowerSettings or {}
       enemyTable.soldierPersonalAbilitySettings=enemyTable.soldierPersonalAbilitySettings or {}
 
-      this.initTest=this.initTest+1--DEBUGNOW
+      --this.initTest=this.initTest+1--DEBUGNOW
       this.ModifyVehiclePatrolSoldiers(enemyTable.soldierDefine)
-      this.AddWildCards(enemyTable.soldierDefine,enemyTable.soldierTypes,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
       this.AddLrrps(enemyTable.soldierDefine,enemyTable.travelPlans)
+      this.AddWildCards(enemyTable.soldierDefine,enemyTable.soldierTypes,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
     end
-
-    --    if IsTable(missionTable.enemy.soldierPowerSettings)then
-    --    --     this.SetUpPowerSettings(missionTable.enemy.soldierPowerSettings)--tex
-    --    end
-    InfMain.ResetTrueRandom()
+    --InfMain.ResetTrueRandom()
   end
 end
 function this.OnAllocateTop(missionTable)
@@ -3618,23 +3721,14 @@ function this.ResetSoldierPool()
   end
 end
 
-function this.SoldierPoolPop()
-  if #this.soldierPool==0 then
-    return nil
-  end
-  local soldierName=this.soldierPool[this.soldierPool]
-  table.remove(this.soldierPool)
-  return soldierName
-end
-
 local function FillLrrp(num,soldierPool,cpDefine)
   local soldiers={}
   while num>0 and #soldierPool>0 do
     local soldierName=soldierPool[#soldierPool]
     if soldierName then
-      table.insert(soldiers,soldierName)
       table.remove(soldierPool)--pop
-      table.insert(cpDefine,#cpDefine+1,soldierName)
+      table.insert(cpDefine,soldierName)
+      table.insert(soldiers,soldierName)
       num=num-1
     end
   end
@@ -3649,19 +3743,10 @@ local function ResetPool(baseNames)
   return namePool
 end
 
-local function GetRandomPool(pool,startBases)
+local function GetRandomPool(pool)
   local rndIndex=math.random(#pool)
   local name=pool[rndIndex]
   table.remove(pool,rndIndex)
-  --tex RETHINK, ugly bad
-  if startBases then
-    for i,startBaseName in ipairs(startBases) do
-      if name==startBaseName then
-        table.remove(pool,i)
-      end
-    end
-  end
-
   return name
 end
 
@@ -3671,7 +3756,9 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
   end
 
   if Ivars.vehiclePatrolProfile:Is()>0 and Ivars.vehiclePatrolProfile:ExecCheck() then
-    local initPoolSize=#this.soldierPool
+    InfMain.SetLevelRandomSeed()
+
+    --local initPoolSize=#this.soldierPool--DEBUG
     for cpName,cpDefine in pairs(soldierDefine)do
       local numCpSoldiers=0
       for n,soldierName in ipairs(cpDefine)do
@@ -3702,16 +3789,19 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
           numSeats=numSeats-numCpSoldiers
           --InfMenu.DebugPrint(cpDefine.lrrpVehicle .. " numfillSeats "..numSeats)--DEBUG
           if numSeats>0 then
-            FillLrrp(numSeats,this.soldierPool,cpDefine) --tex TODO why is this crashing out?
+            FillLrrp(numSeats,this.soldierPool,cpDefine)
           end
         end
         --if lrrpVehicle<
       end
       --for soldierdefine<
     end
-    local poolChange=#this.soldierPool-initPoolSize
-    InfMenu.DebugPrint("pool change:"..poolChange)--DEBUGNOW
-    --if vehiclePatrol<
+    --local poolChange=#this.soldierPool-initPoolSize--DEBUG
+    --InfMenu.DebugPrint("pool change:"..poolChange)--DEBUG
+
+    InfMain.ResetTrueRandom()
+
+    --if vehiclePatrol
   end
 end
 
@@ -3725,16 +3815,20 @@ function this.AddLrrps(soldierDefine,travelPlans)
     return
   end
 
+  InfMain.SetLevelRandomSeed()
+
   local cpPool={}
 
   local lrrpInd="_lrrp"
   for cpName,cpDefine in pairs(soldierDefine)do
     local cpId=GetGameObjectId(cpName)
     if cpId==NULL_ID then
-      InfMenu.DebugPrint(cpName.."==NULL_ID")
+      InfMenu.DebugPrint(cpName.."==NULL_ID")--DEBUG
     else
-      if string.find(cpName,lrrpInd)~=nil then
-        if #cpDefine==0 then
+      --if #cpDefine==0 then --DEBUGNOW OFF wont be empty on restart from checkpoint
+      --tex cp is labeled _lrrp
+      if string.find(cpName,lrrpInd) then
+        if not cpDefine.lrrpVehicle then
           table.insert(cpPool,cpName)
         end
       end
@@ -3755,6 +3849,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
 
   local baseNamePool={}
   local startBases={}
+  local endBases={}
   if TppLocation.IsAfghan()then
     startBases=ResetPool(afghBaseNames)
   elseif TppLocation.IsMiddleAfrica()then
@@ -3773,12 +3868,20 @@ function this.AddLrrps(soldierDefine,travelPlans)
       end
     end
   end
+  startBases=baseNamePool
+  local half=math.floor(#startBases/2)
+  for i=0, half do
+    table.insert(endBases,GetRandomPool(startBases))
+  end
+  --tex TODO, copy off tables, swap, and make a second pass
 
 
   while #this.soldierPool-reserved>0 do
+
     --tex done, this limits to one lrrp per base (or rather starting at base, the end is much more random)
-    if #startBases==0 then
-      --InfMenu.DebugPrint"#startBases==0, each base should have a lrrp starting there"--DEBUG
+    --TODO: a second pass with start and end tables swapped (would have to copy off the tables above i guess)
+    if #startBases==0 or #endBases==0 then
+      --InfMenu.DebugPrint"#startBases==0"--DEBUG
       break
     end
 
@@ -3789,20 +3892,6 @@ function this.AddLrrps(soldierDefine,travelPlans)
     if #this.soldierPool==0 then
       --InfMenu.DebugPrint"#soldierPool==0"--DEBUG
       break
-    end
-
-    --tex 2 are used per lrrp (start>>end) so if num bases odd then will be left with 1
-    --TODO: just choose a random from bases (and check it's not the same as currently in soldierpool
-    if #startBases==1 then
-      --InfMenu.DebugPrint"#startBases==1"--DEBUG
-      break
-    end
-
-    --tex feeding from startbases gives a bit of an odd distribution
-    --or we can quit here with a guarantees each base will be in a lrrp as a start or an end
-    if #baseNamePool==0 or #baseNamePool==1 then
-      break
-      --baseNamePool=ResetBasePool(startBases)
     end
 
     local lrrpSize=2 --WIP custom lrrp size OFF to give coverage till I can come up with something better math.random(minSize,maxSize)
@@ -3817,23 +3906,22 @@ function this.AddLrrps(soldierDefine,travelPlans)
     local cpDefine={}
     soldierDefine[cpName]=cpDefine--tex GOTCHA clearing the cp here, wheres in AddWildCards we are reading existing
 
-    --tex TODO: random% filled to user settings
     local soldiers=FillLrrp(lrrpSize,this.soldierPool,cpDefine)
+
     local planName=planStr..cpName
     cpDefine.lrrpTravelPlan=planName
     travelPlans[planName]={
-      {base=GetRandomPool(baseNamePool,startBases)},
-      {base=GetRandomPool(baseNamePool)},
+      {base=GetRandomPool(startBases)},
+      {base=GetRandomPool(endBases)},
     }
     numLrrps=numLrrps+1
   end
-  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUGNOW
+  --InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
 
-  --  local ins = InfInspect.Inspect(startBases)
-  --  InfMenu.DebugPrint(ins)
+  InfMain.ResetTrueRandom()
 end
 
-this.MAX_WILDCARD_FACES=10--DEBUGNOW
+this.MAX_WILDCARD_FACES=1--10
 function this.IsWildCardEnabled(missionCode)
   local missionCode=missionCode or vars.missionCode
   return Ivars.enableWildCardFreeRoam:Is(1) and (missionCode==30010 or missionCode==30020)
@@ -3844,40 +3932,19 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     return
   end
 
-  InfMenu.DebugPrint"AddWildCards"--DEBUGNOW
+  InfMain.SetLevelRandomSeed()
 
   local reserved=0
 
   local numLrrps=0
 
   local baseNamePool={}
-  --  local startBases={}
-  --  if TppLocation.IsAfghan()then
-  --    startBases=ResetPool(afghBaseNames)
-  --  elseif TppLocation.IsMiddleAfrica()then
-  --    startBases=ResetPool(mafrBaseNames)
-  --  end
-  --
-  --  --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
-  --  for n,cpName in pairs(startBases)do
-  --    local cpDefine=soldierDefine[cpName]
-  --    if cpDefine==nil then
-  --    --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
-  --    else
-  --      local cpId=GetGameObjectId(cpName)
-  --      if cpId==NULL_ID then
-  --      --InfMenu.DebugPrint(tostring(cpName).." cpId==NULL_ID")--DEBUG
-  --      else
-  --        table.insert(baseNamePool,cpName)
-  --      end
-  --    end
-  --  end
-  --
+
   for cpName,cpDefine in pairs(soldierDefine)do
     if #cpDefine>0 then
       local cpId=GetGameObjectId(cpName)
       if cpId~=NULL_ID then
-        if cpDefine.lrrpVehicle==nil then--tex TODO: think if you want to add wildcards to vehicle lrrps
+        if cpDefine.lrrpVehicle==nil and cpDefine.lrrpTravelPlan==nil then--tex TODO: think if you want to add wildcards to vehicle lrrps, would need to makes sure its a vehicle where they're a passenger
           table.insert(baseNamePool,cpName)
         end
       end
@@ -3894,11 +3961,10 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
 
   local weaponPowers={
-    --DEBUGNOW
-    --    "ASSAULT",
-    --    "SMG",
-    --    "SHOTGUN",
-    --    "MG",
+    "ASSAULT",
+    "SMG",
+    "SHOTGUN",
+    "MG",
     "SNIPER",
   --"MISSILE",
   }
@@ -3918,30 +3984,20 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     holdup=abilityLevel
   }
 
-  local numWildCards=math.max(1,math.floor(#baseNamePool/2.5))--DEBGUNOW/6))--DEBUGNOW
-  local femaleChance=1--0.1--DEBUGNOW
+  local numWildCards=math.max(1,math.floor(#baseNamePool/6))
+  local numFemale=1--math.max(1,math.floor(numWildCards/3))--SYNC: MAX_WILDCARD_FACES
+  --InfMenu.DebugPrint("numwildcards: "..numWildCards .. " numFemale:"..numFemale)--DEBUG
 
-  mvars.ene_wildCards={}
   local faceIdPool={}
 
-  InfMenu.DebugPrint"ene_wildCardFaceList"
-  local ins=InfInspect.Inspect(InfMain.ene_wildCardFaceList)--DEBUGNOW
-  InfMenu.DebugPrint(ins)
+  --  InfMenu.DebugPrint"ene_wildCardFaceList"--DEBUG >
+  --  local ins=InfInspect.Inspect(InfMain.ene_wildCardFaceList)
+  --  InfMenu.DebugPrint(ins)--<
 
+  this.ene_wildCardSoldiers={}
+  this.ene_femaleWildCardSoldiers={}
 
-
-  --while numLrrps<=numWildCards do
   for i=1,numWildCards do
-    --    if #startBases==0 then
-    --      --InfMenu.DebugPrint"#startBases==0, each base should have a lrrp starting there"--DEBUG
-    --      break
-    --    end
-
-    --    if #this.soldierPool==0 then
-    --      --InfMenu.DebugPrint"#soldierPool==0"--DEBUG
-    --      break
-    --    end
-
     if #baseNamePool==0 then
       --InfMenu.DebugPrint"#baseNamePool==0"--DEBUG
       break
@@ -3951,53 +4007,57 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
 
     local cpDefine=soldierDefine[cpName]
-    --    if cpDefine==nil then
-    --    --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
-    --    else
-    --      local cpId=GetGameObjectId(cpName)
-    --      if cpId==NULL_ID then
-    --      --InfMenu.DebugPrint(cpName.."==NULL_ID")--DEBUG
-    --      else
-
-
-    --InfMenu.DebugPrint("found cpname "..cpName)--DEBUGNOW
-
-    local wildCardsPerCp=1
+    --local wildCardsPerCp=1
     --local soldiers=FillLrrp(wildCardsPerCp,this.soldierPool,cpDefine)
     if #cpDefine>0 then
+      --WIP add soldier to cover
+      --tex adding soldiers will mess things up because of soldiername random #cpdefine
+      --alternative would be to save off wildcard soldiers and read that
+      --      if #this.soldierPool>0 then
+      --        local soldierName=this.soldierPool[#this.soldierPool]
+      --        if soldierName then
+      --      --          InfMenu.DebugPrint("addwild pool "..soldierName)--DEBUG
+      --          table.insert(cpDefine,soldierName)
+      --          table.remove(this.soldierPool)--pop
+      --        end
+      --      end
+
+
       local soldierName=cpDefine[math.random(#cpDefine)]
-      local isFemale=math.random()<=femaleChance
+      table.insert(this.ene_wildCardSoldiers,soldierName)
+
+      --local isFemale=math.random()<=femaleChance
+      --CULL
+      --local soldiers=FillLrrp(
       --for n,soldierName in pairs(soldiers)do
-      --DEBUGNOW if isFemale then--DEBUGNOW
+      local isFemale=false
       if InfMain.ene_wildCardFaceList then
-        --InfMenu.DebugPrint"RegisterUniqueSetting s"--DEBUGNOW
-        if #faceIdPool==0 then
+        if numFemale>0 then
+          isFemale=true
+          numFemale=numFemale-1
+          table.insert(this.ene_femaleWildCardSoldiers,soldierName)
 
-          faceIdPool=ResetPool(InfMain.ene_wildCardFaceList)
+          if #faceIdPool==0 then
+            faceIdPool=ResetPool(InfMain.ene_wildCardFaceList)
+          end
 
-          InfMenu.DebugPrint"faceIdPool"--DEBUGNOW
-          local ins=InfInspect.Inspect(faceIdPool)--DEBUGNOW
-          InfMenu.DebugPrint(ins)
-
+          local faceId=GetRandomPool(faceIdPool)
+          local bodyId=EnemyFova.INVALID_FOVA_VALUE
+          TppEneFova.RegisterUniqueSetting("enemy",soldierName,faceId,bodyId)
         end
-
-        local faceId=GetRandomPool(faceIdPool)--355--GetRandomBase(faceIdPool)
-        InfMenu.DebugPrint("random faceid:"..faceId)--DEBUGNOW
-        local bodyId=EnemyFova.INVALID_FOVA_VALUE
-        InfMenu.DebugPrint"RegisterUniqueSetting e"--DEBUGNOW
-        TppEneFova.RegisterUniqueSetting("enemy",soldierName,faceId,bodyId)
+      else
+        this.initTest=this.initTest+1--DEBUGNOW
+        InfMenu.DebugPrint"WARNING no ene_wildCardFaceList!"
       end
-      --            wildCardSubType="WILDCARD_FEMALE"
 
       local gameObjectId = GameObject.GetGameObjectId( "TppSoldier2", soldierName )
       if gameObjectId==NULL_ID then
-        InfMenu.DebugPrint"gameObjectId==NULL_ID"--DEBUGNOW
+        InfMenu.DebugPrint"AddWildCards gameObjectId==NULL_ID"--DEBUG
       else
-
-        local command={id="UseExtendParts",enabled=true}
+        --this.initTest=this.initTest+1--DEBUGNOW
+        local command={id="UseExtendParts",enabled=isFemale}
         GameObject.SendCommand(gameObjectId,command)
       end
-      mvars.ene_wildCards[soldierName]=true--DEBUGNOW differentiate between those that need extended and that dont
       --end
       soldierSubTypes[wildCardSubType]=soldierSubTypes[wildCardSubType] or {}
       table.insert(soldierSubTypes[wildCardSubType],soldierName)
@@ -4019,51 +4079,9 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
       numLrrps=numLrrps+1
     end
-    --      end
-    --    end
   end
-  InfMenu.DebugPrint("num wildCards"..numLrrps)--DEBUGNOW
-
-  --  local ins = InfInspect.Inspect(startBases)
-  --  InfMenu.DebugPrint(ins)
+  --InfMenu.DebugPrint("num wildCards"..numLrrps)--DEBUG
+  InfMain.ResetTrueRandom()
 end
-
--- wildcard
---In: missionTable.enemy.soldierPowerSettings
-function this.SetUpPowerSettings(soldierPowerSettings)
-
---"STEALTH_SPECIAL","COMBAT_SPECIAL"
---DEBUGNOW REF
---  this.soldierPowerSettings = {
---    sol_enemyNorth_lvVIP = { "HELMET", "MG", "SOFT_ARMOR" },
---}
-
-
-end
-
-this.wildCardBodiesAfgh={
-  TppEnemyBodyId.svs0_unq_v010,
-  TppEnemyBodyId.svs0_unq_v020,
-  TppEnemyBodyId.svs0_unq_v070,
-  TppEnemyBodyId.svs0_unq_v071,
-  TppEnemyBodyId.svs0_unq_v072,
-  TppEnemyBodyId.svs0_unq_v009,
-  TppEnemyBodyId.svs0_unq_v060,
-  TppEnemyBodyId.svs0_unq_v100,
-  TppEnemyBodyId.svs0_unq_v420,
-}
-
-this.wildCardBodiesMafr={
-  TppEnemyBodyId.pfs0_unq_v210,--black beret, glases, black vest, red shirt, tan pants
-  TppEnemyBodyId.pfs0_unq_v250,--black beret, white coyote tshirt, black pants
-  TppEnemyBodyId.pfs0_unq_v360,--red long sleeve shirt, black pants
-  TppEnemyBodyId.pfs0_unq_v280,--black suit, white shirt, red white striped tie
-  TppEnemyBodyId.pfs0_unq_v150,--green beret, brown leather top, light tan muddy pants
-  TppEnemyBodyId.pfs0_unq_v140,--cap, glases, badly clipping medal, brown leather top, light tan muddy pants
-  TppEnemyBodyId.pfs0_unq_v241,--brown leather top, light tan muddy pants
-  --TppEnemyBodyId.pfs0_unq_v242,--brown leather top, light tan muddy pants, cant tell any difference?
-  TppEnemyBodyId.pfs0_unq_v450,--red beret, brown leather top, light tan muddy pants
-  TppEnemyBodyId.pfs0_unq_v440,--red beret, black leather top, black pants
-}
 
 return this

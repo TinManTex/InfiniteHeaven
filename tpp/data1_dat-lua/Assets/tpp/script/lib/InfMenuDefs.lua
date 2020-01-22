@@ -314,10 +314,10 @@ this.appearanceMenu={
   }
 }
 
-this.playerRestrictionsInMissionMenu={--DEBUGNOW
+this.playerRestrictionsInMissionMenu={
   options={
     Ivars.disableHeadMarkers,
-    Ivars.disableXrayMarkers,    
+    --Ivars.disableXrayMarkers,--tex doesn't seem to work realtime    
     Ivars.disableWorldMarkers,
   },
   disabled=false,
@@ -407,7 +407,7 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
@@ -470,11 +470,11 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
-    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
---    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUGNOW    
-    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUGNOW
---    Ivars.selectedCp,--DEBUGNOW
-    Ivars.selectedChangeWeapon,--WIP DEBUGNOW
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG 
+    --InfMenuCommands.DEBUG_WarpToSoldier,--DEBUG
+--    Ivars.selectedCp,--DEBUG
+    --Ivars.selectedChangeWeapon,--WIP DEBUG
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,
@@ -482,7 +482,7 @@ this.inMissionMenu={
     Ivars.clockTimeScale,
     --this.appearanceMenu,--WIP
     Ivars.quietRadioMode,
-    Ivars.playerRestrictionsInMissionMenu,
+    this.playerRestrictionsInMissionMenu,
     this.phaseMenu,
     --this.enemyReinforceMenu,
     this.supportHeliMenu,

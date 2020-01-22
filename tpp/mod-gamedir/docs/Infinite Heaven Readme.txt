@@ -1,16 +1,31 @@
 = Infinite heaven =
-r131 - 2015-02-22
+r133 - 2015-03-01
 by tin man tex
 For MGSV version 1.071
 
 A mod for MGSV intended to extend gameplay through customisable settings and features.
 
+New for 133:
+Fix: Head markers off did not work on heli entry - thanks washtubs for the report.
+Player restriction option: Disable world markers - thanks brunovisk114 for the suggestion
+In mission menu: Markers menu, includes head and world marker options, toggling xray at runtime unforntunately doesnt work via script.
+
+Feature: Wildcard soldiers
+Enabled using "Enable Wildcard soldiers Free roam" in the Enemy prep menu
+Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.
+[youtube]-xhMemet6EF8[/youtube]
+https://www.youtube.com/watch?v=xhMemet6EF8
+
+MB suit (male) options added: Soviet All, PF All - randomly chooses suit from all options of that type including unique.
+
 New for r131
 Fix: Hang at FOB load screen, thanks SoullessMadness for the report. FOB defense hang on load unconfirmed since it's harder to test.
 
+Soldier Parameters option: Hearing distance scale
+
 Mother base option: "Female staff selection" - "Default","None","All available"
 In the regular game it tries to put at least 2 female staff per cluster (from that section)
-All available will prioritize putting your female staff first. 
+All available will prioritize putting your female staff first.
 None will prevent any female staff appearing on mother base.
 
 Mother base option: DD Suit female - lets you select the suit of females independantly as there are more suits that are male only.
@@ -23,8 +38,9 @@ Vehicle Patrols: Improved soldier assignment, jeeps may have 2-4 soldiers, tanks
 [youtube]5uWBfTL7HVM[/youtube]
 https://www.youtube.com/watch?v=5uWBfTL7HVM
 
-Enemy partrols option: Foot patrols in free roam - adds ~13 foot patrols between CPs, since the start-end bases are chosen randomly they may be difficult to find or you may be surprised by them in the wilderness between rather than following roads.
-
+Enemy patrols option: Foot patrols in free roam - adds ~13 foot patrols between CPs, since the start-end bases are chosen randomly they may be difficult to find or you may be surprised by them in the wilderness between rather than following roads.
+[youtube]-vPVBpcz0iY[/youtube]
+https://www.youtube.com/watch?v=-vPVBpcz0iY
 
 New for r128
 Motherbase menu:
@@ -34,7 +50,7 @@ MB DD nonlethal shifted to the DD Equip menu.
 
 Mother Base War Games expanded to include Enemy Invasion, and Zombie Obliteration, both replace the motherbase soldier with non-staff member and enable players use of lethal weapons and also disable demon points for kill actions.
 
-[youtube]oK-uxbaQ2Ic[/youtube]
+
 https://www.youtube.com/watch?v=oK-uxbaQ2Ic
 
 Fixes to Custom prep that were preventing some settings from working as intended.
@@ -43,55 +59,55 @@ Infinite Heaven features:
 ------------------------------
 Demonstrations:
 Free cam:
-[youtube]aJ3lvD1JiJ0[/youtube]
+
 https://www.youtube.com/watch?v=aJ3lvD1JiJ0
-[youtube]1CygEjTfF_c[/youtube]
+
 https://www.youtube.com/watch?v=1CygEjTfF_c
 Enemy DD Equip:
-[youtube]6CDv5RBU5dU[/youtube]
+
 https://www.youtube.com/watch?v=6CDv5RBU5dU
 Custom Prep config:
-[youtube]UAdGbtAPykM[/youtube]
+
 https://www.youtube.com/watch?v=UAdGbtAPykM
-[youtube]aTy-2pAw28c[/youtube]
+
 https://www.youtube.com/watch?v=aTy-2pAw28c
 Enemy prep settings:
-[youtube]Pt_jpD0y8XQ[/youtube]
+
 https://www.youtube.com/watch?v=Pt_jpD0y8XQ
-[youtube]u__vsvbrwfA[/youtube]
+
 https://www.youtube.com/watch?v=u__vsvbrwfA
 Enemy reactions to vehicle:
-[youtube]BUqPYDlA42A[/youtube]
+
 https://www.youtube.com/watch?v=BUqPYDlA42A
 Support heli settings:
-[youtube]frxAuiwCaEk[/youtube]
+
 https://www.youtube.com/watch?v=frxAuiwCaEk
 Mother base settings and wargames:
-[youtube]PSWTQwJNaRU[/youtube]
+
 https://www.youtube.com/watch?v=PSWTQwJNaRU
-[youtube]cW3noRDtpTg[/youtube]
+
 https://www.youtube.com/watch?v=cW3noRDtpTg
-[youtube]t_6fj8Rkvic[/youtube]
+
 https://www.youtube.com/watch?v=t_6fj8Rkvic
 Headgear:
-[youtube]1DlkIV3KduI[/youtube]
+
 https://www.youtube.com/watch?v=1DlkIV3KduI
 Phase settings:
-[youtube]veL0btXaOb4[/youtube]
+
 https://www.youtube.com/watch?v=veL0btXaOb4
 Buddies at zoo:
-[youtube]N9xfnH8ivAI[/youtube] 
+
 https://www.youtube.com/watch?v=N9xfnH8ivAI
 Warp mode:
-[youtube]AhkFPtQlqnM[/youtube]
+
 https://www.youtube.com/watch?v=AhkFPtQlqnM
-[youtube]ScF8OdQkFU8[/youtube]
+
 https://www.youtube.com/watch?v=ScF8OdQkFU8
 Remove demon snake, in Player settings menu:
-[youtube]OrxIwLmM_Tc[/youtube]
+
 https://www.youtube.com/watch?v=OrxIwLmM_Tc
 Heli reinforce and other vehicle stuff:
-[youtube]g4NXeCuK9Jk[/youtube]
+
 https://www.youtube.com/watch?v=g4NXeCuK9Jk
 
 Player Restriction - disable of game settings to customize your challenge
@@ -102,7 +118,7 @@ Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgra
 
 Bounder - Pure as base but allows: Buddy, changing Suit (which should also allow model swaps), Level 1 Fulton, head markers
 
-OSP Weapon settings - Seperate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, individually setable.
+OSP Weapon settings - Separate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, individually setable.
 
 Arm abilitiy levels - Sonar, Mobility, Precision, Medical - can now be individually set.
 
@@ -127,9 +143,9 @@ Options:
 "Target dying penalty"
 "Target sleeping penalty"
 "Target holdup penalty"
-"Dont apply MB medical to sleeping/fainted target" - lets you ballance sleeping penalty seperately from dying while keeping mb medical bonus. 
+"Dont apply MB medical to sleeping/fainted target" - lets you balance sleeping penalty separately from dying while keeping mb medical bonus.
 
-Fulton profile: Heaven, 
+Fulton profile: Heaven,
 The extraction game mechanic in MGSV could do with an entire article, but the gist of the reasoning behind the settings I chose for the "Heaven" profile mostly revolve around soldier extraction. To promote the manual extraction actions (heli extraction, mission hotzone auto-fulton) which have a cost of player time, for a reward of a guaranteed success (providing you don't let the enemy kill them at the last second lol). Vs the quicker but possibly more dangerous fulton actions.
 Injured enemies already promote manual extraction from their success penalty.
 Sleeping or fainting enemies have no penalty in the default game, since they also make no noise above the fulton this pushes the player to use this option far too much. Heaven adds a success penalty to this state to push player to other options.
@@ -149,7 +165,7 @@ Turned off both mother base bonuses and manually balanced around mid range of mb
 
 Target holdup penalty - reduced to 5.
 In the game having a held-up/awake target is already dangerous, they are noisy when being fultoned, having a success penalty on top of this promotes the easy/safer option of sleeping target too much.
-Holdup is however the fallback value so I'm giving it at least some value to keep some impact and push the player to manual extraction if they want a guaranteed success. 
+Holdup is however the fallback value so I'm giving it at least some value to keep some impact and push the player to manual extraction if they want a guaranteed success.
 
 Enemy Preparedness:
 ----------------
@@ -169,24 +185,24 @@ Resupply in #missions - the number of missions the enemy dispatch/resupply with 
 "Allow heavy armor in free mode"
 "Allow heavy armor in all missions"
 "Allow helmet and NVG or Gas mask combo"
-"Ballance heavy armor and head gear distribution" - adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if "Allow helmet and NVG or Gas mask combo" is on 
+"Ballance heavy armor and head gear distribution" - adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not necessary if "Allow helmet and NVG or Gas mask combo" is on
 "Random CP subtype in free mode" - randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
 "Random CP subtype in missions"
-"Allow missile combo with other weapons" - in the normal game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them. 
+"Allow missile combo with other weapons" - in the normal game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them.
 "Disable convert armor to sheild (if armor off)" - Where heavy armor is disabled (free mode by default) the normal game converts armor to sheilds in addition to the normal shield application, this often leads to it feeling like there's just too many.
 "Disable weapon restrictions in certain missions" - Missions 2, 12, 13, 16, 26, 31 prevent the application of shields, missiles, shotguns and mgs to the general CP enemy prep (though some may have custom enemy prep).
 "Enable Mg vs Shotgun variation" - In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
 "Balance small CPs" - adds limits and some randomisation to small cp/lrrps enemy prep application, best for the "Apply enemy prep to guard posts" and " to LRRP"
 
 Custom enemy prep config. Sidesteps the enemy prep levels and gives more control over enemy prep loadout, chooses randomly between min/max of each setting:
-Weapon deployment percentages - 
-Armor deployment percentages - Armor, soft armod (body vest), sheild.
+Weapon deployment percentages -
+Armor deployment percentages - Armor, soft armod (body vest), shield.
 Headgear deployment percentages - helmet, gas mask, nvg.
 CP detterant percentages - mines, decoys, cameras.
 Soldier ability/counter levels.
 Weapon strength menus. 'Strong weapons' are different variant/model of weapon for that chosen type.
-Reinforce count - number of reinforcment calls a CP has.
-Vehicle reinforcment level: Works with the vehicle reinforcement settings.
+Reinforce count - number of reinforcement calls a CP has.
+Vehicle reinforcement level: Works with the vehicle reinforcement settings.
 Ignore combat-deploy supply blocks - Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.
 
 The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
@@ -194,8 +210,8 @@ The order of items in the menu is generally order the equipment is allocated to 
 DD Equip:
 -------------
 DD equip options reworked and extended to enemy soldiers via DD Equip menu (via enemy prep menu or mother base menu)
-The DD equipment table is decided by a random grade between DD Equip Grade Min/Max, and by default is limited to the equipment you have developed with Allow undeveloped DD equipment chosing from the full range of (security equipable) equipment.
-Note: Equip grade 3 is the minum grade that has all types of weapons.
+The DD equipment table is decided by a random grade between DD Equip Grade Min/Max, and by default is limited to the equipment you have developed with Allow undeveloped DD equipment choosing from the full range of (security equipable) equipment.
+Note: Equip grade 3 is the minimum grade that has all types of weapons.
 
 Known issue: Some weapons will not give the proper name when picked up and have a blank icon, some weapons scopes will be blacked out.
 
@@ -224,9 +240,9 @@ Soldier sight scale - A rough scale over all the soldier sight distances, use th
 Player Settings:
 Player health scaling 900-0%(1hp)
 
-Use selected soldier in cutscenes and missions - shows your avatar or selected dd solidier in cutscenes and missions that usually dont allow.
+Use selected soldier in cutscenes and missions - shows your avatar or selected dd solider in cutscenes and missions that usually don't allow.
 
-Headgear (Cosmetic) - Several diffrent headgear options.
+Headgear (Cosmetic) - Several different headgear options.
 
 Subtract/Add demon points - changes demon score.
 
@@ -260,7 +276,7 @@ Side ops:
 Unlock random Sideops for areas - The normal games sideops system breaks the map into areas, with only one sideop allowed to be active at a time. In the retail game it's chosen in a first found manner. Uncompleted story missions and uncompleted sideops get priority of selection over replayable sideops.
 This setting changes it to a random selection of potential sideops, with the same priorities. Force replay adds completed sideops to the potential selection. Force Open adds most sideops to the selection pool.
 
-Open specific sideop - enables that specifc sideop.
+Open specific sideop - enables that specific sideop.
 
 Warning: still largely untested, unknown how replaying the story missions affect things.
 
@@ -299,7 +315,7 @@ The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> wi
 
 Be careful when warping up as gravity will kill you quick. One method to cope is to hold warp up, let gravity slowly take over then just after you touch the ground and start warping up again let go.
 
-Free cam: 
+Free cam:
 -----------------
 Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings.
 
@@ -366,7 +382,7 @@ Topher for the great mod manager Snakebite
 rikimtasu for Chinese translation
 All the mod users on nexus for trying the mod and bug reports
 
-Preperation/insurance:
+Preparation/insurance:
 ------------------------------
 Back up your save files for safety
 <steam path>\userdata\<user id>\287700 and
@@ -395,7 +411,7 @@ It should say 1 file needs to be redownloaded, so go to steam downloads and make
 
 Installation:
 ------------------------------
-Use SnakeBite Mod Manager 0.8.3 or later: 
+Use SnakeBite Mod Manager 0.8.3 or later:
 Get 0.8 from nexusmods.com/metalgearsolidvtpp/mods/106/
 And use snakebites in-app update system.
 
@@ -458,20 +474,33 @@ Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a ro
 
 Changelog:
 ------------------------------
+133 - 2015-03-01 
+Fix: Head markers off did not work on heli entry - thanks washtubs for the report.
+Option: disableWorldMarkers - thanks brunovisk114 for the suggestion
+In mission menu: playerRestrictionsInMissionMenu
+MB suit male: SOVIET_ALL, PF_AlL
+
+r132
+Patrols setup refactor - shifted to OnInitializeTop, all now modify the missionTable scripts directly since they are unloaded/reloaded anyway.
+AddToLrrp split into ModifyPatrolVehicleSoldiers, AddLrrp
+Option: enableWildCardFreeRoam
+Wildcard - added weapon and body tables, AddWildCard, decided to just replace existing soldier due to: Adding soldiers being unreliable, will allow me to add feature to all missions without having to add extra soldiers to fox2s (assuming I can do it in a way that doesn't interfere with mission critical soldiers).
+Free mission .sdfs: add other soldier soundbanks
+
 
 r131 - 2015-02-22 - public release
 Fix: Hang of FOB all load, thanks SoullessMadness for the report. FOB defense hang on load unconfirmed since it's hard to test.
-Vehicle Patrols: Improved soldier assignment, Soldier assigned from reserve pool to fill rnd min(2,vehicleSeats),vehicleSeats (seats defined in base vehicle info), soldier already assigned above seat count get put into pool. 
+Vehicle Patrols: Improved soldier assignment, Soldier assigned from reserve pool to fill rnd min(2,vehicleSeats),vehicleSeats (seats defined in base vehicle info), soldier already assigned above seat count get put into pool.
 Gives more variation, allows jeeps to have up to 4 people, fixes sillyness with tanks stopping, dropping off a dude, then attacking.
 NOTE: all other vehicles than crash on setrelativevehicle if soldiers assigned > 2. APCs carrying are handled differently.
 Also hits the same non realize bug as below, soldiers do sometimes finally realize. Vehicle will initially drive off as if it's full, but if soldier realizes will wait till soldier reaches it an gets in.
-Don't know if it's something due to my method of warping to soliders for testing.
+Don't know if it's something due to my method of warping to soldiers for testing.
 Changed from saving/restoring vehicle type enum from svar to random by same seed, vehicle basicType is stored in mvar.
 Options: lrrpSizeFreeRoam min, max, disabled for now to get decent coverage
 
 r130
 Option: mbPrioritizeFemale, by default the game tries to put a minimum of 2 female DD on that cluster (from that cluster), MAX bumps it to MAX_STAFF_NUM_ON_CLUSTER, so basicall all the females you have, does not include Command cluster, None clears the staff selection of females
-Option: mbDDSuitFemale, extendedparts does work indepenently so was reletively painless
+Option: mbDDSuitFemale, extendedparts does work independently so was relatively painless
 More options for DD Suit, Soviet berets, hoodies, PF misc, using the unique quest/mission bodies from missions/quests.
 
 r129
@@ -502,21 +531,22 @@ Custom config bypass some (config wide) combination restrictions, namely shield 
 Made allowmissileweapon combo actually work, and not just allow assault, decided to not allow with mg though
 
 r126
-Camera refactor: 
+Camera refactor:
 Cam edit mode and current cam split.
 Player cams for each stance/move mode
 Ivars for cam variables. This is where I seem to have hit the save file limit, no, just unrelated varables acting odd as if forgotten or overflowed.
 Research/deminification of TppSave and other save functions, bumping the save size for the mission category is likely to be a reciepie for disaster since it combines categories in one file and it's smack in the middle of some. Looks like I could add my own save file if I could add a category, but categories ar pow2 and max is at 255 suggesting there's no room even if it would just accept the field from lua/not require it in exe, or it would be if mgo category didn't fit into this scheme, but then that's only defined in mgo exe.
 
 r125
-Refactor InfMenuDefs, on table build adds reset settings and go back items 
+Refactor InfMenuDefs, on table build adds reset settings and go back items
 Fix: Mb cutscene time using hour setting for minute.
 Split Enemy use DD equipment into Free roam and Missions
 Fix: noOnChangeSub also blocking OnChange for profiles - basically any profile that set other profiles was broken.
 Fix: Wormhole disable was reversed, also renamed to Wormhole Level since it's the same implementation as Fulton Level
+Option: soldierHearingDistScale
 
 r124 - 2015-01-30 - public release
-mbWargames: Zombie mode - mixes regular puppet and msf. 
+mbWargames: Zombie mode - mixes regular puppet and msf.
 Options: disableRetry, gameOverOnDiscovery - to replicate total stealth settings
 
 r123
@@ -551,7 +581,7 @@ IsDDBodyEquip to make body/headgear independant from mbSoldierEquipGrade
 Refactor: MinMaxIvar for creating such paired ivars.
 Refactor: mbSoldierEquipGrade split to min, max, changed to grade value 1-10
 Option: allowUndevelopedDDEquip
-Options: enableMbDDEquip, enableEnemyDDEquip, replace mbSoldierEquipGrade 0/OFF, drives IsDDEquip 
+Options: enableMbDDEquip, enableEnemyDDEquip, replace mbSoldierEquipGrade 0/OFF, drives IsDDEquip
 Option: enableEnemyDDEquip - overrides weaponIdTable with DD
 
 r119 - 2015-01-17 - public release
@@ -570,12 +600,12 @@ Test of quiet humming command, result: only for boss quiet game object, sad.
 Welcome message added for entering acc from title.
 Ivars: support for IsCheck on named setting :Is
 Option: disableNoRevengeMissions
-Custom revenge config: WIP most indifidual revenge config settings settable
+Custom revenge config: WIP most individual revenge config settings settable
 Refactor: A number of gvar instead of ivar references missed in the prior refactor
 Disallow menu if in carboard box
 
 r116 - 2015-12-30 - public release
-Un-fixed a Retail bug, the game is aparently relying on it's broken behaviour lol. Manifested as: Some end of cutscene loadscreen hangs, prologue/truth post heli hallway non-trigger. Possibly much more.
+Un-fixed a Retail bug, the game is apparently relying on it's broken behavior lol. Manifested as: Some end of cutscene loadscreen hangs, prologue/truth post heli hallway non-trigger. Possibly much more.
 
 r115 - 2015-12-27 - public release
 Fix: AddPowerSetting, was trashing it by using same name in two variables, the perils of deminification. Possibly affected fob soldier settings.
@@ -622,7 +652,7 @@ r107
 Option: vehiclePatrolPackType, switches between quest packs and custom fpks - thanks blejky for the report
 
 r106 - 2015-12-14 - public release
-ig_*.fpk/ fpkd. Initially started as copies of the respective quests I was using to get proper vehicle references for patrol vehicles, since using the quest fpks directly intereferes with quests - still not exactly sure what aspect, guessing the quest script block load given it went away when I deleted it, but tests showed the script itself wasn't loaded, so guessing the script block entity in the fox2 got engaged, don't know. 
+ig_*.fpk/ fpkd. Initially started as copies of the respective quests I was using to get proper vehicle references for patrol vehicles, since using the quest fpks directly intereferes with quests - still not exactly sure what aspect, guessing the quest script block load given it went away when I deleted it, but tests showed the script itself wasn't loaded, so guessing the script block entity in the fox2 got engaged, don't know.
 Stripping down the packs further revealed some troublesome issues with fox2 files relying on specifc file orders, or possibly something more.
 Fix: (due to above) vehicle patrols interfering with sideops - thanks blejky for the report
 
@@ -652,7 +682,7 @@ r103 - 2015-12-10 - public release
 Fix: Vehicle patrol all of one type loading hang - thanks mgs5tppfan for the report
 
 r102 - 2015-12-09 - public release
-Commands: setDemon, removeDemon - thanks PIESOFTHENORTH for the suggestion 
+Commands: setDemon, removeDemon - thanks PIESOFTHENORTH for the suggestion
 Refactor: Removed Item suffix from non menu item names.
 Fix: patrol vehicle enable types not rebuilding enabled list.
 Research options:
@@ -1073,7 +1103,7 @@ Reset settings moved to menu option
 r31 2015-09-30 - public release
 Enemy Parameters bug fix, was causing night parameters to be zeroed - Thanks Psithen for the report
 Unlock all Side-Ops.
-r30 
+r30
 Option Menu refactor
 Confirm setting option for menu items
 
@@ -1089,10 +1119,10 @@ Subsistence Weapon Loadout renamed OSP Weapon Loadout to make it clearer it's in
 r26 - 2015-09-23 - public release 5
 General Params setting for allowing default files/mods to override
 
-r25 
+r25
 Subsidence loadouts broken out to separate option
 Buddy enabled setting for Subsistence
-r24 
+r24
 Buttons system refactor
 Menu toggle changed to 1 second button hold
 In game settings display removed

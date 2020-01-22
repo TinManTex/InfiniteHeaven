@@ -1926,6 +1926,13 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
       percentage=0
     end
   end--< 
+  if InfMain.IsWildCardEnabled() and Tpp.IsSoldier(gameId) then--tex>
+    local soldierType=TppEnemy.GetSoldierType(gameId)
+    local soldierSubType=TppEnemy.GetSoldierSubType(gameId,soldierType)
+    if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD" then
+      percentage=0
+    end
+  end--<
   local forcePercent
   if mvars.ply_forceFultonPercent then
     forcePercent=mvars.ply_forceFultonPercent[gameId]

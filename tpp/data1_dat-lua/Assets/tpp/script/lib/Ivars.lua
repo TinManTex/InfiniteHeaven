@@ -340,7 +340,9 @@ this.mbDDSuit={
     --"MSF",
     "SOVIET_BERETS",
     "SOVIET_HOODIES",
+    "SOVIET_ALL",
     "PF_MISC",
+    "PF_ALL",
   },
   settingNames="mbDDSuitSettings",
 }
@@ -1786,6 +1788,12 @@ this.enableWildCardFreeRoam={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  ExecCheck=function(self)
+    if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
+      return true
+    end
+    return false
+  end,
 }
 
 --tex WIP ideally would have defaults of 2-5, and also let user modify, but while base assignment is random need to spread it as far as posible to get coverage
@@ -1803,8 +1811,9 @@ this.vehiclePatrolProfile={
   save=MISSION,
   settings={"OFF","SINGULAR","EACH_VEHICLE"},
   settingNames="vehiclePatrolProfileSettings",
-  ExecCheck=function(self)
-    if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
+  ExecCheck=function(self,missionCode)
+    local missionCode=missionCode or vars.missionCode
+    if missionCode==30010 or missionCode==30020 then
       return true
     end
     return false

@@ -341,7 +341,7 @@ function this.DisplaySetting(optionIndex)
   local optionSeperator=optionSeperators.equals
   local settingNames=option.settingNames or option.settings
   if settingNames then
-    if option.setting < 0 or option.setting > #settingNames-1 then
+    if option.setting < 0 or option.setting > #option.settings-1 then
       settingText="current setting out of settingNames bounds"
     elseif IsTable(settingNames) then--old style direct non localized table
       settingText=option.setting..":"..settingNames[option.setting+1]--tex lua indexed from 1, but settings from 0
@@ -563,13 +563,13 @@ function this.Update(execCheck)
 
   if execCheck.inHeliSpace then
     if this.topMenu~=InfMenuDefs.heliSpaceMenu then
-      Ivars.PrintGvarSettingMismatch()--DEBUGNOW
+      Ivars.PrintGvarSettingMismatch()
       this.topMenu=InfMenuDefs.heliSpaceMenu
       this.GoMenu(this.topMenu)
     end
   else--!ishelispace
     if this.topMenu~=InfMenuDefs.inMissionMenu then
-      Ivars.PrintGvarSettingMismatch()--DEBUGNOW
+      Ivars.PrintGvarSettingMismatch()
       this.topMenu=InfMenuDefs.inMissionMenu
       this.GoMenu(this.topMenu)
   end

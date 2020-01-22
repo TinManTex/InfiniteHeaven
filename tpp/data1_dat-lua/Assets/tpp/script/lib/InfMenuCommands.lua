@@ -255,30 +255,44 @@ this.warpPlayerCommand={--WIP
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfMenu.DebugPrint("inittest="..InfMain.initTest)
-  
---    local soldierPositions={}
---    for n,soldierName in ipairs(InfMain.reserveSoldierNames) do
---      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
---      if gameId==GameObject.NULL_ID then
---        InfMenu.DebugPrint(soldierName.." gameId==NULL_ID")
---      else
---        local warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
---        --InfMenu.DebugPrint(soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
---        local string=soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ()
---        table.insert(soldierPositions,string)
---      end
---    end
---    local ins=InfInspect.Inspect(soldierPositions)
---    InfMenu.DebugPrint(ins)
---    -------------
---    local lrrps={}
---    for cpName,cpDefine in pairs( mvars.ene_soldierDefine)do
---      if string.find(cpName, "_lrrp")~=nil then
---        lrrps[cpName]=cpDefine
---      end
---    end
---    local ins=InfInspect.Inspect(lrrps)
---    InfMenu.DebugPrint(ins)
+
+
+    local ins = InfInspect.Inspect(InfMain.ene_wildCardSoldiers)
+    InfMenu.DebugPrint(ins)
+    local ins = InfInspect.Inspect(InfMain.ene_femaleWildCardSoldiers)
+    InfMenu.DebugPrint(ins)
+
+    --    local ins = InfInspect.Inspect(InfMain.soldierPool)
+    --    InfMenu.DebugPrint(ins)
+
+
+    --    local soldierName="sol_ih_0000"
+    --    local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+    --    local ins=InfInspect.Inspect(gameId)
+    --    InfMenu.DebugPrint(ins)
+    --    local soldierPositions={}
+    --    for n,soldierName in ipairs(InfMain.reserveSoldierNames) do
+    --      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+    --      if gameId==GameObject.NULL_ID then
+    --        InfMenu.DebugPrint(soldierName.." gameId==NULL_ID")
+    --      else
+    --        local warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+    --        --InfMenu.DebugPrint(soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+    --        local string=soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ()
+    --        table.insert(soldierPositions,string)
+    --      end
+    --    end
+    --    local ins=InfInspect.Inspect(soldierPositions)
+    --    InfMenu.DebugPrint(ins)
+    --    -------------
+    --    local lrrps={}
+    --    for cpName,cpDefine in pairs( mvars.ene_soldierDefine)do
+    --      if string.find(cpName, "_lrrp")~=nil then
+    --        lrrps[cpName]=cpDefine
+    --      end
+    --    end
+    --    local ins=InfInspect.Inspect(lrrps)
+    --    InfMenu.DebugPrint(ins)
     ---------------
     --      --
     --      --
@@ -327,7 +341,7 @@ this.DEBUG_SomeShiz={
       InfMenu.DebugPrint"past loadreinf"--DEBUG
       TppReinforceBlock.StartReinforce(cpId)
     end
------
+    -----
     --InfMenu.DebugPrint"DEBUG_PrintSomeShiz"
     --InfMenu.DebugPrint("usermarkerposx: "..tostring(vars.userMarkerPosX))
     --    local ins=InfInspect.Inspect(vars,{depth=1})
@@ -659,35 +673,25 @@ this.DEBUG_ClearAnnounceLog={
 local currentSoldier=1
 this.DEBUG_WarpToSoldier={
   OnChange=function()
+    --local soldierList=InfMain.reserveSoldierNames
 
-    --    local soldierName=InfMain.reserveSoldierNames[currentSoldier]
-    --    local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-    --    if gameId==GameObject.NULL_ID then
-    --      InfMenu.DebugPrint"gameId==NULL_ID"
-    --      return
-    --    end
-    --    local warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-    --    InfMenu.DebugPrint("soldier pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
-    --    -- if warpPos:GetX()~=0 and warpPos:GetY()~=0 and warpPos:GetZ()~=0 then
-    --    --TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
-    --    local position=warpPos
-    --    local camName="FreeCam"
-    --    Ivars["positionX"..camName]:Set(position:GetX())
-    --    Ivars["positionY"..camName]:Set(position:GetY())
-    --    Ivars["positionZ"..camName]:Set(position:GetZ())
-    --
-    --
-    --    --end
-    --    currentSoldier=currentSoldier+1
-    --    if currentSoldier>#InfMain.reserveSoldierNames then
-    --      currentSoldier=1
-    --    end
+    local soldierList=InfMain.ene_wildCardSoldiers
+
+    if soldierList==nil then
+      InfMenu.DebugPrint"soldierList nil"
+      return
+    end
+
+    if #soldierList==0 then
+      InfMenu.DebugPrint"soldierList empty"
+      return
+    end
 
     local count=0
     local warpPos=Vector3(0,0,0)
     local soldierName="NULL"
     local function Step()
-      soldierName=InfMain.reserveSoldierNames[currentSoldier]
+      soldierName=soldierList[currentSoldier]
       local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
       if gameId==GameObject.NULL_ID then
         InfMenu.DebugPrint"gameId==NULL_ID"
@@ -696,7 +700,7 @@ this.DEBUG_WarpToSoldier={
         warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
       end
       currentSoldier=currentSoldier+1
-      if currentSoldier>#InfMain.reserveSoldierNames then
+      if currentSoldier>#soldierList then
         currentSoldier=1
       end
       count=count+1
@@ -704,7 +708,7 @@ this.DEBUG_WarpToSoldier={
 
     Step()
 
-    while (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#InfMain.reserveSoldierNames do
+    while (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#soldierList do
       Step()
     end
 
@@ -712,38 +716,19 @@ this.DEBUG_WarpToSoldier={
     if warpPos:GetX()~=0 and warpPos:GetY()~=0 and warpPos:GetZ()~=0 then
       TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 
---      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
---      if gameId==nil or  gameId==GameObject.NULL_ID then
---        InfMenu.DebugPrint"gameId==NULL_ID"
---      else
---        GameObject.SendCommand(gameId,{id="SetEnabled",enabled=true})
---        GameObject.SendCommand(gameId,{id="SetForceRealize"})
---      end
+      --      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+      --      if gameId==nil or  gameId==GameObject.NULL_ID then
+      --        InfMenu.DebugPrint"gameId==NULL_ID"
+      --      else
+      --        GameObject.SendCommand(gameId,{id="SetEnabled",enabled=true})
+      --        GameObject.SendCommand(gameId,{id="SetForceRealize"})
+      --      end
     end
 
 
 
   end,
 }
-
---  OnChange=function()
---
---    local soldierName=InfMain.reserveSoldierNames[currentSoldier]
---    local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
---    if gameId==GameObject.NULL_ID then
---      InfMenu.DebugPrint"gameId==NULL_ID"
---      return
---    end
---    local warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
---    InfMenu.DebugPrint("soldier pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
---    if warpPos:GetX()~=0 and warpPos:GetY()~=0 and warpPos:GetZ()~=0 then
---    TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
---    end
---    currentSoldier=currentSoldier+1
---    if currentSoldier>#InfMain.reserveSoldierNames then
---      currentSoldier=1
---    end
---  end,
 
 this.DEBUG_WarpToReinforceVehicle={
   OnChange=function()

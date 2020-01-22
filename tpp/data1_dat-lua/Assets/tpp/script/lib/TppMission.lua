@@ -1608,6 +1608,7 @@ function this.Messages()
         if this.IsFreeMission(vars.missionCode)or(this.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_VISIT))then
           TppUiStatusManager.ClearStatus"AnnounceLog"
         end
+        InfMain.ClearMarkers()--tex
         if mvars.mis_updateObjectiveOnHelicopterStart then
           this.ShowUpdateObjective(mvars.mis_objectiveSetting)
           if mvars.mis_updateObjectiveDoorOpenRadioGroups then
@@ -3544,7 +3545,6 @@ function this.Load(missionCode,currentMissionCode,loadSettings)
       end
     end
     if TppSystemUtility.GetCurrentGameMode()=="TPP"then
-      InfMenu.DebugPrint"InitializeUniqueSetting"--DEBUGNOW
       TppEneFova.InitializeUniqueSetting()
       TppEnemy.PreMissionLoad(missionCode,currentMissionCode)
     end

@@ -1495,7 +1495,6 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   if(primaryId~=nil or secondaryId~=nil)or tertiaryId~=nil then--RETAILBUG secondaryId (was named secondaryWeapon) had no declaration
     GameObject.SendCommand(soldierId,{id="SetEquipId",primary=primaryId,secondary=secondaryId,tertiary=tertiaryId})
   end
---DEBUGNOW faceId=355--DEBUGNOW
   GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId,faceId=faceId,balaclavaFaceId=balaclavaId})
   GameObject.SendCommand(soldierId,{id="SetWearEquip",flag=wearEquipFlag})
   local enemySubTypeForSubTypeName={
@@ -3142,7 +3141,7 @@ function this.AssignSoldiersToCP()
     local cpSubType=subTypeOfCp[cp]
     local isChild=false
     for soldierId,p in pairs(soldierIds)do
-      --      if InfMain.IsForceSoldierSubType() then--tex> WIP Why is this hanging FOB?
+      --      if InfMain.IsForceSoldierSubType() then--tex> WIP TODO: Why is this hanging FOB?
       --        --InfMenu.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
       --        --   gvars.soldierTypeForced[soldierId]=true
       --        --  InfMenu.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )

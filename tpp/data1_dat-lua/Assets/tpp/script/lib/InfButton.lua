@@ -123,7 +123,7 @@ end
 
 function this.ButtonDown(buttonMask)
 --  if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then
---    TppUiCommand.AnnounceLogView("ButtonDown:" .. buttonMask)--tex DEBUG: CULL:
+--    TppUiCommand.AnnounceLogView("ButtonDown:" .. buttonMask)--tex DEBUG
 --  end
   return bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask
 end
@@ -171,7 +171,7 @@ function this.OnButtonRepeat(buttonMask)
 --        end
 --        buttonState.repeatRate=repeatRate--]]
         currentIncrementMult=currentIncrementMult*incrementMultIncrementMult
-        --TppUiCommand.AnnounceLogView("DBG:MNU: currentIncrementMult:".. currentIncrementMult)--tex DEBUG: CULL:
+        --TppUiCommand.AnnounceLogView("DBG:MNU: currentIncrementMult:".. currentIncrementMult)--tex DEBUG
         if currentIncrementMult>maxIncrementMult then
           currentIncrementMult=maxIncrementMult
         end
