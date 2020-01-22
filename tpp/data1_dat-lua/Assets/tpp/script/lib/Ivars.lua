@@ -1063,6 +1063,28 @@ this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
   end,
 }
 
+this.changeCpSubTypeFree={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self)
+    if self.setting==0 then
+      InfMain.ResetCpTableToDefault()
+    end
+  end,
+}
+
+this.changeCpSubTypeForMissions={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self)
+    if self.setting==0 then
+      InfMain.ResetCpTableToDefault()
+    end
+  end,
+}
+
 this.unlockSideOps={
   save=MISSION,
   settings={"OFF","REPOP","OPEN"},
@@ -1821,6 +1843,54 @@ this.setSearchLightForcedHeli={
       GameObject.SendCommand(gameObjectId,command)
       InfMain.HeliOrderRecieved()
     end
+  end,
+}
+
+this.selectedCp={
+  save=MISSION,
+  range={max=9999},--tex TODO
+  prev=nil,
+  GetNext=function(self)
+    --InfMenu.DebugPrint"selcp getnext"--DEBUGNOW
+    self.prev=self.setting
+    if mvars.ene_cpList==nil then--DEBUGNOW
+     InfMenu.DebugPrint"mvars.ene_cpList==nil"--DEBUGNOW
+     return 0
+    end--
+    
+    local nextSetting=self.setting
+    if self.setting==0 then
+      nextSetting=next(mvars.ene_cpList)
+    else
+      nextSetting=next(mvars.ene_cpList,self.setting)
+    end
+    if nextSetting==nil then
+      --InfMenu.DebugPrint"self setting==nil"--DEBUGNOW
+      nextSetting=next(mvars.ene_cpList)
+    end
+    --InfMenu.DebugPrint"selcp getnext done"--DEBUGNOW
+    return nextSetting
+  end,
+  GetPrev=function(self)
+    --InfMenu.DebugPrint"selcp getprev"--DEBUGNOW
+    local nextSetting=self.setting
+    if self.prev~=nil then
+      nextSetting=self.prev
+      self.prev=nil
+    else
+      nextSetting=next(mvars.ene_cpList)--tex go back to start
+    end
+    --InfMenu.DebugPrint"selcp getprev done"--DEBUGNOW
+    return nextSetting
+  end,
+  GetSettingText=function(self)
+    if self.setting==nil then
+      return "nil"
+    end
+     if self.setting==0 then
+      return "0"
+    end   
+    return tostring(mvars.ene_cpList[self.setting])--tex tostring just to be safe in case it returns nil
   end,
 }
 

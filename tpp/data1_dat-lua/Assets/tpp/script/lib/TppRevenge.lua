@@ -233,7 +233,7 @@ this.revengeDefine={
   FULTON_0={},
   FULTON_1={FULTON_LOW=true},
   FULTON_2={FULTON_HIGH=true},
-  FULTON_3={FULTON_SPECIAL=true}--[[--RETAILBUG: VERIFY: possible bug fixed,fulton was 0 low 1 blank 2 high,now 0 blank 1 low 2 high--]],
+  FULTON_3={FULTON_SPECIAL=true}--[[--RETAILBUG: fulton was 0 low 1 blank 2 high,now 0 blank 1 low 2 high--]],
   SMOKE_1={GAS_MASK="25%"},
   SMOKE_2={GAS_MASK="50%"},
   SMOKE_3={GAS_MASK="75%"},
@@ -795,7 +795,7 @@ end
 function this.GetRevengeLv(revengeType)
   local missionId=TppMission.GetMissionID()
   if TppMission.IsHardMission(missionId) or gvars.revengeMode>0 then--tex added
-    return this.GetRevengeLvMax(revengeType,this.REVENGE_LV_LIMIT_RANK_MAX)--tex RETAILBUG: was just REVE, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
+    return this.GetRevengeLvMax(revengeType,this.REVENGE_LV_LIMIT_RANK_MAX)--RETAILBUG: was just REVENGE_LV_LIMIT_RANK_MAX, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
   else
     return gvars.rev_revengeLv[revengeType]
   end
@@ -977,70 +977,71 @@ function this._ReduceBlockedCount(missionId)
     end
   end
 end
-function this._GetBlockedName(n)
-  for E,e in pairs(this.BLOCKED_TYPE)do
-    if e==n then
-      return E
+function this._GetBlockedName(blockedId)
+  for blockedName,blockedEnum in pairs(this.BLOCKED_TYPE)do
+    if blockedEnum==blockedId then
+      return blockedName
     end
   end
-  return"unknown"end
+  return"unknown"
+end
 function this._ReceiveClearedDeployRevengeMission()
   if not TppMotherBaseManagement.GetClearedDeployRevengeMissionFlag then
     return
   end
-  for n,t in pairs(this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST)do
-    local E=TppMotherBaseManagement.GetClearedDeployRevengeMissionFlag{deployMissionId=n}
-    if E then
-      gvars.rev_revengeBlockedCount[t]=gvars.revengeBlockForMissionCount--tex was this.BLOCKED_FOR_MISSION_COUNT
-      TppMotherBaseManagement.UnsetClearedDeployRevengeMissionFlag{deployMissionId=n}
+  for deployMissionId,blockedType in pairs(this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST)do
+    local clearedDeployRevengeMissionFlag=TppMotherBaseManagement.GetClearedDeployRevengeMissionFlag{deployMissionId=deployMissionId}
+    if clearedDeployRevengeMissionFlag then
+      gvars.rev_revengeBlockedCount[blockedType]=gvars.revengeBlockForMissionCount--tex was this.BLOCKED_FOR_MISSION_COUNT
+      TppMotherBaseManagement.UnsetClearedDeployRevengeMissionFlag{deployMissionId=deployMissionId}
     end
   end
 end
 function this._AddDeployRevengeMission()
-  for n,E in pairs(this.DEPLOY_REVENGE_MISSION_CONDITION_LIST)do
-    local t=this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST[n]
-    if not this.IsBlocked(t)and this.GetRevengeLv(E.revengeType)>=E.lv then
-      local e=TppMotherBaseManagement.RequestAddDeployRevengeMission{deployMissionId=n}
+  for deployMissionId,revengeInfo in pairs(this.DEPLOY_REVENGE_MISSION_CONDITION_LIST)do
+    local blockedId=this.DEPLOY_REVENGE_MISSION_BLOCKED_LIST[deployMissionId]
+    if not this.IsBlocked(blockedId)and this.GetRevengeLv(revengeInfo.revengeType)>=revengeInfo.lv then
+      local e=TppMotherBaseManagement.RequestAddDeployRevengeMission{deployMissionId=deployMissionId}
     else
       if not TppMotherBaseManagement.RequestDeleteDeployRevengeMission then
         return
       end
-      TppMotherBaseManagement.RequestDeleteDeployRevengeMission{deployMissionId=n}
+      TppMotherBaseManagement.RequestDeleteDeployRevengeMission{deployMissionId=deployMissionId}
     end
   end
 end
 function this._ReduceRevengePointStealthCombat()
-  for n,E in pairs(this.REDUCE_TENDENCY_POINT_TABLE)do
-    local t=this.GetRevengePoint(n)
-    local r=this.GetRevengeLv(n)
-    local E=E[r+1]
-    this.SetRevengePoint(n,(t+E))
+  for revengeType,pointTable in pairs(this.REDUCE_TENDENCY_POINT_TABLE)do
+    local revengePoints=this.GetRevengePoint(revengeType)
+    local revengeLevel=this.GetRevengeLv(revengeType)
+    local pointsForLevel=pointTable[revengeLevel+1]
+    this.SetRevengePoint(revengeType,(revengePoints+pointsForLevel))
   end
 end
 function this._ReduceRevengePointOther()
-  local r={[this.REVENGE_TYPE.STEALTH]=true,[this.REVENGE_TYPE.COMBAT]=true,[this.REVENGE_TYPE.M_STEALTH]=true,[this.REVENGE_TYPE.M_COMBAT]=true}
-  for E=0,this.REVENGE_TYPE.MAX-1 do
-    local a=this.GetRevengePoint(E)
-    local t=this.GetRevengeLv(E)
-    local n=0
-    if r[E]then
-      n=0
+  local dontReduceTypes={[this.REVENGE_TYPE.STEALTH]=true,[this.REVENGE_TYPE.COMBAT]=true,[this.REVENGE_TYPE.M_STEALTH]=true,[this.REVENGE_TYPE.M_COMBAT]=true}
+  for revengeType=0,this.REVENGE_TYPE.MAX-1 do
+    local revengePoints=this.GetRevengePoint(revengeType)
+    local revengeLevel=this.GetRevengeLv(revengeType)
+    local reduction=0
+    if dontReduceTypes[revengeType]then
+      reduction=0
     elseif bit.band(vars.playerPlayFlag,PlayerPlayFlag.USE_CHICKEN_CAP)==PlayerPlayFlag.USE_CHICKEN_CAP then
-      n=100
-    elseif this.REDUCE_POINT_TABLE[E]then
-      n=this.REDUCE_POINT_TABLE[E][t+1]
-      if n==nil then
-        n=50
+      reduction=100
+    elseif this.REDUCE_POINT_TABLE[revengeType]then
+      reduction=this.REDUCE_POINT_TABLE[revengeType][revengeLevel+1]
+      if reduction==nil then
+        reduction=50
       else
-        n=-n
+        reduction=-reduction
       end
     else
-      n=this.REDUCE_REVENGE_POINT*(t+1)
-      if n>50 then
-        n=50
+      reduction=this.REDUCE_REVENGE_POINT*(revengeLevel+1)
+      if reduction>50 then
+        reduction=50
       end
     end
-    this.SetRevengePoint(E,a-n)
+    this.SetRevengePoint(revengeType,revengePoints-reduction)
   end
 end
 function this.ReduceRevengePointOnMissionClear(missionId)
@@ -1304,15 +1305,15 @@ end
 --INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig
 function this._AllocateResources(config)
   mvars.revenge_loadedEquip={}
-  local missionSettings=mvars.ene_missionRequiresPowerSettings
-  local a={}
+  local missionRequiresSettings=mvars.ene_missionRequiresPowerSettings
+  local loadWeaponIds={}
   local nullId=NULL_ID
   local defaultSoldierType=TppEnemy.GetSoldierType(nullId)
   local defaultSubType=TppEnemy.GetSoldierSubType(nullId)
-  local weaponTable=TppEnemy.GetWeaponIdTable(defaultSoldierType,defaultSubType)
-  if weaponTable==nil then
+  local weaponIdTableFull=TppEnemy.GetWeaponIdTable(defaultSoldierType,defaultSubType)
+  if weaponIdTableFull==nil then
     TppEnemy.weaponIdTable.DD={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
-    weaponTable=TppEnemy.weaponIdTable.DD
+    weaponIdTableFull=TppEnemy.weaponIdTable.DD
   end
   local disablePowerSettings=mvars.ene_disablePowerSettings
   local missionId=TppMission.GetMissionID()
@@ -1320,88 +1321,90 @@ function this._AllocateResources(config)
   if this.CANNOT_USE_ALL_WEAPON_MISSION[missionId]then
     useAllWeapons=false
   end
-  local E={}
+  local restrictWeaponTable={}
   if not useAllWeapons then
     if not config.SHIELD or config.MISSILE then
-      if not missionSettings.SHIELD then
-        E.SHIELD=true
+      if not missionRequiresSettings.SHIELD then
+        restrictWeaponTable.SHIELD=true
         disablePowerSettings.SHIELD=true
       end
     else
-      if not missionSettings.MISSILE then
-        E.MISSILE=true
+      if not missionRequiresSettings.MISSILE then
+        restrictWeaponTable.MISSILE=true
         disablePowerSettings.MISSILE=true
       end
     end
     if defaultSoldierType~=EnemyType.TYPE_DD then
       if config.SHOTGUN then
-        if not missionSettings.MG then
-          E.MG=true
+        if not missionRequiresSettings.MG then
+          restrictWeaponTable.MG=true
           disablePowerSettings.MG=true
         end
       else
-        if not missionSettings.SHOTGUN then
-          E.SHOTGUN=true
+        if not missionRequiresSettings.SHOTGUN then
+          restrictWeaponTable.SHOTGUN=true
           disablePowerSettings.SHOTGUN=true
         end
       end
     end
   end
-  for e,n in pairs(missionSettings)do
-    E[e]=nil
-    disablePowerSettings[e]=nil
+  for powerType,n in pairs(missionRequiresSettings)do
+    restrictWeaponTable[powerType]=nil
+    disablePowerSettings[powerType]=nil
   end
   do
-    local _={HANDGUN=true,SMG=true,ASSAULT=true,SHOTGUN=true,MG=true,SHIELD=true}
-    local r=weaponTable.NORMAL
-    if this.IsUsingStrongWeapon()and weaponTable.STRONG then
-      r=weaponTable.STRONG
+    local RENalwaysLoaded={HANDGUN=true,SMG=true,ASSAULT=true,SHOTGUN=true,MG=true,SHIELD=true}
+    local weaponIdTable=weaponIdTableFull.NORMAL
+    if this.IsUsingStrongWeapon()and weaponIdTableFull.STRONG then
+      weaponIdTable=weaponIdTableFull.STRONG
     end
-    if Tpp.IsTypeTable(r)then
-      for e,n in pairs(r)do
-        if not _[e]then
-        elseif disablePowerSettings[e]then
-        elseif E[e]then
+    if Tpp.IsTypeTable(weaponIdTable)then
+      for powerType,weaponId in pairs(weaponIdTable)do
+        if not RENalwaysLoaded[powerType]then
+        elseif disablePowerSettings[powerType]then
+        elseif restrictWeaponTable[powerType]then
         else
-          a[n]=true
-          mvars.revenge_loadedEquip[e]=n
+          loadWeaponIds[weaponId]=true
+          mvars.revenge_loadedEquip[powerType]=weaponId
         end
       end
     end
   end
-  if not disablePowerSettings.MISSILE and not E.MISSILE then
-    local RENweaponTableMissile={}
-    if this.IsUsingStrongMissile()and weaponTable.STRONG then
-      RENweaponTableMissile=weaponTable.STRONG
+  
+  if not disablePowerSettings.MISSILE and not restrictWeaponTable.MISSILE then
+    local missileIdTable={}
+    if this.IsUsingStrongMissile()and weaponIdTableFull.STRONG then
+      missileIdTable=weaponIdTableFull.STRONG
     else
-      RENweaponTableMissile=weaponTable.NORMAL
+      missileIdTable=weaponIdTableFull.NORMAL
     end
-    local missileSetting=RENweaponTableMissile.MISSILE
-    if missileSetting then
-      a[missileSetting]=true
-      mvars.revenge_loadedEquip.MISSILE=missileSetting
+    local missileId=missileIdTable.MISSILE
+    if missileId then
+      loadWeaponIds[missileId]=true
+      mvars.revenge_loadedEquip.MISSILE=missileId
     end
   end
-  if not disablePowerSettings.SNIPER and not E.SNIPER then
-    local RENweaponTableSniper={}
-    if this.IsUsingStrongSniper()and weaponTable.STRONG then
-      RENweaponTableSniper=weaponTable.STRONG
+  if not disablePowerSettings.SNIPER and not restrictWeaponTable.SNIPER then
+    local sniperIdTable={}
+    if this.IsUsingStrongSniper()and weaponIdTableFull.STRONG then
+      sniperIdTable=weaponIdTableFull.STRONG
     else
-      RENweaponTableSniper=weaponTable.NORMAL
+      sniperIdTable=weaponIdTableFull.NORMAL
     end
-    local sniperSetting=RENweaponTableSniper.SNIPER
-    if sniperSetting then
-      a[sniperSetting]=true
-      mvars.revenge_loadedEquip.SNIPER=sniperSetting
+    local sniperId=sniperIdTable.SNIPER
+    if sniperId then
+      loadWeaponIds[sniperId]=true
+      mvars.revenge_loadedEquip.SNIPER=sniperId
     end
   end
+  
   do
     local primary,secondary,tertiary=TppEnemy.GetWeaponId(NULL_ID,{})
     TppSoldier2.SetDefaultSoldierWeapon{primary=primary,secondary=secondary,tertiary=tertiary}
   end
   local equipLoadTable={}
-  for n,E in pairs(a)do
-    table.insert(equipLoadTable,n)
+  for weaponId,E in pairs(loadWeaponIds)do
+    table.insert(equipLoadTable,weaponId)
   end
   if missionId==10080 or missionId==11080 then
     table.insert(equipLoadTable,TppEquip.EQP_WP_Wood_ar_010)
@@ -1549,18 +1552,18 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
     FULTON_SPECIAL=true
   }
   
-  local balancePowerTypes={--tex>
+  local balanceGearTypes={--tex>
     "ARMOR",
     "HELMET",
     "NVG",
     "GAS_MASK",
   }
-
-  local balanceTable={}
-  local sumBalance=0
+  local originalSettingsTable={}
+  local sumBalance=0    
+  local numBalance=0
   if gvars.allowHeadGearCombo>0 or gvars.balanceHeadGear>0 then
-    local numBalance=0
-    for n,powerType in ipairs(balancePowerTypes) do
+    --in balanceGearTypes, revengeconfig, totalSoldierCount, out sumbalance, numbalance, originalSettingsTable
+    for n,powerType in ipairs(balanceGearTypes) do
       local powerSetting=revengeConfig[powerType]
       if powerSetting then
         local percentage=0
@@ -1569,51 +1572,51 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
             powerSetting=totalSoldierCount
           end
           percentage=(powerSetting/totalSoldierCount)*100
-          balanceTable[powerType]=percentage
+          originalSettingsTable[powerType]=percentage
           numBalance=numBalance+1
           sumBalance=sumBalance+percentage
         elseif Tpp.IsTypeString(powerSetting)then
           if powerSetting:sub(-1)=="%"then
             percentage=powerSetting:sub(1,-2)+0
-            balanceTable[powerType]=percentage
+            originalSettingsTable[powerType]=percentage
             numBalance=numBalance+1
             sumBalance=sumBalance+percentage
             --InfMenu.DebugPrint("powerType:"..powerType.." percentage:"..percentage.." numBalance:"..numBalance.." sumBalance:"..sumBalance)--DEBUG
           end
         end
       end
-    end
+    end--for balanceGearTypes
+  end--if gvars
 
-    if gvars.balanceHeadGear>0 and sumBalance>Ivars.balanceHeadGear.balanceHeadGearThreshold then
-      local balancePercent=0
-      if numBalance>0 then
-        balancePercent=100/numBalance
+  --in numballance, sumballance, originalSettingsTable, out revengetable
+  if gvars.balanceHeadGear>0 and sumBalance>Ivars.balanceHeadGear.balanceHeadGearThreshold then
+    local balancePercent=0
+    if numBalance>0 then
+      balancePercent=100/numBalance
+      --tex bump up the balance percent from those that are under
+      --TODO: bump up on an individual power basis biased by those that have higher original requested percentage
+      local aboveBalance=numBalance
+      local underflow=0
+      for powerType,percentage in pairs(originalSettingsTable) do
+        if percentage < balancePercent then
+          underflow=underflow+(balancePercent-percentage)
+          aboveBalance=aboveBalance-1
+        end
+      end
+      if underflow>0 then
+        balancePercent=balancePercent+(underflow/aboveBalance)
+      end
 
-        --tex bump up the balance percent from those that are under
-        --TODO: bump up on an individual power basis biased by those that have higher original requested percentage
-        local aboveBalance=numBalance
-        local leeway=0
-        for powerType,percentage in pairs(balanceTable) do
-          if percentage < balancePercent then
-            leeway=leeway+(balancePercent-percentage)
-            aboveBalance=aboveBalance-1
-          end
+      for powerType,percentage in pairs(originalSettingsTable) do
+        if percentage>balancePercent then
+          local toOriginalPercent=originalSettingsTable[powerType]-balancePercent
+          local bump=math.min(underflow,toOriginalPercent)
+          underflow=underflow-bump
+          revengeConfig[powerType]=tostring(balancePercent+bump).."%"
         end
-        if leeway>0 then
-          balancePercent=balancePercent+(leeway/aboveBalance)
-        end
-
-        for powerType,percentage in pairs(balanceTable) do
-          if percentage>balancePercent then
-            local toOriginalPercent=balanceTable[powerType]-balancePercent
-            local bump=math.min(leeway,toOriginalPercent)
-            leeway=leeway-bump
-            revengeConfig[powerType]=tostring(balancePercent+bump).."%"
-          end
-        end
-        --InfMenu.DebugPrint("numBalance:"..numBalance.." sumBalance:"..sumBalance.." average:"..balancePercent)--DEBUG
-      end--if numbalance
-    end--if gvar
+      end
+      --InfMenu.DebugPrint("numBalance:"..numBalance.." sumBalance:"..sumBalance.." average:"..balancePercent)--DEBUG
+    end--if numbalance
   end--if gvar
 
   local unfulfilledPowers={}--tex
@@ -1621,7 +1624,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
   local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,abilitiesList,outerBaseSoldierTable,unfulfilledPowers,cpConfig)--tex now function, added unfulfilledPowers
     for r,powerType in ipairs(TppEnemy.POWER_SETTING)do
       local powerSetting=revengeConfig[powerType]
-      if powerType=="ARMOR" and InfMain.ForceArmorFree(vars.missionCode)then--tex> RETAILBUG well, kinda, armor doesnt load up collision or sometimes visual model (until reload checkpoint) for non main cps TEST disable this, turn on allowarmonrinfree (and applypower toouter base), go to outerpabse/guardpost in middle of afgh
+      if powerType=="ARMOR" and InfMain.ForceArmorFree(vars.missionCode)then--tex> RETAILBUG well, kinda, armor doesnt load up collision or sometimes visual model (until reload checkpoint) for non main cps TEST disable this, turn on allowarmonrinfree (and applypower toouter base), go to outerpabse/guardpost in middle of afgh, hitting a limit somewhere
         if isOuterBaseCp or isLrrpCp then
           powerSetting=nil
         end
@@ -1633,11 +1636,11 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
           settingSoldierCount=unfulfilledPowers[powerType]
         end--<
 
---        if mvars.ene_cpList[cpId]=="afgh_powerPlant_cp"then--DEBUG CULL
---          if powerType=="ARMOR" or powerType=="HELMET" or powerType=="NVG" or powerType=="GAS_MASK" then
---            InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
---          end
---        end--
+        if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--DEBUGNOW
+          --if powerType=="ARMOR" or powerType=="HELMET" or powerType=="NVG" or powerType=="GAS_MASK" then
+            InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
+          --end
+        end--
 
         local comboExcludeList=powerComboExclusionList[powerType]or{}
         local soldierCount=settingSoldierCount
@@ -1674,15 +1677,16 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
             end
 
           end--if applythisshit
-          --DEBUGNOW soldierConfigId=soldierConfigId+1--RETAILBUG: added, game didn't actually increment count, didn't seem to hurt it though--DEBUG figure out why it actually works without lol
-        end-- for soldiers
+          --soldierConfigId=soldierConfigId+1--RETAILBUG: added, game didn't actually increment count, didn't seem to hurt it though--DEBUG figure out why it actually works without lol
+        end--for soldiers
 
         if soldierCount then--tex>
           unfulfilledPowers[powerType]=soldierCount
         end--<
+        
       end--if configPower
-  end--for TppEnemy.POWER_SETTINGS
-  end
+    end--for TppEnemy.POWER_SETTINGS
+  end--function
 
   CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,abilitiesList,outerBaseSoldierTable,unfulfilledPowers,cpConfig)--tex now function
 
@@ -1701,13 +1705,30 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,RENsomeMBcounter)
       NVG={"ARMOR","GAS_MASK"},--
       GUN_LIGHT={"SNIPER","MG"}
     }
-  CreateCpConfig(revengeConfig,totalSoldierCount,headGearComboExclusions,powerElimOrChildSoldierTable,abilitiesList,outerBaseSoldierTable,unfulfilledPowers,cpConfig)--tex now function
-  end--<
+    if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--DEBUGNOW
+      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
+        InfMenu.DebugPrint"CreateCpConfig unfulfilled"
+      --end--
+    end--DEBUGNOW
+    CreateCpConfig(revengeConfig,totalSoldierCount,headGearComboExclusions,powerElimOrChildSoldierTable,abilitiesList,outerBaseSoldierTable,unfulfilledPowers,cpConfig)--tex now function
 
---  if mvars.ene_cpList[cpId]=="afgh_powerPlant_cp"then--DEBUG CULL
---    local instr=InfInspect.Inspect(cpConfig)
---    InfMenu.DebugPrint(instr)
---  end--
+
+
+
+  end--<
+  
+    if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--DEBUGNOW
+      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
+        InfMenu.DebugPrint"unfulfilledPowers:"
+        local instr=InfInspect.Inspect(unfulfilledPowers)
+        InfMenu.DebugPrint(instr)
+      --end--
+    end--DEBUGNOW
+
+  if gvars.selectedCp~=0 and gvars.selectedCp==cpId then--DEBUGNOW
+    local instr=InfInspect.Inspect(cpConfig)
+    InfMenu.DebugPrint(instr)
+  end--
 
 
   for soldierConfigId,powerSetting in ipairs(cpConfig)do
@@ -1869,7 +1890,7 @@ function this._OnDead(gameId,attackerId,phase,damageFlag)-- gameObjectId, attake
     return
 end
 local attackerIsPlayerVehicle=(Tpp.IsVehicle(vars.playerVehicleGameObjectId)or Tpp.IsEnemyWalkerGear(vars.playerVehicleGameObjectId))or Tpp.IsPlayerWalkerGear(vars.playerVehicleGameObjectId)
-local attackedByVehicle=AttackIsVehicle(attackId)--RETAILBUG: but then this has expected camelCase but is also orphaned by the minifier?
+local attackedByVehicle=AttackIsVehicle(attackId)--RETAILBUG: but then this has expected camelCase but is also orphaned by the minifier? they've changed the parameters of the function at some point from something similar to OnDamage to the wtf damageFlag
 local attackerIsWalkerGear=Tpp.IsEnemyWalkerGear(attackerId)or Tpp.IsPlayerWalkerGear(attackerId)
 local attackerIsPlayer=(attackerId==GameObject.GetGameObjectIdByIndex("TppPlayer2",PlayerInfo.GetLocalPlayerIndex()))
 if(attackerIsWalkerGear or attackedByVehicle)or(attackerIsPlayer and attackerIsPlayerVehicle)then

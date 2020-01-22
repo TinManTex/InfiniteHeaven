@@ -238,6 +238,8 @@ this.eng={--english
   allowHeavyArmorInAllMissions="Allow heavy armor in all missions",
   allowHeadGearCombo="Allow helmet and NVG or Gas mask combo",--r108
   balanceHeadGear="Ballance heavy armor and head gear distribution",
+  changeCpSubTypeFree="Random CP subtype in free mode",--r109 
+  changeCpSubTypeForMissions="Random CP subtype in missions",
 }
 
 this.eng_help={

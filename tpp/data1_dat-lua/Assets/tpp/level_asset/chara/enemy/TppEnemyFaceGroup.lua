@@ -1,6 +1,6 @@
-local a={}
-function a.GetFaceGroupTable(o)
-  local l=EnemyFova.MAX_REALIZED_COUNT
+local this={}
+function this.GetFaceGroupTable(o)
+  local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
   local l={2,30,82,93,103,175,0,31,83,94,104,176,4,33,84,96,106,177,165,164,21,41,63,124}
   local q={11,62,73,123,133,149,13,64,74,125,134,150,14,65,76,126,137,153,1,113,163,186,195,32}
   local w={22,43,53,114,166,187,24,45,55,116,168,188,25,47,57,118,170,190,135,197,15,16,138,198}
@@ -82,4 +82,4 @@ function a.GetFaceGroupTable(o)
   end
   return l[o+1]
 end
-return a
+return this

@@ -180,6 +180,8 @@ this.revengeMenu={
     Ivars.allowHeavyArmorInAllMissions,
     Ivars.allowHeadGearCombo,
     Ivars.balanceHeadGear,
+    Ivars.changeCpSubTypeFree,
+    Ivars.changeCpSubTypeForMissions,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.goBackItem,
   }
@@ -330,6 +332,11 @@ this.heliSpaceMenu={
 
 this.debugInMissionMenu={
   options={
+    Ivars.selectedCp,
+    InfMenuCommands.DEBUG_RandomizeCp,--DEBUGNOW
+    InfMenuCommands.DEBUG_PrintRealizedCount,--DEBUGNOW
+    InfMenuCommands.DEBUG_PrintEnemyFova,--DEBUGNOW
+    InfMenuCommands.DEBUG_PrintPowersCountArmor,--DEBUGNOW
     --InfMenuCommands.warpPlayerCommand,
     InfMenuCommands.DEBUG_PrintReinforceVars,
     --InfMenuCommands.DEBUG_PrintVehicleTypes,
@@ -346,7 +353,7 @@ this.debugInMissionMenu={
     --InfMenuCommands.DEBUG_PrintVarsClock,
    --InfMenuCommands.showMissionCode,
     InfMenuCommands.showMbEquipGrade,
-    InfMenuCommands.showPosition,    
+    InfMenuCommands.showPosition,
     --InfMenuCommands.DEBUG_ClearAnnounceLog,  
     InfMenuCommands.goBackItem,
   }

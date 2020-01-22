@@ -139,20 +139,8 @@ function this.IncrementWrap(current,increment,min,max)
   return newSetting
 end
 
-function this.ChangeSetting(option,value,incrementMult)
-  incrementMult = incrementMult or 1
-  local newSetting=option.setting
-
-  local value=value*incrementMult
-  if not option.isFloat then
-    if value > 0 then
-      value=math.ceil(value)
-    else
-      value=math.floor(value)
-    end
-  end
-  
-  newSetting=this.IncrementWrap(newSetting,value,option.range.min,option.range.max)
+function this.ChangeSetting(option,value)
+  local newSetting=this.IncrementWrap(option.setting,value,option.range.min,option.range.max)
   if option.skipValues then
     while option.skipValues[newSetting] do
       TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
@@ -161,7 +149,7 @@ function this.ChangeSetting(option,value,incrementMult)
   end
   
   this.SetSetting(option,newSetting)
-  --TppUiCommand.AnnounceLogView("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
+  --InfMenu.DebugPrint("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
 end
 function this.SetCurrent()--tex refresh current setting/re-call OnChange
   local option=this.currentMenuOptions[this.currentIndex]
@@ -233,13 +221,37 @@ function this.NextSetting(incrementMult)
   
   if option.options then--tex is menu
     this.GoMenu(option)
+  elseif IsFunc(option.GetNext) then
+    local newSetting=option:GetNext()
+    this.SetSetting(option,newSetting)
   else
-    this.ChangeSetting(option,option.range.increment,incrementMult)
+    local increment=option.range.increment
+    if incrementMult then
+      increment=increment*incrementMult
+      if not option.isFloat then
+        increment=math.ceil(increment)
+      end
+    end
+  
+    this.ChangeSetting(option,increment)
   end
 end
 function this.PreviousSetting(incrementMult)
   local option=this.currentMenuOptions[this.currentIndex]
-  this.ChangeSetting(option,-option.range.increment,incrementMult)
+  
+  if IsFunc(option.GetPrev) then
+    local newSetting=option:GetPrev()
+    this.SetSetting(option,newSetting)
+  else
+    local increment=-option.range.increment
+    if incrementMult then
+      increment=increment*incrementMult
+      if not option.isFloat then
+        increment=math.floor(increment)
+      end
+    end
+    this.ChangeSetting(option,increment)
+  end
 end
 
 function this.GoMenu(menu,goBack)
@@ -296,6 +308,8 @@ function this.DisplaySetting(optionIndex)
     else
       settingText=this.LangTableString(settingNames,option.setting+1)--tex lua indexed from 1, but settings from 0
     end
+  elseif IsFunc(option.GetSettingText) then
+    settingText=option:GetSettingText()
   elseif option.isFloat then
     settingText=math.floor(100*option.setting) .. "%"
   elseif option.options~=nil then--tex menu

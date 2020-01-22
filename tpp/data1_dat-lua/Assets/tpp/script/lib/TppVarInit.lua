@@ -160,20 +160,26 @@ function this.InitializeOnNewGame()
     gvars.col_markerStatus_afgh[e]=0
     gvars.col_markerStatus_mafr[e]=0
   end
-  local i={"tp_bgm_10_01","tp_bgm_10_02","tp_bgm_10_03","tp_bgm_10_04","tp_bgm_10_05","tp_bgm_10_06","tp_bgm_10_07"}
-  for i,e in ipairs(i)do
-    TppMotherBaseManagement.AddCassetteTapeTrack(e)
+  local startTapes={"tp_bgm_10_01","tp_bgm_10_02","tp_bgm_10_03","tp_bgm_10_04","tp_bgm_10_05","tp_bgm_10_06","tp_bgm_10_07"}
+  for i,trackName in ipairs(startTapes)do
+    TppMotherBaseManagement.AddCassetteTapeTrack(trackName)
   end
   TppMotherBaseManagement.DirectAddResource{resource="Plant2005",count=20,isNew=true}
   gvars.solface_groupNumber=(math.random(0,255)*65536)+math.random(1,255)
   gvars.hosface_groupNumber=(math.random(0,65535)*65536)+math.random(1,65535)
-  local i,a
+  local initWeaponsTable,initPlayerItems
   do
-    i={{slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,equip=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SECONDARY,equip=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SUPPORT_0,equip=TppEquip.EQP_None},{slot=TppDefine.WEAPONSLOT.SUPPORT_1,equip=TppEquip.EQP_None}}a={TppEquip.EQP_None,TppEquip.EQP_None,TppEquip.EQP_None,TppEquip.EQP_None}
+    initWeaponsTable={
+      {slot=TppDefine.WEAPONSLOT.PRIMARY_HIP,equip=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SECONDARY,equip=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_0,equip=TppEquip.EQP_None},
+      {slot=TppDefine.WEAPONSLOT.SUPPORT_1,equip=TppEquip.EQP_None}
+    }
+    initPlayerItems={TppEquip.EQP_None,TppEquip.EQP_None,TppEquip.EQP_None,TppEquip.EQP_None}
   end
-  this.SetInitPlayerWeapons(i)
+  this.SetInitPlayerWeapons(initWeaponsTable)
   TppPlayer.SupplyAllAmmoFullOnMissionFinalize()
-  this.SetInitPlayerItems(a)
+  this.SetInitPlayerItems(initPlayerItems)
   this.InitializeAllPlatformForNewGame()
 end
 function this.InitializeForNewMission(missionTable)
@@ -258,24 +264,24 @@ function this.StartInitMission()
     Fox.SetActMode"GAME"
   end
 end
-function this.SetInitPlayerWeapons(e)
-  for e,i in pairs(e)do
-    local a=i.ammo
-    local e=i.slot
-    local t=i.equip
-    local s=i.ammoMax
-    local i=i.bulletId
-    if e>=TppDefine.WEAPONSLOT.SUPPORT_0 and e<=TppDefine.WEAPONSLOT.SUPPORT_3 then
-      local n=e-TppDefine.WEAPONSLOT.SUPPORT_0
-      vars.initSupportWeapons[n]=t
-      vars.ammoStockIds[e]=i
-      vars.ammoStockCounts[e]=a
+function this.SetInitPlayerWeapons(initWeaponsTable)
+  for n,info in pairs(initWeaponsTable)do
+    local ammo=info.ammo
+    local slot=info.slot
+    local equip=info.equip
+    local ammoMax=info.ammoMax
+    local bulletId=info.bulletId
+    if slot>=TppDefine.WEAPONSLOT.SUPPORT_0 and slot<=TppDefine.WEAPONSLOT.SUPPORT_3 then
+      local n=slot-TppDefine.WEAPONSLOT.SUPPORT_0
+      vars.initSupportWeapons[n]=equip
+      vars.ammoStockIds[slot]=bulletId
+      vars.ammoStockCounts[slot]=ammo
     else
-      vars.initWeapons[e]=t
-      vars.ammoStockIds[e]=i
-      vars.ammoStockCounts[e]=a
-      vars.ammoInWeapons[e]=s
-      vars.isInitialWeapon[e]=1
+      vars.initWeapons[slot]=equip
+      vars.ammoStockIds[slot]=bulletId
+      vars.ammoStockCounts[slot]=ammo
+      vars.ammoInWeapons[slot]=ammoMax
+      vars.isInitialWeapon[slot]=1
     end
   end
 end

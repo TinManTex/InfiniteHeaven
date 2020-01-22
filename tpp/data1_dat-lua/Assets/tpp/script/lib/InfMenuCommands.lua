@@ -221,6 +221,39 @@ this.DEBUG_CheckReinforceDeactivate={
   end,
 }
 
+this.DEBUG_RandomizeCp={--CULL only for debug purpose with a print in the function
+  OnChange=function()
+    InfMain.RandomizeCpSubTypeTable()
+  end,
+}
+
+this.DEBUG_PrintRealizedCount={
+  OnChange=function()
+    InfMenu.DebugPrint("MAX_REALIZED_COUNT:"..EnemyFova.MAX_REALIZED_COUNT)
+  end,
+}
+this.DEBUG_PrintEnemyFova={
+  OnChange=function()
+    local infene=InfInspect.Inspect(EnemyFova)
+    InfMenu.DebugPrint(infene)
+    local infenemeta=InfInspect.Inspect(getmetatable(EnemyFova))
+    InfMenu.DebugPrint(infenemeta)
+  end,
+}
+
+this.DEBUG_PrintPowersCountArmor={
+  OnChange=function()
+    local armorCount=0
+    for soldierId, powerSettings in pairs(mvars.ene_soldierPowerSettings) do
+      if powerSettings.ARMOR then
+        armorCount=armorCount+1
+      end
+    end
+    InfMenu.DebugPrint("ARMOR count:"..armorCount)
+  end
+}
+
+
 this.DEBUG_ChangePhase={
   OnChange=function()
     InfMenu.DebugPrint("Changephase b")

@@ -317,18 +317,18 @@ function this.SetHostageFaceTable(missionId)
       local face={}
       local t={}
       local numTableFaces=#faceTable
-      local numFaces=MAX_REALIZED_COUNT
+      local facePosition=MAX_REALIZED_COUNT
       if hostageCount<=numTableFaces then
-        numFaces=1
+        facePosition=1
       end
       if(numTableFaces>0)and(numTableFaces<hostageCount)then
-        numFaces=math.floor(hostageCount/numTableFaces)+1
+        facePosition=math.floor(hostageCount/numTableFaces)+1
       end
-      if numFaces<=0 then
-        numFaces=MAX_REALIZED_COUNT
+      if facePosition<=0 then
+        facePosition=MAX_REALIZED_COUNT
       end
       for n,value in ipairs(faceTable)do
-        table.insert(face,{value,0,0,numFaces})
+        table.insert(face,{value,0,0,facePosition})
         table.insert(t,value)
       end
       local e=#t

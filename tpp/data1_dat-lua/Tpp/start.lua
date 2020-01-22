@@ -494,7 +494,18 @@ if Editor then
   EdDemoEditBlockController.AddToolsBlockPath"/Assets/tpp/demo/event/info/TppEdDemoEditTools.fpk"
 end
 if NavWorldDaemon then
-  NavWorldDaemon.AddWorld{sceneName="MainScene",worldName="",maxLoadFileCount=64,maxChunkCountPerFile=7,maxGraphBounderCount=30,maxTacticalActionCount=120,navigationGraphDynamicLinkContainerInfo={maxArrayCount=810,extendCount=2},segmentGraphDynamicLinkContainerInfo={maxArrayCount=675,extendCount=2},segmentGraphDynamicPortalContainerInfo={maxArrayCount=635,extendCount=2},islandGraphDynamicLinkContainerInfo={maxArrayCount=360,extendCount=2}}
+  NavWorldDaemon.AddWorld{
+    sceneName="MainScene",
+    worldName="",
+    maxLoadFileCount=64,
+    maxChunkCountPerFile=7,
+    maxGraphBounderCount=30,
+    maxTacticalActionCount=120,
+    navigationGraphDynamicLinkContainerInfo={maxArrayCount=810,extendCount=2},
+    segmentGraphDynamicLinkContainerInfo={maxArrayCount=675,extendCount=2},
+    segmentGraphDynamicPortalContainerInfo={maxArrayCount=635,extendCount=2},
+    islandGraphDynamicLinkContainerInfo={maxArrayCount=360,extendCount=2}
+  }
   NavWorldDaemon.AddWorld{sceneName="MainScene",worldName="sky",maxLoadFileCount=1,maxChunkCountPerFile=5}
   NavWorldDaemon.AddWorld{sceneName="MainScene",worldName="sahelan",maxLoadFileCount=2,maxChunkCountPerFile=6}
 end

@@ -917,45 +917,46 @@ function this.GetWeaponId(soldierId,config)
   if(missionCode==10080 or missionCode==11080)and soldierType==EnemyType.TYPE_CHILD then
     return TppEquip.EQP_WP_Wood_ar_010,TppEquip.EQP_WP_West_hg_010,nil
   end
-  local weaponIdTable=this.GetWeaponIdTable(soldierType,soldierSubType)
-  if weaponIdTable==nil then
+  local weaponIdTableFull=this.GetWeaponIdTable(soldierType,soldierSubType)
+  if weaponIdTableFull==nil then
     return nil,nil,nil
   end
-  local weaponStrength={}
-  if TppRevenge.IsUsingStrongWeapon()and weaponIdTable.STRONG then
-    weaponStrength=weaponIdTable.STRONG
+  local weaponIdTable={}
+  if TppRevenge.IsUsingStrongWeapon()and weaponIdTableFull.STRONG then
+    weaponIdTable=weaponIdTableFull.STRONG
   else
-    weaponStrength=weaponIdTable.NORMAL
+    weaponIdTable=weaponIdTableFull.NORMAL
   end
   tertiary=TppEquip.EQP_None
-  secondary=weaponStrength.HANDGUN
-  local sniperStrength={}
-  if TppRevenge.IsUsingStrongSniper()and weaponIdTable.STRONG then
-    sniperStrength=weaponIdTable.STRONG
+  secondary=weaponIdTable.HANDGUN
+  local sniperIdTable={}
+  if TppRevenge.IsUsingStrongSniper()and weaponIdTableFull.STRONG then
+    sniperIdTable=weaponIdTableFull.STRONG
   else
-    sniperStrength=weaponIdTable.NORMAL
+    sniperIdTable=weaponIdTableFull.NORMAL
   end
-  local missileStrength={}
-  if TppRevenge.IsUsingStrongMissile()and weaponIdTable.STRONG then
-    missileStrength=weaponIdTable.STRONG
+  local missileIdTable={}
+  if TppRevenge.IsUsingStrongMissile()and weaponIdTableFull.STRONG then
+    missileIdTable=weaponIdTableFull.STRONG
   else
-    missileStrength=weaponIdTable.NORMAL
+    missileIdTable=weaponIdTableFull.NORMAL
   end
-  if config.SNIPER and sniperStrength.SNIPER then
-    primary=sniperStrength.SNIPER
-  elseif config.SHOTGUN and weaponStrength.SHOTGUN then
-    primary=weaponStrength.SHOTGUN
-  elseif config.MG and weaponStrength.MG then
-    primary=weaponStrength.MG
-  elseif config.SMG and weaponStrength.SMG then
-    primary=weaponStrength.SMG
+  
+  if config.SNIPER and sniperIdTable.SNIPER then
+    primary=sniperIdTable.SNIPER
+  elseif config.SHOTGUN and weaponIdTable.SHOTGUN then
+    primary=weaponIdTable.SHOTGUN
+  elseif config.MG and weaponIdTable.MG then
+    primary=weaponIdTable.MG
+  elseif config.SMG and weaponIdTable.SMG then
+    primary=weaponIdTable.SMG
   else
-    primary=weaponStrength.ASSAULT
+    primary=weaponIdTable.ASSAULT
   end
-  if config.SHIELD and weaponStrength.SHIELD then
-    tertiary=weaponStrength.SHIELD
-  elseif config.MISSILE and missileStrength.MISSILE then
-    tertiary=missileStrength.MISSILE
+  if config.SHIELD and weaponIdTable.SHIELD then
+    tertiary=weaponIdTable.SHIELD
+  elseif config.MISSILE and missileIdTable.MISSILE then
+    tertiary=missileIdTable.MISSILE
   end
   if config.GUN_LIGHT then
     local gunWithLight=this.gunLightWeaponIds[primary]
@@ -1114,14 +1115,14 @@ function this.AddPowerSetting(soldierId,powerSetting)
   end
   this.ApplyPowerSetting(soldierId,powerSetting)
 end
-function this.ApplyPowerSetting(soldierId,powerSetting)
+function this.ApplyPowerSetting(soldierId,powerSettings)
   if soldierId==NULL_ID then
     return
   end
   local soldierType=this.GetSoldierType(soldierId)
   local subTypeName=this.GetSoldierSubType(soldierId,soldierType)
   local powerLoadout={}
-  for e,t in pairs(powerSetting)do
+  for e,t in pairs(powerSettings)do--NMC: handles input of {"<POWER_TYPE>",...} and {<POWER_TYPE>=<powerSetting>,...}, does not care about actual values of setting in this func, just whether it's set or not
     if Tpp.IsTypeNumber(e)then
       powerLoadout[t]=true
     else
@@ -1129,9 +1130,9 @@ function this.ApplyPowerSetting(soldierId,powerSetting)
     end
   end
   local checkLoadedPowers={SMG=true,MG=true,SHOTGUN=true,SNIPER=true,MISSILE=true,SHIELD=true}
-  for power,t in pairs(checkLoadedPowers)do
-    if powerLoadout[power]and not mvars.revenge_loadedEquip[power]then
-      powerLoadout[power]=nil
+  for powerType,t in pairs(checkLoadedPowers)do
+    if powerLoadout[powerType]and not mvars.revenge_loadedEquip[powerType]then
+      powerLoadout[powerType]=nil
     end
   end
   if soldierType==EnemyType.TYPE_SKULL then
@@ -1210,22 +1211,22 @@ function this.ApplyPowerSetting(soldierId,powerSetting)
     end
   end
   mvars.ene_soldierPowerSettings[soldierId]=powerLoadout
-  powerSetting=powerLoadout
+  powerSettings=powerLoadout
   local wearEquipFlag=0
-  local bodyId=this.GetBodyId(soldierId,soldierType,subTypeName,powerSetting)
-  local faceId=this.GetFaceId(soldierId,soldierType,subTypeName,powerSetting)
-  local balaclavaId=this.GetBalaclavaFaceId(soldierId,soldierType,subTypeName,powerSetting)
-  local primaryId,secondaryId,tertiaryId=this.GetWeaponId(soldierId,powerSetting)
-  if powerSetting.HELMET then
+  local bodyId=this.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
+  local faceId=this.GetFaceId(soldierId,soldierType,subTypeName,powerSettings)
+  local balaclavaId=this.GetBalaclavaFaceId(soldierId,soldierType,subTypeName,powerSettings)
+  local primaryId,secondaryId,tertiaryId=this.GetWeaponId(soldierId,powerSettings)
+  if powerSettings.HELMET then
     wearEquipFlag=wearEquipFlag+WearEquip.HELMET
   end
-  if powerSetting.GAS_MASK then
+  if powerSettings.GAS_MASK then
     wearEquipFlag=wearEquipFlag+WearEquip.GAS_MASK
   end
-  if powerSetting.NVG then
+  if powerSettings.NVG then
     wearEquipFlag=wearEquipFlag+WearEquip.NVG
   end
-  if powerSetting.SOFT_ARMOR then
+  if powerSettings.SOFT_ARMOR then
     wearEquipFlag=wearEquipFlag+WearEquip.SOFT_ARMOR
   end
   if(primaryId~=nil or secondaryId~=nil)or tertiaryId~=nil then--RETAILBUG secondaryId (was named secondaryWeapon) had no declaration
@@ -2229,7 +2230,38 @@ function this.OnAllocate(missionTable)
   if TppCommandPost2 then
     TppCommandPost2.SetSVarsKeyNames{names="cpNames",flags="cpFlags"}
   end
-  TppSoldier2.SetSVarsKeyNames{name="solName",state="solState",flagAndStance="solFlagAndStance",weapon="solWeapon",location="solLocation",marker="solMarker",fovaSeed="solFovaSeed",faceFova="solFaceFova",bodyFova="solBodyFova",cp="solCp",cpRoute="solCpRoute",scriptSneakRoute="solScriptSneakRoute",scriptCautionRoute="solScriptCautionRoute",scriptAlertRoute="solScriptAlertRoute",routeNodeIndex="solRouteNodeIndex",routeEventIndex="solRouteEventIndex",travelName="solTravelName",travelStepIndex="solTravelStepIndex",optionalNamesName="solOptName",optionalParam1Name="solOptParam1",optionalParam2Name="solOptParam2",passengerInfoName="passengerInfoName",passengerFlagName="passengerFlagName",passengerNameName="passengerNameName",noticeObjectType="noticeObjectType",noticeObjectPosition="noticeObjectPosition",noticeObjectOwnerName="noticeObjectOwnerName",noticeObjectOwnerId="noticeObjectOwnerId",noticeObjectAttachId="noticeObjectAttachId",randomSeed="solRandomSeed"}
+  TppSoldier2.SetSVarsKeyNames{
+    name="solName",
+    state="solState",
+    flagAndStance="solFlagAndStance",
+    weapon="solWeapon",
+    location="solLocation",
+    marker="solMarker",
+    fovaSeed="solFovaSeed",
+    faceFova="solFaceFova",
+    bodyFova="solBodyFova",
+    cp="solCp",
+    cpRoute="solCpRoute",
+    scriptSneakRoute="solScriptSneakRoute",
+    scriptCautionRoute="solScriptCautionRoute",
+    scriptAlertRoute="solScriptAlertRoute",
+    routeNodeIndex="solRouteNodeIndex",
+    routeEventIndex="solRouteEventIndex",
+    travelName="solTravelName",
+    travelStepIndex="solTravelStepIndex",
+    optionalNamesName="solOptName",
+    optionalParam1Name="solOptParam1",
+    optionalParam2Name="solOptParam2",
+    passengerInfoName="passengerInfoName",
+    passengerFlagName="passengerFlagName",
+    passengerNameName="passengerNameName",
+    noticeObjectType="noticeObjectType",
+    noticeObjectPosition="noticeObjectPosition",
+    noticeObjectOwnerName="noticeObjectOwnerName",
+    noticeObjectOwnerId="noticeObjectOwnerId",
+    noticeObjectAttachId="noticeObjectAttachId",
+    randomSeed="solRandomSeed"
+  }
   if TppSoldierFace~=nil then
     if TppSoldierFace.ConvertFova2PathToFovaFile~=nil then
       TppSoldierFace.ConvertFova2PathToFovaFile()
@@ -2748,6 +2780,9 @@ function this.SetUpSoldiers()
   if not IsTypeTable(mvars.ene_soldierDefine)then
     return
   end
+  
+  InfMain.RandomizeCpSubTypeTable()--tex
+  
   local missionId=TppMission.GetMissionID()
   for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
     local cpId=GetGameObjectId(cpName)
@@ -2857,35 +2892,11 @@ function this.AssignSoldiersToCP()
       end
       local command
       local soldierType=this.GetSoldierType(soldierId)
-      --[[if InfMain.IsForceSoldierSubType() then--tex WIP:
-
-
-
-
-
-
-
-
-
-
-
-
-          this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
-
-
-
-
-
-
-
-
-
-
-
-
-      end--]]
+      --if InfMain.IsForceSoldierSubType() then--tex WIP:
+          --this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
+      --end
       command={id="SetSoldier2Type",type=soldierType}
-      GameObject.SendCommand(soldierId,command)
+      SendCommand(soldierId,command)
       if(soldierType~=EnemyType.TYPE_SKULL and soldierType~=EnemyType.TYPE_CHILD)and cpSubType then
         mvars.ene_soldierSubType[soldierId]=cpSubType
       end
@@ -2894,7 +2905,7 @@ function this.AssignSoldiersToCP()
           isChild=true
         end
       end
-    end
+    end--for cp,soldier
     if isChild then
       SendCommand(cpId,{id="SetChildCp"})
     end
@@ -4150,177 +4161,11 @@ function this.SetIgnoreDisableNpc(npcId,enable)
   return true
 end
 
---[[REF: NpcEntrypointsetting
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      [Fox.StrCode32"lz_drp_swamp_I0000|rt_drp_swamp_I_0000"]={
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        [EntryBuddyType.VEHICLE]={Vector3(6.412,-5.952,294.757),TppMath.DegreeToRadian(-153.76)},
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        [EntryBuddyType.BUDDY]={Vector3(2.113,-5.436,299.302),-153.76}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---]]
+--REF: NpcEntrypointsetting
+  --    [Fox.StrCode32"lz_drp_swamp_I0000|rt_drp_swamp_I_0000"]={
+  --      [EntryBuddyType.VEHICLE]={Vector3(6.412,-5.952,294.757),TppMath.DegreeToRadian(-153.76)},
+  --      [EntryBuddyType.BUDDY]={Vector3(2.113,-5.436,299.302),-153.76}}
+ --      }
 function this.NPCEntryPointSetting(settings)
   local npcsEntryPoints=settings[gvars.heli_missionStartRoute]
   if not npcsEntryPoints then
@@ -4379,14 +4224,14 @@ function this.OnAllocateQuest(body,face,a)
     GameObject.SendCommand({type="TppCorpse"},command)
   else
     if body then
-      local n={}
+      local hostageBodyTable={}
       for t,e in ipairs(body)do
         local t=e[1]
         if IsTypeNumber(t)then
-          table.insert(n,e[1])
+          table.insert(hostageBodyTable,e[1])
         end
       end
-      TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG:
+      TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG: hostageBodyTable is named and not minified in retail, and from context I suspect the table minified to n is what was intended, this is only called from mtbs_enemy, and with an empty table so as far as i can see it's not used (faces are though), however it does in OnAllocateQuestFova 
     end
     --    if body then --ORIG, for ref for retailbug
     --      local n={}
@@ -4396,29 +4241,29 @@ function this.OnAllocateQuest(body,face,a)
     --          table.insert(n,e[1])
     --        end
     --      end
-    --      TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG: hostageBodyTable is named and not minified in retail, and from context I suspect the table minified to n is what was intended
+    --      TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG:
     --    end
-    local t=SetAndConvertExtendFova(body,face)
-    if t=="SetFaceAndBody"then
+    local fovaSetType=SetAndConvertExtendFova(body,face)
+    if fovaSetType=="SetFaceAndBody"then
       TppSoldierFace.ReserveExtendFovaForHostage{face=face,body=body}
-    elseif t=="SetFace"then
+    elseif fovaSetType=="SetFace"then
       TppSoldierFace.ReserveExtendFovaForHostage{face=face}
-    elseif t=="SetBody"then
+    elseif fovaSetType=="SetBody"then
       TppSoldierFace.ReserveExtendFovaForHostage{body=body}
     end
   end
 end
-function this.OnAllocateQuestFova(n)
-  local face={}
-  local body={}
-  local o=false
-  local s=false
-  local p=false
-  local d=false
+function this.OnAllocateQuestFova(questTable)
+  local faces={}
+  local bodies={}
+  local setBody=false
+  local setFace=false
+  local setHostageBody=false
+  local setHostageFace=false
   mvars.ene_questArmorId=0
   mvars.ene_questBalaclavaId=0
-  if n.isQuestBalaclava==true then
-    local e={}
+  if questTable.isQuestBalaclava==true then
+    local balaclava={}
     if TppLocation.IsAfghan()then
       mvars.ene_questBalaclavaId=TppDefine.QUEST_FACE_ID_LIST.AFGH_BALACLAVA
     elseif TppLocation.IsMiddleAfrica()then
@@ -4426,124 +4271,135 @@ function this.OnAllocateQuestFova(n)
     end
     mvars.ene_questGetLoadedFaceTable=TppSoldierFace.GetLoadedFaceTable{}
     if mvars.ene_questGetLoadedFaceTable~=nil then
-      local n=#mvars.ene_questGetLoadedFaceTable
-      if mvars.ene_questBalaclavaId~=0 and n>0 then
-        e={mvars.ene_questBalaclavaId,TppDefine.QUEST_ENEMY_MAX,0}
-        table.insert(face,e)
-        s=true
+      local loadedFaceCount=#mvars.ene_questGetLoadedFaceTable
+      if mvars.ene_questBalaclavaId~=0 and loadedFaceCount>0 then
+        balaclava={mvars.ene_questBalaclavaId,TppDefine.QUEST_ENEMY_MAX,0}
+        table.insert(faces,balaclava)
+        setFace=true
       end
     end
   end
-  if n.isQuestArmor==true then
-    local e={}
+  if questTable.isQuestArmor==true then
+    local armor={}
     if TppLocation.IsAfghan()then
       mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.AFGH_ARMOR
     elseif TppLocation.IsMiddleAfrica()then
-      if n.soldierSubType=="PF_A"then
+      if questTable.soldierSubType=="PF_A"then
         mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.MAFR_ARMOR_CFA
-      elseif n.soldierSubType=="PF_B"then
+      elseif questTable.soldierSubType=="PF_B"then
         mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.MAFR_ARMOR_ZRS
-      elseif n.soldierSubType=="PF_C"then
+      elseif questTable.soldierSubType=="PF_C"then
         mvars.ene_questArmorId=TppDefine.QUEST_BODY_ID_LIST.MAFR_ARMOR_RC
       end
     end
     if mvars.ene_questArmorId~=0 then
-      e={mvars.ene_questArmorId,TppDefine.QUEST_ENEMY_MAX,0}
-      table.insert(body,e)
-      o=true
+      armor={mvars.ene_questArmorId,TppDefine.QUEST_ENEMY_MAX,0}
+      table.insert(bodies,armor)
+      setBody=true
     end
   end
-  if(n.enemyList and Tpp.IsTypeTable(n.enemyList))and next(n.enemyList)then
-    for n,e in pairs(n.enemyList)do
-      if e.enemyName then
-        if e.bodyId then
+  if(questTable.enemyList and Tpp.IsTypeTable(questTable.enemyList))and next(questTable.enemyList)then
+    for n,enemyDef in pairs(questTable.enemyList)do
+      if enemyDef.enemyName then
+        if enemyDef.bodyId then
           local n=1
-          local e={e.bodyId,n,0}table.insert(body,e)o=true
+          local  body={enemyDef.bodyId,n,0}
+          table.insert(bodies,body)
+          setBody=true
         end
-        if e.faceId then
+        if enemyDef.faceId then
           local n=1
-          local e={e.faceId,n,0}table.insert(face,e)s=true
+          local face={enemyDef.faceId,n,0}
+          table.insert(faces,face)
+          setFace=true
         end
       end
     end
   end
-  if(n.hostageList and Tpp.IsTypeTable(n.hostageList))and next(n.hostageList)then
-    for n,e in pairs(n.hostageList)do
-      if e.hostageName then
-        if e.bodyId then
+  if(questTable.hostageList and Tpp.IsTypeTable(questTable.hostageList))and next(questTable.hostageList)then
+    for n,hostageDef in pairs(questTable.hostageList)do
+      if hostageDef.hostageName then
+        if hostageDef.bodyId then
           local n=1
-          local e={e.bodyId,0,n}table.insert(body,e)p=true
+          local body={hostageDef.bodyId,0,n}
+          table.insert(bodies,body)
+          setHostageBody=true
         end
-        if e.faceId then
+        if hostageDef.faceId then
           local n=1
-          local e={e.faceId,0,n}table.insert(face,e)d=true
+          local face={hostageDef.faceId,0,n}
+          table.insert(faces,face)
+          setHostageFace=true
         end
-        if e.isFaceRandom then
-          local e=TppQuest.GetRandomFaceId()
-          if e then
+        if hostageDef.isFaceRandom then
+          local faceId=TppQuest.GetRandomFaceId()
+          if faceId then
             local n=1
-            local e={e,0,n}table.insert(face,e)d=true
+            local face={faceId,0,n}
+            table.insert(faces,face)
+            setHostageFace=true
           end
         end
       end
     end
   end
-  if p==true then
-    local t={}
-    local e=false
-    for a,n in ipairs(body)do
+  if setHostageBody==true then
+    local hostageBodyTable={}
+    local setBodyTable=false
+    for a,n in ipairs(bodies)do
       if n[3]>=1 then
         local n=n[1]
         if IsTypeNumber(n)then
-          table.insert(t,n)e=true
+          table.insert(hostageBodyTable,n)
+          setBodyTable=true
         end
       end
     end
-    if e==true then
+    if setBodyTable==true then
       TppSoldierFace.SetBodyFovaUserType{hostage=hostageBodyTable}--RETAILBUG: same as in OnAllocateQuest, probably supposed to be table t
     end
   end
   local setFovaType="SetNone"
-  if((o==true or s==true)or p==true)or d==true then
-    local e=o or p
-    local n=s or d
-    if e==true and n==true then
-      TppSoldierFace.SetAndConvertExtendFova{face=face,body=body}
+  if((setBody==true or setFace==true)or setHostageBody==true)or setHostageFace==true then
+    local wantSetBody=setBody or setHostageBody
+    local wantSetFace=setFace or setHostageFace
+    if wantSetBody==true and wantSetFace==true then
+      TppSoldierFace.SetAndConvertExtendFova{face=faces,body=bodies}
       setFovaType="SetFaceAndBody"
-    elseif n==true then
-      TppSoldierFace.SetAndConvertExtendFova{face=face}
+    elseif wantSetFace==true then
+      TppSoldierFace.SetAndConvertExtendFova{face=faces}
       setFovaType="SetFace"
-    elseif e==true then
-      TppSoldierFace.SetAndConvertExtendFova{body=body}
+    elseif wantSetBody==true then
+      TppSoldierFace.SetAndConvertExtendFova{body=bodies}
       setFovaType="SetBody"
     end
   end
   local command
-  if o==true or s==true then
+  if setBody==true or setFace==true then
     if setFovaType=="SetFaceAndBody"then
-      command={id="InitializeAndAllocateExtendFova",face=face,body=body}
+      command={id="InitializeAndAllocateExtendFova",face=faces,body=bodies}
     elseif setFovaType=="SetFace"then
-      command={id="InitializeAndAllocateExtendFova",face=face}
+      command={id="InitializeAndAllocateExtendFova",face=faces}
     elseif setFovaType=="SetBody"then
-      command={id="InitializeAndAllocateExtendFova",body=body}
+      command={id="InitializeAndAllocateExtendFova",body=bodies}
     end
     if command then
       GameObject.SendCommand({type="TppSoldier2"},command)
       GameObject.SendCommand({type="TppCorpse"},command)
     end
   end
-  if p==true or d==true then
+  if setHostageBody==true or setHostageFace==true then
     if setFovaType=="SetFaceAndBody"then
-      TppSoldierFace.ReserveExtendFovaForHostage{face=face,body=body}
+      TppSoldierFace.ReserveExtendFovaForHostage{face=faces,body=bodies}
     elseif setFovaType=="SetFace"then
-      TppSoldierFace.ReserveExtendFovaForHostage{face=face}
+      TppSoldierFace.ReserveExtendFovaForHostage{face=faces}
     elseif setFovaType=="SetBody"then
-      TppSoldierFace.ReserveExtendFovaForHostage{body=body}
+      TppSoldierFace.ReserveExtendFovaForHostage{body=bodies}
     end
   end
-  local n=n.heliList
-  if(n and Tpp.IsTypeTable(n))and next(n)then
-    this.LoadQuestHeli(n[1].coloringType)
+  local heliList=questTable.heliList
+  if(heliList and Tpp.IsTypeTable(heliList))and next(heliList)then
+    this.LoadQuestHeli(heliList[1].coloringType)
   end
 end
 function this.OnActivateQuest(questTable)
@@ -4929,29 +4785,29 @@ function this.SetupActivateQuestHostage(n)
     end
   end
 end
-function this.OnDeactivateQuest(n)
+function this.OnDeactivateQuest(questTable)
   if mvars.ene_isQuestSetup==true then
-    if(n.vehicleList and Tpp.IsTypeTable(n.vehicleList))and next(n.vehicleList)then
-      this.SetupDeactivateQuestVehicle(n.vehicleList)
+    if(questTable.vehicleList and Tpp.IsTypeTable(questTable.vehicleList))and next(questTable.vehicleList)then
+      this.SetupDeactivateQuestVehicle(questTable.vehicleList)
     end
-    if(n.heliList and Tpp.IsTypeTable(n.heliList))and next(n.heliList)then
-      this.SetupDeactivateQuestQuestHeli(n.heliList)
+    if(questTable.heliList and Tpp.IsTypeTable(questTable.heliList))and next(questTable.heliList)then
+      this.SetupDeactivateQuestQuestHeli(questTable.heliList)
     end
-    if(n.cpList and Tpp.IsTypeTable(n.cpList))and next(n.cpList)then
-      this.SetupDeactivateQuestCp(n.cpList)
+    if(questTable.cpList and Tpp.IsTypeTable(questTable.cpList))and next(questTable.cpList)then
+      this.SetupDeactivateQuestCp(questTable.cpList)
     end
-    if n.isQuestZombie==true then
+    if questTable.isQuestZombie==true then
       local e={type="TppSoldier2"}
       GameObject.SendCommand(e,{id="UnregistSwarmEffect"})
     end
-    if(n.enemyList and Tpp.IsTypeTable(n.enemyList))and next(n.enemyList)then
-      this.SetupDeactivateQuestEnemy(n.enemyList)
+    if(questTable.enemyList and Tpp.IsTypeTable(questTable.enemyList))and next(questTable.enemyList)then
+      this.SetupDeactivateQuestEnemy(questTable.enemyList)
     end
-    if(n.hostageList and Tpp.IsTypeTable(n.hostageList))and next(n.hostageList)then
-      this.SetupDeactivateQuestHostage(n.hostageList)
+    if(questTable.hostageList and Tpp.IsTypeTable(questTable.hostageList))and next(questTable.hostageList)then
+      this.SetupDeactivateQuestHostage(questTable.hostageList)
     end
     if not mvars.qst_isMissionEnd then
-      local e=this.CheckQuestAllTarget(n.questType,nil,nil,true)
+      local e=this.CheckQuestAllTarget(questTable.questType,nil,nil,true)
       TppQuest.ClearWithSave(e)
     end
   end

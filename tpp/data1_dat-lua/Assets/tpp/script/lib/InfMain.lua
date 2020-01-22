@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r107"
+this.modVersion="r109"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -200,80 +200,63 @@ function this.DisplayFox32(foxString)
   TppUiCommand.AnnounceLogView("string :"..foxString .. "="..str32)
 end
 
-
---function this.soldierFovBodyTableAfghan(missionId)
---  local bodyTable={
---    {0,MAX_REALIZED_COUNT},
---    {1,MAX_REALIZED_COUNT},
---    {2,MAX_REALIZED_COUNT},
---    {5,MAX_REALIZED_COUNT},
---    {6,MAX_REALIZED_COUNT},
---    {7,MAX_REALIZED_COUNT},
---    {10,MAX_REALIZED_COUNT},
---    {11,MAX_REALIZED_COUNT},
---    {20,MAX_REALIZED_COUNT},
---    {21,MAX_REALIZED_COUNT},
---    {22,MAX_REALIZED_COUNT},
---    {25,MAX_REALIZED_COUNT},
---    {26,MAX_REALIZED_COUNT},
---    {27,MAX_REALIZED_COUNT},
---    {30,MAX_REALIZED_COUNT},
---    {31,MAX_REALIZED_COUNT},
---    {TppEnemyBodyId.prs2_main0_v00,MAX_REALIZED_COUNT}
---  }
-
---  if not this.IsNotRequiredArmorSoldier(missionId)then
---    local e={TppEnemyBodyId.sva0_v00_a,MAX_REALIZED_COUNT}
---    table.insert(bodyTable,e)
---  end
---  return bodyTable
---end
-
---function this.soldierFovBodyTableAfrica(missionId)
---  local bodyTable={
---    {50,MAX_REALIZED_COUNT},
---    {51,MAX_REALIZED_COUNT},
---    {55,MAX_REALIZED_COUNT},
---    {60,MAX_REALIZED_COUNT},
---    {61,MAX_REALIZED_COUNT},
---    {70,MAX_REALIZED_COUNT},
---    {71,MAX_REALIZED_COUNT},
---    {75,MAX_REALIZED_COUNT},
---    {80,MAX_REALIZED_COUNT},
---    {81,MAX_REALIZED_COUNT},
---    {90,MAX_REALIZED_COUNT},
---    {91,MAX_REALIZED_COUNT},
---    {95,MAX_REALIZED_COUNT},
---    {100,MAX_REALIZED_COUNT},
---    {101,MAX_REALIZED_COUNT},
---    {TppEnemyBodyId.prs5_main0_v00,MAX_REALIZED_COUNT}
---  }
-
---  local armorTypeTable=this.GetArmorTypeTable(missionId)
---  if armorTypeTable~=nil then
---    local numArmorTypes=#armorTypeTable
---    if numArmorTypes>0 then
---      for t,armorType in ipairs(armorTypeTable)do
---        if armorType==TppDefine.AFR_ARMOR.TYPE_ZRS then
---          table.insert(bodyTable,{TppEnemyBodyId.pfa0_v00_a,MAX_REALIZED_COUNT})
---        elseif armorType==TppDefine.AFR_ARMOR.TYPE_CFA then
---          table.insert(bodyTable,{TppEnemyBodyId.pfa0_v00_b,MAX_REALIZED_COUNT})
---        elseif armorType==TppDefine.AFR_ARMOR.TYPE_RC then
---          table.insert(bodyTable,{TppEnemyBodyId.pfa0_v00_c,MAX_REALIZED_COUNT})
---        else
---          table.insert(bodyTable,{TppEnemyBodyId.pfa0_v00_a,MAX_REALIZED_COUNT})
---        end
---      end
---    end
---  end
---end
-
 function this.ResetCpTableToDefault()
   local subTypeOfCp=TppEnemy.subTypeOfCp
   local subTypeOfCpDefault=TppEnemy.subTypeOfCpDefault
   for cp, subType in pairs(subTypeOfCp)do
     subTypeOfCp[cp]=subTypeOfCpDefault[cp]
   end
+end
+
+local afghSubTypes={
+  "SOVIET_A",
+  "SOVIET_B",
+}
+local isAfghSubType={--tex ugly
+  SOVIET_A=true,
+  SOVIET_B=true,
+}
+local mafrSubTypes={
+  "PF_A",
+  "PF_B",
+  "PF_C",
+}
+local isMafrSubType={
+  PF_A=true,
+  PF_B=true,
+  PF_C=true,
+}
+function this.RandomizeCpSubTypeTable()
+  if gvars.changeCpSubTypeFree==0 and gvars.changeCpSubTypeForMissions==0 then
+    return
+  end
+  
+  if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
+    if gvars.changeCpSubTypeFree==0 then
+      return
+    end
+  else
+    if gvars.changeCpSubTypeForMissions==0 then
+      return
+    end
+  end
+  
+  math.randomseed(gvars.rev_revengeRandomValue)--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
+  local subTypeOfCp=TppEnemy.subTypeOfCp
+  for cp, subType in pairs(subTypeOfCp)do
+    local subType=subTypeOfCp[cp]
+    if isAfghSubType[subType] then
+      --local rnd=TppRevenge._Random(1,#afghSubTypes)
+      local rnd=math.random(1,#afghSubTypes)
+      subTypeOfCp[cp]=afghSubTypes[rnd]
+    elseif isMafrSubType[subType] then
+      --local rnd=TppRevenge._Random(1,#mafrSubTypes)
+      local rnd=math.random(1,#mafrSubTypes)
+      --InfMenu.DebugPrint("rnd:"..rnd)--DEBUG
+      subTypeOfCp[cp]=mafrSubTypes[rnd]    
+    end
+  end
+  math.randomseed(os.time())--tex back to 'truly random' /s for good measure
 end
 
 --function this.GetGameId(gameId,type)
@@ -321,7 +304,7 @@ this.SetFriendlyEnemy = function()
   GameObject.SendCommand( gameObjectId, command )
 end
 
---
+--tex TODO:
 function this.GetClosestCp()
   local closestCpId=nil
   local closestDist=9999999999999
@@ -582,16 +565,6 @@ function this.IsPatrolVehicleMission()
 end
 
 this.MAX_PATROL_VEHICLES=16--SYNC: ivars MAX_PATROL_VEHICLES
-function this.ClearPatrolVehicles()--CULL
-  enabledList=nil
-  InfMenu.DebugPrint"in ClearPatrolVehicles"--DEBUG
-  if not this.IsPatrolVehicleMission() then
-    InfMenu.DebugPrint"ClearPatrolVehicles()"--DEBUG
-    for i=0,this.MAX_PATROL_VEHICLES-1 do
-    --      gvars.vehiclePatrolSpawnedTypes[i]=0
-    end
-  end
-end
 
 function this.BuildEnabledList()
   enabledList={}
@@ -1181,8 +1154,6 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
   end
 
   this.UpdateHeliVars()
-
-  --CULL  this.ClearPatrolVehicles()
 end
 
 function this.OnReload(missionTable)

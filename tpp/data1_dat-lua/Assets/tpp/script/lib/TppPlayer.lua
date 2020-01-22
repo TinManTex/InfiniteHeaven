@@ -368,45 +368,45 @@ function this._SetWeapons(weaponTable,category)
   local slotType,slotName,magazine,ammo,underBarrelAmmo
   for idx,weaponInfo in pairs(weaponTable)do
     slotType,slotNum,slotName,magazine,ammo,underBarrelAmmo=this.GetWeaponSlotInfoFromWeaponSet(weaponInfo,slotNum)
-    local r=TppEquip[slotName]
-    if r==nil then
+    local equipment=TppEquip[slotName]
+    if equipment==nil then
     else
-      local l,s,RENAMEdefaultAmmo,m,d,T=TppEquip.GetAmmoInfo(r)
+      local ammoId,ammoInWeapon,defaultAmmo,altAmmoId,altAmmoInWeapon,T=TppEquip.GetAmmoInfo(equipment)
       if slotType then
-        vars[category][slotType]=r
-        local e,t
+        vars[category][slotType]=equipment
+        local ammoCount,altAmmoCount
         if magazine then
-          e=magazine*s
+          ammoCount=magazine*ammoInWeapon
         elseif ammo then
-          e=ammo
+          ammoCount=ammo
         else
-          e=RENAMEdefaultAmmo
+          ammoCount=defaultAmmo
         end
-        gvars.initAmmoStockIds[slotType]=l
-        gvars.initAmmoStockCounts[slotType]=e
-        gvars.initAmmoInWeapons[slotType]=s
-        if(m~=TppEquip.BL_None)then
+        gvars.initAmmoStockIds[slotType]=ammoId
+        gvars.initAmmoStockCounts[slotType]=ammoCount
+        gvars.initAmmoInWeapons[slotType]=ammoInWeapon
+        if(altAmmoId~=TppEquip.BL_None)then
           if underBarrelAmmo then
-            t=underBarrelAmmo
+            altAmmoCount=underBarrelAmmo
           else
-            t=T
+            altAmmoCount=T
           end
-          gvars.initAmmoStockIds[slotType+TppDefine.WEAPONSLOT.MAX]=m
-          gvars.initAmmoStockCounts[slotType+TppDefine.WEAPONSLOT.MAX]=t
-          gvars.initAmmoSubInWeapons[slotType]=d
+          gvars.initAmmoStockIds[slotType+TppDefine.WEAPONSLOT.MAX]=altAmmoId
+          gvars.initAmmoStockCounts[slotType+TppDefine.WEAPONSLOT.MAX]=altAmmoCount
+          gvars.initAmmoSubInWeapons[slotType]=altAmmoInWeapon
         end
         if category=="initWeapons"then
           vars.isInitialWeapon[slotType]=1
         end
       elseif slotNum>=TppDefine.WEAPONSLOT.SUPPORT_0 and slotNum<=TppDefine.WEAPONSLOT.SUPPORT_7 then
-        local e=slotNum-TppDefine.WEAPONSLOT.SUPPORT_0
-        vars.initSupportWeapons[e]=r
-        gvars.initAmmoStockIds[slotNum]=l
+        local supportSlotNum=slotNum-TppDefine.WEAPONSLOT.SUPPORT_0
+        vars.initSupportWeapons[supportSlotNum]=equipment
+        gvars.initAmmoStockIds[slotNum]=ammoId
         local ammoCount
         if ammo then
           ammoCount=ammo
         else
-          ammoCount=RENAMEdefaultAmmo
+          ammoCount=defaultAmmo
         end
         gvars.initAmmoStockCounts[slotNum]=ammoCount
       end
@@ -1740,7 +1740,7 @@ function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below
   if gvars.handLevelProfile>0 then
     for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
       --TODO: check against developed
-      local currentLevel=Player.GetItemLevel(equip)
+      --local currentLevel=Player.GetItemLevel(equip)
       Player.SetItemLevel(itemIvar.equipId,itemIvar.setting)
     end
   end
