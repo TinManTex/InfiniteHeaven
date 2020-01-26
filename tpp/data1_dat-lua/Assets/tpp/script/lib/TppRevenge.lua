@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+--TppRevenge.lua
 local this={}
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
@@ -1930,64 +1931,64 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     if missionAbilitySoldiers[soldierId]==nil then
       local personalAbilitySettings={}
       do
-        local abilityLevel
+        local stealthLevel
         if soldierConfig.STEALTH_SPECIAL then
-          abilityLevel="sp"
+          stealthLevel="sp"
         elseif soldierConfig.STEALTH_HIGH then
-          abilityLevel="high"
+          stealthLevel="high"
         elseif soldierConfig.STEALTH_LOW then
-          abilityLevel="low"
+          stealthLevel="low"
         end
-        personalAbilitySettings.notice=abilityLevel
-        personalAbilitySettings.cure=abilityLevel
-        personalAbilitySettings.reflex=abilityLevel
+        personalAbilitySettings.notice=stealthLevel
+        personalAbilitySettings.cure=stealthLevel
+        personalAbilitySettings.reflex=stealthLevel
       end
       do
-        local abilityLevel
+        local combatLevel
         if soldierConfig.COMBAT_SPECIAL then
-          abilityLevel="sp"
+          combatLevel="sp"
         elseif soldierConfig.COMBAT_HIGH then
-          abilityLevel="high"
+          combatLevel="high"
         elseif soldierConfig.COMBAT_LOW then
-          abilityLevel="low"
+          combatLevel="low"
         end
-        personalAbilitySettings.shot=abilityLevel
-        personalAbilitySettings.grenade=abilityLevel
-        personalAbilitySettings.reload=abilityLevel
-        personalAbilitySettings.hp=abilityLevel
+        personalAbilitySettings.shot=combatLevel
+        personalAbilitySettings.grenade=combatLevel
+        personalAbilitySettings.reload=combatLevel
+        personalAbilitySettings.hp=combatLevel
       end
       do
-        local abilityLevel
+        local speedLevel
         if soldierConfig.STEALTH_SPECIAL or soldierConfig.COMBAT_SPECIAL then
-          abilityLevel="sp"
+          speedLevel="sp"
         elseif soldierConfig.STEALTH_HIGH or soldierConfig.COMBAT_HIGH then
-          abilityLevel="high"
+          speedLevel="high"
         elseif soldierConfig.STEALTH_LOW or soldierConfig.COMBAT_LOW then
-          abilityLevel="low"
+          speedLevel="low"
         end
-        personalAbilitySettings.speed=abilityLevel
+        personalAbilitySettings.speed=speedLevel
       end
       do
-        local abilitiyLevel
+        local fultonLevel
         if soldierConfig.FULTON_SPECIAL then
-          abilitiyLevel="sp"
+          fultonLevel="sp"
         elseif soldierConfig.FULTON_HIGH then
-          abilitiyLevel="high"
+          fultonLevel="high"
         elseif soldierConfig.FULTON_LOW then
-          abilitiyLevel="low"
+          fultonLevel="low"
         end
-        personalAbilitySettings.fulton=abilitiyLevel
+        personalAbilitySettings.fulton=fultonLevel
       end
       do
-        local abilityLevel
+        local holdupLevel
         if soldierConfig.HOLDUP_SPECIAL then
-          abilityLevel="sp"
+          holdupLevel="sp"
         elseif soldierConfig.HOLDUP_HIGH then
-          abilityLevel="high"
+          holdupLevel="high"
         elseif soldierConfig.HOLDUP_LOW then
-          abilityLevel="low"
+          holdupLevel="low"
         end
-        personalAbilitySettings.holdup=abilityLevel
+        personalAbilitySettings.holdup=holdupLevel
       end
       TppEnemy.ApplyPersonalAbilitySettings(soldierId,personalAbilitySettings)
     end

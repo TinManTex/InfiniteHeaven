@@ -46,86 +46,86 @@ end
 function this.IsDefiniteMissionClear()--RETAILPATCH: 1060
   return svars.mis_isDefiniteMissionClear
 end--
-function this.RegiserMissionSystemCallback(n)
-  this.RegisterMissionSystemCallback(n)
+function this.RegiserMissionSystemCallback(callbacks)
+  this.RegisterMissionSystemCallback(callbacks)
 end
-function this.RegisterMissionSystemCallback(n)
-  if IsTypeTable(n)then
-    if IsTypeFunc(n.OnEstablishMissionClear)then
-      this.systemCallbacks.OnEstablishMissionClear=n.OnEstablishMissionClear
+function this.RegisterMissionSystemCallback(callbacks)
+  if IsTypeTable(callbacks)then
+    if IsTypeFunc(callbacks.OnEstablishMissionClear)then
+      this.systemCallbacks.OnEstablishMissionClear=callbacks.OnEstablishMissionClear
     end
-    if IsTypeFunc(n.OnDisappearGameEndAnnounceLog)then
-      this.systemCallbacks.OnDisappearGameEndAnnounceLog=n.OnDisappearGameEndAnnounceLog
+    if IsTypeFunc(callbacks.OnDisappearGameEndAnnounceLog)then
+      this.systemCallbacks.OnDisappearGameEndAnnounceLog=callbacks.OnDisappearGameEndAnnounceLog
     end
-    if IsTypeFunc(n.OnEndMissionCredit)then
-      this.systemCallbacks.OnEndMissionCredit=n.OnEndMissionCredit
+    if IsTypeFunc(callbacks.OnEndMissionCredit)then
+      this.systemCallbacks.OnEndMissionCredit=callbacks.OnEndMissionCredit
     end
-    if IsTypeFunc(n.OnEndMissionReward)then
-      this.systemCallbacks.OnEndMissionReward=n.OnEndMissionReward
+    if IsTypeFunc(callbacks.OnEndMissionReward)then
+      this.systemCallbacks.OnEndMissionReward=callbacks.OnEndMissionReward
     end
-    if IsTypeFunc(n.OnGameOver)then
-      this.systemCallbacks.OnGameOver=n.OnGameOver
+    if IsTypeFunc(callbacks.OnGameOver)then
+      this.systemCallbacks.OnGameOver=callbacks.OnGameOver
     end
-    if IsTypeFunc(n.OnOutOfMissionArea)then
-      this.systemCallbacks.OnOutOfMissionArea=n.OnOutOfMissionArea
+    if IsTypeFunc(callbacks.OnOutOfMissionArea)then
+      this.systemCallbacks.OnOutOfMissionArea=callbacks.OnOutOfMissionArea
     end
-    if IsTypeFunc(n.OnUpdateWhileMissionPrepare)then
-      this.systemCallbacks.OnUpdateWhileMissionPrepare=n.OnUpdateWhileMissionPrepare
+    if IsTypeFunc(callbacks.OnUpdateWhileMissionPrepare)then
+      this.systemCallbacks.OnUpdateWhileMissionPrepare=callbacks.OnUpdateWhileMissionPrepare
     end
-    if IsTypeFunc(n.OnFobDefenceGameOver)then
-      this.systemCallbacks.OnFobDefenceGameOver=n.OnFobDefenceGameOver
+    if IsTypeFunc(callbacks.OnFobDefenceGameOver)then
+      this.systemCallbacks.OnFobDefenceGameOver=callbacks.OnFobDefenceGameOver
     end
-    if IsTypeFunc(n.OnFinishBlackTelephoneRadio)then
-      this.systemCallbacks.OnFinishBlackTelephoneRadio=n.OnFinishBlackTelephoneRadio
+    if IsTypeFunc(callbacks.OnFinishBlackTelephoneRadio)then
+      this.systemCallbacks.OnFinishBlackTelephoneRadio=callbacks.OnFinishBlackTelephoneRadio
     end
-    if IsTypeFunc(n.OnOutOfHotZone)then
+    if IsTypeFunc(callbacks.OnOutOfHotZone)then
     end
-    if IsTypeFunc(n.OnOutOfHotZoneMissionClear)then
-      this.systemCallbacks.OnOutOfHotZoneMissionClear=n.OnOutOfHotZoneMissionClear
+    if IsTypeFunc(callbacks.OnOutOfHotZoneMissionClear)then
+      this.systemCallbacks.OnOutOfHotZoneMissionClear=callbacks.OnOutOfHotZoneMissionClear
     end
-    if IsTypeFunc(n.OnUpdateStorySequenceInGame)then
-      this.systemCallbacks.OnUpdateStorySequenceInGame=n.OnUpdateStorySequenceInGame
+    if IsTypeFunc(callbacks.OnUpdateStorySequenceInGame)then
+      this.systemCallbacks.OnUpdateStorySequenceInGame=callbacks.OnUpdateStorySequenceInGame
     end
-    if IsTypeFunc(n.CheckMissionClearFunction)then
-      this.systemCallbacks.CheckMissionClearFunction=n.CheckMissionClearFunction
+    if IsTypeFunc(callbacks.CheckMissionClearFunction)then
+      this.systemCallbacks.CheckMissionClearFunction=callbacks.CheckMissionClearFunction
     end
-    if IsTypeFunc(n.OnReturnToMission)then
-      this.systemCallbacks.OnReturnToMission=n.OnReturnToMission
+    if IsTypeFunc(callbacks.OnReturnToMission)then
+      this.systemCallbacks.OnReturnToMission=callbacks.OnReturnToMission
     end
-    if IsTypeFunc(n.OnAddStaffsFromTempBuffer)then
-      this.systemCallbacks.OnAddStaffsFromTempBuffer=n.OnAddStaffsFromTempBuffer
+    if IsTypeFunc(callbacks.OnAddStaffsFromTempBuffer)then
+      this.systemCallbacks.OnAddStaffsFromTempBuffer=callbacks.OnAddStaffsFromTempBuffer
     end
-    if IsTypeFunc(n.CheckMissionClearOnRideOnFultonContainer)then
-      this.systemCallbacks.CheckMissionClearOnRideOnFultonContainer=n.CheckMissionClearOnRideOnFultonContainer
+    if IsTypeFunc(callbacks.CheckMissionClearOnRideOnFultonContainer)then
+      this.systemCallbacks.CheckMissionClearOnRideOnFultonContainer=callbacks.CheckMissionClearOnRideOnFultonContainer
     end
-    if IsTypeFunc(n.OnRecovered)then
-      this.systemCallbacks.OnRecovered=n.OnRecovered
+    if IsTypeFunc(callbacks.OnRecovered)then
+      this.systemCallbacks.OnRecovered=callbacks.OnRecovered
     end
-    if IsTypeFunc(n.OnSetMissionFinalScore)then
-      this.systemCallbacks.OnSetMissionFinalScore=n.OnSetMissionFinalScore
+    if IsTypeFunc(callbacks.OnSetMissionFinalScore)then
+      this.systemCallbacks.OnSetMissionFinalScore=callbacks.OnSetMissionFinalScore
     end
-    if IsTypeFunc(n.OnEndDeliveryWarp)then
-      this.systemCallbacks.OnEndDeliveryWarp=n.OnEndDeliveryWarp
+    if IsTypeFunc(callbacks.OnEndDeliveryWarp)then
+      this.systemCallbacks.OnEndDeliveryWarp=callbacks.OnEndDeliveryWarp
     end
-    if IsTypeFunc(n.OnMissionGameEndFadeOutFinish)then
-      this.systemCallbacks.OnMissionGameEndFadeOutFinish=n.OnMissionGameEndFadeOutFinish
+    if IsTypeFunc(callbacks.OnMissionGameEndFadeOutFinish)then
+      this.systemCallbacks.OnMissionGameEndFadeOutFinish=callbacks.OnMissionGameEndFadeOutFinish
     end
-    if IsTypeFunc(n.OnFultonContainerMissionClear)then
-      this.systemCallbacks.OnFultonContainerMissionClear=n.OnFultonContainerMissionClear
+    if IsTypeFunc(callbacks.OnFultonContainerMissionClear)then
+      this.systemCallbacks.OnFultonContainerMissionClear=callbacks.OnFultonContainerMissionClear
     end
   end
 end
-function this.UpdateObjective(n)
+function this.UpdateObjective(objectiveInfo)
   if not mvars.mis_missionObjectiveDefine then
     return
   end
   if mvars.mis_objectiveSetting then
     this.ShowUpdateObjective(mvars.mis_objectiveSetting)
   end
-  local i=n.radio
-  local t=n.radioSecond
-  local o=n.options
-  mvars.mis_objectiveSetting=n.objectives
+  local radio=objectiveInfo.radio
+  local radioSecond=objectiveInfo.radioSecond
+  local options=objectiveInfo.options
+  mvars.mis_objectiveSetting=objectiveInfo.objectives
   mvars.mis_updateObjectiveRadioGroupName=nil
   if not IsTypeTable(mvars.mis_objectiveSetting)then
     return
@@ -136,8 +136,8 @@ function this.UpdateObjective(n)
       n=true
     end
   end
-  if IsTypeTable(o)then
-    if o.isForceHelicopterStart then
+  if IsTypeTable(options)then
+    if options.isForceHelicopterStart then
       n=true
     end
   end
@@ -155,28 +155,28 @@ function this.UpdateObjective(n)
       break
     end
   end
-  if IsTypeTable(i)then
+  if IsTypeTable(radio)then
     if o then
       if not n then
-        mvars.mis_updateObjectiveRadioGroupName=TppRadio.GetRadioNameAndRadioIDs(i.radioGroups)
+        mvars.mis_updateObjectiveRadioGroupName=TppRadio.GetRadioNameAndRadioIDs(radio.radioGroups)
       end
-      local e=this.GetObjectiveRadioOption(i)
-      TppRadio.Play(i.radioGroups,e)
+      local e=this.GetObjectiveRadioOption(radio)
+      TppRadio.Play(radio.radioGroups,e)
     end
   end
-  if IsTypeTable(t)then
+  if IsTypeTable(radioSecond)then
     if o then
-      local e=this.GetObjectiveRadioOption(t)
+      local e=this.GetObjectiveRadioOption(radioSecond)
       if n then
-        mvars.mis_updateObjectiveDoorOpenRadioGroups=t.radioGroups
+        mvars.mis_updateObjectiveDoorOpenRadioGroups=radioSecond.radioGroups
         mvars.mis_updateObjectiveDoorOpenRadioOptions=e
       else
         e.isEnqueue=true
-        TppRadio.Play(t.radioGroups,e)
+        TppRadio.Play(radioSecond.radioGroups,e)
       end
     end
   end
-  if not IsTypeTable(i)then
+  if not IsTypeTable(radio)then
     this.ShowUpdateObjective(mvars.mis_objectiveSetting)
   end
 end
@@ -1110,12 +1110,12 @@ function this.ShowMissionGameEndAnnounceLog()
     this.ShowAnnounceLogOnFadeOut(TppUiCommand.StartResultBlockLoad)
   end
 end
-function this.ShowAnnounceLogOnFadeOut(endAnnounceLogFunction)
+function this.ShowAnnounceLogOnFadeOut(EndAnnounceLogFunc)
   if TppUiCommand.GetSuspendAnnounceLogNum()>0 then
     TppUiStatusManager.ClearStatus"AnnounceLog"
-    mvars.mis_endAnnounceLogFunction=endAnnounceLogFunction
+    mvars.mis_endAnnounceLogFunction=EndAnnounceLogFunc
   else
-    endAnnounceLogFunction()
+    EndAnnounceLogFunc()
   end
 end
 function this.OnEndResultBlockLoad()
@@ -1314,18 +1314,16 @@ function this.ExecuteMissionFinalize()
   end
   if isFreeMission then
     --tex cant check var.missionCode directly here because it's already been updated to mis_nextMissionCodeForMissionClear
-    if Ivars.mbCollectionRepop:Is(1) then--tex> repop count decrement for plants
-      if isZoo then
-      TppGimmick.DecrementCollectionRepopCount()
-      elseif isMotherBase then
-      --tex dont want it too OP
-        Ivars.mbRepopDiamondCountdown:Set(Ivars.mbRepopDiamondCountdown:Get()-1)
-        if Ivars.mbRepopDiamondCountdown:Is(0) then
-          Ivars.mbRepopDiamondCountdown:Reset()
-          TppGimmick.DecrementCollectionRepopCount()
-        end
-      end
-    end--<
+    InfMain.ExecuteMissionFinalize{--tex>
+      currentMissionCode=currentMissionCode,
+      currentLocationCode=currentLocationCode,
+      isHeliSpace=isHeliSpace,
+      nextIsHeliSpace=nextIsHeliSpace,
+      isFreeMission=isFreeMission,
+      nextIsFreeMission=nextIsFreeMission,
+      isMotherBase=isMotherBase,
+      isZoo=isZoo,
+    }--<
     Gimmick.StoreSaveDataPermanentGimmickFromMission()
   end
   local lockStaffForMission={
@@ -1425,10 +1423,10 @@ function this.ExecuteMissionFinalize()
   end
   this.RequestLoad(vars.missionCode,currentMissionCode,{showLoadingTips=mvars.mis_showLoadingTipsOnMissionFinalize,waitOnLoadingTipsEnd=waitOnLoadingTipsEnd,ignoreMtbsLoadLocationForce=mvars.mis_missionFinalizeIgnoreMtbsLoadLocationForce})
 end
-function this.ParseMissionName(e)
-  local i=string.sub(e,2)
-  i=tonumber(i)
-  local missionTypeCode=string.sub(e,1,1)
+function this.ParseMissionName(missionCodeName)
+  local missionCode=string.sub(missionCodeName,2)
+  missionCode=tonumber(missionCode)
+  local missionTypeCode=string.sub(missionCodeName,1,1)
   local missionTypeCodeName
   if(missionTypeCode=="s")then
     missionTypeCodeName="story"
@@ -1439,7 +1437,7 @@ function this.ParseMissionName(e)
   elseif(missionTypeCode=="h")then
     missionTypeCodeName="heli"
   end
-  return i,missionTypeCodeName
+  return missionCode,missionTypeCodeName
 end
 function this.IsStoryMission(e)
   local e=math.floor(e/1e4)
@@ -1841,13 +1839,13 @@ function this.Messages()
     },
     Terminal={
       {msg="MbDvcActCallRescueHeli",func=function(n,e)
-      do
-        if e==2 then
-          TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.CALL_HELI_FIRST_TIME_HOT_ZONE)
-        else
-          TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.CALL_HELI_SECOND_TIME)
+        do
+          if e==2 then
+            TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.CALL_HELI_FIRST_TIME_HOT_ZONE)
+          else
+            TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.CALL_HELI_SECOND_TIME)
+          end
         end
-      end
       end},
       {msg="MbDvcActSelectLandPointEmergency",func=this.AcceptEmergencyMission},
       {msg="MbDvcActAcceptMissionList",func=this.AcceptEmergencyMission},
@@ -2936,7 +2934,7 @@ function this.SetFobPlayerStartPoint()
     return false
   end
   local locatorName=""
-  if TppNetworkUtil.IsHost()==false then 
+  if TppNetworkUtil.IsHost()==false then
     locatorName="player_locator_clst"..(cluster.."_plnt0_df0")
     local pos,rot=Tpp.GetLocator("MtbsStartPointIdentifier",locatorName)
     if pos then
@@ -3017,6 +3015,7 @@ function this.OnMissionGameEndFadeOutFinish()
   end
 end
 function this.OnMissionGameEndFadeOutFinish2nd()
+  InfMain.OnMissionGameEndTop()
   TppUiStatusManager.ClearStatus"GmpInfo"
   TppStory.UpdateStorySequence{updateTiming="OnMissionClear",missionId=this.GetMissionID()}
   TppResult.SetMissionFinalScore()
@@ -3643,10 +3642,10 @@ end
 end--
 local mbMission={[30050]=true,[50050]=true}
 local clearType={
-[TppDefine.MISSION_CLEAR_TYPE.ON_FOOT]=true,
-[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER]=true,
-[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_VEHILCE]=true,
-[TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_FULTON_CONTAINER]=true
+  [TppDefine.MISSION_CLEAR_TYPE.ON_FOOT]=true,
+  [TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER]=true,
+  [TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_VEHILCE]=true,
+  [TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_FULTON_CONTAINER]=true
 }
 function this.ForceGoToMbFreeIfExistMbDemo()
   if mbMission[vars.missionCode]then

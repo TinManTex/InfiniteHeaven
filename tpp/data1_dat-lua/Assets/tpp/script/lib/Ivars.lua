@@ -2086,6 +2086,12 @@ this.mbRepopDiamondCountdown={
   default=4,
   range={max=4,min=0,increment=1},
 }
+
+this.mbMoraleBoosts={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
 --
 this.manualMissionCode={
   --OFF save=MISSION,

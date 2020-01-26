@@ -1415,8 +1415,8 @@ function this.OnFultonParasiteSquad(gameId,n,n,n)
   end
 end
 function this._OnFultonParasiteSquad(resourceIdList)
-  local n,t=resourceIdList[1],resourceIdList[2]
-  this.AddTempResource(n,t)
+  local resourceId,count=resourceIdList[1],resourceIdList[2]
+  this.AddTempResource(resourceId,count)
   TppHero.SetAndAnnounceHeroicOgrePoint(TppHero.FULTON_PARASITE)
 end
 function this.IsAnimalDog(dataBaseId)
@@ -2031,20 +2031,35 @@ function this.OnEstablishMissionClear()
     TppMotherBaseManagement.EnableStaffInitLangKikongo()
   end
   if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON then
-    local t={MBMConst.DEPLOY_MISSION_ID_SEQ_1001,MBMConst.DEPLOY_MISSION_ID_SEQ_1002,MBMConst.DEPLOY_MISSION_ID_SEQ_1003,MBMConst.DEPLOY_MISSION_ID_SEQ_1004,MBMConst.DEPLOY_MISSION_ID_SEQ_1005,MBMConst.DEPLOY_MISSION_ID_SEQ_1006,MBMConst.DEPLOY_MISSION_ID_SEQ_1007}
-    this.OpenDeployMission(t)
+    local postFindSecretWeaponDeployMissions={
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1001,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1002,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1003,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1004,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1005,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1006,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1007
+    }
+    this.OpenDeployMission(postFindSecretWeaponDeployMissions)
   end
   if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY then
-    local t={MBMConst.DEPLOY_MISSION_ID_SEQ_1008,MBMConst.DEPLOY_MISSION_ID_SEQ_1009,MBMConst.DEPLOY_MISSION_ID_SEQ_1010,MBMConst.DEPLOY_MISSION_ID_SEQ_1011}
-    this.OpenDeployMission(t)
+    local postRescueHueyDeployMissions={
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1008,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1009,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1010,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1011
+    }
+    this.OpenDeployMission(postRescueHueyDeployMissions)
   end
   if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_TAKE_OUT_THE_CONVOY then
-    local t={MBMConst.DEPLOY_MISSION_ID_SEQ_1012}
-    this.OpenDeployMission(t)
+    local deployMissions={MBMConst.DEPLOY_MISSION_ID_SEQ_1012}
+    this.OpenDeployMission(deployMissions)
   end
   if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_DEATH_FACTORY then
-    local t={MBMConst.DEPLOY_MISSION_ID_SEQ_1013,MBMConst.DEPLOY_MISSION_ID_SEQ_1014}
-    this.OpenDeployMission(t)
+    local deployMissions={
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1013,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1014}
+    this.OpenDeployMission(deployMissions)
   end
   if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA then
     if not gvars.trm_doneUpdatePandemicLimit then
@@ -2053,8 +2068,15 @@ function this.OnEstablishMissionClear()
     end
   end
   if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
-    local t={MBMConst.DEPLOY_MISSION_ID_SEQ_1015,MBMConst.DEPLOY_MISSION_ID_SEQ_1016,MBMConst.DEPLOY_MISSION_ID_SEQ_1017,MBMConst.DEPLOY_MISSION_ID_SEQ_1018,MBMConst.DEPLOY_MISSION_ID_SEQ_1019,MBMConst.DEPLOY_MISSION_ID_SEQ_1020}
-    this.OpenDeployMission(t)
+    local postOkbMissions={
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1015,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1016,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1017,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1018,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1019,
+      MBMConst.DEPLOY_MISSION_ID_SEQ_1020
+    }
+    this.OpenDeployMission(postOkbMissions)
   end
   if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARD_OKB_ZERO then
     TppServerManager.StartFobPickup()

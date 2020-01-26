@@ -1,4 +1,19 @@
 Infinite Heaven changelog
+r147 - 2016-04-14 - public release
+Feature: Ivar mbMoraleBoosts, various functions in infmain. Mother base menu > "Staff-wide morale boost for visit" Staff wide morale boost on having a number of soldiers salute, or visiting a number of clusters (with at least one salute on each).
+Fixed: f30050_sequence, mbWarGamesProfile. Mother base wargames zombie modes will no longer auto fulton wandering soldier style zombies when they retreat to the inter cluster struts.
+
+r146 
+Fixed: enemyHeliPatrol options actually affect the number of helis, woops.
+Patrol Heli routes:
+Fixed: patrol helis no longer chooses route from other location/invalid route.
+Fixed: routes where patrol heli couldn't reach the landing node now change route when near.
+Longer time between route switch
+Will not switch when near arrival
+Will switch soon after arrival
+Added Wialo Kallai route (afgh)
+Added Route near Luftwa Valley (mafr)
+Heli patrol known bug: support heli cannot target helis when there's multiple helis in the world.
 
 r145 - 2016-04-07 - public release
 Refactor: the mighty ReservePlayerLoadingPosition split assunder, in an attempt to make more readable

@@ -1313,11 +1313,11 @@ function this.GetCurrentStorySequenceTable()
 end
 function this.IsMainMission()
   for e,n in pairs(this.storySequenceTable)do
-    local e=0
+    local missionCode=0
     if n.main then
-      e=TppMission.ParseMissionName(n.main)
+      missionCode=TppMission.ParseMissionName(n.main)
     end
-    if e==vars.missionCode then
+    if missionCode==vars.missionCode then
       return true
     end
   end
@@ -1341,46 +1341,46 @@ function this.GetClearedMissionCount(t)
   end
   return n
 end
-function this.GetElapsedMissionEventName(e)
-  return TppDefine.ELAPSED_MISSION_EVENT_LIST[e+1]
+function this.GetElapsedMissionEventName(enum)
+  return TppDefine.ELAPSED_MISSION_EVENT_LIST[enum+1]
 end
-function this.StartElapsedMissionEvent(t,n)
-  if not this.GetElapsedMissionEventName(t)then
+function this.StartElapsedMissionEvent(eventEnum,elapsedMissionCount)
+  if not this.GetElapsedMissionEventName(eventEnum)then
     return
   end
-  if not Tpp.IsTypeNumber(n)then
+  if not Tpp.IsTypeNumber(elapsedMissionCount)then
     return
   end
-  if n<1 or n>128 then
+  if elapsedMissionCount<1 or elapsedMissionCount>128 then
     return
   end
-  gvars.str_elapsedMissionCount[t]=n
+  gvars.str_elapsedMissionCount[eventEnum]=elapsedMissionCount
 end
-function this.GetElapsedMissionCount(n)
-  if not this.GetElapsedMissionEventName(n)then
+function this.GetElapsedMissionCount(eventEnum)
+  if not this.GetElapsedMissionEventName(eventEnum)then
     return
   end
-  local e=gvars.str_elapsedMissionCount[n]
-  return e
+  local count=gvars.str_elapsedMissionCount[eventEnum]
+  return count
 end
-function this.IsNowOccurringElapsedMission(n)
-  if not this.GetElapsedMissionEventName(n)then
+function this.IsNowOccurringElapsedMission(enum)
+  if not this.GetElapsedMissionEventName(enum)then
     return
   end
-  if gvars.str_elapsedMissionCount[n]==TppDefine.ELAPSED_MISSION_COUNT.NOW_OCCURRING then
+  if gvars.str_elapsedMissionCount[enum]==TppDefine.ELAPSED_MISSION_COUNT.NOW_OCCURRING then
     return true
   else
     return false
   end
 end
-function this.SetDoneElapsedMission(n)
-  if not TppDefine.ELAPSED_MISSION_EVENT_LIST[n+1]then
+function this.SetDoneElapsedMission(enum)
+  if not TppDefine.ELAPSED_MISSION_EVENT_LIST[enum+1]then
     return
   end
-  if this.IsNowOccurringElapsedMission(n)then
-    gvars.str_elapsedMissionCount[n]=TppDefine.ELAPSED_MISSION_COUNT.DONE_EVENT
+  if this.IsNowOccurringElapsedMission(enum)then
+    gvars.str_elapsedMissionCount[enum]=TppDefine.ELAPSED_MISSION_COUNT.DONE_EVENT
   else
-    if gvars.str_elapsedMissionCount[n]>TppDefine.ELAPSED_MISSION_COUNT.NOW_OCCURRING then
+    if gvars.str_elapsedMissionCount[enum]>TppDefine.ELAPSED_MISSION_COUNT.NOW_OCCURRING then
     end
   end
 end
@@ -1479,7 +1479,9 @@ function this.CanOpenS10280()
   if TppGameSequence.GetSpecialVersionName()=="e3_2015"then
     return false
   end
-  local t=TppDemo.IsPlayedMBEventDemo"DecisionHuey"local e="tp_m_10160_11"local n=TppMotherBaseManagement.IsGotCassetteTapeTrack(e)
+  local t=TppDemo.IsPlayedMBEventDemo"DecisionHuey"
+  local e="tp_m_10160_11"
+  local n=TppMotherBaseManagement.IsGotCassetteTapeTrack(e)
   local e=TppMotherBaseManagement.IsNewCassetteTapeTrack(e)
   return(t and n)and not(e)
 end
@@ -1609,8 +1611,9 @@ end
 function this.CheckNeedProceedStorySequence(n)
   local t={}
   local function i(n)
-    local n=TppMission.ParseMissionName(n)
-    local e=this.IsMissionCleard(n)table.insert(t,e)
+    local missionCode=TppMission.ParseMissionName(n)
+    local isMissionCleared=this.IsMissionCleard(missionCode)
+    table.insert(t,isMissionCleared)
   end
   if n.main then
     i(n.main)
@@ -1647,13 +1650,13 @@ function this.ProceedStorySequence()
     return
   end
   local i={}
-  local function t(n,t)
+  local function t(missionCodeName,t)
     local r=t or{}
-    local t=TppMission.ParseMissionName(n)
-    this.PermitMissionOpen(t)
-    if not r[n]then
-      table.insert(i,n)
-      this.MissionOpen(t)
+    local missionCode=TppMission.ParseMissionName(missionCodeName)
+    this.PermitMissionOpen(missionCode)
+    if not r[missionCodeName]then
+      table.insert(i,missionCodeName)
+      this.MissionOpen(missionCode)
     end
   end
   if storySequenceTable.main then
@@ -1758,11 +1761,13 @@ end
 function this.CanArrivalLiquidInMB()
   if Ivars.mbShowEli:Is(1) and Ivars.mbWarGamesProfile:Is(0) then return true end--tex added mbshow
   local e=this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
-  local n=not TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"return e and n
+  local n=not TppDemo.IsPlayedMBEventDemo"TheGreatEscapeLiquid"
+  return e and n
 end
 function this.CanArrivalHueyInMB()
   local n=this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY
-  local e=not TppDemo.IsPlayedMBEventDemo"DecisionHuey"return n and e
+  local e=not TppDemo.IsPlayedMBEventDemo"DecisionHuey"
+  return n and e
 end
 function this.HueyHasKantokuGrass()
   return this.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_METALLIC_ARCHAEA
@@ -2059,41 +2064,44 @@ if TppDebugMbDevelop then
     TppDebugMbDevelop.AllDeveloped()
   end
 end
-local function r(i,o,a,t,n)
+local function r(missionCodeName,o,a,t,n)
   local r=n or{}
-  local n=TppMission.ParseMissionName(i)
-  local t=(i==t)
-  this.PermitMissionOpen(n)
-  if(not r[i])or(t)then
-    this.MissionOpen(n)
+  local missionCode=TppMission.ParseMissionName(missionCodeName)
+  local t=(missionCodeName==t)
+  this.PermitMissionOpen(missionCode)
+  if(not r[missionCodeName])or(t)then
+    this.MissionOpen(missionCode)
     if(o<a)and(not t)then
-      this.DisableMissionNewOpenFlag(n)
-      this.UpdateMissionCleardFlag(n)
+      this.DisableMissionNewOpenFlag(missionCode)
+      this.UpdateMissionCleardFlag(missionCode)
     end
   end
   return t
 end
 local t
-for i=0,n do
-  local e=this.GetStorySequenceTable(i)
+for storySequenceIndex=0,n do
+  local e=this.GetStorySequenceTable(storySequenceIndex)
   if e==nil then
     break
   end
   if e.main then
-    local e=r(e.main,i,n,o,e.defaultClose)t=t or e
+    local e=r(e.main,storySequenceIndex,n,o,e.defaultClose)
+    t=t or e
   end
   if e.flag then
     for s,a in pairs(e.flag)do
-      local e=r(a,i,n,o,e.defaultClose)t=t or e
+      local e=r(a,storySequenceIndex,n,o,e.defaultClose)
+      t=t or e
     end
   end
   if e.sub then
     for s,a in pairs(e.sub)do
-      local e=r(a,i,n,o,e.defaultClose)t=t or e
+      local e=r(a,storySequenceIndex,n,o,e.defaultClose)
+      t=t or e
     end
   end
   if t then
-    gvars.str_storySequence=i
+    gvars.str_storySequence=storySequenceIndex
     break
   end
 end

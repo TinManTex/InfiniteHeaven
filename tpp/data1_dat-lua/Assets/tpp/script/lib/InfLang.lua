@@ -372,6 +372,9 @@ this.eng={--english
   onFootSettingsNames={"Off","All but assault LZs","All LZs"},
   enemyHeliPatrol="Heli patrols in free roam",
   enemyHeliPatrolSettingNames={"None","Minimum","Mid","Maximum","Enemy prep"},
+  mbMoraleBoosts="Staff-wide morale boost for good visit",--r146
+  mb_morale_visit_noticed="Word has spread of your visit",
+  mb_morale_boosted="Staff-wide morale has improved due to your visit",
 }
 
 this.eng_help={

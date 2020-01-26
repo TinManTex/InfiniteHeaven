@@ -1,3 +1,4 @@
+--s10121_sequence.lua
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -701,7 +702,7 @@ end
 
 function this.CallCpRadio ( labelName )
 	local gameObjectId = GameObject.GetGameObjectId( "mafr_pfCamp_cp" )
-	local command = { id = "RequestRadio", label= labelName, 	memberId = memberGameObjectId }
+	local command = { id = "RequestRadio", label= labelName, 	memberId = memberGameObjectId }--RETAILBUG: memberGameObjectId not defined 
 	GameObject.SendCommand( gameObjectId, command )
 end
 

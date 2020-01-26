@@ -515,17 +515,27 @@ function this.Messages()
       {msg="RequestLoadReinforce",func=function()
         --InfMenu.DebugPrint"RequestLoadReinforce"--DEBUG
         end},
---      {
---        msg = "RoutePoint2",--DEBUG
---        func = function( gameObjectId, routeId, routeNodeIndex, messageId )
---          InfInspect.TryFunc(function()
---            InfMenu.DebugPrint("gameObjectId:"..tostring(gameObjectId).." routeId:".. tostring(routeId).." routeNodeIndex:".. tostring(routeNodeIndex).." messageId:".. tostring(messageId))--DEBUG
---          end)
---        end
---      },
+      --      {
+      --        msg = "RoutePoint2",--DEBUG
+      --        func = function( gameObjectId, routeId, routeNodeIndex, messageId )
+      --          InfInspect.TryFunc(function()
+      --            InfMenu.DebugPrint("gameObjectId:"..tostring(gameObjectId).." routeId:".. tostring(routeId).." routeNodeIndex:".. tostring(routeNodeIndex).." messageId:".. tostring(messageId))--DEBUG
+      --          end)
+      --        end
+      --      },
+      {msg="SaluteRaiseMorale",func=this.CheckSalutes},
+    },
+    MotherBaseStage = {
+      --      {
+      --        msg = "MotherBaseCurrentClusterLoadStart",
+      --        func = function(clusterId)
+      --
+      --        end,
+      --      },
+      {msg= "MotherBaseCurrentClusterActivated",func=this.CheckClusterMorale},
     },
     Player={
-      {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers()},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
+      {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
     },
     UI={
       --      {msg="EndFadeIn",func=this.FadeIn()},--tex for all fadeins
@@ -567,7 +577,7 @@ function this.Messages()
     },
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
-        --InfMenu.DebugPrint("MbDvcActSelectLandPoint:"..tostring(routeName).. " "..tostring(clusterId))--DEBUG
+        --InfMenu.DebugPrint("MbDvcActSelectLandPoint:"..tostring(InfLZ.str32LzToLz[routeName]).. " "..tostring(clusterId))--DEBUG
         this.heliSelectClusterId=clusterId
       end},
       {msg="MbDvcActSelectLandPointTaxi",func=function(nextMissionId,routeName,layoutCode,clusterId)
@@ -790,6 +800,8 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
   end
 
   this.UpdateHeliVars()
+
+  this.ClearMoraleInfo()
 end
 
 function this.OnReload(missionTable)
@@ -800,6 +812,39 @@ function this.OnReload(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 
+
+function this.OnMissionGameEndTop()
+  if vars.missionCode==30050 then
+    this.CheckMoraleReward()
+  end
+end
+
+
+--missionFinalize={
+--  currentMissionCode,
+--  currentLocationCode,
+--  isHeliSpace,
+--  nextIsHeliSpace,
+--  isFreeMission,
+--  nextIsFreeMission,
+--  isMotherBase,
+--  isZoo,
+--}
+function this.ExecuteMissionFinalize(missionFinalize)
+  --tex repop count decrement for plants
+  if Ivars.mbCollectionRepop:Is(1) then
+    if missionFinalize.isZoo then
+      TppGimmick.DecrementCollectionRepopCount()
+    elseif missionFinalize.isMotherBase then
+      --tex dont want it too OP
+      Ivars.mbRepopDiamondCountdown:Set(Ivars.mbRepopDiamondCountdown:Get()-1)
+      if Ivars.mbRepopDiamondCountdown:Is(0) then
+        Ivars.mbRepopDiamondCountdown:Reset()
+        TppGimmick.DecrementCollectionRepopCount()
+      end
+    end
+  end
+end
 
 this.execChecks={
   inGame=false,--tex actually loaded game, ie at least 'continued' from title screen
@@ -1917,6 +1962,124 @@ function this.GetAverageRevengeLevel()
   local combatLevel=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)
 
   return math.ceil((stealthLevel+combatLevel)/2)
+end
+
+this.locationIdForName={
+  afgh=10,
+  mafr=20,
+  cypr=30,
+  mtbs=50,
+  mbqf=55,
+}
+
+--mbmorale
+--tuning tex TODO: do I want to fuzz these?
+local rewardMorale=1
+local rewardOnSalutesCount=14--12 is nice if stacking since it's a division of total, but it's just a smidgen too easy for a single
+local rewardOnClustersCount={
+  [5]=true,
+  [7]=true
+}
+
+local saluteClusterCounts={}
+local visitedClusterCounts={}
+local totalSaluteCount=0
+local totalVisitedCount=0
+local lastSalute=0
+
+local saluteRewards=0
+local visitRewards={}
+
+function this.ClearMoraleInfo()
+  totalSaluteCount=0
+  totalVisitedCount=0
+  for i=1,#TppDefine.CLUSTER_NAME do
+    saluteClusterCounts[i]=0
+    visitedClusterCounts[i]=false
+  end
+
+  saluteRewards=0
+  for n,bool in pairs(rewardOnClustersCount) do
+    visitRewards[n]=false
+  end
+
+  lastSalute=0
+end
+
+function this.GetTotalSalutes()
+  local total=0
+  for i=1,#TppDefine.CLUSTER_NAME do
+    total=total+saluteClusterCounts[i]
+  end
+  return total
+end
+
+function this.CheckSalutes()
+  InfInspect.TryFunc(function()
+    if vars.missionCode==30050 and Ivars.mbMoraleBoosts:Is(1) then
+      local currentCluster=mtbs_cluster.GetCurrentClusterId()
+
+      saluteClusterCounts[currentCluster]=saluteClusterCounts[currentCluster]+1
+      local totalSalutes=this.GetTotalSalutes()
+      --InfMenu.DebugPrint("SaluteRaiseMorale cluster "..currentCluster.." count:"..saluteClusterCounts[currentCluster].. " total sulutes:"..totalSalutes)--DEBUG
+      --InfInspect.PrintInspect(saluteClusterCounts)--DEBUG
+
+      local modTotalSalutes=totalSalutes % rewardOnSalutesCount
+      --InfMenu.DebugPrint("totalSalutes % rewardSalutesCount ="..modTotalSalutes)--DEBUG
+      if modTotalSalutes == 0 then        
+        saluteRewards=saluteRewards+1
+        --InfMenu.DebugPrint("REWARD for "..totalSalutes.." salutes")--DEBUG
+        InfMenu.PrintLangId"mb_morale_visit_noticed"
+      end
+
+      local totalClustersVisited=0
+      for clusterId,saluteCount in pairs(saluteClusterCounts) do
+        if saluteCount>0 then
+          totalClustersVisited=totalClustersVisited+1
+        end
+      end
+      --InfMenu.DebugPrint("totalClustersVisited:"..totalClustersVisited)--DEBUG
+      if rewardOnClustersCount[totalClustersVisited] and visitRewards[totalClustersVisited]==false then
+        visitRewards[totalClustersVisited]=true
+        --InfMenu.DebugPrint("REWARD for ".. totalClustersVisited .." clusters visited")--DEBUG
+        InfMenu.PrintLangId"mb_morale_visit_noticed"
+      end
+
+      lastSalute=Time.GetRawElapsedTimeSinceStartUp()
+    end
+  end)
+end
+
+--clusterId indexed from 0
+--DEBUGNOW CULL
+function this.CheckClusterMorale(clusterId)
+--  InfInspect.TryFunc(function(clusterId)
+--    if vars.missionCode==30050 and Ivars.mbMoraleBoosts:Is(1) then
+--      InfMenu.DebugPrint("MotherBaseCurrentClusterActivated "..clusterId)--DEBUG
+--      visitedClusterCounts[clusterId+1]=true
+--      InfInspect.PrintInspect(visitedClusterCounts)--DEBUG
+--    end
+--  end,clusterId)
+end
+
+function this.CheckMoraleReward()
+  if Ivars.mbMoraleBoosts:Is(1) then
+    --tex was considering stacking, but even at the minimum 1 it's close to OP with a large staff size
+    local moraleBoost=0
+    if saluteRewards>0 then
+      moraleBoost=1
+    end
+    for numClusters,reward in pairs(visitRewards) do
+      if reward then
+        moraleBoost=1
+      end
+    end
+    --InfMenu.DebugPrint("Global moral boosted by "..moraleBoost.." by visit")--DEBUG
+    if moraleBoost then
+      InfMenu.PrintLangId"mb_morale_boosted"
+      TppMotherBaseManagement.IncrementAllStaffMorale{morale=moraleBoost}
+    end
+  end
 end
 
 return this

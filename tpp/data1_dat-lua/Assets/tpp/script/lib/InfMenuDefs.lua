@@ -87,6 +87,7 @@ this.motherBaseMenu={
     Ivars.mbEnableOcelot,
     Ivars.npcHeliUpdate,
     Ivars.mbCollectionRepop,
+    Ivars.mbMoraleBoosts,
     this.motherBaseShowAssetsMenu,
     Ivars.mbWargameFemales,
     Ivars.mbEnemyHeliColor,
@@ -451,9 +452,9 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
---    InfMenuCommands.DEBUG_FovaTest,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG    
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     --    this.fovaModMenu,--DEBUG
     --    this.appearanceMenu,--DEBUG
     --Ivars.vehiclePatrolPaintType,
@@ -518,11 +519,14 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
+    --InfMenuCommands.DEBUG_PrintCpSizes,--DEBUG
+    --    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
+    --    Ivars.selectedCp,--DEBUG
     --    this.fovaModMenu,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.appearanceMenu,--DEBUG
     --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
---    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
+    --    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG

@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\free\f30050\f30050.fpkd
-
+--f30050_sequence.lua
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -2148,7 +2148,9 @@ sequences.Seq_Game_MainGame = {
 					func = function( trapName, gameObjectId )
 						if Tpp.IsSoldier( gameObjectId ) then 
 							Fox.Log(" ForceFulton: " ..tostring(gameObjectId) )
-							GameObject.SendCommand( gameObjectId, { id = "RequestForceFulton" } ) 
+							if Ivars.mbWarGamesProfile:Is(0) then--tex added bypass
+							GameObject.SendCommand( gameObjectId, { id = "RequestForceFulton" } )
+							end 
 						end
 					end,
 				},

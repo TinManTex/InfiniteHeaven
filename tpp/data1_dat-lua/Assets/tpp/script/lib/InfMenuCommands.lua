@@ -344,22 +344,48 @@ this.printBodyInfo={
 }
 
 ---
-local toggle=false
+local toggle1=false
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
+      --DEBUGNOW
+      local moraleAmount=1
+      InfMenu.DebugPrint("IncrementAllStaffMorale:"..moraleAmount)
+      TppMotherBaseManagement.IncrementAllStaffMorale{morale=moraleAmount}
+
+
+
+      --local pos,rotQuat=Tpp.GetLocatorByTransform(identifier,key)
+
+      --      local cpName=mvars.ene_cpList[Ivars.selectedCp:Get()]
+      --      if cpName==nil then
+      --        InfMenu.DebugPrint"selectedCp cpName==nil"
+      --      else
+      --        local gameId=GetGameObjectId("TppCommandPost2",cpName)
+      --        if gameId==NULL_ID then
+      --          InfMenu.DebugPrint("Could not find cp "..cpName)
+      --          return
+      --        end
+      --        local cpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+      --        if cpPos==nil then
+      --          InfMenu.DebugPrint"cpPos==nil"
+      --        else
+      --          InfMenu.DebugPrint("cpPos:".. cpPos:GetX()..",".. cpPos:GetY().. ","..cpPos:GetZ())
+      --        end
+
+      -- end
     end)
   end
 }
 
 
 
-local index=0
+local index2=1
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
-     
-    end)
+
+      end)
   end
 }
 
@@ -367,44 +393,66 @@ local index3=1
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
-   
+
+
+      end)
+  end
+}
+
+this.DEBUG_PrintHeliPos={
+  OnChange=function()
+    InfInspect.TryFunc(function()
+      InfNPCHeli.PrintHeliPos()
     end)
   end
 }
 
-this.DEBUG_showSyncSVars={
+local routeIndex=1
+local StrCode32=Fox.StrCode32
+this.heliRoute=nil
+local heliRoutes={}
+this.DEBUG_CycleHeliRoutes={
   OnChange=function()
     InfInspect.TryFunc(function()
-      if o50050_sequence then
-        InfMenu.DebugPrint"syncSvars"
-        for svarsName, initialValue in pairs( o50050_sequence.saveVarsList ) do
-          if Tpp.IsTypeTable( initialValue ) then
-            local name, isSync, isWait = initialValue.name, initialValue.sync, initialValue.wait
-            if isSync and isWait then
-              InfMenu.DebugPrint("svar." .. tostring(name) .. " = " .. tostring(svars[name]) )
-            end
-          end
-        end
+      local heliName="EnemyHeli0000"
+      local heliIndex=1
+      local heliObjectId = GetGameObjectId(heliName)
+      if heliObjectId==NULL_ID then
+      --InfMenu.DebugPrint(heliName.."==NULL_ID")--DEBUG
       else
-        InfMenu.DebugPrint"no o50050_sequence"
+        if #heliRoutes==0 then
+          --heliRoutes=this.ResetLzPool()
+          heliRoutes=InfMain.ResetPool(InfNPCHeli.heliRoutes.afgh)
+        end
+        --InfInspect.PrintInspect(heliRoutes)--DEBUG
+        this.heliRoute=StrCode32(heliRoutes[routeIndex])
+        routeIndex=routeIndex+1
+        if routeIndex>#heliRoutes then
+          routeIndex=1
+        end
+
+        InfNPCHeli.SetRoute(this.heliRoute,heliIndex)
+        --InfMenu.DebugPrint(heliName.." setting route: "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
+        --GameObject.SendCommand(heliObjectId,{id="SetForceRoute",route=this.heliRoute,point=0,warp=true})
+      end
+      local groundStartPosition=InfLZ.groundStartPositions[this.heliRoute]
+      if groundStartPosition==nil then
+        InfMenu.DebugPrint" groundStartPosition==nil"
+      else
+        InfMenu.DebugPrint("warped to "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
+        TppPlayer.Warp{pos={groundStartPosition.pos[1],groundStartPosition.pos[2],groundStartPosition.pos[3]},rotY=vars.playerCameraRotation[1]}
       end
     end)
   end
 }
 
-
 local fovaIndex=1
 this.DEBUG_FovaTest={
   OnChange=function()
     InfInspect.TryFunc(function()
-
-
-        Player.SetPartsInfoAtInstanceIndex("/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
-
-        --Player.RequestToUnloadAllPartsBlock()
-        --Player.RequestToLoadPartsBlock("PLTypeHospital")
-
-
+      Player.SetPartsInfoAtInstanceIndex("/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
+      --Player.RequestToUnloadAllPartsBlock()
+      --Player.RequestToLoadPartsBlock("PLTypeHospital")
     end)
   end
 }
@@ -784,20 +832,20 @@ this.DEBUG_WarpToObject={
     --      "veh_cl00_cl05_0000",
     --      "veh_cl00_cl06_0000",
     --    }
-    
+
     local objectList={
---  "WestHeli0000",
---  "WestHeli0001",
---  "WestHeli0002",
---  "EnemyHeli",
-  "EnemyHeli0000",
-  "EnemyHeli0001",
-  "EnemyHeli0002",
-  "EnemyHeli0003",
-  "EnemyHeli0004",
-  "EnemyHeli0005",
-  "EnemyHeli0006",
-}
+      --  "WestHeli0000",
+      --  "WestHeli0001",
+      --  "WestHeli0002",
+      --  "EnemyHeli",
+      "EnemyHeli0000",
+      "EnemyHeli0001",
+      "EnemyHeli0002",
+      "EnemyHeli0003",
+      "EnemyHeli0004",
+      "EnemyHeli0005",
+      "EnemyHeli0006",
+    }
 
     if objectList==nil then
       InfMenu.DebugPrint"objectList nil"
