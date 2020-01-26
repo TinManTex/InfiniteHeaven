@@ -134,7 +134,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
 
   local InfMain=InfMain
 
-  InfMain.RandomSetToLevelSeed()
+    InfMain.RandomSetToLevelSeed()
 
   --tex basic interrogations
   uniqueInterrogation.unique=uniqueInterrogation.unique or {}
@@ -163,9 +163,9 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
         InfMenu.DebugPrint("SetupInterCpQuests baseNamePool "..tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
         baseNameBag:Add(cpName)
-  end
-  end
-  end
+    end
+    end
+    end
 
   local soldierIndex=1
   local numBases=baseNameBag:Count()

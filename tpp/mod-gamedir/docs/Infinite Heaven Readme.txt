@@ -1,5 +1,5 @@
 = Infinite heaven =
-r162 - 2016-06-18
+r163 - 2016-06-28
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
@@ -9,7 +9,7 @@ Has several hundred toggleable options ranging from Subsistence mode for all mis
 
 Infinite Heaven features and options
 ------------------------------
-See: Features and Options.txt file
+See: Features and Options.html file in the Infinite Heaven .zip
 or
 [url=http://www.nexusmods.com/metalgearsolidvtpp/articles/5/]http://www.nexusmods.com/metalgearsolidvtpp/articles/5/[/url]
 
@@ -18,7 +18,27 @@ YouTube playlist of demonstrations for many features
 
 Recent changes/additions
 ------------------------------
-NOTE: NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r163
+Fixed: Hang on load in Africa with Vehicle patrols turned off - thanks CantStoptheBipBop for the report and save file.
+
+Fixed: Hang on load with Custom prep for free or mission and DD suit set to 'Equip grade' - thanks Arballisk for the report and save file.
+
+Features and Options html file in the Infinite Heaven zip for a better formatted and linked version of the features list.
+
+IH menu item type indicators change:
+Option = Setting
+Menu >
+Command >>
+Command that closes menu when done >]
+
+Command: Support heli to latest marker - Requests Support heli to Landing Zone closest to the last placed user marker. 
+Can also be used to ride the support heli to another LZ if the IH menu is open and the option is selected when getting into the heli. This however has an issue where the doors will close on take-off preventing you from shifting between heli sides, the chaingun on your side can still be used however.
+[youtube]pE1Kg_0vHAI[/youtube]
+https://youtu.be/pE1Kg_0vHAI
+
+Command: Force exit helicopter - Lets you exit the helicopter while riding it, mind the fall.
 
 New for r162
 Fixed: Patrol vehicle classes not actually applying - thanks NasaNhak for the report
@@ -41,10 +61,12 @@ Option: Enable additional minefields - In the game many bases have several mine 
 [youtube]EujEm1cKWG0[/youtube]
 https://youtu.be/EujEm1cKWG0
 
-Option: Disable Intel team herb spotting (requires game restart) - Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate. (PlayerRestrictions menu)
+Option: Disable Intel team herb spotting (requires game restart) - Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate. (via Player restrictions menu)
 
 Option: Equipment on trucks - Puts a random piece of equipment on the back of patrol trucks.
-(via Patrol vehicle menu)
+(via Patrol vehicles menu)
+[youtube]bJJWfttkJ1Y[/youtube]
+https://youtu.be/bJJWfttkJ1Y
 
 New for r161
 Fixed: Hard-lock on mother base on a cluster with only one platform with "Soldiers move between platforms" on - thanks 
@@ -57,71 +79,12 @@ Option: Soldier item drop chance" - Soldiers drop items upon elimination.
 [youtube]kafjLfvAifI[/youtube]
 https://youtu.be/kafjLfvAifI
 
-New for r160
-Fixed: Removed debug commands from root of in-mission menu, whoops.
-
-Fixed: Ghost light from patrol soldiers radio - appeared on enclosed patrol vehicles and patrol soviets with light armor.
-
 New for r159
-Fixed: Enemy patrol helis getting stuck/rotating at 'landing' position.
-
-Fixed: MB Cutscene playback - now doesn't set mbFreeDemoPlayedFlag, so shouldn't cause issues if played before they are normally triggered - thanks BarelyFatal for the report.
-
-Change: Number of Wild card soldiers increased, may also now appear in patrol vehicles (trucks,jeeps)
-
-Tuning: MB events: DD staff now equiped with non lethal for Training event. Soviet Invasion DD Equip off, Coyote attack enemy 
-heli types to each random, dd equip level lowered. Events ises varied settings of mbNpcRouteChange
-
-Fixed: MB wargames/events - soldiers will now follow routes when in caution mode (before they would just stay in their last position before alert)
-
-Change: split event random trigger chance % setting into MB and Free, thanks Recaldy for the suggestion.
-
 Option: Enable more soldiers on MB plats - increases (non main) platforms from 4 soldiers to 7-8.
 Option: Soldiers move between platforms - soldiers will periodically move between platforms (only within the same cluster).
 (via Mother base menu)
 [youtube]azkVA-D_Rq8[/youtube]
 https://youtu.be/azkVA-D_Rq8
-
-New for r158
-Fixed: Disable landing zones hanging loading mother base
-Fixed: Maybe hopefully possibly. FOB defense black screen - thanks Shigu for helping test
-
-New for r157
-Feature: IH events, basically sets of IH features randomly or manually triggered on Free roam or MB start.
-Free roam events (can stack):
-Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items.
-[youtube]RrWZldWAp6o[/youtube]
-https://youtu.be/RrWZldWAp6o
-
-Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns.
-
-Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'.
-[youtube]UXAN6eBoI2M[/youtube]
-https://youtu.be/UXAN6eBoI2M
-
-MB events (only one active):
-DD Training wargame
-Soviet attack
-Rogue Coyote attack
-XOF attack
-DD Infection outbreak
-Zombie Obliteration (non DD)
-
-Fixed: changed start on foot mission start timers workaround, previous workaround resulted in pause menu issues such as options item not appearing and double abort items (both abort mission and abort to acc) - thanks CantStoptheBipBop for the report
-
-Fixed: Cutscene DDogGoWithMe infinite load screen after scene finish when triggered via MB cutscene play mode - thanks PIESOFTHENORTH for the report.
-
-Fixed: Walker gear types were off by one.
-
-Fixed: Removed the purposeless menu back command in the root of in-mission menu - thanks Digitaltomato for the report
-
-Refactor: Disable Central Lzs changed to Disable Lzs - Off, Assault, Regular
-
-Menu: Patchup menu renamed Debug/system menu
-
-Refactor: Options that cover multiple modes (Free roam, mission, mb), have had some internal restructuring, so you will have to set them again after upgrading to r157: Random CP subtype, Start on foot, prep mode, .. use DD equipment.
-
-Option: Debug IH mode - Switches on some error messages and enables the announce log during loading. Hopefully this will give more information if your'e having issues with something.
 
 Disclaimer:
 ------------------------------
@@ -130,7 +93,7 @@ This mod is still largely untested, detailed feedback at Nexus page welcome.
 
 Installation
 ------------------------------
-See: Installation.txt file 
+See: Installation.txt file in the Infinite Heaven .zip 
 or
 [url=http://www.nexusmods.com/metalgearsolidvtpp/articles/2/]http://www.nexusmods.com/metalgearsolidvtpp/articles/2/[/url]
 
@@ -165,7 +128,7 @@ or
 
 Change Log
 ------------------------------
-See: Change Log.txt file
+See: Change Log.txt file in the Infinite Heaven .zip
 or
 [url=http://www.nexusmods.com/metalgearsolidvtpp/articles/1/]http://www.nexusmods.com/metalgearsolidvtpp/articles/1/[/url]
 

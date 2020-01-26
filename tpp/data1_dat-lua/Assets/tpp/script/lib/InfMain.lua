@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r162"
+this.modVersion="r163"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -404,10 +404,11 @@ this.cpPositions={
     afgh_villageEast_ob={},--Guard Post 23, SE Wailo Village
     afgh_ruinsNorth_ob={},--Guard Post 24, East Spugmay Keep
     afgh_fieldEast_ob={},--Guard Post 25, East Shago Village
-    --redo
-    mafr_hill_cp={2154.83,63.09,366.70},
-    mafr_swamp_cp={-19.63,11.17,140.91},
+    
+    mafr_hill_cp={2154.83,63.09,366.70},--redo
+    mafr_swamp_cp={-59.858,-3.755,60.331},
     mafr_pfCamp_cp={846.46,-4.97,1148.62},
+    --redo
     mafr_savannah_cp={1014.25,57.18,-221.46},
     mafr_diamond_cp={1381.85,137.05,-1516.01},
     mafr_banana_cp={300.61,50.06,-1237.66},
@@ -634,6 +635,9 @@ function this.Messages()
     --          InfMenu.DebugPrint("OnPickUpWeapon equipId:"..equipId.." number:"..number)--DEBUG
     --        end
     --      },
+    --      {msg="RideHelicopter",func=function()
+    --        InfMenu.DebugPrint"RideHelicopter"
+    --      end},
     },
     UI={
       --      {msg="EndFadeIn",func=this.FadeIn()},--tex for all fadeins
@@ -671,7 +675,7 @@ function this.Messages()
     --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
     },
     Timer={
-    --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
+      --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
     },
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
@@ -872,8 +876,8 @@ local updateIvars={
 --tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
 function this.OnInitializeTop(missionTable)
   --InfInspect.TryFunc(function(missionTable)--DEBUG
-    if TppMission.IsFOBMission(vars.missionCode)then
-      return
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
   end
 
   this.RandomizeCpSubTypeTable()
@@ -885,7 +889,6 @@ function this.OnInitializeTop(missionTable)
     this.soldierPool=this.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
     --InfMenu.DebugPrint("Init #this.soldierPool:"..#this.soldierPool)--DEBUG
 
-    --InfMain.RandomSetToLevelSeed()
     if IsTable(enemyTable.soldierDefine) then
       if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
         InfVehicle.ModifyVehiclePatrol(enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine)
@@ -904,7 +907,6 @@ function this.OnInitializeTop(missionTable)
       enemyTable.uniqueInterrogation=enemyTable.uniqueInterrogation or {}
       InfInterrogation.SetupInterCpQuests(enemyTable.soldierDefine,enemyTable.uniqueInterrogation)
     end
-    --InfMain.RandomResetToOsTime()
   end
 
   --TODO
@@ -1754,6 +1756,8 @@ function this.AddLrrps(soldierDefine,travelPlans)
     end
   end
 
+  --InfMenu.DebugPrint("#baseNameBag:"..baseNameBag:Count())--DEBUG
+
   --tex one lrrp per two bases (start at one, head to next) is a nice target for num of lrrps, but lrrp cps or soldiercount may run out first
   while #this.soldierPool-reserved>0 do
     --tex the main limiter, available empty cps to use for lrrps
@@ -1772,7 +1776,6 @@ function this.AddLrrps(soldierDefine,travelPlans)
 
     local cpName=cpPool[#cpPool]
     cpPool[#cpPool]=nil
-
 
     --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
 
@@ -1799,8 +1802,8 @@ function this.AddLrrps(soldierDefine,travelPlans)
 
     numLrrps=numLrrps+1
   end
-  --  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
-  --  InfMenu.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
+--  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
+--  InfMenu.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
 
   InfMain.RandomResetToOsTime()
 end
@@ -2531,9 +2534,8 @@ function this.ModifyMinesAndDecoys()
   end
 
   local mineTypeBag=InfMain.ShuffleBag:New(mineFieldMineTypes)
-
-  InfMain.RandomSetToLevelSeed()
   if mvars.rev_revengeMineList then
+    InfMain.RandomSetToLevelSeed()
     for cpName,mineFields in pairs(mvars.rev_revengeMineList)do
       for i,mineField in ipairs(mineFields)do
         if mineField.mineLocatorList then
@@ -2549,8 +2551,9 @@ function this.ModifyMinesAndDecoys()
         --          end
       end
     end
+    InfMain.RandomResetToOsTime()
   end
-  InfMain.RandomResetToOsTime()
+
 end
 
 --

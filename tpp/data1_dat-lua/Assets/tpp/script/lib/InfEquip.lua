@@ -962,7 +962,7 @@ local pickables={
     "pickable_ih_0003",--EQP_SWP_CaptureCage_G02--452941044
     "pickable_ih_0004",--EQP_IT_CBox_WR--3040902098
     "pickable_ih_0005",--EQP_AB_PrimaryMissile--165673314
-    "pickable_ih_0006",--EQP_AB_SecondaryTranq--550443242-v- TODO: these don't load in afgh for some reason
+    "pickable_ih_0006",--EQP_AB_SecondaryTranq--550443242
     "pickable_ih_0007",--EQP_AB_Suppressor--2248319796
     "pickable_ih_0008",--EQP_AB_Mecha--1087922814
     "pickable_ih_0009",--EQP_WP_West_ms_020--1022605058--fb mr rl nlsp

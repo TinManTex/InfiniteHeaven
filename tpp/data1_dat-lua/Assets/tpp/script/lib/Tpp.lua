@@ -719,7 +719,8 @@ function this.ShowChunkInstallingPopup(t,l)
   end
   TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOW_INSTALLING,e)
 end
-function this.ClearChunkInstallPopupUpdateTime()n=0
+function this.ClearChunkInstallPopupUpdateTime()
+  n=0
 end
 function this.GetFormatedStorageSizePopupParam(t)
   local n=1024

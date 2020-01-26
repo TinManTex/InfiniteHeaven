@@ -3,6 +3,8 @@ externalLoad=true
 
 package.path=package.path..";./Data1Lua/Assets/tpp/script/lib/?.lua"
 package.path=package.path..";./Data1Lua/Tpp/Scripts/Equip/?.lua"
+package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/afgh/?.lua"
+package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/mafr/?.lua"
 
 --MOCK
 AssetConfiguration={}
@@ -83,6 +85,13 @@ end
 
 Tpp=require"Tpp"
 EquipIdTable=require"EquipIdTable"
+
+afgh_routeSets=require"afgh_routeSets"
+mafr_routeSets=require"mafr_routeSets"
+afgh_travelPlans=require"afgh_travelPlans"
+mafr_travelPlans=require"mafr_travelPlans"
+
+
 
 --TppDefine=require"TppDefine"
 
@@ -292,77 +301,130 @@ local function GatherMenus(currentMenu,skipItems,menus,menuNames)
   end
 end
 
-local function PrintMenuSingle(menu,skipItems,menuCount)
-  local settingName=InfMenu.LangString(menu.name)
+local function PrintMenuSingle(menu,skipItems,menuCount,htmlFile)
+  local menuDisplayName=InfMenu.LangString(menu.name)
   local indexDisplayLine="["..depthToLetter[menuCount].."] "
   local indexDisplayLineLength=string.len(indexDisplayLine)
-  local displayLine=settingName
 
+  htmlFile:write([[<div id="menu">]],"\n")
   --if IsMenu(item) then
   menuCount=menuCount+1
-  local helpLangString=InfLang.help.eng[menu.name]
-  if helpLangString then
-    local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-    --print(displayLine.." - "..helpLangString)
-    Write(displayLine)
-    Write("- "..helpLangString)
-  else
-    Write(displayLine)
-  end
 
-  local underLineLength=string.len(displayLine)
+  Write(menuDisplayName)
+
+  htmlFile:write([[<div id="menuTitle">]],"\n")
+
+  htmlFile:write(string.format([[<div id="%s">%s</div>]],menu.name,menuDisplayName),"\n")
+
+  local menuHelpLangString=InfLang.help.eng[menu.name]
+  if menuHelpLangString then
+    local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
+    Write("- "..menuHelpLangString)
+
+    menuHelpLangString=string.gsub(menuHelpLangString,"\n","<br/>")
+    htmlFile:write(string.format([[<div id="menuHelp">%s</div>]],menuHelpLangString),"\n")
+  end
+  htmlFile:write("</div>","\n")
+
+  local underLineLength=string.len(menuDisplayName)
   local underLine=CharacterLine("-",underLineLength)
   Write(underLine)
   --end
 
 
   for i,item in ipairs(menu.options)do
-    --print(menu.name.." "..i)
+    htmlFile:write([[<div id="menuItem">]],"\n")
+
     if skipItems and skipItemsList[item.name] then
 
     else
-      local settingName = item.description or InfMenu.LangString(item.name)
-      local indexDisplayLine="["..i.."] "
-      local indexDisplayLineLength=string.len(indexDisplayLine)
-      local displayLine=indexDisplayLine..settingName
+      local settingDescription=item.description or InfMenu.LangString(item.name)
+
+
+      local indexDisplayLine=i..": "
+
+      --htmlFile:write(string.format([[<div id="itemIndex">%s</div>]],indexDisplayLine))
+
 
       if IsMenu(item) then
         menuCount=menuCount+1
-        local helpLangString=InfLang.help.eng[item.name]
-        --        if helpLangString then
-        --          local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-        --          --print(indents..displayLine.." - "..helpLangString)
-        --        else
-        Write(displayLine)
-        --        end
-
-        --local underLineLength=string.len(displayLine)-1
-        --local underLine=CharacterLine("-",underLineLength+depth+1)
-        --Write(indentsUnderLine..underLine)
-
+        Write(indexDisplayLine..settingDescription)
+        htmlFile:write(string.format([[<div>%s<a href="#%s">%s</a></div>]],indexDisplayLine,item.name,settingDescription),"\n")
       else
         local settingText=GetSettingsText(item)
-        Write(displayLine.." : "..settingText)
+        Write(indexDisplayLine..settingDescription.." : "..settingText)
+
+        local settingsDisplayText=settingDescription.." : "..settingText
+        settingsDisplayText=string.gsub(settingsDisplayText,"<","&lt")
+        settingsDisplayText=string.gsub(settingsDisplayText,">","&gt")
+        htmlFile:write(string.format([[<div>%s</div>]],indexDisplayLine..settingsDisplayText),"\n")
+        --htmlFile:write(string.format([[<div id="%s">%s</div>]],item.name,indexDisplayLine..settingDescription),"\n")
 
         local helpLangString=InfLang.help.eng[item.name]
         if helpLangString then
-          local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-          Write(indentsIndexDisplay.."- "..helpLangString)
+          local indentsIndexDisplay=CharacterLine(" ",string.len(indexDisplayLine))
+          --CULL Write(indentsIndexDisplay.."- "..helpLangString)
+          Write(helpLangString)
+
+          helpLangString=string.gsub(helpLangString, "\n", "<br/>")
+          htmlFile:write(string.format([[<div id="itemHelp">%s</div>]],helpLangString),"\n")
         end
       end
     end
+    htmlFile:write("</div>","\n")
   end
+  htmlFile:write("</div>","\n")--id=menu
 end
 
 local projectFolder="D:\\Projects\\MGS\\!InfiniteHeaven\\"
 local featuresHeader="Features description header.txt"
-local featuresOutput="Features and Options.txt"
-local function AutoDoc()
-  io.output(projectFolder..featuresOutput)
+local featuresOutputName="Features and Options"
 
+FeaturesHeader=require"FeaturesHeader"
+
+local function EscapeHtml(line)
+  line=string.gsub(line,"<","&lt")
+  line=string.gsub(line,">","&gt")
+  line=string.gsub(line,"\n","<br/>")
+  return line
+end
+
+local function AutoDoc()
+  io.output(projectFolder..featuresOutputName..".txt")
   io.input(projectFolder..featuresHeader)
   local header=io.read("*all")
   Write(header)
+
+  local htmlOutPutFile=projectFolder..featuresOutputName..".html"
+  local htmlFile=io.open(htmlOutPutFile,"w")
+
+  htmlFile:write("<!DOCTYPE html>","\n")
+  htmlFile:write("<html>","\n")
+  htmlFile:write("<head>","\n")
+  htmlFile:write([[<link rel="stylesheet" type="text/css" href="features.css">]],"\n")
+  htmlFile:write(string.format([[<title>%s</title>]],featuresOutputName),"\n")
+  htmlFile:write("</head>","\n")
+  htmlFile:write("<body>","\n")
+
+  for i,section in pairs(FeaturesHeader)do
+    htmlFile:write([[<div id="menu">]],"\n")
+    htmlFile:write(string.format([[<div id="menuTitle">%s</div>]],section.title),"\n")
+    for i,line in ipairs(section)do
+      if type(line)=="table" then
+        if line.link then
+          htmlFile:write(string.format([[<div id="menuItem"><a href="%s">%s</a></div>]],line.link,line[1]),"\n")
+        elseif line.featureDescription then
+          htmlFile:write(string.format([[<div id="menuItem">%s</div>]],line.featureDescription),"\n")
+          htmlFile:write(string.format([[<div id="itemHelp">%s</div>]],line.featureHelp),"\n")
+        end
+      else
+        line=EscapeHtml(line)
+        htmlFile:write(string.format([[<div id="menuItem">%s</div>]],line),"\n")
+      end
+    end
+    htmlFile:write([[</div>]],"\n")
+    htmlFile:write("<br/>","\n")
+  end
 
   --patchup
   Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
@@ -374,6 +436,8 @@ local function AutoDoc()
   local menu=InfMenuDefs.heliSpaceMenu.options
   local skipItems=true
 
+  local docTable={}
+
   local heliSpaceMenus={}
   local heliSpaceMenuNames={}
   GatherMenus(menu,skipItems,heliSpaceMenus,heliSpaceMenuNames)
@@ -382,8 +446,9 @@ local function AutoDoc()
 
   local menuCount=1
   for i,menu in ipairs(heliSpaceMenus)do
-    PrintMenuSingle(menu,skipItems,menuCount)
+    PrintMenuSingle(menu,skipItems,menuCount,htmlFile)
     Write"\n"
+    htmlFile:write("<br/>","\n")
   end
 
   Write"==============="
@@ -396,14 +461,22 @@ local function AutoDoc()
   --InfInspect.PrintInspect(inMissionMenus)
   local menuCount=1
   for i,menu in ipairs(inMissionMenus)do
-    PrintMenuSingle(menu,skipItems,menuCount)
+    PrintMenuSingle(menu,skipItems,menuCount,htmlFile)
     Write("\n")
+    htmlFile:write("<br/>","\n")
   end
 
   --PrintMenu(menu,0,menuCount,skipItems)
   --DEBUGNOW
 
   --InfMenu.DisplaySetting(InfMenu.currentIndex)
+
+
+  htmlFile:write("</body>","\n")
+  htmlFile:write("</html>","\n")
+
+  htmlFile:close()
+
   print"--done--"
 end
 
@@ -412,7 +485,7 @@ end
 local function PrintEquipId()
   local outPutFile="D:\\Projects\\MGS\\equipIdStrings.txt"
   local f=io.open(outPutFile,"w")
-  
+
   for i,equipId in ipairs(InfEquip.tppEquipTable)do
     f:write(equipId,"\n")
     --print(equipId)
@@ -420,10 +493,165 @@ local function PrintEquipId()
   f:close()
 end
 
+--generic travel routes
+local function PrintGenericRoutes()
+  local modules={
+    "afgh_routeSets",
+    "mafr_routeSets",
+  }
+
+
+
+  for i,moduleName in ipairs(modules)do
+    local lrrpNumberDefine=afgh_travelPlans.lrrpNumberDefine
+    if string.find(moduleName,"mafr")~=nil then--TODO better
+      lrrpNumberDefine=mafr_travelPlans.lrrpNumberDefine
+    end
+
+    print(moduleName)
+    print""
+    for cpName, routeSets in pairs(_G[moduleName])do
+      --print(cpName)
+      if string.find(cpName,"lrrp")==nil then
+        local lrrpNumber=lrrpNumberDefine[cpName]
+        if lrrpNumber==nil then
+          lrrpNumber="NONE"
+        end
+        
+        local description=InfLang.cpNames.afgh.eng[cpName] or InfLang.cpNames.mafr.eng[cpName] or ""
+
+        if routeSets.travel==nil or routeSets.travel==0 then
+          print(lrrpNumber..","..cpName..","..description..",no travel routes found")
+        else
+          for routeSetName,routeSet in pairs(routeSets.travel)do
+            print(lrrpNumber..","..cpName..","..description..","..routeSetName)
+          end
+        end
+
+        print""
+      end
+    end
+  end
+
+
+
+
+end
+
+local function PrintGenericRoutes2()
+  print"afgh_travelPlans.lrrpNumberDefine"
+
+  for cpName,enum in pairs(afgh_travelPlans.lrrpNumberDefine)do
+    print(cpName..","..enum)
+  end
+
+  print"mafr_travelPlans.lrrpNumberDefine"
+
+  for cpName,enum in pairs(mafr_travelPlans.lrrpNumberDefine)do
+    print(cpName..","..enum)
+  end
+
+  local numLrrpNumbers=50
+
+  local lrrpNumbers={}
+
+  local modules={
+    "afgh_routeSets",
+    "mafr_routeSets"
+  }
+  for i,moduleName in ipairs(modules)do
+    lrrpNumbers[moduleName]={}
+    for i=1,numLrrpNumbers do
+      lrrpNumbers[moduleName][i]={}
+    end
+    --    print(moduleName)
+    --    print""
+    for cpName, routeSets in pairs(_G[moduleName])do
+
+      if string.find(cpName,"_lrrp")~=nil then
+        --print(cpName)
+        if routeSets.travel==nil or routeSets.travel==0 then
+        --print"no travel routes found"
+        else
+          for routeSetName,routeSet in pairs(routeSets.travel)do
+            --tex parse "lrrp_05to33"
+            if string.find(routeSetName,"lrrp")~=nil then
+
+              local toIndexStart,toIndexEnd=string.find(routeSetName,"to")
+              if toIndexStart~=nil then
+                --print(" "..routeSetName)
+                local startLrrpNumber=tonumber(string.sub(routeSetName,toIndexStart-2,toIndexStart-1))
+                local endLrrpNumber=tonumber(string.sub(routeSetName,toIndexEnd+1,toIndexEnd+2))
+                local ids=lrrpNumbers[moduleName][startLrrpNumber]
+                ids[endLrrpNumber]=true
+              end
+            end
+          end
+        end
+        --print""
+      end
+    end
+  end
+
+  local ins=InfInspect.Inspect(lrrpNumbers)
+  --print(ins)
+
+  local function CpNameForLrrpNumber(lrrpNumberDefine,lrrpNumber)
+    local lrrpCpName=""
+    for cpName,enum in pairs(lrrpNumberDefine)do
+      if enum==lrrpNumber then
+        lrrpCpName=cpName
+      end
+    end
+    return lrrpCpName
+  end
+
+  for i,moduleName in ipairs(modules)do
+    print(moduleName)
+    print""
+    for i=1,numLrrpNumbers do
+      local lrrpCpName=""
+      local description=""
+      local lrrpNumberDefine=afgh_travelPlans.lrrpNumberDefine
+      if string.find(moduleName,"mafr")~=nil then--TODO better
+        lrrpNumberDefine=mafr_travelPlans.lrrpNumberDefine
+      end
+
+      lrrpCpName=CpNameForLrrpNumber(lrrpNumberDefine,i)
+
+      if lrrpCpName~=""then
+        description=InfLang.cpNames.afgh.eng[lrrpCpName] or InfLang.cpNames.mafr.eng[lrrpCpName]
+      end
+
+
+      local tids=lrrpNumbers[moduleName][i]
+
+
+      local numTids=0
+      for _lrrpNumber,bool in pairs(tids)do
+        local _lrrpCpName=CpNameForLrrpNumber(lrrpNumberDefine,_lrrpNumber)
+        local _description=InfLang.cpNames.afgh.eng[_lrrpCpName] or InfLang.cpNames.mafr.eng[_lrrpCpName]
+        print(i..","..lrrpCpName..","..description..",".._lrrpNumber..",".._lrrpCpName..",".._description)
+        numTids=numTids+1
+      end
+      if numTids==0 then
+        print(i..","..lrrpCpName..","..tostring(description)..",".."NONE")
+      end
+      print""
+    end
+
+
+  end
+end
+--
+
 local function main()
   AutoDoc()
 
   PrintEquipId()
+
+  PrintGenericRoutes()
+  --PrintGenericRoutes2()
 end
 
 main()

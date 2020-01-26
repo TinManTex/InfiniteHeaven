@@ -367,17 +367,33 @@ function this.DisplayCurrentSetting()
   end
 end
 
-local optionSeperators={
+local itemIndicators={
   equals=" = ",
-  menu=" >>",
+  menu=" >",
+  command=" >>",
+  command_menu_off=" >]",
+  mode=" >[]",
 }
+
 function this.DisplaySetting(optionIndex)
   this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
   local option=this.currentMenuOptions[optionIndex]
   local settingText=""
-  local optionSeperator=optionSeperators.equals
+  local settingSuffix=""
+  local optionSeperator=""
   local settingNames=option.settingNames or option.settings
-  if settingNames then
+
+  if option.isMenuOff then
+    optionSeperator=itemIndicators.command_menu_off    
+    settingText=""
+  elseif option.optionType=="COMMAND" then
+    optionSeperator=itemIndicators.command    
+    settingText=""
+  elseif option.optionType=="MENU" then
+    optionSeperator=itemIndicators.menu    
+    settingText=""
+  elseif settingNames then
+    optionSeperator=itemIndicators.equals
     --tex old style direct non localized table
     if IsTable(settingNames) then
       if option.setting < 0 or option.setting > #settingNames-1 then
@@ -390,18 +406,20 @@ function this.DisplaySetting(optionIndex)
       settingText=this.LangTableString(settingNames,option.setting+1)
     end
   elseif IsFunc(option.GetSettingText) then
+    optionSeperator=itemIndicators.equals
     settingText=tostring(option:GetSettingText())
-  elseif option.isPercent then
-    settingText=option.setting .. "%"
-  elseif option.options~=nil then--tex menu
-    settingText=""
-    optionSeperator=optionSeperators.menu
   else
+    optionSeperator=itemIndicators.equals
     settingText=tostring(option.setting)
   end
+  
+  if option.isPercent then
+   settingSuffix="%"
+  end
+  
   TppUiCommand.AnnounceLogDelayTime(0)
   local settingName = option.description or this.LangString(option.name)
-  TppUiCommand.AnnounceLogView(optionIndex..":"..settingName..optionSeperator..settingText)
+  TppUiCommand.AnnounceLogView(optionIndex..":"..settingName..optionSeperator..settingText..settingSuffix)
 end
 --tex display all
 function this.DisplaySettings()
@@ -785,7 +803,7 @@ function this.PrintMenu()
 end
 function this.GetSettingString(option)
   local settingText=""
-  local optionSeperator=optionSeperators.equals
+  local optionSeperator=itemIndicators.equals
   local settingNames=option.settingNames or option.settings
   if settingNames then
     --tex old style direct non localized table
@@ -805,7 +823,7 @@ function this.GetSettingString(option)
     settingText=option.setting .. "%"
   elseif option.options~=nil then--tex menu
     settingText=""
-    optionSeperator=optionSeperators.menu
+    optionSeperator=itemIndicators.menu
   else
     settingText=tostring(option.setting)
   end

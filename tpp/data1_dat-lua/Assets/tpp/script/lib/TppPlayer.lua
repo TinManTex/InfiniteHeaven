@@ -1412,7 +1412,8 @@ function this.FOBPlayCommonMissionEndCamera(t,a)
   local e
   e=t(a)
   if e then
-    local a="Timer_FOBStartPlayMissionClearCameraStep"..tostring(a+1)TimerStart(a,e)
+    local a="Timer_FOBStartPlayMissionClearCameraStep"..tostring(a+1)
+    TimerStart(a,e)
   end
 end
 function this.FOBRequestMissionClearMotion()
@@ -1605,7 +1606,8 @@ function this.Messages()
         TppUI.ShowAnnounceLog"refresh"
       end}},
     GameObject={{msg="RideHeli",func=this.QuietRideHeli}},
-    UI={{msg="EndFadeOut",sender="OnSelectCboxDelivery",func=this.WarpByCboxDelivery},
+    UI={
+      {msg="EndFadeOut",sender="OnSelectCboxDelivery",func=this.WarpByCboxDelivery},
       {msg="EndFadeIn",sender="OnEndWarpByCboxDelivery",func=this.OnEndFadeInWarpByCboxDelivery},
       {msg="EndFadeOut",sender="EndFadeOut_StartTargetDeadCamera",func=this._SetTargetDeadCamera,option={isExecGameOver=true}},
       {msg="EndFadeOut",sender="EndFadeOut_StartTargetHeliCamera",func=this._SetTargetHeliCamera,option={isExecGameOver=true}},

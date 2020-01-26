@@ -158,7 +158,7 @@ local routeInfos={
   },
   mafr={
     [StrCode32"lz_drp_lab_W0000|rt_drp_lab_W_0000"]={stickDistance=102},--Luftwa Valley NW, OB 08 E
-    [StrCode32"lz_drp_hill_I0000|rt_drp_hill_I_0000"]={stickDistance=20},--Munoko ya Nioka Station assault
+    [StrCode32"lz_drp_hill_I0000|rt_drp_hill_I_0000"]={stickDistance=60},--Munoko ya Nioka Station assault
     --[StrCode32"lz_drp_diamond_N0000|rt_drp_diamond_N_0000"--Mine N
     --[StrCode32"lz_drp_swamp_S0000|rt_drp_swamp_S_0000"--Kiziba Camp SW
     --[StrCode32"lz_drp_savannahWest_N0000|lz_drp_savannahWest_N_0000"--Plantation S, OB 04 E, OB 03 W, OB 05 W, OB09 N
@@ -439,6 +439,7 @@ local nightCheckTime=0
 local nightCheckMax=20
 
 function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  --InfInspect.TryFunc(function(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)--DEBUG
   if not currentChecks.inGame then
     return
   end
@@ -615,6 +616,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     end
     --for heliname<
   end
+  --end,currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)--DEBUG
 end
 
 --DEBUG

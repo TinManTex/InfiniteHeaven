@@ -3672,27 +3672,28 @@ local function CloserToPlayerThanDistSqr(checkDistSqr,playerPosition,gameId)
     return true
   end
 end
-function this.MakeCpLinkDefineTable(t,e)
-  local n={}
-  for a=1,#e do
-    local i=Tpp.SplitString(e[a],"	")
-    local e=t[a]
+--mvars.ene_lrrpNumberDefine,mvars.loc_locationCommonTravelPlans.cpLinkMatrix) IN
+function this.MakeCpLinkDefineTable(lrrpNumberDefine,cpLinkMatrix)
+  local cpLinkDefineTable={}
+  for cpLinkIndex=1,#cpLinkMatrix do
+    local RENsomeTable=Tpp.SplitString(cpLinkMatrix[cpLinkIndex],"	")
+    local e=lrrpNumberDefine[cpLinkIndex]
     if e then
-      n[e]=n[e]or{}
-      for a,i in pairs(i)do
-        local t=t[a]
+      cpLinkDefineTable[e]=cpLinkDefineTable[e]or{}
+      for a,i in pairs(RENsomeTable)do
+        local t=lrrpNumberDefine[a]
         if t then
-          n[e][t]=n[e][t]or{}
-          local a=false
+          cpLinkDefineTable[e][t]=cpLinkDefineTable[e][t]or{}
+          local RENhasLink=false
           if tonumber(i)>0 then
-            a=true
+            RENhasLink=true
           end
-          n[e][t]=a
+          cpLinkDefineTable[e][t]=RENhasLink
         end
       end
     end
   end
-  return n
+  return cpLinkDefineTable
 end
 function this.MakeReinforceTravelPlan(lrrpNumberDefine,cpLinkDefine,locationName,toCp,n)
   if not Tpp.IsTypeTable(n)then
@@ -3753,20 +3754,20 @@ function this.MakeTravelPlanTable(lrrpNumberDefine,cpLinkDefine,locationName,pla
   end
 end
 function this.AddLinkedBaseTravelCourse(lrrpNumberDefine,cpLinkDefine,locationName,holdTime,travelPlan,a,t,d)
-  local n
+  local someBase
   if a and a.base then
-    n=a.base
+    someBase=a.base
   end
-  local a=t.base
+  local RENsomeCp=t.base
   local o=false
-  if n then
-    o=cpLinkDefine[n][a]
+  if someBase then
+    o=cpLinkDefine[someBase][RENsomeCp]
   end
   if o then
-    local lrrpCpName,n=this.GetFormattedLrrpCpName(n,a,locationName,lrrpNumberDefine)
-    local n={cp=lrrpCpName,routeGroup={"travel",n}}
+    local lrrpCpName,lrrpTravelName=this.GetFormattedLrrpCpName(someBase,RENsomeCp,locationName,lrrpNumberDefine)
+    local n={cp=lrrpCpName,routeGroup={"travel",lrrpTravelName}}
     this.AddTravelCourse(travelPlan,n)
-  elseif n==nil then
+  elseif someBase==nil then
   end
   local wait
   if t.wait then
@@ -3779,9 +3780,9 @@ function this.AddLinkedBaseTravelCourse(lrrpNumberDefine,cpLinkDefine,locationNa
     routeGroup={t.routeGroup[1],t.routeGroup[2]}
   else
     local t
-    local e=mvars.ene_defaultTravelRouteGroup
-    if((e and o)and e[n])and Tpp.IsTypeTable(e[n][a])then
-      t=e[n][a]
+    local defaultTravelRouteGroup=mvars.ene_defaultTravelRouteGroup--NMC only seems to be for afgh
+    if((defaultTravelRouteGroup and o)and defaultTravelRouteGroup[someBase])and Tpp.IsTypeTable(defaultTravelRouteGroup[someBase][RENsomeCp])then
+      t=defaultTravelRouteGroup[someBase][RENsomeCp]
     end
     if t then
       routeGroup={t[1],t[2]}
@@ -3789,7 +3790,7 @@ function this.AddLinkedBaseTravelCourse(lrrpNumberDefine,cpLinkDefine,locationNa
       routeGroup={"travel","lrrpHold"}
     end
   end
-  local n={cp=a,routeGroup=routeGroup,wait=wait}
+  local n={cp=RENsomeCp,routeGroup=routeGroup,wait=wait}
   this.AddTravelCourse(travelPlan,n,d)
 end
 function this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumToCp,lrrpNumFromCp,locationName,lrrpNumberDefine)
@@ -3802,8 +3803,8 @@ function this.GetFormattedLrrpCpNameByLrrpNum(lrrpNumToCp,lrrpNumFromCp,location
     a=lrrpNumToCp
   end
   local lrrpCpName=string.format("%s_%02d_%02d_lrrp",locationName,t,a)
-  local e=string.format("lrrp_%02dto%02d",lrrpNumToCp,lrrpNumFromCp)
-  return lrrpCpName,e
+  local lrrpTravelName=string.format("lrrp_%02dto%02d",lrrpNumToCp,lrrpNumFromCp)
+  return lrrpCpName,lrrpTravelName
 end
 function this.GetFormattedLrrpCpName(a,t,locationName,lrrpNumberDefine)
   local lrrpNumToCp=lrrpNumberDefine[a]

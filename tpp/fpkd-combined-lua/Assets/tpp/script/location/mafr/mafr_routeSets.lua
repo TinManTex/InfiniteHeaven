@@ -3500,7 +3500,7 @@ mafr_routeSets = {
 		},
 		hold = {
 			default = {
-			},
+			}, 
 		},
 		travel = {
 			lrrp_01to20 = {

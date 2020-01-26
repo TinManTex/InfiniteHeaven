@@ -75,10 +75,12 @@ function this.CreateCustomRevengeConfig()
       revengeConfig.NO_KILL_WEAPON=true
     end
   end
-
-  local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
-  if bodyInfo and (not bodyInfo.hasArmor) and vars.missionCode==30050 then--tex TODO: handle mother base special case better, especially with the male/female split
-    revengeConfig.ARMOR=nil
+  
+  if InfMain.IsDDBodyEquip(vars.missionCode) then
+    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
+    if bodyInfo and (not bodyInfo.hasArmor) and vars.missionCode==30050 then--tex TODO: handle mother base special case better, especially with the male/female split
+      revengeConfig.ARMOR=nil
+    end
   end
 
   InfMain.RandomResetToOsTime()

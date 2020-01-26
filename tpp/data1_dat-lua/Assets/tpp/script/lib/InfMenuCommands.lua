@@ -6,21 +6,25 @@ local this={}
 --localopt
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
+local SendCommand=GameObject.SendCommand
 
 --menu menu items
 this.menuOffItem={
+  isMenuOff=true,
   OnChange=function()
     InfMenu.MenuOff()
     InfMenu.currentIndex=1
   end,
 }
 this.resetSettingsItem={
+  isMenuOff=true,
   OnChange=function()
     InfMenu.ResetSettingsDisplay()
     InfMenu.MenuOff()
   end,
 }
 this.resetAllSettingsItem={
+  isMenuOff=true,
   OnChange=function()
     InfMenu.PrintLangId"setting_all_defaults"
     InfMenu.ResetSettings()
@@ -335,6 +339,7 @@ this.setSelectedCpToMarkerObjectCp={
 }
 
 this.quietMoveToLastMarker={
+  isMenuOff=true,
   OnChange=function()
     if vars.buddyType~=BuddyType.QUIET then
       InfMenu.PrintLangId"buddy_not_quiet"
@@ -350,8 +355,81 @@ this.quietMoveToLastMarker={
       if gameId==NULL_ID then
         InfMenu.PrintLangId"cant_find_quiet"
       else
-        GameObject.SendCommand(gameId, { id="MoveToPosition", position=moveToPosition, rotationY=0})--, index = 99, disableAim = true })
+        SendCommand(gameId,{id="MoveToPosition",position=moveToPosition,rotationY=0})--,index=99,disableAim=true})
       end
+    end
+
+    InfMenu.MenuOff()
+  end
+}
+
+this.requestHeliLzToLastMarker={
+  isMenuOff=true,
+  OnChange=function()
+    InfInspect.TryFunc(function()--DEBUGNOW
+      local locationName=InfMain.GetLocationName()
+      if locationName~="afgh" and locationName~="mafr" then
+        InfMenu.PrintLangId"not_for_location"
+        return
+      end
+
+      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+      if lastMarkerIndex==nil then
+        InfMenu.PrintLangId"no_marker_found"
+      else
+        local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+        markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
+
+        local closestRoute=nil
+        local closestDist=9999999999999999
+
+        local layout=0
+        if vars.missionCode==30050 or vars.missionCode==10115 then
+          layout=vars.mbLayoutCode
+        end
+        local groundStartPositions=InfLZ.groundStartPositions[layout+1]
+        for routeName,coords in pairs(groundStartPositions)do
+          local distSqr=TppMath.FindDistance(markerPostion,coords.pos)
+          --InfMenu.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
+          if distSqr<closestDist then
+            closestDist=distSqr
+            closestRoute=routeName
+          end
+        end
+
+        if closestRoute==nil then
+          InfMenu.PrintLangId"no_lz_found"
+          return
+        end
+
+        closestRoute=InfLZ.str32LzToLz[closestRoute]
+        if not TppLandingZone.assaultLzs[locationName] then
+          InfMenu.DebugPrint"WARNING: TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
+        end
+        local aprRoute=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
+        --InfMenu.DebugPrint("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(aprRoute))--DEBUG
+
+        local heliId=GetGameObjectId("TppHeli2","SupportHeli")
+        if heliId==NULL_ID then
+          --InfMenu.DebugPrint"heliId==NULL_ID"--DEBUG
+          return
+        end
+        SendCommand(heliId,{id="CallToLandingZoneAtName",name=aprRoute})
+      end
+
+      InfMenu.MenuOff()
+    end)--DEBUGNOW
+  end
+}
+
+this.forceExitHeli={
+  isMenuOff=true,
+  OnChange=function()
+    if not Tpp.IsHelicopter(vars.playerVehicleGameObjectId)then
+      InfMenu.PrintLangId"not_in_heli"
+    else
+      Player.HeliSideToFOBStartPos()
+      InfMenu.MenuOff()
     end
   end
 }
@@ -410,133 +488,139 @@ this.DEBUG_PrintInterrogationInfo={
 
 ---
 local toggle1=false
-local index1Min=0
+local index1Min=1
 local index1Max=10
 local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
-      InfEquip.CheckTppEquipTable()
-      --InfInspect.PrintInspect(mvars.rev_revengeMineList)
-----------------
-      if true then return end--DEBUG
-------------------      
-      
-      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-      if lastMarkerIndex==nil then
-        InfMenu.DebugPrint("lastMarkerIndex==nil")
-      else
-        local position=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-
-        local moveType=PlayerMoveType.WALK
-        local direction=vars.playerCameraRotation[1]
-        local timeOut=120
-        local onlyInterpPosition=nil--if true slide player along quickly instead of animating walk
-        Player.RequestToMoveToPosition{
-          name="MoveToMarkerPosition",
-          position=position,
-          direction=direction,
-          moveType=moveType,
-          timeout=timeOut,
-          onlyInterpPosition=onlyInterpPosition,
-        }
-
-      end
-
-      --        --tex Player.RequestToMoveToPosition sets up a msg callback with name as sender
-      --        local StrCode32=Fox.StrCode32
-      --        local MOVE_TO_POSITION_RESULT={
-      --          [StrCode32"success"]="success",
-      --          [StrCode32"failure"]="failure",
-      --          [StrCode32"timeout"]="timeout"
-      --        }
-
-      --        Player = {
-      --          {
-      --            msg="FinishMovingToPosition",
-      --            sender="SomeMoveToPositionName",--sender for messages is optional but useful to narrow down things
-      --            func = function(str32Name,moveResultStr32)
-      --
-      --            end,
-      --          },
-      --        },
 
 
 
-      ----------
-      --    local statuses={
-      --      {CallMenu="INVALID"},
-      --      {PauseMenu="INVALID"},
-      --      {EquipHud="INVALID"},
-      --      {EquipPanel="INVALID"},
-      --      {CqcIcon="INVALID"},
-      --      {ActionIcon="INVALID"},
-      --      {AnnounceLog="SUSPEND_LOG"},
-      --      {AnnounceLog="INVALID_LOG"},
-      --      {BaseName="INVALID"},
-      --      {Damage="INVALID"},
-      --      {Notice="INVALID"},
-      --      {HeadMarker="INVALID"},
-      --      {WorldMarker="INVALID"},
-      --      {HudText="INVALID"},
-      --      {GmpInfo="INVALID"},
-      --      {AtTime="INVALID"},
-      --      {InfoTypingText="INVALID"},
-      --      {ResourcePanel="SHOW_IN_HELI"}
-      --    }
-      --    for o,status in pairs(statuses)do
-      --      for name,statusType in pairs(status)do
-      --        if(TppUiStatusManager.CheckStatus(name,statusType)==true)then
-      --          InfMenu.DebugPrint(string.format(" UI = %s, Status = %s",name,statusType))
-      --        end
-      --      end
-      --    end
+        --InfEquip.CheckTppEquipTable()
 
-      InfMenu.DebugPrint("index1:"..index1)
-      index1=index1+1
-      if index1>index1Max then
-        index1=index1Min
-      end
+        ----------------
+        if true then return end--DEBUG
+        ------------------
+
+        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+        if lastMarkerIndex==nil then
+          InfMenu.DebugPrint("lastMarkerIndex==nil")
+        else
+          local position=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+
+          local moveType=PlayerMoveType.WALK
+          local direction=vars.playerCameraRotation[1]
+          local timeOut=120
+          local onlyInterpPosition=nil--if true slide player along quickly instead of animating walk
+          Player.RequestToMoveToPosition{
+            name="MoveToMarkerPosition",
+            position=position,
+            direction=direction,
+            moveType=moveType,
+            timeout=timeOut,
+            onlyInterpPosition=onlyInterpPosition,
+          }
+
+        end
+
+        --        --tex Player.RequestToMoveToPosition sets up a msg callback with name as sender
+        --        local StrCode32=Fox.StrCode32
+        --        local MOVE_TO_POSITION_RESULT={
+        --          [StrCode32"success"]="success",
+        --          [StrCode32"failure"]="failure",
+        --          [StrCode32"timeout"]="timeout"
+        --        }
+
+        --        Player = {
+        --          {
+        --            msg="FinishMovingToPosition",
+        --            sender="SomeMoveToPositionName",--sender for messages is optional but useful to narrow down things
+        --            func = function(str32Name,moveResultStr32)
+        --
+        --            end,
+        --          },
+        --        },
+
+
+
+        ----------
+        --    local statuses={
+        --      {CallMenu="INVALID"},
+        --      {PauseMenu="INVALID"},
+        --      {EquipHud="INVALID"},
+        --      {EquipPanel="INVALID"},
+        --      {CqcIcon="INVALID"},
+        --      {ActionIcon="INVALID"},
+        --      {AnnounceLog="SUSPEND_LOG"},
+        --      {AnnounceLog="INVALID_LOG"},
+        --      {BaseName="INVALID"},
+        --      {Damage="INVALID"},
+        --      {Notice="INVALID"},
+        --      {HeadMarker="INVALID"},
+        --      {WorldMarker="INVALID"},
+        --      {HudText="INVALID"},
+        --      {GmpInfo="INVALID"},
+        --      {AtTime="INVALID"},
+        --      {InfoTypingText="INVALID"},
+        --      {ResourcePanel="SHOW_IN_HELI"}
+        --    }
+        --    for o,status in pairs(statuses)do
+        --      for name,statusType in pairs(status)do
+        --        if(TppUiStatusManager.CheckStatus(name,statusType)==true)then
+        --          InfMenu.DebugPrint(string.format(" UI = %s, Status = %s",name,statusType))
+        --        end
+        --      end
+        --    end
+
+
     end)
+    InfMenu.DebugPrint("index1:"..index1)
+    index1=index1+1
+    if index1>index1Max then
+      index1=index1Min
+    end
   end
 }
 
 
-local index2=300
+local index2=0
 local index2Min=index2
-local index2Max=1000
+local index2Max=1
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-        InfMain.GetClosestCp()
 
-        --        --InfMenu.DebugPrint(this.stringTest)
-        --
-        --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-        --        if lastMarkerIndex==nil then
-        --          InfMenu.DebugPrint("lastMarkerIndex==nil")
-        --        else
-        --          local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-        --
-        --          local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
-        --          if buddyHorseId==GameObject.NULL_ID then
-        --          else
-        --
-        --            local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
-        --
-        --            local command={id="SetCallHorse",
-        --              startPosition=horsePos,
-        --              goalPosition=moveToPosition
-        --            }
-        --            GameObject.SendCommand(buddyHorseId,command)
-        --          end
-        --        end
+      -- InfMain.GetClosestCp()
 
-        --InfMenu.DebugPrint("index2:"..index2)
+      --        --InfMenu.DebugPrint(this.stringTest)
+      --
+      --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+      --        if lastMarkerIndex==nil then
+      --          InfMenu.DebugPrint("lastMarkerIndex==nil")
+      --        else
+      --          local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+      --
+      --          local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
+      --          if buddyHorseId==GameObject.NULL_ID then
+      --          else
+      --
+      --            local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
+      --
+      --            local command={id="SetCallHorse",
+      --              startPosition=horsePos,
+      --              goalPosition=moveToPosition
+      --            }
+      --            GameObject.SendCommand(buddyHorseId,command)
+      --          end
+      --        end
 
-    end)
+
+
+      end)
+    InfMenu.DebugPrint("index2:"..index2)
     index2=index2+1
     if index2>index2Max then
       index2=index2Min
@@ -551,7 +635,7 @@ this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-    end)
+      end)
     index3=index3+1
     if index3>index3Max then
       index3=index3Min
@@ -714,7 +798,7 @@ this.DEBUG_CycleHeliRoutes={
   OnChange=function()
     local StrCode32=Fox.StrCode32
     InfInspect.TryFunc(function()
-      local heliName="EnemyHeli0000"
+      local heliName="SupportHeli"--EnemyHeli0000"
       local heliIndex=1
       local heliObjectId = GetGameObjectId(heliName)
       if heliObjectId==NULL_ID then
@@ -1090,11 +1174,13 @@ this.DEBUG_WarpToObject={
     InfInspect.TryFunc(function()
 
         --local objectList=InfMain.reserveSoldierNames
+        local objectList={"veh_lv_0003"}
 
         --local objectList=InfMain.ene_wildCardSoldiers
 
-        local objectList=InfMain.truckNames
+        --local objectList=InfMain.truckNames
         --local objectList={"veh_trc_0000"}
+        --local objectList=InfMain.jeepNames
 
         --    local objectList={
         --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",
@@ -1180,7 +1266,7 @@ this.DEBUG_WarpToObject={
             warpPos=Vector3(0,0,0)
           else
             warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-            InfMenu.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+            --InfMenu.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
           end
           this.currentWarpIndex=this.currentWarpIndex+1
           if this.currentWarpIndex>#objectList then
@@ -1197,6 +1283,7 @@ this.DEBUG_WarpToObject={
         end
 
         if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
+          InfMenu.DebugPrint(objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
           TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
         end
     end)
@@ -1257,11 +1344,13 @@ this.changeToIdleStateHeli={--tex seems to set heli into 'not called'/invisible/
 }
 
 --TABLESETUP: MenuCommands
+local optionType="COMMAND"
 local IsTable=Tpp.IsTypeTable
 local switchRange={max=1,min=0,increment=1}
 for name,item in pairs(this) do
   if IsTable(item) then
     if item.OnChange then--TYPEID
+      item.optionType=optionType
       item.name=name
       item.default=item.default or 0
       item.setting=item.default

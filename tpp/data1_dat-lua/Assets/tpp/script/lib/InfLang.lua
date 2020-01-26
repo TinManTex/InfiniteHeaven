@@ -171,7 +171,7 @@ this.eng={--english
   allready_unlocked="Allready unlocked",--r85
   mbDontDemoDisableBuddy="Don't disable buddy after mb cutscene",--r86
   disableXrayMarkers="Disable Xray marking",--r87
-  warpPlayerUpdate="Warp Mode",
+  warpPlayerUpdate="Warp [Mode]",
   warp_mode_on="Warp mode on",
   warp_mode_off="Warp mode off",
   item_disabled="Menu item is currently disabled",
@@ -305,7 +305,7 @@ this.eng={--english
   mbDemoOverrideWeather="Override weather",
   mbDemoOverrideWeatherSettings={"Cutscene default","Current","Sunny","Cloudy","Rainy","Sandstorm","Foggy","Pouring"},
   cpEquipBoolPowersMenu="CP equip strength menu",
-  adjustCameraUpdate="Adjust-cam mode",--r123
+  adjustCameraUpdate="Adjust-cam [Mode]",--r123
   cam_mode_on="Adjust-cam mode on",
   cam_mode_off="Adjust-cam mode off",
   moveScale="Cam speed scale",
@@ -462,13 +462,21 @@ this.eng={--english
   randomizeMineTypes="Randomize minefield mine types",
   additionalMineFields="Enable additional minefields",
   putEquipOnTrucks="Equipment on trucks",
+  requestHeliLzToLastMarker="Support heli to latest marker",
+  no_lz_found="No landing zone found",
+  forceExitHeli="Force exit helicopter",
+  not_in_heli="You are not in the helicopter",
+  not_for_location="This command is not enabled for this location",
 }--eng end
 
 this.help={}
 this.help.eng={
   clockTimeScale="Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.",
   playerRestrictionsMenu="Settings to customize the game challenge, including subsistence and OSP.",
-  subsistenceProfile="Quickly set restrictions similar to Subsistence missions. Pure - similar to the games Subsistence mission settings with additional restrictions, Bounder - a bit more relaxed than Pure profile, mainly allowing any character as well as buddies.",
+  subsistenceProfile=[[
+  Quickly set restrictions similar to Subsistence missions. 
+  Pure - similar to the games Subsistence mission settings with additional restrictions, 
+  Bounder - a bit more relaxed than Pure profile, mainly allowing any character as well as buddies.]],
   disableLzs="Disables Assault Landing Zones (those usually in the center of a base that the support heli will circle before landing), or all LZs but Assault LZs",
   disableHeadMarkers="Disables markers above soldiers and objects",
   disableWorldMarkers="Disables objective and placed markers",
@@ -484,7 +492,6 @@ this.help.eng={
   setDemon="Adds 999999 points to demon score",--SYNC
   removeDemon="Subtracts 999999 points from demon score",--SYNC
   fovaModMenu="Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.",
-  soldierParamsMenu="Enemy soldier parameters",
   soldierParamsProfile="Due to the way Soldier2ParameterTables.lua is set up turn this off if you have another mod that modifies this, usually just Hardcore mod.",
   phaseMenu="Adjust minimum and maximum alert phase for enemy Command Posts",
   phaseUpdate="The Minimum, Maximum, and Don't downgrade phase settings are applied on at every update tick according to the Phase update rate and random variation settings",
@@ -513,11 +520,11 @@ this.help.eng={
   disableMissionsWeaponRestriction="Missions 2, 12, 13, 16, 26, 31 normally prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).",
   markersMenu="Toggles for marking in main view. Does not effect marking on iDroid map",
   unlockSideOps="Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression. Due to how the code is designed this also enables the equivalent of random sideops selection.",
-  sideOpsSelectionMode="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category",
+  sideOpsSelectionMode="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category",
   mbDemoSelection="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",
   debugMode="Switches on some error messages and enables the announce-log during loading.",
-  gameEventChanceMB="Chance to randomly trigger an IH event on returning to MB",
-  gameEventChanceFREE="Chance to randomly trigger an IH event on starting Free roam",
+  gameEventChanceMB="Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')",
+  gameEventChanceFREE="Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')",
   missionPrepRestrictionsMenu="Only affects the mission-prep screen, not the in-mission equivalents.",
   disableSelectBuddy="Prevents use of buddies during mission prep.",
   disableSelectTime="Only allows ASAP at mission prep",
@@ -535,7 +542,19 @@ this.help.eng={
   quietMoveToLastMarker="Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.",
   revengeDecayOnLongMbVisit="Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat ",
   enableInfInterrogation="Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)",
-  forceGameEvent="Events are temporary custom profiles for free roam and mother base. Free roam events (can stack): Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. MB events (only one active): DD Training wargame, Soviet attack, Rogue Coyote attack, XOF attack, DD Infection outbreak, Zombie Obliteration (non DD)",
+  forceGameEvent=[[
+  Events are temporary custom profiles for free roam and mother base. 
+  Free roam events (can stack): 
+  Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
+  Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. 
+  Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. 
+  MB events (only one active): 
+  DD Training wargame, 
+  Soviet attack, 
+  Rogue Coyote attack, 
+  XOF attack, 
+  DD Infection outbreak, 
+  Zombie Obliteration (non DD)]],
   enableWildCardFreeRoam="Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.",
   mbEnableOcelot="Enables Ocelot to roam the command platform.",
   mbCollectionRepop="Regenerates plants on Zoo platform and diamonds on Mother base over time.",
@@ -561,10 +580,16 @@ this.help.eng={
   warpPlayerUpdate="Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.",
   mbAdditionalSoldiers="Increases (non main) platforms from 4 soldiers to 7-8.",
   itemDropChance="Chance soldier will drop an item when eliminated.",
-  randomizeMineTypes="Randimizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic",
+  randomizeMineTypes="Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.",
   additionalMineFields="In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.",
   disableHerbSearch="Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.",
   putEquipOnTrucks="Puts a random piece of equipment on the back of patrol trucks.",
+  requestHeliLzToLastMarker=[[
+  Requests Support heli to Landing Zone closest to the last placed user marker. 
+  Can also be used to ride the support heli to another LZ if the IH menu is open and the option is selected when getting into the heli. 
+  This however has an issue where the doors will close on take-off preventing you from shifting between heli sides. 
+  The chaingun on the side you start on can still be used.]],
+  forceExitHeli="Lets you exit the helicopter while riding it, mind the fall.",
 }
 
 this.cpNames={
@@ -651,8 +676,8 @@ this.cpNames.mafr.eng={
   mafr_pfCamp_cp="Nova Braga Airport",
   mafr_hill_cp="Munoko ya Nioka Station",
 
---"mafr_factory_cp",--Ngumba Industrial Zone - no soldiers
---"mafr_chicoVil_cp",--??
+--mafr_factory_cp,--Ngumba Industrial Zone - no soldiers
+--mafr_chicoVil_cp,--??
 }
 
 

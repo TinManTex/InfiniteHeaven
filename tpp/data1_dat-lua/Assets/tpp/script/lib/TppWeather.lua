@@ -89,28 +89,40 @@ function this.SetDefaultWeatherProbabilities()
   local weatherProbabilities
   local extraWeatherProbabilities
   local isHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
-  if TppLocation.IsAfghan()then
-    weatherProbabilities=weatherProbabilitiesTable.AFGH
-    if isHeliSpace then
-      extraWeatherProbabilities=extraWeatherProbabilitiesTable.AFGH_HELI
-    else
-      extraWeatherProbabilities=extraWeatherProbabilitiesTable.AFGH
-    end
-  elseif TppLocation.IsMiddleAfrica()then
-    weatherProbabilities=weatherProbabilitiesTable.MAFR
-    if isHeliSpace then
-      extraWeatherProbabilities=extraWeatherProbabilitiesTable.MAFR_HELI
-    else
-      extraWeatherProbabilities=extraWeatherProbabilitiesTable.MAFR
-    end
-  elseif TppLocation.IsMotherBase()then
-    weatherProbabilities=weatherProbabilitiesTable.MTBS
-    if isHeliSpace then
-      extraWeatherProbabilities=extraWeatherProbabilitiesTable.MTBS_HELI
-    else
-      extraWeatherProbabilities=extraWeatherProbabilitiesTable.MTBS
-    end
+  
+  --tex reworked
+  local locationName=InfMain.GetLocationName()
+  string.upper(locationName)
+  local heliSuffix=""
+  if isHeliSpace then
+    heliSuffix="_HELI"
   end
+  
+  weatherProbabilities=weatherProbabilitiesTable[locationName]
+  extraWeatherProbabilities=extraWeatherProbabilitiesTable[locationName..heliSuffix]
+-- ORIG  
+--  if TppLocation.IsAfghan()then
+--    weatherProbabilities=weatherProbabilitiesTable.AFGH
+--    if isHeliSpace then
+--      extraWeatherProbabilities=extraWeatherProbabilitiesTable.AFGH_HELI
+--    else
+--      extraWeatherProbabilities=extraWeatherProbabilitiesTable.AFGH
+--    end
+--  elseif TppLocation.IsMiddleAfrica()then
+--    weatherProbabilities=weatherProbabilitiesTable.MAFR
+--    if isHeliSpace then
+--      extraWeatherProbabilities=extraWeatherProbabilitiesTable.MAFR_HELI
+--    else
+--      extraWeatherProbabilities=extraWeatherProbabilitiesTable.MAFR
+--    end
+--  elseif TppLocation.IsMotherBase()then
+--    weatherProbabilities=weatherProbabilitiesTable.MTBS
+--    if isHeliSpace then
+--      extraWeatherProbabilities=extraWeatherProbabilitiesTable.MTBS_HELI
+--    else
+--      extraWeatherProbabilities=extraWeatherProbabilitiesTable.MTBS
+--    end
+--  end
   if weatherProbabilities then
     WeatherManager.SetNewWeatherProbabilities("default",weatherProbabilities)
   end

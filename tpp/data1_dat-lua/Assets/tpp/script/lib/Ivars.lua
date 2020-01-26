@@ -2982,6 +2982,7 @@ this.warpPlayerUpdate={
   settingNames="set_switch",
   disabled=false,
   disabledReason="item_disabled_subsistence",
+  isMode=true,
   OnSelect=this.DisableOnSubsistence,
   --tex WIP OFF disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,
   OnActivate=function()InfMain.OnActivateWarpPlayer()end,
@@ -2998,7 +2999,7 @@ this.warpPlayerUpdate={
       InfMenu.PrintLangId"warp_mode_off"
       InfMain.OnDeactivateWarpPlayer()
     end
-
+    
     if InfMenu.menuOn then
       InfMain.RestoreActionFlag()
       InfMenu.menuOn=false
@@ -3018,6 +3019,7 @@ this.adjustCameraUpdate={
   settingNames="set_switch",
   disabled=false,
   disabledReason="item_disabled_subsistence",
+  isMode=true,
   OnSelect=this.DisableOnSubsistence,
   --disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,--tex OFF not really needed, padmask is sufficient
   OnActivate=function()InfCamera.OnActivateCameraAdjust()end,
@@ -3656,8 +3658,10 @@ function this.OnLoadVarsFromSlot()
 end
 
 --TABLESETUP: Ivars
+local optionType="OPTION"
 for name,ivar in pairs(this) do
   if IsIvar(ivar) then
+    ivar.optionType=optionType
     --ivar.name=ivar.name or name
     ivar.name=name
 

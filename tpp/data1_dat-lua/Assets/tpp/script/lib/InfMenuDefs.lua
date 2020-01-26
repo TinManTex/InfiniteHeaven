@@ -473,7 +473,7 @@ this.heliSpaceMenu={
   options={
     --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
     --    --    InfMenuCommands.DEBUG_PrintMenu,
-    --     InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+      --   InfMenuCommands.DEBUG_SomeShiz,--DEBUG
     --        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     --        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
@@ -542,18 +542,22 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
---    Ivars.itemDropChance,--DEBUG
---    Ivars.playerFaceIdApearance,--DEBUG
---    InfMenuCommands.DEBUG_FovaTest,--DEBUG
---    this.appearanceMenu,--DEBUG    --
---    InfMenuCommands.DEBUG_DropItem,--DEBUG
+    --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+
+    --    Ivars.itemDropChance,--DEBUG
+    --    Ivars.playerFaceIdApearance,--DEBUG
+    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
+    --    this.appearanceMenu,--DEBUG    --
+    --    InfMenuCommands.DEBUG_DropItem,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
---    Ivars.selectedChangeWeapon,--WIP DEBUG
---    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
---    InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
---    InfMenuCommands.doEnemyReinforce,--WIP
+    --    Ivars.selectedChangeWeapon,--WIP DEBUG
+
+    --    InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
+    --    InfMenuCommands.doEnemyReinforce,--WIP
+    InfMenuCommands.requestHeliLzToLastMarker,
+    InfMenuCommands.forceExitHeli,
     Ivars.warpPlayerUpdate,
     this.cameraMenu,
     this.userMarkerMenu,
@@ -569,10 +573,12 @@ this.inMissionMenu={
 }
 
 --TABLESETUP: MenuDefs
+local optionType="MENU"
 local IsTable=Tpp.IsTypeTable
 for name,item in pairs(this) do
   if IsTable(item) then
     if item.options then
+      item.optionType=optionType
       item.name=name
       item.disabled=false
       item.parent=nil

@@ -1,4 +1,4 @@
--- DOBUILD: 0
+-- DOBUILD: 0 --DEBUGNOW
 -- ORIGINALQAR: chunk4
 -- PACKPATH: \Assets\tpp\pack\mission2\free\f30020\f30020.fpkd
 local this = {}
@@ -237,6 +237,10 @@ this.soldierDefine = {
 		"sol_pfCamp_0009",
 		"sol_pfCamp_0010",
 		"sol_pfCamp_0011",
+		--DEBUGNOW
+--		"sol_ih_0000",
+--    "sol_ih_0001",
+--    "sol_15_23_0001",
 		nil
 	},
 
@@ -612,6 +616,12 @@ this.soldierDefine = {
 	
 
 	mafr_01_20_lrrp = {
+	 --DEBUGNOW
+--    "sol_ih_0000",
+--    "sol_ih_0001",
+--    lrrpTravelPlan  = "travel_ih_01",
+--    lrrpVehicle   = "veh_trc_0007",
+	 
 	},
 
 	mafr_02_21_lrrp = {
@@ -633,7 +643,11 @@ this.soldierDefine = {
 	},
 
 	mafr_04_09_lrrp = {
-		nil,
+		--DEBUGNOWnil,
+		    "sol_ih_0001",
+    "sol_ih_0002",
+    lrrpTravelPlan  = "travel_ih_01",
+    lrrpVehicle   = "veh_trc_0007",
 	},
 
 	mafr_04_25_lrrp = {
@@ -675,7 +689,7 @@ this.soldierDefine = {
 		"sol_08_25_0000",
 		"sol_08_25_0001",
 		lrrpTravelPlan	= "travelArea3_01",
-		lrrpVehicle		= "veh_trc_0005",
+		--DEBUGNOW OFF lrrpVehicle		= "veh_trc_0005",
 	},
 
 	mafr_09_25_lrrp = {
@@ -714,16 +728,26 @@ this.soldierDefine = {
 		"sol_14_27_0000",
 		"sol_14_27_0001",
 		lrrpTravelPlan	= "travelArea3_02",
-		lrrpVehicle		= "veh_trc_0004",
+		--DEBUGNOW OFF lrrpVehicle		= "veh_trc_0004",
 	},
 
 	mafr_15_16_lrrp = {
-		nil,
+	 --DEBUGNOW made this shit up
+		--DEBUGNOWnil,
+	  "sol_ih_0000",
+    "sol_ih_0001",
+    "sol_15_23_0001",
+    lrrpTravelPlan  = "travel_ih_00",
+    --lrrpVehicle   = "veh_lv_0004",
+    --DEBUGNOW
 	},
 
 	mafr_15_23_lrrp = {
 		"sol_15_23_0000",
-		"sol_15_23_0001",
+--		"sol_15_23_0001",
+--		    --DEBUGNOW
+--		    "sol_ih_0000",
+--    "sol_ih_0001",
 		lrrpTravelPlan	= "travelArea2_01",
 		lrrpVehicle		= "veh_trc_0003",
 	},
@@ -750,7 +774,7 @@ this.soldierDefine = {
 
 	mafr_19_29_lrrp = {
 		"sol_19_29_0000",
-		"sol_19_29_0001",
+		--DEBUGNOW "sol_19_29_0001",
 		lrrpTravelPlan	= "travelArea5_01",
 		lrrpVehicle		= "veh_trc_0006",
 	},
@@ -966,7 +990,7 @@ this.travelPlans = {
 
 	
 
-	travelArea1_01 = {
+	travelArea1_01 = {--trc 0000
 		{ cp="mafr_03_20_lrrp",			routeGroup={ "travel", "lrrp_20to03" }, },
 		{ cp="mafr_outlandEast_ob",		routeGroup={ "travel", 					"in_lrrpHold_S" }, },
 		{ cp="mafr_outlandEast_ob",		routeGroup={ "travel", 					"out_lrrpHold_B01" }, },
@@ -988,7 +1012,7 @@ this.travelPlans = {
 
 	
 
-	travelArea2_01 = {
+	travelArea2_01 = {--veh_trc_0003
 		{ cp="mafr_15_23_lrrp",			routeGroup={ "travel", "lrrp_23to15_01" }, },
 		{ cp="mafr_pfCampEast_ob",		routeGroup={ "travel", 					"in_lrrpHold_E" }, },
 		{ cp="mafr_pfCampEast_ob",		routeGroup={ "travel", 					"out_lrrpHold_B01" }, },
@@ -999,7 +1023,7 @@ this.travelPlans = {
 		{ cp="mafr_pfCamp_cp",			routeGroup={ "travel", 					"out_lrrpHold_S" }, },
 	},
 
-	travelArea2_02 = {
+	travelArea2_02 = {--veh_trc_0001
 		{ cp="mafr_02_21_lrrp",			routeGroup={ "travel", "lrrp_02to21" }, },
 		{ cp="mafr_flowStation_cp",		routeGroup={ "travel", 					"in_lrrpHold_W" }, },
 		{ cp="mafr_flowStation_cp",		routeGroup={ "travel", "lrrpHold" }, },
@@ -1018,7 +1042,7 @@ this.travelPlans = {
 		{ cp="mafr_swampWest_ob",		routeGroup={ "travel", 					"out_lrrpHold_N" }, },
 	},
 
-	travelArea2_03 = {
+	travelArea2_03 = {--veh_trc_0002
 		{ cp="mafr_06_22_lrrp",			routeGroup={ "travel", "lrrp_22to06" }, },
 		{ cp="mafr_swampEast_ob",		routeGroup={ "travel", 					"in_lrrpHold_W" }, },
 		{ cp="mafr_swampEast_ob",		routeGroup={ "travel", 					"out_lrrpHold_E" }, },
@@ -1044,7 +1068,7 @@ this.travelPlans = {
 
 	
 
-	travelArea3_01 = {
+	travelArea3_01 = {--veh_trc_0005
 		{ cp="mafr_08_25_lrrp",			routeGroup={ "travel", "lrrp_25to08" }, },
 		{ cp="mafr_bananaEast_ob",		routeGroup={ "travel", 					"in_lrrpHold_N" }, },
 		{ cp="mafr_bananaEast_ob",		routeGroup={ "travel", 					"out_lrrpHold_S" }, },
@@ -1070,7 +1094,7 @@ this.travelPlans = {
 		{ cp="mafr_banana_cp",			routeGroup={ "travel", 					"out_lrrpHold_B02" }, },
 	},
 
-	travelArea3_02 = {
+	travelArea3_02 = {--veh_trc_0004
 		{ cp="mafr_14_27_lrrp",			routeGroup={ "travel", "lrrp_27to14" }, },
 		{ cp="mafr_hillWest_ob",		routeGroup={ "travel", 					"in_lrrpHold_S" }, },
 		{ cp="mafr_hillWest_ob",		routeGroup={ "travel", 					"out_lrrpHold_N" }, },
@@ -1099,7 +1123,7 @@ this.travelPlans = {
 
 	
 
-	travelArea5_01 = {
+	travelArea5_01 = {--veh_trc_0006
 		{ cp="mafr_19_29_lrrp",			routeGroup={ "travel", "lrrp_29to19" }, },
 		{ cp="mafr_labWest_ob",			routeGroup={ "travel", 					"in_lrrpHold_W" }, },
 		{ cp="mafr_labWest_ob",			routeGroup={ "travel", 					"out_lrrpHold_B01" }, },
@@ -1112,67 +1136,34 @@ this.travelPlans = {
 	},
 	
 	
-	--tex generic(common route set or whatev) travelplans from missions>
-	--10080
-  travelOutland01 = {
-    { cp="mafr_01_20_lrrp",     routeGroup={ "travel", "lrrp_01to20" } }, 
-    { cp="mafr_outland_cp",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
-    { cp="mafr_03_20_lrrp",     routeGroup={ "travel", "lrrp_20to03" } }, 
-    { cp="mafr_outlandEast_ob",   routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
-    { cp="mafr_03_20_lrrp",     routeGroup={ "travel", "lrrp_03to20" } }, 
-    { cp="mafr_outland_cp",     routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
-    { cp="mafr_01_20_lrrp",     routeGroup={ "travel", "lrrp_20to01" } }, 
-    { cp="mafr_outlandNorth_ob",  routeGroup={ "travel", "lrrpHold" },wait=this.lrrpHoldTime }, 
-  },
+	
 
-  --10081
-  travelDiamond = {
-    { base="mafr_diamondSouth_ob" },
-    { base="mafr_diamond_cp" },
-  },
-
-  travelBanana = {
-    { base="mafr_savannahNorth_ob" },
-    { base="mafr_banana_cp" },
-  },
-
-  --10082
-  travel_swampEast_pfCampNorth = {
-    { base = "mafr_swampEast_ob", },
-    { base = "mafr_pfCampNorth_ob", },
-  },
   
-  travel_savannahWest_savannah = {
-    { base = "mafr_savannah_cp", },
-    { base = "mafr_savannahWest_ob", },
-  },
   
-  travel_savannahEast_savannah = {
-    { base = "mafr_savannah_cp", },
-    { base = "mafr_savannahEast_ob", },
+  --DEBUGNOW
+  travel_ih_00 = {
+      { cp = "mafr_pfCamp_cp", routeGroup={ "travel", "lrrpHold" } },
   },
+  --tex
+  travel_ih_01 = {--veh_trc_0007--TODO reposition
+--    { cp="mafr_04_09_lrrp",     routeGroup={ "travel", "lrrp_04to09" }, },
+--    --{ cp="mafr_savannahNorth_ob",     routeGroup={ "travel",          "in_lrrpHold_W" }, },
+--    { cp="mafr_07_09_lrrp",     routeGroup={ "travel", "lrrp_09to07" }, },
+--    --{ cp="mafr_savannahWest_ob",     routeGroup={ "travel",          "in_lrrpHold_W" }, },
+    { cp="mafr_04_07_lrrp",     routeGroup={ "travel", "lrrp_07to04" }, },
+    --{ cp="mafr_bananaSouth_ob",     routeGroup={ "travel",          "in_lrrpHold_W" }, },
 
-  --10086
-  travel_05_22 = {
-    { base="mafr_swampSouth_ob", },
-    { base="mafr_swamp_cp", },
   },
-  travel_06_22 = {
-    { base="mafr_swampEast_ob", },
-    { base="mafr_swamp_cp", },
-  },
+  --04to09
+  --mafr_savannahNorth_ob
+  --09to07
+  --mafr_savannahWest_ob
+  --07to04
+  --mafr_bananaSouth_ob
+  
+ --tex generic(common route set or whatev) travelplans from missions>
 
   --10090
-  travel_lrrp_01 = {
-    { cp = "mafr_02_21_lrrp",       routeGroup = { "travel", "lrrp_21to02"  } },
-    { cp = "mafr_swampWest_ob",     routeGroup = { "travel", "lrrpHold"   } },
-    { cp = "mafr_02_22_lrrp",       routeGroup = { "travel", "lrrp_02to22"  } },
-    { cp = "mafr_swamp_cp",       routeGroup = { "travel", "lrrpHold01" } },
-    { cp = "mafr_02_22_lrrp",     routeGroup = { "travel", "lrrp_22to02"  } },
-    { cp = "mafr_swampWest_ob",     routeGroup = { "travel", "lrrpHold"   } },
-    { cp = "mafr_02_21_lrrp",     routeGroup = { "travel", "lrrp_02to21"  } },
-    { cp = "mafr_flowStation_cp",   routeGroup = { "travel", "lrrpHold"   } },
-  },
   travel_lrrp_03 = {
     { cp = "mafr_13_15_lrrp",       routeGroup = { "travel", "lrrp_15to13"  } },
     { cp = "mafr_savannahEast_ob",    routeGroup = { "travel", "lrrpHold"   } },
@@ -1196,7 +1187,7 @@ this.travelPlans = {
       { cp="mafr_05_22_lrrp",     routeGroup={ "travel", "lrrp_22to05" }, },
     },
 
-  --10093
+  --10093--vehicle
   travelLab01 = {
     { cp="mafr_lab_cp",       routeGroup={ "travel", "out_lrrpHold_W" }, }, 
     { cp="mafr_19_29_lrrp",     routeGroup={ "travel", "lrrp_29to19" }, },  
@@ -1217,37 +1208,52 @@ this.travelPlans = {
   },
 
   --10121
-  respawn_01 ={
-    { cp="mafr_15_23_lrrp",   routeGroup={ "travel", "rp_15to23" } },
-    { cp="mafr_pfCamp_cp" },
-  },
-  respawn_02 ={
-    { cp="mafr_23_33_lrrp",   routeGroup={ "travel", "rp_33to23" } },
-    { cp="mafr_pfCamp_cp" },
-  },
+--  respawn_01 ={
+--    { cp="mafr_15_23_lrrp",   routeGroup={ "travel", "rp_15to23" } },
+--    { cp="mafr_pfCamp_cp" },
+--  },
+--  respawn_02 ={
+--    { cp="mafr_23_33_lrrp",   routeGroup={ "travel", "rp_33to23" } },
+--    { cp="mafr_pfCamp_cp" },
+--  },
 
   --10211
-  lrrp_swampSouth_to_sanannahEast = {
-    { base = "mafr_pfCampNorth_ob",   },
-    { base = "mafr_swampEast_ob",   },
-    { base = "mafr_swamp_cp",     },
-    { base = "mafr_swampSouth_ob",    },
-    { base = "mafr_swamp_cp", },
-    { base = "mafr_swampEast_ob", },
-    { base = "mafr_savannah_cp",  },
-    { base = "mafr_savannahEast_ob",  },
-  },
+--  lrrp_swampSouth_to_sanannahEast = {
+--    { base = "mafr_pfCampNorth_ob",   },
+--    { base = "mafr_swampEast_ob",   },
+--    { base = "mafr_swamp_cp",     },
+--    { base = "mafr_swampSouth_ob",    },
+--    { base = "mafr_swamp_cp", },
+--    { base = "mafr_swampEast_ob", },
+--    { base = "mafr_savannah_cp",  },
+--    { base = "mafr_savannahEast_ob",  },
+--  },
+--
+--  lrrp_swampSouth_to_sanannahEast2 = {
+--    { base = "mafr_swampSouth_ob",    },
+--    { base = "mafr_swamp_cp", },
+--    { base = "mafr_swampEast_ob", },
+--    { base = "mafr_savannah_cp",  },
+--    { base = "mafr_savannahEast_ob",  },
+--    { base = "mafr_pfCampNorth_ob",   },
+--    { base = "mafr_swampEast_ob",   },
+--    { base = "mafr_swamp_cp",     },
+--  },
 
-  lrrp_swampSouth_to_sanannahEast2 = {
-    { base = "mafr_swampSouth_ob",    },
-    { base = "mafr_swamp_cp", },
-    { base = "mafr_swampEast_ob", },
-    { base = "mafr_savannah_cp",  },
-    { base = "mafr_savannahEast_ob",  },
-    { base = "mafr_pfCampNorth_ob",   },
-    { base = "mafr_swampEast_ob",   },
-    { base = "mafr_swamp_cp",     },
-  },
+--  lrrp_bananaSouth_to_sanannahWest = {--vehicle
+--
+--     { cp = "mafr_04_07_lrrp", routeGroup={ "travel", "rp_04to07" } }, 
+--     { cp = "mafr_04_07_lrrp", routeGroup={ "travel", "rp_04to07_0001" } }, 
+--     { cp = "mafr_04_07_lrrp", routeGroup={ "travel", "rp_04to07_0002" } }, 
+--
+--
+--     { cp = "mafr_savannahWest_ob", routeGroup={ "travel", "lrrp_rest_savannahWest" } }, 
+--     { cp = "mafr_savannahWest_ob", routeGroup={ "travel", "lrrp_turn_savannahWest" } }, 
+--
+--     { cp = "mafr_04_07_lrrp", routeGroup={ "travel", "rp_07to04" } }, 
+--     { cp = "mafr_bananaSouth_ob", routeGroup={ "travel", "lrrp_rest_bananaSouth" } }, 
+--
+--  },
   --<
 
 }

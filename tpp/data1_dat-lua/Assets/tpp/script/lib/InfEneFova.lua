@@ -357,8 +357,14 @@ this.ddHeadGearSelection={
     femaleId="dds_balaclava15",
   },
 }
-
+--tex GOTCHA, may have issues if called when weaponIdTable.DD is nil (as in GetDDSuit)
+--wrap in IsDDBodyEquip call instead
+--TODO: should probably do a IsDDBodyEquip check, but that would mean I'd have to pass in a missioncode
 function this.GetCurrentDDBodyInfo(isFemale)
+  if Ivars.mbDDSuit:Is(0) then
+    return nil
+  end
+
   local suitName=nil
   if Ivars.mbDDSuit:Is"EQUIPGRADE" then
     local ddSuit=TppEnemy.GetDDSuit()

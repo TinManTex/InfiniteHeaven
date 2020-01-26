@@ -272,6 +272,10 @@ function this.GetGroundStartPosition(missionStartRoute,missionCode)
 end
 
 function this.DisableLzsWithinDist(lzTable,position,distance,missionCode)
+  if lzTable==nil then
+    return
+  end
+
   local TppHelicopter=TppHelicopter
   local InfLZ=InfLZ
   local TppMath=TppMath

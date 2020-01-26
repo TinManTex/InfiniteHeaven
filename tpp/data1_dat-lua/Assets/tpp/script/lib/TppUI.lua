@@ -1038,7 +1038,8 @@ function this.Init()
   if hasUi then
     TppUiCommand.RegisterSideOpsListFunction("TppQuest","GetSideOpsListTable")
   end
-  TppUiCommand.SetMBMapArrowIcon(false)GameConfig.ApplyAllConfig()
+  TppUiCommand.SetMBMapArrowIcon(false)
+  GameConfig.ApplyAllConfig()
   TppUiCommand.EraseDisplayTimer()
   TppUiCommand.ResetCpNameBaseLangId()
   if TppUiCommand.RegistCpNameBaseLangId and mvars.loc_locationBaseTelop then

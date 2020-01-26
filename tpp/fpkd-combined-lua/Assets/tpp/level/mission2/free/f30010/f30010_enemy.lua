@@ -626,7 +626,7 @@ this.soldierDefine = {
 
     afgh_05_33_lrrp = {
       "sol_05_33_0000",
-      "sol_05_33_0001",
+      --DEBUGNOW "sol_05_33_0001",
       lrrpTravelPlan	= "travelArea2_03",
       lrrpVehicle		= "veh_trc_0002",
     },
@@ -680,7 +680,16 @@ this.soldierDefine = {
     },
 
     afgh_15_36_lrrp = {
-      nil
+      --DEBUGNOW
+--         "sol_ih_0000",
+--      "sol_ih_0001",
+--      lrrpTravelPlan  = "travel_ih_0001",
+      "sol_05_33_0001",
+        --  "sol_ih_0001",
+      --"sol_ih_0002",
+      lrrpTravelPlan  = "travelArea2_01",--trc0000--"travelArea2_03",--trc0002
+      lrrpVehicle   = "veh_lv_0003",   
+      --DEBUGNOW OFFnil
     },
 
     afgh_16_29_lrrp = {
@@ -982,7 +991,11 @@ this.DisableRouteExcludeChatTable = {
 this.lrrpHoldTime = 15
 
 this.travelPlans = {
-
+  --DEBUGNOW
+     travel_ih_0001 = {
+      { cp="afgh_16_29_lrrp",     routeGroup={ "travel", "lrrp_18to39" }, }, 
+      },  
+      --
 
 
 
