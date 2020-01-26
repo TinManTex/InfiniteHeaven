@@ -1958,7 +1958,7 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   --      end
   --  end
   --  end--<
-  --DEBUGNOW WIP
+  --WIP
   if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
     percentage=0
   end--<
@@ -2074,11 +2074,18 @@ end
 function this.ResetStealthAssistCount()
   vars.stealthAssistLeftCount=0
 end
-function this.OnPickUpCollection(i,resourceId,resourceType,langId)
+function this.OnPickUpCollection(playerId,resourceId,resourceType,langId)
   local i=255
   TppCollection.RepopCountOperation("SetAt",resourceId,i)
   TppTerminal.AddPickedUpResourceToTempBuffer(resourceType,langId)
-  local posterNames={[TppCollection.TYPE_POSTER_SOL_AFGN]="key_poster_3500",[TppCollection.TYPE_POSTER_SOL_MAFR]="key_poster_3501",[TppCollection.TYPE_POSTER_GRAVURE_V]="key_poster_3502",[TppCollection.TYPE_POSTER_GRAVURE_H]="key_poster_3503",[TppCollection.TYPE_POSTER_MOE_V]="key_poster_3504",[TppCollection.TYPE_POSTER_MOE_H]="key_poster_3505"}
+  local posterNames={
+    [TppCollection.TYPE_POSTER_SOL_AFGN]="key_poster_3500",
+    [TppCollection.TYPE_POSTER_SOL_MAFR]="key_poster_3501",
+    [TppCollection.TYPE_POSTER_GRAVURE_V]="key_poster_3502",
+    [TppCollection.TYPE_POSTER_GRAVURE_H]="key_poster_3503",
+    [TppCollection.TYPE_POSTER_MOE_V]="key_poster_3504",
+    [TppCollection.TYPE_POSTER_MOE_H]="key_poster_3505"
+  }
   local posterName=posterNames[resourceType]
   if posterName~=nil then
     TppUI.ShowAnnounceLog("getPoster",posterName,TppTerminal.GMP_POSTER)
@@ -2135,15 +2142,15 @@ function this.CheckAllStationPickedUp()
     end
   end
 end
-function this.OnPickUpPlaced(e,e,itemIndex)
+function this.OnPickUpPlaced(playerId,equipId,itemIndex,isPlayers)
   local gameId=GameObject.GetGameObjectIdByIndex("TppBuddyDog2",0)
   if gameId~=NULL_ID then
     SendCommand(gameId,{id="GetPlacedItem",index=itemIndex})
   end
 end
-function this.OnPickUpWeapon(t,equipType,RENcassetteIndex)
-  if equipType==TppEquip.EQP_IT_Cassette then
-    TppCassette.AcquireOnPickUp(RENcassetteIndex)
+function this.OnPickUpWeapon(playerGameId,equipId,number)
+  if equipId==TppEquip.EQP_IT_Cassette then
+    TppCassette.AcquireOnPickUp(number)
   end
 end
 function this.RestoreSupplyCbox()

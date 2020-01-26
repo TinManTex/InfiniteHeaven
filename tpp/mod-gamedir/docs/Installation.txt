@@ -2,7 +2,9 @@ Infinite heaven installation:
 
 Preparation/insurance:
 ------------------------------
-Back up your save files for safety
+(Default install path of steam is C:\Program Files\Steam)
+
+Back up your save files for safety:
 <steam path>\userdata\<user id>\287700 and
 <steam path>\userdata\<user id>\311340
 

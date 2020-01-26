@@ -1821,7 +1821,7 @@ function this.GetUavCombatGradeAndEmpLevel(p1,p2,p3,p4)
   return e,n
 end
 --<
-function this.GetUniqueSettings()--tex>--DEBUGNOW
+function this.GetUniqueSettings()--tex>
   return l_uniqueSettings
 end--<
 return this

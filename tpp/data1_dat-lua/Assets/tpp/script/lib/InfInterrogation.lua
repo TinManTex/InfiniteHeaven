@@ -115,7 +115,7 @@ function this.SetupInterrogation(interrogation)
         {name="enqt1000_1x1a10",func=this.InterCall_Location}
       },
     }
-    --DEBUGNOW
+    --TODO
     --        interrogation[cpName]=interrogation[cpName] or {normal={}}
     --
     --        for i,interrId in pairs(this.locationInterrogateIds)do
@@ -127,101 +127,85 @@ function this.SetupInterrogation(interrogation)
 end
 
 function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
-  if vars.missionCode~=30010 and vars.missionCode~=30020 then
+  --InfInspect.TryFunc(function(soldierDefine,uniqueInterrogation)--DEBUG
+  if Ivars.enableInfInterrogation:Is(0) or not Ivars.enableInfInterrogation:MissionCheck() then
     return
   end
 
-  if Ivars.enableInfInterrogation:Is(0) then
-    return
+  local InfMain=InfMain
+
+  InfMain.RandomSetToLevelSeed()
+
+  --tex basic interrogations
+  uniqueInterrogation.unique=uniqueInterrogation.unique or {}
+  for i,interrogationId in pairs(this.helpYouInterrogateIds) do
+    local uniqueEntry={name=interrogationId,func=this.InterCall_InterCpQuest}
+    table.insert(uniqueInterrogation.unique,uniqueEntry)
   end
 
+  --tex intercp quests
+  this.interCpQuestSoldiers={}
+  this.interCpQuestIds={}
+  this.interCpQuestSoldiersCps={}
 
-    InfMain.RandomSetToLevelSeed()
+  local numLrrps=0--DEBUG
 
-    this.interCpQuestSoldiers={}
-    this.interCpQuestIds={}
-    this.interCpQuestSoldiersCps={}
-
-    local numLrrps=0
-
-    local baseNamePool={}
-    local startBases={}
-    local endBases={}
-
-    local locationName=InfMain.GetLocationName()
-    baseNamePool=InfMain.ResetPool(InfMain.baseNames[locationName])
-
-    for n,cpName in pairs(baseNamePool)do
-      local cpDefine=soldierDefine[cpName]
-      if cpDefine==nil then
-        --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
-      elseif #cpDefine>0 then
-        local cpId=GetGameObjectId("TppCommandPost2",cpName)
-        if cpId==NULL_ID then
-          InfMenu.DebugPrint("SetupInterCpQuests baseNamePool "..tostring(cpName).." cpId==NULL_ID")--DEBUG
-        else
-          table.insert(startBases,cpName)
-        end
+  local baseNameBag=InfMain.ShuffleBag:New()
+  local locationName=InfMain.GetLocationName()
+  local baseNames=InfMain.baseNames[locationName]
+  for n,cpName in pairs(baseNames)do
+    local cpDefine=soldierDefine[cpName]
+    if cpDefine==nil then
+    --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
+    elseif #cpDefine>0 then
+      local cpId=GetGameObjectId("TppCommandPost2",cpName)
+      if cpId==NULL_ID then
+        InfMenu.DebugPrint("SetupInterCpQuests baseNamePool "..tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
-        --InfMenu.DebugPrint(tostring(cpName).." cp define empty")--DEBUG
-      end
+        baseNameBag:Add(cpName)
+  end
+  end
+  end
+
+  local soldierIndex=1
+  local numBases=baseNameBag:Count()
+  --tex cp quests work in pairs of soldiers, one pointing to another
+  --currently theres a quest soldier in every cp, since it's a specific soldier, and the quest requires travel, it's not really 'too many'
+  local evenBases=(numBases%2)==0
+  if not evenBases then
+    numBases=numBases-1
+    end
+  for i=1,numBases do
+    local cpName=baseNameBag:Next()
+    --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
+
+    local cpDefine=soldierDefine[cpName]
+    local rnd=math.random(#cpDefine)
+    local soldierName=cpDefine[rnd]
+    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+    if soldierId==NULL_ID then
+      InfMenu.DebugPrint("WARNING SetupSoldierPairs could not find soldier "..tostring(soldierName).." aborting")--DEBUG
+      break
+    else
+      this.interCpQuestSoldiers[soldierIndex]=soldierId
+      this.interCpQuestIds[soldierId]=soldierIndex
+      this.interCpQuestSoldiersCps[soldierIndex]=cpName
+
+      uniqueInterrogation.uniqueChara=uniqueInterrogation.uniqueChara or {}
+      local uniqueCharaEntry={name=soldierName,func=this.InterStart_CpQuest}
+      --table.insert(uniqueInterrogation.unique,uniqueEntry)
+      table.insert(uniqueInterrogation.uniqueChara,uniqueCharaEntry)
     end
 
-    baseNamePool={}
-    for i=0,numQuestSoldiers do
-      table.insert(baseNamePool,InfMain.GetRandomPool(startBases))
-    end
-    startBases=baseNamePool
-    local half=math.floor(#startBases/2)
-    for i=0,half do
-      table.insert(endBases,InfMain.GetRandomPool(startBases))
-    end
+    soldierIndex=soldierIndex+1
+    numLrrps=numLrrps+1
+  end
+  --InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
 
-    uniqueInterrogation.unique=uniqueInterrogation.unique or {}
-    for i,interrogationId in pairs(this.helpYouInterrogateIds) do
-      local uniqueEntry={name=interrogationId,func=this.InterCall_InterCpQuest}
-      table.insert(uniqueInterrogation.unique,uniqueEntry)
-    end
+  --InfInspect.PrintInspect(uniqueInterrogation)--DEBUG
 
-    local soldierIndex=1
-    while #startBases>0 and #endBases>0 do
-      local isEven=(soldierIndex%2)==0
-
-      local cpPool=startBases
-
-      if isEven then
-        cpPool=endBases
-      end
-
-      local cpName=cpPool[#cpPool]
-      table.remove(cpPool)
-      --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
-
-      local cpDefine=soldierDefine[cpName]
-      local rnd=math.random(#cpDefine)
-      local soldierName=cpDefine[rnd]
-      local soldierId=GetGameObjectId("TppSoldier2",soldierName)
-      if soldierId==NULL_ID then
-        InfMenu.DebugPrint("WARNING SetupSoldierPairs could not find soldier "..tostring(soldierName).." aborting")--DEBUG
-        break
-      else
-        this.interCpQuestSoldiers[soldierIndex]=soldierId
-        this.interCpQuestIds[soldierId]=soldierIndex
-        this.interCpQuestSoldiersCps[soldierIndex]=cpName
-
-        uniqueInterrogation.uniqueChara=uniqueInterrogation.uniqueChara or {}
-        local uniqueCharaEntry={name=soldierName,func=this.InterStart_CpQuest}
-        --table.insert(uniqueInterrogation.unique,uniqueEntry)
-        table.insert(uniqueInterrogation.uniqueChara,uniqueCharaEntry)
-      end
-
-      soldierIndex=soldierIndex+1
-      numLrrps=numLrrps+1
-    end
-    --InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
-    --InfInspect.PrintInspect(uniqueInterrogation)--DEBUG
-
-    InfMain.RandomResetToOsTime()
+  InfMain.RandomResetToOsTime()
+  --end,soldierDefine,uniqueInterrogation)--DEBUG
 end
 
 function this.GetPairedSoldier(soldierIndex)
@@ -237,7 +221,7 @@ function this.GetInterCpQuestId(soldierId)
 end
 
 function this.InterStart_CpQuest(soldierId,cpId,interName)
-    --InfMenu.DebugPrint"InterStart"--DEBUG
+  --InfMenu.DebugPrint"InterStart"--DEBUG
 
   local soldierICPQId=this.GetInterCpQuestId(soldierId)
   if soldierICPQId==nil then
@@ -268,45 +252,45 @@ function this.InterStart_CpQuest(soldierId,cpId,interName)
 end
 
 this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
-    --InfInspect.TryFunc(function(soldierId,cpId,interName)--DEBUG
-    --InfMenu.DebugPrint"InterCall_InterCpQuest"--DEBUG
-    local soldierICPQId=this.GetInterCpQuestId(soldierId)
-    if soldierICPQId==nil then
-      InfMenu.DebugPrint"cannot find cpQuestId for soldier"--DEBUG
-      return
-    end
+  --InfInspect.TryFunc(function(soldierId,cpId,interName)--DEBUG
+  --InfMenu.DebugPrint"InterCall_InterCpQuest"--DEBUG
+  local soldierICPQId=this.GetInterCpQuestId(soldierId)
+  if soldierICPQId==nil then
+    InfMenu.DebugPrint"cannot find cpQuestId for soldier"--DEBUG
+    return
+  end
 
-    local partnerICPQId=this.GetPairedSoldier(soldierICPQId)
-    if partnerICPQId==nil then
-      InfMenu.DebugPrint"partnerId==nil"--DEBUG
-      return
-    end
+  local partnerICPQId=this.GetPairedSoldier(soldierICPQId)
+  if partnerICPQId==nil then
+    InfMenu.DebugPrint"partnerId==nil"--DEBUG
+    return
+  end
 
-    --tex starting
-    if not svars.inf_interCpQuestStatus[partnerICPQId] then
-      local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
-      local partnerCpName=this.interCpQuestSoldiersCps[partnerICPQId]
-      local cpNameLang=InfMenu.CpNameString(partnerCpName,InfMain.GetLocationName())
-      --InfMenu.DebugPrint("sol cpquestid:"..soldierIQId.." partnerId:"..partnerIQId)--DEBUG
-      InfMenu.PrintFormatLangId("intercp_comrade_location",cpNameLang)
-      --tex TODO:
-      --        set up marker?
-      --        save starttime
-      --        save startposition? -- TODO: just calculate between base positions
-      svars.inf_interCpQuestStatus[soldierICPQId]=true
-      --tex complete quest
-    elseif svars.inf_interCpQuestStatus[partnerICPQId] and not svars.inf_interCpQuestStatus[soldierICPQId] then
-      InfMenu.PrintLangId"intercp_complete"
-      this.GiveInterCpQuestReward()
+  --tex starting
+  if not svars.inf_interCpQuestStatus[partnerICPQId] then
+    local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
+    local partnerCpName=this.interCpQuestSoldiersCps[partnerICPQId]
+    local cpNameLang=InfMenu.CpNameString(partnerCpName,InfMain.GetLocationName())
+    --InfMenu.DebugPrint("sol cpquestid:"..soldierIQId.." partnerId:"..partnerIQId)--DEBUG
+    InfMenu.PrintFormatLangId("intercp_comrade_location",cpNameLang)
+    --tex TODO:
+    --        set up marker?
+    --        save starttime
+    --        save startposition? -- TODO: just calculate between base positions
+    svars.inf_interCpQuestStatus[soldierICPQId]=true
+    --tex complete quest
+  elseif svars.inf_interCpQuestStatus[partnerICPQId] and not svars.inf_interCpQuestStatus[soldierICPQId] then
+    InfMenu.PrintLangId"intercp_complete"
+    this.GiveInterCpQuestReward()
 
-      svars.inf_interCpQuestStatus[soldierICPQId]=true
-      --tex quest completed
-    elseif svars.inf_interCpQuestStatus[soldierICPQId] and svars.inf_interCpQuestStatus[partnerICPQId] then
-      --       --InfMenu.DebugPrint"InterCall_InterCpQuest, quest was already completed "--DEBUG
-      InfMenu.PrintLangId"intercp_repeat"
-    else
-      InfMenu.PrintLangId"intercp_repeat"
-    end
+    svars.inf_interCpQuestStatus[soldierICPQId]=true
+    --tex quest completed
+  elseif svars.inf_interCpQuestStatus[soldierICPQId] and svars.inf_interCpQuestStatus[partnerICPQId] then
+    --       --InfMenu.DebugPrint"InterCall_InterCpQuest, quest was already completed "--DEBUG
+    InfMenu.PrintLangId"intercp_repeat"
+  else
+    InfMenu.PrintLangId"intercp_repeat"
+  end
   --end,soldierId,cpId,interName)
 end
 

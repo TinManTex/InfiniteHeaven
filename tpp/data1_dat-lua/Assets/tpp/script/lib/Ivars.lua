@@ -835,9 +835,9 @@ this.disableHeliAttack={
 
 --spysearch
 local function RequireRestartMessage(self)
-  if self.setting==1 then
-    InfMenu.PrintLangId"restart_required"
-  end
+  --if self.setting==1 then
+  InfMenu.PrintLangId"restart_required"
+  --end
 end
 --tex not happy with the lack of flexibility as GetLocationParameter is only read once on init,
 --now just bypassing on trap enter/exit, doesnt give control of search type though
@@ -851,7 +851,7 @@ this.disableSpySearch={
 }
 --CULL
 this.disableHerbSearch={
-  --OFF save=GLOBAL,
+  save=GLOBAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=RequireRestartMessage,
@@ -1163,18 +1163,18 @@ this.fultonHostageHandling={
   profile=this.fultonSuccessProfile,
 }
 
-this.fultonWildCardHandling={ --DEBUGNOW
+this.fultonWildCardHandling={--WIP
   save=MISSION,
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
---DEBUGNOW profile=this.fultonSuccessProfile,
+--TODO profile=this.fultonSuccessProfile,
 }
 
-this.fultonMotherBaseHandling={ --DEBUGNOW
+this.fultonMotherBaseHandling={ --WIP
   save=MISSION,
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
---DEBUGNOW profile=this.fultonSuccessProfile,
+--TODO profile=this.fultonSuccessProfile,
 }
 --<fulton success
 
@@ -1394,7 +1394,7 @@ this.revengeProfile={
       Ivars.applyPowersToOuterBase:Set(0,true)
       Ivars.allowHeavyArmorFREE:Set(0,true)
       Ivars.allowHeavyArmorMISSION:Set(0,true)
-      --DEBUGNOW Ivars.allowLrrpArmorInFree:Set(0,true)
+      --Ivars.allowLrrpArmorInFree:Set(0,true)--WIP
       Ivars.allowHeadGearCombo:Set(0,true)
       Ivars.allowMissileWeaponsCombo:Set(0,true)
       Ivars.balanceHeadGear:Set(0,true)
@@ -1416,7 +1416,7 @@ this.revengeProfile={
       Ivars.applyPowersToOuterBase:Set(1,true)
       Ivars.allowHeavyArmorFREE:Set(0,true)
       Ivars.allowHeavyArmorMISSION:Set(0,true)
-      --DEBUGNOW Ivars.allowLrrpArmorInFree:Set(0,true)
+      --Ivars.allowLrrpArmorInFree:Set(0,true)--WIP
       Ivars.allowHeadGearCombo:Set(1,true)
       Ivars.allowMissileWeaponsCombo:Set(1,true)
       Ivars.balanceHeadGear:Set(0,true)--tex allow headgearcombo is sufficient
@@ -1492,7 +1492,7 @@ MissionModeIvars(
   {"FREE","MISSION",}
 )
 
---DEBUGNOW either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though)
+--WIP TODO either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though)
 --this.allowLrrpArmorInFree={
 --  save=MISSION,
 --  range=this.switchRange,
@@ -1957,6 +1957,7 @@ this.enableLrrpFreeRoam={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  MissionCheck=MissionCheckFree,
 }
 
 --wildcard
@@ -1986,7 +1987,7 @@ this.vehiclePatrolProfile={
 }
 
 local function TypeChange(self)
-  InfVehicle.BuildEnabledList()
+--CULL InfVehicle.BuildEnabledList()
 end
 
 this.vehiclePatrolLvEnable={
@@ -2044,7 +2045,7 @@ this.vehiclePatrolEmblemType={
   --OFF save=MISSION,
   range={max=10},
 }
---<patrol vehicle stuff
+
 this.enemyHeliPatrol={
   save=MISSION,
   settings={"NONE","1","3","5","7","ENEMY_PREP"},
@@ -2052,6 +2053,12 @@ this.enemyHeliPatrol={
   MissionCheck=MissionCheckFree,
 }
 
+this.putEquipOnTrucks={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+--<patrol vehicle stuff
 MissionModeIvars(
   "startOnFoot",
   {
@@ -2116,13 +2123,23 @@ MissionModeIvars(
   {"FREE","MISSION",}
 )
 
+function this.UpdateActiveQuest()
+  --InfInspect.TryFunc(function()--DEBUG
+  for i=0,TppDefine.QUEST_MAX-1 do
+    gvars.qst_questRepopFlag[i]=false
+  end
+
+  for i,areaQuests in ipairs(TppQuestList.questList)do
+    TppQuest.UpdateRepopFlagImpl(areaQuests)
+  end
+  TppQuest.UpdateActiveQuest()
+  --end)--
+end
 this.unlockSideOps={
   save=MISSION,
   settings={"OFF","REPOP","OPEN"},
   settingNames="set_unlock_sideops",
-  OnChange=function()
-    TppQuest.UpdateActiveQuest()
-  end,
+  OnChange=this.UpdateActiveQuest,
 }
 
 this.unlockSideOpNumber={
@@ -2133,9 +2150,34 @@ this.unlockSideOpNumber={
     --InfMenu.DebugPrint(questName)--DEBUG
     return InfMain.BlockQuest(questName)
   end,
-  OnChange=function()
-    TppQuest.UpdateActiveQuest()
-  end,
+  OnChange=this.UpdateActiveQuest,
+}
+
+this.sideOpsSelectionMode={
+  save=MISSION,
+  settings={
+    "OFF",
+    "RANDOM",
+    "STORY",
+    "EXTRACT_INTERPRETER",
+    "BLUEPRINT",
+    "EXTRACT_HIGHLY_SKILLED",
+    "PRISONER",
+    "CAPTURE_ANIMAL",
+    "WANDERING_SOLDIER",
+    "DDOG_PRISONER",
+    "ELIMINATE_HEAVY_INFANTRY",
+    "MINE_CLEARING",
+    "ELIMINATE_ARMOR_VEHICLE",
+    "EXTRACT_GUNSMITH",
+    --"EXTRACT_CONTAINERS",
+    --"INTEL_AGENT_EXTRACTION",
+    "ELIMINATE_TANK_UNIT",
+    "ELIMINATE_PUPPETS",
+  --"TARGET_PRACTICE",
+  },
+  settingNames="sideOpsSelectionModeSettings",
+  OnChange=this.UpdateActiveQuest,
 }
 
 --mbshowstuff
@@ -2609,7 +2651,7 @@ this.fovaSelection={
   save=MISSION,
   range={min=0,max=255},--DEBUGNOW limits max fovas TODO consider
   OnSelect=function(self)
-    InfInspect.TryFunc(function()--DEBUGNOW
+    InfInspect.TryFunc(function()--DEBUG
       local fovaTable,modelDescription=InfFova.GetCurrentFovaTable()
       if modelDescription then
         self.description=modelDescription
@@ -2654,7 +2696,7 @@ this.fovaSelection={
   --    end
   --  end,
   OnChange=function(self)
-    InfInspect.TryFunc(function()--DEBUGNOW
+    InfInspect.TryFunc(function()--DEBUG
       InfFova.SetFovaMod(self:Get()+1,true)
     end)
   end,
@@ -3121,6 +3163,12 @@ this.quietRadioMode={
   end,
 }
 
+this.repopulateRadioTapes={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 -- walkergear
 MissionModeIvars(
   "enableWalkerGears",
@@ -3435,8 +3483,6 @@ this.selectedChangeWeapon={--WIP
       --        temporaryChange = true,
       --      }
 
-
-      --DEBUGNOW DEBUGNOW
       InfMenu.DebugPrint("drop "..equipName)
       local dropPosition=Vector3(vars.playerPosX,vars.playerPosY+1,vars.playerPosZ)
 
@@ -3461,6 +3507,7 @@ this.enableInfInterrogation={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  MissionCheck=MissionCheckFree,
 }
 
 --item drops
@@ -3483,10 +3530,23 @@ MissionModeIvars(
   {"FREE","MB",}
 )
 
+--mines
+this.randomizeMineTypes={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.additionalMineFields={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 --non user save vars
 --others grouped near usage, search NONUSER
 
---tex handles title>acc or indicator to restore Ivars from saved values on exit--DEBUGNOW no it doesnt
+--tex used as indicator whether save>ivar.setting should be synced
 this.inf_event={--NONUSER
   save=MISSION,
   settings={"OFF","WARGAME","ROAM"},
@@ -3510,7 +3570,7 @@ local function IsIvar(ivar)--TYPEID
   return type(ivar)=="table" and (ivar.range or ivar.settings)
 end
 
---DEBUGNOW
+--DEBUG turn off saving
 --for name, ivar in pairs(this) do
 --  if IsIvar(ivar) then
 --    ivar.save=nil

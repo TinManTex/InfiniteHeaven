@@ -154,7 +154,7 @@ function this.GenerateRoamEvent(missionCode)
   --
 
   for eventId,enabled in pairs(this.inf_enabledEvents)do
-    InfMenu.PrintFormatLangId("event_announce",eventId)--DEBUGNOW TODO ADDLANG to event ids
+    InfMenu.PrintFormatLangId("event_announce",eventId)-- TODO ADDLANG to event ids
     Ivars.ApplyProfile(roamEventProfiles[eventId],true)
   end
 
@@ -254,7 +254,7 @@ local warGameSettings={
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="SOVIET",
     mbEnemyHeliColor="DEFAULT",
-    revengeModeMB="DEFAULT",--DEBUGNOW TODO generate custom
+    revengeModeMB="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=0,
   },
   COYOTE_INVASION={
@@ -268,7 +268,7 @@ local warGameSettings={
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="ROGUE_COYOTE",
     mbEnemyHeliColor="RANDOM_EACH",
-    revengeModeMB="DEFAULT",--DEBUGNOW TODO generate custom
+    revengeModeMB="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange={0,1},
   },
   XOF_INVASION={
@@ -281,7 +281,7 @@ local warGameSettings={
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="DDOGS",--tex or soviet?
     mbEnemyHeliColor="RED",
-    revengeModeMB="DEFAULT",--DEBUGNOW TODO generate custom
+    revengeModeMB="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=1,
   },
   ZOMBIE_DD={
@@ -305,11 +305,11 @@ function this.GenerateWarGameEvent()
     --tex ugh, TODO better
     local warGameIndex=warGamesEnum[warGame]
     local warGameName=warGameNames[warGameIndex]
-    InfMenu.PrintFormatLangId("event_announce",warGameName)--DEBUGNOW TODO ADDLANG to event ids
+    InfMenu.PrintFormatLangId("event_announce",warGameName)--tex TODO ADDLANG to event ids
 
     if wargameBaseType=="INVASION" then
       Ivars.mbWarGamesProfile.setting=Ivars.mbWarGamesProfile.enum.INVASION--KLUDGE just setting without saving or triggering other profile sub ivars
-      Ivars.mbEnablePuppy:Set(0,true,true)--tex DEBUGNOW will kill the puppy quest (aww) till user toggles the option again
+      Ivars.mbEnablePuppy:Set(0,true,true)--tex TODO will kill the puppy quest (aww) till user toggles the option again
     end
 
     Ivars.ApplyProfile(warGamesBase[wargameBaseType],true)

@@ -565,7 +565,7 @@ function this.GetLangTable(langId,index)
   end
 
   if langTable==nil or langTable=="" or not IsTable(langTable) then
-    TppUiCommand.AnnounceLogView"LangTableString langTable empty"--DEBUGNOW
+    TppUiCommand.AnnounceLogView"LangTableString langTable empty"--DEBUG
     return {langId .. ":" .. "n"}
   end
 

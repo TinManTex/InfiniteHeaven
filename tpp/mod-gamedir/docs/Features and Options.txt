@@ -29,26 +29,36 @@ ACC Main menu
 -------------
 [1] Trigger random IH event : (Command)
     - Events are temporary custom profiles for free roam and mother base. Free roam events (can stack): Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. MB events (only one active): DD Training wargame, Soviet attack, Rogue Coyote attack, XOF attack, DD Infection outbreak, Zombie Obliteration (non DD)
+[2] World menu
+[3] Player restrictions menu
+[4] Player settings menu
+[5] Soldier parameters menu
+[6] Enemy phases menu
+[7] Enemy Prep menu
+[8] Enemy reinforcements menu
+[9] Enemy patrols menu
+[10] Side ops menu
+[11] Mother Base menu
+[12] Cutscenes menu
+[13] Camera menu
+[14] Support heli menu
+[15] Debug/system menu
+[16] Reset all Infinite Heaven settings : (Command)
+
+
+World menu
+----------
+[1] Clock time scale : 1-10000
+    - Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
 [2] Free roam event random trigger chance : 0-100%
     - Chance to randomly trigger an IH event on starting Free roam
 [3] MB event random trigger chance : 0-100%
     - Chance to randomly trigger an IH event on returning to MB
-[4] Clock time scale : 1-10000
-    - Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
-[5] Player restrictions menu
-[6] Player settings menu
-[7] Soldier parameters menu
-[8] Enemy phases menu
-[9] Enemy Prep menu
-[10] Enemy reinforcements menu
-[11] Enemy patrols menu
-[12] Side ops menu
-[13] Mother Base menu
-[14] Cutscenes menu
-[15] Camera menu
-[16] Support heli menu
-[17] Debug/system menu
-[18] Reset all Infinite Heaven settings : (Command)
+[4] Repopulate music tape radios : Off, On
+[5] Randomize minefield mine types : Off, On
+    - Randimizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic
+[6] Enable additional minefields : Off, On
+    - In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.
 
 
 Player restrictions menu
@@ -69,13 +79,15 @@ Player restrictions menu
 [9] Disable retry on mission fail : Off, On
 [10] Game over on combat alert : Off, On
 [11] Disable Intel team enemy spotting : Off, On
-[12] Marking display menu
-[13] Mission-prep restrictions menu
-[14] Disable mission support-menus menu
-[15] Hand abilities levels menu
-[16] Fulton levels menu
-[17] Fulton success menu
-[18] OSP menu
+[12] Disable Intel team herb spotting (requires game restart) : Off, On
+     - Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.
+[13] Marking display menu
+[14] Mission-prep restrictions menu
+[15] Disable mission support-menus menu
+[16] Hand abilities levels menu
+[17] Fulton levels menu
+[18] Fulton success menu
+[19] OSP menu
 
 
 Marking display menu
@@ -367,7 +379,7 @@ DD Equip menu
 - Allow soldiers to have DD equipment usually only seen on FOB
 -------------
 [1] MB staff use DD equipment : Off, On
-[2] Enemy use DD equipment in Free roam : Off, On
+[2] Enemy use DD equipment in free roam : Off, On
 [3] Enemy use DD equipment in missions : Off, On
 [4] DD Equip Grade RND MIN : 1-15
 [5] DD Equip Grade RND MAX : 1-15
@@ -395,7 +407,7 @@ Enemy patrols menu
     - Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.
 [3] Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
     - Shared between free roam and MB attack helis.
-[4] Vehicle patrols in free roam profile : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)
+[4] Vehicle patrols in free roam : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)
     - Replaces the patrolling trucks in free roam with other vehicles.
 [5] Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep
 [6] Allow jeeps : Off, On
@@ -403,14 +415,18 @@ Enemy patrols menu
 [8] Allow wheeled armored vehicles : Off, On
 [9] Allow heavy wheeled armored vehicles : Off, On
 [10] Allow tanks : Off, On
+[11] Equipment on trucks : Off, On
+     - Puts a random piece of equipment on the back of patrol trucks.
 
 
 Side ops menu
 -------------
-[1] Unlock random Sideops for areas : Off, Force Replayable, Force Open
-    - Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area.
-[2] Open specific sideop # : 0-157
-[3] Force enable enemy heli reinforce (disable heli sideops) : Off, On
+[1] Unlock Sideops mode : Off, Force Replayable, Force Open
+    - Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression. Due to how the code is designed this also enables the equivalent of random sideops selection.
+[2] Sideop selection mode : Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets
+    - Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category
+[3] Open specific sideop # : 0-157
+[4] Force enable enemy heli reinforce (disable heli sideops) : Off, On
 
 
 Mother Base menu

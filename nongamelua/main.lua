@@ -2,6 +2,7 @@
 externalLoad=true
 
 package.path=package.path..";./Data1Lua/Assets/tpp/script/lib/?.lua"
+package.path=package.path..";./Data1Lua/Tpp/Scripts/Equip/?.lua"
 
 --MOCK
 AssetConfiguration={}
@@ -30,8 +31,12 @@ PlayerDisableAction={}
 PlayerPad={}
 PlayerType={}
 PlayerCamoType={}
-TppEquip={}
 BuddyType={}
+
+TppEquip={}
+TppEquip.ReloadEquipIdTable=function(equipIdTable)
+  TppEquip.equipIdTable=equipIdTable
+end
 
 vars={}
 mvars={}
@@ -74,12 +79,10 @@ TppUiCommand.AnnounceLogView=function(string)
   print(string)
 end
 
---
-InfEquip={}
-InfEquip.tppEquipTableTest={"<DEBUG IVAR>"}
-
+--end mock stuff
 
 Tpp=require"Tpp"
+EquipIdTable=require"EquipIdTable"
 
 --TppDefine=require"TppDefine"
 
@@ -93,11 +96,22 @@ InfMenu=require"InfMenu"
 
 
 InfInspect=require"InfInspect"
+InfEquip=require"InfEquip"
 
 --LOCALOPT
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString
+
+--AutoDoc>
+local function Write(...)
+  --print(...)
+  io.write(...,"\n")
+end
+
+--PATCHUP
+--InfEquip={}
+InfEquip.tppEquipTableTest={"<DEBUG IVAR>"}
 
 vars.missionCode=40050
 
@@ -176,15 +190,6 @@ local function GetSettingsText(option)
   end
   return settingText
 end
-
---end mock stuff
-
---start autodoc stuff
-local function Write(...)
-  --print(...)
-  io.write(...,"\n")
-end
-
 
 --local depthToLetter={"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"}
 local depthToLetter={"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"}
@@ -352,13 +357,13 @@ end
 local projectFolder="D:\\Projects\\MGS\\!InfiniteHeaven\\"
 local featuresHeader="Features description header.txt"
 local featuresOutput="Features and Options.txt"
-local function main()
+local function AutoDoc()
   io.output(projectFolder..featuresOutput)
-  
+
   io.input(projectFolder..featuresHeader)
   local header=io.read("*all")
   Write(header)
-  
+
   --patchup
   Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
   Ivars.fovaSelection.description="<Character model description>"
@@ -401,4 +406,24 @@ local function main()
   --InfMenu.DisplaySetting(InfMenu.currentIndex)
   print"--done--"
 end
+
+-- end autodoc
+-- equipid string out for strcode32 (TODO should add an implementation/library to this project).
+local function PrintEquipId()
+  local outPutFile="D:\\Projects\\MGS\\equipIdStrings.txt"
+  local f=io.open(outPutFile,"w")
+  
+  for i,equipId in ipairs(InfEquip.tppEquipTable)do
+    f:write(equipId,"\n")
+    --print(equipId)
+  end
+  f:close()
+end
+
+local function main()
+  AutoDoc()
+
+  PrintEquipId()
+end
+
 main()

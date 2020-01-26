@@ -1369,10 +1369,10 @@ end
 function this.IncrementStorySequence()
   gvars.str_storySequence=gvars.str_storySequence+1
 end
-function this.PermitMissionOpen(e)
-  local e=TppDefine.MISSION_ENUM[tostring(e)]
-  if e then
-    gvars.str_missionOpenPermission[e]=true
+function this.PermitMissionOpen(missionCode)
+  local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    gvars.str_missionOpenPermission[missionEnum]=true
   end
 end
 function this.MissionOpen(missionCode)
@@ -1411,11 +1411,11 @@ function this.CheckAllMissionCleared()
   local i=true
   local a=true
   local s=true
-  for missionCodeStr,d in pairs(TppDefine.MISSION_ENUM)do
-    local o=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
-    if not o then
-      local o=tonumber(missionCodeStr)
-      if(not gvars.str_missionClearedFlag[d])then
+  for missionCodeStr,enum in pairs(TppDefine.MISSION_ENUM)do
+    local missingNumberEnum=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
+    if not missingNumberEnum then
+      local missionCode=tonumber(missionCodeStr)
+      if(not gvars.str_missionClearedFlag[enum])then
         if TppDefine.HARD_MISSION_ENUM[missionCodeStr]then
           a=false
         else
@@ -1425,10 +1425,10 @@ function this.CheckAllMissionCleared()
       end
       local n=true
       local r={[10240]=true,[10115]=true,[10030]=true}
-      if r[o]then
+      if r[missionCode]then
         n=false
       end
-      if n and(TppResult.GetBestRank(o)~=TppDefine.MISSION_CLEAR_RANK.S)then
+      if n and(TppResult.GetBestRank(missionCode)~=TppDefine.MISSION_CLEAR_RANK.S)then
         if TppDefine.HARD_MISSION_ENUM[missionCodeStr]then
           s=false
         else
@@ -1443,11 +1443,11 @@ end
 function this.CalcAllMissionClearedCount()
   local e=0
   local n=0
-  for missionCodeStr,r in pairs(TppDefine.MISSION_ENUM)do
-    local i=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
-    if not i then
+  for missionCodeStr,enum in pairs(TppDefine.MISSION_ENUM)do
+    local missingNumberEnum=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
+    if not missingNumberEnum then
       local missionCode=tonumber(missionCodeStr)
-      if(gvars.str_missionClearedFlag[r])then
+      if(gvars.str_missionClearedFlag[enum])then
         e=e+1
       end
       n=n+1
@@ -1459,26 +1459,26 @@ function this.CalcAllMissionTaskCompletedCount()
   local e=0
   local n=0
   for missionCodeStr,i in pairs(TppDefine.MISSION_ENUM)do
-    local i=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
-    if not i then
+    local missingNumberEnum=TppDefine.MISSING_NUMBER_MISSION_ENUM[missionCodeStr]
+    if not missingNumberEnum then
       local t=tonumber(missionCodeStr)e=e+TppUI.GetTaskCompletedNumber(t)
       n=n+TppUI.GetMaxMissionTask(t)
     end
   end
   return e,n
 end
-function this.UpdateMissionCleardFlag(e)
-  local n=TppDefine.MISSION_ENUM[tostring(e)]
-  if n then
-    gvars.str_missionClearedFlag[n]=true
-    TppCassette.AcquireOnMissionClear(e)
-    TppEmblem.AcquireOnMissionClear(e)
-    TppTerminal.AddUniqueVolunteerStaff(e)
-    TppTrophy.UnlockOnMissionClear(e)
+function this.UpdateMissionCleardFlag(missionCode)
+  local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    gvars.str_missionClearedFlag[missionEnum]=true
+    TppCassette.AcquireOnMissionClear(missionCode)
+    TppEmblem.AcquireOnMissionClear(missionCode)
+    TppTerminal.AddUniqueVolunteerStaff(missionCode)
+    TppTrophy.UnlockOnMissionClear(missionCode)
   end
 end
 function this.CloseEmergencyMission()
-  for e,e in ipairs(TppDefine.EMERGENCY_MISSION_LIST)do
+  for i,missionCode in ipairs(TppDefine.EMERGENCY_MISSION_LIST)do
   end
 end
 function this.GetStorySequenceName(index)
@@ -1604,8 +1604,8 @@ function this.CheckAndOpenRetakeThePlatform()
   end
 end
 function this.IsAlwaysOpenRetakeThePlatform()
-  local n=TppDefine.MISSION_ENUM[tostring(10115)]
-  if(gvars.str_missionOpenPermission[n]==false)then
+  local missionEnum=TppDefine.MISSION_ENUM[tostring(10115)]
+  if(gvars.str_missionOpenPermission[missionEnum]==false)then
     return false
   end
   if TppTerminal.IsCleardRetakeThePlatform()then
@@ -1676,7 +1676,7 @@ function this.CanPlayMgo(e)
     return true
   end
 end
-function this.OnReload(n)
+function this.OnReload(missionTable)
   this.SetUpStorySequenceTable()
 end
 function this.SetUpStorySequenceTable()
@@ -2091,11 +2091,11 @@ function this.UpdateDemoFlagQuietWishGoMission()
   end
 end
 function this.DEBUG_GetUnclearedMissionCode()
-  for t,e in pairs(TppDefine.MISSION_ENUM)do
-    local n=gvars.str_missionOpenFlag[e]
-    local e=gvars.str_missionClearedFlag[e]
+  for missionCodeStr,enum in pairs(TppDefine.MISSION_ENUM)do
+    local n=gvars.str_missionOpenFlag[enum]
+    local e=gvars.str_missionClearedFlag[enum]
     if n and(not e)then
-      return tonumber(t)
+      return tonumber(missionCodeStr)
     end
   end
 end
@@ -2375,19 +2375,19 @@ function this.DecreaseElapsedMissionClearCount()
     end
   end
 end
-function this.EnableMissionNewOpenFlag(n)
-  this.SetMissionNewOpenFlag(n,true)
+function this.EnableMissionNewOpenFlag(missionCode)
+  this.SetMissionNewOpenFlag(missionCode,true)
 end
-function this.DisableMissionNewOpenFlag(n)
-  this.SetMissionNewOpenFlag(n,false)
+function this.DisableMissionNewOpenFlag(missionCode)
+  this.SetMissionNewOpenFlag(missionCode,false)
 end
-function this.SetMissionNewOpenFlag(e,n)
-  if TppMission.IsSysMissionId(e)then
+function this.SetMissionNewOpenFlag(missionCode,open)
+  if TppMission.IsSysMissionId(missionCode)then
     return
   end
-  local e=TppDefine.MISSION_ENUM[tostring(e)]
-  if e then
-    gvars.str_missionNewOpenFlag[e]=n
+  local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    gvars.str_missionNewOpenFlag[missionEnum]=open
   end
 end
 return this

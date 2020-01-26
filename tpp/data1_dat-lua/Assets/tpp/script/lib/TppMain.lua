@@ -169,7 +169,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     end
     do
       local allSvars={}
-      this.allSvars=allSvars--tex DEBUGNOW see Ivars debug thingamy
+      this.allSvars=allSvars--tex DEBUG see Ivars debug thingamy
       for t,lib in ipairs(Tpp._requireList)do
         if _G[lib]then
           if _G[lib].DeclareSVars then
@@ -250,7 +250,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
         end
       end
       --if(vars.missionCode==11043)or(vars.missionCode==11044)then--tex ORIG: changed to issubs check, more robust even without my mod
-      if TppMission.IsActualSubsistenceMission() then--DEBUGNOW or Ivars.disableBuddies:Is(1) then--tex disablebuddy, was just IsSubsistenceMission
+      if TppMission.IsActualSubsistenceMission() then--tex was IsSubsistenceMission
         TppBuddyService.SetDisableAllBuddy()
       end
       if TppGameSequence.GetGameTitleName()=="TPP"then
@@ -354,6 +354,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     if mvars.loc_locationCommonTable then
       mvars.loc_locationCommonTable.OnInitialize()
     end
+    InfMain.ModifyMinesAndDecoys()--tex
     TppLandingZone.OnInitialize()
     for t,lib in ipairs(Tpp._requireList)do
       if _G[lib].Init then
@@ -555,8 +556,8 @@ function this.OnMissionCanStart()
     Player.AttachGasMask()
   end
   if(vars.missionCode==10150)then--PATCHUP:
-    local e=TppSequence.GetMissionStartSequenceIndex()
-    if(e~=nil)and(e<TppSequence.GetSequenceIndex"Seq_Game_SkullFaceToPlant")then
+    local missionStartSequenceIndex=TppSequence.GetMissionStartSequenceIndex()
+    if(missionStartSequenceIndex~=nil)and(missionStartSequenceIndex<TppSequence.GetSequenceIndex"Seq_Game_SkullFaceToPlant")then
       if(svars.mis_objectiveEnable[17]==false)then
         Gimmick.ForceResetOfRadioCassetteWithCassette()
       end

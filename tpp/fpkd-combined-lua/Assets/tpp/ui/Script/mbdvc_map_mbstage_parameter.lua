@@ -754,7 +754,6 @@ mbdvc_map_mbstage_parameter = {
 			Tpp.DEBUG_DumpTable(heliLandPointTable)
 		end
 		
-		InfMain.heliLandPointTable=heliLandPointTable--tex DEBUGNOW
 		
 		return { heliLandPoint = heliLandPointTable }
 	end,

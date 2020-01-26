@@ -1,3 +1,4 @@
+-- TppGimmick.lua
 local this={}
 local StrCode32=Fox.StrCode32
 local IsTypeTable=GameObject.GetTypeIndex
@@ -842,7 +843,7 @@ function this.CheckQuestAllTarget(questType,a,l)
         if e.idType=="Develop"then
           if a==TppCollection.GetUniqueIdByLocatorName(e.developId)then
             e.messageId="Recovered"
-            end
+          end
         end
       end
     elseif questType==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
@@ -864,7 +865,7 @@ function this.CheckQuestAllTarget(questType,a,l)
             else
               if a==e then
                 n.messageId="Recovered"
-                end
+              end
             end
           end
         end
@@ -934,11 +935,11 @@ function this.IsQuestTarget(i)
   end
   return false
 end
-function this.SetQuestInvisibleGimmick(t,i,e)
-  local n=e or false
+function this.SetQuestInvisibleGimmick(questMarkSetIndex,RENsomeBool,RENsomeBool2)
+  local n=RENsomeBool2 or false
   for o,gimmickIdInfo in pairs(mvars.gim_questTargetList)do
-    if t==mvars.gim_questMarkSetIndex or n==true then
-      Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,gimmickIdInfo.locatorName,gimmickIdInfo.dataSetName,i)
+    if questMarkSetIndex==mvars.gim_questMarkSetIndex or n==true then
+      Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,gimmickIdInfo.locatorName,gimmickIdInfo.dataSetName,RENsomeBool)
     end
   end
 end
@@ -966,7 +967,7 @@ function this.EndQuestShootingPractice(questClearType)
     mvars.gim_isquestMarkStart=false
     for n,e in pairs(mvars.gim_questTargetList)do
       e.messageId="None"
-      end
+    end
     mvars.gim_questMarkCount=0
   end
 end
@@ -990,8 +991,8 @@ function this.OnTerminateMineQuest()
     mvars.gim_isQuestSetup=false
   end
 end
-function this.CheckQuestPlaced(mineEquipId,n)
-  if this.CheckQuestMine(mineEquipId,n)then
+function this.CheckQuestPlaced(mineEquipId,index)
+  if this.CheckQuestMine(mineEquipId,index)then
     mvars.gim_questmineCount=mvars.gim_questmineCount+1
     TppUI.ShowAnnounceLog("mine_quest_log",mvars.gim_questmineCount,mvars.gim_questmineTotalCount)
   end
@@ -1001,10 +1002,10 @@ function this.CheckQuestPlaced(mineEquipId,n)
     return false
   end
 end
-function this.CheckQuestMine(mineEquipId,e)
+function this.CheckQuestMine(mineEquipId,index)
   for n,equipId in pairs(TppDefine.QUEST_MINE_TYPE_LIST)do
     if mineEquipId==equipId then
-      if TppPlaced.IsQuestBlock(e)then
+      if TppPlaced.IsQuestBlock(index)then
         return true
       else
         return false

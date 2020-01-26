@@ -50,6 +50,7 @@ this.soldierParamsMenu={
 this.sideOpsMenu={
   options={
     Ivars.unlockSideOps,
+    Ivars.sideOpsSelectionMode,
     Ivars.unlockSideOpNumber,
     Ivars.enableHeliReinforce,
   }
@@ -369,6 +370,7 @@ this.enemyPatrolMenu={
     Ivars.vehiclePatrolWavEnable,
     Ivars.vehiclePatrolWavHeavyEnable,
     Ivars.vehiclePatrolTankEnable,
+    Ivars.putEquipOnTrucks,
   }
 }
 
@@ -431,6 +433,16 @@ this.disableSupportMenuMenu={
   }
 }
 
+this.worldMenu={
+  options={
+    Ivars.clockTimeScale,
+    Ivars.gameEventChanceFREE,
+    Ivars.gameEventChanceMB,
+    Ivars.repopulateRadioTapes,
+    Ivars.randomizeMineTypes,
+    Ivars.additionalMineFields,
+  }
+}
 this.playerRestrictionsMenu={
   options={
     Ivars.subsistenceProfile,
@@ -444,7 +456,7 @@ this.playerRestrictionsMenu={
     Ivars.disableRetry,
     Ivars.gameOverOnDiscovery,
     Ivars.disableSpySearch,
-    --WIP OFF Ivars.disableHerbSearch,
+    Ivars.disableHerbSearch,
     this.markersMenu,
     this.missionPrepRestrictionsMenu,
     this.disableSupportMenuMenu,
@@ -461,7 +473,7 @@ this.heliSpaceMenu={
   options={
     --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
     --    --    InfMenuCommands.DEBUG_PrintMenu,
-    --        InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    --     InfMenuCommands.DEBUG_SomeShiz,--DEBUG
     --        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     --        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
@@ -474,9 +486,7 @@ this.heliSpaceMenu={
     --Ivars.manualMissionCode,--tex  WIP
     --InfMenuCommands.loadMission,--tex  WIP
     InfMenuCommands.forceGameEvent,
-    Ivars.gameEventChanceFREE,
-    Ivars.gameEventChanceMB,
-    Ivars.clockTimeScale,
+    this.worldMenu,
     this.playerRestrictionsMenu,
     this.playerSettingsMenu,
     this.soldierParamsMenu,
@@ -532,18 +542,18 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
-    --Ivars.itemDropChance,--DEBUG
-    -- InfMenuCommands.DEBUG_WarpToObject,--DEBUG
-    ----    Ivars.playerFaceIdApearance,--DEBUG
-    ----    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
-    ----    --    this.appearanceMenu,--DEBUG    --
-    Ivars.selectedChangeWeapon,--WIP DEBUGNOW
+--    Ivars.itemDropChance,--DEBUG
+--    Ivars.playerFaceIdApearance,--DEBUG
+--    InfMenuCommands.DEBUG_FovaTest,--DEBUG
+--    this.appearanceMenu,--DEBUG    --
 --    InfMenuCommands.DEBUG_DropItem,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-    --   InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
-    --InfMenuCommands.doEnemyReinforce,--WIP
+--    Ivars.selectedChangeWeapon,--WIP DEBUG
+--    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+--    InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
+--    InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,
     this.cameraMenu,
     this.userMarkerMenu,

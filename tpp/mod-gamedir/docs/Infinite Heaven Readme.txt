@@ -1,5 +1,5 @@
 = Infinite heaven =
-r162 - 2016-06-11
+r162 - 2016-06-18
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
@@ -19,6 +19,32 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r162
+Fixed: Patrol vehicle classes not actually applying - thanks NasaNhak for the report
+Change: Vehicle classes apply to non patrol vehicles (Afgh only)
+Fixed: Random CP subtype now resets table if not enabled for mode.
+Fixed: Returned molotok to wildcard soldiers, had accidentally replaced it with the high grade DD fob rifle.
+
+Menu: World menu added, IH event chance, Clock timescale options moved to it.
+
+Option: Repopulate music tape radios - thanks Apantos for the suggestion
+(via World menu)
+
+Sideop selection mode - Default (first found), Random, <side ops category> - Lets you influence the sideops selection.
+[youtube]RmAl4NzZ9oo[/youtube]
+https://youtu.be/RmAl4NzZ9oo
+
+Option: Randomize minefield mine types - Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic
+
+Option: Enable additional minefields - In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.
+[youtube]EujEm1cKWG0[/youtube]
+https://youtu.be/EujEm1cKWG0
+
+Option: Disable Intel team herb spotting (requires game restart) - Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate. (PlayerRestrictions menu)
+
+Option: Equipment on trucks - Puts a random piece of equipment on the back of patrol trucks.
+(via Patrol vehicle menu)
 
 New for r161
 Fixed: Hard-lock on mother base on a cluster with only one platform with "Soldiers move between platforms" on - thanks 

@@ -234,6 +234,7 @@ function this.SetupWalkerGearMb()
       end
     end
   end
+  
   if numWalkers>totalPlats then
     numWalkers=totalPlats
   end
@@ -247,13 +248,6 @@ function this.SetupWalkerGearMb()
   --tex first pass, get at lease one per cluster
   this.walkerPlats={}
 
-  local function GetRandomPoolPlat(plats)
-    local rnd=math.random(1,#plats)
-    local plat=plats[rnd]
-    table.remove(plats,rnd)
-    return plat
-  end
-
   local walkerIndex=1
   for clusterId,plats in ipairs(platsPool)do
     this.walkerPlats[clusterId]={}
@@ -264,7 +258,7 @@ function this.SetupWalkerGearMb()
         break
       end
       if #plats>0 then
-        local plat=GetRandomPoolPlat(plats)
+        local plat=InfMain.GetRandomPool(plats)
         this.walkerPlats[clusterId][plat]=walkerIndex
         numAssigned=numAssigned+1
         walkerIndex=walkerIndex+1
@@ -287,7 +281,7 @@ function this.SetupWalkerGearMb()
 
     local clusterId=clusters[math.random(1,#clusters)]
     local plats=platsPool[clusterId]
-    local plat=GetRandomPoolPlat(plats)
+    local plat=InfMain.GetRandomPool(plats)
     this.walkerPlats[clusterId][plat]=walkerIndex
     numAssigned=numAssigned+1
     walkerIndex=walkerIndex+1

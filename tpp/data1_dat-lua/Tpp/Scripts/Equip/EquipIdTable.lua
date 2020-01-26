@@ -1,7 +1,10 @@
+-- DOBUILD: 0 --DEBUGNOW search EquipIdTable.equipTable
 --EquipIdTable.lua
 --RETAILPATCH 1090 various additions
 this={}
-TppEquip.ReloadEquipIdTable{
+--tex made module local so i can analyze table - was TppEquip.ReloadEquipIdTable{<table>
+-- was TppEquip.ReloadEquipIdTable{--<table>
+this.equipTable={
   {TppEquip.EQP_SLD_SV,TppEquip.EQP_TYPE_Shield,0,TppEquip.EQP_BLOCK_MISSION,"/Assets/tpp/parts/weapon/sld/sd00_main0_def_v00.parts","/Assets/tpp/pack/collectible/primary/EQP_SLD_SV.fpk"},
   {TppEquip.EQP_SLD_PF_00,TppEquip.EQP_TYPE_Shield,0,TppEquip.EQP_BLOCK_MISSION,"/Assets/tpp/parts/weapon/sld/sd01_main0_def_v00.parts","/Assets/tpp/pack/collectible/primary/EQP_SLD_PF.fpk"},
   {TppEquip.EQP_SLD_PF_01,TppEquip.EQP_TYPE_Shield,0,TppEquip.EQP_BLOCK_MISSION,"/Assets/tpp/parts/weapon/sld/sd01_main0_def_v00.parts","/Assets/tpp/pack/collectible/primary/EQP_SLD_PF.fpk"},
@@ -545,5 +548,7 @@ TppEquip.ReloadEquipIdTable{
   {TppEquip.EQP_WP_Com_ms_02a,TppEquip.EQP_TYPE_Missile,TppEquip.WP_Com_ms_02a,TppEquip.EQP_BLOCK_MISSION,"/Assets/tpp/parts/weapon/mis/ms03_main0_def_v00.parts","/Assets/tpp/pack/collectible/primary/EQP_WP_Com_ms_010.fpk"},
   {TppEquip.EQP_WP_Com_ms_02b,TppEquip.EQP_TYPE_Missile,TppEquip.WP_Com_ms_02b,TppEquip.EQP_BLOCK_MISSION,"/Assets/tpp/parts/weapon/mis/ms03_main0_def_v00.parts","/Assets/tpp/pack/collectible/primary/EQP_WP_Com_ms_010.fpk"}
 }
+TppEquip.ReloadEquipIdTable(this.equipTable)--tex
+
 return this
 

@@ -895,7 +895,7 @@ mtbs_enemy.GetRouteSetPriority = function( cpGameObjectId, routeSetListInPlants,
         end
       end
 
-      if DEBUG and #tmpRouteList < sortieSolderNum then--DEBUGNOW
+      if DEBUG and #tmpRouteList < sortieSolderNum then
         Fox.Warning("enemy route is very few. enemy on plnt: " .. tostring(sortieSolderNum) .. " route on plnt: " .. tostring(#tmpRouteList) .. " :cpName: " ..tostring(cpName) )
       end
 
@@ -1149,7 +1149,7 @@ mtbs_enemy.SetEnemyLocationType = function ()
     if InfMain.IsDDBodyEquip() then
       local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
       local soldierType=EnemyType.TYPE_DD
-      if bodyInfo and bodyInfo.soldierSubType and Ivars.mbWarGamesProfile:Is()>0 then--DEBUGNOW
+      if bodyInfo and bodyInfo.soldierSubType and Ivars.mbWarGamesProfile:Is()>0 then
         soldierType=InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
       end
       local command = { id = "SetSoldier2Type", type = soldierType }

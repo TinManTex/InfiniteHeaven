@@ -1,4 +1,4 @@
--- DOBUILD: 0--DEBUGNOW search debugnow and compare with vanilla before using
+-- DOBUILD: 0 --WIP EXPERIMENT, search EXP, revert/cleanup before use
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\online\o50050\o50050_additional.fpkd
 -- o50050_sequence.lua
@@ -705,7 +705,7 @@ this.saveVarsList = {
 
   clearedPlantCount = { name = "clearedPlantCount", type = TppScriptVars.TYPE_UINT8, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },--RETAILPATCH 1090
   isTelopTrapEntered  = { name = "isTelopTrapEntered", arraySize = 4, type = TppScriptVars.TYPE_BOOL, value = false, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },--RETAILPATCH 1090
-  --tex> basic mode signalling/syncing DEBUGNOW
+  --tex> basic mode signalling/syncing EXPERIMENT
   fobModeIH      = { name = "fobModeIH", type = TppScriptVars.TYPE_UINT16, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },
   fobClientIH      = { name = "fobClientIH", type = TppScriptVars.TYPE_UINT16, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },
 --<
@@ -1204,7 +1204,7 @@ end
 --NMC: via TppMain.OnTerminate, but don't know what calls that
 function this.OnTerminate()
   Fox.Log("o50050_common_sequence.OnTerminate")
-  InfMenu.DebugPrint("o50050_common_sequence.OnTerminate")--tex DEBUGNOW
+  InfMenu.DebugPrint("o50050_common_sequence.OnTerminate")--tex EXPERIMENT
 
   o50050_sound.PlayAlertSiren( false )
 
@@ -1222,7 +1222,7 @@ function this.OnTerminate()
 
   this.ClearGameStatusOnStartVersus()
 
-  --tex DEBUGNOW filter?
+  --tex EXPERIMENT filter?
   TppUiCommand.DeactivateSpySearchForFobDefense()
 
   TppUiCommand.StopRespawnMenu()
@@ -1231,7 +1231,7 @@ function this.OnTerminate()
   if TppGameSequence.GetPatchVersion() >= PATCH_VERSION_DAY1 then
 
     TppUiCommand.EraseWormHoleTimer()
-    --tex DEBUGNOW filter?
+    --tex EXPERIMENT filter?
     TppUiCommand.DeactivateSpySearchForFobSneak()
   end
 
@@ -1244,7 +1244,7 @@ end
 
 
 function this.OnUpdate()
-  --tex DEBUGNOW note
+  --tex EXPERIMENT note
   if TppServerManager.FobIsSneak() then
     this.OnUpdateHost()
   else
@@ -1797,7 +1797,7 @@ function this.OnGameOverHost( gameOverType )
     end,
     function ()--shamFunc
       fnc_vsCommon()
-      --tex DEBUGNOW filter
+      --tex EXPERIMENT filter
       TppMotherBaseManagement.ClearTempBuffer()
       Fox.Log( "TppMotherBaseManagement.ClearTempBuffer() (GameOver, Host, Sham)" )
 
@@ -1814,11 +1814,11 @@ end
 
 function this.OnGameOverClient( gameOverType )
   Fox.Log("### OnGameOverClient ###")
-  --tex DEBUGNOW filter
+  --tex EXPERIMENT filter
   TppMotherBaseManagement.ClearTempBuffer()
   Fox.Log( "TppMotherBaseManagement.ClearTempBuffer() (GameOver, Client)" )
 
-  --tex DEBUGNOW filter
+  --tex EXPERIMENT filter
   TppUiCommand.DeactivateSpySearchForFobDefense()
 
 
@@ -1928,7 +1928,7 @@ function this.OnMissionClearHost( missionClearType )
     )
 
   elseif missionClearType == TppDefine.MISSION_CLEAR_TYPE.FOB_DO_CRIME then
-    --tex DEBUGNOW TODO filter
+    --tex EXPERIMENT TODO filter
     if TppMotherBaseManagement.IsMbsOwner{} == false then
 
       this.CalculateRansomeResult()
@@ -2499,7 +2499,7 @@ function this.OnEndMissionPrepareSequence()
   this.SwitchExecByIsGameMode(
     function () end,
     function ()
-      --tex DEBUGNOW TODO bypass
+      --tex EXPERIMENT TODO bypass
       vars.playerDisableActionFlag = PlayerDisableActionModeSham
     end,
     function ()
@@ -3331,7 +3331,7 @@ end
 
 
 this.EnterGoalArea = function ( enterObjID, cpName )
-  --tex DEBUGNOW TODO bypass
+  --tex EXPERIMENT TODO bypass
   if this.IsOffencePlayer( enterObjID ) == true then
     this.SwitchExecByIsHost(
       function()--hostFunc
@@ -4491,7 +4491,7 @@ end
 
 
 this.AddRevengePoint = function( revengeLabel )
-  --tex DEBUGNOW TODO bypass
+  --tex EXPERIMENT TODO bypass
   if not ( vars.fobSneakMode == FobMode.MODE_ACTUAL and TppServerManager.FobIsSneak() ) then
     return
   end
@@ -6700,7 +6700,7 @@ this.OnDeadGameObject = function (gameObjectId, AttackerId)
       function ()
         local commandStaffId = { id = "GetStaffId" }
         local staffId = GameObject.SendCommand( gameObjectId, commandStaffId )
-        --tex DEBUGNOW TODO filter, or do we just not apply tempstaff changes at mission end, ie how sham likely works
+        --tex EXPERIMENT TODO filter, or do we just not apply tempstaff changes at mission end, ie how sham likely works
         TppMotherBaseManagement.KillTempStaffFob{ staffId = staffId, gameObjectId = gameObjectId }
       end,
       function ()
@@ -6993,11 +6993,11 @@ sequences.Seq_Demo_SyncGameStart = {
         svars.fob_isHostGameStart = true
       end
     else
-      --tex> basic signal/sync test DEBUGNOW
+      --tex> basic signal/sync test EXPERIMENT
       svars.fobClientIH=1
       InfMain.fobModeIH=0
       InfMain.fobClientIH=1
-      --DEBUGNOW
+      --EXPERIMENT
       Fox.Log("Client wait host game start.")
       Gimmick.JoinNewClientSyncRequest()
     end
@@ -7037,8 +7037,8 @@ sequences.Seq_Demo_SyncGameStart = {
   end,
   GameStartFadeIn = function()
     if not mvars.finishSyncGameStart then
-      InfMenu.DebugPrint"GameStartFadeIn"--DEBUGNOW
-      InfMenu.DebugPrint("svarsync test:"..tostring(svars.fobModeIH))--DEBUGNOW
+      InfMenu.DebugPrint"GameStartFadeIn"--EXPERIMENT
+      InfMenu.DebugPrint("svarsync test:"..tostring(svars.fobModeIH))--EXPERIMENT
       o50050_enemy.RestoreSoldier()
       mvars.finishSyncGameStart = true
       TppDemo.EnableInGameFlagIfResereved()
@@ -7203,13 +7203,13 @@ sequences.Seq_Game_StartFromHeli = {
         }
     end,
     OnEnter = function (self)
-      --if Ivars.fobMode:Is(1) then--DEBUGNOW
+      --if Ivars.fobMode:Is(1) then--EXPERIMENT
       if TppServerManager.FobIsSneak() then
-        svars.fobModeIH=1--tex DEBUGNOW
+        svars.fobModeIH=1--tex EXPERIMENT
         InfMain.fobModeIH=1
         InfMain.fobClientIH=0
       else
-      --svars.fobClientIH=1--tex DEBUGNOW
+      --svars.fobClientIH=1--tex EXPERIMENT
       end
       --end
 
@@ -7325,7 +7325,7 @@ sequences.Seq_Game_FOB = {
           {
             msg = "DeadInFOB",
             func = function (deadPlayerIndex,AttackerId)
-              --tex TODO bypass DEBUGNOW
+              --tex TODO bypass EXPERIMENT
               Fox.Log("DeadInFOB ::: deadPlayerIndex =" .. tostring(deadPlayerIndex) .. "AttackerId = ".. tostring(AttackerId))
               local baseDiffOF, baseDiffDF = this.GetCurrentBaseDifficulty()
               if deadPlayerIndex == OF_PLAYER_ID then
@@ -7356,7 +7356,7 @@ sequences.Seq_Game_FOB = {
           {
             msg = "PlayerDamaged",
             func = function (HitObjId, AttackId, AttackerObjId)
-              --tex TODO bypass DEBUGNOW
+              --tex TODO bypass EXPERIMENT
               if (HitObjId == OF_PLAYER_ID) and (AttackerObjId == DF_PLAYER_ID) then
 
                 if Player.IsAlertImmediatelyOnFob( AttackId ) then
@@ -8301,16 +8301,16 @@ sequences.Seq_Game_FOB = {
       else
         Fox.Log("### for ClientPlayer ###")
 
-        --DEBUGNOW OFF o50050_enemy.SetFriendly()
+        --EXPERIMENT OFF o50050_enemy.SetFriendly()
 
-        --DEBUGNOW OFF o50050_enemy.SetMarkerOnDefence()
-        --tex DEBUGNOW>
+        --EXPERIMENT OFF o50050_enemy.SetMarkerOnDefence()
+        --tex EXPERIMENT>
         TppGameStatus.Reset("o50050_sequence.lua","S_ENABLE_FOB_PLAYER_HIDE")
 
         TppGameStatus.Reset("o50050_sequence.lua","S_DISABLE_TARGET")
         TppGameStatus.Reset("o50050_sequence.lua","S_DISABLE_NPC_NOTICE")
 
-        this.ClearGameStatusOnStartVersus()--DEBUGNOW<
+        this.ClearGameStatusOnStartVersus()--EXPERIMENT<
 
         this.ShowAnnounceFobDeployDamageForDefence()--RETAILPATCH 1090
 

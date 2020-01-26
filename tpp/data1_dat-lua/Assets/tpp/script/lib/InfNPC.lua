@@ -49,7 +49,7 @@ local routeTimeMin=30
 local routeTimeMax=80
 local maxSoldiersOnSameRoute=2
 
-local maxSoldiersPerPlat=12--DEBUGNOW SYNC with plat counts, and keep in mind max instace count
+local maxSoldiersPerPlat=12--SYNC with plat counts, and keep in mind max instace count
 
 function this.Messages()
   return Tpp.StrCode32Table{
@@ -154,7 +154,7 @@ function this.InitCluster(clusterId)
         local npcName=soldierList[j]
         local gameId=GetGameObjectId(npcName)
         if gameId==NULL_ID then
-          InfMenu.DebugPrint(npcName.." not found")--DEBUGNOW
+          InfMenu.DebugPrint(npcName.." not found")--DEBUG
         else
           local newIndex=#npcList+1
           npcList[newIndex]=npcName
@@ -237,7 +237,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
 
     local gameId=GetGameObjectId(npcName)
     if gameId==NULL_ID then
-      InfMenu.DebugPrint(npcName.." not found")--DEBUGNOW
+      InfMenu.DebugPrint(npcName.." not found")--DEBUG
       return
     end
 
@@ -268,9 +268,9 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     local routeIdx=Random(#platRoutes)
     local route=platRoutes[routeIdx]
     --GOTCHA possible inf loop if #route on plat * maxSoldiersOnSameRoute < maxSoldiersPerPlat
-    --InfMenu.DebugPrint("#platRoutes:"..#platRoutes.." * maxSoldiersOnSameRoute="..(#platRoutes*maxSoldiersOnSameRoute).." maxSoldiersPerPlat:"..maxSoldiersPerPlat)--DEBUGNOW
+    --InfMenu.DebugPrint("#platRoutes:"..#platRoutes.." * maxSoldiersOnSameRoute="..(#platRoutes*maxSoldiersOnSameRoute).." maxSoldiersPerPlat:"..maxSoldiersPerPlat)--DEBUG
     if #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat then
-      InfMenu.DebugPrint"InfNPC:Update - WARNING #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat, aborting"--DEBUGNOW
+      InfMenu.DebugPrint"InfNPC:Update - WARNING #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat, aborting"--DEBUG
       return
     end
 
@@ -296,7 +296,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
   --end,currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)--DEBUG
 end
 
---DEBUGNOW TODO, hook up to msg
+--tex TODO, hook up to msg
 function this.OnEliminated(soldierId)
 --TODO: find index in npclist
 --npcPlats[index] > decrease soldiersonplat,npcRoutes[index] decrease soldiersonroute

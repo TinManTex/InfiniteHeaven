@@ -204,7 +204,7 @@ function this.Choose(probs)
   end
 
   local randomIndex=math.random(total)
-  --DEBUGNOW print("randomIndex:"..randomIndex)
+  --DEBUG print("randomIndex:"..randomIndex)
   for i=1,#probs do
     if randomIndex<probs[i].prob then
       return i

@@ -311,7 +311,7 @@ this.setSelectedCpToMarkerObjectCp={
         InfMenu.DebugPrint"gameId==nil"
         return
       end
-      local soldierName,cpName=InfMain.SoldierNameForGameId(gameId)
+      local soldierName,cpName=InfMain.ObjectNameForGameId(gameId)
       if cpName==nil then
         InfMenu.DebugPrint"cpName==nil"
         return
@@ -417,8 +417,12 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
-
-
+      InfEquip.CheckTppEquipTable()
+      --InfInspect.PrintInspect(mvars.rev_revengeMineList)
+----------------
+      if true then return end--DEBUG
+------------------      
+      
       local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
       if lastMarkerIndex==nil then
         InfMenu.DebugPrint("lastMarkerIndex==nil")
@@ -460,7 +464,7 @@ this.DEBUG_SomeShiz={
 
 
 
-      --DEBUGNOW
+      ----------
       --    local statuses={
       --      {CallMenu="INVALID"},
       --      {PauseMenu="INVALID"},
@@ -499,54 +503,59 @@ this.DEBUG_SomeShiz={
 }
 
 
-local index2=1
+local index2=300
 local index2Min=index2
-local index2Max=5
+local index2Max=1000
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
-      --DEBUGNOW InfMain.GetClosestCp()
-      --        if true then return end--DEBUGNOW
 
+        InfMain.GetClosestCp()
 
-      --        --InfMenu.DebugPrint(this.stringTest)
-      --
-      --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-      --        if lastMarkerIndex==nil then
-      --          InfMenu.DebugPrint("lastMarkerIndex==nil")
-      --        else
-      --          local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-      --
-      --          local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
-      --          if buddyHorseId==GameObject.NULL_ID then
-      --          else
-      --
-      --            local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
-      --
-      --            local command={id="SetCallHorse",
-      --              startPosition=horsePos,
-      --              goalPosition=moveToPosition
-      --            }
-      --            GameObject.SendCommand(buddyHorseId,command)
-      --          end
-      --        end
+        --        --InfMenu.DebugPrint(this.stringTest)
+        --
+        --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+        --        if lastMarkerIndex==nil then
+        --          InfMenu.DebugPrint("lastMarkerIndex==nil")
+        --        else
+        --          local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+        --
+        --          local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
+        --          if buddyHorseId==GameObject.NULL_ID then
+        --          else
+        --
+        --            local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
+        --
+        --            local command={id="SetCallHorse",
+        --              startPosition=horsePos,
+        --              goalPosition=moveToPosition
+        --            }
+        --            GameObject.SendCommand(buddyHorseId,command)
+        --          end
+        --        end
 
-      --InfMenu.DebugPrint("index2:"..index2)
-      index2=index2+1
-      if index2>index2Max then
-        index2=index2Min
-      end
+        --InfMenu.DebugPrint("index2:"..index2)
+
     end)
+    index2=index2+1
+    if index2>index2Max then
+      index2=index2Min
+    end
   end
 }
 
-local index3=1
+local index3=0
+local index3Min=index3
+local index3Max=1000
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-
-      end)
+    end)
+    index3=index3+1
+    if index3>index3Max then
+      index3=index3Min
+    end
   end
 }
 
@@ -659,8 +668,8 @@ this.DEBUG_RandomizeAllIvars={
         end
       end
       InfMenu.DebugPrint(tostring(log))
-end)--
-end
+    end)--
+  end
 }
 
 
@@ -1080,9 +1089,12 @@ this.DEBUG_WarpToObject={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-        local objectList=InfMain.reserveSoldierNames
+        --local objectList=InfMain.reserveSoldierNames
 
         --local objectList=InfMain.ene_wildCardSoldiers
+
+        local objectList=InfMain.truckNames
+        --local objectList={"veh_trc_0000"}
 
         --    local objectList={
         --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",

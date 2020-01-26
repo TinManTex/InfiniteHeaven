@@ -3,8 +3,9 @@
 local this={}
 local Ivars=Ivars
 local InfMain=InfMain
+local Vehicle=Vehicle
 
-local vehicleBaseTypes={
+this.vehicleBaseTypes={
   LIGHT_VEHICLE={--jeep
     ivar="vehiclePatrolLvEnable",
     seats=4,
@@ -12,14 +13,14 @@ local vehicleBaseTypes={
   TRUCK={
     ivar="vehiclePatrolTruckEnable",
     seats=2,
-    easternVehicles={
+    afgh={
       "EASTERN_TRUCK",
       "EASTERN_TRUCK_CARGO_AMMUNITION",
       "EASTERN_TRUCK_CARGO_MATERIAL",
       "EASTERN_TRUCK_CARGO_DRUM",
       "EASTERN_TRUCK_CARGO_GENERATOR",
     },
-    westernVehicles={
+    mafr={
       "WESTERN_TRUCK",
       "WESTERN_TRUCK_CARGO_ITEM_BOX",
       "WESTERN_TRUCK_CARGO_CONTAINER",
@@ -30,10 +31,10 @@ local vehicleBaseTypes={
     ivar="vehiclePatrolWavEnable",
     seats=1,--6,
     enclosed=true,
-    easternVehicles={
+    afgh={
       "EASTERN_WHEELED_ARMORED_VEHICLE",
     },
-    westernVehicles={
+    mafr={
       "WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN",
     },
   },
@@ -41,10 +42,10 @@ local vehicleBaseTypes={
     ivar="vehiclePatrolWavHeavyEnable",
     seats=2,--6,
     enclosed=true,
-    easternVehicles={
+    afgh={
       "EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY",
     },
-    westernVehicles={
+    mafr={
       "WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON",
     },
   },
@@ -55,128 +56,85 @@ local vehicleBaseTypes={
   },
 }
 
---OFF
---this.VEHICLE_SPAWN_TYPE={--SYNC vehicleSpawnInfoTable
---  "EASTERN_LIGHT_VEHICLE",
---  "WESTERN_LIGHT_VEHICLE",
---  "EASTERN_TRUCK",
---  "EASTERN_TRUCK_CARGO_AMMUNITION",
---  "EASTERN_TRUCK_CARGO_MATERIAL",
---  "EASTERN_TRUCK_CARGO_DRUM",
---  "EASTERN_TRUCK_CARGO_GENERATOR",
---  "WESTERN_TRUCK",
---  "WESTERN_TRUCK_CARGO_ITEM_BOX",
---  "WESTERN_TRUCK_CARGO_CONTAINER",
---  "WESTERN_TRUCK_CARGO_CISTERN",
---  "WESTERN_TRUCK_HOOD",
---  "EASTERN_WHEELED_ARMORED_VEHICLE",
---  "EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY",
---  "WESTERN_WHEELED_ARMORED_VEHICLE",
---  "WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN",
---  "WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON",
---  "EASTERN_TRACKED_TANK",
---  "WESTERN_TRACKED_TANK",
---}
---this.VEHICLE_SPAWN_TYPE_ENUM=Enum(this.VEHICLE_SPAWN_TYPE)
+--TABLESETUP
+--local vehicleBaseTypeNames={}
+--for vehicleBaseType,baseTypeInfo in pairs(vehicleBaseTypes)do
+--  
+--end
+--this.VEHICLE_BASETYPE=Enum(vehicleBaseTypeNames)
 
 local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
   EASTERN_LIGHT_VEHICLE={
     baseType="LIGHT_VEHICLE",
     type=Vehicle.type.EASTERN_LIGHT_VEHICLE,
     subType=Vehicle.subType.NONE,
-    class=nil,
-    paintType=nil,
   },
   WESTERN_LIGHT_VEHICLE={
     baseType="LIGHT_VEHICLE",
     type=Vehicle.type.WESTERN_LIGHT_VEHICLE,
     subType=Vehicle.subType.NONE,
-    class=nil,
-    paintType=nil,
   },
 
   EASTERN_TRUCK={
     baseType="TRUCK",
     type=Vehicle.type.EASTERN_TRUCK,
     subType=Vehicle.subType.NONE,
-    class=nil,
-    paintType=nil,
   },
   EASTERN_TRUCK_CARGO_AMMUNITION={
     baseType="TRUCK",
     type=Vehicle.type.EASTERN_TRUCK,
     subType=Vehicle.subType.EASTERN_TRUCK_CARGO_AMMUNITION,
-    class=nil,
-    paintType=nil,
   },
   EASTERN_TRUCK_CARGO_MATERIAL={
     baseType="TRUCK",
     type=Vehicle.type.EASTERN_TRUCK,
     subType=Vehicle.subType.EASTERN_TRUCK_CARGO_MATERIAL,
-    class=nil,
-    paintType=nil,
   },
   EASTERN_TRUCK_CARGO_DRUM={
     baseType="TRUCK",
     type=Vehicle.type.EASTERN_TRUCK,
     subType=Vehicle.subType.EASTERN_TRUCK_CARGO_DRUM,
-    class=nil,
-    paintType=nil,
   },
   EASTERN_TRUCK_CARGO_GENERATOR={
     baseType="TRUCK",
     type=Vehicle.type.EASTERN_TRUCK,
     subType=Vehicle.subType.EASTERN_TRUCK_CARGO_GENERATOR,
-    class=nil,
-    paintType=nil,
   },
 
   WESTERN_TRUCK={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_TRUCK,
     subType=Vehicle.subType.NONE,
-    class=nil,
-    paintType=nil,
   },
 
   WESTERN_TRUCK_CARGO_ITEM_BOX={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_TRUCK,
     subType=Vehicle.subType.WESTERN_TRUCK_CARGO_ITEM_BOX,
-    class=nil,
-    paintType=nil,
   },
 
   WESTERN_TRUCK_CARGO_CONTAINER={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_TRUCK,
     subType=Vehicle.subType.WESTERN_TRUCK_CARGO_CONTAINER,
-    class=nil,
-    paintType=nil,
   },
 
   WESTERN_TRUCK_CARGO_CISTERN={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_TRUCK,
     subType=Vehicle.subType.WESTERN_TRUCK_CARGO_CISTERN,
-    class=nil,
-    paintType=nil,
   },
 
   WESTERN_TRUCK_HOOD={
     baseType="TRUCK",
     type=Vehicle.type.WESTERN_TRUCK,
     subType=Vehicle.subType.WESTERN_TRUCK_HOOD,
-    class=nil,
-    paintType=nil,
   },
 
   EASTERN_WHEELED_ARMORED_VEHICLE={
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.NONE,
-    class=nil,
-    paintType=nil,
     packPath="/Assets/tpp/pack/vehicle/veh_rl_east_wav.fpk",
   },
 
@@ -184,8 +142,6 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY,
-    class=nil,
-    paintType=nil,
     packPath="/Assets/tpp/pack/vehicle/veh_rl_east_wav_rocket.fpk",
   },
 
@@ -193,16 +149,12 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.NONE,
-    class=nil,
-    paintType=nil,
   },
 
   WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN={
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN,
-    class=nil,
-    paintType=nil,
     packPath="/Assets/tpp/pack/vehicle/veh_rl_west_wav_machinegun.fpk",
   },
 
@@ -210,8 +162,6 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     baseType="WHEELED_ARMORED_VEHICLE",
     type=Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE,
     subType=Vehicle.subType.WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON,
-    class=nil,
-    paintType=nil,
     packPath="/Assets/tpp/pack/vehicle/veh_rl_west_wav_cannon.fpk",
   },
 
@@ -219,8 +169,6 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     baseType="TRACKED_TANK",
     type=Vehicle.type.EASTERN_TRACKED_TANK,
     subType=Vehicle.subType.NONE,
-    class=nil,
-    paintType=nil,
     packPath="/Assets/tpp/pack/vehicle/veh_rl_east_tnk.fpk",
   },
 
@@ -228,24 +176,26 @@ local vehicleSpawnInfoTable={--SYNC VEHICLE_SPAWN_TYPE
     baseType="TRACKED_TANK",
     type=Vehicle.type.WESTERN_TRACKED_TANK,
     subType=Vehicle.subType.NONE,
-    class=nil,
-    paintType=nil,
     packPath="/Assets/tpp/pack/vehicle/veh_rl_west_tnk.fpk",
   },
 }
 
-local patrolVehicleEnabledList=nil--tex TODO: don't like this setup
+local locationVehiclePrefix={
+  afgh="EASTERN_",
+  mafr="WESTERN_",
+}
 
-function this.IsPatrolVehicleMission()
-  if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
-    return true
-  end
-  return false
-end
+local skipClassSet={
+  --tex still back and forth whether I want jeeps/trucks to have the heavier classes
+--  [Vehicle.type.EASTERN_LIGHT_VEHICLE]=true,
+--  [Vehicle.type.EASTERN_TRUCK]=true,
+  [Vehicle.type.WESTERN_LIGHT_VEHICLE]=true,
+  [Vehicle.type.WESTERN_TRUCK]=true,
+}
 
-function this.BuildEnabledList()
-  patrolVehicleEnabledList={}
-  for baseType,typeInfo in pairs(vehicleBaseTypes) do
+function this.BuildEnabledList(patrolVehicleEnabledList)
+  local patrolVehicleEnabledList={}
+  for baseType,typeInfo in pairs(this.vehicleBaseTypes) do
     if typeInfo.ivar then
       --InfMenu.DebugPrint("spawnInfo.ivar="..spawnInfo.ivar)--DEBUG
       if Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then
@@ -254,22 +204,7 @@ function this.BuildEnabledList()
       end
     end
   end
-end
-
-function this.SetPatrolSpawnInfo(vehicle,spawnInfo,class)
-  spawnInfo.type=vehicle.type
-  spawnInfo.subType=vehicle.subType
-  --spawnInfo.class=vehicle.class
-  --spawnInfo.paintType=vehicle.paintType
-
-  --spawnInfo.class=gvars.vehiclePatrolClass
-  --spawnInfo.paintType=gvars.vehiclePatrolPaintType
-  --spawnInfo.emblemType=gvars.vehiclePatrolEmblemType
-
-  if class then
-    spawnInfo.paintType=nil
-    spawnInfo.class=class
-  end
+  return patrolVehicleEnabledList
 end
 
 --IN: missionTable.enemy.VEHICLE_SPAWN_LIST, missionTable.enemy.soldierDefine
@@ -278,9 +213,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
     return
   end
 
-
-  this.BuildEnabledList()
-
+  local patrolVehicleEnabledList=this.BuildEnabledList()
   if #patrolVehicleEnabledList==0 then
     --InfMenu.DebugPrint"ModifyVehicleSpawn - enabledList empty"--DEBUG
     return
@@ -288,42 +221,32 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
 
   InfMain.RandomSetToLevelSeed()
 
-  mvars.inf_patrolVehicleBaseInfo={}
+  mvars.inf_patrolVehicleInfo={}
+  local locationName=InfMain.GetLocationName()
+  local patrolNameIndicatorStr="veh_trc_000"
+
+  local baseType=patrolVehicleEnabledList[math.random(#patrolVehicleEnabledList)]
 
   local class=this.GetVehicleColor()
-
   if Ivars.vehiclePatrolClass:Is"RANDOM" then
     class=math.random(0,2)--default>oxide
   end
 
-  local singularBaseType=nil
   for n,spawnInfo in pairs(vehicleSpawnList)do
-    if string.find(spawnInfo.locator, "veh_trc_000") then--tex only replacing certain ids, seen in free mission vehicle spawn list
-      local vehicle=nil
-      local vehicleType=nil
+    local vehicle=nil
+    local vehicleType=nil
 
-      local baseType=patrolVehicleEnabledList[math.random(#patrolVehicleEnabledList)]
-      if Ivars.vehiclePatrolProfile:Is"SINGULAR" then
-        if singularBaseType==nil then
-          singularBaseType=baseType
-        else
-          baseType=singularBaseType
-        end
+    --tex only changing type on patrol vehicles
+    local isPatrolVehicle=string.find(spawnInfo.locator,patrolNameIndicatorStr)
+    if isPatrolVehicle then
+      if not Ivars.vehiclePatrolProfile:Is"SINGULAR" then
+        baseType=patrolVehicleEnabledList[math.random(#patrolVehicleEnabledList)]
       end
-      local baseTypeInfo=vehicleBaseTypes[baseType]
+      local baseTypeInfo=this.vehicleBaseTypes[baseType]
       if baseTypeInfo~=nil then
-        local vehicles=nil
-        local locationName=""
-        if TppLocation.IsAfghan()then
-          vehicles=baseTypeInfo.easternVehicles
-          locationName="EASTERN_"
-        elseif TppLocation.IsMiddleAfrica()then
-          vehicles=baseTypeInfo.westernVehicles
-          locationName="WESTERN_"
-        end
-
+        local vehicles=baseTypeInfo[locationName]
         if vehicles==nil then
-          vehicleType=locationName..baseType
+          vehicleType=locationVehiclePrefix[locationName]..baseType
         else
           vehicleType=vehicles[math.random(#vehicles)]
         end
@@ -339,18 +262,30 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
           break
         end
         --tex used for ModifyVehiclePatrolSoldiers
-        mvars.inf_patrolVehicleBaseInfo[spawnInfo.locator]=baseTypeInfo
+        mvars.inf_patrolVehicleInfo[spawnInfo.locator]=vehicle
 
-        if Ivars.vehiclePatrolClass:Is"RANDOM_EACH" then
-          class=math.random(0,2)--default>oxide
-        end
-        if baseType~="LIGHT_VEHICLE" or baseType~="TRUCK" then
-          class=nil
-        end
-
-        this.SetPatrolSpawnInfo(vehicle,spawnInfo,class)
+        --tex overwrite spawn info
+        spawnInfo.type=vehicle.type
+        spawnInfo.subType=vehicle.subType
       end
+      --<if isPatrolVehicle
     end
+
+    if Ivars.vehiclePatrolClass:Is"RANDOM_EACH" then
+      class=math.random(0,2)--default>oxide
+    end
+
+    --tex jeeps/trucks are fine with class/colors, but I'd rather just keep them with their PF paint.
+    if skipClassSet[spawnInfo.type] then
+      class=nil
+    end
+
+    --spawnInfo.emblemType=gvars.vehiclePatrolEmblemType
+    if class then
+      spawnInfo.paintType=nil
+      spawnInfo.class=class
+    end
+    --<for vehicleSpawnList
   end
 
   InfMain.RandomResetToOsTime()
@@ -363,7 +298,15 @@ local function AddMissionPack(packPath,missionPackPath)
   end
 end
 
---IN: vehicleSpawnInfoTable
+--IN: vehicleType,vehicleSpawnInfoTable
+local GetPackPath=function(vehicleType)
+  local vehicle=vehicleSpawnInfoTable[vehicleType]
+  if vehicle~=nil then
+    return vehicle.packPath or nil
+  end
+end
+
+--IN: vehicleSpawnInfoTable(via getpackpath,vehicleBaseTypes
 --OUT: missionPackPath
 --CALLER: TppMissionList.GetMissionPackagePath
 --TODO: only add those packs of active vehicles
@@ -373,37 +316,22 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
     return
   end
 
-  for baseType,typeInfo in pairs(vehicleBaseTypes) do
+  local locationName=InfMain.GetLocationName()
+
+  for baseType,typeInfo in pairs(this.vehicleBaseTypes) do
     if Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then
       --InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
-      local vehicles=nil
-      local vehicleType=""
-      local locationName=""
-      if TppLocation.IsAfghan()then
-        vehicles=typeInfo.easternVehicles
-        locationName="EASTERN_"
-      elseif TppLocation.IsMiddleAfrica()then
-        vehicles=typeInfo.westernVehicles
-        locationName="WESTERN_"
-      end
-
-
-      local GetPackPath=function(vehicleType)
-        local vehicle=vehicleSpawnInfoTable[vehicleType]
-        if vehicle~=nil then
-          return vehicle.packPath or nil
-        end
-      end
+      local vehicles=typeInfo[locationName]
 
       if vehicles==nil then
-        vehicleType=locationName..baseType
+        local vehicleType=locationVehiclePrefix[locationName]..baseType
         local packPath=GetPackPath(vehicleType)
         if packPath~=nil then
           --InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
           AddMissionPack(packPath,missionPackPath)
         end
       else
-        for n, vehicleType in pairs(vehicles) do
+        for n,vehicleType in pairs(vehicles) do
           local packPath=GetPackPath(vehicleType)
           if packPath~=nil then
             --InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG

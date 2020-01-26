@@ -155,7 +155,7 @@ function this.ParseTimeString(timeString,timeType)
     return nil
   end
 end
-function this.OnAllocate(n)
+function this.OnAllocate(missionTable)
   if TppCommand.Weather.UnregisterAllClockMessages then
     TppCommand.Weather.UnregisterAllClockMessages()
   end

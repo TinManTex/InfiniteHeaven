@@ -165,7 +165,7 @@ function this.InactiveMessages()
     }
   }
 end
-function this.OnAllocate(e)
+function this.OnAllocate(missionTable)
 end
 function this.Init(missionTable)
 end

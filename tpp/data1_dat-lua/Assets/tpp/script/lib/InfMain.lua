@@ -54,7 +54,7 @@ function this.ForceArmor(missionCode)
   if Ivars.EnabledForMission(allowHeavyArmorStr,missionCode) then
     return true
   end
-  --DEBUGNOW either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though), search in past versions
+  --TODO either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though), search in past versions
   --  if Ivars.allowLrrpArmorInFree:Is(1) and TppMission.IsFreeMission(missionCode) then
   --    return true
   --  end
@@ -248,6 +248,7 @@ local cpSubTypes={
 local changeCpSubTypeStr="changeCpSubType"
 function this.RandomizeCpSubTypeTable()
   if not Ivars.EnabledForMission(changeCpSubTypeStr) then
+    this.ResetCpTableToDefault()
     return
   end
 
@@ -266,7 +267,7 @@ function this.RandomizeCpSubTypeTable()
     local rnd=math.random(1,#locationSubTypes)
     subTypeOfCp[cp]=locationSubTypes[rnd]
   end
-  this.RandomResetToOsTime()--tex back to 'truly random' /s for good measure
+  this.RandomResetToOsTime()
 end
 
 function this.ChangePhase(cpName,phase)
@@ -362,23 +363,48 @@ this.cpPositions={
     afgh_fortSouth_ob={2194.072,429.323,-1271},
     afgh_villageNorth_ob={504.530,329.411,702.308},
     afgh_commWest_ob={983.531,347.594,665.96},
-    afgh_bridgeWest_ob="Guard Post 20",
-    afgh_bridgeNorth_ob="Guard Post 21",
+    afgh_bridgeWest_ob={1584.864,347.409,48.656},
+    afgh_bridgeNorth_ob={2394.559,369.135,-517.208},
     afgh_fieldWest_ob={8.862,274.866,1992.816},
     afgh_villageEast_ob={939.176,318.845,1259.34},
     afgh_ruinsNorth_ob={1623.511,323.038,1062.995},
-    afgh_fieldEast_ob="Guard Post 25",
+    afgh_fieldEast_ob={1101.482,318.458,1828.101},
     afgh_citadel_cp={-1251.708,595.181,-2936.821},
-    --TODO-v- redo
     afgh_field_cp={418.33,278.22,2261.37},
-    afgh_commFacility_cp={1444.40,364.14,390.78},
-    afgh_slopedTown_cp={512.11,316.60,167.44},
+    afgh_commFacility_cp={1488.730,357.429,459.287},
+    afgh_slopedTown_cp={514.191,331.173,43.403},
     afgh_fort_cp={2106.16,463.64,-1747.21},
     afgh_tent_cp={-1761.73,317.69,806.51},
-    afgh_remnants_cp={-805.54,291.88,1820.65},
+    afgh_remnants_cp={-905.605,288.846,1922.272},
     afgh_enemyBase_cp={-596.89,353.02,497.40},
   },
   mafr={
+    afgh_citadelSouth_ob={-562.849,1.203,-189.198},
+    afgh_sovietSouth_ob={1327.106,152.511,-1902.369},
+    afgh_plantWest_ob={569.342,79.988,-1072.545},
+    afgh_waterwayEast_ob={226.937,3.048,-652.768},
+    afgh_tentNorth_ob={720.467,35.090,-898.211},
+    afgh_enemyNorth_ob={-816.567,0.928,693.461},
+    afgh_cliffWest_ob={1068.555,121.555,-1167.466},--Guard Post 07, NW Sakhra Ee Village
+    afgh_tentEast_ob={},--Guard Post 08, SE Yakho Oboo Supply Outpost
+    afgh_enemyEast_ob={},--Guard Post 09, East Wakh Sind Barracks
+    afgh_cliffEast_ob={},--Guard Post 10, East Sakhra Ee Village
+    afgh_slopedWest_ob={},--Guard Post 11, NW Ghwandai Town
+    afgh_remnantsNorth_ob={},--Guard Post 12, North Lamar Khaate Palace
+    afgh_cliffSouth_ob={},--Guard Post 13, South Sakhra Ee Village
+    afgh_fortWest_ob={},--Guard Post 14, West Smasei Fort
+    afgh_villageWest_ob={},--Guard Post 15, NW Wialo Village
+    afgh_slopedEast_ob={},--Guard Post 16, SE Da Ghwandai Khar
+    afgh_fortSouth_ob={},--Guard Post 17, SW Smasei Fort
+    afgh_villageNorth_ob={},--Guard Post 18, NE Wailo Village
+    afgh_commWest_ob={},--Guard Post 19, West Eastern Communications Post
+    afgh_bridgeWest_ob={},--Guard Post 20, West Mountain Relay Base
+    afgh_bridgeNorth_ob={},--Guard Post 21, SE Mountain Relay Base
+    afgh_fieldWest_ob={},--Guard Post 22, North Shago Village
+    afgh_villageEast_ob={},--Guard Post 23, SE Wailo Village
+    afgh_ruinsNorth_ob={},--Guard Post 24, East Spugmay Keep
+    afgh_fieldEast_ob={},--Guard Post 25, East Shago Village
+    --redo
     mafr_hill_cp={2154.83,63.09,366.70},
     mafr_swamp_cp={-19.63,11.17,140.91},
     mafr_pfCamp_cp={846.46,-4.97,1148.62},
@@ -416,7 +442,7 @@ function this.GetClosestCp()
 end
 
 --<cp stuff
-
+--quest/sideops stuff
 --tex a few demo files force their own snake heads which naturally goes badly if DD female and use current soldier in cutscenes
 this.noSkipIsSnakeOnly={--tex>
   Demo_Funeral=true,--PATCHUP: shining lights end cinematic forces snake head with ash
@@ -427,8 +453,9 @@ this.noSkipIsSnakeOnly={--tex>
 
 --block quests>
 local blockQuests={
-  --DEBUGNOW "tent_q99040" -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
-  }
+  "tent_q99040", -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
+  "sovietBase_q99020",-- 82, make contact with emmeric
+}
 
 function this.BlockQuest(questName)
   --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
@@ -464,6 +491,8 @@ function this.BlockQuest(questName)
   return false
 end
 
+
+--<quest/sideops stuff
 this.menuDisableActions=PlayerDisableAction.OPEN_EQUIP_MENU--+PlayerDisableAction.OPEN_CALL_MENU
 
 function this.RestoreActionFlag()
@@ -843,9 +872,11 @@ local updateIvars={
 --tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
 function this.OnInitializeTop(missionTable)
   --InfInspect.TryFunc(function(missionTable)--DEBUG
-  if TppMission.IsFOBMission(vars.missionCode)then
-    return
+    if TppMission.IsFOBMission(vars.missionCode)then
+      return
   end
+
+  this.RandomizeCpSubTypeTable()
 
   if missionTable.enemy then
     local enemyTable=missionTable.enemy
@@ -857,7 +888,7 @@ function this.OnInitializeTop(missionTable)
     --InfMain.RandomSetToLevelSeed()
     if IsTable(enemyTable.soldierDefine) then
       if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
-        InfVehicle.ModifyVehiclePatrol(enemyTable.VEHICLE_SPAWN_LIST)
+        InfVehicle.ModifyVehiclePatrol(enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine)
       end
 
       enemyTable.soldierTypes=enemyTable.soldierTypes or {}
@@ -876,7 +907,7 @@ function this.OnInitializeTop(missionTable)
     --InfMain.RandomResetToOsTime()
   end
 
-  --DEBUGNOW
+  --TODO
   --  if Ivars.mbEnablePuppy:Is(1) then--and Ivars.inf_event:Is(0) then--tex mb event may turn off puppy, won't come back on by itself after event, so force it
   --    local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
   --    gvars.qst_questRepopFlag[puppyQuestIndex]=true
@@ -907,7 +938,7 @@ function this.OnInitializeBottom(missionTable)
             --but it doesn't seem to trigger unless I do
             --also there seems to be only one actual .normal interrogation used in one mission, unless the generic interrogation uses the .normal layer
             --and doing it this way actually resets the save vars
-            TppInterrogation.ResetFlagNormal(cpId)--DEBUGNOW
+            TppInterrogation.ResetFlagNormal(cpId)
           end
         end
       end
@@ -918,6 +949,7 @@ function this.OnInitializeBottom(missionTable)
   InfWalkerGear.SetupWalkerGear()
   --end,missionTable)--DEBUG
 end
+
 function this.OnAllocateTop(missionTable)
 
 end
@@ -954,6 +986,12 @@ function this.OnMissionCanStartBottom()
 
     InfGameEvent.OnMissionCanStart()
   end
+
+  if Ivars.repopulateRadioTapes:Is(1) then
+    Gimmick.ForceResetOfRadioCassetteWithCassette()
+  end
+
+  InfEquip.PutEquipOnTrucks()
   --end)--DEBUG
 end
 
@@ -1027,7 +1065,7 @@ end
 function this.RegenSeed(currentMission,nextMission)
   --tex hard to find a line to draw in the sand between one mission and the next, so i'm just going for if you've gone to acc then that you're new levelseed set
   -- this does mean that free roam<>mission wont get a change though, but that may be useful in some circumstances
-  if TppMission.IsHelicopterSpace(nextMission) and currentMission~=1 then
+  if TppMission.IsHelicopterSpace(nextMission) and currentMission>5 then
     InfMain.RandomSeedRegen()
   end
 end
@@ -1528,7 +1566,7 @@ this.reserveVehicleNames={}
 --local vehPrefix="veh_ih_"
 --this.numReserveVehicles=12--tex SYNC number of soldier locators i added to fox2s
 --for i=0,this.numReserveVehicles-1 do
---  local name=vehPrefix..string.format("%04d", i)
+--  local name=string.format("%s%04d",vehPrefix,i)
 --  table.insert(this.reserveVehicleNames,name)
 --end
 
@@ -1551,7 +1589,7 @@ this.mbVehicleNames={
 this.reserveSoldierCounts={
   [30010]=40,
   [30020]=60,
-  [30050]=100,--DEBUGNOW
+  [30050]=100,
 }
 
 this.reserveSoldierNames={}
@@ -1563,7 +1601,7 @@ function this.BuildReserveSoldierNames(numReserveSoldiers,reserveSoldierNames)
   reserveSoldierNames={}
 
   for i=0,numReserveSoldiers-1 do
-    local name=solPrefix..string.format("%04d",i)
+    local name=string.format("%s%04d",solPrefix,i)
     reserveSoldierNames[#reserveSoldierNames+1]=name
   end
   return reserveSoldierNames
@@ -1615,58 +1653,53 @@ function this.GetRandomPool(pool)
 end
 
 function this.ModifyVehiclePatrolSoldiers(soldierDefine)
-  if vars.missionCode~=30010 and vars.missionCode~=30020 then
+  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
     return
   end
 
-  if Ivars.vehiclePatrolProfile:Is()>0 and Ivars.vehiclePatrolProfile:MissionCheck() then
-    InfMain.RandomSetToLevelSeed()
+  InfMain.RandomSetToLevelSeed()
 
-    local initPoolSize=#this.soldierPool
-    for cpName,cpDefine in pairs(soldierDefine)do
-      local numCpSoldiers=0
-      for n=1,#cpDefine do
-        if cpDefine[n] then
-          numCpSoldiers=numCpSoldiers+1
-        end
+  local initPoolSize=#this.soldierPool
+  for cpName,cpDefine in pairs(soldierDefine)do
+    local numCpSoldiers=0
+    for n=1,#cpDefine do
+      if cpDefine[n] then
+        numCpSoldiers=numCpSoldiers+1
       end
+    end
 
-      if cpDefine.lrrpVehicle then
-        local numSeats=2
-        if mvars.inf_patrolVehicleBaseInfo then
-          local baseTypeInfo=mvars.inf_patrolVehicleBaseInfo[cpDefine.lrrpVehicle]
+    if cpDefine.lrrpVehicle then
+      local numSeats=2
+      if mvars.inf_patrolVehicleInfo then
+        local vehicleInfo=mvars.inf_patrolVehicleInfo[cpDefine.lrrpVehicle]
+        if vehicleInfo then
+          local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
           if baseTypeInfo then
             numSeats=math.random(math.min(numSeats,baseTypeInfo.seats),baseTypeInfo.seats)
             --InfMenu.DebugPrint(cpDefine.lrrpVehicle .. " numVehSeats "..numSeats)--DEBUG
           end
         end
-        --
-        local seatDelta=numSeats-numCpSoldiers
-        if seatDelta<0 then--tex over filled
-          FillList(-seatDelta,cpDefine,this.soldierPool)
-        elseif seatDelta>0 then
-          FillList(seatDelta,this.soldierPool,cpDefine)
-        end
-        --if lrrpVehicle<
       end
-      --for soldierdefine<
+      --
+      local seatDelta=numSeats-numCpSoldiers
+      if seatDelta<0 then--tex over filled
+        FillList(-seatDelta,cpDefine,this.soldierPool)
+      elseif seatDelta>0 then
+        FillList(seatDelta,this.soldierPool,cpDefine)
+      end
+      --if lrrpVehicle<
     end
-    --    local poolChange=#this.soldierPool-initPoolSize--DEBUG
-    --    InfMenu.DebugPrint("pool change:"..poolChange)--DEBUG
-
-    InfMain.RandomResetToOsTime()
-
-    --if vehiclePatrol
+    --for soldierdefine<
   end
+  --    local poolChange=#this.soldierPool-initPoolSize--DEBUG
+  --    InfMenu.DebugPrint("pool change:"..poolChange)--DEBUG
+
+  InfMain.RandomResetToOsTime()
 end
 
 --IN/OUT,SIDE reserveSoldierPool
 function this.AddLrrps(soldierDefine,travelPlans)
-  if vars.missionCode~=30010 and vars.missionCode~=30020 then
-    return
-  end
-
-  if Ivars.enableLrrpFreeRoam:Is(0) then
+  if Ivars.enableLrrpFreeRoam:Is(0) or not Ivars.enableLrrpFreeRoam:MissionCheck() then
     return
   end
 
@@ -1674,8 +1707,8 @@ function this.AddLrrps(soldierDefine,travelPlans)
 
   this.lrrpDefines={}
 
+  --tex find empty cps to use for lrrps
   local cpPool={}
-
   local lrrpInd="_lrrp"
   for cpName,cpDefine in pairs(soldierDefine)do
     local cpId=GetGameObjectId("TppCommandPost2",cpName)
@@ -1702,44 +1735,28 @@ function this.AddLrrps(soldierDefine,travelPlans)
   --  if maxSize>#this.soldierPool then
   --    maxSize=#this.soldierPool
   --  end
-  local numLrrps=0
+  local numLrrps=0--DEBUG
 
-  local baseNamePool={}
-  local startBases={}
-  local endBases={}
+  local baseNameBag=InfMain.ShuffleBag:New()
   local locationName=InfMain.GetLocationName()
-  startBases=InfMain.ResetPool(InfMain.baseNames[locationName])
-
-  for n,cpName in pairs(startBases)do
+  local baseNames=InfMain.baseNames[locationName]
+  for n,cpName in pairs(baseNames)do
     local cpDefine=soldierDefine[cpName]
     if cpDefine==nil then
     --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
     else
       local cpId=GetGameObjectId("TppCommandPost2",cpName)
       if cpId==NULL_ID then
-        InfMenu.DebugPrint("startBases "..tostring(cpName).." cpId==NULL_ID")--DEBUG
+        InfMenu.DebugPrint("baseNames "..tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
-        baseNamePool[#baseNamePool+1]=cpName
+        baseNameBag:Add(cpName)
       end
     end
   end
-  startBases=baseNamePool
-  local half=math.floor(#startBases/2)
-  for i=0,half do
-    endBases[#endBases+1]=this.GetRandomPool(startBases)
-  end
-  --tex TODO, copy off tables, swap, and make a second pass
 
-
+  --tex one lrrp per two bases (start at one, head to next) is a nice target for num of lrrps, but lrrp cps or soldiercount may run out first
   while #this.soldierPool-reserved>0 do
-
-    --tex done, this limits to one lrrp per base (or rather starting at base, the end is much more random)
-    --TODO: a second pass with start and end tables swapped (would have to copy off the tables above i guess)
-    if #startBases==0 or #endBases==0 then
-      --InfMenu.DebugPrint"#startBases==0"--DEBUG
-      break
-    end
-
+    --tex the main limiter, available empty cps to use for lrrps
     if #cpPool==0 then
       --InfMenu.DebugPrint"#cpPool==0"--DEBUG
       break
@@ -1749,7 +1766,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
       break
     end
 
-    local lrrpSize=2 --WIP custom lrrp size OFF to give coverage till I can come up with something better math.random(minSize,maxSize)
+    local lrrpSize=2 --TUNE WIP custom lrrp size OFF to give coverage till I can come up with something better math.random(minSize,maxSize)
     --tex TODO: stop it from eating reserved
     --InfMenu.DebugPrint("lrrpSize "..lrrpSize)--DEBUG
 
@@ -1760,14 +1777,14 @@ function this.AddLrrps(soldierDefine,travelPlans)
     --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
 
     local cpDefine={}
-    soldierDefine[cpName]=cpDefine--tex GOTCHA clearing the cp here, wheres in AddWildCards we are reading existing
+    soldierDefine[cpName]=cpDefine--tex GOTCHA clearing the cp here, wheres in AddWildCards we are modding existing
 
     FillList(lrrpSize,this.soldierPool,cpDefine)
 
     local planName=planStr..cpName
     cpDefine.lrrpTravelPlan=planName
-    local base1=this.GetRandomPool(startBases)
-    local base2=this.GetRandomPool(endBases)
+    local base1=baseNameBag:Next()
+    local base2=baseNameBag:Next()
     travelPlans[planName]={
       {base=base1},
       {base=base2},
@@ -1864,8 +1881,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
   --"MISSILE",
   }
 
-
-  local weaponPool={}
+  local weaponPowersBag=InfMain.ShuffleBag:New(weaponPowers)
 
   local abilityLevel="sp"
   local personalAbilitySettings={
@@ -1984,10 +2000,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       for n,power in pairs(gearPowers) do
         soldierPowers[#soldierPowers+1]=power
       end
-      if #weaponPool==0 then
-        weaponPool=this.ResetPool(weaponPowers)
-      end
-      soldierPowers[#soldierPowers+1]=this.GetRandomPool(weaponPool)--weapon
+      soldierPowers[#soldierPowers+1]=weaponPowersBag:Next()
 
       soldierPowerSettings[soldierName]=soldierPowers
 
@@ -2135,44 +2148,56 @@ for k,v in pairs(this.gameObjectStringToType)do
   this.gameObjectTypeToString[v]=k
 end
 
+--
+function this.GenerateNameList(prefix,num,list)
+  local list=list or {}
+  for i=0,num-1 do
+    local name=string.format("%s%04d",prefix,i)
+    table.insert(list,name)
+  end
+  return list
+end
+
+this.jeepNames=this.GenerateNameList("veh_lv_",20)
+this.truckNames=this.GenerateNameList("veh_trc_",10)
+
 --tex there's no real lookup for this I've found
 --there's probably faster tables (look in DefineSoldiers()) that have the cpId>soldierId, but this is nice for the soldiername,cpname
-function this.SoldierNameForGameId(findId)
-  for n,soldierName in ipairs(TppReinforceBlock.REINFORCE_SOLDIER_NAMES)do
-    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
-    if soldierId~=NULL_ID then
-      if soldierId==findId then
-        return soldierName
-      end
+function this.ObjectNameForGameIdList(findId,list,objectType)
+  for n,name in ipairs(list)do
+    local gameId=NULL_ID
+    if objectType then
+      gameId=GetGameObjectId(objectType,name)
+    else
+      gameId=GetGameObjectId(name)
     end
-  end
-
-  for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
-    for n,soldierName in ipairs(soldierList)do
-      local soldierId=GetGameObjectId("TppSoldier2",soldierName)
-      if soldierId~=NULL_ID then
-        if soldierId==findId then
-          return soldierName,cpName
-        end
-      end
-    end
-  end
-
-  for n,heliName in ipairs(InfNPCHeli.npcHeliList)do
-    local gameId=GetGameObjectId(heliName)
     if gameId~=NULL_ID then
       if gameId==findId then
-        return heliName
+        return name
       end
     end
   end
+end
 
-  for n,heliName in ipairs(InfNPCHeli.enemyHeliList)do
-    local gameId=GetGameObjectId(heliName)
-    if gameId~=NULL_ID then
-      if gameId==findId then
-        return heliName
-      end
+function this.ObjectNameForGameId(findId)
+  local tppSoldier2Str="TppSoldier2"
+  local nameLists={
+    {TppReinforceBlock.REINFORCE_SOLDIER_NAMES,tppSoldier2Str},
+    {mvars.ene_soldierDefine,tppSoldier2Str},
+    InfNPCHeli.npcHeliList,
+    InfNPCHeli.enemyHeliList,
+    this.jeepNames,
+    this.truckNames,
+  }
+  for i,list in ipairs(nameLists)do
+    local gameId
+    if type(list[1])=="table" then
+      gameId=this.ObjectNameForGameIdList(findId,list[1],list[2])
+    else
+      gameId=this.ObjectNameForGameIdList(findId,list)
+    end
+    if gameId then
+      return gameId
     end
   end
 
@@ -2448,8 +2473,7 @@ function this.ModifyEnemyAssetTable()
     return
   end
 
-  --DEBUGNOW
-  this.numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0--DEBUGNOW
+  this.numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
   this.reserveSoldierNames=this.BuildReserveSoldierNames(this.numReserveSoldiers,this.reserveSoldierNames)
   this.soldierPool=this.ResetPool(this.reserveSoldierNames)
 
@@ -2493,6 +2517,49 @@ function this.ModifyEnemyAssetTable()
   --end)--
 end
 
+local mineFieldMineTypes={
+  {TppEquip.EQP_SWP_DMine,3},--tex bias toward original minefield intentsion/anti personal mines
+  TppEquip.EQP_SWP_SleepingGusMine,
+  TppEquip.EQP_SWP_AntitankMine,
+  TppEquip.EQP_SWP_ElectromagneticNetMine,
+}
+
+--CALLER: TppMain.OnInitialize, just after loc_locationCommonTable.OnInitialize()
+function this.ModifyMinesAndDecoys()
+  if Ivars.randomizeMineTypes:Is(0) then
+    return
+  end
+
+  local mineTypeBag=InfMain.ShuffleBag:New(mineFieldMineTypes)
+
+  InfMain.RandomSetToLevelSeed()
+  if mvars.rev_revengeMineList then
+    for cpName,mineFields in pairs(mvars.rev_revengeMineList)do
+      for i,mineField in ipairs(mineFields)do
+        if mineField.mineLocatorList then
+          for i,locatorName in ipairs(mineField.mineLocatorList)do
+            TppPlaced.ChangeEquipIdByLocatorName(locatorName,mineTypeBag:Next())
+          end
+        end
+        --tex WIP no go
+        --          if mineField.decoyLocatorList then
+        --            for i,locatorName in ipairs(mineField.decoyLocatorList)do
+        --              TppPlaced.ChangeEquipIdByLocatorName(locatorName,TppEquip.EQP_SWP_SleepingGusMine)
+        --            end
+        --          end
+      end
+    end
+  end
+  InfMain.RandomResetToOsTime()
+end
+
+--
+function this.ReadSaveVar(name,category)
+  local category=category or TppScriptVars.CATEGORY_GAME_GLOBAL
+  local globalSlotForSaving={TppDefine.SAVE_SLOT.SAVING,TppDefine.SAVE_FILE_INFO[category].slot}
+  return TppScriptVars.GetVarValueInSlot(globalSlotForSaving,"gvars",name,0)
+end
+
 --UTIL TODO shift all util functions somewhere
 this.locationNames={
   [10]="afgh",
@@ -2506,24 +2573,43 @@ function this.GetLocationName()
 end
 
 function this.ClearTable(_table)
-  for k in next, _table do rawset(_table, k, nil) end
+  for i=0, #_table do
+    _table[i]=nil
+  end
 end
 
 this.ShuffleBag={
   currentItem=nil,
   currentPosition=-1,
   data={},
-  New=function(self,o)
-    o=o or {}
-    o.currentItem=nil
-    o.currentPosition=-1
-    o.data={}
+  New=function(self,table)
+    local newBag={}
+    newBag.currentItem=nil
+    newBag.currentPosition=-1
+    newBag.data={}
 
-    setmetatable(o,self)
+    setmetatable(newBag,self)
     self.__index=self
-    return o
+
+    if table then
+      newBag:Fill(table)
+    end
+
+    return newBag
+  end,
+  Fill=function(self,table)
+    local tableTypeStr="table"
+    for i=1,#table do
+      local item=table[i]
+      if type(item)==tableTypeStr then
+        self:Add(item[1],item[2])
+      else
+        self:Add(item)
+      end
+    end
   end,
   Add=function(self,item,amount)
+    local amount=amount or 1
     for i=1,amount do
       self.data[#self.data+1]=item
 
@@ -2546,6 +2632,9 @@ this.ShuffleBag={
     self.currentPosition=self.currentPosition-1
 
     return self.currentItem
+  end,
+  Count=function(self)
+    return #self.data
   end,
 }
 

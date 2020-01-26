@@ -1,4 +1,4 @@
--- DOBUILD: 0
+-- DOBUILD: 0 --WIP EXPERIMENT, search EXP, revert/cleanup before use
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\online\o50050\o50050_additional.fpkd
 -- o50050_enemy.lua
@@ -346,7 +346,7 @@ end
 
  
 this.SetFriendly = function()
-  if true then return end--DEBUGNOW
+  if true then return end--EXP
 
 	Fox.Log("*** SetFriendly *** ")
 	local GetGameObjectId = GameObject.GetGameObjectId
@@ -628,17 +628,17 @@ this.SetUpEnemy = function ()
 
 	
 	if vars.fobSneakMode == FobMode.MODE_SHAM then
-		--DEBUGNOW OFF this.SetupPracticeMode()
+		--EXP OFF this.SetupPracticeMode()
 	end
 
 	
 	if vars.fobSneakMode == FobMode.MODE_VISIT then
-		--DEBUGNOW OFF this.SetFriendly()
+		--EXP OFF this.SetFriendly()
 		
-		--DEBUGNOW OFF this.SetFriendly()if TppMotherBaseManagement.IsMbsOwner{} ~= true then
+		--EXP OFF this.SetFriendly()if TppMotherBaseManagement.IsMbsOwner{} ~= true then
 			Fox.Log("### Not Owner ###")
-			--DEBUGNOW OFF this.SetFriendly()this.SetSaluteMoraleDisableAll()
-		--DEBUGNOW OFF this.SetFriendly()end
+			--EXP OFF this.SetFriendly()this.SetSaluteMoraleDisableAll()
+		--EXP OFF this.SetFriendly()end
 	end
 
 	

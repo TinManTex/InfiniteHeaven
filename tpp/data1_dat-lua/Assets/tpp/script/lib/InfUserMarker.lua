@@ -40,7 +40,7 @@ function this.PrintMarkerGameObject(index)
   end
   local typeIndex=GetTypeIndex(gameId)
   local typeStr=InfMain.gameObjectTypeToString[typeIndex]
-  local soldierName,cpName=InfMain.SoldierNameForGameId(gameId)
+  local soldierName,cpName=InfMain.ObjectNameForGameId(gameId)
   InfMenu.DebugPrint(soldierName)
   InfMenu.DebugPrint(gameId.."="..typeStr)
   InfMenu.DebugPrint("cpName:"..tostring(cpName))

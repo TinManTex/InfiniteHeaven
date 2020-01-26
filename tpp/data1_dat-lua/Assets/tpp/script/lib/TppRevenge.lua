@@ -480,46 +480,46 @@ end
 function this.SetHelmetAll()
   mvars.revenge_revengeConfig.HELMET="100%"
 end
-function this.RegisterMineList(n,E)
+function this.RegisterMineList(baseList,mineList)
   if not mvars.rev_usingBase then
     return
   end
   mvars.rev_mineBaseTable={}
-  for n,e in ipairs(n)do
-    if mvars.rev_usingBase[e]then
-      mvars.rev_mineBaseTable[e]=n-1
+  for n,cpName in ipairs(baseList)do
+    if mvars.rev_usingBase[cpName]then
+      mvars.rev_mineBaseTable[cpName]=n-1
     end
   end
-  mvars.rev_mineBaseList=n
-  mvars.rev_mineBaseCountMax=#n
-  this.RegisterCommonMineList(E)
+  mvars.rev_mineBaseList=baseList
+  mvars.rev_mineBaseCountMax=#baseList
+  this.RegisterCommonMineList(mineList)
 end
-function this.RegisterCommonMineList(E)
+function this.RegisterCommonMineList(mineList)
   mvars.rev_mineTrapTable={}
-  for n,e in pairs(E)do
-    if mvars.rev_usingBase[n]then
-      for E,e in ipairs(e)do
-        local e=e.trapName
-        local n={areaIndex=E,trapName=e,baseName=n}
-        mvars.rev_mineTrapTable[Fox.StrCode32(e)]=n
+  for cpName,mineFields in pairs(mineList)do
+    if mvars.rev_usingBase[cpName]then
+      for i,minefield in ipairs(mineFields)do
+        local trapName=minefield.trapName
+        local mineTrapTable={areaIndex=i,trapName=trapName,baseName=cpName}
+        mvars.rev_mineTrapTable[Fox.StrCode32(trapName)]=mineTrapTable
       end
     end
   end
   mvars.rev_revengeMineList={}
-  for n,E in pairs(E)do
-    if mvars.rev_usingBase[n]then
-      mvars.rev_revengeMineList[n]={}
-      if Tpp.IsTypeTable(E)then
-        if next(E)then
-          for E,t in ipairs(E)do
-            mvars.rev_revengeMineList[n][E]={}
-            this._CopyRevengeMineArea(mvars.rev_revengeMineList[n][E],t,n,E)
+  for cpName,mineFields in pairs(mineList)do
+    if mvars.rev_usingBase[cpName]then
+      mvars.rev_revengeMineList[cpName]={}
+      if Tpp.IsTypeTable(mineFields)then
+        if next(mineFields)then
+          for i,mineField in ipairs(mineFields)do
+            mvars.rev_revengeMineList[cpName][i]={}
+            this._CopyRevengeMineArea(mvars.rev_revengeMineList[cpName][i],mineField,cpName,i)
           end
-          local e=E.decoyLocatorList
-          if e then
-            mvars.rev_revengeMineList[n].decoyLocatorList={}
-            for E,e in ipairs(e)do
-              table.insert(mvars.rev_revengeMineList[n].decoyLocatorList,e)
+          local decoyLocatorList=mineFields.decoyLocatorList
+          if decoyLocatorList then
+            mvars.rev_revengeMineList[cpName].decoyLocatorList={}
+            for i,locatorName in ipairs(decoyLocatorList)do
+              table.insert(mvars.rev_revengeMineList[cpName].decoyLocatorList,locatorName)
             end
           end
         end
@@ -527,111 +527,111 @@ function this.RegisterCommonMineList(E)
     end
   end
 end
-function this.RegisterMissionMineList(n)
-  for n,E in pairs(n)do
-    this.AddBaseMissionMineList(n,E)
+function this.RegisterMissionMineList(mineList)
+  for cpName,mineFields in pairs(mineList)do
+    this.AddBaseMissionMineList(cpName,mineFields)
   end
 end
-function this.AddBaseMissionMineList(e,n)
-  local mineListForAreas=mvars.rev_revengeMineList[e]
+function this.AddBaseMissionMineList(cpName,mineFields)
+  local mineListForAreas=mvars.rev_revengeMineList[cpName]
   if not mineListForAreas then
     return
   end
-  if not Tpp.IsTypeTable(n)then
+  if not Tpp.IsTypeTable(mineFields)then
     return
   end
-  local E=n.decoyLocatorList
-  if E then
-    local n=mvars.rev_revengeMineList[e].decoyLocatorList
-    mvars.rev_revengeMineList[e].decoyLocatorList=mvars.rev_revengeMineList[e].decoyLocatorList or{}
-    for E,n in ipairs(E)do
-      table.insert(mvars.rev_revengeMineList[e].decoyLocatorList,n)
+  local decoyLocatorList=mineFields.decoyLocatorList
+  if decoyLocatorList then
+    --ORPHAN local prevDecoyList=mvars.rev_revengeMineList[cpName].decoyLocatorList
+    mvars.rev_revengeMineList[cpName].decoyLocatorList=mvars.rev_revengeMineList[cpName].decoyLocatorList or{}
+    for i,locatorName in ipairs(decoyLocatorList)do
+      table.insert(mvars.rev_revengeMineList[cpName].decoyLocatorList,locatorName)
     end
   end
-  for t,r in pairs(n)do
-    local e=mvars.rev_mineTrapTable[Fox.StrCode32(t)]
-    if e then
-      local areaIndex=e.areaIndex
+  for trapName,mineField in pairs(mineFields)do
+    local mineTrapTable=mvars.rev_mineTrapTable[Fox.StrCode32(trapName)]
+    if mineTrapTable then
+      local areaIndex=mineTrapTable.areaIndex
       local mineList=mineListForAreas[areaIndex]
-      local mineLocatorList=r.mineLocatorList
+      local mineLocatorList=mineField.mineLocatorList
       if mineLocatorList then
         mineList.mineLocatorList=mineList.mineLocatorList or{}
-        for E,n in ipairs(mineLocatorList)do
-          table.insert(mineList.mineLocatorList,n)
+        for index,locatorName in ipairs(mineLocatorList)do
+          table.insert(mineList.mineLocatorList,locatorName)
         end
       end
-      if not E then
-        local n=r.decoyLocatorList
-        if n then
+      if not decoyLocatorList then
+        local _decoyLocatorList=mineField.decoyLocatorList
+        if _decoyLocatorList then
           mineList.decoyLocatorList=mineList.decoyLocatorList or{}
-          for E,n in ipairs(n)do
-            table.insert(mineList.decoyLocatorList,n)
+          for index,locatorName in ipairs(_decoyLocatorList)do
+            table.insert(mineList.decoyLocatorList,locatorName)
           end
         end
       end
     else
-      if t~="decoyLocatorList"then
+      if trapName~="decoyLocatorList"then
       end
     end
   end
 end
-function this._CopyRevengeMineArea(e,n,E,E)
-  local trapName=n.trapName
+function this._CopyRevengeMineArea(mineFieldDest,mineFieldSource,cpName,mineFieldIndex)
+  local trapName=mineFieldSource.trapName
   if trapName then
-    e.trapName=trapName
+    mineFieldDest.trapName=trapName
   else
     return
   end
-  local mineLocatorList=n.mineLocatorList
+  local mineLocatorList=mineFieldSource.mineLocatorList
   if mineLocatorList then
-    e.mineLocatorList={}
-    for E,n in ipairs(mineLocatorList)do
-      e.mineLocatorList[E]=n
+    mineFieldDest.mineLocatorList={}
+    for index,locatorName in ipairs(mineLocatorList)do
+      mineFieldDest.mineLocatorList[index]=locatorName
     end
   end
-  local decoyLocatorList=n.decoyLocatorList
+  local decoyLocatorList=mineFieldSource.decoyLocatorList
   if decoyLocatorList then
-    e.decoyLocatorList={}
-    for n,E in ipairs(decoyLocatorList)do
-      e.decoyLocatorList[n]=E
+    mineFieldDest.decoyLocatorList={}
+    for index,locatorName in ipairs(decoyLocatorList)do
+      mineFieldDest.decoyLocatorList[index]=locatorName
     end
   end
 end
-function this.OnEnterRevengeMineTrap(n)
+function this.OnEnterRevengeMineTrap(trapNameStr32)
   if not mvars.rev_mineTrapTable then
     return
   end
-  local n=mvars.rev_mineTrapTable[n]
-  if not n then
+  local mineTrapTable=mvars.rev_mineTrapTable[trapNameStr32]
+  if not mineTrapTable then
     return
   end
-  local areaIndex,baseName,trapName=n.areaIndex,n.baseName,n.trapName
+  local areaIndex,baseName,trapName=mineTrapTable.areaIndex,mineTrapTable.baseName,mineTrapTable.trapName
   this.UpdateLastVisitedMineArea(baseName,areaIndex,trapName)
 end
 function this.ClearLastRevengeMineBaseName()
   gvars.rev_lastUpdatedBaseName=0
 end
-function this.UpdateLastVisitedMineArea(n,t,e)
-  local e=mvars.rev_LastVisitedMineAreaVarsName
-  if not e then
+function this.UpdateLastVisitedMineArea(cpName,areaIndex,trapName)
+  local lastVisitedMineAreaVarsName=mvars.rev_LastVisitedMineAreaVarsName
+  if not lastVisitedMineAreaVarsName then
     return
   end
-  local E=Fox.StrCode32(n)
-  if gvars.rev_lastUpdatedBaseName==E then
+  local cpNameStr32=Fox.StrCode32(cpName)
+  if gvars.rev_lastUpdatedBaseName==cpNameStr32 then
     return
   else
-    gvars.rev_lastUpdatedBaseName=E
+    gvars.rev_lastUpdatedBaseName=cpNameStr32
   end
-  local n=mvars.rev_mineBaseTable[n]
-  gvars[e][n]=t
+  local cpIndex=mvars.rev_mineBaseTable[cpName]
+  gvars[lastVisitedMineAreaVarsName][cpIndex]=areaIndex
 end
 function this.SaveMissionStartMineArea()
-  local e,E=mvars.rev_missionStartMineAreaVarsName,mvars.rev_LastVisitedMineAreaVarsName
-  if not e then
+  local missionStartMineAreaVarsName,lastVisitedMineAreaVarsName=mvars.rev_missionStartMineAreaVarsName,mvars.rev_LastVisitedMineAreaVarsName
+  if not missionStartMineAreaVarsName then
     return
   end
-  for n=0,(TppDefine.REVENGE_MINE_BASE_MAX-1)do
-    gvars[e][n]=gvars[E][n]
+  for cpIndex=0,(TppDefine.REVENGE_MINE_BASE_MAX-1)do
+    gvars[missionStartMineAreaVarsName][cpIndex]=gvars[lastVisitedMineAreaVarsName][cpIndex]
   end
 end
 function this.SetUpRevengeMine()
@@ -658,42 +658,42 @@ function this._SetUpRevengeMine()
   else
     addDecoys=false
   end
-  for a,o in pairs(mvars.rev_mineBaseTable)do
-    local revengeMineList=mvars.rev_revengeMineList[a]
-    local RENAMEsomenum=gvars[missionStartMineAreaVarsName][o]
-    if RENAMEsomenum==0 and#revengeMineList>0 then
-      RENAMEsomenum=math.random(1,#revengeMineList)
-      gvars[missionStartMineAreaVarsName][o]=RENAMEsomenum
+  local allMineFields=Ivars.additionalMineFields:Is()>0--tex
+  for cpName,cpIndex in pairs(mvars.rev_mineBaseTable)do
+    local cpMineList=mvars.rev_revengeMineList[cpName]
+    local cpMineFieldIndex=gvars[missionStartMineAreaVarsName][cpIndex]
+    if cpMineFieldIndex==0 and#cpMineList>0 then
+      cpMineFieldIndex=math.random(1,#cpMineList)
+      gvars[missionStartMineAreaVarsName][cpIndex]=cpMineFieldIndex
     end
-    local o=revengeMineList.decoyLocatorList
-    local t=false
-    for r,i in ipairs(revengeMineList)do
-      local T=i.mineLocatorList
-      if T then
-        local e=addMines and(r==RENAMEsomenum)
-        if e then
-          t=false
-        end
-        for E,n in ipairs(T)do
-          TppPlaced.SetEnableByLocatorName(n,e)
+    local locatorList=cpMineList.decoyLocatorList
+    --ORPHAN local RENsomeBool=false
+    for i,mineField in ipairs(cpMineList)do
+      local mineLocatorList=mineField.mineLocatorList
+      if mineLocatorList then
+        local enable=addMines and(i==cpMineFieldIndex or allMineFields)--tex added allMineFields
+        --        --ORPHAN if enable then
+        --          RENsomeBool=false
+        --        end
+        for i,locatorName in ipairs(mineLocatorList)do
+          TppPlaced.SetEnableByLocatorName(locatorName,enable)
         end
       end
-      local decoyLocatorList=i.decoyLocatorList
-      if o then
-        this._EnableDecoy(a,o,addDecoys)
-        if addDecoys then
-          t=false
-        end
+      --NMC I don't understand why the double pass for _EnableDecoy
+      local decoyLocatorList=mineField.decoyLocatorList
+      if locatorList then
+        this._EnableDecoy(cpName,locatorList,addDecoys)
+        --        --ORPHAN if addDecoys then
+        --          RENsomeBool=false
+        --        end
       end
       if decoyLocatorList then
-        local n=addDecoys and(r==RENAMEsomenum)
-        this._EnableDecoy(a,decoyLocatorList,n)
-        if n then
-          t=false
-        end
+        local enable=addDecoys and(i==cpMineFieldIndex)
+        this._EnableDecoy(cpName,decoyLocatorList,enable)
+        --        --ORPHAN if enable then
+        --          RENsomeBool=false
+        --        end
       end
-    end
-    if t then
     end
   end
 end
@@ -707,7 +707,7 @@ function this._EnableDecoy(_cpName,locatorList,enable)
   local cpName=_cpName.."_cp"
   local decoyType=this._GetDecoyType(cpName)
   local isUsingActiveDecoy=this.IsUsingActiveDecoy()
-  for t,locatorName in ipairs(locatorList)do
+  for i,locatorName in ipairs(locatorList)do
     if decoyType then
       TppPlaced.SetCorrelationValueByLocatorName(locatorName,decoyType)
     end
@@ -1368,7 +1368,7 @@ function this._CreateRevengeConfig(revengeTypes)
       end
     end
   end
-  if not doCustom then--tex added bypass if custom--DEBUGNOW remove, test
+  if not doCustom then--tex added bypass if custom--TODO remove, test
     for powerType,bool in pairs(doExcludePower)do
       revengeConfig[powerType]=nil
   end
@@ -1581,7 +1581,7 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
       local comboExcludeList=powerComboExclusionList[powerType]or{}
       local soldierCount=settingSoldierCount
       local soldierConfigId=0--tex added
-      --soldierConfigId=math.random(totalSoldierCount)--tex WIP DEBUGNOW random start pos to shake up distribution, the default does in order so it means ARMOR will get the good weapons, which is actually good, could have a seperate filter for what powertypes get a random distribution, mainly its weapons and headgear and rest shouldnt have random start?
+      --soldierConfigId=math.random(totalSoldierCount)--tex WIP random start pos to shake up distribution, the default does in order so it means ARMOR will get the good weapons, which is actually good, could have a seperate filter for what powertypes get a random distribution, mainly its weapons and headgear and rest shouldnt have random start?
       --WAS for soldierConfigId=1,totalSoldierCount do
       for count=1,totalSoldierCount do
         soldierConfigId=soldierConfigId+1--tex>
@@ -1980,8 +1980,9 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]
     local addRadio=false
     if isLrrpVehicleCp and vehiclePatrols then
-      if mvars.inf_patrolVehicleBaseInfo then
-        local baseTypeInfo=mvars.inf_patrolVehicleBaseInfo[isLrrpVehicleCp]
+      local vehicleInfo=mvars.inf_patrolVehicleInfo[isLrrpVehicleCp]
+      if vehicleInfo then
+        local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
         if baseTypeInfo and not baseTypeInfo.enclosed then
           addRadio=true
         end
@@ -2290,7 +2291,7 @@ end
 function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function this.OnReload(n)
+function this.OnReload(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
@@ -2336,11 +2337,11 @@ function this._OnReinforceRespawn(soldierIds)
     this.ApplyPowerSettingsForReinforce{soldierIds}
   end
 end
-function this._OnHeadShot(E,t,t,n)
-  if GetTypeIndex(E)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
+function this._OnHeadShot(gameObjectId,attackId,attackerObjectId,flag)
+  if GetTypeIndex(gameObjectId)~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then
     return
   end
-  if bit.band(n,HeadshotMessageFlag.IS_JUST_UNCONSCIOUS)==0 then
+  if bit.band(flag,HeadshotMessageFlag.IS_JUST_UNCONSCIOUS)==0 then
     return
   end
   this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.HEAD_SHOT)
@@ -2384,9 +2385,9 @@ function this._OnUnconscious(gameId,t,playerPhase)
   end
   AddRevengePointByEliminationType(playerPhase)
 end
-function this._OnAnnihilated(E,playerPhase,t)
+function this._OnAnnihilated(cpId,playerPhase,t)
   if t==0 then
-    if TppEnemy.IsBaseCp(E)or TppEnemy.IsOuterBaseCp(E)then
+    if TppEnemy.IsBaseCp(cpId)or TppEnemy.IsOuterBaseCp(cpId)then
       if playerPhase==nil then
         playerPhase=vars.playerPhase
       end
@@ -2447,7 +2448,7 @@ end
 function this._OnSleepingComradeRecoverd(n)
   this.AddRevengePointByTriggerType(this.REVENGE_TRIGGER_TYPE.WAKE_A_COMRADE)
 end
-function this._OnEnterTrap(n)
-  this.OnEnterRevengeMineTrap(n)
+function this._OnEnterTrap(trapNameStr32)
+  this.OnEnterRevengeMineTrap(trapNameStr32)
 end
 return this

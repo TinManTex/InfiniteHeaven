@@ -290,16 +290,16 @@ function this.ShowAnnounceLog(announceId,param1,param2,delayTime,missionSubGoalN
     TppUiCommand.AnnounceLogViewLangId(missionSubGoalLangId)
   end
 end
-function this.ShowColorAnnounceLog(t,i,a,delay)
+function this.ShowColorAnnounceLog(announceId,param1,param2,delay)
   if gvars.ini_isTitleMode then
     return
   end
-  local langId=this.ANNOUNCE_LOG_TYPE[t]
+  local langId=this.ANNOUNCE_LOG_TYPE[announceId]
   if langId then
     if delay then
       TppUiCommand.AnnounceLogDelayTime(delay)
     end
-    TppUiCommand.AnnounceLogViewLangId(langId,i,a,0,0,true)
+    TppUiCommand.AnnounceLogViewLangId(langId,param1,param2,0,0,true)
   end
 end
 function this.ShowJoinAnnounceLog(announceId1,announceId2,param1,param2,delayTime)
@@ -315,17 +315,17 @@ function this.ShowJoinAnnounceLog(announceId1,announceId2,param1,param2,delayTim
     TppUiCommand.AnnounceLogViewJoinLangId(langId1,langId2,param1,param2)
   end
 end
-function this.ShowColorJoinAnnounceLog(i,o,t,a,delay)
+function this.ShowColorJoinAnnounceLog(announceId1,announceId2,param1,param2,delay)
   if gvars.ini_isTitleMode then
     return
   end
-  local langId=this.ANNOUNCE_LOG_TYPE[i]
-  local langId2=this.ANNOUNCE_LOG_TYPE[o]
+  local langId=this.ANNOUNCE_LOG_TYPE[announceId1]
+  local langId2=this.ANNOUNCE_LOG_TYPE[announceId2]
   if langId and langId2 then
     if delay then
       TppUiCommand.AnnounceLogDelayTime(delay)
     end
-    TppUiCommand.AnnounceLogViewJoinLangId(langId,langId2,t,a,0,0,true)
+    TppUiCommand.AnnounceLogViewJoinLangId(langId,langId2,param1,param2,0,0,true)
   end
 end
 function this.ShowEmergencyAnnounceLog(isFobEmergency)
@@ -374,7 +374,6 @@ function this.EnableSpySearch(spySearch)
   if Ivars.disableSpySearch:Is()>0 then--tex>
     return
   end--<
-
   if not IsTypeTable(spySearch)then
     return
   end
@@ -496,9 +495,9 @@ end
 function this.GetLastCompletedFlagIndex(n)
   return this._GetLastCompletedFlagIndex(vars.missionCode,n)
 end
-function this._GetLastCompletedFlagIndex(n,e)
-  local n=TppDefine.MISSION_ENUM[tostring(n)]
-  if not n then
+function this._GetLastCompletedFlagIndex(missionCode,e)
+  local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if not missionEnum then
     return
   end
   if not Tpp.IsTypeNumber(e)then
@@ -507,7 +506,7 @@ function this._GetLastCompletedFlagIndex(n,e)
   if(e<0)or(e>=TppDefine.MAX_MISSION_TASK_COUNT)then
     return
   end
-  return n*TppDefine.MAX_MISSION_TASK_COUNT+e
+  return missionEnum*TppDefine.MAX_MISSION_TASK_COUNT+e
 end
 function this.GetTaskCompletedNumber(missionCode)
   local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]

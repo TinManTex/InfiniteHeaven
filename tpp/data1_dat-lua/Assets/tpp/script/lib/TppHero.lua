@@ -344,17 +344,17 @@ function this.OnBreakPlaced(o,n,t,i)
     this.SetAndAnnounceHeroicOgrePoint(this.BREAK_MINE,nil,"disposal_mine")
   end
 end
-function this.OnPickUpPlaced(i,o,t,n)
+function this.OnPickUpPlaced(playerId,equipId,itemIndex,isPlayers)
   if vars.missionCode==50050 then
     return
   end
-  if not Tpp.IsLocalPlayer(i)then
+  if not Tpp.IsLocalPlayer(playerId)then
     return
   end
-  if n==1 then
+  if isPlayers==1 then
     return
   end
-  if TppPlayer.IsMine(o)then
+  if TppPlayer.IsMine(equipId)then
     Tpp.IncrementPlayData"totalMineRemoveCount"
     this.SetAndAnnounceHeroicOgrePoint(this.PICK_UP_MINE,nil,"disposal_mine")
   end
@@ -520,13 +520,13 @@ function this.Messages()
           this.OnHelicopterLostControl(gameId,attackerId)
         end
       end},
-      {msg="CommandPostAnnihilated",func=function(n,o,i)
+      {msg="CommandPostAnnihilated",func=function(cpId,o,i)
         local o=false
         if mvars.ene_cpList then
-          local e=mvars.ene_cpList[n]o=TppTrophy.DOMINATION_TARGET_CP_NAME_LIST[e]
+          local e=mvars.ene_cpList[cpId]o=TppTrophy.DOMINATION_TARGET_CP_NAME_LIST[e]
         end
         if i==0 then
-          if TppEnemy.IsBaseCp(n)then
+          if TppEnemy.IsBaseCp(cpId)then
             if o then
               PlayRecord.RegistPlayRecord"BASE_SUPPRESSION"
               this.SetAndAnnounceHeroicOgrePointForAnnihilateCp(this.ON_ANNIHILATE_BASE,true)
@@ -535,8 +535,8 @@ function this.Messages()
               TppChallengeTask.RequestUpdate"ENEMY_BASE"--RETAILPATCH 1070
               TppUI.UpdateOnlineChallengeTask{detectType=32,diff=1}--RETAILPATCH 1090
             end
-            TppEmblem.AcquireOnCommandPostAnnihilated(n)
-          elseif TppEnemy.IsOuterBaseCp(n)then
+            TppEmblem.AcquireOnCommandPostAnnihilated(cpId)
+          elseif TppEnemy.IsOuterBaseCp(cpId)then
             if o then
               this.SetAndAnnounceHeroicOgrePointForAnnihilateCp(this.ON_ANNIHILATE_OUTER_BASE,false)
               TppChallengeTask.RequestUpdate"ENEMY_BASE"--RETAILPATCH 1070
@@ -544,13 +544,13 @@ function this.Messages()
               TppTrophy.Unlock(18)
               TppUI.UpdateOnlineChallengeTask{detectType=33,diff=1}--RETAILPATCH 1090
             end
-            TppEmblem.AcquireOnCommandPostAnnihilated(n)
+            TppEmblem.AcquireOnCommandPostAnnihilated(cpId)
           end
         end
         if TppCommandPost2.SetCpDominated then
           local locationName=TppLocation.GetLocationName()
           if locationName=="afgh"or locationName=="mafr"then
-            local cpName=mvars.ene_cpList[n]
+            local cpName=mvars.ene_cpList[cpId]
             local i=TppCommandPost2.SetCpDominated{cpName=cpName,type=locationName}
             local dominatedCpCount=TppCommandPost2.GetDominatedCpCount{type=locationName}
             local targetDominatedCpCount=TppTrophy.DOMINATION_TARGET_CP_COUNT[locationName]
@@ -578,7 +578,7 @@ end
 function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function this.OnReload(n)
+function this.OnReload(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)

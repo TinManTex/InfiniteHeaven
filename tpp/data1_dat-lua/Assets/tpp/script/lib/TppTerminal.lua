@@ -255,12 +255,12 @@ this.RESOURCE_INFORMATION_TABLE={
   [TppCollection.TYPE_POSTER_MOE_H]={resourceName="Poster1006",count=1}
 }
 --DEBUGNOW TODO scaling in this.AddPickedUpResourceToTempBuffer (the resource add function) and TppPlayer.OnPickUpCollection (the display) would probably be better if you want runtime adjust
-for collectionType,info in pairs(this.RESOURCE_INFORMATION_TABLE)do
-  if string.find(info.resourceName, "Poster") then
-  else
-    info.count=info.count*10
-  end
-end
+--for collectionType,info in pairs(this.RESOURCE_INFORMATION_TABLE)do
+--  if string.find(info.resourceName, "Poster") then
+--  else
+--    info.count=info.count*10
+--  end
+--end
 --
 this.BLUE_PRINT_LOCATOR_TABLE={col_develop_Revolver_Shotgun=MBMConst.DESIGN_2002,col_develop_Highprecision_SMG=MBMConst.DESIGN_2006,col_develop_HighprecisionAR=MBMConst.DESIGN_2007,col_develop_HighprecisionAR_s10033_0000=MBMConst.DESIGN_2007,col_develop_BullpupAR=MBMConst.DESIGN_2008,col_develop_LongtubeShotgun=MBMConst.DESIGN_2009,col_develop_RevolverGrenade0001=MBMConst.DESIGN_2011,col_develop_RevolverGrenade0002=MBMConst.DESIGN_2011,col_develop_RevolverGrenade0003=MBMConst.DESIGN_2011,col_develop_RevolverGrenade0004=MBMConst.DESIGN_2011,col_develop_Semiauto_SR=MBMConst.DESIGN_2013,col_develop_Semiauto_SR_s10070_0000=MBMConst.DESIGN_2013,col_develop_Antimaterial=MBMConst.DESIGN_2015,col_develop_EuropeSMG0001=MBMConst.DESIGN_2016,col_develop_EuropeSMG0002=MBMConst.DESIGN_2016,col_develop_EuropeSMG0003=MBMConst.DESIGN_2016,col_develop_EuropeSMG0004=MBMConst.DESIGN_2016,col_develop_Stungrenade=MBMConst.DESIGN_2019,col_develop_Stungun=MBMConst.DESIGN_2020,col_develop_Infraredsensor=MBMConst.DESIGN_2021,col_develop_Theftprotection=MBMConst.DESIGN_2022,col_develop_Emergencyrescue=MBMConst.DESIGN_3001,col_develop_FLamethrower=MBMConst.DESIGN_2026,col_develop_Shield=MBMConst.DESIGN_2025,col_develop_Shield0000=MBMConst.DESIGN_2025,col_develop_Shield0001=MBMConst.DESIGN_2025,col_develop_Shield0002=MBMConst.DESIGN_2025,col_develop_GunCamera=MBMConst.DESIGN_2023,col_develop_UAV=MBMConst.DESIGN_2024,col_develop_q60115=MBMConst.DESIGN_2027}
 this.BLUE_PRINT_LANG_ID={[MBMConst.DESIGN_2002]="key_bprint_2002",[MBMConst.DESIGN_2006]="key_bprint_2006",[MBMConst.DESIGN_2007]="key_bprint_2007",[MBMConst.DESIGN_2008]="key_bprint_2008",[MBMConst.DESIGN_2009]="key_bprint_2009",[MBMConst.DESIGN_2011]="key_bprint_2011",[MBMConst.DESIGN_2013]="key_bprint_2013",[MBMConst.DESIGN_2015]="key_bprint_2015",[MBMConst.DESIGN_2016]="key_bprint_2016",[MBMConst.DESIGN_2019]="key_bprint_2019",[MBMConst.DESIGN_2020]="key_bprint_2020",[MBMConst.DESIGN_2021]="key_bprint_2021",[MBMConst.DESIGN_2022]="key_bprint_2022",[MBMConst.DESIGN_2023]="key_bprint_2023",[MBMConst.DESIGN_2024]="key_bprint_2024",[MBMConst.DESIGN_2025]="key_bprint_2025",[MBMConst.DESIGN_2026]="key_bprint_2026",[MBMConst.DESIGN_2027]="key_bprint_2027",[MBMConst.DESIGN_3001]="key_item_3001"}
@@ -626,12 +626,12 @@ function this._AcquireDlcItemStaff(n,t)
   end
   return true
 end
-function this._AcquirePrivilegeStaff(uniqueStaffType,n)
+function this._AcquirePrivilegeStaff(uniqueStaffType,category)
   local staffId=TppDefine.UNIQUE_STAFF_TYPE_ID[uniqueStaffType]
   if not staffId then
     return
   end
-  return this._AddUniqueVolunteerStaff(staffId,n)
+  return this._AddUniqueVolunteerStaff(staffId,category)
 end
 function this.AcquirePrivilegeInTitleScreen()
   this.AcquireGzPrivilegeKeyItem()
@@ -822,7 +822,7 @@ function this.ShowNoticeFobSneaked(announceLogType)
   TppUI.ShowEmergencyAnnounceLog(true)
   TppUiCommand.ShowMissionIcon("urgent_time",6,TppUI.ANNOUNCE_LOG_TYPE[announceLogType])
 end
-function this.OnAllocate(e)
+function this.OnAllocate(missionTable)
   mvars.trm_fultonInfo={}
 end
 function this.Init(missionTable)
@@ -863,8 +863,8 @@ end
 function this.MakeMessage()
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function this.OnReload(t)
-  this.Init(t)
+function this.OnReload(missionTable)
+  this.Init(missionTable)
   this.MakeMessage()
 end
 function this.OnMissionGameStart(e)
@@ -2158,17 +2158,17 @@ function this.AddUniqueVolunteerStaff(missionId)
     end
   end
 end
-function this._AddUniqueVolunteerStaff(uniqueTypeId,t)
+function this._AddUniqueVolunteerStaff(uniqueTypeId,category)
   if TppMotherBaseManagement.IsExistStaff{uniqueTypeId=uniqueTypeId}then
     return
   end
   local specialContract=false
-  if t~=nil then
+  if category~=nil then
     specialContract=true
   end
   local staffId=TppMotherBaseManagement.GenerateStaffParameter{staffType="Unique",uniqueTypeId=uniqueTypeId}
   TppMotherBaseManagement.DirectAddStaff{staffId=staffId,section="Wait",isNew=true,specialContract=specialContract}
-  TppUiCommand.ShowBonusPopupStaff(staffId,t)
+  TppUiCommand.ShowBonusPopupStaff(staffId,category)
   return true
 end
 function this.ForceStartBuildPlatform(category,clusterGrade)

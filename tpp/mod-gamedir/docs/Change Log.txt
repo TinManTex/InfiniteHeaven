@@ -1,5 +1,24 @@
 Infinite Heaven changelog
 
+r162
+Fixed: Patrol vehicle classes actually applying - thanks NasaNhak for the report
+Change: Vehicle classes apply to non patrol vehicles.
+Change: added miraz to item drops.
+Menu: World menu added, IH event chance, Clock timescale options moved to it.
+Option: repopulateRadioTapes - "Repopulate music tape radios" - thanks Apantos for the suggestion
+(via World menu)
+Refactor: InfVehicle, various changes
+Fixed: Random CP subtype resets table if not enabled for mode.
+Refactor: SetupInterCpQuests,AddLrrps - various replacements of random pools with shufflebags.
+Fixed: Returned molotok to wildcard soldiers, had accidentally replaced it with the high grade DD fob rifle.
+Option: sideOpsSelectionMode - Selection per sideop zone - Default (first found), Random, split from Unlock sideops for areas
+Option: randomizeMineTypes - Randomize minefield mine types - Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic
+Option: additionalMineFields - Enable additional minefields - In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.
+Option: disableHerbSearch - Disable Intel team herb spotting (requires game restart) - Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate. (PlayerRestrictions menu)
+Fixed: BlockQuest function shifted to replay only
+Sidop 82 - make contact with emerich blocked from selection since it's simply a lead-in to a mission.
+
+
 r161 - 2016-06-11 - public release
 Fixed: Hard-lock on mother base on a cluster with only one platform with "Soldiers move between platforms" on - thanks 
 BarelyFatal for the report and the save file to test with.

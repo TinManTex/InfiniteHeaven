@@ -158,9 +158,9 @@ this.demoOptions={
         if mvars.mbDemo_isFirstPlay then
           TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_303",rewardType=TppReward.TYPE.COMMON}
         end
-        local i=TppDefine.QUEST_INDEX.Mtbs_child_dog
-        gvars.qst_questRepopFlag[i]=false
-        gvars.qst_questClearedFlag[i]=true
+        local questIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
+        gvars.qst_questRepopFlag[questIndex]=false
+        gvars.qst_questClearedFlag[questIndex]=true
         TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
       end
     end,

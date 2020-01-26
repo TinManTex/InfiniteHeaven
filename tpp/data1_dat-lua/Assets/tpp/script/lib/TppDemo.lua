@@ -96,7 +96,6 @@ this.PLAY_REQUEST_START_FUNC={
     mvars.dem_tempPlayerInfo.playerCamoType=vars.playerCamoType
     mvars.dem_tempPlayerInfo.playerFaceId=vars.playerFaceId
     mvars.dem_tempPlayerInfo.playerFaceEquipId=vars.playerFaceEquipId
-    InfMenu.DebugPrint(demoId)--DEBUGNOW
     local forceSnake=true--tex>
     if Ivars.useSoldierForDemos:Is(1) then
       if vars.playerType~=PlayerType.DD_FEMALE or not InfMain.noSkipIsSnakeOnly[demoId] then
@@ -623,8 +622,8 @@ end
 function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
-function this.OnReload(n)
-  this.OnAllocate(n)
+function this.OnReload(missionTable)
+  this.OnAllocate(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 function this.Update()

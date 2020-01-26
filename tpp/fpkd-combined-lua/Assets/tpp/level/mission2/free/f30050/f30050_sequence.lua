@@ -761,7 +761,7 @@ function this.IsFemale( staffId )
 end
 
 function this.SetupStaffList()
-	--DEBUGNOW made local to module --OFF local MAX_STAFF_NUM_ON_CLUSTER = 18
+	--tex made local to module --OFF local MAX_STAFF_NUM_ON_CLUSTER = 18
 	local staffList = {}
 	math.randomseed(TppScriptVars.GetTotalPlayTime())
 	
@@ -1052,7 +1052,7 @@ end
 
 
 
-local MAX_STAFF_NUM_IN_CLUSTER = MAX_STAFF_NUM_ON_CLUSTER--tex was 18--DEBUGNOW 
+local MAX_STAFF_NUM_IN_CLUSTER = MAX_STAFF_NUM_ON_CLUSTER--tex was 18 
 --tex OFF unused local MAX_FACE_NUM_IN_CLUSTER = 18                                    
 this.RegisterFovaFpk = function( clusterId )
 	Fox.Log("RegisterFovaFpk! clusterId:" ..tostring(clusterId) )

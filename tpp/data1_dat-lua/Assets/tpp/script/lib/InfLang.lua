@@ -49,7 +49,7 @@ this.eng={--english
   revengeModeFREE="Free roam prep mode",
   revengeModeMISSION="Missions prep mode",
   forceSoldierSubType="Force enemy CP sub type",
-  unlockSideOps="Unlock random Sideops for areas",
+  unlockSideOps="Unlock Sideops mode",
   unlockSideOpNumber="Open specific sideop #",
   useSoldierForDemos="Use selected soldier in all cutscenes and missions",
   mbDemoSelection="MB cutscene play mode",
@@ -205,7 +205,7 @@ this.eng={--english
   heli_hold_pulling_out="Holding",--r97
   disableReinforceHeliPullOut="Disable reinforce heli pull-out",--r98,
   vehiclePatrolMenu="Vehicle patrols menu",--r99
-  vehiclePatrolProfile="Vehicle patrols in free roam profile",
+  vehiclePatrolProfile="Vehicle patrols in free roam",
   vehiclePatrolProfileSettings={"Game default - trucks only","All of one type (random from enabled)","Each vehicle differing type (random from enabled)"},
   vehiclePatrolLvEnable="Allow jeeps",
   vehiclePatrolTruckEnable="Allow trucks",
@@ -290,7 +290,7 @@ this.eng={--english
   enableSoldiersWithVehicleReinforce="Soldier reinforce with all vehicle reinforce types",--r120
   dDEquipMenu="DD Equip menu",
   enableDDEquipMB="MB staff use DD equipment",
-  enableDDEquipFREE="Enemy use DD equipment in Free roam",
+  enableDDEquipFREE="Enemy use DD equipment in free roam",
   enableDDEquipMISSION="Enemy use DD equipment in missions",--r125
   mbSoldierEquipGrade_MIN="DD Equip Grade RND MIN",
   mbSoldierEquipGrade_MAX="DD Equip Grade RND MAX",
@@ -437,6 +437,31 @@ this.eng={--english
   mbAdditionalSoldiers="More soldiers on MB plats",
   mbNpcRouteChange="Soldiers move between platforms",
   itemDropChance="Soldier item drop chance",
+  repopulateRadioTapes="Repopulate music tape radios",
+  worldMenu="World menu",
+  sideOpsSelectionMode="Sideop selection mode",
+  sideOpsSelectionModeSettings={
+    "Default (first found)",
+    "Random",
+    "Story/unique",
+    "Extract interpreter",
+    "Secure blueprint",
+    "Extract highly-skilled soldier",
+    "Prisoner extraction",
+    "Capture animals",
+    "Extract wandering Mother Base soldier",
+    "Unlucky Dog",
+    "Eliminate heavy infantry",
+    "Mine clearing",
+    "Eliminate armored vehicle unit",
+    "Extract legendary gunsmith",
+    "Eliminate tank unit",
+    "Eliminate wandering puppets",
+  --"TARGET_PRACTICE",
+  },
+  randomizeMineTypes="Randomize minefield mine types",
+  additionalMineFields="Enable additional minefields",
+  putEquipOnTrucks="Equipment on trucks",
 }--eng end
 
 this.help={}
@@ -487,7 +512,8 @@ this.help.eng={
   disableNoStealthCombatRevengeMission="By default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort)",
   disableMissionsWeaponRestriction="Missions 2, 12, 13, 16, 26, 31 normally prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).",
   markersMenu="Toggles for marking in main view. Does not effect marking on iDroid map",
-  unlockSideOps="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area.",
+  unlockSideOps="Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression. Due to how the code is designed this also enables the equivalent of random sideops selection.",
+  sideOpsSelectionMode="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category",
   mbDemoSelection="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",
   debugMode="Switches on some error messages and enables the announce-log during loading.",
   gameEventChanceMB="Chance to randomly trigger an IH event on returning to MB",
@@ -535,6 +561,10 @@ this.help.eng={
   warpPlayerUpdate="Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.",
   mbAdditionalSoldiers="Increases (non main) platforms from 4 soldiers to 7-8.",
   itemDropChance="Chance soldier will drop an item when eliminated.",
+  randomizeMineTypes="Randimizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic",
+  additionalMineFields="In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.",
+  disableHerbSearch="Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.",
+  putEquipOnTrucks="Puts a random piece of equipment on the back of patrol trucks.",
 }
 
 this.cpNames={
