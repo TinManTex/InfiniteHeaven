@@ -642,20 +642,22 @@ missionPackTable[30010]=function(missionCode)
   else
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30010/f30010.fpk"
   end
+
+  TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex
   if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetCurrentWildCardBodyInfo(true)--tex female
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
     end
   end--<
-  
+
   if Ivars.enemyHeliPatrol:Is()>0 then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk"
-    if InfNPCHeli.GetEnemyHeliColorName()=="BLACK" then
+    --DEBUGNOW if InfNPCHeli.GetEnemyHeliColorName()=="BLACK" then
       TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
-    elseif InfNPCHeli.GetEnemyHeliColorName()=="RED" then
+    --DEBUGNOW elseif InfNPCHeli.GetEnemyHeliColorName()=="RED" then
       TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"
-    end
+    --end
   end--<
 end
 missionPackTable[30020]=function(missionCode)
@@ -664,20 +666,21 @@ missionPackTable[30020]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ORDER_BOX)
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30020/f30020.fpk"
 
+  TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex
   if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetCurrentWildCardBodyInfo(true)--tex female
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
     end
   end--<
-  
+
   if Ivars.enemyHeliPatrol:Is()>0 then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk"
-    if InfNPCHeli.GetEnemyHeliColorName()=="BLACK" then
+    --DEBUGNOW if InfNPCHeli.GetEnemyHeliColorName()=="BLACK" then
       TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
-    elseif InfNPCHeli.GetEnemyHeliColorName()=="RED" then
+    --DEBUGNOW elseif InfNPCHeli.GetEnemyHeliColorName()=="RED" then
       TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"
-    end
+    --end
   end--<
 end
 missionPackTable[30050]=function(missionCode)
@@ -686,16 +689,16 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
 
-  TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
+  TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"--tex DEBUGNOW
 
   if Ivars.mbEnemyHeli:Is(1) or Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk"
-    if InfNPCHeli.GetEnemyHeliColorName()=="BLACK" then
+    --DEBUGNOW if InfNPCHeli.GetEnemyHeliColorName()=="BLACK" then
       TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
-    elseif InfNPCHeli.GetEnemyHeliColorName()=="RED" then
+    --DEBUGNOW elseif InfNPCHeli.GetEnemyHeliColorName()=="RED" then
       TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"
-    end
+    --end
   end--<
   if Ivars.mbEnableOcelot:Is(1) and Ivars.mbWarGamesProfile:Is(0) then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_ocelot.fpk"

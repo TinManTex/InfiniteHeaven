@@ -11,13 +11,13 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 
-local npcHeliList={
+this.npcHeliList={
   "WestHeli0000",
   "WestHeli0001",
   "WestHeli0002",
 }
 
-local enemyHeliList={
+this.enemyHeliList={
   --tex don't know if I want to use it anyway since there's a lot of other stuff tied to its name via quest heli and reinforce heli
   --"EnemyHeli",
   "EnemyHeli0000",
@@ -238,6 +238,7 @@ function this.ClearHeliState()
   end
 end
 
+--TUNE
 function this.GetEnemyHeliColor()
   --tex: cant use BLACK_SUPER_REINFORCE/SUPER_REINFORCE since it's not inited when I need it.
   if Ivars.mbEnemyHeliColor:Is"ENEMY_PREP" then
@@ -318,16 +319,19 @@ function this.InitUpdate(currentChecks)
   end
 
   local isMb=vars.missionCode==30050
+  local isOuterPlat=vars.missionCode==30150 or vars.missionCode==30250
 
   this.heliList={}
-  if Ivars.mbEnemyHeli:Is(1) then
-    this.heliList=InfMain.ResetPool(enemyHeliList)
+  if isOuterPlat then
+    return
+  elseif Ivars.mbEnemyHeli:Is(1) then
+    this.heliList=InfMain.ResetPool(this.enemyHeliList)
   elseif isMb then
-    this.heliList=InfMain.ResetPool(npcHeliList)
+    this.heliList=InfMain.ResetPool(this.npcHeliList)
     if Ivars.mbWarGamesProfile:Is(0) then
       if Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then
         for i=1,numNpcAttackHelis do
-          table.insert(this.heliList,enemyHeliList[i])
+          table.insert(this.heliList,this.enemyHeliList[i])
         end
       end
     end
@@ -344,10 +348,10 @@ function this.InitUpdate(currentChecks)
       numAttackHelis=settingToHeliNum[Ivars.enemyHeliPatrol:Get()]
     end
 
-    numAttackHelis=math.min(numAttackHelis,#enemyHeliList)
+    numAttackHelis=math.min(numAttackHelis,#this.enemyHeliList)
 
     for i=1,numAttackHelis do
-      table.insert(this.heliList,enemyHeliList[i])
+      table.insert(this.heliList,this.enemyHeliList[i])
     end
   end
 
@@ -367,11 +371,14 @@ function this.InitUpdate(currentChecks)
   --      local meshType=heliMeshTypes[math.random(#heliMeshTypes)]
   --      GameObject.SendCommand( heliObjectId, { id = "SetMeshType", typeName = meshType, } )
 
-
+  InfMain.SetLevelRandomSeed()
   if Ivars.mbEnemyHeliColor:Is()>0 then
     heliColorType=this.GetEnemyHeliColor()
+  elseif Ivars.mbEnemyHeliColor:Is"RANDOM" then
+    heliColorType=math.random(0,2)
   end
-
+  InfMain.ResetTrueRandom()
+  
   for n,heliName in ipairs(this.heliList)do
     local heliObjectId = GetGameObjectId(heliName)
     if heliObjectId==NULL_ID then
@@ -384,6 +391,10 @@ function this.InitUpdate(currentChecks)
           SendCommand(heliObjectId,{id="SetRestrictNotice",enabled=true})
           SendCommand(heliObjectId,{id="SetCombatEnabled",enabled=false})
           --TppMarker2System.DisableMarker{gameObjectId=heliObjectId}
+        end
+        
+        if Ivars.mbEnemyHeliColor:Is"RANDOM_EACH" then
+          heliColorType=math.random(0,2)
         end
 
         if heliColorType~=nil then
@@ -521,7 +532,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
 
           if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
             local clusterParam=mvars.mbSoldier_clusterParamList[clusterId]
-            local cpId=GetGameObjectId(clusterParam.CP_NAME)
+            local cpId=GetGameObjectId("TppCommandPost2",clusterParam.CP_NAME)
             if cpId==NULL_ID then
               InfMenu.DebugPrint("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
             else
@@ -591,11 +602,11 @@ function this.SetRoute(heliRoute,heliIndex)
   this.heliRouteIds[heliIndex]=heliRoute
   local groundStartPosition=InfLZ.groundStartPositions[heliRoute]
   if groundStartPosition then
-    InfMenu.DebugPrint("found ground posisiton")--DEBUGNOW
+    InfMenu.DebugPrint("found ground posisiton")--DEBUG
     heliRouteCenters[heliIndex]=groundStartPosition.pos
     closestDistance[heliIndex]=9999999999998--DEBUG
   else
-    InfMenu.DebugPrint("!!no ground posisiton")--DEBUGNOW
+    InfMenu.DebugPrint("!!no ground posisiton")--DEBUG
   end
 
 
@@ -606,13 +617,13 @@ function this.SetRoute(heliRoute,heliIndex)
   else
 
     if heliRoute then
-      SendCommand(heliObjectId,{id="SetSneakRoute",route=heliRoute,point=0,warp=true})--DEBUGNOW
-      InfMenu.DebugPrint(heliIndex.." "..heliName.." route: "..tostring(InfLZ.str32LzToLz[heliRoute]))--DEBUGNOW
+      SendCommand(heliObjectId,{id="SetSneakRoute",route=heliRoute,point=0,warp=true})--DEBUG
+      InfMenu.DebugPrint(heliIndex.." "..heliName.." route: "..tostring(InfLZ.str32LzToLz[heliRoute]))--DEBUG
     end
   end
 end
 
---DEBUGNOW
+--DEBUG
 function this.ClearRoute(heliIndex)
   local route=nil
 
@@ -621,11 +632,11 @@ function this.ClearRoute(heliIndex)
   if heliObjectId==NULL_ID then
   --InfMenu.DebugPrint(heliName.."==NULL_ID")--DEBUG
   else
-    --SendCommand(heliObjectId,{id="SetForceRoute",route=route})--DEBUGNOW
+    --SendCommand(heliObjectId,{id="SetForceRoute",route=route})--DEBUG
     SendCommand(heliObjectId,{id="SetSneakRoute",route=route})
     SendCommand(heliObjectId,{id="SetCautionRoute",route=route})
     SendCommand(heliObjectId,{id="SetAlertRoute",route=route})
-    InfMenu.DebugPrint(heliIndex.." "..heliName.." clearroute")--DEBUGNOW
+    InfMenu.DebugPrint(heliIndex.." "..heliName.." clearroute")--DEBUG
   end
 end
 

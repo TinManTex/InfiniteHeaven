@@ -66,9 +66,9 @@ mbdvc_map_mbstage_parameter = {
 		
 		local heliLandPointTable_FreePlay = {
 			
-			{
-				{	
-					{ 
+			{--layout
+				{	--cluster
+					{ --plant
 						{ routeId = "ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_apr", point = Vector3(9.1155920028687,8.7501268386841,-42.430213928223), isDefault=true, },
 					},
 				},

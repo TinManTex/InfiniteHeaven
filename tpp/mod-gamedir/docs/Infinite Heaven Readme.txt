@@ -30,7 +30,7 @@ Quiet will still abort from that position if it's too close to enemies.
 [youtube]kaKwnlQ_Nro[/youtube]
 https://www.youtube.com/watch?v=kaKwnlQ_Nro
 
-Option: "Allow Enemy Prep shift after free roam" - allows enemy prep changes to be applied after leaving Free roam (but not via abort)
+Option: "Allow Enemy Prep shift after free roam" - by default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort), 
 (In Enemy prep menu > Prep system menu)
 
 Update: "Staff-wide morale boost for good visit" now gets bonus for in game visit length, currently 3 in game days, so break out that cigar.

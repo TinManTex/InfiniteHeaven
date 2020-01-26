@@ -254,7 +254,7 @@ function this.BuildEnabledList()
   end
 end
 
-function this.SetPatrolSpawnInfo(vehicle,spawnInfo)
+function this.SetPatrolSpawnInfo(vehicle,spawnInfo,class)
   spawnInfo.type=vehicle.type
   spawnInfo.subType=vehicle.subType
   --spawnInfo.class=vehicle.class
@@ -263,6 +263,11 @@ function this.SetPatrolSpawnInfo(vehicle,spawnInfo)
   --spawnInfo.class=gvars.vehiclePatrolClass
   --spawnInfo.paintType=gvars.vehiclePatrolPaintType
   --spawnInfo.emblemType=gvars.vehiclePatrolEmblemType
+
+  if class then
+    spawnInfo.paintType=nil
+    spawnInfo.class=class
+  end
 end
 
 --IN: missionTable.enemy.VEHICLE_SPAWN_LIST, missionTable.enemy.soldierDefine
@@ -282,6 +287,12 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
   InfMain.SetLevelRandomSeed()
 
   mvars.patrolVehicleBaseInfo={}
+
+  local class=this.GetVehicleColor()
+
+  if Ivars.vehiclePatrolClass:Is"RANDOM" then
+    class=math.random(0,2)--default>oxide
+  end
 
   local singularBaseType=nil
   for n,spawnInfo in pairs(vehicleSpawnList)do
@@ -328,7 +339,14 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
         --tex used for ModifyVehiclePatrolSoldiers
         mvars.patrolVehicleBaseInfo[spawnInfo.locator]=baseTypeInfo
 
-        this.SetPatrolSpawnInfo(vehicle,spawnInfo)
+        if Ivars.vehiclePatrolClass:Is"RANDOM_EACH" then
+          class=math.random(0,2)--default>oxide
+        end
+        if baseType~="LIGHT_VEHICLE" or baseType~="TRUCK" then
+          class=nil
+        end
+
+        this.SetPatrolSpawnInfo(vehicle,spawnInfo,class)
       end
     end
   end
@@ -352,7 +370,6 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
   if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
     return
   end
-
 
   for baseType,typeInfo in pairs(vehicleBaseTypes) do
     if Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then
@@ -394,6 +411,22 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
       end
     end--if ivar
   end--for vehicle base types
+end
+
+--TUNE
+function this.GetVehicleColor()
+  if Ivars.vehiclePatrolClass:Is"ENEMY_PREP" then
+    --tex alt tuning for combined stealth/combat average, but I think I like heli color tied to combat better thematically,
+    --sure have them put more helis out if stealth level is high (see numAttackHelis), but only put beefier helis if your actually causing a ruckus
+    --local level=InfMain.GetAverageRevengeLevel()
+    --local levelToColor={0,0,1,1,2,2}--tex normally super reinforce(black,1) is combat 3,4, while super(red,2) is combat 5
+
+    local level=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)
+    local levelToColor={0,0,0,1,1,2}
+    return levelToColor[level+1]
+  end
+
+  return Ivars.vehiclePatrolClass:Get()
 end
 
 return this

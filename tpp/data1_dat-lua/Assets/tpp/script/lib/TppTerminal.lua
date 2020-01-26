@@ -1345,7 +1345,8 @@ function this.OnFultonBuddy(gameId,t,t,t,buddyType,t)
   end
 end
 function this.OnFultonEnemyWalkerGear(gameId,n,n,resourceId,n,n)
-  if mvars.trm_isSkipAddResourceToTempBuffer then
+  local isMbInvasion=vars.missionCode==30050 and Ivars.mbNonStaff:Is(1) and Ivars.enableWalkerGearsMB:Is(1)--tex allow walker fulton
+  if mvars.trm_isSkipAddResourceToTempBuffer and not isMbInvasion then--tex added invasion bypass
     return
   end
   this.AddTempResource(resourceId)

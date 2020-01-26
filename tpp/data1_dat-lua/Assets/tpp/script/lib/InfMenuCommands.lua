@@ -39,7 +39,7 @@ this.goBackItem={
 --commands
 this.showPosition={
   OnChange=function()
-    TppUiCommand.AnnounceLogView(string.format("%.2f,%.2f,%.2f | %.2f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerRotY))
+    TppUiCommand.AnnounceLogView(string.format("%.3f,%.3f,%.3f | %.3f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerCameraRotation[1]))
   end,
 }
 
@@ -426,34 +426,21 @@ this.DEBUG_PrintInterrogationInfo={
 ---
 local toggle1=false
 local index1Min=0
-local index1Max=5
+local index1Max=10
 local index1=index1Min
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
+  
 
-        --DEBUGNOW
-        local alphaTable={"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"}
-        local allPosString="POSSTRING"..index1..":\n"
-        local maxMarkers=5
-        for index=0,maxMarkers-1 do
-          local x=vars.userMarkerPosX[index]
-          local y=vars.userMarkerPosY[index]
-          local z=vars.userMarkerPosZ[index]
-          local posString=string.format("%.2f,%.2f,%.2f",x,y,z)
-          local addFlag=vars.userMarkerAddFlag[index]
-          local letter=alphaTable[addFlag]
 
-          allPosString=allPosString..letter..":"..posString.."\n"
-        end
-        allPosString=allPosString.."END\n"
-        InfMenu.DebugPrint(allPosString)
 
-        InfMenu.DebugPrint("index1:"..index1)
-        index1=index1+1
-        if index1>index1Max then
-          index1=index1Min
-        end
+
+      InfMenu.DebugPrint("index1:"..index1)
+      index1=index1+1
+      if index1>index1Max then
+        index1=index1Min
+      end
     end)
   end
 }
@@ -462,7 +449,7 @@ local index2=1
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
-      --DEBUGNOW
+
       --InfMenu.DebugPrint(this.stringTest)
 
       local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
@@ -492,11 +479,8 @@ local index3=1
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
-       
-                local camPos=InfCamera.ReadPosition"FreeCam"
-                InfMenu.DebugPrint("cam pos:".. camPos:GetX()..",".. camPos:GetY().. ","..camPos:GetZ())
-                --InfMenu.DebugPrint("gg:"..tostring(mbdvc_map_location_parameter.gg))
-      end)
+
+    end)
   end
 }
 
@@ -922,124 +906,113 @@ this.DEBUG_WarpToObject={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-    --local objectList=InfMain.reserveSoldierNames
+        --local objectList=InfMain.reserveSoldierNames
 
-    --local objectList=InfMain.ene_wildCardSoldiers
+        --local objectList=InfMain.ene_wildCardSoldiers
 
-    --    local objectList={
-    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",
-    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001",
-    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002",
-    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003",
-    --    }
-    --local objectList={"sol_field_0002"}
-
-
-
-    --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
-    --local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
+        --    local objectList={
+        --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",
+        --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001",
+        --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002",
+        --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003",
+        --    }
+        --local objectList={"sol_field_0002"}
 
 
 
-    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
-    --local objectList={"WestHeli0001","WestHeli0000","WestHeli0002"}
-    --local objectList={"EnemyHeli"}
-    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000"}
-
-    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
-
-    --    local objectList={
-    --      "veh_cl01_cl00_0000",
-    --      "veh_cl02_cl00_0000",
-    --      "veh_cl03_cl00_0000",
-    --      "veh_cl04_cl00_0000",
-    --      "veh_cl05_cl00_0000",
-    --      "veh_cl06_cl00_0000",
-    --      "veh_cl00_cl04_0000",
-    --      "veh_cl00_cl02_0000",
-    --      "veh_cl00_cl03_0000",
-    --      "veh_cl00_cl01_0000",
-    --      "veh_cl00_cl05_0000",
-    --      "veh_cl00_cl06_0000",
-    --    }
-
-    --    local objectList={
-    --      --  "WestHeli0000",
-    --      --  "WestHeli0001",
-    --      --  "WestHeli0002",
-    --      --  "EnemyHeli",
-    --      "EnemyHeli0000",
-    --      "EnemyHeli0001",
-    --      "EnemyHeli0002",
-    --      "EnemyHeli0003",
-    --      "EnemyHeli0004",
-    --      "EnemyHeli0005",
-    --      "EnemyHeli0006",
-    --    }
-
-
-    --local objectList=InfInterrogation.interCpQuestSoldiers
-
-    local objectList={
-      "wkr_WalkerGear_0000",
-      "wkr_WalkerGear_0001",
-      "wkr_WalkerGear_0002",
-      "wkr_WalkerGear_0003",
-      "wkr_WalkerGear_0004",
-      "wkr_WalkerGear_0005",
-      "wkr_WalkerGear_0006",
-      "wkr_WalkerGear_0007",
-      "wkr_WalkerGear_0008",
-      "wkr_WalkerGear_0009",
-    }
-
-
-    if objectList==nil then
-      InfMenu.DebugPrint"objectList nil"
-      return
-    end
-    this.warpObjecList=objectList
-
-    if #objectList==0 then
-      InfMenu.DebugPrint"objectList empty"
-      return
-    end
+        --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
+        --local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
 
 
 
-    local count=0
-    local warpPos=Vector3(0,0,0)
-    local objectName="NULL"
-    local function Step()
-      objectName=objectList[this.currentWarpIndex]
-      local gameId=objectName
-      if type(objectName)=="string" then
-        gameId=GameObject.GetGameObjectId(objectName)
-      end
-      if gameId==nil or gameId==GameObject.NULL_ID then
-        InfMenu.DebugPrint"gameId==NULL_ID"
-        warpPos=Vector3(0,0,0)
-      else
-        warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-        InfMenu.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
-      end
-      this.currentWarpIndex=this.currentWarpIndex+1
-      if this.currentWarpIndex>#objectList then
-        this.currentWarpIndex=1
-      end
-      count=count+1
-    end
+        --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
+        --local objectList={"WestHeli0001","WestHeli0000","WestHeli0002"}
+        --local objectList={"EnemyHeli"}
+        --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000"}
 
-    Step()
+        --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
 
---    while not singleStep and (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
---      Step()
---      --coroutine.yeild()
---    end
+        --    local objectList={
+        --      "veh_cl01_cl00_0000",
+        --      "veh_cl02_cl00_0000",
+        --      "veh_cl03_cl00_0000",
+        --      "veh_cl04_cl00_0000",
+        --      "veh_cl05_cl00_0000",
+        --      "veh_cl06_cl00_0000",
+        --      "veh_cl00_cl04_0000",
+        --      "veh_cl00_cl02_0000",
+        --      "veh_cl00_cl03_0000",
+        --      "veh_cl00_cl01_0000",
+        --      "veh_cl00_cl05_0000",
+        --      "veh_cl00_cl06_0000",
+        --    }
 
-    if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
-      TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
-    end
+        --    local objectList={
+        --      --  "WestHeli0000",
+        --      --  "WestHeli0001",
+        --      --  "WestHeli0002",
+        --      --  "EnemyHeli",
+        --      "EnemyHeli0000",
+        --      "EnemyHeli0001",
+        --      "EnemyHeli0002",
+        --      "EnemyHeli0003",
+        --      "EnemyHeli0004",
+        --      "EnemyHeli0005",
+        --      "EnemyHeli0006",
+        --    }
+
+
+        --local objectList=InfInterrogation.interCpQuestSoldiers
+
+        local objectList=InfWalkerGear.walkerList
+
+
+        if objectList==nil then
+          InfMenu.DebugPrint"objectList nil"
+          return
+        end
+        this.warpObjecList=objectList
+
+        if #objectList==0 then
+          InfMenu.DebugPrint"objectList empty"
+          return
+        end
+
+
+
+        local count=0
+        local warpPos=Vector3(0,0,0)
+        local objectName="NULL"
+        local function Step()
+          objectName=objectList[this.currentWarpIndex]
+          local gameId=objectName
+          if type(objectName)=="string" then
+            gameId=GameObject.GetGameObjectId(objectName)
+          end
+          if gameId==nil or gameId==GameObject.NULL_ID then
+            InfMenu.DebugPrint"gameId==NULL_ID"
+            warpPos=Vector3(0,0,0)
+          else
+            warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+            InfMenu.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+          end
+          this.currentWarpIndex=this.currentWarpIndex+1
+          if this.currentWarpIndex>#objectList then
+            this.currentWarpIndex=1
+          end
+          count=count+1
+        end
+
+        Step()
+
+        --    while not singleStep and (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
+        --      Step()
+        --      --coroutine.yeild()
+        --    end
+
+        if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
+          TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+        end
     end)
   end,
 }

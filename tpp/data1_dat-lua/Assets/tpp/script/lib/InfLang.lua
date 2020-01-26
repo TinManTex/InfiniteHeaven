@@ -349,8 +349,8 @@ this.eng={--english
   mbCollectionRepop="Repopulate plants and diamonds",--r136
   npcHeliUpdate="Enable npc helis",
   mbWargameFemales="Women in Enemy Invasion mode",
-  mbEnemyHeliColor="Attack heli type",
-  mbEnemyHeliColorSettings={"Default","Black","Red","Enemy prep"},
+  mbEnemyHeliColor="Attack heli class",
+  mbEnemyHeliColorSettings={"Default","Black","Red","All one random type","Each heli random type","Enemy prep"},  
   warpToCamPos="Warp body to FreeCam position",--r139
   fovaModMenu="Form Variation menu",--r141
   no_fova_found="No fova for model",
@@ -391,6 +391,28 @@ this.eng={--english
   disableSpySearch="Disable Intel team enemy spotting (requires game restart)",
   disableHerbSearch="Disable Intel team herb spotting (requires game restart)",
   restart_required="Will change on next game restart",
+  enableWalkerGearsMB="Enable walker gears",
+  mbWalkerGearsColor="Walker gears type",
+  mbWalkerGearsColorSettingNames={
+    "Soviet",
+    "Rogue Coyote",
+    "CFA",
+    "ZRS",
+    "Diamond Dogs",
+    "Hueys Prototype (texture issues)",
+    "All one random type",
+    "Each gear random type",
+  },
+  mbWalkerGearsWeapon="Walker gears weapons",
+  mbWalkerGearsWeaponSettingNames={
+    "Even split of weapons",
+    "Minigun",
+    "Missiles",
+    "All one random type",
+    "Each gear random type",
+  },
+  vehiclePatrolClass="Vehicle patrol class",
+  vehiclePatrolClassSettingNames={"Default","Dark grey","Red","All one random type","Each vehicle random type","Enemy prep"}, 
 }--eng end
 
 this.help={}
@@ -409,6 +431,7 @@ this.help.eng={
   changeCpSubTypeFree="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
   changeCpSubTypeForMissions="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
   mbPrioritizeFemale="By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available is self explanitory, None will prevent any females from showing on mother base",
+  disableNoStealthCombatRevengeMission="By default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort)",
 }
 
 this.cpNames={
@@ -441,10 +464,10 @@ this.cpNames.afgh.eng={
   afgh_villageEast_ob="Guard Post 23",-- SE Wailo Village
   afgh_ruinsNorth_ob="Guard Post 24",-- East Spugmay Keep
   afgh_fieldEast_ob="Guard Post 25",-- East Shago Village
-  
+
   --afgh_plantSouth_ob--Only references in generic setups",-- no actual missions
   --afgh_waterway_cp--Only references in generic setups",-- no actual missions
-  
+
   afgh_cliffTown_cp="Qarya Sakhra Ee",
   afgh_tent_cp="Yakho Oboo Supply Outpost",
   afgh_powerPlant_cp="Serak Power Plant",
@@ -494,9 +517,9 @@ this.cpNames.mafr.eng={
   mafr_savannah_cp="Ditadi Abandoned Village",
   mafr_pfCamp_cp="Nova Braga Airport",
   mafr_hill_cp="Munoko ya Nioka Station",
-  
-  --"mafr_factory_cp",--Ngumba Industrial Zone - no soldiers
-  --"mafr_chicoVil_cp",--??
+
+--"mafr_factory_cp",--Ngumba Industrial Zone - no soldiers
+--"mafr_chicoVil_cp",--??
 }
 
 

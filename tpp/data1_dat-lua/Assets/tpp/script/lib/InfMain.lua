@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r150"
+this.modVersion="r151"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local Ivars=Ivars
@@ -16,7 +16,6 @@ local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local Enum=TppDefine.Enum
 local StrCode32=Fox.StrCode32
-
 
 --this.debugSplash=SplashScreen.Create("debugEagle","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",640,640)
 
@@ -229,24 +228,18 @@ function this.ResetCpTableToDefault()
   end
 end
 
-local afghSubTypes={
-  "SOVIET_A",
-  "SOVIET_B",
+local cpSubTypes={
+  afgh={
+    "SOVIET_A",
+    "SOVIET_B",
+  },
+  mafr={
+    "PF_A",
+    "PF_B",
+    "PF_C",
+  },
 }
-local isAfghSubType={--tex ugly
-  SOVIET_A=true,
-  SOVIET_B=true,
-}
-local mafrSubTypes={
-  "PF_A",
-  "PF_B",
-  "PF_C",
-}
-local isMafrSubType={
-  PF_A=true,
-  PF_B=true,
-  PF_C=true,
-}
+
 function this.RandomizeCpSubTypeTable()
   if Ivars.changeCpSubTypeFree:Is(0) and Ivars.changeCpSubTypeForMissions:Is(0) then
     return
@@ -266,16 +259,10 @@ function this.RandomizeCpSubTypeTable()
   local subTypeOfCp=TppEnemy.subTypeOfCp
   for cp, subType in pairs(subTypeOfCp)do
     local subType=subTypeOfCp[cp]
-    if isAfghSubType[subType] then
-      --local rnd=TppRevenge._Random(1,#afghSubTypes)
-      local rnd=math.random(1,#afghSubTypes)
-      subTypeOfCp[cp]=afghSubTypes[rnd]
-    elseif isMafrSubType[subType] then
-      --local rnd=TppRevenge._Random(1,#mafrSubTypes)
-      local rnd=math.random(1,#mafrSubTypes)
-      --InfMenu.DebugPrint("rnd:"..rnd)--DEBUG
-      subTypeOfCp[cp]=mafrSubTypes[rnd]
-    end
+    local locationName=TppLocation.GetLocationName()
+    local locationSubTypes=cpSubTypes[locationName]
+    local rnd=math.random(1,#locationSubTypes)
+    subTypeOfCp[cp]=locationSubTypes[rnd]
   end
   this.ResetTrueRandom()--tex back to 'truly random' /s for good measure
 end
@@ -532,13 +519,13 @@ function this.Messages()
       {msg="SaluteRaiseMorale",func=this.CheckSalutes},
     },
     MotherBaseStage = {
-      --      {
-      --        msg = "MotherBaseCurrentClusterLoadStart",
-      --        func = function(clusterId)
-      --
-      --        end,
-      --      },
-      {msg= "MotherBaseCurrentClusterActivated",func=this.CheckClusterMorale},
+    --      {
+    --        msg = "MotherBaseCurrentClusterLoadStart",
+    --        func = function(clusterId)
+    --
+    --        end,
+    --      },
+    --OFF CULL unused{msg= "MotherBaseCurrentClusterActivated",func=this.CheckClusterMorale},
     },
     Player={
       {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
@@ -804,8 +791,9 @@ function this.OnInitializeBottom(missionTable)
       local interrogationTable=missionTable.enemy.interrogation
       if IsTable(interrogationTable)then
         for cpName,layerTable in pairs(interrogationTable)do
-          local cpId=GetGameObjectId(cpName)
+          local cpId=GetGameObjectId("TppCommandPost2",cpName)
           if cpId==NULL_ID then
+            InfMenu.DebugPrint"enableInfInterrogation interrogationTable cpId==NULL_ID"--DEBUGNOW
           else
             --tex TODO KLUDGE, cant actually see how it's reset normally,
             --but it doesn't seem to trigger unless I do
@@ -818,6 +806,8 @@ function this.OnInitializeBottom(missionTable)
     end
   end
 
+
+  InfWalkerGear.SetupWalkerGear()--DEBUGNOW
 end
 function this.OnAllocateTop(missionTable)
 end
@@ -857,10 +847,6 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
 
   if vars.missionCode==30050 and Ivars.mbEnableFultonAddStaff:Is(1) then
     mvars.trm_isAlwaysDirectAddStaff=false
-  end
-
-  if vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1) then
-    mvars.trm_isSkipAddResourceToTempBuffer=false
   end
 
   this.UpdateHeliVars()
@@ -1516,9 +1502,9 @@ function this.AddLrrps(soldierDefine,travelPlans)
 
   local lrrpInd="_lrrp"
   for cpName,cpDefine in pairs(soldierDefine)do
-    local cpId=GetGameObjectId(cpName)
+    local cpId=GetGameObjectId("TppCommandPost2",cpName)
     if cpId==NULL_ID then
-      InfMenu.DebugPrint(cpName.."==NULL_ID")--DEBUG
+      InfMenu.DebugPrint("AddLrrps soldierDefine "..cpName.."==NULL_ID")--DEBUG
     else
       --if #cpDefine==0 then --OFF wont be empty on restart from checkpoint
       --tex cp is labeled _lrrp
@@ -1553,9 +1539,9 @@ function this.AddLrrps(soldierDefine,travelPlans)
     if cpDefine==nil then
     --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
     else
-      local cpId=GetGameObjectId(cpName)
+      local cpId=GetGameObjectId("TppCommandPost2",cpName)
       if cpId==NULL_ID then
-      --InfMenu.DebugPrint(tostring(cpName).." cpId==NULL_ID")--DEBUG
+      InfMenu.DebugPrint("startBases "..tostring(cpName).." cpId==NULL_ID")--DEBUGNOW
       else
         table.insert(baseNamePool,cpName)
       end
@@ -1640,8 +1626,10 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
   for cpName,cpDefine in pairs(soldierDefine)do
     if #cpDefine>0 then
-      local cpId=GetGameObjectId(cpName)
-      if cpId~=NULL_ID then
+      local cpId=GetGameObjectId("TppCommandPost2",cpName)
+      if cpId==NULL_ID then
+      InfMenu.DebugPrint"AddWildCards soldierDefine cpId==NULL"--DEBUGNOW
+      else
         if cpDefine.lrrpVehicle==nil and cpDefine.lrrpTravelPlan==nil then--tex TODO: think if you want to add wildcards to vehicle lrrps, would need to makes sure its a vehicle where they're a passenger
           table.insert(baseNamePool,cpName)
         end
@@ -1925,21 +1913,6 @@ end
 
 --tex there's no real lookup for this I've found
 --there's probably faster tables (look in DefineSoldiers()) that have the cpId>soldierId, but this is nice for the soldiername,cpname
-
-local npcHeliList={
-  "WestHeli0000",
-  "WestHeli0001",
-  "WestHeli0002",
-  "EnemyHeli",
-  "EnemyHeli0000",
-  "EnemyHeli0001",
-  "EnemyHeli0002",
-  "EnemyHeli0003",
-  "EnemyHeli0004",
-  "EnemyHeli0005",
-  "EnemyHeli0006",
-}
-
 function this.SoldierNameForGameId(findId)
   for n,soldierName in ipairs(TppReinforceBlock.REINFORCE_SOLDIER_NAMES)do
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
@@ -1961,12 +1934,29 @@ function this.SoldierNameForGameId(findId)
     end
   end
 
-  for n,heliName in ipairs(npcHeliList)do
-    local soldierId=GetGameObjectId(heliName)
-    if soldierId~=NULL_ID then
-      if soldierId==findId then
+  for n,heliName in ipairs(InfNPCHeli.npcHeliList)do
+    local gameId=GetGameObjectId(heliName)
+    if gameId~=NULL_ID then
+      if gameId==findId then
         return heliName
       end
+    end
+  end
+
+  for n,heliName in ipairs(InfNPCHeli.enemyHeliList)do
+    local gameId=GetGameObjectId(heliName)
+    if gameId~=NULL_ID then
+      if gameId==findId then
+        return heliName
+      end
+    end
+  end
+
+  local enemyHeli="EnemyHeli"
+  local gameId=GetGameObjectId(enemyHeli)
+  if gameId~=NULL_ID then
+    if gameId==findId then
+      return enemyHeli
     end
   end
 
@@ -2051,8 +2041,6 @@ this.locationIdForName={
   mtbs=50,
   mbqf=55,
 }
-
-
 
 --mbmorale
 --TUNE tex TODO: do I want to fuzz these?
@@ -2148,13 +2136,13 @@ end
 --clusterId indexed from 0
 --CULL
 function this.CheckClusterMorale(clusterId)
---  InfInspect.TryFunc(function(clusterId)
---    if vars.missionCode==30050 and Ivars.mbMoraleBoosts:Is(1) then
---      InfMenu.DebugPrint("MotherBaseCurrentClusterActivated "..clusterId)--DEBUG
---      visitedClusterCounts[clusterId+1]=true
---      InfInspect.PrintInspect(visitedClusterCounts)--DEBUG
---    end
---  end,clusterId)
+  InfInspect.TryFunc(function(clusterId)
+    if vars.missionCode==30050 and Ivars.mbMoraleBoosts:Is(1) then
+      InfMenu.DebugPrint("MotherBaseCurrentClusterActivated "..clusterId)--DEBUG
+      visitedClusterCounts[clusterId+1]=true
+      InfInspect.PrintInspect(visitedClusterCounts)--DEBUG
+    end
+  end,clusterId)
 end
 
 function this.CheckMoraleReward()
@@ -2193,7 +2181,6 @@ function this.GetMbVisitRevengeDecay()
 end
 
 --mbvisit
-local LONG_VISIT_TIME=0--DEBUGNOW 12*60*60--tex TUNE, in seconds,
 --GOTCHA: it's a clock time that registered, so registering current + 12 hour will trigger first in 12 hours, then again in 24
 --so just register current time if you want 24 from start
 --REF
@@ -2207,8 +2194,8 @@ function this.StartLongMbVisitClock()
 
   visitDaysCount=0
 
-  local longVisitTime=TppClock.GetTime("number")+LONG_VISIT_TIME
-  TppClock.RegisterClockMessage("MbVisitDay",longVisitTime)
+  local currentTime=TppClock.GetTime("number")
+  TppClock.RegisterClockMessage("MbVisitDay",currentTime)
 end
 function this.OnMbVisitDay(sender,time)
   if vars.missionCode==30050 then
@@ -2223,7 +2210,7 @@ function this.OnMbVisitDay(sender,time)
       local modRewardDecay=visitDaysCount%revengeDecayOnVisitDaysCount
       if modRewardDecay==0 then
         revengeDecayCount=revengeDecayCount+1
-        --DEBUGNOW TODO message?
+        -- TODO message?
       end
     end
   else

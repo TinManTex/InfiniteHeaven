@@ -1,4 +1,32 @@
 Infinite Heaven changelog
+r151
+Refactor: Changed most features that used mbfreemission mission checks to just 30050, fixes below
+Fixed: Hang after load on Quarantine and Zoo platforms.
+Refactor: InfLZ.groundStartPositions sub-tables for mb layouts, existing table to sub-table 1. 
+Fixed: Mission 22 - Retake the Platform start of foot position under the water - result of above - thanks NasaNhak for the report
+Feature: Walker gears on mother base
+Module: InfWalkerGear
+Option: enableMbWalkerGears - "Enable walker gears"
+Option: mbWalkerGearsColor - "Walker gears type" -
+	"Soviet",
+	"Rogue Coyote",
+	"CFA",
+	"ZRS",
+	"Diamond Dogs",
+	"Hueys Prototype (texture issues)",
+	"All gears random of one type",
+	"Each gear random type",
+Option: mbWalkerGearsWeapon - "Walker gears weapons" -    
+	"Even split of weapons",
+	"Minigun",
+	"Missiles",
+	"All gears random of one type",
+	"Each gear random type",  
+	
+(via Mother base Menu)
+GOTCHA: They're actually always enabled since the game object instances don't seem to start unrealised like other gameobjects.
+Shifted Ocelots start position.
+
 r150 - 2016-05-04 - public release
 Ivars - minPhase,maxPhase,keepPhase now turns on phaseUpdate
 Refactor: Ivar execChecks renamed execCheckTable to prevent name confusion

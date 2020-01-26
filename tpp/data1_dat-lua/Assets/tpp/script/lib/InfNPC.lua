@@ -11,8 +11,12 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 --
-local commandCoreStartPos=Vector3(5.56,24.83,-5.57)
-local commandCoreStartRot=144
+--tex just outside core door
+--local commandCoreStartPos=Vector3(5.56,24.83,-5.57)
+--local commandCoreStartRot=144
+--tex mid level overlooking lower helipad
+local commandCoreStartPos=Vector3(3.89,8.512,-14.535)
+local commandCoreStartRot=170.482
 
 local npcList={
   "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",

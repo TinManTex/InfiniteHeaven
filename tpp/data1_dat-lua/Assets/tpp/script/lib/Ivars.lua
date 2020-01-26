@@ -163,8 +163,6 @@ local function MinMaxIvar(name,minSettings,maxSettings,ivarSettings)
   return ivarMin,ivarMax
 end
 
-
-
 local function MissionCheckFree(self,missionCode)
   local missionCode=missionCode or vars.missionCode
   if missionCode==30010 or missionCode==30020 then
@@ -174,6 +172,11 @@ local function MissionCheckFree(self,missionCode)
 end
 
 local function MissionCheckMb(self,missionCode)
+  local missionCode=missionCode or vars.missionCode
+  return missionCode==30050
+end
+
+local function MissionCheckMbAll(self,missionCode)
   local missionCode=missionCode or vars.missionCode
   if TppMission.IsMbFreeMissions(missionCode) then
     return true
@@ -198,6 +201,7 @@ local missionModeChecks={
   FREE=MissionCheckFree,
   MISSION=MissionCheckMission,
   MB=MissionCheckMb,
+  MB_ALL=MissionCheckMbAll,
 }
 --
 --USAGE
@@ -554,7 +558,7 @@ this.mbEnemyHeli={--NON USER
 
 this.mbEnemyHeliColor={
   save=MISSION,
-  settings={"DEFAULT","BLACK","RED","ENEMY_PREP"},
+  settings={"DEFAULT","BLACK","RED","RANDOM","RANDOM_EACH","ENEMY_PREP"},
   settingNames="mbEnemyHeliColorSettings",
 }
 
@@ -809,13 +813,13 @@ local function RequireRestartMessage(self)
 end
 --tex WIP OFF not happy with the lack of flexibility as GetLocationParameter is only read once on init, try running DeactivateSpySearch on soldiers, though that may possibly run into some limit.
 this.disableSpySearch={
-  --DEBUGNOW OFF save=GLOBAL,
+  --OFF save=GLOBAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=RequireRestartMessage,
 }
 this.disableHerbSearch={
-  --DEBUGNOW OFF save=GLOBAL,
+  --OFF save=GLOBAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=RequireRestartMessage,
@@ -1089,6 +1093,20 @@ this.fultonHostageHandling={
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
   profile=this.fultonSuccessProfile,
+}
+
+this.fultonWildCardHandling={ --DEBUGNOW 
+  save=MISSION,
+  settings={"DEFAULT","ZERO"},
+  settingNames="fultonHostageHandlingSettings",
+  --DEBUGNOW profile=this.fultonSuccessProfile,
+}
+
+this.fultonMotherBaseHandling={ --DEBUGNOW 
+  save=MISSION,
+  settings={"DEFAULT","ZERO"},
+  settingNames="fultonHostageHandlingSettings",
+  --DEBUGNOW profile=this.fultonSuccessProfile,
 }
 --<fulton success
 
@@ -1969,8 +1987,9 @@ this.vehiclePatrolPaintType={
 }
 
 this.vehiclePatrolClass={
-  --OFF save=MISSION,
-  range={max=10},
+  save=MISSION,
+  settings={"DEFAULT","DARK_GRAY","OXIDE_RED","RANDOM","RANDOM_EACH","ENEMY_PREP"},
+  settingNames="vehiclePatrolClassSettingNames",
 }
 
 this.vehiclePatrolEmblemType={
@@ -2004,7 +2023,7 @@ this.startOnFootMb={
   save=MISSION,
   settings=onFootSettings,
   settingNames="onFootSettingsNames",
-  MissionCheck=MissionCheckMb,
+  MissionCheck=MissionCheckMbAll,
 }
 
 this.clockTimeScale={
@@ -3066,6 +3085,44 @@ this.quietRadioMode={
   end,
 }
 
+-- walkergear
+MissionModeIvars(
+  "enableWalkerGears",
+  {
+    save=MISSION,
+    range=this.switchRange,
+    settingNames="set_switch",  
+  },
+  {"FREE","MB"}
+)
+
+
+this.mbWalkerGearsColor={--DEBUGNOW
+  save=MISSION,
+  settings={
+  "SOVIET",--green, default
+  "ROGUE_COYOTE",--Blue grey
+  "CFA",--tan
+  "ZRS",
+  "DDOGS",--light grey
+  "HUEY_PROTO",--yellow/grey - texure error on side shields
+  "RANDOM",--all of one type
+  "RANDOM_EACH",--each random
+  },
+  settingNames="mbWalkerGearsColorSettingNames",
+}
+
+this.mbWalkerGearsWeapon={--DEBUGNOW
+  save=MISSION,
+  settings={
+  "DEFAULT",--dont apply specific value, seems to alternate to give an even count of miniguns and missiles --DEBUGNOW
+  "MINIGUN",
+  "MISSILE",
+  "RANDOM",--all of one type
+  "RANDOM_EACH",
+  },
+  settingNames="mbWalkerGearsWeaponSettingNames",
+}
 --
 
 this.npcUpdate={--tex NONUSER

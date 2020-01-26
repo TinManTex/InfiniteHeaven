@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- TppMain.lua
 local this={}
 local ApendArray=Tpp.ApendArray
 local n=Tpp.DEBUG_StrCode32ToString
@@ -595,7 +596,7 @@ local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
       TppPlayer.SetMissionStartPosition(mvars.mis_helicopterMissionStartPosition,0)
     end
     --tex start on foot >
-    local groundStartPosition=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]
+    local groundStartPosition=InfLZ.GetGroundStartPosition(vars.missionCode,gvars.heli_missionStartRoute)
     local isAssaultLz=mvars.ldz_assaultDropLandingZoneTable[gvars.heli_missionStartRoute]
     local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
     local isMbFree=TppMission.IsMbFreeMissions(vars.missionCode) and (nextIsFreeMission or isFreeMission)
@@ -652,7 +653,7 @@ local function LoadingPositionToFree()
     TppMission.ResetIsStartFromFreePlay()
   end--^
   if HasHeliRoute() then--tex startOnFoot zoo/ward transfer>
-    local groundStartPosition=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]
+    local groundStartPosition=InfLZ.GetGroundStartPosition(vars.missionCode,gvars.heli_missionStartRoute)
     local isAssaultLz=mvars.ldz_assaultDropLandingZoneTable[gvars.heli_missionStartRoute]
     local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
     if startOnFoot then

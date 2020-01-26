@@ -156,9 +156,9 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
       if cpDefine==nil then
         --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
       elseif #cpDefine>0 then
-        local cpId=GetGameObjectId(cpName)
+        local cpId=GetGameObjectId("TppCommandPost2",cpName)
         if cpId==NULL_ID then
-          --InfMenu.DebugPrint(tostring(cpName).." cpId==NULL_ID")--DEBUG
+          InfMenu.DebugPrint("SetupInterCpQuests baseNamePool "..tostring(cpName).." cpId==NULL_ID")--DEBUGNOW
         else
           table.insert(startBases,cpName)
         end
@@ -232,7 +232,6 @@ function this.GetPairedSoldier(soldierIndex)
   end
 end
 
---tex DEBUGNOW TODO better lookup
 function this.GetInterCpQuestId(soldierId)
   return this.interCpQuestIds[soldierId]
 end
@@ -290,7 +289,7 @@ this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
       local cpNameLang=InfMenu.CpNameString(partnerCpName,TppLocation.GetLocationName())
       --InfMenu.DebugPrint("sol cpquestid:"..soldierIQId.." partnerId:"..partnerIQId)--DEBUG
       InfMenu.DebugPrint("[Intel] the soldier indicates his comrade assigned to "..cpNameLang.." has stashed some things")--DEBUGNOW ADDLANG
-      --DEBUGNOW
+      --tex TODO:
       --        set up marker?
       --        save starttime
       --        save startposition? -- TODO: just calculate between base positions
@@ -327,7 +326,7 @@ local parasiteResourceNames={
 --TUNE
 local resourceMin=10000
 local resourceMax=20000
-local parasiteChance=30
+local parasiteChance=40
 function this.GiveInterCpQuestReward(rewardType)
   if math.random(100)>parasiteChance then
     local resourceCount=math.random(resourceMin,resourceMax)

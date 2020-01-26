@@ -370,59 +370,59 @@ function this._StartEmergencyMissionTimer(i,n,s)
     return s
   end
 end
-function this.Reload(n)
-  local r,t,a,s,o,l
-  if n then
-    r=n.isNoFade
-    t=n.missionPackLabelName
-    a=n.locationCode
-    o=n.showLoadingTips
-    l=n.ignoreMtbsLoadLocationForce
-    mvars.mis_nextLayoutCode=n.layoutCode
-    mvars.mis_nextClusterId=n.clusterId
-    s=n.OnEndFadeOut
+function this.Reload(loadInfo)
+  local isNoFade,missionPackLabelName,locationCode,OnEndFadeOut,showLoadingTips,ignoreMtbsLoadLocationForce
+  if loadInfo then
+    isNoFade=loadInfo.isNoFade
+    missionPackLabelName=loadInfo.missionPackLabelName
+    locationCode=loadInfo.locationCode
+    showLoadingTips=loadInfo.showLoadingTips
+    ignoreMtbsLoadLocationForce=loadInfo.ignoreMtbsLoadLocationForce
+    mvars.mis_nextLayoutCode=loadInfo.layoutCode
+    mvars.mis_nextClusterId=loadInfo.clusterId
+    OnEndFadeOut=loadInfo.OnEndFadeOut
   end
-  if o~=nil then
-    mvars.mis_showLoadingTipsOnReload=o
+  if showLoadingTips~=nil then
+    mvars.mis_showLoadingTipsOnReload=showLoadingTips
   else
     mvars.mis_showLoadingTipsOnReload=true
   end
-  if l then
+  if ignoreMtbsLoadLocationForce then
     mvars.mis_ignoreMtbsLoadLocationForce=true
   end
-  if t then
-    mvars.mis_missionPackLabelName=t
+  if missionPackLabelName then
+    mvars.mis_missionPackLabelName=missionPackLabelName
   end
-  if a then
-    mvars.mis_nextLocationCode=a
+  if locationCode then
+    mvars.mis_nextLocationCode=locationCode
   end
-  if s and IsTypeFunc(s)then
-    mvars.mis_reloadOnEndFadeOut=s
+  if OnEndFadeOut and IsTypeFunc(OnEndFadeOut)then
+    mvars.mis_reloadOnEndFadeOut=OnEndFadeOut
   else
     mvars.mis_reloadOnEndFadeOut=nil
   end
-  if r then
+  if isNoFade then
     this.ExecuteReload()
   else
     TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"ReloadFadeOutFinish",nil,{setMute=true})
   end
 end
-function this.RestartMission(n)
-  local s
-  local i
-  if n then
-    s=n.isNoFade
-    i=n.isReturnToMission
+function this.RestartMission(loadInfo)
+  local isNoFade
+  local isReturnToMission
+  if loadInfo then
+    isNoFade=loadInfo.isNoFade
+    isReturnToMission=loadInfo.isReturnToMission
   end
   TppMain.EnablePause()
-  if i then
+  if isReturnToMission then
     mvars.mis_isReturnToMission=true
   end
   if this.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_SHAM)then
     TppNetworkUtil.SessionEnableAccept(false)
     TppNetworkUtil.SessionDisconnectPreparingMembers()
   end
-  if s then
+  if isNoFade then
     this.ExecuteRestartMission(mvars.mis_isReturnToMission)
   else
     TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"RestartMissionFadeOutFinish",nil,{setMute=true,exceptGameStatus={AnnounceLog="INVALID_LOG"}})
@@ -475,12 +475,12 @@ function this.ExecuteRestartMission(i)
     DoLoad()
   end
 end
-function this.ContinueFromCheckPoint(n)
+function this.ContinueFromCheckPoint(loadInfo)
   local isNoFade
   local isReturnToMission
-  if n then
-    isNoFade=n.isNoFade
-    isReturnToMission=n.isReturnToMission
+  if loadInfo then
+    isNoFade=loadInfo.isNoFade
+    isReturnToMission=loadInfo.isReturnToMission
   end
   TppMain.EnablePause()
   if isReturnToMission then
@@ -492,9 +492,9 @@ function this.ContinueFromCheckPoint(n)
     TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"ContinueFromCheckPointFadeOutFinish",nil,{setMute=true,exceptGameStatus={AnnounceLog="INVALID_LOG"}})
   end
 end
-function this.ReturnToMission(n)
-  local n=n or{}
-  n.isReturnToMission=true
+function this.ReturnToMission(_loadInfo)
+  local loadInfo=_loadInfo or{}
+  loadInfo.isReturnToMission=true
   this.DisableInGameFlag()
   this.ResetEmegerncyMissionSetting()
   local missionHeroicPoint,missionOgrePoint=vars.missionHeroicPoint,vars.missionOgrePoint
@@ -503,14 +503,14 @@ function this.ReturnToMission(n)
     if TppNetworkUtil.IsSessionConnect()then
       TppNetworkUtil.CloseSession()
     end
-    if n.withServerPenalty then
+    if loadInfo.withServerPenalty then
       TppServerManager.AbortDefenseMotherBase()
     end
   else
     TppSave.VarRestoreOnMissionStart()
   end
   this.SetHeroicAndOgrePointInSlot(missionHeroicPoint,missionOgrePoint)
-  this.RestartMission(n)
+  this.RestartMission(loadInfo)
 end
 function this.ExecuteContinueFromCheckPoint(RENpopupId,a,RENdoMissionCallback)
   TppQuest.OnMissionGameEnd()
@@ -2697,8 +2697,8 @@ function this.ReserveMissionClearOnRideOnFultonContainer()
   if this.systemCallbacks.OnFultonContainerMissionClear then
     this.systemCallbacks.OnFultonContainerMissionClear()
   else
-    local n=this.GetCurrentLocationHeliMissionAndLocationCode()
-    this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_FULTON_CONTAINER,nextMissionId=n}
+    local nextMissionId=this.GetCurrentLocationHeliMissionAndLocationCode()
+    this.ReserveMissionClear{missionClearType=TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_FULTON_CONTAINER,nextMissionId=nextMissionId}
   end
 end
 function this.AbortMissionByMenu()

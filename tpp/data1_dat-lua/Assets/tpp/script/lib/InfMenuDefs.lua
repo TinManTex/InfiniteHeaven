@@ -91,14 +91,17 @@ this.motherBaseMenu={
     Ivars.mbDDHeadGear,
     Ivars.mbPrioritizeFemale,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
-    Ivars.mbEnableBuddies,
     Ivars.npcHeliUpdate,
+    Ivars.mbEnemyHeliColor,
+    Ivars.enableWalkerGearsMB,
+    Ivars.mbWalkerGearsColor,
+    Ivars.mbWalkerGearsWeapon,
     Ivars.mbCollectionRepop,
     Ivars.mbMoraleBoosts,
+    Ivars.mbEnableBuddies,
     this.motherBaseShowCharactersMenu,
     this.motherBaseShowAssetsMenu,
     Ivars.mbWargameFemales,
-    Ivars.mbEnemyHeliColor,
     Ivars.mbWarGamesProfile,
   }
 }
@@ -372,6 +375,7 @@ this.enemyPatrolMenu={
     Ivars.enemyHeliPatrol,
     Ivars.mbEnemyHeliColor,
     Ivars.vehiclePatrolProfile,
+    Ivars.vehiclePatrolClass,
     Ivars.vehiclePatrolLvEnable,
     Ivars.vehiclePatrolTruckEnable,
     Ivars.vehiclePatrolWavEnable,
@@ -467,10 +471,12 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
---    InfMenuCommands.DEBUG_PrintMenu,
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUGNOW
+    --    InfMenuCommands.DEBUG_PrintMenu,
+    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.fovaModMenu,--DEBUG
     --    this.appearanceMenu,--DEBUG
@@ -542,10 +548,15 @@ this.inMissionMenu={
     --    this.fovaModMenu,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.appearanceMenu,--DEBUG
---        InfMenuCommands.DEBUG_WarpToObject,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    InfMenuCommands.showPosition,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    InfMenuCommands.DEBUG_SomeShiz3,--DEBUGNOW
+    InfMenuCommands.DEBUG_WarpToObject,--DEBUGNOW
+
+
+    
+
     --    --    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
     --InfMenuCommands.showPosition,--DEBUG
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
