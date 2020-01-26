@@ -2679,11 +2679,11 @@ function this.DeclareSVars(missionTable)
     nil
   }
   if Vehicle.svars then
-    local e=Vehicle.instanceCountMax
+    local instanceCount=Vehicle.instanceCountMax
     if mvars.ene_vehicleDefine and mvars.ene_vehicleDefine.instanceCount then
-      e=mvars.ene_vehicleDefine.instanceCount
+      instanceCount=mvars.ene_vehicleDefine.instanceCount
     end
-    Tpp.ApendArray(svarList,Vehicle.svars{instanceCount=e})
+    Tpp.ApendArray(svarList,Vehicle.svars{instanceCount=instanceCount})
   end
   return svarList
 end
@@ -3207,21 +3207,22 @@ function this.SetCommonCpGroups()
   end
 end
 function this.SetCpGroups()
-  local t={type="TppCommandPost2"}
-  local e={id="SetCpGroups",cpGroups=mvars.ene_cpGroups}
-  SendCommand(t,e)
+  local type={type="TppCommandPost2"}
+  local command={id="SetCpGroups",cpGroups=mvars.ene_cpGroups}
+  SendCommand(type,command)
 end
-function this.RegistVehicleSettings(vehicleSettings)--missionTable.enemy.vehicleSettings ORPHANED: VERIFY:
+--IN: missionTable.enemy.vehicleSettings ORPHANED: VERIFY:
+function this.RegistVehicleSettings(vehicleSettings)
   if not IsTypeTable(vehicleSettings)then
     return
-end
-mvars.ene_vehicleSettings=vehicleSettings
-local instanceCount=0
-for e,e in pairs(vehicleSettings)do
-  instanceCount=instanceCount+1
-end
-mvars.ene_vehicleDefine=mvars.ene_vehicleDefine or{}
-mvars.ene_vehicleDefine.instanceCount=instanceCount
+  end
+  mvars.ene_vehicleSettings=vehicleSettings
+  local instanceCount=0
+  for e,e in pairs(vehicleSettings)do
+    instanceCount=instanceCount+1
+  end
+  mvars.ene_vehicleDefine=mvars.ene_vehicleDefine or{}
+  mvars.ene_vehicleDefine.instanceCount=instanceCount
 end
 --NMC vehicleSpawnList = *_enemy.lua .VEHICLE_SPAWN_LIST
 function this.SpawnVehicles(vehicleSpawnList)
@@ -4394,24 +4395,24 @@ function this.SpawnTakingOverHostage(n)
     this._SpawnTakingOverHostage(n-1,t)
   end
 end
-function this._SpawnTakingOverHostage(t,e)
-  local e=GetGameObjectId(e)
-  if e==NULL_ID then
+function this._SpawnTakingOverHostage(t,hostageName)
+  local hostageId=GetGameObjectId(hostageName)
+  if hostageId==NULL_ID then
     return
   end
   if t<gvars.ene_takingOverHostageCount then
-    local i=gvars.ene_takingOverHostageStaffIdsUpper[infoIndex]--RETAILBUG: orphaned
-    local a=gvars.ene_takingOverHostageStaffIdsLower[infoIndex]
-    SendCommand(e,{id="SetStaffId",divided=true,staffId=i,staffId2=a})
+    local staffId=gvars.ene_takingOverHostageStaffIdsUpper[infoIndex]--RETAILBUG: orphaned
+    local staffId2=gvars.ene_takingOverHostageStaffIdsLower[infoIndex]
+    SendCommand(hostageId,{id="SetStaffId",divided=true,staffId=staffId,staffId2=staffId2})
     if TppMission.IsMissionStart()then
-      SendCommand(e,{id="SetEnabled",enabled=true})
-      local a=Vector3(gvars.ene_takingOverHostagePositions[t*3],gvars.ene_takingOverHostagePositions[t*3+1],gvars.ene_takingOverHostagePositions[t*3+2])
-      SendCommand(e,{id="Warp",position=a})
-      SendCommand(e,{id="SetFaceId",faceId=gvars.ene_takingOverHostageFaceIds[t]})
-      SendCommand(e,{id="SetKeepFlagValue",keepFlagValue=gvars.ene_takingOverHostageFlags[t]})
+      SendCommand(hostageId,{id="SetEnabled",enabled=true})
+      local position=Vector3(gvars.ene_takingOverHostagePositions[t*3],gvars.ene_takingOverHostagePositions[t*3+1],gvars.ene_takingOverHostagePositions[t*3+2])
+      SendCommand(hostageId,{id="Warp",position=position})
+      SendCommand(hostageId,{id="SetFaceId",faceId=gvars.ene_takingOverHostageFaceIds[t]})
+      SendCommand(hostageId,{id="SetKeepFlagValue",keepFlagValue=gvars.ene_takingOverHostageFlags[t]})
     end
   else
-    SendCommand(e,{id="SetEnabled",enabled=false})
+    SendCommand(hostageId,{id="SetEnabled",enabled=false})
   end
 end
 function this.SetIgnoreTakingOverHostage(e)

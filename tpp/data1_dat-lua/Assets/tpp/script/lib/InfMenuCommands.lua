@@ -262,8 +262,31 @@ this.warpToCamPos={
 local toggle=false
 this.DEBUG_SomeShiz={
   OnChange=function()
+  InfInspect.TryFunc(function()
+    local params={
+      locator="veh_cl00_cl04_0000",
+      armorPosition={x=211.62,y=0.41,z=-121.13},armorRot=178
+    }
+    local pos=params.armorPosition
+    if pos then
+      local vec3=Vector3(pos.x,pos.y,pos.z)
+      local rot=params.armorRot
+    
+      local gameId=GameObject.GetGameObjectId(params.locator)
+      local typeIndex=GameObject.GetTypeIndex(gameId)
+      if gameId==GameObject.NULL_ID then
+        InfMenu.DebugPrint(params.locator.."==NULL_ID")
+      else
+        InfMenu.DebugPrint(params.locator.." setposition")
+        GameObject.SendCommand(gameId,{id="SetPosition",position=vec3,rotY=rot})
+      end
+    end
+end)
+    if true then return true end
+
+
     InfMenu.DebugPrint(tostring(vars.mbLayoutCode))
-  
+
     local gameId=GameObject.GetGameObjectId("sol_ih_0000")
     if gameId==GameObject.NULL_ID then
       InfMenu.DebugPrint("gameId==NULL_ID")
@@ -962,58 +985,74 @@ this.DEBUG_ClearAnnounceLog={
   end,
 }
 
-local currentSoldier=1
+local currentObject=1
 this.DEBUG_WarpToSoldier={
   OnChange=function()
-    local soldierList=InfMain.reserveSoldierNames
+    local objectList=InfMain.reserveSoldierNames
 
-    --local soldierList=InfMain.ene_wildCardSoldiers
+    --local objectList=InfMain.ene_wildCardSoldiers
 
-    --local soldierList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
+    --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
 
-    --local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
-    --local soldierList={"WestHeli0001","WestHeli0000","WestHeli0002"}
-    --local soldierList={"EnemyHeli"}
-    --local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000"}
+    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
+    --local objectList={"WestHeli0001","WestHeli0000","WestHeli0002"}
+    --local objectList={"EnemyHeli"}
+    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000"}
 
-    --local soldierList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
+    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
 
-    if soldierList==nil then
-      InfMenu.DebugPrint"soldierList nil"
+    local objectList={
+      "veh_cl01_cl00_0000",
+      "veh_cl02_cl00_0000",
+      "veh_cl03_cl00_0000",
+      "veh_cl04_cl00_0000",
+      "veh_cl05_cl00_0000",
+      "veh_cl06_cl00_0000",
+      "veh_cl00_cl04_0000",
+      "veh_cl00_cl02_0000",
+      "veh_cl00_cl03_0000",
+      "veh_cl00_cl01_0000",
+      "veh_cl00_cl05_0000",
+      "veh_cl00_cl06_0000",
+    }
+
+    if objectList==nil then
+      InfMenu.DebugPrint"objectList nil"
       return
     end
 
-    if #soldierList==0 then
-      InfMenu.DebugPrint"soldierList empty"
+    if #objectList==0 then
+      InfMenu.DebugPrint"objectList empty"
       return
     end
 
     local count=0
     local warpPos=Vector3(0,0,0)
-    local soldierName="NULL"
+    local objectName="NULL"
     local function Step()
-      soldierName=soldierList[currentSoldier]
-      local gameId=GameObject.GetGameObjectId(soldierName)--("TppSoldier2",soldierName)
+      objectName=objectList[currentObject]
+      local gameId=GameObject.GetGameObjectId(objectName)
       if gameId==GameObject.NULL_ID then
         InfMenu.DebugPrint"gameId==NULL_ID"
         warpPos=Vector3(0,0,0)
       else
         warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+        InfMenu.DebugPrint(currentObject..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
       end
-      currentSoldier=currentSoldier+1
-      if currentSoldier>#soldierList then
-        currentSoldier=1
+      currentObject=currentObject+1
+      if currentObject>#objectList then
+        currentObject=1
       end
       count=count+1
     end
 
     Step()
 
-    while (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#soldierList do
+    while (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
       Step()
     end
 
-    InfMenu.DebugPrint(currentSoldier..":"..soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+
     if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
       TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 

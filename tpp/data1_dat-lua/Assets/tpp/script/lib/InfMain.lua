@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r139"
+this.modVersion="r140"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -1877,20 +1877,23 @@ function this.OnAllocate(missionTable)
 
 
   --WIP >
-  --  local equipLoadTable={}
-  --  --tex TODO: find a better indicator of equipable mission loading
-  --  if missionTable.enemy then
-  --    for n,equipName in ipairs(this.tppEquipTable)do--TODO: still working on the indexed not grouped table
-  --      local equipId=TppEquip[equipName]
-  --      if equipId~=nil then
-  --        table.insert(equipLoadTable,equipId)
-  --      end
-  --    end
-  --
-  --    if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
-  --      TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
-  --    end
-  --  end--<
+  if false then
+    local equipLoadTable={}
+    --tex TODO: find a better indicator of equipable mission loading
+    if missionTable.enemy then
+      for n,equipName in ipairs(this.tppEquipTable)do--TODO: still working on the indexed not grouped table
+        local equipId=TppEquip[equipName]
+        if equipId~=nil then
+          table.insert(equipLoadTable,equipId)
+        end
+      end
+
+      if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
+        TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
+      end
+    end
+  end
+  --<
 end
 
 function this.PreMissionLoad(missionCode,currentMissionCode)
@@ -2209,7 +2212,7 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
   if vars.missionCode==30050 and Ivars.mbEnableFultonAddStaff:Is(1) then
     mvars.trm_isAlwaysDirectAddStaff=false
   end
-  
+
   if vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1) then
     mvars.trm_isSkipAddResourceToTempBuffer=false
   end
@@ -2925,7 +2928,7 @@ local npcBodies={
   {
     TppEnemyBodyId.oce0_main0_v00,
     TppEnemyBodyId.oce0_main0_v01,--glasses
-    --TppEnemyBodyId.oce0_main0_v02,--looks normal but may be defaulting/need a pack, no references but may be used in a demo
+  --TppEnemyBodyId.oce0_main0_v02,--looks normal but may be defaulting/need a pack, no references but may be used in a demo
   },
 }
 
@@ -2997,7 +3000,7 @@ function this.UpdateNPC(currentChecks,currentTime,execChecks,execState,updateRat
     end
     --if not setup<
   end
-       
+
   for n,npcName in ipairs(npcList) do
     local gameId=GameObject.GetGameObjectId(npcName)
     if gameId==GameObject.NULL_ID then
@@ -3208,8 +3211,8 @@ function this.UpdateNPCHeli(currentChecks,currentTime,execChecks,execState,updat
         local clusterId=ChooseRandomHeliCluster(heliClusters,heliTimes,this.heliSelectClusterId)
         heliClusters[n]=clusterId
 
---        local clusterTime=heliTimes[n]-elapsedTime--DEBUG
---        InfMenu.DebugPrint(heliName .. " from ".. tostring(TppDefine.CLUSTER_NAME[prevCluster]) .." to cluster ".. tostring(TppDefine.CLUSTER_NAME[clusterId]) .. " for "..clusterTime)--DEBUG
+        --        local clusterTime=heliTimes[n]-elapsedTime--DEBUG
+        --        InfMenu.DebugPrint(heliName .. " from ".. tostring(TppDefine.CLUSTER_NAME[prevCluster]) .." to cluster ".. tostring(TppDefine.CLUSTER_NAME[clusterId]) .. " for "..clusterTime)--DEBUG
 
         if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
           local clusterParam=mvars.mbSoldier_clusterParamList[clusterId]
@@ -3491,56 +3494,59 @@ this.tppEquipTable={--SYNC: EquipIdTable
   --  "EQP_WP_West_hg_030",--geist p3 - shows shotgun icon but clearly isnt, machine pistol grade 4
   --  "EQP_WP_West_hg_030_cmn",--as above, no name/icon
   --  "EQP_WP_East_hg_010",--burkov grade 1, sov normal strong
-  --  },
-  --  TRANQ_PISTOL={
-  --  "EQP_WP_West_thg_010",--wu s.pistol grade 1
-  --  "EQP_WP_West_thg_020",--grade 2
-  --  "EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
-  --  "EQP_WP_West_thg_040",--grade 5
-  --  "EQP_WP_West_thg_050",--wu s pistol cb grade7
-  --  "EQP_WP_EX_hg_000",--AM A114 RP, DD, silencer, grade 9
-  --  },
-  --  SMG={
-  --  "EQP_WP_West_sm_010",--ze'ev cs grade 3 pf normal, dd min grade
-  --  "EQP_WP_West_sm_010_WG",--as above, no icon/name
-  --  "EQP_WP_West_sm_020",--macht 37 grade 3, pf strong, skull normal strong
-  --  "EQP_WP_East_sm_010",--sz 336 grade 3, sov normal
-  --  "EQP_WP_East_sm_020",--sz 336 cs grade 5, sov strong
-  --  "EQP_WP_East_sm_030",--sz 336 cs grade 3 light, supressor, skull cypr normal
+--  },
+--  TRANQ_PISTOL={
+--  "EQP_WP_West_thg_010",--wu s.pistol grade 1
+--  "EQP_WP_West_thg_020",--grade 2
+--  "EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
+--  "EQP_WP_West_thg_040",--grade 5
+--  "EQP_WP_West_thg_050",--wu s pistol cb grade7
+--  "EQP_WP_EX_hg_000",--AM A114 RP, DD, silencer, grade 9
+  --tex added in retail 1080
+  "EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
+  "EQP_WP_EX_hg_000_G02",--AM A114 RP grade 9 - silencer, gas cloud
+--  },
+--  SMG={
+--  "EQP_WP_West_sm_010",--ze'ev cs grade 3 pf normal, dd min grade
+--  "EQP_WP_West_sm_010_WG",--as above, no icon/name
+--  "EQP_WP_West_sm_020",--macht 37 grade 3, pf strong, skull normal strong
+--  "EQP_WP_East_sm_010",--sz 336 grade 3, sov normal
+--  "EQP_WP_East_sm_020",--sz 336 cs grade 5, sov strong
+--  "EQP_WP_East_sm_030",--sz 336 cs grade 3 light, supressor, skull cypr normal
 
-  --dd table smg
-  "EQP_WP_West_sm_014",--zeeve model, big scope no icon/name, supressor, DD icon backing
-  "EQP_WP_West_sm_015",--as above
-  "EQP_WP_West_sm_016",--loads, but missing icons and some blacked out sights DD backing, DD weapon table
-  "EQP_WP_West_sm_017",--<
-  --  },
-  --    SMG_NONLETHAL={
-  --in dd table
-  --  "EQP_WP_East_sm_042",--riot smg stn grd 1 stun
-  --  "EQP_WP_East_sm_043",
-  --  "EQP_WP_East_sm_044",
-  --  "EQP_WP_East_sm_045",
-  --  "EQP_WP_East_sm_047",
-  --    },
-  --  SHOTGUN={
-  --  "EQP_WP_Com_sg_010",--s1000 grade 2
-  --  "EQP_WP_Com_sg_011",--s1000 cs grade 2, most normal shotty, sov a, pfs, skull, dd min
-  --  "EQP_WP_Com_sg_011_FL",--as above, flashlight ?
-  --  --in dd table
-  "EQP_WP_Com_sg_013",--? mag shotgun no name no icon
-  "EQP_WP_Com_sg_015",--above + scope, light
-  "EQP_WP_Com_sg_020",--kabarga 83, grade 4, looks like same model as 013,14
-  "EQP_WP_Com_sg_020_FL",--as abovem flashlight ?
-  "EQP_WP_Com_sg_016",
-  "EQP_WP_Com_sg_018",
-  --},
-  --SHOTGUN_NONLETHAL={
-  --dd
-  "EQP_WP_Com_sg_023",--s1000 air-s stn at least icon grade 3 - icon shows slilencer scope but not in game
-  "EQP_WP_Com_sg_024",--as above, light ?
-  "EQP_WP_Com_sg_025",--as above
-  "EQP_WP_Com_sg_030",--s1000 air-s cs grade 6
-  "EQP_WP_Com_sg_038",--loads, but missing icons and some blacked out sights
+--dd table smg
+--  "EQP_WP_West_sm_014",--zeeve model, big scope no icon/name, supressor, DD icon backing
+--  "EQP_WP_West_sm_015",--as above
+--  "EQP_WP_West_sm_016",--loads, but missing icons and some blacked out sights DD backing, DD weapon table
+--  "EQP_WP_West_sm_017",--<
+--  },
+--    SMG_NONLETHAL={
+--in dd table
+--  "EQP_WP_East_sm_042",--riot smg stn grd 1 stun
+--  "EQP_WP_East_sm_043",
+--  "EQP_WP_East_sm_044",
+--  "EQP_WP_East_sm_045",
+--  "EQP_WP_East_sm_047",
+--    },
+--  SHOTGUN={
+--  "EQP_WP_Com_sg_010",--s1000 grade 2
+--  "EQP_WP_Com_sg_011",--s1000 cs grade 2, most normal shotty, sov a, pfs, skull, dd min
+--  "EQP_WP_Com_sg_011_FL",--as above, flashlight ?
+--  --in dd table
+--  "EQP_WP_Com_sg_013",--? mag shotgun no name no icon
+--  "EQP_WP_Com_sg_015",--above + scope, light
+--  "EQP_WP_Com_sg_020",--kabarga 83, grade 4, looks like same model as 013,14
+--  "EQP_WP_Com_sg_020_FL",--as abovem flashlight ?
+--  "EQP_WP_Com_sg_016",
+--  "EQP_WP_Com_sg_018",
+--},
+--SHOTGUN_NONLETHAL={
+--dd
+--  "EQP_WP_Com_sg_023",--s1000 air-s stn at least icon grade 3 - icon shows slilencer scope but not in game
+--  "EQP_WP_Com_sg_024",--as above, light ?
+--  "EQP_WP_Com_sg_025",--as above
+--  "EQP_WP_Com_sg_030",--s1000 air-s cs grade 6
+--  "EQP_WP_Com_sg_038",--loads, but missing icons and some blacked out sights
 --  },
 --  ASSAULT={
 --  "EQP_WP_West_ar_010",--AM MRS 4r Grade 3, pfs normal, dd 3rd

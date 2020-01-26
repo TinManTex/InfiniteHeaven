@@ -1442,10 +1442,6 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
 
 
       local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
---      if powerSettings==nil then
---        InfMenu.DebugPrint"powerSettings==nil"--DEBUGNOW
---      end
-
       if bodyId==0 or bodyId==nil then--tex dont set body, rely on GetBodyId
         local soldierType=TppEnemy.GetSoldierType(soldierId)
         local subTypeName=TppEnemy.GetSoldierSubType(soldierId,soldierType)
@@ -1694,11 +1690,12 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
   local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex was TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
   local uavType=TppUav.DEVELOP_LEVEL_LMG_0
   local setUav=false
-  local isNLUav=false
-  local lethalUavType=0
-  local nonLethalUavType=0
-  local sleepUavType=0
-  local defaultUavType=100
+  local isNLUav=false  
+  local defaultUavType=100--RETAILPATCH 1080, following was 0, now defaultUavType
+  local lethalUavType=defaultUavType
+  local nonLethalUavType=defaultUavType
+  local sleepUavType=defaultUavType
+
   --ORPHAN:
   --  local r=7
   --  local r=4

@@ -53,7 +53,7 @@ local PLNT_NAME = {
 
 
 
-local VEHICLE_MAX = 4
+local VEHICLE_MAX = 8--tex was 4
 
 
 this.vehiclDataList = {
@@ -606,6 +606,39 @@ function this.SetupDespawnVehicle()
     end
 
     TppEnemy.SpawnVehicles( this.vehicleSpawnList )
+    
+   
+
+    --tex DEBUGNOW WIP
+--    local positionTable={
+--      veh_cl00_cl04_0000={locator="veh_cl00_cl04_0000",armorPos={x=211.62,y=0.41,z=-121.13},armorRot=0},--178 },--tex DEBUGNOW added pos,rot
+--    }
+--
+--    for k,vehicleSetData in pairs(this.vehicleSpawnList)do
+--      local params=positionTable[vehicleSetData.locator]
+--      if params then
+--        InfInspect.TryFunc(function()
+--          local pos=params.armorPos
+--          if pos then
+--            local vec3=Vector3(pos.x,pos.y,pos.z)
+--            local rot=params.armorRot
+--
+--            local gameId=GameObject.GetGameObjectId(params.locator)
+--            local typeIndex=GameObject.GetTypeIndex(gameId)
+--            if gameId==GameObject.NULL_ID then
+--              InfMenu.DebugPrint(params.locator.."==NULL_ID")
+--            else
+--              InfMenu.DebugPrint(params.locator.." setposition")
+----                      local command={id="SetEnabled",enabled=true}
+----        GameObject.SendCommand(gameId,command)
+--              
+--              GameObject.SendCommand(gameId,{id="SetPosition",position=vec3,rotY=rot})
+--            end
+--          end
+--        end)
+--      end
+--    end
+    --<
   end
 end
 

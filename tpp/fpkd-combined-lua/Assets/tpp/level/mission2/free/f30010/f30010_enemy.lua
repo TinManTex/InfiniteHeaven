@@ -116,7 +116,7 @@ this.VEHICLE_SPAWN_LIST = {
 }
 
 
-this.vehicleDefine = { instanceCount = 2 + 6 + 13 + 1 }
+this.vehicleDefine = { instanceCount = 2 + 6 + 13 + 1 }--NMC: Quest + Truck + Jeep + Player
 
 
 

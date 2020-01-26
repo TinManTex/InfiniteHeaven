@@ -480,7 +480,7 @@ this.inMissionMenu={
 --    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUG
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG 
     --Ivars.selectedCp,--DEBUG
-    --Ivars.selectedChangeWeapon,--WIP DEBUG
+--    Ivars.selectedChangeWeapon,--WIP DEBUG
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,

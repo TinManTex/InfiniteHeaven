@@ -8351,7 +8351,7 @@ sequences.Seq_Game_AfterHeliKillMobDemo = {
 					func = function()
 						
 						local gameObjectId = GameObject.GetGameObjectId( "ptn_p21_010370_0000" )
-						GameObject.SendCommand( gameObjectId, { id = "Warp", position = Vector3( -54.026, 105.376, -1684.387 ), control = charaControl, } )
+						GameObject.SendCommand( gameObjectId, { id = "Warp", position = Vector3( -54.026, 105.376, -1684.387 ), control = charaControl, } )--RETAILBUG: ORPHAN, probably from copy paste
 						GameObject.SendCommand( gameObjectId, { id = "CallMonologue", label = "MOB_008", } )
 
 						s10010_sequence.ProhibitMove( true )
