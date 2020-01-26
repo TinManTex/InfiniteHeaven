@@ -1444,10 +1444,10 @@ function this.AddAnimalRecoverHistory(t)
   end
 end
 function this.OnFultonBossQuiet(t,t,t,t)
-  local command=SendCommand({type="TppBossQuiet2"},{id="GetQuietType"})
-  local reourceId=this.parasiteSquadFultonResouceId[command]
-  if reourceId then
-    this._OnFultonParasiteSquad(reourceId)
+  local quietType=SendCommand({type="TppBossQuiet2"},{id="GetQuietType"})
+  local resourceId=this.parasiteSquadFultonResouceId[quietType]
+  if resourceId then
+    this._OnFultonParasiteSquad(resourceId)
   end
 end
 function this.OnFultonParasiteSquad(gameId,n,n,n)

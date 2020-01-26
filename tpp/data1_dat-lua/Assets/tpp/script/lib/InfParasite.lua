@@ -73,8 +73,6 @@ local PARASITE_GRADE = {
   },
 }
 
-
-
 --seconds
 local monitorRate=15
 local parasiteAppearTimeMin=5
@@ -99,7 +97,10 @@ this.parasiteNames={
   "Parasite3",
 }
 
-local hardened=false
+local numFultonedThisMap=0
+local numDownedThisEvent=0
+local clearLimit=4
+this.parasitePos=nil
 
 
 function this.SetupParasites()
@@ -149,44 +150,62 @@ function this.OnDying(gameId)
     --      break
     --    end
     --  end
-    local count=Ivars.inf_parasiteEvent:Get()
-    if count==0 then
-      --InfMenu.DebugPrint"WARNING: OnDying and inf_parasiteEvent == 0"--DEBUGNOW
+    if clearLimit<=0 then
+      InfMenu.DebugPrint"WARNING: OnDying and clearLimit <= 0"--DEBUGNOW
       return
     end
-    local count=count-1
-    Ivars.inf_parasiteEvent:Set(count)
-
-    if count==0 then
+    clearLimit=clearLimit-1
+    --InfMenu.DebugPrint("OnDying para clearlimit post"..clearLimit)--DEBUG
+    if clearLimit==0 then
+      --InfMenu.DebugPrint"OnDying all eliminated"--DEBUG
       this.EndEvent()
     end
   end
 end
 
+function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
+  if Ivars.enableParasiteEvent:Is(0) or not Ivars.enableParasiteEvent:MissionCheck() then
+    return
+  end
+
+  numFultonedThisMap=numFultonedThisMap+1
+  --InfMenu.DebugPrint("numFultonedThisMap:"..numFultonedThisMap)--DEBUG
+end
+
 function this.FadeInOnGameStart()
+  if Ivars.enableParasiteEvent:Is(0) or not Ivars.enableParasiteEvent:MissionCheck() then
+    return
+  end
+
   if Ivars.inf_parasiteEvent:Is()>0 then
     if TppMission.IsMissionStart() then
       --InfMenu.DebugPrint"mission start clear, StartEventTimer"--DEBUG
       Ivars.inf_parasiteEvent:Set(0)
       this.StartEventTimer()
     else
-      --InfMenu.DebugPrint"ContinueEvent"--DEBUG
+      --InfMenu.DebugPrint"mission start ContinueEvent"--DEBUG
       this.ContinueEvent()
     end
   else
-    --InfMenu.DebugPrint"StartEventTimer"--DEBUG
+    --InfMenu.DebugPrint"mission start StartEventTimer"--DEBUG
     this.StartEventTimer()
   end
 end
 
 function this.InitEvent()
-  if Ivars.inf_parasiteEvent:Is()>0 then
-    if TppMission.IsMissionStart() then
-      --InfMenu.DebugPrint"mission start clear, StartEventTimer"--DEBUG
-      Ivars.inf_parasiteEvent:Set(0)
-      hardened=false
-    end
+  if Ivars.enableParasiteEvent:Is(0) or not Ivars.enableParasiteEvent:MissionCheck() then
+    return
   end
+
+  if TppMission.IsMissionStart() then
+    --InfMenu.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
+    Ivars.inf_parasiteEvent:Set(0)  
+  end
+
+  clearLimit=#this.parasiteNames
+  numFultonedThisMap=0
+  numDownedThisEvent=0
+
   this.SetupParasites()
 end
 
@@ -203,6 +222,14 @@ end
 
 function this.StartEvent()
   --InfMenu.DebugPrint"Timer_ParasiteEvent hit"--DEBUG
+  if numFultonedThisMap==#this.parasiteNames then
+    --InfMenu.DebugPrint"StartEvent elimintated all parasites, aborting"--DEBUG
+    return
+  end
+  if numFultonedThisMap>=#this.parasiteNames then
+    --InfMenu.DebugPrint"StartEvent WARNING, eliminated>num parasites"--DEBUG
+    return
+  end
 
   local fogDensity=math.random(0.001,0.9)
   TppWeather.ForceRequestWeather(TppDefine.WEATHER.FOGGY,4,{fogDensity=fogDensity})
@@ -217,68 +244,101 @@ function this.ContinueEvent()
 end
 
 function this.ParasiteAppear()
-  --InfMenu.DebugPrint"ParasiteAppear"--DEBUG
-  local playerPosition={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+  --InfInspect.TryFunc(function()--DEBUG
+    --InfMenu.DebugPrint"ParasiteAppear"--DEBUG
+    local playerPosition={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
 
-  local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPosition)
-  if closestLz==nil then
-    InfMenu.DebugPrint"WARNING: StartEvent closestLz==nil"--DEBUGNOW
-    return
-  end
+    local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPosition)
+    if closestLz==nil then
+      InfMenu.DebugPrint"WARNING: StartEvent closestLz==nil"--DEBUGNOW
+      return
+    end
+    if lzPosition==nil then
+      InfMenu.DebugPrint"WARNING: StartEvent lzPosition==nil"--DEBUGNOW
+      return
+    end
 
-  local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPosition)
-  if closestCp==nil then
-    InfMenu.DebugPrint"WARNING: StartEvent closestCp==nil"--DEBUGNOW
-    return
-  end
-  
---  InfMenu.DebugPrint(closestLz..":"..math.sqrt(lzDistance))--DEBUG
---  InfMenu.DebugPrint(closestCp..":"..math.sqrt(cpDistance))--DEBUG
+    local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPosition)
+    if closestCp==nil then
+      InfMenu.DebugPrint"WARNING: StartEvent closestCp==nil"--DEBUGNOW
+      return
+    end
+    if cpPosition==nil then
+      InfMenu.DebugPrint"WARNING: StartEvent cpPosition==nil"--DEBUGNOW
+      return
+    end
 
-  local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
-  local closestDist=cpDistance
-  local closestPos=cpPosition
-  if cpDistance>lzDistance and lzCpDist>playerRange*2 then
-    closestPos=lzPosition
-    closestDist=lzDistance
-  end
+    numDownedThisEvent=0
 
-  if closestDist>playerRange then
-    closestPos=playerPosition
-  end
+--    InfMenu.DebugPrint(closestLz..":"..math.sqrt(lzDistance))--DEBUG
+--    InfMenu.DebugPrint(closestCp..":"..math.sqrt(cpDistance))--DEBUG
 
-  --TODO TUNE
-  local disableDamage=false
-  local isHalf=false  
-  
-  --tex TODO doesn't cover visiting lrrp
-  if closestPos==cpPosition then
+    local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
+    local closestDist=cpDistance
+    local closestPos=cpPosition
+    if cpDistance>lzDistance and lzCpDist>playerRange*2 then
+      closestPos=lzPosition
+      closestDist=lzDistance
+    end
 
-    local cpDefine=mvars.ene_soldierDefine[closestCp]
-    if cpDefine==nil then
-      InfMenu.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUGNOW
-    else
-      for i=1,#cpDefine do
-        this.SetZombie(cpDefine[i],disableDamage,isHalf,cpZombieLife,cpZombieStamina)
+    if closestDist>playerRange then
+      closestPos=playerPosition
+    end
+
+    --TODO TUNE
+    local disableDamage=false
+    local isHalf=false
+
+    --tex TODO doesn't cover visiting lrrp
+    if closestPos==cpPosition then
+
+      local cpDefine=mvars.ene_soldierDefine[closestCp]
+      if cpDefine==nil then
+        InfMenu.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUGNOW
+      else
+        for i=1,#cpDefine do
+          this.SetZombie(cpDefine[i],disableDamage,isHalf,cpZombieLife,cpZombieStamina)
+        end
       end
     end
-  end
 
-  local numParasites=4--tex TODO
-  Ivars.inf_parasiteEvent:Set(numParasites)
+    Ivars.inf_parasiteEvent:Set(1)
+    clearLimit=#this.parasiteNames-numFultonedThisMap
+    this.parasitePos=closestPos
+    --InfMenu.DebugPrint("clearlimit "..clearLimit)--DEBUG
 
-  this.parasitePos=closestPos
+    --tex after fultoning parasites don't appear, try and reset
+    --doesnt work, parasite does appear, but is in fulton pose lol
+    --  if numFultonedThisMap>0 then
+    --    for k,parasiteName in pairs(this.parasiteNames) do
+    --      local gameId=GetGameObjectId(parasiteName)
+    --      if gameId~=NULL_ID then
+    --        SendCommand(gameId,{id="Realize"})
+    --      end
+    --    end
+    --  end
 
-  SendCommand({type="TppParasite2"},{id="StartAppearance",position=Vector3(closestPos[1],closestPos[2],closestPos[3]),radius=spawnRadius})
+    SendCommand({type="TppParasite2"},{id="StartAppearance",position=Vector3(closestPos[1],closestPos[2],closestPos[3]),radius=spawnRadius})
 
-  StartTimer("Timer_ParasiteMonitor",monitorRate)
-  this.StartEventTimer()--tex schedule next
+    --tex once one parasite has been fultoned the rest will be stuck in some kind of idle ai state on next appearance
+    --forcing combat bypasses this
+    if numFultonedThisMap>0 then
+      --InfMenu.DebugPrint"Timer_ParasiteCombat start"--DEBUG
+      StartTimer("Timer_ParasiteCombat",4)
+    end
+
+    StartTimer("Timer_ParasiteMonitor",monitorRate)
+    this.StartEventTimer()--tex schedule next
+ -- end)--
 end
 
+function this.StartCombat()
+  SendCommand({type="TppParasite2"},{id="StartCombat"})
+end
 
 function this.MonitorEvent()
   --  InfInspect.TryFunc(function()--DEBUG
-  --    InfMenu.DebugPrint"MonitorEvent"--DEBUG
+  --InfMenu.DebugPrint"MonitorEvent"--DEBUG
   if Ivars.inf_parasiteEvent:Is(0) then
     return
   end
@@ -323,7 +383,6 @@ end
 
 function this.EndEvent()
   Ivars.inf_parasiteEvent:Set(0)
-  hardened=false
   TppWeather.CancelForceRequestWeather()
   TppWeather.RequestWeather(TppDefine.WEATHER.SUNNY,7)
   SendCommand({type="TppParasite2"},{id="StartWithdrawal"})

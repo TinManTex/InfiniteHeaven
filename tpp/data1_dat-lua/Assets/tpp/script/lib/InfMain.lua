@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r167"
+this.modVersion="r168"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -413,7 +413,7 @@ this.cpPositions={
     mafr_pfCamp_cp={846.46,-4.97,1148.62},--Nova Braga Airport
     mafr_hill_cp={2154.83,63.09,366.70},--Munoko ya Nioka Station --redo
 
-    mafr_factory_cp={},--Ngumba Industrial Zone - no soldiers  NOTE in interrog
+  --mafr_factory_cp={},--Ngumba Industrial Zone - no soldiers  NOTE in interrog
   --mafr_swampWestNear_ob={},--Only references in generic setups, no actual missions
 
   --mafr_chicoVil_cp={},--??
@@ -421,7 +421,6 @@ this.cpPositions={
 }
 
 function this.GetClosestCp(position)
-
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
   position=position or playerPos
 
@@ -431,7 +430,15 @@ function this.GetClosestCp(position)
   local closestDist=9999999999999999
   local closestPosition=nil
   for cpName,cpPosition in pairs(cpPositions)do
-    local distSqr=TppMath.FindDistance(playerPos,cpPosition)
+    if cpPosition==nil then
+      InfMenu.DebugPrint("cpPosition==nil for "..tostring(cpName))
+      return
+    elseif #cpPosition~=3 then
+      InfMenu.DebugPrint("#cpPosition~=3 for "..tostring(cpName))
+      return
+    end
+
+    local distSqr=TppMath.FindDistance(position,cpPosition)
     --InfMenu.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
     if distSqr<closestDist then
       closestDist=distSqr
@@ -446,7 +453,6 @@ function this.GetClosestCp(position)
   else
     return
   end
-
 end
 
 function this.GetClosestLz(position)
@@ -467,11 +473,20 @@ function this.GetClosestLz(position)
     for dropLzName,aprLzName in pairs(lzTable)do
       local coords=InfLZ.GetGroundStartPosition(StrCode32(dropLzName))
       if coords then
-        local distSqr=TppMath.FindDistance(position,coords.pos)
+        local cpPos=coords.pos
+        if cpPos==nil then
+          InfMenu.DebugPrint("coords.pos==nil for "..dropLzName)
+          return
+        elseif #cpPos~=3 then
+          InfMenu.DebugPrint("#coords.pos~=3 for "..dropLzName)
+          return
+        end
+
+        local distSqr=TppMath.FindDistance(position,cpPos)
         if distSqr<closestDist then
           closestDist=distSqr
           closestRoute=dropLzName
-          closestPosition=coords.pos
+          closestPosition=cpPos
         end
       end
     end
@@ -623,6 +638,29 @@ function this.Messages()
       {msg="Damage",func=this.OnDamage},
       {msg="Dead",func=this.OnDead},
       {msg="Dying",sender=InfMain.parasiteNames,func=InfParasite.OnDying},
+      --tex TODO: "FultonInfo" instead of fulton and fultonfailed
+      {msg="Fulton",--tex fulton success i think
+        func=function(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
+          local typeIndex=GameObject.GetTypeIndex(gameId)
+          if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
+            if Ivars.enableParasiteEvent:Is(1) and Ivars.enableParasiteEvent:MissionCheck() then
+              InfParasite.OnFulton(gameId)
+            end
+          end
+        end
+      },
+      { msg="FultonFailed",
+        func=function(gameId,locatorName,locatorNameUpper,failureType)
+          if failureType==TppGameObject.FULTON_FAILED_TYPE_ON_FINISHED_RISE then
+            local typeIndex=GameObject.GetTypeIndex(gameId)
+            if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
+              if Ivars.enableParasiteEvent:Is(1) and Ivars.enableParasiteEvent:MissionCheck() then
+                InfParasite.OnFulton(gameId)
+              end
+            end
+          end
+        end
+      },
       {msg="ChangePhase",func=this.OnPhaseChange},
       --WIP OFF, lua off
       --      {msg="RequestLoadReinforce",func=InfReinforce.OnRequestLoadReinforce},
@@ -718,6 +756,7 @@ function this.Messages()
       --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
       {msg="Finish",sender="Timer_ParasiteEvent",func=function()InfParasite.StartEvent()end},--tex TODO shift into infparacite
       {msg="Finish",sender="Timer_ParasiteAppear",func=function()InfParasite.ParasiteAppear()end},
+      {msg="Finish",sender="Timer_ParasiteCombat",func=function()InfParasite.StartCombat()end},
       {msg="Finish",sender="Timer_ParasiteMonitor",func=function()InfParasite.MonitorEvent()end},
     },
     Terminal={

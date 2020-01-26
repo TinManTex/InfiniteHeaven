@@ -1,11 +1,16 @@
 Infinite Heaven changelog
 
+r168 - 2016-07-14 - public release
+Fixed: Free roam skulls now immediately go in to combat on next apearance after one has been fultoned. This is to work around the issue of them getting stuck in an idle state.
+Fixed: Free roam skull event will no longer try to re-trigger after all the skulls have been fultoned.
+Fixed: Skull event triggering when option turned off - thanks Shaun 557 for the report.
+Fixed: Skulls not apearing in Africa
+
 r167 - 2016-07-12 - public release
 Fixed: Quest elimination counter showing incorrectly.
 Fixed: Infinite load on recover man on fire sideop quarantine cutscene with start-on-foot on - thanks CantStoptheBipBop for the report and save file.
 Fixed: Min/Max options would not push up/down their counterpart.
 Affected: DD Equip Grade, and many custom prep config options.
-
 
 Feature:  enableParasiteEvent - Enable Skull attacks in Free roam - Skull attacks at a random time (in minutes) between Skull attack min and skull attack max
 parasitePeriod_MIN - Skull attack min (minutes)

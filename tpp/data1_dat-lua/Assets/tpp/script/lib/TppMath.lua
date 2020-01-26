@@ -1,3 +1,4 @@
+-- DOBUILD: 1 --DEBUGNOW
 local this={}
 function this.Vector3toTable(vector)
   return{vector:GetX(),vector:GetY(),vector:GetZ()}
