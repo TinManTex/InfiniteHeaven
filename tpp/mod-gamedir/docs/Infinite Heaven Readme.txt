@@ -1,7 +1,7 @@
 = Infinite heaven =
-r166 - 2016-07-04
+r167 - 2016-07-12
 by tin man tex
-For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
+For MGSV version 1.09 (in title screen) 1.0.7.1 in exe
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
 
@@ -20,12 +20,26 @@ Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
+New for r167
+Fixed: Elimination counter in side-ops showing incorrectly.
+Fixed: Infinite load on recover man on fire sideop quarantine cutscene with start-on-foot on - thanks CantStoptheBipBop for the report and save file.
+Fixed: Min/Max options would not push up/down their counterpart.
+Affected: DD Equip Grade, and many custom prep config options. If you've used these options, double check you don't have mins higher than maxes and visa versa.
+Fixed: Support heli Force searchlight option changed to Default, Off, On - thanks morbidslinky for the report
+
+Feature: Enable Skull attacks in Free roam - Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.
+Skull attack min (minutes)
+Skull attack max (minutes)
+(via World menu)
+[youtube]K9cEz8s5voI[/youtube]
+https://youtu.be/K9cEz8s5voI
+
 New for r166
 Feature: Time scale mode - using HighSpeedCamera that's used in CQC/Death and I assume Reflex - thanks Shigu for reminding me
-Command: highSpeedCameraToggle - Toggle TSM - Lets you manually toggle Time scale mode that's usually used for Reflex/CQC
-Option: speedCamContinueTime="TSM length (seconds) - The time in seconds of the TSM
-Option: speedCamWorldTimeScale="TSM world time scale -  scale of the world, including soldiers/vehicles during TSM
-Option: speedCamPlayerTimeScale="TSM player time scale - Time scale of the player during TSM
+Command: Toggle TSM - Lets you manually toggle Time scale mode that's usually used for Reflex/CQC
+Option: TSM length (seconds) - The time in seconds of the TSM
+Option: TSM world time scale -  scale of the world, including soldiers/vehicles during TSM
+Option: TSM player time scale - Time scale of the player during TSM
 [youtube]0Jbv_X1_HtE[/youtube]
 https://youtu.be/0Jbv_X1_HtE
 
@@ -42,12 +56,11 @@ In mission Quick Menu:
 <Reload>(R key or B button) to activate Free cam
 <Dash>(Shift or Left stick click) to activate Static camera
 
-Update: Free cam buttons - Various changes, see its section in Features and Options.html in the Infinite Heaven zip.
+Update: Free cam buttons - Various changes, see its section in Features and Options
 
 Updage: Menu buttons - see the Usage section for full deatails
-
-Set current seting to minimum <Reload>
-Reset current setting: <Binocular>
+Set current seting to minimum - <Reload>
+Reset current setting - <Binocular>
 
 Big increments - hold <Fire> when pressing next/previous setting.
 Small increments - hold <Ready weapon> when pressing next/previous setting.
@@ -102,6 +115,8 @@ Hold <Quick dive> (space key or X button on controller) for 2 seconds to toggle 
 The menu system will display the current
 [Option name] - [Setting value or description]
 Sub-menus are indicated by >
+Commands >>
+Commands that closes menu when done >]
 
 Use either Arrow keys or Dpad to navigate the menu.
 Up/Down to select option.
@@ -112,7 +127,7 @@ The size/step of the setting change can be made bigger/smaller by holding <Ready
 Press <Binoculars> button to reset current setting.
 
 Press <Reload> button to set the current setting to it's minimum.
-Press <Change stance> button to go to previous menu.
+Press <Change Stance> button to go to previous menu.
 
 By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
 All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. Snakebite mod manager allows easy toggling of mods.
@@ -130,6 +145,7 @@ In mission Quick Menu:
 <Action>(E key or Y button) to activate TSM
 <Reload>(R key or B button) to activate Free cam
 <Dash>(Shift or Left stick click) to activate Static camera
+<Change Stance>(C key or A button) to have Quiet move to last usermarker
 
 Known Issues
 ------------------------------
@@ -154,6 +170,8 @@ jRavens for your early testing
 Shigu for your specific testing and discussions
 Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
-rzaldi for your donation
+Various people for their donations, including
+Domenico
+Ryuta
 All the mod users on nexus for trying the mod and bug reports
 You for reading this

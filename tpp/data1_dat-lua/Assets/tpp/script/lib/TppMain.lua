@@ -671,7 +671,7 @@ local function LoadingPositionToFree()
   if HasHeliRoute() then--tex startOnFoot zoo/ward transfer>
     local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
     local isAssaultLz=mvars.ldz_assaultDropLandingZoneTable[gvars.heli_missionStartRoute]
-    local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
+    local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz) and TppMission.GetMissionClearType()~=TppDefine.MISSION_CLEAR_TYPE.FORCE_GO_TO_MB_ON_SIDE_OPS_CLEAR
     if startOnFoot then
       TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
       local pos=groundStartPosition.pos

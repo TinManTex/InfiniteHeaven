@@ -1,0 +1,49 @@
+Modfpk
+r163
+quest_child_dog.fox2 - more puppy locators, total/realizedcount increased from 1
+
+r162
+f30010_item.fox2 - copied/added to project
+TppPickableLocatorParameter - some picables added for puton trucks
+
+r159
+f30050_npc.fox2
+Soldier2GameObject_DDmlWait
+realizedcount increased from 12 to 24
+totalcount from 126 to 250
+soldier locators added (100)
+
+r151
+f30050_npc.fox2 - added WalkerGearGameObject, usually it's in it's own .fox2 (walkergear_main_enemy ex) in the mission fpkd
+f30010_npc.fox2 - added walker gear gobject and locators
+
+r145
+heli interiors:
+sbh0_intr0_ene.fmdl to reinforce heli fpks, reference in fpkd/fox2
+
+
+
+f30050_item
+bumped up light vehicle instances from 4 to 12
+added 12 more vehicle locators (veh_ih_00nn)
+
+
+\chunk1_dat\Assets\tpp\pack\vehicle\veh_rl_*.fpkd/*fox2 - bodyInstances,attachmentInstanceCount increased to 4. 1 - player vehicle + 2 (quests max) + 1 patrol? Should I make that 2?
+These packs are actually for the player vehicle but I'm loading them to get the patrol vehicles to work, the veh_mc* packs in common don't actually have ready-to-go data definitions. Editing data is falling into 'not default by default' behaviour which I don't really like, but there's not many options. In the past I tried rolling my own packs but there's issues with fpkds with fox2s (can see this by unpacking an fpkd changing the gztool file pack xml order and repacking) that lead to crashes or extreme memory leaks (like several gb of memory in a minute).
+
+
+Bunch of extra soldier locators in free mission fox2s
+
+
+f30050_heli.fox2 added westheli, westheli usually has it's own fox2 but the custom fpkd issue still remains.
+
+added enemyheli
+
+reinforce_heli_mafr fpkd enemy_heli_mafr.fox2 - increased instances to 8
+_afgh ditto
+
+
+Free mission .sdfs: add other soldier soundbanks
+
+f30010_heli - added more enemyhelis
+

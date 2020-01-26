@@ -1,4 +1,3 @@
--- DOBUILD: 0 --DEBUGNOW
 -- TppAnimal.lua
 local this={}
 local StrCode32=Fox.StrCode32
@@ -144,12 +143,11 @@ function this.SetBird(birdList)
     end
   end
 end
---RETAILBUG DEBUGNOW I dont get why it's overriding TppRatBird enablebirds (which it is because of the order in Tpp.requires). I do see TppRatBird enablebirds has a bug, were they sidestepping that, otherwise how are the birds set up?
---DEBUGNOW OFF
---function TppRatBird._EnableBirds(e)
---  for i,birdInfo in ipairs(mvars.rat_bird_birdList)do
---  end
---end
+--RETAILBUG tex I dont get why it's overriding TppRatBird enablebirds (which it is because of the order in Tpp.requires). I do see TppRatBird enablebirds has a bug, were they sidestepping that, otherwise how are the birds set up?
+function TppRatBird._EnableBirds(e)
+  for i,birdInfo in ipairs(mvars.rat_bird_birdList)do
+  end
+end
 --IN: quest script .QUEST_TABLE
 function this.OnActivateQuest(questTable)
   if mvars.ani_isQuestSetup==false then

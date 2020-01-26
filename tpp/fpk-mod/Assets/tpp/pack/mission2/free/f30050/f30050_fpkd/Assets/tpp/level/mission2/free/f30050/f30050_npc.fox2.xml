@@ -16,6 +16,8 @@
     <class name="TppWalkerGear2LocatorParameter" super="" version="0" />
     <class name="TppWalkerGear2Parameter" super="" version="0" />
     <class name="TppSoldier2LocatorParameter" super="" version="0" />
+    <class name="TppUavParameter" super="" version="1" />
+    <class name="TppUavLocatorParameter" super="" version="0" />
     <class name="TppVfxFileLoader" super="" version="2" />
     <class name="TexturePackLoadConditioner" super="" version="0" />
   </classes>
@@ -203,6 +205,8 @@
           <value key="sol_ih_0137">0x16001370</value>
           <value key="sol_ih_0138">0x16001380</value>
           <value key="sol_ih_0139">0x16001390</value>
+          <value key="UavGameObject">0x05125C60</value>
+          <value key="ih_uav_0000">0x20000000</value>
           <value key="TppVfxFileLoader0000">0x04634FB0</value>
           <value key="TexturePackLoadConditioner0000">0x0463D4B0</value>
         </property>
@@ -11292,6 +11296,109 @@
       </staticProperties>
       <dynamicProperties />
     </entity> 
+
+    <entity class="GameObject" classVersion="2" addr="0x05125C60" unknown1="88" unknown2="295013">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>UavGameObject</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x046345A0</value>
+        </property>
+        <property name="typeName" type="String" container="StaticArray" arraySize="1">
+          <value>TppUav</value>
+        </property>
+        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="totalCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="realizedCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05125CD0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppUavParameter" classVersion="1" addr="0x05125CD0" unknown1="56" unknown2="295015">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05125C60</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/mecha/uav/uav0_main0_def_v00.parts</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+
+    <entity class="GameObjectLocator" classVersion="2" addr="0x20000000" unknown1="272" unknown2="54055">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ih_uav_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x046345A0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x20000001</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="typeName" type="String" container="StaticArray" arraySize="1">
+          <value>TppUav</value>
+        </property>
+        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x20000002</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x20000001" unknown1="80" unknown2="54058">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x20000000</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.020979" y="-5.749996" z="47.636673" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppUavLocatorParameter" classVersion="0" addr="0x20000002" unknown1="32" unknown2="54062">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x20000000</value>
+        </property>
+        <property name="identifier" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
 
     <entity class="TppVfxFileLoader" classVersion="2" addr="0x04634FB0" unknown1="208" unknown2="59984">
       <staticProperties>

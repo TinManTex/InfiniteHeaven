@@ -475,6 +475,10 @@ this.eng={--english
   speedCamPlayerTimeScale="TSM player time scale",
   highspeedcam_cancel="TSM cancel",
   freecam_non_adjust="Static cam mode",
+  enableParasiteEvent="Enable Skull attacks in Free roam",
+  parasitePeriod_MIN="Skull attack min (minutes)",
+  parasitePeriod_MAX="Skull attack max (minutes)",
+  set_default_off_on={"Default","Off","On"},
 }--eng end
 
 this.help={}
@@ -581,7 +585,7 @@ this.help.eng={
   dDEquipMenu="Allow soldiers to have DD equipment usually only seen on FOB",
   forceSuperReinforce="In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more.",
   enableSoldiersWithVehicleReinforce="Allows an extra set of reinforce soldiers with all vehicle reinforce types instead of just Wheeled Armored Vehicles.",
-  enableLrrpFreeRoam="Foot patrols will travel between two random CPs and will cross the field to get there.",
+  enableLrrpFreeRoam="Foot patrols will travel between random CPs and will cross the field to get there.",
   enemyHeliPatrol="Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.",
   vehiclePatrolProfile="Replaces the patrolling trucks in free roam with other vehicles.",
   mbNpcRouteChange="Soldiers will periodically move between platforms (only within the same cluster).",
@@ -615,6 +619,9 @@ this.help.eng={
   <Ready weapon> - Camera orbit distance
   
   Hold <Binocular> and press <Dash> to move free cam position to the player position]],
+  mbSoldierEquipGrade_MIN="A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.",
+  allowUndevelopedDDEquip="Whether to limit the selection to equipment you have developed or allow all equipment.",
+  enableParasiteEvent="Skull attacks at a random time (in minutes) between Skull attack min and skull attack max",
 }
 
 this.cpNames={

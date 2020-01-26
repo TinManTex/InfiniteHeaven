@@ -5319,10 +5319,11 @@ function this.CheckDeactiveQuestAreaForceFulton()
     end
   end
 end
-function this.CheckQuestAllTarget(questType,_messageId,gameId,t,a)
+--NMC: cant find this being called with param4/5 anywhere
+function this.CheckQuestAllTarget(questType,_messageId,gameId,param4,param5)
   local clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
-  local p=t or false
-  local c=a or false
+  local _param4=param4 or false
+  local _param5=param5 or false
   local RENAMEinQuestTargetList=false
   local totalTargets=0
   local fultonedCount=0
@@ -5331,7 +5332,7 @@ function this.CheckQuestAllTarget(questType,_messageId,gameId,t,a)
   local vanishedCount=0
   local inHeliCount=0
   local RENAMEcountIncreased=true
-  local d=false
+  local RENAMEsomeBool=false
   local currentQuestName=TppQuest.GetCurrentQuestName()
   if TppQuest.IsEnd(currentQuestName)then
     return clearType
@@ -5339,31 +5340,31 @@ function this.CheckQuestAllTarget(questType,_messageId,gameId,t,a)
   if mvars.ene_questTargetList[gameId]then
     local questTarget=mvars.ene_questTargetList[gameId]
     if questTarget.messageId~="None"and questTarget.isTarget==true then
-      d=true
+      RENAMEsomeBool=true
     elseif questTarget.isTarget==false then
-      d=true
+      RENAMEsomeBool=true
     end
     questTarget.messageId=_messageId or"None"
     RENAMEinQuestTargetList=true
   end
-  if(p==false and c==false)and RENAMEinQuestTargetList==false then
+  if(_param4==false and _param5==false)and RENAMEinQuestTargetList==false then
     return clearType
   end
   for gameId,questTarget in pairs(mvars.ene_questTargetList)do
-    local d=false
+    local RENAMEsomebool2=false
     local isTarget=questTarget.isTarget or false
-    if p==true then
+    if _param4==true then
       if Tpp.IsSoldier(gameId)or Tpp.IsHostage(gameId)then
         if this.CheckQuestDistance(gameId)then
           questTarget.messageId="Fulton"
           fultonedCount=fultonedCount+1
-          d=false
+          RENAMEsomebool2=false
           RENAMEcountIncreased=true
         end
       end
     end
     if isTarget==true then
-      if d==false then
+      if RENAMEsomebool2==false then
         local messageId=questTarget.messageId
         if messageId~="None"then
           if messageId=="Fulton"then
@@ -5383,14 +5384,14 @@ function this.CheckQuestAllTarget(questType,_messageId,gameId,t,a)
             RENAMEcountIncreased=true
           end
         end
-        if p==true then
+        if _param4==true then
           RENAMEcountIncreased=false
         end
       end
       totalTargets=totalTargets+1
     end
   end
-  if d==true then
+  if RENAMEsomeBool==true then
     RENAMEcountIncreased=false
   end
   if totalTargets>0 then
@@ -5420,7 +5421,7 @@ function this.CheckQuestAllTarget(questType,_messageId,gameId,t,a)
       end
     end
   end
-  if c==true then
+  if _param5==true then
     if clearType==TppDefine.QUEST_CLEAR_TYPE.NONE or clearType==TppDefine.QUEST_CLEAR_TYPE.UPDATE then
       clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
     end

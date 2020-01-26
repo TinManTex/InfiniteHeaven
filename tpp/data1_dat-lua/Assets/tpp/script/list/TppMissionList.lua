@@ -348,12 +348,12 @@ missionPackTable[10100]=function(p)
     local p="hos_diamond_0003"
     local a="hos_diamond_0004"
     local s={
-    {type="enemy",name=o,faceId=616,bodyId=251},
-    {type="hostage",name=t,faceId=INVALID_FOVA_VALUE,bodyId=130},
-    {type="hostage",name=i,faceId=INVALID_FOVA_VALUE,bodyId=131},
-    {type="hostage",name=e,faceId=INVALID_FOVA_VALUE,bodyId=132},
-    {type="hostage",name=p,faceId=INVALID_FOVA_VALUE,bodyId=133},
-    {type="hostage",name=a,faceId=INVALID_FOVA_VALUE,bodyId=134}
+      {type="enemy",name=o,faceId=616,bodyId=251},
+      {type="hostage",name=t,faceId=INVALID_FOVA_VALUE,bodyId=130},
+      {type="hostage",name=i,faceId=INVALID_FOVA_VALUE,bodyId=131},
+      {type="hostage",name=e,faceId=INVALID_FOVA_VALUE,bodyId=132},
+      {type="hostage",name=p,faceId=INVALID_FOVA_VALUE,bodyId=133},
+      {type="hostage",name=a,faceId=INVALID_FOVA_VALUE,bodyId=134}
     }
     TppEneFova.AddUniqueSettingPackage(s)
   end
@@ -392,8 +392,8 @@ missionPackTable[10195]=function(p)
     local s="sol_dealer"
     local p="sol_vip"
     local s={
-    {type="enemy",name=s,faceId=614,bodyId=250},
-    {type="enemy",name=p,faceId=615,bodyId=256}}
+      {type="enemy",name=s,faceId=614,bodyId=250},
+      {type="enemy",name=p,faceId=615,bodyId=256}}
     TppEneFova.AddUniqueSettingPackage(s)
   end
 end
@@ -676,7 +676,10 @@ missionPackTable[30010]=function(missionCode)
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30010/f30010.fpk"
   end
 
-  TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
+  if Ivars.enableParasiteEvent:Is()>0 then
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
+  end
+  --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
   if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetCurrentWildCardBodyInfo(true)--tex female
     if bodyInfo and bodyInfo.missionPackPath then
@@ -696,7 +699,10 @@ missionPackTable[30020]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.ORDER_BOX)
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30020/f30020.fpk"
 
-  TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
+  if Ivars.enableParasiteEvent:Is()>0 then
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
+  end
+  --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
   if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetCurrentWildCardBodyInfo(true)--tex female
     if bodyInfo and bodyInfo.missionPackPath then

@@ -340,26 +340,29 @@ this.setSelectedCpToMarkerObjectCp={
   end
 }
 
+function this.QuietMoveToLastMarker()
+  if vars.buddyType~=BuddyType.QUIET then
+    InfMenu.PrintLangId"buddy_not_quiet"
+    return
+  end
+
+  local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+  if lastMarkerIndex==nil then
+    InfMenu.PrintLangId"no_marker_found"
+  else
+    local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+    local gameId={type="TppBuddyQuiet2",index=0}
+    if gameId==NULL_ID then
+      InfMenu.PrintLangId"cant_find_quiet"
+    else
+      SendCommand(gameId,{id="MoveToPosition",position=moveToPosition,rotationY=0})--,index=99,disableAim=true})
+    end
+  end
+end
 this.quietMoveToLastMarker={
   isMenuOff=true,
   OnChange=function()
-    if vars.buddyType~=BuddyType.QUIET then
-      InfMenu.PrintLangId"buddy_not_quiet"
-      return
-    end
-
-    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-    if lastMarkerIndex==nil then
-      InfMenu.PrintLangId"no_marker_found"
-    else
-      local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-      local gameId={type="TppBuddyQuiet2",index=0}
-      if gameId==NULL_ID then
-        InfMenu.PrintLangId"cant_find_quiet"
-      else
-        SendCommand(gameId,{id="MoveToPosition",position=moveToPosition,rotationY=0})--,index=99,disableAim=true})
-      end
-    end
+    this.QuietMoveToLastMarker()
 
     InfMenu.MenuOff()
   end
@@ -382,29 +385,13 @@ this.requestHeliLzToLastMarker={
         local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
         markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
 
-        local closestRoute=nil
-        local closestDist=9999999999999999
-
-        local layout=0
-        if vars.missionCode==30050 or vars.missionCode==10115 then
-          layout=vars.mbLayoutCode
-        end
-        local groundStartPositions=InfLZ.groundStartPositions[layout+1]
-        for routeName,coords in pairs(groundStartPositions)do
-          local distSqr=TppMath.FindDistance(markerPostion,coords.pos)
-          --InfMenu.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
-          if distSqr<closestDist then
-            closestDist=distSqr
-            closestRoute=routeName
-          end
-        end
-
+        local closestRoute=InfMain.GetClosestLz(markerPostion)
         if closestRoute==nil then
           InfMenu.PrintLangId"no_lz_found"
           return
         end
 
-        closestRoute=InfLZ.str32LzToLz[closestRoute]
+        --closestRoute=InfLZ.str32LzToLz[closestRoute]--CULL
         if not TppLandingZone.assaultLzs[locationName] then
           InfMenu.DebugPrint"WARNING: TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
         end
@@ -420,7 +407,7 @@ this.requestHeliLzToLastMarker={
       end
 
       InfMenu.MenuOff()
-    end)--DEBUGNOW
+    end)--
   end
 }
 
@@ -499,14 +486,16 @@ this.DEBUG_SomeShiz={
     InfInspect.TryFunc(function()
       --DEBUGNOW
       --TppUiCommand.AnnounceLogView("anlogdoop")
-      --TppSoundDaemon.PostEvent( 'sfx_s_enemytag_main_tgt' )
-      InfMenu.DebugPrint(InfMain.moveUpButton)
-      InfMenu.DebugPrint(InfMain.moveDownButton)
+       local fogDensity=math.random(0.001,0.9)
+  TppWeather.ForceRequestWeather(TppDefine.WEATHER.FOGGY,6,{fogDensity=fogDensity})
 
-
-      -- for button,Func in pairs(InfQuickMenuDefs) do
-      --  InfMenu.DebugPrint(button)
-      -- end
+  local parasiteAppearTime=math.random(8,10)
+  GkEventTimerManager.Start("Timer_ParasiteAppear",parasiteAppearTime)
+     
+      InfMenu.MenuOff()
+      --
+      --        end
+      --      end
 
       --InfEquip.CheckTppEquipTable()
       ----------------
@@ -600,37 +589,54 @@ local index2Max=1
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
+      InfParasite.EndEvent()
 
-        local route="lz_drp_field_I0000|rt_drp_field_I_0000"
+      if true then return end
 
-        local gameObjectId=GameObject.GetGameObjectId("SupportHeli")
-        --GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRoute",route=route})
-        GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteReady",route=route})
-        GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteStart",isAssault=false})
+      local position={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
 
-        -- InfMain.GetClosestCp()
+      local closestLz,lzDistance=InfMain.ClosestLz(position)
 
-        --        --InfMenu.DebugPrint(this.stringTest)
-        --
-        --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-        --        if lastMarkerIndex==nil then
-        --          InfMenu.DebugPrint("lastMarkerIndex==nil")
-        --        else
-        --          local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-        --
-        --          local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
-        --          if buddyHorseId==GameObject.NULL_ID then
-        --          else
-        --
-        --            local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
-        --
-        --            local command={id="SetCallHorse",
-        --              startPosition=horsePos,
-        --              goalPosition=moveToPosition
-        --            }
-        --            GameObject.SendCommand(buddyHorseId,command)
-        --          end
-        --        end
+      if closestLz==nil then
+        InfMenu.PrintLangId"no_lz_found"
+      end
+
+      InfMenu.DebugPrint(InfLZ.str32LzToLz[closestLz]..":"..math.sqrt(lzDistance))
+
+      local closestCp,cpDistance=InfMain.GetClosestCp(position)
+
+
+      if true then return end--DEBUGNOW
+      local route="lz_drp_field_I0000|rt_drp_field_I_0000"
+
+      local gameObjectId=GameObject.GetGameObjectId("SupportHeli")
+      --GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRoute",route=route})
+      GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteReady",route=route})
+      GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteStart",isAssault=false})
+
+      -- InfMain.GetClosestCp()
+
+      --        --InfMenu.DebugPrint(this.stringTest)
+      --
+      --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+      --        if lastMarkerIndex==nil then
+      --          InfMenu.DebugPrint("lastMarkerIndex==nil")
+      --        else
+      --          local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+      --
+      --          local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
+      --          if buddyHorseId==GameObject.NULL_ID then
+      --          else
+      --
+      --            local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
+      --
+      --            local command={id="SetCallHorse",
+      --              startPosition=horsePos,
+      --              goalPosition=moveToPosition
+      --            }
+      --            GameObject.SendCommand(buddyHorseId,command)
+      --          end
+      --        end
 
 
 
@@ -650,7 +656,7 @@ this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-      end)
+    end)
     index3=index3+1
     if index3>index3Max then
       index3=index3Min
@@ -777,10 +783,8 @@ this.DEBUG_SetIvarsToDefault={
     InfInspect.TryFunc(
       function()
         local ivarNames={
-
-            --  "enableWalkerGearsMB",
-            "inf_levelSeed",
-
+        "debugMode",
+     
         }
 
         for i,ivarName in pairs(ivarNames) do
@@ -805,36 +809,36 @@ local highSpeedCamStartTime=0
 this.highSpeedCameraToggle={
   OnChange=function()
     --InfInspect.TryFunc(function()--DEBUG
-      --GOTCHA: toggle could fail on reload or other cam requestcancel with a long continuetime/highSpeedCamStartTime
-      --      local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
-      --      if elapsedTime>highSpeedCamStartTime then--cam timed out
-      --        highSpeedCamToggle=true
-      --      else
-      --        highSpeedCamToggle=false
-      --      end
+    --GOTCHA: toggle could fail on reload or other cam requestcancel with a long continuetime/highSpeedCamStartTime
+    --      local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
+    --      if elapsedTime>highSpeedCamStartTime then--cam timed out
+    --        highSpeedCamToggle=true
+    --      else
+    --        highSpeedCamToggle=false
+    --      end
 
-      highSpeedCamToggle=not highSpeedCamToggle
+    highSpeedCamToggle=not highSpeedCamToggle
 
-      if highSpeedCamToggle then
-        local continueTime=Ivars.speedCamContinueTime:Get()
-        local worldTimeRate=Ivars.speedCamWorldTimeScale:Get()
-        local localPlayerTimeRate=Ivars.speedCamPlayerTimeScale:Get()
-        local timeRateInterpTimeAtStart=0
-        local timeRateInterpTimeAtEnd=0
-        local cameraSetUpTime=0
+    if highSpeedCamToggle then
+      local continueTime=Ivars.speedCamContinueTime:Get()
+      local worldTimeRate=Ivars.speedCamWorldTimeScale:Get()
+      local localPlayerTimeRate=Ivars.speedCamPlayerTimeScale:Get()
+      local timeRateInterpTimeAtStart=0
+      local timeRateInterpTimeAtEnd=0
+      local cameraSetUpTime=0
 
-        --highSpeedCamStartTime=elapsedTime+continueTime
+      --highSpeedCamStartTime=elapsedTime+continueTime
 
-        HighSpeedCamera.RequestEvent{continueTime=continueTime,worldTimeRate=worldTimeRate,localPlayerTimeRate=localPlayerTimeRate,timeRateInterpTimeAtStart=timeRateInterpTimeAtStart,timeRateInterpTimeAtEnd=timeRateInterpTimeAtEnd,cameraSetUpTime=cameraSetUpTime}
+      HighSpeedCamera.RequestEvent{continueTime=continueTime,worldTimeRate=worldTimeRate,localPlayerTimeRate=localPlayerTimeRate,timeRateInterpTimeAtStart=timeRateInterpTimeAtStart,timeRateInterpTimeAtEnd=timeRateInterpTimeAtEnd,cameraSetUpTime=cameraSetUpTime}
 
-        --InfMenu.PrintLangId"highspeedcam_on"--DEBUG
-      else
-        highSpeedCamStartTime=0
+      --InfMenu.PrintLangId"highspeedcam_on"--DEBUG
+    else
+      highSpeedCamStartTime=0
 
-        HighSpeedCamera.RequestToCancel()
+      HighSpeedCamera.RequestToCancel()
 
-        InfMenu.PrintLangId"highspeedcam_cancel"
-      end
+      InfMenu.PrintLangId"highspeedcam_cancel"
+    end
     --end)--
   end
 }
@@ -1258,6 +1262,14 @@ this.DEBUG_WarpToObject={
         --local objectList=InfMain.reserveSoldierNames
         local objectList={"veh_lv_0003"}
 
+        --DEBUGNOW
+        local objectList={
+          "Parasite0",
+          "Parasite1",
+          "Parasite2",
+          "Parasite3",
+        }
+
         --local objectList=InfMain.ene_wildCardSoldiers
 
         --local objectList=InfMain.truckNames
@@ -1389,7 +1401,9 @@ this.DEBUG_WarpToReinforceVehicle={
 
 this.DEBUG_PrintNonDefaultVars={
   OnChange=function()
+    InfInspect.TryFunc(function()
     Ivars.PrintNonDefaultVars()
+    end)
   end,
 }
 

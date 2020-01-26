@@ -1,6 +1,18 @@
 Infinite Heaven changelog
 
-r165 - 2016-07-04 - public release
+r167 - 2016-07-12 - public release
+Fixed: Quest elimination counter showing incorrectly.
+Fixed: Infinite load on recover man on fire sideop quarantine cutscene with start-on-foot on - thanks CantStoptheBipBop for the report and save file.
+Fixed: Min/Max options would not push up/down their counterpart.
+Affected: DD Equip Grade, and many custom prep config options.
+
+
+Feature:  enableParasiteEvent - Enable Skull attacks in Free roam - Skull attacks at a random time (in minutes) between Skull attack min and skull attack max
+parasitePeriod_MIN - Skull attack min (minutes)
+parasitePeriod_MAX - Skull attack max (minutes)
+(via World menu)
+
+r166 - 2016-07-04 - public release
 Module: InfQuickMenuDefs - quickmenu, actual implmentation in InfMenu
 
 Feature: Time scale mode - using HighSpeedCamera that's used in CQC/Death and I assume Reflex - thanks Shigu for reminding me

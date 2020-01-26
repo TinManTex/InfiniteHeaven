@@ -1,3 +1,4 @@
+-- DOBUILD: 0 --DEBUGNOW
 TppPlayer2CallbackScript={
   StartCameraAnimation=function(e,t,r,n,n,n,n,n,a,n,n)
     TppPlayer2CallbackScript._StartCameraAnimation(e,t,a,true,false,r,false,true)
@@ -102,11 +103,11 @@ TppPlayer2CallbackScript={
   end,
   SetHighSpeeCameraOnCQCComboFinish=function()
     TppSoundDaemon.PostEvent"sfx_s_highspeed_cqc"
-    TppPlayer2CallbackScript._SetHighSpeedCamera(.6,.03)
+    --DEBUGNOW TppPlayer2CallbackScript._SetHighSpeedCamera(.6,.03)
   end,
   SetHighSpeeCameraAtCQCSnatchWeapon=function()
     TppSoundDaemon.PostEvent"sfx_s_highspeed_cqc"
-    TppPlayer2CallbackScript._SetHighSpeedCamera(1,.1)
+    -DEBUGNOW TppPlayer2CallbackScript._SetHighSpeedCamera(1,.1)
   end,
   defaultStopPlayingByCollision=false,
   defaultEnableCamera={PlayerCamera.Around,PlayerCamera.Vehicle},

@@ -95,7 +95,6 @@ local groundStartPositionsInitial={
     ["ly500_cl00_30150_heli0000|cl00pl3_mb_fndt_plnt_heli_30050|rt_apr"]={pos={-104.23648071289,8.7501268386841,-131.96905517578} },
     --quarantine
     ["ly003_cl07_30050_heli0000|cl07pl0_mb_fndt_plnt_heli_30050|rt_apr"]={pos={-162.5267791748,8.7501268386841,-2104.9208984375},  },
-
     --mother base - from mbdvc_map_mbstage_parameter heliLandPointTable_FreePlay, thanks NasaNhak
     ["ly003_cl00_30050_heli0000|cl00pl0_mb_fndt_plnt_heli_30050|rt_apr"]={pos={9.1155920028687,8.7501268386841,-42.430213928223}, },
     ["ly003_cl01_30050_heli0000|cl01pl0_mb_fndt_plnt_heli_30050|rt_apr"]={pos={834.69958496094,8.7501268386841,-559.33135986328}, },
@@ -201,7 +200,6 @@ local groundStartPositionsInitial={
     ["ly003_cl02_10115_heli0000|cl02pl1_mb_fndt_plnt_heli_10115|rt_apr"]={pos={1191.4206542969,-3.498596906662,259.04086303711}, },
     ["ly003_cl02_10115_heli0000|cl02pl2_mb_fndt_plnt_heli_10115|rt_apr"]={pos={1261.1378173828,-3.498596906662,193.21047973633}, },
     ["ly003_cl02_10115_heli0000|cl02pl3_mb_fndt_plnt_heli_10115|rt_apr"]={pos={1408.7062988281,-3.498596906662,191.68753051758}, },
-
   },
   {--3
     --mother base
@@ -258,7 +256,6 @@ for layoutIndex=1,#groundStartPositionsInitial do
 
   this.groundStartPositions[layoutIndex]=layoutLzTable
 end
-
 --tex clear initial table
 groundStartPositionsInitial=nil
 
@@ -270,7 +267,6 @@ function this.GetGroundStartPosition(missionStartRoute,missionCode)
   end
   return this.groundStartPositions[layout+1][missionStartRoute]
 end
-
 function this.DisableLzsWithinDist(lzTable,position,distance,missionCode)
   if lzTable==nil then
     return

@@ -437,6 +437,9 @@ this.worldMenu={
   options={
     Ivars.gameEventChanceFREE,
     Ivars.gameEventChanceMB,
+    Ivars.enableParasiteEvent,
+    Ivars.parasitePeriod_MIN,
+    Ivars.parasitePeriod_MAX,
     Ivars.repopulateRadioTapes,
     Ivars.randomizeMineTypes,
     Ivars.additionalMineFields,
@@ -481,7 +484,7 @@ this.heliSpaceMenu={
   noGoBackItem=true,
   options={
     --    InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
-    --    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
+    --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
     --    InfMenuCommands.DEBUG_PrintMenu,
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
@@ -553,16 +556,18 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
+--    InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
+--    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --InfMenuCommands.resetAllSettingsItem,--DEBUG
-    --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+--    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
     --    Ivars.itemDropChance,--DEBUG
     --    Ivars.playerFaceIdApearance,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.appearanceMenu,--DEBUG    --
     --    InfMenuCommands.DEBUG_DropItem,--DEBUG
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG
 
     --    InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG

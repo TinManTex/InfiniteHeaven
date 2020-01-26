@@ -293,6 +293,8 @@ InfMenuCommands=require"InfMenuCommands"
 InfMenuDefs=require"InfMenuDefs"
 InfMenu=require"InfMenu"
 
+InfLZ=require"InfLZ"
+
 
 InfInspect=require"InfInspect"
 InfEquip=require"InfEquip"

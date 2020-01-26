@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r166"
+this.modVersion="r167"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -370,7 +370,7 @@ this.cpPositions={
     afgh_ruinsNorth_ob={1623.511,323.038,1062.995},
     afgh_fieldEast_ob={1101.482,318.458,1828.101},
     afgh_citadel_cp={-1251.708,595.181,-2936.821},
-    afgh_field_cp={418.33,278.22,2261.37},
+    afgh_field_cp={425.95,270.16,2198.39},
     afgh_commFacility_cp={1488.730,357.429,459.287},
     afgh_slopedTown_cp={514.191,331.173,43.403},
     afgh_fort_cp={2106.16,463.64,-1747.21},
@@ -380,36 +380,36 @@ this.cpPositions={
   },
   mafr={
     mafr_swampWest_ob={-561.458,1.203,-189.687},--Guard Post 01, NW Kiziba Camp
-    mafr_diamondNorth_ob={},--Guard Post 02, NE Kungenga Mine
-    mafr_bananaEast_ob={},--Guard Post 03, SE Bampeve Plantation
+    mafr_diamondNorth_ob={1326.073,152.667,-1899.799},--Guard Post 02, NE Kungenga Mine
+    mafr_bananaEast_ob={570.117,79.988,-1071.741},--Guard Post 03, SE Bampeve Plantation
     mafr_bananaSouth_ob={232.093,3.048,-653.531},--Guard Post 04, SW Bampeve Plantation
-    mafr_savannahNorth_ob={},--Guard Post 05, NE Ditadi Abandoned Village
+    mafr_savannahNorth_ob={707.557,34.091,-913.209},--Guard Post 05, NE Ditadi Abandoned Village
     mafr_outlandNorth_ob={-806.758,1.056,690.615},--Guard Post 06, North Masa Village
-    mafr_diamondWest_ob={},--Guard Post 07, West Kungenga Mine
+    mafr_diamondWest_ob={1047.941,121.694,-1170.218},--Guard Post 07, West Kungenga Mine
     mafr_labWest_ob={2146.880,192.241,-2177.558},--Guard Post 08, NW Lufwa Valley
-    mafr_savannahWest_ob={},--Guard Post 09, North Ditadi Abandoned Village
-    mafr_swampEast_ob={},--Guard Post 10, SE Kiziba Camp
-    mafr_outlandEast_ob={},--Guard Post 11, East Masa Village
-    mafr_swampSouth_ob={},--Guard Post 12, South Kiziba Camp
-    mafr_diamondSouth_ob={},--Guard Post 13, SW Kungenga Mine
-    mafr_pfCampNorth_ob={},--Guard Post 14, NE Nova Braga Airport
-    mafr_savannahEast_ob={},--Guard Post 15, South Ditadi Abandoned Village
-    mafr_hillNorth_ob={},--Guard Post 16, NE Munoko ya Nioka Station
-    mafr_factoryWest_ob={},--Guard Post 17, West Ngumba Industrial Zone
-    mafr_pfCampEast_ob={},--Guard Post 18, East Nova Braga Airport
-    mafr_hillWest_ob={},--Guard Post 19, NW Munoko ya Nioka Station
-    mafr_factorySouth_ob={},--Guard Post 20, SW Ngumba Industrial Zone
-    mafr_hillWestNear_ob={},--Guard Post 21, West Munoko ya Nioka Station
-    mafr_chicoVilWest_ob={},--Guard Post 22, South Nova Braga Airport
-    mafr_hillSouth_ob={},--Guard Post 23, SW Munoko ya Nioka Station
+    mafr_savannahWest_ob={713.843,3.120,-547.492},--Guard Post 09, North Ditadi Abandoned Village
+    mafr_swampEast_ob={344.727,-5.164,-7.508},--Guard Post 10, SE Kiziba Camp
+    mafr_outlandEast_ob={-275.585,-7.796,767.962},--Guard Post 11, East Masa Village
+    mafr_swampSouth_ob={316.517,-5.944,369.979},--Guard Post 12, South Kiziba Camp
+    mafr_diamondSouth_ob={1439.533,99.656,-720.559},--Guard Post 13, SW Kungenga Mine
+    mafr_pfCampNorth_ob={928.184,-4.859,372.320},--Guard Post 14, NE Nova Braga Airport
+    mafr_savannahEast_ob={1197.290,8.719,78.842},--Guard Post 15, South Ditadi Abandoned Village
+    mafr_hillNorth_ob={1915.400,60.799,-230.770},--Guard Post 16, NE Munoko ya Nioka Station
+    mafr_factoryWest_ob={2515.327,71.937,-814.150},--Guard Post 17, West Ngumba Industrial Zone
+    mafr_pfCampEast_ob={1196.617,-4.470,567.516},--Guard Post 18, East Nova Braga Airport
+    mafr_hillWest_ob={1673.172,24.406,137.511},--Guard Post 19, NW Munoko ya Nioka Station
+    mafr_factorySouth_ob={2349.303,68.733,-113.923},--Guard Post 20, SW Ngumba Industrial Zone
+    mafr_hillWestNear_ob={1799.202,-4.737,711.536},--Guard Post 21, West Munoko ya Nioka Station
+    mafr_chicoVilWest_ob={1549.457,-10.819,1776.419},--Guard Post 22, South Nova Braga Airport
+    mafr_hillSouth_ob={2012.754,-10.564,1376.297},--Guard Post 23, SW Munoko ya Nioka Station
 
     mafr_flowStation_cp={-1001.38,-7.20,-199.16},--Mfinda Oilfield
-    mafr_banana_cp={},--Bampeve Plantation
-    mafr_diamond_cp={},--Kungenga Mine
-    mafr_lab_cp={},--Lufwa Valley
-    mafr_swamp_cp={},--Kiziba Camp
-    mafr_outland_cp={},--Masa Village
-    mafr_savannah_cp={},--Ditadi Abandoned Village
+    mafr_banana_cp={277.078,42.670,-1160.725},--Bampeve Plantation
+    mafr_diamond_cp={1243.253,139.279,-1524.267},--Kungenga Mine
+    mafr_lab_cp={2707.704,174.806,-2423.353},--Lufwa Valley
+    mafr_swamp_cp={-55.823,-3.758,55.400},--Kiziba Camp
+    mafr_outland_cp={-596.105,-16.714,1094.863},--Masa Village
+    mafr_savannah_cp={979.923,26.267,-201.705},--Ditadi Abandoned Village
     mafr_pfCamp_cp={846.46,-4.97,1148.62},--Nova Braga Airport
     mafr_hill_cp={2154.83,63.09,366.70},--Munoko ya Nioka Station --redo
 
@@ -420,30 +420,64 @@ this.cpPositions={
   },
 }
 
-function this.GetClosestCp()
+function this.GetClosestCp(position)
 
   local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+  position=position or playerPos
 
   local locationName=InfMain.GetLocationName()
   local cpPositions=this.cpPositions[locationName]
   local closestCp=nil
   local closestDist=9999999999999999
+  local closestPosition=nil
   for cpName,cpPosition in pairs(cpPositions)do
     local distSqr=TppMath.FindDistance(playerPos,cpPosition)
     --InfMenu.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
     if distSqr<closestDist then
       closestDist=distSqr
       closestCp=cpName
+      closestPosition=cpPosition
     end
   end
-  InfMenu.DebugPrint("Closest cp "..InfMenu.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUGNOW
-  local cpId=GetGameObjectId(cpName)
+  --InfMenu.DebugPrint("Closest cp "..InfMenu.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUG
+  local cpId=GetGameObjectId(closestCp)
   if cpId and cpId~=NULL_ID then
-    return cpId
+    return closestCp,closestDist,closestPosition
   else
     return
   end
 
+end
+
+function this.GetClosestLz(position)
+  local closestRoute=nil
+  local closestDist=9999999999999999
+  local closestPosition=nil
+
+  local locationName=InfMain.GetLocationName()
+
+  if not TppLandingZone.assaultLzs[locationName] then
+    InfMenu.DebugPrint"WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
+  end
+  local lzTables={
+    TppLandingZone.assaultLzs[locationName],
+    TppLandingZone.missionLzs[locationName]
+  }
+  for i,lzTable in ipairs(lzTables)do
+    for dropLzName,aprLzName in pairs(lzTable)do
+      local coords=InfLZ.GetGroundStartPosition(StrCode32(dropLzName))
+      if coords then
+        local distSqr=TppMath.FindDistance(position,coords.pos)
+        if distSqr<closestDist then
+          closestDist=distSqr
+          closestRoute=dropLzName
+          closestPosition=coords.pos
+        end
+      end
+    end
+  end
+
+  return closestRoute,closestDist,closestPosition
 end
 
 --<cp stuff
@@ -586,8 +620,9 @@ end
 function this.Messages()
   return Tpp.StrCode32Table{
     GameObject={
-      {msg="Dead",func=this.OnDead},
       {msg="Damage",func=this.OnDamage},
+      {msg="Dead",func=this.OnDead},
+      {msg="Dying",sender=InfMain.parasiteNames,func=InfParasite.OnDying},
       {msg="ChangePhase",func=this.OnPhaseChange},
       --WIP OFF, lua off
       --      {msg="RequestLoadReinforce",func=InfReinforce.OnRequestLoadReinforce},
@@ -648,6 +683,7 @@ function this.Messages()
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
         --InfMenu.DebugPrint"FadeInOnGameStart"--DEBUG
         this.FadeInOnGameStart()
+        InfParasite.FadeInOnGameStart()
       end},
       --this.FadeInOnGameStart},
       {msg="EndFadeIn",sender="FadeInOnStartMissionGame",func=function()--fires on: returning to heli from mission
@@ -679,7 +715,10 @@ function this.Messages()
     --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
     },
     Timer={
-    --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
+      --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
+      {msg="Finish",sender="Timer_ParasiteEvent",func=function()InfParasite.StartEvent()end},--tex TODO shift into infparacite
+      {msg="Finish",sender="Timer_ParasiteAppear",func=function()InfParasite.ParasiteAppear()end},
+      {msg="Finish",sender="Timer_ParasiteMonitor",func=function()InfParasite.MonitorEvent()end},
     },
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
@@ -749,9 +788,10 @@ end
 return false
 end
 function this.OnDamage(gameId,attackId,attackerId)
-  --InfMenu.DebugPrint"OnDamage"--DEBUG
   local typeIndex=GameObject.GetTypeIndex(gameId)
-  if typeIndex~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then--and typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
+  if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
+    InfParasite.OnDamage(gameId,attackId,attackerId)
+  elseif typeIndex~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then--and typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     return
   end
 
@@ -993,6 +1033,10 @@ function this.OnMissionCanStartBottom()
     InfGameEvent.OnMissionCanStart()
   end
 
+  if Ivars.enableParasiteEvent:Is(1) and Ivars.enableParasiteEvent:MissionCheck() then
+    InfParasite.InitEvent()
+  end
+
   if Ivars.repopulateRadioTapes:Is(1) then
     Gimmick.ForceResetOfRadioCassetteWithCassette()
   end
@@ -1106,6 +1150,11 @@ function this.ExecuteMissionFinalize(missionFinalize)
   end
 end
 
+function this.ClearOnAbort()
+  Ivars.inf_event:Set(0)
+  Ivars.inf_parasiteEvent:Set(0)
+end
+
 this.execChecks={
   inGame=false,--tex actually loaded game, ie at least 'continued' from title screen
   inHeliSpace=false,
@@ -1169,7 +1218,7 @@ function this.Update()
         local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
         SplashScreen.Show(splash,0,0.3,0)
         this.abortToAcc=true
-        Ivars.inf_event:Set(0)--tex KLUDGE
+        InfMain.ClearOnAbort()
       else--elseif currentChecks.inGame then--WIP
       --this.ClearStatus()
       end
@@ -1418,7 +1467,9 @@ function this.UpdateHeliVars()
   if Ivars.disableDescentToLandingZone:Is(1) then
     SendCommand(heliId,{id="DisableDescentToLandingZone"})
   end
-  if Ivars.setSearchLightForcedHeli:Is(1) then
+  if Ivars.setSearchLightForcedHeli:Is"ON" then
+    SendCommand(heliId,{id="SetSearchLightForcedType",type="On"})
+  elseif Ivars.setSearchLightForcedHeli:Is"OFF" then
     SendCommand(heliId,{id="SetSearchLightForcedType",type="Off"})
   end
 

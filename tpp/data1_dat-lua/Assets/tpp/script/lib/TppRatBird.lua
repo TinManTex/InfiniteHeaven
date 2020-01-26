@@ -1,4 +1,3 @@
--- DOBUILD: 0 --DEBUGNOW
 -- TppRatBird.lua
 local this={}
 local StrCode32=Fox.StrCode32
@@ -110,8 +109,7 @@ function this._EnableBirds(enabled)
   for n,birdInfo in ipairs(mvars.rat_bird_birdList)do
     local tppBirdTypeId={type=birdInfo.birdType,index=0}
     --RETAILBUG: birdindex not defined, I assume it's the index of rat_bird_birdList but not sure, the equivalent for rats just sets 0, this function is overridden to a function that does nothing in TppAnimal
-    --tex OFF local command={id="SetEnabled",name=birdInfo.name,birdIndex=i,enabled=enabled}
-    local command={id="SetEnabled",name=birdInfo.name,birdIndex=n,enabled=enabled}--DEBUGNOW attempted fix, also disabled override in TppAnimal
+    local command={id="SetEnabled",name=birdInfo.name,birdIndex=i,enabled=enabled}
     GameObject.SendCommand(tppBirdTypeId,command)
   end
 end

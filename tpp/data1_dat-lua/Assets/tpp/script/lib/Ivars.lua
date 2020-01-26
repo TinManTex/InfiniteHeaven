@@ -140,12 +140,12 @@ local function MinMaxIvar(name,minSettings,maxSettings,ivarSettings)
   local ivarMin={
     subName=name,
     save=MISSION,
-    OnChange=PushMin,
+    OnChange=PushMax,
   }
   local ivarMax={
     subName=name,
     save=MISSION,
-    OnChange=PushMax,
+    OnChange=PushMin,
   }
 
   for k,v in pairs(minSettings) do
@@ -271,8 +271,8 @@ end
 
 this.debugMode={
   save=GLOBAL,
---  range=this.switchRange,
---  settingNames="set_switch",
+  --  range=this.switchRange,
+  --  settingNames="set_switch",
   settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
   allowFob=true,
 }
@@ -3000,7 +3000,7 @@ this.warpPlayerUpdate={
       InfMenu.PrintLangId"warp_mode_off"
       InfMain.OnDeactivateWarpPlayer()
     end
-    
+
     if InfMenu.menuOn then
       InfMain.RestoreActionFlag()
       InfMenu.menuOn=false
@@ -3396,21 +3396,22 @@ this.disableDescentToLandingZone={
 
 this.setSearchLightForcedHeli={
   save=MISSION,
-  range=this.switchRange,
-  settingNames="set_disable",
+  settings={"DEFAULT","OFF","ON"},
+  settingNames="set_default_off_on",
   OnChange=function(self)
     if TppMission.IsFOBMission(vars.missionCode) then return end
-    local set=self.setting==1
     local gameObjectId=GetGameObjectId("TppHeli2","SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
       local command
-      if set then
-        command={id="SetSearchLightForcedType",type="Off"}
-      else
+      if self.setting==1 then
         command={id="SetSearchLightForcedType",type="On"}
+      elseif self.setting==2 then
+        command={id="SetSearchLightForcedType",type="Off"}
       end
-      GameObject.SendCommand(gameObjectId,command)
-      InfMain.HeliOrderRecieved()
+      if command then
+        GameObject.SendCommand(gameObjectId,command)
+        InfMain.HeliOrderRecieved()
+      end
     end
   end,
 }
@@ -3550,6 +3551,29 @@ MissionModeIvars(
   {"FREE","MB",}
 )
 
+--parasite
+this.enableParasiteEvent={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  MissionCheck=MissionCheckFree,
+}
+
+--tex time in minutes
+MinMaxIvar(
+  "parasitePeriod",
+  {
+    default=5,
+  },
+  {
+    default=15,
+  },
+  {
+    range={min=0,max=60,increment=1},
+  }
+)
+
+
 --mines
 this.randomizeMineTypes={
   save=MISSION,
@@ -3570,6 +3594,12 @@ this.additionalMineFields={
 this.inf_event={--NONUSER
   save=MISSION,
   settings={"OFF","WARGAME","ROAM"},
+}
+
+this.inf_parasiteEvent={
+  save=MISSION,
+  default=0,
+  range={max=4,min=0,increment=1},
 }
 
 this.mis_isGroundStart={--NONUSER WORKAROUND

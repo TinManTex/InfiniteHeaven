@@ -19,7 +19,7 @@ Menu, Options and Settings
 ==========================
 
 Basic terms used in the Infinite Heaven menu:
-<Option> - <Setting>
+[Option] - [Setting]
 
 Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.
 
@@ -62,10 +62,14 @@ World menu
 Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')
 2: MB event random trigger chance : 0-100%
 Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')
-3: Repopulate music tape radios : Off, On
-4: Randomize minefield mine types : Off, On
+3: Enable Skull attacks in Free roam : Off, On
+Skull attacks at a random time (in minutes) between Skull attack min and skull attack max
+4: Skull attack min (minutes) : 0-60
+5: Skull attack max (minutes) : 0-60
+6: Repopulate music tape radios : Off, On
+7: Randomize minefield mine types : Off, On
 Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.
-5: Enable additional minefields : Off, On
+8: Enable additional minefields : Off, On
 In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.
 
 
@@ -391,8 +395,10 @@ DD Equip menu
 2: Enemy use DD equipment in free roam : Off, On
 3: Enemy use DD equipment in missions : Off, On
 4: DD Equip Grade RND MIN : 1-15
+A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.
 5: DD Equip Grade RND MAX : 1-15
 6: Allow undeveloped DD equipment : Off, On
+Whether to limit the selection to equipment you have developed or allow all equipment.
 7: MB DD Equip non-lethal : Off, On
 8: MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random
 
@@ -411,7 +417,7 @@ Allows an extra set of reinforce soldiers with all vehicle reinforce types inste
 Enemy patrols menu
 ------------------
 1: Foot patrols in free roam : Off, On
-Foot patrols will travel between two random CPs and will cross the field to get there.
+Foot patrols will travel between random CPs and will cross the field to get there.
 2: Heli patrols in free roam : None, 1, 3, 5, 7, Enemy prep
 Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.
 3: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
@@ -541,7 +547,7 @@ Support heli menu
 1: Disable support heli attack : Off, On
 Stops support heli from engaging targets.
 2: Set heli invincible : Off, On
-3: Force searchlight : On, Off
+3: Force searchlight : Default, Off, On
 4: Disable pull-out : Off, On
 Prevents heli from leaving when you jump on-board, so you can use the gun from a stationary position, or just change your mind and jump out again. Press &ltSTANCE&gt while in the heli to get it to pull-out again (or use menu). NOTE: Disable pull-out will prevent the mother base helitaxi selection menu, press &ltSTANCE&gt to re-enable or use the mod menu.
 5: Set LZ wait height : 5-50
@@ -676,7 +682,7 @@ Support heli menu
 1: Disable support heli attack : Off, On
 Stops support heli from engaging targets.
 2: Set heli invincible : Off, On
-3: Force searchlight : On, Off
+3: Force searchlight : Default, Off, On
 4: Disable pull-out : Off, On
 Prevents heli from leaving when you jump on-board, so you can use the gun from a stationary position, or just change your mind and jump out again. Press &ltSTANCE&gt while in the heli to get it to pull-out again (or use menu). NOTE: Disable pull-out will prevent the mother base helitaxi selection menu, press &ltSTANCE&gt to re-enable or use the mod menu.
 5: Set LZ wait height : 5-50

@@ -63,6 +63,7 @@ this.inMission={
   end,
   [InfButton.STANCE]=function(execCheck)--A/C(Z)
     --InfMenu.DebugPrint"quickmenu STANCE"--DEBUG
+    InfMenuCommands.QuietMoveToLastMarker()
   end,
 }
 
