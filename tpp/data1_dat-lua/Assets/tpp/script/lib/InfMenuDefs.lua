@@ -471,13 +471,14 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
+    --    InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUGNOW
+    --    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUGNOW
     --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
-    --    --    InfMenuCommands.DEBUG_PrintMenu,
-      --   InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    --        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --    InfMenuCommands.DEBUG_PrintMenu,
+    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
-    --    this.fovaModMenu,--DEBUG
     --    this.appearanceMenu,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
@@ -544,15 +545,14 @@ this.inMissionMenu={
   options={
     --InfMenuCommands.resetAllSettingsItem,--DEBUG
     --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
-
     --    Ivars.itemDropChance,--DEBUG
     --    Ivars.playerFaceIdApearance,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.appearanceMenu,--DEBUG    --
     --    InfMenuCommands.DEBUG_DropItem,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG
 
     --    InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG

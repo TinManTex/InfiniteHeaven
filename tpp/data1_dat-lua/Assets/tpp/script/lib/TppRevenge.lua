@@ -1346,7 +1346,7 @@ function this._CreateRevengeConfig(revengeTypes)
   if Tpp.IsTypeNumber(revengeConfig.ARMOR)and not this.CanUseArmor() then
     if not disablePowerSettings.SHIELD then
       local shieldCount=revengeConfig.SHIELD or 0
-      if Ivars.disableConvertArmorToShield:Is(0) or shieldCount==0 then--tex added disable/0 check
+      if Ivars.disableConvertArmorToShield:Is(0) then--DEBUGNOW or shieldCount==0 then--tex added disable/0 check
         if Tpp.IsTypeNumber(shieldCount)then
           revengeConfig.SHIELD=shieldCount+revengeConfig.ARMOR
       end

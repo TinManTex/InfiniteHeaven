@@ -711,7 +711,6 @@ missionPackTable[30020]=function(missionCode)
   end--<
 end
 missionPackTable[30050]=function(missionCode)
-
   TppPackList.AddLocationCommonScriptPack(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)

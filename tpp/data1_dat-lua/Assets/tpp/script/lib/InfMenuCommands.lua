@@ -497,7 +497,6 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
       --InfEquip.CheckTppEquipTable()
-
       ----------------
       if true then return end--DEBUG
       ------------------
@@ -589,41 +588,41 @@ local index2Max=1
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
-    
-    local route="lz_drp_field_I0000|rt_drp_field_I_0000"
-    
-    local gameObjectId=GameObject.GetGameObjectId("SupportHeli")
-    --GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRoute",route=route})
-    GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteReady",route=route})
-    GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteStart",isAssault=false})
 
-      -- InfMain.GetClosestCp()
+        local route="lz_drp_field_I0000|rt_drp_field_I_0000"
 
-      --        --InfMenu.DebugPrint(this.stringTest)
-      --
-      --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-      --        if lastMarkerIndex==nil then
-      --          InfMenu.DebugPrint("lastMarkerIndex==nil")
-      --        else
-      --          local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-      --
-      --          local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
-      --          if buddyHorseId==GameObject.NULL_ID then
-      --          else
-      --
-      --            local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
-      --
-      --            local command={id="SetCallHorse",
-      --              startPosition=horsePos,
-      --              goalPosition=moveToPosition
-      --            }
-      --            GameObject.SendCommand(buddyHorseId,command)
-      --          end
-      --        end
+        local gameObjectId=GameObject.GetGameObjectId("SupportHeli")
+        --GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRoute",route=route})
+        GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteReady",route=route})
+        GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteStart",isAssault=false})
+
+        -- InfMain.GetClosestCp()
+
+        --        --InfMenu.DebugPrint(this.stringTest)
+        --
+        --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+        --        if lastMarkerIndex==nil then
+        --          InfMenu.DebugPrint("lastMarkerIndex==nil")
+        --        else
+        --          local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+        --
+        --          local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
+        --          if buddyHorseId==GameObject.NULL_ID then
+        --          else
+        --
+        --            local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
+        --
+        --            local command={id="SetCallHorse",
+        --              startPosition=horsePos,
+        --              goalPosition=moveToPosition
+        --            }
+        --            GameObject.SendCommand(buddyHorseId,command)
+        --          end
+        --        end
 
 
 
-      end)
+    end)
     InfMenu.DebugPrint("index2:"..index2)
     index2=index2+1
     if index2>index2Max then
@@ -759,6 +758,36 @@ this.DEBUG_RandomizeAllIvars={
     end)--
   end
 }
+
+--SYNC run PrintIvars on main.
+this.DEBUG_SetIvarsToDefault={
+  OnChange=function()
+    InfInspect.TryFunc(
+      function()
+        local ivarNames={
+
+          --  "enableWalkerGearsMB",
+            "inf_levelSeed",
+
+        }
+
+        for i,ivarName in pairs(ivarNames) do
+          local ivar=Ivars[ivarName]
+          if ivar==nil then
+            InfMenu.DebugPrint(ivarName.."==nil")
+
+          elseif not ivar.save then
+          --InfMenu.DebugPrint(ivarName.." save not set")
+          elseif ivar.setting~=ivar.default then
+            InfMenu.DebugPrint(ivarName.." not default, resetting")
+            InfMenu.SetSetting(ivar,ivar.default,true)
+          end
+        end
+      end
+    )
+  end
+}
+--
 
 
 this.DEBUG_PrintRevengePoints={

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ih_raven.fpkd" FpkType="Fpkd">
+  <Entries>
+    <Entry FilePath="/Assets/tpp/level/mission2/common/ih_raven.fox2" />
+    <Entry FilePath="/Assets/tpp/parts/chara/rvn/rvn0_main0_def.parts" />
+    <Entry FilePath="/Assets/tpp/parts/chara/rvn/RvnTarget.tgt" />
+  </Entries>
+  <References />
+</ArchiveFile>

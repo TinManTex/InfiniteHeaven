@@ -1,5 +1,8 @@
 Infinite Heaven changelog
 
+r165 - 2016-07-02 - public release
+Fixed: Infinite load on Motherbase with Walker gears and a low number of platforms - thanks rzaldi for the report and save file.
+
 r164 - 2016-06-30 - public release
 mbAdditionalSoldiers - added routes from sneak to night and visa versa. Addional soldiers now total 9 (from 4) per plat instead of min(+4,#routes).
 

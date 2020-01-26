@@ -1,5 +1,5 @@
 = Infinite heaven =
-r164 - 2016-06-30
+r165 - 2016-07-02
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
@@ -19,6 +19,9 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r165
+Fixed: Infinite load on Motherbase with Walker gears and a low number of platforms - thanks rzaldi for the report and save file.
 
 New for r164
 Update: 'More soldiers on MB plats' - now 9 soldiers per plat instead of 6-7 (or 4 when off/default).

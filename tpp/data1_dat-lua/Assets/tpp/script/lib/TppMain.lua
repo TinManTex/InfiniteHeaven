@@ -125,26 +125,26 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       locationModule.OnAllocate()
     end--
     --ORIG
---    local function locationOnAllocate()
---      if TppLocation.IsAfghan()then
---        if afgh then
---          afgh.OnAllocate()
---        end
---      elseif TppLocation.IsMiddleAfrica()then
---        if mafr then
---          mafr.OnAllocate()
---        end
---      elseif TppLocation.IsCyprus()then
---        if cypr then
---          cypr.OnAllocate()
---        end
---      elseif TppLocation.IsMotherBase()then
---        if mtbs then
---          mtbs.OnAllocate()
---        end
---      end
---    end
---    locationOnAllocate()
+    --    local function locationOnAllocate()
+    --      if TppLocation.IsAfghan()then
+    --        if afgh then
+    --          afgh.OnAllocate()
+    --        end
+    --      elseif TppLocation.IsMiddleAfrica()then
+    --        if mafr then
+    --          mafr.OnAllocate()
+    --        end
+    --      elseif TppLocation.IsCyprus()then
+    --        if cypr then
+    --          cypr.OnAllocate()
+    --        end
+    --      elseif TppLocation.IsMotherBase()then
+    --        if mtbs then
+    --          mtbs.OnAllocate()
+    --        end
+    --      end
+    --    end
+    --    locationOnAllocate()
     if missionTable.sequence then
       if f30050_sequence then--
         function f30050_sequence.NeedPlayQuietWishGoMission()--RETAILPATCH: 1.0.4.1 PATCHUP: in general I understand the need for patch ups, and in cases like this i even admire the method, however the implementation of just shoving them seemingly anywhere... needs better execution.

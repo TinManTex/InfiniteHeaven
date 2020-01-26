@@ -271,14 +271,17 @@ function this.SetupWalkerGearMb()
 
   --tex assign unassigned
   while numAssigned<numWalkers do
-
     local clusters={}
     for clusterId,plats in ipairs(platsPool)do
       if #plats>0 then
         clusters[#clusters+1]=clusterId
       end
     end
-
+    
+    if #clusters==0 then
+      break
+    end
+    
     local clusterId=clusters[math.random(1,#clusters)]
     local plats=platsPool[clusterId]
     local plat=InfMain.GetRandomPool(plats)
