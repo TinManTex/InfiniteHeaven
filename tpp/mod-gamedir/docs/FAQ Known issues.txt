@@ -1,8 +1,5 @@
-FAQ/known issues, how to feedback correctly
-TODODO
-
-
 Known issues:
+
 The Announce Log used for the display has a delay on entries, so slow down your button presses when changing the settings.
 
 Replaying sideop 144, Remains of Man on Fire, will leave your character stuck in the Quarantine helipad and unable to abort the mission and requiring you to restore your save. Avoid completing the mission (extracting body).
@@ -14,14 +11,22 @@ Buddy may have to be repicked after turning off subsidence.
 
 Turning off subsistence pure will still prevent you from selecting buddy, exiting to title and back might fix it, entering a mission will.
 
-Enemy Life percentage doesn't seem to effect stun.
+Enemy Life percentage doesn't seem to affect stun.
 
 Subsidence mode will still technically do a full deployment cost of what's set. Manual solution, have a loadout with all items set to none and cheapest weapons.
 
-When changing General Enemy Parameters back to Default you must exit to title to have the setting save, then restart the game to have it load the default enemy parameters.
+When changing General Enemy Parameters back to Default you must exit to title to have the setting save, then restart the game to have it load the default (or other mods) enemy parameters.
 
 Vehicle reinforcements:
 Currently if the heli leaves the reinforce variable will stay active so you will not have further vehicle reinforcements for the mission.
 Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a round of attack even though it's far away.
 
+DD equip:
+Some weapons will not give the proper name when picked up and have a blank icon, some weapons scopes will be blacked out.
 
+Patrol helicopters: 
+Heli state is not saved and will reset on checkpoint reload, so helis may vanish (to another place on the map).
+This may be mitigated in future versions, but not fully fixed since KJP optimized a bit too far so can only save/load one heli.
+Heli in side ops may travel from one sideop to the next (if first sideop is loaded and second is also heli sideop), have yet to test to see if it does switch the sideop it counts towards on death.
+Heli sideop loading may be delayed until very near resulting in sudden pop in of sideop vehicles/soldiers.
+Heli patrol known bug: support heli cannot target helis when there's multiple helis in the world. This won't be fixable as the AI is in the game engine/untouchable.

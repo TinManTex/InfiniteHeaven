@@ -1,6 +1,8 @@
 -- DOBUILD: 1
 --InfVehicle.lua
 local this={}
+local Ivars=Ivars
+local InfMain=InfMain
 
 local vehicleBaseTypes={
   LIGHT_VEHICLE={--jeep
@@ -286,7 +288,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
 
   InfMain.RandomSetToLevelSeed()
 
-  mvars.patrolVehicleBaseInfo={}
+  mvars.inf_patrolVehicleBaseInfo={}
 
   local class=this.GetVehicleColor()
 
@@ -337,7 +339,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
           break
         end
         --tex used for ModifyVehiclePatrolSoldiers
-        mvars.patrolVehicleBaseInfo[spawnInfo.locator]=baseTypeInfo
+        mvars.inf_patrolVehicleBaseInfo[spawnInfo.locator]=baseTypeInfo
 
         if Ivars.vehiclePatrolClass:Is"RANDOM_EACH" then
           class=math.random(0,2)--default>oxide

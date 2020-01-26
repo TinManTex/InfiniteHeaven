@@ -1,17 +1,17 @@
-Infinite Heaven features
-========================
+Features description old
 
-YouTube playlist of demonstrations for many features
-https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF
 
-All settings in Infinite Heaven start at game defaults and can be adjusted in the Infinite Heaven menus.
+-
+invasion
+=======
+ 
+If lethal weapons are enabled then they are actual enemies, not staff (so you can kill, capture whatever).
 
-Basic terms used in the Infinite Heaven menu:
-<Option name> - <Setting>
+I think walker gears always have their guns enabled, but that may only happen with manually set up wargames. Walker gears are disabled for events with staff (dd training, zombie dd).
 
-Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.
+The game doesn't link any of the base equipment (AA guns/walker gears) to actual resources, so you can destroy them as you wish they wont reduce the number 'you have' shown in the iDroid screen.
 
-This document is incomplete, and is being migrated to Menu, Options and Settings.txt 
+Though I think AAs may have a replenish time where it may take a couple of return visits before they respawn.﻿
 
 Features:
 =================
@@ -63,24 +63,6 @@ Note: Equip grade 3 is the minimum grade that has all types of weapons.
 
 Known issue: Some weapons will not give the proper name when picked up and have a blank icon, some weapons scopes will be blacked out.
 
-Mother Base menu:
------------------
-Weapon loadout - using fob equip grade and range
-
-'Show assets Menu' in Mother base Menu:
-
-Show mother base assets - Big Boss posters, Nuke Elimination Monument, Sahelanthropus, , Code Talker (the game doesn't animate or have collision for him).
-
-Don't lock goal doors - useless unless you like swishing doors.
-
-
-
-
-War Games - set mother base soldiers hostile with non-lethal or lethal weapons, zombified, as true enemies (non staff).
-
-The war games Enemy Invasion, and Zombie Obliteration both replace the motherbase soldiers with non-staff member and enable players use of lethal weapons and also disable demon points for kill actions.
-
-
 Patrols menu:
 ------------------
 Enemy patrols option: Foot patrols in free roam - adds ~13 foot patrols between CPs, since the start-end bases are chosen randomly they may be difficult to find or you may be surprised by them in the wilderness between rather than following roads.
@@ -100,77 +82,10 @@ Heli in side ops may travel from one sideop to the next (if first sideop is load
 Heli sideop loading may be delayed until very near resulting in sudden pop in of sideop vehicles/soldiers.
 Heli patrol known bug: support heli cannot target helis when there's multiple helis in the world. This won't be fixable as the AI is in the game engine/untouchable.
 
-Vehicle patrol vehicle types:
-------------------
-For free mode change the traveling  trucks to other vehicle types:
-Randomly selects from enabled vehicle type list with either one type for all, or each type chosen.
-Types:
-Jeeps
-Trucks
-Wheeled armored vehicles
-Heavy wheeled armored vehicles
-Tanks
 
-Vehicle Patrols: Improved soldier assignment, jeeps may have 2-4 soldiers, tanks now have just the driver, to fix the silliness of a guy hopping in and out every time it spots you.
-
-Enemy vehicle reinforcements
----------------------------
-Options to enable the games 'super reinforce' which by default was only used in a few missions (and the normal mission scripting makes it less noticeable)
-In free mode currently only enemy heli reinforce works, in missions other vehicles will work if the mission is set up right (but still in more missions than default).
-
-Enable enemy reinforce - Enemy prep: Uses the Enemy preparation combat value. Force Prep: Ignores if the Enemy prep value is not set.
-
-Force enable enemy heli reinforce (disable heli sideops) - the normal game actually hijacks the reinforce system for sideops with helis, this disables those sideops so the heli can be used.
-
-Force reinforce request - reinforce will ignore reinforce count limit or coms disabled.
-
-Disable reinforce heli pullout - prevents the heli retreating when damaged.
 
 
 Side ops:
 -----------------
 Unlock random Sideops for areas - The normal games sideops system breaks the map into areas, with only one sideop allowed to be active at a time. In the retail game it's chosen in a first found manner. Uncompleted story missions and uncompleted sideops get priority of selection over replayable sideops.
 This setting changes it to a random selection of potential sideops, with the same priorities. Force replay adds completed sideops to the potential selection. Force Open adds most sideops to the selection pool.
-
-Open specific sideop - enables that specific sideop.
-
-Warning: still largely untested, unknown how replaying the story missions affect things.
-
-Cutscenes:
------------------
-Use current soldier in cutscenes instead of snake.
-
-Disable Mother Base cutscenes - Disables some arrive at motherbase cutscenes that cause infinite loading screens on some saves. This bug also occurs on unmodified games. If you have a save already stuck in this state (already at the MB loading screen) try my separate 'MB loading screen fix' mod.
-
-Play selected mother base cutscene - Can choose from many of the mother base cutscenes that play on returning. Requires the setting 'MB cutscene play mode' to be set to 'Play selected'
-
-Override Time, Override weather  - thanks qwertyuiop1234567899 for the suggestion
-
-Don't disable buddies after cutscenes - likewise with buddies (ddog mostly)
-
-Enemy phases:
------------------
-Adjust minimum and maximum alert phase for enemy Cps
-
-Phase on vehicle attack - the enemy reactions to heavy vehicle attack in the default game are lacking, you can kill someone and they'll act as if it's an unsourced attack. This option changes phase of soldiers command post on damaging the soldier. Setting it to ALERT recommended.
-In the Enemy phases menu but independent from Enable phase modifications
-
-Warp Mode:
------------------
-Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry.
-
-The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.
-
-Be careful when warping up as gravity will kill you quick. One method to cope is to hold warp up, let gravity slowly take over then just after you touch the ground and start warping up again let go.
-
-Patchups:
------------------
-Retail Bug fixes:
-
-Enemies Revenge system level for Fulton was fulton was 0 low, 1 blank, 2 high, now 0 blank 1 low 2 high.
-
-TppMission.GoToEmergencyMission() -> TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode] instead of vars.missionCode
-
-
-Feature:
-Abort to ACC from title continue. Hold down ESCAPE for 1.5 seconds, the KJP logo will flash, clicking on continue will load ACC instead of continuing mission.

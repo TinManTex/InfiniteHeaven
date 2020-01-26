@@ -110,8 +110,9 @@ this.heliRoutes={
   --"lz_drp_outland_S0000|rt_drp_outland_S_0000",
   },
 }
+
 --tex distances are distsquared
-local routeInfo={
+local routeInfos={
   afgh={
     --    "lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000",
     --    "lz_drp_field_N0000|rt_drp_field_N_0000",
@@ -241,7 +242,7 @@ local bigDist=99999999999999--DEBUG
 
 --DEBUG
 function this.ClearHeliState()
-  for n,heliName in ipairs(this.heliList)do
+  for n=1,#this.heliList do
     heliTimes[n]=0
     --heliClusters[n]=0
   end
@@ -303,7 +304,7 @@ local function ChooseRandomHeliCluster(heliClusters,heliTimes,supportHeliCluster
     for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do
       local grade=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[clusterId]}
       if grade>0 then
-       clusterPool[#clusterPool+1]=clusterId
+        clusterPool[#clusterPool+1]=clusterId
       end
     end
   end
@@ -365,7 +366,7 @@ function this.InitUpdate(currentChecks)
   end
 
   local heliRouteIds=this.heliRouteIds
-  for n,heliName in ipairs(this.heliList)do
+  for n=1,#this.heliList do
     heliTimes[n]=0
     heliRouteIds[n]=0
     heliRouteCenters[n]=nil
@@ -387,8 +388,9 @@ function this.InitUpdate(currentChecks)
     heliColorType=math.random(0,2)
   end
   InfMain.RandomResetToOsTime()
-  
-  for n,heliName in ipairs(this.heliList)do
+
+  for n=1,#this.heliList do
+    local heliName=this.heliList[n]
     local heliObjectId = GetGameObjectId(heliName)
     if heliObjectId==NULL_ID then
     --InfMenu.DebugPrint(heliName.."==NULL_ID")--DEBUG, will trigger in battlegear hangar since it's a different pack --DEBUG
@@ -401,7 +403,7 @@ function this.InitUpdate(currentChecks)
           SendCommand(heliObjectId,{id="SetCombatEnabled",enabled=false})
           --TppMarker2System.DisableMarker{gameObjectId=heliObjectId}
         end
-        
+
         if Ivars.mbEnemyHeliColor:Is"RANDOM_EACH" then
           heliColorType=math.random(0,2)
         end
@@ -419,16 +421,15 @@ function this.OnMissionCanStart(currentChecks)
   if not Ivars.EnabledForMission(this.heliEnableIvars) then
     return
   end
-
   local isMb=vars.missionCode==30050
   --tex set up lz info
   if isMb then
+  --tex done in mtbs_cluster.SetUpLandingZone
   else
     local locationName=InfMain.GetLocationName()
-    InfMain.enabledLzs=InfMain.ResetPool(this.heliRoutes[locationName])
-    --InfInspect.PrintInspect(InfMain.enabledLzs)--DEBUG
+    this.enabledLzs=InfMain.ResetPool(this.heliRoutes[locationName])
   end
-
+  --InfInspect.PrintInspect(this.enabledLzs)--DEBUG
   --this.SetRoutes()
 end
 
@@ -452,11 +453,18 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
   end
 
   --tex don't start til ready
-  local enabledLzs=InfMain.enabledLzs
-  if enabledLzs==nil or #enabledLzs==0 then
+  if this.enabledLzs==nil or #this.enabledLzs==0 then
     --InfMenu.DebugPrint"enabledLzs empty"--DEBUG
     return
   end
+
+  --LOCALOPT:
+  local TppMath=TppMath
+  local math=math
+  local vars=vars
+  local mvars=mvars
+  local SendCommand=GameObject.SendCommand
+  local InfLZ=InfLZ
 
   local isMb=vars.missionCode==30050
   local locationName=InfMain.locationNames[vars.locationCode]
@@ -465,11 +473,13 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
   local isNight=WeatherManager.IsNight()
   local heliRouteIds=this.heliRouteIds
   local locationName=InfMain.locationNames[vars.locationCode]
-  for n,heliName in ipairs(this.heliList)do
+  for n=1,#this.heliList do
+    local heliName=this.heliList[n]
     local heliObjectId = GetGameObjectId(heliName)
     if heliObjectId==NULL_ID then
     --InfMenu.DebugPrint(heliName.."==NULL_ID")--DEBUG
     else
+
       --CULL
       --      if nightCheckTime<elapsedTime then
       --        nightCheckTime=elapsedTime+nightCheckMax+math.random(3)
@@ -488,15 +498,17 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
         if routeCenter==nil and heliRouteIds[n]~=nil then
         --InfMenu.DebugPrint("routeCenter==nil")--DEBUG
         else
-          local heliPos=GameObject.SendCommand(heliObjectId,{id="GetPosition"})
+
+          local heliPos=SendCommand(heliObjectId,{id="GetPosition"})
           if heliPos==nil then
           --InfMenu.DebugPrint("heliPos==nil")--DEBUG
           else
             heliPos={heliPos:GetX(),heliPos:GetY(),heliPos:GetZ()}
             local distSqr=TppMath.FindDistance(heliPos,routeCenter)
 
-            local routeInfo=routeInfo[locationName][heliRouteIds[n]]
-            if distSqr<500000 and not heliOnApproach[n] then--tex geeting close, don't bail now TODO: magic number
+            local routeInfo=routeInfos[locationName][heliRouteIds[n]]
+            local approachDist=700
+            if distSqr<approachDist*approachDist and not heliOnApproach[n] then--tex getting close, don't bail now
               heliOnApproach[n]=true
               heliTimes[n]=elapsedTime+math.random(routeTimeMin,routeTimeMax)
             end
@@ -515,7 +527,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
             --InfMenu.DebugPrint("routepos:")
             --InfInspect.PrintInspect(routeCenter)
 
-            -- InfMenu.DebugPrint("helipos:".. heliPos[1]..",".. heliPos[2].. ","..heliPos[3].." distsqr:"..distSqr.. " closestdist:"..closestDistance)--DEBUG
+            --InfMenu.DebugPrint("helipos:".. heliPos[1]..",".. heliPos[2].. ","..heliPos[3].." distsqr:"..distSqr.. " closestdist:"..closestDistance)--DEBUG
           end
         end
       end
@@ -523,7 +535,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
       --tex TODO set cp to nearest, possibly on second timer so it's not hitting it up every frame
 
       --tex choose new route
-      if heliTimes[n]< elapsedTime then
+      if heliTimes[n]<elapsedTime then
         if isMb then
           heliTimes[n]=elapsedTime+math.random(routeTimeMbMin,routeTimeMbMax)
         else
@@ -550,7 +562,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
             end
           end
 
-          local clusterLzs=enabledLzs[clusterId]
+          local clusterLzs=this.enabledLzs[clusterId]
           if clusterLzs and #clusterLzs>0 then
             local currentLandingZoneName=clusterLzs[math.random(#clusterLzs)]
             local nextLandingZoneName=clusterLzs[math.random(#clusterLzs)]
@@ -565,30 +577,29 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
               InfMenu.DebugPrint("Warning: UpdateNPCHeli - no heliTaxiSettings for".. currentLandingZoneName .." ".. nextLandingZoneName)
             end
           end
-
-        else--not mb
+          --not mb
+        else
           --tex trying to overcome the heli will keep going if set to same route, which for free roam assault lzs means going off till disapearing,
           --setforcerouting to point 0 doesnt seem to do it, neither does setroute to "" then setting route again
           while heliRoute==nil or heliRoute==heliRouteIds[n] do
-            heliRoute=InfMain.GetRandomPool(enabledLzs)
+            heliRoute=InfMain.GetRandomPool(this.enabledLzs)
             heliRoute=StrCode32(heliRoute)
 
-            if #enabledLzs==0 then
-              InfMain.enabledLzs=InfMain.ResetPool(this.heliRoutes[locationName])
-              enabledLzs=InfMain.enabledLzs
+            if #this.enabledLzs==0 then
+              this.enabledLzs=InfMain.ResetPool(this.heliRoutes[locationName])
             end
-        end
-        heliRouteIds[n]=heliRoute
-        local groundStartPosition=InfLZ.groundStartPositions[heliRoute]
-        if groundStartPosition then
-          heliRouteCenters[n]=groundStartPosition.pos
-          heliOnApproach[n]=false
-          closestDistance[n]=9999999999997--DEBUG
-        end
-        --          if heliRouteCenters[n]==nil then--DEBUG
-        --            InfMenu.DebugPrint"heliRouteCenters[n]==nil "
-        --
-        --          end--<
+          end
+          heliRouteIds[n]=heliRoute
+          local groundStartPosition=InfLZ.GetGroundStartPosition(heliRoute)
+          if groundStartPosition then
+            heliRouteCenters[n]=groundStartPosition.pos
+            heliOnApproach[n]=false
+            closestDistance[n]=9999999999997--DEBUG
+          end
+          --          if heliRouteCenters[n]==nil then--DEBUG
+          --            InfMenu.DebugPrint"heliRouteCenters[n]==nil "
+          --
+          --          end--<
         end
 
         if heliRoute then
@@ -609,7 +620,7 @@ end
 --DEBUG
 function this.SetRoute(heliRoute,heliIndex)
   this.heliRouteIds[heliIndex]=heliRoute
-  local groundStartPosition=InfLZ.groundStartPositions[heliRoute]
+  local groundStartPosition=InfLZ.GetGroundStartPosition(heliRoute)
   if groundStartPosition then
     InfMenu.DebugPrint("found ground posisiton")--DEBUG
     heliRouteCenters[heliIndex]=groundStartPosition.pos

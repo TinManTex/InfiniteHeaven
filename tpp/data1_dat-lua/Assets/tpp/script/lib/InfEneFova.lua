@@ -2,6 +2,7 @@
 --InfEneFova.lua
 
 local this={}
+local InfEneFova=this
 
 this.ddBodyInfo={
   SNEAKING_SUIT={
@@ -475,27 +476,23 @@ this.wildCardBodyTable={
   },
 }
 
-this.inf_wildCardMaleFaceList={}
-this.inf_wildCardFemaleFaceList={}
-
-
 --called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
 --IN/Out bodies
 function this.WildCardFova(bodies)
   --InfInspect.TryFunc(function(bodies)--DEBUG
     InfMain.RandomSetToLevelSeed()
     local faces={}
-    this.inf_wildCardMaleFaceList={}
-    this.inf_wildCardFemaleFaceList={}
+    InfEneFova.inf_wildCardMaleFaceList={}
+    InfEneFova.inf_wildCardFemaleFaceList={}
     for i=1,InfMain.MAX_WILDCARD_FACES-InfMain.numWildCardFemales do--SYNC numwildcards
       local faceId=this.RandomFaceId(this.maleFaceIdsUncommon)
       table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
-      table.insert(this.inf_wildCardMaleFaceList,faceId)
+      table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
     end
     for i=1,InfMain.numWildCardFemales do
       local faceId=this.RandomFaceId(this.femaleFaceIds)
       table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO -^-
-      table.insert(this.inf_wildCardFemaleFaceList,faceId)
+      table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
     end
     TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
     InfMain.RandomResetToOsTime()

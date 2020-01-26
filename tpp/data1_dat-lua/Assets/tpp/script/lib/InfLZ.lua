@@ -262,14 +262,14 @@ end
 --tex clear initial table
 groundStartPositionsInitial=nil
 
-function this.GetGroundStartPosition(missionCode,missionStartRoute)
+function this.GetGroundStartPosition(missionStartRoute,missionCode)
+  local missionCode=missionCode or vars.missionCode
   local layout=0
   if missionCode==30050 or missionCode==10115 then
     layout=vars.mbLayoutCode
   end
-  return this.groundStartPositions[layout+1][missionStartRoute] or this.groundStartPositions[1][missionStartRoute]
+  return this.groundStartPositions[layout+1][missionStartRoute]
 end
-
 
 function this.DisableLzsWithinDist(lzTable,position,distance,missionCode)
   local TppHelicopter=TppHelicopter
@@ -278,7 +278,7 @@ function this.DisableLzsWithinDist(lzTable,position,distance,missionCode)
 
   for dropLzName,aprLzName in pairs(lzTable)do
     --InfMenu.DebugPrint(dropLzName.." -- "..aprLzName)
-    local lzCoords=InfLZ.GetGroundStartPosition(missionCode,StrCode32(dropLzName))
+    local lzCoords=InfLZ.GetGroundStartPosition(StrCode32(dropLzName),missionCode)
     if lzCoords==nil then
       --InfMenu.DebugPrint("lzPos==nil")--DEBUG
     else

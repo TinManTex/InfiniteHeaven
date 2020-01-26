@@ -138,7 +138,7 @@ end
 
 function mtbs_cluster.SetUpLandingZone( landingZoneTable, clusterId )
   local enabledLzs={}--tex>
-  InfMain.enabledLzs[clusterId]=enabledLzs--<
+  InfNPCHeli.enabledLzs[clusterId]=enabledLzs--<
 	local disableLandingZoneTable = {
 		{ disableClusterIndex = 0 },
 		{ disableClusterIndex = ( TppDefine.CLUSTER_DEFINE.Develop + 1 ), layoutCode = 1, disableIndex = 1, },

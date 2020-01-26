@@ -413,16 +413,11 @@ local toggle1=false
 local index1Min=0
 local index1Max=10
 local index1=index1Min
-this.log=""--DEBUGNOW
+this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
-
---        local ivar=Ivars.subsistenceProfile
---        ivar:Set(math.random(ivar.range.min,ivar.range.max),true)
---
---
---        if true then return end --DEBUGNOW
+--tex randomize (most)all ivars
         local skipIvars={
           debugMode=true,
 
@@ -483,11 +478,11 @@ this.DEBUG_SomeShiz={
           end
         end
 
-        --DEBUGNOW
+        --divide and conquor
         local fraction=math.ceil(#ivarNames/4)
-        
-                      local start=0
-              local finish=#ivarNames--110
+
+        local start=0
+        local finish=#ivarNames--110
 
         --      local start=fraction--55
         --      local finish=fraction*2--110
@@ -506,8 +501,8 @@ this.DEBUG_SomeShiz={
         --      local start=80
         --      local finish=83
 
---        local start=84
---        local finish=85
+        --        local start=84
+        --        local finish=85
 
         InfMenu.DebugPrint("start: "..start.." finish: "..finish)
 
@@ -533,6 +528,7 @@ this.DEBUG_SomeShiz={
         --InfMenu.DebugPrint(tostring(gvars.inf_levelSeed))
         if true then return end
         --DEBUGNOW
+        
         local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
         if lastMarkerIndex==nil then
           InfMenu.DebugPrint("lastMarkerIndex==nil")
@@ -619,37 +615,10 @@ local index2Max=5
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
-
-
-        local warGames={
-          "TRAINING",
-          "SOVIET_INVASION",
-          "COYOTE_INVASION",
-          "XOF_INVASION",
-          "ZOMBIE_DD",
-          "ZOMBIE_OBLITERATION",
-        }
-
-        local warGamesEnum=Tpp.Enum(warGames)
-        index2Max=#warGames
-
-
-        --InfInspect.PrintInspect(warGamesEnum)
-
-        local warGame=warGames[index2]
-        InfMenu.DebugPrint(warGame)
-
-
-        local warGameNames=InfMenu.GetLangTable("events_mb")
-        --InfInspect.PrintInspect(warGameNames)
-        local warGameIndex=warGamesEnum[warGame]
-        --InfInspect.PrintInspect(warGameIndex)
-        local warGameName=warGameNames[warGameIndex]--tex ugh, TODO better
-        InfInspect.PrintInspect(warGameName)
-
         --DEBUGNOW InfMain.GetClosestCp()
-
         --        if true then return end--DEBUGNOW
+        
+        
         --        --InfMenu.DebugPrint(this.stringTest)
         --
         --        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
@@ -685,15 +654,9 @@ local index3=1
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
-      --      TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
-      --  TppQuest.UpdateActiveQuest()--tex to propogate wargame disabling quests (including puppy)
-      --
-      ----InfMenu.DebugPrint("vars.isRussianTranslatable:"..vars.isRussianTranslatable)
-      ----InfMenu.DebugPrint("vars.isAfrikaansTranslatable:"..vars.isAfrikaansTranslatable)
-      ----        InfMenu.DebugPrint("vars.isKikongoTranslatable:"..vars.isKikongoTranslatable)
-      ----        InfMenu.DebugPrint("vars.isPashtoTranslatable:"..vars.isPashtoTranslatable)
-      --DEBUGNOW
-      end)
+
+      
+    end)
   end
 }
 
@@ -759,7 +722,7 @@ this.DEBUG_CycleHeliRoutes={
         --InfMenu.DebugPrint(heliName.." setting route: "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
         --GameObject.SendCommand(heliObjectId,{id="SetForceRoute",route=this.heliRoute,point=0,warp=true})
       end
-      local groundStartPosition=InfLZ.groundStartPositions[this.heliRoute]
+      local groundStartPosition=InfLZ.GetGroundStartPosition(this.heliRoute)
       if groundStartPosition==nil then
         InfMenu.DebugPrint" groundStartPosition==nil"
       else
@@ -1113,9 +1076,9 @@ this.DEBUG_WarpToObject={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-        --local objectList=InfMain.reserveSoldierNames
+        local objectList=InfMain.reserveSoldierNames
 
-        local objectList=InfMain.ene_wildCardSoldiers
+        --local objectList=InfMain.ene_wildCardSoldiers
 
         --    local objectList={
         --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",

@@ -148,7 +148,7 @@ function this.SetupWalkerGear()
 end
 
 function this.SetupWalkerGearWorld()
-  InfInspect.TryFunc(function()--DEBUGNOW
+  --InfInspect.TryFunc(function()--DEBUG
 
     if Ivars.enableWalkerGearsFREE:Is(0) or not Ivars.enableWalkerGearsFREE:MissionCheck() then
       return
@@ -196,12 +196,15 @@ function this.SetupWalkerGearWorld()
   end
   InfMain.RandomResetToOsTime()
 
-  end)
-
+  --end)--
 end
 
 function this.SetupWalkerGearMb()
   if Ivars.enableWalkerGearsMB:Is(0) or not Ivars.enableWalkerGearsMB:MissionCheck() then
+    return
+  end
+  
+  if TppPackList.IsMissionPackLabel"BattleHanger"or TppDemo.IsBattleHangerDemo(TppDemo.GetMBDemoName())then
     return
   end
 

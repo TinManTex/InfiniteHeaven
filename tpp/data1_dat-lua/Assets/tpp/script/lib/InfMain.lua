@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r158"
+this.modVersion="r159"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -356,16 +356,16 @@ this.cpPositions={
     afgh_slopedWest_ob={99.113,334.220,89.654},
     afgh_remnantsNorth_ob={-1065.079,291.448,1467.447},
     afgh_cliffSouth_ob={1040.302,379.051,-505.49},
-    afgh_fortWest_ob="Guard Post 14",
+    afgh_fortWest_ob={1825.444,465.684,-1252.843},
     afgh_villageWest_ob="Guard Post 15",
     afgh_slopedEast_ob={977.664,318.965,-169.445},
-    afgh_fortSouth_ob="Guard Post 17",
+    afgh_fortSouth_ob={2194.072,429.323,-1271},
     afgh_villageNorth_ob="Guard Post 18",
     afgh_commWest_ob="Guard Post 19",
     afgh_bridgeWest_ob="Guard Post 20",
     afgh_bridgeNorth_ob="Guard Post 21",
-    afgh_fieldWest_ob="Guard Post 22",
-    afgh_villageEast_ob="Guard Post 23",
+    afgh_fieldWest_ob={8.862,274.866,1992.816},
+    afgh_villageEast_ob={939.176,318.845,1259.34},
     afgh_ruinsNorth_ob={1623.511,323.038,1062.995},
     afgh_fieldEast_ob="Guard Post 25",
     --TODO-v- redo (except citadel)
@@ -399,7 +399,7 @@ function this.GetClosestCp()
   local closestDist=9999999999999999
   for cpName,cpPosition in pairs(cpPositions)do
     local distSqr=TppMath.FindDistance(playerPos,cpPosition)
-    --InfMenu.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUGNOW
+    --InfMenu.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
     if distSqr<closestDist then
       closestDist=distSqr
       closestCp=cpName
@@ -583,12 +583,12 @@ function this.Messages()
       {msg="SaluteRaiseMorale",func=this.CheckSalutes},
     },
     MotherBaseStage = {
-    --      {
-    --        msg = "MotherBaseCurrentClusterLoadStart",
-    --        func = function(clusterId)
-    --
-    --        end,
-    --      },
+--      {
+--        msg="MotherBaseCurrentClusterLoadStart",
+--        func=function(clusterId)
+--          InfMenu.DebugPrint"InfMain MotherBaseCurrentClusterLoadStart"--DEBUG
+--        end,
+--      },
     --OFF CULL unused{msg= "MotherBaseCurrentClusterActivated",func=this.CheckClusterMorale},
     },
     Player={
@@ -818,13 +818,13 @@ function this.ClearMarkers()
 end
 
 --ivar update system
-
 local updateIvars={
   Ivars.phaseUpdate,
   Ivars.warpPlayerUpdate,
   Ivars.adjustCameraUpdate,
   Ivars.heliUpdate,
   Ivars.npcUpdate,
+  Ivars.npcOcelotUpdate,
   Ivars.npcHeliUpdate,
 }
 
@@ -837,6 +837,8 @@ function this.OnInitializeTop(missionTable)
 
   if missionTable.enemy then
     local enemyTable=missionTable.enemy
+    this.numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
+    this.reserveSoldierNames=this.BuildReserveSoldierNames(this.numReserveSoldiers,this.reserveSoldierNames)
     this.soldierPool=this.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
     --InfMenu.DebugPrint("Init #this.soldierPool:"..#this.soldierPool)--DEBUG
 
@@ -996,7 +998,7 @@ function this.AbortMissionTop(abortInfo)
 
   --InfMenu.DebugPrint("AbortMissionTop "..vars.missionCode)--DEBUG
   InfMain.RegenSeed(vars.missionCode,abortInfo.nextMissionId)
-  
+
   InfGameEvent.DisableEvent()
 end
 
@@ -1534,14 +1536,28 @@ this.mbVehicleNames={
 }
 
 --reserve soldierpool
+this.reserveSoldierCounts={
+  [30010]=40,
+  [30020]=60,
+  [30050]=100,--DEBUGNOW
+}
+
 this.reserveSoldierNames={}
 local solPrefix="sol_ih_"
 this.numReserveSoldiers=40--tex SYNC number of soldier locators i added to fox2s
 
-for i=0,this.numReserveSoldiers-1 do
-  local name=solPrefix..string.format("%04d",i)
-  this.reserveSoldierNames[#this.reserveSoldierNames+1]=name
+function this.BuildReserveSoldierNames(numReserveSoldiers,reserveSoldierNames)
+  --this.ClearTable(reserveSoldierNames)
+  reserveSoldierNames={}
+
+  for i=0,numReserveSoldiers-1 do
+    local name=solPrefix..string.format("%04d",i)
+    reserveSoldierNames[#reserveSoldierNames+1]=name
+  end
+  return reserveSoldierNames
 end
+
+--this.reserveSoldierNames=this.BuildReserveSoldierNames(this.numReserveSoldiers,this.reserveSoldierNames)
 
 function this.ResetObjectPool(objectType,objectNames)
   local pool={}
@@ -1557,18 +1573,18 @@ function this.ResetObjectPool(objectType,objectNames)
   return pool
 end
 
-local function FillLrrp(num,soldierPool,cpDefine)
-  --local soldiers={}
-  while num>0 and #soldierPool>0 do
-    local soldierName=soldierPool[#soldierPool]
+local function FillList(fillCount,sourceList,fillList)
+  --local addedSoldiers={}
+  while fillCount>0 and #sourceList>0 do
+    local soldierName=sourceList[#sourceList]
     if soldierName then
-      soldierPool[#soldierPool]=nil--pop
-      cpDefine[#cpDefine+1]=soldierName
-      --soldiers[#soldiers+1]=soldierName
-      num=num-1
+      sourceList[#sourceList]=nil--pop
+      fillList[#fillList+1]=soldierName
+      --addedSoldiers[#addedSoldiers+1]=soldierName
+      fillCount=fillCount-1
     end
   end
-  --return soldiers
+  --return addedSoldiers
 end
 
 function this.ResetPool(objectNames)
@@ -1605,30 +1621,19 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
 
       if cpDefine.lrrpVehicle then
         local numSeats=2
-        if mvars.patrolVehicleBaseInfo then
-          local baseTypeInfo=mvars.patrolVehicleBaseInfo[cpDefine.lrrpVehicle]
+        if mvars.inf_patrolVehicleBaseInfo then
+          local baseTypeInfo=mvars.inf_patrolVehicleBaseInfo[cpDefine.lrrpVehicle]
           if baseTypeInfo then
             numSeats=math.random(math.min(numSeats,baseTypeInfo.seats),baseTypeInfo.seats)
             --InfMenu.DebugPrint(cpDefine.lrrpVehicle .. " numVehSeats "..numSeats)--DEBUG
           end
         end
         --
-        if numCpSoldiers>numSeats then
-          local gotSeat=0
-          local clearIndices={}
-          for n,soldierName in ipairs(cpDefine)do
-            gotSeat=gotSeat+1
-            if gotSeat>numSeats then
-              this.soldierPool[#this.soldierPool+1]=soldierName
-              cpDefine[n]=nil
-            end
-          end
-        else
-          numSeats=numSeats-numCpSoldiers
-          --InfMenu.DebugPrint(cpDefine.lrrpVehicle .. " numfillSeats "..numSeats)--DEBUG
-          if numSeats>0 then
-            FillLrrp(numSeats,this.soldierPool,cpDefine)
-          end
+        local seatDelta=numSeats-numCpSoldiers
+        if seatDelta<0 then--tex over filled
+          FillList(-seatDelta,cpDefine,this.soldierPool)
+        elseif seatDelta>0 then
+          FillList(seatDelta,this.soldierPool,cpDefine)
         end
         --if lrrpVehicle<
       end
@@ -1745,7 +1750,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
     local cpDefine={}
     soldierDefine[cpName]=cpDefine--tex GOTCHA clearing the cp here, wheres in AddWildCards we are reading existing
 
-    FillLrrp(lrrpSize,this.soldierPool,cpDefine)
+    FillList(lrrpSize,this.soldierPool,cpDefine)
 
     local planName=planStr..cpName
     cpDefine.lrrpTravelPlan=planName
@@ -1772,7 +1777,11 @@ function this.AddLrrps(soldierDefine,travelPlans)
 end
 
 this.MAX_WILDCARD_FACES=16
-this.numWildCardFemales=4
+--TUNE:
+--afgh has ~39 cps, mafr ~33
+this.numWildCards=10
+this.numWildCardFemales=5
+--ASSUMPTION, ordered after vehicle cpdefines have been modified
 function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
   --InfInspect.TryFunc(function(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)--DEBUG
 
@@ -1780,6 +1789,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     return
   end
 
+  local InfEneFova=InfEneFova
   if not InfEneFova.inf_wildCardFemaleFaceList or #InfEneFova.inf_wildCardFemaleFaceList==0  then
     InfMenu.DebugPrint"AddWildCards InfEneFova.inf_wildCardFemaleFaceList not set up, aborting"
     return
@@ -1803,7 +1813,15 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       if cpId==NULL_ID then
         InfMenu.DebugPrint"AddWildCards soldierDefine cpId==NULL"--DEBUG
       else
-        if cpDefine.lrrpVehicle==nil and cpDefine.lrrpTravelPlan==nil then--tex TODO: think if you want to add wildcards to vehicle lrrps, would need to makes sure its a vehicle where they're a passenger
+        --tex TODO: allow quest_cp, but regenerate soldier on quest load
+        if cpName=="quest_cp" then
+        --tex TODO: consider if you want to  have wilcards in lrrps
+        elseif cpDefine.lrrpVehicle==nil and cpDefine.lrrpTravelPlan~=nil then
+        elseif cpDefine.lrrpVehicle~=nil then
+          if #cpDefine>1 then--ASSUMPTION only armored vehicles have 1 occupant
+            baseNamePool[#baseNamePool+1]=cpName
+          end
+        else
           baseNamePool[#baseNamePool+1]=cpName
         end
       end
@@ -1853,9 +1871,10 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
   --TUNE:
   --tex GOTCHA LIMIT TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT=16
-  local numWildCards=math.max(1,math.ceil(#baseNamePool/4))--SYNC: MAX_WILDCARD_FACES
-  numWildCards=math.min(TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT,numWildCards)
-  --tex shifted outside of function this.numWildCardFemales=math.max(1,math.ceil(numWildCards/3))--SYNC: MAX_WILDCARD_FACES
+  --InfMenu.DebugPrint("#baseNamePool:"..#baseNamePool)--DEBUG
+  --this.numWildCards=math.max(1,math.ceil(#baseNamePool/4))--SYNC: MAX_WILDCARD_FACES
+  this.numWildCards=math.min(TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT,this.numWildCards)
+  --tex shifted outside of function-- this.numWildCardFemales=math.max(1,math.ceil(numWildCards/2))--SYNC: MAX_WILDCARD_FACES
   --InfMenu.DebugPrint("numwildcards: "..numWildCards .. " numFemale:"..this.numWildCardFemales)--DEBUG
 
   --  InfMenu.DebugPrint"ene_wildCardFaceList"--DEBUG >
@@ -1871,7 +1890,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
   local femaleFaceIdPool=this.ResetPool(InfEneFova.inf_wildCardFemaleFaceList)
   --InfMenu.DebugPrint("#maleFaceIdPool:"..#maleFaceIdPool.." #femaleFaceIdPool:"..#femaleFaceIdPool)--DEBUG
 
-  for i=1,numWildCards do
+  for i=1,this.numWildCards do
     if #baseNamePool==0 then
       InfMenu.DebugPrint"#baseNamePool==0"--DEBUG
       break
@@ -1927,7 +1946,16 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
         bodyId=bodyTable[math.random(1,#bodyTable)]
       end
       --tex GOTCHA LIMIT TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT
-      TppEneFova.RegisterUniqueSetting("enemy",soldierName,faceId,bodyId)
+      local hasSetting=false
+      local uniqueSettings=TppEneFova.GetUniqueSettings()
+      for i=1,#uniqueSettings do
+        if uniqueSettings[i].name==soldierName then
+          hasSetting=true
+        end
+      end
+      if not hasSetting then
+        TppEneFova.RegisterUniqueSetting("enemy",soldierName,faceId,bodyId)
+      end
 
       local gameObjectId = GetGameObjectId( "TppSoldier2", soldierName )
       if gameObjectId==NULL_ID then
@@ -2379,7 +2407,7 @@ end
 function this.OverwriteBuddyPosForMb()
   if TppMission.IsMbFreeMissions(vars.missionCode) and Ivars.mbEnableBuddies:Is(1)then
     if gvars.heli_missionStartRoute~=0 then
-      local groundStartPosition=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]
+      local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
       if groundStartPosition then
         local mbBuddyEntrySettings={}
         local pos=Vector3(groundStartPosition.pos[1],groundStartPosition.pos[2],groundStartPosition.pos[3])
@@ -2393,6 +2421,67 @@ function this.OverwriteBuddyPosForMb()
   end
 end
 
+
+--caller: mtbs_enemy.OnLoad
+--TUNE
+local additionalSoldiersPerPlat=4
+
+function this.ModifyEnemyAssetTable()
+  --InfInspect.TryFunc(function()--DEBUG
+    if vars.missionCode~=30050 then
+      return
+  end
+
+  if Ivars.mbAdditionalSoldiers:Is(0) then
+    return
+  end
+
+  --DEBUGNOW
+  this.numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0--DEBUGNOW
+  this.reserveSoldierNames=this.BuildReserveSoldierNames(this.numReserveSoldiers,this.reserveSoldierNames)
+  this.soldierPool=this.ResetPool(this.reserveSoldierNames)
+
+  local GetMBEnemyAssetTable=TppEnemy.GetMBEnemyAssetTable or mvars.mbSoldier_funcGetAssetTable
+
+  local plntPrefix="plnt"
+  for clusterId=1,#TppDefine.CLUSTER_NAME do
+    --local clusterName=TppDefine.CLUSTER_NAME[clusterId]
+    local routeCount=0
+    local soldierCountFinal=0
+
+    local grade=TppLocation.GetMbStageClusterGrade(clusterId)
+    if grade>0 then
+      for i=1,grade do
+        local clusterAssetTable=GetMBEnemyAssetTable(clusterId)
+        local platName=plntPrefix..(i-1)
+
+        local platInfo=clusterAssetTable[platName]
+
+        local soldierList=platInfo.soldierList
+
+
+        local sneakRoutes=platInfo.soldierRouteList.Sneak[1].inPlnt
+        local nightRoutes=platInfo.soldierRouteList.Night[1].inPlnt
+        local minRouteCount=math.min(#sneakRoutes,#nightRoutes)
+        routeCount=routeCount+minRouteCount
+
+        local numToAdd=math.min(minRouteCount-#soldierList,additionalSoldiersPerPlat)
+        if numToAdd>0 then
+          FillList(numToAdd,this.soldierPool,soldierList)
+        end
+        soldierCountFinal=soldierCountFinal+#soldierList
+        --InfMenu.DebugPrint("cluster "..clusterId.. " plat "..platName.. " minRouteCount "..minRouteCount.. " numToAdd "..numToAdd)--DEBUG
+        --InfInspect.PrintInspect(soldierList)--DEBUG
+      end
+    end
+
+    --InfMenu.DebugPrint(string.format("cluster:%d routeCount:%d soldierCountFinal:%d",clusterId,routeCount,soldierCountFinal))--DEBUG
+  end
+  --InfMenu.DebugPrint("#this.soldierPool:"..#this.soldierPool)--DEBUG
+  --end)--
+end
+
+--UTIL TODO shift all util functions somewhere
 this.locationNames={
   [10]="afgh",
   [20]="mafr",
@@ -2404,7 +2493,6 @@ function this.GetLocationName()
   return this.locationNames[vars.locationCode]
 end
 
---UTIL TODO shift all util functions somewhere
 function this.ClearTable(_table)
   for k in next, _table do rawset(_table, k, nil) end
 end

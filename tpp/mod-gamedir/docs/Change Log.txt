@@ -1,5 +1,22 @@
 Infinite Heaven changelog
-r158: 2016-06-01 - public release
+r159 - 2016-06-06 - public release
+Fixed: Wildcards repeatedly adding to uniquesettings
+Change: Increased number of wild card soldiers to 12
+Wild card soldiers may now be placed in patrol vehicles (trucks,jeeps)
+Fixed: stuff using groundstartpositions to GetGroundStartPostion that I hadn't adjusted to its data layout change, oops. Included npc helis getting stuck/rotating at 'landing' position.
+Change: DD staff now equiped with non lethal for Training event.
+Refactor: reserve soldier count/tables per mission.
+Tuning: MB events: Soviet Invasion DD Equip off, Coyote attack enemy heli types to each random, dd equip level lowered. Events ises varied settings of mbNpcRouteChange
+MB wagames/events - patched caution routes with sneak, soldiers will now follow routes when in caution mode (before they would just stay in their last position before alert)
+Fixed: MB Cutscene playback - now doesn't set mbFreeDemoPlayedFlag, so shouldn't cause issues if played before they are normally triggered - thanks BarelyFatal for the report.
+Option: split event random trigger chance % setting into MB and Free, thanks Recaldy for the suggestion.
+Refactor: InfNPC migrated to InfNPCOcelot, additional routes added for ocelot (command plat1 night and salutation routes)
+Option:  mbAdditionalSoldiers="Enable more soldiers on MB plats",
+Option:  mbNpcRouteChange, InfNPC - Soldiers move between platforms, soldiers will periodically move between platforms (only within the same cluster).
+(via Mother base menu)
+Autodoc: prepend Features into, output directly to file.
+
+r158 - 2016-06-01 - public release
 Fixed: disableLzs rename holdout (still noCentralLzs) on bounder profile
 Fixed: Disable landing zones hanging on loading mother base
 Fixed: Maybe hopefully possibly. FOB defense black screen - thanks Shigu for helping test

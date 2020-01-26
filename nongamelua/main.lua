@@ -173,6 +173,14 @@ local function GetSettingsText(option)
   return settingText
 end
 
+--end mock stuff
+
+--start autodoc stuff
+local function Write(...)
+  --print(...)
+  io.write(...,"\n")
+end
+
 
 --local depthToLetter={"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"}
 local depthToLetter={"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"}
@@ -193,25 +201,25 @@ local function PrintMenuFull(menu,depth,menuCount,skipItems)
         local helpLangString=InfLang.help.eng[item.name]
         if helpLangString then
           local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-          print(indents..displayLine.." - "..helpLangString)
+          Write(indents..displayLine.." - "..helpLangString)
         else
-          print(indents..displayLine)
+          Write(indents..displayLine)
         end
 
         local indentsUnderLine=CharacterLine(" ",depth+1)
         local underLineLength=string.len(displayLine)-1
         local underLine=CharacterLine("-",underLineLength+depth+1)
-        print(indentsUnderLine..underLine)
+        Write(indentsUnderLine..underLine)
 
         PrintMenuFull(item.options,depth+1,menuCount,skipItems)
       else
         local settingText=GetSettingsText(item)
-        print(indents..displayLine.." : "..settingText)
+        Write(indents..displayLine.." : "..settingText)
 
         local helpLangString=InfLang.help.eng[item.name]
         if helpLangString then
           local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-          print(indents..indentsIndexDisplay.."- "..helpLangString)
+          Write(indents..indentsIndexDisplay.."- "..helpLangString)
         end
       end
     end
@@ -238,7 +246,7 @@ local function PrintMenu(menu,depth,menuCount,skipItems)
         --          local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
         --          --print(indents..displayLine.." - "..helpLangString)
         --        else
-        print(indents..displayLine)
+        Write(indents..displayLine)
         --        end
 
         local indentsUnderLine=CharacterLine(" ",depth+1)
@@ -249,7 +257,7 @@ local function PrintMenu(menu,depth,menuCount,skipItems)
         PrintMenu(item.options,depth+1,menuCount,skipItems)
       else
         local settingText=GetSettingsText(item)
-        print(indents..displayLine.." : "..settingText)
+        Write(indents..displayLine.." : "..settingText)
 
         local helpLangString=InfLang.help.eng[item.name]
         if helpLangString then
@@ -287,15 +295,15 @@ local function PrintMenuSingle(menu,skipItems,menuCount)
   if helpLangString then
     local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
     --print(displayLine.." - "..helpLangString)
-    print(displayLine)
-    print("- "..helpLangString)
+    Write(displayLine)
+    Write("- "..helpLangString)
   else
-    print(displayLine)
+    Write(displayLine)
   end
 
   local underLineLength=string.len(displayLine)
   local underLine=CharacterLine("-",underLineLength)
-  print(underLine)
+  Write(underLine)
   --end
 
 
@@ -316,29 +324,37 @@ local function PrintMenuSingle(menu,skipItems,menuCount)
         --          local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
         --          --print(indents..displayLine.." - "..helpLangString)
         --        else
-        print(displayLine)
+        Write(displayLine)
         --        end
 
         --local underLineLength=string.len(displayLine)-1
         --local underLine=CharacterLine("-",underLineLength+depth+1)
-        --print(indentsUnderLine..underLine)
+        --Write(indentsUnderLine..underLine)
 
       else
         local settingText=GetSettingsText(item)
-        print(displayLine.." : "..settingText)
+        Write(displayLine.." : "..settingText)
 
         local helpLangString=InfLang.help.eng[item.name]
         if helpLangString then
           local indentsIndexDisplay=CharacterLine(" ",indexDisplayLineLength)
-          print(indentsIndexDisplay.."- "..helpLangString)
+          Write(indentsIndexDisplay.."- "..helpLangString)
         end
       end
     end
   end
 end
 
-
+local projectFolder="D:\\Projects\\MGS\\!InfiniteHeaven\\"
+local featuresHeader="Features description header.txt"
+local featuresOutput="Features and Options.txt"
 local function main()
+  io.output(projectFolder..featuresOutput)
+  
+  io.input(projectFolder..featuresHeader)
+  local header=io.read("*all")
+  Write(header)
+  
   --patchup
   Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
   Ivars.fovaSelection.description="<Character model description>"
@@ -358,11 +374,11 @@ local function main()
   local menuCount=1
   for i,menu in ipairs(heliSpaceMenus)do
     PrintMenuSingle(menu,skipItems,menuCount)
-    print()
+    Write"\n"
   end
 
-  print"==============="
-  print()
+  Write"==============="
+  Write"\n"
   menu=InfMenuDefs.inMissionMenu.options
   local inMissionMenus={}
   local inMissionMenuNames={}
@@ -372,13 +388,13 @@ local function main()
   local menuCount=1
   for i,menu in ipairs(inMissionMenus)do
     PrintMenuSingle(menu,skipItems,menuCount)
-    print()
+    Write("\n")
   end
 
   --PrintMenu(menu,0,menuCount,skipItems)
   --DEBUGNOW
 
   --InfMenu.DisplaySetting(InfMenu.currentIndex)
-  --print"--done--"
+  print"--done--"
 end
 main()

@@ -2016,35 +2016,35 @@ function this.GetStoryRadioListFromIndex(n,t)
   local n=n[t][2]
   return this.radioDemoTable[n].radioList
 end
-function this.GetForceMBDemoNameOrRadioList(listName,options)
+function this.GetForceMBDemoNameOrRadioList(radioCategory,options)
   if options==nil then
     options={}
   end
-  if not this.eventPlayTimmingTable[listName]then
+  if not this.eventPlayTimmingTable[radioCategory]then
     return
   end
-  if(listName=="forceMBDemo"or listName=="blackTelephone")and this.PLAY_DEMO_END_MISSION[vars.missionCode]then
+  if(radioCategory=="forceMBDemo"or radioCategory=="blackTelephone")and this.PLAY_DEMO_END_MISSION[vars.missionCode]then
     return
   end
-  for a,t in ipairs(this.eventPlayTimmingTable[listName])do
-    local s=t[1]
-    local r=t[2]
-    local t=this.radioDemoTable[r]
-    local o=this._GetRadioList(t,options)
-    if(not this.IsDoneEvent(t,s,listName,r)and t.storyCondition(options))and t.detailCondition(options)then
-      if t.demoName then
+  for n,eventInfo in ipairs(this.eventPlayTimmingTable[radioCategory])do
+    local RENsomeBool=eventInfo[1]
+    local radioName=eventInfo[2]
+    local radioDemoInfo=this.radioDemoTable[radioName]
+    local radioList=this._GetRadioList(radioDemoInfo,options)
+    if(not this.IsDoneEvent(radioDemoInfo,RENsomeBool,radioCategory,radioName)and radioDemoInfo.storyCondition(options))and radioDemoInfo.detailCondition(options)then
+      if radioDemoInfo.demoName then
         if this.DEBUG_SkipDemoRadio then
-          TppMbFreeDemo.PlayMtbsEventDemo{demoName=t.demoName}
+          TppMbFreeDemo.PlayMtbsEventDemo{demoName=radioDemoInfo.demoName}
         end
-        return t.demoName,a
-      elseif o then
-        if listName=="blackTelephone"or listName=="clearSideOpsForceMBRadio"then
-          gvars.forceMbRadioPlayedFlag[TppDefine.FORCE_MB_RETURN_RADIO_ENUM[r]]=true
+        return radioDemoInfo.demoName,n
+      elseif radioList then
+        if radioCategory=="blackTelephone"or radioCategory=="clearSideOpsForceMBRadio"then
+          gvars.forceMbRadioPlayedFlag[TppDefine.FORCE_MB_RETURN_RADIO_ENUM[radioName]]=true
         end
-        if listName=="freeHeliRadio"then
-          mvars.str_currentFreeHeliRadioList=o
+        if radioCategory=="freeHeliRadio"then
+          mvars.str_currentFreeHeliRadioList=radioList
         end
-        return o,a
+        return radioList,n
       end
     end
   end
@@ -2052,28 +2052,28 @@ end
 function this.GetCurrentFreeHeliRadioList()
   return mvars.str_currentFreeHeliRadioList
 end
-function this._GetRadioList(e,n)
-  if e.selectRadioFunction then
-    return e.selectRadioFunction(n)
+function this._GetRadioList(radioDemoInfo,options)
+  if radioDemoInfo.selectRadioFunction then
+    return radioDemoInfo.selectRadioFunction(options)
   end
-  return e.radioList
+  return radioDemoInfo.radioList
 end
-function this.IsDoneEvent(e,t,n,i)
-  if not t then
+function this.IsDoneEvent(radioDemoInfo,RENsomeBool,radioCategory,radioName)
+  if not RENsomeBool then
     return false
   end
-  if e.demoName then
-    return TppDemo.IsPlayedMBEventDemo(e.demoName)
+  if radioDemoInfo.demoName then
+    return TppDemo.IsPlayedMBEventDemo(radioDemoInfo.demoName)
   end
-  if e.radioList then
-    for n,e in ipairs(e.radioList)do
+  if radioDemoInfo.radioList then
+    for n,e in ipairs(radioDemoInfo.radioList)do
       if TppRadio.IsPlayed(e)then
         return true
       end
     end
-    if n=="blackTelephone"or n=="clearSideOpsForceMBRadio"then
-      if gvars.forceMbRadioPlayedFlag[TppDefine.FORCE_MB_RETURN_RADIO_ENUM[i]]then
-        for n,e in ipairs(e.radioList)do
+    if radioCategory=="blackTelephone"or radioCategory=="clearSideOpsForceMBRadio"then
+      if gvars.forceMbRadioPlayedFlag[TppDefine.FORCE_MB_RETURN_RADIO_ENUM[radioName]]then
+        for n,e in ipairs(radioDemoInfo.radioList)do
           TppRadio.SetPlayedGlobalFlag(e)
         end
         return true
@@ -2118,8 +2118,8 @@ function this.DEBUG_TestStorySequence()
     TppTerminal.ReleaseMbSection()
     this.UpdateStorySequence{updateTiming="OnMissionClear",missionId=TppMission.GetMissionID()}
     this.DEBUG_SetNeedStoryTest(vars.missionCode)
-    local n=this.GetForceMBDemoNameOrRadioList"forceMBDemo"
-    this.GetForceMBDemoNameOrRadioList("blackTelephone",{demoName=n})
+    local demoName=this.GetForceMBDemoNameOrRadioList"forceMBDemo"
+    this.GetForceMBDemoNameOrRadioList("blackTelephone",{demoName=demoName})
     this.GetForceMBDemoNameOrRadioList"freeHeliRadio"
     this.GetForceMBDemoNameOrRadioList"freeHeliRadio"
     repeat

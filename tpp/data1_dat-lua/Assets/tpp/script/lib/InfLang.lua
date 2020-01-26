@@ -1,15 +1,12 @@
 -- DOBUILD: 1
 -- NODEPS
---TODO: MOVE this is data not lib
 local this={}
 --InfLang for Infinite Heaven
 --Want to help out?
 --Translation: Have a look below and see what you can do. Contact me by pm if you want more detail/want to send me your translation. You will be credited in the main infinite heaven description for your kind work.
 --If you want more direction on a string contact me, some of my own english descriptions are not the best as it is, and sometime I have to shorten them to keep things managable for how it's presented in-game.
 --This file does nothing by itself but you have modding knowledge can replace/edit \Assets\tpp\script\lib\InfLang.lua in the infinite heaven.msgv file using a zip tool
---New versions of infinite heaven will add more strings, I will add them to the end of the, and existing strings that I've changed will be noted at the end of it's line with it's version number,
---example:  menuOffItem="Turn off menu",--r58
---remove the version comment to indicate to me that you've uodated the line.
+--New versions of infinite heaven will add more strings, and may change existing ones. Use a merge tool like WinMerge to compare between versions.
 --Thanks again, any help, big or small will be appreciated.
 -- tin man tex
 
@@ -417,7 +414,8 @@ this.eng={--english
   event_announce="Event: %s",--event name
   event_forced="Event will start on next MB visit or Free Roam",
   forceGameEvent="Trigger random IH event",
-  gameEventChance="IH event random trigger chance",
+  gameEventChanceMB="MB event random trigger chance",
+  gameEventChanceFREE="Free roam event random trigger chance",
   interrogate_lrrp="[Intel] the soldier indicates a LRRP is traveling between %s and %s",--cp name 1, cp name 2
   interrogate_wildcard="[Intel] the soldier indicates there was a mercenary assigned to %s",--cp name
   interrogate_heli="[Intel] the soldier indicates an attack heli is travelling to %s",--cp name
@@ -436,6 +434,8 @@ this.eng={--english
     "DD Infection outbreak",
     "Zombie Obliteration (non DD)",
   },
+  mbAdditionalSoldiers="More soldiers on MB plats",
+  mbNpcRouteChange="Soldiers move between platforms",
 }--eng end
 
 this.help={}
@@ -489,7 +489,8 @@ this.help.eng={
   unlockSideOps="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area.",
   mbDemoSelection="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",
   debugMode="Switches on some error messages and enables the announce-log during loading.",
-  gameEventChance="Chance to randomly trigger an IH event on starting Free roam or returning to MB",
+  gameEventChanceMB="Chance to randomly trigger an IH event on returning to MB",
+  gameEventChanceFREE="Chance to randomly trigger an IH event on starting Free roam",
   missionPrepRestrictionsMenu="Only affects the mission-prep screen, not the in-mission equivalents.",
   disableSelectBuddy="Prevents use of buddies during mission prep.",
   disableSelectTime="Only allows ASAP at mission prep",
@@ -529,7 +530,9 @@ this.help.eng={
   enableLrrpFreeRoam="Foot patrols will travel between two random CPs and will cross the field to get there.",
   enemyHeliPatrol="Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.",
   vehiclePatrolProfile="Replaces the patrolling trucks in free roam with other vehicles.",
-  
+  mbNpcRouteChange="Soldiers will periodically move between platforms (only within the same cluster).",
+  warpPlayerUpdate="Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.",
+  mbAdditionalSoldiers="Increases (non main) platforms from 4 soldiers to 7-8.",
 }
 
 this.cpNames={

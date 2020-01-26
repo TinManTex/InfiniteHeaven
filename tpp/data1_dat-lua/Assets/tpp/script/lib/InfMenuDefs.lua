@@ -104,6 +104,8 @@ this.motherBaseMenu={
     Ivars.mbCollectionRepop,
     Ivars.mbMoraleBoosts,
     Ivars.mbEnableBuddies,
+    Ivars.mbAdditionalSoldiers,
+    Ivars.mbNpcRouteChange,
     this.motherBaseShowCharactersMenu,
     this.motherBaseShowAssetsMenu,
     Ivars.mbWargameFemales,
@@ -471,7 +473,8 @@ this.heliSpaceMenu={
     --Ivars.manualMissionCode,--tex  WIP
     --InfMenuCommands.loadMission,--tex  WIP
     InfMenuCommands.forceGameEvent,--DEBUGNOW
-    Ivars.gameEventChance,--DEBUGNOW
+    Ivars.gameEventChanceFREE,--DEBUGNOW
+    Ivars.gameEventChanceMB,--DEBUGNOW
     Ivars.clockTimeScale,
     this.playerRestrictionsMenu,
     this.playerSettingsMenu,
@@ -528,13 +531,13 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
-    --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+       InfMenuCommands.DEBUG_WarpToObject,--DEBUGNOW
     ----    Ivars.playerFaceIdApearance,--DEBUG
     ----    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     ----    --    this.appearanceMenu,--DEBUG
---        InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+        InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
 --        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG
     --   InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --InfMenuCommands.doEnemyReinforce,--WIP

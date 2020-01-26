@@ -1,5 +1,5 @@
 = Infinite heaven =
-r158 - 2016-06-01
+r159 - 2016-06-06
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
@@ -15,6 +15,24 @@ YouTube playlist of demonstrations for many features
 [url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
 
 NOTE: Remember to exit to ACC before upgrading Infinite Heaven, upgrading will cause issues continuning a save that's mid mission is likely to cause issues.
+
+New for r159
+Fixed: Enemy patrol helis getting stuck/rotating at 'landing' position.
+
+Fixed: MB Cutscene playback - now doesn't set mbFreeDemoPlayedFlag, so shouldn't cause issues if played before they are normally triggered - thanks BarelyFatal for the report.
+
+Change: Number of Wild card soldiers increased, may also now appear in patrol vehicles (trucks,jeeps)
+
+Tuning: MB events: DD staff now equiped with non lethal for Training event. Soviet Invasion DD Equip off, Coyote attack enemy 
+heli types to each random, dd equip level lowered. Events ises varied settings of mbNpcRouteChange
+
+Fixed: MB wargames/events - soldiers will now follow routes when in caution mode (before they would just stay in their last position before alert)
+
+Change: split event random trigger chance % setting into MB and Free, thanks Recaldy for the suggestion.
+
+Option: Enable more soldiers on MB plats - increases (non main) platforms from 4 soldiers to 7-8.
+Option: Soldiers move between platforms - soldiers will periodically move between platforms (only within the same cluster).
+(via Mother base menu)
 
 New for r158
 Fixed: Disable landing zones hanging loading mother base
@@ -56,48 +74,6 @@ Menu: Patchup menu renamed Debug/system menu
 Refactor: Options that cover multiple modes (Free roam, mission, mb), have had some internal restructuring, so you will have to set them again after upgrading to r157: Random CP subtype, Start on foot, prep mode, .. use DD equipment.
 
 Option: Debug IH mode - Switches on some error messages and enables the announce log during loading. Hopefully this will give more information if your'e having issues with something.
-
-New for r155
-Wildcard soldiers now equipped with highest grade DD weapons.
-Fixed: hang on return to mother base and Random CP subtype in missions  - thanks Simonz93 for the save file
-
-Fixed: Invisible soldier bodies for amored soldiers in afghanistan sideops - thanks Simonz93 for the report
-
-Updated to 1.09
-DD Equip Grade increased to 11, so you should you can equip DD or enemies with the new weapons (assuming Allow undeveloped DD equipment is on).
-
-Wildcard soldiers now have a chance for some of the rarer faces.
-
-Fixed: Hang after load on Quarantine and Zoo platforms.
-Fixed: Mission 22 - Retake the Platform start of foot position under the water - result of above - thanks NasaNhak for the report
-
-Feature: Walker gears on mother base
-[youtube]DLCHjSmc5tg[/youtube]
-https://www.youtube.com/watch?v=DLCHjSmc5tg
-[youtube]DIssEXzZkwo[/youtube]
-https://www.youtube.com/watch?v=DIssEXzZkwo
-Option: enableMbWalkerGears - "Enable walker gears"
-Option: mbWalkerGearsColor - "Walker gears type" -
-	"Soviet",
-	"Rogue Coyote",
-	"CFA",
-	"ZRS",
-	"Diamond Dogs",
-	"Hueys Prototype (texture issues)",
-	"All gears random of one type",
-	"Each gear random type",
-Option: mbWalkerGearsWeapon - "Walker gears weapons" -    
-	"Even split of weapons",
-	"Minigun",
-	"Missiles",
-	"All gears random of one type",
-	"Each gear random type",  
-	
-(via Mother base Menu)
-
-"Attack heli type" renamed "Attack heli class"
-Added "All one random type","Each heli random type" to heli class.
-Options: vehiclePatrolClass - "Vehicle patrol class" - "Default","Dark grey","Red","All one random type","Each vehicle random type","Enemy prep" 
 
 Disclaimer:
 ------------------------------

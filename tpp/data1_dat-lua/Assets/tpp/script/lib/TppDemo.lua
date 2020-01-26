@@ -579,16 +579,16 @@ function this.ClearIgnoreNpcDisableOnDemoEnd()
   end
   mvars.dem_npcDisableList=nil
 end
-function this.IsPlayedMBEventDemo(e)
-  local demoEnum=TppDefine.MB_FREEPLAY_DEMO_ENUM[e]
+function this.IsPlayedMBEventDemo(demoName)
+  local demoEnum=TppDefine.MB_FREEPLAY_DEMO_ENUM[demoName]
   if demoEnum then
     return gvars.mbFreeDemoPlayedFlag[demoEnum]
   end
 end
-function this.ClearPlayedMBEventDemoFlag(e)
-  local e=TppDefine.MB_FREEPLAY_DEMO_ENUM[e]
-  if e then
-    gvars.mbFreeDemoPlayedFlag[e]=false
+function this.ClearPlayedMBEventDemoFlag(demoName)
+  local demoEnum=TppDefine.MB_FREEPLAY_DEMO_ENUM[demoName]
+  if demoEnum then
+    gvars.mbFreeDemoPlayedFlag[demoEnum]=false
   end
 end
 function this.OnAllocate(missionTable)
@@ -691,11 +691,11 @@ function this.OnDemoEnd(demoName)
   end
   this.AddFinishWaitRequestInfo(demoId,demoFlags)
 end
-function this.OnDemoInterrupt(n)
-  if mvars.dem_playedList[n]==nil then
+function this.OnDemoInterrupt(demoName)
+  if mvars.dem_playedList[demoName]==nil then
     return
   end
-  this.OnDemoEnd(n)
+  this.OnDemoEnd(demoName)
 end
 function this.OnDemoSkip(demoName,demoIdStr32)
   local demoId=mvars.dem_demoList[demoName]

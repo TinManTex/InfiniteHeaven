@@ -462,12 +462,16 @@ function this.Print(message,...)
   end
 end
 
-function this.DebugPrint(message)
+function this.DebugPrint(message,...)
   if message==nil then
     TppUiCommand.AnnounceLogView("nil")
     return
   elseif type(message)~="string" then
     message=tostring(message)
+  end
+  
+  if ... then
+  --message=string.format(message,...)--DEBUGNOW
   end
 
   while string.len(message)>this.MAX_ANNOUNCE_STRING do
@@ -556,7 +560,7 @@ function this.GetLangTable(langId,index)
   end
   local langTable=InfLang[languageCode][langId]
   if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
-    TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)--DEBUGNOW
+    --TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)--DEBUG
     langTable=InfLang.eng[langId]
   end
 
@@ -670,7 +674,7 @@ function this.Update(execCheck)
     end
   else
     if this.topMenu~=InfMenuDefs.inMissionMenu then
-      --Ivars.PrintGvarSettingMismatch()--DEBUGNOW
+      --Ivars.PrintGvarSettingMismatch()--DEBUG
       this.topMenu=InfMenuDefs.inMissionMenu
       this.GoMenu(this.topMenu)
     end

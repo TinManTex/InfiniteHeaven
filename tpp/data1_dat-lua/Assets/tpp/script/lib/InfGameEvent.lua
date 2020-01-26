@@ -50,15 +50,20 @@ end
 this.forceEvent=false
 function this.GenerateEvent(missionCode)
   --InfMenu.DebugPrint("GenerateEvent missionCode:"..missionCode)--DEBUG
-  if not eventMissions[missionCode] then
+  if not Ivars.EnabledForMission("gameEventChance",missionCode) then
+  --CULL if not eventMissions[missionCode] then
     return
   end
- 
+
   InfMain.RandomSetToLevelSeed()
-  local randomTriggered=math.random(100)<Ivars.gameEventChance:Get()
+  local randomTriggered=math.random(100)<Ivars.gameEventChanceFREE:Get()
+  if missionCode==30050 then
+    randomTriggered=math.random(100)<Ivars.gameEventChanceMB:Get()
+  end
+
   if this.forceEvent or randomTriggered or Ivars.inf_event:Is()>0 then
---    InfMenu.DebugPrint("GenerateEvent actual "..missionCode)--DEBUG
---    InfMenu.DebugPrint("inf_levelSeed:"..tostring(gvars.inf_levelSeed))--DEBUG
+    --    InfMenu.DebugPrint("GenerateEvent actual "..missionCode)--DEBUG
+    --    InfMenu.DebugPrint("inf_levelSeed:"..tostring(gvars.inf_levelSeed))--DEBUG
     this.forceEvent=false
 
     if missionCode==30050 then
@@ -141,11 +146,11 @@ function this.GenerateRoamEvent(missionCode)
   end
 
   --DEBUG
---  this.inf_enabledEvents={
---    HUNTED=true,
---  --CRASHLAND=true,
---  --LOST_COMS=true,
---  }
+  --  this.inf_enabledEvents={
+  --    HUNTED=true,
+  --  --CRASHLAND=true,
+  --  --LOST_COMS=true,
+  --  }
   --
 
   for eventId,enabled in pairs(this.inf_enabledEvents)do
@@ -180,7 +185,7 @@ end
 
 local warGamesBase={
   TRAINING={
-    mbDDEquipNonLethal=0,
+    mbDDEquipNonLethal=1,
     mbHostileSoldiers=1,
     mbEnableLethalActions=0,
     mbNonStaff=0,
@@ -239,15 +244,18 @@ local warGamesBaseTypes={
 local warGameSettings={
   TRAINING={
     enableWalkerGearsMB=0,
+    mbNpcRouteChange={0,1},
   },
   SOVIET_INVASION={
     mbDDHeadGear=0,
     mbDDSuit="SOVIET_B",
+    enableDDEquipMB=0,
     mbWargameFemales=0,
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="SOVIET",
     mbEnemyHeliColor="DEFAULT",
     revengeModeMB="DEFAULT",--DEBUGNOW TODO generate custom
+    mbNpcRouteChange=0,
   },
   COYOTE_INVASION={
     mbDDHeadGear=0,
@@ -255,12 +263,13 @@ local warGameSettings={
     mbDDSuitFemale="BATTLE_DRESS",
     enableDDEquipMB=1,
     mbSoldierEquipGrade_MIN=4,
-    mbSoldierEquipGrade_MAX=8,
+    mbSoldierEquipGrade_MAX=6,
     mbWargameFemales=1,
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="ROGUE_COYOTE",
-    mbEnemyHeliColor="BLACK",
+    mbEnemyHeliColor="RANDOM_EACH",
     revengeModeMB="DEFAULT",--DEBUGNOW TODO generate custom
+    mbNpcRouteChange={0,1},
   },
   XOF_INVASION={
     mbDDHeadGear=1,
@@ -273,6 +282,7 @@ local warGameSettings={
     mbWalkerGearsColor="DDOGS",--tex or soviet?
     mbEnemyHeliColor="RED",
     revengeModeMB="DEFAULT",--DEBUGNOW TODO generate custom
+    mbNpcRouteChange=1,
   },
   ZOMBIE_DD={
     enableWalkerGearsMB=0,
@@ -283,7 +293,7 @@ local warGameSettings={
 }
 
 function this.GenerateWarGameEvent()
-  InfInspect.TryFunc(function()--DEBUGNOW
+  --InfInspect.TryFunc(function()--DEBUG
     local Ivars=Ivars
     Ivars.inf_event:Set"WARGAME"--tex see ivar declaration for notes
 
@@ -309,7 +319,7 @@ function this.GenerateWarGameEvent()
     --all the rest, for now just use enemy prep levels
     --Ivars.revengeModeMB:Set("CUSTOM",true,true)
     --tex for now just useing enemy prep levels (set via warGames table)
-  end)--
+  --end)--
 end
 
 function this.ForceEvent()

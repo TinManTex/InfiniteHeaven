@@ -102,6 +102,7 @@ this.requires={
   "/Assets/tpp/script/lib/InfEnemyPhase.lua",
   "/Assets/tpp/script/lib/InfHelicopter.lua",
   "/Assets/tpp/script/lib/InfNPC.lua",
+  "/Assets/tpp/script/lib/InfNPCOcelot.lua",
   "/Assets/tpp/script/lib/InfNPCHeli.lua",
   "/Assets/tpp/script/lib/InfWalkerGear.lua",
   "/Assets/tpp/script/lib/InfInterrogation.lua",

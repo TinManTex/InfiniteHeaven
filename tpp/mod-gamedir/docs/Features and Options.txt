@@ -1,25 +1,55 @@
+Infinite Heaven features
+========================
+
+YouTube playlist of demonstrations for many features
+https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF
+
+All settings in Infinite Heaven start at game defaults and can be adjusted in the Infinite Heaven menus.
+
+Non menu activated features
+===========================
+
+Disables self on FOB
+--------------------
+FOB mode automatically uses defaults/unmodified, this does not affect saved settings on return.
+
+Abort to ACC from title continue
+-------------------------------- 
+Hold down ESCAPE for 1.5 seconds, the KJP logo will flash, clicking on continue will load ACC instead of continuing mission.
+
+Menu, Options and Settings
+==========================
+
+Basic terms used in the Infinite Heaven menu:
+<Option name> - <Setting>
+
+Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.
+
 ACC Main menu
 -------------
 [1] Trigger random IH event : (Command)
     - Events are temporary custom profiles for free roam and mother base. Free roam events (can stack): Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. MB events (only one active): DD Training wargame, Soviet attack, Rogue Coyote attack, XOF attack, DD Infection outbreak, Zombie Obliteration (non DD)
-[2] IH event random trigger chance : 0-100%
-    - Chance to randomly trigger an IH event on starting Free roam or returning to MB
-[3] Clock time scale : 1-10000
+[2] Free roam event random trigger chance : 0-100%
+    - Chance to randomly trigger an IH event on starting Free roam
+[3] MB event random trigger chance : 0-100%
+    - Chance to randomly trigger an IH event on returning to MB
+[4] Clock time scale : 1-10000
     - Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
-[4] Player restrictions menu
-[5] Player settings menu
-[6] Soldier parameters menu
-[7] Enemy phases menu
-[8] Enemy Prep menu
-[9] Enemy reinforcements menu
-[10] Enemy patrols menu
-[11] Side ops menu
-[12] Mother Base menu
-[13] Cutscenes menu
-[14] Camera menu
-[15] Support heli menu
-[16] Debug/system menu
-[17] Reset all Infinite Heaven settings : (Command)
+[5] Player restrictions menu
+[6] Player settings menu
+[7] Soldier parameters menu
+[8] Enemy phases menu
+[9] Enemy Prep menu
+[10] Enemy reinforcements menu
+[11] Enemy patrols menu
+[12] Side ops menu
+[13] Mother Base menu
+[14] Cutscenes menu
+[15] Camera menu
+[16] Support heli menu
+[17] Debug/system menu
+[18] Reset all Infinite Heaven settings : (Command)
+
 
 Player restrictions menu
 - Settings to customize the game challenge, including subsistence and OSP.
@@ -47,6 +77,7 @@ Player restrictions menu
 [17] Fulton success menu
 [18] OSP menu
 
+
 Marking display menu
 - Toggles for marking in main view. Does not effect marking on iDroid map
 --------------------
@@ -56,6 +87,7 @@ Marking display menu
     - Disables the 'X-ray' effect of marked soldiers. Note: Buddies that mark still cause the effect.
 [3] Disable world markers : Off, On
     - Disables objective and placed markers
+
 
 Mission-prep restrictions menu
 - Only affects the mission-prep screen, not the in-mission equivalents.
@@ -67,6 +99,7 @@ Mission-prep restrictions menu
 [3] Disable select vehicle : Off, On
     - Disallows at mission prep.
 
+
 Disable mission support-menus menu
 - Disables mission support menus in iDroid
 ----------------------------------
@@ -76,6 +109,7 @@ Disable mission support-menus menu
 [4] Disable Heli attack support-menu : Off, On
 [5] Disable Support-menu : Off, On
 
+
 Hand abilities levels menu
 --------------------------
 [1] Hand abilities levels profile : Default, All Off, All max, Custom
@@ -84,11 +118,13 @@ Hand abilities levels menu
 [4] Precision level : 0-4
 [5] Medical level : 0-4
 
+
 Fulton levels menu
 ------------------
 [1] Fulton Levels profile : Default/No override, Fulton Min, Wormhole off, Max, Custom
 [2] Fulton Level : 1-4
 [3] Wormhole Level : DISABLE, ENABLE
+
 
 Fulton success menu
 - Adjust the success rate of fultoning
@@ -105,6 +141,7 @@ Fulton success menu
     - Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.
 [8] Hostage handling : Default, Must extract (0%)
 
+
 OSP menu
 - Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it).
 --------
@@ -115,6 +152,7 @@ OSP menu
 [4] Primary weapon OSP : Use selected weapon, Clear weapon
 [5] Secondary weapon OSP : Use selected weapon, Clear weapon
 [6] Back Weapon OSP : Use selected weapon, Clear weapon
+
 
 Player settings menu
 --------------------
@@ -127,12 +165,14 @@ Player settings menu
 [5] Headgear (cosmetic, DD characters only) : Don't set (change character to reset head), Balaclava 1, Balaclava 2, DD heavy headgear, Gas mask and balaclava, Gas mask and DD headgear, Gas mask and DD heavy headgear, NVG and DD heavy headgear, NVG, Gas mask and DD heavy headgear
 [6] Form Variation menu
 
+
 Form Variation menu
 - Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.
 -------------------
 [1] Use selected fova : Off, On
 [2] <Character model description> : <Fova selection>
 [3] Print current body info : (Command)
+
 
 Soldier parameters menu
 - Enemy soldier parameters
@@ -147,6 +187,7 @@ Soldier parameters menu
 [5] Print health param table (look in iDroid Log>All tab) : (Command)
 [6] Print sight param table (look in iDroid Log>All tab) : (Command)
 [7] Print hearing distance table (look in iDroid Log>All tab) : (Command)
+
 
 Enemy phases menu
 - Adjust minimum and maximum alert phase for enemy Command Posts
@@ -166,6 +207,7 @@ Enemy phases menu
 [8] Print phase changes : Off, On
     - Displays when phase changes.
 
+
 Enemy Prep menu
 - Ways to modify the Enemy preparedness system that equips the enemy in response to your actions.
 ---------------
@@ -179,6 +221,7 @@ Enemy Prep menu
     - Resets enemy prep levels to 0
 [8] Random CP subtype in free roam : Off, On
     - Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
+
 
 Custom prep menu
 - Lets you set the individual values that go into an enemy prep configuration (does not use the enemy prep levels), a random value between MIN and MAX for each setting is chosen on mission start. The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
@@ -202,6 +245,7 @@ Custom prep menu
      - Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.
 [15] Ignore combat-deploy supply blocks max : Off, On
 
+
 Weapon deployment
 -----------------
 [1] SNIPER_MIN : 0-100%
@@ -219,6 +263,7 @@ Weapon deployment
 [13] GUN_LIGHT_MIN : 0-100%
 [14] GUN_LIGHT_MAX : 0-100%
 
+
 Armor deployment
 ----------------
 [1] ARMOR_MIN : 0-100%
@@ -227,6 +272,7 @@ Armor deployment
 [4] SOFT_ARMOR_MAX : 0-100%
 [5] SHIELD_MIN : 0-100%
 [6] SHIELD_MAX : 0-100%
+
 
 Headgear deployment
 -------------------
@@ -237,6 +283,7 @@ Headgear deployment
 [5] GAS_MASK_MIN : 0-100%
 [6] GAS_MASK_MAX : 0-100%
 
+
 CP deterrent deployment
 -----------------------
 [1] DECOY_MIN : 0-100%
@@ -245,6 +292,7 @@ CP deterrent deployment
 [4] MINE_MAX : 0-100%
 [5] CAMERA_MIN : 0-100%
 [6] CAMERA_MAX : 0-100%
+
 
 Soldier abilities
 -----------------
@@ -259,6 +307,7 @@ Soldier abilities
 [7] FULTON_MIN : NONE, LOW, HIGH, SPECIAL
 [8] FULTON_MAX : NONE, LOW, HIGH, SPECIAL
 
+
 Weapon strength menu
 - Whether to deploy the stronger weapon class for the weapon type
 --------------------
@@ -269,12 +318,14 @@ Weapon strength menu
 [5] STRONG_MISSILE_MIN : Off, On
 [6] STRONG_MISSILE_MAX : Off, On
 
+
 CP equip strength menu
 ----------------------
 [1] ACTIVE_DECOY_MIN : Off, On
 [2] ACTIVE_DECOY_MAX : Off, On
 [3] GUN_CAMERA_MIN : Off, On
 [4] GUN_CAMERA_MAX : Off, On
+
 
 Prep system menu
 ----------------
@@ -303,6 +354,7 @@ Prep system menu
 [15] Disable convert armor to shield (if armor off) : Off, On
      - Where heavy armor is disabled (free roam by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.
 
+
 DD Equip menu
 - Allow soldiers to have DD equipment usually only seen on FOB
 -------------
@@ -315,6 +367,7 @@ DD Equip menu
 [7] MB DD Equip non-lethal : Off, On
 [8] MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random
 
+
 Enemy reinforcements menu
 -------------------------
 [1] Enable vehicle reinforce (only heli in free roam, vehicles depend on mission) : Off, Enemy Prep, Force Prep
@@ -324,6 +377,7 @@ Enemy reinforcements menu
 [4] Disable reinforce heli pull-out : Off, On
 [5] Soldier reinforce with all vehicle reinforce types : Off, On
     - Allows an extra set of reinforce soldiers with all vehicle reinforce types instead of just Wheeled Armored Vehicles.
+
 
 Enemy patrols menu
 ------------------
@@ -342,12 +396,14 @@ Enemy patrols menu
 [9] Enable heavy wheeled armored vehicles : Off, On
 [10] Enable tanks : Off, On
 
+
 Side ops menu
 -------------
 [1] Unlock random Sideops for areas : Off, Force Replayable, Force Open
     - Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area.
 [2] Open specific sideop # : 0-157
 [3] Force enable enemy heli reinforce (disable heli sideops) : Off, On
+
 
 Mother Base menu
 ----------------
@@ -371,10 +427,15 @@ Mother Base menu
      - Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must exit via heli for it to apply.
 [14] Enable all buddies : Off, On
      - Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
-[15] Show characters menu
-[16] Show assets menu
-[17] Women in Enemy Invasion mode : Off, On
-[18] Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+[15] More soldiers on MB plats : Off, On
+     - Increases (non main) platforms from 4 soldiers to 7-8.
+[16] Soldiers move between platforms : Off, On
+     - Soldiers will periodically move between platforms (only within the same cluster).
+[17] Show characters menu
+[18] Show assets menu
+[19] Women in Enemy Invasion mode : Off, On
+[20] Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+
 
 Show characters menu
 --------------------
@@ -385,12 +446,14 @@ Show characters menu
 [4] Show Eli : Off, On
 [5] Reset Paz state to beginning : (Command)
 
+
 Show assets menu
 ----------------
 [1] Show Big Boss posters : Off, On
 [2] Show nuke elimination monument : Off, On
 [3] Show Sahelanthropus : Off, On
 [4] Unlock goal doors : Off, On
+
 
 Cutscenes menu
 --------------
@@ -403,6 +466,7 @@ Cutscenes menu
 [6] Minute : 0-59
 [7] Override weather : Cutscene default, Current, Sunny, Cloudy, Rainy, Sandstorm, Foggy, Pouring
 
+
 Camera menu
 - Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
 -----------
@@ -411,6 +475,7 @@ Camera menu
 [3] Warp body to FreeCam position : (Command)
 [4] Cam speed scale : 0.01-10
 [5] Disable mode text feedback : Off, On
+
 
 Support heli menu
 -----------------
@@ -427,6 +492,7 @@ Support heli menu
 [7] Start free roam on foot : Off, All but assault LZs, All LZs
 [8] Start missions on foot : Off, All but assault LZs, All LZs
 [9] Start Mother base on foot : Off, All but assault LZs, All LZs
+
 
 Debug/system menu
 -----------------
@@ -449,20 +515,27 @@ Debug/system menu
 [12] Show missionCode : (Command)
 [13] Show game language code : (Command)
 
+
 ===============
+
 
 In Mission menu
 ---------------
-[1] Warp Mode : Off, On
-[2] Camera menu
-[3] User marker menu
-[4] Clock time scale : 1-10000
+[1] DEBUG_WarpToObject : (Command)
+[2] DEBUG_SomeShiz : (Command)
+[3] DEBUG_SomeShiz3 : (Command)
+[4] Warp Mode : Off, On
+    - Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.
+[5] Camera menu
+[6] User marker menu
+[7] Clock time scale : 1-10000
     - Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
-[5] Quiets cell radio track (0=Auto) : 0-31
-[6] Markers menu
-[7] Enemy phases menu
-[8] Support heli menu
-[9] Debug stuff menu
+[8] Quiets cell radio track (0=Auto) : 0-31
+[9] Markers menu
+[10] Enemy phases menu
+[11] Support heli menu
+[12] Debug stuff menu
+
 
 Camera menu
 - Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
@@ -473,6 +546,7 @@ Camera menu
 [4] Cam speed scale : 0.01-10
 [5] Disable mode text feedback : Off, On
 
+
 User marker menu
 ----------------
 [1] Warp to latest marker : (Command)
@@ -481,12 +555,14 @@ User marker menu
 [4] Quiet move to last marker : (Command)
     - Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.
 
+
 Markers menu
 ------------
 [1] Disable head markers : Off, On
     - Disables markers above soldiers and objects
 [2] Disable world markers : Off, On
     - Disables objective and placed markers
+
 
 Enemy phases menu
 - Adjust minimum and maximum alert phase for enemy Command Posts
@@ -506,6 +582,7 @@ Enemy phases menu
 [8] Print phase changes : Off, On
     - Displays when phase changes.
 
+
 Support heli menu
 -----------------
 [1] Disable support heli attack : Off, On
@@ -522,6 +599,7 @@ Support heli menu
 [8] Start missions on foot : Off, All but assault LZs, All LZs
 [9] Start Mother base on foot : Off, All but assault LZs, All LZs
 
+
 Debug stuff menu
 ----------------
 [1] Debug IH mode : Off, On
@@ -534,3 +612,5 @@ Debug stuff menu
 [7] DEBUG_PrintSoldierDefine : (Command)
 [8] DEBUG_ShowRevengeConfig : (Command)
 [9] Show position : (Command)
+
+

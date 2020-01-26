@@ -11,6 +11,8 @@ local SendCommand = GameObject.SendCommand
 local NULL_ID = GameObject.NULL_ID
 local SCRIPT_BLOCK_NAME = "demo_block"
 
+local MAX_STAFF_NUM_ON_CLUSTER = 36--18--tex
+
 local sequences = {}
 
 local PlayerDisableActionFlagInPazRoom = PlayerDisableAction.CQC + PlayerDisableAction.RUN + PlayerDisableAction.KILLING_WEAPON + PlayerDisableAction.FULTON + PlayerDisableAction.CARRY + PlayerDisableAction.OPEN_CALL_MENU + PlayerDisableAction.OPEN_EQUIP_MENU
@@ -756,7 +758,7 @@ function this.IsFemale( staffId )
 end
 
 function this.SetupStaffList()
-	local MAX_STAFF_NUM_ON_CLUSTER = 18
+	--DEBUGNOW made local to module --OFF local MAX_STAFF_NUM_ON_CLUSTER = 18
 	local staffList = {}
 	math.randomseed(TppScriptVars.GetTotalPlayTime())
 	
@@ -1047,8 +1049,8 @@ end
 
 
 
-local MAX_STAFF_NUM_IN_CLUSTER = 18
-local MAX_FACE_NUM_IN_CLUSTER = 18                                                          
+local MAX_STAFF_NUM_IN_CLUSTER = MAX_STAFF_NUM_ON_CLUSTER--tex was 18--DEBUGNOW 
+local MAX_FACE_NUM_IN_CLUSTER = MAX_STAFF_NUM_IN_CLUSTER--tex was 18--DEBUGNOW                                    
 this.RegisterFovaFpk = function( clusterId )
 	Fox.Log("RegisterFovaFpk! clusterId:" ..tostring(clusterId) )
 	if clusterId >= 7 then
@@ -2196,7 +2198,7 @@ sequences.Seq_Game_MainGame = {
 		
 		this.DisableLandingZoneForSeparationPlatform()
 		
-		InfMain.enabledLzs={}--tex
+		InfNPCHeli.enabledLzs={}--tex
 		for clusterId, clusterName in ipairs( TppDefine.CLUSTER_NAME ) do
 			mtbs_cluster.SetUpLandingZone( this.CLST_PARAM[clusterId].LANDING_ZONE, clusterId )
 		end

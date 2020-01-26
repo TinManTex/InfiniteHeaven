@@ -119,7 +119,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppQuest.OnAllocate(missionTable)
     TppAnimal.OnAllocate(missionTable)
     InfMain.OnAllocate(missionTable)--tex
-    --tex reworked --DEBUGNOW
+    --tex reworked
     local locationModule=_G[InfMain.GetLocationName()]
     if locationModule then
       locationModule.OnAllocate()
@@ -162,7 +162,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       end
     end
     InfMain.MissionPrepare()--tex
-    for n,missionScript in pairs(missionTable)do
+    for name,missionScript in pairs(missionTable)do
       if IsTypeFunc(missionScript.OnLoad)then
         missionScript.OnLoad()
       end
@@ -603,7 +603,6 @@ local function LoadingPositionToHeliSpace()
 end
 --NMC from MISSION_FINALIZE
 local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
-  --DEBUGNOW CULL local isGroundStart=false--tex WORKAROUND
   if HasHeliRoute() then
     --TppPlayer.SetStartStatusRideOnHelicopter()--tex <broken out for clarity-v-
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)
@@ -614,14 +613,13 @@ local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
       TppPlayer.SetMissionStartPosition(mvars.mis_helicopterMissionStartPosition,0)
     end
     --tex start on foot >
-    local groundStartPosition=InfLZ.GetGroundStartPosition(vars.missionCode,gvars.heli_missionStartRoute)
+    local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
     local isAssaultLz=mvars.ldz_assaultDropLandingZoneTable[gvars.heli_missionStartRoute]
     local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
     local isMbFree=TppMission.IsMbFreeMissions(vars.missionCode) and (nextIsFreeMission or isFreeMission)
     if startOnFoot then
       TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
       --TppHelicopter.ResetMissionStartHelicopterRoute()
-      --DEBUGNOW CULL isGroundStart=not isMbFree
       if not isMbFree then
         --tex WORKAROUND mission timers fix see TppMission.IsStartFromHelispace note
         Ivars.mis_isGroundStart:Set(1)
@@ -646,12 +644,6 @@ local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
   TppPlayer.ResetNoOrderBoxMissionStartPosition()
   TppMission.SetIsStartFromHelispace()
   TppMission.ResetIsStartFromFreePlay()
-  --CULL DEBUGNOW
-  --if isGroundStart then--tex> WORKAROUND 10054,11054 mission timer fix, but doing all to be safe
-  --Ivars.mis_isGroundStart:Set(1)
-  --TppMission.ResetIsStartFromHelispace()
-  --TppMission.SetIsStartFromFreePlay()
-  --end--<
 end
 --NMC from MISSION_FINALIZE, not from helispace
 local function LoadingPositionToFree()
@@ -676,7 +668,7 @@ local function LoadingPositionToFree()
     TppMission.ResetIsStartFromFreePlay()
   end--^
   if HasHeliRoute() then--tex startOnFoot zoo/ward transfer>
-    local groundStartPosition=InfLZ.GetGroundStartPosition(vars.missionCode,gvars.heli_missionStartRoute)
+    local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
     local isAssaultLz=mvars.ldz_assaultDropLandingZoneTable[gvars.heli_missionStartRoute]
     local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
     if startOnFoot then
@@ -820,12 +812,12 @@ function this.StageBlockCurrentPosition(e)
   end
 end
 function this.OnReload(missionTable)
-  for name,entry in pairs(missionTable)do
-    if IsTypeFunc(entry.OnLoad)then
-      entry.OnLoad()
+  for name,missionScript in pairs(missionTable)do
+    if IsTypeFunc(missionScript.OnLoad)then
+      missionScript.OnLoad()
     end
-    if IsTypeFunc(entry.Messages)then
-      missionTable[name]._messageExecTable=Tpp.MakeMessageExecTable(entry.Messages())
+    if IsTypeFunc(missionScript.Messages)then
+      missionTable[name]._messageExecTable=Tpp.MakeMessageExecTable(missionScript.Messages())
     end
   end
   if OnlineChallengeTask then--RETAILPATCH 1090>

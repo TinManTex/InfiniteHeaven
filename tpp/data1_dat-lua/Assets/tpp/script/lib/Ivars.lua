@@ -536,6 +536,18 @@ this.mbWargameFemales={
   settingNames="set_switch",
 }
 
+this.mbAdditionalSoldiers={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mbNpcRouteChange={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 --NONUSER/ handled by profile>
 this.mbHostileSoldiers={
   save=MISSION,
@@ -728,7 +740,7 @@ this.subsistenceProfile={
       Ivars.clearSupportItems:Set(1,true)
       Ivars.setSubsistenceSuit:Set(1,true)
       Ivars.setDefaultHand:Set(1,true)
-      
+
       if Ivars.ospWeaponProfile:IsDefault() or Ivars.ospWeaponProfile:Is"CUSTOM" then
         Ivars.ospWeaponProfile:Set(1,true)
       end
@@ -1021,22 +1033,22 @@ this.disableTranslators={
         vars.isAfrikaansTranslatable=0
         vars.isKikongoTranslatable=0
         vars.isPashtoTranslatable=0
-      elseif self.setting==0 then
-        InfMenu.DebugPrint"adding tranlatable"--DEBUG
-        --tex don't really need to do this, is handled by TppQuest.AcquireKeyItemOnMissionStart
-        if TppQuest.IsCleard"ruins_q19010"then
-          vars.isRussianTranslatable=1
-        end
-        if TppQuest.IsCleard"outland_q19011"then
-          vars.isAfrikaansTranslatable=1
-        end
-        if TppQuest.IsCleard"hill_q19012"then
-          vars.isKikongoTranslatable=1
-        end
-        if TppQuest.IsCleard"commFacility_q19013"then
-          vars.isPashtoTranslatable=1
-        end
+    elseif self.setting==0 then
+      InfMenu.DebugPrint"adding tranlatable"--DEBUG
+      --tex don't really need to do this, is handled by TppQuest.AcquireKeyItemOnMissionStart
+      if TppQuest.IsCleard"ruins_q19010"then
+        vars.isRussianTranslatable=1
       end
+      if TppQuest.IsCleard"outland_q19011"then
+        vars.isAfrikaansTranslatable=1
+      end
+      if TppQuest.IsCleard"hill_q19012"then
+        vars.isKikongoTranslatable=1
+      end
+      if TppQuest.IsCleard"commFacility_q19013"then
+        vars.isPashtoTranslatable=1
+      end
+    end
     end,self)--DEBUG
   end,
 }
@@ -3162,6 +3174,19 @@ this.npcUpdate={--tex NONUSER
   ExecUpdate=function(...)InfNPC.Update(...)end,
 }
 
+this.npcOcelotUpdate={--tex NONUSER
+  --save=MISSION,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",
+  execCheckTable={inGame=true,inHeliSpace=false},
+  execState={
+    nextUpdate=0,
+  },
+  ExecInit=function(...)InfNPCOcelot.InitUpdate(...)end,
+  ExecUpdate=function(...)InfNPCOcelot.Update(...)end,
+}
+
 this.npcHeliUpdate={
   save=MISSION,
   settings={"OFF","UTH","UTH_AND_HP48"},
@@ -3418,11 +3443,15 @@ this.enableInfInterrogation={
 }
 
 --gameevent
-this.gameEventChance={--DEBUGNOW
-  save=MISSION,
-  range={min=0,max=100,increment=5},
-  isPercent=true,
-}
+MissionModeIvars(
+  "gameEventChance",
+  {
+    save=MISSION,
+    range={min=0,max=100,increment=5},
+    isPercent=true,
+  },
+  {"FREE","MB",}
+)
 
 --non user save vars
 --others grouped near usage, search NONUSER
@@ -3524,9 +3553,9 @@ end
 --tex called on TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint
 function this.OnLoadVarsFromSlot()
   --InfInspect.TryFunc(function()--DEBUG
-    if Ivars.inf_event:Is()>0 then
-      --InfMenu.DebugPrint("OnLoadVarsFromSlot is mis event, aborting."..vars.missionCode)--DEBUG
-      return
+  if Ivars.inf_event:Is()>0 then
+    --InfMenu.DebugPrint("OnLoadVarsFromSlot is mis event, aborting."..vars.missionCode)--DEBUG
+    return
   end
   for name,ivar in pairs(this) do
     if IsIvar(ivar) then
@@ -3703,7 +3732,7 @@ function this.PrintNonDefaultVars()
 end
 
 function this.PrintGvarSettingMismatch()
---InfInspect.TryFunc(function()--DEBUG
+  --InfInspect.TryFunc(function()--DEBUG
   for name, ivar in pairs(Ivars) do
     if IsIvar(ivar) then
       if ivar.save then
@@ -3728,7 +3757,7 @@ function this.PrintSaveVarCount()
     return
   end
 
-  local gvarCountCount=0  
+  local gvarCountCount=0
   for n,gvarInfo in pairs(this.varTable) do
     local gvar=gvars[gvarInfo.name]
     if gvar==nil then
@@ -3738,7 +3767,7 @@ function this.PrintSaveVarCount()
     end
   end
   InfMenu.DebugPrint("Ivar gvar count:"..gvarCountCount.." "..#this.varTable)
-  
+
   local bools=0
   for name, ivar in pairs(Ivars) do
     if IsIvar(ivar) then
@@ -3793,15 +3822,15 @@ function this.PrintSaveVarCount()
 
   InfMenu.DebugPrint"Ivars.varTable"
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,this.varTable,TppScriptVars.CATEGORY_MISSION)
-  
+
   InfMenu.DebugPrint"typeCounts"
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
-  
+
   InfMenu.DebugPrint"arrayCounts"
   local ins=InfInspect.Inspect(arrayCounts)
   InfMenu.DebugPrint(ins)
-  
+
   InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
 
@@ -3830,15 +3859,15 @@ function this.PrintSaveVarCount()
 
   InfMenu.DebugPrint"TppGVars.DeclareGVarsTable"
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,TppGVars.DeclareGVarsTable,TppScriptVars.CATEGORY_MISSION)
-  
+
   InfMenu.DebugPrint"typeCounts"
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
-  
+
   InfMenu.DebugPrint"arrayCounts"
   local ins=InfInspect.Inspect(arrayCounts)
-  InfMenu.DebugPrint(ins)  
-  
+  InfMenu.DebugPrint(ins)
+
   InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
   InfMenu.DebugPrint"TppMain.allSvars"
@@ -3846,11 +3875,11 @@ function this.PrintSaveVarCount()
   InfMenu.DebugPrint"typeCounts"
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
-  
+
   InfMenu.DebugPrint"arrayCounts"
   local ins=InfInspect.Inspect(arrayCounts)
-  InfMenu.DebugPrint(ins)  
-  
+  InfMenu.DebugPrint(ins)
+
   InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
   --    local ins=InfInspect.Inspect(TppMain.allSvars)

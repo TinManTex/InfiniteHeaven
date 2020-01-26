@@ -895,7 +895,7 @@ mtbs_enemy.GetRouteSetPriority = function( cpGameObjectId, routeSetListInPlants,
         end
       end
 
-      if DEBUG and #tmpRouteList < sortieSolderNum then
+      if DEBUG and #tmpRouteList < sortieSolderNum then--DEBUGNOW
         Fox.Warning("enemy route is very few. enemy on plnt: " .. tostring(sortieSolderNum) .. " route on plnt: " .. tostring(#tmpRouteList) .. " :cpName: " ..tostring(cpName) )
       end
 
