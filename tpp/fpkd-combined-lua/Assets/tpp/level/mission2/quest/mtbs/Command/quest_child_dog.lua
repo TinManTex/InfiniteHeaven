@@ -1,3 +1,7 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: chunk3
+-- PACKPATH: \Assets\tpp\pack\mission2\quest\mtbs\Command\quest_child_dog.fpkd
+--quest_child_dog.lua
 local this = {}
 local quest_step = {}
 
@@ -59,14 +63,20 @@ end
 
 
 function this.OnActivate()
-	Fox.Log("quest_test activate")	
+	Fox.Log("quest_test activate")
 	
 	local fv2Index = 0
 	if TppBuddyService.IsBuddyDogGot() then
-		fv2Index = 0
-	elseif TppBuddyService.IsBuddyDogGot() then
-		fv2Index = 1
+		fv2Index = 0--missing eye
+	elseif TppBuddyService.IsBuddyDogGot() then--RETAILBUG both checks are the same
+		fv2Index = 1--normal eyes
 	end
+	
+	if Ivars.mbEnablePuppy:Is()>0 then--tex>
+	 fv2Index=Ivars.mbEnablePuppy:Is()-1
+	end--<
+	
+	
 	local gameObjectId = { type = "TppBuddyPuppy", index = 0 }
 	GameObject.SendCommand( gameObjectId, { id = "SetFova", fv2Index = fv2Index } )	
 	GameObject.SendCommand( gameObjectId, { id = "SetFultonEnabled", enabled = false } )
@@ -106,7 +116,9 @@ quest_step.QStep_Start = {
 
 	OnEnter = function()
 		Fox.Log("QStep_Start OnEnter")
+		if Ivars.mbEnablePuppy:Is(0) then--tex added bypass
 		TppQuest.ClearWithSaveMtbsDDQuest()
+		end
 	end,
 	
 	OnLeave = function()

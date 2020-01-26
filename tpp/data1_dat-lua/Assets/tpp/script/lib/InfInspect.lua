@@ -707,8 +707,8 @@ function this.GetArgs(func)
   return args
 end
 
-function this.PrintInspect(inspectee)
-  local ins=this.Inspect(inspectee)
+function this.PrintInspect(inspectee,options)
+  local ins=this.Inspect(inspectee,options)
   InfMenu.DebugPrint(ins)
 end
 

@@ -371,7 +371,57 @@ this.playerCammoTypes={
 --where dds5==dd male, dds6==dd female
 -- fova files="/Assets/tpp/fova/chara/sna/dds<5/6>_main0_ply_v<id>.fv2",--drab - also already in plparts_dd_male.fpk
 
---TODO: where are FOB reward fatigues, still ony hashed/undictionaried I guess
+--FOB reward fatigues, still ony hashed/undictionaried in emooses dictionary, are in secaproject fork
+--in /1/MGSVTUPDATE0100/00.dat
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c23
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c24
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c27
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c29
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c30
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c35
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c38
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c39
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c42
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c46
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c49
+--/Assets/tpp/pack/player/fova/plfova_sna0_main1_c52
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c23
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c24
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c27
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c29
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c30
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c35
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c38
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c39
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c42
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c46
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c49
+--/Assets/tpp/pack/player/fova/plfova_sna8_main0_c52
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v23
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v24
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v27
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v29
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v30
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v35
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v38
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v39
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v42
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v46
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v49
+--/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v52
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v23
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v24
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v27
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v29
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v30
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v35
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v38
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v39
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v42
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v46
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v49
+--/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v52
+--thanks HearlessSeph
 
 
 local modelInfoSuffix="_modelInfo"

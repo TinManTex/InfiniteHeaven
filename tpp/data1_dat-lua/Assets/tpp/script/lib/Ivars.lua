@@ -163,6 +163,8 @@ local function MinMaxIvar(name,minSettings,maxSettings,ivarSettings)
   return ivarMin,ivarMax
 end
 
+
+
 local function MissionCheckFree(self,missionCode)
   local missionCode=missionCode or vars.missionCode
   if missionCode==30010 or missionCode==30020 then
@@ -185,6 +187,40 @@ local function MissionCheckMission(self,missionCode)
     return true
   end
   return false
+end
+
+local missionModesAll={
+  "FREE",
+  "MISSION",
+  "MB",
+}
+local missionModeChecks={
+  FREE=MissionCheckFree,
+  MISSION=MissionCheckMission,
+  MB=MissionCheckMb,
+}
+--
+--USAGE
+--MissionModeIvars(
+--  "someIvarName",
+--  {
+--    save=MISSION,
+--    range=this.switchRange,
+--    settingNames="set_switch",  
+--  },
+--  missionModesAll
+--)
+
+local function MissionModeIvars(name,ivarDefine,missionModes)
+  for i,missionMode in ipairs(missionModes)do
+    local ivar={}
+    for k,v in pairs(ivarDefine) do
+      ivar[k]=v
+    end
+    
+    ivar.MissionCheck=missionModeChecks[missionMode]
+    this[name..missionMode]=ivar
+  end
 end
 
 --ivar definitions
@@ -457,7 +493,7 @@ this.mbWarGamesProfile={
       Ivars.mbHostileSoldiers:Set(1,true)
       Ivars.mbEnableLethalActions:Set(0,true)
       Ivars.mbNonStaff:Set(0,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)--DEBUGNOW
+      Ivars.mbEnableFultonAddStaff:Set(0,true)
       Ivars.mbZombies:Set(1,true)
       Ivars.mbEnemyHeli:Set(0,true)
     end,
@@ -763,6 +799,26 @@ this.disableHeliAttack={
   disabled=false,
   disabledReason="item_disabled_subsistence",
   OnSelect=this.DisableOnSubsistence,
+}
+
+--spysearch
+local function RequireRestartMessage(self)
+  if self.setting==1 then
+    InfMenu.PrintLangId"restart_required"
+  end
+end
+--tex WIP OFF not happy with the lack of flexibility as GetLocationParameter is only read once on init, try running DeactivateSpySearch on soldiers, though that may possibly run into some limit.
+this.disableSpySearch={
+  --DEBUGNOW OFF save=GLOBAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=RequireRestartMessage,
+}
+this.disableHerbSearch={
+  --DEBUGNOW OFF save=GLOBAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=RequireRestartMessage,
 }
 
 --mission prep
@@ -1277,6 +1333,8 @@ this.revengeProfile={
       Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
       Ivars.enableMgVsShotgunVariation:Set(0,true)
       Ivars.randomizeSmallCpPowers:Set(0,true)
+      Ivars.disableNoStealthCombatRevengeMission:Set(0,true)
+      Ivars.revengeDecayOnLongMbVisit:Set(0,true)
       --Ivars.changeCpSubTypeFree:Set(0,true)
       --Ivars.changeCpSubTypeForMissions:Set(0,true)
     end,
@@ -1297,6 +1355,8 @@ this.revengeProfile={
       Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
       Ivars.enableMgVsShotgunVariation:Set(1,true)
       Ivars.randomizeSmallCpPowers:Set(1,true)
+      Ivars.disableNoStealthCombatRevengeMission:Set(1,true)
+      Ivars.revengeDecayOnLongMbVisit:Set(1,true)
       --Ivars.changeCpSubTypeFree:Set(1,true)
       --Ivars.changeCpSubTypeForMissions:Set(0,true)
     end,
@@ -1314,6 +1374,20 @@ this.revengeBlockForMissionCount={
 }
 
 this.disableNoRevengeMissions={--WIP
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.revengeProfile,
+}
+
+this.disableNoStealthCombatRevengeMission={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.revengeProfile,
+}
+
+this.revengeDecayOnLongMbVisit={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -1906,7 +1980,7 @@ this.vehiclePatrolEmblemType={
 --<patrol vehicle stuff
 this.enemyHeliPatrol={
   save=MISSION,
-  settings={"NONE","MIN","MID","MAX","ENEMY_PREP"},
+  settings={"NONE","1","3","5","7","ENEMY_PREP"},
   settingNames="enemyHeliPatrolSettingNames",
   MissionCheck=MissionCheckFree,
 }
@@ -2067,6 +2141,25 @@ this.mbEnableOcelot={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+}
+
+this.mbEnablePuppy={
+  save=MISSION,
+  settings={"OFF","MISSING_EYE","NORMAL_EYES"},
+  settingNames="mbEnablePuppySettings",
+  OnChange=function(self)
+    local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
+    if self.setting==0 then
+      gvars.qst_questRepopFlag[puppyQuestIndex]=false
+      gvars.qst_questOpenFlag[puppyQuestIndex]=false
+    else
+      local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
+      gvars.qst_questRepopFlag[puppyQuestIndex]=true
+      gvars.qst_questOpenFlag[puppyQuestIndex]=true
+    end
+    TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
+    TppQuest.UpdateActiveQuest()
+  end
 }
 
 this.mbDontDemoDisableBuddy={
@@ -2288,11 +2381,11 @@ local playerCamoTypeEnums={}
 for n,enum in ipairs(playerCammoTypes)do
   table.insert(playerCamoTypeEnums,PlayerCamoType[enum])
 end
-
+--DEBUGNOW
 this.playerCammoTypes={
   --OFF save=MISSION,
 
-  range={min=0,max=1000},--DEBUGNOW
+  range={min=0,max=1000},
   --DEBUGNOW
   --  settings=playerCammoTypes,
   --  settingsTable=playerCamoTypeEnums,
@@ -2645,8 +2738,7 @@ this.playerHeadgear={--DOC: player appearance.txt
     end
   end,
 }
-
---
+--enemy phases
 this.phaseSettings={
   "PHASE_SNEAK",
   "PHASE_CAUTION",
@@ -2669,6 +2761,10 @@ this.minPhase={
     if self.setting>Ivars.maxPhase:Get() then
       Ivars.maxPhase:Set(self.setting)
     end
+    if Ivars.phaseUpdate:Is(0) then
+      InfMenu.PrintLangId"phase_modification_enabled"
+      Ivars.phaseUpdate:Set(1)
+    end
   end,
 --profile=this.subsistenceProfile,
 }
@@ -2682,6 +2778,10 @@ this.maxPhase={
     if self.setting<Ivars.minPhase:Get() then
       Ivars.minPhase:Set(self.setting)
     end
+    if Ivars.phaseUpdate:Is(0) then
+      InfMenu.PrintLangId"phase_modification_enabled"
+      Ivars.phaseUpdate:Set(1)
+    end
   end,
   profile=this.subsistenceProfile,
 }
@@ -2690,13 +2790,19 @@ this.keepPhase={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  OnChange=function(self)
+    if self.setting>0 and Ivars.phaseUpdate:Is(0) then
+      InfMenu.PrintLangId"phase_modification_enabled"
+      Ivars.phaseUpdate:Set(1)
+    end
+  end,
 }
 
 this.phaseUpdate={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  execChecks={inGame=true,inHeliSpace=false},
+  execCheckTable={inGame=true,inHeliSpace=false},
   execState={
     nextUpdate=0,
     lastPhase=0,
@@ -2726,6 +2832,11 @@ this.printPhaseChanges={
 --
 this.soldierAlertOnHeavyVehicleDamage={
   save=MISSION,
+  settings=this.phaseSettings,
+}
+
+this.cpAlertOnVehicleFulton={
+  --DEBUGNOW WIP save=MISSION,
   settings=this.phaseSettings,
 }
 
@@ -2796,7 +2907,7 @@ this.warpPlayerUpdate={
       InfMenu.menuOn=false
     end
   end,
-  execChecks={inGame=true,inHeliSpace=false},
+  execCheckTable={inGame=true,inHeliSpace=false},
   execState={
     nextUpdate=0,
   },
@@ -2842,7 +2953,7 @@ this.adjustCameraUpdate={
       InfMenu.menuOn=false
     end
   end,
-  execChecks={inGame=true,inHeliSpace=false},
+  execCheckTable={inGame=true},--,inHeliSpace=false},
   execState={
     nextUpdate=0,
   },
@@ -2962,7 +3073,7 @@ this.npcUpdate={--tex NONUSER
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
-  execChecks={inGame=true,inHeliSpace=false},
+  execCheckTable={inGame=true,inHeliSpace=false},
   execState={
     nextUpdate=0,
   },
@@ -2974,7 +3085,7 @@ this.npcHeliUpdate={
   save=MISSION,
   settings={"OFF","UTH","UTH_AND_HP48"},
   settingNames="npcHeliUpdateSettings",
-  execChecks={inGame=true,inHeliSpace=false},
+  execCheckTable={inGame=true,inHeliSpace=false},
   execState={
     nextUpdate=0,
   },
@@ -2990,7 +3101,7 @@ this.heliUpdate={--tex NONUSER, for now, need it alive to pick up pull out
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
-  execChecks={inGame=true,inHeliSpace=false},
+  execCheckTable={inGame=true,inHeliSpace=false},
   execState={
     nextUpdate=0,
   },
@@ -3582,11 +3693,10 @@ function this.PrintSaveVarCount()
 
 end
 
-local numQuestSoldiers=20--SYNC InfInterrogate DEBUGNOW
+local numQuestSoldiers=20--SYNC InfInterrogate
 function this.DeclareSVars()--tex svars are created/cleared on new missions
   return{
-    --{name="inf_repopDiamondCountdown",type=TppScriptVars.TYPE_UINT8,value=this.repopDiamondCountdownMax,save=true,category=TppScriptVars.CATEGORY_MISSION},
-    {name="inf_interCpQuestStatus",arraySize=numQuestSoldiers,type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},--DEBUGNOW
+    {name="inf_interCpQuestStatus",arraySize=numQuestSoldiers,type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},
     nil
   }
 end

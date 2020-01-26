@@ -379,7 +379,6 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     if IsTypeTable(missionTable.enemy.uniqueInterrogation)then
       TppInterrogation.InitUniqueInterrogation(missionTable.enemy.uniqueInterrogation)
     end
-    --InfInspect.PrintInspect(mvars.interTable)--DEBUGNOW
     do
       local routeSets
       if IsTypeTable(missionTable.enemy.routeSets)then
@@ -405,7 +404,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     TppEnemy.SetOccasionalChatList()
     TppEneFova.ApplyUniqueSetting()
     if missionTable.enemy.SetUpEnemy and IsTypeFunc(missionTable.enemy.SetUpEnemy)then
-      missionTable.enemy.SetUpEnemy()
+      missionTable.enemy.SetUpEnemy()      
     end
     if TppMission.IsMissionStart()then
       TppEnemy.RestoreOnMissionStart2()
@@ -463,6 +462,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   end
   TppDemo.UpdateNuclearAbolitionFlag()
   TppQuest.AcquireKeyItemOnMissionStart()
+  InfMain.OnInitializeBottom(missionTable)--tex
   --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize end")--DEBUG
   --SplashScreen.Show(SplashScreen.Create("dbeonin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.1,0)--tex eagle--tex ghetto as 'does it run?' indicator
 end
@@ -586,7 +586,7 @@ end
 local function LoadingPositionFromHeliSpace(nextIsFreeMission,isFreeMission)
   local isGroundStart=false--tex WORKAROUND
   if HasHeliRoute() then
-    --TppPlayer.SetStartStatusRideOnHelicopter()--tex DEBUGNOW broken out for clarity>
+    --TppPlayer.SetStartStatusRideOnHelicopter()--tex <broken out for clarity-v-
     TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.RIDEON_HELICOPTER)
     TppPlayer.ResetInitialPosition()
     TppPlayer.ResetMissionStartPosition()--^

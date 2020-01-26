@@ -30,10 +30,6 @@ Disable Head markers independently from objective/placed markers (markers for ot
 
 Disable Xray marking - buddies that mark still cause the effect though.
 
-Mission Entrance/Exit options:
-
-Start on foot - skip heli ride into mission and start on the ground.
-
 Abort Mission (Return to ACC) added to Mother base pause menu.
 
 "Disable retry", "Game over on combat alert" - to replicate total stealth settings

@@ -1353,7 +1353,7 @@ function this.ExecuteMissionFinalize()
     vars.requestFlagsAboutEquip=255
   end
   TppEnemy.ClearDDParameter()
-  TppRevenge.OnMissionClearOrAbort(currentMissionCode)
+  TppRevenge.OnMissionClearOrAbort(currentMissionCode,true)--tex add isAbort
   if gvars.solface_groupNumber>=4294967295 then
     gvars.solface_groupNumber=0
   else
@@ -2993,8 +2993,8 @@ function this.EstablishedMissionClear()
   this.systemCallbacks.OnEstablishMissionClear(svars.mis_missionClearType)
 end
 function this.OnMissionGameEndFadeOutFinish()
-  local n=this.IsHelicopterSpace(gvars.mis_nextMissionCodeForMissionClear)
-  if not n then
+  local nextIsHeliSpace=this.IsHelicopterSpace(gvars.mis_nextMissionCodeForMissionClear)
+  if not nextIsHeliSpace then
     this.ReserveMissionStartRecoverSoundDemo()
   else
     this.ClearMissionStartRecoverSoundDemo()
@@ -3074,12 +3074,13 @@ function this.OnMissionGameEndFadeOutFinish2nd()
   TppHero.UpdateHero()
   TppCassette.OnEstablishMissionClear()
   TppRanking.UpdateOpenRanking()
-  local n=TppMotherBaseManagement.GetResourceUsableCount{resource="NuclearWaste"}
-  TppRanking.UpdateScore("NuclearDisposeCount",n)
+  local nukeWaste=TppMotherBaseManagement.GetResourceUsableCount{resource="NuclearWaste"}
+  TppRanking.UpdateScore("NuclearDisposeCount",nukeWaste)
   TppRanking.SendCurrentRankingScore()
   do
     local missionCode=this.GetMissionID()
-    if(not this.IsFOBMission(missionCode)and not this.IsFreeMission(missionCode))and not this.IsHelicopterSpace(missionCode)then
+    local allowFree=(missionCode==30010 or missionCode==30020) and Ivars.disableNoStealthCombatRevengeMission:Is(1)--tex
+    if(not this.IsFOBMission(missionCode)and (not this.IsFreeMission(missionCode) or allowFree))and not this.IsHelicopterSpace(missionCode)then--tex added allowFree
       TppRevenge.ReduceRevengePointOnMissionClear(missionCode)
     end
   end
@@ -3087,8 +3088,8 @@ function this.OnMissionGameEndFadeOutFinish2nd()
   if gvars.usingNormalMissionSlot then
     TppStory.FailedRetakeThePlatformIfOpened()
   end
-  local n=this.GetMissionClearType()
-  if(n==TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_ORDER_BOX_DEMO)or(n==TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX)then
+  local missionClearType=this.GetMissionClearType()
+  if(missionClearType==TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_ORDER_BOX_DEMO)or(missionClearType==TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX)then
     TppUiCommand.LoadoutSetMissionRecieveFromFreeToMission()
   end
   TppHero.AnnounceFirstMissionClearHeroPoint()
@@ -3131,12 +3132,13 @@ function this.OnFinishUpdateObjectiveRadio(n)
     this.ShowUpdateObjective(mvars.mis_objectiveSetting)
   end
 end
-function this.ShowUpdateObjective(n)
-  if not IsTypeTable(n)then
+--mvars.mis_objectiveSetting
+function this.ShowUpdateObjective(objectiveSetting)
+  if not IsTypeTable(objectiveSetting)then
     return
   end
-  local i={}
-  for n,s in pairs(n)do
+  local announceLogTable={}
+  for n,s in pairs(objectiveSetting)do
     local objectiveDefine=mvars.mis_missionObjectiveDefine[s]
     local t=not this.IsEnableMissionObjective(s)
     if t then
@@ -3150,34 +3152,34 @@ function this.ShowUpdateObjective(n)
     if objectiveDefine and t then
       this.DisableChildrenObjective(s)
       this._ShowObjective(objectiveDefine,true)
-      local t={isMissionAnnounce=false,subGoalId=nil}
+      local announceInfo={isMissionAnnounce=false,subGoalId=nil}
       if objectiveDefine.announceLog then
-        t.isMissionAnnounce=true
+        announceInfo.isMissionAnnounce=true
         if objectiveDefine.subGoalId then
-          t.subGoalId=objectiveDefine.subGoalId
+          announceInfo.subGoalId=objectiveDefine.subGoalId
         end
-        i[objectiveDefine.announceLog]=t
+        announceLogTable[objectiveDefine.announceLog]=announceInfo
       end
       this.SetMissionObjectiveEnable(s,true)
     end
   end
-  if next(i)then
-    for e=1,#TppUI.ANNOUNCE_LOG_PRIORITY do
-      local n=TppUI.ANNOUNCE_LOG_PRIORITY[e]
-      local e=i[n]
-      if e then
-        if e.isMissionAnnounce then
-          TppUI.ShowAnnounceLog(n)
-          if e.subGoalId and e.subGoalId>0 then
-            TppUI.ShowAnnounceLog("subGoalContent",nil,nil,nil,e.subGoalId)
+  if next(announceLogTable)then
+    for i=1,#TppUI.ANNOUNCE_LOG_PRIORITY do
+      local priority=TppUI.ANNOUNCE_LOG_PRIORITY[i]
+      local announceLogInfo=announceLogTable[priority]
+      if announceLogInfo then
+        if announceLogInfo.isMissionAnnounce then
+          TppUI.ShowAnnounceLog(priority)
+          if announceLogInfo.subGoalId and announceLogInfo.subGoalId>0 then
+            TppUI.ShowAnnounceLog("subGoalContent",nil,nil,nil,announceLogInfo.subGoalId)
           end
         end
-        i[n]=nil
+        announceLogTable[priority]=nil
       end
     end
-    if next(i)then
-      for e,n in pairs(i)do
-        TppUI.ShowAnnounceLog(e)
+    if next(announceLogTable)then
+      for announceId,n in pairs(announceLogTable)do
+        TppUI.ShowAnnounceLog(announceId)
       end
     end
     TppSoundDaemon.PostEvent"sfx_s_terminal_data_fix"
@@ -3324,38 +3326,38 @@ function this.DisableChildrenObjective(s)
     end
   end
 end
-function this.DisableObjective(e)
-  if e.packLabel then
-    if not TppPackList.IsMissionPackLabelList(e.packLabel)then
+function this.DisableObjective(objectiveDefine)
+  if objectiveDefine.packLabel then
+    if not TppPackList.IsMissionPackLabelList(objectiveDefine.packLabel)then
       return
     end
   end
-  if e.gameObjectName then
-    TppMarker.Disable(e.gameObjectName,e.mapRadioName)
+  if objectiveDefine.gameObjectName then
+    TppMarker.Disable(objectiveDefine.gameObjectName,objectiveDefine.mapRadioName)
   end
-  if e.gimmickId then
-    local n,i=TppGimmick.GetGameObjectId(e.gimmickId)
+  if objectiveDefine.gimmickId then
+    local n,i=TppGimmick.GetGameObjectId(objectiveDefine.gimmickId)
     if n then
-      TppMarker.Disable(i,e.mapRadioName)
+      TppMarker.Disable(i,objectiveDefine.mapRadioName)
     end
   end
-  if e.photoId then
-    TppUI.DisableMissionPhoto(e.photoId,e.photoRadioName)
+  if objectiveDefine.photoId then
+    TppUI.DisableMissionPhoto(objectiveDefine.photoId,objectiveDefine.photoRadioName)
   end
-  if e.showEnemyRoutePoints then
-    local e=e.showEnemyRoutePoints.groupIndex
+  if objectiveDefine.showEnemyRoutePoints then
+    local groupIndex=objectiveDefine.showEnemyRoutePoints.groupIndex
     if TppUiCommand.InitEnemyRoutePoints then
-      TppUiCommand.InitEnemyRoutePoints(e)
+      TppUiCommand.InitEnemyRoutePoints(groupIndex)
     end
   end
-  if e.targetBgmCp then
-    TppEnemy.LetCpHasTarget(e.targetBgmCp,false)
+  if objectiveDefine.targetBgmCp then
+    TppEnemy.LetCpHasTarget(objectiveDefine.targetBgmCp,false)
   end
-  if e.missionTask then
-    TppUiCommand.DisableMissionTask(e.missionTask)
+  if objectiveDefine.missionTask then
+    TppUiCommand.DisableMissionTask(objectiveDefine.missionTask)
   end
-  if e.spySearch then
-    TppUI.DisableSpySearch(e.spySearch)
+  if objectiveDefine.spySearch then
+    TppUI.DisableSpySearch(objectiveDefine.spySearch)
   end
 end
 function this.VarSaveOnUpdateCheckPoint(saveBusy)

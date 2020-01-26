@@ -541,7 +541,7 @@ function this.CpNameString(cpName,location)
     return
   end
   local cps=locationCps[languageCode] or locationCps["eng"]
-  return cps[cpName]  
+  return cps[cpName]
 end
 
 function this.PrintLangId(langId)
@@ -593,13 +593,14 @@ function this.CheckActivate(execCheck)
 end
 
 function this.Update(execCheck)
+  --InfInspect.TryFunc(function(execCheck)--DEBUG
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   if not execCheck.inGame then
     this.menuOn = false
     return
   end
-
+  
   if this.menuOn then
     if not this.CheckActivate(execCheck) then
       this.menuOn=false
@@ -607,8 +608,9 @@ function this.Update(execCheck)
       return
     end
   end
-
+  
   if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+    --InfMenu.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
     if this.CheckActivate(execCheck) then
       this.menuOn = not this.menuOn
       if this.menuOn then
@@ -689,6 +691,7 @@ function this.Update(execCheck)
   end--!menuOn
 
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
+  --end,execCheck)--DEBUG
 end
 
 local didWelcome=false
@@ -711,6 +714,59 @@ function this.ModWelcome()
 end
 function this.ModMissionMessage()
   TppUiCommand.AnnounceLogView("ModMissionMessage test")--ADDLANG
+end
+
+this.menuString="MENUSTRINGCLEAR"
+function this.PrintMenu()
+  InfInspect.TryFunc(function()
+    local menuString="MENUSTRING".."START".."\n"
+    for n,item in pairs(InfMenuDefs) do
+      if IsTable(item) then
+        if item.options then--tex is menu
+          local displayString=this.GetSettingString(item)
+          menuString=menuString.."MENUDEF\n"..displayString.."\n"
+          for i,option in ipairs(item.options) do
+            local displayString=this.GetSettingString(option)
+            menuString=menuString..displayString.."\n"
+          end
+        end
+      end
+    end
+    menuString=menuString.."MENUSTRING".."END"
+    --InfMenu.DebugPrint(menuString)--DEBUG
+    this.menuString=menuString
+    this.menustringLength=string.len(menuString)
+    InfMenu.DebugPrint("menuString length ="..this.menustringLength)
+  end)
+end
+function this.GetSettingString(option)
+  local settingText=""
+  local optionSeperator=optionSeperators.equals
+  local settingNames=option.settingNames or option.settings
+  if settingNames then
+    --tex old style direct non localized table
+    if IsTable(settingNames) then
+      if option.setting < 0 or option.setting > #settingNames-1 then
+        settingText="current setting out of settingNames bounds"
+      else
+        --tex lua indexed from 1, but settings from 0
+        settingText=option.setting..":"..settingNames[option.setting+1]
+      end
+    else
+      settingText=this.LangTableString(settingNames,option.setting+1)
+    end
+  elseif IsFunc(option.GetSettingText) then
+    settingText="GetSettingText"--DEBUGNOWtostring(option:GetSettingText())
+  elseif option.isPercent then
+    settingText=option.setting .. "%"
+  elseif option.options~=nil then--tex menu
+    settingText=""
+    optionSeperator=optionSeperators.menu
+  else
+    settingText=tostring(option.setting)
+  end
+  local settingName = option.description or this.LangString(option.name)
+  return settingName--DEBUGNOW..optionSeperator..settingText
 end
 
 return this

@@ -96,6 +96,25 @@ function this.GetLastAddedUserMarkerIndex()
   return highestMarkerIndex
 end
 
+function this.GetMarkerPosition(index)
+  if vars.userMarkerSaveCount==0 then
+    return
+  end
+
+  local markerPos=Vector3(0,0,0)
+  local gameId=vars.userMarkerGameObjId[index]
+
+
+  if gameId==NULL_ID then
+    markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index])
+  else
+    markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+  end
+  
+  return markerPos
+end
+
+
 function this.WarpToUserMarker(index)
   if vars.userMarkerSaveCount==0 then
     return

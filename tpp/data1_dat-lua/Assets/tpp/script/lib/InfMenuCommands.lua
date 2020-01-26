@@ -355,6 +355,27 @@ this.setSelectedCpToMarkerObjectCp={
   end
 }
 
+this.quietMoveToLastMarker={
+  OnChange=function()
+    if vars.buddyType~=BuddyType.QUIET then
+      InfMenu.PrintLangId"buddy_not_quiet"
+      return
+    end
+
+    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    if lastMarkerIndex==nil then
+      InfMenu.DebugPrint("No marker found")--DEBUGNOW ADDLANG
+    else
+      local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+      local gameId={type="TppBuddyQuiet2",index=0}
+      if gameId==NULL_ID then
+        InfMenu.DebugPrint"Can't find TppBuddyQuiet2"--DEBUGNOW
+      else
+        GameObject.SendCommand(gameId, { id="MoveToPosition", position=moveToPosition, rotationY=0})--, index = 99, disableAim = true })
+      end
+    end
+  end
+}
 
 this.printBodyInfo={
   OnChange=function()
@@ -362,12 +383,15 @@ this.printBodyInfo={
   end
 }
 
----
-local toggle1=false
-this.DEBUG_SomeShiz={
+this.DEBUG_PrintMenu={
+  OnChange=function()
+    InfMenu.PrintMenu()
+  end
+}
+
+this.DEBUG_PrintInterrogationInfo={
   OnChange=function()
     InfInspect.TryFunc(function()
-      --DEBUGNOW
       --tex roll back one since warpto advances after it's done
       local index= this.currentWarpIndex-1
       if index==0 then--tex except if there's only 1 in the object list
@@ -395,58 +419,71 @@ this.DEBUG_SomeShiz={
         return
       end
       InfMenu.DebugPrint("quest cpName:"..cpName)
-
-      --local pos,rotQuat=Tpp.GetLocatorByTransform(identifier,key)
-
-      --      local cpName=mvars.ene_cpList[Ivars.selectedCp:Get()]
-      --      if cpName==nil then
-      --        InfMenu.DebugPrint"selectedCp cpName==nil"
-      --      else
-      --        local gameId=GetGameObjectId("TppCommandPost2",cpName)
-      --        if gameId==NULL_ID then
-      --          InfMenu.DebugPrint("Could not find cp "..cpName)
-      --          return
-      --        end
-      --        local cpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-      --        if cpPos==nil then
-      --          InfMenu.DebugPrint"cpPos==nil"
-      --        else
-      --          InfMenu.DebugPrint("cpPos:".. cpPos:GetX()..",".. cpPos:GetY().. ","..cpPos:GetZ())
-      --        end
-
-      -- end
     end)
   end
 }
 
+---
+local toggle1=false
+local index1Min=0
+local index1Max=5
+local index1=index1Min
+this.DEBUG_SomeShiz={
+  OnChange=function()
+    InfInspect.TryFunc(function()
 
+        --DEBUGNOW
+        local alphaTable={"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"}
+        local allPosString="POSSTRING"..index1..":\n"
+        local maxMarkers=5
+        for index=0,maxMarkers-1 do
+          local x=vars.userMarkerPosX[index]
+          local y=vars.userMarkerPosY[index]
+          local z=vars.userMarkerPosZ[index]
+          local posString=string.format("%.2f,%.2f,%.2f",x,y,z)
+          local addFlag=vars.userMarkerAddFlag[index]
+          local letter=alphaTable[addFlag]
+
+          allPosString=allPosString..letter..":"..posString.."\n"
+        end
+        allPosString=allPosString.."END\n"
+        InfMenu.DebugPrint(allPosString)
+
+        InfMenu.DebugPrint("index1:"..index1)
+        index1=index1+1
+        if index1>index1Max then
+          index1=index1Min
+        end
+    end)
+  end
+}
 
 local index2=1
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
       --DEBUGNOW
-      --      InfMenu.DebugPrint"GiveInterCpQuestReward"
-      --InfInterrogation.GiveInterCpQuestReward()
-      if f30050_sequence then
+      --InfMenu.DebugPrint(this.stringTest)
 
+      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+      if lastMarkerIndex==nil then
+        InfMenu.DebugPrint("lastMarkerIndex==nil")
+      else
+        local moveToPosition=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
 
-        InfMenu.DebugPrint("gvars.pazLookedPictureCount:"..tostring(gvars.pazLookedPictureCount)..  " GetPlayerHasPictureNum:"..tostring(f30050_sequence.GetPlayerHasPictureNum()))
-        if TppMotherBaseManagement.IsGotDataBase{ dataBaseId=TppMotherBaseManagementConst.PHOTO_1010 } then
-          InfMenu.DebugPrint"has PHOTO_1010"
+        local buddyHorseId=GameObject.GetGameObjectIdByIndex("TppHorse2",0)
+        if buddyHorseId==GameObject.NULL_ID then
         else
-          InfMenu.DebugPrint"does not have PHOTO_1010"
+
+          local horsePos = GameObject.SendCommand(buddyHorseId,{id="GetPosition"})
+
+          local command={id="SetCallHorse",
+            startPosition=horsePos,
+            goalPosition=moveToPosition
+          }
+          GameObject.SendCommand(buddyHorseId,command)
         end
       end
-
-      InfMain.PrintMoraleInfo()
-
-      --      SubtitlesCommand.DisplayText("testing 1 2 3 doooop","Default",3e3)
-      --      SubtitlesCommand.Display("testing","Default",3e3)
-      --      SubtitlesCommand.Display("enqt1000_1f1e10","Default",3e3)
-      --      SubtitlesCommand.Display("reward_307","Default")
-      --      SubtitlesCommand.DisplayUiLang("enqt1000_1f1e10","Default",3000)
-      --      SubtitlesCommand.DisplayUiLang("reward_307","Default",3000)
     end)
   end
 }
@@ -455,9 +492,37 @@ local index3=1
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
-
-
+       
+                local camPos=InfCamera.ReadPosition"FreeCam"
+                InfMenu.DebugPrint("cam pos:".. camPos:GetX()..",".. camPos:GetY().. ","..camPos:GetZ())
+                --InfMenu.DebugPrint("gg:"..tostring(mbdvc_map_location_parameter.gg))
       end)
+  end
+}
+
+this.DEBUG_PrintRevengePoints={
+  OnChange=function()
+    InfInspect.TryFunc(function()
+      --tex from TppRevenge. , cutting out dummy, max, and reordering to ui order
+      local REVENGE_TYPE_NAME={"FULTON","HEAD_SHOT","STEALTH","COMBAT","NIGHT_S","NIGHT_C","LONG_RANGE","VEHICLE","TRANQ","SMOKE","M_STEALTH","M_COMBAT"}
+
+      --      InfMenu.DebugPrint"Revenge Levels"
+      local revengeLevelsStr=""
+      --      for i,revengeTypeName in ipairs(REVENGE_TYPE_NAME)do
+      --        revengeLevelsStr=revengeLevelsStr..revengeTypeName..":"..tostring(TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE[revengeTypeName]))
+      --        revengeLevelsStr=revengeLevelsStr.." "
+      --      end
+      --      InfMenu.DebugPrint(revengeLevelsStr)
+
+      InfMenu.DebugPrint"Revenge points"
+      local revengeLevelsStr=""
+      for i,revengeTypeName in ipairs(REVENGE_TYPE_NAME)do
+        revengeLevelsStr=revengeLevelsStr..revengeTypeName..":"..tostring(TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE[revengeTypeName]))
+        revengeLevelsStr=revengeLevelsStr.." "
+      end
+      InfMenu.DebugPrint(revengeLevelsStr)
+
+    end)
   end
 }
 
@@ -838,7 +903,7 @@ this.DEBUG_InspectAllMenus={
       elseif menu.name==nil then
         InfMenu.DebugPrint("menu.name==nil at index "..n)
       else
-        InfMenu.DebugPrint(InfMenu.PrintLangId(menu.name))
+        InfMenu.PrintLangId(menu.name)
       end
     end
   end,
@@ -852,10 +917,10 @@ this.DEBUG_ClearAnnounceLog={
 }
 
 this.currentWarpIndex=1
-local singleStep=true
+local singleStep=false
 this.DEBUG_WarpToObject={
   OnChange=function()
-
+    InfInspect.TryFunc(function()
 
     --local objectList=InfMain.reserveSoldierNames
 
@@ -913,8 +978,20 @@ this.DEBUG_WarpToObject={
     --    }
 
 
-    local objectList=InfInterrogation.interCpQuestSoldiers
+    --local objectList=InfInterrogation.interCpQuestSoldiers
 
+    local objectList={
+      "wkr_WalkerGear_0000",
+      "wkr_WalkerGear_0001",
+      "wkr_WalkerGear_0002",
+      "wkr_WalkerGear_0003",
+      "wkr_WalkerGear_0004",
+      "wkr_WalkerGear_0005",
+      "wkr_WalkerGear_0006",
+      "wkr_WalkerGear_0007",
+      "wkr_WalkerGear_0008",
+      "wkr_WalkerGear_0009",
+    }
 
 
     if objectList==nil then
@@ -955,14 +1032,15 @@ this.DEBUG_WarpToObject={
 
     Step()
 
-    --    while not singleStep and (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
-    --      Step()
-    --      --coroutine.yeild()
-    --    end
+--    while not singleStep and (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
+--      Step()
+--      --coroutine.yeild()
+--    end
 
     if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
       TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
     end
+    end)
   end,
 }
 

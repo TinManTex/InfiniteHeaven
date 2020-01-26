@@ -50,8 +50,9 @@ this.sideOpsMenu={
 }
 
 this.motherBaseShowCharactersMenu={
-  options={    
+  options={
     Ivars.mbEnableOcelot,
+    Ivars.mbEnablePuppy,
     Ivars.mbShowCodeTalker,
     Ivars.mbShowEli,
     InfMenuCommands.resetPaz,
@@ -192,6 +193,8 @@ this.revengeSystemMenu={
     Ivars.allowHeavyArmorInFreeRoam,
     Ivars.allowHeavyArmorInAllMissions,
     Ivars.disableMissionsWeaponRestriction,
+    Ivars.disableNoStealthCombatRevengeMission,
+    Ivars.revengeDecayOnLongMbVisit,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP TODO
     Ivars.allowHeadGearCombo,
     Ivars.balanceHeadGear,
@@ -324,8 +327,9 @@ this.phaseMenu={
     Ivars.keepPhase,
     Ivars.phaseUpdateRate,
     Ivars.phaseUpdateRange,
-    Ivars.soldierAlertOnHeavyVehicleDamage,--tex this and
-    Ivars.printPhaseChanges,--tex this don't rely on phaseUpdate
+    Ivars.soldierAlertOnHeavyVehicleDamage,--tex these>
+    --Ivars.cpAlertOnVehicleFulton,--WIP, NOTE: ivar save is disabled
+    Ivars.printPhaseChanges,--<don't rely on phaseUpdate
   },
   disabled=false,
   disabledReason="item_disabled_subsistence",
@@ -403,8 +407,9 @@ this.userMarkerMenu={
     InfMenuCommands.warpToUserMarker,
     InfMenuCommands.printLatestUserMarker,
     InfMenuCommands.printUserMarkers,
-  --    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
-  --    Ivars.selectedCp,--DEBUG
+    --    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
+    --    Ivars.selectedCp,--DEBUG
+    InfMenuCommands.quietMoveToLastMarker,
   }
 }
 
@@ -445,6 +450,8 @@ this.playerRestrictionsMenu={
     Ivars.abortMenuItemControl,
     Ivars.disableRetry,
     Ivars.gameOverOnDiscovery,
+    --WIP OFF Ivars.disableSpySearch,
+    --WIP OFF Ivars.disableHerbSearch,
     this.markersMenu,
     this.missionPrepRestrictionsMenu,
     this.disableSupportMenuMenu,
@@ -460,9 +467,11 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
+--    InfMenuCommands.DEBUG_PrintMenu,
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     --    this.fovaModMenu,--DEBUG
     --    this.appearanceMenu,--DEBUG
     --Ivars.vehiclePatrolPaintType,
@@ -533,11 +542,11 @@ this.inMissionMenu={
     --    this.fovaModMenu,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.appearanceMenu,--DEBUG
---    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+--        InfMenuCommands.DEBUG_WarpToObject,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
---    --    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
+    --    --    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
     --InfMenuCommands.showPosition,--DEBUG
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG

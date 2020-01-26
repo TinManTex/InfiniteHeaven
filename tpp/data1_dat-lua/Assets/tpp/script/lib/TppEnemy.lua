@@ -1895,8 +1895,8 @@ end
 function this.RequestLoadWalkerGearEquip()
   TppEquip.RequestLoadToEquipMissionBlock{TppEquip.EQP_WP_West_hg_010}
 end
-function this.SetSoldier2CommonPackageLabel(e)
-  mvars.ene_soldier2CommonBlockPackageLabel=e
+function this.SetSoldier2CommonPackageLabel(label)
+  mvars.ene_soldier2CommonBlockPackageLabel=label
 end
 function this.AssignUniqueStaffType(info)
   if not IsTypeTable(info)then
@@ -2077,28 +2077,28 @@ function this.GetAllHostages()
   return hostageIdList
 end
 function this.GetAllActiveEnemyWalkerGear()
-  local r={}
-  local tppCommonWalkerGear=1
+  local walkerGearIds={}
+  local maxInstances=1
   local i=0
-  while i<tppCommonWalkerGear do
-    local t=GetGameObjectIdByIndex("TppCommonWalkerGear2",i)
-    if t==NULL_ID then
+  while i<maxInstances do
+    local walkerGearId=GetGameObjectIdByIndex("TppCommonWalkerGear2",i)
+    if walkerGearId==NULL_ID then
       break
     end
-    if tppCommonWalkerGear==1 then
-      tppCommonWalkerGear=SendCommand({type="TppCommonWalkerGear2"},{id="GetMaxInstanceCount"})
-      if not tppCommonWalkerGear or tppCommonWalkerGear<1 then
+    if maxInstances==1 then
+      maxInstances=SendCommand({type="TppCommonWalkerGear2"},{id="GetMaxInstanceCount"})
+      if not maxInstances or maxInstances<1 then
         break
       end
     end
-    local isBroken=SendCommand(t,{id="IsBroken"})
-    local isFultonCaptured=SendCommand(t,{id="IsFultonCaptured"})
+    local isBroken=SendCommand(walkerGearId,{id="IsBroken"})
+    local isFultonCaptured=SendCommand(walkerGearId,{id="IsFultonCaptured"})
     if(isBroken==false)and(isFultonCaptured==false)then
-      table.insert(r,t)
+      table.insert(walkerGearIds,walkerGearId)
     end
     i=i+1
   end
-  return r
+  return walkerGearIds
 end
 function this.SetChildTargets(n)
   mvars.ene_childTargetList={}
@@ -2110,28 +2110,28 @@ function this.SetChildTargets(n)
     end
   end
 end
-function this.SetTargetOption(e)
-  local e=GetGameObjectId(e)
-  if e==NULL_ID then
+function this.SetTargetOption(targetName)
+  local gameId=GetGameObjectId(targetName)
+  if gameId==NULL_ID then
   else
-    SendCommand(e,{id="SetVip"})
-    SendCommand(e,{id="SetForceRealize"})
-    SendCommand(e,{id="SetIgnoreSupportBlastInUnreal",enabled=true})
+    SendCommand(gameId,{id="SetVip"})
+    SendCommand(gameId,{id="SetForceRealize"})
+    SendCommand(gameId,{id="SetIgnoreSupportBlastInUnreal",enabled=true})
   end
 end
-function this.LetCpHasTarget(e,t)
-  local n
-  if IsTypeNumber(e)then
-    n=e
-  elseif IsTypeString(e)then
-    n=GetGameObjectId(e)
+function this.LetCpHasTarget(cp,enable)
+  local cpId
+  if IsTypeNumber(cp)then
+    cpId=cp
+  elseif IsTypeString(cp)then
+    cpId=GetGameObjectId(cp)
   else
     return
   end
-  if n==NULL_ID then
+  if cpId==NULL_ID then
     return
   end
-  GameObject.SendCommand(n,{id="SetCpMissionTarget",enable=t})
+  GameObject.SendCommand(cpId,{id="SetCpMissionTarget",enable=enable})
 end
 function this.GetPhase(cpName)
   local cpId=GetGameObjectId(cpName)
@@ -3345,19 +3345,21 @@ function this.GetCpIntelTrapTable()
   return mvars.ene_cpIntelTrapTable
 end
 function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
+
   local SetForTime=function(cpId,timeOfDay)
     if not timeOfDay then
       timeOfDay=TppClock.GetTimeOfDayIncludeMidNight()
     end
-    local e="sneak"..("_"..timeOfDay)
+    local routeSetType="sneak"..("_"..timeOfDay)
     if cpId then
       local n=not next(mvars.ene_routeSets[cpId].sneak_midnight)
-      if e=="sneak_midnight"and n then
-        e="sneak_night"
+      if routeSetType=="sneak_midnight"and n then
+        routeSetType="sneak_night"
       end
     end
-    return e
+    return routeSetType
   end
+  
   if routeTypeStr32==0 then
     routeTypeStr32=false
   end
@@ -3533,92 +3535,95 @@ function this.RegisterRouteAnimation()
     TppRouteAnimationCollector.RegisterGaniPath(mvars.ene_routeAnimationGaniPathTable)
   end
 end
-function this.MergeRouteSetDefine(o)
-  local function i(n,t)
-    if t.priority then
-      mvars.ene_routeSetsDefine[n].priority={}
-      mvars.ene_routeSetsDefine[n].fixedShiftChangeGroup={}
-      for e=1,#(t.priority)do
-        mvars.ene_routeSetsDefine[n].priority[e]=t.priority[e]
+function this.MergeRouteSetDefine(routeSets)
+  local function RENsomeFunc(cpName,routeSet)
+    if routeSet.priority then
+      mvars.ene_routeSetsDefine[cpName].priority={}
+      mvars.ene_routeSetsDefine[cpName].fixedShiftChangeGroup={}
+      for e=1,#(routeSet.priority)do
+        mvars.ene_routeSetsDefine[cpName].priority[e]=routeSet.priority[e]
       end
     end
-    if t.fixedShiftChangeGroup then
-      for e=1,#(t.fixedShiftChangeGroup)do
-        mvars.ene_routeSetsDefine[n].fixedShiftChangeGroup[e]=t.fixedShiftChangeGroup[e]
+    if routeSet.fixedShiftChangeGroup then
+      for e=1,#(routeSet.fixedShiftChangeGroup)do
+        mvars.ene_routeSetsDefine[cpName].fixedShiftChangeGroup[e]=routeSet.fixedShiftChangeGroup[e]
       end
     end
-    for a,e in pairs(this.ROUTE_SET_TYPES)do
-      mvars.ene_routeSetsDefine[n][e]=mvars.ene_routeSetsDefine[n][e]or{}
-      if t[e]then
-        for t,a in pairs(t[e])do
-          mvars.ene_routeSetsDefine[n][e][t]={}
+    for i,routeSetType in pairs(this.ROUTE_SET_TYPES)do
+      mvars.ene_routeSetsDefine[cpName][routeSetType]=mvars.ene_routeSetsDefine[cpName][routeSetType]or{}
+      if routeSet[routeSetType]then
+        for t,a in pairs(routeSet[routeSetType])do
+          mvars.ene_routeSetsDefine[cpName][routeSetType][t]={}
           if IsTypeTable(a)then
             for i,a in ipairs(a)do
-              mvars.ene_routeSetsDefine[n][e][t][i]=a
+              mvars.ene_routeSetsDefine[cpName][routeSetType][t][i]=a
             end
           end
         end
       end
     end
   end
-  for e,t in pairs(o)do
-    mvars.ene_routeSetsDefine[e]=mvars.ene_routeSetsDefine[e]or{}
-    local t=t
-    if t.walkergearpark then
-      local e=GetGameObjectId(e)SendCommand(e,{id="SetWalkerGearParkRoute",routes=t.walkergearpark})
+  
+  for cpName,routeSet in pairs(routeSets)do
+    mvars.ene_routeSetsDefine[cpName]=mvars.ene_routeSetsDefine[cpName]or{}
+    local _routeSet=routeSet
+    if _routeSet.walkergearpark then
+      local cpId=GetGameObjectId(cpName)
+      SendCommand(cpId,{id="SetWalkerGearParkRoute",routes=_routeSet.walkergearpark})
     end
     if mvars.loc_locationCommonRouteSets then
-      if mvars.loc_locationCommonRouteSets[e]then
-        if mvars.loc_locationCommonRouteSets[e].outofrain then
-          local a=GetGameObjectId(e)
-          if t.outofrain then
-            SendCommand(a,{id="SetOutOfRainRoute",routes=t.outofrain})
+      if mvars.loc_locationCommonRouteSets[cpName]then
+        if mvars.loc_locationCommonRouteSets[cpName].outofrain then
+          local cpId=GetGameObjectId(cpName)
+          if _routeSet.outofrain then
+            SendCommand(cpId,{id="SetOutOfRainRoute",routes=_routeSet.outofrain})
           else
-            SendCommand(a,{id="SetOutOfRainRoute",routes=mvars.loc_locationCommonRouteSets[e].outofrain})
+            SendCommand(cpId,{id="SetOutOfRainRoute",routes=mvars.loc_locationCommonRouteSets[cpName].outofrain})
           end
         end
       end
-      if t.USE_COMMON_ROUTE_SETS then
-        if mvars.loc_locationCommonRouteSets[e]then
-          i(e,mvars.loc_locationCommonRouteSets[e])
+      if _routeSet.USE_COMMON_ROUTE_SETS then
+        if mvars.loc_locationCommonRouteSets[cpName]then
+          RENsomeFunc(cpName,mvars.loc_locationCommonRouteSets[cpName])
         end
       end
     end
-    i(e,t)
+    RENsomeFunc(cpName,_routeSet)
   end
 end
-function this.UpdateRouteSet(n)
-  for n,t in pairs(n)do
-    local n=GetGameObjectId(n)
-    if n==NULL_ID then
+--mvars.ene_routeSetsDefine
+function this.UpdateRouteSet(routeSets)
+  for cpName,trouteSet in pairs(routeSets)do
+    local cpId=GetGameObjectId(cpName)
+    if cpId==NULL_ID then
     else
-      mvars.ene_routeSets[n]=mvars.ene_routeSets[n]or{}
-      if t.priority then
-        mvars.ene_routeSetsPriority[n]={}
-        mvars.ene_routeSetsFixedShiftChange[n]={}
-        for e=1,#(t.priority)do
-          mvars.ene_routeSetsPriority[n][e]=StrCode32(t.priority[e])
+      mvars.ene_routeSets[cpId]=mvars.ene_routeSets[cpId]or{}
+      if trouteSet.priority then
+        mvars.ene_routeSetsPriority[cpId]={}
+        mvars.ene_routeSetsFixedShiftChange[cpId]={}
+        for e=1,#(trouteSet.priority)do
+          mvars.ene_routeSetsPriority[cpId][e]=StrCode32(trouteSet.priority[e])
         end
       end
-      if t.fixedShiftChangeGroup then
-        for e=1,#(t.fixedShiftChangeGroup)do
-          mvars.ene_routeSetsFixedShiftChange[n][StrCode32(t.fixedShiftChangeGroup[e])]=e
+      if trouteSet.fixedShiftChangeGroup then
+        for e=1,#(trouteSet.fixedShiftChangeGroup)do
+          mvars.ene_routeSetsFixedShiftChange[cpId][StrCode32(trouteSet.fixedShiftChangeGroup[e])]=e
         end
       end
-      if mvars.ene_noShiftChangeGroupSetting[n]then
-        for t,e in pairs(mvars.ene_noShiftChangeGroupSetting[n])do
-          mvars.ene_routeSetsFixedShiftChange[n][t]=e
+      if mvars.ene_noShiftChangeGroupSetting[cpId]then
+        for t,e in pairs(mvars.ene_noShiftChangeGroupSetting[cpId])do
+          mvars.ene_routeSetsFixedShiftChange[cpId][t]=e
         end
       end
       for a,e in pairs(this.ROUTE_SET_TYPES)do
-        mvars.ene_routeSets[n][e]=mvars.ene_routeSets[n][e]or{}
-        if t[e]then
-          for t,a in pairs(t[e])do
-            mvars.ene_routeSets[n][e][StrCode32(t)]=mvars.ene_routeSets[n][e][StrCode32(t)]or{}
+        mvars.ene_routeSets[cpId][e]=mvars.ene_routeSets[cpId][e]or{}
+        if trouteSet[e]then
+          for t,a in pairs(trouteSet[e])do
+            mvars.ene_routeSets[cpId][e][StrCode32(t)]=mvars.ene_routeSets[cpId][e][StrCode32(t)]or{}
             if type(a)=="number"then
             else
               for a,i in ipairs(a)do
-                mvars.ene_routeSets[n][e][StrCode32(t)][a]=i
+                mvars.ene_routeSets[cpId][e][StrCode32(t)][a]=i
               end
             end
           end
@@ -3627,9 +3632,10 @@ function this.UpdateRouteSet(n)
     end
   end
 end
-function this.RegisterRouteSet(n)
+--missionTable.enemy.routeSets
+function this.RegisterRouteSet(routeSets)
   mvars.ene_routeSetsDefine={}
-  this.MergeRouteSetDefine(n)
+  this.MergeRouteSetDefine(routeSets)
   mvars.ene_routeSets={}
   mvars.ene_routeSetsPriority={}
   mvars.ene_routeSetsFixedShiftChange={}
@@ -4505,8 +4511,8 @@ function this.NPCEntryPointSetting(settings)
   end
 end
 function this.SetupQuestEnemy()
-  local t="quest_cp"
-  local n="gt_quest_0000"
+  local questCp="quest_cp"
+  local questLocatorSetName="gt_quest_0000"
   if mvars.ene_soldierDefine.quest_cp==nil then
     return
   end
@@ -4516,7 +4522,7 @@ function this.SetupQuestEnemy()
       GameObject.SendCommand(soldierId,{id="SetEnabled",enabled=false})
     end
   end
-  TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=t,locatorSetName=n}
+  TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=questCp,locatorSetName=questLocatorSetName}
 end
 function this.OnAllocateQuest(body,face,a)
   local function SetAndConvertExtendFova(body,face)

@@ -209,7 +209,7 @@ function this.UnregistAnimalOptionalRadio()
     mvars.FreeHeliRadio_animalRadioGroup=nil
   end
 end
-function this.OnEnterCpIntelTrap(n)
+function this.OnEnterCpIntelTrap(cpName)
   if not mvars.FreeHeliRadio_addOptionRadioCount then
     return
   end
@@ -220,9 +220,9 @@ function this.OnEnterCpIntelTrap(n)
   this._RegisterOptionRadio"f2000_oprg0175"
   if TppClock.GetTimeOfDay()=="night"then
     this._RegisterOptionRadio"f2000_oprg0165"
-    else
+  else
     this._RegisterOptionRadio"f2000_oprg0155"
-    end
+  end
 end
 function this.OnExitCpIntelTrap(n)
   if not mvars.FreeHeliRadio_addOptionRadioCount then
@@ -234,7 +234,7 @@ function this.OnExitCpIntelTrap(n)
   this._UnregisterOptionRadio"f2000_oprg0175"
   this._UnregisterOptionRadio"f2000_oprg0165"
   this._UnregisterOptionRadio"f2000_oprg0155"
-  end
+end
 function this.TryPandemicStart()
   local n=false
   if not TppTerminal.IsNeedPlayPandemicTutorialRadio()then
@@ -317,6 +317,7 @@ function this._IsRegistOptionRadio(e)
   return mvars.FreeHeliRadio_addOptionRadioCount[e]
 end
 function this._IsTimeOfDay()
-  local n=TppClock.GetTime"time"return(n>=this.DAY_TIME)and(n<=this.NIGHT_TIME)
+  local time=TppClock.GetTime"time"
+  return(time>=this.DAY_TIME)and(time<=this.NIGHT_TIME)
 end
 return this

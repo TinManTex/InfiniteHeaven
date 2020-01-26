@@ -554,10 +554,10 @@ function this.OnMarking(i,i,n,E)
     this.PlayTutorialRadioOnly"f1000_rtrg4620"
     end
 end
-function this.OnFultonRecovered(T)
-  local n=GameObject.GetTypeIndex(T)
-  if n==TppGameObject.GAME_OBJECT_TYPE_VEHICLE then
-    if T~=GameObject.CreateGameObjectId("TppVehicle2",0)then
+function this.OnFultonRecovered(gameId)
+  local typeIndex=GameObject.GetTypeIndex(gameId)
+  if typeIndex==TppGameObject.GAME_OBJECT_TYPE_VEHICLE then
+    if gameId~=GameObject.CreateGameObjectId("TppVehicle2",0)then
       this.PlayTutorialRadioOnly("f1000_rtrg4540",{delayTime="long"})
     end
   end

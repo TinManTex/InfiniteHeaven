@@ -1143,11 +1143,13 @@ mtbs_enemy.SetEnemyLocationType = function ()
   if EnemyType ~= nil then
     local gameObjectId = { type="TppSoldier2" }
 
-    --tex> the helmet model that pops off seems to be in-engine coded to soldier type (and also requires the relevant fpk), even though I override soldier type during soldier setup it's somewhere after this set command and there--DEBUGNOW
+    --tex> the helmet model that pops off seems to be in-engine coded to soldier type (and also requires the relevant fpk), 
+    --even though I override soldier type during soldier setup it's somewhere after this set command and there--DEBUGNOW
+    --it also controls language, so bypassing it to keep soldier salute callouts
     if InfMain.IsDDBodyEquip() then
       local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
       local soldierType=EnemyType.TYPE_DD
-      if bodyInfo and bodyInfo.soldierSubType then
+      if bodyInfo and bodyInfo.soldierSubType and Ivars.mbWarGamesProfile:Is()>0 then--DEBUGNOW
         soldierType=InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
       end
       local command = { id = "SetSoldier2Type", type = soldierType }

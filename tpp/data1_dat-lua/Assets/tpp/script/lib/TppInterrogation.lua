@@ -1,4 +1,3 @@
--- DOBUILD: 1 --DEBUGNOW
 --TppInterrogation.lua
 local this={}
 local StrCode32=Fox.StrCode32
@@ -175,7 +174,6 @@ function this.AddHighInterrogation(cpId,interrTable)
     return
   end
   if IsTypeTable(mvars.interTable[cpId].layer.high)==false then
-    InfMenu.DebugPrint("no high layer for cpid"..cpId)--DEBUGNOW
     return
   end
   for i,addInterrInfo in pairs(interrTable)do
@@ -265,14 +263,6 @@ function this.InitInterrogation(interrogationTable)
           mvars.interTable[cpId].layer[layerName][i].func=interrInfo.func
         end
       end
-
-      --tex TODO KLUDGE, cant actually see how it's reset normally,
-      --but it doesn't seem to trigger unless I do
-      --also there seems to be only one actual .normal interrogation used in one mission, unless the generic interrogation uses the .normal layer
-      --and doing it this way actually resets the save vars
-      if Ivars.enableInfInterrogation:Is(1) and(vars.missionCode~=30010 or vars.missionCode~=30020) then
-        this.ResetFlagNormal(cpId)--DEBUGNOW
-      end--<
     end
   end
 end
@@ -306,7 +296,6 @@ function this._OnMapUpdate()
   TppUI.ShowAnnounceLog"updateMap"
 end
 function this._OnInterrogation(soldierId,cpId,allowCollectionInterr)
-  --InfMenu.DebugPrint("_OnInterrogation RENsomeInt:"..tostring(allowCollectionInterr))--DEBUG
   if allowCollectionInterr>0 then
   end
   if mvars.questTable~=nil then
@@ -326,8 +315,6 @@ function this._OnInterrogation(soldierId,cpId,allowCollectionInterr)
         end
       end
     end
-  else
-  --InfMenu.DebugPrint"uniqueInterTable==nil"--DEBUG
   end
   local interrInfo=this._SelectInterrogation(cpId,allowCollectionInterr)
   if interrInfo==nil then
@@ -336,14 +323,11 @@ function this._OnInterrogation(soldierId,cpId,allowCollectionInterr)
   this._AssignInterrogation(cpId,interrInfo.name,interrInfo.index)
 end
 function this._OnInterrogationEnd(soldierId,cpId,strCodeName,index)
-  --InfMenu.DebugPrint("_OnInterrogationEnd name:"..strCodeName.." index:"..index)--DEBUG
-  InfInspect.TryFunc(function()--DEBUGNOW
-    if index==0 then
-      return
+  if index==0 then
+    return
   end
   local rangedIndex=index
   if rangedIndex>96 then
-    --InfMenu.DebugPrint("undex unique >96")--DEBUG
     rangedIndex=rangedIndex-96
     local interrName=false
     for i,interrInfo in pairs(mvars.questTable.unique)do
@@ -358,7 +342,6 @@ function this._OnInterrogationEnd(soldierId,cpId,strCodeName,index)
     end
   end
   if rangedIndex>64 then
-    --InfMenu.DebugPrint("undex uniquenamed >64")--DEBUG
     rangedIndex=rangedIndex-64
     local interrName=false
     for i,interrInfo in pairs(mvars.uniqueInterTable.unique)do
@@ -373,46 +356,37 @@ function this._OnInterrogationEnd(soldierId,cpId,strCodeName,index)
     end
   end
   if mvars.interTable[cpId]==nil then
-    --InfMenu.DebugPrint("mvars.interTable[cpId]==nil")--DEBUG
     return
   end
   local cpInterrIndex=mvars.interTable[cpId].index
-  --InfMenu.DebugPrint("rangedIndex cp:"..rangedIndex)--DEBUG
   if rangedIndex>32 then
-    --InfMenu.DebugPrint("index high")--DEBUG
     rangedIndex=rangedIndex-32
     local interrName=false
-    --InfInspect.PrintInspect(mvars.interTable[cpId].layer.high)--DEBUG
     for i,interrInfo in pairs(mvars.interTable[cpId].layer.high)do
       if i==rangedIndex then
         interrName=interrInfo.name
       end
     end
     if interrName==false then
-    --InfMenu.DebugPrint("interrName==false")--DEBUG
     else
       mvars.interTable[cpId].layer.high[rangedIndex].func(soldierId,cpId,interrName)
     end
     local svarBitField=svars.InterrogationHigh[rangedIndex]
     svars.InterrogationHigh[rangedIndex]=bit.band(svarBitField,bit.bnot(bit.lshift(1,rangedIndex-1)))
   else
-    --InfMenu.DebugPrint("index normal")--DEBUG
     local interrName=false
     for i,interrInfo in pairs(mvars.interTable[cpId].layer.normal)do
       if i==rangedIndex then
         interrName=interrInfo.name
-        --InfMenu.DebugPrint("interrname "..interrName)--DEBUG
       end
     end
     if interrName==false then
-    --InfMenu.DebugPrint("interrname not found")--DEBUG
     else
       mvars.interTable[cpId].layer.normal[rangedIndex].func(soldierId,cpId,interrName)
     end
     local svarBitField=svars.InterrogationNormal[cpInterrIndex]
     svars.InterrogationNormal[cpInterrIndex]=bit.band(svars.InterrogationNormal[cpInterrIndex],bit.bnot(bit.lshift(1,rangedIndex-1)))
   end
-  end)--DEBUGNOW
 end
 function this._AssignInterrogation(gameId,messageId,index)
   SendCommand(gameId,{id="AssignInterrogation",messageId=messageId,index=index})
@@ -422,7 +396,6 @@ function this._AssignInterrogationCollection(gameId)
 end
 function this._SelectInterrogation(cpId,allowCollectionInterr)
   if mvars.interTable==nil then
-    --InfMenu.DebugPrint("mvars.interTable==nil")--DEBUG
     if allowCollectionInterr>0 then
       this._AssignInterrogationCollection(cpId)
       return nil
@@ -430,7 +403,6 @@ function this._SelectInterrogation(cpId,allowCollectionInterr)
     return{index=0,name=0}
   end
   if mvars.interTable[cpId]==nil then
-    --InfMenu.DebugPrint("mvars.interTable[cpId]==nil")--DEBUG
     if allowCollectionInterr>0 then
       this._AssignInterrogationCollection(cpId)
       return nil
@@ -439,17 +411,14 @@ function this._SelectInterrogation(cpId,allowCollectionInterr)
   end
   local cpInterrIndex=mvars.interTable[cpId].index
   for index,interrInfo in pairs(mvars.interTable[cpId].layer.high)do
-    InfInspect.PrintInspect(interrInfo)--DEBUGNOW
     local bandDone=bit.band(svars.InterrogationHigh[cpInterrIndex],bit.lshift(1,index-1))
     if bandDone~=0 then
-      --InfMenu.DebugPrint"interr high"--DEBUG
       return{index=index+32,name=interrInfo.name}
     end
   end
   if allowCollectionInterr>0 then
     local rnd=math.random(1,10)
     if rnd>=5 then
-      --InfMenu.DebugPrint"_AssignInterrogationCollection rnd"--DEBUG
       this._AssignInterrogationCollection(cpId)
       return nil
     end
@@ -461,10 +430,8 @@ function this._SelectInterrogation(cpId,allowCollectionInterr)
   local rnd=math.random(1,maxNormal)
   for index,interrInfo in pairs(mvars.interTable[cpId].layer.normal)do
     if index>=rnd then
-      --InfMenu.DebugPrint"interr normal index>=rnd"--DEBUG
       local bandDone=bit.band(svars.InterrogationNormal[cpInterrIndex],bit.lshift(1,index-1))
       if bandDone~=0 then
-        --InfMenu.DebugPrint"interr normal rnd"--DEBUG
         return{index=index,name=interrInfo.name}
       end
     end
@@ -472,12 +439,10 @@ function this._SelectInterrogation(cpId,allowCollectionInterr)
   for index,interrInfo in pairs(mvars.interTable[cpId].layer.normal)do
     local bandDone=bit.band(svars.InterrogationNormal[cpInterrIndex],bit.lshift(1,index-1))
     if bandDone~=0 then
-      --InfMenu.DebugPrint("interr normal "..interrInfo.name)--DEBUG
       return{index=index,name=interrInfo.name}
     end
   end
   if allowCollectionInterr>0 then
-    --InfMenu.DebugPrint"_AssignInterrogationCollection"--DEBUG
     this._AssignInterrogationCollection(cpId)
     return nil
   end

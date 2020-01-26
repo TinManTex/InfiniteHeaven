@@ -1,4 +1,21 @@
 Infinite Heaven changelog
+r150 - 2016-05-04 - public release
+Ivars - minPhase,maxPhase,keepPhase now turns on phaseUpdate
+Refactor: Ivar execChecks renamed execCheckTable to prevent name confusion
+Fixed: InfMain.ExecUpdate, UpdateExecChecks iterating execCheckTable,execChecks via ipairs instead of pairs - would cause the menu in ACC to break (not enable) on initial load when enemy phase modifications were on - thanks everyone for the reports, and CantStoptheBipBop for the save file
+printPhaseChanges changed if phaseUpdate on to stop spam
+WIP - disableSpySearch - redacted (heh) since GetGlobalLocationParameter is too restrictive for my liking
+
+r149 - 2016-05-01 - public release
+quietMoveToLastMarker - User marker menu > "Quiet move to last marker" - sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.
+"Heli patrols in free roam" settings changed to numerical values.
+mbEnablePuppy - Show characters menu > "Enable puppy DDog" - "Off","Missing eye","Normal eyes". Took me a while to figure this out since it was tucked away in a quest, also took a while to track down why it seemed to disable itself which resolved to ClearWithSaveMtbsDDQuest.
+Refactor: shifted interrogation resetnormal kludge out of TppInterrogation and unincluded it from the build.
+Fixed: No callouts for some DD suit settings.
+disableNoStealthCombatRevengeMission  - Prep system menu > "Allow Enemy Prep shift after free roam" - allows enemy prep points shift after free roam
+MbVisitDay: Clock message - drives another mb visit reward and the new _ReduceRevengePointByTime
+revengeDecayOnLongMbVisit / _ReduceRevengePointByTime - Prep system menu > "Enemy prep decrease on long MB visit" - currently reduces after 3 days (stacking), reduces the same as checken hat use reduction, ie stealth/combat by < 1/4 a level at low revenge levels, and 1/2 at high.
+
 r148 - 2016-04-27 - public release
 DDog SetMotherBaseCenterAndRadius increased to cover whole mb (if mbEnableBuddies)
 Wildcard soldiers:

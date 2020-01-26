@@ -1,0 +1,27 @@
+FAQ/known issues, how to feedback correctly
+TODODO
+
+
+Known issues:
+The Announce Log used for the display has a delay on entries, so slow down your button presses when changing the settings.
+
+Replaying sideop 144, Remains of Man on Fire, will leave your character stuck in the Quarantine helipad and unable to abort the mission and requiring you to restore your save. Avoid completing the mission (extracting body).
+
+Starting a mission with subsistence will still show the loadout screen, and will show the last missions visual setup,
+it should refresh when you change any settings, or if you exit to the title menu, or just enter the mission.
+
+Buddy may have to be repicked after turning off subsidence.
+
+Turning off subsistence pure will still prevent you from selecting buddy, exiting to title and back might fix it, entering a mission will.
+
+Enemy Life percentage doesn't seem to effect stun.
+
+Subsidence mode will still technically do a full deployment cost of what's set. Manual solution, have a loadout with all items set to none and cheapest weapons.
+
+When changing General Enemy Parameters back to Default you must exit to title to have the setting save, then restart the game to have it load the default enemy parameters.
+
+Vehicle reinforcements:
+Currently if the heli leaves the reinforce variable will stay active so you will not have further vehicle reinforcements for the mission.
+Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a round of attack even though it's far away.
+
+

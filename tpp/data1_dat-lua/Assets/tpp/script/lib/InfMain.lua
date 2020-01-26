@@ -2,9 +2,8 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r148"
+this.modVersion="r150"
 this.modName="Infinite Heaven"
-
 --LOCALOPT:
 local Ivars=Ivars
 local InfButton=InfButton
@@ -381,6 +380,12 @@ function this.BlockQuest(questName)
     --InfMenu.DebugPrint("actually BlockQuest "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG CULL
     return true
   end
+  --tex quest system in respect to this a bit too twisty for me to figure out now, so will just block here
+  if Ivars.mbEnablePuppy:Is()>0 and Ivars.mbWarGamesProfile:Is(0) then
+    if questName=="mtbs_q42010" then
+      return true
+    end
+  end
 
   for n,name in ipairs(blockQuests)do
     if name==questName then
@@ -401,29 +406,6 @@ function this.BlockQuest(questName)
   end
 
   return false
-end
-
-
-function this.OnAllocate(missionTable)
-  if TppMission.IsFOBMission(vars.missionCode)then
-    TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
-  end
-
-  --WIP
-  if missionTable.enemy then
-  --OFF lua off InfEquip.LoadEquipTable()
-  end
-end
-
-function this.PreMissionLoad(missionCode,currentMissionCode)
-end
-
-function this.MissionPrepare()
-  if TppMission.IsStoryMission(vars.missionCode) then
-    if Ivars.gameOverOnDiscovery:Is(1) then
-      TppMission.RegistDiscoveryGameOver()
-    end
-  end
 end
 
 this.menuDisableActions=PlayerDisableAction.OPEN_EQUIP_MENU--+PlayerDisableAction.OPEN_CALL_MENU
@@ -484,6 +466,31 @@ local function UpdateRangeToMinMax(updateRate,updateRange)
   end
   return min,max
 end
+
+
+function this.OnAllocate(missionTable)
+  if TppMission.IsFOBMission(vars.missionCode)then
+    TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
+  end
+
+  --WIP
+  if missionTable.enemy then
+  --OFF lua off InfEquip.LoadEquipTable()
+  end
+end
+
+function this.PreMissionLoad(missionCode,currentMissionCode)
+end
+
+function this.MissionPrepare()
+  if TppMission.IsStoryMission(vars.missionCode) then
+    if Ivars.gameOverOnDiscovery:Is(1) then
+      TppMission.RegistDiscoveryGameOver()
+    end
+  end
+end
+
+
 
 function this.Messages()
   return Tpp.StrCode32Table{
@@ -590,6 +597,9 @@ function this.Messages()
         --InfMenu.DebugPrint("MbDvcActCallRescueHeli: "..tostring(param1).." ".. tostring(param2))--DEBUG
         end},
     },
+    Weather = {
+      {msg="Clock",sender="MbVisitDay",func=this.OnMbVisitDay},
+    },
   }
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
@@ -647,14 +657,15 @@ function this.OnDamage(gameId,attackId,attackerId)
 
   if Tpp.IsPlayer(attackerId) then
     --InfMenu.DebugPrint"OnDamage attacked by player"
-    if Ivars.soldierAlertOnHeavyVehicleDamage:Is()>0 then
+    local soldierAlertOnHeavyVehicleDamage=Ivars.soldierAlertOnHeavyVehicleDamage:Get()
+    if soldierAlertOnHeavyVehicleDamage>0 then
       if AttackIsVehicle(attackId) then
         --InfMenu.DebugPrint"OnDamage AttackIsVehicle"
         for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do--tex TODO:find or build a better soldierid>cpid lookup
-          if TppEnemy.GetPhaseByCPID(cpId)<Ivars.soldierAlertOnHeavyVehicleDamage:Is() then
-            if soldierIds[gameId]~=nil then
+          if soldierIds[gameId]~=nil then
+            if TppEnemy.GetPhaseByCPID(cpId)<soldierAlertOnHeavyVehicleDamage then
               --InfMenu.DebugPrint"OnDamage found soldier in idlist"
-              local command={id="SetPhase",phase=Ivars.soldierAlertOnHeavyVehicleDamage:Get()}
+              local command={id="SetPhase",phase=soldierAlertOnHeavyVehicleDamage}
               SendCommand(cpId,command)
               break
             end
@@ -665,11 +676,38 @@ function this.OnDamage(gameId,attackId,attackerId)
   end--player is attacker
 end
 
+function this.OnFultonVehicle(vehicleId)
+--DEBUGNOW WIP
+--tex not actually that useful, need to alert nearby cps instead
+--  local cpAlertOnVehicleFulton=Ivars.cpAlertOnVehicleFulton:Get()
+--  if cpAlertOnVehicleFulton>0 then--tex
+--    InfMenu.DebugPrint"cpAlertOnVehicleFulton>0"--DEBUGNOW
+--    local riderIdArray=SendCommand(vehicleId,{id="GetRiderId"})
+--    for seatIndex,riderId in ipairs(riderIdArray) do
+--      if seatIndex==1 then
+--        if riderId~=NULL_ID then
+--          InfMenu.DebugPrint"vehicle has driver"--DEBUGNOW
+--          for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
+--            if soldierIds[riderId]~=nil then
+--              InfMenu.DebugPrint"found rider cp"--DEBUGNOW
+--              if TppEnemy.GetPhaseByCPID(cpId)<cpAlertOnVehicleFulton then
+--                local command={id="SetPhase",phase=cpAlertOnVehicleFulton}
+--                SendCommand(cpId,command)
+--                break
+--              end
+--            end
+--          end
+--        end
+--      end
+--    end
+--  end--<
+end
+
 local function PhaseName(index)
   return Ivars.phaseSettings[index+1]
 end
 function this.OnPhaseChange(gameObjectId,phase,oldPhase)
-  if Ivars.printPhaseChanges:Is(1) then
+  if Ivars.printPhaseChanges:Is(1) and Ivars.phaseUpdate:Is(0) then
     --tex TODO: cpId>cpName
     InfMenu.Print("cpId:"..gameObjectId.." Phase change from:"..PhaseName(oldPhase).." to:"..PhaseName(phase))--InfMenu.LangString("phase_changed"..":"..PhaseName(phase)))--ADDLANG
   end
@@ -759,8 +797,29 @@ function this.OnInitializeTop(missionTable)
     --InfMain.ResetTrueRandom()
   end
 end
-function this.OnAllocateTop(missionTable)
+function this.OnInitializeBottom(missionTable)
 
+  if Ivars.enableInfInterrogation:Is(1) and(vars.missionCode~=30010 or vars.missionCode~=30020) then
+    if missionTable.enemy then
+      local interrogationTable=missionTable.enemy.interrogation
+      if IsTable(interrogationTable)then
+        for cpName,layerTable in pairs(interrogationTable)do
+          local cpId=GetGameObjectId(cpName)
+          if cpId==NULL_ID then
+          else
+            --tex TODO KLUDGE, cant actually see how it's reset normally,
+            --but it doesn't seem to trigger unless I do
+            --also there seems to be only one actual .normal interrogation used in one mission, unless the generic interrogation uses the .normal layer
+            --and doing it this way actually resets the save vars
+            TppInterrogation.ResetFlagNormal(cpId)--DEBUGNOW
+          end
+        end
+      end
+    end
+  end
+
+end
+function this.OnAllocateTop(missionTable)
 end
 --via TppMain
 function this.OnMissionCanStartBottom()
@@ -772,28 +831,11 @@ function this.OnMissionCanStartBottom()
   end
 
   --tex WORKAROUND invasion mode extract from mb weirdness, just disable for now
-  if (Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050)then
+  if Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then
     Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
   end
 
-
-  --DEBUGNOW
---  if vars.missionCode==30010 or vars.missionCode==30020 then
---    local locationName=TppLocation.GetLocationName()
---    for cpName,bool in pairs(this.baseNames[locationName])do
---      local cpId=GameObject.GetGameObjectId(cpName)
---      if cpId==NULL_ID then
---
---      else
---        --        TppInterrogation.AddHighInterrogation( cpId,
---        --          {
---        --            { name = "entq_ih_test1", func = InfInterrogation.InterCall_Test, },
---        --          } )
---        TppInterrogation.ResetFlagNormal(cpId)--DEBUGNOW
---
---      end
---    end
---  end
+  this.StartLongMbVisitClock()--DEBUGNOW
 end
 
 function this.Init(missionTable)--tex called from TppMain.OnInitialize
@@ -809,7 +851,7 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
   for i, ivar in ipairs(updateIvars) do
     if IsFunc(ivar.ExecInit) then
 
-      this.ExecInit(currentChecks,ivar.execChecks,ivar.ExecInit)
+      this.ExecInit(currentChecks,ivar.execCheckTable,ivar.ExecInit)
     end
   end
 
@@ -876,6 +918,7 @@ this.execChecks={
   inGroundVehicle=false,
   inSupportHeli=false,
   onBuddy=false,--tex sexy
+  inBox=false,
   inMenu=false,
 }
 
@@ -885,17 +928,9 @@ this.abortToAcc=false--tex
 
 --tex NOTE: doesn't actually return a new table/reuses input
 function this.UpdateExecChecks(currentChecks)
-  --for k,v in ipairs(this.execChecks) do
-  --this.execChecks[k]=false--tex TODO: can't figure out why this isn't actually setting REPRO: start misison, get into vehicle, get checkpoint, return to acc, still inGroundVehicle==true
-  --end
-  currentChecks.inHeliSpace=false
-  currentChecks.inMission=false
-  currentChecks.initialAction=false
-  currentChecks.inGroundVehicle=false
-  currentChecks.inSupportHeli=false
-  currentChecks.onBuddy=false
-  currentChecks.inBox=false
-  currentChecks.inMenu=false
+  for k,v in pairs(this.execChecks) do
+    this.execChecks[k]=false
+  end
 
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
   currentChecks.inHeliSpace=vars.missionCode and TppMission.IsHelicopterSpace(vars.missionCode)
@@ -919,6 +954,7 @@ function this.UpdateExecChecks(currentChecks)
 end
 
 function this.Update()
+  --InfInspect.TryFunc(function()--DEBUG
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
@@ -957,11 +993,12 @@ function this.Update()
         updateRange=updateRange.setting
       end
 
-      this.ExecUpdate(currentChecks,this.currentTime,ivar.execChecks,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
+      this.ExecUpdate(currentChecks,this.currentTime,ivar.execCheckTable,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
     end
   end
   ---
   InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
+  --end)--DEBUG
 end
 
 function this.ExecInit(currentChecks,execChecks,ExecInitFunc)
@@ -987,7 +1024,7 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
     InfMenu.DebugPrint"update ivar has no execChecks var, aborting"
     return
   end
-  for check,ivarCheck in ipairs(execChecks) do
+  for check,ivarCheck in pairs(execChecks) do
     if currentChecks[check]~=ivarCheck then
       return
     end
@@ -1299,7 +1336,7 @@ this.baseNames={
     "mafr_savannahNorth_ob",--Guard Post 05, NE Ditadi Abandoned Village
     "mafr_outlandNorth_ob",--Guard Post 06, North Masa Village
     "mafr_diamondWest_ob",--Guard Post 07, West Kungenga Mine
-    "mafr_labWest_ob",--Guard Post 08, NW Lufwa Valley 
+    "mafr_labWest_ob",--Guard Post 08, NW Lufwa Valley
     "mafr_savannahWest_ob",--Guard Post 09, North Ditadi Abandoned Village
     "mafr_swampEast_ob",--Guard Post 10, SE Kiziba Camp
     "mafr_outlandEast_ob",--Guard Post 11, East Masa Village
@@ -1308,12 +1345,12 @@ this.baseNames={
     "mafr_pfCampNorth_ob",--Guard Post 14, NE Nova Braga Airport
     "mafr_savannahEast_ob",--Guard Post 15, South Ditadi Abandoned Village
     "mafr_hillNorth_ob",--Guard Post 16, NE Munoko ya Nioka Station
-    --DEBUGNOW OFF hangs lrrp  "mafr_factoryWest_ob",--Guard Post 17, West Ngumba Industrial Zone
+    --DEBUGNOW HANG addlrrp  "mafr_factoryWest_ob",--Guard Post 17, West Ngumba Industrial Zone
     "mafr_pfCampEast_ob",--Guard Post 18, East Nova Braga Airport
-    "mafr_hillWest_ob",--Guard Post 19, NW Munoko ya Nioka Station 
+    "mafr_hillWest_ob",--Guard Post 19, NW Munoko ya Nioka Station
     "mafr_factorySouth_ob",--Guard Post 20, SW Ngumba Industrial Zone
     "mafr_hillWestNear_ob",--Guard Post 21, West Munoko ya Nioka Station
-    "mafr_chicoVilWest_ob",--Guard Post 22, South Nova Braga Airport 
+    "mafr_chicoVilWest_ob",--Guard Post 22, South Nova Braga Airport
     "mafr_hillSouth_ob",--Guard Post 23, SW Munoko ya Nioka Station
     --"mafr_swampWestNear_ob",--Only references in generic setups, no actual missions
     "mafr_flowStation_cp",--Mfinda Oilfield
@@ -1324,7 +1361,7 @@ this.baseNames={
     "mafr_outland_cp",--Masa Village
     "mafr_savannah_cp",--Ditadi Abandoned Village
     "mafr_pfCamp_cp",--Nova Braga Airport
-    "mafr_hill_cp",--Munoko ya Nioka Station 
+    "mafr_hill_cp",--Munoko ya Nioka Station
 
   --"mafr_factory_cp",--Ngumba Industrial Zone - no soldiers  NOTE in interrog
   --"mafr_chicoVil_cp",--??
@@ -1472,7 +1509,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
   end
 
   InfMain.SetLevelRandomSeed()
-  
+
   this.lrrpDefines={}
 
   local cpPool={}
@@ -1579,7 +1616,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
       base2=base2,
     }
     table.insert(this.lrrpDefines,lrrpDefine)
-    
+
     numLrrps=numLrrps+1
   end
   --InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
@@ -1998,7 +2035,6 @@ function this.IsStartOnFoot(missionCode,isAssaultLz)
   else
     return enabled
   end
-
 end
 
 function this.GetAverageRevengeLevel()
@@ -2016,40 +2052,47 @@ this.locationIdForName={
   mbqf=55,
 }
 
+
+
 --mbmorale
---tuning tex TODO: do I want to fuzz these?
-local rewardMorale=1
+--TUNE tex TODO: do I want to fuzz these?
 local rewardOnSalutesCount=14--12 is nice if stacking since it's a division of total, but it's just a smidgen too easy for a single
 local rewardOnClustersCount={
   [5]=true,
   [7]=true
 }
+local rewardOnVisitDaysCount=3
+local revengeDecayOnVisitDaysCount=3
 
 local saluteClusterCounts={}
 local visitedClusterCounts={}
-local totalSaluteCount=0
-local totalVisitedCount=0
+local visitDaysCount=0
+
 local lastSalute=0
 
 local saluteRewards=0
-local visitRewards={}
+local clusterRewards={}
+local longVisitRewards=0
+local revengeDecayCount=0
 
 function this.ClearMoraleInfo()
   if vars.missionCode~=30050 then
     return
   end
-  
-  totalSaluteCount=0
-  totalVisitedCount=0
+
   for i=1,#TppDefine.CLUSTER_NAME do
     saluteClusterCounts[i]=0
     visitedClusterCounts[i]=false
   end
+  visitDaysCount=0
 
   saluteRewards=0
   for n,bool in pairs(rewardOnClustersCount) do
-    visitRewards[n]=false
+    clusterRewards[n]=false
   end
+  longVisitRewards=0
+
+  revengeDecayCount=0
 
   lastSalute=0
 end
@@ -2076,9 +2119,9 @@ function this.CheckSalutes()
       --InfMenu.DebugPrint("SaluteRaiseMorale cluster "..currentCluster.." count:"..saluteClusterCounts[currentCluster].. " total sulutes:"..totalSalutes)--DEBUG
       --InfInspect.PrintInspect(saluteClusterCounts)--DEBUG
 
-      local modTotalSalutes=totalSalutes % rewardOnSalutesCount
+      local modTotalSalutes=totalSalutes%rewardOnSalutesCount
       --InfMenu.DebugPrint("totalSalutes % rewardSalutesCount ="..modTotalSalutes)--DEBUG
-      if modTotalSalutes == 0 then
+      if modTotalSalutes==0 then
         saluteRewards=saluteRewards+1
         --InfMenu.DebugPrint("REWARD for "..totalSalutes.." salutes")--DEBUG
         InfMenu.PrintLangId"mb_morale_visit_noticed"
@@ -2091,8 +2134,8 @@ function this.CheckSalutes()
         end
       end
       --InfMenu.DebugPrint("totalClustersVisited:"..totalClustersVisited)--DEBUG
-      if rewardOnClustersCount[totalClustersVisited] and visitRewards[totalClustersVisited]==false then
-        visitRewards[totalClustersVisited]=true
+      if rewardOnClustersCount[totalClustersVisited] and clusterRewards[totalClustersVisited]==false then
+        clusterRewards[totalClustersVisited]=true
         --InfMenu.DebugPrint("REWARD for ".. totalClustersVisited .." clusters visited")--DEBUG
         InfMenu.PrintLangId"mb_morale_visit_noticed"
       end
@@ -2120,7 +2163,7 @@ function this.CheckMoraleReward()
   --actually with the standard morale decay, and making it take some effort to get in the first place it should be ok
 
   if Ivars.mbMoraleBoosts:Is(1) then
-    for numClusters,reward in pairs(visitRewards) do
+    for numClusters,reward in pairs(clusterRewards) do
       if reward then
         moraleBoost=moraleBoost+1
       end
@@ -2129,11 +2172,62 @@ function this.CheckMoraleReward()
     if saluteRewards>0 then
       moraleBoost=moraleBoost+saluteRewards
     end
+
+    if longVisitRewards>0 then
+      moraleBoost=moraleBoost+longVisitRewards
+    end
+
     --InfMenu.DebugPrint("Global moral boosted by "..moraleBoost.." by visit")--DEBUG
     if moraleBoost>0 then
       InfMenu.PrintLangId"mb_morale_boosted"
       TppMotherBaseManagement.IncrementAllStaffMorale{morale=moraleBoost}
     end
+  end
+end
+
+function this.GetMbVisitRevengeDecay()
+  if visitDaysCount>0 then
+    return revengeDecayCount
+  end
+  return 0
+end
+
+--mbvisit
+local LONG_VISIT_TIME=0--DEBUGNOW 12*60*60--tex TUNE, in seconds,
+--GOTCHA: it's a clock time that registered, so registering current + 12 hour will trigger first in 12 hours, then again in 24
+--so just register current time if you want 24 from start
+--REF
+--lvl 1 cigar is 6 cigars of 12hr so 3 day, 1 cigar about 15-17 seconds (takes a couple of seconds anim before time actually starts accell)
+--lvl 2 is 8 cigars of 24hr so 8 days, ~28 seconds realtime
+--lvl 3 is 10 cigars of 36hr so 15 days ~40 seconds
+function this.StartLongMbVisitClock()
+  if vars.missionCode~=30050 then
+    return
+  end
+
+  visitDaysCount=0
+
+  local longVisitTime=TppClock.GetTime("number")+LONG_VISIT_TIME
+  TppClock.RegisterClockMessage("MbVisitDay",longVisitTime)
+end
+function this.OnMbVisitDay(sender,time)
+  if vars.missionCode==30050 then
+    --InfMenu.DebugPrint"OnMbVisitDay"--DEBUG
+    visitDaysCount=visitDaysCount+1
+    if visitDaysCount>0 then
+      local modLongVisit=visitDaysCount%rewardOnVisitDaysCount
+      if modLongVisit==0 then
+        longVisitRewards=longVisitRewards+1
+        InfMenu.PrintLangId"mb_morale_visit_noticed"
+      end
+      local modRewardDecay=visitDaysCount%revengeDecayOnVisitDaysCount
+      if modRewardDecay==0 then
+        revengeDecayCount=revengeDecayCount+1
+        --DEBUGNOW TODO message?
+      end
+    end
+  else
+    TppClock.UnregisterClockMessage("MbVisitDay")
   end
 end
 

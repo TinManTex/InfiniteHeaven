@@ -19,6 +19,11 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     return
   end
 
+  if mvars.ene_soldierDefine==nil then
+    InfMenu.DebugPrint"WARNING: InfEnemyPhase.Update - ene_soldierDefine==nil"
+    return
+  end
+
   local currentPhase=vars.playerPhase
   local minPhase=Ivars.minPhase:Get()
   local maxPhase=Ivars.maxPhase:Get()
@@ -51,15 +56,19 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     if minPhase==PHASE_EVASION then
       if execState.alertBump then
         execState.alertBump=false
-        InfMain.ChangePhase(cpName,PHASE_EVASION)
+        ChangePhase(cpName,PHASE_EVASION)
       end
     end
     if currentPhase<minPhase then
       if minPhase==PHASE_EVASION then
-        InfMain.ChangePhase(cpName,PHASE_ALERT)
+        ChangePhase(cpName,PHASE_ALERT)
         execState.alertBump=true
       end
     end
+  end
+
+  if Ivars.printPhaseChanges:Is(1) and execState.lastPhase~=currentPhase then
+    InfMenu.Print("Phase change from:"..Ivars.phaseSettings[execState.lastPhase+1].." to:"..Ivars.phaseSettings[currentPhase+1])
   end
 
   execState.lastPhase=currentPhase

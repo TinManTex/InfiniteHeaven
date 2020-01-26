@@ -151,10 +151,10 @@ this.demoOptions={
       if mvars.mbDemo_isFirstPlay then
         TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_303",rewardType=TppReward.TYPE.COMMON}
       end
-      local e=TppDefine.QUEST_INDEX.Mtbs_child_dog
-      gvars.qst_questRepopFlag[e]=false
-      gvars.qst_questClearedFlag[e]=true
-      TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])
+      local i=TppDefine.QUEST_INDEX.Mtbs_child_dog
+      gvars.qst_questRepopFlag[i]=false
+      gvars.qst_questClearedFlag[i]=true
+      TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
     end,
     isFinishFadeOut=true,heliEnableAfterDemo=true},
   LongTimeNoSee_DDSoldier={time="14:30:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true,OnEnter=function()
@@ -1031,22 +1031,22 @@ function this.GetPackListForStorySequence()
     end
   elseif clusterName==TppDefine.CLUSTER_DEFINE.Develop then
     if TppStory.CanArrivalSahelanInMB() then
-      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_ly00"..(tostring(vars.mbLayoutCode).."_sahelan.fpk")
-      table.insert(packList,t)
+      local packPath="/Assets/tpp/pack/mission2/free/f30050/f30050_ly00"..(tostring(vars.mbLayoutCode).."_sahelan.fpk")
+      table.insert(packList,packPath)
     end
     if TppStory.CanArrivalAIPodInMB() then
-      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_ly00"..(tostring(vars.mbLayoutCode).."_aipod.fpk")
-      table.insert(packList,t)
+      local packPath="/Assets/tpp/pack/mission2/free/f30050/f30050_ly00"..(tostring(vars.mbLayoutCode).."_aipod.fpk")
+      table.insert(packList,packPath)
     end
   elseif clusterName==TppDefine.CLUSTER_DEFINE.Command then
     if TppStory.CanArrivalLiquidInMB()and(not TppQuest.IsActive"mtbs_q99050") then
-      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_command_liquid.fpk"
-      table.insert(packList,t)
+      local packPath="/Assets/tpp/pack/mission2/free/f30050/f30050_command_liquid.fpk"
+      table.insert(packList,packPath)
       mvars.f30050_isSetLiquid=true
     end
     if TppStory.CanArrivalCodeTalkerInMB() then
-      local t="/Assets/tpp/pack/mission2/free/f30050/f30050_command_codeTalker.fpk"
-      table.insert(packList,t)
+      local packPath="/Assets/tpp/pack/mission2/free/f30050/f30050_command_codeTalker.fpk"
+      table.insert(packList,packPath)
       mvars.f30050_isSetCodeTalker=true
     end
   end

@@ -62,71 +62,72 @@ for a,missionCode in ipairs(this.HARD_MISSION_LIST)do
   end
 end
 this.NO_SPECIAL_BONUS={[10030]=true,[10115]=true,[10240]=true}
-function this.AcquireSpecialBonus(t)
-  if not IsTypeTable(t)then
+function this.AcquireSpecialBonus(bonusInfo)
+  if not IsTypeTable(bonusInfo)then
     return
   end
-  if t.first then
+  if bonusInfo.first then
     if mvars.res_isExistFirstSpecialBonus then
-      this._AcquireSpecialBonus(t.first,"bestScoreBounus","bestScoreBounusScore",mvars.res_firstSpecialBonusMaxCount,this.COMMON_SCORE_PARAM.firstSpecialBonus,"isCompleteFirstBonus",mvars.res_firstBonusMissionTask,mvars.res_firstSpecialBonusPointList,"isAcquiredFirstBonusInPointList")
+      this._AcquireSpecialBonus(bonusInfo.first,"bestScoreBounus","bestScoreBounusScore",mvars.res_firstSpecialBonusMaxCount,this.COMMON_SCORE_PARAM.firstSpecialBonus,"isCompleteFirstBonus",mvars.res_firstBonusMissionTask,mvars.res_firstSpecialBonusPointList,"isAcquiredFirstBonusInPointList")
     end
   end
-  if t.second then
+  if bonusInfo.second then
     if mvars.res_isExistSecondSpecialBonus then
-      this._AcquireSpecialBonus(t.second,"bestScoreBounus2","bestScoreBounusScore2",mvars.res_secondSpecialBonusMaxCount,this.COMMON_SCORE_PARAM.secondSpecialBonus,"isCompleteSecondBonus",mvars.res_secondBonusMissionTask,mvars.res_secondSpecialBonusPointList,"isAcquiredSecondBonusInPointList")
+      this._AcquireSpecialBonus(bonusInfo.second,"bestScoreBounus2","bestScoreBounusScore2",mvars.res_secondSpecialBonusMaxCount,this.COMMON_SCORE_PARAM.secondSpecialBonus,"isCompleteSecondBonus",mvars.res_secondBonusMissionTask,mvars.res_secondSpecialBonusPointList,"isAcquiredSecondBonusInPointList")
     end
   end
 end
-function this._AcquireSpecialBonus(t,a,o,s,c,u,i,n,l)
-  local r=t.isComplete
-  if t.isComplete then
-    r=true
-    if(not n)and(not s)then
-      svars[o]=c
+function this._AcquireSpecialBonus(taskInfo,bestScoreBonusType,bestScoreBonusScoreType,bonusMaxCount,commonScoreParam,isCompleteBonusType,bonusTask,bonusPointList,isAquiredBonusInPointListType)
+  local isCompleted=taskInfo.isComplete
+  if taskInfo.isComplete then
+    isCompleted=true
+    if(not bonusPointList)and(not bonusMaxCount)then
+      svars[bestScoreBonusScoreType]=commonScoreParam
     end
   end
-  if t.count then
-    if not s then
+  if taskInfo.count then
+    if not bonusMaxCount then
       return
     end
-    if svars[a]<t.count then
-      if t.count<=s then
-        svars[a]=t.count
+    if svars[bestScoreBonusType]<taskInfo.count then
+      if taskInfo.count<=bonusMaxCount then
+        svars[bestScoreBonusType]=taskInfo.count
       else
-        svars[a]=s
+        svars[bestScoreBonusType]=bonusMaxCount
       end
-      svars[o]=(svars[a]/s)*c
-      if svars[a]==s then
-        r=true
+      svars[bestScoreBonusScoreType]=(svars[bestScoreBonusType]/bonusMaxCount)*commonScoreParam
+      if svars[bestScoreBonusType]==bonusMaxCount then
+        isCompleted=true
       end
     end
   end
-  if t.pointIndex then
-    if not n then
+  if taskInfo.pointIndex then
+    if not bonusPointList then
       return
     end
-    local t=t.pointIndex
+    local t=taskInfo.pointIndex
     if not Tpp.IsTypeNumber(t)then
       return
     end
     if t<1 then
       return
     end
-    if t>#n then
+    if t>#bonusPointList then
       return
     end
-    svars[l][t]=true
-    local e,t=this.CalcPoinListBonusScore(n,l)svars[a]=e
-    svars[o]=t
-    if svars[a]==#n then
-      r=true
+    svars[isAquiredBonusInPointListType][t]=true
+    local e,t=this.CalcPoinListBonusScore(bonusPointList,isAquiredBonusInPointListType)
+    svars[bestScoreBonusType]=e
+    svars[bestScoreBonusScoreType]=t
+    if svars[bestScoreBonusType]==#bonusPointList then
+      isCompleted=true
     end
   end
-  if r then
-    this._CompleteBonus(u,i)
+  if isCompleted then
+    this._CompleteBonus(isCompleteBonusType,bonusTask)
   else
-    i.isHide=false
-    TppUI.EnableMissionTask(i)
+    bonusTask.isHide=false
+    TppUI.EnableMissionTask(bonusTask)
   end
 end
 function this.CalcPoinListBonusScore(a,s)
@@ -151,25 +152,25 @@ function this.SetSpecialBonusMaxCount(e)
     mvars.res_secondSpecialBonusMaxCount=e.second.maxCount
   end
 end
-function this._CompleteBonus(a,e)
+function this._CompleteBonus(isCompleteSvar,bonusTask)
   local t=true
-  if svars[a]then
+  if svars[isCompleteSvar]then
     t=false
   end
-  svars[a]=true
-  if e then
-    e.isComplete=true
-    TppUI.EnableMissionTask(e,t)
+  svars[isCompleteSvar]=true
+  if bonusTask then
+    bonusTask.isComplete=true
+    TppUI.EnableMissionTask(bonusTask,t)
   end
 end
 function this.RegistNoMissionClearRank()
   mvars.res_noMissionClearRank=true
 end
-function this.SetMissionScoreTable(e)
-  if not IsTypeTable(e)then
+function this.SetMissionScoreTable(missionScoreTable)
+  if not IsTypeTable(missionScoreTable)then
     return
   end
-  mvars.res_missionScoreTable=e
+  mvars.res_missionScoreTable=missionScoreTable
 end
 function this.SetMissionFinalScore()
   if mvars.res_noResult then
@@ -181,13 +182,14 @@ function this.SetMissionFinalScore()
   local baseScore,clearRank=this.CalcBaseScore()
   this.CalcTimeScore(baseScore,clearRank)
   this.CalcEachScore()
-  local n=this.CalcTotalScore()
+  local totalScore=this.CalcTotalScore()
   local clearRank=this.DecideMissionClearRank()
   local updateGmpOnMissionClear
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
-  Tpp.IncrementPlayData"totalMissionClearCount"this.SetSpecialBonusResultScore()
+  Tpp.IncrementPlayData"totalMissionClearCount"
+  this.SetSpecialBonusResultScore()
   if clearRank~=TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED then
     TppHero.MissionClear(clearRank)
   end
@@ -203,7 +205,7 @@ function this.SetMissionFinalScore()
   if(vars.playerType==PlayerType.DD_MALE or vars.playerType==PlayerType.DD_FEMALE)then
     TppTrophy.Unlock(11)
   end
-  updateGmpOnMissionClear=this.UpdateGmpOnMissionClear(vars.missionCode,clearRank,n)
+  updateGmpOnMissionClear=this.UpdateGmpOnMissionClear(vars.missionCode,clearRank,totalScore)
   if vars.totalBatteryPowerAsGmp then
     TppUiCommand.SetResultBatteryGmp(vars.totalBatteryPowerAsGmp)--RETAILPATCH: 1060 added
     TppTerminal.UpdateGMP{gmp=vars.totalBatteryPowerAsGmp}
@@ -221,7 +223,8 @@ function this.SetMissionFinalScore()
     end
   end
   if mvars.res_enablePlayStyle then
-    this.SaveMissionClearPlayStyleParameter()svars.playStyle=this.DecidePlayStyle()
+    this.SaveMissionClearPlayStyleParameter()
+    svars.playStyle=this.DecidePlayStyle()
     TppEmblem.AcquireByPlayStyle(svars.playStyle)
     this.AddNewPlayStyleHistory()
   else
@@ -383,9 +386,9 @@ function this.Init(missionTable)
   end
   do
     for t,missionCode in ipairs{10043,11043}do
-      local e=TppDefine.MISSION_ENUM[tostring(missionCode)]
-      if gvars.res_bestRank[e]==TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED then
-        gvars.res_bestRank[e]=TppDefine.MISSION_CLEAR_RANK.E+1
+      local missionEnum=TppDefine.MISSION_ENUM[tostring(missionCode)]
+      if gvars.res_bestRank[missionEnum]==TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED then
+        gvars.res_bestRank[missionEnum]=TppDefine.MISSION_CLEAR_RANK.E+1
       end
     end
   end
@@ -413,45 +416,45 @@ function this.Init(missionTable)
       mvars.res_noMissionClearRank=true
     end
     if missionTable.sequence.specialBonus then
-      local e=missionTable.sequence.specialBonus.first
-      if e then
+      local firstBonus=missionTable.sequence.specialBonus.first
+      if firstBonus then
         mvars.res_isExistFirstSpecialBonus=true
-        if e.maxCount then
-          mvars.res_firstSpecialBonusMaxCount=e.maxCount
+        if firstBonus.maxCount then
+          mvars.res_firstSpecialBonusMaxCount=firstBonus.maxCount
         end
-        local t=e.missionTask
-        if t then
+        local missionTask=firstBonus.missionTask
+        if missionTask then
           mvars.res_firstBonusMissionTask={}
-          for t,e in pairs(t)do
+          for t,e in pairs(missionTask)do
             mvars.res_firstBonusMissionTask[t]=e
           end
           mvars.res_firstBonusMissionTask.isFirstHide=true
         end
-        if e.pointList then
-          if Tpp.IsTypeTable(e.pointList)then
-            mvars.res_firstSpecialBonusPointList=e.pointList
-            mvars.res_firstSpecialBonusMaxCount=#e.pointList
+        if firstBonus.pointList then
+          if Tpp.IsTypeTable(firstBonus.pointList)then
+            mvars.res_firstSpecialBonusPointList=firstBonus.pointList
+            mvars.res_firstSpecialBonusMaxCount=#firstBonus.pointList
           end
         end
       end
-      local e=missionTable.sequence.specialBonus.second
-      if e then
+      local secondBonus=missionTable.sequence.specialBonus.second
+      if secondBonus then
         mvars.res_isExistSecondSpecialBonus=true
-        if e.maxCount then
-          mvars.res_secondSpecialBonusMaxCount=e.maxCount
+        if secondBonus.maxCount then
+          mvars.res_secondSpecialBonusMaxCount=secondBonus.maxCount
         end
-        local t=e.missionTask
-        if t then
+        local missionTask=secondBonus.missionTask
+        if missionTask then
           mvars.res_secondBonusMissionTask={}
-          for e,t in pairs(t)do
+          for e,t in pairs(missionTask)do
             mvars.res_secondBonusMissionTask[e]=t
           end
           mvars.res_secondBonusMissionTask.isFirstHide=true
         end
-        if e.pointList then
-          if Tpp.IsTypeTable(e.pointList)then
-            mvars.res_secondSpecialBonusPointList=e.pointList
-            mvars.res_secondSpecialBonusMaxCount=#e.pointList
+        if secondBonus.pointList then
+          if Tpp.IsTypeTable(secondBonus.pointList)then
+            mvars.res_secondSpecialBonusPointList=secondBonus.pointList
+            mvars.res_secondSpecialBonusMaxCount=#secondBonus.pointList
           end
         end
       end
@@ -483,8 +486,8 @@ function this.Init(missionTable)
     mvars.res_bonusMissionClearTimeRatio=1
   end
 end
-function this.OnReload(t)
-  this.Init(t)
+function this.OnReload(missionTable)
+  this.Init(missionTable)
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
@@ -505,26 +508,26 @@ function this.OnMissionCanStart()
     end
   end
 end
-function this.SetScoreTable(e)
-  if not IsTypeTable(e)then
+function this.SetScoreTable(scoreTable)
+  if not IsTypeTable(scoreTable)then
     return
   end
-  mvars.res_scoreTable=e
+  mvars.res_scoreTable=scoreTable
 end
-function this.SetRankTable(t)
-  if not IsTypeTable(t)then
+function this.SetRankTable(tankTable)
+  if not IsTypeTable(tankTable)then
     return
   end
-  mvars.res_rankTable=t
+  mvars.res_rankTable=tankTable
 end
 this.saveCountTable={{"bestScoreTime","scoreTime"},{"bestScoreAlert","alertCount"},{"bestScoreKill","killCount"},{"bestScoreHostage","hostageCount"},{"bestScoreGameOver","failedCount"},{"bestScoreGameOver","timeParadoxCount"},{"bestScoreTacticalActionPoint","tacticalActionPoint"}}
 function this.SaveBestCount()
-  local t=svars
+  local svars=svars
   for a,e in pairs(this.saveCountTable)do
-    t[e[1]]=0
+    svars[e[1]]=0
   end
   for a,e in pairs(this.saveCountTable)do
-    t[e[1]]=t[e[1]]+t[e[2]]
+    svars[e[1]]=svars[e[1]]+svars[e[2]]
   end
 end
 function this.DEBUG_Count()
@@ -581,28 +584,28 @@ function this.CalcTimeScore(baseScore,clearRank)
     return
   end
   local svars=svars
-  local S=TppDefine.MISSION_CLEAR_RANK_LIST[clearRank]
-  local sRankScoreTime=mvars.res_missionScoreTable.baseTime[S]
+  local rankEnum=TppDefine.MISSION_CLEAR_RANK_LIST[clearRank]
+  local sRankScoreTime=mvars.res_missionScoreTable.baseTime[rankEnum]
   local a=sRankScoreTime-(svars.bestScoreTime*a)
   if a<0 then
     a=0
   end
   local t=a*t
-  local a=TppMission.GetMissionName()
+  local missionName=TppMission.GetMissionName()
   if clearRank>TppDefine.MISSION_CLEAR_RANK.S then
-    if a=="s10040"then
+    if missionName=="s10040"then
       if t>u then
         t=u
       end
-    elseif a=="s10054"or a=="s11054"then
+    elseif missionName=="s10054"or missionName=="s11054"then
       if t>i then
         t=i
       end
-    elseif a=="s10130"or a=="s11130"then
+    elseif missionName=="s10130"or missionName=="s11130"then
       if t>o then
         t=o
       end
-    elseif a=="s10140"or a=="s11140"then
+    elseif missionName=="s10140"or missionName=="s11140"then
       if t>c then
         t=c
       end
@@ -977,8 +980,8 @@ function this.SaveMissionClearPlayStyleParameter()
   end
 end
 function this.DecidePlayStyle()
-  local t=TppStory.GetCurrentStorySequence()
-  if t<TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON then
+  local storySequence=TppStory.GetCurrentStorySequence()
+  if storySequence<TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON then
     return 1
   end
   if vars.playerPlayFlag then
@@ -986,32 +989,32 @@ function this.DecidePlayStyle()
       return 2
     end
   end
-  local t=true
+  local isPerfectStealth=true
   for e=0,TppDefine.PLAYSTYLE_HISTORY_MAX do
     if gvars.res_isPerfectStealth[e]==false then
-      t=false
+      isPerfectStealth=false
       break
     end
   end
-  if t then
+  if isPerfectStealth then
     return 3
   end
-  local t=true
+  local isStealth=true
   for e=0,TppDefine.PLAYSTYLE_HISTORY_MAX do
     if gvars.res_isStealth[e]==false then
-      t=false
+      isStealth=false
       break
     end
   end
-  if t then
+  if isStealth then
     return 4
   end
-  local a,t=this.GetTotalHeadShotCount(),this.GetTotalNeutralizeCount()
-  if t<1 then
-    t=1
+  local totalHeadShotCount,totalNeutralizeCount=this.GetTotalHeadShotCount(),this.GetTotalNeutralizeCount()
+  if totalNeutralizeCount<1 then
+    totalNeutralizeCount=1
   end
-  local t=a/t
-  if t>=this.PLAYSTYLE_HEAD_SHOT then
+  local headshotToNeutralize=totalHeadShotCount/totalNeutralizeCount
+  if headshotToNeutralize>=this.PLAYSTYLE_HEAD_SHOT then
     return 6
   end
   return this.DecideNeutralizePlayStyle()

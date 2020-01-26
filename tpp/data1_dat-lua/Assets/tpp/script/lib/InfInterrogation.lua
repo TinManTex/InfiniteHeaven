@@ -242,13 +242,13 @@ function this.InterStart_CpQuest(soldierId,cpId,interName)
 
   local soldierICPQId=this.GetInterCpQuestId(soldierId)
   if soldierICPQId==nil then
-    InfMenu.DebugPrint"WARNING cannot find cpQuestId for soldier"--DEBUGNOW
+    InfMenu.DebugPrint"WARNING cannot find cpQuestId for soldier"--DEBUG
     return false
   end
 
   local partnerICPQId=this.GetPairedSoldier(soldierICPQId)
   if partnerICPQId==nil then
-    InfMenu.DebugPrint"WARNING partnerId==nil"--DEBUGNOW
+    InfMenu.DebugPrint"WARNING partnerId==nil"--DEBUG
     return false
   end
 

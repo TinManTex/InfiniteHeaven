@@ -1,9 +1,9 @@
 = Infinite heaven =
-r149 - 2016-04-27
+r150 - 2016-05-04
 by tin man tex
 For MGSV version 1.0.8.1 (1.08 in title screen)
 
-A mod for MGSV intended to extend gameplay through customizable settings and features.
+A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
 
 Has several hundred toggleable options ranging from Subsistence mode for all missions, Mother base invasion with multiple attack helicopters, Free-cam, skip heli rides, customization of enemy and mother base gear, foot, heavy vehicle and heli patrols in free roam, and much more.
 
@@ -12,6 +12,32 @@ Infinite Heaven features
 
 YouTube playlist of demonstrations for many features
 [url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
+
+New for r150:
+Fixed: Some cases where the menu in ACC would not open.
+Thanks everyone for the reports, and CantStoptheBipBop for the save file.
+May the Fourth be with you.
+
+New for r149:
+Feature: "Enable puppy DDog" - "Off","Missing eye","Normal eyes" - Enables puppy ddog
+(In Mother base menu > Show characters menu)
+[youtube]6qduyJAhLv4[/youtube]
+https://www.youtube.com/watch?v=6qduyJAhLv4
+
+Feature: "Quiet move to last marker" - sets a position similar to the Quiet attack positions, but can be nearly anywhere.
+Quiet will still abort from that position if it's too close to enemies.
+(In In game menu > User markers menu)
+[youtube]kaKwnlQ_Nro[/youtube]
+https://www.youtube.com/watch?v=kaKwnlQ_Nro
+
+Option: "Allow Enemy Prep shift after free roam" - allows enemy prep changes to be applied after leaving Free roam (but not via abort)
+(In Enemy prep menu > Prep system menu)
+
+Update: "Staff-wide morale boost for good visit" now gets bonus for in game visit length, currently 3 in game days, so break out that cigar.
+
+Feature: "Enemy prep decrease on long MB visit" - using the same system as above, spend some in-game days during a mother base visit and enemy prep levels will decrease on leaving.
+currently reduces after 3 days (stacking), reduces the same as checken hat 
+(In Enemy prep menu > Prep system menu)
 
 New for r148:
 Fixed: DDog on mother base wont stop following past start cluster.
