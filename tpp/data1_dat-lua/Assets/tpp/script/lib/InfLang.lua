@@ -26,6 +26,7 @@ this.eng={--english
   menuOffItem="Turn off menu",
   setting_defaults="Setting options for current menu to defaults...",--r61
   setting_default="Setting to default..",
+  setting_minimum="Setting to minimum..",
   resetSettingsItem="Reset all settings in current menu",--r61
   setting_disallowed="is currently disallowed",
   goBackItem="Menu Back",
@@ -467,6 +468,13 @@ this.eng={--english
   forceExitHeli="Force exit helicopter",
   not_in_heli="You are not in the helicopter",
   not_for_location="This command is not enabled for this location",
+  timeScaleMenu="Time scale menu",
+  highSpeedCameraToggle="Toggle TSM",
+  speedCamContinueTime="TSM length (seconds)",
+  speedCamWorldTimeScale="TSM world time scale",
+  speedCamPlayerTimeScale="TSM player time scale",
+  highspeedcam_cancel="TSM cancel",
+  freecam_non_adjust="Static cam mode",
 }--eng end
 
 this.help={}
@@ -590,6 +598,23 @@ this.help.eng={
   This however has an issue where the doors will close on take-off preventing you from shifting between heli sides. 
   The chaingun on the side you start on can still be used.]],
   forceExitHeli="Lets you exit the helicopter while riding it, mind the fall.",
+  highSpeedCameraToggle="Lets you manually toggle Time scale mode that's usually used for Reflex/CQC.",
+  speedCamContinueTime="The time in seconds of the TSM",
+  speedCamWorldTimeScale="Time scale of the world, including soldiers/vehicles during TSM",
+  speedCamPlayerTimeScale="Time scale of the player during TSM",
+  adjustCameraUpdate=[[
+  Move cam with normal move keys and <Dash> move up, <Switch zoom>(Middle mouse or Right stick click) move down
+  
+  Adjust various settings by holding the following and moving left stick up/down
+  Or hold <Binocular> and press the following to reset that setting
+  
+  <Fire> - Zoom/focal length
+  <Reload> - Aperture (DOF)
+  <Stance> - Focus distance (DOF) 
+  <Action> - Cam move speed
+  <Ready weapon> - Camera orbit distance
+  
+  Hold <Binocular> and press <Dash> to move free cam position to the player position]],
 }
 
 this.cpNames={

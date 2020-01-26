@@ -21,7 +21,7 @@ local this={
   {
     title="Menu, Options and Settings",
 [[Basic terms used in the Infinite Heaven menu:
-<Option> - <Setting>
+[Option] - [Setting]
 
 Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.]],
   "",

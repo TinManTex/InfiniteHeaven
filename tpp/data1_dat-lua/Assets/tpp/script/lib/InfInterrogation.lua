@@ -52,12 +52,23 @@ this.InterCall_Location=function(soldierId,cpId,interName)
 end
 
 function this.LrrpLocation()
+  InfInspect.TryFunc(function()--DEBUGNOW
   --InfMenu.DebugPrint"LrrpLocation"--DEBUG
   --tex TODO: eliminated check
   local lrrpDefine=InfMain.lrrpDefines[math.random(#InfMain.lrrpDefines)]
   local base1Name=InfMenu.CpNameString(lrrpDefine.base1,InfMain.GetLocationName())
   local base2Name=InfMenu.CpNameString(lrrpDefine.base2,InfMain.GetLocationName())
+  
+  --DEBUGNOW
+  if base1Name==nil then
+    InfMenu.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base1))
+  end
+  if base2Name==nil then
+    InfMenu.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base2))
+  end
+  
   InfMenu.PrintFormatLangId("interrogate_lrrp",base1Name,base2Name)
+  end)--
 end
 
 function this.WildCardLocation()

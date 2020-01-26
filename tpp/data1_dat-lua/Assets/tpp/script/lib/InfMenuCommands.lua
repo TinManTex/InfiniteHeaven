@@ -272,7 +272,8 @@ this.warpToUserMarker={
       -- InfMenu.DebugPrint"Warping to newest marker"
       local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
       if lastMarkerIndex==nil then
-        InfMenu.DebugPrint("lastMarkerIndex==nil")
+        --InfMenu.DebugPrint("lastMarkerIndex==nil")
+        InfMenu.PrintLangId"no_marker_found"
       else
         InfUserMarker.PrintUserMarker(lastMarkerIndex)
         InfUserMarker.WarpToUserMarker(lastMarkerIndex)
@@ -496,6 +497,17 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
+      --DEBUGNOW
+      --TppUiCommand.AnnounceLogView("anlogdoop")
+      --TppSoundDaemon.PostEvent( 'sfx_s_enemytag_main_tgt' )
+      InfMenu.DebugPrint(InfMain.moveUpButton)
+      InfMenu.DebugPrint(InfMain.moveDownButton)
+
+
+      -- for button,Func in pairs(InfQuickMenuDefs) do
+      --  InfMenu.DebugPrint(button)
+      -- end
+
       --InfEquip.CheckTppEquipTable()
       ----------------
       if true then return end--DEBUG
@@ -766,7 +778,7 @@ this.DEBUG_SetIvarsToDefault={
       function()
         local ivarNames={
 
-          --  "enableWalkerGearsMB",
+            --  "enableWalkerGearsMB",
             "inf_levelSeed",
 
         }
@@ -787,9 +799,46 @@ this.DEBUG_SetIvarsToDefault={
     )
   end
 }
+--higspeedcamera / slowmo
+local highSpeedCamToggle=false
+local highSpeedCamStartTime=0
+this.highSpeedCameraToggle={
+  OnChange=function()
+    --InfInspect.TryFunc(function()--DEBUG
+      --GOTCHA: toggle could fail on reload or other cam requestcancel with a long continuetime/highSpeedCamStartTime
+      --      local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
+      --      if elapsedTime>highSpeedCamStartTime then--cam timed out
+      --        highSpeedCamToggle=true
+      --      else
+      --        highSpeedCamToggle=false
+      --      end
+
+      highSpeedCamToggle=not highSpeedCamToggle
+
+      if highSpeedCamToggle then
+        local continueTime=Ivars.speedCamContinueTime:Get()
+        local worldTimeRate=Ivars.speedCamWorldTimeScale:Get()
+        local localPlayerTimeRate=Ivars.speedCamPlayerTimeScale:Get()
+        local timeRateInterpTimeAtStart=0
+        local timeRateInterpTimeAtEnd=0
+        local cameraSetUpTime=0
+
+        --highSpeedCamStartTime=elapsedTime+continueTime
+
+        HighSpeedCamera.RequestEvent{continueTime=continueTime,worldTimeRate=worldTimeRate,localPlayerTimeRate=localPlayerTimeRate,timeRateInterpTimeAtStart=timeRateInterpTimeAtStart,timeRateInterpTimeAtEnd=timeRateInterpTimeAtEnd,cameraSetUpTime=cameraSetUpTime}
+
+        --InfMenu.PrintLangId"highspeedcam_on"--DEBUG
+      else
+        highSpeedCamStartTime=0
+
+        HighSpeedCamera.RequestToCancel()
+
+        InfMenu.PrintLangId"highspeedcam_cancel"
+      end
+    --end)--
+  end
+}
 --
-
-
 this.DEBUG_PrintRevengePoints={
   OnChange=function()
     InfInspect.TryFunc(function()

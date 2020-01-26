@@ -89,6 +89,7 @@ this.requires={
   "/Assets/tpp/script/lib/InfMain.lua",
   "/Assets/tpp/script/lib/InfMenuCommands.lua",
   "/Assets/tpp/script/lib/InfMenuDefs.lua",
+  "/Assets/tpp/script/lib/InfQuickMenuDefs.lua",
   "/Assets/tpp/script/lib/InfMenu.lua",
   "/Assets/tpp/script/lib/InfEneFova.lua",
   "/Assets/tpp/script/lib/InfEquip.lua",

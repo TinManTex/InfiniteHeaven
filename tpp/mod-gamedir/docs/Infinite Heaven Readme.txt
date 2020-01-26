@@ -1,5 +1,5 @@
 = Infinite heaven =
-r165 - 2016-07-02
+r166 - 2016-07-04
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
@@ -19,6 +19,38 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r166
+Feature: Time scale mode - using HighSpeedCamera that's used in CQC/Death and I assume Reflex - thanks Shigu for reminding me
+Command: highSpeedCameraToggle - Toggle TSM - Lets you manually toggle Time scale mode that's usually used for Reflex/CQC
+Option: speedCamContinueTime="TSM length (seconds) - The time in seconds of the TSM
+Option: speedCamWorldTimeScale="TSM world time scale -  scale of the world, including soldiers/vehicles during TSM
+Option: speedCamPlayerTimeScale="TSM player time scale - Time scale of the player during TSM
+[youtube]0Jbv_X1_HtE[/youtube]
+https://youtu.be/0Jbv_X1_HtE
+
+Feature: QuickMenu - A way to quickly trigger certain Infinite Heaven commands.
+
+Hold down <Call>(Q or Left bumper) and press:
+
+<Binoculars>(F or Right bumper) to toggle the IH main menu
+
+In mission Quick Menu:
+<Ready weapon>(Right mouse or Left Trigger) to warp to last placed usermarker
+<Fire>(Left mouse or Right Trigger) to open the menu to heli-to last usermarker (a kludge, but nessesary to activate the inter landingzone ride on heli)
+<Action>(E key or Y button) to activate TSM
+<Reload>(R key or B button) to activate Free cam
+<Dash>(Shift or Left stick click) to activate Static camera
+
+Update: Free cam buttons - Various changes, see its section in Features and Options.html in the Infinite Heaven zip.
+
+Updage: Menu buttons - see the Usage section for full deatails
+
+Set current seting to minimum <Reload>
+Reset current setting: <Binocular>
+
+Big increments - hold <Fire> when pressing next/previous setting.
+Small increments - hold <Ready weapon> when pressing next/previous setting.
 
 New for r165
 Fixed: Infinite load on Motherbase with Walker gears and a low number of platforms - thanks rzaldi for the report and save file.
@@ -48,52 +80,6 @@ https://youtu.be/pE1Kg_0vHAI
 
 Command: Force exit helicopter - Lets you exit the helicopter while riding it, mind the fall.
 
-New for r162
-Fixed: Patrol vehicle classes not actually applying - thanks NasaNhak for the report
-Change: Vehicle classes apply to non patrol vehicles (Afgh only)
-Fixed: Random CP subtype now resets table if not enabled for mode.
-Fixed: Returned molotok to wildcard soldiers, had accidentally replaced it with the high grade DD fob rifle.
-
-Menu: World menu added, IH event chance, Clock timescale options moved to it.
-
-Option: Repopulate music tape radios - thanks Apantos for the suggestion
-(via World menu)
-
-Sideop selection mode - Default (first found), Random, <side ops category> - Lets you influence the sideops selection.
-[youtube]RmAl4NzZ9oo[/youtube]
-https://youtu.be/RmAl4NzZ9oo
-
-Option: Randomize minefield mine types - Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic
-
-Option: Enable additional minefields - In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.
-[youtube]EujEm1cKWG0[/youtube]
-https://youtu.be/EujEm1cKWG0
-
-Option: Disable Intel team herb spotting (requires game restart) - Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate. (via Player restrictions menu)
-
-Option: Equipment on trucks - Puts a random piece of equipment on the back of patrol trucks.
-(via Patrol vehicles menu)
-[youtube]bJJWfttkJ1Y[/youtube]
-https://youtu.be/bJJWfttkJ1Y
-
-New for r161
-Fixed: Hard-lock on mother base on a cluster with only one platform with "Soldiers move between platforms" on - thanks 
-BarelyFatal for the report and the save file to test with.
-Fixed: Ocelot being stuck on upper areas of early game in-construction command platform with "Enable Ocelot" on.
-Fixed: "Random CP subtype in missions" menu item would just show option==nil warning - thanks megamen123 for the report.
-
-Option: Soldier item drop chance" - Soldiers drop items upon elimination.
-(via soldier parameters menu)
-[youtube]kafjLfvAifI[/youtube]
-https://youtu.be/kafjLfvAifI
-
-New for r159
-Option: Enable more soldiers on MB plats - increases (non main) platforms from 4 soldiers to 7-8.
-Option: Soldiers move between platforms - soldiers will periodically move between platforms (only within the same cluster).
-(via Mother base menu)
-[youtube]azkVA-D_Rq8[/youtube]
-https://youtu.be/azkVA-D_Rq8
-
 Disclaimer:
 ------------------------------
 Use the mod at you own risk (which can be mitigated by backing up saves and files replaced by mod)
@@ -108,25 +94,42 @@ or
 Usage:
 ------------------------------
 
+Infinite Heaven menu:
+
 While in ACC Heli (full menu), or in-mission (small menu)
 Hold <Quick dive> (space key or X button on controller) for 2 seconds to toggle the mod menu when in the ACC or in-mission.
 
 The menu system will display the current
-<Option name> - <Setting value or description>
-Sub-menus are indicated by >>
+[Option name] - [Setting value or description]
+Sub-menus are indicated by >
 
 Use either Arrow keys or Dpad to navigate the menu.
 Up/Down to select option.
 Left/Right to change setting or open sub menu.
 
-Press <Change Stance> button to go to previous menu.
+The size/step of the setting change can be made bigger/smaller by holding <Ready weapon> or <Fire>. 
 
-Press <Call> button to reset current setting.
+Press <Binoculars> button to reset current setting.
 
-Tap mod menu button <Quick dive> while menu is open to refresh current setting.
+Press <Reload> button to set the current setting to it's minimum.
+Press <Change stance> button to go to previous menu.
 
 By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
 All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. Snakebite mod manager allows easy toggling of mods.
+
+QuickMenu:
+- A way to quickly trigger certain Infinite Heaven commands.
+
+Hold down <Call>(Q or Left bumper) and press:
+
+<Binoculars>(F or Right bumper) to toggle the IH main menu
+
+In mission Quick Menu:
+<Ready weapon>(Right mouse or Left Trigger) to warp to last placed usermarker
+<Fire>(Left mouse or Right Trigger) to open the menu to heli-to last usermarker (a kludge, but nessesary to activate the inter landingzone ride on heli)
+<Action>(E key or Y button) to activate TSM
+<Reload>(R key or B button) to activate Free cam
+<Dash>(Shift or Left stick click) to activate Static camera
 
 Known Issues
 ------------------------------
@@ -144,11 +147,13 @@ Thanks:
 ------------------------------
 Kojima Productions for the great game
 Sergeanur for qartool
-atvaark for his fox tools
-ThreeSocks3 for finding the custom text output for Announce log.
+atvaark for your fox tools
+ThreeSocks3 for finding the custom text output for Announce log
 emoose for cracking lua in fpks
-jRavens for testing
-Topher for the great mod manager Snakebite
+jRavens for your early testing
+Shigu for your specific testing and discussions
+Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
+rzaldi for your donation
 All the mod users on nexus for trying the mod and bug reports
 You for reading this

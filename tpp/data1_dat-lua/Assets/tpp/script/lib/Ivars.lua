@@ -2986,7 +2986,7 @@ this.warpPlayerUpdate={
   isMode=true,
   OnSelect=this.DisableOnSubsistence,
   --tex WIP OFF disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,
-  OnActivate=function()InfMain.OnActivateWarpPlayer()end,
+  OnModeActivate=function()InfMain.OnActivateWarpPlayer()end,
   OnChange=function(self,previousSetting)
     if Ivars.adjustCameraUpdate:Is(1) then
       self.setting=0
@@ -3023,7 +3023,7 @@ this.adjustCameraUpdate={
   isMode=true,
   OnSelect=this.DisableOnSubsistence,
   --disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,--tex OFF not really needed, padmask is sufficient
-  OnActivate=function()InfCamera.OnActivateCameraAdjust()end,
+  OnModeActivate=function()InfCamera.OnActivateCameraAdjust()end,
   OnChange=function(self,previousSetting)
     if Ivars.warpPlayerUpdate:Is(1) then
       self.setting=0
@@ -3139,6 +3139,23 @@ for i,camName in ipairs(this.camNames) do
     noBounds=true,
   }
 end
+
+--highspeedcamera/slowmo
+this.speedCamContinueTime={
+  save=MISSION,
+  default=10,
+  range={max=1000,min=0,increment=1},
+}
+this.speedCamWorldTimeScale={
+  save=MISSION,
+  default=0.3,
+  range={max=100,min=0,increment=0.1},
+}
+this.speedCamPlayerTimeScale={
+  save=MISSION,
+  default=1,
+  range={max=100,min=0,increment=0.1},
+}
 
 --quiet
 this.disableQuietHumming={--tex no go

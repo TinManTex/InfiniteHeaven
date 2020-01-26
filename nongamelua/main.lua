@@ -529,12 +529,9 @@ local function PrintMenuSingle(menu,skipItems,menuCount,htmlFile)
 
     else
       local settingDescription=item.description or InfMenu.LangString(item.name)
-
-
       local indexDisplayLine=i..": "
 
       --htmlFile:write(string.format([[<div id="itemIndex">%s</div>]],indexDisplayLine))
-
 
       if IsMenu(item) then
         menuCount=menuCount+1
@@ -554,6 +551,9 @@ local function PrintMenuSingle(menu,skipItems,menuCount,htmlFile)
         if helpLangString then
           local indentsIndexDisplay=CharacterLine(" ",string.len(indexDisplayLine))
           --CULL Write(indentsIndexDisplay.."- "..helpLangString)
+          helpLangString=string.gsub(helpLangString,"<","&lt")
+          helpLangString=string.gsub(helpLangString,">","&gt")
+
           Write(helpLangString)
 
           helpLangString=string.gsub(helpLangString, "\n", "<br/>")

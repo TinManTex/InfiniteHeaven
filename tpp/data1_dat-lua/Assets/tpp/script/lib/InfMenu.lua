@@ -24,15 +24,20 @@ this.autoDisplayDefault=2.8
 this.autoRateHeld=0.85
 this.autoDisplayRate=this.autoDisplayDefault
 this.menuOn=false
+this.quickMenuOn=false
 this.toggleMenuHoldTime=1.25
 this.toggleMenuButton=InfButton.EVADE--SYNC: InfLang "menu_keys"
 this.menuRightButton=InfButton.RIGHT
 this.menuLeftButton=InfButton.LEFT
 this.menuUpButton=InfButton.UP
 this.menuDownButton=InfButton.DOWN
-this.resetSettingButton=InfButton.CALL
+this.resetSettingButton=InfButton.SUBJECT
 this.menuBackButton=InfButton.STANCE
 this.activateSettingButton=InfButton.ACTION
+this.bigIncrementButton=InfButton.FIRE
+this.smallIncrementButton=InfButton.HOLD
+this.minSettingButton=InfButton.RELOAD
+this.quickMenuHoldButton=InfButton.CALL
 
 this.lastAutoDisplayString=""
 this.maxAutoDisplayRepeat=3
@@ -95,14 +100,6 @@ function this.GetSetting(previousIndex,previousMenuOptions)
   if IsFunc(option.OnSelect) then
     option:OnSelect()
   end
-end
-
-function this.IscurrentIndexMenu()
-  local option=this.currentMenuOptions[this.currentIndex]
-  if option.options~=nil then
-    return true
-  end
-  return false
 end
 
 --tex takes a table of numbers and number ranges, ex: {1,5,{6-10},{14-20}}
@@ -384,13 +381,13 @@ function this.DisplaySetting(optionIndex)
   local settingNames=option.settingNames or option.settings
 
   if option.isMenuOff then
-    optionSeperator=itemIndicators.command_menu_off    
+    optionSeperator=itemIndicators.command_menu_off
     settingText=""
   elseif option.optionType=="COMMAND" then
-    optionSeperator=itemIndicators.command    
+    optionSeperator=itemIndicators.command
     settingText=""
   elseif option.optionType=="MENU" then
-    optionSeperator=itemIndicators.menu    
+    optionSeperator=itemIndicators.menu
     settingText=""
   elseif settingNames then
     optionSeperator=itemIndicators.equals
@@ -412,11 +409,11 @@ function this.DisplaySetting(optionIndex)
     optionSeperator=itemIndicators.equals
     settingText=tostring(option.setting)
   end
-  
+
   if option.isPercent then
-   settingSuffix="%"
+    settingSuffix="%"
   end
-  
+
   TppUiCommand.AnnounceLogDelayTime(0)
   local settingName = option.description or this.LangString(option.name)
   TppUiCommand.AnnounceLogView(optionIndex..":"..settingName..optionSeperator..settingText..settingSuffix)
@@ -439,14 +436,26 @@ function this.AutoDisplay()
 end
 function this.DisplayHelpText()
   local option=this.currentMenuOptions[this.currentIndex]
-  if option.helpText ~= nil then
+  if option.helpText~=nil then
     --this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
     TppUiCommand.AnnounceLogView(option.helpText)--ADDLANG:
   end
 end
 function this.ResetSetting()
   local option=this.currentMenuOptions[this.currentIndex]
-  this.SetSetting(option,option.default)
+  if option.optionType=="OPTION" then
+    this.SetSetting(option,option.default)
+    this.PrintLangId"setting_default"--"Setting to default.."
+    this.DisplayCurrentSetting()
+  end
+end
+function this.MinSetting()
+  local option=this.currentMenuOptions[this.currentIndex]
+  if option.optionType=="OPTION" then
+    this.SetSetting(option,option.range.min)
+    this.PrintLangId"setting_minimum"--"Setting to minimum.."
+    this.DisplayCurrentSetting()
+  end
 end
 function this.ResetSettings()
   for n,menu in pairs(InfMenuDefs.allMenus) do
@@ -487,7 +496,7 @@ function this.DebugPrint(message,...)
   elseif type(message)~="string" then
     message=tostring(message)
   end
-  
+
   if ... then
   --message=string.format(message,...)--DEBUGNOW
   end
@@ -612,28 +621,26 @@ end
 function this.Init(missionTable)
 end
 
+function this.ToggleMenu(execCheck)
+  if this.CheckActivate(execCheck) then
+    this.menuOn = not this.menuOn
+    if this.menuOn then
+      this.OnActivate()
+    else
+      this.OnDeactivate()
+      return
+    end
+  end
+end
+
 function this.MenuOff()
   this.menuOn=false
   this.OnDeactivate()
 end
 
 function this.OnActivate()
-  InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime--tex set up hold buttons
+  this.ActivateControlSet()
 
-  InfButton.buttonStates[this.menuUpButton].decrement=0.1
-  InfButton.buttonStates[this.menuDownButton].decrement=0.1
-  InfButton.buttonStates[this.menuRightButton].decrement=0.1
-  InfButton.buttonStates[this.menuLeftButton].decrement=0.1
-
-  local repeatRate=0.85
-  InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.menuDownButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.menuRightButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.menuLeftButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.resetSettingButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.menuBackButton].repeatRate=repeatRate
-
-  InfMain.DisableAction(InfMain.menuDisableActions)
   this.GetSetting()
   TppUiStatusManager.ClearStatus"AnnounceLog"
   TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
@@ -644,11 +651,16 @@ end
 function this.OnDeactivate()
   this.PrintLangId"menu_off"--"Menu Off"
   --InfMain.RestoreActionFlag()
-  InfMain.EnableAction(InfMain.menuDisableActions)
+  this.DeactivateControlSet()
   InfMain.OnMenuClose()
 end
 
 function this.CheckActivate(execCheck)
+  local disallowCheck=execCheck.inGroundVehicle or execCheck.onBuddy or execCheck.inBox
+  return not disallowCheck and not TppUiCommand.IsMbDvcTerminalOpened()
+end
+
+function this.CheckActivateQuickMenu(execCheck)
   local disallowCheck=execCheck.inGroundVehicle or execCheck.onBuddy or execCheck.inBox
   return not disallowCheck and not TppUiCommand.IsMbDvcTerminalOpened()
 end
@@ -658,12 +670,15 @@ function this.Update(execCheck)
   --InfInspect.TryFunc(function(execCheck)--DEBUG
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
+  --TODO NOTE controlset deactivate on game state change
   if not execCheck.inGame then
     this.menuOn = false
+    this.quickMenuOn=false
     return
   end
 
   if this.menuOn then
+    --TODO NOTE controlset deactivate on game state change
     if not this.CheckActivate(execCheck) then
       this.menuOn=false
       this.OnDeactivate()
@@ -671,17 +686,10 @@ function this.Update(execCheck)
     end
   end
 
+  --TODO NOTE controlset toggle on button
   if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
     --InfMenu.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
-    if this.CheckActivate(execCheck) then
-      this.menuOn = not this.menuOn
-      if this.menuOn then
-        this.OnActivate()
-      else
-        this.OnDeactivate()
-        return
-      end
-    end
+    this.ToggleMenu(execCheck)
   end
 
   if execCheck.inHeliSpace then
@@ -699,61 +707,112 @@ function this.Update(execCheck)
   end
 
   if this.menuOn then
-    --    if InfButton.OnButtonDown(this.toggleMenuButton) then--tex update gvar of current
-    --      this.SetCurrent()
-    --      this.DisplayCurrentSetting()
-    --    end
-
-    if InfButton.OnButtonDown(this.activateSettingButton) then
-      this.ActivateCurrent()
-      --this.DisplayCurrentSetting()
-    end
-
-    if InfButton.OnButtonDown(this.menuUpButton)
-      or InfButton.OnButtonRepeat(this.menuUpButton) then
-      this.PreviousOption()
-      this.DisplayCurrentSetting()
-    end
-    if InfButton.OnButtonDown(this.menuDownButton)
-      or InfButton.OnButtonRepeat(this.menuDownButton) then
-      this.NextOption()
-      this.DisplayCurrentSetting()
-    end
-
-    if InfButton.OnButtonDown(this.menuRightButton) then
-      this.NextSetting()
-      this.DisplayCurrentSetting()
-    elseif InfButton.OnButtonUp(this.menuRightButton) then
-      this.autoDisplayRate=this.autoDisplayDefault
-    elseif InfButton.OnButtonRepeat(this.menuRightButton) then
-      this.autoDisplayRate=this.autoRateHeld
-      this.NextSetting(InfButton.GetRepeatMult())
-    end
-
-    if InfButton.OnButtonDown(this.menuLeftButton) then
-      this.PreviousSetting()
-      this.DisplayCurrentSetting()
-    elseif InfButton.OnButtonUp(this.menuLeftButton) then
-      this.autoDisplayRate=this.autoDisplayDefault
-    elseif InfButton.OnButtonRepeat(this.menuLeftButton) then
-      this.autoDisplayRate=this.autoRateHeld
-      this.PreviousSetting(InfButton.GetRepeatMult())
-    end
-
-    if InfButton.OnButtonDown(this.resetSettingButton) then
-      this.ResetSetting()
-      this.PrintLangId"setting_default"--"Setting to default.."
-      this.DisplayCurrentSetting()
-    end
-    if InfButton.OnButtonDown(this.menuBackButton) then
-      this.GoBackCurrent()
-    end
+    this.DoControlSet()
 
     this.AutoDisplay()
   end--!menuOn
 
+  --quickmenu>
+  if InfButton.ButtonDown(this.quickMenuHoldButton) then
+    this.quickMenuOn=true
+    local quickMenu=InfQuickMenuDefs.inMission
+    if execCheck.inHeliSpace then
+      quickMenu=InfQuickMenuDefs.inHeliSpace
+    end
+    --InfMenu.DebugPrint"quickMenuOn"--DEBUGNOW
+    for button,Func in pairs(quickMenu) do
+      if InfButton.OnButtonDown(button) then
+        Func(execCheck)
+      end
+    end
+  else
+    this.quickMenuOn=false
+  end
+  --<
+
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.3,0)--tex dog--tex ghetto as 'does it run?' indicator
   --end,execCheck)--DEBUG
+end
+
+function this.ActivateControlSet()
+  --tex set up hold buttons
+  InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime
+  InfButton.buttonStates[this.quickMenuHoldButton].holdTime=this.quickMenuHoldTime
+
+  InfButton.buttonStates[this.menuUpButton].decrement=0.1
+  InfButton.buttonStates[this.menuDownButton].decrement=0.1
+  InfButton.buttonStates[this.menuRightButton].decrement=0.1
+  InfButton.buttonStates[this.menuLeftButton].decrement=0.1
+
+  local repeatRate=0.85
+  InfButton.buttonStates[this.menuUpButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.menuDownButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.menuRightButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.menuLeftButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.resetSettingButton].repeatRate=repeatRate
+  InfButton.buttonStates[this.menuBackButton].repeatRate=repeatRate
+
+  InfMain.DisableAction(InfMain.menuDisableActions)
+end
+
+function this.DeactivateControlSet()
+  InfMain.EnableAction(InfMain.menuDisableActions)
+end
+
+function this.DoControlSet()
+  if InfButton.OnButtonDown(this.minSettingButton) then
+    this.MinSetting()
+  end
+
+  if InfButton.OnButtonDown(this.activateSettingButton) then
+    this.ActivateCurrent()
+    --this.DisplayCurrentSetting()
+  end
+
+  if InfButton.OnButtonDown(this.resetSettingButton) and not this.quickMenuOn then
+    this.ResetSetting()
+  end
+  if InfButton.OnButtonDown(this.menuBackButton) then
+    this.GoBackCurrent()
+  end
+
+
+  if InfButton.OnButtonDown(this.menuUpButton)
+    or InfButton.OnButtonRepeat(this.menuUpButton) then
+    this.PreviousOption()
+    this.DisplayCurrentSetting()
+  end
+  if InfButton.OnButtonDown(this.menuDownButton)
+    or InfButton.OnButtonRepeat(this.menuDownButton) then
+    this.NextOption()
+    this.DisplayCurrentSetting()
+  end
+
+  local incrementMod=1
+  if InfButton.ButtonDown(this.bigIncrementButton) then
+    incrementMod=10
+  elseif InfButton.ButtonDown(this.smallIncrementButton) then
+    incrementMod=0.1
+  end
+  if InfButton.OnButtonDown(this.menuRightButton) then
+    this.NextSetting(incrementMod)
+    this.DisplayCurrentSetting()
+  elseif InfButton.OnButtonUp(this.menuRightButton) then
+    this.autoDisplayRate=this.autoDisplayDefault
+  elseif InfButton.OnButtonRepeat(this.menuRightButton) then
+    this.autoDisplayRate=this.autoRateHeld
+    this.NextSetting(incrementMod*InfButton.GetRepeatMult())
+  end
+
+  if InfButton.OnButtonDown(this.menuLeftButton) then
+    this.PreviousSetting(incrementMod)
+    this.DisplayCurrentSetting()
+  elseif InfButton.OnButtonUp(this.menuLeftButton) then
+    this.autoDisplayRate=this.autoDisplayDefault
+  elseif InfButton.OnButtonRepeat(this.menuLeftButton) then
+    this.autoDisplayRate=this.autoRateHeld
+    this.PreviousSetting(incrementMod*InfButton.GetRepeatMult())
+  end
 end
 
 local didWelcome=false

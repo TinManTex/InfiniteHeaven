@@ -1,3 +1,5 @@
+-- DOBUILD: 0 --DEBUGNOW
+-- TppAnimal.lua
 local this={}
 local StrCode32=Fox.StrCode32
 local IsFunc=Tpp.IsTypeFunc
@@ -121,8 +123,8 @@ function this.SetAnimalId(type,name,animalId)
   local command={id="SetAnimalId",name=name,animalId=animalId}
   GameObject.SendCommand(gameId,command)
 end
-function this.SetBird(e)
-  for n,birdInfo in ipairs(e)do
+function this.SetBird(birdList)
+  for n,birdInfo in ipairs(birdList)do
     local birdGameId={type=birdInfo.birdType,index=0}
     local setEnabledCommand={id="SetEnabled",name=birdInfo.name,birdIndex=0,enabled=true}
     GameObject.SendCommand(birdGameId,setEnabledCommand)
@@ -142,80 +144,86 @@ function this.SetBird(e)
     end
   end
 end
-function TppRatBird._EnableBirds(e)
-  for e,e in ipairs(mvars.rat_bird_birdList)do
-  end
-end
-function this.OnActivateQuest(t)
+--RETAILBUG DEBUGNOW I dont get why it's overriding TppRatBird enablebirds (which it is because of the order in Tpp.requires). I do see TppRatBird enablebirds has a bug, were they sidestepping that, otherwise how are the birds set up?
+--DEBUGNOW OFF
+--function TppRatBird._EnableBirds(e)
+--  for i,birdInfo in ipairs(mvars.rat_bird_birdList)do
+--  end
+--end
+--IN: quest script .QUEST_TABLE
+function this.OnActivateQuest(questTable)
   if mvars.ani_isQuestSetup==false then
     mvars.ani_questTargetList={}
     mvars.ani_questGameObjectIdList={}
   end
-  local a=false
-  if(t.animalList and Tpp.IsTypeTable(t.animalList))and next(t.animalList)then
-    for t,n in pairs(t.animalList)do
-      if n.animalName then
-        if n.colorId then
-          this.SetFova(n.animalType,n.animalName,n.colorId)a=true
+  local addedAnimal=false
+  if(questTable.animalList and Tpp.IsTypeTable(questTable.animalList))and next(questTable.animalList)then
+    for i,animalInfo in pairs(questTable.animalList)do
+      if animalInfo.animalName then
+        if animalInfo.colorId then
+          this.SetFova(animalInfo.animalType,animalInfo.animalName,animalInfo.colorId)
+          addedAnimal=true
         end
-        if n.animalId then
-          this.SetAnimalId(n.animalType,n.animalName,n.animalId)a=true
+        if animalInfo.animalId then
+          this.SetAnimalId(animalInfo.animalType,animalInfo.animalName,animalInfo.animalId)
+          addedAnimal=true
         end
-        if n.kindId then
-          this.SetKind(n.animalType,n.animalName,n.kindId)a=true
+        if animalInfo.kindId then
+          this.SetKind(animalInfo.animalType,animalInfo.animalName,animalInfo.kindId)
+          addedAnimal=true
         end
-        if n.routeName then
-          if n.animalType=="TppBear"then
-            this.SetRoute(n.animalType,n.animalName,n.routeName)
+        if animalInfo.routeName then
+          if animalInfo.animalType=="TppBear"then
+            this.SetRoute(animalInfo.animalType,animalInfo.animalName,animalInfo.routeName)
           else
-            this.SetHerdRoute(n.animalType,n.animalName,n.routeName)
+            this.SetHerdRoute(animalInfo.animalType,animalInfo.animalName,animalInfo.routeName)
           end
-          a=true
+          addedAnimal=true
         end
-        if n.isNotice then
-          this.SetNotice(n.animalType,n.animalName,false)a=true
+        if animalInfo.isNotice then
+          this.SetNotice(animalInfo.animalType,animalInfo.animalName,false)addedAnimal=true
         end
-        if n.isIgnoreNotice then
-          this.SetIgnoreNotice(n.animalType,n.animalName,true)a=true
+        if animalInfo.isIgnoreNotice then
+          this.SetIgnoreNotice(animalInfo.animalType,animalInfo.animalName,true)addedAnimal=true
         end
-        if n.isSleep then
-          this.SetSleep(n.animalType,n.animalName,n.isSleep)a=true
+        if animalInfo.isSleep then
+          this.SetSleep(animalInfo.animalType,animalInfo.animalName,animalInfo.isSleep)addedAnimal=true
         end
       end
-      if n.birdList then
-        this.SetBird(n.birdList)
-        a=true
+      if animalInfo.birdList then
+        this.SetBird(animalInfo.birdList)
+        addedAnimal=true
       end
     end
   end
   local animalId={messageId="None",idType="animalId"}
   local databaseId={messageId="None",idType="databaseId"}
   if mvars.ani_isQuestSetup==false then
-    if(t.targetAnimalList and Tpp.IsTypeTable(t.targetAnimalList))and next(t.targetAnimalList)then
-      local e=t.targetAnimalList
-      if e.markerList then
-        for n,e in pairs(e.markerList)do
-          TppMarker.SetQuestMarker(e)
-          local e=GetGameObjectId(e)
-          TppBuddyService.SetTargetAnimalId(e)
-          table.insert(mvars.ani_questGameObjectIdList,e)
+    if(questTable.targetAnimalList and Tpp.IsTypeTable(questTable.targetAnimalList))and next(questTable.targetAnimalList)then
+      local targetAnimalList=questTable.targetAnimalList
+      if targetAnimalList.markerList then
+        for n,animalName in pairs(targetAnimalList.markerList)do
+          TppMarker.SetQuestMarker(animalName)
+          local animalGameId=GetGameObjectId(animalName)
+          TppBuddyService.SetTargetAnimalId(animalGameId)
+          table.insert(mvars.ani_questGameObjectIdList,animalGameId)
         end
       end
-      if e.animalIdList then
-        for n,e in pairs(e.animalIdList)do
-          mvars.ani_questTargetList[e]=animalId
-          a=true
+      if targetAnimalList.animalIdList then
+        for n,animalId in pairs(targetAnimalList.animalIdList)do
+          mvars.ani_questTargetList[animalId]=animalId
+          addedAnimal=true
         end
       end
-      if e.dataBaseIdList then
-        for t,e in pairs(e.dataBaseIdList)do
-          mvars.ani_questTargetList[e]=databaseId
-          a=true
+      if targetAnimalList.dataBaseIdList then
+        for n,animalId in pairs(targetAnimalList.dataBaseIdList)do
+          mvars.ani_questTargetList[animalId]=databaseId
+          addedAnimal=true
         end
       end
     end
   end
-  if a==true then
+  if addedAnimal==true then
     mvars.ani_isQuestSetup=true
   end
 end
@@ -254,14 +262,14 @@ function this.CheckQuestAllTarget(d,a,n,animalId)
   if TppQuest.IsEnd(currentQuestName)then
     return questClearType
   end
-  for n,e in pairs(mvars.ani_questTargetList)do
-    if e.idType=="animalId"then
+  for n,targetInfo in pairs(mvars.ani_questTargetList)do
+    if targetInfo.idType=="animalId"then
       if n==t then
-        e.messageId=a or"None"
+        targetInfo.messageId=a or"None"
         end
-    elseif e.idType=="databaseId"then
+    elseif targetInfo.idType=="databaseId"then
       if n==databaseId then
-        e.messageId=a or"None"
+        targetInfo.messageId=a or"None"
         end
     end
   end
@@ -269,13 +277,13 @@ function this.CheckQuestAllTarget(d,a,n,animalId)
   local a=0
   local e=0
   local t=0
-  for n,e in pairs(mvars.ani_questTargetList)do
-    if e.messageId~="None"then
-      if e.messageId=="Fulton"then
+  for n,targetInfo in pairs(mvars.ani_questTargetList)do
+    if targetInfo.messageId~="None"then
+      if targetInfo.messageId=="Fulton"then
         i=i+1
-      elseif e.messageId=="Dead"then
+      elseif targetInfo.messageId=="Dead"then
         t=t+1
-      elseif e.messageId=="FultonFailed"then
+      elseif targetInfo.messageId=="FultonFailed"then
         a=a+1
       end
     end

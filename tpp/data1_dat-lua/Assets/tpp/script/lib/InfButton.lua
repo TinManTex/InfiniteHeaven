@@ -100,18 +100,20 @@ function this.DEBUG_PrintPressed()
   end
 end
 function this.UpdatePressed()
+  --this.DEBUG_PrintPressed()--DEBUG
   for name,buttonMask in pairs(this.buttonMasks) do
     this.buttonStates[buttonMask].isPressed = this.ButtonDown(buttonMask)
   end
 end
 function this.UpdateHeld()
   for name,buttonMask in pairs(this.buttonMasks) do
-    if this.buttonStates[buttonMask].holdTime~=0 then
-      if this.OnButtonDown(buttonMask)then
-        this.buttonStates[buttonMask].startTime=Time.GetRawElapsedTimeSinceStartUp()
+    local buttonState=this.buttonStates[buttonMask]
+    if buttonState.holdTime~=0 then
+      if not buttonState.isPressed and (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--OnButtonDown
+        buttonState.startTime=Time.GetRawElapsedTimeSinceStartUp()
       end
-      if not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--this.ButtonDown(button)then
-        this.buttonStates[buttonMask].startTime=0
+      if not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--ButtonDown
+        buttonState.startTime=0
       end
     end
   end

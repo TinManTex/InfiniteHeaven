@@ -435,7 +435,6 @@ this.disableSupportMenuMenu={
 
 this.worldMenu={
   options={
-    Ivars.clockTimeScale,
     Ivars.gameEventChanceFREE,
     Ivars.gameEventChanceMB,
     Ivars.repopulateRadioTapes,
@@ -467,15 +466,25 @@ this.playerRestrictionsMenu={
   }
 }
 
+this.timeScaleMenu={
+  options={
+    InfMenuCommands.highSpeedCameraToggle,
+    Ivars.speedCamContinueTime,
+    Ivars.speedCamWorldTimeScale,
+    Ivars.speedCamPlayerTimeScale,
+    Ivars.clockTimeScale,
+  }
+}
+
 this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    --    InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUGNOW
-    --    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUGNOW
+    --    InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
+    --    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
     --    InfMenuCommands.DEBUG_PrintMenu,
-    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
     --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
@@ -499,6 +508,7 @@ this.heliSpaceMenu={
     this.motherBaseMenu,
     this.demosMenu,
     this.cameraMenu,
+    this.timeScaleMenu,
     this.supportHeliMenu,
     --this.missionEntryExitMenu,
     --this.appearanceMenu,--tex  WIP
@@ -561,8 +571,8 @@ this.inMissionMenu={
     InfMenuCommands.forceExitHeli,
     Ivars.warpPlayerUpdate,
     this.cameraMenu,
+    this.timeScaleMenu,
     this.userMarkerMenu,
-    Ivars.clockTimeScale,
     Ivars.quietRadioMode,
     this.playerRestrictionsInMissionMenu,
     this.phaseMenu,

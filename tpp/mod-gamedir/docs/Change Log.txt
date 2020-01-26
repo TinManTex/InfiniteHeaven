@@ -1,5 +1,14 @@
 Infinite Heaven changelog
 
+r165 - 2016-07-04 - public release
+Module: InfQuickMenuDefs - quickmenu, actual implmentation in InfMenu
+
+Feature: Time scale mode - using HighSpeedCamera that's used in CQC/Death and I assume Reflex - thanks Shigu for reminding me
+Command: highSpeedCameraToggle - Toggle TSM - Lets you manually toggle Time scale mode that's usually used for Reflex/CQC
+Option: speedCamContinueTime="TSM length (seconds) - The time in seconds of the TSM
+Option: speedCamWorldTimeScale="TSM world time scale -  scale of the world, including soldiers/vehicles during TSM
+Option: speedCamPlayerTimeScale="TSM player time scale - Time scale of the player during TSM
+
 r165 - 2016-07-02 - public release
 Fixed: Infinite load on Motherbase with Walker gears and a low number of platforms - thanks rzaldi for the report and save file.
 

@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r165"
+this.modVersion="r166"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -386,7 +386,7 @@ this.cpPositions={
     mafr_savannahNorth_ob={},--Guard Post 05, NE Ditadi Abandoned Village
     mafr_outlandNorth_ob={-806.758,1.056,690.615},--Guard Post 06, North Masa Village
     mafr_diamondWest_ob={},--Guard Post 07, West Kungenga Mine
-    mafr_labWest_ob={},--Guard Post 08, NW Lufwa Valley
+    mafr_labWest_ob={2146.880,192.241,-2177.558},--Guard Post 08, NW Lufwa Valley
     mafr_savannahWest_ob={},--Guard Post 09, North Ditadi Abandoned Village
     mafr_swampEast_ob={},--Guard Post 10, SE Kiziba Camp
     mafr_outlandEast_ob={},--Guard Post 11, East Masa Village
@@ -501,7 +501,7 @@ end
 this.menuDisableActions=PlayerDisableAction.OPEN_EQUIP_MENU--+PlayerDisableAction.OPEN_CALL_MENU
 
 function this.RestoreActionFlag()
-  local activeControlMode=this.GetActiveControlMode()
+  --local activeControlMode=this.GetActiveControlMode()
   -- WIP
   --  if activeControlMode then
   --    if bit.band(vars.playerDisableActionFlag,menuDisableActions)==menuDisableActions then
@@ -1261,38 +1261,32 @@ this.moveRightButton=InfButton.RIGHT
 this.moveLeftButton=InfButton.LEFT
 this.moveForwardButton=InfButton.UP
 this.moveBackButton=InfButton.DOWN
-this.moveUpButton=InfButton.STANCE
-this.moveDownButton=InfButton.CALL
+this.moveUpButton=InfButton.DASH
+this.moveDownButton=InfButton.ZOOM_CHANGE
 --cam buttons
---CULL
---this.zoomInButton=InfButton.ZOOM_CHANGE
---this.zoomOutButton=InfButton.SUBJECT
-
-this.resetModeButton=InfButton.ACTION
-this.verticalModeButton=InfButton.SUBJECT
+this.resetModeButton=InfButton.SUBJECT
+this.verticalModeButton=InfButton.ACTION
 this.zoomModeButton=InfButton.FIRE
 this.apertureModeButton=InfButton.RELOAD
 this.focusDistanceModeButton=InfButton.STANCE
-this.distanceModeButton=InfButton.CALL
-this.speedModeButton=InfButton.DASH
+this.distanceModeButton=InfButton.HOLD
+this.speedModeButton=InfButton.ACTION
 
 this.nextEditCamButton=InfButton.RIGHT
 this.prevEditCamButton=InfButton.LEFT
 
-this.warpModeButtons={
-  this.moveRightButton,
-  this.moveLeftButton,
-  this.moveForwardButton,
-  this.moveBackButton,
-  this.moveUpButton,
-  this.moveDownButton,
-}
+
 
 --init
 function this.InitWarpPlayerUpdate(currentChecks)
 end
 
 function this.OnActivateWarpPlayer()
+  this.ActivateControlSet()
+
+end
+
+function this.ActivateControlSet()
   InfButton.buttonStates[this.moveRightButton].decrement=0.1
   InfButton.buttonStates[this.moveLeftButton].decrement=0.1
   InfButton.buttonStates[this.moveForwardButton].decrement=0.1
@@ -1332,6 +1326,10 @@ function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,up
     return
   end
 
+  this.DoControlSet(currentChecks)
+end
+
+function this.DoControlSet(currentChecks)
   local warpAmount=1
   local warpUpAmount=1
 

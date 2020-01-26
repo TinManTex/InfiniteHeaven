@@ -350,24 +350,24 @@ function this.SafeStopAndPostJingleOnShowResult()
   end
   TppSoundDaemon.SetMute"Result"
 end
-function this.PostJingleStartResultPresentation(n)
+function this.PostJingleStartResultPresentation(rank)
   if vars.missionCode==50050 then
     return
   end
-  local n=this.ResultRankJingle[n]
-  if n==nil then
-    n=this.ResultRankJingle[TppDefine.MISSION_CLEAR_RANK.C]
+  local jingleName=this.ResultRankJingle[rank]
+  if jingleName==nil then
+    jingleName=this.ResultRankJingle[TppDefine.MISSION_CLEAR_RANK.C]
   end
   if vars.missionCode~=10260 then
-    TppMusicManager.PostJingleEvent("SingleShot",n)
+    TppMusicManager.PostJingleEvent("SingleShot",jingleName)
   end
-  local e={}
+  local radioGroups={}
   if TppRadio.playingBlackTelInfo and TppRadio.playingBlackTelInfo.radioGroups then
-    e=TppRadio.playingBlackTelInfo.radioGroups
+    radioGroups=TppRadio.playingBlackTelInfo.radioGroups
   end
-  TppUiCommand.SetResultSound(mvars.snd_showCreditJingle,e[1],e[2],e[3],e[4])
-  for n=1,4 do
-    TppRadio.SetBlackTelephoneDisplaySetting(e[n])
+  TppUiCommand.SetResultSound(mvars.snd_showCreditJingle,radioGroups[1],radioGroups[2],radioGroups[3],radioGroups[4])
+  for index=1,4 do
+    TppRadio.SetBlackTelephoneDisplaySetting(radioGroups[index])
   end
 end
 function this.PostJingleOnStartBlackTelephoneSequence()
