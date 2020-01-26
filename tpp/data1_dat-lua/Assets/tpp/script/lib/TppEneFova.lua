@@ -655,9 +655,9 @@ function fovaSetupFuncs.Afghan(n,missionId)
 
   --tex>wildcard soviet boddies
   if InfMain.IsWildCardEnabled(missionId) then
-    InfMain.WildCardFova(bodies)
+    InfEneFova.WildCardFova(bodies)
 
-    for n,bodyId in pairs(InfMain.wildCardBodiesAfgh)do
+    for n,bodyId in pairs(InfEneFova.wildCardBodiesAfgh)do
       local entry={bodyId,MAX_REALIZED_COUNT}
       table.insert(bodies,entry)
     end
@@ -741,9 +741,9 @@ function fovaSetupFuncs.Africa(n,missionId)
 
   --tex> wildcard pf bodies
   if InfMain.IsWildCardEnabled(missionId) then
-    InfMain.WildCardFova(bodies)
+    InfEneFova.WildCardFova(bodies)
 
-    for n,bodyId in pairs(InfMain.wildCardBodiesMafr)do
+    for n,bodyId in pairs(InfEneFova.wildCardBodiesMafr)do
       local entry={bodyId,MAX_REALIZED_COUNT}
       table.insert(bodies,entry)
     end
@@ -831,12 +831,12 @@ function fovaSetupFuncs.Mb(n,missionId)
 
   --tex> ddsuit SetDefaultPartsPath
   if InfMain.IsDDBodyEquip(missionId) then
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
     if bodyInfo and bodyInfo.partsPath then
       TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
     end
 
-    for faceId, faceInfo in pairs(InfMain.ddHeadGearInfo) do
+    for faceId, faceInfo in pairs(InfEneFova.ddHeadGearInfo) do
       table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
     end
     --<
@@ -995,7 +995,7 @@ function fovaSetupFuncs.Mb(n,missionId)
   local bodies={}
   --tex> ddsuit bodies
   if InfMain.IsDDBodyEquip(missionId) then
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
     if bodyInfo then
       if bodyInfo.maleBodyId then
         this.SetupBodies(bodyInfo.maleBodyId,bodies)
@@ -1010,7 +1010,7 @@ function fovaSetupFuncs.Mb(n,missionId)
       end
     end
 
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo(true)--tex female
+    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(true)--tex female
     if bodyInfo then
       if bodyInfo.femaleBodyId then
         this.SetupBodies(bodyInfo.femaleBodyId,bodies)
@@ -1044,13 +1044,13 @@ function fovaSetupFuncs.Mb(n,missionId)
   if InfMain.IsDDBodyEquip(missionId) then
 
     --tex CULL only female uses extendparts
-    --    local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+    --    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
     --    if bodyInfo then
     --      if bodyInfo.extendPartsInfo then
     --        TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
     --      end
     --    end
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo(true)--tex female
+    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(true)--tex female
     if bodyInfo and bodyInfo.extendPartsInfo then
       TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
     end
@@ -1427,7 +1427,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
   if InfMain.IsDDBodyEquip(vars.missionCode) then
 
     local isFemale=IsFemale(faceId)
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo(isFemale)
+    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(isFemale)
     if bodyInfo then
       if isFemale and bodyInfo.femaleBodyId then
         bodyId=bodyInfo.femaleBodyId
@@ -1511,7 +1511,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       local wantHeadgear = useBalaclava or powerSettings and (powerSettings.HELMET or powerSettings.GAS_MASK or powerSettings.NVG)
       if wantHeadgear and bodyInfo and not bodyInfo.noDDHeadgear then
         powerSettings=powerSettings or {}
-        local validHeadGearIds=InfMain.GetHeadGearForPowers(powerSettings,faceId,bodyInfo.hasHelmet)
+        local validHeadGearIds=InfEneFova.GetHeadGearForPowers(powerSettings,faceId,bodyInfo.hasHelmet)
         if #validHeadGearIds>0 then
           local rnd=math.random(#validHeadGearIds)--tex random seed management outside the function since it's called in a loop
           balaclavaFaceId=TppEnemyFaceId[ validHeadGearIds[rnd] ]

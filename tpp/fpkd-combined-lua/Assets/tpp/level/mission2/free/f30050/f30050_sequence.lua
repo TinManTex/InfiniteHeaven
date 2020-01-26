@@ -1120,9 +1120,9 @@ this.RegisterFovaFpk = function( clusterId )
     --local faceGroupTable=
     for i=1,MAX_FACE_NUM_IN_CLUSTER do
       if Ivars.mbWargameFemales:Is(1) and math.random()<.15 then
-        table.insert(securityStaffFaceIds,InfMain.RandomFaceId(InfMain.femaleFaceIds))
+        table.insert(securityStaffFaceIds,InfEneFova.RandomFaceId(InfEneFova.femaleFaceIds))
       else
-        table.insert(securityStaffFaceIds,InfMain.RandomFaceId(InfMain.maleFaceIds))--tex DOC face and bodyids.txt
+        table.insert(securityStaffFaceIds,InfEneFova.RandomFaceId(InfEneFova.maleFaceIds))--tex DOC face and bodyids.txt
       end
     end
     InfMain.ResetTrueRandom()

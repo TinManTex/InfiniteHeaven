@@ -1,4 +1,4 @@
--- DOBUILD: 1 --DEBUGNOW
+-- DOBUILD: 0 --DEBUGNOW
 this={}
 TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=1,combatRate=0,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0}
 TppMotherBaseManagement.RegisterStaffTypePeaks{staffTypeId=2,combatRate=100,developRate=0,medicalRate=0,supportRate=0,spyRate=0,baseDevRate=0}

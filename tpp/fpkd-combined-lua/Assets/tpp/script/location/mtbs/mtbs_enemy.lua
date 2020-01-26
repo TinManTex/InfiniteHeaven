@@ -1145,7 +1145,7 @@ mtbs_enemy.SetEnemyLocationType = function ()
 
     --tex> the helmet model that pops off seems to be in-engine coded to soldier type (and also requires the relevant fpk), even though I override soldier type during soldier setup it's somewhere after this set command and there--DEBUGNOW
     if InfMain.IsDDBodyEquip() then
-      local bodyInfo=InfMain.GetCurrentDDBodyInfo()
+      local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
       local soldierType=EnemyType.TYPE_DD
       if bodyInfo and bodyInfo.soldierSubType then
         soldierType=InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]

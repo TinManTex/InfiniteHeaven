@@ -581,13 +581,14 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
       local isGroundStart=false--tex WORKAROUND
       if gvars.heli_missionStartRoute~=0 then
         local groundStart=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]--tex startOnFoot>
-        local rotY=groundStart.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest
+        local rotY=0
         local isMbFree=TppMission.IsMbFreeMissions(vars.missionCode) and (nextIsFreeMission or isFreeMission)
         if Ivars.startOnFoot:Is(1) and (groundStart~=nil or isMbFree) then
           TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
           --TppHelicopter.ResetMissionStartHelicopterRoute()
           if groundStart then
             isGroundStart=not isMbFree
+            rotY=groundStart.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest
             mvars.mis_helicopterMissionStartPosition=groundStart.pos
           end
         else--not ground start --tex <startOnFoot
@@ -629,24 +630,17 @@ function this.ReservePlayerLoadingPosition(missionLoadType,isHeliSpace,isFreeMis
       TppMission.ResetIsStartFromHelispace()
       TppMission.ResetIsStartFromFreePlay()
       TppLocation.MbFreeSpecialMissionStartSetting(TppMission.GetMissionClearType())
-      --DEBUGNOW REF MbFreeSpecialMissionStartSetting CULL
-      --      if missionClearType==TppDefine.MISSION_CLEAR_TYPE.HELI_TAX_MB_FREE_CLEAR then
-      --        if mvars.mis_helicopterMissionStartPosition then
-      --          TppPlayer.SetInitialPosition(mvars.mis_helicopterMissionStartPosition,0)
-      --          TppPlayer.SetMissionStartPosition(mvars.mis_helicopterMissionStartPosition,0)
-      --        end
-      --        TppMission.SetIsStartFromHelispace()
-      --        TppMission.ResetIsStartFromFreePlay()
-      --      end
-      local groundStart=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]--tex startOnFoot>
-      if Ivars.startOnFoot:Is(1) and groundStart then
-        TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
-        if groundStart then
-          local pos=groundStart.pos
-          local rotY=groundStart.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest
-          mvars.mis_helicopterMissionStartPosition=pos
-          TppPlayer.SetInitialPosition(pos,rotY)
-          TppPlayer.SetMissionStartPosition(pos,rotY)
+      if gvars.heli_missionStartRoute~=0 then--tex startOnFoot>
+        local groundStart=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]
+        if Ivars.startOnFoot:Is(1) and groundStart then
+          TppPlayer.SetStartStatus(TppDefine.INITIAL_PLAYER_STATE.ON_FOOT)
+          if groundStart then
+            local pos=groundStart.pos
+            local rotY=groundStart.rotY or 0--tex TODO: RETRY: fill out, or tocenter or to closest
+            mvars.mis_helicopterMissionStartPosition=pos
+            TppPlayer.SetInitialPosition(pos,rotY)
+            TppPlayer.SetMissionStartPosition(pos,rotY)
+          end
         end
       end--<
     elseif(isFreeMission and TppLocation.IsMotherBase())then

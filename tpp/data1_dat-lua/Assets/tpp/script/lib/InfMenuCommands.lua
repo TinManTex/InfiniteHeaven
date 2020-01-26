@@ -203,7 +203,7 @@ this.printHealthTableParameter={
 
 this.printCustomRevengeConfig={
   OnChange=function()
-    local revengeConfig=InfMain.CreateCustomRevengeConfig()
+    local revengeConfig=InfRevenge.CreateCustomRevengeConfig()
     local ins=InfInspect.Inspect(revengeConfig)
     InfMenu.DebugPrint(ins)
   end
@@ -257,7 +257,7 @@ this.warpPlayerCommand={--WIP
 
 this.warpToCamPos={
   OnChange=function()
-    local warpPos=InfMain.ReadPosition"FreeCam"
+    local warpPos=InfCamera.ReadPosition"FreeCam"
     InfMenu.DebugPrint("warp pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
     TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
   end,
@@ -266,7 +266,7 @@ this.warpToCamPos={
 this.warpToUserMarker={
   OnChange=function()
     InfInspect.TryFunc(function()
-      --DEBUGNOW InfMenu.DebugPrint"Warping to newest marker"
+      -- InfMenu.DebugPrint"Warping to newest marker"
       local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
       if lastMarkerIndex==nil then
         InfMenu.DebugPrint("lastMarkerIndex==nil")
@@ -274,8 +274,6 @@ this.warpToUserMarker={
         InfUserMarker.PrintUserMarker(lastMarkerIndex)
         InfUserMarker.WarpToUserMarker(lastMarkerIndex)
       end
-
-      --InfMain.WarpToUserMarkerCycle()
     end)
   end
 }
@@ -532,12 +530,6 @@ this.DEBUG_PrintVehiclePaint={
     InfMenu.DebugPrint("Vehicle.paintType.FOVA_0="..Vehicle.paintType.FOVA_0)
     InfMenu.DebugPrint("Vehicle.paintType.FOVA_1="..Vehicle.paintType.FOVA_1)
     InfMenu.DebugPrint("Vehicle.paintType.FOVA_2="..Vehicle.paintType.FOVA_2)
-  end,
-}
-
-this.DEBUG_CheckReinforceDeactivate={
-  OnChange=function()
-    InfMain.CheckReinforceDeactivate()
   end,
 }
 
@@ -828,7 +820,7 @@ this.DEBUG_WarpToObject={
 
     while (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
       Step()
-      coroutine.yeild()--DEBUGNOW
+      --coroutine.yeild()
     end
 
 

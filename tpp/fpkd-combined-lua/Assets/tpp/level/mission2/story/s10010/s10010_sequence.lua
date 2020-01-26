@@ -1,4 +1,4 @@
--- DOBUILD: 0--DEBUGNOW disable before release
+-- DOBUILD: 0 --DEBUGNOW disable before release
 -- ORIGINALQAR: chunk0
 -- PACKPATH: \Assets\tpp\pack\mission2\story\s10010\s10010_l01.fpkd
 --DEBUGNOW also \Assets\tpp\pack\mission2\story\s10010\s10010_l02.fpkd
@@ -1467,7 +1467,7 @@ function s10010_sequence.OnEndMissionPrepareSequence()
 
 	
 	if mvars.doesPlayerBedAction then
-		s10010_sequence.StartBedAction( { stance = mvars.bedActionStance, }, true, false )
+		--DEBUGNOW s10010_sequence.StartBedAction( { stance = mvars.bedActionStance, }, true, false )
 	elseif mvars.reservedRailIndex then
 		s10010_sequence.StartRailAction( { railIndex =  mvars.reservedRailIndex, }, true, false )
 	elseif mvars.doesPlayerVolginRide then
@@ -1538,15 +1538,16 @@ function s10010_sequence.OnEndMissionPrepareSequence()
 	end
 
 	
-	if mvars.initialPadMaskNormal then
+	--if mvars.initialPadMaskNormal then
 		s10010_sequence.EnablePadMaskNormal( mvars.initialPadMaskNormal )
-	end
-	if mvars.initialPadMaskBeforeGetGun then
-		s10010_sequence.EnablePadMaskBeforeGetGun( mvars.initialPadMaskNormal )
-	end
-	if mvars.initialPadMaskCombat then
-		s10010_sequence.EnablePadMaskCombat( mvars.initialPadMaskCombat )
-	end
+	--end
+	--DEBUGNOW
+--	if mvars.initialPadMaskBeforeGetGun then
+--		s10010_sequence.EnablePadMaskBeforeGetGun( mvars.initialPadMaskNormal )
+--	end
+--	if mvars.initialPadMaskCombat then
+--		s10010_sequence.EnablePadMaskCombat( mvars.initialPadMaskCombat )
+--	end
 
 	
 	if mvars.initialPlayerMotionSpeed then

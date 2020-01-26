@@ -226,7 +226,7 @@ function this.StartPreTitleSequence()
 end
 
 function this._StartPreTitleSequence()
-  --OFF InfMain.DeleteOneOffSplashes()--tex
+  --OFF InfSplash.DeleteOneOffSplashes()--tex
   gvars.canExceptionHandling = false
   TppUiCommand.ErasePopup()
   TppUiCommand.StartPreTitleSequence()
@@ -3040,7 +3040,7 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
     --NMC: no nvidia splash? in exe? in ui?, it is tied to show on the delete of foxlogo though.
     
     --local konamiLogoScreenId = SplashScreen.Create("knm", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_konami_logo_clp_nmp.ftex", 640, 640);--tex
-    --DEBUG OFF SplashScreen.SetStateCallback(konamiLogoScreenId, InfMain.SplashStateCallback_r)--tex do splashes till title sequence loaded
+    --DEBUG OFF SplashScreen.SetStateCallback(konamiLogoScreenId, InfSplash.SplashStateCallback_r)--tex do splashes till title sequence loaded
    
     this._StartPreTitleSequence()
   end,

@@ -97,7 +97,6 @@ function this.GetLastAddedUserMarkerIndex()
 end
 
 function this.WarpToUserMarker(index)
-  --InfInspect.TryFunc(function(index)--DEBUGNOW
   if vars.userMarkerSaveCount==0 then
     return
   end
@@ -115,7 +114,6 @@ function this.WarpToUserMarker(index)
 
   InfMenu.DebugPrint("warped to marker "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())
   TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY(),markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
-  --end)
 end
 
 

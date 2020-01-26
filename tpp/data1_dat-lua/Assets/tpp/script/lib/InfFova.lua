@@ -250,7 +250,7 @@ this.playerPartsTypesInfo={
     name="SNEAKING_SUIT2",
     description="Ground Zeros Big Boss",--tex actual GZ Snake, not Venom in GZ suit
     plPartsName={
-      SNAKE="plparts_sneaking_suit",--DEBUGNOW VERIFY
+      SNAKE="plparts_sneaking_suit",
     },
   },
   {--does not crash with AVATAR

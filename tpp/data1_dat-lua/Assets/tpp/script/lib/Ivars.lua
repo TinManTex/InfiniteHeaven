@@ -1664,11 +1664,11 @@ this.percentagePowerTables={
 
 local function OnChangeCustomRevengeMin(self)
   PushMax(self)
-  InfMain.SetCustomRevengeUiParameters()
+  InfRevenge.SetCustomRevengeUiParameters()
 end
 local function OnChangeCustomeRevengeMax(self)
   PushMin(self)
-  InfMain.SetCustomRevengeUiParameters()
+  InfRevenge.SetCustomRevengeUiParameters()
 end
 
 for n,powerTableName in ipairs(this.percentagePowerTables)do
@@ -1913,7 +1913,7 @@ this.vehiclePatrolProfile={
 }
 
 local function TypeChange(self)
-  InfMain.BuildEnabledList()
+  InfVehicle.BuildEnabledList()
 end
 
 this.vehiclePatrolLvEnable={
@@ -2566,7 +2566,6 @@ this.fovaPlayerPartsType={
   range={min=0,max=127},
 }
 
---DEBUGNOW
 this.playerHandTypes={
   "NONE",--0
   "NORMAL",--1
@@ -2852,7 +2851,7 @@ this.adjustCameraUpdate={
   disabledReason="item_disabled_subsistence",
   OnSelect=this.DisableOnSubsistence,
   --disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,--tex OFF not really needed, padmask is sufficient
-  OnActivate=function()InfMain.OnActivateCameraAdjust()end,
+  OnActivate=function()InfCamera.OnActivateCameraAdjust()end,
   OnChange=function(self,previousSetting)
     if Ivars.warpPlayerUpdate:Is(1) then
       self.setting=0
@@ -2868,12 +2867,12 @@ this.adjustCameraUpdate={
       --      else
       InfMenu.PrintLangId"cam_mode_on"
       --InfMain.ResetCamDefaults()
-      InfMain.OnActivateCameraAdjust()
+      InfCamera.OnActivateCameraAdjust()
       Ivars.cameraMode:Set(1)
       --end
     else
       InfMenu.PrintLangId"cam_mode_off"
-      InfMain.OnDectivateCameraAdjust()
+      InfCamera.OnDectivateCameraAdjust()
       Ivars.cameraMode:Set(0)
     end
 
@@ -2887,7 +2886,7 @@ this.adjustCameraUpdate={
     nextUpdate=0,
   },
   --ExecInit=function()InfMain.InitWarpPlayerUpdate()end,
-  ExecUpdate=function(...)InfMain.UpdateCameraAdjust(...)end,
+  ExecUpdate=function(...)InfCamera.UpdateCameraAdjust(...)end,
 }
 
 this.cameraMode={
@@ -2899,7 +2898,7 @@ this.cameraMode={
       Player.SetAroundCameraManualMode(false)
     else
       Player.SetAroundCameraManualMode(true)
-      InfMain.UpdateCameraManualMode()
+      InfCamera.UpdateCameraManualMode()
     end
   end,
 }
@@ -3006,8 +3005,8 @@ this.npcUpdate={--tex NONUSER
   execState={
     nextUpdate=0,
   },
-  ExecInit=function()InfMain.InitNPCUpdate()end,
-  ExecUpdate=function(...)InfMain.UpdateNPC(...)end,
+  ExecInit=function()InfNPC.InitNPCUpdate()end,
+  ExecUpdate=function(...)InfNPC.UpdateNPC(...)end,
 }
 
 this.npcHeliUpdate={
@@ -3018,8 +3017,8 @@ this.npcHeliUpdate={
   execState={
     nextUpdate=0,
   },
-  ExecInit=function()InfMain.InitNPCHeliUpdate()end,
-  ExecUpdate=function(...)InfMain.UpdateNPCHeli(...)end,
+  ExecInit=function()InfNPC.InitNPCHeliUpdate()end,
+  ExecUpdate=function(...)InfNPC.UpdateNPCHeli(...)end,
 }
 
 --heli

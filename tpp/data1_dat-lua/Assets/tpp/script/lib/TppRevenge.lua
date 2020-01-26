@@ -915,7 +915,7 @@ end
 function this._SetUiParameters()
   local doCustom=Ivars.revengeMode:Is"CUSTOM" or Ivars.revengeModeForMissions:Is"CUSTOM" or Ivars.revengeModeForMb:Is"CUSTOM"--tex>
   if doCustom then
-    InfMain.SetCustomRevengeUiParameters()
+    InfRevenge.SetCustomRevengeUiParameters()
     return
   end--<
 
@@ -1263,7 +1263,7 @@ function this._CreateRevengeConfig(revengeTypes)
   --tex>customrevengeconfig
   local doCustom=Ivars.revengeMode:Is"CUSTOM" or Ivars.revengeModeForMissions:Is"CUSTOM" or Ivars.revengeModeForMb:Is"CUSTOM"
   if doCustom then
-    revengeConfig=InfMain.CreateCustomRevengeConfig()
+    revengeConfig=InfRevenge.CreateCustomRevengeConfig()
     for powerType,setting in pairs(revengeConfig)do
       mvars.ene_missionRequiresPowerSettings[powerType]=setting
     end
@@ -1831,7 +1831,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   local originalWeaponSettings={}
   local sumBalance=0
   local numBalance=0
-  numBalance,sumBalance,originalWeaponSettings=InfMain.GetSumBalance(balanceWeaponTypes,revengeConfigCp,totalSoldierCount,originalWeaponSettings)
+  numBalance,sumBalance,originalWeaponSettings=InfRevenge.GetSumBalance(balanceWeaponTypes,revengeConfigCp,totalSoldierCount,originalWeaponSettings)
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG>
   --      local ins=InfInspect.Inspect(originalWeaponSettings)
@@ -1840,7 +1840,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
 
   if numBalance>0 and sumBalance>Ivars.balanceWeaponPowers.balanceWeaponsThreshold then
     local reservePercent=0--tex TODO: reserve some for assault? or handle that
-    revengeConfigCp=InfMain.BalancePowers(numBalance,reservePercent,originalWeaponSettings,revengeConfigCp)
+    revengeConfigCp=InfRevenge.BalancePowers(numBalance,reservePercent,originalWeaponSettings,revengeConfigCp)
   end
 
   if smgForced then
@@ -1869,12 +1869,12 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
       "GAS_MASK",
     }
 
-    numBalance,sumBalance,originalHeadGearSettings=InfMain.GetSumBalance(balanceGearTypes,revengeConfigCp,totalSoldierCount,originalHeadGearSettings)
+    numBalance,sumBalance,originalHeadGearSettings=InfRevenge.GetSumBalance(balanceGearTypes,revengeConfigCp,totalSoldierCount,originalHeadGearSettings)
   end
 
   if (Ivars.balanceHeadGear:Is(1) and sumBalance>Ivars.balanceHeadGear.balanceHeadGearThreshold) then--tex> only need to balance if oversubscribed
     local reservePercent=0
-    revengeConfigCp=InfMain.BalancePowers(numBalance,reservePercent,originalHeadGearSettings,revengeConfigCp)
+    revengeConfigCp=InfRevenge.BalancePowers(numBalance,reservePercent,originalHeadGearSettings,revengeConfigCp)
   end--<
 
   local unfulfilledPowers={}--tex>

@@ -856,7 +856,7 @@ function this.GetSoldierType(soldierId)--tex> now pulls type for subtype> ORIG i
 
   if InfMain.IsDDBodyEquip(vars.missionCode) then
     local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo(isFemale)
+    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(isFemale)
     if bodyInfo and bodyInfo.soldierSubType then
       return InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
     end
@@ -911,7 +911,7 @@ function this.GetSoldierSubType(soldierId,soldierType)
   end--<
   if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
     local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
-    local bodyInfo=InfMain.GetCurrentDDBodyInfo(isFemale)
+    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(isFemale)
     if bodyInfo and bodyInfo.soldierSubType then
       return bodyInfo.soldierSubType
     else
