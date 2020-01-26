@@ -66,7 +66,7 @@ function this.DisablePause()
 end
 function this.EnableBlackLoading(showLoadingTips)
   TppGameStatus.Set("TppMain.lua","S_IS_BLACK_LOADING")
-  if showLoadingTips and Ivars.debugMode:Is(0) then--tex added bypass
+  if showLoadingTips and not Ivars.debugMode:Is"BLANK_LOADING_SCREEN" then--tex added bypass
     TppUI.StartLoadingTips()
   end
 end

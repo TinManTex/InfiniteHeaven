@@ -542,6 +542,7 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
+    --InfMenuCommands.resetAllSettingsItem,--DEBUG
     --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
 
     --    Ivars.itemDropChance,--DEBUG

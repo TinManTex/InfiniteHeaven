@@ -4386,8 +4386,8 @@ function this.NPCEntryPointSetting(settings)
   if not npcsEntryPoints then
     return
   end
-  for entryBuddyType,t in pairs(npcsEntryPoints)do
-    local pos,rotY=t[1],t[2]
+  for entryBuddyType,coords in pairs(npcsEntryPoints)do
+    local pos,rotY=coords[1],coords[2]
     TppBuddyService.SetMissionEntryPosition(entryBuddyType,pos)
     TppBuddyService.SetMissionEntryRotationY(entryBuddyType,rotY)
   end

@@ -18,7 +18,7 @@ this.requires = {}
 
 
 this.soldierDefine = {}
-this.MAX_SOLDIER_STATE_COUNT = 256
+this.MAX_SOLDIER_STATE_COUNT = 300--tex was 256 NOTE cant runtime switch on mbAdditionalSoldiers since based on fox2 counts.
 
 
 

@@ -1,5 +1,10 @@
 Infinite Heaven changelog
 
+r164 - 2016-06-30 - public release
+mbAdditionalSoldiers - added routes from sneak to night and visa versa. Addional soldiers now total 9 (from 4) per plat instead of min(+4,#routes).
+
+Fixed: Infinite load on certain mother base cutscenes - thanks BarelyFatal for the report and save files. 
+
 r163 - 2016-06-28 - public release
 Fixed: Hang on load in Africa with Vehicle patrols turned off - thanks CantStoptheBipBop for the report and save file.
 Fixed: Hang on load with Custom prep for free or mission and DD suit set to 'Equip grade' - thanks Arballisk  for the report and save file.
@@ -14,6 +19,7 @@ Command that closes menu >]
 
 Command: requestHeliLzToLastMarker - Support heli to latest marker
 Requests Support heli to Landing Zone closest to the last placed user marker. Can also be used to ride the support heli to another LZ if the IH menu is open and the option is selected when getting into the heli. This however has an issue where the doors will close on take-off preventing you from shifting between heli sides, the chaingun on your side can still be used however.
+Shout-out to NasaNhak who also discovered this independently.
 Command: forceExitHeli - Force exit helicopter - Lets you exit the helicopter while riding it, mind the fall.
 
 r162 - 2016-06-18 - public release

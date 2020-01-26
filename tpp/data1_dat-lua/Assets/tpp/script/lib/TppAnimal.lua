@@ -41,104 +41,104 @@ function this.GetDataBaseIdFromAnimalId(n)
     return this.AnimalIdTable[n]
   end
 end
-function this.SetEnabled(e,t,a)
-  local e={type=e,index=0}
-  if e==NULL_ID then
+function this.SetEnabled(type,name,enabled)
+  local gameId={type=type,index=0}
+  if gameId==NULL_ID then
     return
   end
-  local n={id="SetEnabled",name=t,enabled=a}
-  GameObject.SendCommand(e,n)
+  local command={id="SetEnabled",name=name,enabled=enabled}
+  GameObject.SendCommand(gameId,command)
 end
-function this.SetRoute(e,t,a)
-  local e={type=e,index=0}
-  if e==NULL_ID then
+function this.SetRoute(type,name,route)
+  local gameId={type=type,index=0}
+  if gameId==NULL_ID then
     return
   end
-  local n={id="SetRoute",name=t,route=a}
-  GameObject.SendCommand(e,n)
+  local command={id="SetRoute",name=name,route=route}
+  GameObject.SendCommand(gameId,command)
 end
-function this.SetHerdRoute(e,a,t)
-  local e={type=e,index=0}
-  if e==NULL_ID then
+function this.SetHerdRoute(type,name,route)
+  local gameId={type=type,index=0}
+  if gameId==NULL_ID then
     return
   end
-  local n={id="SetHerdEnabledCommand",type="Route",name=a,instanceIndex=0,route=t}
-  GameObject.SendCommand(e,n)
+  local command={id="SetHerdEnabledCommand",type="Route",name=name,instanceIndex=0,route=route}
+  GameObject.SendCommand(gameId,command)
 end
-function this.SetKind(e,t,a)
-  if a==nil then
+function this.SetKind(type,name,fv2Index)
+  if fv2Index==nil then
     return
   end
-  local e={type=e,index=0}
-  if e==NULL_ID then
+  local gameId={type=type,index=0}
+  if gameId==NULL_ID then
     return
   end
-  local n={id="SetKind",name=t,fv2Index=a}
-  GameObject.SendCommand(e,n)
+  local command={id="SetKind",name=name,fv2Index=fv2Index}
+  GameObject.SendCommand(gameId,command)
 end
-function this.SetFova(e,a,d,t)
-  local i={type=e,index=0}
-  if i==NULL_ID then
+function this.SetFova(type,name,color,seed)
+  local gameId={type=type,index=0}
+  if gameId==NULL_ID then
     return
   end
-  local e=nil
-  if t==nil then
-    e={id="SetFovaInfo",name=a,color=d,isMale=true,isSetAll=true}
+  local command=nil
+  if seed==nil then
+    command={id="SetFovaInfo",name=name,color=color,isMale=true,isSetAll=true}
   else
-    e={id="SetFovaInfo",name=a,seed=t}
+    command={id="SetFovaInfo",name=name,seed=seed}
   end
-  GameObject.SendCommand(i,e)
+  GameObject.SendCommand(gameId,command)
 end
-function this.SetNotice(e,a,t)
-  local e={type=e,index=0}
-  if e==NULL_ID then
+function this.SetNotice(type,name,enabled)
+  local gameId={type=type,index=0}
+  if gameId==NULL_ID then
     return
   end
-  local n={id="SetNoticeEnabled",name=a,enabled=t}
-  GameObject.SendCommand(e,n)
+  local command={id="SetNoticeEnabled",name=name,enabled=enabled}
+  GameObject.SendCommand(gameId,command)
 end
-function this.SetIgnoreNotice(a,t,e)
-  local a={type=a,index=0}
-  if a==NULL_ID then
+function this.SetIgnoreNotice(type,name,enable)
+  local animalId={type=type,index=0}
+  if animalId==NULL_ID then
     return
   end
-  local e={id="SetIgnoreNotice",isPlayer=e,isSoldier=e}
-  GameObject.SendCommand(a,e)
+  local command={id="SetIgnoreNotice",isPlayer=enable,isSoldier=enable}
+  GameObject.SendCommand(animalId,command)
 end
-function this.SetSleep(e,t,a)
-  local e={type=e,index=0}
-  if e==NULL_ID then
+function this.SetSleep(type,name,enable)
+  local gameId={type=type,index=0}
+  if gameId==NULL_ID then
     return
   end
-  local n={id="SetStatus",status="Sleep",set=a}
-  GameObject.SendCommand(e,n)
+  local command={id="SetStatus",status="Sleep",set=enable}
+  GameObject.SendCommand(gameId,command)
 end
-function this.SetAnimalId(e,a,t)
-  local e={type=e,index=0}
-  if e==NULL_ID then
+function this.SetAnimalId(type,name,animalId)
+  local gameId={type=type,index=0}
+  if gameId==NULL_ID then
     return
   end
-  local n={id="SetAnimalId",name=a,animalId=t}
-  GameObject.SendCommand(e,n)
+  local command={id="SetAnimalId",name=name,animalId=animalId}
+  GameObject.SendCommand(gameId,command)
 end
 function this.SetBird(e)
-  for n,e in ipairs(e)do
-    local n={type=e.birdType,index=0}
-    local a={id="SetEnabled",name=e.name,birdIndex=0,enabled=true}
-    GameObject.SendCommand(n,a)
-    if(e.center and e.radius)and e.height then
-      local a={id="ChangeFlyingZone",name=e.name,center=e.center,radius=e.radius,height=e.height}
-      GameObject.SendCommand(n,a)
-      local a=nil
-      if e.ground then
-        a={id="SetLandingPoint",birdIndex=0,name=e.name,groundPos=e.ground}
-        GameObject.SendCommand(n,a)
-      elseif e.perch then
-        a={id="SetLandingPoint",birdIndex=0,name=e.name,perchPos=e.perch}
-        GameObject.SendCommand(n,a)
+  for n,birdInfo in ipairs(e)do
+    local birdGameId={type=birdInfo.birdType,index=0}
+    local setEnabledCommand={id="SetEnabled",name=birdInfo.name,birdIndex=0,enabled=true}
+    GameObject.SendCommand(birdGameId,setEnabledCommand)
+    if(birdInfo.center and birdInfo.radius)and birdInfo.height then
+      local changeFlyingZoneCommand={id="ChangeFlyingZone",name=birdInfo.name,center=birdInfo.center,radius=birdInfo.radius,height=birdInfo.height}
+      GameObject.SendCommand(birdGameId,changeFlyingZoneCommand)
+      local setLandingPointCommand=nil
+      if birdInfo.ground then
+        setLandingPointCommand={id="SetLandingPoint",birdIndex=0,name=birdInfo.name,groundPos=birdInfo.ground}
+        GameObject.SendCommand(birdGameId,setLandingPointCommand)
+      elseif birdInfo.perch then
+        setLandingPointCommand={id="SetLandingPoint",birdIndex=0,name=birdInfo.name,perchPos=birdInfo.perch}
+        GameObject.SendCommand(birdGameId,setLandingPointCommand)
       end
-      local e={id="SetAutoLanding",name=e.name}
-      GameObject.SendCommand(n,e)
+      local setAutoLandingCommand={id="SetAutoLanding",name=birdInfo.name}
+      GameObject.SendCommand(birdGameId,setAutoLandingCommand)
     end
   end
 end

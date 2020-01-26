@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r163"
+this.modVersion="r164"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -404,7 +404,7 @@ this.cpPositions={
     afgh_villageEast_ob={},--Guard Post 23, SE Wailo Village
     afgh_ruinsNorth_ob={},--Guard Post 24, East Spugmay Keep
     afgh_fieldEast_ob={},--Guard Post 25, East Shago Village
-    
+
     mafr_hill_cp={2154.83,63.09,366.70},--redo
     mafr_swamp_cp={-59.858,-3.755,60.331},
     mafr_pfCamp_cp={846.46,-4.97,1148.62},
@@ -675,7 +675,7 @@ function this.Messages()
     --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
     },
     Timer={
-      --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
+    --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
     },
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
@@ -1591,7 +1591,7 @@ this.mbVehicleNames={
 this.reserveSoldierCounts={
   [30010]=40,
   [30020]=60,
-  [30050]=100,
+  [30050]=140,
 }
 
 this.reserveSoldierNames={}
@@ -1802,8 +1802,8 @@ function this.AddLrrps(soldierDefine,travelPlans)
 
     numLrrps=numLrrps+1
   end
---  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
---  InfMenu.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
+  --  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
+  --  InfMenu.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
 
   InfMain.RandomResetToOsTime()
 end
@@ -2464,7 +2464,7 @@ end
 
 --caller: mtbs_enemy.OnLoad
 --TUNE
-local additionalSoldiersPerPlat=4
+local additionalSoldiersPerPlat=5
 
 function this.ModifyEnemyAssetTable()
   --InfInspect.TryFunc(function()--DEBUG
@@ -2501,10 +2501,27 @@ function this.ModifyEnemyAssetTable()
 
         local sneakRoutes=platInfo.soldierRouteList.Sneak[1].inPlnt
         local nightRoutes=platInfo.soldierRouteList.Night[1].inPlnt
+
+        local addedRoutes=false
+        for i=1,#sneakRoutes do
+          if sneakRoutes[i]==nightRoutes[1] then
+            addedRoutes=true
+            break
+          end
+        end
+        if not addedRoutes then
+          for i=1,#nightRoutes do
+            sneakRoutes[#sneakRoutes+1]=nightRoutes[i]
+          end
+          for i=1,#sneakRoutes do
+            nightRoutes[#nightRoutes+1]=sneakRoutes[i]
+          end
+        end
+ 
         local minRouteCount=math.min(#sneakRoutes,#nightRoutes)
         routeCount=routeCount+minRouteCount
 
-        local numToAdd=math.min(minRouteCount-#soldierList,additionalSoldiersPerPlat)
+        local numToAdd=math.min((minRouteCount-3)-#soldierList,additionalSoldiersPerPlat)--tex MAGIC this only really affects main plats which only have 12(-6soldiers) routes (with combined sneak/night). Rest have 15+
         if numToAdd>0 then
           FillList(numToAdd,this.soldierPool,soldierList)
         end

@@ -271,8 +271,9 @@ end
 
 this.debugMode={
   save=GLOBAL,
-  range=this.switchRange,
-  settingNames="set_switch",
+--  range=this.switchRange,
+--  settingNames="set_switch",
+  settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
   allowFob=true,
 }
 

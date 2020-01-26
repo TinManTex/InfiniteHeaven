@@ -462,7 +462,7 @@ Gives a staff-wide morale boost on having a number of soldiers salute (most of a
 14: Enable all buddies : Off, On
 Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
 15: More soldiers on MB plats : Off, On
-Increases (non main) platforms from 4 soldiers to 7-8.
+Increases soldiers on platforms from 4 soldiers to 9.
 16: Soldiers move between platforms : Off, On
 Soldiers will periodically move between platforms (only within the same cluster).
 17: Show characters menu
@@ -530,7 +530,7 @@ Time from mission start to you opening the door to sit on the side. You can set 
 
 Debug/system menu
 -----------------
-1: Debug IH mode : Off, On
+1: Debug IH mode : OFF, NORMAL, BLANK_LOADING_SCREEN
 Switches on some error messages and enables the announce-log during loading.
 2: Disable mission intro credits : Off, On
 3: Start offline : Off, On
@@ -640,7 +640,7 @@ Time from mission start to you opening the door to sit on the side. You can set 
 
 Debug stuff menu
 ----------------
-1: Debug IH mode : Off, On
+1: Debug IH mode : OFF, NORMAL, BLANK_LOADING_SCREEN
 Switches on some error messages and enables the announce-log during loading.
 2: selectedCp : none
 3: setSelectedCpToMarkerObjectCp : (Command)

@@ -121,6 +121,9 @@ function this.InitCluster(clusterId)
   --local clusterName=TppDefine.CLUSTER_NAME[clusterId]
 
   local GetMBEnemyAssetTable=TppEnemy.GetMBEnemyAssetTable or mvars.mbSoldier_funcGetAssetTable
+  if GetMBEnemyAssetTable==nil then
+    return
+  end
   local grade=TppLocation.GetMbStageClusterGrade(clusterId)
 
   --tex loading an unbuilt cluster probbably doesnt happen anyway lol
@@ -179,7 +182,7 @@ function this.InitCluster(clusterId)
     end
     --<for plats
   end
-  --end,clusterId)--
+  --end,clusterId)--DEBUG
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
@@ -242,7 +245,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     end
 
     local grade=TppLocation.GetMbStageClusterGrade(clusterId)
-    local clusterAssetTable=TppEnemy.GetMBEnemyAssetTable(clusterId)
+    --local clusterAssetTable=TppEnemy.GetMBEnemyAssetTable(clusterId)
 
     local lastPlat=npcPlats[npcIndex]
     local platIndex=Random(1,grade)

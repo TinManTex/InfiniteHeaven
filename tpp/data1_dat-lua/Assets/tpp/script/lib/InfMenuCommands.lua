@@ -299,6 +299,7 @@ this.printLatestUserMarker={
   end
 }
 
+
 this.setSelectedCpToMarkerObjectCp={
   OnChange=function()
     InfInspect.TryFunc(function()
@@ -495,84 +496,81 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
+      --InfEquip.CheckTppEquipTable()
+
+      ----------------
+      if true then return end--DEBUG
+      ------------------
+
+      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+      if lastMarkerIndex==nil then
+        InfMenu.DebugPrint("lastMarkerIndex==nil")
+      else
+        local position=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+
+        local moveType=PlayerMoveType.WALK
+        local direction=vars.playerCameraRotation[1]
+        local timeOut=120
+        local onlyInterpPosition=nil--if true slide player along quickly instead of animating walk
+        Player.RequestToMoveToPosition{
+          name="MoveToMarkerPosition",
+          position=position,
+          direction=direction,
+          moveType=moveType,
+          timeout=timeOut,
+          onlyInterpPosition=onlyInterpPosition,
+        }
+
+      end
+
+      --        --tex Player.RequestToMoveToPosition sets up a msg callback with name as sender
+      --        local StrCode32=Fox.StrCode32
+      --        local MOVE_TO_POSITION_RESULT={
+      --          [StrCode32"success"]="success",
+      --          [StrCode32"failure"]="failure",
+      --          [StrCode32"timeout"]="timeout"
+      --        }
+
+      --        Player = {
+      --          {
+      --            msg="FinishMovingToPosition",
+      --            sender="SomeMoveToPositionName",--sender for messages is optional but useful to narrow down things
+      --            func = function(str32Name,moveResultStr32)
+      --
+      --            end,
+      --          },
+      --        },
 
 
 
-        --InfEquip.CheckTppEquipTable()
-
-        ----------------
-        if true then return end--DEBUG
-        ------------------
-
-        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-        if lastMarkerIndex==nil then
-          InfMenu.DebugPrint("lastMarkerIndex==nil")
-        else
-          local position=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-
-          local moveType=PlayerMoveType.WALK
-          local direction=vars.playerCameraRotation[1]
-          local timeOut=120
-          local onlyInterpPosition=nil--if true slide player along quickly instead of animating walk
-          Player.RequestToMoveToPosition{
-            name="MoveToMarkerPosition",
-            position=position,
-            direction=direction,
-            moveType=moveType,
-            timeout=timeOut,
-            onlyInterpPosition=onlyInterpPosition,
-          }
-
-        end
-
-        --        --tex Player.RequestToMoveToPosition sets up a msg callback with name as sender
-        --        local StrCode32=Fox.StrCode32
-        --        local MOVE_TO_POSITION_RESULT={
-        --          [StrCode32"success"]="success",
-        --          [StrCode32"failure"]="failure",
-        --          [StrCode32"timeout"]="timeout"
-        --        }
-
-        --        Player = {
-        --          {
-        --            msg="FinishMovingToPosition",
-        --            sender="SomeMoveToPositionName",--sender for messages is optional but useful to narrow down things
-        --            func = function(str32Name,moveResultStr32)
-        --
-        --            end,
-        --          },
-        --        },
-
-
-
-        ----------
-        --    local statuses={
-        --      {CallMenu="INVALID"},
-        --      {PauseMenu="INVALID"},
-        --      {EquipHud="INVALID"},
-        --      {EquipPanel="INVALID"},
-        --      {CqcIcon="INVALID"},
-        --      {ActionIcon="INVALID"},
-        --      {AnnounceLog="SUSPEND_LOG"},
-        --      {AnnounceLog="INVALID_LOG"},
-        --      {BaseName="INVALID"},
-        --      {Damage="INVALID"},
-        --      {Notice="INVALID"},
-        --      {HeadMarker="INVALID"},
-        --      {WorldMarker="INVALID"},
-        --      {HudText="INVALID"},
-        --      {GmpInfo="INVALID"},
-        --      {AtTime="INVALID"},
-        --      {InfoTypingText="INVALID"},
-        --      {ResourcePanel="SHOW_IN_HELI"}
-        --    }
-        --    for o,status in pairs(statuses)do
-        --      for name,statusType in pairs(status)do
-        --        if(TppUiStatusManager.CheckStatus(name,statusType)==true)then
-        --          InfMenu.DebugPrint(string.format(" UI = %s, Status = %s",name,statusType))
-        --        end
-        --      end
-        --    end
+      ----------
+      --    local statuses={
+      --      {CallMenu="INVALID"},
+      --      {PauseMenu="INVALID"},
+      --      {EquipHud="INVALID"},
+      --      {EquipPanel="INVALID"},
+      --      {CqcIcon="INVALID"},
+      --      {ActionIcon="INVALID"},
+      --      {AnnounceLog="SUSPEND_LOG"},
+      --      {AnnounceLog="INVALID_LOG"},
+      --      {BaseName="INVALID"},
+      --      {Damage="INVALID"},
+      --      {Notice="INVALID"},
+      --      {HeadMarker="INVALID"},
+      --      {WorldMarker="INVALID"},
+      --      {HudText="INVALID"},
+      --      {GmpInfo="INVALID"},
+      --      {AtTime="INVALID"},
+      --      {InfoTypingText="INVALID"},
+      --      {ResourcePanel="SHOW_IN_HELI"}
+      --    }
+      --    for o,status in pairs(statuses)do
+      --      for name,statusType in pairs(status)do
+      --        if(TppUiStatusManager.CheckStatus(name,statusType)==true)then
+      --          InfMenu.DebugPrint(string.format(" UI = %s, Status = %s",name,statusType))
+      --        end
+      --      end
+      --    end
 
 
     end)
@@ -591,7 +589,13 @@ local index2Max=1
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
-
+    
+    local route="lz_drp_field_I0000|rt_drp_field_I_0000"
+    
+    local gameObjectId=GameObject.GetGameObjectId("SupportHeli")
+    --GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRoute",route=route})
+    GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteReady",route=route})
+    GameObject.SendCommand(gameObjectId,{id="SendPlayerAtRouteStart",isAssault=false})
 
       -- InfMain.GetClosestCp()
 
