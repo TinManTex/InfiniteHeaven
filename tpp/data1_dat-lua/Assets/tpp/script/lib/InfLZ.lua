@@ -294,6 +294,10 @@ function this.DisableLzsWithinDist(lzTable,position,distance,missionCode)
 end
 
 function this.DisableLzs(lzTable)
+  if lzTable==nil then
+    return
+  end
+
   local TppHelicopter=TppHelicopter
 
   for dropLzName,aprLzName in pairs(lzTable)do

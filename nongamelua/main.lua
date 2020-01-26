@@ -339,6 +339,13 @@ end
 
 
 local function main()
+  --patchup
+  Ivars.playerHeadgear.settingNames="playerHeadgearMaleSettings"
+  Ivars.fovaSelection.description="<Character model description>"
+  Ivars.fovaSelection.settingNames={"<Fova selection>"}
+  Ivars.mbSelectedDemo.settingNames={"<Cutscene ids>"}
+
+
   local menu=InfMenuDefs.heliSpaceMenu.options
   local skipItems=true
 

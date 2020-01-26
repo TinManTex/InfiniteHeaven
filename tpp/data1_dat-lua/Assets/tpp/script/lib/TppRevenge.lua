@@ -410,7 +410,7 @@ end
 function this.GetReinforceCount()
   --tex>
   if Ivars.forceReinforceRequest:Is(1) then
-    if not InfMain.IvarsIsForMission("revengeMode","CUSTOM") then
+    if not Ivars.IsForMission("revengeMode","CUSTOM") then
       mvars.revenge_revengeConfig.REINFORCE_COUNT=99
     end
   end
@@ -917,7 +917,7 @@ function this._GetUiParameterValue(revengeType)
   return 0
 end
 function this._SetUiParameters()
-  if InfMain.IvarsIsForMission("revengeMode","CUSTOM") then--tex> set ui params
+  if Ivars.IsForMission("revengeMode","CUSTOM") then--tex> set ui params
     InfRevenge.SetCustomRevengeUiParameters()
     return
   end--<
@@ -1306,7 +1306,7 @@ function this._CreateRevengeConfig(revengeTypes)
   end
 
   --tex>customrevengeconfig
-  local doCustom=InfMain.IvarsIsForMission("revengeMode","CUSTOM")
+  local doCustom=Ivars.IsForMission("revengeMode","CUSTOM")
   if doCustom then
     revengeConfig=InfRevenge.CreateCustomRevengeConfig()
     for powerType,setting in pairs(revengeConfig)do

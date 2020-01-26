@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <fox formatVersion="2" fileVersion="0" originalVersion="Wed Feb 03 15:10:25 UTC+13:00 2016">
   <classes>
     <class name="Entity" super="" version="2" />
@@ -2198,6 +2198,7 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
+    
     <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x0463D4B0" unknown1="72" unknown2="0">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">

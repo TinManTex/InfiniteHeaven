@@ -323,7 +323,7 @@ this.heliEnableIvars={
 }
 
 function this.InitUpdate(currentChecks)
-  if not InfMain.IvarsEnabledForMission(this.heliEnableIvars) then
+  if not Ivars.EnabledForMission(this.heliEnableIvars) then
     return
   end
 
@@ -416,7 +416,7 @@ function this.InitUpdate(currentChecks)
 end
 
 function this.OnMissionCanStart(currentChecks)
-  if not InfMain.IvarsEnabledForMission(this.heliEnableIvars) then
+  if not Ivars.EnabledForMission(this.heliEnableIvars) then
     return
   end
 
@@ -442,7 +442,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     return
   end
 
-  if not InfMain.IvarsEnabledForMission(this.heliEnableIvars) then
+  if not Ivars.EnabledForMission(this.heliEnableIvars) then
     return
   end
 

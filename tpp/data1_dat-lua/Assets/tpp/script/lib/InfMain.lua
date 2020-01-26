@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r157"
+this.modVersion="r158"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -31,8 +31,6 @@ end
 
 function this.RandomSeedRegen()
   this.RandomResetToOsTime()
-  --gvars.inf_levelSeed=math.random(0,2147483647)
-  --Ivars.inf_levelSeed.setting=gvars.inf_levelSeed--RETHINK
   Ivars.inf_levelSeed:Set(math.random(0,2147483647))
   --InfMenu.DebugPrint("new seed "..tostring(gvars.inf_levelSeed))--DEBUG
 end
@@ -53,7 +51,7 @@ end
 
 local allowHeavyArmorStr="allowHeavyArmor"
 function this.ForceArmor(missionCode)
-  if this.IvarsEnabledForMission(allowHeavyArmorStr,missionCode) then
+  if Ivars.EnabledForMission(allowHeavyArmorStr,missionCode) then
     return true
   end
   --DEBUGNOW either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though), search in past versions
@@ -170,7 +168,7 @@ local enableDDEquipStr="enableDDEquip"
 function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
   if missionCode~=50050 and missionCode >5 then--tex IsFreeMission hangs on startup? TODO retest
-    return InfMain.IvarsEnabledForMission(enableDDEquipStr)
+    return Ivars.EnabledForMission(enableDDEquipStr)
   end
   return false
 end
@@ -249,7 +247,7 @@ local cpSubTypes={
 
 local changeCpSubTypeStr="changeCpSubType"
 function this.RandomizeCpSubTypeTable()
-  if not InfMain.IvarsEnabledForMission(changeCpSubTypeStr) then
+  if not Ivars.EnabledForMission(changeCpSubTypeStr) then
     return
   end
 
@@ -350,17 +348,17 @@ this.cpPositions={
     afgh_plantWest_ob={-1173.101,458.269,-1392.586},
     afgh_waterwayEast_ob={-1358.766,398.534,-742.015},
     afgh_tentNorth_ob={-1758.428,336.844,211.112},
-    afgh_enemyNorth_ob="Guard Post 06",
-    afgh_cliffWest_ob="Guard Post 07",
-    afgh_tentEast_ob="Guard Post 08",
-    afgh_enemyEast_ob="Guard Post 09",
-    afgh_cliffEast_ob="Guard Post 10",
+    afgh_enemyNorth_ob={-182.129,411.550,-454.07},
+    afgh_cliffWest_ob={302.273,415.153,-860.780},
+    afgh_tentEast_ob={-1169.6,302.742,938.917},
+    afgh_enemyEast_ob={-361.562,356.97,114.79},
+    afgh_cliffEast_ob={1259.04,479.846,-1345.574},
     afgh_slopedWest_ob={99.113,334.220,89.654},
-    afgh_remnantsNorth_ob="Guard Post 12",
-    afgh_cliffSouth_ob="Guard Post 13",
+    afgh_remnantsNorth_ob={-1065.079,291.448,1467.447},
+    afgh_cliffSouth_ob={1040.302,379.051,-505.49},
     afgh_fortWest_ob="Guard Post 14",
     afgh_villageWest_ob="Guard Post 15",
-    afgh_slopedEast_ob="Guard Post 16",
+    afgh_slopedEast_ob={977.664,318.965,-169.445},
     afgh_fortSouth_ob="Guard Post 17",
     afgh_villageNorth_ob="Guard Post 18",
     afgh_commWest_ob="Guard Post 19",
@@ -368,7 +366,7 @@ this.cpPositions={
     afgh_bridgeNorth_ob="Guard Post 21",
     afgh_fieldWest_ob="Guard Post 22",
     afgh_villageEast_ob="Guard Post 23",
-    afgh_ruinsNorth_ob="Guard Post 24",
+    afgh_ruinsNorth_ob={1623.511,323.038,1062.995},
     afgh_fieldEast_ob="Guard Post 25",
     --TODO-v- redo (except citadel)
     afgh_citadel_cp={-1251.708,595.181,-2936.821},
@@ -523,6 +521,7 @@ end
 function this.OnAllocate(missionTable)
   if TppMission.IsFOBMission(vars.missionCode)then
     TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
+    return
   end
 
   --WIP
@@ -991,6 +990,10 @@ function this.OnMissionGameEndTop()
 end
 
 function this.AbortMissionTop(abortInfo)
+  if TppMission.IsFOBMission(abortInfo.nextMissionId)then
+    return
+  end
+
   --InfMenu.DebugPrint("AbortMissionTop "..vars.missionCode)--DEBUG
   InfMain.RegenSeed(vars.missionCode,abortInfo.nextMissionId)
   
@@ -998,6 +1001,10 @@ function this.AbortMissionTop(abortInfo)
 end
 
 function this.ExecuteMissionFinalizeTop()
+  if TppMission.IsFOBMission(gvars.mis_nextMissionCodeForMissionClear)then
+    return
+  end
+
   InfMain.RegenSeed(vars.missionCode,gvars.mis_nextMissionCodeForMissionClear)
   InfGameEvent.DisableEvent()
   InfGameEvent.GenerateEvent(gvars.mis_nextMissionCodeForMissionClear)
@@ -1190,7 +1197,7 @@ end
 
 
 
---warp mode
+--warp mode,camadjust
 --config
 this.moveRightButton=InfButton.RIGHT
 this.moveLeftButton=InfButton.LEFT
@@ -2164,45 +2171,12 @@ this.heliColorNames={
   "RED",
 }
 
-function this.IvarsIsForMission(ivarList,setting,missionCode)
-  local missionId=missionCode or vars.missionCode
-  if type(ivarList)=="string" then
-    ivarList=Ivars.missionModeIvars[ivarList]
-  end
-  local passedCheck=false
-  for i=1, #ivarList do
-    local ivar = ivarList[i]
-    if ivar:Is(setting) and ivar:MissionCheck(missionId) then
-      passedCheck=true
-      break
-    end
-  end
-  return passedCheck
-end
-
-function this.IvarsEnabledForMission(ivarList,missionCode)
-  local missionId=missionCode or vars.missionCode
-  if type(ivarList)=="string" then
-    ivarList=Ivars.missionModeIvars[ivarList]
-  end
-
-  local passedCheck=false
-  for i=1, #ivarList do
-    local ivar = ivarList[i]
-    if ivar:Is()>0 and ivar:MissionCheck(missionId) then
-      passedCheck=true
-      break
-    end
-  end
-  return passedCheck
-end
-
 local startOnFootStr="startOnFoot"
 function this.IsStartOnFoot(missionCode,isAssaultLz)
   local missionCode=missionCode or vars.missionCode
-  local enabled=InfMain.IvarsEnabledForMission(startOnFootStr,missionCode)
+  local enabled=Ivars.EnabledForMission(startOnFootStr,missionCode)
 
-  local assault=InfMain.IvarsIsForMission(startOnFootStr,"NOT_ASSAULT",missionCode)
+  local assault=Ivars.IsForMission(startOnFootStr,"NOT_ASSAULT",missionCode)
   if isAssaultLz and assault then
     return false
   else

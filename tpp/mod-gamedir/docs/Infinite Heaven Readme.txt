@@ -1,5 +1,5 @@
 = Infinite heaven =
-r157 - 2016-05-29
+r158 - 2016-06-01
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
@@ -8,6 +8,7 @@ A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay throu
 Has several hundred toggleable options ranging from Subsistence mode for all missions, Mother base invasion with multiple attack helicopters, Free-cam, skip heli rides, customization of enemy and mother base gear, foot, heavy vehicle and heli patrols in free roam, and much more.
 
 Infinite Heaven features
+[url=http://www.nexusmods.com/metalgearsolidvtpp/articles/5/]http://www.nexusmods.com/metalgearsolidvtpp/articles/5/[/url]
 [url=http://www.nexusmods.com/metalgearsolidvtpp/articles/4/]http://www.nexusmods.com/metalgearsolidvtpp/articles/4/[/url]
 
 YouTube playlist of demonstrations for many features
@@ -15,14 +16,22 @@ YouTube playlist of demonstrations for many features
 
 NOTE: Remember to exit to ACC before upgrading Infinite Heaven, upgrading will cause issues continuning a save that's mid mission is likely to cause issues.
 
-r157
+New for r158
+Fixed: Disable landing zones hanging loading mother base
+Fixed: Maybe hopefully possibly. FOB defense black screen - thanks Shigu for helping test
+
+New for r157
 Feature: IH events, basically sets of IH features randomly or manually triggered on Free roam or MB start.
 Free roam events (can stack):
 Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items.
+[youtube]RrWZldWAp6o[/youtube]
+https://youtu.be/RrWZldWAp6o
 
 Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns.
 
 Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'.
+[youtube]UXAN6eBoI2M[/youtube]
+https://youtu.be/UXAN6eBoI2M
 
 MB events (only one active):
 DD Training wargame

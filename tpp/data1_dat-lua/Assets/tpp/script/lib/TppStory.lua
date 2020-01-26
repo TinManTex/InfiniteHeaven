@@ -26,7 +26,6 @@ this.storySequenceTable_Master={
   {main="s10080"},
   {flag={"s10086"}},
   {flag={"s10082"}},
-
   {main="s10090",
     condition=function()
       if TppMotherBaseManagement.CanOpenS10091()then
@@ -296,7 +295,6 @@ this.radioDemoTable={
     end,
     radioList={"f2000_rtrg1345","f2000_rtrg1347"}
   },
-
   QuietTreatment2={
     storyCondition=function(e)
       return e.demoName=="ArrivedMotherBaseAfterQuietBattle"

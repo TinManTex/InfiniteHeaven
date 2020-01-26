@@ -51,12 +51,9 @@ Armor deployment percentages - Armor, soft armor (body vest), shield.
 Headgear deployment percentages - helmet, gas mask, NVG.
 CP deterrent percentages - mines, decoys, cameras.
 Soldier ability/counter levels.
-Weapon strength menus. 'Strong weapons' are different variant/model of weapon for that chosen type.
-Reinforce count - number of reinforcement calls a CP has.
-Vehicle reinforcement level: Works with the vehicle reinforcement settings.
-Ignore combat-deploy supply blocks - Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.
 
-The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
+
+Weapon strength menus. 'Strong weapons' are different variant/model of weapon for that chosen type.
 
 DD Equip:
 -------------
@@ -66,82 +63,22 @@ Note: Equip grade 3 is the minimum grade that has all types of weapons.
 
 Known issue: Some weapons will not give the proper name when picked up and have a blank icon, some weapons scopes will be blacked out.
 
-
-Wildcard soldiers:
-Enabled using "Enable Wildcard soldiers Free roam" in the Enemy prep menu
-Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.
-https://www.youtube.com/watch?v=EalBTUetKRc
-https://www.youtube.com/watch?v=xhMemet6EF8
-
-
 Mother Base menu:
 -----------------
 Weapon loadout - using fob equip grade and range
 
-DD suits - Drab, Tiger, Sneaking, Battle Dress, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All
-DD Female suits - Drab, Tiger, Sneaking, Battle Dress
-
-DD Head gear - Off,Use Equip Grade
-
-"Female staff selection" - "Default","None","All available"
-In the regular game it tries to put at least 2 female staff per cluster (from that section)
-All available will prioritize putting your female staff first.
-None will prevent any female staff appearing on mother base.
-
 'Show assets Menu' in Mother base Menu:
 
-Show mother base assets - Big Boss posters, Nuke Elimination Monument, Sahelanthropus, Eli (in theory, haven't actually seen him though), Code Talker (the game doesn't animate or have collision for him).
+Show mother base assets - Big Boss posters, Nuke Elimination Monument, Sahelanthropus, , Code Talker (the game doesn't animate or have collision for him).
 
 Don't lock goal doors - useless unless you like swishing doors.
 
-Enable Ocelot in the Mother base menu - allows Ocelot to roam the command platform.
-https://www.youtube.com/watch?v=Wgi-OJ4_-sM
 
-Option: "Repopulate plants and diamonds" - regenerates plants on Zoo platform and diamonds on Mother base over time.
 
-Option: "Enable npc helis" - spawns some npc helis that roam around mother base.
-https://www.youtube.com/watch?v=AUbZMSjH4tM
 
 War Games - set mother base soldiers hostile with non-lethal or lethal weapons, zombified, as true enemies (non staff).
 
 The war games Enemy Invasion, and Zombie Obliteration both replace the motherbase soldiers with non-staff member and enable players use of lethal weapons and also disable demon points for kill actions.
-
-Enemy helicopters - choose between Black, Red(more powerful) via "Heli type in Enemy Invasion mode"
-Female soldiers via "Women in Enemy Invasion mode"
-Had to disable fulton for this mode due to a last minute issue, manually extracting soldier by putting them in heli works though.
-https://www.youtube.com/watch?v=Bl75OupPWS8
-
-Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they will however spawn inside building geometry, use the call menu to have them respawn near.
-Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
-
-
-Enemy parameters:
------------------
-Soldier profile - switch to off if you're combining with a modded soldier parameter table, or custom to allow the following settings:
-
-Soldier health scaling 900-0% (requires Enemy Parameters Tweaked), 0% will kill off all enemies
-
-Soldier sight scale - A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in log - all tab)' to see exact values.
-
-Hearing distance scale
-
-Player Settings:
-Player health scaling 900-0%(1hp)
-
-Use selected soldier in cutscenes and missions - shows your avatar or selected dd solider in cutscenes and missions that usually don't allow.
-
-Headgear (Cosmetic) - Several different headgear options.
-
-Subtract/Add demon points - changes demon score.
-
-Form variation menu
--------------------
-Form Variation support for player models, the fova system is how the game shows and hides sub-models.
-Download the following in the Infinite Heaven files section:
-Masked Snake - using the Phantom Limbs into fova. For Snake/Avatar, Fatigues with Scarf
-https://www.youtube.com/watch?v=xrqqBNsPAnI
-Soviets - using the enemy soldier bodies and fovas. For DD Male.
-https://www.youtube.com/watch?v=7hEaT8Ou3SQ
 
 
 Patrols menu:

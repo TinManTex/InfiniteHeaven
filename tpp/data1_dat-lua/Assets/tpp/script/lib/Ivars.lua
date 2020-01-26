@@ -234,6 +234,39 @@ local function MissionModeIvars(name,ivarDefine,missionModes)
   end
 end
 
+function this.IsForMission(ivarList,setting,missionCode)
+  local missionId=missionCode or vars.missionCode
+  if type(ivarList)=="string" then
+    ivarList=Ivars.missionModeIvars[ivarList]
+  end
+  local passedCheck=false
+  for i=1, #ivarList do
+    local ivar = ivarList[i]
+    if ivar:Is(setting) and ivar:MissionCheck(missionId) then
+      passedCheck=true
+      break
+    end
+  end
+  return passedCheck
+end
+
+function this.EnabledForMission(ivarList,missionCode)
+  local missionId=missionCode or vars.missionCode
+  if type(ivarList)=="string" then
+    ivarList=Ivars.missionModeIvars[ivarList]
+  end
+
+  local passedCheck=false
+  for i=1, #ivarList do
+    local ivar = ivarList[i]
+    if ivar:Is()>0 and ivar:MissionCheck(missionId) then
+      passedCheck=true
+      break
+    end
+  end
+  return passedCheck
+end
+
 --ivar definitions
 
 this.debugMode={
@@ -687,6 +720,7 @@ this.subsistenceProfile={
       Ivars.disableSelectTime:Set(1,true)
       Ivars.disableSelectVehicle:Set(1,true)
       Ivars.disableHeadMarkers:Set(1,true)
+
       Ivars.disableXrayMarkers:Set(0,true)
       Ivars.disableWorldMarkers:Set(1,true)
       Ivars.disableFulton:Set(1,true)
@@ -694,7 +728,7 @@ this.subsistenceProfile={
       Ivars.clearSupportItems:Set(1,true)
       Ivars.setSubsistenceSuit:Set(1,true)
       Ivars.setDefaultHand:Set(1,true)
-
+      
       if Ivars.ospWeaponProfile:IsDefault() or Ivars.ospWeaponProfile:Is"CUSTOM" then
         Ivars.ospWeaponProfile:Set(1,true)
       end
@@ -720,7 +754,7 @@ this.subsistenceProfile={
     BOUNDER=function()
       Ivars.blockInMissionSubsistenceIvars:Set(1,true)
 
-      Ivars.noCentralLzs:Set("REGULAR",true)
+      Ivars.disableLzs:Set("REGULAR",true)
       Ivars.disableSelectBuddy:Set(0,true)
       Ivars.disableHeliAttack:Set(1,true)
       Ivars.disableSelectTime:Set(1,true)
@@ -793,7 +827,7 @@ local function RequireRestartMessage(self)
     InfMenu.PrintLangId"restart_required"
   end
 end
---tex WIP OFF not happy with the lack of flexibility as GetLocationParameter is only read once on init,
+--tex not happy with the lack of flexibility as GetLocationParameter is only read once on init,
 --now just bypassing on trap enter/exit, doesnt give control of search type though
 this.disableSpySearch={
   --OFF save=GLOBAL,--CULL
@@ -1356,7 +1390,7 @@ this.revengeProfile={
       Ivars.disableConvertArmorToShield:Set(0,true)
       Ivars.disableNoRevengeMissions:Set(0,true)
       Ivars.disableMissionsWeaponRestriction:Set(0,true)
-      Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
+      --Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
       Ivars.enableMgVsShotgunVariation:Set(0,true)
       Ivars.randomizeSmallCpPowers:Set(0,true)
       Ivars.disableNoStealthCombatRevengeMission:Set(0,true)
@@ -1378,7 +1412,7 @@ this.revengeProfile={
       Ivars.disableConvertArmorToShield:Set(1,true)
       Ivars.disableNoRevengeMissions:Set(0,true)
       Ivars.disableMissionsWeaponRestriction:Set(0,true)
-      Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
+      --Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
       Ivars.enableMgVsShotgunVariation:Set(1,true)
       Ivars.randomizeSmallCpPowers:Set(1,true)
       Ivars.disableNoStealthCombatRevengeMission:Set(1,true)
@@ -1500,7 +1534,7 @@ this.disableMissionsWeaponRestriction={
 }
 
 this.disableMotherbaseWeaponRestriction={--WIP
-  --WIP save=MISSION,
+  --OFF WIP save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
   profile=this.revengeProfile,
@@ -2742,6 +2776,7 @@ this.playerHeadgear={--DOC: player appearance.txt
     end
   end,
 }
+
 --enemy phases
 this.phaseSettings={
   "PHASE_SNEAK",
@@ -3200,7 +3235,7 @@ this.setInvincibleHeli={
 }
 
 this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's not what I think it is, check the instances that its used and see if its a take-off empty wait or take-off with player in wait
-  save=MISSION,
+  --OFF save=MISSION,
   default=5,--tex from TppHelicopter.SetDefaultTakeOffTime
   range={min=0,max=15},
   OnChange=function(self)
@@ -3434,6 +3469,9 @@ this.OptionIsDefault=function(self)
   return currentSetting==self.default
 end
 
+local type=type
+local numberType="number"
+local TppMission=TppMission
 this.OptionIsSetting=function(self,setting)
   if self==nil then
     InfMenu.DebugPrint("WARNING OptionIsSetting self==nil, Is or Get called with . instead of :")
@@ -3454,7 +3492,7 @@ this.OptionIsSetting=function(self,setting)
 
   if setting==nil then
     return currentSetting
-  elseif type(setting)=="number" then
+  elseif type(setting)==numberType then
     return setting==currentSetting
   end
 

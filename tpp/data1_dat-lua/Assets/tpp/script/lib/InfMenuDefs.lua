@@ -456,11 +456,9 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    InfMenuCommands.forceGameEvent,--DEBUGNOW
-    Ivars.gameEventChance,--DEBUGNOW
     --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
     --    --    InfMenuCommands.DEBUG_PrintMenu,
---        InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
 --        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
@@ -472,6 +470,8 @@ this.heliSpaceMenu={
     --Ivars.forceSoldierSubType,--tex WIP DEBUG
     --Ivars.manualMissionCode,--tex  WIP
     --InfMenuCommands.loadMission,--tex  WIP
+    InfMenuCommands.forceGameEvent,--DEBUGNOW
+    Ivars.gameEventChance,--DEBUGNOW
     Ivars.clockTimeScale,
     this.playerRestrictionsMenu,
     this.playerSettingsMenu,

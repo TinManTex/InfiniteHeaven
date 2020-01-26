@@ -25,12 +25,13 @@ Player restrictions menu
 - Settings to customize the game challenge, including subsistence and OSP.
 ------------------------
 [1] Subsistence profile : Off, Pure, Bounder, Custom
-    - Pure - similar to the games Subsistence mission settings with additional restrictions, Bounder - a bit more relaxed than Pure profile, mainly allowing any character as well as buddies.
+    - Quickly set restrictions similar to Subsistence missions. Pure - similar to the games Subsistence mission settings with additional restrictions, Bounder - a bit more relaxed than Pure profile, mainly allowing any character as well as buddies.
 [2] Block in-mission menu restriction options : Off, On
     - Block changing player restrictions from the in-mission menu
 [3] Disable support heli attack : Off, On
+    - Stops support heli from engaging targets.
 [4] Disable fulton action : Off, On
-[5] Force subsistence suit - Olive Drab, no headgear : Off, On
+[5] Force subsistence suit (Olive Drab, no headgear) : Off, On
 [6] Set hand type to default : Off, On
 [7] Disable landing zones : Off, Assault, Regular
     - Disables Assault Landing Zones (those usually in the center of a base that the support heli will circle before landing), or all LZs but Assault LZs
@@ -105,7 +106,7 @@ Fulton success menu
 [8] Hostage handling : Default, Must extract (0%)
 
 OSP menu
-- Separate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, individually settable.
+- Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it).
 --------
 [1] Items OSP : Off, On
 [2] Support items OSP : Off, On
@@ -123,14 +124,14 @@ Player settings menu
 [3] Add demon points : (Command)
     - Adds 999999 points to demon score
 [4] Use selected soldier in all cutscenes and missions : Off, On
-[5] Headgear (cosmetic) : 0-7
+[5] Headgear (cosmetic, DD characters only) : Don't set (change character to reset head), Balaclava 1, Balaclava 2, DD heavy headgear, Gas mask and balaclava, Gas mask and DD headgear, Gas mask and DD heavy headgear, NVG and DD heavy headgear, NVG, Gas mask and DD heavy headgear
 [6] Form Variation menu
 
 Form Variation menu
 - Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.
 -------------------
 [1] Use selected fova : Off, On
-[2] fovaSelection : 0-255
+[2] <Character model description> : <Fova selection>
 [3] Print current body info : (Command)
 
 Soldier parameters menu
@@ -139,11 +140,13 @@ Soldier parameters menu
 [1] Soldier Parameters Profile : Off (use game/other mod settings, requires restart), Custom
     - Due to the way Soldier2ParameterTables.lua is set up turn this off if you have another mod that modifies this, usually just Hardcore mod.
 [2] Soldier life scale : 0-900%
+    - 0% will kill off all enemies
 [3] Soldier sight scale : 0-400%
+    - A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in iDroid Log>All tab)' to see exact values.
 [4] Soldier hearing distance scale : 0-400%
-[5] Print health param table (look in log - all tab) : (Command)
-[6] Print sight param table (look in log - all tab) : (Command)
-[7] Print hearing distance table (look in log - all tab) : (Command)
+[5] Print health param table (look in iDroid Log>All tab) : (Command)
+[6] Print sight param table (look in iDroid Log>All tab) : (Command)
+[7] Print hearing distance table (look in iDroid Log>All tab) : (Command)
 
 Enemy phases menu
 - Adjust minimum and maximum alert phase for enemy Command Posts
@@ -164,6 +167,7 @@ Enemy phases menu
     - Displays when phase changes.
 
 Enemy Prep menu
+- Ways to modify the Enemy preparedness system that equips the enemy in response to your actions.
 ---------------
 [1] Free roam prep mode : Enemy prep levels, Custom prep
 [2] Missions prep mode : Enemy prep levels, Custom prep
@@ -177,10 +181,10 @@ Enemy Prep menu
     - Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
 
 Custom prep menu
-- Lets you set the individual values that go into an enemy prep configuration (oes not use the enemy prep levels), a value random between MIN and MAX for each setting is chosen on mission start
+- Lets you set the individual values that go into an enemy prep configuration (does not use the enemy prep levels), a random value between MIN and MAX for each setting is chosen on mission start. The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
 ----------------
 [1] Custom prep profile : WIDE, MAX, MIN, CUSTOM
-[2] Print example current config (look in log - all tab) : (Command)
+[2] Print example current config (look in iDroid Log>All tab) : (Command)
 [3] Weapon deployment
 [4] Armor deployment
 [5] Headgear deployment
@@ -188,13 +192,14 @@ Custom prep menu
 [7] Soldier abilities
 [8] Weapon strength menu
 [9] CP equip strength menu
-[10] Reinforce count min : 1-99
-     - The number of times reinforcements can be called
-[11] Reinforce count max : 1-99
+[10] Reinforce calls min : 1-99
+     - Number of reinforcement calls a CP has.
+[11] Reinforce calls max : 1-99
      - The number of times reinforcements can be called
 [12] Vehicle reinforcement level min : NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE
 [13] Vehicle reinforcement level max : NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE
 [14] Ignore combat-deploy supply blocks min : Off, On
+     - Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.
 [15] Ignore combat-deploy supply blocks max : Off, On
 
 Weapon deployment
@@ -244,8 +249,10 @@ CP deterrent deployment
 Soldier abilities
 -----------------
 [1] STEALTH_MIN : NONE, LOW, HIGH, SPECIAL
+    - Adjusts enemy soldiers notice,cure,reflex and speed ablilities.
 [2] STEALTH_MAX : NONE, LOW, HIGH, SPECIAL
 [3] COMBAT_MIN : NONE, LOW, HIGH, SPECIAL
+    - Adjusts enemy soldiers shot,grenade,reload,hp and speed abilities.
 [4] COMBAT_MAX : NONE, LOW, HIGH, SPECIAL
 [5] HOLDUP_MIN : NONE, LOW, HIGH, SPECIAL
 [6] HOLDUP_MAX : NONE, LOW, HIGH, SPECIAL
@@ -253,7 +260,7 @@ Soldier abilities
 [8] FULTON_MAX : NONE, LOW, HIGH, SPECIAL
 
 Weapon strength menu
-- Whether to deploy the stronger weapon type
+- Whether to deploy the stronger weapon class for the weapon type
 --------------------
 [1] STRONG_WEAPON_MIN : Off, On
 [2] STRONG_WEAPON_MAX : Off, On
@@ -297,6 +304,7 @@ Prep system menu
      - Where heavy armor is disabled (free roam by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.
 
 DD Equip menu
+- Allow soldiers to have DD equipment usually only seen on FOB
 -------------
 [1] MB staff use DD equipment : Off, On
 [2] Enemy use DD equipment in Free roam : Off, On
@@ -310,17 +318,23 @@ DD Equip menu
 Enemy reinforcements menu
 -------------------------
 [1] Enable vehicle reinforce (only heli in free roam, vehicles depend on mission) : Off, Enemy Prep, Force Prep
+    - In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more.
 [2] Force enable enemy heli reinforce (disable heli sideops) : Off, On
 [3] Force reinforce request for heli : Off, On
-[4] Disable reinforce heli pullout : Off, On
+[4] Disable reinforce heli pull-out : Off, On
 [5] Soldier reinforce with all vehicle reinforce types : Off, On
+    - Allows an extra set of reinforce soldiers with all vehicle reinforce types instead of just Wheeled Armored Vehicles.
 
 Enemy patrols menu
 ------------------
 [1] Foot patrols in free roam : Off, On
+    - Foot patrols will travel between two random CPs and will cross the field to get there.
 [2] Heli patrols in free roam : None, 1, 3, 5, 7, Enemy prep
+    - Allows multiple enemy helicopters that travel between larger CPs. Due to limitations their current position will not be saved/restored so may 'dissapear/appear' on reload.
 [3] Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
-[4] Vehicle patrols profile : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)
+    - Shared between free roam and MB attack helis.
+[4] Vehicle patrols in free roam profile : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)
+    - Replaces the patrolling trucks in free roam with other vehicles.
 [5] Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep
 [6] Enable jeeps : Off, On
 [7] Enable trucks : Off, On
@@ -343,17 +357,20 @@ Mother Base menu
 [4] DD Suit female : Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress
 [5] DD Head gear : Off, Current prep
 [6] Female staff selection : Default, None, All available
-    - By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available is self explanitory, None will prevent any females from showing on mother base
+    - By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
 [7] Enable npc helis : Off, Support helis, Support and Attack helis
+    - Spawns some npc helis that roam around mother base.
 [8] Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
+    - Shared between free roam and MB attack helis.
 [9] Enable walker gears : Off, On
 [10] Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
 [11] Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
 [12] Repopulate plants and diamonds : Off, On
+     - Regenerates plants on Zoo platform and diamonds on Mother base over time.
 [13] Staff-wide morale boost for good visit : Off, On
      - Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must exit via heli for it to apply.
 [14] Enable all buddies : Off, On
-     - Allows all buddy types to be on mother base (still one at a time), many will however start inside the building and require you to call from the buddy menu.
+     - Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
 [15] Show characters menu
 [16] Show assets menu
 [17] Women in Enemy Invasion mode : Off, On
@@ -362,6 +379,7 @@ Mother Base menu
 Show characters menu
 --------------------
 [1] Enable Ocelot : Off, On
+    - Enables Ocelot to roam the command platform.
 [2] Enable puppy DDog : Off, Missing eye, Normal eyes
 [3] Show Code Talker : Off, On
 [4] Show Eli : Off, On
@@ -379,7 +397,7 @@ Cutscenes menu
 [1] Use selected soldier in all cutscenes and missions : Off, On
 [2] MB cutscene play mode : Default, Play selected, Cutscenes disabled
     - Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base
-[3] Select MB cutscene (REQ: Play selected) : <cutscene ids>
+[3] Select MB cutscene (REQ: Play selected) : <Cutscene ids>
 [4] Override time : Cutscene default, Current, Custom
 [5] Hour : 0-23
 [6] Minute : 0-59
@@ -397,6 +415,7 @@ Camera menu
 Support heli menu
 -----------------
 [1] Disable support heli attack : Off, On
+    - Stops support heli from engaging targets.
 [2] Set heli invincible : Off, On
 [3] Force searchlight : On, Off
 [4] Disable pull-out : Off, On
@@ -412,7 +431,7 @@ Support heli menu
 Debug/system menu
 -----------------
 [1] Debug IH mode : Off, On
-    - Switches on some error messages and enables the announce log during loading.
+    - Switches on some error messages and enables the announce-log during loading.
 [2] Disable mission intro credits : Off, On
 [3] Start offline : Off, On
     - Start the game in offline mode, this also removes the connect option from the pause menu.
@@ -490,6 +509,7 @@ Enemy phases menu
 Support heli menu
 -----------------
 [1] Disable support heli attack : Off, On
+    - Stops support heli from engaging targets.
 [2] Set heli invincible : Off, On
 [3] Force searchlight : On, Off
 [4] Disable pull-out : Off, On
@@ -505,7 +525,7 @@ Support heli menu
 Debug stuff menu
 ----------------
 [1] Debug IH mode : Off, On
-    - Switches on some error messages and enables the announce log during loading.
+    - Switches on some error messages and enables the announce-log during loading.
 [2] selectedCp : none
 [3] setSelectedCpToMarkerObjectCp : (Command)
 [4] DEBUG_PrintCpPowerSettings : (Command)
@@ -514,4 +534,3 @@ Debug stuff menu
 [7] DEBUG_PrintSoldierDefine : (Command)
 [8] DEBUG_ShowRevengeConfig : (Command)
 [9] Show position : (Command)
-

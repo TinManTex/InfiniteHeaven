@@ -1,5 +1,10 @@
 Infinite Heaven changelog
-r157
+r158: 2016-06-01 - public release
+Fixed: disableLzs rename holdout (still noCentralLzs) on bounder profile
+Fixed: Disable landing zones hanging on loading mother base
+Fixed: Maybe hopefully possibly. FOB defense black screen - thanks Shigu for helping test
+
+r157 - 2016-05-29 - public release
 Module: InfGameEvent
 Save var (non user): mis_event {OFF,WARGAMES} - used to drive the wargames event set up which sets various ivars as no-save, only really useful for mb currently as there's no in-game saves and can just prevent restore/bail to ACC
 Fixed: changed start on foot mission start timers workaround, previous workaround resulted in pause menu issues such as options item not appearing and double abort items (both abort mission and abort to acc) - thanks CantStoptheBipBop for the report

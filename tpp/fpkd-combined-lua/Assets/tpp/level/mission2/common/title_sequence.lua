@@ -1035,7 +1035,6 @@ sequences.Seq_Game_ChunkInstalled = {
 	end,
 
 	OnEndFadeOutSelectContinue = function()
-    InfMenu.DebugPrint("OnEndFadeOutSelectContinue current:"..tostring(currentMissionCode).." next:"..tostring(vars.missionCode))--DEBUGNOW
 		local titleMissionCode = vars.missionCode
 		this.DoEnableGameStatusFunction()
 		TppMission.SafeStopSettingOnMissionReload()	
