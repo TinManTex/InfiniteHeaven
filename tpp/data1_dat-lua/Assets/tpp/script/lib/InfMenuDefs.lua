@@ -431,6 +431,7 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
+    Ivars.fobMode,--DEBUGNOW
    -- this.ospMenu,--DEBUG
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    this.fovaModMenu,--DEBUG
@@ -502,8 +503,9 @@ this.inMissionMenu={
 --    this.fovaModMenu,--DEBUG
 --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
 --    this.appearanceMenu,--DEBUG
- --   InfMenuCommands.DEBUG_SomeShiz,--DEBUG  
- --   InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz2,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeShiz3,--DEBUGNOW
   --  InfMenuCommands.DEBUG_WarpToObject,--DEBUG
     --InfMenuCommands.showPosition,--DEBUG
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
@@ -524,6 +526,16 @@ this.inMissionMenu={
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.menuOffItem,
   }
+}
+
+this.inFOBMenu={--DEBUGNOW
+  noResetItem=true,--tex KLUDGE, to keep menuoffitem order
+  noGoBack=true,--tex is root
+  options={
+    InfMenuCommands.DEBUG_SomeFOBShiz,--DEBUGNOW
+    InfMenuCommands.DEBUG_SomeFOBShiz2,--DEBUGNOW
+    InfMenuCommands.DEBUG_showSyncSVars,--DEBUGNOW
+  },
 }
 
 --TABLESETUP: MenuDefs

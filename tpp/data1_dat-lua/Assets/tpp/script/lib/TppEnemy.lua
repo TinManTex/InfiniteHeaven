@@ -5533,9 +5533,9 @@ end
 function this.GetDDSuit()
   local eventArmor=TppDefine.FOB_EVENT_ID_LIST.ARMOR
 
-  local eventId=TppServerManager.GetEventId()
-  for a,n in ipairs(eventArmor)do
-    if eventId==n then
+  local currentEventId=TppServerManager.GetEventId()
+  for n,eventId in ipairs(eventArmor)do
+    if currentEventId==eventId then
       return this.FOB_PF_SUIT_ARMOR
     end
   end
@@ -5551,9 +5551,9 @@ function this.GetDDSuit()
 end
 function this.IsHostageEventFOB()
   local eventIdList=TppDefine.FOB_EVENT_ID_LIST.HOSTAGE
-  local eventId=TppServerManager.GetEventId()
-  for t,e in ipairs(eventIdList)do
-    if eventId==e then
+  local currentEventId=TppServerManager.GetEventId()
+  for n,eventId in ipairs(eventIdList)do
+    if currentEventId==eventId then
       return true
     end
   end
@@ -5561,9 +5561,9 @@ function this.IsHostageEventFOB()
 end
 function this.IsZombieEventFOB()--RETAILPATCH 1070>
   local eventIdList=TppDefine.FOB_EVENT_ID_LIST.ZOMBIE
-  local eventId=TppServerManager.GetEventId()
-  for t,e in ipairs(eventIdList)do
-    if eventId==e then
+  local currentEventId=TppServerManager.GetEventId()
+  for n,eventId in ipairs(eventIdList)do
+    if currentEventId==eventId then
       return true
     end
   end
@@ -5571,9 +5571,9 @@ function this.IsZombieEventFOB()--RETAILPATCH 1070>
 end
 function this.IsParasiteMetalEventFOB()
   local eventIdList=TppDefine.FOB_EVENT_ID_LIST.PARASITE_METAL
-  local eventId=TppServerManager.GetEventId()
-  for t,e in ipairs(eventIdList)do
-    if eventId==e then
+  local currentEventId=TppServerManager.GetEventId()
+  for n,eventId in ipairs(eventIdList)do
+    if currentEventId==eventId then
       return true
     end
   end

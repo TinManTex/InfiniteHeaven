@@ -55,18 +55,18 @@ function this.GetSetting(previousIndex,previousMenuOptions)
     return
   end
 
---DEBUGNOW
---  if previousIndex then
---    local menuOptions=previousMenuOptions or this.currentMenuOptions
---    local previousOption=this.menuOptions[this.previousIndex]
---    if previousOption then
---      if IsFunc(previousOption.OnDeselect) then
---        previousOption:OnDeselect()
---      end
---    else
---      InfMenu.DebugPrint"InfMenu.GetSetting - no previousOption for previousIndex"--DEBUGNOW
---    end
---  end
+  --DEBUGNOW
+  --  if previousIndex then
+  --    local menuOptions=previousMenuOptions or this.currentMenuOptions
+  --    local previousOption=this.menuOptions[this.previousIndex]
+  --    if previousOption then
+  --      if IsFunc(previousOption.OnDeselect) then
+  --        previousOption:OnDeselect()
+  --      end
+  --    else
+  --      InfMenu.DebugPrint"InfMenu.GetSetting - no previousOption for previousIndex"--DEBUGNOW
+  --    end
+  --  end
 
   local option=this.currentMenuOptions[this.currentIndex]
 
@@ -605,12 +605,18 @@ function this.Update(execCheck)
       this.topMenu=InfMenuDefs.heliSpaceMenu
       this.GoMenu(this.topMenu)
     end
-  else--!ishelispace
+  elseif TppMission.IsFOBMission(vars.missionCode)then
+    if this.topMenu~=InfMenuDefs.inFOBMenu then
+      Ivars.PrintGvarSettingMismatch()
+      this.topMenu=InfMenuDefs.inFOBMenu
+      this.GoMenu(this.topMenu)
+    end  
+  else
     if this.topMenu~=InfMenuDefs.inMissionMenu then
       Ivars.PrintGvarSettingMismatch()
       this.topMenu=InfMenuDefs.inMissionMenu
       this.GoMenu(this.topMenu)
-  end
+    end
   end
 
   if this.menuOn then

@@ -960,7 +960,7 @@ function this.OnEndFadeOutSelectLandingPoint()
 			needSkipMissionPraparetion = true
 			mvars.heliSequence_needCreateEmblemToVisit = true
 		end
-		if vars.fobSneakMode == FobMode.MODE_SHAM then
+		if vars.fobSneakMode == FobMode.MODE_SHAM then--tex DEBUGNOW does sham restore to this on quit?
 			Fox.Log("heli_common_sequence: force mb save to slot, because go to FobMode.MODE_SHAM")
 			TppSave.VarSaveMbMangement( nil, true )
 		end

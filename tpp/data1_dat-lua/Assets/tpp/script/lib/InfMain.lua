@@ -3,7 +3,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r143"
+this.modVersion="r144x"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -794,9 +794,9 @@ this.abortToAcc=false--tex
 
 function this.Update()
   if TppMission.IsFOBMission(vars.missionCode) then
-    return
+    --DEBUGNOW return
   end
-
+  
   playerVehicleId=NULL_ID
   local currentChecks=this.execChecks
   --for k,v in ipairs(this.execChecks) do

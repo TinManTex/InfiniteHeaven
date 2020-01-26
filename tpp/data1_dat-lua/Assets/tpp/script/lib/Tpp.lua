@@ -830,25 +830,25 @@ function this.DEBUG_DumpTable(l,n)
     end
   end
 end
-function this.DEBUG_Where(e)
-  local e=debug.getinfo(e+1)
-  if e then
-    return e.short_src..(":"..e.currentline)
+function this.DEBUG_Where(stackLevel)
+  local stackInfo=debug.getinfo(stackLevel+1)
+  if stackInfo then
+    return stackInfo.short_src..(":"..stackInfo.currentline)
   end
   return"(unknown)"
 end
-function this.DEBUG_StrCode32ToString(e)
-  if e~=nil then
-    local n
+function this.DEBUG_StrCode32ToString(str32string)
+  if str32string~=nil then
+    local originalString
     if(TppDbgStr32)then
-      n=TppDbgStr32.DEBUG_StrCode32ToString(e)
+      originalString=TppDbgStr32.DEBUG_StrCode32ToString(str32string)
     end
-    if n then
-      return n
+    if originalString then
+      return originalString
     else
-      if type(e)=="string"then
+      if type(str32string)=="string"then
       end
-      return tostring(e)
+      return tostring(str32string)
     end
   else
     return"nil"
@@ -856,15 +856,15 @@ function this.DEBUG_StrCode32ToString(e)
 end
 function this.DEBUG_Fatal(e,e)
 end
-function this.DEBUG_SetPreference(n,t,l)
-  local n=Preference.GetPreferenceEntity(n)
-  if(n==nil)then
+function this.DEBUG_SetPreference(entityName,property,value)
+  local entity=Preference.GetPreferenceEntity(entityName)
+  if(entity==nil)then
     return
   end
-  if(n[t]==nil)then
+  if(entity[property]==nil)then
     return
   end
-  Command.SetProperty{entity=n,property=t,value=l}
+  Command.SetProperty{entity=entity,property=property,value=value}
 end
 this._requireList={}
 do

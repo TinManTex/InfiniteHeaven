@@ -1012,20 +1012,20 @@ function this.SetPlayerKilledChildCamera()
   end
 end
 function this.SetPressStartCamera()
-  local e=GetGameObjectId"Player"
-  if e==NULL_ID then
+  local playerId=GetGameObjectId"Player"
+  if playerId==NULL_ID then
     return
   end
   Player.RequestToStopCameraAnimation{}
-  Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,0)},skeletonBoundings={Vector3(.5,.45,.1)},offsetPos=Vector3(-.8,0,-1.4),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
+  Player.RequestToPlayCameraNonAnimation{characterId=playerId,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,0)},skeletonBoundings={Vector3(.5,.45,.1)},offsetPos=Vector3(-.8,0,-1.4),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
 end
 function this.SetTitleCamera()
-  local e=GetGameObjectId"Player"
-  if e==NULL_ID then
+  local playerId=GetGameObjectId"Player"
+  if playerId==NULL_ID then
     return
   end
   Player.RequestToStopCameraAnimation{}
-  Player.RequestToPlayCameraNonAnimation{characterId=e,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,.1)},skeletonBoundings={Vector3(.5,.45,.9)},offsetPos=Vector3(-.8,0,-1.8),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
+  Player.RequestToPlayCameraNonAnimation{characterId=playerId,isFollowPos=true,isFollowRot=true,followTime=0,followDelayTime=0,candidateRots={{0,185}},skeletonNames={"SKL_004_HEAD"},skeletonCenterOffsets={Vector3(-.5,-.15,.1)},skeletonBoundings={Vector3(.5,.45,.9)},offsetPos=Vector3(-.8,0,-1.8),focalLength=21,aperture=1.875,timeToSleep=0,fitOnCamera=false,timeToStartToFitCamera=0,fitCameraInterpTime=0,diffFocalLengthToReFitCamera=0}
 end
 function this.SetSearchTarget(targetGameObjectName,gameObjectType,name,skeletonName,offset,targetFox2Name,doDirectionCheck,wideCheckRange)
   if(targetGameObjectName==nil or gameObjectType==nil)then
@@ -1077,28 +1077,28 @@ function this.ResetMissionEndCamera()
   Player.RequestToStopCameraAnimation{}
 end
 function this.PlayCommonMissionEndCamera(i,r,s,l,t,n)
-  local a
+  local playMissionClearTime
   local vehicleId=vars.playerVehicleGameObjectId
   if Tpp.IsHorse(vehicleId)then
     GameObject.SendCommand(vehicleId,{id="HorseForceStop"})
-    a=i(vehicleId,t,n)
+    playMissionClearTime=i(vehicleId,t,n)
   elseif Tpp.IsVehicle(vehicleId)then
-    local o=GameObject.SendCommand(vehicleId,{id="GetVehicleType"})
+    local vehicleType=GameObject.SendCommand(vehicleId,{id="GetVehicleType"})
     GameObject.SendCommand(vehicleId,{id="ForceStop",enabled=true})
-    local r=r[o]
+    local r=r[vehicleType]
     if r then
-      a=r(vehicleId,t,n)
+      playMissionClearTime=r(vehicleId,t,n)
     end
   elseif(Tpp.IsPlayerWalkerGear(vehicleId)or Tpp.IsEnemyWalkerGear(vehicleId))then
     GameObject.SendCommand(vehicleId,{id="ForceStop",enabled=true})
-    a=s(vehicleId,t,n)
+    playMissionClearTime=s(vehicleId,t,n)
   elseif Tpp.IsHelicopter(vehicleId)then
   else
-    a=l(t,n)
+    playMissionClearTime=l(t,n)
   end
-  if a then
+  if playMissionClearTime then
     local timerName="Timer_StartPlayMissionClearCameraStep"..tostring(t+1)
-    TimerStart(timerName,a)
+    TimerStart(timerName,playMissionClearTime)
   end
 end
 function this._PlayMissionClearCamera(playJingle,t)

@@ -1,6 +1,12 @@
+-- DOBUILD: 1
+-- ORIGINALQAR: chunk3
+-- PACKPATH: \Assets\tpp\pack\mission2\online\o50050\o50050_additional.fpkd
+-- o50050_enemy.lua
+
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
+local NULL_ID=GameObject.NULL_ID--RETAILBUG NULL_ID was not defined wtf.
 
 this.requires = {}
 
@@ -368,6 +374,8 @@ end
 
  
 this.SetFriendly = function()
+  if true then return end--DEBUGNOW
+
 	Fox.Log("*** SetFriendly *** ")
 	local GetGameObjectId = GameObject.GetGameObjectId
 	local SendCommand = GameObject.SendCommand
@@ -504,8 +512,6 @@ this.SearchingDefencePlayer = function()
 		
 		TppUI.ShowAnnounceLog( "updateMap" )
 
-		
-		
 		GkEventTimerManager.StartRaw(TIMER_NAME_PERMIT_SEARCHING_DEFENDER, mvars.numSearchingDefenceTime )
 	end
 end
@@ -650,17 +656,17 @@ this.SetUpEnemy = function ()
 
 	
 	if vars.fobSneakMode == FobMode.MODE_SHAM then
-		this.SetupPracticeMode()
+		--DEBUGNOW OFF this.SetupPracticeMode()
 	end
 
 	
 	if vars.fobSneakMode == FobMode.MODE_VISIT then
-		this.SetFriendly()
+		--DEBUGNOW OFF this.SetFriendly()
 		
-		if TppMotherBaseManagement.IsMbsOwner{} ~= true then
+		--DEBUGNOW OFF this.SetFriendly()if TppMotherBaseManagement.IsMbsOwner{} ~= true then
 			Fox.Log("### Not Owner ###")
-			this.SetSaluteMoraleDisableAll()
-		end
+			--DEBUGNOW OFF this.SetFriendly()this.SetSaluteMoraleDisableAll()
+		--DEBUGNOW OFF this.SetFriendly()end
 	end
 
 	
@@ -682,7 +688,7 @@ this.SetUpEnemy = function ()
 						if plantNum <= grade then
 							local command = { id="Warp", degRotationY=vars.playerRotY, position = Vector3( hostagePos[1], hostagePos[2]+0.8, hostagePos[3] ) }	
 							if gameObjectId ~= nil then
-								GameObject.SendCommand( 1, command )
+								GameObject.SendCommand( gameObjectId, command )
 							end
 						else
 							local command = { id="SetEnabled", enabled=false }
@@ -734,22 +740,6 @@ end
 
 this.OnAllocate = function()
 	this.GetRouteSetPriority = mtbs_enemy.GetRouteSetPriority
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 end
 
 function this.Messages()
@@ -917,11 +907,6 @@ function this.InitializeFobUsingStaffIndex()
 	end
 end
 
-
-
-
-
-
 function this.SetUpEventFOBZombie()
 	Fox.Log("***** EventFOB:ZombieEvent *****")
 
@@ -946,12 +931,6 @@ function this.UnsetEventFOBZombie()
 	end
 
 end
-
-
-
-
-
-
 
 this.InitParasiteEvent = function ()
 	Fox.Log("***** this.InitParasiteEvent *****")
@@ -991,20 +970,7 @@ end
 
 this.GetDifficultyParasite = function ()
 	Fox.Log("***** this.GetDifficultyParasite *****")
-
-	
 	return PARASITE_PARAM.HARD, PARASITE_GRADE.HARD
-
-
-
-
-
-
-
-
-
-
-
 end
 
 

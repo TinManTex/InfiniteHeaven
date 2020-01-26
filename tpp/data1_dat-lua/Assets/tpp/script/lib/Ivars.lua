@@ -3262,6 +3262,15 @@ this.mis_isGroundStart={--NONUSER
   range=this.switchRange,
 }
 
+--fob ivars
+this.fobMode={--DEBUGNOW
+  save=MISSION,
+  range=this.switchRange,
+  allowFob=true,
+  settings={"DEFAULT","COOP"},
+  --DEBUGNOWsettingNames="set_switch",
+}
+
 --end ivar defines
 
 local function IsIvar(ivar)--TYPEID

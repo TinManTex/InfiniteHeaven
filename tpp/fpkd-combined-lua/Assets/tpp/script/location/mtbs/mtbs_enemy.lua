@@ -2143,10 +2143,33 @@ mtbs_enemy.OnTerminateDemoBlock = function()
   Fox.Log("OnTerminate")
 end
 
+--tex DEBUGNOW>
+--this.GAME_STATUS_TYPE_ALL={S_DISABLE_PLAYER_PAD=true,S_DISABLE_NPC=true,S_DISABLE_TARGET=true,S_DISABLE_NPC_NOTICE=true,S_DISABLE_PLAYER_DAMAGE=true,S_DISABLE_THROWING=true,S_DISABLE_PLACEMENT=true}
+function this.ClearGameStatusOnStartVersus()
+  Fox.Log("### ClearGameStatusOnStartVersus ####")
 
+  local target = {}
+  for key, value in pairs(TppDefine.GAME_STATUS_TYPE_ALL) do
+    target[key] = value
+  end
 
+  Tpp.SetGameStatus{
+    target = target,
+    enable = true,
+    scriptName = "o50050_sequence.lua",
+  }
+end
+--<
 
 mtbs_enemy.SetFriendly = function( )
+--DEBUGNOW
+--  TppGameStatus.Set("mtbs_enemy.lua","S_ENABLE_FOB_PLAYER_HIDE")
+--
+--  TppGameStatus.Set("mtbs_enemy.lua","S_DISABLE_TARGET")
+--  TppGameStatus.Set("mtbs_enemy.lua","S_DISABLE_NPC_NOTICE")
+--
+--this.ClearGameStatusOnStartVersus()--DEBUGNOW
+
   for cpName, soldierNameList in pairs( mtbs_enemy.soldierDefine ) do
     do
       local gameObjectId = GetGameObjectId(cpName)

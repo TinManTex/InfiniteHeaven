@@ -1455,10 +1455,10 @@ function this.OnRecoverByHelicopterAlreadyGetPassengerList()
     end
   end
 end
-function this.CheckAddTempBuffer(e)
+function this.CheckAddTempBuffer(playerIndex)
   if TppMission.IsFOBMission(vars.missionCode)then
-    if TppServerManager.FobIsSneak()then
-      if e==0 then
+    if TppServerManager.FobIsSneak()then--tex DEBUGNOW add bypass
+      if playerIndex==0 then
         return true
       else
         return false
@@ -1478,9 +1478,10 @@ function this.AddTempStaffFulton(staffInfo)
     end
   end
 end
-function this.AddTempResource(resourceId,count,a)
-  local a=a or 0
-  if not this.CheckAddTempBuffer(a)then
+function this.AddTempResource(resourceId,count,playerIndex)
+--tex DEBUGNOW TODO add bypasee
+  local playerIndex=playerIndex or 0
+  if not this.CheckAddTempBuffer(playerIndex)then
     return
   end
   local count=count or 1

@@ -662,13 +662,16 @@ missionPackTable[30020]=function(missionCode)
     end
   end--<
 end
-missionPackTable[30050]=function(missionCode)  
+missionPackTable[30050]=function(missionCode)
+  
   TppPackList.AddLocationCommonScriptPack(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.HELICOPTER)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.MTBS_MISSION_AREA)
-
+ 
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"--tex DEBUGNOW
+  --TppPackList.AddMissionPack"/Assets/tpp/pack/ih/animals.fpk"--tex DEBUGNOW
+  
   
   if Ivars.mbEnemyHeli:Is(1) then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk"
@@ -864,13 +867,13 @@ missionPackTable[50050]=function(missionCode)
   if TppEnemy.IsHostageEventFOB()then
     TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.FOB_HOSTAGE)
     do
-      local s={
+      local settings={
         {type="hostage",name="hos_o50050_event5_0000",faceId=621,bodyId=143},
         {type="hostage",name="hos_o50050_event5_0001",faceId=640,bodyId=143},
         {type="hostage",name="hos_o50050_event5_0002",faceId=641,bodyId=143},
         {type="hostage",name="hos_o50050_event5_0003",faceId=646,bodyId=143}
       }
-      TppEneFova.AddUniqueSettingPackage(s)
+      TppEneFova.AddUniqueSettingPackage(settings)
     end
   end
   if TppEnemy.IsZombieEventFOB()then--RETAILPATCH: 1070>

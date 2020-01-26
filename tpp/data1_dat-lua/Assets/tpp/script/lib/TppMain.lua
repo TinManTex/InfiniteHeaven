@@ -168,12 +168,12 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       end
     end
     local missionSvars={}
-    for n,e in pairs(missionTable)do
-      if IsTypeFunc(e.DeclareSVars)then
-        ApendArray(missionSvars,e.DeclareSVars())
+    for n,module in pairs(missionTable)do
+      if IsTypeFunc(module.DeclareSVars)then
+        ApendArray(missionSvars,module.DeclareSVars())
       end
-      if IsTypeTable(e.saveVarsList)then
-        ApendArray(missionSvars,TppSequence.MakeSVarsTable(e.saveVarsList))
+      if IsTypeTable(module.saveVarsList)then
+        ApendArray(missionSvars,TppSequence.MakeSVarsTable(module.saveVarsList))
       end
     end
     ApendArray(allSvars,missionSvars)
@@ -858,10 +858,10 @@ function this.OnMessage(n,sender,messageId,arg0,arg1,arg2,arg3)
     mvars.animalBlockScript.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,l)
   end
 end
-function this.OnTerminate(e)
-  if e.sequence then
-    if IsTypeFunc(e.sequence.OnTerminate)then
-      e.sequence.OnTerminate()
+function this.OnTerminate(missionTable)
+  if missionTable.sequence then
+    if IsTypeFunc(missionTable.sequence.OnTerminate)then
+      missionTable.sequence.OnTerminate()
     end
   end
 end
