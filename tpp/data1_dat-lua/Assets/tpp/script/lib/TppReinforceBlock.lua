@@ -121,11 +121,11 @@ end
 function this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)
   --InfMenu.DebugPrint"LoadReinforceBlock"--DEBUG
   if mvars.reinforce_activated then
-    --InfMenu.DebugPrint"LoadReinforceBlock reinforce_activated already true"--DEBUG
+    --InfMenu.DebugPrint"LoadReinforceBlock reinforce_activated already true, aborting"--DEBUG
     return
   end
   if mvars.reinforce_reinforceCpId~=NULL_ID and mvars.reinforce_reinforceCpId~=reinforceCpId then
-    --InfMenu.DebugPrint"LoadReinforceBlock cpId doesnt match reinforce_reinforceCpId"--DEBUG
+    --InfMenu.DebugPrint"LoadReinforceBlock cpId doesnt match reinforce_reinforceCpId, aborting"--DEBUG
     return
   end
   if not mvars.reinforce_hasReinforceBlock then
@@ -148,7 +148,7 @@ function this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringTy
   mvars.reinforce_reinforceType=reinforceType
   mvars.reinforce_reinforceColoringType=reinforceColoringType
   if reinforceType~=this.REINFORCE_TYPE.NONE then
---    InfMenu.DebugPrint"LoadReinforceBlock SetReinforceEnable"--DEBUG
+    --InfMenu.DebugPrint"LoadReinforceBlock SetReinforceEnable"--DEBUG
     SendCommand({type="TppCommandPost2"},{id="SetReinforceEnable"})
     mvars.reinforce_reinforceCpId=reinforceCpId
     local hasVehicle=this._HasVehicle()
@@ -197,7 +197,7 @@ function this.StartReinforce(cpId)
     return
   end
   if(cpId~=nil and cpId~=NULL_ID)and mvars.reinforce_reinforceCpId~=cpId then
---    InfMenu.DebugPrint"StartReinforce cpId doesnt match"--DEBUG
+--    InfMenu.DebugPrint"StartReinforce cpId doesnt match, aborting"--DEBUG
     return
   end
 --  InfMenu.DebugPrint"StartReinforce do ScriptBlock.Activate"--DEBUG
@@ -329,7 +329,7 @@ function this._SetEnabledVehicle(name,enable)
   end
 end
 function this._ActivateReinforce()
-  --InfMenu.DebugPrint("_ActivateReinforce")--DEBUG
+--  InfMenu.DebugPrint("_ActivateReinforce")--DEBUG
   local hasVehicle=this._HasVehicle()
   local hasSoldier=this._HasSoldier()
   local hasHeli=this._HasHeli()
@@ -415,6 +415,7 @@ function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this._OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestLoadReinforce"
+--  InfMenu.DebugPrint"_OnRequestLoadReinforce"--DEBUG
   local reinforceType=TppRevenge.SelectReinforceType()
   local reinforceColoringType
   if TppRevenge.IsUsingBlackSuperReinforce()then
@@ -426,15 +427,18 @@ function this._OnRequestLoadReinforce(reinforceCpId)--NMC game message "RequestL
   end
   this.LoadReinforceBlock(reinforceType,reinforceCpId,reinforceColoringType)
   if Ivars.forceReinforceRequest:Is(1) then--tex
+--    InfMenu.DebugPrint"_OnRequestLoadReinforce forcing StartReinforce"--DEBUG
     --if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
       this.StartReinforce(reinforceCpId)--tex just force this shit, in vanilla missions that use super reinforce this is called via "RequestAppearReinforce"/_OnRequestAppearReinforce via engine, however in free mode this doesnt seem fire consistantly suggesting there's some condition stopping it
     --end
   end--
 end
 function this._OnRequestAppearReinforce(cpId)
+--  InfMenu.DebugPrint"_OnRequestAppearReinforce"--DEBUG
   this.StartReinforce(cpId)
 end
 function this._OnCancelReinforce(cpId)
+--  InfMenu.DebugPrint"_OnCancelReinforce"--DEBUG
   if mvars.reinforce_activated then
     return
   end

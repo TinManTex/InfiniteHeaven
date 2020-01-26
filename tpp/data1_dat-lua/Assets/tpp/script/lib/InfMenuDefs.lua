@@ -1,6 +1,14 @@
 -- DOBUILD: 1
 local this={}
 --menus
+this.fovaModMenu={
+  options={    
+    Ivars.enableFovaMod,
+    Ivars.fovaSelection,
+    InfMenuCommands.printBodyInfo,
+  }
+}
+
 this.playerSettingsMenu={
   options={
     Ivars.playerHealthScale,
@@ -8,6 +16,7 @@ this.playerSettingsMenu={
     InfMenuCommands.setDemon,
     Ivars.useSoldierForDemos,
     Ivars.playerHeadgear,
+    this.fovaModMenu,
   }
 }
 this.soldierParamsMenu={
@@ -71,7 +80,7 @@ this.motherBaseMenu={
     this.dDEquipMenu,
     Ivars.mbDDSuit,
     Ivars.mbDDSuitFemale,
-    Ivars.mbDDHeadGear,    
+    Ivars.mbDDHeadGear,
     Ivars.mbPrioritizeFemale,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
     Ivars.mbEnableBuddies,
@@ -80,7 +89,7 @@ this.motherBaseMenu={
     Ivars.mbCollectionRepop,
     this.motherBaseShowAssetsMenu,
     Ivars.mbWargameFemales,
-    Ivars.mbEnemyHeliColor,  
+    Ivars.mbEnemyHeliColor,
     Ivars.mbWarGamesProfile,
   }
 }
@@ -308,20 +317,20 @@ this.playerRestrictionsMenu={
 
 this.appearanceMenu={
   options={
-    Ivars.playerPartsTypeApearance,
-    Ivars.playerFaceEquipIdApearance,
-    Ivars.playerTypeApearance,
-    Ivars.cammoTypesApearance,
-    Ivars.playerFaceIdApearance,
+    Ivars.playerType,
+    Ivars.playerPartsType,
+    Ivars.playerCammoTypes,
+    Ivars.playerFaceEquipIdApearance,--DEBUG wut -v-
+    Ivars.playerFaceIdApearance,--DEBUG are these again, lol -^-
     Ivars.playerHeadgear,
-    this.printCurrentAppearance,
+    InfMenuCommands.printCurrentAppearance,
   }
 }
 
 this.playerRestrictionsInMissionMenu={
   options={
     Ivars.disableHeadMarkers,
-    --Ivars.disableXrayMarkers,--tex doesn't seem to work realtime    
+    --Ivars.disableXrayMarkers,--tex doesn't seem to work realtime
     Ivars.disableWorldMarkers,
   },
   disabled=false,
@@ -389,8 +398,8 @@ this.enemyPatrolMenu={
 this.footPatrolMenu={
   options={
     Ivars.enableLrrpFreeRoam,
---    Ivars.lrrpSizeFreeRoam_MIN,
---    Ivars.lrrpSizeFreeRoam_MAX,
+  --    Ivars.lrrpSizeFreeRoam_MIN,
+  --    Ivars.lrrpSizeFreeRoam_MAX,
   }
 }
 
@@ -412,7 +421,11 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    this.fovaModMenu,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    this.appearanceMenu,--DEBUG
+--    InfMenuCommands.DEBUG_FovaTest,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
@@ -475,12 +488,16 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
+--    this.fovaModMenu,--DEBUG
+--    InfMenuCommands.DEBUG_FovaTest,--DEBUG
+--    this.appearanceMenu,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_WarpToSoldier,--DEBUG
-    --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG 
+--    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+    --InfMenuCommands.showPosition,--DEBUG
+    --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
     --Ivars.selectedCp,--DEBUG
---    Ivars.selectedChangeWeapon,--WIP DEBUG
+    --    Ivars.selectedChangeWeapon,--WIP DEBUG
     --InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,

@@ -670,8 +670,6 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"--tex DEBUGNOW
   
-  --TppPackList.AddMissionPack"/Assets/tpp/pack/vehicle/veh_rl_east_wav.fpk"--DEBUGNOW
-
   if Ivars.mbEnemyHeli:Is(1) then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk"
     if Ivars.mbEnemyHeliColor:Is"BLACK" then

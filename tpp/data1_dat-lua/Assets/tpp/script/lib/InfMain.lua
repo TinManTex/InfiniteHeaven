@@ -2,7 +2,7 @@
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r140"
+this.modVersion="r141"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -1992,11 +1992,15 @@ function this.Messages()
         --this.heliSelectClusterId=nil
         end
       end},
+      {msg="RequestLoadReinforce",func=function()
+        --InfMenu.DebugPrint"RequestLoadReinforce"--DEBUG
+      end},
     },
     Player={
       {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers()},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
     },
     UI={
+--      {msg="EndFadeIn",func=this.FadeIn()},--tex for all fadeins
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
         --InfMenu.DebugPrint"FadeInOnGameStart"--DEBUG
         this.FadeInOnGameStart()
@@ -2012,6 +2016,22 @@ function this.Messages()
         --InfMenu.DebugPrint"OnEndGameStartFadeIn"--DEBUG
         this.FadeInOnGameStart()
       end},
+      --tex Heli mission-prep ui
+      {msg="MissionPrep_EndSlotSelect",func=function()
+        --InfMenu.DebugPrint"MissionPrep_EndSlotSelect"--DEBUG
+          InfFova.CheckModelChange()
+      end},
+--      {msg="MissionPrep_ExitWeaponChangeMenu",func=function()
+--        InfMenu.DebugPrint"MissionPrep_ExitWeaponChangeMenu"--DEBUG
+--      end},
+--      {msg="MissionPrep_EndItemSelect",func=function()
+--        InfMenu.DebugPrint"MissionPrep_EndItemSelect"--DEBUG
+--      end},
+--      {msg="MissionPrep_EndEdit",func=function()
+--        InfMenu.DebugPrint"MissionPrep_EndEdit"--DEBUG
+--      end},
+
+
     --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
     },
     Timer={
@@ -2118,6 +2138,13 @@ function this.OnPhaseChange(gameObjectId,phase,oldPhase)
   end
 end
 
+--CALLER: TppUiFadeIn
+--tex calling from function rather than msg since it triggers on start, possibly splash or loading screen, which fova naturally doesnt like because it doesn't exist then
+function this.OnFadeInDirect()
+  InfFova.OnFadeIn()
+end
+
+--msg called fadeins
 function this.FadeInOnGameStart()
   this.ClearMarkers()
 
@@ -2171,7 +2198,8 @@ local updateIvars={
 function this.OnInitializeTop(missionTable)
   if missionTable.enemy then
     local enemyTable=missionTable.enemy
-    this.ResetSoldierPool()
+    this.soldierPool=this.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
+
     InfMain.SetLevelRandomSeed()
     if IsTable(enemyTable.soldierDefine) then
       if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
@@ -2492,13 +2520,13 @@ function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,up
   end
 
   if not currentChecks.inGame or currentChecks.inHeliSpace then
-    if Ivars.warpPlayerUpdate.setting==1 then
+    if Ivars.warpPlayerUpdate:Is(1) then
       Ivars.warpPlayerUpdate:Set(0)
     end
     return
   end
 
-  if Ivars.warpPlayerUpdate.setting==0 then
+  if Ivars.warpPlayerUpdate:Is(0) then
     return
   end
 
@@ -2682,7 +2710,7 @@ end
 
 function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
   if not currentChecks.inGame then
-    if Ivars.adjustCameraUpdate.setting==1 then
+    if Ivars.adjustCameraUpdate:Is(1) then
       Ivars.adjustCameraUpdate:Set(0)
     end
     return
@@ -3185,7 +3213,7 @@ function this.UpdateNPCHeli(currentChecks,currentTime,execChecks,execState,updat
 
     local heliObjectId = GetGameObjectId(heliName)
     if heliObjectId==NULL_ID then
-      InfMenu.DebugPrint(heliName.."==NULL_ID")--DEBUGNOW
+      InfMenu.DebugPrint(heliName.."==NULL_ID")--DEBUG
     else
       --DEBUGNOW
       --      if nightCheckTime<elapsedTime then
@@ -3494,14 +3522,14 @@ this.tppEquipTable={--SYNC: EquipIdTable
   --  "EQP_WP_West_hg_030",--geist p3 - shows shotgun icon but clearly isnt, machine pistol grade 4
   --  "EQP_WP_West_hg_030_cmn",--as above, no name/icon
   --  "EQP_WP_East_hg_010",--burkov grade 1, sov normal strong
---  },
---  TRANQ_PISTOL={
---  "EQP_WP_West_thg_010",--wu s.pistol grade 1
---  "EQP_WP_West_thg_020",--grade 2
---  "EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
---  "EQP_WP_West_thg_040",--grade 5
---  "EQP_WP_West_thg_050",--wu s pistol cb grade7
---  "EQP_WP_EX_hg_000",--AM A114 RP, DD, silencer, grade 9
+  --  },
+  --  TRANQ_PISTOL={
+  --  "EQP_WP_West_thg_010",--wu s.pistol grade 1
+  --  "EQP_WP_West_thg_020",--grade 2
+  --  "EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
+  --  "EQP_WP_West_thg_040",--grade 5
+  --  "EQP_WP_West_thg_050",--wu s pistol cb grade7
+  --  "EQP_WP_EX_hg_000",--AM A114 RP, DD, silencer, grade 9
   --tex added in retail 1080
   "EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
   "EQP_WP_EX_hg_000_G02",--AM A114 RP grade 9 - silencer, gas cloud
@@ -4148,6 +4176,30 @@ local mafrBaseNames={
   "mafr_chicoVil_cp",
 }--#34
 
+--reserve vehiclepool
+this.reserveVehicleNames={}
+--local vehPrefix="veh_ih_"
+--this.numReserveVehicles=12--tex SYNC number of soldier locators i added to fox2s
+--for i=0,this.numReserveVehicles-1 do
+--  local name=vehPrefix..string.format("%04d", i)
+--  table.insert(this.reserveVehicleNames,name)
+--end
+
+this.mbVehicleNames={
+  "veh_cl01_cl00_0000",
+  "veh_cl02_cl00_0000",
+  "veh_cl03_cl00_0000",
+  "veh_cl04_cl00_0000",
+  "veh_cl05_cl00_0000",
+  "veh_cl06_cl00_0000",
+  "veh_cl00_cl04_0000",
+  "veh_cl00_cl02_0000",
+  "veh_cl00_cl03_0000",
+  "veh_cl00_cl01_0000",
+  "veh_cl00_cl05_0000",
+  "veh_cl00_cl06_0000",
+}
+
 --reserve soldierpool
 this.reserveSoldierNames={}
 local solPrefix="sol_ih_"
@@ -4157,14 +4209,17 @@ for i=0,this.numReserveSoldiers-1 do
   table.insert(this.reserveSoldierNames,name)
 end
 
-function this.ResetSoldierPool()
-  this.soldierPool={}
-  for n,soldierName in ipairs(this.reserveSoldierNames) do
-    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
-    if soldierId~=nil and soldierId~=NULL_ID then
-      table.insert(this.soldierPool,soldierName)
+function this.ResetObjectPool(objectType,objectNames)
+  local pool={}
+  for n,objectName in ipairs(objectNames) do
+    local gameId=GetGameObjectId(objectType,objectName)
+    if gameId==NULL_ID then
+    --InfMenu.DebugPrint(objectName.."==NULL_ID")--DEBUG
+    else
+      table.insert(pool,objectName)
     end
   end
+  return pool
 end
 
 local function FillLrrp(num,soldierPool,cpDefine)
@@ -4181,9 +4236,9 @@ local function FillLrrp(num,soldierPool,cpDefine)
   return soldiers
 end
 
-local function ResetPool(baseNames)
+function this.ResetPool(objectNames)
   local namePool={}
-  for n,name in ipairs(baseNames) do
+  for n,name in ipairs(objectNames) do
     table.insert(namePool,name)
   end
   return namePool
@@ -4297,9 +4352,9 @@ function this.AddLrrps(soldierDefine,travelPlans)
   local startBases={}
   local endBases={}
   if TppLocation.IsAfghan()then
-    startBases=ResetPool(afghBaseNames)
+    startBases=this.ResetPool(afghBaseNames)
   elseif TppLocation.IsMiddleAfrica()then
-    startBases=ResetPool(mafrBaseNames)
+    startBases=this.ResetPool(mafrBaseNames)
   end
   for n,cpName in pairs(startBases)do
     local cpDefine=soldierDefine[cpName]
@@ -4491,7 +4546,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
           table.insert(this.ene_femaleWildCardSoldiers,soldierName)
 
           if #faceIdPool==0 then
-            faceIdPool=ResetPool(InfMain.ene_wildCardFaceList)
+            faceIdPool=this.ResetPool(InfMain.ene_wildCardFaceList)
           end
 
           local faceId=GetRandomPool(faceIdPool)
@@ -4515,7 +4570,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
       soldierPowerSettings[soldierName]=gearPowers
       if #weaponPool==0 then
-        weaponPool=ResetPool(weaponPowers)
+        weaponPool=this.ResetPool(weaponPowers)
       end
       local weapon=GetRandomPool(weaponPool)
       table.insert(soldierPowerSettings[soldierName],weapon)

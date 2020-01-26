@@ -405,10 +405,12 @@ function this.IsUsingBlackSuperReinforce()
   return mvars.revenge_revengeConfig.BLACK_SUPER_REINFORCE
 end
 function this.GetReinforceCount()
-  --  if not Ivars.reinforceCount:IsDefault() then--tex>--CULL
-  --    return Ivars.reinforceCount:Get()
-  --  end--<
-
+  if Ivars.forceReinforceRequest:Is(1) then--tex>
+    local doCustom=Ivars.revengeMode:Is"CUSTOM" or Ivars.revengeModeForMissions:Is"CUSTOM" or Ivars.revengeModeForMb:Is"CUSTOM"--tex TODO: a proper check
+    if not doCustom then
+      mvars.revenge_revengeConfig.REINFORCE_COUNT=99
+    end
+  end--<
   local count=mvars.revenge_revengeConfig.REINFORCE_COUNT
   if count then
     return count+0

@@ -215,6 +215,7 @@ this.printCurrentAppearance={
     InfMenu.Print("playerPartsType: " .. tostring(vars.playerPartsType))
     InfMenu.Print("playerFaceEquipId: " .. tostring(vars.playerFaceEquipId))
     InfMenu.Print("playerFaceId: " .. tostring(vars.playerFaceId))
+    InfMenu.Print("playerHandType: " .. tostring(vars.playerHandType))
   end,
 }
 
@@ -259,391 +260,42 @@ this.warpToCamPos={
   end,
 }
 
-local toggle=false
-this.DEBUG_SomeShiz={
+this.printBodyInfo={
   OnChange=function()
-  InfInspect.TryFunc(function()
-    local params={
-      locator="veh_cl00_cl04_0000",
-      armorPosition={x=211.62,y=0.41,z=-121.13},armorRot=178
-    }
-    local pos=params.armorPosition
-    if pos then
-      local vec3=Vector3(pos.x,pos.y,pos.z)
-      local rot=params.armorRot
-    
-      local gameId=GameObject.GetGameObjectId(params.locator)
-      local typeIndex=GameObject.GetTypeIndex(gameId)
-      if gameId==GameObject.NULL_ID then
-        InfMenu.DebugPrint(params.locator.."==NULL_ID")
-      else
-        InfMenu.DebugPrint(params.locator.." setposition")
-        GameObject.SendCommand(gameId,{id="SetPosition",position=vec3,rotY=rot})
-      end
-    end
-end)
-    if true then return true end
-
-
-    InfMenu.DebugPrint(tostring(vars.mbLayoutCode))
-
-    local gameId=GameObject.GetGameObjectId("sol_ih_0000")
-    if gameId==GameObject.NULL_ID then
-      InfMenu.DebugPrint("gameId==NULL_ID")
-    else
-      InfMenu.DebugPrint("bip")
-
-      local command={id="SetEnabled",enabled=true}
-      GameObject.SendCommand(gameId,command)
-
-      local routes={
-
-          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0000",
-      }
-
-      local routeIdx=math.random(#routes)
-      InfMenu.DebugPrint("routeIdx:"..routeIdx)
-      local command={id="SetSneakRoute",route=routes[routeIdx]}
-      GameObject.SendCommand(gameId,command)
-
-    end
-
-    local ins=InfInspect.Inspect( mtbs_enemy.plntParamTable)
-    InfMenu.DebugPrint(ins)
-
-
-    if true then return end
-    --30050
-    if mvars.mbItem_funcGetAssetTable then
-      local clusterId=0
-
-
-
-
-
-      --    type = TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER,
-      --    locatorName = "gntn_cntn001_vrtn001_gim_n0001|srt_gntn_cntn001_vrtn001",
-      --    dataSetName = "/Assets/tpp/level/mission2/story/s10093/s10093_item.fox2",
-      --    gimmickType = TppGimmick.GIMMICK_TYPE.CNTN,
-
-      local layoutCode=vars.mbLayoutCode
-      local dataSet = string.format( "/Assets/tpp/level/location/mtbs/block_area/ly%03d/cl%02d/mtbs_ly%03d_cl%02d_item.fox2", layoutCode, clusterId, layoutCode, clusterId )
-
-
-      local assetTable = mvars.mbItem_funcGetAssetTable( clusterId + 1 )
-
-      --        local ins=InfInspect.Inspect(assetTable.containers)
-      --        InfMenu.DebugPrint(ins)
-      if assetTable.containers then
-        for k,v in ipairs(assetTable.containers)do
-          if (k % 4) == 0 then
-            if type(v)=="string" then
-              --InfMenu.DebugPrint(tostring(v))
-              --TppGimmick.Hide(v)
-              local status, err = pcall(function ()
-                Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER,v,dataSet,true)
-              end)
-              if err then
-                InfMenu.DebugPrint(tostring(err))
-              end
-            end
-          end
-        end
-
-
-      end
-      InfMenu.DebugPrint("doop")
-
-    else
-      InfMenu.DebugPrint( mvars.mbItem_funcGetAssetTable==nil)
-    end
-
-    if true then return true end
-    --  InfMenu.DebugPrint"DEBUG_SomeShiz start"
-    --  --this.AllDeveloped()
-    --  local grade=4
-    --  local isNew=false
-    --
-    --  toggle=not toggle
-    --
-    --  if toggle then
-    --    InfMenu.DebugPrint"grade3"
-    --    TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Command",grade=3,buildStatus="Completed",timeMinute=10,isNew=isNew}
-    --  else
-    --    InfMenu.DebugPrint"grade4"
-    --    TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Command",grade=4,buildStatus="Completed",timeMinute=10,isNew=isNew}
-    --  end
-
-
-    InfMenu.DebugPrint"DEBUG_SomeShiz end"
-    if true then return true end
-
-
-    if InfMain.IsDDBodyEquip() then
-      InfMenu.DebugPrint"IsDDBodyEquip"
-    else
-      InfMenu.DebugPrint"not IsDDBodyEquip"
-    end
-
-    InfMain.GetCurrentDDBodyInfo()
-    InfMain.GetCurrentDDBodyInfo(true)
-
-    InfMenu.DebugPrint("mbRepopDiamondCountdown=="..tostring(Ivars.mbRepopDiamondCountdown:Get()))
-
-
-    local clusterId=1
-    if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
-      local clusterParam=mvars.mbSoldier_clusterParamList[clusterId]
-      local cpId=GameObject.GetGameObjectId(clusterParam.CP_NAME)
-      if cpId==GameObject.NULL_ID then
-        InfMenu.DebugPrint("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
-      else
-        local currentPosition=GameObject.SendCommand(cpId,{id="GetPosition"})
-        if currentPosition then
-          InfMenu.DebugPrint(" pos:".. currentPosition:GetX()..",".. currentPosition:GetY().. ","..currentPosition:GetZ())
-        else
-        end
-      end
-    end
-    if true then return end
-    --==================================
-    local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
-
-    --local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"
-
-    --local objectName="TppHuey2GameObjectLocator"
-
-    --local objectName="hos_ih_0000"
-
-    local gameId=GameObject.GetGameObjectId(objectName)
-    if gameId==GameObject.NULL_ID then
-      InfMenu.DebugPrint("gameId==NULL_ID")
-    else
-      InfMenu.DebugPrint("bip")
-
-      local command={id="SetEnabled",enabled=true}
-      GameObject.SendCommand(gameId,command)
-
-      --        GameObject.SendCommand( gameId, { id = "SetMotherbaseMode"} )
-      --        GameObject.SendCommand( gameId, { id = "InitiateCombat"} )
-      local startX=-1.0001540184021
-      local startY=34.23641204834
-      local startZ=-13.921287536621
-
-      local currentPosition=GameObject.SendCommand(gameId,{id="GetPosition"})
-      InfMenu.DebugPrint(objectName.." pos:".. currentPosition:GetX()..",".. currentPosition:GetY().. ","..currentPosition:GetZ())
-
-      -- if currentPosition:GetX()==startX and currentPosition:GetY()==startY and currentPosition:GetZ()==startZ then
-
-      local position=Vector3(9.8,0.9,-18)
-      local rotY=-180
-
-      --      local position=Vector3(44,8.511,-15.1)
-      --      local rotY=-180
-      --
-      --      local position=Vector3(.14,24.83,-5.37)
-      --      local rotY=79
-
-
-      local command={id="Warp",position=position,degRotationY = rotY}
-      GameObject.SendCommand(gameId,command)
-
-      -- local isReal=GameObject.SendCommand(gameId,{id="IsReal"})
-
-      --       local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_FLEE }
-      --  GameObject.SendCommand( gameId , command )
-      --
-      --  --TppEnemy.RegistHoldRecoveredState(objectName)
-      --
-      --  local command = {
-      --    id = "SetHostage2Flag",
-      --    flag = "unlocked",
-      --    on = true,
-      --  }
-      ----
-      -- GameObject.SendCommand( gameId, command )
-
-
-
-      --    local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_EXECUTE_READY }
-      --
-      --      GameObject.SendCommand( gameObjectId, { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_EXECUTED } )
-
-      --  local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_NORMAL }
-      --  GameObject.SendCommand( gameId , command )
-
-      --    local command = { id = "SetHostage2Flag", flag = "commonNpc", on = true, }
-      --    GameObject.SendCommand( gameId, command )
-
-      --    local cmdHosState = {
-      --        id = "SetHostage2Flag",
-      --        flag = "disableFulton",
-      --        on = true,
-      --    }
-
-      --oce0_main0_v00=370,
-      --oce0_main0_v01=371,
-      --oce0_main0_v02=372,
-
-      local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=371}
-      GameObject.SendCommand(gameId,command)
-
-      local position=GameObject.SendCommand(gameId,{id="GetPosition"})
-      InfMenu.DebugPrint(objectName.." pos:".. position:GetX()..",".. position:GetY().. ","..position:GetZ())
-    end
-
-    InfMenu.DebugPrint("bop")
-    --end
-
-
-    --
-    --    InfMenu.DebugPrint("inittest="..tostring(InfMain.initTest))
-    --
-    --
-    --    local ins = InfInspect.Inspect(InfMain.ene_wildCardSoldiers)
-    --    InfMenu.DebugPrint(ins)
-    --    local ins = InfInspect.Inspect(InfMain.ene_femaleWildCardSoldiers)
-    --    InfMenu.DebugPrint(ins)
-    --
-
-
-    --    local ins = InfInspect.Inspect(InfMain.soldierPool)
-    --    InfMenu.DebugPrint(ins)
-
-
-    --    local soldierName="sol_ih_0000"
-    --    local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-    --    local ins=InfInspect.Inspect(gameId)
-    --    InfMenu.DebugPrint(ins)
-    --    local soldierPositions={}
-    --    for n,soldierName in ipairs(InfMain.reserveSoldierNames) do
-    --      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-    --      if gameId==GameObject.NULL_ID then
-    --        InfMenu.DebugPrint(soldierName.." gameId==NULL_ID")
-    --      else
-    --        local warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-    --        --InfMenu.DebugPrint(soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
-    --        local string=soldierName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ()
-    --        table.insert(soldierPositions,string)
-    --      end
-    --    end
-    --    local ins=InfInspect.Inspect(soldierPositions)
-    --    InfMenu.DebugPrint(ins)
-    --    -------------
-    --    local lrrps={}
-    --    for cpName,cpDefine in pairs( mvars.ene_soldierDefine)do
-    --      if string.find(cpName, "_lrrp")~=nil then
-    --        lrrps[cpName]=cpDefine
-    --      end
-    --    end
-    --    local ins=InfInspect.Inspect(lrrps)
-    --    InfMenu.DebugPrint(ins)
-    ---------------
-    --      --
-    --      --
-    --    -- InfMenu.DebugPrint("names")
-    --    -- local ins=InfInspect.Inspect(InfMain.reserveSoldierNames)
-    --    -- InfMenu.DebugPrint(ins)
-    --    -- InfMenu.DebugPrint("pool")
-    --    local ins=InfInspect.Inspect(InfMain.reserveSoldierPool)
-    --    InfMenu.DebugPrint(ins)
-
-
-
-
-
-    ---------------------
-
-
-    --   if GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli" then
-    --    InfMenu.DebugPrint"has heli"
-    --
-    --   else
-    --   InfMenu.DebugPrint"does not have heli"
-    --   end
-
-    -- InfMenu.DebugPrint("EnemyFova.MAX_REALIZED_COUNT="..tostring(EnemyFova.MAX_REALIZED_COUNT))
-
-    --    InfMain.CreateCustomRevengeConfig()
-    --    TppRevenge._CreateRevengeConfig()
-
-    if true then return end
-    -------------
-
-    -----
-    --InfMenu.DebugPrint"DEBUG_PrintSomeShiz"
-    --InfMenu.DebugPrint("usermarkerposx: "..tostring(vars.userMarkerPosX))
-    --    local ins=InfInspect.Inspect(vars,{depth=1})
-    --    InfMenu.DebugPrint(ins)
-
-    -- InfInspect.PrintGlobals()
-
-    --    userMarkerPosX
-    --userMarkerPosY
-    --userMarkerPosZ
-    --userMarkerAddFlag
-    --userMarkerGameObjId
-    --userMarkerLocationId
-    --userMarkerSaveCount
+    InfFova.GetCurrentFovaTable(true)
   end
 }
 
+---
+local toggle=false
+this.DEBUG_SomeShiz={
+  OnChange=function()
+    InfInspect.TryFunc(function()
+      Player.SetUseBlackDiamondEmblem(false)
+    end)
+  end
+}
 
+local index=0
 this.DEBUG_SomeShiz2={
   OnChange=function()
-    local ins=InfInspect.Inspect(InfMain.mbdvc_map_mbstage_parameter)
-    InfMenu.DebugPrint(ins)--
+    InfInspect.TryFunc(function()
 
-    local ins=InfInspect.Inspect(InfMain.heliLandPointTable)
-    InfMenu.DebugPrint(ins)--
+      end)
+  end
+}
 
-    if true then return true end
-    --
-    local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"
+local fovaIndex=1
+this.DEBUG_FovaTest={
+  OnChange=function()
 
-    --   local objectName="ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"
-    --local objectName="TppHuey2GameObjectLocator"
 
-    --local objectName="hos_ih_0000"
+    Player.SetPartsInfoAtInstanceIndex("/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
+    --Player.SetPartsInfoAtInstanceIndex(0,"/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
+    --Player.SetPartsInfoAtInstanceIndex(1,"/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
+    --Player.SetPartsInfoAtInstanceIndex("/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",0)
 
-    local gameId=GameObject.GetGameObjectId(objectName)
-    if gameId==GameObject.NULL_ID then
-      InfMenu.DebugPrint("gameid==NULL_ID")
-    else
 
-      local routes={
-
-          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0000",
-          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0001",
-          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0002",
-          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0003",
-          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0004",
-          "ly003_cl00_route0000|cl00pl0_uq_0000_free|rt_free_d_0005",
-
-      --          "ly003_cl00_route0000|cl00pl1_0_dv_0090_free|rt_free_d_0000",
-      --          "ly003_cl00_route0000|cl00pl1_0_dv_0090_free|rt_free_d_0001",
-      --
-      --          "ly003_cl00_route0000|cl00pl1_1_dv_0080_free|rt_free_d_0000",
-      --          "ly003_cl00_route0000|cl00pl1_1_dv_0080_free|rt_free_d_0001",
-      --          "ly003_cl00_route0000|cl00pl1_1_dv_0080_free|rt_free_d_0002",
-      --
-      --          "ly003_cl00_route0000|cl00pl1_2_dv_0030_free|rt_free_d_0000",
-      --          "ly003_cl00_route0000|cl00pl1_2_dv_0030_free|rt_free_d_0001",
-      --          "ly003_cl00_route0000|cl00pl1_2_dv_0030_free|rt_free_d_0002",
-      --
-      --          "ly003_cl00_route0000|cl00pl1_3_dv_0000_free|rt_free_d_0000",
-      --          "ly003_cl00_route0000|cl00pl1_3_dv_0000_free|rt_free_d_0001",
-      --
-      --          "ly003_cl00_route0000|cl00pl1_mb_fndt_plnt_free|rt_free_d_0000",
-      --          "ly003_cl00_route0000|cl00pl1_mb_fndt_plnt_free|rt_free_d_0001",
-      }
-
-      local routeIdx=math.random(#routes)
-      InfMenu.DebugPrint("routeIdx:"..routeIdx)
-      local command={id="SetSneakRoute",route=routes[routeIdx]}
-      GameObject.SendCommand(gameId,command)
-
-    end
   end
 }
 
@@ -986,9 +638,17 @@ this.DEBUG_ClearAnnounceLog={
 }
 
 local currentObject=1
-this.DEBUG_WarpToSoldier={
+this.DEBUG_WarpToObject={
   OnChange=function()
     local objectList=InfMain.reserveSoldierNames
+
+    --    local objectList={
+    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",
+    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001",
+    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002",
+    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003",
+    --    }
+    --local objectList={"sol_field_0002"}
 
     --local objectList=InfMain.ene_wildCardSoldiers
 
@@ -1001,20 +661,20 @@ this.DEBUG_WarpToSoldier={
 
     --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
 
-    local objectList={
-      "veh_cl01_cl00_0000",
-      "veh_cl02_cl00_0000",
-      "veh_cl03_cl00_0000",
-      "veh_cl04_cl00_0000",
-      "veh_cl05_cl00_0000",
-      "veh_cl06_cl00_0000",
-      "veh_cl00_cl04_0000",
-      "veh_cl00_cl02_0000",
-      "veh_cl00_cl03_0000",
-      "veh_cl00_cl01_0000",
-      "veh_cl00_cl05_0000",
-      "veh_cl00_cl06_0000",
-    }
+    --    local objectList={
+    --      "veh_cl01_cl00_0000",
+    --      "veh_cl02_cl00_0000",
+    --      "veh_cl03_cl00_0000",
+    --      "veh_cl04_cl00_0000",
+    --      "veh_cl05_cl00_0000",
+    --      "veh_cl06_cl00_0000",
+    --      "veh_cl00_cl04_0000",
+    --      "veh_cl00_cl02_0000",
+    --      "veh_cl00_cl03_0000",
+    --      "veh_cl00_cl01_0000",
+    --      "veh_cl00_cl05_0000",
+    --      "veh_cl00_cl06_0000",
+    --    }
 
     if objectList==nil then
       InfMenu.DebugPrint"objectList nil"
@@ -1056,6 +716,7 @@ this.DEBUG_WarpToSoldier={
     if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
       TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 
+      --DEBUG CULL
       --      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
       --      if gameId==nil or  gameId==GameObject.NULL_ID then
       --        InfMenu.DebugPrint"gameId==NULL_ID"

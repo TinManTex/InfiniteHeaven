@@ -132,7 +132,7 @@ this.eng={--english
   abortMenuItemControl="Disable abort mission from pause",--r76
   playerHeadgear="Headgear (cosmetic)",
   playerHeadgearMaleSettings={
-    "Don't set",
+    "Don't set (change character to reset head)",
     "Balaclava 1",
     "Balaclava 2",
     "DD heavy headgear",
@@ -143,7 +143,7 @@ this.eng={--english
     "NVG, Gas mask and DD heavy headgear",
   },
   playerHeadgearFemaleSettings={
-    "Don't set",
+    "Don't set (change character to reset head)",
     "DD heavy headgear",
     "Gas mask and balaclava",
     "Gas mask and DD headgear",
@@ -352,6 +352,13 @@ this.eng={--english
   mbEnemyHeliColor="Heli type in Enemy Invasion mode",
   mbEnemyHeliColorSettings={"Black","Red"},
   warpToCamPos="Warp body to FreeCam position",--r139
+  fovaModMenu="Form Variation menu",--r141
+  no_fova_found="No fova for model",
+  enableFovaMod="Use selected fova",
+  fova_is_not_set="Use fova is off, selected fova will not be applied on mission",
+  disabled_fova="Player model changed, disabling Use fova",
+  change_model_to_reset_fova="Model will reset on mission start, or mission prep character change",
+  printBodyInfo="Print current body info",
 }
 
 this.eng_help={

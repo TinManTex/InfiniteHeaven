@@ -394,11 +394,38 @@ function this.upvalues()
   return variables
 end
 
+
+
+
 function this.TryFunc(func)
-  local status, err = pcall(func)
-  if err then
-    InfMenu.DebugPrint(tostring(err))
+  if func==nil then
+  InfMenu.DebugPrint("TryFunc func == nil")
+  return
+  elseif type(func)~="function" then
+   InfMenu.DebugPrint("TryFunc func~=function")
+  return 
+  end
+  
+  
+  local sucess, result = pcall(func)
+  if not sucess then
+    InfMenu.DebugPrint(result)
+    return
+  else
+    return result
   end
 end
+
+local function ErrorCallBack(err)
+  return debug.traceback(err) 
+end
+--function this.TryFuncTrace(func)
+--  local sucess, ret = xpcall(func,ErrorCallBack)
+--  if not sucess then
+--    InfMenu.DebugPrint(ret)
+--  end
+--end
+
+
 
 return this

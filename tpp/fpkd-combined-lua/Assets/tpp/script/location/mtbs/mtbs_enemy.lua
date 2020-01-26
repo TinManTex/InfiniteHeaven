@@ -244,7 +244,7 @@ end
 
 
 mtbs_enemy.soldierDefine = {
-  }
+}
 
 
 mtbs_enemy.soldierNameToCpName = {}
@@ -1112,7 +1112,6 @@ mtbs_enemy.SetupLayoutSetting = function( clusterId )
 
 
       for _, soldierName in ipairs( plntAssets.soldierList ) do
-
         table.insert( mtbs_enemy.soldierDefine[mtbs_enemy.cpNameDefine], soldierName )
         mtbs_enemy.soldierNameToCpName[soldierName] = mtbs_enemy.cpNameDefine
       end

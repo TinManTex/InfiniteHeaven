@@ -729,27 +729,27 @@ function this.OnDemoSkipAndBlockLoadEnd()
     mvars.dem_enableWaitBlockLoadOnDemoSkip=nil
   end
 end
-function this.DoOnEndMessage(n,r,o,t,a)
+function this.DoOnEndMessage(demoName,r,exceptGameStatus,t,a)
   if(not r)then
-    local e=true
+    local skipFadeIn=true
     if t and(not a)then
-      e=false
+      skipFadeIn=false
     end
-    if e then
-      TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"DemoSkipFadeIn",mvars.dem_currentSkippedScdDemoID,{exceptGameStatus=o})
+    if skipFadeIn then
+      TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"DemoSkipFadeIn",mvars.dem_currentSkippedScdDemoID,{exceptGameStatus=exceptGameStatus})
     end
   end
-  this._DoMessage(n,"onEnd")
+  this._DoMessage(demoName,"onEnd")
   mvars.dem_currentSkippedDemoName=nil
   mvars.dem_currentSkippedScdDemoID=nil
   this.EnableInGameFlagIfResereved()
-  this.EnableNpc(n)
+  this.EnableNpc(demoName)
 end
-function this.OnDemoDisable(n)
-  if mvars.dem_playedList[n]==nil then
+function this.OnDemoDisable(demoName)
+  if mvars.dem_playedList[demoName]==nil then
     return
   end
-  this.OnDemoEnd(n)
+  this.OnDemoEnd(demoName)
 end
 function this.AddPlayReqeustInfo(demoId,demoFlags)
   local playRequestInfo=this.MakeNewPlayRequestInfo(demoFlags)

@@ -473,7 +473,7 @@ this.mbWarGamesProfile={
     --      Ivars.mbZombies:Set(0,true)
     --    end,
     TRAINING=function()
-    --tex TODO seperate gear/suit/equip setting combos into own profile
+      --tex TODO seperate gear/suit/equip setting combos into own profile
       --Ivars.mbDDHeadGear:Set(0,true)
       --Ivars.mbDDSuit:Set(0,true)
       --      Ivars.enableMbDDEquip:Set(0,true)
@@ -2251,7 +2251,7 @@ this.manualMissionCode={
 --  settingNames="set_switch",
 --}
 
-this.playerTypeApearance={
+this.playerType={
   --OFF save=MISSION,
   settings={"DEFAULT","SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
   settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
@@ -2259,9 +2259,12 @@ this.playerTypeApearance={
     PlayerType.SNAKE,
     PlayerType.AVATAR,
     PlayerType.DD_MALE,
-    PlayerType.DD_FEMALE
+    PlayerType.DD_FEMALE,
   },
   --settingNames="set_",
+  OnSelect=function(self)
+  -- self:Set(vars.playerType,true)
+  end,
   OnChange=function(self)
     if self.setting>0 then
       vars.playerType=self.settingsTable[self.setting+1]
@@ -2269,160 +2272,134 @@ this.playerTypeApearance={
   end,
 }
 
---categories: avatar:avatar,snake dd:dd_male,dd_female
-this.cammoTypesApearance={
+local playerCammoTypes={-- SYNC: InfFova.playerCammoTypes
+  "OLIVEDRAB",--0
+  "SPLITTER",--1
+  "SQUARE",--2
+  "TIGERSTRIPE",--3
+  "GOLDTIGER",--4
+  "FOXTROT",--5
+  "WOODLAND",--6
+  "WETWORK",--7
+  "ARBANGRAY",--8 --OFF--hang on ddmale,avatar
+  "ARBANBLUE",--9 --OFF
+  "SANDSTORM",--10 --OFF--blank/hang model sys
+  "REALTREE",--11 --shows as olive
+  "INVISIBLE",--12 --shows as olive
+  "BLACK",--13 --OFF--blank/hang model sys
+  "SNEAKING_SUIT_GZ",--14 --avatar
+  "SNEAKING_SUIT_TPP",--15
+  "BATTLEDRESS",--16
+  "PARASITE",--17
+  "NAKED",--18 --shows as parasite
+  "LEATHER",--19 --avatar
+  "SOLIDSNAKE",--20
+  "NINJA",--21
+  "RAIDEN",--22
+  "HOSPITAL",--23
+  "GOLD",--24--avatar
+  "SILVER",--25 --avatar
+  "PANTHER",--26
+  "AVATAR_EDIT_MAN",--27 --OFF--just part of upper body that fits the zoomed cam, lel
+  "MGS3",--28
+  "MGS3_NAKED",--29
+  "MGS3_SNEAKING",--30
+  "MGS3_TUXEDO",--31 --not DD_FEMALE
+  "EVA_CLOSE",--32 dd_fem, also works on avatar/snake but they dont have right head lol
+  "EVA_OPEN",--33
+  "BOSS_CLOSE",--34
+  "BOSS_OPEN",--35
+
+  "C23",--36
+  "C24",--37
+  "C27",--38
+  "C29",--39
+  "C30",--40
+  "C35",--41
+  "C38",--42
+  "C39",--43
+  "C42",--44
+  "C46",--45
+  "C49",--46
+  "C52",--47
+}
+local playerCamoTypeEnums={}
+for n,enum in ipairs(playerCammoTypes)do
+  table.insert(playerCamoTypeEnums,PlayerCamoType[enum])
+end
+
+this.playerCammoTypes={
   --OFF save=MISSION,
-  settings={
-    "OLIVEDRAB",
-    "SPLITTER",
-    "SQUARE",
-    "TIGERSTRIPE",
-    "GOLDTIGER",
-    "FOXTROT",
-    "WOODLAND",
-    "WETWORK",
-    "PANTHER",
-    --"ARBANGRAY",--hang on ddmale,avatar
-    --"ARBANBLUE",
-    "REALTREE",--shows as olive
-    "INVISIBLE",--shows as olive
-    --"SANDSTORM",--blank/hang model sys
-    --"BLACK",--blank/hang model sys
-    "SNEAKING_SUIT_GZ",--avatar
-    "SNEAKING_SUIT_TPP",
-    "BATTLEDRESS",
-    "PARASITE",
-    "NAKED",--shows as parasite
-    "LEATHER",--avatar
-    "SOLIDSNAKE",
-    "NINJA",
-    "RAIDEN",
-    "GOLD",--avatar
-    "SILVER",--avatar
-    --"AVATAR_EDIT_MAN",--just part of upper body that fits the zoomed cam, lel
-    "MGS3",
-    "MGS3_NAKED",
-    "MGS3_SNEAKING",
-    "MGS3_TUXEDO",--not DD_FEMALE
-    "EVA_CLOSE",--dd_fem, also works on avatar/snake but they dont have right head lol
-    "EVA_OPEN",
-    "BOSS_CLOSE",
-    "BOSS_OPEN",
 
-    "C23",
-    "C24",
-    "C27",
-    "C29",
-    "C30",
-    "C35",
-    "C38",
-    "C39",
-    "C42",
-    "C46",
-    "C49",
-    "C52",
-  },
-
-  settingsTable={
-    PlayerCamoType.OLIVEDRAB,
-    PlayerCamoType.SPLITTER,
-    PlayerCamoType.SQUARE,
-    PlayerCamoType.TIGERSTRIPE,
-    PlayerCamoType.GOLDTIGER,
-    PlayerCamoType.FOXTROT,
-    PlayerCamoType.WOODLAND,
-    PlayerCamoType.WETWORK,
-    PlayerCamoType.PANTHER,
-    --PlayerCamoType.ARBANGRAY,
-    --PlayerCamoType.ARBANBLUE,
-    PlayerCamoType.REALTREE,
-    PlayerCamoType.INVISIBLE,
-    --PlayerCamoType.SANDSTORM,
-    --PlayerCamoType.BLACK,
-    PlayerCamoType.SNEAKING_SUIT_GZ,
-    PlayerCamoType.SNEAKING_SUIT_TPP,
-    PlayerCamoType.BATTLEDRESS,
-    PlayerCamoType.PARASITE,
-    PlayerCamoType.NAKED,
-    PlayerCamoType.LEATHER,
-    PlayerCamoType.SOLIDSNAKE,
-    PlayerCamoType.NINJA,
-    PlayerCamoType.RAIDEN,
-    PlayerCamoType.GOLD,
-    PlayerCamoType.SILVER,
-    --PlayerCamoType.AVATAR_EDIT_MAN,
-    PlayerCamoType.MGS3,
-    PlayerCamoType.MGS3_NAKED,
-    PlayerCamoType.MGS3_SNEAKING,
-    PlayerCamoType.MGS3_TUXEDO,
-    PlayerCamoType.EVA_CLOSE,
-    PlayerCamoType.EVA_OPEN,
-    PlayerCamoType.BOSS_CLOSE,
-    PlayerCamoType.BOSS_OPEN,
-
-    PlayerCamoType.C23,
-    PlayerCamoType.C24,
-    PlayerCamoType.C27,
-    PlayerCamoType.C29,
-    PlayerCamoType.C30,
-    PlayerCamoType.C35,
-    PlayerCamoType.C38,
-    PlayerCamoType.C39,
-    PlayerCamoType.C42,
-    PlayerCamoType.C46,
-    PlayerCamoType.C49,
-    PlayerCamoType.C52,
-  },
+  range={min=0,max=1000},--DEBUGNOW
+  --DEBUGNOW
+  --  settings=playerCammoTypes,
+  --  settingsTable=playerCamoTypeEnums,
   --settingNames="set_",
+  OnSelect=function(self)
+  --self:Set(vars.playerCamoType,true)
+  end,
   OnChange=function(self)
-    if self.setting>0 then--TODO: add off/default/noset setting
-      vars.playerCamoType=self.settingsTable[self.setting+1]--tex playercammotype is just a enum so could just use setting, but this is if we want to re-arrange
-      -- vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
-      -- vars.playerFaceEquipId=0
+    --if self.setting>0 then--TODO: add off/default/noset setting
+    --DEBUGNOW OFF vars.playerCamoType=self.settingsTable[self.setting+1]--tex playercammotype is just a enum so could just use setting, but this is if we want to re-arrange
+    local noApply={
+      [8]=true,--hang modelsys on snake
+      [9]=true,
+      [10]=true,
+      [13]=true,
+    --[13]=true,
+    }
+
+    if noApply[self.setting] then--DEBUGNOW
+      InfMenu.DebugPrint"skip"
+    else
+      vars.playerCamoType=self.setting
     end
+    -- vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
+    -- vars.playerFaceEquipId=0
+    --end
   end,
 }
 
-this.playerPartsTypeApearance={
+this.playerPartsType={
   --OFF save=MISSION,
-  range={min=0,max=100},--TODO: figure out max range
+  range={min=0,max=100},--DEBUGNOW TODO: figure out max range
   --  settings={
-  --    "NORMAL",--uses set camo type
-  --    "NORMAL_SCARF",--uses set camo type
-  --    "SNEAKING_SUIT_GZ",--GZ/MSF  --crash on avatar
-  --    "HOSPITAL",
-  --    "MGS1",
-  --    "NINJA",
-  --    "RAIDEN",
-  --    "NAKED",--uses set camo type?
-  --    "SNEAKING_SUIT_TPP",
-  --    "BATTLEDRESS",
-  --    "PARASITE_SUIT",
-  --    "LEATHER_JACKET",
-  --    "GOLD",
-  --    "SILVER",
-  --    "AVATAR_EDIT_MAN",
-  --    "MGS3"--
-  --    "MGS3_NAKED",--can avatar naked? muddy, normal naked is more sooty?
-  --    "MGS_SNEAKING",
-  --    "MG3_TUXEDO",
-  --    "EVA_CLOSE",--fem>
-  --    "EVA_OPEN",
-  --    "BOSS_CLOSE",
-  --    "BOSS_OPEN",--<
-  --    "TIGER_NOHEAD",--? for DD? placeholder? Repeats
-  --    "TIGER_NOHEAD2",--? for DD?
-  --    "SNEAKING_SUIT_GZ",
-  --    "HOSPITAL2",--
-  --    "MGS1",
-  --    "NINJA",
-  --    "RAIDEN",
-  --    "NAKED",--> no head
-  --    "SNEAKING_SUIT_TPP",
-  --    "BATTLEDRESS",--<
-  --    "PARASITE_SUIT",
-  --    "LEATHER_JACKET",--the truth leather? has brown glove. no head, no hand
-  --    35-blank, hang model system
+  --  "NORMAL",--0 uses set camo type
+  --  "NORMAL_SCARF",--1 uses set camo type
+  --  "SNEAKING_SUIT",--2, GZ/MSF, matches PlayerCamoType.SNEAKING_SUIT_GZ (don't know why they didnt keep same name)  --crash on avatar
+  --  "HOSPITAL",--3
+  --  "MGS1",--4
+  --  "NINJA",--5
+  --  "RAIDEN",--6
+  --  "NAKED",--7, uses set camo type?
+  --  "SNEAKING_SUIT_TPP",--8
+  --  "BATTLEDRESS",--9
+  --  "PARASITE",--10
+  --  "LEATHER",--11
+  --  "GOLD",--12
+  --  "SILVER",--13
+  --  "AVATAR_EDIT_MAN",--14
+  --  "MGS3",--15
+  --  "MGS3_NAKED",--16 can avatar naked? muddy, normal naked is more sooty?
+  --  "MGS3_SNEAKING",--17
+  --  "MGS3_TUXEDO",--18
+  --  "EVA_CLOSE",--19 fem>
+  --  "EVA_OPEN",--20
+  --  "BOSS_CLOSE",--21
+  --  "BOSS_OPEN",--22<
+  --  "TIGER_NOHEAD",--? for DD? placeholder? Repeats
+  --  "TIGER_NOHEAD2",--? for DD?
+  --  "SNEAKING_SUIT_GZ2",
+  --  "HOSPITAL2",--
+  --  "MGS12",
+  --  "NINJA2",
+  --  "RAIDEN2",
+  --  "NAKED2",--> no head
+  --  "SNEAKING_SUIT_TPP2",
+  --  "BATTLEDRESS2",--<
+  --  "PARASITE_SUIT2",
+  --  "LEATHER_JACKET2",--the truth leather? has brown glove. no head, no hand
   --  },
   --
   --  settingsTable={-- TODO: build own setting enum, currently above is setting ordee
@@ -2434,11 +2411,37 @@ this.playerPartsTypeApearance={
   --    PlayerPartsType.AVATAR_EDIT_MAN,
   --    PlayerPartsType.NAKED,
   --  },
+  OnSelect=function(self)
+  --OFF self:Set(vars.playerPartsType,true)
+  end,
   OnChange=function(self)
-    if self.setting>0 then--TODO: add off/default/noset setting
+    --DEBUGNOW if self.setting>0 then--TODO: add off/default/noset setting
+    --tex DEBUGNOW GOTCHA: selecting certain character types will stop playerPartsType from kicking in until cammotype is changed once
+    --TODO: see what values are when you do this
+    local noApply={--DEBUGNOW
+      ----      [3]=true,--HOSPITAL crashes when AVATAR
+      --        [12]=true,--hang model sys when DD_MALE,DD_Female
+      --        [13]=true,
+      --        [15]=true,--DLC males hang models syst with dd female
+      --        [16]=true,
+      --        [17]=true,
+      --        [18]=true,
+      ----        [19]=true,--DLC fems hang models syst with dd male
+      ----        [20]=true,
+      ----        [21]=true,
+      ----        [22]=true,
+      --        [23]=true,--DD fem crash
+      --        [24]=true,
+
+      -- trying to explore past end
+      --      [35]=true,
+      }
+
+    if not noApply[self.setting] then
       vars.playerPartsType=self.setting
       -- vars.playerPartsType=self.settingsTable[self.setting+1]
-    end
+      --end
+    end--
   end,
 }
 
@@ -2455,6 +2458,9 @@ this.playerFaceEquipIdApearance={
   --    0,
   --    1,
   --  },
+  OnSelect=function(self)
+  --OFF self:Set(vars.playerFaceEquipId,true)
+  end,
   OnChange=function(self)--TODO: add off/default/noset setting
     vars.playerFaceEquipId=self.setting
   end,
@@ -2466,6 +2472,160 @@ this.playerFaceIdApearance={
   OnChange=function(self)
     if self.setting>0 then--TODO: add off/default/noset setting
       vars.playerFaceId=self.setting
+    end
+  end,
+}
+
+--fovaInfo
+this.enableFovaMod={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnSelect=function(self)
+  --DEBUGNOW
+--    if self:Is(1) then
+--    else
+--      InfMenu.PrintLangId"change_model_to_reset_fova"
+--      Ivars.fovaSelection:Reset()
+--    end 
+  end,
+  OnChange=function(self)
+    if self:Is(1) then
+      Ivars.fovaSelection:Reset()
+      InfFova.SetFovaMod(self:Get(),true)
+    else
+      InfMenu.PrintLangId"change_model_to_reset_fova"
+      Ivars.fovaSelection:Reset()
+    end
+  end,
+}
+
+--tex: index into fovaInfor for current playerType,playerPartsType
+this.fovaSelection={
+  save=MISSION,
+  range={min=0,max=255},--DEBUGNOW limits max fovas TODO consider
+  OnSelect=function(self)
+    InfInspect.TryFunc(function()--DEBUGNOW
+      local fovaTable,modelDescription=InfFova.GetCurrentFovaTable()
+      if modelDescription then
+        self.description=modelDescription
+      else
+        self.description="No model description"
+      end
+      
+      if fovaTable then
+        if Ivars.enableFovaMod:Is(0) then
+          InfMenu.PrintLangId"fova_is_not_set"
+        end
+
+        self.range.max=#fovaTable-1
+        if InfFova.FovaInfoChanged(fovaTable,self:Get()+1) then
+          --InfMenu.DebugPrint"OnSelect FovaInfoChanged"--DEBUG
+          self:Reset()
+        end
+
+        self.settingNames={}
+        for i=1,#fovaTable do
+          local fovaDescription,fovaFile=InfFova.GetFovaInfo(fovaTable,i)
+
+          if not fovaDescription or not IsString(fovaDescription)then
+            self.settingNames[i]=i
+          else
+            self.settingNames[i]=fovaDescription
+          end
+        end
+        
+        InfFova.SetFovaMod(self:Get()+1,true)
+      else
+        self.range.max=0
+        self.settingNames={InfMenu.LangString"no_fova_found"}
+        return
+      end
+    end)--
+  end,
+  --  OnDeselect=function(self)
+  --    InfMenu.DebugPrint"fovaSelection OnDeselect"--DEBUG
+  --    if Ivars.enableMod:Is(0) then
+  --    --InfMenu.PrintLangId"fova_is_not_set"--DEBUG
+  --    end
+  --  end,
+  OnChange=function(self)
+    InfInspect.TryFunc(function()--DEBUGNOW
+      InfFova.SetFovaMod(self:Get()+1,true)
+    end)
+  end,
+}
+
+this.fovaPlayerType={
+  save=MISSION,
+  range={min=0,max=3},
+}
+
+this.fovaPlayerPartsType={
+  save=MISSION,
+  range={min=0,max=127},
+}
+
+--DEBUGNOW
+this.playerHandTypes={
+  "NONE",--0
+  "NORMAL",--1
+  "STUN_ARM",--2
+  "JEHUTY",--3
+  "STUN_ROCKET",--4
+  "KILL_ROCKET",--5
+}
+
+--tex driven by playerHandEquip
+--this.playerHandType={
+--  --save=MISSION,
+--  range={min=0,max=1000},
+--  OnChange=function(self)
+--    if self.setting>0 then--TODO: add off/default/noset setting
+--      vars.playerHandType=self.setting
+--    end
+--  end,
+--}
+
+
+
+--TppEquip.
+local playerHandEquipTypes={
+  "EQP_HAND_NORMAL",
+  "EQP_HAND_STUNARM",
+  "EQP_HAND_JEHUTY",
+  "EQP_HAND_STUN_ROCKET",
+  "EQP_HAND_SILVER",
+  "EQP_HAND_GOLD",
+}
+local handEquipTypeToHandType={
+  EQP_HAND_NORMAL="NORMAL",
+  EQP_HAND_STUNARM="STUNARM",
+  EQP_HAND_JEHUTY="JEHUTY",
+  EQP_HAND_STUN_ROCKET="STUN_ROCKET",
+  EQP_HAND_KILL_ROCKET="KILL_ROCKET",
+  EQP_HAND_SILVER="NORMAL",--VERIFY
+  EQP_HAND_GOLD="NORMAL",--VERIFY
+}
+
+local playerHandEquipIds={}
+for n,equipType in ipairs(playerHandEquipTypes)do
+  table.insert(playerHandEquipIds,TppEquip[equipType])
+end
+
+this.playerHandEquip={
+  --OFF save=MISSION,
+  settings=playerHandEquipTypes,
+
+  settingsTable=playerHandEquipIds,
+  --settingNames="set_",
+  OnSelect=function(self)
+  -- self:Set(vars.playerHandEquip,true)
+  end,
+  OnChange=function(self)
+    if self.setting>0 then--TODO: add off/default/noset setting
+      --DEBUG OFF vars.playerHandType=handEquipTypeToHandType[playerHandEquipTypes[self.setting]]
+      vars.handEquip=self.settingsTable[self.setting]
     end
   end,
 }
@@ -2514,12 +2674,14 @@ this.playerHeadgear={--DOC: player appearance.txt
     end
   end,
   OnChange=function(self)
-    if self.setting>0 then--TODO: add off/default/noset setting
+    if self.setting==0 then
+
+    else
       if vars.playerType~=PlayerType.DD_MALE and vars.playerType~=PlayerType.DD_FEMALE then
         InfMenu.PrintLangId"setting_only_for_dd"
         return
-    end
-    vars.playerFaceId=self.settingsTable[self.setting+1]
+      end
+      vars.playerFaceId=self.settingsTable[self.setting+1]
     end
   end,
 }
@@ -2844,7 +3006,7 @@ this.npcUpdate={--tex NONUSER
   execState={
     nextUpdate=0,
   },
-    ExecInit=function()InfMain.InitNPCUpdate()end,
+  ExecInit=function()InfMain.InitNPCUpdate()end,
   ExecUpdate=function(...)InfMain.UpdateNPC(...)end,
 }
 
@@ -2856,7 +3018,7 @@ this.npcHeliUpdate={
   execState={
     nextUpdate=0,
   },
-    ExecInit=function()InfMain.InitNPCHeliUpdate()end,
+  ExecInit=function()InfMain.InitNPCHeliUpdate()end,
   ExecUpdate=function(...)InfMain.UpdateNPCHeli(...)end,
 }
 
@@ -3044,9 +3206,9 @@ this.selectedCp={
       return "nil"
     end
     if self.setting==0 then
-      return "0"
+      return "none"
     end
-    return tostring(mvars.ene_cpList[self.setting])--tex tostring just to be safe in case it returns nil
+    return mvars.ene_cpList[self.setting] or "no cp for setting"
   end,
 }
 
@@ -3467,7 +3629,7 @@ end
 
 --function this.DeclareSVars()--tex svars are created/cleared on new missions
 --  return{
---    {name="inf_repopDiamondCountdown",type=TppScriptVars.TYPE_UINT8,value=this.repopDiamondCountdownMax,save=true,category=TppScriptVars.CATEGORY_MISSION}, 
+--    {name="inf_repopDiamondCountdown",type=TppScriptVars.TYPE_UINT8,value=this.repopDiamondCountdownMax,save=true,category=TppScriptVars.CATEGORY_MISSION},
 --    nil
 --  }
 --end

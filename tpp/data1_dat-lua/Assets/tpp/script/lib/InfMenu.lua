@@ -34,25 +34,41 @@ this.maxAutoDisplayRepeat=3
 
 --tex mod settings menu manipulation
 function this.NextOption()
+  local oldIndex=this.currentIndex
   this.currentIndex=this.currentIndex+1
   if this.currentIndex > #this.currentMenuOptions then
     this.currentIndex = 1
   end
-  this.GetSetting()
+  this.GetSetting(oldIndex)
 end
 function this.PreviousOption()
+  local oldIndex=this.currentIndex
   this.currentIndex = this.currentIndex-1
   if this.currentIndex < 1 then
     this.currentIndex = #this.currentMenuOptions
   end
-  this.GetSetting()
+  this.GetSetting(oldIndex)
 end
-function this.GetSetting()
-  local option=this.currentMenuOptions[this.currentIndex]
+function this.GetSetting(previousIndex,previousMenuOptions)
   if this.currentMenuOptions==nil then
     InfMenu.DebugPrint("WARNING: currentMenuOptions == nil!")--DEBUG
     return
   end
+
+--DEBUGNOW
+--  if previousIndex then
+--    local menuOptions=previousMenuOptions or this.currentMenuOptions
+--    local previousOption=this.menuOptions[this.previousIndex]
+--    if previousOption then
+--      if IsFunc(previousOption.OnDeselect) then
+--        previousOption:OnDeselect()
+--      end
+--    else
+--      InfMenu.DebugPrint"InfMenu.GetSetting - no previousOption for previousIndex"--DEBUGNOW
+--    end
+--  end
+
+  local option=this.currentMenuOptions[this.currentIndex]
 
   --  for k,v in pairs(this.currentMenuOptions)do--DEBUG
   --    InfMenu.DebugPrint("currentMenuOptions "..tostring(k).." "..tostring(v))
@@ -236,6 +252,15 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     Ivars.OnChangeSubSetting(self)
   end
 end
+function this.SaveSetting(self,setting)
+  self.setting=setting
+  if self.save and not noSave then
+    local gvar=gvars[self.name]
+    if gvar~=nil then
+      gvars[self.name]=setting
+    end
+  end
+end
 function this.NextSetting(incrementMult)
   local option=this.currentMenuOptions[this.currentIndex]
   if option==nil then
@@ -298,14 +323,18 @@ function this.GoMenu(menu,goBack)
     menu.parentOption=this.currentIndex
   end
 
+  local previousIndex=this.currentIndex
   if goBack then
     this.currentIndex=this.currentMenu.parentOption
   else
     this.currentIndex=1
   end
+
+  local previousMenuOptions=this.currentMenuOptions
+
   this.currentMenu=menu
   this.currentMenuOptions=menu.options
-  this.GetSetting()
+  this.GetSetting(previousIndex,previousMenuOptions)
 end
 
 function this.GoBackCurrent()
@@ -361,7 +390,7 @@ function this.DisplaySetting(optionIndex)
     settingText=tostring(option.setting)
   end
   TppUiCommand.AnnounceLogDelayTime(0)
-  local settingName = this.LangString(option.name)
+  local settingName = option.description or this.LangString(option.name)
   TppUiCommand.AnnounceLogView(optionIndex..":"..settingName..optionSeperator..settingText)
 end
 function this.DisplaySettings()--tex display all
@@ -419,6 +448,13 @@ function this.Print(message)
 end
 
 function this.DebugPrint(message)
+  if message==nil then
+    TppUiCommand.AnnounceLogView("nil")
+    return
+  elseif type(message)~="string" then
+    message=tostring(message)
+  end
+
   while string.len(message)>this.MAX_ANNOUNCE_STRING do
     local printMessage=string.sub(message,0,this.MAX_ANNOUNCE_STRING)
     TppUiCommand.AnnounceLogView(printMessage)

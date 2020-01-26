@@ -89,6 +89,7 @@ this.requires={
   --CULL"/Assets/tpp/script/lib/InfPatch.lua",
   "/Assets/tpp/script/lib/InfSoldierParams.lua",
   "/Assets/tpp/script/lib/InfInspect.lua",
+  "/Assets/tpp/script/lib/InfFova.lua",
   "/Assets/tpp/script/lib/InfLZ.lua",
   "/Assets/tpp/script/lib/InfHooks.lua",--<
 }
@@ -243,7 +244,8 @@ function this.MakeMessageExecTable(messages)
             s[l]=n
           end
         end
-        d=r[s32_func]o=r[s32_option]
+        d=r[s32_func]
+        o=r[s32_option]
       end
       if d then
         n[e][l]=n[e][l]or{}

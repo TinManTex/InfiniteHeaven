@@ -613,15 +613,15 @@ function fovaSetupFuncs.Afghan(n,missionId)
   if TppSoldierFace.IsMoreVariationMode~=nil then
     moreVariationMode=TppSoldierFace.IsMoreVariationMode()
   end
-  local o=15
-  local n=gvars.solface_groupNumber%o
+  local MAX_AFGAN_GRP=15
+  local n=gvars.solface_groupNumber%MAX_AFGAN_GRP
   local faceGroupType=TppEnemyFaceGroupId.AFGAN_GRP_00+n
   local faceGroupTable=this.GetFaceGroupTableAtGroupType(faceGroupType)
   TppSoldierFace.OverwriteMissionFovaData{face=faceGroupTable}
   if moreVariationMode>0 then
     for e=1,2 do
       n=n+2
-      local e=(n%o)*2
+      local e=(n%MAX_AFGAN_GRP)*2
       local faceGroupType=TppEnemyFaceGroupId.AFGAN_GRP_00+(e)
       local faceGroupTable=this.GetFaceGroupTableAtGroupType(faceGroupType)
       TppSoldierFace.OverwriteMissionFovaData{face=faceGroupTable}
@@ -671,31 +671,31 @@ function fovaSetupFuncs.Africa(n,missionId)
   if TppSoldierFace.IsMoreVariationMode~=nil then
     isMoreVariationMode=TppSoldierFace.IsMoreVariationMode()
   end
-  local t=30
+  local MAX_AFRICA_GRP=30
   local solface_groupNumber=gvars.solface_groupNumber
-  local faceGroup=(solface_groupNumber%t)*2
+  local faceGroup=(solface_groupNumber%MAX_AFRICA_GRP)*2--NMC *2 because each group has _B and _W
   local faceGroupType=TppEnemyFaceGroupId.AFRICA_GRP000_B+(faceGroup)
   local faceGroupTable=this.GetFaceGroupTableAtGroupType(faceGroupType)
   TppSoldierFace.OverwriteMissionFovaData{face=faceGroupTable}
   if isMoreVariationMode>0 then
     for e=1,2 do
       solface_groupNumber=solface_groupNumber+2
-      local faceGroup=(solface_groupNumber%t)*2
+      local faceGroup=(solface_groupNumber%MAX_AFRICA_GRP)*2
       local faceGroupType=TppEnemyFaceGroupId.AFRICA_GRP000_B+(faceGroup)
       local face=this.GetFaceGroupTableAtGroupType(faceGroupType)
       TppSoldierFace.OverwriteMissionFovaData{face=face}
     end
   end
-  t=30
+  MAX_AFRICA_GRP=30
   solface_groupNumber=gvars.solface_groupNumber
-  faceGroup=(solface_groupNumber%t)*2
+  faceGroup=(solface_groupNumber%MAX_AFRICA_GRP)*2
   faceGroupType=TppEnemyFaceGroupId.AFRICA_GRP000_W+(faceGroup)
   local face=this.GetFaceGroupTableAtGroupType(faceGroupType)
   TppSoldierFace.OverwriteMissionFovaData{face=face}
   if isMoreVariationMode>0 then
     for e=1,2 do
       solface_groupNumber=solface_groupNumber+2
-      local faceGroup=(solface_groupNumber%t)*2
+      local faceGroup=(solface_groupNumber%MAX_AFRICA_GRP)*2
       local faceGroupType=TppEnemyFaceGroupId.AFRICA_GRP000_W+(faceGroup)
       local face=this.GetFaceGroupTableAtGroupType(faceGroupType)
       TppSoldierFace.OverwriteMissionFovaData{face=face}
