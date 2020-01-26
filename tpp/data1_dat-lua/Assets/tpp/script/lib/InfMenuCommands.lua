@@ -484,14 +484,31 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
+      local objectName="ih_uav_0000"
+      local gameId=GameObject.GetGameObjectId(objectName)
+
+      if gameId==GameObject.NULL_ID then
+        InfMenu.DebugPrint"gameId==GameObject.NULL_ID"
+      else
+        InfMenu.DebugPrint"found uav gameobject"
+        local route="ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_ptl_0000"
+        SendCommand( gameId, {id = "SetEnabled", enabled = true } )
+        SendCommand( gameId, {id = "SetPatrolRoute", route=route } )
+        SendCommand( gameId, {id = "SetCombatRoute", route=route } )
+        SendCommand( gameId, {id = "SetCommandPost", cp=mtbs_enemy.cpNameDefine } )
+        --SendCommand( gameId, {id = "WarpToNearestPatrolRouteNode"} )
+        SendCommand( gameId, {id = "SetDevelopLevel", developLevel = 1 } )
+      end
+      
+      if true then return end
+
       --DEBUGNOW
       --TppUiCommand.AnnounceLogView("anlogdoop")
-       local fogDensity=math.random(0.001,0.9)
-  TppWeather.ForceRequestWeather(TppDefine.WEATHER.FOGGY,6,{fogDensity=fogDensity})
 
-  local parasiteAppearTime=math.random(8,10)
-  GkEventTimerManager.Start("Timer_ParasiteAppear",parasiteAppearTime)
-     
+
+      local parasiteAppearTime=math.random(8,10)
+      GkEventTimerManager.Start("Timer_ParasiteAppear",parasiteAppearTime)
+
       InfMenu.MenuOff()
       --
       --        end
@@ -585,7 +602,7 @@ this.DEBUG_SomeShiz={
 
 local index2=0
 local index2Min=index2
-local index2Max=1
+local index2Max=4
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
@@ -656,7 +673,7 @@ this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-    end)
+      end)
     index3=index3+1
     if index3>index3Max then
       index3=index3Min
@@ -783,8 +800,8 @@ this.DEBUG_SetIvarsToDefault={
     InfInspect.TryFunc(
       function()
         local ivarNames={
-        "debugMode",
-     
+          "debugMode",
+
         }
 
         for i,ivarName in pairs(ivarNames) do
@@ -1259,17 +1276,7 @@ this.DEBUG_WarpToObject={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-        --local objectList=InfMain.reserveSoldierNames
-        local objectList={"veh_lv_0003"}
-
-        --DEBUGNOW
-        local objectList={
-          "Parasite0",
-          "Parasite1",
-          "Parasite2",
-          "Parasite3",
-        }
-
+        local objectList=InfMain.reserveSoldierNames
         --local objectList=InfMain.ene_wildCardSoldiers
 
         --local objectList=InfMain.truckNames
@@ -1402,7 +1409,7 @@ this.DEBUG_WarpToReinforceVehicle={
 this.DEBUG_PrintNonDefaultVars={
   OnChange=function()
     InfInspect.TryFunc(function()
-    Ivars.PrintNonDefaultVars()
+      Ivars.PrintNonDefaultVars()
     end)
   end,
 }

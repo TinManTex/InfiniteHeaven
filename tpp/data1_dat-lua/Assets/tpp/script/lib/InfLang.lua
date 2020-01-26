@@ -621,7 +621,8 @@ this.help.eng={
   Hold <Binocular> and press <Dash> to move free cam position to the player position]],
   mbSoldierEquipGrade_MIN="A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.",
   allowUndevelopedDDEquip="Whether to limit the selection to equipment you have developed or allow all equipment.",
-  enableParasiteEvent="Skull attacks at a random time (in minutes) between Skull attack min and skull attack max",
+  enableParasiteEvent="Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.",
+  quietRadioMode="Changes the music track of the radio played in Quiets cell on the medical platform in mother base.",
 }
 
 this.cpNames={

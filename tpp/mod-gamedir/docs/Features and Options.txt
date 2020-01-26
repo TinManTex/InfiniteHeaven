@@ -63,9 +63,9 @@ Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger rand
 2: MB event random trigger chance : 0-100%
 Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')
 3: Enable Skull attacks in Free roam : Off, On
-Skull attacks at a random time (in minutes) between Skull attack min and skull attack max
-4: Skull attack min (minutes) : 0-60
-5: Skull attack max (minutes) : 0-60
+Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.
+4: Skull attack min (minutes) : 0-180
+5: Skull attack max (minutes) : 0-180
 6: Repopulate music tape radios : Off, On
 7: Randomize minefield mine types : Off, On
 Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.
@@ -182,7 +182,7 @@ Start with no primary and secondary weapons, can be used seperately from subsist
 
 Player settings menu
 --------------------
-1: Player life scale : 0-750%
+1: Player life scale : 0-650%
 2: Subtract demon points : (Command)
 Subtracts 999999 points from demon score
 3: Add demon points : (Command)
@@ -598,11 +598,15 @@ Essentially no-clip mode (for those that remember what that means). It teleports
 4: Camera menu
 5: Time scale menu
 6: User marker menu
-7: Quiets cell radio track (0=Auto) : 0-31
-8: Markers menu
-9: Enemy phases menu
-10: Support heli menu
-11: Debug stuff menu
+7: Markers menu
+8: Enemy phases menu
+9: Support heli menu
+10: Debug stuff menu
+11: Quiets cell radio track (0=Auto) : 0-31
+Changes the music track of the radio played in Quiets cell on the medical platform in mother base.
+12: Soldier item drop chance : 0-100%
+Chance soldier will drop an item when eliminated.
+13: Player life scale : 0-650%
 
 
 Camera menu

@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r168"
+this.modVersion="r169"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -910,19 +910,7 @@ function this.FadeInOnGameStart()
 
   this.ClearMarkers()
 
-  --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
-  --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
-  --RETRY: push back up again, you may just have fucked something up lol, the actual one use case is in sequence.OnEndMissionPrepareSequence which is the middle of tppmain.onallocate
-  local healthScale=Ivars.playerHealthScale:Get()/100
-  if healthScale~=1 then
-    Player.ResetLifeMaxValue()
-    local newMax=vars.playerLifeMax
-    newMax=newMax*healthScale
-    if newMax < 10 then
-      newMax = 10
-    end
-    Player.ChangeLifeMaxValue(newMax)
-  end
+  this.ChangeMaxLife()
 
   --  if Ivars.disableQuietHumming:Is(1) then --tex no go
   --    this.SetQuietHumming(false)
@@ -942,6 +930,33 @@ function this.ClearMarkers()
   if Ivars.disableXrayMarkers:Is(1) then
     --TppSoldier2.DisableMarkerModelEffect()
     TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
+  end
+end
+
+
+
+function this.ChangeMaxLife(setOn1)
+  --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
+  --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
+  --RETRY: push back up again, you may just have fucked something up lol, the actual one use case is in sequence.OnEndMissionPrepareSequence which is the middle of tppmain.onallocate
+ 
+  --default player life is defined as 6000 in *player(s)_game_obj.fox2/TppPlayer2Parameter/lifeMax
+  --however this is only the value during the early game
+  --after mission 2 it bumps up to 6600 (6000*1.1?)
+  --with medical hand grade 2 or higher (as snake or avatar), or with a DD soldier with the tough guy skill this increases to
+  --7801, which is a bit over 6000*1.3, which is strange.
+ 
+  --vars.playerLifeMax is uint16 (ta NasaNhak) so just capping max at 50k (*1.3=65k) to avoid the overflow
+  --Ivar max (6.5 scale) is actually a bit over 50k, but I'll cap here for sanity
+  local healthScale=Ivars.playerHealthScale:Get()/100
+  if healthScale~=1 or setOn1 then
+    Player.ResetLifeMaxValue()
+    local newMax=vars.playerLifeMax
+    newMax=newMax*healthScale
+    newMax=math.max(10,newMax)
+    --newMax=math.min(2^16-1,newMax)--unint16 max
+    newMax=math.min(50000,newMax)
+    Player.ChangeLifeMaxValue(newMax)
   end
 end
 
@@ -1269,7 +1284,7 @@ function this.Update()
 
     for i=1,#updateIvars do
       local ivar=updateIvars[i]
-      if ivar.setting>0 then
+      if ivar.setting>0 or ivar.allwaysExec then
         --tex ivar.updateRate is either number or another ivar
         local updateRate=ivar.updateRate or 0
         local updateRange=ivar.updateRange or 0
@@ -1366,9 +1381,6 @@ this.prevEditCamButton=InfButton.LEFT
 
 
 --init
-function this.InitWarpPlayerUpdate(currentChecks)
-end
-
 function this.OnActivateWarpPlayer()
   this.ActivateControlSet()
 

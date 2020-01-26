@@ -1,5 +1,5 @@
 = Infinite heaven =
-r167 - 2016-07-12
+r169 - 2016-07-14
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe
 
@@ -20,12 +20,20 @@ Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
+New for r169
+Fixed: Actual subsistence missions retaining OSP setting after exit - thanks AGANEK for the report
+Fixed: Turning off NPC heils also turning off free roam heli patrols - thanks Tamriel1989 for the report.
+Change: Skulls time max increased
+Fixed: Warp to user marker failing with error message when selecting objects that don't support GetPosition 
+Fixed: Increased vertical offset on user marker warp to mitigate falling through world.
+- thanks NasaNhak for the suggestions.
+Fixed: playerHealthScale - Player life scale max dropped to 650% to prevent overflow - thanks NasaNhak
+Menu: Player life scale added to in-mission menu.
+Menu: Soldier item drop chance added to in-mission menu.
+
 New for r167
-Fixed: Elimination counter in side-ops showing incorrectly.
-Fixed: Infinite load on recover man on fire sideop quarantine cutscene with start-on-foot on - thanks CantStoptheBipBop for the report and save file.
 Fixed: Min/Max options would not push up/down their counterpart.
 Affected: DD Equip Grade, and many custom prep config options. If you've used these options, double check you don't have mins higher than maxes and visa versa.
-Fixed: Support heli Force searchlight option changed to Default, Off, On - thanks morbidslinky for the report
 
 Feature: Enable Skull attacks in Free roam - Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.
 Skull attack min (minutes)
@@ -64,34 +72,6 @@ Reset current setting - <Binocular>
 
 Big increments - hold <Fire> when pressing next/previous setting.
 Small increments - hold <Ready weapon> when pressing next/previous setting.
-
-New for r165
-Fixed: Infinite load on Motherbase with Walker gears and a low number of platforms - thanks rzaldi for the report and save file.
-
-New for r164
-Update: 'More soldiers on MB plats' - now 9 soldiers per plat instead of 6-7 (or 4 when off/default).
-
-Fixed: Infinite load on certain mother base cutscenes - thanks BarelyFatal for the report and save files. 
-
-New for r163
-Fixed: Hang on load in Africa with Vehicle patrols turned off - thanks CantStoptheBipBop for the report and save file.
-
-Fixed: Hang on load with Custom prep for free or mission and DD suit set to 'Equip grade' - thanks Arballisk for the report and save file.
-
-Features and Options html file in the Infinite Heaven zip for a better formatted and linked version of the features list.
-
-IH menu item type indicators change:
-Option = Setting
-Menu >
-Command >>
-Command that closes menu when done >]
-
-Command: Support heli to latest marker - Requests Support heli to Landing Zone closest to the last placed user marker. 
-Can also be used to ride the support heli to another LZ if the IH menu is open and the option is selected when getting into the heli. This however has an issue where the doors will close on take-off preventing you from shifting between heli sides, the chaingun on your side can still be used however.
-[youtube]pE1Kg_0vHAI[/youtube]
-https://youtu.be/pE1Kg_0vHAI
-
-Command: Force exit helicopter - Lets you exit the helicopter while riding it, mind the fall.
 
 Disclaimer:
 ------------------------------
@@ -170,7 +150,9 @@ jRavens for your early testing
 Shigu for your specific testing and discussions
 Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
-Various people for their donations, including
+Various people for their donations, including:
+Oliver
+Daniel
 Domenico
 Ryuta
 All the mod users on nexus for trying the mod and bug reports

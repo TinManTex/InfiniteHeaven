@@ -334,7 +334,8 @@ function this.InitUpdate(currentChecks)
   this.heliList={}
   if isOuterPlat then
     return
-  elseif Ivars.mbEnemyHeli:Is(1) then
+    --tex non user, set by wargame
+  elseif isMb and Ivars.mbEnemyHeli:Is(1) then
     this.heliList=InfMain.ResetPool(this.enemyHeliList)
   elseif isMb then
     this.heliList=InfMain.ResetPool(this.npcHeliList)

@@ -422,7 +422,7 @@ mtbs_enemy.SetupUAV = function ( clstID )
 
 
   isDevelopedUav, numDevelopType = mtbs_enemy._GetUavSetting()
-
+  
   for _, plntName in ipairs( mtbs_enemy.plntNameDefine ) do
 
     local plntTable = mtbs_enemy.plntParamTable[plntName]
@@ -433,6 +433,7 @@ mtbs_enemy.SetupUAV = function ( clstID )
     mvars.mbUav_placedCountTotal = mvars.mbUav_placedCountTotal + numUavInPlnt
 
     for i, uavName in ipairs( plntAssetsTable.uavList ) do
+      InfMenu.DebugPrint(tostring(uavName))--DEBUGNOW
       local gameObjectId = GetGameObjectId( uavName )
       if isDevelopedUav == true then
         isEnabled = i<=numUavInPlnt
@@ -2180,6 +2181,18 @@ mtbs_enemy.SetFriendly = function( )
       end
     end
   end
+  --DEBUGNOW TODO ivar, if uavs
+  for _, plntName in ipairs( mtbs_enemy.plntNameDefine ) do
+    
+    local plntTable = mtbs_enemy.plntParamTable[plntName]
+    local plntAssetsTable = plntTable.assets
+    
+    for i, uavName in ipairs( plntAssetsTable.uavList ) do
+      local gameObjectId = GameObject.GetGameObjectId( uavName )
+      SendCommand( gameObjectId, {id = "SetFriendly"} )
+    end
+  end
+  --DEBUGNOW
 end
 
 

@@ -107,7 +107,7 @@ TppPlayer2CallbackScript={
   end,
   SetHighSpeeCameraAtCQCSnatchWeapon=function()
     TppSoundDaemon.PostEvent"sfx_s_highspeed_cqc"
-    -DEBUGNOW TppPlayer2CallbackScript._SetHighSpeedCamera(1,.1)
+    --DEBUGNOW TppPlayer2CallbackScript._SetHighSpeedCamera(1,.1)
   end,
   defaultStopPlayingByCollision=false,
   defaultEnableCamera={PlayerCamera.Around,PlayerCamera.Vehicle},

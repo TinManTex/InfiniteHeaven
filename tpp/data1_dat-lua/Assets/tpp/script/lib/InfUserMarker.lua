@@ -110,7 +110,7 @@ function this.GetMarkerPosition(index)
   else
     markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})
   end
-  
+
   return markerPos
 end
 
@@ -120,19 +120,29 @@ function this.WarpToUserMarker(index)
     return
   end
 
-  local markerPos=Vector3(0,0,0)
+  local offSetUp=1
+
+  local markerPos=nil
   local gameId=vars.userMarkerGameObjId[index]
+  if gameId~=NULL_ID then
+    --InfMenu.DebugPrint("gameId~=NULL_ID")--DEBUG
 
+    local typeIndex=GameObject.GetTypeIndex(gameId)
+    if typeIndex==TppGameObject.GAME_OBJECT_TYPE_VEHICLE then
+      offSetUp=3
+    end
 
-  if gameId==NULL_ID then
-    markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index])
-  else
     markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})
   end
 
+  if markerPos==nil then
+    --InfMenu.DebugPrint("markerPos==nil")--DEBUG
+    offSetUp=1.5
+    markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index],vars.userMarkerPosZ[index])
+  end
 
-  InfMenu.DebugPrint("warped to marker "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())
-  TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY(),markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+  InfMenu.DebugPrint("Warped to marker "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())--DEBUGNOW
+  TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 end
 
 

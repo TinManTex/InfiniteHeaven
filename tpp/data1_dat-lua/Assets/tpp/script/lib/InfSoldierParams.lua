@@ -126,7 +126,7 @@ this.soldierParameters={--tex SYNC: soldierParametersDefault. Ugly, but don't wa
     farSightForm={distance=90,verticalAngle=30,horizontalAngle=30},
     searchLightSightForm={distance=50,verticalAngle=15,horizontalAngle=15},
     observeSightForm={distance=200,verticalAngle=5,horizontalAngle=5},
-    
+
     baseSight={
       discovery={distance=10,verticalAngle=36,horizontalAngle=48},
       indis={distance=20,verticalAngle=60,horizontalAngle=80},
@@ -236,7 +236,7 @@ end
 function this.ApplySightIvarsToSoldierParams()
   local sightParamsMod=this.soldierParameters.sightFormParameter
   local sightParamsDefaults=this.soldierParametersDefaults.sightFormParameter
-  
+
   for name,item in pairs(sightParamsMod) do
     if IsTable(item) and item.distance~=nil then
       local default=sightParamsDefaults[name].distance
@@ -263,8 +263,8 @@ function this.PrintSightForm()
   local sightParamsMod=this.soldierParameters.sightFormParameter
   for name,item in pairs(sightParamsMod) do
     if IsTable(item) and item.distance~=nil then
-        --InfMenu.DebugPrint(name..".distance="..item.distance)
-        toPrint=toPrint.."\n"..name..".distance="..item.distance
+      --InfMenu.DebugPrint(name..".distance="..item.distance)
+      toPrint=toPrint.."\n"..name..".distance="..item.distance
     else
       for childName,item in pairs(item) do
         if IsTable(item) and item.distance~=nil then
@@ -282,7 +282,7 @@ end
 function this.ApplyHearingIvarsToSoldierParams()
   local hearingParams=this.soldierParameters.hearingRangeParameter
   local hearingParamsDefault=this.soldierParametersDefaults.hearingRangeParameter
-  
+
   for name,distanceTypes in pairs(hearingParams) do
     for distanceName,distance in pairs(distanceTypes)do
       local default=hearingParamsDefault[name][distanceName]
@@ -293,15 +293,15 @@ function this.ApplyHearingIvarsToSoldierParams()
     end
   end--for sightmod
 end
-  
-  
---function this.ScaleValueClamp1(value,mult)--tex  
+
+
+--function this.ScaleValueClamp1(value,mult)--tex
 --  local newValue=value*mult
 --  if newValue < 1 then
 --    newValue = 1
---  end  
+--  end
 --  return newValue
---end  
+--end
 --IN: this.soldierParametersDefault, *Ivars.<sightForm>DistScaleSightParam
 --OUT: this.soldierParameters
 --WIP: more granular control of sightFormParameters
@@ -309,7 +309,7 @@ end
 --  local sightParamsMod=this.soldierParameters.sightFormParameter
 --  local sightParamsDefaults=this.soldierParametersDefaults.sightFormParameter
 --  local sightDistScaleName=Ivars.sightDistScaleName
---  
+--
 --  for i,typeName in ipairs(Ivars.sightTypeNames) do
 --    --InfMenu.DebugPrint("typeName: "..typeName)--DEBUG
 --    local sightType=sightParamsMod[typeName]
@@ -318,7 +318,7 @@ end
 --    if sightTypeDefault==nil then--DEBUG
 --      InfMenu.DebugPrint"sightTypeDefault==nil"
 --    end
---    
+--
 --    local gvarName=typeName..Ivars.sightDistScaleName
 --    local typeScale=gvars[gvarName] or 1
 --    if gvars[gvarName]==nil then
@@ -328,7 +328,7 @@ end
 --    --[[if sightType then--
 --        local stStr=InfInspect.Inspect(sightType)
 --        InfMenu.DebugPrint(stStr)
---      end--]]     
+--      end--]]
 --
 --    for j,formName in ipairs(Ivars.sightFormNames) do
 --      --InfMenu.DebugPrint("formName: "..formName)
@@ -344,17 +344,17 @@ end
 --          InfMenu.DebugPrint"sightFormDefault==nil"
 --        end
 --        local gvarName=formName..sightDistScaleName
---   
+--
 --        local formScale=gvars[gvarName] or 1
 --        if gvars[gvarName]==nil then
 --          InfMenu.DebugPrint("gvars."..gvarName.."==nil")
 --        end
---        
+--
 --        sightForm.distance=this.ScaleValueClamp1(sightFormDefault.distance,formScale)
 --        sightForm.distance=this.ScaleValueClamp1(sightFormDefault.distance,typeScale)
---     
+--
 --        --InfMenu.DebugPrint(typeName.."."..formName.." dist=".. sightForm.distance.. " defdist="..sightFormDefault.distance .. " scale="..scale)
---        
+--
 --        --sightType[formName].distance=this.ScaleValueClamp1(sightFormDefault.distance,scale)
 --         --InfMenu.DebugPrint(formName..".distance="..sightForm.distance)
 --      end--if sightForm
@@ -363,8 +363,24 @@ end
 --end
 
 --OUT: this.soldierPrameters, TppSoldier2 Soldier2ParameterTables
+local function NotDefault(ivars)
+  for i=1,#ivars do
+    local ivar=ivars[i]
+    if ivar.setting~=ivar.default then
+      return true
+    end
+  end
+end
+
 function this.SoldierParametersMod()
-  if gvars.soldierParamsProfile==0 then
+  if TppMission.IsFOBMission(vars.missionCode)then
+    if NotDefault{Ivars.soldierHealthScale,Ivars.soldierSightDistScale,Ivars.soldierHearingDistScale} then
+      TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParametersDefaults)
+    end
+    return
+  end
+
+  if Ivars.soldierParamsProfile:Is(0) then
     return
   end
   this.ApplyHealthIvarsToSoldierParams()

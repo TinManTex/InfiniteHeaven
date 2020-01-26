@@ -1818,11 +1818,18 @@ end
 function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below for original
   local Ivars=Ivars
   local isActual=TppMission.IsActualSubsistenceMission()
-  if isActual and Ivars.ospWeaponProfile:Is"DEFAULT" or (Ivars.primaryWeaponOsp:Is(1) and Ivars.secondaryWeaponOsp:Is(1) and Ivars.tertiaryWeaponOsp:Is(1)) then
-    Ivars.ospWeaponProfile:Set("PURE",true,true)--tex don't want to save due to normal subsistence missions
+  if isActual then
+    --tex don't want to save due to normal subsistence missions
+    Ivars.primaryWeaponOsp:Set(1,true,true)
+    Ivars.secondaryWeaponOsp:Set(1,true,true)
+    Ivars.tertiaryWeaponOsp:Set(1,true,true)
+  elseif Ivars.inf_event:Is(0) then
+    Ivars.UpdateSettingFromGvar(Ivars.primaryWeaponOsp)
+    Ivars.UpdateSettingFromGvar(Ivars.secondaryWeaponOsp)
+    Ivars.UpdateSettingFromGvar(Ivars.tertiaryWeaponOsp) 
   end
 
-  if Ivars.ospWeaponProfile:Is()>0 then
+  if Ivars.ospWeaponProfile:Is()>0 or isActual then
     this.SetInitWeapons(Ivars.primaryWeaponOsp:GetTable())
     this.SetInitWeapons(Ivars.secondaryWeaponOsp:GetTable())
     this.SetInitWeapons(Ivars.tertiaryWeaponOsp:GetTable())

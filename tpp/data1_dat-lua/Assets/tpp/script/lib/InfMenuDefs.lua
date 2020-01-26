@@ -196,8 +196,6 @@ this.fultonSuccessMenu={
   },
 }
 
-
-
 this.revengeSystemMenu={
   options={
     Ivars.revengeProfile,
@@ -559,7 +557,7 @@ this.inMissionMenu={
 --    InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
 --    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --InfMenuCommands.resetAllSettingsItem,--DEBUG
---    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+    --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
     --    Ivars.itemDropChance,--DEBUG
     --    Ivars.playerFaceIdApearance,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
@@ -569,7 +567,6 @@ this.inMissionMenu={
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG
-
     --    InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --    InfMenuCommands.doEnemyReinforce,--WIP
     InfMenuCommands.requestHeliLzToLastMarker,
@@ -578,11 +575,13 @@ this.inMissionMenu={
     this.cameraMenu,
     this.timeScaleMenu,
     this.userMarkerMenu,
-    Ivars.quietRadioMode,
     this.playerRestrictionsInMissionMenu,
     this.phaseMenu,
     this.supportHeliMenu,
-    this.debugInMissionMenu,
+    this.debugInMissionMenu,    
+    Ivars.quietRadioMode,    
+    Ivars.itemDropChance,
+    Ivars.playerHealthScale,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.menuOffItem,
   }

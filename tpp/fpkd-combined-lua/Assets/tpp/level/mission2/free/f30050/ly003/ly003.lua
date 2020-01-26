@@ -1,4 +1,4 @@
--- DOBUILD: 0
+-- DOBUILD: 0 --DEBUGNOW
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\free\f30050\f30050_ly003.fpkd
 
@@ -344,7 +344,7 @@ local this = {}
 
 
 this.enemyAssetTable = {
-	{
+	{--0--1--command
 	
 		plnt0 = {
 			soldierList = {
@@ -393,12 +393,25 @@ this.enemyAssetTable = {
 					},
 				},
 			},
-			uavList = {
-			},
-			uavSneakRoute = {
-			},
-			uavCombatRoute = {
-			},
+      uavList = {
+ --       "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0000",
+        --DEBUGNOW
+--        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|uav_0001",
+--        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|uav_0000",
+--        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|uav_0001",
+      },
+      uavSneakRoute = {
+        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_ptl_0000",
+--        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_ptl_0001",
+--        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_around_0to7_ptl_0000",
+--        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_around_7to0_ptl_0000",
+      },
+      uavCombatRoute = {
+        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_cbt_0000",
+--        "ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_cbt_0001",
+--        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_lower_cbt_0000",
+--        "ly013_cl00_uav0000|cl00pl0_mb_fndt_plnt_uav|rts_upper_cbt_0000",
+      },
 			mineList = {
 			},
 			decyList = {

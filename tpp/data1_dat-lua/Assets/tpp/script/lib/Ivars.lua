@@ -296,6 +296,7 @@ this.soldierParamsProfile={
       Ivars.soldierSightDistScale:Set(100,true)
       Ivars.soldierHearingDistScale:Set(100,true)
       Ivars.soldierHealthScale:Set(100,true)
+      TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParametersDefaults)
     end,
     CUSTOM=nil,
   },
@@ -384,22 +385,13 @@ this.soldierHealthScale={
 this.playerHealthScale={
   save=MISSION,
   default=100,
-  range={max=750,min=0,increment=20},--tex GOTCHA overflows around 760 when medical arm 3 is equipped
+  range={max=650,min=0,increment=20},--tex GOTCHA overflows around 760 when medical arm 3 is equipped
   isPercent=true,
   OnChange=function(self)
     if mvars.mis_missionStateIsNotInGame then
       return
     end
-    local healthScale=self.setting/100
-    --if healthScale~=1 then
-    Player.ResetLifeMaxValue()
-    local newMax=vars.playerLifeMax
-    newMax=newMax*healthScale
-    if newMax < 10 then
-      newMax = 10
-    end
-    Player.ChangeLifeMaxValue(newMax)
-    --end
+    InfMain.ChangeMaxLife(true)
   end,
 }
 --motherbase>
@@ -3010,7 +3002,6 @@ this.warpPlayerUpdate={
   execState={
     nextUpdate=0,
   },
-  ExecInit=function(...)InfMain.InitWarpPlayerUpdate(...)end,
   ExecUpdate=function(...)InfMain.UpdateWarpPlayer(...)end,
 }
 
@@ -3057,7 +3048,6 @@ this.adjustCameraUpdate={
   execState={
     nextUpdate=0,
   },
-  --ExecInit=function(...)InfMain.InitWarpPlayerUpdate(...)end,
   ExecUpdate=function(...)InfCamera.UpdateCameraAdjust(...)end,
 }
 
@@ -3259,6 +3249,7 @@ this.npcHeliUpdate={
   save=MISSION,
   settings={"OFF","UTH","UTH_AND_HP48"},
   settingNames="npcHeliUpdateSettings",
+  allwaysExec=true,--tex KLUDGE
   execCheckTable={inGame=true,inHeliSpace=false},
   execState={
     nextUpdate=0,
@@ -3269,9 +3260,9 @@ this.npcHeliUpdate={
   ExecUpdate=function(...)InfNPCHeli.Update(...)end,
 }
 
---heli
+--support heli
 this.heliUpdate={--tex NONUSER, for now, need it alive to pick up pull out
-  save=MISSION,
+  --save=MISSION,
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
@@ -3563,13 +3554,13 @@ this.enableParasiteEvent={
 MinMaxIvar(
   "parasitePeriod",
   {
-    default=5,
+    default=10,
   },
   {
-    default=15,
+    default=30,
   },
   {
-    range={min=0,max=60,increment=1},
+    range={min=0,max=180,increment=1},
   }
 )
 

@@ -1,5 +1,16 @@
 Infinite Heaven changelog
 
+r169 - 2016-07-19 - public release
+Fixed: Actual subsistence missions retaining OSP setting after exit - thanks AGANEK for the report
+Fixed: Turning off NPC heils also turning off free roam heli patrols - thanks Tamriel1989 for the report.
+Change: Skulls time max increased
+Fixed: Warp to user marker failing with error message when selecting objects that don't support GetPosition 
+Fixed: Increased vertical offset on user marker warp to mitigate falling through world.
+- thanks NasaNhak for the suggestions.
+Fixed: playerHealthScale - Player life scale max dropped to 650% to prevent overflow - thanks NasaNhak
+Menu: Player life scale added to in-mission menu.
+Menu: Soldier item drop chance added to in-mission menu.
+
 r168 - 2016-07-14 - public release
 Fixed: Free roam skulls now immediately go in to combat on next apearance after one has been fultoned. This is to work around the issue of them getting stuck in an idle state.
 Fixed: Free roam skull event will no longer try to re-trigger after all the skulls have been fultoned.
