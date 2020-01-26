@@ -201,6 +201,21 @@ Patrols menu:
 ------------------
 Enemy patrols option: Foot patrols in free roam - adds ~13 foot patrols between CPs, since the start-end bases are chosen randomly they may be difficult to find or you may be surprised by them in the wilderness between rather than following roads.
 
+Heli patrols in free roam - "None","Min","Mid",Max","Enemy prep" - number of helis.
+Up to seven attack helis will patrol free roam.
+Attack heli type: Default, Black, Red, Enemy prep
+"Enemy prep" setting will try and scale those options to your current enemy preparedness level.
+https://www.youtube.com/watch?v=JwGPLrE5NB0
+https://www.youtube.com/watch?v=MqAz2B0OoFs
+https://www.youtube.com/watch?v=cK2YFtK4IR0
+
+Know issues: 
+Heli state is not saved and will reset on checkpoint reload, so helis may vanish (to another place on the map).
+This may be mitigated in future versions, but not fully fixed since KJP optimized a bit too far so can only save/load one heli.
+Heli in side ops may travel from one sideop to the next (if first sideop is loaded and second is also heli sideop), have yet to test to see if it does switch the sideop it counts towards on death.
+Heli sideop loading may be delayed until very near resulting in sudden pop in of sideop vehicles/soldiers.
+Heli patrol known bug: support heli cannot target helis when there's multiple helis in the world. This won't be fixable as the AI is in the game engine/untouchable.
+
 Vehicle patrol vehicle types:
 ------------------
 For free mode change the traveling  trucks to other vehicle types:
@@ -276,7 +291,6 @@ Warp body to FreeCam position
 
 Support Heli menu - ACC and in-mission menu:
 ----------------------------------------------------
-Start on foot option has been moved here.
 Disable heli attack - also here (but still in subsistence menu too).
 
 Set heli invincible - heli will not take damage.
@@ -292,6 +306,8 @@ Set LZ wait height - the height at which the heli hovers in wait mode (not landi
 
 Force searchlight - change the heli searchlight state
 
+"Start free roam on foot","Start missions on foot","Start Mother base on foot" 
+With: "Off","All but assault LZs","All Lzs" - thanks NasaNhak for the idea
 
 Patchups:
 -----------------

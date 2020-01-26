@@ -191,6 +191,31 @@ local routeInfo={
   --[StrCode32"lz_drp_outland_S0000|rt_drp_outland_S_0000",
   },
 }
+this.heliRouteToCp={
+  afgh={
+    ["lz_drp_field_I0000|rt_drp_field_I_0000"]="afgh_field_cp",
+    ["lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000"]="afgh_commFacility_cp",
+    --    "lz_drp_waterway_I0000|rt_drp_waterway_I_0000",--??
+    ["lz_drp_slopedTown_I0000|rt_drp_slopedTown_I_0000"]="afgh_slopedTown_cp",
+    ["lz_drp_fort_I0000|rt_drp_fort_I_0000"]="afgh_fort_cp",
+    ["lz_drp_tent_I0000|rt_drp_tent_I_0000"]="afgh_tent_cp",
+    ["lz_drp_village_N0000|rt_drp_village_N_0000"]="afgh_village_cp",
+    ["lz_drp_remnants_I0000|rt_drp_remnants_I_0000"]="afgh_remnants_cp",
+    ["lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000"]="afgh_cliffTown_cp",
+    ["lz_drp_powerPlant_E0000|rt_drp_powerPlant_E_0000"]="afgh_powerPlant_cp",
+    ["lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"]="afgh_enemyBase_cp",
+    ["lz_drp_sovietBase_E0000|rt_drp_sovietBase_E_0000"]="afgh_sovietBase_cp",
+  },
+  mafr={
+    ["lz_drp_hill_I0000|rt_drp_hill_I_0000"]="mafr_hill_cp",
+    ["lz_drp_swamp_I0000|rt_drp_swamp_I_0000"]="mafr_swamp_cp",
+    ["lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"]="mafr_pfCamp_cp",
+    ["lz_drp_savannah_I0000|rt_drp_savannah_I_0000"]="mafr_savannah_cp",
+    ["lz_drp_diamond_I0000|rt_drp_diamond_I_0000"]="mafr_diamond_cp",
+    ["lz_drp_banana_I0000|rt_drp_banana_I_0000"]="mafr_banana_cp",
+    ["lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000"]="mafr_flowStation_cp",
+  },
+}
 
 local numNpcAttackHelis=3
 --numNpcAttackHelis=math.min(numNpcAttackHelis,#enemyHeliList)
@@ -198,7 +223,7 @@ local numNpcAttackHelis=3
 this.heliList={}
 
 local heliTimes={}
-local heliRouteIds={}--tex str32 route for free roam, cluster for mb (TODO: change to route as well)
+this.heliRouteIds={}--tex str32 route for free roam, cluster for mb (TODO: change to route as well)
 local heliRouteCenters={}
 local heliOnApproach={}
 local heliColorType
@@ -328,6 +353,7 @@ function this.InitUpdate(currentChecks)
     end
   end
 
+  local heliRouteIds=this.heliRouteIds
   for n,heliName in ipairs(this.heliList)do
     heliTimes[n]=0
     heliRouteIds[n]=0
@@ -419,6 +445,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
 
   local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
   local isNight=WeatherManager.IsNight()
+  local heliRouteIds=this.heliRouteIds
   for n,heliName in ipairs(this.heliList)do
     local heliObjectId = GetGameObjectId(heliName)
     if heliObjectId==NULL_ID then
@@ -563,7 +590,7 @@ end
 
 --DEBUG
 function this.SetRoute(heliRoute,heliIndex)
-  heliRouteIds[heliIndex]=heliRoute
+  this.heliRouteIds[heliIndex]=heliRoute
   local groundStartPosition=InfLZ.groundStartPositions[heliRoute]
   if groundStartPosition then
     InfMenu.DebugPrint("found ground posisiton")--DEBUGNOW
@@ -626,7 +653,7 @@ function this.PrintHeliPos()
           --InfInspect.PrintInspect(routeCenter)
 
           --InfMenu.DebugPrint("helipos:".. heliPos[1]..",".. heliPos[2].. ","..heliPos[3])
-          InfMenu.DebugPrint(n.." "..heliName.." route: "..tostring(InfLZ.str32LzToLz[heliRouteIds[n]]))
+          InfMenu.DebugPrint(n.." "..heliName.." route: "..tostring(InfLZ.str32LzToLz[this.heliRouteIds[n]]))
           InfMenu.DebugPrint("distsqr:"..distSqr .. " closestdist:"..closestDistance)
         end
       end

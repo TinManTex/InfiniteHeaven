@@ -439,7 +439,7 @@ this.mbWarGamesProfile={
       Ivars.mbHostileSoldiers:Set(1,true)
       Ivars.mbEnableLethalActions:Set(1,true)
       Ivars.mbNonStaff:Set(1,true)
-      Ivars.mbEnableFultonAddStaff:Set(1,true)--DEBUBNOW
+      Ivars.mbEnableFultonAddStaff:Set(1,true)
       Ivars.mbZombies:Set(0,true)
       Ivars.mbEnemyHeli:Set(1,true)
     end,
@@ -457,7 +457,7 @@ this.mbWarGamesProfile={
       Ivars.mbHostileSoldiers:Set(1,true)
       Ivars.mbEnableLethalActions:Set(0,true)
       Ivars.mbNonStaff:Set(0,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)
+      Ivars.mbEnableFultonAddStaff:Set(0,true)--DEBUGNOW
       Ivars.mbZombies:Set(1,true)
       Ivars.mbEnemyHeli:Set(0,true)
     end,
@@ -3224,6 +3224,12 @@ this.mis_isGroundStart={--NONUSER
   save=MISSION,
   range=this.switchRange,
 }
+
+this.enableInfInterrogation={
+  save=MISSION,
+  range=this.switchRange,
+}
+
 --end ivar defines
 
 local function IsIvar(ivar)--TYPEID
@@ -3576,11 +3582,13 @@ function this.PrintSaveVarCount()
 
 end
 
---function this.DeclareSVars()--tex svars are created/cleared on new missions
---  return{
---    {name="inf_repopDiamondCountdown",type=TppScriptVars.TYPE_UINT8,value=this.repopDiamondCountdownMax,save=true,category=TppScriptVars.CATEGORY_MISSION},
---    nil
---  }
---end
+local numQuestSoldiers=20--SYNC InfInterrogate DEBUGNOW
+function this.DeclareSVars()--tex svars are created/cleared on new missions
+  return{
+    --{name="inf_repopDiamondCountdown",type=TppScriptVars.TYPE_UINT8,value=this.repopDiamondCountdownMax,save=true,category=TppScriptVars.CATEGORY_MISSION},
+    {name="inf_interCpQuestStatus",arraySize=numQuestSoldiers,type=TppScriptVars.TYPE_BOOL,value=false,save=true,category=TppScriptVars.CATEGORY_MISSION},--DEBUGNOW
+    nil
+  }
+end
 
 return this

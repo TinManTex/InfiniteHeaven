@@ -237,7 +237,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       end
     end
     --if(vars.missionCode==11043)or(vars.missionCode==11044)then--tex ORIG: changed to issubs check, more robust even without my mod
-    if TppMission.IsActualSubsistenceMission() then--DEBUGNOWor Ivars.disableBuddies:Is(1) then--tex disablebuddy, was just IsSubsistenceMission
+    if TppMission.IsActualSubsistenceMission() then--DEBUGNOW or Ivars.disableBuddies:Is(1) then--tex disablebuddy, was just IsSubsistenceMission
       TppBuddyService.SetDisableAllBuddy()
     end
     if TppGameSequence.GetGameTitleName()=="TPP"then
@@ -321,6 +321,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     end
   end
   TppLandingZone.OverwriteBuddyVehiclePosForALZ()
+  --InfMain.OverwriteBuddyPosForMb()--tex no go
   if missionTable.enemy then
     if IsTypeTable(missionTable.enemy.vehicleSettings)then
       TppEnemy.SetUpVehicles()
@@ -378,6 +379,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     if IsTypeTable(missionTable.enemy.uniqueInterrogation)then
       TppInterrogation.InitUniqueInterrogation(missionTable.enemy.uniqueInterrogation)
     end
+    --InfInspect.PrintInspect(mvars.interTable)--DEBUGNOW
     do
       local routeSets
       if IsTypeTable(missionTable.enemy.routeSets)then
@@ -469,7 +471,7 @@ function this.SetUpdateFunction(missionTable)
   numUpdate=0
   onUpdateList={}
   numOnUpdate=0
-  --ORPHANL RENAMEsomeupdatetable2={}
+  --ORPHAN: RENAMEsomeupdatetable2={}
   --ORPHAN: RENAMEsomeupdate2=0
   updateList={
     TppMission.Update,

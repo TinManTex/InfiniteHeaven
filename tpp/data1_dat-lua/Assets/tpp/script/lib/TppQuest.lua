@@ -1046,7 +1046,8 @@ function canOpenQuestChecks.mtbs_q101220()
   return true
 end
 function canOpenQuestChecks.mtbs_q99060()
-  return TppDemo.IsPlayedMBEventDemo"PazPhantomPain1"end
+  return TppDemo.IsPlayedMBEventDemo"PazPhantomPain1"
+end
 function canOpenQuestChecks.mtbs_q42010()
   return TppLocation.GetLocalMbStageClusterGrade(TppDefine.CLUSTER_DEFINE.Command+1)>=4
 end
@@ -2243,9 +2244,9 @@ function this.UpdateActiveQuest(debugUpdate)
                 else
                   table.insert(nonStoryQuests,questName)
                 end
-              elseif this.IsRepop(questName)then
-                table.insert(repopQuests,questName)
-              end
+            elseif this.IsRepop(questName)then
+              table.insert(repopQuests,questName)
+            end
             --quest open
             end
             --questindex
@@ -3048,12 +3049,23 @@ function this.UpdateShootingPracticeUi()
   TppUiCommand.SetDisplayTimerText("time_quest",t,e)
 end
 --RETAILPATCH: 1060 big additions to below
-local a={ruins_q60115=TppMotherBaseManagementConst.DESIGN_2027,sovietBase_q60110=TppMotherBaseManagementConst.DESIGN_2020,citadel_q60112=TppMotherBaseManagementConst.DESIGN_2021,outland_q60113=TppMotherBaseManagementConst.DESIGN_2022,pfCamp_q60114=TppMotherBaseManagementConst.DESIGN_2023,sovietBase_q60111=TppMotherBaseManagementConst.DESIGN_2024}
-local t={pfCamp_q39012={dataBaseId=TppMotherBaseManagementConst.ANIMAL_130},waterway_q39010={dataBaseId=TppMotherBaseManagementConst.ANIMAL_610},lab_q39011={dataBaseId=TppMotherBaseManagementConst.ANIMAL_2250}}
+local designAquireInfo={
+  ruins_q60115=TppMotherBaseManagementConst.DESIGN_2027,
+  sovietBase_q60110=TppMotherBaseManagementConst.DESIGN_2020,
+  citadel_q60112=TppMotherBaseManagementConst.DESIGN_2021,
+  outland_q60113=TppMotherBaseManagementConst.DESIGN_2022,
+  pfCamp_q60114=TppMotherBaseManagementConst.DESIGN_2023,
+  sovietBase_q60111=TppMotherBaseManagementConst.DESIGN_2024
+}
+local animalAquireInfo={
+  pfCamp_q39012={dataBaseId=TppMotherBaseManagementConst.ANIMAL_130},
+  waterway_q39010={dataBaseId=TppMotherBaseManagementConst.ANIMAL_610},
+  lab_q39011={dataBaseId=TppMotherBaseManagementConst.ANIMAL_2250}
+}
 function this.AcquireKeyItemOnMissionStart()
-  for t,n in pairs(keyItems)do
-    if this.IsCleard(t)then
-      TppTerminal.AcquireKeyItem{dataBaseId=n,isShowAnnounceLog=true}
+  for questName,dataBaseId in pairs(keyItems)do
+    if this.IsCleard(questName)then
+      TppTerminal.AcquireKeyItem{dataBaseId=dataBaseId,isShowAnnounceLog=true}
     end
   end
   if TppStory.IsMissionCleard(11050)then
@@ -3073,14 +3085,14 @@ function this.AcquireKeyItemOnMissionStart()
   if this.IsCleard"mtbs_q99060"then
     TppTerminal.AcquireKeyItem{dataBaseId=TppMotherBaseManagementConst.PHOTO_1010,pushReward=true}
   end
-  for t,n in pairs(a)do
-    if this.IsCleard(t)then
-      TppTerminal.AcquireKeyItem{dataBaseId=n,isShowAnnounceLog=true}
+  for questName,dataBaseId in pairs(designAquireInfo)do
+    if this.IsCleard(questName)then
+      TppTerminal.AcquireKeyItem{dataBaseId=dataBaseId,isShowAnnounceLog=true}
     end
   end
-  for n,t in pairs(t)do
-    if this.IsCleard(n)and not TppMotherBaseManagement.IsGotDataBase{dataBaseId=t.dataBaseId}then
-      TppMotherBaseManagement.DirectAddDataBaseAnimal{dataBaseId=t.dataBaseId,areaName=t.areaName,isNew=true}
+  for questName,info in pairs(animalAquireInfo)do
+    if this.IsCleard(questName)and not TppMotherBaseManagement.IsGotDataBase{dataBaseId=info.dataBaseId}then
+      TppMotherBaseManagement.DirectAddDataBaseAnimal{dataBaseId=info.dataBaseId,areaName=info.areaName,isNew=true}
     end
   end
   if TppUiCommand.HasEmblemTexture"front5019"then
@@ -3102,7 +3114,7 @@ function this.AcquireKeyItemOnMissionStart()
     vars.mbmMasterGunsmithSkill=1
   end
   do
-    local t={
+    local cassetteAquireInfo={
       {questName="mtbs_q99060",cassetteList={"tp_m_99060_01","tp_m_99060_02","tp_m_99060_03","tp_m_99060_04","tp_m_99060_05","tp_sp_01_03"}},
       {questName="sovietBase_q99030",cassetteList={"tp_m_10150_20","tp_m_10150_29","tp_m_10150_30"}},
       {questName="tent_q99040",cassetteList={"tp_m_10150_21","tp_m_10150_22","tp_m_10150_24","tp_m_10150_25"}},
@@ -3110,10 +3122,13 @@ function this.AcquireKeyItemOnMissionStart()
       {storySequence=TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY,cassetteList={"tp_m_10050_01"}},
       {storySequence=TppDefine.STORY_SEQUENCE.CLEARD_FLAG_MISSIONS_BEFORE_ENDRESS_PROXY_WAR,cassetteList={"tp_m_10160_06","tp_m_10160_07","tp_m_10160_08","tp_m_10160_09","tp_m_10160_10","tp_m_10160_05"}},
       {storySequence=TppDefine.STORY_SEQUENCE.CLEARD_MURDER_INFECTORS,cassetteList={"tp_m_10160_11","tp_m_10160_04","tp_c_00000_18","tp_m_10240_05","tp_m_10190_02","tp_m_10190_03"}},
-      {demoName="DecisionHuey",cassetteList={"tp_m_10190_05","tp_m_10190_06","tp_m_10240_03","tp_m_10240_04","tp_m_10190_01"}}}
-    for n,t in pairs(t)do
-      if((t.questName and this.IsCleard(t.questName))or(t.storySequence and(TppStory.GetCurrentStorySequence()>=t.storySequence)))or(t.demoName and TppDemo.IsPlayedMBEventDemo(t.demoName))then
-        TppCassette.Acquire{cassetteList=t.cassetteList,isShowAnnounceLog=true}
+      {demoName="DecisionHuey",cassetteList={"tp_m_10190_05","tp_m_10190_06","tp_m_10240_03","tp_m_10240_04","tp_m_10190_01"}}
+    }
+    for i,info in pairs(cassetteAquireInfo)do
+      if((info.questName and this.IsCleard(info.questName))
+        or(info.storySequence and(TppStory.GetCurrentStorySequence()>=info.storySequence)))
+        or(info.demoName and TppDemo.IsPlayedMBEventDemo(info.demoName))then
+        TppCassette.Acquire{cassetteList=info.cassetteList,isShowAnnounceLog=true}
       end
     end
   end

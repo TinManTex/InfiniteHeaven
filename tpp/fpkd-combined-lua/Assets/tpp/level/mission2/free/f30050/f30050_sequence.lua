@@ -1946,7 +1946,11 @@ this.SetDDogArea = function(  )
 		local plntName = mtbs_cluster.GetCurrentPlnt()
 		local pos = mtbs_cluster.GetDemoCenter( clusterName, plntName )
 		local gameObjectId = { type = "TppBuddyDog2", index = 0 }
-		GameObject.SendCommand( gameObjectId, { id = "SetMotherBaseCenterAndRadius", center = pos, radius = 45.0 } )
+		local radius=45.0--tex shifted out from command
+		if Ivars.mbEnableBuddies:Is(1) then--tex>
+		  radius=3000
+		end--<
+		GameObject.SendCommand( gameObjectId, { id = "SetMotherBaseCenterAndRadius", center = pos, radius = radius } )
 	end	
 end
 

@@ -49,14 +49,21 @@ this.sideOpsMenu={
   }
 }
 
+this.motherBaseShowCharactersMenu={
+  options={    
+    Ivars.mbEnableOcelot,
+    Ivars.mbShowCodeTalker,
+    Ivars.mbShowEli,
+    InfMenuCommands.resetPaz,
+  }
+}
+
 this.motherBaseShowAssetsMenu={
   options={
     Ivars.mbShowBigBossPosters,
     --Ivars.mbShowQuietCellSigns,--tex not that interesting
     Ivars.mbShowMbEliminationMonument,
     Ivars.mbShowSahelan,
-    Ivars.mbShowEli,
-    Ivars.mbShowCodeTalker,
     Ivars.mbUnlockGoalDoors,
   }
 }
@@ -84,10 +91,10 @@ this.motherBaseMenu={
     Ivars.mbPrioritizeFemale,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
     Ivars.mbEnableBuddies,
-    Ivars.mbEnableOcelot,
     Ivars.npcHeliUpdate,
     Ivars.mbCollectionRepop,
     Ivars.mbMoraleBoosts,
+    this.motherBaseShowCharactersMenu,
     this.motherBaseShowAssetsMenu,
     Ivars.mbWargameFemales,
     Ivars.mbEnemyHeliColor,
@@ -278,6 +285,7 @@ this.revengeMenu={
     Ivars.changeCpSubTypeFree,
     Ivars.changeCpSubTypeForMissions,
     Ivars.enableWildCardFreeRoam,
+    Ivars.enableInfInterrogation,
   }
 }
 --
@@ -525,11 +533,11 @@ this.inMissionMenu={
     --    this.fovaModMenu,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.appearanceMenu,--DEBUG
-    --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
-    --    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
+--    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+--    --    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
     --InfMenuCommands.showPosition,--DEBUG
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG

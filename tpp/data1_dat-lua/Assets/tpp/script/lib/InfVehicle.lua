@@ -325,7 +325,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
           InfMenu.DebugPrint("warning: vehicleSpawnInfoTable ".. vehicleType .."==nil")
           break
         end
-
+        --tex used for ModifyVehiclePatrolSoldiers
         mvars.patrolVehicleBaseInfo[spawnInfo.locator]=baseTypeInfo
 
         this.SetPatrolSpawnInfo(vehicle,spawnInfo)

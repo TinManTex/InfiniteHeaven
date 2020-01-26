@@ -393,6 +393,8 @@ this.SpawnVehicleOnInitialize = function ()
 end
 
 
+
+
 this.InitEnemy = function()
   if not this.NeedSetup() then
     return

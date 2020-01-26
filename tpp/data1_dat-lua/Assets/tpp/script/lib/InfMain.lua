@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r145"
+this.modVersion="r148"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -426,8 +426,7 @@ function this.MissionPrepare()
   end
 end
 
-local disableActionMenus=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU
-local menuDisableActions=PlayerDisableAction.OPEN_EQUIP_MENU
+this.menuDisableActions=PlayerDisableAction.OPEN_EQUIP_MENU--+PlayerDisableAction.OPEN_CALL_MENU
 
 function this.RestoreActionFlag()
   local activeControlMode=this.GetActiveControlMode()
@@ -438,7 +437,7 @@ function this.RestoreActionFlag()
   --      this.EnableAction(menuDisableActions)
   --    end
   --  else
-  this.EnableAction(menuDisableActions)
+  this.EnableAction(this.menuDisableActions)
   --  end
 end
 
@@ -752,6 +751,10 @@ function this.OnInitializeTop(missionTable)
       this.ModifyVehiclePatrolSoldiers(enemyTable.soldierDefine)
       this.AddLrrps(enemyTable.soldierDefine,enemyTable.travelPlans)
       this.AddWildCards(enemyTable.soldierDefine,enemyTable.soldierTypes,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
+
+      InfInterrogation.SetupInterrogation(enemyTable.interrogation)
+      enemyTable.uniqueInterrogation=enemyTable.uniqueInterrogation or {}
+      InfInterrogation.SetupInterCpQuests(enemyTable.soldierDefine,enemyTable.uniqueInterrogation)
     end
     --InfMain.ResetTrueRandom()
   end
@@ -772,6 +775,25 @@ function this.OnMissionCanStartBottom()
   if (Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050)then
     Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
   end
+
+
+  --DEBUGNOW
+--  if vars.missionCode==30010 or vars.missionCode==30020 then
+--    local locationName=TppLocation.GetLocationName()
+--    for cpName,bool in pairs(this.baseNames[locationName])do
+--      local cpId=GameObject.GetGameObjectId(cpName)
+--      if cpId==NULL_ID then
+--
+--      else
+--        --        TppInterrogation.AddHighInterrogation( cpId,
+--        --          {
+--        --            { name = "entq_ih_test1", func = InfInterrogation.InterCall_Test, },
+--        --          } )
+--        TppInterrogation.ResetFlagNormal(cpId)--DEBUGNOW
+--
+--      end
+--    end
+--  end
 end
 
 function this.Init(missionTable)--tex called from TppMain.OnInitialize
@@ -1222,84 +1244,92 @@ function this.SetQuietHumming(hummingFlag)
 end
 
 --lrrp plus
-local afghBaseNames={
-  "afgh_villageEast_ob",
-  "afgh_commWest_ob",
-  "afgh_cliffSouth_ob",
-  "afgh_villageWest_ob",
-  "afgh_bridgeWest_ob",
-  "afgh_tentEast_ob",
-  "afgh_enemyNorth_ob",
-  "afgh_cliffWest_ob",
-  "afgh_cliffEast_ob",
-  "afgh_fortWest_ob",
-  "afgh_slopedEast_ob",
-  "afgh_fortSouth_ob",
-  "afgh_ruinsNorth_ob",
-  "afgh_villageNorth_ob",
-  "afgh_slopedWest_ob",
-  "afgh_fieldEast_ob",
-  "afgh_plantSouth_ob",
-  "afgh_waterwayEast_ob",
-  "afgh_plantWest_ob",
-  "afgh_fieldWest_ob",
-  "afgh_remnantsNorth_ob",
-  "afgh_tentNorth_ob",
-  "afgh_cliffTown_cp",
-  "afgh_tent_cp",
-  "afgh_waterway_cp",
-  "afgh_powerPlant_cp",
-  "afgh_sovietBase_cp",
-  "afgh_remnants_cp",
-  "afgh_field_cp",
-  "afgh_citadel_cp",
-  "afgh_fort_cp",
-  "afgh_village_cp",
-  "afgh_bridge_cp",
-  "afgh_commFacility_cp",
-  "afgh_slopedTown_cp",
-  "afgh_enemyBase_cp",
-  "afgh_bridgeNorth_ob",
-  "afgh_enemyEast_ob",
-  "afgh_sovietSouth_ob",
-}--#39
+this.baseNames={
+  afgh={
+    --DEBUGNOW HANG "afgh_citadelSouth_ob",--Guard Post 01, East Afghanistan Central Base Camp
+    "afgh_sovietSouth_ob",--Guard Post 02, South Afghanistan Central Base Camp
+    "afgh_plantWest_ob",--Guard Post 03, NW Serak Power Plant
+    "afgh_waterwayEast_ob",--Guard Post 04, East Aabe Shifap Ruins
+    "afgh_tentNorth_ob",--Guard Post 05, NE Yakho Oboo Supply Outpost--note: not in 30010 interrogate
+    "afgh_enemyNorth_ob",--Guard Post 06, NE Wakh Sind Barracks
+    "afgh_cliffWest_ob",--Guard Post 07, NW Sakhra Ee Village
 
-local mafrBaseNames={
-  "mafr_outlandNorth_ob",
-  "mafr_swampWest_ob",
-  "mafr_outlandEast_ob",
-  "mafr_bananaSouth_ob",
-  "mafr_swampSouth_ob",
-  "mafr_swampEast_ob",
-  "mafr_savannahWest_ob",
-  "mafr_bananaEast_ob",
-  "mafr_savannahNorth_ob",
-  "mafr_diamondWest_ob",
-  "mafr_diamondSouth_ob",
-  "mafr_hillNorth_ob",
-  "mafr_savannahEast_ob",
-  "mafr_hillWest_ob",
-  "mafr_pfCampEast_ob",
-  "mafr_pfCampNorth_ob",
-  "mafr_factorySouth_ob",
-  "mafr_diamondNorth_ob",
-  "mafr_labWest_ob",
-  "mafr_outland_cp",
-  "mafr_flowStation_cp",
-  "mafr_swamp_cp",
-  "mafr_pfCamp_cp",
-  "mafr_savannah_cp",
-  "mafr_banana_cp",
-  "mafr_diamond_cp",
-  "mafr_hill_cp",
-  "mafr_factory_cp",
-  "mafr_lab_cp",
-  "mafr_hillWestNear_ob",
-  "mafr_hillSouth_ob",
-  "mafr_swampWestNear_ob",
-  "mafr_chicoVilWest_ob",
-  "mafr_chicoVil_cp",
-}--#34
+    "afgh_tentEast_ob",--Guard Post 08, SE Yakho Oboo Supply Outpost
+    "afgh_enemyEast_ob",--Guard Post 09, East Wakh Sind Barracks
+    "afgh_cliffEast_ob",--Guard Post 10, East Sakhra Ee Village
+    "afgh_slopedWest_ob",--Guard Post 11, NW Ghwandai Town
+    "afgh_remnantsNorth_ob",--Guard Post 12, North Lamar Khaate Palace
+    "afgh_cliffSouth_ob",--Guard Post 13, South Sakhra Ee Village
+    "afgh_fortWest_ob",--Guard Post 14, West Smasei Fort
+    "afgh_villageWest_ob",--Guard Post 15, NW Wialo Village
+    "afgh_slopedEast_ob",--Guard Post 16, SE Da Ghwandai Khar
+    "afgh_fortSouth_ob",--Guard Post 17, SW Smasei Fort
+    "afgh_villageNorth_ob",--Guard Post 18, NE Wailo Village
+    "afgh_commWest_ob",--Guard Post 19, West Eastern Communications Post
+    "afgh_bridgeWest_ob",--Guard Post 20, West Mountain Relay Base
+    "afgh_bridgeNorth_ob",--Guard Post 21, SE Mountain Relay Base
+    "afgh_fieldWest_ob",--Guard Post 22, North Shago Village
+    "afgh_villageEast_ob",--Guard Post 23, SE Wailo Village
+    "afgh_ruinsNorth_ob",--Guard Post 24, East Spugmay Keep
+    "afgh_fieldEast_ob",--Guard Post 25, East Shago Village
+
+    --"afgh_plantSouth_ob",--Only references in generic setups, no actual missions
+    --"afgh_waterway_cp",--Only references in generic setups, no actual missions
+
+    "afgh_cliffTown_cp",--Qarya Sakhra Ee
+    "afgh_tent_cp",--Yakho Oboo Supply Outpost
+    "afgh_powerPlant_cp",--Serak Power Plant
+    "afgh_sovietBase_cp",--Afghanistan Central Base Camp
+    "afgh_remnants_cp",--Lamar Khaate Palace
+    "afgh_field_cp",--Da Shago Kallai
+    "afgh_citadel_cp",--OKB Zero
+    "afgh_fort_cp",--Da Smasei Laman
+    "afgh_village_cp",--Da Wialo Kallai
+    "afgh_bridge_cp",--Mountain Relay Base
+    "afgh_commFacility_cp",--Eastern Communications Post
+    "afgh_slopedTown_cp",--Da Ghwandai Khar
+    "afgh_enemyBase_cp",--Wakh Sind Barracks
+  },--#39
+
+  mafr={
+    "mafr_swampWest_ob",--Guard Post 01, NW Kiziba Camp
+    "mafr_diamondNorth_ob",--Guard Post 02, NE Kungenga Mine
+    "mafr_bananaEast_ob",--Guard Post 03, SE Bampeve Plantation
+    "mafr_bananaSouth_ob",--Guard Post 04, SW Bampeve Plantation
+    "mafr_savannahNorth_ob",--Guard Post 05, NE Ditadi Abandoned Village
+    "mafr_outlandNorth_ob",--Guard Post 06, North Masa Village
+    "mafr_diamondWest_ob",--Guard Post 07, West Kungenga Mine
+    "mafr_labWest_ob",--Guard Post 08, NW Lufwa Valley 
+    "mafr_savannahWest_ob",--Guard Post 09, North Ditadi Abandoned Village
+    "mafr_swampEast_ob",--Guard Post 10, SE Kiziba Camp
+    "mafr_outlandEast_ob",--Guard Post 11, East Masa Village
+    "mafr_swampSouth_ob",--Guard Post 12, South Kiziba Camp
+    "mafr_diamondSouth_ob",--Guard Post 13, SW Kungenga Mine
+    "mafr_pfCampNorth_ob",--Guard Post 14, NE Nova Braga Airport
+    "mafr_savannahEast_ob",--Guard Post 15, South Ditadi Abandoned Village
+    "mafr_hillNorth_ob",--Guard Post 16, NE Munoko ya Nioka Station
+    --DEBUGNOW OFF hangs lrrp  "mafr_factoryWest_ob",--Guard Post 17, West Ngumba Industrial Zone
+    "mafr_pfCampEast_ob",--Guard Post 18, East Nova Braga Airport
+    "mafr_hillWest_ob",--Guard Post 19, NW Munoko ya Nioka Station 
+    "mafr_factorySouth_ob",--Guard Post 20, SW Ngumba Industrial Zone
+    "mafr_hillWestNear_ob",--Guard Post 21, West Munoko ya Nioka Station
+    "mafr_chicoVilWest_ob",--Guard Post 22, South Nova Braga Airport 
+    "mafr_hillSouth_ob",--Guard Post 23, SW Munoko ya Nioka Station
+    --"mafr_swampWestNear_ob",--Only references in generic setups, no actual missions
+    "mafr_flowStation_cp",--Mfinda Oilfield
+    "mafr_banana_cp",--Bampeve Plantation
+    "mafr_diamond_cp",--Kungenga Mine
+    "mafr_lab_cp",--Lufwa Valley
+    "mafr_swamp_cp",--Kiziba Camp
+    "mafr_outland_cp",--Masa Village
+    "mafr_savannah_cp",--Ditadi Abandoned Village
+    "mafr_pfCamp_cp",--Nova Braga Airport
+    "mafr_hill_cp",--Munoko ya Nioka Station 
+
+  --"mafr_factory_cp",--Ngumba Industrial Zone - no soldiers  NOTE in interrog
+  --"mafr_chicoVil_cp",--??
+  },--#34
+}
 
 --reserve vehiclepool
 this.reserveVehicleNames={}
@@ -1442,6 +1472,8 @@ function this.AddLrrps(soldierDefine,travelPlans)
   end
 
   InfMain.SetLevelRandomSeed()
+  
+  this.lrrpDefines={}
 
   local cpPool={}
 
@@ -1476,11 +1508,9 @@ function this.AddLrrps(soldierDefine,travelPlans)
   local baseNamePool={}
   local startBases={}
   local endBases={}
-  if TppLocation.IsAfghan()then
-    startBases=this.ResetPool(afghBaseNames)
-  elseif TppLocation.IsMiddleAfrica()then
-    startBases=this.ResetPool(mafrBaseNames)
-  end
+  local locationName=TppLocation.GetLocationName()
+  startBases=InfMain.ResetPool(InfMain.baseNames[locationName])
+
   for n,cpName in pairs(startBases)do
     local cpDefine=soldierDefine[cpName]
     if cpDefine==nil then
@@ -1536,10 +1566,20 @@ function this.AddLrrps(soldierDefine,travelPlans)
 
     local planName=planStr..cpName
     cpDefine.lrrpTravelPlan=planName
+    local base1=this.GetRandomPool(startBases)
+    local base2=this.GetRandomPool(endBases)
     travelPlans[planName]={
-      {base=this.GetRandomPool(startBases)},
-      {base=this.GetRandomPool(endBases)},
+      {base=base1},
+      {base=base2},
     }
+    --tex info for interrog
+    local lrrpDefine={
+      cpDefine=cpDefine,
+      base1=base1,
+      base2=base2,
+    }
+    table.insert(this.lrrpDefines,lrrpDefine)
+    
     numLrrps=numLrrps+1
   end
   --InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
@@ -1547,7 +1587,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
   InfMain.ResetTrueRandom()
 end
 
-this.MAX_WILDCARD_FACES=4--10
+this.MAX_WILDCARD_FACES=5
 function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
   if not (Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck()) then
     return
@@ -1612,8 +1652,9 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     holdup=abilityLevel
   }
 
-  local numWildCards=math.max(1,math.ceil(#baseNamePool/5))
-  local numFemale=2--math.max(1,math.ceil(numWildCards/3))--SYNC: MAX_WILDCARD_FACES
+  --TUNE:
+  local numWildCards=math.max(1,math.ceil(#baseNamePool/4))
+  local numFemale=4--math.max(1,math.ceil(numWildCards/3))--SYNC: MAX_WILDCARD_FACES
   --InfMenu.DebugPrint("numwildcards: "..numWildCards .. " numFemale:"..numFemale)--DEBUG
 
   local faceIdPool={}
@@ -1624,6 +1665,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
   this.ene_wildCardSoldiers={}
   this.ene_femaleWildCardSoldiers={}
+  this.ene_wildCardCps={}
 
   for i=1,numWildCards do
     if #baseNamePool==0 then
@@ -1653,6 +1695,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
       local soldierName=cpDefine[math.random(#cpDefine)]
       table.insert(this.ene_wildCardSoldiers,soldierName)
+      table.insert(this.ene_wildCardCps,cpName)
 
       --local isFemale=math.random()<=femaleChance
       --CULL
@@ -1671,18 +1714,19 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
           local faceId=this.GetRandomPool(faceIdPool)
           local bodyId=EnemyFova.INVALID_FOVA_VALUE
+          --tex GOTCHA LIMIT TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT
           TppEneFova.RegisterUniqueSetting("enemy",soldierName,faceId,bodyId)
         end
       else
         InfMenu.DebugPrint"WARNING no inf_wildCardFaceList!"
       end
 
-      local gameObjectId = GameObject.GetGameObjectId( "TppSoldier2", soldierName )
+      local gameObjectId = GetGameObjectId( "TppSoldier2", soldierName )
       if gameObjectId==NULL_ID then
         InfMenu.DebugPrint"AddWildCards gameObjectId==NULL_ID"--DEBUG
       else
         local command={id="UseExtendParts",enabled=isFemale}
-        GameObject.SendCommand(gameObjectId,command)
+        SendCommand(gameObjectId,command)
       end
       --end
       soldierSubTypes[wildCardSubType]=soldierSubTypes[wildCardSubType] or {}
@@ -1991,6 +2035,10 @@ local saluteRewards=0
 local visitRewards={}
 
 function this.ClearMoraleInfo()
+  if vars.missionCode~=30050 then
+    return
+  end
+  
   totalSaluteCount=0
   totalVisitedCount=0
   for i=1,#TppDefine.CLUSTER_NAME do
@@ -2004,6 +2052,10 @@ function this.ClearMoraleInfo()
   end
 
   lastSalute=0
+end
+
+function this.PrintMoraleInfo()
+  InfMenu.DebugPrint("saluteRewards:"..saluteRewards)
 end
 
 function this.GetTotalSalutes()
@@ -2026,7 +2078,7 @@ function this.CheckSalutes()
 
       local modTotalSalutes=totalSalutes % rewardOnSalutesCount
       --InfMenu.DebugPrint("totalSalutes % rewardSalutesCount ="..modTotalSalutes)--DEBUG
-      if modTotalSalutes == 0 then        
+      if modTotalSalutes == 0 then
         saluteRewards=saluteRewards+1
         --InfMenu.DebugPrint("REWARD for "..totalSalutes.." salutes")--DEBUG
         InfMenu.PrintLangId"mb_morale_visit_noticed"
@@ -2051,7 +2103,7 @@ function this.CheckSalutes()
 end
 
 --clusterId indexed from 0
---DEBUGNOW CULL
+--CULL
 function this.CheckClusterMorale(clusterId)
 --  InfInspect.TryFunc(function(clusterId)
 --    if vars.missionCode==30050 and Ivars.mbMoraleBoosts:Is(1) then
@@ -2063,21 +2115,42 @@ function this.CheckClusterMorale(clusterId)
 end
 
 function this.CheckMoraleReward()
+  local moraleBoost=0
+  --tex was considering stacking, but even at the minimum 1 it's close to OP with a large staff size
+  --actually with the standard morale decay, and making it take some effort to get in the first place it should be ok
+
   if Ivars.mbMoraleBoosts:Is(1) then
-    --tex was considering stacking, but even at the minimum 1 it's close to OP with a large staff size
-    local moraleBoost=0
-    if saluteRewards>0 then
-      moraleBoost=1
-    end
     for numClusters,reward in pairs(visitRewards) do
       if reward then
-        moraleBoost=1
+        moraleBoost=moraleBoost+1
       end
     end
+
+    if saluteRewards>0 then
+      moraleBoost=moraleBoost+saluteRewards
+    end
     --InfMenu.DebugPrint("Global moral boosted by "..moraleBoost.." by visit")--DEBUG
-    if moraleBoost then
+    if moraleBoost>0 then
       InfMenu.PrintLangId"mb_morale_boosted"
       TppMotherBaseManagement.IncrementAllStaffMorale{morale=moraleBoost}
+    end
+  end
+end
+
+--tex doesn't seem to work, either I'm doing something wrong or the buddy system doesnt use it for mb
+function this.OverwriteBuddyPosForMb()
+  if TppMission.IsMbFreeMissions(vars.missionCode) and Ivars.mbEnableBuddies:Is(1)then
+    if gvars.heli_missionStartRoute~=0 then
+      local groundStartPosition=InfLZ.groundStartPositions[gvars.heli_missionStartRoute]
+      if groundStartPosition then
+        local mbBuddyEntrySettings={}
+        local pos=Vector3(groundStartPosition.pos[1],groundStartPosition.pos[2],groundStartPosition.pos[3])
+        local entryEntry={}
+        entryEntry[EntryBuddyType.BUDDY]={pos,0}
+        --entryEntry[EntryBuddyType.VEHICLE]={pos,0}
+        mbBuddyEntrySettings[gvars.heli_missionStartRoute]=entryEntry
+        TppEnemy.NPCEntryPointSetting(mbBuddyEntrySettings)
+      end
     end
   end
 end

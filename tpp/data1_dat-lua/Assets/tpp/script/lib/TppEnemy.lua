@@ -120,7 +120,7 @@ this.subTypeOfCpTable={
     afgh_ruinsNorth_ob=true,
     afgh_slopedWest_ob=true,
     afgh_villageEast_ob=true,
-    afgh_villageEast_ob=true,
+    --RETAILBUG not really, just dup entry afgh_villageEast_ob=true,
     afgh_villageNorth_ob=true,
     afgh_villageWest_ob=true,
     afgh_enemyEast_ob=true,
@@ -4110,7 +4110,7 @@ function this.SetRecovered(gameId)
     svars.ene_isRecovered[index]=true
   end
 end
-function this.ExecuteOnRecoveredCallback(gameId,r,i,t,a,o,s)
+function this.ExecuteOnRecoveredCallback(gameId,r,i,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex)
   if not mvars.ene_recoverdStateIndexByGameObjectId then
     return
   end
@@ -4128,7 +4128,7 @@ function this.ExecuteOnRecoveredCallback(gameId,r,i,t,a,o,s)
   if not TppMission.CheckMissionState(true,false,true,false)then
     return
   end
-  OnRecovered(gameId,r,i,t,a,o,s)
+  OnRecovered(gameId,r,i,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex)
 end
 local RENAMErescueDistSqr=10*10
 function this.CheckAllVipClear(n)
@@ -5660,22 +5660,22 @@ function this._OnDead(gameId,attackerId)
   end
   this.PlayTargetEliminatedRadio(gameId)
 end
-function this._OnRecoverNPC(n,t)
-  this._PlayRecoverNPCRadio(n)
+function this._OnRecoverNPC(gameId,staffOrResourceId)
+  this._PlayRecoverNPCRadio(gameId)
 end
-function this._PlayRecoverNPCRadio(n)
-  local t=this.IsEliminateTarget(n)
-  local a=this.IsRescueTarget(n)
-  if Tpp.IsSoldier(n)and not t then
+function this._PlayRecoverNPCRadio(gameId)
+  local isEliminateTarget=this.IsEliminateTarget(gameId)
+  local isRescueTarget=this.IsRescueTarget(gameId)
+  if Tpp.IsSoldier(gameId)and not isEliminateTarget then
     TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.ENEMY_RECOVERED)
-  elseif Tpp.IsHostage(n)and not a then
+  elseif Tpp.IsHostage(gameId)and not isRescueTarget then
     TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.HOSTAGE_RECOVERED)
   else
-    this.PlayTargetRescuedRadio(n)
+    this.PlayTargetRescuedRadio(gameId)
   end
 end
-function this._OnFulton(n,a,a,t)
-  this._OnRecoverNPC(n,t)
+function this._OnFulton(gameId,a,a,staffOrResourceId)
+  this._OnRecoverNPC(gameId,staffOrResourceId)
 end
 function this._OnDamage(gameId,attackId,attackerId)
   if this.IsRescueTarget(gameId)then
@@ -5689,9 +5689,9 @@ function this._OnDamageOfRescueTarget(attackId,attackerId)
     end
   end
 end
-function this._PlacedIntoVehicle(t,n,a)
-  if Tpp.IsHelicopter(n)then
-    this.PlayTargetRescuedRadio(t)
+function this._PlacedIntoVehicle(gameId,vehicleId,a)
+  if Tpp.IsHelicopter(vehicleId)then
+    this.PlayTargetRescuedRadio(gameId)
   end
 end
 function this._RideHelicopterWithHuman(t,n,t)

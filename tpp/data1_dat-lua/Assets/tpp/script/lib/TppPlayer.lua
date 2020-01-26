@@ -1935,13 +1935,14 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
       percentage=0
     end
   end--< 
-    if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck() and Tpp.IsSoldier(gameId) then--tex>
-    local soldierType=TppEnemy.GetSoldierType(gameId)
-    local soldierSubType=TppEnemy.GetSoldierSubType(gameId,soldierType)
-    if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD" then
-      percentage=0
-    end
-  end--<
+  --tex TODO: add own ivar
+--    if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck() and Tpp.IsSoldier(gameId) then--tex>
+--    local soldierType=TppEnemy.GetSoldierType(gameId)
+--    local soldierSubType=TppEnemy.GetSoldierSubType(gameId,soldierType)
+--    if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD" then
+--      percentage=0
+--    end
+--  end--<
   if Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex> WORKAROUND something weird happening with fuledtempstaff on map exit, disabling for now
     percentage=0
   end--<

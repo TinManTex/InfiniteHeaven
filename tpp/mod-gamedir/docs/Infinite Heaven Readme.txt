@@ -1,5 +1,5 @@
 = Infinite heaven =
-r147 - 2016-04-14
+r149 - 2016-04-27
 by tin man tex
 For MGSV version 1.0.8.1 (1.08 in title screen)
 
@@ -13,50 +13,23 @@ Infinite Heaven features
 YouTube playlist of demonstrations for many features
 [url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
 
-New for 147:
+New for r148:
+Fixed: DDog on mother base wont stop following past start cluster.
+
+Wildcard soldiers:
+Number of wild card soldiers increased
+Removed 0 fulton sucess
+
+Feature IH Interrogation: Add some interrogations to soldiers:
+Travel plan of foot patrol
+Location of wild card soldier
+Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)
+
+Added Sub menu: Mother base menu > Show characters menu - Enable ocelot shifted from mb menu, others shifted from Show assets menu.
+Feature: Show characters menu > Reset Paz - Resets Paz state to beginning
+
 Feature: Mother base menu > "Staff-wide morale boost for good visit" - Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), or visiting a number of clusters (with at least one salute on each). Must exit via heli for it to apply.
-
-Fixed: enemyHeliPatrol options actually affect the number of helis, woops.
-Fixed: Patrol Heli routes reworked to remove invalid routes.
-Heli patrol known bug: support heli cannot target helis when there's multiple helis in the world. This won't be fixable as the AI is in the game engine/untouchable.
-
-Fixed: Mother base wargames zombie modes will no longer auto fulton wandering soldier style zombies when they retreat to the inter cluster struts.
-
-New for 145:
-Updated to MGSV 1.081
-Feature: Heli patrols in free roam - "None","Min","Mid",Max","Enemy prep" - number of helis.
-Up to seven attack helis will patrol free roam.
-Updated: Attack heli type: Added Default, Enemy prep
-"Enemy prep" setting will try and scale those options to your current enemy preparedness level.
-[youtube]JwGPLrE5NB0[/youtube]
-https://www.youtube.com/watch?v=JwGPLrE5NB0
-[youtube]MqAz2B0OoFs[/youtube]
-https://www.youtube.com/watch?v=MqAz2B0OoFs
-[youtube]cK2YFtK4IR0[/youtube]
-https://www.youtube.com/watch?v=cK2YFtK4IR0
-
-Know issues: 
-Heli state is not saved and will reset on checkpoint reload, so helis may vanish (to another place on the map).
-This may be mitigated in future versions, but not fully fixed since KJP optimized a bit too far so can only save/load one heli.
-Heli in side ops may travel from one sideop to the next (if first sideop is loaded and second is also heli sideop), have yet to test to see if it does switch the sideop it counts towards on death.
-Heli sideop loading may be delayed until very near resulting in sudden pop in of sideop vehicles/soldiers.
-
-
-Free cam update:
-Can now move cam horizontally while in vertical mode.
-Added move speed scale adjust mode via DASH
-Move scale min decreased, max increased
-
-Start on foot update:
-Added: "Start free roam on foot","Start missions on foot","Start Mother base on foot" 
-With: "Off","All but assault LZs","All Lzs" - thanks NasaNhak for the idea
-
-Change: Hand levels min to 0, this will allow disabling of Sonar - thanks vollmerej1 for the suggestion.
-Added "Default" to mother base "Attack heli type"
-Added "Support and Attack helis" to "Enable npc helis" - thanks NasaNhak for the idea
-
-Fixed: Manually opening support heli door on mission start being conflated with disablePullOutHeli
-Fixed: Enemy phase options should now work in Wargames.
+Update: Mother base morale boost points now stack, both for visiting several clusters and having many soldiers salute.
 
 
 Disclaimer:

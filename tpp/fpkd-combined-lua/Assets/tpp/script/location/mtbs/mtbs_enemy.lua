@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\location\mtbs\pack_common\mtbs_script.fpkd
-
+-- mtbs_enemy.lua
 local FACE_SOLDIER_NUM = 36
 
 local mtbs_enemy = {}

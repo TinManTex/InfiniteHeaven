@@ -878,74 +878,95 @@ function this.Messages()
   if cpIntelTrapTable and next(cpIntelTrapTable)then
     messages={}
     for t,sender in pairs(cpIntelTrapTable)do
-      local msg={msg="Enter",sender=sender,func=function(n,n)
-        this.OnEnterCpIntelTrap(t)
-        if TppSequence.IsMissionPrepareFinished()then
-          this.ShowLocationAndBaseTelop()
-        end
-      end,
-      option={isExecMissionPrepare=true}
+      local msg={
+        msg="Enter",
+        sender=sender,
+        func=function(n,n)
+          this.OnEnterCpIntelTrap(t)
+          if TppSequence.IsMissionPrepareFinished()then
+            this.ShowLocationAndBaseTelop()
+          end
+        end,
+        option={isExecMissionPrepare=true}
       }
       table.insert(messages,msg)
-      local msg={msg="Exit",sender=sender,func=function(n,n)
-        this.OnExitCpIntelTrap(t)
-      end,
-      option={isExecMissionPrepare=true}
+      local msg={
+        msg="Exit",
+        sender=sender,
+        func=function(n,n)
+          this.OnExitCpIntelTrap(t)
+        end,
+        option={isExecMissionPrepare=true}
       }
       table.insert(messages,msg)
     end
-    table.insert(messages,{msg="Enter",sender="trap_intel_afgh_waterway_cp",func=function(t,t)
-      this.SetBaseTelopName"afgh_waterWay_cp"
-      if TppSequence.IsMissionPrepareFinished()then
-        this.ShowLocationAndBaseTelop()
-      end
-    end,
-    option={isExecMissionPrepare=true}})
-    table.insert(messages,{msg="Exit",sender="trap_intel_afgh_waterway_cp",func=function(t,t)
-      this.ClearBaseTelopName()
-    end,
-    option={isExecMissionPrepare=true}})
-    table.insert(messages,{msg="Enter",sender="trap_intel_afgh_ruins_cp",func=function(t,t)
-      this.SetBaseTelopName"afgh_ruins_cp"
-      if TppSequence.IsMissionPrepareFinished()then
-        this.ShowLocationAndBaseTelop()
-      end
-    end,
-    option={isExecMissionPrepare=true}})
-    table.insert(messages,{msg="Exit",sender="trap_intel_afgh_ruins_cp",func=function(t,t)
-      this.ClearBaseTelopName()
-    end,
-    option={isExecMissionPrepare=true}})
+    table.insert(messages,
+      {msg="Enter",
+        sender="trap_intel_afgh_waterway_cp",
+        func=function(t,t)
+          this.SetBaseTelopName"afgh_waterWay_cp"
+          if TppSequence.IsMissionPrepareFinished()then
+            this.ShowLocationAndBaseTelop()
+          end
+        end,
+        option={isExecMissionPrepare=true}})
+    table.insert(messages,
+      {msg="Exit",
+        sender="trap_intel_afgh_waterway_cp",
+        func=function(t,t)
+          this.ClearBaseTelopName()
+        end,
+        option={isExecMissionPrepare=true}})
+    table.insert(messages,
+      {msg="Enter",
+        sender="trap_intel_afgh_ruins_cp",
+        func=function(t,t)
+          this.SetBaseTelopName"afgh_ruins_cp"
+          if TppSequence.IsMissionPrepareFinished()then
+            this.ShowLocationAndBaseTelop()
+          end
+        end,
+        option={isExecMissionPrepare=true}})
+    table.insert(messages,
+      {msg="Exit",
+        sender="trap_intel_afgh_ruins_cp",
+        func=function(t,t)
+          this.ClearBaseTelopName()
+        end,
+        option={isExecMissionPrepare=true}})
   end
   return Tpp.StrCode32Table{
     GameObject={
-      {msg="Fulton",func=function(n,a,r,t)
-        if not TppMission.IsFOBMission(vars.missionCode)then
-          this.OnFultonMessage(n,a,r,t)
-        end
-      end,
-      option={isExecMissionClear=true,isExecDemoPlaying=true}
+      {msg="Fulton",
+        func=function(n,a,r,t)
+          if not TppMission.IsFOBMission(vars.missionCode)then
+            this.OnFultonMessage(n,a,r,t)
+          end
+        end,
+        option={isExecMissionClear=true,isExecDemoPlaying=true}
       },
-      {msg="FultonInfo",func=function(a,n,t)
-        if not TppMission.IsFOBMission(vars.missionCode)then
-          this.OnFultonInfoMessage(a,n,t)
-        end
-      end,
-      option={isExecMissionClear=true,isExecDemoPlaying=true}
+      {msg="FultonInfo",
+        func=function(a,n,t)
+          if not TppMission.IsFOBMission(vars.missionCode)then
+            this.OnFultonInfoMessage(a,n,t)
+          end
+        end,
+        option={isExecMissionClear=true,isExecDemoPlaying=true}
       },
       {msg="FultonFailedEnd",func=this.OnFultonFailedEnd},
       {msg="HeliDoorClosed",func=this.OnRecoverByHelicopter,option={isExecDemoPlaying=true}},
       {msg="Returned",func=this.OnRecoverByHelicopter,option={isExecDemoPlaying=true}}
     },
     MotherBaseManagement={
-      {msg="AssignedStaff",func=function(e,n)
-        if(e==MBMConst.SECTION_SEPARATION)and(n>0)then
-          gvars.trm_doneIsolateByManual=true
-          if(TppMission.IsFreeMission(vars.missionCode)or TppMission.IsHelicopterSpace(vars.missionCode))and TppRadio.IsRadioPlayable()then
-            TppFreeHeliRadio._PlayRadio(TppFreeHeliRadio.PANDEMIC_RADIO.ON_ISOLATE_STAFF)
+      {msg="AssignedStaff",
+        func=function(section,amount)
+          if(section==MBMConst.SECTION_SEPARATION)and(amount>0)then
+            gvars.trm_doneIsolateByManual=true
+            if(TppMission.IsFreeMission(vars.missionCode)or TppMission.IsHelicopterSpace(vars.missionCode))and TppRadio.IsRadioPlayable()then
+              TppFreeHeliRadio._PlayRadio(TppFreeHeliRadio.PANDEMIC_RADIO.ON_ISOLATE_STAFF)
+            end
           end
-        end
-      end}
+        end}
     },
     Weather={
       {msg="WeatherForecast",func=this.TerminalVoiceWeatherForecast},
@@ -1146,16 +1167,16 @@ function this.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,n,staffOrResourceId
     end
   end
 end
-function this.OnFulton(someGameId,a,o,staffOrResourceId,someBool,possiblyNotHelicopter,playerIndex,i)--RENAME:
-  if possiblyNotHelicopter then
+function this.OnFulton(gameId,a,o,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex,i)
+  if RENpossiblyNotHelicopter then
     mvars.trm_needHeliSoundOnAddStaffsFromTempBuffer=true
-end
-TppEnemy.SetRecovered(someGameId)
-TppEnemy.ExecuteOnRecoveredCallback(someGameId,a,o,staffOrResourceId,someBool,possiblyNotHelicopter,playerIndex)
-if Tpp.IsLocalPlayer(playerIndex)then
-  TppEnemy._OnFulton(someGameId,a,o,staffOrResourceId)
-end
-this.DoFuncByFultonTypeSwitch(someGameId,a,o,staffOrResourceId,someBool,playerIndex,i,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
+  end
+  TppEnemy.SetRecovered(gameId)
+  TppEnemy.ExecuteOnRecoveredCallback(gameId,a,o,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex)
+  if Tpp.IsLocalPlayer(playerIndex)then
+    TppEnemy._OnFulton(gameId,a,o,staffOrResourceId)
+  end
+  this.DoFuncByFultonTypeSwitch(gameId,a,o,staffOrResourceId,RENsomeBool,playerIndex,i,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
 end
 function this.IncrementFultonCount()
   svars.trm_missionFultonCount=svars.trm_missionFultonCount+1

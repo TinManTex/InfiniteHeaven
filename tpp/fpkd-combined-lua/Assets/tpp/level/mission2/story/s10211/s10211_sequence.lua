@@ -956,7 +956,7 @@ end
 function this.AddHighInterrogationTargetPosition()
 	TppInterrogation.AddHighInterrogation( GameObject.GetGameObjectId( "mafr_swamp_cp" ),
 	{
-		{ name = s10211_enemy.LABEL_TARGET_POSITION ,	s10211_enemy = this.InterCall_VipSwamp },		
+		{ name = s10211_enemy.LABEL_TARGET_POSITION ,	s10211_enemy = this.InterCall_VipSwamp },--RETAILBUG: should be s10211_enemy.InterCall_VipSwamp
 	} )
 end
 
@@ -965,7 +965,7 @@ end
 function this.DeleteHighInterrogationTargetPosition()
 	TppInterrogation.RemoveHighInterrogation( GameObject.GetGameObjectId( "mafr_swamp_cp" ),
 	{
-		{ name = s10211_enemy.LABEL_TARGET_POSITION ,	s10211_enemy = this.InterCall_VipSwamp },		
+		{ name = s10211_enemy.LABEL_TARGET_POSITION ,	s10211_enemy = this.InterCall_VipSwamp },--RETAILBUG: should be s10211_enemy.InterCall_VipSwamp		
 	} )
 end
 

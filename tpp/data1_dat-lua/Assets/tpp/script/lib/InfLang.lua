@@ -13,7 +13,7 @@ local this={}
 --Thanks again, any help, big or small will be appreciated.
 -- tin man tex
 
---game localizations known: 
+--game localizations known:
 --eng,fre,ger,ita,jpn,por,rus,spa
 --english, french, german, italian, japanese, portuguese, russian, spanish
 --unconfirmed lang codes:
@@ -198,7 +198,7 @@ this.eng={--english
   setting_only_for_dd="This setting is only for DD soliders",--r93
   menu_keys="Hold <Quick dive> to open menu",
   soldierAlertOnHeavyVehicleDamage="Phase on vehicle attack",--r95
-  forceSuperReinforce="Enable vehicle reinforce (only heli in free, vehicles depend on mission)",--r96
+  forceSuperReinforce="Enable vehicle reinforce (only heli in free roam, vehicles depend on mission)",--r96
   forceSuperReinforceSettings={"Off","Enemy Prep","Force Prep"},
   forceReinforceRequest="Force reinforce request for heli",
   enableHeliReinforce="Force enable enemy heli reinforce (disable heli sideops)",
@@ -234,7 +234,7 @@ this.eng={--english
   allowHeavyArmorInAllMissions="Allow heavy armor in all missions (may have issues)",
   allowHeadGearCombo="Allow helmet and NVG or Gas mask combo",--r108
   balanceHeadGear="Ballance heavy armor and head gear distribution",
-  changeCpSubTypeFree="Random CP subtype in free roam",--r109 
+  changeCpSubTypeFree="Random CP subtype in free roam",--r109
   changeCpSubTypeForMissions="Random CP subtype in missions",
   done="Done",--r112
   forceAllQuestOpenFlagFalse="Set questOpenFlag array to false",
@@ -289,7 +289,7 @@ this.eng={--english
   max="max",
   revengeConfigProfile="Custom prep profile",
   revengeConfigProfileSettings={"DEFAULT","MAX","MIN","UPPER","LOWER","CUSTOM"},
-  enableSoldiersWithVehicleReinforce="Soldier reinforce with all vehicle reinforce types",--r120    
+  enableSoldiersWithVehicleReinforce="Soldier reinforce with all vehicle reinforce types",--r120
   dDEquipMenu="DD Equip menu",
   enableMbDDEquip="MB use DD equipment",
   mbSoldierEquipGrade_MIN="DD Equip Grade Min",
@@ -359,7 +359,7 @@ this.eng={--english
   disabled_fova="Player model changed, disabling Use fova",
   change_model_to_reset_fova="Model will reset on mission start, or mission prep character change",
   printBodyInfo="Print current body info",
-  userMarkerMenu="User marker menu",--r142    
+  userMarkerMenu="User marker menu",--r142
   warpToUserMarker="Warp to latest marker",
   printLatestUserMarker="Print latest marker",
   printUserMarkers="Print all markers",
@@ -375,9 +375,14 @@ this.eng={--english
   mbMoraleBoosts="Staff-wide morale boost for good visit",--r146
   mb_morale_visit_noticed="Word has spread of your visit",
   mb_morale_boosted="Staff-wide morale has improved due to your visit",
+  enableInfInterrogation="Enable IH interrogation in free roam",--r148
+  resetPaz="Reset Paz",
+  paz_reset="Paz state reset to beginning",
+  motherBaseShowCharactersMenu="Show characters menu",
 }
 
-this.eng_help={
+this.help={}
+this.help.eng={
   unlockSideOps="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area.",
   ospWeaponProfile="Start with no primary and secondary weapons, can be used seperately from subsistence profile",
   mbDemoSelection="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",
@@ -393,6 +398,95 @@ this.eng_help={
   changeCpSubTypeForMissions="Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan",
   mbPrioritizeFemale="By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available is self explanitory, None will prevent any females from showing on mother base",
 }
+
+this.cpNames={
+  afgh={},
+  mafr={},
+}
+this.cpNames.afgh.eng={
+  afgh_citadelSouth_ob="Guard Post 01",-- East Afghanistan Central Base Camp
+  afgh_sovietSouth_ob="Guard Post 02",-- South Afghanistan Central Base Camp
+  afgh_plantWest_ob="Guard Post 03",-- NW Serak Power Plant
+  afgh_waterwayEast_ob="Guard Post 04",-- East Aabe Shifap Ruins
+  afgh_tentNorth_ob="Guard Post 05",-- NE Yakho Oboo Supply Outpost
+  afgh_enemyNorth_ob="Guard Post 06",-- NE Wakh Sind Barracks
+  afgh_cliffWest_ob="Guard Post 07",-- NW Sakhra Ee Village
+  afgh_tentEast_ob="Guard Post 08",-- SE Yakho Oboo Supply Outpost
+  afgh_enemyEast_ob="Guard Post 09",-- East Wakh Sind Barracks
+  afgh_cliffEast_ob="Guard Post 10",-- East Sakhra Ee Village
+  afgh_slopedWest_ob="Guard Post 11",-- NW Ghwandai Town
+  afgh_remnantsNorth_ob="Guard Post 12",-- North Lamar Khaate Palace
+  afgh_cliffSouth_ob="Guard Post 13",-- South Sakhra Ee Village
+  afgh_fortWest_ob="Guard Post 14",-- West Smasei Fort
+  afgh_villageWest_ob="Guard Post 15",-- NW Wialo Village
+  afgh_slopedEast_ob="Guard Post 16",-- SE Da Ghwandai Khar
+  afgh_fortSouth_ob="Guard Post 17",-- SW Smasei Fort
+  afgh_villageNorth_ob="Guard Post 18",-- NE Wailo Village
+  afgh_commWest_ob="Guard Post 19",-- West Eastern Communications Post
+  afgh_bridgeWest_ob="Guard Post 20",-- West Mountain Relay Base
+  afgh_bridgeNorth_ob="Guard Post 21",-- SE Mountain Relay Base
+  afgh_fieldWest_ob="Guard Post 22",-- North Shago Village
+  afgh_villageEast_ob="Guard Post 23",-- SE Wailo Village
+  afgh_ruinsNorth_ob="Guard Post 24",-- East Spugmay Keep
+  afgh_fieldEast_ob="Guard Post 25",-- East Shago Village
+  
+  --afgh_plantSouth_ob--Only references in generic setups",-- no actual missions
+  --afgh_waterway_cp--Only references in generic setups",-- no actual missions
+  
+  afgh_cliffTown_cp="Qarya Sakhra Ee",
+  afgh_tent_cp="Yakho Oboo Supply Outpost",
+  afgh_powerPlant_cp="Serak Power Plant",
+  afgh_sovietBase_cp="Afghanistan Central Base Camp",
+  afgh_remnants_cp="Lamar Khaate Palace",
+  afgh_field_cp="Da Shago Kallai",
+  afgh_citadel_cp="OKB Zero",
+  afgh_fort_cp="Da Smasei Laman",
+  afgh_village_cp="Da Wialo Kallai",
+  afgh_bridge_cp="Mountain Relay Base",
+  afgh_commFacility_cp="Eastern Communications Post",
+  afgh_slopedTown_cp="Da Ghwandai Khar",
+  afgh_enemyBase_cp="Wakh Sind Barracks",
+}
+
+this.cpNames.mafr.eng={
+  mafr_swampWest_ob="Guard Post 01",-- NW Kiziba Camp
+  mafr_diamondNorth_ob="Guard Post 02",-- NE Kungenga Mine
+  mafr_bananaEast_ob="Guard Post 03",-- SE Bampeve Plantation
+  mafr_bananaSouth_ob="Guard Post 04",-- SW Bampeve Plantation
+  mafr_savannahNorth_ob="Guard Post 05",-- NE Ditadi Abandoned Village
+  mafr_outlandNorth_ob="Guard Post 06",-- North Masa Village
+  mafr_diamondWest_ob="Guard Post 07",-- West Kungenga Mine
+  mafr_labWest_ob="Guard Post 08",-- NW Lufwa Valley
+  mafr_savannahWest_ob="Guard Post 09",-- North Ditadi Abandoned Village
+  mafr_swampEast_ob="Guard Post 10",-- SE Kiziba Camp
+  mafr_outlandEast_ob="Guard Post 11",-- East Masa Village
+  mafr_swampSouth_ob="Guard Post 12",-- South Kiziba Camp
+  mafr_diamondSouth_ob="Guard Post 13",-- SW Kungenga Mine
+  mafr_pfCampNorth_ob="Guard Post 14",-- NE Nova Braga Airport
+  mafr_savannahEast_ob="Guard Post 15",-- South Ditadi Abandoned Village
+  mafr_hillNorth_ob="Guard Post 16",-- NE Munoko ya Nioka Station
+  mafr_factoryWest_ob="Guard Post 17",-- West Ngumba Industrial Zone
+  mafr_pfCampEast_ob="Guard Post 18",-- East Nova Braga Airport
+  mafr_hillWest_ob="Guard Post 19",-- NW Munoko ya Nioka Station
+  mafr_factorySouth_ob="Guard Post 20",-- SW Ngumba Industrial Zone
+  mafr_hillWestNear_ob="Guard Post 21",-- West Munoko ya Nioka Station
+  mafr_chicoVilWest_ob="Guard Post 22",-- South Nova Braga Airport
+  mafr_hillSouth_ob="Guard Post 23",-- SW Munoko ya Nioka Station
+  --mafr_swampWestNear_ob--Only references in generic setups, no actual missions
+  mafr_flowStation_cp="Mfinda Oilfield",
+  mafr_banana_cp="Bampeve Plantation",
+  mafr_diamond_cp="Kungenga Mine",
+  mafr_lab_cp="Lufwa Valley",
+  mafr_swamp_cp="Kiziba Camp",
+  mafr_outland_cp="Masa Village",
+  mafr_savannah_cp="Ditadi Abandoned Village",
+  mafr_pfCamp_cp="Nova Braga Airport",
+  mafr_hill_cp="Munoko ya Nioka Station",
+  
+  --"mafr_factory_cp",--Ngumba Industrial Zone - no soldiers
+  --"mafr_chicoVil_cp",--??
+}
+
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on
   test="TestAra",

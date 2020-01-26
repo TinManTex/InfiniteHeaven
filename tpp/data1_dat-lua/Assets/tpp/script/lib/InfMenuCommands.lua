@@ -118,11 +118,30 @@ this.returnQuiet={
   end,
 }
 
+this.resetPaz={
+  OnChange=function()
+    gvars.pazLookedPictureCount=0
+    gvars.pazEventPhase=0
+
+    local demoNames = {
+      "PazPhantomPain1",
+      "PazPhantomPain2",
+      "PazPhantomPain3",
+      "PazPhantomPain4",
+      "PazPhantomPain4_jp",
+    }
+    for i,demoName in ipairs(demoNames)do
+      TppDemo.ClearPlayedMBEventDemoFlag(demoName)
+    end
+    InfMenu.PrintLangId"paz_reset"
+  end
+}
+
 this.resetRevenge={
   OnChange=function()
     TppRevenge.ResetRevenge()
     TppRevenge._SetUiParameters()
-    InfMenu.PrintLangId("revenge_reset")
+    InfMenu.PrintLangId"revenge_reset"
   end,
 }
 
@@ -349,11 +368,33 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
       --DEBUGNOW
-      local moraleAmount=1
-      InfMenu.DebugPrint("IncrementAllStaffMorale:"..moraleAmount)
-      TppMotherBaseManagement.IncrementAllStaffMorale{morale=moraleAmount}
+      --tex roll back one since warpto advances after it's done
+      local index= this.currentWarpIndex-1
+      if index==0 then--tex except if there's only 1 in the object list
+        index=this.currentWarpIndex
+      end
+      local objectName=this.warpObjecList[index]
+      local gameId=objectName
+      if type(objectName)=="string" then
+        gameId=GameObject.GetGameObjectId(objectName)
+      end
+      if gameId==nil or gameId==GameObject.NULL_ID then
+        InfMenu.DebugPrint"gameId== nil or NULL_ID"
+        return
+      end
 
+      local soldierICPQId=InfInterrogation.GetInterCpQuestId(gameId)
+      if soldierICPQId==nil then
+        InfMenu.DebugPrint"cannot find cpQuestId for soldier"--DEBUG
+        return
+      end
 
+      local cpName=InfInterrogation.interCpQuestSoldiersCps[soldierICPQId]
+      if cpName==nil then
+        InfMenu.DebugPrint"cpName==nil"--DEBUG
+        return
+      end
+      InfMenu.DebugPrint("quest cpName:"..cpName)
 
       --local pos,rotQuat=Tpp.GetLocatorByTransform(identifier,key)
 
@@ -384,8 +425,29 @@ local index2=1
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
+      --DEBUGNOW
+      --      InfMenu.DebugPrint"GiveInterCpQuestReward"
+      --InfInterrogation.GiveInterCpQuestReward()
+      if f30050_sequence then
 
-      end)
+
+        InfMenu.DebugPrint("gvars.pazLookedPictureCount:"..tostring(gvars.pazLookedPictureCount)..  " GetPlayerHasPictureNum:"..tostring(f30050_sequence.GetPlayerHasPictureNum()))
+        if TppMotherBaseManagement.IsGotDataBase{ dataBaseId=TppMotherBaseManagementConst.PHOTO_1010 } then
+          InfMenu.DebugPrint"has PHOTO_1010"
+        else
+          InfMenu.DebugPrint"does not have PHOTO_1010"
+        end
+      end
+
+      InfMain.PrintMoraleInfo()
+
+      --      SubtitlesCommand.DisplayText("testing 1 2 3 doooop","Default",3e3)
+      --      SubtitlesCommand.Display("testing","Default",3e3)
+      --      SubtitlesCommand.Display("enqt1000_1f1e10","Default",3e3)
+      --      SubtitlesCommand.Display("reward_307","Default")
+      --      SubtitlesCommand.DisplayUiLang("enqt1000_1f1e10","Default",3000)
+      --      SubtitlesCommand.DisplayUiLang("reward_307","Default",3000)
+    end)
   end
 }
 
@@ -789,7 +851,8 @@ this.DEBUG_ClearAnnounceLog={
   end,
 }
 
-local currentObject=1
+this.currentWarpIndex=1
+local singleStep=true
 this.DEBUG_WarpToObject={
   OnChange=function()
 
@@ -809,7 +872,9 @@ this.DEBUG_WarpToObject={
 
 
     --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
-    local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
+    --local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
+
+
 
     --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
     --local objectList={"WestHeli0001","WestHeli0000","WestHeli0002"}
@@ -833,73 +898,71 @@ this.DEBUG_WarpToObject={
     --      "veh_cl00_cl06_0000",
     --    }
 
-    local objectList={
-      --  "WestHeli0000",
-      --  "WestHeli0001",
-      --  "WestHeli0002",
-      --  "EnemyHeli",
-      "EnemyHeli0000",
-      "EnemyHeli0001",
-      "EnemyHeli0002",
-      "EnemyHeli0003",
-      "EnemyHeli0004",
-      "EnemyHeli0005",
-      "EnemyHeli0006",
-    }
+    --    local objectList={
+    --      --  "WestHeli0000",
+    --      --  "WestHeli0001",
+    --      --  "WestHeli0002",
+    --      --  "EnemyHeli",
+    --      "EnemyHeli0000",
+    --      "EnemyHeli0001",
+    --      "EnemyHeli0002",
+    --      "EnemyHeli0003",
+    --      "EnemyHeli0004",
+    --      "EnemyHeli0005",
+    --      "EnemyHeli0006",
+    --    }
+
+
+    local objectList=InfInterrogation.interCpQuestSoldiers
+
+
 
     if objectList==nil then
       InfMenu.DebugPrint"objectList nil"
       return
     end
+    this.warpObjecList=objectList
 
     if #objectList==0 then
       InfMenu.DebugPrint"objectList empty"
       return
     end
 
+
+
     local count=0
     local warpPos=Vector3(0,0,0)
     local objectName="NULL"
     local function Step()
-      objectName=objectList[currentObject]
-      local gameId=GameObject.GetGameObjectId(objectName)
-      if gameId==GameObject.NULL_ID then
+      objectName=objectList[this.currentWarpIndex]
+      local gameId=objectName
+      if type(objectName)=="string" then
+        gameId=GameObject.GetGameObjectId(objectName)
+      end
+      if gameId==nil or gameId==GameObject.NULL_ID then
         InfMenu.DebugPrint"gameId==NULL_ID"
         warpPos=Vector3(0,0,0)
       else
         warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-        InfMenu.DebugPrint(currentObject..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+        InfMenu.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
       end
-      currentObject=currentObject+1
-      if currentObject>#objectList then
-        currentObject=1
+      this.currentWarpIndex=this.currentWarpIndex+1
+      if this.currentWarpIndex>#objectList then
+        this.currentWarpIndex=1
       end
       count=count+1
     end
 
     Step()
 
-    while (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
-      Step()
-      --coroutine.yeild()
-    end
-
+    --    while not singleStep and (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
+    --      Step()
+    --      --coroutine.yeild()
+    --    end
 
     if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
       TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
-
-      --DEBUG CULL
-      --      local gameId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-      --      if gameId==nil or  gameId==GameObject.NULL_ID then
-      --        InfMenu.DebugPrint"gameId==NULL_ID"
-      --      else
-      --        GameObject.SendCommand(gameId,{id="SetEnabled",enabled=true})
-      --        GameObject.SendCommand(gameId,{id="SetForceRealize"})
-      --      end
     end
-
-
-
   end,
 }
 

@@ -1,4 +1,17 @@
 Infinite Heaven changelog
+r148 - 2016-04-27 - public release
+DDog SetMotherBaseCenterAndRadius increased to cover whole mb (if mbEnableBuddies)
+Wildcard soldiers:
+Number of wild card soldiers increased
+Removed 0 fulton sucess
+Feature IH Interrogation: Add some interrogations, can't seem to add new to subps, some other data definition missing I guess.
+Travel plans of LRRPs
+Locations of wild card soldiers.
+Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)
+Menu: Show characters menu - enable ocelot shifted from mb menu, others shifted from Show assets menu.
+Mother base menu> Show characters menu > Reset Paz - Resets Paz state to beginning
+Update: Mother base morale boost points now stack, both for visiting several clusters and having many soldiers salute. 
+
 r147 - 2016-04-14 - public release
 Feature: Ivar mbMoraleBoosts, various functions in infmain. Mother base menu > "Staff-wide morale boost for visit" Staff wide morale boost on having a number of soldiers salute, or visiting a number of clusters (with at least one salute on each).
 Fixed: f30050_sequence, mbWarGamesProfile. Mother base wargames zombie modes will no longer auto fulton wandering soldier style zombies when they retreat to the inter cluster struts.

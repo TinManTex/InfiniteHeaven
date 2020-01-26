@@ -3,6 +3,7 @@ local this={}
 --LOCALOPT:
 local InfButton=InfButton
 local InfMain=InfMain
+local InfLang=InfLang
 local Ivars=Ivars
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
@@ -468,18 +469,23 @@ function this.DebugPrint(message)
 end
 
 --tex my own shizzy langid stuff since games is too limitied
+function this.GetLanguageCode()
+  --Cht over Jpn
+  local languageCode=GetAssetConfig"Language"
+  if Ivars.langOverride:Is(1) then
+    if languageCode=="jpn" then
+      languageCode="cht"
+    end
+  end
+  return languageCode
+end
+
 function this.LangString(langId)
   if langId==nil or langId=="" then
     TppUiCommand.AnnounceLogView"PrintLangId langId empty"
     return ""
   end
-  local languageCode=GetAssetConfig"Language"
-  if Ivars.langOverride:Is(1) then--Cht over Jpn
-    if languageCode=="jpn" then
-      languageCode="cht"
-  end
-  end
-
+  local languageCode=this.GetLanguageCode()
   if InfLang[languageCode]==nil then
     --TppUiCommand.AnnounceLogView("no lang in inflang")
     languageCode="eng"
@@ -503,7 +509,7 @@ function this.LangTableString(langId,index)
     TppUiCommand.AnnounceLogView"PrintLangId langId empty"
     return ""
   end
-  local languageCode=GetAssetConfig"Language"
+  local languageCode=this.GetLanguageCode()
   if InfLang[languageCode]==nil then
     --TppUiCommand.AnnounceLogView("no lang in inflang")
     languageCode="eng"
@@ -525,6 +531,17 @@ function this.LangTableString(langId,index)
   end
 
   return langTable[index]
+end
+
+function this.CpNameString(cpName,location)
+  local languageCode=this.GetLanguageCode()
+  local locationCps=InfLang.cpNames[location]
+  if locationCps==nil then
+    InfMenu.DebugPrint("WARNING: CpNameString - could not find location "..tostring(location).." in cpNames table")
+    return
+  end
+  local cps=locationCps[languageCode] or locationCps["eng"]
+  return cps[cpName]  
 end
 
 function this.PrintLangId(langId)
@@ -555,7 +572,7 @@ function this.OnActivate()
   InfButton.buttonStates[this.resetSettingButton].repeatRate=repeatRate
   InfButton.buttonStates[this.menuBackButton].repeatRate=repeatRate
 
-  InfMain.DisableAction(PlayerDisableAction.OPEN_EQUIP_MENU)
+  InfMain.DisableAction(InfMain.menuDisableActions)
   this.GetSetting()
   TppUiStatusManager.ClearStatus"AnnounceLog"
   TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
@@ -565,7 +582,8 @@ end
 
 function this.OnDeactivate()
   this.PrintLangId"menu_off"--"Menu Off"
-  InfMain.RestoreActionFlag()
+  --InfMain.RestoreActionFlag()
+  InfMain.EnableAction(InfMain.menuDisableActions)
   InfMain.OnMenuClose()
 end
 

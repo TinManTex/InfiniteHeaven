@@ -687,9 +687,9 @@ this.demoOptions={
       TppDataUtility.SetVisibleDataFromIdentifier("uq_0040_paz_room_AssetIdentifier","paz_room_real",false,false)
       TppDataUtility.SetVisibleDataFromIdentifier("uq_0040_paz_room_bed_AssetIdentifier","paz_room_bed",true,false)
       TppDataUtility.SetVisibleDataFromIdentifier("uq_0040_paz_room_AssetIdentifier","paz_room_phantom_door",false,false)
-      local t={"photo01","photo02","photo03","photo04","photo05","photo06","photo07","photo08","photo09","photo10"}
-      for e=1,gvars.pazLookedPictureCount do
-        TppDataUtility.SetVisibleDataFromIdentifier("uq_0040_paz_room_AssetIdentifier",t[e],true,false)
+      local photos={"photo01","photo02","photo03","photo04","photo05","photo06","photo07","photo08","photo09","photo10"}
+      for i=1,gvars.pazLookedPictureCount do
+        TppDataUtility.SetVisibleDataFromIdentifier("uq_0040_paz_room_AssetIdentifier",photos[i],true,false)
       end
       TppDataUtility.SetEnableDataFromIdentifier("mtbs_uni0040_155641_587","Probe_PazRoom",true,false)
       TppDataUtility.SetEnableDataFromIdentifier("mtbs_uni0040_155641_587","Trap_PazRoom",true,false)
