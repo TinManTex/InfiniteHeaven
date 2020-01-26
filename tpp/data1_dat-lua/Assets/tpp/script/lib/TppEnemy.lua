@@ -339,12 +339,12 @@ this.weaponIdTable={
   WILDCARD={--tex> dd max grades except for noted
     NORMAL={
       HANDGUN=TppEquip.EQP_WP_West_hg_030,--geist p3 machine pistol grade 4 - shows shotgun icon but clearly isnt,
-      SMG=TppEquip.EQP_WP_West_sm_017,
-      ASSAULT=TppEquip.EQP_WP_West_ar_057,
-      SNIPER=TppEquip.EQP_WP_EX_sr_000,--molotok-68 grade 9
+      SMG=TppEquip.EQP_WP_West_sm_01b,
+      ASSAULT=TppEquip.EQP_WP_West_ar_05b,
+      SNIPER=TppEquip.EQP_WP_West_sr_02b,--molotok-68 grade 9
       SHOTGUN=TppEquip.EQP_WP_Com_sg_018,
-      MG=TppEquip.EQP_WP_West_mg_021,--alm48 flashlight grade 4 --TppEquip.EQP_WP_West_mg_037,
-      MISSILE=TppEquip.EQP_WP_Com_ms_010,
+      MG=TppEquip.EQP_WP_West_mg_03b,--alm48 flashlight grade 4 --TppEquip.EQP_WP_West_mg_037,
+      MISSILE=TppEquip.EQP_WP_Com_ms_02b,
       SHIELD=TppEquip.EQP_SLD_DD_01,
     },
   },--<
@@ -1083,7 +1083,7 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
       bodyIdTable=this.bodyIdTable.SOVIET_B
     end
     if soldierSubType=="SOVIET_WILDCARD" then--tex>
-      bodyIdTable=this.bodyIdTable.SOVIET_WILDCARD
+      bodyIdTable=nil
     end--<
   elseif soldierType==EnemyType.TYPE_PF then
     bodyIdTable=this.bodyIdTable.PF_A
@@ -1093,7 +1093,7 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
       bodyIdTable=this.bodyIdTable.PF_C
     end
     if soldierSubType=="PF_WILDCARD" then--tex>
-      bodyIdTable=this.bodyIdTable.PF_WILDCARD
+      bodyIdTable=nil
     end--<
   elseif soldierType==EnemyType.TYPE_DD then
     bodyIdTable=this.bodyIdTable.DD_A

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r153 - 2016-05-11
+r155 - 2016-05-11
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
@@ -13,7 +13,12 @@ Infinite Heaven features
 YouTube playlist of demonstrations for many features
 [url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
 
-New for r153
+New for r155
+Wildcard soldiers now equipped with highest grade DD weapons.
+Fixed: hang on return to mother base and Random CP subtype in missions  - thanks Simonz93 for the save file
+
+Fixed: Invisible soldier bodies for amored soldiers in afghanistan sideops - thanks Simonz93 for the report
+
 Updated to 1.09
 DD Equip Grade increased to 11, so you should you can equip DD or enemies with the new weapons (assuming Allow undeveloped DD equipment is on).
 

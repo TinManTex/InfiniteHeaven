@@ -1,4 +1,13 @@
 Infinite Heaven changelog
+r155 - 2016-05-11 - public release
+Wildcard soldiers now equipped with highest grade in dd weapons table.
+DD equip grade raised to 15 to match UI/futureproof.
+Fixed: hang on return to mother base and Random CP subtype in missions  - thanks Simonz93 for the save file
+
+r154 - 2016-05-11 - public release
+Fixed: Reverted reserve soldier locators in afgh fox2. Fixes Invisible soldier bodies for amored soldiers in afghanistan sideops - thanks Simonz93 for the report
+Don't know why mafr is seemingly fine with more soldiers
+
 r153 - 2016-05-11 - public release
 Updated to 1.09 - why on earth did KJP regress the exe version to 1.0.7.1?
 mbSoldierEquipGrade - DD Equip Grade increased to 11, so you should you can equip DD or enemies with the new weapons (assuming Allow undeveloped DD equipment is on).

@@ -148,76 +148,66 @@ function this.SetupWalkerGear()
 end
 
 function this.SetupWalkerGearWorld()
-  if vars.missionCode~=30010 and vars.missionCode~=30020 then
-    return
-  end
-  if Ivars.enableWalkerGearsFREE:Is(0) then
-    return
-  end
-
-
   InfInspect.TryFunc(function()--DEBUGNOW
 
-    InfMain.SetLevelRandomSeed()
+    if Ivars.enableWalkerGearsFREE:Is(0) or not Ivars.enableWalkerGearsFREE:MissionCheck() then
+      return
+  end
 
-    local locationName=InfMain.GetLocationName()
+  InfMain.SetLevelRandomSeed()
 
-    local positions=walkerStartPositionsWorld[locationName]
+  local locationName=InfMain.GetLocationName()
 
-    local cpPool={}
-    for cpName,coordList in pairs(positions)do
-      cpPool[#cpPool+1]=cpName
-    end
+  local positions=walkerStartPositionsWorld[locationName]
 
-    local numWalkers=#this.walkerList
-    for i=1,numWalkers do
-      local walkerName=this.walkerList[i]
-      local walkerId=GameObject.GetGameObjectId("TppCommonWalkerGear2",walkerName)
-      if walkerId==GameObject.NULL_ID then
-        InfMenu.DebugPrint("WARNING NULL_ID for "..walkerName)
+  local cpPool={}
+  for cpName,coordList in pairs(positions)do
+    cpPool[#cpPool+1]=cpName
+  end
+
+  local numWalkers=#this.walkerList
+  for i=1,numWalkers do
+    local walkerName=this.walkerList[i]
+    local walkerId=GameObject.GetGameObjectId("TppCommonWalkerGear2",walkerName)
+    if walkerId==GameObject.NULL_ID then
+      InfMenu.DebugPrint("WARNING NULL_ID for "..walkerName)
+    else
+      --ASSUMPTION only one pos per cp
+      local cpName=InfMain.GetRandomPool(cpPool)
+      local coord=positions[cpName][1]
+
+
+      local command={id="SetPosition",pos=coord.pos,rotY=coord.rot}
+      GameObject.SendCommand(walkerId,command)
+
+
+      local cpSubType=TppEnemy.subTypeOfCp[cpName]
+      local colorName=cpSubTypeToColor[cpSubType]
+      local walkerColorType=walkerGearColorType[colorName]
+
+      local cpId=GameObject.GetGameObjectId("TppCommandPost2",cpName)
+      if cpId==GameObject.NULL_ID then
+        InfMenu.DebugPrint(tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
-        --ASSUMPTION only one pos per cp
-        local cpName=InfMain.GetRandomPool(cpPool)
-        local coord=positions[cpName][1]
-
-
-        local command={id="SetPosition",pos=coord.pos,rotY=coord.rot}
-        GameObject.SendCommand(walkerId,command)
-
-
-        local cpSubType=TppEnemy.subTypeOfCp[cpName]
-        local colorName=cpSubTypeToColor[cpSubType]
-        local walkerColorType=walkerGearColorType[colorName]
-
-        local cpId=GameObject.GetGameObjectId("TppCommandPost2",cpName)
-        if cpId==GameObject.NULL_ID then
-          InfMenu.DebugPrint(tostring(cpName).." cpId==NULL_ID")--DEBUG
-        else
-        end
-        local command={id="SetColoringType",type=walkerColorType}
-        GameObject.SendCommand(walkerId,command)
       end
+      local command={id="SetColoringType",type=walkerColorType}
+      GameObject.SendCommand(walkerId,command)
     end
-    InfMain.ResetTrueRandom()
+  end
+  InfMain.ResetTrueRandom()
 
   end)
 
 end
 
 function this.SetupWalkerGearMb()
-    if vars.missionCode~=30050 then
-      return
-  end
-
-  if Ivars.enableWalkerGearsMB:Is(0) then
+  if Ivars.enableWalkerGearsMB:Is(0) or not Ivars.enableWalkerGearsMB:MissionCheck() then
     return
   end
 
   InfMain.SetLevelRandomSeed()
 
-
   local numClusters=0
-
   for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do
     local grade=TppLocation.GetMbStageClusterGrade(clusterId)
     if grade>0 then
@@ -300,7 +290,7 @@ function this.SetupWalkerGearMb()
     walkerIndex=walkerIndex+1
   end
 
-  InfMenu.DebugPrint("numWalkers:"..numWalkers.." numAssigned:"..numAssigned)--DEBUGNOW
+  --InfMenu.DebugPrint("numWalkers:"..numWalkers.." numAssigned:"..numAssigned)--DEBUG
   --InfInspect.PrintInspect(this.walkerPlats)--DEBUG
 
   local function GetRandomColorType()

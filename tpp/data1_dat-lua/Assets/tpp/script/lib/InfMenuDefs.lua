@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- InfMenuDefs.lua
 local this={}
 --menus
 this.fovaModMenu={
@@ -537,14 +538,14 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
---    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
---    Ivars.playerFaceIdApearance,--DEBUG
+--    InfMenuCommands.DEBUG_WarpToObject,--DEBUGNOW
+----    Ivars.playerFaceIdApearance,--DEBUG
 --    InfMenuCommands.DEBUG_PrintCpSizes,--DEBUG
---    --    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
---    --    Ivars.selectedCp,--DEBUG
---    --    this.fovaModMenu,--DEBUG
---    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
---    --    this.appearanceMenu,--DEBUG
+----    --    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
+----    --    Ivars.selectedCp,--DEBUG
+----    --    this.fovaModMenu,--DEBUG
+----    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
+----    --    this.appearanceMenu,--DEBUG
 --    InfMenuCommands.showPosition,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG

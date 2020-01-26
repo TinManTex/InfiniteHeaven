@@ -2,9 +2,10 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r153"
+this.modVersion="r155"
 this.modName="Infinite Heaven"
 --LOCALOPT:
+local InfMain=this
 local Ivars=Ivars
 local InfButton=InfButton
 local IsFunc=Tpp.IsTypeFunc
@@ -240,27 +241,24 @@ local cpSubTypes={
   },
 }
 
+local changeCpSubTypeIvars={Ivars.changeCpSubTypeFree,Ivars.changeCpSubTypeForMissions}
 function this.RandomizeCpSubTypeTable()
-  if Ivars.changeCpSubTypeFree:Is(0) and Ivars.changeCpSubTypeForMissions:Is(0) then
+  if not InfMain.IvarsEnabledForMission(changeCpSubTypeIvars) then
     return
   end
 
-  if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
-    if Ivars.changeCpSubTypeFree:Is(0) then
-      return
-    end
-  else
-    if Ivars.changeCpSubTypeForMissions:Is(0) then
-      return
-    end
+  local locationName=this.locationNames[vars.locationCode]
+  local locationSubTypes=cpSubTypes[locationName]
+  if locationSubTypes==nil then
+    InfMenu.DebugPrint("RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))
+    return
   end
 
   this.SetLevelRandomSeed()--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
   local subTypeOfCp=TppEnemy.subTypeOfCp
   for cp, subType in pairs(subTypeOfCp)do
     local subType=subTypeOfCp[cp]
-    local locationName=this.locationNames[vars.locationCode]
-    local locationSubTypes=cpSubTypes[locationName]
+
     local rnd=math.random(1,#locationSubTypes)
     subTypeOfCp[cp]=locationSubTypes[rnd]
   end
@@ -462,7 +460,7 @@ function this.OnAllocate(missionTable)
 
   --WIP
   if missionTable.enemy then
-  --OFF lua off InfEquip.LoadEquipTable()
+    --OFF lua id off InfEquip.LoadEquipTable()
   end
 end
 
@@ -766,8 +764,9 @@ local updateIvars={
 
 --tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
 function this.OnInitializeTop(missionTable)
-  if TppMission.IsFOBMission(vars.missionCode)then
-    return
+  --InfInspect.TryFunc(function(missionTable)--DEBUG
+    if TppMission.IsFOBMission(vars.missionCode)then
+      return
   end
 
   if missionTable.enemy then
@@ -796,10 +795,12 @@ function this.OnInitializeTop(missionTable)
     end
     --InfMain.ResetTrueRandom()
   end
+  --end,missionTable)--DEBUG
 end
 function this.OnInitializeBottom(missionTable)
-  if TppMission.IsFOBMission(vars.missionCode)then
-    return
+  ---InfInspect.TryFunc(function(missionTable)--DEBUG
+    if TppMission.IsFOBMission(vars.missionCode)then
+      return
   end
 
   if Ivars.enableInfInterrogation:Is(1) and(vars.missionCode~=30010 or vars.missionCode~=30020) then
@@ -824,13 +825,15 @@ function this.OnInitializeBottom(missionTable)
 
 
   InfWalkerGear.SetupWalkerGear()
+  --end,missionTable)--DEBUG
 end
 function this.OnAllocateTop(missionTable)
 end
 --via TppMain
 function this.OnMissionCanStartBottom()
-  if TppMission.IsFOBMission(vars.missionCode)then
-    return
+  --InfInspect.TryFunc(function()--DEBUG
+    if TppMission.IsFOBMission(vars.missionCode)then
+      return
   end
 
   local currentChecks=this.UpdateExecChecks(this.execChecks)
@@ -846,32 +849,35 @@ function this.OnMissionCanStartBottom()
   end
 
   this.StartLongMbVisitClock()
+  --end)--DEBUG
 end
 
 function this.Init(missionTable)--tex called from TppMain.OnInitialize
-  this.abortToAcc=false
+  --InfInspect.TryFunc(function(missionTable)--DEBUG
+    this.abortToAcc=false
 
-  if TppMission.IsFOBMission(vars.missionCode) then
-    return
-  end
-
-  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
-
-  local currentChecks=this.UpdateExecChecks(this.execChecks)
-  for i, ivar in ipairs(updateIvars) do
-    if IsFunc(ivar.ExecInit) then
-
-      this.ExecInit(currentChecks,ivar.execCheckTable,ivar.ExecInit)
+    if TppMission.IsFOBMission(vars.missionCode) then
+      return
     end
-  end
 
-  if vars.missionCode==30050 and Ivars.mbEnableFultonAddStaff:Is(1) then
-    mvars.trm_isAlwaysDirectAddStaff=false
-  end
+    this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
-  this.UpdateHeliVars()
+    local currentChecks=this.UpdateExecChecks(this.execChecks)
+    for i, ivar in ipairs(updateIvars) do
+      if IsFunc(ivar.ExecInit) then
 
-  this.ClearMoraleInfo()
+        this.ExecInit(currentChecks,ivar.execCheckTable,ivar.ExecInit)
+      end
+    end
+
+    if vars.missionCode==30050 and Ivars.mbEnableFultonAddStaff:Is(1) then
+      mvars.trm_isAlwaysDirectAddStaff=false
+    end
+
+    this.UpdateHeliVars()
+
+    this.ClearMoraleInfo()
+  --end,missionTable)--DEBUG
 end
 
 function this.OnReload(missionTable)
@@ -1409,7 +1415,8 @@ this.mbVehicleNames={
 --reserve soldierpool
 this.reserveSoldierNames={}
 local solPrefix="sol_ih_"
-this.numReserveSoldiers=60--tex SYNC number of soldier locators i added to fox2s
+this.numReserveSoldiers=40--tex SYNC number of soldier locators i added to fox2s
+
 for i=0,this.numReserveSoldiers-1 do
   local name=solPrefix..string.format("%04d",i)
   table.insert(this.reserveSoldierNames,name)
@@ -1678,6 +1685,14 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     end
   end
 
+  local locationName=InfMain.GetLocationName()
+
+  local wildCardSubTypes={
+    afgh="SOVIET_WILDCARD",
+    mafr="PF_WILDCARD",
+  }
+  local wildCardSubType=wildCardSubTypes[locationName]or "SOVIET_WILDCARD"
+
   local gearPowers={
     "HELMET",
     "SOFT_ARMOR",
@@ -1721,8 +1736,6 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
   --  InfMenu.DebugPrint"ene_wildCardFaceList"--DEBUG >
   --  local ins=InfInspect.Inspect(InfEneFova.inf_wildCardFaceList)
   --  InfMenu.DebugPrint(ins)--<
-
-  local locationName=InfMain.GetLocationName()
 
   this.ene_wildCardSoldiers={}
   this.ene_femaleWildCardSoldiers={}
@@ -1798,6 +1811,9 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
         local command={id="UseExtendParts",enabled=isFemale}
         SendCommand(gameObjectId,command)
       end
+
+      soldierSubTypes[wildCardSubType]=soldierSubTypes[wildCardSubType] or {}
+      table.insert(soldierSubTypes[wildCardSubType],soldierName)
 
       local soldierPowers={}
       for n,power in pairs(gearPowers) do
@@ -2032,9 +2048,10 @@ this.heliColorNames={
 }
 
 function this.IvarsIsForMission(ivarList,setting,missionCode)
+  local missionId=missionCode or vars.missionCode
   local passedCheck=false
   for n,ivar in ipairs(ivarList) do
-    if ivar:Is(setting) and ivar:MissionCheck(missionCode) then
+    if ivar:Is(setting) and ivar:MissionCheck(missionId) then
       passedCheck=true
       break
     end
@@ -2043,9 +2060,11 @@ function this.IvarsIsForMission(ivarList,setting,missionCode)
 end
 
 function this.IvarsEnabledForMission(ivarList,missionCode)
+  local missionId=missionCode or vars.missionCode
+
   local passedCheck=false
   for n,ivar in ipairs(ivarList) do
-    if ivar:Is()>0 and ivar:MissionCheck(missionCode) then
+    if ivar:Is()>0 and ivar:MissionCheck(missionId) then
       passedCheck=true
       break
     end

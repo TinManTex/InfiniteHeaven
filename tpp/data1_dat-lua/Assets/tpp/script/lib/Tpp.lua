@@ -90,7 +90,7 @@ this.requires={
   "/Assets/tpp/script/lib/InfMenuDefs.lua",
   "/Assets/tpp/script/lib/InfMenu.lua",
   "/Assets/tpp/script/lib/InfEneFova.lua",
-  --OFF "/Assets/tpp/script/lib/InfEquip.lua",
+  --OFF"/Assets/tpp/script/lib/InfEquip.lua",
   --OFF "/Assets/tpp/script/lib/InfSplash.lua",
   "/Assets/tpp/script/lib/InfVehicle.lua",
   "/Assets/tpp/script/lib/InfRevenge.lua",

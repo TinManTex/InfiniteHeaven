@@ -364,9 +364,9 @@ this.enableMbDDEquip={
 MinMaxIvar(
   "mbSoldierEquipGrade",
   {default=3},--tex 3 is the min grade at which all weapon types are available
-  {default=11},
+  {default=15},
   {
-    range={min=1,max=11}
+    range={min=1,max=15}
   }
 )
 
@@ -2065,10 +2065,12 @@ this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
   end,
 }
 
+--tex TODO convert to MissionModeIvars
 this.changeCpSubTypeFree={
   save=MISSION,
   range=this.switchRange,
-  settingNames="set_switch",
+  settingNames="set_switch",  
+  MissionCheck=MissionCheckFree,
   OnChange=function(self)
     if self.setting==0 then
       InfMain.ResetCpTableToDefault()
@@ -2079,7 +2081,8 @@ this.changeCpSubTypeFree={
 this.changeCpSubTypeForMissions={
   save=MISSION,
   range=this.switchRange,
-  settingNames="set_switch",
+  settingNames="set_switch",  
+  MissionCheck=MissionCheckMission,
   OnChange=function(self)
     if self.setting==0 then
       InfMain.ResetCpTableToDefault()
@@ -2782,10 +2785,11 @@ this.minPhase={
     if self.setting>Ivars.maxPhase:Get() then
       Ivars.maxPhase:Set(self.setting)
     end
-    if Ivars.phaseUpdate:Is(0) then
-      InfMenu.PrintLangId"phase_modification_enabled"
-      Ivars.phaseUpdate:Set(1)
-    end
+       --OFF
+--    if Ivars.phaseUpdate:Is(0) then
+--      InfMenu.PrintLangId"phase_modification_enabled"
+--      Ivars.phaseUpdate:Set(1)
+--    end
   end,
 --profile=this.subsistenceProfile,
 }
@@ -2799,10 +2803,11 @@ this.maxPhase={
     if self.setting<Ivars.minPhase:Get() then
       Ivars.minPhase:Set(self.setting)
     end
-    if Ivars.phaseUpdate:Is(0) then
-      InfMenu.PrintLangId"phase_modification_enabled"
-      Ivars.phaseUpdate:Set(1)
-    end
+    --OFF
+--    if Ivars.phaseUpdate:Is(0) then
+--      InfMenu.PrintLangId"phase_modification_enabled"
+--      Ivars.phaseUpdate:Set(1)
+--    end
   end,
   profile=this.subsistenceProfile,
 }
@@ -2810,13 +2815,15 @@ this.maxPhase={
 this.keepPhase={
   save=MISSION,
   range=this.switchRange,
-  settingNames="set_switch",
-  OnChange=function(self)
-    if self.setting>0 and Ivars.phaseUpdate:Is(0) then
-      InfMenu.PrintLangId"phase_modification_enabled"
-      Ivars.phaseUpdate:Set(1)
-    end
-  end,
+  settingNames="set_switch",     
+  --OFF
+--  OnChange=function(self)
+--
+--    if self.setting>0 and Ivars.phaseUpdate:Is(0) then
+--      InfMenu.PrintLangId"phase_modification_enabled"
+--      Ivars.phaseUpdate:Set(1)
+--    end
+--  end,
 }
 
 this.phaseUpdate={
@@ -3398,6 +3405,7 @@ this.mis_isGroundStart={--NONUSER
 this.enableInfInterrogation={
   save=MISSION,
   range=this.switchRange,
+  settingNames="set_switch",
 }
 
 --end ivar defines

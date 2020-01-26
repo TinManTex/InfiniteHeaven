@@ -7,14 +7,14 @@ local this={}
 --NOTE: grade possibly matches current developed anyhoo?
 this.tppEquipTable={--SYNC: EquipIdTable
   --  SHIELD={
-  --  "EQP_SLD_SV",
-  --  "EQP_SLD_PF_00",
-  --  "EQP_SLD_PF_01",
-  --  "EQP_SLD_PF_02",
-  --  "EQP_SLD_DD",
-  --  "EQP_SLD_DD_G02",
-  --  "EQP_SLD_DD_G03",
-  --  "EQP_SLD_DD_01",
+--    "EQP_SLD_SV",
+--    "EQP_SLD_PF_00",
+--    "EQP_SLD_PF_01",
+--    "EQP_SLD_PF_02",
+--    "EQP_SLD_DD",
+--    "EQP_SLD_DD_G02",
+--    "EQP_SLD_DD_G03",
+--    "EQP_SLD_DD_01",
   --  },
   --  HANDGUN={
   --  "EQP_WP_West_hg_010",--AM D114 grade 1 -- PFs and DD hangun
@@ -32,8 +32,15 @@ this.tppEquipTable={--SYNC: EquipIdTable
   --  "EQP_WP_West_thg_050",--wu s pistol cb grade7
   --  "EQP_WP_EX_hg_000",--AM A114 RP, DD, silencer, grade 9
   --tex added in retail 1080
-  "EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
-  "EQP_WP_EX_hg_000_G02",--AM A114 RP grade 9 - silencer, gas cloud
+--  "EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
+--  "EQP_WP_EX_hg_000_G02",--AM A114 RP grade 9 - silencer, gas cloud
+  -- 1090
+  "EQP_WP_EX_hg_000_G03",
+  "EQP_WP_EX_hg_000_G04",
+  "EQP_WP_EX_hg_010",
+  "EQP_WP_EX_hg_011",
+  "EQP_WP_EX_hg_012",
+  "EQP_WP_EX_hg_013",
 --  },
 --  SMG={
 --  "EQP_WP_West_sm_010",--ze'ev cs grade 3 pf normal, dd min grade
@@ -48,6 +55,11 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --  "EQP_WP_West_sm_015",--as above
 --  "EQP_WP_West_sm_016",--loads, but missing icons and some blacked out sights DD backing, DD weapon table
 --  "EQP_WP_West_sm_017",--<
+--1090
+  "EQP_WP_West_sm_019",
+  "EQP_WP_West_sm_01a",
+  "EQP_WP_West_sm_01b",
+  --
 --  },
 --    SMG_NONLETHAL={
 --in dd table
@@ -56,6 +68,11 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --  "EQP_WP_East_sm_044",
 --  "EQP_WP_East_sm_045",
 --  "EQP_WP_East_sm_047",
+--1090
+  "EQP_WP_East_sm_049",
+  "EQP_WP_East_sm_04a",
+  "EQP_WP_East_sm_04b",
+  --
 --    },
 --  SHOTGUN={
 --  "EQP_WP_Com_sg_010",--s1000 grade 2
@@ -97,6 +114,14 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --  "EQP_WP_West_ar_055",--scope, no icon name
 --  "EQP_WP_West_ar_050",--am mrs 4r grade 5 scope laser
 --  "EQP_WP_West_ar_057",--loads, but missing icons and some blacked out sights
+  --1090
+  "EQP_WP_West_ar_059",
+  "EQP_WP_West_ar_05a",
+  "EQP_WP_West_ar_05b",
+  "EQP_WP_West_ar_079",
+  "EQP_WP_West_ar_07a",
+  "EQP_WP_West_ar_07b",
+  --
 --  --  },
 --  --  ASSAULT_NONLETHAL={
 --  "EQP_WP_West_ar_060",--un arc nl stn grade 2
@@ -118,6 +143,14 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --  "EQP_WP_West_sr_014",
 --  "EQP_WP_West_sr_020",
 --  "EQP_WP_West_sr_027",
+  --1090
+  "EQP_WP_West_sr_029",
+  "EQP_WP_West_sr_02a",
+  "EQP_WP_West_sr_02b",
+  "EQP_WP_West_sr_049",
+  "EQP_WP_West_sr_04a",
+  "EQP_WP_West_sr_04b",
+  --
 --  --  },
 --  --SNIPER_NONLETHAL={
 --  --ddtable
@@ -138,6 +171,17 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --  "EQP_WP_West_mg_024",
 --  "EQP_WP_West_mg_030",--alm 48 grade 5 flashlight
 --  "EQP_WP_West_mg_037",--
+ --1090
+  "EQP_WP_West_mg_039",
+  "EQP_WP_West_mg_03a",
+  "EQP_WP_West_mg_03b",
+  "EQP_WP_West_ms_029",
+  "EQP_WP_West_ms_02a",
+  "EQP_WP_West_ms_02b",
+  "EQP_WP_Com_ms_029",
+  "EQP_WP_Com_ms_02a",
+  "EQP_WP_Com_ms_02b",
+  --
 --  --  },
 --  --  MISSILE={
 --  "EQP_WP_Com_ms_010",--killer bee grade 3, sov, pf, dd,skull strong
@@ -169,6 +213,11 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --    "EQP_SWP_Grenade_G03",
 --    "EQP_SWP_Grenade_G04",
 --    "EQP_SWP_Grenade_G05",
+--1090
+"EQP_SWP_Grenade_G06",
+  "EQP_SWP_Grenade_G07",
+  "EQP_SWP_Grenade_G08",
+  --
 --    "EQP_SWP_SmokeGrenade",
 --    "EQP_SWP_SmokeGrenade_G01",
 --    "EQP_SWP_SmokeGrenade_G02",
@@ -184,6 +233,11 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --    "EQP_SWP_StunGrenade_G01",
 --    "EQP_SWP_StunGrenade_G02",
 --    "EQP_SWP_StunGrenade_G03",
+ --1090
+  "EQP_SWP_StunGrenade_G04",
+  "EQP_SWP_StunGrenade_G05",
+  "EQP_SWP_StunGrenade_G06",
+  --
 --    "EQP_SWP_SleepingGusGrenade",
 --    "EQP_SWP_SleepingGusGrenade_G01",
 --    "EQP_SWP_SleepingGusGrenade_G02",
@@ -191,6 +245,11 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --    "EQP_SWP_MolotovCocktail_G01",
 --    "EQP_SWP_MolotovCocktail_G02",
 --    "EQP_SWP_MolotovCocktailPlaced",
+--1090 --crashes, looking for some fob function i guess
+  "EQP_SWP_FakeSign",
+  "EQP_SWP_FakeSign_G01",
+  "EQP_SWP_FakeSign_G02",
+  --
 --  "EQP_SWP_C4",
 --  "EQP_SWP_C4_G01",
 --  "EQP_SWP_C4_G02",
@@ -205,6 +264,10 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --  "EQP_SWP_ShockDecoy",
 --  "EQP_SWP_ShockDecoy_G01",
 --  "EQP_SWP_ShockDecoy_G02",
+--1090
+  "EQP_SWP_ShockDecoy_G03",
+  "EQP_SWP_ShockDecoy_G04",
+  --
 --  "EQP_SWP_CaptureCage",
 --  "EQP_SWP_CaptureCage_G01",
 --  "EQP_SWP_CaptureCage_G02",
