@@ -74,6 +74,10 @@ TppUiCommand.AnnounceLogView=function(string)
   print(string)
 end
 
+--
+InfEquip={}
+InfEquip.tppEquipTableTest={"<DEBUG IVAR>"}
+
 
 Tpp=require"Tpp"
 

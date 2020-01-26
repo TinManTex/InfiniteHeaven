@@ -15,9 +15,13 @@ local Random=math.random
 --tex just outside core door
 --local commandCoreStartPos=Vector3(5.56,24.83,-5.57)
 --local commandCoreStartRot=144
+
 --tex mid level overlooking lower helipad
-local commandCoreStartPos=Vector3(3.89,8.512,-14.535)
+--local commandCoreStartPos=Vector3(3.89,8.512,-14.535)
 local commandCoreStartRot=170.482
+
+--tex WORKAROUND command 1 in construction during early game
+local commandCoreStartPos=Vector3(10.396,0.8,-16.994)--similar to ddogs mission static pos
 
 local npcList={
   "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator",

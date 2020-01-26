@@ -1,393 +1,456 @@
--- DOBUILD: 0
+-- DOBUILD: 1
 --InfEquip.lua
 
 local this={}
 
---WIP
---NOTE: grade possibly matches current developed anyhoo?
+--DEBUGNOW
+this.tppEquipTableTest={
+  "EQP_IT_Fulton",
+  "EQP_IT_InstantStealth",
+  "EQP_IT_Pentazemin",
+  "EQP_IT_Clairvoyance",
+  "EQP_IT_ReflexMedicine",
+  "EQP_IT_CBox_DSR",
+  "EQP_IT_TimeCigarette",
+  "EQP_IT_Stealth",--no world model
+  "EQP_IT_Nvg",
+}
+
 this.tppEquipTable={--SYNC: EquipIdTable
-  --  SHIELD={
---    "EQP_SLD_SV",
---    "EQP_SLD_PF_00",
---    "EQP_SLD_PF_01",
---    "EQP_SLD_PF_02",
---    "EQP_SLD_DD",
---    "EQP_SLD_DD_G02",
---    "EQP_SLD_DD_G03",
---    "EQP_SLD_DD_01",
-  --  },
-  --  HANDGUN={
-  --  "EQP_WP_West_hg_010",--AM D114 grade 1 -- PFs and DD hangun
-  --  "EQP_WP_West_hg_010_WG",--no name/icon/drop model
-  --  "EQP_WP_West_hg_020",--AM D114 with silencer(on icon) but no ext mag?  grade 4, skull normal strong
-  --  "EQP_WP_West_hg_030",--geist p3 - shows shotgun icon but clearly isnt, machine pistol grade 4
-  --  "EQP_WP_West_hg_030_cmn",--as above, no name/icon
-  --  "EQP_WP_East_hg_010",--burkov grade 1, sov normal strong
-  --  },
-  --  TRANQ_PISTOL={
-  --  "EQP_WP_West_thg_010",--wu s.pistol grade 1
-  --  "EQP_WP_West_thg_020",--grade 2
-  --  "EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
-  --  "EQP_WP_West_thg_040",--grade 5
-  --  "EQP_WP_West_thg_050",--wu s pistol cb grade7
-  --  "EQP_WP_EX_hg_000",--AM A114 RP, DD, silencer, grade 9
-  --tex added in retail 1080
---  "EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
---  "EQP_WP_EX_hg_000_G02",--AM A114 RP grade 9 - silencer, gas cloud
-  -- 1090
-  "EQP_WP_EX_hg_000_G03",
-  "EQP_WP_EX_hg_000_G04",
-  "EQP_WP_EX_hg_010",
-  "EQP_WP_EX_hg_011",
-  "EQP_WP_EX_hg_012",
-  "EQP_WP_EX_hg_013",
---  },
---  SMG={
---  "EQP_WP_West_sm_010",--ze'ev cs grade 3 pf normal, dd min grade
---  "EQP_WP_West_sm_010_WG",--as above, no icon/name
---  "EQP_WP_West_sm_020",--macht 37 grade 3, pf strong, skull normal strong
---  "EQP_WP_East_sm_010",--sz 336 grade 3, sov normal
---  "EQP_WP_East_sm_020",--sz 336 cs grade 5, sov strong
---  "EQP_WP_East_sm_030",--sz 336 cs grade 3 light, supressor, skull cypr normal
+  SHIELD={
+    "EQP_SLD_SV",
+    "EQP_SLD_PF_00",
+    "EQP_SLD_PF_01",
+    "EQP_SLD_PF_02",
+    {
+      "EQP_SLD_DD",
+      "EQP_SLD_DD_G02",
+      "EQP_SLD_DD_G03",
+    },
+    "EQP_SLD_DD_01",
+  },
+  HANDGUN={
+    "EQP_WP_West_hg_010",--AM D114 grade 1 -- PFs and DD hangun
+    "EQP_WP_West_hg_010_WG",--no name/icon/drop model
+    "EQP_WP_West_hg_020",--AM D114 with silencer(on icon) but no ext mag?  grade 4, skull normal strong
+    "EQP_WP_West_hg_030",--geist p3 - shows shotgun icon but clearly isnt, machine pistol grade 4
+    "EQP_WP_West_hg_030_cmn",--as above, no name/icon
+    "EQP_WP_East_hg_010",--burkov grade 1, sov normal strong
+  },
+  TRANQ_PISTOL={
+    "EQP_WP_West_thg_010",--wu s.pistol grade 1
+    "EQP_WP_West_thg_020",--grade 2
+    "EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
+    "EQP_WP_West_thg_040",--grade 5
+    "EQP_WP_West_thg_050",--wu s pistol cb grade7
+    "EQP_WP_EX_hg_000",--AM A114 RP grade 7 - silencer, gas cloud
+    --tex added in retail 1080
+    "EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
+    "EQP_WP_EX_hg_000_G02",--AM A114 RP grade 9 - silencer, gas cloud
+    -- 1090
+    "EQP_WP_EX_hg_000_G03",
+    "EQP_WP_EX_hg_000_G04",
+    "EQP_WP_EX_hg_010",--tornado 6 grade 3
+    "EQP_WP_EX_hg_011",--tornado 6 grade 5
+    "EQP_WP_EX_hg_012",--tornado 6 grade 6
+    "EQP_WP_EX_hg_013",--tornado 6 grade 7
+  },
+  SMG={
+    "EQP_WP_West_sm_010",--ze'ev cs grade 3 pf normal, dd min grade
+    "EQP_WP_West_sm_010_WG",--as above, no icon/name
+    "EQP_WP_West_sm_020",--macht 37 grade 3, pf strong, skull normal strong
+    "EQP_WP_East_sm_010",--sz 336 grade 3, sov normal
+    "EQP_WP_East_sm_020",--sz 336 cs grade 5, sov strong
+    "EQP_WP_East_sm_030",--sz 336 cs grade 3 light, supressor, skull cypr normal
+    --dd table smg
+    "EQP_WP_West_sm_014",--zeeve model, big scope no icon/name, supressor, DD icon backing
+    "EQP_WP_West_sm_015",--as above
+    "EQP_WP_West_sm_016",--loads, but missing icons and some blacked out sights DD backing, DD weapon table
+    "EQP_WP_West_sm_017",--<
+    --1090
+    "EQP_WP_West_sm_019",
+    "EQP_WP_West_sm_01a",
+    "EQP_WP_West_sm_01b",
+  },
+  SMG_NONLETHAL={
+    --in dd table
+    "EQP_WP_East_sm_042",--riot smg stn grd 1 stun
+    "EQP_WP_East_sm_043",
+    "EQP_WP_East_sm_044",
+    "EQP_WP_East_sm_045",
+    "EQP_WP_East_sm_047",
+    --1090
+    "EQP_WP_East_sm_049",
+    "EQP_WP_East_sm_04a",
+    "EQP_WP_East_sm_04b",
+  },
+  SHOTGUN={
+    "EQP_WP_Com_sg_010",--s1000 grade 2
+    "EQP_WP_Com_sg_011",--s1000 cs grade 2, most normal shotty, sov a, pfs, skull, dd min
+    "EQP_WP_Com_sg_011_FL",--as above, flashlight ?
+    --in dd table
+    "EQP_WP_Com_sg_013",--? mag shotgun no name no icon
+    "EQP_WP_Com_sg_015",--above + scope, light
+    "EQP_WP_Com_sg_020",--kabarga 83, grade 4, looks like same model as 013,14
+    "EQP_WP_Com_sg_020_FL",--as abovem flashlight ?
+    "EQP_WP_Com_sg_016",
+    "EQP_WP_Com_sg_018",
+  },
+  SHOTGUN_NONLETHAL={
+    --dd
+    "EQP_WP_Com_sg_023",--s1000 air-s stn at least icon grade 3 - icon shows slilencer scope but not in game
+    "EQP_WP_Com_sg_024",--as above, light ?
+    "EQP_WP_Com_sg_025",--as above
+    "EQP_WP_Com_sg_030",--s1000 air-s cs grade 6
+    "EQP_WP_Com_sg_038",--loads, but missing icons and some blacked out sights
+  },
+  ASSAULT={
+    "EQP_WP_West_ar_010",--AM MRS 4r Grade 3, pfs normal, dd 3rd
+    "EQP_WP_West_ar_010_FL",--flashlight
 
---dd table smg
---  "EQP_WP_West_sm_014",--zeeve model, big scope no icon/name, supressor, DD icon backing
---  "EQP_WP_West_sm_015",--as above
---  "EQP_WP_West_sm_016",--loads, but missing icons and some blacked out sights DD backing, DD weapon table
---  "EQP_WP_West_sm_017",--<
---1090
-  "EQP_WP_West_sm_019",
-  "EQP_WP_West_sm_01a",
-  "EQP_WP_West_sm_01b",
-  --
---  },
---    SMG_NONLETHAL={
---in dd table
---  "EQP_WP_East_sm_042",--riot smg stn grd 1 stun
---  "EQP_WP_East_sm_043",
---  "EQP_WP_East_sm_044",
---  "EQP_WP_East_sm_045",
---  "EQP_WP_East_sm_047",
---1090
-  "EQP_WP_East_sm_049",
-  "EQP_WP_East_sm_04a",
-  "EQP_WP_East_sm_04b",
-  --
---    },
---  SHOTGUN={
---  "EQP_WP_Com_sg_010",--s1000 grade 2
---  "EQP_WP_Com_sg_011",--s1000 cs grade 2, most normal shotty, sov a, pfs, skull, dd min
---  "EQP_WP_Com_sg_011_FL",--as above, flashlight ?
---  --in dd table
---  "EQP_WP_Com_sg_013",--? mag shotgun no name no icon
---  "EQP_WP_Com_sg_015",--above + scope, light
---  "EQP_WP_Com_sg_020",--kabarga 83, grade 4, looks like same model as 013,14
---  "EQP_WP_Com_sg_020_FL",--as abovem flashlight ?
---  "EQP_WP_Com_sg_016",
---  "EQP_WP_Com_sg_018",
---},
---SHOTGUN_NONLETHAL={
---dd
---  "EQP_WP_Com_sg_023",--s1000 air-s stn at least icon grade 3 - icon shows slilencer scope but not in game
---  "EQP_WP_Com_sg_024",--as above, light ?
---  "EQP_WP_Com_sg_025",--as above
---  "EQP_WP_Com_sg_030",--s1000 air-s cs grade 6
---  "EQP_WP_Com_sg_038",--loads, but missing icons and some blacked out sights
---  },
---  ASSAULT={
---  "EQP_WP_West_ar_010",--AM MRS 4r Grade 3, pfs normal, dd 3rd
---  "EQP_WP_West_ar_010_FL",--flashlight
+    "EQP_WP_West_ar_020",--un arc cs grade 3 PF strong
+    "EQP_WP_West_ar_020_FL",--flashlight
+    "EQP_WP_West_ar_030",--un arc pt cs flashlight scope laser, skull normal and strong
+
+    "EQP_WP_East_ar_010",--svg 76 grade 1, soviet normal
+    "EQP_WP_East_ar_010_FL",--+flashlight
+    "EQP_WP_East_ar_020",--svg 67 cs grade 4, child
+    "EQP_WP_East_ar_030",--above grade 6, sov strong
+    "EQP_WP_East_ar_030_FL",--+ flashlight
+
+    --in dd table
+    "EQP_WP_West_ar_040",--am mrs 4 grade 1
+    "EQP_WP_West_ar_042",--above + supressor scope
+    "EQP_WP_West_ar_055",--scope, no icon name
+    "EQP_WP_West_ar_050",--am mrs 4r grade 5 scope laser
+    "EQP_WP_West_ar_057",--loads, but missing icons and some blacked out sights
+    --1090
+    "EQP_WP_West_ar_059",
+    "EQP_WP_West_ar_05a",
+    "EQP_WP_West_ar_05b",
+    "EQP_WP_West_ar_079",
+    "EQP_WP_West_ar_07a",
+    "EQP_WP_West_ar_07b",
+  },
+  ASSAULT_NONLETHAL={
+    "EQP_WP_West_ar_060",--un arc nl stn grade 2
+    "EQP_WP_West_ar_063",--above + scope no icon name
+    "EQP_WP_West_ar_070",--un arc nl stn light grade 4
+    "EQP_WP_West_ar_075",--above + supressor
+    "EQP_WP_West_ar_077",
+  },
+  SNIPER={
+    "EQP_WP_West_sr_010",--m2000 d grade 2
+    "EQP_WP_West_sr_011",--PF normal, DD
+    "EQP_WP_East_sr_011",--sov a normal
+    "EQP_WP_East_sr_020",--sov a strong
+    "EQP_WP_EX_sr_000",--molotok-68 grade 9 --icon/scope issues
+    --dd table
+    "EQP_WP_West_sr_013",
+    "EQP_WP_West_sr_014",
+    "EQP_WP_West_sr_020",
+    "EQP_WP_West_sr_027",
+    --1090
+    "EQP_WP_West_sr_029",
+    "EQP_WP_West_sr_02a",
+    "EQP_WP_West_sr_02b",
+    "EQP_WP_West_sr_049",
+    "EQP_WP_West_sr_04a",
+    "EQP_WP_West_sr_04b",
+  },
+  SNIPER_NONLETHAL={
+    --ddtable
+    "EQP_WP_East_sr_032",
+    "EQP_WP_East_sr_033",
+    "EQP_WP_East_sr_034",
+    "EQP_WP_West_sr_037",
+    "EQP_WP_West_sr_047",
+    "EQP_WP_West_sr_048",
+  },
+  MG={
+    "EQP_WP_West_mg_010",--un am cs grade 4 PF normal,strong,
+    "EQP_WP_West_mg_020",--alm 48 grade 2 skull normal strong, dd min
+    "EQP_WP_West_mg_021",--alm48 flashlight grade 4
+    "EQP_WP_East_mg_010",--lpg 61 grade 4, soviet normal
+    --dd
+    "EQP_WP_West_mg_023",--
+    "EQP_WP_West_mg_024",
+    "EQP_WP_West_mg_030",--alm 48 grade 5 flashlight
+    "EQP_WP_West_mg_037",--
+    --1090
+    "EQP_WP_West_mg_039",
+    "EQP_WP_West_mg_03a",
+    "EQP_WP_West_mg_03b",
+    "EQP_WP_West_ms_029",
+    "EQP_WP_West_ms_02a",
+    "EQP_WP_West_ms_02b",
+    "EQP_WP_Com_ms_029",
+    "EQP_WP_Com_ms_02a",
+    "EQP_WP_Com_ms_02b",
+  },
+  MISSILE={
+    "EQP_WP_Com_ms_010",--killer bee grade 3, sov, pf, dd,skull strong
+    "EQP_WP_West_ms_010",--fb mr r grade 3, pf,skull normal
+    "EQP_WP_East_ms_010",--grom 11, grade 2, sov normal
+    "EQP_WP_East_ms_020",--cgm 25, used in s10054
+    --dd table
+    "EQP_WP_Com_ms_023",
+    "EQP_WP_Com_ms_024",
+    "EQP_WP_Com_ms_020",--killer bee
+    "EQP_WP_Com_ms_026",
+  },
+  MISSILE_NONLETHAL={
+    "EQP_WP_West_ms_020",--fb mr rl nlsp
+  },
+  GRENADE_LAUNCHER={
+    "EQP_WP_EX_gl_000",--miraz zh 71 grade 9
+  },
+  SUPPORT_WEAPONS={
+    "EQP_SWP_Magazine",
+    --animal bait
+    {
+      "EQP_SWP_Kibidango",
+      "EQP_SWP_Kibidango_G01",
+      "EQP_SWP_Kibidango_G02",
+    },
+    {
+      "EQP_SWP_Grenade",
+      "EQP_SWP_Grenade_G01",
+      "EQP_SWP_Grenade_G02",
+      "EQP_SWP_Grenade_G03",
+      "EQP_SWP_Grenade_G04",
+      "EQP_SWP_Grenade_G05",
+      --1090
+      "EQP_SWP_Grenade_G06",
+      "EQP_SWP_Grenade_G07",
+      "EQP_SWP_Grenade_G08",
+    },
+    {
+      "EQP_SWP_SmokeGrenade",
+      "EQP_SWP_SmokeGrenade_G01",
+      "EQP_SWP_SmokeGrenade_G02",
+      "EQP_SWP_SmokeGrenade_G03",
+      "EQP_SWP_SmokeGrenade_G04",
+    },
+    {
+      "EQP_SWP_SupportHeliFlareGrenade",
+      "EQP_SWP_SupportHeliFlareGrenade_G01",
+      "EQP_SWP_SupportHeliFlareGrenade_G02",
+    },
+    {
+      "EQP_SWP_SupplyFlareGrenade",
+      "EQP_SWP_SupplyFlareGrenade_G01",
+      "EQP_SWP_SupplyFlareGrenade_G02",
+    },
+    {
+      "EQP_SWP_StunGrenade",
+      "EQP_SWP_StunGrenade_G01",
+      "EQP_SWP_StunGrenade_G02",
+      "EQP_SWP_StunGrenade_G03",
+      --1090
+      "EQP_SWP_StunGrenade_G04",
+      "EQP_SWP_StunGrenade_G05",
+      "EQP_SWP_StunGrenade_G06",
+    },
+    {
+      "EQP_SWP_SleepingGusGrenade",
+      "EQP_SWP_SleepingGusGrenade_G01",
+      "EQP_SWP_SleepingGusGrenade_G02",
+    },
+    {
+      "EQP_SWP_MolotovCocktail",
+      "EQP_SWP_MolotovCocktail_G01",
+      "EQP_SWP_MolotovCocktail_G02",
+    },
+    --  "EQP_SWP_MolotovCocktailPlaced",
+    {
+      "EQP_SWP_C4",
+      "EQP_SWP_C4_G01",
+      "EQP_SWP_C4_G02",
+      "EQP_SWP_C4_G03",
+      "EQP_SWP_C4_G04",
+    },
+    {
+      "EQP_SWP_Decoy",
+      "EQP_SWP_Decoy_G01",
+      "EQP_SWP_Decoy_G02",
+    },
+    {
+      "EQP_SWP_ActiveDecoy",
+      "EQP_SWP_ActiveDecoy_G01",
+      "EQP_SWP_ActiveDecoy_G02",
+    },
+    {
+      "EQP_SWP_ShockDecoy",
+      "EQP_SWP_ShockDecoy_G01",
+      "EQP_SWP_ShockDecoy_G02",
+      --1090
+      "EQP_SWP_ShockDecoy_G03",
+      "EQP_SWP_ShockDecoy_G04",
+    },
+    {
+      "EQP_SWP_CaptureCage",
+      "EQP_SWP_CaptureCage_G01",
+      "EQP_SWP_CaptureCage_G02",
+    },
+    {
+      "EQP_SWP_DMine",
+      "EQP_SWP_DMine_G01",
+      "EQP_SWP_DMine_G02",
+      "EQP_SWP_DMine_G03",
+    },
+    {
+      "EQP_SWP_SleepingGusMine",
+      "EQP_SWP_SleepingGusMine_G01",
+      "EQP_SWP_SleepingGusMine_G02",
+    },
+    {
+      "EQP_SWP_AntitankMine",
+      "EQP_SWP_AntitankMine_G01",
+      "EQP_SWP_AntitankMine_G02",
+    },
+    {
+      "EQP_SWP_ElectromagneticNetMine",
+      "EQP_SWP_ElectromagneticNetMine_G01",
+      "EQP_SWP_ElectromagneticNetMine_G02",
+    },
+  },
+
+  --fob
+  --"EQP_SWP_SleepingGusMineLocator",
+  --"EQP_SWP_DMineLocator"
+  --crash requires fob mode/specifc set up i guess
+  --  "EQP_WP_SCamLocator",
+  --  "EQP_SWP_WormholePortal",
+  --1090 --crashes on equip, looking for some fob function i guess
+  --  "EQP_SWP_FakeSign",
+  --  "EQP_SWP_FakeSign_G01",
+  --  "EQP_SWP_FakeSign_G02",
+
+  --AMMOBOX
+  --tex crash on equip
+  --    "EQP_AB_PrimaryCommon",
+  --    "EQP_AB_PrimaryTranq",
+  --    "EQP_AB_PrimaryMissile",
+  --    "EQP_AB_PrimaryMissileTranq",
+  --    "EQP_AB_SecondaryCommon",
+  --    "EQP_AB_SecondaryTranq",
+  --    "EQP_AB_Support",
+  --    "EQP_AB_Suppressor",
+  --    "EQP_AB_Item",
+  --    "EQP_AB_Mecha",
+  --    "EQP_BX_Primary",
+  --    "EQP_BX_Secondary",
+  --    "EQP_BX_Support",
+
+  --hands
+  --no world pickup model
+  --no effect on pickup
+  --    "EQP_HAND_STUNARM",
+  --    "EQP_HAND_JEHUTY",
+  --    "EQP_HAND_STUN_ROCKET",
+  --    "EQP_HAND_KILL_ROCKET",
+  --    "EQP_HAND_NORMAL",
+  --    "EQP_HAND_GOLD",
+  --    "EQP_HAND_SILVER",
+
+  --items
+  "EQP_IT_Fulton",
+  --  "EQP_IT_Fulton_Cargo",
+  --  "EQP_IT_Fulton_Child",
+  --  "EQP_IT_Fulton_WormHole",
+  --  "EQP_IT_Binocle",
+
+  --equips item to players set level/amount
+  --no world model
+  ITEMS={
+    "EQP_IT_InstantStealth",
+    "EQP_IT_Pentazemin",
+    "EQP_IT_Clairvoyance",
+    "EQP_IT_ReflexMedicine",
+  },
+  --world model is untextured/white
+  --works fine on equipping though
+  CARDBOARD_BOX={
+    "EQP_IT_CBox_WR",
+    "EQP_IT_CBox_SMK",
+    {
+      "EQP_IT_CBox_DSR",
+      "EQP_IT_CBox_DSR_G01",
+      "EQP_IT_CBox_DSR_G02",
+    },
+    {
+      "EQP_IT_CBox_FRST",
+      "EQP_IT_CBox_FRST_G01",
+    },
+    {
+      "EQP_IT_CBox_BOLE",
+      "EQP_IT_CBox_BOLE_G01",
+    },
+    {
+      "EQP_IT_CBox_CITY",
+      "EQP_IT_CBox_CITY_G01",
+    },
+
+  --tex no go
+  --    "EQP_IT_CBox_CLB_A",o
+  --    "EQP_IT_CBox_CLB_A_G01",
+  --    "EQP_IT_CBox_CLB_B",
+  --    "EQP_IT_CBox_CLB_B_G01",
+  --    "EQP_IT_CBox_CLB_C",
+  --    "EQP_IT_CBox_CLB_C_G01",
+  -- tex some kind of dlc box, defaults to regular texture though
+  --    "EQP_IT_CBox_LIMITED",
+  --    "EQP_IT_CBox_LIMITED_G01",
+  },
+
 --
---  "EQP_WP_West_ar_020",--un arc cs grade 3 PF strong
---  "EQP_WP_West_ar_020_FL",--flashlight
---  "EQP_WP_West_ar_030",--un arc pt cs flashlight scope laser, skull normal and strong
---
---  "EQP_WP_East_ar_010",--svg 76 grade 1, soviet normal
---  "EQP_WP_East_ar_010_FL",--+flashlight
---  "EQP_WP_East_ar_020",--svg 67 cs grade 4, child
---  "EQP_WP_East_ar_030",--above grade 6, sov strong
---  "EQP_WP_East_ar_030_FL",--+ flashlight
---
---  --in dd table
---  "EQP_WP_West_ar_040",--am mrs 4 grade 1
---  "EQP_WP_West_ar_042",--above + supressor scope
---  "EQP_WP_West_ar_055",--scope, no icon name
---  "EQP_WP_West_ar_050",--am mrs 4r grade 5 scope laser
---  "EQP_WP_West_ar_057",--loads, but missing icons and some blacked out sights
-  --1090
-  "EQP_WP_West_ar_059",
-  "EQP_WP_West_ar_05a",
-  "EQP_WP_West_ar_05b",
-  "EQP_WP_West_ar_079",
-  "EQP_WP_West_ar_07a",
-  "EQP_WP_West_ar_07b",
-  --
---  --  },
---  --  ASSAULT_NONLETHAL={
---  "EQP_WP_West_ar_060",--un arc nl stn grade 2
---  "EQP_WP_West_ar_063",--above + scope no icon name
---  "EQP_WP_West_ar_070",--un arc nl stn light grade 4
---  "EQP_WP_West_ar_075",--above + supressor
---  "EQP_WP_West_ar_077",
---  --  },
---  --  SNIPER={
---  "EQP_WP_West_sr_010",--m2000 d grade 2
---  "EQP_WP_West_sr_011",--PF normal, DD
---  "EQP_WP_East_sr_011",--sov a normal
---  "EQP_WP_East_sr_020",--sov a strong
---
---  "EQP_WP_EX_sr_000",--molotok-68 grade 9 --icon/scope issues
---
---  --dd table
---  "EQP_WP_West_sr_013",
---  "EQP_WP_West_sr_014",
---  "EQP_WP_West_sr_020",
---  "EQP_WP_West_sr_027",
-  --1090
-  "EQP_WP_West_sr_029",
-  "EQP_WP_West_sr_02a",
-  "EQP_WP_West_sr_02b",
-  "EQP_WP_West_sr_049",
-  "EQP_WP_West_sr_04a",
-  "EQP_WP_West_sr_04b",
-  --
---  --  },
---  --SNIPER_NONLETHAL={
---  --ddtable
---  "EQP_WP_East_sr_032",
---  "EQP_WP_East_sr_033",
---  "EQP_WP_East_sr_034",
---  "EQP_WP_West_sr_037",
---  "EQP_WP_West_sr_047",
---  "EQP_WP_West_sr_048",
---  --},
---  --  MG={
---  "EQP_WP_West_mg_010",--un am cs grade 4 PF normal,strong,
---  "EQP_WP_West_mg_020",--alm 48 grade 2 skull normal strong, dd min
---  "EQP_WP_West_mg_021",--alm48 flashlight grade 4
---  "EQP_WP_East_mg_010",--lpg 61 grade 4, soviet normal
---  --dd
---  "EQP_WP_West_mg_023",--
---  "EQP_WP_West_mg_024",
---  "EQP_WP_West_mg_030",--alm 48 grade 5 flashlight
---  "EQP_WP_West_mg_037",--
- --1090
-  "EQP_WP_West_mg_039",
-  "EQP_WP_West_mg_03a",
-  "EQP_WP_West_mg_03b",
-  "EQP_WP_West_ms_029",
-  "EQP_WP_West_ms_02a",
-  "EQP_WP_West_ms_02b",
-  "EQP_WP_Com_ms_029",
-  "EQP_WP_Com_ms_02a",
-  "EQP_WP_Com_ms_02b",
-  --
---  --  },
---  --  MISSILE={
---  "EQP_WP_Com_ms_010",--killer bee grade 3, sov, pf, dd,skull strong
---  "EQP_WP_West_ms_010",--fb mr r grade 3, pf,skull normal
---  "EQP_WP_East_ms_010",--grom 11, grade 2, sov normal
---  "EQP_WP_East_ms_020",--cgm 25, used in s10054
---  --dd table
---  "EQP_WP_Com_ms_023",
---  "EQP_WP_Com_ms_024",
---  "EQP_WP_Com_ms_020",--killer bee
---  "EQP_WP_Com_ms_026",
-
--- MISSILE_NONLETHAL={
---"EQP_WP_West_ms_020",--fb mr rl nlsp
---},
-
---  GRENADE_LAUNCHER={
---  "EQP_WP_EX_gl_000",--miraz zh 71 grade 9
---  },
-
---support weapons
---    "EQP_SWP_Magazine",
---    "EQP_SWP_Kibidango",--animal bait
---    "EQP_SWP_Kibidango_G01",
---    "EQP_SWP_Kibidango_G02",
---    "EQP_SWP_Grenade",
---    "EQP_SWP_Grenade_G01",
---    "EQP_SWP_Grenade_G02",
---    "EQP_SWP_Grenade_G03",
---    "EQP_SWP_Grenade_G04",
---    "EQP_SWP_Grenade_G05",
---1090
-"EQP_SWP_Grenade_G06",
-  "EQP_SWP_Grenade_G07",
-  "EQP_SWP_Grenade_G08",
-  --
---    "EQP_SWP_SmokeGrenade",
---    "EQP_SWP_SmokeGrenade_G01",
---    "EQP_SWP_SmokeGrenade_G02",
---    "EQP_SWP_SmokeGrenade_G03",
---    "EQP_SWP_SmokeGrenade_G04",
---    "EQP_SWP_SupportHeliFlareGrenade",
---    "EQP_SWP_SupportHeliFlareGrenade_G01",
---    "EQP_SWP_SupportHeliFlareGrenade_G02",
---    "EQP_SWP_SupplyFlareGrenade",
---    "EQP_SWP_SupplyFlareGrenade_G01",
---    "EQP_SWP_SupplyFlareGrenade_G02",
---    "EQP_SWP_StunGrenade",
---    "EQP_SWP_StunGrenade_G01",
---    "EQP_SWP_StunGrenade_G02",
---    "EQP_SWP_StunGrenade_G03",
- --1090
-  "EQP_SWP_StunGrenade_G04",
-  "EQP_SWP_StunGrenade_G05",
-  "EQP_SWP_StunGrenade_G06",
-  --
---    "EQP_SWP_SleepingGusGrenade",
---    "EQP_SWP_SleepingGusGrenade_G01",
---    "EQP_SWP_SleepingGusGrenade_G02",
---    "EQP_SWP_MolotovCocktail",
---    "EQP_SWP_MolotovCocktail_G01",
---    "EQP_SWP_MolotovCocktail_G02",
---    "EQP_SWP_MolotovCocktailPlaced",
---1090 --crashes, looking for some fob function i guess
-  "EQP_SWP_FakeSign",
-  "EQP_SWP_FakeSign_G01",
-  "EQP_SWP_FakeSign_G02",
-  --
---  "EQP_SWP_C4",
---  "EQP_SWP_C4_G01",
---  "EQP_SWP_C4_G02",
---  "EQP_SWP_C4_G03",
---  "EQP_SWP_C4_G04",
---  "EQP_SWP_Decoy",
---  "EQP_SWP_Decoy_G01",
---  "EQP_SWP_Decoy_G02",
---  "EQP_SWP_ActiveDecoy",
---  "EQP_SWP_ActiveDecoy_G01",
---  "EQP_SWP_ActiveDecoy_G02",
---  "EQP_SWP_ShockDecoy",
---  "EQP_SWP_ShockDecoy_G01",
---  "EQP_SWP_ShockDecoy_G02",
---1090
-  "EQP_SWP_ShockDecoy_G03",
-  "EQP_SWP_ShockDecoy_G04",
-  --
---  "EQP_SWP_CaptureCage",
---  "EQP_SWP_CaptureCage_G01",
---  "EQP_SWP_CaptureCage_G02",
---  "EQP_SWP_DMine",
---  "EQP_SWP_DMine_G01",
---  "EQP_SWP_DMine_G02",
---  "EQP_SWP_DMine_G03",
---  "EQP_SWP_DMineLocator",
---  "EQP_SWP_SleepingGusMine",
---  "EQP_SWP_SleepingGusMine_G01",
---  "EQP_SWP_SleepingGusMine_G02",
---  "EQP_SWP_SleepingGusMineLocator",
---  "EQP_SWP_AntitankMine",
---  "EQP_SWP_AntitankMine_G01",
---  "EQP_SWP_AntitankMine_G02",
---  "EQP_SWP_ElectromagneticNetMine",
---  "EQP_SWP_ElectromagneticNetMine_G01",
---  "EQP_SWP_ElectromagneticNetMine_G02",
---  "EQP_SWP_WormholePortal",
---  "EQP_SWP_Dung",
-
---tex no go
---    "EQP_AB_PrimaryCommon",
---    "EQP_AB_PrimaryTranq",
---    "EQP_AB_PrimaryMissile",
---    "EQP_AB_PrimaryMissileTranq",
---    "EQP_AB_SecondaryCommon",
---    "EQP_AB_SecondaryTranq",
---    "EQP_AB_Support",
---    "EQP_AB_Suppressor",
---    "EQP_AB_Item",
---    "EQP_AB_Mecha",
---    "EQP_BX_Primary",
---    "EQP_BX_Secondary",
---    "EQP_BX_Support",
-
---hands
---    "EQP_HAND_STUNARM",
---    "EQP_HAND_JEHUTY",
---    "EQP_HAND_STUN_ROCKET",
---    "EQP_HAND_KILL_ROCKET",
---    "EQP_HAND_NORMAL",
---    "EQP_HAND_GOLD",
---    "EQP_HAND_SILVER",
-
---items
---  "EQP_IT_Fulton",
---  "EQP_IT_Fulton_Cargo",
---  "EQP_IT_Fulton_Child",
---  "EQP_IT_Fulton_WormHole",
---  "EQP_IT_Binocle",
-
---    "EQP_IT_CBox_DSR",
---    "EQP_IT_CBox_DSR_G01",
---    "EQP_IT_CBox_DSR_G02",
---    "EQP_IT_CBox_WR",
---    "EQP_IT_CBox_SMK",
---    "EQP_IT_CBox_FRST",
---    "EQP_IT_CBox_FRST_G01",
---    "EQP_IT_CBox_BOLE",
---    "EQP_IT_CBox_BOLE_G01",
---    "EQP_IT_CBox_CITY",
---    "EQP_IT_CBox_CITY_G01",
-
---tex no go
---    "EQP_IT_CBox_CLB_A",o
---    "EQP_IT_CBox_CLB_A_G01",
---    "EQP_IT_CBox_CLB_B",
---    "EQP_IT_CBox_CLB_B_G01",
---    "EQP_IT_CBox_CLB_C",
---    "EQP_IT_CBox_CLB_C_G01",
--- tex some kind of dlc box, defaults to regular texture though
---    "EQP_IT_CBox_LIMITED",
---    "EQP_IT_CBox_LIMITED_G01",
-
---  "EQP_IT_InstantStealth",
---  "EQP_IT_Pentazemin",
---  "EQP_IT_Clairvoyance",
---  "EQP_IT_ReflexMedicine",
---
---tex needs paracites/armor I guess?
+--tex needs paracite armor
+--no world model
 --    "EQP_IT_ParasiteMist",
 --    "EQP_IT_ParasiteCamouf",
 --    "EQP_IT_ParasiteHard",
 
+--tools
+--give current set level (amounts if applicable)?
 --  "EQP_IT_TimeCigarette",
---  "EQP_IT_Stealth",
+--  "EQP_IT_Stealth",--no world model
 --  "EQP_IT_Nvg",
 
---tex likely requires the specific mission assets
---    "EQP_IT_Infected",
+--  "EQP_IT_Cassette",--cassette ids?
+--  "EQP_IT_DevelopmentFile",
+--  --no effect
+--  "EQP_IT_FilmCase",
+--
+--  "EQP_IT_IDroid",
+--  "EQP_IT_CureSpray",
+--  "EQP_IT_PickingToolR",
+--  "EQP_IT_PickingToolL",
+--  "EQP_IT_HandyLight",
+--  "EQP_IT_Knife",
+--  "EQP_IT_SKnife",
+--  "EQP_IT_Cigarette",
+--  "EQP_IT_CigaretteCase",
+--  "EQP_IT_Radio",
+--  "EQP_IT_SRadio",
+--
+--  "EQP_IT_Telescope",
+--  "EQP_IT_GasMask",--tex likely handled through attachgasmask/requires asset fpk
+--  "EQP_IT_KnifePF",
+--  --no world model-v-
+--  "EQP_SWP_Dung",
+--  "EQP_IT_BayonetWest",
+--  "EQP_IT_ShotShell",
+--  "EQP_IT_Machete",
+--  "EQP_IT_MacheteLiquid",
+--  "EQP_IT_KnifeLiquid",
+--  "EQP_IT_PipeLiquid",
+--  "EQP_IT_BottleLiquid",
+--  "EQP_IT_ShellLiquid",
+--  "EQP_IT_mgs0_msbl0",
+--  "EQP_IT_DDogStunLod",
 
---tex no go
---    "EQP_IT_IDroid",
---    "EQP_IT_CureSpray",
---    "EQP_IT_PickingToolR",
---    "EQP_IT_PickingToolL",
---    "EQP_IT_HandyLight",
---    "EQP_IT_Knife",
---    "EQP_IT_SKnife",
---    "EQP_IT_Cigarette",
---    "EQP_IT_CigaretteCase",
---    "EQP_IT_Radio",
---    "EQP_IT_SRadio",
---    "EQP_IT_BayonetWest",
---    "EQP_IT_Telescope",
---    "EQP_IT_Cassette",
---    "EQP_IT_FilmCase",
---    "EQP_IT_DevelopmentFile",
---    "EQP_IT_GasMask",--tex likely handled through attachgasmask/requires asset fpk
---    "EQP_IT_KnifePF",
---    "EQP_IT_ShotShell",
---    "EQP_IT_Machete",
---    "EQP_IT_MacheteLiquid",
---    "EQP_IT_KnifeLiquid",
---    "EQP_IT_PipeLiquid",
---    "EQP_IT_BottleLiquid",
---    "EQP_IT_ShellLiquid",
---    "EQP_IT_mgs0_msbl0",
---    "EQP_IT_DDogStunLod",
+--    "EQP_IT_Infected",--tex likely requires the specific mission assets
 
 --special weapons
 --    "EQP_WP_Wood_ar_010",
@@ -438,9 +501,6 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --  "EQP_WP_SP_SLD_040",
 --  "EQP_WP_SP_SLD_040_G01",
 --  "EQP_WP_SP_SLD_040_G02",
-
---requires fob mode/specifc set up i guess
---  "EQP_WP_SCamLocator",
 
 --not equipable, hang on equip
 --  "EQP_AM_10001",
@@ -642,25 +702,213 @@ this.tppEquipTable={--SYNC: EquipIdTable
 --  "EQP_BL_UavSleepGasGrenade",
 }
 
-local equipCategories={}
-for n,category in pairs(this.tppEquipTable)do
-  equipCategories[n]=category
-end
+--OFF
+--local equipCategories={}
+--for n,category in pairs(this.tppEquipTable)do
+--equipCategories[n]=category
+--end
+
+--TUNE
+this.itemDropInfo={
+  SUPPORT_ITEMS=5,--nades mags and bait
+  ITEMS_MISC=3,
+  HANDGUNS=1,
+--DRUGS=1,--no world model, equips to set level amount
+--SUPPORT_FLARE=1,--not if support disabled
+}
+
+this.soldierDropTable={
+  SUPPORT_ITEMS={
+    "EQP_SWP_Grenade",
+    "EQP_SWP_SmokeGrenade",
+    "EQP_SWP_StunGrenade",
+    "EQP_SWP_SleepingGusGrenade",
+    "EQP_SWP_MolotovCocktail",
+
+    "EQP_SWP_C4",
+  },
+  ITEMS_MISC={
+    "EQP_SWP_Magazine",
+    "EQP_SWP_Kibidango",--animal bait
+  },
+  HANDGUNS={
+    "EQP_WP_West_hg_010",--AM D114 grade 1 -- PFs and DD hangun
+    "EQP_WP_West_hg_020",--AM D114 with silencer(on icon) but no ext mag?  grade 4, skull normal strong
+    "EQP_WP_West_hg_030_cmn",----geist p3, machine pistol grade ?, no name/icon
+    "EQP_WP_East_hg_010",--burkov grade 1, sov normal strong
+
+    --"EQP_WP_West_thg_010",--wu s.pistol grade 1
+    "EQP_WP_West_thg_020",--grade 2
+    --"EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
+    "EQP_WP_West_thg_040",--grade 5
+    --"EQP_WP_West_thg_050",--wu s pistol cb grade7
+    "EQP_WP_EX_hg_000",--AM A114 RP, DD, silencer, grade 7
+    --"EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
+    "EQP_WP_EX_hg_010",--tornado 6 grade 3
+    "EQP_WP_EX_gl_000",--grenade launcher miraz zh 71 grade 9 --DEBUGNOW
+  },
+  DRUGS={
+    "EQP_IT_Pentazemin",
+    "EQP_IT_Clairvoyance",
+    "EQP_IT_ReflexMedicine",
+  },
+}
 
 function this.LoadEquipTable()
   local equipLoadTable={}
   --tex TODO: find a better indicator of equipable mission loading
 
-  for n,equipName in ipairs(this.tppEquipTable)do--TODO: still working on the indexed not grouped table
+  for n,equipName in ipairs(this.tppEquipTableTest)do
     local equipId=TppEquip[equipName]
     if equipId~=nil then
       equipLoadTable[#equipLoadTable+1]=equipId
     end
   end
 
+  --tex TODO only seems to be for weapons not items (see RequestLoadToEquipMissionBlock)
+  --for category,equipNames in pairs(this.soldierDropTable)do
+  --for n,equipName in ipairs(equipNames)do
+
+  for n,equipName in ipairs(this.soldierDropTable.HANDGUNS)do
+    local equipId=TppEquip[equipName]
+    if equipId~=nil then
+      equipLoadTable[#equipLoadTable+1]=equipId
+    end
+  end
+  --end
+
   if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
     TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
   end
+end
+
+function this.Messages()
+  return Tpp.StrCode32Table {
+    GameObject = {
+      {msg="Neutralize",func=this.OnNeutralize},
+    },
+    Timer={
+      {msg="Finish",sender="Timer_DropItem",func=this.DropItem},
+    },
+  }
+end
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
+  end
+
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+end
+function this.Init(missionTable)
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
+  end
+
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+
+  this.inf_lastNeutralized={}
+
+  this.dropChanceBag=InfMain.ShuffleBag:New()
+  for i=1,Ivars.perSoldierCount do
+    local amount=1
+    this.dropChanceBag:Add(i,amount)
+  end
+
+  this.dropItemBag=InfMain.ShuffleBag:New()
+  for name,amount in pairs(this.itemDropInfo) do
+    this.dropItemBag:Add(name,amount)
+  end
+end
+
+function this.OnReload(missionTable)
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
+  end
+
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+end
+--TUNE
+local dropTimeOut=7*60
+local dropTimer=0.6
+
+this.inf_lastNeutralized={}
+this.inf_dropQueue={}
+
+function this.OnNeutralize(gameId,sourceId,neutralizeType,neutralizeCause)
+  --InfInspect.TryFunc(function(gameId,sourceId,neutralizeType,neutralizeCause)--DEBUG
+  local dropChance=Ivars.itemDropChance:Get()/Ivars.perSoldierCount
+  if dropChance==0 then
+    return
+  end
+
+  --tex have to manage table since reinforcements re-use gameobjects
+  --a timeout after a few minutes should be fine
+  local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
+  for _gameId,dropTimer in pairs(this.inf_lastNeutralized) do
+    if dropTimer<elapsedTime then
+      this.inf_lastNeutralized[_gameId]=nil
+    elseif _gameId==gameId then
+      --InfMenu.DebugPrint"Neutralize - timeout not complete"--DEBUG
+      return
+    end
+  end
+  this.inf_lastNeutralized[gameId]=elapsedTime+dropTimeOut
+
+  --    local neutralizeTypes={
+  --      [NeutralizeType.INVALID]="INVALID",
+  --      [NeutralizeType.DEAD]="DEAD",
+  --      [NeutralizeType.FAINT]="FAINT",
+  --      [NeutralizeType.SLEEP]="SLEEP",
+  --      [NeutralizeType.DYING]="DYING",
+  --      [NeutralizeType.FULTON]="FULTON",
+  --    }
+
+  --InfMenu.DebugPrint("Neutralize gameId:"..gameId.." sourceId:"..sourceId.. " neutralizeType:"..neutralizeTypes[neutralizeType].." neutralizeCause:"..neutralizeCause)--DEBUG
+  if this.dropChanceBag:Next()<=dropChance then
+    --      GkEventTimerManager.Start("Timer_DropItem",dropTimer)
+    --      this.inf_dropQueue[#this.inf_dropQueue]=gameId
+    this.DropItem(gameId)
+  end
+  --end,gameId,sourceId,neutralizeType,neutralizeCause)--DEBUG
+end
+
+--tex drop system a bit convoluted
+--decision whether to drop an item or nothing handled in OnNeutralize by dropChanceBag shufflebag (to get a consistant rate)
+--then dropItemBag chooses a category, and a random item from that category in soldierDropTable is chosen
+function this.DropItem(gameId)
+  --  local gameId=this.inf_dropQueue[1]
+  --  table.remove(this.inf_dropQueue,1)
+  local category=this.dropItemBag:Next()
+  local categoryTable=this.soldierDropTable[category]
+  local equipName=categoryTable[math.random(#categoryTable)]
+
+  local equipId=TppEquip[equipName]
+
+  --InfMenu.DebugPrint("drop "..equipName)--DEBUGNOW
+
+  --TUNE
+  local number=1
+  if category=="HANDGUNS" then
+    number=math.random(4,6)
+  end
+
+  local linearMax=0.1
+  local angularMax=4
+
+  local dropOffsetY=1.2
+
+  local dropPosition=GameObject.SendCommand(gameId,{id="GetPosition"})
+  dropPosition=Vector3(dropPosition:GetX(),dropPosition:GetY()+dropOffsetY,dropPosition:GetZ())
+
+  TppPickable.DropItem{
+    equipId=equipId,
+    number=number,
+    position=dropPosition,
+    rotation=Quat.RotationY(0),
+    linearVelocity=Vector3(math.random(-linearMax,linearMax),math.random(-linearMax,linearMax),math.random(-linearMax,linearMax)),
+    angularVelocity=Vector3(math.random(-angularMax,angularMax),math.random(-angularMax,angularMax),math.random(-angularMax,angularMax)),
+  }
+
 end
 
 return this

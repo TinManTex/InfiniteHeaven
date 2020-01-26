@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW personal tweaks
+-- DOBUILD: 1 --DEBUGNOW personal tweaks
 --MbmCommonSetting.lua
 --RETAILPATCH 1090
 this={}

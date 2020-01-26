@@ -886,7 +886,7 @@ function this.SetMessageFunction(missionTable)--RENAME:
 end
 function this.OnMessage(n,sender,messageId,arg0,arg1,arg2,arg3)
   local mvars=mvars--LOCALOPT
-  local l=""
+  local strLogTextEmpty=""
   local T
   local DoMessage=Tpp.DoMessage--LOCALOPT
   local CheckMessageOption=TppMission.CheckMessageOption--LOCALOPT
@@ -901,25 +901,25 @@ function this.OnMessage(n,sender,messageId,arg0,arg1,arg2,arg3)
   if messageResendCount<T then
     return Mission.ON_MESSAGE_RESULT_RESEND
   end
-  for s=1,onMessageTableSize do
-    local n=l
-    onMessageTable[s](sender,messageId,arg0,arg1,arg2,arg3,n)
+  for i=1,onMessageTableSize do
+    local strLogText=strLogTextEmpty
+    onMessageTable[i](sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   end
-  for n=1,messageExecTableSize do
-    local strLogText=l
-    DoMessage(messageExecTable[n],CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  for i=1,messageExecTableSize do
+    local strLogText=strLogTextEmpty
+    DoMessage(messageExecTable[i],CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   end
   if OnlineChallengeTask then--RETAILPATCH 1090>
-    OnlineChallengeTask.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,l)
+    OnlineChallengeTask.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)
   end--<
   if mvars.loc_locationCommonTable then
-    mvars.loc_locationCommonTable.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,l)
+    mvars.loc_locationCommonTable.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)
   end
   if mvars.order_box_script then
-    mvars.order_box_script.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,l)
+    mvars.order_box_script.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)
   end
   if mvars.animalBlockScript and mvars.animalBlockScript.OnMessage then
-    mvars.animalBlockScript.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,l)
+    mvars.animalBlockScript.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)
   end
 end
 function this.OnTerminate(missionTable)

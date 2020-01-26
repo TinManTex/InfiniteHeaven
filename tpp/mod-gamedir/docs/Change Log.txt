@@ -1,4 +1,13 @@
 Infinite Heaven changelog
+
+r161 - 2016-06-11 - public release
+Fixed: Hard-lock on mother base on a cluster with only one platform with "Soldiers move between platforms" on - thanks 
+BarelyFatal for the report and the save file to test with.
+Fixed: Ocelot being stuck on upper areas of early game in-construction command platform with "Enable Ocelot" on.
+Fixed: "Random CP subtype in missions" menu item would just show option==nil warning - thanks megamen123 for the report.
+Option: itemDropChance - InfEquip - Soldier item drop chance - Soldiers drop items upon elimination.
+(via soldier parameters menu)
+
 r160 - 2016-06-06 - public release
 Fixed: More fine grained application of RADIO body to lrrp and lrrp vehicles to stop radio light from appearing on: soviets with soft armor, enclosed vehicles.
 Fixed: Removed debug commands from root of in-mission menu, oops

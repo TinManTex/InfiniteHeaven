@@ -60,6 +60,10 @@ function this.Messages()
   }
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
+  end
+
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.Init(missionTable)
@@ -86,8 +90,8 @@ end
 
 function this.InitCluster(clusterId)
   --InfInspect.TryFunc(function(clusterId)--DEBUG
-    if vars.missionCode~=30050 then
-      return
+  if vars.missionCode~=30050 then
+    return
   end
 
   mbDemoWasPlayed=false
@@ -139,7 +143,7 @@ function this.InitCluster(clusterId)
     --tex mb doesn't have caution routes by default, should be fine to patch without user action since they wouldn't be used normally
     if #cautionRoutes then
       for i=1,#sneakRoutes do
-      --tex TODO: random selection of day/night
+        --tex TODO: random selection of day/night
         cautionRoutes[i]=sneakRoutes[i]
       end
     end
@@ -242,8 +246,16 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
 
     local lastPlat=npcPlats[npcIndex]
     local platIndex=Random(1,grade)
-    while numSoldiersOnPlat[platIndex]>=maxSoldiersPerPlat or platIndex==lastPlat do
+
+    local tryCount=0
+    while numSoldiersOnPlat[platIndex]>=maxSoldiersPerPlat or (platIndex==lastPlat and grade>1) do
       platIndex=Random(1,grade)
+
+      tryCount=tryCount+1
+--      if tryCount>grade*4 then
+--        InfMenu.DebugPrint""--DEBUGNOW
+--        break
+--      end
     end
 
 
@@ -256,6 +268,12 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     local routeIdx=Random(#platRoutes)
     local route=platRoutes[routeIdx]
     --GOTCHA possible inf loop if #route on plat * maxSoldiersOnSameRoute < maxSoldiersPerPlat
+    --InfMenu.DebugPrint("#platRoutes:"..#platRoutes.." * maxSoldiersOnSameRoute="..(#platRoutes*maxSoldiersOnSameRoute).." maxSoldiersPerPlat:"..maxSoldiersPerPlat)--DEBUGNOW
+    if #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat then
+      InfMenu.DebugPrint"InfNPC:Update - WARNING #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat, aborting"--DEBUGNOW
+      return
+    end
+
     while(numSoldiersOnRoute[route]>=maxSoldiersOnSameRoute)do
       routeIdx=Random(#platRoutes)
       route=platRoutes[routeIdx]

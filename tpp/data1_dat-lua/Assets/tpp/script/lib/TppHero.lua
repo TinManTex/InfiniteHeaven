@@ -400,7 +400,7 @@ function this.Messages()
           end
         end
       end},
-      {msg="Dead",func=function(gameId,attackerId,arg2,deadMessageFlag)
+      {msg="Dead",func=function(gameId,attackerId,playerPhase,deadMessageFlag)
         if attackerId and Tpp.IsLocalPlayer(attackerId)then
           if Tpp.IsHostage(gameId)then
             if SendCommand(gameId,{id="IsDD"})and(not TppMission.IsFOBMission(vars.missionCode))then
@@ -495,7 +495,7 @@ function this.Messages()
           end
         end
       end},
-      {msg="Dying",func=function(soldierId,i)
+      {msg="Dying",func=function(soldierId,arg2)
         if Tpp.IsSoldier(soldierId)then
           if not SendCommand(soldierId,{id="IsDD"}) and not (vars.missionCode==30050 and Ivars.mbNonStaff:Is(1))then--tex added nonstaff
             this.SetAndAnnounceHeroicOgrePoint(this.DYING_SOLDIER)

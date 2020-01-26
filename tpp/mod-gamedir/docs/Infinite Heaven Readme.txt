@@ -1,5 +1,5 @@
 = Infinite heaven =
-r161 - 2016-06-06
+r162 - 2016-06-11
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
@@ -20,7 +20,18 @@ Recent changes/additions
 ------------------------------
 NOTE: NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
-Newx for r160
+New for r161
+Fixed: Hard-lock on mother base on a cluster with only one platform with "Soldiers move between platforms" on - thanks 
+BarelyFatal for the report and the save file to test with.
+Fixed: Ocelot being stuck on upper areas of early game in-construction command platform with "Enable Ocelot" on.
+Fixed: "Random CP subtype in missions" menu item would just show option==nil warning - thanks megamen123 for the report.
+
+Option: Soldier item drop chance" - Soldiers drop items upon elimination.
+(via soldier parameters menu)
+[youtube]kafjLfvAifI[/youtube]
+https://youtu.be/kafjLfvAifI
+
+New for r160
 Fixed: Removed debug commands from root of in-mission menu, whoops.
 
 Fixed: Ghost light from patrol soldiers radio - appeared on enclosed patrol vehicles and patrol soviets with light armor.
@@ -42,6 +53,8 @@ Change: split event random trigger chance % setting into MB and Free, thanks Rec
 Option: Enable more soldiers on MB plats - increases (non main) platforms from 4 soldiers to 7-8.
 Option: Soldiers move between platforms - soldiers will periodically move between platforms (only within the same cluster).
 (via Mother base menu)
+[youtube]azkVA-D_Rq8[/youtube]
+https://youtu.be/azkVA-D_Rq8
 
 New for r158
 Fixed: Disable landing zones hanging loading mother base

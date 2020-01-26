@@ -1911,7 +1911,8 @@ function this.UpdateQuestBlockStateAtActive(t,n)
   if not this.IsInsideArea("activeArea",questAreaTable,t,n)then
     if mvars.qst_blockStateRequest~=questBlockStatus.DEACTIVATING then
       mvars.qst_blockStateRequest=questBlockStatus.DEACTIVATING
-      local e=this.ExecuteSystemCallback"OnOutOfAcitveArea"if not e then
+      local e=this.ExecuteSystemCallback"OnOutOfAcitveArea"
+      if not e then
         mvars.qst_blockStateRequest=questBlockStatus.DEACTIVATE
       end
     end

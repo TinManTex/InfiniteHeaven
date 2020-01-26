@@ -417,117 +417,7 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
-      --tex randomize (most)all ivars
-      local skipIvars={
-        debugMode=true,
 
-        abortMenuItemControl=true,
-
-        mbDemoSelection=true,
-
-        warpPlayerUpdate=true,
-        adjustCameraUpdate=true,
-        --non user
-        inf_event=true,
-        mis_isGroundStart=true,
-        inf_levelSeed=true,
-        mbHostileSoldiers=true,
-        mbEnableLethalActions=true,
-        mbNonStaff=true,
-        mbZombies=true,
-        mbEnemyHeli=true,
-        npcUpdate=true,
-        heliUpdate=true,
-
-        --WIP/OFF
-        blockFobTutorial=true,
-        setFirstFobBuilt=true,
-        disableTranslators=true,
-        vehiclePatrolPaintType=true,
-        vehiclePatrolEmblemType=true,
-        mbShowQuietCellSigns=true,
-        manualMissionCode=true,
-        playerType=true,
-        playerCammoTypes=true,
-        playerPartsType=true,
-        playerFaceEquipIdApearance=true,
-        playerFaceIdApearance=true,
-        playerHandEquip=true,
-        cpAlertOnVehicleFulton=true,
-        disableQuietHumming=true,
-        enableGetOutHeli=true,
-        selectedChangeWeapon=true,
-        forceSoldierSubType=true,
-        setTakeOffWaitTime=true,
-        disableNoRevengeMissions=true,
-      }
-
-      local log=""
-
-      local ivarNames={}
-      local function IsIvar(ivar)--TYPEID
-        return type(ivar)=="table" and (ivar.range or ivar.settings)
-      end
-      for name,ivar in pairs(Ivars) do
-        if IsIvar(ivar) then
-          if not ivar.range or not ivar.range.max then
-            InfMenu.DebugPrint("WARNING: ivar "..name.." hase no range set")
-          elseif not skipIvars[name] and ivar.save then
-            table.insert(ivarNames,name)
-          end
-        end
-      end
-
-      --divide and conquor
-      local fraction=math.ceil(#ivarNames/4)
-
-      local start=0
-      local finish=#ivarNames--110
-
-      --      local start=fraction--55
-      --      local finish=fraction*2--110
-      --      local start=80--55
-      --      local finish=110--110
-      --
-      --      local start=80
-      --      local finish=100
-      --
-      --      local start=80
-      --      local finish=90
-      --
-      --      local start=80
-      --      local finish=85
-
-      --      local start=80
-      --      local finish=83
-
-      --        local start=84
-      --        local finish=85
-
-      InfMenu.DebugPrint("start: "..start.." finish: "..finish)
-
-      for i,name in ipairs(ivarNames) do
-        if i>finish then
-          break
-        end
-        if i>=start then
-
-          local ivar=Ivars[name]
-          ivar:Set(math.random(ivar.range.min,ivar.range.max),true)
-
-          --if ivar.setting~=ivar.default then
-          log=log..name.."\n"
-
-          --end
-        end
-      end
-      InfMenu.DebugPrint(tostring(log))
-
-
-      --InfMenu.DebugPrint(tostring(this.log))
-      --InfMenu.DebugPrint(tostring(gvars.inf_levelSeed))
-      if true then return end
-      --DEBUGNOW
 
       local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
       if lastMarkerIndex==nil then
@@ -659,6 +549,120 @@ this.DEBUG_SomeShiz3={
       end)
   end
 }
+
+this.log=""
+this.DEBUG_RandomizeAllIvars={
+  OnChange=function()
+    InfInspect.TryFunc(function()
+      --tex randomize (most)all ivars
+      local skipIvars={
+        debugMode=true,
+
+        abortMenuItemControl=true,
+
+        mbDemoSelection=true,
+
+        warpPlayerUpdate=true,
+        adjustCameraUpdate=true,
+        --non user
+        inf_event=true,
+        mis_isGroundStart=true,
+        inf_levelSeed=true,
+        mbHostileSoldiers=true,
+        mbEnableLethalActions=true,
+        mbNonStaff=true,
+        mbZombies=true,
+        mbEnemyHeli=true,
+        npcUpdate=true,
+        heliUpdate=true,
+
+        --WIP/OFF
+        blockFobTutorial=true,
+        setFirstFobBuilt=true,
+        disableTranslators=true,
+        vehiclePatrolPaintType=true,
+        vehiclePatrolEmblemType=true,
+        mbShowQuietCellSigns=true,
+        manualMissionCode=true,
+        playerType=true,
+        playerCammoTypes=true,
+        playerPartsType=true,
+        playerFaceEquipIdApearance=true,
+        playerFaceIdApearance=true,
+        playerHandEquip=true,
+        cpAlertOnVehicleFulton=true,
+        disableQuietHumming=true,
+        enableGetOutHeli=true,
+        selectedChangeWeapon=true,
+        forceSoldierSubType=true,
+        setTakeOffWaitTime=true,
+        disableNoRevengeMissions=true,
+      }
+
+      local log=""
+
+      local ivarNames={}
+      local function IsIvar(ivar)--TYPEID
+        return type(ivar)=="table" and (ivar.range or ivar.settings)
+      end
+      for name,ivar in pairs(Ivars) do
+        if IsIvar(ivar) then
+          if not ivar.range or not ivar.range.max then
+            InfMenu.DebugPrint("WARNING: ivar "..name.." hase no range set")
+          elseif not skipIvars[name] and ivar.save then
+            table.insert(ivarNames,name)
+          end
+        end
+      end
+
+      --divide and conquor
+      local fraction=math.ceil(#ivarNames/4)
+
+      local start=0
+      local finish=#ivarNames--110
+
+      --      local start=fraction--55
+      --      local finish=fraction*2--110
+      --      local start=80--55
+      --      local finish=110--110
+      --
+      --      local start=80
+      --      local finish=100
+      --
+      --      local start=80
+      --      local finish=90
+      --
+      --      local start=80
+      --      local finish=85
+
+      --      local start=80
+      --      local finish=83
+
+      --        local start=84
+      --        local finish=85
+
+      InfMenu.DebugPrint("start: "..start.." finish: "..finish)
+
+      for i,name in ipairs(ivarNames) do
+        if i>finish then
+          break
+        end
+        if i>=start then
+
+          local ivar=Ivars[name]
+          ivar:Set(math.random(ivar.range.min,ivar.range.max),true)
+
+          --if ivar.setting~=ivar.default then
+          log=log..name.."\n"
+
+          --end
+        end
+      end
+      InfMenu.DebugPrint(tostring(log))
+end)--
+end
+}
+
 
 this.DEBUG_PrintRevengePoints={
   OnChange=function()

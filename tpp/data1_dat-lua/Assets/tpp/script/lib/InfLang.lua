@@ -436,6 +436,7 @@ this.eng={--english
   },
   mbAdditionalSoldiers="More soldiers on MB plats",
   mbNpcRouteChange="Soldiers move between platforms",
+  itemDropChance="Soldier item drop chance",
 }--eng end
 
 this.help={}
@@ -533,6 +534,7 @@ this.help.eng={
   mbNpcRouteChange="Soldiers will periodically move between platforms (only within the same cluster).",
   warpPlayerUpdate="Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.",
   mbAdditionalSoldiers="Increases (non main) platforms from 4 soldiers to 7-8.",
+  itemDropChance="Chance soldier will drop an item when eliminated.",
 }
 
 this.cpNames={

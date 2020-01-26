@@ -389,7 +389,8 @@ this.radioDemoTable={
     end,
     detailCondition=function()
       if TppQuest.IsOpen"mtbs_q99011"then
-        local e=not TppQuest.IsCleard"mtbs_q99011"if e then
+        local e=not TppQuest.IsCleard"mtbs_q99011"
+        if e then
           TppCassette.Acquire{cassetteList={"tp_c_00000_13"},
             {delayTimeSec=2}}
           TppCassette.Acquire{cassetteList={"tp_m_10050_03"},
@@ -1145,7 +1146,8 @@ this.radioDemoTable={
             storyCondition=function()
               local t=TppServerManager.GetNuclearAbolitionCount()
               local n=TppServerManager.GetNuclearNum()
-              local e=TppDemo.IsPlayedMBEventDemo"NuclearEliminationCeremony"if(t~=-1)then
+              local e=TppDemo.IsPlayedMBEventDemo"NuclearEliminationCeremony"
+              if(t~=-1)then
                 if(e)and(n>0)then
                   return true
                 end

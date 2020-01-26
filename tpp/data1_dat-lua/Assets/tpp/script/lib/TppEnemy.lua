@@ -3269,7 +3269,8 @@ function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
     if phase==this.PHASE.SNEAK then
       routeSetType=SetForTime(cpId)
     else
-      routeSetType="caution"end
+      routeSetType="caution"
+    end
   end
   return routeSetType
 end
@@ -3538,7 +3539,7 @@ function this._InsertShiftChangeUnit(t,a,n)
       else
         mvars.ene_shiftChangeTable[t][e][a*2-1]={n[e].start,n[e].goal}
         mvars.ene_shiftChangeTable[t][e][a*2]="dummy"
-        end
+      end
     end
   end
 end
@@ -3573,12 +3574,14 @@ function this._GetShiftChangeRouteGroup(n,r,a,l,p,i,s,t)
     e=e-i
   end
   local a=n[e]
-  local t="default"if l[i]then
+  local t="default"
+  if l[i]then
     t=i
   end
   local e=nil
   if s then
-    e="default"if p[i]then
+    e="default"
+    if p[i]then
       e=i
     end
   end

@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r160"
+this.modVersion="r162"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -361,15 +361,15 @@ this.cpPositions={
     afgh_slopedEast_ob={977.664,318.965,-169.445},
     afgh_fortSouth_ob={2194.072,429.323,-1271},
     afgh_villageNorth_ob={504.530,329.411,702.308},
-    afgh_commWest_ob="Guard Post 19",
+    afgh_commWest_ob={983.531,347.594,665.96},
     afgh_bridgeWest_ob="Guard Post 20",
     afgh_bridgeNorth_ob="Guard Post 21",
     afgh_fieldWest_ob={8.862,274.866,1992.816},
     afgh_villageEast_ob={939.176,318.845,1259.34},
     afgh_ruinsNorth_ob={1623.511,323.038,1062.995},
     afgh_fieldEast_ob="Guard Post 25",
-    --TODO-v- redo (except citadel)
     afgh_citadel_cp={-1251.708,595.181,-2936.821},
+    --TODO-v- redo
     afgh_field_cp={418.33,278.22,2261.37},
     afgh_commFacility_cp={1444.40,364.14,390.78},
     afgh_slopedTown_cp={512.11,316.60,167.44},
@@ -417,12 +417,18 @@ end
 
 --<cp stuff
 
-
+--tex a few demo files force their own snake heads which naturally goes badly if DD female and use current soldier in cutscenes
+this.noSkipIsSnakeOnly={--tex>
+  Demo_Funeral=true,--PATCHUP: shining lights end cinematic forces snake head with ash
+  --volgin recovery quest, demo forces snake head with bandages
+  Demo_RecoverVolgin=true,
+  p31_080100_000_final=true,
+}
 
 --block quests>
 local blockQuests={
-  "tent_q99040" -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
-}
+  --DEBUGNOW "tent_q99040" -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
+  }
 
 function this.BlockQuest(questName)
   --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
@@ -526,7 +532,7 @@ function this.OnAllocate(missionTable)
 
   --WIP
   if missionTable.enemy then
-  --OFF lua id off InfEquip.LoadEquipTable()
+    InfEquip.LoadEquipTable()
   end
 end
 
@@ -583,16 +589,22 @@ function this.Messages()
       {msg="SaluteRaiseMorale",func=this.CheckSalutes},
     },
     MotherBaseStage = {
---      {
---        msg="MotherBaseCurrentClusterLoadStart",
---        func=function(clusterId)
---          InfMenu.DebugPrint"InfMain MotherBaseCurrentClusterLoadStart"--DEBUG
---        end,
---      },
+    --      {
+    --        msg="MotherBaseCurrentClusterLoadStart",
+    --        func=function(clusterId)
+    --          InfMenu.DebugPrint"InfMain MotherBaseCurrentClusterLoadStart"--DEBUG
+    --        end,
+    --      },
     --OFF CULL unused{msg= "MotherBaseCurrentClusterActivated",func=this.CheckClusterMorale},
     },
     Player={
       {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
+    --      {
+    --        msg="OnPickUpWeapon",
+    --        func=function(playerGameObjectId,equipId,number)
+    --          InfMenu.DebugPrint("OnPickUpWeapon equipId:"..equipId.." number:"..number)--DEBUG
+    --        end
+    --      },
     },
     UI={
       --      {msg="EndFadeIn",func=this.FadeIn()},--tex for all fadeins
@@ -657,7 +669,7 @@ function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 
-function this.OnDead(gameId,killerId,playerPhase,deadMessageFlag)
+function this.OnDead(gameId,attackerId,playerPhase,deadMessageFlag)
   --InfMenu.DebugPrint("InfMain.OnDead")--DEBUG
 
   if true then return end
@@ -2428,8 +2440,8 @@ local additionalSoldiersPerPlat=4
 
 function this.ModifyEnemyAssetTable()
   --InfInspect.TryFunc(function()--DEBUG
-    if vars.missionCode~=30050 then
-      return
+  if vars.missionCode~=30050 then
+    return
   end
 
   if Ivars.mbAdditionalSoldiers:Is(0) then
@@ -2496,5 +2508,45 @@ end
 function this.ClearTable(_table)
   for k in next, _table do rawset(_table, k, nil) end
 end
+
+this.ShuffleBag={
+  currentItem=nil,
+  currentPosition=-1,
+  data={},
+  New=function(self,o)
+    o=o or {}
+    o.currentItem=nil
+    o.currentPosition=-1
+    o.data={}
+
+    setmetatable(o,self)
+    self.__index=self
+    return o
+  end,
+  Add=function(self,item,amount)
+    for i=1,amount do
+      self.data[#self.data+1]=item
+
+      self.currentPosition=#self.data
+    end
+  end,
+  Next=function(self)
+    --run out, start again
+    if self.currentPosition<2 then
+      self.currentPosition=#self.data
+      self.currentItem=self.data[1]
+      return self.currentItem
+    end
+    --picks between start of array and currentposition, which decreases from end of array
+    local pos=math.random(self.currentPosition)
+
+    self.currentItem=self.data[pos]
+    self.data[pos]=self.data[self.currentPosition]
+    self.data[self.currentPosition]=self.currentItem
+    self.currentPosition=self.currentPosition-1
+
+    return self.currentItem
+  end,
+}
 
 return this

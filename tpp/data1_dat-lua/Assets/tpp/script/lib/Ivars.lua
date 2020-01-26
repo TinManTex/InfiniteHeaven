@@ -3397,49 +3397,79 @@ this.selectedChangeWeapon={--WIP
   --OFF save=MISSION,
   range={max=490,min=1},--tex SYNC: tppEquipTable
   GetSettingText=function(self)
-    return InfEquip.tppEquipTable[self.setting]
+    return InfEquip.tppEquipTableTest[self.setting]
   end,
   OnActivate=function(self)
-    local equipName=InfEquip.tppEquipTable[self.setting]
+    local equipName=InfEquip.tppEquipTableTest[self.setting]
     local equipId=TppEquip[equipName]
     if equipId==nil then
       InfMenu.DebugPrint("no equipId found for "..equipName)
       return
     else
-      InfMenu.DebugPrint("set "..equipName)
-      Player.ChangeEquip{
-        equipId = equipId,
-        stock = 30,
-        stockSub = 30,
-        ammo = 30,
-        ammoSub = 30,
-        suppressorLife = 100,
-        isSuppressorOn = true,
-        isLightOn = false,
-        dropPrevEquip = true,
-      -- toActive = true,
+      --      InfMenu.DebugPrint("set "..equipName)
+      --      Player.ChangeEquip{
+      --        equipId = equipId,
+      --        stock = 30,
+      --        stockSub = 30,
+      --        ammo = 30,
+      --        ammoSub = 30,
+      --        suppressorLife = 100,
+      --        isSuppressorOn = true,
+      --        isLightOn = false,
+      --        dropPrevEquip = true,
+      --      -- toActive = true,
+      --      }
+      --    end
+
+      --      Player.ChangeEquip{
+      --        equipId = equipId,
+      --        stock = 30,
+      --        stockSub = 0,
+      --        ammo = 30,
+      --        ammoSub = 0,
+      --        suppressorLife = 0,
+      --        isSuppressorOn = false,
+      --        isLightOn = false,
+      --        toActive = false,
+      --        dropPrevEquip = false,
+      --        temporaryChange = true,
+      --      }
+
+
+      --DEBUGNOW DEBUGNOW
+      InfMenu.DebugPrint("drop "..equipName)
+      local dropPosition=Vector3(vars.playerPosX,vars.playerPosY+1,vars.playerPosZ)
+
+      local linearMax=2
+      local angularMax=14
+
+      local number=100
+
+      TppPickable.DropItem{
+        equipId=equipId,
+        number=number,
+        position=dropPosition,
+        rotation=Quat.RotationY(0),
+        linearVelocity=Vector3(math.random(-linearMax,linearMax),math.random(-linearMax,linearMax),math.random(-linearMax,linearMax)),
+        angularVelocity=Vector3(math.random(-angularMax,angularMax),math.random(-angularMax,angularMax),math.random(-angularMax,angularMax)),
       }
     end
-
-    --      Player.ChangeEquip{
-    --        equipId = equipId,
-    --        stock = 30,
-    --        stockSub = 0,
-    --        ammo = 30,
-    --        ammoSub = 0,
-    --        suppressorLife = 0,
-    --        isSuppressorOn = false,
-    --        isLightOn = false,
-    --        toActive = false,
-    --        dropPrevEquip = false,
-    --        temporaryChange = true,
-    --      }
   end,
 }
+
 this.enableInfInterrogation={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+}
+
+--item drops
+this.perSoldierCount=10
+this.itemDropChance={
+  save=MISSION,
+  --range={min=0,max=this.perSoldierCount,increment=1},
+  range={min=0,max=100,increment=10},
+  isPercent=true,
 }
 
 --gameevent

@@ -1297,26 +1297,27 @@ function this.GetPlayStyleSaveIndex(n,r,a,t)
     end
   end
 end
-function this.OnNeutralize(r,n,a,t)
-  local t=this.GetPlayStyleSaveIndex(r,n,a,t)
-  if not t then
+function this.OnNeutralize(gameId,sourceId,neutralizeType,neutralizeCause)
+  local playStyleSaveIndex=this.GetPlayStyleSaveIndex(gameId,sourceId,neutralizeType,neutralizeCause)
+  if not playStyleSaveIndex then
     return
   end
-  this.IncrementPlayDataNeutralizeCount(t)
+  this.IncrementPlayDataNeutralizeCount(playStyleSaveIndex)
   if mvars.res_noResult then
     return
   end
   if svars.neutralizeCount<MAX_32BIT_UINT then
     svars.neutralizeCount=svars.neutralizeCount+1
   end
-  local e=gvars.res_neutralizeCount[t]
-  if e>=255 then
+  local neutralizeCount=gvars.res_neutralizeCount[playStyleSaveIndex]
+  if neutralizeCount>=255 then
     return
   end
-  gvars.res_neutralizeCount[t]=e+1
+  gvars.res_neutralizeCount[playStyleSaveIndex]=neutralizeCount+1
 end
 function this.IncrementPlayDataNeutralizeCount(e)
-  Tpp.IncrementPlayData"totalNeutralizeCount"if gvars.res_neutralizeCountForPlayData[e]<MAX_32BIT_UINT then
+  Tpp.IncrementPlayData"totalNeutralizeCount"
+  if gvars.res_neutralizeCountForPlayData[e]<MAX_32BIT_UINT then
     gvars.res_neutralizeCountForPlayData[e]=gvars.res_neutralizeCountForPlayData[e]+1
   end
 end

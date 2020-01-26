@@ -220,11 +220,11 @@ end
 function this.OnReload(n)
   this.Init(n)
 end
-function this.OnMessage(r,t,n,o,a,i,s)
-  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,r,t,n,o,a,i,s)
+function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+  Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-function this.OnNeutralize(n,n,e,n)
-  if e==NeutralizeType.HOLDUP then
+function this.OnNeutralize(gameId,sourceId,neutralizeType,neutralizeCause)
+  if neutralizeType==NeutralizeType.HOLDUP then
     PlayRecord.RegistPlayRecord"PLAYER_HOLDUP"
   end
 end

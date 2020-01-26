@@ -11,7 +11,10 @@ local SendCommand = GameObject.SendCommand
 local NULL_ID = GameObject.NULL_ID
 local SCRIPT_BLOCK_NAME = "demo_block"
 
-local MAX_STAFF_NUM_ON_CLUSTER = 36--18--tex
+local MAX_STAFF_NUM_ON_CLUSTER = 18
+if Ivars.mbAdditionalSoldiers:Is()>0 then--tex>
+  MAX_STAFF_NUM_ON_CLUSTER = 36
+end--<
 
 local sequences = {}
 
@@ -1050,7 +1053,7 @@ end
 
 
 local MAX_STAFF_NUM_IN_CLUSTER = MAX_STAFF_NUM_ON_CLUSTER--tex was 18--DEBUGNOW 
-local MAX_FACE_NUM_IN_CLUSTER = MAX_STAFF_NUM_IN_CLUSTER--tex was 18--DEBUGNOW                                    
+--tex OFF unused local MAX_FACE_NUM_IN_CLUSTER = 18                                    
 this.RegisterFovaFpk = function( clusterId )
 	Fox.Log("RegisterFovaFpk! clusterId:" ..tostring(clusterId) )
 	if clusterId >= 7 then
@@ -1114,13 +1117,13 @@ this.RegisterFovaFpk = function( clusterId )
 	--if free mix choose random 0-303
 	--if afgh choose TppEnemy.GetFaceGroupTable( ) 0-14
 	--mafr 15-74
-	--if #GetFaceGroupTable table < MAX_FACE_NUM_IN_CLUSTER then choose another and keep adding till MAX_FACE_NUM_IN_CLUSTER
+	--if #GetFaceGroupTable table < MAX_STAFF_NUM_ON_CLUSTER then choose another and keep adding till MAX_STAFF_NUM_ON_CLUSTER
   if Ivars.mbNonStaff:Is(1) then--tex>
     mvars.f30050_soldierStaffIdList = {}
     local securityStaffFaceIds = {} 
     InfMain.RandomSetToLevelSeed()
     --local faceGroupTable=
-    for i=1,MAX_FACE_NUM_IN_CLUSTER do
+    for i=1,MAX_STAFF_NUM_ON_CLUSTER do
       if Ivars.mbWargameFemales:Is(1) and math.random()<.15 then
         table.insert(securityStaffFaceIds,InfEneFova.RandomFaceId(InfEneFova.femaleFaceIds))
       else

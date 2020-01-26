@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW personal tweaks
+-- DOBUILD: 1 --DEBUGNOW personal tweaks
 this={}
 TppMotherBaseManagement.RegisterCommandClusterBuildParam{base="MotherBase",grade=1,addCombatLimit=30,addDevelopLimit=30,addBaseDevLimit=30,addSupportLimit=30,addSpyLimit=30,addMedicalLimit=30,addSecurityLimit=25,gmp=0,resourceA="None",resourceACount=0,resourceB="None",resourceBCount=0,timeMinute=0}
 TppMotherBaseManagement.RegisterCommandClusterBuildParam{base="MotherBase",grade=2,addCombatLimit=5,addDevelopLimit=5,addBaseDevLimit=5,addSupportLimit=5,addSpyLimit=5,addMedicalLimit=5,addSecurityLimit=25,gmp=9e4,resourceA="MinorMetal",resourceACount=1e3,resourceB="FuelResource",resourceBCount=1e3,timeMinute=120}

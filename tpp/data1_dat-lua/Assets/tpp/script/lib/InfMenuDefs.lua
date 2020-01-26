@@ -30,6 +30,7 @@ this.soldierParamsMenu={
     Ivars.soldierHealthScale,
     Ivars.soldierSightDistScale,
     Ivars.soldierHearingDistScale,
+    Ivars.itemDropChance,
     InfMenuCommands.printHealthTableParameter,
     InfMenuCommands.printSightFormParameter,
     InfMenuCommands.printHearingTable,
@@ -134,8 +135,8 @@ this.patchupMenu={
 this.debugMenu={
   options={
     Ivars.debugMode,
-    Ivars.telopMode,    
-    Ivars.startOffline,    
+    Ivars.telopMode,
+    Ivars.startOffline,
     Ivars.langOverride,
     InfMenuCommands.unlockPlayableAvatar,
     InfMenuCommands.unlockWeaponCustomization,
@@ -232,7 +233,7 @@ local function AddMinMaxIvarsListMenu(menuName,ivarList)
     menuOptions[#menuOptions+1]=Ivars[ivarName..minSuffix]
     menuOptions[#menuOptions+1]=Ivars[ivarName..maxSuffix]
   end
-  
+
   this[menuName..menuSuffix]=newMenu--tex add to InfMenuDefs
 end
 
@@ -278,7 +279,7 @@ this.revengeMenu={
     this.dDEquipMenu,
     InfMenuCommands.resetRevenge,
     Ivars.changeCpSubTypeFREE,
-    Ivars.changeCpSubTypeForMISSION,
+    Ivars.changeCpSubTypeMISSION,
     Ivars.enableWildCardFreeRoam,
     Ivars.enableInfInterrogation,
   }
@@ -432,7 +433,7 @@ this.disableSupportMenuMenu={
 
 this.playerRestrictionsMenu={
   options={
-    Ivars.subsistenceProfile,    
+    Ivars.subsistenceProfile,
     Ivars.blockInMissionSubsistenceIvars,
     Ivars.disableHeliAttack,
     Ivars.disableFulton,
@@ -460,9 +461,9 @@ this.heliSpaceMenu={
   options={
     --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
     --    --    InfMenuCommands.DEBUG_PrintMenu,
-    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
---        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --        InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+    --        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.fovaModMenu,--DEBUG
     --    this.appearanceMenu,--DEBUG
@@ -531,14 +532,16 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
-      -- InfMenuCommands.DEBUG_WarpToObject,--DEBUGNOW 
+    --Ivars.itemDropChance,--DEBUG
+    -- InfMenuCommands.DEBUG_WarpToObject,--DEBUG
     ----    Ivars.playerFaceIdApearance,--DEBUG
     ----    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
-    ----    --    this.appearanceMenu,--DEBUG
---        InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
-----        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-    --    Ivars.selectedChangeWeapon,--WIP DEBUG
+    ----    --    this.appearanceMenu,--DEBUG    --
+    Ivars.selectedChangeWeapon,--WIP DEBUGNOW
+--    InfMenuCommands.DEBUG_DropItem,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --   InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,

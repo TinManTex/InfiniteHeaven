@@ -184,9 +184,11 @@ Soldier parameters menu
 [3] Soldier sight scale : 0-400%
     - A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in iDroid Log>All tab)' to see exact values.
 [4] Soldier hearing distance scale : 0-400%
-[5] Print health param table (look in iDroid Log>All tab) : (Command)
-[6] Print sight param table (look in iDroid Log>All tab) : (Command)
-[7] Print hearing distance table (look in iDroid Log>All tab) : (Command)
+[5] Soldier item drop chance : 0-100%
+    - Chance soldier will drop an item when eliminated.
+[6] Print health param table (look in iDroid Log>All tab) : (Command)
+[7] Print sight param table (look in iDroid Log>All tab) : (Command)
+[8] Print hearing distance table (look in iDroid Log>All tab) : (Command)
 
 
 Enemy phases menu
@@ -221,6 +223,12 @@ Enemy Prep menu
     - Resets enemy prep levels to 0
 [8] Random CP subtype in free roam : Off, On
     - Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
+[9] Random CP subtype in missions : Off, On
+    - Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
+[10] Wildcard soldiers Free roam : Off, On
+     - Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.
+[11] IH interrogation in free roam : Off, On
+     - Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)
 
 
 Custom prep menu
@@ -347,7 +355,7 @@ Prep system menu
      - Adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if Allow helmet and NVG or Gas mask combo option is on
 [12] Allow missile combo with other weapons : Off, On
      - In the default game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them.
-[13] Enable Mg vs Shotgun variation : Off, On
+[13] Mg vs Shotgun variation : Off, On
      - In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
 [14] Balance small CPs : Off, On
      - Adds limits and some randomisation to small cp/lrrps enemy prep application
@@ -370,7 +378,7 @@ DD Equip menu
 
 Enemy reinforcements menu
 -------------------------
-[1] Enable vehicle reinforce (only heli in free roam, vehicles depend on mission) : Off, Enemy Prep, Force Prep
+[1] Vehicle reinforcements (only heli in free roam, vehicles depend on mission) : Off, Enemy Prep, Force Prep
     - In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more.
 [2] Force enable enemy heli reinforce (disable heli sideops) : Off, On
 [3] Force reinforce request for heli : Off, On
@@ -390,11 +398,11 @@ Enemy patrols menu
 [4] Vehicle patrols in free roam profile : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)
     - Replaces the patrolling trucks in free roam with other vehicles.
 [5] Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep
-[6] Enable jeeps : Off, On
-[7] Enable trucks : Off, On
-[8] Enable wheeled armored vehicles : Off, On
-[9] Enable heavy wheeled armored vehicles : Off, On
-[10] Enable tanks : Off, On
+[6] Allow jeeps : Off, On
+[7] Allow trucks : Off, On
+[8] Allow wheeled armored vehicles : Off, On
+[9] Allow heavy wheeled armored vehicles : Off, On
+[10] Allow tanks : Off, On
 
 
 Side ops menu
@@ -414,11 +422,11 @@ Mother Base menu
 [5] DD Head gear : Off, Current prep
 [6] Female staff selection : Default, None, All available
     - By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
-[7] Enable npc helis : Off, Support helis, Support and Attack helis
+[7] NPC helis : Off, Support helis, Support and Attack helis
     - Spawns some npc helis that roam around mother base.
 [8] Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
     - Shared between free roam and MB attack helis.
-[9] Enable walker gears : Off, On
+[9] Walker gears : Off, On
 [10] Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
 [11] Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
 [12] Repopulate plants and diamonds : Off, On
@@ -441,7 +449,7 @@ Show characters menu
 --------------------
 [1] Enable Ocelot : Off, On
     - Enables Ocelot to roam the command platform.
-[2] Enable puppy DDog : Off, Missing eye, Normal eyes
+[2] Puppy DDog : Off, Missing eye, Normal eyes
 [3] Show Code Talker : Off, On
 [4] Show Eli : Off, On
 [5] Reset Paz state to beginning : (Command)
@@ -521,20 +529,17 @@ Debug/system menu
 
 In Mission menu
 ---------------
-[1] DEBUG_WarpToObject : (Command)
-[2] DEBUG_SomeShiz : (Command)
-[3] DEBUG_SomeShiz3 : (Command)
-[4] Warp Mode : Off, On
+[1] Warp Mode : Off, On
     - Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.
-[5] Camera menu
-[6] User marker menu
-[7] Clock time scale : 1-10000
+[2] Camera menu
+[3] User marker menu
+[4] Clock time scale : 1-10000
     - Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
-[8] Quiets cell radio track (0=Auto) : 0-31
-[9] Markers menu
-[10] Enemy phases menu
-[11] Support heli menu
-[12] Debug stuff menu
+[5] Quiets cell radio track (0=Auto) : 0-31
+[6] Markers menu
+[7] Enemy phases menu
+[8] Support heli menu
+[9] Debug stuff menu
 
 
 Camera menu
