@@ -417,15 +417,26 @@ this.cameraMenu={
   }
 }
 
+this.userMarkerMenu={
+  options={    
+    InfMenuCommands.warpToUserMarker,
+    InfMenuCommands.printLatestUserMarker,
+    InfMenuCommands.printUserMarkers,
+--    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
+--    Ivars.selectedCp,--DEBUG
+  }
+}
+
 this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
+   -- this.ospMenu,--DEBUG
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    this.fovaModMenu,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    this.appearanceMenu,--DEBUG
 --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
@@ -491,17 +502,17 @@ this.inMissionMenu={
 --    this.fovaModMenu,--DEBUG
 --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
 --    this.appearanceMenu,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+ --   InfMenuCommands.DEBUG_SomeShiz,--DEBUG  
+ --   InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+  --  InfMenuCommands.DEBUG_WarpToObject,--DEBUG
     --InfMenuCommands.showPosition,--DEBUG
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
-    --Ivars.selectedCp,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG
-    --InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
+ --   InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,
     this.cameraMenu,
+    this.userMarkerMenu,
     Ivars.clockTimeScale,
     --this.appearanceMenu,--WIP
     Ivars.quietRadioMode,

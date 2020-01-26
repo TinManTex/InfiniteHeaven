@@ -1,8 +1,11 @@
 -- DOBUILD: 1
-
+--InfMenuCommands.lua
 local this={}
 --tex lines kinda blurry between Commands and Ivars, currently commands arent saved/have no gvar associated
 --NOTE: tablesetup at end sets up every table in this with an OnChange as a menu command
+--localopt
+local NULL_ID=GameObject.NULL_ID
+local GetGameObjectId=GameObject.GetGameObjectId
 
 --menu menu items
 this.menuOffItem={
@@ -260,6 +263,82 @@ this.warpToCamPos={
   end,
 }
 
+this.warpToUserMarker={
+  OnChange=function()
+    InfInspect.TryFunc(function()
+      --DEBUGNOW InfMenu.DebugPrint"Warping to newest marker"
+      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+      if lastMarkerIndex==nil then
+        InfMenu.DebugPrint("lastMarkerIndex==nil")
+      else
+        InfUserMarker.PrintUserMarker(lastMarkerIndex)
+        InfUserMarker.WarpToUserMarker(lastMarkerIndex)
+      end
+
+      --InfMain.WarpToUserMarkerCycle()
+    end)
+  end
+}
+
+
+this.printUserMarkers={
+  OnChange=function()InfUserMarker.PrintUserMarkers() end,
+}
+
+this.printLatestUserMarker={
+  OnChange=function()
+    InfInspect.TryFunc(function()
+    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    if lastMarkerIndex==nil then
+      InfMenu.DebugPrint("lastMarkerIndex==nil")
+    else
+      InfUserMarker.PrintUserMarker(lastMarkerIndex)
+      InfUserMarker.PrintMarkerGameObject(lastMarkerIndex)
+    end
+    end)
+  end
+}
+
+this.setSelectedCpToMarkerObjectCp={
+  OnChange=function()
+    InfInspect.TryFunc(function()
+      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+      if lastMarkerIndex==nil then
+        InfMenu.DebugPrint("lastMarkerIndex==nil")
+        return
+      end
+      --      InfMain.PrintUserMarker(lastMarkerIndex)
+      --      InfMain.PrintMarkerGameObject(lastMarkerIndex)
+      local gameId=vars.userMarkerGameObjId[lastMarkerIndex]
+
+      if gameId==nil then
+        InfMenu.DebugPrint"gameId==nil"
+        return
+      end
+      local soldierName,cpName=InfMain.SoldierNameForGameId(gameId)
+      if cpName==nil then
+        InfMenu.DebugPrint"cpName==nil"
+        return
+      end
+
+      for n,currentName in pairs(mvars.ene_cpList)do
+        --InfMenu.DebugPrint(tostring(n).." "..tostring(currentName))
+        if currentName==cpName then
+          Ivars.selectedCp:Set(n)
+          InfMenu.DebugPrint("selectedCp set to "..n..":"..cpName)
+          return
+        end
+      end
+
+      InfMenu.DebugPrint(cpName.." not found in ene_cpList")
+      local ins=InfInspect.Inspect(mvars.ene_cpList)
+      InfMenu.DebugPrint(ins)
+
+    end)
+  end
+}
+
+
 this.printBodyInfo={
   OnChange=function()
     InfFova.GetCurrentFovaTable(true)
@@ -271,17 +350,51 @@ local toggle=false
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
-      Player.SetUseBlackDiamondEmblem(false)
+
+        if Ivars.selectedCp:Is(0) then
+          InfMenu.DebugPrint"selectedCp is set to 0"
+          return
+        end
+
+        local cpName=mvars.ene_cpList[Ivars.selectedCp:Get()]
+        if cpName==nil then
+          InfMenu.DebugPrint"selectedCp not found in ene_cpList"
+          return
+        end
+
+        local cpId = { type="TppCommandPost2", index = GameObject.GetGameObjectId(cpName) }
+        if cpId==NULL_ID then
+          InfMenu.DebugPrint"cpId==NULL_ID"
+          return
+        end
+
+        InfMenu.DebugPrint"RequestForceReinforce"
+        local command = { id = "RequestForceReinforce" }
+        GameObject.SendCommand( cpId, command )
+
+
     end)
   end
 }
+
+
 
 local index=0
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-      end)
+        InfMenu.DebugPrint("reinforce_hasReinforceBlock="..tostring(mvars.reinforce_hasReinforceBlock))
+        --        --mark all (well, up to marker limit at least
+        --              for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
+        --                for n,soldierName in ipairs(soldierList)do
+        --                  local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+        --                  if soldierId~=GameObject.NULL_ID then
+        --                    InfMain.MarkObject(soldierId)
+        --                  end
+        --                end
+        --              end
+    end)
   end
 }
 
@@ -640,7 +753,11 @@ this.DEBUG_ClearAnnounceLog={
 local currentObject=1
 this.DEBUG_WarpToObject={
   OnChange=function()
-    local objectList=InfMain.reserveSoldierNames
+
+
+    --local objectList=InfMain.reserveSoldierNames
+
+    --local objectList=InfMain.ene_wildCardSoldiers
 
     --    local objectList={
     --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",
@@ -650,9 +767,10 @@ this.DEBUG_WarpToObject={
     --    }
     --local objectList={"sol_field_0002"}
 
-    --local objectList=InfMain.ene_wildCardSoldiers
+
 
     --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
+    local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
 
     --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
     --local objectList={"WestHeli0001","WestHeli0000","WestHeli0002"}
@@ -710,6 +828,7 @@ this.DEBUG_WarpToObject={
 
     while (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
       Step()
+      coroutine.yeild()--DEBUGNOW
     end
 
 

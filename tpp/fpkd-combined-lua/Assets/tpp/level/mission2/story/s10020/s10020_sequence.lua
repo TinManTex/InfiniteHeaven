@@ -753,7 +753,6 @@ end
 
 
 
-
 function this.Messages()
 	
 	if TppPackList.IsMissionPackLabel( "afterMissionClearMovie" ) then

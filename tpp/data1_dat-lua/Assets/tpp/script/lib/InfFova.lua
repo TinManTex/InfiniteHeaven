@@ -16,16 +16,15 @@ this.playerTypes={
 --\chunk0_dat\Assets\tpp\pack\player\parts\plparts*.fpk
 --corresponding to PlayerPartsType enum
 this.playerPartsTypes={
-  --legend: "playerPartsType name",--<enum>, <pl parts file or category>, <notes>
-  "NORMAL",--0, PL_REGULAR, uses set camo type
-  "NORMAL_SCARF",--1, plparts_normal_scarf, uses set camo type
-  "SNEAKING_SUIT",--2, plparts_gz_suit, GZ/MSF, matches PlayerCamoType.SNEAKING_SUIT_GZ (don't know why they didnt keep same name)
-  "HOSPITAL",--3, plparts_hospital -- crash on avatar
-  "MGS1",--4, plparts_mgs1
-  "NINJA",--5, plparts_ninja
-  "RAIDEN",--6, plparts_raiden
-  "NAKED",--7, plparts_naked, uses set camo type?
-  "SNEAKING_SUIT_TPP",--8, PL_SNEAKING
+  "NORMAL",--0, 
+  "NORMAL_SCARF",--1,
+  "SNEAKING_SUIT",--2,
+  "HOSPITAL",--3,  
+  "MGS1",--4, 
+  "NINJA",--5, 
+  "RAIDEN",--6, 
+  "NAKED",--7,
+  "SNEAKING_SUIT_TPP",--8,
   "BATTLEDRESS",--9
   "PARASITE",--10
   "LEATHER",--11
@@ -33,33 +32,33 @@ this.playerPartsTypes={
   "SILVER",--13
   "AVATAR_EDIT_MAN",--14
   "MGS3",--15
-  "MGS3_NAKED",--16 can avatar naked? muddy, normal naked is more sooty?
+  "MGS3_NAKED",--16
   "MGS3_SNEAKING",--17
   "MGS3_TUXEDO",--18
-  "EVA_CLOSE",--19 fem>
+  "EVA_CLOSE",--19
   "EVA_OPEN",--20
   "BOSS_CLOSE",--21
-  "BOSS_OPEN",--22<
-  --tex following enum names are unknown, currently just named after what appears with vars.playerParts set to the numerical value
-  "TIGER_NOHEAD",--? for DD? placeholder? Repeats
-  "TIGER_NOHEAD2",--? for DD?
-  "SNEAKING_SUIT_GZ2",
-  "HOSPITAL2",--
-  "MGS12",
-  "NINJA2",
-  "RAIDEN2",
-  "NAKED2",--> no head
-  "SNEAKING_SUIT_TPP2",
-  "BATTLEDRESS2",--<
-  "PARASITE_SUIT2",
-  "LEATHER_JACKET2",--the truth leather? has brown glove. no head, no hand
+  "BOSS_OPEN",--22
+  --tex unknow, see playerPartsTypesInfo
+  "NORMAL2",--23
+  "NORMAL_SCARF2",--24
+  "SNEAKING_SUIT2",--25
+  "HOSPITAL2",--26
+  "MGS12",--27
+  "NINJA2",--28
+  "RAIDEN2",--29
+  "NAKED2",--30
+  "SNEAKING_SUIT_TPP2",--31
+  "BATTLEDRESS2",--32
+  "PARASITE_SUIT2",--33
+  "LEATHER_JACKET2",--34
 --    35-blank, hang model system
 }
 
 --tex table indexed by vars.playerParts/PlayerPartsType enum
 --plPartsName doubles for checks to which playertype supports the partstype
 this.playerPartsTypesInfo={
-  {--0
+  {--0 -- uses set camo type
     name="NORMAL",
     description="Standard fatigues",
     plPartsName={
@@ -68,15 +67,15 @@ this.playerPartsTypesInfo={
       DD_MALE="plparts_dd_male",
       DD_FEMALE="plparts_dd_female",
     },
-  },-- uses set camo type
-  {--1
+  },
+  {--1--uses set camo type
     name="NORMAL_SCARF",
     description="Fatigues with scarf",
     plPartsName={
       SNAKE="plparts_normal_scarf",
       AVATAR="plparts_normal_scarf",
     }
-  },--uses set camo type
+  },
   {--2 --GZ/MSF, matches PlayerCamoType.SNEAKING_SUIT_GZ
     name="SNEAKING_SUIT",
     description="SV-Sneaking suit (GZ)",
@@ -85,7 +84,7 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_gz_suit",
     },
   },
-  {--3
+  {--3-- crash on avatar
     name="HOSPITAL",
     description="Hospital Prolog snake",
     plPartsName={
@@ -113,7 +112,7 @@ this.playerPartsTypesInfo={
       ALL="plparts_raiden",
     },
   },
-  {--7
+  {--7--uses set camo type?
     name="NAKED",
     description="Naked fatigues",
     plPartsName={
@@ -121,7 +120,7 @@ this.playerPartsTypesInfo={
       AVATAR="plparts_naked",
     --DD_MALE=--no arm and eyes
     }
-  },--uses set camo type?
+  },
   {--8
     name="SNEAKING_SUIT_TPP",
     description="Sneaking suit (TPP)",
@@ -274,7 +273,7 @@ this.playerPartsTypesInfo={
   },
   {
     name="BATTLEDRESS2",
-  },--<
+  },
   {--dd parasite, no shrapnel bump
     name="PARASITE_SUIT2",
   },
@@ -366,10 +365,6 @@ this.playerCammoTypes={
 --AVATAR NAKED body fovas -- to match avatar skin color
 --in \chunk0_dat\Assets\tpp\pack\player\fova\plfova_sna8_main0_body0_c<skinId>.fpk
 --fova files="\Assets\tpp\fova\chara\sna\sna8_main0_body0_c<skinId>.fv2"
-
---SNAKE/AVATAR NORMAL_SCARF Camo fovas
---in \chunk0_dat\Assets\tpp\pack\player\fova\plfova_sna0_main1_c<id>.fpk
---fova files="\Assets\tpp\fova\chara\sna\sna0_main1_c<id>.fv2"
 
 --DD_MALE/DD_FEMALE NORMAL Camo fovas
 --in \chunk0_dat\Assets\tpp\pack\player\fova\plfova_dds<5/6>_main0_ply_v<id>.fpk

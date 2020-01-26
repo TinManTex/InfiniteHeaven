@@ -27,6 +27,12 @@ if TppSave.IsSavingWithFileName(TppDefine.MGO_SAVE_FILE_NAME)or TppSave.HasQueue
 else
 TppSave.SaveMGOData()
 end
+end,option={isExecGameOver=true}},{msg="MgoConfigurationUpdated",func=function()
+TppSave.VarSaveMGO()
+if TppSave.IsSavingWithFileName(TppDefine.MGO_SAVE_FILE_NAME)or TppSave.HasQueue(TppDefine.MGO_SAVE_FILE_NAME)then
+else
+TppSave.SaveMGOData()
+end
 end,option={isExecGameOver=true}},{msg="DisplayTimerLap",func=function(e,n)
 if not mvars.ui_displayTimeSecSvarsName then
 return
@@ -146,17 +152,17 @@ e.ShowAnnounceLog"emergencyMissionOccur"if n==true then
 TppSoundDaemon.PostEvent"sfx_s_fob_emergency"else
 TppSoundDaemon.PostEvent"sfx_s_fob_alert"end
 end
-function e.EnableMissionPhoto(n,e,i,t,a)
+function e.EnableMissionPhoto(n,i,e,t,a)
 TppUiCommand.EnableMissionPhotoId(n)
 if TppUiCommand.IsMissionPhotoIdEnable(n)then
-if e or i then
-if e==nil then
-e=false
-end
+if i or e then
 if i==nil then
 i=false
 end
-TppUiCommand.SetAdditonalMissionPhotoId(n,e,i)
+if e==nil then
+e=false
+end
+TppUiCommand.SetAdditonalMissionPhotoId(n,i,e)
 end
 if t then
 end
@@ -680,11 +686,11 @@ end
 function e.LoadAndWaitUiDefaultBlock()
 TppUiCommand.LoadUiDefaultBlock()
 local e=0
-local e,i=0,25
-local n=false
-n=not TppUiCommand.IsTppUiReady()
-while n and(e<i)do
-n=not TppUiCommand.IsTppUiReady()e=e+Time.GetFrameTime()coroutine.yield()
+local n,i=0,25
+local e=false
+e=not TppUiCommand.IsTppUiReady()
+while e and(n<i)do
+e=not TppUiCommand.IsTppUiReady()n=n+Time.GetFrameTime()coroutine.yield()
 end
 end
 function e.OnMissionStart()
@@ -702,15 +708,15 @@ end
 function e.Init()
 e.messageExecTable=Tpp.MakeMessageExecTable(e.Messages())
 TppUiCommand.SetMotherBaseStageSecurityTable{numInSpecialPlatform=TppDefine.SECURITY_SETTING.numInSpecialPlatform,numInCommonPlatform=TppDefine.SECURITY_SETTING.numInCommonPlatform,numInCommandPlatform=TppDefine.SECURITY_SETTING.numInCommandPlatform,numInBaseDevPlatform=TppDefine.SECURITY_SETTING.numInBaseDevPlatform}
-local a=TppMission.IsHelicopterSpace(vars.missionCode)
-local i=TppMission.IsFreeMission(vars.missionCode)
+local i=TppMission.IsHelicopterSpace(vars.missionCode)
+local a=TppMission.IsFreeMission(vars.missionCode)
 local n=TppMission.IsFOBMission(vars.missionCode)
-if a or i then
+if i or a then
 TppUiCommand.HideOuterZone()
 else
 TppUiCommand.ShowOuterZone()
 end
-if a then
+if i then
 TppUiStatusManager.SetStatus("MbEquipDevelop","NO_OPEN_SUPPORT_DIALOG")
 else
 TppUiStatusManager.UnsetStatus("MbEquipDevelop","NO_OPEN_SUPPORT_DIALOG")
@@ -723,9 +729,9 @@ end
 TppUiCommand.ResetCurrentMissionSubGoalNo()
 e._RegisterDefaultLandPoint()
 if TppUiCommand.IsTppUiReady()then
-if a then
+if i then
 e.RegisterHeliSpacePauseMenuPage(true)
-elseif i then
+elseif a then
 local e={GamePauseMenu.RESTART_FROM_CHECK_POINT,GamePauseMenu.RETURN_TO_TITLE,GamePauseMenu.SIGN_IN,GamePauseMenu.STORE_ITEM,GamePauseMenu.RECORDS_ITEM,GamePauseMenu.CONTROLS_AND_TIPS_ITEM,GamePauseMenu.OPEN_OPTION_MENU}
 if TppMission.IsMbFreeMissions(vars.missionCode)then
 if(vars.missionCode==30050)then
@@ -770,7 +776,7 @@ end
 TppPauseMenu.SetIgnoreActorPause(e)
 end
 if TppUiCommand.IsTppUiReady()then
-if i then
+if a then
 local e={GameOverMenu.GAME_OVER_CONTINUE,GameOverMenu.GAME_OVER_TITLE}
 if vars.missionCode~=30050 then
 table.insert(e,2,GameOverMenu.GAME_OVER_RESTART_HELI)
@@ -814,10 +820,7 @@ if TppUiCommand.IsTppUiReady()then
 local n=TppGameSequence.GetTargetPlatform()
 local e={}
 if vars.rulesetId==4 then
-table.insert(e,GamePauseMenu.ONLINE_NEWS)
-if((n=="Xbox360")or(n=="PS3"))or(n=="Steam")then
-table.insert(e,GamePauseMenu.STORE_ITEM)
-end
+table.insert(e,GamePauseMenu.ONLINE_NEWS)table.insert(e,GamePauseMenu.STORE_ITEM)
 if(n~="XboxOne")then
 table.insert(e,GamePauseMenu.OPEN_WEB_MANUAL)
 end

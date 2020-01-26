@@ -8,7 +8,16 @@ local inspect ={
   _DESCRIPTION = 'human-readable representations of tables',
   _LICENSE = [[
 
+
+
+
     MIT LICENSE
+
+
+
+
+
+
 
 
 
@@ -16,41 +25,101 @@ local inspect ={
 
 
 
+
+
+
+
+
+
     Permission is hereby granted, free of charge, to any person obtaining a
+
+
+
 
     copy of this software and associated documentation files (the
 
+
+
+
     "Software"), to deal in the Software without restriction, including
+
+
+
 
     without limitation the rights to use, copy, modify, merge, publish,
 
+
+
+
     distribute, sublicense, and/or sell copies of the Software, and to
 
+
+
+
     permit persons to whom the Software is furnished to do so, subject to
+
+
+
 
     the following conditions:
 
 
 
+
+
+
+
+
+
     The above copyright notice and this permission notice shall be included
+
+
+
 
     in all copies or substantial portions of the Software.
 
 
 
+
+
+
+
+
+
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+
+
+
 
     OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 
+
+
+
     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+
+
 
     IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 
+
+
+
     CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+
+
+
 
     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 
+
+
+
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
 
   ]]
 }
@@ -399,15 +468,14 @@ end
 
 function this.TryFunc(func)
   if func==nil then
-  InfMenu.DebugPrint("TryFunc func == nil")
-  return
+    InfMenu.DebugPrint("TryFunc func == nil")
+    return
   elseif type(func)~="function" then
-   InfMenu.DebugPrint("TryFunc func~=function")
-  return 
+    InfMenu.DebugPrint("TryFunc func~=function")
+    return
   end
-  
-  
-  local sucess, result = pcall(func)
+
+  local sucess, result=pcall(func)
   if not sucess then
     InfMenu.DebugPrint(result)
     return
@@ -417,7 +485,7 @@ function this.TryFunc(func)
 end
 
 local function ErrorCallBack(err)
-  return debug.traceback(err) 
+  return debug.traceback(err)
 end
 --function this.TryFuncTrace(func)
 --  local sucess, ret = xpcall(func,ErrorCallBack)
@@ -425,7 +493,5 @@ end
 --    InfMenu.DebugPrint(ret)
 --  end
 --end
-
-
 
 return this

@@ -1,22 +1,18 @@
 local n={}
-function n.OnMatchmakeSuccess()
-TppUiCommand.EnableTipsGroup("fre",false)
-TppUiCommand.EnableTipsGroup("gam",true)
-TppUiCommand.UpdateTips()
-TppUiCommand.SeekTips"mgo_tips_gam_001"TppUiCommand.UpdateTips()MGOSoundtrack2.Stop()
+function n.OnMatchmakeSuccess()MGOSoundtrack2.Stop()
 end
 function n.OnMatchmakeError()
 end
-function n.OnMatchStart(n,o,i,a)
+function n.OnMatchStart(n,i,o,s)
 if n then
 vars.isGameplayHost=1
 else
 vars.isGameplayHost=0
 end
-vars.locationCode=i
+vars.locationCode=o
 vars.missionCode=6
-vars.rulesetId=o
-vars.isNight=a
+vars.rulesetId=i
+vars.isNight=s
 Mission.LoadMission{force=true}Mission.LoadLocation()
 if n then
 else
@@ -25,10 +21,6 @@ end
 TppNetworkUtil.StartNetSynchronizer()
 end
 function n.OnExit()
-TppUiCommand.EnableTipsGroup("fre",true)
-TppUiCommand.EnableTipsGroup("gam",false)
-TppUiCommand.UpdateTips()
-TppUiCommand.SeekTips"mgo_tips_fre_001"TppUiCommand.UpdateTips()
 end
 function n.OnReturnToFreeplay()
 vars.isGameplayHost=1

@@ -162,10 +162,10 @@ this.PLAY_REQUEST_START_CHECK_FUNC={
     end
   end,
   playerActionAllowed=function(demoId)
-    local e=Player.CanPlayDemo(0)
-    if e==false then
+    local canPlayDemo=Player.CanPlayDemo(0)
+    if canPlayDemo==false then
     end
-    return e
+    return canPlayDemo
   end,
   playerMoveToPosition=function(demoId)
     if mvars.dem_waitingMoveToPosition then
@@ -799,7 +799,8 @@ function this.MakeNewPlayRequestInfo(demoFlags)
   end
   local playerActionAllowed
   if(not demoFlags.isInGame)or(demoFlags.isNotAllowedPlayerAction)then
-    playerActionAllowed=false
+    --DEBUGNOW playerActionAllowed=false
+    playerActionAllowed=true
   end
   local playerMoveToPosition
   if demoFlags.playerMoveToPosition then

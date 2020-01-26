@@ -1053,8 +1053,8 @@ function this.SetSearchTarget(targetGameObjectName,gameObjectType,name,skeletonN
   end
   Player.AddSearchTarget(searchTarget)
 end
-function this.IsSneakPlayerInFOB(e)
-  if e==0 then
+function this.IsSneakPlayerInFOB(playerIndex)
+  if playerIndex==0 then
     return true
   else
     return false
@@ -1804,7 +1804,7 @@ end
 
 function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below for original
   local isActual=TppMission.IsActualSubsistenceMission()
-  if isActual and (Ivars.ospWeaponProfile:Is"DEFAULT" or Ivars.ospWeaponProfile:Is"CUSTOM") then
+  if isActual and Ivars.ospWeaponProfile:Is"DEFAULT" or (Ivars.primaryWeaponOsp:Is(1) and Ivars.secondaryWeaponOsp:Is(1) and Ivars.tertiaryWeaponOsp:Is(1)) then
     Ivars.ospWeaponProfile:Set("PURE",true,true)--tex don't want to save due to normal subsistence missions
   end
 

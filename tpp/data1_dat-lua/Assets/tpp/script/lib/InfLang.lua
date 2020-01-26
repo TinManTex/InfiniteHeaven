@@ -201,7 +201,7 @@ this.eng={--english
   soldierAlertOnHeavyVehicleDamage="Phase on vehicle attack",--r95
   forceSuperReinforce="Enable vehicle reinforce (only heli in free, vehicles depend on mission)",--r96
   forceSuperReinforceSettings={"Off","Enemy Prep","Force Prep"},
-  forceReinforceRequest="Force reinforce request",
+  forceReinforceRequest="Force reinforce request for heli",
   enableHeliReinforce="Force enable enemy heli reinforce (disable heli sideops)",
   enemyReinforceMenu="Enemy reinforcements menu",
   heli_hold_pulling_out="Holding",--r97
@@ -359,6 +359,10 @@ this.eng={--english
   disabled_fova="Player model changed, disabling Use fova",
   change_model_to_reset_fova="Model will reset on mission start, or mission prep character change",
   printBodyInfo="Print current body info",
+  userMarkerMenu="User marker menu",--r142    
+  warpToUserMarker="Warp to latest marker",
+  printLatestUserMarker="Print latest marker",
+  printUserMarkers="Print all markers",
 }
 
 this.eng_help={

@@ -976,7 +976,7 @@ function this.Init()
         table.insert(pauseMenuItems,6,GamePauseMenu.RECORDS_ITEM)
       end
       if Ivars.abortMenuItemControl:Is(0) then--tex added switch
-        if TppMission.IsStartFromHelispace()then
+        if TppMission.IsStartFromHelispace() or Ivars.mis_isGroundStart:Is(1) then--tex added mis_isGroundStart
           table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)
         end
         if TppMission.IsStartFromFreePlay()then

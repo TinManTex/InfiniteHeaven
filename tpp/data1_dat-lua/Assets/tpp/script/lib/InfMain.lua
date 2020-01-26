@@ -1,8 +1,9 @@
 -- DOBUILD: 1
+--InfMain.lua
 local this={}
 
 this.DEBUGMODE=false
-this.modVersion="r141"
+this.modVersion="r142"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -682,15 +683,10 @@ end
 --called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
 --IN/Out bodies
 function this.WildCardFova(bodies)
-  --tex TODO: assign DD headgear
-  --    for faceId, faceInfo in pairs(InfMain.ddHeadGearInfo) do
-  --      table.insert(faces,{TppEnemyFaceId[faceId],MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
-  --    end
-
   InfMain.SetLevelRandomSeed()
   local faces={}
   this.ene_wildCardFaceList={}
-  for i=1,InfMain.MAX_WILDCARD_FACES do
+  for i=1,InfMain.MAX_WILDCARD_FACES do--SYNC numfemales
     local faceId=this.RandomFaceId(this.femaleFaceIds)
     table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
     table.insert(this.ene_wildCardFaceList,faceId)
@@ -1516,9 +1512,6 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
     return
   end
 
-
-
-
   --if patrolVehicleEnabledList==nil then
   this.BuildEnabledList()
   --end
@@ -1528,7 +1521,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
     return
   end
 
-  --InfMain.SetLevelRandomSeed()
+  InfMain.SetLevelRandomSeed()
 
   mvars.patrolVehicleBaseInfo={}
 
@@ -1582,7 +1575,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
     end
   end
 
-  --InfMain.ResetTrueRandom()
+  InfMain.ResetTrueRandom()
 end
 
 --OUT: missionPackPath
@@ -1598,12 +1591,14 @@ end
 --TODO: only add those packs of active vehicles
 --ditto reinforce vehicle types (or maybe an seperate equivalent function)
 function this.AddVehiclePacks(missionCode,missionPackPath)
+  local force=false--DEBUGNOW
   if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:ExecCheck() then
     return
   end
 
+
   for baseType,typeInfo in pairs(vehicleBaseTypes) do
-    if Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then
+    if force or Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then--DEBUGNOW force
       --InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
       local vehicles=nil
       local vehicleType=""
@@ -1642,23 +1637,12 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
       end
     end--if ivar
   end--for vehicle base types
-  --CULL
-  --    local packPath
-  --    for vehicleType,spawnInfo in pairs(vehicleSpawnInfoTable) do
-  --      --CULLif Ivars.vehiclePatrolPackType:Is"QUESTPACK" then
-  --      --  packPath=spawnInfo.packPathAlt
-  --      --else
-  --      packPath=spawnInfo.packPath
-  --      --end
-  --      if packPath then
-  --        AddMissionPack(packPath,missionPackPath)
-  --      end
-  --    end
 end
 --<vehicle stuff
 
 --block quests>
 --DOC: vehicle quests.txt
+--CULL
 this.disableVehicleQuests={--tex WORKAROUND, using the player vehicle/veh_rl* packs for patrol vehicle replace has a side effect of breaking quests with multiple vehicles (invis vehcile), TODO if ever get custom packs going/fix this remove this
   "quest_q52040",
   "quest_q52050",
@@ -1875,25 +1859,10 @@ function this.OnAllocate(missionTable)
     TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
   end
 
-
-  --WIP >
-  if false then
-    local equipLoadTable={}
-    --tex TODO: find a better indicator of equipable mission loading
-    if missionTable.enemy then
-      for n,equipName in ipairs(this.tppEquipTable)do--TODO: still working on the indexed not grouped table
-        local equipId=TppEquip[equipName]
-        if equipId~=nil then
-          table.insert(equipLoadTable,equipId)
-        end
-      end
-
-      if #equipLoadTable>0 and TppEquip.RequestLoadToEquipMissionBlock then
-        TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
-      end
-    end
+--WIP
+  if missionTable.enemy then
+  --OFF InfEquip.LoadEquipTable()
   end
-  --<
 end
 
 function this.PreMissionLoad(missionCode,currentMissionCode)
@@ -1994,13 +1963,13 @@ function this.Messages()
       end},
       {msg="RequestLoadReinforce",func=function()
         --InfMenu.DebugPrint"RequestLoadReinforce"--DEBUG
-      end},
+        end},
     },
     Player={
       {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers()},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
     },
     UI={
---      {msg="EndFadeIn",func=this.FadeIn()},--tex for all fadeins
+      --      {msg="EndFadeIn",func=this.FadeIn()},--tex for all fadeins
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
         --InfMenu.DebugPrint"FadeInOnGameStart"--DEBUG
         this.FadeInOnGameStart()
@@ -2019,17 +1988,17 @@ function this.Messages()
       --tex Heli mission-prep ui
       {msg="MissionPrep_EndSlotSelect",func=function()
         --InfMenu.DebugPrint"MissionPrep_EndSlotSelect"--DEBUG
-          InfFova.CheckModelChange()
+        InfFova.CheckModelChange()
       end},
---      {msg="MissionPrep_ExitWeaponChangeMenu",func=function()
---        InfMenu.DebugPrint"MissionPrep_ExitWeaponChangeMenu"--DEBUG
---      end},
---      {msg="MissionPrep_EndItemSelect",func=function()
---        InfMenu.DebugPrint"MissionPrep_EndItemSelect"--DEBUG
---      end},
---      {msg="MissionPrep_EndEdit",func=function()
---        InfMenu.DebugPrint"MissionPrep_EndEdit"--DEBUG
---      end},
+    --      {msg="MissionPrep_ExitWeaponChangeMenu",func=function()
+    --        InfMenu.DebugPrint"MissionPrep_ExitWeaponChangeMenu"--DEBUG
+    --      end},
+    --      {msg="MissionPrep_EndItemSelect",func=function()
+    --        InfMenu.DebugPrint"MissionPrep_EndItemSelect"--DEBUG
+    --      end},
+    --      {msg="MissionPrep_EndEdit",func=function()
+    --        InfMenu.DebugPrint"MissionPrep_EndEdit"--DEBUG
+    --      end},
 
 
     --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
@@ -2200,7 +2169,7 @@ function this.OnInitializeTop(missionTable)
     local enemyTable=missionTable.enemy
     this.soldierPool=this.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
 
-    InfMain.SetLevelRandomSeed()
+    --InfMain.SetLevelRandomSeed()
     if IsTable(enemyTable.soldierDefine) then
       if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
         this.ModifyVehiclePatrol(enemyTable.VEHICLE_SPAWN_LIST)
@@ -2215,7 +2184,7 @@ function this.OnInitializeTop(missionTable)
       this.AddLrrps(enemyTable.soldierDefine,enemyTable.travelPlans)
       this.AddWildCards(enemyTable.soldierDefine,enemyTable.soldierTypes,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
     end
-    InfMain.ResetTrueRandom()
+    --InfMain.ResetTrueRandom()
   end
 end
 function this.OnAllocateTop(missionTable)
@@ -2309,19 +2278,18 @@ function this.Update()
       currentChecks.onBuddy=Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId)
       currentChecks.inBox=Player.IsVarsCurrentItemCBox()
     end
-  else
+  end
 
-    local abortButton=InfButton.ESCAPE
-    InfButton.buttonStates[abortButton].holdTime=1.5
-    if InfButton.OnButtonHoldTime(abortButton) then
+  local abortButton=InfButton.ESCAPE
+  InfButton.buttonStates[abortButton].holdTime=2
+  if InfButton.OnButtonHoldTime(abortButton) then
+    if gvars.ini_isTitleMode then
       local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
       SplashScreen.Show(splash,0,0.3,0)
       this.abortToAcc=true
+    else--if currentChecks.inGame then--DEBUGNOW
+      this.ClearStatus()
     end
-    --if this.abortToAcc then
-    --  this.abortToAcc=false
-    --  TppMission.ExecuteMissionAbort()
-    --end
   end
 
   this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
@@ -3502,587 +3470,6 @@ function this.CheckReinforceDeactivate()--WIP/UNUSED
   end
 end
 
---WIP
---NOTE: grade possibly matches current developed anyhoo?
-this.tppEquipTable={--SYNC: EquipIdTable
-  --  SHIELD={
-  --  "EQP_SLD_SV",
-  --  "EQP_SLD_PF_00",
-  --  "EQP_SLD_PF_01",
-  --  "EQP_SLD_PF_02",
-  --  "EQP_SLD_DD",
-  --  "EQP_SLD_DD_G02",
-  --  "EQP_SLD_DD_G03",
-  --  "EQP_SLD_DD_01",
-  --  },
-  --  HANDGUN={
-  --  "EQP_WP_West_hg_010",--AM D114 grade 1 -- PFs and DD hangun
-  --  "EQP_WP_West_hg_010_WG",--no name/icon/drop model
-  --  "EQP_WP_West_hg_020",--AM D114 with silencer(on icon) but no ext mag?  grade 4, skull normal strong
-  --  "EQP_WP_West_hg_030",--geist p3 - shows shotgun icon but clearly isnt, machine pistol grade 4
-  --  "EQP_WP_West_hg_030_cmn",--as above, no name/icon
-  --  "EQP_WP_East_hg_010",--burkov grade 1, sov normal strong
-  --  },
-  --  TRANQ_PISTOL={
-  --  "EQP_WP_West_thg_010",--wu s.pistol grade 1
-  --  "EQP_WP_West_thg_020",--grade 2
-  --  "EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
-  --  "EQP_WP_West_thg_040",--grade 5
-  --  "EQP_WP_West_thg_050",--wu s pistol cb grade7
-  --  "EQP_WP_EX_hg_000",--AM A114 RP, DD, silencer, grade 9
-  --tex added in retail 1080
-  "EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
-  "EQP_WP_EX_hg_000_G02",--AM A114 RP grade 9 - silencer, gas cloud
---  },
---  SMG={
---  "EQP_WP_West_sm_010",--ze'ev cs grade 3 pf normal, dd min grade
---  "EQP_WP_West_sm_010_WG",--as above, no icon/name
---  "EQP_WP_West_sm_020",--macht 37 grade 3, pf strong, skull normal strong
---  "EQP_WP_East_sm_010",--sz 336 grade 3, sov normal
---  "EQP_WP_East_sm_020",--sz 336 cs grade 5, sov strong
---  "EQP_WP_East_sm_030",--sz 336 cs grade 3 light, supressor, skull cypr normal
-
---dd table smg
---  "EQP_WP_West_sm_014",--zeeve model, big scope no icon/name, supressor, DD icon backing
---  "EQP_WP_West_sm_015",--as above
---  "EQP_WP_West_sm_016",--loads, but missing icons and some blacked out sights DD backing, DD weapon table
---  "EQP_WP_West_sm_017",--<
---  },
---    SMG_NONLETHAL={
---in dd table
---  "EQP_WP_East_sm_042",--riot smg stn grd 1 stun
---  "EQP_WP_East_sm_043",
---  "EQP_WP_East_sm_044",
---  "EQP_WP_East_sm_045",
---  "EQP_WP_East_sm_047",
---    },
---  SHOTGUN={
---  "EQP_WP_Com_sg_010",--s1000 grade 2
---  "EQP_WP_Com_sg_011",--s1000 cs grade 2, most normal shotty, sov a, pfs, skull, dd min
---  "EQP_WP_Com_sg_011_FL",--as above, flashlight ?
---  --in dd table
---  "EQP_WP_Com_sg_013",--? mag shotgun no name no icon
---  "EQP_WP_Com_sg_015",--above + scope, light
---  "EQP_WP_Com_sg_020",--kabarga 83, grade 4, looks like same model as 013,14
---  "EQP_WP_Com_sg_020_FL",--as abovem flashlight ?
---  "EQP_WP_Com_sg_016",
---  "EQP_WP_Com_sg_018",
---},
---SHOTGUN_NONLETHAL={
---dd
---  "EQP_WP_Com_sg_023",--s1000 air-s stn at least icon grade 3 - icon shows slilencer scope but not in game
---  "EQP_WP_Com_sg_024",--as above, light ?
---  "EQP_WP_Com_sg_025",--as above
---  "EQP_WP_Com_sg_030",--s1000 air-s cs grade 6
---  "EQP_WP_Com_sg_038",--loads, but missing icons and some blacked out sights
---  },
---  ASSAULT={
---  "EQP_WP_West_ar_010",--AM MRS 4r Grade 3, pfs normal, dd 3rd
---  "EQP_WP_West_ar_010_FL",--flashlight
---
---  "EQP_WP_West_ar_020",--un arc cs grade 3 PF strong
---  "EQP_WP_West_ar_020_FL",--flashlight
---  "EQP_WP_West_ar_030",--un arc pt cs flashlight scope laser, skull normal and strong
---
---  "EQP_WP_East_ar_010",--svg 76 grade 1, soviet normal
---  "EQP_WP_East_ar_010_FL",--+flashlight
---  "EQP_WP_East_ar_020",--svg 67 cs grade 4, child
---  "EQP_WP_East_ar_030",--above grade 6, sov strong
---  "EQP_WP_East_ar_030_FL",--+ flashlight
---
---  --in dd table
---  "EQP_WP_West_ar_040",--am mrs 4 grade 1
---  "EQP_WP_West_ar_042",--above + supressor scope
---  "EQP_WP_West_ar_055",--scope, no icon name
---  "EQP_WP_West_ar_050",--am mrs 4r grade 5 scope laser
---  "EQP_WP_West_ar_057",--loads, but missing icons and some blacked out sights
---  --  },
---  --  ASSAULT_NONLETHAL={
---  "EQP_WP_West_ar_060",--un arc nl stn grade 2
---  "EQP_WP_West_ar_063",--above + scope no icon name
---  "EQP_WP_West_ar_070",--un arc nl stn light grade 4
---  "EQP_WP_West_ar_075",--above + supressor
---  "EQP_WP_West_ar_077",
---  --  },
---  --  SNIPER={
---  "EQP_WP_West_sr_010",--m2000 d grade 2
---  "EQP_WP_West_sr_011",--PF normal, DD
---  "EQP_WP_East_sr_011",--sov a normal
---  "EQP_WP_East_sr_020",--sov a strong
---
---  "EQP_WP_EX_sr_000",--molotok-68 grade 9 --icon/scope issues
---
---  --dd table
---  "EQP_WP_West_sr_013",
---  "EQP_WP_West_sr_014",
---  "EQP_WP_West_sr_020",
---  "EQP_WP_West_sr_027",
---  --  },
---  --SNIPER_NONLETHAL={
---  --ddtable
---  "EQP_WP_East_sr_032",
---  "EQP_WP_East_sr_033",
---  "EQP_WP_East_sr_034",
---  "EQP_WP_West_sr_037",
---  "EQP_WP_West_sr_047",
---  "EQP_WP_West_sr_048",
---  --},
---  --  MG={
---  "EQP_WP_West_mg_010",--un am cs grade 4 PF normal,strong,
---  "EQP_WP_West_mg_020",--alm 48 grade 2 skull normal strong, dd min
---  "EQP_WP_West_mg_021",--alm48 flashlight grade 4
---  "EQP_WP_East_mg_010",--lpg 61 grade 4, soviet normal
---  --dd
---  "EQP_WP_West_mg_023",--
---  "EQP_WP_West_mg_024",
---  "EQP_WP_West_mg_030",--alm 48 grade 5 flashlight
---  "EQP_WP_West_mg_037",--
---  --  },
---  --  MISSILE={
---  "EQP_WP_Com_ms_010",--killer bee grade 3, sov, pf, dd,skull strong
---  "EQP_WP_West_ms_010",--fb mr r grade 3, pf,skull normal
---  "EQP_WP_East_ms_010",--grom 11, grade 2, sov normal
---  "EQP_WP_East_ms_020",--cgm 25, used in s10054
---  --dd table
---  "EQP_WP_Com_ms_023",
---  "EQP_WP_Com_ms_024",
---  "EQP_WP_Com_ms_020",--killer bee
---  "EQP_WP_Com_ms_026",
-
--- MISSILE_NONLETHAL={
---"EQP_WP_West_ms_020",--fb mr rl nlsp
---},
-
---  GRENADE_LAUNCHER={
---  "EQP_WP_EX_gl_000",--miraz zh 71 grade 9
---  },
-
---support weapons
---    "EQP_SWP_Magazine",
---    "EQP_SWP_Kibidango",--animal bait
---    "EQP_SWP_Kibidango_G01",
---    "EQP_SWP_Kibidango_G02",
---    "EQP_SWP_Grenade",
---    "EQP_SWP_Grenade_G01",
---    "EQP_SWP_Grenade_G02",
---    "EQP_SWP_Grenade_G03",
---    "EQP_SWP_Grenade_G04",
---    "EQP_SWP_Grenade_G05",
---    "EQP_SWP_SmokeGrenade",
---    "EQP_SWP_SmokeGrenade_G01",
---    "EQP_SWP_SmokeGrenade_G02",
---    "EQP_SWP_SmokeGrenade_G03",
---    "EQP_SWP_SmokeGrenade_G04",
---    "EQP_SWP_SupportHeliFlareGrenade",
---    "EQP_SWP_SupportHeliFlareGrenade_G01",
---    "EQP_SWP_SupportHeliFlareGrenade_G02",
---    "EQP_SWP_SupplyFlareGrenade",
---    "EQP_SWP_SupplyFlareGrenade_G01",
---    "EQP_SWP_SupplyFlareGrenade_G02",
---    "EQP_SWP_StunGrenade",
---    "EQP_SWP_StunGrenade_G01",
---    "EQP_SWP_StunGrenade_G02",
---    "EQP_SWP_StunGrenade_G03",
---    "EQP_SWP_SleepingGusGrenade",
---    "EQP_SWP_SleepingGusGrenade_G01",
---    "EQP_SWP_SleepingGusGrenade_G02",
---    "EQP_SWP_MolotovCocktail",
---    "EQP_SWP_MolotovCocktail_G01",
---    "EQP_SWP_MolotovCocktail_G02",
---    "EQP_SWP_MolotovCocktailPlaced",
---  "EQP_SWP_C4",
---  "EQP_SWP_C4_G01",
---  "EQP_SWP_C4_G02",
---  "EQP_SWP_C4_G03",
---  "EQP_SWP_C4_G04",
---  "EQP_SWP_Decoy",
---  "EQP_SWP_Decoy_G01",
---  "EQP_SWP_Decoy_G02",
---  "EQP_SWP_ActiveDecoy",
---  "EQP_SWP_ActiveDecoy_G01",
---  "EQP_SWP_ActiveDecoy_G02",
---  "EQP_SWP_ShockDecoy",
---  "EQP_SWP_ShockDecoy_G01",
---  "EQP_SWP_ShockDecoy_G02",
---  "EQP_SWP_CaptureCage",
---  "EQP_SWP_CaptureCage_G01",
---  "EQP_SWP_CaptureCage_G02",
---  "EQP_SWP_DMine",
---  "EQP_SWP_DMine_G01",
---  "EQP_SWP_DMine_G02",
---  "EQP_SWP_DMine_G03",
---  "EQP_SWP_DMineLocator",
---  "EQP_SWP_SleepingGusMine",
---  "EQP_SWP_SleepingGusMine_G01",
---  "EQP_SWP_SleepingGusMine_G02",
---  "EQP_SWP_SleepingGusMineLocator",
---  "EQP_SWP_AntitankMine",
---  "EQP_SWP_AntitankMine_G01",
---  "EQP_SWP_AntitankMine_G02",
---  "EQP_SWP_ElectromagneticNetMine",
---  "EQP_SWP_ElectromagneticNetMine_G01",
---  "EQP_SWP_ElectromagneticNetMine_G02",
---  "EQP_SWP_WormholePortal",
---  "EQP_SWP_Dung",
-
---tex no go
---    "EQP_AB_PrimaryCommon",
---    "EQP_AB_PrimaryTranq",
---    "EQP_AB_PrimaryMissile",
---    "EQP_AB_PrimaryMissileTranq",
---    "EQP_AB_SecondaryCommon",
---    "EQP_AB_SecondaryTranq",
---    "EQP_AB_Support",
---    "EQP_AB_Suppressor",
---    "EQP_AB_Item",
---    "EQP_AB_Mecha",
---    "EQP_BX_Primary",
---    "EQP_BX_Secondary",
---    "EQP_BX_Support",
-
---hands
---    "EQP_HAND_STUNARM",
---    "EQP_HAND_JEHUTY",
---    "EQP_HAND_STUN_ROCKET",
---    "EQP_HAND_KILL_ROCKET",
---    "EQP_HAND_NORMAL",
---    "EQP_HAND_GOLD",
---    "EQP_HAND_SILVER",
-
---items
---  "EQP_IT_Fulton",
---  "EQP_IT_Fulton_Cargo",
---  "EQP_IT_Fulton_Child",
---  "EQP_IT_Fulton_WormHole",
---  "EQP_IT_Binocle",
-
---    "EQP_IT_CBox_DSR",
---    "EQP_IT_CBox_DSR_G01",
---    "EQP_IT_CBox_DSR_G02",
---    "EQP_IT_CBox_WR",
---    "EQP_IT_CBox_SMK",
---    "EQP_IT_CBox_FRST",
---    "EQP_IT_CBox_FRST_G01",
---    "EQP_IT_CBox_BOLE",
---    "EQP_IT_CBox_BOLE_G01",
---    "EQP_IT_CBox_CITY",
---    "EQP_IT_CBox_CITY_G01",
-
---tex no go
---    "EQP_IT_CBox_CLB_A",o
---    "EQP_IT_CBox_CLB_A_G01",
---    "EQP_IT_CBox_CLB_B",
---    "EQP_IT_CBox_CLB_B_G01",
---    "EQP_IT_CBox_CLB_C",
---    "EQP_IT_CBox_CLB_C_G01",
--- tex some kind of dlc box, defaults to regular texture though
---    "EQP_IT_CBox_LIMITED",
---    "EQP_IT_CBox_LIMITED_G01",
-
---  "EQP_IT_InstantStealth",
---  "EQP_IT_Pentazemin",
---  "EQP_IT_Clairvoyance",
---  "EQP_IT_ReflexMedicine",
---
---tex needs paracites/armor I guess?
---    "EQP_IT_ParasiteMist",
---    "EQP_IT_ParasiteCamouf",
---    "EQP_IT_ParasiteHard",
-
---  "EQP_IT_TimeCigarette",
---  "EQP_IT_Stealth",
---  "EQP_IT_Nvg",
-
---tex likely requires the specific mission assets
---    "EQP_IT_Infected",
-
---tex no go
---    "EQP_IT_IDroid",
---    "EQP_IT_CureSpray",
---    "EQP_IT_PickingToolR",
---    "EQP_IT_PickingToolL",
---    "EQP_IT_HandyLight",
---    "EQP_IT_Knife",
---    "EQP_IT_SKnife",
---    "EQP_IT_Cigarette",
---    "EQP_IT_CigaretteCase",
---    "EQP_IT_Radio",
---    "EQP_IT_SRadio",
---    "EQP_IT_BayonetWest",
---    "EQP_IT_Telescope",
---    "EQP_IT_Cassette",
---    "EQP_IT_FilmCase",
---    "EQP_IT_DevelopmentFile",
---    "EQP_IT_GasMask",--tex likely handled through attachgasmask/requires asset fpk
---    "EQP_IT_KnifePF",
---    "EQP_IT_ShotShell",
---    "EQP_IT_Machete",
---    "EQP_IT_MacheteLiquid",
---    "EQP_IT_KnifeLiquid",
---    "EQP_IT_PipeLiquid",
---    "EQP_IT_BottleLiquid",
---    "EQP_IT_ShellLiquid",
---    "EQP_IT_mgs0_msbl0",
---    "EQP_IT_DDogStunLod",
-
---special weapons
---    "EQP_WP_Wood_ar_010",
-----no go
---    "EQP_WP_Quiet_sr_010",
---    "EQP_WP_Quiet_sr_020",
---    "EQP_WP_Quiet_sr_030",
---    "EQP_WP_BossQuiet_sr_010",
---    "EQP_WP_Pr_sm_010",
---    "EQP_WP_Pr_ar_010",
---    "EQP_WP_Pr_sg_010",
---    "EQP_WP_Pr_sr_010",
---    "EQP_WP_mgm0_mgun0",
---
---  "EQP_WP_HoneyBee",
---  "EQP_WP_Volgin_sg_010",--no go
---  "EQP_WP_SkullFace_hg_010",--holds weird, its actual use in its mission has it's own custom animation?
-
---hang on load --re test
---  "EQP_WP_DEBUG_sr_010",
---  "EQP_WP_DEMO_ar_010",
---  "EQP_WP_DEMO_ar_020",
---  "EQP_WP_DEMO_ar_030",
---  "EQP_WP_DEMO_sr_010",
---  "EQP_WP_DEMO_hg_010",
---  "EQP_WP_DEMO_hg_020",
---  "EQP_WP_DEMO_hg_030",
---  "EQP_WP_DEMO_sm_010",
---  "EQP_WP_DEMO_sm_020",
---  "EQP_WP_DEMO_mg_010",
---  "EQP_WP_DEMO_ms_010",
---  "EQP_WP_DEMO_ms_020",
-
---  "EQP_WP_SP_hg_010",
---  "EQP_WP_SP_hg_020",
---  "EQP_WP_SP_sm_010",
---  "EQP_WP_SP_sg_010",
-
---  "EQP_WP_SP_SLD_010",
---  "EQP_WP_SP_SLD_010_G01",
---  "EQP_WP_SP_SLD_010_G02",
---  "EQP_WP_SP_SLD_020",
---  "EQP_WP_SP_SLD_020_G01",
---  "EQP_WP_SP_SLD_020_G02",
---  "EQP_WP_SP_SLD_030",
---  "EQP_WP_SP_SLD_030_G01",
---  "EQP_WP_SP_SLD_030_G02",
---  "EQP_WP_SP_SLD_040",
---  "EQP_WP_SP_SLD_040_G01",
---  "EQP_WP_SP_SLD_040_G02",
-
---requires fob mode/specifc set up i guess
---  "EQP_WP_SCamLocator",
-
---not equipable, hang on equip
---  "EQP_AM_10001",
---  "EQP_AM_10003",
---  "EQP_AM_10015",
---  "EQP_AM_10101",
---  "EQP_AM_10103",
---  "EQP_AM_10125",
---  "EQP_AM_10134",
---  "EQP_AM_10201",
---  "EQP_AM_10203",
---  "EQP_AM_10214",
---  "EQP_AM_10302",
---  "EQP_AM_10303",
---  "EQP_AM_10305",
---  "EQP_AM_10403",
---  "EQP_AM_10404",
---  "EQP_AM_10405",
---  "EQP_AM_10407",
---  "EQP_AM_10503",
---  "EQP_AM_10515",
---  "EQP_AM_10526",
---  "EQP_AM_20002",
---  "EQP_AM_20003",
---  "EQP_AM_20005",
---  "EQP_AM_20103",
---  "EQP_AM_20104",
---  "EQP_AM_20105",
---  "EQP_AM_20106",
---  "EQP_AM_20116",
---  "EQP_AM_20203",
---  "EQP_AM_20206",
---  "EQP_AM_20302",
---  "EQP_AM_20303",
---  "EQP_AM_20304",
---  "EQP_AM_20305",
---  "EQP_AM_30001",
---  "EQP_AM_30003",
---  "EQP_AM_30014",
---  "EQP_AM_30034",
---  "EQP_AM_30043",
---  "EQP_AM_30047",
---  "EQP_AM_30054",
---  "EQP_AM_30055",
---  "EQP_AM_30102",
---  "EQP_AM_30103",
---  "EQP_AM_30123",
---  "EQP_AM_30125",
---  "EQP_AM_30201",
---  "EQP_AM_30203",
---  "EQP_AM_30223",
---  "EQP_AM_30225",
---  "EQP_AM_30232",
---  "EQP_AM_30303",
---  "EQP_AM_30305",
---  "EQP_AM_30306",
---  "EQP_AM_30325",
---  "EQP_AM_40001",
---  "EQP_AM_40004",
---  "EQP_AM_40012",
---  "EQP_AM_40015",
---  "EQP_AM_40023",
---  "EQP_AM_40102",
---  "EQP_AM_40105",
---  "EQP_AM_40115",
---  "EQP_AM_40123",
---  "EQP_AM_40126",
---  "EQP_AM_40133",
---  "EQP_AM_40135",
---  "EQP_AM_40136",
---  "EQP_AM_40143",
---  "EQP_AM_40203",
---  "EQP_AM_40204",
---  "EQP_AM_40206",
---  "EQP_AM_40304",
---  "EQP_AM_50102",
---  "EQP_AM_50115",
---  "EQP_AM_50126",
---  "EQP_AM_50147",
---  "EQP_AM_50136",
---  "EQP_AM_50202",
---  "EQP_AM_50215",
---  "EQP_AM_50226",
---  "EQP_AM_50237",
---  "EQP_AM_50303",
---  "EQP_AM_50304",
---  "EQP_AM_50306",
---  "EQP_AM_60001",
---  "EQP_AM_60007",
---  "EQP_AM_60013",
---  "EQP_AM_60102",
---  "EQP_AM_60107",
---  "EQP_AM_60114",
---  "EQP_AM_60203",
---  "EQP_AM_60303",
---  "EQP_AM_60315",
---  "EQP_AM_60325",
---  "EQP_AM_60404",
---  "EQP_AM_60406",
---  "EQP_AM_60415",
---  "EQP_AM_60417",
---  "EQP_AM_70002",
---  "EQP_AM_70003",
---  "EQP_AM_70005",
---  "EQP_AM_70103",
---  "EQP_AM_70104",
---  "EQP_AM_70105",
---  "EQP_AM_70114",
---  "EQP_AM_70115",
---  "EQP_AM_70116",
---  "EQP_AM_70203",
---  "EQP_AM_70204",
---  "EQP_AM_70205",
---  "EQP_AM_Quiet_sr_010",
---  "EQP_AM_Quiet_sr_020",
---  "EQP_AM_Quiet_sr_030",
---  "EQP_AM_Pr_sm_010",
---  "EQP_AM_Pr_ar_010",
---  "EQP_AM_Pr_sg_010",
---  "EQP_AM_Pr_sr_010",
---  "EQP_AM_SkullFace_hg_010",
---  "EQP_AM_SP_hg_010",
---  "EQP_AM_SP_hg_020",
---  "EQP_AM_SP_sm_010",
---  "EQP_AM_SP_sg_010",
---  "EQP_AM_EX_hg_000",
---  "EQP_AM_EX_gl_000",
---  "EQP_BL_EX_gl_000",
---  "EQP_AM_EX_sr_000",
---  "EQP_BL_HgGrenade",
---  "EQP_BL_HgSmoke",
---  "EQP_BL_HgSleep",
---  "EQP_BL_HgStun",
---  "EQP_BL_40mmGrenade",
---  "EQP_BL_40mmSmoke",
---  "EQP_BL_40mmSleep",
---  "EQP_BL_40mmStun",
---  "EQP_BL_20mmGrenade",
---  "EQP_BL_20mmRocket",
---  "EQP_BL_20mmSmoke",
---  "EQP_BL_20mmSleep",
---  "EQP_BL_20mmStun",
---  "EQP_BL_ms00",
---  "EQP_BL_ms00_G2",
---  "EQP_BL_ms00_G3",
---  "EQP_BL_ms02",
---  "EQP_BL_ms02_G2",
---  "EQP_BL_ms02_G3",
---  "EQP_BL_ms02Sleep",
---  "EQP_BL_ms02F",
---  "EQP_BL_ms02F_G2",
---  "EQP_BL_ms02F_G3",
---  "EQP_BL_ms03",
---  "EQP_BL_ms03_G2",
---  "EQP_BL_ms03_G3",
---  "EQP_BL_ms03_G4",
---  "EQP_BL_ms01",
---  "EQP_BL_ms01_G2",
---  "EQP_BL_ms01_G3",
---  "EQP_BL_ms01_G4",
---  "EQP_BL_ms01_Child",
---  "EQP_BL_ms01_G2_Child",
---  "EQP_BL_ms01_G3_Child",
---  "EQP_BL_ms01_G4_Child",
---  "EQP_BL_RocketPunchStun",
---  "EQP_BL_RocketPunchBlast",
---  "EQP_BL_uth0_ammo0",
---  "EQP_BL_uth0_ammo1",
---  "EQP_BL_mgm0_ammo0",
---  "EQP_BL_mgm0_cmn_ammo0",
---  "EQP_BL_mgm0_cmn_ammo1",
---  "EQP_BL_mgm0_famo0",
---  "EQP_BL_mgs0_miss1",
---  "EQP_BL_mgs0_miss0",
---  "EQP_BL_mgs0_srcm0",
---  "EQP_BL_mgs0_grnd0",
---  "EQP_BL_Mortar",
---  "EQP_BL_Flare",
---  "EQP_BL_Cannon",
---  "EQP_BL_WavCannon",
---  "EQP_BL_WavCannonHoming",
---  "EQP_BL_TankCannon",
---  "EQP_BL_TankCannonHoming",
---  "EQP_BL_WavRocket",
---  "EQP_BL_Tankgun_105mmRifledBoreGun",
---  "EQP_BL_Tankgun_120mmSmoothBoreGun",
---  "EQP_BL_Tankgun_125mmSmoothBoreGun",
---  "EQP_BL_Tankgun_105mmRifledBoreGun_Homing",
---  "EQP_BL_Tankgun_120mmSmoothBoreGun_Homing",
---  "EQP_BL_Tankgun_125mmSmoothBoreGun_Homing",
---  "EQP_BL_Tankgun_82mmRocketPoweredProjectile",
---  "EQP_BL_Tankgun_MultipleRocketLauncher",
---  "EQP_BL_SupplyBomb",
---  "EQP_BL_SupplySmoke",
---  "EQP_BL_SupplySleep",
---  "EQP_BL_SupplyChaff",
---  "EQP_BL_UavGrenade",
---  "EQP_BL_UavSmokeGrenade",
---  "EQP_BL_UavSleepGasGrenade",
-}
-
-local equipCategories={}
-for n,category in pairs(this.tppEquipTable)do
-  equipCategories[n]=category
-end
-
 --tex has no effect sadly, only boss quiet gameobject i guess
 function this.SetQuietHumming(hummingFlag)
   local command = {id="SetHumming", flag=hummingFlag}
@@ -4257,7 +3644,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
   end
 
   if Ivars.vehiclePatrolProfile:Is()>0 and Ivars.vehiclePatrolProfile:ExecCheck() then
-    --InfMain.SetLevelRandomSeed()
+    InfMain.SetLevelRandomSeed()
 
     --local initPoolSize=#this.soldierPool--DEBUG
     for cpName,cpDefine in pairs(soldierDefine)do
@@ -4300,7 +3687,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
     --local poolChange=#this.soldierPool-initPoolSize--DEBUG
     --InfMenu.DebugPrint("pool change:"..poolChange)--DEBUG
 
-    --InfMain.ResetTrueRandom()
+    InfMain.ResetTrueRandom()
 
     --if vehiclePatrol
   end
@@ -4419,10 +3806,10 @@ function this.AddLrrps(soldierDefine,travelPlans)
   end
   --InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
 
-  --InfMain.ResetTrueRandom()
+  InfMain.ResetTrueRandom()
 end
 
-this.MAX_WILDCARD_FACES=1--10
+this.MAX_WILDCARD_FACES=4--10
 function this.IsWildCardEnabled(missionCode)
   local missionCode=missionCode or vars.missionCode
   return Ivars.enableWildCardFreeRoam:Is(1) and (missionCode==30010 or missionCode==30020)
@@ -4433,7 +3820,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     return
   end
 
-  --InfMain.SetLevelRandomSeed()
+  InfMain.SetLevelRandomSeed()
 
   local reserved=0
 
@@ -4568,12 +3955,18 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       soldierSubTypes[wildCardSubType]=soldierSubTypes[wildCardSubType] or {}
       table.insert(soldierSubTypes[wildCardSubType],soldierName)
 
-      soldierPowerSettings[soldierName]=gearPowers
+
+      local soldierPowers={}
+      for n,power in pairs(gearPowers) do
+        table.insert(soldierPowers,power)
+      end
       if #weaponPool==0 then
         weaponPool=this.ResetPool(weaponPowers)
       end
       local weapon=GetRandomPool(weaponPool)
-      table.insert(soldierPowerSettings[soldierName],weapon)
+      table.insert(soldierPowers,weapon)
+
+      soldierPowerSettings[soldierName]=soldierPowers
 
       soldierPersonalAbilitySettings[soldierName]=personalAbilitySettings
       --end
@@ -4581,8 +3974,180 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       numLrrps=numLrrps+1
     end
   end
+
+  --  --DEBUG
+  --  for n,soldierName in pairs(this.ene_wildCardSoldiers)do
+  --    InfMenu.DebugPrint(soldierName)
+  --    local ins=InfInspect.Inspect(soldierPowerSettings[soldierName])
+  --    InfMenu.DebugPrint(ins)
+  -- end
+
   --InfMenu.DebugPrint("num wildCards"..numLrrps)--DEBUG
-  --InfMain.ResetTrueRandom()
+  InfMain.ResetTrueRandom()
+end
+
+---
+function this.MarkObject(gameId)
+  if gameId==NULL_ID then
+    return
+  end
+
+  --DEBUGNOW TODO shift these notes back to tppmarker.enable
+  local radiusLevel=0--0-9
+  local goalType="none"--TppMarker.GoalTypes
+  local viewType="all"--TppMarker.ViewTypes
+  local randomLevel=0--0-9 randoms to radiuslevel I guess
+  local setImportant=true
+  local setNew=false
+  --TppMarker.Enable(gameId,0,"moving","all",0,true,false)
+  TppMarker.Enable(gameId,0,"moving","all",0,setImportant,setNew)
+end
+---
+
+
+local TppGameObject=TppGameObject
+
+local gameObjectTypes={}
+local gameObjectTypeLiteralStr="GAME_OBJECT_TYPE_"
+
+--tex from exe, don't know if anythings missing (as it commonly seems)
+this.gameObjectStringToType={
+  GAME_OBJECT_TYPE_PLAYER2=TppGameObject.GAME_OBJECT_TYPE_PLAYER2,
+  GAME_OBJECT_TYPE_COMMAND_POST2=TppGameObject.GAME_OBJECT_TYPE_COMMAND_POST2,
+  GAME_OBJECT_TYPE_SOLDIER2=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2,
+  GAME_OBJECT_TYPE_HOSTAGE2=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2,
+  GAME_OBJECT_TYPE_HOSTAGE_UNIQUE=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE_UNIQUE,
+  GAME_OBJECT_TYPE_HOSTAGE_UNIQUE2=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE_UNIQUE2,
+  GAME_OBJECT_TYPE_HOSTAGE_KAZ=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE_KAZ,
+  GAME_OBJECT_TYPE_OCELOT2=TppGameObject.GAME_OBJECT_TYPE_OCELOT2,
+  GAME_OBJECT_TYPE_HUEY2=TppGameObject.GAME_OBJECT_TYPE_HUEY2,
+  GAME_OBJECT_TYPE_CODE_TALKER2=TppGameObject.GAME_OBJECT_TYPE_CODE_TALKER2,
+  GAME_OBJECT_TYPE_SKULL_FACE2=TppGameObject.GAME_OBJECT_TYPE_SKULL_FACE2,
+  GAME_OBJECT_TYPE_MANTIS2=TppGameObject.GAME_OBJECT_TYPE_MANTIS2,
+  GAME_OBJECT_TYPE_BIRD2=TppGameObject.GAME_OBJECT_TYPE_BIRD2,
+  GAME_OBJECT_TYPE_HORSE2=TppGameObject.GAME_OBJECT_TYPE_HORSE2,
+  GAME_OBJECT_TYPE_HELI2=TppGameObject.GAME_OBJECT_TYPE_HELI2,
+  GAME_OBJECT_TYPE_ENEMY_HELI=TppGameObject.GAME_OBJECT_TYPE_ENEMY_HELI,
+  GAME_OBJECT_TYPE_OTHER_HELI=TppGameObject.GAME_OBJECT_TYPE_OTHER_HELI,
+  GAME_OBJECT_TYPE_OTHER_HELI2=TppGameObject.GAME_OBJECT_TYPE_OTHER_HELI2,
+  GAME_OBJECT_TYPE_BUDDYQUIET2=TppGameObject.GAME_OBJECT_TYPE_BUDDYQUIET2,
+  GAME_OBJECT_TYPE_BUDDYDOG2=TppGameObject.GAME_OBJECT_TYPE_BUDDYDOG2,
+  GAME_OBJECT_TYPE_BUDDYPUPPY=TppGameObject.GAME_OBJECT_TYPE_BUDDYPUPPY,
+  GAME_OBJECT_TYPE_SAHELAN2=TppGameObject.GAME_OBJECT_TYPE_SAHELAN2,
+  GAME_OBJECT_TYPE_PARASITE2=TppGameObject.GAME_OBJECT_TYPE_PARASITE2,
+  GAME_OBJECT_TYPE_LIQUID2=TppGameObject.GAME_OBJECT_TYPE_LIQUID2,
+  GAME_OBJECT_TYPE_VOLGIN2=TppGameObject.GAME_OBJECT_TYPE_VOLGIN2,
+  GAME_OBJECT_TYPE_BOSSQUIET2=TppGameObject.GAME_OBJECT_TYPE_BOSSQUIET2,
+  GAME_OBJECT_TYPE_UAV=TppGameObject.GAME_OBJECT_TYPE_UAV,
+  GAME_OBJECT_TYPE_SECURITYCAMERA2=TppGameObject.GAME_OBJECT_TYPE_SECURITYCAMERA2,
+  GAME_OBJECT_TYPE_GOAT=TppGameObject.GAME_OBJECT_TYPE_GOAT,
+  GAME_OBJECT_TYPE_NUBIAN=TppGameObject.GAME_OBJECT_TYPE_NUBIAN,
+  GAME_OBJECT_TYPE_CRITTER_BIRD=TppGameObject.GAME_OBJECT_TYPE_CRITTER_BIRD,
+  GAME_OBJECT_TYPE_STORK=TppGameObject.GAME_OBJECT_TYPE_STORK,
+  GAME_OBJECT_TYPE_EAGLE=TppGameObject.GAME_OBJECT_TYPE_EAGLE,
+  GAME_OBJECT_TYPE_RAT=TppGameObject.GAME_OBJECT_TYPE_RAT,
+  GAME_OBJECT_TYPE_ZEBRA=TppGameObject.GAME_OBJECT_TYPE_ZEBRA,
+  GAME_OBJECT_TYPE_WOLF=TppGameObject.GAME_OBJECT_TYPE_WOLF,
+  GAME_OBJECT_TYPE_JACKAL=TppGameObject.GAME_OBJECT_TYPE_JACKAL,
+  GAME_OBJECT_TYPE_BEAR=TppGameObject.GAME_OBJECT_TYPE_BEAR,
+  GAME_OBJECT_TYPE_CORPSE=TppGameObject.GAME_OBJECT_TYPE_CORPSE,
+  GAME_OBJECT_TYPE_MBQUIET=TppGameObject.GAME_OBJECT_TYPE_MBQUIET,
+  GAME_OBJECT_TYPE_COMMON_HORSE2=TppGameObject.GAME_OBJECT_TYPE_COMMON_HORSE2,
+  GAME_OBJECT_TYPE_HORSE2_FOR_VR=TppGameObject.GAME_OBJECT_TYPE_HORSE2_FOR_VR,
+  GAME_OBJECT_TYPE_PLAYER_HORSE2_FOR_VR=TppGameObject.GAME_OBJECT_TYPE_PLAYER_HORSE2_FOR_VR,
+  GAME_OBJECT_TYPE_VOLGIN2_FOR_VR=TppGameObject.GAME_OBJECT_TYPE_VOLGIN2_FOR_VR,
+  GAME_OBJECT_TYPE_WALKERGEAR2=TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2,
+  GAME_OBJECT_TYPE_COMMON_WALKERGEAR2=TppGameObject.GAME_OBJECT_TYPE_COMMON_WALKERGEAR2,
+  GAME_OBJECT_TYPE_BATTLEGEAR=TppGameObject.GAME_OBJECT_TYPE_BATTLEGEAR,
+  GAME_OBJECT_TYPE_EXAMPLE=TppGameObject.GAME_OBJECT_TYPE_EXAMPLE,
+  GAME_OBJECT_TYPE_SAMPLE_GAME_OBJECT=TppGameObject.GAME_OBJECT_TYPE_SAMPLE_GAME_OBJECT,
+  GAME_OBJECT_TYPE_NOTICE_OBJECT=TppGameObject.GAME_OBJECT_TYPE_NOTICE_OBJECT,
+  GAME_OBJECT_TYPE_VEHICLE=TppGameObject.GAME_OBJECT_TYPE_VEHICLE,
+  GAME_OBJECT_TYPE_MOTHER_BASE_CONTAINER=TppGameObject.GAME_OBJECT_TYPE_MOTHER_BASE_CONTAINER,
+  GAME_OBJECT_TYPE_EQUIP_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_EQUIP_SYSTEM,
+  GAME_OBJECT_TYPE_PICKABLE_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_PICKABLE_SYSTEM,
+  GAME_OBJECT_TYPE_COLLECTION_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_COLLECTION_SYSTEM,
+  GAME_OBJECT_TYPE_THROWING_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_THROWING_SYSTEM,
+  GAME_OBJECT_TYPE_PLACED_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_PLACED_SYSTEM,
+  GAME_OBJECT_TYPE_SHELL_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_SHELL_SYSTEM,
+  GAME_OBJECT_TYPE_BULLET_SYSTEM3=TppGameObject.GAME_OBJECT_TYPE_BULLET_SYSTEM3,
+  GAME_OBJECT_TYPE_CASING_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_CASING_SYSTEM,
+  GAME_OBJECT_TYPE_FULTON=TppGameObject.GAME_OBJECT_TYPE_FULTON,
+  GAME_OBJECT_TYPE_BALLOON_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_BALLOON_SYSTEM,
+  GAME_OBJECT_TYPE_PARACHUTE_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_PARACHUTE_SYSTEM,
+  GAME_OBJECT_TYPE_SUPPLY_CBOX=TppGameObject.GAME_OBJECT_TYPE_SUPPLY_CBOX,
+  GAME_OBJECT_TYPE_SUPPORT_ATTACK=TppGameObject.GAME_OBJECT_TYPE_SUPPORT_ATTACK,
+  GAME_OBJECT_TYPE_RANGE_ATTACK=TppGameObject.GAME_OBJECT_TYPE_RANGE_ATTACK,
+  GAME_OBJECT_TYPE_CBOX=TppGameObject.GAME_OBJECT_TYPE_CBOX,
+  GAME_OBJECT_TYPE_OBSTRUCTION_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_OBSTRUCTION_SYSTEM,
+  GAME_OBJECT_TYPE_DECOY_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_DECOY_SYSTEM,
+  GAME_OBJECT_TYPE_CAPTURECAGE_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_CAPTURECAGE_SYSTEM,
+  GAME_OBJECT_TYPE_DUNG_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_DUNG_SYSTEM,
+  GAME_OBJECT_TYPE_MARKER2_LOCATOR=TppGameObject.GAME_OBJECT_TYPE_MARKER2_LOCATOR,
+  GAME_OBJECT_TYPE_ESPIONAGE_RADIO=TppGameObject.GAME_OBJECT_TYPE_ESPIONAGE_RADIO,
+  GAME_OBJECT_TYPE_MGO_ACTOR=TppGameObject.GAME_OBJECT_TYPE_MGO_ACTOR,
+  GAME_OBJECT_TYPE_FOB_GAME_DAEMON=TppGameObject.GAME_OBJECT_TYPE_FOB_GAME_DAEMON,
+  GAME_OBJECT_TYPE_SYSTEM_RECEIVER=TppGameObject.GAME_OBJECT_TYPE_SYSTEM_RECEIVER,
+  GAME_OBJECT_TYPE_SEARCHLIGHT=TppGameObject.GAME_OBJECT_TYPE_SEARCHLIGHT,
+  GAME_OBJECT_TYPE_FULTONABLE_CONTAINER=TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER,
+  GAME_OBJECT_TYPE_GARBAGEBOX=TppGameObject.GAME_OBJECT_TYPE_GARBAGEBOX,
+  GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE=TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,
+  GAME_OBJECT_TYPE_GATLINGGUN=TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN,
+  GAME_OBJECT_TYPE_MORTAR=TppGameObject.GAME_OBJECT_TYPE_MORTAR,
+  GAME_OBJECT_TYPE_MACHINEGUN=TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN,
+  GAME_OBJECT_TYPE_DOOR=TppGameObject.GAME_OBJECT_TYPE_DOOR,
+  GAME_OBJECT_TYPE_WATCH_TOWER=TppGameObject.GAME_OBJECT_TYPE_WATCH_TOWER,
+  GAME_OBJECT_TYPE_TOILET=TppGameObject.GAME_OBJECT_TYPE_TOILET,
+  GAME_OBJECT_TYPE_ESPIONAGEBOX=TppGameObject.GAME_OBJECT_TYPE_ESPIONAGEBOX,
+  GAME_OBJECT_TYPE_IR_SENSOR=TppGameObject.GAME_OBJECT_TYPE_IR_SENSOR,
+  GAME_OBJECT_TYPE_EVENT_ANIMATION=TppGameObject.GAME_OBJECT_TYPE_EVENT_ANIMATION,
+  GAME_OBJECT_TYPE_BRIDGE=TppGameObject.GAME_OBJECT_TYPE_BRIDGE,
+  GAME_OBJECT_TYPE_WATER_TOWER=TppGameObject.GAME_OBJECT_TYPE_WATER_TOWER,
+  GAME_OBJECT_TYPE_RADIO_CASSETTE=TppGameObject.GAME_OBJECT_TYPE_RADIO_CASSETTE,
+  GAME_OBJECT_TYPE_POI_SYSTEM=TppGameObject.GAME_OBJECT_TYPE_POI_SYSTEM,
+  GAME_OBJECT_TYPE_SAMPLE_MANAGER=TppGameObject.GAME_OBJECT_TYPE_SAMPLE_MANAGER,
+}
+this.gameObjectTypeToString={}
+for k,v in pairs(this.gameObjectStringToType)do
+  this.gameObjectTypeToString[v]=k
+end
+
+--tex there's no real lookup for this I've found
+--there's probably faster tables (look in DefineSoldiers()) that have the cpId>soldierId, but this is nice for the soldiername,cpname
+function this.SoldierNameForGameId(findId)
+  for n,soldierName in ipairs(TppReinforceBlock.REINFORCE_SOLDIER_NAMES)do
+    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+    if soldierId~=NULL_ID then
+      if soldierId==findId then
+        return soldierName
+      end
+    end
+  end
+
+  for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
+    for n,soldierName in ipairs(soldierList)do
+      local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+      if soldierId~=NULL_ID then
+        if soldierId==findId then
+          return soldierName,cpName
+        end
+      end
+    end
+  end
+
+  return "not found"
+end
+
+
+function this.ClearStatus()
+  InfInspect.TryFunc(function()
+    local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
+    SplashScreen.Show(splash,0,0.3,0)
+    vars.playerDisableActionFlag=PlayerDisableAction.NONE
+    Player.SetPadMask{settingName="AllClear"}
+    Tpp.SetGameStatus{target="all",enable=true,scriptName="InfMain.lua"}
+    InfMenu.DebugPrint"Cleared status"
+  end)
 end
 
 return this

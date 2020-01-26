@@ -771,6 +771,7 @@ sequences.Seq_Game_TitleMenu = {
 		or ( gvars.title_nextMissionCode == 50050 ) then
 			this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )
 	  elseif InfMain.abortToAcc then--tex>
+	     InfMain.abortToAcc=false
 	     this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )--tex
 		else--<
 			this.SetOnSelectFlag( SELECT_FLAG.SELECT_CONTINUE )

@@ -268,7 +268,7 @@ this.soldierHealthScale={
 this.playerHealthScale={
   save=MISSION,
   default=100,
-  range=this.healthScaleRange,
+  range={max=750,min=0,increment=20},--tex GOTCHA overflows around 760 when medical arm 3 is equipped
   isPercent=true,
   OnChange=function(self)
     if mvars.mis_missionStateIsNotInGame then
@@ -2281,31 +2281,31 @@ local playerCammoTypes={-- SYNC: InfFova.playerCammoTypes
   "FOXTROT",--5
   "WOODLAND",--6
   "WETWORK",--7
-  "ARBANGRAY",--8 --OFF--hang on ddmale,avatar
-  "ARBANBLUE",--9 --OFF
-  "SANDSTORM",--10 --OFF--blank/hang model sys
-  "REALTREE",--11 --shows as olive
-  "INVISIBLE",--12 --shows as olive
-  "BLACK",--13 --OFF--blank/hang model sys
-  "SNEAKING_SUIT_GZ",--14 --avatar
+  "ARBANGRAY",--8
+  "ARBANBLUE",--9
+  "SANDSTORM",--10
+  "REALTREE",--11
+  "INVISIBLE",--12
+  "BLACK",--13
+  "SNEAKING_SUIT_GZ",--14
   "SNEAKING_SUIT_TPP",--15
   "BATTLEDRESS",--16
   "PARASITE",--17
-  "NAKED",--18 --shows as parasite
-  "LEATHER",--19 --avatar
+  "NAKED",--18
+  "LEATHER",--19
   "SOLIDSNAKE",--20
   "NINJA",--21
   "RAIDEN",--22
   "HOSPITAL",--23
-  "GOLD",--24--avatar
-  "SILVER",--25 --avatar
+  "GOLD",--24
+  "SILVER",--25
   "PANTHER",--26
-  "AVATAR_EDIT_MAN",--27 --OFF--just part of upper body that fits the zoomed cam, lel
+  "AVATAR_EDIT_MAN",--27
   "MGS3",--28
   "MGS3_NAKED",--29
   "MGS3_SNEAKING",--30
-  "MGS3_TUXEDO",--31 --not DD_FEMALE
-  "EVA_CLOSE",--32 dd_fem, also works on avatar/snake but they dont have right head lol
+  "MGS3_TUXEDO",--31
+  "EVA_CLOSE",--32
   "EVA_OPEN",--33
   "BOSS_CLOSE",--34
   "BOSS_OPEN",--35
@@ -3218,10 +3218,10 @@ this.selectedChangeWeapon={--WIP
   --OFF save=MISSION,
   range={max=490,min=1},--tex SYNC: tppEquipTable
   GetSettingText=function(self)
-    return InfMain.tppEquipTable[self.setting]
+    return InfEquip.tppEquipTable[self.setting]
   end,
   OnActivate=function(self)
-    local equipName=InfMain.tppEquipTable[self.setting]
+    local equipName=InfEquip.tppEquipTable[self.setting]
     local equipId=TppEquip[equipName]
     if equipId==nil then
       InfMenu.DebugPrint("no equipId found for "..equipName)
@@ -3257,6 +3257,12 @@ this.selectedChangeWeapon={--WIP
     --      }
   end,
 }
+
+this.mis_isGroundStart={--NONUSER
+  save=MISSION,
+  range=this.switchRange,
+}
+
 --end ivar defines
 
 local function IsIvar(ivar)--TYPEID

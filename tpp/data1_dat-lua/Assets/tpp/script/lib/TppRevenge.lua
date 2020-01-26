@@ -1158,18 +1158,18 @@ function this.CanUseReinforceHeli()
   return not GameObject.DoesGameObjectExistWithTypeName"TppEnemyHeli"
 end
 function this.SelectReinforceType()
-  if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then
-    --InfMenu.DebugPrint("SelectReinforceType already heli")
+  if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then--tex why? for quest helis?
+    --    InfMenu.DebugPrint("SelectReinforceType already heli")--DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.HELI
   end
   if not this.IsUsingSuperReinforce()then
-    --InfMenu.DebugPrint("SelectReinforceType not superreinforce")
+    --    InfMenu.DebugPrint("SelectReinforceType not superreinforce, REINFORCE_TYPE.NONE")--DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local reinforceVehicleTypes={}
   local canuseReinforceVehicle=this.CanUseReinforceVehicle()
   if canuseReinforceVehicle and Ivars.forceSuperReinforce:Is()>0 then--tex
-    canuseReinforceVehicle=not(vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE)--tex TODO: can't use reinforce vehicle in free mode till I figure out why it doesn't work vs missions
+    canuseReinforceVehicle=not(vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE)--tex TODO: can't use reinforce vehicle in free mode, reinforce request doesnt fire (VERIFY, I think I can't remember if it's not at all or if it's super rare/inconsistant compared to missions) and forcing reinforce to get around it works for helis but breaks vehicles
   end--
   local canUseReinforceHeli=this.CanUseReinforceHeli() and mvars.revenge_isEnabledSuperReinforce--tex added isEnabledSuper, which is only set by quest heli and shouldnt stop other vehicle
   if canuseReinforceVehicle then
@@ -1193,7 +1193,7 @@ function this.SelectReinforceType()
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local randomVehicleType=math.random(1,#reinforceVehicleTypes)
-  --InfMenu.DebugPrint("SelectReinforceType randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[reinforceVehicleTypes[randomVehicleType]+1])--DEBUG
+  --  InfMenu.DebugPrint("SelectReinforceType randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[reinforceVehicleTypes[randomVehicleType]+1])--DEBUG
   return reinforceVehicleTypes[randomVehicleType]
 end
 function this.ApplyPowerSettingsForReinforce(soldierIds)
@@ -2247,6 +2247,9 @@ function this._OnReinforceRespawn(soldierIds)
     TppEnemy.AddPowerSetting(soldierIds,{})
     o50050_enemy.AssignAndSetupRespawnSoldier(soldierIds)
   else
+    --    InfMenu.DebugPrint"_OnReinforceRespawn"--tex DEBUGNOW>
+    --    local ins=InfInspect.Inspect(soldierIds)
+    --    InfMenu.DebugPrint(ins)--<
     this.ApplyPowerSettingsForReinforce{soldierIds}
   end
 end

@@ -1,25 +1,25 @@
 local e={}
-local N=2
+local h=2
 local l=8
 local M=16
-local G=32
-local S=64
-local I=256
+local y=32
+local G=64
+local S=256
 local T=512
-local p=1024
+local E=1024
 local P=2048
-local h=4096
+local N=4096
 local i=nil
 local l=nil
 local t=0
 local n=0
-local y=.01
+local I=.01
 local u=.02
 local d={}
-local o={}
+local r={}
 local s
-local f
 local m
+local f
 function e.AddParm(e)e:AddDynamicProperty("String","MarkerName")
 e.MarkerName="A"e:AddDynamicProperty("String","GenericPOITag")
 e.GenericPOITag="GENERIC_01"e:AddDynamicProperty("EntityLink","SoundObject")
@@ -35,12 +35,12 @@ end
 l=nil
 t=0
 n=0
-local i=nil
-local c=nil
-local r=false
-local n=false
-s(a,l,i,c,r,t,n)f(a,l,n,t)o[a:GetParm().MarkerName]=false
-m(a,i,t)a:SetActive(true)
+local n=nil
+local o=nil
+local c=false
+local i=false
+s(a,l,n,o,c,t,i)m(a,l,i,t)r[a:GetParm().MarkerName]=false
+f(a,n,t)a:SetActive(true)
 end
 e.Reset=e.Construct
 e.Reinitialize=e.Construct
@@ -64,46 +64,46 @@ function e.ExecuteScript(e,e)
 end
 function e.ProcessSignal(o,e)
 local c=false
-local a=nil
 local n=nil
-local u=false
-local d=l
+local a=nil
+local d=false
+local u=l
 local r=0
 local i=nil
 if e==nil then
-a=nil
+n=nil
 l=nil
 t=0
 else
-e:SetMode"R"c=e:SerializeBoolean(c)r=e:SerializeInteger(r)i=e:SerializeInteger(i)l=e:SerializeNumber(l)a=e:SerializeNumber(a)n=e:SerializeNumber(n)t=e:SerializeNumber(t)
+e:SetMode"R"c=e:SerializeBoolean(c)r=e:SerializeInteger(r)i=e:SerializeInteger(i)l=e:SerializeNumber(l)n=e:SerializeNumber(n)a=e:SerializeNumber(a)t=e:SerializeNumber(t)
 if i==-1 then
 i=nil
 end
-if a==-1 then
-a=nil
+if n==-1 then
+n=nil
 end
 if l==-1 then
 l=nil
 end
-if n==-1 then
-n=nil
+if a==-1 then
+a=nil
 end
 end
 local e=MpRulesetManager.GetActiveRuleset()
 if e==nil or e.GetLocalPlayerSessionIndex==nil then
 return
 end
-local G=e:GetLocalPlayerSessionIndex()
+local h=e:GetLocalPlayerSessionIndex()
 for e=0,15 do
 if Utils.TestFlag(r,e+1)then
-if e==G then
-u=true
+if e==h then
+d=true
 end
 end
 end
-s(o,l,a,n,u,t,c)f(o,l,c,t)m(o,a,t)
-local s=(l~=d and l==nil)
-local c=((l~=d and l~=nil)and t==1)
+s(o,l,n,a,d,t,c)m(o,l,c,t)f(o,n,t)
+local n=(l~=u and l==nil)
+local c=((l~=u and l~=nil)and t==1)
 if Mgo.IsHost()then
 local t={}
 if e==nil or e.GetPlayerBySessionIndex==nil then
@@ -117,33 +117,39 @@ table.insert(t,e)
 end
 end
 end
-local a=nil
 local t=nil
+local d=nil
 if i~=nil then
-local l=e:GetPlayerBySessionIndex(i)a=e:GetGameObjectIdFromPlayer(l):GetId()t=l.teamIndex
+local l=e:GetPlayerBySessionIndex(i)t=e:GetGameObjectIdFromPlayer(l):GetId()d=l.teamIndex
 end
-local t="Capturing"if(s)then
+local t="Capturing"if(n)then
 t="Neutral"elseif c then
 t="Captured"end
-local a=o:GetGameObjectId():GetId()
-local l=MgoSerialize.NewStream(48)l:SetMode"W"Utils.SerializeEvent(l,a,Fox.StrCode32(t),n,r)MgoSignal.SendSignal(e:GetRulesetGameObjectId(),Fox.StrCode32"HOST",l)
+local n=o:GetGameObjectId():GetId()
+if a==nil then
+a=-1
+end
+local l=MgoSerialize.NewStream(48)l:SetMode"W"Utils.SerializeEvent(l,n,Fox.StrCode32(t),a,r)MgoSignal.SendSignal(e:GetRulesetGameObjectId(),Fox.StrCode32"HOST",l)
 end
 end
-function e.ValidateCapturers(e,r)
+function e.ValidateCapturers(e,o)
 local e=MpRulesetManager.GetActiveRuleset()
 if e==nil or e.GetPlayerFromGameObjectId==nil then
 return nil,{},false
 end
-local a=nil
-local i={}
-local n=false
+local n=nil
+local r={}
+local i=false
 local l=0
 local t=0
-for n,a in ipairs(r)do
+local a=e.currentState
+if(a=="RULESET_STATE_ROUND_REGULAR_PLAY"or a=="RULESET_STATE_ROUND_OVERTIME")or a=="RULESET_STATE_ROUND_SUDDEN_DEATH"then
+for n,a in ipairs(o)do
 local e=e:GetPlayerFromGameObjectId(a)
 if e~=nil and e.teamIndex~=nil then
-if not PlayerInfo.OrCheckStatus(e.sessionIndex,{PlayerStatus.UNCONSCIOUS,PlayerStatus.CQC_HOLD_BY_ENEMY})then
-table.insert(i,a)
+if PlayerInfo.OrCheckStatus(e.sessionIndex,{PlayerStatus.REALIZED})then
+if not PlayerInfo.OrCheckStatus(e.sessionIndex,{PlayerStatus.UNCONSCIOUS,PlayerStatus.CQC_HOLD_BY_ENEMY,PlayerStatus.FULTONED,PlayerStatus.CHARMED})then
+table.insert(r,a)
 local e=e.teamIndex
 if e==Utils.Team.SOLID then
 l=l+1
@@ -153,60 +159,62 @@ end
 end
 end
 end
+end
+end
 if l>0 and t>0 then
-n=true
+i=true
 end
 if t>0 then
-a=Utils.Team.LIQUID
+n=Utils.Team.LIQUID
 elseif l>0 then
-a=Utils.Team.SOLID
+n=Utils.Team.SOLID
 end
-return a,i,n
+return n,r,i
 end
-function s(e,o,s,c,f,n,l)
-if l then
+function s(l,o,c,d,f,n,e)
+if e then
 local a=MpRulesetManager.GetActiveRuleset()
-local l=nil
+local e=nil
 if a~=nil and a.GetLocalPlayerTeam~=nil then
-l=a:GetLocalPlayerTeam()
+e=a:GetLocalPlayerTeam()
 end
 local t={}t.data=math.floor(.5+(n*255))
-local r=S
-local i=T
-local n=P
-local d=0
-if(Entity.IsNull(a)or o==nil)or l==nil then
-r=M
-elseif o==l then
-r=G
+local i=G
+local n=T
+local r=P
+local s=0
+if(Entity.IsNull(a)or o==nil)or e==nil then
+i=M
+elseif o==e then
+i=y
 end
-if(Entity.IsNull(a)or s==nil)or l==nil then
-i=0
-elseif s==l then
-i=I
-end
-if(Entity.IsNull(a)or c==nil)or l==nil then
+if(Entity.IsNull(a)or c==nil)or e==nil then
 n=0
-elseif c==l then
-n=p
+elseif c==e then
+n=S
+end
+if(Entity.IsNull(a)or d==nil)or e==nil then
+r=0
+elseif d==e then
+r=E
 end
 if f then
-d=h
+s=N
 end
-t.flags=(((N+r)+i)+n)+d
-if e:GetParm().MarkerName=="A"then
+t.flags=(((h+i)+n)+r)+s
+if l:GetParm().MarkerName=="A"then
 t.goalType=0
-elseif e:GetParm().MarkerName=="B"then
+elseif l:GetParm().MarkerName=="B"then
 t.goalType=1
-elseif e:GetParm().MarkerName=="C"then
+elseif l:GetParm().MarkerName=="C"then
 t.goalType=2
 end
-e:EnableMarker(e:GetParm().MarkerName)e:UpdateMarker(t)
+l:EnableMarker(l:GetParm().MarkerName)l:UpdateMarker(t)
 else
-e:DisableMarker()
+l:DisableMarker()
 end
 end
-function m(a,t,n)
+function f(a,t,n)
 local e=MpRulesetManager.GetActiveRuleset()
 local l=nil
 if e~=nil and e.GetLocalPlayerTeam~=nil then
@@ -227,7 +235,7 @@ end
 end
 end
 end
-function f(e,t,c,r)
+function m(e,t,c,o)
 local i=MpRulesetManager.GetActiveRuleset()
 local a=nil
 local l=nil
@@ -237,19 +245,19 @@ else
 return
 end
 n=n+e:GetScaledTime()
-if((n>y and n<u)and r<1)and r>0 then
+if((n>I and n<u)and o<1)and o>0 then
 TppDataUtility.SetVisibleEffectFromGroupId("domLightBlue_"..e:GetParm().MarkerName,false)
 TppDataUtility.SetVisibleEffectFromGroupId("domLightRed_"..e:GetParm().MarkerName,false)
-TppDataUtility.SetVisibleEffectFromGroupId("domLightWhite_"..e:GetParm().MarkerName,false)o[e:GetParm().MarkerName]=true
+TppDataUtility.SetVisibleEffectFromGroupId("domLightWhite_"..e:GetParm().MarkerName,false)r[e:GetParm().MarkerName]=true
 else
 if t~=nil and t==a then
 l="domLightBlue_"elseif t~=nil and t~=a then
 l="domLightRed_"elseif t==nil or a==nil then
 l="domLightWhite_"end
 if d[e:GetParm().MarkerName]==nil then
-o[e:GetParm().MarkerName]=true
+r[e:GetParm().MarkerName]=true
 end
-if l~=d[e:GetParm().MarkerName]or o[e:GetParm().MarkerName]==true then
+if l~=d[e:GetParm().MarkerName]or r[e:GetParm().MarkerName]==true then
 if d[e:GetParm().MarkerName]then
 TppDataUtility.SetVisibleEffectFromGroupId("domLightBlue_"..e:GetParm().MarkerName,false)
 TppDataUtility.SetVisibleEffectFromGroupId("domLightRed_"..e:GetParm().MarkerName,false)
@@ -257,7 +265,7 @@ TppDataUtility.SetVisibleEffectFromGroupId("domLightWhite_"..e:GetParm().MarkerN
 end
 d[e:GetParm().MarkerName]=l
 l=l..e:GetParm().MarkerName
-TppDataUtility.SetVisibleEffectFromGroupId(l,c)o[e:GetParm().MarkerName]=false
+TppDataUtility.SetVisibleEffectFromGroupId(l,c)r[e:GetParm().MarkerName]=false
 end
 end
 if n>u then
