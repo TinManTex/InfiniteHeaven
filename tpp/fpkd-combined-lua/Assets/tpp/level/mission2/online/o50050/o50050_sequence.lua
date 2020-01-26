@@ -1,4 +1,4 @@
--- DOBUILD: 0
+-- DOBUILD: 0--DEBUGNOW search debugnow and compare with vanilla before using
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\online\o50050\o50050_additional.fpkd
 -- o50050_sequence.lua
@@ -203,6 +203,37 @@ this.fieldClothings = {
   PlayerCamoType.C46,
   PlayerCamoType.C49,
   PlayerCamoType.C52,
+  PlayerCamoType.C16,--RETAILPATCH 1090>       
+  PlayerCamoType.C17,       
+  PlayerCamoType.C18,       
+  PlayerCamoType.C19,       
+  PlayerCamoType.C20,       
+  PlayerCamoType.C22,       
+  PlayerCamoType.C25,       
+  PlayerCamoType.C26,       
+  PlayerCamoType.C28,       
+  PlayerCamoType.C31,       
+  PlayerCamoType.C32,       
+  PlayerCamoType.C33,       
+  PlayerCamoType.C36,       
+  PlayerCamoType.C37,       
+  PlayerCamoType.C40,       
+  PlayerCamoType.C41,       
+  PlayerCamoType.C43,       
+  PlayerCamoType.C44,       
+  PlayerCamoType.C45,       
+  PlayerCamoType.C47,       
+  PlayerCamoType.C48,       
+  PlayerCamoType.C50,       
+  PlayerCamoType.C51,       
+  PlayerCamoType.C53,       
+  PlayerCamoType.C54,       
+  PlayerCamoType.C55,       
+  PlayerCamoType.C56,       
+  PlayerCamoType.C57,       
+  PlayerCamoType.C58,       
+  PlayerCamoType.C59,       
+  PlayerCamoType.C60,--<
 }
 
 this.nakedCamo = {
@@ -672,6 +703,8 @@ this.saveVarsList = {
   rank_cnt_down_ofp = { name = "rank_cnt_down_ofp", type = TppScriptVars.TYPE_UINT8, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },--RETAILPATCH 1080
   rank_cnt_down_dfp = { name = "rank_cnt_down_dfp", type = TppScriptVars.TYPE_UINT8, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },--RETAILPATCH 1080
 
+  clearedPlantCount = { name = "clearedPlantCount", type = TppScriptVars.TYPE_UINT8, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },--RETAILPATCH 1090
+  isTelopTrapEntered  = { name = "isTelopTrapEntered", arraySize = 4, type = TppScriptVars.TYPE_BOOL, value = false, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },--RETAILPATCH 1090
   --tex> basic mode signalling/syncing DEBUGNOW
   fobModeIH      = { name = "fobModeIH", type = TppScriptVars.TYPE_UINT16, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },
   fobClientIH      = { name = "fobClientIH", type = TppScriptVars.TYPE_UINT16, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },
@@ -2444,6 +2477,9 @@ function this.MissionPrepare()
 
     mvars.fobDebug.showESPBonusConf = false
     DebugMenu.AddDebugMenu("FobLua", "showESPBonusConf", "bool", mvars.fobDebug, "showESPBonusConf")
+
+    mvars.fobDebug.showImportantRoute = false--RETAILPATCH 1090
+    DebugMenu.AddDebugMenu("FobLua", "showImportantRoute", "bool", mvars.fobDebug, "showImportantRoute")--RETAILPATCH 1090
   end
 
 
@@ -2900,7 +2936,29 @@ function this.Messages()
               elseif neutralizeCause == NeutralizeFobCause.GRENADER then--RETAILPATCH 1080
                 FobUI.UpdateEventTask{ detectType = 98, diff = 1, }--RETAILPATCH 1080
               end
-            end
+              
+          elseif Tpp.IsParasiteSquad( neutralizedGameObjectId ) then--RETAILPATCH 1090
+              FobUI.UpdateEventTask{ detectType = 101, diff = 1, }  
+  
+              local parasiteSquadNeutralizeCauseToDetectType = {
+                [NeutralizeFobCause.HANDGUN]      = 102,
+                [NeutralizeFobCause.SUBMACHINE_GUN]   = 103,
+                [NeutralizeFobCause.SHOTGUN]      = 104,
+                [NeutralizeFobCause.ASSAULT_RIFLE]    = 105,
+                [NeutralizeFobCause.MACHINE_GUN]    = 106,
+                [NeutralizeFobCause.SNIPER_RIFLE]   = 107,
+                [NeutralizeFobCause.ANTIMATERIAL_RIFLE] = 107,
+                [NeutralizeFobCause.MISSILE]      = 108,
+                [NeutralizeFobCause.THROWING]     = 109,
+                [NeutralizeFobCause.PLACED]       = 110,
+                [NeutralizeFobCause.CQC]        = 111,
+                [NeutralizeFobCause.GRENADER]     = 113,
+              }
+              local detectType = parasiteSquadNeutralizeCauseToDetectType[neutralizeCause]
+              if detectType then
+                FobUI.UpdateEventTask{ detectType = detectType, diff = 1, }
+              end             
+            end--<
           end,
         },
         {
@@ -2947,6 +3005,10 @@ function this.Messages()
           msg = "Enter",
           sender = this.currentClusterSetting.strGoalTrap,
           func = function ( sender, gameObjectId )
+            if not this.IsOffencePlayer( gameObjectId ) then--RETAILPATCH 1090
+              Fox.Log("#### Goal trap only can enter offence player. ####")
+              return
+            end--<
             if mvars.fob_enteredGoalArea then
               return
             end
@@ -5123,6 +5185,52 @@ this.CalculateEspionageTotal = function ( numClearType )
 end
 
 
+
+
+
+this.UpdateClearedPlantCount = function( plantNumber )--RETAILPATCH 1090>
+  if ( not Tpp.IsTypeNumber(plantNumber) )
+  or ( plantNumber < 0 )
+  or ( plantNumber > 3 ) then
+    Fox.Error("Plant number must be 0-3. plantNumber = " .. tostring(plantNumber) )
+    return
+  end
+
+  
+  local isLastEntered = svars.isTelopTrapEntered[plantNumber]
+  svars.isTelopTrapEntered[plantNumber] = true
+
+  
+  if ( isLastEntered == false ) then
+    if ( this.GetClearedPlantCount() > 0 ) then
+      TppUiCommand.AnnounceLogViewLangId( "announce_get_plant_clear_bonus", "sfx_s_log_rank_up" )
+    end
+  end
+end--<
+
+
+
+
+
+
+this.GetClearedPlantCount = function()--RETAILPATCH 1090>
+  local enteredTelopTrapCount = 0
+  for plantNumber = 0, 3 do
+    if svars.isTelopTrapEntered[plantNumber] then
+      enteredTelopTrapCount = enteredTelopTrapCount + 1
+    end
+  end
+  
+  
+  if ( enteredTelopTrapCount > 0 ) then
+    return enteredTelopTrapCount - 1
+  else
+    return 0
+  end
+end--<
+
+ 
+
 this.CalculateResult = function( numClearType )
   Fox.Log("### CalculateResult ### :: numClearType = " .. tostring(numClearType))
 
@@ -5186,19 +5294,14 @@ this.CalculateResult = function( numClearType )
 
 
 
-    local countPlant = 0
-    for key, svarsName in pairs(this.checkPointFlagList) do
-      if svars[svarsName] == true then
-        countPlant = countPlant + 1
-      end
-    end
+    local countPlant = this.GetClearedPlantCount()--RETAILPATCH 1090 shifted into func
 
     if numClearType == CLEAR_TYPE_RESULT_GOAL then
       countPlant = countPlant + 1
 
       this.CheckEquipEspBonus_Offence()
     end
-
+    svars.clearedPlantCount = countPlant--RETAILPATCH 1090
 
     local espParm_plcn = this.GetESPUnitValue_OFUp(baseDiffOF, 1, GetServerParameter( "ESPIONAGE_POINT_OFFENSE_PLANT_COUNT" ))
     svars.espt_of_plant_count = svars.espt_of_plant_count + (countPlant * espParm_plcn)
@@ -5258,6 +5361,8 @@ this.CalculateResult = function( numClearType )
       svars.espt_of_sneak_day = 0
       svars.espt_of_perfect_stealth = 0
     end
+    
+    this.SetFobResultRankingParam()--RETAILPATCH 1090
 
     if numClearType ~= CLEAR_TYPE_RESULT_GOAL then
       local espParm_block = this.GetESPUnitValue_DFUp(baseDiffDF,GetServerParameter( "ESPIONAGE_POINT_DEFENSE_BLOCK_GOAL" ))
@@ -5327,6 +5432,29 @@ this.CalculateResult = function( numClearType )
   this.CalculateEspionageTotal( numClearType )
 
 end
+
+
+
+this.SetFobResultRankingParam = function ()--RETAILPATCH 1090
+  
+  local isPerfectStealth, offencePlayerNeutralizedCount, defencePlayerNeutralizedCount = false, 0, 0
+  if svars.espt_of_perfect_stealth ~= 0 then
+    isPerfectStealth = true
+  end
+  
+  if TppMotherBaseManagement.IsOpponentSupporter{} == false then
+    offencePlayerNeutralizedCount = svars.rank_cnt_down_ofp
+    defencePlayerNeutralizedCount = svars.rank_cnt_down_dfp
+  end
+
+  Fox.Log(" ***** Day240:SetFobResultRankingParam ***** isPerfectStealth = " .. tostring(isPerfectStealth) .. ", offencePlayerNeutralizedCount = " .. tostring(offencePlayerNeutralizedCount) .. ", defencePlayerNeutralizedCount = " .. tostring(defencePlayerNeutralizedCount) )
+
+  TppNetworkUtil.SetFobResultRankingParam(
+    isPerfectStealth,
+    offencePlayerNeutralizedCount,
+    defencePlayerNeutralizedCount
+  )
+end--<
 
 
 
@@ -6255,6 +6383,22 @@ function this.SetAndAnnounceEspPoint_TacticalTakedownOF( ttdType )
     )
   end
 end
+
+function this.ShowAnnounceFobDeployDamageForDefence()--RETAILPATCH 1090
+  if TppNetworkUtil.IsEnableFobDeployDamage() then
+    local damageParams = TppNetworkUtil.GetFobDeployDamageParams()
+    
+    
+    if ( damageParams.reinforce > 0 ) then
+      TppUiCommand.AnnounceLogViewLangId( "announce_fob_damage_reinforce", "sfx_s_rank_e" ) 
+    end
+    
+    if ( damageParams.antiReflex > 0 ) then
+      TppUiCommand.AnnounceLogViewLangId( "announce_fob_damage_anti_reflex", "sfx_s_rank_e" ) 
+    end
+  end
+end--<
+
 
 
 function this.OnPlayerTacticalActionPoint( neutralizedGameObjectId, attakerGameObjetId, neutralizedState )
@@ -7614,6 +7758,11 @@ sequences.Seq_Game_FOB = {
                     end
                   )
                 end
+                
+
+              if Tpp.IsHostage( gameObjectId ) then--RETAILPATCH 1090>
+                FobUI.UpdateEventTask{ detectType = 112, diff = 1, }  
+              end--<
 
                 mvars.fultonInfo[gameObjectId] = nil
 
@@ -8162,6 +8311,8 @@ sequences.Seq_Game_FOB = {
         TppGameStatus.Reset("o50050_sequence.lua","S_DISABLE_NPC_NOTICE")
 
         this.ClearGameStatusOnStartVersus()--DEBUGNOW<
+
+        this.ShowAnnounceFobDeployDamageForDefence()--RETAILPATCH 1090
 
 
         local vsModeClientfunc = function ()

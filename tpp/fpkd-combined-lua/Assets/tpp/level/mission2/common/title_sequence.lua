@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 -- ORIGINALQAR: chunk0
 -- PACKPATH: \Assets\tpp\pack\mission2\common\title_sequence.fpkd
-
+-- title_sequence.lua
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
@@ -1111,6 +1111,7 @@ sequences.Seq_Game_ChunkInstalled = {
 		this.ClearTitleMode()
 
 		TppTerminal.AcquirePrivilegeInTitleScreen()
+		TppVarInit.InitializeOnlineChallengeTaskVarsForNewMission()--RETAILPATCH 1090
 
 		TppSave.VarSave( nil, true )
 		TppSave.CheckAndSavePersonalData()

@@ -26,8 +26,8 @@ local outSideOfInnerZoneTime=2.5
 local Timer_outsideOfInnerZone="Timer_outsideOfInnerZone"
 local missionClearCodeNone=0
 local maxObjective=64
-local RENsomebalancedval1=1--RETAILPATCH 1060 was 2
-local RENsomebalancedval2=0--RETAILPATCH 1060 was 4 --RETAILPATCH 1070 to 0 from 3
+local deathLimitToStealthAssistPopup=1--RETAILPATCH 1060 was 2 --deaths till chicken hat popup
+local deathLimitToPerfectStealthPopup=0--RETAILPATCH 1060 was 4 --RETAILPATCH 1070 to 0 from 3 --deaths to super chicken hat popup
 local dayInSeconds=(24*60)*60
 local RENsomenumber=2
 local MAX_32BIT_UINT=TppDefine.MAX_32BIT_UINT
@@ -1080,7 +1080,7 @@ function this.ShowStealthAssistPopup()
     return GameOverMenu.NO_POPUP
   end
   if GameConfig.GetStealthAssistEnabled()then
-    if svars.dialogPlayerDeadCount>RENsomebalancedval2 then
+    if svars.dialogPlayerDeadCount>deathLimitToPerfectStealthPopup then
       if gvars.elapsedTimeSinceLastUseChickCap>=dayInSeconds then
         return GameOverMenu.PERFECT_STEALTH_POPUP
       else
@@ -1090,7 +1090,7 @@ function this.ShowStealthAssistPopup()
       return GameOverMenu.NO_POPUP
     end
   else
-    if svars.dialogPlayerDeadCount>RENsomebalancedval1 then
+    if svars.dialogPlayerDeadCount>deathLimitToStealthAssistPopup then
       return GameOverMenu.STEALTH_ASSIST_POPUP
     else
       return GameOverMenu.NO_POPUP
@@ -1719,7 +1719,12 @@ function this.Messages()
           mvars.mis_endAnnounceLogFunction=nil
         end
       end,option={isExecMissionClear=true,isExecGameOver=true,isExecMissionPrepare=true}},
-      {msg="EndResultBlockLoad",func=this.OnEndResultBlockLoad,option={isExecMissionClear=true,isExecGameOver=true,isExecDemoPlaying=true}}
+      {msg="EndResultBlockLoad",func=this.OnEndResultBlockLoad,option={isExecMissionClear=true,isExecGameOver=true,isExecDemoPlaying=true}},
+      {msg="EndReloginSync",func=function()--RETAILPATCH 1090>
+        if this.IsHelicopterSpace(vars.missionCode)then
+          TppVarInit.InitializeOnlineChallengeTaskVarsForNewMission()
+        end
+      end},--<
     },
     Radio={{msg="Finish",func=this.OnFinishUpdateObjectiveRadio}},
     Timer={

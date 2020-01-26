@@ -283,7 +283,7 @@ local function ChooseRandomHeliCluster(heliClusters,heliTimes,supportHeliCluster
   for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do
     local grade=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[clusterId]}
     if grade>0 and not blockClusters[clusterId] then
-      table.insert(clusterPool,clusterId)
+      clusterPool[#clusterPool+1]=clusterId
     end
   end
 
@@ -294,7 +294,7 @@ local function ChooseRandomHeliCluster(heliClusters,heliTimes,supportHeliCluster
     for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do
       local grade=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[clusterId]}
       if grade>0 then
-        table.insert(clusterPool,clusterId)
+       clusterPool[#clusterPool+1]=clusterId
       end
     end
   end
@@ -331,7 +331,7 @@ function this.InitUpdate(currentChecks)
     if Ivars.mbWarGamesProfile:Is(0) then
       if Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then
         for i=1,numNpcAttackHelis do
-          table.insert(this.heliList,this.enemyHeliList[i])
+          this.heliList[#this.heliList+1]=this.enemyHeliList[i]
         end
       end
     end
@@ -351,7 +351,7 @@ function this.InitUpdate(currentChecks)
     numAttackHelis=math.min(numAttackHelis,#this.enemyHeliList)
 
     for i=1,numAttackHelis do
-      table.insert(this.heliList,this.enemyHeliList[i])
+      this.heliList[#this.heliList+1]=this.enemyHeliList[i]
     end
   end
 
@@ -415,7 +415,7 @@ function this.OnMissionCanStart(currentChecks)
   --tex set up lz info
   if isMb then
   else
-    local locationName=TppLocation.GetLocationName()
+    local locationName=InfMain.GetLocationName()
     InfMain.enabledLzs=InfMain.ResetPool(this.heliRoutes[locationName])
     --InfInspect.PrintInspect(InfMain.enabledLzs)--DEBUG
   end
@@ -450,11 +450,12 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
   end
 
   local isMb=vars.missionCode==30050
-  local locationName=TppLocation.GetLocationName()
+  local locationName=InfMain.locationNames[vars.locationCode]
 
   local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
   local isNight=WeatherManager.IsNight()
   local heliRouteIds=this.heliRouteIds
+  local locationName=InfMain.locationNames[vars.locationCode]
   for n,heliName in ipairs(this.heliList)do
     local heliObjectId = GetGameObjectId(heliName)
     if heliObjectId==NULL_ID then
@@ -564,7 +565,6 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
             heliRoute=StrCode32(heliRoute)
 
             if #enabledLzs==0 then
-              local locationName=TppLocation.GetLocationName()
               InfMain.enabledLzs=InfMain.ResetPool(this.heliRoutes[locationName])
               enabledLzs=InfMain.enabledLzs
             end

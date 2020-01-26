@@ -1,651 +1,140 @@
-  <entity class="GameObjectLocator" classVersion="2" addr="0x14000000" unknown1="272" unknown2="9079604">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>wkr_WalkerGear_0000</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x046345A0</value>
-        </property>
-        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000001</value>
-        </property>
-        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="children" type="EntityHandle" container="List" />
-        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
-          <value>7</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppCommonWalkerGear2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000002</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x14000001" unknown1="80" unknown2="9079607">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000000</value>
-        </property>
-        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1" y="1" z="1" w="0" />
-        </property>
-        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
-          <value x="0" y="0" z="0" w="1" />
-        </property>
-        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-286" y="-79" z="1744" w="0" />
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000002" unknown1="32" unknown2="9079613">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000000</value>
-        </property>
-        <property name="identifier" type="String" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000010" unknown1="272" unknown2="9079604">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>wkr_WalkerGear_0001</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x046345A0</value>
-        </property>
-        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000011</value>
-        </property>
-        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="children" type="EntityHandle" container="List" />
-        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
-          <value>7</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppCommonWalkerGear2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000012</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x14000011" unknown1="80" unknown2="9079607">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000010</value>
-        </property>
-        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1" y="1" z="1" w="0" />
-        </property>
-        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
-          <value x="0" y="0" z="0" w="1" />
-        </property>
-        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-286" y="-79" z="1744" w="0" />
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000012" unknown1="32" unknown2="9079613">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000010</value>
-        </property>
-        <property name="identifier" type="String" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000020" unknown1="272" unknown2="9079604">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>wkr_WalkerGear_0002</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x046345A0</value>
-        </property>
-        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000021</value>
-        </property>
-        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="children" type="EntityHandle" container="List" />
-        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
-          <value>7</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppCommonWalkerGear2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000022</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x14000021" unknown1="80" unknown2="9079607">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000020</value>
-        </property>
-        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1" y="1" z="1" w="0" />
-        </property>
-        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
-          <value x="0" y="0" z="0" w="1" />
-        </property>
-        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-286" y="-79" z="1744" w="0" />
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000022" unknown1="32" unknown2="9079613">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000020</value>
-        </property>
-        <property name="identifier" type="String" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000030" unknown1="272" unknown2="9079604">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>wkr_WalkerGear_0003</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x046345A0</value>
-        </property>
-        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000031</value>
-        </property>
-        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="children" type="EntityHandle" container="List" />
-        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
-          <value>7</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppCommonWalkerGear2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000032</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x14000031" unknown1="80" unknown2="9079607">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000030</value>
-        </property>
-        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1" y="1" z="1" w="0" />
-        </property>
-        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
-          <value x="0" y="0" z="0" w="1" />
-        </property>
-        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-286" y="-79" z="1744" w="0" />
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000032" unknown1="32" unknown2="9079613">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000030</value>
-        </property>
-        <property name="identifier" type="String" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000040" unknown1="272" unknown2="9079604">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>wkr_WalkerGear_0004</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x046345A0</value>
-        </property>
-        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000041</value>
-        </property>
-        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="children" type="EntityHandle" container="List" />
-        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
-          <value>7</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppCommonWalkerGear2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000042</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x14000041" unknown1="80" unknown2="9079607">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000040</value>
-        </property>
-        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1" y="1" z="1" w="0" />
-        </property>
-        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
-          <value x="0" y="0" z="0" w="1" />
-        </property>
-        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-286" y="-79" z="1744" w="0" />
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000042" unknown1="32" unknown2="9079613">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000040</value>
-        </property>
-        <property name="identifier" type="String" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000050" unknown1="272" unknown2="9079604">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>wkr_WalkerGear_0005</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x046345A0</value>
-        </property>
-        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000051</value>
-        </property>
-        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="children" type="EntityHandle" container="List" />
-        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
-          <value>7</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppCommonWalkerGear2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000052</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x14000051" unknown1="80" unknown2="9079607">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000050</value>
-        </property>
-        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1" y="1" z="1" w="0" />
-        </property>
-        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
-          <value x="0" y="0" z="0" w="1" />
-        </property>
-        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-286" y="-79" z="1744" w="0" />
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000052" unknown1="32" unknown2="9079613">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000050</value>
-        </property>
-        <property name="identifier" type="String" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000060" unknown1="272" unknown2="9079604">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>wkr_WalkerGear_0006</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x046345A0</value>
-        </property>
-        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000061</value>
-        </property>
-        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="children" type="EntityHandle" container="List" />
-        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
-          <value>7</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppCommonWalkerGear2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000062</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x14000061" unknown1="80" unknown2="9079607">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000060</value>
-        </property>
-        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1" y="1" z="1" w="0" />
-        </property>
-        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
-          <value x="0" y="0" z="0" w="1" />
-        </property>
-        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-286" y="-79" z="1744" w="0" />
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000062" unknown1="32" unknown2="9079613">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000060</value>
-        </property>
-        <property name="identifier" type="String" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000070" unknown1="272" unknown2="9079604">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>wkr_WalkerGear_0007</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x046345A0</value>
-        </property>
-        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000071</value>
-        </property>
-        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="children" type="EntityHandle" container="List" />
-        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
-          <value>7</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppCommonWalkerGear2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000072</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x14000071" unknown1="80" unknown2="9079607">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000070</value>
-        </property>
-        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1" y="1" z="1" w="0" />
-        </property>
-        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
-          <value x="0" y="0" z="0" w="1" />
-        </property>
-        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-286" y="-79" z="1744" w="0" />
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000072" unknown1="32" unknown2="9079613">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000070</value>
-        </property>
-        <property name="identifier" type="String" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000080" unknown1="272" unknown2="9079604">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>wkr_WalkerGear_0008</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x046345A0</value>
-        </property>
-        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000081</value>
-        </property>
-        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="children" type="EntityHandle" container="List" />
-        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
-          <value>7</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppCommonWalkerGear2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000082</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x14000081" unknown1="80" unknown2="9079607">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000080</value>
-        </property>
-        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1" y="1" z="1" w="0" />
-        </property>
-        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
-          <value x="0" y="0" z="0" w="1" />
-        </property>
-        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-286" y="-79" z="1744" w="0" />
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000082" unknown1="32" unknown2="9079613">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000080</value>
-        </property>
-        <property name="identifier" type="String" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    
-      <entity class="GameObjectLocator" classVersion="2" addr="0x14000090" unknown1="272" unknown2="9079604">
-      <staticProperties>
-        <property name="name" type="String" container="StaticArray" arraySize="1">
-          <value>wkr_WalkerGear_0009</value>
-        </property>
-        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x046345A0</value>
-        </property>
-        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000091</value>
-        </property>
-        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x00000000</value>
-        </property>
-        <property name="children" type="EntityHandle" container="List" />
-        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
-          <value>7</value>
-        </property>
-        <property name="typeName" type="String" container="StaticArray" arraySize="1">
-          <value>TppCommonWalkerGear2</value>
-        </property>
-        <property name="groupId" type="uint32" container="StaticArray" arraySize="1">
-          <value>0</value>
-        </property>
-        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x14000092</value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x14000091" unknown1="80" unknown2="9079607">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000090</value>
-        </property>
-        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="1" y="1" z="1" w="0" />
-        </property>
-        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
-          <value x="0" y="0" z="0" w="1" />
-        </property>
-        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-286" y="-79" z="1744" w="0" />
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    <entity class="TppWalkerGear2LocatorParameter" classVersion="0" addr="0x14000092" unknown1="32" unknown2="9079613">
-      <staticProperties>
-        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x14000090</value>
-        </property>
-        <property name="identifier" type="String" container="StaticArray" arraySize="1">
-          <value></value>
-        </property>
-      </staticProperties>
-      <dynamicProperties />
-    </entity>
-    
-     
+this.DDWeaponIdInfo={
+  HANDGUN={{equipId=TppEquip.EQP_WP_West_hg_010}},
+  SMG={
+    {equipId=TppEquip.EQP_WP_East_sm_04b,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2102},
+    {equipId=TppEquip.EQP_WP_East_sm_04a,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2101},
+    {equipId=TppEquip.EQP_WP_East_sm_049,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2100},
+    {equipId=TppEquip.EQP_WP_East_sm_047,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2044},
+    {equipId=TppEquip.EQP_WP_East_sm_045,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2043},
+    {equipId=TppEquip.EQP_WP_East_sm_044,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2042},
+    {equipId=TppEquip.EQP_WP_East_sm_043,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2041},
+    {equipId=TppEquip.EQP_WP_East_sm_042,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SM_2040_NOKILL,developId=2040},
+    {equipId=TppEquip.EQP_WP_West_sm_01b,developedEquipType=MbsDevelopedEquipType.SM_2014,developId=2072},
+    {equipId=TppEquip.EQP_WP_West_sm_01a,developedEquipType=MbsDevelopedEquipType.SM_2014,developId=2071},
+    {equipId=TppEquip.EQP_WP_West_sm_019,developedEquipType=MbsDevelopedEquipType.SM_2014,developId=2070},
+    {equipId=TppEquip.EQP_WP_West_sm_017,developedEquipType=MbsDevelopedEquipType.SM_2014,developId=2014},
+    {equipId=TppEquip.EQP_WP_West_sm_016,developedEquipType=MbsDevelopedEquipType.SM_2010,developId=2013},
+    {equipId=TppEquip.EQP_WP_West_sm_015,developedEquipType=MbsDevelopedEquipType.SM_2010,developId=2012},
+    {equipId=TppEquip.EQP_WP_West_sm_014,developedEquipType=MbsDevelopedEquipType.SM_2010,developId=2011},
+    {equipId=TppEquip.EQP_WP_West_sm_010,developedEquipType=MbsDevelopedEquipType.SM_2010,developId=2010}
+  },
+  SHOTGUN={
+    {equipId=TppEquip.EQP_WP_Com_sg_038,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SG_4027_NOKILL,developId=4028},
+    {equipId=TppEquip.EQP_WP_Com_sg_030,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SG_4027_NOKILL,developId=4027},
+    {equipId=TppEquip.EQP_WP_Com_sg_025,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SG_4035_NOKILL,developId=4037},
+    {equipId=TppEquip.EQP_WP_Com_sg_024,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SG_4035_NOKILL,developId=4036},
+    {equipId=TppEquip.EQP_WP_Com_sg_023,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SG_4035_NOKILL,developId=4035},
+    {equipId=TppEquip.EQP_WP_Com_sg_018,developedEquipType=MbsDevelopedEquipType.SG_4040,developId=4044},
+    {equipId=TppEquip.EQP_WP_Com_sg_016,developedEquipType=MbsDevelopedEquipType.SG_4040,developId=4043},
+    {equipId=TppEquip.EQP_WP_Com_sg_015,developedEquipType=MbsDevelopedEquipType.SG_4040,developId=4042},
+    {equipId=TppEquip.EQP_WP_Com_sg_020,developedEquipType=MbsDevelopedEquipType.SG_4040,developId=4041},
+    {equipId=TppEquip.EQP_WP_Com_sg_013,developedEquipType=MbsDevelopedEquipType.SG_4040,developId=4040},
+    {equipId=TppEquip.EQP_WP_Com_sg_011,developedEquipType=MbsDevelopedEquipType.SG_4020,developId=4020}
+  },
+  ASSAULT={
+    {equipId=TppEquip.EQP_WP_West_ar_07b,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3132},
+    {equipId=TppEquip.EQP_WP_West_ar_07a,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3131},
+    {equipId=TppEquip.EQP_WP_West_ar_079,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3130},
+    {equipId=TppEquip.EQP_WP_West_ar_077,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3064},
+    {equipId=TppEquip.EQP_WP_West_ar_075,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3063},
+    {equipId=TppEquip.EQP_WP_West_ar_070,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3062},
+    {equipId=TppEquip.EQP_WP_West_ar_063,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3061},
+    {equipId=TppEquip.EQP_WP_West_ar_060,isNoKill=true,developedEquipType=MbsDevelopedEquipType.AR_3060_NOKILL,developId=3060},
+    {equipId=TppEquip.EQP_WP_West_ar_05b,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3102},
+    {equipId=TppEquip.EQP_WP_West_ar_05a,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3101},
+    {equipId=TppEquip.EQP_WP_West_ar_059,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3100},
+    {equipId=TppEquip.EQP_WP_West_ar_057,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3042},
+    {equipId=TppEquip.EQP_WP_West_ar_050,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3038},
+    {equipId=TppEquip.EQP_WP_West_ar_055,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3037},
+    {equipId=TppEquip.EQP_WP_West_ar_010,developedEquipType=MbsDevelopedEquipType.AR_3036,developId=3036},
+    {equipId=TppEquip.EQP_WP_West_ar_042,developedEquipType=MbsDevelopedEquipType.AR_3030,developId=3031},
+    {equipId=TppEquip.EQP_WP_West_ar_040}
+  },
+  SNIPER={
+    {equipId=TppEquip.EQP_WP_West_sr_04b,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6037_NOKILL,developId=6132},
+    {equipId=TppEquip.EQP_WP_West_sr_04a,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6037_NOKILL,developId=6131},
+    {equipId=TppEquip.EQP_WP_West_sr_049,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6037_NOKILL,developId=6130},
+    {equipId=TppEquip.EQP_WP_West_sr_048,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6037_NOKILL,developId=6039},
+    {equipId=TppEquip.EQP_WP_West_sr_047,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6037_NOKILL,developId=6038},
+    {equipId=TppEquip.EQP_WP_West_sr_037,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6037_NOKILL,developId=6037},
+    {equipId=TppEquip.EQP_WP_East_sr_034,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6005_NOKILL,developId=6006},
+    {equipId=TppEquip.EQP_WP_East_sr_033,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6005_NOKILL,developId=6008},
+    {equipId=TppEquip.EQP_WP_East_sr_032,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SR_6005_NOKILL,developId=6005},
+    {equipId=TppEquip.EQP_WP_West_sr_02b,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6102},
+    {equipId=TppEquip.EQP_WP_West_sr_02a,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6101},
+    {equipId=TppEquip.EQP_WP_West_sr_029,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6100},
+    {equipId=TppEquip.EQP_WP_West_sr_027,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6033},
+    {equipId=TppEquip.EQP_WP_West_sr_020,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6032},
+    {equipId=TppEquip.EQP_WP_West_sr_014,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6031},
+    {equipId=TppEquip.EQP_WP_West_sr_013,developedEquipType=MbsDevelopedEquipType.SR_6030,developId=6030},
+    {equipId=TppEquip.EQP_WP_West_sr_011,developedEquipType=MbsDevelopedEquipType.SR_6010,developId=6010}
+  },
+  MG={
+    {equipId=TppEquip.EQP_WP_West_mg_03b,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7052},
+    {equipId=TppEquip.EQP_WP_West_mg_03a,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7051},
+    {equipId=TppEquip.EQP_WP_West_mg_039,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7050},
+    {equipId=TppEquip.EQP_WP_West_mg_037,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7004},
+    {equipId=TppEquip.EQP_WP_West_mg_030,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7003},
+    {equipId=TppEquip.EQP_WP_West_mg_024,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7002},
+    {equipId=TppEquip.EQP_WP_West_mg_023,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7001},
+    {equipId=TppEquip.EQP_WP_West_mg_020,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7e3}
+  },
+  MISSILE={
+    {equipId=TppEquip.EQP_WP_West_ms_02b,isNoKill=true,developedEquipType=MbsDevelopedEquipType.MS_8013_NOKILL,developId=8072},
+    {equipId=TppEquip.EQP_WP_West_ms_02a,isNoKill=true,developedEquipType=MbsDevelopedEquipType.MS_8013_NOKILL,developId=8071},
+    {equipId=TppEquip.EQP_WP_West_ms_029,isNoKill=true,developedEquipType=MbsDevelopedEquipType.MS_8013_NOKILL,developId=8070},
+    {equipId=TppEquip.EQP_WP_West_ms_020,isNoKill=true,developedEquipType=MbsDevelopedEquipType.MS_8013_NOKILL,developId=8013},
+    {equipId=TppEquip.EQP_WP_Com_ms_02b,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8052},
+    {equipId=TppEquip.EQP_WP_Com_ms_02a,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8051},
+    {equipId=TppEquip.EQP_WP_Com_ms_029,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8050},
+    {equipId=TppEquip.EQP_WP_Com_ms_026,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8023},
+    {equipId=TppEquip.EQP_WP_Com_ms_020,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8022},
+    {equipId=TppEquip.EQP_WP_Com_ms_024,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8021},
+    {equipId=TppEquip.EQP_WP_Com_ms_023,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8020}
+  },
+  SHIELD={
+    {equipId=TppEquip.EQP_SLD_DD,developedEquipType=MbsDevelopedEquipType.SD_9000,developId=9e3}
+  },
+  GRENADE={
+    {equipId=TppEquip.EQP_SWP_Grenade_G08,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=11122},
+    {equipId=TppEquip.EQP_SWP_Grenade_G07,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=11121},
+    {equipId=TppEquip.EQP_SWP_Grenade_G06,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=11120},
+    {equipId=TppEquip.EQP_SWP_Grenade_G05,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=10045},
+    {equipId=TppEquip.EQP_SWP_Grenade_G04,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=10044},
+    {equipId=TppEquip.EQP_SWP_Grenade_G03,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=10043},
+    {equipId=TppEquip.EQP_SWP_Grenade_G02,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=10042},
+    {equipId=TppEquip.EQP_SWP_Grenade_G01,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=10041},
+    {equipId=TppEquip.EQP_SWP_Grenade}
+  },
+  STUN_GRENADE={
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G06,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=11152},
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G05,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=11151},
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G04,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=11150},
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G03,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=10063},
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G02,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=10062},
+    {equipId=TppEquip.EQP_SWP_StunGrenade_G01,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=10061},
+    {equipId=TppEquip.EQP_SWP_StunGrenade,isNoKill=true,developedEquipType=MbsDevelopedEquipType.STUN_GRENADE,developId=10060}
+  },
+  SNEAKING_SUIT={
+    {equipId=9,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19302},
+    {equipId=8,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19301},
+    {equipId=7,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19300},
+    {equipId=6,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19042},
+    {equipId=5,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19057},
+    {equipId=4,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19056},
+    {equipId=3,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19052},
+    {equipId=2,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19051},
+    {equipId=1,isNoKill=true,developedEquipType=MbsDevelopedEquipType.SNEAKING_SUIT,developId=19050}
+  },
+  BATTLE_DRESS={
+    {equipId=9,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19352},
+    {equipId=8,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19351},
+    {equipId=7,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19350},
+    {equipId=6,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19043},
+    {equipId=5,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19059},
+    {equipId=4,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19058},
+    {equipId=3,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19055},
+    {equipId=2,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19054},
+    {equipId=1,developedEquipType=MbsDevelopedEquipType.BATTLE_DRESS,developId=19053}
+  }
+}

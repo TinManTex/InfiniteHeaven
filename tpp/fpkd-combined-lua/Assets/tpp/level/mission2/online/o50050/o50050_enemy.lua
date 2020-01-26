@@ -79,21 +79,8 @@ this.PARASITE_NAME_LIST = {
 	"Parasite3",
 }
 
-local PARASITE_DIFFICULTY = {
-	NORMAL = {
-		6,
-	},
-	HARD = {
-		7,
-	},
-}
 
 local PARASITE_PARAM = {
-	NORMAL = {
-		sightDistance = 30,
-		sightVertical = 55.0,
-		sightHorizontal = 48.0,
-	},
 	HARD = {
 		sightDistance = 30,
 		sightVertical = 55.0,
@@ -101,22 +88,7 @@ local PARASITE_PARAM = {
 	},
 }
 
-local PARASITE_GRADE = {
-	NORMAL = {
-		defMain = 4000,
-		defArmor = 7000,
-		defWall = 8000,
-		offGrade = 2,
-		defGrade = 7,
-	},
-	HARD = {
-		defMain = 4000,
-		defArmor = 8400,
-		defWall = 9600,
-		offGrade = 5,
-		defGrade = 7,
-	},
-}
+
 
 
 this.HOSTAGE_NAME_LIST = {
@@ -820,6 +792,14 @@ function this._SetupReinforce( clusterId, sortieSoldierNum )
 	if reinforceCount > maxReinforceCountFromSecurityRank then
 		reinforceCount = maxReinforceCountFromSecurityRank
 	end
+	
+  if TppNetworkUtil.IsEnableFobDeployDamage() then--RETAILPATCH 1090
+    local damageParams = TppNetworkUtil.GetFobDeployDamageParams()
+    if ( damageParams.reinforce > 0 ) then
+      Fox.Log("FobDeployDamage no reinforce!!")
+      reinforceCount = 0
+    end
+  end--<
 	Fox.Log("SetupReinforceNum:" ..tostring(reinforceCount) )
 	local cpId = { type="TppCommandPost2" } 
 	local command = { id = "SetFOBReinforceCount", count=reinforceCount }
@@ -956,10 +936,19 @@ this.SpawnParasite = function ()
 	WeatherManager.PauseNewWeatherChangeRandom(true)
 
 	
-	local params, grades = this.GetDifficultyParasite()
+	local params, combatGrade = this.GetDifficultyParasite()
 	GameObject.SendCommand( { type="TppParasite2" }, { id="SetParameters", params=params } ) 
-	GameObject.SendCommand( { type="TppParasite2" }, { id="SetCombatGrade", defenseValueMain = grades.defMain, defenseValueArmor = grades.defArmor, defenseValueWall = grades.defWall, offenseGrade = grades.offGrade, defenseGrade = grades.defGrade, } )
-
+  GameObject.SendCommand(--RETAILPATCH 1090 vars renamed
+    { type="TppParasite2" },
+    {
+      id="SetCombatGrade",
+      defenseValueMain = combatGrade.defenseValueMain,
+      defenseValueArmor = combatGrade.defenseValueArmor,
+      defenseValueWall = combatGrade.defenseValueWall,
+      offenseGrade = combatGrade.offenseGrade,
+      defenseGrade = combatGrade.defenseGrade,
+    }
+  )--<
 	
 	local clusterId = MotherBaseStage.GetFirstCluster() + 1
 	local posSpotList, rotSpotY = mtbs_cluster.GetPosAndRotY_FOB( TppDefine.CLUSTER_NAME[o50050_sequence.currentClusterSetting.numClstId], "plnt0", {0,0,0}, 0 )
@@ -970,7 +959,11 @@ end
 
 this.GetDifficultyParasite = function ()
 	Fox.Log("***** this.GetDifficultyParasite *****")
-	return PARASITE_PARAM.HARD, PARASITE_GRADE.HARD
+	local combatGrade = TppNetworkUtil.GetEventFobSkullsParam()--RETAILPATCH 1090 was hard coded table
+  if ( Tpp.IsQARelease() or DEBUG ) then
+    Tpp.DEBUG_DumpTable( combatGrade )
+  end
+  return PARASITE_PARAM.HARD, combatGrade
 end
 
 

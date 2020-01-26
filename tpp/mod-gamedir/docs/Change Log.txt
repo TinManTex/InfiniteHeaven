@@ -1,4 +1,14 @@
 Infinite Heaven changelog
+r153 - 2016-05-11 - public release
+Updated to 1.09 - why on earth did KJP regress the exe version to 1.0.7.1?
+mbSoldierEquipGrade - DD Equip Grade increased to 11, so you should you can equip DD or enemies with the new weapons (assuming Allow undeveloped DD equipment is on).
+
+r152
+Refactor: Stop a few code paths from running in fob mode to try and fix a potential hang on connect.
+Refactor: Male wildcards to use RegisterUniqueSetting, body table in InfEneFova/abomination removed from TppEnemy body table
+Male wildcards now use face id table
+Added the rarer faces to female face id table
+
 r151
 Refactor: Changed most features that used mbfreemission mission checks to just 30050, fixes below
 Fixed: Hang after load on Quarantine and Zoo platforms.
@@ -26,6 +36,9 @@ Option: mbWalkerGearsWeapon - "Walker gears weapons" -
 (via Mother base Menu)
 GOTCHA: They're actually always enabled since the game object instances don't seem to start unrealised like other gameobjects.
 Shifted Ocelots start position.
+"Attack heli type" renamed "Attack heli class"
+Added "All one random type","Each heli random type" to heli class.
+Options: vehiclePatrolClass - "Vehicle patrol class" - "Default","Dark grey","Red","All one random type","Each vehicle random type","Enemy prep" 
 
 r150 - 2016-05-04 - public release
 Ivars - minPhase,maxPhase,keepPhase now turns on phaseUpdate

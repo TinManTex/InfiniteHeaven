@@ -1,7 +1,7 @@
 = Infinite heaven =
-r150 - 2016-05-04
+r153 - 2016-05-11
 by tin man tex
-For MGSV version 1.0.8.1 (1.08 in title screen)
+For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
 
@@ -12,6 +12,43 @@ Infinite Heaven features
 
 YouTube playlist of demonstrations for many features
 [url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
+
+New for r153
+Updated to 1.09
+DD Equip Grade increased to 11, so you should you can equip DD or enemies with the new weapons (assuming Allow undeveloped DD equipment is on).
+
+Wildcard soldiers now have a chance for some of the rarer faces.
+
+Fixed: Hang after load on Quarantine and Zoo platforms.
+Fixed: Mission 22 - Retake the Platform start of foot position under the water - result of above - thanks NasaNhak for the report
+
+Feature: Walker gears on mother base
+[youtube]DLCHjSmc5tg[/youtube]
+https://www.youtube.com/watch?v=DLCHjSmc5tg
+[youtube]DIssEXzZkwo[/youtube]
+https://www.youtube.com/watch?v=DIssEXzZkwo
+Option: enableMbWalkerGears - "Enable walker gears"
+Option: mbWalkerGearsColor - "Walker gears type" -
+	"Soviet",
+	"Rogue Coyote",
+	"CFA",
+	"ZRS",
+	"Diamond Dogs",
+	"Hueys Prototype (texture issues)",
+	"All gears random of one type",
+	"Each gear random type",
+Option: mbWalkerGearsWeapon - "Walker gears weapons" -    
+	"Even split of weapons",
+	"Minigun",
+	"Missiles",
+	"All gears random of one type",
+	"Each gear random type",  
+	
+(via Mother base Menu)
+
+"Attack heli type" renamed "Attack heli class"
+Added "All one random type","Each heli random type" to heli class.
+Options: vehiclePatrolClass - "Vehicle patrol class" - "Default","Dark grey","Red","All one random type","Each vehicle random type","Enemy prep" 
 
 New for r150:
 Fixed: Some cases where the menu in ACC would not open.

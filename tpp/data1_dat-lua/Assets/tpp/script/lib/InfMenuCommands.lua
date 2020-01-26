@@ -253,27 +253,6 @@ this.forceAllQuestOpenFlagFalse={
 }
 
 --
-this.warpPlayerCommand={--WIP
-  OnChange=function()
-    --    local playerId={type="TppPlayer2",index=0}
-    --    local position=Vector3(9,.8,-42.5)
-    --    GameObject.SendCommand(playerId,{id="Warp",position=position})
-
-    --local pos={8.647,.8,-28.748}
-    --local rotY=-25
-    --pos,rotY=mtbs_cluster.GetPosAndRotY("Medical","plnt0",pos,rotY)
-    local rotY=0
-    --local pos={9,.8,-42.5}--command helipad
-    local pos={-139,-3.20,-975}
-
-
-    TppPlayer.Warp{pos=pos,rotY=rotY}
-    --Player.RequestToSetCameraRotation{rotX=0,rotY=rotY}
-
-    --TppPlayer.SetInitialPosition(pos,rotY)
-  end,
-}
-
 this.warpToCamPos={
   OnChange=function()
     local warpPos=InfCamera.ReadPosition"FreeCam"
@@ -296,7 +275,6 @@ this.warpToUserMarker={
     end)
   end
 }
-
 
 this.printUserMarkers={
   OnChange=function()InfUserMarker.PrintUserMarkers() end,
@@ -431,10 +409,6 @@ local index1=index1Min
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
-  
-
-
-
 
       InfMenu.DebugPrint("index1:"..index1)
       index1=index1+1
@@ -598,12 +572,6 @@ this.DEBUG_DropItem={
 this.DEBUG_PrintVarsClock={
   OnChange=function()
     InfMenu.DebugPrint("vars.clock:"..vars.clock)
-  end,
-}
-
-this.DEBUG_PrintPrologueTrapVars={
-  OnChange=function()
-    InfMenu.DebugPrint("playerInCorridorDemoTrap:"..mvars.playerInCorridorDemoTrap.." ishmaelInCorridorDemoTrap:"..mvars.ishmaelInCorridorDemoTrap)
   end,
 }
 
@@ -771,11 +739,11 @@ this.DEBUG_PrintCpSizes={
     }
 
     local cpSizes={}
-    for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
+    for cpName,cpDefine in pairs(mvars.ene_soldierDefine)do
       local soldierCount=0
 
 
-      for key,value in pairs(soldierList)do
+      for key,value in ipairs(cpDefine)do
         if type(value)=="string" then
           soldierCount=soldierCount+1
         end
@@ -908,7 +876,7 @@ this.DEBUG_WarpToObject={
 
         --local objectList=InfMain.reserveSoldierNames
 
-        --local objectList=InfMain.ene_wildCardSoldiers
+        local objectList=InfMain.ene_wildCardSoldiers
 
         --    local objectList={
         --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",
@@ -964,7 +932,7 @@ this.DEBUG_WarpToObject={
 
         --local objectList=InfInterrogation.interCpQuestSoldiers
 
-        local objectList=InfWalkerGear.walkerList
+        --local objectList=InfWalkerGear.walkerList
 
 
         if objectList==nil then

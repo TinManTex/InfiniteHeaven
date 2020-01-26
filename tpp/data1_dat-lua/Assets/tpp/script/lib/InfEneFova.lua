@@ -388,80 +388,145 @@ function this.GetCurrentWildCardBodyInfo(isFemale)
   return this.ddBodyInfo[this.wildCardSuitName]
 end
 
-this.wildCardBodiesAfgh={
-  TppEnemyBodyId.svs0_unq_v010,
-  TppEnemyBodyId.svs0_unq_v020,
-  TppEnemyBodyId.svs0_unq_v070,
-  TppEnemyBodyId.svs0_unq_v071,
-  TppEnemyBodyId.svs0_unq_v072,
-  TppEnemyBodyId.svs0_unq_v009,
-  TppEnemyBodyId.svs0_unq_v060,
-  TppEnemyBodyId.svs0_unq_v100,
-  TppEnemyBodyId.svs0_unq_v420,
-}
-
-this.wildCardBodiesMafr={
-  TppEnemyBodyId.pfs0_unq_v210,--black beret, glases, black vest, red shirt, tan pants
-  TppEnemyBodyId.pfs0_unq_v250,--black beret, white coyote tshirt, black pants
-  TppEnemyBodyId.pfs0_unq_v360,--red long sleeve shirt, black pants
-  TppEnemyBodyId.pfs0_unq_v280,--black suit, white shirt, red white striped tie
-  TppEnemyBodyId.pfs0_unq_v150,--green beret, brown leather top, light tan muddy pants
-  TppEnemyBodyId.pfs0_unq_v140,--cap, glases, badly clipping medal, brown leather top, light tan muddy pants
-  TppEnemyBodyId.pfs0_unq_v241,--brown leather top, light tan muddy pants
-  --TppEnemyBodyId.pfs0_unq_v242,--brown leather top, light tan muddy pants, cant tell any difference?
-  TppEnemyBodyId.pfs0_unq_v450,--red beret, brown leather top, light tan muddy pants
-  TppEnemyBodyId.pfs0_unq_v440,--red beret, black leather top, black pants
-}
---tex non exhaustive, see face and body ids.txt
+--tex non exhaustive, see face and body ids.txt,Soldier2FaceAndBodyData
 this.maleFaceIds={
   {min=0,max=303},
   {min=320,max=349},
 }
+this.maleFaceIdsUncommon={
+  {min=600,max=602},--mission dudes>
+  {min=603,max=612},
+  {min=614,max=620},
+  {min=624,max=626},
+  {635,},
+  {min=637,max=642},
+  {min=644,max=645},
+  {min=647,max=649},
+  {
+    602,--glasses,
+    621,--Tan
+    622,--hideo, NOTE doesn't show if vars.playerFaceId
+    627,--finger
+    628,--eye
+    646,--beardy mcbeard
+    680,--black skull tattoo
+    683,--red hair, ddogs tattoo
+    684,--fox tattoo
+    687,--while skull tattoo
+  },
+}
+
 
 this.femaleFaceIds={
   {min=350,max=399},--european
   {min=440,max=479},--african
   {min=500,max=519},--asian
+  {613,643},
+  {
+    681,--female tatoo skull black
+    682,--female tatoo whiteblack ddog red hair
+    685,--female tatoo fox black
+    686,--female tatoo skull white white hair
+  },
 }
+
 --NOTE: make sure SetLevelRandomSeed is setup
-function this.RandomFaceId(rangedFaceList)
-  local type=rangedFaceList[math.random(#rangedFaceList)]
-  return math.random(type.min,type.max)
+--ASSUMPTION: last group in table is for unqiues that you don't want to spam too much
+local uniqueChance=5--TUNE
+function this.RandomFaceId(faceList)
+  local rnd=math.random(#faceList)
+  if rnd==#faceList then
+    if math.random(100)>uniqueChance then
+      rnd=rnd-1
+    end
+  end
+
+  local type=faceList[rnd]
+  if type.min then
+    return math.random(type.min,type.max)
+  else
+    return type[math.random(1,#type)]
+  end
 end
+
+
+this.wildCardBodyTable={
+  afgh={
+    TppEnemyBodyId.svs0_unq_v010,
+    TppEnemyBodyId.svs0_unq_v020,
+    TppEnemyBodyId.svs0_unq_v070,
+    TppEnemyBodyId.svs0_unq_v071,
+    TppEnemyBodyId.svs0_unq_v072,
+    TppEnemyBodyId.svs0_unq_v009,
+    TppEnemyBodyId.svs0_unq_v060,
+    TppEnemyBodyId.svs0_unq_v100,
+    TppEnemyBodyId.svs0_unq_v420,
+  },
+  mafr={
+    TppEnemyBodyId.pfs0_unq_v210,
+    TppEnemyBodyId.pfs0_unq_v250,
+    TppEnemyBodyId.pfs0_unq_v360,
+    TppEnemyBodyId.pfs0_unq_v280,
+    TppEnemyBodyId.pfs0_unq_v150,
+    TppEnemyBodyId.pfs0_unq_v140,
+    TppEnemyBodyId.pfs0_unq_v241,
+    TppEnemyBodyId.pfs0_unq_v450,
+    TppEnemyBodyId.pfs0_unq_v440,
+  },
+}
+
+this.inf_wildCardMaleFaceList={}
+this.inf_wildCardFemaleFaceList={}
+
 
 --called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
 --IN/Out bodies
 function this.WildCardFova(bodies)
-  InfMain.SetLevelRandomSeed()
-  local faces={}
-  InfEneFova.inf_wildCardFaceList={}
-  for i=1,InfMain.MAX_WILDCARD_FACES do--SYNC numfemales
-    local faceId=this.RandomFaceId(this.femaleFaceIds)
-    table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
-    table.insert(InfEneFova.inf_wildCardFaceList,faceId)
-  end
-  TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
-  InfMain.ResetTrueRandom()
-
-  this.wildCardSuitName=this.femaleSuits[math.random(#this.femaleSuits)]
-  local bodyInfo=this.GetCurrentWildCardBodyInfo(true)--tex female
-  if bodyInfo then
-    if bodyInfo.femaleBodyId then
-      TppEneFova.SetupBodies(bodyInfo.femaleBodyId,bodies)
+  --InfInspect.TryFunc(function(bodies)--DEBUG
+    InfMain.SetLevelRandomSeed()
+    local faces={}
+    this.inf_wildCardMaleFaceList={}
+    this.inf_wildCardFemaleFaceList={}
+    for i=1,InfMain.MAX_WILDCARD_FACES-InfMain.numWildCardFemales do--SYNC numwildcards
+      local faceId=this.RandomFaceId(this.maleFaceIdsUncommon)
+      table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
+      table.insert(this.inf_wildCardMaleFaceList,faceId)
     end
-    if bodyInfo.soldierSubType then
-      local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
-      if bodyIdTable then
-        for powerType,bodyTable in pairs(bodyIdTable)do
-          TppEneFova.SetupBodies(bodyTable,bodies)
+    for i=1,InfMain.numWildCardFemales do
+      local faceId=this.RandomFaceId(this.femaleFaceIds)
+      table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO -^-
+      table.insert(this.inf_wildCardFemaleFaceList,faceId)
+    end
+    TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
+    InfMain.ResetTrueRandom()
+
+    local locationName=InfMain.GetLocationName()
+
+    this.wildCardSuitName=this.femaleSuits[math.random(#this.femaleSuits)]
+    local bodyInfo=this.GetCurrentWildCardBodyInfo(true)--tex female
+    if bodyInfo then
+      if bodyInfo.femaleBodyId then
+        TppEneFova.SetupBodies(bodyInfo.femaleBodyId,bodies)
+      end
+      if bodyInfo.soldierSubType then
+        local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
+        if bodyIdTable then
+          for powerType,bodyTable in pairs(bodyIdTable)do
+            TppEneFova.SetupBodies(bodyTable,bodies)
+          end
         end
+      end
+
+      if bodyInfo.extendPartsInfo then
+        TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
       end
     end
 
-    if bodyInfo.extendPartsInfo then
-      TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
+    local maleBodyTable=this.wildCardBodyTable[locationName]
+    if maleBodyTable then
+      TppEneFova.SetupBodies(maleBodyTable,bodies)
     end
-  end
+  --end,bodies)--DEBUG
 end
 
 function this.GetHeadGearForPowers(powerSettings,faceId,hasHelmet)

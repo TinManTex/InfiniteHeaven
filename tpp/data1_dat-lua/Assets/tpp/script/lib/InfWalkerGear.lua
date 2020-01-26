@@ -9,7 +9,7 @@ local walkerNamePre="wkr_WalkerGear_"
 local numWalkerGears=20
 for i=0,numWalkerGears-1 do
   local name=string.format("%s%04d", walkerNamePre,i)
-  table.insert(this.walkerList,name)
+  this.walkerList[#this.walkerList+1]=name
 end
 
 
@@ -160,13 +160,13 @@ function this.SetupWalkerGearWorld()
 
     InfMain.SetLevelRandomSeed()
 
-    local locationName=TppLocation.GetLocationName()
+    local locationName=InfMain.GetLocationName()
 
     local positions=walkerStartPositionsWorld[locationName]
 
     local cpPool={}
     for cpName,coordList in pairs(positions)do
-      table.insert(cpPool,cpName)
+      cpPool[#cpPool+1]=cpName
     end
 
     local numWalkers=#this.walkerList
@@ -288,7 +288,7 @@ function this.SetupWalkerGearMb()
     local clusters={}
     for clusterId,plats in ipairs(platsPool)do
       if #plats>0 then
-        table.insert(clusters,clusterId)
+        clusters[#clusters+1]=clusterId
       end
     end
 

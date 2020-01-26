@@ -254,9 +254,6 @@ for n,powerType in ipairs(Ivars.cpEquipBoolPowers)do
   table.insert(menuOptions,Ivars[powerType.."_MIN"])
   table.insert(menuOptions,Ivars[powerType.."_MAX"])
 end
-table.insert(menuOptions,InfMenuCommands.resetSettingsItem)
-table.insert(menuOptions,InfMenuCommands.goBackItem)
-
 
 this.revengeCustomMenu={
   options={
@@ -471,12 +468,11 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUGNOW
-    --    InfMenuCommands.DEBUG_PrintMenu,
-    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
-    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-
+--    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
+--    --    InfMenuCommands.DEBUG_PrintMenu,
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.fovaModMenu,--DEBUG
     --    this.appearanceMenu,--DEBUG
@@ -517,7 +513,6 @@ this.debugInMissionMenu={
     InfMenuCommands.DEBUG_PrintCpPowerSettings,
     InfMenuCommands.DEBUG_PrintPowersCount,
     --InfMenuCommands.DEBUG_PrintCpSizes,
-    --InfMenuCommands.warpPlayerCommand,
     InfMenuCommands.DEBUG_PrintReinforceVars,
     --InfMenuCommands.DEBUG_PrintVehicleTypes,
     --InfMenuCommands.DEBUG_PrintVehiclePaint,
@@ -542,21 +537,18 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
-    --InfMenuCommands.DEBUG_PrintCpSizes,--DEBUG
-    --    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
-    --    Ivars.selectedCp,--DEBUG
-    --    this.fovaModMenu,--DEBUG
-    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
-    --    this.appearanceMenu,--DEBUG
-    InfMenuCommands.showPosition,--DEBUGNOW
-    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
-    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    InfMenuCommands.DEBUG_SomeShiz3,--DEBUGNOW
-    InfMenuCommands.DEBUG_WarpToObject,--DEBUGNOW
-
-
-    
-
+--    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+--    Ivars.playerFaceIdApearance,--DEBUG
+--    InfMenuCommands.DEBUG_PrintCpSizes,--DEBUG
+--    --    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
+--    --    Ivars.selectedCp,--DEBUG
+--    --    this.fovaModMenu,--DEBUG
+--    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
+--    --    this.appearanceMenu,--DEBUG
+--    InfMenuCommands.showPosition,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    --    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
     --InfMenuCommands.showPosition,--DEBUG
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
@@ -586,10 +578,10 @@ for name,item in pairs(this) do
       item.disabled=false
       item.parent=nil
       if item.noResetItem~=true then
-        table.insert(item.options,InfMenuCommands.resetSettingsItem)
+        item.options[#item.options+1]=InfMenuCommands.resetSettingsItem
       end
       if item.noGoBackItem~=true then
-        table.insert(item.options,InfMenuCommands.goBackItem)
+        item.options[#item.options+1]=InfMenuCommands.goBackItem
       end
     end
   end

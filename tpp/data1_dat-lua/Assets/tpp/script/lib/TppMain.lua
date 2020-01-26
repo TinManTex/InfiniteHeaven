@@ -177,6 +177,9 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
         ApendArray(missionSvars,TppSequence.MakeSVarsTable(module.saveVarsList))
       end
     end
+    if OnlineChallengeTask then--RETAILPATCH 1090>
+      ApendArray(missionSvars,OnlineChallengeTask.DeclareSVars())
+    end--<
     ApendArray(allSvars,missionSvars)
     TppScriptVars.DeclareSVars(allSvars)
     TppScriptVars.SetSVarsNotificationEnabled(false)
@@ -346,6 +349,9 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
       _G[lib].Init(missionTable)
     end
   end
+  if OnlineChallengeTask then--RETAILPATCH 1090>
+    OnlineChallengeTask.Init()
+  end--<
   if missionTable.enemy then
     if GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
       GameObject.SendCommand({type="TppSoldier2"},{id="CreateFaceIdList"})
@@ -805,6 +811,9 @@ function this.OnReload(missionTable)
       missionTable[name]._messageExecTable=Tpp.MakeMessageExecTable(entry.Messages())
     end
   end
+  if OnlineChallengeTask then--RETAILPATCH 1090>
+    OnlineChallengeTask.OnReload()
+  end--<
   if missionTable.enemy then
     if IsTypeTable(missionTable.enemy.routeSets)then
       TppClock.UnregisterClockMessage"ShiftChangeAtNight"
@@ -891,6 +900,9 @@ function this.OnMessage(n,sender,messageId,arg0,arg1,arg2,arg3)
     local strLogText=l
     DoMessage(messageExecTable[n],CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   end
+  if OnlineChallengeTask then--RETAILPATCH 1090>
+    OnlineChallengeTask.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,l)
+  end--<
   if mvars.loc_locationCommonTable then
     mvars.loc_locationCommonTable.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,l)
   end

@@ -1937,16 +1937,16 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   end--<
 
   --tex TODO: add own ivar
-  if Tpp.IsSoldier(gameId) then --tex>
-    if Ivars.fultonWildCardHandling:Is(1) and Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck() then
-      local soldierType=TppEnemy.GetSoldierType(gameId)
-      local soldierSubType=TppEnemy.GetSoldierSubType(gameId,soldierType)
-      if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD" then
-        percentage=0
-      end
-  end
-  end--<
-  --DEBUGNOW
+--  if Tpp.IsSoldier(gameId) then --tex>
+--    if Ivars.fultonWildCardHandling:Is(1) and Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck() then
+--      local soldierType=TppEnemy.GetSoldierType(gameId)
+--      local soldierSubType=TppEnemy.GetSoldierSubType(gameId,soldierType)
+--      if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD" then--TODO: another way to ID wildcard soldiers
+--        percentage=0
+--      end
+--  end
+--  end--<
+  --DEBUGNOW WIP
   if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
     percentage=0
   end--<

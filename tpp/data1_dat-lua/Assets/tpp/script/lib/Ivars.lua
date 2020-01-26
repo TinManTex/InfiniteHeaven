@@ -120,14 +120,16 @@ function this.ResetSetting(self,noOnChangeSub,noSave)
 end
 
 --paired min/max ivar setup
+local minSuffix="_MIN"
+local maxSuffix="_MAX"
 local function PushMax(ivar)
-  local maxName=ivar.subName.."_MAX"
+  local maxName=ivar.subName..maxSuffix
   if ivar.setting>Ivars[maxName]:Get() then
     Ivars[maxName]:Set(ivar.setting,true)
   end
 end
 local function PushMin(ivar)
-  local minName=ivar.subName.."_MIN"
+  local minName=ivar.subName..minSuffix
   if ivar.setting<Ivars[minName]:Get() then
     Ivars[minName]:Set(ivar.setting,true)
   end
@@ -158,8 +160,8 @@ local function MinMaxIvar(name,minSettings,maxSettings,ivarSettings)
     ivarMax[k]=v
   end
 
-  this[name.."_MIN"]=ivarMin
-  this[name.."_MAX"]=ivarMax
+  this[name..minSuffix]=ivarMin
+  this[name..maxSuffix]=ivarMax
   return ivarMin,ivarMax
 end
 
@@ -362,9 +364,9 @@ this.enableMbDDEquip={
 MinMaxIvar(
   "mbSoldierEquipGrade",
   {default=3},--tex 3 is the min grade at which all weapon types are available
-  {default=10},
+  {default=11},
   {
-    range={min=1,max=10}
+    range={min=1,max=11}
   }
 )
 
@@ -2398,7 +2400,7 @@ local playerCammoTypes={-- SYNC: InfFova.playerCammoTypes
 }
 local playerCamoTypeEnums={}
 for n,enum in ipairs(playerCammoTypes)do
-  table.insert(playerCamoTypeEnums,PlayerCamoType[enum])
+  playerCamoTypeEnums[#playerCamoTypeEnums+1]=PlayerCamoType[enum]
 end
 --DEBUGNOW
 this.playerCammoTypes={
@@ -2541,7 +2543,7 @@ this.playerFaceEquipIdApearance={
 
 this.playerFaceIdApearance={
   save=MISSION,
-  range={min=0,max=687},
+  range={min=600,max=687},--DEBUGNOW min was 0
   OnChange=function(self)
     if self.setting>0 then--TODO: add off/default/noset setting
       vars.playerFaceId=self.setting
@@ -2682,7 +2684,7 @@ local handEquipTypeToHandType={
 
 local playerHandEquipIds={}
 for n,equipType in ipairs(playerHandEquipTypes)do
-  table.insert(playerHandEquipIds,TppEquip[equipType])
+  playerHandEquipIds[#playerHandEquipIds+1]=TppEquip[equipType]
 end
 
 this.playerHandEquip={
@@ -2855,7 +2857,7 @@ this.soldierAlertOnHeavyVehicleDamage={
 }
 
 this.cpAlertOnVehicleFulton={
-  --DEBUGNOW WIP save=MISSION,
+  --OFF WIP save=MISSION,
   settings=this.phaseSettings,
 }
 
@@ -3097,7 +3099,7 @@ MissionModeIvars(
 )
 
 
-this.mbWalkerGearsColor={--DEBUGNOW
+this.mbWalkerGearsColor={
   save=MISSION,
   settings={
   "SOVIET",--green, default
@@ -3112,10 +3114,10 @@ this.mbWalkerGearsColor={--DEBUGNOW
   settingNames="mbWalkerGearsColorSettingNames",
 }
 
-this.mbWalkerGearsWeapon={--DEBUGNOW
+this.mbWalkerGearsWeapon={
   save=MISSION,
   settings={
-  "DEFAULT",--dont apply specific value, seems to alternate to give an even count of miniguns and missiles --DEBUGNOW
+  "DEFAULT",--dont apply specific value, seems to alternate to give an even count of miniguns and missiles 
   "MINIGUN",
   "MISSILE",
   "RANDOM",--all of one type

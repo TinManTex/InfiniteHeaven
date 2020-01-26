@@ -55,15 +55,15 @@ function this.LrrpLocation()
   --InfMenu.DebugPrint"LrrpLocation"--DEBUG
   --tex TODO: eliminated check
   local lrrpDefine=InfMain.lrrpDefines[math.random(#InfMain.lrrpDefines)]
-  local base1Name=InfMenu.CpNameString(lrrpDefine.base1,TppLocation.GetLocationName())
-  local base2Name=InfMenu.CpNameString(lrrpDefine.base2,TppLocation.GetLocationName())
+  local base1Name=InfMenu.CpNameString(lrrpDefine.base1,InfMain.GetLocationName())
+  local base2Name=InfMenu.CpNameString(lrrpDefine.base2,InfMain.GetLocationName())
   InfMenu.DebugPrint("[Intel] the soldier indicates a LRRP is traveling between "..base1Name.." and "..base2Name)--DEBUGNOW ADDLANG
 end
 
 function this.WildCardLocation()
   --InfMenu.DebugPrint"WildCardLocation"--DEBUG
   local cpName=InfMain.ene_wildCardCps[math.random(#InfMain.ene_wildCardCps)]
-  local cpNameString=InfMenu.CpNameString(cpName,TppLocation.GetLocationName())
+  local cpNameString=InfMenu.CpNameString(cpName,InfMain.GetLocationName())
   InfMenu.DebugPrint("[Intel] the soldier indicates there was a mercenary assigned to "..cpNameString)--DEBUGNOW ADDLANG
 end
 
@@ -75,7 +75,7 @@ function this.HeliLocation()
 
   local route
 
-  local locationName=TppLocation.GetLocationName()
+  local locationName=InfMain.GetLocationName()
   --tex TODO: badslow
   local StrCode32=Fox.StrCode32
   for i,routeName in pairs(InfNPCHeli.heliRoutes[locationName]) do
@@ -148,7 +148,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
     local startBases={}
     local endBases={}
 
-    local locationName=TppLocation.GetLocationName()
+    local locationName=InfMain.GetLocationName()
     baseNamePool=InfMain.ResetPool(InfMain.baseNames[locationName])
 
     for n,cpName in pairs(baseNamePool)do
@@ -286,7 +286,7 @@ this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
     if not svars.inf_interCpQuestStatus[partnerICPQId] then
       local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
       local partnerCpName=this.interCpQuestSoldiersCps[partnerICPQId]
-      local cpNameLang=InfMenu.CpNameString(partnerCpName,TppLocation.GetLocationName())
+      local cpNameLang=InfMenu.CpNameString(partnerCpName,InfMain.GetLocationName())
       --InfMenu.DebugPrint("sol cpquestid:"..soldierIQId.." partnerId:"..partnerIQId)--DEBUG
       InfMenu.DebugPrint("[Intel] the soldier indicates his comrade assigned to "..cpNameLang.." has stashed some things")--DEBUGNOW ADDLANG
       --tex TODO:
