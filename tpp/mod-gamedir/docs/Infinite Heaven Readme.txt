@@ -1,5 +1,5 @@
 = Infinite heaven =
-r159 - 2016-06-06
+r161 - 2016-06-06
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
@@ -7,14 +7,23 @@ A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay throu
 
 Has several hundred toggleable options ranging from Subsistence mode for all missions, Mother base invasion with multiple attack helicopters, Free-cam, skip heli rides, customization of enemy and mother base gear, foot, heavy vehicle and heli patrols in free roam, and much more.
 
-Infinite Heaven features
+Infinite Heaven features and options
+------------------------------
+See: Features and Options.txt file
+or
 [url=http://www.nexusmods.com/metalgearsolidvtpp/articles/5/]http://www.nexusmods.com/metalgearsolidvtpp/articles/5/[/url]
-[url=http://www.nexusmods.com/metalgearsolidvtpp/articles/4/]http://www.nexusmods.com/metalgearsolidvtpp/articles/4/[/url]
 
 YouTube playlist of demonstrations for many features
 [url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
 
-NOTE: Remember to exit to ACC before upgrading Infinite Heaven, upgrading will cause issues continuning a save that's mid mission is likely to cause issues.
+Recent changes/additions
+------------------------------
+NOTE: NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+Newx for r160
+Fixed: Removed debug commands from root of in-mission menu, whoops.
+
+Fixed: Ghost light from patrol soldiers radio - appeared on enclosed patrol vehicles and patrol soviets with light armor.
 
 New for r159
 Fixed: Enemy patrol helis getting stuck/rotating at 'landing' position.
@@ -82,6 +91,8 @@ This mod is still largely untested, detailed feedback at Nexus page welcome.
 
 Installation
 ------------------------------
+See: Installation.txt file 
+or
 [url=http://www.nexusmods.com/metalgearsolidvtpp/articles/2/]http://www.nexusmods.com/metalgearsolidvtpp/articles/2/[/url]
 
 Usage:
@@ -107,8 +118,16 @@ Tap mod menu button <Quick dive> while menu is open to refresh current setting.
 By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
 All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. Snakebite mod manager allows easy toggling of mods.
 
+Known Issues
+------------------------------
+See FAQ Known issues.txt file
+or
+[url=http://www.nexusmods.com/metalgearsolidvtpp/articles/6/]http://www.nexusmods.com/metalgearsolidvtpp/articles/6/[/url]
 
-Change Log:
+Change Log
+------------------------------
+See: Change Log.txt file
+or
 [url=http://www.nexusmods.com/metalgearsolidvtpp/articles/1/]http://www.nexusmods.com/metalgearsolidvtpp/articles/1/[/url]
 
 Thanks:

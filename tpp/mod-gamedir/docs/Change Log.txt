@@ -1,4 +1,8 @@
 Infinite Heaven changelog
+r160 - 2016-06-06 - public release
+Fixed: More fine grained application of RADIO body to lrrp and lrrp vehicles to stop radio light from appearing on: soviets with soft armor, enclosed vehicles.
+Fixed: Removed debug commands from root of in-mission menu, oops
+
 r159 - 2016-06-06 - public release
 Fixed: Wildcards repeatedly adding to uniquesettings
 Change: Increased number of wild card soldiers to 12

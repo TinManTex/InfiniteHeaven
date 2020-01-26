@@ -472,9 +472,9 @@ this.heliSpaceMenu={
     --Ivars.forceSoldierSubType,--tex WIP DEBUG
     --Ivars.manualMissionCode,--tex  WIP
     --InfMenuCommands.loadMission,--tex  WIP
-    InfMenuCommands.forceGameEvent,--DEBUGNOW
-    Ivars.gameEventChanceFREE,--DEBUGNOW
-    Ivars.gameEventChanceMB,--DEBUGNOW
+    InfMenuCommands.forceGameEvent,
+    Ivars.gameEventChanceFREE,
+    Ivars.gameEventChanceMB,
     Ivars.clockTimeScale,
     this.playerRestrictionsMenu,
     this.playerSettingsMenu,
@@ -531,13 +531,13 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
-       InfMenuCommands.DEBUG_WarpToObject,--DEBUGNOW
+      -- InfMenuCommands.DEBUG_WarpToObject,--DEBUGNOW 
     ----    Ivars.playerFaceIdApearance,--DEBUG
     ----    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     ----    --    this.appearanceMenu,--DEBUG
-        InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
---        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+--        InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
+----        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG
     --   InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --InfMenuCommands.doEnemyReinforce,--WIP

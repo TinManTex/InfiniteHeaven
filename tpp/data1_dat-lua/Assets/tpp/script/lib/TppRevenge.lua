@@ -34,7 +34,7 @@ this.NO_REVENGE_MISSION_LIST={
   [50050]=true--fob
 }
 this.NO_STEALTH_COMBAT_REVENGE_MISSION_LIST={[30010]=true,[30020]=true,[30050]=true,[30150]=true}
-this.USE_SUPER_REINFORCE_VEHICLE_MISSION={[10036]=true,[11036]=true,[10093]=true}--10036 : Mission 3 - A Heroes Way ,10093 : Mission 35 - Cursed Legacy  
+this.USE_SUPER_REINFORCE_VEHICLE_MISSION={[10036]=true,[11036]=true,[10093]=true}--10036 : Mission 3 - A Heroes Way ,10093 : Mission 35 - Cursed Legacy
 this.CANNOT_USE_ALL_WEAPON_MISSION={
   [10030]=true,--Mission 2 - Flashback Diamond Dogs
   [10070]=true,--Mission 12 - Hellbound
@@ -1280,7 +1280,7 @@ function this.ApplyPowerSettingsForReinforce(soldierIds)
       end
     end
   end
-  for E,soldierId in ipairs(soldierIds)do
+  for i,soldierId in ipairs(soldierIds)do
     TppEnemy.ApplyPowerSetting(soldierId,loadout)
   end
 end
@@ -1684,9 +1684,11 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
 
   local isOuterBaseCp=mvars.ene_outerBaseCpList[cpId]
   local isLrrpCp=mvars.ene_lrrpTravelPlan[cpId]--tex added, was below
+  local isLrrpVehicleCp=mvars.ene_lrrpVehicle[cpId]--tex added
+
   local powerElimOrChildSoldierTable={}
-  local outerBaseSoldierTable={}
-  local lrrpSoldierTable={}--tex added, was combined with above
+  --OFF unused local outerBaseSoldierTable={}
+  --OFF unused local lrrpSoldierTable={}--tex added, was combined with above
 
   for soldierId,E in pairs(soldierIds)do
     table.insert(soldierIdForConfigIdTable,soldierId)
@@ -1698,10 +1700,10 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     elseif TppEnemy.GetSoldierType(soldierId)==EnemyType.TYPE_CHILD then
       powerElimOrChildSoldierTable[totalSoldierCount]=true
     elseif isOuterBaseCp then
-      outerBaseSoldierTable[totalSoldierCount]=true
+    --tex OFF unused outerBaseSoldierTable[totalSoldierCount]=true
     elseif isLrrpCp then
-      --outerBaseSoldierTable[totalSoldierCount]=true--tex was
-      lrrpSoldierTable[totalSoldierCount]=true--tex was combined in above outerBase table
+    --outerBaseSoldierTable[totalSoldierCount]=true--tex was
+    --tex OFF unused lrrpSoldierTable[totalSoldierCount]=true--tex was combined in above outerBase table
     end
   end
 
@@ -1970,6 +1972,43 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   --    local instr=InfInspect.Inspect(cpConfig)
   --    InfMenu.DebugPrint(instr)
   --  end--<
+
+  --tex fix issues with RADIO body
+  local applyPowersToLrrp=Ivars.applyPowersToLrrp:Is()>0
+  local vehiclePatrols=Ivars.vehiclePatrolProfile:Is()>0 and vars.missionCode==30010 or vars.missionCode==30020--tex
+  for soldierConfigId,soldierConfig in ipairs(cpConfig)do
+    local soldierId=soldierIdForConfigIdTable[soldierConfigId]
+    local addRadio=false
+    if isLrrpVehicleCp and vehiclePatrols then
+      if mvars.inf_patrolVehicleBaseInfo then
+        local baseTypeInfo=mvars.inf_patrolVehicleBaseInfo[isLrrpVehicleCp]
+        if baseTypeInfo and not baseTypeInfo.enclosed then
+          addRadio=true
+        end
+      end
+    end
+
+    if isLrrpCp and applyPowersToLrrp then
+      if not isLrrpVehicleCp then--tex should be set above
+        addRadio=true
+      end
+      if addRadio then
+        --tex shield is fine, ARMOR probably wouldn't be, but getbodyid returns armor before radio so moot
+        --soft_armor is fine for PFCs
+        if soldierConfig.SOFT_ARMOR then
+          if TppEnemy.GetSoldierType(soldierId)==EnemyType.TYPE_SOVIET then
+            addRadio=false
+          end
+        end
+      end
+    end
+
+    if addRadio then
+      soldierConfig.RADIO=true
+    end
+    --< for cpConfig
+  end
+  --<
 
   for soldierConfigId,soldierConfig in ipairs(cpConfig)do
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]

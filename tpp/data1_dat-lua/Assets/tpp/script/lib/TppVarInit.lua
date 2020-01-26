@@ -38,8 +38,8 @@ function this.StartTitle(i)
   else
     TppMission.RequestLoad(vars.missionCode,missionIdInit,{showLoadingTips=false})
   end
-  local e=Fox.GetActMode()
-  if(e=="EDIT")then
+  local actMode=Fox.GetActMode()
+  if(actMode=="EDIT")then
     Fox.SetActMode"GAME"
   end
 end

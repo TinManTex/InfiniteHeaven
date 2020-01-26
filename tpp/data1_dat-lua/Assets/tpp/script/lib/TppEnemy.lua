@@ -3074,7 +3074,10 @@ function this.AssignSoldiersToCP()
       SendCommand(soldierId,{id="SetCommandPost",cp=cp})
       if mvars.ene_lrrpTravelPlan[cpId]then
         SendCommand(soldierId,{id="SetLrrp",travelPlan=mvars.ene_lrrpTravelPlan[cpId]})
-        mvars.ene_soldierLrrp[soldierId]=true
+        local dontSet=Ivars.applyPowersToLrrp:Is()>0 or (mvars.ene_lrrpVehicle[cpId] and Ivars.vehiclePatrolProfile:Is()>0 and vars.missionCode==30010 or vars.missionCode==30020)--tex
+        if not dontSet then--tex bypassing, handling with more finess by assiging RADIO in _ApplyRevengeToCp
+          mvars.ene_soldierLrrp[soldierId]=true--NMC it's sole purpose seems to be to indicate for RADIO body, TODO could probably remove from GetBodyId, restore this without bypass, and let my code handle default of all lrrp (foot and vehicle) set RADIO
+        end
         if mvars.ene_lrrpVehicle[cpId]then
           local lrrpVehicle=GameObject.GetGameObjectId("TppVehicle2",mvars.ene_lrrpVehicle[cpId])
           local command={id="SetRelativeVehicle",targetId=lrrpVehicle,rideFromBeginning=true}
@@ -4759,14 +4762,14 @@ end
 end
 function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_TABLE.enemyList
   local i=1
-  local function Setup(enemyDef,r)
+  local function Setup(enemyDef,disable)
     local soldierId=enemyDef.enemyName
     if IsTypeString(soldierId)then
       soldierId=GameObject.GetGameObjectId(soldierId)
     end
     if soldierId==NULL_ID then
     else
-      if r==false then
+      if disable==false then
         if mvars.ene_isQuestSetup==false then
           if enemyDef.soldierType then
             this.SetSoldierType(soldierId,enemyDef.soldierType)
@@ -4777,17 +4780,17 @@ function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_T
             if TppLocation.IsMiddleAfrica()then
             end
           end
-          local a=true
+          local applyPowerSetting=true
           if enemyDef.powerSetting then
             for n,powerType in ipairs(enemyDef.powerSetting)do
               if powerType=="QUEST_ARMOR"then
                 if mvars.ene_questArmorId==0 then
-                  a=false
+                  applyPowerSetting=false
                 end
               end
             end
           end
-          if a==true then
+          if applyPowerSetting==true then
             local powerSetting=enemyDef.powerSetting or{nil}
             this.ApplyPowerSetting(soldierId,powerSetting)
           else

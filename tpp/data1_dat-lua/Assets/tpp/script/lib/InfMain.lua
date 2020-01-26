@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r159"
+this.modVersion="r160"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -357,10 +357,10 @@ this.cpPositions={
     afgh_remnantsNorth_ob={-1065.079,291.448,1467.447},
     afgh_cliffSouth_ob={1040.302,379.051,-505.49},
     afgh_fortWest_ob={1825.444,465.684,-1252.843},
-    afgh_villageWest_ob="Guard Post 15",
+    afgh_villageWest_ob={-258.249,298.451,927.591},
     afgh_slopedEast_ob={977.664,318.965,-169.445},
     afgh_fortSouth_ob={2194.072,429.323,-1271},
-    afgh_villageNorth_ob="Guard Post 18",
+    afgh_villageNorth_ob={504.530,329.411,702.308},
     afgh_commWest_ob="Guard Post 19",
     afgh_bridgeWest_ob="Guard Post 20",
     afgh_bridgeNorth_ob="Guard Post 21",
