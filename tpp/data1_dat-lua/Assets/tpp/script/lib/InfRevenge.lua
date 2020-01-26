@@ -7,6 +7,17 @@ function this.round(num,idp)
   return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
+
+function this.DoCustomRevenge(missionCode)
+  local ivarList={
+    Ivars.revengeMode,
+    Ivars.revengeModeForMissions,
+    Ivars.revengeModeForMb,
+  }
+
+  return InfMain.IvarsIsForMission(ivarList,"CUSTOM",missionCode)
+end
+
 function this.CreateCustomRevengeConfig()
   local revengeConfig={}
   InfMain.SetLevelRandomSeed()

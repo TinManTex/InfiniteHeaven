@@ -418,7 +418,7 @@ function this.RestartMission(n)
   if i then
     mvars.mis_isReturnToMission=true
   end
-  if this.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_SHAM)then--tex DEBUGNOW bypass?
+  if this.IsFOBMission(vars.missionCode)and(vars.fobSneakMode==FobMode.MODE_SHAM)then
     TppNetworkUtil.SessionEnableAccept(false)
     TppNetworkUtil.SessionDisconnectPreparingMembers()
   end
@@ -441,9 +441,9 @@ function this.ExecuteRestartMission(i)
       this.ResetMBFreeStartPositionToCommand()
     end
   end
-  local n=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
-  if n then
-    local locationCode=TppDefine.LOCATION_ID[n]
+  local locationName=TppPackList.GetLocationNameFormMissionCode(vars.missionCode)
+  if locationName then
+    local locationCode=TppDefine.LOCATION_ID[locationName]
     if locationCode then
       vars.locationCode=locationCode
     end
@@ -476,17 +476,17 @@ function this.ExecuteRestartMission(i)
   end
 end
 function this.ContinueFromCheckPoint(n)
-  local i
-  local s
+  local isNoFade
+  local isReturnToMission
   if n then
-    i=n.isNoFade
-    s=n.isReturnToMission
+    isNoFade=n.isNoFade
+    isReturnToMission=n.isReturnToMission
   end
   TppMain.EnablePause()
-  if s then
+  if isReturnToMission then
     mvars.mis_isReturnToMission=true
   end
-  if i then
+  if isNoFade then
     this.ExecuteContinueFromCheckPoint(nil,nil,mvars.mis_isReturnToMission)
   else
     TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"ContinueFromCheckPointFadeOutFinish",nil,{setMute=true,exceptGameStatus={AnnounceLog="INVALID_LOG"}})
@@ -497,7 +497,7 @@ function this.ReturnToMission(n)
   n.isReturnToMission=true
   this.DisableInGameFlag()
   this.ResetEmegerncyMissionSetting()
-  local s,i=vars.missionHeroicPoint,vars.missionOgrePoint
+  local missionHeroicPoint,missionOgrePoint=vars.missionHeroicPoint,vars.missionOgrePoint
   if(vars.missionCode==50050)then
     TppSave.VarRestoreOnContinueFromCheckPoint()
     if TppNetworkUtil.IsSessionConnect()then
@@ -509,7 +509,7 @@ function this.ReturnToMission(n)
   else
     TppSave.VarRestoreOnMissionStart()
   end
-  this.SetHeroicAndOgrePointInSlot(s,i)
+  this.SetHeroicAndOgrePointInSlot(missionHeroicPoint,missionOgrePoint)
   this.RestartMission(n)
 end
 function this.ExecuteContinueFromCheckPoint(RENpopupId,a,RENdoMissionCallback)
@@ -952,14 +952,14 @@ function this.OnCanMissionClear()
     end
   end
   TppUiCommand.ShowHotZone()
-  local e=mvars.snd_bgmList
-  if e and e.bgm_escape then
+  local bgmList=mvars.snd_bgmList
+  if bgmList and bgmList.bgm_escape then
     mvars.mis_needSetEscapeBgm=true
   end
 end
-function this.SetMissionClearState(e)
-  if gvars.mis_missionClearState<e then
-    gvars.mis_missionClearState=e
+function this.SetMissionClearState(missionClearState)
+  if gvars.mis_missionClearState<missionClearState then
+    gvars.mis_missionClearState=missionClearState
     return true
   else
     return false
@@ -1466,8 +1466,8 @@ function this.IsFreeMission(missionCode)
   end
 end
 function this.IsMbFreeMissions(missionCode)
-  local freeMissions={[30050]=true,[30150]=true,[30250]=true}
-  if freeMissions[missionCode]then
+  local mbFreeMissions={[30050]=true,[30150]=true,[30250]=true}
+  if mbFreeMissions[missionCode]then
     return true
   else
     return false
@@ -1917,7 +1917,7 @@ end
 local fallDeath=StrCode32"FallDeath"
 local suicide=StrCode32"Suicide"
 function this.OnPlayerDead(playerId,deathTypeStr32)
-  if not TppNetworkUtil.IsHost()then--tex DEBUGNOW bypass?
+  if not TppNetworkUtil.IsHost()then
     return
   end
   local isFobMission=this.IsFOBMission(vars.missionCode)
@@ -2936,7 +2936,7 @@ function this.SetFobPlayerStartPoint()
     return false
   end
   local locatorName=""
-  if TppNetworkUtil.IsHost()==false then--tex DEBUGNOW bypass, or set to one of the sneaking start positions 
+  if TppNetworkUtil.IsHost()==false then 
     locatorName="player_locator_clst"..(cluster.."_plnt0_df0")
     local pos,rot=Tpp.GetLocator("MtbsStartPointIdentifier",locatorName)
     if pos then

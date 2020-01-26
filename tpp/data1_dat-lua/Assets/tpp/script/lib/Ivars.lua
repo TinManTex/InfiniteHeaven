@@ -14,6 +14,9 @@ local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
 
+local NULL_ID=GameObject.NULL_ID
+local GetGameObjectId=GameObject.GetGameObjectId
+
 local GLOBAL=TppScriptVars.CATEGORY_GAME_GLOBAL
 local MISSION=TppScriptVars.CATEGORY_MISSION
 local RETRY=TppScriptVars.CATEGORY_RETRY
@@ -29,7 +32,6 @@ local int32=2^32
 
 this.numQuests=157--tex SYNC: number of quests
 this.MAX_SOLDIER_STATE_COUNT = 360--tex from <mission>_enemy.lua, free missions/whatever was highest
-this.MAX_PATROL_VEHICLES=16
 
 this.switchRange={max=1,min=0,increment=1}
 
@@ -159,6 +161,30 @@ local function MinMaxIvar(name,minSettings,maxSettings,ivarSettings)
   this[name.."_MIN"]=ivarMin
   this[name.."_MAX"]=ivarMax
   return ivarMin,ivarMax
+end
+
+local function MissionCheckFree(self,missionCode)
+  local missionCode=missionCode or vars.missionCode
+  if missionCode==30010 or missionCode==30020 then
+    return true
+  end
+  return false
+end
+
+local function MissionCheckMb(self,missionCode)
+  local missionCode=missionCode or vars.missionCode
+  if TppMission.IsMbFreeMissions(missionCode) then
+    return true
+  end
+  return false
+end
+
+local function MissionCheckMission(self,missionCode)
+  local missionCode=missionCode or vars.missionCode
+  if TppMission.IsStoryMission(missionCode) then
+    return true
+  end
+  return false
 end
 
 --ivar definitions
@@ -449,75 +475,6 @@ this.mbWarGamesProfile={
     end,
   --CUSTOM=nil,
   },
-  initSettingsTable={
-    OFF=function()
-      --Ivars.mbDDHeadGear:Set(0,true)
-      --Ivars.mbDDSuit:Set(0,true)
-      --Ivars.enableMbDDEquip:Set(0,true)
-      Ivars.mbDDEquipNonLethal:Set(0,true)
-      Ivars.mbHostileSoldiers:Set(0,true)
-      Ivars.mbEnableLethalActions:Set(0,true)
-      Ivars.mbNonStaff:Set(0,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)
-      Ivars.mbZombies:Set(0,true)
-    end,
-    --    NONLETHAL=function()
-    --      --Ivars.mbDDHeadGear:Set(0,true)
-    --      --Ivars.mbDDSuit:Set(0,true)
-    --      Ivars.enableMbDDEquip:Set(1,true)
-    --      Ivars.mbDDEquipNonLethal:Set(1,true)
-    --      Ivars.mbHostileSoldiers:Set(1,true)
-    --      Ivars.mbEnableLethalActions:Set(0,true)
-    --      Ivars.mbNonStaff:Set(0,true)
-    --      Ivars.mbEnableFultonAddStaff:Set(0,true)
-    --      Ivars.mbZombies:Set(0,true)
-    --    end,
-    TRAINING=function()
-      --tex TODO seperate gear/suit/equip setting combos into own profile
-      --Ivars.mbDDHeadGear:Set(0,true)
-      --Ivars.mbDDSuit:Set(0,true)
-      --      Ivars.enableMbDDEquip:Set(0,true)
-      --      Ivars.mbDDEquipNonLethal:Set(0,true)
-      Ivars.mbHostileSoldiers:Set(1,true)
-      Ivars.mbEnableLethalActions:Set(0,true)
-      Ivars.mbNonStaff:Set(0,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)
-      Ivars.mbZombies:Set(0,true)
-    end,
-    INVASION=function()
-      --Ivars.mbDDHeadGear:Set(0,true)
-      --Ivars.mbDDSuit:Set(0,true)
-      --Ivars.enableMbDDEquip:Set(0,true)
-      Ivars.mbDDEquipNonLethal:Set(0,true)
-      Ivars.mbHostileSoldiers:Set(1,true)
-      Ivars.mbEnableLethalActions:Set(1,true)
-      Ivars.mbNonStaff:Set(1,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)
-      Ivars.mbZombies:Set(0,true)
-    end,
-    ZOMBIE=function()
-      --Ivars.mbDDHeadGear:Set(0,true)
-      --Ivars.mbDDSuit:Set(0,true)
-      --      Ivars.enableMbDDEquip:Set(0,true)
-      --      Ivars.mbDDEquipNonLethal:Set(0,true)
-      Ivars.mbHostileSoldiers:Set(1,true)
-      Ivars.mbEnableLethalActions:Set(0,true)
-      Ivars.mbNonStaff:Set(0,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)
-      Ivars.mbZombies:Set(1,true)
-    end,
-    ZOMBIE_OBLITERATION=function()
-      --Ivars.mbDDHeadGear:Set(0,true)
-      --Ivars.mbDDSuit:Set(0,true)
-      --Ivars.enableMbDDEquip:Set(0,true,true)
-      Ivars.mbDDEquipNonLethal:Set(0,true)
-      Ivars.mbHostileSoldiers:Set(1,true)
-      Ivars.mbEnableLethalActions:Set(1,true)
-      Ivars.mbNonStaff:Set(1,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)
-      Ivars.mbZombies:Set(1,true)
-    end,
-  },
   OnChange=this.RunCurrentSetting,
   OnSubSettingChanged=this.OnSubSettingChanged,
 }
@@ -552,15 +509,16 @@ this.mbZombies={
   settingNames="set_switch",
 }
 
-this.mbEnemyHeli={
+this.mbEnemyHeli={--NON USER
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  MissionCheck=MissionCheckMb,
 }
 
 this.mbEnemyHeliColor={
   save=MISSION,
-  settings={"BLACK","RED"},
+  settings={"DEFAULT","BLACK","RED","ENEMY_PREP"},
   settingNames="mbEnemyHeliColorSettings",
 }
 
@@ -670,7 +628,7 @@ this.subsistenceProfile={
       Ivars.blockInMissionSubsistenceIvars:Set(0,true)
 
       Ivars.noCentralLzs:Set(0,true)
-      Ivars.disableBuddies:Set(0,true)
+      Ivars.disableSelectBuddy:Set(0,true)
       Ivars.disableHeliAttack:Set(0,true)
       Ivars.disableSelectTime:Set(0,true)
       Ivars.disableSelectVehicle:Set(0,true)
@@ -703,7 +661,7 @@ this.subsistenceProfile={
       Ivars.blockInMissionSubsistenceIvars:Set(1,true)
 
       Ivars.noCentralLzs:Set(1,true)
-      Ivars.disableBuddies:Set(1,true)
+      Ivars.disableSelectBuddy:Set(1,true)
       Ivars.disableHeliAttack:Set(1,true)
       Ivars.disableSelectTime:Set(1,true)
       Ivars.disableSelectVehicle:Set(1,true)
@@ -741,7 +699,7 @@ this.subsistenceProfile={
       Ivars.blockInMissionSubsistenceIvars:Set(1,true)
 
       Ivars.noCentralLzs:Set(1,true)
-      Ivars.disableBuddies:Set(0,true)
+      Ivars.disableSelectBuddy:Set(0,true)
       Ivars.disableHeliAttack:Set(1,true)
       Ivars.disableSelectTime:Set(1,true)
       Ivars.disableSelectVehicle:Set(1,true)
@@ -797,8 +755,8 @@ this.disableHeliAttack={
   OnChange=function(self)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local enable=self.setting==0
-    local gameObjectId = GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
-    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+    local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
       GameObject.SendCommand(gameObjectId,{id="SetCombatEnabled",enabled=enable})
     end
   end,
@@ -807,7 +765,8 @@ this.disableHeliAttack={
   OnSelect=this.DisableOnSubsistence,
 }
 
-this.disableBuddies={
+--mission prep
+this.disableSelectBuddy={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
@@ -1078,7 +1037,7 @@ this.fultonHostageHandling={
 --<fulton success
 
 --item levels>
-this.handLevelRange={max=4,min=1,increment=1}
+this.handLevelRange={max=4,min=0,increment=1}
 this.handLevelProfile={--tex can't be set in ui by user
   save=MISSION,
   settings={"DEFAULT","ITEM_OFF","ITEM_MAX","CUSTOM"},
@@ -1270,12 +1229,7 @@ this.revengeMode={
   save=MISSION,
   settings={"DEFAULT","CUSTOM"},
   settingNames="revengeModeSettings",
-  IsCheck=function(self)
-    if TppMission.IsFreeMission(vars.missionCode) and not TppMission.IsMbFreeMissions(vars.missionCode) then
-      return true
-    end
-    return false
-  end,
+  MissionCheck=MissionCheckFree,
   OnChange=function()
     TppRevenge._SetUiParameters()
   end,
@@ -1285,12 +1239,7 @@ this.revengeModeForMissions={
   save=MISSION,
   settings={"DEFAULT","CUSTOM"},
   settingNames="revengeModeSettings",
-  IsCheck=function(self)
-    if TppMission.IsStoryMission(vars.missionCode) then
-      return true
-    end
-    return false
-  end,
+  MissionCheck=MissionCheckMission,
   OnChange=function()
     TppRevenge._SetUiParameters()
   end,
@@ -1300,12 +1249,7 @@ this.revengeModeForMb={
   save=MISSION,
   settings={"OFF","FOB","DEFAULT","CUSTOM"},--DEFAULT = normal enemy prep system (which isn't usually used for MB)
   settingNames="revengeModeForMbSettings",
-  IsCheck=function(self)
-    if TppMission.IsMbFreeMissions(vars.missionCode) then
-      return true
-    end
-    return false
-  end,
+  MissionCheck=MissionCheckMb,
   OnChange=function()
     TppRevenge._SetUiParameters()
   end,
@@ -1880,12 +1824,7 @@ this.enableWildCardFreeRoam={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  ExecCheck=function(self)
-    if vars.missionCode==TppDefine.SYS_MISSION_ID.AFGH_FREE or vars.missionCode==TppDefine.SYS_MISSION_ID.MAFR_FREE then
-      return true
-    end
-    return false
-  end,
+  MissionCheck=MissionCheckFree,
 }
 
 --tex WIP ideally would have defaults of 2-5, and also let user modify, but while base assignment is random need to spread it as far as posible to get coverage
@@ -1903,13 +1842,7 @@ this.vehiclePatrolProfile={
   save=MISSION,
   settings={"OFF","SINGULAR","EACH_VEHICLE"},
   settingNames="vehiclePatrolProfileSettings",
-  ExecCheck=function(self,missionCode)
-    local missionCode=missionCode or vars.missionCode
-    if missionCode==30010 or missionCode==30020 then
-      return true
-    end
-    return false
-  end,
+  MissionCheck=MissionCheckFree,
 }
 
 local function TypeChange(self)
@@ -1970,12 +1903,34 @@ this.vehiclePatrolEmblemType={
   --OFF save=MISSION,
   range={max=10},
 }
-
 --<patrol vehicle stuff
-this.startOnFoot={
+this.enemyHeliPatrol={
   save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
+  settings={"NONE","MIN","MID","MAX","ENEMY_PREP"},
+  settingNames="enemyHeliPatrolSettingNames",
+  MissionCheck=MissionCheckFree,
+}
+
+local onFootSettings={"OFF","NOT_ASSAULT","ALL"}
+this.startOnFootFree={
+  save=MISSION,
+  settings=onFootSettings,
+  settingNames="onFootSettingsNames",
+  MissionCheck=MissionCheckFree,
+}
+
+this.startOnFootMission={
+  save=MISSION,
+  settings=onFootSettings,
+  settingNames="onFootSettingsNames",
+  MissionCheck=MissionCheckMission,
+}
+
+this.startOnFootMb={
+  save=MISSION,
+  settings=onFootSettings,
+  settingNames="onFootSettingsNames",
+  MissionCheck=MissionCheckMb,
 }
 
 this.clockTimeScale={
@@ -2483,11 +2438,11 @@ this.enableFovaMod={
   settingNames="set_switch",
   OnSelect=function(self)
   --DEBUGNOW
---    if self:Is(1) then
---    else
---      InfMenu.PrintLangId"change_model_to_reset_fova"
---      Ivars.fovaSelection:Reset()
---    end 
+  --    if self:Is(1) then
+  --    else
+  --      InfMenu.PrintLangId"change_model_to_reset_fova"
+  --      Ivars.fovaSelection:Reset()
+  --    end
   end,
   OnChange=function(self)
     if self:Is(1) then
@@ -2512,7 +2467,7 @@ this.fovaSelection={
       else
         self.description="No model description"
       end
-      
+
       if fovaTable then
         if Ivars.enableFovaMod:Is(0) then
           InfMenu.PrintLangId"fova_is_not_set"
@@ -2534,7 +2489,7 @@ this.fovaSelection={
             self.settingNames[i]=fovaDescription
           end
         end
-        
+
         InfFova.SetFovaMod(self:Get()+1,true)
       else
         self.range.max=0
@@ -2741,7 +2696,7 @@ this.phaseUpdate={
     lastPhase=0,
     alertBump=false,
   },
-  ExecUpdate=function(...)InfMain.UpdatePhase(...)end,
+  ExecUpdate=function(...)InfEnemyPhase.Update(...)end,
 --profile=this.subsistenceProfile,
 }
 
@@ -2839,7 +2794,7 @@ this.warpPlayerUpdate={
   execState={
     nextUpdate=0,
   },
-  ExecInit=function()InfMain.InitWarpPlayerUpdate()end,
+  ExecInit=function(...)InfMain.InitWarpPlayerUpdate(...)end,
   ExecUpdate=function(...)InfMain.UpdateWarpPlayer(...)end,
 }
 
@@ -2885,7 +2840,7 @@ this.adjustCameraUpdate={
   execState={
     nextUpdate=0,
   },
-  --ExecInit=function()InfMain.InitWarpPlayerUpdate()end,
+  --ExecInit=function(...)InfMain.InitWarpPlayerUpdate(...)end,
   ExecUpdate=function(...)InfCamera.UpdateCameraAdjust(...)end,
 }
 
@@ -2906,7 +2861,7 @@ this.cameraMode={
 this.moveScale={
   save=MISSION,
   default=0.5,
-  range={max=1,min=0.1,increment=0.1},
+  range={max=10,min=0.01,increment=0.1},
 }
 
 this.disableCamText={
@@ -3005,20 +2960,22 @@ this.npcUpdate={--tex NONUSER
   execState={
     nextUpdate=0,
   },
-  ExecInit=function()InfNPC.InitNPCUpdate()end,
-  ExecUpdate=function(...)InfNPC.UpdateNPC(...)end,
+  ExecInit=function(...)InfNPC.InitUpdate(...)end,
+  ExecUpdate=function(...)InfNPC.Update(...)end,
 }
 
 this.npcHeliUpdate={
   save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
+  settings={"OFF","UTH","UTH_AND_HP48"},
+  settingNames="npcHeliUpdateSettings",
   execChecks={inGame=true,inHeliSpace=false},
   execState={
     nextUpdate=0,
   },
-  ExecInit=function()InfNPC.InitNPCHeliUpdate()end,
-  ExecUpdate=function(...)InfNPC.UpdateNPCHeli(...)end,
+  MissionCheck=MissionCheckMb,
+  ExecInit=function(...)InfNPCHeli.InitUpdate(...)end,
+  OnMissionCanStart=function(...)InfNPCHeli.OnMissionCanStart(...)end,
+  ExecUpdate=function(...)InfNPCHeli.Update(...)end,
 }
 
 --heli
@@ -3031,7 +2988,7 @@ this.heliUpdate={--tex NONUSER, for now, need it alive to pick up pull out
   execState={
     nextUpdate=0,
   },
-  ExecUpdate=function(...)InfMain.UpdateHeli(...)end,
+  ExecUpdate=function(...)InfHelicopter.Update(...)end,
 }
 
 --this.heliUpdateRate={--seconds
@@ -3054,8 +3011,8 @@ this.defaultHeliDoorOpenTime={--seconds
 local HeliEnabledGameCommand=function(self)
   if TppMission.IsFOBMission(vars.missionCode) then return end
   local enable=self.setting==1
-  local gameObjectId = GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
-  if gameObjectId ~= nil and gameObjectId ~= GameObject.NULL_ID then
+  local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
+  if gameObjectId ~= nil and gameObjectId ~= NULL_ID then
     GameObject.SendCommand(gameObjectId,{id=self.gameEnabledCommand,enabled=enable})
   end
 end
@@ -3085,8 +3042,8 @@ this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's
   range={min=0,max=15},
   OnChange=function(self)
     if TppMission.IsFOBMission(vars.missionCode) then return end
-    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
-    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+    local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
       GameObject.SendCommand(gameObjectId,{id="SetTakeOffWaitTime",time=self.setting})
     end
   end,
@@ -3099,8 +3056,8 @@ this.disablePullOutHeli={
   OnChange=function(self)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local set=self.setting==1
-    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
-    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+    local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
       local command
       if set then
         command="DisablePullOut"
@@ -3119,8 +3076,8 @@ this.setLandingZoneWaitHeightTop={
   range={min=5,max=50,increment=5},
   OnChange=function(self)
     if TppMission.IsFOBMission(vars.missionCode) then return end
-    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
-    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+    local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
       GameObject.SendCommand(gameObjectId,{id="SetLandingZoneWaitHeightTop",height=self.setting})
     end
   end,
@@ -3133,8 +3090,8 @@ this.disableDescentToLandingZone={
   OnChange=function(self)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local set=self.setting==1
-    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
-    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+    local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
       local command
       if set then
         command="DisableDescentToLandingZone"
@@ -3153,8 +3110,8 @@ this.setSearchLightForcedHeli={
   OnChange=function(self)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local set=self.setting==1
-    local gameObjectId=GameObject.GetGameObjectId("TppHeli2", "SupportHeli")
-    if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
+    local gameObjectId=GetGameObjectId("TppHeli2","SupportHeli")
+    if gameObjectId~=nil and gameObjectId~=NULL_ID then
       local command
       if set then
         command={id="SetSearchLightForcedType",type="Off"}
@@ -3169,7 +3126,7 @@ this.setSearchLightForcedHeli={
 
 this.selectedCp={
   save=MISSION,
-  range={max=9999},--tex TODO
+  range={max=9999},
   prev=nil,
   GetNext=function(self)
     self.prev=self.setting
@@ -3261,16 +3218,6 @@ this.mis_isGroundStart={--NONUSER
   save=MISSION,
   range=this.switchRange,
 }
-
---fob ivars
-this.fobMode={--DEBUGNOW
-  save=MISSION,
-  range=this.switchRange,
-  allowFob=true,
-  settings={"DEFAULT","COOP"},
-  --DEBUGNOWsettingNames="set_switch",
-}
-
 --end ivar defines
 
 local function IsIvar(ivar)--TYPEID
@@ -3317,35 +3264,8 @@ this.OptionIsSetting=function(self,setting)
     return false
   end
 
-  if IsFunc(self.IsCheck) then
-    if self:IsCheck()==false then
-      return false
-    end
-  end
-
   local settingIndex=self.enum[setting]
   return settingIndex==currentSetting
-end
-
---tex TODO handle fob is default
-this.OptionAboveSetting=function(self,settingName)
-  local settingIndex=self.enum[settingName]
-  return self.setting>settingIndex
-end
-
-this.OptionBelowSetting=function(self,settingName)
-  local settingIndex=self.enum[settingName]
-  return self.setting<settingIndex
-end
-
-this.OptionIsOrAboveSetting=function(self,settingName)
-  local settingIndex=self.enum[settingName]
-  return self.setting>=settingIndex
-end
-
-this.OptionIsOrBelowSetting=function(self,settingName)
-  local settingIndex=self.enum[settingName]
-  return self.setting<=settingIndex
 end
 
 this.UpdateSettingFromGvar=function(option)
@@ -3409,10 +3329,6 @@ for name,ivar in pairs(this) do
     ivar.IsDefault=this.OptionIsDefault
     ivar.Is=this.OptionIsSetting
     ivar.Get=this.OptionIsSetting
-    ivar.Above=this.OptionAboveSetting
-    ivar.Below=this.OptionBelowSetting
-    ivar.IsOrAbove=this.OptionIsOrAboveSetting
-    ivar.IsOrBelow=this.OptionIsOrBelowSetting
 
     --ExecUpdate setup
     if ivar.ExecUpdate then
@@ -3545,7 +3461,7 @@ function this.PrintSaveVarCount()
       count=count+1
     end
   end
-  InfMenu.DebugPrint("count:"..count.." "..#this.varTable )
+  InfMenu.DebugPrint("Ivar gvar count:"..count.." "..#this.varTable )
 
   local scriptVarTypes={
     [TppScriptVars.TYPE_BOOL]="TYPE_BOOL",
@@ -3561,6 +3477,7 @@ function this.PrintSaveVarCount()
   local function CountVarTable(scriptVarTypes,varTable,category)
     local totalCount=0
     local typeCounts={}
+    local totalCountArray=0
     local arrayCounts={}
     for scriptVarType, typeName in pairs(scriptVarTypes) do
       typeCounts[typeName]=0
@@ -3571,24 +3488,30 @@ function this.PrintSaveVarCount()
       if category==nil or gvarInfo.category==category then
         local scriptVarTypeName=scriptVarTypes[gvarInfo.type]
         typeCounts[scriptVarTypeName]=typeCounts[scriptVarTypeName]+1
-        if Tpp.IsTypeNumber(gvarInfo.arraySize) then
-          arrayCounts[scriptVarTypeName]=arrayCounts[scriptVarTypeName]+gvarInfo.arraySize
-        end
+
+        local count=gvarInfo.arraySize or 1
+        if count==0 then count=1 end
+        --if Tpp.IsTypeNumber(gvarInfo.arraySize) then
+        arrayCounts[scriptVarTypeName]=arrayCounts[scriptVarTypeName]+count
+        --end
         totalCount=totalCount+1
+        totalCountArray=totalCountArray+count
       end
     end
-    return typeCounts,arrayCounts,totalCount
+    return typeCounts,arrayCounts,totalCount,totalCountArray
   end
+
+  InfMenu.DebugPrint"NOTE: these are CATEGORY_MISSION counts"
 
   InfMenu.DebugPrint"Ivars.varTable"
   InfMenu.DebugPrint"typeCounts"
-  local typeCounts,arrayCounts,totalCount=CountVarTable(scriptVarTypes,this.varTable,TppScriptVars.CATEGORY_MISSION)
+  local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,this.varTable,TppScriptVars.CATEGORY_MISSION)
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
-  --  InfMenu.DebugPrint"arrayCounts"
-  --  local ins=InfInspect.Inspect(arrayCounts)
-  --  InfMenu.DebugPrint(ins)
-  InfMenu.DebugPrint("totalcount:"..totalCount)
+  InfMenu.DebugPrint"arrayCounts"
+  local ins=InfInspect.Inspect(arrayCounts)
+  InfMenu.DebugPrint(ins)
+  InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
   local bools=0
   for name, ivar in pairs(Ivars) do
@@ -3625,16 +3548,22 @@ function this.PrintSaveVarCount()
   --  end
 
   InfMenu.DebugPrint"TppGVars.DeclareGVarsTable"
-  local typeCounts,totalCount=CountVarTable(scriptVarTypes,TppGVars.DeclareGVarsTable,TppScriptVars.CATEGORY_MISSION)
+  local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,TppGVars.DeclareGVarsTable,TppScriptVars.CATEGORY_MISSION)
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
-  InfMenu.DebugPrint("totalcount:"..totalCount)
+  InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
+  InfMenu.DebugPrint"arrayCounts"
+  local ins=InfInspect.Inspect(arrayCounts)
+  InfMenu.DebugPrint(ins)
 
   InfMenu.DebugPrint"TppMain.allSvars"
-  local typeCounts,totalCount=CountVarTable(scriptVarTypes,TppMain.allSvars,TppScriptVars.CATEGORY_MISSION)
+  local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,TppMain.allSvars,TppScriptVars.CATEGORY_MISSION)
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
-  InfMenu.DebugPrint("totalcount:"..totalCount)
+  InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
+  InfMenu.DebugPrint"arrayCounts"
+  local ins=InfInspect.Inspect(arrayCounts)
+  InfMenu.DebugPrint(ins)
 
   --    local ins=InfInspect.Inspect(TppMain.allSvars)
   --  InfMenu.DebugPrint(ins)

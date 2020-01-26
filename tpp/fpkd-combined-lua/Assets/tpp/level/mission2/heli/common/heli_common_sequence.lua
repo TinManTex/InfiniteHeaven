@@ -960,7 +960,7 @@ function this.OnEndFadeOutSelectLandingPoint()
 			needSkipMissionPraparetion = true
 			mvars.heliSequence_needCreateEmblemToVisit = true
 		end
-		if vars.fobSneakMode == FobMode.MODE_SHAM then--tex DEBUGNOW does sham restore to this on quit?
+		if vars.fobSneakMode == FobMode.MODE_SHAM then
 			Fox.Log("heli_common_sequence: force mb save to slot, because go to FobMode.MODE_SHAM")
 			TppSave.VarSaveMbMangement( nil, true )
 		end
@@ -1390,7 +1390,7 @@ sequences.Seq_Game_MissionPreparationTop = {
 		
 		
 		TppUiStatusManager.UnsetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
-		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or Ivars.disableBuddies:Is(1) then--tex buddy subsistence mode
+		if mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[nextMissionCode] or Ivars.disableSelectBuddy:Is(1) then--tex buddy subsistence mode
 			TppUiStatusManager.SetStatus( "MissionPrep", "DISABLE_SELECT_BUDDY" )
 		end
 		

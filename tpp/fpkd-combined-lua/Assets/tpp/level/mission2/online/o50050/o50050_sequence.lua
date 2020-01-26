@@ -1,4 +1,4 @@
--- DOBUILD: 1
+-- DOBUILD: 0
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\online\o50050\o50050_additional.fpkd
 -- o50050_sequence.lua

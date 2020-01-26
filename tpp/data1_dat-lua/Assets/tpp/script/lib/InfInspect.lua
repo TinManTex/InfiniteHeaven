@@ -1,7 +1,10 @@
 -- DOBUILD: 1
--- NODEPS
---tex debug inspect shiz, usage local stringout = InfInspect.Inspect(sometable) InfMenu.DebugPrint(stringout) -- cant do (someotherstring .. stringout), must be by itself
+-- FILE: InfInspect.lua
+-- DESC: Debug functions for inspecting lua.
+-- DEP InfMenu.DebugPrint (for following functions, not inspect itself)
 local this={}
+
+--tex debug inspect shiz, usage local stringout = InfInspect.Inspect(sometable) InfMenu.DebugPrint(stringout) -- cant do (someotherstring .. stringout), must be by itself
 local inspect ={
   _VERSION = 'inspect.lua 3.0.0',
   _URL     = 'http://github.com/kikito/inspect.lua',
@@ -11,7 +14,31 @@ local inspect ={
 
 
 
+
+
+
+
+
+
+
+
     MIT LICENSE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -31,7 +58,31 @@ local inspect ={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Permission is hereby granted, free of charge, to any person obtaining a
+
+
+
+
+
+
+
+
 
 
 
@@ -41,7 +92,23 @@ local inspect ={
 
 
 
+
+
+
+
+
+
+
+
     "Software"), to deal in the Software without restriction, including
+
+
+
+
+
+
+
+
 
 
 
@@ -51,12 +118,36 @@ local inspect ={
 
 
 
+
+
+
+
+
+
+
+
     distribute, sublicense, and/or sell copies of the Software, and to
 
 
 
 
+
+
+
+
+
+
+
+
     permit persons to whom the Software is furnished to do so, subject to
+
+
+
+
+
+
+
+
 
 
 
@@ -71,7 +162,31 @@ local inspect ={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     The above copyright notice and this permission notice shall be included
+
+
+
+
+
+
+
+
 
 
 
@@ -86,7 +201,31 @@ local inspect ={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+
+
+
+
+
+
+
+
 
 
 
@@ -96,7 +235,23 @@ local inspect ={
 
 
 
+
+
+
+
+
+
+
+
     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+
+
+
+
+
+
+
 
 
 
@@ -106,7 +261,23 @@ local inspect ={
 
 
 
+
+
+
+
+
+
+
+
     CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+
+
+
+
+
+
+
+
 
 
 
@@ -116,7 +287,23 @@ local inspect ={
 
 
 
+
+
+
+
+
+
+
+
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+
+
+
+
+
 
 
 
@@ -466,7 +653,7 @@ end
 
 
 
-function this.TryFunc(func)
+function this.TryFunc(func,...)
   if func==nil then
     InfMenu.DebugPrint("TryFunc func == nil")
     return
@@ -475,7 +662,7 @@ function this.TryFunc(func)
     return
   end
 
-  local sucess, result=pcall(func)
+  local sucess, result=pcall(func,...)
   if not sucess then
     InfMenu.DebugPrint(result)
     return
@@ -493,5 +680,37 @@ end
 --    InfMenu.DebugPrint(ret)
 --  end
 --end
+
+--usage print(GetArgs(func))
+function this.GetArgs(func)
+  local args = {}
+  local hook = debug.gethook()
+
+  local argHook = function( ... )
+    local info = debug.getinfo(3)
+    if 'pcall' ~= info.name then return end
+
+    for i = 1, math.huge do
+      local name, value = debug.getlocal(2, i)
+      if '(*temporary)' == name then
+        debug.sethook(hook)
+        error('')
+        return
+      end
+      table.insert(args,name)
+    end
+  end
+
+  debug.sethook(argHook, "c")
+  pcall(func)
+
+  return args
+end
+
+function this.PrintInspect(inspectee)
+  local ins=this.Inspect(inspectee)
+  InfMenu.DebugPrint(ins)
+end
+
 
 return this

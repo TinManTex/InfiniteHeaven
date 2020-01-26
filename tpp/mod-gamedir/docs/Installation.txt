@@ -1,0 +1,91 @@
+Infinite heaven installation:
+
+Preparation/insurance:
+------------------------------
+Back up your save files for safety
+<steam path>\userdata\<user id>\287700 and
+<steam path>\userdata\<user id>\311340
+
+MGSV uses two save folders
+- 311340 is Ground Zeros steam id, but used by MGSV for save data even if GZ is not installed.
+- 287700 is TPP steam id, most of the files here seem to be just backup, except for TPP_GRAPHICS_CONFIG
+
+Copy both folders to a safe place.
+
+You may want to back up periodically as you play in case you come across save breaking issues with the mod.
+
+First time prep:
+Back up TPPs original 00.dat and 01.dat in
+<steam path>\steamapps\common\MGS_TPP\master\0\
+This does not apply if you've already modded it.
+
+Already modded:
+Either find and restore your original game 00/01.dat backup or revalidate the game through steam:
+
+Right click on the game in steam library, choose properties from bottom of menu, local files tab, verify integrity of game cache button.
+or click this steam://validate/287700
+
+If it gets stuck at 0% for more than a few minutes steam is being stupid, validate one of the valve games first, hl2, portal etc then try validating mgsv again.
+
+It should say 1 file needs to be redownloaded, so go to steam downloads and make sure that happens.
+
+Installation:
+------------------------------
+Use SnakeBite Mod Manager 0.8.3 or later:
+Get 0.8 from nexusmods.com/metalgearsolidvtpp/mods/106/
+And use snakebites in-app update system by clicking on the yellow link on Snakebites main screen: 
+[url=http://imgur.com/DjZizjH]]http://imgur.com/DjZizjH[/url]
+This will update Snakebite to 0.8.3
+
+Click on the Mods menu item on Snakebites main screen.
+
+Uninstall any earlier version of Infinite Heaven from the Installed Mods tab.
+
+Extract the Infinite Heaven zip files somewhere.
+
+Click Install .MGSV on the Installed Mods tab in Snakebit
+Browse to the Infinite Heaven.msgv from the Infinite Heaven zip file.
+
+WARNING: Applying this mod to any game version after the one stated at the top of the readme involved will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
+
+NOTE: Snakebite sometimes has issues after game updates, to reset snakebite choose it's Settings > Restore Original files, confirm snakebite.xml in the MGS_TPP folder was deleted, then revalidate the game cache in steam and reinstall the mod.
+
+Note:
+------------------------------
+By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
+All settings are reset to off on doing a FOB mission. But I suggest you play offline while the mod is installed. Snakebite mod manager allows easy toggling of mods.
+
+Trouble with install:
+------------------------------
+Check the Log.txt in the folder Snakebite was installed to (Program Files by default), make sure you do this just after you encounter the issue since the log is cleared each time Snakebite starts.
+
+Revert the game to unmodified:
+Right click on the game in steam library, choose properties from bottom of menu, local files tab, verify integrity of game cache button.
+or click this steam://validate/287700
+And try again.
+
+If you are on Windows 7 then install .net 4.5: https://www.microsoft.com/en-us/download/details.aspx?id=42642
+
+Something else to try:
+Run Snakebite as administrator by right clicking it's shortcut.
+
+Using alongside other mods:
+------------------------------
+Infinite Heaven modifies a lot of the core game lua scripts, combining with mods that have their own versions of those files will break things in either obvious or subtle ways.
+Mods that shouldn't have a conflict with Infinite Heaven are: Model swaps, data table mods like development unlocks or times.
+
+Ask the mod author for a snakebite install package.
+
+You can also convert many mods to snakebite yourself either by trying the Install .ZIP option in the Installed Mods tab of Snakebite
+Or by using makebite (comes with snakebite) to create a Snakebite package (.MGSV)
+[youtube]tYPi_kj3F8g[/youtube]
+https://www.youtube.com/watch?v=tYPi_kj3F8g
+
+If you want to manually check to see if a mod conflicts unzip the Infinite Heaven .mgsv with the zip tool of your choice and check to see if any of the files match files in the other mod.
+
+Uninstallation:
+------------------------------
+Exit any missions, return to the ACC.
+The mod saves some varables to the save file, but on initial testing (I welcome feedback on this) there is no issue with loading a save from this mod after the mod has been removed (provided you have exited to ACC)
+Use uninstall in SnakeBite.
+

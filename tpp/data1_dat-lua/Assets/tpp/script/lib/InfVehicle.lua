@@ -27,6 +27,7 @@ local vehicleBaseTypes={
   WHEELED_ARMORED_VEHICLE={
     ivar="vehiclePatrolWavEnable",
     seats=1,--6,
+    enclosed=true,
     easternVehicles={
       "EASTERN_WHEELED_ARMORED_VEHICLE",
     },
@@ -37,6 +38,7 @@ local vehicleBaseTypes={
   WHEELED_ARMORED_VEHICLE_HEAVY={
     ivar="vehiclePatrolWavHeavyEnable",
     seats=2,--6,
+    enclosed=true,
     easternVehicles={
       "EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY",
     },
@@ -47,6 +49,7 @@ local vehicleBaseTypes={
   TRACKED_TANK={
     ivar="vehiclePatrolTankEnable",
     seats=1,--tex actually seats 2, but still behaviour with it stopping, dropping off a dude, then attacking
+    enclosed=true,
   },
 }
 
@@ -238,8 +241,6 @@ function this.IsPatrolVehicleMission()
   return false
 end
 
-this.MAX_PATROL_VEHICLES=16--SYNC: ivars MAX_PATROL_VEHICLES
-
 function this.BuildEnabledList()
   patrolVehicleEnabledList={}
   for baseType,typeInfo in pairs(vehicleBaseTypes) do
@@ -266,7 +267,7 @@ end
 
 --IN: missionTable.enemy.VEHICLE_SPAWN_LIST, missionTable.enemy.soldierDefine
 function this.ModifyVehiclePatrol(vehicleSpawnList)
-  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:ExecCheck() then
+  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
     return
   end
 
@@ -348,7 +349,7 @@ end
 --TODO: only add those packs of active vehicles
 --ditto reinforce vehicle types (or maybe an seperate equivalent function)
 function this.AddVehiclePacks(missionCode,missionPackPath)
-  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:ExecCheck() then
+  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
     return
   end
 

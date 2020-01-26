@@ -1235,7 +1235,7 @@ function this.Messages()
 				func = function( intelNameHash )
 					TppPlayer.GotIntel( intelNameHash )
 					
-					s10110_demo.PlayGetIntel_factorySouth(func)					
+					s10110_demo.PlayGetIntel_factorySouth(func)--RETAILBUG non-bug, func not referenced, but PlayGetIntel_factorySouth doesnt use it's parameter anyway
 					
 					TppRadio.SetOptionalRadio("Set_s0110_oprg0020")
 				end,					

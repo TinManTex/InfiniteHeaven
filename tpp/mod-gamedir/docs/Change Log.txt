@@ -1,0 +1,783 @@
+Infinite Heaven changelog
+
+r145 - 2016-04-07 - public release
+Refactor: the mighty ReservePlayerLoadingPosition split assunder, in an attempt to make more readable
+Added:   "Start free roam on foot","Start missions on foot","Start Mother base on foot" with: "Off","All but assault LZs","All Lzs" - thanks NasaNhak for the idea
+Fixed: PrintMarkerGameObject when nil cpName, added npcHeli names
+Freecam: Can now move cam horizontally while in vertical mode.
+Freecam: Added move speed scale adjust mode via DASH
+Freecam: move scale min decreased, max increased.
+Feature: "Heli patrols in free roam" - "None","Min","Mid",Max","Enemy prep". Extension of mb heli patrol, using assault lzs, 
+Workaround: bunch of trouble figuring out heli weirdness on checkpoint restore till I realised the heli save state has been brutally pared down to only saving one.
+Workaround: disabled wormhole in Invasion, already did so with fulton (or rather set sucess to 0) but didnt remember wormhole doesnt use sucess %, also fixed my workaround applying 0 success if invasion on even if not in motherbase, woops.
+Modfpk: heli locators added to free roam fox2s
+Modfpk: heli interiors sbh0_intr0_ene.fmdl to reinforce heli fpks, reference in fpkd/fox2
+
+
+r144
+Change: Hand levels min to 0, this will allow disabling of Sonar - thanks vollmerej1 for the suggestion.
+Added "Default" to mother base "Attack heli type" - thanks NasaNhak for the idea
+Added "Support and Attack helis" to "Enable npc helis", has an issue on checkpoint restart however.
+Change: Disable buddies to Disable select buddies in mission prep
+Internal: Removed npc heli prepset workaround, issue was update was running before nessesary variables were set up.-
+Fixed: Manually opening support heli door on mission start being conflated with disablePullOutHeli
+Fixed: Enemy phase options should now work in Wargames.
+Refactor: More modules broken out from InfMain
+Refactor: Unified IsCheck,ExecCheck to MissionCheck, added a few functions to ease comparing multiple similar ivars that only diferentiate by mission 
+Update-Ivars Init support execchecks like UpdateFunc
+Refactor: InfNPC split to InfNPCHeli
+
+r144x
+Research: FOB Coop - dead-end, "S_DISABLE_TARGET","S_DISABLE_NPC_NOTICE" blocked engine side for player instance 1 - thanks Shigu for suggestion and help testing.
+
+r143 - 2016-03-28 - public release
+In-Mission - User marker menu
+"Warp to latest marker"
+"Print latest marker"
+"Print all markers"
+setSelectedCpToMarkerObjectCp
+Refactor: InfMain broken into several different modules
+
+r142
+Fixed: Resetting random seed in addtolrrps, would have knock-on effect to wildcard soldiers.
+Fixed: Wildcard powers, was reusing a table instead of copying it, resulted in all being assigned sniper. Thanks Crippsey for the report.
+Fixed: Head markers and world markers options interfering with each other - thanks washtubs for the report
+Fixed: Player life scale maximum dropped to 750% as it overflows at higher percentage when medical 3 arm is equiped.
+Fixed: Don't force reinforce request on if not heli, since it breaks vehicle reinforcements, added as default for free roam since there's an in engine check that stops all vehicle reinforce calls.
+Fixed: Start-on foot for transfer between zoo and quarantine - thanks NasaNhak
+Fixed: Start on foot Abort now Return to ACC.
+Change: Subsistence missions would default to Pure if osp profile was set to default or custom, now it only set to pure if dfault or all weapons set to Use selected - thanks blejky
+Fixed: Abort to heli code block being able to be triggered when not in title mode.
+
+r141 - 2016-03-24
+Research: armored vehicles on mother base, load fine, just can't get assigned soldiers to stay in them. Think I need to clear their routes but setting routes at runtime isn't working for some reason.
+InfFova module, pulled together notes and info from player body vars.
+modelInfo lua loading.
+Options: enableFovaMod, fovaSelection - built through InfFova.
+model swaps and fovas: Masked scarf Snake, Soviets>plparts_dd_male,Pfs>plparts_dd_male
+
+r140 - 2016-03-16 - public release
+Updated to MGSV version 1.08 
+
+r139 - 2016-03-14 - public release
+Fixed: DD Suit PF All showing corrupted models.
+Option: Warp body to FreeCam position
+Fixed: Black screen post-load hang on motherbase with DD suit and start-on foot on clusters not fully built out.
+Fixed: No staff on motherbase clusters with DD suit on clusters not fully built out. Thanks Crippsey for the report and save file.
+Fixed: Repopulated diamonds not giving gmp. Thanks plinkey for the report.
+
+r138 - 2016-03-05 - public release
+Fixed: Crash on some vehicle sideops with vehicle patrol on (op 98, possibly 97), missed an attachmentinstancecount in the west_wav_machinegun fox2, oops.
+
+r137
+f30050_heli.fox2 added enemyheli locators, rest of definition handled by reinforce fpk
+reinforce_heli_mafr fpkd enemy_heli_mafr.fox2 - increased instances to 8
+Ivar: mbEnemyHeli
+npcHeliUpdate switches to enemyHeliList on mbEnemyHeli
+Disable unique characters during wargames (ocelot,eli etc)
+Option: mbWargameFemales - "Females in Invasion mode"
+Fixed: mbEnableFultonAddStaff, wasn't in right spot and was getting overridden by what it was supposed to override lol, enabled for Invasion wargame
+Added RegisterMissionBaseStaffTypes 30050 to start2nd so I don't modify MbmCommonSetting.lua and tread on other mods toes. Invasion missions should get normal range of soldier ranks.
+Option: mbEnemyHeliColor - "Heli type in Invasion mode"
+Workaround: Fulton disable on Invasion. There's some weirdness with add tempstaff count off, still happens with manual heli extract but at least the soldiers seem to be capped right.
+
+r136
+Mother base colletables (diamonds,plants) repopulate, requires helicopter exits from mother base as pause menu abort skips the repop count decrement (you need to do that anyway if you want to save any actions you made while on motherbase). Takes several visits before repop, the same as the normal game, but at least may give you some incentive to roam motherbase and zoo for them again.
+f30050_heli.fox2 added westheli, westheli usually has it's own fox2 but the custom fpkd issue still remains.
+Feature: npcHeliUpdate - enables 3 TppOtherHelis in mother base, update function manages routes around Mb
+
+r135 - 2016-03-05 - public release
+Wildard soldiers: Number of soldiers incread to #Cps/5, number of females increased to 2.
+mbDontDemoDisableOcelot removed.
+Option: mbEnableOcelot - runs an update function to enable/warp and set a route for ocelot on motherbase
+Decreased alphaDistance on free cam to 0.1, should be able to get closer to character without them fading out.
+
+r134
+veh_rl_*.fpkd/*fox2 - bodyInstances,attachmentInstanceCount increased to 4. 1 - player vehicle + 2 (quests max) + 1 patrol. See modfpk.txt
+Blockquests: removed armor vehicle quest block on vehicle patrol
+Regression: Patrol vehicle spawn type random to level seed
+Refactor: TppEnemyFova> break out WildCardFova
+Added full range of female faces to wildcard females
+
+r133 - 2016-03-01 - public release
+Fixed: Head markers off did not work on heli entry - thanks washtubs for the report.
+Option: disableWorldMarkers - thanks brunovisk114 for the suggestion
+In mission menu: playerRestrictionsInMissionMenu
+MB suit male: SOVIET_ALL, PF_ALL
+
+r132
+Patrols setup refactor - shifted to OnInitializeTop, all now modify the missionTable scripts directly since they are unloaded/reloaded anyway.
+AddToLrrp split into ModifyPatrolVehicleSoldiers, AddLrrp
+Option: enableWildCardFreeRoam
+Wildcard - added weapon and body tables, AddWildCard, decided to just replace existing soldier due to: Adding soldiers being unreliable, will allow me to add feature to all missions without having to add extra soldiers to fox2s (assuming I can do it in a way that doesn't interfere with mission critical soldiers).
+Free mission .sdfs: add other soldier soundbanks
+
+
+r131 - 2016-02-22 - public release
+Fixed: Hang of FOB all load, thanks SoullessMadness for the report. FOB defense hang on load unconfirmed since it's hard to test.
+Vehicle Patrols: Improved soldier assignment, Soldier assigned from reserve pool to fill rnd min(2,vehicleSeats),vehicleSeats (seats defined in base vehicle info), soldier already assigned above seat count get put into pool.
+Gives more variation, allows jeeps to have up to 4 people, fixes sillyness with tanks stopping, dropping off a dude, then attacking.
+NOTE: all other vehicles than crash on setrelativevehicle if soldiers assigned > 2. APCs carrying are handled differently.
+Also hits the same non realize bug as below, soldiers do sometimes finally realize. Vehicle will initially drive off as if it's full, but if soldier realizes will wait till soldier reaches it an gets in.
+Don't know if it's something due to my method of warping to soldiers for testing.
+Changed from saving/restoring vehicle type enum from svar to random by same seed, vehicle basicType is stored in mvar.
+Options: lrrpSizeFreeRoam min, max, disabled for now to get decent coverage
+
+r130
+Option: mbPrioritizeFemale, by default the game tries to put a minimum of 2 female DD on that cluster (from that cluster), MAX bumps it to MAX_STAFF_NUM_ON_CLUSTER, so basicall all the females you have, does not include Command cluster, None clears the staff selection of females
+Option: mbDDSuitFemale, extendedparts does work independently so was relatively painless
+More options for DD Suit, Soviet berets, hoodies, PF misc, using the unique quest/mission bodies from missions/quests.
+
+r129
+Fixed: Missing Tpp.IsUav, kjp decided to add this at some point even though there's an identical IsUAV. May fix the incorrect or unregistered fob fulton task types.
+Option: enableLrrpFreeRoam - bunch of soldier locators added to free roam fox2s which are assigned a cp(lrrp) and a travelplan between two randomly chosen bases.
+Some odd things: Setting to coppied travelplans often causes soldier to not realize (even with force enable and realize), adding too many copied travelplans to the mission luas breaks the normal vehicle lrrps (soliers still spawn but thy wont get in vehicle)
+
+r128 - 2016-02-11 - public release
+Expanded mbDDSuit to Xof, Soviet a/b, PF a/b/c
+ddBodyInfo extended to include soldiersubtype, hasHeadgear renamed helmetOnly, noDDHeadgear, hasHelmet, hasFace to allow various combinations of dd headgear and model gear.
+f30050_npc: add reinforce_block scriptblock
+add more corpse game objects, mother base only had 2, interesting note: also corpse system seems keeps one in reserve or something
+vox_f30050.sdf - soundbank load refs for enemy_af/mafr/zombie added
+mbts_enemy, override soldiertype depending on GetCurrentDDBodyInfo
+GetSoldierType, GetSubsoldier - override depending on currentddbody
+mbEnableLethal - enable lethal actions on motherbase
+mbEnableFultonAddStaff
+mbNonStaff - also no demon points increase on mbnonstaff kills
+No game over on soldier die in mother base when mbwargames and enablelethal
+disableCamText
+mbWarGames->mbWarGamesProfile, toggling some of above, the individual settings are currently non-user facing.
+
+r127
+Percentage floats changed to int, will fall into uint8/16, saves save file space
+Fixed: SetPercentagePowersRange using orphaned/prior name of SetMinMax, since it was called by revengeConfigProfile.WIDE it's likely that it wouldnt set its subsettings.
+Fixed: Custom enemy prep clear armor if it can't be used.
+Custom config bypass some (config wide) combination restrictions, namely shield and missile, shotgun and mg in same config.
+Made allowmissileweapon combo actually work, and not just allow assault, decided to not allow with mg though
+
+r126
+Camera refactor:
+Cam edit mode and current cam split.
+Player cams for each stance/move mode
+Ivars for cam variables. This is where I seem to have hit the save file limit, no, just unrelated varables acting odd as if forgotten or overflowed.
+Research/deminification of TppSave and other save functions, bumping the save size for the mission category is likely to be a reciepie for disaster since it combines categories in one file and it's smack in the middle of some. Looks like I could add my own save file if I could add a category, but categories ar pow2 and max is at 255 suggesting there's no room even if it would just accept the field from lua/not require it in exe, or it would be if mgo category didn't fit into this scheme, but then that's only defined in mgo exe.
+
+r125
+Refactor InfMenuDefs, on table build adds reset settings and go back items
+Fixed: Mb cutscene time using hour setting for minute.
+Split Enemy use DD equipment into Free roam and Missions
+Fixed: noOnChangeSub also blocking OnChange for profiles - basically any profile that set other profiles was broken.
+Fixed: Wormhole disable was reversed, also renamed to Wormhole Level since it's the same implementation as Fulton Level
+Option: soldierHearingDistScale
+
+r124 - 2015-01-30 - public release
+mbWargames: Zombie mode - mixes regular puppet and msf.
+Options: disableRetry, gameOverOnDiscovery - to replicate total stealth settings
+
+r123
+InfButton: some bitmasks added/renamed to proper from lua, don't seem to be in the playerpad section in the exe though
+Refactor InfMenu refresh current setting now combined with Activate (ACTION key)
+MenuOn/Off() -> OnActivate OnDeactivate
+Activate/deactivate checks > CheckActivate
+revengeModeForMb check moved out of IsNoRevengeMission to selectrevengetype itself so it doesnt cause any revenge points change.
+Refactor
+Added free cam mode, similar implmentation to warp mode but disabling normal controls via padmask to open up keys for own use.
+Menu open equip disableActionFlag now bit flipping instead of just saving/restoring previous. Still have odd issues when trying to mix with multiple disables (with free cam for example) seemingly flipping unrelated flags.
+Update-ivars now (manually in Onchange) call an OnActivate/Deactivate, key repeat settings shifted there instead of in update.
+
+
+r122 - 2016-01-23 - public release
+Headmarkers should remain disabled in all situations, hopefully - thanks Psithen for the report
+Refactor: blocking quests due to reinforcement and patrol vehicle settings via unlockSideOpNumber and TppQuest.UpdateActiveQuest unified to InfMain.BlockQuest. unlockSideOpNumber now silently skips.
+"ACTIVE_DECOY","GUN_CAMERA" added to custom config
+Mb wargames non-lethal extended to custom config.
+
+r121
+Option: revengeModeForMb - "Mother base prep mode" - "Off","FOB style","Enemy prep levels","Custom prep"
+Options: mbDemoOverrideTime, mbDemoOverrideWeather - thanks qwertyuiop1234567899 for the suggestion
+Various renames to solidify terms:
+Subsistence Mode renamed Subsistence profile to match other uses of the term in the menu, and since that's what the varable has been named for months lol.
+Free mode to Free roam, mode should be a term reserved for specific behaviour, possibly with multiple settings.
+Profile is a curated set of option settings.
+
+r120
+Option: enableSoldiersWithVehicleReinforce
+IsDDBodyEquip to make body/headgear independant from mbSoldierEquipGrade
+Refactor: MinMaxIvar for creating such paired ivars.
+Refactor: mbSoldierEquipGrade split to min, max, changed to grade value 1-10
+Option: allowUndevelopedDDEquip
+Options: enableMbDDEquip, enableEnemyDDEquip, replace mbSoldierEquipGrade 0/OFF, drives IsDDEquip
+Option: enableEnemyDDEquip - overrides weaponIdTable with DD
+
+r119 - 2016-01-17 - public release
+Ivars - subName, PushMin, PushMax to handle adjusting paired ivars.
+Reworking of custom prep menu order and item names.
+
+r118
+Change remove demon to subtract demon points, less ideal since there's no feedback of current value so cant tell the lower bounds, but it works for people the prior method didn't - thanks drkcrstl for the feedback
+Custom prep profile with wide,max,min, max replaces prior revenge level based max.
+SetCustomRevengeUiParameters as rough indication of custom prep config.
+
+r117
+InfMenu: support for function call OnActivate when pressing action on selected option.
+Reasearch into Player.ChangeEquip
+Test of quiet humming command, result: only for boss quiet game object, sad.
+Welcome message added for entering acc from title.
+Ivars: support for IsCheck on named setting :Is
+Option: disableNoRevengeMissions
+Custom revenge config: WIP most individual revenge config settings settable
+Refactor: A number of gvar instead of ivar references missed in the prior refactor
+Disallow menu if in carboard box
+
+r116 - 2015-12-30 - public release
+Un-fixed a Retail bug, the game is apparently relying on it's broken behavior lol. Manifested as: Some end of cutscene loadscreen hangs, prologue/truth post heli hallway non-trigger. Possibly much more.
+
+r115 - 2015-12-27 - public release
+Fixed: AddPowerSetting, was trashing it by using same name in two variables, the perils of deminification. Possibly affected fob soldier settings.
+Powersettings to DD headgear
+Load screen splashes reverted to base game. Kjp did too much voodoo in respect to the Nvidia splash screen for me to be happy with touching it.
+
+r114
+Refactor: complete ivar get, removed fobs reset settings - instead returns off/default on ivar access.
+Refactor: mbDDsuit - pull various body setup data to single table ddBodyInfo and reference that
+
+r113
+Regression Fixed: in mission menu when on buddy (horse,walker) - thanks Crotaro for report
+Refactor: ivar get via ivar functions instead of gvar value (started, not yet complete)
+Option: revengeProfile, default, heaven - to manage the profusion of revenge ivars
+Option: enableMgVsShotgunVariation
+Option: randomizeSmallCpPowers
+
+r112
+Options: disableMissionsWeaponRestriction, disableMotherbaseWeaponRestriction -> revenge CANNOT_USE_ALL_WEAPON_MISSION
+Ivar:Is/OptionIsSetting support direct value insead of only enum
+Option: balanceWeaponPowers - WIP
+Option: allowMissileWeaponsCombo
+Option: disableConvertArmorToSheild
+Refactor: InfMain.GetSumBalance, InfMain.BalancePowers, CreateCpConfig split from TppRevenge._ApplyRevengeToCp
+Command: debug - forceAllQuestOpenFlagFalse
+Refactor: various options now communicated to ApplyPowerSetting via soldierConfig
+
+r111 - 2015-12-19 - public release
+Fixes to ResetSettings, as a result also fixes FOB loading.
+
+r110 - 2015-12-18 - public release
+Update to TPP 1.0.7.0
+
+r109
+Options: changeCpSubTypeFree, changeCpSubTypeForMissions
+Refactor: InfMenu. Next/PrevSetting/ChangeSetting. Support <ivar>.GetNext(), <ivar>.GetSettingText()
+
+r108
+Vehicle patrols changed to using releif vehicle(player vehicle) fpks
+Option: allowHeadGearCombo - calculates cp config a second time with headgear combinations allowed.
+Option: balanceHeadGear - adjust
+
+r107
+Option: vehiclePatrolPackType, switches between quest packs and custom fpks - thanks blejky for the report
+
+r106 - 2015-12-14 - public release
+ig_*.fpk/ fpkd. Initially started as copies of the respective quests I was using to get proper vehicle references for patrol vehicles, since using the quest fpks directly intereferes with quests - still not exactly sure what aspect, guessing the quest script block load given it went away when I deleted it, but tests showed the script itself wasn't loaded, so guessing the script block entity in the fox2 got engaged, don't know.
+Stripping down the packs further revealed some troublesome issues with fox2 files relying on specifc file orders, or possibly something more.
+Fixed: (due to above) vehicle patrols interfering with sideops - thanks blejky for the report
+
+r105
+Fixed: Reset all settings was completely broken, varable but didnt cat all instances woops.
+Options: applyPowersToOuterBase, applyPowersToLlrp.
+
+r104
+Options: allowHeavyArmorInFreeMode, allowHeavyArmorInAllMissions - currently armor has the same bug as mb armor where hits act like the armor isnt there, still same shots as non armor and no spang sounds of bullets hitting armor.
+Options:
+fultonSuccessMenu="Fulton success menu"
+fultonSuccessProfile="Fulton success profile",
+fultonSuccessSettings={"Default","Heaven","Custom"},
+fultonNoMbSupport="Disable MB fulton support",
+fultonNoMbMedical="Disable MB fulton medical",
+fultonDyingPenalty="Target dying penalty",
+fultonSleepPenalty="Target sleeping penalty",
+fultonHoldupPenalty="Target holdup penalty",
+fultonDontApplyMbMedicalToSleep="Dont apply MB medical to sleeping/fainted target",
+WIP fulton variation over time
+fultonSoldierVariationRange
+fultonOtherVariationRange
+fultonVariationInvRate
+Ivars: self.Reset->ResetSetting
+
+r103 - 2015-12-10 - public release
+Fixed: Vehicle patrol all of one type loading hang - thanks mgs5tppfan for the report
+
+r102 - 2015-12-09 - public release
+Commands: setDemon, removeDemon - thanks PIESOFTHENORTH for the suggestion
+Refactor: Removed Item suffix from non menu item names.
+Fixed: patrol vehicle enable types not rebuilding enabled list.
+Research options:
+vehiclePatrolClass
+vehiclePatrolPaintType
+vehiclePatrolEmblemType
+SetPatrolSpawnInfo, revert to default/unmodified painttype, currently only jeeps and trucks using.
+Fixed: forceSuperReinforce out of bounds
+Disabled random emblem splashes to see if it's cause of various reported issues.
+
+r101 - 2015-12-09 - public release
+Fixed: xraymarkers
+Fixed: A case of the Display menu not showing for some saves, possibly had other ramifications.
+
+r100 - 2015-12-08 - public release
+vehicle patrol vehicle type saving - svar array vehiclePatrolSpawnedTypes, ModifyVehicleSpawn split into PreSpawnVehicle, RestoreVehiclePatrol, ModifyVehicleSpawn
+A few iterations till I got this right, was a gvar with a custom clear function, mission svar seems the better way to go though.
+
+r99
+vehicleBaseTypes/ModifyVehicleSpawn refactored to select from ivars/location.
+Options:
+vehiclePatrolDistribution - off, singular, each
+vehiclePatrolLvEnable
+vehiclePatrolTruckEnable
+vehiclePatrolWavEnable
+vehiclePatrolWavHeavyEnable
+vehiclePatrolTankEnable
+
+r98
+InfMain vehicleSpawnInfoTable initial thrash out, ModifyVehicleSpawn() to intercept TppEnemy.SpawnVehicle
+Research: None of the fpks you'd expect - COMMON_whatever vehicle, or even reinforce fpks - actually seem to have full references/setup whatever of the mentioned vehicles, quest fpks do however. Built list of fpks for vehicle types.
+Fixes to force reinforce I inadvertantly introduced when cleaning up.
+
+r97
+Fixed: <Stance> in support heli not setting pull out in mother base
+Feature: <Stance> in support heli now a (non saving) toggle for pull-out, requires you to jump out after setting hold though.
+Option: Start on foot reworked to spawn at selected lz on mother base platforms - thanks to NasaNhak for pointer
+Feature: Abort to Heli from title continue. Hold down ESCAPE for 1.5 seconds, the kjp logo will flash, clickin on continue will load ACC instead of continuing mission.
+Research: Vehicle swap. Vehicle spawning seems pretty loose, the issue is the assets/fpk loading.
+
+r96
+OnTimer_FinishReinforce firing on reinforce heli LostControl and reinforce vehicle VehicleBroken, resets heavy reinforce so it can retrigger
+heliReinforceChance changed to switch enableHeliReinforce, will revisit if I get vehicle reinforcement more consistant
+Disable super reinforce in free till can figure it out.
+Option: forceReinforceRequest
+Known Bug: Reinforce heli will spawn with combat alert, you'll hear the ! and it doing a round of attack even though it's far away.
+Option: disableReinforceHeliPullOut, currently have no way to tell if heli has left so cant reset reinforce if it has, this at least removes one case
+
+r95
+Fixed: turn off menu when in ground vehicle
+Option: soldierAlertOnHeavyVehicleDamage - changes phase of soldiers CP on damage, independant from Ivars.phaseUpate
+printPhaseChanges - now via message, so independant from Ivars.phaseUpate, includes cpid and prevPhase, spams a bit more though.
+Option: useSoldierForDemos now covers allowing selected character in Diamond Dogs and Shining Lights missions - thanks NasaNhak and Solidcal for the suggestions.
+InfMenuDefs: useSoldierForDemos also added to playerSettingsMenu
+Fixed: Mission timer on Backup Back Down (10054,11054) would not start, startOnFoot now SetIsStartFromFreePlay - thanks NasaNhak the report.
+Fixed: changing subsistence profile would flip it to Custom via unsupressed onsubsettingchanged.
+Tonne of deminification
+
+r94
+Option: WIP: forceVehicleReinforce, heliReinforceChance - heli reinforcment initially working, vehicles aparently have a lot of setup in the engine I'm missing out on, but work for some actual missions not in the usual reinforce mission list.
+InfMain: support for game message system - Messages(), OnMessage(), Init and Reload build messageExecTable
+Refactor: various settings/functions called in Tpp* message functions now via infmain messages.
+playerHealthScale (and enemyhealtscale) reduced to 900%, hit some odd overflow/wrap limit I think.
+
+r93
+Player and enemy health scale option upper bounds increased to 1000%
+Fixed: Use selected soldier in cutscenes should catch all of them now - thanks VickoStojanov for the report.
+Message added to headgear to make clearer it only works for DD soliders - thanks gOKU1983 for the report.
+Fixed: not being able to select weapon when toggling warp mode.
+Fixed: returning to ACC while in vehicle or on buddy preventing mod menu from opening.
+Research: vehicle reinforcement, various things blocking the way, a mission list check, surprisingly few missions used it, quest helis actually use part of the system, and the actual vehicle reinforce setup isn't called in free mode.
+
+r92 - 2015-11-25 - public release
+Thought I was done with heli? Ho ho.
+UpdateHeli > manually open door on mission start by pressing <STANCE>, a fun combo is to set 'Mission start open door wait time' to a max and just ride in first person, then pop out whenever you want.
+Start missions on foot shifted to support heli menu.
+NOTE: Aparently DisablePullOut overrides the motherbase taxi service, use the <STANCE> to disable then hit the usual <EVADE> to open the taxi menu
+Option: setSearchLightForcedHeli - ok really Disable search light, but the ivar name is closer to command name
+Order recieved announclog for a couple of heli settings.
+
+r91
+disableHeliAttack - switch via OnChange, so now can update in-mission,
+activation block in TppMain.Oninitialize now InfMain.UpdateHeliVars
+Option: setInvincibleHeli
+Option: DisablePullOut
+Command: PullOut
+Feature: Force heli pull-out by pressing STANCE while in heli.
+Various other heli commands explored that turned out not useful.
+InfMain.SplashStateCallback_r, tying in with RandomEmblemSplash to have splashes cover the load period (like the original splashes did that I rashly killed lol), splashes do not block loading, there is a hit however long the splash texture load is though.
+title_sequence - kills off the current random splash, title_sequence usually wait for the normal splashes (that I removed), but in practice they were usually done by then (so I can't really claim any loading speed improvement) and I think the nvidia splash was added to cover the rest.
+
+r90
+Splash screens added to start/end of start.lua, end one is a good indicator that the main luas have loaded/compiled ok and from that point on its onto init mission/init_squence
+InfMain.DeleteSplash
+InfMain.RandomEmblemSplash
+Refactor: InfMain.Update > ExecUpdate - phaseUpdate and warpPlayerUpdate using unified update system.
+Ivar: enablePhaseMod renamed phaseUpdate - users will have to redo their setting
+
+r89
+Refactor:InfSoldierParams, soldierParamsProfile, soldierHealthScale - various renaming, shifting block out of TppMain
+Option: soldierSightDistScale
+Options: *DistScaleSightParam - incomplete, still don't know the approach to take here, there's a heck of a lot of settings in SoldierParameterTables, how granular do I want to let the user mod this? scale vs exact value? managing profiles (something closer to TPPHC)?
+Command: printSightFormParameterItem
+Command: printhealthTableParameterItem
+Fixed: Refresh current setting (tapping mod menu button) not checking if it was an actual setting (menu) (would do no harm only wanring message, I knew I put it there for a reason)
+Project: MockTest - why didn't I think of this sooner.
+Ivar.enemyPrameters renamed soldierParamsProfile, now a profile to soldierHealthMult(also renamed) and  soldierSightDistScale
+
+r88
+Fixed: Menu off when iDroid open improved
+Ivars: Is/OptionIsSetting catch case of no enum
+IsDefault added
+OnSubSettingChanged - doesnt flip profile if subsetting is default or profile is default or custom
+Option: defaultHeliDoorOpenTime
+InfMain.Update - common execution check flags expanded, passed to the various mod feature update functions
+Option:quietRadioMode
+
+r87
+Command: warpPlayerMode
+Refactor: InfMenu.EndFadeIn, FinishOpeningDemoOnHeli - pull in stuff from TppMission msgs
+Option: disableXrayMark - buddies that mark still cause the effect though.
+InfMenuDef allTables setup check IfTable
+Equip menu disabled on menu open -- playerWarpMode messes with it though
+ButtonRepeat enabled on navigate up/down menu.
+Should improve the experience a bit for gamepad bros.
+InfMenu - disable state extended from menus to all options
+
+r86 - 2015-11-19 - public release
+Fixed: A few cutscenes I broken in r56, oops
+Fixed: mbDontDemoDisableOcelot dont disable occelot on cutscene hanging cutscene end
+TppMbFreeDemo.PlayMtbsEventDemo, dont nil DemoOnEnd, instead case by case it in demoOptions
+- thanks TheChosenOne896 for the reports
+Option: mbDontDemoDisableBuddy
+Option: mbDontDemoDisableOcelot expanded to more cases
+Fixed: remebered to update in-game version string lol
+
+r85 - 2015-11-19 - public release
+Fixed: osp weapon settings only set if profile not default - temporary fix for empty magazines on mission start (will still happen with individual osp settings though)
+Fixed: some unexposed appearence settings running on set-to-default, manifested as player changing to snake, olive drab on FOB.
+Fixed: fulton being set to level 1 on mission start
+- thanks GaKoDuck for the reports
+
+r84
+Refactor: InfMain.Update - Phase mod broken to own function, InfButton.UpdateHeld(),InfButton.UpdatePressed() shifted from InfMenu.Update, InfMenu.Update now called from InfMain.Update instead of TppMain.
+Refactor: DebugPrint split and print strings larger than Announcelog limit
+Command: warpPlayerCommand - just initial testing with hard coded positions.
+Command: Unlock weapon customisation - game progression unlock
+Command: Exting unlock player avatar changed from Ivar to command - not that there's much difference, the deliniation is ivar is it's own setting, and almost always saved, command does a thing, and doesn't care about it's own state, in this case we're just setting another game var.
+Fixed: Phase mod disabled for mother base. MB is not set up for caution routes aparently, also even with friendly set they will go hostil on alert
+
+r83
+clockTimeScale upper bound increased
+Option: telopMode - Disable mission intro credits
+Side project: scraper for langId dictionary
+
+r82
+mbLayout - research, not much result, mostly used for fob missions I think, doesn't seem to be any actual geometry changes.
+manualMissionCode,loadMissionItem - not much use, the 'no number missions' are supposed to be hard versions of some missions, but I see no evidence that they actually have custom changes.
+
+r81
+Extend mbEnableBuddies to Zoo
+Zoo plants should repop.
+
+r80 - 2015-11-17 - public release
+Settings: enablePhaseMod, phaseUpdateRate, phaseUpdateRange, minPhase, maxPhase.
+InfMain: Update(), added to TppMain updateList.
+InfMain.Update: phaseMod functionality.
+TppHero: no heroic point loss on alert if phasemod on.
+Menu: Non gvar Options no longer set to default on selection
+Menu: disable option with disableReason langid
+Option: ogrePointChange, with no feedback on current value I'm not happy about implementation
+Refactor: InfMenuDefs, split to InfMenuCommands
+
+r79
+DebugCommands: testing various phase functions
+
+r78
+Menu: In mission mod menu no longer open if in walker gear or vehicle - thanks for report SkySta
+Fixed:  Secondary and Back weapon osp settings swapped - thanks for the report ThereisnoLion
+
+r77
+Various player appearance vars.
+InfMenu: option:OnSelect call in GetSetting()
+
+r76 - 2015-11-14 - public release
+Option: abortMenuItemControl, added to Subsistence Pure profile - thanks for thesuggestion MayonnaisePlant
+Fixed: startOffline not checking if save value nil first, only would hit on r75 for new users to the mod. - thanks animefreakIIX for the report.
+
+r75 - 2015-11-14 - public release
+Fixed: subsistence mission without subsistence profile set hang on loading screen
+Fixed: setting change increment mult not rounded to integer
+Option: startOffline
+Fixed: CanArriveQuietInMb - Quiet not showing in motherbase cell/demos.
+Option: mbEnableBuddies
+Menu: commands to in mission debug submenu
+Build with snakebite 0.8
+
+r74 - 2015-11-12 - public release
+Update to 1.0.6.0
+
+r73
+Options: Show mother base assets, mbShowBigBossPosters,mbShowMbEliminationMonument,mbShowSahelan,mbShowEli,mbShowCodeTalker - thanks qwertyuiop1234567899 for the suggestion
+Option: Don't lock goal doors. Useless unless you like swishing doors.
+Option: Don't disable Ocelot after cutscenes - with this you can leave Occelot on mb in person after some cutscenes.
+
+r72
+Fixed: enemies secondary not being set
+ModStart to Init, no longer run each Update
+Shifted lua file references into the Tpp.lua requires system, in line with how tpp does it. start.lua now unmoddified.
+
+r71a
+Fixed: dev setting startoffline was on
+
+r71 - 2015-11-09 - public release
+Command: ResetRevenge/Enemy preparedness - thanks for the prodding TruckerHatRyan
+Option: revengeBlockForMissionCount
+Revenge options _SetUiParameters
+Menu: revenge system options
+InfMenu: allMenus now set up with all in InfMenuDefs instead of needing updating by hand
+langStrings added for all new options.
+Ivar: default to range.min if not set
+
+r70
+Weapon OSP submenu to Player restrictions
+More options broken out from subsistence profile:
+Hand equipment levels. Own profile and menu. - thanks for suggestion snsonic
+Fulton and Wormhole equipment levels, including 0/Disable. Own profile and menu.
+disableBuddies, disableHeliAttack
+disableSelectVehicle, disableSelectTime
+Disable mission support menus - disableMenuDrop, disableMenuBuddy, disableMenuAttack, disableMenuHeliAttack, disableSupportMenu
+
+r69
+Menu: Player Restrictions added, includes Subsistence and OSP settings.
+Subsistence mode converted to new profile system, previous settings that were lumped into single subsistence option now broken out
+disableBuddies - not currently user facing
+Option: disableHeadmarkers
+Option: disableFulton
+Menu: Only display menu name on GoBack, not all GoMenu
+
+r68
+Ivars: Setting/getting via .Set, Is, Above, BelowOrIs...
+Ivars: settingsTable for custom function per setting, either run on setting change, or value return via ivar.data()
+Ivars: SubSetting>parent profile OnSubSettingChanged, just notifies user and sets profile to CUSTOM. Too much effort to do subsettings combination validation for now.
+Option: ospWeaponLoadout now ospWeaponProfile with the original Pure, Secondary
+Subsettings: to ospWeaponLoadout - primary/secondary/tertiaryWeaponOsp
+
+r67
+Command: showequipgrade
+InfHooks added, test out another to keep my impact on other files minimized, though at this point with no other substantial mods and it being unlikely that there will be many more patches I don't know why.
+
+r66
+TppQuestList: questAreaTable.
+Fixed unlockSideopsNum not clearing other quests in area
+
+r65 2015-11-05 - public release
+Same dealt with equip range, ugh.
+
+r64 2015-11-05 - public release
+Fixed bug where I set FOB equip grade to 1, like a stupid - Thanks for the report xmetalx59x
+
+r63 2015-11-05 - public release
+Fixed bug I introduced in r56 to CloserToPlayerThanDistSqr resulting in quests being cleared to soldier being auto fultoned as player moved out of area. - Thanks for the report bumbousdude25
+
+r62
+Refactor InfMenuDefs to Ivars, now builds svars from settings in Ivars via InfMain.DeclareVars.
+InfMain: most enums now part of their ivar
+InfMenu: Set to previous option on Menu Back
+Helispace menu toggle changed to EVADE same as inMissionMenu
+
+r61
+Refactor InfMenu, split out into InfMenuDefs
+InfMenu: Added index number before non lang settingsname tables
+
+r60
+Refactor InfButton, masks and states
+Add some missing button masks
+
+r59 - 2015-10-31 - public release
+In game menu toggle change to hold Evade
+
+r58
+Show player position
+Start on foot for motherbase, starts on command platform
+Even more info added to InfLang for translators
+Option: Override Japanese lang code with Chinese for menu translation
+
+r57 - 2015-10-31 - test release
+Chinese translation included, unconfirmed language code - thanks to rikimtasu
+Patchup>>Show language code
+More info added to InfLang
+Unconfirmed lang codes added to InfLang
+
+r56 2015-10-30 - public release
+Clock timescale
+OSP now correctly only affects main weapons.
+OSP tertiary free
+Start on foot
+InfMenu: In game/helispace menu switching
+Fixed issue with subsistence mode not turning off centralLzs if an OSP mode was already on.
+
+r55
+Moved incomplete feature out of TppLandingZone to own file
+Setting: Unlock player avatar
+
+r54
+Revert from game localization system
+Own localization system created, functions in InfMenu, strings in InfLang
+
+r53
+Call setting onChange on setting reset
+1.0.4.4 TppPlayer fulton call fix. They had added an extra parameter to the fulton function, but forgot to add the parameter to a call. There's only two calls to the function in the scripts... oh well mistakes happen.
+
+r52 2015-10-26 - public release
+Current soldier in demos
+Select mb return demo
+
+r51
+Disable mb triggered prioritylist demos switch
+
+r50
+Added localization files for many mod strings. Other languages are currently just english, hopefully can get the community to translate if I can work out the rest (combining multiple localized strings is troublesome)
+
+r49a 2015-10-23 - public release
+Snakebite msgv update to 1.0.4.3
+
+r49 2015-10-23
+Fix soldiers not driving their patrolling trucks - thanks for report bindleford
+
+r48 2015-10-20 - public release
+Retail 1.0.4.1 merge
+r48a Snakebite msgv version mismatch fix
+
+r47 2015-10-19
+Mother base DD suit
+Submenus
+Previous menu on <Change Stance>
+Reset current setting changed to <Call>
+
+r46
+Mother base Wargames - shoutout to E3245
+Mother base equip grade
+Refactor InfMenu to InfMain, trying to isolate menu system further from mod specific settings
+
+r45
+Fixed hang on loading Fob missions, had missed updating the settings reset call from the InfMenu refactor - thanks for report Topher
+Fixed reset settings via menu
+Disable mod menu if fob mission
+Shifted a table from TppDefine, TppDefine no longer used
+
+r44 2015-10-15 - public release
+No Central Landing Zones, filter for mission start lzs, filter for in-mission lzs
+
+r43
+Refactor due to makebite allowing custom files via GzsTool - thanks Topher, atvaark
+InfButton, InfMenu, etc for its repsective stuff that was previously dumped in TppMain.lua
+UpdateModMenu direct via TppMain.SetUpdate/Onupdate instead of in tppmission update.
+
+r42
+Re-added various support menu disables on subsistence, missed in the 1.0.4.0 merge.
+Support heli combat turned off - I found it bre3zer
+Head markers disabled for Subsistence Pure (xray effect on marked still active).
+
+r41
+Nvida splash removed - thanks for direction LordRamza
+Fox engine splash removed (side effect, tied to the showing of nvid, would like to show it, I lovehate fox engine)
+
+r40 2015-10-10 - public release
+Rebuilt for 1.0.4.0
+Quiet Return function moved out of TppStory.lua, so for now one less file modded.
+
+r39 2015-10-08 - public release
+Updated to patch 1.0.4.0
+Uses MGSVModDo.exe to build 00.dat from games 00.dat.
+Uses MGS_QAR_Tool by Sergeanur
+Enemy parameters setting saves on exit to title instead of requiring mission start/abort. Still needs restart for Default to take effect (but not for turning on Tweaked)
+Value skipping for settings
+Manual selection of sideop 144 disabled, may still come up in random selection
+
+r38
+Enemy parameters default to.. default
+Wormhole forced off for subsistence mode
+Equipment downgrades no longer applied to vanilla subsistence missions when subsistence mode off
+
+r37 2015-10-05 - public release
+Open specific sideop
+Force open added to unlockSideops
+unlockSideops rename to random for areas
+Return Quiet re-added, now as menu option, non reversible
+
+r36
+Menu settings wrap
+Navigation keys listed on menu open
+Reset setting key added <stance>
+ButtonRepeat added to button system (needs refactor already though)
+Next/prev setting buttonrepeat
+
+r35
+sideOps selection changed to random choice per area (was first found)
+unlockSideops changed from force all active - doesn't work with current system, can only have one op per quest area - to force repop
+UpdateActiveQuest call on unlocksideops change to refresh.
+
+r34 2015-10-02 - public release
+Fulton disabled on subsistence pure
+Fulton forced to lvl 1 on subsistence bounder
+Hand upgrades forced off on subsistence - sonar, mobility, precision, medical
+Fixed setting showing wrongly on menu open
+Relevant mission prep menu options disabled on Subsistence mode
+
+r33
+Skip Autosave warning checkup on game start
+3/4 of initial splash screens sped up. - Thanks emoose for lua decrypt making this possible
+
+r32
+Menu toggle key changed to <Reload>
+Fixed Secondary Enabled OSP not working - Thanks again Psithen
+Reset settings moved to menu option
+
+r31 2015-09-30 - public release
+Enemy Parameters bug fix, was causing night parameters to be zeroed - Thanks Psithen for the report
+Unlock all Side-Ops.
+r30
+Option Menu refactor
+Confirm setting option for menu items
+
+r29
+Subsistence: 'Buddy enabled' profile changed to 'Bounded (+Buddy +Suit)' - so you can use your model swaps
+
+r28 2015-09-26 - public release
+Enemy Prepared max kinks worked out, now confirmed works like the normal game would if all values maxed.
+r27    
+Buddy Support for subsistence (Allow Quiets Attack/Scout, downside(?) is enables buddy change in field)
+Subsistence Weapon Loadout renamed OSP Weapon Loadout to make it clearer it's independent from Subsistence
+
+r26 - 2015-09-23 - public release 5
+General Params setting for allowing default files/mods to override
+
+r25
+Subsidence loadouts broken out to separate option
+Buddy enabled setting for Subsistence
+r24
+Buttons system refactor
+Menu toggle changed to 1 second button hold
+In game settings display removed
+Menu off on idroid key press
+
+r21 - 2015-09-23 - 4th public release
+Buttons system refactor
+
+r20 - 2015-09-23 - 3nd public release
+Option Menu refactor
+r19 All Settings off if FOB
+
+r18 - 2015-09-23 - 2nd public release
+Quiet Return disabled pending inf load screen saves
+r17 Subsistence free secondary
+r16 Force relief vehicle fulton
+
+r15 - 2015-09-22 - 1st public release
+Settings Reset
+r14 Enemy Life scale
+r13 Player Life scale
+r12 Option Menu refactor
+r11 Subsistence Loadouts, vanilla, tranq
+r10 Bugfix blueprints
+r9 Subsistence force ASAP time
+r8 IsManualHard
+r7 Options Save
+r6 Bugfix revenge fulton
+r5 Enemy night parameter tweak
+r4 Basic Option Menu
+r3 ButtonDown
+r2 Quiet Return
+r1 Hardcoded IsSubsistence

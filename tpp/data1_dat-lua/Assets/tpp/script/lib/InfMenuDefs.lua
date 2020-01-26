@@ -2,7 +2,7 @@
 local this={}
 --menus
 this.fovaModMenu={
-  options={    
+  options={
     Ivars.enableFovaMod,
     Ivars.fovaSelection,
     InfMenuCommands.printBodyInfo,
@@ -131,6 +131,8 @@ this.patchupMenu={
 this.ospMenu={
   noResetItem=true,
   options={
+    Ivars.clearItems,
+    Ivars.clearSupportItems,
     Ivars.ospWeaponProfile,
     Ivars.primaryWeaponOsp,
     Ivars.secondaryWeaponOsp,
@@ -171,15 +173,7 @@ this.fultonSuccessMenu={
   },
 }
 
-this.disableMenuMenu={
-  options={
-    Ivars.disableMenuDrop,
-    Ivars.disableMenuBuddy,
-    Ivars.disableMenuAttack,
-    Ivars.disableMenuHeliAttack,
-    Ivars.disableSupportMenu,
-  }
-}
+
 
 this.revengeSystemMenu={
   options={
@@ -287,33 +281,7 @@ this.revengeMenu={
 }
 --
 
-this.playerRestrictionsMenu={
-  options={
-    Ivars.subsistenceProfile,
-    Ivars.disableHeadMarkers,
-    Ivars.disableXrayMarkers,
-    Ivars.disableWorldMarkers,
-    Ivars.disableBuddies,
-    Ivars.disableHeliAttack,
-    Ivars.disableSelectTime,
-    Ivars.disableSelectVehicle,
-    Ivars.disableFulton,
-    Ivars.clearItems,
-    Ivars.clearSupportItems,
-    Ivars.setSubsistenceSuit,
-    Ivars.setDefaultHand,
-    Ivars.noCentralLzs,
-    Ivars.abortMenuItemControl,
-    Ivars.disableRetry,
-    Ivars.gameOverOnDiscovery,
-    this.handLevelMenu,
-    this.fultonLevelMenu,
-    this.fultonSuccessMenu,
-    this.ospMenu,
-    this.disableMenuMenu,
-    Ivars.blockInMissionSubsistenceIvars,
-  }
-}
+
 
 this.appearanceMenu={
   options={
@@ -366,7 +334,9 @@ this.supportHeliMenu={
     Ivars.disablePullOutHeli,
     Ivars.setLandingZoneWaitHeightTop,
     Ivars.defaultHeliDoorOpenTime,
-    Ivars.startOnFoot,
+    Ivars.startOnFootFree,
+    Ivars.startOnFootMission,
+    Ivars.startOnFootMb,
   --Ivars.disableDescentToLandingZone,
   --Ivars.enableGetOutHeli,--WIP
   --Ivars.heliUpdate,--NONUSER
@@ -386,6 +356,8 @@ this.enemyReinforceMenu={
 this.enemyPatrolMenu={
   options={
     Ivars.enableLrrpFreeRoam,
+    Ivars.enemyHeliPatrol,
+    Ivars.mbEnemyHeliColor,
     Ivars.vehiclePatrolProfile,
     Ivars.vehiclePatrolLvEnable,
     Ivars.vehiclePatrolTruckEnable,
@@ -418,12 +390,60 @@ this.cameraMenu={
 }
 
 this.userMarkerMenu={
-  options={    
+  options={
     InfMenuCommands.warpToUserMarker,
     InfMenuCommands.printLatestUserMarker,
     InfMenuCommands.printUserMarkers,
---    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
---    Ivars.selectedCp,--DEBUG
+  --    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
+  --    Ivars.selectedCp,--DEBUG
+  }
+}
+
+this.markersMenu={
+  options={
+    Ivars.disableHeadMarkers,
+    Ivars.disableXrayMarkers,
+    Ivars.disableWorldMarkers,
+  }
+}
+
+this.missionPrepRestrictionsMenu={
+  options={
+    Ivars.disableSelectTime,
+    Ivars.disableSelectBuddy,
+    Ivars.disableSelectVehicle,
+  }
+}
+
+this.disableSupportMenuMenu={
+  options={
+    Ivars.disableMenuDrop,
+    Ivars.disableMenuBuddy,
+    Ivars.disableMenuAttack,
+    Ivars.disableMenuHeliAttack,
+    Ivars.disableSupportMenu,
+  }
+}
+
+this.playerRestrictionsMenu={
+  options={
+    Ivars.subsistenceProfile,
+    Ivars.disableHeliAttack,
+    Ivars.disableFulton,
+    Ivars.setSubsistenceSuit,
+    Ivars.setDefaultHand,
+    Ivars.noCentralLzs,
+    Ivars.abortMenuItemControl,
+    Ivars.disableRetry,
+    Ivars.gameOverOnDiscovery,
+    this.markersMenu,
+    this.missionPrepRestrictionsMenu,
+    this.disableSupportMenuMenu,
+    this.handLevelMenu,
+    this.fultonLevelMenu,
+    this.fultonSuccessMenu,
+    this.ospMenu,
+    Ivars.blockInMissionSubsistenceIvars,
   }
 }
 
@@ -431,13 +451,11 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    Ivars.fobMode,--DEBUGNOW
-   -- this.ospMenu,--DEBUG
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    this.fovaModMenu,--DEBUG
---    this.appearanceMenu,--DEBUG
 --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
-    --InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG    
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --    this.fovaModMenu,--DEBUG
+    --    this.appearanceMenu,--DEBUG
     --Ivars.vehiclePatrolPaintType,
     --Ivars.vehiclePatrolClass,
     --Ivars.vehiclePatrolEmblemType,
@@ -500,42 +518,31 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBack=true,--tex is root
   options={
---    this.fovaModMenu,--DEBUG
---    InfMenuCommands.DEBUG_FovaTest,--DEBUG
---    this.appearanceMenu,--DEBUG
-    InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
-    InfMenuCommands.DEBUG_SomeShiz2,--DEBUGNOW
-    InfMenuCommands.DEBUG_SomeShiz3,--DEBUGNOW
-  --  InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+    --    this.fovaModMenu,--DEBUG
+    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
+    --    this.appearanceMenu,--DEBUG
+    --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+--    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --InfMenuCommands.showPosition,--DEBUG
     --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG
- --   InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
+    --   InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --InfMenuCommands.doEnemyReinforce,--WIP
     Ivars.warpPlayerUpdate,
     this.cameraMenu,
     this.userMarkerMenu,
     Ivars.clockTimeScale,
-    --this.appearanceMenu,--WIP
     Ivars.quietRadioMode,
     this.playerRestrictionsInMissionMenu,
     this.phaseMenu,
-    --this.enemyReinforceMenu,
     this.supportHeliMenu,
     this.debugInMissionMenu,
     InfMenuCommands.resetSettingsItem,
     InfMenuCommands.menuOffItem,
   }
-}
-
-this.inFOBMenu={--DEBUGNOW
-  noResetItem=true,--tex KLUDGE, to keep menuoffitem order
-  noGoBack=true,--tex is root
-  options={
-    InfMenuCommands.DEBUG_SomeFOBShiz,--DEBUGNOW
-    InfMenuCommands.DEBUG_SomeFOBShiz2,--DEBUGNOW
-    InfMenuCommands.DEBUG_showSyncSVars,--DEBUGNOW
-  },
 }
 
 --TABLESETUP: MenuDefs

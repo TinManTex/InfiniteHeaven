@@ -522,8 +522,8 @@ mtbs_helicopter.RequestHeliTaxi = function( gameObjectId, currentLandingZoneName
 	Fox.Log( "### heliTaxiSettings ("..tostring(heliTaxiSettings.currentClusterRoute).." , "..tostring(heliTaxiSettings.relayRoute).. " , "..tostring(heliTaxiSettings.nextClusterRoute).. ") ###" )
 	if heliTaxiSettings then
 		GameObject.SendCommand(
-		  gameObjectId,--tex
-			--DEBUGNOW ORIG { type = "TppHeli2", index = 0, },
+		  gameObjectId,--tex changed from -v-
+			--ORIG { type = "TppHeli2", index = 0, },
 			{
 				id="SetTaxiRoute",
 				currentClusterRoute = heliTaxiSettings.currentClusterRoute,

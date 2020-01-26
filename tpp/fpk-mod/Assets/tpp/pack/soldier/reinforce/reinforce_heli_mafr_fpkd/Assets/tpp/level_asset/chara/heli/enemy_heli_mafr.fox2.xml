@@ -124,7 +124,9 @@
           <value key="Main">/Assets/tpp/parts/mecha/sbh/sbh0_main0_ene_v00.parts</value>
           <value key="Rocket">/Assets/tpp/parts/mecha/uth/uth0_ammo1_def.parts</value>
         </property>
-        <property name="fmdlFiles" type="FilePtr" container="StringMap" />
+        <property name="fmdlFiles" type="FilePtr" container="StringMap" arraySize="1">
+          <value key="Internal">/Assets/tpp/mecha/sbh/Scenes/sbh0_intr0_ene.fmdl</value>
+        </property>
         <property name="fcnpFiles" type="FilePtr" container="StringMap" arraySize="1">
           <value key="Main">/Assets/tpp/mecha/sbh/Scenes/sbh0_main0_ene.fcnp</value>
         </property>

@@ -1,7 +1,7 @@
 -- DOBUILD: 1
 --InfCamera.lua
 local this={}
-
+--LOCALOPT
 --
 local cameraOffsetDefault=Vector3(0,0.75,0)
 --this.cameraPosition=cameraOffsetDefault--CULL
@@ -168,18 +168,20 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
   local focusDistance=Ivars["focusDistance"..currentCamName]
   local cameraDistance=Ivars["distance"..currentCamName]
   local movePosition=this.ReadPosition(currentCamName)
+  local moveScale=Ivars.moveScale
 
-  local moveScale=Ivars.moveScale:Get()
+  local currentMoveScale=moveScale:Get()
   if not isFreeCam then
-    moveScale=moveScale*0.1
+    currentMoveScale=currentMoveScale*0.1
   end
   --tex pretty much doing voodoo to tune these
-  local focalLengthScale=focalLength:Get()/100--1
-  local apertureScale=aperture:Get()/50--0.1
-  local focusDistanceScale=focusDistance:Get()/10--0.1
+  local adjustScaleVerySlow=focalLength:Get()/1000--1
+  local adjustScaleSlow=focalLength:Get()/100--1
+  local adjustScaleMed=aperture:Get()/50--0.1
+  local adjustScaleFast=focusDistance:Get()/10--0.1
 
-  moveX=-PlayerVars.leftStickXDirect*moveScale
-  moveZ=-PlayerVars.leftStickYDirect*moveScale
+  moveX=-PlayerVars.leftStickXDirect*currentMoveScale
+  moveZ=-PlayerVars.leftStickYDirect*currentMoveScale
 
   if not currentChecks.inMenu then
     local function IvarClamp(ivar,value)
@@ -193,27 +195,30 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
 
     if didMove then
       if InfButton.ButtonDown(InfMain.zoomModeButton) then
-        local newValue=focalLength:Get()-PlayerVars.leftStickYDirect*focalLengthScale
+        local newValue=focalLength:Get()-PlayerVars.leftStickYDirect*adjustScaleSlow
         newValue=IvarClamp(focalLength,newValue)
         focalLength:Set(newValue)
       elseif InfButton.ButtonDown(InfMain.apertureModeButton) then
-        local newValue=aperture:Get()-PlayerVars.leftStickYDirect*apertureScale
+        local newValue=aperture:Get()-PlayerVars.leftStickYDirect*adjustScaleMed
         newValue=IvarClamp(aperture,newValue)
         aperture:Set(newValue)
       elseif InfButton.ButtonDown(InfMain.focusDistanceModeButton) then
-        local newValue=focusDistance:Get()-PlayerVars.leftStickYDirect*focusDistanceScale
+        local newValue=focusDistance:Get()-PlayerVars.leftStickYDirect*adjustScaleFast
         newValue=IvarClamp(focusDistance,newValue)
         focusDistance:Set(newValue)
       elseif InfButton.ButtonDown(InfMain.verticalModeButton) then
         moveY=moveZ
         moveZ=0
-        moveX=0
         local vMoveDir=Vector3(moveX,moveY,moveZ)
         local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerCameraRotation[1]))
         local camMoveDir=rotYQuat:Rotate(vMoveDir)
         movePosition=movePosition+camMoveDir
+      elseif InfButton.ButtonDown(InfMain.speedModeButton) then
+        local newValue=moveScale:Get()-PlayerVars.leftStickYDirect*adjustScaleSlow--WIP TODO own scale
+        newValue=IvarClamp(moveScale,newValue)
+        moveScale:Set(newValue)
       elseif InfButton.ButtonDown(InfMain.distanceModeButton) then
-        local newValue=cameraDistance:Get()+PlayerVars.leftStickYDirect*focusDistanceScale--WIP TODO own scale
+        local newValue=cameraDistance:Get()+PlayerVars.leftStickYDirect*adjustScaleFast--WIP TODO own scale
         newValue=IvarClamp(cameraDistance,newValue)
         cameraDistance:Set(newValue)
       else
@@ -238,6 +243,8 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
         else
           movePosition=cameraOffsetDefault
         end
+      elseif InfButton.ButtonDown(InfMain.speedModeButton) then
+        moveScale:Reset()
       elseif InfButton.OnButtonDown(InfMain.distanceModeButton) then
         if isFreeCam then--tex KLUDGE
           cameraDistance:Set(0)
@@ -248,19 +255,22 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
     end
     --
     if Ivars.disableCamText:Is(0) then
-      if InfButton.OnButtonDown(InfMain.zoomModeButton) then
+      if InfButton.OnButtonDown(InfMain.zoomModeButton) or InfButton.OnButtonUp(InfMain.zoomModeButton) then
         InfMenu.Print(currentCamName.." "..InfMenu.LangString"focal_length_mode".." "..focalLength:Get())
       end
-      if InfButton.OnButtonDown(InfMain.apertureModeButton) then
+      if InfButton.OnButtonDown(InfMain.apertureModeButton) or InfButton.OnButtonUp(InfMain.apertureModeButton) then
         InfMenu.Print(currentCamName.." "..InfMenu.LangString"aperture_mode".." "..aperture:Get())
       end
-      if InfButton.OnButtonDown(InfMain.focusDistanceModeButton) then
+      if InfButton.OnButtonDown(InfMain.focusDistanceModeButton) or InfButton.OnButtonUp(InfMain.focusDistanceModeButton) then
         InfMenu.Print(currentCamName.." "..InfMenu.LangString"focus_distance_mode".." "..focusDistance:Get())
       end
       if InfButton.OnButtonDown(InfMain.verticalModeButton) then
         InfMenu.Print(currentCamName.." "..InfMenu.LangString"vertical_mode")
       end
-      if InfButton.OnButtonDown(InfMain.distanceModeButton) then
+      if InfButton.OnButtonDown(InfMain.speedModeButton) or InfButton.OnButtonUp(InfMain.speedModeButton) then
+        InfMenu.Print(currentCamName.." "..InfMenu.LangString"speed_mode".." "..moveScale:Get())
+      end
+      if InfButton.OnButtonDown(InfMain.distanceModeButton) or InfButton.OnButtonUp(InfMain.distanceModeButton) then
         InfMenu.Print(currentCamName.." "..InfMenu.LangString"distance_mode".." "..cameraDistance:Get())
       end
       if InfButton.OnButtonDown(InfMain.resetModeButton) then

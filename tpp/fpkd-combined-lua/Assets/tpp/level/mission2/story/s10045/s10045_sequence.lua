@@ -1038,7 +1038,7 @@ function this.Messages()
 						Fox.Log(" ### Target has been moved ### ")
 						svars.isReserveFlag_04 = true
 					else
-						this.OnCommonFunc{ gameObjectId = gameObjectId, routeId = routeId, routeNodeIndex = routeNodeIndex, messageId = messageId }
+						this.OnCommonFunc{ gameObjectId = gameObjectId, routeId = routeId, routeNodeIndex = routeNodeIndex, messageId = messageId }--RETAILBUG routeNodeIndex undefined nonbug, not used
 					end
 				end
 			},

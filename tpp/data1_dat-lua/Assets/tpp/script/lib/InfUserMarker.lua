@@ -43,7 +43,7 @@ function this.PrintMarkerGameObject(index)
   local soldierName,cpName=InfMain.SoldierNameForGameId(gameId)
   InfMenu.DebugPrint(soldierName)
   InfMenu.DebugPrint(gameId.."="..typeStr)
-  InfMenu.DebugPrint("cpName:"..cpName)
+  InfMenu.DebugPrint("cpName:"..tostring(cpName))
 end
 function this.GetLastAddedUserMarkerIndex()
   if vars.userMarkerSaveCount==0 then

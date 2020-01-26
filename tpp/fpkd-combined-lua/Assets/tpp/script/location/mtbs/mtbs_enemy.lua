@@ -2162,14 +2162,6 @@ end
 --<
 
 mtbs_enemy.SetFriendly = function( )
---DEBUGNOW
---  TppGameStatus.Set("mtbs_enemy.lua","S_ENABLE_FOB_PLAYER_HIDE")
---
---  TppGameStatus.Set("mtbs_enemy.lua","S_DISABLE_TARGET")
---  TppGameStatus.Set("mtbs_enemy.lua","S_DISABLE_NPC_NOTICE")
---
---this.ClearGameStatusOnStartVersus()--DEBUGNOW
-
   for cpName, soldierNameList in pairs( mtbs_enemy.soldierDefine ) do
     do
       local gameObjectId = GetGameObjectId(cpName)

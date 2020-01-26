@@ -22,6 +22,9 @@ local GAME_OBJECT_TYPE_BOSSQUIET2=TppGameObject.GAME_OBJECT_TYPE_BOSSQUIET2
 local GAME_OBJECT_TYPE_PARASITE2=TppGameObject.GAME_OBJECT_TYPE_PARASITE2
 local GAME_OBJECT_TYPE_SECURITYCAMERA2=TppGameObject.GAME_OBJECT_TYPE_SECURITYCAMERA2
 local GAME_OBJECT_TYPE_UAV=TppGameObject.GAME_OBJECT_TYPE_UAV
+local GetUserMode=TppGameMode.GetUserMode--RETAILPATCH 1081>
+local U_KONAMI_LOGIN=TppGameMode.U_KONAMI_LOGIN
+local GetOnlineChallengeTaskVersion=TppNetworkUtil.GetOnlineChallengeTaskVersion--<
 local PHASE_ALERT=TppGameObject.PHASE_ALERT
 local NULL_ID=GameObject.NULL_ID
 local bnot=bit.bnot
@@ -95,7 +98,10 @@ this.requires={
   "/Assets/tpp/script/lib/InfCamera.lua",
   "/Assets/tpp/script/lib/InfUserMarker.lua",
   --CULL"/Assets/tpp/script/lib/InfPatch.lua",
+  "/Assets/tpp/script/lib/InfEnemyPhase.lua",
+  "/Assets/tpp/script/lib/InfHelicopter.lua",
   "/Assets/tpp/script/lib/InfNPC.lua",
+  "/Assets/tpp/script/lib/InfNPCHeli.lua",
   "/Assets/tpp/script/lib/InfSoldierParams.lua",
   "/Assets/tpp/script/lib/InfInspect.lua",
   "/Assets/tpp/script/lib/InfFova.lua",
@@ -188,6 +194,12 @@ function this.MergeTable(table1,table2,n)
   end
   return mergedTable
 end
+function this.IsOnlineMode()--RETAILPATCH 1081
+  return(GetUserMode()==U_KONAMI_LOGIN)
+end
+function this.IsValidLocalOnlineChallengeTaskVersion()
+  return(GetOnlineChallengeTaskVersion()==gvars.localOnlineChallengeTaskVersion)
+end--<
 function this.BfsPairs(r)
   local i,t,l={r},1,1
   local function p(n,e)

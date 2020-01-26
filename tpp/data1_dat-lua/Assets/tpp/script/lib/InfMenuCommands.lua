@@ -348,38 +348,6 @@ local toggle=false
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
-      InfMenu.DebugPrint"S_ENABLE_FOB_PLAYER_HIDE"
-      TppGameStatus.Set("mtbs_enemy.lua","S_ENABLE_FOB_PLAYER_HIDE")
-
-
-
-
-
-
-      if true then return end
-
-      if Ivars.selectedCp:Is(0) then
-        InfMenu.DebugPrint"selectedCp is set to 0"
-        return
-      end
-
-      local cpName=mvars.ene_cpList[Ivars.selectedCp:Get()]
-      if cpName==nil then
-        InfMenu.DebugPrint"selectedCp not found in ene_cpList"
-        return
-      end
-
-      local cpId = { type="TppCommandPost2", index = GameObject.GetGameObjectId(cpName) }
-      if cpId==NULL_ID then
-        InfMenu.DebugPrint"cpId==NULL_ID"
-        return
-      end
-
-      InfMenu.DebugPrint"RequestForceReinforce"
-      local command = { id = "RequestForceReinforce" }
-      GameObject.SendCommand( cpId, command )
-
-
     end)
   end
 }
@@ -390,80 +358,19 @@ local index=0
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
-      InfMenu.DebugPrint"S_DISABLE_TARGET"
-      TppGameStatus.Set("mtbs_enemy.lua","S_DISABLE_TARGET")
-
-
-      --this.ClearGameStatusOnStartVersus()--DEBUGNOW
-
-      --InfMenu.DebugPrint("reinforce_hasReinforceBlock="..tostring(mvars.reinforce_hasReinforceBlock))
-      --        --mark all (well, up to marker limit at least
-      --              for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
-      --                for n,soldierName in ipairs(soldierList)do
-      --                  local soldierId=GetGameObjectId("TppSoldier2",soldierName)
-      --                  if soldierId~=GameObject.NULL_ID then
-      --                    InfMain.MarkObject(soldierId)
-      --                  end
-      --                end
-      --              end
-      end)
+     
+    end)
   end
 }
 
+local index3=1
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
-      InfMenu.DebugPrint"S_DISABLE_NPC_NOTICE"
-      TppGameStatus.Set("mtbs_enemy.lua","S_DISABLE_NPC_NOTICE")
-      end)
-  end
-}
-
-this.DEBUG_SomeFOBShiz={
-  OnChange=function()
-    InfInspect.TryFunc(function()
-      InfMenu.DebugPrint("svar sync test   - fobModeIH:"..tostring(svars.fobModeIH).." fobClientIH:"..tostring(svars.fobClientIH))
-      InfMenu.DebugPrint("non sync control - fobModeIH:"..tostring(InfMain.fobModeIH).." fobClientIH:"..tostring(InfMain.fobClientIH))
-
-      InfMenu.DebugPrint("FobIsSneak()="..tostring(TppServerManager.FobIsSneak()))
-
-      local fobModeToString={[FobMode.MODE_ACTUAL]="MODE_ACTUAL",[FobMode.MODE_SHAM]="MODE_SHAM",[FobMode.MODE_VISIT]="MODE_VISIT",[FobMode.MODE_NONE]="MODE_NONE"}
-      InfMenu.DebugPrint("vars.fobSneakMode="..tostring(fobModeToString[vars.fobSneakMode]))
-
-      InfMenu.DebugPrint("fobIsSecurity = " .. tostring(vars.fobIsSecurity))
+   
     end)
   end
 }
-
-
-this.DEBUG_SomeFOBShiz2={
-  OnChange=function()
-    InfInspect.TryFunc(function()
-
-        TppGameStatus.Reset("mtbs_enemy.lua","S_ENABLE_FOB_PLAYER_HIDE")
-
-        TppGameStatus.Reset("mtbs_enemy.lua","S_DISABLE_TARGET")
-        TppGameStatus.Reset("mtbs_enemy.lua","S_DISABLE_NPC_NOTICE")
-        --      InfMenu.DebugPrint("RemovedPlayerStaffForFob : playerType = " .. tostring(vars.playerType))
-        --      InfMenu.DebugPrint("RemovedPlayerStaffForFob : playerStaffHeader = " .. tostring(vars.playerStaffHeader))
-        --      InfMenu.DebugPrint("RemovedPlayerStaffForFob : playerStaffSeed = " .. tostring(vars.playerStaffSeed))
-        --
-        --      InfMenu.DebugPrint"RemovedPlayerStaffForFob()="
-        --      local ins= TppMotherBaseManagement.RemovedPlayerStaffForFob()
-        --      InfMenu.DebugPrint(ins)
-        --
-        --      InfMenu.DebugPrint"GetFobServerParameter()="
-        --      local ins=TppNetworkUtil.GetFobServerParameter()
-        --      InfMenu.DebugPrint(ins)
-        --          --tex returns nil, left out of build with rest of debug i guess
-        --      --      InfMenu.DebugPrint"DEBUG_DumpServerParameter()="
-        --      --      local ins=TppNetworkUtil.DEBUG_DumpServerParameter()
-        --      --      InfMenu.DebugPrint(ins)
-
-    end)
-  end
-}
-
 
 this.DEBUG_showSyncSVars={
   OnChange=function()
@@ -489,14 +396,16 @@ this.DEBUG_showSyncSVars={
 local fovaIndex=1
 this.DEBUG_FovaTest={
   OnChange=function()
+    InfInspect.TryFunc(function()
 
 
-    Player.SetPartsInfoAtInstanceIndex("/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
-    --Player.SetPartsInfoAtInstanceIndex(0,"/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
-    --Player.SetPartsInfoAtInstanceIndex(1,"/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
-    --Player.SetPartsInfoAtInstanceIndex("/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts",0)
+        Player.SetPartsInfoAtInstanceIndex("/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
+
+        --Player.RequestToUnloadAllPartsBlock()
+        --Player.RequestToLoadPartsBlock("PLTypeHospital")
 
 
+    end)
   end
 }
 
@@ -875,6 +784,20 @@ this.DEBUG_WarpToObject={
     --      "veh_cl00_cl05_0000",
     --      "veh_cl00_cl06_0000",
     --    }
+    
+    local objectList={
+--  "WestHeli0000",
+--  "WestHeli0001",
+--  "WestHeli0002",
+--  "EnemyHeli",
+  "EnemyHeli0000",
+  "EnemyHeli0001",
+  "EnemyHeli0002",
+  "EnemyHeli0003",
+  "EnemyHeli0004",
+  "EnemyHeli0005",
+  "EnemyHeli0006",
+}
 
     if objectList==nil then
       InfMenu.DebugPrint"objectList nil"
@@ -955,7 +878,9 @@ this.DEBUG_PrintNonDefaultVars={
 
 this.DEBUG_PrintSaveVarCount={
   OnChange=function()
-    Ivars.PrintSaveVarCount()
+    InfInspect.TryFunc(function()
+      Ivars.PrintSaveVarCount()
+    end)
   end,
 }
 

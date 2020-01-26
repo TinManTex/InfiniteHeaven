@@ -900,13 +900,13 @@ function this.AppearHorseOnMissionStart(identifier,key)
     vars.initialBuddyPos[2]=pos[3]
   end
 end
-function this.StartGameOverCamera(t,a,e)
+function this.StartGameOverCamera(gameObjectId,startTimerName,announceLog)
   if mvars.ply_gameOverCameraGameObjectId~=nil then
     return
   end
-  mvars.ply_gameOverCameraGameObjectId=t
-  mvars.ply_gameOverCameraStartTimerName=a
-  mvars.ply_gameOverCameraAnnounceLog=e
+  mvars.ply_gameOverCameraGameObjectId=gameObjectId
+  mvars.ply_gameOverCameraStartTimerName=startTimerName
+  mvars.ply_gameOverCameraAnnounceLog=announceLog
   TppUiStatusManager.SetStatus("AnnounceLog","INVALID_LOG")
   TppSound.PostJingleOnGameOver()
   TppSoundDaemon.PostEvent"sfx_s_force_camera_out"
@@ -965,20 +965,20 @@ function this._SetTargetDeadCamera()
   this.PrepareStartGameOverCamera()
   Player.RequestToPlayCameraNonAnimation{characterId=mvars.ply_gameOverCameraGameObjectId,isFollowPos=false,isFollowRot=true,followTime=7,followDelayTime=.1,candidateRots={{10,0},{10,45},{10,90},{10,135},{10,180},{10,225},{10,270}},skeletonNames={"SKL_004_HEAD","SKL_011_LUARM","SKL_021_RUARM","SKL_032_LFOOT","SKL_042_RFOOT"},skeletonCenterOffsets={Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0)},skeletonBoundings={Vector3(0,.45,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,-.3,0),Vector3(0,-.3,0)},offsetPos=Vector3(.3,.2,-4.6),focalLength=21,aperture=1.875,timeToSleep=10,fitOnCamera=true,timeToStartToFitCamera=.001,fitCameraInterpTime=.24,diffFocalLengthToReFitCamera=16}
 end
-function this.SetTargetHeliCamera(r)
-  local l
-  local a
-  local o
-  if IsTypeTable(r)then
-    l=r.gameObjectName or""
-    a=r.gameObjectId
-    o=r.announceLog or"target_eliminate_failed"
+function this.SetTargetHeliCamera(params)
+  local gameObjectName
+  local gameObjectId
+  local announceLog
+  if IsTypeTable(params)then
+    gameObjectName=params.gameObjectName or""
+    gameObjectId=params.gameObjectId
+    announceLog=params.announceLog or"target_eliminate_failed"
   end
-  a=a or GetGameObjectId(l)
-  if a==NULL_ID then
+  gameObjectId=gameObjectId or GetGameObjectId(gameObjectName)
+  if gameObjectId==NULL_ID then
     return
   end
-  this.StartGameOverCamera(a,"EndFadeOut_StartTargetHeliCamera",o)
+  this.StartGameOverCamera(gameObjectId,"EndFadeOut_StartTargetHeliCamera",announceLog)
 end
 function this._SetTargetHeliCamera()
   this.PrepareStartGameOverCamera()
@@ -1829,7 +1829,7 @@ function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below
     mvars.ply_isExistTempPlayerType=true
     mvars.ply_tempPlayerHandEquip={handEquip=TppEquip.EQP_HAND_NORMAL}
   end
-  if Ivars.disableFulton:Is(1) then--tex
+  if Ivars.disableFulton:Is(1) then
     vars.playerDisableActionFlag=vars.playerDisableActionFlag+PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
   end
 
@@ -1935,14 +1935,14 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
       percentage=0
     end
   end--< 
-  if InfMain.IsWildCardEnabled() and Tpp.IsSoldier(gameId) then--tex>
+    if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck() and Tpp.IsSoldier(gameId) then--tex>
     local soldierType=TppEnemy.GetSoldierType(gameId)
     local soldierSubType=TppEnemy.GetSoldierSubType(gameId,soldierType)
     if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD" then
       percentage=0
     end
   end--<
-  if Ivars.mbWarGamesProfile:Is"INVASION" then--tex> WORKAROUND something weird happening with fuledtempstaff on map exit, disabling for now
+  if Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex> WORKAROUND something weird happening with fuledtempstaff on map exit, disabling for now
     percentage=0
   end--<
   if Tpp.IsFultonContainer(gameId) and vars.missionCode==30050 and Ivars.mbCollectionRepop:Is(1)then--tex> more weirdness
@@ -2124,9 +2124,9 @@ function this.OnPickUpPlaced(e,e,itemIndex)
     SendCommand(gameId,{id="GetPlacedItem",index=itemIndex})
   end
 end
-function this.OnPickUpWeapon(t,equipType,e)
+function this.OnPickUpWeapon(t,equipType,RENcassetteIndex)
   if equipType==TppEquip.EQP_IT_Cassette then
-    TppCassette.AcquireOnPickUp(e)
+    TppCassette.AcquireOnPickUp(RENcassetteIndex)
   end
 end
 function this.RestoreSupplyCbox()

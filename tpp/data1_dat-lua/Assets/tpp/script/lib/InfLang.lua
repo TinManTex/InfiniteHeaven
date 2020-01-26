@@ -2,7 +2,7 @@
 -- NODEPS
 --TODO: MOVE this is data not lib
 local this={}
---InfLang for Infinite Heaven r63
+--InfLang for Infinite Heaven
 --Want to help out?
 --Translation: Have a look below and see what you can do. Contact me by pm if you want more detail/want to send me your translation. You will be credited in the main infinite heaven description for your kind work.
 --If you want more direction on a string contact me, some of my own english descriptions are not the best as it is, and sometime I have to shorten them to keep things managable for how it's presented in-game.
@@ -43,7 +43,6 @@ this.eng={--english
   mbSoldierEquipRange="MB Equip Range (MB Prep mode FOB only)",
   mbDDSuit="DD Suit",
   mbWarGamesProfile="Mother Base War Games",
-  startOnFoot="Start missions on foot",
   clockTimeScale="Clock time scale",
   unlockPlayableAvatar="Unlock playable avatar",
   returnQuiet="Return Quiet (not reversable)",
@@ -86,19 +85,19 @@ this.eng={--english
   sideOpsMenu="Side ops menu",
   resetAllSettingsItem="Reset all Infinite Heaven settings",
   disableHeadMarkers="Disable head markers",
-  disableBuddies="Disable buddies",
+  disableSelectBuddy="Disable select-buddy",
   disableHeliAttack="Disable support heli attack",
-  disableSelectTime="Disable select sortie time",
+  disableSelectTime="Disable select-sortie time",
   disableSelectVehicle="Disable select vehicle",
   disableFulton="Disable fulton action",
   clearItems="Items OSP",
   clearSupportItems="Support items OSP",
   setSubsistenceSuit="Set subsistence suit - Olive Drab, no headgear",
-  setDefaultHand="Set default hand",
-  handLevelMenu="Hand levels Menu",
+  setDefaultHand="Set hand type to default",
+  handLevelMenu="Hand levels menu",
   fultonLevelMenu="Fulton levels menu",
-  ospMenu="Weapon OSP menu",
-  disableMenuMenu="Disable mission support-menus menu",
+  ospMenu="OSP menu",
+  disableSupportMenuMenu="Disable mission support-menus menu",
   disableMenuDrop="Disable Supply drop support-menu",
   disableMenuBuddy="Disable Buddies support-menu",
   disableMenuAttack="Disable Attack support-menu",
@@ -129,7 +128,7 @@ this.eng={--english
   mbUnlockGoalDoors="Unlock goal doors",
   startOffline="Start offline",--r75-v-
   mbEnableBuddies="Enable all buddies",
-  abortMenuItemControl="Disable abort mission from pause",--r76
+  abortMenuItemControl="Disable abort mission from pause menu",--r76
   playerHeadgear="Headgear (cosmetic)",
   playerHeadgearMaleSettings={
     "Don't set (change character to reset head)",
@@ -317,10 +316,11 @@ this.eng={--english
   aperture_mode="Aperture mode",
   focus_distance_mode="Focus distance mode",
   vertical_mode="Vertical mode",
+  speed_mode="Speed mode",
   reset_mode="Reset mode",
   resetCameraSettings="Set cam to near player",
   other_control_active="Another control mode is active",
-  disableRetry="Disable retry",
+  disableRetry="Disable retry on mission fail",
   gameOverOnDiscovery="Game over on combat alert",
   enableEnemyDDEquip="Enemy use DD equipment in Free roam",
   enableEnemyDDEquipMissions="Enemy use DD equipment in missions",--r125
@@ -349,8 +349,8 @@ this.eng={--english
   mbCollectionRepop="Repopulate plants and diamonds",--r136
   npcHeliUpdate="Enable npc helis",
   mbWargameFemales="Women in Enemy Invasion mode",
-  mbEnemyHeliColor="Heli type in Enemy Invasion mode",
-  mbEnemyHeliColorSettings={"Black","Red"},
+  mbEnemyHeliColor="Attack heli type",
+  mbEnemyHeliColorSettings={"Default","Black","Red","Enemy prep"},
   warpToCamPos="Warp body to FreeCam position",--r139
   fovaModMenu="Form Variation menu",--r141
   no_fova_found="No fova for model",
@@ -363,6 +363,15 @@ this.eng={--english
   warpToUserMarker="Warp to latest marker",
   printLatestUserMarker="Print latest marker",
   printUserMarkers="Print all markers",
+  npcHeliUpdateSettings={"Off","Support helis","Support and Attack helis"},--r144
+  missionPrepRestrictionsMenu="Mission-prep restrictions menu",
+  markersMenu="Marking display menu",
+  startOnFootFree="Start free roam on foot",--r145
+  startOnFootMission="Start missions on foot",
+  startOnFootMb="Start Mother base on foot",
+  onFootSettingsNames={"Off","All but assault LZs","All LZs"},
+  enemyHeliPatrol="Heli patrols in free roam",
+  enemyHeliPatrolSettingNames={"None","Minimum","Mid","Maximum","Enemy prep"},
 }
 
 this.eng_help={

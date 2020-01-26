@@ -1,0 +1,323 @@
+Infinite Heaven features
+========================
+
+YouTube playlist of demonstrations for many features
+https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF
+
+All settings in Infinite Heaven start at game defaults and can be adjusted in the Infinite Heaven menus.
+
+Basic terms used in the Infinite Heaven menu:
+<Option name> - <Setting>
+
+Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.
+
+Features:
+=================
+
+Player Restriction - disable of game settings to customize your challenge
+-----------------
+Includes Subsistence profiles, sets of customized settings that lets you go into any mission or free roam with same (and more) restrictions as subsistence missions, or with just a secondary of your choice.
+
+Pure - as the missions with more restrictions: OSP forced, Items off, Hand upgrades off, ASAP time forced, vehicle off, fulton  off, support off, head markers off, heli attack off, central landing zones off.
+
+Bounder - Pure as base but allows: Buddy, changing Suit (which should also allow model swaps), Level 1 Fulton, head markers
+
+OSP Weapon settings - Separate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, individually settable.
+
+Arm ability levels - Sonar, Mobility, Precision, Medical - can now be individually set.
+
+Disable Head markers independently from objective/placed markers (markers for other objects like vehicles/fultonable weapons are also disabled however due to the game function).
+
+Disable Xray marking - buddies that mark still cause the effect though.
+
+Mission Entrance/Exit options:
+
+Start on foot - skip heli ride into mission and start on the ground.
+
+Abort Mission (Return to ACC) added to Mother base pause menu.
+
+"Disable retry", "Game over on combat alert" - to replicate total stealth settings
+
+Fulton success profile/options:
+------------------------------
+Found in Player restrictions\Fulton success menu
+Options:
+"Disable MB fulton support" - disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.
+"Disable MB fulton medical" - disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty.
+"Target dying penalty"
+"Target sleeping penalty"
+"Target holdup penalty"
+"Dont apply MB medical to sleeping/fainted target" - lets you balance sleeping penalty separately from dying while keeping mb medical bonus.
+
+Fulton profile: Heaven,
+The extraction game mechanic in MGSV could do with an entire article, but the gist of the reasoning behind the settings I chose for the "Heaven" profile mostly revolve around soldier extraction. To promote the manual extraction actions (heli extraction, mission hot zone auto-fulton) which have a cost of player time, for a reward of a guaranteed success (providing you don't let the enemy kill them at the last second lol). Vs the quicker but possibly more dangerous fulton actions.
+Injured enemies already promote manual extraction from their success penalty.
+Sleeping or fainting enemies have no penalty in the default game, since they also make no noise above the fulton this pushes the player to use this option far too much. Heaven adds a success penalty to this state to push player to other options.
+Fultoning a held up soldier is already more risky due to their increased noise when they are fultoned, the default games success penalty on this pushes players away from this, the reduction of the penalty for this profile, combined with the sleeping penalty make it more viable.
+
+
+Extraction is a big part of the game, soldier extraction has the most actions associated with it.
+Even before we get to fulton extraction there's a number of manual extraction options:
+Heli extraction, manually transporting the target to the heli.
+Mission auto-extraction - for many missions and quests transporting the target out of the hot zone will autofulton them with 100% success.
+
+The profiles settings:
+
+Turned off both mother base bonuses and manually balanced around mid range of mb rank table, this is so the settings will remain impactful (and because I don't want to try and balance over a wide range of values at the moment lol)
+"Target dying penalty" - mid range but a big impact, evens out to 40% fail.
+"Target sleeping penalty" - Increased from 0 to 20% fail, the main reason I started this feature. In the base game, ignoring the success rate, fultoning a sleeping/fainted enemy is the safest option, so the player will do it straight away most times.
+
+Target holdup penalty - reduced to 5.
+In the game having a held-up/awake target is already dangerous, they are noisy when being fultoned, having a success penalty on top of this promotes the easy/safer option of sleeping target too much.
+Holdup is however the fallback value so I'm giving it at least some value to keep some impact and push the player to manual extraction if they want a guaranteed success.
+
+Enemy Preparedness:
+----------------
+Reset - resets enemy prep levels to 0
+
+Max - the same 'revenge system' max as the extreme missions. Most soldiers have gear equipped, such as helmets, body armor, NVG, many heavy weapons deployed.
+
+Enemy prep profile 'Heaven'
+The current preferred settings for the options below it.
+
+Resupply in #missions - the number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
+
+"Apply enemy prep to guard posts"
+
+"Apply enemy prep to LLRP soldiers"
+
+"Allow heavy armor in free mode"
+"Allow heavy armor in all missions"
+"Allow helmet and NVG or Gas mask combo"
+"Ballance heavy armor and head gear distribution" - adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not necessary if "Allow helmet and NVG or Gas mask combo" is on
+"Random CP subtype in free mode" - randomizes the CP subtype - PF types in middle Africa, urban vs general camo types in Afghanistan
+"Random CP subtype in missions"
+"Allow missile combo with other weapons" - in the normal game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them.
+"Disable convert armor to shield (if armor off)" - Where heavy armor is disabled (free mode by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.
+"Disable weapon restrictions in certain missions" - Missions 2, 12, 13, 16, 26, 31 prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).
+"Enable Mg vs Shotgun variation" - In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
+"Balance small CPs" - adds limits and some randomization to small cp/lrrps enemy prep application, best for the "Apply enemy prep to guard posts" and " to LRRP"
+
+Custom enemy prep config. Sidesteps the enemy prep levels and gives more control over enemy prep loadout, chooses randomly between min/max of each setting:
+Weapon deployment percentages -
+Armor deployment percentages - Armor, soft armor (body vest), shield.
+Headgear deployment percentages - helmet, gas mask, NVG.
+CP deterrent percentages - mines, decoys, cameras.
+Soldier ability/counter levels.
+Weapon strength menus. 'Strong weapons' are different variant/model of weapon for that chosen type.
+Reinforce count - number of reinforcement calls a CP has.
+Vehicle reinforcement level: Works with the vehicle reinforcement settings.
+Ignore combat-deploy supply blocks - Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.
+
+The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
+
+DD Equip:
+-------------
+DD equip options reworked and extended to enemy soldiers via DD Equip menu (via enemy prep menu or mother base menu)
+The DD equipment table is decided by a random grade between DD Equip Grade Min/Max, and by default is limited to the equipment you have developed with Allow undeveloped DD equipment choosing from the full range of (security equipable) equipment.
+Note: Equip grade 3 is the minimum grade that has all types of weapons.
+
+Known issue: Some weapons will not give the proper name when picked up and have a blank icon, some weapons scopes will be blacked out.
+
+
+Wildcard soldiers:
+Enabled using "Enable Wildcard soldiers Free roam" in the Enemy prep menu
+Changes a few soldiers throughout the CPs to have unique models and high end weapons, also includes women soldiers.
+https://www.youtube.com/watch?v=EalBTUetKRc
+https://www.youtube.com/watch?v=xhMemet6EF8
+
+
+Mother Base menu:
+-----------------
+Weapon loadout - using fob equip grade and range
+
+DD suits - Drab, Tiger, Sneaking, Battle Dress, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All
+DD Female suits - Drab, Tiger, Sneaking, Battle Dress
+
+DD Head gear - Off,Use Equip Grade
+
+"Female staff selection" - "Default","None","All available"
+In the regular game it tries to put at least 2 female staff per cluster (from that section)
+All available will prioritize putting your female staff first.
+None will prevent any female staff appearing on mother base.
+
+'Show assets Menu' in Mother base Menu:
+
+Show mother base assets - Big Boss posters, Nuke Elimination Monument, Sahelanthropus, Eli (in theory, haven't actually seen him though), Code Talker (the game doesn't animate or have collision for him).
+
+Don't lock goal doors - useless unless you like swishing doors.
+
+Enable Ocelot in the Mother base menu - allows Ocelot to roam the command platform.
+https://www.youtube.com/watch?v=Wgi-OJ4_-sM
+
+Option: "Repopulate plants and diamonds" - regenerates plants on Zoo platform and diamonds on Mother base over time.
+
+Option: "Enable npc helis" - spawns some npc helis that roam around mother base.
+https://www.youtube.com/watch?v=AUbZMSjH4tM
+
+War Games - set mother base soldiers hostile with non-lethal or lethal weapons, zombified, as true enemies (non staff).
+
+The war games Enemy Invasion, and Zombie Obliteration both replace the motherbase soldiers with non-staff member and enable players use of lethal weapons and also disable demon points for kill actions.
+
+Enemy helicopters - choose between Black, Red(more powerful) via "Heli type in Enemy Invasion mode"
+Female soldiers via "Women in Enemy Invasion mode"
+Had to disable fulton for this mode due to a last minute issue, manually extracting soldier by putting them in heli works though.
+https://www.youtube.com/watch?v=Bl75OupPWS8
+
+Enable all buddies in motherbase - does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they will however spawn inside building geometry, use the call menu to have them respawn near.
+Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
+
+
+Enemy parameters:
+-----------------
+Soldier profile - switch to off if you're combining with a modded soldier parameter table, or custom to allow the following settings:
+
+Soldier health scaling 900-0% (requires Enemy Parameters Tweaked), 0% will kill off all enemies
+
+Soldier sight scale - A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in log - all tab)' to see exact values.
+
+Hearing distance scale
+
+Player Settings:
+Player health scaling 900-0%(1hp)
+
+Use selected soldier in cutscenes and missions - shows your avatar or selected dd solider in cutscenes and missions that usually don't allow.
+
+Headgear (Cosmetic) - Several different headgear options.
+
+Subtract/Add demon points - changes demon score.
+
+Form variation menu
+-------------------
+Form Variation support for player models, the fova system is how the game shows and hides sub-models.
+Download the following in the Infinite Heaven files section:
+Masked Snake - using the Phantom Limbs into fova. For Snake/Avatar, Fatigues with Scarf
+https://www.youtube.com/watch?v=xrqqBNsPAnI
+Soviets - using the enemy soldier bodies and fovas. For DD Male.
+https://www.youtube.com/watch?v=7hEaT8Ou3SQ
+
+
+Patrols menu:
+------------------
+Enemy patrols option: Foot patrols in free roam - adds ~13 foot patrols between CPs, since the start-end bases are chosen randomly they may be difficult to find or you may be surprised by them in the wilderness between rather than following roads.
+
+Vehicle patrol vehicle types:
+------------------
+For free mode change the traveling  trucks to other vehicle types:
+Randomly selects from enabled vehicle type list with either one type for all, or each type chosen.
+Types:
+Jeeps
+Trucks
+Wheeled armored vehicles
+Heavy wheeled armored vehicles
+Tanks
+
+Vehicle Patrols: Improved soldier assignment, jeeps may have 2-4 soldiers, tanks now have just the driver, to fix the silliness of a guy hopping in and out every time it spots you.
+
+Enemy vehicle reinforcements
+---------------------------
+Options to enable the games 'super reinforce' which by default was only used in a few missions (and the normal mission scripting makes it less noticeable)
+In free mode currently only enemy heli reinforce works, in missions other vehicles will work if the mission is set up right (but still in more missions than default).
+
+Enable enemy reinforce - Enemy prep: Uses the Enemy preparation combat value. Force Prep: Ignores if the Enemy prep value is not set.
+
+Force enable enemy heli reinforce (disable heli sideops) - the normal game actually hijacks the reinforce system for sideops with helis, this disables those sideops so the heli can be used.
+
+Force reinforce request - reinforce will ignore reinforce count limit or coms disabled.
+
+Disable reinforce heli pullout - prevents the heli retreating when damaged.
+
+
+Side ops:
+-----------------
+Unlock random Sideops for areas - The normal games sideops system breaks the map into areas, with only one sideop allowed to be active at a time. In the retail game it's chosen in a first found manner. Uncompleted story missions and uncompleted sideops get priority of selection over replayable sideops.
+This setting changes it to a random selection of potential sideops, with the same priorities. Force replay adds completed sideops to the potential selection. Force Open adds most sideops to the selection pool.
+
+Open specific sideop - enables that specific sideop.
+
+Warning: still largely untested, unknown how replaying the story missions affect things.
+
+Cutscenes:
+-----------------
+Use current soldier in cutscenes instead of snake.
+
+Disable Mother Base cutscenes - Disables some arrive at motherbase cutscenes that cause infinite loading screens on some saves. This bug also occurs on unmodified games. If you have a save already stuck in this state (already at the MB loading screen) try my separate 'MB loading screen fix' mod.
+
+Play selected mother base cutscene - Can choose from many of the mother base cutscenes that play on returning. Requires the setting 'MB cutscene play mode' to be set to 'Play selected'
+
+Override Time, Override weather  - thanks qwertyuiop1234567899 for the suggestion
+
+Don't disable buddies after cutscenes - likewise with buddies (ddog mostly)
+
+
+
+Enemy phases:
+-----------------
+Adjust minimum and maximum alert phase for enemy Cps
+
+Phase on vehicle attack - the enemy reactions to heavy vehicle attack in the default game are lacking, you can kill someone and they'll act as if it's an unsourced attack. This option changes phase of soldiers command post on damaging the soldier. Setting it to ALERT recommended.
+In the Enemy phases menu but independent from Enable phase modifications
+
+Warp Mode:
+-----------------
+Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry.
+
+The menu navigation/dpad/arrow keys will warp you in that direction, <STANCE> will warp you down and <CALL> will warp you up.
+
+Be careful when warping up as gravity will kill you quick. One method to cope is to hold warp up, let gravity slowly take over then just after you touch the ground and start warping up again let go.
+
+Free cam:
+-----------------
+Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
+
+Warp body to FreeCam position
+
+
+
+Support Heli menu - ACC and in-mission menu:
+----------------------------------------------------
+Start on foot option has been moved here.
+Disable heli attack - also here (but still in subsistence menu too).
+
+Set heli invincible - heli will not take damage.
+
+Disable pull-out - prevents heli from leaving when you jump on-board, so you can use the gun from a stationary position, or just change your mind and jump out again.
+Press <STANCE> while in the heli to get it to pull-out again (or use menu).
+NOTE: Disable pull-out will prevent the mother base helitaxi selection menu, press <STANCE> to re-enable or use the mod menu.
+
+Mission start time till open door - Time from mission start to you opening the door to sit on the side. You can set this lower or 0 to do it immediately, or longer to ride the heli in first person.
+Press <STANCE> to manually open the door.
+
+Set LZ wait height - the height at which the heli hovers in wait mode (not landing mode).
+
+Force searchlight - change the heli searchlight state
+
+
+Patchups:
+-----------------
+Unlock playable avatar - unlock avatar before mission 46
+
+Unlock weapon customization - game progression unlock without having to complete legendary gunsmith missions
+
+Return Quiet - instantly runs same code as the Reunion mission 11 replay.
+
+Start Offline - Start the game in offline mode, this also removes the connect option from the pause menu.
+
+Retail Bug fixes:
+
+Enemies Revenge system level for Fulton was fulton was 0 low, 1 blank, 2 high, now 0 blank 1 low 2 high.
+
+TppMission.GoToEmergencyMission() -> TppDefine.STORY_MISSION_LAYOUT_CODE[missionCode] instead of vars.missionCode
+
+Disable mission intro credits
+
+Feature:
+Abort to ACC from title continue. Hold down ESCAPE for 1.5 seconds, the KJP logo will flash, clicking on continue will load ACC instead of continuing mission.
+
+
+In-Mission - User marker menu
+-----------------
+"Warp to latest marker"
+"Print latest marker"
+"Print all markers"
+https://www.youtube.com/watch?v=l5W0mABJIJM

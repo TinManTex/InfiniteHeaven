@@ -2,11 +2,12 @@
 --InfMain.lua
 local this={}
 
-this.DEBUGMODE=false
-this.modVersion="r144x"
+this.modVersion="r145"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
+local Ivars=Ivars
+local InfButton=InfButton
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString
@@ -16,7 +17,7 @@ local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local Enum=TppDefine.Enum
 local StrCode32=Fox.StrCode32
-local IsTimerActive=GkEventTimerManager.IsTimerActive
+
 
 --this.debugSplash=SplashScreen.Create("debugEagle","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",640,640)
 
@@ -408,7 +409,7 @@ function this.OnAllocate(missionTable)
     TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
   end
 
---WIP
+  --WIP
   if missionTable.enemy then
   --OFF lua off InfEquip.LoadEquipTable()
   end
@@ -491,12 +492,12 @@ function this.Messages()
       {msg="Dead",func=this.OnDead},
       {msg="Damage",func=this.OnDamage},
       {msg="ChangePhase",func=this.OnPhaseChange},
---WIP OFF, lua off      
---      {msg="RequestLoadReinforce",func=InfReinforce.OnRequestLoadReinforce},
---      {msg="RequestAppearReinforce",func=InfReinforce.OnRequestAppearReinforce},
---      {msg="CancelReinforce",func=InfReinforce.OnCancelReinforce},
---      {msg="LostControl",func=InfReinforce.OnHeliLostControlReinforce},--DOC: Helicopter shiz.txt
---      {msg="VehicleBroken",func=InfReinforce.OnVehicleBrokenReinforce},
+      --WIP OFF, lua off
+      --      {msg="RequestLoadReinforce",func=InfReinforce.OnRequestLoadReinforce},
+      --      {msg="RequestAppearReinforce",func=InfReinforce.OnRequestAppearReinforce},
+      --      {msg="CancelReinforce",func=InfReinforce.OnCancelReinforce},
+      --      {msg="LostControl",func=InfReinforce.OnHeliLostControlReinforce},--DOC: Helicopter shiz.txt
+      --      {msg="VehicleBroken",func=InfReinforce.OnVehicleBrokenReinforce},
       {msg="Returned", --[[sender = "EnemyHeli",--]]
         func = function(gameObjectId)
         --InfMenu.DebugPrint("GameObject msg: Returned")--DEBUG
@@ -514,6 +515,14 @@ function this.Messages()
       {msg="RequestLoadReinforce",func=function()
         --InfMenu.DebugPrint"RequestLoadReinforce"--DEBUG
         end},
+--      {
+--        msg = "RoutePoint2",--DEBUG
+--        func = function( gameObjectId, routeId, routeNodeIndex, messageId )
+--          InfInspect.TryFunc(function()
+--            InfMenu.DebugPrint("gameObjectId:"..tostring(gameObjectId).." routeId:".. tostring(routeId).." routeNodeIndex:".. tostring(routeNodeIndex).." messageId:".. tostring(messageId))--DEBUG
+--          end)
+--        end
+--      },
     },
     Player={
       {msg="FinishOpeningDemoOnHeli",func=this.ClearMarkers()},--tex xray effect off doesn't stick if done on an endfadein, and cant seen any ofther diable between the points suggesting there's an in-engine set between those points of execution(unless I'm missing something) VERIFY
@@ -554,7 +563,7 @@ function this.Messages()
     --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
     },
     Timer={
-      --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
+    --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
     },
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
@@ -740,6 +749,20 @@ end
 function this.OnAllocateTop(missionTable)
 
 end
+--via TppMain
+function this.OnMissionCanStartBottom()
+  local currentChecks=this.UpdateExecChecks(this.execChecks)
+  for i, ivar in ipairs(updateIvars) do
+    if IsFunc(ivar.OnMissionCanStart) then
+      ivar.OnMissionCanStart(currentChecks)
+    end
+  end
+
+  --tex WORKAROUND invasion mode extract from mb weirdness, just disable for now
+  if (Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050)then
+    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
+  end
+end
 
 function this.Init(missionTable)--tex called from TppMain.OnInitialize
   this.abortToAcc=false
@@ -750,9 +773,11 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
+  local currentChecks=this.UpdateExecChecks(this.execChecks)
   for i, ivar in ipairs(updateIvars) do
     if IsFunc(ivar.ExecInit) then
-      ivar.ExecInit()
+
+      this.ExecInit(currentChecks,ivar.execChecks,ivar.ExecInit)
     end
   end
 
@@ -787,18 +812,12 @@ this.execChecks={
   inMenu=false,
 }
 
-local playerVehicleId=0
 this.currentTime=0
 
 this.abortToAcc=false--tex
 
-function this.Update()
-  if TppMission.IsFOBMission(vars.missionCode) then
-    --DEBUGNOW return
-  end
-  
-  playerVehicleId=NULL_ID
-  local currentChecks=this.execChecks
+--tex NOTE: doesn't actually return a new table/reuses input
+function this.UpdateExecChecks(currentChecks)
   --for k,v in ipairs(this.execChecks) do
   --this.execChecks[k]=false--tex TODO: can't figure out why this isn't actually setting REPRO: start misison, get into vehicle, get checkpoint, return to acc, still inGroundVehicle==true
   --end
@@ -812,12 +831,11 @@ function this.Update()
   currentChecks.inMenu=false
 
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
+  currentChecks.inHeliSpace=vars.missionCode and TppMission.IsHelicopterSpace(vars.missionCode)
+  currentChecks.inMission=currentChecks.inGame and not currentChecks.inHeliSpace
 
   if currentChecks.inGame then
-    currentChecks.inHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
-    currentChecks.inMission=currentChecks.inGame and not currentChecks.inHeliSpace
-    playerVehicleId=vars.playerVehicleGameObjectId
-
+    local playerVehicleId=vars.playerVehicleGameObjectId
     if not currentChecks.inHeliSpace then
       currentChecks.initialAction=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
       --if not initialAction then--DEBUG
@@ -830,6 +848,20 @@ function this.Update()
     end
   end
 
+  return currentChecks
+end
+
+function this.Update()
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return
+  end
+
+  local currentChecks=this.UpdateExecChecks(this.execChecks)
+  this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
+
+  InfButton.UpdateHeld()
+  InfButton.UpdateRepeatReset()
+
   local abortButton=InfButton.ESCAPE
   InfButton.buttonStates[abortButton].holdTime=2
   if InfButton.OnButtonHoldTime(abortButton) then
@@ -837,25 +869,17 @@ function this.Update()
       local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
       SplashScreen.Show(splash,0,0.3,0)
       this.abortToAcc=true
-    else--if currentChecks.inGame then--WIP
-      --this.ClearStatus()
+    else--elseif currentChecks.inGame then--WIP
+    --this.ClearStatus()
     end
   end
-
-  this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
-  --if currentChecks.inGame then
-  --InfMenu.DebugPrint(tostring(this.currentTime))
-  --end
-
-  InfButton.UpdateHeld()
-  InfButton.UpdateRepeatReset()
 
   ---Update shiz
   InfMenu.Update(currentChecks)
   currentChecks.inMenu=InfMenu.menuOn
 
   for i, ivar in ipairs(updateIvars) do
-    if ivar.setting==1 then
+    if ivar.setting>0 then
       --tex ivar.updateRate is either number or another ivar
       local updateRate=ivar.updateRate or 0
       local updateRange=ivar.updateRange or 0
@@ -865,7 +889,6 @@ function this.Update()
       if IsTable(updateRange) then
         updateRange=updateRange.setting
       end
-      --
 
       this.ExecUpdate(currentChecks,this.currentTime,ivar.execChecks,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
     end
@@ -874,23 +897,41 @@ function this.Update()
   InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
 end
 
-function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+function this.ExecInit(currentChecks,execChecks,ExecInitFunc)
+  if execChecks==nil then
+    InfMenu.DebugPrint"update ivar has no execChecks var, aborting"
+    return
+  end
+  --  for check,ivarCheck in ipairs(execChecks) do
+  --    if currentChecks[check]~=ivarCheck then
+  --      return
+  --    end
+  --  end
+
+  ExecInitFunc(currentChecks)
+end
+
+function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdateFunc)
   if execState.nextUpdate > currentTime then
     return
   end
 
+  if execChecks==nil then
+    InfMenu.DebugPrint"update ivar has no execChecks var, aborting"
+    return
+  end
   for check,ivarCheck in ipairs(execChecks) do
     if currentChecks[check]~=ivarCheck then
       return
     end
   end
 
-  if not IsFunc(ExecUpdate) then
-    InfMenu.DebugPrint"ExecUpdate is not a function"
+  if not IsFunc(ExecUpdateFunc) then
+    InfMenu.DebugPrint"ExecUpdateFunc is not a function"
     return
   end
 
-  ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  ExecUpdateFunc(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdateFunc)
 
   --tex set up next update time GOTCHA: wont reflect changes to rate and range till next update
   if updateRange then
@@ -909,62 +950,7 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   --end
 end
 
---Phase/Alert updates DOC: Phases-Alerts.txt
---TODO RETRY, see if you can get when player comes into cp range better, playerPhase doesnt change till then
---RESEARCH music also starts up
---then can shift to game msg="ChangePhase" subscription
---state
-local PHASE_ALERT=TppGameObject.PHASE_ALERT
 
-function this.UpdatePhase(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
-  if TppLocation.IsMotherBase() or TppLocation.IsMBQF() then
-    return
-  end
-
-  local currentPhase=vars.playerPhase
-  local minPhase=Ivars.minPhase:Get()
-  local maxPhase=Ivars.maxPhase:Get()
-
-  for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
-    if currentPhase<minPhase then
-      this.ChangePhase(cpName,minPhase)--gvars.minPhase)
-    end
-    if currentPhase>maxPhase then
-      InfMain.ChangePhase(cpName,maxPhase)
-    end
-
-    if Ivars.keepPhase:Is(1) then
-      InfMain.SetKeepAlert(cpName,true)
-    else
-    --InfMain.SetKeepAlert(cpName,false)--tex this would trash any vanilla setting, but updating this to off would only be important if ivar was updated at mission time
-    end
-
-    --tex keep forcing ALERT so that last know pos updates, otherwise it would take till the alert>evasion cooldown
-    --doesnt really work well, > alert is set last know pos, take cover and suppress last know pos
-    --evasion is - is no last pos, downgrade to caution, else group advance on last know pos
-    --ideally would be able to set last know pos independant of phase
-    --if minPhase==PHASE_ALERT then
-    --debugMessage="phase<min setting to "..PhaseName(gvars.minPhase)
-    --if currentPhase==PHASE_ALERT and execState.lastPhase==PHASE_ALERT then
-    --this.ChangePhase(cpName,minPhase-1)--gvars.minPhase)
-    --end
-    --end
-    if minPhase==TppGameObject.PHASE_EVASION then
-      if execState.alertBump then
-        execState.alertBump=false
-        InfMain.ChangePhase(cpName,TppGameObject.PHASE_EVASION)
-      end
-    end
-    if currentPhase<minPhase then
-      if minPhase==TppGameObject.PHASE_EVASION then
-        InfMain.ChangePhase(cpName,PHASE_ALERT)
-        execState.alertBump=true
-      end
-    end
-  end
-
-  execState.lastPhase=currentPhase
-end
 
 --warp mode
 --config
@@ -985,6 +971,7 @@ this.zoomModeButton=InfButton.FIRE
 this.apertureModeButton=InfButton.RELOAD
 this.focusDistanceModeButton=InfButton.STANCE
 this.distanceModeButton=InfButton.CALL
+this.speedModeButton=InfButton.DASH
 
 this.nextEditCamButton=InfButton.RIGHT
 this.prevEditCamButton=InfButton.LEFT
@@ -999,13 +986,7 @@ this.warpModeButtons={
 }
 
 --init
-function this.InitWarpPlayerUpdate()
---  InfButton.buttonStates[this.moveRightButton].decrement=0.1
---  InfButton.buttonStates[this.moveLeftButton].decrement=0.1
---  InfButton.buttonStates[this.moveForwardButton].decrement=0.1
---  InfButton.buttonStates[this.moveBackButton].decrement=0.1
---  InfButton.buttonStates[this.moveUpButton].decrement=0.1
---  InfButton.buttonStates[this.moveDownButton].decrement=0.1
+function this.InitWarpPlayerUpdate(currentChecks)
 end
 
 function this.OnActivateWarpPlayer()
@@ -1145,38 +1126,6 @@ function this.UpdateHeliVars()
   --end
 end
 
-function this.UpdateHeli(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
-  local heliId=GetGameObjectId("TppHeli2","SupportHeli")
-  if heliId==nil or heliId==NULL_ID then
-    return
-  end
-
-  --if Ivars.enableGetOutHeli:Is(1) then--TEST not that useful
-  -- SendCommand(heliId, { id="SetGettingOutEnabled", enabled=true })
-  --end
-
-  if not currentChecks.inMenu and currentChecks.inSupportHeli then
-    if Ivars.disablePullOutHeli:Is(1) then--or not currentChecks.initialAction then
-      if InfButton.OnButtonDown(InfButton.STANCE) then
-        --if not currentChecks.initialAction then--tex heli ride in TODO: RETRY: A reliable mission start parameter
-        --InfMenu.DebugPrint"STANCE"--DEBUG
-        if IsTimerActive"Timer_MissionStartHeliDoorOpen" then
-          --InfMenu.DebugPrint"IsTimerActive"--DEBUG
-          SendCommand(heliId,{id="RequestSnedDoorOpen"})
-        else
-          if Ivars.disablePullOutHeli:Is(1) then
-            --CULL SendCommand(heliId,{id="PullOut",forced=true})--tex even with forced wont go with player in heli
-            Ivars.disablePullOutHeli:Set(0,true,true)--tex overrules all, but we can tell it to not save so that's ok
-            InfMenu.PrintLangId"heli_pulling_out"
-          else
-            Ivars.disablePullOutHeli:Set(1,true,true)
-            InfMenu.PrintLangId"heli_hold_pulling_out"
-          end
-        end
-    end--button down
-    end--nopullout or initialact
-  end--not menu, insupportheli
-end
 
 
 function this.OnMenuOpen()
@@ -1375,7 +1324,7 @@ function this.ResetPool(objectNames)
   return namePool
 end
 
-local function GetRandomPool(pool)
+function this.GetRandomPool(pool)
   local rndIndex=math.random(#pool)
   local name=pool[rndIndex]
   table.remove(pool,rndIndex)
@@ -1387,7 +1336,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
     return
   end
 
-  if Ivars.vehiclePatrolProfile:Is()>0 and Ivars.vehiclePatrolProfile:ExecCheck() then
+  if Ivars.vehiclePatrolProfile:Is()>0 and Ivars.vehiclePatrolProfile:MissionCheck() then
     InfMain.SetLevelRandomSeed()
 
     --local initPoolSize=#this.soldierPool--DEBUG
@@ -1503,7 +1452,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
   startBases=baseNamePool
   local half=math.floor(#startBases/2)
   for i=0, half do
-    table.insert(endBases,GetRandomPool(startBases))
+    table.insert(endBases,this.GetRandomPool(startBases))
   end
   --tex TODO, copy off tables, swap, and make a second pass
 
@@ -1543,8 +1492,8 @@ function this.AddLrrps(soldierDefine,travelPlans)
     local planName=planStr..cpName
     cpDefine.lrrpTravelPlan=planName
     travelPlans[planName]={
-      {base=GetRandomPool(startBases)},
-      {base=GetRandomPool(endBases)},
+      {base=this.GetRandomPool(startBases)},
+      {base=this.GetRandomPool(endBases)},
     }
     numLrrps=numLrrps+1
   end
@@ -1554,13 +1503,8 @@ function this.AddLrrps(soldierDefine,travelPlans)
 end
 
 this.MAX_WILDCARD_FACES=4--10
-function this.IsWildCardEnabled(missionCode)
-  local missionCode=missionCode or vars.missionCode
-  return Ivars.enableWildCardFreeRoam:Is(1) and (missionCode==30010 or missionCode==30020)
-end
-
 function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
-  if not this.IsWildCardEnabled() then
+  if not (Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck()) then
     return
   end
 
@@ -1642,7 +1586,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       break
     end
 
-    local cpName=GetRandomPool(baseNamePool)
+    local cpName=this.GetRandomPool(baseNamePool)
     --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
 
     local cpDefine=soldierDefine[cpName]
@@ -1680,7 +1624,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
             faceIdPool=this.ResetPool(InfEneFova.inf_wildCardFaceList)
           end
 
-          local faceId=GetRandomPool(faceIdPool)
+          local faceId=this.GetRandomPool(faceIdPool)
           local bodyId=EnemyFova.INVALID_FOVA_VALUE
           TppEneFova.RegisterUniqueSetting("enemy",soldierName,faceId,bodyId)
         end
@@ -1707,7 +1651,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       if #weaponPool==0 then
         weaponPool=this.ResetPool(weaponPowers)
       end
-      local weapon=GetRandomPool(weaponPool)
+      local weapon=this.GetRandomPool(weaponPool)
       table.insert(soldierPowers,weapon)
 
       soldierPowerSettings[soldierName]=soldierPowers
@@ -1855,6 +1799,21 @@ end
 
 --tex there's no real lookup for this I've found
 --there's probably faster tables (look in DefineSoldiers()) that have the cpId>soldierId, but this is nice for the soldiername,cpname
+
+local npcHeliList={
+  "WestHeli0000",
+  "WestHeli0001",
+  "WestHeli0002",
+  "EnemyHeli",
+  "EnemyHeli0000",
+  "EnemyHeli0001",
+  "EnemyHeli0002",
+  "EnemyHeli0003",
+  "EnemyHeli0004",
+  "EnemyHeli0005",
+  "EnemyHeli0006",
+}
+
 function this.SoldierNameForGameId(findId)
   for n,soldierName in ipairs(TppReinforceBlock.REINFORCE_SOLDIER_NAMES)do
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
@@ -1876,7 +1835,16 @@ function this.SoldierNameForGameId(findId)
     end
   end
 
-  return "not found"
+  for n,heliName in ipairs(npcHeliList)do
+    local soldierId=GetGameObjectId(heliName)
+    if soldierId~=NULL_ID then
+      if soldierId==findId then
+        return heliName
+      end
+    end
+  end
+
+  return "object name not found"
 end
 
 
@@ -1884,11 +1852,11 @@ function this.ClearStatus()
   InfInspect.TryFunc(function()
     local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
     SplashScreen.Show(splash,0,0.3,0)
-    
+
     vars.playerDisableActionFlag=PlayerDisableAction.NONE
     Player.SetPadMask{settingName="AllClear"}
     Tpp.SetGameStatus{target="all",enable=true,scriptName="InfMain.lua"}
-    InfMenu.DebugPrint"Cleared status"   
+    InfMenu.DebugPrint"Cleared status"
   end)
 end
 
@@ -1897,5 +1865,58 @@ this.heliColors={
   [TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_blk.fv2"},
   [TppDefine.ENEMY_HELI_COLORING_TYPE.RED]={pack="/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",fova="/Assets/tpp/fova/mecha/sbh/sbh_ene_red.fv2"}
 }
+this.heliColorNames={
+  "DEFAULT",
+  "BLACK",
+  "RED",
+}
+
+function this.IvarsIsForMission(ivarList,setting,missionCode)
+  local passedCheck=false
+  for n,ivar in ipairs(ivarList) do
+    if ivar:Is(setting) and ivar:MissionCheck(missionCode) then
+      passedCheck=true
+      break
+    end
+  end
+  return passedCheck
+end
+
+function this.IvarsEnabledForMission(ivarList,missionCode)
+  local passedCheck=false
+  for n,ivar in ipairs(ivarList) do
+    if ivar:Is()>0 and ivar:MissionCheck(missionCode) then
+      passedCheck=true
+      break
+    end
+  end
+  return passedCheck
+end
+
+
+function this.IsStartOnFoot(missionCode,isAssaultLz)
+  local missionCode=missionCode or vars.missionCode
+  local ivarList={
+    Ivars.startOnFootMission,
+    Ivars.startOnFootFree,
+    Ivars.startOnFootMb
+  }
+  local enabled=InfMain.IvarsEnabledForMission(ivarList)
+
+  local assault=InfMain.IvarsIsForMission(ivarList,"NOT_ASSAULT",missionCode)
+  if isAssaultLz and assault then
+    return false
+  else
+    return enabled
+  end
+
+end
+
+function this.GetAverageRevengeLevel()
+  local stealthLevel=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.STEALTH)
+  local combatLevel=TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE.COMBAT)
+
+  return math.ceil((stealthLevel+combatLevel)/2)
+end
 
 return this

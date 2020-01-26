@@ -1,7 +1,9 @@
 -- DOBUILD: 1
 local this={}
 --LOCALOPT:
-local Buttons=InfButton
+local InfButton=InfButton
+local InfMain=InfMain
+local Ivars=Ivars
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
@@ -55,7 +57,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
     return
   end
 
-  --DEBUGNOW
+  --WIP
   --  if previousIndex then
   --    local menuOptions=previousMenuOptions or this.currentMenuOptions
   --    local previousOption=this.menuOptions[this.previousIndex]
@@ -64,7 +66,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
   --        previousOption:OnDeselect()
   --      end
   --    else
-  --      InfMenu.DebugPrint"InfMenu.GetSetting - no previousOption for previousIndex"--DEBUGNOW
+  --      InfMenu.DebugPrint"InfMenu.GetSetting - no previousOption for previousIndex"--DEBUG
   --    end
   --  end
 
@@ -393,10 +395,11 @@ function this.DisplaySetting(optionIndex)
   local settingName = option.description or this.LangString(option.name)
   TppUiCommand.AnnounceLogView(optionIndex..":"..settingName..optionSeperator..settingText)
 end
-function this.DisplaySettings()--tex display all
+--tex display all
+function this.DisplaySettings()
   for i=1,#this.currentMenuOptions do
     this.DisplaySetting(i)
-end
+  end
 end
 function this.DisplayProfileChangedToCustom(profile)
   TppUiCommand.AnnounceLogView("Profile "..this.LangString(profile.name).." set to Custom")--TODO: ADDLANG:
@@ -605,12 +608,6 @@ function this.Update(execCheck)
       this.topMenu=InfMenuDefs.heliSpaceMenu
       this.GoMenu(this.topMenu)
     end
-  elseif TppMission.IsFOBMission(vars.missionCode)then
-    if this.topMenu~=InfMenuDefs.inFOBMenu then
-      Ivars.PrintGvarSettingMismatch()
-      this.topMenu=InfMenuDefs.inFOBMenu
-      this.GoMenu(this.topMenu)
-    end  
   else
     if this.topMenu~=InfMenuDefs.inMissionMenu then
       Ivars.PrintGvarSettingMismatch()
