@@ -153,7 +153,9 @@ function this.OnAllocate(n)
     mvars.snd_bgmList.bgm_heliStart={start="Play_bgm_mtbs_free_start",finish="Stop_bgm_mtbs_free_start"}
   end
   if not n.sound then
-    mvars.snd_startHeliClearJingleName="Play_bgm_mission_clear_heli"mvars.snd_finishHeliClearJingleName="Stop_bgm_mission_clear_heli"return
+    mvars.snd_startHeliClearJingleName="Play_bgm_mission_clear_heli"
+    mvars.snd_finishHeliClearJingleName="Stop_bgm_mission_clear_heli"
+    return
   end
   if IsTypeTable(n.sound.bgmList)then
     mvars.snd_bgmList=n.sound.bgmList
@@ -189,19 +191,23 @@ function this.OnAllocate(n)
   if Tpp.IsTypeString(n.sound.showCreditJingleName)then
     mvars.snd_showCreditJingle=n.sound.showCreditJingleName
   else
-    mvars.snd_showCreditJingle="Set_Switch_bgm_jingle_result_credit"end
+    mvars.snd_showCreditJingle="Set_Switch_bgm_jingle_result_credit"
+  end
   if Tpp.IsTypeString(n.sound.heliDescentJingleName)then
     mvars.snd_heliDescentJingle=n.sound.heliDescentJingleName
   else
-    mvars.snd_heliDescentJingle="Play_bgm_mission_heli_descent"end
+    mvars.snd_heliDescentJingle="Play_bgm_mission_heli_descent"
+  end
   if Tpp.IsTypeString(n.sound.startHeliClearJingleName)then
     mvars.snd_startHeliClearJingleName=n.sound.startHeliClearJingleName
   else
-    mvars.snd_startHeliClearJingleName="Play_bgm_mission_clear_heli"end
+    mvars.snd_startHeliClearJingleName="Play_bgm_mission_clear_heli"
+  end
   if Tpp.IsTypeString(n.sound.finishHeliClearJingleName)then
     mvars.snd_finishHeliClearJingleName=n.sound.finishHeliClearJingleName
   else
-    mvars.snd_finishHeliClearJingleName="Stop_bgm_mission_clear_heli"end
+    mvars.snd_finishHeliClearJingleName="Stop_bgm_mission_clear_heli"
+  end
 end
 function this.OnReload(n)
   this.OnAllocate(n)

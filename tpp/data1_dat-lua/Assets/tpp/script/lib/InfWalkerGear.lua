@@ -154,7 +154,7 @@ function this.SetupWalkerGearWorld()
       return
   end
 
-  InfMain.SetLevelRandomSeed()
+  InfMain.RandomSetToLevelSeed()
 
   local locationName=InfMain.GetLocationName()
 
@@ -194,7 +194,7 @@ function this.SetupWalkerGearWorld()
       GameObject.SendCommand(walkerId,command)
     end
   end
-  InfMain.ResetTrueRandom()
+  InfMain.RandomResetToOsTime()
 
   end)
 
@@ -205,7 +205,7 @@ function this.SetupWalkerGearMb()
     return
   end
 
-  InfMain.SetLevelRandomSeed()
+  InfMain.RandomSetToLevelSeed()
 
   local numClusters=0
   for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do
@@ -294,7 +294,7 @@ function this.SetupWalkerGearMb()
   --InfInspect.PrintInspect(this.walkerPlats)--DEBUG
 
   local function GetRandomColorType()
-    return math.random(1,5)--tex NOTE leaving out HUEY_PROTO because of texure error
+    return math.random(0,4)--tex NOTE leaving out HUEY_PROTO because of texure error
   end
   local walkerColorType=GetRandomColorType()
 
@@ -343,13 +343,13 @@ function this.SetupWalkerGearMb()
         --        local command={id="SetExtraPartsForSpecialEnemy",enabled=true}
         --        GameObject.SendCommand(walkerId,command)
 
-        local command={id="SetColoringType",type=walkerColorType-1}
+        local command={id="SetColoringType",type=walkerColorType}
         GameObject.SendCommand(walkerId,command)
       end
     end
   end
 
-  InfMain.ResetTrueRandom()
+  InfMain.RandomResetToOsTime()
 end
 
 function this.GetNumDDWalkers()

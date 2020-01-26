@@ -49,16 +49,10 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(-652.23,180.00,1012.55),Vector3(-536.76,180.00,897.08),Vector3(-463.86,180.00,969.99),Vector3(-193.42,180.00,699.55),Vector3(-193.40,180.00,39.43),Vector3(-539.49,180.00,39.43),Vector3(-845.91,180.00,345.86),Vector3(-845.91,180.00,587.93),Vector3(-961.38,180.00,703.40), },  },
           },
           missionStartPoint = {Vector3(-218.07,328.03,395.86),Vector3(-381.54,294.27,910.16),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
             {point=Vector3(-289.80,346.69,269.68),startPoint=Vector3(161.28,335.69,140.48),routeId="lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000"},
             {point=Vector3(-596.89,353.02,497.40),startPoint=Vector3(-946.28,309.02,981.35),routeId="lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"},
-          },
-          heliLandPointNoCentral = {
-            {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
-            {point=Vector3(-289.80,346.69,269.68),startPoint=Vector3(161.28,335.69,140.48),routeId="lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000"},
-            --[[{point=Vector3(-596.89,353.02,497.40),startPoint=Vector3(-946.28,309.02,981.35),routeId="lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"},--]]
           },
         }
       elseif missionId == 10036 then
@@ -70,14 +64,8 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(665.93,210.47,2451.45),Vector3(665.93,210.47,1821.45),Vector3(-127.91,210.47,1821.45),Vector3(-127.91,210.47,2451.45), },  },
           },
           missionStartPoint = {Vector3(942.09,290.66,2357.63),Vector3(864.09,329.14,1682.99),Vector3(-102.06,276.40,1831.24),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(418.33,278.22,2261.37),startPoint=Vector3(887.95,309.12,2383.44),routeId="lz_drp_field_I0000|rt_drp_field_I_0000"},
-            {point=Vector3(802.56,345.37,1637.75),startPoint=Vector3(1247.97,345.37,1298.36),routeId="lz_drp_field_N0000|rt_drp_field_N_0000"},
-            {point=Vector3(-359.62,283.42,1714.79),startPoint=Vector3(-771.13,305.42,1447.29),routeId="lz_drp_field_W0000|rt_drp_field_W_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(418.33,278.22,2261.37),startPoint=Vector3(887.95,309.12,2383.44),routeId="lz_drp_field_I0000|rt_drp_field_I_0000"},--]]
             {point=Vector3(802.56,345.37,1637.75),startPoint=Vector3(1247.97,345.37,1298.36),routeId="lz_drp_field_N0000|rt_drp_field_N_0000"},
             {point=Vector3(-359.62,283.42,1714.79),startPoint=Vector3(-771.13,305.42,1447.29),routeId="lz_drp_field_W0000|rt_drp_field_W_0000"},
           },
@@ -90,13 +78,8 @@ mbdvc_map_mission_parameter = {
           safetyArea2 = {
           },
           missionStartPoint = {Vector3(1116.82,322.19,-76.58),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(2106.16,463.64,-1747.21),startPoint=Vector3(2043.26,474.64,-1248.49),routeId="lz_drp_fort_I0000|rt_drp_fort_I_0000"},
-            {point=Vector3(1187.73,320.98,-10.40),startPoint=Vector3(1489.55,336.98,65.91),routeId="lz_drp_slopedTownEast_E0000|rt_drp_slopedTownEast_E_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(2106.16,463.64,-1747.21),startPoint=Vector3(2043.26,474.64,-1248.49),routeId="lz_drp_fort_I0000|rt_drp_fort_I_0000"},--]]
             {point=Vector3(1187.73,320.98,-10.40),startPoint=Vector3(1489.55,336.98,65.91),routeId="lz_drp_slopedTownEast_E0000|rt_drp_slopedTownEast_E_0000"},
           },
         }
@@ -111,8 +94,7 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone_03", vertices={ Vector3(-254.23,333.57,709.96),Vector3(-510.23,353.92,965.30),Vector3(-640.50,364.18,977.21),Vector3(-638.56,285.52,836.22),Vector3(-782.00,339.46,697.81),Vector3(-766.86,430.43,260.05),Vector3(-256.85,331.36,255.86), },  },
           },
           missionStartPoint = {Vector3(492.55,348.17,521.41),Vector3(-304.16,325.66,819.24),Vector3(1096.99,331.71,1453.27),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(-289.80,346.69,269.68),startPoint=Vector3(161.28,335.69,140.48),routeId="lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000"},
             {point=Vector3(802.56,345.37,1637.75),startPoint=Vector3(1247.97,345.37,1298.36),routeId="lz_drp_field_N0000|rt_drp_field_N_0000"},
             {point=Vector3(-359.62,283.42,1714.79),startPoint=Vector3(-771.13,305.42,1447.29),routeId="lz_drp_field_W0000|rt_drp_field_W_0000"},
@@ -122,17 +104,6 @@ mbdvc_map_mission_parameter = {
             {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
             {point=Vector3(418.33,278.22,2261.37),startPoint=Vector3(887.95,309.12,2383.44),routeId="lz_drp_field_I0000|rt_drp_field_I_0000"},
             {point=Vector3(-596.89,353.02,497.40),startPoint=Vector3(-946.28,309.02,981.35),routeId="lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"},
-          },
-          heliLandPointNoCentral = {
-            {point=Vector3(-289.80,346.69,269.68),startPoint=Vector3(161.28,335.69,140.48),routeId="lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000"},
-            {point=Vector3(802.56,345.37,1637.75),startPoint=Vector3(1247.97,345.37,1298.36),routeId="lz_drp_field_N0000|rt_drp_field_N_0000"},
-            {point=Vector3(-359.62,283.42,1714.79),startPoint=Vector3(-771.13,305.42,1447.29),routeId="lz_drp_field_W0000|rt_drp_field_W_0000"},
-            {point=Vector3(822.37,360.44,292.44),startPoint=Vector3(335.25,364.44,413.83),routeId="lz_drp_slopedTown_E0000|rt_drp_slopedTown_E_0000"},
-            --[[{point=Vector3(512.11,316.60,167.44),startPoint=Vector3(1074.92,379.60,506.01),routeId="lz_drp_slopedTown_I0000|rt_drp_slopedTown_I_0000"},--]]
-            {point=Vector3(1275.22,337.42,1313.33),startPoint=Vector3(1255.64,340.42,1747.07),routeId="lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000"},
-            {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
-            --[[{point=Vector3(418.33,278.22,2261.37),startPoint=Vector3(887.95,309.12,2383.44),routeId="lz_drp_field_I0000|rt_drp_field_I_0000"},--]]
-            --[[{point=Vector3(-596.89,353.02,497.40),startPoint=Vector3(-946.28,309.02,981.35),routeId="lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"},--]]
           },
         }
       elseif missionId == 10043 then
@@ -144,14 +115,9 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(1488.70,176.59,673.08),Vector3(1802.91,176.59,573.08),Vector3(1802.91,176.59,189.79),Vector3(1220.73,176.59,189.79),Vector3(1220.73,176.59,536.06), },  },
           },
           missionStartPoint = {Vector3(1277.31,330.42,1311.32),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(1275.22,337.42,1313.33),startPoint=Vector3(1255.64,340.42,1747.07),routeId="lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000"},
             {point=Vector3(1444.40,364.14,390.78),startPoint=Vector3(925.92,368.14,502.51),routeId="lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000"},
-          },
-          heliLandPointNoCentral = {
-            {point=Vector3(1275.22,337.42,1313.33),startPoint=Vector3(1255.64,340.42,1747.07),routeId="lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000"},
-            --[[{point=Vector3(1444.40,364.14,390.78),startPoint=Vector3(925.92,368.14,502.51),routeId="lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000"},--]]
           },
         }
       elseif missionId == 10044 then
@@ -163,16 +129,9 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(446.45,336.90,-640.51),Vector3(36.00,335.77,-640.00),Vector3(36.00,335.77,-320.00),Vector3(-384.00,335.77,-320.00),Vector3(-384.00,335.77,-1280.00),Vector3(668.00,335.77,-1280.00),Vector3(668.00,335.77,-1984.00),Vector3(2496.00,335.77,-1984.00),Vector3(2496.00,335.77,-1152.00),Vector3(832.00,335.77,-1152.00),Vector3(832.00,335.77,-832.00),Vector3(547.41,335.77,-832.00),Vector3(547.34,334.63,-639.49), },  },
           },
           missionStartPoint = {Vector3(765.04,445.37,-1388.23),Vector3(392.03,411.17,-868.69),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(2106.16,463.64,-1747.21),startPoint=Vector3(2043.26,474.64,-1248.49),routeId="lz_drp_fort_I0000|rt_drp_fort_I_0000"},
             {point=Vector3(759.83,452.30,-1113.10),startPoint=Vector3(65.71,437.30,-792.83),routeId="lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000"},
-            {point=Vector3(834.42,451.21,-1420.10),startPoint=Vector3(1398.39,514.21,-1245.88),routeId="lz_drp_cliffTown_N0000|rt_drp_clifftown_N_0000"},
-            {point=Vector3(491.46,418.47,-693.19),startPoint=Vector3(886.63,393.47,-299.32),routeId="lz_drp_cliffTown_S0000|rt_drp_cliffTown_S_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(2106.16,463.64,-1747.21),startPoint=Vector3(2043.26,474.64,-1248.49),routeId="lz_drp_fort_I0000|rt_drp_fort_I_0000"},--]]
-            --[[{point=Vector3(759.83,452.30,-1113.10),startPoint=Vector3(65.71,437.30,-792.83),routeId="lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000"},--]]
             {point=Vector3(834.42,451.21,-1420.10),startPoint=Vector3(1398.39,514.21,-1245.88),routeId="lz_drp_cliffTown_N0000|rt_drp_clifftown_N_0000"},
             {point=Vector3(491.46,418.47,-693.19),startPoint=Vector3(886.63,393.47,-299.32),routeId="lz_drp_cliffTown_S0000|rt_drp_cliffTown_S_0000"},
           },
@@ -186,16 +145,10 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(-1165.45,300.78,1961.37),Vector3(-426.53,332.25,2469.81),Vector3(7.73,238.02,1852.37),Vector3(-731.18,206.55,1343.92), },  },
           },
           missionStartPoint = {Vector3(799.48,327.50,1745.08),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(802.56,345.37,1637.75),startPoint=Vector3(1247.97,345.37,1298.36),routeId="lz_drp_field_N0000|rt_drp_field_N_0000"},
             {point=Vector3(418.33,278.22,2261.37),startPoint=Vector3(887.95,309.12,2383.44),routeId="lz_drp_field_I0000|rt_drp_field_I_0000"},
             {point=Vector3(-805.54,291.88,1820.65),startPoint=Vector3(-248.03,297.88,1963.33),routeId="lz_drp_remnants_I0000|rt_drp_remnants_I_0000"},
-          },
-          heliLandPointNoCentral = {
-            {point=Vector3(802.56,345.37,1637.75),startPoint=Vector3(1247.97,345.37,1298.36),routeId="lz_drp_field_N0000|rt_drp_field_N_0000"},
-            --[[{point=Vector3(418.33,278.22,2261.37),startPoint=Vector3(887.95,309.12,2383.44),routeId="lz_drp_field_I0000|rt_drp_field_I_0000"},--]]
-            --[[{point=Vector3(-805.54,291.88,1820.65),startPoint=Vector3(-248.03,297.88,1963.33),routeId="lz_drp_remnants_I0000|rt_drp_remnants_I_0000"},--]]
           },
         }
       elseif missionId == 10050 then
@@ -218,15 +171,9 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(-2030.49,205.75,638.47),Vector3(-2030.49,205.75,850.94),Vector3(-719.94,205.75,2158.71),Vector3(-378.96,205.75,2158.71),Vector3(-293.85,205.75,2073.61),Vector3(-293.85,205.75,1495.73),Vector3(-1320.96,205.75,468.49),Vector3(-1860.19,205.75,468.49), },  },
           },
           missionStartPoint = {Vector3(-425.12,282.10,2004.85),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(-1761.73,317.69,806.51),startPoint=Vector3(-1158.50,335.69,1422.75),routeId="lz_drp_tent_I0000|rt_drp_tent_I_0000"},
             {point=Vector3(-805.54,291.88,1820.65),startPoint=Vector3(-248.03,297.88,1963.33),routeId="lz_drp_remnants_I0000|rt_drp_remnants_I_0000"},
-            {point=Vector3(-424.83,289.10,2004.96),startPoint=Vector3(54.07,312.10,2230.84),routeId="lz_drp_remnants_S0000|rt_drp_remnants_S_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(-1761.73,317.69,806.51),startPoint=Vector3(-1158.50,335.69,1422.75),routeId="lz_drp_tent_I0000|rt_drp_tent_I_0000"},--]]
-            --[[{point=Vector3(-805.54,291.88,1820.65),startPoint=Vector3(-248.03,297.88,1963.33),routeId="lz_drp_remnants_I0000|rt_drp_remnants_I_0000"},--]]
             {point=Vector3(-424.83,289.10,2004.96),startPoint=Vector3(54.07,312.10,2230.84),routeId="lz_drp_remnants_S0000|rt_drp_remnants_S_0000"},
           },
         }
@@ -239,22 +186,13 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(-127.62,258.86,259.52),Vector3(-127.62,258.86,1386.09),Vector3(-764.70,258.86,2023.18),Vector3(-1506.76,258.87,2023.18),Vector3(-2122.12,258.87,1407.82),Vector3(-2122.12,258.87,388.44),Vector3(-1572.01,258.87,-161.67),Vector3(-548.84,258.87,-161.67), },  },
           },
           missionStartPoint = {Vector3(-289.90,339.60,276.04),Vector3(-1344.53,299.51,1157.05),Vector3(-1905.65,333.13,555.18),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(-1868.78,338.48,538.78),startPoint=Vector3(-1886.95,348.98,166.98),routeId="lz_drp_tent_N0000|rt_drp_tent_N_0000"},
             {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
             {point=Vector3(-1761.73,317.69,806.51),startPoint=Vector3(-1158.50,335.69,1422.75),routeId="lz_drp_tent_I0000|rt_drp_tent_I_0000"},
             {point=Vector3(-836.84,288.90,1574.03),startPoint=Vector3(-312.47,306.90,1792.76),routeId="lz_drp_remnantsNorth_N0000|rt_drp_remnantsNorth_N_0000"},
             {point=Vector3(-805.54,291.88,1820.65),startPoint=Vector3(-248.03,297.88,1963.33),routeId="lz_drp_remnants_I0000|rt_drp_remnants_I_0000"},
             {point=Vector3(-596.89,353.02,497.40),startPoint=Vector3(-946.28,309.02,981.35),routeId="lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"},
-          },
-          heliLandPointNoCentral = {
-            {point=Vector3(-1868.78,338.48,538.78),startPoint=Vector3(-1886.95,348.98,166.98),routeId="lz_drp_tent_N0000|rt_drp_tent_N_0000"},
-            {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
-            --[[{point=Vector3(-1761.73,317.69,806.51),startPoint=Vector3(-1158.50,335.69,1422.75),routeId="lz_drp_tent_I0000|rt_drp_tent_I_0000"},--]]
-            {point=Vector3(-836.84,288.90,1574.03),startPoint=Vector3(-312.47,306.90,1792.76),routeId="lz_drp_remnantsNorth_N0000|rt_drp_remnantsNorth_N_0000"},
-            --[[{point=Vector3(-805.54,291.88,1820.65),startPoint=Vector3(-248.03,297.88,1963.33),routeId="lz_drp_remnants_I0000|rt_drp_remnants_I_0000"},--]]
-            --[[{point=Vector3(-596.89,353.02,497.40),startPoint=Vector3(-946.28,309.02,981.35),routeId="lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"},--]]
           },
         }
       elseif missionId == 10070 then
@@ -289,8 +227,7 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(512.42,-58.49,-851.54),Vector3(1334.61,-58.49,-851.54),Vector3(1334.61,-58.49,-851.54),Vector3(1334.61,-58.49,-851.54),Vector3(1345.49,51.35,-1279.86),Vector3(511.69,51.35,-1279.86), },  },
           },
           missionStartPoint = {Vector3(1211.75,96.57,-752.04),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(1203.80,107.74,-792.16),startPoint=Vector3(1225.37,122.74,-303.61),routeId="lz_drp_diamondSouth_W0000|rt_drp_diamondSouth_W_0000"},
           },
         }
@@ -303,13 +240,8 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(60.99,-55.28,-217.14),Vector3(687.23,-55.28,672.88),Vector3(1546.48,-55.28,68.29),Vector3(920.24,-55.28,-821.73), },  },
           },
           missionStartPoint = {Vector3(592.67,-9.82,406.99),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(1014.25,57.18,-221.46),startPoint=Vector3(263.05,40.18,-292.45),routeId="lz_drp_savannah_I0000|rt_drp_savannah_I_0000"},
-            {point=Vector3(582.54,-3.14,418.17),startPoint=Vector3(416.04,37.87,955.68),routeId="lz_drp_pfCampNorth_S0000|rt_drp_pfCampNorth_S_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(1014.25,57.18,-221.46),startPoint=Vector3(263.05,40.18,-292.45),routeId="lz_drp_savannah_I0000|rt_drp_savannah_I_0000"},--]]
             {point=Vector3(582.54,-3.14,418.17),startPoint=Vector3(416.04,37.87,955.68),routeId="lz_drp_pfCampNorth_S0000|rt_drp_pfCampNorth_S_0000"},
           },
         }
@@ -322,16 +254,10 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(2508.38,11.61,-445.77),Vector3(2213.34,-115.14,-445.76),Vector3(2077.08,147.50,-308.70),Vector3(2077.10,147.50,-35.06),Vector3(1941.28,11.61,100.81),Vector3(1941.45,11.61,487.32),Vector3(2372.43,11.61,487.22),Vector3(2508.38,147.50,351.41), },  },
           },
           missionStartPoint = {Vector3(1676.12,49.58,-276.88),Vector3(1959.47,33.69,477.70),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(1769.46,28.60,560.59),startPoint=Vector3(1318.61,56.60,247.85),routeId="lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000"},
             {point=Vector3(1734.22,66.01,-407.54),startPoint=Vector3(1905.69,129.57,-767.85),routeId="lz_drp_hillNorth_W0000|rt_drp_hillNorth_W_0000"},
             {point=Vector3(2154.83,63.09,366.70),startPoint=Vector3(1472.96,56.09,535.65),routeId="lz_drp_hill_I0000|rt_drp_hill_I_0000"},
-          },
-          heliLandPointNoCentral = {
-            {point=Vector3(1769.46,28.60,560.59),startPoint=Vector3(1318.61,56.60,247.85),routeId="lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000"},
-            {point=Vector3(1734.22,66.01,-407.54),startPoint=Vector3(1905.69,129.57,-767.85),routeId="lz_drp_hillNorth_W0000|rt_drp_hillNorth_W_0000"},
-            --[[{point=Vector3(2154.83,63.09,366.70),startPoint=Vector3(1472.96,56.09,535.65),routeId="lz_drp_hill_I0000|rt_drp_hill_I_0000"},--]]
           },
         }
       elseif missionId == 10086 then
@@ -343,14 +269,8 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(-163.40,-99.45,-472.00),Vector3(101.00,-99.45,-472.00),Vector3(101.00,-99.45,296.00),Vector3(-474.00,-99.45,296.00),Vector3(-614.00,-99.45,156.00),Vector3(-614.00,-99.45,-246.00),Vector3(-392.00,-99.45,-246.00), },  },
           },
           missionStartPoint = {Vector3(-389.61,-0.31,431.53),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(-19.63,11.17,140.91),startPoint=Vector3(-690.06,9.17,384.74),routeId="lz_drp_swamp_I0000|rt_drp_swamp_I_0000"},
-            {point=Vector3(-163.59,7.96,385.58),startPoint=Vector3(129.00,40.96,832.24),routeId="lz_drp_swamp_S0000|rt_drp_swamp_S_0000"},
-            {point=Vector3(-618.09,6.48,232.79),startPoint=Vector3(-1170.26,39.73,167.57),routeId="lz_drp_swamp_W0000|lz_drp_swamp_W_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(-19.63,11.17,140.91),startPoint=Vector3(-690.06,9.17,384.74),routeId="lz_drp_swamp_I0000|rt_drp_swamp_I_0000"},--]]
             {point=Vector3(-163.59,7.96,385.58),startPoint=Vector3(129.00,40.96,832.24),routeId="lz_drp_swamp_S0000|rt_drp_swamp_S_0000"},
             {point=Vector3(-618.09,6.48,232.79),startPoint=Vector3(-1170.26,39.73,167.57),routeId="lz_drp_swamp_W0000|lz_drp_swamp_W_0000"},
           },
@@ -364,20 +284,12 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(871.00,-123.00,1600.00),Vector3(1327.00,-123.00,1600.00),Vector3(1553.00,-123.00,1373.00),Vector3(1553.00,-123.00,-335.00),Vector3(0.00,-123.00,-335.00),Vector3(-304.00,-123.00,-640.00),Vector3(-1406.00,-123.00,-640.00),Vector3(-1406.00,-123.00,210.00),Vector3(-342.00,-123.00,210.00),Vector3(311.00,-123.00,854.00),Vector3(311.00,-123.00,1040.00), },  },
           },
           missionStartPoint = {Vector3(571.07,-7.50,386.21),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(846.46,-4.97,1148.62),startPoint=Vector3(1340.72,3.13,1707.16),routeId="lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"},
             {point=Vector3(1014.25,57.18,-221.46),startPoint=Vector3(263.05,40.18,-292.45),routeId="lz_drp_savannah_I0000|rt_drp_savannah_I_0000"},
             {point=Vector3(582.54,-3.14,418.17),startPoint=Vector3(416.04,37.87,955.68),routeId="lz_drp_pfCampNorth_S0000|rt_drp_pfCampNorth_S_0000"},
             {point=Vector3(-19.63,11.17,140.91),startPoint=Vector3(-690.06,9.17,384.74),routeId="lz_drp_swamp_I0000|rt_drp_swamp_I_0000"},
             {point=Vector3(-1001.38,-7.20,-199.16),startPoint=Vector3(-853.18,22.80,251.66),routeId="lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(846.46,-4.97,1148.62),startPoint=Vector3(1340.72,3.13,1707.16),routeId="lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"},--]]
-            --[[{point=Vector3(1014.25,57.18,-221.46),startPoint=Vector3(263.05,40.18,-292.45),routeId="lz_drp_savannah_I0000|rt_drp_savannah_I_0000"},--]]
-            {point=Vector3(582.54,-3.14,418.17),startPoint=Vector3(416.04,37.87,955.68),routeId="lz_drp_pfCampNorth_S0000|rt_drp_pfCampNorth_S_0000"},
-            --[[{point=Vector3(-19.63,11.17,140.91),startPoint=Vector3(-690.06,9.17,384.74),routeId="lz_drp_swamp_I0000|rt_drp_swamp_I_0000"},--]]
-            --[[{point=Vector3(-1001.38,-7.20,-199.16),startPoint=Vector3(-853.18,22.80,251.66),routeId="lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000"},--]]
           },
         }
       elseif missionId == 10091 then
@@ -389,15 +301,9 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(384.00,-91.07,352.00),Vector3(384.00,-91.07,-480.00),Vector3(384.00,-91.07,-480.00),Vector3(-512.00,-91.07,-480.00),Vector3(-768.00,-91.07,-320.00),Vector3(-768.00,-91.07,192.00),Vector3(-512.00,-91.07,352.00), },  },
           },
           missionStartPoint = {Vector3(-726.65,7.79,-360.65),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(-610.26,13.10,-398.20),startPoint=Vector3(-513.43,36.10,39.07),routeId="lz_drp_flowStation_E0000|lz_drp_flowStation_E_0000"},
             {point=Vector3(-19.63,11.17,140.91),startPoint=Vector3(-690.06,9.17,384.74),routeId="lz_drp_swamp_I0000|rt_drp_swamp_I_0000"},
-            {point=Vector3(-618.09,6.48,232.79),startPoint=Vector3(-1170.26,39.73,167.57),routeId="lz_drp_swamp_W0000|lz_drp_swamp_W_0000"},
-          },
-          heliLandPointNoCentral = {
-            {point=Vector3(-610.26,13.10,-398.20),startPoint=Vector3(-513.43,36.10,39.07),routeId="lz_drp_flowStation_E0000|lz_drp_flowStation_E_0000"},
-            --[[{point=Vector3(-19.63,11.17,140.91),startPoint=Vector3(-690.06,9.17,384.74),routeId="lz_drp_swamp_I0000|rt_drp_swamp_I_0000"},--]]
             {point=Vector3(-618.09,6.48,232.79),startPoint=Vector3(-1170.26,39.73,167.57),routeId="lz_drp_swamp_W0000|lz_drp_swamp_W_0000"},
           },
         }
@@ -410,12 +316,7 @@ mbdvc_map_mission_parameter = {
             { name="trap_hotZone", vertices={ Vector3(2877.15,31.98,-1729.20),Vector3(2877.34,104.39,-2588.17),Vector3(1969.79,47.81,-2588.13),Vector3(1969.45,61.76,-1729.16),Vector3(2877.15,31.98,-1729.20), },  },
           },
           missionStartPoint = {Vector3(2588.31,190.33,-2491.76),Vector3(2509.88,102.72,-1808.14),Vector3(2040.85,189.38,-2211.11),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
-            {point=Vector3(2331.11,208.01,-2487.00),startPoint=Vector3(2069.32,209.01,-2087.33),routeId="lz_drp_lab_W0000|rt_drp_lab_W_0000"},
-            {point=Vector3(2521.90,111.82,-1833.82),startPoint=Vector3(2481.70,86.82,-1321.02),routeId="lz_drp_lab_S0000|rt_drp_lab_S_0000"},
-          },
-          heliLandPointNoCentral = {
+          heliLandPoint = {
             {point=Vector3(2331.11,208.01,-2487.00),startPoint=Vector3(2069.32,209.01,-2087.33),routeId="lz_drp_lab_W0000|rt_drp_lab_W_0000"},
             {point=Vector3(2521.90,111.82,-1833.82),startPoint=Vector3(2481.70,86.82,-1321.02),routeId="lz_drp_lab_S0000|rt_drp_lab_S_0000"},
           },
@@ -429,16 +330,10 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(2042.00,-24.12,-2326.01),Vector3(1064.06,-24.12,-2326.00),Vector3(50.00,-24.12,-1311.69),Vector3(49.99,-24.12,-434.13),Vector3(2042.04,-24.12,-434.04), },  },
           },
           missionStartPoint = {Vector3(265.18,2.34,-467.95),Vector3(484.26,67.85,-1316.00),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(510.10,20.43,-732.55),startPoint=Vector3(430.71,35.43,-208.19),routeId="lz_drp_savannahWest_N0000|lz_drp_savannahWest_N_0000"},
             {point=Vector3(1381.85,137.05,-1516.01),startPoint=Vector3(1083.13,158.05,-1892.86),routeId="lz_drp_diamond_I0000|rt_drp_diamond_I_0000"},
             {point=Vector3(300.61,50.06,-1237.66),startPoint=Vector3(559.74,38.06,-707.21),routeId="lz_drp_banana_I0000|rt_drp_banana_I_0000"},
-          },
-          heliLandPointNoCentral = {
-            {point=Vector3(510.10,20.43,-732.55),startPoint=Vector3(430.71,35.43,-208.19),routeId="lz_drp_savannahWest_N0000|lz_drp_savannahWest_N_0000"},
-            --[[{point=Vector3(1381.85,137.05,-1516.01),startPoint=Vector3(1083.13,158.05,-1892.86),routeId="lz_drp_diamond_I0000|rt_drp_diamond_I_0000"},--]]
-            --[[{point=Vector3(300.61,50.06,-1237.66),startPoint=Vector3(559.74,38.06,-707.21),routeId="lz_drp_banana_I0000|rt_drp_banana_I_0000"},--]]
           },
         }
       elseif missionId == 10110 then
@@ -450,13 +345,8 @@ mbdvc_map_mission_parameter = {
             { name="Trig_hotZone", vertices={ Vector3(2664.31,76.67,-923.01),Vector3(2697.92,88.21,-987.19),Vector3(2867.15,103.90,-996.88),Vector3(2978.33,96.39,-922.24),Vector3(2971.94,89.17,-826.97),Vector3(2825.50,95.36,-754.85),Vector3(2685.86,86.31,-861.37), },  },
           },
           missionStartPoint = {Vector3(1899.35,9.51,582.51),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(2154.83,63.09,366.70),startPoint=Vector3(1472.96,56.09,535.65),routeId="lz_drp_hill_I0000|rt_drp_hill_I_0000"},
-            {point=Vector3(1769.46,28.60,560.59),startPoint=Vector3(1318.61,56.60,247.85),routeId="lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(2154.83,63.09,366.70),startPoint=Vector3(1472.96,56.09,535.65),routeId="lz_drp_hill_I0000|rt_drp_hill_I_0000"},--]]
             {point=Vector3(1769.46,28.60,560.59),startPoint=Vector3(1318.61,56.60,247.85),routeId="lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000"},
           },
         }
@@ -477,8 +367,7 @@ mbdvc_map_mission_parameter = {
           safetyArea2 = {
           },
           missionStartPoint = {Vector3(-932.20,-20.51,600.14),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(-807.61,3.47,516.01),startPoint=Vector3(-428.89,33.47,271.33),routeId="lz_drp_outland_N0000|rt_drp_outland_N_0000"},
           },
         }
@@ -491,13 +380,8 @@ mbdvc_map_mission_parameter = {
             { name="trig_HotZone", vertices={ Vector3(1151.35,-109.15,1598.21),Vector3(768.59,-111.20,1592.14),Vector3(576.00,-88.25,1408.00),Vector3(572.65,-109.06,896.65),Vector3(767.71,-112.77,698.35),Vector3(1151.31,-112.79,698.99),Vector3(1152.51,-113.30,895.11),Vector3(1153.00,-113.54,1145.04),Vector3(1280.40,-113.41,1278.40),Vector3(1283.08,-113.47,1470.53), },  },
           },
           missionStartPoint = {Vector3(1047.60,-3.47,732.79),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(846.46,-4.97,1148.62),startPoint=Vector3(1340.72,3.13,1707.16),routeId="lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"},
-            {point=Vector3(1061.84,6.78,731.21),startPoint=Vector3(625.74,29.78,306.26),routeId="lz_drp_pfCamp_N0000|rt_drp_pfcamp_N_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(846.46,-4.97,1148.62),startPoint=Vector3(1340.72,3.13,1707.16),routeId="lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"},--]]
             {point=Vector3(1061.84,6.78,731.21),startPoint=Vector3(625.74,29.78,306.26),routeId="lz_drp_pfCamp_N0000|rt_drp_pfcamp_N_0000"},
           },
         }
@@ -510,8 +394,7 @@ mbdvc_map_mission_parameter = {
             { name="trap_hotZone", vertices={ Vector3(2815.31,-668.02,-1665.44),Vector3(2815.50,-595.61,-2586.86),Vector3(1969.79,-652.19,-2586.82),Vector3(1969.45,-638.24,-1665.40),Vector3(2815.31,-668.02,-1665.44), },  },
           },
           missionStartPoint = {Vector3(2386.56,86.06,-1120.91),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(2441.72,78.25,-1191.68),startPoint=Vector3(2674.50,97.25,-1781.35),routeId="rts_drp_lab_S_0000"},
           },
         }
@@ -558,12 +441,7 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(1338.95,160.00,1170.95),Vector3(1146.95,160.00,1362.95),Vector3(1146.95,160.00,1682.95),Vector3(1146.95,160.00,1682.95),Vector3(1146.95,160.00,1682.95),Vector3(1146.95,160.00,1682.95),Vector3(1338.95,160.00,1874.95),Vector3(1690.95,128.00,1522.95), },  },
           },
           missionStartPoint = {Vector3(1586.17,312.85,1807.30),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
-            {point=Vector3(1275.22,337.42,1313.33),startPoint=Vector3(1255.64,340.42,1747.07),routeId="lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000"},
-            {point=Vector3(1272.20,329.63,1853.51),startPoint=Vector3(1250.48,317.63,2167.53),routeId="lz_drp_ruins_S0000|rt_drp_ruins_S_0000"},
-          },
-          heliLandPointNoCentral = {
+          heliLandPoint = {
             {point=Vector3(1275.22,337.42,1313.33),startPoint=Vector3(1255.64,340.42,1747.07),routeId="lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000"},
             {point=Vector3(1272.20,329.63,1853.51),startPoint=Vector3(1250.48,317.63,2167.53),routeId="lz_drp_ruins_S0000|rt_drp_ruins_S_0000"},
           },
@@ -577,15 +455,8 @@ mbdvc_map_mission_parameter = {
             { name="trg_hotZone", vertices={ Vector3(671.53,-124.43,1312.92),Vector3(1176.82,-124.43,1312.92),Vector3(1176.82,-124.43,204.01),Vector3(672.12,-124.43,204.01), },  },
           },
           missionStartPoint = {Vector3(245.33,7.77,551.92),Vector3(1530.92,30.21,-33.40),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(846.46,-4.97,1148.62),startPoint=Vector3(1340.72,3.13,1707.16),routeId="lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"},
-            {point=Vector3(1769.46,28.60,560.59),startPoint=Vector3(1318.61,56.60,247.85),routeId="lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000"},
-            {point=Vector3(-145.52,16.15,-379.20),startPoint=Vector3(474.18,30.15,-323.11),routeId="lz_drp_swamp_N0000|lz_drp_swamp_N_0000"},
-            {point=Vector3(1119.97,10.72,317.63),startPoint=Vector3(564.28,31.72,31.20),routeId="lz_drp_savannahEast_S0000|lz_drp_savannahEast_S_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(846.46,-4.97,1148.62),startPoint=Vector3(1340.72,3.13,1707.16),routeId="lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"},--]]
             {point=Vector3(1769.46,28.60,560.59),startPoint=Vector3(1318.61,56.60,247.85),routeId="lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000"},
             {point=Vector3(-145.52,16.15,-379.20),startPoint=Vector3(474.18,30.15,-323.11),routeId="lz_drp_swamp_N0000|lz_drp_swamp_N_0000"},
             {point=Vector3(1119.97,10.72,317.63),startPoint=Vector3(564.28,31.72,31.20),routeId="lz_drp_savannahEast_S0000|lz_drp_savannahEast_S_0000"},
@@ -602,14 +473,8 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone_03", vertices={ Vector3(1666.85,55.54,-2.89),Vector3(1401.06,-49.69,0.31),Vector3(1406.11,-78.50,382.47),Vector3(1663.69,-43.19,403.56),Vector3(1866.97,33.04,176.94), },  },
           },
           missionStartPoint = {Vector3(1368.69,18.01,-164.46),Vector3(1096.41,5.67,449.27),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(1014.25,57.18,-221.46),startPoint=Vector3(263.05,40.18,-292.45),routeId="lz_drp_savannah_I0000|rt_drp_savannah_I_0000"},
-            {point=Vector3(1119.97,10.72,317.63),startPoint=Vector3(564.28,31.72,31.20),routeId="lz_drp_savannahEast_S0000|lz_drp_savannahEast_S_0000"},
-            {point=Vector3(1233.17,25.84,-127.05),startPoint=Vector3(1836.30,103.84,5.63),routeId="lz_drp_savannahEast_N0000|rt_drp_savannahEast_N_0000"},
-          },
-          heliLandPointNoCentral = {
-            --[[{point=Vector3(1014.25,57.18,-221.46),startPoint=Vector3(263.05,40.18,-292.45),routeId="lz_drp_savannah_I0000|rt_drp_savannah_I_0000"},--]]
             {point=Vector3(1119.97,10.72,317.63),startPoint=Vector3(564.28,31.72,31.20),routeId="lz_drp_savannahEast_S0000|lz_drp_savannahEast_S_0000"},
             {point=Vector3(1233.17,25.84,-127.05),startPoint=Vector3(1836.30,103.84,5.63),routeId="lz_drp_savannahEast_N0000|rt_drp_savannahEast_N_0000"},
           },
@@ -623,8 +488,7 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(2178.76,-44.69,-458.00),Vector3(1718.46,-80.55,-458.99),Vector3(1718.20,-95.17,-161.80),Vector3(1894.29,-101.74,5.83),Vector3(1894.59,-115.58,75.03),Vector3(1930.31,-113.09,112.70),Vector3(2128.70,-75.86,115.81),Vector3(2180.10,-77.50,67.64), },  },
           },
           missionStartPoint = {Vector3(1865.90,106.30,-682.01),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(1666.75,113.91,-740.61),startPoint=Vector3(1428.20,73.91,-136.30),routeId="lz_drp_hillNorth_N0000|rt_drp_hillNorth_N_0000"},
           },
         }
@@ -637,20 +501,12 @@ mbdvc_map_mission_parameter = {
             { name="trig_hotZone", vertices={ Vector3(-320.00,-46.97,384.00),Vector3(-256.00,-48.71,384.00),Vector3(-1.26,-36.09,640.00),Vector3(960.00,-56.18,640.00),Vector3(960.00,-52.69,512.00),Vector3(1088.00,-35.92,384.00),Vector3(1088.00,-18.33,-320.00),Vector3(640.00,-41.56,-320.00),Vector3(-128.00,-51.87,-320.00),Vector3(-320.00,-41.87,-128.00), },  },
           },
           missionStartPoint = {Vector3(1295.21,22.27,-29.86),Vector3(571.34,-2.01,-364.91),},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(1233.17,25.84,-127.05),startPoint=Vector3(1836.30,103.84,5.63),routeId="lz_drp_savannahEast_N0000|rt_drp_savannahEast_N_0000"},
             {point=Vector3(1014.25,57.18,-221.46),startPoint=Vector3(263.05,40.18,-292.45),routeId="lz_drp_savannah_I0000|rt_drp_savannah_I_0000"},
             {point=Vector3(-163.59,7.96,385.58),startPoint=Vector3(129.00,40.96,832.24),routeId="lz_drp_swamp_S0000|rt_drp_swamp_S_0000"},
             {point=Vector3(74.70,18.20,-689.41),startPoint=Vector3(430.19,36.20,-164.65),routeId="lz_drp_bananaSouth_N0000|rt_drp_bananaSouth_N_0000"},
             {point=Vector3(-19.63,11.17,140.91),startPoint=Vector3(-690.06,9.17,384.74),routeId="lz_drp_swamp_I0000|rt_drp_swamp_I_0000"},
-          },
-          heliLandPointNoCentral = {
-            {point=Vector3(1233.17,25.84,-127.05),startPoint=Vector3(1836.30,103.84,5.63),routeId="lz_drp_savannahEast_N0000|rt_drp_savannahEast_N_0000"},
-            --[[{point=Vector3(1014.25,57.18,-221.46),startPoint=Vector3(263.05,40.18,-292.45),routeId="lz_drp_savannah_I0000|rt_drp_savannah_I_0000"},--]]
-            {point=Vector3(-163.59,7.96,385.58),startPoint=Vector3(129.00,40.96,832.24),routeId="lz_drp_swamp_S0000|rt_drp_swamp_S_0000"},
-            {point=Vector3(74.70,18.20,-689.41),startPoint=Vector3(430.19,36.20,-164.65),routeId="lz_drp_bananaSouth_N0000|rt_drp_bananaSouth_N_0000"},
-            --[[{point=Vector3(-19.63,11.17,140.91),startPoint=Vector3(-690.06,9.17,384.74),routeId="lz_drp_swamp_I0000|rt_drp_swamp_I_0000"},--]]
           },
         }
       elseif missionId == 10230 then
@@ -669,8 +525,7 @@ mbdvc_map_mission_parameter = {
           safetyArea2 = {
           },
           missionStartPoint = {},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(-162.70,4.97,-2105.86),startPoint=Vector3(204.36,89.64,-1560.65),routeId="rt_drp_mbqf_N"},
           },
         }
@@ -703,8 +558,7 @@ mbdvc_map_mission_parameter = {
           safetyArea2 = {
           },
           missionStartPoint = {},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(-289.80,346.69,269.68),startPoint=Vector3(161.28,335.69,140.48),routeId="lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000"},
             {point=Vector3(802.56,345.37,1637.75),startPoint=Vector3(1247.97,345.37,1298.36),routeId="lz_drp_field_N0000|rt_drp_field_N_0000"},
             {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
@@ -747,49 +601,6 @@ mbdvc_map_mission_parameter = {
             {point=Vector3(-2355.80,445.52,-1431.61),startPoint=Vector3(-1639.10,466.52,-1589.67),routeId="lz_drp_sovietBase_E0000|rt_drp_sovietBase_E_0000"},
             {point=Vector3(-1219.28,416.14,-886.41),startPoint=Vector3(-583.54,445.14,-815.04),routeId="lz_drp_sovietSouth_S0000|rt_drp_sovietSouth_S_0000"},
           },
-          heliLandPointNoCentral = {
-            {point=Vector3(-289.80,346.69,269.68),startPoint=Vector3(161.28,335.69,140.48),routeId="lz_drp_enemyBase_N0000|rt_drp_enemyBase_N_0000"},
-            {point=Vector3(802.56,345.37,1637.75),startPoint=Vector3(1247.97,345.37,1298.36),routeId="lz_drp_field_N0000|rt_drp_field_N_0000"},
-            {point=Vector3(-351.61,321.89,768.34),startPoint=Vector3(-91.82,331.89,918.56),routeId="lz_drp_enemyBase_S0000|rt_drp_enemyBase_S_0000"},
-            {point=Vector3(-1663.71,536.63,-2201.78),startPoint=Vector3(-1531.39,474.63,-1679.84),routeId="lz_drp_citadelSouth_S0000|rt_drp_citadelSouth_S_0000"},
-            {point=Vector3(1651.17,353.38,587.98),startPoint=Vector3(1701.22,353.38,1084.22),routeId="lz_drp_commFacility_S0000|rt_drp_commFacility_S_0000"},
-            {point=Vector3(834.42,451.21,-1420.10),startPoint=Vector3(1398.39,514.21,-1245.88),routeId="lz_drp_cliffTown_N0000|rt_drp_clifftown_N_0000"},
-            {point=Vector3(-1718.06,474.38,-1713.62),startPoint=Vector3(-1590.27,526.60,-2075.17),routeId="lz_drp_sovietBase_N0000|rt_drp_sovietBase_N_0000"},
-            {point=Vector3(64.77,434.32,-842.65),startPoint=Vector3(462.40,432.32,-727.01),routeId="lz_drp_cliffTownWest_S0000|rt_drp_cliffTownWest_S_0000"},
-            {point=Vector3(-359.62,283.42,1714.79),startPoint=Vector3(-771.13,305.42,1447.29),routeId="lz_drp_field_W0000|rt_drp_field_W_0000"},
-            --[[{point=Vector3(418.33,278.22,2261.37),startPoint=Vector3(887.95,309.12,2383.44),routeId="lz_drp_field_I0000|rt_drp_field_I_0000"},--]]
-            {point=Vector3(-836.84,288.90,1574.03),startPoint=Vector3(-312.47,306.90,1792.76),routeId="lz_drp_remnantsNorth_N0000|rt_drp_remnantsNorth_N_0000"},
-            {point=Vector3(2305.28,394.03,-923.73),startPoint=Vector3(2636.58,397.03,-805.06),routeId="lz_drp_fort_E0000|rt_drp_fort_E_0000"},
-            {point=Vector3(1187.73,320.98,-10.40),startPoint=Vector3(1489.55,336.98,65.91),routeId="lz_drp_slopedTownEast_E0000|rt_drp_slopedTownEast_E_0000"},
-            --[[{point=Vector3(1444.40,364.14,390.78),startPoint=Vector3(925.92,368.14,502.51),routeId="lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000"},--]]
-            {point=Vector3(-1677.59,360.88,-321.82),startPoint=Vector3(-1861.11,373.88,-136.02),routeId="lz_drp_waterway_I0000|rt_drp_waterway_I_0000"},
-            {point=Vector3(-1949.57,439.73,-1170.39),startPoint=Vector3(-1441.68,439.73,-1006.99),routeId="lz_drp_sovietBase_S0000|rt_drp_sovietBase_S_0000"},
-            {point=Vector3(-630.25,444.69,-910.73),startPoint=Vector3(-400.84,502.69,-1175.87),routeId="lz_drp_powerPlant_S0000|rt_drp_powerPlant_S_0000"},
-            {point=Vector3(1904.32,368.36,81.33),startPoint=Vector3(1340.73,356.36,44.81),routeId="lz_drp_bridge_S0000|rt_drp_bridge_S_0000"},
-            {point=Vector3(141.47,275.51,2353.44),startPoint=Vector3(-249.77,310.51,1998.40),routeId="lz_drp_fieldWest_S0000|rt_drp_fiieldWest_S_0000"},
-            {point=Vector3(-424.83,289.10,2004.96),startPoint=Vector3(54.07,312.10,2230.84),routeId="lz_drp_remnants_S0000|rt_drp_remnants_S_0000"},
-            {point=Vector3(822.37,360.44,292.44),startPoint=Vector3(335.25,364.44,413.83),routeId="lz_drp_slopedTown_E0000|rt_drp_slopedTown_E_0000"},
-            {point=Vector3(1275.22,337.42,1313.33),startPoint=Vector3(1255.64,340.42,1747.07),routeId="lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000"},
-           --[[{point=Vector3(512.11,316.60,167.44),startPoint=Vector3(1074.92,379.60,506.01),routeId="lz_drp_slopedTown_I0000|rt_drp_slopedTown_I_0000"},--]]
-            --[[{point=Vector3(2106.16,463.64,-1747.21),startPoint=Vector3(2043.26,474.64,-1248.49),routeId="lz_drp_fort_I0000|rt_drp_fort_I_0000"},--]]
-            --[[{point=Vector3(-1761.73,317.69,806.51),startPoint=Vector3(-1158.50,335.69,1422.75),routeId="lz_drp_tent_I0000|rt_drp_tent_I_0000"},--]]
-            {point=Vector3(20.70,329.63,888.03),startPoint=Vector3(626.34,354.63,849.22),routeId="lz_drp_village_W0000|rt_drp_village_W_0000"},
-            {point=Vector3(-1273.30,305.48,1342.07),startPoint=Vector3(-887.87,311.48,1427.74),routeId="lz_drp_remnantsNorth_S0000|rt_drp_remnantsNorth_S_0000"},
-            {point=Vector3(612.73,355.48,911.22),startPoint=Vector3(2.37,343.48,848.51),routeId="lz_drp_village_N0000|rt_drp_village_N_0000"},
-            {point=Vector3(-1868.78,338.48,538.78),startPoint=Vector3(-1886.95,348.98,166.98),routeId="lz_drp_tent_N0000|rt_drp_tent_N_0000"},
-            {point=Vector3(-1372.18,318.33,934.68),startPoint=Vector3(-1183.10,332.33,1243.43),routeId="lz_drp_tent_E0000|rt_drp_tent_E_0000"},
-            {point=Vector3(95.31,320.37,243.91),startPoint=Vector3(-454.10,368.37,206.70),routeId="lz_drp_slopedTown_W0000|rt_drp_slopedTown_W_0000"},
-            --[[{point=Vector3(-805.54,291.88,1820.65),startPoint=Vector3(-248.03,297.88,1963.33),routeId="lz_drp_remnants_I0000|rt_drp_remnants_I_0000"},--]]
-            {point=Vector3(1649.11,491.21,-1340.58),startPoint=Vector3(1034.49,511.21,-1286.79),routeId="lz_drp_fort_W0000|rt_drp_fort_W_0000"},
-            {point=Vector3(1060.06,362.05,467.90),startPoint=Vector3(590.77,374.89,368.06),routeId="lz_drp_commFacility_W0000|rt_drp_commFacility_W_0000"},
-            --[[{point=Vector3(759.83,452.30,-1113.10),startPoint=Vector3(65.71,437.30,-792.83),routeId="lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000"},--]]
-            --[[{point=Vector3(-662.20,556.88,-1489.06),startPoint=Vector3(-433.13,522.23,-1094.86),routeId="lz_drp_powerPlant_E0000|rt_drp_powerPlant_E_0000"},--]]
-            {point=Vector3(491.46,418.47,-693.19),startPoint=Vector3(886.63,393.47,-299.32),routeId="lz_drp_cliffTown_S0000|rt_drp_cliffTown_S_0000"},
-            --[[{point=Vector3(-596.89,353.02,497.40),startPoint=Vector3(-946.28,309.02,981.35),routeId="lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000"},--]]
-            {point=Vector3(1272.20,329.63,1853.51),startPoint=Vector3(1250.48,317.63,2167.53),routeId="lz_drp_ruins_S0000|rt_drp_ruins_S_0000"},
-            --[[{point=Vector3(-2355.80,445.52,-1431.61),startPoint=Vector3(-1639.10,466.52,-1589.67),routeId="lz_drp_sovietBase_E0000|rt_drp_sovietBase_E_0000"},--]]
-            {point=Vector3(-1219.28,416.14,-886.41),startPoint=Vector3(-583.54,445.14,-815.04),routeId="lz_drp_sovietSouth_S0000|rt_drp_sovietSouth_S_0000"},
-          },
         }
       elseif missionId == 30020 then
         return {
@@ -798,8 +609,7 @@ mbdvc_map_mission_parameter = {
           safetyArea2 = {
           },
           missionStartPoint = {},
-          heliLandPoint = {},
-          heliLandPointNormal = {
+          heliLandPoint = {
             {point=Vector3(2331.11,208.01,-2487.00),startPoint=Vector3(2069.32,209.01,-2087.33),routeId="lz_drp_lab_W0000|rt_drp_lab_W_0000"},
             {point=Vector3(2154.83,63.09,366.70),startPoint=Vector3(1472.96,56.09,535.65),routeId="lz_drp_hill_I0000|rt_drp_hill_I_0000"},
             {point=Vector3(1096.40,150.86,-1685.39),startPoint=Vector3(1145.97,148.86,-1044.72),routeId="lz_drp_diamond_N0000|rt_drp_diamond_N_0000"},
@@ -834,41 +644,6 @@ mbdvc_map_mission_parameter = {
             {point=Vector3(-1001.38,-7.20,-199.16),startPoint=Vector3(-853.18,22.80,251.66),routeId="lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000"},
             {point=Vector3(-440.57,-14.39,1339.17),startPoint=Vector3(-462.44,-5.39,1926.48),routeId="lz_drp_outland_S0000|rt_drp_outland_S_0000"},
           },
-          heliLandPointNoCentral = {
-            {point=Vector3(2331.11,208.01,-2487.00),startPoint=Vector3(2069.32,209.01,-2087.33),routeId="lz_drp_lab_W0000|rt_drp_lab_W_0000"},
-            --[[{point=Vector3(2154.83,63.09,366.70),startPoint=Vector3(1472.96,56.09,535.65),routeId="lz_drp_hill_I0000|rt_drp_hill_I_0000"},--]]
-            {point=Vector3(1096.40,150.86,-1685.39),startPoint=Vector3(1145.97,148.86,-1044.72),routeId="lz_drp_diamond_N0000|rt_drp_diamond_N_0000"},
-            {point=Vector3(-163.59,7.96,385.58),startPoint=Vector3(129.00,40.96,832.24),routeId="lz_drp_swamp_S0000|rt_drp_swamp_S_0000"},
-            {point=Vector3(510.10,20.43,-732.55),startPoint=Vector3(430.71,35.43,-208.19),routeId="lz_drp_savannahWest_N0000|lz_drp_savannahWest_N_0000"},
-            {point=Vector3(924.72,44.01,-931.28),startPoint=Vector3(1280.06,60.93,-437.63),routeId="lz_drp_diamondWest_S0000|lz_drp_diamondWest_S_0000"},
-            --[[{point=Vector3(-19.63,11.17,140.91),startPoint=Vector3(-690.06,9.17,384.74),routeId="lz_drp_swamp_I0000|rt_drp_swamp_I_0000"},--]]
-            --[[{point=Vector3(846.46,-4.97,1148.62),startPoint=Vector3(1340.72,3.13,1707.16),routeId="lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000"},--]]
-            --[[{point=Vector3(1014.25,57.18,-221.46),startPoint=Vector3(263.05,40.18,-292.45),routeId="lz_drp_savannah_I0000|rt_drp_savannah_I_0000"},--]]
-            {point=Vector3(1061.84,6.78,731.21),startPoint=Vector3(625.74,29.78,306.26),routeId="lz_drp_pfCamp_N0000|rt_drp_pfcamp_N_0000"},
-            --[[{point=Vector3(1381.85,137.05,-1516.01),startPoint=Vector3(1083.13,158.05,-1892.86),routeId="lz_drp_diamond_I0000|rt_drp_diamond_I_0000"},--]]
-            {point=Vector3(1203.80,107.74,-792.16),startPoint=Vector3(1225.37,122.74,-303.61),routeId="lz_drp_diamondSouth_W0000|rt_drp_diamondSouth_W_0000"},
-            {point=Vector3(2271.82,84.84,-418.59),startPoint=Vector3(2416.57,86.54,-33.38),routeId="lz_drp_factoryWest_S0000|lz_drp_factoryWest_S_0000"},
-            {point=Vector3(1007.02,-4.46,1557.61),startPoint=Vector3(1580.16,18.96,1490.89),routeId="lz_drp_pfCamp_S0000|lz_drp_pfCamp_S_0000"},
-            {point=Vector3(-145.52,16.15,-379.20),startPoint=Vector3(474.18,30.15,-323.11),routeId="lz_drp_swamp_N0000|lz_drp_swamp_N_0000"},
-            {point=Vector3(1786.78,170.73,-2130.50),startPoint=Vector3(1623.44,168.73,-1806.87),routeId="lz_drp_labWest_W0000|rt_drp_labWest_W_0000"},
-            {point=Vector3(2521.90,111.82,-1833.82),startPoint=Vector3(2481.70,86.82,-1321.02),routeId="lz_drp_lab_S0000|rt_drp_lab_S_0000"},
-            {point=Vector3(1119.97,10.72,317.63),startPoint=Vector3(564.28,31.72,31.20),routeId="lz_drp_savannahEast_S0000|lz_drp_savannahEast_S_0000"},
-            {point=Vector3(1769.46,28.60,560.59),startPoint=Vector3(1318.61,56.60,247.85),routeId="lz_drp_hillWest_S0000|lz_drp_hillWest_S_0000"},
-            {point=Vector3(1951.46,49.82,88.58),startPoint=Vector3(1644.07,67.82,633.63),routeId="lz_drp_hill_N0000|lz_drp_hill_N_0000"},
-            {point=Vector3(582.54,-3.14,418.17),startPoint=Vector3(416.04,37.87,955.68),routeId="lz_drp_pfCampNorth_S0000|rt_drp_pfCampNorth_S_0000"},
-            {point=Vector3(-618.09,6.48,232.79),startPoint=Vector3(-1170.26,39.73,167.57),routeId="lz_drp_swamp_W0000|lz_drp_swamp_W_0000"},
-            {point=Vector3(74.70,18.20,-689.41),startPoint=Vector3(430.19,36.20,-164.65),routeId="lz_drp_bananaSouth_N0000|rt_drp_bananaSouth_N_0000"},
-            {point=Vector3(266.57,1.56,-234.08),startPoint=Vector3(744.40,33.56,86.60),routeId="lz_drp_swampEast_N0000|lz_drp_swampEast_N_0000"},
-            {point=Vector3(1648.35,87.11,-555.26),startPoint=Vector3(1447.82,64.11,63.98),routeId="lz_drp_diamondSouth_S0000|lz_drp_diamondSouth_S_0000"},
-            {point=Vector3(1688.90,-3.65,1520.55),startPoint=Vector3(1910.28,19.35,1883.37),routeId="lz_drp_hillSouth_W0000|lz_drp_hillSouth_W_0000"},
-            --[[{point=Vector3(300.61,50.06,-1237.66),startPoint=Vector3(559.74,38.06,-707.21),routeId="lz_drp_banana_I0000|rt_drp_banana_I_0000"},--]]
-            {point=Vector3(2465.21,71.47,230.49),startPoint=Vector3(2447.80,89.47,-244.96),routeId="lz_drp_hill_E0000|lz_drp_hill_E_0000"},
-            {point=Vector3(2441.72,78.25,-1191.68),startPoint=Vector3(2678.54,97.25,-1790.59),routeId="lz_drp_factory_N0000|rt_drp_factory_N_0000"},
-            {point=Vector3(1233.17,25.84,-127.05),startPoint=Vector3(1836.30,103.84,5.63),routeId="lz_drp_savannahEast_N0000|rt_drp_savannahEast_N_0000"},
-            {point=Vector3(-610.26,13.10,-398.20),startPoint=Vector3(-513.43,36.10,39.07),routeId="lz_drp_flowStation_E0000|lz_drp_flowStation_E_0000"},
-            --[[{point=Vector3(-1001.38,-7.20,-199.16),startPoint=Vector3(-853.18,22.80,251.66),routeId="lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000"},--]]
-            {point=Vector3(-440.57,-14.39,1339.17),startPoint=Vector3(-462.44,-5.39,1926.48),routeId="lz_drp_outland_S0000|rt_drp_outland_S_0000"},
-          },
         }
       elseif missionId == 30050 then
         return {
@@ -899,6 +674,7 @@ mbdvc_map_mission_parameter = {
 
     GetMissionParameter2 = function( missionId )
 
+
       if missionId >= 11000 then
         if missionId < 12000 then
           missionId = missionId - 1000
@@ -909,17 +685,28 @@ mbdvc_map_mission_parameter = {
       local missionParameter = mbdvc_map_mission_parameter.GetMissionParameter( missionId )
       missionParameter[ "zoomScaleForMission" ]	= 4.0
       missionParameter[ "zoomScale2ForMission" ]	= 3.0
-      
-      if missionParameter.heliLandPointNormal ~= nil then--tex noCentralLzs filter, I manualy split/copied heliland into normal/nocentral
-        missionParameter.heliLandPoint = missionParameter.heliLandPointNormal
+
+      --tex> disableLzs
+      local lzTable=missionParameter.heliLandPoint
+      local newLzTable={}
+      if lzTable and Ivars.disableLzs:Is()>0 then
+        local checkLzs=nil
+        if Ivars.disableLzs:Is"ASSAULT" then
+          checkLzs=TppLandingZone.assaultLzs
+        elseif Ivars.disableLzs:Is"REGULAR" then
+          checkLzs=TppLandingZone.missionLzs
+        end
+
+        for i=1,#lzTable do
+          local lzInfo=lzTable[i]
+          if not checkLzs.afgh[lzInfo.routeId] and
+            not checkLzs.mafr[lzInfo.routeId] then
+            newLzTable[#newLzTable+1]=lzInfo
+          end
+        end
+        missionParameter.heliLandPoint=newLzTable
       end
-      if Ivars.noCentralLzs:Is(1) then--tex filter idroid landing points
-        --if missionId < 20000 then--actual missions
-          if missionParameter.heliLandPointNoCentral ~= nil then--tex noCentralLzs filter
-            missionParameter.heliLandPoint = missionParameter.heliLandPointNoCentral
-          end          
-        --end
-      end--
+      --<
 
       return missionParameter
     end,

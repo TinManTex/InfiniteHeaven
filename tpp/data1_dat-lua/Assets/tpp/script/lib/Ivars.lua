@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- Ivars.lua
 --tex Ivar system
 --combines gvar setup, enums, functions per setting in one ungodly mess.
 --lots of shortcuts/ivar setup depending-on defined values is done in various Table setups at end of file.
@@ -6,8 +7,8 @@ local this={}
 --NOTE: Resetsettings will call OnChange, so/and make sure defaults are actual default game behaviour,
 --in general this means all stuff should have a 0 that at least does nothing,
 --dont let the lure of nice straight setting>game value lure you, just -1 it
-
 --LOCALOPT:
+local Ivars=this
 local IsString=Tpp.IsTypeString
 local IsNumber=Tpp.IsTypeNumber
 local IsFunc=Tpp.IsTypeFunc
@@ -212,24 +213,37 @@ local missionModeChecks={
 --  {
 --    save=MISSION,
 --    range=this.switchRange,
---    settingNames="set_switch",  
+--    settingNames="set_switch",
 --  },
 --  missionModesAll
 --)
 
+this.missionModeIvars={}
 local function MissionModeIvars(name,ivarDefine,missionModes)
   for i,missionMode in ipairs(missionModes)do
     local ivar={}
     for k,v in pairs(ivarDefine) do
       ivar[k]=v
     end
-    
+
     ivar.MissionCheck=missionModeChecks[missionMode]
-    this[name..missionMode]=ivar
+    local fullName=name..missionMode
+    this[fullName]=ivar
+    this.missionModeIvars[name]=this.missionModeIvars[name] or {}
+    this.missionModeIvars[name][#this.missionModeIvars[name]+1]=ivar--insert
   end
 end
 
 --ivar definitions
+
+this.debugMode={
+  save=GLOBAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  allowFob=true,
+}
+
+
 --this.disableEquipOnMenu={
 --  save=MISSION,
 --  default=1,
@@ -355,12 +369,6 @@ this.playerHealthScale={
   end,
 }
 --motherbase>
-this.enableMbDDEquip={
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
-}
-
 MinMaxIvar(
   "mbSoldierEquipGrade",
   {default=3},--tex 3 is the min grade at which all weapon types are available
@@ -435,13 +443,10 @@ this.mbDDHeadGear={
 
 this.mbWarGamesProfile={
   save=MISSION,
-  settings={"OFF","TRAINING","INVASION","ZOMBIE","ZOMBIE_OBLITERATION"},
+  settings={"OFF","TRAINING","INVASION","ZOMBIE_DD","ZOMBIE_OBLITERATION"},
   settingNames="mbWarGamesProfileSettings",
   settingsTable={
     OFF=function()
-      --Ivars.mbDDHeadGear:Set(0,true)
-      --Ivars.mbDDSuit:Set(0,true)
-      --Ivars.enableMbDDEquip:Set(0,true)
       Ivars.mbDDEquipNonLethal:Set(0,true)
       Ivars.mbHostileSoldiers:Set(0,true)
       Ivars.mbEnableLethalActions:Set(0,true)
@@ -450,22 +455,8 @@ this.mbWarGamesProfile={
       Ivars.mbZombies:Set(0,true)
       Ivars.mbEnemyHeli:Set(0,true)
     end,
-    --    NONLETHAL=function()
-    --      --Ivars.mbDDHeadGear:Set(0,true)
-    --      --Ivars.mbDDSuit:Set(0,true)
-    --      Ivars.enableMbDDEquip:Set(1,true)
-    --      Ivars.mbDDEquipNonLethal:Set(1,true)
-    --      Ivars.mbHostileSoldiers:Set(1,true)
-    --      Ivars.mbEnableLethalActions:Set(0,true)
-    --      Ivars.mbNonStaff:Set(0,true)
-    --      Ivars.mbEnableFultonAddStaff:Set(0,true)
-    --      Ivars.mbZombies:Set(0,true)
-    --    end,
     TRAINING=function()
-      --Ivars.mbDDHeadGear:Set(0,true)
-      --Ivars.mbDDSuit:Set(0,true)
-      --      Ivars.enableMbDDEquip:Set(0,true)
-      --      Ivars.mbDDEquipNonLethal:Set(0,true)
+      --Ivars.mbDDEquipNonLethal:Set(0,true)--tex allow user setting
       Ivars.mbHostileSoldiers:Set(1,true)
       Ivars.mbEnableLethalActions:Set(0,true)
       Ivars.mbNonStaff:Set(0,true)
@@ -474,9 +465,6 @@ this.mbWarGamesProfile={
       Ivars.mbEnemyHeli:Set(0,true)
     end,
     INVASION=function()
-      --Ivars.mbDDHeadGear:Set(0,true)
-      --Ivars.mbDDSuit:Set(0,true)
-      --Ivars.enableMbDDEquip:Set(0,true)
       Ivars.mbDDEquipNonLethal:Set(0,true)
       Ivars.mbHostileSoldiers:Set(1,true)
       Ivars.mbEnableLethalActions:Set(1,true)
@@ -485,17 +473,8 @@ this.mbWarGamesProfile={
       Ivars.mbZombies:Set(0,true)
       Ivars.mbEnemyHeli:Set(1,true)
     end,
-    --    XOF=function()
-    --      Ivars.mbDDHeadGear:Set(1,true)
-    --      Ivars.mbDDSuit:Set("XOF",true)
-    --      Ivars.enableMbDDEquip:Set(0,true)
-    --      Ivars.mbHostileSoldiers:Set(1,true)
-    --    end,
-    ZOMBIE=function()
-      --Ivars.mbDDHeadGear:Set(0,true)
-      --Ivars.mbDDSuit:Set(0,true)
-      --      Ivars.enableMbDDEquip:Set(0,true)
-      --      Ivars.mbDDEquipNonLethal:Set(0,true)
+    ZOMBIE_DD=function()
+      Ivars.mbDDEquipNonLethal:Set(0,true)--tex n/a
       Ivars.mbHostileSoldiers:Set(1,true)
       Ivars.mbEnableLethalActions:Set(0,true)
       Ivars.mbNonStaff:Set(0,true)
@@ -504,9 +483,6 @@ this.mbWarGamesProfile={
       Ivars.mbEnemyHeli:Set(0,true)
     end,
     ZOMBIE_OBLITERATION=function()
-      --Ivars.mbDDHeadGear:Set(0,true)
-      --Ivars.mbDDSuit:Set(0,true)
-      --Ivars.enableMbDDEquip:Set(0,true,true)
       Ivars.mbDDEquipNonLethal:Set(0,true)
       Ivars.mbHostileSoldiers:Set(1,true)
       Ivars.mbEnableLethalActions:Set(1,true)
@@ -527,6 +503,7 @@ this.mbWargameFemales={
   settingNames="set_switch",
 }
 
+--NONUSER/ handled by profile>
 this.mbHostileSoldiers={
   save=MISSION,
   range=this.switchRange,
@@ -551,12 +528,13 @@ this.mbZombies={
   settingNames="set_switch",
 }
 
-this.mbEnemyHeli={--NON USER
+this.mbEnemyHeli={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
   MissionCheck=MissionCheckMb,
 }
+--< NONUSER
 
 this.mbEnemyHeliColor={
   save=MISSION,
@@ -669,7 +647,7 @@ this.subsistenceProfile={
     DEFAULT=function()
       Ivars.blockInMissionSubsistenceIvars:Set(0,true)
 
-      Ivars.noCentralLzs:Set(0,true)
+      Ivars.disableLzs:Set(0,true)
       Ivars.disableSelectBuddy:Set(0,true)
       Ivars.disableHeliAttack:Set(0,true)
       Ivars.disableSelectTime:Set(0,true)
@@ -685,6 +663,7 @@ this.subsistenceProfile={
       Ivars.handLevelProfile:Set(0,true) --game auto sets to max developed, but still need this to stop override
       Ivars.fultonLevelProfile:Set(0,true) -- game auto turns on wormhole, user can manually chose overall level in ui
       Ivars.ospWeaponProfile:Set(0,true)
+      Ivars.disableSpySearch:Set(0,true)
 
       Ivars.disableMenuDrop:Set(0,true)
       Ivars.disableMenuBuddy:Set(0,true)
@@ -702,7 +681,7 @@ this.subsistenceProfile={
     PURE=function()
       Ivars.blockInMissionSubsistenceIvars:Set(1,true)
 
-      Ivars.noCentralLzs:Set(1,true)
+      Ivars.disableLzs:Set("REGULAR",true)
       Ivars.disableSelectBuddy:Set(1,true)
       Ivars.disableHeliAttack:Set(1,true)
       Ivars.disableSelectTime:Set(1,true)
@@ -719,6 +698,7 @@ this.subsistenceProfile={
       if Ivars.ospWeaponProfile:IsDefault() or Ivars.ospWeaponProfile:Is"CUSTOM" then
         Ivars.ospWeaponProfile:Set(1,true)
       end
+      Ivars.disableSpySearch:Set(0,true)
 
       Ivars.handLevelProfile:Set(1,true)
       Ivars.fultonLevelProfile:Set(1,true)
@@ -740,7 +720,7 @@ this.subsistenceProfile={
     BOUNDER=function()
       Ivars.blockInMissionSubsistenceIvars:Set(1,true)
 
-      Ivars.noCentralLzs:Set(1,true)
+      Ivars.noCentralLzs:Set("REGULAR",true)
       Ivars.disableSelectBuddy:Set(0,true)
       Ivars.disableHeliAttack:Set(1,true)
       Ivars.disableSelectTime:Set(1,true)
@@ -782,10 +762,10 @@ this.subsistenceProfile={
   OnSubSettingChanged=this.OnSubSettingChanged,
 }
 
-this.noCentralLzs={
+this.disableLzs={
   save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
+  settings={"OFF","ASSAULT","REGULAR"},
+  settingNames="disableLzsSettings",
   profile=this.subsistenceProfile,
 }
 
@@ -813,13 +793,17 @@ local function RequireRestartMessage(self)
     InfMenu.PrintLangId"restart_required"
   end
 end
---tex WIP OFF not happy with the lack of flexibility as GetLocationParameter is only read once on init, try running DeactivateSpySearch on soldiers, though that may possibly run into some limit.
+--tex WIP OFF not happy with the lack of flexibility as GetLocationParameter is only read once on init,
+--now just bypassing on trap enter/exit, doesnt give control of search type though
 this.disableSpySearch={
-  --OFF save=GLOBAL,
+  --OFF save=GLOBAL,--CULL
+  save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=RequireRestartMessage,
+  --CULL OnChange=RequireRestartMessage,
+  profile=this.subsistenceProfile,
 }
+--CULL
 this.disableHerbSearch={
   --OFF save=GLOBAL,
   range=this.switchRange,
@@ -988,6 +972,42 @@ this.gameOverOnDiscovery={
   settingNames="set_switch",
   profile=this.subsistenceProfile,
 }
+
+--tex no go
+this.disableTranslators={
+  --OFF save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  profile=this.subsistenceProfile,
+  OnChange=function(self)
+    InfInspect.TryFunc(function(self)--DEBUG
+      if self.setting==1 then
+        InfMenu.DebugPrint"removing tranlatable"--DEBUG
+        vars.isRussianTranslatable=0
+        vars.isAfrikaansTranslatable=0
+        vars.isKikongoTranslatable=0
+        vars.isPashtoTranslatable=0
+      elseif self.setting==0 then
+        InfMenu.DebugPrint"adding tranlatable"--DEBUG
+        --tex don't really need to do this, is handled by TppQuest.AcquireKeyItemOnMissionStart
+        if TppQuest.IsCleard"ruins_q19010"then
+          vars.isRussianTranslatable=1
+        end
+        if TppQuest.IsCleard"outland_q19011"then
+          vars.isAfrikaansTranslatable=1
+        end
+        if TppQuest.IsCleard"hill_q19012"then
+          vars.isKikongoTranslatable=1
+        end
+        if TppQuest.IsCleard"commFacility_q19013"then
+          vars.isPashtoTranslatable=1
+        end
+      end
+    end,self)--DEBUG
+  end,
+}
+
+
 --fulton success>
 --fultonSuccessProfile
 this.fultonSuccessProfile={
@@ -1097,18 +1117,18 @@ this.fultonHostageHandling={
   profile=this.fultonSuccessProfile,
 }
 
-this.fultonWildCardHandling={ --DEBUGNOW 
+this.fultonWildCardHandling={ --DEBUGNOW
   save=MISSION,
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
-  --DEBUGNOW profile=this.fultonSuccessProfile,
+--DEBUGNOW profile=this.fultonSuccessProfile,
 }
 
-this.fultonMotherBaseHandling={ --DEBUGNOW 
+this.fultonMotherBaseHandling={ --DEBUGNOW
   save=MISSION,
   settings={"DEFAULT","ZERO"},
   settingNames="fultonHostageHandlingSettings",
-  --DEBUGNOW profile=this.fultonSuccessProfile,
+--DEBUGNOW profile=this.fultonSuccessProfile,
 }
 --<fulton success
 
@@ -1301,35 +1321,21 @@ this.tertiaryWeaponOsp={
 }
 
 -- revenge/enemy prep stuff>
-this.revengeMode={
-  save=MISSION,
-  settings={"DEFAULT","CUSTOM"},
-  settingNames="revengeModeSettings",
-  MissionCheck=MissionCheckFree,
-  OnChange=function()
-    TppRevenge._SetUiParameters()
-  end,
-}
+MissionModeIvars(
+  "revengeMode",
+  {
+    save=MISSION,
+    settings={"DEFAULT","CUSTOM"},
+    settingNames="revengeModeSettings",
+    OnChange=function()
+      TppRevenge._SetUiParameters()
+    end,
+  },
+  missionModesAll
+)
 
-this.revengeModeForMissions={
-  save=MISSION,
-  settings={"DEFAULT","CUSTOM"},
-  settingNames="revengeModeSettings",
-  MissionCheck=MissionCheckMission,
-  OnChange=function()
-    TppRevenge._SetUiParameters()
-  end,
-}
-
-this.revengeModeForMb={
-  save=MISSION,
-  settings={"OFF","FOB","DEFAULT","CUSTOM"},--DEFAULT = normal enemy prep system (which isn't usually used for MB)
-  settingNames="revengeModeForMbSettings",
-  MissionCheck=MissionCheckMb,
-  OnChange=function()
-    TppRevenge._SetUiParameters()
-  end,
-}
+this.revengeModeMB.settings={"OFF","FOB","DEFAULT","CUSTOM"}--DEFAULT = normal enemy prep system (which isn't usually used for MB)
+this.revengeModeMB.settingNames="revengeModeMBSettings"
 
 this.revengeProfile={
   save=MISSION,
@@ -1340,9 +1346,9 @@ this.revengeProfile={
       Ivars.revengeBlockForMissionCount:Set(3,true)
       Ivars.applyPowersToLrrp:Set(0,true)
       Ivars.applyPowersToOuterBase:Set(0,true)
-      Ivars.allowHeavyArmorInFreeRoam:Set(0,true)
-      Ivars.allowHeavyArmorInAllMissions:Set(0,true)
-      Ivars.allowLrrpArmorInFree:Set(0,true)
+      Ivars.allowHeavyArmorFREE:Set(0,true)
+      Ivars.allowHeavyArmorMISSION:Set(0,true)
+      --DEBUGNOW Ivars.allowLrrpArmorInFree:Set(0,true)
       Ivars.allowHeadGearCombo:Set(0,true)
       Ivars.allowMissileWeaponsCombo:Set(0,true)
       Ivars.balanceHeadGear:Set(0,true)
@@ -1355,16 +1361,16 @@ this.revengeProfile={
       Ivars.randomizeSmallCpPowers:Set(0,true)
       Ivars.disableNoStealthCombatRevengeMission:Set(0,true)
       Ivars.revengeDecayOnLongMbVisit:Set(0,true)
-      --Ivars.changeCpSubTypeFree:Set(0,true)
-      --Ivars.changeCpSubTypeForMissions:Set(0,true)
+      Ivars.changeCpSubTypeFREE:Set(0,true)
+      Ivars.changeCpSubTypeMISSION:Set(0,true)
     end,
     HEAVEN=function()
       Ivars.revengeBlockForMissionCount:Set(4,true)
       Ivars.applyPowersToLrrp:Set(1,true)
       Ivars.applyPowersToOuterBase:Set(1,true)
-      Ivars.allowHeavyArmorInFreeRoam:Set(0,true)
-      Ivars.allowHeavyArmorInAllMissions:Set(0,true)
-      Ivars.allowLrrpArmorInFree:Set(0,true)
+      Ivars.allowHeavyArmorFREE:Set(0,true)
+      Ivars.allowHeavyArmorMISSION:Set(0,true)
+      --DEBUGNOW Ivars.allowLrrpArmorInFree:Set(0,true)
       Ivars.allowHeadGearCombo:Set(1,true)
       Ivars.allowMissileWeaponsCombo:Set(1,true)
       Ivars.balanceHeadGear:Set(0,true)--tex allow headgearcombo is sufficient
@@ -1377,8 +1383,8 @@ this.revengeProfile={
       Ivars.randomizeSmallCpPowers:Set(1,true)
       Ivars.disableNoStealthCombatRevengeMission:Set(1,true)
       Ivars.revengeDecayOnLongMbVisit:Set(1,true)
-      --Ivars.changeCpSubTypeFree:Set(1,true)
-      --Ivars.changeCpSubTypeForMissions:Set(0,true)
+      Ivars.changeCpSubTypeFREE:Set(1,true)
+      Ivars.changeCpSubTypeMISSION:Set(0,true)
     end,
     CUSTOM=nil,
   },
@@ -1428,27 +1434,25 @@ this.applyPowersToOuterBase={
   profile=this.revengeProfile,
 }
 
-this.allowHeavyArmorInFreeRoam={
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
-  --DEBUG range={max=1000},
-  profile=this.revengeProfile,
-}
 
-this.allowHeavyArmorInAllMissions={
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
-  profile=this.revengeProfile,
-}
+MissionModeIvars(
+  "allowHeavyArmor",
+  {
+    save=MISSION,
+    range=this.switchRange,
+    settingNames="set_switch",
+    profile=this.revengeProfile,
+  },
+  {"FREE","MISSION",}
+)
 
-this.allowLrrpArmorInFree={
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
-  profile=this.revengeProfile,
-}
+--DEBUGNOW either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though)
+--this.allowLrrpArmorInFree={
+--  save=MISSION,
+--  range=this.switchRange,
+--  settingNames="set_switch",
+--  profile=this.revengeProfile,
+--}
 
 this.allowHeadGearCombo={
   save=MISSION,
@@ -1517,21 +1521,17 @@ this.randomizeSmallCpPowers={
 }
 
 --
-this.enableEnemyDDEquip={
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
-}
-
-this.enableEnemyDDEquipMissions={
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
-}
-
+MissionModeIvars(
+  "enableDDEquip",
+  {
+    save=MISSION,
+    range=this.switchRange,
+    settingNames="set_switch",
+  },
+  missionModesAll
+)
 
 --custom revenge config
-
 function this.SetPercentagePowersRange(min,max)
   for n,powerTableName in ipairs(this.percentagePowerTables)do
     local powerTable=this[powerTableName]
@@ -2006,27 +2006,15 @@ this.enemyHeliPatrol={
   MissionCheck=MissionCheckFree,
 }
 
-local onFootSettings={"OFF","NOT_ASSAULT","ALL"}
-this.startOnFootFree={
-  save=MISSION,
-  settings=onFootSettings,
-  settingNames="onFootSettingsNames",
-  MissionCheck=MissionCheckFree,
-}
-
-this.startOnFootMission={
-  save=MISSION,
-  settings=onFootSettings,
-  settingNames="onFootSettingsNames",
-  MissionCheck=MissionCheckMission,
-}
-
-this.startOnFootMb={
-  save=MISSION,
-  settings=onFootSettings,
-  settingNames="onFootSettingsNames",
-  MissionCheck=MissionCheckMbAll,
-}
+MissionModeIvars(
+  "startOnFoot",
+  {
+    save=MISSION,
+    settings={"OFF","NOT_ASSAULT","ALL"},
+    settingNames="onFootSettingsNames",
+  },
+  {"FREE","MISSION","MB_ALL"}
+)
 
 this.clockTimeScale={
   save=GLOBAL,
@@ -2065,30 +2053,22 @@ this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
   end,
 }
 
---tex TODO convert to MissionModeIvars
-this.changeCpSubTypeFree={
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",  
-  MissionCheck=MissionCheckFree,
-  OnChange=function(self)
-    if self.setting==0 then
-      InfMain.ResetCpTableToDefault()
-    end
-  end,
-}
 
-this.changeCpSubTypeForMissions={
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",  
-  MissionCheck=MissionCheckMission,
-  OnChange=function(self)
-    if self.setting==0 then
-      InfMain.ResetCpTableToDefault()
-    end
-  end,
-}
+MissionModeIvars(
+  "changeCpSubType",
+  {
+    save=MISSION,
+    range=this.switchRange,
+    settingNames="set_switch",
+    profile=this.revengeProfile,
+    OnChange=function(self)
+      if self.setting==0 then
+        InfMain.ResetCpTableToDefault()
+      end
+    end,
+  },
+  {"FREE","MISSION",}
+)
 
 this.unlockSideOps={
   save=MISSION,
@@ -2785,11 +2765,11 @@ this.minPhase={
     if self.setting>Ivars.maxPhase:Get() then
       Ivars.maxPhase:Set(self.setting)
     end
-       --OFF
---    if Ivars.phaseUpdate:Is(0) then
---      InfMenu.PrintLangId"phase_modification_enabled"
---      Ivars.phaseUpdate:Set(1)
---    end
+    --OFF
+    --    if Ivars.phaseUpdate:Is(0) then
+    --      InfMenu.PrintLangId"phase_modification_enabled"
+    --      Ivars.phaseUpdate:Set(1)
+    --    end
   end,
 --profile=this.subsistenceProfile,
 }
@@ -2804,10 +2784,10 @@ this.maxPhase={
       Ivars.minPhase:Set(self.setting)
     end
     --OFF
---    if Ivars.phaseUpdate:Is(0) then
---      InfMenu.PrintLangId"phase_modification_enabled"
---      Ivars.phaseUpdate:Set(1)
---    end
+    --    if Ivars.phaseUpdate:Is(0) then
+    --      InfMenu.PrintLangId"phase_modification_enabled"
+    --      Ivars.phaseUpdate:Set(1)
+    --    end
   end,
   profile=this.subsistenceProfile,
 }
@@ -2815,8 +2795,8 @@ this.maxPhase={
 this.keepPhase={
   save=MISSION,
   range=this.switchRange,
-  settingNames="set_switch",     
-  --OFF
+  settingNames="set_switch",
+--OFF
 --  OnChange=function(self)
 --
 --    if self.setting>0 and Ivars.phaseUpdate:Is(0) then
@@ -3100,7 +3080,7 @@ MissionModeIvars(
   {
     save=MISSION,
     range=this.switchRange,
-    settingNames="set_switch",  
+    settingNames="set_switch",
   },
   {"FREE","MB"}
 )
@@ -3109,14 +3089,14 @@ MissionModeIvars(
 this.mbWalkerGearsColor={
   save=MISSION,
   settings={
-  "SOVIET",--green, default
-  "ROGUE_COYOTE",--Blue grey
-  "CFA",--tan
-  "ZRS",
-  "DDOGS",--light grey
-  "HUEY_PROTO",--yellow/grey - texure error on side shields
-  "RANDOM",--all of one type
-  "RANDOM_EACH",--each random
+    "SOVIET",--green, default
+    "ROGUE_COYOTE",--Blue grey
+    "CFA",--tan
+    "ZRS",
+    "DDOGS",--light grey
+    "HUEY_PROTO",--yellow/grey - texure error on side shields
+    "RANDOM",--all of one type
+    "RANDOM_EACH",--each random
   },
   settingNames="mbWalkerGearsColorSettingNames",
 }
@@ -3124,11 +3104,11 @@ this.mbWalkerGearsColor={
 this.mbWalkerGearsWeapon={
   save=MISSION,
   settings={
-  "DEFAULT",--dont apply specific value, seems to alternate to give an even count of miniguns and missiles 
-  "MINIGUN",
-  "MISSILE",
-  "RANDOM",--all of one type
-  "RANDOM_EACH",
+    "DEFAULT",--dont apply specific value, seems to alternate to give an even count of miniguns and missiles
+    "MINIGUN",
+    "MISSILE",
+    "RANDOM",--all of one type
+    "RANDOM_EACH",
   },
   settingNames="mbWalkerGearsWeaponSettingNames",
 }
@@ -3396,24 +3376,53 @@ this.selectedChangeWeapon={--WIP
     --      }
   end,
 }
-
-this.mis_isGroundStart={--NONUSER
-  save=MISSION,
-  range=this.switchRange,
-}
-
 this.enableInfInterrogation={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
 
+--gameevent
+this.gameEventChance={--DEBUGNOW
+  save=MISSION,
+  range={min=0,max=100,increment=5},
+  isPercent=true,
+}
+
+--non user save vars
+--others grouped near usage, search NONUSER
+
+--tex handles title>acc or indicator to restore Ivars from saved values on exit--DEBUGNOW no it doesnt
+this.inf_event={--NONUSER
+  save=MISSION,
+  settings={"OFF","WARGAME","ROAM"},
+}
+
+this.mis_isGroundStart={--NONUSER WORKAROUND
+  save=MISSION,
+  range=this.switchRange,
+}
+
+this.inf_levelSeed={--NONUSER--tex cribbed from rev_revengeRandomValue
+  save=RESTARTABLE,
+  noBounds=true,
+  range={max=int32,},
+  default=4934224,
+  svarType=TppScriptVars.TYPE_UINT32,
+}
 --end ivar defines
 
 local function IsIvar(ivar)--TYPEID
   return type(ivar)=="table" and (ivar.range or ivar.settings)
 end
 
+--DEBUGNOW
+--for name, ivar in pairs(this) do
+--  if IsIvar(ivar) then
+--    ivar.save=nil
+--  end
+--end
+--
 this.OptionIsDefault=function(self)
   local currentSetting
   if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
@@ -3455,6 +3464,10 @@ this.OptionIsSetting=function(self,setting)
   end
 
   local settingIndex=self.enum[setting]
+  if settingIndex==nil then
+    InfMenu.DebugPrint("WARNING ivar "..self.name.." has no setting named "..tostring(setting))
+    return false
+  end
   return settingIndex==currentSetting
 end
 
@@ -3464,18 +3477,25 @@ this.UpdateSettingFromGvar=function(option)
     if gvar~=nil then
       option.setting=gvars[option.name]
     else
-      InfMenu.DebugPrint"UpdateSettingFromGvar option.save but no gvar found"
+      InfMenu.DebugPrint"UpdateSettingFromGvar: WARNING option.save but no gvar found"
     end
   end
 end
 
 --ivar system setup
-function this.OnLoadVarsFromSlot()--tex on TppSave.VarRestoreOnMissionStart and checkpoint
+--tex called on TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint
+function this.OnLoadVarsFromSlot()
+  --InfInspect.TryFunc(function()--DEBUG
+    if Ivars.inf_event:Is()>0 then
+      --InfMenu.DebugPrint("OnLoadVarsFromSlot is mis event, aborting."..vars.missionCode)--DEBUG
+      return
+  end
   for name,ivar in pairs(this) do
     if IsIvar(ivar) then
       this.UpdateSettingFromGvar(ivar)
     end
-end
+  end
+  --end)--
 end
 
 --TABLESETUP: Ivars
@@ -3574,7 +3594,9 @@ function this.DeclareVars()
         local svarType=0
         local max=ivar.range.max or 0
         local min=ivar.range.min
-        if ivar.isFloat then
+        if ivar.svarType then
+          svarType=ivar.svarType
+        elseif ivar.isFloat then
           svarType=TppScriptVars.TYPE_FLOAT
           --elseif max < 2 then --tex TODO: bool support
           --svar.type=TppScriptVars.TYPE_BOOL
@@ -3600,6 +3622,29 @@ function this.DeclareVars()
   return varTable
 end
 
+--
+function this.ApplyProfile(profile,noSave)
+  local random=math.random
+  local type=type
+  local tableType="table"
+  local stringType="string"
+
+  for ivarName,setting in pairs(profile)do
+    if type(setting)==tableType then
+      if setting[1]==stringType then
+        --tex setting=={"SOMESETTINGNAME",...}
+        setting=setting[random(#setting)]
+      else
+        --tex setting=={<minnum>,<maxnum>}
+        setting=random(setting[1],setting[2])
+      end
+    end
+    --InfMenu.DebugPrint(ivarName..":Set("..tostring(setting)..")")--DEBUG
+    Ivars[ivarName]:Set(setting,true,noSave)
+  end
+end
+
+--debug stuff
 --tex only catches save vars
 function this.PrintNonDefaultVars()
   if this.varTable==nil then
@@ -3620,6 +3665,7 @@ function this.PrintNonDefaultVars()
 end
 
 function this.PrintGvarSettingMismatch()
+--InfInspect.TryFunc(function()--DEBUG
   for name, ivar in pairs(Ivars) do
     if IsIvar(ivar) then
       if ivar.save then
@@ -3629,11 +3675,13 @@ function this.PrintGvarSettingMismatch()
         else
           if ivar.setting~=gvar then
             InfMenu.DebugPrint("WARNING: ivar setting/gvar mismatch for "..name)
+            InfMenu.DebugPrint("setting:"..tostring(ivar.setting).." gvar value:"..tostring(gvar))
           end
         end
       end
     end
   end
+  --end)--
 end
 
 function this.PrintSaveVarCount()
@@ -3642,16 +3690,28 @@ function this.PrintSaveVarCount()
     return
   end
 
-  local count=0
+  local gvarCountCount=0  
   for n,gvarInfo in pairs(this.varTable) do
     local gvar=gvars[gvarInfo.name]
     if gvar==nil then
       InfMenu.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
     else
-      count=count+1
+      gvarCountCount=gvarCountCount+1
     end
   end
-  InfMenu.DebugPrint("Ivar gvar count:"..count.." "..#this.varTable )
+  InfMenu.DebugPrint("Ivar gvar count:"..gvarCountCount.." "..#this.varTable)
+  
+  local bools=0
+  for name, ivar in pairs(Ivars) do
+    if IsIvar(ivar) then
+      if ivar.save then
+        if ivar.range.max==1 then
+          bools=bools+1
+        end
+      end
+    end
+  end
+  InfMenu.DebugPrint("potential ivar bools:"..bools)
 
   local scriptVarTypes={
     [TppScriptVars.TYPE_BOOL]="TYPE_BOOL",
@@ -3694,26 +3754,19 @@ function this.PrintSaveVarCount()
   InfMenu.DebugPrint"NOTE: these are CATEGORY_MISSION counts"
 
   InfMenu.DebugPrint"Ivars.varTable"
-  InfMenu.DebugPrint"typeCounts"
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,this.varTable,TppScriptVars.CATEGORY_MISSION)
+  
+  InfMenu.DebugPrint"typeCounts"
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
+  
   InfMenu.DebugPrint"arrayCounts"
   local ins=InfInspect.Inspect(arrayCounts)
   InfMenu.DebugPrint(ins)
+  
   InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
-  local bools=0
-  for name, ivar in pairs(Ivars) do
-    if IsIvar(ivar) then
-      if ivar.save then
-        if ivar.range.max==1 then
-          bools=bools+1
-        end
-      end
-    end
-  end
-  --InfMenu.DebugPrint("bools:"..bools)
+
 
   --  local ins=InfInspect.Inspect(TppScriptVars)
   --  InfMenu.DebugPrint(ins)
@@ -3739,21 +3792,28 @@ function this.PrintSaveVarCount()
 
   InfMenu.DebugPrint"TppGVars.DeclareGVarsTable"
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,TppGVars.DeclareGVarsTable,TppScriptVars.CATEGORY_MISSION)
+  
+  InfMenu.DebugPrint"typeCounts"
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
-  InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
+  
   InfMenu.DebugPrint"arrayCounts"
   local ins=InfInspect.Inspect(arrayCounts)
-  InfMenu.DebugPrint(ins)
+  InfMenu.DebugPrint(ins)  
+  
+  InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
   InfMenu.DebugPrint"TppMain.allSvars"
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,TppMain.allSvars,TppScriptVars.CATEGORY_MISSION)
+  InfMenu.DebugPrint"typeCounts"
   local ins=InfInspect.Inspect(typeCounts)
   InfMenu.DebugPrint(ins)
-  InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
+  
   InfMenu.DebugPrint"arrayCounts"
   local ins=InfInspect.Inspect(arrayCounts)
-  InfMenu.DebugPrint(ins)
+  InfMenu.DebugPrint(ins)  
+  
+  InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
   --    local ins=InfInspect.Inspect(TppMain.allSvars)
   --  InfMenu.DebugPrint(ins)

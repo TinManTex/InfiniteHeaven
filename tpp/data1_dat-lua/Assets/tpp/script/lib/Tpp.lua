@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- Tpp.lua
 local this={}
 local StrCode32=Fox.StrCode32
 local type=type
@@ -108,6 +109,7 @@ this.requires={
   "/Assets/tpp/script/lib/InfInspect.lua",
   "/Assets/tpp/script/lib/InfFova.lua",
   "/Assets/tpp/script/lib/InfLZ.lua",
+  "/Assets/tpp/script/lib/InfGameEvent.lua",
   "/Assets/tpp/script/lib/InfHooks.lua",--<
 }
 function this.IsTypeFunc(e)
@@ -408,25 +410,25 @@ function this.SetGameStatus(status)
       end
     end
     for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      local t=target[uiName]
+      local status=target[uiName]
       local unsetUiSetting=mvars.ui_unsetUiSetting
       if (Ivars.disableHeadMarkers:Is(1) and uiName=="HeadMarker") or (Ivars.disableWorldMarkers:Is(1) and uiName=="WorldMarker")then--tex> bit of a kludge implementation, but lua doesnt support continue in for loops--TODO more testing
-        t=nil
+        status=nil
         unsetUiSetting=nil
       end--<
       if IsTypeTable(unsetUiSetting)and unsetUiSetting[uiName]then
         TppUiStatusManager.UnsetStatus(uiName,unsetUiSetting[uiName])
       else
-        if t then
+        if status then
           TppUiStatusManager.ClearStatus(uiName)
         end
       end
     end
   else
     for uiName,statusType in pairs(TppDefine.UI_STATUS_TYPE_ALL)do
-      local e=target[uiName]
-      if e then
-        TppUiStatusManager.SetStatus(uiName,e)
+      local status=target[uiName]
+      if status then
+        TppUiStatusManager.SetStatus(uiName,status)
       else
         TppUiStatusManager.ClearStatus(uiName)
       end
@@ -438,6 +440,9 @@ function this.SetGameStatus(status)
       end
     end
   end
+  if Ivars.debugMode:Is(1) then--tex> DEBUGNOW TODO: this doesn't seem to catch all cases of announcelog being disabled, during Load on return from MB for example
+    TppUiStatusManager.ClearStatus("AnnounceLog")
+  end--<
 end
 function this.GetAllDisableGameStatusTable()
   local statusTable={}
@@ -743,7 +748,8 @@ function this.PatchDlcCheckCoroutine(p1,p2,p3,p4)--RETAILPATCH 1070 reworked
 end
 local n={[PatchDlc.PATCH_DLC_TYPE_MGO_DATA]=true,[PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA]=true}
 if not n[p4]then
-  Fox.Hungup"Invalid dlc type."return false
+  Fox.Hungup"Invalid dlc type."
+  return false
 end
 local function RENf1(e)
 end
@@ -798,7 +804,8 @@ function this.IsPatchDlcValidPlatform(n)--RETAILPATCH 1070
   }
 local e=e[n]
 if not e then
-  Fox.Hungup"Invalid dlc type."return false
+  Fox.Hungup"Invalid dlc type."
+  return false
 end
 local n=Fox.GetPlatformName()
 if e[n]then
@@ -815,11 +822,13 @@ function this.ClearDidCancelPatchDlcDownloadRequest()
   end
 end
 function this.DEBUG_DunmpBlockArea(t,l,n)
-  local e="       "for n=1,n do
+  local e="       "
+  for n=1,n do
     e=e..string.format("%02d,",n)
   end
   for l=1,l do
-    local e=""for n=1,n do
+    local e=""
+    for n=1,n do
       e=e..string.format("%02d,",t[l][n])
     end
   end

@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- TppClock.lua
 local this={}
 local StrCode32=Fox.StrCode32
 local t=(1/60)/60

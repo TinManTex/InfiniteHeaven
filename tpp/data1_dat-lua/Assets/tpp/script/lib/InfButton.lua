@@ -1,6 +1,10 @@
 -- DOBUILD: 1
 -- NODEPS
 local this={}
+--LOCALOPT:
+local bit=bit
+local Time=Time
+local PlayerVars=PlayerVars
 
 local incrementMultIncrementMult=1.5--tex i r good at naming
 local maxIncrementMult=50

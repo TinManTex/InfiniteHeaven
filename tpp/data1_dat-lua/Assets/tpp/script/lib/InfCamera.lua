@@ -2,6 +2,8 @@
 --InfCamera.lua
 local this={}
 --LOCALOPT
+local Ivars=Ivars
+local InfMain=InfMain
 --
 local cameraOffsetDefault=Vector3(0,0.75,0)
 --this.cameraPosition=cameraOffsetDefault--CULL
@@ -18,21 +20,22 @@ local cameraOffsetDefault=Vector3(0,0.75,0)
 --end
 --SYNC: Ivars camNames
 local function GetCurrentCamName()
-  if Ivars.cameraMode:Is"PLAYER" then
-    if PlayerInfo.OrCheckStatus{PlayerStatus.STAND}then
-      return "PlayerStand"
-    elseif PlayerInfo.OrCheckStatus{PlayerStatus.SQUAT}then
-      return "PlayerSquat"
-    elseif  PlayerInfo.OrCheckStatus{PlayerStatus.CRAWL}then
-      return "PlayerCrawl"
-    elseif  PlayerInfo.OrCheckStatus{PlayerStatus.DASH}then
-      return "PlayerDash"
-    else
-      InfMenu.DebugPrint"UpdateCameraManualMode: unknow PlayerStatus"
-    end
-  else
+--WIP
+--  if Ivars.cameraMode:Is"PLAYER" then
+--    if PlayerInfo.OrCheckStatus{PlayerStatus.STAND}then
+--      return "PlayerStand"
+--    elseif PlayerInfo.OrCheckStatus{PlayerStatus.SQUAT}then
+--      return "PlayerSquat"
+--    elseif  PlayerInfo.OrCheckStatus{PlayerStatus.CRAWL}then
+--      return "PlayerCrawl"
+--    elseif  PlayerInfo.OrCheckStatus{PlayerStatus.DASH}then
+--      return "PlayerDash"
+--    else
+--      InfMenu.DebugPrint"UpdateCameraManualMode: unknow PlayerStatus"
+--    end
+--  else
     return "FreeCam"
-  end
+--  end
 end
 
 function this.ReadPosition(camName)
@@ -76,27 +79,27 @@ function this.UpdateCameraManualMode()
   local focusDistance=Ivars["focusDistance"..currentCamName]
   local cameraDistance=Ivars["distance"..currentCamName]
   local movePosition=this.ReadPosition(currentCamName)
-
-  if Ivars.cameraMode:Is"PLAYER" then
-    Player.SetAroundCameraManualModeParams{
-      offset=movePosition,--this.cameraOffset,--Vector3(0.0,0.75,0),--this.cameraOffset,
-      distance=cameraDistance:Get(),
-      focalLength=focalLength:Get(),
-      focusDistance=focusDistance:Get(),
-      aperture=aperture:Get(),
-      --target=Vector3(0,0,0),--tex only if targetIsPlayer?--Vector3(0,1000,0),--Vector3(2,10,10),--this.cameraPosition,
-      targetInterpTime=.2,
-      targetIsPlayer=true,
-      --targetOffsetFromPlayer=Vector3(0,0,0.5),
-      --rotationBasedOnPlayer = true,
-      ignoreCollisionGameObjectName="Player",
-      --TEST OFF rotationLimitMinX=-60,
-      --TEST OFF rotationLimitMaxX=80,
-      alphaDistance=0--.1,--3--.5,
-    --enableStockChangeSe = false,
-    --useShakeParam = true
-    }
-  else
+--WIP
+--  if Ivars.cameraMode:Is"PLAYER" then
+--    Player.SetAroundCameraManualModeParams{
+--      offset=movePosition,--this.cameraOffset,--Vector3(0.0,0.75,0),--this.cameraOffset,
+--      distance=cameraDistance:Get(),
+--      focalLength=focalLength:Get(),
+--      focusDistance=focusDistance:Get(),
+--      aperture=aperture:Get(),
+--      --target=Vector3(0,0,0),--tex only if targetIsPlayer?--Vector3(0,1000,0),--Vector3(2,10,10),--this.cameraPosition,
+--      targetInterpTime=.2,
+--      targetIsPlayer=true,
+--      --targetOffsetFromPlayer=Vector3(0,0,0.5),
+--      --rotationBasedOnPlayer = true,
+--      ignoreCollisionGameObjectName="Player",
+--      --TEST OFF rotationLimitMinX=-60,
+--      --TEST OFF rotationLimitMaxX=80,
+--      alphaDistance=0--.1,--3--.5,
+--    --enableStockChangeSe = false,
+--    --useShakeParam = true
+--    }
+--  else
     Player.SetAroundCameraManualModeParams{
       target=movePosition,
       distance=cameraDistance:Get(),
@@ -109,7 +112,7 @@ function this.UpdateCameraManualMode()
       rotationLimitMaxX=90,
       alphaDistance=0,
     }
-  end
+ -- end
   Player.UpdateAroundCameraManualModeParams()
 end
 

@@ -1,4 +1,4 @@
--- DOBUILD: 0
+-- DOBUILD: 0--DEBUGNOW clean up existing stuff if using, search debugnow --tex
 -- ORIGINALQAR: chunk0
 -- PACKPATH: \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd
 -- mbdvc_map_location_parameter.lua
@@ -215,17 +215,17 @@ mbdvc_map_location_parameter = {
 --	 mbdvc_map_location_parameter.gg=mbdvc_map_location_parameter.gg or 0--DEBUGNOW
 --	  mbdvc_map_location_parameter.gg=mbdvc_map_location_parameter.gg+1
 --	 InfMenu.DebugPrint("GetGlobalLocationParameter "..tostring(vars.missionCode))
-	 local enableSpySearch=Ivars.disableSpySearch:Is(0)--tex
-	 local enableHerbSearch=Ivars.disableHerbSearch:Is(0)--tex
-	 InfMenu.DebugPrint("GetGlobalLocationParameter "..tostring(vars.missionCode).. " enableSpySearch:"..trosting(enableSpySearch))
+	 local enableSpySearch=true --Ivars.disableSpySearch:Is(0)--tex
+	 local enableHerbSearch=true --Ivars.disableHerbSearch:Is(0)--tex
+	 --InfMenu.DebugPrint("GetGlobalLocationParameter "..tostring(vars.missionCode).. " enableSpySearch:"..trosting(enableSpySearch))--tex DEBUG
 		return {
 			{	
 				locationId = 10,
 				sectionFuncRankForDustBox	= 2, 
 				sectionFuncRankForToilet	= 2, 
 				sectionFuncRankForCrack		= 4, 
-				isSpySearchEnable = enableSpySearch,--tex was true
-				isHerbSearchEnable = enableHerbSearch,--tex was true
+				isSpySearchEnable = true,--enableSpySearch,--tex was true
+				isHerbSearchEnable = true,--enableHerbSearch,--tex was true
 				
 				spySearchRadiusMeter = {	40.0,	40.0,	35.0,	30.0,	25.0,	20.0,	15.0,	10.0, },
 				spySearchIntervalSec = {	420.0,	420.0,	360.0,	300.0,	240.0,	180.0,	120.0,	60.0, },

@@ -194,8 +194,10 @@ function this.RegistAnimalOptionalRadio(n)
     return
   end
   if n=="Goat"then
-    mvars.FreeHeliRadio_animalRadioGroup="f2000_oprg0065"elseif n=="Wolf"then
-    mvars.FreeHeliRadio_animalRadioGroup="f2000_oprg0075"end
+    mvars.FreeHeliRadio_animalRadioGroup="f2000_oprg0065"
+  elseif n=="Wolf"then
+    mvars.FreeHeliRadio_animalRadioGroup="f2000_oprg0075"
+  end
   if mvars.FreeHeliRadio_animalRadioGroup then
     this._RegisterOptionRadio(mvars.FreeHeliRadio_animalRadioGroup)
   end

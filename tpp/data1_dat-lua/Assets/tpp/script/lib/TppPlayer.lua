@@ -262,25 +262,32 @@ function this.ResetInitialPosition()
   vars.initialPlayerPosZ=0
   vars.initialPlayerRotY=0
 end
-function this.FailSafeInitialPositionForFreePlay()--RETAILPATCH: 1060
+--RETAILPATCH: 1060>
+function this.FailSafeInitialPositionForFreePlay()
   if not((vars.missionCode==30010)or(vars.missionCode==30020))then
     return
+  end
+  if vars.initialPlayerFlag~=PlayerFlag.USE_VARS_FOR_INITIAL_POS then
+    return
+  end
+  if(((vars.initialPlayerPosX>3500)or(vars.initialPlayerPosX<-3500))or(vars.initialPlayerPosZ>3500))or(vars.initialPlayerPosZ<-3500)then
+    local failSafePositions={
+      [30010]={1448.61,337.787,1466.4},
+      [30020]={-510.73,5.09,1183.02}
+    }
+    local position=failSafePositions[vars.missionCode]
+    vars.initialPlayerPosX,vars.initialPlayerPosY,vars.initialPlayerPosZ=position[1],position[2],position[3]
+  end
 end
-if vars.initialPlayerFlag~=PlayerFlag.USE_VARS_FOR_INITIAL_POS then
-  return
-end
-if(((vars.initialPlayerPosX>3500)or(vars.initialPlayerPosX<-3500))or(vars.initialPlayerPosZ>3500))or(vars.initialPlayerPosZ<-3500)then
-  local e={[30010]={1448.61,337.787,1466.4},[30020]={-510.73,5.09,1183.02}}
-  local e=e[vars.missionCode]
-  vars.initialPlayerPosX,vars.initialPlayerPosY,vars.initialPlayerPosZ=e[1],e[2],e[3]
-end
-end--
+--<
 function this.RegisterTemporaryPlayerType(playerSetting)
-  if Ivars.useSoldierForDemos:Is(1) then--tex allow player character for the few missions that override it
+  --tex allow player character for the few missions that override it
+  if Ivars.useSoldierForDemos:Is(1) then
     if vars.missionCode==10030 or vars.missionCode==10240 then
       return
+    end
   end
-  end--
+  --<
   if not IsTypeTable(playerSetting)then
     return
   end
@@ -953,8 +960,10 @@ function this.SetTargetDeadCamera(r)
   local a
   local o
   if IsTypeTable(r)then
-    l=r.gameObjectName or""a=r.gameObjectId
-    o=r.announceLog or"target_extract_failed"end
+    l=r.gameObjectName or""
+    a=r.gameObjectId
+    o=r.announceLog or"target_extract_failed"
+  end
   a=a or GetGameObjectId(l)
   if a==NULL_ID then
     return
@@ -1007,7 +1016,8 @@ function this.SetPlayerKilledChildCamera()
   if mvars.mis_childGameObjectIdKilledPlayer then
     local a=nil
     if not TppEnemy.IsRescueTarget(mvars.mis_childGameObjectIdKilledPlayer)then
-      a="boy_died"end
+      a="boy_died"
+    end
     this.SetTargetDeadCamera{gameObjectId=mvars.mis_childGameObjectIdKilledPlayer,announceLog=a}
   end
 end
@@ -1592,7 +1602,8 @@ function this.Messages()
       {msg="IntelIconInDisplay",func=this.OnIntelIconDisplayContinue},
       {msg="QuestIconInDisplay",func=this.OnQuestIconDisplayContinue},
       {msg="PlayerShowerEnd",func=function()
-        TppUI.ShowAnnounceLog"refresh"end}},
+        TppUI.ShowAnnounceLog"refresh"
+      end}},
     GameObject={{msg="RideHeli",func=this.QuietRideHeli}},
     UI={{msg="EndFadeOut",sender="OnSelectCboxDelivery",func=this.WarpByCboxDelivery},
       {msg="EndFadeIn",sender="OnEndWarpByCboxDelivery",func=this.OnEndFadeInWarpByCboxDelivery},
@@ -1803,6 +1814,7 @@ function this.Init(missionTable)
 end
 
 function this.SetSelfSubsistenceOnHardMission()--tex heavily reworked, see below for original
+  local Ivars=Ivars
   local isActual=TppMission.IsActualSubsistenceMission()
   if isActual and Ivars.ospWeaponProfile:Is"DEFAULT" or (Ivars.primaryWeaponOsp:Is(1) and Ivars.secondaryWeaponOsp:Is(1) and Ivars.tertiaryWeaponOsp:Is(1)) then
     Ivars.ospWeaponProfile:Set("PURE",true,true)--tex don't want to save due to normal subsistence missions
@@ -1937,15 +1949,15 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   end--<
 
   --tex TODO: add own ivar
---  if Tpp.IsSoldier(gameId) then --tex>
---    if Ivars.fultonWildCardHandling:Is(1) and Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck() then
---      local soldierType=TppEnemy.GetSoldierType(gameId)
---      local soldierSubType=TppEnemy.GetSoldierSubType(gameId,soldierType)
---      if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD" then--TODO: another way to ID wildcard soldiers
---        percentage=0
---      end
---  end
---  end--<
+  --  if Tpp.IsSoldier(gameId) then --tex>
+  --    if Ivars.fultonWildCardHandling:Is(1) and Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck() then
+  --      local soldierType=TppEnemy.GetSoldierType(gameId)
+  --      local soldierSubType=TppEnemy.GetSoldierSubType(gameId,soldierType)
+  --      if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD" then--TODO: another way to ID wildcard soldiers
+  --        percentage=0
+  --      end
+  --  end
+  --  end--<
   --DEBUGNOW WIP
   if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
     percentage=0
@@ -2240,7 +2252,8 @@ function this.UpdateDeliveryWarp()
   if mvars.ply_playingDeliveryWarpSoundHandle then
     local e=TppSoundDaemon.IsEventPlaying("Play_truck_transfer",mvars.ply_playingDeliveryWarpSoundHandle)
     if(e==false)then
-      TppSoundDaemon.ResetMute"Loading"mvars.ply_playingDeliveryWarpSoundHandle=nil
+      TppSoundDaemon.ResetMute"Loading"
+      mvars.ply_playingDeliveryWarpSoundHandle=nil
     else
       TppUI.ShowAccessIconContinue()
     end
@@ -2395,7 +2408,8 @@ function this.CheckCaptureCage(n,r)
   end
 end
 function this.GetCaptureAnimalSE(t)
-  local e="sfx_s_captured_nom"local a=mvars.loc_locationAnimalSettingTable
+  local e="sfx_s_captured_nom"
+  local a=mvars.loc_locationAnimalSettingTable
   if a==nil then
     return e
   end
@@ -2405,9 +2419,12 @@ function this.GetCaptureAnimalSE(t)
   end
   local a=a[t]
   if a==TppMotherBaseManagementConst.ANIMAL_RARE_SR then
-    e="sfx_s_captured_super"elseif a==TppMotherBaseManagementConst.ANIMAL_RARE_R then
-    e="sfx_s_captured_rare"else
-    e="sfx_s_captured_nom"end
+    e="sfx_s_captured_super"
+  elseif a==TppMotherBaseManagementConst.ANIMAL_RARE_R then
+    e="sfx_s_captured_rare"
+  else
+    e="sfx_s_captured_nom"
+  end
   return e
 end
 function this._IsStartStatusValid(a)
@@ -2489,7 +2506,8 @@ function this.EvaluateCaptureCage(i,a,grade,material)
   local animalInfoList=loc_locationAnimalSettingTable.animalInfoList
   local n={}
   if captureAnimalList[t]==nil then
-    t="wholeArea"end
+    t="wholeArea"
+  end
   local i=false
   for t,dataBaseId in pairs(captureAnimalList[t])do
     local t=animalRareLevel[dataBaseId]

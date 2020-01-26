@@ -216,6 +216,15 @@ this.heliRouteToCp={
     ["lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000"]="mafr_flowStation_cp",
   },
 }
+this.cpToHeliRoute={
+  afgh={},
+  mafr={},
+}
+for location,routeCpInfo in pairs(this.heliRouteToCp)do
+  for route,cpName in pairs(routeCpInfo)do
+    this.cpToHeliRoute[location][cpName]=route
+  end
+end
 
 local numNpcAttackHelis=3
 --numNpcAttackHelis=math.min(numNpcAttackHelis,#enemyHeliList)
@@ -371,13 +380,13 @@ function this.InitUpdate(currentChecks)
   --      local meshType=heliMeshTypes[math.random(#heliMeshTypes)]
   --      GameObject.SendCommand( heliObjectId, { id = "SetMeshType", typeName = meshType, } )
 
-  InfMain.SetLevelRandomSeed()
+  InfMain.RandomSetToLevelSeed()
   if Ivars.mbEnemyHeliColor:Is()>0 then
     heliColorType=this.GetEnemyHeliColor()
   elseif Ivars.mbEnemyHeliColor:Is"RANDOM" then
     heliColorType=math.random(0,2)
   end
-  InfMain.ResetTrueRandom()
+  InfMain.RandomResetToOsTime()
   
   for n,heliName in ipairs(this.heliList)do
     local heliObjectId = GetGameObjectId(heliName)

@@ -1075,7 +1075,8 @@ function this.DebugUpdate()
   end
   if a.debug.showPlayStyleHistory then(nil).Print(t,{.5,.5,1},"LuaMission RES.showPlayStyleHistory");(nil).Print(t,{.5,1,.5},"gvars.res_neutralizeHistorySize = "..tostring(gvars.res_neutralizeHistorySize));(nil).Print(t,{.5,1,.5}," history = 0         | history = 1          | history = 2        ");(nil).Print(t,{.5,1,.5},"isPerfectStealth");(nil).Print(t,"( "..(tostring(gvars.res_isPerfectStealth[0])..(" ) | ( "..(tostring(gvars.res_isPerfectStealth[1])..(" ) | ( "..(tostring(gvars.res_isPerfectStealth[2]).." )"))))));(nil).Print(t,{.5,1,.5},"isStealth");(nil).Print(t,"( "..(tostring(gvars.res_isStealth[0])..(" ) | ( "..(tostring(gvars.res_isStealth[1])..(" ) | ( "..(tostring(gvars.res_isStealth[2]).." )"))))));(nil).Print(t,{.5,1,.5},"Head shot count");(nil).Print(t,string.format("( %07d ) | ( %07d ) | ( %07d )",gvars.res_headShotCount[0],gvars.res_headShotCount[1],gvars.res_headShotCount[2]));(nil).Print(t,{.5,1,.5},"( historyIndex, neutralizeType, count )")
     for s=0,TppDefine.PLAYSTYLE_SAVE_INDEX_MAX-1 do
-      local a=""local n=this.DEBUG_NEUTRALIZE_TYPE_TEXT[s+1]
+      local a=""
+      local n=this.DEBUG_NEUTRALIZE_TYPE_TEXT[s+1]
       for e=0,TppDefine.PLAYSTYLE_HISTORY_MAX do
         local e=string.format("( %02d, %s, %03d ) | ",e,n,gvars.res_neutralizeCount[e*TppDefine.PLAYSTYLE_SAVE_INDEX_MAX+s])a=a..e
       end(nil).Print(t,a)

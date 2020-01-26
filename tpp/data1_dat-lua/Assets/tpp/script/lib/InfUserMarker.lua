@@ -56,7 +56,7 @@ function this.GetLastAddedUserMarkerIndex()
   local addMarkerFlags={}
   for index=0,vars.userMarkerSaveCount-1 do
     local addFlag=vars.userMarkerAddFlag[index]
-    table.insert(addMarkerFlags,{addFlag=addFlag,index=index})
+    addMarkerFlags[#addMarkerFlags+1]={addFlag=addFlag,index=index}
   end
 
   --sort

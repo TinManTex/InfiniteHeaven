@@ -450,7 +450,8 @@ function this.Update()
     local e=TppScriptVars.GetSaveState()
     if e==TppScriptVars.STATE_SAVING then
       if gvars.sav_isCheckPointSaving then
-        TppUI.ShowSavingIcon"checkpoint"else
+        TppUI.ShowSavingIcon"checkpoint"
+      else
         TppUI.ShowSavingIcon()
       end
     end

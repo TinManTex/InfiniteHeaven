@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- TppUi.lua
 local this={}
 local StrCode32=Fox.StrCode32
 local IsTypeTable=Tpp.IsTypeTable
@@ -257,13 +258,13 @@ end
 function this.SetFadeColorToWhite()
   FadeFunction.SetFadeColor(255,255,255,255)
 end
-function this.FadeOut(fadeSpeed,RENAMEsomeIdString,p,setupInfo)
+function this.FadeOut(fadeSpeed,msgName,p,setupInfo)
   local setMute,exceptGameStatus
   if Tpp.IsTypeTable(setupInfo)then
     setMute=setupInfo.setMute
     exceptGameStatus=setupInfo.exceptGameStatus
   end
-  local RENAMEstrCodeSomeIdString=ToStrCode32(RENAMEsomeIdString)
+  local strCodeMsgName=ToStrCode32(msgName)
   this.DisableGameStatusOnFade(exceptGameStatus)
   if setMute then
     TppSound.SetMuteOnLoading()
@@ -272,7 +273,7 @@ function this.FadeOut(fadeSpeed,RENAMEsomeIdString,p,setupInfo)
       TppSoundDaemon.SetMute"Outro"
     end
   end
-  CallFadeOut(fadeSpeed,RENAMEstrCodeSomeIdString,p)
+  CallFadeOut(fadeSpeed,strCodeMsgName,p)
 end
 function this.ShowAnnounceLog(announceId,param1,param2,delayTime,missionSubGoalNumber)
   if gvars.ini_isTitleMode then
@@ -327,10 +328,10 @@ function this.ShowColorJoinAnnounceLog(i,o,t,a,delay)
     TppUiCommand.AnnounceLogViewJoinLangId(langId,langId2,t,a,0,0,true)
   end
 end
-function this.ShowEmergencyAnnounceLog(n)
+function this.ShowEmergencyAnnounceLog(isFobEmergency)
   this.ShowAnnounceLog"emergencyMissionOccur"
   if not(TppUiStatusManager.CheckStatus("AnnounceLog","INVALID_LOG")or TppUiStatusManager.CheckStatus("AnnounceLog","SUSPEND_LOG"))then
-    if n==true then
+    if isFobEmergency==true then
       TppSoundDaemon.PostEvent"sfx_s_fob_emergency"
     else
       TppSoundDaemon.PostEvent"sfx_s_fob_alert"
@@ -370,6 +371,10 @@ function this.EnableMissionSubGoal(e)
 end
 --objectiveDefine.spySearch
 function this.EnableSpySearch(spySearch)
+  if Ivars.disableSpySearch:Is()>0 then--tex>
+    return
+  end--<
+
   if not IsTypeTable(spySearch)then
     return
   end
@@ -407,10 +412,10 @@ function this.DisableSpySearch(spySearch)
   spySearch.gameObjectId=gameId
   TppUiCommand.DeactivateSpySearchForGameObject(spySearch)
 end
-function this.StartMissionTelop(e,n,i)
+function this.StartMissionTelop(telopId,n,i)
   TppSoundDaemon.SetMute"Telop"
-  if e then
-    TppUiCommand.SetMissionStartTelopId(e)
+  if telopId then
+    TppUiCommand.SetMissionStartTelopId(telopId)
   end
   TppUiCommand.CallMissionStartTelop(n,i)
   TppSound.PostJingleOnMissionStartTelop()
@@ -986,10 +991,10 @@ function this.Init()
         table.insert(pauseMenuItems,6,GamePauseMenu.RECORDS_ITEM)
       end
       if Ivars.abortMenuItemControl:Is(0) then--tex added switch
-        if TppMission.IsStartFromHelispace() or Ivars.mis_isGroundStart:Is(1) then--tex added mis_isGroundStart
+        if gvars.mis_isStartFromHelispace then--tex was TppMission.IsStartFromHelispace, which I've now reserved for mission sequence only
           table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION_RETURN_TO_ACC)
       end
-      if TppMission.IsStartFromFreePlay()then
+      if gvars.mis_isStartFromFreePlay then--tex was TppMission.IsStartFromFreePlay, which I've now reserved for mission sequence only
         table.insert(pauseMenuItems,3,GamePauseMenu.ABORT_MISSION)
       end
       end

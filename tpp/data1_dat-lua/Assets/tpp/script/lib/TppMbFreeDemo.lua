@@ -130,7 +130,7 @@ this.demoOptions={
     isUseGrassOcelot=true},
   DdogComeToGet={
     OnEnd=function()
-      if gvars.mbDemoSelection==1 then return end--tex skip demo onend
+      if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
       TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_COME_TO_GET)
       TppBuddyService.SetBuddyPuppyMBDemoPlayed()
     end,
@@ -139,22 +139,30 @@ this.demoOptions={
     enableOcelotDemoEnd=true},
   DdogGoWithMe={
     OnEnd=function()
-      if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
-      TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME)
-      TppBuddyService.SetSortieBuddyType(BuddyType.DOG)
-      TppEmblem.Add("front63",true)
-      Player.SetPause()
-      vars.buddyType=BuddyType.DOG
-      if f30050_sequence then
-        f30050_sequence.ReserveMissionClear()
+      if Ivars.mbDemoSelection:Is(1) then--tex skip demo onend>
+        TppBuddyService.SetSortieBuddyType(BuddyType.DOG)
+        Player.SetPause()
+        vars.buddyType=BuddyType.DOG
+        if f30050_sequence then
+          f30050_sequence.ReserveMissionClear()
+        end
+      else--<
+        TppStory.SetDoneElapsedMission(TppDefine.ELAPSED_MISSION_EVENT.D_DOG_GO_WITH_ME)
+        TppBuddyService.SetSortieBuddyType(BuddyType.DOG)
+        TppEmblem.Add("front63",true)
+        Player.SetPause()
+        vars.buddyType=BuddyType.DOG
+        if f30050_sequence then
+          f30050_sequence.ReserveMissionClear()
+        end
+        if mvars.mbDemo_isFirstPlay then
+          TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_303",rewardType=TppReward.TYPE.COMMON}
+        end
+        local i=TppDefine.QUEST_INDEX.Mtbs_child_dog
+        gvars.qst_questRepopFlag[i]=false
+        gvars.qst_questClearedFlag[i]=true
+        TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
       end
-      if mvars.mbDemo_isFirstPlay then
-        TppReward.Push{category=TppScriptVars.CATEGORY_MB_MANAGEMENT,langId="reward_303",rewardType=TppReward.TYPE.COMMON}
-      end
-      local i=TppDefine.QUEST_INDEX.Mtbs_child_dog
-      gvars.qst_questRepopFlag[i]=false
-      gvars.qst_questClearedFlag[i]=true
-      TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
     end,
     isFinishFadeOut=true,heliEnableAfterDemo=true},
   LongTimeNoSee_DDSoldier={time="14:30:00",weather=TppDefine.WEATHER.SUNNY,heliEnableAfterDemo=true,OnEnter=function()
@@ -259,7 +267,8 @@ this.demoOptions={
       local l=not TppBuddyService.CheckBuddyCommonFlag(BuddyCommonFlag.BUDDY_QUIET_LOST)
       local t=not TppBuddyService.IsDeadBuddyType(BuddyType.QUIET)
       if((n and e)and l)and t then
-        return"HappyBirthDayWithQuiet"end
+        return"HappyBirthDayWithQuiet"
+      end
       return nil
     end,
     OnEnd=function()
@@ -625,8 +634,7 @@ this.demoOptions={
     OnEnd=function()
       if Ivars.mbDemoSelection:Is(1) then return end--tex skip demo onend
       TppStory.StartElapsedMissionEvent(TppDefine.ELAPSED_MISSION_EVENT.THE_GREAT_ESCAPE_LIQUID,TppDefine.INIT_ELAPSED_MISSION_COUNT.THE_GREAT_ESCAPE_LIQUID)
-      TppCassette.Acquire{cassetteList={"tp_m_10160_04"},
-        pushReward=true}
+      TppCassette.Acquire{cassetteList={"tp_m_10160_04"},pushReward=true}
       svars.isVisibleBrokenHanger=true
       TppClock.SetTime"20:00:00"
       mvars.f30050_isOverwriteDemoEndPos=true

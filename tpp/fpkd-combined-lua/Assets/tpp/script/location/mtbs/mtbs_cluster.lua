@@ -176,7 +176,7 @@ function mtbs_cluster.SetUpLandingZone( landingZoneTable, clusterId )
 				if isDisable == true then
 					GameObject.SendCommand( gameObjectId, { id = "DisableLandingZone", name = landingZoneName })
 			  else
-			   table.insert(enabledLzs,landingZoneName)--tex
+			   enabledLzs[#enabledLzs+1]=landingZoneName--tex
 				end
 			end
 		
@@ -185,7 +185,7 @@ function mtbs_cluster.SetUpLandingZone( landingZoneTable, clusterId )
 				if plntId > mvars.mtbsClst_constructTable[clusterId] then
 					GameObject.SendCommand( gameObjectId, { id = "DisableLandingZone", name = landingZoneName })
 				else
-				  table.insert(enabledLzs,landingZoneName)--tex
+				  enabledLzs[#enabledLzs+1]=landingZoneName--tex
 				end
 			end
 		end

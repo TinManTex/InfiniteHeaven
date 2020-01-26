@@ -33,7 +33,7 @@ this.InterCall_Location=function(soldierId,cpId,interName)
   --InfInspect.TryFunc(function()--DEBUG
   local interrFuncs={}
   if Ivars.enableLrrpFreeRoam:Is(1) then
-    table.insert(interrFuncs,this.LrrpLocation)
+    interrFuncs[#interrFuncs+1]=this.LrrpLocation
   end
 
   --  if InfMain.IvarsEnabledForMission(InfNPCHeli.heliEnableIvars) then
@@ -41,7 +41,7 @@ this.InterCall_Location=function(soldierId,cpId,interName)
   --  end
 
   if Ivars.enableWildCardFreeRoam:Is(1) then
-    table.insert(interrFuncs,this.WildCardLocation)
+    interrFuncs[#interrFuncs+1]=this.WildCardLocation
   end
 
   local LocationInterrogate=interrFuncs[math.random(#interrFuncs)]
@@ -57,14 +57,14 @@ function this.LrrpLocation()
   local lrrpDefine=InfMain.lrrpDefines[math.random(#InfMain.lrrpDefines)]
   local base1Name=InfMenu.CpNameString(lrrpDefine.base1,InfMain.GetLocationName())
   local base2Name=InfMenu.CpNameString(lrrpDefine.base2,InfMain.GetLocationName())
-  InfMenu.DebugPrint("[Intel] the soldier indicates a LRRP is traveling between "..base1Name.." and "..base2Name)--DEBUGNOW ADDLANG
+  InfMenu.PrintFormatLangId("interrogate_lrrp",base1Name,base2Name)
 end
 
 function this.WildCardLocation()
   --InfMenu.DebugPrint"WildCardLocation"--DEBUG
   local cpName=InfMain.ene_wildCardCps[math.random(#InfMain.ene_wildCardCps)]
   local cpNameString=InfMenu.CpNameString(cpName,InfMain.GetLocationName())
-  InfMenu.DebugPrint("[Intel] the soldier indicates there was a mercenary assigned to "..cpNameString)--DEBUGNOW ADDLANG
+  InfMenu.PrintFormatLangId("interrogate_wildcard",cpNameString)
 end
 
 function this.HeliLocation()
@@ -88,7 +88,7 @@ function this.HeliLocation()
   local cpName=InfNPCHeli.heliRouteToCp[locationName][route]
   if cpName then
     local cpNameString=InfMenu.CpNameString(cpName,locationName)
-    InfMenu.DebugPrint("[Intel] the soldier indicates an attack heli is travelling to "..cpNameString)--DEBUGNOW ADDLANG
+    InfMenu.PrintFormatLangId("interrogate_heli",cpNameString)
   end
 end
 
@@ -136,7 +136,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
   end
 
 
-    InfMain.SetLevelRandomSeed()
+    InfMain.RandomSetToLevelSeed()
 
     this.interCpQuestSoldiers={}
     this.interCpQuestIds={}
@@ -158,7 +158,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
       elseif #cpDefine>0 then
         local cpId=GetGameObjectId("TppCommandPost2",cpName)
         if cpId==NULL_ID then
-          InfMenu.DebugPrint("SetupInterCpQuests baseNamePool "..tostring(cpName).." cpId==NULL_ID")--DEBUGNOW
+          InfMenu.DebugPrint("SetupInterCpQuests baseNamePool "..tostring(cpName).." cpId==NULL_ID")--DEBUG
         else
           table.insert(startBases,cpName)
         end
@@ -202,7 +202,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
       local soldierName=cpDefine[rnd]
       local soldierId=GetGameObjectId("TppSoldier2",soldierName)
       if soldierId==NULL_ID then
-        InfMenu.DebugPrint("WARNING SetupSoldierPairs could not find soldier "..tostring(soldierName).." aborting")--DEBUGNOW
+        InfMenu.DebugPrint("WARNING SetupSoldierPairs could not find soldier "..tostring(soldierName).." aborting")--DEBUG
         break
       else
         this.interCpQuestSoldiers[soldierIndex]=soldierId
@@ -221,7 +221,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
     --InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
     --InfInspect.PrintInspect(uniqueInterrogation)--DEBUG
 
-    InfMain.ResetTrueRandom()
+    InfMain.RandomResetToOsTime()
 end
 
 function this.GetPairedSoldier(soldierIndex)
@@ -288,7 +288,7 @@ this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
       local partnerCpName=this.interCpQuestSoldiersCps[partnerICPQId]
       local cpNameLang=InfMenu.CpNameString(partnerCpName,InfMain.GetLocationName())
       --InfMenu.DebugPrint("sol cpquestid:"..soldierIQId.." partnerId:"..partnerIQId)--DEBUG
-      InfMenu.DebugPrint("[Intel] the soldier indicates his comrade assigned to "..cpNameLang.." has stashed some things")--DEBUGNOW ADDLANG
+      InfMenu.PrintFormatLangId("intercp_comrade_location",cpNameLang)
       --tex TODO:
       --        set up marker?
       --        save starttime
@@ -296,19 +296,19 @@ this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
       svars.inf_interCpQuestStatus[soldierICPQId]=true
       --tex complete quest
     elseif svars.inf_interCpQuestStatus[partnerICPQId] and not svars.inf_interCpQuestStatus[soldierICPQId] then
-      InfMenu.DebugPrint"[Intel] the soldier has given us the location of their stash"--DEBUGNOW ADDLANG
+      InfMenu.PrintLangId"intercp_complete"
       this.GiveInterCpQuestReward()
 
       svars.inf_interCpQuestStatus[soldierICPQId]=true
       --tex quest completed
     elseif svars.inf_interCpQuestStatus[soldierICPQId] and svars.inf_interCpQuestStatus[partnerICPQId] then
       --       --InfMenu.DebugPrint"InterCall_InterCpQuest, quest was already completed "--DEBUG
-      InfMenu.DebugPrint"[Intel] the soldier is just repeating himself"--DEBUGNOW ADDLANG
+      InfMenu.PrintLangId"intercp_repeat"
     else
-      InfMenu.DebugPrint"[Intel] the soldier is just repeating himself"--DEBUGNOW ADDLANG
+      InfMenu.PrintLangId"intercp_repeat"
     end
   --end,soldierId,cpId,interName)
-end--DEBUGNOW
+end
 
 local resourceNames={
   "CommonMetal",

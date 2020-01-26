@@ -505,7 +505,8 @@ this.radioDemoTable={
       return this.GetCurrentStorySequence()==TppDefine.STORY_SEQUENCE.CLEARD_RESCUE_HUEY
     end,
     detailCondition=function()
-      local n=TppRadio.IsPlayed"f2000_rtrg8090"local e=TppMission.IsHelicopterSpace(vars.missionCode)
+      local n=TppRadio.IsPlayed"f2000_rtrg8090"
+      local e=TppMission.IsHelicopterSpace(vars.missionCode)
       return n and e
     end,
     radioList={"f2000_rtrg8100"}
@@ -1591,8 +1592,10 @@ function this.OpenRetakeThePlatform()
   end
   this.MissionOpen(10115)
   TppMotherBaseManagement.CompletedClusterBuild{base="MotherBase",category="Develop",grade=1}
-  TppRadio.Play"f1000_rtrg1010"TppUI.ShowEmergencyAnnounceLog()
-  TppUI.ShowAnnounceLog"missionListUpdate"end
+  TppRadio.Play"f1000_rtrg1010"
+  TppUI.ShowEmergencyAnnounceLog()
+  TppUI.ShowAnnounceLog"missionListUpdate"
+end
 function this.CheckAndOpenRetakeThePlatform()
   if this.CanOccurRetakeThePlatform()then
     if not this.IsMissionOpen(10115)then
@@ -1707,8 +1710,8 @@ function this.UpdateStorySequence(params)
     local missionId=params.missionId
     updateSequence=this.UpdateStorySequenceOnMissionClear(missionId)
   else
-    local t=this.GetCurrentStorySequenceTable()
-    if(t and t.updateTiming)and t.updateTiming[updateTiming]then
+    local storySequenceTable=this.GetCurrentStorySequenceTable()
+    if(storySequenceTable and storySequenceTable.updateTiming)and storySequenceTable.updateTiming[updateTiming]then
       updateSequence=this._UpdateStorySequence()
     end
   end
@@ -1719,8 +1722,8 @@ function this.UpdateStorySequence(params)
     if next(updateSequence)then
       gvars.mis_isExistOpenMissionFlag=true
     end
-    local e=this.GetCurrentStorySequence()
-    if TppDefine.CONTINUE_TIPS_TABLE[e]then
+    local currentStorySeq=this.GetCurrentStorySequence()
+    if TppDefine.CONTINUE_TIPS_TABLE[currentStorySeq]then
       gvars.continueTipsCount=1
     end
   end
@@ -2197,7 +2200,8 @@ function this.DEBUG_SetNeedStoryTest(n)
     TppMotherBaseManagement.SetMbsClusterParam{category="Medical",grade=4,buildStatus="Completed"}coroutine.yield()
   end
   if n==10054 then
-    this.MissionOpen"10050"end
+    this.MissionOpen"10050"
+  end
   if n==10171 then
     TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Command",grade=4,buildStatus="Completed",timeMinute=0,isNew=false}
     TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Combat",grade=4,buildStatus="Completed",timeMinute=0,isNew=false}
@@ -2205,7 +2209,8 @@ function this.DEBUG_SetNeedStoryTest(n)
     TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="BaseDev",grade=4,buildStatus="Completed",timeMinute=0,isNew=false}
     TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Support",grade=4,buildStatus="Completed",timeMinute=0,isNew=false}
     TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Spy",grade=4,buildStatus="Completed",timeMinute=0,isNew=false}
-    TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Medical",grade=4,buildStatus="Completed",timeMinute=0,isNew=false}coroutine.yield()
+    TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Medical",grade=4,buildStatus="Completed",timeMinute=0,isNew=false}
+    coroutine.yield()
     TppMotherBaseManagement.DEBUG_DirectAddRandomStaffs{count=3500}
   end
   if n==10240 then

@@ -430,7 +430,7 @@ this.femaleFaceIds={
   },
 }
 
---NOTE: make sure SetLevelRandomSeed is setup
+--NOTE: make sure RandomSetToLevelSeed is setup
 --ASSUMPTION: last group in table is for unqiues that you don't want to spam too much
 local uniqueChance=5--TUNE
 function this.RandomFaceId(faceList)
@@ -483,7 +483,7 @@ this.inf_wildCardFemaleFaceList={}
 --IN/Out bodies
 function this.WildCardFova(bodies)
   --InfInspect.TryFunc(function(bodies)--DEBUG
-    InfMain.SetLevelRandomSeed()
+    InfMain.RandomSetToLevelSeed()
     local faces={}
     this.inf_wildCardMaleFaceList={}
     this.inf_wildCardFemaleFaceList={}
@@ -498,7 +498,7 @@ function this.WildCardFova(bodies)
       table.insert(this.inf_wildCardFemaleFaceList,faceId)
     end
     TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
-    InfMain.ResetTrueRandom()
+    InfMain.RandomResetToOsTime()
 
     local locationName=InfMain.GetLocationName()
 
@@ -576,7 +576,7 @@ function this.GetHeadGearForPowers(powerSettings,faceId,hasHelmet)
         end
       end
       if isMatch then
-        table.insert(validHeadGearIds,headGearId)
+        validHeadGearIds[#validHeadGearIds+1]=headGearId
       end
     end
   end

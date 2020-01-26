@@ -34,7 +34,7 @@ this.NO_REVENGE_MISSION_LIST={
   [50050]=true--fob
 }
 this.NO_STEALTH_COMBAT_REVENGE_MISSION_LIST={[30010]=true,[30020]=true,[30050]=true,[30150]=true}
-this.USE_SUPER_REINFORCE_VEHICLE_MISSION={[10036]=true,[11036]=true,[10093]=true}
+this.USE_SUPER_REINFORCE_VEHICLE_MISSION={[10036]=true,[11036]=true,[10093]=true}--10036 : Mission 3 - A Heroes Way ,10093 : Mission 35 - Cursed Legacy  
 this.CANNOT_USE_ALL_WEAPON_MISSION={
   [10030]=true,--Mission 2 - Flashback Diamond Dogs
   [10070]=true,--Mission 12 - Hellbound
@@ -299,10 +299,9 @@ this.revengeDefine={
 }
 function this.SelectRevengeType()
   local missionCode=TppMission.GetMissionID()
-  if (this.IsNoRevengeMission(missionCode)or missionCode==10115) and Ivars.disableNoRevengeMissions:Is(0) then--tex added disable --NMC retake the platform, not revenge mission because mb/ddogs use different system?
-    if missionCode~=30050 or Ivars.revengeModeForMb:Is()<=Ivars.revengeModeForMb.enum.FOB then --tex added check
-      return{}
-  end
+  local isMbRevenge=missionCode==30050 and Ivars.revengeModeMB:Is()>0 and not Ivars.revengeModeMB:Is"FOB"--tex
+  if (this.IsNoRevengeMission(missionCode)or missionCode==10115) and (Ivars.disableNoRevengeMissions:Is(0) and not isMbRevenge) then--tex added disable --NMC retake the platform, not revenge mission because mb/ddogs use different system?
+    return{}
   end
   local isHardMission=TppMission.IsHardMission(missionCode)
   local revengeTypes={}
@@ -409,11 +408,13 @@ function this.IsUsingBlackSuperReinforce()
   return mvars.revenge_revengeConfig.BLACK_SUPER_REINFORCE
 end
 function this.GetReinforceCount()
-  if Ivars.forceReinforceRequest:Is(1) then--tex>
-    if not InfRevenge.DoCustomRevenge() then
+  --tex>
+  if Ivars.forceReinforceRequest:Is(1) then
+    if not InfMain.IvarsIsForMission("revengeMode","CUSTOM") then
       mvars.revenge_revengeConfig.REINFORCE_COUNT=99
+    end
   end
-  end--<
+  --<
   local count=mvars.revenge_revengeConfig.REINFORCE_COUNT
   if count then
     return count+0
@@ -465,7 +466,7 @@ function this.IsIgnoreBlocked()
   return mvars.revenge_revengeConfig.IGNORE_BLOCKED
 end
 function this.IsBlocked(category)
-  --  if Ivars.revengeMode:Is"MAX" or Ivars.revengeModeForMissions:Is"MAX" then--tex revengemax--CULL
+  --  if Ivars.revengeModeFREE:Is"MAX" or Ivars.revengeModeMISSION:Is"MAX" then--tex revengemax--CULL
   --    return false
   --  end--
   if category==nil then
@@ -821,7 +822,7 @@ function this.GetRevengeLvLimitRank()
 end
 function this.GetRevengeLv(revengeType)
   local missionId=TppMission.GetMissionID()
-  if TppMission.IsHardMission(missionId) then --CULL or Ivars.revengeMode:Is"MAX" or Ivars.revengeModeForMissions:Is"MAX" then--tex added
+  if TppMission.IsHardMission(missionId) then --CULL or Ivars.revengeModeFREE:Is"MAX" or Ivars.revengeModeMISSION:Is"MAX" then--tex added
     return this.GetRevengeLvMax(revengeType,this.REVENGE_LV_LIMIT_RANK_MAX)--tex RETAILBUG: was just REVENGE_LV_LIMIT_RANK_MAX, the limit on REVE is max rank anyway which GetRevengeLvMax defaults to
   else
     return gvars.rev_revengeLv[revengeType]
@@ -916,7 +917,7 @@ function this._GetUiParameterValue(revengeType)
   return 0
 end
 function this._SetUiParameters()
-  if InfRevenge.DoCustomRevenge() then--tex> set ui params
+  if InfMain.IvarsIsForMission("revengeMode","CUSTOM") then--tex> set ui params
     InfRevenge.SetCustomRevengeUiParameters()
     return
   end--<
@@ -1305,7 +1306,7 @@ function this._CreateRevengeConfig(revengeTypes)
   end
 
   --tex>customrevengeconfig
-  local doCustom=InfRevenge.DoCustomRevenge()
+  local doCustom=InfMain.IvarsIsForMission("revengeMode","CUSTOM")
   if doCustom then
     revengeConfig=InfRevenge.CreateCustomRevengeConfig()
     for powerType,setting in pairs(revengeConfig)do
@@ -1566,7 +1567,7 @@ end
 
 --tex broken out from _ApplyRevengeToCp and reworked
 local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusionList,powerElimOrChildSoldierTable,isOuterBaseCp,isLrrpCp,abilitiesList,unfulfilledPowers,addConfigFlags,cpConfig,cpId)--tex now function, added unfulfilledPowers
-  InfMain.SetLevelRandomSeed()--tex added
+  InfMain.RandomSetToLevelSeed()--tex added
   for r,powerType in ipairs(TppEnemy.POWER_SETTING)do
     local powerSetting=revengeConfig[powerType]
     if powerSetting then
@@ -1633,7 +1634,7 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
       unfulfilledPowers[powerType]=soldierCount--tex
     end--if configPower
   end--for TppEnemy.POWER_SETTINGS
-  InfMain.ResetTrueRandom()--tex added
+  InfMain.RandomResetToOsTime()--tex added
   return cpConfig
 end
 
@@ -1761,7 +1762,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   if Ivars.enableMgVsShotgunVariation:Is(1) then--tex>
     local setting=revengeConfigCp.MG_OR_SHOTGUN or 0
     if setting~=0 then
-      InfMain.SetLevelRandomSeed()
+      InfMain.RandomSetToLevelSeed()
       local mgShottyLoadouts={
         {MG=setting,SHOTGUN=nil},
         {MG=nil,SHOTGUN=setting},
@@ -1772,7 +1773,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
         revengeConfigCp[powerType]=setting
       end
 
-      InfMain.ResetTrueRandom()
+      InfMain.RandomResetToOsTime()
     end
   end--<
 
@@ -1788,7 +1789,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
       MG={0,totalSoldierCount},
       SHOTGUN={0,totalSoldierCount},
     }
-    InfMain.SetLevelRandomSeed()
+    InfMain.RandomSetToLevelSeed()
     for powerType,range in pairs(smallCpBallanceList) do
       if revengeConfigCp[powerType] then
         local currentSetting=revengeConfigCp[powerType]
@@ -1802,7 +1803,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
         end
       end
     end
-    InfMain.ResetTrueRandom()
+    InfMain.RandomResetToOsTime()
   end--<
 
   if Ivars.balanceWeaponPowers:Is(1) then--tex WIP

@@ -10,304 +10,28 @@ local inspect ={
   _URL     = 'http://github.com/kikito/inspect.lua',
   _DESCRIPTION = 'human-readable representations of tables',
   _LICENSE = [[
-
-
-
-
-
-
-
-
-
-
-
-
     MIT LICENSE
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    Copyright (c) 2013 Enrique Garc�a Cota
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    Copyright (c) 2013 Enrique García Cota
 
     Permission is hereby granted, free of charge, to any person obtaining a
-
-
-
-
-
-
-
-
-
-
-
-
     copy of this software and associated documentation files (the
-
-
-
-
-
-
-
-
-
-
-
-
     "Software"), to deal in the Software without restriction, including
-
-
-
-
-
-
-
-
-
-
-
-
     without limitation the rights to use, copy, modify, merge, publish,
-
-
-
-
-
-
-
-
-
-
-
-
     distribute, sublicense, and/or sell copies of the Software, and to
-
-
-
-
-
-
-
-
-
-
-
-
     permit persons to whom the Software is furnished to do so, subject to
-
-
-
-
-
-
-
-
-
-
-
-
     the following conditions:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     The above copyright notice and this permission notice shall be included
-
-
-
-
-
-
-
-
-
-
-
-
     in all copies or substantial portions of the Software.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-
-
-
-
-
-
-
-
-
-
-
-
     OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-
-
-
-
-
-
-
-
-
-
-
-
     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-
-
-
-
-
-
-
-
-
-
-
-
     IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-
-
-
-
-
-
-
-
-
-
-
-
     CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-
-
-
-
-
-
-
-
-
-
-
-
     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-
-
-
-
-
-
-
-
-
-
-
-
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-
-
-
-
-
-
-
-
-
   ]]
 }
 
@@ -650,8 +374,20 @@ function this.upvalues()
   return variables
 end
 
-
-
+--
+function this.DEBUG_Where(stackLevel)
+--defining second param of getinfo can help peformance a bit
+--`n´ selects fields name and namewhat
+--`f´ selects field func
+--`S´ selects fields source, short_src, what, and linedefined
+--`l´ selects field currentline
+--`u´ selects field nup
+  local stackInfo=debug.getinfo(stackLevel+1,"Snl")
+  if stackInfo then
+    return stackInfo.short_src..(":"..stackInfo.currentline.." - "..stackInfo.name)
+  end
+  return"(unknown)"
+end
 
 function this.TryFunc(func,...)
   if func==nil then
@@ -665,6 +401,32 @@ function this.TryFunc(func,...)
   local sucess, result=pcall(func,...)
   if not sucess then
     InfMenu.DebugPrint(result)
+    InfMenu.DebugPrint("caller:"..this.DEBUG_Where(2))
+    return
+  else
+    return result
+  end
+end
+
+--tex as above but intended to pass through unless debugmode on
+local Ivars=Ivars
+function this.TryFuncDebug(func,...)
+--  if func==nil then
+--    InfMenu.DebugPrint("TryFunc func == nil")
+--    return
+--  elseif type(func)~="function" then
+--    InfMenu.DebugPrint("TryFunc func~=function")
+--    return
+--  end
+  
+  if Ivars.debugMode.setting==0 then
+    return func(...)
+  end
+
+  local sucess, result=pcall(func,...)
+  if not sucess then
+    InfMenu.DebugPrint(result)
+    InfMenu.DebugPrint(this.DEBUG_Where(2))
     return
   else
     return result

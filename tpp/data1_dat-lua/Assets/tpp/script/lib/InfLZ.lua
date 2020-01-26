@@ -246,13 +246,17 @@ local groundStartPositionsInitial={
 --TABLESETUP
 this.str32LzToLz={}
 this.groundStartPositions={}
-for layoutIndex,layoutLzTable in ipairs(groundStartPositionsInitial)do
-  this.groundStartPositions[layoutIndex]={}
-  for lzName,lzInfo in pairs(layoutLzTable)do
-    local strCodeLzName=StrCode32(tostring(lzName))
-    this.groundStartPositions[layoutIndex][strCodeLzName]=lzInfo
-    this.str32LzToLz[strCodeLzName]=tostring(lzName)
+for layoutIndex=1,#groundStartPositionsInitial do
+  local layoutLzTableInitial=groundStartPositionsInitial[layoutIndex]
+
+  local layoutLzTable={}
+  for lzName,lzInfo in pairs(layoutLzTableInitial)do
+    local strCodeLzName=StrCode32(lzName)
+    layoutLzTable[strCodeLzName]=lzInfo
+    this.str32LzToLz[strCodeLzName]=lzName
   end
+
+  this.groundStartPositions[layoutIndex]=layoutLzTable
 end
 
 --tex clear initial table
@@ -262,8 +266,41 @@ function this.GetGroundStartPosition(missionCode,missionStartRoute)
   local layout=0
   if missionCode==30050 or missionCode==10115 then
     layout=vars.mbLayoutCode
-  end  
+  end
   return this.groundStartPositions[layout+1][missionStartRoute] or this.groundStartPositions[1][missionStartRoute]
+end
+
+
+function this.DisableLzsWithinDist(lzTable,position,distance,missionCode)
+  local TppHelicopter=TppHelicopter
+  local InfLZ=InfLZ
+  local TppMath=TppMath
+
+  for dropLzName,aprLzName in pairs(lzTable)do
+    --InfMenu.DebugPrint(dropLzName.." -- "..aprLzName)
+    local lzCoords=InfLZ.GetGroundStartPosition(missionCode,StrCode32(dropLzName))
+    if lzCoords==nil then
+      --InfMenu.DebugPrint("lzPos==nil")--DEBUG
+    else
+      local distSqr=TppMath.FindDistance(position,lzCoords.pos)
+--      InfMenu.DebugPrint(aprLzName.." dist:"..math.sqrt(distSqr))--DEBUG
+      if distSqr<distance then
+        if TppHelicopter.GetLandingZoneExists{landingZoneName=aprLzName}then
+          TppHelicopter.SetDisableLandingZone{landingZoneName=aprLzName}
+        end
+      end
+    end
+  end
+end
+
+function this.DisableLzs(lzTable)
+  local TppHelicopter=TppHelicopter
+
+  for dropLzName,aprLzName in pairs(lzTable)do
+    if TppHelicopter.GetLandingZoneExists{landingZoneName=aprLzName}then
+      TppHelicopter.SetDisableLandingZone{landingZoneName=aprLzName}
+    end
+  end
 end
 
 return this

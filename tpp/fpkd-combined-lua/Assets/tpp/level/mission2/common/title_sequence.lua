@@ -772,7 +772,10 @@ sequences.Seq_Game_TitleMenu = {
 			this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )
 	  elseif InfMain.abortToAcc then--tex>
 	     InfMain.abortToAcc=false
-	     this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )--tex
+	     this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )
+--    elseif Ivars.inf_event:Is"WARGAME" then--DEBUGNOW
+--       Ivars.inf_event:Set(0)
+--       this.SetOnSelectFlag( SELECT_FLAG.SELECT_RESTART_HELI )	     
 		else--<
 			this.SetOnSelectFlag( SELECT_FLAG.SELECT_CONTINUE )
 		end
@@ -1032,10 +1035,12 @@ sequences.Seq_Game_ChunkInstalled = {
 	end,
 
 	OnEndFadeOutSelectContinue = function()
+    InfMenu.DebugPrint("OnEndFadeOutSelectContinue current:"..tostring(currentMissionCode).." next:"..tostring(vars.missionCode))--DEBUGNOW
 		local titleMissionCode = vars.missionCode
 		this.DoEnableGameStatusFunction()
 		TppMission.SafeStopSettingOnMissionReload()	
 		TppSave.VarRestoreOnContinueFromCheckPoint()
+		InfGameEvent.GenerateEvent(vars.missionCode)--tex
 		this.ClearTitleMode()
 		if not this.IsBrokenSaveData( vars.missionCode ) then	
 		TppMain.ReservePlayerLoadingPosition(

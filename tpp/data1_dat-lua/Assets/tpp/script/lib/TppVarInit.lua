@@ -54,11 +54,11 @@ function this.SetVarsTitleCypr()
 end
 function this.SetVarsTitleHeliSpace()
   TppMission.VarResetOnNewMission()
-  local i,e=TppMission.GetCurrentLocationHeliMissionAndLocationCode()
+  local missionCode,locationCode=TppMission.GetCurrentLocationHeliMissionAndLocationCode()
   gvars.title_nextMissionCode=vars.missionCode
-  gvars.title_nextLocationCode=e
-  vars.missionCode=i
-  vars.locationCode=e
+  gvars.title_nextLocationCode=locationCode
+  vars.missionCode=missionCode
+  vars.locationCode=locationCode
   TppUiCommand.LoadoutSetForStartFromHelicopter()
   TppHelicopter.ResetMissionStartHelicopterRoute()
   TppPlayer.ResetInitialPosition()

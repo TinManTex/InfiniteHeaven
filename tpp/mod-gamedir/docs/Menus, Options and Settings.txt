@@ -1,0 +1,517 @@
+ACC Main menu
+-------------
+[1] Trigger random IH event : (Command)
+    - Events are temporary custom profiles for free roam and mother base. Free roam events (can stack): Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. MB events (only one active): DD Training wargame, Soviet attack, Rogue Coyote attack, XOF attack, DD Infection outbreak, Zombie Obliteration (non DD)
+[2] IH event random trigger chance : 0-100%
+    - Chance to randomly trigger an IH event on starting Free roam or returning to MB
+[3] Clock time scale : 1-10000
+    - Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
+[4] Player restrictions menu
+[5] Player settings menu
+[6] Soldier parameters menu
+[7] Enemy phases menu
+[8] Enemy Prep menu
+[9] Enemy reinforcements menu
+[10] Enemy patrols menu
+[11] Side ops menu
+[12] Mother Base menu
+[13] Cutscenes menu
+[14] Camera menu
+[15] Support heli menu
+[16] Debug/system menu
+[17] Reset all Infinite Heaven settings : (Command)
+
+Player restrictions menu
+- Settings to customize the game challenge, including subsistence and OSP.
+------------------------
+[1] Subsistence profile : Off, Pure, Bounder, Custom
+    - Pure - similar to the games Subsistence mission settings with additional restrictions, Bounder - a bit more relaxed than Pure profile, mainly allowing any character as well as buddies.
+[2] Block in-mission menu restriction options : Off, On
+    - Block changing player restrictions from the in-mission menu
+[3] Disable support heli attack : Off, On
+[4] Disable fulton action : Off, On
+[5] Force subsistence suit - Olive Drab, no headgear : Off, On
+[6] Set hand type to default : Off, On
+[7] Disable landing zones : Off, Assault, Regular
+    - Disables Assault Landing Zones (those usually in the center of a base that the support heli will circle before landing), or all LZs but Assault LZs
+[8] Disable abort mission from pause menu : Off, On
+[9] Disable retry on mission fail : Off, On
+[10] Game over on combat alert : Off, On
+[11] Disable Intel team enemy spotting : Off, On
+[12] Marking display menu
+[13] Mission-prep restrictions menu
+[14] Disable mission support-menus menu
+[15] Hand abilities levels menu
+[16] Fulton levels menu
+[17] Fulton success menu
+[18] OSP menu
+
+Marking display menu
+- Toggles for marking in main view. Does not effect marking on iDroid map
+--------------------
+[1] Disable head markers : Off, On
+    - Disables markers above soldiers and objects
+[2] Disable Xray marking : Off, On
+    - Disables the 'X-ray' effect of marked soldiers. Note: Buddies that mark still cause the effect.
+[3] Disable world markers : Off, On
+    - Disables objective and placed markers
+
+Mission-prep restrictions menu
+- Only affects the mission-prep screen, not the in-mission equivalents.
+------------------------------
+[1] Disable select-sortie time : Off, On
+    - Only allows ASAP at mission prep
+[2] Disable select-buddy : Off, On
+    - Prevents use of buddies during mission prep.
+[3] Disable select vehicle : Off, On
+    - Disallows at mission prep.
+
+Disable mission support-menus menu
+- Disables mission support menus in iDroid
+----------------------------------
+[1] Disable Supply drop support-menu : Off, On
+[2] Disable Buddies support-menu : Off, On
+[3] Disable Attack support-menu : Off, On
+[4] Disable Heli attack support-menu : Off, On
+[5] Disable Support-menu : Off, On
+
+Hand abilities levels menu
+--------------------------
+[1] Hand abilities levels profile : Default, All Off, All max, Custom
+[2] Sonar level : 0-4
+[3] Mobility level : 0-4
+[4] Precision level : 0-4
+[5] Medical level : 0-4
+
+Fulton levels menu
+------------------
+[1] Fulton Levels profile : Default/No override, Fulton Min, Wormhole off, Max, Custom
+[2] Fulton Level : 1-4
+[3] Wormhole Level : DISABLE, ENABLE
+
+Fulton success menu
+- Adjust the success rate of fultoning
+-------------------
+[1] Fulton success profile : Default, Heaven, Custom
+[2] Disable MB fulton support : Off, On
+    - Disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.
+[3] Disable MB fulton medical : Off, On
+    - Disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty
+[4] Target dying penalty : 0-100
+[5] Target sleeping penalty : 0-100
+[6] Target holdup penalty : 0-100
+[7] Dont apply MB medical bonus to sleeping/fainted target : Off, On
+    - Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.
+[8] Hostage handling : Default, Must extract (0%)
+
+OSP menu
+- Separate from subsistence mode (but subsistence uses it), allows you to enter a mission with primary and secondary weapons set to none, individually settable.
+--------
+[1] Items OSP : Off, On
+[2] Support items OSP : Off, On
+[3] OSP Weapon Profile : Off, Pure - all cleared, Secondary free, Custom
+    - Start with no primary and secondary weapons, can be used seperately from subsistence profile
+[4] Primary weapon OSP : Use selected weapon, Clear weapon
+[5] Secondary weapon OSP : Use selected weapon, Clear weapon
+[6] Back Weapon OSP : Use selected weapon, Clear weapon
+
+Player settings menu
+--------------------
+[1] Player life scale : 0-750%
+[2] Subtract demon points : (Command)
+    - Subtracts 999999 points from demon score
+[3] Add demon points : (Command)
+    - Adds 999999 points to demon score
+[4] Use selected soldier in all cutscenes and missions : Off, On
+[5] Headgear (cosmetic) : 0-7
+[6] Form Variation menu
+
+Form Variation menu
+- Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.
+-------------------
+[1] Use selected fova : Off, On
+[2] fovaSelection : 0-255
+[3] Print current body info : (Command)
+
+Soldier parameters menu
+- Enemy soldier parameters
+-----------------------
+[1] Soldier Parameters Profile : Off (use game/other mod settings, requires restart), Custom
+    - Due to the way Soldier2ParameterTables.lua is set up turn this off if you have another mod that modifies this, usually just Hardcore mod.
+[2] Soldier life scale : 0-900%
+[3] Soldier sight scale : 0-400%
+[4] Soldier hearing distance scale : 0-400%
+[5] Print health param table (look in log - all tab) : (Command)
+[6] Print sight param table (look in log - all tab) : (Command)
+[7] Print hearing distance table (look in log - all tab) : (Command)
+
+Enemy phases menu
+- Adjust minimum and maximum alert phase for enemy Command Posts
+-----------------
+[1] Enable phase modifications : Off, On
+    - The Minimum, Maximum, and Don't downgrade phase settings are applied on at every update tick according to the Phase update rate and random variation settings
+[2] Minimum phase : PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT
+    - PHASE_SNEAK - not alert, PHASE_CAUTION - alert, PHASE_EVASION - one step down from combat alert, PHASE_ALERT - combat alert
+[3] Maximum phase : PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT
+[4] Don't downgrade phase : Off, On
+[5] Phase mod update rate (seconds) : 1-255
+    - Rate that the minimum and maxium phase of CPs are modified.
+[6] Phase mod random variation : 0-255
+    - Random variation of update rate
+[7] Alert phase on vehicle attack : PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT
+    - Does not require phase modifications setting to be enabled. The enemy reactions to heavy vehicle attack in the default game are lacking, you can kill someone and they'll act as if it's an unsourced attack. This option changes phase of soldiers command post on damaging the soldier. Setting it to ALERT recommended.
+[8] Print phase changes : Off, On
+    - Displays when phase changes.
+
+Enemy Prep menu
+---------------
+[1] Free roam prep mode : Enemy prep levels, Custom prep
+[2] Missions prep mode : Enemy prep levels, Custom prep
+[3] Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep
+[4] Custom prep menu
+[5] Prep system menu
+[6] DD Equip menu
+[7] Reset enemy preparedness levels : (Command)
+    - Resets enemy prep levels to 0
+[8] Random CP subtype in free roam : Off, On
+    - Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
+
+Custom prep menu
+- Lets you set the individual values that go into an enemy prep configuration (oes not use the enemy prep levels), a value random between MIN and MAX for each setting is chosen on mission start
+----------------
+[1] Custom prep profile : WIDE, MAX, MIN, CUSTOM
+[2] Print example current config (look in log - all tab) : (Command)
+[3] Weapon deployment
+[4] Armor deployment
+[5] Headgear deployment
+[6] CP deterrent deployment
+[7] Soldier abilities
+[8] Weapon strength menu
+[9] CP equip strength menu
+[10] Reinforce count min : 1-99
+     - The number of times reinforcements can be called
+[11] Reinforce count max : 1-99
+     - The number of times reinforcements can be called
+[12] Vehicle reinforcement level min : NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE
+[13] Vehicle reinforcement level max : NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE
+[14] Ignore combat-deploy supply blocks min : Off, On
+[15] Ignore combat-deploy supply blocks max : Off, On
+
+Weapon deployment
+-----------------
+[1] SNIPER_MIN : 0-100%
+[2] SNIPER_MAX : 0-100%
+[3] MISSILE_MIN : 0-100%
+[4] MISSILE_MAX : 0-100%
+[5] MG_MIN : 0-100%
+[6] MG_MAX : 0-100%
+[7] SHOTGUN_MIN : 0-100%
+[8] SHOTGUN_MAX : 0-100%
+[9] SMG_MIN : 0-100%
+[10] SMG_MAX : 0-100%
+[11] ASSAULT_MIN : 0-100%
+[12] ASSAULT_MAX : 0-100%
+[13] GUN_LIGHT_MIN : 0-100%
+[14] GUN_LIGHT_MAX : 0-100%
+
+Armor deployment
+----------------
+[1] ARMOR_MIN : 0-100%
+[2] ARMOR_MAX : 0-100%
+[3] SOFT_ARMOR_MIN : 0-100%
+[4] SOFT_ARMOR_MAX : 0-100%
+[5] SHIELD_MIN : 0-100%
+[6] SHIELD_MAX : 0-100%
+
+Headgear deployment
+-------------------
+[1] HELMET_MIN : 0-100%
+[2] HELMET_MAX : 0-100%
+[3] NVG_MIN : 0-100%
+[4] NVG_MAX : 0-100%
+[5] GAS_MASK_MIN : 0-100%
+[6] GAS_MASK_MAX : 0-100%
+
+CP deterrent deployment
+-----------------------
+[1] DECOY_MIN : 0-100%
+[2] DECOY_MAX : 0-100%
+[3] MINE_MIN : 0-100%
+[4] MINE_MAX : 0-100%
+[5] CAMERA_MIN : 0-100%
+[6] CAMERA_MAX : 0-100%
+
+Soldier abilities
+-----------------
+[1] STEALTH_MIN : NONE, LOW, HIGH, SPECIAL
+[2] STEALTH_MAX : NONE, LOW, HIGH, SPECIAL
+[3] COMBAT_MIN : NONE, LOW, HIGH, SPECIAL
+[4] COMBAT_MAX : NONE, LOW, HIGH, SPECIAL
+[5] HOLDUP_MIN : NONE, LOW, HIGH, SPECIAL
+[6] HOLDUP_MAX : NONE, LOW, HIGH, SPECIAL
+[7] FULTON_MIN : NONE, LOW, HIGH, SPECIAL
+[8] FULTON_MAX : NONE, LOW, HIGH, SPECIAL
+
+Weapon strength menu
+- Whether to deploy the stronger weapon type
+--------------------
+[1] STRONG_WEAPON_MIN : Off, On
+[2] STRONG_WEAPON_MAX : Off, On
+[3] STRONG_SNIPER_MIN : Off, On
+[4] STRONG_SNIPER_MAX : Off, On
+[5] STRONG_MISSILE_MIN : Off, On
+[6] STRONG_MISSILE_MAX : Off, On
+
+CP equip strength menu
+----------------------
+[1] ACTIVE_DECOY_MIN : Off, On
+[2] ACTIVE_DECOY_MAX : Off, On
+[3] GUN_CAMERA_MIN : Off, On
+[4] GUN_CAMERA_MAX : Off, On
+
+Prep system menu
+----------------
+[1] Enemy prep system profile : Default, Heaven, Custom
+[2] Resupply in #missions : 0-10
+    - The number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
+[3] Apply enemy prep to guard posts : Off, On
+[4] Apply enemy prep to patrol soldiers : Off, On
+[5] Allow heavy armor in free roam (has issues) : Off, On
+[6] Allow heavy armor in all missions (may have issues) : Off, On
+[7] Disable weapon restrictions in certain missions : Off, On
+    - Missions 2, 12, 13, 16, 26, 31 normally prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).
+[8] Allow Enemy Prep shift after free roam : Off, On
+    - By default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort)
+[9] Enemy prep decrease on long MB visit : Off, On
+    - Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat 
+[10] Allow helmet and NVG or Gas mask combo : Off, On
+[11] Ballance heavy armor and head gear distribution : Off, On
+     - Adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if Allow helmet and NVG or Gas mask combo option is on
+[12] Allow missile combo with other weapons : Off, On
+     - In the default game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them.
+[13] Enable Mg vs Shotgun variation : Off, On
+     - In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
+[14] Balance small CPs : Off, On
+     - Adds limits and some randomisation to small cp/lrrps enemy prep application
+[15] Disable convert armor to shield (if armor off) : Off, On
+     - Where heavy armor is disabled (free roam by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.
+
+DD Equip menu
+-------------
+[1] MB staff use DD equipment : Off, On
+[2] Enemy use DD equipment in Free roam : Off, On
+[3] Enemy use DD equipment in missions : Off, On
+[4] DD Equip Grade RND MIN : 1-15
+[5] DD Equip Grade RND MAX : 1-15
+[6] Allow undeveloped DD equipment : Off, On
+[7] MB DD Equip non-lethal : Off, On
+[8] MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random
+
+Enemy reinforcements menu
+-------------------------
+[1] Enable vehicle reinforce (only heli in free roam, vehicles depend on mission) : Off, Enemy Prep, Force Prep
+[2] Force enable enemy heli reinforce (disable heli sideops) : Off, On
+[3] Force reinforce request for heli : Off, On
+[4] Disable reinforce heli pullout : Off, On
+[5] Soldier reinforce with all vehicle reinforce types : Off, On
+
+Enemy patrols menu
+------------------
+[1] Foot patrols in free roam : Off, On
+[2] Heli patrols in free roam : None, 1, 3, 5, 7, Enemy prep
+[3] Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
+[4] Vehicle patrols profile : Game default - trucks only, All of one type (random from enabled), Each vehicle differing type (random from enabled)
+[5] Vehicle patrol class : Default, Dark grey, Red, All one random type, Each vehicle random type, Enemy prep
+[6] Enable jeeps : Off, On
+[7] Enable trucks : Off, On
+[8] Enable wheeled armored vehicles : Off, On
+[9] Enable heavy wheeled armored vehicles : Off, On
+[10] Enable tanks : Off, On
+
+Side ops menu
+-------------
+[1] Unlock random Sideops for areas : Off, Force Replayable, Force Open
+    - Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area.
+[2] Open specific sideop # : 0-157
+[3] Force enable enemy heli reinforce (disable heli sideops) : Off, On
+
+Mother Base menu
+----------------
+[1] Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep
+[2] DD Equip menu
+[3] DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All
+[4] DD Suit female : Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress
+[5] DD Head gear : Off, Current prep
+[6] Female staff selection : Default, None, All available
+    - By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available is self explanitory, None will prevent any females from showing on mother base
+[7] Enable npc helis : Off, Support helis, Support and Attack helis
+[8] Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
+[9] Enable walker gears : Off, On
+[10] Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
+[11] Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
+[12] Repopulate plants and diamonds : Off, On
+[13] Staff-wide morale boost for good visit : Off, On
+     - Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must exit via heli for it to apply.
+[14] Enable all buddies : Off, On
+     - Allows all buddy types to be on mother base (still one at a time), many will however start inside the building and require you to call from the buddy menu.
+[15] Show characters menu
+[16] Show assets menu
+[17] Women in Enemy Invasion mode : Off, On
+[18] Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+
+Show characters menu
+--------------------
+[1] Enable Ocelot : Off, On
+[2] Enable puppy DDog : Off, Missing eye, Normal eyes
+[3] Show Code Talker : Off, On
+[4] Show Eli : Off, On
+[5] Reset Paz state to beginning : (Command)
+
+Show assets menu
+----------------
+[1] Show Big Boss posters : Off, On
+[2] Show nuke elimination monument : Off, On
+[3] Show Sahelanthropus : Off, On
+[4] Unlock goal doors : Off, On
+
+Cutscenes menu
+--------------
+[1] Use selected soldier in all cutscenes and missions : Off, On
+[2] MB cutscene play mode : Default, Play selected, Cutscenes disabled
+    - Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base
+[3] Select MB cutscene (REQ: Play selected) : <cutscene ids>
+[4] Override time : Cutscene default, Current, Custom
+[5] Hour : 0-23
+[6] Minute : 0-59
+[7] Override weather : Cutscene default, Current, Sunny, Cloudy, Rainy, Sandstorm, Foggy, Pouring
+
+Camera menu
+- Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
+-----------
+[1] Adjust-cam mode : Off, On
+[2] Camera mode : Default, Free cam
+[3] Warp body to FreeCam position : (Command)
+[4] Cam speed scale : 0.01-10
+[5] Disable mode text feedback : Off, On
+
+Support heli menu
+-----------------
+[1] Disable support heli attack : Off, On
+[2] Set heli invincible : Off, On
+[3] Force searchlight : On, Off
+[4] Disable pull-out : Off, On
+    - Prevents heli from leaving when you jump on-board, so you can use the gun from a stationary position, or just change your mind and jump out again. Press <STANCE> while in the heli to get it to pull-out again (or use menu). NOTE: Disable pull-out will prevent the mother base helitaxi selection menu, press <STANCE> to re-enable or use the mod menu.
+[5] Set LZ wait height : 5-50
+    - Set the height at which the heli hovers in wait mode (not landing mode).
+[6] Mission start time till open door : 0-120
+    - Time from mission start to you opening the door to sit on the side. You can set this lower or 0 to do it immediately, or longer to ride the heli in first person. Press <STANCE> to manually open the door.
+[7] Start free roam on foot : Off, All but assault LZs, All LZs
+[8] Start missions on foot : Off, All but assault LZs, All LZs
+[9] Start Mother base on foot : Off, All but assault LZs, All LZs
+
+Debug/system menu
+-----------------
+[1] Debug IH mode : Off, On
+    - Switches on some error messages and enables the announce log during loading.
+[2] Disable mission intro credits : Off, On
+[3] Start offline : Off, On
+    - Start the game in offline mode, this also removes the connect option from the pause menu.
+[4] Mod Menu translation override : Off, Chinese override Japanese
+[5] Unlock playable avatar : (Command)
+    - Unlock avatar before mission 46
+[6] Unlock weapon customization : (Command)
+    - Unlock without having to complete legendary gunsmith missions
+[7] Return Quiet (not reversable) : (Command)
+    - Instantly return Quiet, runs same code as the Reunion mission 11 replay.
+[8] showQuietReunionMissionCount : (Command)
+[9] Set questOpenFlag array to false : (Command)
+[10] Show position : (Command)
+[11] DEBUG_PrintSaveVarCount : (Command)
+[12] Show missionCode : (Command)
+[13] Show game language code : (Command)
+
+===============
+
+In Mission menu
+---------------
+[1] Warp Mode : Off, On
+[2] Camera menu
+[3] User marker menu
+[4] Clock time scale : 1-10000
+    - Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
+[5] Quiets cell radio track (0=Auto) : 0-31
+[6] Markers menu
+[7] Enemy phases menu
+[8] Support heli menu
+[9] Debug stuff menu
+
+Camera menu
+- Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
+-----------
+[1] Adjust-cam mode : Off, On
+[2] Camera mode : Default, Free cam
+[3] Warp body to FreeCam position : (Command)
+[4] Cam speed scale : 0.01-10
+[5] Disable mode text feedback : Off, On
+
+User marker menu
+----------------
+[1] Warp to latest marker : (Command)
+[2] Print latest marker : (Command)
+[3] Print all markers : (Command)
+[4] Quiet move to last marker : (Command)
+    - Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.
+
+Markers menu
+------------
+[1] Disable head markers : Off, On
+    - Disables markers above soldiers and objects
+[2] Disable world markers : Off, On
+    - Disables objective and placed markers
+
+Enemy phases menu
+- Adjust minimum and maximum alert phase for enemy Command Posts
+-----------------
+[1] Enable phase modifications : Off, On
+    - The Minimum, Maximum, and Don't downgrade phase settings are applied on at every update tick according to the Phase update rate and random variation settings
+[2] Minimum phase : PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT
+    - PHASE_SNEAK - not alert, PHASE_CAUTION - alert, PHASE_EVASION - one step down from combat alert, PHASE_ALERT - combat alert
+[3] Maximum phase : PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT
+[4] Don't downgrade phase : Off, On
+[5] Phase mod update rate (seconds) : 1-255
+    - Rate that the minimum and maxium phase of CPs are modified.
+[6] Phase mod random variation : 0-255
+    - Random variation of update rate
+[7] Alert phase on vehicle attack : PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT
+    - Does not require phase modifications setting to be enabled. The enemy reactions to heavy vehicle attack in the default game are lacking, you can kill someone and they'll act as if it's an unsourced attack. This option changes phase of soldiers command post on damaging the soldier. Setting it to ALERT recommended.
+[8] Print phase changes : Off, On
+    - Displays when phase changes.
+
+Support heli menu
+-----------------
+[1] Disable support heli attack : Off, On
+[2] Set heli invincible : Off, On
+[3] Force searchlight : On, Off
+[4] Disable pull-out : Off, On
+    - Prevents heli from leaving when you jump on-board, so you can use the gun from a stationary position, or just change your mind and jump out again. Press <STANCE> while in the heli to get it to pull-out again (or use menu). NOTE: Disable pull-out will prevent the mother base helitaxi selection menu, press <STANCE> to re-enable or use the mod menu.
+[5] Set LZ wait height : 5-50
+    - Set the height at which the heli hovers in wait mode (not landing mode).
+[6] Mission start time till open door : 0-120
+    - Time from mission start to you opening the door to sit on the side. You can set this lower or 0 to do it immediately, or longer to ride the heli in first person. Press <STANCE> to manually open the door.
+[7] Start free roam on foot : Off, All but assault LZs, All LZs
+[8] Start missions on foot : Off, All but assault LZs, All LZs
+[9] Start Mother base on foot : Off, All but assault LZs, All LZs
+
+Debug stuff menu
+----------------
+[1] Debug IH mode : Off, On
+    - Switches on some error messages and enables the announce log during loading.
+[2] selectedCp : none
+[3] setSelectedCpToMarkerObjectCp : (Command)
+[4] DEBUG_PrintCpPowerSettings : (Command)
+[5] DEBUG_PrintPowersCount : (Command)
+[6] DEBUG_PrintReinforceVars : (Command)
+[7] DEBUG_PrintSoldierDefine : (Command)
+[8] DEBUG_ShowRevengeConfig : (Command)
+[9] Show position : (Command)
+

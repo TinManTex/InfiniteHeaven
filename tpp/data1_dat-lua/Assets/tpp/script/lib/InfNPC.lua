@@ -66,7 +66,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     return
   end
 
-  if Ivars.mbEnableOcelot:Is(0) or Ivars.mbWarGamesProfile:Is()>0 then
+  if Ivars.mbEnableOcelot:Is(0) or Ivars.mbWarGamesProfile:Is()>0 or Ivars.inf_event:Is()>0 then
     return
   end
 

@@ -6,46 +6,14 @@ Clock time scale - adjusts the speed of time, higher is faster, lower is closer 
 Player restrictions menu - disable or restrict many game options to customize your challenge
 =================
 Subsistence profile - To quickly set restrictions similar to Subsistence missions
-	"Pure" - Similar to the games Subsistence mission settings with additional restrictions
-	"Bounder" - A bit more relaxed than "Pure" profile, mainly allowing any character as well as buddies.
 
 
 
 Disable support heli attack - Stops support heli from engaging targets.
-Disable fulton action
-Set subsistence suit - Olive Drab, no headgear
-Set hand type to default
-Disable central landing zones - disables the 'assault' LZs near the center of command posts.
-Disable abort mission from pause menu
-Disable retry on mission fail
-Game over on combat alert
 
 
-Marking display menu - toggles for marking in main view. Does not effect marking on iDroid map
 ----------------
-Disable head markers - disables markers above soldiers and objects.
-Disable Xray marking - disables the 'X-ray' effect of marked soldiers.
-Disable world markers - disables objective or placed markers.
-
-
-Mission-prep restrictions menu - only affects the mission-prep screen, not the in-mission equivalents.
-----------------
-Disable select buddy - Prevents use of buddies durint mission prep and in-game. 
-Disable select sortie time - only allows ASAP at mission prep.
-Disable select select vehicle - disallows at mission prep.
-
-Disable mission support-menus menu - only affects the in-mission options, not the mission-prep screen equivalents.
-----------------
-Disable Supply drop support-menu
-Disable Buddies support-menu
-Disable Attack support-menu
-Disable Heli attack support-menu
-Disable Support-menu
-
 Hand levels menu - set or disable individual hand abilities
-----------------
-
-Fulton levels menu
 ----------------
 
 Fulton success menu - adjust fulton succes percentages
@@ -53,9 +21,4 @@ Fulton success menu - adjust fulton succes percentages
 
 OSP menu - clear items, weapons on mission start
 ----------------
-Items OSP - clear items
 Support items OSP - clear support-items
-OSP Weapon Profile
-Primary weapon OSP - "Use selected weapon","Clear weapon"
-Secondary weapon OSP - "Use selected weapon","Clear weapon"
-Back Weapon OSP - "Use selected weapon","Clear weapon"

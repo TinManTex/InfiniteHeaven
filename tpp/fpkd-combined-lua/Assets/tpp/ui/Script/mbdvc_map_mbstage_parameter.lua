@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW
+-- DOBUILD: 0 --DEBUGNOW cleanup before use
 -- ORIGINALQAR: chunk0
 -- PACKPATH: \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd
 
@@ -10,7 +10,6 @@ mbdvc_map_mbstage_parameter = {
 	GetMissionParameter = function( parameterTable )
 		Fox.Log("mbdvc_map_mbstage_parameter.GetMissionParameter is called" )
 
-		InfMain.mbdvc_map_mbstage_parameter=parameterTable--tex--DEBUGNOW
 		
 		
 		local missionId				= parameterTable["missionId"]

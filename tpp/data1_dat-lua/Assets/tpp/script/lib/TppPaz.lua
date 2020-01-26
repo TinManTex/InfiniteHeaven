@@ -523,7 +523,8 @@ function this.OnPazRelaxEndTiming()
   if not mvars.paz_isOutAngle and not mvars.paz_isSnakeStopping then
     this.SendCommandSpecialAction(F)
     if mvars.paz_isSpeeching and this.IsInTable(mvars.paz_lastMonologueLabel,paz_koiT)then
-      this.SendCommandCallMonologue""end
+      this.SendCommandCallMonologue""
+    end
   end
 end
 function this.OnPazOutAngle()

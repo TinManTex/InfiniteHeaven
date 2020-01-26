@@ -131,11 +131,11 @@ function this.SetupBodies(bodyIds,bodies)--tex>
 
   if type(bodyIds)=="number"then
     local bodyEntry={bodyIds,MAX_REALIZED_COUNT}
-    table.insert(bodies,bodyEntry)
+    bodies[#bodies+1]=bodyEntry
   elseif type(bodyIds)=="table"then
     for n,bodyId in ipairs(bodyIds)do
       local bodyEntry={bodyId,MAX_REALIZED_COUNT}
-      table.insert(bodies,bodyEntry)
+      bodies[#bodies+1]=bodyEntry
     end
   end
 end--<
@@ -263,12 +263,14 @@ function this.GetArmorTypeTable(missionCode)
   local armorType=missionArmorType[missionCode]
   if armorType~=nil then
     return armorType
-  else--tex>
+  else
+    --tex>
     if InfMain.ForceArmor(missionCode) then
       --tex would like to be soldiersubtypespecific but fova setup isnt that granular
       return {pfArmorTypes.PF_A,pfArmorTypes.PF_B,pfArmorTypes.PF_C}
+    end
+    --<
   end
-  end--<
   return default
 end
 --ORIG
@@ -1477,7 +1479,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       --if IsDDBodyEquip<
     end
 
-    if Ivars.mbDDHeadGear:Is(0) then    
+    if Ivars.mbDDHeadGear:Is(0) then
       local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
       if powerSettings then
         powerSettings.HELMET=nil
@@ -1681,7 +1683,7 @@ function this.GetUavSetting()--RETAILPATCH: 1060 reworked
   local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex was TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
   local uavType=TppUav.DEVELOP_LEVEL_LMG_0
   local setUav=false
-  local isNLUav=false  
+  local isNLUav=false
   local defaultUavType=100--RETAILPATCH 1080, following was 0, now defaultUavType
   local lethalUavType=defaultUavType
   local nonLethalUavType=defaultUavType

@@ -1,4 +1,5 @@
 -- DOBUILD: 1
+-- TppDemo.lua
 local this={}
 local StrCode32=Fox.StrCode32
 local IsTypeFunc=Tpp.IsTypeFunc
@@ -18,7 +19,7 @@ function this.Messages()
       {msg="DemoSkipStart",func=this.EnableWaitBlockLoadOnDemoSkip,option={isExecDemoPlaying=true,isExecMissionClear=true,isExecGameOver=true}},
       {msg="FinishInterpCameraToDemo",func=this.OnEndGameCameraInterp,option={isExecMissionClear=true,isExecGameOver=true}},
       {msg="FinishMovingToPosition",sender="DemoStartMoveToPosition",
-        func=function(a,moveResultStr32)
+        func=function(str32Name,moveResultStr32)
           local moveResult=this.MOVET_TO_POSITION_RESULT[moveResultStr32]
           mvars.dem_waitingMoveToPosition=nil
         end,
@@ -102,7 +103,8 @@ this.PLAY_REQUEST_START_FUNC={
     return true
   end,
   demoBlockLoaded=function(e)
-    TppScriptBlock.RequestActivate"demo_block"return true
+    TppScriptBlock.RequestActivate"demo_block"
+    return true
   end,
   playerActionAllowed=function(e)
     return true
@@ -1176,7 +1178,8 @@ this.mtbsPriorityFuncList={
       return false
     end
     local n=TppStory.GetCurrentStorySequence()>=TppDefine.STORY_SEQUENCE.CLEARD_WHITE_MAMBA
-    local e=TppQuest.IsOpen"sovietBase_q99030"return n and not e
+    local e=TppQuest.IsOpen"sovietBase_q99030"
+    return n and not e
   end,
   InterrogateQuiet=function()
     if this.IsPlayedMBEventDemo"InterrogateQuiet"then
@@ -1226,9 +1229,11 @@ function this.UpdateHappyBirthDayFlag()
   if this.IsPlayedMBEventDemo"HappyBirthDay"then
     if TppUiCommand.IsBirthDay()then
       if gvars.elapsedTimeSinceLastPlay>(24*60)*60 and(not gvars.isPlayedHappyBirthDayToday)then
-        this.ClearPlayedMBEventDemoFlag"HappyBirthDay"end
+        this.ClearPlayedMBEventDemoFlag"HappyBirthDay"
+        end
     else
-      this.ClearPlayedMBEventDemoFlag"HappyBirthDay"gvars.isPlayedHappyBirthDayToday=false
+      this.ClearPlayedMBEventDemoFlag"HappyBirthDay"
+      gvars.isPlayedHappyBirthDayToday=false
     end
   end
 end

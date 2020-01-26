@@ -391,7 +391,8 @@ function this.Update()
       else
         if not n then
           n=true
-          Mission.SwitchApplication"mgo"end
+          Mission.SwitchApplication"mgo"
+          end
       end
     end
     return

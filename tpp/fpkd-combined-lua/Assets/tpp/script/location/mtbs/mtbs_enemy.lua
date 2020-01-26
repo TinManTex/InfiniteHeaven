@@ -773,7 +773,7 @@ mtbs_enemy.SetupSortieSoldiers = function(clusterId )
   end
 
   if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
-    InfMain.SetLevelRandomSeed()
+    InfMain.RandomSetToLevelSeed()
   end--<
 
   local sortieSolNum = 0
@@ -808,7 +808,7 @@ mtbs_enemy.SetupSortieSoldiers = function(clusterId )
   end
 
   if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
-    InfMain.ResetTrueRandom()
+    InfMain.RandomResetToOsTime()
   end--<
 
   return sortieSolNum

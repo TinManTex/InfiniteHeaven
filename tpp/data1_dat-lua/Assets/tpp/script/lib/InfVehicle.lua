@@ -284,7 +284,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
     return
   end
 
-  InfMain.SetLevelRandomSeed()
+  InfMain.RandomSetToLevelSeed()
 
   mvars.patrolVehicleBaseInfo={}
 
@@ -351,13 +351,13 @@ function this.ModifyVehiclePatrol(vehicleSpawnList)
     end
   end
 
-  InfMain.ResetTrueRandom()
+  InfMain.RandomResetToOsTime()
 end
 
 --OUT: missionPackPath
 local function AddMissionPack(packPath,missionPackPath)
   if Tpp.IsTypeString(packPath)then
-    table.insert(missionPackPath,packPath)
+    missionPackPath[#missionPackPath+1]=packPath
   end
 end
 

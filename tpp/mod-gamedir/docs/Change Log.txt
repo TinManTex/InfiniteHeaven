@@ -1,4 +1,22 @@
 Infinite Heaven changelog
+r157
+Module: InfGameEvent
+Save var (non user): mis_event {OFF,WARGAMES} - used to drive the wargames event set up which sets various ivars as no-save, only really useful for mb currently as there's no in-game saves and can just prevent restore/bail to ACC
+Fixed: changed start on foot mission start timers workaround, previous workaround resulted in pause menu issues such as options item not appearing and double abort items (both abort mission and abort to acc) - thanks CantStoptheBipBop for the report
+Fixed: Cutscene DDogGoWithMe infinite load screen after scene finish when triggered via MB cutscene play mode - thanks PIESOFTHENORTH for the report.
+Fixed: Walker gear types were off by one.
+Removed the purposeless menu back command in the root of in-mission menu - thanks Digitaltomato for the report
+Refactor: noCentralLzs changed to disableLzs {"OFF","ASSAULT","REGULAR"}, mbdvc_map_mission_parameter restores to something saner
+Menu: Patchup menu renamed Debug/system menu
+
+r156
+Option: debugMode - "Debug IH mode" - Switches on some error messages and enables the announce log during loading.
+Refactor: Various options to mission mode check style, users will have to set those settings again:
+Random CP subtype, Start on foot, prep mode, .. use DD equipment
+Refactor: InfMenuDefs min max ivars
+Various optimisations
+External: Thrashed out a menu auto documentation tool, still have to transfer much existing documentation text to it.
+
 r155 - 2016-05-11 - public release
 Wildcard soldiers now equipped with highest grade in dd weapons table.
 DD equip grade raised to 15 to match UI/futureproof.

@@ -8,6 +8,7 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local IsTimerActive=GkEventTimerManager.IsTimerActive
 local Ivars=Ivars
 local InfButton=InfButton
+local InfMenu=InfMenu
 
 function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
   local heliId=GetGameObjectId("TppHeli2","SupportHeli")

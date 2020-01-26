@@ -1725,7 +1725,8 @@ function this.DebugUpdate()
     do
       local o={0,1,0}
       local r={1,0,0}
-      local s="OK"local o=o
+      local s="OK"
+      local o=o
       if not this.GetCurrentAreaName()or i<ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE then
         s="---"elseif not mvars.qst_questStepTable then
         s="No register quest step table! Please Check quest script!"
@@ -1735,7 +1736,8 @@ function this.DebugUpdate()
     end
   end
   if mvars.debug.showQuestStatus then
-    a(t,"")a(t,{.5,.5,1},"LuaQuest showQuestStatus")
+    a(t,"")
+    a(t,{.5,.5,1},"LuaQuest showQuestStatus")
     local s=mvars.debug.selectQuest
     local o=mvars.debug.selectQuestIndex
     if s>0 and o>0 then
@@ -2248,10 +2250,10 @@ function this.UpdateActiveQuest(debugUpdate)
                 else
                   table.insert(nonStoryQuests,questName)
                 end
-              elseif this.IsRepop(questName)then
-                table.insert(repopQuests,questName)
-              end
-              --<quest open
+            elseif this.IsRepop(questName)then
+              table.insert(repopQuests,questName)
+            end
+            --<quest open
             end
             --<questindex
           end
@@ -3045,10 +3047,12 @@ function this.HideAllShootingPracticeForUi()
 end
 function this.SetRetryShootingPracticeStartUi()
   this.ShowShootingPracticeStartUi()
-  TppPlayer.ResetIconForQuest"ShootingPractice"end
+  TppPlayer.ResetIconForQuest"ShootingPractice"
+end
 function this.SetCancelShootingPracticeStartUi()
   this.ShowShootingPracticeGroundUi()
-  TppPlayer.ResetIconForQuest"ShootingPractice"end
+  TppPlayer.ResetIconForQuest"ShootingPractice"
+end
 function this.UpdateShootingPracticeUi()
   local t,e=TppGimmick.GetQuestShootingPracticeCount()
   TppUiCommand.SetDisplayTimerText("time_quest",t,e)
@@ -3103,6 +3107,7 @@ function this.AcquireKeyItemOnMissionStart()
   if TppUiCommand.HasEmblemTexture"front5019"then
     TppTerminal.AcquireKeyItem{dataBaseId=428,isShowAnnounceLog=true}
   end
+
   if this.IsCleard"ruins_q19010"then
     vars.isRussianTranslatable=1
   end

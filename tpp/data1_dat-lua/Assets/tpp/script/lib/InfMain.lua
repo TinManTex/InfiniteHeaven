@@ -2,12 +2,13 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r155"
+this.modVersion="r157"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
 local Ivars=Ivars
 local InfButton=InfButton
+local TppMission=TppMission
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString
@@ -28,30 +29,37 @@ function this.IsTableEmpty(checkTable)--tex TODO: shove in a utility module
   return false
 end
 
-function this.SetLevelRandomSeed()
-  math.randomseed(gvars.rev_revengeRandomValue)
+function this.RandomSeedRegen()
+  this.RandomResetToOsTime()
+  --gvars.inf_levelSeed=math.random(0,2147483647)
+  --Ivars.inf_levelSeed.setting=gvars.inf_levelSeed--RETHINK
+  Ivars.inf_levelSeed:Set(math.random(0,2147483647))
+  --InfMenu.DebugPrint("new seed "..tostring(gvars.inf_levelSeed))--DEBUG
+end
+
+function this.RandomSetToLevelSeed()
+  math.randomseed(gvars.inf_levelSeed)
   math.random()
   math.random()
   math.random()
 end
 
-function this.ResetTrueRandom()
+function this.RandomResetToOsTime()
   math.randomseed(os.time())
   math.random()
   math.random()
   math.random()
 end
 
+local allowHeavyArmorStr="allowHeavyArmor"
 function this.ForceArmor(missionCode)
-  if Ivars.allowHeavyArmorInAllMissions:Is(1) and not TppMission.IsFreeMission(missionCode) then
+  if this.IvarsEnabledForMission(allowHeavyArmorStr,missionCode) then
     return true
   end
-  if Ivars.allowHeavyArmorInFreeRoam:Is()>0 and TppMission.IsFreeMission(missionCode) then--DEBUG allowHeavyArmorInFreeRoam actiting as armor limit for debug
-    return true
-  end
-  if Ivars.allowLrrpArmorInFree:Is(1) and TppMission.IsFreeMission(missionCode) then
-    return true
-  end
+  --DEBUGNOW either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though), search in past versions
+  --  if Ivars.allowLrrpArmorInFree:Is(1) and TppMission.IsFreeMission(missionCode) then
+  --    return true
+  --  end
 
   return false
 end
@@ -158,13 +166,11 @@ function this.IsForceSoldierSubType()
 end
 
 -- mb dd equip
+local enableDDEquipStr="enableDDEquip"
 function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
-  if missionCode~=50050 and missionCode >5 then--tex IsFreeMission hangs on startup?
-    local mbDDEquip = Ivars.enableMbDDEquip:Is(1) and missionCode==30050
-    local enemyDDEquipFreeRoam = Ivars.enableEnemyDDEquip:Is(1) and TppMission.IsFreeMission(missionCode) and missionCode~=30050
-    local enemyDDEquipMissions = Ivars.enableEnemyDDEquipMissions:Is(1) and TppMission.IsStoryMission(missionCode)
-    return mbDDEquip or enemyDDEquipFreeRoam or enemyDDEquipMissions
+  if missionCode~=50050 and missionCode >5 then--tex IsFreeMission hangs on startup? TODO retest
+    return InfMain.IvarsEnabledForMission(enableDDEquipStr)
   end
   return false
 end
@@ -187,9 +193,9 @@ function this.GetMbsClusterSecuritySoldierEquipGrade(missionId)--SYNC: mbSoldier
   local missionCode=missionId or vars.missionCode
   local grade = TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
   if this.IsDDEquip(missionCode) then
-    InfMain.SetLevelRandomSeed()
+    InfMain.RandomSetToLevelSeed()
     grade=this.MinMaxIvarRandom"mbSoldierEquipGrade"
-    InfMain.ResetTrueRandom()
+    InfMain.RandomResetToOsTime()
   end
   --TppUiCommand.AnnounceLogView("GetEquipGrade: gvar:".. Ivars.mbSoldierEquipGrade:Get() .." grade: ".. grade)--DEBUG
   --TppUiCommand.AnnounceLogView("Caller: ".. tostring(debug.getinfo(2).name) .." ".. tostring(debug.getinfo(2).source))--DEBUG
@@ -241,9 +247,9 @@ local cpSubTypes={
   },
 }
 
-local changeCpSubTypeIvars={Ivars.changeCpSubTypeFree,Ivars.changeCpSubTypeForMissions}
+local changeCpSubTypeStr="changeCpSubType"
 function this.RandomizeCpSubTypeTable()
-  if not InfMain.IvarsEnabledForMission(changeCpSubTypeIvars) then
+  if not InfMain.IvarsEnabledForMission(changeCpSubTypeStr) then
     return
   end
 
@@ -254,7 +260,7 @@ function this.RandomizeCpSubTypeTable()
     return
   end
 
-  this.SetLevelRandomSeed()--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
+  InfMain.RandomSetToLevelSeed()--tex set to a math.random on OnMissionClearOrAbort so a good base for a seed to make this constand on mission loads. Soldiers dont care since their subtype is saved but other functions read subTypeOfCp
   local subTypeOfCp=TppEnemy.subTypeOfCp
   for cp, subType in pairs(subTypeOfCp)do
     local subType=subTypeOfCp[cp]
@@ -262,7 +268,7 @@ function this.RandomizeCpSubTypeTable()
     local rnd=math.random(1,#locationSubTypes)
     subTypeOfCp[cp]=locationSubTypes[rnd]
   end
-  this.ResetTrueRandom()--tex back to 'truly random' /s for good measure
+  this.RandomResetToOsTime()--tex back to 'truly random' /s for good measure
 end
 
 function this.ChangePhase(cpName,phase)
@@ -337,17 +343,78 @@ this.SetFriendlyEnemy = function()
 end
 
 --tex TODO:
+this.cpPositions={
+  afgh={
+    afgh_citadelSouth_ob={-1682.557,536.637,-2409.226},
+    afgh_sovietSouth_ob={-1558.834,414.159,-1159.438},
+    afgh_plantWest_ob={-1173.101,458.269,-1392.586},
+    afgh_waterwayEast_ob={-1358.766,398.534,-742.015},
+    afgh_tentNorth_ob={-1758.428,336.844,211.112},
+    afgh_enemyNorth_ob="Guard Post 06",
+    afgh_cliffWest_ob="Guard Post 07",
+    afgh_tentEast_ob="Guard Post 08",
+    afgh_enemyEast_ob="Guard Post 09",
+    afgh_cliffEast_ob="Guard Post 10",
+    afgh_slopedWest_ob={99.113,334.220,89.654},
+    afgh_remnantsNorth_ob="Guard Post 12",
+    afgh_cliffSouth_ob="Guard Post 13",
+    afgh_fortWest_ob="Guard Post 14",
+    afgh_villageWest_ob="Guard Post 15",
+    afgh_slopedEast_ob="Guard Post 16",
+    afgh_fortSouth_ob="Guard Post 17",
+    afgh_villageNorth_ob="Guard Post 18",
+    afgh_commWest_ob="Guard Post 19",
+    afgh_bridgeWest_ob="Guard Post 20",
+    afgh_bridgeNorth_ob="Guard Post 21",
+    afgh_fieldWest_ob="Guard Post 22",
+    afgh_villageEast_ob="Guard Post 23",
+    afgh_ruinsNorth_ob="Guard Post 24",
+    afgh_fieldEast_ob="Guard Post 25",
+    --TODO-v- redo (except citadel)
+    afgh_citadel_cp={-1251.708,595.181,-2936.821},
+    afgh_field_cp={418.33,278.22,2261.37},
+    afgh_commFacility_cp={1444.40,364.14,390.78},
+    afgh_slopedTown_cp={512.11,316.60,167.44},
+    afgh_fort_cp={2106.16,463.64,-1747.21},
+    afgh_tent_cp={-1761.73,317.69,806.51},
+    afgh_remnants_cp={-805.54,291.88,1820.65},
+    afgh_enemyBase_cp={-596.89,353.02,497.40},
+  },
+  mafr={
+    mafr_hill_cp={2154.83,63.09,366.70},
+    mafr_swamp_cp={-19.63,11.17,140.91},
+    mafr_pfCamp_cp={846.46,-4.97,1148.62},
+    mafr_savannah_cp={1014.25,57.18,-221.46},
+    mafr_diamond_cp={1381.85,137.05,-1516.01},
+    mafr_banana_cp={300.61,50.06,-1237.66},
+    mafr_flowStation_cp={-1001.38,-7.20,-199.16},
+  },
+}
+
 function this.GetClosestCp()
-  local closestCpId=nil
-  local closestDist=9999999999999
-  for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
-    local cpId=GetGameObjectId(cpName)
-    if cpId and cpId~=NULL_ID then
-      --local cpPos=?
-      local playerPos=TppPlayer.GetPosition()
-      local distSqr=TppMath.FindDistance(cpPos,playerPos)
+
+  local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+
+  local locationName=InfMain.GetLocationName()
+  local cpPositions=this.cpPositions[locationName]
+  local closestCp=nil
+  local closestDist=9999999999999999
+  for cpName,cpPosition in pairs(cpPositions)do
+    local distSqr=TppMath.FindDistance(playerPos,cpPosition)
+    --InfMenu.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUGNOW
+    if distSqr<closestDist then
+      closestDist=distSqr
+      closestCp=cpName
     end
   end
+  InfMenu.DebugPrint("Closest cp "..InfMenu.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUGNOW
+  local cpId=GetGameObjectId(cpName)
+  if cpId and cpId~=NULL_ID then
+    return cpId
+  else
+    return
+  end
+
 end
 
 --<cp stuff
@@ -460,7 +527,7 @@ function this.OnAllocate(missionTable)
 
   --WIP
   if missionTable.enemy then
-    --OFF lua id off InfEquip.LoadEquipTable()
+  --OFF lua id off InfEquip.LoadEquipTable()
   end
 end
 
@@ -662,19 +729,19 @@ function this.OnDamage(gameId,attackId,attackerId)
 end
 
 function this.OnFultonVehicle(vehicleId)
---DEBUGNOW WIP
+--WIP
 --tex not actually that useful, need to alert nearby cps instead
 --  local cpAlertOnVehicleFulton=Ivars.cpAlertOnVehicleFulton:Get()
 --  if cpAlertOnVehicleFulton>0 then--tex
---    InfMenu.DebugPrint"cpAlertOnVehicleFulton>0"--DEBUGNOW
+--    InfMenu.DebugPrint"cpAlertOnVehicleFulton>0"--DEBUG
 --    local riderIdArray=SendCommand(vehicleId,{id="GetRiderId"})
 --    for seatIndex,riderId in ipairs(riderIdArray) do
 --      if seatIndex==1 then
 --        if riderId~=NULL_ID then
---          InfMenu.DebugPrint"vehicle has driver"--DEBUGNOW
+--          InfMenu.DebugPrint"vehicle has driver"--DEBUG
 --          for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
 --            if soldierIds[riderId]~=nil then
---              InfMenu.DebugPrint"found rider cp"--DEBUGNOW
+--              InfMenu.DebugPrint"found rider cp"--DEBUG
 --              if TppEnemy.GetPhaseByCPID(cpId)<cpAlertOnVehicleFulton then
 --                local command={id="SetPhase",phase=cpAlertOnVehicleFulton}
 --                SendCommand(cpId,command)
@@ -765,8 +832,8 @@ local updateIvars={
 --tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
 function this.OnInitializeTop(missionTable)
   --InfInspect.TryFunc(function(missionTable)--DEBUG
-    if TppMission.IsFOBMission(vars.missionCode)then
-      return
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
   end
 
   if missionTable.enemy then
@@ -774,7 +841,7 @@ function this.OnInitializeTop(missionTable)
     this.soldierPool=this.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
     --InfMenu.DebugPrint("Init #this.soldierPool:"..#this.soldierPool)--DEBUG
 
-    --InfMain.SetLevelRandomSeed()
+    --InfMain.RandomSetToLevelSeed()
     if IsTable(enemyTable.soldierDefine) then
       if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
         InfVehicle.ModifyVehiclePatrol(enemyTable.VEHICLE_SPAWN_LIST)
@@ -793,14 +860,25 @@ function this.OnInitializeTop(missionTable)
       enemyTable.uniqueInterrogation=enemyTable.uniqueInterrogation or {}
       InfInterrogation.SetupInterCpQuests(enemyTable.soldierDefine,enemyTable.uniqueInterrogation)
     end
-    --InfMain.ResetTrueRandom()
+    --InfMain.RandomResetToOsTime()
   end
+
+  --DEBUGNOW
+  --  if Ivars.mbEnablePuppy:Is(1) then--and Ivars.inf_event:Is(0) then--tex mb event may turn off puppy, won't come back on by itself after event, so force it
+  --    local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
+  --    gvars.qst_questRepopFlag[puppyQuestIndex]=true
+  --    gvars.qst_questOpenFlag[puppyQuestIndex]=true
+  --
+  --    TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
+  --    TppQuest.UpdateActiveQuest()
+  --  end
+
   --end,missionTable)--DEBUG
 end
 function this.OnInitializeBottom(missionTable)
   ---InfInspect.TryFunc(function(missionTable)--DEBUG
-    if TppMission.IsFOBMission(vars.missionCode)then
-      return
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
   end
 
   if Ivars.enableInfInterrogation:Is(1) and(vars.missionCode~=30010 or vars.missionCode~=30020) then
@@ -810,7 +888,7 @@ function this.OnInitializeBottom(missionTable)
         for cpName,layerTable in pairs(interrogationTable)do
           local cpId=GetGameObjectId("TppCommandPost2",cpName)
           if cpId==NULL_ID then
-            InfMenu.DebugPrint"enableInfInterrogation interrogationTable cpId==NULL_ID"--DEBUGNOW
+            InfMenu.DebugPrint"enableInfInterrogation interrogationTable cpId==NULL_ID"--DEBUG
           else
             --tex TODO KLUDGE, cant actually see how it's reset normally,
             --but it doesn't seem to trigger unless I do
@@ -828,16 +906,18 @@ function this.OnInitializeBottom(missionTable)
   --end,missionTable)--DEBUG
 end
 function this.OnAllocateTop(missionTable)
+
 end
 --via TppMain
 function this.OnMissionCanStartBottom()
   --InfInspect.TryFunc(function()--DEBUG
-    if TppMission.IsFOBMission(vars.missionCode)then
-      return
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
   end
 
   local currentChecks=this.UpdateExecChecks(this.execChecks)
-  for i, ivar in ipairs(updateIvars) do
+  for i=1,#updateIvars do
+    local ivar=updateIvars[i]
     if IsFunc(ivar.OnMissionCanStart) then
       ivar.OnMissionCanStart(currentChecks)
     end
@@ -849,34 +929,46 @@ function this.OnMissionCanStartBottom()
   end
 
   this.StartLongMbVisitClock()
+
+  local locationName=InfMain.GetLocationName()
+  if Ivars.disableLzs:Is"ASSAULT" then
+    InfLZ.DisableLzs(TppLandingZone.assaultLzs[locationName])
+  elseif Ivars.disableLzs:Is"REGULAR" then
+    InfLZ.DisableLzs(TppLandingZone.missionLzs[locationName])
+  end
+  if Ivars.inf_event:Is"ROAM" then
+    InfGameEvent.DisableLzs()
+
+    InfGameEvent.OnMissionCanStart()
+  end
   --end)--DEBUG
 end
 
 function this.Init(missionTable)--tex called from TppMain.OnInitialize
   --InfInspect.TryFunc(function(missionTable)--DEBUG
-    this.abortToAcc=false
+  this.abortToAcc=false
 
-    if TppMission.IsFOBMission(vars.missionCode) then
-      return
+  if TppMission.IsFOBMission(vars.missionCode) then
+    return
+  end
+
+  this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+
+  local currentChecks=this.UpdateExecChecks(this.execChecks)
+  for i=1,#updateIvars do
+    local ivar=updateIvars[i]
+    if IsFunc(ivar.ExecInit) then
+      this.ExecInit(currentChecks,ivar.execCheckTable,ivar.ExecInit)
     end
+  end
 
-    this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+  if vars.missionCode==30050 and Ivars.mbEnableFultonAddStaff:Is(1) then
+    mvars.trm_isAlwaysDirectAddStaff=false
+  end
 
-    local currentChecks=this.UpdateExecChecks(this.execChecks)
-    for i, ivar in ipairs(updateIvars) do
-      if IsFunc(ivar.ExecInit) then
+  this.UpdateHeliVars()
 
-        this.ExecInit(currentChecks,ivar.execCheckTable,ivar.ExecInit)
-      end
-    end
-
-    if vars.missionCode==30050 and Ivars.mbEnableFultonAddStaff:Is(1) then
-      mvars.trm_isAlwaysDirectAddStaff=false
-    end
-
-    this.UpdateHeliVars()
-
-    this.ClearMoraleInfo()
+  this.ClearMoraleInfo()
   --end,missionTable)--DEBUG
 end
 
@@ -888,7 +980,6 @@ function this.OnReload(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 end
 
-
 function this.OnMissionGameEndTop()
   if TppMission.IsFOBMission(vars.missionCode)then
     return
@@ -899,7 +990,26 @@ function this.OnMissionGameEndTop()
   end
 end
 
+function this.AbortMissionTop(abortInfo)
+  --InfMenu.DebugPrint("AbortMissionTop "..vars.missionCode)--DEBUG
+  InfMain.RegenSeed(vars.missionCode,abortInfo.nextMissionId)
+  
+  InfGameEvent.DisableEvent()
+end
 
+function this.ExecuteMissionFinalizeTop()
+  InfMain.RegenSeed(vars.missionCode,gvars.mis_nextMissionCodeForMissionClear)
+  InfGameEvent.DisableEvent()
+  InfGameEvent.GenerateEvent(gvars.mis_nextMissionCodeForMissionClear)
+end
+
+function this.RegenSeed(currentMission,nextMission)
+  --tex hard to find a line to draw in the sand between one mission and the next, so i'm just going for if you've gone to acc then that you're new levelseed set
+  -- this does mean that free roam<>mission wont get a change though, but that may be useful in some circumstances
+  if TppMission.IsHelicopterSpace(nextMission) and currentMission~=1 then
+    InfMain.RandomSeedRegen()
+  end
+end
 --missionFinalize={
 --  currentMissionCode,
 --  currentLocationCode,
@@ -910,6 +1020,7 @@ end
 --  isMotherBase,
 --  isZoo,
 --}
+--GOTCHA only currently on freemission in a specfic spot
 function this.ExecuteMissionFinalize(missionFinalize)
   if TppMission.IsFOBMission(vars.missionCode)then
     return
@@ -974,51 +1085,54 @@ function this.UpdateExecChecks(currentChecks)
 end
 
 function this.Update()
-  --InfInspect.TryFunc(function()--DEBUG
-  if TppMission.IsFOBMission(vars.missionCode) then
-    return
-  end
-
-  local currentChecks=this.UpdateExecChecks(this.execChecks)
-  this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
-
-  InfButton.UpdateHeld()
-  InfButton.UpdateRepeatReset()
-
-  local abortButton=InfButton.ESCAPE
-  InfButton.buttonStates[abortButton].holdTime=2
-  if InfButton.OnButtonHoldTime(abortButton) then
-    if gvars.ini_isTitleMode then
-      local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
-      SplashScreen.Show(splash,0,0.3,0)
-      this.abortToAcc=true
-    else--elseif currentChecks.inGame then--WIP
-    --this.ClearStatus()
+  InfInspect.TryFuncDebug(function()--DEBUG
+    local InfMenu=InfMenu
+    if TppMission.IsFOBMission(vars.missionCode) then
+      return
     end
-  end
 
-  ---Update shiz
-  InfMenu.Update(currentChecks)
-  currentChecks.inMenu=InfMenu.menuOn
+    local currentChecks=this.UpdateExecChecks(this.execChecks)
+    this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
 
-  for i, ivar in ipairs(updateIvars) do
-    if ivar.setting>0 then
-      --tex ivar.updateRate is either number or another ivar
-      local updateRate=ivar.updateRate or 0
-      local updateRange=ivar.updateRange or 0
-      if IsTable(updateRate) then
-        updateRate=updateRate.setting
+    InfButton.UpdateHeld()
+    InfButton.UpdateRepeatReset()
+
+    local abortButton=InfButton.ESCAPE
+    InfButton.buttonStates[abortButton].holdTime=2
+    if InfButton.OnButtonHoldTime(abortButton) then
+      if gvars.ini_isTitleMode then
+        local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
+        SplashScreen.Show(splash,0,0.3,0)
+        this.abortToAcc=true
+        Ivars.inf_event:Set(0)--tex KLUDGE
+      else--elseif currentChecks.inGame then--WIP
+      --this.ClearStatus()
       end
-      if IsTable(updateRange) then
-        updateRange=updateRange.setting
-      end
-
-      this.ExecUpdate(currentChecks,this.currentTime,ivar.execCheckTable,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
     end
-  end
-  ---
-  InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
-  --end)--DEBUG
+
+    ---Update shiz
+    InfMenu.Update(currentChecks)
+    currentChecks.inMenu=InfMenu.menuOn
+
+    for i=1,#updateIvars do
+      local ivar=updateIvars[i]
+      if ivar.setting>0 then
+        --tex ivar.updateRate is either number or another ivar
+        local updateRate=ivar.updateRate or 0
+        local updateRange=ivar.updateRange or 0
+        if IsTable(updateRate) then
+          updateRate=updateRate.setting
+        end
+        if IsTable(updateRange) then
+          updateRange=updateRange.setting
+        end
+
+        this.ExecUpdate(currentChecks,this.currentTime,ivar.execCheckTable,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
+      end
+    end
+    ---
+    InfButton.UpdatePressed()--tex GOTCHA: should be after all key reads, sets current keys to prev keys for onbutton checks
+  end)--DEBUG
 end
 
 function this.ExecInit(currentChecks,execChecks,ExecInitFunc)
@@ -1419,40 +1533,41 @@ this.numReserveSoldiers=40--tex SYNC number of soldier locators i added to fox2s
 
 for i=0,this.numReserveSoldiers-1 do
   local name=solPrefix..string.format("%04d",i)
-  table.insert(this.reserveSoldierNames,name)
+  this.reserveSoldierNames[#this.reserveSoldierNames+1]=name
 end
 
 function this.ResetObjectPool(objectType,objectNames)
   local pool={}
-  for n,objectName in ipairs(objectNames) do
+  for i=1,#objectNames do
+    local objectName=objectNames[i]
     local gameId=GetGameObjectId(objectType,objectName)
     if gameId==NULL_ID then
     --InfMenu.DebugPrint(objectName.."==NULL_ID")--DEBUG
     else
-      table.insert(pool,objectName)
+      pool[#pool+1]=objectName
     end
   end
   return pool
 end
 
 local function FillLrrp(num,soldierPool,cpDefine)
-  local soldiers={}
+  --local soldiers={}
   while num>0 and #soldierPool>0 do
     local soldierName=soldierPool[#soldierPool]
     if soldierName then
-      table.remove(soldierPool)--pop
-      table.insert(cpDefine,soldierName)
-      table.insert(soldiers,soldierName)
+      soldierPool[#soldierPool]=nil--pop
+      cpDefine[#cpDefine+1]=soldierName
+      --soldiers[#soldiers+1]=soldierName
       num=num-1
     end
   end
-  return soldiers
+  --return soldiers
 end
 
 function this.ResetPool(objectNames)
   local namePool={}
-  for n,name in ipairs(objectNames) do
-    table.insert(namePool,name)
+  for i=1,#objectNames do
+    namePool[i]=objectNames[i]
   end
   return namePool
 end
@@ -1470,13 +1585,15 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
   end
 
   if Ivars.vehiclePatrolProfile:Is()>0 and Ivars.vehiclePatrolProfile:MissionCheck() then
-    InfMain.SetLevelRandomSeed()
+    InfMain.RandomSetToLevelSeed()
 
     local initPoolSize=#this.soldierPool
     for cpName,cpDefine in pairs(soldierDefine)do
       local numCpSoldiers=0
-      for n,soldierName in ipairs(cpDefine)do
-        numCpSoldiers=numCpSoldiers+1
+      for n=1,#cpDefine do
+        if cpDefine[n] then
+          numCpSoldiers=numCpSoldiers+1
+        end
       end
 
       if cpDefine.lrrpVehicle then
@@ -1495,7 +1612,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
           for n,soldierName in ipairs(cpDefine)do
             gotSeat=gotSeat+1
             if gotSeat>numSeats then
-              table.insert(this.soldierPool,soldierName)
+              this.soldierPool[#this.soldierPool+1]=soldierName
               cpDefine[n]=nil
             end
           end
@@ -1513,7 +1630,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
     --    local poolChange=#this.soldierPool-initPoolSize--DEBUG
     --    InfMenu.DebugPrint("pool change:"..poolChange)--DEBUG
 
-    InfMain.ResetTrueRandom()
+    InfMain.RandomResetToOsTime()
 
     --if vehiclePatrol
   end
@@ -1529,7 +1646,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
     return
   end
 
-  InfMain.SetLevelRandomSeed()
+  InfMain.RandomSetToLevelSeed()
 
   this.lrrpDefines={}
 
@@ -1545,7 +1662,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
       --tex cp is labeled _lrrp
       if string.find(cpName,lrrpInd) then
         if not cpDefine.lrrpVehicle then
-          table.insert(cpPool,cpName)
+          cpPool[#cpPool+1]=cpName
         end
       end
     end
@@ -1576,16 +1693,16 @@ function this.AddLrrps(soldierDefine,travelPlans)
     else
       local cpId=GetGameObjectId("TppCommandPost2",cpName)
       if cpId==NULL_ID then
-        InfMenu.DebugPrint("startBases "..tostring(cpName).." cpId==NULL_ID")--DEBUGNOW
+        InfMenu.DebugPrint("startBases "..tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
-        table.insert(baseNamePool,cpName)
+        baseNamePool[#baseNamePool+1]=cpName
       end
     end
   end
   startBases=baseNamePool
   local half=math.floor(#startBases/2)
-  for i=0, half do
-    table.insert(endBases,this.GetRandomPool(startBases))
+  for i=0,half do
+    endBases[#endBases+1]=this.GetRandomPool(startBases)
   end
   --tex TODO, copy off tables, swap, and make a second pass
 
@@ -1613,14 +1730,15 @@ function this.AddLrrps(soldierDefine,travelPlans)
     --InfMenu.DebugPrint("lrrpSize "..lrrpSize)--DEBUG
 
     local cpName=cpPool[#cpPool]
-    table.remove(cpPool)
+    cpPool[#cpPool]=nil
+
 
     --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
 
     local cpDefine={}
     soldierDefine[cpName]=cpDefine--tex GOTCHA clearing the cp here, wheres in AddWildCards we are reading existing
 
-    local soldiers=FillLrrp(lrrpSize,this.soldierPool,cpDefine)
+    FillLrrp(lrrpSize,this.soldierPool,cpDefine)
 
     local planName=planStr..cpName
     cpDefine.lrrpTravelPlan=planName
@@ -1636,14 +1754,14 @@ function this.AddLrrps(soldierDefine,travelPlans)
       base1=base1,
       base2=base2,
     }
-    table.insert(this.lrrpDefines,lrrpDefine)
+    this.lrrpDefines[#this.lrrpDefines+1]=lrrpDefine
 
     numLrrps=numLrrps+1
   end
   --  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
   --  InfMenu.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
 
-  InfMain.ResetTrueRandom()
+  InfMain.RandomResetToOsTime()
 end
 
 this.MAX_WILDCARD_FACES=16
@@ -1664,7 +1782,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     return
   end
 
-  InfMain.SetLevelRandomSeed()
+  InfMain.RandomSetToLevelSeed()
 
   local reserved=0
 
@@ -1676,10 +1794,10 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     if #cpDefine>0 then
       local cpId=GetGameObjectId("TppCommandPost2",cpName)
       if cpId==NULL_ID then
-        InfMenu.DebugPrint"AddWildCards soldierDefine cpId==NULL"--DEBUGNOW
+        InfMenu.DebugPrint"AddWildCards soldierDefine cpId==NULL"--DEBUG
       else
         if cpDefine.lrrpVehicle==nil and cpDefine.lrrpTravelPlan==nil then--tex TODO: think if you want to add wildcards to vehicle lrrps, would need to makes sure its a vehicle where they're a passenger
-          table.insert(baseNamePool,cpName)
+          baseNamePool[#baseNamePool+1]=cpName
         end
       end
     end
@@ -1748,7 +1866,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
   for i=1,numWildCards do
     if #baseNamePool==0 then
-      InfMenu.DebugPrint"#baseNamePool==0"--DEBUGNOW
+      InfMenu.DebugPrint"#baseNamePool==0"--DEBUG
       break
     end
 
@@ -1757,7 +1875,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
     local cpDefine=soldierDefine[cpName]
     --local wildCardsPerCp=1
-    --local soldiers=FillLrrp(wildCardsPerCp,this.soldierPool,cpDefine)
+    --FillLrrp(wildCardsPerCp,this.soldierPool,cpDefine)
     if #cpDefine>0 then
       --WIP add soldier to cover
       --tex adding soldiers will mess things up because of soldiername random #cpdefine
@@ -1791,7 +1909,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       end
 
       if #faceIdPool==0 then
-        InfMenu.DebugPrint"#faceIdPool too small, aborting"--DEBUGNOW
+        InfMenu.DebugPrint"#faceIdPool too small, aborting"--DEBUG
         break
       end
 
@@ -1817,13 +1935,12 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
       local soldierPowers={}
       for n,power in pairs(gearPowers) do
-        table.insert(soldierPowers,power)
+        soldierPowers[#soldierPowers+1]=power
       end
       if #weaponPool==0 then
         weaponPool=this.ResetPool(weaponPowers)
       end
-      local weapon=this.GetRandomPool(weaponPool)
-      table.insert(soldierPowers,weapon)
+      soldierPowers[#soldierPowers+1]=this.GetRandomPool(weaponPool)--weapon
 
       soldierPowerSettings[soldierName]=soldierPowers
 
@@ -1844,7 +1961,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
   -- end
 
   --InfMenu.DebugPrint("num wildCards"..numLrrps)--DEBUG
-  InfMain.ResetTrueRandom()
+  InfMain.RandomResetToOsTime()
   --end,soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)--DEBUG
 end
 
@@ -2049,8 +2166,12 @@ this.heliColorNames={
 
 function this.IvarsIsForMission(ivarList,setting,missionCode)
   local missionId=missionCode or vars.missionCode
+  if type(ivarList)=="string" then
+    ivarList=Ivars.missionModeIvars[ivarList]
+  end
   local passedCheck=false
-  for n,ivar in ipairs(ivarList) do
+  for i=1, #ivarList do
+    local ivar = ivarList[i]
     if ivar:Is(setting) and ivar:MissionCheck(missionId) then
       passedCheck=true
       break
@@ -2061,9 +2182,13 @@ end
 
 function this.IvarsEnabledForMission(ivarList,missionCode)
   local missionId=missionCode or vars.missionCode
+  if type(ivarList)=="string" then
+    ivarList=Ivars.missionModeIvars[ivarList]
+  end
 
   local passedCheck=false
-  for n,ivar in ipairs(ivarList) do
+  for i=1, #ivarList do
+    local ivar = ivarList[i]
     if ivar:Is()>0 and ivar:MissionCheck(missionId) then
       passedCheck=true
       break
@@ -2072,17 +2197,12 @@ function this.IvarsEnabledForMission(ivarList,missionCode)
   return passedCheck
 end
 
-
+local startOnFootStr="startOnFoot"
 function this.IsStartOnFoot(missionCode,isAssaultLz)
   local missionCode=missionCode or vars.missionCode
-  local ivarList={
-    Ivars.startOnFootMission,
-    Ivars.startOnFootFree,
-    Ivars.startOnFootMb
-  }
-  local enabled=InfMain.IvarsEnabledForMission(ivarList)
+  local enabled=InfMain.IvarsEnabledForMission(startOnFootStr,missionCode)
 
-  local assault=InfMain.IvarsIsForMission(ivarList,"NOT_ASSAULT",missionCode)
+  local assault=InfMain.IvarsIsForMission(startOnFootStr,"NOT_ASSAULT",missionCode)
   if isAssaultLz and assault then
     return false
   else
@@ -2161,39 +2281,39 @@ function this.GetTotalSalutes()
 end
 
 function this.CheckSalutes()
-  InfInspect.TryFunc(function()
-    if vars.missionCode==30050 and Ivars.mbMoraleBoosts:Is(1) then
-      local currentCluster=mtbs_cluster.GetCurrentClusterId()
+  --InfInspect.TryFunc(function()--DEBUG
+  if vars.missionCode==30050 and Ivars.mbMoraleBoosts:Is(1) then
+    local currentCluster=mtbs_cluster.GetCurrentClusterId()
 
-      saluteClusterCounts[currentCluster]=saluteClusterCounts[currentCluster]+1
-      local totalSalutes=this.GetTotalSalutes()
-      --InfMenu.DebugPrint("SaluteRaiseMorale cluster "..currentCluster.." count:"..saluteClusterCounts[currentCluster].. " total sulutes:"..totalSalutes)--DEBUG
-      --InfInspect.PrintInspect(saluteClusterCounts)--DEBUG
+    saluteClusterCounts[currentCluster]=saluteClusterCounts[currentCluster]+1
+    local totalSalutes=this.GetTotalSalutes()
+    --InfMenu.DebugPrint("SaluteRaiseMorale cluster "..currentCluster.." count:"..saluteClusterCounts[currentCluster].. " total sulutes:"..totalSalutes)--DEBUG
+    --InfInspect.PrintInspect(saluteClusterCounts)--DEBUG
 
-      local modTotalSalutes=totalSalutes%rewardOnSalutesCount
-      --InfMenu.DebugPrint("totalSalutes % rewardSalutesCount ="..modTotalSalutes)--DEBUG
-      if modTotalSalutes==0 then
-        saluteRewards=saluteRewards+1
-        --InfMenu.DebugPrint("REWARD for "..totalSalutes.." salutes")--DEBUG
-        InfMenu.PrintLangId"mb_morale_visit_noticed"
-      end
-
-      local totalClustersVisited=0
-      for clusterId,saluteCount in pairs(saluteClusterCounts) do
-        if saluteCount>0 then
-          totalClustersVisited=totalClustersVisited+1
-        end
-      end
-      --InfMenu.DebugPrint("totalClustersVisited:"..totalClustersVisited)--DEBUG
-      if rewardOnClustersCount[totalClustersVisited] and clusterRewards[totalClustersVisited]==false then
-        clusterRewards[totalClustersVisited]=true
-        --InfMenu.DebugPrint("REWARD for ".. totalClustersVisited .." clusters visited")--DEBUG
-        InfMenu.PrintLangId"mb_morale_visit_noticed"
-      end
-
-      lastSalute=Time.GetRawElapsedTimeSinceStartUp()
+    local modTotalSalutes=totalSalutes%rewardOnSalutesCount
+    --InfMenu.DebugPrint("totalSalutes % rewardSalutesCount ="..modTotalSalutes)--DEBUG
+    if modTotalSalutes==0 then
+      saluteRewards=saluteRewards+1
+      --InfMenu.DebugPrint("REWARD for "..totalSalutes.." salutes")--DEBUG
+      InfMenu.PrintLangId"mb_morale_visit_noticed"
     end
-  end)
+
+    local totalClustersVisited=0
+    for clusterId,saluteCount in pairs(saluteClusterCounts) do
+      if saluteCount>0 then
+        totalClustersVisited=totalClustersVisited+1
+      end
+    end
+    --InfMenu.DebugPrint("totalClustersVisited:"..totalClustersVisited)--DEBUG
+    if rewardOnClustersCount[totalClustersVisited] and clusterRewards[totalClustersVisited]==false then
+      clusterRewards[totalClustersVisited]=true
+      --InfMenu.DebugPrint("REWARD for ".. totalClustersVisited .." clusters visited")--DEBUG
+      InfMenu.PrintLangId"mb_morale_visit_noticed"
+    end
+
+    lastSalute=Time.GetRawElapsedTimeSinceStartUp()
+  end
+  --end)--
 end
 
 --clusterId indexed from 0
@@ -2310,7 +2430,7 @@ function this.GetLocationName()
   return this.locationNames[vars.locationCode]
 end
 
---UTIL DEBUGNOW TODO shift all util functions somewhere
+--UTIL TODO shift all util functions somewhere
 function this.ClearTable(_table)
   for k in next, _table do rawset(_table, k, nil) end
 end

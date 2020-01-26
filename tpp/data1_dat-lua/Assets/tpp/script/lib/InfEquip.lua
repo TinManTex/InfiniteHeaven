@@ -654,7 +654,7 @@ function this.LoadEquipTable()
   for n,equipName in ipairs(this.tppEquipTable)do--TODO: still working on the indexed not grouped table
     local equipId=TppEquip[equipName]
     if equipId~=nil then
-      table.insert(equipLoadTable,equipId)
+      equipLoadTable[#equipLoadTable+1]=equipId
     end
   end
 

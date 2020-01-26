@@ -108,7 +108,8 @@ function this.GetRankingLangId(e)
   return string.format("ranking_name_%02d",e)
 end
 function this._ShowCommonUpdateScoreAnnounceLog(n)
-  TppUI.ShowAnnounceLog"trial_update"local e=this.GetRankingLangId(n)
+  TppUI.ShowAnnounceLog"trial_update"
+  local e=this.GetRankingLangId(n)
   TppUiCommand.AnnounceLogViewLangId(e)
 end
 function this._ShowScoreTimeAnnounceLog(n)

@@ -7,25 +7,14 @@ function this.round(num,idp)
   return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
-
-function this.DoCustomRevenge(missionCode)
-  local ivarList={
-    Ivars.revengeMode,
-    Ivars.revengeModeForMissions,
-    Ivars.revengeModeForMb,
-  }
-
-  return InfMain.IvarsIsForMission(ivarList,"CUSTOM",missionCode)
-end
-
 function this.CreateCustomRevengeConfig()
   local revengeConfig={}
-  InfMain.SetLevelRandomSeed()
+  InfMain.RandomSetToLevelSeed()
   for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
     local powerTable=Ivars[powerTableName]
     for m,powerType in ipairs(powerTable)do
-      local min=Ivars[powerType.."_MIN"].setting
-      local max=Ivars[powerType.."_MAX"].setting
+      local min=Ivars[powerType.."_MIN"]:Get()
+      local max=Ivars[powerType.."_MAX"]:Get()
       local random=math.random(min,max)
       random=this.round(random)
       --InfMenu.DebugPrint(ivarName.." min:"..tostring(min).." max:"..tostring(max).. " random:"..tostring(random))--DEBUG
@@ -92,7 +81,7 @@ function this.CreateCustomRevengeConfig()
     revengeConfig.ARMOR=nil
   end
 
-  InfMain.ResetTrueRandom()
+  InfMain.RandomResetToOsTime()
   return revengeConfig
 end
 

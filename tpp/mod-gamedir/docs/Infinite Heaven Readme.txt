@@ -1,5 +1,5 @@
 = Infinite heaven =
-r155 - 2016-05-11
+r157 - 2016-05-29
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe (wtf kjp)
 
@@ -12,6 +12,41 @@ Infinite Heaven features
 
 YouTube playlist of demonstrations for many features
 [url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
+
+NOTE: Remember to exit to ACC before upgrading Infinite Heaven, upgrading will cause issues continuning a save that's mid mission is likely to cause issues.
+
+r157
+Feature: IH events, basically sets of IH features randomly or manually triggered on Free roam or MB start.
+Free roam events (can stack):
+Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items.
+
+Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns.
+
+Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'.
+
+MB events (only one active):
+DD Training wargame
+Soviet attack
+Rogue Coyote attack
+XOF attack
+DD Infection outbreak
+Zombie Obliteration (non DD)
+
+Fixed: changed start on foot mission start timers workaround, previous workaround resulted in pause menu issues such as options item not appearing and double abort items (both abort mission and abort to acc) - thanks CantStoptheBipBop for the report
+
+Fixed: Cutscene DDogGoWithMe infinite load screen after scene finish when triggered via MB cutscene play mode - thanks PIESOFTHENORTH for the report.
+
+Fixed: Walker gear types were off by one.
+
+Fixed: Removed the purposeless menu back command in the root of in-mission menu - thanks Digitaltomato for the report
+
+Refactor: Disable Central Lzs changed to Disable Lzs - Off, Assault, Regular
+
+Menu: Patchup menu renamed Debug/system menu
+
+Refactor: Options that cover multiple modes (Free roam, mission, mb), have had some internal restructuring, so you will have to set them again after upgrading to r157: Random CP subtype, Start on foot, prep mode, .. use DD equipment.
+
+Option: Debug IH mode - Switches on some error messages and enables the announce log during loading. Hopefully this will give more information if your'e having issues with something.
 
 New for r155
 Wildcard soldiers now equipped with highest grade DD weapons.
@@ -54,51 +89,6 @@ Option: mbWalkerGearsWeapon - "Walker gears weapons" -
 "Attack heli type" renamed "Attack heli class"
 Added "All one random type","Each heli random type" to heli class.
 Options: vehiclePatrolClass - "Vehicle patrol class" - "Default","Dark grey","Red","All one random type","Each vehicle random type","Enemy prep" 
-
-New for r150:
-Fixed: Some cases where the menu in ACC would not open.
-Thanks everyone for the reports, and CantStoptheBipBop for the save file.
-May the Fourth be with you.
-
-New for r149:
-Feature: "Enable puppy DDog" - "Off","Missing eye","Normal eyes" - Enables puppy ddog
-(In Mother base menu > Show characters menu)
-[youtube]6qduyJAhLv4[/youtube]
-https://www.youtube.com/watch?v=6qduyJAhLv4
-
-Feature: "Quiet move to last marker" - sets a position similar to the Quiet attack positions, but can be nearly anywhere.
-Quiet will still abort from that position if it's too close to enemies.
-(In In game menu > User markers menu)
-[youtube]kaKwnlQ_Nro[/youtube]
-https://www.youtube.com/watch?v=kaKwnlQ_Nro
-
-Option: "Allow Enemy Prep shift after free roam" - by default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort), 
-(In Enemy prep menu > Prep system menu)
-
-Update: "Staff-wide morale boost for good visit" now gets bonus for in game visit length, currently 3 in game days, so break out that cigar.
-
-Feature: "Enemy prep decrease on long MB visit" - using the same system as above, spend some in-game days during a mother base visit and enemy prep levels will decrease on leaving.
-currently reduces after 3 days (stacking), reduces the same as checken hat 
-(In Enemy prep menu > Prep system menu)
-
-New for r148:
-Fixed: DDog on mother base wont stop following past start cluster.
-
-Wildcard soldiers:
-Number of wild card soldiers increased
-Removed 0 fulton sucess
-
-Feature IH Interrogation: Add some interrogations to soldiers:
-Travel plan of foot patrol
-Location of wild card soldier
-Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)
-
-Added Sub menu: Mother base menu > Show characters menu - Enable ocelot shifted from mb menu, others shifted from Show assets menu.
-Feature: Show characters menu > Reset Paz - Resets Paz state to beginning
-
-Feature: Mother base menu > "Staff-wide morale boost for good visit" - Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), or visiting a number of clusters (with at least one salute on each). Must exit via heli for it to apply.
-Update: Mother base morale boost points now stack, both for visiting several clusters and having many soldiers salute.
-
 
 Disclaimer:
 ------------------------------

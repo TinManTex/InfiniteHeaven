@@ -9,6 +9,7 @@ local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
 local GetAssetConfig=AssetConfiguration.GetDefaultCategory
+local TppUiCommand=TppUiCommand
 
 this.MAX_ANNOUNCE_STRING=255 --288--tex sting length announce log can handle before crashing the game, a bit worried that it's actually kind of a random value at 288 (and yeah I manually worked this value out by adjusting a string and reloading and crashing the game till I got it exact lol).
 
@@ -17,6 +18,7 @@ this.currentMenu=InfMenuDefs.heliSpaceMenu
 this.currentMenuOptions=InfMenuDefs.heliSpaceMenu.options
 this.topMenu=this.currentMenu
 this.currentIndex=1--tex lua tables are indexed from 1
+this.currentDepth=0
 this.lastDisplay=0
 this.autoDisplayDefault=2.8
 this.autoRateHeld=0.85
@@ -257,7 +259,7 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
 end
 function this.SaveSetting(self,setting)
   self.setting=setting
-  if self.save and not noSave then
+  if self.save then
     local gvar=gvars[self.name]
     if gvar~=nil then
       gvars[self.name]=setting
@@ -321,9 +323,14 @@ function this.GoMenu(menu,goBack)
     return
   end
 
-  if not goBack and menu ~= this.topMenu then
+  if not goBack and menu~=this.topMenu then
     menu.parent=this.currentMenu
     menu.parentOption=this.currentIndex
+    this.currentDepth=this.currentDepth+1
+  elseif menu==this.topMenu then
+    this.currentDepth=0
+  elseif goBack then
+    this.currentDepth=this.currentDepth-1
   end
 
   local previousIndex=this.currentIndex
@@ -447,8 +454,12 @@ function this.ResetSettingsDisplay()
   this.GetSetting()
 end
 --
-function this.Print(message)
-  TppUiCommand.AnnounceLogView(message)
+function this.Print(message,...)
+  if ... then
+    TppUiCommand.AnnounceLogView(string.format(message,...))
+  else
+    TppUiCommand.AnnounceLogView(message)
+  end
 end
 
 function this.DebugPrint(message)
@@ -533,6 +544,30 @@ function this.LangTableString(langId,index)
   return langTable[index]
 end
 
+function this.GetLangTable(langId,index)
+  if langId==nil or langId=="" then
+    TppUiCommand.AnnounceLogView"PrintLangId langId empty"
+    return {}
+  end
+  local languageCode=InfMenu.GetLanguageCode()
+  if InfLang[languageCode]==nil then
+    --TppUiCommand.AnnounceLogView("no lang in inflang")
+    languageCode="eng"
+  end
+  local langTable=InfLang[languageCode][langId]
+  if (langTable==nil or langTable=="" or not IsTable(langTable)) and languageCode~="eng" then
+    TppUiCommand.AnnounceLogView("no langTable for " .. languageCode)--DEBUGNOW
+    langTable=InfLang.eng[langId]
+  end
+
+  if langTable==nil or langTable=="" or not IsTable(langTable) then
+    TppUiCommand.AnnounceLogView"LangTableString langTable empty"--DEBUGNOW
+    return {langId .. ":" .. "n"}
+  end
+
+  return langTable
+end
+
 function this.CpNameString(cpName,location)
   local languageCode=this.GetLanguageCode()
   local locationCps=InfLang.cpNames[location]
@@ -546,6 +581,10 @@ end
 
 function this.PrintLangId(langId)
   TppUiCommand.AnnounceLogView(this.LangString(langId))
+end
+
+function this.PrintFormatLangId(langId,...)
+  TppUiCommand.AnnounceLogView(string.format(this.LangString(langId),...))
 end
 
 function this.Init(missionTable)
@@ -593,6 +632,7 @@ function this.CheckActivate(execCheck)
 end
 
 function this.Update(execCheck)
+  local InfMenuDefs=InfMenuDefs
   --InfInspect.TryFunc(function(execCheck)--DEBUG
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
@@ -600,7 +640,7 @@ function this.Update(execCheck)
     this.menuOn = false
     return
   end
-  
+
   if this.menuOn then
     if not this.CheckActivate(execCheck) then
       this.menuOn=false
@@ -608,7 +648,7 @@ function this.Update(execCheck)
       return
     end
   end
-  
+
   if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
     --InfMenu.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
     if this.CheckActivate(execCheck) then
@@ -630,7 +670,7 @@ function this.Update(execCheck)
     end
   else
     if this.topMenu~=InfMenuDefs.inMissionMenu then
-      Ivars.PrintGvarSettingMismatch()
+      --Ivars.PrintGvarSettingMismatch()--DEBUGNOW
       this.topMenu=InfMenuDefs.inMissionMenu
       this.GoMenu(this.topMenu)
     end
@@ -718,26 +758,26 @@ end
 
 this.menuString="MENUSTRINGCLEAR"
 function this.PrintMenu()
-  InfInspect.TryFunc(function()
-    local menuString="MENUSTRING".."START".."\n"
-    for n,item in pairs(InfMenuDefs) do
-      if IsTable(item) then
-        if item.options then--tex is menu
-          local displayString=this.GetSettingString(item)
-          menuString=menuString.."MENUDEF\n"..displayString.."\n"
-          for i,option in ipairs(item.options) do
-            local displayString=this.GetSettingString(option)
-            menuString=menuString..displayString.."\n"
-          end
+  --DEBUG InfInspect.TryFunc(function()
+  local menuString="MENUSTRING".."START".."\n"
+  for n,item in pairs(InfMenuDefs) do
+    if IsTable(item) then
+      if item.options then--tex is menu
+        local displayString=this.GetSettingString(item)
+        menuString=menuString.."MENUDEF\n"..displayString.."\n"
+        for i,option in ipairs(item.options) do
+          local displayString=this.GetSettingString(option)
+          menuString=menuString..displayString.."\n"
         end
       end
     end
-    menuString=menuString.."MENUSTRING".."END"
-    --InfMenu.DebugPrint(menuString)--DEBUG
-    this.menuString=menuString
-    this.menustringLength=string.len(menuString)
-    InfMenu.DebugPrint("menuString length ="..this.menustringLength)
-  end)
+  end
+  menuString=menuString.."MENUSTRING".."END"
+  --InfMenu.DebugPrint(menuString)--DEBUG
+  this.menuString=menuString
+  this.menustringLength=string.len(menuString)
+  InfMenu.DebugPrint("menuString length ="..this.menustringLength)
+  --DEBUG end)
 end
 function this.GetSettingString(option)
   local settingText=""

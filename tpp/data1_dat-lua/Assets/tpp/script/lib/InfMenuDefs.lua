@@ -1,6 +1,10 @@
 -- DOBUILD: 1
 -- InfMenuDefs.lua
 local this={}
+--LOCALOPT
+local Ivars=Ivars
+local InfMenuCommands=InfMenuCommands
+
 --menus
 this.fovaModMenu={
   options={
@@ -72,9 +76,9 @@ this.motherBaseShowAssetsMenu={
 
 this.dDEquipMenu={
   options={
-    Ivars.enableMbDDEquip,
-    Ivars.enableEnemyDDEquip,
-    Ivars.enableEnemyDDEquipMissions,
+    Ivars.enableDDEquipMB,
+    Ivars.enableDDEquipFREE,
+    Ivars.enableDDEquipMISSION,
     Ivars.mbSoldierEquipGrade_MIN,
     Ivars.mbSoldierEquipGrade_MAX,
     Ivars.allowUndevelopedDDEquip,
@@ -85,7 +89,7 @@ this.dDEquipMenu={
 
 this.motherBaseMenu={
   options={
-    Ivars.revengeModeForMb,
+    Ivars.revengeModeMB,
     this.dDEquipMenu,
     Ivars.mbDDSuit,
     Ivars.mbDDSuitFemale,
@@ -122,22 +126,24 @@ this.demosMenu={
 
 this.patchupMenu={
   options={
-    Ivars.telopMode,
+  }
+}
+
+this.debugMenu={
+  options={
+    Ivars.debugMode,
+    Ivars.telopMode,    
+    Ivars.startOffline,    
+    Ivars.langOverride,
     InfMenuCommands.unlockPlayableAvatar,
     InfMenuCommands.unlockWeaponCustomization,
-    Ivars.startOffline,
-    --Ivars.blockFobTutorial,
-    --Ivars.setFirstFobBuilt,
-    Ivars.langOverride,
     InfMenuCommands.returnQuiet,
     InfMenuCommands.showQuietReunionMissionCount,
-    InfMenuCommands.showLangCode,
-    InfMenuCommands.showPosition,
-    InfMenuCommands.showMissionCode,
-    InfMenuCommands.printCustomRevengeConfig,
-    --InfMenuCommands.showMbEquipGrade,
     InfMenuCommands.forceAllQuestOpenFlagFalse,
+    InfMenuCommands.showPosition,
     InfMenuCommands.DEBUG_PrintSaveVarCount,
+    InfMenuCommands.showMissionCode,
+    InfMenuCommands.showLangCode,
   }
 }
 
@@ -194,8 +200,8 @@ this.revengeSystemMenu={
     Ivars.revengeBlockForMissionCount,
     Ivars.applyPowersToOuterBase,
     Ivars.applyPowersToLrrp,
-    Ivars.allowHeavyArmorInFreeRoam,
-    Ivars.allowHeavyArmorInAllMissions,
+    Ivars.allowHeavyArmorFREE,
+    Ivars.allowHeavyArmorMISSION,
     Ivars.disableMissionsWeaponRestriction,
     Ivars.disableNoStealthCombatRevengeMission,
     Ivars.revengeDecayOnLongMbVisit,
@@ -210,91 +216,72 @@ this.revengeSystemMenu={
   }
 }
 --
-for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
-  local powerTable=Ivars[powerTableName]
-
-  local powerMenu={
+local minSuffix="_MIN"
+local maxSuffix="_MAX"
+local menuSuffix="Menu"
+local function AddMinMaxIvarsListMenu(menuName,ivarList)
+  local newMenu={
     options={
     }
   }
-  this[powerTableName.."Menu"]=powerMenu
 
-  local menuOptions=powerMenu.options
-  for m,powerType in ipairs(powerTable)do
-    table.insert(menuOptions,Ivars[powerType.."_MIN"])
-    table.insert(menuOptions,Ivars[powerType.."_MAX"])
+  local menuOptions=newMenu.options
+  for i,ivarName in ipairs(ivarList)do
+    menuOptions[#menuOptions+1]=Ivars[ivarName..minSuffix]
+    menuOptions[#menuOptions+1]=Ivars[ivarName..maxSuffix]
   end
+  
+  this[menuName..menuSuffix]=newMenu--tex add to InfMenuDefs
 end
 
-this.abilityCustomMenu={
-  options={
-  }
-}
-local menuOptions=this.abilityCustomMenu.options
-for n,powerType in ipairs(Ivars.abilitiesWithLevels)do
-  table.insert(menuOptions,Ivars[powerType.."_MIN"])
-  table.insert(menuOptions,Ivars[powerType.."_MAX"])
+for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
+  AddMinMaxIvarsListMenu(powerTableName,Ivars[powerTableName])
 end
 
-this.weaponStrengthCustomMenu={
-  options={
-  }
-}
-local menuOptions=this.weaponStrengthCustomMenu.options
-for n,powerType in ipairs(Ivars.weaponStrengthPowers)do
-  table.insert(menuOptions,Ivars[powerType.."_MIN"])
-  table.insert(menuOptions,Ivars[powerType.."_MAX"])
-end
-
-this.cpEquipBoolPowersMenu={
-  options={
-  }
-}
-local menuOptions=this.cpEquipBoolPowersMenu.options
-for n,powerType in ipairs(Ivars.cpEquipBoolPowers)do
-  table.insert(menuOptions,Ivars[powerType.."_MIN"])
-  table.insert(menuOptions,Ivars[powerType.."_MAX"])
-end
+AddMinMaxIvarsListMenu("abilityCustom",Ivars.abilitiesWithLevels)
+AddMinMaxIvarsListMenu("weaponStrengthCustom",Ivars.weaponStrengthPowers)
+AddMinMaxIvarsListMenu("cpEquipBoolPowers",Ivars.cpEquipBoolPowers)
 
 this.revengeCustomMenu={
   options={
+    Ivars.revengeConfigProfile,
+    InfMenuCommands.printCustomRevengeConfig,
   }
 }
 local revengeMenu=this.revengeCustomMenu.options
-
-table.insert(revengeMenu,Ivars.revengeConfigProfile)
-
 for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
-  table.insert(revengeMenu,this[powerTableName.."Menu"])
+  revengeMenu[#revengeMenu+1]=this[powerTableName..menuSuffix]
 end
 table.insert(revengeMenu,this.abilityCustomMenu)
 table.insert(revengeMenu,this.weaponStrengthCustomMenu)
 table.insert(revengeMenu,this.cpEquipBoolPowersMenu)
-table.insert(revengeMenu,Ivars.reinforceCount_MIN)
-table.insert(revengeMenu,Ivars.reinforceCount_MAX)
-table.insert(revengeMenu,Ivars.reinforceLevel_MIN)
-table.insert(revengeMenu,Ivars.reinforceLevel_MAX)
-table.insert(revengeMenu,Ivars.revengeIgnoreBlocked_MIN)
-table.insert(revengeMenu,Ivars.revengeIgnoreBlocked_MAX)
+local revengeMinMaxIvarList={
+  "reinforceCount",
+  "reinforceLevel",
+  "revengeIgnoreBlocked",
+}
+local menuOptions=revengeMenu
+for i,ivarName in ipairs(revengeMinMaxIvarList)do
+  menuOptions[#menuOptions+1]=Ivars[ivarName..minSuffix]
+  menuOptions[#menuOptions+1]=Ivars[ivarName..maxSuffix]
+end
 
 this.revengeMenu={
   options={
-    Ivars.revengeMode,
-    Ivars.revengeModeForMissions,
-    Ivars.revengeModeForMb,
+    Ivars.revengeModeFREE,
+    Ivars.revengeModeMISSION,
+    Ivars.revengeModeMB,
     this.revengeCustomMenu,
     this.revengeSystemMenu,
     this.dDEquipMenu,
     InfMenuCommands.resetRevenge,
-    Ivars.changeCpSubTypeFree,
-    Ivars.changeCpSubTypeForMissions,
+    Ivars.changeCpSubTypeFREE,
+    Ivars.changeCpSubTypeForMISSION,
     Ivars.enableWildCardFreeRoam,
     Ivars.enableInfInterrogation,
   }
 }
 --
-
-
 
 this.appearanceMenu={
   options={
@@ -348,9 +335,9 @@ this.supportHeliMenu={
     Ivars.disablePullOutHeli,
     Ivars.setLandingZoneWaitHeightTop,
     Ivars.defaultHeliDoorOpenTime,
-    Ivars.startOnFootFree,
-    Ivars.startOnFootMission,
-    Ivars.startOnFootMb,
+    Ivars.startOnFootFREE,
+    Ivars.startOnFootMISSION,
+    Ivars.startOnFootMB_ALL,
   --Ivars.disableDescentToLandingZone,
   --Ivars.enableGetOutHeli,--WIP
   --Ivars.heliUpdate,--NONUSER
@@ -443,16 +430,17 @@ this.disableSupportMenuMenu={
 
 this.playerRestrictionsMenu={
   options={
-    Ivars.subsistenceProfile,
+    Ivars.subsistenceProfile,    
+    Ivars.blockInMissionSubsistenceIvars,
     Ivars.disableHeliAttack,
     Ivars.disableFulton,
     Ivars.setSubsistenceSuit,
     Ivars.setDefaultHand,
-    Ivars.noCentralLzs,
+    Ivars.disableLzs,
     Ivars.abortMenuItemControl,
     Ivars.disableRetry,
     Ivars.gameOverOnDiscovery,
-    --WIP OFF Ivars.disableSpySearch,
+    Ivars.disableSpySearch,
     --WIP OFF Ivars.disableHerbSearch,
     this.markersMenu,
     this.missionPrepRestrictionsMenu,
@@ -461,7 +449,6 @@ this.playerRestrictionsMenu={
     this.fultonLevelMenu,
     this.fultonSuccessMenu,
     this.ospMenu,
-    Ivars.blockInMissionSubsistenceIvars,
   }
 }
 
@@ -469,11 +456,13 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
---    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
---    --    InfMenuCommands.DEBUG_PrintMenu,
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    InfMenuCommands.forceGameEvent,--DEBUGNOW
+    Ivars.gameEventChance,--DEBUGNOW
+    --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
+    --    --    InfMenuCommands.DEBUG_PrintMenu,
+--        InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.fovaModMenu,--DEBUG
     --    this.appearanceMenu,--DEBUG
@@ -498,8 +487,7 @@ this.heliSpaceMenu={
     this.supportHeliMenu,
     --this.missionEntryExitMenu,
     --this.appearanceMenu,--tex  WIP
-    this.patchupMenu,
-    --InfMenuCommands.resetSettingsItem,
+    this.debugMenu,
     InfMenuCommands.resetAllSettingsItem,
     InfMenuCommands.menuOffItem,
   }
@@ -507,10 +495,12 @@ this.heliSpaceMenu={
 
 this.debugInMissionMenu={
   options={
+    Ivars.debugMode,
     --InfMenuCommands.DEBUG_RandomizeCp,
     --InfMenuCommands.DEBUG_PrintRealizedCount,
     --InfMenuCommands.DEBUG_PrintEnemyFova,
     Ivars.selectedCp,
+    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
     InfMenuCommands.DEBUG_PrintCpPowerSettings,
     InfMenuCommands.DEBUG_PrintPowersCount,
     --InfMenuCommands.DEBUG_PrintCpSizes,
@@ -536,23 +526,15 @@ this.debugInMissionMenu={
 
 this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
-  noGoBack=true,--tex is root
+  noGoBackItem=true,--tex is root
   options={
---    InfMenuCommands.DEBUG_WarpToObject,--DEBUGNOW
-----    Ivars.playerFaceIdApearance,--DEBUG
---    InfMenuCommands.DEBUG_PrintCpSizes,--DEBUG
-----    --    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
-----    --    Ivars.selectedCp,--DEBUG
-----    --    this.fovaModMenu,--DEBUG
-----    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
-----    --    this.appearanceMenu,--DEBUG
---    InfMenuCommands.showPosition,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-    --    --    InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
-    --InfMenuCommands.showPosition,--DEBUG
-    --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
+    --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
+    ----    Ivars.playerFaceIdApearance,--DEBUG
+    ----    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
+    ----    --    this.appearanceMenu,--DEBUG
+--        InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    Ivars.selectedChangeWeapon,--WIP DEBUG
     --   InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
     --InfMenuCommands.doEnemyReinforce,--WIP

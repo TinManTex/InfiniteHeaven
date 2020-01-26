@@ -9,6 +9,7 @@ local this={}
 --state
 local Ivars=Ivars
 local InfMain=InfMain
+local TppLocation=TppLocation
 local PHASE_ALERT=TppGameObject.PHASE_ALERT
 local PHASE_EVASION=TppGameObject.PHASE_EVASION
 local ChangePhase=InfMain.ChangePhase

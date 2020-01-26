@@ -1116,7 +1116,7 @@ this.RegisterFovaFpk = function( clusterId )
   if Ivars.mbNonStaff:Is(1) then--tex>
     mvars.f30050_soldierStaffIdList = {}
     local securityStaffFaceIds = {} 
-    InfMain.SetLevelRandomSeed()
+    InfMain.RandomSetToLevelSeed()
     --local faceGroupTable=
     for i=1,MAX_FACE_NUM_IN_CLUSTER do
       if Ivars.mbWargameFemales:Is(1) and math.random()<.15 then
@@ -1125,7 +1125,7 @@ this.RegisterFovaFpk = function( clusterId )
         table.insert(securityStaffFaceIds,InfEneFova.RandomFaceId(InfEneFova.maleFaceIds))--tex DOC face and bodyids.txt
       end
     end
-    InfMain.ResetTrueRandom()
+    InfMain.RandomResetToOsTime()
 
     mvars.f30050_soldierFaceIdListPriority = securityStaffFaceIds
     mvars.f30050_soldierFaceIdList = securityStaffFaceIds

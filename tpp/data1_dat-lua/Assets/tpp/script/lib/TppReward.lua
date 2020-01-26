@@ -82,10 +82,10 @@ function this.ShowAllReward()
   end
   if TppUiCommand.GetBonusPopupRegist"animal">0 then
     TppUiCommand.ShowBonusPopupRegist"animal"
-    end
+  end
   if TppUiCommand.GetBonusPopupRegist"staff">0 then
     TppUiCommand.ShowBonusPopupRegist"staff"
-    end
+  end
   local e=TppRadio.DoEventOnRewardEndRadio()
   if next(e)then
     TppUiCommand.SetBonusPopupAfterRadio(e[1])
@@ -192,22 +192,34 @@ function this.ShowBonusPopupCategory(r,a,n)
 end
 function this.GetBonusPopupCategory(e)
   if e<4 then
-    return"keyitem"elseif e<18 then
-    return"motherbase"elseif e<25 then
-    return"develop"elseif e<32 then
-    return"custom"elseif e<37 then
-    return"callmenu"elseif e==37 then
+    return"keyitem"
+  elseif e<18 then
+    return"motherbase"
+  elseif e<25 then
+    return"develop"
+  elseif e<32 then
+    return"custom"
+  elseif e<37 then
+    return"callmenu"
+  elseif e==37 then
   elseif e==38 then
-    return"devfile"elseif e==39 then
-    return"keyitem"elseif e<43 then
+    return"devfile"
+  elseif e==39 then
+    return"keyitem"
+  elseif e<43 then
   elseif e==43 then
   elseif e==44 then
-    return"trial"elseif e==45 then
+    return"trial"
+  elseif e==45 then
   elseif e<48 then
-    return"motherbase"elseif e<55 then
-    return"keyitem"elseif e==55 then
-    return"develop"elseif e<58 then
-    return"keyitem"end
+    return"motherbase"
+  elseif e<55 then
+    return"keyitem"
+  elseif e==55 then
+    return"develop"
+  elseif e<58 then
+    return"keyitem"
+  end
   return nil
 end
 function this.ShowBonusPopupCategoryCommon(r,a)

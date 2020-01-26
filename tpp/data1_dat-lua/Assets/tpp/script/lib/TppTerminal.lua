@@ -869,8 +869,13 @@ function this.OnReload(t)
 end
 function this.OnMissionGameStart(e)
   if not mvars.trm_currentIntelCpName then
-    TppUiCommand.DeactivateSpySearchForCP()
-    TppUiCommand.ActivateSpySearchForField()
+    if Ivars.disableSpySearch:Is(1) then--tex added bypass
+      TppUiCommand.DeactivateSpySearchForCP()
+      TppUiCommand.DeactivateSpySearchForField()
+    else
+      TppUiCommand.DeactivateSpySearchForCP()
+      TppUiCommand.ActivateSpySearchForField()
+    end
   end
 end
 function this.DeclareSVars()
@@ -1386,7 +1391,8 @@ function this.OnFultonAnimal(gameId,animalId)
   elseif(databastId==MBMConst.ANIMAL_220)then
     gvars.trm_recoveredOkapiCount=gvars.trm_recoveredOkapiCount+1
   end
-  PlayRecord.RegistPlayRecord"ANIMAL_RESCUE"this.AddTempDataBaseAnimal(databastId,tostring(mvars.animalBlockAreaName))
+  PlayRecord.RegistPlayRecord"ANIMAL_RESCUE"
+  this.AddTempDataBaseAnimal(databastId,tostring(mvars.animalBlockAreaName))
 end
 function this.GetRecoveredAfghGoatCount()
   return gvars.trm_recoveredAfghGoatCount
@@ -1828,7 +1834,8 @@ function this.TerminalVoiceOnSunRise()
   TppTutorial.DispGuide_DayAndNight()
 end
 function this.TerminalVoiceOnSupportFireIncoming()
-  this.PlayTerminalVoice"VOICE_SUPPORT_FIRE_INCOMING"end
+  this.PlayTerminalVoice"VOICE_SUPPORT_FIRE_INCOMING"
+end
 function this.SetBaseTelopName(baseName)
   mvars.trm_baseTelopCpName=baseName
 end
@@ -1875,8 +1882,13 @@ function this.ShowLocationAndBaseTelopForContinue()
 end
 function this.OnEnterCpIntelTrap(cpName)
   mvars.trm_currentIntelCpName=cpName
-  TppUiCommand.ActivateSpySearchForCP{cpName=cpName}
-  TppUiCommand.DeactivateSpySearchForField()
+  if Ivars.disableSpySearch:Is(1) then--tex added bypass
+    TppUiCommand.DeactivateSpySearchForCP()
+    TppUiCommand.DeactivateSpySearchForField()
+  else--<
+    TppUiCommand.ActivateSpySearchForCP{cpName=cpName}
+    TppUiCommand.DeactivateSpySearchForField()
+  end
   TppFreeHeliRadio.OnEnterCpIntelTrap(cpName)
   if Player.OnEnterBase~=nil then
     Player.OnEnterBase()
@@ -1884,8 +1896,13 @@ function this.OnEnterCpIntelTrap(cpName)
 end
 function this.OnExitCpIntelTrap(cpName)
   mvars.trm_currentIntelCpName=nil
-  TppUiCommand.DeactivateSpySearchForCP()
-  TppUiCommand.ActivateSpySearchForField()
+  if Ivars.disableSpySearch:Is(1) then--tex added bypass
+    TppUiCommand.DeactivateSpySearchForCP()
+    TppUiCommand.DeactivateSpySearchForField()
+  else--<
+    TppUiCommand.DeactivateSpySearchForCP()
+    TppUiCommand.ActivateSpySearchForField()
+  end
   TppFreeHeliRadio.OnExitCpIntelTrap(cpName)
   TppRevenge.ClearLastRevengeMineBaseName()
   if Player.OnExitBase~=nil then
@@ -1899,49 +1916,56 @@ function this.IsReleaseMedicalSection()
     return false
   end
 end
-this.SectionOpenCondition={Combat=function()
-  if(gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON)and(TppStory.GetClearedMissionCount{10041,10044,10052,10054}>=2)then
-    return true
-  else
-    return false
-  end
-end,BaseDev=function()
-  if(gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE)and(TppStory.GetClearedMissionCount{10033,10036,10043}>=2)then
-    return true
-  else
-    return false
-  end
-end,Spy=function()
-  if(gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON)then
-    return true
-  else
-    return false
-  end
-end,Medical=this.IsReleaseMedicalSection,Security=function()
-  if this.IsCleardRetakeThePlatform()then
-    return true
-  else
-    return false
-  end
-end,Hospital=function()
-  if this.IsReleaseMedicalSection()then
-    return TppMotherBaseManagement.IsBuiltMbMedicalClusterSpecialPlatform()
-  else
-    return false
-  end
-end,Prison=function()
-  if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE then
-    return true
-  else
-    return false
-  end
-end,Separation=function()
-  if gvars.trm_isPushRewardSeparationPlatform and(not this.CheckPandemicEventFinish())then
-    return true
-  else
-    return false
-  end
-end}
+this.SectionOpenCondition={
+  Combat=function()
+    if(gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON)and(TppStory.GetClearedMissionCount{10041,10044,10052,10054}>=2)then
+      return true
+    else
+      return false
+    end
+  end,
+  BaseDev=function()
+    if(gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE)and(TppStory.GetClearedMissionCount{10033,10036,10043}>=2)then
+      return true
+    else
+      return false
+    end
+  end,
+  Spy=function()
+    if(gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_FIND_THE_SECRET_WEAPON)then
+      return true
+    else
+      return false
+    end
+  end,
+  Medical=this.IsReleaseMedicalSection,Security=function()
+    if this.IsCleardRetakeThePlatform()then
+      return true
+    else
+      return false
+    end
+  end,
+  Hospital=function()
+    if this.IsReleaseMedicalSection()then
+      return TppMotherBaseManagement.IsBuiltMbMedicalClusterSpecialPlatform()
+    else
+      return false
+    end
+  end,
+  Prison=function()
+    if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE then
+      return true
+    else
+      return false
+    end
+  end,
+  Separation=function()
+    if gvars.trm_isPushRewardSeparationPlatform and(not this.CheckPandemicEventFinish())then
+      return true
+    else
+      return false
+    end
+  end}
 function this.IsReleaseSection(t)
   local e=this.SectionOpenCondition[t]
   if e then

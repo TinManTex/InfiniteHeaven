@@ -3534,7 +3534,8 @@ function this._InsertShiftChangeUnit(t,a,n)
         mvars.ene_shiftChangeTable[t][e][a*2]={n[e].hold,n[e].goal}
       else
         mvars.ene_shiftChangeTable[t][e][a*2-1]={n[e].start,n[e].goal}
-        mvars.ene_shiftChangeTable[t][e][a*2]="dummy"end
+        mvars.ene_shiftChangeTable[t][e][a*2]="dummy"
+        end
     end
   end
 end
