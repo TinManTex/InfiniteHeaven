@@ -634,7 +634,7 @@ function this.OnActivate()
 
   this.GetSetting()
   TppUiStatusManager.ClearStatus"AnnounceLog"
-  TppUiCommand.AnnounceLogView(InfMain.modName.." "..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
+  TppUiCommand.AnnounceLogView(InfMain.modName.." r"..InfMain.modVersion.." ".. this.LangString"menu_open_help")--(Press Up/Down,Left/Right to navigate menu)
 
   InfMain.OnMenuOpen()
 end
@@ -836,7 +836,7 @@ function this.ModWelcome()
   --end
   TppUiCommand.AnnounceLogDelayTime(0)
 
-  InfMenu.Print(InfMain.modName.." "..InfMain.modVersion)
+  InfMenu.Print(InfMain.modName.." r"..InfMain.modVersion)
   InfMenu.PrintLangId"menu_keys"
 end
 

@@ -624,7 +624,7 @@ end
 
 --IN: FILE: InfProfiles.lua
 --OUT: profileNames
---SIDE: this.profiles
+--SIDE: Ivars.profiles
 function this.SetupInfProfiles()
   --tex TODO: just can't seem to assign a loaded module to Global for some reason, works fine in external VM, and works fine at end of InfMain
 --  InfLog.Add("SetupInfProfiles")
@@ -645,7 +645,7 @@ function this.SetupInfProfiles()
   if not sucess then
     Ivars.selectProfile.range.max=0
     Ivars.selectProfile.setting=0
-    this.profiles=nil
+    Ivars.profiles=nil
     return nil
   end
 
@@ -700,7 +700,7 @@ function this.ApplyInfProfiles(profileNames)
     return
   else
     for i,profileName in ipairs(profileNames)do
-      local profileInfo=this.profiles[profileName]
+      local profileInfo=Ivars.profiles[profileName]
       if profileInfo.loadOnACCStart then
         local profileName=profileInfo.description or profileName
         InfMenu.Print(InfMenu.LangString"applying_profile".." "..profileName)

@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r185"
+this.modVersion="186"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:

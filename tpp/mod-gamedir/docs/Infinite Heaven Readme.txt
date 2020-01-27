@@ -1,5 +1,5 @@
 = Infinite heaven =
-r185 - 2016-09-30
+r187 - 2016-09-30
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -19,6 +19,10 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r186
+Fixed: Profiles with loadOnACCStart not applying - thanks pk5547 for the report
+Fixed: Broken defaults/example profile - thanks pk5547 for the report
 
 New for r185
 NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.

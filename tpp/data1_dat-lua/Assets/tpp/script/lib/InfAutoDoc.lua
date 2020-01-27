@@ -106,9 +106,10 @@ local function IsForProfile(item,currentMenu,priorMenus,priorItems)
     return false
   end
 
-  if item.nonConfig
+  if currentMenu.nonConfig
     or item.optionType~="OPTION"
     or item.nonUser
+    or item.nonConfig
     or item.OnSubSettingChanged
   then
     return false
@@ -283,13 +284,11 @@ function this.AutoDoc()
         
           htmlFile:write(string.format([[<div id="menuItem"><a href="%s">%s</a></div>]],line.link,line[1]),nl)
         elseif line.featureDescription then
-          line.featureDescription=EscapeHtml(line.featureDescription)
-          line.featureHelp=EscapeHtml(line.featureHelp)
           textFile:write(string.format(line.featureDescription),nl)
           textFile:write(string.format(line.featureHelp),nl)
         
-          htmlFile:write(string.format([[<div id="menuItem">%s</div>]],line.featureDescription),nl)
-          htmlFile:write(string.format([[<div id="itemHelp">%s</div>]],line.featureHelp),nl)
+          htmlFile:write(string.format([[<div id="menuItem">%s</div>]],EscapeHtml(line.featureDescription)),nl)
+          htmlFile:write(string.format([[<div id="itemHelp">%s</div>]],EscapeHtml(line.featureHelp)),nl)
         end
       else
         textFile:write(line,nl)
@@ -313,7 +312,7 @@ function this.AutoDoc()
   profileFile:write(nl)
   profileFile:write("local profiles={}",nl)
   profileFile:write(nl)
-  profileFile:write("-- Defaults/example of all profile options for IH "..InfMain.modVersion,nl)
+  profileFile:write("-- Defaults/example of all profile options for IH r"..InfMain.modVersion,nl)
   profileFile:write("profiles.defaults={",nl)
   profileFile:write("\tdescription=\"Defaults/All disabled\",",nl)
   profileFile:write("\tfirstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.",nl)

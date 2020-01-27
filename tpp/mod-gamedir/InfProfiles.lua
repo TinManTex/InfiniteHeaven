@@ -9,7 +9,7 @@
 
 local profiles={}
 
--- Defaults/example of all profile options for IH r185
+-- Defaults/example of all profile options for IH r186
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
@@ -74,13 +74,6 @@ profiles.defaults={
 		--Player settings menu
 		playerHealthScale=100,--{ 0-650 } -- Player life scale (percentage)
 		useSoldierForDemos=0,--{ 0-1 } -- Use selected soldier in all cutscenes and missions
-		--Appearance menu
-		playerType="SNAKE",--{ SNAKE, AVATAR, DD_MALE, DD_FEMALE } -- Non-save -- Player type
-		playerPartsType="<Suits for player type>",--{ <Suits for player type> } -- Non-save -- Suit type
-		playerCamoType="<Camos for player type>",--{ <Camos for player type> } -- Non-save -- Camo type
-		playerFaceEquipId=0,--{ 0-100 } -- Non-save -- Headgear
-		playerFaceFilter="ALL",--{ ALL, UNIQUE, FOVAMOD } -- Non-save -- Filter faces
-		playerFaceId=0,--{ 0-1000 } -- Non-save -- Face
 		--Soldier parameters menu
 		soldierHealthScale=100,--{ 0-900 } -- Soldier life scale (percentage)
 		soldierSightDistScale=100,--{ 0-400 } -- Soldier sight scale (percentage)
@@ -277,34 +270,8 @@ profiles.defaults={
 		startOffline=0,--{ 0-1 } -- Start offline
 		langOverride=0,--{ 0-1 } -- Mod Menu translation override
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
-		--appearanceDebugMenu
-		faceFovaDirect=0,--{ 0-1000 } -- Non-save -- 
-		faceDecoFovaDirect=0,--{ 0-1000 } -- Non-save -- 
-		hairFovaDirect=0,--{ 0-1000 } -- Non-save -- 
-		hairDecoFovaDirect=0,--{ 0-1000 } -- Non-save -- 
-		playerTypeDirect="SNAKE",--{ SNAKE, AVATAR, DD_MALE, DD_FEMALE } -- Non-save -- 
-		playerPartsTypeDirect=0,--{ 0-100 } -- Non-save -- 
-		playerCamoTypeDirect=0,--{ 0-1000 } -- Non-save -- 
-		playerFaceIdDirect=0,--{ 0-687 } -- 
-		playerFaceEquipIdDirect=0,--{ 0-100 } -- Non-save -- 
-		faceFova=0,--{ 0-1000 } -- Non-save -- 
-		faceDecoFova=0,--{ 0-1000 } -- Non-save -- 
-		hairFova=0,--{ 0-1000 } -- Non-save -- 
-		hairDecoFova=0,--{ 0-1000 } -- Non-save -- 
-		faceFovaUnknown1=0,--{ 0-50 } -- Non-save -- 
-		faceFovaUnknown2=0,--{ 0-1 } -- Non-save -- 
-		faceFovaUnknown3=0,--{ 0-4 } -- Non-save -- 
-		faceFovaUnknown4=0,--{ 0-4 } -- Non-save -- 
-		faceFovaUnknown5=0,--{ 0-1 } -- Non-save -- 
-		faceFovaUnknown6=0,--{ 0-3 } -- Non-save -- 
-		faceFovaUnknown7=0,--{ 0-303 } -- Non-save -- 
-		faceFovaUnknown8=0,--{ 0-303 } -- Non-save -- 
-		faceFovaUnknown9=0,--{ 0-303 } -- Non-save -- 
-		faceFovaUnknown10=0,--{ 0-3 } -- Non-save -- 
 		--Buddy menu
 		quietRadioMode=0,--{ 0-31 } -- Quiets MB radio track (0=Auto)
-		--Debug stuff menu
-		printOnBlockChange=0,--{ 0-1 } -- Non-save -- 
 	}
 }
 

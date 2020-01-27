@@ -1,5 +1,9 @@
 Infinite Heaven changelog
 
+r186 - 2016-09-30
+Fixed: Profiles with loadOnACCStart not applying - thanks pk5547 for the report
+Fixed: AutoDoc - including nonConfig menus, which also broke defaults profile - thanks pk5547 for the report
+
 r185 - 2016-09-30
 Feature: Equip 'NONE' for primary and secondary via the normal mission prep equipment select screen. The entries will show as a white square with '---'' as the text - thanks unknown321 for the mod/research.
 
