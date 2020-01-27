@@ -1,5 +1,5 @@
 = Infinite heaven =
-r174 - 2016-08-04
+r174 - 2016-08-09
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -19,6 +19,17 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r174
+Fixed: Skull event clear does disable weather changes - thanks mgs5tppfan for the report
+Fixed: (Maybe) Crash on exiting mother base invasion events - thanks various people for reports, could you please verify this is fixed.
+Change: Women in Enemy Invasion mode changed to percentage (actually percentage chance per soldier choice rather than strict percentage)
+Addition: Femme Fatales added to mother base events.
+Command: In mission Buddy Equipment change - Buddy equiment is changed to selected setting when <Action> is pressed.
+(via Buddy menu in mission menu)
+Change: Quiet move to last marker faces quiet in the same angle as the player when the command is called.
+[youtube]JxgQ5ZjX8ao[/youtube]
+https://youtu.be/JxgQ5ZjX8ao
 
 New for r173
 Fixed: The selection of DD bodies being limited to one or two when that body type has a table of types.
@@ -122,8 +133,9 @@ Hold <Quick dive> (space key or X button on controller) for 2 seconds to toggle 
 The menu system will display the current
 [Option name] - [Setting value or description]
 Sub-menus are indicated by >
-Commands >>
-Commands that closes menu when done >]
+Command >>
+Command that closes menu when done >]
+[Option Name] <Action> - Selected is applied by pressing <Action> 
 
 Use either Arrow keys or Dpad to navigate the menu.
 Up/Down to select option.

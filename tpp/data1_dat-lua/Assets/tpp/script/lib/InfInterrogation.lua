@@ -59,7 +59,6 @@ function this.LrrpLocation()
   local base1Name=InfMenu.CpNameString(lrrpDefine.base1,InfMain.GetLocationName())
   local base2Name=InfMenu.CpNameString(lrrpDefine.base2,InfMain.GetLocationName())
   
-  --DEBUGNOW
   if base1Name==nil then
     InfMenu.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base1))
   end

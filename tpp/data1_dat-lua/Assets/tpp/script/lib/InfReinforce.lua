@@ -7,7 +7,7 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local StrCode32=Fox.StrCode32
-local StartTimer=GkEventTimerManager.Start
+local TimerStart=GkEventTimerManager.Start
 
 --reinforce stuff
 this.reinforceInfo={
@@ -62,7 +62,7 @@ function this.OnHeliLostControlReinforce(gameId,state,attackerId)--DOC: Helicopt
       --InfMenu.DebugPrint"start timer FinishReinforce"
       local cpId=mvars.reinforce_reinforceCpId
       --TppReinforceBlock.FinishReinforce(cpId)
-      StartTimer("Timer_FinishReinforce",2)--tex heli doesn't like it if reinforceblock is deactivated, even though I can't see it acually deactivating heli in finish.
+      TimerStart("Timer_FinishReinforce",2)--tex heli doesn't like it if reinforceblock is deactivated, even though I can't see it acually deactivating heli in finish.
     end
   end
 end
@@ -91,7 +91,7 @@ function this.OnVehicleBrokenReinforce(vehicleId,state)--ASSUMPTION: Run after T
       --InfMenu.DebugPrint"Do timer FinishReinforce"
       local cpId=mvars.reinforce_reinforceCpId
       --TppReinforceBlock.FinishReinforce(cpId)
-      StartTimer("Timer_FinishReinforce",2)--tex heli doesn't like it if reinforceblock is deactivated, even though I can't see it acually deactivating heli in finish.
+      TimerStart("Timer_FinishReinforce",2)--tex heli doesn't like it if reinforceblock is deactivated, even though I can't see it acually deactivating heli in finish.
     end
   end
 end

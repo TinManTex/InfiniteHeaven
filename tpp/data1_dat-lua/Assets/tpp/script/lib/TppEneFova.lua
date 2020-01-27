@@ -856,7 +856,7 @@ function fovaSetupFuncs.Mb(n,missionId)
 
   --tex> ddsuit SetDefaultPartsPath
   if InfMain.IsDDBodyEquip(missionId) then
-    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
+    local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
     if bodyInfo and bodyInfo.partsPath then
       TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
     end
@@ -1025,10 +1025,10 @@ function fovaSetupFuncs.Mb(n,missionId)
   local bodies={}
   --tex> ddsuit bodies
   if InfMain.IsDDBodyEquip(missionId) then
-    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
+    local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
     if bodyInfo then
-      if bodyInfo.maleBodyId then
-        this.SetupBodies(bodyInfo.maleBodyId,bodies)
+      if bodyInfo.bodyId then
+        this.SetupBodies(bodyInfo.bodyId,bodies)
       end
       if bodyInfo.soldierSubType then
         local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
@@ -1040,10 +1040,10 @@ function fovaSetupFuncs.Mb(n,missionId)
       end
     end
 
-    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(true)--tex female
+    local bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
     if bodyInfo then
-      if bodyInfo.femaleBodyId then
-        this.SetupBodies(bodyInfo.femaleBodyId,bodies)
+      if bodyInfo.bodyId then
+        this.SetupBodies(bodyInfo.bodyId,bodies)
       end
       if bodyInfo.soldierSubType then
         local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
@@ -1078,17 +1078,10 @@ function fovaSetupFuncs.Mb(n,missionId)
 
   --tex> dd suit SetExtendPartsInfo
   if InfMain.IsDDBodyEquip(missionId) then
-
-    --tex CULL only female uses extendparts
-    --    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
-    --    if bodyInfo then
-    --      if bodyInfo.extendPartsInfo then
-    --        TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
-    --      end
-    --    end
-    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(true)--tex female
-    if bodyInfo and bodyInfo.extendPartsInfo then
-      TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
+    --tex only female uses extendparts
+    local bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
+    if bodyInfo and bodyInfo.partsPath then
+      TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
     end
     --<
     --not ddogs, shining lights
@@ -1469,15 +1462,16 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
   if InfMain.IsDDBodyEquip(vars.missionCode) then
 
     local isFemale=IsFemale(faceId)
-    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(isFemale)
+    local bodyInfo=nil
+    if isFemale then
+      bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
+    else
+      bodyInfo=InfEneFova.GetMaleDDBodyInfo()
+    end
     if bodyInfo then
-      if isFemale and bodyInfo.femaleBodyId then
-        bodyId=bodyInfo.femaleBodyId
-        GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=true})
-      else
-        bodyId=bodyInfo.maleBodyId
-        GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=false})
-      end
+      GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=isFemale})
+      
+      bodyId=bodyInfo.bodyId
       if bodyId and type(bodyId)=="table"then
         --tex WORKAROUND don't know what's going on here,math.random(#bodyId) is returning same number each time
         --even though the seed is set and 'run-in' outside the function and this function is called a bunch of times in a loop

@@ -120,9 +120,9 @@ function this.SetDefaultWeatherProbabilities()
   local extraWeatherProbabilities
   local isHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
 
-  --tex reworked
+  --tex reworked>
   local locationName=InfMain.GetLocationName()
-  string.upper(locationName)
+  locationName=string.upper(locationName)
   local heliSuffix=""
   if isHeliSpace then
     heliSuffix="_HELI"
@@ -131,6 +131,7 @@ function this.SetDefaultWeatherProbabilities()
   weatherProbabilities=weatherProbabilitiesTable[locationName]
   --DEBUGNOW OFF ORIG extraWeatherProbabilities=extraWeatherProbabilitiesTable[locationName..heliSuffix]
   extraWeatherProbabilities=altExtraWeatherProbabilitiesTable[locationName..heliSuffix]--DEBUGNOW
+  --<
   -- ORIG
   --  if TppLocation.IsAfghan()then
   --    weatherProbabilities=weatherProbabilitiesTable.AFGH

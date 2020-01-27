@@ -735,7 +735,12 @@ function this.GetSoldierType(soldierId)--tex> now pulls type for subtype> ORIG i
 
   if InfMain.IsDDBodyEquip(vars.missionCode) then
     local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
-    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(isFemale)
+    local bodyInfo=nil
+    if isFemale then
+      bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
+    else
+      bodyInfo=InfEneFova.GetMaleDDBodyInfo()
+    end
     if bodyInfo and bodyInfo.soldierSubType then
       return InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]
     end
@@ -790,7 +795,12 @@ function this.GetSoldierSubType(soldierId,soldierType)
   end--<
   if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
     local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
-    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(isFemale)
+    local bodyInfo=nil
+    if isFemale then
+      bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
+    else
+      bodyInfo=InfEneFova.GetMaleDDBodyInfo()
+    end
     if bodyInfo and bodyInfo.soldierSubType then
       return bodyInfo.soldierSubType
     else
@@ -2656,28 +2666,28 @@ function this.RestoreOnMissionStart2()
       end
     end
   end
-  for e=0,mvars.ene_maxSoldierStateCount-1 do
-    svars.solName[e]=0
-    svars.solState[e]=0
-    svars.solFlagAndStance[e]=0
-    svars.solWeapon[e]=0
-    svars.solLocation[e*4+0]=0
-    svars.solLocation[e*4+1]=0
-    svars.solLocation[e*4+2]=0
-    svars.solLocation[e*4+3]=0
-    svars.solMarker[e]=0
-    svars.solFovaSeed[e]=0
-    svars.solFaceFova[e]=INVALID_FOVA_FACE
-    svars.solBodyFova[e]=INVALID_FOVA_BODY
-    svars.solCp[e]=0
-    svars.solCpRoute[e]=GsRoute.ROUTE_ID_EMPTY
-    svars.solScriptSneakRoute[e]=GsRoute.ROUTE_ID_EMPTY
-    svars.solScriptCautionRoute[e]=GsRoute.ROUTE_ID_EMPTY
-    svars.solScriptAlertRoute[e]=GsRoute.ROUTE_ID_EMPTY
-    svars.solRouteNodeIndex[e]=0
-    svars.solRouteEventIndex[e]=0
-    svars.solTravelName[e]=0
-    svars.solTravelStepIndex[e]=0
+  for i=0,mvars.ene_maxSoldierStateCount-1 do
+    svars.solName[i]=0
+    svars.solState[i]=0
+    svars.solFlagAndStance[i]=0
+    svars.solWeapon[i]=0
+    svars.solLocation[i*4+0]=0
+    svars.solLocation[i*4+1]=0
+    svars.solLocation[i*4+2]=0
+    svars.solLocation[i*4+3]=0
+    svars.solMarker[i]=0
+    svars.solFovaSeed[i]=0
+    svars.solFaceFova[i]=INVALID_FOVA_FACE
+    svars.solBodyFova[i]=INVALID_FOVA_BODY
+    svars.solCp[i]=0
+    svars.solCpRoute[i]=GsRoute.ROUTE_ID_EMPTY
+    svars.solScriptSneakRoute[i]=GsRoute.ROUTE_ID_EMPTY
+    svars.solScriptCautionRoute[i]=GsRoute.ROUTE_ID_EMPTY
+    svars.solScriptAlertRoute[i]=GsRoute.ROUTE_ID_EMPTY
+    svars.solRouteNodeIndex[i]=0
+    svars.solRouteEventIndex[i]=0
+    svars.solTravelName[i]=0
+    svars.solTravelStepIndex[i]=0
   end
   for e=0,TppDefine.DEFAULT_SOLDIER_OPTION_VARS_COUNT-1 do
     svars.solOptName[e]=0
@@ -4832,10 +4842,10 @@ function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_T
         end
         if enemyDef.isBalaclava==true then
           if mvars.ene_questGetLoadedFaceTable~=nil then
-            local e=mvars.ene_questGetLoadedFaceTable
-            local e=#mvars.ene_questGetLoadedFaceTable
-            if e>0 and mvars.ene_questBalaclavaId~=0 then
-              local e=mvars.ene_questGetLoadedFaceTable[i]
+            local loadedFaceTable=mvars.ene_questGetLoadedFaceTable
+            local numLoadedFaces=#mvars.ene_questGetLoadedFaceTable
+            if numLoadedFaces>0 and mvars.ene_questBalaclavaId~=0 then
+              local faceId=mvars.ene_questGetLoadedFaceTable[i]
               if mvars.ene_questGetLoadedFaceTable[i+1]then
                 i=i+1
               else
@@ -4844,7 +4854,7 @@ function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_T
               if enemyDef.soldierSubType=="PF_A"or enemyDef.soldierSubType=="PF_C"then
                 GameObject.SendCommand(soldierId,{id="ChangeFova",isScarf=true})
               else
-                GameObject.SendCommand(soldierId,{id="ChangeFova",balaclavaFaceId=mvars.ene_questBalaclavaId,faceId=e})
+                GameObject.SendCommand(soldierId,{id="ChangeFova",balaclavaFaceId=mvars.ene_questBalaclavaId,faceId=faceId})
               end
             end
           end
@@ -5247,16 +5257,16 @@ function this.IsQuestInHelicopterGameObjectId(heliId)
   end
   return false
 end
-function this.IsQuestTarget(e)
+function this.IsQuestTarget(gameId)
   if mvars.ene_isQuestSetup==false then
     return false
   end
   if not next(mvars.ene_questTargetList)then
     return false
   end
-  for gameId,targetInfo in pairs(mvars.ene_questTargetList)do
+  for targetGameId,targetInfo in pairs(mvars.ene_questTargetList)do
     if targetInfo.isTarget==true then
-      if e==gameId then
+      if gameId==targetGameId then
         return true
       end
     end
@@ -5272,17 +5282,17 @@ function this.IsQuestNpc(npcId)
   return false
 end
 function this.GetQuestCount()
-  local targetCount=0
+  local targetTotalCount=0
   local targetWithMessageCount=0
-  for targetId,targetInfo in pairs(mvars.ene_questTargetList)do
+  for gameId,targetInfo in pairs(mvars.ene_questTargetList)do
     if targetInfo.isTarget==true then
-      targetCount=targetCount+1
+      targetTotalCount=targetTotalCount+1
       if targetInfo.messageId~="None"then
         targetWithMessageCount=targetWithMessageCount+1
       end
     end
   end
-  return targetWithMessageCount,targetCount
+  return targetWithMessageCount,targetTotalCount
 end
 function this.SetQuestEnemy(gameObjectId,isTarget)
   if IsTypeString(gameObjectId)then
@@ -5316,10 +5326,10 @@ function this.CheckDeactiveQuestAreaForceFulton()
     end
   end
 end
---NMC: cant find this being called with param4/5 anywhere
-function this.CheckQuestAllTarget(questType,_messageId,gameId,param4,param5)
+--NMC Called from quest script on various elimination msgs, or on quest deactivate
+function this.CheckQuestAllTarget(questType,messageId,gameId,questDeactivate,param5)
   local clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
-  local _param4=param4 or false
+  local deactivating=questDeactivate or false
   local _param5=param5 or false
   local RENAMEinQuestTargetList=false
   local totalTargets=0
@@ -5328,68 +5338,68 @@ function this.CheckQuestAllTarget(questType,_messageId,gameId,param4,param5)
   local killedOrDestroyedCount=0
   local vanishedCount=0
   local inHeliCount=0
-  local RENAMEcountIncreased=true
+  local countIncreased=true
   local RENAMEsomeBool=false
   local currentQuestName=TppQuest.GetCurrentQuestName()
   if TppQuest.IsEnd(currentQuestName)then
     return clearType
   end
   if mvars.ene_questTargetList[gameId]then
-    local questTarget=mvars.ene_questTargetList[gameId]
-    if questTarget.messageId~="None"and questTarget.isTarget==true then
+    local targetInfo=mvars.ene_questTargetList[gameId]
+    if targetInfo.messageId~="None"and targetInfo.isTarget==true then
       RENAMEsomeBool=true
-    elseif questTarget.isTarget==false then
+    elseif targetInfo.isTarget==false then
       RENAMEsomeBool=true
     end
-    questTarget.messageId=_messageId or"None"
+    targetInfo.messageId=messageId or"None"
     RENAMEinQuestTargetList=true
   end
-  if(_param4==false and _param5==false)and RENAMEinQuestTargetList==false then
+  if(deactivating==false and _param5==false)and RENAMEinQuestTargetList==false then
     return clearType
   end
-  for gameId,questTarget in pairs(mvars.ene_questTargetList)do
-    local RENAMEsomebool2=false
-    local isTarget=questTarget.isTarget or false
-    if _param4==true then
-      if Tpp.IsSoldier(gameId)or Tpp.IsHostage(gameId)then
-        if this.CheckQuestDistance(gameId)then
-          questTarget.messageId="Fulton"
+  for targetGameId,targetInfo in pairs(mvars.ene_questTargetList)do
+    local RENAMEsomebool2=false--NMC: this is never set true?
+    local isTarget=targetInfo.isTarget or false
+    if deactivating==true then
+      if Tpp.IsSoldier(targetGameId)or Tpp.IsHostage(targetGameId)then
+        if this.CheckQuestDistance(targetGameId)then
+          targetInfo.messageId="Fulton"
           fultonedCount=fultonedCount+1
           RENAMEsomebool2=false
-          RENAMEcountIncreased=true
+          countIncreased=true
         end
       end
     end
     if isTarget==true then
       if RENAMEsomebool2==false then
-        local messageId=questTarget.messageId
-        if messageId~="None"then
-          if messageId=="Fulton"then
+        local targetMessageId=targetInfo.messageId
+        if targetMessageId~="None"then
+          if targetMessageId=="Fulton"then
             fultonedCount=fultonedCount+1
-            RENAMEcountIncreased=true
-          elseif messageId=="InHelicopter"then
+            countIncreased=true
+          elseif targetMessageId=="InHelicopter"then
             inHeliCount=inHeliCount+1
-            RENAMEcountIncreased=true
-          elseif messageId=="FultonFailed"then
+            countIncreased=true
+          elseif targetMessageId=="FultonFailed"then
             failedFultonCount=failedFultonCount+1
-            RENAMEcountIncreased=true
-          elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
+            countIncreased=true
+          elseif(targetMessageId=="Dead"or targetMessageId=="VehicleBroken")or targetMessageId=="LostControl"then
             killedOrDestroyedCount=killedOrDestroyedCount+1
-            RENAMEcountIncreased=true
-          elseif messageId=="Vanished"then
+            countIncreased=true
+          elseif targetMessageId=="Vanished"then
             vanishedCount=vanishedCount+1
-            RENAMEcountIncreased=true
+            countIncreased=true
           end
         end
-        if _param4==true then
-          RENAMEcountIncreased=false
+        if deactivating==true then
+          countIncreased=false
         end
       end
       totalTargets=totalTargets+1
     end
   end
   if RENAMEsomeBool==true then
-    RENAMEcountIncreased=false
+    countIncreased=false
   end
   if totalTargets>0 then
     if questType==TppDefine.QUEST_TYPE.RECOVERED then
@@ -5398,7 +5408,7 @@ function this.CheckQuestAllTarget(questType,_messageId,gameId,param4,param5)
       elseif failedFultonCount>0 or killedOrDestroyedCount>0 then
         clearType=TppDefine.QUEST_CLEAR_TYPE.FAILURE
       elseif fultonedCount+inHeliCount>0 then
-        if RENAMEcountIncreased==true then
+        if countIncreased==true then
           clearType=TppDefine.QUEST_CLEAR_TYPE.UPDATE
         end
       end
@@ -5406,7 +5416,7 @@ function this.CheckQuestAllTarget(questType,_messageId,gameId,param4,param5)
       if((fultonedCount+failedFultonCount)+killedOrDestroyedCount)+inHeliCount>=totalTargets then
         clearType=TppDefine.QUEST_CLEAR_TYPE.CLEAR
       elseif((fultonedCount+failedFultonCount)+killedOrDestroyedCount)+inHeliCount>0 then
-        if RENAMEcountIncreased==true then
+        if countIncreased==true then
           clearType=TppDefine.QUEST_CLEAR_TYPE.UPDATE
         end
       end
@@ -5681,27 +5691,27 @@ function this._RestoreOnMissionStart_Hostage()
 end
 function this._RestoreOnMissionStart_Hostage2()
   if TppHostage2.SetSVarsKeyNames2 then
-    local n=EnemyFova.INVALID_FOVA_VALUE
-    local t=EnemyFova.INVALID_FOVA_VALUE
-    for e=0,TppDefine.DEFAULT_HOSTAGE_STATE_COUNT-1 do
-      svars.hosName[e]=0
-      svars.hosState[e]=0
-      svars.hosFlagAndStance[e]=0
-      svars.hosWeapon[e]=0
-      svars.hosLocation[e*4+0]=0
-      svars.hosLocation[e*4+1]=0
-      svars.hosLocation[e*4+2]=0
-      svars.hosLocation[e*4+3]=0
-      svars.hosMarker[e]=0
-      svars.hosFovaSeed[e]=0
-      svars.hosFaceFova[e]=n
-      svars.hosBodyFova[e]=t
-      svars.hosScriptSneakRoute[e]=GsRoute.ROUTE_ID_EMPTY
-      svars.hosRouteNodeIndex[e]=0
-      svars.hosRouteEventIndex[e]=0
-      svars.hosOptParam1[e]=0
-      svars.hosOptParam2[e]=0
-      svars.hosRandomSeed[e]=0
+    local INVALID_FOVA_FACE=EnemyFova.INVALID_FOVA_VALUE
+    local INVALID_FOVA_BODY=EnemyFova.INVALID_FOVA_VALUE
+    for i=0,TppDefine.DEFAULT_HOSTAGE_STATE_COUNT-1 do
+      svars.hosName[i]=0
+      svars.hosState[i]=0
+      svars.hosFlagAndStance[i]=0
+      svars.hosWeapon[i]=0
+      svars.hosLocation[i*4+0]=0
+      svars.hosLocation[i*4+1]=0
+      svars.hosLocation[i*4+2]=0
+      svars.hosLocation[i*4+3]=0
+      svars.hosMarker[i]=0
+      svars.hosFovaSeed[i]=0
+      svars.hosFaceFova[i]=INVALID_FOVA_FACE
+      svars.hosBodyFova[i]=INVALID_FOVA_BODY
+      svars.hosScriptSneakRoute[i]=GsRoute.ROUTE_ID_EMPTY
+      svars.hosRouteNodeIndex[i]=0
+      svars.hosRouteEventIndex[i]=0
+      svars.hosOptParam1[i]=0
+      svars.hosOptParam2[i]=0
+      svars.hosRandomSeed[i]=0
     end
   end
 end

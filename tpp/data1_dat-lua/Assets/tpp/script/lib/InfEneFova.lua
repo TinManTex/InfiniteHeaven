@@ -5,49 +5,69 @@ local this={}
 local InfEneFova=this
 
 this.ddBodyInfo={
+  DRAB={--mother base default
+    bodyId=TppEnemyBodyId.dds8_main0_v00,
+    partsPath="/Assets/tpp/parts/chara/dds/dds3_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_wait.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT
+    soldierSubType="DD_FOB",
+  },
+  DRAB_FEMALE={--mother base default
+    bodyId=TppEnemyBodyId.dds8_main0_v00,
+    partsPath="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_wait.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT
+    soldierSubType="DD_FOB",
+  },
+  TIGER={--FOB default
+    bodyId=TppEnemyBodyId.dds5_main0_v00,
+    partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER
+    soldierSubType="DD_FOB",
+  },
+  TIGER_FEMALE={--FOB default
+    bodyId=TppEnemyBodyId.dds6_main0_v00,
+    partsPath="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER
+    soldierSubType="DD_FOB",
+  },
   SNEAKING_SUIT={
-    maleBodyId=TppEnemyBodyId.dds4_enem0_def,
-    femaleBodyId=TppEnemyBodyId.dds4_enef0_def,
+    bodyId=TppEnemyBodyId.dds4_enem0_def,
     partsPath="/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts",
-    extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts"},
-    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING
+    soldierSubType="DD_FOB",
+  },
+  SNEAKING_SUIT_FEMALE={
+    bodyId=TppEnemyBodyId.dds4_enef0_def,
+    partsPath="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING
     soldierSubType="DD_FOB",
   },
   BATTLE_DRESS={
-    maleBodyId=TppEnemyBodyId.dds5_enem0_def,
-    femaleBodyId=TppEnemyBodyId.dds5_enef0_def,
+    bodyId=TppEnemyBodyId.dds5_enem0_def,
     partsPath="/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts",
-    extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts"},
-    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS
+    soldierSubType="DD_FOB",
+  },
+  BATTLE_DRESS_FEMALE={
+    bodyId=TppEnemyBodyId.dds5_enem0_def,
+    partsPath="/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts",
+    partsPath="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS
     soldierSubType="DD_FOB",
   },
   PFA_ARMOR={
-    maleBodyId=TppEnemyBodyId.pfa0_v00_a,
+    bodyId=TppEnemyBodyId.pfa0_v00_a,
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
-    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_armor.fpk",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_armor.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR--tex this pack is essentially just the mis_com_mafr soldier pack
     isArmor=true,
     helmetOnly=true,
     noDDHeadgear=true,
     hasArmor=true,
     soldierSubType="DD_FOB",
   },
-  TIGER={
-    maleBodyId=TppEnemyBodyId.dds5_main0_v00,
-    femaleBodyId=TppEnemyBodyId.dds6_main0_v00,
-    partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",
-    extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts"},
-    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",
-    soldierSubType="DD_FOB",
-  },
-  DRAB={--?? mother base default
-    maleBodyId=TppEnemyBodyId.dds3_main0_v00,
-    femaleBodyId=TppEnemyBodyId.dds8_main0_v00,
-    extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts"},
-    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT,
-    soldierSubType="DD_FOB",
-  },
   XOF={--tex Test: when XOF mission fpk loaded it stops salute morale from working?
-    maleBodyId=TppEnemyBodyId.wss4_main0_v00,--wss4_main0_v01,wss4_main0_v02
+    bodyId=TppEnemyBodyId.wss4_main0_v00,--mixed: clava only, helmet with goggles down, helmet with goggles up | gloves at side
+    --TppEnemyBodyId.wss0_main0_v00,--helmet goggles down only
+    --TppEnemyBodyId.wss3_main0_v00,--ditto??
     partsPath="/Assets/tpp/parts/chara/wss/wss4_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_xof_soldier.fpk",
     hasFace=true,
@@ -89,52 +109,28 @@ this.ddBodyInfo={
     soldierSubType="PF_C",
     hasArmor=true,
   },
-  GZ={
-    maleBodyId=TppEnemyBodyId.dds0_main1_v00,--,TppEnemyBodyId.dds0_main1_v01
+  GZ={--tex crash on use, also missing bodyId/Soldier2FaceAndBodyData
+    bodyId=TppEnemyBodyId.dds0_main1_v00,--,TppEnemyBodyId.dds0_main1_v01
     partsPath="/Assets/tpp/parts/chara/dds/dds0_main2_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_gz.fpk",
   },
-  --tex fova still not working right (see TppEnemyBodyId)
   MSF_SVS={
-    --GOTCHA pfs and svs swapped due to retailbug, see TppEnemyBodyId
-    maleBodyId={
-      --tex can't actually tell any difference between the bodies
-      TppEnemyBodyId.pfs0_dds0_v00,
-      TppEnemyBodyId.pfs0_dds0_v01,
-      TppEnemyBodyId.pfs0_dds0_v02,
-      TppEnemyBodyId.pfs0_dds0_v03,
-      TppEnemyBodyId.pfs0_dds0_v04,
-      TppEnemyBodyId.pfs0_dds0_v05,
-      TppEnemyBodyId.pfs0_dds0_v06,
-      TppEnemyBodyId.pfs0_dds0_v07,
-      TppEnemyBodyId.pfs0_dds0_v08,
-      TppEnemyBodyId.pfs0_dds0_v09,
-    },
+    --GOTCHA pfs and svs swapped due to retailbug, see TppEnemyBodyId/Soldier2FaceAndBodyData
+    bodyId=TppEnemyBodyId.pfs0_dds0_v00,--tex even though there's a lot more BodyId/Soldier2FaceAndBodyData entries, they're all identical/the same fova
     partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
     noDDHeadgear=true,
     soldierSubType="DD_FOB",
   },
-  MSF_PFS={--tex WIP shows, but combined with whatever other fpk is loaded, need to find right parts file?
-    maleBodyId={
-      TppEnemyBodyId.svs0_dds0_v00,
-      TppEnemyBodyId.svs0_dds0_v01,
-      TppEnemyBodyId.svs0_dds0_v02,
-      TppEnemyBodyId.svs0_dds0_v03,
-      TppEnemyBodyId.svs0_dds0_v04,
-      TppEnemyBodyId.svs0_dds0_v05,
-      TppEnemyBodyId.svs0_dds0_v06,
-      TppEnemyBodyId.svs0_dds0_v07,
-      TppEnemyBodyId.svs0_dds0_v08,
-      TppEnemyBodyId.svs0_dds0_v09,
-    },
+  MSF_PFS={
+    bodyId=TppEnemyBodyId.svs0_dds0_v00,--tex as above
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
     noDDHeadgear=true,
     soldierSubType="DD_FOB",
   },
   SOVIET_BERETS={
-    maleBodyId={
+    bodyId={
       TppEnemyBodyId.svs0_unq_v010,
       TppEnemyBodyId.svs0_unq_v020,
       TppEnemyBodyId.svs0_unq_v070,
@@ -149,7 +145,7 @@ this.ddBodyInfo={
   --soldierSubType="SOVIET_B",
   },
   SOVIET_HOODIES={
-    maleBodyId={
+    bodyId={
       TppEnemyBodyId.svs0_unq_v060,
       TppEnemyBodyId.svs0_unq_v100,
       TppEnemyBodyId.svs0_unq_v420,
@@ -160,7 +156,7 @@ this.ddBodyInfo={
   --soldierSubType="SOVIET_B",
   },
   SOVIET_ALL={
-    maleBodyId={
+    bodyId={
       TppEnemyBodyId.svs0_rfl_v00_a,
       TppEnemyBodyId.svs0_rfl_v01_a,
       TppEnemyBodyId.svs0_rfl_v02_a,
@@ -199,7 +195,7 @@ this.ddBodyInfo={
   --soldierSubType="SOVIET_B",
   },
   PF_MISC={
-    maleBodyId={
+    bodyId={
       TppEnemyBodyId.pfs0_unq_v210,--black beret, glases, black vest, red shirt, tan pants
       TppEnemyBodyId.pfs0_unq_v250,--black beret, white coyote tshirt, black pants
       TppEnemyBodyId.pfs0_unq_v360,--red long sleeve shirt, black pants
@@ -217,7 +213,7 @@ this.ddBodyInfo={
   --soldierSubType="PF_C",
   },
   PF_ALL={
-    maleBodyId={
+    bodyId={
       TppEnemyBodyId.pfs0_rfl_v00_a,
       TppEnemyBodyId.pfs0_rfl_v01_a,
       TppEnemyBodyId.pfs0_mcg_v00_a,
@@ -256,7 +252,7 @@ this.ddBodyInfo={
   --soldierSubType="PF_C",
   },
   SWIMSUIT={
-    maleBodyId={
+    bodyId={
       TppEnemyBodyId.dlf_enem0_def,
       TppEnemyBodyId.dlf_enem1_def,
       TppEnemyBodyId.dlf_enem2_def,
@@ -270,7 +266,12 @@ this.ddBodyInfo={
       TppEnemyBodyId.dlf_enem10_def,
       TppEnemyBodyId.dlf_enem11_def,
     },
-    femaleBodyId={
+    partsPath="/Assets/tpp/parts/chara/dlf/dlf1_enem0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT,
+    soldierSubType="DD_FOB",
+  },
+  SWIMSUIT_FEMALE={
+    bodyId={
       TppEnemyBodyId.dlf_enef0_def,
       TppEnemyBodyId.dlf_enef1_def,
       TppEnemyBodyId.dlf_enef2_def,
@@ -284,16 +285,95 @@ this.ddBodyInfo={
       TppEnemyBodyId.dlf_enef10_def,
       TppEnemyBodyId.dlf_enef11_def,
     },
-    partsPath="/Assets/tpp/parts/chara/dlf/dlf1_enem0_def_v00.parts",
-    extendPartsInfo={type=1,path="/Assets/tpp/parts/chara/dlf/dlf0_enem0_def_f_v00.parts"},
-    missionPackPath=TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT,--"/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit.fpk"
+    partsPath="/Assets/tpp/parts/chara/dlf/dlf0_enem0_def_f_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT,
+    soldierSubType="DD_FOB",
+  },
+  --tex no collision/push target
+  PRISONER_AFGH={
+    bodyId=TppEnemyBodyId.prs2_main0_v00,
+    partsPath="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh_hostage.fpk",
+    soldierSubType="DD_FOB",
+  },
+  PRISONER_MAFR={
+    bodyId=TppEnemyBodyId.prs5_main0_v00,--tex CRASH on initial game start if access TppEnemyBodyId?
+    partsPath="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk",
+    soldierSubType="DD_FOB",
+  },
+  PRISONER_MAFR_FEMALE={--tex still male body, don't know what's up
+    bodyId=TppEnemyBodyId.prs6_main0_v00,--113
+    partsPath="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage_woman.fpk",
+    soldierSubType="DD_FOB",
+  },
+  --tex crash, the file packs are very incomplete from a character standpoint
+  DOCTOR={
+    bodyId={
+      TppEnemyBodyId.dct0_v00,--348,
+    --TppEnemyBodyId.dct0_v01,--349,
+    },
+    partsPath="/Assets/tpp/parts/chara/dct/dct2_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_doctor.fpk",
+    hasFace=true,
+    soldierSubType="DD_FOB",
+  },
+  --tex crash
+  NURSE_FEMALE={
+    bodyId={
+      TppEnemyBodyId.nrs0_v00,--340,
+      TppEnemyBodyId.nrs0_v01,--341,
+      TppEnemyBodyId.nrs0_v02,--342,
+      TppEnemyBodyId.nrs0_v03,--343,
+      TppEnemyBodyId.nrs0_v04,--344,
+      TppEnemyBodyId.nrs0_v05,--345,
+      TppEnemyBodyId.nrs0_v06,--346,
+      TppEnemyBodyId.nrs0_v07,--347,
+    },
+    partsPath="/Assets/tpp/parts/chara/nrs/nrs3_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_nurse.fpk",
+    soldierSubType="DD_FOB",
+  },
+  SKULLFACE={--no collision/pushback
+    bodyId={
+      TppEnemyBodyId.wsp_def,
+      TppEnemyBodyId.wsp_dam,--bloody
+    },
+    partsPath="/Assets/tpp/parts/chara/wsp/wsp0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_skullface.fpk",
+    hasFace=true,
+    soldierSubType="SKULL_AFGH",
+  },
+  HUEY={
+    bodyId={
+      TppEnemyBodyId.hyu0_main0_v00,--377 no glasses
+      TppEnemyBodyId.hyu0_main0_v01,--378 oval glasses
+      TppEnemyBodyId.hyu0_main0_v02,--379 rectangle glasses
+    },
+    partsPath="/Assets/tpp/parts/chara/hyu/hyu0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_huey.fpk",
+    hasFace=true,
+    soldierSubType="DD_FOB",
+  },
+  --tex no walk, or hit collision target. crash on cqc down
+  --mb Kaz - coat and hat
+  KAZ={
+    bodyId=1,--tex no bodyId entries, so just using 1 since my code does an if bodyId check TODO see if there's any fovas elsewhere
+    partsPath="/Assets/tpp/parts/chara/kaz/kaz0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_miller.fpk",
+    hasFace=true,
+    soldierSubType="DD_FOB",
+  },
+  --tex crash
+  KAZ_GZ={
+    bodyId=1,
+    partsPath="/Assets/tpp/parts/chara/kaz/kaz1_main1_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_miller_gz.fpk",
+    hasFace=true,
     soldierSubType="DD_FOB",
   },
 }
-
----
-
-
 
 this.ddSuitToDDBodyInfo={
   [TppEnemy.FOB_DD_SUIT_SNEAKING]="SNEAKING_SUIT",
@@ -426,8 +506,9 @@ this.ddHeadGearSelection={
 }
 --tex GOTCHA, may have issues if called when weaponIdTable.DD is nil (as in GetDDSuit)
 --wrap in IsDDBodyEquip call instead
---TODO: should probably do a IsDDBodyEquip check, but that would mean I'd have to pass in a missioncode
-function this.GetCurrentDDBodyInfo(isFemale)
+--TODO: should probably do a IsDDBodyEquip check, but that would mean I'd have to pass in a missioncode    
+--REF mbDDSuit = 0=OFF,EQUIPGRADE,..specific suits
+function this.GetMaleDDBodyInfo()
   if Ivars.mbDDSuit:Is(0) then
     return nil
   end
@@ -436,34 +517,43 @@ function this.GetCurrentDDBodyInfo(isFemale)
   if Ivars.mbDDSuit:Is"EQUIPGRADE" then
     local ddSuit=TppEnemy.GetDDSuit()
     suitName=this.ddSuitToDDBodyInfo[ddSuit]
-    --0=OFF,EQUIPGRADE,..specific suits
-  elseif Ivars.mbDDSuit:Is()>1 then
-    if isFemale then
-      suitName=Ivars.mbDDSuitFemale.settings[Ivars.mbDDSuitFemale:Get()+1]
-    else
-      suitName=Ivars.mbDDSuit.settings[Ivars.mbDDSuit:Get()+1]
-    end
   else
+    suitName=Ivars.mbDDSuit.settings[Ivars.mbDDSuit:Get()+1]
+  end
+  return this.ddBodyInfo[suitName]
+end
+--GOTCHA: relies on mbDDSuit > 0
+local femaleSuffixStr="_FEMALE"
+function this.GetFemaleDDBodyInfo()
+  if Ivars.mbDDSuit:Is(0) then
     return nil
+  end
+
+  local suitName=nil
+  if Ivars.mbDDSuitFemale:Is"EQUIPGRADE" then
+    local ddSuit=TppEnemy.GetDDSuit()
+    suitName=this.ddSuitToDDBodyInfo[ddSuit]..femaleSuffixStr
+  else
+    suitName=Ivars.mbDDSuitFemale.settings[Ivars.mbDDSuitFemale:Get()+1]
   end
   return this.ddBodyInfo[suitName]
 end
 
 --
-this.femaleSuits={
-  "SNEAKING_SUIT",
-  "BATTLE_DRESS",
-  "TIGER",
-  "DRAB",
-  "SWIMSUIT",
+this.wildCardFemaleSuits={
+  "SNEAKING_SUIT_FEMALE",
+  "BATTLE_DRESS_FEMALE",
+  "TIGER_FEMALE",
+  "DRAB_FEMALE",
+  "SWIMSUIT_FEMALE",
 }
 
-this.wildCardSuitName="SNEAKING_SUIT"
-function this.GetCurrentWildCardBodyInfo(isFemale)
-  return this.ddBodyInfo[this.wildCardSuitName]
+this.wildCardFemaleSuitName="SNEAKING_SUIT"
+function this.GetFemaleWildCardBodyInfo()
+  return this.ddBodyInfo[this.wildCardFemaleSuitName]
 end
 
---tex non exhaustive, see face and body ids.txt,Soldier2FaceAndBodyData
+--tex non exhaustive, see face and body ids.txt,Soldier2FaceAndBodyData, face and bodyids.txt
 this.maleFaceIds={
   {min=0,max=303},
   {min=320,max=349},
@@ -572,11 +662,11 @@ function this.WildCardFova(bodies)
 
   local locationName=InfMain.GetLocationName()
 
-  this.wildCardSuitName=this.femaleSuits[math.random(#this.femaleSuits)]
-  local bodyInfo=this.GetCurrentWildCardBodyInfo(true)--tex female
+  this.wildCardFemaleSuitName=this.wildCardFemaleSuits[math.random(#this.wildCardFemaleSuits)]
+  local bodyInfo=this.GetFemaleWildCardBodyInfo()
   if bodyInfo then
-    if bodyInfo.femaleBodyId then
-      TppEneFova.SetupBodies(bodyInfo.femaleBodyId,bodies)
+    if bodyInfo.bodyId then
+      TppEneFova.SetupBodies(bodyInfo.bodyId,bodies)
     end
     if bodyInfo.soldierSubType then
       local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
@@ -587,8 +677,8 @@ function this.WildCardFova(bodies)
       end
     end
 
-    if bodyInfo.extendPartsInfo then
-      TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
+    if bodyInfo.partsPath then
+      TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
     end
   end
 

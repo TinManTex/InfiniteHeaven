@@ -1146,8 +1146,9 @@ mtbs_enemy.SetEnemyLocationType = function ()
     --tex> the helmet model that pops off seems to be in-engine coded to soldier type (and also requires the relevant fpk),
     --even though I override soldier type during soldier setup it's somewhere after this set command and there--DEBUGNOW
     --it also controls language, so bypassing it to keep soldier salute callouts
+    --GOTCHA seems a one type deal, so cant take female into account.
     if InfMain.IsDDBodyEquip() then
-      local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
+      local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
       local soldierType=EnemyType.TYPE_DD
       if bodyInfo and bodyInfo.soldierSubType and Ivars.mbWarGamesProfile:Is()>0 then
         soldierType=InfMain.soldierTypeForSubtypes[bodyInfo.soldierSubType]

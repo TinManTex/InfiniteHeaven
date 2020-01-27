@@ -227,6 +227,7 @@ local warGames={
   "SOVIET_INVASION",
   "COYOTE_INVASION",
   "XOF_INVASION",
+  "FEMME_FATALE",
   "ZOMBIE_DD",
   "ZOMBIE_OBLITERATION",
 }
@@ -237,6 +238,7 @@ local warGamesBaseTypes={
   SOVIET_INVASION="INVASION",
   COYOTE_INVASION="INVASION",
   XOF_INVASION="INVASION",
+  FEMME_FATALE="INVASION",
   ZOMBIE_DD="ZOMBIE_DD",
   ZOMBIE_OBLITERATION="ZOMBIE_OBLITERATION",
 }
@@ -260,11 +262,11 @@ local warGameSettings={
   COYOTE_INVASION={
     mbDDHeadGear=0,
     mbDDSuit="PF_C",
-    mbDDSuitFemale="BATTLE_DRESS",
+    mbDDSuitFemale="BATTLE_DRESS_FEMALE",
     enableDDEquipMB=1,
     mbSoldierEquipGrade_MIN=4,
     mbSoldierEquipGrade_MAX=6,
-    mbWargameFemales=1,
+    mbWargameFemales=15,
     enableWalkerGearsMB=1,
     mbWalkerGearsColor="ROGUE_COYOTE",
     mbEnemyHeliColor="RANDOM_EACH",
@@ -284,6 +286,19 @@ local warGameSettings={
     revengeModeMB="DEFAULT",--tex TODO generate custom
     mbNpcRouteChange=1,
   },
+  FEMME_FATALE={
+    mbDDHeadGear=0,
+    mbDDSuitFemale="SWIMSUIT_FEMALE",
+    enableDDEquipMB=1,
+    mbSoldierEquipGrade_MIN=3,
+    mbSoldierEquipGrade_MAX=15,
+    mbWargameFemales=100,
+    enableWalkerGearsMB=1,
+    mbWalkerGearsColor="DDOGS",--tex or soviet?
+    mbEnemyHeliColor="BLACK",
+    revengeModeMB="DEFAULT",--tex TODO generate custom
+    mbNpcRouteChange=1,
+  },
   ZOMBIE_DD={
     enableWalkerGearsMB=0,
   },
@@ -294,6 +309,11 @@ local warGameSettings={
 
 function this.GenerateWarGameEvent()
   --InfInspect.TryFunc(function()--DEBUG
+    --tex user is doing wargames anyway
+    if Ivars.mbWarGamesProfile:Is()>0 and Ivars.inf_event:Is(0) then
+      return
+    end
+  
     local Ivars=Ivars
     Ivars.inf_event:Set"WARGAME"--tex see ivar declaration for notes
 

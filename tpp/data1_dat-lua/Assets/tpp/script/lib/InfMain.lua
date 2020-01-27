@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r173"
+this.modVersion="r174"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -630,8 +630,6 @@ function this.MissionPrepare()
   end
 end
 
-
-
 function this.Messages()
   return Tpp.StrCode32Table{
     GameObject={
@@ -746,6 +744,7 @@ function this.Messages()
     --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
     },
     Timer={
+      {msg="Finish",sender="Timer_CycleBuddyReturn",func=function()InfBuddy.CycleBuddyReturn()end},
       --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
       {msg="Finish",sender="Timer_ParasiteEvent",func=function()InfParasite.StartEvent()end},--tex TODO shift into infparacite
       {msg="Finish",sender="Timer_ParasiteAppear",func=function()InfParasite.ParasiteAppear()end},
@@ -1266,6 +1265,7 @@ function this.Update()
 
     local abortButton=InfButton.ESCAPE
     InfButton.buttonStates[abortButton].holdTime=2
+        
     if InfButton.OnButtonHoldTime(abortButton) then
       if gvars.ini_isTitleMode then
         local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
@@ -2112,11 +2112,11 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       local faceId=this.GetRandomPool(faceIdPool)
       local bodyId=EnemyFova.INVALID_FOVA_VALUE
       if isFemale then
-        local bodyInfo=InfEneFova.GetCurrentWildCardBodyInfo(true)--tex female
-        if not bodyInfo or not bodyInfo.femaleBodyId then
+        local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
+        if not bodyInfo or not bodyInfo.bodyId then
           InfMenu.DebugPrint("WARNING no bodyinfo for wildcard")--DEBUG
         else
-          bodyId=bodyInfo.femaleBodyId
+          bodyId=bodyInfo.bodyId
           if bodyId and type(bodyId)=="table"then
             bodyId=bodyId[math.random(#bodyId)]
           end
@@ -2726,7 +2726,6 @@ function this.ModifyMinesAndDecoys()
     end
     InfMain.RandomResetToOsTime()
   end
-
 end
 
 --

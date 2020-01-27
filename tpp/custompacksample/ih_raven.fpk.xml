@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<ArchiveFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="FpkFile" Name="ih_raven.fpk" FpkType="Fpk">
-  <Entries>
-    <Entry FilePath="/Assets/tpp/chara/rvn/Scenes/rvn0_main0_def.fmdl" />
-    <Entry FilePath="/Assets/tpp/chara/rvn/Scenes/rvn0_main0_def.fcnp" />
-    <Entry FilePath="/Assets/tpp/chara/rvn/Scenes/rvn0_main0_def.frdv" />
-  </Entries>
-  <References />
-</ArchiveFile>

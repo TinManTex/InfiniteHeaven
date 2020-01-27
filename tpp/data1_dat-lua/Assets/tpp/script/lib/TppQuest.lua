@@ -2838,7 +2838,7 @@ function this.GetClearCassette(questName)
     TppCassette.Acquire{cassetteList={"tp_m_10150_21","tp_m_10150_22","tp_m_10150_24","tp_m_10150_25"},isShowAnnounceLog=true}
   end
 end
-function this.ShowAnnounceLog(status,questName,u,l)
+function this.ShowAnnounceLog(status,questName,questCurrentCount,questTotalCount)
   if not status then
     return
   end
@@ -2849,8 +2849,8 @@ function this.ShowAnnounceLog(status,questName,u,l)
     if not questName then
       return
     end
-    local a=this.GetQuestNameLangId(questName)
-    if a~=false then
+    local questNameLangId=this.GetQuestNameLangId(questName)
+    if questNameLangId~=false then
       local showAnnounceLogId=questCompleteLangIds[questName]
       local targetWithMessageCount,targetCount=TppEnemy.GetQuestCount()
       local questMarkCount,questMarkTotalCount=TppGimmick.GetQuestShootingPracticeCount()
@@ -2862,10 +2862,10 @@ function this.ShowAnnounceLog(status,questName,u,l)
         end
       end
       TppUI.ShowAnnounceLog"quest_list_update"
-      TppUI.ShowAnnounceLog("quest_complete",a)
-      local e=this.GetQuestNameId(questName)
-      if(e~=false)and(e~="q99012")then
-        TppUiCommand.ShowSideFobInfo("end",string.format("name_%s",e),"hud_quest_finish")
+      TppUI.ShowAnnounceLog("quest_complete",questNameLangId)
+      local questNameId=this.GetQuestNameId(questName)
+      if(questNameId~=false)and(questNameId~="q99012")then
+        TppUiCommand.ShowSideFobInfo("end",string.format("name_%s",questNameId),"hud_quest_finish")
         TppSoundDaemon.PostEvent"sfx_s_sideops_sted"
       end
     end
@@ -2873,10 +2873,10 @@ function this.ShowAnnounceLog(status,questName,u,l)
     if not questName then
       return
     end
-    local e=this.GetQuestNameLangId(questName)
-    if e~=false then
+    local questNameLangId=this.GetQuestNameLangId(questName)
+    if questNameLangId~=false then
       TppUI.ShowAnnounceLog"quest_list_update"
-      TppUI.ShowAnnounceLog("quest_delete",e)
+      TppUI.ShowAnnounceLog("quest_delete",questNameLangId)
     end
   elseif status==QUEST_STATUS_TYPES.UPDATE then
     if not questName then
@@ -2884,7 +2884,7 @@ function this.ShowAnnounceLog(status,questName,u,l)
     end
     local showAnnounceLogId=questCompleteLangIds[questName]
     if showAnnounceLogId then
-      TppUI.ShowAnnounceLog(showAnnounceLogId,u,l)
+      TppUI.ShowAnnounceLog(showAnnounceLogId,questCurrentCount,questTotalCount)
     end
   end
 end

@@ -1,5 +1,15 @@
 Infinite Heaven changelog
 
+r174 - 2016-08-09
+Refactor: DD body info, making male/female split a bit clearer.
+Fixed: Skull event clear does disable weather changes - thanks mgs5tppfan for the report
+Fixed: (Maybe) Crash on exiting mother base invasion events - thanks various people for reports, could you please verify this is fixed.
+Command: buddyChangeEquipVar - InfBuddy - In mission Buddy Equipment change - Buddy equiment is changed to selected setting when <Action> is pressed.
+(via Buddy menu in mission menu)
+Change: Quiet move to last marker faces quiet in the same angle as the player when the command is called.
+Change: Women in Enemy Invasion mode changed to percentage (actually percentage chance per soldier choice rathen than strict percentage)
+Addition: Femme Fatales added to mother base events.
+
 r173 - 2016-08-04 - public release 
 Fixed: The selection of DD bodies being limited to one or two when that body type has a table of types.
 Fixed: Wildcard body selection for table of types.
@@ -994,7 +1004,7 @@ r27
 Buddy Support for subsistence (Allow Quiets Attack/Scout, downside(?) is enables buddy change in field)
 Subsistence Weapon Loadout renamed OSP Weapon Loadout to make it clearer it's independent from Subsistence
 
-r26 - 2015-09-23 - public release 5
+r26 - 2015-09-23
 General Params setting for allowing default files/mods to override
 
 r25
@@ -1006,14 +1016,14 @@ Menu toggle changed to 1 second button hold
 In game settings display removed
 Menu off on idroid key press
 
-r21 - 2015-09-23 - 4th public release
+r21 - 2015-09-23
 Buttons system refactor
 
-r20 - 2015-09-23 - 3nd public release
+r20 - 2015-09-23
 Option Menu refactor
 r19 All Settings off if FOB
 
-r18 - 2015-09-23 - 2nd public release
+r18 - 2015-09-23
 Quiet Return disabled pending inf load screen saves
 r17 Subsistence free secondary
 r16 Force relief vehicle fulton

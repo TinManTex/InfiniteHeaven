@@ -484,7 +484,7 @@ function this.SetupConvoy()
     local convoys=this.convoys[locationName]
 
     --InfInspect.PrintInspect(mvars.inf_patrolVehicleConvoyInfo)--DEBUG
-    local registeredConvoy=false--DEBUGNOW
+    local registeredConvoy=false--TODO
     if convoys then
       for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
         --InfMenu.DebugPrint("SetupConvoy "..travelPlan)--DEBUG
@@ -506,7 +506,7 @@ function this.SetupConvoy()
           end
 
         end
-        --if not registeredConvoy then--DEBUGNOW
+        --if not registeredConvoy then--TODO
         registeredConvoy=true
         SendCommand({type="TppVehicle2"},{id="RegisterConvoy",convoyId=convoyIds})
         --end

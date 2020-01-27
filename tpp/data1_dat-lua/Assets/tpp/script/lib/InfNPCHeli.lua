@@ -339,11 +339,9 @@ function this.InitUpdate(currentChecks)
     this.heliList=InfMain.ResetPool(this.enemyHeliList)
   elseif isMb then
     this.heliList=InfMain.ResetPool(this.npcHeliList)
-    if Ivars.mbWarGamesProfile:Is(0) then
-      if Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then
-        for i=1,numNpcAttackHelis do
-          this.heliList[#this.heliList+1]=this.enemyHeliList[i]
-        end
+    if Ivars.npcHeliUpdate:Is"UTH_AND_HP48" and Ivars.mbWarGamesProfile:Is(0) then
+      for i=1,numNpcAttackHelis do
+        this.heliList[#this.heliList+1]=this.enemyHeliList[i]
       end
     end
   elseif Ivars.enemyHeliPatrol:Is()>0 then
@@ -531,7 +529,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
 
             --InfMenu.DebugPrint("helipos:".. heliPos[1]..",".. heliPos[2].. ","..heliPos[3].." distsqr:"..distSqr.. " closestdist:"..closestDistance)--DEBUG
 
-            --DEBUGNOW DEBUGNOW
+            --TODO
 --            local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(heliPos)
 --            if closestCp==nil then
 --            else

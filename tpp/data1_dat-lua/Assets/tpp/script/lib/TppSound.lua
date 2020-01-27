@@ -1,3 +1,4 @@
+-- TppSound.lua
 local this={}
 local StrCode32=Fox.StrCode32
 local n=Tpp.IsTypeFunc
@@ -24,9 +25,9 @@ function this.SetSceneBGM(a)
   if not n then
     return
   end
-  local e=this.GetCurrentSceneBgmSetting()
-  if e and e.finish then
-    TppMusicManager.PostSceneSwitchEvent(e.finish)
+  local currentSceneBgmSetting=this.GetCurrentSceneBgmSetting()
+  if currentSceneBgmSetting and currentSceneBgmSetting.finish then
+    TppMusicManager.PostSceneSwitchEvent(currentSceneBgmSetting.finish)
   end
   if n.start then
     svars.snd_bgmSwitchNameHash=0
@@ -43,12 +44,12 @@ function this.SetSceneBGMSwitch(e)
   TppMusicManager.PostSceneSwitchEvent(e)
 end
 function this.StopSceneBGM()
-  local n=this.GetCurrentSceneBgmSetting()
-  if not n then
+  local currentSceneBgmSetting=this.GetCurrentSceneBgmSetting()
+  if not currentSceneBgmSetting then
     return
   end
-  if n.finish then
-    TppMusicManager.PostSceneSwitchEvent(n.finish)
+  if currentSceneBgmSetting.finish then
+    TppMusicManager.PostSceneSwitchEvent(currentSceneBgmSetting.finish)
   end
   this.HaltSceneBGM()
 end
@@ -222,13 +223,13 @@ function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 function this.GetCurrentSceneBgmSetting()
-  local t=svars.snd_bgmNameHash
-  local a=svars.snd_bgmSwitchNameHash
+  local snd_bgmNameHash=svars.snd_bgmNameHash
+  local snd_bgmSwitchNameHash=svars.snd_bgmSwitchNameHash
   local e
   local i,n
-  if t>0 then
+  if snd_bgmNameHash>0 then
     for n,a in pairs(mvars.snd_bgmList)do
-      if t==StrCode32(n)then
+      if snd_bgmNameHash==StrCode32(n)then
         e=n
         i=a
         break
@@ -238,11 +239,11 @@ function this.GetCurrentSceneBgmSetting()
       return
     end
   end
-  if e and a>0 then
-    local e=mvars.snd_bgmList[e].switch
-    if e then
-      for i,e in pairs(e)do
-        if a==StrCode32(e)then
+  if e and snd_bgmSwitchNameHash>0 then
+    local switch=mvars.snd_bgmList[e].switch
+    if switch then
+      for i,e in pairs(switch)do
+        if snd_bgmSwitchNameHash==StrCode32(e)then
           n=e
           break
         end
@@ -272,8 +273,8 @@ function this.ClearOnDecendingLandingZoneJingleFlag()
   mvars.snd_doneDecendingLandingZoneJingleWithOutCanMissionClear=nil
 end
 function this.PostJingleOnDecendingLandingZone()
-  local e={[30050]=true,[30150]=true,[30250]=true}
-  if e[vars.missionCode]then
+  local noJingleMissions={[30050]=true,[30150]=true,[30250]=true}
+  if noJingleMissions[vars.missionCode]then
     return
   end
   if mvars.snd_doneDecendingLandingZoneJingle then
@@ -286,8 +287,8 @@ function this.PostJingleOnDecendingLandingZone()
   mvars.snd_doneDecendingLandingZoneJingle=true
 end
 function this.PostJingleOnDecendingLandingZoneWithOutCanMissionClear()
-  local e={[30050]=true,[30150]=true,[30250]=true}
-  if e[vars.missionCode]then
+  local noJingleMissions={[30050]=true,[30150]=true,[30250]=true}
+  if noJingleMissions[vars.missionCode]then
     return
   end
   if mvars.snd_doneDecendingLandingZoneJingleWithOutCanMissionClear then
@@ -314,9 +315,9 @@ function this.EndJingleOnClearHeli()
   mvars.snd_playingHeliClearJingleName=nil
   TppMusicManager.PostJingleEvent("MissionEnd",mvars.snd_finishHeliClearJingleName)
 end
-function this.SetFinishHeliClearJingleName(e)
-  if Tpp.IsTypeString(e)then
-    mvars.snd_finishHeliClearJingleName=e
+function this.SetFinishHeliClearJingleName(jingleName)
+  if Tpp.IsTypeString(jingleName)then
+    mvars.snd_finishHeliClearJingleName=jingleName
   end
 end
 function this.PostEventOnForceGotMbHelicopter()

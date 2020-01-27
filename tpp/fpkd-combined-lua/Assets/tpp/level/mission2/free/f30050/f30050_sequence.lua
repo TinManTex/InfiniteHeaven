@@ -1119,23 +1119,24 @@ this.RegisterFovaFpk = function( clusterId )
 	--mafr 15-74
 	--if #GetFaceGroupTable table < MAX_STAFF_NUM_ON_CLUSTER then choose another and keep adding till MAX_STAFF_NUM_ON_CLUSTER
   if Ivars.mbNonStaff:Is(1) then--tex>
-    mvars.f30050_soldierStaffIdList = {}
-    local securityStaffFaceIds = {} 
+    mvars.f30050_soldierStaffIdList={}
+    local securityStaffFaceIds={} 
     InfMain.RandomSetToLevelSeed()
     --local faceGroupTable=
+    local mbWargameFemales=Ivars.mbWargameFemales:Get()
     for i=1,MAX_STAFF_NUM_ON_CLUSTER do
-      if Ivars.mbWargameFemales:Is(1) and math.random()<.15 then
+      if (mbWargameFemales>0 and math.random(0,100)<mbWargameFemales) or mbWargameFemales==100 then
         table.insert(securityStaffFaceIds,InfEneFova.RandomFaceId(InfEneFova.femaleFaceIds))
       else
-        table.insert(securityStaffFaceIds,InfEneFova.RandomFaceId(InfEneFova.maleFaceIds))--tex DOC face and bodyids.txt
+        table.insert(securityStaffFaceIds,InfEneFova.RandomFaceId(InfEneFova.maleFaceIds))
       end
     end
     InfMain.RandomResetToOsTime()
 
-    mvars.f30050_soldierFaceIdListPriority = securityStaffFaceIds
-    mvars.f30050_soldierFaceIdList = securityStaffFaceIds
-    mvars.f30050_soldierBalaclavaLocatorList = {}
-    mvars.f30050_soldierBalaclavaFaceIdList = {}--RETAILBUG even though is just used for debug, was f30050_soldierBalaclavaLocatorList which is already above
+    mvars.f30050_soldierFaceIdListPriority=securityStaffFaceIds
+    mvars.f30050_soldierFaceIdList=securityStaffFaceIds
+    mvars.f30050_soldierBalaclavaLocatorList={}
+    mvars.f30050_soldierBalaclavaFaceIdList={}
   end--<
   
 	if TppEnemy.MB_SET_FEMALE_ALL_STAFF or TppEnemy.MB_SET_MEMORY_DUMP then

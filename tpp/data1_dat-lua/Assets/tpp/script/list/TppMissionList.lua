@@ -682,7 +682,7 @@ missionPackTable[30010]=function(missionCode)
   end
   --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
   if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionCode) then--tex>
-    local bodyInfo=InfEneFova.GetCurrentWildCardBodyInfo(true)--tex female
+    local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
     end
@@ -705,7 +705,7 @@ missionPackTable[30020]=function(missionCode)
   end
   --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
   if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionCode) then--tex>
-    local bodyInfo=InfEneFova.GetCurrentWildCardBodyInfo(true)--tex female
+    local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
     end
@@ -725,22 +725,17 @@ missionPackTable[30050]=function(missionCode)
   TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex
   TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/common/mis_com_mafr_hostage.fpk"--tex DEBUGNOW
 
-  if Ivars.mbEnemyHeli:Is(1) or Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then--tex>
-    TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
-    TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"
-  end--<
   if Ivars.mbEnableOcelot:Is(1) and Ivars.mbWarGamesProfile:Is(0) then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/free/f30050/f30050_ocelot.fpk"
   end--<
 
   --tex IsDDBodyEquip add mission packs>
   if InfMain.IsDDBodyEquip(missionCode) then
-    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
+    local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
     end
-    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo(true)--tex female
+    local bodyInfo=InfEneFova.GetFemaleDDBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
     end
@@ -794,6 +789,12 @@ missionPackTable[30050]=function(missionCode)
     end
   end
   TppHostage2.SetHostageType{gameObjectType="TppHostageUnique",hostageType="Paz"}
+  
+  if Ivars.mbEnemyHeli:Is(1) or Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then--tex>
+    TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk"
+    TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
+    TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"
+  end--<
 end
 missionPackTable[30150]=function(missionCode)
   TppPackList.AddLocationCommonScriptPack(missionCode)

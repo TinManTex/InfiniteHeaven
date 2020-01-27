@@ -5,7 +5,9 @@ local this={}
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 local SendCommand=GameObject.SendCommand
-local StartTimer=GkEventTimerManager.Start
+local lastAppearTime=0
+local TimerStart=GkEventTimerManager.Start
+local TimerStop=GkEventTimerManager.Stop
 
 --TUNE
 local PARASITE_PARAMETERS={
@@ -158,7 +160,7 @@ function this.OnDying(gameId)
     --    end
     --  end
     if clearLimit<=0 then
-      InfMenu.DebugPrint"WARNING: OnDying and clearLimit <= 0"--DEBUGNOW
+      InfMenu.DebugPrint"WARNING: OnDying and clearLimit <= 0"--DEBUG
       return
     end
     clearLimit=clearLimit-1
@@ -223,7 +225,8 @@ function this.StartEventTimer()
   --local nextEventTime=10--DEBUG
   local nextEventTime=math.random(Ivars.parasitePeriod_MIN:Get()*minute,Ivars.parasitePeriod_MAX:Get()*minute)
   --InfMenu.DebugPrint("Timer_ParasiteEvent start in "..nextEventTime)--DEBUG
-  StartTimer("Timer_ParasiteEvent",nextEventTime)
+  TimerStop("Timer_ParasiteEvent")
+  TimerStart("Timer_ParasiteEvent",nextEventTime)
   --end)--
 end
 
@@ -242,11 +245,11 @@ function this.StartEvent()
   TppWeather.ForceRequestWeather(TppDefine.WEATHER.FOGGY,4,{fogDensity=fogDensity})
 
   local parasiteAppearTime=math.random(parasiteAppearTimeMin,parasiteAppearTimeMax)
-  StartTimer("Timer_ParasiteAppear",parasiteAppearTime)
+  TimerStart("Timer_ParasiteAppear",parasiteAppearTime)
 end
 
 function this.ContinueEvent()
-  --InfMenu.DebugPrint"Timer_ParasiteEvent hit"--DEBUG
+  --InfMenu.DebugPrint"ContinueEvent hit"--DEBUG
   if numFultonedThisMap==#this.parasiteNames then
     --InfMenu.DebugPrint"StartEvent elimintated all parasites, aborting"--DEBUG
     this.EndEvent()
@@ -259,7 +262,7 @@ function this.ContinueEvent()
   end
 
   local parasiteAppearTime=math.random(parasiteAppearTimeMin,parasiteAppearTimeMax)
-  StartTimer("Timer_ParasiteAppear",parasiteAppearTime)
+  TimerStart("Timer_ParasiteAppear",parasiteAppearTime)
 end
 
 function this.ParasiteAppear()
@@ -267,6 +270,7 @@ function this.ParasiteAppear()
   --InfMenu.DebugPrint"ParasiteAppear"--DEBUG
 
   numDownedThisEvent=0
+  lastAppearTime=Time.GetRawElapsedTimeSinceStartUp()
 
   local playerPosition={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
   local closestPos=playerPosition
@@ -291,21 +295,21 @@ function this.ParasiteAppear()
   else
     local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPosition)
     if closestLz==nil then
-      InfMenu.DebugPrint"WARNING: StartEvent closestLz==nil"--DEBUGNOW
+      InfMenu.DebugPrint"WARNING: StartEvent closestLz==nil"--DEBUG
       return
     end
     if lzPosition==nil then
-      InfMenu.DebugPrint"WARNING: StartEvent lzPosition==nil"--DEBUGNOW
+      InfMenu.DebugPrint"WARNING: StartEvent lzPosition==nil"--DEBUG
       return
     end
 
     local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPosition)
     if closestCp==nil then
-      InfMenu.DebugPrint"WARNING: StartEvent closestCp==nil"--DEBUGNOW
+      InfMenu.DebugPrint"WARNING: StartEvent closestCp==nil"--DEBUG
       return
     end
     if cpPosition==nil then
-      InfMenu.DebugPrint"WARNING: StartEvent cpPosition==nil"--DEBUGNOW
+      InfMenu.DebugPrint"WARNING: StartEvent cpPosition==nil"--DEBUG
       return
     end
 
@@ -329,7 +333,7 @@ function this.ParasiteAppear()
       --InfMenu.DebugPrint("closestPos==cpPosition")--DEBUG
       local cpDefine=mvars.ene_soldierDefine[closestCp]
       if cpDefine==nil then
-        InfMenu.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUGNOW
+        InfMenu.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUG
       else
         for i=1,#cpDefine do
           this.SetZombie(cpDefine[i],disableDamage,isHalf,cpZombieLife,cpZombieStamina)
@@ -391,10 +395,10 @@ function this.ParasiteAppear()
   --forcing combat bypasses this
   if numFultonedThisMap>0 then
     --InfMenu.DebugPrint"Timer_ParasiteCombat start"--DEBUG
-    StartTimer("Timer_ParasiteCombat",4)
+    TimerStart("Timer_ParasiteCombat",4)
   end
 
-  StartTimer("Timer_ParasiteMonitor",monitorRate)
+  TimerStart("Timer_ParasiteMonitor",monitorRate)
   this.StartEventTimer()--tex schedule next
   --end)--
 end
@@ -411,7 +415,7 @@ function this.MonitorEvent()
   end
 
   if this.parasitePos==nil then
-    InfMenu.DebugPrint"WARNING MonitorEvent parasitePos==nil"--DEBUGNOW
+    InfMenu.DebugPrint"WARNING MonitorEvent parasitePos==nil"--DEBUG
     return
   end
 
@@ -443,15 +447,15 @@ function this.MonitorEvent()
     this.EndEvent()
     this.StartEventTimer()
   else
-    StartTimer("Timer_ParasiteMonitor",monitorRate)
+    TimerStart("Timer_ParasiteMonitor",monitorRate)
   end
   --end)--
 end
 
 function this.EndEvent()
+  --InfMenu.DebugPrint"EndEvent"--DEBUG
   Ivars.inf_parasiteEvent:Set(0)
-  TppWeather.CancelForceRequestWeather()
-  TppWeather.RequestWeather(TppDefine.WEATHER.SUNNY,7)
+  TppWeather.CancelForceRequestWeather(TppDefine.WEATHER.SUNNY,7)
   SendCommand({type="TppParasite2"},{id="StartWithdrawal"})
 end
 

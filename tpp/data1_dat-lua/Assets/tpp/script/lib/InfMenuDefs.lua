@@ -290,8 +290,8 @@ this.appearanceMenu={
     Ivars.playerType,
     Ivars.playerPartsType,
     Ivars.playerCammoTypes,
-    Ivars.playerFaceEquipIdApearance,--DEBUG wut -v-
-    Ivars.playerFaceIdApearance,--DEBUG are these again, lol -^-
+    Ivars.playerFaceEquipId,
+    Ivars.playerFaceId,
     Ivars.playerHeadgear,
     InfMenuCommands.printCurrentAppearance,
   }
@@ -477,16 +477,23 @@ this.timeScaleMenu={
   }
 }
 
+this.buddyMenu={
+  options={
+    Ivars.buddyChangeEquipVar,
+    InfMenuCommands.quietMoveToLastMarker,
+    Ivars.quietRadioMode,
+  }
+}
+
 this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    --    InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
     --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
     --    this.appearanceMenu,--DEBUG
     --Ivars.vehiclePatrolPaintType,
@@ -553,8 +560,11 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
---    InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
---    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
+    --Ivars.buddyChangeEquipVar,--DEBUG
+--    InfMenuCommands.DEBUG_buddyCycleVar,--DEBUG
+--    InfMenuCommands.DEBUG_buddyCycle,--DEBUG
+--    InfMenuCommands.DEBUG_ToggleParasiteEvent,--DEBUG
+    --    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
     --InfMenuCommands.resetAllSettingsItem,--DEBUG
     --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
     --    Ivars.itemDropChance,--DEBUG
@@ -574,11 +584,11 @@ this.inMissionMenu={
     this.cameraMenu,
     this.timeScaleMenu,
     this.userMarkerMenu,
+    this.buddyMenu,
     this.playerRestrictionsInMissionMenu,
     this.phaseMenu,
     this.supportHeliMenu,
-    this.debugInMissionMenu,    
-    Ivars.quietRadioMode,    
+    this.debugInMissionMenu,
     Ivars.itemDropChance,
     Ivars.playerHealthScale,
     InfMenuCommands.resetSettingsItem,

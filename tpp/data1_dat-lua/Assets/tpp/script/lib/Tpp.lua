@@ -113,6 +113,7 @@ this.requires={
   "/Assets/tpp/script/lib/InfLZ.lua",
   "/Assets/tpp/script/lib/InfGameEvent.lua",
   "/Assets/tpp/script/lib/InfParasite.lua",
+  "/Assets/tpp/script/lib/InfBuddy.lua",
   "/Assets/tpp/script/lib/InfHooks.lua",--<
 }
 function this.IsTypeFunc(e)

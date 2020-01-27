@@ -16,13 +16,13 @@ this.playerTypes={
 --\chunk0_dat\Assets\tpp\pack\player\parts\plparts*.fpk
 --corresponding to PlayerPartsType enum
 this.playerPartsTypes={
-  "NORMAL",--0, 
+  "NORMAL",--0,
   "NORMAL_SCARF",--1,
   "SNEAKING_SUIT",--2,
-  "HOSPITAL",--3,  
-  "MGS1",--4, 
-  "NINJA",--5, 
-  "RAIDEN",--6, 
+  "HOSPITAL",--3,
+  "MGS1",--4,
+  "NINJA",--5,
+  "RAIDEN",--6,
   "NAKED",--7,
   "SNEAKING_SUIT_TPP",--8,
   "BATTLEDRESS",--9
@@ -39,8 +39,9 @@ this.playerPartsTypes={
   "EVA_OPEN",--20
   "BOSS_CLOSE",--21
   "BOSS_OPEN",--22
+  "SWIMWEAR",--23
   --tex unknow, see playerPartsTypesInfo
-  "NORMAL2",--23
+  --"NORMAL2",--23
   "NORMAL_SCARF2",--24
   "SNEAKING_SUIT2",--25
   "HOSPITAL2",--26
@@ -326,19 +327,61 @@ this.playerCammoTypes={
   "BOSS_OPEN",--35
 
   --from 36 shows as last set when snake
-  "C23",--36 WOODLAND FLECK
-  "C24",--37 AMBUSH
-  "C27",--38 ? a muted woodland type
-  "C29",--39 DEAD LEAF
-  "C30",--40 LICHEN
-  "C35",--41 ? some digi camo
-  "C38",--42 ? light tan or something
-  "C39",--43 OLD ROSE
-  "C42",--44 BRICK RED
-  "C46",--45 IRON BLUE
-  "C49",--46 STEEL GREY
-  "C52",--47 TSELINOYARSK
---48 > onward with DD_MALE shows tiger
+  "C23",--36,WOODLAND FLECK
+  "C24",--37,AMBUSH
+  "C27",--38,SOLUM
+  "C29",--39,DEAD LEAF
+  "C30",--40,LICHEN
+  "C35",--41,STONE
+  "C38",--42,PARASITE MIST
+  "C39",--43,OLD ROSE
+  "C42",--44,BRICK RED
+  "C46",--45,IRON BLUE
+  "C49",--46,STEEL GREY
+  "C52",--47,TSELINOYARSK
+  "C16",--48,NIGHT SPLITTER
+  "C17",--49,
+  "C18",--50,
+  "C19",--51,
+  "C20",--52,
+  "C22",--53,
+  "C25",--54,
+  "C26",--55,
+  "C28",--56,
+  "C31",--57,
+  "C32",--58,
+  "C33",--59,
+  "C36",--60,
+  "C37",--61,
+  "C40",--62,
+  "C41",--63,
+  "C43",--64,
+  "C44",--65,
+  "C45",--66,
+  "C47",--67,
+  "C48",--68,
+  "C50",--69,
+  "C51",--70,
+  "C53",--71,
+  "C54",--72,
+  "C55",--73,
+  "C56",--74,
+  "C57",--75,
+  "C58",--76,
+  "C59",--77,
+  "C60",--78,
+  "SWIMWEAR_C00",--79,
+  "SWIMWEAR_C01",--80,
+  "SWIMWEAR_C02",--81,
+  "SWIMWEAR_C03",--82,
+  "SWIMWEAR_C05",--83,
+  "SWIMWEAR_C06",--84,
+  "SWIMWEAR_C38",--85,
+  "SWIMWEAR_C39",--86,
+  "SWIMWEAR_C44",--87,
+  "SWIMWEAR_C46",--88,
+  "SWIMWEAR_C48",--89,
+  "SWIMWEAR_C53",--90,
 }
 
 --Camo fovas
@@ -421,7 +464,7 @@ this.playerCammoTypes={
 --/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v46
 --/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v49
 --/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v52
---thanks HearlessSeph
+--thanks HeartlessSeph
 
 
 local modelInfoSuffix="_modelInfo"
@@ -611,21 +654,21 @@ function this.CheckModelChange()
   if Ivars.enableFovaMod:Is(0) then
     return
   end
-    local fovaTable=this.GetCurrentFovaTable()
-    if fovaTable==nil then
-      InfMenu.PrintLangId"disabled_fova"
-      Ivars.enableFovaMod:Set(0)
-      return
-    end
+  local fovaTable=this.GetCurrentFovaTable()
+  if fovaTable==nil then
+    InfMenu.PrintLangId"disabled_fova"
+    Ivars.enableFovaMod:Set(0)
+    return
+  end
 
-    local fovaIndex=Ivars.fovaSelection:Get()+1
-    if this.FovaInfoChanged(fovaTable,fovaIndex) then
-      InfMenu.PrintLangId"disabled_fova"
-      Ivars.enableFovaMod:Set(0)
-      return
-    end
+  local fovaIndex=Ivars.fovaSelection:Get()+1
+  if this.FovaInfoChanged(fovaTable,fovaIndex) then
+    InfMenu.PrintLangId"disabled_fova"
+    Ivars.enableFovaMod:Set(0)
+    return
+  end
 
-    InfFova.SetFovaMod(Ivars.fovaSelection:Get()+1)
+  InfFova.SetFovaMod(Ivars.fovaSelection:Get()+1)
 end
 
 --CALLER: InfMain.OnFadeInDirect

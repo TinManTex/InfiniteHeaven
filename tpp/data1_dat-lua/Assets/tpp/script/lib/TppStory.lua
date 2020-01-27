@@ -2194,10 +2194,12 @@ function this.DEBUG_SetNeedStoryTest(n)
     TppMotherBaseManagement.SetClusterSvars{base="MotherBase",category="Medical",grade=4,buildStatus="Completed",timeMinute=0,isNew=false}
   end
   if n==10200 then
-    TppMotherBaseManagement.SetMbsClusterParam{category="Develop",grade=4,buildStatus="Completed"}coroutine.yield()
+    TppMotherBaseManagement.SetMbsClusterParam{category="Develop",grade=4,buildStatus="Completed"}
+    coroutine.yield()
   end
   if n==10151 then
-    TppMotherBaseManagement.SetMbsClusterParam{category="Medical",grade=4,buildStatus="Completed"}coroutine.yield()
+    TppMotherBaseManagement.SetMbsClusterParam{category="Medical",grade=4,buildStatus="Completed"}
+    coroutine.yield()
   end
   if n==10054 then
     this.MissionOpen"10050"

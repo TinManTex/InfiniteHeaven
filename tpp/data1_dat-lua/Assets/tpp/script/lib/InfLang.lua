@@ -176,7 +176,7 @@ this.eng={--english
   warp_mode_on="Warp mode on",
   warp_mode_off="Warp mode off",
   item_disabled="Menu item is currently disabled",
-  quietRadioMode="Quiets cell radio track (0=Auto)",--r88
+  quietRadioMode="Quiets MB radio track (0=Auto)",--r88
   soldierParamsProfile="Soldier Parameters Profile",--r89
   soldierParamsProfileSettings={"Off (use game/other mod settings, requires restart)","Custom"},
   soldierHealthScale="Soldier life scale",
@@ -434,6 +434,7 @@ this.eng={--english
     "Soviet attack",
     "Rogue Coyote attack",
     "XOF attack",
+    "Femme Fatales",
     "DD Infection outbreak",
     "Zombie Obliteration (non DD)",
   },
@@ -481,6 +482,17 @@ this.eng={--english
   parasitePeriod_MIN="Skull attack min (minutes)",
   parasitePeriod_MAX="Skull attack max (minutes)",
   set_default_off_on={"Default","Off","On"},
+  no_buddy_set="No buddy set",  
+  current_buddy_not="Current buddy is not ",
+  not_developed=" has not been developed",
+  allready_set=" is allready set",
+  changing_to="Changing to ",
+  buddy_quiet="Quiet",
+  buddy_horse="D-Horse",
+  buddy_dog="D-Dog",
+  buddy_walkergear="D-Walker",
+  buddyChangeEquipVar="Buddy Equipment <Action>",--DEBUGNOW TODO some other indicator for OnAction options
+  buddyMenu="Buddy menu",
 }--eng end
 
 this.help={}
@@ -627,6 +639,7 @@ this.help.eng={
   allowUndevelopedDDEquip="Whether to limit the selection to equipment you have developed or allow all equipment.",
   enableParasiteEvent="Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.",
   quietRadioMode="Changes the music track of the radio played in Quiets cell on the medical platform in mother base.",
+  buddyChangeEquipVar="Buddy equiment is changed to selected setting when <Action> is pressed.",
 }
 
 this.cpNames={

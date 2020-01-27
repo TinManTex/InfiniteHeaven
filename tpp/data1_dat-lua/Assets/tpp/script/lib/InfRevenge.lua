@@ -77,7 +77,7 @@ function this.CreateCustomRevengeConfig()
   end
   
   if InfMain.IsDDBodyEquip(vars.missionCode) then
-    local bodyInfo=InfEneFova.GetCurrentDDBodyInfo()
+    local bodyInfo=InfEneFova.GetMaleDDBodyInfo()
     if bodyInfo and (not bodyInfo.hasArmor) and vars.missionCode==30050 then--tex TODO: handle mother base special case better, especially with the male/female split
       revengeConfig.ARMOR=nil
     end

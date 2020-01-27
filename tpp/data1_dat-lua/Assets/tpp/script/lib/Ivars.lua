@@ -445,8 +445,15 @@ this.mbDDSuit={
     "PF_MISC",
     "PF_ALL",
     --OFF "MSF_SVS",
-    "MSF_PFS",    
-    --OFF "GZ",
+    "MSF_PFS",
+  --"GZ",
+  --"PRISONER_AFGH",
+  --"PRISONER_MAFR",
+  --"SKULLFACE",
+  --"HUEY",
+  --"KAZ",
+  --"KAZ_GZ",
+  --"DOCTOR",
   },
   settingNames="mbDDSuitSettings",
 }
@@ -455,11 +462,13 @@ this.mbDDSuitFemale={
   save=MISSION,
   settings={
     "EQUIPGRADE",
-    "DRAB",
-    "TIGER",
-    "SNEAKING_SUIT",
-    "BATTLE_DRESS",
-    "SWIMSUIT",
+    "DRAB_FEMALE",
+    "TIGER_FEMALE",
+    "SNEAKING_SUIT_FEMALE",
+    "BATTLE_DRESS_FEMALE",
+    "SWIMSUIT_FEMALE",
+  --    "PRISONER_AFGH_FEMALE",
+  --    "NURSE_FEMALE",
   },
   settingNames="mbDDSuitFemaleSettings",
 }
@@ -528,8 +537,8 @@ this.mbWarGamesProfile={
 
 this.mbWargameFemales={
   save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
+  range={min=0,max=100,increment=10},
+  isPercent=true,
 }
 
 this.mbAdditionalSoldiers={
@@ -2395,9 +2404,8 @@ this.manualMissionCode={
 
 this.playerType={
   --OFF save=MISSION,
-  settings={"DEFAULT","SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
+  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
   settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
-    0,
     PlayerType.SNAKE,
     PlayerType.AVATAR,
     PlayerType.DD_MALE,
@@ -2405,12 +2413,10 @@ this.playerType={
   },
   --settingNames="set_",
   OnSelect=function(self)
-  -- self:Set(vars.playerType,true)
+  --self.setting=
   end,
   OnChange=function(self)
-    if self.setting>0 then
-      vars.playerType=self.settingsTable[self.setting+1]
-    end
+    vars.playerType=self.settingsTable[self.setting+1]
   end,
 }
 
@@ -2469,17 +2475,14 @@ local playerCamoTypeEnums={}
 for n,enum in ipairs(playerCammoTypes)do
   playerCamoTypeEnums[#playerCamoTypeEnums+1]=PlayerCamoType[enum]
 end
---DEBUGNOW
+
 this.playerCammoTypes={
   --OFF save=MISSION,
-
-  range={min=0,max=1000},
-  --DEBUGNOW
-  --  settings=playerCammoTypes,
-  --  settingsTable=playerCamoTypeEnums,
+  settings=playerCammoTypes,
+  settingsTable=playerCamoTypeEnums,
   --settingNames="set_",
   OnSelect=function(self)
-  --self:Set(vars.playerCamoType,true)
+  --self.setting=
   end,
   OnChange=function(self)
     --if self.setting>0 then--TODO: add off/default/noset setting
@@ -2492,20 +2495,44 @@ this.playerCammoTypes={
     --[13]=true,
     }
 
-    if noApply[self.setting] then--DEBUGNOW
+    if noApply[self.setting] then
       InfMenu.DebugPrint"skip"
     else
       vars.playerCamoType=self.setting
+      -- vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
+      -- vars.playerFaceEquipId=0
     end
-    -- vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
-    -- vars.playerFaceEquipId=0
-    --end
+  end,
+}
+
+--tex for DEBUG, just exploring direct value
+this.playerCammoTypesDirect={
+  range={min=0,max=1000},
+  OnSelect=function(self)
+  --self.setting=
+  end,
+  OnChange=function(self)
+    local noApply={
+      [8]=true,--hang modelsys on snake
+      [9]=true,
+      [10]=true,
+      [13]=true,
+    --[13]=true,
+    }
+
+    if noApply[self.setting] then
+      InfMenu.DebugPrint"skip"
+    else
+      vars.playerCamoType=self.setting
+      -- vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
+      -- vars.playerFaceEquipId=0
+    end
   end,
 }
 
 this.playerPartsType={
   --OFF save=MISSION,
-  range={min=0,max=100},--DEBUGNOW TODO: figure out max range
+  range={min=0,max=100},
   --  settings={
   --  "NORMAL",--0 uses set camo type
   --  "NORMAL_SCARF",--1 uses set camo type
@@ -2557,10 +2584,10 @@ this.playerPartsType={
   --OFF self:Set(vars.playerPartsType,true)
   end,
   OnChange=function(self)
-    --DEBUGNOW if self.setting>0 then--TODO: add off/default/noset setting
+    -- if self.setting>0 then--TODO: add off/default/noset setting
     --tex DEBUGNOW GOTCHA: selecting certain character types will stop playerPartsType from kicking in until cammotype is changed once
     --TODO: see what values are when you do this
-    local noApply={--DEBUGNOW
+    local noApply={
       ----      [3]=true,--HOSPITAL crashes when AVATAR
       --        [12]=true,--hang model sys when DD_MALE,DD_Female
       --        [13]=true,
@@ -2587,7 +2614,44 @@ this.playerPartsType={
   end,
 }
 
-this.playerFaceEquipIdApearance={
+this.playerPartsTypeDirect={
+  --OFF save=MISSION,
+  range={min=0,max=100},
+  OnSelect=function(self)
+  --OFF self:Set(vars.playerPartsType,true)
+  end,
+  OnChange=function(self)
+    --DEBUGNOW if self.setting>0 then--TODO: add off/default/noset setting
+    --tex DEBUGNOW GOTCHA: selecting certain character types will stop playerPartsType from kicking in until cammotype is changed once
+    --TODO: see what values are when you do this
+    local noApply={
+      ----      [3]=true,--HOSPITAL crashes when AVATAR
+      --        [12]=true,--hang model sys when DD_MALE,DD_Female
+      --        [13]=true,
+      --        [15]=true,--DLC males hang models syst with dd female
+      --        [16]=true,
+      --        [17]=true,
+      --        [18]=true,
+      ----        [19]=true,--DLC fems hang models syst with dd male
+      ----        [20]=true,
+      ----        [21]=true,
+      ----        [22]=true,
+      --        [23]=true,--DD fem crash
+      --        [24]=true,
+
+      -- trying to explore past end
+      --      [35]=true,
+      }
+
+    if not noApply[self.setting] then
+      vars.playerPartsType=self.setting
+      -- vars.playerPartsType=self.settingsTable[self.setting+1]
+      --end
+    end--
+  end,
+}
+
+this.playerFaceEquipId={
   --OFF save=MISSION,
   range={min=0,max=100},--TODO
 
@@ -2608,7 +2672,28 @@ this.playerFaceEquipIdApearance={
   end,
 }
 
-this.playerFaceIdApearance={
+this.playerFaceEquipIdDirect={
+  --OFF save=MISSION,
+  range={min=0,max=100},--TODO
+  OnSelect=function(self)
+  --OFF self:Set(vars.playerFaceEquipId,true)
+  end,
+  OnChange=function(self)--TODO: add off/default/noset setting
+    vars.playerFaceEquipId=self.setting
+  end,
+}
+
+this.playerFaceId={
+  save=MISSION,
+  range={min=600,max=687},--DEBUGNOW min was 0
+  OnChange=function(self)
+    if self.setting>0 then--TODO: add off/default/noset setting
+      vars.playerFaceId=self.setting
+    end
+  end,
+}
+
+this.playerFaceIdDirect={
   save=MISSION,
   range={min=600,max=687},--DEBUGNOW min was 0
   OnChange=function(self)
@@ -2624,7 +2709,6 @@ this.enableFovaMod={
   range=this.switchRange,
   settingNames="set_switch",
   OnSelect=function(self)
-  --DEBUGNOW
   --    if self:Is(1) then
   --    else
   --      InfMenu.PrintLangId"change_model_to_reset_fova"
@@ -3148,6 +3232,70 @@ this.speedCamPlayerTimeScale={
   save=MISSION,
   default=1,
   range={max=100,min=0,increment=0.1},
+}
+
+--buddies
+
+local buddyTypeToCommandInfo={
+  [BuddyType.QUIET]="quietChangeWeaponVar",
+  [BuddyType.DOG]="dogChangeEquipVar",
+  [BuddyType.HORSE]="horseChangeTypeVar",
+  [BuddyType.WALKER_GEAR]=nil,--WIP "walkerGearChangeMainWeaponVar",
+}
+
+local function GetCommandInfo(name)
+  local commandInfo=InfBuddy[name] or InfBuddy[buddyTypeToCommandInfo[vars.buddyType]]
+  return commandInfo
+end
+
+local BuddyVarGetSettingText=function(self)
+  if vars.buddyType==BuddyType.NONE then
+    return InfMenu.LangString"no_buddy_set"
+  end
+
+  local commandInfo=GetCommandInfo(self.name)
+  if not commandInfo then
+    return "None defined"--DEBUGNOW
+  end
+
+  local varTypeTable=commandInfo.varTypeTable
+  return varTypeTable[self.setting].name
+end
+local BuddyVarOnSelect=function(self)
+  InfInspect.TryFunc(function(self)--DEBUGNOW
+    if vars.buddyType==BuddyType.NONE then
+      return InfMenu.LangString"no_buddy_set"
+  end
+
+  local commandInfo=GetCommandInfo(self.name)
+  if not commandInfo then
+    return
+  end
+  local var=vars[commandInfo.varName]
+  local varTypeTable=commandInfo.varTypeTable
+  self.range.max=#varTypeTable
+  local index=InfBuddy.GetTableIndexForBuddyVar(var,varTypeTable)
+  self.setting=index
+  end,self)--
+end
+local BuddyVarOnActivate=function(self)
+  if vars.buddyType==BuddyType.NONE then
+    return
+  end
+
+  local commandInfo=GetCommandInfo(self.name)
+  if not commandInfo then
+    return
+  end
+  InfBuddy.ChangeBuddyVar(commandInfo,self.setting)
+end
+
+this.buddyChangeEquipVar={
+  --OFF save=MISSION,
+  range={max=5,min=1},
+  GetSettingText=BuddyVarGetSettingText,
+  OnSelect=BuddyVarOnSelect,
+  OnActivate=BuddyVarOnActivate,
 }
 
 --quiet
