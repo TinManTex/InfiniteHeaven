@@ -679,9 +679,10 @@ missionPackTable[30010]=function(missionCode)
 
   if Ivars.enableParasiteEvent:Is()>0 then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk"
   end
   --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex WIP
-  if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionCode) then--tex>
+  if Ivars.enableWildCardFreeRoam:EnabledForMission(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
@@ -702,9 +703,11 @@ missionPackTable[30020]=function(missionCode)
 
   if Ivars.enableParasiteEvent:Is()>0 then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk"
   end
+
   --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex WIP
-  if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionCode) then--tex>
+  if Ivars.enableWildCardFreeRoam:EnabledForMission(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then
       TppPackList.AddMissionPack(bodyInfo.missionPackPath)
@@ -790,7 +793,7 @@ missionPackTable[30050]=function(missionCode)
   end
   TppHostage2.SetHostageType{gameObjectType="TppHostageUnique",hostageType="Paz"}
 
-  if Ivars.mbEnemyHeli:Is(1) or Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then--tex>
+  if Ivars.npcHeliUpdate:Is"HP48" or Ivars.npcHeliUpdate:Is"UTH_AND_HP48" then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk"
     TppPackList.AddMissionPack"/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk"
@@ -838,9 +841,11 @@ missionPackTable[30250]=function(missionCode)
   if Ivars.mbZombies:Is(1)then--tex>
     TppSoldierFace.SetUseZombieFova{enabled=true}
   end--<
+
   if Ivars.enableParasiteEvent:Is()>0 or Ivars.mbEnableLethalActions:Is(1) then--tex>
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
-  end--<
+    TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk"
+  end--<  
 end
 missionPackTable[40010]=function(missionCode)
   if gvars.ini_isTitleMode then

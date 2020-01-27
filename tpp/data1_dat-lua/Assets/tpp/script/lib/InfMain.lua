@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="186"
+this.modVersion="187"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
@@ -22,6 +22,7 @@ local StrCode32=Fox.StrCode32
 
 
 this.modulesOK=false
+this.doneStartup=false
 this.appliedProfiles=false
 
 function this.IsTableEmpty(checkTable)--tex TODO: shove in a utility module
@@ -369,13 +370,22 @@ this.cpPositions={
     afgh_villageEast_ob={939.176,318.845,1259.34},
     afgh_ruinsNorth_ob={1623.511,323.038,1062.995},
     afgh_fieldEast_ob={1101.482,318.458,1828.101},
-    afgh_citadel_cp={-1251.708,595.181,-2936.821},
+    
+    --afgh_plantSouth_ob--Only references in generic setups",-- no actual missions
+    --afgh_waterway_cp--Only references in generic setups",-- no actual missions
+    
+    afgh_cliffTown_cp={787,466,-994},
+    afgh_tent_cp={-1761.73,317.69,806.51},
+    afgh_powerPlant_cp={-685,533,-1487},
+    afgh_sovietBase_cp={-2197,443,-1474},
+    afgh_remnants_cp={-905.605,288.846,1922.272},
     afgh_field_cp={425.95,270.16,2198.39},
+    afgh_citadel_cp={-1251.708,595.181,-2936.821},
+    afgh_fort_cp={2106.16,463.64,-1747.21},
+    afgh_village_cp={508,319,1171},
+    afgh_bridge_cp={1920,322,-475},
     afgh_commFacility_cp={1488.730,357.429,459.287},
     afgh_slopedTown_cp={514.191,331.173,43.403},
-    afgh_fort_cp={2106.16,463.64,-1747.21},
-    afgh_tent_cp={-1761.73,317.69,806.51},
-    afgh_remnants_cp={-905.605,288.846,1922.272},
     afgh_enemyBase_cp={-596.89,353.02,497.40},
   },
   mafr={
@@ -402,7 +412,8 @@ this.cpPositions={
     mafr_hillWestNear_ob={1799.202,-4.737,711.536},--Guard Post 21, West Munoko ya Nioka Station
     mafr_chicoVilWest_ob={1549.457,-10.819,1776.419},--Guard Post 22, South Nova Braga Airport
     mafr_hillSouth_ob={2012.754,-10.564,1376.297},--Guard Post 23, SW Munoko ya Nioka Station
-
+    --mafr_swampWestNear_ob--Only references in generic setups, no actual missions
+    
     mafr_flowStation_cp={-1001.38,-7.20,-199.16},--Mfinda Oilfield
     mafr_banana_cp={277.078,42.670,-1160.725},--Bampeve Plantation
     mafr_diamond_cp={1243.253,139.279,-1524.267},--Kungenga Mine
@@ -418,6 +429,12 @@ this.cpPositions={
 
   --mafr_chicoVil_cp={},--??
   },
+  mbqf={
+    mbqf_mtbs_cp={-158.183,0.801,-2076.006},
+  },
+  mtbs={
+    mbqf_mtbs_cp={-158.183,0.801,-2076.006},--tex mbqf free (f30250) (loc 55) actually comes up as location 50/mtbs
+  }
 }
 
 function this.GetClosestCp(position)
@@ -599,21 +616,21 @@ function this.SetSubsistenceSettings()
       --local currentLevel=Player.GetItemLevel(equip)
       --InfLog.DebugPrint(itemIvar.name..":"..itemIvar.setting)--DEBUG
       --tex levels = grades in dev menu, so 1=off since there's no grade 1 for these
-      Player.SetItemLevel(itemIvar.equipId,itemIvar.setting)
+      Player.SetItemLevel(itemIvar.equipId,itemIvar:Get())
     end
   end
 
   if Ivars.itemLevelFulton:Is()>0 then
     --TODO: check against developed
     --REF local currentLevel=Player.GetItemLevel(equip)
-    Player.SetItemLevel(Ivars.itemLevelFulton.equipId,Ivars.itemLevelFulton.setting)
+    Player.SetItemLevel(Ivars.itemLevelFulton.equipId,Ivars.itemLevelFulton:Get())
   end
 
   if Ivars.itemLevelWormhole:Is()>0 then
     --TODO: check against developed
     --REF local currentLevel=Player.GetItemLevel(equip)
     --tex levels = 0 off, 1 on, but since ivar uses 0 as default, shift by 1.
-    Player.SetItemLevel(Ivars.itemLevelWormhole.equipId,Ivars.itemLevelWormhole.setting-1)
+    Player.SetItemLevel(Ivars.itemLevelWormhole.equipId,Ivars.itemLevelWormhole:Get()-1)
   end
 
   if TppMission.IsSubsistenceMission()then
@@ -659,7 +676,7 @@ function this.SetSubsistenceSettings()
       IvarProc.UpdateSettingFromGvar(ivar)
     end
 
-    local initSetting=ivar:GetTable()
+    local initSetting=ivar:GetTableSetting()
     if initSetting then
       if ivar==Ivars.clearItems then
         TppPlayer.SetInitItems(initSetting,true)
@@ -759,26 +776,6 @@ function this.Messages()
     GameObject={
       {msg="Damage",func=this.OnDamage},
       {msg="Dead",func=this.OnDead},
-      {msg="Dying",sender=InfMain.parasiteNames,func=InfParasite.OnDying},
-      --tex TODO: "FultonInfo" instead of fulton and fultonfailed
-      {msg="Fulton",--tex fulton success i think
-        func=function(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
-          local typeIndex=GameObject.GetTypeIndex(gameId)
-          if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
-            InfParasite.OnFulton(gameId)
-          end
-        end
-      },
-      { msg="FultonFailed",
-        func=function(gameId,locatorName,locatorNameUpper,failureType)
-          if failureType==TppGameObject.FULTON_FAILED_TYPE_ON_FINISHED_RISE then
-            local typeIndex=GameObject.GetTypeIndex(gameId)
-            if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
-              InfParasite.OnFulton(gameId)
-            end
-          end
-        end
-      },
       {msg="ChangePhase",func=this.OnPhaseChange},
       --WIP OFF, lua off
       --      {msg="RequestLoadReinforce",func=InfReinforce.OnRequestLoadReinforce},
@@ -800,15 +797,14 @@ function this.Messages()
         --this.heliSelectClusterId=nil
         end
       end},
-      --      {
-      --        msg = "RoutePoint2",--DEBUG
-      --        func = function( gameObjectId, routeId, routeNodeIndex, messageId )
-      --          InfLog.PCall(function()
-      --            InfLog.DebugPrint("gameObjectId:"..tostring(gameObjectId).." routeId:".. tostring(routeId).." routeNodeIndex:".. tostring(routeNodeIndex).." messageId:".. tostring(messageId))--DEBUG
-      --          end)
-      --        end
-      --      },
-      {msg="SaluteRaiseMorale",func=InfMBVisit.CheckSalutes},
+    --      {
+    --        msg = "RoutePoint2",--DEBUG
+    --        func = function( gameObjectId, routeId, routeNodeIndex, messageId )
+    --          InfLog.PCall(function()
+    --            InfLog.DebugPrint("gameObjectId:"..tostring(gameObjectId).." routeId:".. tostring(routeId).." routeNodeIndex:".. tostring(routeNodeIndex).." messageId:".. tostring(messageId))--DEBUG
+    --          end)
+    --        end
+    --      },
     },
     MotherBaseStage = {
     --      {
@@ -836,7 +832,6 @@ function this.Messages()
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
         --InfLog.Add("FadeInOnGameStart",true)--DEBUG
         this.FadeInOnGameStart()
-        InfParasite.FadeInOnGameStart()
       end},
       --this.FadeInOnGameStart},
       {msg="EndFadeIn",sender="FadeInOnStartMissionGame",func=function()--fires on: returning to heli from mission
@@ -868,12 +863,7 @@ function this.Messages()
     --elseif(messageId=="Dead"or messageId=="VehicleBroken")or messageId=="LostControl"then
     },
     Timer={
-      {msg="Finish",sender="Timer_CycleBuddyReturn",func=function()InfBuddy.CycleBuddyReturn()end},
-      --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
-      {msg="Finish",sender="Timer_ParasiteEvent",func=function()InfParasite.StartEvent()end},--tex TODO shift into infparacite
-      {msg="Finish",sender="Timer_ParasiteAppear",func=function()InfParasite.ParasiteAppear()end},
-      {msg="Finish",sender="Timer_ParasiteCombat",func=function()InfParasite.StartCombat()end},
-      {msg="Finish",sender="Timer_ParasiteMonitor",func=function()InfParasite.MonitorEvent()end},
+    --WIP OFF lua off {msg="Finish",sender="Timer_FinishReinforce",func=InfReinforce.OnTimer_FinishReinforce,nil},
     },
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
@@ -890,9 +880,6 @@ function this.Messages()
       {msg="MbDvcActCallRescueHeli",func=function(param1,param2)
         --InfLog.DebugPrint("MbDvcActCallRescueHeli: "..tostring(param1).." ".. tostring(param2))--DEBUG
         end},
-    },
-    Weather = {
-      {msg="Clock",sender="MbVisitDay",func=InfMBVisit.OnMbVisitDay},
     },
     Block={
       {msg="StageBlockCurrentSmallBlockIndexUpdated",func=function(blockIndexX,blockIndexY,clusterIndex)
@@ -958,14 +945,7 @@ end
 return false
 end
 function this.OnDamage(gameId,attackId,attackerId)
-  local typeIndex=GameObject.GetTypeIndex(gameId)
-  if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
-    InfParasite.OnDamage(gameId,attackId,attackerId)
-  elseif typeIndex==TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2 then
-    if vars.missionCode==30250 then
-      InfParasite.OnDamageMbqfParasite(gameId,attackId,attackerId)
-    end
-  elseif typeIndex~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then--and typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
+  if typeIndex~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then--and typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     return
   end
 
@@ -1160,12 +1140,11 @@ function this.OnInitializeTop(missionTable)
       --      for cpName,cpDefine in pairs(enemyTable.soldierDefine)do
       --        cpDefine.lrrpVehicle=nil
       --      end
-
-      InfInterrogation.SetupInterrogation(enemyTable.interrogation)
-      enemyTable.uniqueInterrogation=enemyTable.uniqueInterrogation or {}
-      InfInterrogation.SetupInterCpQuests(enemyTable.soldierDefine,enemyTable.uniqueInterrogation)
     end
   end
+
+
+
 
   --TODO
   --  if Ivars.mbEnablePuppy:Is(1) then--and Ivars.inf_event:Is(0) then--tex mb event may turn off puppy, won't come back on by itself after event, so force it
@@ -1185,6 +1164,7 @@ function this.OnInitializeBottom(missionTable)
     return
   end
 
+  --tex TODO: pull into InfInterrogation
   if Ivars.enableInfInterrogation:Is(1) and(vars.missionCode~=30010 or vars.missionCode~=30020) then
     if missionTable.enemy then
       local interrogationTable=missionTable.enemy.interrogation
@@ -1205,19 +1185,16 @@ function this.OnInitializeBottom(missionTable)
     end
   end
 
-  InfWalkerGear.SetupWalkerGear()
-
   InfVehicle.SetupConvoy()
   --end,missionTable)--DEBUG
 end
-
 
 function this.OnAllocateTop(missionTable)
   --if not Ivars.resourceAmountScale:IsDefault() then
   this.ScaleResourceTables()
   --end
 end
---via TppMain
+--tex called via TppSequence Seq_Mission_Prepare.OnUpdate > TppMain.OnMissionCanStart
 function this.OnMissionCanStartBottom()
   --InfLog.PCall(function()--DEBUG
   if TppMission.IsFOBMission(vars.missionCode)then
@@ -1225,10 +1202,9 @@ function this.OnMissionCanStartBottom()
   end
 
   local currentChecks=this.UpdateExecChecks(this.execChecks)
-  for i=1,#Ivars.updateIvars do
-    local ivar=Ivars.updateIvars[i]
-    if IsFunc(ivar.OnMissionCanStart) then
-      ivar.OnMissionCanStart(currentChecks)
+  for i,module in ipairs(InfModules) do
+    if IsFunc(module.OnMissionCanStart) then
+      module.OnMissionCanStart(currentChecks)
     end
   end
 
@@ -1236,8 +1212,6 @@ function this.OnMissionCanStartBottom()
   --  if Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then
   --    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
   --  end
-
-  InfMBVisit.StartLongMbVisitClock()
 
   local locationName=InfMain.GetLocationName()
   if Ivars.disableLzs:Is"ASSAULT" then
@@ -1251,8 +1225,6 @@ function this.OnMissionCanStartBottom()
     InfGameEvent.OnMissionCanStart()
   end
 
-  InfParasite.InitEvent()
-
   if Ivars.repopulateRadioTapes:Is(1) then
     Gimmick.ForceResetOfRadioCassetteWithCassette()
   end
@@ -1261,7 +1233,8 @@ function this.OnMissionCanStartBottom()
   --end)--DEBUG
 end
 
-function this.Init(missionTable)--tex called from TppMain.OnInitialize
+--tex called about halfway through TppMain.OnInitialize
+function this.Init(missionTable)
   --InfLog.PCall(function(missionTable)--DEBUG
   this.abortToAcc=false
 
@@ -1271,22 +1244,19 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
-  local currentChecks=this.UpdateExecChecks(this.execChecks)
-  for i=1,#Ivars.updateIvars do
-    local ivar=Ivars.updateIvars[i]
-    if IsFunc(ivar.ExecInit) then
-      this.ExecInit(currentChecks,ivar.execCheckTable,ivar.ExecInit)
-    end
-  end
-
   if (vars.missionCode==30050 --[[WIP or vars.missionCode==30250--]]) and Ivars.mbEnableFultonAddStaff:Is(1) then
     mvars.trm_isAlwaysDirectAddStaff=false
   end
 
   this.UpdateHeliVars()
-
-  InfMBVisit.ClearMoraleInfo()
   --end,missionTable)--DEBUG
+
+  local currentChecks=this.UpdateExecChecks(this.execChecks)
+  for i,module in ipairs(InfModules)do
+    if module.Init then
+      module.Init(missionTable,currentChecks)
+    end
+  end
 end
 
 function this.OnReload(missionTable)
@@ -1295,15 +1265,24 @@ function this.OnReload(missionTable)
   end
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+
+  for i,module in ipairs(InfModules)do
+    if module.OnReload then
+      module.OnReload(missionTable)
+    end
+  end
 end
 
+--tex called from TppMission.OnMissionGameEndFadeOutFinish2nd
 function this.OnMissionGameEndTop()
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
 
-  if vars.missionCode==30050 or vars.missionCode==30250 then
-    InfMBVisit.CheckMoraleReward()
+  for i,module in ipairs(InfModules) do
+    if IsFunc(module.OnMissionGameEnd) then
+      module.OnMissionGameEnd()
+    end
   end
 end
 
@@ -1405,7 +1384,7 @@ function this.UpdateExecChecks(currentChecks)
       --InfLog.DebugPrint"not initialAction"
       --end
       currentChecks.inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
-      currentChecks.inGroundVehicle=Tpp.IsVehicle(playerVehicleId) and not currentChecks.inSupportHeli-- or Tpp.IsEnemyWalkerGear(playerVehicleId)?? VERIFY
+      currentChecks.inGroundVehicle=Tpp.IsVehicle(playerVehicleId)-- or Tpp.IsEnemyWalkerGear(playerVehicleId)?? VERIFY
       currentChecks.onBuddy=Tpp.IsHorse(playerVehicleId) or Tpp.IsPlayerWalkerGear(playerVehicleId)
       currentChecks.inBox=Player.IsVarsCurrentItemCBox()
     end
@@ -1438,20 +1417,16 @@ function this.Update()
       InfMenu.Update(currentChecks)
       currentChecks.inMenu=InfMenu.menuOn
 
-      for i=1,#Ivars.updateIvars do
-        local ivar=Ivars.updateIvars[i]
-        if ivar.setting>0 or ivar.allwaysExec then
-          --tex ivar.updateRate is either number or another ivar
-          local updateRate=ivar.updateRate or 0
-          local updateRange=ivar.updateRange or 0
-          if IsTable(updateRate) then
-            updateRate=updateRate.setting
-          end
-          if IsTable(updateRange) then
-            updateRange=updateRange.setting
-          end
+      for i,module in ipairs(InfModules) do
+        if module.Update then
+          --tex <module>.active is either number or ivar
+          local active=this.ValueOrIvarValue(module.active)
+          if active>0 then
+            local updateRate=this.ValueOrIvarValue(module.updateRate)
+            local updateRange=this.ValueOrIvarValue(module.updateRange)
 
-          this.ExecUpdate(currentChecks,this.currentTime,ivar.execCheckTable,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
+            this.ExecUpdate(currentChecks,this.currentTime,module.execCheckTable,module.execState,updateRate,updateRange,module.Update)
+          end
         end
       end
     end
@@ -1460,27 +1435,13 @@ function this.Update()
   end)--DEBUG
 end
 
-function this.ExecInit(currentChecks,execChecks,ExecInitFunc)
-  if execChecks==nil then
-    InfLog.DebugPrint"update ivar has no execChecks var, aborting"
-    return
-  end
-  --  for check,ivarCheck in ipairs(execChecks) do
-  --    if currentChecks[check]~=ivarCheck then
-  --      return
-  --    end
-  --  end
-
-  ExecInitFunc(currentChecks)
-end
-
 function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdateFunc)
   if execState.nextUpdate > currentTime then
     return
   end
 
   if execChecks==nil then
-    InfLog.DebugPrint"update ivar has no execChecks var, aborting"
+    InfLog.DebugPrint"update module has no execChecks var, aborting"
     return
   end
   for check,ivarCheck in pairs(execChecks) do
@@ -1494,20 +1455,22 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
     return
   end
 
-  ExecUpdateFunc(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdateFunc)
+  ExecUpdateFunc(currentChecks,currentTime,execChecks,execState)
 
+  --tex CULL, module Update func handling setting its next update time for now
   --tex set up next update time GOTCHA: wont reflect changes to rate and range till next update
-  if updateRange then
-    local updateMin=updateRate-updateRange*0.5
-    local updateMax=updateRate+updateRange*0.5
-    if updateMin<0 then
-      updateMin=0
-    end
+  --  if updateRange then
+  --    local updateMin=updateRate-updateRange*0.5
+  --    local updateMax=updateRate+updateRange*0.5
+  --    if updateMin<0 then
+  --      updateMin=0
+  --    end
+  --
+  --    updateRate=math.random(updateMin,updateMax)
+  --  end
+  --  execState.nextUpdate=currentTime+updateRate
 
-    updateRate=math.random(updateMin,updateMax)
-  end
-  execState.nextUpdate=currentTime+updateRate
-
+  --DEBUG
   --if currentChecks.inGame then
   -- InfLog.DebugPrint("currentTime: "..tostring(currentTime).." updateRate:"..tostring(updateRate) .." nextUpdate:"..tostring(execState.nextUpdate))
   --end
@@ -1870,7 +1833,7 @@ function this.BuildCpPool(soldierDefine)
 end
 
 function this.ModifyVehiclePatrolSoldiers(soldierDefine)
-  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
+  if not Ivars.vehiclePatrolProfile:EnabledForMission() then
     return
   end
 
@@ -1931,7 +1894,7 @@ end
 
 --IN/OUT,SIDE reserveSoldierPool
 function this.AddLrrps(soldierDefine,travelPlans)
-  if Ivars.enableLrrpFreeRoam:Is(0) or not Ivars.enableLrrpFreeRoam:MissionCheck() then
+  if not Ivars.enableLrrpFreeRoam:EnabledForMission() then
     return
   end
 
@@ -2051,7 +2014,7 @@ this.numWildCardFemales=5
 function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
   --InfLog.PCall(function(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)--DEBUG
 
-  if not (Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck()) then
+  if not Ivars.enableWildCardFreeRoam:EnabledForMission() then
     return
   end
 
@@ -2429,11 +2392,18 @@ end
 
 function this.ObjectNameForGameId(findId)
   local tppSoldier2Str="TppSoldier2"
+
+  for cpName,soldierNames in pairs(mvars.ene_soldierDefine)do
+    local gameId=this.ObjectNameForGameIdList(findId,soldierNames,tppSoldier2Str)
+    if gameId then
+      return gameId,cpName
+    end
+  end
+
   local nameLists={
     {TppReinforceBlock.REINFORCE_SOLDIER_NAMES,tppSoldier2Str},
-    {mvars.ene_soldierDefine,tppSoldier2Str},
-    InfNPCHeli.npcHeliList,
-    InfNPCHeli.enemyHeliList,
+    InfNPCHeli.heliNames.UTH,
+    InfNPCHeli.heliNames.HP48,
     this.jeepNames,
     this.truckNames,
   }
@@ -2728,14 +2698,14 @@ this.ShuffleBag={
 
     return newBag
   end,
-  Fill=function(self,table)
+  Fill=function(self,table,amount)
     local tableTypeStr="table"
     for i=1,#table do
       local item=table[i]
       if type(item)==tableTypeStr then
         self:Add(item[1],item[2])
       else
-        self:Add(item)
+        self:Add(item,amount)
       end
     end
   end,
@@ -2832,6 +2802,30 @@ function this.WeaponVarsSanityCheck()
   end
 end
 
+function this.ValueOrIvarValue(value)
+  local value=value or 0
+  if IsTable(value) then
+    value=value:Get()
+  end
+  return value
+end
+
+--tex just from Tpp.IsGameObjectType, don't want to change it from local
+function this.IsGameObjectType(gameObject,checkType)
+  if gameObject==nil then
+    return
+  end
+  if gameObject==NULL_ID then
+    return
+  end
+  local typeIndex=GetTypeIndex(gameObject)
+  if typeIndex==checkType then
+    return true
+  else
+    return false
+  end
+end
+
 function this.LoadExternalModule(moduleName)
   local module=_G[moduleName]
   if module and module.PreModuleReload then
@@ -2843,29 +2837,26 @@ function this.LoadExternalModule(moduleName)
   local sucess,module=pcall(require,moduleName)
   if not sucess then
     InfLog.Add(module)
-    InfLog.DebugPrint("Could not load module "..moduleName)
+    --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
+    if this.doneStartup then
+      InfLog.DebugPrint("Could not load module "..moduleName)
+    end
   else
     _G[moduleName]=module
   end
+  return module
 end
 
---tex TODO expose
-this.externalModules={
-  "Ivars",
-  "InfMenuCommands",
-  "InfQuickMenuCommands",
-  "InfLang",
-  "InfMenuDefs",
-  "InfQuickMenuDefs",
-}
 --SIDE: modules,this.modulesOK
 function this.LoadExternalModules()
-  for i,moduleName in ipairs(this.externalModules) do
-    this.LoadExternalModule(moduleName)
-  end
   this.modulesOK=true
-  for i,moduleName in ipairs(this.externalModules) do
-    if not _G[moduleName] then
+  for i,moduleName in ipairs(InfModules.moduleNames) do
+    this.LoadExternalModule(moduleName)
+    local module=_G[moduleName]
+    if module then
+      module.name=moduleName
+      table.insert(InfModules,module)
+    else
       this.modulesOK=false
     end
   end
@@ -2873,14 +2864,23 @@ end
 
 function this.ModuleErrorMessage()
   --tex TODO: if InfLang then printlangid else -v-
-  InfLog.DebugPrint"Infinite Heaven is not installed correctly. Could not load modules from MGSV_TPP\\mod\\"
+  InfLog.DebugPrint"Infinite Heaven: Could not load modules from MGSV_TPP\\mod\\. See Installation.txt"
 end
 
 --EXEC
---WIP, TODO: consider where I want initial load
-this.LoadExternalModules()
-if not this.modulesOK then
+ivars={}--tex GLOBAL
+
+_G.InfMain=this--WORKAROUND allowing external modules access to this before it's actually returned --KLUDGE using _G since I'm already definining InfMain as local
+
+this.LoadExternalModule"InfModules"
+if not InfModules then
   this.ModuleErrorMessage()
+else
+  this.LoadExternalModules()
+  if not this.modulesOK then
+    this.ModuleErrorMessage()
+  end
+  this.doneStartup=true
 end
 
 return this

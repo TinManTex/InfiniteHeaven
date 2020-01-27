@@ -33,7 +33,7 @@ this.eng={--english
   mbWarGamesProfile="Mother Base War Games",
   clockTimeScale="Clock time scale",
   unlockPlayableAvatar="Unlock playable avatar",
-  returnQuiet="Return Quiet (not reversable)",
+  returnQuiet="Return Quiet after mission 45",
   quiet_already_returned="Quiet has already returned.",
   quiet_return="Quiet has returned.",
   subsistenceProfile="Subsistence profile",--CULL
@@ -165,8 +165,7 @@ this.eng={--english
   warp_mode_off="Warp mode off",
   item_disabled="Menu item is currently disabled",
   quietRadioMode="Quiets MB radio track (0=Auto)",--r88
-  soldierParamsProfile="Soldier Parameters Profile",--r89
-  soldierParamsProfileSettings={"Off (use game/other mod settings, requires restart)","Custom"},
+  soldierParamsProfile="Enable soldier parameter settings",
   soldierHealthScale="Soldier life scale",
   soldierSightDistScale="Soldier sight scale",
   soldierNightSightDistScale="Soldier night sight scale",
@@ -351,7 +350,7 @@ this.eng={--english
   warpToUserMarker="Warp to latest marker",
   printLatestUserMarker="Print latest marker",
   printUserMarkers="Print all markers",
-  npcHeliUpdateSettings={"Off","Support helis","Support and Attack helis"},--r144
+  npcHeliUpdateSettings={"Off","Support helis","Attack helis","Support and Attack helis"},--r144
   missionPrepRestrictionsMenu="Mission-prep restrictions menu",
   markersMenu="Marking display menu",
   startOnFootFREE="Start free roam on foot",--r145
@@ -519,6 +518,8 @@ this.eng={--english
   progressionMenu="Progression menu",
   fob_weapon_change="Cannot use Equip none on FOB",
   dropCurrentEquip="Drop current equip",
+  enableQuickMenu="Enable QuickMenu",
+  systemMenu="IH system menu",
 }--eng end
 
 this.help={}
@@ -546,7 +547,7 @@ this.help.eng={
   setDemon="Adds 999999 points to demon score",--SYNC
   removeDemon="Subtracts 999999 points from demon score",--SYNC
   fovaModMenu="Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.",
-  soldierParamsProfile="Due to the way Soldier2ParameterTables.lua is set up turn this off if you have another mod that modifies this, usually just Hardcore mod.",
+  soldierParamsProfile="Turn this on to enable the following enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).",
   phaseMenu="Adjust minimum and maximum alert phase for enemy Command Posts",
   phaseUpdate="The Minimum, Maximum, and Don't downgrade phase settings are applied on at every update tick according to the Phase update rate and random variation settings",
   minPhase="PHASE_SNEAK - not alert, PHASE_CAUTION - alert, PHASE_EVASION - one step down from combat alert, PHASE_ALERT - combat alert",
@@ -674,6 +675,7 @@ this.help.eng={
   weaponTableDD="Add the DD weapons table that's usually used for FOB, the following grade and developed settings control how this table is built",
   mbqfEnableSoldiers="Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.",
   mbEnableLethalActions="Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.",
+  enableQuickMenu="Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.",
 }
 
 this.cpNames={

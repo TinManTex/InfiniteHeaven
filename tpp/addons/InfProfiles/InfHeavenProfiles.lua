@@ -64,12 +64,13 @@ profiles.subsistenceGame={
     disableHeliAttack=1,
     disableSelectTime=1,
     disableSelectVehicle=1,
-    disableHeadMarkers=1,
 
-    disableXrayMarkers=1,
-    disableHeadMarkers=1,
+    disableXrayMarkers=0,
+    disableHeadMarkers=0,
     disableWorldMarkers=0,
-    disableFulton=1,
+    
+    disableFulton=0,
+    
     clearItems=1,
     clearSupportItems=1,
     setSubsistenceSuit=1,
@@ -79,13 +80,13 @@ profiles.subsistenceGame={
 --    secondaryWeaponOsp="EQUIP_NONE",
 --    tertiaryWeaponOsp="EQUIP_NONE",
 
-    handLevelSonar="DISABLE",
-    handLevelPhysical="DISABLE",
-    handLevelPrecision="DISABLE",
-    handLevelMedical="DISABLE",
+    handLevelSonar="DEFAULT",
+    handLevelPhysical="DEFAULT",
+    handLevelPrecision="DEFAULT",
+    handLevelMedical="DEFAULT",
 
-    itemLevelFulton="GRADE1",
-    itemLevelWormhole="DISABLE",
+    itemLevelFulton="DEFAULT",
+    itemLevelWormhole="DEFAULT",
 
     disableMenuDrop=1,
     disableMenuBuddy=1,
@@ -96,9 +97,6 @@ profiles.subsistenceGame={
     abortMenuItemControl=1,
     disableRetry=0,
     gameOverOnDiscovery=0,
-    maxPhase="PHASE_ALERT",--Reset
-    
-    dontOverrideFreeLoadout=1,
   }
 }
 
@@ -111,7 +109,6 @@ profiles.subsistencePure={
     disableHeliAttack=1,
     disableSelectTime=1,
     disableSelectVehicle=1,
-    disableHeadMarkers=1,
 
     disableXrayMarkers=1,
     disableHeadMarkers=1,
@@ -159,6 +156,7 @@ profiles.subsistenceBounder={
     disableHeliAttack=1,
     disableSelectTime=1,
     disableSelectVehicle=1,
+    
     disableHeadMarkers=0,
     disableXrayMarkers=0,
     disableWorldMarkers=0,

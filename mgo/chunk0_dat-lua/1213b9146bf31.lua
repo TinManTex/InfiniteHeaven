@@ -70,8 +70,10 @@ function e.Destruct(a)Utils.POIdestruct(a,S)S=nil
   if t then
     MgoParts.StopEffect(t,"Icon")MgoParts.SetVisibility(t,false)
   end
-  a:DetachAndTearDownAllParts()a:GetTable().AttachedToPlayerIndex=-1
-  a:DisableMarker()a:SetActive(false)s(a,a:IsActive(),a:GetTable().AttachedToPlayerIndex)
+  a:DetachAndTearDownAllParts()
+  a:GetTable().AttachedToPlayerIndex=-1
+  a:DisableMarker()a:SetActive(false)
+  s(a,a:IsActive(),a:GetTable().AttachedToPlayerIndex)
 end
 e.Teardown=e.Destruct
 function e.Activate(e)l=true

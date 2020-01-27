@@ -993,7 +993,7 @@ end
 function this.OnMissionClearOrAbort(missionId,isAbort)--tex added isAbort
   gvars.rev_revengeRandomValue=math.random(0,2147483647)
   this.ApplyMissionTendency(missionId,isAbort)--tex added isAbort
-  this._ReduceRevengePointByTime(missionId)--tex added
+  InfMBVisit._ReduceRevengePointByTime(missionId)--tex added
   this._ReduceRevengePointByChickenCap(missionId)
   this._ReduceBlockedCount(missionId)
   this._ReceiveClearedDeployRevengeMission()
@@ -1102,36 +1102,6 @@ function this._ReduceRevengePointByChickenCap(missionId)
     this._ReduceRevengePointOther()
   end
 end
---tex>
-function this._ReduceRevengePointByTime(missionId)
-
-  if missionId==nil then
-    missionId=TppMission.GetMissionID()
-  end
-  --  if this.IsNoRevengeMission(missionId)then
-  --    return
-  --  end
-  if missionId~=30050 then
-    return
-  end
-  if bit.band(vars.playerPlayFlag,PlayerPlayFlag.USE_CHICKEN_CAP)==PlayerPlayFlag.USE_CHICKEN_CAP then
-    return
-  end
-
-  if Ivars.revengeDecayOnLongMbVisit:Is(0) then
-    return
-  end
-
-  local getMbVisitRevengeDecay=InfMBVisit.GetMbVisitRevengeDecay()
-  if getMbVisitRevengeDecay>0 then
-    InfMenu.PrintLangId"mb_visit_revenge_decay"
-    for i=1,getMbVisitRevengeDecay do
-      this._ReduceRevengePointStealthCombat()
-      this._ReduceRevengePointOther()
-    end
-  end
-end
---<
 function this.ReduceRevengePointOnAbort(missionId)
 end
 function this._GetMissionTendency(missionId)
@@ -1524,7 +1494,7 @@ function this._AllocateResources(config)
   if TppEquip.RequestLoadToEquipMissionBlock then
     TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
     --tex> TODO: pare it down to actual used
-    if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionId) then
+    if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then
       local equipLoadTable={}
       for weaponType,weaponId in pairs(TppEnemy.weaponIdTable.WILDCARD.NORMAL)do
         table.insert(equipLoadTable,weaponId)
@@ -2093,7 +2063,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
 
   --tex fix issues with RADIO body>
   local applyPowersToLrrp=Ivars.applyPowersToLrrp:Is()>0
-  local isVehiclePatrols=Ivars.vehiclePatrolProfile:Is()>0 and Ivars.vehiclePatrolProfile:MissionCheck()
+  local isVehiclePatrols=Ivars.vehiclePatrolProfile:EnabledForMission()
   for soldierConfigId,soldierConfig in ipairs(cpConfig)do
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]
     local addRadio=false

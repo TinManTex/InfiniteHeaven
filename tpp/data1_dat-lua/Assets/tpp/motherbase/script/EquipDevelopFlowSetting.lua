@@ -9,10 +9,10 @@ this={}
 --You get patches when you log into server (or just after that, happens only once per game session)
 
 --TppMotherBaseManagement.RegFlwDev{
---  p50=0,
+--  p50=0,--index of develop item defined by order of TppMotherBaseManagement.RegCstDev calls 
 --nasanhak combo of p51 and p52 creates the dev chain for an item/weapon - can be customized but if not careful, may break development menu tabs/game in subtle ways
---  p51=0,--nasanhak order of dev of item chains, from 0, tex if you look at all entries in this files you'll see they're sequential
---  p52=1,--grade --nasanhak ** combo of p51 and p52 creates the dev chain for an item/weapon - can be customized but if not careful, may break development menu tabs/game in subtle ways
+--  p51=0,--nasanhak order of dev of item chains, from 0
+--  p52=1,--grade, grade 0 doesnt show in dev pages
 --  p53=0,--development gmp
 --  p54=100,--deployment cost gmp
 --nasanhak first unit type requirement is not set in this file, or in any file as far as I can tell
@@ -23,19 +23,19 @@ this={}
 --  p59=0,--Development resource 1 quantity
 --  p60="<resourceId>",--Development resource 2 id,, see resource ids below
 --  p61=0,--Development resource 2 quantity
---  p62=1,--
+--  p62=1,--{0,1} - set as developed
 --  p63=0,--
 --  p64=0,--
 --  p65="",--Deployment resource 1 id
 --  p66=0,--Deployment resource 1 quantity
 --  p67="",--Deployment resource 2 id
 --  p68=0,--Deployment resource 2 quantity
---  p69=0,--{0,1} nasanhak 1=hide DLC from item tabs
+--  p69=0,--{0,1} nasanhak 1=hide from development tabs, used for enemy weapons and DLC
 --  p70=0,--
 --  p71=0,--Development time
 --  p72={0-7},--Offline (0) Online (1)
 --  p73=0,--
---  p74=1--
+--  p74=1--nasanhak online item - changing to 0 does nothing seemingly
 --}
 
 --Resource ids

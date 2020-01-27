@@ -98,7 +98,9 @@ this.printFaceInfo={
 
 this.showPosition={
   OnChange=function()
-    TppUiCommand.AnnounceLogView(string.format("%.3f,%.3f,%.3f | %.3f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerCameraRotation[1]))
+    local position=string.format("%.3f,%.3f,%.3f | %.3f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerCameraRotation[1])
+    InfLog.Add(position)
+    TppUiCommand.AnnounceLogView(position)
   end,
 }
 
@@ -318,6 +320,10 @@ this.warpToCamPos={
 
 this.warpToUserMarker={
   OnChange=function()
+    if vars.playerVehicleGameObjectId~=NULL_ID then
+      return
+    end
+
     -- InfLog.DebugPrint"Warping to newest marker"
     local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
     if lastMarkerIndex==nil then
@@ -346,7 +352,6 @@ this.printLatestUserMarker={
   end
 }
 
-
 this.setSelectedCpToMarkerObjectCp={
   OnChange=function()
     local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
@@ -368,11 +373,11 @@ this.setSelectedCpToMarkerObjectCp={
       return
     end
 
-    for n,currentName in pairs(mvars.ene_cpList)do
+    for cpId,currentName in pairs(mvars.ene_cpList)do
       --InfLog.DebugPrint(tostring(n).." "..tostring(currentName))
       if currentName==cpName then
-        Ivars.selectedCp:Set(n)
-        InfLog.DebugPrint("selectedCp set to "..n..":"..cpName)
+        Ivars.selectedCp:Set(cpId)
+        InfLog.DebugPrint("selectedCp set to "..cpId..":"..cpName)
         return
       end
     end
@@ -486,6 +491,7 @@ this.DEBUG_ToggleParasiteEvent={
   OnChange=function()
     parasiteToggle=not parasiteToggle
     if parasiteToggle then
+      InfParasite.InitEvent()
       InfParasite.StartEvent()
     else
       InfParasite.EndEvent()
@@ -597,10 +603,10 @@ local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
---WIP
-    local defaultSlot=true
-    local onlyNonDefault=false
-    InfProc.WriteProfile(defaultSlot,onlyNonDefault)
+    --WIP
+    --    local defaultSlot=true
+    --    local onlyNonDefault=false
+    --    IvarProc.WriteProfile(defaultSlot,onlyNonDefault)
 
     InfLog.DebugPrint("index1:"..index1)
     index1=index1+1
@@ -616,7 +622,7 @@ local index2Max=1--14
 local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
---WIP
+    --WIP
     InfLog.Add("-----")
     local profilesFileName="InfSavedProfiles.lua"
     local savedProfiles=InfPersistence.Load(InfLog.modPath..profilesFileName)
@@ -637,8 +643,6 @@ local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
     --InfLog.PrintInspect(InfModelRegistry)
-    --InfLog.PrintInspect(InfMessageLog.debug)
-
 
     InfLog.DebugPrint("index3:"..index3)
     index3=index3+1
@@ -833,18 +837,19 @@ this.DEBUG_SetIvarsToDefault={
     InfLog.Add("DEBUG_SetIvarsToDefault",true)
 
     local ivarNames={
-      "debugMode",
-    }
+
+      }
 
     for i,ivarName in pairs(ivarNames) do
       local ivar=Ivars[ivarName]
+      local currentSetting=ivars[ivarName]
       if ivar==nil then
         InfLog.Add(ivarName.."==nil")
 
       elseif not ivar.save then
       --InfLog.DebugPrint(ivarName.." save not set")
-      elseif ivar.setting~=ivar.default then
-        InfLog.Add(ivarName..":"..tostring(ivar.setting).." not default:"..tostring(ivar.default)..", resetting")
+      elseif currentSetting~=ivar.default then
+        InfLog.Add(ivarName..":"..tostring(currentSetting).." not default:"..tostring(ivar.default)..", resetting")
         IvarProc.SetSetting(ivar,ivar.default,true)
       end
     end
@@ -1283,6 +1288,8 @@ this.DEBUG_WarpToObject={
     --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
     local objectList=InfMain.ene_wildCardSoldiers
 
+    --local objectList=InfParasite.parasiteNames.CAMO
+
     --local objectList=InfMain.truckNames
     --local objectList={"veh_trc_0000"}
     --local objectList=InfMain.jeepNames
@@ -1459,18 +1466,27 @@ this.copyLogToPrev={
 
 this.dropCurrentEquip={
   OnChange=function()
-    local subIndex=nil
-    --tex NOTE: currentInventorySlot doesn't seem to ever be set to PlayerSlotType.ITEM
-    if vars.currentInventorySlot==PlayerSlotType.ITEM then
-      subIndex=vars.currentItemIndex
-    elseif vars.currentInventorySlot==PlayerSlotType.SUPPORT then
-      subIndex=vars.currentSupportWeaponIndex
+    if vars.playerVehicleGameObjectId~=NULL_ID and not InfMain.IsGameObjectType(vars.playerVehicleGameObjectId,TppGameObject.GAME_OBJECT_TYPE_HORSE2) then
+      return
     end
 
-    InfLog.Add("currentInventorySlot"..vars.currentInventorySlot.."currentItemIndex "..vars.currentItemIndex.." currentSupportWeaponIndex "..vars.currentSupportWeaponIndex)
+    local slotType=vars.currentInventorySlot
+    local subIndex=nil
+    --tex NOTE: currentInventorySlot doesn't seem to ever be set to PlayerSlotType.ITEM
+    if slotType==PlayerSlotType.ITEM then
+      subIndex=vars.currentItemIndex
+    elseif slotType==PlayerSlotType.SUPPORT then
+      subIndex=vars.currentSupportWeaponIndex
+    elseif slotType==PlayerSlotType.STOLE then
+    -- return --tex allow it since
+    elseif slotType==PlayerSlotType.HAND then
+    -- return --tex think I'll allow it so user can quick dump hand to default
+    end
+
+    InfLog.Add("dropCurrentEquip currentInventorySlot"..vars.currentInventorySlot.."currentItemIndex "..vars.currentItemIndex.." currentSupportWeaponIndex "..vars.currentSupportWeaponIndex)
 
     Player.UnsetEquip{
-      slotType=vars.currentInventorySlot,
+      slotType=slotType,
       subIndex=subIndex,
       dropPrevEquip=true,
     }
@@ -1487,7 +1503,7 @@ for name,item in pairs(this) do
       item.optionType=optionType
       item.name=name
       item.default=item.default or 0
-      item.setting=item.default
+      ivars[name]=item.default
       item.range=item.range or switchRange
       item.settingNames=item.settingNames or "set_do"
     end

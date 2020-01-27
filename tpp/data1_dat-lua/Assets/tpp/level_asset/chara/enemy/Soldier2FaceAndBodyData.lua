@@ -998,6 +998,7 @@ this.faceDefinition={
   --tex slots for run-time face modding, see InfEneFova.ApplyFaceFova >
   {690, 0, 0, 0, 0,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
   {691, 0, 0, 0, 1,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
+  --{faceId,unk1,gender,unk2,faceFova,faceDecoFova,hairFova,hairDecoFova,unk3,unk4,unk5,uiTextureName,unk6,unk7,unk8,unk9,unk10},--notes
 --<
 }
 
@@ -1347,10 +1348,10 @@ local genders={
   MALE=0,
   FEMALE=1,
 }
-local InfModelRegistry=InfModelRegistry
+--local InfModelRegistry=InfModelRegistry
+local InfModelRegistry=InfLog.InfModelRegistry--tex WORKAROUND require not beingable to be assigned to global weirdness
 if InfModelRegistry then  
-  InfLog.Add("InfModelRegistry Setup")
-
+  --InfLog.Add("InfModelRegistry Setup")
   for i,fovaTypeName in ipairs(fovaTypes) do
     InfModelRegistry[fovaTypeName]={}
   end

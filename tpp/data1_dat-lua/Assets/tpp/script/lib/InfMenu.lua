@@ -107,10 +107,11 @@ function this.GetSetting(previousIndex,previousMenuOptions)
     return
   end
 
+  --tex make sure ivar is synced from saved
   if option.save then
     local gvar=gvars[option.name]
     if gvar~=nil then
-      option.setting=gvar
+      ivars[option.name]=gvar
     else
       InfLog.Add("Option Menu Error: gvar -"..option.name.."- not found",true)
     end
@@ -192,7 +193,8 @@ function this.IncrementWrap(current,increment,min,max)
 end
 
 function this.ChangeSetting(option,value)
-  local newSetting=this.IncrementWrap(option.setting,value,option.range.min,option.range.max)
+  local currentSetting=ivars[option.name]
+  local newSetting=this.IncrementWrap(currentSetting,value,option.range.min,option.range.max)
   if option.SkipValues and IsFunc(option.SkipValues) then
     while option:SkipValues(newSetting) do
       --OFF TppUiCommand.AnnounceLogView(newSetting .." ".. this.LangString"setting_disallowed")--" is currently disallowed"
@@ -206,15 +208,16 @@ end
 
 function this.SetCurrent()--tex refresh current setting/re-call OnChange
   local option=this.currentMenuOptions[this.currentIndex]
-  if option.setting then
-    IvarProc.SetSetting(option,option.setting)
+  local currentSetting=ivars[option.name]
+  if currentSetting then
+    IvarProc.SetSetting(option,currentSetting)
   end
 end
 
 function this.ActivateCurrent()--tex run activate function
   local option=this.currentMenuOptions[this.currentIndex]
   if IsFunc(option.OnActivate) then
-    InfLog.PCall(option.OnActivate,option)
+    InfLog.PCall(option.OnActivate,option,ivars[option.name])
   else
     this.SetCurrent()
   end
@@ -234,7 +237,7 @@ function this.NextSetting(incrementMult)
   if option.options then--tex is menu
     this.GoMenu(option)
   elseif IsFunc(option.GetNext) then
-    local newSetting=option:GetNext()
+    local newSetting=option:GetNext(ivars[option.name])
     IvarProc.SetSetting(option,newSetting)
   else
     local increment=option.range.increment
@@ -254,7 +257,7 @@ function this.PreviousSetting(incrementMult)
   local option=this.currentMenuOptions[this.currentIndex]
 
   if IsFunc(option.GetPrev) then
-    local newSetting=option:GetPrev()
+    local newSetting=option:GetPrev(ivars[option.name])
     IvarProc.SetSetting(option,newSetting)
   else
     local increment=-option.range.increment
@@ -330,13 +333,12 @@ local itemIndicators={
   activate=" <Action>",
 }
 
-function this.DisplaySetting(optionIndex,optionNameOnly)
-  --InfLog.PCall(function(optionIndex)--DEBUG
-  local option=this.currentMenuOptions[optionIndex]
+function this.GetSettingText(optionIndex,option,optionNameOnly)
   local settingText=""
   local settingSuffix=""
   local optionSeperator=""
   local settingNames=option.settingNames or option.settings
+  local currentSetting=ivars[option.name]
 
   if option.isMenuOff then
     optionSeperator=itemIndicators.command_menu_off
@@ -349,28 +351,28 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
     settingText=""
   elseif settingNames then
     optionSeperator=itemIndicators.equals
-    if option.setting==nil then
-      settingText=": ERROR: setting==nil"
+    if currentSetting==nil then
+      settingText=": ERROR: ivar setting==nil"
       --tex old style direct non localized table
     elseif IsTable(settingNames) then
-      if option.setting < 0 or option.setting > #settingNames-1 then
+      if currentSetting < 0 or currentSetting > #settingNames-1 then
         settingText=" WARNING: current setting out of settingNames bounds"
       elseif IsFunc(option.GetSettingText) then
-        settingText=tostring(option:GetSettingText(option.setting))
+        settingText=tostring(option:GetSettingText(currentSetting))
       else
         --tex lua indexed from 1, but settings from 0
-        settingText=settingNames[option.setting+1]
+        settingText=settingNames[currentSetting+1]
       end
     else
       local langTable
-      settingText,langTable=this.LangTableString(settingNames,option.setting+1)
+      settingText,langTable=this.LangTableString(settingNames,currentSetting+1)
     end
   elseif IsFunc(option.GetSettingText) then
     optionSeperator=itemIndicators.equals
-    settingText=tostring(option:GetSettingText(option.setting))
+    settingText=tostring(option:GetSettingText(currentSetting))
   else
     optionSeperator=itemIndicators.equals
-    settingText=tostring(option.setting)
+    settingText=tostring(currentSetting)
   end
 
   if option.OnActivate then
@@ -382,25 +384,31 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
   end
 
   if not option.noSettingCounter and option.optionType=="OPTION" and (option.settingNames or option.settingsTable or option.GetSettingText) then--
-    settingText=option.setting..":"..settingText
+    settingText=currentSetting..":"..settingText
   end
 
-  TppUiCommand.AnnounceLogDelayTime(0)
   local settingName = option.description or this.LangString(option.name)
 
-  local message=""
+  local fullSettingText=""
   if optionNameOnly then
     if optionSeperator==itemIndicators.equals then
       optionSeperator=itemIndicators.colon
     end
-    message=optionIndex..":"..settingName..optionSeperator
+    fullSettingText=optionIndex..":"..settingName..optionSeperator
   else
-    message=optionIndex..":"..settingName..optionSeperator..settingText..settingSuffix
+    fullSettingText=optionIndex..":"..settingName..optionSeperator..settingText..settingSuffix
   end
+
+  return fullSettingText
+end
+
+function this.DisplaySetting(optionIndex,optionNameOnly)
+  local option=this.currentMenuOptions[optionIndex]
+  local settingText=this.GetSettingText(optionIndex,option,optionNameOnly)
   --OFF this.QueueDisplay(message)
-  TppUiCommand.AnnounceLogView(message)
+  TppUiCommand.AnnounceLogDelayTime(0)
+  TppUiCommand.AnnounceLogView(settingText)
   this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
-  --end,optionIndex)--DEBUG
 end
 --tex display all
 function this.DisplaySettings()
@@ -474,7 +482,7 @@ function this.ResetSettings()
       --InfLog.DebugPrint(option.name)
       if option.save then--tex using identifier for all ivar/resetable settings
         --InfLog.DebugPrint(option.name)--DEBUG
-        if option.setting~=option.default then
+        if ivars[option.name]~=option.default then
           IvarProc.SetSetting(option,option.default,true)
       end
       end
@@ -594,8 +602,7 @@ function this.CpNameString(cpName,location)
   local languageCode=this.GetLanguageCode()
   local locationCps=InfLang.cpNames[location]
   if locationCps==nil then
-    InfLog.DebugPrint("WARNING: CpNameString - could not find location "..tostring(location).." in cpNames table")
-    return
+    return "No name for "..tostring(cpName)
   end
   local cps=locationCps[languageCode] or locationCps["eng"]
   return cps[cpName]
@@ -652,6 +659,7 @@ function this.CheckActivate(execCheck)
   return not disallowCheck and not TppUiCommand.IsMbDvcTerminalOpened()
 end
 
+--tex CULL, handled on a command by command basis
 function this.CheckActivateQuickMenu(execCheck)
   local disallowCheck=execCheck.inGroundVehicle or execCheck.onBuddy or execCheck.inBox
   return not disallowCheck and not TppUiCommand.IsMbDvcTerminalOpened()
@@ -706,24 +714,26 @@ function this.Update(execCheck)
   --quickmenu>
   local InfQuickMenuDefs=InfQuickMenuDefs
   if InfQuickMenuDefs and not this.menuOn then
-    local quickMenuHoldButton=InfQuickMenuDefs.quickMenuHoldButton
-    if quickMenuHoldButton then
-      this.quickMenuOn=InfButton.ButtonHeld(quickMenuHoldButton)
-      local quickMenu=InfQuickMenuDefs.inMission
-      if execCheck.inHeliSpace then
-        quickMenu=InfQuickMenuDefs.inHeliSpace
-      end
-      for button,commandInfo in pairs(quickMenu) do
-        InfButton.buttonStates[button].holdTime=commandInfo.immediate and 0.05 or 0.9
-        if commandInfo.immediate then
-          this.quickMenuOn=InfButton.ButtonDown(quickMenuHoldButton)
+    if InfQuickMenuDefs.forceEnable or Ivars.enableQuickMenu:Is(1) then
+      local quickMenuHoldButton=InfQuickMenuDefs.quickMenuHoldButton
+      if quickMenuHoldButton then
+        this.quickMenuOn=InfButton.ButtonHeld(quickMenuHoldButton)
+        local quickMenu=InfQuickMenuDefs.inMission
+        if execCheck.inHeliSpace then
+          quickMenu=InfQuickMenuDefs.inHeliSpace
         end
-        
-        if InfButton.OnButtonHoldTime(button) then
-          --tex have to be careful with order when doing combos since OnButtonHold (and others) update state
-          if this.quickMenuOn then
-            if IsFunc(commandInfo.Command) then
-              commandInfo.Command()
+        for button,commandInfo in pairs(quickMenu) do
+          InfButton.buttonStates[button].holdTime=commandInfo.immediate and 0.05 or 0.9
+          if commandInfo.immediate then
+            this.quickMenuOn=InfButton.ButtonDown(quickMenuHoldButton)
+          end
+
+          if InfButton.OnButtonHoldTime(button) then
+            --tex have to be careful with order when doing combos since OnButtonHold (and others) update state
+            if this.quickMenuOn then
+              if IsFunc(commandInfo.Command) then
+                commandInfo.Command()
+              end
             end
           end
         end
@@ -848,7 +858,7 @@ function this.BuildProfileMenu(profile)
     if ivar==nil then
       InfLog.DebugPrint("WARNING: BuildProfileMenu - could not find ivar "..ivarName)--DEBUG
     else
-      revertProfile[ivarName]=ivar.setting
+      revertProfile[ivarName]=ivars[ivar.name]
       options[#options+1]=ivar
     end
   end

@@ -139,7 +139,8 @@ end
 function e.PostInitialize()
   TppNetworkUtil.StopDebugSession()
   if(Fox.GetPlatformName()~="Windows"or not Editor)or Preference.IsCustomPrefs()then
-    Script.LoadLibrary"/Assets/mgo/level/debug_menu/Select.lua"Select.Start()
+    Script.LoadLibrary"/Assets/mgo/level/debug_menu/Select.lua"
+    Select.Start()
   else
     vars.locationCode=65535
     vars.missionCode=65535

@@ -369,7 +369,7 @@ end
 local function NotDefault(ivars)
   for i=1,#ivars do
     local ivar=ivars[i]
-    if ivar.setting~=ivar.default then
+    if ivars[ivar.name]~=ivar.default then
       return true
     end
   end

@@ -18,7 +18,7 @@ Copy both folders to a safe place.
 
 You may want to back up periodically as you play in case you come across save breaking issues with the mod.
 
-First time prep:
+First-time prep:
 Snakebite should do this, but it's good to have your own backups.
 Back up TPPs original 00.dat and 01.dat in
 <steam path>\steamapps\common\MGS_TPP\master\0\
@@ -64,7 +64,7 @@ WARNING: Applying this mod to any game version after the one stated at the top o
 Part 2 - External mod files:
 Open <steam path>\steamapps\common\MGS_TPP\
 
-Delete or back up MGS_TPP\mod if you have modded the files.
+Delete or back up MGS_TPP\mod\ if you have modded the files.
 
 Copy the mod folder from the Infinite Heaven.zip to MGSV_TPP\mod
 

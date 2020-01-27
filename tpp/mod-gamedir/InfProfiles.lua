@@ -9,12 +9,15 @@
 
 local profiles={}
 
--- Defaults/example of all profile options for IH r186
+-- Defaults/example of all profile options for IH r187
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
 	loadOnACCStart=false,
 	profile={
+		--IH system menu
+		enableQuickMenu=0,--{ 0-1 } -- Enable QuickMenu
+		startOffline=0,--{ 0-1 } -- Start offline
 		--World menu
 		gameEventChanceFREE=0,--{ 0-100 } -- Free roam event random trigger chance (percentage)
 		gameEventChanceMB=0,--{ 0-100 } -- MB event random trigger chance (percentage)
@@ -75,6 +78,7 @@ profiles.defaults={
 		playerHealthScale=100,--{ 0-650 } -- Player life scale (percentage)
 		useSoldierForDemos=0,--{ 0-1 } -- Use selected soldier in all cutscenes and missions
 		--Soldier parameters menu
+		soldierParamsProfile=0,--{ 0-1 } -- Enable soldier parameter settings
 		soldierHealthScale=100,--{ 0-900 } -- Soldier life scale (percentage)
 		soldierSightDistScale=100,--{ 0-400 } -- Soldier sight scale (percentage)
 		soldierNightSightDistScale=100,--{ 0-400 } -- Soldier night sight scale (percentage)
@@ -217,7 +221,7 @@ profiles.defaults={
 		mbDDSuitFemale="EQUIPGRADE",--{ EQUIPGRADE, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE } -- DD Suit female
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
 		mbPrioritizeFemale=0,--{ OFF, DISABLE, MAX } -- Female staff selection
-		npcHeliUpdate=0,--{ OFF, UTH, UTH_AND_HP48 } -- NPC helis
+		npcHeliUpdate=0,--{ OFF, UTH, HP48, UTH_AND_HP48 } -- NPC helis
 		enableWalkerGearsMB=0,--{ 0-1 } -- Walker gears
 		mbWalkerGearsColor="SOVIET",--{ SOVIET, ROGUE_COYOTE, CFA, ZRS, DDOGS, HUEY_PROTO, RANDOM, RANDOM_EACH } -- Walker gears type
 		mbWalkerGearsWeapon=0,--{ DEFAULT, MINIGUN, MISSILE, RANDOM, RANDOM_EACH } -- Walker gears weapons
@@ -267,8 +271,6 @@ profiles.defaults={
 		startOnFootMB_ALL=0,--{ OFF, NOT_ASSAULT, ALL } -- Start Mother base on foot
 		--Debug/system menu
 		printPressedButtons=0,--{ 0-1 } -- Non-save -- 
-		startOffline=0,--{ 0-1 } -- Start offline
-		langOverride=0,--{ 0-1 } -- Mod Menu translation override
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
 		--Buddy menu
 		quietRadioMode=0,--{ 0-31 } -- Quiets MB radio track (0=Auto)
@@ -341,12 +343,13 @@ profiles.subsistenceGame={
     disableHeliAttack=1,
     disableSelectTime=1,
     disableSelectVehicle=1,
-    disableHeadMarkers=1,
 
-    disableXrayMarkers=1,
-    disableHeadMarkers=1,
+    disableXrayMarkers=0,
+    disableHeadMarkers=0,
     disableWorldMarkers=0,
-    disableFulton=1,
+    
+    disableFulton=0,
+    
     clearItems=1,
     clearSupportItems=1,
     setSubsistenceSuit=1,
@@ -356,13 +359,13 @@ profiles.subsistenceGame={
 --    secondaryWeaponOsp="EQUIP_NONE",
 --    tertiaryWeaponOsp="EQUIP_NONE",
 
-    handLevelSonar="DISABLE",
-    handLevelPhysical="DISABLE",
-    handLevelPrecision="DISABLE",
-    handLevelMedical="DISABLE",
+    handLevelSonar="DEFAULT",
+    handLevelPhysical="DEFAULT",
+    handLevelPrecision="DEFAULT",
+    handLevelMedical="DEFAULT",
 
-    itemLevelFulton="GRADE1",
-    itemLevelWormhole="DISABLE",
+    itemLevelFulton="DEFAULT",
+    itemLevelWormhole="DEFAULT",
 
     disableMenuDrop=1,
     disableMenuBuddy=1,
@@ -373,9 +376,6 @@ profiles.subsistenceGame={
     abortMenuItemControl=1,
     disableRetry=0,
     gameOverOnDiscovery=0,
-    maxPhase="PHASE_ALERT",--Reset
-    
-    dontOverrideFreeLoadout=1,
   }
 }
 
@@ -388,7 +388,6 @@ profiles.subsistencePure={
     disableHeliAttack=1,
     disableSelectTime=1,
     disableSelectVehicle=1,
-    disableHeadMarkers=1,
 
     disableXrayMarkers=1,
     disableHeadMarkers=1,
@@ -436,6 +435,7 @@ profiles.subsistenceBounder={
     disableHeliAttack=1,
     disableSelectTime=1,
     disableSelectVehicle=1,
+    
     disableHeadMarkers=0,
     disableXrayMarkers=0,
     disableWorldMarkers=0,

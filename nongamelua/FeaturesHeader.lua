@@ -35,6 +35,14 @@ local this={
       featureHelp="Pressing <Change Stance> while support heli at mission start. Mostly useful with the 'Mission start time till open door' so you can control how long you stay sitting in heli on mission start."
     },
     {
+      featureDescription="Quick menu commands.",
+      featureHelp="Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder."
+    },
+    {
+      featureDescription="Profiles.",
+      featureHelp="Editable lists of options, see InfProfiles.lua in mod folder."
+    },
+    {
       featureDescription="Reload lua scripts in MGSV_TPP without exiting game.",
       featureHelp="Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)"
     },
@@ -42,9 +50,7 @@ local this={
   {
     title="Menu, Options and Settings",
 [[Basic terms used in the Infinite Heaven menu:
-[Option] - [Setting]
-
-Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.]],
+[Option] : [Setting(s)] ]],
   },
 }
 return this

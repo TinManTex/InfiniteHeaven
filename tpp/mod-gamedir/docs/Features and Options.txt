@@ -30,6 +30,12 @@ Pressing <Change Stance> while support heli will toggle Disable pull-out. If cha
 Manually trigger open heli door at mission start.
 Pressing <Change Stance> while support heli at mission start. Mostly useful with the 'Mission start time till open door' so you can control how long you stay sitting in heli on mission start.
 
+Quick menu commands.
+Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
+
+Profiles.
+Editable lists of options, see InfProfiles.lua in mod folder.
+
 Reload lua scripts in MGSV_TPP without exiting game.
 Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)
 
@@ -37,15 +43,11 @@ Menu, Options and Settings
 ==========================
 
 Basic terms used in the Infinite Heaven menu:
-[Option] - [Setting]
-
-Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.
+[Option] : [Setting(s)] 
 
 ACC Main menu
 -------------
-1: Select profile : <Profile type>
-2: Set profile options to game defaults : (Command)
-3: Trigger random IH event : (Command)
+1: Trigger random IH event : (Command)
   Events are temporary custom profiles for free roam and mother base. 
   Free roam events (can stack): 
   Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
@@ -58,23 +60,33 @@ ACC Main menu
   XOF attack, 
   DD Infection outbreak, 
   Zombie Obliteration (non DD)
-4: World menu
-5: Player restrictions menu
-6: Player settings menu
-7: Soldier parameters menu
-8: Enemy phases menu
-9: Enemy Prep menu
-10: Enemy reinforcements menu
-11: Enemy patrols menu
-12: Side ops menu
-13: Mother Base menu
-14: Cutscenes menu
-15: Camera menu
-16: Time scale menu
-17: Support heli menu
-18: Progression menu
-19: Debug/system menu
-20: Reset all IH settings : (Command)
+2: IH system menu
+3: World menu
+4: Player restrictions menu
+5: Player settings menu
+6: Soldier parameters menu
+7: Enemy phases menu
+8: Enemy Prep menu
+9: Enemy reinforcements menu
+10: Enemy patrols menu
+11: Side ops menu
+12: Mother Base menu
+13: Cutscenes menu
+14: Camera menu
+15: Time scale menu
+16: Support heli menu
+17: Progression menu
+18: Debug/system menu
+
+IH system menu
+--------------
+1: Select profile : <Profile type>
+2: Set profile options to game defaults : (Command)
+3: Enable QuickMenu : Off, On
+Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
+4: Start offline : Off, On
+Start the game in offline mode, this also removes the connect option from the pause menu.
+5: Reset all IH settings : (Command)
 
 World menu
 ----------
@@ -211,8 +223,8 @@ Form Variation menu
 
 Soldier parameters menu
 -----------------------
-1: Soldier Parameters Profile : Off (use game/other mod settings, requires restart), Custom
-Due to the way Soldier2ParameterTables.lua is set up turn this off if you have another mod that modifies this, usually just Hardcore mod.
+1: Enable soldier parameter settings : Off, On
+Turn this on to enable the following enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).
 2: Soldier life scale : 0-900%
 0% will kill off all enemies
 3: Soldier sight scale : 0-400%
@@ -452,7 +464,7 @@ Mother Base menu
 6: DD Head gear : Off, Current prep
 7: Female staff selection : Default, None, All available
 By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
-8: NPC helis : Off, Support helis, Support and Attack helis
+8: NPC helis : Off, Support helis, Attack helis, Support and Attack helis
 Spawns some npc helis that roam around mother base.
 9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
 Shared between free roam and MB attack helis.
@@ -486,6 +498,9 @@ Enables Ocelot to roam the command platform.
 3: Show Code Talker : Off, On
 4: Show Eli : Off, On
 5: Reset Paz state to beginning : (Command)
+6: Return Quiet after mission 45 : (Command)
+Instantly return Quiet, runs same code as the Reunion mission 11 replay.
+7: showQuietReunionMissionCount : (Command)
 
 Show assets menu
 ----------------
@@ -565,9 +580,10 @@ Progression menu
 Unlock avatar before mission 46
 2: Unlock weapon customization : (Command)
 Unlock without having to complete legendary gunsmith missions
-3: Return Quiet (not reversable) : (Command)
+3: Reset Paz state to beginning : (Command)
+4: Return Quiet after mission 45 : (Command)
 Instantly return Quiet, runs same code as the Reunion mission 11 replay.
-4: showQuietReunionMissionCount : (Command)
+5: showQuietReunionMissionCount : (Command)
 
 Debug/system menu
 -----------------
@@ -580,10 +596,7 @@ Switches on some error messages and enables the announce-log during loading.
 6: Show missionCode : (Command)
 7: Show game language code : (Command)
 8: appearanceDebugMenu
-9: Start offline : Off, On
-Start the game in offline mode, this also removes the connect option from the pause menu.
-10: Mod Menu translation override : Off, Chinese override Japanese
-11: Disable mission intro credits : Off, On
+9: Disable mission intro credits : Off, On
 
 appearanceDebugMenu
 -------------------
@@ -762,7 +775,7 @@ Debug stuff menu
 Switches on some error messages and enables the announce-log during loading.
 2: loadExternalModules : (Command)
 3: copyLogToPrev : (Command)
-4: selectedCp : none
+4: selectedCp : no cp for setting
 5: setSelectedCpToMarkerObjectCp : (Command)
 6: DEBUG_PrintCpPowerSettings : (Command)
 7: DEBUG_PrintPowersCount : (Command)

@@ -1,3 +1,7 @@
+-- DOBUILD: 0
+-- ORIGINALQAR: chunk3
+-- PACKPATH: \Assets\tpp\pack\mission2\story\s10130\s10130_area.fpkd
+
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table

@@ -5,6 +5,9 @@ local this={}
 --STATE
 this.debugMode=true--tex (See GOTCHA below -v-)
 
+
+this.modules={}
+
 --
 local nl="\r\n"
 
@@ -164,7 +167,7 @@ function this.DEBUG_Where(stackLevel)
   --`u´ selects field nup
   local stackInfo=debug.getinfo(stackLevel+1,"Snl")
   if stackInfo then
-    return stackInfo.short_src..(":"..stackInfo.currentline.." - "..stackInfo.name)
+    return stackInfo.short_src..(":"..stackInfo.currentline.." - "..(stackInfo and stackInfo.name or ""))
   end
   return"(unknown)"
 end
@@ -196,26 +199,20 @@ local function Split(str,delim,maxNb)
   return result
 end
 
-
---hook
---tex no dice
---this.FoxLog=Fox.Log
---Fox.Log=function(message)
---  this.AddMessage(message)
---  this.FoxLog(message)
---end
-
 --tex TODO, not having luck with either approach, something stopping assignment to global
---might have to keep the module reference here in InfLog instead, at this point the module is less InfLog than InfBootstrap lol 
+--might have to keep the module reference here in InfLog instead, at this point the module is less InfLog than InfBootstrap lol
 function this.LoadExternalModuleRequire(moduleName)
   local sucess,module=pcall(require,moduleName)
   if not sucess then
     InfLog.Add(module)
   else
-    _G[moduleName]=module
-    if not _G[moduleName] then
-      InfLog.Add("cannot find module in global "..moduleName)
-    end
+    --    _G[moduleName]=module
+    --    if not _G[moduleName] then
+    --      InfLog.Add("cannot find module in global "..moduleName)
+    --    end
+    this[moduleName]=module
+    this.modules[moduleName]=module
+    return module
   end
 end
 
@@ -234,8 +231,14 @@ function this.LoadExternalModuleLoadFile(moduleName)
 end
 
 local function GetGamePath()
+  local gamePath=""
   local paths=Split(package.path,";")
-  local gamePath=paths[2]--tex first path is .\?.lua, second is <game path>\?.lua
+  for i,path in ipairs(paths) do
+    if string.find(path,"MGS_TPP") then
+      gamePath=path
+      break
+    end
+  end
   local stripLength=10--tex length "\lua\?.lua"
   gamePath=gamePath:gsub("\\","/")--tex because escaping sucks
   gamePath=gamePath:sub(1,-stripLength)
@@ -246,6 +249,20 @@ this.modSubPath="mod/"
 this.logFileName="ih_log"
 this.prev="_prev"
 this.ext=".txt"
+
+--hook
+--tex no dice
+--this.FoxLog=Fox.Log
+--Fox.Log=function(message)
+--  this.AddMessage(message)
+--  this.FoxLog(message)
+--end
+
+local print=print
+print=function(...)
+  InfLog.Add(...,true)
+  print(...)
+end
 
 --EXEC
 this.gamePath=GetGamePath()
@@ -259,5 +276,4 @@ this.CopyLogToPrev()
 
 local time=os.date("%x %X")
 this.Add("InfLog start "..time)
-
 return this

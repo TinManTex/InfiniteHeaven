@@ -2,7 +2,7 @@
 -- TppMain.lua
 local this={}
 local ApendArray=Tpp.ApendArray
-local n=Tpp.DEBUG_StrCode32ToString
+--ORPHAN local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local IsSavingOrLoading=TppScriptVars.IsSavingOrLoading
@@ -14,13 +14,13 @@ local onUpdateList={}--NMC: from mission scripts, sequences use this, RESEARCH b
 local numOnUpdate=0
 --ORPHAN local RENAMEsomeupdatetable2={}
 --ORPHAN local RENAMEsomeupdate2=0
-local n={}
-local n=0
+--ORPHAN local unk1={}
+--ORPHAN local unk2=0
 local onMessageTable={}
-local P={}
+--ORPHAN local unk3={}
 local onMessageTableSize=0
 local messageExecTable={}
-local h={}
+--ORPHAN local unk4={}
 local messageExecTableSize=0
 --NMC: cant actually see this referenced anywhere
 local function RENAMEwhatisquarksystem()
@@ -75,7 +75,7 @@ function this.DisableBlackLoading()
   TppUI.FinishLoadingTips()
 end
 function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
- --DEBUG OFF InfLog.PCallDebug(function(missionTable)--tex can't use consistantly since it triggers yield across c boundary error
+  --InfLog.PCallDebug(function(missionTable)--tex can't use consistantly since it triggers yield across c boundary error
     --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")
     InfMain.OnAllocateTop(missionTable)--tex
     TppWeather.OnEndMissionPrepareFunction()
@@ -160,9 +160,9 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
       end
     end
     InfMain.MissionPrepare()--tex
-    for name,missionScript in pairs(missionTable)do
-      if IsTypeFunc(missionScript.OnLoad)then
-        missionScript.OnLoad()
+    for name,module in pairs(missionTable)do
+      if IsTypeFunc(module.OnLoad)then
+        module.OnLoad()
       end
     end
     do
@@ -175,8 +175,15 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
           end
         end
       end
+       if not TppMission.IsFOBMission(vars.missionCode)then
+        for i,module in ipairs(InfModules)do
+          if module.DeclareSVars then
+            ApendArray(allSvars,module.DeclareSVars(missionTable))
+          end
+        end
+      end     
       local missionSvars={}
-      for n,module in pairs(missionTable)do
+      for name,module in pairs(missionTable)do
         if IsTypeFunc(module.DeclareSVars)then
           ApendArray(missionSvars,module.DeclareSVars())
         end
@@ -300,7 +307,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   --end,missionTable)--DEBUG
 end
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
- --OFF InfLog.PCallDebug(function(missionTable)--tex off till I can verify doesn't run into same issue as OnAllocate
+  --InfLog.PCallDebug(function(missionTable)--tex off till I can verify doesn't run into same issue as OnAllocate
     --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize begin")--DEBUG
     InfMain.OnInitializeTop(missionTable)--tex
     if TppMission.IsFOBMission(vars.missionCode)then
@@ -342,9 +349,9 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
       end
       TppReinforceBlock.SetUpReinforceBlock()
     end
-    for name,entry in pairs(missionTable)do
-      if IsTypeFunc(entry.Messages)then
-        missionTable[name]._messageExecTable=Tpp.MakeMessageExecTable(entry.Messages())
+    for name,module in pairs(missionTable)do
+      if IsTypeFunc(module.Messages)then
+        missionTable[name]._messageExecTable=Tpp.MakeMessageExecTable(module.Messages())
       end
     end
     if mvars.loc_locationCommonTable then
@@ -445,7 +452,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
         SetUpLocation()
       end
     end
-    for n,module in pairs(missionTable)do
+    for name,module in pairs(missionTable)do
       if module.OnRestoreSVars then
         module.OnRestoreSVars()
       end
@@ -498,10 +505,10 @@ function this.SetUpdateFunction(missionTable)
     InfMain.Update,--tex
   }
   numUpdate=#updateList
-  for n,e in pairs(missionTable)do
-    if IsTypeFunc(e.OnUpdate)then
+  for name,module in pairs(missionTable)do
+    if IsTypeFunc(module.OnUpdate)then
       numOnUpdate=numOnUpdate+1
-      onUpdateList[numOnUpdate]=e.OnUpdate
+      onUpdateList[numOnUpdate]=module.OnUpdate
     end
   end
 end
@@ -519,6 +526,7 @@ function this.OnTextureLoadingWaitStart()
 end
 function this.OnMissionStartSaving()
 end
+--CALLER: TppSequence Seq_Mission_Prepare.OnUpdate END_SAVING_FILE
 function this.OnMissionCanStart()
   if TppMission.IsMissionStart()then
     TppWeather.SetDefaultWeatherProbabilities()
@@ -808,12 +816,12 @@ function this.StageBlockCurrentPosition(e)
   end
 end
 function this.OnReload(missionTable)
-  for name,missionScript in pairs(missionTable)do
-    if IsTypeFunc(missionScript.OnLoad)then
-      missionScript.OnLoad()
+  for name,module in pairs(missionTable)do
+    if IsTypeFunc(module.OnLoad)then
+      module.OnLoad()
     end
-    if IsTypeFunc(missionScript.Messages)then
-      missionTable[name]._messageExecTable=Tpp.MakeMessageExecTable(missionScript.Messages())
+    if IsTypeFunc(module.Messages)then
+      missionTable[name]._messageExecTable=Tpp.MakeMessageExecTable(module.Messages())
     end
   end
   if OnlineChallengeTask then--RETAILPATCH 1090>
@@ -873,28 +881,38 @@ function this.SetMessageFunction(missionTable)--RENAME:
       onMessageTable[onMessageTableSize]=_G[lib].OnMessage
     end
   end
-  for n,t in pairs(missionTable)do
-    if missionTable[n]._messageExecTable then
+  --tex>
+  if not TppMission.IsFOBMission(vars.missionCode)then
+    for i,module in ipairs(InfModules)do
+      if module.OnMessage then
+        onMessageTableSize=onMessageTableSize+1
+        onMessageTable[onMessageTableSize]=module.OnMessage
+      end
+    end
+  end
+  --<
+  for name,module in pairs(missionTable)do
+    if missionTable[name]._messageExecTable then
       messageExecTableSize=messageExecTableSize+1
-      messageExecTable[messageExecTableSize]=missionTable[n]._messageExecTable
+      messageExecTable[messageExecTableSize]=missionTable[name]._messageExecTable
     end
   end
 end
 function this.OnMessage(n,sender,messageId,arg0,arg1,arg2,arg3)
   local mvars=mvars--LOCALOPT
   local strLogTextEmpty=""
-  local T
+  --ORPHAN local T
   local DoMessage=Tpp.DoMessage--LOCALOPT
   local CheckMessageOption=TppMission.CheckMessageOption--LOCALOPT
-  local T=TppDebug
-  local T=P
-  local T=h
-  local T=TppDefine.MESSAGE_GENERATION[sender]and TppDefine.MESSAGE_GENERATION[sender][messageId]
-  if not T then
-    T=TppDefine.DEFAULT_MESSAGE_GENERATION
+  --ORPHAN local T=TppDebug
+  --ORPHAN local T=unk3
+  --ORPHAN local T=unk4
+  local resendCount=TppDefine.MESSAGE_GENERATION[sender]and TppDefine.MESSAGE_GENERATION[sender][messageId]
+  if not resendCount then
+    resendCount=TppDefine.DEFAULT_MESSAGE_GENERATION
   end
-  local messageResendCount=GetCurrentMessageResendCount()
-  if messageResendCount<T then
+  local currentResendCount=GetCurrentMessageResendCount()
+  if currentResendCount<resendCount then
     return Mission.ON_MESSAGE_RESULT_RESEND
   end
   for i=1,onMessageTableSize do

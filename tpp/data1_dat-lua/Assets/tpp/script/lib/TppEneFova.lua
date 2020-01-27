@@ -690,7 +690,7 @@ function fovaSetupFuncs.Afghan(n,missionId)
   end
 
   --tex>wildcard soviet boddies
-  if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionId) then
+  if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then
     InfEneFova.WildCardFova(bodies)
   end--<
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
@@ -771,7 +771,7 @@ function fovaSetupFuncs.Africa(n,missionId)
   end
 
   --tex> wildcard pf bodies
-  if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionId) then
+  if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then
     InfEneFova.WildCardFova(bodies)
   end--<
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
@@ -1203,10 +1203,10 @@ local RENsomeNumber2=0
 local faceIdS10081=0
 local faceIdS10091_0=0
 local faceIdS10091_1=0
-local m=15
-local T=16
-local RENsomeNumber=32
-local RENNoStaffId=0
+local RENddIndexFlagMax=15
+local ddHostageFlag=16
+local femaleHostageFlag=32
+local defaultMaleFaceId=0
 
 function this.InitializeUniqueSetting()
   l_uniqueSettings={}
@@ -1230,57 +1230,57 @@ function this.InitializeUniqueSetting()
     end
   end
 end
-function this.GetStaffIdForDD(missionId,n)
-  local staffId=RENNoStaffId
+function this.GetStaffIdForDD(missionId,ddIndex)
+  local staffId=defaultMaleFaceId
   if missionId==10081 then
     staffId=TppMotherBaseManagement.GetStaffS10081()
   elseif missionId==10091 or missionId==11091 then
     local setStaffsS10091=TppMotherBaseManagement.GetStaffsS10091()
-    if setStaffsS10091 and n<#setStaffsS10091 then
-      staffId=setStaffsS10091[n+1]
+    if setStaffsS10091 and ddIndex<#setStaffsS10091 then
+      staffId=setStaffsS10091[ddIndex+1]
     end
   elseif missionId==10115 or missionId==11115 then
     local staffsS10115=TppMotherBaseManagement.GetStaffsS10115()
-    if staffsS10115 and n<#staffsS10115 then
-      staffId=staffsS10115[n+1]
+    if staffsS10115 and ddIndex<#staffsS10115 then
+      staffId=staffsS10115[ddIndex+1]
     end
   end
   return staffId
 end
 function this.GetFaceIdForDdHostage(missionId)
-  local num=numDdHostages
+  local ddIndex=numDdHostages
   numDdHostages=numDdHostages+1
-  local staffId=this.GetStaffIdForDD(missionId,num)
-  local bor=bit.bor(T,num)
-  if staffId~=RENNoStaffId then
+  local staffId=this.GetStaffIdForDD(missionId,ddIndex)
+  local ddIndexFlagged=bit.bor(ddHostageFlag,ddIndex)
+  if staffId~=defaultMaleFaceId then
     local faceId=TppMotherBaseManagement.StaffIdToFaceId{staffId=staffId}
     if missionId==10081 then
       faceIdS10081=faceId
     elseif missionId==10091 or missionId==11091 then
-      if num>0 then
+      if ddIndex>0 then
         faceIdS10091_1=faceId
       else
         faceIdS10091_0=faceId
       end
     end
-    return faceId,bor
+    return faceId,ddIndexFlagged
   end
-  local a=(gvars.hosface_groupNumber+num)%30
+  local a=(gvars.hosface_groupNumber+ddIndex)%30
   local randomFaceId=50+a
   if TppSoldierFace.GetRandomFaceId~=nil then
-    local e=gvars.solface_groupNumber+num
-    randomFaceId=TppSoldierFace.GetRandomFaceId{race={0,2,3},gender=0,useIndex=e}
+    local useIndex=gvars.solface_groupNumber+ddIndex
+    randomFaceId=TppSoldierFace.GetRandomFaceId{race={0,2,3},gender=0,useIndex=useIndex}
   end
   if missionId==10081 then
     faceIdS10081=randomFaceId
   elseif missionId==10091 or missionId==11091 then
-    if num>0 then
+    if ddIndex>0 then
       faceIdS10091_1=randomFaceId
     else
       faceIdS10091_0=randomFaceId
     end
   end
-  return randomFaceId,bor
+  return randomFaceId,ddIndexFlagged
 end
 function this.GetFaceId_s10081()
   return faceIdS10081
@@ -1292,7 +1292,7 @@ function this.GetFaceId_s10091_1()
   return faceIdS10091_1
 end
 function this.GetFaceIdForFemaleHostage(missionCode)
-  local RENsomeNumber=RENsomeNumber
+  local RENsomeNumber=femaleHostageFlag
   if missionCode==10086 then
     return 613,RENsomeNumber
   end
@@ -1452,21 +1452,21 @@ function this.ApplyUniqueSetting()
     end
     local command={id="ChangeFova",faceId=gvars.ene_fovaUniqueFaceIds[n],bodyId=gvars.ene_fovaUniqueBodyIds[n]}
     GameObject.SendCommand(soldierId,command)
-    local fovaUniqueFlags=0
+    local fovaUniqueFlag=0
     if gvars.ene_fovaUniqueFlags then
-      fovaUniqueFlags=gvars.ene_fovaUniqueFlags[n]
+      fovaUniqueFlag=gvars.ene_fovaUniqueFlags[n]
     end
-    if band(fovaUniqueFlags,T)~=0 then
+    if band(fovaUniqueFlag,ddHostageFlag)~=0 then
       local missionId=vars.missionCode
-      local t=band(fovaUniqueFlags,m)
-      local staffId=this.GetStaffIdForDD(missionId,t)
-      if staffId~=RENNoStaffId then
+      local ddIndex=band(fovaUniqueFlag,RENddIndexFlagMax)
+      local staffId=this.GetStaffIdForDD(missionId,ddIndex)
+      if staffId~=defaultMaleFaceId then
         local command={id="SetStaffId",staffId=staffId}
         GameObject.SendCommand(soldierId,command)
       end
       local command={id="SetHostage2Flag",flag="dd",on=true}
       GameObject.SendCommand(soldierId,command)
-    elseif band(fovaUniqueFlags,RENsomeNumber)~=0 then
+    elseif band(fovaUniqueFlag,femaleHostageFlag)~=0 then
       local command={id="SetHostage2Flag",flag="female",on=true}
       GameObject.SendCommand(soldierId,command)
     end

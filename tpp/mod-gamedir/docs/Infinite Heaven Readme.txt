@@ -1,5 +1,5 @@
 = Infinite heaven =
-r187 - 2016-09-30
+r187 - 2016-10-18
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -20,13 +20,25 @@ Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
-New for r186
-Fixed: Profiles with loadOnACCStart not applying - thanks pk5547 for the report
-Fixed: Broken defaults/example profile - thanks pk5547 for the report
-
-New for r185
 NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
 
+New for r187
+Fixed: Install IH batch file - thanks CantStoptheBipBop for the changes.
+Fixed: Infinite load on mission Episode 43 with Custom equip table with DD equip - thanks YoshimitsuYamada for the report and save file to test.
+Fixed: Don't Drop equip and Warp to user marker when in vehicle - ta NasaNhak 
+Fixed: Some non wildcard soldier faces showing as female.
+Fixed: Case where IH give could not load from MGSV_TPP\mod error even with the files clearly in the folder (may have only been issue with a seperate lua install) - thanks CantStoptheBipBop for running the tests.
+Fixed: Hard crash in some situations with attack heli patrols (possibly with More Animals mod?), had to reduce number heli from 7 to 3 though :/
+
+Option: Enable QuickMenu, quickmenu is now disabled by default.
+(via IH system menu)
+Menu: IH system menu - shifted various options related to IH itself here.
+
+Feature: Camo parasites/Sniper Skulls added to Skulls attack feature.
+[youtube]X4P6SpNu_EY[/youtube]
+https://youtu.be/X4P6SpNu_EY
+
+New for r185
 Feature: Equip 'NONE' for primary and secondary via the normal mission prep equipment select screen. The entries will show as a white square with '---'' as the text - thanks unknown321 for the mod/research.
 [youtube]8Db_B4Ao5wE[/youtube]
 https://youtu.be/8Db_B4Ao5wE
@@ -132,6 +144,7 @@ Hold down <Call>(Q or Left bumper) and press:
 <Binoculars>(F or Right bumper) to toggle the IH main menu
 
 In mission Quick Menu:
+(Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
 <Ready weapon>(Right mouse or Left Trigger) to warp to last placed usermarker
 <Fire>(Left mouse or Right Trigger) to open the menu to heli-to last usermarker (a kludge, but nessesary to activate the inter landingzone ride on heli)
 <Action>(E key or Y button) to activate TSM
@@ -168,6 +181,8 @@ Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
 unknown123 for the MGSV research.
 Various people for their donations, including:
+Надежда
+Ian
 WolfJack
 Oliver
 Daniel

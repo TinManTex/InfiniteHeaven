@@ -18,7 +18,9 @@ function this.PrintUserMarker(index)
   local letter=alphaTable[addFlag]
   local gameId=vars.userMarkerGameObjId[index]
   local posString=string.format("%.2f,%.2f,%.2f",x,y,z)
-  InfLog.DebugPrint("userMarker "..index.." : pos="..posString..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
+  local message="userMarker "..index.." : pos="..posString..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId)
+  InfLog.Add(message)
+  InfLog.DebugPrint(message)
   --InfLog.DebugPrint("userMarker "..index.." : pos="..tostring(x)..","..tostring(y)..","..tostring(z)..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
 end
 function this.PrintUserMarkers()

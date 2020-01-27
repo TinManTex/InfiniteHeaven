@@ -948,7 +948,7 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   this.weaponIdTable.DD.NORMAL.WORMHOLE_FULTON=wormholeLevel
 end
 function this.SetUpDDParameter()
---InfLog.PCall(function()--DEBUG
+  --InfLog.PCall(function()--DEBUG
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
@@ -963,18 +963,6 @@ function this.SetUpDDParameter()
   end
   local grenadeId=this.weaponIdTable.DD.NORMAL.GRENADE or TppEquip.EQP_SWP_Grenade
   local stunId=this.weaponIdTable.DD.NORMAL.STUN_GRENADE or TppEquip.EQP_None
-  --tex>
-  if type(grenadeId)=="table" then
-    InfMain.RandomSetToLevelSeed()
-    grenadeId=grenadeId[math.random(#grenadeId)]
-    InfMain.RandomResetToOsTime()
-  end
-  if type(stunId)=="table" then
-    InfMain.RandomSetToLevelSeed()
-    stunId=stunId[math.random(#stunId)]
-    InfMain.RandomResetToOsTime()
-  end
-  --<
   GameObject.SendCommand({type="TppSoldier2"},{id="RegistGrenadeId",grenadeId=grenadeId,stunId=stunId})
   --end)--DEBUG
 end
@@ -1385,7 +1373,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   end
   --tex>mbDDHeadGear clear headgear
   if subTypeName=="DD_FOB"then
-    if Ivars.mbDDHeadGear:Is(0) and Ivars.mbDDHeadGear:MissionCheck() then
+    if not Ivars.mbDDHeadGear:EnabledForMission() then
       powerLoadout.HELMET=nil
       powerLoadout.GAS_MASK=nil
       powerLoadout.NVG=nil
@@ -2060,13 +2048,14 @@ function this.GetAllActiveEnemyWalkerGear()
   end
   return walkerGearIds
 end
-function this.SetChildTargets(n)
+--NMC no references
+function this.SetChildTargets(targets)
   mvars.ene_childTargetList={}
-  for t,n in pairs(n)do
-    local t=GetGameObjectId(n)
-    if t~=NULL_ID then
-      mvars.ene_childTargetList[t]=n
-      this.SetTargetOption(n)
+  for t,targetName in pairs(targets)do
+    local gameId=GetGameObjectId(targetName)
+    if gameId~=NULL_ID then
+      mvars.ene_childTargetList[gameId]=targetName
+      this.SetTargetOption(targetName)
     end
   end
 end
@@ -2279,28 +2268,28 @@ function this.IsOuterBaseCp(cpId)
   end
   return mvars.ene_outerBaseCpList[cpId]
 end
-function this.ChangeRouteSets(t,a)
+function this.ChangeRouteSets(routeSets,a)
   mvars.ene_routeSetsTemporary=mvars.ene_routeSets
   mvars.ene_routeSetsPriorityTemporary=mvars.ene_routeSetsPriority
-  this.MergeRouteSetDefine(t)
+  this.MergeRouteSetDefine(routeSets)
   mvars.ene_routeSets={}
   mvars.ene_routeSetsPriority={}
   mvars.ene_routeSetsFixedShiftChange={}
   this.UpdateRouteSet(mvars.ene_routeSetsDefine)
   local schedule={{{"old","immediately"},{"new","immediately"}}}
-  for e,a in pairs(mvars.ene_cpList)do
-    SendCommand(e,{id="ChangeRouteSets"})
-    SendCommand(e,{id="ShiftChange",schedule=schedule})
+  for cpId,cpName in pairs(mvars.ene_cpList)do
+    SendCommand(cpId,{id="ChangeRouteSets"})
+    SendCommand(cpId,{id="ShiftChange",schedule=schedule})
   end
 end
-function this.InitialRouteSetGroup(e)
-  local cpId=GetGameObjectId(e.cpName)
-  local groupName=e.groupName
-  if not IsTypeTable(e.soldierList)then
+function this.InitialRouteSetGroup(info)
+  local cpId=GetGameObjectId(info.cpName)
+  local groupName=info.groupName
+  if not IsTypeTable(info.soldierList)then
     return
   end
   local soldiers={}
-  for n,soldierName in pairs(e.soldierList)do
+  for n,soldierName in pairs(info.soldierList)do
     local soldierId=GetGameObjectId(soldierName)
     if soldierId~=NULL_ID then
       soldiers[n]=soldierId
@@ -2341,52 +2330,53 @@ function this.ChangeSleepTime(soldierName,sleepTime)
   mvars.ene_sleepTimes[soldierId]=sleepTime
   this.MakeShiftChangeTable()
 end
-function this.NoShifhtChangeGruopSetting(soldierName,n)
-  local soldierId=GetGameObjectId(soldierName)
-  if soldierId==NULL_ID then
+function this.NoShifhtChangeGruopSetting(cpName,groupName)
+  local cpId=GetGameObjectId(cpName)
+  if cpId==NULL_ID then
     return
   end
-  mvars.ene_noShiftChangeGroupSetting[soldierId]=mvars.ene_noShiftChangeGroupSetting[soldierId]or{}
-  mvars.ene_noShiftChangeGroupSetting[soldierId][StrCode32(n)]=true
+  mvars.ene_noShiftChangeGroupSetting[cpId]=mvars.ene_noShiftChangeGroupSetting[cpId]or{}
+  mvars.ene_noShiftChangeGroupSetting[cpId][StrCode32(groupName)]=true
 end
-function this.RegisterCombatSetting(t)
-  local function i(t,e)
-    local n={}
-    for e,a in pairs(e)do
-      n[e]=a
-      if t[e]then
-        n[e]=t[e]
+--missionTable.enemy.combatSetting
+function this.RegisterCombatSetting(combatSetting)
+  local function MergeTables(t1,t2)
+    local newTable={}
+    for k,v in pairs(t2)do
+      newTable[k]=v
+      if t1[k]then
+        newTable[k]=t1[k]
       end
     end
-    return n
+    return newTable
   end
-  if not IsTypeTable(t)then
+  if not IsTypeTable(combatSetting)then
     return
   end
-  for cpName,e in pairs(t)do
-    if e.USE_COMMON_COMBAT and mvars.loc_locationCommonCombat then
+  for cpName,cpCombatSetting in pairs(combatSetting)do
+    if cpCombatSetting.USE_COMMON_COMBAT and mvars.loc_locationCommonCombat then
       if mvars.loc_locationCommonCombat[cpName]then
-        if e.combatAreaList then
-          e.combatAreaList=i(e.combatAreaList,mvars.loc_locationCommonCombat[cpName].combatAreaList)
+        if cpCombatSetting.combatAreaList then
+          cpCombatSetting.combatAreaList=MergeTables(cpCombatSetting.combatAreaList,mvars.loc_locationCommonCombat[cpName].combatAreaList)
         else
-          e=mvars.loc_locationCommonCombat[cpName]
+          cpCombatSetting=mvars.loc_locationCommonCombat[cpName]
         end
       end
     end
-    if e.combatAreaList and IsTypeTable(e.combatAreaList)then
-      for t,e in pairs(e.combatAreaList)do
-        for t,e in pairs(e)do
-          if e.guardTargetName and e.locatorSetName then
-            TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=cpName,locatorSetName=e.guardTargetName}
-            TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=cpName,locatorSetName=e.locatorSetName}
+    if cpCombatSetting.combatAreaList and IsTypeTable(cpCombatSetting.combatAreaList)then
+      for areaName,areaInfo in pairs(cpCombatSetting.combatAreaList)do
+        for i,areaEntry in pairs(areaInfo)do
+          if areaEntry.guardTargetName and areaEntry.locatorSetName then
+            TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=cpName,locatorSetName=areaEntry.guardTargetName}
+            TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=cpName,locatorSetName=areaEntry.locatorSetName}
           end
         end
       end
       local type={type="TppCommandPost2"}
-      local command={id="SetCombatArea",cpName=cpName,combatAreaList=e.combatAreaList}
+      local command={id="SetCombatArea",cpName=cpName,combatAreaList=cpCombatSetting.combatAreaList}
       GameObject.SendCommand(type,command)
     else
-      for t,locatorSetName in ipairs(e)do
+      for t,locatorSetName in ipairs(cpCombatSetting)do
         TppCombatLocatorProvider.RegisterCombatLocatorSetToCpforLua{cpName=cpName,locatorSetName=locatorSetName}
       end
     end
@@ -2428,7 +2418,7 @@ function this.RealizeParasiteSquad()
   if not IsTypeTable(mvars.ene_parasiteSquadList)then
     return
   end
-  for t,soldierName in pairs(mvars.ene_parasiteSquadList)do
+  for i,soldierName in pairs(mvars.ene_parasiteSquadList)do
     local gameId=GetGameObjectId("TppParasite2",soldierName)
     if gameId~=NULL_ID then
       SendCommand(gameId,{id="Realize"})
@@ -2439,7 +2429,7 @@ function this.UnRealizeParasiteSquad()
   if not IsTypeTable(mvars.ene_parasiteSquadList)then
     return
   end
-  for t,soldierName in pairs(mvars.ene_parasiteSquadList)do
+  for i,soldierName in pairs(mvars.ene_parasiteSquadList)do
     local gameId=GetGameObjectId("TppParasite2",soldierName)
     if gameId~=NULL_ID then
       SendCommand(gameId,{id="Unrealize"})
@@ -2729,9 +2719,9 @@ function this.RestoreOnMissionStart2()
   end
   local n=0
   if mvars.ene_cpList~=nil then
-    for t,e in pairs(mvars.ene_cpList)do
+    for cpName,cpId in pairs(mvars.ene_cpList)do
       if n<mvars.ene_cpCount then
-        svars.cpNames[n]=StrCode32(e)
+        svars.cpNames[n]=StrCode32(cpId)
         svars.cpFlags[n]=0
         n=n+1
       end
@@ -2840,7 +2830,7 @@ function this.RestoreOnContinueFromCheckPoint2()
   --a manual unrealize will fix that, but may just send it into an actual lostcontrol
   --others may be flying, but with the lostcontrol sounds
   --see NMC note in RestoreOnMissionStart2 for more
-  if not IvarProc.EnabledForMission(InfNPCHeli.heliEnableIvars) then
+  if InfNPCHeli and not IvarProc.EnabledForMission(InfNPCHeli.heliEnableIvars) then
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       local typeHeli={type="TppEnemyHeli"}
       SendCommand(typeHeli,{id="RestoreFromSVars"})
@@ -2883,7 +2873,7 @@ function this.StoreSVars(_markerOnly)
   end
   this._StoreSVars_Hostage(markerOnly)
   --tex WORKAROUND added bypass, see restore
-  if not IvarProc.EnabledForMission(InfNPCHeli.heliEnableIvars) then
+  if InfNPCHeli and not IvarProc.EnabledForMission(InfNPCHeli.heliEnableIvars) then
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       SendCommand({type="TppEnemyHeli"},{id="StoreToSVars"})
     end
@@ -3344,45 +3334,48 @@ function this.GetCurrentRouteSetType(routeTypeStr32,phase,cpId)
   end
   return routeSetType
 end
-function this.GetPrioritizedRouteTable(cpId,routeSets,routeSetsPriority,sysPhase)
+
+function this.GetPrioritizedRouteTable(cpId,routeSet,routeSetsPriorities,routeSetTagStr32)
   local routeList={}
-  local a=routeSetsPriority[cpId]
-  if not IsTypeTable(a)then
+  local cpPriorities=routeSetsPriorities[cpId]
+  if not IsTypeTable(cpPriorities)then
     return
   end
   if mvars.ene_funcRouteSetPriority then
-    routeList=mvars.ene_funcRouteSetPriority(cpId,routeSets,routeSetsPriority,sysPhase)
+  --NMC only mtbs_enemy.GetRouteSetPriority = function( cpGameObjectId, routeSetListInPlants, plantTables, sysPhase )
+    routeList=mvars.ene_funcRouteSetPriority(cpId,routeSet,routeSetsPriorities,routeSetTagStr32)
   else
-    local t=0
-    for a,e in ipairs(a)do
-      if routeSets[e]then
-        local e=#routeSets[e]
-        if e>t then
-          t=e
+    local maxRoutes=0
+    for i,groupName in ipairs(cpPriorities)do
+      if routeSet[groupName]then
+        local numRoutes=#routeSet[groupName]
+        if numRoutes>maxRoutes then
+          maxRoutes=numRoutes
         end
       end
     end
-    local e=1
-    for r=1,t do
-      for a,t in ipairs(a)do
-        local n=routeSets[t]
-        if n then
-          local n=n[r]
-          if n and Tpp.IsTypeTable(n)then
-            routeList[e]=n
-            e=e+1
+    local routeNum=1
+    for i=1,maxRoutes do
+      for j,groupName in ipairs(cpPriorities)do
+        local routes=routeSet[groupName]
+        if routes then
+          local route=routes[i]
+          if route and Tpp.IsTypeTable(route)then
+            routeList[routeNum]=route
+            routeNum=routeNum+1
           end
         end
       end
     end
-    for r=1,t do
-      for a,t in ipairs(a)do
-        local n=routeSets[t]
-        if n then
-          local n=n[r]
-          if n and not Tpp.IsTypeTable(n)then
-            routeList[e]=n
-            e=e+1
+    --tex NMC how is this any different than above?, why are we doubling?
+    for i=1,maxRoutes do
+      for j,groupName in ipairs(cpPriorities)do
+        local routes=routeSet[groupName]
+        if routes then
+          local route=routes[i]
+          if route and not Tpp.IsTypeTable(route)then
+            routeList[routeNum]=route
+            routeNum=routeNum+1
           end
         end
       end
@@ -3390,39 +3383,40 @@ function this.GetPrioritizedRouteTable(cpId,routeSets,routeSetsPriority,sysPhase
   end
   return routeList
 end
-function this.RouteSelector(cpId,i,sysPhase)
-  local routeSets=mvars.ene_routeSets[cpId]
-  if routeSets==nil then
+--NMC no references to this, called from engine?
+function this.RouteSelector(cpId,routeTypeTagStr32,routeSetTagStr32)
+  local routeSetForCp=mvars.ene_routeSets[cpId]
+  if routeSetForCp==nil then
     return{"dummyRoute"}
   end
-  if sysPhase==StrCode32"immediately"then
-    if i==StrCode32"old"then
+  if routeSetTagStr32==StrCode32"immediately"then
+    if routeTypeTagStr32==StrCode32"old"then
       local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
       return this.GetPrioritizedRouteTable(cpId,mvars.ene_routeSetsTemporary[cpId][currentRouteSetType],mvars.ene_routeSetsPriorityTemporary)
     else
       local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
-      return this.GetPrioritizedRouteTable(cpId,routeSets[currentRouteSetType],mvars.ene_routeSetsPriority)
+      return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority)
     end
   end
-  if sysPhase==StrCode32"SYS_Sneak"then
+  if routeSetTagStr32==StrCode32"SYS_Sneak"then
     local sneakRouteSetType=this.GetCurrentRouteSetType(nil,this.PHASE.SNEAK,cpId)
-    return this.GetPrioritizedRouteTable(cpId,routeSets[sneakRouteSetType],mvars.ene_routeSetsPriority,sysPhase)
+    return this.GetPrioritizedRouteTable(cpId,routeSetForCp[sneakRouteSetType],mvars.ene_routeSetsPriority,routeSetTagStr32)
   end
-  if sysPhase==StrCode32"SYS_Caution"then
+  if routeSetTagStr32==StrCode32"SYS_Caution"then
     local cautionRouteSetType=this.GetCurrentRouteSetType(nil,this.PHASE.CAUTION,cpId)
-    return this.GetPrioritizedRouteTable(cpId,routeSets[cautionRouteSetType],mvars.ene_routeSetsPriority,sysPhase)
+    return this.GetPrioritizedRouteTable(cpId,routeSetForCp[cautionRouteSetType],mvars.ene_routeSetsPriority,routeSetTagStr32)
   end
-  local currentRouteSetType=this.GetCurrentRouteSetType(i,this.GetPhaseByCPID(cpId),cpId)
-  local a=routeSets[currentRouteSetType][sysPhase]
-  if a then
-    return a
+  local currentRouteSetType=this.GetCurrentRouteSetType(routeTypeTagStr32,this.GetPhaseByCPID(cpId),cpId)
+  local routesForTag=routeSetForCp[currentRouteSetType][routeSetTagStr32]
+  if routesForTag then
+    return routesForTag
   else
     if currentRouteSetType=="hold"then
       local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
-      return this.GetPrioritizedRouteTable(cpId,routeSets[currentRouteSetType],mvars.ene_routeSetsPriority)
+      return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority)
     else
       local currentRouteSetType=this.GetCurrentRouteSetType(nil,this.GetPhaseByCPID(cpId),cpId)
-      return this.GetPrioritizedRouteTable(cpId,routeSets[currentRouteSetType],mvars.ene_routeSetsPriority)
+      return this.GetPrioritizedRouteTable(cpId,routeSetForCp[currentRouteSetType],mvars.ene_routeSetsPriority)
     end
   end
 end
@@ -3481,7 +3475,7 @@ function this.SetUpCommandPost()
   if not IsTypeTable(mvars.ene_soldierIDList)then
     return
   end
-  for cpId,a in pairs(mvars.ene_cpList)do
+  for cpId,cpName in pairs(mvars.ene_cpList)do
     SendCommand(cpId,{id="SetRouteSelector",func=this.RouteSelector})
   end
 end
@@ -3492,27 +3486,27 @@ function this.RegisterRouteAnimation()
   end
 end
 function this.MergeRouteSetDefine(routeSets)
-  local function RENsomeFunc(cpName,routeSet)
+  local function MergeRouteSets(cpName,routeSet)
     if routeSet.priority then
       mvars.ene_routeSetsDefine[cpName].priority={}
       mvars.ene_routeSetsDefine[cpName].fixedShiftChangeGroup={}
-      for e=1,#(routeSet.priority)do
-        mvars.ene_routeSetsDefine[cpName].priority[e]=routeSet.priority[e]
+      for i=1,#(routeSet.priority)do
+        mvars.ene_routeSetsDefine[cpName].priority[i]=routeSet.priority[i]
       end
     end
     if routeSet.fixedShiftChangeGroup then
-      for e=1,#(routeSet.fixedShiftChangeGroup)do
-        mvars.ene_routeSetsDefine[cpName].fixedShiftChangeGroup[e]=routeSet.fixedShiftChangeGroup[e]
+      for i=1,#(routeSet.fixedShiftChangeGroup)do
+        mvars.ene_routeSetsDefine[cpName].fixedShiftChangeGroup[i]=routeSet.fixedShiftChangeGroup[i]
       end
     end
     for i,routeSetType in pairs(this.ROUTE_SET_TYPES)do
       mvars.ene_routeSetsDefine[cpName][routeSetType]=mvars.ene_routeSetsDefine[cpName][routeSetType]or{}
       if routeSet[routeSetType]then
-        for t,a in pairs(routeSet[routeSetType])do
-          mvars.ene_routeSetsDefine[cpName][routeSetType][t]={}
-          if IsTypeTable(a)then
-            for i,a in ipairs(a)do
-              mvars.ene_routeSetsDefine[cpName][routeSetType][t][i]=a
+        for groupName,groupDef in pairs(routeSet[routeSetType])do
+          mvars.ene_routeSetsDefine[cpName][routeSetType][groupName]={}
+          if IsTypeTable(groupDef)then
+            for i,routeName in ipairs(groupDef)do
+              mvars.ene_routeSetsDefine[cpName][routeSetType][groupName][i]=routeName
             end
           end
         end
@@ -3540,46 +3534,46 @@ function this.MergeRouteSetDefine(routeSets)
       end
       if _routeSet.USE_COMMON_ROUTE_SETS then
         if mvars.loc_locationCommonRouteSets[cpName]then
-          RENsomeFunc(cpName,mvars.loc_locationCommonRouteSets[cpName])
+          MergeRouteSets(cpName,mvars.loc_locationCommonRouteSets[cpName])
         end
       end
     end
-    RENsomeFunc(cpName,_routeSet)
+    MergeRouteSets(cpName,_routeSet)
   end
 end
 --mvars.ene_routeSetsDefine
 function this.UpdateRouteSet(routeSets)
-  for cpName,trouteSet in pairs(routeSets)do
+  for cpName,routeSet in pairs(routeSets)do
     local cpId=GetGameObjectId(cpName)
     if cpId==NULL_ID then
     else
       mvars.ene_routeSets[cpId]=mvars.ene_routeSets[cpId]or{}
-      if trouteSet.priority then
+      if routeSet.priority then
         mvars.ene_routeSetsPriority[cpId]={}
         mvars.ene_routeSetsFixedShiftChange[cpId]={}
-        for e=1,#(trouteSet.priority)do
-          mvars.ene_routeSetsPriority[cpId][e]=StrCode32(trouteSet.priority[e])
+        for i=1,#(routeSet.priority)do
+          mvars.ene_routeSetsPriority[cpId][i]=StrCode32(routeSet.priority[i])
         end
       end
-      if trouteSet.fixedShiftChangeGroup then
-        for e=1,#(trouteSet.fixedShiftChangeGroup)do
-          mvars.ene_routeSetsFixedShiftChange[cpId][StrCode32(trouteSet.fixedShiftChangeGroup[e])]=e
+      if routeSet.fixedShiftChangeGroup then
+        for i=1,#(routeSet.fixedShiftChangeGroup)do
+          mvars.ene_routeSetsFixedShiftChange[cpId][StrCode32(routeSet.fixedShiftChangeGroup[i])]=i
         end
       end
       if mvars.ene_noShiftChangeGroupSetting[cpId]then
-        for t,e in pairs(mvars.ene_noShiftChangeGroupSetting[cpId])do
-          mvars.ene_routeSetsFixedShiftChange[cpId][t]=e
+        for groupNameStr32,noShiftChange in pairs(mvars.ene_noShiftChangeGroupSetting[cpId])do
+          mvars.ene_routeSetsFixedShiftChange[cpId][groupNameStr32]=noShiftChange
         end
       end
-      for a,e in pairs(this.ROUTE_SET_TYPES)do
-        mvars.ene_routeSets[cpId][e]=mvars.ene_routeSets[cpId][e]or{}
-        if trouteSet[e]then
-          for t,a in pairs(trouteSet[e])do
-            mvars.ene_routeSets[cpId][e][StrCode32(t)]=mvars.ene_routeSets[cpId][e][StrCode32(t)]or{}
-            if type(a)=="number"then
+      for i,routeSetType in pairs(this.ROUTE_SET_TYPES)do
+        mvars.ene_routeSets[cpId][routeSetType]=mvars.ene_routeSets[cpId][routeSetType]or{}
+        if routeSet[routeSetType]then
+          for groupName,groupDef in pairs(routeSet[routeSetType])do
+            mvars.ene_routeSets[cpId][routeSetType][StrCode32(groupName)]=mvars.ene_routeSets[cpId][routeSetType][StrCode32(groupName)]or{}
+            if type(groupDef)=="number"then
             else
-              for a,i in ipairs(a)do
-                mvars.ene_routeSets[cpId][e][StrCode32(t)][a]=i
+              for j,route in ipairs(groupDef)do
+                mvars.ene_routeSets[cpId][routeSetType][StrCode32(groupName)][j]=route
               end
             end
           end
@@ -3588,7 +3582,7 @@ function this.UpdateRouteSet(routeSets)
     end
   end
 end
---missionTable.enemy.routeSets
+--routeSets=missionTable.enemy.routeSets
 function this.RegisterRouteSet(routeSets)
   mvars.ene_routeSetsDefine={}
   this.MergeRouteSetDefine(routeSets)
@@ -3600,134 +3594,136 @@ function this.RegisterRouteSet(routeSets)
   TppClock.RegisterClockMessage("ShiftChangeAtMorning",TppClock.NIGHT_TO_DAY)
   TppClock.RegisterClockMessage("ShiftChangeAtMidNight",TppClock.NIGHT_TO_MIDNIGHT)
 end
-function this._InsertShiftChangeUnit(t,a,n)
-  for e,i in pairs(mvars.ene_shiftChangeTable[t])do
-    if n[e]and next(n[e])then
-      if n[e].hold then
-        mvars.ene_shiftChangeTable[t][e][a*2-1]={n[e].start,n[e].hold,holdTime=n[e].holdTime}
-        mvars.ene_shiftChangeTable[t][e][a*2]={n[e].hold,n[e].goal}
+function this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
+  for shiftName,i in pairs(mvars.ene_shiftChangeTable[cpId])do
+    if shiftChangeUnit[shiftName]and next(shiftChangeUnit[shiftName])then
+      if shiftChangeUnit[shiftName].hold then
+        mvars.ene_shiftChangeTable[cpId][shiftName][insertPos*2-1]={shiftChangeUnit[shiftName].start,shiftChangeUnit[shiftName].hold,holdTime=shiftChangeUnit[shiftName].holdTime}
+        mvars.ene_shiftChangeTable[cpId][shiftName][insertPos*2]={shiftChangeUnit[shiftName].hold,shiftChangeUnit[shiftName].goal}
       else
-        mvars.ene_shiftChangeTable[t][e][a*2-1]={n[e].start,n[e].goal}
-        mvars.ene_shiftChangeTable[t][e][a*2]="dummy"
+        mvars.ene_shiftChangeTable[cpId][shiftName][insertPos*2-1]={shiftChangeUnit[shiftName].start,shiftChangeUnit[shiftName].goal}
+        mvars.ene_shiftChangeTable[cpId][shiftName][insertPos*2]="dummy"
       end
     end
   end
 end
-function this._GetShiftChangeRouteGroup(n,r,a,l,p,i,s,t)
-  local e=(r-a)+1
-  local o=a
-  if t[n[a]]then
+function this._GetShiftChangeRouteGroup(priorities,unk2,unk3,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
+  local e=(unk2-unk3)+1
+  local o=unk3
+  if fixedShiftChangeRouteSet[priorities[unk3]]then
     e=o
   else
     local i=0
-    for a=1,a do
-      if t[n[a]]then
+    for a=1,unk3 do
+      if fixedShiftChangeRouteSet[priorities[a]]then
         i=i+1
       end
     end
     e=e+i
     local a=0
-    for i=e,r do
-      if t[n[i]]then
+    for i=e,unk2 do
+      if fixedShiftChangeRouteSet[priorities[i]]then
         a=a+1
       end
     end
     e=e-a
     local a=e
     local i=0
-    local r=t[n[a]]
+    local r=fixedShiftChangeRouteSet[priorities[a]]
     while r do
       i=i+1
       a=a-1
-      r=t[n[a]]
+      r=fixedShiftChangeRouteSet[priorities[a]]
     end
     e=e-i
   end
-  local a=n[e]
+  local a=priorities[e]
   local t="default"
-  if l[i]then
-    t=i
+  if hold[groupNameStr32]then
+    t=groupNameStr32
   end
   local e=nil
-  if s then
+  if isSleep then
     e="default"
-    if p[i]then
-      e=i
+    if sleep[groupNameStr32]then
+      e=groupNameStr32
     end
   end
-  local n=n[o]
+  local n=priorities[o]
   return a,t,e,n
 end
-function this._MakeShiftChangeUnit(t,a,n,r,o,_,T,d,i,c,l)
-  if mvars.ene_noShiftChangeGroupSetting[t]and mvars.ene_noShiftChangeGroupSetting[t][n]then
+function this._MakeShiftChangeUnit(cpId,priorities,groupNameStr32,hold,isSleep,sleep,isMidnight,unk1,unk2,unk3,fixedShiftChangeRouteSet)
+  if mvars.ene_noShiftChangeGroupSetting[cpId]and mvars.ene_noShiftChangeGroupSetting[cpId][groupNameStr32]then
     return nil
   end
-  local n,i,e,a=this._GetShiftChangeRouteGroup(a,d,i,r,_,n,o,l)
-  local e={}
-  for n,t in pairs(mvars.ene_shiftChangeTable[t])do
-    e[n]={}
+  local n,i,e,a=this._GetShiftChangeRouteGroup(priorities,unk1,unk2,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
+  local shiftChangeUnit={}
+  for shiftName,t in pairs(mvars.ene_shiftChangeTable[cpId])do
+    shiftChangeUnit[shiftName]={}
   end
-  if(i~="default")or(IsTypeTable(r[StrCode32"default"])and next(r[StrCode32"default"]))then
-    e.shiftAtNight.start={"day",n}
-    e.shiftAtNight.hold={"hold",i}
-    e.shiftAtNight.holdTime=mvars.ene_holdTimes[t]
-    e.shiftAtNight.goal={"night",a}
-    e.shiftAtMorning.hold={"hold",i}
-    e.shiftAtMorning.holdTime=mvars.ene_holdTimes[t]
-    e.shiftAtMorning.goal={"day",a}
+  if(i~="default")or(IsTypeTable(hold[StrCode32"default"])and next(hold[StrCode32"default"]))then
+    shiftChangeUnit.shiftAtNight.start={"day",n}
+    shiftChangeUnit.shiftAtNight.hold={"hold",i}
+    shiftChangeUnit.shiftAtNight.holdTime=mvars.ene_holdTimes[cpId]
+    shiftChangeUnit.shiftAtNight.goal={"night",a}
+    shiftChangeUnit.shiftAtMorning.hold={"hold",i}
+    shiftChangeUnit.shiftAtMorning.holdTime=mvars.ene_holdTimes[cpId]
+    shiftChangeUnit.shiftAtMorning.goal={"day",a}
   else
-    e.shiftAtNight.start={"day",n}
-    e.shiftAtNight.goal={"night",a}
-    e.shiftAtMorning.goal={"day",a}
+    shiftChangeUnit.shiftAtNight.start={"day",n}
+    shiftChangeUnit.shiftAtNight.goal={"night",a}
+    shiftChangeUnit.shiftAtMorning.goal={"day",a}
   end
-  if o then
-    e.shiftAtMidNight.start={"night",n}
-    e.shiftAtMidNight.hold={"sleep",i}
-    e.shiftAtMidNight.holdTime=mvars.ene_sleepTimes[t]
-    if T then
-      e.shiftAtMidNight.goal={"midnight",a}
+  if isSleep then
+    shiftChangeUnit.shiftAtMidNight.start={"night",n}
+    shiftChangeUnit.shiftAtMidNight.hold={"sleep",i}
+    shiftChangeUnit.shiftAtMidNight.holdTime=mvars.ene_sleepTimes[cpId]
+    if isMidnight then
+      shiftChangeUnit.shiftAtMidNight.goal={"midnight",a}
     else
-      e.shiftAtMidNight.goal={"night",n}
+      shiftChangeUnit.shiftAtMidNight.goal={"night",n}
     end
-    e.shiftAtMorning.start={"midnight",n}
+    shiftChangeUnit.shiftAtMorning.start={"midnight",n}
   else
-    e.shiftAtMorning.start={"night",n}
+    shiftChangeUnit.shiftAtMorning.start={"night",n}
   end
-  return e
+  return shiftChangeUnit
 end
 function this.MakeShiftChangeTable()
   mvars.ene_shiftChangeTable={}
-  for n,a in pairs(mvars.ene_routeSetsPriority)do
-    if not IsTypeTable(a)then
+  for cpId,priorities in pairs(mvars.ene_routeSetsPriority)do
+    if not IsTypeTable(priorities)then
       return
     end
-    local i=false
-    local o=false
-    if next(mvars.ene_routeSets[n].sleep)then
-      mvars.ene_shiftChangeTable[n]={shiftAtNight={},shiftAtMorning={},shiftAtMidNight={}}i=true
-      if next(mvars.ene_routeSets[n].sneak_midnight)then
-        o=true
+    local isSleep=false
+    local isMidnight=false
+    if next(mvars.ene_routeSets[cpId].sleep)then
+      mvars.ene_shiftChangeTable[cpId]={shiftAtNight={},shiftAtMorning={},shiftAtMidNight={}}
+      isSleep=true
+      if next(mvars.ene_routeSets[cpId].sneak_midnight)then
+        isMidnight=true
       end
     else
-      mvars.ene_shiftChangeTable[n]={shiftAtNight={},shiftAtMorning={}}
+      mvars.ene_shiftChangeTable[cpId]={shiftAtNight={},shiftAtMorning={}}
     end
-    local p=mvars.ene_routeSets[n].hold
-    local s=nil
-    if i then
-      s=mvars.ene_routeSets[n].sleep
+    local hold=mvars.ene_routeSets[cpId].hold
+    local sleep=nil
+    if isSleep then
+      sleep=mvars.ene_routeSets[cpId].sleep
     end
-    local t=1
-    local l=#a
-    for _,d in ipairs(a)do
-      local r
-      r=this._MakeShiftChangeUnit(n,a,d,p,i,s,o,l,_,t,mvars.ene_routeSetsFixedShiftChange[n])
-      if r then
-        this._InsertShiftChangeUnit(n,t,r)t=t+1
+    local insertPos=1
+    local l=#priorities
+    for _,groupNameStr32 in ipairs(priorities)do
+      local shiftChangeUnit
+      shiftChangeUnit=this._MakeShiftChangeUnit(cpId,priorities,groupNameStr32,hold,isSleep,sleep,isMidnight,l,_,insertPos,mvars.ene_routeSetsFixedShiftChange[cpId])
+      if shiftChangeUnit then
+        this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
+        insertPos=insertPos+1
       end
     end
   end
 end
-function this.ShiftChangeByTime(t)
+function this.ShiftChangeByTime(shiftName)
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
     return
   end
@@ -3735,8 +3731,8 @@ function this.ShiftChangeByTime(t)
     return
   end
   for cpId,schedules in pairs(mvars.ene_shiftChangeTable)do
-    if schedules[t]then
-      SendCommand(cpId,{id="ShiftChange",schedule=schedules[t]})
+    if schedules[shiftName]then
+      SendCommand(cpId,{id="ShiftChange",schedule=schedules[shiftName]})
     end
   end
 end
@@ -4979,15 +4975,15 @@ function this.SetupActivateQuestEnemy(enemyList)--NMC: from <quest>.lua .QUEST_T
       if cpId==NULL_ID then
       else
         local cpId=nil
-        for a,cp in pairs(mvars.ene_cpList)do
-          if cp==enemyDef.setCp then
-            cpId=a
+        for _cpId,cpName in pairs(mvars.ene_cpList)do
+          if cpName==enemyDef.setCp then
+            cpId=_cpId
           end
         end
         if cpId then
           for enemyName,t in pairs(mvars.ene_soldierIDList[cpId])do
-            local e={enemyName=enemyName,isDisable=enemyDef.isDisable}
-            Setup(e,true)
+            local enemyDef={enemyName=enemyName,isDisable=enemyDef.isDisable}
+            Setup(enemyDef,true)
           end
         end
       end
@@ -5024,8 +5020,8 @@ function this.SetupActivateQuestHostage(hostageList)
           end
           if hostageInfo.voiceType then
             if IsTypeTable(hostageInfo.voiceType)then
-              local e=#hostageInfo.voiceType
-              local rnd=math.random(e)
+              local numVoices=#hostageInfo.voiceType
+              local rnd=math.random(numVoices)
               local rndVoice=hostageInfo.voiceType[rnd]
               if((rndVoice=="hostage_a"or rndVoice=="hostage_b")or rndVoice=="hostage_c")or rndVoice=="hostage_d"then
                 GameObject.SendCommand(hostageId,{id="SetVoiceType",voiceType=rndVoice})
@@ -5111,42 +5107,43 @@ function this.SetupDeactivateQuestQuestHeli(heliList)
 end
 function this.SetupDeactivateQuestCp(e)
 end
-function this.SetupDeactivateQuestEnemy(n)
-  for n,t in pairs(n)do
-    if t.enemyName then
-      local enemyId=t.enemyName
+--
+function this.SetupDeactivateQuestEnemy(enemyList)
+  for i,enemyInfo in pairs(enemyList)do
+    if enemyInfo.enemyName then
+      local enemyId=enemyInfo.enemyName
       if IsTypeString(enemyId)then
         enemyId=GameObject.GetGameObjectId(enemyId)
       end
       if enemyId==NULL_ID then
       else
-        local a={type="TppCorpse"}
+        local tppCorpse={type="TppCorpse"}
         if this.CheckQuestDistance(enemyId)then
           if TppMission.CheckMissionState(true,false,true,false)then
             this.AutoFultonRecoverNeutralizedTarget(enemyId,true)
           end
         end
-        if t.bodyId or t.faceId then
-          local e={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
-          GameObject.SendCommand(enemyId,e)
-          local e={id="ChangeFovaCorpse",name=t.enemyName,faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
-          GameObject.SendCommand(a,e)
+        if enemyInfo.bodyId or enemyInfo.faceId then
+          local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
+          GameObject.SendCommand(enemyId,command)
+          local command={id="ChangeFovaCorpse",name=enemyInfo.enemyName,faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
+          GameObject.SendCommand(tppCorpse,command)
         end
         if this.CheckQuestDistance(enemyId)then
           if TppMission.CheckMissionState(true,false,true,false)then
             GameObject.SendCommand(enemyId,{id="RequestVanish"})
-            GameObject.SendCommand(a,{id="RequestDisableWithFadeout",name=t.enemyName})
+            GameObject.SendCommand(tppCorpse,{id="RequestDisableWithFadeout",name=enemyInfo.enemyName})
           end
         end
       end
-    elseif t.setCp then
+    elseif enemyInfo.setCp then
     end
   end
 end
-function this.SetupDeactivateQuestHostage(n)
-  for n,t in pairs(n)do
-    if t.hostageName then
-      local hostageId=t.hostageName
+function this.SetupDeactivateQuestHostage(hostageList)
+  for i,hostageInfo in pairs(hostageList)do
+    if hostageInfo.hostageName then
+      local hostageId=hostageInfo.hostageName
       if IsTypeString(hostageId)then
         hostageId=GameObject.GetGameObjectId(hostageId)
       end
@@ -5158,9 +5155,9 @@ function this.SetupDeactivateQuestHostage(n)
             TppTerminal.OnFulton(hostageId,nil,nil,staffId,nil,true)
           end
         end
-        if t.bodyId or t.faceId then
-          local e={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
-          GameObject.SendCommand(hostageId,e)
+        if hostageInfo.bodyId or hostageInfo.faceId then
+          local command={id="ChangeFova",faceId=EnemyFova.INVALID_FOVA_VALUE,bodyId=EnemyFova.INVALID_FOVA_VALUE}
+          GameObject.SendCommand(hostageId,command)
         end
         if this.CheckQuestDistance(hostageId)then
           if TppMission.CheckMissionState(true,false,true,false)then
@@ -5183,8 +5180,8 @@ function this.OnTerminateQuest(questTable)
       this.SetupTerminateQuestCp(questTable.cpList)
     end
     if questTable.isQuestZombie==true then
-      local e={type="TppSoldier2"}
-      GameObject.SendCommand(e,{id="UnregistSwarmEffect"})
+      local tppSoldier={type="TppSoldier2"}
+      GameObject.SendCommand(tppSoldier,{id="UnregistSwarmEffect"})
     end
     if(questTable.enemyList and Tpp.IsTypeTable(questTable.enemyList))and next(questTable.enemyList)then
       if GameObject.GetGameObjectIdByIndex("TppSoldier2",0)~=NULL_ID then
@@ -5196,12 +5193,12 @@ function this.OnTerminateQuest(questTable)
     end
   end
   if GameObject.GetGameObjectIdByIndex("TppSoldier2",0)~=NULL_ID then
-    local e={type="TppSoldier2"}
-    GameObject.SendCommand(e,{id="FreeExtendFova"})
+    local tppSoldier={type="TppSoldier2"}
+    GameObject.SendCommand(tppSoldier,{id="FreeExtendFova"})
   end
   if GameObject.GetGameObjectIdByIndex("TppCorpse",0)~=NULL_ID then
-    local e={type="TppCorpse"}
-    GameObject.SendCommand(e,{id="FreeExtendFova"})
+    local tppCorpse={type="TppCorpse"}
+    GameObject.SendCommand(tppCorpse,{id="FreeExtendFova"})
   end
   TppSoldierFace.ClearExtendFova()
   TppSoldierFace.ReserveExtendFovaForHostage{}
@@ -5218,7 +5215,7 @@ function this.SetupTerminateQuestHeli(heliList)
 end
 function this.SetupTerminateQuestCp(e)
 end
-function this.SetupTerminateQuestEnemy(i)
+function this.SetupTerminateQuestEnemy(enemyList)
   local isAfghan=TppLocation.IsAfghan()
   local isMiddleAfrica=TppLocation.IsMiddleAfrica()
   local function SetupEnemy(setupInfo,RENAMEsomeBool)
@@ -5261,7 +5258,7 @@ function this.SetupTerminateQuestEnemy(i)
       end
     end
   end
-  for n,setupInfo in pairs(i)do
+  for n,setupInfo in pairs(enemyList)do
     if setupInfo.enemyName then
       SetupEnemy(setupInfo,false)
       TppUiCommand.UnRegisterIconUniqueInformation(GameObject.GetGameObjectId(setupInfo.enemyName))
@@ -5270,9 +5267,9 @@ function this.SetupTerminateQuestEnemy(i)
       if n==NULL_ID then
       else
         local cpId=nil
-        for a,t in pairs(mvars.ene_cpList)do
-          if t==setupInfo.setCp then
-            cpId=a
+        for _cpId,cpName in pairs(mvars.ene_cpList)do
+          if cpName==setupInfo.setCp then
+            cpId=_cpId
           end
         end
         if cpId then
@@ -5708,31 +5705,33 @@ function this._IsGameObjectIDValid(e)
     return true
   end
 end
-function this._IsRouteSetTypeValid(n)
-  if(n==nil or type(n)~="string")then
+--NMC no references
+function this._IsRouteSetTypeValid(routeSetType)
+  if(routeSetType==nil or type(routeSetType)~="string")then
     return false
   end
-  for t,t in paris(this.ROUTE_SET_TYPES)do
-    if(n==this.ROUTE_SET_TYPES[i])then
+  for t,t in paris(this.ROUTE_SET_TYPES)do--RETAILBUG: type
+    if(routeSetType==this.ROUTE_SET_TYPES[i])then--RETAILBUG: bad index
       return true
     end
   end
   return false
 end
-function this._ShiftChangeByTime(t)
-  for cpId,a in pairs(mvars.ene_cpList)do
-    SendCommand(cpId,{id="ShiftChange",schedule=mvars.ene_shiftChangeTable[cpId][t]})
+--NMC no references
+function this._ShiftChangeByTime(shiftName)
+  for cpId,cpName in pairs(mvars.ene_cpList)do
+    SendCommand(cpId,{id="ShiftChange",schedule=mvars.ene_shiftChangeTable[cpId][shiftName]})
   end
 end
-function this._IsEliminated(lifeStatus,state)
-  if(lifeStatus==this.LIFE_STATUS.DEAD)or(state==TppGameObject.NPC_STATE_DISABLE)then
+function this._IsEliminated(lifeStatus,npcState)
+  if(lifeStatus==this.LIFE_STATUS.DEAD)or(npcState==TppGameObject.NPC_STATE_DISABLE)then
     return true
   else
     return false
   end
 end
-function this._IsNeutralized(n,t)
-  if(n>this.LIFE_STATUS.NORMAL)or(t>TppGameObject.NPC_STATE_NORMAL)then
+function this._IsNeutralized(lifeStatus,npcState)
+  if(lifeStatus>this.LIFE_STATUS.NORMAL)or(npcState>TppGameObject.NPC_STATE_NORMAL)then
     return true
   else
     return false

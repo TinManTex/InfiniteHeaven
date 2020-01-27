@@ -107,6 +107,8 @@ this.motherBaseShowCharactersMenu={
     Ivars.mbShowCodeTalker,
     Ivars.mbShowEli,
     InfMenuCommands.resetPaz,
+    InfMenuCommands.returnQuiet,
+    InfMenuCommands.showQuietReunionMissionCount,
   }
 }
 
@@ -188,6 +190,7 @@ this.progressionMenu={
   options={
     InfMenuCommands.unlockPlayableAvatar,
     InfMenuCommands.unlockWeaponCustomization,
+    InfMenuCommands.resetPaz,
     InfMenuCommands.returnQuiet,
     InfMenuCommands.showQuietReunionMissionCount,
   --InfMenuCommands.forceAllQuestOpenFlagFalse,
@@ -204,9 +207,6 @@ this.debugMenu={
     InfMenuCommands.showMissionCode,
     InfMenuCommands.showLangCode,
     InfMenuDefs.appearanceDebugMenu,
-    --tex system stuff
-    Ivars.startOffline,
-    Ivars.langOverride,
     --tex odd one out, mission/presentation?
     Ivars.telopMode,
   }
@@ -466,7 +466,7 @@ this.worldMenu={
     Ivars.enableParasiteEvent,
     Ivars.parasitePeriod_MIN,
     Ivars.parasitePeriod_MAX,
-    --WIP DEBUGNOW Ivars.resourceAmountScale,
+    --WIP Ivars.resourceAmountScale,
     Ivars.repopulateRadioTapes,
     Ivars.randomizeMineTypes,
     Ivars.additionalMineFields,
@@ -512,22 +512,31 @@ this.buddyMenu={
   }
 }
 
-this.heliSpaceMenu={
-  noResetItem=true,
-  noGoBackItem=true,
+this.systemMenu={
   options={
-    -- InfMenuDefs.customEquipMenu,--DEBUG
-    --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-    --Ivars.debugMode,
-    --Ivars.playerFaceId,--DEBUG
     Ivars.selectProfile,
     --InfMenuCommands.applySelectedProfile,
     InfMenuCommands.resetSelectedProfile,
     --InfMenuCommands.viewProfile,--DEBUG
+    Ivars.enableQuickMenu,
+    Ivars.startOffline,
+    --Ivars.langOverride,
+    InfMenuCommands.resetAllSettingsItem,
+  },
+}
+
+this.heliSpaceMenu={
+  noResetItem=true,
+  noGoBackItem=true,
+  options={
+    --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --Ivars.debugMode,
+    --Ivars.playerFaceId,--DEBUG
     InfMenuCommands.forceGameEvent,
+    InfMenuDefs.systemMenu,
     InfMenuDefs.worldMenu,
     InfMenuDefs.playerRestrictionsMenu,
     InfMenuDefs.playerSettingsMenu,
@@ -544,7 +553,6 @@ this.heliSpaceMenu={
     InfMenuDefs.supportHeliMenu,
     InfMenuDefs.progressionMenu,
     InfMenuDefs.debugMenu,
-    InfMenuCommands.resetAllSettingsItem,
     InfMenuCommands.menuOffItem,
   }
 }
@@ -590,15 +598,18 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
+--    InfMenuCommands.DEBUG_ToggleParasiteEvent,
+--    Ivars.enableParasiteEvent,
+--    Ivars.parasitePeriod_MIN,
+--    Ivars.parasitePeriod_MAX,
     --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
     --    InfMenuCommands.resetAllSettingsItem,
-    -- InfMenuCommands.DEBUG_ToggleParasiteEvent,--DEBUG
     --Ivars.selectedChangeWeapon,--DEBUG
     --Ivars.debugMode,
     --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
     --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --InfMenuCommands.DEBUG_SomeShiz3,
     InfMenuCommands.requestHeliLzToLastMarker,
     InfMenuCommands.forceExitHeli,
     InfMenuCommands.dropCurrentEquip,

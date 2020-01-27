@@ -24,6 +24,8 @@
 
 local this={}
 
+--this.forceEnable=true--tex overrides the IH menu option
+
 --tex button to hold to enable the quick menu command buttons
 --make sure this doesn't conflict with any of the menu command buttons below
 this.quickMenuHoldButton=InfButton.CALL

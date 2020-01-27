@@ -534,9 +534,9 @@ function this.IsAllTaskCompleted(n)
   return false
 end
 --RETAILPATCH 1090>
-function this.UpdateOnlineChallengeTask(e)
+function this.UpdateOnlineChallengeTask(taskInfo)
   if OnlineChallengeTask then
-    OnlineChallengeTask.Update(e)
+    OnlineChallengeTask.Update(taskInfo)
   end
 end
 --<

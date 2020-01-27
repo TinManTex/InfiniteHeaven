@@ -27,18 +27,85 @@
 <div id="itemHelp">Pressing &ltChange Stance&gt while support heli will toggle Disable pull-out. If changing from pull-out to no pull-out you'll still have to exit and enter the heli, but if in disable pull-out pressing it will cause a pull-out.</div>
 <div id="menuItem">Manually trigger open heli door at mission start.</div>
 <div id="itemHelp">Pressing &ltChange Stance&gt while support heli at mission start. Mostly useful with the 'Mission start time till open door' so you can control how long you stay sitting in heli on mission start.</div>
+<div id="menuItem">Quick menu commands.</div>
+<div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
+<div id="menuItem">Profiles.</div>
+<div id="itemHelp">Editable lists of options, see InfProfiles.lua in mod folder.</div>
 <div id="menuItem">Reload lua scripts in MGSV_TPP without exiting game.</div>
 <div id="itemHelp">Hold &ltStance&gt,&ltAction&gt,&ltReady weapon&gt,&ltBinoculars&gt (Can also use the loadExternalModules command in the Debug menu)</div>
 </div>
 <br/>
 <div id="menu">
 <div id="menuTitle">Menu, Options and Settings</div>
-<div id="menuItem">Basic terms used in the Infinite Heaven menu:<br/>[Option] - [Setting]<br/><br/>Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.</div>
+<div id="menuItem">Basic terms used in the Infinite Heaven menu:<br/>[Option] : [Setting(s)] </div>
 </div>
 <br/>
 <div id="menu">
 <div id="menuTitle">
 <div id="heliSpaceMenu">ACC Main menu</div>
+</div>
+<div id="menuItem">
+<div>1: Trigger random IH event : (Command)</div>
+<div id="itemHelp">  Events are temporary custom profiles for free roam and mother base. <br/>  Free roam events (can stack): <br/>  Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. <br/>  Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. <br/>  Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. <br/>  MB events (only one active): <br/>  DD Training wargame, <br/>  Soviet attack, <br/>  Rogue Coyote attack, <br/>  XOF attack, <br/>  DD Infection outbreak, <br/>  Zombie Obliteration (non DD)</div>
+</div>
+<div id="menuItem">
+<div>2: <a href="#systemMenu">IH system menu</a></div>
+</div>
+<div id="menuItem">
+<div>3: <a href="#worldMenu">World menu</a></div>
+</div>
+<div id="menuItem">
+<div>4: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
+</div>
+<div id="menuItem">
+<div>5: <a href="#playerSettingsMenu">Player settings menu</a></div>
+</div>
+<div id="menuItem">
+<div>6: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
+</div>
+<div id="menuItem">
+<div>7: <a href="#phaseMenu">Enemy phases menu</a></div>
+</div>
+<div id="menuItem">
+<div>8: <a href="#revengeMenu">Enemy Prep menu</a></div>
+</div>
+<div id="menuItem">
+<div>9: <a href="#enemyReinforceMenu">Enemy reinforcements menu</a></div>
+</div>
+<div id="menuItem">
+<div>10: <a href="#enemyPatrolMenu">Enemy patrols menu</a></div>
+</div>
+<div id="menuItem">
+<div>11: <a href="#sideOpsMenu">Side ops menu</a></div>
+</div>
+<div id="menuItem">
+<div>12: <a href="#motherBaseMenu">Mother Base menu</a></div>
+</div>
+<div id="menuItem">
+<div>13: <a href="#demosMenu">Cutscenes menu</a></div>
+</div>
+<div id="menuItem">
+<div>14: <a href="#cameraMenu">Camera menu</a></div>
+</div>
+<div id="menuItem">
+<div>15: <a href="#timeScaleMenu">Time scale menu</a></div>
+</div>
+<div id="menuItem">
+<div>16: <a href="#supportHeliMenu">Support heli menu</a></div>
+</div>
+<div id="menuItem">
+<div>17: <a href="#progressionMenu">Progression menu</a></div>
+</div>
+<div id="menuItem">
+<div>18: <a href="#debugMenu">Debug/system menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="systemMenu">IH system menu</div>
 </div>
 <div id="menuItem">
 <div>1: Select profile : &ltProfile type&gt</div>
@@ -47,59 +114,17 @@
 <div>2: Set profile options to game defaults : (Command)</div>
 </div>
 <div id="menuItem">
-<div>3: Trigger random IH event : (Command)</div>
-<div id="itemHelp">  Events are temporary custom profiles for free roam and mother base. <br/>  Free roam events (can stack): <br/>  Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. <br/>  Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. <br/>  Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. <br/>  MB events (only one active): <br/>  DD Training wargame, <br/>  Soviet attack, <br/>  Rogue Coyote attack, <br/>  XOF attack, <br/>  DD Infection outbreak, <br/>  Zombie Obliteration (non DD)</div>
+<div>3: Enable QuickMenu : Off, On</div>
+<div id="itemHelp">Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.</div>
 </div>
 <div id="menuItem">
-<div>4: <a href="#worldMenu">World menu</a></div>
+<div>4: Start offline : Off, On</div>
+<div id="itemHelp">Start the game in offline mode, this also removes the connect option from the pause menu.</div>
 </div>
 <div id="menuItem">
-<div>5: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
+<div>5: Reset all IH settings : (Command)</div>
 </div>
 <div id="menuItem">
-<div>6: <a href="#playerSettingsMenu">Player settings menu</a></div>
-</div>
-<div id="menuItem">
-<div>7: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
-</div>
-<div id="menuItem">
-<div>8: <a href="#phaseMenu">Enemy phases menu</a></div>
-</div>
-<div id="menuItem">
-<div>9: <a href="#revengeMenu">Enemy Prep menu</a></div>
-</div>
-<div id="menuItem">
-<div>10: <a href="#enemyReinforceMenu">Enemy reinforcements menu</a></div>
-</div>
-<div id="menuItem">
-<div>11: <a href="#enemyPatrolMenu">Enemy patrols menu</a></div>
-</div>
-<div id="menuItem">
-<div>12: <a href="#sideOpsMenu">Side ops menu</a></div>
-</div>
-<div id="menuItem">
-<div>13: <a href="#motherBaseMenu">Mother Base menu</a></div>
-</div>
-<div id="menuItem">
-<div>14: <a href="#demosMenu">Cutscenes menu</a></div>
-</div>
-<div id="menuItem">
-<div>15: <a href="#cameraMenu">Camera menu</a></div>
-</div>
-<div id="menuItem">
-<div>16: <a href="#timeScaleMenu">Time scale menu</a></div>
-</div>
-<div id="menuItem">
-<div>17: <a href="#supportHeliMenu">Support heli menu</a></div>
-</div>
-<div id="menuItem">
-<div>18: <a href="#progressionMenu">Progression menu</a></div>
-</div>
-<div id="menuItem">
-<div>19: <a href="#debugMenu">Debug/system menu</a></div>
-</div>
-<div id="menuItem">
-<div>20: Reset all IH settings : (Command)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -463,8 +488,8 @@
 <div id="soldierParamsMenu">Soldier parameters menu</div>
 </div>
 <div id="menuItem">
-<div>1: Soldier Parameters Profile : Off (use game/other mod settings, requires restart), Custom</div>
-<div id="itemHelp">Due to the way Soldier2ParameterTables.lua is set up turn this off if you have another mod that modifies this, usually just Hardcore mod.</div>
+<div>1: Enable soldier parameter settings : Off, On</div>
+<div id="itemHelp">Turn this on to enable the following enemy param options, turn this off if you have another mod that modifies Soldier2ParameterTables.lua (ie Hardcore mod).</div>
 </div>
 <div id="menuItem">
 <div>2: Soldier life scale : 0-900%</div>
@@ -1106,7 +1131,7 @@
 <div id="itemHelp">By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available will select females first when trying to populate a MB section, None will prevent any females from showing on mother base</div>
 </div>
 <div id="menuItem">
-<div>8: NPC helis : Off, Support helis, Support and Attack helis</div>
+<div>8: NPC helis : Off, Support helis, Attack helis, Support and Attack helis</div>
 <div id="itemHelp">Spawns some npc helis that roam around mother base.</div>
 </div>
 <div id="menuItem">
@@ -1187,6 +1212,13 @@
 </div>
 <div id="menuItem">
 <div>5: Reset Paz state to beginning : (Command)</div>
+</div>
+<div id="menuItem">
+<div>6: Return Quiet after mission 45 : (Command)</div>
+<div id="itemHelp">Instantly return Quiet, runs same code as the Reunion mission 11 replay.</div>
+</div>
+<div id="menuItem">
+<div>7: showQuietReunionMissionCount : (Command)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1363,11 +1395,14 @@
 <div id="itemHelp">Unlock without having to complete legendary gunsmith missions</div>
 </div>
 <div id="menuItem">
-<div>3: Return Quiet (not reversable) : (Command)</div>
+<div>3: Reset Paz state to beginning : (Command)</div>
+</div>
+<div id="menuItem">
+<div>4: Return Quiet after mission 45 : (Command)</div>
 <div id="itemHelp">Instantly return Quiet, runs same code as the Reunion mission 11 replay.</div>
 </div>
 <div id="menuItem">
-<div>4: showQuietReunionMissionCount : (Command)</div>
+<div>5: showQuietReunionMissionCount : (Command)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1405,14 +1440,7 @@
 <div>8: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>9: Start offline : Off, On</div>
-<div id="itemHelp">Start the game in offline mode, this also removes the connect option from the pause menu.</div>
-</div>
-<div id="menuItem">
-<div>10: Mod Menu translation override : Off, Chinese override Japanese</div>
-</div>
-<div id="menuItem">
-<div>11: Disable mission intro credits : Off, On</div>
+<div>9: Disable mission intro credits : Off, On</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1845,7 +1873,7 @@
 <div>3: copyLogToPrev : (Command)</div>
 </div>
 <div id="menuItem">
-<div>4: selectedCp : none</div>
+<div>4: selectedCp : no cp for setting</div>
 </div>
 <div id="menuItem">
 <div>5: setSelectedCpToMarkerObjectCp : (Command)</div>

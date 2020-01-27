@@ -428,12 +428,12 @@ function this.SetUpIdentifierTable(e)
   end
   mvars.gim_identifierTable={}
   for o,e in pairs(e)do
-    local n=e.type
-    local t=e.locatorName
-    local a=e.dataSetName
-    mvars.gim_identifierTable[n]=mvars.gim_identifierTable[n]or{}
-    local e=mvars.gim_identifierTable[n]e[StrCode32(t)]=e[StrCode32(t)]or{}
-    local e=e[StrCode32(t)]e[Fox.PathFileNameCode32(a)]=o
+    local typeName=e.type
+    local locatorName=e.locatorName
+    local dataSetName=e.dataSetName
+    mvars.gim_identifierTable[typeName]=mvars.gim_identifierTable[typeName]or{}
+    local e=mvars.gim_identifierTable[typeName]e[StrCode32(locatorName)]=e[StrCode32(locatorName)]or{}
+    local e=e[StrCode32(locatorName)]e[Fox.PathFileNameCode32(dataSetName)]=o
   end
 end
 function this.SetUpBreakConnectTable(e)

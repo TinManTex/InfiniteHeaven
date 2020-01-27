@@ -186,8 +186,8 @@ function this.SetHelicopterDoorOpenTime(e)
   end
   mvars.mis_helicopterDoorOpenTimerTimeSec=e
 end
-function this.UpdateCheckPoint(e)
-  TppCheckPoint.Update(e)
+function this.UpdateCheckPoint(checkPointInfo)
+  TppCheckPoint.Update(checkPointInfo)
 end
 function this.UpdateCheckPointAtCurrentPosition()
   TppCheckPoint.UpdateAtCurrentPosition()
@@ -3009,7 +3009,7 @@ function this.OnMissionGameEndFadeOutFinish()
   end
 end
 function this.OnMissionGameEndFadeOutFinish2nd()
-  InfMain.OnMissionGameEndTop()
+  InfMain.OnMissionGameEndTop()--tex
   TppUiStatusManager.ClearStatus"GmpInfo"
   TppStory.UpdateStorySequence{updateTiming="OnMissionClear",missionId=this.GetMissionID()}
   TppResult.SetMissionFinalScore()

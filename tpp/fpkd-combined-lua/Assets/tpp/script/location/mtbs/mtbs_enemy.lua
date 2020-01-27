@@ -1144,7 +1144,7 @@ mtbs_enemy.SetEnemyLocationType = function ()
     local gameObjectId = { type="TppSoldier2" }
 
     --tex> the helmet model that pops off seems to be in-engine coded to soldier type (and also requires the relevant fpk),
-    --even though I override soldier type during soldier setup it's somewhere after this set command and there--DEBUGNOW
+    --even though I override soldier type during soldier setup it's somewhere after this set command and there
     --it also controls language, so bypassing it to keep soldier salute callouts
     --GOTCHA seems a one type deal, so cant take female into account.
     if InfMain.IsDDBodyEquip() then
@@ -2174,7 +2174,7 @@ mtbs_enemy.SetFriendly = function( )
       end
     end
   end
-  --DEBUGNOW TODO ivar, if uavs
+  --tex TODO ivar, if uavs
   --  for _, plntName in ipairs( mtbs_enemy.plntNameDefine ) do
   --
   --    local plntTable = mtbs_enemy.plntParamTable[plntName]
@@ -2185,7 +2185,6 @@ mtbs_enemy.SetFriendly = function( )
   --      SendCommand( gameObjectId, {id = "SetFriendly"} )
   --    end
   --  end
-  --DEBUGNOW
 end
 
 

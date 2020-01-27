@@ -1519,8 +1519,8 @@ function this.Messages()
     },
     Marker={
       {msg="ChangeToEnable",
-        func=function(a,s,n,t)
-          this._ChangeToEnable(a,s,n,t)
+        func=function(instanceName,makerType,gameObjectId,identificationCode)
+          this._ChangeToEnable(instanceName,makerType,gameObjectId,identificationCode)
         end}
     },
     Timer={
@@ -2977,16 +2977,16 @@ end
 function this.GetTrapName(e)
   return"trap_preDeactiveQuestArea_"..e
 end
-function this._ChangeToEnable(a,a,t,n)
-  if n==Fox.StrCode32"Player"and this.IsInvoking()then
-    local a=TppEnemy.IsQuestTarget(t)
-    local n=TppGimmick.IsQuestTarget(t)
-    local t=TppAnimal.IsQuestTarget(t)
-    if(a or n)or t then
+function this._ChangeToEnable(instanceName,makerType,gameObjectId,identificationCode)
+  if identificationCode==Fox.StrCode32"Player"and this.IsInvoking()then
+    local isEnemyQuestTarget=TppEnemy.IsQuestTarget(gameObjectId)
+    local isGimmickQuestTarget=TppGimmick.IsQuestTarget(gameObjectId)
+    local isAnimalQuestTarget=TppAnimal.IsQuestTarget(gameObjectId)
+    if(isEnemyQuestTarget or isGimmickQuestTarget)or isAnimalQuestTarget then
       TppSoundDaemon.PostEvent"sfx_s_enemytag_quest_tgt"
       if mvars.qst_isRadioTarget==false then
-        local e=this.GetCurrentQuestName()
-        if(((e=="tent_q20910"or e=="fort_q20911")or e=="sovietBase_q20912")or e=="outland_q20913")or e=="lab_q20914"then
+        local currentQuestName=this.GetCurrentQuestName()
+        if(((currentQuestName=="tent_q20910"or currentQuestName=="fort_q20911")or currentQuestName=="sovietBase_q20912")or currentQuestName=="outland_q20913")or currentQuestName=="lab_q20914"then
           TppRadio.Play("f2000_rtrg8330",{delayTime="short"})
         else
           TppRadio.Play("f1000_rtrg2180",{delayTime="short"})

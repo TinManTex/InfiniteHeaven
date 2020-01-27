@@ -523,7 +523,8 @@ function this.Messages()
       {msg="CommandPostAnnihilated",func=function(cpId,o,i)
         local o=false
         if mvars.ene_cpList then
-          local e=mvars.ene_cpList[cpId]o=TppTrophy.DOMINATION_TARGET_CP_NAME_LIST[e]
+          local cpName=mvars.ene_cpList[cpId]
+          o=TppTrophy.DOMINATION_TARGET_CP_NAME_LIST[cpName]
         end
         if i==0 then
           if TppEnemy.IsBaseCp(cpId)then

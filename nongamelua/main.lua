@@ -12,6 +12,8 @@ package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/afgh/?
 package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/mafr/?.lua"
 
 package.path=package.path..";./ExternalLua/?.lua"
+
+package.path=package.path..";./nonmgscelua/?.lua"
 --
 
 bit=require"bit"
@@ -97,6 +99,7 @@ end
 --end mock stuff
 
 InfLog=require"InfLog"
+InfPersistence=require"InfPersistence"
 
 --start.lua
 local tppOrMgoPath
@@ -302,7 +305,6 @@ this.requires={
   "/Assets/tpp/script/lib/InfFova.lua",
   "/Assets/tpp/script/lib/InfLZ.lua",
   "/Assets/tpp/script/lib/InfGameEvent.lua",
-  "/Assets/tpp/script/lib/InfParasite.lua",
   "/Assets/tpp/script/lib/InfBuddy.lua",
   "/Assets/tpp/script/lib/InfHooks.lua",--<
 }
@@ -320,6 +322,7 @@ IvarProc=require"IvarProc"
 Ivars=require"Ivars"
 InfLang=require"InfLang"
 InfButton=require"InfButton"
+InfParasite=require"InfParasite"
 InfMain=require"InfMain"
 InfMenuCommands=require"InfMenuCommands"
 InfMenuDefs=require"InfMenuDefs"
@@ -333,6 +336,9 @@ InfLZ=require"InfLZ"
 InfEquip=require"InfEquip"
 InfEneFova=require"InfEneFova"
 InfFova=require"InfFova"
+
+
+
 
 --LOCALOPT
 local IsFunc=Tpp.IsTypeFunc
@@ -539,15 +545,25 @@ local function XmlTest()
   --}
 
   -- simple print
-  --local SLAXML=require"slaxml"
-  local myxml=io.open('D:/Projects/MGS/!InfiniteHeaven/customfpk/Assets/tpp/pack/ih/ih_uav_fpkd/Assets/tpp/level/mission2/common/ih_uav.fox2.xml'):read('*all')
+  local SLAXML=require"slaxml"
+  local xmlFile=[[D:\Projects\MGS\!InfiniteHeaven\!modfpk\Assets\tpp\pack\mission2\free\f30010\f30010_fpkd\Assets\tpp\level\mission2\free\f30010\f30010_item.fox2.xml]]
+  local myxml=io.open(xmlFile):read('*all')
   --SLAXML:parse(myxml)
 
+  SLAXML:parser{
+    startElement = function(name,nsURI,nsPrefix) print("startElement:"..name)      end, -- When "<foo" or <x:foo is seen
+    attribute    = function(name,value,nsURI,nsPrefix) end, -- attribute found on current element
+    closeElement = function(name,nsURI)                end, -- When "</foo>" or </x:foo> or "/>" is seen
+    text         = function(text)                      end, -- text and CDATA nodes
+    comment      = function(content)                   end, -- comments
+    pi           = function(target,content)            end, -- processing instructions e.g. "<?yes mon?>"
+  }:parse(myxml)
+
   --sinple to table
-  local SLAXML = require 'slaxdom' -- also requires slaxml.lua; be sure to copy both files
-  local doc = SLAXML:dom(myxml)
-  local ins=InfInspect.Inspect(doc)
-  print(ins)
+  --  local SLAXML = require 'slaxdom' -- also requires slaxml.lua; be sure to copy both files
+  --  local doc = SLAXML:dom(myxml)
+  --  local ins=InfInspect.Inspect(doc)
+  --  print(ins)
 end
 
 --<end xmlparse
@@ -623,7 +639,7 @@ local function WriteDefaultIvarProfile()
   table.sort(ivarNames,SortFunc)
   --InfInspect.PrintInspect(ivarNames)
 
-  --DEBUGNOW TODO add SETTINGS, range as comment
+  -- TODO add SETTINGS, range as comment
   for i,name in ipairs(ivarNames) do
     local optionName=InfLang.eng[name] or InfLang.help.eng[name] or ""
     local ivar=Ivars[name]
@@ -780,6 +796,8 @@ local function FaceDefinitionAnalyse()
 end
 --
 
+
+
 local function main()
   print("main()")
   InfAutoDoc.AutoDoc()
@@ -795,14 +813,72 @@ local function main()
   --CheckSoldierFova()
 
   --BuildFovaTypesList()
- -- FaceDefinitionAnalyse()
+  -- FaceDefinitionAnalyse()
 
-  --XmlTest()
-  
+
+
   print(package.path)
-  
+
   print(os.date("%x %X"))
   print(os.time())
+
+
+
+  --  LangDictionaryAttack=require"LangDictionaryAttack"
+  --  LangDictionaryAttack.Run()
+  --Data=require"Data"
+  --XmlTest()
+
+  --local ExtensionOrder=require"ExtensionOrder"
+local function Split(str,delim,maxNb)
+  -- Eliminate bad cases...
+  if string.find(str,delim)==nil then
+    return{str}
+  end
+  if maxNb==nil or maxNb<1 then
+    maxNb=0--No limit
+  end
+  local result={}
+  local pat="(.-)"..delim.."()"
+  local nb=0
+  local lastPos
+  for part,pos in string.gfind(str,pat) do
+    nb=nb+1
+    result[nb]=part
+    lastPos=pos
+    if nb==maxNb then break end
+  end
+  -- Handle the last field
+  if nb~=maxNb then
+    result[nb+1]=string.sub(str,lastPos)
+  end
+  return result
+end
+
+
+ -- local pathTest=[[.\?.lua;C:\GamesSD\MGS_TPP\lua\?.lua;C:\GamesSD\MGS_TPP\lua\?\init.lua;C:\GamesSD\MGS_TPP\?.lua;C:\GamesSD\MGS_TPP\?\init.lua]]
+  
+  --local pathTest=[[.\?.lua;C:\GamesSD\MGS_TPP\lua\?.lua;C:\GamesSD\MGS_TPP\lua\?\init.lua;C:\GamesSD\MGS_TPP\?.lua;C:\GamesSD\MGS_TPP\?\init.lua]]
+  --local pathTest=[[.\?.lua;C:\Program Files (x86)\Steam\steamapps\common\MGS_TPP\lua\?.lua;C:\GamesSD\MGS_TPP\lua\?\init.lua;C:\GamesSD\MGS_TPP\?.lua;C:\GamesSD\MGS_TPP\?\init.lua]]
+  local pathTest=[[;.\?.lua;C:\Program Files (x86)\Steam\steamapps\common\MGS_TPP\lua\?.lua;C:\Program Files (x86)\Steam\steamapps\common\MGS_TPP\lua\?\init.lua;C:\Program Files (x86)\Steam\steamapps\common\MGS_TPP\?.lua;C:\Program Files (x86)\Steam\steamapps\common\MGS_TPP\?\init.lua;C:\Program Files (x86)\Lua\5.1\lua\?.luac]]
+  
+  local function GetGamePath()  
+    local gamePath=""
+    local paths=Split(package.path,";")
+    local paths=Split(pathTest,";")--DEBUG
+    for i,path in ipairs(paths) do
+      if string.find(path,"MGS_TPP") then
+        gamePath=path
+        break
+      end
+    end
+    local stripLength=10--tex length "\lua\?.lua"
+    gamePath=gamePath:gsub("\\","/")--tex because escaping sucks
+    gamePath=gamePath:sub(1,-stripLength)
+    return gamePath
+  end
+  print(GetGamePath())
+
 
   print"main done"
 end

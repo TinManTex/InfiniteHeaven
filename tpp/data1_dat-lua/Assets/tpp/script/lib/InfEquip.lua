@@ -1080,7 +1080,7 @@ local pickables={
 }
 --
 function this.PutEquipOnTrucks()
-  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
+  if not Ivars.vehiclePatrolProfile:EnabledForMission() then
     return
   end
 
@@ -1141,12 +1141,12 @@ local ivarNames={
 --Don't know if it's a count or a memory thing (which would depend on the mix of equipment loaded)
 local maxEquipment=35--48
 function this.CreateCustomWeaponTable(missionCode)
-  if not IvarProc.EnabledForMission("customWeaponTable",missionCode) then
-    return nil
+  --InfLog.PCall(function(missionCode)--DEBUG
+    if not IvarProc.EnabledForMission("customWeaponTable",missionCode) then
+      return nil
   end
 
-  local strengthSetting=Ivars.weaponTableStrength:Get()
-  local strengthType=Ivars.weaponTableStrength.settings[strengthSetting+1]
+  local strengthType=Ivars.weaponTableStrength:GetSettingName()
 
   local ddEquip=Ivars.weaponTableDD:Is(1)
   if ddEquip then
@@ -1191,7 +1191,7 @@ function this.CreateCustomWeaponTable(missionCode)
     end
   end
 
-  --tex transform back to TppEnemy.weaponIdTable format
+  --tex transform back to TppEnemy.weaponIdTable format NOTE: only builds NORMAL because there's no point in doing a normal strong split when you have control over building the table and the purpose is variation
   local weaponIdTable={NORMAL={}}
   for weaponName,weaponIds in pairs(allNoDuplicates)do
     local toWeaponIds=weaponIdTable.NORMAL[weaponName] or {}
@@ -1199,15 +1199,6 @@ function this.CreateCustomWeaponTable(missionCode)
       table.insert(toWeaponIds,weaponId)
     end
     weaponIdTable.NORMAL[weaponName]=toWeaponIds
-  end
-
-  --tex fobs soldiers have it set via SetUpDDParameter > "RegistGrenadeId", but only a global type
-  local allGrenades={
-    GRENADE=weaponIdTable.NORMAL.GRENADE,
-    STUN_GRENADE=weaponIdTable.NORMAL.STUN_GRENADE,
-  }
-  for key,grenades in pairs(allGrenades) do
-    weaponIdTable.NORMAL[key]={grenades[math.random(#grenades)]}
   end
 
   --tex pare down till under max count, pretty arbitrary algo
@@ -1260,6 +1251,7 @@ function this.CreateCustomWeaponTable(missionCode)
   --InfLog.PrintInspect(weaponIdTable)--DEBUG
 
   TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
+  --end,missionCode)--DEBUG
 end
 
 --tex adapted from TppEnemy._CreateDDWeaponIdTable
@@ -1300,7 +1292,7 @@ function this.CreateDDWeaponIdTable()
           addWeapon=true
         end
       end
-      if addWeapon then        
+      if addWeapon then
         ddWeaponIdTableNormal[powerType]=ddWeaponIdTableNormal[powerType] or {}
         table.insert(ddWeaponIdTableNormal[powerType],ddWeaponInfo.equipId)
 
@@ -1310,6 +1302,24 @@ function this.CreateDDWeaponIdTable()
       end
     end
   end
+
+  --tex SetUpDDParameter isn't set up for tables if ids, grenade type seems to be global anyway so might as well just conver there
+  local singularPowers={
+    GRENADE=true,
+    STUN_GRENADE=true,
+    SNEAKING_SUIT=true,
+    BATTLE_DRESS=true,
+  }
+  for weaponName,weaponIds in pairs(ddWeaponIdTable.NORMAL)do
+    if singularPowers[weaponName] then
+      if type(weaponIds)=="table" then
+        --weaponIdTable.NORMAL[weaponName]=weaponIds[math.random(#weaponIds)]
+        --ASSUMPTION equipId in strength order
+        ddWeaponIdTable.NORMAL[weaponName]=weaponIds[1]
+      end
+    end
+  end
+
   return ddWeaponIdTable
 end
 

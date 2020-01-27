@@ -1,5 +1,36 @@
 Infinite Heaven changelog
 
+r187 - 2016-10-18
+Fixed: Infinite load on mission Episode 43 with Custom equip table with DD equip - thanks YoshimitsuYamada for the report and save file to test.
+
+Refactor: InfMain.externalModules to Ivars.
+Refactor: External modules exquivalent of Tpp requires list - Init,OnReload and message support.
+Refactor: InfParasite message definitions moved from InfMain to InfParasite. InfParasite shifted to external.
+Refactor: Pass setting to OnChange 
+
+Fixed: Don't Drop equip and Warp to user marker when in vehicle - ta NasaNhak 
+Setting: npcHeliUpdate - NPC Helis - added "Attack helis" setting (was just "Support helis","Support and Attack helis").
+Refactor: InfNPC heli in light of above (mostly splitting out use of mbEnemyHelis as HP48 indicator)
+
+Refactor: InfMain.externalModules to InfModules module.
+Refactor: updateIvars merged into external module loading, execState broken out from the ivars into their respective modules.
+
+Refactor: InfMBVisit messages and calls shifted from InfMain into module
+Refactor: InfEnemyPhase from module based update to timer.
+Refactor: InfEneFova.RandomFaceId
+Feature: Camo parasites/Sniper Skulls added to Skulls attack feature.
+
+Profile: Updated Subsistence - Game, now should be pretty accurate to the regular subsistence missions settings - thanks TideGear for the prompting.
+
+Fixed: Install IH batch file - thanks CantStoptheBipBop for the changes.
+Fixed: Some non wildcard soldier faces showing as female.
+Fixed: Made GetGamePath/packages.path parsing more robust, should catch case of empty initial path - thanks CantStoptheBipBop for running the tests.
+Fixed: Added some missing afgh CP positions to InfMain.cpPositions, affected use of GetClosestCpPosition (only parasite positioning)
+Fixed: Hard crash in some situations with attack heli patrols (possibly with more animals mod? VERIFY), had to reduce number of TppEnemyHeli gameobjects (enemy_heli_<loc>.fox2) from 8 to 4 though :/
+
+Option: Enable QuickMenu, quickmenu is now disabled by default.
+Menu: IH system menu - shifted various options related to IH itself here.
+
 r186 - 2016-09-30
 Fixed: Profiles with loadOnACCStart not applying - thanks pk5547 for the report
 Fixed: AutoDoc - including nonConfig menus, which also broke defaults profile - thanks pk5547 for the report

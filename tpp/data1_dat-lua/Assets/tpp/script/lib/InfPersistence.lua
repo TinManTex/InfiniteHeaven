@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 -- InfPersitence.lua
--- NMC
+-- NMC, from https://github.com/hipe/lua-table-persistence
 -- Internal persistence library
 
 --[[ Provides ]]

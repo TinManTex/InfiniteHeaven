@@ -33,7 +33,7 @@ local function CharacterLine(character,length)
 end
 
 --WORKAROUND redo
-local function GetSettingsText(option)
+local function GetSettingText(option)
   local settingText=""
   local settingNames=option.settingNames or option.settings
   if settingNames then
@@ -59,7 +59,7 @@ local function GetSettingsText(option)
       --settingText=InfMenu.LangTableString(settingNames,option.setting+1)
     end
   elseif IsFunc(option.GetSettingText) then
-    settingText=tostring(option:GetSettingText())
+    settingText=tostring(option:GetSettingText(0))
   elseif option.isPercent then
     if option.range then
       settingText=option.range.min.."-"..option.range.max.."%"
@@ -169,7 +169,7 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
         textFile:write(indexDisplayLine..settingDescription,nl)
         htmlFile:write(string.format([[<div>%s<a href="#%s">%s</a></div>]],indexDisplayLine,item.name,settingDescription),nl)
       else
-        local settingText=GetSettingsText(item)
+        local settingText=GetSettingText(item)--DEBUGNOW InfMenu.GetSettingText(i,item)
         textFile:write(indexDisplayLine..settingDescription.." : "..settingText,nl)
 
         local settingsDisplayText=settingDescription.." : "..settingText

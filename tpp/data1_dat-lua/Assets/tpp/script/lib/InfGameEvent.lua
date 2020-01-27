@@ -180,7 +180,7 @@ local warGamesBase={
   TRAINING={
     mbDDEquipNonLethal=1,
     mbHostileSoldiers=1,
-    --mbEnableLethalActions=0,
+    mbEnableLethalActions=0,
     mbNonStaff=0,
     mbEnableFultonAddStaff=0,
     mbZombies=0,
@@ -193,12 +193,13 @@ local warGamesBase={
     mbNonStaff=1,
     mbEnableFultonAddStaff=1,
     mbZombies=0,
+    npcHeliUpdate="HP48",
     mbEnemyHeli=1,
   },
   ZOMBIE_DD={
     mbDDEquipNonLethal=0,
     mbHostileSoldiers=1,
-    --mbEnableLethalActions=0,
+    mbEnableLethalActions=0,
     mbNonStaff=0,
     mbEnableFultonAddStaff=0,
     mbZombies=1,
@@ -336,7 +337,7 @@ function this.GenerateWarGameEvent()
     InfMenu.PrintFormatLangId("event_announce",warGameName)--tex TODO ADDLANG to event ids
 
     if wargameBaseType=="INVASION" then
-      Ivars.mbWarGamesProfile.setting=Ivars.mbWarGamesProfile.enum.INVASION--KLUDGE just setting without saving or triggering other profile sub ivars
+      ivar.mbWarGamesProfile=Ivars.mbWarGamesProfile.enum.INVASION--KLUDGE just setting without saving or triggering other profile sub ivars
       Ivars.mbEnablePuppy:Set(0,true,true)--tex TODO will kill the puppy quest (aww) till user toggles the option again
     end
 

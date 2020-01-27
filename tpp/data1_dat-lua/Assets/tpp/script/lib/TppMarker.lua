@@ -354,8 +354,8 @@ function this._IsCheckSVarsSearchTarget(a,svarName)
   end
   return false
 end
-function this._OnMarkerChangeToEnable(n,n,gameId,a)
-  if a==Fox.StrCode32"Player"then
+function this._OnMarkerChangeToEnable(instanceName,markerType,gameId,identificationCode)
+  if identificationCode==Fox.StrCode32"Player"then
     this._CallMarkerRadio(gameId)
   end
 end

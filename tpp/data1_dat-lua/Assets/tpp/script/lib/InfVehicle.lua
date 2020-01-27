@@ -212,7 +212,7 @@ end
 --IN: missionTable.enemy.VEHICLE_SPAWN_LIST, missionTable.enemy.soldierDefine
 function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
   --InfLog.PCall(function(vehicleSpawnList,soldierDefine)--DEBUG
-    if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
+    if not Ivars.vehiclePatrolProfile:EnabledForMission() then
       return
   end
 
@@ -400,7 +400,7 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
     return
   end
   
-  if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
+  if not Ivars.vehiclePatrolProfile:EnabledForMission() then
     return
   end
 
@@ -473,7 +473,7 @@ this.convoys={
 --tex final setup, initial setup is in ModifyVehiclePatrol
 function this.SetupConvoy()
   --InfLog.PCall(function()--DEBUG
-    if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
+    if not Ivars.vehiclePatrolProfile:EnabledForMission() then
       return
   end
 

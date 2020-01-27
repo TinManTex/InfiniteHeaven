@@ -1,6 +1,8 @@
 -- DOBUILD: 1
 --InfEneFova.lua
 
+--DEPENDANCY InfMain.ShuffleBag, todo thow in InfUtil and require
+
 local this={}
 local InfEneFova=this
 
@@ -554,67 +556,125 @@ function this.GetFemaleWildCardBodyInfo()
 end
 
 --tex non exhaustive, see face and body ids.txt,Soldier2FaceAndBodyData, face and bodyids.txt
-this.maleFaceIds={
-  {min=0,max=303},
-  {min=320,max=349},
-}
-this.maleFaceIdsUncommon={
-  {min=600,max=602},--mission dudes>
-  {min=603,max=612},
-  {min=614,max=620},
-  {min=624,max=626},
-  {635,},
-  {min=637,max=642},
-  {min=644,max=645},
-  {min=647,max=649},
-  {
-    602,--glasses,
-    621,--Tan
-    622,--hideo, NOTE doesn't show if vars.playerFaceId
-    627,--finger
-    628,--eye
-    646,--beardy mcbeard
-    680,--fox hound tattoo
-    683,--red hair, ddogs tattoo
-    684,--fox tattoo
-    687,--while skull tattoo
+this.faceIds={
+  MALE={
+    COMMON={
+      {min=0,max=303},
+      {min=320,max=349},
+    },
+    UNCOMMON={
+      {min=600,max=602},--mission dudes
+      {min=603,max=612},
+      {min=614,max=620},
+      {min=624,max=626},
+      {635,},
+      {min=637,max=642},
+      {min=644,max=645},
+      {min=647,max=649},
+    },
+    UNIQUE={
+      {
+        602,--glasses,
+        621,--Tan
+        622,--hideo, NOTE doesn't show if vars.playerFaceId
+        627,--finger
+        628,--eye
+        646,--beardy mcbeard
+        680,--fox hound tattoo
+        683,--red hair, ddogs tattoo
+        684,--fox tattoo
+        687,--while skull tattoo
+      },
+    },
   },
+  FEMALE={
+    COMMON={
+      {min=350,max=399},--european
+      {min=440,max=479},--african
+      {min=500,max=519},--asian
+      {613,643},
+    },
+    UNIQUE={
+      {
+        681,--female tatoo fox hound black
+        682,--female tatoo whiteblack ddog red hair
+        685,--female tatoo fox black
+        686,--female tatoo skull white white hair
+      },
+    },
+  }
 }
 
-this.femaleFaceIds={
-  {min=350,max=399},--european
-  {min=440,max=479},--african
-  {min=500,max=519},--asian
-  {613,643},
-  {
-    681,--female tatoo fox hound black
-    682,--female tatoo whiteblack ddog red hair
-    685,--female tatoo fox black
-    686,--female tatoo skull white white hair
+--TUNE
+this.categoryChances={
+  MALE={
+    COMMON=80,
+    UNCOMMON=15,
+    UNIQUE=5,
   },
+  FEMALE={
+    COMMON=95,
+    UNIQUE=5,
+  }
 }
-this.DEFAULT_FACEID_MALE=0
-this.DEFAULT_FACEID_FEMALE=350
+
+--IN InfEneFova.faceIds
+function this.BuildFaceBags(faceIds)
+  local faceBags={MALE={},FEMALE={}}
+  for gender,categoryTables in pairs(faceIds) do
+    for category,faceIdTables in pairs(categoryTables)do
+      local faceBag=InfMain.ShuffleBag:New()
+      faceBags[gender][category]=faceBag
+      for i,faceIds in ipairs(faceIdTables) do
+        if faceIds.min then
+          for i=faceIds.min,faceIds.max do
+            faceBag:Add(i)
+          end
+        else
+          faceBag:Fill(faceIds)
+        end
+      end
+    end
+  end
+  return faceBags
+end
+
+function this.GetCategoryBag(categoryChances,gender,categories)
+  local bag=InfMain.ShuffleBag:New()
+  for i,category in ipairs(categories) do
+    local chance=categoryChances[gender][category]
+    bag:Add(category,chance)
+  end
+  return bag
+end
+
+function this.RandomFaceId(faceBags,gender,categoryBag)
+  local category=categoryBag:Next()
+  return faceBags[gender][category]:Next()
+end
 
 --NOTE: make sure RandomSetToLevelSeed is setup
 --ASSUMPTION: last group in table is for unqiues that you don't want to spam too much
-local uniqueChance=5--TUNE
-function this.RandomFaceId(faceList)
-  local rnd=math.random(#faceList)
-  if rnd==#faceList then
-    if math.random(100)>uniqueChance then
-      rnd=rnd-1
-    end
-  end
+--CULL
+--local uniqueChance=5--TUNE
+--function this.RandomFaceId(faceList)
+--  local rnd=math.random(#faceList)
+--  if rnd==#faceList then
+--    if math.random(100)>uniqueChance then
+--      rnd=rnd-1
+--    end
+--  end
+--
+--  local type=faceList[rnd]
+--  if type.min then
+--    return math.random(type.min,type.max)
+--  else
+--    return type[math.random(1,#type)]
+--  end
+--end
 
-  local type=faceList[rnd]
-  if type.min then
-    return math.random(type.min,type.max)
-  else
-    return type[math.random(1,#type)]
-  end
-end
-
+this.DEFAULT_FACEID_MALE=0
+this.DEFAULT_FACEID_FEMALE=350
 
 this.GENDER={
   MALE=0,
@@ -1516,20 +1576,24 @@ this.wildCardBodyTable={
 function this.WildCardFova(bodies)
   --InfLog.PCall(function(bodies)--DEBUG
   InfMain.RandomSetToLevelSeed()
+  local faceBags=this.BuildFaceBags(this.faceIds)
   local faces={}
   InfEneFova.inf_wildCardMaleFaceList={}
   InfEneFova.inf_wildCardFemaleFaceList={}
   local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
+  local categoryBag=this.GetCategoryBag(this.categoryChances,"MALE",{"UNCOMMON","UNIQUE"})
   for i=1,InfMain.MAX_WILDCARD_FACES-InfMain.numWildCardFemales do--SYNC numwildcards
-    local faceId=this.RandomFaceId(this.maleFaceIdsUncommon)
-    table.insert(faces,{faceId,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    local faceId=this.RandomFaceId(faceBags,"MALE",categoryBag)
+    table.insert(faces,{faceId,1,1,0})
     table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
   end
+  local categoryBag=this.GetCategoryBag(this.categoryChances,"FEMALE",{"COMMON","UNIQUE"})
   for i=1,InfMain.numWildCardFemales+1 do
-    local faceId=this.RandomFaceId(this.femaleFaceIds)
-    table.insert(faces,{faceId,MAX_REALIZED_COUNT,MAX_REALIZED_COUNT,0})
+    local faceId=this.RandomFaceId(faceBags,"FEMALE",categoryBag)
+    table.insert(faces,{faceId,1,1,0})
     table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
   end
+  --InfLog.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList)--DEBUG
   TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
 
   local locationName=InfMain.GetLocationName()

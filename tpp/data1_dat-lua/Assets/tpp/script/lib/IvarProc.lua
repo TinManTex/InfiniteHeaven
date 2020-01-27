@@ -8,6 +8,7 @@ local IsNumber=Tpp.IsTypeNumber
 local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local Enum=TppDefine.Enum
+local vars=vars
 
 local GLOBAL=TppScriptVars.CATEGORY_GAME_GLOBAL
 local MISSION=TppScriptVars.CATEGORY_MISSION
@@ -19,7 +20,74 @@ local RESTARTABLE=TppDefine.CATEGORY_MISSION_RESTARTABLE
 local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
 
 local function IsIvar(ivar)--TYPEID
-  return type(ivar)=="table" and (ivar.range or ivar.settings)
+  return type(ivar)=="table" and ivar.name and (ivar.range or ivars[ivar.name])
+end
+
+function this.GetSetting(self)
+  return ivars[self.name]
+end
+
+function this.GetTableSettingDirect(self,setting)
+  if not self.settingsTable then
+    InfLog.Add("GetTableSettingDirect no settingsTable for "..self.name)
+    return nil
+  end
+
+  if not setting then
+    setting=ivars[self.name]
+  end
+  return self.settingsTable[setting+1]
+end
+
+--tex return ivars settingsTable setting for setting
+this.GetTableSetting=function(self)
+  local returnValue=nil
+  if self.settingsTable then
+    local currentSetting
+    if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
+      currentSetting=self.default
+    else
+      currentSetting=ivars[self.name]
+    end
+
+    local settingName=self.settings[currentSetting+1]
+    local tableSetting=self.settingsTable[settingName]
+
+    if IsFunc(tableSetting) then
+      returnValue=tableSetting()
+    else
+      returnValue=tableSetting
+    end
+  end
+  return returnValue
+end
+
+function this.GetSettingNameDirect(self,setting)
+  if not self.settings then
+    InfLog.Add("GetSettingNameDirect no settings for "..self.name)
+    return nil
+  end
+
+  if not setting then
+    setting=ivars[self.name]
+  end
+  return self.settings[setting+1]
+end
+
+function this.GetSettingName(self,setting)
+  if not self.settings then
+    InfLog.Add("GetSettingName no settings for "..self.name)
+    return nil
+  end
+
+  if not setting then
+    setting=self:Get()
+  end
+  return self.settings[setting+1]
+end
+
+function this.SetDirect(self,setting)
+  ivars[self.name]=setting
 end
 
 function this.SetSetting(self,setting,noOnChangeSub,noSave)
@@ -32,12 +100,14 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     InfLog.DebugPrint("WARNING: SetSetting: self ~= table!")
     return
   end
-  if self.setting==nil then
-    InfLog.DebugPrint("WARNING: SetSetting: setting==nil")
-    return
-  end
   if self.option then
     InfLog.DebugPrint("WARNING: SetSetting called on menu")
+    return
+  end
+
+  local currentSetting=ivars[self.name]
+  if currentSetting==nil then
+    InfLog.DebugPrint("WARNING: SetSetting: ivar setting==nil")
     return
   end
 
@@ -56,8 +126,8 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     end
   end
   --InfLog.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
-  local prevSetting=self.setting
-  self.setting=setting
+  local prevSetting=currentSetting
+  ivars[self.name]=setting
   if self.save and not noSave then
     local gvar=gvars[self.name]
     if gvar~=nil then
@@ -69,7 +139,7 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     --    --elseif noOnChangeSub and self.OnChange==Ivars.RunCurrentSetting then
     --    else
     --InfLog.Add("SetSetting OnChange for "..self.name)--DEBUG
-    InfLog.PCall(self.OnChange,self,prevSetting)
+    InfLog.PCall(self.OnChange,self,prevSetting,setting)
     -- end
   end
   if self.profile and not noOnChangeSub then
@@ -89,7 +159,7 @@ this.OptionIsDefault=function(self)
   if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
     currentSetting=self.default
   else
-    currentSetting=self.setting
+    currentSetting=ivars[self.name]
   end
 
   return currentSetting==self.default
@@ -98,6 +168,7 @@ end
 local type=type
 local numberType="number"
 local TppMission=TppMission
+--tex NOTE: returns currentsetting if no setting given
 this.OptionIsSetting=function(self,setting)
   if self==nil then
     InfLog.DebugPrint("WARNING OptionIsSetting self==nil, Is or Get called with . instead of :")
@@ -113,7 +184,7 @@ this.OptionIsSetting=function(self,setting)
   if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
     currentSetting=self.default
   else
-    currentSetting=self.setting
+    currentSetting=ivars[self.name]
   end
 
   if setting==nil then
@@ -135,57 +206,18 @@ this.OptionIsSetting=function(self,setting)
   return settingIndex==currentSetting
 end
 
-this.RunCurrentSetting=function(self,previousSetting)
-  --InfLog.DebugPrint("RunCurrentSetting on ".. self.name)--DEBUG
+this.OnChangeProfile=function(self,previousSetting,setting)
   local returnValue=nil
+  local currentSetting=setting or ivars[self.name]
   if self.settingsTable then
-    --this.UpdateSettingFromGvar(self)
-    local settingName=self.settings[self.setting+1]
-    --InfLog.DebugPrint("setting name:" .. settingName)
+    local settingName=self.settings[currentSetting+1]
     local settingTable=self.settingsTable[settingName]
 
     if IsFunc(settingTable) then
-      --InfLog.DebugPrint("has settingFunction")
       returnValue=settingTable()
       --tex ASSUMPTION is profile-v-
     elseif IsTable(settingTable) and self.OnSubSettingChanged then
-      if self.setting==0 then--"DEFAULT"
-        this.ResetProfile(settingTable)
-      else
-        this.ApplyProfile(settingTable)
-      end
-    else
-      returnValue=settingTable
-    end
-  else
-    InfLog.Add("WARNING: RunCurrentSetting with no settingTable on "..self.name,true)--DEBUG
-  end
-  return returnValue
-end
-
---tex for data mostly same as runcurrent but doesnt trigger profile onchange
---TODO really? and above has no fob check
-this.ReturnCurrent=function(self)
-  --InfLog.DebugPrint("ReturnCurrent on ".. self.name)
-  local returnValue=nil
-  if self.settingsTable then
-    --InfLog.DebugPrint("has settingstable")
-    local currentSetting
-    if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
-      currentSetting=self.default
-    else
-      currentSetting=self.setting
-    end
-
-    local settingName=self.settings[currentSetting+1]
-    --InfLog.DebugPrint("setting name:" .. settingName)
-    local settingFunction=self.settingsTable[settingName]
-
-    if IsFunc(settingFunction) then
-      --InfLog.DebugPrint("has settingFunction")
-      returnValue=settingFunction()
-    else
-      returnValue=settingFunction
+      this.ApplyProfile(settingTable)
     end
   end
   return returnValue
@@ -228,14 +260,16 @@ local minSuffix="_MIN"
 local maxSuffix="_MAX"
 function this.PushMax(ivar)
   local maxName=ivar.subName..maxSuffix
-  if ivar.setting>Ivars[maxName]:Get() then
-    Ivars[maxName]:Set(ivar.setting,true)
+  local currentSetting=ivars[ivar.name]
+  if currentSetting>ivars[maxName] then
+    Ivars[maxName]:Set(currentSetting,true)
   end
 end
 function this.PushMin(ivar)
   local minName=ivar.subName..minSuffix
-  if ivar.setting<Ivars[minName]:Get() then
-    Ivars[minName]:Set(ivar.setting,true)
+  local currentSetting=ivars[ivar.name]
+  if currentSetting<ivars[minName] then
+    Ivars[minName]:Set(currentSetting,true)
   end
 end
 --tex creates someIvarName_MIN,someIvarName_MAX
@@ -250,7 +284,7 @@ end
 --  },
 --)
 --OUT: Ivars
---tex 
+--tex
 function this.MinMaxIvar(Ivars,name,minSettings,maxSettings,ivarSettings,dontSetIvars)
   local ivarMin={
     subName=name,
@@ -284,6 +318,10 @@ function this.MinMaxIvar(Ivars,name,minSettings,maxSettings,ivarSettings,dontSet
     [name..minSuffix]=ivarMin,
     [name..maxSuffix]=ivarMax
   }
+end
+
+function this.MissionCheckAll()
+  return true
 end
 
 function this.MissionCheckFree(self,missionCode)
@@ -362,6 +400,7 @@ function this.MissionModeIvars(Ivars,name,ivarDefine,missionModes)
   end
 end
 
+--tex ivarList can be missionModeIvar name or ivar list
 function this.IsForMission(ivarList,setting,missionCode)
   local missionId=missionCode or vars.missionCode
   if type(ivarList)=="string" then
@@ -378,6 +417,8 @@ function this.IsForMission(ivarList,setting,missionCode)
   return passedCheck
 end
 
+--tex as above but with ivar>0 check
+--ivarList can be missionModeIvar name or ivar list
 function this.EnabledForMission(ivarList,missionCode)
   local missionId=missionCode or vars.missionCode
   if type(ivarList)=="string" then
@@ -398,6 +439,11 @@ function this.EnabledForMission(ivarList,missionCode)
     end
   end
   return passedCheck
+end
+
+function this.IvarEnabledForMission(self,missionCode)
+  local missionId=missionCode or vars.missionCode
+  return self:Is()>0 and self:MissionCheck(missionId)
 end
 
 --
@@ -421,7 +467,7 @@ function this.ApplyProfile(profile,noSave)
   end
 end
 function this.ResetProfile(profile)
-  for i,ivarName in pairs(profile) do
+  for i,ivarName in ipairs(profile) do
     local ivar=Ivars[ivarName]
     if ivar==nil then
       InfLog.DebugPrint("WARNING: ResetProfile cant find ivar "..ivarName)
@@ -435,7 +481,7 @@ this.UpdateSettingFromGvar=function(option)
   if option.save then
     local gvar=gvars[option.name]
     if gvar~=nil then
-      option.setting=gvars[option.name]
+      ivars[option.name]=gvars[option.name]
     else
       InfLog.Add("UpdateSettingFromGvar: WARNING option.save but no gvar found for "..tostring(option.name),true)
     end
@@ -458,12 +504,13 @@ end
 --debug stuff
 --tex only catches save vars
 function this.PrintNonDefaultVars()
-  if this.varTable==nil then
-    InfLog.DebugPrint("varTable not found, has it been reverted to DeclareVars local?")
+  local varTable=Ivars.DeclareVars()
+  if varTable==nil then
+    InfLog.DebugPrint("varTable not found")
     return
   end
 
-  for n,gvarInfo in pairs(this.varTable) do
+  for n,gvarInfo in pairs(varTable) do
     local gvar=gvars[gvarInfo.name]
     if gvar==nil then
       InfLog.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
@@ -484,9 +531,9 @@ function this.PrintGvarSettingMismatch()
         if gvar==nil then
           InfLog.DebugPrint("WARNING ".. ivar.name.." has no gvar")
         else
-          if ivar.setting~=gvar then
+          if ivars[ivar.name]~=gvar then
             InfLog.Add("WARNING: ivar setting/gvar mismatch for "..name,true)
-            InfLog.Add("setting:"..tostring(ivar.setting).." gvar value:"..tostring(gvar),true)
+            InfLog.Add("setting:"..tostring(ivars[ivar.name]).." gvar value:"..tostring(gvar),true)
           end
         end
       end
@@ -496,13 +543,14 @@ function this.PrintGvarSettingMismatch()
 end
 
 function this.PrintSaveVarCount()
-  if Ivars.varTable==nil then
-    InfLog.DebugPrint("varTable not found, has it been reverted to DeclareVars local?")
+  local varTable=Ivars.DeclareVars()
+  if varTable==nil then
+    InfLog.DebugPrint("varTable not found")
     return
   end
 
   local gvarCountCount=0
-  for n,gvarInfo in pairs(Ivars.varTable) do
+  for n,gvarInfo in pairs(varTable) do
     local gvar=gvars[gvarInfo.name]
     if gvar==nil then
       InfLog.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
@@ -510,7 +558,7 @@ function this.PrintSaveVarCount()
       gvarCountCount=gvarCountCount+1
     end
   end
-  InfLog.DebugPrint("Ivar gvar count:"..gvarCountCount.." "..#Ivars.varTable)
+  InfLog.DebugPrint("Ivar gvar count:"..gvarCountCount.." "..#varTable)
 
   local bools=0
   for name, ivar in pairs(Ivars) do
@@ -565,7 +613,8 @@ function this.PrintSaveVarCount()
   InfLog.DebugPrint"NOTE: these are CATEGORY_MISSION counts"
 
   InfLog.DebugPrint"Ivars.varTable"
-  local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,Ivars.varTable,TppScriptVars.CATEGORY_MISSION)
+  local ivarTable=Ivars.DeclareVars()
+  local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,ivarTable,TppScriptVars.CATEGORY_MISSION)
 
   InfLog.DebugPrint"typeCounts"
   InfLog.PrintInspect(typeCounts)
@@ -627,15 +676,15 @@ end
 --SIDE: Ivars.profiles
 function this.SetupInfProfiles()
   --tex TODO: just can't seem to assign a loaded module to Global for some reason, works fine in external VM, and works fine at end of InfMain
---  InfLog.Add("SetupInfProfiles")
---InfProfiles=require"InfProfiles"--
---  local infProfiles=require"InfProfiles"
---    if infProfiles then
---      --_G["InfProfiles"]=infProfiles
---      InfProfiles=infProfiles
---      InfLog.PrintInspect(InfProfiles)
---    end
---  InfLog.PrintInspect(InfProfiles)
+  --  InfLog.Add("SetupInfProfiles")
+  --InfProfiles=require"InfProfiles"--
+  --  local infProfiles=require"InfProfiles"
+  --    if infProfiles then
+  --      --_G["InfProfiles"]=infProfiles
+  --      InfProfiles=infProfiles
+  --      InfLog.PrintInspect(InfProfiles)
+  --    end
+  --  InfLog.PrintInspect(InfProfiles)
 
   --tex TODO unify with reloadexternal?
   --tex clear so require reloads file, kind of defeats purpose of using require, but requires path search is more useful
@@ -644,7 +693,7 @@ function this.SetupInfProfiles()
   local sucess,module=pcall(require,moduleName)
   if not sucess then
     Ivars.selectProfile.range.max=0
-    Ivars.selectProfile.setting=0
+    ivars.selectProfile=0
     Ivars.profiles=nil
     return nil
   end
@@ -727,8 +776,9 @@ function this.BuildProfile(onlyNonDefault)
   for ivarName,ivar in pairs(Ivars)do
     if IsIvar(ivar) then
       if IsForProfile(ivar) then
-        if not onlyNonDefault or ivar.setting~=ivar.default then
-          profile[ivar.name]=ivar.setting
+        local currentSetting=ivars[ivar.name]
+        if not onlyNonDefault or currentSetting~=ivar.default then
+          profile[ivar.name]=currentSetting
         end
       end
     end

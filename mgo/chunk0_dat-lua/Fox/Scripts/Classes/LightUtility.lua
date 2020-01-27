@@ -28,22 +28,22 @@ LightUtility={
     Command.DeleteData(t)
     Command.AddSelection(editor,e)
   end,
-  CopyLightProperties=function(e,t)
-    Command.SetProperty{entity=t.transform,property="translation",value=e.transform.translation}
-    Command.SetProperty{entity=t.transform,property="rotQuat",value=e.transform.rotQuat}
-    Command.SetProperty{entity=t.transform,property="scale",value=e.transform.scale}
-    local o=Color(1,1,1,1)
-    if e:IsKindOf(Ambient)then
-      o=e.skyColor
+  CopyLightProperties=function(sourceEntity,destEntity)
+    Command.SetProperty{entity=destEntity.transform,property="translation",value=sourceEntity.transform.translation}
+    Command.SetProperty{entity=destEntity.transform,property="rotQuat",value=sourceEntity.transform.rotQuat}
+    Command.SetProperty{entity=destEntity.transform,property="scale",value=sourceEntity.transform.scale}
+    local color=Color(1,1,1,1)
+    if sourceEntity:IsKindOf(Ambient)then
+      color=sourceEntity.skyColor
     else
-      o=e.color
+      color=sourceEntity.color
     end
-    if t:IsKindOf(Ambient)then
-      Command.SetProperty{entity=t,property="skyColor",value=o}
-      Command.SetProperty{entity=t,property="groundColor",value=o}
+    if destEntity:IsKindOf(Ambient)then
+      Command.SetProperty{entity=destEntity,property="skyColor",value=color}
+      Command.SetProperty{entity=destEntity,property="groundColor",value=color}
     else
-      Command.SetProperty{entity=t,property="color",value=o}
+      Command.SetProperty{entity=destEntity,property="color",value=color}
     end
-    Command.SetProperty{entity=t,property="isOn",value=e.isOn}
-    Command.SetProperty{entity=t,property="showObject",value=e.showObject}
+    Command.SetProperty{entity=destEntity,property="isOn",value=sourceEntity.isOn}
+    Command.SetProperty{entity=destEntity,property="showObject",value=sourceEntity.showObject}
   end}

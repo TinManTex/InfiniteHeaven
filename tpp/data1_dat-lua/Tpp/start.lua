@@ -627,12 +627,12 @@ if Script.LoadLibrary then
     Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"
     yield()
     --tex>
-    Script.LoadLibrary"/Assets/tpp/script/lib/InfModelRegistry.lua"
+    --Script.LoadLibrary"/Assets/tpp/script/lib/InfModelRegistry.lua"
     --WIP
-    --    InfLog.LoadExternalModuleLoadFile"InfModelRegistry"
+    local InfModelRegistry=InfLog.LoadExternalModuleRequire("InfModelRegistry")
+    InfLog.InfModelRegistry=InfModelRegistry
     yield()
     if InfModelRegistry then
-      --InfLog.Add("InfModelRegistry")--DEBUG
       local commonHeadPath="/Assets/tpp/pack/fova/common_source/chara/cm_head/"
       for i,moduleName in ipairs(InfModelRegistry.headFovaModNames)do
         if type(moduleName)=="string"then

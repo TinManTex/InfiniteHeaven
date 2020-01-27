@@ -61,7 +61,7 @@ end
 -- xpcall(function () func(...) end, err)
 
 --function this.TryFuncDebug(Func,...)
---  if Ivars.debugMode.setting==0 then
+--  if ivars.debugMode==0 then
 --    return Func(...)
 --  end
 --

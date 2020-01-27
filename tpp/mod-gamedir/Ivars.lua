@@ -27,6 +27,12 @@ local CONFIG=TppScriptVars.CATEGORY_CONFIG
 local RESTARTABLE=TppDefine.CATEGORY_MISSION_RESTARTABLE
 local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
 
+--tex set via IvarsProc.MissionModeIvars, used by IsForMission,EnabledForMission
+this.missionModeIvars={}
+
+this.profiles={}
+this.savedProfiles={}
+--
 local int8=256
 local int16=2^16
 local int32=2^32
@@ -38,14 +44,16 @@ this.switchRange={max=1,min=0,increment=1}
 
 this.switchSettings={"OFF","ON"}
 this.simpleProfileSettings={"DEFAULT","CUSTOM"}
-
---tex set via IvarsProc.MissionModeIvars, used by IsForMission,EnabledForMission
-this.missionModeIvars={}
-
-this.updateIvars={}
-
-this.profiles={}
-this.savedProfiles={}
+--
+this.externalModules={
+  "Ivars",
+  "InfMenuCommands",
+  "InfQuickMenuCommands",
+  "InfLang",
+  "InfMenuDefs",
+  "InfQuickMenuDefs",
+  "InfParasite"
+}
 
 --ivar definitions
 --tex NOTE: should be mindful of max setting for save vars,
@@ -69,44 +77,28 @@ this.printOnBlockChange={
   settingNames="set_switch",
 }
 
-
---this.disableEquipOnMenu={
---  save=MISSION,
---  default=1,
---  range=this.switchRange,
---  settingNames="set_switch",
---}
-
 --parameters
---tex DEBUGNOW TODO: shift to simply being an allow-original soldier params/mods
+--tex TODO: change over name to something more accurate next time you do a change that would require the user to update their settings anyway
 this.soldierParamsProfile={
   save=GLOBAL,--tex global since user still has to restart to get default/modded/reset
-  --range=this.switchRange,
-  settings={"DEFAULT","CUSTOM"},
-  settingNames="soldierParamsProfileSettings",
-  settingsTable={
-    DEFAULT=function()
-      Ivars.soldierSightDistScale:Set(100,true)
-      Ivars.soldierNightSightDistScale:Set(100,true)
-      Ivars.soldierHearingDistScale:Set(100,true)
-      Ivars.soldierHealthScale:Set(100,true)
-      TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParametersDefaults)
-    end,
-    CUSTOM=nil,
-  },
-  OnChange=IvarProc.RunCurrentSetting,
-  OnSubSettingChanged=IvarProc.OnSubSettingChanged,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 --enemy parameters sight
 this.sightScaleRange={max=400,min=0,increment=5}
+local function OnChangeEnemyParam(self,currentSetting,setting)
+  if Ivars.soldierParamsProfile:Is(0) then
+    Ivars.soldierParamsProfile:Set(1)
+  end
+end
 
 this.soldierSightDistScale={
   save=MISSION,
   default=100,
   range=this.sightScaleRange,
   isPercent=true,
-  profile=this.soldierParamsProfile,
+--OnChange=OnChangeEnemyParam,
 }
 
 this.soldierNightSightDistScale={
@@ -114,7 +106,7 @@ this.soldierNightSightDistScale={
   default=100,
   range=this.sightScaleRange,
   isPercent=true,
-  profile=this.soldierParamsProfile,
+--OnChange=OnChangeEnemyParam,
 }
 
 this.soldierHearingDistScale={
@@ -122,7 +114,7 @@ this.soldierHearingDistScale={
   default=100,
   range={max=400,min=0,increment=5},
   isPercent=true,
-  profile=this.soldierParamsProfile,
+--OnChange=OnChangeEnemyParam,
 }
 
 
@@ -181,13 +173,12 @@ this.soldierHealthScale={
   default=100,
   range=this.healthScaleRange,
   isPercent=true,
-  profile=this.soldierParamsProfile,
 }
 ---end soldier params
 this.playerHealthScale={
   save=MISSION,
   default=100,
-  range={max=650,min=0,increment=20},--tex GOTCHA overflows around 760 when medical arm 3 is equipped
+  range={max=650,min=0,increment=20},--tex GOTCHA see InfMain.ChangeMaxLife,http://wiki.tesnexus.com/index.php/Life
   isPercent=true,
   OnChange=function(self)
     if mvars.mis_missionStateIsNotInGame then
@@ -328,54 +319,53 @@ this.mbWarGamesProfile={
   settings={"OFF","TRAINING","INVASION","ZOMBIE_DD","ZOMBIE_OBLITERATION"},
   settingNames="mbWarGamesProfileSettings",
   settingsTable={
-    OFF=function()
-      Ivars.mbDDEquipNonLethal:Set(0,true)
-      Ivars.mbHostileSoldiers:Set(0,true)
-      --CULL Ivars.mbEnableLethalActions:Set(0,true)
-      Ivars.mbNonStaff:Set(0,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)
-      Ivars.mbZombies:Set(0,true)
-      Ivars.mbEnemyHeli:Set(0,true)
-    end,
-    TRAINING=function()
-      --Ivars.mbDDEquipNonLethal:Set(0,true)--tex allow user setting
-      Ivars.mbHostileSoldiers:Set(1,true)
-      --CULL Ivars.mbEnableLethalActions:Set(0,true)
-      Ivars.mbNonStaff:Set(0,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)
-      Ivars.mbZombies:Set(0,true)
-      Ivars.mbEnemyHeli:Set(0,true)
-    end,
-    INVASION=function()
-      Ivars.mbDDEquipNonLethal:Set(0,true)
-      Ivars.mbHostileSoldiers:Set(1,true)
-      Ivars.mbEnableLethalActions:Set(1,true)
-      Ivars.mbNonStaff:Set(1,true)
-      Ivars.mbEnableFultonAddStaff:Set(1,true)
-      Ivars.mbZombies:Set(0,true)
-      Ivars.mbEnemyHeli:Set(1,true)
-    end,
-    ZOMBIE_DD=function()
-      Ivars.mbDDEquipNonLethal:Set(0,true)--tex n/a
-      Ivars.mbHostileSoldiers:Set(1,true)
-      --CULL Ivars.mbEnableLethalActions:Set(0,true)
-      Ivars.mbNonStaff:Set(0,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)
-      Ivars.mbZombies:Set(1,true)
-      Ivars.mbEnemyHeli:Set(0,true)
-    end,
-    ZOMBIE_OBLITERATION=function()
-      Ivars.mbDDEquipNonLethal:Set(0,true)
-      Ivars.mbHostileSoldiers:Set(1,true)
-      Ivars.mbEnableLethalActions:Set(1,true)
-      Ivars.mbNonStaff:Set(1,true)
-      Ivars.mbEnableFultonAddStaff:Set(0,true)
-      Ivars.mbZombies:Set(1,true)
-      Ivars.mbEnemyHeli:Set(0,true)
-    end,
-  --CUSTOM=nil,
+    OFF={
+      mbDDEquipNonLethal=0,
+      mbHostileSoldiers=0,
+      mbNonStaff=0,
+      mbEnableFultonAddStaff=0,
+      mbZombies=0,
+      mbEnemyHeli=0,
+    },
+    TRAINING={
+      --mbDDEquipNonLethal=0,--tex allow user setting
+      mbHostileSoldiers=1,
+      mbEnableLethalActions=0,
+      mbNonStaff=0,
+      mbEnableFultonAddStaff=0,
+      mbZombies=0,
+      mbEnemyHeli=0,
+    },
+    INVASION={
+      mbDDEquipNonLethal=0,
+      mbHostileSoldiers=1,
+      mbEnableLethalActions=1,
+      mbNonStaff=1,
+      mbEnableFultonAddStaff=1,
+      mbZombies=0,
+      npcHeliUpdate="HP48",
+      mbEnemyHeli=1,
+    },
+    ZOMBIE_DD={
+      mbDDEquipNonLethal=0,--tex n/a
+      mbHostileSoldiers=1,
+      mbEnableLethalActions=0,
+      mbNonStaff=0,
+      mbEnableFultonAddStaff=0,
+      mbZombies=1,
+      mbEnemyHeli=0,
+    },
+    ZOMBIE_OBLITERATION={
+      mbDDEquipNonLethal=0,
+      mbHostileSoldiers=1,
+      mbEnableLethalActions=1,
+      mbNonStaff=1,
+      mbEnableFultonAddStaff=0,
+      mbZombies=1,
+      mbEnemyHeli=0,
+    },
   },
-  OnChange=IvarProc.RunCurrentSetting,
+  OnChange=IvarProc.OnChangeProfile,
   OnSubSettingChanged=IvarProc.OnSubSettingChanged,
 }
 
@@ -395,6 +385,7 @@ this.mbNpcRouteChange={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMb,
 }
 
 this.mbEnableLethalActions={
@@ -505,7 +496,6 @@ this.mbDemoOverrideWeather={
   settingNames="mbDemoOverrideWeatherSettings",
 }
 
-
 --patchup
 this.langOverride={
   save=GLOBAL,
@@ -516,6 +506,12 @@ this.langOverride={
 
 this.startOffline={
   save=GLOBAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.enableQuickMenu={
+  save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
 }
@@ -544,7 +540,7 @@ this.disableHeliAttack={
   settingNames="set_switch",
   OnChange=function(self)
     if TppMission.IsFOBMission(vars.missionCode) then return end
-    local enable=self.setting==0
+    local enable=self:Is(0)
     local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
       GameObject.SendCommand(gameObjectId,{id="SetCombatEnabled",enabled=enable})
@@ -562,11 +558,9 @@ end
 --tex not happy with the lack of flexibility as GetLocationParameter is only read once on init,
 --now just bypassing on trap enter/exit, doesnt give control of search type though
 this.disableSpySearch={
-  --OFF save=GLOBAL,--CULL
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
---CULL OnChange=RequireRestartMessage,
 }
 this.disableHerbSearch={
   save=GLOBAL,
@@ -600,8 +594,8 @@ this.disableHeadMarkers={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=function(self)
-    if self.setting==1 then
+  OnChange=function(self,prevSetting,setting)
+    if setting==1 then
       TppUiStatusManager.SetStatus("HeadMarker","INVALID")
     else
       TppUiStatusManager.ClearStatus("HeadMarker")
@@ -613,8 +607,8 @@ this.disableWorldMarkers={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=function(self)
-    if self.setting==1 then
+  OnChange=function(self,prevSetting,setting)
+    if setting==1 then
       TppUiStatusManager.SetStatus("WorldMarker","INVALID")
     else
       TppUiStatusManager.ClearStatus("WorldMarker")
@@ -626,8 +620,8 @@ this.disableXrayMarkers={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=function(self)
-    local enabled=self.setting==1
+  OnChange=function(self,prevSetting,setting)
+    local enabled=setting==1
     TppSoldier2.SetDisableMarkerModelEffect{enabled=enabled}
   end,
 }
@@ -657,7 +651,6 @@ this.clearItems={
     OFF=nil,
     EQUIP_NONE={"EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None"},
   },
-  GetTable=IvarProc.ReturnCurrent,
 }
 
 this.clearSupportItems={
@@ -668,7 +661,6 @@ this.clearSupportItems={
     OFF=nil,
     EQUIP_NONE={{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"}},
   },
-  GetTable=IvarProc.ReturnCurrent,
 }
 
 this.setSubsistenceSuit={
@@ -743,14 +735,14 @@ this.disableTranslators={
   --OFF save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=function(self)
-    if self.setting==1 then
+  OnChange=function(self,prevSetting,setting)
+    if setting==1 then
       InfLog.DebugPrint"removing tranlatable"--DEBUG
       vars.isRussianTranslatable=0
       vars.isAfrikaansTranslatable=0
       vars.isKikongoTranslatable=0
       vars.isPashtoTranslatable=0
-    elseif self.setting==0 then
+    elseif setting==0 then
       InfLog.DebugPrint"adding tranlatable"--DEBUG
       --tex don't really need to do this, is handled by TppQuest.AcquireKeyItemOnMissionStart
       if TppQuest.IsCleard"ruins_q19010"then
@@ -905,7 +897,6 @@ this.primaryWeaponOsp={
     OFF=nil,
     EQUIP_NONE={{primaryHip="EQP_None"}},
   },
-  GetTable=IvarProc.ReturnCurrent,
 }
 this.secondaryWeaponOsp={
   save=MISSION,
@@ -916,7 +907,6 @@ this.secondaryWeaponOsp={
     OFF=nil,
     EQUIP_NONE={{secondary="EQP_None"}},
   },
-  GetTable=IvarProc.ReturnCurrent,
 }
 this.tertiaryWeaponOsp={
   save=MISSION,
@@ -927,7 +917,6 @@ this.tertiaryWeaponOsp={
     OFF=nil,
     EQUIP_NONE={{primaryBack="EQP_None"}},
   },
-  GetTable=IvarProc.ReturnCurrent,
 }
 
 -- revenge/enemy prep stuff>
@@ -970,6 +959,7 @@ this.revengeDecayOnLongMbVisit={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMbAll,
 }
 
 this.applyPowersToLrrp={
@@ -1371,17 +1361,11 @@ this.vehiclePatrolProfile={--TODO rename, this is not an IH profile 'vehicle pat
   settingNames="vehiclePatrolProfileSettings",
   MissionCheck=IvarProc.MissionCheckFree,
 }
-
-local function TypeChange(self)
---CULL InfVehicle.BuildEnabledList()
-end
-
 this.vehiclePatrolLvEnable={
   save=MISSION,
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=TypeChange,
 }
 
 this.vehiclePatrolTruckEnable={
@@ -1389,7 +1373,6 @@ this.vehiclePatrolTruckEnable={
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=TypeChange,
 }
 
 this.vehiclePatrolWavEnable={
@@ -1397,7 +1380,6 @@ this.vehiclePatrolWavEnable={
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=TypeChange,
 }
 
 this.vehiclePatrolWavHeavyEnable={
@@ -1405,7 +1387,6 @@ this.vehiclePatrolWavHeavyEnable={
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=TypeChange,
 }
 
 this.vehiclePatrolTankEnable={
@@ -1413,7 +1394,6 @@ this.vehiclePatrolTankEnable={
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=TypeChange,
 }
 
 this.vehiclePatrolPaintType={
@@ -1434,6 +1414,7 @@ this.vehiclePatrolEmblemType={
 
 this.enemyHeliPatrol={
   save=MISSION,
+  --DEBUGNOW r187 TODO cut down to actual max value (3)
   settings={"OFF","1","3","5","7","ENEMY_PREP"},
   settingNames="enemyHeliPatrolSettingNames",
   MissionCheck=IvarProc.MissionCheckFree,
@@ -1486,8 +1467,8 @@ this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
     "CHILD_A",
   },
   --settingNames=InfMain.enemySubTypes,
-  OnChange=function(self)
-    if self.setting==0 then
+  OnChange=function(self,prevSetting,setting)
+    if setting==0 then
       InfMain.ResetCpTableToDefault()
     end
   end,
@@ -1500,8 +1481,8 @@ IvarProc.MissionModeIvars(
     save=MISSION,
     range=this.switchRange,
     settingNames="set_switch",
-    OnChange=function(self)
-      if self.setting==0 then
+    OnChange=function(self,prevSetting,setting)
+      if setting==0 then
         InfMain.ResetCpTableToDefault()
       end
     end,
@@ -1623,9 +1604,9 @@ this.mbEnablePuppy={
   save=MISSION,
   settings={"OFF","MISSING_EYE","NORMAL_EYES"},
   settingNames="mbEnablePuppySettings",
-  OnChange=function(self)
+  OnChange=function(self,prevSetting,setting)
     local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
-    if self.setting==0 then
+    if setting==0 then
       gvars.qst_questRepopFlag[puppyQuestIndex]=false
       gvars.qst_questOpenFlag[puppyQuestIndex]=false
     else
@@ -1794,30 +1775,30 @@ this.playerType={
     [2]=3,
     [3]=1,
   },
-  GetSettingText=function(self)
-    local playerType=self.settingsTable[self.setting+1]
+  GetSettingText=function(self,setting)
+    local playerType=self.settingsTable[setting+1]
     local playerTypeInfo=InfFova.playerTypesInfo[playerType+1]
     return playerTypeInfo.description or playerTypeInfo.name
   end,
   OnSelect=function(self)
-    self.setting=self.playerTypeToSetting[vars.playerType]
+    ivars[self.name]=self.playerTypeToSetting[vars.playerType]
   end,
-  OnChange=function(self)
-    local currentSetting=vars.playerType
-    local newSetting=self.settingsTable[self.setting+1]
-    if newSetting==currentSetting then
+  OnChange=function(self,previousSetting,setting)
+    local currentPlayerType=vars.playerType
+    local newSetting=self:GetTableSetting()
+    if newSetting==currentPlayerType then
       return
     end
 
-    if (InfFova.playerTypeGroup.VENOM[newSetting] and InfFova.playerTypeGroup.DD[currentSetting])
-      or (InfFova.playerTypeGroup.VENOM[currentSetting] and InfFova.playerTypeGroup.DD[newSetting]) then
+    if (InfFova.playerTypeGroup.VENOM[newSetting] and InfFova.playerTypeGroup.DD[currentPlayerType])
+      or (InfFova.playerTypeGroup.VENOM[currentPlayerType] and InfFova.playerTypeGroup.DD[newSetting]) then
       --InfLog.DebugPrint"playerTypeGroup changed"--DEBUG
       vars.playerPartsType=0
     end
 
-    if currentSetting==PlayerType.DD_MALE then
+    if currentPlayerType==PlayerType.DD_MALE then
       Ivars.maleFaceId:Set(vars.playerFaceId)
-    elseif currentSetting==PlayerType.DD_FEMALE then
+    elseif currentPlayerType==PlayerType.DD_FEMALE then
       Ivars.femaleFaceId:Set(vars.playerFaceId)
     end
 
@@ -1832,7 +1813,7 @@ this.playerType={
       vars.playerFaceEquipId=0
     end
 
-    vars.playerType=self.settingsTable[self.setting+1]
+    vars.playerType=newSetting
   end,
 }
 
@@ -1856,10 +1837,10 @@ this.playerTypeDirect={
     [3]=1,
   },
   OnSelect=function(self)
-    self.setting=self.playerTypeToSetting[vars.playerType]
+    ivars[self.name]=self.playerTypeToSetting[vars.playerType]
   end,
   OnActivate=function(self)
-    vars.playerType=self.settingsTable[self.setting+1]
+    vars.playerType=self:GetTableSetting()
   end,
 }
 
@@ -1894,10 +1875,10 @@ local playerPartsTypeSettings={
 
 this.playerPartsType={
   --OFF save=MISSION,
-  settings=playerPartsTypeSettings,
-  GetSettingText=function(self)
+  settings=playerPartsTypeSettings,--DYNAMIC
+  GetSettingText=function(self,setting)
     local InfFova=InfFova
-    local partsTypeName=self.settings[self.setting+1]
+    local partsTypeName=self.settings[setting+1]
     local partsType=InfFova.PlayerPartsType[partsTypeName]
     local partsTypeInfo=InfFova.playerPartsTypesInfo[partsType+1]
 
@@ -1939,13 +1920,13 @@ this.playerPartsType={
     local setting=self.enum[partsTypeName]
     if setting==nil then
       --InfLog.DebugPrint("WARNING: could not find enum for "..partsTypeName)--DEBUG
-      self.setting=0
+      ivars[self.name]=0
     else
-      self.setting=self.enum[partsTypeName]
+      ivars[self.name]=self.enum[partsTypeName]
     end
   end,
-  OnChange=function(self)
-    local partsTypeName=self.settings[self.setting+1]
+  OnChange=function(self,previousSetting,setting)
+    local partsTypeName=self.settings[setting+1]
 
     local playerCamoTypes=InfFova.GetCamoTypes(partsTypeName)
     if playerCamoTypes==nil then
@@ -1973,20 +1954,20 @@ this.playerPartsTypeDirect={
   --OFF save=MISSION,
   range={min=0,max=100},
   OnSelect=function(self)
-    self.setting=vars.playerPartsType
+    ivars[self.name]=vars.playerPartsType
   end,
-  OnActivate=function(self)
-    vars.playerPartsType=self.setting
+  OnActivate=function(self,setting)
+    vars.playerPartsType=setting
   end,
 }
 
 --tex GOTCHA: setting var.playerCamoType to a unique type (non-common/only one camo type for it) seems to lock it in/prevent vars.playerPartsType from applying until set back to a common camo type
 this.playerCamoType={
   --OFF save=MISSION,
-  --settings=playerCamoTypes,
-  range={min=0,max=1000},
-  GetSettingText=function(self)
-    local camoName=self.settings[self.setting+1]
+  --settings=playerCamoTypes,--DYNAMIC
+  range={min=0,max=1000},--DYNAMIC
+  GetSettingText=function(self,setting)
+    local camoName=self.settings[setting+1]
     local camoType=PlayerCamoType[camoName]
     local camoInfo=InfFova.playerCamoTypesInfo[camoType+1]
     return camoInfo.description or camoInfo.name
@@ -2009,14 +1990,14 @@ this.playerCamoType={
       camoSetting=0
     end
 
-    self.setting=camoSetting
+    ivars[self.name]=camoSetting
 
     self.settings=playerCamoTypes
     self.enum=enum
     self.range.max=#self.settings-1
   end,
-  OnChange=function(self)
-    local camoName=self.settings[self.setting+1]
+  OnChange=function(self,previousSetting,setting)
+    local camoName=self.settings[setting+1]
     vars.playerCamoType=PlayerCamoType[camoName]
   end,
 }
@@ -2025,10 +2006,10 @@ this.playerCamoType={
 this.playerCamoTypeDirect={
   range={min=0,max=1000},
   OnSelect=function(self)
-    self.setting=vars.playerCamoType
+    self:SetDirect(vars.playerCamoType)
   end,
-  OnActivate=function(self)
-    vars.playerCamoType=self.setting
+  OnActivate=function(self,setting)
+    vars.playerCamoType=setting
     -- vars.playerPartsType=PlayerPartsType.NORMAL--TODO: camo wont change unless this (one or both, narrow down which) set
     -- vars.playerFaceEquipId=0
   end,
@@ -2036,22 +2017,22 @@ this.playerCamoTypeDirect={
 
 this.playerFaceEquipId={
   --OFF save=MISSION,
-  range={min=0,max=100},
-  settingsTable={0},
-  GetSettingText=function(self)
-    local faceEquipId=self.settingsTable[self.setting+1]
+  range={min=0,max=100},--DYNAMIC
+  settingsTable={0},--DYNAMIC
+  GetSettingText=function(self,setting)
+    local faceEquipId=self.settingsTable[setting+1]
     local faceEquipInfo=InfFova.playerFaceEquipIdInfo[faceEquipId+1]
     return faceEquipInfo.description or faceEquipInfo.name
   end,
   OnSelect=function(self)
-    self.setting=0
+    self:SetDirect(0)
     local settingsTable={}
     for i,faceEquipInfo in ipairs(InfFova.playerFaceEquipIdInfo)do
       if faceEquipInfo.playerTypes==nil or faceEquipInfo.playerTypes[vars.playerType] then
         local playerFaceEquipId=i-1
         table.insert(settingsTable,playerFaceEquipId)
         if playerFaceEquipId==vars.playerType then
-          self.setting=playerFaceEquipId
+          self:SetDirect(playerFaceEquipId)
         end
       end
     end
@@ -2059,8 +2040,8 @@ this.playerFaceEquipId={
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
   end,
-  OnChange=function(self)
-    vars.playerFaceEquipId=self.settingsTable[self.setting+1]
+  OnChange=function(self,previousSetting,setting)
+    vars.playerFaceEquipId=self.settingsTable[setting+1]
   end,
 }
 
@@ -2068,29 +2049,30 @@ this.playerFaceEquipIdDirect={
   --OFF save=MISSION,
   range={min=0,max=100},--TODO
   OnSelect=function(self)
-    self.setting=vars.playerFaceEquipId
+    self:SetDirect(vars.playerFaceEquipId)
   end,
-  OnActivate=function(self)
-    vars.playerFaceEquipId=self.setting
+  OnActivate=function(self,setting)
+    vars.playerFaceEquipId=setting
   end,
 }
 
 this.playerFaceId={
   --save=MISSION,
-  range={min=0,max=1000},
-  currentGender=0,
-  settingsTable={1},
+  range={min=0,max=1000},--DYNAMIC
+  currentGender=0,--STATE
+  settingsTable={1},--DYNAMIC
   --noSettingCounter=true,
-  GetSettingText=function(self)
-    return InfLog.PCall(function(self)--DEBUGNOW
+  GetSettingText=function(self,setting)
+    return InfLog.PCall(function(self)--DEBUG
       if InfFova.playerTypeGroup.VENOM[vars.playerType] then
         return InfMenu.LangString"only_for_dd_soldier"
     end
 
-    local faceDefId=self.settingsTable[self.setting+1]
+    local faceDefId=self.settingsTable[setting+1]
     local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
     local faceId=faceDef[1]
 
+    local InfModelRegistry=InfLog.InfModelRegistry--tex WORKAROUND
     if Ivars.playerFaceFilter:Is"FOVAMOD" then
       if not InfModelRegistry or not InfModelRegistry.headDefinitions or #InfModelRegistry.headDefinitions==0 then
         return InfMenu.LangString"no_head_fovas"
@@ -2124,11 +2106,11 @@ this.playerFaceId={
       --      faceDecoFovaInfo.description or faceDecoFovaInfo.name,
       --      hairFovaInfo.description or hairFovaInfo.name,
       --      hairDecoFovaInfo.description or hairDecoFovaInfo.name)
-    end,self)--DEBUGNOW
+    end,self,setting)--DEBUG
   end,
-  OnSelect=function(self)
+  OnSelect=function(self,setting)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
-      self.setting=0
+      self:SetDirect(0)
       self.settingsTable={0}
       self.range.max=0
       return
@@ -2144,7 +2126,7 @@ this.playerFaceId={
     local settingsTable={}
     for i,entry in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
       local faceId=entry[1]
-      local limit=Ivars.playerFaceFilter:GetTable()
+      local limit=Ivars.playerFaceFilter:GetTableSetting()
       if faceId>=limit then
         if entry[InfEneFova.faceDefinitionParams.gender]==gender then
           if not faceModSlots[faceId] then
@@ -2155,7 +2137,7 @@ this.playerFaceId={
     end
 
     if #settingsTable==0 then
-      self.setting=0
+      self:SetDirect(0)
       self.settingsTable={0}
       self.range.max=0
       return
@@ -2164,7 +2146,7 @@ this.playerFaceId={
     --tex don't need to sort, assuming faceDefinition entries are also in ascending faceId
 
     if self.currentGender~=gender then
-      self.setting=0
+      self:SetDirect(0)
     end
 
     local foundFace=false
@@ -2172,15 +2154,15 @@ this.playerFaceId={
     for i,faceDefId in ipairs(settingsTable)do
       local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
       if vars.playerFaceId==faceDef[1] then
-        self.setting=i-1
+        self:SetDirect(i-1)
         foundFace=true
         break
       end
     end
 
     if not foundFace then
-      self.setting=0
-      local faceDefId=settingsTable[self.setting+1]
+      self:SetDirect(0)
+      local faceDefId=settingsTable[setting+1]
       local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
       vars.playerFaceId=faceDef[1]
     end
@@ -2189,8 +2171,8 @@ this.playerFaceId={
     self.range.max=#settingsTable-1
     self.currentGender=gender
   end,
-  OnChange=function(self)
-    local faceDefId=self.settingsTable[self.setting+1]
+  OnChange=function(self,previousSetting,setting)
+    local faceDefId=self.settingsTable[setting+1]
     local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
     vars.playerFaceId=faceDef[1]
   end,
@@ -2205,17 +2187,16 @@ this.playerFaceFilter={
     UNIQUE=550,
     FOVAMOD=Soldier2FaceAndBodyData.highestVanillaFaceId
   },
-  GetTable=IvarProc.ReturnCurrent,
 }
 
 this.playerFaceIdDirect={
   save=MISSION,
   range={min=0,max=687},
   OnSelect=function(self)
-    self.setting=vars.playerFaceId
+    self:SetDirect(vars.playerFaceId)
   end,
-  OnActivate=function(self)
-    vars.playerFaceId=self.setting
+  OnActivate=function(self,setting)
+    vars.playerFaceId=setting
   end,
 }
 
@@ -2235,13 +2216,13 @@ this.femaleFaceId={
 --tex WIP
 this.faceFova={
   --OFF save=MISSION,
-  range={min=0,max=1000},
-  settingsTable={0},
-  GetSettingText=function(self)
+  range={min=0,max=1000},--DYNAMIC
+  settingsTable={0},--DYNAMIC
+  GetSettingText=function(self,setting)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       return InfMenu.LangString"only_for_dd_soldier"
     end
-    local faceFova=self.settingsTable[self.setting+1]
+    local faceFova=self.settingsTable[setting+1]
     local faceFovaInfo=InfEneFova.faceFovaInfo[faceFova+1]
     return faceFovaInfo.description or faceFovaInfo.name
   end,
@@ -2277,13 +2258,13 @@ this.faceFova={
 
 this.faceDecoFova={
   --OFF save=MISSION,
-  range={min=0,max=1000},
-  settingsTable={0},
-  GetSettingText=function(self)
+  range={min=0,max=1000},--DYNAMIC
+  settingsTable={0},--DYNAMIC
+  GetSettingText=function(self,setting)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       return InfMenu.LangString"only_for_dd_soldier"
     end
-    local faceDecoFova=self.settingsTable[self.setting+1]
+    local faceDecoFova=self.settingsTable[setting+1]
     local faceDecoFovaInfo=InfEneFova.faceDecoFovaInfo[faceDecoFova+1]
     return faceDecoFovaInfo.description or faceDecoFovaInfo.name
   end,
@@ -2294,7 +2275,7 @@ this.faceDecoFova={
     end
     --tex since we are going by faceDefinitionParams instead faceDecoFova is dependant on faceFova
     Ivars.faceFova:OnSelect()
-    local faceFova=Ivars.faceFova.settingsTable[Ivars.faceFova.setting+1]
+    local faceFova=Ivars.faceFova:GetTableSetting()
 
     local gender=InfEneFova.PLAYERTYPE_GENDER[vars.playerType]
 
@@ -2323,13 +2304,13 @@ this.faceDecoFova={
 }
 this.hairFova={
   --OFF save=MISSION,
-  range={min=0,max=1000},
-  settingsTable={0},
-  GetSettingText=function(self)
+  range={min=0,max=1000},--DYNAMIC
+  settingsTable={0},--DYNAMIC
+  GetSettingText=function(self,setting)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       return InfMenu.LangString"only_for_dd_soldier"
     end
-    local hairFova=self.settingsTable[self.setting+1]
+    local hairFova=self.settingsTable[setting+1]
     local hairFovaInfo=InfEneFova.faceFovaInfo[hairFova+1]
     return hairFovaInfo.description or hairFovaInfo.name
   end,
@@ -2365,8 +2346,8 @@ this.hairFova={
 }
 this.hairDecoFova={
   --OFF save=MISSION,
-  range={min=0,max=1000},
-  settingsTable={0},
+  range={min=0,max=1000},--DYNAMIC
+  settingsTable={0},--DYNAMIC
   OnSelect=function(self)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       self.settings={"NOT_FOR_PLAYERTYPE"}
@@ -2382,7 +2363,7 @@ this.hairDecoFova={
 
 this.faceFovaDirect={
   --OFF save=MISSION,
-  range={min=0,max=1000},
+  range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.faceFova-1
   end,
@@ -2392,7 +2373,7 @@ this.faceFovaDirect={
 }
 this.faceDecoFovaDirect={
   --OFF save=MISSION,
-  range={min=0,max=1000},
+  range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.faceDecoFova-1
   end,
@@ -2402,7 +2383,7 @@ this.faceDecoFovaDirect={
 }
 this.hairFovaDirect={
   --OFF save=MISSION,
-  range={min=0,max=1000},
+  range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.hairFova-1
   end,
@@ -2412,7 +2393,7 @@ this.hairFovaDirect={
 }
 this.hairDecoFovaDirect={
   --OFF save=MISSION,
-  range={min=0,max=1000},
+  range={min=0,max=1000},--DYNAMIC
   OnSelect=function(self)
     self.range.max=#Soldier2FaceAndBodyData.hairDecoFova-1
   end,
@@ -2632,14 +2613,15 @@ this.playerHandEquip={
   OnSelect=function(self)
   -- self:Set(vars.playerHandEquip,true)
   end,
-  OnChange=function(self)
-    if self.setting>0 then--TODO: add off/default/noset setting
-      --DEBUG OFF vars.playerHandType=handEquipTypeToHandType[playerHandEquipTypes[self.setting]]
-      vars.handEquip=self.settingsTable[self.setting]
+  OnChange=function(self,previousSetting,setting)
+    if setting>0 then--TODO: add off/default/noset setting
+      --DEBUG OFF vars.playerHandType=handEquipTypeToHandType[playerHandEquipTypes[setting]]
+      vars.handEquip=self.settingsTable[setting]
     end
   end,
 }
 
+--CULL
 this.playerHeadgear={--DOC: player appearance.txt
   save=MISSION,
   range={max=7},--TODO: needed something, anything here, RETRY now that I've changed unset max default to 1 from 0
@@ -2663,7 +2645,7 @@ this.playerHeadgear={--DOC: player appearance.txt
     566,--NVG DDgreentop Female (or just small head male lol, total cover)
     567,--NVG DDgreentop GasMask
   },
-  OnSelect=function(self)
+  OnSelect=function(self,setting)
     if vars.playerType==PlayerType.DD_FEMALE then
       if self.settingsTable~=self.femaleSettingsTable then
         self.settingNames="playerHeadgearFemaleSettings"
@@ -2677,21 +2659,21 @@ this.playerHeadgear={--DOC: player appearance.txt
         self.range.max=#self.maleSettingsTable-1
       end
     end
-    if self.setting>self.range.max then
+    if setting>self.range.max then
       self:Set(1)
-    elseif self.setting>0 then
-      self:Set(self.setting)
+    elseif setting>0 then
+      self:Set(setting)
     end
   end,
-  OnChange=function(self)
-    if self.setting==0 then
+  OnChange=function(self,previousSetting,setting)
+    if setting==0 then
 
     else
       if vars.playerType~=PlayerType.DD_MALE and vars.playerType~=PlayerType.DD_FEMALE then
         InfMenu.PrintLangId"setting_only_for_dd"
         return
       end
-      vars.playerFaceId=self.settingsTable[self.setting+1]
+      vars.playerFaceId=self.settingsTable[setting+1]
     end
   end,
 }
@@ -2715,15 +2697,12 @@ this.minPhase={
   save=MISSION,
   settings=this.phaseSettings,
   --settingsTable=this.phaseTable,
-  OnChange=function(self)
-    if self.setting>Ivars.maxPhase:Get() then
-      Ivars.maxPhase:Set(self.setting)
+  OnChange=function(self,previousSetting,setting)
+    if setting>Ivars.maxPhase:Get() then
+      Ivars.maxPhase:Set(setting)
     end
-    --OFF
-    --    if Ivars.phaseUpdate:Is(0) then
-    --      InfMenu.PrintLangId"phase_modification_enabled"
-    --      Ivars.phaseUpdate:Set(1)
-    --    end
+
+    InfEnemyPhase.execState.nextUpdate=0
   end,
 }
 
@@ -2732,15 +2711,12 @@ this.maxPhase={
   settings=this.phaseSettings,
   default=#this.phaseSettings-1,
   --settingsTable=this.phaseTable,
-  OnChange=function(self)
-    if self.setting<Ivars.minPhase:Get() then
-      Ivars.minPhase:Set(self.setting)
+  OnChange=function(self,previousSetting,setting)
+    if setting<Ivars.minPhase:Get() then
+      Ivars.minPhase:Set(setting)
     end
-    --OFF
-    --    if Ivars.phaseUpdate:Is(0) then
-    --      InfMenu.PrintLangId"phase_modification_enabled"
-    --      Ivars.phaseUpdate:Set(1)
-    --    end
+    
+    InfEnemyPhase.execState.nextUpdate=0
   end,
 }
 
@@ -2758,19 +2734,6 @@ this.keepPhase={
 --  end,
 }
 
-this.phaseUpdate={
-  save=MISSION,
-  range=this.switchRange,
-  settingNames="set_switch",
-  execCheckTable={inGame=true,inHeliSpace=false},
-  execState={
-    nextUpdate=0,
-    lastPhase=0,
-    alertBump=false,
-  },
-  ExecUpdate=function(...)InfEnemyPhase.Update(...)end,
-}
-
 this.phaseUpdateRate={--seconds
   save=MISSION,
   default=3,
@@ -2779,6 +2742,15 @@ this.phaseUpdateRate={--seconds
 this.phaseUpdateRange={--seconds
   save=MISSION,
   range={min=0,max=255},
+}
+
+this.phaseUpdate={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self,previousSetting,setting)
+    InfEnemyPhase.execState.nextUpdate=0
+  end,
 }
 
 this.printPhaseChanges={
@@ -2833,13 +2805,13 @@ this.warpPlayerUpdate={
   isMode=true,
   --tex WIP OFF disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,
   OnModeActivate=function()InfMain.OnActivateWarpPlayer()end,
-  OnChange=function(self,previousSetting)
+  OnChange=function(self,previousSetting,setting)
     if Ivars.adjustCameraUpdate:Is(1) then
-      self.setting=0
+      self:SetDirect(0)
       InfMenu.PrintLangId"other_control_active"
     end
 
-    if self.setting==1 then
+    if setting==1 then
       InfMenu.PrintLangId"warp_mode_on"
       InfWarp.OnActivate()
     else
@@ -2852,11 +2824,6 @@ this.warpPlayerUpdate={
       InfMenu.menuOn=false
     end
   end,
-  execCheckTable={inGame=true,inHeliSpace=false},
-  execState={
-    nextUpdate=0,
-  },
-  ExecUpdate=function(...)InfWarp.Update(...)end,
 }
 
 this.adjustCameraUpdate={
@@ -2867,17 +2834,17 @@ this.adjustCameraUpdate={
   isMode=true,
   --disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,--tex OFF not really needed, padmask is sufficient
   OnModeActivate=function()InfCamera.OnActivateCameraAdjust()end,
-  OnChange=function(self,previousSetting)
+  OnChange=function(self,previousSetting,setting)
     if Ivars.warpPlayerUpdate:Is(1) then
-      self.setting=0
+      self:SetDirect(0)
       InfMenu.PrintLangId"other_control_active"
       return
     end
 
-    if self.setting==1 then
+    if setting==1 then
       --      if Ivars.cameraMode:Is(0) then
       --        InfMenu.PrintLangId"cannot_edit_default_cam"
-      --        self.setting=0
+      --        setting=0
       --        return
       --      else
       InfMenu.PrintLangId"cam_mode_on"
@@ -2896,11 +2863,6 @@ this.adjustCameraUpdate={
       InfMenu.menuOn=false
     end
   end,
-  execCheckTable={inGame=true},--,inHeliSpace=false},
-  execState={
-    nextUpdate=0,
-  },
-  ExecUpdate=function(...)InfCamera.UpdateCameraAdjust(...)end,
 }
 
 this.cameraMode={
@@ -3013,7 +2975,7 @@ local function GetCommandInfo(name)
   return commandInfo
 end
 
-local BuddyVarGetSettingText=function(self)
+local BuddyVarGetSettingText=function(self,setting)
   if vars.buddyType==BuddyType.NONE then
     return InfMenu.LangString"no_buddy_set"
   end
@@ -3024,9 +2986,9 @@ local BuddyVarGetSettingText=function(self)
   end
 
   local varTypeTable=commandInfo.varTypeTable
-  return varTypeTable[self.setting].name
+  return varTypeTable[setting].name
 end
-local BuddyVarOnSelect=function(self)
+local BuddyVarOnSelect=function(self,setting)
   if vars.buddyType==BuddyType.NONE then
     return InfMenu.LangString"no_buddy_set"
   end
@@ -3039,9 +3001,9 @@ local BuddyVarOnSelect=function(self)
   local varTypeTable=commandInfo.varTypeTable
   self.range.max=#varTypeTable
   local index=InfBuddy.GetTableIndexForBuddyVar(var,varTypeTable)
-  self.setting=index
+  self:SetDirect(index)
 end
-local BuddyVarOnActivate=function(self)
+local BuddyVarOnActivate=function(self,setting)
   if vars.buddyType==BuddyType.NONE then
     return
   end
@@ -3050,7 +3012,7 @@ local BuddyVarOnActivate=function(self)
   if not commandInfo then
     return
   end
-  InfBuddy.ChangeBuddyVar(commandInfo,self.setting)
+  InfBuddy.ChangeBuddyVar(commandInfo,setting)
 end
 
 this.buddyChangeEquipVar={
@@ -3067,8 +3029,8 @@ this.disableQuietHumming={--tex no go
   --OFF save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=function(self)
-    if self.setting==1 then
+  OnChange=function(self,prevSetting,setting)
+    if setting==1 then
       InfMain.SetQuietHumming(false)
     else
       InfMain.SetQuietHumming(true)
@@ -3079,8 +3041,8 @@ this.disableQuietHumming={--tex no go
 this.quietRadioMode={
   save=MISSION,
   range={min=0,max=31},
-  OnChange=function(self,previousSetting)
-    if self.setting>0 or previousSetting~=0 then
+  OnChange=function(self,previousSetting,setting)
+    if setting>0 or previousSetting~=0 then
       if f30050_sequence and mvars.f30050_quietRadioName then
         f30050_sequence.PlayMusicFromQuietRoom()
       end
@@ -3141,12 +3103,6 @@ this.npcUpdate={--tex NONUSER
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
-  execCheckTable={inGame=true,inHeliSpace=false},
-  execState={
-    nextUpdate=0,
-  },
-  ExecInit=function(...)InfNPC.InitUpdate(...)end,
-  ExecUpdate=function(...)InfNPC.Update(...)end,
 }
 
 this.npcOcelotUpdate={--tex NONUSER
@@ -3156,26 +3112,14 @@ this.npcOcelotUpdate={--tex NONUSER
   range=this.switchRange,
   settingNames="set_switch",
   execCheckTable={inGame=true,inHeliSpace=false},
-  execState={
-    nextUpdate=0,
-  },
-  ExecInit=function(...)InfNPCOcelot.InitUpdate(...)end,
-  ExecUpdate=function(...)InfNPCOcelot.Update(...)end,
+  MissionCheck=IvarProc.MissionCheckMb,
 }
 
 this.npcHeliUpdate={
   save=MISSION,
-  settings={"OFF","UTH","UTH_AND_HP48"},
+  settings={"OFF","UTH","HP48","UTH_AND_HP48"},
   settingNames="npcHeliUpdateSettings",
-  allwaysExec=true,--tex KLUDGE
-  execCheckTable={inGame=true,inHeliSpace=false},
-  execState={
-    nextUpdate=0,
-  },
   MissionCheck=IvarProc.MissionCheckMb,
-  ExecInit=function(...)InfNPCHeli.InitUpdate(...)end,
-  OnMissionCanStart=function(...)InfNPCHeli.OnMissionCanStart(...)end,
-  ExecUpdate=function(...)InfNPCHeli.Update(...)end,
 }
 
 --support heli
@@ -3185,23 +3129,7 @@ this.heliUpdate={--tex NONUSER, for now, need it alive to pick up pull out
   default=1,
   range=this.switchRange,
   settingNames="set_switch",
-  execCheckTable={inGame=true,inHeliSpace=false},
-  execState={
-    nextUpdate=0,
-  },
-  ExecUpdate=function(...)InfHelicopter.Update(...)end,
 }
-
---this.heliUpdateRate={--seconds
---  save=MISSION,
---  default=3,
---  range={min=1,max=255},
---}
-
---this.heliUpdateRange={--seconds
---  save=MISSION,
---  range={min=0,max=255},
---}
 
 this.defaultHeliDoorOpenTime={--seconds
   save=MISSION,
@@ -3209,9 +3137,9 @@ this.defaultHeliDoorOpenTime={--seconds
   range={min=0,max=120},
 }
 
-local HeliEnabledGameCommand=function(self)
+local HeliEnabledGameCommand=function(self,previousSetting,setting)
   if TppMission.IsFOBMission(vars.missionCode) then return end
-  local enable=self.setting==1
+  local enable=setting==1
   local gameObjectId = GetGameObjectId("TppHeli2", "SupportHeli")
   if gameObjectId ~= nil and gameObjectId ~= NULL_ID then
     GameObject.SendCommand(gameObjectId,{id=self.gameEnabledCommand,enabled=enable})
@@ -3238,11 +3166,11 @@ this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's
   --OFF save=MISSION,
   default=5,--tex from TppHelicopter.SetDefaultTakeOffTime
   range={min=0,max=15},
-  OnChange=function(self)
+  OnChange=function(self,previousSetting,setting)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
-      GameObject.SendCommand(gameObjectId,{id="SetTakeOffWaitTime",time=self.setting})
+      GameObject.SendCommand(gameObjectId,{id="SetTakeOffWaitTime",time=setting})
     end
   end,
 }
@@ -3251,9 +3179,9 @@ this.disablePullOutHeli={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=function(self)
+  OnChange=function(self,previousSetting,setting)
     if TppMission.IsFOBMission(vars.missionCode) then return end
-    local set=self.setting==1
+    local set=setting==1
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
       local command
@@ -3272,11 +3200,11 @@ this.setLandingZoneWaitHeightTop={
   save=MISSION,
   default=20,--tex the command is only used in sahelan mission, so don't know if this is actual default,
   range={min=5,max=50,increment=5},
-  OnChange=function(self)
+  OnChange=function(self,previousSetting,setting)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
-      GameObject.SendCommand(gameObjectId,{id="SetLandingZoneWaitHeightTop",height=self.setting})
+      GameObject.SendCommand(gameObjectId,{id="SetLandingZoneWaitHeightTop",height=setting})
     end
   end,
 }
@@ -3285,9 +3213,9 @@ this.disableDescentToLandingZone={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  OnChange=function(self)
+  OnChange=function(self,previousSetting,setting)
     if TppMission.IsFOBMission(vars.missionCode) then return end
-    local set=self.setting==1
+    local set=setting==1
     local gameObjectId=GetGameObjectId("TppHeli2", "SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
       local command
@@ -3305,14 +3233,14 @@ this.setSearchLightForcedHeli={
   save=MISSION,
   settings={"DEFAULT","OFF","ON"},
   settingNames="set_default_off_on",
-  OnChange=function(self)
+  OnChange=function(self,previousSetting,setting)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local gameObjectId=GetGameObjectId("TppHeli2","SupportHeli")
     if gameObjectId~=nil and gameObjectId~=NULL_ID then
       local command
-      if self.setting==1 then
+      if setting==1 then
         command={id="SetSearchLightForcedType",type="On"}
-      elseif self.setting==2 then
+      elseif setting==2 then
         command={id="SetSearchLightForcedType",type="Off"}
       end
       if command then
@@ -3326,20 +3254,20 @@ this.setSearchLightForcedHeli={
 this.selectedCp={
   nonConfig=true,
   save=MISSION,
-  range={max=9999},
-  prev=nil,
-  GetNext=function(self)
+  range={max=9999},--DYNAMIC (not currently, TODO)
+  prev=nil,--STATE
+  GetNext=function(self,currentSetting)
     self.prev=self.setting
     if mvars.ene_cpList==nil then
       InfLog.DebugPrint"mvars.ene_cpList==nil"--DEBUG
       return 0
     end--
 
-    local nextSetting=self.setting
-    if self.setting==0 then
+    local nextSetting=currentSetting
+    if currentSetting==0 then
       nextSetting=next(mvars.ene_cpList)
     else
-      nextSetting=next(mvars.ene_cpList,self.setting)
+      nextSetting=next(mvars.ene_cpList,hurrentSetting)
     end
     if nextSetting==nil then
       --InfLog.DebugPrint"self setting==nil"--DEBUG
@@ -3347,8 +3275,8 @@ this.selectedCp={
     end
     return nextSetting
   end,
-  GetPrev=function(self)
-    local nextSetting=self.setting
+  GetPrev=function(self,currentSetting)
+    local nextSetting=currentSetting
     if self.prev~=nil then
       nextSetting=self.prev
       self.prev=nil
@@ -3357,14 +3285,14 @@ this.selectedCp={
     end
     return nextSetting
   end,
-  GetSettingText=function(self)
-    if self.setting==nil then
+  GetSettingText=function(self,setting)
+    if setting==nil then
       return "nil"
     end
     if self.setting==0 then
       return "none"
     end
-    return mvars.ene_cpList[self.setting] or "no cp for setting"
+    return mvars.ene_cpList and mvars.ene_cpList[setting] or "no cp for setting"
   end,
 }
 
@@ -3373,11 +3301,11 @@ local currentCategory=0
 this.selectedChangeWeapon={--WIP
   --OFF save=MISSION,
   range={max=490,min=1},--tex SYNC: tppEquipTable
-  GetSettingText=function(self)
-    return InfEquip.tppEquipTableTest[self.setting]
+  GetSettingText=function(self,setting)
+    return InfEquip.tppEquipTableTest[setting]
   end,
-  OnActivate=function(self)
-    local equipName=InfEquip.tppEquipTableTest[self.setting]
+  OnActivate=function(self,setting)
+    local equipName=InfEquip.tppEquipTableTest[setting]
     local equipId=TppEquip[equipName]
     if equipId==nil then
       InfLog.DebugPrint("no equipId found for "..equipName)
@@ -3474,24 +3402,33 @@ IvarProc.MinMaxIvar(
   "parasitePeriod",
   {
     default=10,
+    OnChange=function(self)
+      IvarProc.PushMax(self)
+      InfParasite.StartEventTimer()
+    end,
   },
   {
     default=30,
+    OnChange=function(self)
+      IvarProc.PushMin(self)
+      InfParasite.StartEventTimer()
+    end,
   },
   {
     range={min=0,max=180,increment=1},
   }
 )
+--
 
 this.selectProfile={
   nonConfig=true,
   --save=MISSION,
   range={min=0,max=0},
-  GetSettingText=function(self)
+  GetSettingText=function(self,setting)
     if Ivars.profiles==nil or self.settings==nil then
       return InfMenu.LangString"no_profiles_installed"
     else
-      local profileName=self.settings[self.setting+1]
+      local profileName=self.settings[setting+1]
       local profileInfo=Ivars.profiles[profileName]
       return profileInfo.description or profileName
     end
@@ -3499,12 +3436,12 @@ this.selectProfile={
   OnSelect=function(self)
     IvarProc.SetupInfProfiles()
   end,
-  OnActivate=function(self)
+  OnActivate=function(self,setting)
     if self.settings==nil then
       InfMenu.PrintLangId"no_profiles_installed"
     end
 
-    local profileName=self.settings[self.setting+1]
+    local profileName=self.settings[setting+1]
     local profileInfo=Ivars.profiles[profileName]
     --local profileDescription=profileInfo.description or profileName
     InfMenu.PrintLangId"applying_profile"
@@ -3514,7 +3451,7 @@ this.selectProfile={
     if not Ivars.profiles or self.settings==nil then
       return nil
     else
-      local profileName=self.settings[self.setting+1]
+      local profileName=self:GetTableSetting()
       return Ivars.profiles[profileName]
     end
   end,
@@ -3550,7 +3487,7 @@ this.skipDevelopChecks={
 --non user save vars
 --others grouped near usage, search NONUSER
 
---tex used as indicator whether save>ivar.setting should be synced
+--tex used as indicator whether save>ivars should be synced
 this.inf_event={--NONUSER
   nonUser=true,
   save=MISSION,
@@ -3592,84 +3529,6 @@ local function IsIvar(ivar)--TYPEID
 end
 
 --ivar system setup
-function this.PreModuleReload()
-  --tex TODO: kill once individual ivars state (ivar.setting) shifted to ivars global
-  ivars={}
-  for name,ivar in pairs(this) do
-    if IsIvar(ivar) then
-      ivars[ivar.name]=ivar.setting
-    end
-  end
-end
-
---TABLESETUP: Ivars
-function this.SetupIvars()
-  ivars=ivars or {}
-
-  local optionType="OPTION"
-  for name,ivar in pairs(this) do
-    if IsIvar(ivar) then
-      ivar.optionType=optionType
-      --ivar.name=ivar.name or name
-      ivar.name=name
-
-      ivar.range=ivar.range or {}
-      ivar.range.max=ivar.range.max or 1
-      ivar.range.min=ivar.range.min or 0
-      ivar.range.increment=ivar.range.increment or 1
-
-      ivar.default=ivar.default or ivar.range.min
-      ivar.setting=ivars[ivar.name] or ivar.default
-
-      if ivar.settings then
-        ivar.enum=Enum(ivar.settings)
-        --      for name,enum in ipairs(ivar.enum) do
-        --        ivar[name]=false
-        --        if enum==ivar.default then
-        --          ivar[name]=true
-        --        end
-        --      end
-        --      ivar[ivar.settings[ivar.default] ]=true
-        ivar.range.max=#ivar.settings-1--tex ivars are indexed by 1, lua tables (settings) by 1
-      end
-      local i,f = math.modf(ivar.range.increment)--tex get fractional part
-      f=math.abs(f)
-      ivar.isFloat=false
-      if f<1 and f~=0 then
-        ivar.isFloat=true
-      end
-
-      ivar.IsDefault=IvarProc.OptionIsDefault
-      ivar.Is=IvarProc.OptionIsSetting
-      ivar.Get=IvarProc.OptionIsSetting
-      ivar.Set=IvarProc.SetSetting
-      ivar.Reset=IvarProc.ResetSetting
-
-      --ExecUpdate setup
-      if ivar.ExecUpdate then
-        local rateVar=this[ivar.name.."Rate"]
-        if rateVar then
-          ivar.updateRate=rateVar
-        end
-        local rangeVar=this[ivar.name.."Range"]
-        if rangeVar then
-          ivar.updateRange=rangeVar
-        end
-      end
-    end--is ivar
-  end
-end
-
-function this.SetupUpdateIvars()
-  for name,ivar in pairs(this) do
-    if IsIvar(ivar) then
-      if ivar.ExecUpdate then
-        table.insert(this.updateIvars,ivar)
-      end
-    end
-  end
-end
-
 function this.Init(missionTable)
   for name,ivar in pairs(this) do
     if IsIvar(ivar)then
@@ -3681,9 +3540,8 @@ function this.Init(missionTable)
   end
 end
 
-this.varTable={}--tex DEBUG changed from local to function so I can run some debug tests, revert to save some memory
 function this.DeclareVars()
-  local varTable=this.varTable
+  local varTable={}
   --varTable={
   --   {name="ene_typeForcedName",type=TppScriptVars.UINT32,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
   --   {name="ene_typeIsForced",type=TppScriptVars.TYPE_BOOL,value=false,arraySize=this.MAX_SOLDIER_STATE_COUNT,save=true,category=TppScriptVars.CATEGORY_MISSION},--NONUSER:
@@ -3732,6 +3590,7 @@ function this.DeclareVars()
     end--ivar
   end
 
+  --InfInterrogation
   local maxQuestSoldiers=20--SYNC InfInterrogate numQuestSoldiers
   local arrays={
     {name="inf_interCpQuestStatus",arraySize=maxQuestSoldiers,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
@@ -3741,6 +3600,58 @@ function this.DeclareVars()
   end
 
   return varTable
+end
+
+--TABLESETUP: Ivars
+function this.SetupIvars()
+  local ivars=ivars
+  local IvarProc=IvarProc
+
+  local optionType="OPTION"
+  for name,ivar in pairs(this) do
+    if IsIvar(ivar) then
+      ivar.optionType=optionType
+      --ivar.name=ivar.name or name
+      ivar.name=name
+
+      ivar.range=ivar.range or {}
+      ivar.range.max=ivar.range.max or 1
+      ivar.range.min=ivar.range.min or 0
+      ivar.range.increment=ivar.range.increment or 1
+
+      ivar.default=ivar.default or ivar.range.min
+      ivars[ivar.name]=ivars[ivar.name] or ivar.default
+
+      if ivar.settings then
+        ivar.enum=Enum(ivar.settings)
+        --      for name,enum in ipairs(ivar.enum) do
+        --        ivar[name]=false
+        --        if enum==ivar.default then
+        --          ivar[name]=true
+        --        end
+        --      end
+        --      ivar[ivar.settings[ivar.default] ]=true
+        ivar.range.max=#ivar.settings-1--tex ivars are indexed by 1, lua tables (settings) by 1
+      end
+      local i,f = math.modf(ivar.range.increment)--tex get fractional part
+      f=math.abs(f)
+      ivar.isFloat=false
+      if f<1 and f~=0 then
+        ivar.isFloat=true
+      end
+
+      ivar.IsDefault=IvarProc.OptionIsDefault
+      ivar.Is=IvarProc.OptionIsSetting
+      ivar.Get=IvarProc.OptionIsSetting
+      ivar.Set=IvarProc.SetSetting
+      ivar.SetDirect=IvarProc.SetDirect
+      ivar.Reset=IvarProc.ResetSetting
+      ivar.GetTableSetting=IvarProc.GetTableSetting
+      ivar.GetSettingName=IvarProc.GetSettingName
+      ivar.MissionCheck=ivar.MissionCheck or IvarProc.MissionCheckAll
+      ivar.EnabledForMission=IvarProc.IvarEnabledForMission
+    end--is ivar
+  end
 end
 
 --EXEC
@@ -3765,7 +3676,6 @@ InfLog.PCall(function()
   --end
 
   this.SetupIvars()
-  this.SetupUpdateIvars()
 end)
 
 return this

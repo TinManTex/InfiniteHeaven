@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW r185
+-- DOBUILD: 0
 --EquipDevelopConstSetting.lua
 
 --NOTES

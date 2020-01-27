@@ -61,13 +61,13 @@
           <value key="lz_sovietBase_S0000|lz_sovietBase_S_0000">0x124A5FE0</value>
           <value key="lz_waterway_I0000|lz_waterway_I_0000">0x124AB3E0</value>
           <value key="lz_commFacility_I0000|lz_commFacility_I_0000">0x125BF9E0</value>
-          <value key="EnemyHeli0000">0x10000000</value>
-          <value key="EnemyHeli0001">0x10000010</value>
-          <value key="EnemyHeli0002">0x10000020</value>
-          <value key="EnemyHeli0003">0x10000030</value>
-          <value key="EnemyHeli0004">0x10000040</value>
-          <value key="EnemyHeli0005">0x10000050</value>
-          <value key="EnemyHeli0006">0x10000060</value>
+          <value key="EnemyHeli0000">0x30000000</value>
+          <value key="EnemyHeli0001">0x30000010</value>
+          <value key="EnemyHeli0002">0x30000020</value>
+          <value key="EnemyHeli0003">0x30000030</value>
+          <value key="EnemyHeli0004">0x30000040</value>
+          <value key="EnemyHeli0005">0x30000050</value>
+          <value key="EnemyHeli0006">0x30000060</value>
           <value key="TexturePackLoadConditioner0000">0x0D72F740</value>
         </property>
       </staticProperties>
@@ -2124,7 +2124,7 @@
       <dynamicProperties />
     </entity>
 
-    <entity class="GameObjectLocator" classVersion="2" addr="0x10000000" unknown1="272" unknown2="572229">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x30000000" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EnemyHeli0000</value>
@@ -2136,7 +2136,7 @@
           <value>0x00000000</value>
         </property>
         <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000001</value>
+          <value>0x30000001</value>
         </property>
         <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
@@ -2155,15 +2155,15 @@
           <value>0</value>
         </property>
         <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000002</value>
+          <value>0x30000002</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x10000001" unknown1="80" unknown2="572232">
+    <entity class="TransformEntity" classVersion="0" addr="0x30000001" unknown1="80" unknown2="572232">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000000</value>
+          <value>0x30000000</value>
         </property>
         <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
           <value x="1" y="1" z="1" w="0" />
@@ -2177,16 +2177,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x10000002" unknown1="28" unknown2="572236">
+    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x30000002" unknown1="28" unknown2="572236">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000000</value>
+          <value>0x30000000</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
 
-    <entity class="GameObjectLocator" classVersion="2" addr="0x10000010" unknown1="272" unknown2="572229">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x30000010" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EnemyHeli0001</value>
@@ -2198,7 +2198,7 @@
           <value>0x00000000</value>
         </property>
         <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000011</value>
+          <value>0x30000011</value>
         </property>
         <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
@@ -2217,15 +2217,15 @@
           <value>0</value>
         </property>
         <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000012</value>
+          <value>0x30000012</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x10000011" unknown1="80" unknown2="572232">
+    <entity class="TransformEntity" classVersion="0" addr="0x30000011" unknown1="80" unknown2="572232">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000010</value>
+          <value>0x30000010</value>
         </property>
         <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
           <value x="1" y="1" z="1" w="0" />
@@ -2239,16 +2239,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x10000012" unknown1="28" unknown2="572236">
+    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x30000012" unknown1="28" unknown2="572236">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000010</value>
+          <value>0x30000010</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
 
-    <entity class="GameObjectLocator" classVersion="2" addr="0x10000020" unknown1="272" unknown2="572229">
+    <entity class="GameObjectLocator" classVersion="2" addr="0x30000020" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EnemyHeli0002</value>
@@ -2260,7 +2260,7 @@
           <value>0x00000000</value>
         </property>
         <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000021</value>
+          <value>0x30000021</value>
         </property>
         <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
@@ -2279,15 +2279,15 @@
           <value>0</value>
         </property>
         <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000022</value>
+          <value>0x30000022</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x10000021" unknown1="80" unknown2="572232">
+    <entity class="TransformEntity" classVersion="0" addr="0x30000021" unknown1="80" unknown2="572232">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000020</value>
+          <value>0x30000020</value>
         </property>
         <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
           <value x="1" y="1" z="1" w="0" />
@@ -2301,16 +2301,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x10000022" unknown1="28" unknown2="572236">
+    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x30000022" unknown1="28" unknown2="572236">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000020</value>
+          <value>0x30000020</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
 
-     <entity class="GameObjectLocator" classVersion="2" addr="0x10000030" unknown1="272" unknown2="572229">
+     <entity class="GameObjectLocator" classVersion="2" addr="0x30000030" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EnemyHeli0003</value>
@@ -2322,7 +2322,7 @@
           <value>0x00000030</value>
         </property>
         <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000031</value>
+          <value>0x30000031</value>
         </property>
         <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
@@ -2341,15 +2341,15 @@
           <value>0</value>
         </property>
         <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000032</value>
+          <value>0x30000032</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x10000031" unknown1="80" unknown2="572232">
+    <entity class="TransformEntity" classVersion="0" addr="0x30000031" unknown1="80" unknown2="572232">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000030</value>
+          <value>0x30000030</value>
         </property>
         <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
           <value x="1" y="1" z="1" w="0" />
@@ -2363,16 +2363,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x10000032" unknown1="28" unknown2="572236">
+    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x30000032" unknown1="28" unknown2="572236">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000030</value>
+          <value>0x30000030</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
 
-     <entity class="GameObjectLocator" classVersion="2" addr="0x10000040" unknown1="272" unknown2="572229">
+     <entity class="GameObjectLocator" classVersion="2" addr="0x30000040" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EnemyHeli0004</value>
@@ -2384,7 +2384,7 @@
           <value>0x00000000</value>
         </property>
         <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000041</value>
+          <value>0x30000041</value>
         </property>
         <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
@@ -2403,15 +2403,15 @@
           <value>0</value>
         </property>
         <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000042</value>
+          <value>0x30000042</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x10000041" unknown1="80" unknown2="572232">
+    <entity class="TransformEntity" classVersion="0" addr="0x30000041" unknown1="80" unknown2="572232">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000040</value>
+          <value>0x30000040</value>
         </property>
         <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
           <value x="1" y="1" z="1" w="0" />
@@ -2425,16 +2425,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x10000042" unknown1="28" unknown2="572236">
+    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x30000042" unknown1="28" unknown2="572236">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000040</value>
+          <value>0x30000040</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
 
-     <entity class="GameObjectLocator" classVersion="2" addr="0x10000050" unknown1="272" unknown2="572229">
+     <entity class="GameObjectLocator" classVersion="2" addr="0x30000050" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EnemyHeli0005</value>
@@ -2446,7 +2446,7 @@
           <value>0x00000000</value>
         </property>
         <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000051</value>
+          <value>0x30000051</value>
         </property>
         <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
@@ -2465,15 +2465,15 @@
           <value>0</value>
         </property>
         <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000052</value>
+          <value>0x30000052</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x10000051" unknown1="80" unknown2="572232">
+    <entity class="TransformEntity" classVersion="0" addr="0x30000051" unknown1="80" unknown2="572232">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000050</value>
+          <value>0x30000050</value>
         </property>
         <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
           <value x="1" y="1" z="1" w="0" />
@@ -2487,16 +2487,16 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x10000052" unknown1="28" unknown2="572236">
+    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x30000052" unknown1="28" unknown2="572236">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000050</value>
+          <value>0x30000050</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
 
-     <entity class="GameObjectLocator" classVersion="2" addr="0x10000060" unknown1="272" unknown2="572229">
+     <entity class="GameObjectLocator" classVersion="2" addr="0x30000060" unknown1="272" unknown2="572229">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <value>EnemyHeli0006</value>
@@ -2508,7 +2508,7 @@
           <value>0x00000000</value>
         </property>
         <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000061</value>
+          <value>0x30000061</value>
         </property>
         <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
           <value>0x00000000</value>
@@ -2527,15 +2527,15 @@
           <value>0</value>
         </property>
         <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
-          <value>0x10000062</value>
+          <value>0x30000062</value>
         </property>
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TransformEntity" classVersion="0" addr="0x10000061" unknown1="80" unknown2="572232">
+    <entity class="TransformEntity" classVersion="0" addr="0x30000061" unknown1="80" unknown2="572232">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000060</value>
+          <value>0x30000060</value>
         </property>
         <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
           <value x="1" y="1" z="1" w="0" />
@@ -2549,10 +2549,10 @@
       </staticProperties>
       <dynamicProperties />
     </entity>
-    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x10000062" unknown1="28" unknown2="572236">
+    <entity class="TppHeli2LocatorParameter" classVersion="0" addr="0x30000062" unknown1="28" unknown2="572236">
       <staticProperties>
         <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
-          <value>0x10000060</value>
+          <value>0x30000060</value>
         </property>
       </staticProperties>
       <dynamicProperties />
