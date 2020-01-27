@@ -86,7 +86,7 @@ this.eng={--english
   disableMenuHeliAttack="Disable Heli attack support-menu",
   disableSupportMenu="Disable Support-menu",
   itemLevelFulton="Fulton Level",
-  itemLevelFultonSettings={"Don't override","Grade 1","Grade 2","Grade 3","Grade 4"},
+  itemLevelFultonSettings={"Don't override","Grade 1","Grade 2","Grade 3","Grade 4"},--CULL
   itemLevelWormhole="Wormhole Level",
   itemLevelWormholeSettings={"Don't override","Disable","Enable"},
   handLevelSonar="Sonar level",
@@ -228,7 +228,9 @@ this.eng={--english
     "Tiger fatigues",
     "Sneaking suit",
     "Battle Dress",
-    "Swimwear",
+    "Swimsuit",
+    --DEBUGNOW "Goblin swimsuit",
+    --"Megalodon swimsuit",
     "PF Riot Suit",
     "Soviet",
     "Soviet Urban",
@@ -306,7 +308,16 @@ this.eng={--english
   disableCamText="Disable mode text feedback",--r128
   mbDDEquipNonLethal="DD equipment non-lethal",
   customSoldierTypeFemaleMB_ALL="DD Suit female",--r130
-  customSoldierTypeFemaleMB_ALLSettings={"Off","Drab","Tiger","Sneaking","Battle Dress","Swimsuit"},
+  customSoldierTypeFemaleMB_ALLSettings={
+    "Off",
+    "Drab",
+    "Tiger",
+    "Sneaking",
+    "Battle Dress",
+    "Swimsuit",
+    --DEBUGNOW "Goblin swimsuit",
+    --"Megalodon swimsuit"
+  },
   mbPrioritizeFemale="Female staff selection",
   mbPrioritizeFemaleSettings={"Default","None","All available","Half"},
   enableLrrpFreeRoam="Foot patrols in free roam",
@@ -561,6 +572,10 @@ this.eng={--english
   showFreeCamPosition="Show freecam position",
   showAllOpenSideopsOnUi="Show all open sideops",
   loadAddonMission="Load addon mission",
+  itemLevelSettings={"Don't override","Grade 1","Grade 2","Grade 3","Grade 4"},
+  itemLevelMenu="Item level menu",
+  itemLevelIntScope="Int-Scope level",
+  itemLevelIDroid="IDroid level",
 }--eng end
 
 this.help={}

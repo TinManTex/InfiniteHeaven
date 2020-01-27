@@ -16,8 +16,9 @@ function this.PrintUserMarker(index)
   local addFlag=vars.userMarkerAddFlag[index]
   local letter=alphaTable[addFlag]
   local gameId=vars.userMarkerGameObjId[index]
+  local closestCp=InfMain.GetClosestCp{x,y,z}
   local posString=string.format("%.2f,%.2f,%.2f",x,y,z)
-  local message="userMarker "..index.." : pos="..posString..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId)
+  local message="userMarker "..index.." : pos="..posString..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId).." closestCp:"..tostring(closestCp)
   InfCore.Log(message)
   InfCore.DebugPrint(message)
   --InfCore.DebugPrint("userMarker "..index.." : pos="..tostring(x)..","..tostring(y)..","..tostring(z)..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
@@ -142,7 +143,7 @@ function this.WarpToUserMarker(index)
     markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index],vars.userMarkerPosZ[index])
   end
 
-  InfCore.DebugPrint(InfMenu.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ()) 
+  InfCore.DebugPrint(InfMenu.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ())
   TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 end
 

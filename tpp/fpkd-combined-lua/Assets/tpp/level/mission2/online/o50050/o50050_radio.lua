@@ -124,6 +124,11 @@ end
 
 this.GetHostMissionStart = function( isFound )
 	local radioGroups = {}
+	
+	if TppPlayer.IsCurrentPlayerOcelot() then
+		return nil
+	end
+	
 	if isFound == true then
 		table.insert( radioGroups, "f5000_rtrg0020" )
 	else
@@ -141,7 +146,9 @@ this.ClientMissionStart = function( isFound )
 	if isFound == true then
 		TppRadio.Play( "f5000_rtrg0040", { delayTime = "mid" } )
 	else
+		if not TppPlayer.IsCurrentPlayerOcelot() then
 		TppRadio.Play( "f5000_rtrg0030", { delayTime = "mid" } )
+		end
 	end
 end
 

@@ -9,6 +9,10 @@ local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local SendCommand=GameObject.SendCommand
 
+function this.PostModuleReload(prevModule)
+  this.selectedObject=prevModule.selectedObject--DEBUGNOW
+end
+
 --menu menu items
 this.menuOffItem={
   isMenuOff=true,
@@ -398,6 +402,57 @@ this.printLatestUserMarker={
   end
 }
 
+this.selectedObject=NULL_ID
+--TODO: Ivar
+this.setSelectedObjectToMarkerClosest={
+  OnChange=function()
+    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    if lastMarkerIndex==nil then
+      InfCore.DebugPrint("lastMarkerIndex==nil")
+      return
+    end
+
+    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    if lastMarkerIndex==nil then
+      InfCore.DebugPrint("lastMarkerIndex==nil")
+    else
+      --InfUserMarker.PrintUserMarker(lastMarkerIndex)
+      InfUserMarker.PrintMarkerGameObject(lastMarkerIndex)
+
+      this.selectedObject=vars.userMarkerGameObjId[lastMarkerIndex]
+    end
+  end
+}
+
+this.setSelectedCpToMarkerClosestCp={
+  OnChange=function()
+    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    if lastMarkerIndex==nil then
+      InfCore.DebugPrint("lastMarkerIndex==nil")
+      return
+    end
+    local x=vars.userMarkerPosX[lastMarkerIndex]
+    local y=vars.userMarkerPosY[lastMarkerIndex]
+    local z=vars.userMarkerPosZ[lastMarkerIndex]
+    local addFlag=vars.userMarkerAddFlag[lastMarkerIndex]
+    local gameId=vars.userMarkerGameObjId[lastMarkerIndex]
+    local cpName=InfMain.GetClosestCp{x,y,z}
+    if not cpName then
+      InfCore.Log("Could not find cp",false,true)
+      return
+    end
+
+    for cpId,currentName in pairs(mvars.ene_cpList)do
+      --InfCore.DebugPrint(tostring(n).." "..tostring(currentName))
+      if currentName==cpName then
+        Ivars.selectedCp:Set(cpId)
+        InfCore.DebugPrint("selectedCp set to "..cpId..":"..cpName)
+        return
+      end
+    end
+  end
+}
+
 this.setSelectedCpToMarkerObjectCp={
   OnChange=function()
     local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
@@ -760,7 +815,7 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     count=count+1
     InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
-
+    
     InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
     if index1>index1Max then
@@ -777,6 +832,8 @@ this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
 
+
+
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
     if index2>index2Max then
@@ -792,7 +849,7 @@ local toggle3=false
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz3---")
-
+    
     InfCore.DebugPrint("index3:"..index3)
     index3=index3+1
     if index3>index3Max then

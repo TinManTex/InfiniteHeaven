@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r210
+-- Defaults / example of all profile options for IH r211
 -- Profiles are lists of settings for IH options. 
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -53,6 +53,9 @@ local this={
 		disableMenuAttack=0,--{ 0-1 } -- Disable Attack support-menu
 		disableMenuHeliAttack=0,--{ 0-1 } -- Disable Heli attack support-menu
 		disableSupportMenu=0,--{ 0-1 } -- Disable Support-menu
+		--Item level menu
+		itemLevelIntScope=0,--{ DEFAULT, GRADE1, GRADE2, GRADE3, GRADE4 } -- Int-Scope level
+		itemLevelIDroid=0,--{ DEFAULT, GRADE1, GRADE2, GRADE3, GRADE4 } -- IDroid level
 		--Hand abilities levels menu
 		handLevelSonar=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Sonar level
 		handLevelPhysical=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Mobility level

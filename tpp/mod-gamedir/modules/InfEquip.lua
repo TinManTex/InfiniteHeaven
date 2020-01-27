@@ -1964,7 +1964,7 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
     local leastWeaponTypes={}
     for weaponType,weaponIds in pairs(weaponIdTableFinal.NORMAL)do
       if not skipType[weaponType] then
-        InfCore.PrintInspect(weaponIdTableAll[weaponType],"weaponIdTableAll["..weaponType.."]")--DEBUGNOW
+        --InfCore.PrintInspect(weaponIdTableAll[weaponType],"weaponIdTableAll["..weaponType.."]")--DEBUG
         if weaponIdTableAll[weaponType] then
           leastWeaponTypes[weaponType]=true
           typeCount=typeCount+1

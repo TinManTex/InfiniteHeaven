@@ -12,7 +12,8 @@ this.playerTypes={
   "DD_MALE",--1
   "DD_FEMALE",--2
   "AVATAR",--3
---"LIQUID",--4 In exe, breaks player (invisible, reseting var doesnt fix)
+  --"LIQUID",--4 In exe, breaks player (invisible, reseting var doesnt fix)
+  "OCELOT",--5
 }
 
 --tex indexed by vars.playerType
@@ -36,6 +37,11 @@ this.playerTypesInfo={
     name="AVATAR",
     description="Avatar",
     playerType=3,
+  },
+  {
+    name="OCELOT",
+    description="Ocelot",
+    playerType=5,
   },
 }
 
@@ -68,6 +74,9 @@ this.playerPartsTypes={
   "BOSS_CLOSE",--21
   "BOSS_OPEN",--22
   "SWIMWEAR",--23
+  "SWIMWEAR_G",--24
+  "SWIMWEAR_H",--25
+  "OCELOT",--26
   --tex unknown, see playerPartsTypesInfo, own names
   "NORMAL2",--24
   "NORMAL_SCARF2",--25
@@ -369,6 +378,67 @@ this.playerPartsTypesInfo={
       "SWIMWEAR_C53",--90,
     },
   },
+  {--24
+    name="SWIMWEAR_G",
+    description="Goblin Swimsuit",
+    playerParts=24,
+    --developId=,--Common, kinda, requires at least one type to show up, but unless I want to iterate through the the developids of all the camos just leave it
+    plPartsName={
+      DD_MALE="plparts_ddm_swimwear_g",
+      DD_FEMALE="plparts_ddf_swimwear_g",
+    },
+    camoTypes={
+      "SWIMWEAR_G_C00",--91
+      "SWIMWEAR_G_C01",--
+      "SWIMWEAR_G_C02",--
+      "SWIMWEAR_G_C03",--
+      "SWIMWEAR_G_C05",--
+      "SWIMWEAR_G_C06",--
+      "SWIMWEAR_G_C38",--
+      "SWIMWEAR_G_C39",--
+      "SWIMWEAR_G_C44",--
+      "SWIMWEAR_G_C46",--
+      "SWIMWEAR_G_C48",--
+      "SWIMWEAR_G_C53",--102
+    },
+  },
+  {--25
+    name="SWIMWEAR_H",
+    description="Megalodon Swimsuit",
+    playerParts=25,
+    --developId=,--Common, kinda, requires at least one type to show up, but unless I want to iterate through the the developids of all the camos just leave it
+    plPartsName={
+      DD_MALE="plparts_ddm_swimwear_h",
+      DD_FEMALE="plparts_ddf_swimwear_h",
+    },
+    camoTypes={
+      "SWIMWEAR_C00",--103
+      "SWIMWEAR_C01",--
+      "SWIMWEAR_C02",--
+      "SWIMWEAR_C03",--
+      "SWIMWEAR_C05",--
+      "SWIMWEAR_C06",--
+      "SWIMWEAR_C38",--
+      "SWIMWEAR_C39",--
+      "SWIMWEAR_C44",--
+      "SWIMWEAR_C46",--
+      "SWIMWEAR_C48",--
+      "SWIMWEAR_C53",--114
+    },
+  },
+   {--26
+    name="OCELOT",
+    description="Ocelot",
+    playerParts=26,
+    --developId=--Common
+    plPartsName={
+      OCELOT="plparts_ocelot",
+    },
+    camoTypes={
+      "OCELOT",
+    },
+  }, 
+  
   --tex following enum names are unknown, currently just named after what appears with vars.playerParts set to the numerical value
   --24 onward>>
   --appear to be the DD soldier, but most no head even when set to DD_MALE
@@ -452,6 +522,10 @@ this.plPartsInfo={
   plparts_silver={modelId="sna9_plym1"},
   plparts_ddf_swimwear={modelId="dlf0_main0"},--tex the fmdl for this breaks the naming convention of <modelid>_def (of all others in this table) and is named dlf0_main0_def_f.fmdl
   plparts_ddm_swimwear={modelId="dlf1_main0"},
+  plparts_ddf_swimwear_g={modelId="dlg0_main0"},
+  plparts_ddm_swimwear_g={modelId="dlg1_main0"},
+  plparts_ddf_swimwear_h={modelId="dlh0_main0"},
+  plparts_ddm_swimwear_h={modelId="dlh1_main0"},
   plparts_dla0_main0_def_v00={modelId="dla0_main0"},
   plparts_dla0_plym0_def_v00={modelId="dla0_plym0"},
   plparts_dla1_main0_def_v00={modelId="dla1_main0"},
@@ -464,6 +538,7 @@ this.plPartsInfo={
   plparts_dld0_plym0_def_v00={modelId="dld0_plym0"},
   plparts_dle0_plyf0_def_v00={modelId="dle0_plyf0"},
   plparts_dle1_plyf0_def_v00={modelId="dle1_plyf0"},
+  plparts_ocelot={modelId="ooc0_main1"},
 }
 
 --tex TODO: build reverse lookup table if nessesary
@@ -567,6 +642,32 @@ this.playerCamoTypes={
   "SWIMWEAR_C46",--88,IRON BLUE
   "SWIMWEAR_C48",--89,RED RUST
   "SWIMWEAR_C53",--90,MUD
+
+  "SWIMWEAR_G_C00",--91,OLIVEDRAB
+  "SWIMWEAR_G_C01",--,TIGERSTRIPE
+  "SWIMWEAR_G_C02",--,GOLDTIGER
+  "SWIMWEAR_G_C03",--,FOXTROT
+  "SWIMWEAR_G_C05",--,WETWORK
+  "SWIMWEAR_G_C06",--,SPLITTER
+  "SWIMWEAR_G_C38",--,PARASITE MIST
+  "SWIMWEAR_G_C39",--,OLD ROSE
+  "SWIMWEAR_G_C44",--,CAMOFLAGE GREEN
+  "SWIMWEAR_G_C46",--,IRON BLUE
+  "SWIMWEAR_G_C48",--,RED RUST
+  "SWIMWEAR_G_C53",--102,MUD
+
+  "SWIMWEAR_H_C00",--103,OLIVEDRAB
+  "SWIMWEAR_H_C01",--,TIGERSTRIPE
+  "SWIMWEAR_H_C02",--,GOLDTIGER
+  "SWIMWEAR_H_C03",--,FOXTROT
+  "SWIMWEAR_H_C05",--,WETWORK
+  "SWIMWEAR_H_C06",--,SPLITTER
+  "SWIMWEAR_H_C38",--,PARASITE MIST
+  "SWIMWEAR_H_C39",--,OLD ROSE
+  "SWIMWEAR_H_C44",--,CAMOFLAGE GREEN
+  "SWIMWEAR_H_C46",--,IRON BLUE
+  "SWIMWEAR_H_C48",--,RED RUST
+  "SWIMWEAR_H_C53",--114,MUD
 }
 
 --tex camos that apply to partsType NORMAL,NORMAL_SCARF,NAKED
@@ -1688,6 +1789,332 @@ this.playerCamoTypesInfo={
       DD_FEMALE=true,
     }
   },
+  --
+  {
+    name="SWIMWEAR_G_C00",
+    description="Olive Drab",
+    developId=19163,
+    playerCamoType=91,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C01",
+    description="Tiger Stripe",
+    developId=19164,
+    playerCamoType=92,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C02",
+    description="Gold Tiger",
+    developId=19165,
+    playerCamoType=93,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C03",
+    description="Desert Fox",
+    developId=19166,
+    playerCamoType=94,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C05",
+    description="Wet Work",
+    developId=19167,
+    playerCamoType=95,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C06",
+    description="Splitter",
+    developId=19168,
+    playerCamoType=96,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C38",
+    description="Parasite Mist",
+    developId=19169,
+    playerCamoType=97,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C39",
+    description="Old Rose",
+    developId=19167,
+    playerCamoType=98,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C44",
+    description="Camoflage Green",
+    developId=19171,
+    playerCamoType=99,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C46",
+    description="Iron Blue",
+    developId=19172,
+    playerCamoType=100,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C48",
+    description="Red Rust",
+    developId=19173,
+    playerCamoType=101,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_G_C53",
+    description="Mud",
+    developId=19174,
+    playerCamoType=102,
+    playerParts={
+      SWIMWEAR_G=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  --
+    {
+    name="SWIMWEAR_H_C00",
+    description="Olive Drab",
+    developId=19175,
+    playerCamoType=103,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C01",
+    description="Tiger Stripe",
+    developId=19176,
+    playerCamoType=104,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C02",
+    description="Gold Tiger",
+    developId=19177,
+    playerCamoType=105,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C03",
+    description="Desert Fox",
+    developId=19178,
+    playerCamoType=106,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C05",
+    description="Wet Work",
+    developId=19179,
+    playerCamoType=107,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C06",
+    description="Splitter",
+    developId=19180,
+    playerCamoType=108,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C38",
+    description="Parasite Mist",
+    developId=19181,
+    playerCamoType=109,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C39",
+    description="Old Rose",
+    developId=19182,
+    playerCamoType=110,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C44",
+    description="Camoflage Green",
+    developId=19183,
+    playerCamoType=111,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C46",
+    description="Iron Blue",
+    developId=19184,
+    playerCamoType=112,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C48",
+    description="Red Rust",
+    developId=19185,
+    playerCamoType=113,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="SWIMWEAR_H_C53",
+    description="Mud",
+    developId=19186,
+    playerCamoType=114,
+    playerParts={
+      SWIMWEAR_H=true,
+    },
+    playerTypes={
+      DD_MALE=true,
+      DD_FEMALE=true,
+    }
+  },
+  {
+    name="OCELOT",
+    description="Ocelot",
+    --developId=,
+    playerCamoType=115,
+    playerParts={
+      OCELOT=true,
+    },
+    playerTypes={
+      OCELOT=true,
+    }
+  },
 }
 
 --REF Camo fovas
@@ -1904,7 +2331,7 @@ function this.GetCamoTypes(partsTypeName)
       table.insert(playerCamoTypes,"OLIVEDRAB")--PlayerCamoType 0
     end
   end
-  
+
   local checkDeveloped=Ivars.skipDevelopChecks:Is(0)
 
   local checkedCamoTypes={}
@@ -1975,13 +2402,13 @@ function this.GetFovaTable(playerTypeName,playerPartsTypeName,printInfo)
     InfCore.Log("WARNING: GetFovaTable plPartsName==nil for player type "..tostring(playerTypeName),true)
     return
   end
-  
+
   local modelDescription=playerPartsTypeInfo.description or playerPartsTypeInfo.name
 
   if printInfo then
     InfCore.Log("playerType:"..playerTypeName..", playerParts:"..playerPartsTypeName..", plPartName:"..plPartsName,true)
   end
-  
+
   local moduleName=plPartsName..modelInfoSuffix
   local modelInfo=_G[moduleName]
   if modelInfo then

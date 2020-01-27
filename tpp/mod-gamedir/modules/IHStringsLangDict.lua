@@ -1,7 +1,7 @@
 --from lang dict proj 24 dec 2016
 local this={}
 this.lookupStrings={
-	"Anti-Marking+",
+"Anti-Marking+",
 "Demolition+",
 "EULA_agree",
 "EULA_disagree",

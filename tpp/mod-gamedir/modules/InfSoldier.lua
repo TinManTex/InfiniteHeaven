@@ -91,7 +91,6 @@ function this.AddMissionPacks(missionCode,packPaths)
 
   --tex customSoldierType add mission packs>
   if missionCode>5 then
-    --InfCore.LogFlow("InfSoldier.AddMissionPacks: AddBodyPackPaths")--DEBUG
     local bodyInfo=InfEneFova.GetMaleBodyInfo(missionCode)
     InfEneFova.AddBodyPackPaths(bodyInfo)
     local bodyInfo=InfEneFova.GetFemaleBodyInfo(missionCode)
@@ -161,11 +160,11 @@ function this.InitCluster(clusterId)
   if not clusterId then
     return
   end
-  
+
   if vars.missionCode~=30050 then
     return
   end
-  
+
   mbDemoWasPlayed=false
 
   npcList={}
@@ -179,7 +178,7 @@ function this.InitCluster(clusterId)
   numSoldiersOnRoute={}
 
   local isRouteChange=Ivars.mbNpcRouteChange:Is(1)
-  
+
   local clusterId=clusterId or GetCurrentCluster()
   clusterId=clusterId+1
 
@@ -263,31 +262,31 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   if not this.active:EnabledForMission() then
     return
   end
-  
+
   if not GetCurrentCluster() then
     return
   end
-  
+
   local demoName=TppDemo.GetMBDemoName()
   if demoName then
     mbDemoWasPlayed=true
     return
   end
-  
+
   if #npcList==0 then
     --InfCore.DebugPrint"Update #npcList==0 aborting"--DEBUG
     return
   end
-  
+
   local clusterId=GetCurrentCluster()+1
   if clusterId>7 then
     return
-  end  
+  end
   local grade=GetMbStageClusterGrade(clusterId)
   if grade==1 then
     return
   end
-  
+
   local npcIndex=Random(1,#npcList)
   local npcName=npcList[npcIndex]
 
@@ -717,7 +716,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
       if numFemales<this.numWildCards.FEMALE then
         isFemale=true
         numFemales=numFemales+1
-        
+
       elseif IvarProc.EnabledForMission"customSoldierType" then
         --InfCore.Log("AddWildCards EnabledForMission customSoldierType and > numFemales, bailing")--DEBUG
         --tex bail out of male because customSoldierType interferes TODO: extend wildcard to other soldiertypes with multiple bodies

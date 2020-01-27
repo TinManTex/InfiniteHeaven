@@ -174,6 +174,7 @@ function this.GetMaleBodyInfo(missionCode)
   --  else
   local customSoldierType=IvarProc.GetForMission"customSoldierType"
   local suitName=Ivars.customSoldierTypeFREE.settings[customSoldierType+1]--KLUDGE
+  --InfCore.Log("InfEneFova.GetMaleBodyInfo "..tostring(suitName))--DEBUG
   --end
   return InfBodyInfo.bodyInfo[suitName]
 end
@@ -208,6 +209,8 @@ this.wildCardFemaleSuits={
   "TIGER_FEMALE",
   "DRAB_FEMALE",
   "SWIMWEAR_FEMALE",
+  --"SWIMWEAR2_FEMALE",--DEBUGNOW
+  --"SWIMWEAR3_FEMALE",
 }
 
 this.wildCardFemaleSuitName="SNEAKING_SUIT"--tex set in WildCardFovaSetup

@@ -2066,11 +2066,21 @@ sequences.Seq_Game_MissionPreparationAbort = {
 			TppMission.ClearFobMode()
 			vars.fobIsSneak = 0
 		end
-
+    self.waitPlayerLoadStartFlame = 5--RETAILPATCH 1.10
 		mvars.startFadeIn = false
 	end,
 
-	OnUpdate = function()
+	OnUpdate = function(self)
+	 --RETAILPATCH 1.10>
+	   if TppGameStatus.IsSet("heli_common_sequence.lua", "S_IS_SORTIE_PREPARATION") then
+      return
+    end
+    if self.waitPlayerLoadStartFlame > 0 then
+      self.waitPlayerLoadStartFlame = self.waitPlayerLoadStartFlame - 1
+      return 
+    end
+    --<
+	
 		if not mvars.heliSpace_doneReturnToMission then
 			if mvars.startFadeIn == false then
 				local isLoading = false

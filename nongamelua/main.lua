@@ -1,54 +1,16 @@
 --main.lua
 local this={}
 
---tex MockFox host stuff
-luaHostType="LDT"
-
-foxGamePath="C:/GamesSD/MGS_TPP/"
-foxLuaPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"--tex path of tpps scripts (qar luas)
-mockFoxPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/MockFox/"--tex path of MockFox scripts
-
-package.path=nil--KLUDGE have mockfox default package path code run, will kill existing / LDT provided package.path
-package.cpath=mockFoxPath.."?.dll"--tex for bit.dll TODO: build equivalent cpath.
---
-dofile(mockFoxPath.."/loadMockFox.lua")
-
-dofile(mockFoxPath.."/initMock.lua")
---dofile(foxLuaPath.."/init.lua")--tex not quite ready to run straight yet
-
-do
-  local chunk,err=loadfile(mockFoxPath.."/startMock.lua")
-  --local chunk,err=loadfile(foxLuaPath.."/Tpp/start.lua")--tex not quite ready to run straight yet
-  if err then
-    print(err)
-  else
-    local co=coroutine.create(chunk)
-    repeat
-      local ok,ret=coroutine.resume(co)
-      if not ok then
-        error(ret)
-      end
-    until coroutine.status(co)=="dead"
-  end
-end
+--tex MockFox
+dofile('./MockFoxLua/loadLDT.lua')
 
 --
 ----non mock stuff >
 --package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/afgh/?.lua"
 --package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/mafr/?.lua"
---
---package.path=package.path..";./?.lua"
---
---package.path=package.path..";./nonmgscelua/?.lua"
+
+package.path=package.path..";./nonmgscelua/?.lua"--for AutoDoc
 --package.path=package.path..";./nonmgscelua/SLAXML/?.lua"
-
---package.path=package.path..";./Data1Lua/Tpp/?.lua"
-package.path=package.path..";./Data1Lua/Assets/tpp/script/lib/?.lua"--for AutoDoc
---<
-
-
---
-
 
 
 --TODO really do need to module load these since TppDefine is already loaded at this point
@@ -77,18 +39,7 @@ local IsString=Tpp.IsTypeString
 --PATCHUP
 InfEquip.tppEquipTableTest={"<DEBUG IVAR>"}
 
-vars.missionCode=40050
 
-local tableStr="table"
-local function IsMenu(item)
-  if type(item)==tableStr then
-    if item.options then
-      return true
-    end
-  end
-end
-
-print("parse main.lua: Inf Mock done")
 
 --local ins=InfInspect.Inspect(ivars)--
 --print(ins)
@@ -1400,14 +1351,25 @@ end
 
 local function main()
   print("main()")
+  
+    print"Running AutoDoc"
+  InfAutoDoc.AutoDoc()
+  
+
+--afgh_travelPlans=DoFile'D:/Projects/MGS/!InfiniteHeaven/!modlua/FpkdCombinedLua/Assets/tpp/script/location/afgh/afgh_travelPlans.lua'
+
+--local cpLinkDefineTable=TppEnemy.MakeCpLinkDefineTable(afgh_travelPlans.lrrpNumberDefine,afgh_travelPlans.cpLinkMatrix)
+--InfCore.PrintInspect(cpLinkDefineTable)
 
   --  print(package.path)
   --
   --  print(os.date("%x %X"))
   --  print(os.time())
 
-  print"Running AutoDoc"
-  InfAutoDoc.AutoDoc()
+
+  
+  
+
   --WriteDefaultIvarProfile()
 
   --PrintEquipId()

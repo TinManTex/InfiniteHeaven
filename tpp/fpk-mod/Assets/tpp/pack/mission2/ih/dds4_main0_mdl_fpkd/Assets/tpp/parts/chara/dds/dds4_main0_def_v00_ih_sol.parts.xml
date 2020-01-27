@@ -118,7 +118,7 @@
           <value>0x0317E860</value>
         </property>
         <property name="depends" type="EntityLink" container="DynamicArray" arraySize="1">
-          <value packagePath="" archivePath="/Assets/tpp/parts/chara/dds4/dds4_main0_def_v00_ih_sol.parts" nameInArchive="ModelDescription0000">0x0317E5C0</value>
+          <value packagePath="" archivePath="/Assets/tpp/parts/chara/dds/dds4_main0_def_v00_ih_sol.parts" nameInArchive="ModelDescription0000">0x0317E5C0</value>
         </property>
         <property name="partName" type="String" container="StaticArray" arraySize="1">
           <value></value>

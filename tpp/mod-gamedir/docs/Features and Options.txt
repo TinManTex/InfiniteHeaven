@@ -142,10 +142,11 @@ Prevents equipment and weapons being reset when going between free-roam and miss
 11: Marking display menu
 12: Mission-prep restrictions menu
 13: Disable mission support-menus menu
-14: Hand abilities levels menu
-15: Fulton levels menu
-16: Fulton success menu
-17: OSP menu
+14: Item level menu
+15: Hand abilities levels menu
+16: Fulton levels menu
+17: Fulton success menu
+18: OSP menu
 
 Marking display menu
 - Toggles for marking in main view. Does not effect marking on iDroid map
@@ -175,6 +176,11 @@ Disable mission support-menus menu
 3: Disable Attack support-menu : Off, On
 4: Disable Heli attack support-menu : Off, On
 5: Disable Support-menu : Off, On
+
+Item level menu
+---------------
+1: Int-Scope level : Don't override, Grade 1, Grade 2, Grade 3, Grade 4
+2: IDroid level : Don't override, Grade 1, Grade 2, Grade 3, Grade 4
 
 Hand abilities levels menu
 --------------------------
@@ -284,7 +290,7 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 4: Custom prep menu
 5: Prep system menu
 6: Custom soldier equip menu
-7: Custom soldier type in Free roam : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
+7: Custom soldier type in Free roam : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, FATIGUES_CAMO_MIX
 Override the soldier type of enemy soldiers in Free Roam
 8: Reset enemy preparedness levels : (Command)
 Resets enemy prep levels to 0
@@ -514,7 +520,7 @@ Mother Base menu
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
 3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
-4: DD Suit : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
+4: DD Suit : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, FATIGUES_CAMO_MIX
 5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
 6: DD Head gear : Off, Current prep
 7: Female staff selection : Default, None, All available, Half
@@ -877,21 +883,23 @@ Logs some script execution flow, requires Debug IH mode to be on.
 7: postExtCommands : Off, On
 8: loadExternalModules : (Command)
 9: copyLogToPrev : (Command)
-10: selectedCp : no cp for setting
-11: setSelectedCpToMarkerObjectCp : (Command)
-12: DEBUG_PrintCpPowerSettings : (Command)
-13: DEBUG_PrintPowersCount : (Command)
-14: DEBUG_PrintReinforceVars : (Command)
-15: DEBUG_PrintSoldierDefine : (Command)
-16: DEBUG_ShowRevengeConfig : (Command)
-17: appearanceDebugMenu
-18: printPressedButtons : Off, On
-19: printOnBlockChange : Off, On
-20: Disable game over : Off, On
-21: Disable out of bounds checks : Off, On
-22: setAllFriendly : (Command)
-23: Show freecam position : (Command)
-24: Show position : (Command)
+10: setSelectedObjectToMarkerClosest : (Command)
+11: selectedCp : no cp for setting
+12: setSelectedCpToMarkerObjectCp : (Command)
+13: setSelectedCpToMarkerClosestCp : (Command)
+14: DEBUG_PrintCpPowerSettings : (Command)
+15: DEBUG_PrintPowersCount : (Command)
+16: DEBUG_PrintReinforceVars : (Command)
+17: DEBUG_PrintSoldierDefine : (Command)
+18: DEBUG_ShowRevengeConfig : (Command)
+19: appearanceDebugMenu
+20: printPressedButtons : Off, On
+21: printOnBlockChange : Off, On
+22: Disable game over : Off, On
+23: Disable out of bounds checks : Off, On
+24: setAllFriendly : (Command)
+25: Show freecam position : (Command)
+26: Show position : (Command)
 
 appearanceDebugMenu
 -------------------

@@ -6,7 +6,7 @@
 --this module is mostly defintion of the bounds, settings and functions to run on changing Ivar state
 --the working state/value of an Ivar is in the global ivar table, with save values in either gvars (the game save system) or evars (IHs save system)
 --the IvarProc module ties together the Ivar definitions and their live state in igvars{} (global)
---save values are split out to evars{} (global), this mirrors the prior setup of ivar/gvar pair split and is currently mostly to allow ivars to be temporarily disconnected from their 
+--save values are split out to evars{} (global), this mirrors the prior setup of ivar/gvar pair split and is currently mostly to allow ivars to be temporarily disconnected from their
 --saved state as in ih events
 
 --NOTE: Resetsettings will call OnChange, so/and make sure defaults are actual default game behaviour,
@@ -308,6 +308,8 @@ IvarProc.MissionModeIvars(
       "SNEAKING_SUIT",
       "BATTLE_DRESS",
       "SWIMWEAR",
+      --"SWIMWEAR2",--DEBUGNOW
+      --"SWIMWEAR3",
       "PFA_ARMOR",
       "SOVIET_A",
       "SOVIET_B",
@@ -348,7 +350,7 @@ IvarProc.MissionModeIvars(
       --"CHILD_0",
       "FATIGUES_CAMO_MIX",
     },
-    settingNames="customSoldierTypeSettings",
+  --DEBUGNOW settingNames="customSoldierTypeSettings",
   },
   {
     "FREE",
@@ -370,6 +372,8 @@ IvarProc.MissionModeIvars(
       "SNEAKING_SUIT_FEMALE",
       "BATTLE_DRESS_FEMALE",
       "SWIMWEAR_FEMALE",
+    --"SWIMWEAR2_FEMALE",--DEBUGNOW
+    --"SWIMWEAR3_FEMALE",
     --    "PRISONER_AFGH_FEMALE",
     --    "NURSE_FEMALE",
     --"DD_RESEARCHER_FEMALE",
@@ -966,19 +970,28 @@ this.fultonMotherBaseHandling={ --WIP
 --<fulton success
 
 --item levels>
-local function OnChangeItemLevel(self)
-  Player.SetItemLevel(self.equipId,self:Get())
+local function OnChangeItemLevel(self,prevSetting,setting)
+  if setting>0 then
+    --tex itemlevel == grade, but ivar setting 0 = don't set, so shifting down 1.
+    Player.SetItemLevel(self.equipId,setting-1)
+  end
+end
+--tex doesnt set item level to grade 0, most items don't seem to disable at grade 0 anyway.
+local function OnChangeItemLevelNoZero(self,prevSetting,setting)
+  if setting>0 then
+    Player.SetItemLevel(self.equipId,setting)
+  end
 end
 
---CULL this.handLevelRange={max=4,min=0,increment=1}
-local handLevelSettings={"DEFAULT","DISABLE","GRADE2","GRADE3","GRADE4"}
+local itemLevelSettings={"DEFAULT","GRADE1","GRADE2","GRADE3","GRADE4"}
+local handLevelSettings={"DEFAULT","DISABLE","GRADE2","GRADE3","GRADE4"}--tex functionally the same as itemlevelsettings, but being clear that grade 1 is disable since they have no grade 1
 this.handLevelSonar={
   inMission=true,
   save=EXTERNAL,
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_ACTIVESONAR,
-  OnChange=OnChangeItemLevel,
+  OnChange=OnChangeItemLevelNoZero,
 }
 
 this.handLevelPhysical={--tex called Mobility in UI
@@ -987,7 +1000,7 @@ this.handLevelPhysical={--tex called Mobility in UI
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_PHYSICAL,
-  OnChange=OnChangeItemLevel,
+  OnChange=OnChangeItemLevelNoZero,
 }
 
 this.handLevelPrecision={
@@ -996,7 +1009,7 @@ this.handLevelPrecision={
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_PRECISION,
-  OnChange=OnChangeItemLevel,
+  OnChange=OnChangeItemLevelNoZero,
 }
 
 this.handLevelMedical={
@@ -1005,24 +1018,45 @@ this.handLevelMedical={
   settings=handLevelSettings,
   settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_MEDICAL,
-  OnChange=OnChangeItemLevel,
+  OnChange=OnChangeItemLevelNoZero,
 }
 
 this.itemLevelFulton={
   inMission=true,
   save=EXTERNAL,
-  settings={"DEFAULT","GRADE1","GRADE2","GRADE3","GRADE4"},
+  settings=itemLevelSettings,
+  settingNames="itemLevelSettings",
   equipId=TppEquip.EQP_IT_Fulton,
-  OnChange=OnChangeItemLevel,
+  OnChange=OnChangeItemLevelNoZero,
 }
+--tex wormhole grade 0 = disable, > 0 = enabled.
 this.itemLevelWormhole={
   inMission=true,
   save=EXTERNAL,
-  --range=this.switchRange,
+  --range={max=4,min=0,increment=1},
   settings={"DEFAULT","DISABLE","ENABLE"},
+  settingNames="itemLevelWormholeSettings",
   equipId=TppEquip.EQP_IT_Fulton_WormHole,
   OnChange=OnChangeItemLevel,
 }
+
+this.itemLevelIntScope={
+  inMission=true,
+  save=EXTERNAL,
+  settings=itemLevelSettings,
+  settingNames="itemLevelSettings",
+  equipId=TppEquip.EQP_IT_Binocle,
+  OnChange=OnChangeItemLevelNoZero,
+}
+this.itemLevelIDroid={
+  inMission=true,
+  save=EXTERNAL,
+  settings=itemLevelSettings,
+  settingNames="itemLevelSettings",
+  equipId=TppEquip.EQP_IT_IDroid,
+  OnChange=OnChangeItemLevelNoZero,
+}
+
 --<item levels
 this.primaryWeaponOsp={
   save=EXTERNAL,
@@ -2055,7 +2089,7 @@ this.loadAddonMission={
     if #self.settings==0 then
       return "No addon missions installed"--DEBUGNOW TODO langid
     end
-  
+
     local settingStr=self.settings[setting+1]
     local missionCode=tonumber(settingStr)
     local missionInfo=InfMission.missionInfo[missionCode]
@@ -2069,7 +2103,7 @@ this.loadAddonMission={
     if #self.settings==0 then
       return
     end
-  
+
     local settingStr=self.settings[setting+1]
     local missionCode=tonumber(settingStr)
     InfCore.Log("manualMissionCode "..settingStr)
@@ -2101,7 +2135,7 @@ this.loadAddonMission={
 this.playerType={
   inMission=true,
   --OFF save=EXTERNAL,
-  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
+  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},--DEBUGNOW
   settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
     PlayerType.SNAKE,
     PlayerType.AVATAR,
@@ -2201,6 +2235,8 @@ local playerPartsTypeSettings={
   "PARASITE",--10
   "LEATHER",--11
   "SWIMWEAR",--23
+  "SWIMWEAR_G",--24--DEBUGNOW
+  "SWIMWEAR_H",--25--DEBUGNOW
   "RAIDEN",--6,
   "HOSPITAL",--3,
   "MGS1",--4,
@@ -2301,21 +2337,27 @@ this.playerCamoType={
   range={min=0,max=1000},--DYNAMIC
   GetSettingText=function(self,setting)
     local camoName=self.settings[setting+1]
+    InfCore.PrintInspect(camoName,"camoName")--DEBUGNOW
     local camoType=PlayerCamoType[camoName]
+    InfCore.PrintInspect(camoType,"camoType")--DEBUGNOW
     local camoInfo=InfFova.playerCamoTypesInfo[camoType+1]
     return camoInfo.description or camoInfo.name
   end,
   OnSelect=function(self)
     local partsTypeName=InfFova.playerPartsTypes[vars.playerPartsType+1]
-
+    InfCore.PrintInspect(partsTypeName,"partsTypeName")--DEBUGNOW
+    --DEBUGNOW TODO errors out if GetCamoTypes returns empty table, which may happen with develop checks on and no cammos for suit developed
     local playerCamoTypes=InfFova.GetCamoTypes(partsTypeName)
     if playerCamoTypes==nil then
+      InfCore.Log("GetCamoTypes == nil")--DEBUGNOW
       return
     end
 
-    --InfCore.PrintInspect(playerCamoTypes)--DEBUG
+    InfCore.PrintInspect(playerCamoTypes,"playerCamoTypes")--DEBUGNOW
     local enum=TppDefine.Enum(playerCamoTypes)
+    InfCore.PrintInspect(enum,"enum")--DEBUGNOW
     local camoName=InfFova.playerCamoTypes[vars.playerCamoType+1]
+    InfCore.PrintInspect(camoName,"camoName")--DEBUGNOW
     --InfCore.DebugPrint(camoName)--DEBUG
 
     local camoSetting=enum[camoName]
@@ -4011,9 +4053,7 @@ this.warpToListObject={
   end,
   OnSelect=function(self)
     local objectList=InfLookup.GetObjectList()
-    local numObjects=#objectList
-
-    self.range.max=numObjects-1
+    self.range.max=#objectList-1
     self.setting=0
   end,
   OnActivate=function(self,setting)
@@ -4359,24 +4399,24 @@ end
 
 --EXEC
 --InfCore.PCall(function()
-  --DEBUG
-  --local breakSave=false
-  --if breakSave then
-  --  for i=1,100000 do
-  --    this["breakVar"..i]={
-  --      save=MISSION,
-  --      default=100,
-  --      range={max=1000,min=0,increment=1},
-  --    }
-  --  end
-  --end
+--DEBUG
+--local breakSave=false
+--if breakSave then
+--  for i=1,100000 do
+--    this["breakVar"..i]={
+--      save=MISSION,
+--      default=100,
+--      range={max=1000,min=0,increment=1},
+--    }
+--  end
+--end
 
-  --DEBUG turn off saving
-  --for name, ivar in pairs(this) do
-  --  if this.IsIvar(ivar) then
-  --    ivar.save=nil
-  --  end
-  --end
+--DEBUG turn off saving
+--for name, ivar in pairs(this) do
+--  if this.IsIvar(ivar) then
+--    ivar.save=nil
+--  end
+--end
 --end)
 
 InfCore.PCall(this.SetupIvars)

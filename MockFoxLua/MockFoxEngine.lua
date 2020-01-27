@@ -1,29 +1,53 @@
 -- MockFoxEngine.lua
 
 --library modules
-if luaHostType=="LDT" then
-  bit=require"bit"
-else 
---TODO: for moonSharp redirect to its standard lib which I think has bit32 module
-  bit={}
-  bit.bnot=function()end
-  bit.band=function()end
-  bit.bor=function()end
-  bit.bxor=function()end
-end
 
---engine side
+--tex mgstpp uses bitops http://bitop.luajit.org/
+--if luaHostType=="LDT" then
+--  bit=require"bit"
+--else
+--tex TODO: for moonSharp redirect to its standard lib which I think has bit32 module
+bit={}
+bit.bnot=function()end
+bit.band=function()end
+bit.bor=function()end
+bit.bxor=function()end
+--end
+
+--userdata
+--tex possible return value of some module GetInstance or equivalent functions (see gmpEarnMissions.lua)
+--see Entity.lua
+--or for fox data functions (see Tpp.lua GetDataWithIdentifier)
+--the Entity system use via lua was a lot more prevalent in Ground Zeros
+--tostring on real module returns 'NULL ENTITY'
+NULL={}
+setmetatable(
+  NULL,
+  {
+    __tostring=function(t)
+      return "NULL ENTITY"
+    end
+  }
+)
+
+--tex returned by File.GetFileListTable, no references in lua
+--only hit in exe strings. 'scriptFile' string hit in exe and Fox2Scrape
+ScriptFile={}
+--has __tostring - 'ScriptFile <address>' - default userdata return i guess
+--has __index
+--has __newindex
 
 --tex mock module definitions to fill out stuff missed by Dump
 --or to add actual functionality instead of empty functions
 
-local mainApplication={}
-mainApplication.AddGame=function(self,game)end
-mainApplication.SetMainGame=function(self,game)end
-
-Application=function(initTable)
-  return mainApplication
-end
+--DEBUGNOW
+--local mainApplication={}
+--mainApplication.AddGame=function(self,game)end
+--mainApplication.SetMainGame=function(self,game)end
+--
+--Application=function(initTable)
+--  return mainApplication
+--end
 
 AssetConfiguration={}
 AssetConfiguration.GetDefaultCategory=function()
@@ -70,13 +94,60 @@ mainGame.SetMainBucket=function(self,bucket)end
 EditorBase=Editor
 Game=Editor
 
+local IHGenEntityClassDictionary=require"IHGenEntityClassDictionary"--tex dumped by IHTearDown.DumpEntityClassDictionary
+EntityClassDictionary={}
+EntityClassDictionary.GetCategoryList=function()
+  local categoryList={}
+  for category,classes in pairs(IHGenEntityClassDictionary)do
+    categoryList[#categoryList+1]=category
+  end
+  return categoryList
+end
+EntityClassDictionary.GetClassNameList=function(category)
+  return IHGenEntityClassDictionary[category]
+end
+
 Fox={}
-Fox.StrCode32=function(encodeString)--DEBUGNOW TODO IMPLEMENT
-  return encodeString
+Fox.actMode="GAME"--NOTREAL
+local actModes={
+  "GAME",
+  "EDIT",
+}
+Fox.GetActMode=function()
+  return Fox.actMode
 end
-Fox.PathFileNameCode32=function(encodeString)--DEBUGNOW TODO IMPLEMENT
-  return encodeString
+Fox.SetActMode=function(actMode)
+  Fox.actMode=actMode
 end
+Fox.debugLevel=0--NOTREAL
+Fox.GetDebugLevel=function()
+  return Fox.debugLevel
+end
+
+Fox.StrCode32=function(encodeString)
+  if HashingGzsTool then--tex MoonSharp userdata that redirects to GzsTool.Core Hashing
+    return HashingGzsTool.StrCode32(encodeString)
+  else
+    return encodeString
+  end
+end
+Fox.PathFileNameCode32=function(encodeString)
+  if HashingGzsTool then--tex MoonSharp userdata that redirects to GzsTool.Core Hashing
+    return HashingGzsTool.PathFileNameCode32(encodeString)
+  else
+    return encodeString
+  end
+end
+
+local platforms={
+  "Windows",
+  "Xbox360",
+  "XboxOne",
+  "PS3",
+  "PS4",
+  "Android",
+  "iOS",
+}
 Fox.GetPlatformName=function()
   return "Windows"
 end
@@ -110,6 +181,20 @@ foxmath.Sin=math.sin
 foxmath.Sqrt=math.sqrt
 foxmath.Tan=math.tan
 
+File={}
+--tex NOTES from Inspect
+--GetFileListTable()={
+-- ["/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua"] = ScriptFile (userdata),
+--...
+--tex seems to be for every file loaded via Script.LoadLibrary ?
+--GetReferenceCount()={ [<lua path>]=<reference count (number)>,
+File.GetFileListTable=function()
+  return Script.fileListTable 
+end
+File.GetReferenceCount=function()
+  return Script.referenceCounts 
+end
+
 GkEventTimerManager={}
 GkEventTimerManager.Start=function()end
 GkEventTimerManager.Stop=function()end
@@ -121,13 +206,16 @@ PhDaemon.GetInstance=function()--DEBUGNOW KLUDGE
 end
 
 Script={}
+--NOTREAL mgstpp must something like these somewhere, whether its in script,file or wherever, it's not exposed directly to lua
+--tex from File.GetFileListTable, GetReferenceCount
+Script.fileListTable={}
+Script.referenceCounts={}
 --DEBUGNOW
 Script.LoadLibrary=function(scriptPath)
   local split=MockUtil.Split(scriptPath,"/")
   local moduleName=split[#split]
   moduleName=string.sub(moduleName,1,-string.len(".lua")-1)
   print("ScriptLoad:"..scriptPath)
-
 
   local function FileExists(filePath)
     local file,openError=io.open(filePath,"r")
@@ -143,21 +231,31 @@ Script.LoadLibrary=function(scriptPath)
     return
   end
 
-  local ret=dofile(foxLuaPath..scriptPath)
+  local ret=dofile(scriptPath)
 
   local module=ret--DEBUGNOWmoduleChunk()
   if not module then
     print("module "..moduleName.."==nil")
   else
+
+    Script.fileListTable[scriptPath]=Script.fileListTable[scriptPath] or {mockUserDataType="ScriptFile"}--TODO: ScriptFile userdata
+    Script.referenceCounts[scriptPath]=Script.referenceCounts[scriptPath] or 0
+    Script.referenceCounts[scriptPath]=Script.referenceCounts[scriptPath]+1
+    
+    module._scriptInstanceId={mockUserDataType="unnamed/scriptInstanceId"}--tex has no metatable
+    module._scriptPath=moduleName
+  
     if _G[moduleName] then
       _G[moduleName]=MockUtil.MergeTable(_G[moduleName],module)--tex merge with mock stubs/overrides --DEBUGNOW
     else
       _G[moduleName]=module
     end
-    --DEBUGNOW TODO: guard against module recursion
+
     if module.requires then
       for i,modulePath in ipairs(module.requires)do
-        Script.LoadLibrary(modulePath)
+        if not Script.fileListTable[modulePath] then--tex guard against module recursion
+          Script.LoadLibrary(modulePath)
+        end
       end
     end
   end
@@ -412,6 +510,11 @@ TppCommand.Weather.SetClockTimeScale=function(newTimeScale)
 end
 TppCommand.Weather.UnregisterAllClockMessages=function()end
 
+UiDaemon={}
+UiDaemon.GetInstance=function()
+  return UiDaemon
+end
+
 --tex manually pulled together since my references scraper doesnt handle tables
 --filled out further by checking out exe section
 Vehicle={
@@ -607,7 +710,13 @@ mvars={}
 svars={}
 gvars={}
 
---tex merge with mock modules build from DebugIHDump
+--tex merge with mock modules built via IHTearDown
+local metafunctions={
+  __call=true,
+  __index=true,
+  __newindex=true,
+}
+
 local mockModules=require"MockModules"
 if mockModules then
   for moduleName,mockModule in pairs(mockModules)do
@@ -615,13 +724,37 @@ if mockModules then
 
     local module=_G[moduleName] or {}
     _G[moduleName]=module
+
+    local metaTable=nil
+
     for k,v in pairs(mockModule)do
       --DEBUGNOW
       if type(module)=="function" then--TODO: fix above modules that I've made functions (Application etc
         print("warning module "..moduleName.." is function")
+      elseif type(module)=="userdata" and metafunctions[k] then--DEBUGNOW KLUDGE workaround moonsharp userdata TODO can you add keys to userdata from lua in other vms?
+        
       elseif module[k]==nil then
         if v=="<function>" then
-          module[k]=function()end
+          if metafunctions[k] then
+            metaTable=metaTable or {}
+
+            if k=="__call" then
+              metaTable[k]=function(self,...)
+                return self--tex since this seems mostly used for instance creation this works ok
+              end
+            elseif k=="__index" then
+              metaTable[k]=function(self,k)
+                return rawget(self,k)--tex just do what would be done anyway
+              end
+            elseif k=="__newindex" then
+              metaTable[k]=function(self,k,v)
+                rawset(self,k,v)--tex just do what would be done anyway
+              end
+            end
+
+          else
+            module[k]=function(...)end
+          end
         elseif v=="<table>" then
           print("warning key "..k.." is table")
         else
@@ -629,5 +762,11 @@ if mockModules then
         end
       end
     end
+
+    if metaTable~=nil then
+      setmetatable(module,metaTable)
+    end
   end
+
+  
 end

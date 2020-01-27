@@ -56,7 +56,24 @@ MockUtil=require"MockUtil"
 
 dofile(mockFoxPath.."/MockFoxEngine.lua")
 
-print"parse main.lua: MockFoxEngine done"
+--tex WORKAROUND fox luas not being in working path
+LoadFile=loadfile
+loadfile=function(path)
+  if isMockFox then
+    return LoadFile(foxLuaPath..path)
+  else
+    return LoadFile(path)
+  end
+end
+
+DoFile=dofile
+dofile=function(path)
+  if isMockFox then
+    return DoFile(foxLuaPath..path)
+  else
+    return DoFile(path)
+  end
+end
 
 vars=require"vars"
 

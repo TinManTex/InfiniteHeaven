@@ -1,7 +1,7 @@
 = Infinite heaven =
-r210 - 2017-07-22
+r211 - 2017-08-02
 by tin man tex
-For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
+For MGSV version 1.10 (in title screen) 1.0.11.0 in exe
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
 
@@ -16,6 +16,14 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r211:
+Updated for mgstpp 1.0.11.0
+
+Added: itemLevelIntScope - Int-Scope level, itemLevelIDroid - Int-Scope level. Lets you set the item grade - thanks Saladin1251 for the suggestion. 
+(via Player restrictions > Item level menu)
+
+Fixed: Invisible tanks in Afghanistan freeroam sideops with vehicle patrols on. Misspelled veh_rl_east_tnk_fpkd as veh_rl_east_tank_fpkd when I renamed them back in r196 due to snakebite dictionary update. Oops - thanks pk5547 for save data and report.
+
 New for r210:
 Fixed: Quarantine platform soldiers having no weapons with custom equip table.
 Fixed: mbNpcRouteChange - 'Soldiers move between platforms' not working on initial cluster load, looks like I broke it in r208 - thanks pk5547 for save data, others for the report.

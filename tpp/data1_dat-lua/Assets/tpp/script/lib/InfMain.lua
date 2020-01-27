@@ -238,7 +238,7 @@ function this.OnInitializeTop(missionTable)
       InfCore.PCallDebug(InfSoldier.ModifyLrrpSoldiers,enemyTable.soldierDefine,this.soldierPool)
 
       InfCore.PCallDebug(InfSoldier.AddWildCards,enemyTable.soldierDefine,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
-
+      
       InfCore.PCallDebug(InfSoldier.ModMissionTableBottom,missionTable,this.emptyCpPool)--DEBUG
 
       --tex DEBUG unassign soldiers from vehicle lrrp so you dont have to chase driving vehicles
@@ -438,7 +438,7 @@ function this.ExecuteMissionFinalizeFree(missionFinalize)
 
   --tex repop count decrement for plants
   if Ivars.mbCollectionRepop:Is(1) then
-    
+
     if missionFinalize.isZoo then
       TppGimmick.DecrementCollectionRepopCount()
     elseif missionFinalize.isMotherBase then
@@ -1324,6 +1324,11 @@ function this.SetSubsistenceSettings()
     vars.playerDisableActionFlag=vars.playerDisableActionFlag+PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
   end
 
+  --tex: DEF: Player.SetItemLevel(equipId,itemGrade)
+  --itemGrade is grade as shown in idroid item development
+  --it's kind of a case by case to how the items deal with the levels and if they disable
+  
+  --tex hands have no grade 1 entry shown in dev, will disable at grade 1
   local handLevelIvars={
     Ivars.handLevelSonar,
     Ivars.handLevelPhysical,
@@ -1340,17 +1345,33 @@ function this.SetSubsistenceSettings()
     end
   end
 
+  --tex fulton does not disable at grade 0, will be overridden if wormhole grade > 0.
   if Ivars.itemLevelFulton:Is()>0 then
     --TODO: check against developed
     --REF local currentLevel=Player.GetItemLevel(equip)
     Player.SetItemLevel(Ivars.itemLevelFulton.equipId,Ivars.itemLevelFulton:Get())
   end
-
+  --tex wormhole grade 0 = disabled/use fulton grade, > 0 = enabled
   if Ivars.itemLevelWormhole:Is()>0 then
     --TODO: check against developed
     --REF local currentLevel=Player.GetItemLevel(equip)
     --tex levels = 0 off, 1 on, but since ivar uses 0 as default, shift by 1.
     Player.SetItemLevel(Ivars.itemLevelWormhole.equipId,Ivars.itemLevelWormhole:Get()-1)
+  end
+
+  --tex pretty normal grade wise (code could be merged with hands), grade 0 does not disable.
+  local itemLevelIvars={
+    Ivars.itemLevelIntScope,
+    Ivars.itemLevelIDroid,
+  }
+  for i,itemIvar in ipairs(itemLevelIvars) do
+    if itemIvar:Is()>0 then
+      --TODO: check against developed
+      --local currentLevel=Player.GetItemLevel(equip)
+      --InfCore.DebugPrint(itemIvar.name..":"..itemIvar.setting)--DEBUG
+      --tex levels = grades in dev menu, so itemlevel 0=off, but shifting since ivar 0 = dont set.
+      Player.SetItemLevel(itemIvar.equipId,itemIvar:Get())
+    end
   end
 
   if TppMission.IsSubsistenceMission()then

@@ -1,5 +1,15 @@
 Infinite Heaven changelog
 
+r211 - 2017-08-02
+Updated for mgstpp 1.0.11.0
+
+Added: itemLevelIntScope - Int-Scope level, itemLevelIDroid - Int-Scope level. Lets you set the item grade - thanks Saladin1251 for the suggestion. 
+(via Player restrictions > Item level menu)
+
+Fixed: Invisible tanks in Afghanistan freeroam sideops with vehicle patrols on. Misspelled veh_rl_east_tnk_fpkd as veh_rl_east_tank_fpkd when I renamed them back in r196 due to snakebite dictionary update. Oops - thanks pk5547 for save data and report.
+
+Commands: setSelectedObjectToMarkerClosest, setSelectedCpToMarkerClosestCp - debug shiz.
+
 r210 - 2017-07-22
 Fixed: Quarantine platform soldiers having no weapons with custom equip table.
 Fixed: mbNpcRouteChange - 'Soldiers move between platforms' not working on initial cluster load, looks like I broke it in r208 - thanks pk5547 for save data, others for the report.

@@ -815,7 +815,7 @@ this.WarpSoldierToTutorialPosition = function(soldierName)
 		0.8,
 		-10.375
 	)
-	SendCommand( gameObjectId, { id="Warp", position = pos } )
+	SendCommand( gameObjectId, { id="Warp", position = pos } )--RETAILBUG: orphan, SendCommand not localopt. no references to function anyway.
 end
 
 function this.OcelotAction()

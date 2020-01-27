@@ -1,4 +1,6 @@
---tex Built using DebugIHDump.DumpModules > GetModuleReferences
+--IHGenModuleReferences.lua
+--GENERATED
+--tex Built using IHTearDown.DumpModules > GetModuleReferences
 --is scrape of references to modules in .lua files
 local this={
   ActionIcon = {

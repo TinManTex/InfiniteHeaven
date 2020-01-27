@@ -271,6 +271,14 @@ this.ospMenu={
   }
 }
 
+this.itemLevelMenu={
+  noResetItem=true,
+  options={
+    Ivars.itemLevelIntScope,
+    Ivars.itemLevelIDroid,
+  }
+}
+
 this.handLevelMenu={
   noResetItem=true,
   options={
@@ -544,6 +552,7 @@ this.playerRestrictionsMenu={
     InfMenuDefs.markersMenu,
     InfMenuDefs.missionPrepRestrictionsMenu,
     InfMenuDefs.disableSupportMenuMenu,
+    InfMenuDefs.itemLevelMenu,
     InfMenuDefs.handLevelMenu,
     InfMenuDefs.fultonLevelMenu,
     InfMenuDefs.fultonSuccessMenu,
@@ -590,6 +599,8 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
+    InfMenuDefs.appearanceMenu,
+    Ivars.skipDevelopChecks,
     Ivars.loadAddonMission,--DEBUGNOW TEST DEBUGNOW add lang, shift to some user menu
     Ivars.ihMissionsPercentageCount,--DEBUGNOW
     Ivars.manualMissionCode,--DEBUGNOW
@@ -666,8 +677,10 @@ this.debugInMissionMenu={
     --InfMenuCommands.DEBUG_RandomizeCp,
     --InfMenuCommands.DEBUG_PrintRealizedCount,
     --InfMenuCommands.DEBUG_PrintEnemyFova,
+    InfMenuCommands.setSelectedObjectToMarkerClosest,
     Ivars.selectedCp,
-    InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
+    InfMenuCommands.setSelectedCpToMarkerObjectCp,
+    InfMenuCommands.setSelectedCpToMarkerClosestCp,
     InfMenuCommands.DEBUG_PrintCpPowerSettings,
     InfMenuCommands.DEBUG_PrintPowersCount,
     --InfMenuCommands.DEBUG_PrintCpSizes,
@@ -701,16 +714,23 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
-    InfMenuCommands.setAllZombie,
-    InfMenuCommands.checkPointSave,
-    Ivars.manualMissionCode,
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
+    InfMenuCommands.setSelectedObjectToMarkerClosest,
+    --Ivars.selectedCp,
+    --InfMenuCommands.setSelectedCpToMarkerObjectCp,
+    InfMenuCommands.setSelectedCpToMarkerClosestCp,
+    Ivars.selectedCp,
+    Ivars.warpToListObject,
+    InfMenuCommands.printLatestUserMarker,
+    InfMenuCommands.setAllZombie,
+    InfMenuCommands.checkPointSave,
+    Ivars.manualMissionCode,
     InfMenuCommands.clearLog,
     InfMenuCommands.requestHeliLzToLastMarkerAlt,
     InfMenuCommands.requestHeliLzToLastMarker,
-	  InfMenuCommands.forceExitHeliAlt,
+    InfMenuCommands.forceExitHeliAlt,
     Ivars.warpToListPosition,
     Ivars.warpToListObject,
     Ivars.setCamToListObject,
@@ -722,9 +742,6 @@ this.devInMissionMenu={
     Ivars.allowUndevelopedDDEquip,
     Ivars.skipDevelopChecks,
     InfMenuCommands.setAllFriendly,
-    Ivars.selectedCp,
-    InfMenuCommands.setSelectedCpToMarkerObjectCp,
-    InfMenuCommands.printLatestUserMarker,
     Ivars.debugValue,
     InfMenuCommands.DEBUG_PrintSoldierDefine,
     Ivars.parasitePeriod_MIN,

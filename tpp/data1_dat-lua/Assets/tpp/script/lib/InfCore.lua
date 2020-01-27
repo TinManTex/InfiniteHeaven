@@ -3,7 +3,7 @@
 local this={}
 
 --LOCALOPT
-local pcall=pcall
+local pcall=pcall                                                       
 local type=type
 local open=io.open
 local tostring=tostring
@@ -16,7 +16,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="210"
+this.modVersion="211"
 this.modName="Infinite Heaven"
 
 this.debugModule=false
@@ -429,7 +429,7 @@ end
 function this.LoadSimpleModule(path,fileName,box)
   local filePath=fileName and path..fileName or path
 
-  local moduleChunk,loadError=loadfile(filePath)
+  local moduleChunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
   if loadError then
     local doDebugPrint=this.doneStartup--WORKAROUND: InfModelRegistry setup in start.lua is too early for debugprint
     InfCore.Log("Error loading "..filePath..":"..loadError,doDebugPrint,true)
@@ -463,14 +463,11 @@ end
 --tex with external alternate
 function this.DoFile(path)
   local scriptPath=InfCore.paths.mod..path
-  if isMockFox then--tex DEBUGNOW KLUDGE doesnt have access to scripts in qar so pointing to a seperate source and reusing the ih external alternate loading (which means actual alternates in \mod\ wont be used)
-    scriptPath=foxLuaPath..path
-  end
 
   local externLoaded=false
   if InfCore.FileExists(scriptPath) then
     InfCore.Log("Found external for "..scriptPath)
-    local ModuleChunk,loadError=loadfile(scriptPath)
+    local ModuleChunk,loadError=LoadFile(scriptPath)--tex WORKAROUND Mock
     if loadError then
       InfCore.Log("Error loading "..scriptPath..":"..loadError)
     else
@@ -490,7 +487,7 @@ function this.LoadLibrary(path)
   local externLoaded=false
   if InfCore.FileExists(scriptPath) then
     InfCore.Log("Found external for "..scriptPath)
-    local ModuleChunk,loadError=loadfile(scriptPath)
+    local ModuleChunk,loadError=LoadFile(scriptPath)--tex WORKAROUND Mock
     if loadError then
       InfCore.Log("Error loading "..scriptPath..":"..loadError)
     else
@@ -722,6 +719,10 @@ else
   --tex isMockFox
   if luaHostType=="MoonSharp" then
     SetModulePaths(modulePaths)
+  end
+--tex WORKAROUND Mock
+  if not LoadFile then
+    LoadFile=loadfile
   end
 
   this.CopyFileToPrev(this.paths.saves,"ih_save",".lua")

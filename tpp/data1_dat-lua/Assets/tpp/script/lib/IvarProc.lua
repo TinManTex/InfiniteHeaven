@@ -999,7 +999,7 @@ function this.LoadSave()
   InfCore.LogFlow"IvarProc.LoadSave"
   local saveName=InfCore.saveName
   local filePath=InfCore.paths.saves..saveName
-  local ih_save_chunk,loadError=loadfile(filePath)
+  local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
   if ih_save_chunk==nil then
     --tex GOTCHA will overwrite a ih_save that exists, but failed to load (ex user edited syntax error)
     --TODO back up exising save in this case
@@ -1009,7 +1009,7 @@ function this.LoadSave()
       local saveTextList=this.BuildSaveText(InfCore.modVersion,false,true,true)
       --InfCore.PrintInspect(evarsTextList)
       this.WriteSave(saveTextList,saveName)
-      ih_save_chunk,loadError=loadfile(filePath)
+      ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
     end
   end
 

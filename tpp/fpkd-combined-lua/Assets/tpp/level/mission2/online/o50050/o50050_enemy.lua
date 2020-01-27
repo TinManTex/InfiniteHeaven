@@ -6,7 +6,6 @@
 local this = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
-local NULL_ID=GameObject.NULL_ID--RETAILBUG NULL_ID was not defined wtf.
 
 this.requires = {}
 
@@ -482,6 +481,8 @@ this.SearchingDefencePlayer = function()
 		
 		TppUI.ShowAnnounceLog( "updateMap" )
 
+		
+		
 		GkEventTimerManager.StartRaw(TIMER_NAME_PERMIT_SEARCHING_DEFENDER, mvars.numSearchingDefenceTime )
 	end
 end
@@ -710,6 +711,22 @@ end
 
 this.OnAllocate = function()
 	this.GetRouteSetPriority = mtbs_enemy.GetRouteSetPriority
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
 
 function this.Messages()
@@ -786,18 +803,22 @@ function this._SetupReinforce( clusterId, sortieSoldierNum )
 	end
 	local canSortieStaffList = mtbs_enemy.GetSecurityStaffIdList(clusterId)
 	local reinforceCount = #canSortieStaffList - svars.fobUsedStaffNum
+
+	
 	local maxReinforceCountFromSecurityRank = this._GetMaxRespawnSoldierNum()
+	
+	if TppNetworkUtil.IsEnableFobDeployDamage() then
+		local damageParams = TppNetworkUtil.GetFobDeployDamageParams()
+		Fox.Log("FobDeployDamage down reinforceCount: dowm:".. tostring(damageParams.reinforce) .."%" )
+		if damageParams.reinforce > 100 then
+			damageParams.reinforce = 100
+		end
+		maxReinforceCountFromSecurityRank = maxReinforceCountFromSecurityRank * ( ( 100 - damageParams.reinforce ) / 100.0 )
+	end
 	if reinforceCount > maxReinforceCountFromSecurityRank then
 		reinforceCount = maxReinforceCountFromSecurityRank
 	end
 	
-  if TppNetworkUtil.IsEnableFobDeployDamage() then--RETAILPATCH 1090
-    local damageParams = TppNetworkUtil.GetFobDeployDamageParams()
-    if ( damageParams.reinforce > 0 ) then
-      Fox.Log("FobDeployDamage no reinforce!!")
-      reinforceCount = 0
-    end
-  end--<
 	Fox.Log("SetupReinforceNum:" ..tostring(reinforceCount) )
 	local cpId = { type="TppCommandPost2" } 
 	local command = { id = "SetFOBReinforceCount", count=reinforceCount }
@@ -936,7 +957,7 @@ this.SpawnParasite = function ()
 	
 	local params, combatGrade = this.GetDifficultyParasite()
 	GameObject.SendCommand( { type="TppParasite2" }, { id="SetParameters", params=params } ) 
-  GameObject.SendCommand(--RETAILPATCH 1090 vars renamed
+	GameObject.SendCommand(
     { type="TppParasite2" },
     {
       id="SetCombatGrade",
@@ -946,7 +967,8 @@ this.SpawnParasite = function ()
       offenseGrade = combatGrade.offenseGrade,
       defenseGrade = combatGrade.defenseGrade,
     }
-  )--<
+	)
+
 	
 	local clusterId = MotherBaseStage.GetFirstCluster() + 1
 	local posSpotList, rotSpotY = mtbs_cluster.GetPosAndRotY_FOB( TppDefine.CLUSTER_NAME[o50050_sequence.currentClusterSetting.numClstId], "plnt0", {0,0,0}, 0 )
@@ -957,7 +979,7 @@ end
 
 this.GetDifficultyParasite = function ()
 	Fox.Log("***** this.GetDifficultyParasite *****")
-	local combatGrade = TppNetworkUtil.GetEventFobSkullsParam()--RETAILPATCH 1090 was hard coded table
+	local combatGrade = TppNetworkUtil.GetEventFobSkullsParam()
   if ( Tpp.IsQARelease() or DEBUG ) then
     Tpp.DEBUG_DumpTable( combatGrade )
   end

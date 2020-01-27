@@ -381,8 +381,8 @@ this.bodyInfo={
   --no head, but has trouble with soldierface system, eyes missing
   MSF_MEDIC={--DDS0_MAIN2
     bodyIds={
-      --tex default/no set fova = no gloves
-      --1,--TODO need a no-fova
+    --tex default/no set fova = no gloves
+    --1,--TODO need a no-fova
     --TODO: add to TppEnemyBodyId
     --surgical gloves, clean > increasing bloodyness
     --      406,--dds0_main2_v01
@@ -613,6 +613,84 @@ this.bodyInfo={
     },
     partsPath="/Assets/tpp/parts/chara/dlf/dlf0_enem0_def_f_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT,
+    soldierSubType="DD_FOB",
+  },
+  SWIMWEAR2={--GOB SUIT Goblin Suit
+    bodyIds={
+      TppEnemyBodyId.dlg_enem0_def,
+      TppEnemyBodyId.dlg_enem1_def,
+      TppEnemyBodyId.dlg_enem2_def,
+      TppEnemyBodyId.dlg_enem3_def,
+      TppEnemyBodyId.dlg_enem4_def,
+      TppEnemyBodyId.dlg_enem5_def,
+      TppEnemyBodyId.dlg_enem6_def,
+      TppEnemyBodyId.dlg_enem7_def,
+      TppEnemyBodyId.dlg_enem8_def,
+      TppEnemyBodyId.dlg_enem9_def,
+      TppEnemyBodyId.dlg_enem10_def,
+      TppEnemyBodyId.dlg_enem11_def,
+    },
+    partsPath="/Assets/tpp/parts/chara/dlg/dlg1_enem0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit2.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT2,
+    soldierSubType="DD_FOB",
+  },
+  SWIMWEAR2_FEMALE={
+    gender="FEMALE",
+    bodyIds={
+      TppEnemyBodyId.dlg_enef0_def,
+      TppEnemyBodyId.dlg_enef1_def,
+      TppEnemyBodyId.dlg_enef2_def,
+      TppEnemyBodyId.dlg_enef3_def,
+      TppEnemyBodyId.dlg_enef4_def,
+      TppEnemyBodyId.dlg_enef5_def,
+      TppEnemyBodyId.dlg_enef6_def,
+      TppEnemyBodyId.dlg_enef7_def,
+      TppEnemyBodyId.dlg_enef8_def,
+      TppEnemyBodyId.dlg_enef9_def,
+      TppEnemyBodyId.dlg_enef10_def,
+      TppEnemyBodyId.dlg_enef11_def,
+    },
+    partsPath="/Assets/tpp/parts/chara/dlg/dlg0_enem0_def_f_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit2.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT2,
+    soldierSubType="DD_FOB",
+  },
+  SWIMWEAR3={--MEG SUIT Megalodon Suit
+    bodyIds={
+      TppEnemyBodyId.dlh_enem0_def,
+      TppEnemyBodyId.dlh_enem1_def,
+      TppEnemyBodyId.dlh_enem2_def,
+      TppEnemyBodyId.dlh_enem3_def,
+      TppEnemyBodyId.dlh_enem4_def,
+      TppEnemyBodyId.dlh_enem5_def,
+      TppEnemyBodyId.dlh_enem6_def,
+      TppEnemyBodyId.dlh_enem7_def,
+      TppEnemyBodyId.dlh_enem8_def,
+      TppEnemyBodyId.dlh_enem9_def,
+      TppEnemyBodyId.dlh_enem10_def,
+      TppEnemyBodyId.dlh_enem11_def,
+    },
+    partsPath="/Assets/tpp/parts/chara/dlh/dlh1_enem0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit3.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT3,
+    soldierSubType="DD_FOB",
+  },
+  SWIMWEAR3_FEMALE={
+    gender="FEMALE",
+    bodyIds={
+      TppEnemyBodyId.dlh_enef0_def,
+      TppEnemyBodyId.dlh_enef1_def,
+      TppEnemyBodyId.dlh_enef2_def,
+      TppEnemyBodyId.dlh_enef3_def,
+      TppEnemyBodyId.dlh_enef4_def,
+      TppEnemyBodyId.dlh_enef5_def,
+      TppEnemyBodyId.dlh_enef6_def,
+      TppEnemyBodyId.dlh_enef7_def,
+      TppEnemyBodyId.dlh_enef8_def,
+      TppEnemyBodyId.dlh_enef9_def,
+      TppEnemyBodyId.dlh_enef10_def,
+      TppEnemyBodyId.dlh_enef11_def,
+    },
+    partsPath="/Assets/tpp/parts/chara/dlh/dlh0_enem0_def_f_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_swim_suit3.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SWIM_SUIT3,
     soldierSubType="DD_FOB",
   },
   PRISONER_AFGH={

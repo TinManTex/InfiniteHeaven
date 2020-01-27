@@ -354,14 +354,15 @@ end
 
 --tex for Ivars.warpToListObject
 function this.GetObjectList()
-   return{ "sol_mtbs_0000",
-    "sol_mtbs_0001",
-    "sol_mtbs_0002",
-    "sol_mtbs_0003",
-    "sol_mtbs_0004",
-    "sol_mtbs_0005",
-    }
-  
+  return {InfMenuCommands.selectedObject}
+--   return{ "sol_mtbs_0000",
+--    "sol_mtbs_0001",
+--    "sol_mtbs_0002",
+--    "sol_mtbs_0003",
+--    "sol_mtbs_0004",
+--    "sol_mtbs_0005",
+--    }
+--  
   -- return InfMain.reserveSoldierNames
   --        local travelPlan="travelArea2_01"
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
@@ -497,8 +498,8 @@ function this.ObjectNameForGameId(findId,objectType)
     end
 
   --too killer on performance to do frequencly, TODO enable on a switch 
-  --  if DebugIHStringsGameObjectNames then
-  --    local module=DebugIHStringsGameObjectNames
+  --  if IHStringsGameObjectNames then
+  --    local module=IHStringsGameObjectNames
   --    if module.lookupStrings then
   --      local objectName=this.ObjectNameForGameIdList(findId,module.lookupStrings)
   --      if objectName then
@@ -1658,9 +1659,9 @@ function this.BuildGameIdToNames()
     end
   end
 
-  if DebugIHStringsGameObjectNames and DebugIHStringsGameObjectNames.lookupStrings then
-    InfCore.Log("InfMain.OnAllocateTop: Adding DebugIHStringsGameObjectNames to InfCore.gameIdToName")
-    for i,gameObjectName in ipairs(DebugIHStringsGameObjectNames.lookupStrings)do
+  if IHStringsGameObjectNames and IHStringsGameObjectNames.lookupStrings then
+    InfCore.Log("InfMain.OnAllocateTop: Adding IHStringsGameObjectNames to InfCore.gameIdToName")
+    for i,gameObjectName in ipairs(IHStringsGameObjectNames.lookupStrings)do
       InfCore.GetGameObjectId(gameObjectName)--tex adds to gameIdToName
     end
   end
