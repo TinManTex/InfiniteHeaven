@@ -449,7 +449,8 @@ function this.GetWarpPositions()
   --return InfQuest.GetQuestPositions()
   return {
     -- {-9.945616,12.7759752,-19.8869019}
-
+	{0,0.2,0},
+	{-1854.596,  343.192,  -299.520},
     { -1629.01758,
       354.5217,
       -275.7946

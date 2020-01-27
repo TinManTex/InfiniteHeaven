@@ -1,0 +1,158 @@
+{
+    "Name": "rt_quest_hostage_0000",
+    "Nodes": [
+      {
+        "Position": {"X": 1195.245,"Y": 305.432,"Z": 2231.345},
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+          {
+            "EventType": "RelaxedIdleAct",
+            "Param1": 257,
+            "Param2": 3737518559,
+            "Param3": 1181.110,
+            "Param4": 303.832,
+            "Param5": 2233.910,
+            "Param6": 0,
+            "Param7": 496717012,
+            "Param8": 0,
+            "Param9": 0,
+            "Param10": 0,
+          }
+        ]
+      },
+
+      {
+        "Position": {"X": 1225.306,"Y": 302.525,"Z": 2243.088},
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+        ]
+      },
+
+      {
+        "Position": {"X": 1245.012,"Y": 297.882,"Z": 2229.541},
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+        ]
+      },
+
+            {
+        "Position": {"X": 1245.697,"Y": 291.301,"Z": 2199.802},
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+          {
+            "EventType": "RelaxedIdleAct",
+            "Param1": 257,
+            "Param2": 3214082527,
+            "Param3": 1234.008,
+            "Param4": 291.061,
+            "Param5": 2188.364,
+            "Param6": 0,
+            "Param7": 496717012,
+            "Param8": 0,
+            "Param9": 0,
+            "Param10": 0,
+          }
+        ]
+      },
+
+      {
+        "Position": {"X": 1272.029,"Y": 298.039,"Z": 2161.088},
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+        ]
+      },
+
+      {
+        "Position": {"X": 1278.679,"Y": 301.582,"Z": 2136.591},
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 0,
+          "Param2": 0,
+          "Param3": 0,
+          "Param4": 0,
+          "Param5": 0,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+          {
+            "EventType": "RelaxedIdleAct",
+            "Param1": 257,
+            "Param2": 3214082527,
+            "Param3": 1290.584,
+            "Param4": 301.760,
+            "Param5": 2125.444,
+            "Param6": 0,
+            "Param7": 496717012,
+            "Param8": 0,
+            "Param9": 0,
+            "Param10": 0,
+          }
+        ]
+      },
+
+    ]
+  }

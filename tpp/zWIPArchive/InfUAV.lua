@@ -5,8 +5,8 @@ local this={}
 local SendCommand=GameObject.SendCommand
 
 this.packages={
-  "/Assets/tpp/pack/mission2/ih/ih_uav.fpk",--DEBUGWIP
-  "/Assets/tpp/pack/mission2/ih/ih_uav_ly013_set.fpk",--DEBUGWIP
+ -- "/Assets/tpp/pack/mission2/ih/ih_uav.fpk",--DEBUGWIP
+ -- "/Assets/tpp/pack/mission2/ih/ih_uav_ly013_set.fpk",--DEBUGWIP
 
  -- "/Assets/tpp/pack/mission2/ih/o50050_area.fpk",--DEBUGWIP
  -- "/Assets/tpp/pack/mission2/ih/o50050_area_ly013_cl00.fpk",--DEBUGWIP
@@ -56,6 +56,7 @@ function this.SetupUAV()
     --route="zzz_someroute"
     --route="rt_quest_d_0000"
     --route="rt_uav_1"
+    route="rt_quest_uav_0000"
     local developLevel=0
     developLevel=TppUav.DEVELOP_LEVEL_LMG_2
 

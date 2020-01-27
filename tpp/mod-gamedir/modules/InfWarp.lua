@@ -125,38 +125,38 @@ function this.DoControlSet(currentChecks)
 
   local didMove=false
 
-  if InfButton.OnButtonDown(InfMain.moveForwardButton)
-    or InfButton.OnButtonRepeat(InfMain.moveForwardButton) then
+  if InfButton.OnButtonDown(this.moveForwardButton)
+    or InfButton.OnButtonRepeat(this.moveForwardButton) then
     moveDir[3]=warpAmount
     didMove=true
   end
 
-  if InfButton.OnButtonDown(InfMain.moveBackButton)
-    or InfButton.OnButtonRepeat(InfMain.moveBackButton) then
+  if InfButton.OnButtonDown(this.moveBackButton)
+    or InfButton.OnButtonRepeat(this.moveBackButton) then
     moveDir[3]=-warpAmount
     didMove=true
   end
 
-  if InfButton.OnButtonDown(InfMain.moveRightButton)
-    or InfButton.OnButtonRepeat(InfMain.moveRightButton) then
+  if InfButton.OnButtonDown(this.moveRightButton)
+    or InfButton.OnButtonRepeat(this.moveRightButton) then
     moveDir[1]=-warpAmount
     didMove=true
   end
 
-  if InfButton.OnButtonDown(InfMain.moveLeftButton)
-    or InfButton.OnButtonRepeat(InfMain.moveLeftButton) then
+  if InfButton.OnButtonDown(this.moveLeftButton)
+    or InfButton.OnButtonRepeat(this.moveLeftButton) then
     moveDir[1]=warpAmount
     didMove=true
   end
 
-  if InfButton.OnButtonDown(InfMain.moveUpButton)
-    or InfButton.OnButtonRepeat(InfMain.moveUpButton) then
+  if InfButton.OnButtonDown(this.moveUpButton)
+    or InfButton.OnButtonRepeat(this.moveUpButton) then
     moveDir[2]=warpUpAmount
     didMove=true
   end
 
-  if InfButton.OnButtonDown(InfMain.moveDownButton)
-    or InfButton.OnButtonRepeat(InfMain.moveDownButton) then
+  if InfButton.OnButtonDown(this.moveDownButton)
+    or InfButton.OnButtonRepeat(this.moveDownButton) then
     moveDir[2]=-warpAmount
     didMove=true
   end

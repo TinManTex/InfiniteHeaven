@@ -55,7 +55,7 @@ this.QUEST_CATEGORIES={
   "ADDON_QUEST",--tex meta category
 }
 this.QUEST_CATEGORIES_ENUM=TppDefine.Enum(this.QUEST_CATEGORIES)
---NMC: see http://wiki.tesnexus.com/index.php/Mission_codes#Side_Op_mission_codes (match with quest id after the q in questname below ex questName="ruins_q19010" = 19010
+--NMC: see http://metalgearmodding.wikia.com/wiki/MissionCodes#Side_Ops.2FQuests (match with quest id after the q in questname below ex questName="ruins_q19010" = 19010
 --actual GetQuestNameId. lang ids for quests are name_<questId>, info_<questId>
 --index preceding the info (ie --[[001]]) is the sideop number in idroid
 --tex added categories-v-
@@ -403,7 +403,7 @@ local questEmblems={
   sovietBase_q99030={"word122","word123","word124","word125","word126"},
   tent_q99040={"word78","word79","word87","word91"}
 }
-local RENsetLockedTanQuests={"quest_q20015","quest_q20085","quest_q20205","quest_q20705","quest_q20095"}
+local setLockedTanQuests={"quest_q20015","quest_q20085","quest_q20205","quest_q20705","quest_q20095"}
 local canOpenQuestChecks={}
 function canOpenQuestChecks.waterway_q99010()
   return TppStory.IsOccuringBossQuiet()
@@ -1361,10 +1361,10 @@ function this.SetNextQuestStep(questStep)
     return
   end
   if this.IsInvoking()then
-    local e=this.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
-    local OnLeave=e.OnLeave
+    local questStepTable=this.GetQuestStepTable(gvars.qst_currentQuestStepNumber)
+    local OnLeave=questStepTable.OnLeave
     if IsTypeFunc(OnLeave)then
-      OnLeave(e)
+      OnLeave(questStepTable)
     end
   end
   gvars.qst_currentQuestStepNumber=stepNumber
@@ -1445,7 +1445,7 @@ function this.Clear(questName)
   TppMission.SetPlayRecordClearInfo()--RETAILPATCH 1070
   TppChallengeTask.RequestUpdate"SIDEOPS"--RETAILPATCH 1070
   TppUiCommand.SetSideOpsListUpdate()
-  for n,name in ipairs(RENsetLockedTanQuests)do
+  for n,name in ipairs(setLockedTanQuests)do
     if questName==name then
       TppMotherBaseManagement.SetLockedTanFlag{locked=false}
       return
@@ -2552,7 +2552,7 @@ function this.UpdateActiveQuest(updateFlags)
     gvars.qst_failedIndex[i]=-1
   end
   TppUiCommand.SetSideOpsListUpdate()
-  for i,questName in ipairs(RENsetLockedTanQuests)do
+  for i,questName in ipairs(setLockedTanQuests)do
     if gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[questName]]==true then
       TppMotherBaseManagement.SetLockedTanFlag{locked=true}
       return
@@ -2763,25 +2763,25 @@ function this.MakeQuestStepMessageExecTable()
   if not IsTypeTable(mvars.qst_questStepTable)then
     return
   end
-  for t,e in pairs(mvars.qst_questStepTable)do
-    local t=e.Messages
-    if IsTypeFunc(t)then
-      local t=t(e)
-      e._messageExecTable=Tpp.MakeMessageExecTable(t)
+  for n,questStepTable in pairs(mvars.qst_questStepTable)do
+    local Messages=questStepTable.Messages
+    if IsTypeFunc(Messages)then
+      local messagesTable=Messages(questStepTable)
+      questStepTable._messageExecTable=Tpp.MakeMessageExecTable(messagesTable)
     end
   end
 end
-function this.GetQuestStepTable(questStep)
+function this.GetQuestStepTable(questStepNumber)
   if mvars.qst_questStepList==nil then
     return
   end
-  local e=mvars.qst_questStepList[questStep]
-  if e==nil then
+  local questStep=mvars.qst_questStepList[questStepNumber]
+  if questStep==nil then
     return
   end
-  local e=mvars.qst_questStepTable[e]
-  if e~=nil then
-    return e
+  local questStepTable=mvars.qst_questStepTable[questStep]
+  if questStepTable~=nil then
+    return questStepTable
   else
     return
   end
@@ -2922,11 +2922,11 @@ function this.CanOpenSideOpsList()
   if TppMission.IsFOBMission(vars.missionCode)then
     return false
   end
-  local e={10033,10036,10043}
-  return(TppStory.GetClearedMissionCount(e)>=1)or(gvars.str_storySequence>TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE)
+  local clearMissions={10033,10036,10043}
+  return(TppStory.GetClearedMissionCount(clearMissions)>=1)or(gvars.str_storySequence>TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE)
 end
-function this.StartElapsedEvent(e)
-  gvars.qst_elapseCount=e
+function this.StartElapsedEvent(countDown)
+  gvars.qst_elapseCount=countDown
 end
 function this.GetElapsedCount()--RETAILPATCH: 1060
   return gvars.qst_elapseCount
@@ -2956,45 +2956,45 @@ function this.DecreaseElapsedClearCount(questName)
 end
 function this.PlayClearRadio(clearSideOpsName)
   if Tpp.IsNotAlert()then
-    local e=TppStory.GetForceMBDemoNameOrRadioList("clearSideOps",{clearSideOpsName=clearSideOpsName})
-    if e then
-      TppRadio.Play(e)
+    local playName=TppStory.GetForceMBDemoNameOrRadioList("clearSideOps",{clearSideOpsName=clearSideOpsName})
+    if playName then
+      TppRadio.Play(playName)
       return true
     end
   end
   return false
 end
-function this.GetClearKeyItem(t)
-  for e,dataBaseId in pairs(keyItems)do
-    if e==t then
+function this.GetClearKeyItem(questName)
+  for itemQuestName,dataBaseId in pairs(keyItems)do
+    if itemQuestName==questName then
       TppTerminal.AcquireKeyItem{dataBaseId=dataBaseId,isShowAnnounceLog=true}
-      for t,n in pairs(questPhotos)do
-        if e==t then
-          TppUI.ShowAnnounceLog("quest_get_photo",n)
+      for photoQuestName,photoLangId in pairs(questPhotos)do
+        if itemQuestName==photoQuestName then
+          TppUI.ShowAnnounceLog("quest_get_photo",photoLangId)
         end
       end
     end
   end
 end
-function this.GetClearEmblem(e)
-  local e=questEmblems[e]
-  if e then
-    for t,e in ipairs(e)do
-      TppEmblem.Add(e,false,true)
+function this.GetClearEmblem(questName)
+  local emblems=questEmblems[questName]
+  if emblems then
+    for i,emblem in ipairs(emblems)do
+      TppEmblem.Add(emblem,false,true)
     end
   end
 end
 function this.GetClearCassette(questName)
-  local n={"outland_q20913","lab_q20914","tent_q20910","sovietBase_q20912","fort_q20911"}
-  local a={{"tp_m_10160_06"},{"tp_m_10160_07"},{"tp_m_10160_08"},{"tp_m_10160_09","tp_m_10160_10"}}
+  local cassetteQuests={"outland_q20913","lab_q20914","tent_q20910","sovietBase_q20912","fort_q20911"}
+  local cassetes={{"tp_m_10160_06"},{"tp_m_10160_07"},{"tp_m_10160_08"},{"tp_m_10160_09","tp_m_10160_10"}}
   if(((questName=="outland_q20913"or questName=="lab_q20914")or questName=="tent_q20910")or questName=="sovietBase_q20912")or questName=="fort_q20911"then
-    local t=0
-    for a,n in ipairs(n)do
-      if this.IsCleard(n)then
-        t=t+1
+    local completedCasseteQuests=0
+    for i,questName in ipairs(cassetteQuests)do
+      if this.IsCleard(questName)then
+        completedCasseteQuests=completedCasseteQuests+1
       end
     end
-    local cassetteList=a[t]
+    local cassetteList=cassetes[completedCasseteQuests]
     if cassetteList then
       TppCassette.Acquire{cassetteList=cassetteList,isShowAnnounceLog=true}
     end
@@ -3198,9 +3198,9 @@ function this.StartShootingPractice()
   TppSoundDaemon.PostEvent"sfx_m_tra_tgt_get_up_alot"
   Player.SetInfiniteAmmoFromScript(true)
 end
-function this.OnFinishShootingPractice(clearType,n)
-  if clearType or n then
-    this.ProcessFinishShootingPractice(clearType,n)
+function this.OnFinishShootingPractice(clearType,canceled)
+  if clearType or canceled then
+    this.ProcessFinishShootingPractice(clearType,canceled)
   end
   Player.SetInfiniteAmmoFromScript(false)
   mvars.qst_isShootingPracticeStarted=false
@@ -3217,7 +3217,7 @@ function this.IsShootingPracticeActivated()
   end
   return true
 end
-function this.ProcessFinishShootingPractice(clearType,cancelPractice)
+function this.ProcessFinishShootingPractice(clearType,canceled)
   this.UpdateShootingPracticeUi()
   TppUiStatusManager.SetStatus("DisplayTimer","STOP_VISIBLE")
   this.StartSafeTimer("TimerShootingPracticeEnd",8)
@@ -3226,7 +3226,7 @@ function this.ProcessFinishShootingPractice(clearType,cancelPractice)
     f30050_sequence.PlayMusicFromQuietRoom()
     mvars.isShootingPracticeInMedicalStopMusicFromQuietRoom=false
   end
-  if cancelPractice then
+  if canceled then
     TppGimmick.EndQuestShootingPractice(TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY)
     TppGimmick.SetQuestShootingPracticeTargetInvisible()
   else

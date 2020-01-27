@@ -1,5 +1,5 @@
 = Infinite heaven =
-r228 - 2018-04-16
+r229 - 2018-04-21
 by tin man tex
 For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
@@ -16,6 +16,13 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r229
+Fixed: ShowFreeCamPosition not working.
+Fixed: Add position to position list not adding free cam position when in free cam.
+Fixed: Menu could be activated during loadscreen.
+Fixed: InfMenuCommands.ToggleFreeCam > InfCamera.ToggleFreeCam for SOC quickmenu.
+Fixed: Warp mode not working and also breaking IH menu - thanks for the report.
+
 New for r228
 Fixed: IH buttons/menu responsiveness when using HighSpeedCam/TimeScaleMode - InfButtons/InfMenu using os.clock instead of Time.GetRawElapsed (which is synced to game timescale) - thanks VenomHSCV for the prod.
 InfWeather:

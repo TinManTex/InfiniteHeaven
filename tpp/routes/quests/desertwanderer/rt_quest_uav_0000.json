@@ -1,0 +1,84 @@
+{
+    "Name": "rt_quest_uav_0000",
+    "Nodes": [
+      {
+        "Position": {"X": 1107.415,"Y": 303.114,"Z": 2137.808},
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 256,
+          "Param2": 0,
+          "Param3": 1117.415,
+          "Param4": 293.114,
+          "Param5": 2147.808,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+
+        ]
+      },
+
+      {
+        "Position": {"X": 1127.415,"Y": 303.114,"Z": 2137.808},
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 256,
+          "Param2": 0,
+          "Param3": 1117.415,
+          "Param4": 293.114,
+          "Param5": 2147.808,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+        ]
+      },
+
+      {
+        "Position": {"X": 1127.415,"Y": 303.114,"Z": 2157.808},
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 256,
+          "Param2": 0,
+          "Param3": 1117.415,
+          "Param4": 293.114,
+          "Param5": 2147.808,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+        ]
+      },
+
+            {
+        "Position": {"X": 1107.415,"Y": 303.114,"Z": 2157.808},
+        "EdgeEvent": {
+          "EventType": "RelaxedWalk",
+          "Param1": 256,
+          "Param2": 0,
+          "Param3": 1117.415,
+          "Param4": 293.114,
+          "Param5": 2147.808,
+          "Param6": 0,
+          "Param7": 0,
+          "Param8": 0,
+          "Param9": 0,
+          "Param10": 0,
+        },
+        "Events": [
+
+        ]
+      },
+
+
+    ]
+  }

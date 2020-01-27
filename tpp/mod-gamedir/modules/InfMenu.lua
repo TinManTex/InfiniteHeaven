@@ -745,13 +745,13 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   --TODO NOTE controlset deactivate on game state change
-  --DEBUGNOW
-  --  if not currentChecks.inGame then
-  --    if this.menuOn then
-  --      this.MenuOff()
-  --    end
-  --    return
-  --  end
+  --DEBUGNOW this blocks SSD title, and potenially other stuff like a loading screen recovery/debug menu
+    if not currentChecks.inGame then
+      if this.menuOn then
+        this.MenuOff()
+      end
+      return
+    end
 
   if not currentChecks.inSafeSpace and not currentChecks.inMission then
     if this.menuOn then

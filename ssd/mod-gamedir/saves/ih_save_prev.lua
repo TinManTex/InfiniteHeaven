@@ -4,7 +4,7 @@
 -- See Readme for more info
 local this={}
 this.ihVer=4
-this.saveTime=1523839738
+this.saveTime=1523842869
 this.inMission=false
 this.loadToACC=false
 this.evars={
@@ -15,7 +15,6 @@ this.evars={
 	disableCommonRadio=1,
 	disableOutOfBoundsChecks=1,
 	dust_requireOxygenMask=0,
-	speedCamContinueTime=1000,
 	debugMode=1,
 	gear_Inner=8,
 	gear_Helmet=29,
@@ -24,10 +23,11 @@ this.evars={
 	demo_playList=6,
 	enableQuickMenu=1,
 	gear_Arm=11,
+	speedCamContinueTime=1000,
 	dust_forceWeather=3,
-	enableIHExt=1,
 	debugMessages=1,
 	debugOnUpdate=1,
+	enableIHExt=1,
 	speedCamWorldTimeScale=0.1,
 }
 this.igvars={

@@ -571,7 +571,7 @@
           <value x="0" y="0.978619" z="0" w="0.20568" />
         </property>
         <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
-          <value x="-1578.41248" y="354.6491" z="-286.3629" w="0" />
+          <value x="-1620.0" y="354.5217" z="-260.0" w="0" />
         </property>
       </staticProperties>
       <dynamicProperties />

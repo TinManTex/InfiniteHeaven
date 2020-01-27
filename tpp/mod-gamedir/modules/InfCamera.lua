@@ -186,6 +186,7 @@ this.WarpToCamPos=function()
   TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 end
 
+this.positions={}
 this.ShowFreeCamPosition=function()
   local currentCamName=this.GetCurrentCamName()
   local movePosition=this.ReadPosition(currentCamName)

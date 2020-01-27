@@ -2627,7 +2627,7 @@ function this.DeclareSVars(missionTable)
   end
   TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT=heliCount
   --<
-  local uavCount=0
+  local uavCount=4 --tex was 0--DEBUGNOW
   local missionId=TppMission.GetMissionID()
   if TppMission.IsFOBMission(missionId)then
     uavCount=TppDefine.MAX_UAV_COUNT
@@ -4347,17 +4347,17 @@ function this.AutoFultonRecoverNeutralizedTarget(gameId,a)
   end
 end
 --NMC no references
-function this.CheckQuestTargetOnOutOfActiveArea(n)
+function this.CheckQuestTargetOnOutOfActiveArea(unkP1Table)
   InfCore.Log("CheckQuestTargetOnOutOfActiveArea")--tex DEBUG, see RETAILBUG below
-  InfCore.PrintInspect(n)--tex DEBUG
-  if not IsTypeTable(n)then
+  InfCore.PrintInspect(unkP1Table)--tex DEBUG
+  if not IsTypeTable(unkP1Table)then
     return
   end
   local playerPosition=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
   local checkDist=10
   local distSqr=checkDist*checkDist
   local recovered=false
-  for n,n in pairs(n)do
+  for n,n in pairs(unkP1Table)do
     local gameId=GetGameObjectId(soliderName)--RETAILBUG: TODO: investigate, soldiername was undefined assume its supposed to be key name - n, but there's no lua references to this. add an debug announcelog, grab a hostage and see what happens when you go out of hotzone (reuirees a mission with one) and out of mission area (all actual missions  have them)
     if gameId~=NULL_ID then
       if CloserToPlayerThanDistSqr(distSqr,playerPosition,gameId)then
@@ -4369,7 +4369,7 @@ function this.CheckQuestTargetOnOutOfActiveArea(n)
   return recovered
 end
 --NMC no references
-function this.ChangeRouteUsingGimmick(route,a,gameId,a)
+function this.ChangeRouteUsingGimmick(route,unkP2,gameId,unkP3)
   local gimmickId=TppGimmick.GetRouteConnectedGimmickId(route)
   if(gimmickId~=nil)and TppGimmick.IsBroken{gimmickId=gimmickId}then
     local cpId
@@ -4391,14 +4391,14 @@ function this.ChangeRouteUsingGimmick(route,a,gameId,a)
   end
 end
 --No references
-function this.DisableUseGimmickRouteOnShiftChange(a,e)
-  if not IsTypeTable(e)then
+function this.DisableUseGimmickRouteOnShiftChange(unkP1GameId,unkP2Table)
+  if not IsTypeTable(unkP2Table)then
     return
   end
   if mvars.ene_usingGimmickRouteEnemyList==nil then
     return
   end
-  for t,route in pairs(e)do
+  for k,route in pairs(unkP2Table)do
     local strCodeRoute=StrCode32(route)
     local gameId=mvars.ene_usingGimmickRouteEnemyList[strCodeRoute]
     if gameId then
@@ -4407,7 +4407,7 @@ function this.DisableUseGimmickRouteOnShiftChange(a,e)
     local gimmickId=mvars.gim_routeGimmickConnectTable[StrCode32(route)]
     if(gimmickId~=nil)and TppGimmick.IsBroken{gimmickId=gimmickId}then
       local command={id="SetRouteEnabled",routes={route},enabled=false}
-      SendCommand(a,command)
+      SendCommand(unkP1GameId,command)
     end
   end
 end
@@ -4441,7 +4441,7 @@ function this.IsFemaleHostage(gameId)
   local isFemale=GameObject.SendCommand(gameId,{id="isFemale"})
   return isFemale
 end
---No references
+--NMC: No references
 function this.AddTakingOverHostage(gameId)
   local typeIndex=GameObject.GetTypeIndex(gameId)
   if(typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2)then
@@ -4482,11 +4482,12 @@ function this._AddTakingOverHostage(hostageId)
   gvars.ene_takingOverHostageFlags[takingOverHostageCount]=keepFlagValue
   gvars.ene_takingOverHostageCount=gvars.ene_takingOverHostageCount+1
 end
-function this.IsNeedHostageTakingOver(e)
+--NMC: No references
+function this.IsNeedHostageTakingOver(missionCode)
   if TppMission.IsSysMissionId(vars.missionCode)then
     return false
   end
-  if TppMission.IsHelicopterSpace(e)then
+  if TppMission.IsHelicopterSpace(missionCode)then
     return false
   end
   if(TppLocation.IsAfghan()or TppLocation.IsMiddleAfrica())then
@@ -4495,6 +4496,7 @@ function this.IsNeedHostageTakingOver(e)
     return false
   end
 end
+--NMC: No references
 function this.ResetTakingOverHostageInfo()
   gvars.ene_takingOverHostageCount=0
   for e=0,TppDefine.MAX_TAKING_OVER_HOSTAGE_COUNT-1 do
@@ -4507,12 +4509,13 @@ function this.ResetTakingOverHostageInfo()
     gvars.ene_takingOverHostageFlags[e]=0
   end
 end
-function this.SpawnTakingOverHostage(n)
-  if not IsTypeTable(n)then
+--NMC: No references
+function this.SpawnTakingOverHostage(unkP1Table)
+  if not IsTypeTable(unkP1Table)then
     return
   end
-  for n,t in ipairs(n)do
-    this._SpawnTakingOverHostage(n-1,t)
+  for k,v in ipairs(unkP1Table)do
+    this._SpawnTakingOverHostage(k-1,v)
   end
 end
 function this._SpawnTakingOverHostage(t,hostageName)
@@ -4535,15 +4538,16 @@ function this._SpawnTakingOverHostage(t,hostageName)
     SendCommand(hostageId,{id="SetEnabled",enabled=false})
   end
 end
-function this.SetIgnoreTakingOverHostage(e)
-  if not IsTypeTable(e)then
+--NMC: No references
+function this.SetIgnoreTakingOverHostage(unkP1Table)
+  if not IsTypeTable(unkP1Table)then
     return
   end
   mvars.ene_ignoreTakingOverHostage=mvars.ene_ignoreTakingOverHostage or{}
-  for n,e in ipairs(e)do
-    local e=GetGameObjectId(e)
-    if e~=NULL_ID then
-      mvars.ene_ignoreTakingOverHostage[e]=true
+  for n,hostageName in ipairs(unkP1Table)do
+    local hostageId=GetGameObjectId(hostageName)
+    if hostageId~=NULL_ID then
+      mvars.ene_ignoreTakingOverHostage[hostageId]=true
     else
       return
     end
@@ -4858,6 +4862,12 @@ function this.OnActivateQuest(questTable)
     this.SetupActivateQuestHostage(questTable.hostageList)
     isQuestSetup=true
   end
+  --tex> DEBUGNOW
+  if(questTable.uavList and Tpp.IsTypeTable(questTable.uavList))and next(questTable.uavList)then
+    this.SetupActivateQuestUav(questTable.uavList)
+    isQuestSetup=true
+  end
+  --<
   if isQuestSetup==true then
     mvars.ene_isQuestSetup=true
   end
@@ -4883,13 +4893,13 @@ function this.SetupActivateQuestVehicle(vehicleList,targetList)
     mvars.ene_questVehicleList={}
     this.SpawnVehicles(vehicleList)
     --InfCore.DebugPrint"OnActivateQuest vehicleList"--DEBUG
-    for a,vehicleInfo in ipairs(vehicleList)do
+    for i,vehicleInfo in ipairs(vehicleList)do
       if vehicleInfo.locator then
         local command={id="Despawn",locator=vehicleInfo.locator}
         table.insert(mvars.ene_questVehicleList,command)
       end
-      for a,t in ipairs(targetList)do
-        if vehicleInfo.locator==t then
+      for j,locator in ipairs(targetList)do
+        if vehicleInfo.locator==locator then
           this.SetQuestEnemy(vehicleInfo.locator,true)
           TppMarker.SetQuestMarker(vehicleInfo.locator)
         else
@@ -5137,6 +5147,7 @@ function this.SetupActivateQuestHostage(hostageList)
         hostageId=GameObject.GetGameObjectId(hostageId)
       end
       if hostageId==NULL_ID then
+        InfCore.Log("WARNING: TppEnemy.SetupActivateQuestHostage: could not find game object for "..tostring(hostageInfo.hostageName))--tex DEBUG
       else
         if mvars.ene_isQuestSetup==false then
           if(hostageInfo.staffTypeId or hostageInfo.skill)or hostageInfo.uniqueTypeId then
@@ -5191,8 +5202,14 @@ function this.SetupActivateQuestHostage(hostageList)
           if hostageInfo.path then
             GameObject.SendCommand(hostageId,{id="SpecialAction",action="PlayMotion",path=hostageInfo.path,autoFinish=false,enableMessage=true,commandId=StrCode32"CommandA",enableGravity=false,enableCollision=false})
           end
+          --tex>
+          if hostageInfo.route_d then
+            GameObject.SendCommand(hostageId,{id="SetSneakRoute",route=hostageInfo.route_d,})
+          end
+          --<
           this.SetQuestEnemy(hostageId,false)
-        end
+        end-- if questSetup false
+
         if(hostageInfo.bodyId or hostageInfo.faceId)or hostageInfo.isFaceRandom then
           local faceId=hostageInfo.faceId or false
           local bodyId=hostageInfo.bodyId or false
@@ -5217,6 +5234,35 @@ function this.SetupActivateQuestHostage(hostageList)
     end
   end
 end
+--tex>
+function this.SetupActivateQuestUav(uavList)
+  InfCore.Log("SetupActivateQuestUav ")--DEBUGNOW
+  for index,uavDef in pairs(uavList)do
+    if uavDef.name then
+      local gameId=uavDef.name
+      if IsTypeString(gameId)then
+        gameId=GameObject.GetGameObjectId(gameId)
+      end
+      if gameId==NULL_ID then
+        InfCore.Log("WARNING: TppEnemy.SetupActivateQuestUav: could not find game object for "..tostring(uavDef.name))--tex DEBUG
+      else
+        InfCore.Log("SetupActivateQuestUav "..tostring(uavDef.name))--DEBUGNOW
+        if mvars.ene_isQuestSetup==false then--tex DEBUGNOW verify if anything need to be run every call or just during setup
+          this.SetQuestEnemy(gameId,false)
+
+          SendCommand(gameId,{id="SetEnabled",enabled=true})--DEBUGNOW right place?
+          SendCommand(gameId,{id="SetPatrolRoute",route=uavDef.route_d})
+          SendCommand(gameId,{id="SetCombatRoute",route=uavDef.route_c})--tex route_c usually defines caution route, dont know if I should use route_a to indicate Alert/combat
+
+          SendCommand(gameId,{id="SetCommandPost",cp=uavDef.cpName})--tex wont init without it set to a valid cp
+          SendCommand(gameId,{id="WarpToNearestPatrolRouteNode"})
+          SendCommand(gameId,{id="SetDevelopLevel",developLevel=uavDef.developLevel})
+        end
+      end
+    end
+  end
+end
+--<
 function this.OnDeactivateQuest(questTable)
   if mvars.ene_isQuestSetup==true then
     if(questTable.vehicleList and Tpp.IsTypeTable(questTable.vehicleList))and next(questTable.vehicleList)then
@@ -5238,6 +5284,11 @@ function this.OnDeactivateQuest(questTable)
     if(questTable.hostageList and Tpp.IsTypeTable(questTable.hostageList))and next(questTable.hostageList)then
       this.SetupDeactivateQuestHostage(questTable.hostageList)
     end
+    --tex> DEBUGNOW
+    if(questTable.uavList and Tpp.IsTypeTable(questTable.uavList))and next(questTable.uavList)then
+      this.SetupDeactivateQuestUav(questTable.uavList)
+    end
+    --<
     if not mvars.qst_isMissionEnd then
       local clearType=this.CheckQuestAllTarget(questTable.questType,nil,nil,true)
       TppQuest.ClearWithSave(clearType)
@@ -5310,6 +5361,28 @@ function this.SetupDeactivateQuestHostage(hostageList)
     end
   end
 end
+--tex>
+function this.SetupDeactivateQuestUav(uavList)
+  for index,uavDef in pairs(uavList)do
+    if uavDef.name then
+      local gameId=uavDef.name
+      if IsTypeString(gameId)then
+        gameId=GameObject.GetGameObjectId(gameId)
+      end
+      if gameId==NULL_ID then
+        InfCore.Log("WARNING: TppEnemy.SetupDeactivateQuestUav: could not find game object for "..tostring(uavDef.name))--tex DEBUG
+      else
+        SendCommand(gameId,{id="SetPatrolRoute",route=""})
+        SendCommand(gameId,{id="SetCombatRoute",route=""})
+
+        SendCommand(gameId,{id="SetCommandPost",cp=""})
+        
+        SendCommand(gameId,{id="SetEnabled",enabled=false})
+      end
+    end
+  end
+end
+--<
 function this.OnTerminateQuest(questTable)
   if mvars.ene_isQuestSetup==true then
     if(questTable.vehicleList and Tpp.IsTypeTable(questTable.vehicleList))and next(questTable.vehicleList)then
@@ -5536,8 +5609,9 @@ function this.CheckDeactiveQuestAreaForceFulton()
     end
   end
 end
+
 --NMC Called from quest script on various elimination msgs, or on quest deactivate
---cant see any calls using questDeactivate or param5
+--cant see any calls using param5
 function this.CheckQuestAllTarget(questType,messageId,gameId,questDeactivate,param5)
   local clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
   local deactivating=questDeactivate or false

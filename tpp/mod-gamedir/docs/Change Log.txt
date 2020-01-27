@@ -1,5 +1,15 @@
 Infinite Heaven changelog
 
+r229 - 2018-04-21
+Fixed: Removal of some not-actually-subp subps from buildtool being too enthusiastic.
+Fixed: ShowFreeCamPosition not working.
+Fixed: Add position to position list not adding free cam position when in free cam.
+Fixed: Menu could be activated during loadscreen.
+Fixed: InfMenuCommands.ToggleFreeCam > InfCamera.ToggleFreeCam for SOC quickmenu.
+Fixed: Warp mode not working and also breaking IH menu - thanks everyone for the reports.
+TppEnemy: WIP quest support for hostage route, has issue where it wont work when reactivating quest though (leaving quest area and returning).
+TppEnemy: WIP quest support for uav setup, has crashing issue, either hitting the usual combined resources issue or it's not happy with being loaded/reloaded at runtime. uav fpk not yet in release build.
+
 r228 - 2018-04-16
 Fixed: IH buttons/menu responsiveness when using HighSpeedCam/TimeScaleMode - InfButtons/InfMenu using os.clock instead of Time.GetRawElapsed (which is synced to game timescale) - thanks VenomHSCV for the prod.
 InfWeather:

@@ -103,6 +103,7 @@ this.questList={
       {name="quest_q20095",invokeStepName="QStep_Start",isOnce=true},
       {name="citadel_q10090",invokeStepName="QStep_Start"},
       {name="quest_q22005",invokeStepName="QStep_Start"}}},
+      
   {locationId=TppDefine.LOCATION_ID.MAFR,areaName="outland",loadArea={121,124,132,150},activeArea={122,125,131,149},invokeArea={122,125,131,149},
     infoList={
       {name="outland_q20913",invokeStepName="QStep_Start",isStory=true,isOnce=true},
@@ -187,6 +188,7 @@ this.questList={
       {name="lab_q71600",invokeStepName="QStep_Start"},
       {name="lab_q60022",invokeStepName="QStep_Start",isOnce=true},
       {name="lab_q71700",invokeStepName="QStep_Start"}}},
+      
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsCommand",clusterName="Command",
     infoList={
       {name="Mtbs_child_dog",invokeStepName="QStep_Start"},

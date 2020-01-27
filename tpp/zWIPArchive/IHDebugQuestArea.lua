@@ -40,6 +40,7 @@ this.registerMenus={
 }
 
 this.debugQuestAreaMenu={
+  noDoc=true,
   parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "IHDebugQuestArea.enableDebugQuestArea",

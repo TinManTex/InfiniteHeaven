@@ -93,15 +93,33 @@ return InfCore.PCallDebug(function()--DEBUG
       --		},
       --	},
 
---      heliList = {
---        {
---          routeName		= "rt_heli_quest_spawn",
---          coloringType		= TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK,
---        },
---      },
+      --      heliList = {
+      --        {
+      --          routeName		= "rt_heli_quest_spawn",
+      --          coloringType		= TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK,
+      --        },
+      --      },
 
       hostageList = {
---        "hos_quest_0000",
+        {
+          hostageName   = "hos_quest_0000",
+          isFaceRandom  = true,
+          voiceType   = { "hostage_c", "hostage_b", },
+          langType    = "english",
+          bodyId      = TppDefine.QUEST_BODY_ID_LIST.AFGH_HOSTAGE_FEMALE,
+          -- warpPosition={pos={1195.245,307.432,2231.345},rotY=0},
+          route_d = "rt_quest_hostage_0000",
+        },
+      },
+
+      uavList={
+        {
+          name="ih_uav_0000",
+          developLevel=TppUav.DEVELOP_LEVEL_LMG_2,
+          route_d="rt_quest_uav_0000",
+          route_c="rt_quest_uav_0000",
+          cpName="quest_cp",
+        },
       },
 
       targetList = {
@@ -196,10 +214,12 @@ return InfCore.PCallDebug(function()--DEBUG
 
       InfCore.PCall(this.WarpQuestObjects)--DEBUGNOW
 
-
-      local hostageRoute="rt_quest_d_0001"
+      --DEBUGNOW
+      local hostageRoute="rt_quest_hostage_0000"
       local hostageId=GameObject.GetGameObjectId("hos_quest_0000")
-      --   GameObject.SendCommand(hostageId,{id="SetSneakRoute",route=hostageRoute,})
+
+      --DEBUGNOW GameObject.SendCommand( hostageId, { id = "SetHostage2Flag", flag = "unlocked", on = true, } )
+      --GameObject.SendCommand(hostageId,{id="SetSneakRoute",route=hostageRoute,})
 
 
       TppQuest.SetNextQuestStep( "QStep_Main" )
@@ -313,7 +333,7 @@ return InfCore.PCallDebug(function()--DEBUG
     }
     local objectNameKeys={
       vehicleList="locator",
-      hostageList="hostagName",
+      hostageList="hostageName",
     }
 
     for listName,objectList in pairs(this.QUEST_TABLE)do
@@ -322,6 +342,7 @@ return InfCore.PCallDebug(function()--DEBUG
         for i,objectInfo in ipairs(objectList)do
           if objectInfo.warpPosition then
             local objectName=objectInfo[objectNameKeys[listName]]
+            InfCore.Log("Warping "..tostring(objectName))--DEBUGNOW
             WarpFunc(objectName,objectInfo.warpPosition.pos,objectInfo.warpPosition.rotY)
           end
         end

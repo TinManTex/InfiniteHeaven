@@ -15,7 +15,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion="228"
+this.modVersion="229"
 this.modName="Infinite Heaven"
 
 this.gameId="TPP"
