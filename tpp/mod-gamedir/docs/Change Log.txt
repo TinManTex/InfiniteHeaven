@@ -1,5 +1,12 @@
 Infinite Heaven changelog
 
+r173 - 2016-08-04 - public release 
+Fixed: The selection of DD bodies being limited to one or two when that body type has a table of types.
+Fixed: Wildcard body selection for table of types.
+Added: MSF to MB DD Suits
+Fixed: More soldiers on MB plats soldier count on checkpoint reload, manifested as no soldiers on last plats and double on first.
+Fixed: Hang on motherbase checkpoint reload from InfNPC, exacerbated by above.
+
 r172 - 2016-08-03 - public release
 Extra unassigend soldiers in Africa added to lrrps.
 Freecam defaults to player position on first activate

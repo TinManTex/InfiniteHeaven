@@ -1,4 +1,4 @@
--- DOBUILD: 1
+-- DOBUILD: 0
 -- InfControlSet.lua
 local this={}
 

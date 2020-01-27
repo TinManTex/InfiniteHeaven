@@ -242,8 +242,8 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
   local cpPool=InfMain.BuildCpPool(soldierDefine)
 
   --tex GOTCHA additional count/not counting existing/lead vehicle
-  local convoySizeMin=2--TUNE DEBUGNOW
-  local convoySizeMax=5--TUNE DEBUGNOW
+  local convoySizeMin=2--TUNE
+  local convoySizeMax=5--TUNE
   if convoySizeMax>0 then
     local convoys=this.convoys[locationName]
     if convoys then

@@ -448,7 +448,7 @@ Mother Base menu
 ----------------
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep
 2: DD Equip menu
-3: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All
+3: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières
 4: DD Suit female : Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
 5: DD Head gear : Off, Current prep
 6: Female staff selection : Default, None, All available

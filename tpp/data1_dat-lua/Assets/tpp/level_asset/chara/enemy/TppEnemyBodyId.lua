@@ -151,6 +151,7 @@ local this={
   svs0_unq_v009=273,--red beret, green vest, grey top, pants
   svs0_unq_v421=274,--wood camo
   pfs0_unq_v155=275,--red beret cfa light tank shortpants fingerless gloves white hands
+  --RETAILBUG pfs and svs dds are swapped (svs is 280>289, pfs is 290>299), like a lot of bugs overlooked because it wasn't used (TppDefine.QUEST_BODY_ID_LIST was used instead)
   --lost msf soldiers mafr
   pfs0_dds0_v00=280,--MSF_01--q80060
   pfs0_dds0_v01=281,--MSF_02--q80020

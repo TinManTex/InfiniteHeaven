@@ -372,41 +372,41 @@ this.requestHeliLzToLastMarker={
   isMenuOff=true,
   OnChange=function()
     --InfInspect.TryFunc(function()--DEBUG
-      local locationName=InfMain.GetLocationName()
-      if locationName~="afgh" and locationName~="mafr" then
-        InfMenu.PrintLangId"not_for_location"
+    local locationName=InfMain.GetLocationName()
+    if locationName~="afgh" and locationName~="mafr" then
+      InfMenu.PrintLangId"not_for_location"
+      return
+    end
+
+    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    if lastMarkerIndex==nil then
+      InfMenu.PrintLangId"no_marker_found"
+    else
+      local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+      markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
+
+      local closestRoute=InfMain.GetClosestLz(markerPostion)
+      if closestRoute==nil then
+        InfMenu.PrintLangId"no_lz_found"
         return
       end
 
-      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-      if lastMarkerIndex==nil then
-        InfMenu.PrintLangId"no_marker_found"
-      else
-        local markerPostion=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-        markerPostion={markerPostion:GetX(),markerPostion:GetY(),markerPostion:GetZ()}
-
-        local closestRoute=InfMain.GetClosestLz(markerPostion)
-        if closestRoute==nil then
-          InfMenu.PrintLangId"no_lz_found"
-          return
-        end
-
-        --closestRoute=InfLZ.str32LzToLz[closestRoute]--CULL
-        if not TppLandingZone.assaultLzs[locationName] then
-          InfMenu.DebugPrint"WARNING: TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
-        end
-        local aprRoute=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
-        --InfMenu.DebugPrint("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(aprRoute))--DEBUG
-
-        local heliId=GetGameObjectId("TppHeli2","SupportHeli")
-        if heliId==NULL_ID then
-          --InfMenu.DebugPrint"heliId==NULL_ID"--DEBUG
-          return
-        end
-        SendCommand(heliId,{id="CallToLandingZoneAtName",name=aprRoute})
+      --closestRoute=InfLZ.str32LzToLz[closestRoute]--CULL
+      if not TppLandingZone.assaultLzs[locationName] then
+        InfMenu.DebugPrint"WARNING: TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
       end
+      local aprRoute=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
+      --InfMenu.DebugPrint("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(aprRoute))--DEBUG
 
-      InfMenu.MenuOff()
+      local heliId=GetGameObjectId("TppHeli2","SupportHeli")
+      if heliId==NULL_ID then
+        --InfMenu.DebugPrint"heliId==NULL_ID"--DEBUG
+        return
+      end
+      SendCommand(heliId,{id="CallToLandingZoneAtName",name=aprRoute})
+    end
+
+    InfMenu.MenuOff()
     --end)--
   end
 }
@@ -478,113 +478,110 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
+        local objectName="ih_uav_0000"
+        local gameId=GameObject.GetGameObjectId(objectName)
+
+        if gameId==GameObject.NULL_ID then
+          InfMenu.DebugPrint"gameId==GameObject.NULL_ID"
+        else
+          InfMenu.DebugPrint"found uav gameobject"
+          local route="ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_ptl_0000"
+          SendCommand( gameId, {id = "SetEnabled", enabled = true } )
+          SendCommand( gameId, {id = "SetPatrolRoute", route=route } )
+          SendCommand( gameId, {id = "SetCombatRoute", route=route } )
+          SendCommand( gameId, {id = "SetCommandPost", cp=mtbs_enemy.cpNameDefine } )
+          --SendCommand( gameId, {id = "WarpToNearestPatrolRouteNode"} )
+          SendCommand( gameId, {id = "SetDevelopLevel", developLevel = 1 } )
+        end
+
+        if true then return end
+
+        --DEBUGNOW
+        --TppUiCommand.AnnounceLogView("anlogdoop")
+
+
+        local parasiteAppearTime=math.random(8,10)
+        GkEventTimerManager.Start("Timer_ParasiteAppear",parasiteAppearTime)
+
+        InfMenu.MenuOff()
+        --
+        --        end
+        --      end
+
+        --InfEquip.CheckTppEquipTable()
+        ----------------
+        if true then return end--DEBUG
+        ------------------
+
+        local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+        if lastMarkerIndex==nil then
+          InfMenu.DebugPrint("lastMarkerIndex==nil")
+        else
+          local position=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
+
+          local moveType=PlayerMoveType.WALK
+          local direction=vars.playerCameraRotation[1]
+          local timeOut=120
+          local onlyInterpPosition=nil--if true slide player along quickly instead of animating walk
+          Player.RequestToMoveToPosition{
+            name="MoveToMarkerPosition",
+            position=position,
+            direction=direction,
+            moveType=moveType,
+            timeout=timeOut,
+            onlyInterpPosition=onlyInterpPosition,
+          }
+
+        end
+
+        --        --tex Player.RequestToMoveToPosition sets up a msg callback with name as sender
+        --        local StrCode32=Fox.StrCode32
+        --        local MOVE_TO_POSITION_RESULT={
+        --          [StrCode32"success"]="success",
+        --          [StrCode32"failure"]="failure",
+        --          [StrCode32"timeout"]="timeout"
+        --        }
+
+        --        Player = {
+        --          {
+        --            msg="FinishMovingToPosition",
+        --            sender="SomeMoveToPositionName",--sender for messages is optional but useful to narrow down things
+        --            func = function(str32Name,moveResultStr32)
+        --
+        --            end,
+        --          },
+        --        },
 
 
 
-      local objectName="ih_uav_0000"
-      local gameId=GameObject.GetGameObjectId(objectName)
-
-      if gameId==GameObject.NULL_ID then
-        InfMenu.DebugPrint"gameId==GameObject.NULL_ID"
-      else
-        InfMenu.DebugPrint"found uav gameobject"
-        local route="ly013_cl00_uav0000|cl00pl0_uq_0000_uav|rt_ptl_0000"
-        SendCommand( gameId, {id = "SetEnabled", enabled = true } )
-        SendCommand( gameId, {id = "SetPatrolRoute", route=route } )
-        SendCommand( gameId, {id = "SetCombatRoute", route=route } )
-        SendCommand( gameId, {id = "SetCommandPost", cp=mtbs_enemy.cpNameDefine } )
-        --SendCommand( gameId, {id = "WarpToNearestPatrolRouteNode"} )
-        SendCommand( gameId, {id = "SetDevelopLevel", developLevel = 1 } )
-      end
-
-      if true then return end
-
-      --DEBUGNOW
-      --TppUiCommand.AnnounceLogView("anlogdoop")
-
-
-      local parasiteAppearTime=math.random(8,10)
-      GkEventTimerManager.Start("Timer_ParasiteAppear",parasiteAppearTime)
-
-      InfMenu.MenuOff()
-      --
-      --        end
-      --      end
-
-      --InfEquip.CheckTppEquipTable()
-      ----------------
-      if true then return end--DEBUG
-      ------------------
-
-      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-      if lastMarkerIndex==nil then
-        InfMenu.DebugPrint("lastMarkerIndex==nil")
-      else
-        local position=InfUserMarker.GetMarkerPosition(lastMarkerIndex)
-
-        local moveType=PlayerMoveType.WALK
-        local direction=vars.playerCameraRotation[1]
-        local timeOut=120
-        local onlyInterpPosition=nil--if true slide player along quickly instead of animating walk
-        Player.RequestToMoveToPosition{
-          name="MoveToMarkerPosition",
-          position=position,
-          direction=direction,
-          moveType=moveType,
-          timeout=timeOut,
-          onlyInterpPosition=onlyInterpPosition,
-        }
-
-      end
-
-      --        --tex Player.RequestToMoveToPosition sets up a msg callback with name as sender
-      --        local StrCode32=Fox.StrCode32
-      --        local MOVE_TO_POSITION_RESULT={
-      --          [StrCode32"success"]="success",
-      --          [StrCode32"failure"]="failure",
-      --          [StrCode32"timeout"]="timeout"
-      --        }
-
-      --        Player = {
-      --          {
-      --            msg="FinishMovingToPosition",
-      --            sender="SomeMoveToPositionName",--sender for messages is optional but useful to narrow down things
-      --            func = function(str32Name,moveResultStr32)
-      --
-      --            end,
-      --          },
-      --        },
-
-
-
-      ----------
-      --    local statuses={
-      --      {CallMenu="INVALID"},
-      --      {PauseMenu="INVALID"},
-      --      {EquipHud="INVALID"},
-      --      {EquipPanel="INVALID"},
-      --      {CqcIcon="INVALID"},
-      --      {ActionIcon="INVALID"},
-      --      {AnnounceLog="SUSPEND_LOG"},
-      --      {AnnounceLog="INVALID_LOG"},
-      --      {BaseName="INVALID"},
-      --      {Damage="INVALID"},
-      --      {Notice="INVALID"},
-      --      {HeadMarker="INVALID"},
-      --      {WorldMarker="INVALID"},
-      --      {HudText="INVALID"},
-      --      {GmpInfo="INVALID"},
-      --      {AtTime="INVALID"},
-      --      {InfoTypingText="INVALID"},
-      --      {ResourcePanel="SHOW_IN_HELI"}
-      --    }
-      --    for o,status in pairs(statuses)do
-      --      for name,statusType in pairs(status)do
-      --        if(TppUiStatusManager.CheckStatus(name,statusType)==true)then
-      --          InfMenu.DebugPrint(string.format(" UI = %s, Status = %s",name,statusType))
-      --        end
-      --      end
-      --    end
+        ----------
+        --    local statuses={
+        --      {CallMenu="INVALID"},
+        --      {PauseMenu="INVALID"},
+        --      {EquipHud="INVALID"},
+        --      {EquipPanel="INVALID"},
+        --      {CqcIcon="INVALID"},
+        --      {ActionIcon="INVALID"},
+        --      {AnnounceLog="SUSPEND_LOG"},
+        --      {AnnounceLog="INVALID_LOG"},
+        --      {BaseName="INVALID"},
+        --      {Damage="INVALID"},
+        --      {Notice="INVALID"},
+        --      {HeadMarker="INVALID"},
+        --      {WorldMarker="INVALID"},
+        --      {HudText="INVALID"},
+        --      {GmpInfo="INVALID"},
+        --      {AtTime="INVALID"},
+        --      {InfoTypingText="INVALID"},
+        --      {ResourcePanel="SHOW_IN_HELI"}
+        --    }
+        --    for o,status in pairs(statuses)do
+        --      for name,statusType in pairs(status)do
+        --        if(TppUiStatusManager.CheckStatus(name,statusType)==true)then
+        --          InfMenu.DebugPrint(string.format(" UI = %s, Status = %s",name,statusType))
+        --        end
+        --      end
+        --    end
 
 
     end)
@@ -604,11 +601,26 @@ this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-        InfParasite.EndEvent()
+        --DEBUGNOW DEBUGNOW
+        --InfCamera.followGameId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0)
+        
+              local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+      if lastMarkerIndex==nil then
+        --InfMenu.DebugPrint("lastMarkerIndex==nil")
+        InfMenu.PrintLangId"no_marker_found"
+      else
+        --InfUserMarker.PrintUserMarker(lastMarkerIndex)
+        local gameId=vars.userMarkerGameObjId[lastMarkerIndex]
+       
+          InfCamera.SetFollowGameId(gameId)
+       InfMenu.DebugPrint(tostring(InfCamera.followGameId))
+      end
+        
+        --DEBUGNOWInfParasite.EndEvent()
 
 
         if true then return end
-        
+
         local route="lz_drp_field_I0000|rt_drp_field_I_0000"
 
         local gameObjectId=GameObject.GetGameObjectId("SupportHeli")
@@ -1264,11 +1276,11 @@ this.DEBUG_WarpToObject={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-        local objectList=InfMain.reserveSoldierNames
+        --local objectList=InfMain.reserveSoldierNames
 
         --        local travelPlan="travelArea2_01"
         --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
-        --local objectList=InfMain.ene_wildCardSoldiers
+        local objectList=InfMain.ene_wildCardSoldiers
 
         --local objectList=InfMain.truckNames
         --local objectList={"veh_trc_0000"}

@@ -268,6 +268,7 @@ this.eng={--english
     "Soviet All",
     "PF misc",
     "PF All",
+    "Militaires Sans Frontières",
   },
   revengeCustomMenu="Custom prep menu",--r117
   revengeSystemMenu="Prep system menu",

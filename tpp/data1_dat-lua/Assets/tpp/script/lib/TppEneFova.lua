@@ -39,7 +39,7 @@ local securitySwimSuitBodies={
     TppEnemyBodyId.dlf_enem10_def,
     TppEnemyBodyId.dlf_enem11_def,
   }
-}--DEBUGNOW
+}
 --<RETAILPATCH 1.10
 local prs2_main0_def_v00PartsAfghan="/Assets/tpp/parts/chara/prs/prs2_main0_def_v00.parts"
 local prs5_main0_def_v00PartsAfrica="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts"
@@ -1479,6 +1479,14 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
         GameObject.SendCommand(soldierId,{id="UseExtendParts",enabled=false})
       end
       if bodyId and type(bodyId)=="table"then
+        --tex WORKAROUND don't know what's going on here,math.random(#bodyId) is returning same number each time
+        --even though the seed is set and 'run-in' outside the function and this function is called a bunch of times in a loop
+        --so just setting seed here to something that's unique per call
+        math.randomseed(soldierId)
+        math.random()
+        math.random()
+        math.random()
+        
         bodyId=bodyId[math.random(#bodyId)]
       end
 

@@ -187,8 +187,8 @@ end
 
 function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
   --InfInspect.TryFunc(function(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)--DEBUG
-    if not currentChecks.inGame then
-      return
+  if not currentChecks.inGame then
+    return
   end
 
   if vars.missionCode~=30050 then
@@ -201,7 +201,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
 
   local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
   local clusterId=MotherBaseStage.GetCurrentCluster()+1
-
+      
   local demoName=TppDemo.GetMBDemoName()
   if demoName then
     mbDemoWasPlayed=true
@@ -212,24 +212,23 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     --InfMenu.DebugPrint"Update #npcList==0 aborting"--DEBUG
     return
   end
+  
+  local grade=TppLocation.GetMbStageClusterGrade(clusterId)
+  if grade==1 then
+    return
+  end
 
   if not npcSetUp then
     npcSetUp=true
-
     nextRouteTime=elapsedTime+Random(7,10)--TODO magic
-
-    for n=1,#npcList do
-      local npcName=npcList[n]
-
-      local gameId=GetGameObjectId(npcName)
-      if gameId==NULL_ID then
-      --InfMenu.DebugPrint("gameId==NULL_ID")
-      else
-
-      end
-      --<for npc list
-    end
-    --<if not set up
+--    for n=1,#npcList do
+--      local npcName=npcList[n]
+--      local gameId=GetGameObjectId(npcName)
+--      if gameId==NULL_ID then
+--      --InfMenu.DebugPrint("gameId==NULL_ID")
+--      else
+--      end
+--    end
   end
 
   if nextRouteTime<elapsedTime then
@@ -244,26 +243,26 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
       return
     end
 
-    local grade=TppLocation.GetMbStageClusterGrade(clusterId)
-    --local clusterAssetTable=TppEnemy.GetMBEnemyAssetTable(clusterId)
-
-    local lastPlat=npcPlats[npcIndex]
-    local platIndex=Random(1,grade)
-
-    local tryCount=0
-    while numSoldiersOnPlat[platIndex]>=maxSoldiersPerPlat or (platIndex==lastPlat and grade>1) do
+    local previousPlat=npcPlats[npcIndex]
+    
+    local availablePlats={}
+    for i=1,grade do
+      if numSoldiersOnPlat[i]<maxSoldiersPerPlat and i~=previousPlat then
+        availablePlats[#availablePlats+1]=i
+      end
+    end
+    
+    local platIndex=1
+    if #availablePlats>0 then
+      platIndex=availablePlats[Random(#availablePlats)]
+    else
+      --InfMenu.DebugPrint"#availablePlats==0"--DEBUG
       platIndex=Random(1,grade)
-
-      tryCount=tryCount+1
---      if tryCount>grade*4 then
---        InfMenu.DebugPrint""--DEBUGNOW
---        break
---      end
+      --return--CULL
     end
 
-
-    if lastPlat then
-      numSoldiersOnPlat[lastPlat]=numSoldiersOnPlat[lastPlat]-1
+    if previousPlat then
+      numSoldiersOnPlat[previousPlat]=numSoldiersOnPlat[previousPlat]-1
     end
     npcPlats[npcIndex]=platIndex
 

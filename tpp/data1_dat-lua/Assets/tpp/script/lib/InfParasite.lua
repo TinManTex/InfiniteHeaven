@@ -362,11 +362,10 @@ function this.ParasiteAppear()
         end
       end
 
-      --DEBUGNOW
+      --TODO VERIFY
       if mvars.ene_soldierDefine and mvars.ene_soldierDefine.quest_cp then
         SetZombies(mvars.ene_soldierDefine.quest_cp,cpPosition)
       end
-
     end
   end
 

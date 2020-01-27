@@ -1,5 +1,5 @@
 = Infinite heaven =
-r172 - 2016-08-03
+r174 - 2016-08-04
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -20,12 +20,22 @@ Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
+New for r173
+Fixed: The selection of DD bodies being limited to one or two when that body type has a table of types.
+Fixed: Wildcard body selection for table of types.
+Fixed: More soldiers on MB plats soldier count on checkpoint reload, manifested as no soldiers on last plats and double on first.
+Fixed: Hang on motherbase checkpoint reload from InfNPC, exacerbated by above.
+
+Added: MSF to MB DD Suits
+[youtube]5IPi0Kpauu8[/youtube]
+https://youtu.be/5IPi0Kpauu8
+
 New for r172
 Updated to TPP 1.10
 Extra unassigend soldiers in Africa added to lrrps.
 Freecam defaults to player position on first activate
 Added swimsuit to mb DD male,female.
-[youtube]Z_skYFSL[/youtube]
+[youtube]Z_skYFSL-EI[/youtube]
 https://youtu.be/Z_skYFSL-EI
 Added swimsuit to female wildcard soldiers suit list.
 

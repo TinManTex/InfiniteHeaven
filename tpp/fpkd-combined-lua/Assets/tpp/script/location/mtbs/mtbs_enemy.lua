@@ -244,7 +244,7 @@ end
 
 
 mtbs_enemy.soldierDefine = {
-}
+  }
 
 
 mtbs_enemy.soldierNameToCpName = {}
@@ -422,7 +422,7 @@ mtbs_enemy.SetupUAV = function ( clstID )
 
 
   isDevelopedUav, numDevelopType = mtbs_enemy._GetUavSetting()
-  
+
   for _, plntName in ipairs( mtbs_enemy.plntNameDefine ) do
 
     local plntTable = mtbs_enemy.plntParamTable[plntName]
@@ -1143,7 +1143,7 @@ mtbs_enemy.SetEnemyLocationType = function ()
   if EnemyType ~= nil then
     local gameObjectId = { type="TppSoldier2" }
 
-    --tex> the helmet model that pops off seems to be in-engine coded to soldier type (and also requires the relevant fpk), 
+    --tex> the helmet model that pops off seems to be in-engine coded to soldier type (and also requires the relevant fpk),
     --even though I override soldier type during soldier setup it's somewhere after this set command and there--DEBUGNOW
     --it also controls language, so bypassing it to keep soldier salute callouts
     if InfMain.IsDDBodyEquip() then
@@ -2075,6 +2075,9 @@ mtbs_enemy.OnActivateDemoBlock = function()
   local faceIdList = mvars.f30050_soldierFaceIdListPriority
   local normalFaceSoldierNum = #mvars.f30050_soldierFaceIdList
   local faceIdListIndex = 1
+  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+    InfMain.RandomSetToLevelSeed()
+  end--<
   for _, solName in ipairs( mvars.f30050_soldierListFovaApplyPriority[clusterId] ) do
     local faceId = faceIdList[faceIdListIndex]
     if faceId ~= nil then
@@ -2094,6 +2097,9 @@ mtbs_enemy.OnActivateDemoBlock = function()
     end
     faceIdListIndex = faceIdListIndex + 1
   end
+  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+    InfMain.RandomResetToOsTime()
+  end--<
   mtbs_enemy.SetEnableSoldierInCluster( clusterId, true )
   mvars.mbEnemy_activateClusterIdFova = clusterId
   Fox.Log("Activate: " ..tostring(clusterId))
@@ -2108,10 +2114,15 @@ mtbs_enemy.OnDeactivateDemoBlock = function(clusterId)
   end
 
   mtbs_enemy._SetAssetsTable(clusterId)
-
+  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+    InfMain.RandomSetToLevelSeed()
+  end--<
   for _, solName in ipairs( mvars.f30050_soldierListFovaApplyPriority[clusterId] ) do
     TppEneFova.ApplyMTBSUniqueSetting( GetGameObjectId("TppSoldier2", solName), 22, false , false )
   end
+  if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
+    InfMain.RandomResetToOsTime()
+  end--<
   mtbs_enemy.SetEnableSoldierInCluster( clusterId, false )
 
   local gameObjectId = { type="TppCorpse" }
@@ -2163,16 +2174,16 @@ mtbs_enemy.SetFriendly = function( )
     end
   end
   --DEBUGNOW TODO ivar, if uavs
---  for _, plntName in ipairs( mtbs_enemy.plntNameDefine ) do
---    
---    local plntTable = mtbs_enemy.plntParamTable[plntName]
---    local plntAssetsTable = plntTable.assets
---    
---    for i, uavName in ipairs( plntAssetsTable.uavList ) do
---      local gameObjectId = GameObject.GetGameObjectId( uavName )
---      SendCommand( gameObjectId, {id = "SetFriendly"} )
---    end
---  end
+  --  for _, plntName in ipairs( mtbs_enemy.plntNameDefine ) do
+  --
+  --    local plntTable = mtbs_enemy.plntParamTable[plntName]
+  --    local plntAssetsTable = plntTable.assets
+  --
+  --    for i, uavName in ipairs( plntAssetsTable.uavList ) do
+  --      local gameObjectId = GameObject.GetGameObjectId( uavName )
+  --      SendCommand( gameObjectId, {id = "SetFriendly"} )
+  --    end
+  --  end
   --DEBUGNOW
 end
 

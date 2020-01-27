@@ -94,13 +94,44 @@ this.ddBodyInfo={
     partsPath="/Assets/tpp/parts/chara/dds/dds0_main2_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_gz.fpk",
   },
-  MSF={--tex WIP shows, but combined with whatever other fpk is loaded, need to find right parts file?
-    maleBodyId=TppEnemyBodyId.pfs0_dds0_v00,--svs0_dds0_v00,--pfs0_dds0_v00,
-  --partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
-  --missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
-  --    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
-  --    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
-  --soldierSubType="PF_A",
+  --tex fova still not working right (see TppEnemyBodyId)
+  MSF_SVS={
+    --GOTCHA pfs and svs swapped due to retailbug, see TppEnemyBodyId
+    maleBodyId={
+      --tex can't actually tell any difference between the bodies
+      TppEnemyBodyId.pfs0_dds0_v00,
+      TppEnemyBodyId.pfs0_dds0_v01,
+      TppEnemyBodyId.pfs0_dds0_v02,
+      TppEnemyBodyId.pfs0_dds0_v03,
+      TppEnemyBodyId.pfs0_dds0_v04,
+      TppEnemyBodyId.pfs0_dds0_v05,
+      TppEnemyBodyId.pfs0_dds0_v06,
+      TppEnemyBodyId.pfs0_dds0_v07,
+      TppEnemyBodyId.pfs0_dds0_v08,
+      TppEnemyBodyId.pfs0_dds0_v09,
+    },
+    partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
+    noDDHeadgear=true,
+    soldierSubType="DD_FOB",
+  },
+  MSF_PFS={--tex WIP shows, but combined with whatever other fpk is loaded, need to find right parts file?
+    maleBodyId={
+      TppEnemyBodyId.svs0_dds0_v00,
+      TppEnemyBodyId.svs0_dds0_v01,
+      TppEnemyBodyId.svs0_dds0_v02,
+      TppEnemyBodyId.svs0_dds0_v03,
+      TppEnemyBodyId.svs0_dds0_v04,
+      TppEnemyBodyId.svs0_dds0_v05,
+      TppEnemyBodyId.svs0_dds0_v06,
+      TppEnemyBodyId.svs0_dds0_v07,
+      TppEnemyBodyId.svs0_dds0_v08,
+      TppEnemyBodyId.svs0_dds0_v09,
+    },
+    partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
+    missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
+    noDDHeadgear=true,
+    soldierSubType="DD_FOB",
   },
   SOVIET_BERETS={
     maleBodyId={
@@ -160,6 +191,7 @@ this.ddBodyInfo={
       TppEnemyBodyId.svs0_unq_v420,
       TppEnemyBodyId.svs0_unq_v009,
       TppEnemyBodyId.svs0_unq_v421,
+      TppEnemyBodyId.pfs0_dds0_v00,--msf
     },
     partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
@@ -216,6 +248,7 @@ this.ddBodyInfo={
       TppEnemyBodyId.pfs0_unq_v450,
       TppEnemyBodyId.pfs0_unq_v440,
       TppEnemyBodyId.pfs0_unq_v155,
+      TppEnemyBodyId.svs0_dds0_v00,--msf
     },
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",

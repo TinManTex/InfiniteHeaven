@@ -1073,9 +1073,6 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
   local bodyId
   local bodyIdTable={}
   --InfMenu.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG
-  --tex>
-
-  --<
 
   if soldierType==EnemyType.TYPE_SOVIET then
     bodyIdTable=this.bodyIdTable.SOVIET_A

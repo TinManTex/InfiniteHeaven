@@ -211,14 +211,14 @@ function this.DoControlSet(currentChecks)
   if not InfButton.ButtonDown(InfMain.resetModeButton) then--tex reusing these buttons in reset mode
     if InfButton.ButtonDown(InfMain.moveUpButton)
       or InfButton.OnButtonRepeat(InfMain.moveUpButton) then
-    moveY=moveAmount*currentMoveScale
-    didMove=true
-  end
-  if InfButton.ButtonDown(InfMain.moveDownButton)
-    or InfButton.OnButtonRepeat(InfMain.moveDownButton) then
-    moveY=-moveAmount*currentMoveScale
-    didMove=true
-  end
+      moveY=moveAmount*currentMoveScale
+      didMove=true
+    end
+    if InfButton.ButtonDown(InfMain.moveDownButton)
+      or InfButton.OnButtonRepeat(InfMain.moveDownButton) then
+      moveY=-moveAmount*currentMoveScale
+      didMove=true
+    end
   end
 
   if not currentChecks.inMenu then

@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r172"
+this.modVersion="r173"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -1926,9 +1926,9 @@ function this.AddLrrps(soldierDefine,travelPlans)
 
     numLrrps=numLrrps+1
   end
---  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
---  InfMenu.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
---  InfMenu.DebugPrint("#cpPool:"..#cpPool)--DEBUG
+  --  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
+  --  InfMenu.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
+  --  InfMenu.DebugPrint("#cpPool:"..#cpPool)--DEBUG
 
   --Fill rest. can just do straight cpDefine order since they're build randomly anyway
   --GOTACHA: doesn't honor reserve, not that I'm using it anyway
@@ -1956,8 +1956,8 @@ this.numWildCardFemales=5
 function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
   --InfInspect.TryFunc(function(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)--DEBUG
 
-  if not (Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck()) then
-    return
+    if not (Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck()) then
+      return
   end
 
   local InfEneFova=InfEneFova
@@ -2111,7 +2111,17 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
       local faceId=this.GetRandomPool(faceIdPool)
       local bodyId=EnemyFova.INVALID_FOVA_VALUE
-      if not isFemale then
+      if isFemale then
+        local bodyInfo=InfEneFova.GetCurrentWildCardBodyInfo(true)--tex female
+        if not bodyInfo or not bodyInfo.femaleBodyId then
+          InfMenu.DebugPrint("WARNING no bodyinfo for wildcard")--DEBUG
+        else
+          bodyId=bodyInfo.femaleBodyId
+          if bodyId and type(bodyId)=="table"then
+            bodyId=bodyId[math.random(#bodyId)]
+          end
+        end
+      else
         local bodyTable=InfEneFova.wildCardBodyTable[locationName]
         bodyId=bodyTable[math.random(1,#bodyTable)]
       end
@@ -2603,7 +2613,8 @@ end
 
 --caller: mtbs_enemy.OnLoad
 --TUNE
-local additionalSoldiersPerPlat=5
+-- CULL local additionalSoldiersPerPlat=5
+local maxSoldiersOnPlat=9
 
 function this.ModifyEnemyAssetTable()
   --InfInspect.TryFunc(function()--DEBUG
@@ -2624,7 +2635,7 @@ function this.ModifyEnemyAssetTable()
   local plntPrefix="plnt"
   for clusterId=1,#TppDefine.CLUSTER_NAME do
     --local clusterName=TppDefine.CLUSTER_NAME[clusterId]
-    local routeCount=0
+    local totalPlatsRouteCount=0--DEBUG
     local soldierCountFinal=0
 
     local grade=TppLocation.GetMbStageClusterGrade(clusterId)
@@ -2636,7 +2647,9 @@ function this.ModifyEnemyAssetTable()
         local platInfo=clusterAssetTable[platName]
 
         local soldierList=platInfo.soldierList
-
+--        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
+--        InfMenu.DebugPrint("cluster "..clusterId.. " "..platName.." #soldierListpre "..#soldierList)--DEBUG
+--        end--<
 
         local sneakRoutes=platInfo.soldierRouteList.Sneak[1].inPlnt
         local nightRoutes=platInfo.soldierRouteList.Night[1].inPlnt
@@ -2658,15 +2671,19 @@ function this.ModifyEnemyAssetTable()
         end
 
         local minRouteCount=math.min(#sneakRoutes,#nightRoutes)
-        routeCount=routeCount+minRouteCount
-
-        local numToAdd=math.min((minRouteCount-3)-#soldierList,additionalSoldiersPerPlat)--tex MAGIC this only really affects main plats which only have 12(-6soldiers) routes (with combined sneak/night). Rest have 15+
+        --OFF totalPlatsRouteCount=totalPlatsRouteCount+minRouteCount --DEBUG 
+        
+        --CULL local numToAdd=math.min((minRouteCount-3)-#soldierList,additionalSoldiersPerPlat)--tex MAGIC this only really affects main plats which only have 12(-6soldiers) routes (with combined sneak/night). Rest have 15+
+        local numToAdd=maxSoldiersOnPlat-#soldierList
         if numToAdd>0 then
           FillList(numToAdd,this.soldierPool,soldierList)
         end
         soldierCountFinal=soldierCountFinal+#soldierList
-        --InfMenu.DebugPrint("cluster "..clusterId.. " plat "..platName.. " minRouteCount "..minRouteCount.. " numToAdd "..numToAdd)--DEBUG
-        --InfInspect.PrintInspect(soldierList)--DEBUG
+--        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
+--          local totalRouteCount=#sneakRoutes+#nightRoutes
+--          InfMenu.DebugPrint("cluster "..clusterId.. " "..platName.. " minRouteCount "..minRouteCount.." totalRouteCount "..totalRouteCount.." numToAdd "..numToAdd.." #soldierList "..#soldierList)--DEBUG
+--          --InfInspect.PrintInspect(soldierList)--DEBUG
+--        end--<
       end
     end
 
