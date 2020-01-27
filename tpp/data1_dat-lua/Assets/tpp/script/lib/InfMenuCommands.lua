@@ -586,6 +586,7 @@ InfInspect.PrintInspect(mvars.revenge_loadedEquip)
     if index1>index1Max then
       index1=index1Min
     end
+    toggle1=not toggle1
   end
 }
 
@@ -615,7 +616,9 @@ local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
-      vars.playerFaceId=index3
+      --DEBUGNOW
+      InfInspect.PrintInspect(InfModelRegistry)
+      InfInspect.PrintInspect(quiet_modelInfo)
     end)
     InfMenu.DebugPrint("index3:"..index3)
     index3=index3+1
@@ -659,11 +662,6 @@ this.DEBUG_RandomizeAllIvars={
         vehiclePatrolEmblemType=true,
         mbShowQuietCellSigns=true,
         manualMissionCode=true,
-        playerType=true,
-        playerCamoType=true,
-        playerPartsType=true,
-        playerFaceEquipIdApearance=true,
-        playerFaceIdApearance=true,
         playerHandEquip=true,
         cpAlertOnVehicleFulton=true,
         disableQuietHumming=true,

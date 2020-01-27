@@ -5,11 +5,14 @@ projectDataPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"
 
 package.path=package.path..";./nonmgscelua/SLAXML/?.lua"
 
-package.path=package.path..";./Data1Lua/Tpp/"
+package.cpath=package.cpath..";./MockFox/?.dll"
+package.path=package.path..";./Data1Lua/Tpp/?.lua"
 package.path=package.path..";./Data1Lua/Assets/tpp/script/lib/?.lua"
 package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/afgh/?.lua"
 package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/mafr/?.lua"
 --
+
+bit=require"bit"
 
 --UTIL
 Util={}
@@ -38,7 +41,11 @@ end
 yield=function()
 end
 
-dofile("MockFoxEngine.lua")
+loadfile=function(path)
+  return loadfile(projectDataPath..path)
+end
+
+dofile("MockFox/MockFoxEngine.lua")
 
 --local init,err=loadfile("./Data1Lua/init.lua")
 --if not err then
@@ -160,7 +167,7 @@ Script.LoadLibraryAsync"/Assets/tpp/script/lib/Tpp.lua"
 --  while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
 --    yield()
 --  end
---Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
+Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
 Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"
 --Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"
 --  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
@@ -184,6 +191,23 @@ yield()
 pcall(dofile,"/Assets/tpp/ui/Script/UiRegisterInfo.lua")
 
 Script.LoadLibrary"/Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua"
+
+yield()
+do
+  local e=coroutine.create(loadfile"Tpp/Scripts/System/start2nd.lua")
+  repeat
+    coroutine.yield()
+    local a,t=coroutine.resume(e)
+    if not a then
+      error(t)
+    end
+  until coroutine.status(e)=="dead"
+end
+if TppSystemUtility.GetCurrentGameMode()=="MGO"then
+  dofile"Tpp/Scripts/System/start3rd.lua"
+end
+
+
 -------=====================
 this.requires={
   "/Assets/tpp/script/lib/TppDefine.lua",
@@ -1067,7 +1091,7 @@ local function main()
   CheckSoldierFova()
 
   --BuildFovaTypesList()
-FaceDefinitionAnalyse()
+  FaceDefinitionAnalyse()
 
   --XmlTest()
 end

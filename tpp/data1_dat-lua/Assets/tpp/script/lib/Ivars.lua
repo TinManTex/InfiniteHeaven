@@ -110,7 +110,14 @@ this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt
   local returnValue=nil
   if self.settingsTable then
     --InfMenu.DebugPrint("has settingstable")
-    local settingName=self.settings[self.setting+1]
+    local currentSetting
+    if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
+      currentSetting=self.default
+    else
+      currentSetting=self.setting
+    end
+
+    local settingName=self.settings[currentSetting+1]
     --InfMenu.DebugPrint("setting name:" .. settingName)
     local settingFunction=self.settingsTable[settingName]
 
@@ -355,6 +362,12 @@ this.debugMode={
   --  settingNames="set_switch",
   settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
   allowFob=true,
+}
+
+this.printOnBlockChange={
+  --save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 
@@ -1119,20 +1132,32 @@ this.disableFulton={
 }
 
 --tex TODO: RENAME RETRY this is OSP shiz
+local ospSlotClearSettings={
+  "OFF",
+  "EQUIP_NONE",
+}
 this.clearItems={
   save=MISSION,
-  range=this.switchRange,
+  settings=ospSlotClearSettings,
   settingNames="set_switch",
-  settingsTable={"EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None"},
+  settingsTable={
+    OFF=nil,
+    EQUIP_NONE={"EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None"},
+  },
   profile=this.subsistenceProfile,
+  GetTable=this.ReturnCurrent,
 }
 
 this.clearSupportItems={
   save=MISSION,
-  range=this.switchRange,
+  settings=ospSlotClearSettings,
   settingNames="set_switch",
-  settingsTable={{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"}},
+  settingsTable={
+    OFF=nil,
+    EQUIP_NONE={{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"}},
+  },
   profile=this.subsistenceProfile,
+  GetTable=this.ReturnCurrent,
 }
 
 this.setSubsistenceSuit={
@@ -1518,17 +1543,14 @@ this.ospWeaponProfile={
   profile=this.subsistenceProfile,
 }
 
-local weaponSlotClearSettings={
-  "OFF",
-  "EQUIP_NONE",
-}
+
 this.primaryWeaponOsp={
   save=MISSION,
   range=this.switchRange,
-  settings=weaponSlotClearSettings,
+  settings=ospSlotClearSettings,
   settingNames="weaponOspSettings",
   settingsTable={
-    OFF={},
+    OFF=nil,
     EQUIP_NONE={{primaryHip="EQP_None"}},
   },
   profile=this.ospWeaponProfile,
@@ -1537,10 +1559,10 @@ this.primaryWeaponOsp={
 this.secondaryWeaponOsp={
   save=MISSION,
   range=this.switchRange,
-  settings=weaponSlotClearSettings,
+  settings=ospSlotClearSettings,
   settingNames="weaponOspSettings",
   settingsTable={
-    OFF={},
+    OFF=nil,
     EQUIP_NONE={{secondary="EQP_None"}},
   },
   profile=this.ospWeaponProfile,
@@ -1549,10 +1571,10 @@ this.secondaryWeaponOsp={
 this.tertiaryWeaponOsp={
   save=MISSION,
   range=this.switchRange,
-  settings=weaponSlotClearSettings,
+  settings=ospSlotClearSettings,
   settingNames="weaponOspSettings",
   settingsTable={
-    OFF={},
+    OFF=nil,
     EQUIP_NONE={{primaryBack="EQP_None"}},
   },
   profile=this.ospWeaponProfile,
@@ -2613,36 +2635,36 @@ this.playerType={
   end,
   OnChange=function(self)
     InfInspect.TryFunc(function(self)--DEBUGNOW
-    local currentSetting=vars.playerType
-    local newSetting=self.settingsTable[self.setting+1]
-    if newSetting==currentSetting then
-      return
-    end
+      local currentSetting=vars.playerType
+      local newSetting=self.settingsTable[self.setting+1]
+      if newSetting==currentSetting then
+        return
+      end
 
-    if (InfFova.playerTypeGroup.VENOM[newSetting] and InfFova.playerTypeGroup.DD[currentSetting])
-      or (InfFova.playerTypeGroup.VENOM[currentSetting] and InfFova.playerTypeGroup.DD[newSetting]) then
-      --InfMenu.DebugPrint"playerTypeGroup changed"--DEBUG
-      vars.playerPartsType=0
-    end
+      if (InfFova.playerTypeGroup.VENOM[newSetting] and InfFova.playerTypeGroup.DD[currentSetting])
+        or (InfFova.playerTypeGroup.VENOM[currentSetting] and InfFova.playerTypeGroup.DD[newSetting]) then
+        --InfMenu.DebugPrint"playerTypeGroup changed"--DEBUG
+        vars.playerPartsType=0
+      end
 
-    if currentSetting==PlayerType.DD_MALE then
-      Ivars.maleFaceId:Set(vars.playerFaceId)
-    elseif currentSetting==PlayerType.DD_FEMALE then
-      Ivars.femaleFaceId:Set(vars.playerFaceId)
-    end
+      if currentSetting==PlayerType.DD_MALE then
+        Ivars.maleFaceId:Set(vars.playerFaceId)
+      elseif currentSetting==PlayerType.DD_FEMALE then
+        Ivars.femaleFaceId:Set(vars.playerFaceId)
+      end
 
-    if newSetting==PlayerType.DD_FEMALE then
-      vars.playerFaceId=Ivars.femaleFaceId:Get()
-    else
-      vars.playerFaceId=Ivars.maleFaceId:Get()
-    end
+      if newSetting==PlayerType.DD_FEMALE then
+        vars.playerFaceId=Ivars.femaleFaceId:Get()
+      else
+        vars.playerFaceId=Ivars.maleFaceId:Get()
+      end
 
-    local faceEquipInfo=InfFova.playerFaceEquipIdInfo[vars.playerFaceEquipId+1]
-    if faceEquipInfo and faceEquipInfo.playerTypes and not faceEquipInfo.playerTypes[vars.playerType] then
-      vars.playerFaceEquipId=0
-    end
+      local faceEquipInfo=InfFova.playerFaceEquipIdInfo[vars.playerFaceEquipId+1]
+      if faceEquipInfo and faceEquipInfo.playerTypes and not faceEquipInfo.playerTypes[vars.playerType] then
+        vars.playerFaceEquipId=0
+      end
 
-    vars.playerType=self.settingsTable[self.setting+1]
+      vars.playerType=self.settingsTable[self.setting+1]
     end,self)--DEBUGNOW
   end,
 }
@@ -2902,13 +2924,26 @@ this.playerFaceId={
   settingsTable={1},
   --noSettingCounter=true,
   GetSettingText=function(self)
+  return InfInspect.TryFunc(function(self)--DEBUGNOW
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       return InfMenu.LangString"only_for_dd_soldier"
     end
 
     local faceDefId=self.settingsTable[self.setting+1]
     local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
-    return "faceId:"..faceDef[1]
+    local faceId=faceDef[1]
+
+    if InfModelRegistry then
+      if InfModelRegistry.headDefinitions then
+        local headDefinitionName=InfModelRegistry.headDefinitions[faceId]
+        if headDefinitionName then
+          local headDefinition=InfModelRegistry.headDefinitions[headDefinitionName]
+          local desciption=headDefinition.description or headDefinitionName
+          return "faceId:"..faceId.." - "..desciption
+        end
+      end
+    end
+    return "faceId:"..faceId
 
       --    local faceFova=faceDef[5]
       --    local faceDecoFova=faceDef[6]
@@ -2925,6 +2960,7 @@ this.playerFaceId={
       --      faceDecoFovaInfo.description or faceDecoFovaInfo.name,
       --      hairFovaInfo.description or hairFovaInfo.name,
       --      hairDecoFovaInfo.description or hairDecoFovaInfo.name)
+      end,self)--DEBUGNOW
   end,
   OnSelect=function(self)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
@@ -3690,7 +3726,7 @@ this.adjustCameraUpdate={
     end
 
     if InfMenu.menuOn then
-      InfMain.RestoreActionFlag()--DEBGNOW only restore those that menu disables that this doesnt
+      InfMain.RestoreActionFlag()--TODO only restore those that menu disables that this doesnt
       InfMenu.menuOn=false
     end
   end,

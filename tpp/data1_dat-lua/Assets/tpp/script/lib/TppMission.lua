@@ -794,8 +794,8 @@ function this.VarSaveForMissionAbort()
     end
     gvars.hosface_groupNumber=(math.random(0,65535)*65536)+math.random(1,65535)
     TppPlayer.SavePlayerCurrentWeapons()
-    local n=TppPlayer.RestoreWeaponsFromUsingTemp()
-    if not n then
+    local restored=TppPlayer.RestoreWeaponsFromUsingTemp()
+    if not restored then
       TppPlayer.SavePlayerCurrentAmmoCount()
     end
     TppPlayer.SavePlayerCurrentItems()

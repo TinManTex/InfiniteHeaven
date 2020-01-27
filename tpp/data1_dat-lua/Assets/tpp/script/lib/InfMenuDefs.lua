@@ -529,21 +529,11 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    --    Ivars.playerFaceId,--DEBUGNOW
-    --    --InfMenuCommands.DEBUG_PrintSaveVarCount,--DEBUG
-    --    --InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
-    --    --    InfMenuCommands.DEBUG_PrintRevengePoints,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
-    --    this.appearanceMenu,--DEBUG
-    --Ivars.vehiclePatrolPaintType,
-    --Ivars.vehiclePatrolClass,
-    --Ivars.vehiclePatrolEmblemType,
-    --Ivars.forceSoldierSubType,--tex WIP DEBUG
-    --Ivars.manualMissionCode,--tex  WIP
-    --InfMenuCommands.loadMission,--tex  WIP
+    --Ivars.printOnBlockChange,
+--   InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --this.appearanceMenu,--DEBUG
     InfMenuCommands.forceGameEvent,
     this.worldMenu,
     this.playerRestrictionsMenu,
@@ -594,6 +584,7 @@ this.debugInMissionMenu={
     --InfMenuCommands.DEBUG_PrintVarsClock,
     --InfMenuCommands.showMissionCode,
     --InfMenuCommands.showMbEquipGrade,
+    Ivars.printOnBlockChange,
     InfMenuCommands.showPosition,
   --InfMenuCommands.DEBUG_ClearAnnounceLog,
   }
@@ -603,28 +594,10 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
-    --  Ivars.playerFaceIdDirect,
-
-
-
-    --Ivars.buddyChangeEquipVar,--DEBUG
-    --    InfMenuCommands.DEBUG_buddyCycleVar,--DEBUG
-    --    --    InfMenuCommands.DEBUG_buddyCycle,--DEBUG
-    --        InfMenuCommands.DEBUG_ToggleParasiteEvent,--DEBUG
-    --    --    InfMenuCommands.DEBUG_PrintNonDefaultVars,--DEBUG
-    --    --InfMenuCommands.resetAllSettingsItem,--DEBUG
     --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
-    --    --    Ivars.itemDropChance,--DEBUG
-    --    --    Ivars.playerFaceIdApearance,--DEBUG
-    --    --    InfMenuCommands.DEBUG_FovaTest,--DEBUG
-    --    --    this.appearanceMenu,--DEBUG    --
-    --    --    InfMenuCommands.DEBUG_DropItem,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-    --    Ivars.selectedChangeWeapon,--WIP DEBUG
-    --    InfMenuCommands.DEBUG_WarpToReinforceVehicle,--DEBUG
-    --    InfMenuCommands.doEnemyReinforce,--WIP
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     InfMenuCommands.requestHeliLzToLastMarker,
     InfMenuCommands.forceExitHeli,
     Ivars.warpPlayerUpdate,

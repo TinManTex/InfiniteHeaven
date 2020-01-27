@@ -1,5 +1,5 @@
 = Infinite heaven =
-r176 - 2016-08-29
+r177 - 2016-09-02
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -43,6 +43,14 @@ From the very start nearly a year ago I designed Infinite Heaven to disable its 
 Sorry to those who it has affected.
 
 I would like to thank those that reported the issue, those that offered help with testing, and most recently i-ghost and Maniac_34 for helping me test while tracking down the issue.
+
+New for r177
+Reverted: Menu only print option name on menu up/down. Too much of an anoyance for little gain.
+Fixed: Trigger game event option does not require random trigger chance settings to be enabled.
+Fixed: Incorrect ammo count after disabling OSP weapon options. May still happen after exiting real subsistence missions into free-play, but can be fixed by changing the affected weapons to different types.
+Fixed: Enemy phase modifications breaking IH menu in wargames - thanks i-ghost for the report and save file to test.
+Option: printOnBlockChange - debug option that prints on block updates.
+(via the in mission Debug stuff menu)
 
 New for r176
 Options: Appearance options

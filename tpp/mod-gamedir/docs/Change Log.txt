@@ -1,9 +1,26 @@
 Infinite Heaven changelog
 
-r176
+r177 - 2016-09-02
+Fixed: Trigger game event option does not require random trigger chance settings to be enabled.
+Fixed: Incorrect ammo count after disabling OSP weapon options. May still happen after exiting real subsistence missions into free-play, but can be fixed by changing the affected weapons to different types.
+Fixed: Enemy phase modifications breaking IH menu in wargames - thanks i-ghost for the report and save file to test.
+Option: printOnBlockChange - debug option that prints on block updates.
+Reverted: Menu option only print on menu up/down. Too much of an anoyance for little gain.
+Reverted: Config save on IH menu close, left over from r175
+WIP: Head fova mod support.
+
+r176 - 2016-08-29
+Fixed: FOB defender spawning but getting stuck with a black screen, the issue boiled down to svars definition mismatch between client/client - thanks Maniac_34 and i-ghost for helping me with testing.
+Refactor: Related to above - inf_interCpQuestStatus reworked due to it's shift from svars.
 Fixed: Buddy equip change developed check.
 Option: soldierNightSightDistScale - seperate sight scale applied to night
-
+Research: Runtime faceDefinition mod, Soldier2FaceAndBodyData, Ivar. *Fova, InfFova.ApplyFaceFova. Unfortunately SetFaceFovaDefinitionTable crashes the engine if run multiple times.
+WIP: resourceAmountScale - Resource amount scale - Since Anyones Tpp improvements mods and other resource mods conflict might as well add it so they don't have to jump through hoops.
+Refactor: DisplaySetting shifted to a message que, it doesn't help much lol
+Addition: Menu up and down now support bigger increments by holding <Fire>
+Change: Menu will only print out the option name, and not the setting while navigating up and down, the auto display shows the full text. This should cut down a little of the text printed/needing to catch up when cycling through the menu.
+Reverted: Removed fulton restriction on Invasion. The weirdness is still there, but the odd extraction count seems to be with normal extractions.
+Options:  playerType,playerPartsType,playerCamoType,playerFaceEquipId,playerFaceId. Options been there forever, just had it disabled since Threesocks mod was good enough. Now made (mostly) usernice, so user can use Hideo and Big Boss sneaking suit options as well as the FOB camos they have unlocked. Face selection still needs work, rather than having users cycle through hundreds of faces.
 Player type - Snake, Avatar, DD Male, DD Female
 Suit type - the different suits, will use the Fova lua name if the model swap has included it.
 Camo type - Cammo, if the suit supports it
@@ -11,11 +28,6 @@ Headgear - The usual mission selectable headgear. Bandanas(Snake/Avatar), Balacl
 Face - (DD soldiers only), cycle backward to the end to get the more unique faces, including Hideo. 
 The previous player headgear (cosmetic) option has been removed, the headgear is in the faces list about a quater from the end.
 (via Appearance menu in Player settings menu or in In Mission menu)
-Research: Runtime faceDefinition mod, Soldier2FaceAndBodyData, Ivar. *Fova, InfFova.ApplyFaceFova. Unfortunately SetFaceFovaDefinitionTable crashes the engine if run multiple times.
-Option: resourceAmountScale - Resource amount scale - Since Anyones Tpp improvements mods and other resource mods conflict might as well add it so they don't have to jump through hoops.
-Addition: Menu up and down now support bigger increments by holding <Fire>
-Options:  playerType,playerPartsType,playerCamoType,playerFaceEquipId,playerFaceId. Options been there forever, just had it disabled since Threesocks mod was good enough. Now made (mostly) usernice, so user can use Hideo and Big Boss sneaking suit options as well as the FOB camos they have unlocked. Face selection still needs work, rather than having users cycle through hundreds of faces.
-Reverted: Removed fulton restriction on Invasion. The weirdness is still there, but the odd extraction count seems to be with normal extractions.
 
 r175
 REVERTED

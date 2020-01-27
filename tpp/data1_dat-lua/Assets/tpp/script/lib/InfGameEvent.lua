@@ -50,7 +50,7 @@ end
 this.forceEvent=false
 function this.GenerateEvent(missionCode)
   --InfMenu.DebugPrint("GenerateEvent missionCode:"..missionCode)--DEBUG
-  if not Ivars.EnabledForMission("gameEventChance",missionCode) then
+  if not this.forceEvent and not Ivars.EnabledForMission("gameEventChance",missionCode) then
   --CULL if not eventMissions[missionCode] then
     return
   end

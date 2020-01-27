@@ -29,7 +29,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
   local vars=vars
   local mvars=mvars
 
-  if (TppLocation.IsMotherBase() or TppLocation.IsMBQF()) and Ivars.mbWarGamesProfile:Is(0) then
+  if (TppLocation.IsMotherBase() or TppLocation.IsMBQF()) and Ivars.mbHostileSoldiers:Is(0) then
     return
   end
 
@@ -42,9 +42,13 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
   local minPhase=Ivars.minPhase:Get()
   local maxPhase=Ivars.maxPhase:Get()
   local keepPhase=Ivars.keepPhase:Is(1)
-
-  local playerPosition={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
-  local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPosition)
+  
+  --tex OFF TODO: MB cppositions
+--  local playerPosition={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+--  local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPosition)
+--  if closestCp==nil then
+--    return
+--  end
 
   for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
     if #soldierList>0 then

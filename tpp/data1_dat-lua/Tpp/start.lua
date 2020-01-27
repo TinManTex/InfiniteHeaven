@@ -3,6 +3,8 @@
 --local splash=SplashScreen.Create("startstart","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_fox_logo_clp_nmp.ftex",640,640)--tex
 --SplashScreen.Show(splash,.2,1,.2)--tex
 
+Script.LoadLibrary("/Assets/tpp/script/lib/InfMessageLog.lua")--tex
+
 local function yield()
   coroutine.yield()
 end
@@ -629,6 +631,19 @@ if Script.LoadLibrary then
     Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua"
     Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"
     yield()
+    --tex>
+    Script.LoadLibrary"/Assets/tpp/script/lib/InfModelRegistry.lua"
+    yield()
+    if InfModelRegistry then
+      local commonHeadPath="/Assets/tpp/pack/fova/common_source/chara/cm_head/"
+      for i,moduleName in ipairs(InfModelRegistry)do
+        if type(moduleName)=="string"then
+          Script.LoadLibrary(moduleName..".lua")
+        end
+      end
+    end
+    yield()
+    --<
     Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua"
     yield()
   end
@@ -732,5 +747,4 @@ TppVarInit.StartInitMission()
 TppUiCommand.SetLoadIndicatorVisible(false)
 
 --local splash=SplashScreen.Create("startend","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)--tex
-
 --SplashScreen.Show(splash,.2,1,.2)--tex

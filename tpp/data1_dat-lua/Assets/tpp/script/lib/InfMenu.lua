@@ -21,8 +21,7 @@ this.currentIndex=1--tex lua tables are indexed from 1
 this.currentDepth=0
 this.lastDisplay=0
 this.lastMenuPress=0
-this.displayQueueSize=2--DEBUGNOW
-this.displayQueue={}
+this.displayQueueSize=2--OFF
 this.autoDisplayDefault=2.4
 this.autoRateHeld=0.85
 this.autoRatePressed=0.1
@@ -341,7 +340,6 @@ local itemIndicators={
 
 function this.DisplaySetting(optionIndex,optionNameOnly)
   --InfInspect.TryFunc(function(optionIndex)--DEBUG
-    --DEBUGNOW this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
     local option=this.currentMenuOptions[optionIndex]
     local settingText=""
     local settingSuffix=""
@@ -415,8 +413,9 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
     else
       message=optionIndex..":"..settingName..optionSeperator..settingText..settingSuffix
     end
-    this.QueueDisplay(message)
-    --DEBUGNOW TppUiCommand.AnnounceLogView(optionIndex..":"..settingName..optionSeperator..settingText..settingSuffix)
+    --OFF this.QueueDisplay(message)
+    TppUiCommand.AnnounceLogView(message)
+    this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
   --end,optionIndex)--DEBUG
 end
 --tex display all
@@ -428,37 +427,38 @@ end
 function this.DisplayProfileChangedToCustom(profile)
   TppUiCommand.AnnounceLogView("Profile "..this.LangString(profile.name).." set to Custom")--TODO: ADDLANG:
 end
---tex FIFO
+--tex OFF wont achieve much since the issue is with already posted log lines, and cant delay enough to filter without losing responsiveness
 function this.QueueDisplay(message,messageType)
-  if this.displayQueue[#this.displayQueue]==message then
+  if this.displayQueue[#InfMessageLog.display]==message then
     return
   end
 
   --tex kill front of queue since it will be oldest
-  if #this.displayQueue==this.displayQueueSize then
-    table.remove(this.displayQueue,1)
+  if #InfMessageLog.display==this.displayQueueSize then
+    table.remove(InfMessageLog.display,1)
   end
 
-  table.insert(this.displayQueue,message)
+  table.insert(InfMessageLog.display,message)
 end
 function this.DisplayQueue()
-  if #this.displayQueue>0 then
-    TppUiCommand.AnnounceLogView(this.displayQueue[1])
-    table.remove(this.displayQueue,1)
+  if #InfMessageLog.display>0 then
+    TppUiCommand.AnnounceLogView(InfMessageLog.display[1])
+    table.remove(InfMessageLog.display,1)
     this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
   end
 end
 function this.AutoDisplay()
   if this.autoDisplayRate > 0 then
     if Time.GetRawElapsedTimeSinceStartUp()-this.lastDisplay>this.autoDisplayRate then
-      if #this.displayQueue==0 then
+      --if #InfMessageLog.display==0 then
         this.DisplayCurrentSetting()  
-      end
+      --end
     end
   end
-  if Time.GetRawElapsedTimeSinceStartUp()-this.lastDisplay>this.autoRatePressed then
-    this.DisplayQueue()
-  end
+  --OFF
+--  if Time.GetRawElapsedTimeSinceStartUp()-this.lastDisplay>this.autoRatePressed then
+--    this.DisplayQueue()
+--  end
 end
 function this.DisplayHelpText()
   local option=this.currentMenuOptions[this.currentIndex]
@@ -678,7 +678,7 @@ end
 
 function this.OnDeactivate()
   this.PrintLangId"menu_off"--"Menu Off"
-  this.displayQueue={}
+  InfMessageLog.display={}
   --InfMain.RestoreActionFlag()
   this.DeactivateControlSet()
   InfMain.OnMenuClose()
@@ -813,12 +813,12 @@ function this.DoControlSet()
   if InfButton.OnButtonDown(this.menuUpButton)
     or InfButton.OnButtonRepeat(this.menuUpButton) then
     this.PreviousOption(incrementMod)
-    this.DisplayCurrentSetting(true)
+    this.DisplayCurrentSetting()
   end
   if InfButton.OnButtonDown(this.menuDownButton)
     or InfButton.OnButtonRepeat(this.menuDownButton) then
     this.NextOption(incrementMod)
-    this.DisplayCurrentSetting(true)
+    this.DisplayCurrentSetting()
   end
 
   local incrementMod=1

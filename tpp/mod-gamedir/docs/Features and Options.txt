@@ -25,7 +25,11 @@ Profiles - sets many related options at once. The settings affected by the profi
 
 ACC Main menu
 -------------
-1: Trigger random IH event : (Command)
+1: OSP menu
+2: DEBUG_SomeShiz : (Command)
+3: DEBUG_SomeShiz2 : (Command)
+4: DEBUG_SomeShiz3 : (Command)
+5: Trigger random IH event : (Command)
   Events are temporary custom profiles for free roam and mother base. 
   Free roam events (can stack): 
   Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
@@ -38,22 +42,34 @@ ACC Main menu
   XOF attack, 
   DD Infection outbreak, 
   Zombie Obliteration (non DD)
-2: World menu
-3: Player restrictions menu
-4: Player settings menu
-5: Soldier parameters menu
-6: Enemy phases menu
-7: Enemy Prep menu
-8: Enemy reinforcements menu
-9: Enemy patrols menu
-10: Side ops menu
-11: Mother Base menu
-12: Cutscenes menu
-13: Camera menu
-14: Time scale menu
-15: Support heli menu
-16: Debug/system menu
-17: Reset all IH settings : (Command)
+6: World menu
+7: Player restrictions menu
+8: Player settings menu
+9: Soldier parameters menu
+10: Enemy phases menu
+11: Enemy Prep menu
+12: Enemy reinforcements menu
+13: Enemy patrols menu
+14: Side ops menu
+15: Mother Base menu
+16: Cutscenes menu
+17: Camera menu
+18: Time scale menu
+19: Support heli menu
+20: Debug/system menu
+21: Reset all IH settings : (Command)
+
+
+OSP menu
+- Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it).
+--------
+1: Items OSP : Off, On
+2: Support items OSP : Off, On
+3: OSP Weapon Profile : Off, Pure - all cleared, Secondary free, Custom
+Start with no primary and secondary weapons, can be used seperately from subsistence profile
+4: Primary weapon OSP : Use selected weapon, Clear weapon
+5: Secondary weapon OSP : Use selected weapon, Clear weapon
+6: Back Weapon OSP : Use selected weapon, Clear weapon
 
 
 World menu
@@ -166,18 +182,6 @@ Disregards the success bonus from mother base medical section, in the base game 
 7: Dont apply MB medical bonus to sleeping/fainted target : Off, On
 Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.
 8: Hostage handling : Default, Must extract (0%)
-
-
-OSP menu
-- Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it).
---------
-1: Items OSP : Off, On
-2: Support items OSP : Off, On
-3: OSP Weapon Profile : Off, Pure - all cleared, Secondary free, Custom
-Start with no primary and secondary weapons, can be used seperately from subsistence profile
-4: Primary weapon OSP : Use selected weapon, Clear weapon
-5: Secondary weapon OSP : Use selected weapon, Clear weapon
-6: Back Weapon OSP : Use selected weapon, Clear weapon
 
 
 Player settings menu
@@ -630,27 +634,30 @@ appearanceDebugMenu
 
 In Mission menu
 ---------------
-1: Support heli to latest marker : (Command)
+1: DEBUG_SomeShiz : (Command)
+2: DEBUG_SomeShiz2 : (Command)
+3: DEBUG_SomeShiz3 : (Command)
+4: Support heli to latest marker : (Command)
   Requests Support heli to Landing Zone closest to the last placed user marker. 
   Can also be used to ride the support heli to another LZ if the IH menu is open and the option is selected when getting into the heli. 
   This however has an issue where the doors will close on take-off preventing you from shifting between heli sides. 
   The chaingun on the side you start on can still be used.
-2: Force exit helicopter : (Command)
+5: Force exit helicopter : (Command)
 Lets you exit the helicopter while riding it, mind the fall.
-3: Warp [Mode] : Off, On
+6: Warp [Mode] : Off, On
 Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.
-4: Camera menu
-5: Time scale menu
-6: User marker menu
-7: Buddy menu
-8: Appearance menu
-9: Markers menu
-10: Enemy phases menu
-11: Support heli menu
-12: Debug stuff menu
-13: Soldier item drop chance : 0-100%
+7: Camera menu
+8: Time scale menu
+9: User marker menu
+10: Buddy menu
+11: Appearance menu
+12: Markers menu
+13: Enemy phases menu
+14: Support heli menu
+15: Debug stuff menu
+16: Soldier item drop chance : 0-100%
 Chance soldier will drop an item when eliminated.
-14: Player life scale : 0-650%
+17: Player life scale : 0-650%
 
 
 Camera menu
@@ -786,7 +793,8 @@ Switches on some error messages and enables the announce-log during loading.
 7: DEBUG_PrintSoldierDefine : (Command)
 8: DEBUG_ShowRevengeConfig : (Command)
 9: appearanceDebugMenu
-10: Show position : (Command)
+10: printOnBlockChange : Off, On
+11: Show position : (Command)
 
 
 appearanceDebugMenu

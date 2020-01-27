@@ -1,8 +1,8 @@
 -- DOBUILD: 1
 -- Soldier2FaceAndBodyData.lua
-
+local this={}
 --face meshes
-local faceFova={
+this.faceFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v000_eye0.fpk"},--0,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v001_eye0.fpk"},--1,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_m0_h0_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_m0_h0_v002_eye0.fpk"},--2,
@@ -62,15 +62,9 @@ local faceFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fpk"},--56,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v001_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v001_eye0.fpk"},--57,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/cm_f0_h2_v002_eye0.fpk"},--58,--<
-  --WIP DEBUGNOW
---  {"/Assets/tpp/fova/common_source/chara/cm_head/face/sna0_face0_v00.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/plfova_sna0_face0_v00.fpk"},--59,--tex 
---  {"/Assets/tpp/fova/common_source/chara/cm_head/face/head_quiet.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/head_quiet.fpk"},--60 
---  {"/Assets/tpp/fova/common_source/chara/cm_head/face/head_quiet_hospital.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/head_quiet_hospital.fpk"},--61 
---  {"/Assets/tpp/fova/common_source/chara/cm_head/face/head_quiet_prisoner.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/head_quiet_prisoner.fpk"},--62 
---  {"/Assets/tpp/fova/common_source/chara/cm_head/face/head_quiet_sniper_wolf.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face/head_quiet_sniper_wolf.fpk"},--63 
 }
 --face textures
-local faceDecoFova={
+this.faceDecoFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w000_m.fpk"},--0,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w001_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w001_m.fpk"},--1,
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/cm_w002_m.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/cm_w002_m.fpk"},--2,
@@ -134,7 +128,7 @@ local faceDecoFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/face_deco/sp_face_f003.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/face_deco/sp_face_f003.fpk"},--60,--caucasian,white hair,tatoo white skull
 }
 --hair meshes
-local hairFova={
+this.hairFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c000.fpk"},--0,
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c001.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c001.fpk"},--1,
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c002.fpk"},--2,
@@ -152,7 +146,7 @@ local hairFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair/cm_hair_c107.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair/cm_hair_c107.fpk"},--14,appears to be duplicate of 13? not referenced anywhere i can see
 }
 --hair textures
-local hairDecoFova={
+this.hairDecoFova={
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c000.fpk"},--0,
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c001.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c001.fpk"},--1,
   {"/Assets/tpp/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c002.fv2","/Assets/tpp/pack/fova/common_source/chara/cm_head/hair_deco/cm_hair_c000_c002.fpk"},--2,
@@ -184,7 +178,7 @@ local hairDecoFova={
 --if TppEnemyBodyId not given it's likely the same as the fv2 file name
 --In a lot of cases TppEnemyBodyId aren't used and the bodyId is used directly
 --and in some cases the mapping is incorrect (see note on pfs0_dds0_v00 below)
-local bodyFova={
+this.bodyFova={
   --SOVIET see TppEnemy.bodyIdTable
   {"/Assets/tpp/fova/chara/svs/svs0_rfl_v00_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},--0,0,,
   {"/Assets/tpp/fova/chara/svs/svs0_rfl_v01_a.fv2","/Assets/tpp/pack/fova/chara/svs/svs0_main0_v00.fpk"},--1,1,,
@@ -467,17 +461,9 @@ local bodyFova={
   {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_v11.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v11.fpk"},   --250,404,,
   {"/Assets/tpp/fova/chara/dlf/dlf1_enem0_f_v11.fv2","/Assets/tpp/pack/fova/chara/dlf/dlf0_plym0_v11.fpk"}, --251,405,, --<
 }
-if TppSoldierFace~=nil then
-  TppSoldierFace.SetFovaFileTable{
-    faceFova={table=faceFova,maxCount=100},
-    faceDecoFova={table=faceDecoFova,maxCount=200},
-    hairFova={table=hairFova,maxCount=20},
-    hairDecoFova={table=hairDecoFova,maxCount=40},
-    bodyFova={table=bodyFova,maxCount=256}--RETAILPATCH 1.10 increased from 250
-  }
-end
+
 local no=EnemyFova.INVALID_FOVA_VALUE
-local faceDefinition={
+this.faceDefinition={
   --see TppMissionList and MbmCommonSetting (search 'faceId=') for uses
   --tex notes (NMC) (see legend line just before data below -v-)
   --unkN = unknown
@@ -931,11 +917,11 @@ local faceDefinition={
   {550,16, 0, 0,27,no,no,no,no,no, 0,""           , 0},--,,,,--Balaclava Male
   {551,16, 0, 0,28,no,no,no,no,no, 0,""           , 0},--,,,,--Balaclava Male
   {552,16, 0, 0,29,no,no,no,no,no, 0,""           , 0},--,,,,--DD armor helmet (green top) male - face ids 552,553,554 identical
-  {553,16, 0, 0,29,no,no,no,no,no, 0,""           , 0},--,,,,--DD armor helmet (green top) male 
-  {554,16, 0, 0,29,no,no,no,no,no, 0,""           , 0},--,,,,--DD armor helmet (green top) male 
+  {553,16, 0, 0,29,no,no,no,no,no, 0,""           , 0},--,,,,--DD armor helmet (green top) male
+  {554,16, 0, 0,29,no,no,no,no,no, 0,""           , 0},--,,,,--DD armor helmet (green top) male
   {555,16, 1, 0,30,no,no,no,no,no, 0,""           , 0},--,,,,--DD armor helmet (green top) female - face ids 555,556,557 identical
-  {556,16, 1, 0,30,no,no,no,no,no, 0,""           , 0},--,,,,--DD armor helmet (green top) female 
-  {557,16, 1, 0,30,no,no,no,no,no, 0,""           , 0},--,,,,--DD armor helmet (green top) female 
+  {556,16, 1, 0,30,no,no,no,no,no, 0,""           , 0},--,,,,--DD armor helmet (green top) female
+  {557,16, 1, 0,30,no,no,no,no,no, 0,""           , 0},--,,,,--DD armor helmet (green top) female
   {558,16, 0, 0,31,no,no,no,no,no, 0,""           , 0},--,,,,--Gas mask and clava Male
   {559,16, 1, 0,32,no,no,no,no,no, 0,""           , 0},--,,,,--Gas mask and clava Female
   {560,16, 0, 0,33,no,no,no,no,no, 0,""           , 0},--,,,,--Gas mask DD helm Male
@@ -1012,20 +998,11 @@ local faceDefinition={
   --tex slots for run-time face modding, see InfMenuCommands.ApplyFaceFova >
   {690, 0, 0, 0, 0,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
   {691, 0, 0, 0, 1,no,no,no, 0, 0, 0,""           , 1,  0,  0,  0,0},
-  --<
-  --WIP DEBUGNOW
---  {692, 0, 1, 0,60,no,no,no, 0, 0, 0,"", 1,  0,  0,  0,0},--tex 
---  {693, 0, 1, 0,61,no,no,no, 0, 0, 0,"", 1,  0,  0,  0,0},--tex 
---  {694, 0, 1, 0,62,no,no,no, 0, 0, 0,"", 1,  0,  0,  0,0},--tex 
---  {695, 0, 1, 0,63,no,no,no, 0, 0, 0,"", 1,  0,  0,  0,0},--tex 
+--<
 }
-local highestVanillaFaceId=687--tex the highest faceid unmodded for sanity checking on fob
-local MAX_FACEID=671--tex added. faceIds are non contigious, but it's still nice to have a bounds check. SYNC: if you're going to dynamically add to this table
-if TppSoldierFace~=nil then
-  TppSoldierFace.SetFaceFovaDefinitionTable{table=faceDefinition,uiTexBasePath="/Assets/tpp/ui/texture/StaffImage/"}
-end
+
 --{faceId,?type name,?type index},--
-local modFaceFova={
+this.modFaceFova={
   {550,"Balaclava",1,""},
   {551,"Balaclava",2,""},
   {552,"Balaclava",3,""},
@@ -1045,12 +1022,10 @@ local modFaceFova={
   {566,"Balaclava",17,""},
   {567,"Balaclava",18,""},
 }
-if TppSoldierFace.ModFaceFovaDefinitionTable~=nil then
-  TppSoldierFace.ModFaceFovaDefinitionTable{table=modFaceFova}
-end
+
 --maps TppEnemyBodyId to bodyFova table index (see above)
 --{bodyId,bodyFova, isArmor? or something else common to armor?}--TppEnemyBodyId, further notes
-local bodyDefinition={
+this.bodyDefinition={
   {0,0,0},
   {1,1,0},
   {2,2,0},
@@ -1304,11 +1279,9 @@ local bodyDefinition={
   {404,250,0},
   {405,251,0},--<
 }
-if TppSoldierFace~=nil then
-  TppSoldierFace.SetBodyFovaDefinitionTable{table=bodyDefinition}
-end
+
 --{bodyId,?type name,?type index,?},--body description (from body id),type description
-local modBodyFova={
+this.modBodyFova={
   {0,"CapType",1,""},--soviet a>
   {1,"CapType",1,""},
   {2,"CapType",1,""},
@@ -1359,23 +1332,110 @@ local modBodyFova={
   {273,"CapType",20,""},--soviet unique,red beret
   {275,"CapType",52,""},--pf unique,red beret
 }
-if TppSoldierFace.ModBodyFovaDefinitionTable~=nil then
-  TppSoldierFace.ModBodyFovaDefinitionTable{table=modBodyFova}
-end
---tex>
-return{
-  faceFova=faceFova,
-  faceDecoFova=faceDecoFova,
-  hairFova=hairFova,
-  hairDecoFova=hairDecoFova,
-  bodyFova=bodyFova,
-  faceDefinition=faceDefinition,
-  modFaceFova=modFaceFova,
-  bodyDefinition=bodyDefinition,
-  modBodyFova=modBodyFova,
-  MAX_FACEID=MAX_FACEID,
-  highestVanillaFaceId=highestVanillaFaceId,
-}
 
+--tex>
+this.highestVanillaFaceId=687--tex the highest faceid unmodded for sanity checking on fob
+this.MAX_FACEID=671--tex added. faceIds are non contigious, but it's still nice to have a bounds check. SYNC: if you're going to dynamically add to this table
+
+local fovaTypes={
+  "faceFova",
+  "faceDecoFova",
+  "hairFova",
+  "hairDecoFova",
+}
+local genders={
+  MALE=0,
+  FEMALE=1,
+}
+local InfModelRegistry=InfModelRegistry
+if InfModelRegistry then  
+  InfMessageLog.AddDebug(InfMessageLog.debug,"InfModelRegistry Setup")
+
+  for i,fovaTypeName in ipairs(fovaTypes) do
+    InfModelRegistry[fovaTypeName]={}
+  end
+  InfModelRegistry.headDefinitions={}--headdefinition indicies
+  for i,moduleName in ipairs(InfModelRegistry)do
+    if type(moduleName)=="string"then
+      local module=_G[moduleName]
+      if module then
+        for i,fovaTypeName in ipairs(fovaTypes) do
+          local localFova=this[fovaTypeName]
+          local moduleFova=module[fovaTypeName]
+          if moduleFova then
+            for fovaName,fovaInfo in pairs(moduleFova)do
+              local fovaIndex=#localFova+1
+              if type(fovaInfo)=="table" then
+                localFova[fovaIndex]=fovaInfo                
+                if InfModelRegistry[fovaTypeName][fovaName] then
+                  InfMessageLog.AddMessage(InfMessageLog.debug,"Conflict module:"..fovaTypeName.."."..fovaName)
+                end   
+                InfModelRegistry[fovaTypeName][fovaName]=fovaIndex-1
+              end
+            end
+          end
+        end
+
+        local headDefinitions=module.headDefinitions
+        if headDefinitions then
+          local definitionIndex=#this.faceDefinition
+          local currentFaceId=this.faceDefinition[definitionIndex][1]
+          for definitionName,headDefinition in pairs(headDefinitions)do
+            currentFaceId=currentFaceId+1
+            definitionIndex=definitionIndex+1
+            local newFace={
+              currentFaceId,
+              0,
+              genders[headDefinition.gender],
+              0,
+              InfModelRegistry.faceFova[headDefinition.faceFova] or EnemyFova.INVALID_FOVA_VALUE,
+              InfModelRegistry.faceDecoFova[headDefinition.faceDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
+              InfModelRegistry.hairFova[headDefinition.hairFova] or EnemyFova.INVALID_FOVA_VALUE,
+              InfModelRegistry.hairDecoFova[headDefinition.hairDecoFova] or EnemyFova.INVALID_FOVA_VALUE,
+              0,
+              0,
+              0,
+              "",
+              1,
+              0,
+              0,
+              0,
+              0,
+            }
+            this.faceDefinition[definitionIndex]=newFace
+            headDefinition.faceId=currentFaceId
+            headDefinition.definitionIndex=definitionIndex
+            InfModelRegistry.headDefinitions[definitionName]=headDefinition
+            InfModelRegistry.headDefinitions[currentFaceId]=definitionName
+          end
+        end
+      end
+    end
+  end
+end
 --<
+
+--tex shifted from after table definitions
+if TppSoldierFace~=nil then
+  TppSoldierFace.SetFovaFileTable{
+    faceFova={table=this.faceFova,maxCount=100},
+    faceDecoFova={table=this.faceDecoFova,maxCount=200},
+    hairFova={table=this.hairFova,maxCount=20},
+    hairDecoFova={table=this.hairDecoFova,maxCount=40},
+    bodyFova={table=this.bodyFova,maxCount=256}--RETAILPATCH 1.10 increased from 250
+  }
+  TppSoldierFace.SetFaceFovaDefinitionTable{table=this.faceDefinition,uiTexBasePath="/Assets/tpp/ui/texture/StaffImage/"}
+
+  if TppSoldierFace.ModFaceFovaDefinitionTable~=nil then
+    TppSoldierFace.ModFaceFovaDefinitionTable{table=this.modFaceFova}
+  end
+
+  TppSoldierFace.SetBodyFovaDefinitionTable{table=this.bodyDefinition}
+
+  if TppSoldierFace.ModBodyFovaDefinitionTable~=nil then
+    TppSoldierFace.ModBodyFovaDefinitionTable{table=this.modBodyFova}
+  end
+end
+
+return this--tex
 --ORIG return{}

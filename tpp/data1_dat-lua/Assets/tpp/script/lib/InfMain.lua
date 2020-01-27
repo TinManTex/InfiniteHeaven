@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r176"
+this.modVersion="r177"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -426,6 +426,11 @@ function this.GetClosestCp(position)
 
   local locationName=InfMain.GetLocationName()
   local cpPositions=this.cpPositions[locationName]
+  if cpPositions==nil then
+    InfMenu.DebugPrint("WARNING: GetClosestCp no cpPositions for locationName "..locationName)
+    return nil,nil,nil
+  end
+
   local closestCp=nil
   local closestDist=9999999999999999
   local closestPosition=nil
@@ -547,6 +552,74 @@ end
 
 
 --<quest/sideops stuff
+function this.SetSubsistenceSettings()
+  if not TppMission.IsFOBMission(vars.missionCode) then
+    return
+  end
+
+  if Ivars.disableFulton:Is(1) then
+    vars.playerDisableActionFlag=vars.playerDisableActionFlag+PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
+  end
+
+  if Ivars.handLevelProfile:Is()>0 then
+    for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
+      --TODO: check against developed
+      --local currentLevel=Player.GetItemLevel(equip)
+      Player.SetItemLevel(itemIvar.equipId,itemIvar.setting)
+    end
+  end
+
+  if Ivars.fultonLevelProfile:Is()>0 then
+    for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
+      --TODO: check against developed
+      --REF local currentLevel=Player.GetItemLevel(equip)
+      Player.SetItemLevel(itemIvar.equipId,itemIvar.setting)
+    end
+  end
+
+  if TppMission.IsActualSubsistenceMission()then
+    return
+  end
+
+  local Ivars=Ivars
+  local ospIvars={
+    Ivars.primaryWeaponOsp,
+    Ivars.secondaryWeaponOsp,
+    Ivars.tertiaryWeaponOsp,
+    Ivars.clearSupportItems,
+    Ivars.clearItems,
+  }
+
+  local isActual=TppMission.IsActualSubsistenceMission()
+  for i,ivar in ipairs(ospIvars) do
+    if isActual then
+      --tex don't want to save due to normal subsistence missions
+      ivar:Set(1,true,true)
+    elseif Ivars.inf_event:Is(0) then
+      Ivars.UpdateSettingFromGvar(ivar)
+    end
+
+    local initSetting=ivar:GetTable()
+    if initSetting then
+      if ivar==Ivars.clearItems then
+        this.SetInitItems(initSetting,true)
+      else
+        this.SetInitWeapons(initSetting,true)
+      end
+    end
+  end
+
+  if Ivars.setSubsistenceSuit:Is(1) then
+    local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
+    this.RegisterTemporaryPlayerType(playerSettings)
+  end
+  if Ivars.setDefaultHand:Is(1) then
+    mvars.ply_isExistTempPlayerType=true
+    mvars.ply_tempPlayerHandEquip={handEquip=TppEquip.EQP_HAND_NORMAL}
+  end
+end
+
+--
 this.menuDisableActions=PlayerDisableAction.OPEN_EQUIP_MENU--+PlayerDisableAction.OPEN_CALL_MENU
 
 function this.RestoreActionFlag()
@@ -769,6 +842,21 @@ function this.Messages()
     },
     Weather = {
       {msg="Clock",sender="MbVisitDay",func=this.OnMbVisitDay},
+    },
+    Block={
+      {msg="StageBlockCurrentSmallBlockIndexUpdated",func=function(blockIndexX,blockIndexY,clusterIndex)
+        if Ivars.printOnBlockChange:Is(1) then
+          InfMenu.DebugPrint("OnSmallBlockIndex - x:"..blockIndexX..", y:"..blockIndexY.." clusterIndex:"..tostring(clusterIndex))
+        end
+      end},
+      {msg="OnChangeLargeBlockState",func=function(blockNameStr32,blockStatus)
+        if Ivars.printOnBlockChange:Is(1) then
+          InfMenu.DebugPrint("OnChangeLargeBlockState - blockNameStr32:"..blockNameStr32.." blockStatus:"..blockStatus)
+        end
+      end},
+      {msg="OnChangeSmallBlockState",func=function(blockNameStr32,blockStatus)
+
+        end},
     },
   }
 end
@@ -1538,8 +1626,9 @@ function this.OnMenuOpen()
 
 end
 function this.OnMenuClose()
-  TppSave.VarSaveConfig()
-  TppSave.SaveConfigData()
+  -- OFF WIP
+  --  TppSave.VarSaveConfig()
+  --  TppSave.SaveConfigData()
 
   local activeControlMode=this.GetActiveControlMode()
   if activeControlMode then

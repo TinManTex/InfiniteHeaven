@@ -1,9 +1,22 @@
 -- MockFoxEngine.lua
 
 --engine side
+
+--mock
+local mainApplication={}
+mainApplication.AddGame=function(self,game)end
+mainApplication.SetMainGame=function(self,game)end
+
+Application=function(initTable)
+  return mainApplication
+end
+
 AssetConfiguration={}
 AssetConfiguration.GetDefaultCategory=function()
   return "eng"
+end
+AssetConfiguration.SetDefaultCategory=function(category,value)
+  print("SetDefaultCategory "..category.." "..value)
 end
 AssetConfiguration.IsDiscOrHddImage=function()
   return false
@@ -15,6 +28,7 @@ AssetConfiguration.GetConfigurationFromAssetManager=function(configName)
   return hasConfig[configName] or false
 end
 
+
 AssetConfiguration.defaultTargetDirectory=""
 AssetConfiguration.SetDefaultTargetDirectory=function(tag)
   AssetConfiguration.defaultTargetDirectory=tag
@@ -25,6 +39,31 @@ AssetConfiguration.SetTargetDirectory=function(fileType,tag)
   AssetConfiguration.targetDirectories[fileType]=tag
 end
 
+
+AssetConfiguration.RegisterExtensionInfo=function(extensionInfo)
+  print(extensionInfo)
+end
+
+Chunk={}
+Chunk.INDEX_CYPR=0
+Chunk.INDEX_AFGH=1
+Chunk.INDEX_MAFR=2
+Chunk.INDEX_MTBS=3
+Chunk.INDEX_MTBS=3
+Chunk.INDEX_MGO=4
+
+--mock
+local mainGame={}
+mainGame.CreateScene=function(self,sceneName)return{}end
+mainGame.CreateBucket=function(self,bucketName,scene)return{}end
+mainGame.SetMainBucket=function(self,bucket)end
+--
+Editor=function(initTable)
+  return mainGame
+end
+EditorBase=Editor
+Game=Editor
+
 Fox={}
 Fox.StrCode32=function(encodeString)--TODO IMPLEMENT
   return encodeString
@@ -34,6 +73,11 @@ Fox.GetPlatformName=function()
 end
 
 GameObject={}
+
+Mission={}
+
+PathMapper={}
+--PathMapper.Add=function(name,path)end
 
 Player={}
 Player.InitCamoufTable=function(dataTable)
@@ -174,6 +218,21 @@ end
 
 TppNetworkUtil={}
 TppScriptVars={
+  TYPE_BOOL=0,
+  TYPE_INT32=1,
+  TYPE_UINT32=2,
+  TYPE_FLOAT=3,
+  TYPE_INT8=4,
+  TYPE_UINT8=5,
+  TYPE_INT16=6,
+  TYPE_UINT16=7,
+
+  GROUP_BIT_VARS=1,
+  GROUP_BIT_CVARS=2,
+  GROUP_BIT_GVARS=4,
+  GROUP_BIT_SVARS=8,
+  GROUP_BIT_ALL=15,
+  
   CATEGORY_NONE=0,
   CATEGORY_CONFIG=1,
   CATEGORY_MISSION_RESTARTABLE=2,
@@ -184,15 +243,6 @@ TppScriptVars={
   CATEGORY_QUEST=64,
   CATEGORY_PERSONAL=128,
   CATEGORY_ALL=255,
-
-  TYPE_BOOL=0,
-  TYPE_INT32=1,
-  TYPE_UINT32=2,
-  TYPE_FLOAT=3,
-  TYPE_INT8=4,
-  TYPE_UINT8=5,
-  TYPE_INT16=6,
-  TYPE_UINT16=7,
 }
 
 
@@ -241,9 +291,6 @@ TppSoldier2={}
 TppSoldier2.ReloadSoldier2ParameterTables=function(paramTable)
 end
 
-
-
-bit={}--TODO IMPLEMENT: add implementation of whatever bit library this was again
 --enums and values, TODO: possibly IMPLEMENT
 EnemyType={}
 
@@ -298,5 +345,9 @@ vars={}
 mvars={}
 svars={}
 gvars={}
+
+
+
+
 
 --< engine side
