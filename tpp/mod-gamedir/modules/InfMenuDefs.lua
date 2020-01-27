@@ -701,8 +701,9 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
-    InfMenuCommands.checkPointSave,--DEBUGNOW
-    Ivars.manualMissionCode,--DEBUGNOW
+    InfMenuCommands.setAllZombie,
+    InfMenuCommands.checkPointSave,
+    Ivars.manualMissionCode,
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,

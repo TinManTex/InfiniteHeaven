@@ -1,15 +1,12 @@
--- startMock.lua 
--- pared down tpp start.lua
+-- startMock.lua
+-- tex abridged tpp start.lua till MockFox is complete enough to load it straight
 InfCore.LogFlow"start.lua"--tex
 
 local dofile=InfCore.DoFile--tex allow external alternate
 local LoadLibrary=InfCore.LoadLibrary --tex allow external alternate, was Script.LoadLibrary
 
 local function yield()
-  if Mock then--tex DEBUGNOW
-  else--<
-    coroutine.yield()
-  end
+  coroutine.yield()
 end
 FoxFadeIo.FadeOut(0)
 TppUiStatusManager.SetStatus("PauseMenu","INVALID")
@@ -724,10 +721,17 @@ GrTools.SetEnableLocalReflection(true)
 GrTools.SetLightingColorScale(1.8)
 yield()
 do
-  --DEBUGNOW ORIG don't see how they made this work unless they modified loadfile -- local co=coroutine.create(loadfile"Tpp/Scripts/System/start2nd.lua")
-  local co=coroutine.create(function()LoadLibrary"Tpp/Scripts/System/start2nd.lua"end)--tex DEBUGNOW
+  local co
+  --tex>
+  if isMockFox then
+    co=coroutine.create(loadfile(foxLuaPath.."Tpp/Scripts/System/start2nd.lua"))
+  else
+    --<
+    co=coroutine.create(loadfile("Tpp/Scripts/System/start2nd.lua"))
+  end
+
   repeat
-    --DEBUGNOW coroutine.yield()
+    coroutine.yield()
     local ok,ret=coroutine.resume(co)
     if not ok then
       error(ret)

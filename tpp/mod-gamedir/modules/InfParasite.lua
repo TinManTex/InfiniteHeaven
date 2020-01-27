@@ -697,37 +697,43 @@ function this.ParasiteAppear()
     local closestDist=999999999999999
 
     local isMb=vars.missionCode==30050 or vars.missionCode==30250
+    local noCps=false
+    
+    local closestCp,cpDistance,cpPosition
 
-    local cpDistance
-    local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPos)
-    if closestCp==nil or cpPosition==nil then
-      InfCore.DebugPrint"WARNING: ParasiteAppear closestCp==nil"--DEBUG
-      return
-    end
-
-    closestDist=cpDistance
-
-    if not isMb then--tex TODO: implement for mb
-      local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPos)
-      if closestLz==nil or lzPosition==nil then
-        InfCore.DebugPrint"WARNING: ParasiteAppear closestLz==nil"--DEBUG
+    if noCps then
+      closestPos=playerPos
+    else
+      closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPos)
+      if closestCp==nil or cpPosition==nil then
+        InfCore.Log("WARNING: ParasiteAppear closestCp==nil",true)--DEBUG
         return
       end
+      
+      closestDist=cpDistance
 
-      local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
-      closestPos=cpPosition
-      if cpDistance>lzDistance and lzCpDist>playerRange*2 then
-        closestPos=lzPosition
-        closestDist=lzDistance
+      if not isMb then--tex TODO: implement for mb
+        local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPos)
+        if closestLz==nil or lzPosition==nil then
+          InfCore.Log("WARNING: ParasiteAppear closestLz==nil",true)--DEBUG
+          return
+        end
+
+        local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
+        closestPos=cpPosition
+        if cpDistance>lzDistance and lzCpDist>playerRange*2 then
+          closestPos=lzPosition
+          closestDist=lzDistance
+        end
       end
-    end
 
-    if closestDist>playerRange then
-      closestPos=playerPos
+      if closestDist>playerRange then
+        closestPos=playerPos
+      end
+
     end
 
     InfCore.Log("ParasiteAppear "..this.parasiteType.." closestCp:"..tostring(closestCp),this.debugModule)
-
 
     this.lastContactTime=Time.GetRawElapsedTimeSinceStartUp()+timeOuts[this.parasiteType]
 

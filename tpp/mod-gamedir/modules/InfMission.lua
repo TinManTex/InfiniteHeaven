@@ -439,7 +439,7 @@ end
 --from TppResult. , currently conflict with Anyones Improvements
 --OFF
 function this.GetMbMissionListParameterTable()
-  InfCore.LogFlow("InfMission.GetMbMissionListParameterTable")--tex DEBUGNOW
+  InfCore.LogFlow("InfMission.GetMbMissionListParameterTable")--tex DEBUG
   local missionListParameterTable={}
   for missionCodeStr,enum in pairs(TppDefine.MISSION_ENUM)do
     local missionCode=tonumber(missionCodeStr)

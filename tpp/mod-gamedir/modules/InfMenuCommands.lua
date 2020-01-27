@@ -750,24 +750,6 @@ this.DEBUG_PrintInterrogationInfo={
   end
 }
 
-
---DEBUGNOW
-
-local thisModule=this
-this=InfCore
-
---tex sent from ext to sync its completed commands
-function this.CmdToExtCompletedIndex(args)
-
-end
-
-this.commands={
-  cmdToExtCompletedIndex=this.CmdToExtCompletedIndex,
-}
-this=thisModule
-
---
-
 local toggle1=false
 local index1Min=1
 local index1Max=4
@@ -778,395 +760,6 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     count=count+1
     InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
-
-    
-    if true then return end
-    --
-    
-     DebugIHDump.DumpModules()
---    local varsTable=DebugIHDump.DumpVars()
---    InfCore.PrintInspect(varsTable,"vars")
-    
-    
---    InfCore.PrintInspect(vars.weapons)
---    InfCore.Log(tostring(vars.weapons[-285212665]))
-    
-   if true then return end
-    --InfCore.ClearLog()
-
-    local lVehicle={
---      class = {
---        DEFAULT=0,
---        DARK_GRAY=1,
---        OXIDE_RED=2,
---      },
---      life = {
---        BROKEN=0,
---        EXTINCTION=-1000,
---      },
---      observation = {
---        CRASH=1,
---        PLAYER_WILL_HARM_VEHICLE=2,
---        PLAYER_WILL_BREAK_VEHICLE=4,
---        PLAYER_STOPS_VEHICLE_BY_BREAKING_WHEELS=8,
---      },
---      paintType = {
---        NONE=0,
---        RANK_0=1,
---        RANK_1=2,
---        RANK_2=3,
---        FOVA_0=4,
---        FOVA_1=5,
---        FOVA_2=6,
---        CUSTOM=7,
---      },
---      speed = {
---        FORWARD_SLOW=2.7777778513638,
---        FORWARD_NORMAL=8.3333335540913,
---        FORWARD_FAST=12.500000331137,
---        FORWARD_MAX=27.777778513638,
---        BACKWARD_SLOW=-1.3888889256819,
---        BACKWARD_NORMAL=-2.7777778513638,
---        BACKWARD_FAST=-5.5555557027275,
---        BACKWARD_MAX=-27.777778513638,
---      },
---      state = {
---        CAN_FULTON=1,
---        SPEED_DOWN=2,
---      },
---      subType = {
---        NONE=0,
---        WESTERN_TRUCK_CARGO_ITEM_BOX=1,
---        WESTERN_TRUCK_CARGO_CONTAINER=2,
---        WESTERN_TRUCK_CARGO_CISTERN=3,
---        WESTERN_TRUCK_HOOD=4,
---        EASTERN_TRUCK_CARGO_AMMUNITION=1,
---        EASTERN_TRUCK_CARGO_MATERIAL=2,
---        EASTERN_TRUCK_CARGO_DRUM=3,
---        EASTERN_TRUCK_CARGO_GENERATOR=4,
---        WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_MACHINE_GUN=1,
---        WESTERN_WHEELED_ARMORED_VEHICLE_TURRET_CANNON=2,
---        EASTERN_WHEELED_ARMORED_VEHICLE_ROCKET_ARTILLERY=1,
---      },
---      type = {
---        WESTERN_LIGHT_VEHICLE=1,
---        EASTERN_LIGHT_VEHICLE=2,
---        WESTERN_TRUCK=3,
---        EASTERN_TRUCK=4,
---        WESTERN_WHEELED_ARMORED_VEHICLE=5,
---        EASTERN_WHEELED_ARMORED_VEHICLE=6,
---        WESTERN_TRACKED_TANK=7,
---        EASTERN_TRACKED_TANK=8,
---      },
-      emblemType={
-        LOCAL_PLAYER=1,
-OPPONENT_PLAYER=2,
-      }
-    }
-    
---            EVER_UNREAL=true,--DEBUGNOW from exe, dont know where these fit
---        SPIRITED_AWAY=true,
-
-    for k,v in pairs(lVehicle)do
-      if type(v)=="table"then
-        InfCore.Log(k)
-        for k2,v2 in pairs(v)do
-          InfCore.PrintInspect(Vehicle[k][k2],k2)
-        end
-      end
-    end
-
-
-
---local vehSvars=Vehicle.svars{instanceCount=1}
---InfCore.PrintInspect(vehSvars,"vehSvars")
-
---output of instancecount 4
---[[
-vehSvars={ {
-    arraySize = 5,
-    category = 8,
-    name = "ene_veh_name",
-    save = true,
-    sync = false,
-    type = 2,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = 60,
-    category = 8,
-    name = "ene_veh_life",
-    save = true,
-    sync = false,
-    type = 6,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = 5,
-    category = 8,
-    name = "ene_veh_state",
-    save = true,
-    sync = false,
-    type = 6,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = 20,
-    category = 8,
-    name = "ene_veh_attitude",
-    save = true,
-    sync = false,
-    type = 3,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = 15,
-    category = 8,
-    name = "ene_veh_ammo",
-    save = true,
-    sync = false,
-    type = 7,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = 5,
-    category = 16,
-    name = "ene_veh_marker",
-    save = true,
-    sync = false,
-    type = 2,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = 5,
-    category = 8,
-    name = "ene_veh_stash",
-    save = true,
-    sync = false,
-    type = 2,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = 1,
-    category = 8,
-    name = "ene_veh_relief",
-    save = true,
-    sync = false,
-    type = 2,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = 16,
-    category = 8,
-    name = "ene_veh_convoy",
-    save = true,
-    sync = false,
-    type = 7,
-    value = 0,
-    wait = false
-  } }
---]]
-    --[[output of instancecount 1
-    vehSvars={ {
-    arraySize = instanceCount+1,
-    category = 8,
-    name = "ene_veh_name",
-    save = true,
-    sync = false,
-    type = 2,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = (instanceCount+1)*12,
-    category = 8,
-    name = "ene_veh_life",
-    save = true,
-    sync = false,
-    type = 6,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = instanceCount+1,
-    category = 8,
-    name = "ene_veh_state",
-    save = true,
-    sync = false,
-    type = 6,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = (instanceCount+1)*4,
-    category = 8,
-    name = "ene_veh_attitude",
-    save = true,
-    sync = false,
-    type = 3,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = (instanceCount+1)*3,
-    category = 8,
-    name = "ene_veh_ammo",
-    save = true,
-    sync = false,
-    type = 7,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = instanceCount+1,
-    category = 16,
-    name = "ene_veh_marker",
-    save = true,
-    sync = false,
-    type = 2,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = instanceCount+1,
-    category = 8,
-    name = "ene_veh_stash",
-    save = true,
-    sync = false,
-    type = 2,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = 1,
-    category = 8,
-    name = "ene_veh_relief",
-    save = true,
-    sync = false,
-    type = 2,
-    value = 0,
-    wait = false
-  }, {
-    arraySize = 16,
-    category = 8,
-    name = "ene_veh_convoy",
-    save = true,
-    sync = false,
-    type = 7,
-    value = 0,
-    wait = false
-  } }
-    --]]
-
- --   DebugIHTeardown.DumpModules()
-
-    --InfCore.PrintInspect(TppMotherBaseManagementConst,"TppMotherBaseManagementConst")
-
-    if true then return end--DEBUGNOW
-    --InfCore.DoToMgsvCommands()
-
-    this=InfCore
-    --function this.DoToMgsvCommands()
-    local lines=this.GetLines(this.toMgsvCmdsFilePath)
-    if lines then
-      --InfCore.PrintInspect(lines,"lines")--DEBUGNOW
-      for i,message in ipairs(lines)do
-        if i==1 then--tex first line is toExtCmdsCompleted
-          InfCore.Log(message)--DEBUGNOW
-          local args=InfUtil.Split(message,"|")
-          local commandName=args[2]
-          InfCore.Log(message)--DEBUGNOW
-          if commandName and commandName=="cmdToExtCompletedIndex" then
-            --tex TODO: sanity check, type=="number", >= this.toExtCmdsCompleted
-            this.cmdToExtCompletedIndex=args[3]
-          else
-            InfCore.Log("DoToMgsvCommands: ERROR could not find first line indent cmdToExtCompletedIndex")
-          end
-          InfCore.Log(InfCore.cmdToExtCompletedIndex)--DEBUGNOW
-        else
-          local args=InfUtil.Split(message,"|")
-          local messageId=args[1]--1 toMgsv cmd id
-          local commandName=args[2]--2 cmd name
-          --3,... cmd args
-          if this.commands[commandName] then
-            this.commands[commandName](args)
-          else
-            InfCore.Log("unknown mgsv command "..commandName)--DEBUGNOW
-          end
-
-          if i~=1 then--tex 1st line is cmdToExtCompletedIndex which is not a command to be cleared
-            this.cmdToMgsvCompletedIndex=messageId
-          end
-        end
-      end
-    end
-    -- InfCore.PrintInspect(this.toExtCommands)
-    --end
-    this=thisModule
-
-
-
-    if true then return end
-
-    for gimmickName,gimmickInfo in pairs(TppLandingZone.aacrGimmickInfo)do
-      ---local isBroken=TppLandingZone.IsBrokenGimmick(gimmickName)
-      --InfCore.Log(gimmickName.." isBroken bef:"..tostring(isBroken))
-
-      Gimmick.ResetGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName)
-      Gimmick.ResetGimmickData(gimmickInfo.locatorName,gimmickInfo.dataSetName)
-
-      local isBroken=TppLandingZone.IsBrokenGimmick(gimmickName)
-      InfCore.Log(gimmickName.." isBroken aft:"..tostring(isBroken))
-    end
-
-    if true then return end
-
-    InfCore.ClearLog()
-    --InfCore.PrintInspect(TppDbgStr32.strCode32ToString)
-
-    --tex dump all strcode to string
-    local allStr32={}
-    for str32,str in pairs(TppDbgStr32.strCode32ToString)do--tex DEBUGNOW requires exposed table in TppDbgStr32
-      allStr32[str]=str32
-    end
-    InfCore.Log("tppdbg")
-    for str32,str in pairs(InfCore.str32ToString)do
-      allStr32[str]=str32
-    end
-    InfCore.Log("infcore")
-
-    local text={}
-    for str,str32 in pairs(allStr32)do
-      table.insert(text,str.." "..str32)
-    end
-    InfCore.Log("text")
-    table.sort(text)
-    InfCore.Log("sort")
-    InfCore.Log(table.concat(text,"\r\n"))
-
-    if true then return end
-
-    for gimmickName,gimmickInfo in pairs(TppLandingZone.aacrGimmickInfo)do
-      Gimmick.ResetGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName)
-    end
-
-    if true then return end
-    InfCore.PrintInspect(ih_save,"ih_save")
-    InfCore.PrintInspect(igvars,"igvars")
-
-    if true then return end
-    --DEBUGNOW
-    InfCore.PrintInspect(mvars.mis_isOutsideOfMissionArea,"mis_isOutsideOfMissionArea")
-    InfCore.PrintInspect(mvars.mis_isAlertOutOfMissionArea,"mis_isAlertOutOfMissionArea")
-
-
-
-    InfCore.PrintInspect(vars.locationCode,"locationCode")
-    InfCore.PrintInspect(vars.missionCode,"missionCode")
-
-    if true then return end
-
-
-
-    local heliName="SupportHeli"--EnemyHeli0000"
-    local heliId = GetGameObjectId(heliName)
-    if heliId==NULL_ID then
-      return
-    end
-    SendCommand(heliId,{id="SetForceRoute",enabled=false})
 
     InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
@@ -1184,9 +777,6 @@ this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
 
-    --DEBUGNOW
-    InfMission.OpenMissions()--DEBUGNOW
-
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
     if index2>index2Max then
@@ -1202,7 +792,6 @@ local toggle3=false
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz3---")
-
 
     InfCore.DebugPrint("index3:"..index3)
     index3=index3+1
@@ -2065,65 +1654,64 @@ this.dropCurrentEquip={
   end
 }
 
-this.setAllFriendly={
-  OnChange=function()
-    --DEBUG
-    --tex loops at 512
-    --    local count=1100
-    --    local objectType="TppSoldier2"
-    --    for index=0,count-1 do
-    --      local gameId=GameObject.GetGameObjectIdByIndex(objectType,index)
-    --      --tex GetGameObjectIdByIndex errors on index > instance count: 'instance index range error. index n is larger than maxInstanceCount n.'
-    --      if gameId==NULL_ID then
-    --        --tex shouldnt happen
-    --        InfCore.Log("object index "..index.." ==NULL_ID")
-    --      else
-    --        local name=InfLookup.ObjectNameForGameId(gameId)
-    --        InfCore.Log("Soldier index "..index..": gameId:"..gameId.." name:"..tostring(name))
-    --        --tex return an 'instance index range error. index <GetGameObjectIdByIndex index> is larger than maxInstanceCount <instance count>.'
-    --        --which makes little sense since the gameId is the same/is not the index.
-    --        --errors/non errors seem to loop too (getting out of sync with the actual inputted index)
-    --        --ex:
-    ----        |765.58408987113|Soldier index 842: gameId:1354 name:nil << tex fine even though index is over instance count
-    ----        |765.58408987113|ERROR:C:/GamesSD/MGS_TPP/mod/InfMenuCommands.lua:770: instance index range error. index 330 is larger than maxInstanceCount 330. << not even reporting correct index
-    ----        |765.58408987113|Soldier index 843: gameId:1355 name:nil
-    --        some other commands seem to be less safe and will hang or crash the game past max index
-    --        so will have to either be dead accurate with the max index you supply, reply on GetPosition as a canary/break on error for those gameobjects that support it
-    --        local pos=InfCore.PCall(function()GameObject.SendCommand(gameId,{id="GetPosition"})end)
-    --      end
-    --    end
+--DEBUG
+--tex loops at 512
+--    local count=1100
+--    local objectType="TppSoldier2"
+--    for index=0,count-1 do
+--      local gameId=GameObject.GetGameObjectIdByIndex(objectType,index)
+--      --tex GetGameObjectIdByIndex errors on index > instance count: 'instance index range error. index n is larger than maxInstanceCount n.'
+--      if gameId==NULL_ID then
+--        --tex shouldnt happen
+--        InfCore.Log("object index "..index.." ==NULL_ID")
+--      else
+--        local name=InfLookup.ObjectNameForGameId(gameId)
+--        InfCore.Log("Soldier index "..index..": gameId:"..gameId.." name:"..tostring(name))
+--        --tex return an 'instance index range error. index <GetGameObjectIdByIndex index> is larger than maxInstanceCount <instance count>.'
+--        --which makes little sense since the gameId is the same/is not the index.
+--        --errors/non errors seem to loop too (getting out of sync with the actual inputted index)
+--        --ex:
+----        |765.58408987113|Soldier index 842: gameId:1354 name:nil << tex fine even though index is over instance count
+----        |765.58408987113|ERROR:C:/GamesSD/MGS_TPP/mod/InfMenuCommands.lua:770: instance index range error. index 330 is larger than maxInstanceCount 330. << not even reporting correct index
+----        |765.58408987113|Soldier index 843: gameId:1355 name:nil
+--        some other commands seem to be less safe and will hang or crash the game past max index
+--        so will have to either be dead accurate with the max index you supply, reply on GetPosition as a canary/break on error for those gameobjects that support it
+--        local pos=InfCore.PCall(function()GameObject.SendCommand(gameId,{id="GetPosition"})end)
+--      end
+--    end
 
-
-    --GOTCHA: there's some funkyness to GetGameObjectIdByIndex.
-    --GetMaxInstanceCount only works on a couple of gameobjects, hostages and walker gears (more frustrating kjp inconsistancy)
-    --GetGameObjectIdByIndex itself doesn't seem to care about inputting index > instance count, it will loop the returned gameobject eturning the same gameobjectids
-    --but running GameObject.SendCommand on a gameid from an index > instance count will return an 'instance index range error. index <GetGameObjectIdByIndex> is larger than maxInstanceCount <instance count>.'
-    --which doesn't really make sense, it suggests that the gameid has the index, even though on inspection it seems exactly the same/repeated < index gameid
-    --and it's only for some commands, others will hang or crash the game (again, this wouldn't be an issue if GetGameObjectIdByIndex didn't have a (seeminly) unsafe implmentation.
-    local function RunOnAllObjects(objectType,instanceCount,RunFunc)
-      local count=SendCommand({type=objectType},{id="GetMaxInstanceCount"})
-      InfCore.Log(objectType.." maxInstanceCount:"..tostring(count))--DEBUG
-      if count==nil then
-        count=instanceCount--SYNC soldier max instance/totalCount
-      end
-      if count and count>0 then
-        for index=0,count-1 do
-          local gameId=GameObject.GetGameObjectIdByIndex(objectType,index)
-          --tex GetGameObjectIdByIndex errors on index > instance count: 'instance index range error. index n is larger than maxInstanceCount n.'
-          if gameId==NULL_ID then
-            --tex shouldnt happen
-            InfCore.Log("object index "..index.." ==NULL_ID")
-          else
-            local success,ret=pcall(RunFunc,gameId,index)
-            if not success then
-              InfCore.Log("RunOnAllObjects GetGameObjectIdByIndex > instance count at index "..index..", breaking")
-              break
-            end
-          end
+--GOTCHA: there's some funkyness to GetGameObjectIdByIndex.
+--GetMaxInstanceCount only works on a couple of gameobjects, hostages and walker gears (more frustrating kjp inconsistancy)
+--GetGameObjectIdByIndex itself doesn't seem to care about inputting index > instance count, it will loop the returned gameobject eturning the same gameobjectids
+--but running GameObject.SendCommand on a gameid from an index > instance count will return an 'instance index range error. index <GetGameObjectIdByIndex> is larger than maxInstanceCount <instance count>.'
+--which doesn't really make sense, it suggests that the gameid has the index, even though on inspection it seems exactly the same/repeated < index gameid
+--and it's only for some commands, others will hang or crash the game (again, this wouldn't be an issue if GetGameObjectIdByIndex didn't have a (seeminly) unsafe implmentation.
+function this.RunOnAllObjects(objectType,instanceCount,RunFunc)
+  local count=SendCommand({type=objectType},{id="GetMaxInstanceCount"})
+  InfCore.Log(objectType.." maxInstanceCount:"..tostring(count))--DEBUG
+  if count==nil then
+    count=instanceCount--SYNC soldier max instance/totalCount
+  end
+  if count and count>0 then
+    for index=0,count-1 do
+      local gameId=GameObject.GetGameObjectIdByIndex(objectType,index)
+      --tex GetGameObjectIdByIndex errors on index > instance count: 'instance index range error. index n is larger than maxInstanceCount n.'
+      if gameId==NULL_ID then
+        --tex shouldnt happen
+        InfCore.Log("object index "..index.." ==NULL_ID")
+      else
+        local success,ret=pcall(RunFunc,gameId,index)
+        if not success then
+          InfCore.Log("RunOnAllObjects GetGameObjectIdByIndex > instance count at index "..index..", breaking")
+          break
         end
       end
     end
+  end
+end
 
+this.setAllFriendly={
+  OnChange=function()
     local function Vec3ToString(vec3)
       return vec3:GetX()..","..vec3:GetY()..","..vec3:GetZ()
     end
@@ -2144,13 +1732,13 @@ this.setAllFriendly={
       SendCommand(gameId,{id="SetCombatEnabled",enabled=false})
     end
 
-    RunOnAllObjects("TppSoldier2",350,SetFriendly)
+    this.RunOnAllObjects("TppSoldier2",350,SetFriendly)
     local heliInstances=1
 
     if Ivars.heliPatrolsFREE:Is()>0 then
       heliInstances=5
     end
-    RunOnAllObjects("TppEnemyHeli",heliInstances,SetHeliNoNotice)
+    this.RunOnAllObjects("TppEnemyHeli",heliInstances,SetHeliNoNotice)
 
     for cpId,cpName in pairs(mvars.ene_cpList)do
       local command={id="SetFriendlyCp"}
@@ -2159,7 +1747,36 @@ this.setAllFriendly={
   end
 }
 
-this.checkPointSave={--DEBUGNOW
+this.setAllZombie={
+  OnChange=function()
+    local function SetZombie(gameObjectId)
+
+      local disableDamage=false
+      local isHalf=false
+      local isMsf=false
+
+      local life=300
+      local stamina=200
+
+      isHalf=isHalf or false
+
+      SendCommand(gameObjectId,{id="SetZombie",enabled=true,isHalf=isHalf,isZombieSkin=true,isHagure=true,isMsf=isMsf})
+      SendCommand(gameObjectId,{id="SetMaxLife",life=life,stamina=stamina})
+      SendCommand(gameObjectId,{id="SetZombieUseRoute",enabled=false})
+      if disableDamage==true then
+        SendCommand(gameObjectId,{id="SetDisableDamage",life=false,faint=true,sleep=true})
+      end
+      if isHalf then
+        local ignoreFlag=0
+        SendCommand(gameObjectId,{id="SetIgnoreDamageAction",flag=ignoreFlag})
+      end
+    end
+
+    this.RunOnAllObjects("TppSoldier2",350,SetZombie)
+  end
+}
+
+this.checkPointSave={
   OnChange=function()
     --TppCheckPoint.Update{atCurrentPosition=true}
     TppCheckPoint.Update{safetyCurrentPosition=true}

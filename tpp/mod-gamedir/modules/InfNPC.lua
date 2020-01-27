@@ -14,6 +14,8 @@ this.numHostages=30--4--SYNC num locators--DEBUGWIP
 
 this.hostageNames={}
 
+this.npcInfo={}
+
 function this.PostModuleReload(prevModule)
   this.npcInfo=prevModule.npcInfo
 end
@@ -24,6 +26,10 @@ end
 
 function this.AddMissionPacks(missionCode,packPaths)
   if not Ivars.mbAdditionalNpcs:EnabledForMission(missionCode) then
+    return
+  end
+
+  if missionCode==30250 then--tex TODO no idea what is going on on quarantine
     return
   end
 
@@ -1050,6 +1056,10 @@ end
 --tex since hostage parts can only be set at loadtime the same total group of npcs are reused/repositioned on cluster change.
 function this.InitCluster(clusterId)
   if not Ivars.mbAdditionalNpcs:EnabledForMission() then
+    return
+  end
+
+  if vars.missionCode==30250 then--tex TODO no idea what is going on on quarantine
     return
   end
 

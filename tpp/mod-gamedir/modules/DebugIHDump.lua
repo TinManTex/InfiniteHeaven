@@ -8,6 +8,8 @@ local this={}
 --TODO DEBUGNOW move knownmodulenames to modules.
 --TODO: knownmodulenames,infteardown,autodoc are kinda seperate from standard modules?
 
+this.dumpDir=[[D:\Projects\MGS\dump\]]
+
 function this.DumpModules()
   local globalsByType=this.GetGlobalsByType()
   --InfCore.PrintInspect(globalTypes)
@@ -47,6 +49,7 @@ function this.DumpModules()
 
   local moduleReferencesDump=DebugIHDumpedModuleReferences--ASSUMPTION output of above has been loaded as a module
 
+
   --local plainTextModules=this.GetPlainTextModules(globalsByType.table)
   --InfCore.PrintInspect(plainTextModules,"plainTextModules")--DEBUGNOW
 
@@ -67,22 +70,21 @@ function this.DumpModules()
   end
 
   local varsTable=this.DumpVars()
-
-  local dumpDir=[[D:\Projects\MGS\dump\]]
-
-  local outDir=dumpDir..[[modulesDump\]]
+  
+  --tex write dumps
+  local outDir=this.dumpDir..[[modulesDump\]]
   this.DumpToFiles(outDir,globalsByType.table)
 
-  local outDir=dumpDir..[[keytypebreakdown\]]
+  local outDir=this.dumpDir..[[keytypebreakdown\]]
   -- this.DumpToFiles(outDir,keysByType)
 
-  local outDir=dumpDir..[[moduleReference\]]
+  local outDir=this.dumpDir..[[moduleReference\]]
   this.DumpToFiles(outDir,moduleReferences)
 
-  local outDir=dumpDir..[[mockModules\]]
+  local outDir=this.dumpDir..[[mockModules\]]
   this.DumpToFiles(outDir,mockModules)
 
-  local outDir=dumpDir
+  local outDir=this.dumpDir
   local all=InfInspect.Inspect(varsTable)
   this.WriteString(outDir.."vars.lua",all)
 end

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r209 - 2017-07-17
+r210 - 2017-07-22
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -16,6 +16,12 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r210:
+Fixed: Quarantine platform soldiers having no weapons with custom equip table.
+Fixed: mbNpcRouteChange - 'Soldiers move between platforms' not working on initial cluster load, looks like I broke it in r208 - thanks pk5547 for save data, others for the report.
+Fixed: Additional npcs with no faces on quarantine and Skulls T-Posing, just disabling additional npcs on quarantine completely at the moment - thanks pk5547 for save data and report.
+Fixed: InfEquip.DropItem on GetPosition nil (Eli)
+
 New for r209:
 Fixed: Skulls event being forced to Sniper skulls, forgot to revert my debug test which means:
 Fixed: (refixed) Crash on encounter with Quiet in free roam when Parasite event selects Camo skulls.

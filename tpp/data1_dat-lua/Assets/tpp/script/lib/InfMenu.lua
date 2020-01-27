@@ -299,7 +299,7 @@ function this.GoMenu(menu,goBack)
     for optionIndex=1,#menu.options do
       local option=this.currentMenuOptions[optionIndex]
       if option.OnSelect then
-        option:OnSelect()
+        option:OnSelect(ivars[option.name])
       end
       local settingText=this.GetSettingText(optionIndex,option,false,true)
       InfCore.ExtCmd('print',settingText)

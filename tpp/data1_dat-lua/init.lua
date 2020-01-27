@@ -345,8 +345,8 @@ if PhDaemon then
   local e=PhDaemon()
 end
 if SimDaemon then
-  local e=SimDaemon()
-  e.defaultViewPort="MainViewport"
+  local simDaemon=SimDaemon()
+  simDaemon.defaultViewPort="MainViewport"
 end
 if DesDaemon then
   local e=DesDaemon()

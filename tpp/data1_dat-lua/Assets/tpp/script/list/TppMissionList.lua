@@ -926,7 +926,7 @@ function this.GetMissionPackagePath(missionCode)
     packPaths=this.missionPackTable[missionCode]
   end
   InfMain.AddMissionPacks(missionCode,packPaths)--tex
-  InfCore.PrintInspect(packPaths,{varName="missionPackPaths"})--tex DEBUG
+  InfCore.PrintInspect(packPaths,"missionPackPaths")--tex DEBUG
   return packPaths
 end
 if Mission.SetLocationPackagePathFunc then

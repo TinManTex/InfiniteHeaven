@@ -1,16 +1,20 @@
 -- MockFoxEngine.lua
 
 --library modules
---DEBUGNOW bit=require"bit" --TODO: do this by default, if moonSharp then redirect to its standard lib which I think has bit32 module
-bit={}
-bit.bnot=function()end
-bit.band=function()end
-bit.bor=function()end
-bit.bxor=function()end
+if luaHostType=="LDT" then
+  bit=require"bit"
+else 
+--TODO: for moonSharp redirect to its standard lib which I think has bit32 module
+  bit={}
+  bit.bnot=function()end
+  bit.band=function()end
+  bit.bor=function()end
+  bit.bxor=function()end
+end
 
 --engine side
 
---tex mock module definitions to fill out stuff missed by InfTearDown
+--tex mock module definitions to fill out stuff missed by Dump
 --or to add actual functionality instead of empty functions
 
 local mainApplication={}
@@ -48,7 +52,6 @@ AssetConfiguration.targetDirectories={}
 AssetConfiguration.SetTargetDirectory=function(fileType,tag)
   AssetConfiguration.targetDirectories[fileType]=tag
 end
-
 
 AssetConfiguration.RegisterExtensionInfo=function(extensionInfo)
   print(extensionInfo)
@@ -112,12 +115,6 @@ GkEventTimerManager.Start=function()end
 GkEventTimerManager.Stop=function()end
 GkEventTimerManager.IsTimerActive=function()end
 
-MotherBaseStage={}
---REF {0,10,20,30,40,70,80,90,980}
-MotherBaseStage.RegisterModifyLayoutCodes=function(layoutCodes)
-  MotherBaseStage._layoutCodes=layoutCodes
-end
-
 PhDaemon={}
 PhDaemon.GetInstance=function()--DEBUGNOW KLUDGE
   return PhDaemon
@@ -131,24 +128,39 @@ Script.LoadLibrary=function(scriptPath)
   moduleName=string.sub(moduleName,1,-string.len(".lua")-1)
   print("ScriptLoad:"..scriptPath)
 
-  local ret=dofile(projectDataPath..scriptPath)
 
-    local module=ret--DEBUGNOWmoduleChunk()
-    if not module then
-      print(moduleName.."==nil")
+  local function FileExists(filePath)
+    local file,openError=io.open(filePath,"r")
+    if file and not openError then
+      file:close()
+      return true
+    end
+    return false
+  end
+
+  if not FileExists(foxLuaPath..scriptPath) then
+    print("Script.LoadLibrary could not find "..scriptPath)
+    return
+  end
+
+  local ret=dofile(foxLuaPath..scriptPath)
+
+  local module=ret--DEBUGNOWmoduleChunk()
+  if not module then
+    print("module "..moduleName.."==nil")
+  else
+    if _G[moduleName] then
+      _G[moduleName]=MockUtil.MergeTable(_G[moduleName],module)--tex merge with mock stubs/overrides --DEBUGNOW
     else
-      if _G[moduleName] then
-        _G[moduleName]=MockUtil.MergeTable(_G[moduleName],module)--tex merge with mock stubs/overrides --DEBUGNOW
-      else
-        _G[moduleName]=module
-      end
-      --DEBUGNOW TODO: guard against module recursion
-      if module.requires then
-        for i,modulePath in ipairs(module.requires)do
-          Script.LoadLibrary(modulePath)
-        end
+      _G[moduleName]=module
+    end
+    --DEBUGNOW TODO: guard against module recursion
+    if module.requires then
+      for i,modulePath in ipairs(module.requires)do
+        Script.LoadLibrary(modulePath)
       end
     end
+  end
 end
 Script.LoadLibraryAsync=Script.LoadLibrary
 --tex used in conjunction with above
@@ -158,7 +170,14 @@ end
 
 Time={}
 Time.GetRawElapsedTimeSinceStartUp=function()--TODO IMPLEMENT
-  return os.time()
+  return os.clock()
+end
+
+TppColoringSystem={}
+function TppColoringSystem.GetAdditionalColoringPackFilePaths(params)
+  local missionCode=params.missionCode
+  --DEBUGNOW TODO: do a dump for all missionCodes
+  return {}
 end
 
 TppGameObject={}
@@ -301,9 +320,8 @@ TppScriptVars={
   CATEGORY_ALL=255,
 }
 
---DEBUGNOW
 --tex Don't know the actual implementation, but gvars need to be set up at some point due to start.lua kicking things off via TppVarInit
-TppScriptVars.DeclareGVars=function(gvarsTable)    
+TppScriptVars.DeclareGVars=function(gvarsTable)
   --tex essentially TppGVars.AllInitialize(), but TppGVars hasn't actually returned at this point so cant access it via global
   if gvarsTable==nil then
     return
@@ -361,52 +379,25 @@ TppSystemUtility.GetCurrentGameMode=function()
   return "TPP"
 end
 
-
-
-TppSoldier2={}
-TppSoldier2.ReloadSoldier2ParameterTables=function(paramTable)
-end
-
 --UserData
 --DEBUGNOW KLUDGE DEBUGNOW
 Vector3=function(x,y,z)
 
 end
---Vector3={
---  x=0,
---  y=0,
---  z=0,
---}
---Vector3.GetX=function(self)
---  return self.x
---end
---Vector3.GetY=function(self)
---  return self.x
---end
---Vector3.GetZ=function(self)
---  return self.x
---end
--- Add = <function 1>,
---  Cross = <function 2>,
---  Dot = <function 3>,
---  Normalize = <function 4>,
---  Scale = <function 5>,
---  Sub = <function 6>,
---  ToString = <function 7>,
-
-
 
 TppEquip={}
 TppEquip.IsExistFile=function(filePath)
-  filePath=projectDataPath..filePath
+  filePath=foxLuaPath..filePath
   local f=io.open(filePath,"r")
   if f~=nil then
-    io.close(f) return true
+    f:close()
+    return true
   else return false
   end
 end
 
 TppCommand={}
+--tex missed from scrape since its a table
 TppCommand.Weather={}
 
 TppCommand.Weather.RegisterClockMessage=function(params)
@@ -609,15 +600,14 @@ Vehicle.FinishCarry=function()end
 Vehicle.SetIgnoreDisableNpc=function(ignoreDisableNpc)--bool
 end
 
-
+--
 
 vars={}
 mvars={}
 svars={}
 gvars={}
 
-
---tex merge with mock modules build from InfTeardown
+--tex merge with mock modules build from DebugIHDump
 local mockModules=require"MockModules"
 if mockModules then
   for moduleName,mockModule in pairs(mockModules)do

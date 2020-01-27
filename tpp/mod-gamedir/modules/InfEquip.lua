@@ -12,7 +12,7 @@ this.packages={
   "/Assets/tpp/pack/mission2/ih/ih_pickable_loc.fpk",
 }
 
-this.debugModule=true--DEBUGNOW
+this.debugModule=false
 
 --STATE
 --soldier item drops
@@ -1481,7 +1481,7 @@ function this.LoadEquipTable()
       equipCount=equipCount+1
     end
   end
-  InfCore.Log("InfEquip.LoadEquipTable - #testEquipCount="..equipCount)--DEBUGNOW
+  InfCore.Log("InfEquip.LoadEquipTable - #testEquipCount="..equipCount)--DEBUG
 
   --tex can't skip if itemDropChance 0 because user may enable during mission.
   --tex TODO: equipid TppEquip.EQP_BLOCK_MISSION lookup, then run whole table:
@@ -1526,7 +1526,7 @@ function this.LoadEquipTable()
           end
         end
       end
-      InfCore.Log("InfEquip.LoadEquipTable - #questEquipCount="..equipCount)--DEBUGNOW
+      InfCore.Log("InfEquip.LoadEquipTable - #questEquipCount="..equipCount)--DEBUG
     end
   end
 
@@ -1535,7 +1535,7 @@ function this.LoadEquipTable()
     loadEquipTable[#loadEquipTable+1]=equipId
   end
 
-  InfCore.Log("InfEquip.LoadEquipTable - #loadEquipTable="..#loadEquipTable)--DEBUGNOW
+  InfCore.Log("InfEquip.LoadEquipTable - #loadEquipTable="..#loadEquipTable)--DEBUG
 
   this.currentLoadTable=equipLoadTable--tex also acts as init/clear. also see AddToCurrentLoadTable which is called after this (TppMain.OnAllocate > TppRevenge.DecideRevenge > _AllocateResources vs TppMain.OnAllocate > module.OnAllocate)
 
@@ -1554,12 +1554,13 @@ function this.AddToCurrentLoadTable(loadEquipTable)
   for i,equipId in ipairs(loadEquipTable)do
     this.currentLoadTable[equipId]=true
   end
-  --DEBUGNOW
-  local count=0
-  for equipId,bool in pairs(this.currentLoadTable)do
-    count=count+1
+  if this.debugModule then
+    local count=0
+    for equipId,bool in pairs(this.currentLoadTable)do
+      count=count+1
+    end
+    InfCore.Log("InfEquip.AddToCurrentLoadTable - #loadEquipTable="..#loadEquipTable.." #currentLoadTable="..count)--DEBUG
   end
-  InfCore.Log("InfEquip.AddToCurrentLoadTable - #loadEquipTable="..#loadEquipTable.." #currentLoadTable="..count)--DEBUGNOW
 end
 
 function this.Messages()
@@ -1706,17 +1707,20 @@ function this.DropItem(gameId)
   local dropOffsetY=1.2
 
   local dropPosition=GameObject.SendCommand(gameId,{id="GetPosition"})
-  dropPosition=Vector3(dropPosition:GetX(),dropPosition:GetY()+dropOffsetY,dropPosition:GetZ())
+  if not dropPosition then
+    InfCore.Log("InfEquip.DropItem - WARNING GetPosition nil for gameId:"..tostring(gameId))
+  else
+    dropPosition=Vector3(dropPosition:GetX(),dropPosition:GetY()+dropOffsetY,dropPosition:GetZ())
 
-  TppPickable.DropItem{
-    equipId=equipId,
-    number=number,
-    position=dropPosition,
-    rotation=Quat.RotationY(0),
-    linearVelocity=Vector3(math.random(-linearMax,linearMax),math.random(-linearMax,linearMax),math.random(-linearMax,linearMax)),
-    angularVelocity=Vector3(math.random(-angularMax,angularMax),math.random(-angularMax,angularMax),math.random(-angularMax,angularMax)),
-  }
-
+    TppPickable.DropItem{
+      equipId=equipId,
+      number=number,
+      position=dropPosition,
+      rotation=Quat.RotationY(0),
+      linearVelocity=Vector3(math.random(-linearMax,linearMax),math.random(-linearMax,linearMax),math.random(-linearMax,linearMax)),
+      angularVelocity=Vector3(math.random(-angularMax,angularMax),math.random(-angularMax,angularMax),math.random(-angularMax,angularMax)),
+    }
+  end
 end
 
 --tex TODO: convert equipidstring to equipid once you mock TppEquip equipid enums
@@ -1943,20 +1947,39 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable,currentLoadTable
         end
       end
     end
+    if this.debugModule then
+      if leastWeaponType==nil then
+        InfCore.Log("GetLeastWeaponType leastWeaponType==nil")
+        InfCore.PrintInspect(weaponTypes,"leastWeaponTypes")
+        InfCore.PrintInspect(weaponTable,"weaponTable")
+      end
+    end
+    --
     return leastWeaponType
   end
 
   InfMain.RandomSetToLevelSeed()
   for i=1,toAddCount do
+    local typeCount=0
     local leastWeaponTypes={}
     for weaponType,weaponIds in pairs(weaponIdTableFinal.NORMAL)do
-      if not skipType[weaponType] and #weaponIdTableAll[weaponType]>0 then
-        leastWeaponTypes[weaponType]=true
+      if not skipType[weaponType] then
+        InfCore.PrintInspect(weaponIdTableAll[weaponType],"weaponIdTableAll["..weaponType.."]")--DEBUGNOW
+        if weaponIdTableAll[weaponType] then
+          leastWeaponTypes[weaponType]=true
+          typeCount=typeCount+1
+        end
       end
+    end
+    if typeCount==0 then
+      InfCore.Log("WARNING typeCount==0 while toAddCount="..toAddCount)--DEBUGNOW
+      break
     end
 
     local leastWeaponType=GetLeastWeaponType(weaponIdTableFinal.NORMAL,leastWeaponTypes)
-    --InfCore.Log("leastWeaponType="..tostring(leastWeaponType))--DEBUG
+    if this.debugModule then
+      InfCore.Log("leastWeaponType="..tostring(leastWeaponType))--DEBUG
+    end
     local weaponIds=weaponIdTableAll[leastWeaponType]
     if #weaponIds>0 then
       local rnd=math.random(#weaponIds)

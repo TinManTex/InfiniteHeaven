@@ -79,11 +79,11 @@ ACC Main menu
 IH system menu
 --------------
 1: Select profile : <Profile type>
-Selects a profile from MGS_TPPmodprofiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
+Selects a profile from MGS_TPP\mod\profiles folder. Press the &ltAction&gt button to apply the settings of the selected profile.
 2: Set profile options to game defaults : (Command)
 Sets the options described in the selected profile to their default setting.
 3: Save to UserSaved profile : (Command)
-Saves current IH settings to UserSaved profile at MGS_TPPprofilesUserSaved.lua.
+Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.
 4: Enable Quick Menu : Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
 5: Start offline : Off, On

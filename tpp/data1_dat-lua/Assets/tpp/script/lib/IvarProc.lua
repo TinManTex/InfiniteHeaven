@@ -1020,7 +1020,9 @@ function this.LoadSave()
   end
 
   local sandboxEnv={}
-  setfenv(ih_save_chunk,sandboxEnv)
+  if setfenv then
+    setfenv(ih_save_chunk,sandboxEnv)
+  end
   local ih_save=ih_save_chunk()
 
   if ih_save==nil then

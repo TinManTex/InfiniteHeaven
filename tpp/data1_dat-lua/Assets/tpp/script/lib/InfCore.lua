@@ -16,7 +16,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="209"
+this.modVersion="210"
 this.modName="Infinite Heaven"
 
 this.debugModule=false
@@ -65,7 +65,7 @@ function this.Log(message,announceLog,force)
   local line="|"..elapsedTime.."|"..message
   this.log[#this.log+1]=line
 
-  if Mock then
+  if isMockFox and luaPrintIHLog then
     print(line)
   end
 
@@ -298,6 +298,11 @@ end
 
 --tex altered from Tpp.DEBUG_Where
 function this.DEBUG_Where(stackLevel)
+  --tex MoonSharp does not support
+  if debug==nil or debug.getinfo==nil then
+    return"(getinfo not supported)"
+  end
+  
   --defining second param of getinfo can help peformance a bit
   --`n´ selects fields name and namewhat
   --`f´ selects field func
@@ -433,7 +438,9 @@ function this.LoadSimpleModule(path,fileName,box)
 
   if box then
     local sandboxEnv={}
-    setfenv(moduleChunk,sandboxEnv)
+    if setfenv then--tex not in 5.2/MoonSharp, wasn't particularly rigorous about it anyway
+      setfenv(moduleChunk,sandboxEnv)
+    end
   end
 
   local module=moduleChunk()
@@ -456,8 +463,8 @@ end
 --tex with external alternate
 function this.DoFile(path)
   local scriptPath=InfCore.paths.mod..path
-  if Mock then--tex DEBUGNOW KLUDGE doesnt have access to scripts in qar so pointing to a seperate source and reusing the ih external alternate loading (which means actual alternates in \mod\ wont be used)
-    scriptPath=projectDataPath..path
+  if isMockFox then--tex DEBUGNOW KLUDGE doesnt have access to scripts in qar so pointing to a seperate source and reusing the ih external alternate loading (which means actual alternates in \mod\ wont be used)
+    scriptPath=foxLuaPath..path
   end
 
   local externLoaded=false
@@ -526,8 +533,7 @@ function this.GetLines(fileName)
         --      end
 
         lines=file:read("*all")
-
-        if Mock then--DEBUGNOW KLUDGE differences in line end between implementations
+        if luaHostType=="LDT" then--DEBUGNOW KLUDGE differences in line end between implementations
           lines=InfUtil.Split(lines,"\n")
         else
           lines=InfUtil.Split(lines,"\r\n")
@@ -550,7 +556,7 @@ function this.RefreshFileList()
   local cmd=[[dir /b /s "]]..path..[[*.*" > "]]..ihFilesName..[["]]
   InfCore.Log(cmd)
   os.execute(cmd)
-  this.ihFiles=this.GetLines(ihFilesName)
+  this.ihFiles=this.GetLines(ihFilesName)  
   --InfCore.PrintInspect(this.ihFiles,"ihFiles")--DEBUG
   if this.ihFiles then
     this.paths={
@@ -630,12 +636,7 @@ local function GetGamePath()
   end
   --tex fallback if MGS_TPP\ couldnt be found in packages.path
   if gamePath==nil then
-    if Mock then
-      print("InfCore.GetGamePath: Mock fallback path "..tostring(Mock))
-      return Mock
-    else
-      return[[C:\]]
-    end
+    return[[C:\]]
   end
 
   local stripLength=10--tex length "\lua\?.lua"
@@ -690,7 +691,7 @@ this.CopyFileToPrev(this.paths.mod,this.logFileName,".txt")
 local error=this.ClearFile(this.paths.mod,this.logFileName,".txt")
 
 if error then
-  if Mock then
+  if isMockFox then
     print(error)
   end
   this.modDirFail=true
@@ -705,16 +706,23 @@ else
     "mod",
     "modules",
   }
+  local modulePaths={}
   local addPaths=""
   for i,packagePath in ipairs(packagePaths)do
     if not this.paths[packagePath]then
       this.Log("ERROR: could not find paths["..packagePath.."]")
     else
       addPaths=addPaths..";"..this.paths[packagePath].."?.lua"
+      modulePaths[#modulePaths+1]=this.paths[packagePath].."?.lua"
     end
   end
   package.path=package.path..addPaths
   this.Log("package.path:"..package.path)
+  
+  --tex isMockFox
+  if luaHostType=="MoonSharp" then
+    SetModulePaths(modulePaths)
+  end
 
   this.CopyFileToPrev(this.paths.saves,"ih_save",".lua")
   local error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")

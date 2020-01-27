@@ -6,10 +6,11 @@ local this={}
 function this.PostAllModulesLoad()
   InfCore.Log("DebugIHVars.PostAllModulesLoad: setting debug vars")
 
-  Ivars.debugMode:Set(1)
-  Ivars.debugMessages:Set(1)
-  Ivars.debugFlow:Set(1)
-  Ivars.debugOnUpdate:Set(1)
+  --DEBUGNOW
+   Ivars.debugMode:Set(1)
+    Ivars.debugMessages:Set(1)
+    Ivars.debugFlow:Set(1)
+    Ivars.debugOnUpdate:Set(1)
 
   Ivars.enableQuickMenu:Set(1)
 
@@ -20,37 +21,105 @@ function this.PostAllModulesLoad()
   --InfInterrogation.debugModule=true
   --InfMBGimmick.debugModule=true
   --InfLookup.debugModule=true
-  
-  InfMission.debugModule=true--DEBUGNOW
-  
- --Quat shiz
---     
---    local rotY=30
---    local rotQuat=Quat.RotationY(TppMath.DegreeToRadian(rotY))
---    InfCore.PrintInspect(rotQuat,"rotQuat")
---    InfCore.PrintInspect(tostring(rotQuat),"rotQuat")
---    InfCore.PrintInspect(rotQuat:ToString(),"rotQuat")
-  
-  this.PrintStrCodes()--DEBUGNOW
+  --InfMission.debugModule=true
+  --InfEquip.debugModule=true
+  --InfWalkerGear.debugModule=true
 
-  --TODO hangs InfWalkerGear=true
+  --this.PrintStrCodes()--DEBUGNOW
+
+  --Quat shiz
+  --
+  --    local rotY=30
+  --    local rotQuat=Quat.RotationY(TppMath.DegreeToRadian(rotY))
+  --    InfCore.PrintInspect(rotQuat,"rotQuat")
+  --    InfCore.PrintInspect(tostring(rotQuat),"rotQuat")
+  --    InfCore.PrintInspect(rotQuat:ToString(),"rotQuat")
 
   --Ivars.customSoldierTypeFREE:Set"OFF"
   --Ivars.disableXrayMarkers:Set(1)
+end
 
-  if not InfCore.doneStartup then
-    return
+function this.PrintStrCodes()
+  InfCore.Log"DebugIHVars.PrintStrCodes---------------"
+  local str32s={
+    1500257626,
+  --routeEvent types
+  --      104983832,
+  --      1500257626,
+  --      4019510599,
+  --      4258228081,
+  --      1974185602,
+  --      2265318157,
+  --      4202868537,
+  --      561913624,
+  --      --reoute even params
+  --      1004142592,
+  --      889322046,
+  --    6452720,
+  --    1631872372,
+  --    825241651,
+  --    573317666,
+  --    975332717,
+  --    1936614772,
+  --    741358114,
+  --routeids
+  --      132331158,
+  --      205387598,
+  --      587733603,
+  --      2615639494,
+  --      2763127077,
+  --      3507759117,
+  --      2265318157,
+  --      1004142592,
+  --      18529,
+  --      889322046,
+  --      574235246,
+  --      104983832,
+  --
+  --   1631872372,
+  }
+
+  --AiRtEvSoldier
+  --quest frts aparently have some corruption from json route or whatever they have and has 4 bytes of plain text
+
+  for i,str32 in ipairs(str32s)do
+    local str=InfLookup.StrCode32ToString(str32)
+    InfCore.Log(str32.."="..tostring(str))
   end
-  
-  
-  
-  
 
-  --InfCore.Log"DebugIHVars dumpshiz----------------------------------------"
-  --InfCore.log={}
-  --this.DumpShit()
-  if true then return end
-  InfCore.Log"----------------------------------------"
+  local strings={
+    --'rt_heli_quest_0000',
+    -- 'rt_quest_heli_d_0000',
+    "Wait",
+    "Stop",
+    "stop",
+    "hold",
+    "look",
+    "face",
+    "aim",
+    "walk",
+    "Hold",
+    "Point",
+    "Look",
+    "Face",
+    "Aim",
+    "AimPoint",
+    "AimPoi",
+    "Poi",
+    "Walk",--DEBUGNOW
+  }
+
+  for i,str in ipairs(strings)do
+    local str32=Fox.StrCode32(str)
+    InfCore.Log(str.."="..tostring(str32))
+  end
+
+end
+
+--DEBUGNOW
+
+
+function this.AnalyseUserDataShiz()
   --REF init.lua
   --  local mainApplication=Application{name="MainApplication"}
   --  local game=Game{name="MainGame"}
@@ -197,7 +266,7 @@ function this.PostAllModulesLoad()
   --InfLog.PrintInspect(EntityClassDictionary.GetCategoryList("Locator"))
   --InfLog.PrintInspect(EntityClassDictionary.GetClassNameList("Locator"))
   --
-  --
+ 
   --
   --
   local identifier="HelispaceLocatorIdentifier"
@@ -224,223 +293,138 @@ function this.PostAllModulesLoad()
 
 
   InfLog.PrintInspect(DataSet.GetDataSetFile(data))
-
-
-
 end
-
-function this.PrintStrCodes()
-  InfCore.Log"DebugIHVars.PrintStrCodes---------------"
- local str32s={
- 1500257626,
-      --routeEvent types
---      104983832,
---      1500257626,
---      4019510599,
---      4258228081,
---      1974185602,
---      2265318157,
---      4202868537,
---      561913624,
---      --reoute even params
---      1004142592,
---      889322046,
-      --    6452720,
-      --    1631872372,
-      --    825241651,
-      --    573317666,
-      --    975332717,
-      --    1936614772,
-      --    741358114,
-      --routeids
---      132331158,
---      205387598,
---      587733603,
---      2615639494,
---      2763127077,
---      3507759117,
-    --      2265318157,
-    --      1004142592,
-    --      18529,
-    --      889322046,
-    --      574235246,
-    --      104983832,
-    --
-    --   1631872372,
-    }
-
---AiRtEvSoldier
---quest frts aparently have some corruption from json route or whatever they have and has 4 bytes of plain text
-
-    for i,str32 in ipairs(str32s)do
-      local str=InfLookup.StrCode32ToString(str32)
-      InfCore.Log(str32.."="..tostring(str))
-    end
-
-    local strings={
-      --'rt_heli_quest_0000',
-     -- 'rt_quest_heli_d_0000',
-     "Wait",
-     "Stop",
-     "stop",
-     "hold",
-     "look",
-     "face",
-     "aim",
-     "walk",
-     "Hold",
-     "Point",
-      "Look",
-      "Face",
-      "Aim",
-      "AimPoint",
-      "AimPoi",
-      "Poi",
-      "Walk",--DEBUGNOW
-    }
-
-    for i,str in ipairs(strings)do
-      local str32=Fox.StrCode32(str)
-      InfCore.Log(str.."="..tostring(str32))
-    end
-
-end
-
---DEBUGNOW
-
-
-
 
 
 function this.AnalizeShiz()
-    InfCore.ClearLog()
+  InfCore.ClearLog()
 
-    local knownKeyNames={
-      TppScriptVars={
-        CATEGORY_CONFIG = true,
-        CATEGORY_GAME_GLOBAL = true,
-        CATEGORY_MB_MANAGEMENT = true,
-        CATEGORY_MGO = true,
-        CATEGORY_MISSION = true,
-        CATEGORY_MISSION_RESTARTABLE = true,
-        CATEGORY_PERSONAL = true,
-        CATEGORY_QUEST = true,
-        CATEGORY_RETRY = true,
-        CopySlot = true,
-        CreateSaveSlot = true,
-        DeclareGVars = true,
-        DeclareSVars = true,
-        DeleteFile = true,
-        FileExists = true,
-        GROUP_BIT_ALL = true,
-        GROUP_BIT_GVARS = true,
-        GROUP_BIT_VARS = true,
-        GetElapsedTimeSinceLastPlay = true,
-        GetFileExistence = true,
-        GetFreeStorageSpaceSize = true,
-        GetLastResult = true,
-        GetNecessaryStorageSpaceSize = true,
-        GetProgramVersionTable = true,
-        GetSaveState = true,
-        GetScriptVersionFromSlot = true,
-        GetTotalPlayTime = true,
-        GetVarValueInSlot = true,
-        InitForNewGame = true,
-        InitForNewMission = true,
-        IsSavingOrLoading = true,
-        IsShowingNoSpaceDialog = true,
-        LoadVarsFromSlot = true,
-        PLAYER_AMMO_STOCK_TYPE_COUNT = true,
-        READ_FAILED = true,
-        RESULT_ERROR_FILE_CORRUPT = true,
-        RESULT_ERROR_INVALID_STORAGE = true,
-        RESULT_ERROR_LOAD_BACKUP = true,
-        RESULT_ERROR_NOSPACE = true,
-        RESULT_ERROR_OWNER = true,
-        RESULT_OK = true,
-        ReadSlotFromAreaFile = true,
-        ReadSlotFromFile = true,
-        RequestAreaFileExistence = true,
-        RequestFileExistence = true,
-        RequestNecessaryStorageSpace = true,
-        STATE_LOADING = true,
-        STATE_PROCESSING = true,
-        STATE_SAVING = true,
-        SVarsIsSynchronized = true,
-        SaveVarsToSlot = true,
-        SetFileSizeList = true,
-        SetSVarsNotificationEnabled = true,
-        SetUpSlotAsCompositSlot = true,
-        SetVarValueInSlot = true,
-        ShowNoSpaceDialog = true,
-        StoreUtcTimeToScriptVars = true,
-        TYPE_BOOL = true,
-        TYPE_FLOAT = true,
-        TYPE_INT32 = true,
-        TYPE_INT8 = true,
-        TYPE_UINT16 = true,
-        TYPE_UINT32 = true,
-        TYPE_UINT8 = true,
-        WRITE_FAILED = true,
-        WriteSlotToFile = true
-      }
+  local knownKeyNames={
+    TppScriptVars={
+      CATEGORY_CONFIG = true,
+      CATEGORY_GAME_GLOBAL = true,
+      CATEGORY_MB_MANAGEMENT = true,
+      CATEGORY_MGO = true,
+      CATEGORY_MISSION = true,
+      CATEGORY_MISSION_RESTARTABLE = true,
+      CATEGORY_PERSONAL = true,
+      CATEGORY_QUEST = true,
+      CATEGORY_RETRY = true,
+      CopySlot = true,
+      CreateSaveSlot = true,
+      DeclareGVars = true,
+      DeclareSVars = true,
+      DeleteFile = true,
+      FileExists = true,
+      GROUP_BIT_ALL = true,
+      GROUP_BIT_GVARS = true,
+      GROUP_BIT_VARS = true,
+      GetElapsedTimeSinceLastPlay = true,
+      GetFileExistence = true,
+      GetFreeStorageSpaceSize = true,
+      GetLastResult = true,
+      GetNecessaryStorageSpaceSize = true,
+      GetProgramVersionTable = true,
+      GetSaveState = true,
+      GetScriptVersionFromSlot = true,
+      GetTotalPlayTime = true,
+      GetVarValueInSlot = true,
+      InitForNewGame = true,
+      InitForNewMission = true,
+      IsSavingOrLoading = true,
+      IsShowingNoSpaceDialog = true,
+      LoadVarsFromSlot = true,
+      PLAYER_AMMO_STOCK_TYPE_COUNT = true,
+      READ_FAILED = true,
+      RESULT_ERROR_FILE_CORRUPT = true,
+      RESULT_ERROR_INVALID_STORAGE = true,
+      RESULT_ERROR_LOAD_BACKUP = true,
+      RESULT_ERROR_NOSPACE = true,
+      RESULT_ERROR_OWNER = true,
+      RESULT_OK = true,
+      ReadSlotFromAreaFile = true,
+      ReadSlotFromFile = true,
+      RequestAreaFileExistence = true,
+      RequestFileExistence = true,
+      RequestNecessaryStorageSpace = true,
+      STATE_LOADING = true,
+      STATE_PROCESSING = true,
+      STATE_SAVING = true,
+      SVarsIsSynchronized = true,
+      SaveVarsToSlot = true,
+      SetFileSizeList = true,
+      SetSVarsNotificationEnabled = true,
+      SetUpSlotAsCompositSlot = true,
+      SetVarValueInSlot = true,
+      ShowNoSpaceDialog = true,
+      StoreUtcTimeToScriptVars = true,
+      TYPE_BOOL = true,
+      TYPE_FLOAT = true,
+      TYPE_INT32 = true,
+      TYPE_INT8 = true,
+      TYPE_UINT16 = true,
+      TYPE_UINT32 = true,
+      TYPE_UINT8 = true,
+      WRITE_FAILED = true,
+      WriteSlotToFile = true
     }
+  }
 
-    local moduleName="TppScriptVars"
-    local module=_G[moduleName]
+  local moduleName="TppScriptVars"
+  local module=_G[moduleName]
 
-    local str32Keys={}
-    for key,exists in pairs(knownKeyNames[moduleName])do
-      str32Keys[key]=Fox.StrCode32(key)
+  local str32Keys={}
+  for key,exists in pairs(knownKeyNames[moduleName])do
+    str32Keys[key]=Fox.StrCode32(key)
+  end
+  InfCore.PrintInspect(str32Keys,moduleName.." str32Keys")
+
+  local moduleValues={}
+  for key,exists in pairs(knownKeyNames[moduleName])do
+    moduleValues[key]=InfInspect.Inspect(module[key])
+  end
+  InfCore.PrintInspect(moduleValues,moduleName.." moduleValues")
+
+  local arrayValues={}
+  local arrayCountIdent=-285212672
+  local arrayCount=module[arrayCountIdent]
+  InfCore.PrintInspect(arrayCount,moduleName.." arrayCount")
+  if arrayCount then
+    for i=0,arrayCount do--tex not sure if index from 0 or 1
+      arrayValues[i]=InfInspect.Inspect(module[i])
     end
-    InfCore.PrintInspect(str32Keys,moduleName.." str32Keys")
-
-    local moduleValues={}
-    for key,exists in pairs(knownKeyNames[moduleName])do
-      moduleValues[key]=InfInspect.Inspect(module[key])
-    end
-    InfCore.PrintInspect(moduleValues,moduleName.." moduleValues")
-
-    local arrayValues={}
-    local arrayCountIdent=-285212672
-    local arrayCount=module[arrayCountIdent]
-    InfCore.PrintInspect(arrayCount,moduleName.." arrayCount")
-    if arrayCount then
-      for i=0,arrayCount do--tex not sure if index from 0 or 1
-        arrayValues[i]=InfInspect.Inspect(module[i])
-      end
-    end
-    InfCore.PrintInspect(arrayValues,moduleName.." arrayValues")
+  end
+  InfCore.PrintInspect(arrayValues,moduleName.." arrayValues")
 
 
-    local tableInfo={
-      stringKeys={},
-      numberKeys={},
-    }
-    local function GetTableKeys(checkTable,tableInfo)
-      for key,value in pairs(checkTable)do
-        if type(key)=="string" then
-          tableInfo.stringKeys[key]=true
-        elseif type(key)=="number" then
-          tableInfo.numberKeys[key]=true
-          if type(value)=="table" then
-            GetTableKeys(value,tableInfo)
-          end
+  local tableInfo={
+    stringKeys={},
+    numberKeys={},
+  }
+  local function GetTableKeys(checkTable,tableInfo)
+    for key,value in pairs(checkTable)do
+      if type(key)=="string" then
+        tableInfo.stringKeys[key]=true
+      elseif type(key)=="number" then
+        tableInfo.numberKeys[key]=true
+        if type(value)=="table" then
+          GetTableKeys(value,tableInfo)
         end
       end
     end
+  end
 
-    GetTableKeys(module,tableInfo)
-    InfCore.PrintInspect(tableInfo,moduleName.." tableInfo")
+  GetTableKeys(module,tableInfo)
+  InfCore.PrintInspect(tableInfo,moduleName.." tableInfo")
 
 
-    InfCore.PrintInspect(module,moduleName)
-    
-    
-    for knownKeyName,str32 in pairs(str32Keys)do
-      local foundKey=tableInfo.numberKeys[str32] 
-      InfCore.Log(knownKeyName.." "..str32.." key in module:"..tostring(foundKey))
-    end
+  InfCore.PrintInspect(module,moduleName)
+
+
+  for knownKeyName,str32 in pairs(str32Keys)do
+    local foundKey=tableInfo.numberKeys[str32]
+    InfCore.Log(knownKeyName.." "..str32.." key in module:"..tostring(foundKey))
+  end
 end
 
 

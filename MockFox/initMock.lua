@@ -1,5 +1,6 @@
+-- DOBUILD: 0
 -- initMock.lua
-
+-- tex abridged tpp init.lua till MockFox is complete enough to load it straight
 --IHINTERNAL
 Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
 Script.LoadLibrary"/Assets/tpp/script/lib/InfUtil.lua"--tex

@@ -333,7 +333,6 @@ end
 --  --[[XXX]]{questName="quest_q30100",questId="quest_q30100",locationId=TppDefine.LOCATION_ID.MTBS,clusterId=TppDefine.CLUSTER_DEFINE.Combat,plntId=TppDefine.PLNT_DEFINE.Special,category=this.QUEST_CATEGORIES_ENUM.CAPTURE_ANIMAL},--tex
 --  --[[XXX]]{questName="fort_q71080",questId="quest_q71080",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2080.718,456.726,-1927.582),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_PUPPETS},
 --IN/OUT: questInfoTable,questTableIndexes
---DEBUGNOW
 function this.AddToQuestInfoTable(questInfoTable,questInfoIndexes,questName,questInfo)
   local addQuestInfo={
     questName=questName,

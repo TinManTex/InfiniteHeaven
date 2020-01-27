@@ -1,24 +1,46 @@
 --main.lua
 local this={}
 
---tex KLUDGE MoonSharp doesnt set/use package path? DEBUGNOW
-package.path = package.path or ""
-package.cpath = package.cpath or ""
+--tex MockFox host stuff
+luaHostType="LDT"
 
-projectDataPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"
+foxGamePath="C:/GamesSD/MGS_TPP/"
+foxLuaPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"--tex path of tpps scripts (qar luas)
+mockFoxPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/MockFox/"--tex path of MockFox scripts
 
+package.path=nil--KLUDGE have mockfox default package path code run, will kill existing / LDT provided package.path
+package.cpath=mockFoxPath.."?.dll"--tex for bit.dll TODO: build equivalent cpath.
+--
+dofile(mockFoxPath.."/loadMockFox.lua")
 
-package.cpath=package.cpath..";./MockFox/?.dll"--tex for bit.dll
-package.path=package.path..";./MockFox/?.lua"
+dofile(mockFoxPath.."/initMock.lua")
+--dofile(foxLuaPath.."/init.lua")--tex not quite ready to run straight yet
 
---non mock stuff >
-package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/afgh/?.lua"
-package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/mafr/?.lua"
+do
+  local chunk,err=loadfile(mockFoxPath.."/startMock.lua")
+  --local chunk,err=loadfile(foxLuaPath.."/Tpp/start.lua")--tex not quite ready to run straight yet
+  if err then
+    print(err)
+  else
+    local co=coroutine.create(chunk)
+    repeat
+      local ok,ret=coroutine.resume(co)
+      if not ok then
+        error(ret)
+      end
+    until coroutine.status(co)=="dead"
+  end
+end
 
-package.path=package.path..";./?.lua"
-
-package.path=package.path..";./nonmgscelua/?.lua"
-package.path=package.path..";./nonmgscelua/SLAXML/?.lua"
+--
+----non mock stuff >
+--package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/afgh/?.lua"
+--package.path=package.path..";./FpkdCombinedLua/Assets/tpp/script/location/mafr/?.lua"
+--
+--package.path=package.path..";./?.lua"
+--
+--package.path=package.path..";./nonmgscelua/?.lua"
+--package.path=package.path..";./nonmgscelua/SLAXML/?.lua"
 
 --package.path=package.path..";./Data1Lua/Tpp/?.lua"
 package.path=package.path..";./Data1Lua/Assets/tpp/script/lib/?.lua"--for AutoDoc
@@ -26,73 +48,12 @@ package.path=package.path..";./Data1Lua/Assets/tpp/script/lib/?.lua"--for AutoDo
 
 
 --
---Mock=[[C:\]]--DEBUGNOW
-Mock=[[C:\GamesSD\MGS_TPP\]]--
 
-
-
---UTIL
-MockUtil={}
-
-function MockUtil.Split(s, delimiter)
-  local result = {};
-  for match in (s..delimiter):gmatch("(.-)"..delimiter) do
-    table.insert(result, match);
-  end
-  return result;
-end
-
-function MockUtil.MergeTable(table1,table2,n)
-  local mergedTable=table1
-  for k,v in pairs(table2)do
-    if table1[k]==nil then
-      mergedTable[k]=v
-    else
-      mergedTable[k]=v
-    end
-  end
-  return mergedTable
-end
---
---tex not set up as a coroutine, so yield==nil?
-yield=function()--DEBUGNOW
-  --DEBUGNOW coroutine.yield()--DEBUGNOW
-end
-
---DEBUGNOW
---local _loadfile=loadfile
---loadfile=function(path)
---  return _loadfile(projectDataPath..path)
---end
-
-dofile("MockFox/MockFoxEngine.lua")
-
-print"parse main.lua: MockFoxEngine done"
-
-vars=require"vars"
-
-dofile("MockFox/initMock.lua")
-
---dofile(projectDataPath.."init.lua")
-
-
---do
---  local startMock=function()loadfile"MockFox/startMock.lua"end
---  local co=coroutine.create(startMock)
---  repeat
---    --coroutine.yield()
---    local ok,ret=coroutine.resume(co)
---    if not ok then
---      error(ret)
---    end
---  until coroutine.status(co)=="dead"
---end
-dofile("MockFox/startMock.lua")
 
 
 --TODO really do need to module load these since TppDefine is already loaded at this point
 ---------
---DEBUGNOW
+
 --afgh_routeSets=require"afgh_routeSets"
 --mafr_routeSets=require"mafr_routeSets"
 --afgh_travelPlans=require"afgh_travelPlans"
@@ -429,7 +390,7 @@ local function XmlTest()
   --    print(ins)
   --  end
 
-  --DEBUGNOW
+  --
   --REF
   --fox
   --entities
@@ -443,8 +404,8 @@ local function XmlTest()
   for i,xEntity in ipairs(xEntities.el)do
     local class=xEntity.attr.class
     local addr=xEntity.attr.addr
-    --print(class)--DEBUGNOW
-    --print(addr)--DEBUGNOW
+    --print(class)--DEBUG
+    --print(addr)--DEBUG
     allEntities[addr]=xEntity
 
 
@@ -454,7 +415,7 @@ local function XmlTest()
     parent=GetPropertyValue(parent)
     if parent then
       if parent~="0x00000000" then
-        --print("parent="..parent)--DEBUGNOW
+        --print("parent="..parent)--DEBUG
         local entry=parentage[addr]or{}
         entry.parent=parent
         parentage[addr]=entry
@@ -465,7 +426,7 @@ local function XmlTest()
       for i,n in ipairs(children.el)do--<value>s
         local child=GetText(n)
         if child=="0x00000000" then
-          InfCore.Log("WARNING entity "..addr.. " has a child as 0x00000000")--DEBUGNOW
+          InfCore.Log("WARNING entity "..addr.. " has a child as 0x00000000")--DEBUG
         end
 
         local entry=parentage[addr]or{}
@@ -802,7 +763,7 @@ local function TestGamePath()
     local pat="(.-)"..delim.."()"
     local nb=0
     local lastPos
-    for part,pos in string.gfind(str,pat) do
+    for part,pos in string.gmatch(str,pat) do
       nb=nb+1
       result[nb]=part
       lastPos=pos
@@ -1306,9 +1267,6 @@ local function MergeFiles()
   file:close()
 end
 
---DEBUGNOW
-
-
 --XML parse, from http://lua-users.org/wiki/LuaXml
 --tex tweaked a bit
 function this.ParseArgs(s)
@@ -1408,7 +1366,7 @@ function this.XMLToLngTable(fileName)
   return lngTable
 end
 
---DEBUGNOW
+
 function this.XMLToEntityTable(fileName)
   local xmlString=io.open(fileName):read('*all')
   local xmlTable=this.Collect(xmlString)
@@ -1443,10 +1401,10 @@ end
 local function main()
   print("main()")
 
---  print(package.path)
---
---  print(os.date("%x %X"))
---  print(os.time())
+  --  print(package.path)
+  --
+  --  print(os.date("%x %X"))
+  --  print(os.time())
 
   print"Running AutoDoc"
   InfAutoDoc.AutoDoc()
@@ -1490,7 +1448,7 @@ local function main()
 
   --Stringify()
 
-  --XmlTest()--DEBUGNOW
+  --XmlTest()-
 
 
 
@@ -1537,7 +1495,7 @@ local function main()
   --XmlTest()
 
 
-  
+
 
   print"main done"
 end

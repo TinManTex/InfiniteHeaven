@@ -3416,7 +3416,7 @@ local BuddyVarGetSettingText=function(self,setting)
   local varTypeTable=commandInfo.varTypeTable
   return varTypeTable[setting].name
 end
-local BuddyVarOnSelect=function(self,currentSetting)
+local BuddyVarOnSelect=function(self)
   if vars.buddyType==BuddyType.NONE then
     return InfMenu.LangString"no_buddy_set"
   end

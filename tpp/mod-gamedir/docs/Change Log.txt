@@ -1,5 +1,14 @@
 Infinite Heaven changelog
 
+r210 - 2017-07-22
+Fixed: Quarantine platform soldiers having no weapons with custom equip table.
+Fixed: mbNpcRouteChange - 'Soldiers move between platforms' not working on initial cluster load, looks like I broke it in r208 - thanks pk5547 for save data, others for the report.
+Fixed: Additional npcs with no faces on quarantine and Skulls T-Posing, just disabling additional npcs on quarantine completely at the moment - thanks pk5547 for save data and report.
+Fixed: InfEquip.DropItem on GetPosition nil (Eli)
+Fixed: postExtCommands not passing currentSetting to OnSelect (unlockSideOpNumber)
+
+Mock: Various settings to manage the distinction between host types.
+
 r209 - 2017-07-17
 Debug: loadToACC settable on ih_save to have game load ACC on continue from title menu instead of loading saved mission. 
 Is same as holding Escape for a couple of seconds at tile, but possibly more discoverable or providable.

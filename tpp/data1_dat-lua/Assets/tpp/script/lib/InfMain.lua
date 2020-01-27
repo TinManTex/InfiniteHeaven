@@ -2012,15 +2012,15 @@ end
 
 function this.ModDirErrorMessage()
   --tex TODO: if InfLang then printlangid else -v-
-  local msg="Infinite Heaven: Could not find MGS_TPP\\mod\\. See Installation.txt"
+  local msg="Infinite Heaven: Could not find MGS_TPP\\mod\\. See FAQ Known issues.txt"
   InfCore.DebugPrint(msg)
   InfCore.Log(msg,false,true)
 end
 
 function this.ModuleErrorMessage()
   --tex TODO: if InfLang then printlangid else -v-
-  InfCore.DebugPrint"Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See Installation.txt"
-  InfCore.Log("Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See Installation.txt",false,true)
+  InfCore.DebugPrint"Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See FAQ Known issues.txt"
+  InfCore.Log("Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See FAQ Known issues.txt",false,true)
 end
 
 function this.PostAllModulesLoad()

@@ -51,15 +51,7 @@ This step should only take a minute or so if no other mods installed (longer wit
 See log.txt in the snakebite folder which is updated with the installs progress.
 If it takes an excessively long time refer to the sticky on the snakebite posts page for possible fixes.
 
-Troubleshooting:
-----------------
-Getting the 'Infinite Heaven: Could not load modules from MGS_TPP\mod\' error
-If you get this message shortly after startup:
-Make sure your game folder is actually named MGS_TPP.
-Check ih_log.txt in MGS_TPP\mod\ for error messages.
-Try copying the mod folder to C:\mod, after running the game again open ih_log.txt from the mod folder and message me the log.
-
-See FAQ Known issues.txt for further troubleshooting.
+Troubleshooting: See FAQ Known issues.txt.
 
 Note:
 ------------------------------

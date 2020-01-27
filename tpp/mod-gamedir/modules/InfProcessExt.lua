@@ -1,4 +1,4 @@
---InfProcessExt.lua --DEBUGNOW
+--InfProcessExt.lua
 local this={}
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
@@ -6,7 +6,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
   
-  InfCore.PCallDebug(InfCore.DoToMgsvCommands)--DEBUGNOW
+  InfCore.PCallDebug(InfCore.DoToMgsvCommands)
 end
 
 return this
