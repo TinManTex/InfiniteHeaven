@@ -1,6 +1,21 @@
 Infinite Heaven changelog
 
-r192 - 2016-11-06
+r193 - 2016-11-13
+Refactor: Shifted plain table user files loading to InfLog.LoadBoxed.
+
+Added: Walker gears assigned to foot patrols in free roam (requires both foot patrols and walker gears in free to be enabled) - InfWalkerGears.AddLrrpWalkers,SetUpEnemyGear, pretty flaky with soldiers ditching walkers in the middle of nowhere though, also (if they make it that far), they'll leave it at their destination base instead of continuing with it.
+
+Added: Walker gear locations to IH interrogations.
+
+Refactor: ModifyVehiclePatrolSoldiers changed to to ModifyLrrpSoldiers
+Refactor: Addlrrps split to cp creation and cp fill (shifted to ModifyLrrpSoldiers)
+
+Options: armorParasiteEnabled="Allow Armor Skulls", mistParasiteEnabled="Allow Mist Skulls",camoParasiteEnabled="Allow Sniper Skulls" - Allow/disallow skull types for Skull attacks - was on TODO, but thanks SoullessMadness for the request.
+
+Option: skipLogos - "Skip startup logos" - Stops the konami/kjp/fox/nvidia logos from showing.". Makes a return after its removal in r90  - thanks morbidslinky for the suggestion.
+(via IH system menu)
+
+r192 - 2016-11-09
 Fixed: Hang on game startup with no ih_save.lua - thanks everyone for the report.
 
 Refactor: InfMain. .ModifyVehiclePatrolSoldiers .AddLrrps .AddWildCards shifted to InfNPC, external arguments either now passed in directly or documented.

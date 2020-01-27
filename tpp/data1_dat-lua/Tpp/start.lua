@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 --start.lua
+InfLog.AddFlow"start.lua"--tex
 local function yield()
   coroutine.yield()
 end
@@ -627,11 +628,8 @@ if Script.LoadLibrary then
     Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"
     yield()
     --tex>
-    --Script.LoadLibrary"/Assets/tpp/script/lib/InfModelRegistry.lua"
-    --WIP
-    local InfModelRegistry=InfLog.LoadExternalModuleRequire("InfModelRegistry")
+    local InfModelRegistry=InfLog.LoadBoxed"InfModelRegistry.lua"
     InfLog.InfModelRegistry=InfModelRegistry
-    yield()
     if InfModelRegistry then
       local commonHeadPath="/Assets/tpp/pack/fova/common_source/chara/cm_head/"
       for i,moduleName in ipairs(InfModelRegistry.headFovaModNames)do
@@ -748,6 +746,6 @@ TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil,{setMute=true})
 TppVarInit.InitializeOnStartTitle()
 TppVarInit.StartInitMission()
 TppUiCommand.SetLoadIndicatorVisible(false)
-
+InfLog.AddFlow"start.lua done"--tex
 
 

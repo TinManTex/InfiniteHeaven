@@ -1,7 +1,9 @@
 -- ExtensionOrder.lua
 
+InfInspect=require"InfInspect"
+
 --tex it's evident from eyeballing gzstool fpk xml files that files in fpks are grouped by extension in some specific order.
---loading a fpkd with a different order may cause the game to crash (TODO: test with fpks)
+--loading a fpkd with a different order may cause the game to crash. fpks don't seem to have the same issue.
 --this script pulls together info from gzstool fpk xml files to attempt to reconstruct the order
 
 local basePath=[[J:\GameData\MGS\!!masternew\]]
@@ -10,16 +12,17 @@ local basePath=[[J:\GameData\MGS\!!masternew\]]
 local dirsFileName="FilesMaster.txt"
 --local dirsFileName="FilesMgo.txt"
 
-local packExtenion="fpk"
 --local packExtenion="fpkd"
+local packExtenion="fpkd"
 
 dirsFileName=packExtenion..dirsFileName
 
+--tex build txt file of .fpkd.xml file paths
 local command=string.format([[dir /s /b %s*.%s.xml > %s]],basePath,packExtenion,dirsFileName)
 print(command)
 os.execute(command)
+--tex throw into table
 local xmlFileDirs={}
-
 local dirsFile,error=io.open(dirsFileName,"r")
 if dirsFile then
   while true do
@@ -32,10 +35,11 @@ end
 --local ins=InfInspect.Inspect(xmlFileDirs)
 --print(ins)
 
-local extensionOrdersPerFpk={}-- is dictionary fpkFileName,list of extensions
+local extensionOrdersPerFpk={}--  k [fpkFileName]= v list of extensions
 local extensionsInFpk={}
 local allExtensions={}
 
+--tex pull lists of extensions from .fpkd.xml files
 for i,xmlPath in ipairs(xmlFileDirs)do
   print(xmlPath)
   local xmlFile,error=io.open(xmlPath,"r")
@@ -50,11 +54,6 @@ for i,xmlPath in ipairs(xmlFileDirs)do
       --REF     <Entry FilePath="/Assets/tpp/level/location/mtbs/block_layout/mtbs_layout00500_nav.fox2" />
       local s1,e1=string.find(line,[[<Entry FilePath="]])
       if s1 then
-        --        local s2,e2=string.find(line,"%.",e1+1)
-        --        local s3,e3=string.find(line,[["]],e2+1)
-        --        local extension=string.sub(line,e2+1,e3-1)
-
-
         local m1,m2 = line:match'(.*%.)(.*)'
         --print("m1:"..m1.."--m2:"..m2)
         local s2,e2=string.find(m2,[["]])
@@ -85,6 +84,7 @@ end
 --  end
 --end
 
+--tex remove duplicate lists
 local condensedLists={}
 for xmlFilePath,extensionsOrder in pairs(extensionOrdersPerFpk)do
   if #extensionsOrder>1 then
@@ -110,6 +110,7 @@ for xmlFilePath,extensionsOrder in pairs(extensionOrdersPerFpk)do
   end
 end
 
+--tex sort lists by count
 local SortFunc=function(a,b)
   if #a<#b then
     return true
@@ -119,25 +120,19 @@ end
 table.sort(condensedLists,SortFunc)
 --local ins=InfInspect.Inspect(condensedLists)
 --print(ins)
+print("\n")
 for listNum,extensionsOrder in ipairs(condensedLists)do
   local ins=InfInspect.Inspect(extensionsOrder)
-  print(listNum..":\t"..#extensionsOrder..":\t"..ins)
+  print(listNum..":\t#"..#extensionsOrder.."\t"..ins)
 end
 
 local numExts=0
 for ext,bool in pairs(allExtensions)do
   numExts=numExts+1
 end
-
+print("\n")
 print("numExts="..numExts)
 local ins=InfInspect.Inspect(allExtensions)
 print(ins)
-
-
---tex all positions reletively solid except for "bnd", analysis from my ExtensionOrder.lua puts it somewhere between veh and tgt. 
---have put it between des and tgt in line with init.lua RegisterPackageExtensionInfo call
--- RegisterPackageExtensionInfo call seems to mostly match my derived order in reverse - however clo doesnt fit the order and lng isn't in its table.
-local fpkdExtensionsOrder={ "fox2", "evf", "parts", "vfxlb", "vfx", "vfxlf", "veh", "frld", "des", "bnd", "tgt", "phsd", "ph", "sim", "clo", "fsd", "sdf", "lua", "lng" }
-
 
 print("ExtensionOrder done")

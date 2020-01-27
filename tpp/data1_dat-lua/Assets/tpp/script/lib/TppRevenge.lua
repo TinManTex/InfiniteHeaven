@@ -2085,7 +2085,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
     local addRadio=false
     
     if isLrrpVehicleCp and isVehiclePatrols then
-      local vehicleInfo=mvars.inf_patrolVehicleInfo[isLrrpVehicleCp]
+      local vehicleInfo=InfVehicle.inf_patrolVehicleInfo[isLrrpVehicleCp]
       if vehicleInfo then
         local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
         if baseTypeInfo and not baseTypeInfo.enclosed then

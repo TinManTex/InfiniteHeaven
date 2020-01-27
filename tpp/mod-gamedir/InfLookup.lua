@@ -133,6 +133,57 @@ end
 this.jeepNames=this.GenerateNameList("veh_lv_",20)
 this.truckNames=this.GenerateNameList("veh_trc_",10)
 
+function this.GetObjectList()
+  return InfMain.reserveSoldierNames
+    --        local travelPlan="travelArea2_01"
+    --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
+    --return InfNPC.ene_wildCardInfo
+    --return InfParasite.parasiteNames[InfParasite.parasiteType]
+    --return InfLookup.truckNames
+    --return InfLookup.jeepNames
+    --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
+    --return TppReinforceBlock.REINFORCE_SOLDIER_NAMES
+    --return InfInterrogation.interCpQuestSoldiers
+    --return InfWalkerGear.walkerNames
+    --return InfNPCHeli.heliList
+end
+
+function this.GetObjectInfoOrPos(index)
+    local objectList=this.GetObjectList()
+
+    if objectList==nil then
+      return nil,"objectList nil"
+    end
+
+    if #objectList==0 then
+      return nil,"objectList empty"
+    end
+
+    local objectName=objectList[index]
+    if objectName==nil then
+      return nil,"objectName==nil for index "..index,nil
+    end
+    local gameId=objectName
+    if type(objectName)=="string" then
+      gameId=GetGameObjectId(objectName)
+    end
+    if gameId==nil then
+      return objectName,objectName.." nil"
+    end
+    if gameId==NULL_ID then
+      return objectName,objectName.." NULL_ID"
+    end
+
+    local position=GameObject.SendCommand(gameId,{id="GetPosition"})
+    if position==nil then
+      return objectName,objectName.." nil for GetPosition"
+    end
+    
+    position={position:GetX(),position:GetY(),position:GetZ()}
+    
+    return objectName,"",position
+end
+
 --tex there's no real lookup for this I've found
 --there's probably faster tables (look in DefineSoldiers()) that have the cpId>soldierId, but this is nice for the soldiername,cpname
 function this.ObjectNameForGameIdList(findId,list,objectType)
@@ -167,6 +218,7 @@ function this.ObjectNameForGameId(findId)
     {TppReinforceBlock.REINFORCE_SOLDIER_NAMES,"TppSoldier2"},
     InfNPCHeli.heliNames.UTH,
     InfNPCHeli.heliNames.HP48,
+    InfWalkerGear.walkerNames,
     this.jeepNames,
     this.truckNames,
   }

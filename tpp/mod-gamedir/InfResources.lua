@@ -148,9 +148,20 @@ function this.ScaleResourceTables()
   end
 end
 
+function this.DefaultResourceTables()
+  local smallDiamondGmp=this.SMALL_DIAMOND_GMP
+  local largeDiamondGmp=this.LARGE_DIAMOND_GMP
+
+  TppMotherBaseManagement.SetSmallDiamondGmp{gmp=smallDiamondGmp}
+  TppMotherBaseManagement.SetLargeDiamondGmp{gmp=largeDiamondGmp}
+
+  
+  TppMotherBaseManagement.RegisterContainerParam(this.containerParams)
+end
+
 function this.OnAllocate(missionTable)
   if not Ivars.resourceAmountScale:IsDefault() then
-    InfResources.ScaleResourceTables()
+    this.ScaleResourceTables()
   end
 end
 

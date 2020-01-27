@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="192"
+this.modVersion="193"
 this.modName="Infinite Heaven"
 this.saveName="ih_save.lua"
 
@@ -27,11 +27,12 @@ this.appliedProfiles=false
 
 --STATE
 --tex gvars.isContinueFromTitle is cleared in OnAllocate while it could have still been useful,
---this is valid from OnAllocateTop to OnInitializeBottom, till not helispace --DEBUGNOW
+--this is valid from OnAllocateTop to OnInitializeBottom, till not helispace
 this.isContinueFromTitle=false
 
 this.soldierPool={}
-this.soldiersAssigned={}
+this.emptyCpPool={}
+
 this.lrrpDefines={}--tex from AddLrrps
 
 --TUNE
@@ -81,7 +82,8 @@ function this.OnAllocateTop(missionTable)
 end
 function this.OnAllocate(missionTable)
   if TppMission.IsFOBMission(vars.missionCode)then
-    TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParameters)
+    TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParametersDefaults)
+    InfResources.DefaultResourceTables()
     return
   end
 
@@ -114,26 +116,34 @@ function this.OnInitializeTop(missionTable)
   --tex modify missionTable before it's acted on
   if missionTable.enemy then
     local enemyTable=missionTable.enemy
-    this.numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
-    if not this.IsContinue() then
-      this.reserveSoldierNames=this.BuildReserveSoldierNames(this.numReserveSoldiers,this.reserveSoldierNames)
-      this.soldierPool=this.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
-    end
-    --InfLog.DebugPrint("Init #this.soldierPool:"..#this.soldierPool)--DEBUG
-
     if IsTable(enemyTable.soldierDefine) then
-      if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
-        InfLog.PCallDebug(InfVehicle.ModifyVehiclePatrol,enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine,enemyTable.travelPlans)
+      if not this.IsContinue() then
+        local numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
+        this.reserveSoldierNames=this.GenerateNameList("sol_ih_",numReserveSoldiers)
+        this.soldierPool=this.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
+        this.emptyCpPool=InfMain.BuildEmptyCpPool(enemyTable.soldierDefine)
+        
+        this.lrrpDefines={}
+        
+        InfWalkerGear.walkerPool=InfMain.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
+        InfWalkerGear.mvar_walkerInfo={}
       end
+      InfLog.PCallDebug(InfNPC.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUGNOW
+
+      InfLog.PCallDebug(InfVehicle.ModifyVehiclePatrol,enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine,enemyTable.travelPlans,this.emptyCpPool)
 
       enemyTable.soldierTypes=enemyTable.soldierTypes or {}
       enemyTable.soldierSubTypes=enemyTable.soldierSubTypes or {}
       enemyTable.soldierPowerSettings=enemyTable.soldierPowerSettings or {}
       enemyTable.soldierPersonalAbilitySettings=enemyTable.soldierPersonalAbilitySettings or {}
 
-      InfLog.PCallDebug(InfNPC.ModifyVehiclePatrolSoldiers,this.soldierPool,enemyTable.soldierDefine,this.soldiersAssigned)
-      InfLog.PCallDebug(InfNPC.AddLrrps,this.soldierPool,enemyTable.soldierDefine,enemyTable.travelPlans,this.lrrpDefines)
-      InfLog.PCallDebug(InfNPC.AddWildCards,this.soldierPool,enemyTable.soldierDefine,enemyTable.soldierTypes,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)--DEBUGNOW
+      InfLog.PCallDebug(InfNPC.AddLrrps,enemyTable.soldierDefine,enemyTable.travelPlans,this.lrrpDefines,this.emptyCpPool)
+      InfLog.PCallDebug(InfWalkerGear.AddLrrpWalkers,this.lrrpDefines,InfWalkerGear.walkerPool)
+      InfLog.PCallDebug(InfNPC.ModifyLrrpSoldiers,enemyTable.soldierDefine,this.soldierPool)
+
+      InfLog.PCallDebug(InfNPC.AddWildCards,enemyTable.soldierDefine,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
+
+      InfLog.PCallDebug(InfNPC.ModMissionTableBottom,missionTable,this.emptyCpPool)--DEBUGNOW
 
       --tex DEBUG unassign soldiers from vehicle lrrp so you dont have to chase driving vehicles
       local ejectVehiclesSoldiers=false
@@ -141,16 +151,6 @@ function this.OnInitializeTop(missionTable)
         for cpName,cpDefine in pairs(enemyTable.soldierDefine)do
           cpDefine.lrrpVehicle=nil
         end
-      end
-
-      --DEBUG
-      local debugSoldierPool=false
-      if debugSoldierPool then
-        InfLog.Add"InfMain.OnInitializeTop"
-        InfLog.Add"soldierPool:"
-        InfLog.PrintInspect(this.soldierPool)
-        InfLog.Add"soldiersAssigned:"
-        InfLog.PrintInspect(this.soldiersAssigned)
       end
     end
   end
@@ -198,7 +198,15 @@ end
 
 --tex just after mission script_enemy.SetUpEnemy
 function this.SetUpEnemy(missionTable)
---OFF WIP InfWalkerGear.SetUpEnemy(missionTable)--DEBUGNOW
+  InfLog.AddFlow("InfMain.SetUpEnemy "..vars.missionCode)
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
+  end
+  for i,module in ipairs(InfModules) do
+    if IsFunc(module.SetUpEnemy) then
+      InfLog.PCallDebug(module.SetUpEnemy,missionTable)
+    end
+  end
 end
 
 function this.OnInitializeBottom(missionTable)
@@ -228,9 +236,6 @@ function this.OnInitializeBottom(missionTable)
     end
   end
 
-  InfVehicle.SetupConvoy()
-
-  --DEBUGNOW
   if vars.missionCode>TppDefine.SYS_MISSION_ID.TITLE and not TppMission.IsHelicopterSpace(vars.missionCode) then
     this.isContinueFromTitle=false
   end
@@ -641,7 +646,6 @@ function this.OnEnterACC()
     --tex only want this on enter ACC because changing vars on a mission is not a good idea
     if not this.appliedProfiles then
       this.appliedProfiles=true
-      --InfLog.DebugPrint"SetupInfProfiles"--DEBUG
       local profileNames=IvarProc.SetupInfProfiles()
       IvarProc.ApplyInfProfiles(profileNames)
     end
@@ -1104,7 +1108,7 @@ this.cpPositions={
     mafr_flowStation_cp={-1001.38,-7.20,-199.16},--Mfinda Oilfield
     mafr_banana_cp={277.078,42.670,-1160.725},--Bampeve Plantation
     mafr_diamond_cp={1243.253,139.279,-1524.267},--Kungenga Mine
-    mafr_lab_cp={2707.704,174.806,-2423.353},--Lufwa Valley
+    mafr_lab_cp={2707.418,174.801,-2428.483},--Lufwa Valley
     mafr_swamp_cp={-55.823,-3.758,55.400},--Kiziba Camp
     mafr_outland_cp={-596.105,-16.714,1094.863},--Masa Village
     mafr_savannah_cp={979.923,26.267,-201.705},--Ditadi Abandoned Village
@@ -1548,25 +1552,22 @@ this.mbVehicleNames={
 }
 
 --reserve soldierpool
+--tex number of soldier locators in fox2s
 this.reserveSoldierCounts={
   [30010]=50,
   [30020]=50,
+  [30050]=140,
 }
 
 this.reserveSoldierNames={}
-local solPrefix="sol_ih_"
-this.numReserveSoldiers=50--tex SYNC number of soldier locators i added to fox2s
 
---IN/OUT reserveSoldierNames
-function this.BuildReserveSoldierNames(numReserveSoldiers,reserveSoldierNames)
-  --this.ClearTable(reserveSoldierNames)
-  reserveSoldierNames={}
-
-  for i=0,numReserveSoldiers-1 do
-    local name=string.format("%s%04d",solPrefix,i)
-    reserveSoldierNames[#reserveSoldierNames+1]=name
+function this.GenerateNameList(prefix,num,list)
+  local list=list or {}
+  for i=0,num-1 do
+    local name=string.format("%s%04d",prefix,i)
+    list[#list+1]=name
   end
-  return reserveSoldierNames
+  return list
 end
 
 function this.ResetObjectPool(objectType,objectNames)
@@ -1575,21 +1576,7 @@ function this.ResetObjectPool(objectType,objectNames)
     local objectName=objectNames[i]
     local gameId=GetGameObjectId(objectType,objectName)
     if gameId==NULL_ID then
-    --InfLog.DebugPrint(objectName.."==NULL_ID")--DEBUG
-    else
-      pool[#pool+1]=objectName
-    end
-  end
-  return pool
-end
-
-function this.ResetObjectPool(objectType,objectNames)
-  local pool={}
-  for i=1,#objectNames do
-    local objectName=objectNames[i]
-    local gameId=GetGameObjectId(objectType,objectName)
-    if gameId==NULL_ID then
-    --InfLog.DebugPrint(objectName.."==NULL_ID")--DEBUG
+      InfLog.Add("ResetObjectPool: "..objectName.."==NULL_ID")--DEBUG
     else
       pool[#pool+1]=objectName
     end
@@ -1627,29 +1614,50 @@ function this.GetRandomPool(pool)
   return name
 end
 
+--tex in the mission soldierDefine tables there's a bunch of empty _lrrp cps that I'm repurposing
 local lrrpInd="_lrrp"
-function this.BuildLrrpVehicleCpPool(soldierDefine)
+function this.BuildEmptyCpPool(soldierDefine)
   local cpPool={}
-
   for cpName,cpDefine in pairs(soldierDefine)do
     local cpId=GetGameObjectId("TppCommandPost2",cpName)
     if cpId==NULL_ID then
-      InfLog.DebugPrint("BuildLrrpVehicleCpPool: soldierDefine "..cpName.."==NULL_ID")--DEBUG
+      InfLog.DebugPrint("BuildEmptyCpPool: soldierDefine "..cpName.."==NULL_ID")--DEBUG
     else
-      --if #cpDefine==0 then --OFF wont be empty on restart from checkpoint
-      --tex cp is labeled _lrrp
-      if string.find(cpName,lrrpInd) then
-        if not cpDefine.lrrpVehicle then
+      if #cpDefine==0 then
+        --tex cp is labeled _lrrp
+        if string.find(cpName,lrrpInd) then
+          if not cpDefine.lrrpVehicle and not cpDefine.travelPlan then
+            cpPool[#cpPool+1]=cpName
+          end
+        end
+      end
+    end
+  end
+  --  InfLog.Add"cpPool"--DEBUG
+  --  InfLog.PrintInspect(cpPool)--DEBUG
+  return cpPool
+end
+
+function this.BuildBaseCpPool(soldierDefine)
+  local cpPool={}
+  for cpName,cpDefine in pairs(soldierDefine)do
+    local cpId=GetGameObjectId("TppCommandPost2",cpName)
+    if cpId==NULL_ID then
+      InfLog.DebugPrint("BuildCpPool: soldierDefine "..cpName.."==NULL_ID")--DEBUG
+    else
+      if #cpDefine>0 then
+        if not cpDefine.lrrpVehicle and not cpDefine.travelPlan then
           cpPool[#cpPool+1]=cpName
         end
       end
     end
   end
-  --InfLog.DebugPrint("lrrp #cpPool:"..#cpPool)--DEBUG
+  --  InfLog.Add"cpPool"--DEBUG
+  --  InfLog.PrintInspect(cpPool)--DEBUG
   return cpPool
 end
 
---IN-SIDE: mvars.inf_patrolVehicleConvoyInfo
+--IN-SIDE: InfVehicle.inf_patrolVehicleConvoyInfo
 function this.BuildCpPoolWildCard(soldierDefine)
   local baseNamePool={}
   for cpName,cpDefine in pairs(soldierDefine)do
@@ -1665,7 +1673,7 @@ function this.BuildCpPoolWildCard(soldierDefine)
         elseif cpDefine.lrrpVehicle~=nil then
           if #cpDefine>1 then--ASSUMPTION only armored vehicles have 1 occupant
             --WORKAROUND the ordering of convoy setup/filling previously empty cpDefines on checkpoint restart
-            local isConvoy=mvars.inf_patrolVehicleConvoyInfo and mvars.inf_patrolVehicleConvoyInfo[cpDefine.lrrpTravelPlan]
+            local isConvoy=InfVehicle.inf_patrolVehicleConvoyInfo[cpDefine.lrrpTravelPlan]
             if isConvoy==false then
               baseNamePool[#baseNamePool+1]=cpName
             end
@@ -1678,16 +1686,6 @@ function this.BuildCpPoolWildCard(soldierDefine)
   end
   return baseNamePool
 end
-
---IN/OUT cpdefine
-function this.ClearCpDefine(cpDefine)
-  for i=1,#cpDefine do
-    cpDefine[i]=nil
-  end
-  cpDefine.lrrpVehicle=nil
-  cpDefine.lrrpTravelPlan=nil
-end
-
 ---
 function this.MarkObject(gameId)
   if gameId==NULL_ID then
@@ -2043,6 +2041,7 @@ end
 function this.ModuleErrorMessage()
   --tex TODO: if InfLang then printlangid else -v-
   InfLog.DebugPrint"Infinite Heaven: Could not load modules from MGSV_TPP\\mod\\. See Installation.txt"
+  InfLog.Add("Infinite Heaven: Could not load modules from MGSV_TPP\\mod\\. See Installation.txt",false,true)
 end
 
 --EXEC
@@ -2055,6 +2054,7 @@ this.LoadExternalModule"InfModules"
 if not InfModules then
   this.ModuleErrorMessage()
 else
+  InfLog.AddFlow"InfMain.LoadExternalModules"
   this.LoadExternalModules()
   if not this.modulesOK then
     this.ModuleErrorMessage()

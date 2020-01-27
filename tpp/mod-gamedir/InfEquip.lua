@@ -1135,10 +1135,10 @@ function this.PutEquipOnTrucks()
   local pickableBag=InfMain.ShuffleBag:New(pickables[locationName])
   local pickableCount=pickableBag:Count()
 
-  if mvars.inf_patrolVehicleInfo then
+  if InfVehicle.inf_patrolVehicleInfo then
     local truckStr="TRUCK"
     local numPutOn=0
-    for vehicleName,vehicleInfo in pairs(mvars.inf_patrolVehicleInfo) do
+    for vehicleName,vehicleInfo in pairs(InfVehicle.inf_patrolVehicleInfo) do
       if vehicleInfo.baseType==truckStr then
         local vehicleId=GetGameObjectId(vehicleName)
         if vehicleId~=NULL_ID then

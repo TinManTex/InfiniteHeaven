@@ -1206,6 +1206,7 @@ local femaleHostageFlag=32
 local defaultMaleFaceId=0
 
 function this.InitializeUniqueSetting()
+  InfLog.AddFlow"TppEneFova.InitializeUniqueSetting"--tex DEBUG
   l_uniqueSettings={}
   l_uniqueFaceFovas={}
   l_uniqueBodyFovas={}

@@ -238,14 +238,36 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
   end
 
   InfMain.RandomSetToLevelSeed()
-  this.parasiteType=parasiteTypeNames[math.random(#parasiteTypeNames)]--tex KLUDGE not quite happy deciding this here, TODO: find an earlier point in mission load to do
+  
+  local enabledTypes={
+    ARMOR=Ivars.armorParasiteEnabled:Is(1),
+    MIST=Ivars.mistParasiteEnabled:Is(1),
+    CAMO=Ivars.camoParasiteEnabled:Is(1),
+  }
+  
   --tex quiet battle, will crash with CAMO (which also use TppBossQuiet2)
   if this.parasiteType=="CAMO" then
     if TppQuest.IsActive"waterway_q99010" then
       InfLog.Add("InfParasite.Onload - IsActive'waterway_q99010', changing from CAMO to MIST")--DEBUGNOW TODO triggering when I wouldnt have expected it to
-      this.parasiteType="MIST"
+      enabledTypes.CAMO=false
     end
   end
+  
+  local parasiteTypes={}
+  
+  local allDisabled=false
+  for paraType,enabled in pairs(enabledTypes) do
+    table.insert(parasiteTypes,paraType)
+    if enabled then 
+      allDisabled=false
+    end
+  end
+  
+  if allDisabled then
+    table.insert(parasiteTypes,"ARMOR")
+  end
+  
+  this.parasiteType=parasiteTypes[math.random(#parasiteTypes)]
 
   --tex DEBUG
   --TODO force type via ivar
@@ -785,8 +807,7 @@ function this.ZombifyFree(closestCp,position)
 
   --tex IH free roam foot lrrps
   if InfMain.lrrpDefines then
-    for i=1,#InfMain.lrrpDefines do
-      local lrrpDefine=InfMain.lrrpDefines[i]
+    for cpName,lrrpDefine in pairs(InfMain.lrrpDefines) do
       if lrrpDefine.base1==closestCp or lrrpDefine.base2==closestCp then
         SetZombies(lrrpDefine.cpDefine,position,radius)
       end

@@ -1,0 +1,5 @@
+--tex reconstructed file type order from analysing output of this process.
+--all positions reletively solid except for "bnd", analysis from my ExtensionOrder.lua puts it somewhere between veh and tgt. 
+--have put it between des and tgt in line with init.lua RegisterPackageExtensionInfo call
+-- RegisterPackageExtensionInfo call seems to mostly match my derived order in reverse - however clo doesnt fit the order and lng isn't in its table.
+local fpkdExtensionsOrder={ "fox2", "evf", "parts", "vfxlb", "vfx", "vfxlf", "veh", "frld", "des", "bnd", "tgt", "phsd", "ph", "sim", "clo", "fsd", "sdf", "lua", "lng" }

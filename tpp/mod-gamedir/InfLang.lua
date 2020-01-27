@@ -389,6 +389,8 @@ this.eng={--english
   gameEventChanceMB="MB event random trigger chance",
   gameEventChanceFREE="Free roam event random trigger chance",
   interrogate_lrrp="[Intel] the soldier indicates a LRRP is traveling between %s and %s",--cp name 1, cp name 2
+  interrogate_lrrp_walker="[Intel] the soldier indicates a Walker Gear was traveling between %s and %s",--cp name 1, cp name 2
+  interrogate_walker="[Intel] the soldier indicates there was a Walker Gear assigned to %s",--cp name
   interrogate_wildcard="[Intel] the soldier indicates there was a mercenary assigned to %s",--cp name
   interrogate_heli="[Intel] the soldier indicates an attack heli is travelling to %s",--cp name
   intercp_comrade_location="[Intel] the soldier indicates their comrade assigned to %s has stashed some things",--cp name
@@ -505,6 +507,10 @@ this.eng={--english
   parasiteWeather="Weather on Skull attack",
   parasiteWeatherSettings={"None","Parasite fog","Random"},
   eventsMenu="Events menu",
+  skipLogos="Skip startup logos",
+  armorParasiteEnabled="Allow armor skulls",
+  mistParasiteEnabled="Allow mist skulls",
+  camoParasiteEnabled="Allow sniper skulls",
 }--eng end
 
 this.help={}
@@ -658,6 +664,7 @@ this.help.eng={
   mbEnablePuppy="Note: The training side-op on the command platform will be disabled while this is active.",
   debugFlow="Logs some script execution flow, requires Debug IH mode to be on.",
   debugMessages="Logs game message system, requires Debug IH mode to be on.",
+  skipLogos="Stops the konami/kjp/fox/nvidia logos from showing.",
 }
 
 this.cpNames={

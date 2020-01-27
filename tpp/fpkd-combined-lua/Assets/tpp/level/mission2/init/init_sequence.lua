@@ -214,7 +214,7 @@ function this.StartPreTitleSequence()
   TppScriptVars.CopySlot( slot, { TppDefine.SAVE_SLOT.SAVING, slot } )
   TppScriptVars.LoadVarsFromSlot( TppDefine.SAVE_SLOT.GLOBAL, TppDefine.VARS_GROUP_GAME_DATA_ON_START_MISSION, TppScriptVars.CATEGORY_GAME_GLOBAL )
 
-  if not TppSave.IsNewGame() then
+  if not TppSave.IsNewGame() and Ivars.skipLogos:Is(0) then--tex added bypass
     TppSequence.SetNextSequence("Seq_Demo_ShowKonamiAndFoxLogo")
   else
 		
@@ -2129,9 +2129,7 @@ local function CreateOrLoadSaveData()
 
 
 
-
-  local startOffline=Ivars.startOffline:Get()--tex>
-  if startOffline and startOffline > 0 then
+  if Ivars.startOffline:Is(1) then--tex>
     return "Seq_Demo_Init"
   else--<
     return "Seq_Demo_LogInKonamiServer"
@@ -2361,8 +2359,7 @@ sequences.Seq_Demo_UseBackUpLoadGameSaveData = {
           msg = "PopupClose",
           sender = TppDefine.ERROR_ID.LOAD_RESULT_BACKUP_ERROR,
           func = function()
-            local startOffline=Ivars.startOffline:Get()--tex>
-            if startOffline and startOffline > 0 then
+            if Ivars.startOffline:Is(1) then--tex>
               return "Seq_Demo_Init"
             else--<
               TppSequence.SetNextSequence("Seq_Demo_LogInKonamiServer")

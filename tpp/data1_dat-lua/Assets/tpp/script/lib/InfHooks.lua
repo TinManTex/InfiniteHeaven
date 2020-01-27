@@ -62,4 +62,6 @@ end
 --  this.AnnounceLogViewJoinLangId(...)
 --end
 
+InfLog.AddFlow"InfHook done, requires-list done"--tex ASSUMPTION infhooks last in requires list
+
 return this

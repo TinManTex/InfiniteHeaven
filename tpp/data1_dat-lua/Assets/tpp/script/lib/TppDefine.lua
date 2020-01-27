@@ -1,4 +1,6 @@
+-- DOBUILD: 0 --DEBUGNOW
 -- TppDefine.lua
+InfLog.Add"TppDefine.lua, requires-list start"--tex
 local this={}
 
 local StrCode32=Fox.StrCode32

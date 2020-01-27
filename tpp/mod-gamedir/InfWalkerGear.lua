@@ -7,16 +7,21 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 local SendCommand=GameObject.SendCommand
 
+this.debugModule=false
+
+this.mvar_walkerInfo={}
 this.walkerPlats={}
 
-this.walkerList={}
+this.walkerPool={}--tex free walkers
 
-local walkerNamePre="wkr_WalkerGear_"
+this.walkerNames={}
+
+this.numLrrpWalkers=5
+this.walkersPerLrrp=1--tex soldiers done respect each others personal space lol, which is more of an issue with walkers. unless I can set up command SetForceFormationLine
+
 this.numWalkerGears=16--tex dependant on the entity defs
-for i=0,this.numWalkerGears-1 do
-  local name=string.format("%s%04d", walkerNamePre,i)
-  this.walkerList[#this.walkerList+1]=name
-end
+
+this.walkerNames=InfMain.GenerateNameList("wkr_WalkerGear_",this.numWalkerGears)
 
 this.packages={
   "/Assets/tpp/pack/mission2/common/mis_com_walkergear.fpk",--TppDefine.MISSION_COMMON_PACK.WALKERGEAR
@@ -190,8 +195,12 @@ function this.Init()
   if vars.missionCode==30050 then
     this.SetupGearsMB()
   else
-    this.SetupGearsFREE()
+    this.SetupGearsFREE(this.mvar_walkerInfo,this.walkerPool)
   end
+end
+
+function this.SetUpEnemy(missionTable)
+  this.SetUpEnemyGear(missionTable,InfMain.lrrpDefines)
 end
 
 function this.AddMissionPacks(missionCode,packPaths)
@@ -204,59 +213,88 @@ function this.AddMissionPacks(missionCode,packPaths)
   end
 end
 
-function this.SetupGearsFREE()
-  InfMain.RandomSetToLevelSeed()
-
+--IN/OUT: walkerPool,walkerInfos
+--IN-SIDE: this.walkerNames
+function this.SetupGearsFREE(walkerInfos,walkerPool)
   local locationName=InfMain.GetLocationName()
+  --tex shift too 'off' position
 
-  local positions=walkerStartPositions[locationName]
-
-  local cpPool={}
-  for cpName,coordList in pairs(positions)do
-    cpPool[#cpPool+1]=cpName
-  end
-
-  local numSetup=0
-  local numWalkers=#this.walkerList
-  for i=1,numWalkers do
-    local walkerName=this.walkerList[i]
-    local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
-    if walkerId==NULL_ID then
-      InfLog.DebugPrint("WARNING NULL_ID for "..walkerName)
-    else
-      if #cpPool==0 then
+  if TppMission.IsMissionStart() then
+    for i,walkerName in ipairs(this.walkerNames) do
+      local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
+      if walkerId==NULL_ID then
+        InfLog.DebugPrint("WARNING NULL_ID for "..walkerName)
+      else
         local storePos=walkerStorePositions[locationName]
         local command={id="SetPosition",pos={storePos[1]+i,storePos[2],storePos[3]},rotY=0}
         SendCommand(walkerId,command)
-      else
-        --ASSUMPTION only one pos per cp
-        local cpName=InfMain.GetRandomPool(cpPool)
-
-        if TppMission.IsMissionStart() then
-          local coord=positions[cpName][1]
-          local command={id="SetPosition",pos=coord.pos,rotY=coord.rot}
-          SendCommand(walkerId,command)
-        end
-
-        local cpId=GetGameObjectId("TppCommandPost2",cpName)
-        if cpId==NULL_ID then
-          InfLog.Add(tostring(cpName).." cpId==NULL_ID")--DEBUG
-          --tex TODO: set to some color
-        else
-          local cpSubType=TppEnemy.subTypeOfCp[cpName]
-          local colorName=cpSubTypeToColor[cpSubType]
-          local walkerColorType=walkerGearColorType[colorName]
-
-          local command={id="SetColoringType",type=walkerColorType}
-          SendCommand(walkerId,command)
-        end
-
-        numSetup=i
       end
     end
   end
+
+  InfMain.RandomSetToLevelSeed()
+
+  local positions=walkerStartPositions[locationName]
+
+  local positionCps={}
+  for cpName,coordList in pairs(positions)do
+    local cpId=GetGameObjectId("TppCommandPost2",cpName)
+    if cpId==NULL_ID then
+      InfLog.Add("InfWalker.positions "..tostring(cpName).." cpId==NULL_ID")--DEBUG
+    else
+      positionCps[#positionCps+1]=cpName
+    end
+  end
+
+  local numSetup=0
+  local numWalkers=#this.walkerNames
+  for i=1,numWalkers do
+    if #walkerPool==0 then
+      InfLog.Add("SetupGearsFREE: #walkerPool==0")
+      break
+    end
+
+    if #positionCps==0 then
+      InfLog.Add("SetupGearsFREE: #positionCps==0")
+      break
+    end
+
+    local walkerName=walkerPool[#walkerPool]
+    walkerPool[#walkerPool]=nil
+    local walkerInfo={}
+
+    local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
+    --ASSUMPTION only one pos per cp
+    local cpName=InfMain.GetRandomPool(positionCps)
+    walkerInfo.cpName=cpName
+
+    if TppMission.IsMissionStart() then
+      local coord=positions[cpName][1]
+      local command={id="SetPosition",pos=coord.pos,rotY=coord.rot}
+      SendCommand(walkerId,command)
+    end
+
+    local cpId=GetGameObjectId("TppCommandPost2",cpName)
+    local cpSubType=TppEnemy.subTypeOfCp[cpName]
+    local colorName=cpSubTypeToColor[cpSubType]
+    local walkerColorType=walkerGearColorType[colorName]
+    walkerInfo.colorType=walkerColorType
+
+    local command={id="SetColoringType",type=walkerColorType}
+    SendCommand(walkerId,command)
+
+    walkerInfos[walkerName]=walkerInfo
+    walkerInfos[#walkerInfos+1]=walkerName
+
+    numSetup=i
+  end
   InfMain.RandomResetToOsTime()
-  InfLog.Add("SetupGearsFREE: "..numSetup.." of "..numWalkers.." walker gears set")
+
+  if this.debugModule then
+    InfLog.Add("SetupGearsFREE: "..numSetup.." of "..numWalkers.." walker gears set")
+    InfLog.Add"walkerPool"
+    InfLog.PrintInspect(walkerPool)
+  end
 end
 
 function this.SetupGearsMB()
@@ -270,7 +308,7 @@ function this.SetupGearsMB()
     end
   end
 
-  local numWalkers=#this.walkerList
+  local numWalkers=#this.walkerNames
   local numAssigned=0
   local walkersPerCluster=math.floor(numWalkers/numClusters)
 
@@ -357,7 +395,7 @@ function this.SetupGearsMB()
 
   for clusterId,plats in ipairs(this.walkerPlats) do
     for platId,walkerIndex in pairs(plats)do
-      local walkerName=this.walkerList[walkerIndex]
+      local walkerName=this.walkerNames[walkerIndex]
       local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
       if walkerId==NULL_ID then
         InfLog.Add("WARNING NULL_ID for "..walkerName,true)
@@ -406,6 +444,40 @@ function this.SetupGearsMB()
   InfMain.RandomResetToOsTime()
 end
 
+function this.AddLrrpWalkers(lrrpDefines,walkerPool)
+  if InfMain.IsContinue() then
+    return
+  end
+
+  if not lrrpDefines or #lrrpDefines==0 then
+    return
+  end
+
+  if not IvarProc.EnabledForMission("enableWalkerGears",vars.missionCode) then
+    return
+  end
+
+  --    InfLog.Add"AddLrrpWalkers - walkerpool:--"--DEBUG
+  --  InfLog.PrintInspect(walkerPool)
+
+  InfMain.RandomSetToLevelSeed()
+
+  for i=1,this.numLrrpWalkers do
+    if #walkerPool==0 then
+      InfLog.Add"AddLrrpWalkers #walkerPool==0"
+      return
+    end
+    local walkerName=walkerPool[#walkerPool]
+    walkerPool[#walkerPool]=nil
+    InfLog.Add("AddLrrpWalkers #"..i.." "..walkerName)
+    local lrrpName=lrrpDefines[math.random(#lrrpDefines)]
+    local cpDefine=lrrpDefines[lrrpName].cpDefine
+    cpDefine.lrrpWalker=walkerName
+  end
+
+  InfMain.RandomResetToOsTime()
+end
+
 function this.GetNumDDWalkers()
   --tex what is the resource name for WG.PP?
   local walkerResourceNames={
@@ -434,73 +506,72 @@ function this.GetNumDDWalkers()
   InfLog.DebugPrint("totalGears:"..totalGears)
 end
 
---WIP
-function this.SetUpEnemy(missionTable)--DEBUGNOW
-InfLog.PCallDebug(function(missionTable)
-    --DEBUGNOW
-    if not missionTable then
-      return
-    end
-    --walkers for lrrp
-    if not Ivars.enableLrrpFreeRoam:EnabledForMission() then
-      return
-    end
+function this.SetUpEnemyGear(missionTable,lrrpDefines)
+  if not missionTable or not missionTable.enemy then
+    return
+  end
+  --walkers for lrrp
+  if not Ivars.enableLrrpFreeRoam:EnabledForMission() then
+    return
+  end
 
-    if not Ivars.enableWalkerGearsFREE:EnabledForMission()  then
-      return
-    end
-    
-    InfLog.Add"Walker gear lrrp--------"--DEBUGNOW
+  if not Ivars.enableWalkerGearsFREE:EnabledForMission() then
+    return
+  end
 
-    local walkerIndex=1
-    local numWalkers=#InfWalkerGear.walkerList
+  InfLog.AddFlow"InfWalkerGear.SetUpEnemyGear"
 
-    local enemyTable=missionTable.enemy--DEBUGNOW whats the normal way to get soldierdine lol
-    if not enemyTable then--DEBUGNOW 
-      return
-    end
-    local soldierDefine=enemyTable.soldierDefine
-    if not soldierDefine then--DEBUGNOW 
-      return
-    end
-    for cpName,cpDefine in pairs(soldierDefine)do
-      local cpId=GetGameObjectId("TppCommandPost2",cpName)
-      if cpId==NULL_ID then
-        InfLog.Add"cpId==NULL_ID"--DEBUGNOW
-      else
-        if cpDefine.lrrpTravelPlan and not cpDefine.lrrpVehicle then
-          for i,soldierName in ipairs(cpDefine)do
-            local soldierId=GetGameObjectId("TppSoldier2",soldierName)
-            if soldierId==NULL_ID then
-             InfLog.Add"soldierId==NULL_ID"--DEBUGNOW
-            else
-                InfLog.Add("soldier "..soldierName)--DEBUGNOW
-              if walkerIndex==numWalkers then
-                InfLog.Add"walkerIndex==numWalkers"--DEBUGNOW
-              else
-                local walkerName=InfWalkerGear.walkerList[walkerIndex]
-                local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
-                InfLog.Add("walker gear "..walkerName)--DEBUGNOW
-                if walkerId==NULL_ID then
-                  InfLog.DebugPrint("WARNING NULL_ID for "..walkerName)
-                else
-                  local soldierPos=SendCommand(soldierId,{id="GetPosition"})
-                  local rotY=0
-                  local setPos={id="SetPosition",pos={soldierPos:GetX(),soldierPos:GetY(),soldierPos:GetZ()},rotY=rotY}
-                  SendCommand(walkerId,setPos)
-                  local setVehicle={id="SetRelativeVehicle",targetId=walkerId,rideFromBeginning=true}
-                  SendCommand(soldierId,setVehicle)
-                end
-                walkerIndex=walkerIndex+1
-              end
-            end
-          end
+  local walkerIndex=1
+  local numWalkers=#InfWalkerGear.walkerNames
+
+  local enemyTable=missionTable.enemy
+  local soldierDefine=enemyTable.soldierDefine
+  for cpName,cpDefine in pairs(soldierDefine)do
+    local cpId=GetGameObjectId("TppCommandPost2",cpName)
+    if cpId==NULL_ID then
+    else
+      local walkerName=cpDefine.lrrpWalker
+      if walkerName then
+        --ASSUMPTION cp define has valid walker and soldier gameobjects
+        local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
+
+        local soldierName=cpDefine[1]--tex ASSUMPTION only 1 walker/soldier per lrrp
+        local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+        InfLog.Add("Setup walker gear: "..walkerName..", soldier:"..soldierName)
+        if TppMission.IsMissionStart() then
+          local locationName=InfMain.GetLocationName()
+          --OFF local cpPositions=walkerStartPositions[locationName]
+          local cpPositions=InfMain.cpPositions[locationName]
+          local lrrpDefine=lrrpDefines[cpName]
+          --tex currently soldiers will get off when they reach lrrp hold, so better to have them start at the oposite base position
+          local cpPos=cpPositions[lrrpDefine.base2]
+
+          InfLog.Add("IsMissionStart: "..cpName..", base1:"..lrrpDefine.base1..", base2:"..lrrpDefine.base2)--DEBUG
+          --InfLog.PrintInspect(cpPos)--DEBUG
+          
+          local rotY=0
+          --tex the start soldier positions are more often than not no good for walker and it pushes the walker to nav mesh safe position instead
+          --local soldierPos=SendCommand(soldierId,{id="GetPosition"})
+          --local setPos={id="SetPosition",pos={soldierPos:GetX(),soldierPos:GetY(),soldierPos:GetZ()},rotY=rotY}
+          local setPos={id="SetPosition",pos=cpPos,rotY=rotY}
+          SendCommand(soldierId,setPos)
+
+          SendCommand(walkerId,setPos)
         end
+        local setVehicle={id="SetRelativeVehicle",targetId=walkerId,rideFromBeginning=true}
+        SendCommand(soldierId,setVehicle)
+        --
+        local cpSubType=TppEnemy.subTypeOfCp[cpName]
+        local colorName=cpSubTypeToColor[cpSubType]
+        local walkerColorType=walkerGearColorType[colorName]
+
+        local command={id="SetColoringType",type=walkerColorType}
+        SendCommand(walkerId,command)
+
       end
+
     end
-
-  end,missionTable)--
+  end
 end
-
 
 return this

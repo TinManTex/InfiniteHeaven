@@ -66,6 +66,9 @@ this.debugMode={
   settingNames="set_switch",
   -- CULL settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
   allowFob=true,
+  OnChange=function(self,prevStting,setting)
+    InfLog.debugMode=setting==1
+  end,
 }
 
 this.debugMessages={
@@ -511,6 +514,12 @@ this.langOverride={
 }
 
 this.startOffline={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.skipLogos={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
@@ -1865,7 +1874,6 @@ local playerPartsTypeSettings={
   "NINJA",--5,
   "GOLD",--12
   "SILVER",--13
-  --DEBUGNOW TEST
   "MGS3",--15
   "MGS3_NAKED",--16
   "MGS3_SNEAKING",--17
@@ -3081,7 +3089,7 @@ this.mbWalkerGearsWeapon={
 --}
 
 --CULL
---this.npcOcelotUpdate={--tex NONUSER DEBUGNOW
+--this.npcOcelotUpdate={--tex NONUSER 
 --  --save=MISSION,
 --  nonUser=true,
 --  default=1,
@@ -3372,6 +3380,27 @@ this.enableParasiteEvent={
   MissionCheck=IvarProc.MissionCheckFree,
 }
 
+this.armorParasiteEnabled={
+  save=EXTERNAL,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.mistParasiteEnabled={
+  save=EXTERNAL,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.camoParasiteEnabled={
+  save=EXTERNAL,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 this.parasiteWeather={
   save=EXTERNAL,
   default=1,--parasite
@@ -3405,7 +3434,7 @@ IvarProc.MinMaxIvar(
 this.selectProfile={
   nonConfig=true,
   --save=EXTERNAL,
-  range={min=0,max=0},
+  range={min=0,max=0},--DYNAMIC
   GetSettingText=function(self,setting)
     if Ivars.profiles==nil or self.settings==nil then
       return InfMenu.LangString"no_profiles_installed"
@@ -3416,7 +3445,14 @@ this.selectProfile={
     end
   end,
   OnSelect=function(self)
-    IvarProc.SetupInfProfiles()
+    local profileNames=IvarProc.SetupInfProfiles()
+    if profileNames then
+    self.range.max=#profileNames-1
+    self.settings=profileNames
+    else
+      self.range.max=0
+      ivars[self.name]=0
+    end
   end,
   OnActivate=function(self,setting)
     if self.settings==nil then
@@ -3439,6 +3475,44 @@ this.selectProfile={
   end,
 }
 
+this.warpToListObject={
+  range={max=1},--DYNAMIC
+  GetSettingText=function(self,setting)
+    local objectName,info,position=InfLookup.GetObjectInfoOrPos(setting+1)
+    if info and not position then
+      return info
+    end
+    
+    return objectName.." pos:".. math.ceil(position[1])..",".. math.ceil(position[2]).. ","..math.ceil(position[3])
+  end,
+  OnSelect=function(self)
+    local objectList=InfLookup.GetObjectList()
+    local numObjects=#objectList
+
+    self.range.max=numObjects-1
+    self.setting=0
+  end,
+  OnActivate=function(self,setting)
+    local objectName,info,position=InfLookup.GetObjectInfoOrPos(setting+1)
+    if position==nil then
+      return
+    end
+
+    if position[1]~=0 or position[2]~=0 or position[3]~=0 then
+      position[2]=position[2]+1
+      InfLog.Add(objectName.." pos:".. position[1]..",".. position[2].. ","..position[3],true)
+      TppPlayer.Warp{pos=position,rotY=vars.playerCameraRotation[1]}
+    end
+  end,
+}
+
+this.warpToObjectList={
+  save=EXTERNAL,
+  range={max=InfLookup.numNameLists},
+}
+this.warpToObjectList={
+
+  }
 --mines
 this.randomizeMineTypes={
   save=EXTERNAL,

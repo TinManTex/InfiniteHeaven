@@ -597,16 +597,17 @@ this.DEBUG_PrintInterrogationInfo={
   end
 }
 --
+
 local toggle1=false
-local index1Min=0
-local index1Max=1
+local index1Min=1
+local index1Max=3
 local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
 
     InfLog.Add"DEBUG_SomeShiz---------------------"
-    
+
 
     --    InfLog.Add(tostring(InfMain.prelog))
     --    InfLog.Add(tostring(InfLog.logErr))
@@ -1295,13 +1296,13 @@ this.DEBUG_ClearAnnounceLog={
 }
 
 this.currentWarpIndex=1
-local singleStep=true
+local singleStep=false
 this.DEBUG_WarpToObject={
   OnChange=function()
-    --local objectList=InfMain.reserveSoldierNames
+    local objectList=InfMain.reserveSoldierNames
     --        local travelPlan="travelArea2_01"
-    --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
-    local objectList=mvars.ih_wildCardSoldiers
+    --         local objectList=InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
+    --local objectList=InfNPC.ene_wildCardInfo
     --local objectList=InfParasite.parasiteNames.CAMO
     --local objectList=InfLookup.truckNames
     --local objectList={"veh_trc_0000"}
@@ -1309,7 +1310,7 @@ this.DEBUG_WarpToObject={
     --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
     --local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
     --local objectList=InfInterrogation.interCpQuestSoldiers
-    --local objectList=InfWalkerGear.walkerList
+    --local objectList=InfWalkerGear.walkerNames
     --local objectList=InfNPCHeli.heliList
 
     if objectList==nil then
@@ -1382,10 +1383,10 @@ this.DEBUG_WarpToReinforceVehicle={
 
 this.DEBUG_PrintObjectListPosition={
   OnChange=function()
-    --local objectList=InfMain.reserveSoldierNames
+    local objectList=InfMain.reserveSoldierNames
     --        local travelPlan="travelArea2_01"
-    --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
-    --local objectList=InfMain.ene_wildCardSoldiers
+    --         local objectList=InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
+    --local objectList=InfMain.ene_wildCardInfo
     --local objectList=InfParasite.parasiteNames.CAMO
     --local objectList=InfLookup.truckNames
     --local objectList={"veh_trc_0000"}
@@ -1393,7 +1394,7 @@ this.DEBUG_PrintObjectListPosition={
     --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
     --local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
     --local objectList=InfInterrogation.interCpQuestSoldiers
-    local objectList=InfWalkerGear.walkerList
+    --local objectList=InfWalkerGear.walkerNames
     --local objectList=InfNPCHeli.heliList
 
     if objectList==nil then

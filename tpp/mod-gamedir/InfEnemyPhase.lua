@@ -29,7 +29,6 @@ this.execState={
 }
 --
 function this.Init(missionTable)
-  mvars.inf_cpLastAlert={}
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
@@ -61,9 +60,9 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     if #soldierList>0 then
       local cpId=GetGameObjectId(cpName)
       local cpPhase=SendCommand(cpId,{id="GetPhase",cpName=cpName})
-      if cpPhase==PHASE_ALERT then
-        mvars.inf_cpLastAlert[cpName]=currentTime
-      end
+--      if cpPhase==PHASE_ALERT then
+--        this.inf_cpLastAlert[cpName]=currentTime
+--      end
 
       if currentPhase<minPhase then
         ChangePhase(cpName,minPhase)--gvars.minPhase)

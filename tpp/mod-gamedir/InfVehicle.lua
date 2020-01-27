@@ -10,8 +10,22 @@ local SendCommand=GameObject.SendCommand
 this.debugModule=false
 
 --STATE
---mvars.inf_patrolVehicleInfo={}
---mvars.inf_patrolVehicleConvoyInfo={}
+--tex DEBUGNOW TODO: flip flopping on how to handle mission vars (generated data on mission start)
+--want shared state
+--module local is nice seperation wise, but will clear (and usually break whatevers relying on it) when run-time reloading
+--vs big-ole-table, mvars is the way most of the game handles it, but it's a bit opaque,
+--it's cleared at some point during mission load TODO track down exact point when
+--so would have to regenerate data to exact same state during in-game continue, which is a bit tricky with my other modification of stuff like soldierdefine/missionTable stuff.
+--best bet might be to stick with module-local and just transfer data from old to new module instance
+this.inf_patrolVehicleInfo={}
+this.inf_patrolVehicleConvoyInfo={}
+
+
+--REF
+local numVehiclePatrols={
+  [30010]=6,
+  [30020]=7,
+}
 
 this.vehicleBaseTypes={
   LIGHT_VEHICLE={--jeep
@@ -217,29 +231,38 @@ end
 
 --IN: vehicleSpawnList=missionTable.enemy.VEHICLE_SPAWN_LIST
 --IN/OUT: soldierDefine
---OUT-SIDE: mvars.inf_patrolVehicleInfo,mvars.inf_patrolVehicleConvoyInfo
+--OUT-SIDE: this.inf_patrolVehicleInfo,this.inf_patrolVehicleConvoyInfo
 --IN-SIDE: this.convoys
---tex adds convoys, and sets up vehicles, InfNPC.ModifyVehiclePatrolSoldiers fills them.
-function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
+--tex adds convoys, and sets up vehicles, InfNPC.ModifyLrrpSoldiers fills them.
+function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpPool)
   --InfLog.PCall(function(vehicleSpawnList,soldierDefine)--DEBUG
   if not Ivars.vehiclePatrolProfile:EnabledForMission() then
     return
   end
 
+  if InfMain.IsContinue() then
+    return
+  end
+  
+  if vehicleSpawnList==nil then
+    return
+  end
+
   local patrolVehicleEnabledList=this.BuildEnabledList()
   if #patrolVehicleEnabledList==0 then
-    --InfLog.DebugPrint"ModifyVehicleSpawn - enabledList empty"--DEBUG
+    InfLog.Add"ModifyVehicleSpawn - enabledList empty"--DEBUG
     return
   end
 
   InfMain.RandomSetToLevelSeed()
 
-  mvars.inf_patrolVehicleInfo={}
-  mvars.inf_patrolVehicleConvoyInfo={}
-
   local locationName=InfMain.GetLocationName()
 
+  this.inf_patrolVehicleInfo={}
+  this.inf_patrolVehicleConvoyInfo={}
+
   --convoy setup
+  --tex creates cp defines for additional convoy vehicles
   local lvIndicatorStr="veh_lv_"
   local freeLvs={}
   for n,spawnInfo in pairs(vehicleSpawnList)do
@@ -248,73 +271,8 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
     end
   end
 
-  --tex convoy setup
-  --tex GOTCHA additional count/not counting existing/lead vehicle
-  local convoySizeMin=2--TUNE
-  local convoySizeMax=5--TUNE
-  if convoySizeMax>0 then
-
-    if not InfMain.IsContinue() then
-
-      local convoys=this.convoys[locationName]
-      if convoys then
-
-        local numConvoys=0
-        for travelPlan,convoyInfo in pairs(convoys) do
-          numConvoys=numConvoys+1
-        end
-
-        --convoySizeMax=math.min(math.floor(#freeLvs/numConvoys),convoySizeMax)
-        if convoySizeMax>0 then
-          local cpPool=InfMain.BuildLrrpVehicleCpPool(soldierDefine)
-          for travelPlan,convoyInfo in pairs(convoys) do
-            local currentMax=math.min(#convoyInfo,convoySizeMax)
-            --InfLog.DebugPrint("currentMax "..currentMax.." for "..travelPlan)--DEBUG
-            if currentMax>0 then
-              --currentMax=math.random(1,currentMax)--OFF TODO
-              local convoyVehicles={}
-              mvars.inf_patrolVehicleConvoyInfo[travelPlan]=convoyVehicles
-
-              convoyVehicles[#convoyVehicles+1]=convoyInfo.leadVehicle
-
-              for i=1,currentMax do
-                if #cpPool==0 then
-                  break
-                end
-                local cpName=cpPool[#cpPool]
-                cpPool[#cpPool]=nil
-
-                local vehicleName=InfMain.GetRandomPool(freeLvs)
-
-                local cpDefine=soldierDefine[cpName]
-                --TODO cpDefine.convoyIndex=i
-                cpDefine.lrrpTravelPlan=travelPlan
-                cpDefine.lrrpVehicle=vehicleName
-
-                convoyVehicles[#convoyVehicles+1]=vehicleName
-              end
-            end
-          end
-
-          --tex soldiers getting out messes up timing/spacing of convoy, and may cause the 'cant find vehicle' for following vehicles (as the vehicle stops further away)
-          --so just remove them
-          local lrrpHoldStr="lrrpHold"
-          for travelPlan,convoyInfo in pairs(convoys) do
-            local moddedPlan={}
-            for i,planStep in ipairs(travelPlans[travelPlan]) do
-              if planStep.routeGroup and planStep.routeGroup[2]~=lrrpHoldStr then
-                moddedPlan[#moddedPlan+1]=planStep
-              end
-            end
-            travelPlans[travelPlan]=moddedPlan
-          end
-        end
-        --< end if convoys
-      end
-
-    end
-  end
-  --< end convoy setup
+  local convoys=this.convoys[locationName]
+  this.inf_patrolVehicleConvoyInfo=this.SetupConvoyCpDefine(convoys,soldierDefine,travelPlans,cpPool,freeLvs)
 
   --tex vehicle setup
   local patrolVehicles={}
@@ -359,8 +317,8 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
           InfLog.DebugPrint("warning: vehicleSpawnInfoTable ".. vehicleType .."==nil")
           break
         end
-        --tex used for ModifyVehiclePatrolSoldiers
-        mvars.inf_patrolVehicleInfo[spawnInfo.locator]=vehicle
+        --tex used for ModifyLrrpSoldiers
+        this.inf_patrolVehicleInfo[spawnInfo.locator]=vehicle
 
         --tex overwrite spawn info
         spawnInfo.type=vehicle.type
@@ -390,10 +348,10 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
 
   if this.debugModule then
     InfLog.Add"ModifyPatrolVehicles"
-    InfLog.Add"mvars.inf_patrolVehicleInfo:"
-    InfLog.PrintInspect(mvars.inf_patrolVehicleInfo)
-    InfLog.Add"mvars.inf_patrolVehicleConvoyInfo:"
-    InfLog.PrintInspect(mvars.inf_patrolVehicleConvoyInfo)
+    InfLog.Add"this.inf_patrolVehicleInfo:"
+    InfLog.PrintInspect(this.inf_patrolVehicleInfo)
+    InfLog.Add"this.inf_patrolVehicleConvoyInfo:"
+    InfLog.PrintInspect(this.inf_patrolVehicleConvoyInfo)
   end
   --end,vehicleSpawnList,soldierDefine)--
 end
@@ -451,6 +409,10 @@ function this.AddMissionPacks(missionCode,packPaths)
   end--for vehicle base types
 end
 
+function this.SetUpEnemy(missionTable)
+  this.SetupConvoy()
+end
+
 --TUNE
 function this.GetVehicleColor()
   if Ivars.vehiclePatrolClass:Is"ENEMY_PREP" then
@@ -490,7 +452,74 @@ this.convoys={
   }
 }
 
---IN-SIDE : mvars.inf_patrolVehicleConvoyInfo
+--IN/OUT: soldierDefine,travelPlans,freeLvs,cpPool
+function this.SetupConvoyCpDefine(convoys,soldierDefine,travelPlans,cpPool,freeLvs)
+  if not convoys then
+    return {}
+  end
+
+  --tex convoy setup
+  --tex GOTCHA additional count/not counting existing/lead vehicle
+  local convoySizeMin=2--TUNE
+  local convoySizeMax=5--TUNE
+  if convoySizeMax==0 then
+    return {}
+  end
+
+  local patrolVehicleConvoyInfo={}
+
+  --  local numConvoys=0
+  --  for travelPlan,convoyInfo in pairs(convoys) do
+  --    numConvoys=numConvoys+1
+  --  end
+  --convoySizeMax=math.min(math.floor(#freeLvs/numConvoys),convoySizeMax)
+  --if convoySizeMax>==0 then
+  --return
+  --end
+
+  for travelPlan,convoyInfo in pairs(convoys) do
+    if #freeLvs==0 then
+      break
+    end
+
+    local currentMax=math.min(#convoyInfo,convoySizeMax)
+    --InfLog.DebugPrint("currentMax "..currentMax.." for "..travelPlan)--DEBUG
+    if currentMax>0 then
+      --currentMax=math.random(1,currentMax)--OFF TODO
+      local convoyVehicles={}
+      convoyVehicles[#convoyVehicles+1]=convoyInfo.leadVehicle
+
+      for i=1,currentMax do
+        if #cpPool==0 then
+          break
+        end
+        local cpName=cpPool[#cpPool]
+        cpPool[#cpPool]=nil
+
+        local vehicleName=InfMain.GetRandomPool(freeLvs)
+
+        local cpDefine=soldierDefine[cpName]
+        --TODO cpDefine.convoyIndex=i
+        cpDefine.lrrpTravelPlan=travelPlan
+        cpDefine.lrrpVehicle=vehicleName
+
+        convoyVehicles[#convoyVehicles+1]=vehicleName
+      end
+
+      patrolVehicleConvoyInfo[travelPlan]=convoyVehicles
+    end
+  end
+
+  --tex soldiers getting out messes up timing/spacing of convoy, and may cause the 'cant find vehicle' for following vehicles (as the vehicle stops further away)
+  --so just remove them
+  for travelPlan,convoyInfo in pairs(convoys) do
+    travelPlans[travelPlan]=this.RemoveHoldsFromTravelPlan(travelPlans[travelPlan])
+  end
+
+  return patrolVehicleConvoyInfo
+end
+
+--IN-SIDE : this.inf_patrolVehicleConvoyInfo
 --tex final setup, initial setup is in ModifyVehiclePatrol
 function this.SetupConvoy()
   --InfLog.PCall(function()--DEBUG
@@ -498,7 +527,7 @@ function this.SetupConvoy()
     return
   end
 
-  if mvars.inf_patrolVehicleConvoyInfo==nil then
+  if this.inf_patrolVehicleConvoyInfo==nil then
     InfLog.Add"WARNING SetupConvoy: inf_patrolVehicleConvoyInfo==nil, aborting"--DEBUG
     return
   end
@@ -506,10 +535,9 @@ function this.SetupConvoy()
   local locationName=InfMain.GetLocationName()
   local convoys=this.convoys[locationName]
 
-  --DEBUGNOW reworked so TEST
-  --InfLog.PrintInspect(mvars.inf_patrolVehicleConvoyInfo)--DEBUG
+  --InfLog.PrintInspect(this.inf_patrolVehicleConvoyInfo)--DEBUG
   if convoys then
-    for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
+    for travelPlan,convoyVehicles in pairs(this.inf_patrolVehicleConvoyInfo) do
       --InfLog.DebugPrint("SetupConvoy "..travelPlan)--DEBUG
       local convoyInfo=convoys[travelPlan]
 
@@ -535,6 +563,17 @@ function this.SetupConvoy()
     end
   end
   --end)--
+end
+
+function this.RemoveHoldsFromTravelPlan(travelPlan)
+  local lrrpHoldStr="lrrpHold"
+  local moddedPlan={}
+  for i,planStep in ipairs(travelPlan) do
+    if planStep.routeGroup and planStep.routeGroup[2]~=lrrpHoldStr then
+      moddedPlan[#moddedPlan+1]=planStep
+    end
+  end
+  return moddedPlan
 end
 
 return this

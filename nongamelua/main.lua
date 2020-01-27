@@ -899,7 +899,7 @@ local searchPattern="dds*.fmdl"
 
   local command=string.format([[dir /s /b %s%s > %s]],basePath,searchPattern,dirsFileName)
   print(command)
-  os.execute(command)
+  --os.execute(command)
 
   local fileDirs={}
 

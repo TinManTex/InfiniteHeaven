@@ -74,7 +74,9 @@ IH system menu
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
 4: Start offline : Off, On
 Start the game in offline mode, this also removes the connect option from the pause menu.
-5: Reset all IH settings : (Command)
+5: Skip startup logos : Off, On
+Stops the konami/kjp/fox/nvidia logos from showing.
+6: Reset all IH settings : (Command)
 
 Events menu
 -----------
@@ -97,9 +99,12 @@ Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger rand
 Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')
 4: Enable Skull attacks in Free roam : Off, On
 Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.
-5: Skull attack min (minutes) : 0-180
-6: Skull attack max (minutes) : 0-180
-7: Weather on Skull attack : None, Parasite fog, Random
+5: Allow armor skulls : Off, On
+6: Allow mist skulls : Off, On
+7: Allow sniper skulls : Off, On
+8: Skull attack min (minutes) : 0-180
+9: Skull attack max (minutes) : 0-180
+10: Weather on Skull attack : None, Parasite fog, Random
 
 Player restrictions menu
 - Settings to customize the game challenge, including subsistence and OSP.
@@ -502,6 +507,7 @@ Show characters menu
 1: Enable Ocelot : Off, On
 Enables Ocelot to roam the command platform.
 2: Puppy DDog : Off, Missing eye, Normal eyes
+Note: The training side-op on the command platform will be disabled while this is active.
 3: Show Code Talker : Off, On
 4: Show Eli : Off, On
 5: Reset Paz state to beginning : (Command)
@@ -598,9 +604,11 @@ Instantly return Quiet, runs same code as the Reunion mission 11 replay.
 Debug menu
 ----------
 1: Debug IH mode : Off, On
-Switches on some error messages and enables the announce-log during loading.
+Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.
 2: debugMessages : Off, On
+Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
+Logs some script execution flow, requires Debug IH mode to be on.
 4: loadExternalModules : (Command)
 5: copyLogToPrev : (Command)
 6: printPressedButtons : Off, On
@@ -784,9 +792,11 @@ Disables Assault Landing Zones (those usually in the center of a base that the s
 Debug stuff menu
 ----------------
 1: Debug IH mode : Off, On
-Switches on some error messages and enables the announce-log during loading.
+Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.
 2: debugMessages : Off, On
+Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
+Logs some script execution flow, requires Debug IH mode to be on.
 4: loadExternalModules : (Command)
 5: copyLogToPrev : (Command)
 6: selectedCp : no cp for setting

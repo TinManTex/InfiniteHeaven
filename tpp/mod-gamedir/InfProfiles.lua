@@ -8,7 +8,7 @@
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
 
 local profiles={}
--- Defaults/example of all profile options for IH r191
+-- Defaults/example of all profile options for IH r193
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
@@ -17,10 +17,14 @@ profiles.defaults={
 		--IH system menu
 		enableQuickMenu=0,--{ 0-1 } -- Enable Quick Menu
 		startOffline=0,--{ 0-1 } -- Start offline
+		skipLogos=0,--{ 0-1 } -- Skip startup logos
 		--Events menu
 		gameEventChanceFREE=0,--{ 0-100 } -- Free roam event random trigger chance (percentage)
 		gameEventChanceMB=0,--{ 0-100 } -- MB event random trigger chance (percentage)
 		enableParasiteEvent=0,--{ 0-1 } -- Enable Skull attacks in Free roam
+		armorParasiteEnabled=1,--{ 0-1 } -- Allow armor skulls
+		mistParasiteEnabled=1,--{ 0-1 } -- Allow mist skulls
+		camoParasiteEnabled=1,--{ 0-1 } -- Allow sniper skulls
 		parasitePeriod_MIN=10,--{ 0-180 } -- Skull attack min (minutes)
 		parasitePeriod_MAX=30,--{ 0-180 } -- Skull attack max (minutes)
 		parasiteWeather="PARASITE_FOG",--{ NONE, PARASITE_FOG, RANDOM } -- Weather on Skull attack

@@ -6,6 +6,10 @@
 local this={}
 local InfEneFova=this
 
+--
+this.inf_wildCardMaleFaceList={}
+this.inf_wildCardFemaleFaceList={}
+
 this.ddBodyInfo={
   DRAB={--mother base default
     bodyId=TppEnemyBodyId.dds8_main0_v00,
@@ -1578,8 +1582,8 @@ function this.WildCardFova(bodies)
   InfMain.RandomSetToLevelSeed()
   local faceBags=this.BuildFaceBags(this.faceIds)
   local faces={}
-  InfEneFova.inf_wildCardMaleFaceList={}
-  InfEneFova.inf_wildCardFemaleFaceList={}
+  this.inf_wildCardMaleFaceList={}
+  this.inf_wildCardFemaleFaceList={}
   local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
   local categoryBag=this.GetCategoryBag(this.categoryChances,"MALE",{"UNCOMMON","UNIQUE"})
   for i=1,InfNPC.MAX_WILDCARD_FACES-InfNPC.numWildCardFemales do--SYNC numwildcards

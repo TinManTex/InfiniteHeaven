@@ -442,6 +442,7 @@ end
 
 --
 function this.ApplyProfile(profile,noSave)
+  InfLog.AddFlow"IvarProc.ApplyProfile"
   local random=math.random
   local type=type
   local tableType="table"
@@ -689,8 +690,8 @@ end
 --OUT: profileNames
 --SIDE: Ivars.profiles
 function this.SetupInfProfiles()
+  InfLog.AddFlow"IvarProc.SetupInfProfiles"
   --tex TODO: just can't seem to assign a loaded module to Global for some reason, works fine in external VM, and works fine at end of InfMain
-  --  InfLog.Add("SetupInfProfiles")
   --InfProfiles=require"InfProfiles"--
   --  local infProfiles=require"InfProfiles"
   --    if infProfiles then
@@ -700,20 +701,15 @@ function this.SetupInfProfiles()
   --    end
   --  InfLog.PrintInspect(InfProfiles)
 
-  --tex TODO unify with reloadexternal?
-  --tex clear so require reloads file, kind of defeats purpose of using require, but requires path search is more useful
-  local moduleName="InfProfiles"
-  package.loaded[moduleName]=nil
-  local sucess,module=pcall(require,moduleName)
-  if not sucess then
-    Ivars.selectProfile.range.max=0
-    ivars.selectProfile=0
+  local fileName="InfProfiles.lua"
+  local infProfiles=InfLog.LoadBoxed(fileName)
+  if infProfiles==nil then
     Ivars.profiles=nil
     return nil
   end
 
   local profileNames={}
-  for profileName,profileInfo in pairs(module)do
+  for profileName,profileInfo in pairs(infProfiles)do
     if type(profileName)=="string" then
       if type(profileInfo)=="table" then
         if not profileInfo.profile then
@@ -739,7 +735,7 @@ function this.SetupInfProfiles()
 
   local firstProfileCount=0
   for i,profileName in ipairs(profileNames)do
-    if module[profileName].firstProfile then
+    if infProfiles[profileName].firstProfile then
       local currentFirst=profileNames[1]
       profileNames[1]=profileName
       profileNames[i]=currentFirst
@@ -750,16 +746,13 @@ function this.SetupInfProfiles()
     InfLog.DebugPrint("WARNING: multiple profiles with firstProfile set")
   end
 
-  Ivars.selectProfile.range.max=#profileNames-1
-  Ivars.selectProfile.settings=profileNames
-
-  Ivars.profiles=module
+  Ivars.profiles=infProfiles
   return profileNames
 end
 
 function this.ApplyInfProfiles(profileNames)
   if not Ivars.profiles or profileNames==nil then
-    --InfLog.DebugPrint"ApplyInfProfiles profileNames==nil"--DEBUG
+    InfLog.Add"ApplyInfProfiles: profileNames==nil"--DEBUG
     return
   else
     for i,profileName in ipairs(profileNames)do
@@ -767,6 +760,7 @@ function this.ApplyInfProfiles(profileNames)
       if profileInfo.loadOnACCStart then
         local profileName=profileInfo.description or profileName
         InfMenu.Print(InfMenu.LangString"applying_profile".." "..profileName)
+        InfLog.Add("Applying profile "..profileName)
         IvarProc.ApplyProfile(profileInfo.profile)
       end
     end
@@ -878,11 +872,10 @@ function this.ReadEvars(saveName)
     InfLog.Add(errorText,true,true)
     return
   end
-  if type(ih_save)~=typeFunction then
-    local errorText="ReadEvars: LoadEvars~=typeFunction"
-    InfLog.Add(errorText,true,true)
-    return
-  end
+
+  local sandboxEnv={}
+  setfenv(ih_save,sandboxEnv)
+
   ih_save=ih_save()
   if type(ih_save.evars)~=typeTable then
     local errorText="ReadEvars: LoadEvars.evars~=typeTable"
@@ -936,6 +929,9 @@ function this.LoadEvars()
       evars[name]=value
     end
   end
+  
+  --tex InfLog is in use before loadevars
+  InfLog.debugMode=evars.debugMode==1
 end
 
 return this

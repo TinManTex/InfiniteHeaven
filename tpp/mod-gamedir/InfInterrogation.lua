@@ -60,7 +60,7 @@ function this.Init(missionTable)
       this.SetupInterCpQuests(enemyTable.soldierDefine,enemyTable.uniqueInterrogation)
     end
   end
- --end)--
+  --end)--
 end
 
 --DEBUG>
@@ -90,6 +90,10 @@ this.InterCall_Location=function(soldierId,cpId,interName)
     interrFuncs[#interrFuncs+1]=this.WildCardLocation
   end
 
+  if Ivars.enableWalkerGearsFREE:Is(1) then
+    interrFuncs[#interrFuncs+1]=this.WalkerStaticLocation
+  end
+
   local LocationInterrogate=interrFuncs[math.random(#interrFuncs)]
   if LocationInterrogate then
     LocationInterrogate()
@@ -101,7 +105,8 @@ function this.LrrpLocation()
   --InfLog.PCall(function()--DEBUG
   --InfLog.DebugPrint"LrrpLocation"--DEBUG
   --tex TODO: eliminated check
-  local lrrpDefine=InfMain.lrrpDefines[math.random(#InfMain.lrrpDefines)]
+  local lrrpName=InfMain.lrrpDefines[math.random(#InfMain.lrrpDefines)]
+  local lrrpDefine=InfMain.lrrpDefines[lrrpName]
   local base1Name=InfMenu.CpNameString(lrrpDefine.base1,InfMain.GetLocationName())
   local base2Name=InfMenu.CpNameString(lrrpDefine.base2,InfMain.GetLocationName())
 
@@ -112,13 +117,34 @@ function this.LrrpLocation()
     InfLog.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base2))
   end
 
-  InfMenu.PrintFormatLangId("interrogate_lrrp",base1Name,base2Name)
+  if lrrpDefine.cpDefine.lrrpWalker then
+    InfMenu.PrintFormatLangId("interrogate_lrrp_walker",base1Name,base2Name)
+  else
+    InfMenu.PrintFormatLangId("interrogate_lrrp",base1Name,base2Name)
+  end
+  --end)--
+end
+
+function this.WalkerStaticLocation()
+
+  --InfLog.PCall(function()--DEBUG
+  InfLog.Add"WalkerStaticLocation"--DEBUG
+  --tex TODO: eliminated check
+
+  local walkerInfos=InfWalkerGear.mvar_walkerInfo
+  local infoName=walkerInfos[math.random(#walkerInfos)]
+  local walkerInfo=walkerInfos[infoName]
+  local cpName=walkerInfo.cpName
+  local cpNameString=InfMenu.CpNameString(cpName,InfMain.GetLocationName())
+  InfMenu.PrintFormatLangId("interrogate_walker",cpNameString)
   --end)--
 end
 
 function this.WildCardLocation()
   --InfLog.DebugPrint"WildCardLocation"--DEBUG
-  local cpName=mvars.ene_wildCardCps[math.random(#mvars.ene_wildCardCps)]
+  local ene_wildCardInfo=InfNPC.ene_wildCardInfo
+  local soldierName=ene_wildCardInfo[math.random(#ene_wildCardInfo)]
+  local cpName=ene_wildCardInfo[soldierName].cpName
   local cpNameString=InfMenu.CpNameString(cpName,InfMain.GetLocationName())
   InfMenu.PrintFormatLangId("interrogate_wildcard",cpNameString)
 end
@@ -174,7 +200,7 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
     for i=0,numQuestSoldiers do
       gvars.inf_interCpQuestStatus[i]=false
     end
-  end  
+  end
 
   local InfMain=InfMain
 

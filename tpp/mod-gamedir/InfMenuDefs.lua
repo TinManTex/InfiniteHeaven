@@ -474,6 +474,9 @@ this.eventsMenu={
     Ivars.gameEventChanceFREE,
     Ivars.gameEventChanceMB,
     Ivars.enableParasiteEvent,
+    Ivars.armorParasiteEnabled,
+    Ivars.mistParasiteEnabled,
+    Ivars.camoParasiteEnabled,
     Ivars.parasitePeriod_MIN,
     Ivars.parasitePeriod_MAX,
     Ivars.parasiteWeather,
@@ -527,6 +530,7 @@ this.systemMenu={
     --InfMenuCommands.viewProfile,--DEBUG
     Ivars.enableQuickMenu,
     Ivars.startOffline,
+    Ivars.skipLogos,
     --Ivars.langOverride,
     InfMenuCommands.resetAllSettingsItem,
   },
@@ -606,10 +610,10 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
-    --InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
-    --InfMenuCommands.DEBUG_WarpToObject,--DEBUG
---    InfMenuCommands.showPosition,
---    InfMenuCommands.DEBUG_ToggleParasiteEvent,
+    --Ivars.warpToListObject,--DEBUG
+    --    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
+    --       InfMenuCommands.showPosition,
+    --    InfMenuCommands.DEBUG_ToggleParasiteEvent,
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
     --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
     --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG

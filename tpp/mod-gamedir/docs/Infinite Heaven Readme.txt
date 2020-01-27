@@ -1,5 +1,5 @@
 = Infinite heaven =
-r192 - 2016-11-09
+r193 - 2016-11-16
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -21,6 +21,16 @@ Recent changes/additions
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
 NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
+
+New for r193
+Added: Walker gears assigned to foot patrols in free roam (requires both foot patrols and walker gears in free to be enabled) - pretty flaky with soldiers sometimes ditching walkers in the middle of nowhere though, and (if they make it that far) they'll leave it at their destination base instead of continuing with it.
+
+Added: Walker gear locations to IH interrogations.
+
+Options: "Allow Armor Skulls", "Allow Mist Skulls","Allow Sniper Skulls" - Allow/disallow skull types for Skull attacks - was on TODO, but thanks SoullessMadness for the request.
+
+Option: "Skip startup logos" - Stops the konami/kjp/fox/nvidia logos from showing.". Makes a return after its removal in r90  - thanks morbidslinky for the suggestion.
+(via IH system menu)
 
 New for r192
 Fixed: Hang on game startup with no ih_save.lua - thanks everyone for the report.

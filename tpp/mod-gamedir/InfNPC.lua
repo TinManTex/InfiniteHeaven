@@ -63,11 +63,11 @@ local maxSoldiersPerPlat=12--SYNC with plat counts, and keep in mind max instace
 local plntPrefix="plnt"
 
 --
+this.numLrrpSoldiers=2
+
+--
 --STATE
---DEBUGNOW
---mvars.ene_wildCardSoldiers={}
---mvars.ene_femaleWildCardSoldiers={}
---mvars.ene_wildCardCps={}
+this.ene_wildCardInfo={}
 
 this.packages={
   "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_mb.fpk"--tex still relies on totalCount in f30050_npc.fox2
@@ -314,21 +314,27 @@ end
 --TUNE
 -- CULL local additionalSoldiersPerPlat=5
 local maxSoldiersOnPlat=9
-this.numReserveSoldiers=140
-
 
 this.soldierPool=nil
 
 --caller: mtbs_enemy.OnLoad
 --IN/OUT: mb layout lua (ex ly003) .enemyAssetTable (via TppEnemy.GetMBEnemyAssetTable or mvars.mbSoldier_funcGetAssetTable)
+--IN-SIDE: InfMain.soldierPool
 --tex adds extra soldiers,route names to mb cps
 function this.ModifyEnemyAssetTable()
+  InfLog.AddFlow"InfNPC.ModifyEnemyAssetTable"
   --InfLog.PCall(function()--DEBUG
   if not Ivars.mbAdditionalSoldiers:EnabledForMission() then
     return
   end
+  
+  if InfMain.IsContinue() then
+    return
+  end
 
-  this.reserveSoldierNames=InfMain.BuildReserveSoldierNames(this.numReserveSoldiers,this.reserveSoldierNames)
+  --tex this is before ModMissionTable so have to set up itself
+  local numReserveSoldiers=InfMain.reserveSoldierCounts[vars.missionCode] or 0
+  this.reserveSoldierNames=InfMain.GenerateNameList("sol_ih_",numReserveSoldiers)   
   this.soldierPool=InfMain.ResetPool(this.reserveSoldierNames)
 
   local GetMBEnemyAssetTable=TppEnemy.GetMBEnemyAssetTable or mvars.mbSoldier_funcGetAssetTable
@@ -394,12 +400,11 @@ function this.ModifyEnemyAssetTable()
   --end)--
 end
 
---IN/OUT soldierPool,soldierDefine
---IN-SIDE: mvars.inf_patrolVehicleInfo
---tex adjusts soldiers assigned to lrrp vehicles
---DEBUGNOW TODO TEST, soldierDefine looks ok, but verify soldier counts on vehicles correct, also that vehicles are changing and convoys work
-function this.ModifyVehiclePatrolSoldiers(soldierPool,soldierDefine,soldiersAssigned)
-  if not Ivars.vehiclePatrolProfile:EnabledForMission() then
+--IN/OUT soldierPool,soldierDefine,travelPlans
+--OUT: lrrpDefines
+--tex sets up lrrp foot patrols between bases, soldiers are added in ModifyLrrpSoldiers
+function this.AddLrrps(soldierDefine,travelPlans,lrrpDefines,emptyCpPool)
+  if not Ivars.enableLrrpFreeRoam:EnabledForMission() then
     return
   end
 
@@ -409,105 +414,13 @@ function this.ModifyVehiclePatrolSoldiers(soldierPool,soldierDefine,soldiersAssi
 
   InfMain.RandomSetToLevelSeed()
 
-  local seatChanges={}--DEBUG
+  local baseNameBag1=InfMain.ShuffleBag:New()
+  local baseNameBag2=InfMain.ShuffleBag:New()
 
-  local initPoolSize=#soldierPool
-  for cpName,cpDefine in pairs(soldierDefine)do
-
-    local numCpSoldiers=0
-    for n=1,#cpDefine do
-      if cpDefine[n] then
-        numCpSoldiers=numCpSoldiers+1
-      end
-    end
-
-    if cpDefine.lrrpVehicle then
-      --tex figure out how many soldiers for the vehicle
-      local numSeats=2
-      if mvars.inf_patrolVehicleInfo then
-        local vehicleInfo=mvars.inf_patrolVehicleInfo[cpDefine.lrrpVehicle]
-        if vehicleInfo then
-          local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
-          if baseTypeInfo then
-            numSeats=math.random(math.min(numSeats,baseTypeInfo.seats),baseTypeInfo.seats)
-            --InfLog.DebugPrint(cpDefine.lrrpVehicle .. " numVehSeats "..numSeats)--DEBUG
-          end
-        end
-      end
-      --
-      local seatDelta=numSeats-numCpSoldiers
-      seatChanges[cpDefine.lrrpVehicle]=seatDelta--DEBUGNOW
-      --DEBUG
-      --      local isConvoy=false
-      --      for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
-      --        for i,vehicleName in ipairs(convoyVehicles)do
-      --          if cpDefine.lrrpVehicle==vehicleName then
-      --            InfLog.DebugPrint(vehicleName .." seatDelta "..seatDelta .. " #soldierPool "..#soldierPool)
-      --            isConvoy=true
-      --            break
-      --          end
-      --        end
-      --      end
-      --<DEBUG
-      if seatDelta<0 then--tex over filled
-        --tex back into soldierPool
-        InfMain.FillList(-seatDelta,cpDefine,soldierPool)
-      elseif seatDelta>0 then--tex under filled
-        --tex add soldiers
-        local soldiersAdded=InfMain.FillList(seatDelta,soldierPool,cpDefine)
-        for i,soldierName in ipairs(soldiersAdded)do
-          soldiersAssigned[soldierName]=true
-        end
-        --        if isConvoy then--DEBUG
-        --          InfLog.PrintInspect(soldiersAdded)
-        --        end--
-      end
-      --if lrrpVehicle<
-    end
-    --for soldierdefine<
-  end
-
-  InfMain.RandomResetToOsTime()
-
-  if this.debugModule then
-    local poolChange=initPoolSize-#soldierPool--DEBUG
-    InfLog.Add("ModifyVehiclePatrolSoldiers #soldierPool:"..#soldierPool.." pool change:"..poolChange)
-    InfLog.PrintInspect(soldierPool)
-    InfLog.Add"seatChanges"
-    InfLog.PrintInspect(seatChanges)
-  end
-end
-
---IN/OUT soldierPool,soldierDefine,travelPlans
---OUT: lrrpDefines
---tex sets up lrrp foot patrols between bases
-function this.AddLrrps(soldierPool,soldierDefine,travelPlans,lrrpDefines)
-  if not Ivars.enableLrrpFreeRoam:EnabledForMission() then
-    return
-  end
-
-  InfMain.RandomSetToLevelSeed()
-
-  --tex TODO clear instead of new
-  lrrpDefines={}
-
-  --tex find empty cps to use for lrrps
-  local cpPool=InfMain.BuildLrrpVehicleCpPool(soldierDefine)
-
-  local planStr="travelIH_"
-
-  local reserved=0--6
-  --tex OFF
-  --  local minSize=Ivars.lrrpSizeFreeRoam_MIN:Get()
-  --  local maxSize=Ivars.lrrpSizeFreeRoam_MAX:Get()
-  --  if maxSize>#soldierPool then
-  --    maxSize=#soldierPool
-  --  end
-  local numLrrps=0--DEBUG
-
-  local baseNameBag=InfMain.ShuffleBag:New()
   local locationName=InfMain.GetLocationName()
   local baseNames=InfMain.baseNames[locationName]
+  local halfBases=math.ceil(#baseNames/2)
+
   for n,cpName in pairs(baseNames)do
     local cpDefine=soldierDefine[cpName]
     if cpDefine==nil then
@@ -517,43 +430,46 @@ function this.AddLrrps(soldierPool,soldierDefine,travelPlans,lrrpDefines)
       if cpId==NULL_ID then
         InfLog.DebugPrint("baseNames "..tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
-        baseNameBag:Add(cpName)
+        if n<=halfBases then
+          baseNameBag1:Add(cpName)
+        else
+          baseNameBag2:Add(cpName)
+        end
       end
     end
   end
-
   --InfLog.DebugPrint("#baseNameBag:"..baseNameBag:Count())--DEBUG
 
+  local addedLrrpCount=0--DEBUG
+
   --tex one lrrp per two bases (start at one, head to next) is a nice target for num of lrrps, but lrrp cps or soldiercount may run out first
-  while #soldierPool-reserved>0 do
+  local numLrrps=halfBases
+
+  for i=1,numLrrps do
     --tex the main limiter, available empty cps to use for lrrps
-    if #cpPool==0 then
-      --InfLog.DebugPrint"#cpPool==0"--DEBUG
-      break
-    end
-    if #soldierPool==0 then
-      --InfLog.DebugPrint"#soldierPool==0"--DEBUG
+    if #emptyCpPool==0 then
+      InfLog.Add"#cpPool==0"--DEBUG
       break
     end
 
-    local lrrpSize=2 --TUNE WIP custom lrrp size OFF to give coverage till I can come up with something better math.random(minSize,maxSize)
-    --tex TODO: stop it from eating reserved
-    --InfLog.DebugPrint("lrrpSize "..lrrpSize)--DEBUG
+    local cpName=emptyCpPool[#emptyCpPool]
+    emptyCpPool[#emptyCpPool]=nil
 
-    local cpName=cpPool[#cpPool]
-    cpPool[#cpPool]=nil
+    local cpDefine=soldierDefine[cpName]
 
-    --InfLog.DebugPrint("cpName:"..tostring(cpName))--DEBUG
-
-    local cpDefine={}
-    soldierDefine[cpName]=cpDefine--tex GOTCHA clearing the cp here, wheres in AddWildCards we are modding existing
-
-    InfMain.FillList(lrrpSize,soldierPool,cpDefine)
-
-    local planName=planStr..cpName
+    local planName="travelIH_"..cpName
     cpDefine.lrrpTravelPlan=planName
-    local base1=baseNameBag:Next()
-    local base2=baseNameBag:Next()
+    local base1,base2
+
+    --tex to give variation on start bases
+    if math.random(50)>100 then
+      base1=baseNameBag1:Next()
+      base2=baseNameBag2:Next()
+    else
+      base2=baseNameBag1:Next()
+      base1=baseNameBag2:Next()
+    end
+    
     travelPlans[planName]={
       {base=base1},
       {base=base2},
@@ -564,33 +480,70 @@ function this.AddLrrps(soldierPool,soldierDefine,travelPlans,lrrpDefines)
       base1=base1,
       base2=base2,
     }
-    lrrpDefines[#lrrpDefines+1]=lrrpDefine
+    lrrpDefines[cpName]=lrrpDefine
+    lrrpDefines[#lrrpDefines+1]=cpName
 
-    numLrrps=numLrrps+1
-  end
-  --  InfLog.DebugPrint("num lrrps"..numLrrps)--DEBUG
-  --  InfLog.DebugPrint("#soldierPool:"..#soldierPool)--DEBUG
-  --  InfLog.DebugPrint("#cpPool:"..#cpPool)--DEBUG
-
-  --Fill rest. can just do straight cpDefine order since they're build randomly anyway
-  if #soldierPool>0 then
-    for cpName,cpDefine in pairs(soldierDefine)do
-      local cpId=GetGameObjectId("TppCommandPost2",cpName)
-      if cpId==NULL_ID then
-      else
-        if cpDefine.lrrpTravelPlan and not cpDefine.lrrpVehicle then
-          InfMain.FillList(1,soldierPool,cpDefine)
-        end
-      end
-    end
+    addedLrrpCount=i
   end
 
   InfMain.RandomResetToOsTime()
 
   if this.debugModule then
-  InfLog.Add"InfMain.lrrpDefines"
-  InfLog.PrintInspect(lrrpDefines)
+    InfLog.Add("AddLrrps: addedLrrpCount:"..addedLrrpCount)
+    InfLog.Add"InfMain.lrrpDefines"
+    InfLog.PrintInspect(lrrpDefines)
   end
+end
+
+--IN/OUT soldierPool,soldierDefine
+--IN-SIDE: InfVehicle.inf_patrolVehicleInfo
+--tex adjusts soldiers assigned to lrrp vehicles
+function this.ModifyLrrpSoldiers(soldierDefine,soldierPool)
+  if InfMain.IsContinue() then
+    return
+  end
+
+  InfMain.RandomSetToLevelSeed()
+
+  local seatChanges={}--DEBUG
+  local initPoolSize=#soldierPool--DEBUG
+  for cpName,cpDefine in pairs(soldierDefine)do
+    local fillDelta=0
+
+    if cpDefine.lrrpVehicle then
+      if Ivars.vehiclePatrolProfile:EnabledForMission() then
+        local numSeats=this.GetNumSeats(cpDefine.lrrpVehicle)--tex figure out how many soldiers for the vehicle
+        fillDelta=numSeats-#cpDefine--tex #cpDefine is number of cp soldiers
+        seatChanges[cpDefine.lrrpVehicle]=fillDelta--DEBUG
+      end
+    elseif cpDefine.lrrpWalker then
+       --if Ivars.enableWalkerGearsFREE:EnabledForMission() then
+        local lrrpSize=InfWalkerGear.walkersPerLrrp
+        fillDelta=lrrpSize-#cpDefine
+      --end   
+    elseif cpDefine.lrrpTravelPlan and not cpDefine.lrrpVehicle then
+      if Ivars.enableLrrpFreeRoam:EnabledForMission() then
+        local lrrpSize=this.numLrrpSoldiers
+        fillDelta=lrrpSize-#cpDefine
+      end
+    end
+
+    if fillDelta<0 then--tex over filled,back into soldierPool
+      local soldiersRemoved=InfMain.FillList(-fillDelta,cpDefine,soldierPool)
+    elseif fillDelta>0 then--tex under filled,add soldiers
+      local soldiersAdded=InfMain.FillList(fillDelta,soldierPool,cpDefine)
+    end
+  end
+
+  if this.debugModule then
+    local poolChange=#soldierPool-initPoolSize
+    InfLog.Add("ModifyLrrpSoldiers #soldierPool:"..#soldierPool.." pool change:"..poolChange)
+    InfLog.PrintInspect(soldierPool)
+    InfLog.Add"seatChanges"
+    InfLog.PrintInspect(seatChanges)
+  end
+
+  InfMain.RandomResetToOsTime()
 end
 
 local function FaceIsFemale(faceId)
@@ -626,12 +579,12 @@ local weaponPowers={
 }
 
 --ASSUMPTION, ordered after vehicle cpdefines have been modified
---IN/OUT: soldierPool,soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings
+--IN/OUT: soldierPool,soldierDefine,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings
 --IN-SIDE: InfEneFova.inf_wildCardFemaleFaceList,InfEneFova.inf_wildCardMaleFaceList
 --IN-SIDE: this.numWildCards,this.numWildCardFemales
---OUT-SIDE: mvars.ene_wildCardSoldiers, mvars.ene_femaleWildCardSoldiers, mvars.ene_wildCardCps
+--OUT-SIDE: this.ene_wildCardInfo
 --tex sets up some soldiers of existing cps as wildcard soldiers
-function this.AddWildCards(soldierPool,soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
+function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
   if not Ivars.enableWildCardFreeRoam:EnabledForMission() then
     return
   end
@@ -646,16 +599,29 @@ function this.AddWildCards(soldierPool,soldierDefine,soldierTypes,soldierSubType
     return
   end
 
-  InfMain.RandomSetToLevelSeed()
+  local uniqueSettings=TppEneFova.GetUniqueSettings()
+  InfLog.Add"TppEneFova uniqueSettings:"
+  InfLog.PrintInspect(uniqueSettings)
+  --
 
-  local reserved=0
-  local numLrrps=0
+  if InfMain.IsContinue() then
+    for soldierName,wildCardInfo in pairs(this.ene_wildCardInfo)do
+      local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
+      if gameObjectId==NULL_ID then
+        InfLog.Add("WARNING: AddWildCards continue "..soldierName.."==NULL_ID")--DEBUG
+      else
+        local command={id="UseExtendParts",enabled=wildCardInfo.isFemale}
+        SendCommand(gameObjectId,command)
+      end
+    end
+    return
+  end
+
+  InfMain.RandomSetToLevelSeed()
 
   local baseNamePool=InfMain.BuildCpPoolWildCard(soldierDefine)
 
   local locationName=InfMain.GetLocationName()
-
-
   local wildCardSubType=wildCardSubTypes[locationName]or "SOVIET_WILDCARD"
 
   local weaponPowersBag=InfMain.ShuffleBag:New(weaponPowers)
@@ -685,10 +651,7 @@ function this.AddWildCards(soldierPool,soldierDefine,soldierTypes,soldierSubType
   --  InfLog.DebugPrint"ene_wildCardFaceList"--DEBUG >
   --  InfLog.PrintInspect(InfEneFova.inf_wildCardFaceList)--<
 
-  --tex TODO clear not new
-  mvars.ene_wildCardSoldiers={}
-  mvars.ene_femaleWildCardSoldiers={}
-  mvars.ene_wildCardCps={}
+  this.ene_wildCardInfo={}
 
   local numFemales=0
   local maleFaceIdPool=InfMain.ResetPool(InfEneFova.inf_wildCardMaleFaceList)
@@ -703,16 +666,12 @@ function this.AddWildCards(soldierPool,soldierDefine,soldierTypes,soldierSubType
 
     local cpName=InfMain.GetRandomPool(baseNamePool)
     local cpDefine=soldierDefine[cpName]
-    mvars.ene_wildCardCps[#mvars.ene_wildCardCps+1]=cpName
-
     local soldierName=cpDefine[math.random(#cpDefine)]
-    mvars.ene_wildCardSoldiers[#mvars.ene_wildCardSoldiers+1]=soldierName
 
     local isFemale=false
     if numFemales<this.numWildCardFemales then
       isFemale=true
       numFemales=numFemales+1
-      mvars.ene_wildCardSoldiers[#mvars.ene_femaleWildCardSoldiers+1]=soldierName
     end
 
     --tex choose face
@@ -763,7 +722,7 @@ function this.AddWildCards(soldierPool,soldierDefine,soldierTypes,soldierSubType
 
     local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
     if gameObjectId==NULL_ID then
-      InfLog.DebugPrint"AddWildCards gameObjectId==NULL_ID"--DEBUG
+      InfLog.Add("WARNING: AddWildCards "..soldierName.."==NULL_ID")--DEBUG
     else
       local command={id="UseExtendParts",enabled=isFemale}
       SendCommand(gameObjectId,command)
@@ -783,31 +742,73 @@ function this.AddWildCards(soldierPool,soldierDefine,soldierTypes,soldierSubType
 
     soldierPersonalAbilitySettings[soldierName]=personalAbilitySettings
 
-    numLrrps=numLrrps+1
+    local wildCardInfo={
+      cpName=cpName,
+      isFemale=isFemale,
+      faceId=faceId,
+      bodyId=bodyId,
+      soldierPowers=soldierPowers,
+    }
+    this.ene_wildCardInfo[soldierName]=wildCardInfo
+    this.ene_wildCardInfo[#this.ene_wildCardInfo+1]=soldierName
   end
 
-
   --DEBUG
-  InfLog.Add"ene_wildCardSoldiers"
-  InfLog.PrintInspect(mvars.ene_wildCardSoldiers)
-  InfLog.Add"ene_femaleWildCardSoldiers"
-  InfLog.PrintInspect(mvars.ene_femaleWildCardSoldiers)
-  InfLog.Add"ene_wildCardCps"
-  InfLog.PrintInspect(mvars.ene_wildCardCps)
-  --  local uniqueSettings=TppEneFova.GetUniqueSettings()
-  --  InfLog.Add"TppEneFova uniqueSettings"
-  --  InfLog.PrintInspect(uniqueSettings)
+  if this.debugModule then
+    InfLog.Add"ene_wildCardInfo:"
+    InfLog.PrintInspect(this.ene_wildCardInfo)
+    --  local uniqueSettings=TppEneFova.GetUniqueSettings()
+    --  InfLog.Add"TppEneFova uniqueSettings"
+    --  InfLog.PrintInspect(uniqueSettings)
 
-  --InfLog.DebugPrint("numadded females:"..tostring(numFemales))--DEBUG
+    --InfLog.DebugPrint("numadded females:"..tostring(numFemales))--DEBUG
 
-  --  --DEBUG
-  --  for n,soldierName in pairs(mvars.ene_wildCardSoldiers)do
-  --    InfLog.Add(soldierName)
-  --    InfLog.PrintInspect(soldierPowerSettings[soldierName])
-  -- end
-
-  --InfLog.Add("num wildCards"..numLrrps)--DEBUG
+    --InfLog.Add("num wildCards"..numLrrps)--DEBUG
+  end
   InfMain.RandomResetToOsTime()
+end
+
+--IN-SIDE: InfVehicle.inf_patrolVehicleInfo
+function this.GetNumSeats(lrrpVehicle)
+  local numSeats=2
+  if InfVehicle.inf_patrolVehicleInfo then
+    local vehicleInfo=InfVehicle.inf_patrolVehicleInfo[lrrpVehicle]
+    if vehicleInfo then
+      local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
+      if baseTypeInfo then
+        numSeats=math.random(math.min(numSeats,baseTypeInfo.seats),baseTypeInfo.seats)
+        --InfLog.DebugPrint(cpDefine.lrrpVehicle .. " numVehSeats "..numSeats)--DEBUG
+      end
+    end
+  end
+  return numSeats
+end
+
+--DEBUGNOW
+function this.ModMissionTableTop(missionTable,emptyCpPool)
+  if this.debugModule then
+  InfLog.Add("----ModMissionTableTop----")
+  InfLog.Add("#soldierPool:"..#InfMain.soldierPool)
+  InfLog.PrintInspect(InfMain.soldierPool)
+
+  InfLog.Add("#emptyCpPool:"..#emptyCpPool)
+  InfLog.PrintInspect(emptyCpPool)
+
+  local baseCpPool=InfMain.BuildBaseCpPool(missionTable.enemy.soldierDefine)
+  InfLog.Add("#baseCpPool:"..#baseCpPool)
+  InfLog.PrintInspect(baseCpPool)
+  end
+end
+
+function this.ModMissionTableBottom(missionTable,emptyCpPool)
+  if this.debugModule then
+  InfLog.Add("----ModMissionTableBottom----")
+  InfLog.Add("#soldierPool:"..#InfMain.soldierPool)
+  InfLog.PrintInspect(InfMain.soldierPool)
+
+  InfLog.Add("#emptyCpPool:"..#emptyCpPool)
+  InfLog.PrintInspect(emptyCpPool)
+  end
 end
 
 return this

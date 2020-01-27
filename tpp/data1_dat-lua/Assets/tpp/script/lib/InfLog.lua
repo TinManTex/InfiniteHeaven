@@ -20,10 +20,6 @@ local stringType="string"
 local functionType="function"
 
 function this.Add(message,announceLog,force)
-  --tex GOTCHA, true setting wont kick in till gvars is initiallized, would be solved if shifting away from gvars to direct file save/load
-  if evars and evars.debugMode then
-    this.debugMode=evars.debugMode>0
-  end
   if not this.debugMode and not force then
     return
   end
@@ -126,7 +122,7 @@ function this.DebugPrint(message,...)
   end
 
   if ... then
-  --message=string.format(message,...)--DEBUGNOW
+    message=string.format(message,...)
   end
 
   while string.len(message)>MAX_ANNOUNCE_STRING do
@@ -166,11 +162,6 @@ function this.PCallDebug(func,...)
   --    this.Add("PCallDebug func~=function")
   --    return
   --  end
-
-  --tex TODO: see GOTCHA in Add.
-  if Ivars and evars and evars.debugMode then
-    this.debugMode=evars.debugMode>0
-  end
 
   if not this.debugMode then
     return func(...)
@@ -257,35 +248,26 @@ local function Split(str,delim,maxNb)
   return result
 end
 
---tex TODO, not having luck with either approach, something stopping assignment to global
---might have to keep the module reference here in InfLog instead, at this point the module is less InfLog than InfBootstrap lol
-function this.LoadExternalModuleRequire(moduleName)
-  local sucess,module=pcall(require,moduleName)
-  if not sucess then
-    InfLog.Add(module)
-  else
-    --    _G[moduleName]=module
-    --    if not _G[moduleName] then
-    --      InfLog.Add("cannot find module in global "..moduleName)
-    --    end
-    this[moduleName]=module
-    this.modules[moduleName]=module
-    return module
-  end
-end
+function this.LoadBoxed(fileName)
+  local filePath=InfLog.modPath..fileName
 
-function this.LoadExternalModuleLoadFile(moduleName)
-  local modulePath=this.gamePath..this.modPath..moduleName..".lua"
-  local sucess,module=pcall(loadfile,modulePath)
-  if not sucess then
-    InfLog.Add(module)
-  else
-    _G[moduleName]=module()
-    InfLog.Add("Loaded "..moduleName)
-    if not _G[moduleName] then
-      InfLog.Add("could not find module in global "..moduleName)
-    end
+  local moduleFunc,error=loadfile(filePath)
+  if error then
+    InfLog.Add("Error loading "..fileName..":"..error,true,true)
+    return
   end
+
+  local sandboxEnv={}
+  setfenv(moduleFunc,sandboxEnv)
+
+  local module=moduleFunc()
+
+  if module==nil then
+    InfLog.Add("Error:"..fileName.." returned nil",true,true)
+    return
+  end
+
+  return module
 end
 
 local function GetGamePath()
