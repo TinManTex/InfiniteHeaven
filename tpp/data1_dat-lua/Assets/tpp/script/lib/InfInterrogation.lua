@@ -19,18 +19,18 @@ this.locationInterrogateIds={
 
 --DEBUG>
 this.InterCall_Test=function(soldierId,cpId,interName)
-  InfMenu.DebugPrint"InterCall_Test"--
+  InfLog.DebugPrint"InterCall_Test"--
 end
 
 this.UniqueInterEnd_Test=function(soldierId,cpId,interName)
-  InfMenu.DebugPrint"UniqueInterEnd_Test"--
+  InfLog.DebugPrint"UniqueInterEnd_Test"--
 end--<
 
 
 --TUNE, interrogation type selection
 this.InterCall_Location=function(soldierId,cpId,interName)
-  --InfMenu.DebugPrint"InterCall_Location"--DEBUG
-  --InfInspect.TryFunc(function()--DEBUG
+  --InfLog.DebugPrint"InterCall_Location"--DEBUG
+  --InfLog.PCall(function()--DEBUG
   local interrFuncs={}
   if Ivars.enableLrrpFreeRoam:Is(1) then
     interrFuncs[#interrFuncs+1]=this.LrrpLocation
@@ -52,18 +52,18 @@ this.InterCall_Location=function(soldierId,cpId,interName)
 end
 
 function this.LrrpLocation()
-  --InfInspect.TryFunc(function()--DEBUG
-  --InfMenu.DebugPrint"LrrpLocation"--DEBUG
+  --InfLog.PCall(function()--DEBUG
+  --InfLog.DebugPrint"LrrpLocation"--DEBUG
   --tex TODO: eliminated check
   local lrrpDefine=InfMain.lrrpDefines[math.random(#InfMain.lrrpDefines)]
   local base1Name=InfMenu.CpNameString(lrrpDefine.base1,InfMain.GetLocationName())
   local base2Name=InfMenu.CpNameString(lrrpDefine.base2,InfMain.GetLocationName())
 
   if base1Name==nil then
-    InfMenu.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base1))
+    InfLog.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base1))
   end
   if base2Name==nil then
-    InfMenu.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base2))
+    InfLog.DebugPrint("Interr LrrpLocation no cpnamestring for "..tostring(lrrpDefine.base2))
   end
 
   InfMenu.PrintFormatLangId("interrogate_lrrp",base1Name,base2Name)
@@ -71,7 +71,7 @@ function this.LrrpLocation()
 end
 
 function this.WildCardLocation()
-  --InfMenu.DebugPrint"WildCardLocation"--DEBUG
+  --InfLog.DebugPrint"WildCardLocation"--DEBUG
   local cpName=InfMain.ene_wildCardCps[math.random(#InfMain.ene_wildCardCps)]
   local cpNameString=InfMenu.CpNameString(cpName,InfMain.GetLocationName())
   InfMenu.PrintFormatLangId("interrogate_wildcard",cpNameString)
@@ -137,7 +137,7 @@ function this.SetupInterrogation(interrogation)
 end
 
 function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
-  --InfInspect.TryFunc(function(soldierDefine,uniqueInterrogation)--DEBUG
+  --InfLog.PCall(function(soldierDefine,uniqueInterrogation)--DEBUG
   if Ivars.enableInfInterrogation:Is(0) or not Ivars.enableInfInterrogation:MissionCheck() then
     return
   end
@@ -172,11 +172,11 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
   for n,cpName in pairs(baseNames)do
     local cpDefine=soldierDefine[cpName]
     if cpDefine==nil then
-    --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
+    --InfLog.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
     elseif #cpDefine>0 then
       local cpId=GetGameObjectId("TppCommandPost2",cpName)
       if cpId==NULL_ID then
-        InfMenu.DebugPrint("SetupInterCpQuests baseNamePool "..tostring(cpName).." cpId==NULL_ID")--DEBUG
+        InfLog.DebugPrint("SetupInterCpQuests baseNamePool "..tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
         baseNameBag:Add(cpName)
       end
@@ -193,14 +193,14 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
   end
   for i=1,numBases do
     local cpName=baseNameBag:Next()
-    --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
+    --InfLog.DebugPrint("cpName:"..tostring(cpName))--DEBUG
 
     local cpDefine=soldierDefine[cpName]
     local rnd=math.random(#cpDefine)
     local soldierName=cpDefine[rnd]
     local soldierId=GetGameObjectId("TppSoldier2",soldierName)
     if soldierId==NULL_ID then
-      InfMenu.DebugPrint("WARNING SetupSoldierPairs could not find soldier "..tostring(soldierName).." aborting")--DEBUG
+      InfLog.DebugPrint("WARNING SetupSoldierPairs could not find soldier "..tostring(soldierName).." aborting")--DEBUG
       break
     else
       this.interCpQuestSoldiers[soldierIndex]=soldierId
@@ -216,9 +216,9 @@ function this.SetupInterCpQuests(soldierDefine,uniqueInterrogation)
     soldierIndex=soldierIndex+1
     numLrrps=numLrrps+1
   end
-  --InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
+  --InfLog.DebugPrint("num lrrps"..numLrrps)--DEBUG
 
-  --InfInspect.PrintInspect(uniqueInterrogation)--DEBUG
+  --InfLog.PrintInspect(uniqueInterrogation)--DEBUG
 
   InfMain.RandomResetToOsTime()
   --end,soldierDefine,uniqueInterrogation)--DEBUG
@@ -237,28 +237,28 @@ function this.GetInterCpQuestId(soldierId)
 end
 
 function this.InterStart_CpQuest(soldierId,cpId,interName)
-  --InfMenu.DebugPrint"InterStart"--DEBUG
+  --InfLog.DebugPrint"InterStart"--DEBUG
 
   local soldierICPQId=this.GetInterCpQuestId(soldierId)
   if soldierICPQId==nil then
-    InfMenu.DebugPrint"WARNING cannot find cpQuestId for soldier"--DEBUG
+    InfLog.DebugPrint"WARNING cannot find cpQuestId for soldier"--DEBUG
     return false
   end
 
   local partnerICPQId=this.GetPairedSoldier(soldierICPQId)
   if partnerICPQId==nil then
-    InfMenu.DebugPrint"WARNING partnerId==nil"--DEBUG
+    InfLog.DebugPrint"WARNING partnerId==nil"--DEBUG
     return false
   end
 
   local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
   if partnerGameId==nil then
-    --InfMenu.DebugPrint"partnerGameId==nil"--DEBUG
+    --InfLog.DebugPrint"partnerGameId==nil"--DEBUG
     return false
   end
   local partnerCpName=this.interCpQuestSoldiersCps[partnerICPQId]
   if partnerCpName==nil then
-    --InfMenu.DebugPrint"partnerCpName==nil"--DEBUG
+    --InfLog.DebugPrint"partnerCpName==nil"--DEBUG
     return false
   end
 
@@ -268,17 +268,17 @@ function this.InterStart_CpQuest(soldierId,cpId,interName)
 end
 
 this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
-  --InfInspect.TryFunc(function(soldierId,cpId,interName)--DEBUG
-  --InfMenu.DebugPrint"InterCall_InterCpQuest"--DEBUG
+  --InfLog.PCall(function(soldierId,cpId,interName)--DEBUG
+  --InfLog.DebugPrint"InterCall_InterCpQuest"--DEBUG
   local soldierICPQId=this.GetInterCpQuestId(soldierId)
   if soldierICPQId==nil then
-    InfMenu.DebugPrint"cannot find cpQuestId for soldier"--DEBUG
+    InfLog.DebugPrint"cannot find cpQuestId for soldier"--DEBUG
     return
   end
 
   local partnerICPQId=this.GetPairedSoldier(soldierICPQId)
   if partnerICPQId==nil then
-    InfMenu.DebugPrint"partnerId==nil"--DEBUG
+    InfLog.DebugPrint"partnerId==nil"--DEBUG
     return
   end
 
@@ -287,7 +287,7 @@ this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
     local partnerGameId=this.interCpQuestSoldiers[partnerICPQId]
     local partnerCpName=this.interCpQuestSoldiersCps[partnerICPQId]
     local cpNameLang=InfMenu.CpNameString(partnerCpName,InfMain.GetLocationName())
-    --InfMenu.DebugPrint("sol cpquestid:"..soldierIQId.." partnerId:"..partnerIQId)--DEBUG
+    --InfLog.DebugPrint("sol cpquestid:"..soldierIQId.." partnerId:"..partnerIQId)--DEBUG
     InfMenu.PrintFormatLangId("intercp_comrade_location",cpNameLang)
     --tex TODO:
     --        set up marker?
@@ -302,7 +302,7 @@ this.InterCall_InterCpQuest = function(soldierId,cpId,interName)
     gvars.inf_interCpQuestStatus[soldierICPQId]=true
     --tex quest completed
   elseif gvars.inf_interCpQuestStatus[soldierICPQId] and gvars.inf_interCpQuestStatus[partnerICPQId] then
-    --       --InfMenu.DebugPrint"InterCall_InterCpQuest, quest was already completed "--DEBUG
+    --       --InfLog.DebugPrint"InterCall_InterCpQuest, quest was already completed "--DEBUG
     InfMenu.PrintLangId"intercp_repeat"
   else
     InfMenu.PrintLangId"intercp_repeat"

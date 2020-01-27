@@ -1,16 +1,26 @@
 Infinite Heaven changelog
 
-r181
-Fixed: Being unabler to ready weapon when all Custom equip options are turned on and prep config has all weapons set - thanks Gambchon for the report and save file.
+r182
+Fixed: Being unable to ready weapon when all Custom equip options are turned on and prep config has all weapons set - thanks Gambchon for the report and save file.
 Option: mbqfEnableSoldiers - Force enable Quaranine platform soldiers - in the normal game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
 
 (via Mother Base menu)
 Added: IH visit morale support for Quarantine plat.
 Added: Suit support for Quarantine plat.
 Added: Custom soldier equip for Quarantine plat - if you have been using the 'MB staff use custom equip' you will have to set it again this version as the update has reset it.
-Added: Skulls attack support for Quarantine plat - no seperate option, uses 'Enable Skull attacks in Free roam'.
+Added: Skulls attack support for Quarantine plat - no seperate option, uses 'Enable Skull attacks in Free roam'. Alternatively can be triggered by attacking captured Skulls in the cells.
 Exposed: mbEnableLethalActions - Allow lethal actions - Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
 (via Mother Base menu)
+
+r181
+InfMessageLog: Realised I was being stupid and why my prior uses of io failed. message log outputs to file now. God, how many months of me thinking the module was blocked lol - thanks TideGear for putting me in the mindset to test try it again.
+Append mode still seems to be no-go, gives 'Domain error', same message most other errors (open 'r' with no file found).
+Refactor: InfMessageLog/AddMessage renamed to InfLog/Add. Less typing for something thats going to get a lot of use.
+Loading shifted to start of init.lua so it can cover from very start of lua execution.
+Refactor: InfInspect reverted to just the kikito inspect (well that and wrapped into module), rest of (actually used) non-inspect module functions shifted to InfLog.
+Refactor: InfMenu.DebugPrint shifted to InfMessageLog
+Refactor: TryFunc shifted to InfLog.PCall.
+Ivars: OnChange,OnActivate,OnSelect wrapped in PCall. The vast majority are initiated by the user through the menu so performance is less of a concern (and now that I have actual logging worth keeping in-place)
 
 r180 - 2016-09-17
 Refactor: Completeted weapontable support for tables of weaponids per weapon.

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r181 - 2016-09-17
+r182 - 2016-09-22
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -19,6 +19,19 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r182
+Fixed: Being unable to ready weapon when all Custom equip options are turned on and prep config has all weapons set - thanks Gambchon for the report and save file.
+Option: Force enable Quaranine platform soldiers - in the normal game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
+(via Mother Base menu)
+Added: IH visit morale support for Quarantine plat.
+Added: Suit support for Quarantine plat.
+Added: Custom soldier equip for Quarantine plat - if you have been using the 'MB staff use custom equip' you will have to set it again this version as the update has reset it.
+Added: Skulls attack support for Quarantine plat - no seperate option, uses 'Enable Skull attacks in Free roam'. Alternatively can be triggered by attacking captured Skulls in the cells.
+Exposed: mbEnableLethalActions - Allow lethal actions - Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
+(via Mother Base menu)
+[youtube]dhnUkrCRFhU[/youtube]
+https://youtu.be/dhnUkrCRFhU
 
 New for r180
 Expanded the prior DD Equip options to 'Custom soldier equip menu' for Free,Mission,MB - now can include Soviet,PF and XOF weapons. Soldiers will be given a random weapon for the type they're assigned - thanks NasaNhak and others for the suggestion.

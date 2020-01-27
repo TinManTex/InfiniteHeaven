@@ -1349,7 +1349,7 @@ local genders={
 }
 local InfModelRegistry=InfModelRegistry
 if InfModelRegistry then  
-  InfMessageLog.AddMessage(InfMessageLog.debug,"InfModelRegistry Setup")
+  InfLog.Add("InfModelRegistry Setup")
 
   for i,fovaTypeName in ipairs(fovaTypes) do
     InfModelRegistry[fovaTypeName]={}
@@ -1359,7 +1359,7 @@ if InfModelRegistry then
     if type(moduleName)=="string"then
       local module=_G[moduleName]
       if not module then
-        InfMessageLog.AddMessage(InfMessageLog.debug,"InfModelRegistry could not find lua module "..moduleName)
+        InfLog.Add("InfModelRegistry could not find lua module "..moduleName)
       else
         for i,fovaTypeName in ipairs(fovaTypes) do
           local localFova=this[fovaTypeName]
@@ -1370,7 +1370,7 @@ if InfModelRegistry then
               if type(fovaInfo)=="table" then
                 localFova[fovaIndex]=fovaInfo                
                 if InfModelRegistry[fovaTypeName][fovaName] then
-                  InfMessageLog.AddMessage(InfMessageLog.debug,"Conflict module:"..fovaTypeName.."."..fovaName)
+                  InfLog.Add("Conflict module:"..fovaTypeName.."."..fovaName)
                 end   
                 InfModelRegistry[fovaTypeName][fovaName]=fovaIndex-1
               end

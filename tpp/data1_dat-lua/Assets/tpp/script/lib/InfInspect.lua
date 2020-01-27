@@ -1,83 +1,35 @@
 -- DOBUILD: 1
 -- FILE: InfInspect.lua
 -- DESC: Debug functions for inspecting lua.
--- DEP InfMenu.DebugPrint (for following functions, not inspect itself)
-local this={}
 
---tex debug inspect shiz, usage local stringout = InfInspect.Inspect(sometable) InfMenu.DebugPrint(stringout) -- cant do (someotherstring .. stringout), must be by itself
+--tex usage local stringout = InfInspect.Inspect(sometable) InfLog.DebugPrint(stringout) -- cant do (someotherstring .. stringout), must be by itself
 local inspect ={
   _VERSION = 'inspect.lua 3.0.0',
   _URL     = 'http://github.com/kikito/inspect.lua',
   _DESCRIPTION = 'human-readable representations of tables',
   _LICENSE = [[
-
-
     MIT LICENSE
-
-
-
-
 
     Copyright (c) 2013 Enrique García Cota
 
-
-
-
-
     Permission is hereby granted, free of charge, to any person obtaining a
-
-
     copy of this software and associated documentation files (the
-
-
     "Software"), to deal in the Software without restriction, including
-
-
     without limitation the rights to use, copy, modify, merge, publish,
-
-
     distribute, sublicense, and/or sell copies of the Software, and to
-
-
     permit persons to whom the Software is furnished to do so, subject to
-
-
     the following conditions:
 
-
-
-
-
     The above copyright notice and this permission notice shall be included
-
-
     in all copies or substantial portions of the Software.
 
-
-
-
-
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-
-
     OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-
-
     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-
-
     IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-
-
     CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-
-
     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-
-
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
   ]]
 }
 
@@ -377,170 +329,7 @@ end
 
 setmetatable(inspect, { __call = function(_, ...) return inspect.inspect(...) end })
 
-this.Inspect=inspect
+inspect.Inspect=inspect.inspect--tex
 
---------------------
---tex other debug stuff, nor related to the inspect system above
-function this.PrintGlobals()
-  local globals=""
-  for k,v in pairs(_G) do
-    globals=globals..tostring(k)..":"..tostring(v).."\n"
-  end
-  InfMenu.DebugPrint(globals)
-end
+return inspect
 
-function this.locals()
-  local variables = {}
-  local idx = 1
-  while true do
-    local ln, lv = debug.getlocal(2, idx)
-    if ln ~= nil then
-      variables[ln] = lv
-    else
-      break
-    end
-    idx = 1 + idx
-  end
-  return variables
-end
-
-function this.upvalues()
-  local variables = {}
-  local idx = 1
-  local func = debug.getinfo(2, "f").func
-  while true do
-    local ln, lv = debug.getupvalue(func, idx)
-    if ln ~= nil then
-      variables[ln] = lv
-    else
-      break
-    end
-    idx = 1 + idx
-  end
-  return variables
-end
-
---
-function this.DEBUG_Where(stackLevel)
-  --defining second param of getinfo can help peformance a bit
-  --`n´ selects fields name and namewhat
-  --`f´ selects field func
-  --`S´ selects fields source, short_src, what, and linedefined
-  --`l´ selects field currentline
-  --`u´ selects field nup
-  local stackInfo=debug.getinfo(stackLevel+1,"Snl")
-  if stackInfo then
-    return stackInfo.short_src..(":"..stackInfo.currentline.." - "..stackInfo.name)
-  end
-  return"(unknown)"
-end
-
-function this.TryFunc(func,...)
-  if func==nil then
-    InfMenu.DebugPrint("TryFunc func == nil")
-    return
-  elseif type(func)~="function" then
-    InfMenu.DebugPrint("TryFunc func~=function")
-    return
-  end
-
-  local sucess, result=pcall(func,...)
-  if not sucess then
-    InfMenu.DebugPrint(result)
-    InfMenu.DebugPrint("caller:"..this.DEBUG_Where(2))
-    return
-  else
-    return result
-  end
-end
-
---tex as above but intended to pass through unless debugmode on
-local Ivars=Ivars
-function this.TryFuncDebug(func,...)
---  if func==nil then
---    InfMenu.DebugPrint("TryFunc func == nil")
---    return
---  elseif type(func)~="function" then
---    InfMenu.DebugPrint("TryFunc func~=function")
---    return
---  end
-
-  if Ivars.debugMode.setting==0 then
-    return func(...)
-  end
-
-  local sucess, result=pcall(func,...)
-  if not sucess then
-    InfMenu.DebugPrint(result)
-    InfMenu.DebugPrint(this.DEBUG_Where(2))
-    return
-  else
-    return result
-  end
-end
-
-local function ErrorCallBack(err)
-  --return debug.traceback(err)
-  InfMenu.DebugPrint(err)
-end
---TODO
---function this.TryFuncDebug(Func,...)
---  if Ivars.debugMode.setting==0 then
---    return Func(...)
---  end
---
---  if Func==nil then
---    InfMenu.DebugPrint("TryFunc func == nil")
---    return
---  elseif type(Func)~="function" then
---    InfMenu.DebugPrint("TryFunc func~=function")
---    return
---  end
---
---  local success, ret
---  if arg then
---    success,ret=xpcall(function() return Func(unpack(arg)) end,ErrorCallBack)
---  else
---    success,ret=xpcall(function() return Func() end,ErrorCallBack)
---  end
---
---  if success then
---    return ret
---  else
---
---  end
---end
-
---usage print(GetArgs(func))
-function this.GetArgs(func)
-  local args = {}
-  local hook = debug.gethook()
-
-  local argHook = function( ... )
-    local info = debug.getinfo(3)
-    if 'pcall' ~= info.name then return end
-
-    for i = 1, math.huge do
-      local name, value = debug.getlocal(2, i)
-      if '(*temporary)' == name then
-        debug.sethook(hook)
-        error('')
-        return
-      end
-      table.insert(args,name)
-    end
-  end
-
-  debug.sethook(argHook, "c")
-  pcall(func)
-
-  return args
-end
-
-function this.PrintInspect(inspectee,options)
-  local ins=this.Inspect(inspectee,options)
-  InfMenu.DebugPrint(ins)
-end
-
-
-return this

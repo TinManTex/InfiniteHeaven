@@ -532,9 +532,10 @@ this.heliSpaceMenu={
   options={
    -- this.customEquipMenu,--DEBUG
     --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
-   -- InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+   --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG    
+--Ivars.debugMode,
     --Ivars.playerFaceId,--DEBUG
     Ivars.selectProfile,
     --InfMenuCommands.applySelectedProfile,
@@ -602,7 +603,8 @@ this.inMissionMenu={
   noGoBackItem=true,--tex is root
   options={
    -- InfMenuCommands.DEBUG_ToggleParasiteEvent,--DEBUG
-    --Ivars.selectedChangeWeapon,--DEBUG
+    --Ivars.selectedChangeWeapon,--DEBUG    
+    --Ivars.debugMode,
     --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
    -- InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG

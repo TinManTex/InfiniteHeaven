@@ -108,12 +108,12 @@ this.requires={
   "/Assets/tpp/script/lib/InfWalkerGear.lua",
   "/Assets/tpp/script/lib/InfInterrogation.lua",
   "/Assets/tpp/script/lib/InfSoldierParams.lua",
-  "/Assets/tpp/script/lib/InfInspect.lua",
   "/Assets/tpp/script/lib/InfFova.lua",
   "/Assets/tpp/script/lib/InfLZ.lua",
   "/Assets/tpp/script/lib/InfGameEvent.lua",
   "/Assets/tpp/script/lib/InfParasite.lua",
   "/Assets/tpp/script/lib/InfBuddy.lua",
+  "/Assets/tpp/script/lib/InfInspect.lua",
   "/Assets/tpp/script/lib/InfHooks.lua",--<
 }
 function this.IsTypeFunc(e)
@@ -444,9 +444,9 @@ function this.SetGameStatus(status)
       end
     end
   end
-  if Ivars.debugMode:Is()>0 then--tex> TODO: this doesn't seem to catch all cases of announcelog being disabled, during Load on return from MB for example
+  -- CULL if Ivars.debugMode:Is()>0 then--tex> TODO: this doesn't seem to catch all cases of announcelog being disabled, during Load on return from MB for example
     TppUiStatusManager.ClearStatus("AnnounceLog")
-  end--<
+  --end--<
 end
 function this.GetAllDisableGameStatusTable()
   local statusTable={}

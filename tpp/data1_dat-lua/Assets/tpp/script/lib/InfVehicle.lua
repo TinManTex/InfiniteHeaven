@@ -200,10 +200,10 @@ function this.BuildEnabledList(patrolVehicleEnabledList)
   local patrolVehicleEnabledList={}
   for baseType,typeInfo in pairs(this.vehicleBaseTypes) do
     if typeInfo.ivar then
-      --InfMenu.DebugPrint("spawnInfo.ivar="..spawnInfo.ivar)--DEBUG
+      --InfLog.DebugPrint("spawnInfo.ivar="..spawnInfo.ivar)--DEBUG
       if Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then
         patrolVehicleEnabledList[#patrolVehicleEnabledList+1]=baseType
-        --InfMenu.DebugPrint(baseType.." added to enabledList")--DEBUG
+        --InfLog.DebugPrint(baseType.." added to enabledList")--DEBUG
       end
     end
   end
@@ -212,14 +212,14 @@ end
 
 --IN: missionTable.enemy.VEHICLE_SPAWN_LIST, missionTable.enemy.soldierDefine
 function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
-  --InfInspect.TryFunc(function(vehicleSpawnList,soldierDefine)--DEBUG
+  --InfLog.PCall(function(vehicleSpawnList,soldierDefine)--DEBUG
     if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
       return
   end
 
   local patrolVehicleEnabledList=this.BuildEnabledList()
   if #patrolVehicleEnabledList==0 then
-    --InfMenu.DebugPrint"ModifyVehicleSpawn - enabledList empty"--DEBUG
+    --InfLog.DebugPrint"ModifyVehicleSpawn - enabledList empty"--DEBUG
     return
   end
 
@@ -257,7 +257,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
       if convoySizeMax>0 then
         for travelPlan,convoyInfo in pairs(convoys) do
           local currentMax=math.min(#convoyInfo,convoySizeMax)
-          --InfMenu.DebugPrint("currentMax "..currentMax.." for "..travelPlan)--DEBUG
+          --InfLog.DebugPrint("currentMax "..currentMax.." for "..travelPlan)--DEBUG
           if currentMax>0 then
             --currentMax=math.random(1,currentMax)--OFF TODO
             local convoyVehicles={}
@@ -336,13 +336,13 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans)
         end
 
         if vehicleType==nil then
-          InfMenu.DebugPrint("warning: vehicleType==nil")
+          InfLog.DebugPrint("warning: vehicleType==nil")
           break
         end
 
         vehicle=vehicleSpawnInfoTable[vehicleType]
         if vehicle==nil then
-          InfMenu.DebugPrint("warning: vehicleSpawnInfoTable ".. vehicleType .."==nil")
+          InfLog.DebugPrint("warning: vehicleSpawnInfoTable ".. vehicleType .."==nil")
           break
         end
         --tex used for ModifyVehiclePatrolSoldiers
@@ -409,21 +409,21 @@ function this.AddVehiclePacks(missionCode,missionPackPath)
 
   for baseType,typeInfo in pairs(this.vehicleBaseTypes) do
     if Ivars[typeInfo.ivar]~=nil and Ivars[typeInfo.ivar]:Is()>0 then
-      --InfMenu.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
+      --InfLog.DebugPrint("has gvar ".. typeInfo.ivar)--DEBUG
       local vehicles=typeInfo[locationName]
 
       if vehicles==nil then
         local vehicleType=locationVehiclePrefix[locationName]..baseType
         local packPath=GetPackPath(vehicleType)
         if packPath~=nil then
-          --InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
+          --InfLog.DebugPrint("packpath: "..tostring(packPath))--DEBUG
           AddMissionPack(packPath,missionPackPath)
         end
       else
         for n,vehicleType in pairs(vehicles) do
           local packPath=GetPackPath(vehicleType)
           if packPath~=nil then
-            --InfMenu.DebugPrint("packpath: "..tostring(packPath))--DEBUG
+            --InfLog.DebugPrint("packpath: "..tostring(packPath))--DEBUG
             AddMissionPack(packPath,missionPackPath)
           end
         end
@@ -473,25 +473,25 @@ this.convoys={
 
 --tex final setup, initial setup is in ModifyVehiclePatrol
 function this.SetupConvoy()
-  --InfInspect.TryFunc(function()--DEBUG
+  --InfLog.PCall(function()--DEBUG
     if Ivars.vehiclePatrolProfile:Is(0) or not Ivars.vehiclePatrolProfile:MissionCheck() then
       return
   end
 
   if TppMission.IsMissionStart() then
     if mvars.inf_patrolVehicleConvoyInfo==nil then
-      --InfMenu.DebugPrint"SetupConvoy: inf_patrolVehicleConvoyInfo==nil, aborting"--DEBUG
+      --InfLog.DebugPrint"SetupConvoy: inf_patrolVehicleConvoyInfo==nil, aborting"--DEBUG
       return
     end
 
     local locationName=InfMain.GetLocationName()
     local convoys=this.convoys[locationName]
 
-    --InfInspect.PrintInspect(mvars.inf_patrolVehicleConvoyInfo)--DEBUG
+    --InfLog.PrintInspect(mvars.inf_patrolVehicleConvoyInfo)--DEBUG
     local registeredConvoy=false--TODO
     if convoys then
       for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
-        --InfMenu.DebugPrint("SetupConvoy "..travelPlan)--DEBUG
+        --InfLog.DebugPrint("SetupConvoy "..travelPlan)--DEBUG
         local convoyInfo=convoys[travelPlan]
 
         local convoyIds={}
@@ -499,10 +499,10 @@ function this.SetupConvoy()
           convoyIds[#convoyIds+1]=GetGameObjectId("TppVehicle2",vehicleName)
           local vehicleId=GetGameObjectId("TppVehicle2",vehicleName)
           if vehicleId==NULL_ID then
-            InfMenu.DebugPrint("SetupConvoy: "..vehicleName.." gameId==NULL_ID")--DEBUG
+            InfLog.DebugPrint("SetupConvoy: "..vehicleName.." gameId==NULL_ID")--DEBUG
           else
             if i>1 then--tex patrolVehicleConvoyInfo includes lead vehicle, which already has position
-              --InfMenu.DebugPrint("SetPosition "..vehicleName)--DEBUG
+              --InfLog.DebugPrint("SetPosition "..vehicleName)--DEBUG
               local coords=convoyInfo[i-1]
               local command={id="SetPosition",position=Vector3(coords[1],coords[2],coords[3]),rotY=coords[4]}
               SendCommand(vehicleId,command)

@@ -1423,7 +1423,7 @@ function this.AddUniquePackage(uniqueSetting)
   end
 end
 function this.ApplyUniqueSetting()
-  --InfMenu.DebugPrint("#"..#l_uniqueSettings.. " UniqueSettings")--DEBUG
+  --InfLog.DebugPrint("#"..#l_uniqueSettings.. " UniqueSettings")--DEBUG
   local NULL_ID=GameObject.NULL_ID
   local NOT_USED_FOVA_VALUE=EnemyFova.NOT_USED_FOVA_VALUE
   if gvars.ene_fovaUniqueTargetIds[0]==NULL_ID then
@@ -1513,7 +1513,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
         local subTypeName=TppEnemy.GetSoldierSubType(soldierId,soldierType)
         powerSettings=powerSettings or {}
         bodyId=TppEnemy.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
-        --InfMenu.DebugPrint("bodyid:".. tostring(bodyId))--DEBUG
+        --InfLog.DebugPrint("bodyid:".. tostring(bodyId))--DEBUG
       end
 
       if bodyInfo.isArmor then

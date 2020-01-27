@@ -23,7 +23,7 @@ function this.OnMissionCanStart()
 
   local blockState=this.GetQuestBlockState()
   if blockState==nil then
-    InfMenu.DebugPrint"no blockstate"--DEBUG
+    InfLog.DebugPrint"no blockstate"--DEBUG
     return
   end
   

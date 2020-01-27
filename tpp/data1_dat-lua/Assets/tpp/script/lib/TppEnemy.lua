@@ -718,13 +718,13 @@ end
 function this.GetSoldierType(soldierId)--tex> now pulls type for subtype> ORIG is below
   local soldierType = this._GetSoldierType(soldierId)
 
-  --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." GetSoldierType Caller: " .. debug.getinfo(2).name.. " ".. debug.getinfo(2).source)
+  --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." GetSoldierType Caller: " .. debug.getinfo(2).name.. " ".. debug.getinfo(2).source)
   if InfMain.IsForceSoldierSubType() then--tex WIP:
-    --InfMenu.DebugPrint("GetSoldierType soldierTypeForced")--DEBUNOW
+    --InfLog.DebugPrint("GetSoldierType soldierTypeForced")--DEBUNOW
     local subType = this.GetSoldierSubType(soldierId,soldierType)
     local typeForSubType=InfMain.soldierTypeForSubtypes[subType]
     if typeForSubType~=soldierType then
-      --InfMenu.DebugPrint("GetSoldierType for id: ".. soldierId .." ".. soldierType .." ~= "..typeForSubType .." of "..subType)
+      --InfLog.DebugPrint("GetSoldierType for id: ".. soldierId .." ".. soldierType .." ~= "..typeForSubType .." of "..subType)
       if soldierId~=nil then
         mvars.ene_soldierTypes=mvars.ene_soldierTypes or {}
         mvars.ene_soldierTypes[soldierId]=soldierType
@@ -948,7 +948,7 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   this.weaponIdTable.DD.NORMAL.WORMHOLE_FULTON=wormholeLevel
 end
 function this.SetUpDDParameter()
---InfInspect.TryFunc(function()--DEBUG
+--InfLog.PCall(function()--DEBUG
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
@@ -1030,7 +1030,7 @@ local weaponTypes={
 --tex REWORKED functionally equivalent to original, but heavier performance wise lol, but eh, I felt like refactoring
 --and it makes choosing final weapon ids from a table in IH easier
 function this.GetWeaponId(soldierId,config)
-  --return InfInspect.TryFunc(function(soldierId,config)--DEBUG
+  --return InfLog.PCall(function(soldierId,config)--DEBUG
   local soldierType=this.GetSoldierType(soldierId)
   local soldierSubType=this.GetSoldierSubType(soldierId,soldierType)
   local missionCode=TppMission.GetMissionID()
@@ -1146,7 +1146,7 @@ end
 function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSettings)
   local bodyId
   local bodyIdTable={}
-  --InfMenu.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG
+  --InfLog.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType)--tex DEBUG
 
   if soldierType==EnemyType.TYPE_SOVIET then
     bodyIdTable=this.bodyIdTable.SOVIET_A
@@ -1228,7 +1228,7 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
       bodyId=_GetBodyId(soldierId,bodyIdTable.ASSAULT)
     end
   end
-  --InfMenu.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType.. " bodyId:".. tostring(bodyId))--tex DEBUG
+  --InfLog.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType.. " bodyId:".. tostring(bodyId))--tex DEBUG
   return bodyId
 end
 function this.GetFaceId(n,enemyType,n,n)
@@ -3141,9 +3141,9 @@ function this.AssignSoldiersToCP()
     local isChild=false
     for soldierId,p in pairs(soldierIds)do
       --      if InfMain.IsForceSoldierSubType() then--tex> WIP TODO: Why is this hanging FOB?
-      --        --InfMenu.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
+      --        --InfLog.DebugPrint("assigncp IsForceSoldierSubType soldierid:"..soldierId)
       --        --   gvars.soldierTypeForced[soldierId]=true
-      --        --  InfMenu.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )
+      --        --  InfLog.DebugPrint("assigncp gvars.soldierTypeForced[soldierId ".. tostring(gvars.soldierTypeForced[soldierId]) )
       --        mvars.ene_soldierSubType[soldierId]=forceSubType
       --      end--<
       SendCommand(soldierId,{id="SetCommandPost",cp=cp})
@@ -4756,7 +4756,7 @@ function this.SetupActivateQuestVehicle(vehicleList,targetList)
   if mvars.ene_isQuestSetup==false then
     mvars.ene_questVehicleList={}
     this.SpawnVehicles(vehicleList)
-    --InfMenu.DebugPrint"OnActivateQuest vehicleList"--DEBUG
+    --InfLog.DebugPrint"OnActivateQuest vehicleList"--DEBUG
     for a,vehicleInfo in ipairs(vehicleList)do
       if vehicleInfo.locator then
         local command={id="Despawn",locator=vehicleInfo.locator}

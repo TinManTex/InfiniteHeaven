@@ -76,7 +76,7 @@ end
 this.buddyPosition=nil--tex used by CycleBuddyReturn()
 this.buddyType=BuddyType.NONE
 function this.ChangeBuddyVar(commandInfo,setting)
-  --InfInspect.TryFunc(function(commandInfo,setting)--DEBUG
+  --InfLog.PCall(function(commandInfo,setting)--DEBUG
 
     if vars.buddyType~=commandInfo.buddyType then
       InfMenu.Print(InfMenu.LangString"current_buddy_not"..InfMenu.LangString(commandInfo.nameLangId))
@@ -115,9 +115,9 @@ function this.ChangeBuddyVar(commandInfo,setting)
   --end,commandInfo,setting)--
 end
 function this.CycleBuddyReturn()
-  --InfMenu.DebugPrint"CycleBuddyReturn"--DEBUG
+  --InfLog.DebugPrint"CycleBuddyReturn"--DEBUG
   if not this.buddyPosition then
-    InfMenu.DebugPrint"WARNING: CycleBuddyReturn could not find saved buddyPosition"
+    InfLog.DebugPrint"WARNING: CycleBuddyReturn could not find saved buddyPosition"
   else
     TppBuddy2BlockController.CallBuddy(this.buddyType,this.buddyPosition,vars.playerRotY)
     this.buddyPosition=nil

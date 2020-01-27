@@ -3,8 +3,6 @@
 --local splash=SplashScreen.Create("startstart","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_fox_logo_clp_nmp.ftex",640,640)--tex
 --SplashScreen.Show(splash,.2,1,.2)--tex
 
-Script.LoadLibrary("/Assets/tpp/script/lib/InfMessageLog.lua")--tex
-
 local function yield()
   coroutine.yield()
 end

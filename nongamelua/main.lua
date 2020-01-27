@@ -94,6 +94,8 @@ end
 
 --end mock stuff
 
+InfLog=require"InfLog"
+
 --start.lua
 local tppOrMgoPath
 if TppSystemUtility.GetCurrentGameMode()=="MGO"then
@@ -333,13 +335,8 @@ local IsTable=Tpp.IsTypeTable
 local IsString=Tpp.IsTypeString
 
 --AutoDoc>
-local function Write(...)
-  --print(...)
-  io.write(...,"\n")
-end
 
 --PATCHUP
---InfEquip={}
 InfEquip.tppEquipTableTest={"<DEBUG IVAR>"}
 
 vars.missionCode=40050
@@ -658,6 +655,7 @@ local function AutoDoc()
   Ivars.mbSelectedDemo.settingNames={"<Cutscene ids>"}
   Ivars.playerPartsType.settings={"<Suits for player type>"}--DEBUGNOW
   Ivars.playerCamoType.settings={"<Camos for player type>"}--DEBUGNOW
+  Ivars.selectProfile.settingNames={"<Profile type>"}
 
 
   local menu=InfMenuDefs.heliSpaceMenu.options
@@ -666,7 +664,7 @@ local function AutoDoc()
   local heliSpaceMenus={}
   local heliSpaceMenuNames={}
   GatherMenus(menu,skipItems,heliSpaceMenus,heliSpaceMenuNames)
-  --InfInspect.PrintInspect(heliSpaceMenus)
+  --InfLog.PrintInspect(heliSpaceMenus)
   table.insert(heliSpaceMenus,1,InfMenuDefs.heliSpaceMenu)
 
   local priorItems={}
@@ -685,7 +683,7 @@ local function AutoDoc()
   local inMissionMenuNames={}
   GatherMenus(menu,skipItems,inMissionMenus,inMissionMenuNames)
   table.insert(inMissionMenus,1,InfMenuDefs.inMissionMenu)
-  --InfInspect.PrintInspect(inMissionMenus)
+  --InfLog.PrintInspect(inMissionMenus)
   local menuCount=1
   for i,menu in ipairs(inMissionMenus)do
     PrintMenuSingle(heliSpaceMenus,menu,priorItems,skipItems,menuCount,textFile,htmlFile,profileFile)

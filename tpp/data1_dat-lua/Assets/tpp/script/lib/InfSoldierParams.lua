@@ -243,7 +243,7 @@ function this.ApplySightIvarsToSoldierParams()
       local default=sightParamsDefaults[name].distance
       if default>0 then
         item.distance=default*(Ivars.soldierSightDistScale:Get()/100)
-        --InfMenu.DebugPrint(name..".distance="..item.distance)
+        --InfLog.DebugPrint(name..".distance="..item.distance)
       end
     else
       for childName,item in pairs(item) do
@@ -255,7 +255,7 @@ function this.ApplySightIvarsToSoldierParams()
             else
               item.distance=default*(Ivars.soldierSightDistScale:Get()/100)
             end
-            --InfMenu.DebugPrint(name.."."..childName..".distance="..item.distance)
+            --InfLog.DebugPrint(name.."."..childName..".distance="..item.distance)
           end
         end
       end
@@ -268,18 +268,18 @@ function this.PrintSightForm()
   local sightParamsMod=this.soldierParameters.sightFormParameter
   for name,item in pairs(sightParamsMod) do
     if IsTable(item) and item.distance~=nil then
-      --InfMenu.DebugPrint(name..".distance="..item.distance)
+      --InfLog.DebugPrint(name..".distance="..item.distance)
       toPrint=toPrint.."\n"..name..".distance="..item.distance
     else
       for childName,item in pairs(item) do
         if IsTable(item) and item.distance~=nil then
-          --InfMenu.DebugPrint(name.."."..childName..".distance="..item.distance)
+          --InfLog.DebugPrint(name.."."..childName..".distance="..item.distance)
           toPrint=toPrint.."\n"..name.."."..childName..".distance="..item.distance
         end
       end
     end--if else
   end--for sightmod
-  InfMenu.DebugPrint(toPrint)
+  InfLog.DebugPrint(toPrint)
 end
 
 --IN: this.soldierParametersDefault.sightFormParameter
@@ -293,7 +293,7 @@ function this.ApplyHearingIvarsToSoldierParams()
       local default=hearingParamsDefault[name][distanceName]
       if default>0 then
         distanceTypes[distanceName]=default*(Ivars.soldierHearingDistScale:Get()/100)
-        --InfMenu.DebugPrint(name..".distance="..item.distance)
+        --InfLog.DebugPrint(name..".distance="..item.distance)
       end
     end
   end--for sightmod
@@ -316,52 +316,50 @@ end
 --  local sightDistScaleName=Ivars.sightDistScaleName
 --
 --  for i,typeName in ipairs(Ivars.sightTypeNames) do
---    --InfMenu.DebugPrint("typeName: "..typeName)--DEBUG
+--    --InfLog.DebugPrint("typeName: "..typeName)--DEBUG
 --    local sightType=sightParamsMod[typeName]
 --    local sightTypeDefault=sightParamsDefaults[typeName]
 --
 --    if sightTypeDefault==nil then--DEBUG
---      InfMenu.DebugPrint"sightTypeDefault==nil"
+--      InfLog.DebugPrint"sightTypeDefault==nil"
 --    end
 --
 --    local gvarName=typeName..Ivars.sightDistScaleName
 --    local typeScale=gvars[gvarName] or 1
 --    if gvars[gvarName]==nil then
---      InfMenu.DebugPrint("gvars."..gvarName.."==nil")
+--      InfLog.DebugPrint("gvars."..gvarName.."==nil")
 --    end
 --
 --    --[[if sightType then--
---        local stStr=InfInspect.Inspect(sightType)
---        InfMenu.DebugPrint(stStr)
+--        InfLog.PrintInspect(sightType)
 --      end--]]
 --
 --    for j,formName in ipairs(Ivars.sightFormNames) do
---      --InfMenu.DebugPrint("formName: "..formName)
+--      --InfLog.DebugPrint("formName: "..formName)
 --      local sightForm=sightType[formName]
 --      if sightForm then
 --
---        --local stStr=InfInspect.Inspect(sightForm)
---        --InfMenu.DebugPrint(stStr)
+--        --InfLog.PrintInspect(sightForm)
 --
 --
 --        local sightFormDefault=sightTypeDefault[formName]
 --        if sightFormDefault==nil then--DEBUG
---          InfMenu.DebugPrint"sightFormDefault==nil"
+--          InfLog.DebugPrint"sightFormDefault==nil"
 --        end
 --        local gvarName=formName..sightDistScaleName
 --
 --        local formScale=gvars[gvarName] or 1
 --        if gvars[gvarName]==nil then
---          InfMenu.DebugPrint("gvars."..gvarName.."==nil")
+--          InfLog.DebugPrint("gvars."..gvarName.."==nil")
 --        end
 --
 --        sightForm.distance=this.ScaleValueClamp1(sightFormDefault.distance,formScale)
 --        sightForm.distance=this.ScaleValueClamp1(sightFormDefault.distance,typeScale)
 --
---        --InfMenu.DebugPrint(typeName.."."..formName.." dist=".. sightForm.distance.. " defdist="..sightFormDefault.distance .. " scale="..scale)
+--        --InfLog.DebugPrint(typeName.."."..formName.." dist=".. sightForm.distance.. " defdist="..sightFormDefault.distance .. " scale="..scale)
 --
 --        --sightType[formName].distance=this.ScaleValueClamp1(sightFormDefault.distance,scale)
---         --InfMenu.DebugPrint(formName..".distance="..sightForm.distance)
+--         --InfLog.DebugPrint(formName..".distance="..sightForm.distance)
 --      end--if sightForm
 --    end--for sightFormNames
 --  end--for sightTypeNames

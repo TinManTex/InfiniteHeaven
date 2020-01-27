@@ -35,7 +35,7 @@ function this.OnMissionCanStart()
       local rndMinutes=math.random(0,60)
       local rndSeconds=0--math.random(0,60)
       local startTime=string.format("%02d:%02d:%02d",rndHours,rndMinutes,rndSeconds)
-      --InfMenu.DebugPrint("crashland startTime="..startTime)--DEBUG
+      --InfLog.DebugPrint("crashland startTime="..startTime)--DEBUG
       gvars.missionStartClock=TppClock.ParseTimeString(startTime,"number")
       vars.clock=gvars.missionStartClock
     end
@@ -44,8 +44,8 @@ end
 
 this.forceEvent=false
 function this.GenerateEvent(missionCode)
-  --InfInspect.TryFunc(function(misisonCode)--DEBUG
-  --InfMenu.DebugPrint("GenerateEvent missionCode:"..missionCode)--DEBUG
+  --InfLog.PCall(function(misisonCode)--DEBUG
+  --InfLog.DebugPrint("GenerateEvent missionCode:"..missionCode)--DEBUG
   if not this.forceEvent and not Ivars.EnabledForMission("gameEventChance",missionCode) then
     return
   end
@@ -57,8 +57,8 @@ function this.GenerateEvent(missionCode)
   end
 
   if this.forceEvent or randomTriggered or Ivars.inf_event:Is()>0 then
-    --    InfMenu.DebugPrint("GenerateEvent actual "..missionCode)--DEBUG
-    --    InfMenu.DebugPrint("inf_levelSeed:"..tostring(gvars.inf_levelSeed))--DEBUG
+    --    InfLog.DebugPrint("GenerateEvent actual "..missionCode)--DEBUG
+    --    InfLog.DebugPrint("inf_levelSeed:"..tostring(gvars.inf_levelSeed))--DEBUG
     this.forceEvent=false
 
     if missionCode==30050 then
@@ -122,7 +122,7 @@ function this.DisableLzs()
 end
 
 function this.GenerateRoamEvent(missionCode)
-  --InfInspect.TryFunc(function(missionCode)--DEBUG
+  --InfLog.PCall(function(missionCode)--DEBUG
   local Ivar=Ivars
   Ivars.inf_event:Set"ROAM"--tex see ivar declaration for notes
 
@@ -173,7 +173,7 @@ function this.GenerateRoamEvent(missionCode)
       lzDrpNames[#lzDrpNames+1]=drpName
     end
     mvars.heli_missionStartRoute=lzDrpNames[math.random(#lzDrpNames)]
-    --InfMenu.DebugPrint("mvars.heli_missionStartRoute:"..mvars.heli_missionStartRoute)--DEBUG
+    --InfLog.DebugPrint("mvars.heli_missionStartRoute:"..mvars.heli_missionStartRoute)--DEBUG
   end
   --end,missionCode)
 end
@@ -318,7 +318,7 @@ local warGameSettings={
 }
 
 function this.GenerateWarGameEvent()
-  --InfInspect.TryFunc(function()--DEBUG
+  --InfLog.PCall(function()--DEBUG
     --tex user is doing wargames anyway
     if Ivars.mbWarGamesProfile:Is()>0 and Ivars.inf_event:Is(0) then
       return

@@ -134,7 +134,7 @@ this.showQuietReunionMissionCount={
 this.loadMission={
   OnChange=function()
     local settingStr=Ivars.manualMissionCode.settings[Ivars.manualMissionCode:Get()+1]
-    InfMenu.DebugPrint("TppMission.Load "..settingStr)
+    InfLog.DebugPrint("TppMission.Load "..settingStr)
     --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
     --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
     --TppMission.RequestLoad(10036,vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
@@ -259,8 +259,6 @@ this.doEnemyReinforce={--WIP
 this.printSightFormParameter={
   OnChange=function()
     InfSoldierParams.ApplySightIvarsToSoldierParams()
-    --local sightFormStr=InfInspect.Inspect(InfSoldierParams.soldierParameters.sightFormParameter)
-    --InfMenu.DebugPrint(sightFormStr)
     InfSoldierParams.PrintSightForm()
   end,
 }
@@ -268,24 +266,21 @@ this.printSightFormParameter={
 this.printHearingTable={
   OnChange=function()
     InfSoldierParams.ApplyHearingIvarsToSoldierParams()
-    local ins=InfInspect.Inspect(InfSoldierParams.soldierParameters.hearingRangeParameter)
-    InfMenu.DebugPrint(ins)
+    InfLog.PrintInspect(InfSoldierParams.soldierParameters.hearingRangeParameter)
   end,
 }
 
 this.printHealthTableParameter={
   OnChange=function()
     InfSoldierParams.ApplyHealthIvarsToSoldierParams()
-    local sightFormStr=InfInspect.Inspect(InfSoldierParams.lifeParameterTable)
-    InfMenu.DebugPrint(sightFormStr)
+    InfLog.PrintInspect(InfSoldierParams.lifeParameterTable)
   end,
 }
 
 this.printCustomRevengeConfig={
   OnChange=function()
     local revengeConfig=InfRevenge.CreateCustomRevengeConfig()
-    local ins=InfInspect.Inspect(revengeConfig)
-    InfMenu.DebugPrint(ins)
+    InfLog.PrintInspect(revengeConfig)
   end
 }
 
@@ -317,24 +312,22 @@ this.forceAllQuestOpenFlagFalse={
 this.warpToCamPos={
   OnChange=function()
     local warpPos=InfCamera.ReadPosition"FreeCam"
-    InfMenu.DebugPrint("warp pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+    InfLog.DebugPrint("warp pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
     TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
   end,
 }
 
 this.warpToUserMarker={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      -- InfMenu.DebugPrint"Warping to newest marker"
-      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-      if lastMarkerIndex==nil then
-        --InfMenu.DebugPrint("lastMarkerIndex==nil")
-        InfMenu.PrintLangId"no_marker_found"
-      else
-        InfUserMarker.PrintUserMarker(lastMarkerIndex)
-        InfUserMarker.WarpToUserMarker(lastMarkerIndex)
-      end
-    end)
+    -- InfLog.DebugPrint"Warping to newest marker"
+    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    if lastMarkerIndex==nil then
+      --InfLog.DebugPrint("lastMarkerIndex==nil")
+      InfMenu.PrintLangId"no_marker_found"
+    else
+      InfUserMarker.PrintUserMarker(lastMarkerIndex)
+      InfUserMarker.WarpToUserMarker(lastMarkerIndex)
+    end
   end
 }
 
@@ -344,55 +337,49 @@ this.printUserMarkers={
 
 this.printLatestUserMarker={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-      if lastMarkerIndex==nil then
-        InfMenu.DebugPrint("lastMarkerIndex==nil")
-      else
-        InfUserMarker.PrintUserMarker(lastMarkerIndex)
-        InfUserMarker.PrintMarkerGameObject(lastMarkerIndex)
-      end
-    end)
+    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    if lastMarkerIndex==nil then
+      InfLog.DebugPrint("lastMarkerIndex==nil")
+    else
+      InfUserMarker.PrintUserMarker(lastMarkerIndex)
+      InfUserMarker.PrintMarkerGameObject(lastMarkerIndex)
+    end
   end
 }
 
 
 this.setSelectedCpToMarkerObjectCp={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-      if lastMarkerIndex==nil then
-        InfMenu.DebugPrint("lastMarkerIndex==nil")
+    local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    if lastMarkerIndex==nil then
+      InfLog.DebugPrint("lastMarkerIndex==nil")
+      return
+    end
+    --      InfMain.PrintUserMarker(lastMarkerIndex)
+    --      InfMain.PrintMarkerGameObject(lastMarkerIndex)
+    local gameId=vars.userMarkerGameObjId[lastMarkerIndex]
+
+    if gameId==nil then
+      InfLog.DebugPrint"gameId==nil"
+      return
+    end
+    local soldierName,cpName=InfMain.ObjectNameForGameId(gameId)
+    if cpName==nil then
+      InfLog.DebugPrint"cpName==nil"
+      return
+    end
+
+    for n,currentName in pairs(mvars.ene_cpList)do
+      --InfLog.DebugPrint(tostring(n).." "..tostring(currentName))
+      if currentName==cpName then
+        Ivars.selectedCp:Set(n)
+        InfLog.DebugPrint("selectedCp set to "..n..":"..cpName)
         return
       end
-      --      InfMain.PrintUserMarker(lastMarkerIndex)
-      --      InfMain.PrintMarkerGameObject(lastMarkerIndex)
-      local gameId=vars.userMarkerGameObjId[lastMarkerIndex]
+    end
 
-      if gameId==nil then
-        InfMenu.DebugPrint"gameId==nil"
-        return
-      end
-      local soldierName,cpName=InfMain.ObjectNameForGameId(gameId)
-      if cpName==nil then
-        InfMenu.DebugPrint"cpName==nil"
-        return
-      end
-
-      for n,currentName in pairs(mvars.ene_cpList)do
-        --InfMenu.DebugPrint(tostring(n).." "..tostring(currentName))
-        if currentName==cpName then
-          Ivars.selectedCp:Set(n)
-          InfMenu.DebugPrint("selectedCp set to "..n..":"..cpName)
-          return
-        end
-      end
-
-      InfMenu.DebugPrint(cpName.." not found in ene_cpList")
-      local ins=InfInspect.Inspect(mvars.ene_cpList)
-      InfMenu.DebugPrint(ins)
-
-    end)
+    InfLog.DebugPrint(cpName.." not found in ene_cpList")
+    InfLog.PrintInspect(mvars.ene_cpList)
   end
 }
 function this.QuietMoveToLastMarker()
@@ -426,26 +413,21 @@ this.quietMoveToLastMarker={
 --
 this.ApplyFaceFova={
   OnChange=function()
-    InfInspect.TryFunc(function()--DEBUG
-      InfEneFova.ApplyFaceFova()
-    end)
+    InfEneFova.ApplyFaceFova()
   end
 }
 
 --DEBUG CULL
 function this.DEBUG_BuddyCycleVar(commandInfo)
-  InfInspect.TryFunc(function(commandInfo)--DEBUG
-
-
-    if vars.buddyType~=commandInfo.buddyType then
-      InfMenu.Print(InfMenu.LangString"current_buddy_not"..InfMenu.LangString(commandInfo.nameLangId))
-      return
+  if vars.buddyType~=commandInfo.buddyType then
+    InfMenu.Print(InfMenu.LangString"current_buddy_not"..InfMenu.LangString(commandInfo.nameLangId))
+    return
   end
 
   local buddyGameId=GameObject.GetGameObjectIdByIndex(commandInfo.objectType,0)
   InfBuddy.buddyPosition=GameObject.SendCommand(buddyGameId,{id="GetPosition"})
   if InfBuddy.buddyPosition==nil then
-    InfMenu.DebugPrint("buddy GetPosition()==nil")--DEBUG
+    InfLog.DebugPrint("buddy GetPosition()==nil")--DEBUG
     InfBuddy.buddyPosition=Vector3(vars.playerPosX,vars.playerPosY+0.05,vars.playerPosZ)
   end
   InfBuddy.buddyType=commandInfo.buddyType
@@ -464,12 +446,11 @@ function this.DEBUG_BuddyCycleVar(commandInfo)
 
   local varType=AdvanceType(vars[commandInfo.varName])
 
-  InfMenu.DebugPrint("changed vars."..commandInfo.varName.." to "..varType)--DEBUG
+  InfLog.DebugPrint("changed vars."..commandInfo.varName.." to "..varType)--DEBUG
 
   vars[commandInfo.varName]=varType
 
   GkEventTimerManager.Start("Timer_CycleBuddyReturn",0.3)
-  end,commandInfo)--
 end
 
 this.DEBUG_buddyCycleVar={
@@ -504,21 +485,18 @@ this.DEBUG_buddyCycle={
 local parasiteToggle=false
 this.DEBUG_ToggleParasiteEvent={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      parasiteToggle=not parasiteToggle
-      if parasiteToggle then
-        InfParasite.StartEvent()
-      else
-        InfParasite.EndEvent()
-      end
-    end)
+    parasiteToggle=not parasiteToggle
+    if parasiteToggle then
+      InfParasite.StartEvent()
+    else
+      InfParasite.EndEvent()
+    end
   end
 }
 
 this.requestHeliLzToLastMarker={
   isMenuOff=true,
   OnChange=function()
-    --InfInspect.TryFunc(function()--DEBUG
     local locationName=InfMain.GetLocationName()
     if locationName~="afgh" and locationName~="mafr" then
       InfMenu.PrintLangId"not_for_location"
@@ -540,21 +518,20 @@ this.requestHeliLzToLastMarker={
 
       --closestRoute=InfLZ.str32LzToLz[closestRoute]--CULL
       if not TppLandingZone.assaultLzs[locationName] then
-        InfMenu.DebugPrint"WARNING: TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
+        InfLog.DebugPrint"WARNING: TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
       end
       local aprRoute=TppLandingZone.assaultLzs[locationName][closestRoute] or TppLandingZone.missionLzs[locationName][closestRoute]
-      --InfMenu.DebugPrint("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(aprRoute))--DEBUG
+      --InfLog.DebugPrint("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(aprRoute))--DEBUG
 
       local heliId=GetGameObjectId("TppHeli2","SupportHeli")
       if heliId==NULL_ID then
-        --InfMenu.DebugPrint"heliId==NULL_ID"--DEBUG
+        --InfLog.DebugPrint"heliId==NULL_ID"--DEBUG
         return
       end
       SendCommand(heliId,{id="CallToLandingZoneAtName",name=aprRoute})
     end
 
     InfMenu.MenuOff()
-    --end)--
   end
 }
 
@@ -584,35 +561,33 @@ this.printBodyInfo={
 
 this.DEBUG_PrintInterrogationInfo={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      --tex roll back one since warpto advances after it's done
-      local index= this.currentWarpIndex-1
-      if index==0 then--tex except if there's only 1 in the object list
-        index=this.currentWarpIndex
-      end
-      local objectName=this.warpObjecList[index]
-      local gameId=objectName
-      if type(objectName)=="string" then
-        gameId=GameObject.GetGameObjectId(objectName)
-      end
-      if gameId==nil or gameId==GameObject.NULL_ID then
-        InfMenu.DebugPrint"gameId== nil or NULL_ID"
-        return
-      end
+    --tex roll back one since warpto advances after it's done
+    local index= this.currentWarpIndex-1
+    if index==0 then--tex except if there's only 1 in the object list
+      index=this.currentWarpIndex
+    end
+    local objectName=this.warpObjecList[index]
+    local gameId=objectName
+    if type(objectName)=="string" then
+      gameId=GameObject.GetGameObjectId(objectName)
+    end
+    if gameId==nil or gameId==GameObject.NULL_ID then
+      InfLog.DebugPrint"gameId== nil or NULL_ID"
+      return
+    end
 
-      local soldierICPQId=InfInterrogation.GetInterCpQuestId(gameId)
-      if soldierICPQId==nil then
-        InfMenu.DebugPrint"cannot find cpQuestId for soldier"--DEBUG
-        return
-      end
+    local soldierICPQId=InfInterrogation.GetInterCpQuestId(gameId)
+    if soldierICPQId==nil then
+      InfLog.DebugPrint"cannot find cpQuestId for soldier"--DEBUG
+      return
+    end
 
-      local cpName=InfInterrogation.interCpQuestSoldiersCps[soldierICPQId]
-      if cpName==nil then
-        InfMenu.DebugPrint"cpName==nil"--DEBUG
-        return
-      end
-      InfMenu.DebugPrint("quest cpName:"..cpName)
-    end)
+    local cpName=InfInterrogation.interCpQuestSoldiersCps[soldierICPQId]
+    if cpName==nil then
+      InfLog.DebugPrint"cpName==nil"--DEBUG
+      return
+    end
+    InfLog.DebugPrint("quest cpName:"..cpName)
   end
 }
 
@@ -624,10 +599,9 @@ local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
-    InfInspect.TryFunc(function()
 
-    end)
-    InfMenu.DebugPrint("index1:"..index1)
+
+    InfLog.DebugPrint("index1:"..index1)
     index1=index1+1
     if index1>index1Max then
       index1=index1Min
@@ -645,11 +619,11 @@ local index2Max=1--14
 local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      --InfInspect.PrintInspect(InfProfiles)
-    
-    end)
-    InfMenu.DebugPrint("index2:"..index2)
+
+    --InfLog.PrintInspect(InfProfiles)
+
+
+    InfLog.DebugPrint("index2:"..index2)
     index2=index2+1
     if index2>index2Max then
       index2=index2Min
@@ -662,13 +636,13 @@ local index3Max=689
 local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
-    InfInspect.TryFunc(function()
 
-      --InfInspect.PrintInspect(InfModelRegistry)
-      --InfInspect.PrintInspect(InfMessageLog.debug)
 
-      end)
-    InfMenu.DebugPrint("index3:"..index3)
+    --InfLog.PrintInspect(InfModelRegistry)
+    --InfLog.PrintInspect(InfMessageLog.debug)
+
+
+    InfLog.DebugPrint("index3:"..index3)
     index3=index3+1
     if index3>index3Max then
       index3=index3Min
@@ -679,210 +653,201 @@ this.DEBUG_SomeShiz3={
 this.log=""
 this.DEBUG_RandomizeAllIvars={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      --tex randomize (most)all ivars
-      local skipIvars={
-        debugMode=true,
+    --tex randomize (most)all ivars
+    local skipIvars={
+      debugMode=true,
 
-        abortMenuItemControl=true,
+      abortMenuItemControl=true,
 
-        mbDemoSelection=true,
+      mbDemoSelection=true,
 
-        warpPlayerUpdate=true,
-        adjustCameraUpdate=true,
-        --non user
-        inf_event=true,
-        mis_isGroundStart=true,
-        inf_levelSeed=true,
-        mbHostileSoldiers=true,
-        mbEnableLethalActions=true,
-        mbNonStaff=true,
-        mbZombies=true,
-        mbEnemyHeli=true,
-        npcUpdate=true,
-        heliUpdate=true,
+      warpPlayerUpdate=true,
+      adjustCameraUpdate=true,
+      --non user
+      inf_event=true,
+      mis_isGroundStart=true,
+      inf_levelSeed=true,
+      mbHostileSoldiers=true,
+      mbEnableLethalActions=true,
+      mbNonStaff=true,
+      mbZombies=true,
+      mbEnemyHeli=true,
+      npcUpdate=true,
+      heliUpdate=true,
 
-        --WIP/OFF
-        blockFobTutorial=true,
-        setFirstFobBuilt=true,
-        disableTranslators=true,
-        vehiclePatrolPaintType=true,
-        vehiclePatrolEmblemType=true,
-        mbShowQuietCellSigns=true,
-        manualMissionCode=true,
-        playerHandEquip=true,
-        cpAlertOnVehicleFulton=true,
-        disableQuietHumming=true,
-        enableGetOutHeli=true,
-        selectedChangeWeapon=true,
-        forceSoldierSubType=true,
-        setTakeOffWaitTime=true,
-        disableNoRevengeMissions=true,
-      }
+      --WIP/OFF
+      blockFobTutorial=true,
+      setFirstFobBuilt=true,
+      disableTranslators=true,
+      vehiclePatrolPaintType=true,
+      vehiclePatrolEmblemType=true,
+      mbShowQuietCellSigns=true,
+      manualMissionCode=true,
+      playerHandEquip=true,
+      cpAlertOnVehicleFulton=true,
+      disableQuietHumming=true,
+      enableGetOutHeli=true,
+      selectedChangeWeapon=true,
+      forceSoldierSubType=true,
+      setTakeOffWaitTime=true,
+      disableNoRevengeMissions=true,
+    }
 
-      local log=""
+    local log=""
 
-      local ivarNames={}
-      local function IsIvar(ivar)--TYPEID
-        return type(ivar)=="table" and (ivar.range or ivar.settings)
-      end
-      for name,ivar in pairs(Ivars) do
-        if IsIvar(ivar) then
-          if not ivar.range or not ivar.range.max then
-            InfMenu.DebugPrint("WARNING: ivar "..name.." hase no range set")
-          elseif not skipIvars[name] and ivar.save then
-            table.insert(ivarNames,name)
-          end
+    local ivarNames={}
+    local function IsIvar(ivar)--TYPEID
+      return type(ivar)=="table" and (ivar.range or ivar.settings)
+    end
+    for name,ivar in pairs(Ivars) do
+      if IsIvar(ivar) then
+        if not ivar.range or not ivar.range.max then
+          InfLog.DebugPrint("WARNING: ivar "..name.." hase no range set")
+        elseif not skipIvars[name] and ivar.save then
+          table.insert(ivarNames,name)
         end
       end
+    end
 
-      --divide and conquor
-      local fraction=math.ceil(#ivarNames/4)
+    --divide and conquor
+    local fraction=math.ceil(#ivarNames/4)
 
-      local start=0
-      local finish=#ivarNames--110
+    local start=0
+    local finish=#ivarNames--110
 
-      --      local start=fraction--55
-      --      local finish=fraction*2--110
-      --      local start=80--55
-      --      local finish=110--110
-      --
-      --      local start=80
-      --      local finish=100
-      --
-      --      local start=80
-      --      local finish=90
-      --
-      --      local start=80
-      --      local finish=85
+    --      local start=fraction--55
+    --      local finish=fraction*2--110
+    --      local start=80--55
+    --      local finish=110--110
+    --
+    --      local start=80
+    --      local finish=100
+    --
+    --      local start=80
+    --      local finish=90
+    --
+    --      local start=80
+    --      local finish=85
 
-      --      local start=80
-      --      local finish=83
+    --      local start=80
+    --      local finish=83
 
-      --        local start=84
-      --        local finish=85
+    --        local start=84
+    --        local finish=85
 
-      InfMenu.DebugPrint("start: "..start.." finish: "..finish)
+    InfLog.DebugPrint("start: "..start.." finish: "..finish)
 
-      for i,name in ipairs(ivarNames) do
-        if i>finish then
-          break
-        end
-        if i>=start then
-
-          local ivar=Ivars[name]
-          ivar:Set(math.random(ivar.range.min,ivar.range.max),true)
-
-          --if ivar.setting~=ivar.default then
-          log=log..name.."\n"
-
-          --end
-        end
+    for i,name in ipairs(ivarNames) do
+      if i>finish then
+        break
       end
-      InfMenu.DebugPrint(tostring(log))
-    end)--
+      if i>=start then
+
+        local ivar=Ivars[name]
+        ivar:Set(math.random(ivar.range.min,ivar.range.max),true)
+
+        --if ivar.setting~=ivar.default then
+        log=log..name.."\n"
+
+        --end
+      end
+    end
+    InfLog.DebugPrint(tostring(log))
   end
 }
 
 this.DEBUG_SetIvarsToNonDefault={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      --tex randomize (most)all ivars
-      local skipIvars={
-        debugMode=true,
+    --tex randomize (most)all ivars
+    local skipIvars={
+      debugMode=true,
 
-        abortMenuItemControl=true,
+      abortMenuItemControl=true,
 
-        mbDemoSelection=true,
+      mbDemoSelection=true,
 
-        warpPlayerUpdate=true,
-        adjustCameraUpdate=true,
-        --non user
-        inf_event=true,
-        mis_isGroundStart=true,
-        inf_levelSeed=true,
-        mbHostileSoldiers=true,
-        mbEnableLethalActions=true,
-        mbNonStaff=true,
-        mbZombies=true,
-        mbEnemyHeli=true,
-        npcUpdate=true,
-        heliUpdate=true,
+      warpPlayerUpdate=true,
+      adjustCameraUpdate=true,
+      --non user
+      inf_event=true,
+      mis_isGroundStart=true,
+      inf_levelSeed=true,
+      mbHostileSoldiers=true,
+      mbEnableLethalActions=true,
+      mbNonStaff=true,
+      mbZombies=true,
+      mbEnemyHeli=true,
+      npcUpdate=true,
+      heliUpdate=true,
 
-        --WIP/OFF
-        blockFobTutorial=true,
-        setFirstFobBuilt=true,
-        disableTranslators=true,
-        vehiclePatrolPaintType=true,
-        vehiclePatrolEmblemType=true,
-        mbShowQuietCellSigns=true,
-        manualMissionCode=true,
-        playerType=true,
-        playerCamoType=true,
-        playerPartsType=true,
-        playerFaceEquipIdApearance=true,
-        playerFaceIdApearance=true,
-        playerHandEquip=true,
-        cpAlertOnVehicleFulton=true,
-        disableQuietHumming=true,
-        enableGetOutHeli=true,
-        selectedChangeWeapon=true,
-        forceSoldierSubType=true,
-        setTakeOffWaitTime=true,
-        disableNoRevengeMissions=true,
-      }
+      --WIP/OFF
+      blockFobTutorial=true,
+      setFirstFobBuilt=true,
+      disableTranslators=true,
+      vehiclePatrolPaintType=true,
+      vehiclePatrolEmblemType=true,
+      mbShowQuietCellSigns=true,
+      manualMissionCode=true,
+      playerType=true,
+      playerCamoType=true,
+      playerPartsType=true,
+      playerFaceEquipIdApearance=true,
+      playerFaceIdApearance=true,
+      playerHandEquip=true,
+      cpAlertOnVehicleFulton=true,
+      disableQuietHumming=true,
+      enableGetOutHeli=true,
+      selectedChangeWeapon=true,
+      forceSoldierSubType=true,
+      setTakeOffWaitTime=true,
+      disableNoRevengeMissions=true,
+    }
 
-      local ivarNames={}
-      local function IsIvar(ivar)--TYPEID
-        return type(ivar)=="table" and (ivar.range or ivar.settings)
-      end
-      for name,ivar in pairs(Ivars) do
-        if IsIvar(ivar) then
-          if not ivar.range or not ivar.range.max then
-            InfMenu.DebugPrint("WARNING: ivar "..name.." hase no range set")
-          elseif not skipIvars[name] and ivar.save then
-            table.insert(ivarNames,name)
-          end
+    local ivarNames={}
+    local function IsIvar(ivar)--TYPEID
+      return type(ivar)=="table" and (ivar.range or ivar.settings)
+    end
+    for name,ivar in pairs(Ivars) do
+      if IsIvar(ivar) then
+        if not ivar.range or not ivar.range.max then
+          InfLog.DebugPrint("WARNING: ivar "..name.." hase no range set")
+        elseif not skipIvars[name] and ivar.save then
+          table.insert(ivarNames,name)
         end
       end
+    end
 
-      for i,name in ipairs(ivarNames) do
-        local ivar=Ivars[name]
-        local value=ivar.default+ivar.range.increment
-        if value>ivar.range.max then
-          value=ivar.default-ivar.range.increment
-        end
-
-        ivar:Set(value,true)
+    for i,name in ipairs(ivarNames) do
+      local ivar=Ivars[name]
+      local value=ivar.default+ivar.range.increment
+      if value>ivar.range.max then
+        value=ivar.default-ivar.range.increment
       end
 
-    end)--
+      ivar:Set(value,true)
+    end
   end
 }
 
 --SYNC run PrintIvars on main.
 this.DEBUG_SetIvarsToDefault={
   OnChange=function()
-    InfInspect.TryFunc(
-      function()
-        local ivarNames={
-          "debugMode",
-        }
+    local ivarNames={
+      "debugMode",
+    }
 
-        for i,ivarName in pairs(ivarNames) do
-          local ivar=Ivars[ivarName]
-          if ivar==nil then
-            InfMenu.DebugPrint(ivarName.."==nil")
+    for i,ivarName in pairs(ivarNames) do
+      local ivar=Ivars[ivarName]
+      if ivar==nil then
+        InfLog.DebugPrint(ivarName.."==nil")
 
-          elseif not ivar.save then
-          --InfMenu.DebugPrint(ivarName.." save not set")
-          elseif ivar.setting~=ivar.default then
-            InfMenu.DebugPrint(ivarName.." not default, resetting")
-            Ivars.SetSetting(ivar,ivar.default,true)
-          end
-        end
+      elseif not ivar.save then
+      --InfLog.DebugPrint(ivarName.." save not set")
+      elseif ivar.setting~=ivar.default then
+        InfLog.DebugPrint(ivarName.." not default, resetting")
+        Ivars.SetSetting(ivar,ivar.default,true)
       end
-    )
+    end
   end
 }
 --higspeedcamera / slowmo
@@ -890,7 +855,6 @@ local highSpeedCamToggle=false
 local highSpeedCamStartTime=0
 this.highSpeedCameraToggle={
   OnChange=function()
-    --InfInspect.TryFunc(function()--DEBUG
     --GOTCHA: toggle could fail on reload or other cam requestcancel with a long continuetime/highSpeedCamStartTime
     --      local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
     --      if elapsedTime>highSpeedCamStartTime then--cam timed out
@@ -921,41 +885,35 @@ this.highSpeedCameraToggle={
 
       InfMenu.PrintLangId"highspeedcam_cancel"
     end
-    --end)--
   end
 }
 --
 this.DEBUG_PrintRevengePoints={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      --tex from TppRevenge. , cutting out dummy, max, and reordering to ui order
-      local REVENGE_TYPE_NAME={"FULTON","HEAD_SHOT","STEALTH","COMBAT","NIGHT_S","NIGHT_C","LONG_RANGE","VEHICLE","TRANQ","SMOKE","M_STEALTH","M_COMBAT"}
+    --tex from TppRevenge. , cutting out dummy, max, and reordering to ui order
+    local REVENGE_TYPE_NAME={"FULTON","HEAD_SHOT","STEALTH","COMBAT","NIGHT_S","NIGHT_C","LONG_RANGE","VEHICLE","TRANQ","SMOKE","M_STEALTH","M_COMBAT"}
 
-      --      InfMenu.DebugPrint"Revenge Levels"
-      local revengeLevelsStr=""
-      --      for i,revengeTypeName in ipairs(REVENGE_TYPE_NAME)do
-      --        revengeLevelsStr=revengeLevelsStr..revengeTypeName..":"..tostring(TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE[revengeTypeName]))
-      --        revengeLevelsStr=revengeLevelsStr.." "
-      --      end
-      --      InfMenu.DebugPrint(revengeLevelsStr)
+    --      InfLog.DebugPrint"Revenge Levels"
+    local revengeLevelsStr=""
+    --      for i,revengeTypeName in ipairs(REVENGE_TYPE_NAME)do
+    --        revengeLevelsStr=revengeLevelsStr..revengeTypeName..":"..tostring(TppRevenge.GetRevengeLv(TppRevenge.REVENGE_TYPE[revengeTypeName]))
+    --        revengeLevelsStr=revengeLevelsStr.." "
+    --      end
+    --      InfLog.DebugPrint(revengeLevelsStr)
 
-      InfMenu.DebugPrint"Revenge points"
-      local revengeLevelsStr=""
-      for i,revengeTypeName in ipairs(REVENGE_TYPE_NAME)do
-        revengeLevelsStr=revengeLevelsStr..revengeTypeName..":"..tostring(TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE[revengeTypeName]))
-        revengeLevelsStr=revengeLevelsStr.." "
-      end
-      InfMenu.DebugPrint(revengeLevelsStr)
-
-    end)
+    InfLog.DebugPrint"Revenge points"
+    local revengeLevelsStr=""
+    for i,revengeTypeName in ipairs(REVENGE_TYPE_NAME)do
+      revengeLevelsStr=revengeLevelsStr..revengeTypeName..":"..tostring(TppRevenge.GetRevengePoint(TppRevenge.REVENGE_TYPE[revengeTypeName]))
+      revengeLevelsStr=revengeLevelsStr.." "
+    end
+    InfLog.DebugPrint(revengeLevelsStr)
   end
 }
 
 this.DEBUG_PrintHeliPos={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      InfNPCHeli.PrintHeliPos()
-    end)
+    InfNPCHeli.PrintHeliPos()
   end
 }
 
@@ -965,47 +923,43 @@ local heliRoutes={}
 this.DEBUG_CycleHeliRoutes={
   OnChange=function()
     local StrCode32=Fox.StrCode32
-    InfInspect.TryFunc(function()
-      local heliName="SupportHeli"--EnemyHeli0000"
-      local heliIndex=1
-      local heliObjectId = GetGameObjectId(heliName)
-      if heliObjectId==NULL_ID then
-      --InfMenu.DebugPrint(heliName.."==NULL_ID")--DEBUG
-      else
-        if #heliRoutes==0 then
-          --heliRoutes=this.ResetLzPool()
-          heliRoutes=InfMain.ResetPool(InfNPCHeli.heliRoutes.afgh)
-        end
-        --InfInspect.PrintInspect(heliRoutes)--DEBUG
-        this.heliRoute=StrCode32(heliRoutes[routeIndex])
-        routeIndex=routeIndex+1
-        if routeIndex>#heliRoutes then
-          routeIndex=1
-        end
+    local heliName="SupportHeli"--EnemyHeli0000"
+    local heliIndex=1
+    local heliObjectId = GetGameObjectId(heliName)
+    if heliObjectId==NULL_ID then
+    --InfLog.DebugPrint(heliName.."==NULL_ID")--DEBUG
+    else
+      if #heliRoutes==0 then
+        --heliRoutes=this.ResetLzPool()
+        heliRoutes=InfMain.ResetPool(InfNPCHeli.heliRoutes.afgh)
+      end
+      --InfLog.PrintInspect(heliRoutes)--DEBUG
+      this.heliRoute=StrCode32(heliRoutes[routeIndex])
+      routeIndex=routeIndex+1
+      if routeIndex>#heliRoutes then
+        routeIndex=1
+      end
 
-        InfNPCHeli.SetRoute(this.heliRoute,heliIndex)
-        --InfMenu.DebugPrint(heliName.." setting route: "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
-        --GameObject.SendCommand(heliObjectId,{id="SetForceRoute",route=this.heliRoute,point=0,warp=true})
-      end
-      local groundStartPosition=InfLZ.GetGroundStartPosition(this.heliRoute)
-      if groundStartPosition==nil then
-        InfMenu.DebugPrint" groundStartPosition==nil"
-      else
-        InfMenu.DebugPrint("warped to "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
-        TppPlayer.Warp{pos={groundStartPosition.pos[1],groundStartPosition.pos[2],groundStartPosition.pos[3]},rotY=vars.playerCameraRotation[1]}
-      end
-    end)
+      InfNPCHeli.SetRoute(this.heliRoute,heliIndex)
+      --InfLog.DebugPrint(heliName.." setting route: "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
+      --GameObject.SendCommand(heliObjectId,{id="SetForceRoute",route=this.heliRoute,point=0,warp=true})
+    end
+    local groundStartPosition=InfLZ.GetGroundStartPosition(this.heliRoute)
+    if groundStartPosition==nil then
+      InfLog.DebugPrint" groundStartPosition==nil"
+    else
+      InfLog.DebugPrint("warped to "..tostring(InfLZ.str32LzToLz[this.heliRoute]))--DEBUG
+      TppPlayer.Warp{pos={groundStartPosition.pos[1],groundStartPosition.pos[2],groundStartPosition.pos[3]},rotY=vars.playerCameraRotation[1]}
+    end
   end
 }
 
 local fovaIndex=1
 this.DEBUG_FovaTest={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      Player.SetPartsInfoAtInstanceIndex("/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
-      --Player.RequestToUnloadAllPartsBlock()
-      --Player.RequestToLoadPartsBlock("PLTypeHospital")
-    end)
+    Player.SetPartsInfoAtInstanceIndex("/Assets/tpp/parts/chara/sna/sna1_main0_def_v00.parts")
+    --Player.RequestToUnloadAllPartsBlock()
+    --Player.RequestToLoadPartsBlock("PLTypeHospital")
   end
 }
 
@@ -1038,7 +992,7 @@ this.DEBUG_DropItem={
 
 this.DEBUG_PrintVarsClock={
   OnChange=function()
-    InfMenu.DebugPrint("vars.clock:"..vars.clock)
+    InfLog.DebugPrint("vars.clock:"..vars.clock)
   end,
 }
 
@@ -1047,82 +1001,78 @@ this.DEBUG_PrintFultonSuccessInfo={
     local mbFultonRank=TppMotherBaseManagement.GetSectionFuncRank{sectionFuncId=TppMotherBaseManagementConst.SECTION_FUNC_ID_SUPPORT_FULTON}
     local mbSectionSuccess=TppPlayer.mbSectionRankSuccessTable[mbFultonRank]or 0
 
-    InfMenu.DebugPrint("mbFultonRank:"..mbFultonRank.." mbSectionSuccess:"..mbSectionSuccess)
+    InfLog.DebugPrint("mbFultonRank:"..mbFultonRank.." mbSectionSuccess:"..mbSectionSuccess)
 
     --  local doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,r,staffOrReourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
     --
     --  if doFuncSuccess==nil then
-    --    InfMenu.DebugPrint"doFuncSuccess nil, bumped to 100"
+    --    InfLog.DebugPrint"doFuncSuccess nil, bumped to 100"
     --    doFuncSuccess=100
     --  end
-    --  InfMenu.DebugPrint("doFuncSuccess:"..doFuncSuccess)
+    --  InfLog.DebugPrint("doFuncSuccess:"..doFuncSuccess)
 
   end,
 }
 
 this.DEBUG_ShowRevengeConfig={
   OnChange=function()
-    --InfMenu.DebugPrint("RevRandomValue: "..gvars.rev_revengeRandomValue)
-    InfMenu.DebugPrint("RevengeType:")
-    local revengeType=InfInspect.Inspect(mvars.revenge_revengeType)
-    InfMenu.DebugPrint(revengeType)
+    --InfLog.DebugPrint("RevRandomValue: "..gvars.rev_revengeRandomValue)
+    InfLog.DebugPrint("RevengeType:")
+    InfLog.PrintInspect(mvars.revenge_revengeType)
 
-    InfMenu.DebugPrint("RevengeConfig:")
-    local revengeConfig=InfInspect.Inspect(mvars.revenge_revengeConfig)
-    InfMenu.DebugPrint(revengeConfig)
+    InfLog.DebugPrint("RevengeConfig:")
+    InfLog.PrintInspect(mvars.revenge_revengeConfig)
   end,
 }
 
 this.DEBUG_PrintSoldierDefine={
   OnChange=function()
-    InfMenu.DebugPrint("SoldierDefine:")
-    local soldierDefine=InfInspect.Inspect(mvars.ene_soldierDefine)
-    InfMenu.DebugPrint(soldierDefine)
+    InfLog.DebugPrint("SoldierDefine:")
+    InfLog.PrintInspect(mvars.ene_soldierDefine)
   end,
 }
 
 
 this.DEBUG_PrintSoldierIDList={
   OnChange=function()
-    InfMenu.DebugPrint("SoldierIdList:")
-    local soldierIdList=InfInspect.Inspect(mvars.ene_soldierIDList)
-    InfMenu.DebugPrint(soldierIdList)
+    InfLog.DebugPrint("SoldierIdList:")
+    InfLog.PrintInspect(mvars.ene_soldierIDList)
   end,
 }
 
 
 this.DEBUG_PrintReinforceVars={
   OnChange=function()
-    InfMenu.DebugPrint("reinforce_activated: "..tostring(mvars.reinforce_activated))
-    InfMenu.DebugPrint("reinforceType: "..mvars.reinforce_reinforceType)
-    InfMenu.DebugPrint("reinforceCpId: "..mvars.reinforce_reinforceCpId)
-    InfMenu.DebugPrint("isEnabledSoldiers: "..tostring(mvars.reinforce_isEnabledSoldiers))
-    InfMenu.DebugPrint("isEnabledVehicle: "..tostring(mvars.reinforce_isEnabledVehicle))
+    InfLog.DebugPrint("reinforce_activated: "..tostring(mvars.reinforce_activated))
+    InfLog.DebugPrint("reinforceType: "..mvars.reinforce_reinforceType)
+    InfLog.DebugPrint("reinforceCpId: "..mvars.reinforce_reinforceCpId)
+    InfLog.DebugPrint("isEnabledSoldiers: "..tostring(mvars.reinforce_isEnabledSoldiers))
+    InfLog.DebugPrint("isEnabledVehicle: "..tostring(mvars.reinforce_isEnabledVehicle))
   end,
 }
 
 this.DEBUG_PrintVehicleTypes={
   OnChange=function()
-    InfMenu.DebugPrint("Vehicle.type.EASTERN_LIGHT_VEHICLE="..Vehicle.type.EASTERN_LIGHT_VEHICLE)
-    InfMenu.DebugPrint("Vehicle.type.WESTERN_LIGHT_VEHICLE="..Vehicle.type.WESTERN_LIGHT_VEHICLE)
-    InfMenu.DebugPrint("Vehicle.type.EASTERN_TRUCK="..Vehicle.type.EASTERN_TRUCK)
-    InfMenu.DebugPrint("Vehicle.type.WESTERN_TRUCK="..Vehicle.type.WESTERN_TRUCK)
-    InfMenu.DebugPrint("Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE)
-    InfMenu.DebugPrint("Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE)
-    InfMenu.DebugPrint("Vehicle.type.EASTERN_TRACKED_TANK="..Vehicle.type.EASTERN_TRACKED_TANK)
-    InfMenu.DebugPrint("Vehicle.type.WESTERN_TRACKED_TANK="..Vehicle.type.WESTERN_TRACKED_TANK)
+    InfLog.DebugPrint("Vehicle.type.EASTERN_LIGHT_VEHICLE="..Vehicle.type.EASTERN_LIGHT_VEHICLE)
+    InfLog.DebugPrint("Vehicle.type.WESTERN_LIGHT_VEHICLE="..Vehicle.type.WESTERN_LIGHT_VEHICLE)
+    InfLog.DebugPrint("Vehicle.type.EASTERN_TRUCK="..Vehicle.type.EASTERN_TRUCK)
+    InfLog.DebugPrint("Vehicle.type.WESTERN_TRUCK="..Vehicle.type.WESTERN_TRUCK)
+    InfLog.DebugPrint("Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE)
+    InfLog.DebugPrint("Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE="..Vehicle.type.WESTERN_WHEELED_ARMORED_VEHICLE)
+    InfLog.DebugPrint("Vehicle.type.EASTERN_TRACKED_TANK="..Vehicle.type.EASTERN_TRACKED_TANK)
+    InfLog.DebugPrint("Vehicle.type.WESTERN_TRACKED_TANK="..Vehicle.type.WESTERN_TRACKED_TANK)
   end,
 }
 
 this.DEBUG_PrintVehiclePaint={
   OnChange=function()
-    InfMenu.DebugPrint("Vehicle.class.DEFAULT="..Vehicle.class.DEFAULT)
-    InfMenu.DebugPrint("Vehicle.class.DARK_GRAY="..Vehicle.class.DARK_GRAY)
-    InfMenu.DebugPrint("Vehicle.class.OXIDE_RED="..Vehicle.class.OXIDE_RED)
-    InfMenu.DebugPrint("Vehicle.paintType.NONE="..Vehicle.paintType.NONE)
-    InfMenu.DebugPrint("Vehicle.paintType.FOVA_0="..Vehicle.paintType.FOVA_0)
-    InfMenu.DebugPrint("Vehicle.paintType.FOVA_1="..Vehicle.paintType.FOVA_1)
-    InfMenu.DebugPrint("Vehicle.paintType.FOVA_2="..Vehicle.paintType.FOVA_2)
+    InfLog.DebugPrint("Vehicle.class.DEFAULT="..Vehicle.class.DEFAULT)
+    InfLog.DebugPrint("Vehicle.class.DARK_GRAY="..Vehicle.class.DARK_GRAY)
+    InfLog.DebugPrint("Vehicle.class.OXIDE_RED="..Vehicle.class.OXIDE_RED)
+    InfLog.DebugPrint("Vehicle.paintType.NONE="..Vehicle.paintType.NONE)
+    InfLog.DebugPrint("Vehicle.paintType.FOVA_0="..Vehicle.paintType.FOVA_0)
+    InfLog.DebugPrint("Vehicle.paintType.FOVA_1="..Vehicle.paintType.FOVA_1)
+    InfLog.DebugPrint("Vehicle.paintType.FOVA_2="..Vehicle.paintType.FOVA_2)
   end,
 }
 
@@ -1134,22 +1084,19 @@ this.DEBUG_RandomizeCp={--CULL only for debug purpose with a print in the functi
 
 this.DEBUG_PrintRealizedCount={
   OnChange=function()
-    InfMenu.DebugPrint("MAX_REALIZED_COUNT:"..EnemyFova.MAX_REALIZED_COUNT)
+    InfLog.DebugPrint("MAX_REALIZED_COUNT:"..EnemyFova.MAX_REALIZED_COUNT)
   end,
 }
 this.DEBUG_PrintEnemyFova={
   OnChange=function()
-    local infene=InfInspect.Inspect(EnemyFova)
-    InfMenu.DebugPrint(infene)
-    local infenemeta=InfInspect.Inspect(getmetatable(EnemyFova))
-    InfMenu.DebugPrint(infenemeta)
+    InfLog.PrintInspect(EnemyFova)
+    InfLog.PrintInspect(getmetatable(EnemyFova))
   end,
 }
 
 this.DEBUG_PrintPowersCount={
   OnChange=function()
-    --local ins=InfInspect.Inspect(mvars.ene_soldierPowerSettings)
-    --InfMenu.DebugPrint(ins)
+    --InfLog.PrintInspect(mvars.ene_soldierPowerSettings)
     local totalPowerSettings={}
 
     local totalSoldierCount=0
@@ -1165,22 +1112,19 @@ this.DEBUG_PrintPowersCount={
         totalPowerSettings[powerType]=totalPowerSettings[powerType]+1
       end
     end
-    InfMenu.DebugPrint("totalSoldierCount:"..totalSoldierCount)
-    local ins=InfInspect.Inspect(totalPowerSettings)
-    InfMenu.DebugPrint(ins)
+    InfLog.DebugPrint("totalSoldierCount:"..totalSoldierCount)
+    InfLog.PrintInspect(totalPowerSettings)
   end
 }
 
 this.DEBUG_PrintCpPowerSettings={
   OnChange=function()
-    --local ins=InfInspect.Inspect(mvars.ene_soldierPowerSettings)
-    -- InfMenu.DebugPrint(ins)
+    --InfLog.PrintInspect(mvars.ene_soldierPowerSettings)
     if Ivars.selectedCp:Is()>0 then
       local soldierList=mvars.ene_soldierIDList[Ivars.selectedCp:Get()]
       if soldierList then
         for soldierId,n in pairs(soldierList)do
-          local ins=InfInspect.Inspect(mvars.ene_soldierPowerSettings[soldierId])
-          InfMenu.DebugPrint(ins)
+          InfLog.PrintInspect(mvars.ene_soldierPowerSettings[soldierId])
         end
       end
     end
@@ -1238,47 +1182,44 @@ this.DEBUG_PrintCpSizes={
       end
     end
 
-    local ins=InfInspect.Inspect(cpSizes)
-    InfMenu.DebugPrint(ins)
-
-    local ins=InfInspect.Inspect(cpTypesAverage)
-    InfMenu.DebugPrint(ins)
+    InfLog.PrintInspect(cpSizes)
+    InfLog.PrintInspect(cpTypesAverage)
   end
 }
 
 this.DEBUG_ChangePhase={
   OnChange=function()
-    InfMenu.DebugPrint("Changephase b")
+    InfLog.DebugPrint("Changephase b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.ChangePhase(cpName,Ivars.maxPhase:Get())
     end
-    InfMenu.DebugPrint("Changephase e")
+    InfLog.DebugPrint("Changephase e")
   end
 }
 
 this.DEBUG_KeepPhaseOn={
   OnChange=function()
-    InfMenu.DebugPrint("DEBUG_KeepPhaseOn b")
+    InfLog.DebugPrint("DEBUG_KeepPhaseOn b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.SetKeepAlert(cpName,true)
     end
-    InfMenu.DebugPrint("DEBUG_KeepPhaseOn e")
+    InfLog.DebugPrint("DEBUG_KeepPhaseOn e")
   end
 }
 
 this.DEBUG_KeepPhaseOff={
   OnChange=function()
-    InfMenu.DebugPrint("DEBUG_KeepPhaseOff b")
+    InfLog.DebugPrint("DEBUG_KeepPhaseOff b")
     for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
       InfMain.SetKeepAlert(cpName,false)
     end
-    InfMenu.DebugPrint("DEBUG_KeepPhaseOff e")
+    InfLog.DebugPrint("DEBUG_KeepPhaseOff e")
   end
 }
 
 this.printPlayerPhase={
   OnChange=function()
-    InfMenu.DebugPrint("vars.playerPhase=".. vars.playerPhase ..":".. Ivars.phaseSettings[vars.playerPhase+1])
+    InfLog.DebugPrint("vars.playerPhase=".. vars.playerPhase ..":".. Ivars.phaseSettings[vars.playerPhase+1])
   end,
 }
 
@@ -1291,7 +1232,7 @@ this.DEBUG_SetPlayerPhaseToIvar={
 this.DEBUG_ShowPhaseEnums={
   OnChange=function()
     for n, phaseName in ipairs(Ivars.maxPhase.settings) do
-      InfMenu.DebugPrint(phaseName..":".. Ivars.maxPhase.settingsTable[n])
+      InfLog.DebugPrint(phaseName..":".. Ivars.maxPhase.settingsTable[n])
     end
   end,
 }
@@ -1299,28 +1240,24 @@ this.DEBUG_ShowPhaseEnums={
 
 this.DEBUG_Item2={
   OnChange=function()
-    InfMenu.DebugPrint("EnemyTypes:")
-    InfMenu.DebugPrint("TYPE_DD:"..EnemyType.TYPE_DD)
-    InfMenu.DebugPrint("TYPE_SKULL:"..EnemyType.TYPE_SKULL )
-    InfMenu.DebugPrint("TYPE_SOVIET:"..EnemyType.TYPE_SOVIET)
-    InfMenu.DebugPrint("TYPE_PF:"..EnemyType.TYPE_PF )
-    InfMenu.DebugPrint("TYPE_CHILD:".. EnemyType.TYPE_CHILD )
-    --InfMenu.DebugPrint("bef")
-    -- local strout=InfInspect.Inspect(gvars.soldierTypeForced)
-    -- InfMenu.DebugPrint(strout)
-    -- InfMenu.DebugPrint("aft")
+    InfLog.DebugPrint("EnemyTypes:")
+    InfLog.DebugPrint("TYPE_DD:"..EnemyType.TYPE_DD)
+    InfLog.DebugPrint("TYPE_SKULL:"..EnemyType.TYPE_SKULL )
+    InfLog.DebugPrint("TYPE_SOVIET:"..EnemyType.TYPE_SOVIET)
+    InfLog.DebugPrint("TYPE_PF:"..EnemyType.TYPE_PF )
+    InfLog.DebugPrint("TYPE_CHILD:".. EnemyType.TYPE_CHILD )
+    --InfLog.PrintInspect(gvars.soldierTypeForced)
   end,
 }
 
 this.DEBUG_InspectAllMenus={
   OnChange=function()
-    --local instr=InfInspect.Inspect(InfMenuDefs.allMenus)
-    --InfMenu.DebugPrint(instr)
+    --InfLog.PrintInspect(InfMenuDefs.allMenus)
     for n,menu in ipairs(InfMenuDefs.allMenus) do
       if menu==nil then
-        InfMenu.DebugPrint("menu==nil at index "..n)
+        InfLog.DebugPrint("menu==nil at index "..n)
       elseif menu.name==nil then
-        InfMenu.DebugPrint("menu.name==nil at index "..n)
+        InfLog.DebugPrint("menu.name==nil at index "..n)
       else
         InfMenu.PrintLangId(menu.name)
       end
@@ -1339,157 +1276,148 @@ this.currentWarpIndex=1
 local singleStep=false
 this.DEBUG_WarpToObject={
   OnChange=function()
-    InfInspect.TryFunc(function()
 
-        --local objectList=InfMain.reserveSoldierNames
+    --local objectList=InfMain.reserveSoldierNames
 
-        --        local travelPlan="travelArea2_01"
-        --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
-        local objectList=InfMain.ene_wildCardSoldiers
+    --        local travelPlan="travelArea2_01"
+    --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
+    local objectList=InfMain.ene_wildCardSoldiers
 
-        --local objectList=InfMain.truckNames
-        --local objectList={"veh_trc_0000"}
-        --local objectList=InfMain.jeepNames
+    --local objectList=InfMain.truckNames
+    --local objectList={"veh_trc_0000"}
+    --local objectList=InfMain.jeepNames
 
-        --    local objectList={
-        --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",
-        --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001",
-        --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002",
-        --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003",
-        --    }
-        --local objectList={"sol_field_0002"}
-
-
-
-        --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
-        --local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
+    --    local objectList={
+    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000",
+    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0001",
+    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0002",
+    --      "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0003",
+    --    }
+    --local objectList={"sol_field_0002"}
 
 
 
-        --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
-        --local objectList={"WestHeli0001","WestHeli0000","WestHeli0002"}
-        --local objectList={"EnemyHeli"}
-        --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000"}
-
-        --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
-
-        --    local objectList={
-        --      "veh_cl01_cl00_0000",
-        --      "veh_cl02_cl00_0000",
-        --      "veh_cl03_cl00_0000",
-        --      "veh_cl04_cl00_0000",
-        --      "veh_cl05_cl00_0000",
-        --      "veh_cl06_cl00_0000",
-        --      "veh_cl00_cl04_0000",
-        --      "veh_cl00_cl02_0000",
-        --      "veh_cl00_cl03_0000",
-        --      "veh_cl00_cl01_0000",
-        --      "veh_cl00_cl05_0000",
-        --      "veh_cl00_cl06_0000",
-        --    }
-
-        --    local objectList={
-        --      --  "WestHeli0000",
-        --      --  "WestHeli0001",
-        --      --  "WestHeli0002",
-        --      --  "EnemyHeli",
-        --      "EnemyHeli0000",
-        --      "EnemyHeli0001",
-        --      "EnemyHeli0002",
-        --      "EnemyHeli0003",
-        --      "EnemyHeli0004",
-        --      "EnemyHeli0005",
-        --      "EnemyHeli0006",
-        --    }
-
-
-        --local objectList=InfInterrogation.interCpQuestSoldiers
-
-        --local objectList=InfWalkerGear.walkerList
-
-
-        if objectList==nil then
-          InfMenu.DebugPrint"objectList nil"
-          return
-        end
-        this.warpObjecList=objectList
-
-        if #objectList==0 then
-          InfMenu.DebugPrint"objectList empty"
-          return
-        end
+    --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
+    --local objectList=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
 
 
 
-        local count=0
-        local warpPos=Vector3(0,0,0)
-        local objectName="NULL"
-        local function Step()
-          objectName=objectList[this.currentWarpIndex]
-          local gameId=objectName
-          if type(objectName)=="string" then
-            gameId=GameObject.GetGameObjectId(objectName)
-          end
-          if gameId==nil or gameId==GameObject.NULL_ID then
-            InfMenu.DebugPrint"gameId==NULL_ID"
-            warpPos=Vector3(0,0,0)
-          else
-            warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
-            InfMenu.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
-          end
-          this.currentWarpIndex=this.currentWarpIndex+1
-          if this.currentWarpIndex>#objectList then
-            this.currentWarpIndex=1
-          end
-          count=count+1
-        end
+    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppOcelot2GameObjectLocator"}
+    --local objectList={"WestHeli0001","WestHeli0000","WestHeli0002"}
+    --local objectList={"EnemyHeli"}
+    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|sol_plnt0_0000"}
 
-        Step()
+    --local objectList={"ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|TppLiquid2GameObjectLocator"}
 
-        while not singleStep and (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
-          Step()
-          --coroutine.yield()
-        end
+    --    local objectList={
+    --      "veh_cl01_cl00_0000",
+    --      "veh_cl02_cl00_0000",
+    --      "veh_cl03_cl00_0000",
+    --      "veh_cl04_cl00_0000",
+    --      "veh_cl05_cl00_0000",
+    --      "veh_cl06_cl00_0000",
+    --      "veh_cl00_cl04_0000",
+    --      "veh_cl00_cl02_0000",
+    --      "veh_cl00_cl03_0000",
+    --      "veh_cl00_cl01_0000",
+    --      "veh_cl00_cl05_0000",
+    --      "veh_cl00_cl06_0000",
+    --    }
 
-        if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
-          InfMenu.DebugPrint(objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
-          TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
-        end
-    end)
+    --    local objectList={
+    --      --  "WestHeli0000",
+    --      --  "WestHeli0001",
+    --      --  "WestHeli0002",
+    --      --  "EnemyHeli",
+    --      "EnemyHeli0000",
+    --      "EnemyHeli0001",
+    --      "EnemyHeli0002",
+    --      "EnemyHeli0003",
+    --      "EnemyHeli0004",
+    --      "EnemyHeli0005",
+    --      "EnemyHeli0006",
+    --    }
+
+
+    --local objectList=InfInterrogation.interCpQuestSoldiers
+
+    --local objectList=InfWalkerGear.walkerList
+
+
+    if objectList==nil then
+      InfLog.DebugPrint"objectList nil"
+      return
+    end
+    this.warpObjecList=objectList
+
+    if #objectList==0 then
+      InfLog.DebugPrint"objectList empty"
+      return
+    end
+
+
+
+    local count=0
+    local warpPos=Vector3(0,0,0)
+    local objectName="NULL"
+    local function Step()
+      objectName=objectList[this.currentWarpIndex]
+      local gameId=objectName
+      if type(objectName)=="string" then
+        gameId=GameObject.GetGameObjectId(objectName)
+      end
+      if gameId==nil or gameId==GameObject.NULL_ID then
+        InfLog.DebugPrint"gameId==NULL_ID"
+        warpPos=Vector3(0,0,0)
+      else
+        warpPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+        InfLog.DebugPrint(this.currentWarpIndex..":"..objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+      end
+      this.currentWarpIndex=this.currentWarpIndex+1
+      if this.currentWarpIndex>#objectList then
+        this.currentWarpIndex=1
+      end
+      count=count+1
+    end
+
+    Step()
+
+    while not singleStep and (warpPos:GetX()==0 and warpPos:GetY()==0 and warpPos:GetZ()==0) and count<=#objectList do
+      Step()
+      --coroutine.yield()
+    end
+
+    if warpPos:GetX()~=0 or warpPos:GetY()~=0 or warpPos:GetZ()~=0 then
+      InfLog.DebugPrint(objectName.." pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+      TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY()+1,warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
+    end
   end,
 }
 
 this.DEBUG_WarpToReinforceVehicle={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      local vehicleId=GameObject.GetGameObjectId("TppVehicle2",TppReinforceBlock.REINFORCE_VEHICLE_NAME)
-      local driverId=GameObject.GetGameObjectId("TppSoldier2",TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME)
+    local vehicleId=GameObject.GetGameObjectId("TppVehicle2",TppReinforceBlock.REINFORCE_VEHICLE_NAME)
+    local driverId=GameObject.GetGameObjectId("TppSoldier2",TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME)
 
-      if vehicleId==GameObject.NULL_ID then
-        InfMenu.DebugPrint"vehicleId==NULL_ID"
-        return
-      end
-      local warpPos=GameObject.SendCommand(vehicleId,{id="GetPosition"})
-      InfMenu.DebugPrint("reinforce vehicle pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
-      TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
-
-    end)
+    if vehicleId==GameObject.NULL_ID then
+      InfLog.DebugPrint"vehicleId==NULL_ID"
+      return
+    end
+    local warpPos=GameObject.SendCommand(vehicleId,{id="GetPosition"})
+    InfLog.DebugPrint("reinforce vehicle pos:".. warpPos:GetX()..",".. warpPos:GetY().. ","..warpPos:GetZ())
+    TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
   end,
 }
 
 this.DEBUG_PrintNonDefaultVars={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      Ivars.PrintNonDefaultVars()
-    end)
+    Ivars.PrintNonDefaultVars()
   end,
 }
 
 this.DEBUG_PrintSaveVarCount={
   OnChange=function()
-    InfInspect.TryFunc(function()
-      Ivars.PrintSaveVarCount()
-    end)
+    Ivars.PrintSaveVarCount()
   end,
 }
 
@@ -1502,9 +1430,9 @@ this.HeliMenuOnTest={--CULL: UI system overrides it :(
       {menu=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,active=true},
       {menu=TppTerminal.MBDVCMENU.MSN_HELI_DISMISS,active=true},
     }
-    InfMenu.DebugPrint("blih")--DEBUG
+    InfLog.DebugPrint("blih")--DEBUG
     TppTerminal.EnableDvcMenuByList(dvcMenu)
-    InfMenu.DebugPrint("bleh")--DEBUG
+    InfLog.DebugPrint("bleh")--DEBUG
   end,
 }
 

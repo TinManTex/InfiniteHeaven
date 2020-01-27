@@ -1,4 +1,8 @@
+-- DOBUILD: 1
 -- init.lua
+
+Script.LoadLibrary("/Assets/tpp/script/lib/InfLog.lua")--tex
+
 local platform=Fox.GetPlatformName()
 local deviceName=""
 if GrTools then

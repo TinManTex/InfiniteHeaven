@@ -22,10 +22,10 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
 
   if not currentChecks.inMenu and currentChecks.inSupportHeli then
     if InfButton.OnButtonDown(InfButton.STANCE) then      
-      --InfMenu.DebugPrint"STANCE"--DEBUG
+      --InfLog.DebugPrint"STANCE"--DEBUG
       --if not currentChecks.initialAction then--tex heli ride in TODO: RETRY: A reliable mission start parameter
       if IsTimerActive"Timer_MissionStartHeliDoorOpen" then
-        --InfMenu.DebugPrint"IsTimerActive"--DEBUG
+        --InfLog.DebugPrint"IsTimerActive"--DEBUG
         GameObject.SendCommand(heliId,{id="RequestSnedDoorOpen"})
       else
         if Ivars.disablePullOutHeli:Is(1) then

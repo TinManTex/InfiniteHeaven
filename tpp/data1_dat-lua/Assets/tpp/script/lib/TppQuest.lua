@@ -2281,7 +2281,7 @@ function this.UpdateActiveQuest(updateFlags)
   if selectionMode>1 then--tex >RANDOM
     selectionCategory=Ivars.sideOpsSelectionMode.settings[selectionMode+1]
     selectionCategoryEnum=QUEST_CATEGORIES_ENUM[selectionCategory]
-    --InfMenu.DebugPrint("Selectionmode:"..tostring(selectionMode).." selectionCategory:"..tostring(selectionCategory).." selectionCategoryEnum:"..tostring(selectionCategoryEnum))--DEBUG
+    --InfLog.DebugPrint("Selectionmode:"..tostring(selectionMode).." selectionCategory:"..tostring(selectionCategory).." selectionCategoryEnum:"..tostring(selectionCategoryEnum))--DEBUG
   end
   --<
   if this.NeedUpdateActiveQuest(updateFlags)then
@@ -2354,11 +2354,11 @@ function this.UpdateActiveQuest(updateFlags)
             local questTableIndex=QUESTTABLE_INDEX[questName]
             local questInfo=questTable[questTableIndex]
             if not questInfo then
-            --InfMenu.DebugPrint("no questInfo for "..questName)--DEBUG
+            --InfLog.DebugPrint("no questInfo for "..questName)--DEBUG
             else
               local questCategoryEnum=questInfo.category
               if questCategoryEnum and questCategoryEnum==selectionCategoryEnum then
-                --InfMenu.DebugPrint(questName.." questCategoryEnum:"..tostring(questCategoryEnum).." selectionCategoryEnum:"..tostring(selectionCategoryEnum))--DEBUG
+                --InfLog.DebugPrint(questName.." questCategoryEnum:"..tostring(questCategoryEnum).." selectionCategoryEnum:"..tostring(selectionCategoryEnum))--DEBUG
                 categoryQuests[#categoryQuests+1]=questName
               end
             end

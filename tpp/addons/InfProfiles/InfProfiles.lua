@@ -9,7 +9,7 @@
 
 local profiles={}
 
--- Defaults/example of all profile options for IH r181
+-- Defaults/example of all profile options for IH r182
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.

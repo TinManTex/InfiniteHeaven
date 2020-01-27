@@ -869,7 +869,7 @@ function this.AddRevengePointByTriggerType(revengeTriggerType)
     local newPoints=gvars.rev_revengePoint[revType]
     --NMC ORPHAN debugText=debugText..(this.REVENGE_TYPE_NAME[revType+1]..(":"..(tostring(currentRevengePoints)..("->"..(tostring(newPoints).." ")))))
   end
-  --InfMenu.DebugPrint(debugText)--tex might as well use their helpfully created string
+  --InfLog.DebugPrint(debugText)--tex might as well use their helpfully created string
 end
 function this.SetRevengePoint(revengeType,points)
   local maxLevel=this.GetRevengeLvMax(revengeType)
@@ -1178,7 +1178,7 @@ function this.ApplyMissionTendency(missionId,isAbort)
       if combatLevel>#missionTendancyPointTable.COMBAT then
         combatLevel=#missionTendancyPointTable.COMBAT
       end
-      --InfMenu.DebugPrint(missionTendancy.." add points: stealth:"..tostring(missionTendancyPointTable.STEALTH[stealthLevel])..", combat:"..tostring(missionTendancyPointTable.COMBAT[combatLevel]))--DEBUG
+      --InfLog.DebugPrint(missionTendancy.." add points: stealth:"..tostring(missionTendancyPointTable.STEALTH[stealthLevel])..", combat:"..tostring(missionTendancyPointTable.COMBAT[combatLevel]))--DEBUG
       --tex> bit of a kludge, would prefer to scale free roam by time in world
       local notFree=missionId~=30010 and missionId~=30020
       local didSomething=this.GetRevengePoint(this.REVENGE_TYPE.M_STEALTH)>0 or this.GetRevengePoint(this.REVENGE_TYPE.M_COMBAT)>0
@@ -1204,11 +1204,11 @@ function this.CanUseReinforceHeli()
 end
 function this.SelectReinforceType()
   if mvars.reinforce_reinforceType==TppReinforceBlock.REINFORCE_TYPE.HELI then--tex why? for quest helis?
-    --    InfMenu.DebugPrint("SelectReinforceType already heli")--DEBUG
+    --    InfLog.DebugPrint("SelectReinforceType already heli")--DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.HELI
   end
   if not this.IsUsingSuperReinforce()then
-    --    InfMenu.DebugPrint("SelectReinforceType not superreinforce, REINFORCE_TYPE.NONE")--DEBUG
+    --    InfLog.DebugPrint("SelectReinforceType not superreinforce, REINFORCE_TYPE.NONE")--DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local reinforceVehicleTypes={}
@@ -1218,7 +1218,7 @@ function this.SelectReinforceType()
   end--
   local canUseReinforceHeli=this.CanUseReinforceHeli() and mvars.revenge_isEnabledSuperReinforce--tex added isEnabledSuper, which is only set by quest heli and shouldnt stop other vehicle
   if canuseReinforceVehicle then
-    --InfMenu.DebugPrint("SelectReinforceType canuseReinforceVehicle")
+    --InfLog.DebugPrint("SelectReinforceType canuseReinforceVehicle")
     local reinforceVehiclesForLocation={
       AFGH={TppReinforceBlock.REINFORCE_TYPE.EAST_WAV,TppReinforceBlock.REINFORCE_TYPE.EAST_TANK},
       MAFR={TppReinforceBlock.REINFORCE_TYPE.WEST_WAV,TppReinforceBlock.REINFORCE_TYPE.WEST_WAV_CANNON,TppReinforceBlock.REINFORCE_TYPE.WEST_TANK}
@@ -1230,15 +1230,15 @@ function this.SelectReinforceType()
     end
   end
   if canUseReinforceHeli then
-    --InfMenu.DebugPrint("SelectReinforceType canuseReinforceHeli")
+    --InfLog.DebugPrint("SelectReinforceType canuseReinforceHeli")
     table.insert(reinforceVehicleTypes,TppReinforceBlock.REINFORCE_TYPE.HELI)
   end
   if#reinforceVehicleTypes==0 then
-    --InfMenu.DebugPrint("SelectReinforceType #reinforceVehicleTypes==0")--DEBUG
+    --InfLog.DebugPrint("SelectReinforceType #reinforceVehicleTypes==0")--DEBUG
     return TppReinforceBlock.REINFORCE_TYPE.NONE
   end
   local randomVehicleType=math.random(1,#reinforceVehicleTypes)
-  --  InfMenu.DebugPrint("SelectReinforceType randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[reinforceVehicleTypes[randomVehicleType]+1])--DEBUG
+  --  InfLog.DebugPrint("SelectReinforceType randomVehicleType: "..TppReinforceBlock.REINFORCE_TYPE_NAME[reinforceVehicleTypes[randomVehicleType]+1])--DEBUG
   return reinforceVehicleTypes[randomVehicleType]
 end
 function this.ApplyPowerSettingsForReinforce(soldierIds)
@@ -1498,7 +1498,7 @@ function this._AllocateResources(config)
       local weaponId=weaponIdTable[weaponStrength][weaponName] or weaponIdTable.NORMAL[weaponName]
       if weaponId==nil then
         --tex will happen if prep requests weapon types the weapon table doesnt have, which should only happen on MB if default mb table (only assault) and prep ha
-        --InfMenu.DebugPrint("weaponidTable "..weaponName.." is nil")--DEBUG
+        --InfLog.DebugPrint("weaponidTable "..weaponName.." is nil")--DEBUG
       elseif Tpp.IsTypeTable(weaponId)then
         for i,weaponId in ipairs(weaponId)do
           loadWeaponIds[weaponId]=true
@@ -1700,7 +1700,7 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
         settingSoldierCount=unfulfilledPowers[powerType]
       end--<
       --      if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-      --        InfMenu.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
+      --        InfLog.DebugPrint(mvars.ene_cpList[cpId].." powerType:"..powerType.."="..tostring(powerSetting).." settingSoldierCount="..settingSoldierCount.." of "..totalSoldierCount)--DEBUG
       --      end--
       local comboExcludeList=powerComboExclusionList[powerType]or{}
       local soldierCount=settingSoldierCount
@@ -1982,9 +1982,8 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   end
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --      InfMenu.DebugPrint("totalSoldierCount:" .. totalSoldierCount.." totalWanted weapons:"..totalWanted)
-  --      local ins=InfInspect.Inspect(wantedWeapons)--DEBUG
-  --      InfMenu.DebugPrint(ins)
+  --      InfLog.DebugPrint("totalSoldierCount:" .. totalSoldierCount.." totalWanted weapons:"..totalWanted)
+  --      InfLog.PrintInspect(wantedWeapons)--DEBUG
   --    end--
 
   --    if revengeConfigCp.SMG==nil then
@@ -2004,8 +2003,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   numBalance,sumBalance,originalWeaponSettings=InfRevenge.GetSumBalance(balanceWeaponTypes,revengeConfigCp,totalSoldierCount,originalWeaponSettings)
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG>
-  --      local ins=InfInspect.Inspect(originalWeaponSettings)
-  --      InfMenu.DebugPrint(ins)
+  --      InfLog.PrintInspect(originalWeaponSettings)
   --    end--<
 
   if numBalance>0 and sumBalance>Ivars.balanceWeaponPowers.balanceWeaponsThreshold then
@@ -2019,12 +2017,10 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   end
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG>
-  --      InfMenu.DebugPrint("revengeConfig")
-  --      local ins=InfInspect.Inspect(revengeConfig)
-  --      InfMenu.DebugPrint(ins)
-  --      InfMenu.DebugPrint("revengeConfigCp")
-  --      local ins=InfInspect.Inspect(revengeConfigCp)
-  --      InfMenu.DebugPrint(ins)
+  --      InfLog.DebugPrint("revengeConfig")
+  --      InfLog.PrintInspect(revengeConfig)
+  --      InfLog.DebugPrint("revengeConfigCp")
+  --      InfLog.PrintInspect(revengeConfigCp)
   --    end--<
   end--balanceWeaponPowers
 
@@ -2086,15 +2082,13 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
 
   --    if Ivars.selectedCp:Is()==cpId then--tex DEBUG
   --      --if not InfMain.IsTableEmpty(unfulfilledPowers) then
-  --      InfMenu.DebugPrint"unfulfilledPowers:"
-  --      local instr=InfInspect.Inspect(unfulfilledPowers)
-  --      InfMenu.DebugPrint(instr)
+  --      InfLog.DebugPrint"unfulfilledPowers:"
+  --      InfLog.PrintInspect(unfulfilledPowers)
   --      --end--
   --    end--<
   --
   --  if Ivars.selectedCp:Is()==cpId then--tex DEBUG
-  --    local instr=InfInspect.Inspect(cpConfig)
-  --    InfMenu.DebugPrint(instr)
+  --    InfLog.PrintInspect(cpConfig)
   --  end--<
 
   --tex fix issues with RADIO body>
@@ -2455,9 +2449,8 @@ function this._OnReinforceRespawn(soldierIds)
     TppEnemy.AddPowerSetting(soldierIds,{})
     o50050_enemy.AssignAndSetupRespawnSoldier(soldierIds)
   else
-    --    InfMenu.DebugPrint"_OnReinforceRespawn"--tex DEBUG>
-    --    local ins=InfInspect.Inspect(soldierIds)
-    --    InfMenu.DebugPrint(ins)--<
+    --    InfLog.DebugPrint"_OnReinforceRespawn"--tex DEBUG>
+    --    InfLog.PrintInspect(soldierIds)--<
     this.ApplyPowerSettingsForReinforce{soldierIds}
   end
 end

@@ -215,7 +215,7 @@ mbdvc_map_location_parameter = {
 
 	 local enableSpySearch=true --Ivars.disableSpySearch:Is(0)--tex
 	 local enableHerbSearch=InfMain.ReadSaveVar("disableHerbSearch")==0--tex ivars aparently havent been restored from save at this point, so read directly
-	 --InfMenu.DebugPrint("GetGlobalLocationParameter "..tostring(vars.missionCode))--tex DEBUG
+	 --InfLog.DebugPrint("GetGlobalLocationParameter "..tostring(vars.missionCode))--tex DEBUG
 		return {
 			{	
 				locationId = 10,

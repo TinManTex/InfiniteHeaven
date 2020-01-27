@@ -277,13 +277,13 @@ function this.DisableLzsWithinDist(lzTable,position,distance,missionCode)
   local TppMath=TppMath
 
   for dropLzName,aprLzName in pairs(lzTable)do
-    --InfMenu.DebugPrint(dropLzName.." -- "..aprLzName)
+    --InfLog.DebugPrint(dropLzName.." -- "..aprLzName)
     local lzCoords=InfLZ.GetGroundStartPosition(StrCode32(dropLzName),missionCode)
     if lzCoords==nil then
-      --InfMenu.DebugPrint("lzPos==nil")--DEBUG
+      --InfLog.DebugPrint("lzPos==nil")--DEBUG
     else
       local distSqr=TppMath.FindDistance(position,lzCoords.pos)
---      InfMenu.DebugPrint(aprLzName.." dist:"..math.sqrt(distSqr))--DEBUG
+--      InfLog.DebugPrint(aprLzName.." dist:"..math.sqrt(distSqr))--DEBUG
       if distSqr<distance then
         if TppHelicopter.GetLandingZoneExists{landingZoneName=aprLzName}then
           TppHelicopter.SetDisableLandingZone{landingZoneName=aprLzName}

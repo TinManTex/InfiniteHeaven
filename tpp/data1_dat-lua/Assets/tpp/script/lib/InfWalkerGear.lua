@@ -148,7 +148,7 @@ function this.SetupWalkerGear()
 end
 
 function this.SetupWalkerGearWorld()
-  --InfInspect.TryFunc(function()--DEBUG
+  --InfLog.PCall(function()--DEBUG
 
     if Ivars.enableWalkerGearsFREE:Is(0) or not Ivars.enableWalkerGearsFREE:MissionCheck() then
       return
@@ -170,7 +170,7 @@ function this.SetupWalkerGearWorld()
     local walkerName=this.walkerList[i]
     local walkerId=GameObject.GetGameObjectId("TppCommonWalkerGear2",walkerName)
     if walkerId==GameObject.NULL_ID then
-      InfMenu.DebugPrint("WARNING NULL_ID for "..walkerName)
+      InfLog.DebugPrint("WARNING NULL_ID for "..walkerName)
     else
       --ASSUMPTION only one pos per cp
       local cpName=InfMain.GetRandomPool(cpPool)
@@ -187,7 +187,7 @@ function this.SetupWalkerGearWorld()
 
       local cpId=GameObject.GetGameObjectId("TppCommandPost2",cpName)
       if cpId==GameObject.NULL_ID then
-        InfMenu.DebugPrint(tostring(cpName).." cpId==NULL_ID")--DEBUG
+        InfLog.DebugPrint(tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
       end
       local command={id="SetColoringType",type=walkerColorType}
@@ -241,7 +241,7 @@ function this.SetupWalkerGearMb()
 
   --tex don't want to bother with this case
   if numWalkers<#platsPool then
-    InfMenu.DebugPrint"SetupWalkerGearPositions - WANRING: less walkers than clusters, aborting"
+    InfLog.DebugPrint"SetupWalkerGearPositions - WANRING: less walkers than clusters, aborting"
     return
   end
 
@@ -254,7 +254,7 @@ function this.SetupWalkerGearMb()
 
     for i=1,walkersPerCluster do
       if numAssigned==numWalkers then
-        --InfMenu.DebugPrint"numAssigned==numWalkers"--DEBUG
+        --InfLog.DebugPrint"numAssigned==numWalkers"--DEBUG
         break
       end
       if #plats>0 then
@@ -266,8 +266,8 @@ function this.SetupWalkerGearMb()
     end
   end
 
-  --InfMenu.DebugPrint("numWalkers:"..numWalkers.." walkersPerCluster: "..walkersPerCluster.." numAssigned:"..numAssigned)--DEBUG
-  --InfInspect.PrintInspect(this.walkerPlats)--DEBUG
+  --InfLog.DebugPrint("numWalkers:"..numWalkers.." walkersPerCluster: "..walkersPerCluster.." numAssigned:"..numAssigned)--DEBUG
+  --InfLog.PrintInspect(this.walkerPlats)--DEBUG
 
   --tex assign unassigned
   while numAssigned<numWalkers do
@@ -290,8 +290,8 @@ function this.SetupWalkerGearMb()
     walkerIndex=walkerIndex+1
   end
 
-  --InfMenu.DebugPrint("numWalkers:"..numWalkers.." numAssigned:"..numAssigned)--DEBUG
-  --InfInspect.PrintInspect(this.walkerPlats)--DEBUG
+  --InfLog.DebugPrint("numWalkers:"..numWalkers.." numAssigned:"..numAssigned)--DEBUG
+  --InfLog.PrintInspect(this.walkerPlats)--DEBUG
 
   local function GetRandomColorType()
     return math.random(0,4)--tex NOTE leaving out HUEY_PROTO because of texure error
@@ -308,7 +308,7 @@ function this.SetupWalkerGearMb()
       local walkerName=this.walkerList[walkerIndex]
       local walkerId=GameObject.GetGameObjectId("TppCommonWalkerGear2",walkerName)
       if walkerId==GameObject.NULL_ID then
-        InfMenu.DebugPrint("WARNING NULL_ID for "..walkerName)
+        InfLog.DebugPrint("WARNING NULL_ID for "..walkerName)
       else
 
         local coord=walkerStartPositionsMb[clusterId][platId]
@@ -374,10 +374,10 @@ function this.GetNumDDWalkers()
   for i,resourceName in ipairs(walkerResourceNames)do
 
     local gearCount=TppMotherBaseManagement.GetResourceUsableCount{resource=resourceName}
-    InfMenu.DebugPrint(resourceName..":"..gearCount)
+    InfLog.DebugPrint(resourceName..":"..gearCount)
     totalGears=totalGears+gearCount
   end
-  InfMenu.DebugPrint("totalGears:"..totalGears)
+  InfLog.DebugPrint("totalGears:"..totalGears)
 end
 
 

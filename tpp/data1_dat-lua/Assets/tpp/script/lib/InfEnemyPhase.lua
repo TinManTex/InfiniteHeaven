@@ -34,7 +34,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
   end
 
   if mvars.ene_soldierDefine==nil then
-    InfMenu.DebugPrint"WARNING: InfEnemyPhase.Update - ene_soldierDefine==nil"
+    InfLog.DebugPrint"WARNING: InfEnemyPhase.Update - ene_soldierDefine==nil"
     return
   end
 

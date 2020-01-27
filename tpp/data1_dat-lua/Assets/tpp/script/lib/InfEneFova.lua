@@ -1514,7 +1514,7 @@ this.wildCardBodyTable={
 --called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
 --IN/Out bodies
 function this.WildCardFova(bodies)
-  --InfInspect.TryFunc(function(bodies)--DEBUG
+  --InfLog.PCall(function(bodies)--DEBUG
   InfMain.RandomSetToLevelSeed()
   local faces={}
   InfEneFova.inf_wildCardMaleFaceList={}
@@ -1692,7 +1692,7 @@ function this.ApplyFaceFova()
 end
 
 function this.PrintFaceInfo(faceId)
-  InfInspect.TryFunc(function(faceId)--DEBUG
+  InfLog.PCall(function(faceId)--DEBUG
     for i,faceDef in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
       if faceDef[1]==faceId then
         local faceFova=faceDef[5]
@@ -1704,7 +1704,7 @@ function this.PrintFaceInfo(faceId)
         local hairFovaInfo=InfEneFova.hairFovaInfo[hairFova+1]
         local hairDecoFovaInfo=InfEneFova.hairDecoFovaInfo[hairDecoFova+1]
 
-        InfMenu.DebugPrint(
+        InfLog.DebugPrint(
           string.format("faceId:%s, faceFova: %s, faceDecoFova: %s, hairFova: %s, hairDecoFova: %s",
             faceId,
             faceFovaInfo.name,

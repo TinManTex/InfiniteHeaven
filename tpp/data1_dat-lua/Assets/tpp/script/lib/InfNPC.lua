@@ -89,7 +89,7 @@ function this.InitUpdate(currentChecks)
 end
 
 function this.InitCluster(clusterId)
-  --InfInspect.TryFunc(function(clusterId)--DEBUG
+  --InfLog.PCall(function(clusterId)--DEBUG
   if vars.missionCode~=30050 then
     return
   end
@@ -157,7 +157,7 @@ function this.InitCluster(clusterId)
         local npcName=soldierList[j]
         local gameId=GetGameObjectId(npcName)
         if gameId==NULL_ID then
-          InfMenu.DebugPrint(npcName.." not found")--DEBUG
+          InfLog.DebugPrint(npcName.." not found")--DEBUG
         else
           local newIndex=#npcList+1
           npcList[newIndex]=npcName
@@ -186,7 +186,7 @@ function this.InitCluster(clusterId)
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
-  --InfInspect.TryFunc(function(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)--DEBUG
+  --InfLog.PCall(function(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)--DEBUG
   if not currentChecks.inGame then
     return
   end
@@ -209,7 +209,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
   end
 
   if #npcList==0 then
-    --InfMenu.DebugPrint"Update #npcList==0 aborting"--DEBUG
+    --InfLog.DebugPrint"Update #npcList==0 aborting"--DEBUG
     return
   end
   
@@ -225,7 +225,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
 --      local npcName=npcList[n]
 --      local gameId=GetGameObjectId(npcName)
 --      if gameId==NULL_ID then
---      --InfMenu.DebugPrint("gameId==NULL_ID")
+--      --InfLog.DebugPrint("gameId==NULL_ID")
 --      else
 --      end
 --    end
@@ -239,7 +239,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
 
     local gameId=GetGameObjectId(npcName)
     if gameId==NULL_ID then
-      InfMenu.DebugPrint(npcName.." not found")--DEBUG
+      InfLog.DebugPrint(npcName.." not found")--DEBUG
       return
     end
 
@@ -256,7 +256,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     if #availablePlats>0 then
       platIndex=availablePlats[Random(#availablePlats)]
     else
-      --InfMenu.DebugPrint"#availablePlats==0"--DEBUG
+      --InfLog.DebugPrint"#availablePlats==0"--DEBUG
       platIndex=Random(1,grade)
       --return--CULL
     end
@@ -270,9 +270,9 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     local routeIdx=Random(#platRoutes)
     local route=platRoutes[routeIdx]
     --GOTCHA possible inf loop if #route on plat * maxSoldiersOnSameRoute < maxSoldiersPerPlat
-    --InfMenu.DebugPrint("#platRoutes:"..#platRoutes.." * maxSoldiersOnSameRoute="..(#platRoutes*maxSoldiersOnSameRoute).." maxSoldiersPerPlat:"..maxSoldiersPerPlat)--DEBUG
+    --InfLog.DebugPrint("#platRoutes:"..#platRoutes.." * maxSoldiersOnSameRoute="..(#platRoutes*maxSoldiersOnSameRoute).." maxSoldiersPerPlat:"..maxSoldiersPerPlat)--DEBUG
     if #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat then
-      InfMenu.DebugPrint"InfNPC:Update - WARNING #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat, aborting"--DEBUG
+      InfLog.DebugPrint"InfNPC:Update - WARNING #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat, aborting"--DEBUG
       return
     end
 
@@ -289,7 +289,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     end
     numSoldiersOnRoute[route]=numSoldiersOnRoute[route]+1
 
-    --InfMenu.DebugPrint(npcName .. " from plat "..tostring(lastPlat).." to plat "..platIndex.. " routeIdx ".. routeIdx .. " nextRouteTime "..nextRouteTime)--DEBUG
+    --InfLog.DebugPrint(npcName .. " from plat "..tostring(lastPlat).." to plat "..platIndex.. " routeIdx ".. routeIdx .. " nextRouteTime "..nextRouteTime)--DEBUG
     local command={id="SetSneakRoute",route=route}
     SendCommand(gameId,command)
     local command={id="SwitchRoute",route=route}

@@ -66,7 +66,7 @@ function this.DisablePause()
 end
 function this.EnableBlackLoading(showLoadingTips)
   TppGameStatus.Set("TppMain.lua","S_IS_BLACK_LOADING")
-  if showLoadingTips and not Ivars.debugMode:Is"BLANK_LOADING_SCREEN" then--tex added bypass
+  if showLoadingTips then--tex CULL and not Ivars.debugMode:Is"BLANK_LOADING_SCREEN" then--tex added bypass
     TppUI.StartLoadingTips()
   end
 end
@@ -75,8 +75,8 @@ function this.DisableBlackLoading()
   TppUI.FinishLoadingTips()
 end
 function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
-  InfInspect.TryFuncDebug(function(missionTable)--tex
-    --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")
+  InfLog.PCallDebug(function(missionTable)--tex
+    --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")
     --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUG
     InfMain.OnAllocateTop(missionTable)--tex
     TppWeather.OnEndMissionPrepareFunction()
@@ -298,13 +298,13 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     mvars.mis_baseList=missionTable.sequence.baseList
     TppCheckPoint.RegisterCheckPointList(missionTable.sequence.checkPointList)
   end
-  --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate end")--DEBUG
+  --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate end")--DEBUG
   --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator
   end,missionTable)--
 end
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
-  InfInspect.TryFuncDebug(function(missionTable)--tex
-    --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize begin")--DEBUG
+  InfLog.PCallDebug(function(missionTable)--tex
+    --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize begin")--DEBUG
     --SplashScreen.Show(SplashScreen.Create("dbbinin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640))--tex eagle--tex ghetto as 'does it run?' indicator
     InfMain.OnInitializeTop(missionTable)--tex
     if TppMission.IsFOBMission(vars.missionCode)then
@@ -482,7 +482,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     TppDemo.UpdateNuclearAbolitionFlag()
     TppQuest.AcquireKeyItemOnMissionStart()
     InfMain.OnInitializeBottom(missionTable)--tex
-    --InfMenu.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize end")--DEBUG
+    --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize end")--DEBUG
     --SplashScreen.Show(SplashScreen.Create("dbeonin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.1,0)--tex eagle--tex ghetto as 'does it run?' indicator
   end,missionTable)--tex
 end

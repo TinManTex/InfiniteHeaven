@@ -18,8 +18,8 @@ function this.PrintUserMarker(index)
   local letter=alphaTable[addFlag]
   local gameId=vars.userMarkerGameObjId[index]
   local posString=string.format("%.2f,%.2f,%.2f",x,y,z)
-  InfMenu.DebugPrint("userMarker "..index.." : pos="..posString..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
-  --InfMenu.DebugPrint("userMarker "..index.." : pos="..tostring(x)..","..tostring(y)..","..tostring(z)..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
+  InfLog.DebugPrint("userMarker "..index.." : pos="..posString..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
+  --InfLog.DebugPrint("userMarker "..index.." : pos="..tostring(x)..","..tostring(y)..","..tostring(z)..", addFlag="..tostring(addFlag)..", letter="..tostring(letter)..", gameId="..tostring(gameId))
 end
 function this.PrintUserMarkers()
   --NMC 5 user markers, 0 indexed, compacted on adds and removes ('unset' have valid zeroed/default values) so max is vars.userMarkerSaveCount
@@ -29,21 +29,21 @@ function this.PrintUserMarkers()
     this.PrintUserMarker(index)
   end
 
-  InfMenu.DebugPrint("userMarkerLocationId:"..vars.userMarkerLocationId)
-  InfMenu.DebugPrint("userMarkerSaveCount:"..vars.userMarkerSaveCount)
+  InfLog.DebugPrint("userMarkerLocationId:"..vars.userMarkerLocationId)
+  InfLog.DebugPrint("userMarkerSaveCount:"..vars.userMarkerSaveCount)
 end
 function this.PrintMarkerGameObject(index)
   local gameId=vars.userMarkerGameObjId[index]
   if gameId==NULL_ID then
-    InfMenu.DebugPrint"gameId==NULL_ID"
+    InfLog.DebugPrint"gameId==NULL_ID"
     return
   end
   local typeIndex=GetTypeIndex(gameId)
   local typeStr=InfMain.gameObjectTypeToString[typeIndex]
   local soldierName,cpName=InfMain.ObjectNameForGameId(gameId)
-  InfMenu.DebugPrint(soldierName)
-  InfMenu.DebugPrint(gameId.."="..typeStr)
-  InfMenu.DebugPrint("cpName:"..tostring(cpName))
+  InfLog.DebugPrint(soldierName)
+  InfLog.DebugPrint(gameId.."="..typeStr)
+  InfLog.DebugPrint("cpName:"..tostring(cpName))
 end
 function this.GetLastAddedUserMarkerIndex()
   if vars.userMarkerSaveCount==0 then
@@ -125,7 +125,7 @@ function this.WarpToUserMarker(index)
   local markerPos=nil
   local gameId=vars.userMarkerGameObjId[index]
   if gameId~=NULL_ID then
-    --InfMenu.DebugPrint("gameId~=NULL_ID")--DEBUG
+    --InfLog.DebugPrint("gameId~=NULL_ID")--DEBUG
 
     local typeIndex=GameObject.GetTypeIndex(gameId)
     if typeIndex==TppGameObject.GAME_OBJECT_TYPE_VEHICLE then
@@ -136,12 +136,12 @@ function this.WarpToUserMarker(index)
   end
 
   if markerPos==nil then
-    --InfMenu.DebugPrint("markerPos==nil")--DEBUG
+    --InfLog.DebugPrint("markerPos==nil")--DEBUG
     offSetUp=1.5
     markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index],vars.userMarkerPosZ[index])
   end
 
-  InfMenu.DebugPrint(InfMenu.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ()) 
+  InfLog.DebugPrint(InfMenu.LangString"warped_to_marker".." "..index..":".. markerPos:GetX()..",".. markerPos:GetY().. ","..markerPos:GetZ()) 
   TppPlayer.Warp{pos={markerPos:GetX(),markerPos:GetY()+offSetUp,markerPos:GetZ()},rotY=vars.playerCameraRotation[1]}
 end
 

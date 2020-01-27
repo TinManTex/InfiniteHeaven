@@ -31,7 +31,7 @@ local function GetCurrentCamName()
   --    elseif  PlayerInfo.OrCheckStatus{PlayerStatus.DASH}then
   --      return "PlayerDash"
   --    else
-  --      InfMenu.DebugPrint"UpdateCameraManualMode: unknow PlayerStatus"
+  --      InfLog.DebugPrint"UpdateCameraManualMode: unknow PlayerStatus"
   --    end
   --  else
   return "FreeCam"
@@ -123,7 +123,7 @@ function this.OnActivateCameraAdjust()
   --KLUDGE
   local currentCamName=GetCurrentCamName()
   local currentCamPos=this.ReadPosition(currentCamName)
-  --InfMenu.DebugPrint(currentCamPos:GetX()..","..currentCamPos:GetY()..","..currentCamPos:GetZ())--DEBUG
+  --InfLog.DebugPrint(currentCamPos:GetX()..","..currentCamPos:GetY()..","..currentCamPos:GetZ())--DEBUG
   if currentCamPos:GetX()==0 and currentCamPos:GetY()==0 and currentCamPos:GetZ()==0 then
     local currentPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
     WritePosition(currentCamName,currentPos+cameraOffsetDefault)
@@ -140,7 +140,7 @@ function this.OnDectivateCameraAdjust()
 end
 
 function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
-  --InfInspect.TryFunc(function(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)--DEBUG
+  --InfLog.PCall(function(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)--DEBUG
   if not currentChecks.inGame then
     if Ivars.adjustCameraUpdate:Is(1) then
       Ivars.adjustCameraUpdate:Set(0)
@@ -168,7 +168,7 @@ function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,
 end
 
 function this.DoControlSet(currentChecks)
-  --InfInspect.TryFunc(function(currentChecks)--DEBUG
+  --InfLog.PCall(function(currentChecks)--DEBUG
   local InfButton=InfButton
 
   local isFreeCam=Ivars.cameraMode:Is"CAMERA"
@@ -324,7 +324,7 @@ function this.DoControlSet(currentChecks)
       local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerCameraRotation[1]))
       local camMoveDir=rotYQuat:Rotate(vMoveDir)
       movePosition=movePosition+camMoveDir
-      --InfMenu.DebugPrint("movePosition "..movePosition:GetX()..","..movePosition:GetY()..","..movePosition:GetZ())
+      --InfLog.DebugPrint("movePosition "..movePosition:GetX()..","..movePosition:GetY()..","..movePosition:GetZ())
     end
   end
 

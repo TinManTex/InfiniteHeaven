@@ -143,7 +143,7 @@ function this.OnDamage(gameId,attackId,attackerId)
     if not this.ParasiteEventEnabled() then
       return
     end
-    --InfMenu.DebugPrint"OnDamage para"--DEBUG
+    --InfLog.DebugPrint"OnDamage para"--DEBUG
     --  if harden and not hardened then
     --    GameObject.SendCommand( { type="TppParasite2" }, { id="StartCombat",harden=true } )
     --  end
@@ -162,7 +162,7 @@ function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
   if vars.missionCode~=30250 then
     return
   end
-  --InfMenu.DebugPrint"OnDamage"--DEBUG
+  --InfLog.DebugPrint"OnDamage"--DEBUG
 
   local isHostage=false
   for i,parasiteName in pairs(hostageParasites) do
@@ -175,7 +175,7 @@ function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
 
   if isHostage then
     this.parasiteAttackedCount=this.parasiteAttackedCount+1
-    --InfMenu.DebugPrint(this.parasiteAttackedCount)--DEBUG
+    --InfLog.Add("parasiteAttackedCount "..this.parasiteAttackedCount,true)--DEBUG
 
     if this.parasiteAttackedCount>triggerAttackCount then
       this.parasiteAttackedCount=0
@@ -186,13 +186,13 @@ function this.OnDamageMbqfParasite(gameId,attackId,attackerId)
 end
 
 function this.OnDying(gameId)
-  --InfMenu.DebugPrint"OnDying para"--DEBUG
+  --InfLog.DebugPrint"OnDying para"--DEBUG
   local typeIndex=GameObject.GetTypeIndex(gameId)
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
     if not this.ParasiteEventEnabled() then
       return
     end
-    --InfMenu.DebugPrint"OnDying is para"--DEBUG
+    --InfLog.DebugPrint"OnDying is para"--DEBUG
     --tex in theory dont need to do this since messages is already using parasiteNames as sender
     --  for k,parasiteName in pairs(this.parasiteNames) do
     --    local gameObjectId=GameObject.GetGameObjectId(parasiteName)
@@ -202,13 +202,13 @@ function this.OnDying(gameId)
     --    end
     --  end
     if clearLimit<=0 then
-      InfMenu.DebugPrint"WARNING: OnDying and clearLimit <= 0"--DEBUG
+      InfLog.DebugPrint"WARNING: OnDying and clearLimit <= 0"--DEBUG
       return
     end
     clearLimit=clearLimit-1
-    --InfMenu.DebugPrint("OnDying para clearlimit post"..clearLimit)--DEBUG
+    --InfLog.DebugPrint("OnDying para clearlimit post"..clearLimit)--DEBUG
     if clearLimit==0 then
-      --InfMenu.DebugPrint"OnDying all eliminated"--DEBUG
+      --InfLog.DebugPrint"OnDying all eliminated"--DEBUG
       this.EndEvent()
     end
   end
@@ -220,7 +220,7 @@ function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
   end
 
   numFultonedThisMap=numFultonedThisMap+1
-  --InfMenu.DebugPrint("numFultonedThisMap:"..numFultonedThisMap)--DEBUG
+  --InfLog.DebugPrint("numFultonedThisMap:"..numFultonedThisMap)--DEBUG
 end
 
 function this.FadeInOnGameStart()
@@ -234,15 +234,15 @@ function this.FadeInOnGameStart()
 
   if Ivars.inf_parasiteEvent:Is()>0 then
     if TppMission.IsMissionStart() then
-      --InfMenu.DebugPrint"mission start clear, StartEventTimer"--DEBUG
+      --InfLog.DebugPrint"mission start clear, StartEventTimer"--DEBUG
       Ivars.inf_parasiteEvent:Set(0)
       this.StartEventTimer()
     else
-      --InfMenu.DebugPrint"mission start ContinueEvent"--DEBUG
+      --InfLog.DebugPrint"mission start ContinueEvent"--DEBUG
       this.ContinueEvent()
     end
   else
-    --InfMenu.DebugPrint"mission start StartEventTimer"--DEBUG
+    --InfLog.DebugPrint"mission start StartEventTimer"--DEBUG
     this.StartEventTimer()
   end
 end
@@ -252,7 +252,7 @@ function this.InitEvent()
   this.parasiteAttackedCount=0
 
   if TppMission.IsMissionStart() then
-    --InfMenu.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
+    --InfLog.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
     Ivars.inf_parasiteEvent:Set(0)
   end
 
@@ -277,12 +277,12 @@ function this.StartEventTimer()
     return
   end
 
-  --InfInspect.TryFunc(function()--DEBUG
-  --InfMenu.DebugPrint("Timer_ParasiteEvent start")--DEBUG
+  --InfLog.PCall(function()--DEBUG
+  --InfLog.DebugPrint("Timer_ParasiteEvent start")--DEBUG
   local minute=60
   --local nextEventTime=10--DEBUG
   local nextEventTime=math.random(Ivars.parasitePeriod_MIN:Get()*minute,Ivars.parasitePeriod_MAX:Get()*minute)
-  --InfMenu.DebugPrint("Timer_ParasiteEvent start in "..nextEventTime)--DEBUG
+  --InfLog.DebugPrint("Timer_ParasiteEvent start in "..nextEventTime)--DEBUG
   TimerStop(Timer_ParasiteEventStr)
   TimerStart(Timer_ParasiteEventStr,nextEventTime)
   --end)--
@@ -292,13 +292,13 @@ function this.StartEvent()
   if IsTimerActive(Timer_ParasiteEventStr)then
     TimerStop(Timer_ParasiteEventStr)
   end
-  --InfMenu.DebugPrint"Timer_ParasiteEvent hit"--DEBUG
+  --InfLog.DebugPrint"Timer_ParasiteEvent hit"--DEBUG
   if numFultonedThisMap==#this.parasiteNames then
-    --InfMenu.DebugPrint"StartEvent elimintated all parasites, aborting"--DEBUG
+    --InfLog.DebugPrint"StartEvent elimintated all parasites, aborting"--DEBUG
     return
   end
   if numFultonedThisMap>=#this.parasiteNames then
-    --InfMenu.DebugPrint"StartEvent WARNING, eliminated>num parasites"--DEBUG
+    --InfLog.DebugPrint"StartEvent WARNING, eliminated>num parasites"--DEBUG
     return
   end
 
@@ -310,14 +310,14 @@ function this.StartEvent()
 end
 
 function this.ContinueEvent()
-  --InfMenu.DebugPrint"ContinueEvent hit"--DEBUG
+  --InfLog.DebugPrint"ContinueEvent hit"--DEBUG
   if numFultonedThisMap==#this.parasiteNames then
-    --InfMenu.DebugPrint"StartEvent elimintated all parasites, aborting"--DEBUG
+    --InfLog.DebugPrint"StartEvent elimintated all parasites, aborting"--DEBUG
     this.EndEvent()
     return
   end
   if numFultonedThisMap>=#this.parasiteNames then
-    --InfMenu.DebugPrint"StartEvent WARNING, eliminated>num parasites"--DEBUG
+    --InfLog.DebugPrint"StartEvent WARNING, eliminated>num parasites"--DEBUG
     this.EndEvent()
     return
   end
@@ -327,8 +327,8 @@ function this.ContinueEvent()
 end
 
 function this.ParasiteAppear()
-  --InfInspect.TryFunc(function()--DEBUG
-  --InfMenu.DebugPrint"ParasiteAppear"--DEBUG
+  --InfLog.PCall(function()--DEBUG
+  --InfLog.DebugPrint"ParasiteAppear"--DEBUG
 
   numDownedThisEvent=0
   lastAppearTime=Time.GetRawElapsedTimeSinceStartUp()
@@ -352,7 +352,6 @@ function this.ParasiteAppear()
           this.SetZombie(cpDefine[i],disableDamage,isHalf,cpZombieLife,cpZombieStamina,isMsf)
 
           --tex GOTCHA setfriendlycp seems to be one-way only
-
           local command={id="SetFriendly",enabled=false}
           SendCommand(soldierId,command)
         end
@@ -361,26 +360,26 @@ function this.ParasiteAppear()
   else
     local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPosition)
     if closestLz==nil then
-      InfMenu.DebugPrint"WARNING: StartEvent closestLz==nil"--DEBUG
+      InfLog.DebugPrint"WARNING: StartEvent closestLz==nil"--DEBUG
       return
     end
     if lzPosition==nil then
-      InfMenu.DebugPrint"WARNING: StartEvent lzPosition==nil"--DEBUG
+      InfLog.DebugPrint"WARNING: StartEvent lzPosition==nil"--DEBUG
       return
     end
 
     local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPosition)
     if closestCp==nil then
-      InfMenu.DebugPrint"WARNING: StartEvent closestCp==nil"--DEBUG
+      InfLog.DebugPrint"WARNING: StartEvent closestCp==nil"--DEBUG
       return
     end
     if cpPosition==nil then
-      InfMenu.DebugPrint"WARNING: StartEvent cpPosition==nil"--DEBUG
+      InfLog.DebugPrint"WARNING: StartEvent cpPosition==nil"--DEBUG
       return
     end
 
-    --    InfMenu.DebugPrint(closestLz..":"..math.sqrt(lzDistance))--DEBUG
-    --    InfMenu.DebugPrint(closestCp..":"..math.sqrt(cpDistance))--DEBUG
+    --    InfLog.DebugPrint(closestLz..":"..math.sqrt(lzDistance))--DEBUG
+    --    InfLog.DebugPrint(closestCp..":"..math.sqrt(cpDistance))--DEBUG
 
     local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
     local closestDist=cpDistance
@@ -396,10 +395,10 @@ function this.ParasiteAppear()
 
     --tex TODO doesn't cover visiting lrrp
     if closestPos==cpPosition then
-      --InfMenu.DebugPrint("closestPos==cpPosition")--DEBUG
+      --InfLog.DebugPrint("closestPos==cpPosition")--DEBUG
       local cpDefine=mvars.ene_soldierDefine[closestCp]
       if cpDefine==nil then
-        InfMenu.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUG
+        InfLog.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUG
       else
         for i=1,#cpDefine do
           this.SetZombie(cpDefine[i],disableDamage,isHalf,cpZombieLife,cpZombieStamina)
@@ -407,7 +406,7 @@ function this.ParasiteAppear()
       end
 
       --tex foot lrrps
-      --InfMenu.DebugPrint(closestPos[1]..closestPos[2]..closestPos[3])--DEBUG
+      --InfLog.DebugPrint(closestPos[1]..closestPos[2]..closestPos[3])--DEBUG
 
       local SetZombies=function(soldierNames,cpPosition)
         for i,soldierName in ipairs(soldierNames) do
@@ -416,7 +415,7 @@ function this.ParasiteAppear()
             local soldierPosition=SendCommand(gameId,{id="GetPosition"})
             local soldierCpDistance=TppMath.FindDistance({soldierPosition:GetX(),soldierPosition:GetY(),soldierPosition:GetZ()},cpPosition)
             if soldierCpDistance<escapeDistance then
-              --InfMenu.DebugPrint(soldierName.." close to "..closestCp.. ", zombifying")--DEBUG
+              --InfLog.DebugPrint(soldierName.." close to "..closestCp.. ", zombifying")--DEBUG
               this.SetZombie(soldierName,disableDamage,isHalf,cpZombieLife,cpZombieStamina)
             end
           end
@@ -442,7 +441,7 @@ function this.ParasiteAppear()
   Ivars.inf_parasiteEvent:Set(1)
   clearLimit=#this.parasiteNames-numFultonedThisMap
   this.parasitePos=closestPos
-  --InfMenu.DebugPrint("clearlimit "..clearLimit)--DEBUG
+  --InfLog.DebugPrint("clearlimit "..clearLimit)--DEBUG
 
   --tex after fultoning parasites don't appear, try and reset
   --doesnt work, parasite does appear, but is in fulton pose lol
@@ -460,7 +459,7 @@ function this.ParasiteAppear()
   --tex once one parasite has been fultoned the rest will be stuck in some kind of idle ai state on next appearance
   --forcing combat bypasses this
   if numFultonedThisMap>0 then
-    --InfMenu.DebugPrint"Timer_ParasiteCombat start"--DEBUG
+    --InfLog.DebugPrint"Timer_ParasiteCombat start"--DEBUG
     TimerStart("Timer_ParasiteCombat",4)
   end
 
@@ -474,14 +473,14 @@ function this.StartCombat()
 end
 
 function this.MonitorEvent()
-  --  InfInspect.TryFunc(function()--DEBUG
-  --InfMenu.DebugPrint"MonitorEvent"--DEBUG
+  --  InfLog.PCall(function()--DEBUG
+  --InfLog.DebugPrint"MonitorEvent"--DEBUG
   if Ivars.inf_parasiteEvent:Is(0) then
     return
   end
 
   if this.parasitePos==nil then
-    InfMenu.DebugPrint"WARNING MonitorEvent parasitePos==nil"--DEBUG
+    InfLog.DebugPrint"WARNING MonitorEvent parasitePos==nil"--DEBUG
     return
   end
 
@@ -492,7 +491,7 @@ function this.MonitorEvent()
     outOfRange=true
   end
 
-  --InfMenu.DebugPrint("dist:"..math.sqrt(distSqr))--DEBUG
+  --InfLog.DebugPrint("dist:"..math.sqrt(distSqr))--DEBUG
 
   --tex TppParasites aparently dont support GetPosition, frustrating inconsistancy, you'd figure it would be a function of all gameobjects
   --  for k,parasiteName in pairs(this.parasiteNames) do
@@ -500,7 +499,7 @@ function this.MonitorEvent()
   --    if gameId~=NULL_ID then
   --      local parasitePos=SendCommand(gameId,{id="GetPosition"})
   --      local distSqr=TppMath.FindDistance(playerPos,{parasitePos:GetX(),parasitePos:GetY(),parasitePos:GetZ()})
-  --     -- InfMenu.DebugPrint(parasiteName.." dist:"..math.sqrt(distSqr))--DEBUG
+  --     -- InfLog.DebugPrint(parasiteName.." dist:"..math.sqrt(distSqr))--DEBUG
   --      if distSqr<escapeDistance then
   --        outOfRange=false
   --        break
@@ -509,7 +508,7 @@ function this.MonitorEvent()
   --  end
 
   if outOfRange then
-    --InfMenu.DebugPrint"MonitorEvent: out of range, ending event"--DEBUG
+    --InfLog.DebugPrint"MonitorEvent: out of range, ending event"--DEBUG
     this.EndEvent()
     this.StartEventTimer()
   else
@@ -519,7 +518,7 @@ function this.MonitorEvent()
 end
 
 function this.EndEvent()
-  --InfMenu.DebugPrint"EndEvent"--DEBUG
+  --InfLog.DebugPrint"EndEvent"--DEBUG
   this.forceEvent=false
   this.parasiteAttackedCount=0
   

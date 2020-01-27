@@ -11,8 +11,6 @@ local Enum=TppDefine.Enum
 local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 local TppUiCommand=TppUiCommand
 
-this.MAX_ANNOUNCE_STRING=255 --288--tex sting length announce log can handle before crashing the game, a bit worried that it's actually kind of a random value at 288 (and yeah I manually worked this value out by adjusting a string and reloading and crashing the game till I got it exact lol).
-
 --tex REFACTOR: most of these can be local
 this.currentMenu=InfMenuDefs.heliSpaceMenu
 this.currentMenuOptions=InfMenuDefs.heliSpaceMenu.options
@@ -82,7 +80,7 @@ function this.PreviousOption(incrementMult)
 end
 function this.GetSetting(previousIndex,previousMenuOptions)
   if this.currentMenuOptions==nil then
-    InfMenu.DebugPrint("WARNING: currentMenuOptions == nil!")--DEBUG
+    InfLog.DebugPrint("WARNING: currentMenuOptions == nil!")--DEBUG
     return
   end
 
@@ -95,18 +93,18 @@ function this.GetSetting(previousIndex,previousMenuOptions)
   --        previousOption:OnDeselect()
   --      end
   --    else
-  --      InfMenu.DebugPrint"InfMenu.GetSetting - no previousOption for previousIndex"--DEBUG
+  --      InfLog.DebugPrint"InfMenu.GetSetting - no previousOption for previousIndex"--DEBUG
   --    end
   --  end
 
   local option=this.currentMenuOptions[this.currentIndex]
 
   --  for k,v in pairs(this.currentMenuOptions)do--DEBUG
-  --    InfMenu.DebugPrint("currentMenuOptions "..tostring(k).." "..tostring(v))
+  --    InfLog.DebugPrint("currentMenuOptions "..tostring(k).." "..tostring(v))
   --  end--<
 
   if option==nil then
-    InfMenu.DebugPrint("WARNING: option == nil! currentIndex="..tostring(this.currentIndex))--DEBUG
+    InfLog.DebugPrint("WARNING: option == nil! currentIndex="..tostring(this.currentIndex))--DEBUG
     return
   end
 
@@ -119,7 +117,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
     end
   end
   if IsFunc(option.OnSelect) then
-    option:OnSelect()
+    InfLog.PCall(option.OnSelect,option)
   end
 end
 
@@ -204,7 +202,7 @@ function this.ChangeSetting(option,value)
   end
 
   Ivars.SetSetting(option,newSetting)
-  --InfMenu.DebugPrint("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
+  --InfLog.DebugPrint("DBG:MNU: new currentSetting:" .. newSetting)--tex DEBUG: CULL:
 end
 
 function this.SetCurrent()--tex refresh current setting/re-call OnChange
@@ -217,7 +215,7 @@ end
 function this.ActivateCurrent()--tex run activate function
   local option=this.currentMenuOptions[this.currentIndex]
   if IsFunc(option.OnActivate) then
-    option:OnActivate()
+    InfLog.PCall(option.OnActivate,option)
   else
     this.SetCurrent()
   end
@@ -226,7 +224,7 @@ end
 function this.NextSetting(incrementMult)
   local option=this.currentMenuOptions[this.currentIndex]
   if option==nil then
-    InfMenu.DebugPrint"WARNING: cannot find option for currentindex"
+    InfLog.DebugPrint"WARNING: cannot find option for currentindex"
     return
   end
 
@@ -280,7 +278,7 @@ end
 
 function this.GoMenu(menu,goBack)
   if menu.options==nil then
-    InfMenu.DebugPrint("WARNING: GoMenu menu var "..tostring(menu.name).." is not a menu")
+    InfLog.DebugPrint("WARNING: GoMenu menu var "..tostring(menu.name).." is not a menu")
     return
   end
 
@@ -339,7 +337,7 @@ local itemIndicators={
 }
 
 function this.DisplaySetting(optionIndex,optionNameOnly)
-  --InfInspect.TryFunc(function(optionIndex)--DEBUG
+  --InfLog.PCall(function(optionIndex)--DEBUG
     local option=this.currentMenuOptions[optionIndex]
     local settingText=""
     local settingSuffix=""
@@ -419,26 +417,26 @@ end
 function this.DisplayProfileChangedToCustom(profile)
   TppUiCommand.AnnounceLogView("Profile "..this.LangString(profile.name).." set to Custom")--TODO: ADDLANG:
 end
---tex OFF wont achieve much since the issue is with already posted log lines, and cant delay enough to filter without losing responsiveness
-function this.QueueDisplay(message,messageType)
-  if this.displayQueue[#InfMessageLog.display]==message then
-    return
-  end
-
-  --tex kill front of queue since it will be oldest
-  if #InfMessageLog.display==this.displayQueueSize then
-    table.remove(InfMessageLog.display,1)
-  end
-
-  table.insert(InfMessageLog.display,message)
-end
-function this.DisplayQueue()
-  if #InfMessageLog.display>0 then
-    TppUiCommand.AnnounceLogView(InfMessageLog.display[1])
-    table.remove(InfMessageLog.display,1)
-    this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
-  end
-end
+--tex CULL wont achieve much since the issue is with already posted log lines, and cant delay enough to filter without losing responsiveness
+--function this.QueueDisplay(message,messageType)
+--  if this.displayQueue[#InfMessageLog.display]==message then
+--    return
+--  end
+--
+--  --tex kill front of queue since it will be oldest
+--  if #InfMessageLog.display==this.displayQueueSize then
+--    table.remove(InfMessageLog.display,1)
+--  end
+--
+--  table.insert(InfMessageLog.display,message)
+--end
+--function this.DisplayQueue()
+--  if #InfMessageLog.display>0 then
+--    TppUiCommand.AnnounceLogView(InfMessageLog.display[1])
+--    table.remove(InfMessageLog.display,1)
+--    this.lastDisplay=Time.GetRawElapsedTimeSinceStartUp()
+--  end
+--end
 function this.AutoDisplay()
   if this.autoDisplayRate > 0 then
     if Time.GetRawElapsedTimeSinceStartUp()-this.lastDisplay>this.autoDisplayRate then
@@ -477,11 +475,11 @@ function this.MinSetting()
 end
 function this.ResetSettings()
   for n,menu in pairs(InfMenuDefs.allMenus) do
-    --InfMenu.DebugPrint(menu.name)
+    --InfLog.DebugPrint(menu.name)
     for m,option in pairs(menu.options) do
-      --InfMenu.DebugPrint(option.name)
+      --InfLog.DebugPrint(option.name)
       if option.save then--tex using identifier for all ivar/resetable settings
-        --InfMenu.DebugPrint(option.name)--DEBUG
+        --InfLog.DebugPrint(option.name)--DEBUG
         if option.setting~=option.default then
           Ivars.SetSetting(option,option.default,true)
       end
@@ -507,27 +505,6 @@ function this.Print(message,...)
   else
     TppUiCommand.AnnounceLogView(message)
   end
-end
-
-function this.DebugPrint(message,...)
-  if message==nil then
-    TppUiCommand.AnnounceLogView("nil")
-    return
-  elseif type(message)~="string" then
-    message=tostring(message)
-  end
-
-  if ... then
-  --message=string.format(message,...)--DEBUGNOW
-  end
-
-  while string.len(message)>this.MAX_ANNOUNCE_STRING do
-    local printMessage=string.sub(message,0,this.MAX_ANNOUNCE_STRING)
-    TppUiCommand.AnnounceLogView(printMessage)
-    message=string.sub(message,this.MAX_ANNOUNCE_STRING+1)
-  end
-
-  TppUiCommand.AnnounceLogView(message)
 end
 
 --tex my own shizzy langid stuff since games is too limitied
@@ -623,7 +600,7 @@ function this.CpNameString(cpName,location)
   local languageCode=this.GetLanguageCode()
   local locationCps=InfLang.cpNames[location]
   if locationCps==nil then
-    InfMenu.DebugPrint("WARNING: CpNameString - could not find location "..tostring(location).." in cpNames table")
+    InfLog.DebugPrint("WARNING: CpNameString - could not find location "..tostring(location).." in cpNames table")
     return
   end
   local cps=locationCps[languageCode] or locationCps["eng"]
@@ -670,7 +647,7 @@ end
 
 function this.OnDeactivate()
   this.PrintLangId"menu_off"--"Menu Off"
-  InfMessageLog.display={}
+  --tex CULL InfMessageLog.display={}
   --InfMain.RestoreActionFlag()
   this.DeactivateControlSet()
   InfMain.OnMenuClose()
@@ -688,7 +665,7 @@ end
 
 function this.Update(execCheck)
   local InfMenuDefs=InfMenuDefs
-  --InfInspect.TryFunc(function(execCheck)--DEBUG
+  --InfLog.PCall(function(execCheck)--DEBUG
   --SplashScreen.Show(SplashScreen.Create("debugSplash","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.3,0)--tex eagle--tex ghetto as 'does it run?' indicator --DEBUG
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   --TODO NOTE controlset deactivate on game state change
@@ -709,7 +686,7 @@ function this.Update(execCheck)
 
   --TODO NOTE controlset toggle on button
   if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
-    --InfMenu.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
+    --InfLog.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
     this.ToggleMenu(execCheck)
   end
 
@@ -740,7 +717,7 @@ function this.Update(execCheck)
     if execCheck.inHeliSpace then
       quickMenu=InfQuickMenuDefs.inHeliSpace
     end
-    --InfMenu.DebugPrint"quickMenuOn"--DEBUG
+    --InfLog.DebugPrint"quickMenuOn"--DEBUG
     for button,Func in pairs(quickMenu) do
       if InfButton.OnButtonDown(button) then
         Func(execCheck)
@@ -866,7 +843,7 @@ function this.BuildProfileMenu(profile)
   for ivarName,setting in pairs(profile)do
     local ivar=Ivars[ivarName]
     if ivar==nil then
-      InfMenu.DebugPrint("WARNING: BuildProfileMenu - could not find ivar "..ivarName)--DEBUG
+      InfLog.DebugPrint("WARNING: BuildProfileMenu - could not find ivar "..ivarName)--DEBUG
     else
       revertProfile[ivarName]=ivar.setting
       options[#options+1]=ivar

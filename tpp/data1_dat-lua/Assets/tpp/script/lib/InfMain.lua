@@ -2,8 +2,9 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r181"
+this.modVersion="r182"
 this.modName="Infinite Heaven"
+
 --LOCALOPT:
 local InfMain=this
 local Ivars=Ivars
@@ -32,7 +33,7 @@ end
 function this.RandomSeedRegen()
   this.RandomResetToOsTime()
   Ivars.inf_levelSeed:Set(math.random(0,2147483647))
-  --InfMenu.DebugPrint("new seed "..tostring(gvars.inf_levelSeed))--DEBUG
+  --InfLog.DebugPrint("new seed "..tostring(gvars.inf_levelSeed))--DEBUG
 end
 
 function this.RandomSetToLevelSeed()
@@ -256,7 +257,7 @@ function this.RandomizeCpSubTypeTable()
   local locationName=this.locationNames[vars.locationCode]
   local locationSubTypes=cpSubTypes[locationName]
   if locationSubTypes==nil then
-    InfMenu.DebugPrint("RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))
+    InfLog.DebugPrint("RandomizeCpSubTypeTable: locationSubTypes==nil for location "..tostring(locationName))
     return
   end
 
@@ -274,7 +275,7 @@ end
 function this.ChangePhase(cpName,phase)
   local gameId=GetGameObjectId("TppCommandPost2",cpName)
   if gameId==NULL_ID then
-    InfMenu.DebugPrint("Could not find cp "..cpName)
+    InfLog.DebugPrint("Could not find cp "..cpName)
     return
   end
   local command={id="SetPhase",phase=phase}
@@ -284,7 +285,7 @@ end
 function this.SetKeepAlert(cpName,enable)
   local gameId=GetGameObjectId("TppCommandPost2",cpName)
   if gameId==NULL_ID then
-    InfMenu.DebugPrint("Could not find cp "..cpName)
+    InfLog.DebugPrint("Could not find cp "..cpName)
     return
   end
   local command={id="SetKeepAlert",enable=enable}
@@ -424,7 +425,7 @@ function this.GetClosestCp(position)
   local locationName=InfMain.GetLocationName()
   local cpPositions=this.cpPositions[locationName]
   if cpPositions==nil then
-    InfMenu.DebugPrint("WARNING: GetClosestCp no cpPositions for locationName "..locationName)
+    InfLog.DebugPrint("WARNING: GetClosestCp no cpPositions for locationName "..locationName)
     return nil,nil,nil
   end
 
@@ -433,22 +434,22 @@ function this.GetClosestCp(position)
   local closestPosition=nil
   for cpName,cpPosition in pairs(cpPositions)do
     if cpPosition==nil then
-      InfMenu.DebugPrint("cpPosition==nil for "..tostring(cpName))
+      InfLog.DebugPrint("cpPosition==nil for "..tostring(cpName))
       return
     elseif #cpPosition~=3 then
-      InfMenu.DebugPrint("#cpPosition~=3 for "..tostring(cpName))
+      InfLog.DebugPrint("#cpPosition~=3 for "..tostring(cpName))
       return
     end
 
     local distSqr=TppMath.FindDistance(position,cpPosition)
-    --InfMenu.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
+    --InfLog.DebugPrint(cpName.." dist:"..math.sqrt(distSqr))--DEBUG
     if distSqr<closestDist then
       closestDist=distSqr
       closestCp=cpName
       closestPosition=cpPosition
     end
   end
-  --InfMenu.DebugPrint("Closest cp "..InfMenu.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUG
+  --InfLog.DebugPrint("Closest cp "..InfMenu.CpNameString(closestCp,locationName)..":"..closestCp.." ="..math.sqrt(closestDist))--DEBUG
   local cpId=GetGameObjectId(closestCp)
   if cpId and cpId~=NULL_ID then
     return closestCp,closestDist,closestPosition
@@ -465,7 +466,7 @@ function this.GetClosestLz(position)
   local locationName=InfMain.GetLocationName()
 
   if not TppLandingZone.assaultLzs[locationName] then
-    InfMenu.DebugPrint"WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
+    InfLog.DebugPrint"WARNING: GetClosestLz TppLandingZone.assaultLzs[locationName]==nil"--DEBUG
   end
   local lzTables={
     TppLandingZone.assaultLzs[locationName],
@@ -477,10 +478,10 @@ function this.GetClosestLz(position)
       if coords then
         local cpPos=coords.pos
         if cpPos==nil then
-          InfMenu.DebugPrint("coords.pos==nil for "..dropLzName)
+          InfLog.DebugPrint("coords.pos==nil for "..dropLzName)
           return
         elseif #cpPos~=3 then
-          InfMenu.DebugPrint("#coords.pos~=3 for "..dropLzName)
+          InfLog.DebugPrint("#coords.pos~=3 for "..dropLzName)
           return
         end
 
@@ -516,7 +517,7 @@ local blockQuests={
 function this.BlockQuest(questName)
   --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
   if vars.missionCode==30050 and Ivars.mbWarGamesProfile:Is()>0 then
-    --InfMenu.DebugPrint("actually BlockQuest "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG CULL
+    --InfLog.DebugPrint("actually BlockQuest "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG CULL
     return true
   end
   --tex quest system in respect to this a bit too twisty for me to figure out now, so will just block here
@@ -578,7 +579,7 @@ function this.SetSubsistenceSettings()
     if itemIvar:Is()>0 then
       --TODO: check against developed
       --local currentLevel=Player.GetItemLevel(equip)
-      --InfMenu.DebugPrint(itemIvar.name..":"..itemIvar.setting)--DEBUG
+      --InfLog.DebugPrint(itemIvar.name..":"..itemIvar.setting)--DEBUG
       --tex levels = grades in dev menu, so 1=off since there's no grade 1 for these
       Player.SetItemLevel(itemIvar.equipId,itemIvar.setting)
     end
@@ -769,14 +770,14 @@ function this.Messages()
       --      {msg="VehicleBroken",func=InfReinforce.OnVehicleBrokenReinforce},
       {msg="Returned", --[[sender = "EnemyHeli",--]]
         func = function(gameObjectId)
-        --InfMenu.DebugPrint("GameObject msg: Returned")--DEBUG
+        --InfLog.DebugPrint("GameObject msg: Returned")--DEBUG
         end
       },
       {msg="RequestedHeliTaxi",func=function(gameObjectId,currentLandingZoneName,nextLandingZoneName)
-        --InfMenu.DebugPrint("RequestedHeliTaxi currentLZ:"..currentLandingZoneName.. " nextLZ:"..nextLandingZoneName)--DEBUG
+        --InfLog.DebugPrint("RequestedHeliTaxi currentLZ:"..currentLandingZoneName.. " nextLZ:"..nextLandingZoneName)--DEBUG
         end},
       {msg="StartedPullingOut",func=function()
-        --InfMenu.DebugPrint("StartedPullingOut")--DEBUG
+        --InfLog.DebugPrint("StartedPullingOut")--DEBUG
         if TppMission.IsMbFreeMissions(vars.missionCode) then
         --this.heliSelectClusterId=nil
         end
@@ -784,8 +785,8 @@ function this.Messages()
       --      {
       --        msg = "RoutePoint2",--DEBUG
       --        func = function( gameObjectId, routeId, routeNodeIndex, messageId )
-      --          InfInspect.TryFunc(function()
-      --            InfMenu.DebugPrint("gameObjectId:"..tostring(gameObjectId).." routeId:".. tostring(routeId).." routeNodeIndex:".. tostring(routeNodeIndex).." messageId:".. tostring(messageId))--DEBUG
+      --          InfLog.PCall(function()
+      --            InfLog.DebugPrint("gameObjectId:"..tostring(gameObjectId).." routeId:".. tostring(routeId).." routeNodeIndex:".. tostring(routeNodeIndex).." messageId:".. tostring(messageId))--DEBUG
       --          end)
       --        end
       --      },
@@ -795,7 +796,7 @@ function this.Messages()
     --      {
     --        msg="MotherBaseCurrentClusterLoadStart",
     --        func=function(clusterId)
-    --          InfMenu.DebugPrint"InfMain MotherBaseCurrentClusterLoadStart"--DEBUG
+    --          InfLog.DebugPrint"InfMain MotherBaseCurrentClusterLoadStart"--DEBUG
     --        end,
     --      },
     --OFF CULL unused{msg= "MotherBaseCurrentClusterActivated",func=this.CheckClusterMorale},
@@ -805,17 +806,17 @@ function this.Messages()
     --      {
     --        msg="OnPickUpWeapon",
     --        func=function(playerGameObjectId,equipId,number)
-    --          InfMenu.DebugPrint("OnPickUpWeapon equipId:"..equipId.." number:"..number)--DEBUG
+    --          InfLog.DebugPrint("OnPickUpWeapon equipId:"..equipId.." number:"..number)--DEBUG
     --        end
     --      },
     --      {msg="RideHelicopter",func=function()
-    --        InfMenu.DebugPrint"RideHelicopter"
+    --        InfLog.DebugPrint"RideHelicopter"
     --      end},
     },
     UI={
       --      {msg="EndFadeIn",func=this.FadeIn()},--tex for all fadeins
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
-        --InfMenu.DebugPrint"FadeInOnGameStart"--DEBUG
+        --InfLog.DebugPrint"FadeInOnGameStart"--DEBUG
         this.FadeInOnGameStart()
         InfParasite.FadeInOnGameStart()
       end},
@@ -823,26 +824,26 @@ function this.Messages()
       {msg="EndFadeIn",sender="FadeInOnStartMissionGame",func=function()--fires on: returning to heli from mission
         --  TppUiStatusManager.ClearStatus"AnnounceLog"
         --InfMenu.ModWelcome()
-        --InfMenu.DebugPrint"FadeInOnStartMissionGame"--DEBUG
+        --InfLog.DebugPrint"FadeInOnStartMissionGame"--DEBUG
         --this.FadeInOnGameStart()
         end},
       {msg="EndFadeIn",sender="OnEndGameStartFadeIn",func=function()--fires on: on-foot mother base, both initial and continue
-        --InfMenu.DebugPrint"OnEndGameStartFadeIn"--DEBUG
+        --InfLog.DebugPrint"OnEndGameStartFadeIn"--DEBUG
         this.FadeInOnGameStart()
       end},
       --tex Heli mission-prep ui
       {msg="MissionPrep_EndSlotSelect",func=function()
-        --InfMenu.DebugPrint"MissionPrep_EndSlotSelect"--DEBUG
+        --InfLog.DebugPrint"MissionPrep_EndSlotSelect"--DEBUG
         InfFova.CheckModelChange()
       end},
     --      {msg="MissionPrep_ExitWeaponChangeMenu",func=function()
-    --        InfMenu.DebugPrint"MissionPrep_ExitWeaponChangeMenu"--DEBUG
+    --        InfLog.DebugPrint"MissionPrep_ExitWeaponChangeMenu"--DEBUG
     --      end},
     --      {msg="MissionPrep_EndItemSelect",func=function()
-    --        InfMenu.DebugPrint"MissionPrep_EndItemSelect"--DEBUG
+    --        InfLog.DebugPrint"MissionPrep_EndItemSelect"--DEBUG
     --      end},
     --      {msg="MissionPrep_EndEdit",func=function()
-    --        InfMenu.DebugPrint"MissionPrep_EndEdit"--DEBUG
+    --        InfLog.DebugPrint"MissionPrep_EndEdit"--DEBUG
     --      end},
 
 
@@ -858,18 +859,18 @@ function this.Messages()
     },
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
-        --InfMenu.DebugPrint("MbDvcActSelectLandPoint:"..tostring(InfLZ.str32LzToLz[routeName]).. " "..tostring(clusterId))--DEBUG
+        --InfLog.DebugPrint("MbDvcActSelectLandPoint:"..tostring(InfLZ.str32LzToLz[routeName]).. " "..tostring(clusterId))--DEBUG
         this.heliSelectClusterId=clusterId
       end},
       {msg="MbDvcActSelectLandPointTaxi",func=function(nextMissionId,routeName,layoutCode,clusterId)
-        --InfMenu.DebugPrint("MbDvcActSelectLandPointTaxi:"..tostring(routeName).. " "..tostring(clusterId))--DEBUG
+        --InfLog.DebugPrint("MbDvcActSelectLandPointTaxi:"..tostring(routeName).. " "..tostring(clusterId))--DEBUG
         this.heliSelectClusterId=clusterId
       end},
       {msg="MbDvcActHeliLandStartPos",func=function(set,x,y,z)
-        --InfMenu.DebugPrint("HeliLandStartPos:"..x..","..y..","..z)--DEBUG
+        --InfLog.DebugPrint("HeliLandStartPos:"..x..","..y..","..z)--DEBUG
         end},
       {msg="MbDvcActCallRescueHeli",func=function(param1,param2)
-        --InfMenu.DebugPrint("MbDvcActCallRescueHeli: "..tostring(param1).." ".. tostring(param2))--DEBUG
+        --InfLog.DebugPrint("MbDvcActCallRescueHeli: "..tostring(param1).." ".. tostring(param2))--DEBUG
         end},
     },
     Weather = {
@@ -878,12 +879,12 @@ function this.Messages()
     Block={
       {msg="StageBlockCurrentSmallBlockIndexUpdated",func=function(blockIndexX,blockIndexY,clusterIndex)
         if Ivars.printOnBlockChange:Is(1) then
-          InfMenu.DebugPrint("OnSmallBlockIndex - x:"..blockIndexX..", y:"..blockIndexY.." clusterIndex:"..tostring(clusterIndex))
+          InfLog.DebugPrint("OnSmallBlockIndex - x:"..blockIndexX..", y:"..blockIndexY.." clusterIndex:"..tostring(clusterIndex))
         end
       end},
       {msg="OnChangeLargeBlockState",func=function(blockNameStr32,blockStatus)
         if Ivars.printOnBlockChange:Is(1) then
-          InfMenu.DebugPrint("OnChangeLargeBlockState - blockNameStr32:"..blockNameStr32.." blockStatus:"..blockStatus)
+          InfLog.DebugPrint("OnChangeLargeBlockState - blockNameStr32:"..blockNameStr32.." blockStatus:"..blockStatus)
         end
       end},
       {msg="OnChangeSmallBlockState",func=function(blockNameStr32,blockStatus)
@@ -897,13 +898,13 @@ function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 
 function this.OnDead(gameId,attackerId,playerPhase,deadMessageFlag)
-  --InfMenu.DebugPrint("InfMain.OnDead")--DEBUG
+  --InfLog.DebugPrint("InfMain.OnDead")--DEBUG
 
   if true then return end
   --  local heliId=GetGameObjectId(TppReinforceBlock.REINFORCE_HELI_NAME)--CULL not for heli I guess
   --  if heliId~=NULL_ID then
   --    if heliId==gameId then
-  --    --InfMenu.DebugPrint("InfMain.OnDead is heli")
+  --    --InfLog.DebugPrint("InfMain.OnDead is heli")
   --    end
   --  end
 
@@ -951,15 +952,15 @@ function this.OnDamage(gameId,attackId,attackerId)
   end
 
   if Tpp.IsPlayer(attackerId) then
-    --InfMenu.DebugPrint"OnDamage attacked by player"
+    --InfLog.DebugPrint"OnDamage attacked by player"
     local soldierAlertOnHeavyVehicleDamage=Ivars.soldierAlertOnHeavyVehicleDamage:Get()
     if soldierAlertOnHeavyVehicleDamage>0 then
       if AttackIsVehicle(attackId) then
-        --InfMenu.DebugPrint"OnDamage AttackIsVehicle"
+        --InfLog.DebugPrint"OnDamage AttackIsVehicle"
         for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do--tex TODO:find or build a better soldierid>cpid lookup
           if soldierIds[gameId]~=nil then
             if TppEnemy.GetPhaseByCPID(cpId)<soldierAlertOnHeavyVehicleDamage then
-              --InfMenu.DebugPrint"OnDamage found soldier in idlist"
+              --InfLog.DebugPrint"OnDamage found soldier in idlist"
               local command={id="SetPhase",phase=soldierAlertOnHeavyVehicleDamage}
               SendCommand(cpId,command)
               break
@@ -976,15 +977,15 @@ function this.OnFultonVehicle(vehicleId)
 --tex not actually that useful, need to alert nearby cps instead
 --  local cpAlertOnVehicleFulton=Ivars.cpAlertOnVehicleFulton:Get()
 --  if cpAlertOnVehicleFulton>0 then--tex
---    InfMenu.DebugPrint"cpAlertOnVehicleFulton>0"--DEBUG
+--    InfLog.DebugPrint"cpAlertOnVehicleFulton>0"--DEBUG
 --    local riderIdArray=SendCommand(vehicleId,{id="GetRiderId"})
 --    for seatIndex,riderId in ipairs(riderIdArray) do
 --      if seatIndex==1 then
 --        if riderId~=NULL_ID then
---          InfMenu.DebugPrint"vehicle has driver"--DEBUG
+--          InfLog.DebugPrint"vehicle has driver"--DEBUG
 --          for cpId,soldierIds in pairs(mvars.ene_soldierIDList)do
 --            if soldierIds[riderId]~=nil then
---              InfMenu.DebugPrint"found rider cp"--DEBUG
+--              InfLog.DebugPrint"found rider cp"--DEBUG
 --              if TppEnemy.GetPhaseByCPID(cpId)<cpAlertOnVehicleFulton then
 --                local command={id="SetPhase",phase=cpAlertOnVehicleFulton}
 --                SendCommand(cpId,command)
@@ -1042,7 +1043,7 @@ function this.OnEnterACC()
 
   if not appliedProfiles then
     appliedProfiles=true
-    --InfMenu.DebugPrint"SetupInfProfiles"--DEBUG
+    --InfLog.DebugPrint"SetupInfProfiles"--DEBUG
     local profileNames=Ivars.SetupInfProfiles()
     Ivars.ApplyInfProfiles(profileNames)
   end
@@ -1103,7 +1104,7 @@ local updateIvars={
 
 --tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
 function this.OnInitializeTop(missionTable)
-  --InfInspect.TryFunc(function(missionTable)--DEBUG
+  --InfLog.PCall(function(missionTable)--DEBUG
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
@@ -1115,7 +1116,7 @@ function this.OnInitializeTop(missionTable)
     this.numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
     this.reserveSoldierNames=this.BuildReserveSoldierNames(this.numReserveSoldiers,this.reserveSoldierNames)
     this.soldierPool=this.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
-    --InfMenu.DebugPrint("Init #this.soldierPool:"..#this.soldierPool)--DEBUG
+    --InfLog.DebugPrint("Init #this.soldierPool:"..#this.soldierPool)--DEBUG
 
     if IsTable(enemyTable.soldierDefine) then
       if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
@@ -1155,7 +1156,7 @@ function this.OnInitializeTop(missionTable)
   --end,missionTable)--DEBUG
 end
 function this.OnInitializeBottom(missionTable)
-  ---InfInspect.TryFunc(function(missionTable)--DEBUG
+  ---InfLog.PCall(function(missionTable)--DEBUG
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
@@ -1167,7 +1168,7 @@ function this.OnInitializeBottom(missionTable)
         for cpName,layerTable in pairs(interrogationTable)do
           local cpId=GetGameObjectId("TppCommandPost2",cpName)
           if cpId==NULL_ID then
-            InfMenu.DebugPrint"enableInfInterrogation interrogationTable cpId==NULL_ID"--DEBUG
+            InfLog.DebugPrint"enableInfInterrogation interrogationTable cpId==NULL_ID"--DEBUG
           else
             --tex TODO KLUDGE, cant actually see how it's reset normally,
             --but it doesn't seem to trigger unless I do
@@ -1194,7 +1195,7 @@ function this.OnAllocateTop(missionTable)
 end
 --via TppMain
 function this.OnMissionCanStartBottom()
-  --InfInspect.TryFunc(function()--DEBUG
+  --InfLog.PCall(function()--DEBUG
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
@@ -1237,7 +1238,7 @@ function this.OnMissionCanStartBottom()
 end
 
 function this.Init(missionTable)--tex called from TppMain.OnInitialize
-  --InfInspect.TryFunc(function(missionTable)--DEBUG
+  --InfLog.PCall(function(missionTable)--DEBUG
   this.abortToAcc=false
 
   if TppMission.IsFOBMission(vars.missionCode) then
@@ -1287,7 +1288,7 @@ function this.AbortMissionTop(abortInfo)
     return
   end
 
-  --InfMenu.DebugPrint("AbortMissionTop "..vars.missionCode)--DEBUG
+  --InfLog.DebugPrint("AbortMissionTop "..vars.missionCode)--DEBUG
   InfMain.RegenSeed(vars.missionCode,abortInfo.nextMissionId)
 
   InfGameEvent.DisableEvent()
@@ -1377,7 +1378,7 @@ function this.UpdateExecChecks(currentChecks)
     if not currentChecks.inHeliSpace then
       currentChecks.initialAction=svars.ply_isUsedPlayerInitialAction--VERIFY that start on ground catches this (it's triggered on checkpoint save DOESNT catch motherbase ground start
       --if not initialAction then--DEBUG
-      --InfMenu.DebugPrint"not initialAction"
+      --InfLog.DebugPrint"not initialAction"
       --end
       currentChecks.inSupportHeli=Tpp.IsHelicopter(playerVehicleId)--tex VERIFY
       currentChecks.inGroundVehicle=Tpp.IsVehicle(playerVehicleId) and not currentChecks.inSupportHeli-- or Tpp.IsEnemyWalkerGear(playerVehicleId)?? VERIFY
@@ -1390,7 +1391,7 @@ function this.UpdateExecChecks(currentChecks)
 end
 
 function this.Update()
-  InfInspect.TryFuncDebug(function()--DEBUG
+  InfLog.PCallDebug(function()--DEBUG
     local InfMenu=InfMenu
     if TppMission.IsFOBMission(vars.missionCode) then
       return
@@ -1443,7 +1444,7 @@ end
 
 function this.ExecInit(currentChecks,execChecks,ExecInitFunc)
   if execChecks==nil then
-    InfMenu.DebugPrint"update ivar has no execChecks var, aborting"
+    InfLog.DebugPrint"update ivar has no execChecks var, aborting"
     return
   end
   --  for check,ivarCheck in ipairs(execChecks) do
@@ -1461,7 +1462,7 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   end
 
   if execChecks==nil then
-    InfMenu.DebugPrint"update ivar has no execChecks var, aborting"
+    InfLog.DebugPrint"update ivar has no execChecks var, aborting"
     return
   end
   for check,ivarCheck in pairs(execChecks) do
@@ -1471,7 +1472,7 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   end
 
   if not IsFunc(ExecUpdateFunc) then
-    InfMenu.DebugPrint"ExecUpdateFunc is not a function"
+    InfLog.DebugPrint"ExecUpdateFunc is not a function"
     return
   end
 
@@ -1490,7 +1491,7 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   execState.nextUpdate=currentTime+updateRate
 
   --if currentChecks.inGame then
-  -- InfMenu.DebugPrint("currentTime: "..tostring(currentTime).." updateRate:"..tostring(updateRate) .." nextUpdate:"..tostring(execState.nextUpdate))
+  -- InfLog.DebugPrint("currentTime: "..tostring(currentTime).." updateRate:"..tostring(updateRate) .." nextUpdate:"..tostring(execState.nextUpdate))
   --end
 end
 
@@ -1714,10 +1715,10 @@ function this.SetQuietHumming(hummingFlag)
   local gameObjectId = GameObject.GetGameObjectIdByIndex("TppBuddyQuiet2", 0)
 
   if gameObjectId ~= NULL_ID then
-    --InfMenu.DebugPrint("sethumming:"..tostring(hummingFlag))--DEBUG
+    --InfLog.DebugPrint("sethumming:"..tostring(hummingFlag))--DEBUG
     SendCommand(gameObjectId, command)
   else
-  --InfMenu.DebugPrint"no TppBuddyQuiet2 found"--DEBUG
+  --InfLog.DebugPrint"no TppBuddyQuiet2 found"--DEBUG
   end
 end
 
@@ -1863,7 +1864,7 @@ function this.ResetObjectPool(objectType,objectNames)
     local objectName=objectNames[i]
     local gameId=GetGameObjectId(objectType,objectName)
     if gameId==NULL_ID then
-    --InfMenu.DebugPrint(objectName.."==NULL_ID")--DEBUG
+    --InfLog.DebugPrint(objectName.."==NULL_ID")--DEBUG
     else
       pool[#pool+1]=objectName
     end
@@ -1907,7 +1908,7 @@ function this.BuildCpPool(soldierDefine)
   for cpName,cpDefine in pairs(soldierDefine)do
     local cpId=GetGameObjectId("TppCommandPost2",cpName)
     if cpId==NULL_ID then
-      InfMenu.DebugPrint("AddLrrps soldierDefine "..cpName.."==NULL_ID")--DEBUG
+      InfLog.DebugPrint("AddLrrps soldierDefine "..cpName.."==NULL_ID")--DEBUG
     else
       --if #cpDefine==0 then --OFF wont be empty on restart from checkpoint
       --tex cp is labeled _lrrp
@@ -1918,7 +1919,7 @@ function this.BuildCpPool(soldierDefine)
       end
     end
   end
-  --InfMenu.DebugPrint("lrrp #cpPool:"..#cpPool)--DEBUG
+  --InfLog.DebugPrint("lrrp #cpPool:"..#cpPool)--DEBUG
   return cpPool
 end
 
@@ -1946,7 +1947,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
           local baseTypeInfo=InfVehicle.vehicleBaseTypes[vehicleInfo.baseType]
           if baseTypeInfo then
             numSeats=math.random(math.min(numSeats,baseTypeInfo.seats),baseTypeInfo.seats)
-            --InfMenu.DebugPrint(cpDefine.lrrpVehicle .. " numVehSeats "..numSeats)--DEBUG
+            --InfLog.DebugPrint(cpDefine.lrrpVehicle .. " numVehSeats "..numSeats)--DEBUG
           end
         end
       end
@@ -1957,7 +1958,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
       --      for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
       --        for i,vehicleName in ipairs(convoyVehicles)do
       --          if cpDefine.lrrpVehicle==vehicleName then
-      --            InfMenu.DebugPrint(vehicleName .." seatDelta "..seatDelta .. " #soldierPool "..#this.soldierPool)
+      --            InfLog.DebugPrint(vehicleName .." seatDelta "..seatDelta .. " #soldierPool "..#this.soldierPool)
       --            isConvoy=true
       --            break
       --          end
@@ -1969,7 +1970,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
       elseif seatDelta>0 then
         local soldiersAdded=FillList(seatDelta,this.soldierPool,cpDefine)
         --        if isConvoy then--DEBUG
-        --          InfInspect.PrintInspect(soldiersAdded)
+        --          InfLog.PrintInspect(soldiersAdded)
         --        end--
       end
       --if lrrpVehicle<
@@ -1977,7 +1978,7 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
     --for soldierdefine<
   end
   --    local poolChange=#this.soldierPool-initPoolSize--DEBUG
-  --    InfMenu.DebugPrint("pool change:"..poolChange)--DEBUG
+  --    InfLog.DebugPrint("pool change:"..poolChange)--DEBUG
 
   InfMain.RandomResetToOsTime()
 end
@@ -2012,39 +2013,39 @@ function this.AddLrrps(soldierDefine,travelPlans)
   for n,cpName in pairs(baseNames)do
     local cpDefine=soldierDefine[cpName]
     if cpDefine==nil then
-    --InfMenu.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
+    --InfLog.DebugPrint(tostring(cpName).." cpDefine==nil")--DEBUG
     else
       local cpId=GetGameObjectId("TppCommandPost2",cpName)
       if cpId==NULL_ID then
-        InfMenu.DebugPrint("baseNames "..tostring(cpName).." cpId==NULL_ID")--DEBUG
+        InfLog.DebugPrint("baseNames "..tostring(cpName).." cpId==NULL_ID")--DEBUG
       else
         baseNameBag:Add(cpName)
       end
     end
   end
 
-  --InfMenu.DebugPrint("#baseNameBag:"..baseNameBag:Count())--DEBUG
+  --InfLog.DebugPrint("#baseNameBag:"..baseNameBag:Count())--DEBUG
 
   --tex one lrrp per two bases (start at one, head to next) is a nice target for num of lrrps, but lrrp cps or soldiercount may run out first
   while #this.soldierPool-reserved>0 do
     --tex the main limiter, available empty cps to use for lrrps
     if #cpPool==0 then
-      --InfMenu.DebugPrint"#cpPool==0"--DEBUG
+      --InfLog.DebugPrint"#cpPool==0"--DEBUG
       break
     end
     if #this.soldierPool==0 then
-      --InfMenu.DebugPrint"#soldierPool==0"--DEBUG
+      --InfLog.DebugPrint"#soldierPool==0"--DEBUG
       break
     end
 
     local lrrpSize=2 --TUNE WIP custom lrrp size OFF to give coverage till I can come up with something better math.random(minSize,maxSize)
     --tex TODO: stop it from eating reserved
-    --InfMenu.DebugPrint("lrrpSize "..lrrpSize)--DEBUG
+    --InfLog.DebugPrint("lrrpSize "..lrrpSize)--DEBUG
 
     local cpName=cpPool[#cpPool]
     cpPool[#cpPool]=nil
 
-    --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
+    --InfLog.DebugPrint("cpName:"..tostring(cpName))--DEBUG
 
     local cpDefine={}
     soldierDefine[cpName]=cpDefine--tex GOTCHA clearing the cp here, wheres in AddWildCards we are modding existing
@@ -2069,9 +2070,9 @@ function this.AddLrrps(soldierDefine,travelPlans)
 
     numLrrps=numLrrps+1
   end
-  --  InfMenu.DebugPrint("num lrrps"..numLrrps)--DEBUG
-  --  InfMenu.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
-  --  InfMenu.DebugPrint("#cpPool:"..#cpPool)--DEBUG
+  --  InfLog.DebugPrint("num lrrps"..numLrrps)--DEBUG
+  --  InfLog.DebugPrint("#soldierPool:"..#this.soldierPool)--DEBUG
+  --  InfLog.DebugPrint("#cpPool:"..#cpPool)--DEBUG
 
   --Fill rest. can just do straight cpDefine order since they're build randomly anyway
   --GOTACHA: doesn't honor reserve, not that I'm using it anyway
@@ -2102,7 +2103,7 @@ this.numWildCards=10
 this.numWildCardFemales=5
 --ASSUMPTION, ordered after vehicle cpdefines have been modified
 function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)
-  --InfInspect.TryFunc(function(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)--DEBUG
+  --InfLog.PCall(function(soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)--DEBUG
 
   if not (Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck()) then
     return
@@ -2110,11 +2111,11 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
   local InfEneFova=InfEneFova
   if not InfEneFova.inf_wildCardFemaleFaceList or #InfEneFova.inf_wildCardFemaleFaceList==0  then
-    InfMenu.DebugPrint"AddWildCards InfEneFova.inf_wildCardFemaleFaceList not set up, aborting"
+    InfLog.DebugPrint"AddWildCards InfEneFova.inf_wildCardFemaleFaceList not set up, aborting"
     return
   end
   if not InfEneFova.inf_wildCardMaleFaceList or #InfEneFova.inf_wildCardMaleFaceList==0  then
-    InfMenu.DebugPrint"AddWildCards InfEneFova.inf_wildCardMaleFaceList not set up, aborting"
+    InfLog.DebugPrint"AddWildCards InfEneFova.inf_wildCardMaleFaceList not set up, aborting"
     return
   end
 
@@ -2130,7 +2131,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     if #cpDefine>0 then
       local cpId=GetGameObjectId("TppCommandPost2",cpName)
       if cpId==NULL_ID then
-        InfMenu.DebugPrint"AddWildCards soldierDefine cpId==NULL"--DEBUG
+        InfLog.DebugPrint"AddWildCards soldierDefine cpId==NULL"--DEBUG
       else
         --tex TODO: allow quest_cp, but regenerate soldier on quest load
         if cpName=="quest_cp" then
@@ -2189,15 +2190,14 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
   --TUNE:
   --tex GOTCHA LIMIT TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT=16
-  --InfMenu.DebugPrint("#baseNamePool:"..#baseNamePool)--DEBUG
+  --InfLog.DebugPrint("#baseNamePool:"..#baseNamePool)--DEBUG
   --this.numWildCards=math.max(1,math.ceil(#baseNamePool/4))--SYNC: MAX_WILDCARD_FACES
   this.numWildCards=math.min(TppDefine.ENEMY_FOVA_UNIQUE_SETTING_COUNT,this.numWildCards)
   --tex shifted outside of function-- this.numWildCardFemales=math.max(1,math.ceil(numWildCards/2))--SYNC: MAX_WILDCARD_FACES
-  --InfMenu.DebugPrint("numwildcards: "..numWildCards .. " numFemale:"..this.numWildCardFemales)--DEBUG
+  --InfLog.DebugPrint("numwildcards: "..numWildCards .. " numFemale:"..this.numWildCardFemales)--DEBUG
 
-  --  InfMenu.DebugPrint"ene_wildCardFaceList"--DEBUG >
-  --  local ins=InfInspect.Inspect(InfEneFova.inf_wildCardFaceList)
-  --  InfMenu.DebugPrint(ins)--<
+  --  InfLog.DebugPrint"ene_wildCardFaceList"--DEBUG >
+  --  InfLog.PrintInspect(InfEneFova.inf_wildCardFaceList)--<
 
   this.ene_wildCardSoldiers={}
   this.ene_femaleWildCardSoldiers={}
@@ -2206,16 +2206,16 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
   local numFemales=0
   local maleFaceIdPool=this.ResetPool(InfEneFova.inf_wildCardMaleFaceList)
   local femaleFaceIdPool=this.ResetPool(InfEneFova.inf_wildCardFemaleFaceList)
-  --InfMenu.DebugPrint("#maleFaceIdPool:"..#maleFaceIdPool.." #femaleFaceIdPool:"..#femaleFaceIdPool)--DEBUG
+  --InfLog.DebugPrint("#maleFaceIdPool:"..#maleFaceIdPool.." #femaleFaceIdPool:"..#femaleFaceIdPool)--DEBUG
 
   for i=1,this.numWildCards do
     if #baseNamePool==0 then
-      InfMenu.DebugPrint"#baseNamePool==0"--DEBUG
+      InfLog.DebugPrint"#baseNamePool==0"--DEBUG
       break
     end
 
     local cpName=this.GetRandomPool(baseNamePool)
-    --InfMenu.DebugPrint("cpName:"..tostring(cpName))--DEBUG
+    --InfLog.DebugPrint("cpName:"..tostring(cpName))--DEBUG
 
     local cpDefine=soldierDefine[cpName]
     --local wildCardsPerCp=1
@@ -2227,7 +2227,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       --      if #this.soldierPool>0 then
       --        local soldierName=this.soldierPool[#this.soldierPool]
       --        if soldierName then
-      --      --          InfMenu.DebugPrint("addwild pool "..soldierName)--DEBUG
+      --      --          InfLog.DebugPrint("addwild pool "..soldierName)--DEBUG
       --          table.insert(cpDefine,soldierName)
       --          table.remove(this.soldierPool)--pop
       --        end
@@ -2253,7 +2253,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       end
 
       if #faceIdPool==0 then
-        InfMenu.DebugPrint"#faceIdPool too small, aborting"--DEBUG
+        InfLog.DebugPrint"#faceIdPool too small, aborting"--DEBUG
         break
       end
 
@@ -2262,7 +2262,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
       if isFemale then
         local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
         if not bodyInfo or not bodyInfo.bodyId then
-          InfMenu.DebugPrint("WARNING no bodyinfo for wildcard")--DEBUG
+          InfLog.DebugPrint("WARNING no bodyinfo for wildcard")--DEBUG
         else
           bodyId=bodyInfo.bodyId
           if bodyId and type(bodyId)=="table"then
@@ -2280,7 +2280,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
         if uniqueSettings[i].name==soldierName then
           hasSetting=true
           if isFemale and not FaceIsFemale(uniqueSettings[i].faceId) then
-            InfMenu.DebugPrint("WARNING: AddWildCards "..soldierName.." marked as female and uniqueSetting face not female")--DEBUG
+            InfLog.DebugPrint("WARNING: AddWildCards "..soldierName.." marked as female and uniqueSetting face not female")--DEBUG
           end
         end
       end
@@ -2290,7 +2290,7 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
 
       local gameObjectId = GetGameObjectId( "TppSoldier2", soldierName )
       if gameObjectId==NULL_ID then
-        InfMenu.DebugPrint"AddWildCards gameObjectId==NULL_ID"--DEBUG
+        InfLog.DebugPrint"AddWildCards gameObjectId==NULL_ID"--DEBUG
       else
         local command={id="UseExtendParts",enabled=isFemale}
         SendCommand(gameObjectId,command)
@@ -2314,16 +2314,15 @@ function this.AddWildCards(soldierDefine,soldierTypes,soldierSubTypes,soldierPow
     end
   end
 
-  --InfMenu.DebugPrint("numadded females:"..tostring(numFemales))--DEBUG
+  --InfLog.DebugPrint("numadded females:"..tostring(numFemales))--DEBUG
 
   --  --DEBUG
   --  for n,soldierName in pairs(this.ene_wildCardSoldiers)do
-  --    InfMenu.DebugPrint(soldierName)
-  --    local ins=InfInspect.Inspect(soldierPowerSettings[soldierName])
-  --    InfMenu.DebugPrint(ins)
+  --    InfLog.DebugPrint(soldierName)
+  --    InfLog.PrintInspect(soldierPowerSettings[soldierName])
   -- end
 
-  --InfMenu.DebugPrint("num wildCards"..numLrrps)--DEBUG
+  --InfLog.DebugPrint("num wildCards"..numLrrps)--DEBUG
   InfMain.RandomResetToOsTime()
   --end,soldierDefine,soldierTypes,soldierSubTypes,soldierPowerSettings,soldierPersonalAbilitySettings)--DEBUG
 end
@@ -2517,14 +2516,14 @@ end
 
 
 function this.ClearStatus()
-  InfInspect.TryFunc(function()
+  InfLog.PCall(function()
     local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
     SplashScreen.Show(splash,0,0.3,0)
 
     vars.playerDisableActionFlag=PlayerDisableAction.NONE
     Player.SetPadMask{settingName="AllClear"}
     Tpp.SetGameStatus{target="all",enable=true,scriptName="InfMain.lua"}
-    InfMenu.DebugPrint"Cleared status"
+    InfLog.DebugPrint"Cleared status"
   end)
 end
 
@@ -2611,7 +2610,7 @@ function this.ClearMoraleInfo()
 end
 
 function this.PrintMoraleInfo()
-  InfMenu.DebugPrint("saluteRewards:"..saluteRewards)
+  InfLog.DebugPrint("saluteRewards:"..saluteRewards)
 end
 
 function this.GetTotalSalutes()
@@ -2623,25 +2622,24 @@ function this.GetTotalSalutes()
 end
 
 function this.CheckSalutes()
-  --InfInspect.TryFunc(function()--DEBUG
-  InfMenu.DebugPrint"salute!"--DEBUGNOW
+  --InfLog.PCall(function()--DEBUG
   if (vars.missionCode==30050 or vars.missionCode==30250) and Ivars.mbMoraleBoosts:Is(1) then
     if vars.missionCode==30250 then--PATCHUP
       rewardOnSalutesCount=6--tex not so many out there, plus they get lonely
     end
-InfMenu.DebugPrint"salute2"--DEBUGNOW
+
     local currentCluster=mtbs_cluster.GetCurrentClusterId()
 
     saluteClusterCounts[currentCluster]=saluteClusterCounts[currentCluster]+1
     local totalSalutes=this.GetTotalSalutes()
-    --InfMenu.DebugPrint("SaluteRaiseMorale cluster "..currentCluster.." count:"..saluteClusterCounts[currentCluster].. " total sulutes:"..totalSalutes)--DEBUG
-    --InfInspect.PrintInspect(saluteClusterCounts)--DEBUG
+    --InfLog.DebugPrint("SaluteRaiseMorale cluster "..currentCluster.." count:"..saluteClusterCounts[currentCluster].. " total sulutes:"..totalSalutes)--DEBUG
+    --InfLog.PrintInspect(saluteClusterCounts)--DEBUG
 
     local modTotalSalutes=totalSalutes%rewardOnSalutesCount
-    --InfMenu.DebugPrint("totalSalutes % rewardSalutesCount ="..modTotalSalutes)--DEBUG
+    --InfLog.DebugPrint("totalSalutes % rewardSalutesCount ="..modTotalSalutes)--DEBUG
     if modTotalSalutes==0 then
       saluteRewards=saluteRewards+1
-      --InfMenu.DebugPrint("REWARD for "..totalSalutes.." salutes")--DEBUG
+      --InfLog.DebugPrint("REWARD for "..totalSalutes.." salutes")--DEBUG
       InfMenu.PrintLangId"mb_morale_visit_noticed"
     end
 
@@ -2651,10 +2649,10 @@ InfMenu.DebugPrint"salute2"--DEBUGNOW
         totalClustersVisited=totalClustersVisited+1
       end
     end
-    --InfMenu.DebugPrint("totalClustersVisited:"..totalClustersVisited)--DEBUG
+    --InfLog.DebugPrint("totalClustersVisited:"..totalClustersVisited)--DEBUG
     if rewardOnClustersCount[totalClustersVisited] and clusterRewards[totalClustersVisited]==false then
       clusterRewards[totalClustersVisited]=true
-      --InfMenu.DebugPrint("REWARD for ".. totalClustersVisited .." clusters visited")--DEBUG
+      --InfLog.DebugPrint("REWARD for ".. totalClustersVisited .." clusters visited")--DEBUG
       InfMenu.PrintLangId"mb_morale_visit_noticed"
     end
 
@@ -2666,11 +2664,11 @@ end
 --clusterId indexed from 0
 --CULL
 function this.CheckClusterMorale(clusterId)
-  InfInspect.TryFunc(function(clusterId)
+  InfLog.PCall(function(clusterId)
     if vars.missionCode==30050 and Ivars.mbMoraleBoosts:Is(1) then
-      InfMenu.DebugPrint("MotherBaseCurrentClusterActivated "..clusterId)--DEBUG
+      InfLog.DebugPrint("MotherBaseCurrentClusterActivated "..clusterId)--DEBUG
       visitedClusterCounts[clusterId+1]=true
-      InfInspect.PrintInspect(visitedClusterCounts)--DEBUG
+      InfLog.PrintInspect(visitedClusterCounts)--DEBUG
     end
   end,clusterId)
 end
@@ -2695,7 +2693,7 @@ function this.CheckMoraleReward()
       moraleBoost=moraleBoost+longVisitRewards
     end
 
-    --InfMenu.DebugPrint("Global moral boosted by "..moraleBoost.." by visit")--DEBUG
+    --InfLog.DebugPrint("Global moral boosted by "..moraleBoost.." by visit")--DEBUG
     if moraleBoost>0 then
       InfMenu.PrintLangId"mb_morale_boosted"
       TppMotherBaseManagement.IncrementAllStaffMorale{morale=moraleBoost}
@@ -2729,7 +2727,7 @@ function this.StartLongMbVisitClock()
 end
 function this.OnMbVisitDay(sender,time)
   if vars.missionCode==30050 or vars.missionCode==30250 then
-    --InfMenu.DebugPrint"OnMbVisitDay"--DEBUG
+    --InfLog.DebugPrint"OnMbVisitDay"--DEBUG
     visitDaysCount=visitDaysCount+1
     if visitDaysCount>0 then
       local modLongVisit=visitDaysCount%rewardOnVisitDaysCount
@@ -2773,7 +2771,7 @@ end
 local maxSoldiersOnPlat=9
 
 function this.ModifyEnemyAssetTable()
-  --InfInspect.TryFunc(function()--DEBUG
+  --InfLog.PCall(function()--DEBUG
   if vars.missionCode~=30050 then
     return
   end
@@ -2804,7 +2802,7 @@ function this.ModifyEnemyAssetTable()
 
         local soldierList=platInfo.soldierList
         --        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
-        --        InfMenu.DebugPrint("cluster "..clusterId.. " "..platName.." #soldierListpre "..#soldierList)--DEBUG
+        --        InfLog.DebugPrint("cluster "..clusterId.. " "..platName.." #soldierListpre "..#soldierList)--DEBUG
         --        end--<
 
         local sneakRoutes=platInfo.soldierRouteList.Sneak[1].inPlnt
@@ -2837,15 +2835,15 @@ function this.ModifyEnemyAssetTable()
         soldierCountFinal=soldierCountFinal+#soldierList
         --        if clusterId==mtbs_cluster.GetCurrentClusterId() then--DEBUG>
         --          local totalRouteCount=#sneakRoutes+#nightRoutes
-        --          InfMenu.DebugPrint("cluster "..clusterId.. " "..platName.. " minRouteCount "..minRouteCount.." totalRouteCount "..totalRouteCount.." numToAdd "..numToAdd.." #soldierList "..#soldierList)--DEBUG
-        --          --InfInspect.PrintInspect(soldierList)--DEBUG
+        --          InfLog.DebugPrint("cluster "..clusterId.. " "..platName.. " minRouteCount "..minRouteCount.." totalRouteCount "..totalRouteCount.." numToAdd "..numToAdd.." #soldierList "..#soldierList)--DEBUG
+        --          --InfLog.PrintInspect(soldierList)--DEBUG
         --        end--<
       end
     end
 
-    --InfMenu.DebugPrint(string.format("cluster:%d routeCount:%d soldierCountFinal:%d",clusterId,routeCount,soldierCountFinal))--DEBUG
+    --InfLog.DebugPrint(string.format("cluster:%d routeCount:%d soldierCountFinal:%d",clusterId,routeCount,soldierCountFinal))--DEBUG
   end
-  --InfMenu.DebugPrint("#this.soldierPool:"..#this.soldierPool)--DEBUG
+  --InfLog.DebugPrint("#this.soldierPool:"..#this.soldierPool)--DEBUG
   --end)--
 end
 

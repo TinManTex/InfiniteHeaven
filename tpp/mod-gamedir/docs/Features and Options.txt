@@ -24,7 +24,7 @@ Basic terms used in the Infinite Heaven menu:
 Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.
 ACC Main menu
 -------------
-1: Select profile : No profiles installed
+1: Select profile : <Profile type>
 2: Set profile options to game defaults : (Command)
 3: Trigger random IH event : (Command)
   Events are temporary custom profiles for free roam and mother base. 
@@ -543,7 +543,7 @@ Time from mission start to you opening the door to sit on the side. You can set 
 
 Debug/system menu
 -----------------
-1: Debug IH mode : OFF, NORMAL, BLANK_LOADING_SCREEN
+1: Debug IH mode : Off, On
 Switches on some error messages and enables the announce-log during loading.
 2: Disable mission intro credits : Off, On
 3: Start offline : Off, On
@@ -732,7 +732,7 @@ Time from mission start to you opening the door to sit on the side. You can set 
 
 Debug stuff menu
 ----------------
-1: Debug IH mode : OFF, NORMAL, BLANK_LOADING_SCREEN
+1: Debug IH mode : Off, On
 Switches on some error messages and enables the announce-log during loading.
 2: selectedCp : none
 3: setSelectedCpToMarkerObjectCp : (Command)

@@ -45,27 +45,27 @@ this.simpleProfileSettings={"DEFAULT","CUSTOM"}
 
 --ivar ops n stuff
 function this.OnChangeSubSetting(self)--tex notify parent profile that you've changed
-  --InfMenu.DebugPrint("OnChangeSubSetting: "..self.name.. " profile: " .. self.profile.name)
+  --InfLog.DebugPrint("OnChangeSubSetting: "..self.name.. " profile: " .. self.profile.name)
   local profile=self.profile
   if profile then
     if profile.OnSubSettingChanged==nil then
-      InfMenu.DebugPrint("WARNING: cannot find OnSubSettingChanged on profile " .. self.profile.name)
+      InfLog.DebugPrint("WARNING: cannot find OnSubSettingChanged on profile " .. self.profile.name)
       return
     end
     profile.OnSubSettingChanged(profile,self)
   end
 end
 function this.OnSubSettingChanged(profile, subSetting)
-  --InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " subSetting: " .. subSetting.name)
+  --InfLog.DebugPrint("OnChangeSubSetting: "..profile.name.. " subSetting: " .. subSetting.name)
   --tex any sub setting change will flip this profile to custom since there's no real generalization i can make,
   --CUSTOM is mostly a user identifyer, it has no side effects/no settingTable function
   if not profile.enum then
-    InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " has no enum settings")
+    InfLog.DebugPrint("OnChangeSubSetting: "..profile.name.. " has no enum settings")
     return
   end
 
   if not profile.enum.CUSTOM then
-    InfMenu.DebugPrint("OnChangeSubSetting: "..profile.name.. " has no custom setting")
+    InfLog.DebugPrint("OnChangeSubSetting: "..profile.name.. " has no custom setting")
     return
   end
 
@@ -76,17 +76,16 @@ function this.OnSubSettingChanged(profile, subSetting)
 end
 
 this.RunCurrentSetting=function(self,previousSetting)
-  -- InfInspect.TryFunc(function(self,previousSetting)--DEBUG
-  --InfMenu.DebugPrint("RunCurrentSetting on ".. self.name)--DEBUG
+  --InfLog.DebugPrint("RunCurrentSetting on ".. self.name)--DEBUG
   local returnValue=nil
   if self.settingsTable then
     --this.UpdateSettingFromGvar(self)
     local settingName=self.settings[self.setting+1]
-    --InfMenu.DebugPrint("setting name:" .. settingName)
+    --InfLog.DebugPrint("setting name:" .. settingName)
     local settingTable=self.settingsTable[settingName]
 
     if IsFunc(settingTable) then
-      --InfMenu.DebugPrint("has settingFunction")
+      --InfLog.DebugPrint("has settingFunction")
       returnValue=settingTable()
       --tex ASSUMPTION is profile-v-
     elseif IsTable(settingTable) and self.OnSubSettingChanged then
@@ -99,17 +98,16 @@ this.RunCurrentSetting=function(self,previousSetting)
       returnValue=settingTable
     end
   else
-    InfMenu.DebugPrint("WARNING: RunCurrentSetting with no settingTable on "..self.name)--DEBUG
+    InfLog.DebugPrint("WARNING: RunCurrentSetting with no settingTable on "..self.name)--DEBUG
   end
   return returnValue
-    -- end,self,previousSetting)--DEBUG
 end
 
 this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt trigger profile onchange
-  --InfMenu.DebugPrint("ReturnCurrent on ".. self.name)
+  --InfLog.DebugPrint("ReturnCurrent on ".. self.name)
   local returnValue=nil
   if self.settingsTable then
-    --InfMenu.DebugPrint("has settingstable")
+    --InfLog.DebugPrint("has settingstable")
     local currentSetting
     if TppMission.IsFOBMission(vars.missionCode) and not self.allowFob then
       currentSetting=self.default
@@ -118,11 +116,11 @@ this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt
     end
 
     local settingName=self.settings[currentSetting+1]
-    --InfMenu.DebugPrint("setting name:" .. settingName)
+    --InfLog.DebugPrint("setting name:" .. settingName)
     local settingFunction=self.settingsTable[settingName]
 
     if IsFunc(settingFunction) then
-      --InfMenu.DebugPrint("has settingFunction")
+      --InfLog.DebugPrint("has settingFunction")
       returnValue=settingFunction()
     else
       returnValue=settingFunction
@@ -132,21 +130,21 @@ this.ReturnCurrent=function(self)--for data mostly same as runcurrent but doesnt
 end
 
 function this.SetSetting(self,setting,noOnChangeSub,noSave)
-  --InfMenu.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
+  --InfLog.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
   if self==nil then
-    InfMenu.DebugPrint("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?")
+    InfLog.DebugPrint("WARNING: SetSetting: self==nil, did you use ivar.Set instead of ivar:Set?")
     return
   end
   if not IsTable(self) then
-    InfMenu.DebugPrint("WARNING: SetSetting: self ~= table!")
+    InfLog.DebugPrint("WARNING: SetSetting: self ~= table!")
     return
   end
   if self.setting==nil then
-    InfMenu.DebugPrint("WARNING: SetSetting: setting==nil")
+    InfLog.DebugPrint("WARNING: SetSetting: setting==nil")
     return
   end
   if self.option then
-    InfMenu.DebugPrint("WARNING: SetSetting called on menu")
+    InfLog.DebugPrint("WARNING: SetSetting called on menu")
     return
   end
 
@@ -164,7 +162,7 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
       return
     end
   end
-  --InfMenu.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
+  --InfLog.DebugPrint("Ivars.SetSetting "..self.name.." "..setting)--DEBUG
   local prevSetting=self.setting
   self.setting=setting
   if self.save and not noSave then
@@ -177,7 +175,8 @@ function this.SetSetting(self,setting,noOnChangeSub,noSave)
     --    if noOnChangeSub and self.OnSubSettingChanged then --CULL
     --    --elseif noOnChangeSub and self.OnChange==Ivars.RunCurrentSetting then
     --    else
-    self:OnChange(prevSetting)
+    --InfLog.Add("SetSetting OnChange for "..self.name)--DEBUG
+    InfLog.PCall(self.OnChange,self,prevSetting)
     -- end
   end
   if self.profile and not noOnChangeSub then
@@ -364,9 +363,9 @@ end
 this.debugMode={
   nonConfig=true,
   save=GLOBAL,
-  --  range=this.switchRange,
-  --  settingNames="set_switch",
-  settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
+  range=this.switchRange,
+  settingNames="set_switch",
+  -- CULL settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
   allowFob=true,
 }
 
@@ -878,7 +877,7 @@ this.disableSpySearch={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  --CULL OnChange=RequireRestartMessage,
+--CULL OnChange=RequireRestartMessage,
 }
 this.disableHerbSearch={
   save=GLOBAL,
@@ -1056,15 +1055,14 @@ this.disableTranslators={
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function(self)
-    InfInspect.TryFunc(function(self)--DEBUG
-      if self.setting==1 then
-        InfMenu.DebugPrint"removing tranlatable"--DEBUG
-        vars.isRussianTranslatable=0
-        vars.isAfrikaansTranslatable=0
-        vars.isKikongoTranslatable=0
-        vars.isPashtoTranslatable=0
+    if self.setting==1 then
+      InfLog.DebugPrint"removing tranlatable"--DEBUG
+      vars.isRussianTranslatable=0
+      vars.isAfrikaansTranslatable=0
+      vars.isKikongoTranslatable=0
+      vars.isPashtoTranslatable=0
     elseif self.setting==0 then
-      InfMenu.DebugPrint"adding tranlatable"--DEBUG
+      InfLog.DebugPrint"adding tranlatable"--DEBUG
       --tex don't really need to do this, is handled by TppQuest.AcquireKeyItemOnMissionStart
       if TppQuest.IsCleard"ruins_q19010"then
         vars.isRussianTranslatable=1
@@ -1079,7 +1077,6 @@ this.disableTranslators={
         vars.isPashtoTranslatable=1
       end
     end
-    end,self)--DEBUG
   end,
 }
 
@@ -1398,7 +1395,7 @@ function this.SetMinMax(baseName,min,max)
   local ivarMin=this[baseName.."_MIN"]
   local ivarMax=this[baseName.."_MAX"]
   if ivarMin==nil or ivarMax==nil then
-    InfMenu.DebugPrint("SetMinMax: could not find ivar for "..baseName)
+    InfLog.DebugPrint("SetMinMax: could not find ivar for "..baseName)
     return
   end
   ivarMin:Set(min,true)
@@ -1812,7 +1809,6 @@ MissionModeIvars(
 )
 
 function this.UpdateActiveQuest()
-  --InfInspect.TryFunc(function()--DEBUG
   for i=0,TppDefine.QUEST_MAX-1 do
     gvars.qst_questRepopFlag[i]=false
   end
@@ -1821,7 +1817,6 @@ function this.UpdateActiveQuest()
     TppQuest.UpdateRepopFlagImpl(areaQuests)
   end
   TppQuest.UpdateActiveQuest()
-  --end)--
 end
 this.unlockSideOps={
   save=MISSION,
@@ -1835,7 +1830,7 @@ this.unlockSideOpNumber={
   range={max=this.numQuests},
   SkipValues=function(self,newSetting)
     local questName=TppQuest.questNameForUiIndex[newSetting]
-    --InfMenu.DebugPrint(questName)--DEBUG
+    --InfLog.DebugPrint(questName)--DEBUG
     return InfMain.BlockQuest(questName)
   end,
   OnChange=this.UpdateActiveQuest,
@@ -2107,38 +2102,36 @@ this.playerType={
     self.setting=self.playerTypeToSetting[vars.playerType]
   end,
   OnChange=function(self)
-    --InfInspect.TryFunc(function(self)--DEBUG
-      local currentSetting=vars.playerType
-      local newSetting=self.settingsTable[self.setting+1]
-      if newSetting==currentSetting then
-        return
-      end
+    local currentSetting=vars.playerType
+    local newSetting=self.settingsTable[self.setting+1]
+    if newSetting==currentSetting then
+      return
+    end
 
-      if (InfFova.playerTypeGroup.VENOM[newSetting] and InfFova.playerTypeGroup.DD[currentSetting])
-        or (InfFova.playerTypeGroup.VENOM[currentSetting] and InfFova.playerTypeGroup.DD[newSetting]) then
-        --InfMenu.DebugPrint"playerTypeGroup changed"--DEBUG
-        vars.playerPartsType=0
-      end
+    if (InfFova.playerTypeGroup.VENOM[newSetting] and InfFova.playerTypeGroup.DD[currentSetting])
+      or (InfFova.playerTypeGroup.VENOM[currentSetting] and InfFova.playerTypeGroup.DD[newSetting]) then
+      --InfLog.DebugPrint"playerTypeGroup changed"--DEBUG
+      vars.playerPartsType=0
+    end
 
-      if currentSetting==PlayerType.DD_MALE then
-        Ivars.maleFaceId:Set(vars.playerFaceId)
-      elseif currentSetting==PlayerType.DD_FEMALE then
-        Ivars.femaleFaceId:Set(vars.playerFaceId)
-      end
+    if currentSetting==PlayerType.DD_MALE then
+      Ivars.maleFaceId:Set(vars.playerFaceId)
+    elseif currentSetting==PlayerType.DD_FEMALE then
+      Ivars.femaleFaceId:Set(vars.playerFaceId)
+    end
 
-      if newSetting==PlayerType.DD_FEMALE then
-        vars.playerFaceId=Ivars.femaleFaceId:Get()
-      else
-        vars.playerFaceId=Ivars.maleFaceId:Get()
-      end
+    if newSetting==PlayerType.DD_FEMALE then
+      vars.playerFaceId=Ivars.femaleFaceId:Get()
+    else
+      vars.playerFaceId=Ivars.maleFaceId:Get()
+    end
 
-      local faceEquipInfo=InfFova.playerFaceEquipIdInfo[vars.playerFaceEquipId+1]
-      if faceEquipInfo and faceEquipInfo.playerTypes and not faceEquipInfo.playerTypes[vars.playerType] then
-        vars.playerFaceEquipId=0
-      end
+    local faceEquipInfo=InfFova.playerFaceEquipIdInfo[vars.playerFaceEquipId+1]
+    if faceEquipInfo and faceEquipInfo.playerTypes and not faceEquipInfo.playerTypes[vars.playerType] then
+      vars.playerFaceEquipId=0
+    end
 
-      vars.playerType=self.settingsTable[self.setting+1]
-    --end,self)--DEBUG
+    vars.playerType=self.settingsTable[self.setting+1]
   end,
 }
 
@@ -2214,69 +2207,64 @@ this.playerPartsType={
     return modelDescription or partsTypeInfo.description or partsTypeInfo.name
   end,
   OnSelect=function(self)
-    --InfInspect.TryFunc(function(self)--DEBUG
-      local settingsForPlayerType={}
-      for i,partsTypeName in ipairs(playerPartsTypeSettings) do
-        local partsType=InfFova.PlayerPartsType[partsTypeName]
-        local partsTypeInfo=InfFova.playerPartsTypesInfo[partsType+1]
-        if not partsTypeInfo then
-          InfMenu.DebugPrint("WARNING: could not find partsTypeInfo for "..partsTypeName)
+    local settingsForPlayerType={}
+    for i,partsTypeName in ipairs(playerPartsTypeSettings) do
+      local partsType=InfFova.PlayerPartsType[partsTypeName]
+      local partsTypeInfo=InfFova.playerPartsTypesInfo[partsType+1]
+      if not partsTypeInfo then
+        InfLog.DebugPrint("WARNING: could not find partsTypeInfo for "..partsTypeName)
+      else
+        local plPartsName=partsTypeInfo.plPartsName
+        if not plPartsName then
+          InfLog.DebugPrint("WARNING: could not find plPartsName for "..partsTypeName)
         else
-          local plPartsName=partsTypeInfo.plPartsName
-          if not plPartsName then
-            InfMenu.DebugPrint("WARNING: could not find plPartsName for "..partsTypeName)
-          else
-            local playerTypeName=InfFova.playerTypes[vars.playerType+1]
-            if plPartsName.ALL or plPartsName[playerTypeName] then
-              table.insert(settingsForPlayerType,partsTypeName)
-            end
+          local playerTypeName=InfFova.playerTypes[vars.playerType+1]
+          if plPartsName.ALL or plPartsName[playerTypeName] then
+            table.insert(settingsForPlayerType,partsTypeName)
           end
         end
       end
+    end
 
-      self.settings=settingsForPlayerType
-      self.range.max=#settingsForPlayerType-1
-      self.enum=Enum(self.settings)
-      if #self.settings==0 then
-        InfMenu.DebugPrint("WARNING: #self.settings==0 for playerType")
-        return
-      end
+    self.settings=settingsForPlayerType
+    self.range.max=#settingsForPlayerType-1
+    self.enum=Enum(self.settings)
+    if #self.settings==0 then
+      InfLog.DebugPrint("WARNING: #self.settings==0 for playerType")
+      return
+    end
 
-      local partsTypeName=InfFova.playerPartsTypes[vars.playerPartsType+1]
-      local setting=self.enum[partsTypeName]
-      if setting==nil then
-        --InfMenu.DebugPrint("WARNING: could not find enum for "..partsTypeName)--DEBUG
-        self.setting=0
-      else
-        self.setting=self.enum[partsTypeName]
-      end
-    --end,self)--DEBUG
+    local partsTypeName=InfFova.playerPartsTypes[vars.playerPartsType+1]
+    local setting=self.enum[partsTypeName]
+    if setting==nil then
+      --InfLog.DebugPrint("WARNING: could not find enum for "..partsTypeName)--DEBUG
+      self.setting=0
+    else
+      self.setting=self.enum[partsTypeName]
+    end
   end,
   OnChange=function(self)
-    --InfInspect.TryFunc(function(self)--DEBUG
-      local partsTypeName=self.settings[self.setting+1]
+    local partsTypeName=self.settings[self.setting+1]
 
-      local playerCamoTypes=InfFova.GetCamoTypes(partsTypeName)
-      if playerCamoTypes==nil then
-        return
-      end
+    local playerCamoTypes=InfFova.GetCamoTypes(partsTypeName)
+    if playerCamoTypes==nil then
+      return
+    end
 
-      --InfInspect.PrintInspect(playerCamoTypes)--DEBUG
-      local enum=Enum(playerCamoTypes)
-      local camoName=InfFova.playerCamoTypes[vars.playerCamoType+1]
-      --InfMenu.DebugPrint(camoName)--DEBUG
+    --InfLog.PrintInspect(playerCamoTypes)--DEBUG
+    local enum=Enum(playerCamoTypes)
+    local camoName=InfFova.playerCamoTypes[vars.playerCamoType+1]
+    --InfLog.DebugPrint(camoName)--DEBUG
 
-      --tex sort out camo type too
-      local camoType=PlayerCamoType[camoName]
-      if camoType==nil or enum[camoName]==nil then
-        camoType=0
-      end
+    --tex sort out camo type too
+    local camoType=PlayerCamoType[camoName]
+    if camoType==nil or enum[camoName]==nil then
+      camoType=0
+    end
 
-      vars.playerCamoType=camoType
+    vars.playerCamoType=camoType
 
-      vars.playerPartsType=InfFova.PlayerPartsType[partsTypeName]
-
-    --end,self)--DEBUG
+    vars.playerPartsType=InfFova.PlayerPartsType[partsTypeName]
   end,
 }
 
@@ -2303,30 +2291,28 @@ this.playerCamoType={
     return camoInfo.description or camoInfo.name
   end,
   OnSelect=function(self)
-    --InfInspect.TryFunc(function(self)--DEBUG
-      local partsTypeName=InfFova.playerPartsTypes[vars.playerPartsType+1]
+    local partsTypeName=InfFova.playerPartsTypes[vars.playerPartsType+1]
 
-      local playerCamoTypes=InfFova.GetCamoTypes(partsTypeName)
-      if playerCamoTypes==nil then
-        return
-      end
+    local playerCamoTypes=InfFova.GetCamoTypes(partsTypeName)
+    if playerCamoTypes==nil then
+      return
+    end
 
-      --InfInspect.PrintInspect(playerCamoTypes)--DEBUG
-      local enum=Enum(playerCamoTypes)
-      local camoName=InfFova.playerCamoTypes[vars.playerCamoType+1]
-      --InfMenu.DebugPrint(camoName)--DEBUG
+    --InfLog.PrintInspect(playerCamoTypes)--DEBUG
+    local enum=Enum(playerCamoTypes)
+    local camoName=InfFova.playerCamoTypes[vars.playerCamoType+1]
+    --InfLog.DebugPrint(camoName)--DEBUG
 
-      local camoSetting=enum[camoName]
-      if camoSetting==nil then
-        camoSetting=0
-      end
+    local camoSetting=enum[camoName]
+    if camoSetting==nil then
+      camoSetting=0
+    end
 
-      self.setting=camoSetting
+    self.setting=camoSetting
 
-      self.settings=playerCamoTypes
-      self.enum=enum
-      self.range.max=#self.settings-1
-    --end,self)--DEBUG
+    self.settings=playerCamoTypes
+    self.enum=enum
+    self.range.max=#self.settings-1
   end,
   OnChange=function(self)
     local camoName=self.settings[self.setting+1]
@@ -2395,7 +2381,7 @@ this.playerFaceId={
   settingsTable={1},
   --noSettingCounter=true,
   GetSettingText=function(self)
-    return InfInspect.TryFunc(function(self)--DEBUGNOW
+    return InfLog.PCall(function(self)--DEBUGNOW
       if InfFova.playerTypeGroup.VENOM[vars.playerType] then
         return InfMenu.LangString"only_for_dd_soldier"
     end
@@ -2559,11 +2545,9 @@ this.faceFova={
     return faceFovaInfo.description or faceFovaInfo.name
   end,
   OnSelect=function(self)
-
-    InfInspect.TryFunc(function(self)--DEBUGNOW
-      if InfFova.playerTypeGroup.VENOM[vars.playerType] then
-        self.settings={"NOT_FOR_PLAYERTYPE"}
-        self.range.max=0
+    if InfFova.playerTypeGroup.VENOM[vars.playerType] then
+      self.settings={"NOT_FOR_PLAYERTYPE"}
+      self.range.max=0
     end
 
     local gender=InfEneFova.PLAYERTYPE_GENDER[vars.playerType]
@@ -2581,10 +2565,9 @@ this.faceFova={
       table.insert(settingsTable,param)
     end
     InfMain.SortAscend(settingsTable)
-    --InfInspect.PrintInspect(settingsTable)--DEBUG
+    --InfLog.PrintInspect(settingsTable)--DEBUG
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
-    end,self)--DEBUGNOW
   end,
   OnActivate=function(self)
   --InfEneFova.ApplyFaceFova()
@@ -2604,15 +2587,14 @@ this.faceDecoFova={
     return faceDecoFovaInfo.description or faceDecoFovaInfo.name
   end,
   OnSelect=function(self)
-    InfInspect.TryFunc(function(self)--DEBUGNOW
-      if InfFova.playerTypeGroup.VENOM[vars.playerType] then
-        self.settings={"NOT_FOR_PLAYERTYPE"}
-        self.range.max=0
+    if InfFova.playerTypeGroup.VENOM[vars.playerType] then
+      self.settings={"NOT_FOR_PLAYERTYPE"}
+      self.range.max=0
     end
     --tex since we are going by faceDefinitionParams instead faceDecoFova is dependant on faceFova
     Ivars.faceFova:OnSelect()
     local faceFova=Ivars.faceFova.settingsTable[Ivars.faceFova.setting+1]
-    
+
     local gender=InfEneFova.PLAYERTYPE_GENDER[vars.playerType]
 
     local settingsNonDup={}
@@ -2630,10 +2612,9 @@ this.faceDecoFova={
       table.insert(settingsTable,param)
     end
     InfMain.SortAscend(settingsTable)
-    InfInspect.PrintInspect(settingsTable)--DEBUGNOW
+    InfLog.PrintInspect(settingsTable)--DEBUGNOW
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
-    end,self)--DEBUGNOW
   end,
   OnActivate=function(self)
   --InfEneFova.ApplyFaceFova()
@@ -2652,11 +2633,9 @@ this.hairFova={
     return hairFovaInfo.description or hairFovaInfo.name
   end,
   OnSelect=function(self)
-
-    InfInspect.TryFunc(function(self)--DEBUGNOW
-      if InfFova.playerTypeGroup.VENOM[vars.playerType] then
-        self.settings={"NOT_FOR_PLAYERTYPE"}
-        self.range.max=0
+    if InfFova.playerTypeGroup.VENOM[vars.playerType] then
+      self.settings={"NOT_FOR_PLAYERTYPE"}
+      self.range.max=0
     end
 
     local gender=InfEneFova.PLAYERTYPE_GENDER[vars.playerType]
@@ -2675,10 +2654,9 @@ this.hairFova={
       table.insert(settingsTable,param)
     end
     InfMain.SortAscend(settingsTable)
-    --InfInspect.PrintInspect(settings)--DEBUG
+    --InfLog.PrintInspect(settings)--DEBUG
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
-    end,self)--DEBUGNOW
   end,
   OnActivate=function(self)
   --InfEneFova.ApplyFaceFova()
@@ -2843,54 +2821,50 @@ this.fovaSelection={
   save=MISSION,
   range={min=0,max=255},--limits max fovas TODO consider
   OnSelect=function(self)
-    InfInspect.TryFunc(function()--DEBUG
-      local fovaTable,modelDescription=InfFova.GetCurrentFovaTable()
-      if modelDescription then
-        self.description=modelDescription
-      else
-        self.description="No model description"
+    local fovaTable,modelDescription=InfFova.GetCurrentFovaTable()
+    if modelDescription then
+      self.description=modelDescription
+    else
+      self.description="No model description"
+    end
+
+    if fovaTable then
+      if Ivars.enableFovaMod:Is(0) then
+        InfMenu.PrintLangId"fova_is_not_set"
       end
 
-      if fovaTable then
-        if Ivars.enableFovaMod:Is(0) then
-          InfMenu.PrintLangId"fova_is_not_set"
-        end
-
-        self.range.max=#fovaTable-1
-        if InfFova.FovaInfoChanged(fovaTable,self:Get()+1) then
-          --InfMenu.DebugPrint"OnSelect FovaInfoChanged"--DEBUG
-          self:Reset()
-        end
-
-        self.settingNames={}
-        for i=1,#fovaTable do
-          local fovaDescription,fovaFile=InfFova.GetFovaInfo(fovaTable,i)
-
-          if not fovaDescription or not IsString(fovaDescription)then
-            self.settingNames[i]=i
-          else
-            self.settingNames[i]=fovaDescription
-          end
-        end
-
-        InfFova.SetFovaMod(self:Get()+1,true)
-      else
-        self.range.max=0
-        self.settingNames={InfMenu.LangString"no_fova_found"}
-        return
+      self.range.max=#fovaTable-1
+      if InfFova.FovaInfoChanged(fovaTable,self:Get()+1) then
+        --InfLog.DebugPrint"OnSelect FovaInfoChanged"--DEBUG
+        self:Reset()
       end
-    end)--
+
+      self.settingNames={}
+      for i=1,#fovaTable do
+        local fovaDescription,fovaFile=InfFova.GetFovaInfo(fovaTable,i)
+
+        if not fovaDescription or not IsString(fovaDescription)then
+          self.settingNames[i]=i
+        else
+          self.settingNames[i]=fovaDescription
+        end
+      end
+
+      InfFova.SetFovaMod(self:Get()+1,true)
+    else
+      self.range.max=0
+      self.settingNames={InfMenu.LangString"no_fova_found"}
+      return
+    end
   end,
   --  OnDeselect=function(self)
-  --    InfMenu.DebugPrint"fovaSelection OnDeselect"--DEBUG
+  --    InfLog.DebugPrint"fovaSelection OnDeselect"--DEBUG
   --    if Ivars.enableMod:Is(0) then
   --    --InfMenu.PrintLangId"fova_is_not_set"--DEBUG
   --    end
   --  end,
   OnChange=function(self)
-    InfInspect.TryFunc(function()--DEBUG
-      InfFova.SetFovaMod(self:Get()+1,true)
-    end)
+    InfFova.SetFovaMod(self:Get()+1,true)
   end,
 }
 
@@ -3364,9 +3338,8 @@ local BuddyVarGetSettingText=function(self)
   return varTypeTable[self.setting].name
 end
 local BuddyVarOnSelect=function(self)
-  InfInspect.TryFunc(function(self)--DEBUGNOW
-    if vars.buddyType==BuddyType.NONE then
-      return InfMenu.LangString"no_buddy_set"
+  if vars.buddyType==BuddyType.NONE then
+    return InfMenu.LangString"no_buddy_set"
   end
 
   local commandInfo=GetCommandInfo(self.name)
@@ -3378,7 +3351,6 @@ local BuddyVarOnSelect=function(self)
   self.range.max=#varTypeTable
   local index=InfBuddy.GetTableIndexForBuddyVar(var,varTypeTable)
   self.setting=index
-  end,self)--
 end
 local BuddyVarOnActivate=function(self)
   if vars.buddyType==BuddyType.NONE then
@@ -3669,7 +3641,7 @@ this.selectedCp={
   GetNext=function(self)
     self.prev=self.setting
     if mvars.ene_cpList==nil then
-      InfMenu.DebugPrint"mvars.ene_cpList==nil"--DEBUG
+      InfLog.DebugPrint"mvars.ene_cpList==nil"--DEBUG
       return 0
     end--
 
@@ -3680,7 +3652,7 @@ this.selectedCp={
       nextSetting=next(mvars.ene_cpList,self.setting)
     end
     if nextSetting==nil then
-      --InfMenu.DebugPrint"self setting==nil"--DEBUG
+      --InfLog.DebugPrint"self setting==nil"--DEBUG
       nextSetting=next(mvars.ene_cpList)
     end
     return nextSetting
@@ -3718,10 +3690,10 @@ this.selectedChangeWeapon={--WIP
     local equipName=InfEquip.tppEquipTableTest[self.setting]
     local equipId=TppEquip[equipName]
     if equipId==nil then
-      InfMenu.DebugPrint("no equipId found for "..equipName)
+      InfLog.DebugPrint("no equipId found for "..equipName)
       return
     else
-      --      InfMenu.DebugPrint("set "..equipName)
+      --      InfLog.DebugPrint("set "..equipName)
       --      Player.ChangeEquip{
       --        equipId = equipId,
       --        stock = 30,
@@ -3750,7 +3722,7 @@ this.selectedChangeWeapon={--WIP
       --        temporaryChange = true,
       --      }
 
-      InfMenu.DebugPrint("drop "..equipName)
+      InfLog.DebugPrint("drop "..equipName)
       local dropPosition=Vector3(vars.playerPosX,vars.playerPosY+1,vars.playerPosZ)
 
       local linearMax=2
@@ -3833,9 +3805,7 @@ this.selectProfile={
     end
   end,
   OnSelect=function(self)
-    InfInspect.TryFunc(function(self)--DEBUGNOW
-      Ivars.SetupInfProfiles()
-    end,self)--DEBUGNOW
+    Ivars.SetupInfProfiles()
   end,
   OnActivate=function(self)
     if self.settings==nil then
@@ -3964,12 +3934,12 @@ local numberType="number"
 local TppMission=TppMission
 this.OptionIsSetting=function(self,setting)
   if self==nil then
-    InfMenu.DebugPrint("WARNING OptionIsSetting self==nil, Is or Get called with . instead of :")
+    InfLog.DebugPrint("WARNING OptionIsSetting self==nil, Is or Get called with . instead of :")
     return
   end
 
   if not IsIvar(self) then
-    InfMenu.DebugPrint("self not Ivar. Is or Get called with . instead of :")
+    InfLog.DebugPrint("self not Ivar. Is or Get called with . instead of :")
     return
   end
 
@@ -3987,13 +3957,13 @@ this.OptionIsSetting=function(self,setting)
   end
 
   if self.enum==nil then
-    InfMenu.DebugPrint("Is function called on ivar "..self.name.." which has no settings enum")
+    InfLog.DebugPrint("Is function called on ivar "..self.name.." which has no settings enum")
     return false
   end
 
   local settingIndex=self.enum[setting]
   if settingIndex==nil then
-    InfMenu.DebugPrint("WARNING ivar "..self.name.." has no setting named "..tostring(setting))
+    InfLog.DebugPrint("WARNING ivar "..self.name.." has no setting named "..tostring(setting))
     return false
   end
   return settingIndex==currentSetting
@@ -4005,7 +3975,7 @@ this.UpdateSettingFromGvar=function(option)
     if gvar~=nil then
       option.setting=gvars[option.name]
     else
-      InfMenu.DebugPrint"UpdateSettingFromGvar: WARNING option.save but no gvar found"
+      InfLog.DebugPrint"UpdateSettingFromGvar: WARNING option.save but no gvar found"
     end
   end
 end
@@ -4013,9 +3983,8 @@ end
 --ivar system setup
 --tex called on TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint
 function this.OnLoadVarsFromSlot()
-  --InfInspect.TryFunc(function()--DEBUG
   if Ivars.inf_event:Is()>0 then
-    --InfMenu.DebugPrint("OnLoadVarsFromSlot is mis event, aborting."..vars.missionCode)--DEBUG
+    --InfLog.DebugPrint("OnLoadVarsFromSlot is mis event, aborting."..vars.missionCode)--DEBUG
     return
   end
   for name,ivar in pairs(this) do
@@ -4023,7 +3992,6 @@ function this.OnLoadVarsFromSlot()
       this.UpdateSettingFromGvar(ivar)
     end
   end
-  --end)--
 end
 
 --TABLESETUP: Ivars
@@ -4150,7 +4118,6 @@ function this.DeclareVars()
     end--ivar
   end
 
-  --DEBUGNOW TODO:
   local maxQuestSoldiers=20--SYNC InfInterrogate numQuestSoldiers
   local arrays={
     {name="inf_interCpQuestStatus",arraySize=maxQuestSoldiers,type=TppScriptVars.TYPE_BOOL,value=false,save=true,sync=false,wait=false,category=TppScriptVars.CATEGORY_MISSION},
@@ -4185,7 +4152,7 @@ function this.ResetProfile(profile)
   for i,ivarName in pairs(profile) do
     local ivar=Ivars[ivarName]
     if ivar==nil then
-      InfMenu.DebugPrint("WARNING: ResetProfile cant find ivar "..ivarName)
+      InfLog.DebugPrint("WARNING: ResetProfile cant find ivar "..ivarName)
     else
       ivar:Reset()
     end
@@ -4202,9 +4169,6 @@ function this.SetupInfProfiles()
   if not InfProfiles then
     Ivars.selectProfile.range.max=0
     Ivars.selectProfile.setting=0
-    if InfMessageLog.profilesErr then
-      InfMenu.DebugPrint(InfMessageLog.profilesErr)
-    end
   else
     local profileNames={}
     for profileName,profileInfo in pairs(InfProfiles)do
@@ -4212,21 +4176,21 @@ function this.SetupInfProfiles()
         if type(profileName)=="string" then
           if type(profileInfo)=="table" then
             if not profileInfo.profile then
-              InfMenu.DebugPrint("WARNING: profile on "..tostring(profileName).." is nil")
+              InfLog.DebugPrint("WARNING: profile on "..tostring(profileName).." is nil")
             else
               if type(profileInfo)=="table" then
                 --tex ok
                 table.insert(profileNames,profileName)
                 profileInfo.name=profileName
               else
-                InfMenu.DebugPrint("WARNING: profile on "..tostring(profileName).." is not a table")
+                InfLog.DebugPrint("WARNING: profile on "..tostring(profileName).." is not a table")
               end
             end
           else
-            InfMenu.DebugPrint("WARNING: profileInfo for "..tostring(profileName).." is not a table")
+            InfLog.DebugPrint("WARNING: profileInfo for "..tostring(profileName).." is not a table")
           end
         else
-          InfMenu.DebugPrint("WARNING: profileName is not a string:"..tostring(profileName))
+          InfLog.DebugPrint("WARNING: profileName is not a string:"..tostring(profileName))
         end
       end
     end
@@ -4243,7 +4207,7 @@ function this.SetupInfProfiles()
       end
     end
     if firstProfileCount>1 then
-      InfMenu.DebugPrint("WARNING: multiple profiles with firstProfile set")
+      InfLog.DebugPrint("WARNING: multiple profiles with firstProfile set")
     end
 
     Ivars.selectProfile.range.max=#profileNames-1
@@ -4257,7 +4221,7 @@ end
 
 function this.ApplyInfProfiles(profileNames)
   if not InfProfiles or profileNames==nil then
-    --InfMenu.DebugPrint"ApplyInfProfiles profileNames==nil"--DEBUG
+    --InfLog.DebugPrint"ApplyInfProfiles profileNames==nil"--DEBUG
     return
   else
     for i,profileName in ipairs(profileNames)do
@@ -4275,34 +4239,34 @@ end
 --tex only catches save vars
 function this.PrintNonDefaultVars()
   if this.varTable==nil then
-    InfMenu.DebugPrint("varTable not found, has it been reverted to DeclareVars local?")
+    InfLog.DebugPrint("varTable not found, has it been reverted to DeclareVars local?")
     return
   end
 
   for n,gvarInfo in pairs(this.varTable) do
     local gvar=gvars[gvarInfo.name]
     if gvar==nil then
-      InfMenu.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
+      InfLog.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
     else
       if gvar~=gvarInfo.value then
-        InfMenu.DebugPrint("DEBUG: "..gvarInfo.name.." current value "..tostring(gvar).." is not default "..tostring(gvarInfo.value))
+        InfLog.DebugPrint("DEBUG: "..gvarInfo.name.." current value "..tostring(gvar).." is not default "..tostring(gvarInfo.value))
       end
     end
   end
 end
 
 function this.PrintGvarSettingMismatch()
-  --InfInspect.TryFunc(function()--DEBUG
+  --InfLog.PCall(function()--DEBUG
   for name, ivar in pairs(Ivars) do
     if IsIvar(ivar) then
       if ivar.save then
         local gvar=gvars[ivar.name]
         if gvar==nil then
-          InfMenu.DebugPrint("WARNING ".. ivar.name.." has no gvar")
+          InfLog.DebugPrint("WARNING ".. ivar.name.." has no gvar")
         else
           if ivar.setting~=gvar then
-            InfMenu.DebugPrint("WARNING: ivar setting/gvar mismatch for "..name)
-            InfMenu.DebugPrint("setting:"..tostring(ivar.setting).." gvar value:"..tostring(gvar))
+            InfLog.DebugPrint("WARNING: ivar setting/gvar mismatch for "..name)
+            InfLog.DebugPrint("setting:"..tostring(ivar.setting).." gvar value:"..tostring(gvar))
           end
         end
       end
@@ -4313,7 +4277,7 @@ end
 
 function this.PrintSaveVarCount()
   if this.varTable==nil then
-    InfMenu.DebugPrint("varTable not found, has it been reverted to DeclareVars local?")
+    InfLog.DebugPrint("varTable not found, has it been reverted to DeclareVars local?")
     return
   end
 
@@ -4321,12 +4285,12 @@ function this.PrintSaveVarCount()
   for n,gvarInfo in pairs(this.varTable) do
     local gvar=gvars[gvarInfo.name]
     if gvar==nil then
-      InfMenu.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
+      InfLog.DebugPrint("WARNING ".. gvarInfo.name.." has no gvar")
     else
       gvarCountCount=gvarCountCount+1
     end
   end
-  InfMenu.DebugPrint("Ivar gvar count:"..gvarCountCount.." "..#this.varTable)
+  InfLog.DebugPrint("Ivar gvar count:"..gvarCountCount.." "..#this.varTable)
 
   local bools=0
   for name, ivar in pairs(Ivars) do
@@ -4338,7 +4302,7 @@ function this.PrintSaveVarCount()
       end
     end
   end
-  InfMenu.DebugPrint("potential ivar bools:"..bools)
+  InfLog.DebugPrint("potential ivar bools:"..bools)
 
   local scriptVarTypes={
     [TppScriptVars.TYPE_BOOL]="TYPE_BOOL",
@@ -4378,25 +4342,22 @@ function this.PrintSaveVarCount()
     return typeCounts,arrayCounts,totalCount,totalCountArray
   end
 
-  InfMenu.DebugPrint"NOTE: these are CATEGORY_MISSION counts"
+  InfLog.DebugPrint"NOTE: these are CATEGORY_MISSION counts"
 
-  InfMenu.DebugPrint"Ivars.varTable"
+  InfLog.DebugPrint"Ivars.varTable"
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,this.varTable,TppScriptVars.CATEGORY_MISSION)
 
-  InfMenu.DebugPrint"typeCounts"
-  local ins=InfInspect.Inspect(typeCounts)
-  InfMenu.DebugPrint(ins)
+  InfLog.DebugPrint"typeCounts"
+  InfLog.PrintInspect(typeCounts)
 
-  InfMenu.DebugPrint"arrayCounts"
-  local ins=InfInspect.Inspect(arrayCounts)
-  InfMenu.DebugPrint(ins)
+  InfLog.DebugPrint"arrayCounts"
+  InfLog.PrintInspect(arrayCounts)
 
-  InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
+  InfLog.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
 
 
-  --  local ins=InfInspect.Inspect(TppScriptVars)
-  --  InfMenu.DebugPrint(ins)
+  --  InfLog.PrintInspect(TppScriptVars)
 
   --  local categories={
   --    [TppScriptVars.CATEGORY_NONE]="CATEGORY_NONE",
@@ -4414,36 +4375,31 @@ function this.PrintSaveVarCount()
   --  }
 
   --  for categoryType, categoryName in pairs(categories) do
-  --    InfMenu.DebugPrint(categoryName..":"..tostring(categoryType))
+  --    InfLog.DebugPrint(categoryName..":"..tostring(categoryType))
   --  end
 
-  InfMenu.DebugPrint"TppGVars.DeclareGVarsTable"
+  InfLog.DebugPrint"TppGVars.DeclareGVarsTable"
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,TppGVars.DeclareGVarsTable,TppScriptVars.CATEGORY_MISSION)
 
-  InfMenu.DebugPrint"typeCounts"
-  local ins=InfInspect.Inspect(typeCounts)
-  InfMenu.DebugPrint(ins)
+  InfLog.DebugPrint"typeCounts"
+  InfLog.PrintInspect(typeCounts)
 
-  InfMenu.DebugPrint"arrayCounts"
-  local ins=InfInspect.Inspect(arrayCounts)
-  InfMenu.DebugPrint(ins)
+  InfLog.DebugPrint"arrayCounts"
+  InfLog.PrintInspect(arrayCounts)
 
-  InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
+  InfLog.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
-  InfMenu.DebugPrint"TppMain.allSvars"
+  InfLog.DebugPrint"TppMain.allSvars"
   local typeCounts,arrayCounts,totalCount,totalCountArray=CountVarTable(scriptVarTypes,TppMain.allSvars,TppScriptVars.CATEGORY_MISSION)
-  InfMenu.DebugPrint"typeCounts"
-  local ins=InfInspect.Inspect(typeCounts)
-  InfMenu.DebugPrint(ins)
+  InfLog.DebugPrint"typeCounts"
+  InfLog.PrintInspect(typeCounts)
 
-  InfMenu.DebugPrint"arrayCounts"
-  local ins=InfInspect.Inspect(arrayCounts)
-  InfMenu.DebugPrint(ins)
+  InfLog.DebugPrint"arrayCounts"
+  InfLog.PrintInspect(arrayCounts)
 
-  InfMenu.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
+  InfLog.DebugPrint("totalcount:"..totalCount.." totalcountarray:"..totalCountArray)
 
-  --    local ins=InfInspect.Inspect(TppMain.allSvars)
-  --  InfMenu.DebugPrint(ins)
+  --    InfLog.PrintInspect(TppMain.allSvars)
 
 end
 
