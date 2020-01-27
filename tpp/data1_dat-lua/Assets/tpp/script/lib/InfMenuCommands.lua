@@ -486,7 +486,7 @@ this.DEBUG_SomeShiz={
     InfInspect.TryFunc(function()
       local objectName="ih_uav_0000"
       local gameId=GameObject.GetGameObjectId(objectName)
-
+    
       if gameId==GameObject.NULL_ID then
         InfMenu.DebugPrint"gameId==GameObject.NULL_ID"
       else
@@ -504,8 +504,8 @@ this.DEBUG_SomeShiz={
 
       --DEBUGNOW
       --TppUiCommand.AnnounceLogView("anlogdoop")
-
-
+    
+    
       local parasiteAppearTime=math.random(8,10)
       GkEventTimerManager.Start("Timer_ParasiteAppear",parasiteAppearTime)
 
@@ -1277,6 +1277,9 @@ this.DEBUG_WarpToObject={
     InfInspect.TryFunc(function()
 
         local objectList=InfMain.reserveSoldierNames
+        
+--        local travelPlan="travelArea2_01"
+--         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
         --local objectList=InfMain.ene_wildCardSoldiers
 
         --local objectList=InfMain.truckNames

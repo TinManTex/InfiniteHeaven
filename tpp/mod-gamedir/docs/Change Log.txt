@@ -1,5 +1,10 @@
 Infinite Heaven changelog
 
+r170 - 2016-07-28 - public release
+Fixed: Foot patrols and quest soldiers now zombified during skulls attack.
+Fixed: Zombieifed soldiers during skulls attack now have zombie skin - thanks  AGANEK for the report.
+Change: Vehicle patrols - Easter Coms - Sakhra Ee loop is now a convoy.
+
 r169 - 2016-07-19 - public release
 Fixed: Actual subsistence missions retaining OSP setting after exit - thanks AGANEK for the report
 Fixed: Turning off NPC heils also turning off free roam heli patrols - thanks Tamriel1989 for the report.

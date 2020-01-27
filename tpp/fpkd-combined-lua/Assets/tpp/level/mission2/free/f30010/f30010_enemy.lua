@@ -580,7 +580,7 @@ this.soldierDefine = {
 
     afgh_01_13_lrrp = {
       "sol_01_13_0000",
-      "sol_01_13_0001",
+      --DEBUGNOW "sol_01_13_0001",
       lrrpTravelPlan	= "travelArea2_01",
       lrrpVehicle		= "veh_trc_0000",
     },
@@ -684,9 +684,11 @@ this.soldierDefine = {
 --         "sol_ih_0000",
 --      "sol_ih_0001",
 --      lrrpTravelPlan  = "travel_ih_0001",
-      "sol_05_33_0001",
+      --"sol_05_33_0001",
         --  "sol_ih_0001",
       --"sol_ih_0002",
+      
+      "sol_01_13_0001",
       lrrpTravelPlan  = "travelArea2_01",--trc0000--"travelArea2_03",--trc0002
       lrrpVehicle   = "veh_lv_0003",   
       --DEBUGNOW OFFnil
@@ -1047,7 +1049,7 @@ this.travelPlans = {
       { cp="afgh_villageEast_ob", 	routeGroup={ "travel", 					"out_lrrpHold_W" }, },
       { cp="afgh_01_32_lrrp", 		routeGroup={ "travel", "lrrp_01to32" }, },
       { cp="afgh_village_cp", 		routeGroup={ "travel", 					"in_lrrpHold_E" }, },
-      { cp="afgh_village_cp", 		routeGroup={ "travel", "lrrpHold" }, },
+      --DEBUGNOW{ cp="afgh_village_cp", 		routeGroup={ "travel", "lrrpHold" }, },
       { cp="afgh_village_cp", 		routeGroup={ "travel", 					"out_lrrpHold_W" }, },
       { cp="afgh_14_32_lrrp", 		routeGroup={ "travel", "lrrp_32to14" }, },
       { cp="afgh_villageNorth_ob",	routeGroup={ "travel", 					"in_lrrpHold_S_E" }, },
@@ -1057,7 +1059,7 @@ this.travelPlans = {
       { cp="afgh_commWest_ob",		routeGroup={ "travel", 					"out_lrrpHold_E" }, },
       { cp="afgh_02_34_lrrp",			routeGroup={ "travel", "lrrp_02to34" }, },
       { cp="afgh_commFacility_cp",	routeGroup={ "travel", 					"in_lrrpHold_W" }, },
-      { cp="afgh_commFacility_cp",	routeGroup={ "travel", "lrrpHold" }, },
+      --DEBUGNOW{ cp="afgh_commFacility_cp",	routeGroup={ "travel", "lrrpHold" }, },
       { cp="afgh_commFacility_cp",	routeGroup={ "travel", 					"out_lrrpHold_E" }, },
       { cp="afgh_13_34_lrrp",			routeGroup={ "travel", "lrrp_34to13" }, },
       { cp="afgh_ruinsNorth_ob",		routeGroup={ "travel", 					"in_lrrpHold_N" }, },

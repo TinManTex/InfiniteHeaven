@@ -486,49 +486,49 @@ this.wildCardBodyTable={
 --IN/Out bodies
 function this.WildCardFova(bodies)
   --InfInspect.TryFunc(function(bodies)--DEBUG
-    InfMain.RandomSetToLevelSeed()
-    local faces={}
-    InfEneFova.inf_wildCardMaleFaceList={}
-    InfEneFova.inf_wildCardFemaleFaceList={}
-    for i=1,InfMain.MAX_WILDCARD_FACES-InfMain.numWildCardFemales do--SYNC numwildcards
-      local faceId=this.RandomFaceId(this.maleFaceIdsUncommon)
-      table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
-      table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
-    end
-    for i=1,InfMain.numWildCardFemales do
-      local faceId=this.RandomFaceId(this.femaleFaceIds)
-      table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO -^-
-      table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
-    end
-    TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
-    InfMain.RandomResetToOsTime()
+  InfMain.RandomSetToLevelSeed()
+  local faces={}
+  InfEneFova.inf_wildCardMaleFaceList={}
+  InfEneFova.inf_wildCardFemaleFaceList={}
+  for i=1,InfMain.MAX_WILDCARD_FACES-InfMain.numWildCardFemales do--SYNC numwildcards
+    local faceId=this.RandomFaceId(this.maleFaceIdsUncommon)
+    table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO figure this shit out, hint is in RegisterUniqueSetting since it builds one
+    table.insert(InfEneFova.inf_wildCardMaleFaceList,faceId)
+  end
+  for i=1,InfMain.numWildCardFemales do
+    local faceId=this.RandomFaceId(this.femaleFaceIds)
+    table.insert(faces,{faceId,1,1,0})--0,0,MAX_REALIZED_COUNT})--tex TODO -^-
+    table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
+  end
+  TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
 
-    local locationName=InfMain.GetLocationName()
+  local locationName=InfMain.GetLocationName()
 
-    this.wildCardSuitName=this.femaleSuits[math.random(#this.femaleSuits)]
-    local bodyInfo=this.GetCurrentWildCardBodyInfo(true)--tex female
-    if bodyInfo then
-      if bodyInfo.femaleBodyId then
-        TppEneFova.SetupBodies(bodyInfo.femaleBodyId,bodies)
-      end
-      if bodyInfo.soldierSubType then
-        local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
-        if bodyIdTable then
-          for powerType,bodyTable in pairs(bodyIdTable)do
-            TppEneFova.SetupBodies(bodyTable,bodies)
-          end
+  this.wildCardSuitName=this.femaleSuits[math.random(#this.femaleSuits)]
+  local bodyInfo=this.GetCurrentWildCardBodyInfo(true)--tex female
+  if bodyInfo then
+    if bodyInfo.femaleBodyId then
+      TppEneFova.SetupBodies(bodyInfo.femaleBodyId,bodies)
+    end
+    if bodyInfo.soldierSubType then
+      local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
+      if bodyIdTable then
+        for powerType,bodyTable in pairs(bodyIdTable)do
+          TppEneFova.SetupBodies(bodyTable,bodies)
         end
       end
-
-      if bodyInfo.extendPartsInfo then
-        TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
-      end
     end
 
-    local maleBodyTable=this.wildCardBodyTable[locationName]
-    if maleBodyTable then
-      TppEneFova.SetupBodies(maleBodyTable,bodies)
+    if bodyInfo.extendPartsInfo then
+      TppSoldier2.SetExtendPartsInfo(bodyInfo.extendPartsInfo)
     end
+  end
+
+  local maleBodyTable=this.wildCardBodyTable[locationName]
+  if maleBodyTable then
+    TppEneFova.SetupBodies(maleBodyTable,bodies)
+  end
+  InfMain.RandomResetToOsTime()
   --end,bodies)--DEBUG
 end
 

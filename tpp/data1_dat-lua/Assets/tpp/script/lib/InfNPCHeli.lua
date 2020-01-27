@@ -613,6 +613,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
         end
         -- is > heliTime--<
       end
+
       --not NULL_ID<
     end
     --for heliname<

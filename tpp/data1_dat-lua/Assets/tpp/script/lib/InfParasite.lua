@@ -102,6 +102,13 @@ local numDownedThisEvent=0
 local clearLimit=4
 this.parasitePos=nil
 
+function this.ParasiteEvent()
+  if Ivars.enableParasiteEvent:Is(1) and Ivars.enableParasiteEvent:MissionCheck() then
+    return true
+  end
+  return false
+end
+
 
 function this.SetupParasites()
   local parameters=PARASITE_PARAMETERS.NORMAL
@@ -124,7 +131,7 @@ function this.OnDamage(gameId,attackId,attackerId)
   local typeIndex=GameObject.GetTypeIndex(gameId)
   --DEBUGNOW TODO
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
-    if Ivars.enableParasiteEvent:Is(0) or not Ivars.enableParasiteEvent:MissionCheck() then
+    if not this.ParasiteEvent() then
       return
     end
     --InfMenu.DebugPrint"OnDamage para"--DEBUG
@@ -138,7 +145,7 @@ function this.OnDying(gameId)
   --InfMenu.DebugPrint"OnDying para"--DEBUG
   local typeIndex=GameObject.GetTypeIndex(gameId)
   if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
-    if Ivars.enableParasiteEvent:Is(0) or not Ivars.enableParasiteEvent:MissionCheck() then
+    if not this.ParasiteEvent() then
       return
     end
     --InfMenu.DebugPrint"OnDying is para"--DEBUG
@@ -164,7 +171,7 @@ function this.OnDying(gameId)
 end
 
 function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
-  if Ivars.enableParasiteEvent:Is(0) or not Ivars.enableParasiteEvent:MissionCheck() then
+  if not this.ParasiteEvent() then
     return
   end
 
@@ -173,7 +180,7 @@ function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
 end
 
 function this.FadeInOnGameStart()
-  if Ivars.enableParasiteEvent:Is(0) or not Ivars.enableParasiteEvent:MissionCheck() then
+  if not this.ParasiteEvent() then
     return
   end
 
@@ -193,13 +200,13 @@ function this.FadeInOnGameStart()
 end
 
 function this.InitEvent()
-  if Ivars.enableParasiteEvent:Is(0) or not Ivars.enableParasiteEvent:MissionCheck() then
+  if not this.ParasiteEvent() then
     return
   end
 
   if TppMission.IsMissionStart() then
     --InfMenu.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
-    Ivars.inf_parasiteEvent:Set(0)  
+    Ivars.inf_parasiteEvent:Set(0)
   end
 
   clearLimit=#this.parasiteNames
@@ -239,15 +246,49 @@ function this.StartEvent()
 end
 
 function this.ContinueEvent()
+  --InfMenu.DebugPrint"Timer_ParasiteEvent hit"--DEBUG
+  if numFultonedThisMap==#this.parasiteNames then
+    --InfMenu.DebugPrint"StartEvent elimintated all parasites, aborting"--DEBUG
+    this.EndEvent()
+    return
+  end
+  if numFultonedThisMap>=#this.parasiteNames then
+    --InfMenu.DebugPrint"StartEvent WARNING, eliminated>num parasites"--DEBUG
+    this.EndEvent()
+    return
+  end
+
   local parasiteAppearTime=math.random(parasiteAppearTimeMin,parasiteAppearTimeMax)
   StartTimer("Timer_ParasiteAppear",parasiteAppearTime)
 end
 
 function this.ParasiteAppear()
-  --InfInspect.TryFunc(function()--DEBUG
-    --InfMenu.DebugPrint"ParasiteAppear"--DEBUG
-    local playerPosition={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+  --InfInspect.TryFunc(function()--DEBUGNOW
+  --InfMenu.DebugPrint"ParasiteAppear"--DEBUG
 
+  numDownedThisEvent=0
+
+  local playerPosition={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+  local closestPos=playerPosition
+
+  --TODO TUNE
+  local disableDamage=false
+  local isHalf=false
+  local msfRate=10--mb only
+
+
+  local isMb=vars.missionCode==30050
+  if isMb then
+    for cpName,cpDefine in pairs(mvars.ene_soldierDefine)do
+      for i,soldierName in ipairs(cpDefine)do
+        local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+        if soldierId~=NULL_ID then
+          local isMsf=math.random(100)<msfRate
+          this.SetZombie(cpDefine[i],disableDamage,isHalf,cpZombieLife,cpZombieStamina,isMsf)
+        end
+      end
+    end
+  else
     local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPosition)
     if closestLz==nil then
       InfMenu.DebugPrint"WARNING: StartEvent closestLz==nil"--DEBUGNOW
@@ -268,14 +309,12 @@ function this.ParasiteAppear()
       return
     end
 
-    numDownedThisEvent=0
-
 --    InfMenu.DebugPrint(closestLz..":"..math.sqrt(lzDistance))--DEBUG
 --    InfMenu.DebugPrint(closestCp..":"..math.sqrt(cpDistance))--DEBUG
 
     local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
     local closestDist=cpDistance
-    local closestPos=cpPosition
+    closestPos=cpPosition
     if cpDistance>lzDistance and lzCpDist>playerRange*2 then
       closestPos=lzPosition
       closestDist=lzDistance
@@ -285,13 +324,9 @@ function this.ParasiteAppear()
       closestPos=playerPosition
     end
 
-    --TODO TUNE
-    local disableDamage=false
-    local isHalf=false
-
     --tex TODO doesn't cover visiting lrrp
     if closestPos==cpPosition then
-
+      --InfMenu.DebugPrint("closestPos==cpPosition")--DEBUG
       local cpDefine=mvars.ene_soldierDefine[closestCp]
       if cpDefine==nil then
         InfMenu.DebugPrint("WARNING StartEvent could not find cpdefine for "..closestCp)--DEBUGNOW
@@ -300,36 +335,69 @@ function this.ParasiteAppear()
           this.SetZombie(cpDefine[i],disableDamage,isHalf,cpZombieLife,cpZombieStamina)
         end
       end
+
+      --tex foot lrrps
+      --InfMenu.DebugPrint(closestPos[1]..closestPos[2]..closestPos[3])--DEBUG
+
+      local SetZombies=function(soldierNames,cpPosition)
+        for i,soldierName in ipairs(soldierNames) do
+          local gameId=GetGameObjectId("TppSoldier2",soldierName)
+          if gameId~=NULL_ID then
+            local soldierPosition=SendCommand(gameId,{id="GetPosition"})
+            local soldierCpDistance=TppMath.FindDistance({soldierPosition:GetX(),soldierPosition:GetY(),soldierPosition:GetZ()},cpPosition)
+            if soldierCpDistance<escapeDistance then
+              --InfMenu.DebugPrint(soldierName.." close to "..closestCp.. ", zombifying")--DEBUG
+              this.SetZombie(soldierName,disableDamage,isHalf,cpZombieLife,cpZombieStamina)
+            end
+          end
+        end
+      end
+
+      if InfMain.lrrpDefines then
+        for i=1,#InfMain.lrrpDefines do
+          local lrrpDefine=InfMain.lrrpDefines[i]
+          if lrrpDefine.base1==closestCp or lrrpDefine.base2==closestCp then
+            SetZombies(lrrpDefine.cpDefine,cpPosition)
+          end
+        end
+      end
+
+      --DEBUGNOW
+      if mvars.ene_soldierDefine and mvars.ene_soldierDefine.quest_cp then
+        SetZombies(mvars.ene_soldierDefine.quest_cp,cpPosition)
+      end
+
     end
+  end
 
-    Ivars.inf_parasiteEvent:Set(1)
-    clearLimit=#this.parasiteNames-numFultonedThisMap
-    this.parasitePos=closestPos
-    --InfMenu.DebugPrint("clearlimit "..clearLimit)--DEBUG
+  Ivars.inf_parasiteEvent:Set(1)
+  clearLimit=#this.parasiteNames-numFultonedThisMap
+  this.parasitePos=closestPos
+  --InfMenu.DebugPrint("clearlimit "..clearLimit)--DEBUG
 
-    --tex after fultoning parasites don't appear, try and reset
-    --doesnt work, parasite does appear, but is in fulton pose lol
-    --  if numFultonedThisMap>0 then
-    --    for k,parasiteName in pairs(this.parasiteNames) do
-    --      local gameId=GetGameObjectId(parasiteName)
-    --      if gameId~=NULL_ID then
-    --        SendCommand(gameId,{id="Realize"})
-    --      end
-    --    end
-    --  end
+  --tex after fultoning parasites don't appear, try and reset
+  --doesnt work, parasite does appear, but is in fulton pose lol
+  --  if numFultonedThisMap>0 then
+  --    for k,parasiteName in pairs(this.parasiteNames) do
+  --      local gameId=GetGameObjectId(parasiteName)
+  --      if gameId~=NULL_ID then
+  --        SendCommand(gameId,{id="Realize"})
+  --      end
+  --    end
+  --  end
 
-    SendCommand({type="TppParasite2"},{id="StartAppearance",position=Vector3(closestPos[1],closestPos[2],closestPos[3]),radius=spawnRadius})
+  SendCommand({type="TppParasite2"},{id="StartAppearance",position=Vector3(closestPos[1],closestPos[2],closestPos[3]),radius=spawnRadius})
 
-    --tex once one parasite has been fultoned the rest will be stuck in some kind of idle ai state on next appearance
-    --forcing combat bypasses this
-    if numFultonedThisMap>0 then
-      --InfMenu.DebugPrint"Timer_ParasiteCombat start"--DEBUG
-      StartTimer("Timer_ParasiteCombat",4)
-    end
+  --tex once one parasite has been fultoned the rest will be stuck in some kind of idle ai state on next appearance
+  --forcing combat bypasses this
+  if numFultonedThisMap>0 then
+    --InfMenu.DebugPrint"Timer_ParasiteCombat start"--DEBUG
+    StartTimer("Timer_ParasiteCombat",4)
+  end
 
-    StartTimer("Timer_ParasiteMonitor",monitorRate)
-    this.StartEventTimer()--tex schedule next
- -- end)--
+  StartTimer("Timer_ParasiteMonitor",monitorRate)
+  this.StartEventTimer()--tex schedule next
+  --end)--
 end
 
 function this.StartCombat()
@@ -388,11 +456,11 @@ function this.EndEvent()
   SendCommand({type="TppParasite2"},{id="StartWithdrawal"})
 end
 
-function this.SetZombie(gameObjectName,disableDamage,isHalf,life,stamina)
+function this.SetZombie(gameObjectName,disableDamage,isHalf,life,stamina,isMsf)
   isHalf=isHalf or false
 
   local gameObjectId=GetGameObjectId("TppSoldier2",gameObjectName)
-  SendCommand(gameObjectId,{id="SetZombie",enabled=true,isHalf=isHalf})
+  SendCommand(gameObjectId,{id="SetZombie",enabled=true,isHalf=isHalf,isZombieSkin=true,isHagure=true,isMsf=isMsf})
   SendCommand(gameObjectId,{id="SetMaxLife",life=life,stamina=stamina})
   SendCommand(gameObjectId,{id="SetZombieUseRoute",enabled=false})
   if disableDamage==true then

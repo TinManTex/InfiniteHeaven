@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r169"
+this.modVersion="r170"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -643,9 +643,7 @@ function this.Messages()
         func=function(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
           local typeIndex=GameObject.GetTypeIndex(gameId)
           if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
-            if Ivars.enableParasiteEvent:Is(1) and Ivars.enableParasiteEvent:MissionCheck() then
-              InfParasite.OnFulton(gameId)
-            end
+            InfParasite.OnFulton(gameId)
           end
         end
       },
@@ -654,9 +652,7 @@ function this.Messages()
           if failureType==TppGameObject.FULTON_FAILED_TYPE_ON_FINISHED_RISE then
             local typeIndex=GameObject.GetTypeIndex(gameId)
             if typeIndex==TppGameObject.GAME_OBJECT_TYPE_PARASITE2 then
-              if Ivars.enableParasiteEvent:Is(1) and Ivars.enableParasiteEvent:MissionCheck() then
-                InfParasite.OnFulton(gameId)
-              end
+              InfParasite.OnFulton(gameId)
             end
           end
         end
@@ -939,15 +935,17 @@ function this.ChangeMaxLife(setOn1)
   --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
   --which i don't like, my shitty code should be run in the shadows, not while player is getting viewable frames lol, this is at least just before that
   --RETRY: push back up again, you may just have fucked something up lol, the actual one use case is in sequence.OnEndMissionPrepareSequence which is the middle of tppmain.onallocate
- 
+
   --default player life is defined as 6000 in *player(s)_game_obj.fox2/TppPlayer2Parameter/lifeMax
   --however this is only the value during the early game
   --after mission 2 it bumps up to 6600 (6000*1.1?)
   --with medical hand grade 2 or higher (as snake or avatar), or with a DD soldier with the tough guy skill this increases to
   --7801, which is a bit over 6000*1.3, which is strange.
- 
+
   --vars.playerLifeMax is uint16 (ta NasaNhak) so just capping max at 50k (*1.3=65k) to avoid the overflow
   --Ivar max (6.5 scale) is actually a bit over 50k, but I'll cap here for sanity
+
+  -- see wiki for more info http://wiki.tesnexus.com/index.php/Life
   local healthScale=Ivars.playerHealthScale:Get()/100
   if healthScale~=1 or setOn1 then
     Player.ResetLifeMaxValue()
@@ -989,7 +987,7 @@ function this.OnInitializeTop(missionTable)
 
     if IsTable(enemyTable.soldierDefine) then
       if IsTable(enemyTable.VEHICLE_SPAWN_LIST)then
-        InfVehicle.ModifyVehiclePatrol(enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine)
+        InfVehicle.ModifyVehiclePatrol(enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine,enemyTable.travelPlans)
       end
 
       enemyTable.soldierTypes=enemyTable.soldierTypes or {}
@@ -1000,6 +998,11 @@ function this.OnInitializeTop(missionTable)
       this.ModifyVehiclePatrolSoldiers(enemyTable.soldierDefine)
       this.AddLrrps(enemyTable.soldierDefine,enemyTable.travelPlans)
       this.AddWildCards(enemyTable.soldierDefine,enemyTable.soldierTypes,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
+
+      --DEBUGNOW
+      --      for cpName,cpDefine in pairs(enemyTable.soldierDefine)do
+      --        cpDefine.lrrpVehicle=nil
+      --      end
 
       InfInterrogation.SetupInterrogation(enemyTable.interrogation)
       enemyTable.uniqueInterrogation=enemyTable.uniqueInterrogation or {}
@@ -1045,8 +1048,9 @@ function this.OnInitializeBottom(missionTable)
     end
   end
 
-
   InfWalkerGear.SetupWalkerGear()
+
+  InfVehicle.SetupConvoy()
   --end,missionTable)--DEBUG
 end
 
@@ -1056,8 +1060,8 @@ end
 --via TppMain
 function this.OnMissionCanStartBottom()
   --InfInspect.TryFunc(function()--DEBUG
-  if TppMission.IsFOBMission(vars.missionCode)then
-    return
+    if TppMission.IsFOBMission(vars.missionCode)then
+      return
   end
 
   local currentChecks=this.UpdateExecChecks(this.execChecks)
@@ -1087,9 +1091,7 @@ function this.OnMissionCanStartBottom()
     InfGameEvent.OnMissionCanStart()
   end
 
-  if Ivars.enableParasiteEvent:Is(1) and Ivars.enableParasiteEvent:MissionCheck() then
-    InfParasite.InitEvent()
-  end
+  InfParasite.InitEvent()
 
   if Ivars.repopulateRadioTapes:Is(1) then
     Gimmick.ForceResetOfRadioCassetteWithCassette()
@@ -1730,17 +1732,17 @@ function this.ResetObjectPool(objectType,objectNames)
 end
 
 local function FillList(fillCount,sourceList,fillList)
-  --local addedSoldiers={}
+  local addedSoldiers={}
   while fillCount>0 and #sourceList>0 do
     local soldierName=sourceList[#sourceList]
     if soldierName then
       sourceList[#sourceList]=nil--pop
       fillList[#fillList+1]=soldierName
-      --addedSoldiers[#addedSoldiers+1]=soldierName
+      addedSoldiers[#addedSoldiers+1]=soldierName
       fillCount=fillCount-1
     end
   end
-  --return addedSoldiers
+  return addedSoldiers
 end
 
 function this.ResetPool(objectNames)
@@ -1756,6 +1758,27 @@ function this.GetRandomPool(pool)
   local name=pool[rndIndex]
   table.remove(pool,rndIndex)
   return name
+end
+
+function this.BuildCpPool(soldierDefine)
+  local cpPool={}
+  local lrrpInd="_lrrp"
+  for cpName,cpDefine in pairs(soldierDefine)do
+    local cpId=GetGameObjectId("TppCommandPost2",cpName)
+    if cpId==NULL_ID then
+      InfMenu.DebugPrint("AddLrrps soldierDefine "..cpName.."==NULL_ID")--DEBUG
+    else
+      --if #cpDefine==0 then --OFF wont be empty on restart from checkpoint
+      --tex cp is labeled _lrrp
+      if string.find(cpName,lrrpInd) then
+        if not cpDefine.lrrpVehicle then
+          cpPool[#cpPool+1]=cpName
+        end
+      end
+    end
+  end
+  --InfMenu.DebugPrint("lrrp #cpPool:"..#cpPool)--DEBUG
+  return cpPool
 end
 
 function this.ModifyVehiclePatrolSoldiers(soldierDefine)
@@ -1788,10 +1811,25 @@ function this.ModifyVehiclePatrolSoldiers(soldierDefine)
       end
       --
       local seatDelta=numSeats-numCpSoldiers
+      --DEBUG
+--      local isConvoy=false
+--      for travelPlan,convoyVehicles in pairs(mvars.inf_patrolVehicleConvoyInfo) do
+--        for i,vehicleName in ipairs(convoyVehicles)do
+--          if cpDefine.lrrpVehicle==vehicleName then
+--            InfMenu.DebugPrint(vehicleName .." seatDelta "..seatDelta .. " #soldierPool "..#this.soldierPool)
+--            isConvoy=true
+--            break
+--          end
+--        end
+--      end
+      --<DEBUG
       if seatDelta<0 then--tex over filled
         FillList(-seatDelta,cpDefine,this.soldierPool)
       elseif seatDelta>0 then
-        FillList(seatDelta,this.soldierPool,cpDefine)
+        local soldiersAdded=FillList(seatDelta,this.soldierPool,cpDefine)
+--        if isConvoy then--DEBUG
+--          InfInspect.PrintInspect(soldiersAdded)
+--        end--
       end
       --if lrrpVehicle<
     end
@@ -1814,23 +1852,7 @@ function this.AddLrrps(soldierDefine,travelPlans)
   this.lrrpDefines={}
 
   --tex find empty cps to use for lrrps
-  local cpPool={}
-  local lrrpInd="_lrrp"
-  for cpName,cpDefine in pairs(soldierDefine)do
-    local cpId=GetGameObjectId("TppCommandPost2",cpName)
-    if cpId==NULL_ID then
-      InfMenu.DebugPrint("AddLrrps soldierDefine "..cpName.."==NULL_ID")--DEBUG
-    else
-      --if #cpDefine==0 then --OFF wont be empty on restart from checkpoint
-      --tex cp is labeled _lrrp
-      if string.find(cpName,lrrpInd) then
-        if not cpDefine.lrrpVehicle then
-          cpPool[#cpPool+1]=cpName
-        end
-      end
-    end
-  end
-  --InfMenu.DebugPrint("lrrp #cpPool:"..#cpPool)--DEBUG
+  local cpPool=this.BuildCpPool(soldierDefine)
 
   local planStr="travelIH_"
 

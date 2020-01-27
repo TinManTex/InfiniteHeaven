@@ -1,5 +1,5 @@
 = Infinite heaven =
-r169 - 2016-07-14
+r170 - 2016-07-28
 by tin man tex
 For MGSV version 1.09 (in title screen) 1.0.7.1 in exe
 
@@ -19,6 +19,14 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r170
+Fixed: Foot patrols and quest soldiers now zombified during skulls attack - there still may be some issues with larger or spread-out bases.
+Fixed: Zombieifed soldiers during skulls attack now have zombie skin - thanks  AGANEK for the report.
+
+Vehicle Patrol: Eastern Coms/Wailo village loop expanded to several vehicles. This is unfortunately the only vehicle patrol route that can be expanded this way.
+[youtube]Ul3wOB0lstM[/youtube]
+https://youtu.be/Ul3wOB0lstM
 
 New for r169
 Fixed: Actual subsistence missions retaining OSP setting after exit - thanks AGANEK for the report
@@ -155,5 +163,6 @@ Oliver
 Daniel
 Domenico
 Ryuta
+Thanks a lot.
 All the mod users on nexus for trying the mod and bug reports
 You for reading this
