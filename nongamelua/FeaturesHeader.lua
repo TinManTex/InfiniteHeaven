@@ -43,7 +43,7 @@ local this={
       featureHelp="Editable lists of options, see InfProfiles.lua in mod folder."
     },
     {
-      featureDescription="Reload lua scripts in MGSV_TPP without exiting game.",
+      featureDescription="Reload lua scripts in MGS_TPP without exiting game.",
       featureHelp="Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)"
     },
     {

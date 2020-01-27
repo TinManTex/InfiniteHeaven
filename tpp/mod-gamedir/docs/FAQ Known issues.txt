@@ -26,7 +26,13 @@ Usually TPP_GAME_DATA alone is sufficient.
 mega.co.nz has worked fine for uploading for many people, as has dropbox.
 You can message me the link on nexus if you wish.
 
-Also include Infinite Heavens settings file ih_save.lua in MGSV_TPP\mod
+Also include Infinite Heavens settings file ih_save.lua in MGS_TPP\mod
+
+'Infinite Heaven: Could not load modules from MGS_TPP\mod\' error:
+If you get this message shortly after startup,
+Doublecheck you have copied the mod folder contents from the Infinite Heaven zip to MGS_TPP\mod
+Make sure your game folder is actually named MGS_TPP.
+Try copying the mod folder to C:\mod, after running the game again open ih_log.txt from the mod folder and message me the log.
 
 Known issues:
 

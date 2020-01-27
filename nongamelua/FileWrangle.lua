@@ -57,7 +57,7 @@ local extensionTools={
   pftxs="gzsTool",--Texture archive, package fox textures (?)
   ph="foxTool",--Atv - Physics Object Description
   phsd="foxTool",--Atv - Physics Sound Parameter
-  sbp="gzsTool",--Sound archive, sound bank package
+  sbp="gzsTool",--Sound archive, sound bank package, conains bnk,
   sdf="foxTool",--Atv - Sound Data File Info
   sim="foxTool",--Atv - Simulation Object
   sub="subpTool",--Subtitles
@@ -65,6 +65,7 @@ local extensionTools={
   tgt="foxTool",--Atv - Geometry Target Description
   vdp="foxTool",--Atv - Vehicle Driving Parameter
   veh="foxTool",--Atv - Vehicle
+  wem="ww2ogg",--Wwise Encoded Media, Vorbis audio (all of it?)
   vfxlf="foxTool",--Atv - Visual Effects Lense Flare
 }
 --xml="texteditor",--tex output by various tools as intemediary between their formats TODO: does GZ have any pure xml files?
@@ -77,10 +78,94 @@ local extensionTools={
 --.exchnk: An extra chunk of animation tied to a .gani file from an Mtar Type 2 file. If the .gani file is swapped this should be brought along with it.
 --.enchnk: A chunk of animation at the bottom of an Mtar Type 2 file. Tied to a .gani file. Should be brought along with a swapped .gani file.
 
+local extensions={
+--categories={"Target"
+"bnk",--Wwise SoundBank,http://wiki.xentax.com/index.php/Wwise_SoundBank_(*.bnk),https://github.com/Vextil/Wwise-Unpacker,http://forum.xentax.com/viewtopic.php?f=13&t=4450&p=89662#p89662
+"col",--
+"demo",--
+"demox",--
+"dfrm",--
+"evb",--
+"fclo",--
+"fcnp",--connect point file
+"fdes",--
+"fmdl",--
+"fmdlb",--
+"info",--
+"fpk",--
+"fpkd",--
+"frdv",--
+"frig",--
+"fstb",--
+"ftex",--
+"ftexs",--
+"gani",--
+"lani",--
+"mtar",--
+"mtard",--
+"caar",--
+"geom",--collision geometry
+"gskl",--
+"nav",--
+"nav2",--
+"sani",--
+"sand",--
+"mog",--
+"fv2",--
+"cani",--
+"fmtt",--
+"lpsh",--
+"ffnt",--
+"fova",--
+"pftxs",--
+"frl",--
+"frld",--
+"frt",--
+"atsh",--
+"pcsp",--
+"uia",--
+"uif",--
+"uilb",--
+"uigb",--
+"fnt",--
+"rdf",--
+"nta",--
+"subp",--
+"lba",--locator binary array
+"ladb",--
+"lng",--
+--<
+"sad",--category:Language
+"evfl",--category:Language
+--categories={"Target","Language"},>
+"sbp",
+"stm",--
+"mas",--
+"wem",--
+"fsm",
+--<
+-->target
+"tetl",
+"tmss",
+"tmsl",
+"tlsp",
+"tmsu",
+"tmsf",
+"twpf",
+"adm",
+"tevt",
+"vpc",
+"ends",
+"spch",
+"mbl",
+--<
+}
+
 --REF
 --init.lua
 --AssetConfiguration.RegisterExtensionInfo{
---  extensions={"bnk","col","demo","demox","dfrm","evb","fclo","fcnp","fdes","fmdl","fmdlb","info","fpk","fpkd","frdv","frig","fstb","ftex","ftexs","gani","lani","mtar","mtard","caar","geom","gskl","nav","nav2","sani","sand","mog","fv2","cani","fmtt","lpsh","ffnt","fova","pftxs","frl","frld","frt","atsh","pcsp","uia","uif","uilb","uigb","fnt","rdf","nta","subp","lba","ladb","lng"},
+--  extensions={
+--"bnk","col","demo","demox","dfrm","evb","fclo","fcnp","fdes","fmdl","fmdlb","info","fpk","fpkd","frdv","frig","fstb","ftex","ftexs","gani","lani","mtar","mtard","caar","geom","gskl","nav","nav2","sani","sand","mog","fv2","cani","fmtt","lpsh","ffnt","fova","pftxs","frl","frld","frt","atsh","pcsp","uia","uif","uilb","uigb","fnt","rdf","nta","subp","lba","ladb","lng"},
 --  categories={"Target"}
 --}
 --AssetConfiguration.RegisterExtensionInfo{extensions={"sad","evfl"},categories={"Language"}}
@@ -119,7 +204,7 @@ local tools={
     url=[[https://github.com/Atvaark/FtexTool]],
   },
   mtarTool={
-    toolPath=[[D:\Projects\MGS\MGSVTOOLS\MtarTool.v0.2\MtarTool.exe]],
+    toolPath=[[D:\Projects\MGS\MGSVTOOLS\MtarTool.v0.2.2\MtarTool.exe]],
     url=[[https://github.com/BobDoleOwndU/MtarTool]],
     --dictionaryUrl=[[]],
   },
@@ -133,6 +218,13 @@ local tools={
     url=[[http://forum.xentax.com/viewtopic.php?f=10&t=12407&p=110644#p110644]],
     dictionaryUrl=[[https://github.com/emoose/MGSV-QAR-Dictionary-Project]],
   },
+  ravioli={
+    toolPath=[[D:\Projects\MGS\MGSVTOOLS\RavioliGameTools_v2.8]],
+    url=[[http://www.scampers.org/steve/sms/other.htm#ravioli]],
+  },
+  ww2ogg={
+    toolPath=[[https://github.com/hcs64/ww2ogg]],
+  }
 }
 
 local function GetFilesOfType(basePath,outputPath,extension)

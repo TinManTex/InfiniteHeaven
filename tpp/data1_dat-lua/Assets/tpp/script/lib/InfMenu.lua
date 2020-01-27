@@ -109,7 +109,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
     ivars[option.name]=gvar
   end
   if IsFunc(option.OnSelect) then
-    InfLog.PCallDebug(option.OnSelect,option)
+    InfLog.PCallDebug(option.OnSelect,option,ivars[option.name])
   end
 end
 

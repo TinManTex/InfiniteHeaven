@@ -274,8 +274,6 @@ function this.RegisterQuests()
     return
   end
 
-  --tex DEBUGNOW TODO: load, validate ihQuestNames,ihQuestsInfo
-
   --DEBUGNOW TODO load, validate installedQuests
   --k=questName,v=gvarIndex / TppDefine.QUEST_INDEX (QUEST_DEFINE index)
   this.installedQuests={
@@ -314,33 +312,34 @@ function this.RegisterQuests()
     if questInfo.questPackList.randomFaceList then
       table.insert(TppDefine.QUEST_RANDOM_FACE_DEFINE,questName)
       TppDefine.QUEST_RANDOM_FACE_INDEX=TppDefine.Enum(TppDefine.QUEST_RANDOM_FACE_DEFINE)
-      InfLog.PrintInspect(TppDefine.QUEST_RANDOM_FACE_INDEX)--DEBUGNOW
+      --InfLog.PrintInspect(TppDefine.QUEST_RANDOM_FACE_INDEX)
     end
     this.AddToQuestInfoTable(questInfoTable,questTableIndexes,questName,questInfo)
-    openQuestCheckTable[questName]=questInfo.canOpenQuest or AllwaysOpenQuest
+    openQuestCheckTable[questName]=questInfo.canOpenQuest or this.AllwaysOpenQuest
     TppQuest.questCompleteLangIds[questName]=questInfo.questCompleteLangId
 
     this.AddToQuestList(questList,questAreaTable,questName,questInfo)
     TppQuestList.questPackList[questName]=questInfo.questPackList
 
-    if not this.installedQuests[questName] then
-      InfLog.Add(questName.." was not previously installed")
-    else
-      local previousIndex=this.installedQuests[questName]
-
-      if previousIndex~=questIndex then
-        InfLog.Add(questName.." shifting from previous index of "..previousIndex)
-      end
-
-      for i,gvarName in ipairs(gvarFlagNames)do
-        gvars[gvarName]=gvarFlags[previousIndex][gvarName]
-      end
-    end
+--TODO
+--    if not this.installedQuests[questName] then
+--      InfLog.Add(questName.." was not previously installed")
+--    else
+--      local previousIndex=this.installedQuests[questName]
+--
+--      if previousIndex~=questIndex then
+--        InfLog.Add(questName.." shifting from previous index of "..previousIndex)
+--      end
+--
+--      for i,gvarName in ipairs(gvarFlagNames)do
+--        gvars[gvarName]=gvarFlags[previousIndex][gvarName]
+--      end
+--    end
 
     this.installedQuests[questName]=questIndex
   end
 
-  --DEBUGNOW TODO: save installedQuests
+  --TODO: save installedQuests
 
   InfLog.Add("numUiQuests:"..#questInfoTable)
 

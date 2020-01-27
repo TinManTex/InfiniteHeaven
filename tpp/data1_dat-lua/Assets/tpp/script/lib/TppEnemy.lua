@@ -1306,7 +1306,7 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
     end
   end
   local checkLoadedPowers={SMG=true,MG=true,SHOTGUN=true,SNIPER=true,MISSILE=true,SHIELD=true}
-  for powerType,t in pairs(checkLoadedPowers)do
+  for powerType,bool in pairs(checkLoadedPowers)do
     if powerLoadout[powerType]and not mvars.revenge_loadedEquip[powerType]then
       powerLoadout[powerType]=nil
     end
@@ -1329,9 +1329,6 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   if powerLoadout.QUEST_ARMOR then
     powerLoadout.ARMOR=true
   end
-
-
-
   --tex DEBUG> CULL
   --this.totalSoldiers=this.totalSoldiers+1
   --  this.armorLimit=Ivars.debugValue:Get()
@@ -1362,7 +1359,6 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
       powerLoadout.MG=nil
     end
   end
-
   --  if powerLoadout.MISSILE or powerLoadout.SHIELD then--ORIG
   --    powerLoadout.SNIPER=nil
   --    powerLoadout.SHOTGUN=nil
@@ -1384,42 +1380,43 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
     end
   end
   --tex>mbDDHeadGear clear headgear
-  if subTypeName=="DD_FOB"then
-    if not Ivars.mbDDHeadGear:EnabledForMission() then
-      powerLoadout.HELMET=nil
-      powerLoadout.GAS_MASK=nil
-      powerLoadout.NVG=nil
+  if not TppMission.IsFOBMission(vars.missionCode)then
+    if subTypeName=="DD_FOB"then
+      if not Ivars.mbDDHeadGear:EnabledForMission() then
+        powerLoadout.HELMET=nil
+        powerLoadout.GAS_MASK=nil
+        powerLoadout.NVG=nil
+      end
     end
-  end --<
+  end
+  --<
 
-  if powerLoadout.GAS_MASK then
-    if subTypeName~="DD_FOB"then
-      if powerLoadout.HEADGEAR_COMBO then--tex> --gvars.allowHeadGearCombo>0 then--
+  if subTypeName~="DD_FOB"then
+    --tex>
+    if powerLoadout.HEADGEAR_COMBO then
+      if powerLoadout.GAS_MASK then
+        --powerLoadout.HELMET=nil
         powerLoadout.NVG=nil
-      else--tex< ORIG-v-
+      end
+      if powerLoadout.NVG then
+        --powerLoadout.HELMET=nil
+        powerLoadout.GAS_MASK=nil
+      end
+      if powerLoadout.HELMET then
+        --powerLoadout.GAS_MASK=nil
+        powerLoadout.NVG=nil
+      end
+    else
+      --<
+      if powerLoadout.GAS_MASK then
         powerLoadout.HELMET=nil
         powerLoadout.NVG=nil
       end
-    end
-  end
-  if powerLoadout.NVG then
-    if subTypeName~="DD_FOB"then
-      if powerLoadout.HEADGEAR_COMBO then--tex>
-        powerLoadout.GAS_MASK=nil
-      else--tex< ORIG-v-
+      if powerLoadout.NVG then
         powerLoadout.HELMET=nil
         powerLoadout.GAS_MASK=nil
       end
-    end
-  end
-  if powerLoadout.HELMET then
-    if subTypeName~="DD_FOB"then
-      --tex>
-      if powerLoadout.HEADGEAR_COMBO then
-        if powerLoadout.GAS_MASK and powerLoadout.NVG then
-          powerLoadout.NVG=nil
-        end
-      else--tex< ORIG-v-
+      if powerLoadout.HELMET then
         powerLoadout.GAS_MASK=nil
         powerLoadout.NVG=nil
       end
@@ -4657,6 +4654,7 @@ function this.OnAllocateQuestFova(questTable)
           table.insert(faces,face)
           setHostageFace=true
         end
+        --NMC: relies on randomFaceList in TppQuestList
         if hostageDef.isFaceRandom then
           local faceId=TppQuest.GetRandomFaceId()
           if faceId then
@@ -4871,7 +4869,8 @@ function this.SetupActivateQuestCp(cpList)
 end
 
 --tex broken out from SetupActivateQuestEnemy
-local function SetupEnemyDef(enemyDef,disable)
+--IN/OUT loadedFaceIndex
+local function SetupEnemyDef(enemyDef,disable,loadedFaceIndex)
   local soldierId=enemyDef.enemyName
   if IsTypeString(soldierId)then
     soldierId=GameObject.GetGameObjectId(soldierId)
@@ -4951,11 +4950,11 @@ local function SetupEnemyDef(enemyDef,disable)
           local loadedFaceTable=mvars.ene_questGetLoadedFaceTable
           local numLoadedFaces=#mvars.ene_questGetLoadedFaceTable
           if numLoadedFaces>0 and mvars.ene_questBalaclavaId~=0 then
-            local faceId=mvars.ene_questGetLoadedFaceTable[i]
-            if mvars.ene_questGetLoadedFaceTable[i+1]then
-              i=i+1
+            local faceId=mvars.ene_questGetLoadedFaceTable[loadedFaceIndex]
+            if mvars.ene_questGetLoadedFaceTable[loadedFaceIndex+1]then
+              loadedFaceIndex=loadedFaceIndex+1
             else
-              i=1
+              loadedFaceIndex=1
             end
             if enemyDef.soldierSubType=="PF_A"or enemyDef.soldierSubType=="PF_C"then
               GameObject.SendCommand(soldierId,{id="ChangeFova",isScarf=true})
@@ -5008,11 +5007,11 @@ end
 
 --enemyList= from <quest>.lua .QUEST_TABLE.enemyList
 function this.SetupActivateQuestEnemy(enemyList)
-  local i=1
+  local loadedFaceIndex=1
 
   for n,enemyDef in pairs(enemyList)do
     if enemyDef.enemyName then
-      SetupEnemyDef(enemyDef,false)
+      SetupEnemyDef(enemyDef,false,loadedFaceIndex)
     elseif enemyDef.setCp then
       local cpId=GetGameObjectId(enemyDef.setCp)
       if cpId==NULL_ID then
@@ -5026,7 +5025,7 @@ function this.SetupActivateQuestEnemy(enemyList)
         if cpId then
           for soldierId,soldierName in pairs(mvars.ene_soldierIDList[cpId])do
             local enemyDef={enemyName=soldierId,isDisable=enemyDef.isDisable}
-            SetupEnemyDef(enemyDef,true)
+            SetupEnemyDef(enemyDef,true,loadedFaceIndex)
           end
         end
       end
@@ -5037,7 +5036,7 @@ end
 function this.SetupActivateQuestHostage(hostageList)
   local isAfghan=TppLocation.IsAfghan()
   local isMiddleAfrica=TppLocation.IsMiddleAfrica()
-  for t,hostageInfo in pairs(hostageList)do
+  for index,hostageInfo in pairs(hostageList)do
     if hostageInfo.hostageName then
       local hostageId=hostageInfo.hostageName
       if IsTypeString(hostageId)then

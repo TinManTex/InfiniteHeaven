@@ -3,7 +3,7 @@
 InfLog.AddFlow"Load InfMain.lua"
 local this={}
 
-this.modVersion="195"
+this.modVersion="196"
 this.modName="Infinite Heaven"
 this.saveName="ih_save.lua"
 
@@ -204,8 +204,7 @@ function this.Init(missionTable)
     if Ivars.debugMode:Is(1) then
       local strCode32List={}
 
-      --DEBUGNOW
-      --this.LoadExternalModule"InfStrCode"
+      local InfStrCode=this.LoadExternalModule("InfStrCode",true,true)--tex module wont assign to global issue again
       if InfStrCode then
         Tpp.ApendArray(strCode32List,InfStrCode.DEBUG_strCode32List)
       end
@@ -801,7 +800,7 @@ end
 
 function this.DoControlSet(currentChecks)
   local abortButton=InfButton.ESCAPE
-  InfButton.buttonStates[abortButton].holdTime=2
+  InfButton.buttonStates[abortButton].holdTime=1.6
 
   if InfButton.OnButtonHoldTime(abortButton) then
     if gvars.ini_isTitleMode then
@@ -1914,7 +1913,7 @@ function this.PostAllModulesLoad()
 end
 
 --modules
-function this.LoadExternalModule(moduleName,isReload)
+function this.LoadExternalModule(moduleName,isReload,skipPrint)
   local prevModule=_G[moduleName]
   if isReload then
     if prevModule and prevModule.PreModuleReload then
@@ -1926,11 +1925,12 @@ function this.LoadExternalModule(moduleName,isReload)
   package.loaded[moduleName]=nil
   local sucess,module=pcall(require,moduleName)
   if not sucess then
-    InfLog.Add(module)
+    InfLog.Add(module,false,true)
     --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
-    if InfLog.doneStartup then
+    if InfLog.doneStartup and not skipPrint then
       InfLog.DebugPrint("Could not load module "..moduleName)
     end
+    return nil
   else
     _G[moduleName]=module
   end
@@ -1974,8 +1974,8 @@ end
 
 function this.ModuleErrorMessage()
   --tex TODO: if InfLang then printlangid else -v-
-  InfLog.DebugPrint"Infinite Heaven: Could not load modules from MGSV_TPP\\mod\\. See Installation.txt"
-  InfLog.Add("Infinite Heaven: Could not load modules from MGSV_TPP\\mod\\. See Installation.txt",false,true)
+  InfLog.DebugPrint"Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See Installation.txt"
+  InfLog.Add("Infinite Heaven: Could not load modules from MGS_TPP\\mod\\. See Installation.txt",false,true)
 end
 
 --EXEC

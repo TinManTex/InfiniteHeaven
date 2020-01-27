@@ -24,18 +24,29 @@ this={}
 --  p60="<resourceId>",--resourceType2--Development resource 2 id,, see resource ids below
 --  p61=0,--resourceType2Count--Development resource 2 quantity
 --  p62=1,--{0,1}--initialAvailable - set as developed
---  p63=0,--
---  p64=0,--
+--  p63=0,--sectionIDForDevelop -nasanhak **ID of 1st unit requirement for SOME weapons/items - seems to override p55(higher preference)
+--  p64=0,--developSectionLv -nasanhak **level requirement for 1st unit type for SOME weapons/items - SPECULATION(did not test): If 0, then p55 acts as 1st unit level? At any rate set to 1 for easy level requirements
 --  p65="",--resourceUsageType1--Deployment resource 1 id
 --  p66=0,--resourceUsageType1Count--Deployment resource 1 quantity
 --  p67="",--resourceUsageType2--Deployment resource 2 id
 --  p68=0,--resourceUsageType2Count--Deployment resource 2 quantity
---  p69=0,--{0,1} nasanhak 1=hide from development tabs, used for enemy weapons and DLC
+--  p69=0,--displayInfo 
+--nasanhak
+--   0 - show in dev menus
+--   1 - DLC and then some
+--   2 - Anything un-develop-able - Enemy weapons(cause these need equip info too, just can't be developed), Infected NVG from M43, Balaclava & Headgear, Looks to be unused DD skins(Ocelot & Miller), One Walker Gear pistol, Battle Gear stuff, Honeybee, Skull face gun, Volgin gun(his attack that is), Enemy shields and D.MINE MARKER
+--   3 - only for wormhole fulton all 4 grades
+--   5 - All unused - Fulton cargo, fulton normal, fulton wormhole; Hides equip from equip menu as well
 --  p70=0,--
 --  p71=0,--developTimeMinute--Development time
---  p72={0-7},--isValidMbCoin??  --Offline (0) Online (1)
+--  p72={0-7},--isValidMbCoin  --Offline (0) Online (1)
 --  p73=0,--intimacyPoint -- buddy points reuired for dev
 --  p74=1--isFobAvailable
+--nasanhak
+--   0 means items cannot be equipped for FOBs at sortie screen - cannot commence FOB mission
+--   This does not control item usage once on FOBs
+--   So changing from 0 to 1 will allow you to deploy to FOBs with let's say the infinity bandanna/parasite suit
+--   but the Stealth Camo, supply flare, support flare, cigar, parasites will still not be usable
 --}
 
 --Resource ids

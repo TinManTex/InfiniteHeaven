@@ -631,7 +631,53 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfLog.Add"---------------------DEBUG_SomeShiz---------------------"
- 
+
+    local hostageNames={
+      --"hos_quest_0000",
+      "ih_hostage_0000",
+      "ih_hostage_0001",
+      "ih_hostage_0002",
+      "ih_hostage_0003",
+    }
+
+    for i,hostageName in ipairs(hostageNames)do
+      local hostageObject=GetGameObjectId(hostageName)
+
+      if hostageObject==NULL_ID then
+        InfLog.Add(hostageName.."==NULL_ID",true)
+      else
+        local playerPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
+        local command={id="Warp",degRotationY=vars.playerRotY,position=playerPos}
+        GameObject.SendCommand(hostageObject,command)
+      end
+    end
+
+    --    local lasterUserMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
+    --    local gameId=vars.userMarkerGameObjId[lasterUserMarkerIndex]
+    --    if gameId==NULL_ID then
+    --      InfLog.DebugPrint"gameId==NULL_ID"
+    --      return
+    --    end
+    --
+    --    --    local command={id="ChangeFova",faceId=index2}
+    --    --    GameObject.SendCommand(gameId,command)
+    --
+    --    local objectName=InfLookup.ObjectNameForGameId(gameId)
+    --    if objectName==nil then
+    --      InfLog.DebugPrint"objectName==nil"
+    --      return
+    --    end
+    --    InfLog.DebugPrint(objectName)
+    --
+    --    InfLog.Add(objectName,true)
+    --
+    --    local wildCardInfo=InfNPC.ene_wildCardInfo[objectName]
+    --    if wildCardInfo==nil then
+    --      InfLog.DebugPrint"wildCardInfo==nil"
+    --      return
+    --    end
+    --
+    --    InfLog.PrintInspect(wildCardInfo)
 
     InfLog.DebugPrint("index1:"..index1)
     index1=index1+1
@@ -649,7 +695,46 @@ this.DEBUG_SomeShiz2={
   OnChange=function()
     InfLog.Add("---DEBUG_SomeShiz2---")
 
+    local hostageNames={
+      --"hos_quest_0000",
+      "ih_hostage_0000",
+      "ih_hostage_0001",
+      "ih_hostage_0002",
+      "ih_hostage_0003",
+    }
+    for i,hostageName in ipairs(hostageNames)do
+      local hostageId=GetGameObjectId(hostageName)
+      
+      
+      TppEnemy.RegistHoldRecoveredState(hostageName)
+      
+      
+      local command={
+        id="SetHostage2Flag",
+        flag="unlocked",
+        on=true,
+      }
+      SendCommand(hostageId,command)
+      --
+      --                 TppHostage2.SetHostageType{
+      --      gameObjectType  = "TppHostage2",
+      --      hostageType   = "Mob",
+      --    }
 
+
+      --     GameObject.SendCommand( hostageId, { id = "SetFollowed", enable = true } )
+      --     local command={id="SetHostage2Flag",flag="commonNpc",on=true}
+      --     GameObject.SendCommand( hostageId,command)
+
+      local command = { id = "SetNoticeState", state = TppGameObject.HOSTAGE_NOTICE_STATE_FLEE }
+      SendCommand(hostageId,command)
+
+
+      local vehicleId=GetGameObjectId("veh_lv_0002")
+      local setVehicle={id="SetRelativeVehicle",targetId=vehicleId,rideFromBeginning=true}
+      SendCommand(hostageId,setVehicle)
+    end
+    InfLog.DebugPrint"doop"
 
     InfLog.DebugPrint("index2:"..index2)
     index2=index2+1
@@ -664,7 +749,31 @@ local index3Max=10
 local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
-   
+
+local positionsList={
+  {pos={845.075,297.156,2379.230},rot=79.401},
+  {pos={793.784,292.014,2472.851},rot=22.450},
+  {pos={724.948,290.399,2482.498},rot=46.496},
+  {pos={694.904,293.442,2460.756},rot=-49.662},
+  {pos={693.468,291.960,2447.803},rot=-102.257},
+  {pos={779.257,291.816,2577.759},rot=-134.101},
+  {pos={771.967,286.862,2562.339},rot=98.388},
+  {pos={864.529,302.099,2510.342},rot=-85.682},
+  {pos={851.171,297.145,2481.231},rot=-129.925},
+}
+
+local TARGET_HOSTAGE_NAME="hos_quest_0000"
+index3Max=#positionsList
+
+
+  local coords=positionsList[index3]--InfUtil.GetRandomInList(positionsList)
+
+  local hostageId=GetGameObjectId(TARGET_HOSTAGE_NAME)
+  if hostageId==GameObject.NULL_ID then
+  else
+    local command={id="Warp",position=Vector3(coords.pos[1],coords.pos[2],coords.pos[3]),degRotationY=coords.rot}
+    GameObject.SendCommand(hostageId,command)
+  end
 
 
     InfLog.DebugPrint("index3:"..index3)
@@ -1304,7 +1413,7 @@ this.DEBUG_WarpToObject={
     local objectList=InfMain.reserveSoldierNames
     --        local travelPlan="travelArea2_01"
     --         local objectList=InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
-    --local objectList=InfNPC.ene_wildCardInfo
+    --local objectList=InfNPC.ene_wildCardNames
     --local objectList=InfParasite.parasiteNames.CAMO
     --local objectList=InfLookup.truckNames
     --local objectList={"veh_trc_0000"}
@@ -1388,7 +1497,7 @@ this.DEBUG_PrintObjectListPosition={
     local objectList=InfMain.reserveSoldierNames
     --        local travelPlan="travelArea2_01"
     --         local objectList=InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
-    --local objectList=InfMain.ene_wildCardInfo
+    --local objectList=InfMain.ene_wildCardNames
     --local objectList=InfParasite.parasiteNames.CAMO
     --local objectList=InfLookup.truckNames
     --local objectList={"veh_trc_0000"}

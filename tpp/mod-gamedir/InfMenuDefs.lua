@@ -91,7 +91,7 @@ this.soldierParamsMenu={
   }
 }
 
---DEBUGNOW
+--tex Generated
 this.sideOpsCategoryMenu={
   options={
   }

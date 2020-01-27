@@ -552,7 +552,7 @@ this.wildCardFemaleSuits={
   "SWIMWEAR_FEMALE",
 }
 
-this.wildCardFemaleSuitName="SNEAKING_SUIT"
+this.wildCardFemaleSuitName="SNEAKING_SUIT"--tex set in WildCardFovaSetup
 function this.GetFemaleWildCardBodyInfo()
   return this.ddBodyInfo[this.wildCardFemaleSuitName]
 end
@@ -592,7 +592,7 @@ this.faceIds={
   FEMALE={
     COMMON={
       {min=350,max=399},--european
-      {min=440,max=479},--african
+      {min=450,max=479},--african
       {min=500,max=519},--asian
       {613,643},
     },
@@ -1575,11 +1575,9 @@ this.wildCardBodyTable={
 
 --called from TppEnemyFova fovaSetupFuncs.Afghan/Africa
 --IN/Out bodies
-function this.WildCardFovaSetup()
-  --InfLog.PCall(function(bodies)--DEBUG
+function this.WildCardFovaFaces(faces)
   InfMain.RandomSetToLevelSeed()
   local faceBags=this.BuildFaceBags(this.faceIds)
-  local faces={}
   this.inf_wildCardMaleFaceList={}
   this.inf_wildCardFemaleFaceList={}
   local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT
@@ -1598,11 +1596,15 @@ function this.WildCardFovaSetup()
   
   InfLog.Add"inf_wildCardFemaleFaceList"--DEBUG
   InfLog.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList)--DEBUG
-  TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}
+  --TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}--tex OFF TEST is mixing additionalmode here and via UniqueSettings is causing issues?
+   InfMain.RandomResetToOsTime()
+end
+
+function this.WildCardFovaBodies(bodies)
+  InfMain.RandomSetToLevelSeed()
 
   local locationName=InfUtil.GetLocationName()
 
-  local bodies={}
   this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)
   local bodyInfo=this.GetFemaleWildCardBodyInfo()
   if bodyInfo then
@@ -1627,10 +1629,9 @@ function this.WildCardFovaSetup()
   if maleBodyTable then
     this.SetupBodies(maleBodyTable,bodies)
   end
-  TppSoldierFace.OverwriteMissionFovaData{body=bodies,additionalMode=true}
+  --TppSoldierFace.OverwriteMissionFovaData{body=bodies,additionalMode=true}--tex OFF TEST is mixing additionalmode here and via UniqueSettings is causing issues?
   
   InfMain.RandomResetToOsTime()
-  --end,bodies)--DEBUG
 end
 
 function this.GetHeadGearForPowers(powerSettings,faceId,hasHelmet)

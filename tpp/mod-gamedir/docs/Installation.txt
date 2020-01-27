@@ -67,8 +67,13 @@ Open <steam path>\steamapps\common\MGS_TPP\
 Make a copy of MGS_TPP\mod\ for safety.
 Delete all files in MGS_TPP\mod\ except for ih_save.lua
 
-Copy the mod folder from the Infinite Heaven.zip to MGSV_TPP\mod
+Copy the mod folder from the Infinite Heaven.zip to MGS_TPP\mod
 
+'Infinite Heaven: Could not load modules from MGS_TPP\mod\' error:
+If you get this message shortly after startup,
+Doublecheck you have copied the mod folder contents from the Infinite Heaven zip to MGS_TPP\mod
+Make sure your game folder is actually named MGS_TPP.
+Try copying the mod folder to C:\mod, after running the game again open ih_log.txt from the mod folder and message me the log.
 
 Note:
 ------------------------------
@@ -108,4 +113,4 @@ Uninstallation:
 Exit any missions, return to the ACC.
 The mod saves some varables to the save file, but on initial testing (I welcome feedback on this) there is no issue with loading a save from this mod after the mod has been removed (provided you have exited to ACC)
 Use uninstall in SnakeBite.
-Delete the MGSV_TPP\mod folder
+Delete the MGS_TPP\mod folder

@@ -958,9 +958,9 @@ function this.Messages()
         option={isExecMissionClear=true,isExecDemoPlaying=true}
       },
       {msg="FultonInfo",
-        func=function(gameId,playerIndex,arg3)
+        func=function(gameId,playerIndex,reduceThisContainer)
           if not TppMission.IsFOBMission(vars.missionCode)then
-            this.OnFultonInfoMessage(gameId,playerIndex,arg3)
+            this.OnFultonInfoMessage(gameId,playerIndex,reduceThisContainer)
           end
         end,
         option={isExecMissionClear=true,isExecDemoPlaying=true}
@@ -1012,11 +1012,11 @@ function this.OnFultonMessage(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,st
   mvars.trm_fultonInfo=mvars.trm_fultonInfo or{}
   mvars.trm_fultonInfo[gameId]={gameId,gimmickInstanceOrAnimalId,gimmickDataSet,stafforResourceId}
 end
-function this.OnFultonInfoMessage(gameId,playerIndex,arg3)
+function this.OnFultonInfoMessage(gameId,playerIndex,reduceThisContainer)
   mvars.trm_fultonInfo=mvars.trm_fultonInfo or{}
   local fultonInfo=mvars.trm_fultonInfo[gameId]
   if fultonInfo then
-    this.OnFulton(fultonInfo[1],fultonInfo[2],fultonInfo[3],fultonInfo[4],nil,nil,playerIndex,arg3)
+    this.OnFulton(fultonInfo[1],fultonInfo[2],fultonInfo[3],fultonInfo[4],nil,nil,playerIndex,reduceThisContainer)
     mvars.trm_fultonInfo[gameId]=nil
   end
   mvars.trm_fultonFaileEndInfo=mvars.trm_fultonFaileEndInfo or{}
@@ -1151,7 +1151,7 @@ function this.SetUpBuddyMBDVCMenu()
     end
   end
 end
-function this.DoFuncByFultonTypeSwitch(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,recoveredByHeli,playerIndex,RENAMEmysteryPatchvar,OnFultonSoldier,OnFultonVolgin,OnFultonHostage,OnFultonVehicle,OnFultonContainer,OnFultonGimmickCommon,OnFultonBuddy,OnFultonEnemyWalkerGear,OnFultonAnimal,OnFultonBossQuiet,OnFultonParasiteSquad)
+function this.DoFuncByFultonTypeSwitch(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,recoveredByHeli,playerIndex,reduceThisContainer,OnFultonSoldier,OnFultonVolgin,OnFultonHostage,OnFultonVehicle,OnFultonContainer,OnFultonGimmickCommon,OnFultonBuddy,OnFultonEnemyWalkerGear,OnFultonAnimal,OnFultonBossQuiet,OnFultonParasiteSquad)
   if Tpp.IsSoldier(gameId)then
     return OnFultonSoldier(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,recoveredByHeli,playerIndex)
   elseif Tpp.IsVolgin(gameId)then
@@ -1161,7 +1161,7 @@ function this.DoFuncByFultonTypeSwitch(gameId,gimmickInstanceOrAnimalId,gimmickD
   elseif Tpp.IsVehicle(gameId)then
     return OnFultonVehicle(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,playerIndex)
   elseif Tpp.IsFultonContainer(gameId)then
-    return OnFultonContainer(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,playerIndex,RENAMEmysteryPatchvar)
+    return OnFultonContainer(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,playerIndex,reduceThisContainer)
   elseif Tpp.IsFultonableGimmick(gameId)then
     return OnFultonGimmickCommon(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,playerIndex)
   elseif Tpp.IsEnemyWalkerGear(gameId)then
@@ -1179,7 +1179,7 @@ function this.DoFuncByFultonTypeSwitch(gameId,gimmickInstanceOrAnimalId,gimmickD
     end
   end
 end
-function this.OnFulton(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex,unk3)
+function this.OnFulton(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex,reduceThisContainer)
   if RENpossiblyNotHelicopter then
     mvars.trm_needHeliSoundOnAddStaffsFromTempBuffer=true
   end
@@ -1188,7 +1188,7 @@ function this.OnFulton(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrRe
   if Tpp.IsLocalPlayer(playerIndex)then
     TppEnemy._OnFulton(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId)
   end
-  this.DoFuncByFultonTypeSwitch(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,RENsomeBool,playerIndex,unk3,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
+  this.DoFuncByFultonTypeSwitch(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,RENsomeBool,playerIndex,reduceThisContainer,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
 end
 function this.IncrementFultonCount()
   svars.trm_missionFultonCount=svars.trm_missionFultonCount+1
@@ -1297,7 +1297,7 @@ function this.OnFultonVehicle(vehicleId,a,a,resourceId,a,playerIndex)
     OnlineChallengeTask.UpdateOnFultonVehicle(vehicleId)
   end--<
 end
-function this.OnFultonContainer(gameId,t,n,staffOrResourceId,M,playerIndex,RENAMEmysterypatchvar)
+function this.OnFultonContainer(gameId,t,n,staffOrResourceId,M,playerIndex,reduceThisContainer)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
@@ -1316,7 +1316,7 @@ function this.OnFultonContainer(gameId,t,n,staffOrResourceId,M,playerIndex,RENAM
       gimmickName="commFacility_cntn001"
     end
     local isReduceAmount=false
-    if(RENAMEmysterypatchvar==1)then
+    if(reduceThisContainer==1)then
       isReduceAmount=true
     end
     Gimmick.CallFindContainerResourceLog(gimmickName,isReduceAmount)--RETAILPATCH: 1.0.4.0 last param added, same with below

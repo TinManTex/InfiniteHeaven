@@ -62,7 +62,7 @@
           <value>/Assets/tpp/motion/motion_graph/hostage2/Hostage2_layers.mog</value>
         </property>
         <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
-          <value>/Assets/tpp/motion/mtar/hostage2/Hostage2_layers_no_stand.mtar</value>
+          <value>/Assets/tpp/motion/mtar/hostage2/Hostage2_layers.mtar</value>
         </property>
         <property name="extensionMtarFile" type="FilePtr" container="StaticArray" arraySize="1">
           <value></value>

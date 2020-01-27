@@ -51,7 +51,6 @@ function this.Init(missionTable)
   if not Ivars.enableInfInterrogation:EnabledForMission() then
     return
   end
-  --InfLog.PCall(function()--DEBUG
   if missionTable.enemy then
     local enemyTable=missionTable.enemy
     if IsTable(enemyTable.soldierDefine) then
@@ -60,7 +59,6 @@ function this.Init(missionTable)
       this.SetupInterCpQuests(enemyTable.soldierDefine,enemyTable.uniqueInterrogation)
     end
   end
-  --end)--
 end
 
 --DEBUG>
@@ -76,7 +74,7 @@ end--<
 --TUNE, interrogation type selection
 this.InterCall_Location=function(soldierId,cpId,interName)
   --InfLog.DebugPrint"InterCall_Location"--DEBUG
-  --InfLog.PCall(function()--DEBUG
+  InfLog.PCallDebug(function(soldierId,cpId,interName)--DEBUG
   local interrFuncs={}
   if Ivars.enableLrrpFreeRoam:Is(1) then
     interrFuncs[#interrFuncs+1]=this.LrrpLocation
@@ -98,7 +96,7 @@ this.InterCall_Location=function(soldierId,cpId,interName)
   if LocationInterrogate then
     LocationInterrogate()
   end
-  -- end)
+  end,soldierId,cpId,interName)--
 end
 
 function this.LrrpLocation()
@@ -142,9 +140,8 @@ end
 
 function this.WildCardLocation()
   --InfLog.DebugPrint"WildCardLocation"--DEBUG
-  local ene_wildCardInfo=InfNPC.ene_wildCardNames
-  local soldierName=ene_wildCardInfo[math.random(#ene_wildCardInfo)]
-  local cpName=ene_wildCardInfo[soldierName].cpName
+  local soldierName=InfUtil.GetRandomInList(InfNPC.ene_wildCardNames)
+  local cpName=InfNPC.ene_wildCardInfo[soldierName].cpName
   local cpNameString=InfMenu.CpNameString(cpName,InfUtil.GetLocationName())
   InfMenu.PrintFormatLangId("interrogate_wildcard",cpNameString)
 end

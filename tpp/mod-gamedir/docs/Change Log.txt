@@ -1,10 +1,30 @@
 Infinite Heaven changelog
 
+r196 - 2016-12-10
+Core: GetPath nil fallback to C:\
+
+Added Headgear (cosmetic) to Filter Faces (splits headgear from Unique filter)
+
+Fixed: Onselect settings param passing through
+
+Build for SnakeBite 0.8.4
+Data: veh_rl_* to proper names from hashed.
+
+Fixed: Female Wildcard face range incorrect, resulting in defaulting to smushmanface.
+
+Fixed: Quests with balaclavas breaking those soldiers - thanks shynbean and PerkPrincess for your report.
+
+Fixed: mbAdditionalSoldiers,"More soldiers on MB plats" not loading the additonal soldiers, reulting in empty platforms - thanks  shynbean for the report.
+
+Fixed: IH interrogations would not return wildcard soldier locations - thanks rargh for the report.
+
+Fixed: Soldier headgear on fobs.
+
 r195 - 2016-12-03
 
 Wildcard soldiers and hostages have staff parameters regenerated. Should always have a skill assigned now and have high stats (in respect to current mb level/stats draw)
 
-Refactor: Only call module prereload/postreload on actual user module reload. 
+Refactor: Only call module prereload/postreload on actual user module reload.
 PostAllModulesReload renamed PostAllModulesLoad to clarify it's execution.
 
 mbPrioritizeFemale - "Female staff selection" - added Half setting.

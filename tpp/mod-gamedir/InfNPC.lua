@@ -76,15 +76,12 @@ this.ene_wildCardNames={}
 this.ene_wildCardInfo={}
 
 this.packages={
-  "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_mb.fpk"--tex still relies on totalCount in f30050_npc.fox2
+  mbAdditionalSoldiers="/Assets/tpp/pack/mission2/ih/ih_soldier_loc_mb.fpk"--tex still relies on totalCount in f30050_npc.fox2
 }
 
 function this.PostModuleReload(prevModule)
   this.ene_wildCardNames=prevModule.ene_wildCardNames
   this.ene_wildCardInfo=prevModule.ene_wildCardInfo
-  --DEBUGNOW TEST
-  InfLog.Add("InfNPC.PostModuleReload")
-  InfLog.PrintInspect(this.ene_wildCardInfo)
 end
 
 function this.AddMissionPacks(missionCode,packPaths)
@@ -100,10 +97,16 @@ function this.AddMissionPacks(missionCode,packPaths)
   end
 end
 
-function this.PreMissionLoad(missionId,currentMissionId)
-  if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then
-    InfEneFova.WildCardFovaSetup()
-  end
+function this.PreMissionLoad(missionCode,currentMissionId)
+--  --DEBUGNOW OFF TEST
+--   if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then
+--    local faces={}
+--    InfLog.PCallDebug(InfEneFova.WildCardFovaFaces,faces)
+--    TppSoldierFace.OverwriteMissionFovaData{face=faces}
+--    local bodies={}
+--    InfLog.PCallDebug(InfEneFova.WildCardFovaBodies,bodies)
+--    TppSoldierFace.OverwriteMissionFovaData{body=bodies}
+--  end
 end
 
 function this.Init(missionTable)
@@ -114,10 +117,6 @@ function this.Init(missionTable)
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
   this.InitCluster()
-end
-
-function this.SetUpEnemy(missionTable)
-  this.SetupWildCards()
 end
 
 function this.OnReload(missionTable)

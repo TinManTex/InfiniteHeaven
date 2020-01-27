@@ -1,5 +1,5 @@
 = Infinite heaven =
-r195 - 2016-12-03
+r196 - 2016-12-10
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -20,7 +20,21 @@ Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
-NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
+NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGS_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
+
+NOTE: Infinite Heaven now uses SnakeBite 0.8.4, get it here: http://www.nexusmods.com/metalgearsolidvtpp/mods/106
+
+New for r196
+Build for SnakeBite 0.8.4
+
+Added Headgear (cosmetic) to Filter Faces (splits headgear from Unique filter)
+(via Player Settings > Appearance menu)
+
+Fixed: Female Wildcard face range incorrect, resulting in defaulting to smushmanface.
+Fixed: Quests with balaclavas breaking those soldiers - thanks shynbean and PerkPrincess for your report.
+Fixed: mbAdditionalSoldiers,"More soldiers on MB plats" not loading the additonal soldiers, reulting in empty platforms - thanks shynbean for the report.
+Fixed: IH interrogations would not return wildcard soldier locations - thanks rargh for the report.
+Fixed: Soldier headgear on fobs being incorrect.
 
 New for r195
 Wildcard soldiers and hostages have staff parameters regenerated. Should always have a skill assigned now and have high stats (in respect to current mb level/stats draw)
@@ -56,51 +70,6 @@ Fixed: (mostly) Allow heavy armor in free/missions, Custom prep with armor % hig
 Fixed: Animals camo selectable via the camo option in appearance menu.
 Fixed: TppQuest.UpdateActiveQuest now using level seed for random or side ops selection mode. This fixes mismatch bettween aparent selected sideop (ui cues) and actual sideop pack/script loaded when directly spawning into a quest load area, possibly a rare issue in free roam, but a clear issue on mother base. Should also prevent the change of sideops from ACC to level.
 Fixed: Enable Ocelot in MB causing Sahelenthropus mission to infinite load - thanks CapLagRobin for the report.
-
-New for r193
-Added: Walker gears assigned to foot patrols in free roam (requires both foot patrols and walker gears in free to be enabled) - pretty flaky with soldiers sometimes ditching walkers in the middle of nowhere though, and (if they make it that far) they'll leave it at their destination base instead of continuing with it.
-
-Added: Walker gear locations to IH interrogations.
-
-Options: "Allow Armor Skulls", "Allow Mist Skulls","Allow Sniper Skulls" - Allow/disallow skull types for Skull attacks - was on TODO, but thanks SoullessMadness for the request.
-
-Option: "Skip startup logos" - Stops the konami/kjp/fox/nvidia logos from showing.". Makes a return after its removal in r90  - thanks morbidslinky for the suggestion.
-(via IH system menu)
-
-New for r192
-Fixed: Hang on game startup with no ih_save.lua - thanks everyone for the report.
-
-New for r191
-Fixed: Container resource scaling - thanks garroth, coolguy3090 for the reports.
-Fixed: Mother base Invasion events not applying correctly.
-Fixed: mbEnablePuppy - MB puppy DDog not enabling - thanks pk5547 for the report.
-Fixed: Debug function PrintInspect now only runs with debugmode, should fix some slowdowns on load.
-
-New for r190
-NOTE: Infinite Heaven now save its options to ih_save.lua in MGSV_TPP\mod folder. You will have to set the settings up from scratch when updating to this version.
-See 'Settings save file:' below for more notes.
-Settings are now saved on IH menu close (as well as on normal save).
-
-Fixed: Wild card soldiers faces showing incorrect (most noticably female/male heads/bodies mixups) when in Afghanistan with vehicle patrols on - thanks shynbean, Silverforte for the report.
-Fixed: Morale boosts options not applying - thanks Alduintheworldnommer for the report
-Fixed: Attack helis not showing in mother base with Support and Attack helis
-
-Menus: Enemy patrols menu renamed 'Patrols and deployments menu'
-Wilcard shifted to Patrols and deployments menu
-Repopulate music tape radios" shifted to progression menu
-"Randomize minefield mine types", "Enable additional minefields" shifted to Prep system menu
-Events stuff shifted to Events menu
-
-Option: resourceAmountScale - "Resource amount scale" "Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)"
-Module: InfResource - implements above via ScaleResourceTables()  
-
-Added Setting: Enemy prep mode "Prep levels + Custom overrides" setting added - overrides the Enemy prep levels config with any Custom prep settings that aren't set to their default setting - thanks rargh for the suggestion
-
-Option: enableWalkerGearsFREE - "Walker gears in free roam" - "Adds a Walker gear to each main base."
-(via Patrols and deployments menu)
-Known issue: In Africa a walker gear model will appear hovering in Kiziba Camp next to the delivery pad. This is a bug in the original game (you can confirm by playing Footprints of Phantoms unmodded.)
-[youtube]4A9GqN0Hpkw[/youtube]
-https://youtu.be/4A9GqN0Hpkw
 
 Disclaimer:
 ------------------------------
@@ -146,6 +115,8 @@ Quick Menu:
 A way to quickly trigger certain Infinite Heaven commands.
 (Must be enabled via option in IH system menu, or by editing InfQuickMenuDefs.lua)
 
+When enabled hold the <Call> button then hold one of the following:
+
 <Ready weapon>(Right mouse or Left Trigger) to warp to last placed usermarker
 <Fire>(Left mouse or Right Trigger) to open the menu to heli-to last usermarker (a kludge, but necesary to activate the inter landingzone ride on heli)
 <Action>(E key or Y button) to activate TSM
@@ -158,7 +129,7 @@ Profiles are lists of settings for IH options, can be used as an alternative, or
 See InfProfiles Readme and InfProfiles.lua for further info.
 
 Settings save file:
-IH writes ih_save.lua in the MGSV_TPP\mod folder.
+IH writes ih_save.lua in the MGS_TPP\mod folder.
 Save file for IH options, other IH state variables are still saved to the normal game save.
 Saved on IH menu close, and also when the game saves normally.
 Only saves settings changed from their default

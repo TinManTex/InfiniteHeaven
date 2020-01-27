@@ -57,10 +57,10 @@ function this.SetUpEnemy(missionTable)
 
   InfMain.RandomSetToLevelSeed()
 
-  TppHostage2.SetHostageType{
-    gameObjectType="TppHostage2",
-    hostageType="NoStand",
-  }
+--  TppHostage2.SetHostageType{
+--    gameObjectType="TppHostage2",
+--    hostageType="NoStand",
+--  }
 
   for i,hostageName in ipairs(this.hostageNames)do
     local hostageId=GetGameObjectId(hostageName)
@@ -159,10 +159,10 @@ function this.SetUpEnemy(missionTable)
 
         local vehiclePos=Vector3(vehiclePos:GetX(),vehiclePos:GetY()+2,vehiclePos:GetZ())
         local command={id="Warp",position=vehiclePos,degRotationY=0}
-        SendCommand(hostageId,command)
-        --tex DEBUGNOW no go for some reason
+        --SendCommand(hostageId,command)
+        --tex DEBUGNOW no go for some reason, think it requires route
         local setVehicle={id="SetRelativeVehicle",targetId=vehicleId,rideFromBeginning=true}
-        SendCommand(hostageId,setVehicle)
+        --SendCommand(hostageId,setVehicle)
       end
     end
   end

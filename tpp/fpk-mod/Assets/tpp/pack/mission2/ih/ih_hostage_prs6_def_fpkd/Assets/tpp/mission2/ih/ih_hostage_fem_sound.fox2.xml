@@ -17,7 +17,7 @@
           <value>0x00000000</value>
         </property>
         <property name="dataList" type="EntityPtr" container="StringMap" arraySize="2">
-          <value key="vox_q20025">0x073916D0</value>
+          <value key="vox_hostage_fem">0x073916D0</value>
           <value key="TexturePackLoadConditioner0000">0x0739A960</value>
         </property>
       </staticProperties>

@@ -866,12 +866,12 @@ function this.ReadEvars(ih_save)
   local loadedEvars={}
   for name,value in pairs(ih_save.evars) do
     if type(name)~=typeString then
-      InfLog.Add("ih_save: name~=string:"..tostring(name),false,true)
+      InfLog.Add("ReadEvars ih_save: name~=string:"..tostring(name),false,true)
     else
       if type(value)~=typeNumber then
-        InfLog.Add("ih_save: value~=string: "..name.."="..tostring(value),false,true)
+        InfLog.Add("ReadEvars ih_save: value~=string: "..name.."="..tostring(value),false,true)
       elseif ivars and ivars[name]==nil then
-        InfLog.Add("ih_save: cannot find ivar for evar "..name,false,true)
+        InfLog.Add("ReadEvars ih_save: cannot find ivar for evar "..name,false,true)
       else
         loadedEvars[name]=value
       end

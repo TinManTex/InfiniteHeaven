@@ -134,12 +134,13 @@ function this.GenerateNameList(fmt,num,list)
 end
 
 --TABLESETUP
-local objectNameLists={
-  this.GenerateNameList("veh_lv_%04d",20),--jeeps
-  this.GenerateNameList("veh_trc_%04d",10),--trucks
-  this.GenerateNameList("anml_quest_%02d",10),
-  this.GenerateNameList("sol_quest_%04d",10),
-  this.GenerateNameList("ih_hostage_%04d",10),
+this.objectNameLists={
+  veh_lv=this.GenerateNameList("veh_lv_%04d",20),--jeeps
+  veh_trc=this.GenerateNameList("veh_trc_%04d",10),--trucks
+  anml_quest=this.GenerateNameList("anml_quest_%02d",10),
+  sol_quest=this.GenerateNameList("sol_quest_%04d",10),
+  ih_hostage=this.GenerateNameList("ih_hostage_%04d",10),
+  itm_Mine_quest=this.GenerateNameList("itm_Mine_quest_%04d",10),
 }
 
 --tex from TppAnimalBlock animalsTable
@@ -155,19 +156,19 @@ local objectNameLists={
 --  Rat={type="TppRat",locatorFormat="anml_rat_%02d",routeFormat="rt_anml_rat_%02d",nightRouteFormat="rt_anml_rat_%02d",isHerd=false,isDead=false},
 --  NoAnimal={type="NoAnimal",locatorFormat="anml_NoAnimal_%02d",routeFormat="rt_anml_BuddyPuppy_%02d",nightRouteFormat="rt_anml_BuddyPuppy_%02d",isHerd=false,isDead=false}
 local animalLocatorPrefixes={
-  "anml_goat_%02d",
-  "anml_wolf_%02d",
-  "anml_nubian_%02d",
-  "anml_jackal_%02d",
-  "anml_Zebra_%02d",
-  "anml_bear_%02d",
-  "anml_BuddyPuppy_%02d",
-  "anml_MotherDog_%02d",
-  "anml_rat_%02d",
-  "anml_NoAnimal_%02d",
+  anml_goat="anml_goat_%02d",
+  anml_wolf="anml_wolf_%02d",
+  anml_nubian="anml_nubian_%02d",
+  anml_jackal="anml_jackal_%02d",
+  anml_Zebra="anml_Zebra_%02d",
+  anml_bear="anml_bear_%02d",
+  anml_BuddyPuppy="anml_BuddyPuppy_%02d",
+  anml_MotherDog="anml_MotherDog_%02d",
+  anml_rat="anml_rat_%02d",
+  anml_NoAnimal="anml_NoAnimal_%02d",
 }
-for i,fmt in ipairs(animalLocatorPrefixes)do
-  table.insert(objectNameLists,this.GenerateNameList("anml_quest_%02d",10))
+for name,fmt in pairs(animalLocatorPrefixes)do
+  this.objectNameLists[name]=this.GenerateNameList(fmt,10)
 end
 
 --ORPHAN
@@ -195,7 +196,7 @@ function this.GetObjectNameLists()
     InfAnimal.birdNames,
   }
 
-  for i,list in ipairs(objectNameLists) do
+  for listName,list in pairs(this.objectNameLists) do
     table.insert(nameLists,list)
   end
 
@@ -220,7 +221,9 @@ function this.GetObjectList()
   --return InfAnimal.birdNames
  -- return objectNameLists[4]  
  --return InfNPC.ene_wildCardNames
- return InfHostage.hostageNames
+ --return InfHostage.hostageNames
+ --return this.objectNameLists.sol_quest
+ return {"hos_quest_0000"}
 end
 
 function this.GetObjectInfoOrPos(index)

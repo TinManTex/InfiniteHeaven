@@ -37,7 +37,7 @@ Shortcut key combinations to activate IH features. See Infinite Heaven readme or
 Profiles.
 Editable lists of options, see InfProfiles.lua in mod folder.
 
-Reload lua scripts in MGSV_TPP without exiting game.
+Reload lua scripts in MGS_TPP without exiting game.
 Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)
 
 New sideops for Mother Base.
@@ -216,7 +216,7 @@ Appearance menu
 2: Suit type : <Suits for player type>
 3: Camo type : <Camos for player type>
 4: Headgear : <Headgear for DD type>
-5: Filter faces : Show all, Unique, Head fova mods
+5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
 6: Face : faceId:0
 7: Print face info : (Command)
 8: Print appearance info : (Command)
@@ -770,7 +770,7 @@ Appearance menu
 2: Suit type : <Suits for player type>
 3: Camo type : <Camos for player type>
 4: Headgear : <Headgear for DD type>
-5: Filter faces : Show all, Unique, Head fova mods
+5: Filter faces : Show all, Headgear (cosmetic), Unique, Head fova mods
 6: Face : faceId:0
 7: Print face info : (Command)
 8: Print appearance info : (Command)

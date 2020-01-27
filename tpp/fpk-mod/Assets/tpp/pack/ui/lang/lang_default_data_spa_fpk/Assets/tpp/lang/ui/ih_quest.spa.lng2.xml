@@ -6,6 +6,6 @@
     <Entry LangId="name_q30101" Color="5" Value="Birds in the Belfry" />
     <Entry LangId="info_q30101" Color="5" Value="Your staff has been having some issues with birds roosting in the Intel Platform Enclosure.&#xA;See if you can clear them out." /> 
     <Entry LangId="name_q30102" Color="5" Value="Rats in the Basement" />
-    <Entry LangId="info_q30102" Color="5" Value="The grow-room under the Support Platform is plagued by rodents.&#xA;Find them among the plants." />   
+    <Entry LangId="info_q30102" Color="5" Value="The grow-room under the Support Platform is plagued by rodents.&#xA;Find them among the plants." />    
   </Entries>
 </LangFile>

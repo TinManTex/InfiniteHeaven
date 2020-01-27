@@ -8,7 +8,7 @@
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
 
 local profiles={}
--- Defaults/example of all profile options for IH r195
+-- Defaults/example of all profile options for IH r196
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.

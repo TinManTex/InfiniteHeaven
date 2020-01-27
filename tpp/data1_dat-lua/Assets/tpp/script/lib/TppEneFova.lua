@@ -672,7 +672,12 @@ function fovaSetupFuncs.afgh(locationName,missionId)
     local body={TppEnemyBodyId.sva0_v00_a,MAX_REALIZED_COUNT}
     table.insert(bodies,body)
   end
-
+  if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then--tex>
+    local faces={}
+    InfLog.PCallDebug(InfEneFova.WildCardFovaFaces,faces)
+    TppSoldierFace.OverwriteMissionFovaData{face=faces}
+    InfLog.PCallDebug(InfEneFova.WildCardFovaBodies,bodies)
+  end--<
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs2_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs2_main0_def_v00PartsAfghan,bodyId=TppEnemyBodyId.prs2_main0_v00}
@@ -701,8 +706,8 @@ function fovaSetupFuncs.mafr(locationName,missionId)
   solface_groupNumber=gvars.solface_groupNumber
   faceGroup=(solface_groupNumber%MAX_AFRICA_GRP)*2
   faceGroupType=TppEnemyFaceGroupId.AFRICA_GRP000_W+(faceGroup)
-  local face=this.GetFaceGroupTableAtGroupType(faceGroupType)
-  TppSoldierFace.OverwriteMissionFovaData{face=face}
+  local faceGroupTable=this.GetFaceGroupTableAtGroupType(faceGroupType)
+  TppSoldierFace.OverwriteMissionFovaData{face=faceGroupTable}
   if isMoreVariationMode>0 then
     for e=1,2 do
       solface_groupNumber=solface_groupNumber+2
@@ -749,7 +754,12 @@ function fovaSetupFuncs.mafr(locationName,missionId)
       end
     end
   end
-
+  if Ivars.enableWildCardFreeRoam:EnabledForMission(missionId) then--tex>
+    local faces={}
+    InfLog.PCallDebug(InfEneFova.WildCardFovaFaces,faces)
+    TppSoldierFace.OverwriteMissionFovaData{face=faces}
+    InfLog.PCallDebug(InfEneFova.WildCardFovaBodies,bodies)
+  end--<
   TppSoldierFace.OverwriteMissionFovaData{body=bodies}
   TppSoldierFace.SetBodyFovaUserType{hostage={TppEnemyBodyId.prs5_main0_v00}}
   TppHostage2.SetDefaultBodyFovaId{parts=prs5_main0_def_v00PartsAfrica,bodyId=TppEnemyBodyId.prs5_main0_v00}
@@ -1479,7 +1489,6 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
   end
   --tex set bodyid >
   if InfMain.IsDDBodyEquip(vars.missionCode) then
-
     local isFemale=IsFemale(faceId)
     local bodyInfo=nil
     if isFemale then

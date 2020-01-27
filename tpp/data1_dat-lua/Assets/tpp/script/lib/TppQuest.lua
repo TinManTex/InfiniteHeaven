@@ -136,15 +136,15 @@ local questInfoTable={
   --[[XXX]]{questName="savannah_q11300",questId="savannah_q11300",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(965.708,-4.035,287.023),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_HEAVY_INFANTRY},
   --[[XXX]]{questName="banana_q11700",questId="banana_q11700",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(713.795,33.409,-904.592),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_HEAVY_INFANTRY},
   --[[080]]{questName="fort_q11070",questId="fort_q11070",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(2194.519,429.075,-1284.068),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_HEAVY_INFANTRY},
-  --[[XXX]]{questName="outland_q11100",questId="outland_q11100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-552.513,-.011,-197.752),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_HEAVY_INFANTRY},
-  --[[XXX]]{questName="sovietBase_q99020",questId="sovietBase_q99020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-716.5531,536.7278,-1485.517),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
-  --[[XXX]]{questName="ruins_q60010",questId="ruins_q60010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1331.732,295.46,2164.405),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
-  --[[XXX]]{questName="tent_q60011",questId="tent_q60011",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-513.1647,372.9764,1148.782),radius=5,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
-  --[[XXX]]{questName="outland_q60024",questId="outland_q60024",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-1205.26,-21.20666,129.0079),radius=5,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
-  --[[XXX]]{questName="fort_q60013",questId="fort_q60013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1921.452,456.3248,-1253.83),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
-  --[[XXX]]{questName="hill_q60021",questId="hill_q60021",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2151.132,70.83097,-116.7761),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
-  --[[XXX]]{questName="pfCamp_q60020",questId="pfCamp_q60020",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1555.736,-8.822165,1725.071),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
-  --[[XXX]]{questName="cliffTown_q60012",questId="cliffTown_q60012",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(369.4612,412.6812,-844.1393),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
+  --[[081]]{questName="outland_q11100",questId="outland_q11100",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-552.513,-.011,-197.752),radius=5,category=this.QUEST_CATEGORIES_ENUM.ELIMINATE_HEAVY_INFANTRY},
+  --[[082]]{questName="sovietBase_q99020",questId="sovietBase_q99020",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-716.5531,536.7278,-1485.517),radius=5,isImportant=true,category=this.QUEST_CATEGORIES_ENUM.STORY},
+  --[[083]]{questName="ruins_q60010",questId="ruins_q60010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1331.732,295.46,2164.405),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
+  --[[084]]{questName="tent_q60011",questId="tent_q60011",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-513.1647,372.9764,1148.782),radius=5,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
+  --[[085]]{questName="outland_q60024",questId="outland_q60024",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(-1205.26,-21.20666,129.0079),radius=5,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
+  --[[086]]{questName="fort_q60013",questId="fort_q60013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1921.452,456.3248,-1253.83),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
+  --[[087]]{questName="hill_q60021",questId="hill_q60021",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2151.132,70.83097,-116.7761),radius=4.5,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
+  --[[088]]{questName="pfCamp_q60020",questId="pfCamp_q60020",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(1555.736,-8.822165,1725.071),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
+  --[[089]]{questName="cliffTown_q60012",questId="cliffTown_q60012",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(369.4612,412.6812,-844.1393),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
   --[[090]]{questName="banana_q60023",questId="banana_q60023",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(646.064,103.2225,-1122.37),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
   --[[XXX]]{questName="sovietBase_q60014",questId="sovietBase_q60014",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(-1440.167,415.0882,-1282.796),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
   --[[XXX]]{questName="lab_q60022",questId="lab_q60022",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(2658.126,139.3819,-2146.524),radius=4,category=this.QUEST_CATEGORIES_ENUM.MINE_CLEARING},
@@ -1668,37 +1668,37 @@ function this.RegisterQuestPackList(questPackList,blockName)
   local fpkList={}
   for questName,questInfo in pairs(questPackList)do
     fpkList[questName]={}
-    for listType,fova in pairs(questInfo)do
-      if type(fova)=="number"then
-        table.insert(fpkList[questName],fova)
-      elseif listType=="faceIdList"then
-        local faceFpkFileCodeList=TppSoldierFace.GetFaceFpkFileCodeList{face=fova,useHair=isMotherBase}
+    for k,packPathOrFova in pairs(questInfo)do
+      if type(packPathOrFova)=="number"then--NMC shouldn't this be type(k)==number?, otherwise what number values are added?
+        table.insert(fpkList[questName],packPathOrFova)
+      elseif k=="faceIdList"then
+        local faceFpkFileCodeList=TppSoldierFace.GetFaceFpkFileCodeList{face=packPathOrFova,useHair=isMotherBase}
         if faceFpkFileCodeList~=nil then
           for n,e in ipairs(faceFpkFileCodeList)do
             table.insert(fpkList[questName],e)
           end
         end
-      elseif listType=="bodyIdList"then
-        local e=TppSoldierFace.GetBodyFpkFileCodeList{body=fova}
-        if e~=nil then
-          for n,e in ipairs(e)do
+      elseif k=="bodyIdList"then
+        local bodyFpkFileCodeList=TppSoldierFace.GetBodyFpkFileCodeList{body=packPathOrFova}
+        if bodyFpkFileCodeList~=nil then
+          for n,e in ipairs(bodyFpkFileCodeList)do
             table.insert(fpkList[questName],e)
           end
         end
-      elseif listType=="randomFaceList"then
+      elseif k=="randomFaceList"then
         if this.IsRandomFaceQuestName(questName)then
-          if fova.race and fova.gender then
+          if packPathOrFova.race and packPathOrFova.gender then
             if TppMission.IsMissionStart()then
               local seed=(math.random(0,65535)*65536)+math.random(1,65535)
-              local faceTable=TppSoldierFace.CreateFaceTable{race=fova.race,gender=fova.gender,needCount=1,maxUsedFovaCount=1,seed=seed}
+              local faceTable=TppSoldierFace.CreateFaceTable{race=packPathOrFova.race,gender=packPathOrFova.gender,needCount=1,maxUsedFovaCount=1,seed=seed}
               if faceTable~=nil then
-                for a,faceId in ipairs(faceTable)do
+                for i,faceId in ipairs(faceTable)do
                   this.SetRandomFaceId(questName,faceId)
                 end
               else
-                if fova.gender==TppDefine.QUEST_GENDER_TYPE.MAN then
+                if packPathOrFova.gender==TppDefine.QUEST_GENDER_TYPE.MAN then
                   this.SetRandomFaceId(questName,TppDefine.QUEST_FACE_ID_LIST.DEFAULT_MAN)
-                elseif fova.gender==TppDefine.QUEST_GENDER_TYPE.WOMAN then
+                elseif packPathOrFova.gender==TppDefine.QUEST_GENDER_TYPE.WOMAN then
                   this.SetRandomFaceId(questName,TppDefine.QUEST_FACE_ID_LIST.DEFAULT_WOMAN)
                 end
               end
@@ -1707,9 +1707,9 @@ function this.RegisterQuestPackList(questPackList,blockName)
             local faceTable={faceId}
             local faceFpkFileCodeList=TppSoldierFace.GetFaceFpkFileCodeList{face=faceTable}
             if faceFpkFileCodeList==nil then
-              if fova.gender==TppDefine.QUEST_GENDER_TYPE.MAN then
+              if packPathOrFova.gender==TppDefine.QUEST_GENDER_TYPE.MAN then
                 this.SetRandomFaceId(questName,TppDefine.QUEST_FACE_ID_LIST.DEFAULT_MAN)
-              elseif fova.gender==TppDefine.QUEST_GENDER_TYPE.WOMAN then
+              elseif packPathOrFova.gender==TppDefine.QUEST_GENDER_TYPE.WOMAN then
                 this.SetRandomFaceId(questName,TppDefine.QUEST_FACE_ID_LIST.DEFAULT_WOMAN)
               end
               faceId=this.GetRandomFaceId(questName)
@@ -1724,12 +1724,13 @@ function this.RegisterQuestPackList(questPackList,blockName)
           end
         end
       else
-        table.insert(fpkList[questName],fova)
+      --NMC: FPK paths
+        table.insert(fpkList[questName],packPathOrFova)
       end
     end
   end
-  --  InfLog.Add"RegisterQuestPackList"--tex DEBUG
-  --  InfLog.PrintInspect(fpkList)--DEBUG
+--  InfLog.Add"RegisterQuestPackList"--tex DEBUG
+--  InfLog.PrintInspect(fpkList)--DEBUG
   TppScriptBlock.RegisterCommonBlockPackList(blockName,fpkList)
 end
 function this.SetDefaultQuestBlock()
@@ -2401,7 +2402,7 @@ function this.UpdateActiveQuest(updateFlags)
             InfMain.RandomResetToOsTime()
           end
         end
-        if Ivars.sideOpsSelectionMode:Is"RANDOM" then--DEBUGNOW OFF TEST (with sideOpsSelectionMode off) to see if this was nessesary > or Ivars.unlockSideOps:Is()>0 then
+        if Ivars.sideOpsSelectionMode:Is"RANDOM" then
           InfMain.RandomSetToLevelSeed()
           if #questList>0 then
             local lists={
@@ -2977,10 +2978,10 @@ function this.GetRandomFaceId(questName)
     return gvars.qst_randomFaceId[faceIndex]
   end
 end
-function this.SetRandomFaceId(questName,faceIds)
+function this.SetRandomFaceId(questName,faceId)
   local faceIndex=TppDefine.QUEST_RANDOM_FACE_INDEX[questName]
   if faceIndex then
-    gvars.qst_randomFaceId[faceIndex]=faceIds
+      gvars.qst_randomFaceId[faceIndex]=faceId
   end
 end
 function this.OnQuestAreaAnnounceText(questIdNumber)

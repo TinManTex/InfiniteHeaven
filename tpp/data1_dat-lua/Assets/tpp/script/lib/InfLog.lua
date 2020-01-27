@@ -264,7 +264,7 @@ function this.LoadBoxed(fileName)
   local moduleChunk,error=loadfile(filePath)
   if error then
     local doDebugPrint=this.doneStartup--WORKAROUND: InfModelRegistry setup in start.lua is too early for debugprint
-    InfLog.Add("Error loading "..fileName..":"..error,false,true)
+    InfLog.Add("Error loading "..fileName..":"..error,doDebugPrint,true)
     return
   end
 
@@ -304,15 +304,11 @@ local function GetGamePath()
       break
     end
   end
-  --TODO: TEST fallback so at least log can print
+  --tex fallback if MGS_TPP\ couldnt be found in packages.path
   if gamePath==nil then
-    if Mock==nil then
-      return [[C:\]]
-    else
-      return [[D:\temp]]
-    end
+    return[[C:\]]
   end
-
+  
   local stripLength=10--tex length "\lua\?.lua"
   gamePath=gamePath:gsub("\\","/")--tex because escaping sucks
   gamePath=gamePath:sub(1,-stripLength)
@@ -339,8 +335,8 @@ this.ext=".txt"
 --end
 
 --EXEC
+--package.path=""--DEBUG kill path for fallback testing
 this.gamePath=GetGamePath()
---this.gamePath=[[C:\GamesSD\MGS_TPP\]]--DEBUG override
 this.modPath=this.gamePath..this.modSubPath
 this.logFilePath=this.modPath..this.logFileName..this.ext
 this.logFilePathPrev=this.modPath..this.logFileName..this.prev..this.ext
@@ -352,6 +348,5 @@ this.ClearFile(this.logFileName,this.ext)
 
 local time=os.date("%x %X")
 this.Add("InfLog start "..time)
---this.Add"package.path:"
---this.Add(package.path)--DEBUG
+this.Add("package.path:"..package.path)
 return this

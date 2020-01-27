@@ -2153,7 +2153,7 @@ this.playerFaceId={
       --      hairDecoFovaInfo.description or hairDecoFovaInfo.name)
     end,self,setting)--DEBUG
   end,
-  OnSelect=function(self,setting)
+  OnSelect=function(self)
     if InfFova.playerTypeGroup.VENOM[vars.playerType] then
       self:SetDirect(0)
       self.settingsTable={0}
@@ -2169,10 +2169,13 @@ this.playerFaceId={
 
     local gender=InfEneFova.PLAYERTYPE_GENDER[vars.playerType]
     local settingsTable={}
+
+    local filter=Ivars.playerFaceFilter:GetTableSetting()
+    local isUpperLimit=type(filter)=="number"
+    local isDirect=type(filter)=="table"
     for i,entry in ipairs(Soldier2FaceAndBodyData.faceDefinition)do
       local faceId=entry[1]
-      local limit=Ivars.playerFaceFilter:GetTableSetting()
-      if faceId>=limit then
+      if (isUpperLimit and faceId>=filter) or (isDirect and filter[faceId]) then
         if entry[InfEneFova.faceDefinitionParams.gender]==gender then
           if not faceModSlots[faceId] then
             table.insert(settingsTable,i)
@@ -2207,7 +2210,7 @@ this.playerFaceId={
 
     if not foundFace then
       self:SetDirect(0)
-      local faceDefId=settingsTable[setting+1]
+      local faceDefId=settingsTable[1]
       local faceDef=Soldier2FaceAndBodyData.faceDefinition[faceDefId]
       vars.playerFaceId=faceDef[1]
     end
@@ -2225,11 +2228,48 @@ this.playerFaceId={
 
 this.playerFaceFilter={
   --save=EXTERNAL,
-  settings={"ALL","UNIQUE","FOVAMOD"},
+  settings={"ALL","HEADGEAR","UNIQUE","FOVAMOD"},--DEBUGNOW lang
   settingsTable={
     ALL=0,
-    UNIQUE=550,
-    FOVAMOD=Soldier2FaceAndBodyData.highestVanillaFaceId
+    HEADGEAR={
+      --male
+      [550]=true,--Balaclava Male
+      [551]=true,--Balaclava Male
+      [552]=true,--DD armor helmet (green top)
+      [558]=true,--Gas mask and clava Male
+      [560]=true,--Gas mask DD helm Male
+      [561]=true,--Gas mask DD greentop helm Male
+      [564]=true,--NVG DDgreentop Male
+      [565]=true,--NVG DDgreentop GasMask Male
+      --female
+      [555]=true,--DD armor helmet (green top) female - i cant really tell any difference between
+      [559]=true,--Gas mask and clava Female
+      [562]=true,--Gas mask DD helm Female
+      [563]=true,--Gas mask DD greentop helm Female
+      [566]=true,--NVG DDgreentop Female (or just small head male lol, total cover)
+      [567]=true,--NVG DDgreentop GasMask
+    },
+    UNIQUE={
+      --male
+      [602]=true,--glasses,
+      [621]=true,--Tan
+      --[622]=true,--hideo, not working outside mission
+      [627]=true,--finger
+      [628]=true,--eye
+      [646]=true,--beardy mcbeard
+      [680]=true,--fox hound tattoo
+      [683]=true,--red hair]=true, ddogs tattoo
+      [684]=true,--fox tattoo
+      [687]=true,--while skull tattoo
+      [688]=true,--IH hideo entry
+      --female
+      [681]=true,--female tatoo fox hound black
+      [682]=true,--female tatoo whiteblack ddog red hair
+      [685]=true,--female tatoo fox black
+      [686]=true,--female tatoo skull white white hair
+    },
+
+    FOVAMOD=Soldier2FaceAndBodyData.highestVanillaFaceId,
   },
 }
 
@@ -2691,7 +2731,7 @@ this.playerHeadgear={--DOC: player appearance.txt
     566,--NVG DDgreentop Female (or just small head male lol, total cover)
     567,--NVG DDgreentop GasMask
   },
-  OnSelect=function(self,setting)
+  OnSelect=function(self,currentSetting)
     if vars.playerType==PlayerType.DD_FEMALE then
       if self.settingsTable~=self.femaleSettingsTable then
         self.settingNames="playerHeadgearFemaleSettings"
@@ -2705,10 +2745,10 @@ this.playerHeadgear={--DOC: player appearance.txt
         self.range.max=#self.maleSettingsTable-1
       end
     end
-    if setting>self.range.max then
+    if currentSetting>self.range.max then
       self:Set(1)
-    elseif setting>0 then
-      self:Set(setting)
+    elseif currentSetting>0 then
+      self:Set(currentSetting)
     end
   end,
   OnChange=function(self,previousSetting,setting)
@@ -3033,7 +3073,7 @@ local BuddyVarGetSettingText=function(self,setting)
   local varTypeTable=commandInfo.varTypeTable
   return varTypeTable[setting].name
 end
-local BuddyVarOnSelect=function(self,setting)
+local BuddyVarOnSelect=function(self,currentSetting)
   if vars.buddyType==BuddyType.NONE then
     return InfMenu.LangString"no_buddy_set"
   end
