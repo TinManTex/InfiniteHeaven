@@ -134,6 +134,9 @@ this.motherBaseShowAssetsMenu={
     --Ivars.mbShowQuietCellSigns,--tex not that interesting
     Ivars.mbShowMbEliminationMonument,
     Ivars.mbShowSahelan,
+    Ivars.mbShowShips,
+    Ivars.enableFultonAlarmsMB,
+    Ivars.enableIRSensorsMB,
     Ivars.mbUnlockGoalDoors,
   }
 }
@@ -238,6 +241,7 @@ this.debugMenu={
     InfMenuCommands.loadExternalModules,
     InfMenuCommands.copyLogToPrev,
     Ivars.printPressedButtons,
+    InfMenuCommands.showFreeCamPosition,
     InfMenuCommands.showPosition,
     InfMenuCommands.showMissionCode,
     InfMenuCommands.showLangCode,
@@ -458,6 +462,7 @@ this.cameraMenu={
     InfMenuCommands.warpToCamPos,
     Ivars.moveScale,
     Ivars.disableCamText,
+    InfMenuCommands.showFreeCamPosition,--DEBUGNOW
   --    Ivars.focalLength,--CULL
   --    Ivars.focusDistance,
   --    Ivars.aperture,
@@ -561,7 +566,7 @@ this.systemMenu={
     Ivars.selectProfile,
     --InfMenuCommands.applySelectedProfile,
     InfMenuCommands.resetSelectedProfile,
-    InfMenuCommands.saveToProfile,--DEBUGNOW
+    InfMenuCommands.saveToProfile,
     --InfMenuCommands.viewProfile,--DEBUG
     Ivars.enableQuickMenu,
     Ivars.startOffline,
@@ -574,12 +579,11 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
-    Ivars.customSoldierTypeFREE,--DEBUGNOW
+    InfMenuDefs.appearanceMenu,
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
     Ivars.postExtCommands,--DEBUGNOW
-    InfMenuDefs.appearanceMenu,
     InfMenuDefs.appearanceDebugMenu,
     Ivars.customSoldierTypeFREE,
     --Ivars.customSoldierTypeMISSION,--TODO:
@@ -673,6 +677,7 @@ this.debugInMissionMenu={
     Ivars.disableGameOver,
     Ivars.disableOutOfBoundsChecks,
     InfMenuCommands.setAllFriendly,
+    InfMenuCommands.showFreeCamPosition,
     InfMenuCommands.showPosition,
   --InfMenuCommands.DEBUG_ClearAnnounceLog,
   }
@@ -702,6 +707,7 @@ this.devInMissionMenu={
     Ivars.parasitePeriod_MAX,
     InfMenuCommands.DEBUG_ToggleParasiteEvent,
     InfMenuCommands.DEBUG_DumpValidStrCode,
+    InfMenuCommands.showFreeCamPosition,
     InfMenuCommands.showPosition,
   }
 }

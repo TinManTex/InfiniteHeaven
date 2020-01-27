@@ -308,6 +308,7 @@ function this.ModifyVehiclePatrol(vehicleSpawnList,soldierDefine,travelPlans,cpP
         if not Ivars.vehiclePatrolProfile:Is"SINGULAR" then
           baseType=patrolVehicleEnabledList[math.random(#patrolVehicleEnabledList)]
         end
+
         local baseTypeInfo=this.vehicleBaseTypes[baseType]
         if baseTypeInfo~=nil then
           local vehicles=baseTypeInfo[locationName]
@@ -494,7 +495,7 @@ function this.SetupConvoyCpDefine(convoys,soldierDefine,travelPlans,cpPool,freeL
         cpPool[#cpPool]=nil
 
         local vehicleName=InfUtil.GetRandomPool(freeLvs)
-      
+
         local cpDefine=soldierDefine[cpName]
         --TODO cpDefine.convoyIndex=i
         cpDefine.lrrpTravelPlan=travelPlan

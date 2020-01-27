@@ -1,5 +1,5 @@
 = Infinite heaven =
-r204 - 2017-04-23
+r205 - 2017-04-29
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -18,10 +18,29 @@ Recent changes/additions
 ------------------------------
 NOTE: With SnakeBite 0.8.6 you no longer need to manually copy the \mod folder to MGS_TPP\, SnakeBite will install it.
 
-New for 204:
+New for r205:
+Option addition: DD Suit - Fatigues All - will have random selection from all fatigue camos.
+
+Fixed: various DD suit/wildcard females issues. 
+
+Option: enableFultonAlarmsMB - "Enable asset alarms" - "Enables anti fulton theft alarms on containers and AA guns. Only partially working, will only trigger alarm once.",
+Option: enableIRSensorsMB - "Enable ir sensors" - "Enable ir sensor gates. Only partially working, will only be at level 1 (one beam) and will only trigger alarm once.",
+(via Mother base > Show Assets menu)
+
+Option: mbShowShips - "Show ships" - Shows some ships around mother base.
+(via Mother base > Show Assets menu)
+
+Sideop update: Blackfoot down updated. Added soldiers to river LZ (routes from q11050).
+
+Option change: Add/subtract demon points decreased to 90k per use - thanks SoullessMadness for the suggestion.
+See https://www.gamefaqs.com/boards/718564-metal-gear-solid-v-the-phantom-pain/72466130 for breakdown of the demon points levels.
+
+New for r204:
 Improved: Soldier item drop now has chance to drop Pentezemin, Noctocyanin, Acceleramin. 
 
 Sideop: Blackfoot down, was mostly built for testing out sideop features.
+[youtube]3PUfwreDMNI[/youtube]
+https://youtu.be/3PUfwreDMNI
 
 Command: Save to UserSaved profile. - "Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua."
 (via IH system menu)

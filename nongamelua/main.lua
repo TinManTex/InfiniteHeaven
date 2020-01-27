@@ -249,7 +249,6 @@ if Script.LoadLibrary then
     "/Assets/tpp/script/lib/InfMenu.lua",
     "/Assets/tpp/script/lib/InfEneFova.lua",
     "/Assets/tpp/script/lib/InfRevenge.lua",
-    "/Assets/tpp/script/lib/InfSoldierParams.lua",
     "/Assets/tpp/script/lib/InfFova.lua",
     "/Assets/tpp/script/lib/InfLZ.lua",
     "/Assets/tpp/script/lib/InfPersistence.lua",
@@ -1124,6 +1123,41 @@ local function CullExeStrings()
 
 end
 
+--tex take txt file of string lines and "string", them
+local function Stringify()
+  print"Stringify"
+
+--  local stringsPath=[[D:\Projects\MGS\Tools\]]
+--  local inFile=stringsPath.."scrapetppxml.txt"
+--  local outFile=stringsPath.."scrapetppxmlstrinified.txt"
+
+  local stringsPath=[[D:\Projects\MGS\MGSVTOOLS\FoxEngine.TranslationTool.v0.2.4\]]
+  local inFile=stringsPath.."lang_dictionary.txt"
+  local outFile=stringsPath.."lang_dictionary_stringified.txt"
+
+  local file=io.open(inFile,"r")
+  if file==nil then
+    print("cant find "..inFile)
+    return
+  end
+  local strings = {}
+  -- read the lines in table 'lines'
+ 
+  for line in file:lines() do
+      table.insert(strings,line)
+  end
+  file:close()
+
+
+  local nl='\n'
+
+  local file=io.open(outFile,"w")
+  for i,line in ipairs(strings)do
+    file:write([["]]..line..[[",]]..nl)
+  end
+  file:close()
+end
+
 local function BitmapShit()
   TppDefine=TppDefine or {}
   TppDefine.LOCATION_ID=TppDefine.LOCATION_ID or {}
@@ -1371,6 +1405,8 @@ local function main()
   --ExtensionShit()
 
   --MergeFiles()
+  
+  Stringify()
 
 
   print"main done"

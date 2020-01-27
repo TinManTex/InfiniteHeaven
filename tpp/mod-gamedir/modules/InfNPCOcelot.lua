@@ -74,6 +74,9 @@ local npcBodies={
 }
 
 local npcTimes={}
+for n=1,#npcList do
+  npcTimes[n]=0
+end
 
 local routeTimeMin=3*60
 local routeTimeMax=6*60

@@ -664,16 +664,7 @@ function fovaSetupFuncs.afgh(locationName,missionId)
     TppSoldierFace.OverwriteMissionFovaData{face=faces}--,additionalMode=true}
 
     local bodies={}
-    if bodyInfo.bodyId then
-      InfEneFova.SetupBodies(bodyInfo.bodyId,bodies)
-    elseif bodyInfo.soldierSubType then
-      local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
-      if bodyIdTable then
-        for powerType,bodyTable in pairs(bodyIdTable)do
-          InfEneFova.SetupBodies(bodyTable,bodies)
-        end
-      end
-    end
+    InfEneFova.SetupBodies(bodyInfo,bodies)
     if #bodies>0 then
       TppSoldierFace.OverwriteMissionFovaData{body=bodies}
     end
@@ -772,16 +763,7 @@ function fovaSetupFuncs.mafr(locationName,missionId)
     TppSoldierFace.OverwriteMissionFovaData{face=faces}--,additionalMode=true}
 
     local bodies={}
-    if bodyInfo.bodyId then
-      InfEneFova.SetupBodies(bodyInfo.bodyId,bodies)
-    elseif bodyInfo.soldierSubType then
-      local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
-      if bodyIdTable then
-        for powerType,bodyTable in pairs(bodyIdTable)do
-          InfEneFova.SetupBodies(bodyTable,bodies)
-        end
-      end
-    end
+    InfEneFova.SetupBodies(bodyInfo,bodies)
     if #bodies>0 then
       TppSoldierFace.OverwriteMissionFovaData{body=bodies}
     end
@@ -1118,34 +1100,48 @@ function fovaSetupFuncs.mtbs(locationName,missionId)
       TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
     end
 
-    local bodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
-    if bodyInfo then
-      if bodyInfo.bodyId then
-        InfEneFova.SetupBodies(bodyInfo.bodyId,bodies)
+    --tex manage body limit (see InfBodyInfo GOTCHA)
+    local maxBodies=InfMain.MAX_STAFF_NUM_ON_CLUSTER
+    local halfMax=maxBodies/2
+    local maleBodyCount=0
+    local femaleBodyCount=0
+    local maleBodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
+    local femaleBodyInfo=InfEneFova.GetFemaleBodyInfo(missionId)
+    if maleBodyInfo and maleBodyInfo.bodyIds then
+      maleBodyCount=#maleBodyInfo.bodyIds
+    end
+    if femaleBodyInfo and femaleBodyInfo.bodyIds then
+      femaleBodyCount=#femaleBodyInfo.bodyIds
+    end
+
+    local maleBodyMax=maleBodyCount
+    local femaleBodyMax=femaleBodyCount
+    --ASSUMPTION: maxbodies is even
+    if maleBodyCount+femaleBodyCount>maxBodies then
+      maleBodyMax=math.min(maleBodyCount,halfMax)
+      femaleBodyMax=math.min(femaleBodyCount,halfMax)
+      if maleBodyMax<halfMax then
+        local underFlow=halfMax-maleBodyCount
+        femaleBodyMax=femaleBodyMax+underFlow
       end
-      if bodyInfo.soldierSubType then
-        local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
-        if bodyIdTable then
-          for powerType,bodyTable in pairs(bodyIdTable)do
-            InfEneFova.SetupBodies(bodyTable,bodies)
-          end
-        end
+      if femaleBodyMax<halfMax then
+        local underFlow=halfMax-femaleBodyCount
+        maleBodyMax=maleBodyMax+underFlow
       end
     end
 
-    local bodyInfo=InfEneFova.GetFemaleBodyInfo()
-    if bodyInfo then
-      if bodyInfo.bodyId then
-        InfEneFova.SetupBodies(bodyInfo.bodyId,bodies)
-      end
-      if bodyInfo.soldierSubType then
-        local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
-        if bodyIdTable then
-          for powerType,bodyTable in pairs(bodyIdTable)do
-            InfEneFova.SetupBodies(bodyTable,bodies)
-          end
-        end
-      end
+    if maleBodyInfo then
+      InfEneFova.SetupBodies(maleBodyInfo,bodies,maleBodyMax)
+    end
+    if femaleBodyInfo then
+      InfEneFova.SetupBodies(femaleBodyInfo,bodies,femaleBodyMax)
+    end
+
+    if this.debugModule then
+      InfCore.Log("maxBodies:"..maxBodies.." halfMax:"..halfMax)
+      InfCore.Log("maleBodyCount:"..maleBodyCount.." femaleBodyCount:"..femaleBodyCount)
+      InfCore.Log("maleBodyMax:"..maleBodyMax.." femaleBodyMax:"..femaleBodyMax)
+      InfCore.PrintInspect(InfEneFova.bodiesForMap,"InfEneFova.bodiesForMap")
     end
     --<
   elseif TppMission.IsFOBMission(missionId) then
@@ -1231,18 +1227,7 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
   local bodies={}
   local bodyInfo=InfEneFova.GetMaleBodyInfo(missionId)
   if bodyInfo then
-    if bodyInfo.bodyId then
-      InfEneFova.SetupBodies(bodyInfo.bodyId,bodies)
-    end
-    if bodyInfo.soldierSubType then
-      local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
-      if bodyIdTable then
-        for powerType,bodyTable in pairs(bodyIdTable)do
-          InfEneFova.SetupBodies(bodyTable,bodies)
-        end
-      end
-    end
-
+    InfEneFova.SetupBodies(bodyInfo,bodies,InfMain.MAX_STAFF_NUM_ON_CLUSTER)
     if bodyInfo.partsPath then
       TppSoldier2.SetDefaultPartsPath(bodyInfo.partsPath)
     end
@@ -1250,17 +1235,7 @@ function fovaSetupFuncs.mtbsCustomBody(locationName,missionId)
 
   local bodyInfo=InfEneFova.GetFemaleBodyInfo()
   if bodyInfo then
-    if bodyInfo.bodyId then
-      InfEneFova.SetupBodies(bodyInfo.bodyId,bodies)
-    end
-    if bodyInfo.soldierSubType then
-      local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
-      if bodyIdTable then
-        for powerType,bodyTable in pairs(bodyIdTable)do
-          InfEneFova.SetupBodies(bodyTable,bodies)
-        end
-      end
-    end
+    InfEneFova.SetupBodies(bodyInfo,bodies,InfMain.MAX_STAFF_NUM_ON_CLUSTER)
     --tex only female uses extendparts
     if bodyInfo.partsPath then
       TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
@@ -1322,7 +1297,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
     fovaFuncName=locationName
   end
 
-  InfCore.LogFlow("TppEneFova.PreMissionLoad locationName:"..tostring(locationName).." missionId:"..tostring(missionId))--DEBUG
+  InfCore.LogFlow("TppEneFova.PreMissionLoad locationName:"..tostring(locationName).." missionId:"..tostring(missionId))--tex DEBUG
   --tex 1st parameter wasn't actually used in vanilla, only for the switch/case, might as well repurpose it
   InfCore.PCallDebug(fovaSetupFuncs[fovaFuncName],locationName,missionId)
 
@@ -1647,6 +1622,9 @@ function this.ApplyUniqueSetting()
     if soldierId==NULL_ID then
       break
     end
+    local faceId=gvars.ene_fovaUniqueFaceIds[n]--tex>
+    local isFemale=InfEneFova.IsFemaleFace(faceId)
+    InfEneFova.SetFemaleSoldier(soldierId,isFemale)--<
     local command={id="ChangeFova",faceId=gvars.ene_fovaUniqueFaceIds[n],bodyId=gvars.ene_fovaUniqueBodyIds[n]}
     GameObject.SendCommand(soldierId,command)
     local fovaUniqueFlag=0
@@ -1674,6 +1652,7 @@ function this.ApplyUniqueSetting()
   end
 end
 function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalaclava)
+  --InfCore.Log("ApplyMTBSUniqueSetting: start:"..soldierId)--tex DEBUG
   local bodyId=0
   local balaclavaFaceId=EnemyFova.INVALID_FOVA_VALUE
   local ddSuit=TppEnemy.GetDDSuit()
@@ -1681,6 +1660,8 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     local faceTypeList=TppSoldierFace.CheckFemale{face={faceId}}
     return faceTypeList and faceTypeList[1]==1
   end
+  local isFemale=IsFemale(faceId)--tex>
+  InfEneFova.SetFemaleSoldier(soldierId,isFemale)--<
   --tex set bodyid >
   if IvarProc.EnabledForMission("customSoldierType") then
     local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
@@ -1688,7 +1669,6 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
     if not powerSettings then
       InfCore.Log("ApplyMTBSUniqueSetting: No powersettings for soldierId:"..soldierId)
     end
-    local isFemale=IsFemale(faceId)
     local bodyInfo=nil
     if isFemale then
       bodyInfo=InfEneFova.GetFemaleBodyInfo()
@@ -1743,7 +1723,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       if wantHeadgear and bodyInfo and bodyInfo.useDDHeadgear then
         powerSettings=powerSettings or {}
 
-        local isFemale=InfEneFova.IsFaceFemale(faceId)
+        local isFemale=InfEneFova.IsFemaleFace(faceId)
         local validHeadGearIds=InfEneFova.GetHeadGearForPowers(powerSettings,isFemale,bodyInfo)
         if #validHeadGearIds>0 then
           local rnd=math.random(#validHeadGearIds)--tex random seed management outside the function since it's called in a loop

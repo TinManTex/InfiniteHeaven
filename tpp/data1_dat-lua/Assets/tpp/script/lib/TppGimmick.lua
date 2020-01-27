@@ -453,26 +453,26 @@ function this.SetUpCheckBrokenAndBreakConnectTable(n)
     this._SetUpCheckBrokenAndBreakConnectTable(n,i)
   end
 end
-function this._SetUpCheckBrokenAndBreakConnectTable(e,i)
-  if not mvars.gim_identifierParamTable[e]then
+function this._SetUpCheckBrokenAndBreakConnectTable(gimmickId,gimmickInfo)
+  if not mvars.gim_identifierParamTable[gimmickId]then
     return
   end
-  local t=i.breakGimmickId
-  local n=i.checkBrokenGimmickId
-  if not t then
+  local breakGimmickId=gimmickInfo.breakGimmickId
+  local checkBrokenGimmickId=gimmickInfo.checkBrokenGimmickId
+  if not breakGimmickId then
     return
   end
-  if not n then
+  if not checkBrokenGimmickId then
     return
   end
-  if not mvars.gim_identifierParamTable[t]then
+  if not mvars.gim_identifierParamTable[breakGimmickId]then
     return
   end
-  if not mvars.gim_identifierParamTable[n]then
+  if not mvars.gim_identifierParamTable[checkBrokenGimmickId]then
     return
   end
-  mvars.gim_checkBrokenAndBreakConnectTable[e]=i
-  mvars.gim_checkBrokenAndBreakConnectTable[n]={checkBrokenGimmickId=e,breakGimmickId=t}
+  mvars.gim_checkBrokenAndBreakConnectTable[gimmickId]=gimmickInfo
+  mvars.gim_checkBrokenAndBreakConnectTable[checkBrokenGimmickId]={checkBrokenGimmickId=gimmickId,breakGimmickId=breakGimmickId}
 end
 function this.SetUpUseGimmickRouteTable(e)
   mvars.gim_routeGimmickConnectTable={}
@@ -496,16 +496,16 @@ end
 function this.SetUpConnectPowerCutTable(e)
   mvars.gim_connectPowerCutAreaTable={}
   mvars.gim_connectPowerCutCpTable={}
-  for n,e in pairs(e)do
+  for gimmickId,e in pairs(e)do
     local areaName=e.powerCutAreaName
     local cpName=e.cpName
-    mvars.gim_connectPowerCutAreaTable[n]=areaName
+    mvars.gim_connectPowerCutAreaTable[gimmickId]=areaName
     if cpName then
       local cpId=GetGameObjectId(cpName)
       if cpId~=NULL_ID then
-        mvars.gim_connectPowerCutCpTable[n]=cpId
+        mvars.gim_connectPowerCutCpTable[gimmickId]=cpId
         local tppCommandPost={type="TppCommandPost2"}
-        local gimmicks=mvars.gim_identifierParamTable[n]
+        local gimmicks=mvars.gim_identifierParamTable[gimmickId]
         local command={id="SetPowerSourceGimmick",cpName=cpName,gimmicks=gimmicks,areaName=areaName}
         GameObject.SendCommand(tppCommandPost,command)
       end
@@ -526,14 +526,14 @@ function this.SetCommunicateGimmick(e)
   local tppCommandPost={type="TppCommandPost2"}
   for cpName,e in pairs(e)do
     local gimmicks={}
-    for e,t in ipairs(e)do
-      local e=mvars.gim_identifierParamTable[t]
+    for e,gimmickId in ipairs(e)do
+      local e=mvars.gim_identifierParamTable[gimmickId]
       if e then
         table.insert(gimmicks,e)
       end
       local cpId=GetGameObjectId(cpName)
       if cpId~=NULL_ID then
-        mvars.gim_gimmickIdToCpTable[StrCode32(t)]=cpId
+        mvars.gim_gimmickIdToCpTable[StrCode32(gimmickId)]=cpId
       end
     end
     local isCommunicateBase=e.isCommunicateBase
@@ -580,31 +580,31 @@ function this.GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
   end
   return n
 end
-function this.GetGameObjectId(e)
-  local gimmickIdParams=mvars.gim_identifierParamTable[e]
+function this.GetGameObjectId(gimmickId)
+  local gimmickIdParams=mvars.gim_identifierParamTable[gimmickId]
   if not gimmickIdParams then
     return
   end
   return Gimmick.GetGameObjectId(gimmickIdParams.type,gimmickIdParams.locatorName,gimmickIdParams.dataSetName)
 end
 function this.BreakConnectedGimmick(e)
-  local e=mvars.gim_breakConnectTable[e]
-  if not e then
+  local connectedGimmickId=mvars.gim_breakConnectTable[e]
+  if not connectedGimmickId then
     return
   end
-  local gimmickIdParams=mvars.gim_identifierParamTable[e]
+  local gimmickIdParams=mvars.gim_identifierParamTable[connectedGimmickId]
   Gimmick.BreakGimmick(gimmickIdParams.type,gimmickIdParams.locatorName,gimmickIdParams.dataSetName,false)
 end
-function this.CheckBrokenAndBreakConnectedGimmick(n)
+function this.CheckBrokenAndBreakConnectedGimmick(gimmickId)
   if not mvars.gim_checkBrokenAndBreakConnectTable then
     return
   end
-  local n=mvars.gim_checkBrokenAndBreakConnectTable[n]
-  if not n then
+  local connectTable=mvars.gim_checkBrokenAndBreakConnectTable[gimmickId]
+  if not connectTable then
     return
   end
-  local checkBrokenGimmickId=n.checkBrokenGimmickId
-  local breakGimmickId=n.breakGimmickId
+  local checkBrokenGimmickId=connectTable.checkBrokenGimmickId
+  local breakGimmickId=connectTable.breakGimmickId
   if this.IsBroken{gimmickId=checkBrokenGimmickId}then
     local gimmickIdParams=mvars.gim_identifierParamTable[breakGimmickId]
     if gimmickIdParams then
@@ -654,8 +654,8 @@ function this.UnlockLandingZone(gimmickId)
     TppRadio.PlayCommonRadio(TppDefine.COMMON_RADIO.UNLOCK_LANDING_ZONE)
   end
 end
-function this.ShowAnnounceLog(n)
-  local gimmickType=mvars.gim_identifierParamTable[n].gimmickType
+function this.ShowAnnounceLog(gimmickId)
+  local gimmickType=mvars.gim_identifierParamTable[gimmickId].gimmickType
   if not gimmickType then
     return
   end
@@ -663,7 +663,7 @@ function this.ShowAnnounceLog(n)
   if announceType then
     TppUI.ShowAnnounceLog(announceType)
   end
-  this._ShowCommCutOffAnnounceLog(n)
+  this._ShowCommCutOffAnnounceLog(gimmickId)
 end
 function this._ShowCommCutOffAnnounceLog(e)
   if not mvars.gim_gimmickIdToCpTable then

@@ -1224,7 +1224,7 @@ this.AddEnemyRoute = function(enemyId,routeId,point)
 	if routeId == nil then return end
 
 	local gameObjectId = GameObject.GetGameObjectId( enemyId )
-	GameObject.SendCommand( gameObjectId, { id="SetSneakRoute", route=routeId, point=routePointNum } )
+	GameObject.SendCommand( gameObjectId, { id="SetSneakRoute", route=routeId, point=routePointNum } )--RETAILBUG routePointNum
 	GameObject.SendCommand( gameObjectId, { id="SetCautionRoute", route=routeId, point=routePointNum } )
 	GameObject.SendCommand( gameObjectId, { id = "SetAlertRoute", 	enabled = true, route=routeId, point=routePointNum }  ) 
 

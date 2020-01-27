@@ -1220,23 +1220,23 @@ function this.Messages()
           Tpp.IncrementPlayData"totalWalkerGearDestoryCount"
         end
       end},
-      {msg="TapHeadShotFar",func=function(t)--RETAILPATCH 1070 params added to all OnTacticalActionPoint calls-v-
-        this.OnTacticalActionPoint(t,"TapHeadShotFar")
+      {msg="TapHeadShotFar",func=function(gameId)--RETAILPATCH 1070 params added to all OnTacticalActionPoint calls-v-
+        this.OnTacticalActionPoint(gameId,"TapHeadShotFar")
       end},
-      {msg="TapRocketArm",func=function(t)
-        this.OnTacticalActionPoint(t,"TapRocketArm")
+      {msg="TapRocketArm",func=function(gameId)
+        this.OnTacticalActionPoint(gameId,"TapRocketArm")
       end},
-      {msg="TapHoldup",func=function(t)
-        this.OnTacticalActionPoint(t,"TapHoldup")
+      {msg="TapHoldup",func=function(gameId)
+        this.OnTacticalActionPoint(gameId,"TapHoldup")
       end},
-      {msg="TapCqc",func=function(t)
-        this.OnTacticalActionPoint(t,"TapCqc")
+      {msg="TapCqc",func=function(gameId)
+        this.OnTacticalActionPoint(gameId,"TapCqc")
       end},
       {msg="HeadShot",func=this.OnHeadShot},
       {msg="Neutralize",func=this.OnNeutralize},
       {msg="InterrogateSetMarker",func=this.IncrementInterrogateCount},
-      {msg="BreakGimmickBurglarAlarm",func=function(e)
-        if not Tpp.IsLocalPlayer(e)then
+      {msg="BreakGimmickBurglarAlarm",func=function(attackerId)
+        if not Tpp.IsLocalPlayer(attackerId)then
           return
         end
         Tpp.IncrementPlayData"totalBreakBurglarAlarmCount"
@@ -1244,10 +1244,10 @@ function this.Messages()
     }
   }
 end
-local t=MAX_32BIT_UINT
-local t=MAX_32BIT_UINT
-local t=true
-local a=false
+local unk1=MAX_32BIT_UINT
+local unk2=MAX_32BIT_UINT
+local unk3=true
+local unk4=false
 function this.IncrementInterrogateCount()
   Tpp.IncrementPlayData"totalInterrogateCount"
   TppChallengeTask.RequestUpdate"PLAY_RECORD"--RETAILPATCH 1070
@@ -1261,15 +1261,16 @@ function this.IncrementTakeHitCount()
   end
   if svars.oldTakeHitCount<svars.takeHitCount then
     svars.oldTakeHitCount=svars.takeHitCount
-    this.CallCountAnnounce("result_hit",svars.takeHitCount,t)
+    this.CallCountAnnounce("result_hit",svars.takeHitCount,unk3)
   end
 end
-function this.OnTacticalActionPoint(gameId,tacticalTakedownType)--RETAILPATCH 1070 tacticalTakedownType added
+--RETAILPATCH 1070 tacticalTakedownType added
+function this.OnTacticalActionPoint(gameId,tacticalTakedownType)
   if SendCommand(gameId,tacticalTakedownType,{id="IsDoneTacticalTakedown"})then
   else
     SendCommand(gameId,tacticalTakedownType,{id="SetTacticalTakedown"})
     this.AddTacticalActionPoint{isSneak=true,gameObjectId=gameId,tacticalTakeDownType=tacticalTakedownType}--RETAILPATCH 1070 params added
-end
+  end
 end
 function this.GetTacticalActionPoint(e)--RETAILPATCH 1070>
   if e then

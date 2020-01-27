@@ -828,19 +828,19 @@ function this.ShowIconForIntel(e,t)
     end
   end
 end
-function this.GotIntel(a)
-  local e=mvars.ply_intelFlagInfo[a]
-  if not e then
+function this.GotIntel(intelNameHash)
+  local gotIntelName=mvars.ply_intelFlagInfo[intelNameHash]
+  if not gotIntelName then
     return
   end
-  if svars[e]~=nil then
-    svars[e]=true
+  if svars[gotIntelName]~=nil then
+    svars[gotIntelName]=true
   end
-  local e=mvars.ply_intelMarkerObjectiveName[a]
-  if e then
-    local a=TppMission.GetParentObjectiveName(e)
+  local intelMarkerObjectiveName=mvars.ply_intelMarkerObjectiveName[intelNameHash]
+  if intelMarkerObjectiveName then
+    local objectiveDefine=TppMission.GetParentObjectiveName(intelMarkerObjectiveName)
     local objectives={}
-    for a,t in pairs(a)do
+    for a,t in pairs(objectiveDefine)do
       table.insert(objectives,a)
     end
     TppMission.UpdateObjective{objectives=objectives}
@@ -873,32 +873,32 @@ function this.AddTrapSettingForQuest(quest)
   mvars.ply_questStartTrapInfo[StrCode32(trapName)]=questName
   Player.AddTrapDetailCondition{trapName=trapName,condition=PlayerTrap.FINE,action=PlayerTrap.NORMAL,stance=(PlayerTrap.STAND+PlayerTrap.SQUAT),direction=direction,directionRange=directionRange}
 end
-function this.ShowIconForQuest(e,a)
-  if not IsTypeString(e)then
+function this.ShowIconForQuest(questName,questStarted)
+  if not IsTypeString(questName)then
     return
   end
-  local t
-  if mvars.ply_questStartTrapInfo and mvars.ply_questStartTrapInfo[e]then
-    t=mvars.ply_questStartTrapInfo[e].trapName
+  local trapInfo
+  if mvars.ply_questStartTrapInfo and mvars.ply_questStartTrapInfo[questName]then
+    trapInfo=mvars.ply_questStartTrapInfo[questName].trapName
   end
-  if mvars.ply_questStartFlagInfo[e]~=nil then
-    a=mvars.ply_questStartFlagInfo[e]
+  if mvars.ply_questStartFlagInfo[questName]~=nil then
+    questStarted=mvars.ply_questStartFlagInfo[questName]
   end
-  if not a then
-    Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING,message=StrCode32"QuestStarted",messageInDisplay=StrCode32"QuestIconInDisplay",messageArg=e}
+  if not questStarted then
+    Player.RequestToShowIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING,message=StrCode32"QuestStarted",messageInDisplay=StrCode32"QuestIconInDisplay",messageArg=questName}
   end
 end
-function this.QuestStarted(a)
-  local a=mvars.ply_questNameReverse[a]
-  if mvars.ply_questStartFlagInfo[a]~=nil then
-    mvars.ply_questStartFlagInfo[a]=true
+function this.QuestStarted(questNameHash)
+  local questName=mvars.ply_questNameReverse[questNameHash]
+  if mvars.ply_questStartFlagInfo[questName]~=nil then
+    mvars.ply_questStartFlagInfo[questName]=true
   end
   this.HideIconForQuest()
 end
 function this.HideIconForQuest()
   Player.RequestToHideIcon{type=ActionIcon.ACTION,icon=ActionIcon.TRAINING}
 end
-function this.ResetIconForQuest(e)
+function this.ResetIconForQuest(iconType)
   mvars.ply_questStartFlagInfo.ShootingPractice=false
 end
 function this.AppearHorseOnMissionStart(identifier,key)
@@ -2286,11 +2286,11 @@ function this.OnIntelIconDisplayContinue(a,t,t)
   local a=mvars.ply_intelNameReverse[a]
   this.ShowIconForIntel(a)
 end
-function this.OnEnterQuestTrap(a,t)
-  local a=mvars.ply_questStartTrapInfo[a]
-  this.ShowIconForQuest(a)
-  local e=mvars.ply_questStartFlagInfo[a]
-  if e~=nil and e==false then
+function this.OnEnterQuestTrap(trap,player)
+  local questName=mvars.ply_questStartTrapInfo[trap]
+  this.ShowIconForQuest(questName)
+  local questStarted=mvars.ply_questStartFlagInfo[questName]
+  if questStarted~=nil and questStarted==false then
     TppSoundDaemon.PostEvent"sfx_s_ifb_mbox_arrival"
   end
 end

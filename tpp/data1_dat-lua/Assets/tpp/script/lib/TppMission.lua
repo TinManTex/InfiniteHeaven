@@ -3135,14 +3135,15 @@ function this.OnMissionGameEndFadeOutFinish2nd()
   end
   TimerStart("Timer_MissionGameEndStart2nd",.1)
 end
+--objectiveDefine=missionTable.sequence.missionObjectiveDefine
 function this.SetMissionObjectives(objectiveDefine,ojectiveTree,objectiveEnum)
   mvars.mis_missionObjectiveDefine=objectiveDefine
   mvars.mis_missionObjectiveTree=ojectiveTree
   mvars.mis_missionObjectiveEnum=objectiveEnum
   if mvars.mis_missionObjectiveTree then
     for n,e in Tpp.BfsPairs(mvars.mis_missionObjectiveTree)do
-      for e,i in pairs(e)do
-        local objectiveDefine=mvars.mis_missionObjectiveDefine[e]
+      for objectiveName,i in pairs(e)do
+        local objectiveDefine=mvars.mis_missionObjectiveDefine[objectiveName]
         if objectiveDefine then
           objectiveDefine.parent=objectiveDefine.parent or{}
           objectiveDefine.parent[n]=true
@@ -3170,19 +3171,19 @@ function this.ShowUpdateObjective(objectiveSetting)
     return
   end
   local announceLogTable={}
-  for n,s in pairs(objectiveSetting)do
-    local objectiveDefine=mvars.mis_missionObjectiveDefine[s]
-    local t=not this.IsEnableMissionObjective(s)
-    if t then
-      t=(not this.IsEnableAnyParentMissionObjective(s))
+  for n,objectiveName in pairs(objectiveSetting)do
+    local objectiveDefine=mvars.mis_missionObjectiveDefine[objectiveName]
+    local notEnabled=not this.IsEnableMissionObjective(objectiveName)
+    if notEnabled then
+      notEnabled=(not this.IsEnableAnyParentMissionObjective(objectiveName))
     end
     if objectiveDefine.packLabel then
       if not TppPackList.IsMissionPackLabelList(objectiveDefine.packLabel)then
-        t=false
+        notEnabled=false
       end
     end
-    if objectiveDefine and t then
-      this.DisableChildrenObjective(s)
+    if objectiveDefine and notEnabled then
+      this.DisableChildrenObjective(objectiveName)
       this._ShowObjective(objectiveDefine,true)
       local announceInfo={isMissionAnnounce=false,subGoalId=nil}
       if objectiveDefine.announceLog then
@@ -3192,7 +3193,7 @@ function this.ShowUpdateObjective(objectiveSetting)
         end
         announceLogTable[objectiveDefine.announceLog]=announceInfo
       end
-      this.SetMissionObjectiveEnable(s,true)
+      this.SetMissionObjectiveEnable(objectiveName,true)
     end
   end
   if next(announceLogTable)then
@@ -3275,75 +3276,75 @@ function this.RestoreShowMissionObjective()
   if not mvars.mis_missionObjectiveEnum then
     return
   end
-  for n,i in ipairs(mvars.mis_missionObjectiveEnum)do
+  for n,objectiveName in ipairs(mvars.mis_missionObjectiveEnum)do
     if not svars.mis_objectiveEnable[n]then
-      local objectiveDefine=mvars.mis_missionObjectiveDefine[i]
+      local objectiveDefine=mvars.mis_missionObjectiveDefine[objectiveName]
       if objectiveDefine then
         this.DisableObjective(objectiveDefine)
       end
     end
   end
-  for n,i in ipairs(mvars.mis_missionObjectiveEnum)do
+  for n,objectiveName in ipairs(mvars.mis_missionObjectiveEnum)do
     if svars.mis_objectiveEnable[n]then
-      local objectiveDefine=mvars.mis_missionObjectiveDefine[i]
+      local objectiveDefine=mvars.mis_missionObjectiveDefine[objectiveName]
       if objectiveDefine then
         this._ShowObjective(objectiveDefine,false)
       end
     end
   end
 end
-function this.SetMissionObjectiveEnable(e,n)
+function this.SetMissionObjectiveEnable(objectiveName,enable)
   if not mvars.mis_missionObjectiveEnum then
     return
   end
-  local e=mvars.mis_missionObjectiveEnum[e]
-  if not e then
+  local objectiveEnum=mvars.mis_missionObjectiveEnum[objectiveName]
+  if not objectiveEnum then
     return
   end
-  svars.mis_objectiveEnable[e]=n
+  svars.mis_objectiveEnable[objectiveEnum]=enable
 end
-function this.IsEnableMissionObjective(e)
+function this.IsEnableMissionObjective(objectiveName)
   if not mvars.mis_missionObjectiveEnum then
     return
   end
-  local e=mvars.mis_missionObjectiveEnum[e]
-  if not e then
+  local objectiveEnum=mvars.mis_missionObjectiveEnum[objectiveName]
+  if not objectiveEnum then
     return
   end
-  return svars.mis_objectiveEnable[e]
+  return svars.mis_objectiveEnable[objectiveEnum]
 end
-function this.GetParentObjectiveName(e)
-  local objectiveDefine=mvars.mis_missionObjectiveDefine[e]
+function this.GetParentObjectiveName(objectiveName)
+  local objectiveDefine=mvars.mis_missionObjectiveDefine[objectiveName]
   if not objectiveDefine then
     return
   end
   return objectiveDefine.parent
 end
-function this.IsEnableAnyParentMissionObjective(n)
-  local objectiveDefine=mvars.mis_missionObjectiveDefine[n]
+function this.IsEnableAnyParentMissionObjective(objectiveName)
+  local objectiveDefine=mvars.mis_missionObjectiveDefine[objectiveName]
   if not objectiveDefine then
     return
   end
   if not objectiveDefine.parent then
     return false
   end
-  local i
-  for n,s in pairs(objectiveDefine.parent)do
-    if this.IsEnableMissionObjective(n)then
+  local hasEnabled
+  for _objectiveName,s in pairs(objectiveDefine.parent)do
+    if this.IsEnableMissionObjective(_objectiveName)then
       return true
     else
-      i=this.IsEnableAnyParentMissionObjective(n)
-      if i then
+      hasEnabled=this.IsEnableAnyParentMissionObjective(_objectiveName)
+      if hasEnabled then
         return true
       end
     end
   end
   return false
 end
-function this.DisableChildrenObjective(s)
+function this.DisableChildrenObjective(objectiveName)
   local n
   for i,e in Tpp.BfsPairs(mvars.mis_missionObjectiveTree)do
-    if i==s then
+    if i==objectiveName then
       n=e
       break
     end
@@ -3351,10 +3352,10 @@ function this.DisableChildrenObjective(s)
   if not n then
     return
   end
-  for i,n in Tpp.BfsPairs(n)do
-    local objectiveDefine=mvars.mis_missionObjectiveDefine[i]
+  for objectiveName,n in Tpp.BfsPairs(n)do
+    local objectiveDefine=mvars.mis_missionObjectiveDefine[objectiveName]
     if objectiveDefine then
-      this.SetMissionObjectiveEnable(i,false)
+      this.SetMissionObjectiveEnable(objectiveName,false)
       this.DisableObjective(objectiveDefine)
     end
   end

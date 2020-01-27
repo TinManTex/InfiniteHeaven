@@ -31,14 +31,10 @@ end
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
   local Ivars=Ivars
-  local mvars=mvars  
-  
+  local mvars=mvars
+
   if mvars.ene_soldierDefine==nil then
     --InfCore.DebugPrint"WARNING: InfEnemyPhase.Update - ene_soldierDefine==nil"
-    return
-  end
-
-  if (TppLocation.IsMotherBase() or TppLocation.IsMBQF()) and Ivars.mbHostileSoldiers:Is(0) then
     return
   end
 
@@ -46,6 +42,16 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   local minPhase=Ivars.minPhase:Get()
   local maxPhase=Ivars.maxPhase:Get()
   local keepPhase=Ivars.keepPhase:Is(1)
+
+  --tex don't allow hostile if hostile not allowed
+  if (TppLocation.IsMotherBase() or TppLocation.IsMBQF()) and Ivars.mbHostileSoldiers:Is(0) then
+    if minPhase==PHASE_EVASION or minPhase==PHASE_ALERT then
+      minPhase=PHASE_CAUTION
+    end
+    if maxPhase==PHASE_EVASION or maxPhase==PHASE_ALERT then
+      maxPhase=PHASE_CAUTION
+    end
+  end
 
   --tex OFF TODO: MB cppositions
   --  local playerPosition={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
@@ -58,9 +64,9 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     if #soldierList>0 then
       local cpId=GetGameObjectId(cpName)
       local cpPhase=SendCommand(cpId,{id="GetPhase",cpName=cpName})
---      if cpPhase==PHASE_ALERT then
---        this.inf_cpLastAlert[cpName]=currentTime
---      end
+      --      if cpPhase==PHASE_ALERT then
+      --        this.inf_cpLastAlert[cpName]=currentTime
+      --      end
 
       if currentPhase<minPhase then
         this.ChangePhase(cpName,minPhase)--gvars.minPhase)
@@ -105,7 +111,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end
 
   execState.lastPhase=currentPhase
-  
+
   execState.nextUpdate=currentTime+this.GetUpdateRate()
 end
 

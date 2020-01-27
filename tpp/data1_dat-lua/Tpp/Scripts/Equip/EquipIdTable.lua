@@ -1,4 +1,4 @@
--- DOBUILD: 1 --DEBUGNOW
+-- DOBUILD: 1
 --EquipIdTable.lua
 --RETAILPATCH 1090 various additions
 local this={}--tex made local
@@ -327,7 +327,7 @@ this.equipTable={
   {TppEquip.EQP_IT_CBox_LIMITED,TppEquip.EQP_TYPE_Item,0,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/item/cbx/cbx0_main0_def.parts",""},
   {TppEquip.EQP_IT_CBox_LIMITED_G01,TppEquip.EQP_TYPE_Item,0,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/item/cbx/cbx0_main0_def.parts",""},
   {TppEquip.EQP_IT_InstantStealth,TppEquip.EQP_TYPE_Item,0,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/item/idr/idr0_main0_def_v00.parts",""},--tex added .parts, using idroid was ""
-  {TppEquip.EQP_IT_Pentazemin,TppEquip.EQP_TYPE_Item,0,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/weapon/thr/tr05_main0_def_v00.parts",""},--tex added .parts (reusing SWP_Kibidango) was "" --DEBUGNOW
+  {TppEquip.EQP_IT_Pentazemin,TppEquip.EQP_TYPE_Item,0,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/weapon/thr/tr05_main0_def_v00.parts",""},--tex added .parts (reusing SWP_Kibidango) was ""
   {TppEquip.EQP_IT_Clairvoyance,TppEquip.EQP_TYPE_Item,0,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/weapon/thr/tr05_main0_def_v00.parts",""},--tex added .parts (reusing SWP_Kibidango) was "" 
   {TppEquip.EQP_IT_ReflexMedicine,TppEquip.EQP_TYPE_Item,0,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/weapon/thr/tr05_main0_def_v00.parts",""},--tex added .parts (reusing SWP_Kibidango) was "" 
   {TppEquip.EQP_IT_ParasiteMist,TppEquip.EQP_TYPE_Item,0,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/weapon/thr/tr05_main0_def_v00.parts",""},--tex added .parts (reusing SWP_Kibidango) was "" 

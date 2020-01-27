@@ -4,6 +4,10 @@ local this={}
 local InfMain=InfMain
 local IsDemoPaused=DemoDaemon.IsDemoPaused
 local IsDemoPlaying=DemoDaemon.IsDemoPlaying
+local Vector3=Vector3
+local Ivars=Ivars
+local SetCameraParams=Player.SetAroundCameraManualModeParams
+local UpdateCameraParams=Player.UpdateAroundCameraManualModeParams
 
 --tex updateState
 this.active=Ivars.adjustCameraUpdate
@@ -25,7 +29,7 @@ local cameraOffsetDefault=Vector3(0,0.75,0)
 --  this.cameraPosition=currentPos+cameraOffsetDefault
 --end
 --SYNC: Ivars camNames
-local function GetCurrentCamName()
+function this.GetCurrentCamName()
   --WIP
   --  if Ivars.cameraMode:Is"PLAYER" then
   --    if PlayerInfo.OrCheckStatus{PlayerStatus.STAND}then
@@ -48,13 +52,15 @@ local positionXStr="positionX"
 local positionYStr="positionY"
 local positionZStr="positionZ"
 function this.ReadPosition(camName)
-  return Vector3(Ivars[positionXStr..camName]:Get(),Ivars[positionYStr..camName]:Get(),Ivars[positionZStr..camName]:Get())
+  local ivars=ivars
+  return Vector3(ivars[positionXStr..camName],ivars[positionYStr..camName],ivars[positionZStr..camName])
 end
 
 local function WritePosition(camName,position)
-  Ivars[positionXStr..camName]:Set(position:GetX())
-  Ivars[positionYStr..camName]:Set(position:GetY())
-  Ivars[positionZStr..camName]:Set(position:GetZ())
+  local ivars=ivars
+  ivars[positionXStr..camName]=position:GetX()
+  ivars[positionYStr..camName]=position:GetY()
+  ivars[positionZStr..camName]=position:GetZ()
 end
 
 --REF
@@ -83,7 +89,7 @@ end
 
 function this.UpdateCameraManualMode()
   local Ivars=Ivars
-  local currentCamName=GetCurrentCamName()
+  local currentCamName=this.GetCurrentCamName()
   local focalLength=Ivars["focalLength"..currentCamName]
   local aperture=Ivars["aperture"..currentCamName]
   local focusDistance=Ivars["focusDistance"..currentCamName]
@@ -110,7 +116,7 @@ function this.UpdateCameraManualMode()
   --    --useShakeParam = true
   --    }
   --  else
-  Player.SetAroundCameraManualModeParams{
+  SetCameraParams{
     target=movePosition,
     distance=cameraDistance:Get(),
     focalLength=focalLength:Get(),
@@ -123,12 +129,12 @@ function this.UpdateCameraManualMode()
     alphaDistance=0,
   }
   -- end
-  Player.UpdateAroundCameraManualModeParams()
+  UpdateCameraParams()
 end
 
 function this.OnActivateCameraAdjust()
   --KLUDGE
-  local currentCamName=GetCurrentCamName()
+  local currentCamName=this.GetCurrentCamName()
   local currentCamPos=this.ReadPosition(currentCamName)
   --InfCore.DebugPrint(currentCamPos:GetX()..","..currentCamPos:GetY()..","..currentCamPos:GetZ())--DEBUG
   if currentCamPos:GetX()==0 and currentCamPos:GetY()==0 and currentCamPos:GetZ()==0 then
@@ -192,13 +198,16 @@ function this.DoControlSet(currentChecks)
   local moveX=0
   local moveY=0
   local moveZ=0
+  
+  local leftStickX=PlayerVars.leftStickXDirect
+  local leftStickY=PlayerVars.leftStickYDirect
 
   local didMove=false
-  if math.abs(PlayerVars.leftStickXDirect)>deadZone or math.abs(PlayerVars.leftStickYDirect)>deadZone then--tex seem like game already handles deadzone?
+  if math.abs(leftStickX)>deadZone or math.abs(leftStickY)>deadZone then--tex seem like game already handles deadzone?
     didMove=true
   end
 
-  local currentCamName=GetCurrentCamName()
+  local currentCamName=this.GetCurrentCamName()
   local focalLength=Ivars["focalLength"..currentCamName]
   local aperture=Ivars["aperture"..currentCamName]
   local focusDistance=Ivars["focusDistance"..currentCamName]
@@ -216,8 +225,8 @@ function this.DoControlSet(currentChecks)
   local adjustScaleMed=aperture:Get()/50--0.1
   local adjustScaleFast=focusDistance:Get()/10--0.1
 
-  moveX=-PlayerVars.leftStickXDirect*currentMoveScale
-  moveZ=-PlayerVars.leftStickYDirect*currentMoveScale
+  moveX=-leftStickX*currentMoveScale
+  moveZ=-leftStickY*currentMoveScale
 
   local moveAmount=1
   if not InfButton.ButtonDown(InfMain.resetModeButton) then--tex reusing these buttons in reset mode
@@ -245,15 +254,15 @@ function this.DoControlSet(currentChecks)
 
     if didMove then
       if InfButton.ButtonDown(InfMain.zoomModeButton) then
-        local newValue=focalLength:Get()-PlayerVars.leftStickYDirect*adjustScaleSlow
+        local newValue=focalLength:Get()-leftStickY*adjustScaleSlow
         newValue=IvarClamp(focalLength,newValue)
         focalLength:Set(newValue)
       elseif InfButton.ButtonDown(InfMain.apertureModeButton) then
-        local newValue=aperture:Get()-PlayerVars.leftStickYDirect*adjustScaleMed
+        local newValue=aperture:Get()-leftStickY*adjustScaleMed
         newValue=IvarClamp(aperture,newValue)
         aperture:Set(newValue)
       elseif InfButton.ButtonDown(InfMain.focusDistanceModeButton) then
-        local newValue=focusDistance:Get()-PlayerVars.leftStickYDirect*adjustScaleFast
+        local newValue=focusDistance:Get()-leftStickY*adjustScaleFast
         newValue=IvarClamp(focusDistance,newValue)
         focusDistance:Set(newValue)
         --CULL
@@ -265,11 +274,11 @@ function this.DoControlSet(currentChecks)
         --        local camMoveDir=rotYQuat:Rotate(vMoveDir)
         --        movePosition=movePosition+camMoveDir
       elseif InfButton.ButtonDown(InfMain.speedModeButton) then
-        local newValue=moveScale:Get()-PlayerVars.leftStickYDirect*adjustScaleSlow--WIP TODO own scale
+        local newValue=moveScale:Get()-leftStickY*adjustScaleSlow--WIP TODO own scale
         newValue=IvarClamp(moveScale,newValue)
         moveScale:Set(newValue)
       elseif InfButton.ButtonDown(InfMain.distanceModeButton) then
-        local newValue=cameraDistance:Get()+PlayerVars.leftStickYDirect*adjustScaleFast--WIP TODO own scale
+        local newValue=cameraDistance:Get()+leftStickY*adjustScaleFast--WIP TODO own scale
         newValue=IvarClamp(cameraDistance,newValue)
         cameraDistance:Set(newValue)
       else

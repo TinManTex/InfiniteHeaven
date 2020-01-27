@@ -119,7 +119,30 @@ this.showPosition={
     InfQuest.PrintQuestArea()
 
     --tex TODO: dump to seperate file
+    local offsetY=0-- -0.78
     local x,y,z=vars.playerPosX,vars.playerPosY,vars.playerPosZ
+    y=y+offsetY
+    local rotY=vars.playerCameraRotation[1]
+    local positionTable=string.format("{pos={%.3f,%.3f,%.3f},rotY=%.3f,},",x,y,z,rotY)
+    local positionXML=string.format('<value x="%.3f" y="%.3f" z="%.3f" w="0" />',x,y,z)
+    table.insert(this.positions,positionTable)
+    table.insert(this.positionsXML,positionXML)
+
+    --    InfCore.Log(positionTable)
+    --    InfCore.Log(positionXML)
+    InfCore.Log("positions:\n"..table.concat(this.positions,"\n"),false,true)
+    InfCore.Log("positionsxml:\n"..table.concat(this.positionsXML,"\n"),false,true)
+    InfCore.DebugPrint("Position written to ih_log")
+  end,
+}
+
+this.showFreeCamPosition={
+  OnChange=function()
+    local currentCamName=InfCamera.GetCurrentCamName()
+    local movePosition=InfCamera.ReadPosition(currentCamName)
+
+    --tex TODO: dump to seperate file
+    local x,y,z=movePosition:GetX(),movePosition:GetY(),movePosition:GetZ()
     local rotY=vars.playerCameraRotation[1]
     local positionTable=string.format("{pos={%.3f,%.3f,%.3f},rotY=%.3f,},",x,y,z,rotY)
     local positionXML=string.format('<value x="%.3f" y="%.3f" z="%.3f" w="0" />',x,y,z)
@@ -162,10 +185,13 @@ this.showQuietReunionMissionCount={
   end,
 }
 
-this.ogrePointChange=999999
+this.ogrePointChange=90000
+--tex see https://www.gamefaqs.com/boards/718564-metal-gear-solid-v-the-phantom-pain/72466130 for breakdown of the demon points levels.
 this.setDemon={
   OnChange=function(self)
+    --tex why aren't I using this again? not usable in tpp release build?
     --TppMotherBaseManagement.SetOgrePoint{ogrePoint=99999999}
+
     TppHero.SetOgrePoint(this.ogrePointChange)
     InfMenu.Print("-"..this.ogrePointChange .. InfMenu.LangString"set_demon")
   end,
@@ -613,114 +639,6 @@ this.DEBUG_PrintInterrogationInfo={
   end
 }
 
---DEBUGNOW
-local function IsIvar(ivar)--TYPEID
-  return type(ivar)=="table" and ivar.name and (ivar.range or ivars[ivar.name])
-end
-
-local function IsForProfile(item)
-  if item.nonConfig
-    or item.optionType~="OPTION"
-    or item.nonUser
-    or not item.save
-  then
-    return false
-  end
-  return true
-end
-
-function this.BuildProfile(onlyNonDefault)
-  local profile={}
-  for ivarName,ivar in pairs(Ivars)do
-    if IsIvar(ivar) then
-      if IsForProfile(ivar) then
-        local currentSetting=ivars[ivar.name]
-        if not onlyNonDefault or currentSetting~=ivar.default then
-          profile[ivar.name]=currentSetting--tex DEBUGNOW get .setting enum name
-        end
-      end
-    end
-  end
-  return profile
-end
-
-
---tex settings range on one line between braces
-function this.GetSettingsLine(ivar)
-  local settingsLine={}
-  if ivar.settings then--tex DEBUGNOW TODO filter dynamic
-    table.insert(settingsLine,"{ ")
-    for i,setting in ipairs(ivar.settings)do
-      table.insert(settingsLine,setting)
-      if i~=#ivar.settings then
-        table.insert(settingsLine,", ")
-      end
-    end
-    table.insert(settingsLine," }")
-  else
-    table.insert(settingsLine,"{ ")
-    table.insert(settingsLine,ivar.range.min.."-"..ivar.range.max)
-    table.insert(settingsLine," }")
-  end
-  return table.concat(settingsLine)
-end
-
-
-function this.WriteProfile(defaultSlot,onlyNonDefault)
-  local dateTime=os.date("%x %X")
-  local profile={
-    description="Saved profile "..dateTime,
-    modVersion=InfCore.modVersion,
-    profile=this.BuildProfile(onlyNonDefault),
-  }
-  --InfCore.PrintInspect(profile)--DEBUGN
-
-  local ivars={}
-  for k,v in pairs(profile.profile) do
-    ivars[#ivars+1]=k
-  end
-  table.sort(ivars)
-
-  local profileName="savedProfile"
-  if not defaultSlot then
-    profileName="savedProfile"..os.time()
-  end
-
-  local lang=InfLang.eng
-  local helpLang=InfLang.help.eng
-
-  local saveLineFormatStr="\t\t%s=%s,--%s -- %s -- %s"
-  local saveText={}
-  saveText[#saveText+1]="local this={"
-  saveText[#saveText+1]="\tdescription=\""..profile.description.."\","
-  saveText[#saveText+1]="\tprofile={"
-  for i,name in ipairs(ivars)do
-    local ivar=Ivars[name]
-
-    local value=profile.profile[name]
-    if value then
-      local settingsString=this.GetSettingsLine(ivar)
-      local nameLangString=lang[name] or ""
-      local helpLangString=helpLang[name] or ""
-      local line=string.format(saveLineFormatStr,name,value,settingsString,nameLangString,helpLangString)
-
-      saveText[#saveText+1]=line
-    end
-  end
-  saveText[#saveText+1]="\t}"
-  saveText[#saveText+1]="}"
-  saveText[#saveText+1]="return this"
-
-  InfCore.PrintInspect(table.concat(saveText))--DEBUGNOW
-
-  --DEBUGNOW Ivars.profiles[profileName]=profile
-  local profilesFileName=InfCore.paths.profiles..profileName..".lua"--DEBUGNOW
-  --  InfPersistence.Store(InfCore.paths.mod..profilesFileName,Ivars.savedProfiles)
-  InfCore.WriteStringTable(profilesFileName,saveText)
-end
-
----
-
 local toggle1=false
 local index1Min=1
 local index1Max=4
@@ -731,11 +649,401 @@ this.DEBUG_SomeShiz={
     InfCore.Log"---------------------DEBUG_SomeShiz---------------------"
 
 
-    local equipStr="EQP_WP_EX_hg_013"
-    local str32=Fox.StrCode32(equipStr)
-    InfCore.Log(str32)
 
-if true then return end
+    --InfCore.PrintInspect(MotherBaseStage.GetCurrentCluster(),"MotherBaseStage.GetCurrentCluster")
+    --InfCore.PrintInspect(mtbs_cluster.GetCurrentClusterId(),"mtbs_cluster.GetCurrentClusterId")
+
+
+    if true then return end
+
+
+    local tppEquipNames={}
+    for k,v in pairs(TppEquip)do
+      if type(v)=="number" then
+        if string.find(k,"EQP_")~=nil and string.find(k,"EQP_TYPE_")==nil and string.find(k,"EQP_BLOCK_")==nil then
+          table.insert(tppEquipNames,k)
+        end
+      end
+    end
+
+    local notInInfEquip={}
+    for i,equipId in ipairs(tppEquipNames)do
+      local found=false
+      for i,_equipId in ipairs(InfEquip.tppEquipTable)do
+        if equipId==_equipId then
+          found=true
+          break
+        end
+      end
+      if not found then
+        table.insert(notInInfEquip,equipId)
+      end
+    end
+    table.sort(notInInfEquip)
+    InfCore.PrintInspect(notInInfEquip,"notInInfEquip")
+
+    local notInInfEquip={
+      "EQP_AB_Researve_00",
+      "EQP_AB_Researve_01",
+      "EQP_AM_Volgin_sg_010",
+      "EQP_BX_Researve_00",
+      "EQP_BX_Researve_01",
+      "EQP_BX_Researve_02",
+      "EQP_BX_Researve_03",
+      "EQP_HAND_ACTIVESONAR",
+      "EQP_HAND_MEDICAL",
+      "EQP_HAND_PHYSICAL",
+      "EQP_HAND_PRECISION",
+      "EQP_IT_CBox",
+      "EQP_None",
+      "EQP_SUIT",
+      "EQP_SWP_Claymore",
+      "EQP_SWP_Claymore_G01",
+      "EQP_SWP_Claymore_G02",
+      "EQP_WP_10001",
+      "EQP_WP_10002",
+      "EQP_WP_10003",
+      "EQP_WP_10004",
+      "EQP_WP_10006",
+      "EQP_WP_10015",
+      "EQP_WP_10024",
+      "EQP_WP_10025",
+      "EQP_WP_10035",
+      "EQP_WP_10036",
+      "EQP_WP_1003a",
+      "EQP_WP_1003b",
+      "EQP_WP_10101",
+      "EQP_WP_10102",
+      "EQP_WP_10103",
+      "EQP_WP_10104",
+      "EQP_WP_10105",
+      "EQP_WP_10107",
+      "EQP_WP_10116",
+      "EQP_WP_10125",
+      "EQP_WP_10134",
+      "EQP_WP_10136",
+      "EQP_WP_10201",
+      "EQP_WP_10202",
+      "EQP_WP_10203",
+      "EQP_WP_10205",
+      "EQP_WP_10214",
+      "EQP_WP_10216",
+      "EQP_WP_10302",
+      "EQP_WP_10303",
+      "EQP_WP_10304",
+      "EQP_WP_10305",
+      "EQP_WP_10306",
+      "EQP_WP_10307",
+      "EQP_WP_10403",
+      "EQP_WP_10404",
+      "EQP_WP_10405",
+      "EQP_WP_10407",
+      "EQP_WP_10414",
+      "EQP_WP_10415",
+      "EQP_WP_10417",
+      "EQP_WP_10424",
+      "EQP_WP_10425",
+      "EQP_WP_10427",
+      "EQP_WP_10503",
+      "EQP_WP_10504",
+      "EQP_WP_10515",
+      "EQP_WP_10526",
+      "EQP_WP_10603",
+      "EQP_WP_10604",
+      "EQP_WP_10615",
+      "EQP_WP_10626",
+      "EQP_WP_10637",
+      "EQP_WP_10703",
+      "EQP_WP_10704",
+      "EQP_WP_10705",
+      "EQP_WP_20002",
+      "EQP_WP_20003",
+      "EQP_WP_20004",
+      "EQP_WP_20005",
+      "EQP_WP_20006",
+      "EQP_WP_20015",
+      "EQP_WP_20103",
+      "EQP_WP_20104",
+      "EQP_WP_20105",
+      "EQP_WP_20106",
+      "EQP_WP_20116",
+      "EQP_WP_20119",
+      "EQP_WP_2011a",
+      "EQP_WP_2011b",
+      "EQP_WP_20203",
+      "EQP_WP_20204",
+      "EQP_WP_20205",
+      "EQP_WP_20206",
+      "EQP_WP_20215",
+      "EQP_WP_20216",
+      "EQP_WP_20225",
+      "EQP_WP_20302",
+      "EQP_WP_20303",
+      "EQP_WP_20304",
+      "EQP_WP_20305",
+      "EQP_WP_20307",
+      "EQP_WP_20309",
+      "EQP_WP_2030a",
+      "EQP_WP_2030b",
+      "EQP_WP_30001",
+      "EQP_WP_30002",
+      "EQP_WP_30003",
+      "EQP_WP_30004",
+      "EQP_WP_30005",
+      "EQP_WP_30014",
+      "EQP_WP_30015",
+      "EQP_WP_30016",
+      "EQP_WP_30023",
+      "EQP_WP_30024",
+      "EQP_WP_30025",
+      "EQP_WP_30034",
+      "EQP_WP_30035",
+      "EQP_WP_30036",
+      "EQP_WP_30043",
+      "EQP_WP_30044",
+      "EQP_WP_30045",
+      "EQP_WP_30046",
+      "EQP_WP_30047",
+      "EQP_WP_30054",
+      "EQP_WP_30055",
+      "EQP_WP_30056",
+      "EQP_WP_30057",
+      "EQP_WP_30101",
+      "EQP_WP_30102",
+      "EQP_WP_30103",
+      "EQP_WP_30104",
+      "EQP_WP_30105",
+      "EQP_WP_30113",
+      "EQP_WP_30114",
+      "EQP_WP_30115",
+      "EQP_WP_30117",
+      "EQP_WP_30119",
+      "EQP_WP_3011a",
+      "EQP_WP_3011b",
+      "EQP_WP_30123",
+      "EQP_WP_30124",
+      "EQP_WP_30125",
+      "EQP_WP_30201",
+      "EQP_WP_30202",
+      "EQP_WP_30203",
+      "EQP_WP_30204",
+      "EQP_WP_30205",
+      "EQP_WP_30213",
+      "EQP_WP_30214",
+      "EQP_WP_30223",
+      "EQP_WP_30224",
+      "EQP_WP_30225",
+      "EQP_WP_30232",
+      "EQP_WP_30233",
+      "EQP_WP_30234",
+      "EQP_WP_30235",
+      "EQP_WP_30237",
+      "EQP_WP_30239",
+      "EQP_WP_3023a",
+      "EQP_WP_3023b",
+      "EQP_WP_30303",
+      "EQP_WP_30304",
+      "EQP_WP_30305",
+      "EQP_WP_30306",
+      "EQP_WP_30314",
+      "EQP_WP_30315",
+      "EQP_WP_30316",
+      "EQP_WP_30325",
+      "EQP_WP_30326",
+      "EQP_WP_30327",
+      "EQP_WP_30334",
+      "EQP_WP_30335",
+      "EQP_WP_30336",
+      "EQP_WP_40001",
+      "EQP_WP_40002",
+      "EQP_WP_40003",
+      "EQP_WP_40004",
+      "EQP_WP_40012",
+      "EQP_WP_40013",
+      "EQP_WP_40014",
+      "EQP_WP_40015",
+      "EQP_WP_40023",
+      "EQP_WP_40024",
+      "EQP_WP_40025",
+      "EQP_WP_40032",
+      "EQP_WP_40033",
+      "EQP_WP_40034",
+      "EQP_WP_40035",
+      "EQP_WP_40042",
+      "EQP_WP_40043",
+      "EQP_WP_40044",
+      "EQP_WP_40045",
+      "EQP_WP_40102",
+      "EQP_WP_40103",
+      "EQP_WP_40104",
+      "EQP_WP_40105",
+      "EQP_WP_40106",
+      "EQP_WP_40115",
+      "EQP_WP_40116",
+      "EQP_WP_40123",
+      "EQP_WP_40124",
+      "EQP_WP_40125",
+      "EQP_WP_40126",
+      "EQP_WP_40127",
+      "EQP_WP_40133",
+      "EQP_WP_40134",
+      "EQP_WP_40135",
+      "EQP_WP_40136",
+      "EQP_WP_40143",
+      "EQP_WP_40144",
+      "EQP_WP_40203",
+      "EQP_WP_40204",
+      "EQP_WP_40205",
+      "EQP_WP_40206",
+      "EQP_WP_40207",
+      "EQP_WP_40304",
+      "EQP_WP_40305",
+      "EQP_WP_40306",
+      "EQP_WP_40307",
+      "EQP_WP_50002",
+      "EQP_WP_50003",
+      "EQP_WP_50004",
+      "EQP_WP_50005",
+      "EQP_WP_50015",
+      "EQP_WP_50026",
+      "EQP_WP_50033",
+      "EQP_WP_50034",
+      "EQP_WP_50035",
+      "EQP_WP_50036",
+      "EQP_WP_50047",
+      "EQP_WP_50102",
+      "EQP_WP_50103",
+      "EQP_WP_50104",
+      "EQP_WP_50105",
+      "EQP_WP_50115",
+      "EQP_WP_50126",
+      "EQP_WP_50133",
+      "EQP_WP_50134",
+      "EQP_WP_50135",
+      "EQP_WP_50136",
+      "EQP_WP_50147",
+      "EQP_WP_50202",
+      "EQP_WP_50203",
+      "EQP_WP_50204",
+      "EQP_WP_50215",
+      "EQP_WP_50226",
+      "EQP_WP_50237",
+      "EQP_WP_50303",
+      "EQP_WP_50304",
+      "EQP_WP_50305",
+      "EQP_WP_50306",
+      "EQP_WP_60001",
+      "EQP_WP_60002",
+      "EQP_WP_60003",
+      "EQP_WP_60004",
+      "EQP_WP_60005",
+      "EQP_WP_60012",
+      "EQP_WP_60013",
+      "EQP_WP_60015",
+      "EQP_WP_60016",
+      "EQP_WP_60102",
+      "EQP_WP_60103",
+      "EQP_WP_60104",
+      "EQP_WP_60105",
+      "EQP_WP_60106",
+      "EQP_WP_60107",
+      "EQP_WP_60114",
+      "EQP_WP_60115",
+      "EQP_WP_60116",
+      "EQP_WP_60117",
+      "EQP_WP_60202",
+      "EQP_WP_60203",
+      "EQP_WP_60204",
+      "EQP_WP_60205",
+      "EQP_WP_60206",
+      "EQP_WP_60303",
+      "EQP_WP_60304",
+      "EQP_WP_60305",
+      "EQP_WP_60306",
+      "EQP_WP_60309",
+      "EQP_WP_6030a",
+      "EQP_WP_6030b",
+      "EQP_WP_60315",
+      "EQP_WP_60316",
+      "EQP_WP_60317",
+      "EQP_WP_60325",
+      "EQP_WP_60326",
+      "EQP_WP_60327",
+      "EQP_WP_60329",
+      "EQP_WP_6032a",
+      "EQP_WP_6032b",
+      "EQP_WP_60404",
+      "EQP_WP_60405",
+      "EQP_WP_60406",
+      "EQP_WP_60407",
+      "EQP_WP_6040a",
+      "EQP_WP_60415",
+      "EQP_WP_60416",
+      "EQP_WP_60417",
+      "EQP_WP_70002",
+      "EQP_WP_70003",
+      "EQP_WP_70004",
+      "EQP_WP_70005",
+      "EQP_WP_70006",
+      "EQP_WP_70009",
+      "EQP_WP_7000a",
+      "EQP_WP_7000b",
+      "EQP_WP_70015",
+      "EQP_WP_70024",
+      "EQP_WP_70025",
+      "EQP_WP_70103",
+      "EQP_WP_70104",
+      "EQP_WP_70105",
+      "EQP_WP_70106",
+      "EQP_WP_70114",
+      "EQP_WP_70115",
+      "EQP_WP_70116",
+      "EQP_WP_70125",
+      "EQP_WP_70126",
+      "EQP_WP_70127",
+      "EQP_WP_70203",
+      "EQP_WP_70204",
+      "EQP_WP_70205",
+      "EQP_WP_70206",
+      "EQP_WP_80002",
+      "EQP_WP_80004",
+      "EQP_WP_80006",
+      "EQP_WP_80103",
+      "EQP_WP_80104",
+      "EQP_WP_80105",
+      "EQP_WP_80116",
+      "EQP_WP_80119",
+      "EQP_WP_8011a",
+      "EQP_WP_8011b",
+      "EQP_WP_80124",
+      "EQP_WP_80125",
+      "EQP_WP_80126",
+      "EQP_WP_80135",
+      "EQP_WP_80136",
+      "EQP_WP_80138",
+      "EQP_WP_8013a",
+      "EQP_WP_8013b",
+      "EQP_WP_80203",
+      "EQP_WP_80204",
+      "EQP_WP_80205",
+      "EQP_WP_80206",
+      "EQP_WP_80209",
+      "EQP_WP_8020a",
+      "EQP_WP_8020b",
+      "EQP_WP_80304",
+      "EQP_WP_80305",
+      "EQP_WP_80306",
+      "EQP_WP_80307",
+      "EQP_WP_mgm0_cmn_ammo1",
+      "EQP_WP_no_use_00",
+      "EQP_WP_no_use_01",
+      "EQP_WP_no_use_02",
+      "EQP_WP_no_use_03"
+    }
+
+
+
+    if true then return end
     --DEBUGNOW
     local motionTable={
       --func = s10010_sequence.PushMotionOnSubEvent,

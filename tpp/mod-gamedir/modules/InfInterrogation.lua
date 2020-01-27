@@ -2,11 +2,13 @@
 --tex implements enableInfInterrogation
 local this={}
 
-local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
+local StrCode32=InfCore.StrCode32
 local InfMain=InfMain
 local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local IsTable=Tpp.IsTypeTable
+
+this.debugModule=false
 
 --STATE
 --tex also gvars.inf_interCpQuestStatus --see Ivars.DeclareVars
@@ -51,16 +53,35 @@ local parasiteResourceNames={
 function this.Init(missionTable)
   this.messageExecTable=nil
 
+  if not missionTable.enemy then
+    return
+  end
+
+  if TppMission.IsMissionStart() then
+    --InfCore.Log("InfInterrogate IsMissionStart")--DEBUG
+    --tex TODO KLUDGE, cant actually see how it's reset normally, I guess it's through the TppInterrogate.DeclareSvars
+    --but it doesn't seem to trigger unless I do
+    --also there seems to be only one actual .normal interrogation used in one mission (s10043), unless the generic interrogation uses the .normal layer
+    --and doing it this way actually resets the save vars
+    --breaking my policy here in that this code is run reguardless
+    for index=0,127 do
+      svars.InterrogationNormal[index]=bit.bnot(0)--tex from TppInterrogation.ResetFlagNormal
+    end
+  end
   if not Ivars.enableInfInterrogation:EnabledForMission() then
     return
   end
-  if missionTable.enemy then
-    local enemyTable=missionTable.enemy
-    if IsTable(enemyTable.soldierDefine) then
-      this.SetupInterrogation(enemyTable.interrogation)
-      enemyTable.uniqueInterrogation=enemyTable.uniqueInterrogation or {}
-      this.SetupInterCpQuests(enemyTable.soldierDefine,enemyTable.uniqueInterrogation)
-    end
+
+  local enemyTable=missionTable.enemy
+  if IsTable(enemyTable.soldierDefine) then
+    --InfCore.Log("InfInterrogation setting up")--DEBUG
+    this.SetupInterrogation(enemyTable.interrogation)
+    enemyTable.uniqueInterrogation=enemyTable.uniqueInterrogation or {}
+    this.SetupInterCpQuests(enemyTable.soldierDefine,enemyTable.uniqueInterrogation)
+  end
+  if this.debugModule then
+    InfCore.PrintInspect(enemyTable.interrogation,"enemyTable.interrogation")
+    InfCore.PrintInspect(enemyTable.uniqueInterrogation,"enemyTable.uniqueInterrogation")
   end
 end
 
@@ -78,27 +99,27 @@ end--<
 this.InterCall_Location=function(soldierId,cpId,interName)
   --InfCore.DebugPrint"InterCall_Location"--DEBUG
   InfCore.PCallDebug(function(soldierId,cpId,interName)--DEBUG
-  local interrFuncs={}
-  if Ivars.enableLrrpFreeRoam:Is(1) then
-    interrFuncs[#interrFuncs+1]=this.LrrpLocation
-  end
+    local interrFuncs={}
+    if Ivars.enableLrrpFreeRoam:Is(1) then
+      interrFuncs[#interrFuncs+1]=this.LrrpLocation
+    end
 
-  --  if InfNPCHeli and IvarProc.EnabledForMission("heliPatrols") then
-  --    table.insert(interrFuncs,this.HeliLocation)
-  --  end
+    --  if InfNPCHeli and IvarProc.EnabledForMission("heliPatrols") then
+    --    table.insert(interrFuncs,this.HeliLocation)
+    --  end
 
-  if Ivars.enableWildCardFreeRoam:Is(1) then
-    interrFuncs[#interrFuncs+1]=this.WildCardLocation
-  end
+    if Ivars.enableWildCardFreeRoam:Is(1) then
+      interrFuncs[#interrFuncs+1]=this.WildCardLocation
+    end
 
-  if Ivars.enableWalkerGearsFREE:Is(1) then
-    interrFuncs[#interrFuncs+1]=this.WalkerStaticLocation
-  end
+    if Ivars.enableWalkerGearsFREE:Is(1) then
+      interrFuncs[#interrFuncs+1]=this.WalkerStaticLocation
+    end
 
-  local LocationInterrogate=interrFuncs[math.random(#interrFuncs)]
-  if LocationInterrogate then
-    LocationInterrogate()
-  end
+    local LocationInterrogate=interrFuncs[math.random(#interrFuncs)]
+    if LocationInterrogate then
+      LocationInterrogate()
+    end
   end,soldierId,cpId,interName)--
 end
 

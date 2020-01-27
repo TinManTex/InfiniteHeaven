@@ -284,21 +284,26 @@ function this.GoMenu(menu,goBack)
   this.currentMenu=menu
   this.currentMenuOptions=menu.options
 
-  InfCore.ExtCmd'clear'
-  if menu==this.topMenu then
-    InfCore.ExtCmd("print","Top menu")
-  end
-  if menu.parent then
-    local optionIndex=menu.parentOption
-    local option=menu.parent.options[optionIndex]
-    local settingText=this.GetSettingText(optionIndex,option,false,true)
-    InfCore.ExtCmd("print",settingText)
-  end
-  InfCore.ExtCmd("print","----------")
-  for optionIndex=1,#menu.options do
-    local option=this.currentMenuOptions[optionIndex]
-    local settingText=this.GetSettingText(optionIndex,option,false,true)
-    InfCore.ExtCmd('print',settingText)
+  if ivars.postExtCommands>0 then
+    InfCore.ExtCmd'clear'
+    if menu==this.topMenu then
+      InfCore.ExtCmd("print","Top menu")
+    end
+    if menu.parent then
+      local optionIndex=menu.parentOption
+      local option=menu.parent.options[optionIndex]
+      local settingText=this.GetSettingText(optionIndex,option,false,true)
+      InfCore.ExtCmd("print",settingText)
+    end
+    InfCore.ExtCmd("print","----------")
+    for optionIndex=1,#menu.options do
+      local option=this.currentMenuOptions[optionIndex]
+      if option.OnSelect then
+        option:OnSelect()
+      end
+      local settingText=this.GetSettingText(optionIndex,option,false,true)
+      InfCore.ExtCmd('print',settingText)
+    end
   end
 
   this.GetSetting(previousIndex,previousMenuOptions)
@@ -642,17 +647,19 @@ function this.OnActivate()
   local message=InfCore.modName.." r"..InfCore.modVersion.." ".. this.LangString"menu_open_help"--(Press Up/Down,Left/Right to navigate menu)
   TppUiCommand.AnnounceLogView(message)
 
-  InfCore.ExtCmd'clear'
-  InfCore.ExtCmd('print',message)
-  for optionIndex=1,#this.currentMenuOptions do
+  if ivars.postExtCommands>0 then
+    InfCore.ExtCmd'clear'
+    InfCore.ExtCmd('print',message)
+    for optionIndex=1,#this.currentMenuOptions do
+      local option=this.currentMenuOptions[optionIndex]
+      local settingText=this.GetSettingText(optionIndex,option,false,true)
+      InfCore.ExtCmd('print',settingText)
+    end
+    local optionIndex=this.currentIndex
     local option=this.currentMenuOptions[optionIndex]
-    local settingText=this.GetSettingText(optionIndex,option,false,true)
-    InfCore.ExtCmd('print',settingText)
+    local settingText=this.GetSettingText(optionIndex,option,false)
+    InfCore.ExtCmd("printbottom",settingText)
   end
-  local optionIndex=this.currentIndex
-  local option=this.currentMenuOptions[optionIndex]
-  local settingText=this.GetSettingText(optionIndex,option,false)
-  InfCore.ExtCmd("printbottom",settingText)
 
   InfMain.OnMenuOpen()
 end
@@ -664,8 +671,10 @@ function this.OnDeactivate()
   this.DeactivateControlSet()
   InfMain.OnMenuClose()
 
-  InfCore.ExtCmd("clear")
-  InfCore.ExtCmd("printbottom",this.LangString"menu_off")
+  if ivars.postExtCommands>0 then
+    InfCore.ExtCmd("clear")
+    InfCore.ExtCmd("printbottom",this.LangString"menu_off")
+  end
 end
 
 function this.CheckActivate(execCheck)

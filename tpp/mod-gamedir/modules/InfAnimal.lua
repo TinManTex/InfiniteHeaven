@@ -62,6 +62,9 @@ local birdCenters={
     {-947.669,18,-478.383},--plat2
     {-1024.306,15,-574.054},--plat3
   },
+  Separation={
+    {-175.147,12.826,-2057.978},
+  },
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
@@ -117,7 +120,7 @@ function this.InitCluster(clusterId)
 end
 
 function this.SetupBirds(clusterId)
-  local clusterName=TppDefine.CLUSTER_NAME[clusterId+1]
+  local clusterName=InfMain.CLUSTER_NAME[clusterId+1]
   local clusterCenters=birdCenters[clusterName]
 
   local birdInfo={

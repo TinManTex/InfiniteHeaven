@@ -1,5 +1,33 @@
 Infinite Heaven changelog
 
+r205 - 2017-04-29
+Addition: DD Suit - Fatigues All - will have random selection from all fatigue camos.
+
+Refactor: Shift from IsFemale cmd (which is actualy only for hostage) to own IsFemale set/get function. Would cause bodyInfo to always default to male causing various issues for dd suit female/female wildcards as they defaulted to male bodyInfo. Still don't have full coverage as selection of faceId is later than many functions that use bodyInfo.
+Fixed: various DD suit/wildcard females issues. 
+
+Module: InfMBAssets - implements fulton/ir sensor alarm response.
+Option: enableFultonAlarmsMB - "Enable asset alarms" - "Enables anti fulton theft alarms on containers and AA guns. Only partially working, will only trigger alarm once.",
+Option: enableIRSensorsMB - "Enable ir sensors" - "Enable ir sensor gates. Only partially working, will only be at level 1 (one beam) and will only trigger alarm once.",
+(via Mother base > Show Assets menu)
+
+Data: ih_ships.fpk
+Option: mbShowShips - "Show ships" - Shows some ships around mother base.
+(via Mother base > Show Assets menu)
+
+InfMain: Refactor - shifting some module specific code to the modules
+InfSoldierParams: Made external.
+
+Fixes: Various modules with on cluster load setup when moving to the seperation plat (which won't actually happen outside of warping). Seems like the initial idea might have been to be travel to it without loading a seperate missioncode. One texture in the game (no idea of the name/path) shows a map of
+
+Sideop: Blackfoot down updated. Added soldiers to river LZ (routes from q11050).
+
+Update: Add/subtract demon points decreased to 90k per use - thanks SoullessMadness for the suggestion.
+See https://www.gamefaqs.com/boards/718564-metal-gear-solid-v-the-phantom-pain/72466130 for breakdown of the demon points levels.
+
+InfLookup: More message signatures.
+InfStrCode: Changed to read .lookupStrings table from any modules. Bunch of string scrapes from exe,fox2,lang dict added to modders resource.
+
 r204 - 2017-04-23
 (version skip because of 202a/203 snakebite 0.8.5 .6 ver confusion)
 

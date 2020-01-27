@@ -9,6 +9,7 @@ local bnot=bit.bnot
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 
 --NMC GOTCHA TppDefine.Enum indexed from 0, Tpp.Enum indexed from one.
+--GOTCHA pulls via pairs, so could use a non array table TODO review in light of this
 function this.Enum(enumNames)
   if type(enumNames)~="table"then
     return

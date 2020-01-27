@@ -72,7 +72,7 @@ function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
 
 function this.ClearMoraleInfo()
-  for i=1,#TppDefine.CLUSTER_NAME+1 do
+  for i=1,#InfMain.CLUSTER_NAME+1 do
     saluteClusterCounts[i]=0
     visitedClusterCounts[i]=false
   end
@@ -95,14 +95,14 @@ end
 
 function this.GetTotalSalutes()
   local total=0
-  for i=1,#TppDefine.CLUSTER_NAME+1 do
+  for i=1,#InfMain.CLUSTER_NAME+1 do
     total=total+saluteClusterCounts[i]
   end
   return total
 end
 
 --tex on SaluteRaiseMorale msg
-function this.CheckSalutes()
+function this.CheckSalutes(saluterGameId)
   --InfCore.PCall(function()--DEBUG
   --tex already mission filtered
   if Ivars.mbMoraleBoosts:Is(0) then

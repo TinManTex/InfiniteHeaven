@@ -80,8 +80,8 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   --tex TODO some kind of periodic print if player in heli and pullout disabled (in any way, by temporary button press or actual ivar set)
 
   if not currentChecks.inMenu and currentChecks.inSupportHeli then
-    InfButton.buttonStates[InfButton.STANCE].holdTime=0.85--DEBUGNOW why isnt this firing if set to 0.9 or above
-    if InfButton.OnButtonHoldTime(InfButton.STANCE) then--DEBUGNOW TEST also make so disablepullout ivar doesnt apply in mother base, or do seperate ivar
+    InfButton.buttonStates[InfButton.STANCE].holdTime=0.85--tex TODO why isnt this firing if set to 0.9 or above
+    if InfButton.OnButtonHoldTime(InfButton.STANCE) then--tex TODO also make so disablepullout ivar doesnt apply in mother base, or do seperate ivar
       --InfCore.DebugPrint"STANCE"--DEBUG
       --if not currentChecks.initialAction then--tex heli ride in TODO: RETRY: A reliable mission start parameter
       if IsTimerActive"Timer_MissionStartHeliDoorOpen" then

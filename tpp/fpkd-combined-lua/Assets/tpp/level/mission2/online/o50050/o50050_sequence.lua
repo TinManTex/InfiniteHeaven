@@ -4138,7 +4138,8 @@ this.IsAirGun = function( gameObjectId )
     end
     return
   end
-  if gameObjectId == NULL_ID then return end
+  if gameObjectId == NULL_ID then return end--RETAILBUG NULL_ID not defined, should be GameObject.NULL_ID, no actual problem I think as GetTypeIndex(GameObject.NULL_ID) would return nil or GameObject.NULL_ID
+  --same bug with following functions too
   local gameObjectType = GameObject.GetTypeIndex(gameObjectId)
   return gameObjectType == TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN
 end
@@ -4902,7 +4903,7 @@ this.SetSecurityVars = function ()
   if devGrade ~= 0 then
     devGrade = devGrade + IRSENSOR_INIT_GRADE -1
   end
-  svars.fobIrSensorGrade = fnc_getGrade(eqGrade, devGrade, IRSENSOR_INIT_GRADE)
+  svars.fobIrSensorGrade = fnc_getGrade(eqGrade, devGrade, IRSENSOR_INIT_GRADE)--DEBUGNOW TODO transfer
 
 
   local SALARM_INIT_GRADE = 3
@@ -4911,7 +4912,7 @@ this.SetSecurityVars = function ()
   if devGrade ~= 0 then
     devGrade = devGrade + SALARM_INIT_GRADE -1
   end
-  svars.fobSecAlarmGrade = fnc_getGrade(eqGrade, devGrade, SALARM_INIT_GRADE)
+  svars.fobSecAlarmGrade = fnc_getGrade(eqGrade, devGrade, SALARM_INIT_GRADE)--DEBUGNOW TODO transfer
 
   Fox.Log("dumpSvarsForDamage ==== START ===")
   Fox.Log("svars.fobSecCameraIsNokillMode = " .. tostring(svars.fobSecCameraIsNokillMode))

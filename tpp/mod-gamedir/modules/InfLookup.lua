@@ -15,12 +15,57 @@ local NULL_ID=GameObject.NULL_ID
 this.debugModule=false
 
 this.DEBUG_strCode32List={}
+this.subtitleIdToSubtitleName={}
+--tex manually scraped from ConvertToSubtitlesId uses
+this.subtitleNames={
+  "grug5000_241010_0_enec_ru",
+
+  "sand1000_099049_0_ened_ru",
+  "sand1000_099053_0_ened_ru",
+  "sand1000_099062_0_hqc_ru",
+
+  "qtrc1000_100263_0_miller",
+  "qtrc1000_100326_0_miller",
+
+  "shks8000_111010_0_enea_ru",
+  "shks8000_121010_0_ened_ru",
+  "shks8000_151010_0_ened_ru",
+  "shks8000_391010_0_ened_ru",
+
+  "stpf2000_151010_0_enec_af",
+  "stpf2000_1x1010_0_eneb_af",
+  "stpf2000_2o1010_0_eneb_af",
+  "stpf2000_3g1010_0_eneb_af",
+  "stpf2000_1u1010_0_enea_af",
+
+  "stpf1000_094079_0_enec_af",
+  "stpf1000_094105_0_enec_af",
+  "stpf1000_095211_0_cpa_af",
+
+  "stpf1000_099246_0_ened_af",
+
+  "wrec6000_1e1010_0_ened_af",
+  "wrec6000_1m1010_0_ened_af",
+  "wrec6000_2q1010_0_ened_af",
+  "wrec6000_3b1010_0_ened_af",
+
+  "stpf1000_1m1010_0_enea_af",
+}
 
 function this.PostModuleReload(prevModule)
 end
 
 function this.PostAllModulesLoad()
+  if not InfCore.debugMode then
+    return
+  end
+
   InfCore.PCallDebug(this.AddObjectNamesToStr32List)
+  InfCore.PCallDebug(this.BuildSubtitleIdLookup)
+  
+  if this.debugModule then
+    InfCore.PrintInspect(this.lookups,"InfLookup.lookups")
+  end
 end
 
 function this.Init(missionTable)
@@ -106,6 +151,16 @@ this.gameObjectClass={
   "TppZebra",
 }
 
+this.mbCps={
+  "ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|mtbs_command_cp",
+  "ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|mtbs_combat_cp",
+  "ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|mtbs_develop_cp",
+  "ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|mtbs_support_cp",
+  "ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|mtbs_medic_cp",
+  "ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|mtbs_intel_cp",
+  "ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|mtbs_basedev_cp",
+}
+
 --TABLESETUP
 --tex TODO: scrape fox2s
 this.objectNameLists={
@@ -121,7 +176,7 @@ this.objectNameLists={
   characters={"TppHuey2GameObjectLocator"},
   veh_lv=this.GenerateNameList("veh_lv_%04d",20),--jeeps
   veh_trc=this.GenerateNameList("veh_trc_%04d",10),--trucks
-  wkr_WalkerGear=this.GenerateNameList("wkr_WalkerGear_%04d",10),
+  wkr_WalkerGear=this.GenerateNameList("wkr_WalkerGear_%04d",20),
   anml_quest=this.GenerateNameList("anml_quest_%02d",10),
   sol_quest=this.GenerateNameList("sol_quest_%04d",10),
   hos_quest=this.GenerateNameList("hos_quest_%04d",10),
@@ -134,6 +189,7 @@ this.objectNameLists={
   TppCorpseGameObjectLocator=this.GenerateNameList("TppCorpseGameObjectLocator%04d",12),--TODO VERIFY max
   pickable_ih=this.GenerateNameList("pickable_ih_%04d",20),
   pickable_quest=this.GenerateNameList("pickable_quest_%04d",20),
+  mbCps=this.mbCps,
 }
 
 --tex from TppAnimalBlock animalsTable
@@ -211,6 +267,36 @@ function this.LandingZoneName(lzStr32)
   return InfLZ.str32LzToLz[lzStr32] or lzStr32
 end
 
+
+function this.SubtitleIdToSubtitleName(subtitleId)
+  local SubtitlesCommand=SubtitlesCommand
+  local subtitleName=this.subtitleIdToSubtitleName[subtitleId]
+  if subtitleName then
+    --tex> TODO: actually check log when this fires with valid (see note in BuildSubtitleIdLookup), see uses of ConvertToSubtitlesId for missions/cases to test
+--    local str32=Fox.StrCode32[subtitleName]
+--    if str32==subtitleId then
+--      InfCore.Log("InfLookup.SubtitleIdToSubtitleName str32==subtitleId")
+--    end
+    --<
+    return subtitleName
+  end
+  --ASSUMPTION: only using this on actual subtitleids (not like try-to-match-anything-to-str32 like I'm using the str32 to string function)
+  --tex using DEBUG_strCode32List since it's mostly a string scrape/not specifically str32 strings
+  --  if InfStrCode then
+  --    for i,str in ipairs(InfStrCode.DEBUG_strCode32List) do
+  --      local testSubtitleId=SubtitlesCommand:ConvertToSubtitlesId(str)
+  --      if subtitleId==testSubtitleId then
+  --        this.subtitleIdToSubtitleName[subtitleId]=str
+  --        return str
+  --      end
+  --    end
+  --  end
+
+  --tex subp.xml files from subptool give subtitleId, unsure if it's str32 or variant TODO test known subtitleId>subtitle matches with str32 (would have to get
+
+  return subtitleId
+end
+
 --tex gives {[gameClass.Enum]=enum name}
 function this.BuildGameClassEnumNameLookup(gameClass,enumNames)
   local enumNameLookup={}
@@ -251,10 +337,11 @@ function this.GetObjectList()
   -- return objectNameLists[4]
   --return InfSoldier.ene_wildCardNames
   --return InfNPC.hostageNames
-    --return this.objectNameLists.sol_quest
+ -- return this.objectNameLists.sol_quest
     --return {"hos_quest_0000"}
     --return InfWalkerGear.walkerNames
-   return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",} --DEBUGNOW
+    --return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",}
+    return {"vehicle_quest_0000"}
 end
 
 --tex for Ivars.warpToListObject
@@ -348,6 +435,17 @@ function this.ObjectNameForGameId(findId)
     end
   end
 
+  
+  --nuclear option, try str32 lists
+  --  for i,module in ipairs(InfModules) do
+  --    if module.lookupStrings then
+  --      local objectName=this.ObjectNameForGameIdList(findId,module.lookupStrings)
+  --      if objectName then
+  --        return objectName
+  --      end
+  --    end
+  --  end
+
   return nil
 end
 
@@ -357,7 +455,18 @@ function this.CpNameForCpId(cpId)
     cpName=mvars.ene_cpList[cpId]
   end
   if cpName==nil then
-    InfCore.Log("InfLookup.CpNameForCpId: WARNING: could not find cpName in mvars.ene_cpList")
+    if InfUtil.GetLocationName()=="mtbs" then
+      local clusterId=MotherBaseStage.GetCurrentCluster()
+      local cpName=this.mbCps[clusterId]
+      local gameId=GetGameObjectId("TppCommandPost2",cpName)
+      if cpId==gameId then
+        return cpName
+      end
+      cpName=this.ObjectNameForGameIdList(cpId,this.mbCps,"TppCommandPost2")
+    end
+  end
+  if cpName==nil then
+    InfCore.Log("InfLookup.CpNameForCpId: WARNING: could not find cpName in lists")
     this.ObjectNameForGameId(cpId)
   end
   return cpName
@@ -778,7 +887,9 @@ this.lookups={
   weatherType=this.weatherTypeNames,
   popupId=this.PopupErrorId,
   landingZone=this.LandingZoneName,
+  subtitleId=this.SubtitleIdToSubtitleName,
 }
+--tex crushes down this[gameclass][lookup] to lookups[lookup] - ex this.lookups.phase=TppGameObject.phase
 for i,gameClass in ipairs(gameClasses)do
   for lookupType,lookup in pairs(this[gameClass])do
     this.lookups[lookupType]=lookup
@@ -821,6 +932,21 @@ this.messageSignatures={
     },
   },
   GameObject={
+    BreakGimmick={
+      {argName="gameObjectId",argType="gameId"},
+      {argName="locatorNameHash",argType="str32"},
+      {argName="dataSetNameHash",argType="str32"},
+      {argName="attackerId",argType="gameId"},
+    },
+    BreakGimmickBurglarAlarm={
+      {argName="bAlarmId",argType="gameId"},--VERIFY is gameId
+    },
+    BurglarAlarmTrap={
+      {argName="bAlarmId",argType="gameId"},--VERIFY is gameId
+      {argName="bAlarmHash",argType="str32"},--tex from ly<layout>.lua .itemTable.stolenAlarms
+      {argName="bAlarmDataSetName",argType="str32"},--VERIFY
+      {argName="triggerer",argType="gameId"},--tex who tripped alarm
+    },
     CalledFromStandby={--SupportHeli
       {argName="gameId",argType="gameId"},
     },
@@ -829,18 +955,26 @@ this.messageSignatures={
       {argName="phase",argType="phase"},
       {argName="priorPhase",argType="phase"},
     },
+    ConversationEnd={
+      {argName="cpId",argType="cpId"},
+      {argName="speechLabel",argType="str32"},
+      {argName="isSuccess",argType="number"},--boolasnumber
+    },
     Damage={--On Damage
       {argName="damagedId",argType="gameId"},--object that took damage
       {argName="attackId",argType="attackId"},
       {argName="attackerId",argType="gameId"},
       {argName="unk3",argType="number"},--tex UNKNOWN: no use cases I can see
     },
-    --    Fulton={
-    --      {argName="gameId",argType="gameId"},
-    --      {argName="gimmickInstanceOrAnimalId",argType="number"},
-    --      {argName="gimmickDataSet",argType="str32"},--TODO:
-    --      {argName="stafforResourceId",argType="number"},--TODO:
-    --    },
+    Down={
+      {argName="downedId",argType="gameId"},--tex when soldier downed
+    },
+    Fulton={
+      {argName="gameId",argType="gameId"},
+      {argName="gimmickInstanceOrAnimalId",argType="number"},
+      {argName="gimmickDataSet",argType="str32"},--TODO:
+      {argName="staffIdorResourceId",argType="number"},--TODO:
+    },
     FultonInfo={
       {argName="gameId",argType="gameId"},
       {argName="fultonedPlayerIndex",argType="number"},
@@ -878,6 +1012,17 @@ this.messageSignatures={
       {argName="heliId",argType="gameId"},
       {argName="targetId",argType="gameId"},
     },
+    Interrogate={
+      {argName="soldierId",argType="gameId"},
+      {argName="cpId",argType="cpId"},
+      {argName="allowCollectionInterr",argType="number"},--boolasnumber
+    },
+    InterrogateEnd={
+      {argName="soldierId",argType="gameId"},
+      {argName="cpId",argType="cpId"},
+      {argName="strCodeName",argType="str32"},
+      {argName="index",argType="number"},
+    },
     RadioEnd={
       {argName="gameId",argType="gameId"},
       {argName="cpId",argType="cpId"},
@@ -894,6 +1039,9 @@ this.messageSignatures={
       {argName="gameId",argType="gameId"},
       {argName="routeId",argType="str32"},--tex TODO gather route names
       {argName="failureType",argType="routeEventFailedType"},
+    },
+    SaluteRaiseMorale={
+      {argName="saluter",argType="gameId"},
     },
     SpecialActionEnd={--tex after some SpecialAction anim has ended
       {argName="gameId",argType="gameId"},
@@ -918,6 +1066,9 @@ this.messageSignatures={
       {argName="attackerId",argType="gameId"},
       {argName="phase",argType="phase"},
     },
+    Unlocked={
+      {argName="hostageId",argType="gameId"},
+    },
     VehicleAction={
       {argName="rideMemberId",argType="gameId"},
       {argName="vehicleId",argType="gameId"},
@@ -927,13 +1078,30 @@ this.messageSignatures={
       {argName="gameId",argType="gameId"},--vehicle gameid
     --{argName="unk1",argType="str32"}, --tex UNKNOWN s10052 == "CanNotMove", otherwise doesn't seem to be set in most calls TODO test that mission to see if it actually does
     },
+    WarningGimmick={--tex on ir sensor trigger
+      {argName="irSensorId",argType="gameId"},--VERIFY is gameId
+      {argName="irHash",argType="str32"},--tex from ly<layout>.lua .itemTable.irsensors
+      {argName="irDataSetName",argType="str32"},--VERIFY
+      {argName="triggerer",argType="gameId"},--tex who tripped sensor
+    },
   },
   Marker={
     ChangeToEnable={
       {argName="instanceName",argType="str32"},
-      {argName="markedType",argType="str32"},--tex "TYPE_ENEMY" or ??
+      {argName="markerType",argType="str32"},--tex fox2 TppMarker2LocatorParameter markerType {"TYPE_COMMON","TYPE_FIRE","TYPE_INTELLI_FILE","TYPE_MB_SPOT","TYPE_MISSION_KEY_PLACE",}, or "TYPE_ENEMY" or ??
       {argName="gameId",argType="gameId"},
-      {argName="markedBy",argType="str32"},--tex alias: identificationCode --what set the marker, "Player" or ? buddy or ??
+      {argName="markedBy",argType="str32"},--tex alias: identificationCode --what set the marker, "Player" or ? buddy or ??, TODO arg not present some times?
+    },
+  },
+  MotherBaseStage={
+    MotherBaseCurrentClusterLoadStart={
+      {argName="clusterId",argType="number"},--TODO clusterid to name, but would still want to present the number
+    },
+    MotherBaseCurrentClusterActivated={
+      {argName="clusterId",argType="number"},--TODO clusterid to name, but would still want to present the number
+    },
+    MotherBaseCurrentClusterDeactivated={
+      {argName="clusterId",argType="number"},--TODO clusterid to name, but would still want to present the number
     },
   },
   Player={
@@ -951,6 +1119,10 @@ this.messageSignatures={
     --      {argName="gimmickDataSet",argType="number"},--TODO:
     --      {argName="stafforResourceId",argType="number"},--TODO:
     --    },
+    CBoxSlideEnd={
+      {argName="gameId",argType="gameId"},--tex player instance I guess
+      {argName="distance",argType="number"},--tex distance of slide
+    },
     Enter={--tex mission zones
       {argName="zoneType",argType="str32"},--tex outerZone,innerZone,hotZone
     },
@@ -959,6 +1131,11 @@ this.messageSignatures={
       {argName="targetObjectId",argType="gameId"},
       {argName="isContainer",argType="number"},--boolAsNumber
       {argName="isContainer",argType="number"},--boolAsNumber
+    },
+    OnAmmoLessInMagazine={
+      {argName="unk0",argType="number"},--TODO
+      {argName="unk1",argType="number"},--TODO
+      {argName="equipId",argType="equipId"},--VERIFY
     },
     OnEquipHudClosed={
       {argName="playerIndex",argType="number"},--tex TODO VERIFY
@@ -991,6 +1168,11 @@ this.messageSignatures={
       {argName="equipId",argType="equipId"},
       {argName="blueprintNumber",argType="number"},--blueprint number, ? VERIFY
     },
+    OnVehicleRide_Start={
+      {argName="playerId",argType="number"},
+      {argName="rideFlag",argType="number"},--0== get on, 1 == get off ?
+      {argName="vehicleId",argType="gameId"},
+    },
     PlayerDamaged={
       {argName="playerIndex",argType="number"},
       {argName="attackId",argType="attackId"},
@@ -1002,11 +1184,25 @@ this.messageSignatures={
       {argName="hasGunLight",argType="number"},--tex TODO: boolAsNumber?
       {argName="isSheild",argType="number"},
     },
+    PressedFultonIcon={
+      {argName="playerIndex",argType="number"},
+      {argName="targetId",argType="gameId"},
+      {argName="unk2",argType="number"},--TODO
+      {argName="unk3",argType="number"},--TODO
+    },
+    PlayerFulton={
+      {argName="playerIndex",argType="number"},
+      {argName="targetId",argType="gameId"},
+    },
     SetMarkerBySearch={--tex object was marked by looking at it
       {argName="typeIndex",argType="typeIndex"},
     },
   },
   Radio={
+    --    EspionageRadioCandidate={--tex seems to be when you look at something that has a radio/call message
+    --      {argName="gameId",argType="gameId"},
+    --      {argName="unk1",argType="number"},
+    --    },
     Start={
       {argName="radioGroupName32",argType="str32"},--radioGroupName
       {argName="unk1",argType="number"},--tex UNKNOWN
@@ -1021,21 +1217,31 @@ this.messageSignatures={
       {argName="bgmPhase",argType="bgmPhase"},
     },
   },
+  Subtitles={
+    SubtitlesStartEventMessage={--tex no use cases, but looks the same as SubtitlesEndEventMessage
+      {argName="speechLabel",argType="subtitleId"},
+      {argName="status",argType="number"},--tex TODO
+    },
+    SubtitlesEndEventMessage={
+      {argName="speechLabel",argType="str32"},--TODO argType="subtitleId"-- TEST
+      {argName="status",argType="number"},--tex TODO
+    },
+  },
   Terminal={
     MbDvcActFocusMapIcon={
       {argName="focusedGameId",argType="gameId"},
+    },
+    MbDvcActHeliLandStartPos={
+      {argName="set",argType="number"},--boolAsNumber
+      {argName="x",argType="number"},
+      {argName="y",argType="number"},
+      {argName="z",argType="number"},
     },
     MbDvcActSelectLandPoint={
       {argName="nextMissionId",argType="number"},
       {argName="routeName",argType="str32"},--landingZone??
       {argName="layoutCode",argType="number"},
       {argName="clusterId",argType="number"},
-    },
-    MbDvcActSelectLandPoint={
-      {argName="set",argType="number"},--boolAsNumber
-      {argName="x",argType="number"},
-      {argName="y",argType="number"},
-      {argName="z",argType="number"},
     },
   },
   Timer={
@@ -1075,6 +1281,9 @@ this.messageSignatures={
     QuestAreaAnnounceText={
       {argName="questId",argType="number"},--tex TODO questId to name lookup
     },
+    TitleMenu={
+      {argName="action",argType="str32"},
+    },
   },
   Weather={
     ChangeWeather={
@@ -1083,6 +1292,9 @@ this.messageSignatures={
     Clock={
       {argName="sender",argType="str32"},
       {argName="time",argType="time"},
+    },
+    WeatherForecast={
+      {argName="weatherType",argType="weatherType"},
     },
   },
 }
@@ -1244,6 +1456,15 @@ function this.AddObjectNamesToStr32List()
         end
       end
     end
+  end
+end
+
+function this.BuildSubtitleIdLookup()
+  local SubtitlesCommand=SubtitlesCommand
+  for i,str in ipairs(this.subtitleNames) do
+    --tex NOTE: subp.xml files from subptool give subtitleId, unsure if it's str32 or variant, TODO attempting to test vs str32 in SubtitleIdToSubtitleName()
+    local subtitleId=SubtitlesCommand:ConvertToSubtitlesId(str)
+    this.subtitleIdToSubtitleName[subtitleId]=str
   end
 end
 

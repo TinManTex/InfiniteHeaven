@@ -16,7 +16,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="204"
+this.modVersion="205"
 this.modName="Infinite Heaven"
 
 --STATE
@@ -30,7 +30,7 @@ this.mainModulesOK=false
 this.otherModulesOK=false
 
 this.log={}
---DEBUGNOW
+
 this.currentCmdIndex=0
 this.output={}
 this.extCmdIndex={}--tex map [cmd index]=output index
@@ -61,7 +61,6 @@ function this.Log(message,announceLog,force)
   local line="|"..elapsedTime.."|"..message
   this.log[#this.log+1]=line
 
-  --DEBUGNOW
   if Mock then
     print(line)
   end
@@ -244,7 +243,7 @@ function this.PrintInspect(var,options)
 end
 
 function this.ExtCmd(cmd,args)
-  if not ivars.postExtCommands then
+  if ivars.postExtCommands==0 then
     return
   end
 
@@ -386,6 +385,13 @@ function this.LoadSimpleModule(path,fileName,box)
     return
   end
 
+  return module
+end
+
+function this.RequireSimpleModule(moduleName)
+  package.loaded[moduleName]=nil
+  local module=require(moduleName)
+  _G[moduleName]=module
   return module
 end
 

@@ -191,10 +191,10 @@ this.questList={
     infoList={
       {name="Mtbs_child_dog",invokeStepName="QStep_Start"},
       {name="mtbs_q42010",invokeStepName="QStep_Start"}
-      }},
+    }},
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsCombat",clusterName="Combat",
     infoList={
-    {name="mtbs_q42070",invokeStepName="QStep_Start"},
+      {name="mtbs_q42070",invokeStepName="QStep_Start"},
     }},
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsDevelop",clusterName="Develop",
     infoList={
@@ -207,7 +207,8 @@ this.questList={
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsSupport",clusterName="Support",infoList={{name="mtbs_q42030",invokeStepName="QStep_Start"}}},
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsSpy",clusterName="Spy",infoList={{name="mtbs_q42060",invokeStepName="QStep_Start"}}},
   {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsBaseDev",clusterName="BaseDev",infoList={{name="mtbs_q42040",invokeStepName="QStep_Start"}}},
-  {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsPaz",clusterName="MedicalPaz",infoList={{name="mtbs_q99060",invokeStepName="QStep_Start",isStory=true,isOnce=true}}}}
+  {locationId=TppDefine.LOCATION_ID.MTBS,areaName="MtbsPaz",clusterName="MedicalPaz",infoList={{name="mtbs_q99060",invokeStepName="QStep_Start",isStory=true,isOnce=true}}}
+}
 
 this.questPackList={
   waterway_q99010={"/Assets/tpp/pack/mission2/quest/battle/bossQuiet/qest_bossQuiet_00.fpk"},

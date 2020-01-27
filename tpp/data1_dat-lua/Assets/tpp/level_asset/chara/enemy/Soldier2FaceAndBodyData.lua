@@ -490,13 +490,13 @@ local camoIds={
   3,
   5,
   6,
-  --7,--ARBANBLUE, TODO find fova
-  --8,--ARBANGRAY, TODO find fova
+  7,
+  8,
   --9,--?
   10,
-  --11,--SANDSTORM, TODO find fova
+  11,
   12,
-  --13,--BLACK, TODO find fova
+  13,
   14,
   --15,--?
   16,
@@ -544,6 +544,7 @@ local camoIds={
   59,
   60,
 }
+--tex TODO player dds6/female fatigue fovas dont seem to apply to dd6, while player dds5 to dd5 is fine.
 local fovaInfo={
   dds5={"/Assets/tpp/fova/chara/sna/dds5_main0_ply_v%02d.fv2","/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v%02d.fpk"},
   dds6={"/Assets/tpp/fova/chara/sna/dds6_main0_ply_v%02d.fv2","/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v%02d.fpk"},
@@ -1388,11 +1389,16 @@ this.bodyDefinition={
 --tex> add player camos to fova system
 local bodyIdStart=this.bodyDefinition[#this.bodyDefinition][1]
 local bodyFovaStart=this.bodyDefinition[#this.bodyDefinition][2]
-for i=1,#camoIds*2 do--
+for i,camoId in ipairs(camoIds)do
   table.insert(this.bodyDefinition,{bodyIdStart+i,bodyFovaStart+i})
+  TppEnemyBodyId[string.format("dds5_main0_ply_v%02d",camoId)]=bodyIdStart+i
 end
---dds5=bodyId 406>(+52)458
---dds5=bodyId 459>(+52)511
+local bodyIdStart=this.bodyDefinition[#this.bodyDefinition][1]
+local bodyFovaStart=this.bodyDefinition[#this.bodyDefinition][2]
+for i,camoId in ipairs(camoIds)do
+  table.insert(this.bodyDefinition,{bodyIdStart+i,bodyFovaStart+i})
+  TppEnemyBodyId[string.format("dds6_main0_ply_v%02d",camoId)]=bodyIdStart+i
+end
 --<
 
 --{bodyId,?type name,?type index,?},--body description (from body id),type description

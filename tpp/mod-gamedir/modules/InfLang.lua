@@ -246,6 +246,7 @@ this.eng={--english
     "XOF Gasmasks",
     "XOF GZ",
     "Genome Soldier",
+    "Fatigues All",
   },
   revengeCustomMenu="Custom prep menu",--r117
   revengeSystemMenu="Prep system menu",
@@ -545,6 +546,9 @@ this.eng={--english
   mbAdditionalNpcs="Additional NPCs",
   ihSideopsPercentageCount="Include IH sideops in completion percentage.",
   saveToProfile="Save to UserSaved profile",
+  mbShowShips="Show ships",
+  enableFultonAlarmsMB="Enable asset alarms",
+  enableIRSensorsMB="Enable IR sensors",
 }--eng end
 
 this.help={}
@@ -707,11 +711,14 @@ this.help.eng={
   customSoldierTypeFREE="Override the soldier type of enemy soldiers in Free Roam",
   mbAdditionalNpcs="Adds different NPCs standing around mother base, including ground crew, researchers and Miller.",
   saveToProfile="Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.",
+  enableFultonAlarmsMB="Enables anti fulton theft alarms on containers and AA guns. Only partially working, will only trigger alarm once.",
+  enableIRSensorsMB="Enable IR sensor gates. Only partially working, will only trigger alarm once, and will only show one or no beam.",
 }
 
 this.cpNames={
   afgh={},
   mafr={},
+  mtbs={},
 }
 this.cpNames.afgh.eng={
   afgh_citadelSouth_ob="Guard Post 01",-- East Afghanistan Central Base Camp
@@ -795,6 +802,16 @@ this.cpNames.mafr.eng={
 
 --mafr_factory_cp,--Ngumba Industrial Zone - no soldiers
 --mafr_chicoVil_cp,--??
+}
+
+this.cpNames.mtbs.eng={
+  ["ly003_cl00_npc0000|cl00pl0_uq_0000_npc2|mtbs_command_cp"]="Command",
+  ["ly003_cl01_npc0000|cl01pl0_uq_0010_npc2|mtbs_combat_cp"]="Combat",
+  ["ly003_cl02_npc0000|cl02pl0_uq_0020_npc2|mtbs_develop_cp"]="Research and Development",
+  ["ly003_cl03_npc0000|cl03pl0_uq_0030_npc2|mtbs_support_cp"]="Support",
+  ["ly003_cl04_npc0000|cl04pl0_uq_0040_npc2|mtbs_medic_cp"]="Medical",
+  ["ly003_cl05_npc0000|cl05pl0_uq_0050_npc2|mtbs_intel_cp"]="Intel",
+  ["ly003_cl06_npc0000|cl06pl0_uq_0060_npc2|mtbs_basedev_cp"]="Base Development",
 }
 
 

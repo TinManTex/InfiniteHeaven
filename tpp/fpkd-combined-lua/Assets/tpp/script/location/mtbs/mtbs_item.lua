@@ -1,6 +1,10 @@
--- DOBUILD: 0 --DEBUGWIP
+-- DOBUILD: 1
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\location\mtbs\pack_common\mtbs_script.fpkd
+
+
+
+
 local mtbs_item = {}
 
 
@@ -102,55 +106,21 @@ mtbs_item.RegisterGimmick = function( clusterId )
     local dataSet = string.format( "/Assets/tpp/level/location/mtbs/block_area/ly%03d/cl%02d/mtbs_ly%03d_cl%02d_item.fox2", layoutCode, clusterId, layoutCode, clusterId )
     local assetTable = mvars.mbItem_funcGetAssetTable( clusterId + 1 )
     if assetTable then
-      --tex>DEBUGWIP
-      for k,v in ipairs(assetTable.containers)do
-        if (k % 4) == 0 then
-          if type(v)=="string" then
-            --InfCore.DebugPrint(tostring(v))
-           -- Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER,v,dataSet,true)
-          end
-        end
-      end--<
-      --tex>DEBUGWIP
-      for k,v in ipairs(assetTable.eastAAGs)do
-        --if (k % 4) == 0 then
-          if type(v)=="string" then
-            --InfCore.DebugPrint(tostring(v))
-          --  Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN,v,dataSet,true)
-          end
-        --end
-      end--<
-      for k,v in ipairs(assetTable.westAAGs)do
-        --if (k % 4) == 0 then
-          if type(v)=="string" then
-            --InfCore.DebugPrint(tostring(v))
-           -- Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN,v,dataSet,true)
-          end
-        --end
-      end--<
-      
-      for k,v in ipairs(assetTable.irsensors)do
-        --if (k % 4) == 0 then
-          if type(v)=="string" then
-            --InfCore.DebugPrint(tostring(v))
-            --Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IR_SENSOR,v,dataSet,false)
-          end
-        --end
-      end--<
-      --      assetTable.containers=nil
-      --      assetTable.eastAAGs=nil
-      --      assetTable.westAAGs=nil
-      
-      
-
-
+      --NMC most models seem to be visible by default,
+      --SetVariableGimmickList sets up the asset
+      --eg container types, emblem, makes it actually fultonable
+      --it hides irsensors and stolenAlarms, I assume theres some internal setup deciding 30050 doesnt get them and fob does (depending on security settings).
+      --possibly sets up amount of guns to what you have? dont remeber if there was any graduation there.
+      --nukes either dont have assets loaded, or locators or both, unsure.
+      --InvisibleGimmick false does not make gimmicks that were hidden by SetVariableGimmickList show.
       if MotherBaseConstructConnector.SetVariableGimmickList then
+
         if assetTable.containers then
           MotherBaseConstructConnector.SetVariableGimmickList( "Container", assetTable.containers, dataSet )
           Fox.Log( "SetVariableGimmickList( Container "..tostring(layoutCode)..", "..dataSet.." )" )
         end
-        if assetTable.irsensors then
-        --DEBUGWIP   MotherBaseConstructConnector.SetVariableGimmickList( "IrSensor", assetTable.irsensors, dataSet )
+        if assetTable.irsensors and Ivars.enableIRSensorsMB:Is(0) then--tex added bypass
+          MotherBaseConstructConnector.SetVariableGimmickList( "IrSensor", assetTable.irsensors, dataSet )
           Fox.Log( "SetVariableGimmickList( IrSensor "..tostring(layoutCode)..", "..dataSet.." )" )
         end
         if assetTable.mortars then
@@ -177,16 +147,16 @@ mtbs_item.RegisterGimmick = function( clusterId )
           MotherBaseConstructConnector.SetVariableGimmickList( "NuclearContainer", assetTable.nuclearContainers, dataSet )
           Fox.Log( "SetVariableGimmickList( NuclearContainer "..tostring(layoutCode)..", "..dataSet.." )" )
         end
-        if assetTable.stolenAlarms then
-         --DEBUGWIP MotherBaseConstructConnector.SetVariableGimmickList( "StolenAlarm", assetTable.stolenAlarms, dataSet )
+        if assetTable.stolenAlarms and Ivars.enableFultonAlarmsMB:Is(0) then--tex added bypass
+          MotherBaseConstructConnector.SetVariableGimmickList( "StolenAlarm", assetTable.stolenAlarms, dataSet )
           Fox.Log( "SetVariableGimmickList( StolenAlarm "..tostring(layoutCode)..", "..dataSet.." )" )
         end
         if assetTable.slideDoors then
           MotherBaseConstructConnector.SetVariableGimmickList( "SlideDoor", assetTable.slideDoors, dataSet )
           Fox.Log( "SetVariableGimmickList( SlideDoor "..tostring(layoutCode)..", "..dataSet.." )" )
         end
-        if assetTable.nuclearContainers then
-        --DEBUGWIP   MotherBaseConstructConnector.SetVariableGimmickList( "NuclearContainer", assetTable.nuclearContainers, dataSet )
+        if assetTable.nuclearContainers then--NMC no idea why it runs nukes twice
+          MotherBaseConstructConnector.SetVariableGimmickList( "NuclearContainer", assetTable.nuclearContainers, dataSet )
           Fox.Log( "SetVariableGimmickList( NuclearContainer "..tostring(layoutCode)..", "..dataSet.." )" )
         end
       else

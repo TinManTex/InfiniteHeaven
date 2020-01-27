@@ -282,7 +282,7 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 4: Custom prep menu
 5: Prep system menu
 6: Custom soldier equip menu
-7: Custom soldier type in Free roam : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier
+7: Custom soldier type in Free roam : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
 Override the soldier type of enemy soldiers in Free Roam
 8: Reset enemy preparedness levels : (Command)
 Resets enemy prep levels to 0
@@ -509,7 +509,7 @@ Mother Base menu
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
 3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
-4: DD Suit : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier
+4: DD Suit : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimwear, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
 5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
 6: DD Head gear : Off, Current prep
 7: Female staff selection : Default, None, All available, Half
@@ -562,7 +562,12 @@ Show assets menu
 1: Show Big Boss posters : Off, On
 2: Show nuke elimination monument : Off, On
 3: Show Sahelanthropus : Off, On
-4: Unlock goal doors : Off, On
+4: Show ships : Off, On
+5: Enable asset alarms : Off, On
+Enables anti fulton theft alarms on containers and AA guns. Only partially working, will only trigger alarm once.
+6: Enable IR sensors : Off, On
+Enable IR sensor gates. Only partially working, will only trigger alarm once, and will only show one or no beam.
+7: Unlock goal doors : Off, On
 
 Cutscenes menu
 --------------
@@ -599,6 +604,7 @@ Camera menu
 3: Warp body to FreeCam position : (Command)
 4: Cam speed scale : 0.01-10
 5: Disable mode text feedback : Off, On
+6: showFreeCamPosition : (Command)
 
 Time scale menu
 ---------------
@@ -753,6 +759,7 @@ Camera menu
 3: Warp body to FreeCam position : (Command)
 4: Cam speed scale : 0.01-10
 5: Disable mode text feedback : Off, On
+6: showFreeCamPosition : (Command)
 
 Time scale menu
 ---------------

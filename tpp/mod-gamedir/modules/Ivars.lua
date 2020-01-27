@@ -341,9 +341,10 @@ IvarProc.MissionModeIvars(
       "XOF_GZ",
       --"WSS1_MAIN0",
       "GENOME_SOLDIER",
-    --      "PRISONER_AFGH",
-    --      "PRISONER_MAFR",
-    --"CHILD_0",
+      --      "PRISONER_AFGH",
+      --      "PRISONER_MAFR",
+      --"CHILD_0",
+      "FATIGUES_CAMO_MIX",
     },
     settingNames="customSoldierTypeSettings",
   },
@@ -367,9 +368,10 @@ IvarProc.MissionModeIvars(
       "SNEAKING_SUIT_FEMALE",
       "BATTLE_DRESS_FEMALE",
       "SWIMWEAR_FEMALE",
-    --    "PRISONER_AFGH_FEMALE",
-    --    "NURSE_FEMALE",
-    --"DD_RESEARCHER_FEMALE",
+      --    "PRISONER_AFGH_FEMALE",
+      --    "NURSE_FEMALE",
+      --"DD_RESEARCHER_FEMALE",
+      --"FATIGUES_CAMO_MIX_FEMALE",
     },
   },
   {
@@ -1790,6 +1792,13 @@ this.mbShowAiPod={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
+}
+
+this.mbShowShips={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMb,
 }
 
 this.mbShowEli={
@@ -3632,12 +3641,15 @@ this.selectedChangeWeapon={--WIP
   inMission=true,
   nonConfig=true,
   --OFF save=EXTERNAL,
-  range={max=490,min=1},--tex DYNAMIC
+  range={max=1,min=1},--tex DYNAMIC
   OnSelect=function(self)
     self.range.max=#InfEquip.tppEquipTableTest
+    if self.range.max==0 then
+      self.range.max=1
+    end
   end,
   GetSettingText=function(self,setting)
-    return InfEquip.tppEquipTableTest[setting]
+    return tostring(InfEquip.tppEquipTableTest[setting])
   end,
   OnActivate=function(self,setting)
     local equipName=InfEquip.tppEquipTableTest[setting]
@@ -3878,6 +3890,9 @@ this.warpToListPosition={
   range={max=1},--DYNAMIC
   GetSettingText=function(self,setting)
     local positionsList=InfQuest.GetQuestPositions()
+    if #positionsList==0 then
+      return "no positions"
+    end
     local position=positionsList[setting+1]
     return "pos:".. math.ceil(position[1])..",".. math.ceil(position[2]).. ","..math.ceil(position[3])
   end,
@@ -3898,6 +3913,19 @@ this.warpToListPosition={
       TppPlayer.Warp{pos=position,rotY=vars.playerCameraRotation[1]}
     end
   end,
+}
+
+--mb assets --DEBUGNOW
+this.enableIRSensorsMB={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.enableFultonAlarmsMB={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 --mines

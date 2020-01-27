@@ -231,7 +231,7 @@ this.moreMotionPaths={
   "/Assets/tpp/motion/SI_game/fani/bodies/nrs0/nrs0/nrs0_tuto_idl.gani",
 }
 
---REF cluster order TppDefine.CLUSTER_DEFINE, from 0
+--REF cluster order InfMain.CLUSTER_DEFINE, from 0
 --tex TODO these positions are only for layout 3
 --TODO more positions - lower decks, next to walker gears, inner positions on non main plats
 --[clusterId][platId]
@@ -923,7 +923,6 @@ this.npcTemplates={
     bodyType="PRISONER_MAFR",
     faceId=0,
   },
-  --DEBUGNOW
   CHILD_0={
     bodyType="CHILD_0",
     bodyId={
@@ -941,6 +940,16 @@ this.npcTemplates={
       TppEnemyBodyId.chd0_v11,
     },
     offsetY=-0.22,
+    --tex need an except
+    clusters={
+      Command=true,
+      Combat=true,
+      Develop=true,
+      Support=true,
+      Medical=true,
+      Spy=true,
+      BaseDev=true,
+    },
     plats={1,2,3,4},
   },
   DOCTOR_0={
@@ -975,7 +984,8 @@ this.npcTemplates={
       Develop=true,
       Support=true,
       Spy=true,
-    --BaseDev=false,
+      --BaseDev=false,
+      Separation=true,
     },
   },
   DDS_RESEARCHER_FEMALE={
@@ -987,7 +997,8 @@ this.npcTemplates={
       Develop=true,
       Support=true,
       Spy=true,
-    --BaseDev=false,
+      --BaseDev=false,
+      Separation=true,
     },
   },
   KAZ={
@@ -1043,10 +1054,13 @@ function this.InitCluster(clusterId)
 
   clusterId=clusterId or MotherBaseStage.GetCurrentCluster()
   if this.debugModule then
-    InfCore.Log("InfNPC.InitCluster "..tostring(clusterId).." "..tostring(TppDefine.CLUSTER_NAME[clusterId+1]))
+    InfCore.Log("InfNPC.InitCluster "..tostring(clusterId).." "..tostring(InfMain.CLUSTER_NAME[clusterId+1]))
   end
 
   local grade=TppLocation.GetMbStageClusterGrade(clusterId)
+  if this.debugModule then
+    InfCore.Log("grade:"..tostring(grade))
+  end
   --tex no plats on cluster
   if grade==0 then
     return
@@ -1063,6 +1077,9 @@ function this.InitCluster(clusterId)
   if vars.missionCode==30250 then
     clusterId=7
   end
+  if clusterId==7 then
+    grade=1
+  end
 
   --DEBUGNOW TODO per plat bags and distribute npcs evenly across all plats
   --the current combined ext plats bag will create crowding on clusters with few platforms
@@ -1076,6 +1093,9 @@ function this.InitCluster(clusterId)
         positionBags[platIndex]:Add(position)
       end
     end
+  end
+  if this.debugModule then--DEBUGNOW
+  --InfCore.PrintInspect(positionBags,"positionBags")
   end
   --DEBUGNOW TODO if positionBag empty then warn, abort
 
@@ -1122,12 +1142,11 @@ function this.InitCluster(clusterId)
         skipNpc=true
       end
 
-      --tex TODO TppDefine.CLUSTER_DEFINE doesnt contain zoo,quarantine
       if npcInfo.clusters then
         skipNpc=true
         for clusterName,allow in pairs(npcInfo.clusters)do
           if allow then
-            if TppDefine.CLUSTER_DEFINE[clusterName]==clusterId then
+            if InfMain.CLUSTER_NAME[clusterId+1]==clusterName then
               skipNpc=false
               break
             end
@@ -1167,57 +1186,63 @@ function this.InitCluster(clusterId)
             end
           end
         end
-        local platIndex=InfUtil.GetRandomInList(plats)
-        InfCore.PrintInspect(plats,"---plats")--DEBUGNOW
-        InfCore.Log("platindex:"..platIndex)
-
-        local position=positionBags[platIndex]:Next()
-
-        local motionPath=this.motionPaths[math.random(#this.motionPaths)]
-
-        --GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="disableMarker",on=true})-
-        TppUiCommand.RegisterIconUniqueInformation{markerId=gameObjectId,langId="marker_friend_mb"}
-        --      local faceId=nil
-        --      local bodyId=TppEnemyBodyId.ddr0_main0_v00
-        --      GameObject.SendCommand( gameObjectId, { id = "ChangeFova", faceId = faceId, bodyId = bodyId, } )
-
-        SendCommand(gameObjectId,{id="SetEnabled",enabled=true})
-        SendCommand(gameObjectId,{id="SetHostage2Flag",flag="unlocked",on=true,updateModel=true})
-        SendCommand(gameObjectId,{id="SetHostage2Flag",flag="disableFulton",on=true})
-        SendCommand(gameObjectId,{id="SetHostage2Flag",flag="commonNpc",on=true,})
-        --GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="disableDamageReaction",on=true,})
-        SendCommand(gameObjectId,{id="SetDisableDamage",life=true,faint=true,sleep=true,})
-
-        local specialActionCmd={
-          id="SpecialAction",
-          action=action,
-          path=motionPath,
-          state=state,
-          autoFinish=autoFinish,
-          enableMessage=true,
-          enableGravity=motionTable.enableGravity,
-          enableCollision=enableCollision,
-          enableSubCollision=enableSubCollision,
-          enableGunFire=enableGunFire,
-          enableAim=enableAim,
-          startPos=startPos,
-          startRot=startRot,
-          enableCurtain=enableCurtain,
-        }
-        SendCommand(gameObjectId,specialActionCmd)
-
-        local rotY=position.rotY
-        rotY=math.random(360)--tex TODO bias towards given rotation
-        local randomOffset=0.2
-        local offsetX=math.random(-randomOffset,randomOffset)
-        local offsetZ=math.random(-randomOffset,randomOffset)
-        local offsetY=npcInfo.offsetY or 0
-        local command={id="Warp",degRotationY=rotY,position=Vector3(position.pos[1]+offsetX,position.pos[2]+offsetY,position.pos[3]+offsetZ)}
-        SendCommand(gameObjectId,command)
-
         if this.debugModule then
-          InfCore.Log("platIndex"..platIndex)--DEBUG
-          InfCore.Log("motionPath:"..InfUtil.GetFileName(motionPath))--DEBUG
+          InfCore.PrintInspect(plats,"available plats")
+        end
+        if #plats>0 then
+          local platIndex=InfUtil.GetRandomInList(plats)
+          if this.debugModule then
+            InfCore.Log("platindex:"..platIndex)
+          end
+
+          local position=positionBags[platIndex]:Next()
+
+          local motionPath=this.motionPaths[math.random(#this.motionPaths)]
+
+          --GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="disableMarker",on=true})-
+          TppUiCommand.RegisterIconUniqueInformation{markerId=gameObjectId,langId="marker_friend_mb"}
+          --      local faceId=nil
+          --      local bodyId=TppEnemyBodyId.ddr0_main0_v00
+          --      GameObject.SendCommand( gameObjectId, { id = "ChangeFova", faceId = faceId, bodyId = bodyId, } )
+
+          SendCommand(gameObjectId,{id="SetEnabled",enabled=true})
+          SendCommand(gameObjectId,{id="SetHostage2Flag",flag="unlocked",on=true,updateModel=true})
+          SendCommand(gameObjectId,{id="SetHostage2Flag",flag="disableFulton",on=true})
+          SendCommand(gameObjectId,{id="SetHostage2Flag",flag="commonNpc",on=true,})
+          --GameObject.SendCommand(gameObjectId,{id="SetHostage2Flag",flag="disableDamageReaction",on=true,})
+          SendCommand(gameObjectId,{id="SetDisableDamage",life=true,faint=true,sleep=true,})
+
+          local specialActionCmd={
+            id="SpecialAction",
+            action=action,
+            path=motionPath,
+            state=state,
+            autoFinish=autoFinish,
+            enableMessage=true,
+            enableGravity=motionTable.enableGravity,
+            enableCollision=enableCollision,
+            enableSubCollision=enableSubCollision,
+            enableGunFire=enableGunFire,
+            enableAim=enableAim,
+            startPos=startPos,
+            startRot=startRot,
+            enableCurtain=enableCurtain,
+          }
+          SendCommand(gameObjectId,specialActionCmd)
+
+          local rotY=position.rotY
+          rotY=math.random(360)--tex TODO bias towards given rotation
+          local randomOffset=0.2
+          local offsetX=math.random(-randomOffset,randomOffset)
+          local offsetZ=math.random(-randomOffset,randomOffset)
+          local offsetY=npcInfo.offsetY or 0
+          local command={id="Warp",degRotationY=rotY,position=Vector3(position.pos[1]+offsetX,position.pos[2]+offsetY,position.pos[3]+offsetZ)}
+          SendCommand(gameObjectId,command)
+
+          if this.debugModule then
+            InfCore.Log("platIndex"..platIndex)--DEBUG
+            InfCore.Log("motionPath:"..InfUtil.GetFileName(motionPath))--DEBUG
+          end
         end
       end
     end

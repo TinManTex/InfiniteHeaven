@@ -5,7 +5,7 @@ local this={}
 --tex GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
 -- ex
 --  SOME_BODY={
---    bodyId={--tex if bodyId nil then will fall back to normal GetBodyId, if bodyId is a table (like this example) bodyId is chosen randomly (TODO example bodyId doesnt match body)
+--    bodyIds={--tex if bodyId nil then will fall back to normal GetBodyId, if bodyId is a table (like this example) bodyId is chosen randomly (TODO example bodyId doesnt match body)
 --      TppEnemyBodyId.dlf_enef0_def,
 --      TppEnemyBodyId.dlf_enef1_def,
 --    },
@@ -29,7 +29,7 @@ local this={}
 
 this.bodyInfo={
   DRAB={--DDS, mother base default
-    bodyId=TppEnemyBodyId.dds8_main0_v00,
+    bodyIds={TppEnemyBodyId.dds8_main0_v00},
     partsPath="/Assets/tpp/parts/chara/dds/dds3_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_wait.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT
     soldierSubType="DD_FOB",
@@ -37,14 +37,14 @@ this.bodyInfo={
   },
   DRAB_FEMALE={--DDS, mother base default
     gender="FEMALE",
-    bodyId=TppEnemyBodyId.dds8_main0_v00,
+    bodyIds={TppEnemyBodyId.dds8_main0_v00},
     partsPath="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_wait.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_WAIT
     soldierSubType="DD_FOB",
     useDDHeadgear=true,
   },
   TIGER={--DDS, FOB default
-    bodyId=TppEnemyBodyId.dds5_main0_v00,
+    bodyIds={TppEnemyBodyId.dds5_main0_v00},
     partsPath="/Assets/tpp/parts/chara/dds/dds5_enem0_def_v00.parts",--tex TODO also dds5_main0_v00?
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER
     soldierSubType="DD_FOB",
@@ -52,7 +52,7 @@ this.bodyInfo={
   },
   TIGER_FEMALE={--DDS, FOB default
     gender="FEMALE",
-    bodyId=TppEnemyBodyId.dds6_main0_v00,
+    bodyIds={TppEnemyBodyId.dds6_main0_v00},
     partsPath="/Assets/tpp/parts/chara/dds/dds6_enef0_def_v00.parts",--tex also dds6_main0_def_v00.parts?
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_attack.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ATTACKER
     soldierSubType="DD_FOB",
@@ -60,141 +60,129 @@ this.bodyInfo={
   },
   FATIGUES_CAMO_MIX={
     --tex see GOTCHA above
-    bodyId={
-      406,
-      407,
-      408,
-      409,
-      410,
-
-      411,
-      412,
-      413,
-      414,
-      415,
-
-      416,
-      417,
-      418,
-      419,
-      420,
-
-      421,
-      422,
-      423,
-      --#18 - MAX_STAFF_NUM_ON_CLUSTER without additionalsoldiers
-      424,
-      425,
-
-      426,
-      427,
-      428,
-      429,
-      430,
-
-      431,
-      432,
-      433,
-      434,
-      435,
-
-      436,
-      437,
-      438,
-      439,
-      440,
-      --
-      441,
-    --#36 - MAX_STAFF_NUM_ON_CLUSTER with additionalsoldiers
-    --      442,
-    --      443,
-    --      444,
-    --      445,
-    --
-    --      446,
-    --      447,
-    --      448,
-    --      449,
-    --      450,
-    --      451,
-    --      452,
-    --      453,
-    --      454,
-    --      455,
-    --      456,
-    --      457,
-    --      458,
+    bodyIds={
+      TppEnemyBodyId.dds5_main0_ply_v00,
+      TppEnemyBodyId.dds5_main0_ply_v01,
+      TppEnemyBodyId.dds5_main0_ply_v02,
+      TppEnemyBodyId.dds5_main0_ply_v03,
+      TppEnemyBodyId.dds5_main0_ply_v05,
+      TppEnemyBodyId.dds5_main0_ply_v06,
+      TppEnemyBodyId.dds5_main0_ply_v07,
+      TppEnemyBodyId.dds5_main0_ply_v08,
+      TppEnemyBodyId.dds5_main0_ply_v10,
+      TppEnemyBodyId.dds5_main0_ply_v11,
+      TppEnemyBodyId.dds5_main0_ply_v12,
+      TppEnemyBodyId.dds5_main0_ply_v13,
+      TppEnemyBodyId.dds5_main0_ply_v14,
+      TppEnemyBodyId.dds5_main0_ply_v16,
+      TppEnemyBodyId.dds5_main0_ply_v17,
+      TppEnemyBodyId.dds5_main0_ply_v18,
+      TppEnemyBodyId.dds5_main0_ply_v19,
+      TppEnemyBodyId.dds5_main0_ply_v20,
+      TppEnemyBodyId.dds5_main0_ply_v22,
+      TppEnemyBodyId.dds5_main0_ply_v23,
+      TppEnemyBodyId.dds5_main0_ply_v24,
+      TppEnemyBodyId.dds5_main0_ply_v25,
+      TppEnemyBodyId.dds5_main0_ply_v26,
+      TppEnemyBodyId.dds5_main0_ply_v27,
+      TppEnemyBodyId.dds5_main0_ply_v28,
+      TppEnemyBodyId.dds5_main0_ply_v29,
+      TppEnemyBodyId.dds5_main0_ply_v30,
+      TppEnemyBodyId.dds5_main0_ply_v31,
+      TppEnemyBodyId.dds5_main0_ply_v32,
+      TppEnemyBodyId.dds5_main0_ply_v33,
+      TppEnemyBodyId.dds5_main0_ply_v35,
+      TppEnemyBodyId.dds5_main0_ply_v36,
+      TppEnemyBodyId.dds5_main0_ply_v37,
+      TppEnemyBodyId.dds5_main0_ply_v38,
+      TppEnemyBodyId.dds5_main0_ply_v39,
+      TppEnemyBodyId.dds5_main0_ply_v40,
+      TppEnemyBodyId.dds5_main0_ply_v41,
+      TppEnemyBodyId.dds5_main0_ply_v42,
+      TppEnemyBodyId.dds5_main0_ply_v43,
+      TppEnemyBodyId.dds5_main0_ply_v44,
+      TppEnemyBodyId.dds5_main0_ply_v45,
+      TppEnemyBodyId.dds5_main0_ply_v46,
+      TppEnemyBodyId.dds5_main0_ply_v47,
+      TppEnemyBodyId.dds5_main0_ply_v48,
+      TppEnemyBodyId.dds5_main0_ply_v49,
+      TppEnemyBodyId.dds5_main0_ply_v50,
+      TppEnemyBodyId.dds5_main0_ply_v51,
+      TppEnemyBodyId.dds5_main0_ply_v52,
+      TppEnemyBodyId.dds5_main0_ply_v53,
+      TppEnemyBodyId.dds5_main0_ply_v54,
+      TppEnemyBodyId.dds5_main0_ply_v55,
+      TppEnemyBodyId.dds5_main0_ply_v56,
+      TppEnemyBodyId.dds5_main0_ply_v57,
+      TppEnemyBodyId.dds5_main0_ply_v58,
+      TppEnemyBodyId.dds5_main0_ply_v59,
+      TppEnemyBodyId.dds5_main0_ply_v60,
     },
     partsPath="/Assets/tpp/parts/chara/dds/dds3_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_wait.fpk",
     soldierSubType="DD_FOB",
     useDDHeadgear=true,
   },
-  --tex TODO fova not applying unlike males
+  --tex TODO fova not applying unlike males, dds5 fovas dont apply to dds6 either.
   FATIGUES_CAMO_MIX_FEMALE={
     gender="FEMALE",
-    bodyId={
-      459,
-      460,
-      461,
-      462,
-      463,
-
-      464,
-      465,
-      466,
-      467,
-      468,
-
-      469,
-      470,
-      471,
-      472,
-      473,
-
-      474,
-      475,
-      476,
-      477,
-      478,
-
-      479,
-      480,
-      481,
-      482,
-      483,
-
-      484,
-      485,
-      486,
-      487,
-      488,
-
-      489,
-      490,
-      491,
-      492,
-      493,
-
-      494,
-    ----
-    --495,
-    --496,
-    --497,
-    --498,
-    --499,
-    --500,
-    --501,
-    --502,
-    --503,
-    --504,
-    --505,
-    --506,
-    --507,
-    --508,
-    --509,
-    --510,
-    --511,
+    bodyIds={
+      TppEnemyBodyId.dds6_main0_ply_v00,
+      TppEnemyBodyId.dds6_main0_ply_v01,
+      TppEnemyBodyId.dds6_main0_ply_v02,
+      TppEnemyBodyId.dds6_main0_ply_v03,
+      TppEnemyBodyId.dds6_main0_ply_v05,
+      TppEnemyBodyId.dds6_main0_ply_v06,
+      TppEnemyBodyId.dds6_main0_ply_v07,
+      TppEnemyBodyId.dds6_main0_ply_v08,
+      TppEnemyBodyId.dds6_main0_ply_v10,
+      TppEnemyBodyId.dds6_main0_ply_v11,
+      TppEnemyBodyId.dds6_main0_ply_v12,
+      TppEnemyBodyId.dds6_main0_ply_v13,
+      TppEnemyBodyId.dds6_main0_ply_v14,
+      TppEnemyBodyId.dds6_main0_ply_v16,
+      TppEnemyBodyId.dds6_main0_ply_v17,
+      TppEnemyBodyId.dds6_main0_ply_v18,
+      TppEnemyBodyId.dds6_main0_ply_v19,
+      TppEnemyBodyId.dds6_main0_ply_v20,
+      TppEnemyBodyId.dds6_main0_ply_v22,
+      TppEnemyBodyId.dds6_main0_ply_v23,
+      TppEnemyBodyId.dds6_main0_ply_v24,
+      TppEnemyBodyId.dds6_main0_ply_v25,
+      TppEnemyBodyId.dds6_main0_ply_v26,
+      TppEnemyBodyId.dds6_main0_ply_v27,
+      TppEnemyBodyId.dds6_main0_ply_v28,
+      TppEnemyBodyId.dds6_main0_ply_v29,
+      TppEnemyBodyId.dds6_main0_ply_v30,
+      TppEnemyBodyId.dds6_main0_ply_v31,
+      TppEnemyBodyId.dds6_main0_ply_v32,
+      TppEnemyBodyId.dds6_main0_ply_v33,
+      TppEnemyBodyId.dds6_main0_ply_v35,
+      TppEnemyBodyId.dds6_main0_ply_v36,
+      TppEnemyBodyId.dds6_main0_ply_v37,
+      TppEnemyBodyId.dds6_main0_ply_v38,
+      TppEnemyBodyId.dds6_main0_ply_v39,
+      TppEnemyBodyId.dds6_main0_ply_v40,
+      TppEnemyBodyId.dds6_main0_ply_v41,
+      TppEnemyBodyId.dds6_main0_ply_v42,
+      TppEnemyBodyId.dds6_main0_ply_v43,
+      TppEnemyBodyId.dds6_main0_ply_v44,
+      TppEnemyBodyId.dds6_main0_ply_v45,
+      TppEnemyBodyId.dds6_main0_ply_v46,
+      TppEnemyBodyId.dds6_main0_ply_v47,
+      TppEnemyBodyId.dds6_main0_ply_v48,
+      TppEnemyBodyId.dds6_main0_ply_v49,
+      TppEnemyBodyId.dds6_main0_ply_v50,
+      TppEnemyBodyId.dds6_main0_ply_v51,
+      TppEnemyBodyId.dds6_main0_ply_v52,
+      TppEnemyBodyId.dds6_main0_ply_v53,
+      TppEnemyBodyId.dds6_main0_ply_v54,
+      TppEnemyBodyId.dds6_main0_ply_v55,
+      TppEnemyBodyId.dds6_main0_ply_v56,
+      TppEnemyBodyId.dds6_main0_ply_v57,
+      TppEnemyBodyId.dds6_main0_ply_v58,
+      TppEnemyBodyId.dds6_main0_ply_v59,
+      TppEnemyBodyId.dds6_main0_ply_v60,
     },
 
     partsPath="/Assets/tpp/parts/chara/dds/dds8_main0_def_v00.parts",
@@ -203,7 +191,7 @@ this.bodyInfo={
     useDDHeadgear=true,
   },
   SNEAKING_SUIT={--DDS
-    bodyId=TppEnemyBodyId.dds4_enem0_def,
+    bodyIds={TppEnemyBodyId.dds4_enem0_def},
     partsPath="/Assets/tpp/parts/chara/sna/sna4_enem0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING
     soldierSubType="DD_FOB",
@@ -211,14 +199,14 @@ this.bodyInfo={
   },
   SNEAKING_SUIT_FEMALE={--DDS
     gender="FEMALE",
-    bodyId=TppEnemyBodyId.dds4_enef0_def,
+    bodyIds={TppEnemyBodyId.dds4_enef0_def},
     partsPath="/Assets/tpp/parts/chara/sna/sna4_enef0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_sneak.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_SNEAKING
     soldierSubType="DD_FOB",
     useDDHeadgear=true,
   },
   BATTLE_DRESS={--DDS
-    bodyId=TppEnemyBodyId.dds5_enem0_def,
+    bodyIds={TppEnemyBodyId.dds5_enem0_def},
     partsPath="/Assets/tpp/parts/chara/sna/sna5_enem0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS
     soldierSubType="DD_FOB",
@@ -226,7 +214,7 @@ this.bodyInfo={
   },
   BATTLE_DRESS_FEMALE={--DDS
     gender="FEMALE",
-    bodyId=TppEnemyBodyId.dds5_enem0_def,
+    bodyIds={TppEnemyBodyId.dds5_enem0_def},
     partsPath="/Assets/tpp/parts/chara/sna/sna5_enef0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_btdrs.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_BTRDRS
     soldierSubType="DD_FOB",
@@ -236,7 +224,7 @@ this.bodyInfo={
     },
   },
   PFA_ARMOR={
-    bodyId=TppEnemyBodyId.pfa0_v00_a,
+    bodyIds={TppEnemyBodyId.pfa0_v00_a},
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_dd_soldier_armor.fpk",--TppDefine.MISSION_COMMON_PACK.DD_SOLDIER_ARMOR--tex this pack is essentially just the mis_com_mafr soldier pack
     isArmor=true,
@@ -249,7 +237,7 @@ this.bodyInfo={
   },
   --prologue cyprus gasmask xof
   XOF_GASMASK={
-    bodyId={
+    bodyIds={
       --1,
       TppEnemyBodyId.wss0_main0_v00,--tex applies light in helmet effect?
     },
@@ -269,7 +257,7 @@ this.bodyInfo={
     },
   },
   WSS1_MAIN0={--tex soldier CRASH on loaded/soldier realize
-    bodyId=1,
+    --bodyIds={1},
     partsPath="/Assets/tpp/parts/chara/wss/wss1_main0_def_v00_ih_sol.parts",
     partsPathHostage="/Assets/tpp/parts/chara/wss/wss1_main0_def_v00_ih_hos.parts",
     --REF \chunk0_dat\Assets\tpp\pack\mission2\story\s10010\s10010_s06_fpkd
@@ -284,7 +272,8 @@ this.bodyInfo={
   --GZ XOF, white helmet
   --tex imported from GZ
   XOF_GZ={
-    bodyId=1, -- white helmets with blue bands, wet camo, ISSUE (included) face protudes goggles
+    --no bodyid = white helmets with blue bands, wet camo, ISSUE (included) face protudes goggles
+    --DEBUGNOW bodyIds={1},--TODO. using non applicable bodyid so it doesnt fall back to SKULL_CYPR table
     --NOTE: GZ has heaps of WSS2 fovas (f00>f19)
     partsPath="/Assets/tpp/parts/chara/wss/wss2_main0_def_v00_ih_sol.parts",
     --REF \chunk0_dat\Assets\tpp\pack\mission2\story\s10010\s10010_s06_fpkd
@@ -297,7 +286,7 @@ this.bodyInfo={
     soldierSubType="SKULL_CYPR",
   },
   XOF={--tex Test: when XOF mission fpk loaded it stops salute morale from working?
-    bodyId={
+    bodyIds={
       --tex default = goggles down, green stripe back of helmet
       --1,
       TppEnemyBodyId.wss4_main0_v00,--mixed: clava only, helmet with goggles down, helmet with goggles up | gloves at side
@@ -357,7 +346,7 @@ this.bodyInfo={
   MSF_GZ={--DDS0_MAIN0 - MSF PW, dirty, 25 on back
     --TODO: blinking troubles
     --TODO: GZ has dds0_v00.fova > dds0_v13.fova
-    bodyId=1,
+    --bodyIds={},
     partsPath="/Assets/tpp/parts/chara/dds/dds0_main0_def_v00_ih_sol.parts",
     partsPathHostage="/Assets/tpp/parts/chara/dds/dds0_main0_def_v00_ih_hos.parts",--DEBUGNOW
     --\chunk3_dat\Assets\tpp\pack\mission2\free\f30050\f30050_d8010_fpk\Assets\tpp\chara\dds\Scenes\dds0_main0_def.fmdl
@@ -372,7 +361,7 @@ this.bodyInfo={
   --msf from s10115 retake plat
   --TODO no eyes for hostage? check sol again too (if thats ok then maybe need to apply bodyid to hostage?)
   MSF_TPP={--DDS0_MAIN1
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.dds0_main1_v00,--140, TppEnemy.bodyIdTable.DD_PW
     --TppEnemyBodyId.dds0_main1_v01,--141, Mosquito
     },
@@ -388,9 +377,9 @@ this.bodyInfo={
   --msf 'the medic' body used in Truth photo/heli crash flashback demos
   --no head, but has trouble with soldierface system, eyes missing
   MSF_MEDIC={--DDS0_MAIN2
-    bodyId={
+    bodyIds={
       --tex default/no set fova = no gloves
-      1,
+      --1,--TODO need a no-fova
     --TODO: add to TppEnemyBodyId
     --surgical gloves, clean > increasing bloodyness
     --      406,--dds0_main2_v01
@@ -406,7 +395,7 @@ this.bodyInfo={
   },
   --DD pilot 1 - with balaclava/ RIP Morpho, imported from GZ -- soldier CRASH on loaded/soldier realize
   DDS_PILOT1={--DDS1_MAIN0
-    bodyId=1,
+    --bodyIds={},
     partsPath="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_sol.parts",
     partsPathHostage="/Assets/tpp/parts/chara/dds/dds1_main0_def_v00_ih_hos.parts",
     missionPackPath={
@@ -420,7 +409,6 @@ this.bodyInfo={
   --TODO: gz has dds2_main0_def_v00.parts, dds2_main0_def_v01.parts which adds differen head models via ConnectModelDescription
   --TODO: also hair sim.
   MSF_KOJIMA={--DDS2_MAIN0
-    bodyId=1,
     partsPath="/Assets/tpp/parts/chara/dds/dds2_main0_def_v00_ih_sol.parts",
     missionPackPath={
       "BASE_PACK",
@@ -433,7 +421,7 @@ this.bodyInfo={
   --also side of face covering designed for this faces guys, wide cheeks push through the geometry
   --ISSUE: soldier CRASH on loading
   DDS_GROUNDCREW={--DDS4_MAIN0
-    --bodyId=1,
+    --bodyIds={1},
     partsPath="/Assets/tpp/parts/chara/dds/dds4_main0_def_v00_ih_sol.parts",
     partsPathHostage="/Assets/tpp/parts/chara/dds/dds4_main0_def_v00_ih_hos.parts",
     missionPackPath={
@@ -445,7 +433,7 @@ this.bodyInfo={
   },
   --DD pilot 2 - with face/Pequad
   DDS_PILOT2={--DDS9_MAIN0
-    bodyId=1,
+    --bodyIds={},
     partsPath="/Assets/tpp/parts/chara/dds/dds9_main0_def_v00_ih_sol.parts",
     partsPathHostage="/Assets/tpp/parts/chara/dds/dds9_main0_def_v00_ih_hos.parts",
     missionPackPath={
@@ -457,19 +445,19 @@ this.bodyInfo={
   },
   MSF_SVS={--Wandering soldier msf
     --GOTCHA pfs and svs swapped due to retailbug, see TppEnemyBodyId/Soldier2FaceAndBodyData
-    bodyId=TppEnemyBodyId.pfs0_dds0_v00,--tex even though there's a lot more BodyId/Soldier2FaceAndBodyData entries, they're all identical/the same fova
+    bodyIds={TppEnemyBodyId.pfs0_dds0_v00},--tex even though there's a lot more BodyId/Soldier2FaceAndBodyData entries, they're all identical/the same fova
     partsPath="/Assets/tpp/parts/chara/svs/svs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk",
     soldierSubType="DD_FOB",
   },
   MSF_PFS={--Wandering soldier msf
-    bodyId=TppEnemyBodyId.svs0_dds0_v00,--tex as above
+    bodyIds={TppEnemyBodyId.svs0_dds0_v00},--tex as above
     partsPath="/Assets/tpp/parts/chara/pfs/pfs0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_mafr.fpk",
     soldierSubType="DD_FOB",
   },
   SOVIET_BERETS={
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.svs0_unq_v010,
       TppEnemyBodyId.svs0_unq_v020,
       TppEnemyBodyId.svs0_unq_v070,
@@ -483,7 +471,7 @@ this.bodyInfo={
   --soldierSubType="SOVIET_B",
   },
   SOVIET_HOODIES={
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.svs0_unq_v060,
       TppEnemyBodyId.svs0_unq_v100,
       TppEnemyBodyId.svs0_unq_v420,
@@ -493,7 +481,7 @@ this.bodyInfo={
   --soldierSubType="SOVIET_B",
   },
   SOVIET_ALL={
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.svs0_rfl_v00_a,
       TppEnemyBodyId.svs0_rfl_v01_a,
       TppEnemyBodyId.svs0_rfl_v02_a,
@@ -531,7 +519,7 @@ this.bodyInfo={
   --soldierSubType="SOVIET_B",
   },
   PF_MISC={
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.pfs0_unq_v210,--black beret, glases, black vest, red shirt, tan pants
       TppEnemyBodyId.pfs0_unq_v250,--black beret, white coyote tshirt, black pants
       TppEnemyBodyId.pfs0_unq_v360,--red long sleeve shirt, black pants
@@ -548,7 +536,7 @@ this.bodyInfo={
   --soldierSubType="PF_C",
   },
   PF_ALL={
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.pfs0_rfl_v00_a,
       TppEnemyBodyId.pfs0_rfl_v01_a,
       TppEnemyBodyId.pfs0_mcg_v00_a,
@@ -586,7 +574,7 @@ this.bodyInfo={
   --soldierSubType="PF_C",
   },
   SWIMWEAR={
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.dlf_enem0_def,
       TppEnemyBodyId.dlf_enem1_def,
       TppEnemyBodyId.dlf_enem2_def,
@@ -606,7 +594,7 @@ this.bodyInfo={
   },
   SWIMWEAR_FEMALE={
     gender="FEMALE",
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.dlf_enef0_def,
       TppEnemyBodyId.dlf_enef1_def,
       TppEnemyBodyId.dlf_enef2_def,
@@ -625,7 +613,7 @@ this.bodyInfo={
     soldierSubType="DD_FOB",
   },
   PRISONER_AFGH={
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.prs2_main0_v00,
       TppEnemyBodyId.prs2_main0_v01,
     },
@@ -654,7 +642,7 @@ this.bodyInfo={
   --\chunk2_dat\Assets\tpp\pack\mission2\story\s10040\s10040_area_fpkd
   },
   PRISONER_MAFR={
-    bodyId=TppEnemyBodyId.prs5_main0_v00,
+    bodyIds=TppEnemyBodyId.prs5_main0_v00,
     partsPath="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts",
     partsPathHostage="/Assets/tpp/parts/chara/prs/prs5_main0_def_v00.parts",
     missionPackPath={
@@ -666,7 +654,7 @@ this.bodyInfo={
   },
   PRISONER_MAFR_FEMALE={
     gender="FEMALE",
-    bodyId=TppEnemyBodyId.prs6_main0_v00,--113
+    bodyIds={TppEnemyBodyId.prs6_main0_v00},--113
     --TODO partsPath="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts",
     partsPathHostage="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00_ih_hos.parts",
     missionPackPath={
@@ -691,7 +679,7 @@ this.bodyInfo={
   --also dct0_face0_cov.fmdl, dct0_face1_cov.fmdl
   --also bunch of invisibleMeshNames in original .parts
   DOCTOR_0={
-    bodyId={
+    bodyIds={
       -- fv2s are different faces,
       -- even if head mesh was hidden with custom fv2 the normal soldier faces neck stick through this bodies collar.
       TppEnemyBodyId.dct0_v00,--default face
@@ -706,7 +694,7 @@ this.bodyInfo={
     hasFace=true,
   },
   --main prologue doctor
-  noSkinTones=true,--tex no skin tone support/only white
+  --noSkinTones=true,--tex no skin tone support/only white
   --TODO fv2s, not in SoldierFaceAndData system
   --dct1_v00
   --dct1_v01
@@ -744,7 +732,7 @@ this.bodyInfo={
   --\chunk0_dat\Assets\tpp\pack\mission2\story\s10010\s10010_s02_fpkd
   --blinking issues
   NURSE_3_FEMALE={
-    bodyId={
+    bodyIds={
       --tex TODO: not in soldierfaceandbody sys
       --nrs3_v00,
       --nrs3_v01,
@@ -780,7 +768,7 @@ this.bodyInfo={
     hasFace=true,
   },
   SKULLFACE={--no collision/pushback
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.wsp_def,
       TppEnemyBodyId.wsp_dam,--bloody
     },
@@ -790,7 +778,7 @@ this.bodyInfo={
     soldierSubType="SKULL_AFGH",
   },
   HUEY={
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.hyu0_main0_v00,--377 no glasses
       TppEnemyBodyId.hyu0_main0_v01,--378 oval glasses
       TppEnemyBodyId.hyu0_main0_v02,--379 rectangle glasses
@@ -808,7 +796,7 @@ this.bodyInfo={
   --tex no walk, or hit collision target. crash on cqc down
   --mb Kaz - coat and hat
   KAZ={
-    bodyId=1,--tex no bodyId entries, so just using 1 since my code does an if bodyId check TODO see if there's any fovas elsewhere
+    --DEBUGNOW bodyIds={1},--tex no bodyId entries, so just using 1 since my code does an if bodyId check TODO see if there's any fovas elsewhere
     partsPath="/Assets/tpp/parts/chara/kaz/kaz0_main0_def_v00.parts",
     partsPathHostage="/Assets/tpp/parts/chara/kaz/kaz0_main0_def_v00_ih_hos.parts",
     missionPackPath={
@@ -821,14 +809,14 @@ this.bodyInfo={
   },
   --tex crashes
   KAZ_GZ={
-    bodyId=1,
+    --bodyIds={},
     partsPath="/Assets/tpp/parts/chara/kaz/kaz1_main1_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_miller_gz.fpk",
     hasFace=true,
     soldierSubType="DD_FOB",
   },
   OCELOT_0={
-    bodyId=1,
+    --bodyIds={},
     partsPath="/Assets/tpp/parts/chara/oce/oce0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/free/f30050/f30050_ocelot.fpk",
     hasFace=true,
@@ -840,13 +828,12 @@ this.bodyInfo={
     hasFace=true,
   },
   PAZ_GZ={
-    bodyId=1,
+    --bodyIds={},
     partsPath="/Assets/tpp/parts/chara/paz/paz0_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/common/mis_com_paz_gz.fpk",
     hasFace=true,
   },
   PAZ={
-    bodyId=1,
     partsPath="/Assets/tpp/parts/chara/paz/paz1_main0_def_v00.parts",
     missionPackPath="/Assets/tpp/pack/mission2/free/f30050/f30050_paz.fpk",
     hasFace=true,
@@ -872,7 +859,7 @@ this.bodyInfo={
   --tex lab coat and red id tag, used in epidemic/quarantine
   --fmdl also contains some dds (drab,tiger) since it's used in shining lights
   DDS_RESEARCHER={
-    --bodyId={
+    --bodyIds={
     --1,
     --tex dont know why wolbachia throat shows by default, should only be with the shining lights nvg. and I'm sure I had it at some point without it showing, maybe when they are as soldier, not hostage?
     --TppEnemyBodyId.ddr0_main0_v00,--wolbachia throat, default clean lab coat, ocasionally lab goggles
@@ -911,7 +898,7 @@ this.bodyInfo={
     --  ddr1_main1_v01=158,
     --  ddr1_main1_v02=159,
     gender="FEMALE",
-    bodyId=1,--tex TODO
+    -- bodyIds={},--tex TODO
     partsPath="/Assets/tpp/parts/chara/dds/ddr1_main0_def_v00_ih_sol.parts",
     partsPathHostage="/Assets/tpp/parts/chara/dds/ddr1_main0_def_v00_ih_hos.parts",
     missionPackPath={
@@ -937,7 +924,7 @@ this.bodyInfo={
   -- kids
   --crash
   CHILD_0={
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.chd0_v00,
       TppEnemyBodyId.chd0_v01,
       TppEnemyBodyId.chd0_v02,
@@ -956,13 +943,13 @@ this.bodyInfo={
     missionPackPath={
       "BASE_PACK",
       "/Assets/tpp/pack/mission2/ih/chd0_main0_mdl.fpk",
-      --"/Assets/tpp/pack/mission2/common/mis_com_child_soldier.fpk",
+    --"/Assets/tpp/pack/mission2/common/mis_com_child_soldier.fpk",
     },
     hasFace=true,
     soldierSubType="CHILD_A",
   },
   CHILD_1={--TODO
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.chd1_v00,
       TppEnemyBodyId.chd1_v01,
       TppEnemyBodyId.chd1_v02,
@@ -977,7 +964,7 @@ this.bodyInfo={
     soldierSubType="CHILD_A",
   },
   CHILD_2={--TODO
-    bodyId={
+    bodyIds={
       TppEnemyBodyId.chd2_v00,
       TppEnemyBodyId.chd2_v01,
       TppEnemyBodyId.chd2_v02,
@@ -996,7 +983,7 @@ this.bodyInfo={
   --plh2_main0_def_v00.parts
   --plh3_main0_def_v00.parts
   GENOME_SOLDIER={
-    bodyId=1,
+    -- bodyIds={},
     partsPath="/Assets/tpp/parts/chara/gns/gns0_main0_def_v00_ih_sol.parts",
     missionPackPath={
       "BASE_PACK",
@@ -1010,5 +997,30 @@ this.bodyInfo={
     },
   },
 }
+--TABLESETUP
+function this.GetBodyIds(bodyInfo)
+  local bodyIds=bodyInfo.bodyIds or {}
+  if bodyIds then
+  elseif bodyInfo.soldierSubType then
+    local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
+    if bodyIdTable then
+      for powerType,bodyTable in pairs(bodyIdTable)do
+        for i,_bodyId in ipairs(bodyTable)do
+          bodyIds[#bodyIds+1]=_bodyId
+        end
+      end
+    end
+  end
+  return bodyIds
+end
+
+for bodyType,bodyInfo in pairs(this.bodyInfo)do
+  if type(bodyInfo)~="table"then
+    InfCore.Log("WARNING: bodyInfo~=table : "..tostring(bodyType).."="..tostring(bodyInfo))--DEBUG
+  else
+    bodyInfo.bodyType=bodyType
+    bodyInfo.bodyIds=this.GetBodyIds(bodyInfo)--tex crunches down TppEnemy.bodyIdTable if applicable
+  end
+end
 
 return this

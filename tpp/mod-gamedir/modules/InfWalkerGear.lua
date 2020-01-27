@@ -303,7 +303,7 @@ function this.SetupGearsMB()
   InfMain.RandomSetToLevelSeed()
 
   local numClusters=0
-  for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do
+  for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do--DEBUGNOW
     local grade=TppLocation.GetMbStageClusterGrade(clusterId)
     if grade>0 then
       numClusters=numClusters+1

@@ -1,23 +1,27 @@
 -- InfSecurityCam.lua --DEBUGWIP DEBUGNOW
+-- DEBUGNOW crashes on restart if a cam is marked
 
 local this={}
 
 this.packages={
   "/Assets/tpp/pack/mission2/ih/ih_security_camera.fpk",
- -- "/Assets/tpp/pack/mission2/ih/ih_cam_defloc_pfCamp.fpk",
-  "/Assets/tpp/pack/mission2/ih/ih_cam_ly013_cl00.fpk",--DEBUGWIP
+  "/Assets/tpp/pack/mission2/ih/ih_cam_defloc_pfCamp.fpk",
+--"/Assets/tpp/pack/mission2/ih/ih_cam_ly013_cl00.fpk",--DEBUGWIP
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
---DEBUGWIP
---  if not Ivars.enableSecurityCamFREE:EnabledForMission() then
---    return
---  end
-
   --DEBUGWIP
-  if missionCode~=30050 then
-    return
+  --  if not Ivars.enableSecurityCamFREE:EnabledForMission() then
+  --    return
+  --  end
+  if missionCode~=30020 then
+    return--DEBUGNOW
   end
+
+--  --DEBUGWIP
+--  if missionCode~=30050 then
+--  return
+--  end
 
   for i,packPath in ipairs(this.packages) do
     packPaths[#packPaths+1]=packPath
@@ -25,17 +29,24 @@ function this.AddMissionPacks(missionCode,packPaths)
 end
 
 --DEBUGWIP
---function this.SetUpEnemy(missionTable)
---  if not Ivars.enableSecurityCamFREE:EnabledForMission() then
---    return
---  end
---  --DEBUGWIP
---  if vars.missionCode~=30020 then
---    return
---  end
---
---  this.SetUpSecurityCamera()
---end
+function this.SetUpEnemy(missionTable)
+  --  if not Ivars.enableSecurityCamFREE:EnabledForMission() then
+  --    return
+  --  end
+  --DEBUGWIP
+  if vars.missionCode~=30020 then
+    return
+  end
+  
+
+  
+  --DEBUGNOW
+  if not TppMission.IsMissionStart() then
+    return
+  end
+
+  this.SetUpSecurityCamera()
+end
 
 local camNames = {
   "scamera_pfCamp_0000",
@@ -46,7 +57,7 @@ local camNames = {
   "scamera_pfCamp_0005",
 }
 
-this.SetUpSecurityCamera = function()
+function this.SetUpSecurityCamera()
   --  local enable=true
   --  GameObject.SendCommand({type="TppSecurityCamera2"},{id="SetEnabled",enabled=enable})
   ----  if this.IsUsingGunCamera()then
@@ -56,9 +67,9 @@ this.SetUpSecurityCamera = function()
   -- -- end
   -- --DEBUGWIP
   --
---    local developLevel=3
---    local securityCameras={type="TppSecurityCamera2"}
---  GameObject.SendCommand(securityCameras,{id="SetDevelopLevel",developLevel=developLevel})
+  --    local developLevel=3
+  --    local securityCameras={type="TppSecurityCamera2"}
+  --  GameObject.SendCommand(securityCameras,{id="SetDevelopLevel",developLevel=developLevel})
 
   for index,cameraName in pairs(camNames) do
     local gameObjectId=GameObject.GetGameObjectId(cameraName)

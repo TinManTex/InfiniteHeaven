@@ -13,14 +13,15 @@ this.debugModule=false
 --it uses the q name as the lookup for the lang string name_<qname> and info_<qname>
 --I'm not sure if anything before that has any signifincance, many have quest_ as the prefix, others have the quest area name.
 --Because of this restriction any mod authors that want to build a sideop will have to notify me so to not collide with others
--- CULL this.numIHQuests=100
 this.questNameFmt="quest_q3%04d"--tex currently straddling between 30010 : Little Lost Sheep and 39010 : Legendary Brown Bear
-
---tex current additional sideops
+--tex current questIds claimed
 --q30100 - q30102--IH mb quests
---q30103--IH quest exameple
+--q30103--IH quest example
 --q30104 - q30154--morbidslinky
 --q30155--IH pilot rescue test
+--q30156-q30199--darkhaven
+--q30200-q30299--ih reserved
+--q30300-q30349--caplag
 
 this.questsRegistered=false
 
@@ -483,8 +484,18 @@ end
 function this.PrintQuestArea()
   if vars.missionCode==30050 then
     local clusterId=MotherBaseStage.GetCurrentCluster()
-    local clusterName=TppDefine.CLUSTER_NAME[clusterId+1]
-    InfCore.Log("Quest Area: Mtbs"..clusterName)
+    if clusterId==nil then
+      InfCore.Log("InfQuest.PrintQuestArea: WARNING: GetCurrentCluster==nil")
+    else
+      local clusterName=TppDefine.CLUSTER_NAME[clusterId+1]
+      --tex not using InfMain.CLUSTER_NAME because there's currently no quest area for separation,zoo
+      --GOTCHA doesn't take into account MtbsPaz area, but im not sure how it decides that area
+      if clusterName==nil then
+        InfCore.Log("InfQuest.PrintQuestArea: WARNING: clusterName==nil")
+      else
+        InfCore.Log("Quest Area: Mtbs"..clusterName)
+      end
+    end
     return
   end
 
@@ -536,14 +547,6 @@ function this.GetQuestPositions()
     end
   end
   return positions
-end
-
-function this.ResetQuestState(gvarIndex,value)
-  --VALIDATE gvarIndex>0 <TppDefine.QUEST_MAX
-  local value=value or false
-  gvars.qst_questOpenFlag[gvarIndex]=value
-  gvars.qst_questClearedFlag[gvarIndex]=value
-  gvars.qst_questActiveFlag[gvarIndex]=value
 end
 
 --DEBUGNOW
@@ -616,8 +619,7 @@ end
 
 --CALLER: TppLandingZone.OnMissionCanStart
 function this.DisableLandingZones()
-  InfCore.Log("---------DisableLandingZones")--DEBUGNOW
-  --DEBUGNOW
+  InfCore.LogFlow("InfQuest.DisableLandingZones:")
   local function FindMatchLZ(lz)
     for location,lzs in pairs(TppLandingZone.assaultLzs)do
       for drpRoute,aprRoute in pairs(lzs) do
@@ -642,7 +644,7 @@ function this.DisableLandingZones()
         InfCore.Log("DisableLandingZones IsActive:"..questName)
         for i,lz in ipairs(questInfo.disableLzs) do
           local otherRoute=FindMatchLZ(lz)
-          InfCore.Log("otherRoute"..tostring(otherRoute))
+          InfCore.Log("otherRoute "..tostring(otherRoute))
           TppUiCommand.AddDisabledLandPoint(otherRoute)
           TppLandingZone.GroundDisableLandingZone(lz)
         end
@@ -650,6 +652,5 @@ function this.DisableLandingZones()
     end
   end
 end
-
 
 return this

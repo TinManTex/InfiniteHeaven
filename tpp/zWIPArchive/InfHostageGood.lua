@@ -46,14 +46,14 @@ function this.AddMissionPacks(missionCode,packPaths)
       
       TppHostage2.SetUniquePartsPath{gameObjectType="TppHostage2",locatorName=hostageName,parts=bodyInfo.partsPathHostage}
 
-      local bodyId=bodyInfo.bodyId
-      if bodyId and type(bodyInfo.bodyId)=="table" then
-        bodyId=InfUtil.GetRandomInList(bodyInfo.bodyId)
+      local bodyId=bodyInfo.bodyIds
+      if bodyId and type(bodyId)=="table" then
+        bodyId=InfUtil.GetRandomInList(bodyId)
       end
       local settings={
         {type="hostage",name=hostageName,bodyId=bodyId,faceId=hostageInfo.faceId},
       }
-      if bodyInfo.bodyId or hostageInfo.faceId then
+      if bodyInfo.bodyIds or hostageInfo.faceId then
       TppEneFova.AddUniqueSettingPackage(settings)
       end
     end

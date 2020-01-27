@@ -43,8 +43,7 @@ this.lrrpDefines={}--tex from AddLrrps
 
 this.reserveSoldierNames={}
 
---TUNE
-this.smokedTimeOut=60--seconds
+this.MAX_STAFF_NUM_ON_CLUSTER=18--DYNAMIC onallocate
 
 this.packages={
   [30010]={
@@ -105,10 +104,17 @@ function this.OnAllocateTop(missionTable)
   if gvars.isContinueFromTitle then
     this.isContinueFromTitle=true
   end
+
+  this.MAX_STAFF_NUM_ON_CLUSTER=18--SYNC f30050_sequence
+  if Ivars.mbAdditionalSoldiers:Is()>0 then
+    this.MAX_STAFF_NUM_ON_CLUSTER=36
+  end
 end
 function this.OnAllocate(missionTable)
   if TppMission.IsFOBMission(vars.missionCode)then
-    TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParametersDefaults)
+    if InfSoldierParams then
+      TppSoldier2.ReloadSoldier2ParameterTables(InfSoldierParams.soldierParametersDefaults)
+    end
     InfResources.DefaultResourceTables()
     return
   end
@@ -116,8 +122,6 @@ function this.OnAllocate(missionTable)
   if gvars then
     InfCore.Log("inf_levelSeed "..tostring(gvars.inf_levelSeed))--DEBUG
   end
-
-  InfSoldierParams.SoldierParametersMod()
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.OnAllocate) then
@@ -216,10 +220,10 @@ function this.Init(missionTable)
     --TODO: split out more static ones to DebugModeEnable (InfLookup,TppDbgStr32), would require DEBUG_RegisterStrcode32invert to append to strCode32ToString instead of overwrite
     if Ivars.debugMode:Is(1) then
       local strCode32List={}
-
-      local InfStrCode=InfCore.LoadExternalModule("InfStrCode",true,true)--tex module wont assign to global issue again
-      if InfStrCode then
-        Tpp.ApendArray(strCode32List,InfStrCode.DEBUG_strCode32List)
+      for i,module in ipairs(InfModules) do
+        if module.lookupStrings then
+          Tpp.ApendArray(strCode32List,module.lookupStrings)
+        end
       end
 
       Tpp.ApendArray(strCode32List,TppDbgStr32.DEBUG_strCode32List)
@@ -228,6 +232,7 @@ function this.Init(missionTable)
           Tpp.ApendArray(strCode32List,module.DEBUG_strCode32List)
         end
       end
+      --InfCore.PrintInspect(strCode32List,"strCode32List")--DEBUG
       TppDbgStr32.DEBUG_RegisterStrcode32invert(strCode32List)
     end
   end,missionTable)--
@@ -250,27 +255,6 @@ function this.OnInitializeBottom(missionTable)
   ---InfCore.PCall(function(missionTable)--DEBUG
   if TppMission.IsFOBMission(vars.missionCode)then
     return
-  end
-
-  --tex TODO: pull into InfInterrogation
-  if Ivars.enableInfInterrogation:Is(1) and(vars.missionCode~=30010 or vars.missionCode~=30020) then
-    if missionTable.enemy then
-      local interrogationTable=missionTable.enemy.interrogation
-      if IsTable(interrogationTable)then
-        for cpName,layerTable in pairs(interrogationTable)do
-          local cpId=GetGameObjectId("TppCommandPost2",cpName)
-          if cpId==NULL_ID then
-            InfCore.DebugPrint"enableInfInterrogation interrogationTable cpId==NULL_ID"--DEBUG
-          else
-            --tex TODO KLUDGE, cant actually see how it's reset normally,
-            --but it doesn't seem to trigger unless I do
-            --also there seems to be only one actual .normal interrogation used in one mission, unless the generic interrogation uses the .normal layer
-            --and doing it this way actually resets the save vars
-            TppInterrogation.ResetFlagNormal(cpId)
-          end
-        end
-      end
-    end
   end
 
   if vars.missionCode>TppDefine.SYS_MISSION_ID.TITLE and not TppMission.IsHelicopterSpace(vars.missionCode) then
@@ -853,7 +837,7 @@ function this.DoControlSet(currentChecks)
     end
   end
 
-  if currentChecks.inGame then    
+  if currentChecks.inGame then
     if InfButton.OnComboActive(reloadModulesCombo) then
       InfCore.DebugPrint("LoadExternalModules")
       this.LoadExternalModules(true)
@@ -1481,6 +1465,15 @@ function this.GetActiveControlMode()
 end
 --
 
+--tex duplication of TppDefine with outer clusters defined
+--Separation is Quarantine,Ward,mbqf
+--Zoo ly500, don't think it's officially cluster 8, but I'm making it so
+this.CLUSTER_NAME={"Command","Combat","Develop","Support","Medical","Spy","BaseDev","Separation","Zoo"}
+this.CLUSTER_DEFINE=InfUtil.EnumFrom0(this.CLUSTER_NAME)
+--this.PLNT_NAME={"Special","Common1","Common2","Common3"}--or plat0-plat3
+--this.PLNT_DEFINE=this.Enum(this.PLNT_NAME)
+--
+
 --lrrp plus
 this.baseNames={
   afgh={
@@ -2038,14 +2031,12 @@ end
 --EXEC
 _G.InfMain=this--WORKAROUND allowing external modules access to this before it's actually returned --KLUDGE using _G since I'm already definining InfMain as local
 
---DEBUGNOW if Mock==nil then
-  InfCore.LogFlow"InfMain Exec"
-  this.LoadExternalModules()
-  if not InfCore.mainModulesOK then
-    this.ModuleErrorMessage()
-  end
-  InfCore.doneStartup=true
---end
+InfCore.LogFlow"InfMain Exec"
+this.LoadExternalModules()
+if not InfCore.mainModulesOK then
+  this.ModuleErrorMessage()
+end
+InfCore.doneStartup=true
 
 InfCore.LogFlow"InfMain.lua done"
 

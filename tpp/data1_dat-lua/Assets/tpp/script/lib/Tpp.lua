@@ -92,7 +92,6 @@ this.requires={
   "/Assets/tpp/script/lib/InfMenu.lua",
   "/Assets/tpp/script/lib/InfEneFova.lua",
   "/Assets/tpp/script/lib/InfRevenge.lua",
-  "/Assets/tpp/script/lib/InfSoldierParams.lua",
   "/Assets/tpp/script/lib/InfFova.lua",
   "/Assets/tpp/script/lib/InfLZ.lua",
   "/Assets/tpp/script/lib/InfPersistence.lua",
@@ -116,6 +115,7 @@ end
 local IsTypeNumber=this.IsTypeNumber
 
 --NMC GOTCHA TppDefine.Enum indexed from 0, Tpp.Enum indexed from one. silly.
+--GOTCHA this also adds to input table instead of giving new TODO review in light of this
 function this.Enum(nameTable)
   if nameTable==nil then
     return
@@ -449,7 +449,8 @@ function this.SetGameStatus(status)
       end
     end
   end
-  if Ivars.debugMode:Is()>0 or InfCore.doneStartup==false then--tex> TODO: this doesn't seem to catch all cases of announcelog being disabled, during Load on return from MB for example
+  --tex TODO switch to a diffent mode, only useful if blackloading -- if Ivars.debugMode:Is()>0 or InfCore.doneStartup==false then--tex> TODO: this doesn't seem to catch all cases of announcelog being disabled, during Load on return from MB for example
+  if InfCore.doneStartup==false then--tex allows announcelog during game startup
     TppUiStatusManager.ClearStatus("AnnounceLog")
   end--<
 end

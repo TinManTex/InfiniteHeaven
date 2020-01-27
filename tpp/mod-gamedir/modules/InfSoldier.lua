@@ -178,6 +178,10 @@ function this.InitCluster(clusterId)
   local clusterId=clusterId or GetCurrentCluster()
   clusterId=clusterId+1
 
+  if clusterId>7 then
+    return
+  end
+
   --local clusterName=TppDefine.CLUSTER_NAME[clusterId]
 
   local GetMBEnemyAssetTable=TppEnemy.GetMBEnemyAssetTable or mvars.mbSoldier_funcGetAssetTable
@@ -252,6 +256,12 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end
 
   if not this.active:EnabledForMission() then
+    return
+  end
+
+  local clusterId=GetCurrentCluster()+1
+
+  if clusterId>7 then
     return
   end
 
@@ -693,21 +703,21 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
     local cpDefine=soldierDefine[cpName]
     local soldierName=cpDefine[math.random(#cpDefine)]
 
-    local gameObjectId=GetGameObjectId("TppSoldier2",soldierName)
-    if gameObjectId==NULL_ID then
+    local soldierId=GetGameObjectId("TppSoldier2",soldierName)
+    if soldierId==NULL_ID then
       InfCore.Log("WARNING: AddWildCards "..soldierName.."==NULL_ID")--DEBUG
     else
-
       local isFemale=false
       if numFemales<this.numWildCards.FEMALE then
         isFemale=true
         numFemales=numFemales+1
+        
       elseif IvarProc.EnabledForMission"customSoldierType" then
         --InfCore.Log("AddWildCards EnabledForMission customSoldierType and > numFemales, bailing")--DEBUG
         --tex bail out of male because customSoldierType interferes TODO: extend wildcard to other soldiertypes with multiple bodies
         break
       end
-
+      InfEneFova.SetFemaleSoldier(soldierId,isFemale)
       --tex choose face
       local faceIdPool
       if isFemale then
@@ -726,12 +736,12 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
       local bodyId=EnemyFova.INVALID_FOVA_VALUE
       if isFemale then
         local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
-        if not bodyInfo or not bodyInfo.bodyId then
+        if not bodyInfo or not bodyInfo.bodyIds then
           InfCore.Log("WARNING no bodyinfo for wildcard",true)--DEBUG
         else
-          bodyId=bodyInfo.bodyId
+          bodyId=bodyInfo.bodyIds
           if bodyId and type(bodyId)=="table"then
-            bodyId=bodyId[math.random(#bodyId)]
+            bodyId=InfUtil.GetRandomInList(bodyId)
           end
         end
       else
@@ -746,7 +756,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
       for i=1,#uniqueSettings do
         if uniqueSettings[i].name==soldierName then
           hasSetting=true
-          if isFemale and not InfEneFova.IsFaceFemale(uniqueSettings[i].faceId) then
+          if isFemale and not InfEneFova.IsFemaleFace(uniqueSettings[i].faceId) then
             InfCore.Log("WARNING: AddWildCards "..soldierName.." marked as female and uniqueSetting face not female",true)--DEBUG
           end
         end
@@ -757,7 +767,7 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
 
 
       local command={id="UseExtendParts",enabled=isFemale}
-      SendCommand(gameObjectId,command)
+      SendCommand(soldierId,command)
 
 
       --

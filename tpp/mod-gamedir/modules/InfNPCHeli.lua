@@ -316,7 +316,7 @@ function this.Init(missionTable,currentChecks)
     return
   elseif isMb then
     local numClusters=0
-    for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do
+    for clusterId, clusterName in ipairs(TppDefine.CLUSTER_NAME) do--DEBUGNOW
       local grade=TppMotherBaseManagement.GetMbsClusterGrade{category=TppDefine.CLUSTER_NAME[clusterId]}
       if grade>0 then
         numClusters=numClusters+1

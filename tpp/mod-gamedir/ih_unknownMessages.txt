@@ -2,8 +2,15 @@
   MotherBaseManagement = {
     [1625350245] = true
   },
+  Network = {
+    [3581811033] = true
+  },
   Player = {
+    [1076192754] = true,
+    [1241886457] = true,
     [2307345963] = true,
-    [2990447840] = true
+    [2766584503] = true,
+    [2990447840] = true,
+    [3691348800] = true
   }
 }

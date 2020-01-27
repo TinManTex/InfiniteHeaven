@@ -214,7 +214,7 @@ end
 
 --tex ex returns "cm_f0_h2_v000_eye1.fv2" from "/Assets/tpp/fova/common_source/chara/cm_head/face/cm_f0_h2_v000_eye1.fv2"
 function this.GetFileName(path,stripExt)
-  if Mock then--KLUDGE DEBUGNOW
+  if Mock then--KLUDGE
     if path==nil then return "nil_path" end
   end
   local lastPos=this.FindLast(path,"/")
@@ -229,6 +229,40 @@ end
 function this.StripExt(fileName)
   local lastPos=this.FindLast(fileName,[[.]])
   return string.sub(fileName,1,lastPos-1)
+end
+
+function this.EnumFrom0(nameTable)
+  if nameTable==nil then
+    return
+  end
+  if type(nameTable)~="table"then
+    return
+  end
+  if#nameTable==0 then
+    return
+  end
+  local enumTable={}
+  for i=1,#nameTable do
+    enumTable[nameTable[i]]=i-1--NMC: lua tables indexed from 1, enums indexed from 0
+  end
+  return enumTable
+end
+
+function this.EnumFrom1(nameTable)
+  if nameTable==nil then
+    return
+  end
+  if type(nameTable)~="table"then
+    return
+  end
+  if#nameTable==0 then
+    return
+  end
+  local enumTable={}
+  for i=1,#nameTable do
+    enumTable[nameTable[i]]=i
+  end
+  return enumTable
 end
 
 return this

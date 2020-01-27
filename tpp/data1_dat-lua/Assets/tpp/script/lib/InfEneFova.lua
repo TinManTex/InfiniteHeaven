@@ -9,6 +9,8 @@ this.debugModule=false
 --
 this.inf_wildCardMaleFaceList={}
 this.inf_wildCardFemaleFaceList={}
+this.bodiesForMap={}
+this.isFemaleSoldierId={}
 
 this.bodyTypes={
   SOLDIER=1,
@@ -151,10 +153,16 @@ this.ddHeadGearSelection={
     femaleId="dds_balaclava15",
   },
 }
+
+function this.PreMissionLoad(missionId,currentMissionId)
+  this.isFemaleSoldierId={}
+end
+
 function this.GetMaleBodyInfo(missionCode)
   if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
     return nil
   end
+  --InfCore.Log("GetMaleBodyInfo")--DEBUG
   --CULL
   --  local suitName=nil
   --  if IvarProc.IsForMission("customSoldierType","EQUIPGRADE") then
@@ -170,6 +178,7 @@ function this.GetMaleBodyInfo(missionCode)
   return InfBodyInfo.bodyInfo[suitName]
 end
 function this.GetFemaleBodyInfo(missionCode)
+  --InfCore.Log("GetFemaleBodyInfo")--DEBUG
   if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
     return InfBodyInfo.bodyInfo.DRAB --tex since a bunch of stuff still predicated by customSoldierType cant really havecustomSoldierTypeFemale nil
       --OFF return nil
@@ -1280,18 +1289,7 @@ function this.WildCardFovaBodies(bodies)
   this.wildCardFemaleSuitName=InfUtil.GetRandomInList(this.wildCardFemaleSuits)
   local bodyInfo=this.GetFemaleWildCardBodyInfo()
   if bodyInfo then
-    if bodyInfo.bodyId then
-      this.SetupBodies(bodyInfo.bodyId,bodies)
-    end
-    if bodyInfo.soldierSubType then
-      local bodyIdTable=TppEnemy.bodyIdTable[bodyInfo.soldierSubType]
-      if bodyIdTable then
-        for powerType,bodyTable in pairs(bodyIdTable)do
-          this.SetupBodies(bodyTable,bodies)
-        end
-      end
-    end
-
+    this.SetupBodies(bodyInfo,bodies,InfSoldier.numWildCards.FEMALE)
     if bodyInfo.partsPath then
       TppSoldier2.SetExtendPartsInfo{type=1,path=bodyInfo.partsPath}
     end
@@ -1300,7 +1298,10 @@ function this.WildCardFovaBodies(bodies)
   if not IvarProc.EnabledForMission"customSoldierType" then --tex bail out of male because customSoldierType interferes TODO: extend wildcard to other soldiertypes with multiple bodies
     local maleBodyTable=this.wildCardBodyTable[locationName]
     if maleBodyTable then
-      this.SetupBodies(maleBodyTable,bodies)
+      for n,bodyId in ipairs(maleBodyTable)do
+        local bodyEntry={bodyId,EnemyFova.MAX_REALIZED_COUNT}
+        bodies[#bodies+1]=bodyEntry
+      end
     end
     --TppSoldierFace.OverwriteMissionFovaData{body=bodies,additionalMode=true}--tex OFF TEST is mixing additionalmode here and via UniqueSettings is causing issues?
   end
@@ -1379,7 +1380,8 @@ end
 
 --CALLER ApplyPowerSetting,ApplyMTBSUniqueSetting
 function this.ApplyCustomBodyPowers(soldierId,powerSettings)
-  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  local isFemale=this.IsFemaleSoldier(soldierId)
+  --InfCore.Log("ApplyCustomBodyPowers "..soldierId.." isFemale="..tostring(isFemale))--DEBUG
   local bodyInfo=nil
   if isFemale then
     bodyInfo=InfEneFova.GetFemaleBodyInfo()
@@ -1534,20 +1536,44 @@ end
 
 --In: bodyIds
 --In/Out: bodies
+--SIDE:this.bodiesForMap
+--CALLER: InfEneFova.fovaSetupFuncs or equivalent load point.
 local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255
-function this.SetupBodies(bodyIds,bodies,count)
-  if bodyIds==nil then return end
+function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
+  if bodyInfo.bodyIds==nil then
+    return
+  end
 
-  local count=count or MAX_REALIZED_COUNT
+  local bodyIds=bodyInfo.bodyIds
+  if #bodyIds==0 then
+    --InfCore.Log("InfEneFova.SetupBodies: "..bodyInfo.bodyType.." has no bodyIds")--DEBUG
+    return
+  end
 
-  if type(bodyIds)=="number"then
-    local bodyEntry={bodyIds,MAX_REALIZED_COUNT}
-    bodies[#bodies+1]=bodyEntry
-  elseif type(bodyIds)=="table"then
-    for n,bodyId in ipairs(bodyIds)do
-      local bodyEntry={bodyId,MAX_REALIZED_COUNT}
-      bodies[#bodies+1]=bodyEntry
+  if this.debugModule then
+    InfCore.PrintInspect(bodyIds,"InfEneFova.SetupBodies full bodyIds for "..bodyInfo.bodyType)
+  end
+
+  --tex used to manage a limit on bodies for bodytypes that have a large amount
+  if maxBodies==nil or maxBodies==0 or maxBodies>=#bodyIds then
+    this.bodiesForMap[bodyInfo.bodyType]=bodyIds
+  else
+    InfMain.RandomSetToLevelSeed()
+    local bodiesForType={}
+    local bodyBag=InfUtil.ShuffleBag:New()
+    bodyBag:Fill(bodyIds)
+    for i=1,maxBodies do
+      bodiesForType[#bodiesForType+1]=bodyBag:Next()
     end
+    this.bodiesForMap[bodyInfo.bodyType]=bodiesForType
+    InfMain.RandomResetToOsTime()
+  end
+
+  local realizeCount=bodyCount or MAX_REALIZED_COUNT--tex VERIFY don't think I've seen this anything but MAX_REALIZED_COUNT
+
+  for n,bodyId in ipairs(this.bodiesForMap[bodyInfo.bodyType])do
+    local bodyEntry={bodyId,realizeCount}
+    bodies[#bodies+1]=bodyEntry
   end
 end
 
@@ -1639,11 +1665,28 @@ function this.IsSubTypeCorrectForType(soldierType,subType)--returns true on nil 
   return true
 end
 
-function this.IsFaceFemale(faceId)
---tex NOTE CheckFemale is a misnomer, it actually returns some kind of face type (in list form since it seems it can take a list of faces as seen in mtbs_enemy)
---seems to be 0=male,1=female,2=child? this would match with SetExtendPartsInfo{type= 
+function this.IsFemaleFace(faceId)
+  if faceId==nil then
+    return
+  end
+  --tex NOTE CheckFemale is a misnomer, it actually returns some kind of face type (in list form since it seems it can take a list of faces as seen in mtbs_enemy)
+  --seems to be 0=male,1=female,2=child? this would match with SetExtendPartsInfo{type=
   local faceTypeList=TppSoldierFace.CheckFemale{face={faceId}}
   return faceTypeList and faceTypeList[1]==1
+end
+--tex theres no actual isfemale function that doesn't rely on faceid as far as i can tell, and no way to arbitrarily get faceid,
+--so policy should be to set this.isFemaleSoldierId when you are chosing faceid/at changefova
+--still running into issue where stuff that needs isfemale before the face is chosen.
+--mostly bodyinfo stuff, in which case it will fall back to the male bodyinfo
+--is cleared in premissionload
+function this.IsFemaleSoldier(soldierId)
+  return this.isFemaleSoldierId[soldierId]
+end
+
+function this.SetFemaleSoldier(soldierId,isFemale)
+  local isFemale=isFemale or false
+  --InfCore.Log("SetFemaleSoldier "..tostring(soldierId).." "..tostring(isFemale))--DEBUG
+  this.isFemaleSoldierId[soldierId]=isFemale
 end
 
 return this

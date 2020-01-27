@@ -734,7 +734,7 @@ function this.GetSoldierType(soldierId)--tex> now pulls type for subtype> ORIG i
   --    end
   --  end
 
-  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  local isFemale=InfEneFova.IsFemaleSoldier(soldierId)
   local bodyInfo=nil
   if isFemale then
     bodyInfo=InfEneFova.GetFemaleBodyInfo()
@@ -794,7 +794,7 @@ function this.GetSoldierSubType(soldierId,soldierType)
   --    return InfEneFova.enemySubTypes[gvars.forceSoldierSubType]
   --  end--<
   --tex> GetSoldierSubType customSoldierType
-  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  local isFemale=InfEneFova.IsFemaleSoldier(soldierId)
   local bodyInfo=nil
   if isFemale then
     bodyInfo=InfEneFova.GetFemaleBodyInfo()
@@ -1131,7 +1131,7 @@ end
 --end
 function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSettings)
   --tex> GetBodyId customSoldierType
-  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  local isFemale=InfEneFova.IsFemaleSoldier(soldierId)
   local bodyInfo=nil
   if isFemale then
     bodyInfo=InfEneFova.GetFemaleBodyInfo()
@@ -1139,9 +1139,9 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
     bodyInfo=InfEneFova.GetMaleBodyInfo()
   end
   if bodyInfo then
-    local bodyId=bodyInfo.bodyId
+    local bodyId=InfEneFova.bodiesForMap[bodyInfo.bodyType]
     if bodyId and type(bodyId)=="table"then
-      --tex KLUDE TODO
+      --tex KLUDGE TODO
       math.randomseed(soldierId)
       math.random()
       math.random()
@@ -1149,6 +1149,7 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
 
       bodyId=bodyId[math.random(#bodyId)]
     end
+    --InfCore.Log("GetBodyId "..soldierId.." bodyId:"..tostring(bodyId).." isFemale="..tostring(isFemale))--tex DEBUG
     if bodyId then
       return bodyId
     end
@@ -1240,10 +1241,11 @@ function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSetting
   --InfCore.DebugPrint("DBG:GetBodyId soldier:"..soldierId.." soldiertype:"..soldierType.." soldierSubType:"..soldierSubType.. " bodyId:".. tostring(bodyId))--tex DEBUG
   return bodyId
 end
+--tex just a face override, not a get current face
 function this.GetFaceId(soldierId,soldierType,subTypeName,soldierConfig)
   --tex> GetFaceId customSoldierType
   local bodyInfo=nil
-  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  local isFemale=InfEneFova.IsFemaleSoldier(soldierId)
   if isFemale then
     bodyInfo=InfEneFova.GetFemaleBodyInfo()
   else
@@ -1270,7 +1272,7 @@ end
 function this.GetBalaclavaFaceId(soldierId,soldierType,subTypeName,soldierConfig)
   --tex DD/Balaclava style headgear>
   local bodyInfo=nil
-  local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
+  local isFemale=InfEneFova.IsFemaleSoldier(soldierId)
   if isFemale then
     bodyInfo=InfEneFova.GetFemaleBodyInfo()
   else
@@ -1362,6 +1364,7 @@ end
 
 function this.ApplyPowerSetting(soldierId,powerSettings)
   InfCore.PCallDebug(function(soldierId,powerSettings)--tex DEBUG PCall wrap
+    --InfCore.Log("TppEnemy.ApplyPowerSetting:"..tostring(soldierId))--tex DEBUG
     if soldierId==NULL_ID then
       return
   end
@@ -5176,7 +5179,7 @@ function this.SetupActivateQuestHostage(hostageList)
           if hostageInfo.isFaceRandom then
             faceId=TppQuest.GetRandomFaceId(mvars.qst_currentQuestName,index)--tex added index
             --tex> don't know exactly what it does, but it does fix male voices issue
-            if InfEneFova.IsFaceFemale(faceId) then
+            if InfEneFova.IsFemaleFace(faceId) then
               local command={id="SetHostage2Flag",flag="female",on=true}
               GameObject.SendCommand(hostageId,command)
             end
@@ -5325,14 +5328,14 @@ function this.OnTerminateQuest(questTable)
   mvars.ene_questVehicleList={}
   mvars.ene_isQuestSetup=false
 end
-function this.SetupTerminateQuestVehicle(n)
+function this.SetupTerminateQuestVehicle(vehicleList)
   this.DespawnVehicles(mvars.ene_questVehicleList)
 end
 function this.SetupTerminateQuestHeli(heliList)
   this.DeactivateQuestHeli()
   this.UnloadQuestHeli()
 end
-function this.SetupTerminateQuestCp(e)
+function this.SetupTerminateQuestCp(cpList)
 end
 function this.SetupTerminateQuestEnemy(enemyList)
   local isAfghan=TppLocation.IsAfghan()
@@ -5783,40 +5786,80 @@ end
 function this._RideHelicopterWithHuman(t,n,t)
   this.PlayTargetRescuedRadio(n)
 end
+--tex>
+this.cpSubTypeToLangId={
+  SOVIET_A="cmmn_ene_soviet",
+  SOVIET_B="cmmn_ene_soviet",
+  PF_A="cmmn_ene_cfa",
+  PF_B="cmmn_ene_zrs",
+  PF_C="cmmn_ene_coyote",
+  DD_A="",
+  DD_PW="cmmn_ene_pf",
+  DD_FOB="cmmn_ene_pf",
+  SKULL_AFGH="cmmn_ene_xof",
+  SKULL_CYPR="",
+  CHILD_A="",
+}
+this.announceForPhase={
+  [TppGameObject.PHASE_ALERT]="announce_phase_to_alert",
+  [TppGameObject.PHASE_EVASION]="announce_phase_to_evasion",
+  [TppGameObject.PHASE_CAUTION]="announce_phase_to_caution",
+  [TppGameObject.PHASE_SNEAK]="announce_phase_to_sneak",
+}
+--<
+--tex REWORKED
 function this._AnnouncePhaseChange(cpId,phase)
   local cpSubType=this.GetCpSubType(cpId)
-  local langId="cmmn_ene_soviet"
-  if cpSubType=="SOVIET_A"or cpSubType=="SOVIET_B"then
-    langId="cmmn_ene_soviet"
-  elseif cpSubType=="PF_A"then
-    langId="cmmn_ene_cfa"
-  elseif cpSubType=="PF_B"then
-    langId="cmmn_ene_zrs"
-  elseif cpSubType=="PF_C"then
-    langId="cmmn_ene_coyote"
-  elseif cpSubType=="DD_A"then
-    return
-  elseif cpSubType=="DD_PW"then
-    langId="cmmn_ene_pf"
-  elseif cpSubType=="DD_FOB"then
-    langId="cmmn_ene_pf"
-  elseif cpSubType=="SKULL_AFGH"then
-    langId="cmmn_ene_xof"
-  elseif cpSubType=="SKULL_CYPR"then
-    return
-  elseif cpSubType=="CHILD_A"then
+  if cpSubType==nil then
+    InfCore.Log("TppEnemy._AnnouncePhaseChange: WARNING cpSubType==nil for cpId "..tostring(cpId))
     return
   end
-  if phase==TppGameObject.PHASE_ALERT then
-    TppUiCommand.AnnounceLogViewLangId("announce_phase_to_alert",langId)
-  elseif phase==TppGameObject.PHASE_EVASION then
-    TppUiCommand.AnnounceLogViewLangId("announce_phase_to_evasion",langId)
-  elseif phase==TppGameObject.PHASE_CAUTION then
-    TppUiCommand.AnnounceLogViewLangId("announce_phase_to_caution",langId)
-  elseif phase==TppGameObject.PHASE_SNEAK then
-    TppUiCommand.AnnounceLogViewLangId("announce_phase_to_sneak",langId)
+  local cpLangId=this.cpSubTypeToLangId[cpSubType]
+  if cpLangId==nil then
+    InfCore.Log("TppEnemy._AnnouncePhaseChange: WARNING unknown cpSubType "..cpSubType.." for cpId "..tostring(cpId))
   end
+  cpLangId=cpLangId or "cmmn_ene_soviet"--tex default to sov
+  if cpLangId=="" then--tex unless specifically none
+    return
+  end
+  local announceLangId=this.announceForPhase[phase]
+  TppUiCommand.AnnounceLogViewLangId(announceLangId,cpLangId)
 end
+--ORIG
+--function this._AnnouncePhaseChange(cpId,phase)
+--  local cpSubType=this.GetCpSubType(cpId)
+--  local langId="cmmn_ene_soviet"
+--  if cpSubType=="SOVIET_A"or cpSubType=="SOVIET_B"then
+--    langId="cmmn_ene_soviet"
+--  elseif cpSubType=="PF_A"then
+--    langId="cmmn_ene_cfa"
+--  elseif cpSubType=="PF_B"then
+--    langId="cmmn_ene_zrs"
+--  elseif cpSubType=="PF_C"then
+--    langId="cmmn_ene_coyote"
+--  elseif cpSubType=="DD_A"then
+--    return
+--  elseif cpSubType=="DD_PW"then
+--    langId="cmmn_ene_pf"
+--  elseif cpSubType=="DD_FOB"then
+--    langId="cmmn_ene_pf"
+--  elseif cpSubType=="SKULL_AFGH"then
+--    langId="cmmn_ene_xof"
+--  elseif cpSubType=="SKULL_CYPR"then
+--    return
+--  elseif cpSubType=="CHILD_A"then
+--    return
+--  end
+--  if phase==TppGameObject.PHASE_ALERT then
+--    TppUiCommand.AnnounceLogViewLangId("announce_phase_to_alert",langId)
+--  elseif phase==TppGameObject.PHASE_EVASION then
+--    TppUiCommand.AnnounceLogViewLangId("announce_phase_to_evasion",langId)
+--  elseif phase==TppGameObject.PHASE_CAUTION then
+--    TppUiCommand.AnnounceLogViewLangId("announce_phase_to_caution",langId)
+--  elseif phase==TppGameObject.PHASE_SNEAK then
+--    TppUiCommand.AnnounceLogViewLangId("announce_phase_to_sneak",langId)
+--  end
+--end
 function this._IsGameObjectIDValid(e)
   local e=GetGameObjectId(e)
   if(e==NULL_ID)then

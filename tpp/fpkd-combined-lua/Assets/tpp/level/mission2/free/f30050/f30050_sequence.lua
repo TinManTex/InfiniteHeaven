@@ -12,6 +12,7 @@ local NULL_ID = GameObject.NULL_ID
 local SCRIPT_BLOCK_NAME = "demo_block"
 
 local MAX_STAFF_NUM_ON_CLUSTER = 18
+--tex SYNC InfMain
 if Ivars.mbAdditionalSoldiers:Is()>0 then--tex>
   MAX_STAFF_NUM_ON_CLUSTER = 36
 end--<
@@ -637,6 +638,11 @@ this.saveVarsList = {
   isCollect_Aflo				= false,
   isCollect_ShortAflo			= false,
   isCollect_BlackCoat			= false,
+
+  --DEBUGNOW
+  fobIrSensorGrade    = { name = "fobIrSensorGrade", type = TppScriptVars.TYPE_UINT8, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },
+  fobSecAlarmGrade    = { name = "fobSecAlarmGrade", type = TppScriptVars.TYPE_UINT8, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },
+
 }
 
 
@@ -945,6 +951,10 @@ function this.OnEndMissionPrepareSequence()
     TppSoundDaemon.PostEvent3D( "sfx_m_hanger_door_close", Vector3(soundPos[1],soundPos[2],soundPos[3]), 'Loading')
     svars.isLeaveBattleHanger = false
   end
+  
+  --DEBUGNOW
+  svars.fobIrSensorGrade = 3
+  svars.fobSecAlarmGrade = 3
 end
 
 
@@ -1395,7 +1405,9 @@ sequences.Seq_Demo_SetupCluster = {
       }
   end,
   OnEnter = function()
-
+  --DEBUGNOW
+  svars.fobIrSensorGrade = 3
+  svars.fobSecAlarmGrade = 3
 
     TppUiStatusManager.SetStatus( "AnnounceLog", "INVALID_LOG" )
 
