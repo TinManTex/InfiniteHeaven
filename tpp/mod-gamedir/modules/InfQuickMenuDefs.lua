@@ -42,5 +42,10 @@ this.inMission={
   [InfButton.DASH]={Command=InfQuickMenuCommands.ToggleCamMode},
   [InfButton.STANCE]={Command=InfMenuCommands.QuietMoveToLastMarker},
 }
+--tex cutscenes
+this.inDemo={ 
+  [InfButton.RELOAD]={Command=InfQuickMenuCommands.ToggleFreeCam},
+  [InfButton.DASH]={Command=InfQuickMenuCommands.ToggleCamMode},
+}
 
 return this

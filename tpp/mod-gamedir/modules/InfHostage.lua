@@ -1,4 +1,4 @@
---InfHostage.lua WIP
+--InfHostage.lua WIP DEBUGNOW
 local this={}
 
 --LOCALOPT
@@ -11,7 +11,7 @@ this.debugModule=false
 
 this.numHostages=4--SYNC num locators
 
-this.hostageNames=InfLookup.GenerateNameList("ih_hostage_%04d",this.numHostages)
+this.hostageNames={}
 
 this.packages={
   afgh={
@@ -24,6 +24,10 @@ this.packages={
     "/Assets/tpp/pack/mission2/ih/ih_hostage_loc.fpk",
   }
 }
+
+function this.PostAllModulesLoad()
+  this.hostageNames=InfLookup.GenerateNameList("ih_hostage_%04d",this.numHostages)
+end
 
 function this.AddMissionPacks(missionCode,packPaths)
   if not Ivars.enableWildCardHostageFREE:EnabledForMission() then
@@ -126,8 +130,7 @@ function this.SetUpEnemy(missionTable)
   end
 
   if this.debugModule then
-    InfCore.Log"jeepsWithSeats:"
-    InfCore.PrintInspect(jeepsWithSeats)
+    InfCore.PrintInspect(jeepsWithSeats,{varName="jeepsWithSeats"})
   end
 
   for i,hostageName in ipairs(this.hostageNames)do

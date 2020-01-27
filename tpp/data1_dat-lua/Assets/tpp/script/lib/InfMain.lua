@@ -18,8 +18,10 @@ local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
 local Enum=TppDefine.Enum
 local StrCode32=InfCore.StrCode32
+local GetPlayingDemoId=DemoDaemon.GetPlayingDemoId
+local IsDemoPaused=DemoDaemon.IsDemoPaused
+local IsDemoPlaying=DemoDaemon.IsDemoPlaying
 
-this.modulesOK=false
 this.appliedProfiles=false
 
 --STATE
@@ -290,7 +292,7 @@ function this.AddMissionPacks(missionCode,packPaths)
     end
   end
 
-  InfCore.PrintInspect(packPaths)--DEBUG
+  InfCore.PrintInspect(packPaths,{varName="packPaths"})--DEBUG
 end
 
 --tex called via TppSequence Seq_Mission_Prepare.OnUpdate > TppMain.OnMissionCanStart
@@ -323,13 +325,13 @@ function this.OnMissionCanStartBottom()
   if Ivars.repopulateRadioTapes:Is(1) then
     Gimmick.ForceResetOfRadioCassetteWithCassette()
   end
-  
+
   if Ivars.disableOutOfBoundsChecks:Is(1) then
     mvars.mis_ignoreAlertOfMissionArea=true
     local trapName="trap_mission_failed_area"
     local enable=false
     TppTrap.ChangeNormalTrapState(trapName,enable)
-    TppTrap.ChangeTriggerTrapState(trapName,enable)   
+    TppTrap.ChangeTriggerTrapState(trapName,enable)
   end
 
   --end)--DEBUG
@@ -683,7 +685,7 @@ end
 
 --Caller heli_common_sequence.Seq_Game_MainGame.OnEnter
 function this.OnEnterACC()
-  if not this.modulesOK then
+  if not InfCore.mainModulesOK then
     this.ModuleErrorMessage()
   else
     InfMenu.ModWelcome()
@@ -716,6 +718,7 @@ this.execChecks={
   inGame=false,--tex actually loaded game, ie at least 'continued' from title screen
   inHeliSpace=false,
   inMission=false,
+  inDemo=false,
   initialAction=false,--tex mission actually started/reached ground, triggers on checkpoint save so might not be valid for some uses
   inGroundVehicle=false,
   inSupportHeli=false,
@@ -737,6 +740,7 @@ function this.UpdateExecChecks(currentChecks)
   currentChecks.inGame=not mvars.mis_missionStateIsNotInGame
   currentChecks.inHeliSpace=vars.missionCode and TppMission.IsHelicopterSpace(vars.missionCode)
   currentChecks.inMission=currentChecks.inGame and not currentChecks.inHeliSpace
+  currentChecks.inDemo=currentChecks.inGame and (IsDemoPaused() or IsDemoPlaying() or GetPlayingDemoId()) 
 
   if currentChecks.inGame then
     local playerVehicleId=vars.playerVehicleGameObjectId
@@ -771,7 +775,7 @@ function this.Update()
     this.DoControlSet(currentChecks)
 
     ---Update shiz
-    if not this.modulesOK then
+    if not InfCore.mainModulesOK then
       if InfButton.OnButtonHoldTime(InfMenu.toggleMenuButton) then
         this.ModuleErrorMessage()
       end
@@ -862,7 +866,7 @@ function this.DoControlSet(currentChecks)
       end
       InfCore.DebugPrint("LoadExternalModules")
       this.LoadExternalModules(true)
-      if not this.modulesOK then
+      if not InfCore.mainModulesOK then
         this.ModuleErrorMessage()
       end
     end
@@ -1913,7 +1917,8 @@ end
 function this.LoadExternalModules(isReload)
   InfCore.LogFlow"InfMain.LoadExternalModules"
 
-  this.modulesOK=true
+  InfCore.mainModulesOK=true
+  InfCore.otherModulesOK=true
 
   if isReload then
     InfCore.files=InfCore.PCallDebug(InfCore.RefreshFileList)
@@ -1936,7 +1941,7 @@ function this.LoadExternalModules(isReload)
       table.insert(InfModules.moduleNames,moduleName)
     end
   end
-  InfCore.PrintInspect(InfModules.moduleNames)--DEBUG
+  InfCore.PrintInspect(InfModules.moduleNames,{varName="InfModules.moduleNames"})--DEBUG
 
   for i,moduleName in ipairs(InfModules.moduleNames) do
     InfCore.LoadExternalModule(moduleName,isReload)
@@ -1946,7 +1951,11 @@ function this.LoadExternalModules(isReload)
       module.name=moduleName
       table.insert(InfModules,module)
     else
-      this.modulesOK=false
+      if InfModules.isCoreModule[moduleName] then
+        InfCore.mainModulesOK=false
+      else
+        InfCore.otherModulesOK=false
+      end
     end
   end
 
@@ -1973,6 +1982,14 @@ function this.LoadExternalModules(isReload)
   --  InfCore.Log"--------------"
   --  InfCore.PrintInspect(Ivars.profileNames)
   --  InfCore.PrintInspect(Ivars.profiles)
+end
+
+
+function this.ModDirErrorMessage()
+  --tex TODO: if InfLang then printlangid else -v-
+  local msg="Infinite Heaven: Could not find MGS_TPP\\mod\\. See Installation.txt"
+  InfCore.DebugPrint(msg)
+  InfCore.Log(msg,false,true)
 end
 
 function this.ModuleErrorMessage()
@@ -2041,7 +2058,7 @@ _G.InfMain=this--WORKAROUND allowing external modules access to this before it's
 if Mock==nil then
   InfCore.LogFlow"InfMain Exec"
   this.LoadExternalModules()
-  if not this.modulesOK then
+  if not InfCore.mainModulesOK then
     this.ModuleErrorMessage()
   end
   InfCore.doneStartup=true

@@ -36,7 +36,7 @@
 <div id="menuItem">Reload lua scripts in MGS_TPP without exiting game.</div>
 <div id="itemHelp">Hold &ltStance&gt,&ltAction&gt,&ltReady weapon&gt,&ltBinoculars&gt (Can also use the loadExternalModules command in the Debug menu)</div>
 <div id="menuItem">New sideops for Mother Base.</div>
-<div id="itemHelp">Adds 3 new animal capture sideops for Mother Base.</div>
+<div id="itemHelp">Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.</div>
 </div>
 <br/>
 <div id="menu">
@@ -1363,16 +1363,20 @@
 <div>3: Select MB cutscene (REQ: Play selected) : &ltCutscene ids&gt</div>
 </div>
 <div id="menuItem">
-<div>4: Override time : Cutscene default, Current, Custom</div>
+<div>4: Force allow actions : Off, On</div>
+<div id="itemHelp">Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod from the IH files page.</div>
 </div>
 <div id="menuItem">
-<div>5: Hour : 0-23</div>
+<div>5: Override time : Cutscene default, Current, Custom</div>
 </div>
 <div id="menuItem">
-<div>6: Minute : 0-59</div>
+<div>6: Hour : 0-23</div>
 </div>
 <div id="menuItem">
-<div>7: Override weather : Cutscene default, Current, Sunny, Cloudy, Rainy, Sandstorm, Foggy, Pouring</div>
+<div>7: Minute : 0-59</div>
+</div>
+<div id="menuItem">
+<div>8: Override weather : Cutscene default, Current, Sunny, Cloudy, Rainy, Sandstorm, Foggy, Pouring</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2042,43 +2046,40 @@
 <div>8: setSelectedCpToMarkerObjectCp : (Command)</div>
 </div>
 <div id="menuItem">
-<div>9: printPressedButtons : Off, On</div>
+<div>9: DEBUG_PrintCpPowerSettings : (Command)</div>
 </div>
 <div id="menuItem">
-<div>10: DEBUG_PrintCpPowerSettings : (Command)</div>
+<div>10: DEBUG_PrintPowersCount : (Command)</div>
 </div>
 <div id="menuItem">
-<div>11: DEBUG_PrintPowersCount : (Command)</div>
+<div>11: DEBUG_PrintReinforceVars : (Command)</div>
 </div>
 <div id="menuItem">
-<div>12: DEBUG_PrintReinforceVars : (Command)</div>
+<div>12: DEBUG_PrintSoldierDefine : (Command)</div>
 </div>
 <div id="menuItem">
-<div>13: DEBUG_PrintSoldierDefine : (Command)</div>
+<div>13: DEBUG_ShowRevengeConfig : (Command)</div>
 </div>
 <div id="menuItem">
-<div>14: DEBUG_ShowRevengeConfig : (Command)</div>
+<div>14: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>15: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>16: printPressedButtons : Off, On</div>
+<div>16: printOnBlockChange : Off, On</div>
 </div>
 <div id="menuItem">
-<div>17: printOnBlockChange : Off, On</div>
+<div>17: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>18: Disable game over : Off, On</div>
+<div>18: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>19: Disable out of bounds checks : Off, On</div>
+<div>19: setAllFriendly : (Command)</div>
 </div>
 <div id="menuItem">
-<div>20: setAllFriendly : (Command)</div>
-</div>
-<div id="menuItem">
-<div>21: Show position : (Command)</div>
+<div>20: Show position : (Command)</div>
 </div>
 <div id="menuItem">
 </div>

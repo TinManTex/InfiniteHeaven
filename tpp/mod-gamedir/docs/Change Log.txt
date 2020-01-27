@@ -1,5 +1,18 @@
 Infinite Heaven changelog
 
+r200 - 2017-03-05
+Option: forceDemoAllowAction - "Force allow actions" - Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod on the IH files page.
+(via Cutscenes menu)
+
+Feature: Quickmenu binds for when cutscenes running, currently only Free cam useful with above option and Disable cutscene camera mod.
+
+Refactor: Non critical external modules failing to load will no longer block the IH menu from opening - thanks CantStoptheBipBop for the report.
+Fixed: Skull attack on quarantine platform failing part way through ParasiteAppear - thanks pk5547 for the report.
+Fixed: Cutscene reset.
+Fixed: Using mbShowCodeTalker - "Show Code Talker" option on a save before meeting him causing infinite load - thanks junguler for the report.
+Fixed: Quick heli pull-out toggle no longer triggers if idroid open.
+Fixed: FreeCam code not disabling when changing level.
+
 r199 - 2017-02-11
 Fixed: Lack of error message when MGS_TPP\mod or subfolders missing.
 

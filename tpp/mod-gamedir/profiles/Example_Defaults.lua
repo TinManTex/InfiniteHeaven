@@ -1,9 +1,9 @@
 -- Example_Defaults.lua
--- Defaults / example of all profile options for IH r199
+-- Defaults / example of all profile options for IH r200
   
 -- Profiles are lists of settings for IH options. 
--- IH only reads this file/does not write to it. 
--- In-game the settings are saved to your save file when the IH menu closes, or the mission saves (usually during mission load).
+-- IH only reads this file/does not write to it.
+-- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
 
 -- See Features and Options.html for longer descriptions of some settings.
 
@@ -268,6 +268,7 @@ local this={
 		--Cutscenes menu
 		mbDemoSelection=0,--{ DEFAULT, PLAY, DISABLED } -- MB cutscene play mode
 		mbSelectedDemo=0,--{ 0-1 } -- Select MB cutscene (REQ: Play selected)
+		forceDemoAllowAction=0,--{ 0-1 } -- Force allow actions
 		mbDemoOverrideTime=0,--{ DEFAULT, CURRENT, CUSTOM } -- Override time
 		mbDemoHour=0,--{ 0-23 } -- Hour
 		mbDemoMinute=0,--{ 0-59 } -- Minute

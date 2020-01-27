@@ -1209,8 +1209,7 @@ function this.CreateCustomWeaponTable(missionCode,settingsTable)
     end
   end
 
-  InfCore.Log"activeTypes:"
-  InfCore.PrintInspect(activeTypes)
+  InfCore.PrintInspect(activeTypes,{varName="activeTypes"})
 
   if noneActive then
     InfCore.DebugPrint"WARNING: CreateCustomWeaponTable - no weapon types set."--DEBUG

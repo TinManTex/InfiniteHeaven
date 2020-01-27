@@ -1,5 +1,5 @@
 = Infinite heaven =
-r199 - 2017-02-11
+r200 - 2017-03-05
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -24,7 +24,20 @@ NOTE: Infinite Heaven has been restructured, with some of its files now loading 
 
 NOTE: Infinite Heaven now uses SnakeBite 0.8.4, get it here: http://www.nexusmods.com/metalgearsolidvtpp/mods/106
 
-New for 199:
+New for r200:
+Option: forceDemoAllowAction - "Force allow actions" - Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod on the IH files page.
+(via Cutscenes menu)
+
+Feature: Quickmenu binds for when cutscenes running, currently only Free cam useful with above option and Disable cutscene camera mod.
+
+Fixed: Non critical external modules failing to load will no longer block the IH menu from opening - thanks CantStoptheBipBop for the report.
+Fixed: Skull attack on quarantine platform failing part way through ParasiteAppear - thanks pk5547 for the report.
+Fixed: Cutscene reset.
+Fixed: Using mbShowCodeTalker - "Show Code Talker" option on a save before meeting him causing infinite load - thanks junguler for the report.
+Fixed: Quick heli pull-out toggle no longer triggers if idroid open.
+Fixed: FreeCam code not disabling when changing level.
+
+New for r199:
 Fixed: Crashland event not triggering injury.
 Feature: Pause/resume playing cutscenes by pressing Quickdive
 Feature: Restart cutscene by pressing Reload

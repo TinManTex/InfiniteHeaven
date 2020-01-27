@@ -1416,7 +1416,7 @@ function this._CreateRevengeConfig(revengeTypes)
     end
   end
   InfCore.Log"TppRevenge._CreateRevengeConfig"--tex DEBUG
-  InfCore.PrintInspect(revengeConfig)--tex DEBUG
+  InfCore.PrintInspect(revengeConfig,{varName="revengeConfig"})--tex DEBUG
   return revengeConfig
 end
 --INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig

@@ -389,8 +389,7 @@ function this.Init(missionTable,currentChecks)
     end
   end
 
-  InfCore.Log"InfNPCHeli heliList"--DEBUG
-  InfCore.PrintInspect(this.heliList)--DEBUG
+  InfCore.PrintInspect(this.heliList,{varName="InfNPCHeli.heliList"})--DEBUG
 end
 
 function this.OnMissionCanStart(currentChecks)

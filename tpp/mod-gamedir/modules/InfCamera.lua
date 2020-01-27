@@ -2,11 +2,11 @@
 local this={}
 --LOCALOPT
 local InfMain=InfMain
---
+local IsDemoPaused=DemoDaemon.IsDemoPaused
+local IsDemoPlaying=DemoDaemon.IsDemoPlaying
 
 --tex updateState
 this.active=Ivars.adjustCameraUpdate
-this.execCheckTable={inGame=true}
 this.execState={
   nextUpdate=0,
 }
@@ -149,11 +149,14 @@ end
 function this.Update(currentChecks,currentTime,execChecks,execState)
   --InfCore.PCall(function(currentChecks,currentTime,execChecks,execState)--DEBUG
   local Ivars=Ivars
+
   if not currentChecks.inGame then
-    if Ivars.adjustCameraUpdate:Is(1) then
-      Ivars.adjustCameraUpdate:Set(0)
+    if not IsDemoPaused() and not IsDemoPlaying() then
+      if Ivars.adjustCameraUpdate:Is(1) then
+        Ivars.adjustCameraUpdate:Set(0)
+      end
+      return
     end
-    return
   end
 
   if Ivars.adjustCameraUpdate:Is(0) then
@@ -220,14 +223,14 @@ function this.DoControlSet(currentChecks)
   if not InfButton.ButtonDown(InfMain.resetModeButton) then--tex reusing these buttons in reset mode
     if InfButton.ButtonDown(InfMain.moveUpButton)
       or InfButton.OnButtonRepeat(InfMain.moveUpButton) then
-      moveY=moveAmount*currentMoveScale
-      didMove=true
-    end
-    if InfButton.ButtonDown(InfMain.moveDownButton)
-      or InfButton.OnButtonRepeat(InfMain.moveDownButton) then
-      moveY=-moveAmount*currentMoveScale
-      didMove=true
-    end
+    moveY=moveAmount*currentMoveScale
+    didMove=true
+  end
+  if InfButton.ButtonDown(InfMain.moveDownButton)
+    or InfButton.OnButtonRepeat(InfMain.moveDownButton) then
+    moveY=-moveAmount*currentMoveScale
+    didMove=true
+  end
   end
 
   if not currentChecks.inMenu then

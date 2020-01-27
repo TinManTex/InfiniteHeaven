@@ -22,7 +22,7 @@ ivars={}--tex GLOBAL
 evars={}--tex GLOBAL
 
 --EXEC
-if not InfCore.fatal then
+if not InfCore.modDirFail then
   InfCore.LoadExternalModule"Ivars"
   if Ivars==nil then
     InfCore.Log"Ivars==nil"--DEBUG

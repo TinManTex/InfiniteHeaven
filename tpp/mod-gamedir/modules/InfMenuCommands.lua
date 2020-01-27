@@ -289,21 +289,21 @@ this.printSightFormParameter={
 this.printHearingTable={
   OnChange=function()
     InfSoldierParams.ApplyHearingIvarsToSoldierParams()
-    InfCore.PrintInspect(InfSoldierParams.soldierParameters.hearingRangeParameter,true,true)
+    InfCore.PrintInspect(InfSoldierParams.soldierParameters.hearingRangeParameter,{varName="hearingRangeParameter",announceLog=true,force=true})
   end,
 }
 
 this.printHealthTableParameter={
   OnChange=function()
     InfSoldierParams.ApplyHealthIvarsToSoldierParams()
-    InfCore.PrintInspect(InfSoldierParams.lifeParameterTable,true,true)
+    InfCore.PrintInspect(InfSoldierParams.lifeParameterTable,{varName="lifeParameterTable",announceLog=true,force=true})
   end,
 }
 
 this.printCustomRevengeConfig={
   OnChange=function()
     local revengeConfig=InfRevenge.CreateCustomRevengeConfig()
-    InfCore.PrintInspect(revengeConfig,true,true)
+    InfCore.PrintInspect(revengeConfig,{varName="revengeConfig",announceLog=true,force=true})
   end
 }
 
@@ -405,7 +405,7 @@ this.setSelectedCpToMarkerObjectCp={
     end
 
     InfCore.DebugPrint(cpName.." not found in ene_cpList")
-    InfCore.PrintInspect(mvars.ene_cpList,true,true)
+    InfCore.PrintInspect(mvars.ene_cpList,{varName="mvars.ene_cpList",announceLog=true,force=true})
   end
 }
 function this.QuietMoveToLastMarker()
@@ -626,7 +626,7 @@ this.DEBUG_PrintInterrogationInfo={
 
 local toggle1=false
 local index1Min=1
-local index1Max=3
+local index1Max=10
 local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
@@ -648,7 +648,10 @@ local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
-    
+
+
+
+
 
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
@@ -1044,25 +1047,23 @@ this.DEBUG_ShowRevengeConfig={
   OnChange=function()
     --InfCore.DebugPrint("RevRandomValue: "..gvars.rev_revengeRandomValue)
     InfCore.DebugPrint("RevengeType:")
-    InfCore.PrintInspect(mvars.revenge_revengeType)
+    InfCore.PrintInspect(mvars.revenge_revengeType,{varName="mvars.revenge_revengeType"})
 
     InfCore.DebugPrint("RevengeConfig:")
-    InfCore.PrintInspect(mvars.revenge_revengeConfig)
+    InfCore.PrintInspect(mvars.revenge_revengeConfig,{varName="mvars.revenge_revengeConfig"})
   end,
 }
 
 this.DEBUG_PrintSoldierDefine={
   OnChange=function()
-    InfCore.Log("SoldierDefine:",true)
-    InfCore.PrintInspect(mvars.ene_soldierDefine)
+    InfCore.PrintInspect(mvars.ene_soldierDefine,{varName="mvars.ene_soldierDefine"})
   end,
 }
 
 
 this.DEBUG_PrintSoldierIDList={
   OnChange=function()
-    InfCore.DebugPrint("SoldierIdList:")
-    InfCore.PrintInspect(mvars.ene_soldierIDList)
+    InfCore.PrintInspect(mvars.ene_soldierIDList,{varName="mvars.ene_soldierIDList"})
   end,
 }
 

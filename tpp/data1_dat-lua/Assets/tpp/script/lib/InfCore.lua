@@ -13,15 +13,20 @@ local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
 
 local InfCore=this
 
-this.modVersion="199"
+local emptyTable={}
+
+this.modVersion="200"
 this.modName="Infinite Heaven"
 
 --STATE
 this.debugMode=true--tex (See GOTCHA below -v-)
+--tex TODO combine into loadState
 this.doneStartup=false
-this.fatal=false
+this.modDirFail=false
 this.ihSaveFirstLoad=false
 this.gameSaveFirstLoad=false
+this.mainModulesOK=false
+this.otherModulesOK=false
 
 this.log={}
 
@@ -215,13 +220,18 @@ function this.PCallDebug(func,...)
   end
 end
 
-function this.PrintInspect(inspectee,announceLog,force)
-  if not this.debugMode and not force then
+function this.PrintInspect(var,options)
+  if not this.debugMode and (options and not options.force) then
     return
   end
+  
+  options=options or emptyTable
 
-  local ins=InfInspect.Inspect(inspectee)
-  this.Log(ins,announceLog)
+  local ins=InfInspect.Inspect(var)
+  if options.varName then
+    ins=options.varName.."="..ins
+  end
+  this.Log(ins,options.announceLog)
 end
 
 --tex altered from Tpp.DEBUG_Where
@@ -325,7 +335,7 @@ function this.LoadExternalModule(moduleName,isReload,skipPrint)
   package.loaded[moduleName]=nil
   local sucess,module=pcall(require,moduleName)
   if not sucess then
-    InfCore.Log(module,false,true)
+    InfCore.Log("ERROR: "..module,false,true)
     --tex suppress on startup so it doesnt crowd out ModuleErrorMessage for user.
     if InfCore.doneStartup and not skipPrint then
       InfCore.DebugPrint("Could not load module "..moduleName)
@@ -553,7 +563,7 @@ package.path=package.path..addPaths
 this.CopyFileToPrev(this.paths.mod,this.logFileName,".txt")
 local error=this.ClearFile(this.paths.mod,this.logFileName,".txt")
 if error then
-  this.fatal=true
+  this.modDirFail=true
 else
   local time=os.date("%x %X")
   this.Log("InfCore start "..time)

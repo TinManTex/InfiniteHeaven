@@ -516,8 +516,7 @@ function this.AddLrrps(soldierDefine,travelPlans,lrrpDefines,emptyCpPool)
 
   if this.debugModule then
     InfCore.Log("AddLrrps: addedLrrpCount:"..addedLrrpCount)
-    InfCore.Log"InfMain.lrrpDefines"
-    InfCore.PrintInspect(lrrpDefines)
+    InfCore.PrintInspect(lrrpDefines,{varName="InfMain.lrrpDefines"})
   end
 end
 
@@ -564,9 +563,8 @@ function this.ModifyLrrpSoldiers(soldierDefine,soldierPool)
   if this.debugModule then
     local poolChange=#soldierPool-initPoolSize
     InfCore.Log("ModifyLrrpSoldiers #soldierPool:"..#soldierPool.." pool change:"..poolChange)
-    InfCore.PrintInspect(soldierPool)
-    InfCore.Log"seatChanges"
-    InfCore.PrintInspect(seatChanges)
+    InfCore.PrintInspect(soldierPool,{varName="soldierPool"})
+    InfCore.PrintInspect(seatChanges,{varName="seatChanges"})
   end
 
   InfMain.RandomResetToOsTime()
@@ -784,11 +782,9 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
 
   --DEBUG
   if this.debugModule then
-    InfCore.Log"ene_wildCardInfo:"
-    InfCore.PrintInspect(this.ene_wildCardInfo)
+    InfCore.PrintInspect(this.ene_wildCardInfo,{varName="ene_wildCardInfo"})
     local uniqueSettings=TppEneFova.GetUniqueSettings()
-    InfCore.Log"TppEneFova uniqueSettings"
-    InfCore.PrintInspect(uniqueSettings)
+    InfCore.PrintInspect(uniqueSettings,{varName="TppEneFova uniqueSettings"})
 
     --InfCore.DebugPrint("numadded females:"..tostring(numFemales))--DEBUG
 
@@ -932,27 +928,27 @@ end
 
 function this.ModMissionTableTop(missionTable,emptyCpPool)
   if this.debugModule then
-    InfCore.Log("----ModMissionTableTop----")
+    InfCore.LogFlow("InfNPC.ModMissionTableTop")
     InfCore.Log("#soldierPool:"..#InfMain.soldierPool)
-    InfCore.PrintInspect(InfMain.soldierPool)
+    InfCore.PrintInspect(InfMain.soldierPool,{varName="InfMain.soldierPool"})
 
     InfCore.Log("#emptyCpPool:"..#emptyCpPool)
-    InfCore.PrintInspect(emptyCpPool)
+    InfCore.PrintInspect(emptyCpPool,{varName="emptyCpPool"})
 
     local baseCpPool=InfMain.BuildBaseCpPool(missionTable.enemy.soldierDefine)
     InfCore.Log("#baseCpPool:"..#baseCpPool)
-    InfCore.PrintInspect(baseCpPool)
+    InfCore.PrintInspect(baseCpPool,{varName="baseCpPool"})
   end
 end
 
 function this.ModMissionTableBottom(missionTable,emptyCpPool)
   if this.debugModule then
-    InfCore.Log("----ModMissionTableBottom----")
+    InfCore.LogFlow("InfNPC.ModMissionTableBottom")    
     InfCore.Log("#soldierPool:"..#InfMain.soldierPool)
-    InfCore.PrintInspect(InfMain.soldierPool)
-
+    InfCore.PrintInspect(InfMain.soldierPool,{varName="InfMain.soldierPool"})
+    
     InfCore.Log("#emptyCpPool:"..#emptyCpPool)
-    InfCore.PrintInspect(emptyCpPool)
+    InfCore.PrintInspect(emptyCpPool,{varName="emptyCpPool"})
   end
 end
 

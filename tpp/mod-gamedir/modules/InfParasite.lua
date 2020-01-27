@@ -542,7 +542,7 @@ function this.OnDying(gameId)
   if this.debugModule then
     InfCore.Log("OnDying is para",true)
   end
-  InfCore.PrintInspect(states)--DEBUG
+  InfCore.PrintInspect(states,{varName="states"})--DEBUG
   
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
@@ -576,7 +576,7 @@ function this.OnFulton(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
 
   states[parasiteIndex]=stateTypes.FULTONED
 
-  InfCore.PrintInspect(states)
+  InfCore.PrintInspect(states,{varName="states"})
 
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
@@ -728,7 +728,7 @@ function this.ParasiteAppear()
       closestPos=playerPos
     end
 
-    InfCore.Log("ParasiteAppear "..this.parasiteType.." closestCp:"..closestCp.. " "..InfMenu.CpNameString(closestCp),this.debugModule)
+    InfCore.Log("ParasiteAppear "..this.parasiteType.." closestCp:"..tostring(closestCp),this.debugModule)
 
 
     this.lastContactTime=Time.GetRawElapsedTimeSinceStartUp()+timeOuts[this.parasiteType]

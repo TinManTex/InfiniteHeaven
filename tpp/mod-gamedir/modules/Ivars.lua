@@ -495,6 +495,12 @@ this.mbSelectedDemo={
   end,
 }
 
+this.forceDemoAllowAction={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 this.mbDemoOverrideTime={
   save=EXTERNAL,
   settings={"DEFAULT","CURRENT","CUSTOM"},
@@ -2423,7 +2429,7 @@ this.faceDecoFova={
       table.insert(settingsTable,param)
     end
     InfMain.SortAscend(settingsTable)
-    InfCore.PrintInspect(settingsTable)--DEBUG
+    InfCore.PrintInspect(settingsTable,{varName="Ivars.faceDecoFova.settingsTable"})--DEBUG
     self.settingsTable=settingsTable
     self.range.max=#settingsTable-1
   end,

@@ -193,6 +193,7 @@ this.demosMenu={
     Ivars.useSoldierForDemos,
     Ivars.mbDemoSelection,
     Ivars.mbSelectedDemo,
+    Ivars.forceDemoAllowAction,--DEBUGNOW
     Ivars.mbDemoOverrideTime,
     Ivars.mbDemoHour,
     Ivars.mbDemoMinute,
@@ -627,7 +628,6 @@ this.debugInMissionMenu={
     --InfMenuCommands.DEBUG_PrintEnemyFova,
     Ivars.selectedCp,
     InfMenuCommands.setSelectedCpToMarkerObjectCp,--DEBUG
-    Ivars.printPressedButtons,
     InfMenuCommands.DEBUG_PrintCpPowerSettings,
     InfMenuCommands.DEBUG_PrintPowersCount,
     --InfMenuCommands.DEBUG_PrintCpSizes,

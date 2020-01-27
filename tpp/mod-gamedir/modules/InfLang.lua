@@ -537,6 +537,7 @@ this.eng={--english
   DEBUG_PrintRevengePoints="Print enemy prep levels",
   disableOutOfBoundsChecks="Disable out of bounds checks",
   disableGameOver="Disable game over",
+  forceDemoAllowAction="Force allow actions",
 }--eng end
 
 this.help={}
@@ -695,6 +696,7 @@ this.help.eng={
   resetSelectedProfile="Sets the options described in the selected profile to their default setting.",
   sideOpsCategoryMenu="Filters selection of sideops per category, Sideop selection mode will override this.",
   enableResourceScale="Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)",
+  forceDemoAllowAction="Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod from the IH files page.",
 }
 
 this.cpNames={

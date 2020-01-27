@@ -505,24 +505,24 @@ local function XmlTest()
 
   -- simple print
   local SLAXML=require"slaxml"
-  local xmlFile=[[D:\Projects\MGS\!InfiniteHeaven\!modfpk\Assets\tpp\pack\mission2\free\f30010\f30010_fpkd\Assets\tpp\level\mission2\free\f30010\f30010_item.fox2.xml]]
+  local xmlFile=[[J:\GameData\MGS\demofilesnocam\Assets\tpp\pack\mission2\free\f30050\f30050_d071_fpkd\Assets\tpp\demo\fox_project\p51_010020\fox\p51_010020_demo.fox2.xml]]
   local myxml=io.open(xmlFile):read('*all')
   --SLAXML:parse(myxml)
 
-  SLAXML:parser{
-    startElement = function(name,nsURI,nsPrefix) print("startElement:"..name)      end, -- When "<foo" or <x:foo is seen
-    attribute    = function(name,value,nsURI,nsPrefix) end, -- attribute found on current element
-    closeElement = function(name,nsURI)                end, -- When "</foo>" or </x:foo> or "/>" is seen
-    text         = function(text)                      end, -- text and CDATA nodes
-    comment      = function(content)                   end, -- comments
-    pi           = function(target,content)            end, -- processing instructions e.g. "<?yes mon?>"
-  }:parse(myxml)
+  --  SLAXML:parser{
+  --    startElement = function(name,nsURI,nsPrefix) print("startElement:"..name)      end, -- When "<foo" or <x:foo is seen
+  --    attribute    = function(name,value,nsURI,nsPrefix) end, -- attribute found on current element
+  --    closeElement = function(name,nsURI)                end, -- When "</foo>" or </x:foo> or "/>" is seen
+  --    text         = function(text)                      end, -- text and CDATA nodes
+  --    comment      = function(content)                   end, -- comments
+  --    pi           = function(target,content)            end, -- processing instructions e.g. "<?yes mon?>"
+  --  }:parse(myxml)
 
   --sinple to table
-  --  local SLAXML = require 'slaxdom' -- also requires slaxml.lua; be sure to copy both files
-  --  local doc = SLAXML:dom(myxml)
-  --  local ins=InfInspect.Inspect(doc)
-  --  print(ins)
+  local SLAXML = require 'slaxdom' -- also requires slaxml.lua; be sure to copy both files
+  local doc = SLAXML:dom(myxml)
+  local ins=InfInspect.Inspect(doc)
+  print(ins)
 end
 
 --<end xmlparse
@@ -927,14 +927,96 @@ local function GenerateLzs()
   print(insp)
 end
 
+local function PatchDemos()
+  print"PatchDemos"
+  --TODO doesnt cover more than one demodata in a file
+  local demosPath=[[J:\GameData\MGS\demofilesnocam\]]
+  local outFile=demosPath.."demoFileNames.txt"
+  local cmd=[[dir /b /s "]]..demosPath..[[*.xml" > "]]..outFile
+  print(cmd)
+  os.execute(cmd)
+
+  local file=io.open(outFile,"r")
+  local demoFiles = {}
+  -- read the lines in table 'lines'
+  for line in file:lines() do
+    table.insert(demoFiles, line)
+  end
+  file:close()
+
+
+  local nl='\n'
+
+  for i,fileName in ipairs(demoFiles)do
+    local newDoc=""
+
+    --
+    local propertyLocations={}
+
+    --local fileName=[[J:\GameData\MGS\demofilesnocam\Assets\tpp\pack\mission2\free\f30050\f30050_d071_fpkd\Assets\tpp\demo\fox_project\p51_010020\fox\p51_010020_demo.fox2.xml]]
+    print(fileName)
+    local file=io.open(fileName,"r")
+    local fileLines={}
+    -- read the lines in table 'lines'
+    for line in file:lines()do
+      table.insert(fileLines,line)
+    end
+    file:close()
+
+    --tex find cameratypes and mark start/end of lines in that property
+    for lineNumber,line in ipairs(fileLines)do
+      if string.find(line,[[<property name="cameraTypes"]]) then
+        if not string.find(line,[[/>]]) then--tex skip empty
+          if not string.find(fileLines[lineNumber+1],[[</property>]]) then--tex also skip empty
+            propertyLocations[#propertyLocations+1]={}
+            propertyLocations[#propertyLocations][1]=lineNumber+1
+            --tex find closing
+            for ln=lineNumber+1,#fileLines do
+              if string.find(fileLines[ln],[[</property>]]) then
+                propertyLocations[#propertyLocations][2]=ln-1
+                break
+              end
+            end
+          end
+        end
+      end
+    end
+
+    --tex build lookup for simplicity
+    local skipLines={}
+    for i,propertyLineInfo in ipairs(propertyLocations) do
+      for i=propertyLineInfo[1],propertyLineInfo[2]do
+        skipLines[i]=true
+      end
+    end
+
+    local newDoc={}
+    for lineNumber,line in ipairs(fileLines)do
+      if not skipLines[lineNumber]then
+        newDoc[#newDoc+1]=line
+      end
+    end
+
+    local ins=InfInspect.Inspect(propertyLocations)
+    print(ins)
+
+    local ins=InfInspect.Inspect(skipLines)
+    print(ins)
+
+
+    --local ins=InfInspect.Inspect(newDoc)
+    --print(ins)
+    --DEBUGlocal fileName=[[J:\GameData\MGS\demofilesnocam\Assets\tpp\pack\mission2\free\f30050\f30050_d071_fpkd\Assets\tpp\demo\fox_project\p51_010020\fox\p51_010020_demoP.fox2.xml]]
+    local file=io.open(fileName,"w")
+    file:write(table.concat(newDoc,nl))
+    file:close()
+
+  end
+
+end
+
 local function main()
   print("main()")
-
-
-
-
-
-
 
   print(package.path)
 
@@ -967,7 +1049,8 @@ local function main()
   --  LangDictionaryAttack=require"LangDictionaryAttack"
   --  LangDictionaryAttack.Run()
   --Data=require"Data"
-  --XmlTest()
+  -- XmlTest()
+  PatchDemos()
 
   --local ExtensionOrder=require"ExtensionOrder"
 
@@ -1007,7 +1090,7 @@ local function main()
 
 
 
-  GenerateLzs()
+  -- GenerateLzs()
 
 
   print"main done"
@@ -1048,5 +1131,7 @@ end
 --function e.stealthItemType(item)
 --  return stealthItems[item]
 --end
+
+
 
 main()

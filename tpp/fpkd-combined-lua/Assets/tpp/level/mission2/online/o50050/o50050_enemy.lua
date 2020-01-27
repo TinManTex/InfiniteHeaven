@@ -346,8 +346,6 @@ end
 
  
 this.SetFriendly = function()
-  if true then return end--EXP
-
 	Fox.Log("*** SetFriendly *** ")
 	local GetGameObjectId = GameObject.GetGameObjectId
 	local SendCommand = GameObject.SendCommand
@@ -628,17 +626,17 @@ this.SetUpEnemy = function ()
 
 	
 	if vars.fobSneakMode == FobMode.MODE_SHAM then
-		--EXP OFF this.SetupPracticeMode()
+		this.SetupPracticeMode()
 	end
 
 	
 	if vars.fobSneakMode == FobMode.MODE_VISIT then
-		--EXP OFF this.SetFriendly()
+		this.SetFriendly()
 		
-		--EXP OFF this.SetFriendly()if TppMotherBaseManagement.IsMbsOwner{} ~= true then
+		if TppMotherBaseManagement.IsMbsOwner{} ~= true then
 			Fox.Log("### Not Owner ###")
-			--EXP OFF this.SetFriendly()this.SetSaluteMoraleDisableAll()
-		--EXP OFF this.SetFriendly()end
+			this.SetSaluteMoraleDisableAll()
+		end
 	end
 
 	

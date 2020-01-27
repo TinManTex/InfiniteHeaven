@@ -52,6 +52,8 @@ Chunk.INDEX_MTBS=3
 Chunk.INDEX_MTBS=3
 Chunk.INDEX_MGO=4
 
+DemoDaemon={}
+
 --mock
 local mainGame={}
 mainGame.CreateScene=function(self,sceneName)return{}end

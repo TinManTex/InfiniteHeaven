@@ -2,6 +2,7 @@
 -- system relies on preventing saved ivar values from restoring (search inf_event) and using it's own profile settings with level seed to ensure randomisation is the same
 local this={}
 
+local InfCore=InfCore
 local InfMain=InfMain
 
 this.forceEvent=false
@@ -60,7 +61,6 @@ end
 
 function this.GenerateEvent(missionCode)
   --InfCore.PCallDebug(function(misisonCode)--DEBUGOW
-  InfCore.LogFlow("GenerateEvent missionCode:"..missionCode)--DEBUG
   if not this.forceEvent and not IvarProc.EnabledForMission("gameEventChance",missionCode) then
     return
   end
@@ -72,6 +72,7 @@ function this.GenerateEvent(missionCode)
   end
 
   if this.forceEvent or randomTriggered or Ivars.inf_event:Is()>0 then
+    InfCore.Log("InfGameEvent.GenerateEvent missionCode:"..missionCode)--DEBUG
     --    InfCore.DebugPrint("GenerateEvent actual "..missionCode)--DEBUG
     --    InfCore.DebugPrint("inf_levelSeed:"..tostring(gvars.inf_levelSeed))--DEBUG
     this.forceEvent=false
@@ -81,6 +82,8 @@ function this.GenerateEvent(missionCode)
     elseif missionCode==30010 or missionCode==30020 then
       this.GenerateRoamEvent(missionCode)
     end
+
+    InfCore.PrintInspect(this.inf_enabledEvents,{varName="InfGameEvent.inf_enabledEvents"})
   end
   InfMain.RandomResetToOsTime()
   --end,missionCode)--DEBUG
@@ -155,12 +158,12 @@ function this.GenerateRoamEvent(missionCode)
   end
 
   --DEBUG
---  this.inf_enabledEvents={}
---  this.inf_enabledEvents={
---    --HUNTED=true,
---    CRASHLAND=true,
---  --LOST_COMS=true,
---  }
+  --  this.inf_enabledEvents={}
+  --  this.inf_enabledEvents={
+  --    --HUNTED=true,
+  --    CRASHLAND=true,
+  --  --LOST_COMS=true,
+  --  }
 
   for eventId,enabled in pairs(this.inf_enabledEvents)do
     InfMenu.PrintFormatLangId("event_announce",eventId)-- TODO ADDLANG to event ids
@@ -189,9 +192,6 @@ function this.GenerateRoamEvent(missionCode)
     mvars.heli_missionStartRoute=lzDrpNames[math.random(#lzDrpNames)]
     --InfCore.DebugPrint("mvars.heli_missionStartRoute:"..mvars.heli_missionStartRoute)--DEBUG
   end
-
-  InfCore.Log("InfGameEvent.GenerateRoamEvent inf_enabledEvents:")
-  InfCore.PrintInspect(this.inf_enabledEvents)
   --end,missionCode)
 end
 
@@ -341,12 +341,21 @@ function this.GenerateWarGameEvent()
   if Ivars.mbWarGamesProfile:Is()>0 and Ivars.inf_event:Is(0) then
     return
   end
-
+  
+  --tex TODO: only catches some times
+  --InfCore.Log("GenerateWarGameEvent mbFreeDemoPlayNextIndex:"..tostring(gvars.mbFreeDemoPlayNextIndex))--DEBUG
+  if gvars.mbFreeDemoPlayNextIndex and gvars.mbFreeDemoPlayNextIndex~=0 then
+    return
+  end
+  
   local Ivars=Ivars
   Ivars.inf_event:Set"WARGAME"--tex see ivar declaration for notes
 
+  this.inf_enabledEvents={}
+
   local warGame=warGames[math.random(#warGames)]
   --local warGame="TRAINING"--DEBUG
+  this.inf_enabledEvents[warGame]=true
   local wargameBaseType=warGamesBaseTypes[warGame]
 
   local warGameNames=InfMenu.GetLangTable"events_mb"

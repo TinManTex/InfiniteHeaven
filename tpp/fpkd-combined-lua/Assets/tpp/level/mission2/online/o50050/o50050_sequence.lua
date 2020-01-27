@@ -1810,7 +1810,8 @@ function this.OnGameOverHost( gameOverType )
     end,
     function ()--shamFunc
       fnc_vsCommon()
-      --tex EXPERIMENT filter
+
+			
       TppMotherBaseManagement.ClearTempBuffer()
       Fox.Log( "TppMotherBaseManagement.ClearTempBuffer() (GameOver, Host, Sham)" )
 
@@ -3391,7 +3392,6 @@ this.CheckEventTaskOnGoal = function ()
 
   FobUI.UpdateEventTask{ detectType = 71, substitute = svars.alarmCount, }
 
-  local scoreTimeSec = svars.scoreTime / 1000
   if TppServerManager.FobIsSneak() then
     local rankBonus = TppUiCommand.GetCurrentPlayerStaffRankBonus()
     if rankBonus ~= 0 then
@@ -5349,21 +5349,7 @@ this.CalculateResult = function( numClearType )
       svars.espt_of_perfect_stealth = svars.espt_of_no_alert + svars.espt_of_no_kill + svars.espt_of_no_reflex
     end
 
-    --RETAILPATCH 1080>
-    if TppMotherBaseManagement.IsOpponentSupporter{} == false then
-      Fox.Log(" ***** Day180:SetFobResultRankingParam ***** ")
-      local isPerfectStealth = false
-      if svars.espt_of_perfect_stealth ~= 0 then
-        isPerfectStealth = true
-      end
 
-      TppNetworkUtil.SetFobResultRankingParam(
-        isPerfectStealth,
-        svars.rank_cnt_down_ofp,
-        svars.rank_cnt_down_dfp
-      )
-    end
-    --<
 
     local espParm_hit = GetServerParameter( "ESPIONAGE_POINT_OFFENSE_HIT" )
     espParm_hit = espParm_hit * svars.takeHitCount
@@ -5877,6 +5863,7 @@ function this.CheckEquipEspBonus_Deffense()
     or this.CheckPlayerCamo(vars.camoType2, this.nakedCamo) then
     Fox.Log("**** CheckEquipEspBonus:Naked::DefensePlayer ****")
     svars.espt_df_bonus_naked = GetServerParameter("ESPIONAGE_POINT_DEFFENSE_NAKED")
+		FobUI.UpdateEventTask{ detectType = 115, diff = 1, }--RETAILPATCH 1.10 added	
   end
 
 
@@ -6718,7 +6705,6 @@ this.OnDeadGameObject = function (gameObjectId, AttackerId)
       function ()
         local commandStaffId = { id = "GetStaffId" }
         local staffId = GameObject.SendCommand( gameObjectId, commandStaffId )
-        --tex EXPERIMENT TODO filter, or do we just not apply tempstaff changes at mission end, ie how sham likely works
         TppMotherBaseManagement.KillTempStaffFob{ staffId = staffId, gameObjectId = gameObjectId }
       end,
       function ()
@@ -7011,11 +6997,6 @@ sequences.Seq_Demo_SyncGameStart = {
         svars.fob_isHostGameStart = true
       end
     else
-      --tex> basic signal/sync test EXPERIMENT
-      svars.fobClientIH=1
-      InfMain.fobModeIH=0
-      InfMain.fobClientIH=1
-      --EXPERIMENT
       Fox.Log("Client wait host game start.")
       Gimmick.JoinNewClientSyncRequest()
     end

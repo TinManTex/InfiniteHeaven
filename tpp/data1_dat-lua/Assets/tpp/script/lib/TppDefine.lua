@@ -467,7 +467,10 @@ this.SOLIDER2_COMMON_PACK={
   s10151_ending="/Assets/tpp/pack/mission2/story/s10151/s10151_ending_npc.fpk"
 }
 for name,packPath in pairs(this.SOLIDER2_COMMON_PACK)do
-  this.SOLIDER2_COMMON_PACK[StrCode32(name)]=packPath
+  --RETAILBUG since it's working-in-place it eventually hits the strcode keys it added earlier, no actual probem, but added fix to stop my intercepted StrCode32 function from complaining
+  if type(name)~="number" then--tex dont work on the strcoded keys that have been added
+    this.SOLIDER2_COMMON_PACK[StrCode32(name)]=packPath
+  end
 end
 this.DEFAULT_SOLIDER2_COMMON_PACKAGE=StrCode32"default"
 this.SOLIDER2_COMMON_PACK_PREREQUISITES={s10150_special={"mission_block"},s10151_special={"mission_block"},s10151_ending={"mission_block"}}

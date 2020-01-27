@@ -144,11 +144,9 @@ function this.ScaleResourceTables()
     InfCore.Log("smallDiamondGmp:"..this.SMALL_DIAMOND_GMP.." largeDiamondGmp:"..this.LARGE_DIAMOND_GMP)
     InfCore.Log("scaled smallDiamondGmp:"..smallDiamondGmp.." largeDiamondGmp:"..largeDiamondGmp)
 
-    InfCore.Log("containerParams")
-    InfCore.PrintInspect(this.containerParams)
+    InfCore.PrintInspect(this.containerParams,{varName="containerParams"})
 
-    InfCore.Log("scaledContainerParams")
-    InfCore.PrintInspect(this.scaledContainerParams)
+    InfCore.PrintInspect(this.scaledContainerParams,{varName="scaledContainerParams"})
   end
 end
 

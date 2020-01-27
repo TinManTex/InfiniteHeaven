@@ -44,7 +44,7 @@ Reload lua scripts in MGS_TPP without exiting game.
 Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)
 
 New sideops for Mother Base.
-Adds 3 new animal capture sideops for Mother Base.
+Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show.
 
 Menu, Options and Settings
 ==========================
@@ -559,10 +559,12 @@ Cutscenes menu
 2: MB cutscene play mode : Default, Play selected, Cutscenes disabled
 Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base
 3: Select MB cutscene (REQ: Play selected) : <Cutscene ids>
-4: Override time : Cutscene default, Current, Custom
-5: Hour : 0-23
-6: Minute : 0-59
-7: Override weather : Cutscene default, Current, Sunny, Cloudy, Rainy, Sandstorm, Foggy, Pouring
+4: Force allow actions : Off, On
+Prevents disabling of player actions during cutscene, but most cutscenes require the Disable cutscene camera mod from the IH files page.
+5: Override time : Cutscene default, Current, Custom
+6: Hour : 0-23
+7: Minute : 0-59
+8: Override weather : Cutscene default, Current, Sunny, Cloudy, Rainy, Sandstorm, Foggy, Pouring
 
 Camera menu
 - Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
@@ -845,19 +847,18 @@ Logs some script execution flow, requires Debug IH mode to be on.
 6: copyLogToPrev : (Command)
 7: selectedCp : no cp for setting
 8: setSelectedCpToMarkerObjectCp : (Command)
-9: printPressedButtons : Off, On
-10: DEBUG_PrintCpPowerSettings : (Command)
-11: DEBUG_PrintPowersCount : (Command)
-12: DEBUG_PrintReinforceVars : (Command)
-13: DEBUG_PrintSoldierDefine : (Command)
-14: DEBUG_ShowRevengeConfig : (Command)
-15: appearanceDebugMenu
-16: printPressedButtons : Off, On
-17: printOnBlockChange : Off, On
-18: Disable game over : Off, On
-19: Disable out of bounds checks : Off, On
-20: setAllFriendly : (Command)
-21: Show position : (Command)
+9: DEBUG_PrintCpPowerSettings : (Command)
+10: DEBUG_PrintPowersCount : (Command)
+11: DEBUG_PrintReinforceVars : (Command)
+12: DEBUG_PrintSoldierDefine : (Command)
+13: DEBUG_ShowRevengeConfig : (Command)
+14: appearanceDebugMenu
+15: printPressedButtons : Off, On
+16: printOnBlockChange : Off, On
+17: Disable game over : Off, On
+18: Disable out of bounds checks : Off, On
+19: setAllFriendly : (Command)
+20: Show position : (Command)
 
 appearanceDebugMenu
 -------------------

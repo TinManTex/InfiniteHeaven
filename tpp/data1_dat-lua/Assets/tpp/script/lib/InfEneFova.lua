@@ -1596,8 +1596,7 @@ function this.WildCardFovaFaces(faces)
     table.insert(InfEneFova.inf_wildCardFemaleFaceList,faceId)
   end
 
-  InfCore.Log"inf_wildCardFemaleFaceList"--DEBUG
-  InfCore.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList)--DEBUG
+  InfCore.PrintInspect(InfEneFova.inf_wildCardFemaleFaceList,{varName="inf_wildCardFemaleFaceList"})--DEBUG
   --TppSoldierFace.OverwriteMissionFovaData{face=faces,additionalMode=true}--tex OFF TEST is mixing additionalmode here and via UniqueSettings is causing issues?
   InfMain.RandomResetToOsTime()
 end

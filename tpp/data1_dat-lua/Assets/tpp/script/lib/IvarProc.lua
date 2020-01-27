@@ -957,7 +957,7 @@ function this.LoadEvars()
   if ih_save then
     local loadedEvars=this.ReadEvars(ih_save)
     if this.debugModule then
-      InfCore.PrintInspect(loadedEvars)
+      InfCore.PrintInspect(loadedEvars,{varName="loadedEvars"})
     end
     if loadedEvars then
       for name,value in pairs(loadedEvars) do

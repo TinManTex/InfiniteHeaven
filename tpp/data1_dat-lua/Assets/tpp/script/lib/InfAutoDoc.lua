@@ -316,8 +316,8 @@ function this.AutoDoc()
   [[
   
 -- Profiles are lists of settings for IH options. 
--- IH only reads this file/does not write to it. 
--- In-game the settings are saved to your save file when the IH menu closes, or the mission saves (usually during mission load).
+-- IH only reads this file/does not write to it.
+-- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
 
 -- See Features and Options.html for longer descriptions of some settings.
 

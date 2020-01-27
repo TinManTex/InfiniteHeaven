@@ -285,8 +285,8 @@ this.FINISH_WAIT_CHECK_FUNC={
 }
 function this.Play(demoName,demoFuncs,demoFlags)
   InfCore.Log("TppDemo.Play "..demoName)--tex DEBUG
-  InfCore.PrintInspect(demoFuncs)
-  InfCore.PrintInspect(demoFlags)--<
+  InfCore.PrintInspect(demoFuncs,{varName="demoFuncs"})
+  InfCore.PrintInspect(demoFlags,{varName="demoFlags"})--<
 
   local demoId=mvars.dem_demoList[demoName]
   if(demoId==nil)then
@@ -295,6 +295,12 @@ function this.Play(demoName,demoFuncs,demoFlags)
   mvars.dem_enableWaitBlockLoadOnDemoSkip=false
   mvars.dem_demoFuncs[demoName]=demoFuncs
   demoFlags=demoFlags or{}
+
+  if Ivars.forceDemoAllowAction:Is(1) then--tex>
+    demoFlags.isInGame=true
+    demoFlags.isNotAllowedPlayerAction=false
+  end--<
+
   if demoFlags.isInGame then
     if demoFlags.waitBlockLoadEndOnDemoSkip==nil then
       demoFlags.waitBlockLoadEndOnDemoSkip=false
@@ -785,10 +791,8 @@ function this.AddPlayReqeustInfo(demoId,demoFlags)
   local playRequestInfo=this.MakeNewPlayRequestInfo(demoFlags)
 
   InfCore.Log("AddPlayReqeustInfo:")--tex DEBUG>
-  InfCore.Log("demoFlags:")
-  InfCore.PrintInspect(demoFlags)
-  InfCore.Log("playRequestInfo:")
-  InfCore.PrintInspect(playRequestInfo)--<
+  InfCore.PrintInspect(demoFlags,{varName="demoFlags"})
+  InfCore.PrintInspect(playRequestInfo,{varName="playRequestInfo"})--<
 
   for functionName,use in pairs(playRequestInfo)do
     local requestStart=true
@@ -861,7 +865,7 @@ function this.ProcessPlayRequest(playRequestInfoDemoBlock)
     return
   end
   InfCore.Log"ProcessPlayRequest:"--tex DEBUG>
-  InfCore.PrintInspect(playRequestInfoDemoBlock)--<
+  InfCore.PrintInspect(playRequestInfoDemoBlock,{varName="playRequestInfoDemoBlock"})--<
   for demoId,startCheckFunctions in pairs(playRequestInfoDemoBlock)do
     local canStartPlay=this.CanStartPlay(demoId,startCheckFunctions)
     InfCore.Log(demoId.." canStartPlay:"..tostring(canStartPlay))

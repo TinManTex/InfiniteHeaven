@@ -52,7 +52,7 @@ local this={
     },
     {
       featureDescription="New sideops for Mother Base.",
-      featureHelp="Adds 3 new animal capture sideops for Mother Base."
+      featureHelp="Adds 3 new animal capture sideops for Mother Base. Make sure you've cleared the target training sidops for the clusters or they may not show."
     },
   },
   {

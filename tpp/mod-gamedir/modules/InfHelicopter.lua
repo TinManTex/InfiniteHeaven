@@ -61,6 +61,10 @@ end
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
   local Ivars=Ivars
+  
+  if TppUiCommand.IsMbDvcTerminalOpened()then
+    return
+  end
 
   local heliId=GetGameObjectId("TppHeli2","SupportHeli")
   if heliId==nil or heliId==NULL_ID then

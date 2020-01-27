@@ -377,8 +377,7 @@ function this.DumpStrCodeTables()
     InfCore.Log(str.."="..strToCode[str])
   end
 
-  InfCore.Log("InfCore.unknownStr32")
-  InfCore.PrintInspect(InfCore.unknownStr32)
+  InfCore.PrintInspect(InfCore.unknownStr32,{varName="InfCore.unknownStr32"})
 end
 
 
@@ -757,7 +756,7 @@ this.messageSignatures={
     --    Fulton={
     --      {argName="gameId",argType="gameId"},
     --      {argName="gimmickInstanceOrAnimalId",argType="number"},
-    --      {argName="gimmickDataSet",argType="number"},--TODO: 
+    --      {argName="gimmickDataSet",argType="str32"},--TODO: 
     --      {argName="stafforResourceId",argType="number"},--TODO:
     --    },
     FultonInfo={
@@ -845,6 +844,20 @@ this.messageSignatures={
     },
   },
   Player={
+--    CalcFultonPercent={--tex TODO: only first two arg appear for some things, test to see if gimmick args do actually show when next to container or some other gimmick 
+--      {argName="playerIndex",argType="gameId"},--tex assumed
+--      {argName="gameId",argType="gameId"},
+--      {argName="gimmickInstanceOrAnimalId",argType="number"},
+--      {argName="gimmickDataSet",argType="number"},--TODO: 
+--      {argName="stafforResourceId",argType="number"},--TODO:
+--    },
+--    CalcDogFultonPercent={
+--      {argName="playerIndex",argType="gameId"},--tex assumed
+--      {argName="gameId",argType="gameId"},
+--      {argName="gimmickInstanceOrAnimalId",argType="number"},
+--      {argName="gimmickDataSet",argType="number"},--TODO: 
+--      {argName="stafforResourceId",argType="number"},--TODO:
+--    },
     Enter={--tex mission zones
       {argName="zoneType",argType="str32"},--tex outerZone,innerZone,hotZone
     },
@@ -1122,8 +1135,7 @@ end
 
 --EXEC
 if this.debugModule then
-  InfCore.Log"lookups:"
-  InfCore.PrintInspect(this.lookups)
+  InfCore.PrintInspect(this.lookups,{varName="InfLookups.lookups"})
 end
 
 return this

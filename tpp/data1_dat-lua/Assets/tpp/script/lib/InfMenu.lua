@@ -639,44 +639,42 @@ function this.Update(execCheck)
   --TODO NOTE controlset deactivate on game state change
   if not execCheck.inGame then
     this.menuOn = false
-    this.quickMenuOn=false
-    return
-  end
-
-  if this.menuOn then
-    --TODO NOTE controlset deactivate on game state change
-    if not this.CheckActivate(execCheck) then
-      this.menuOn=false
-      this.OnDeactivate()
-      return
-    end
-  end
-
-  if execCheck.inHeliSpace then
-    if this.topMenu~=InfMenuDefs.heliSpaceMenu then
-      IvarProc.PrintGvarSettingMismatch()
-      this.topMenu=InfMenuDefs.heliSpaceMenu
-      this.GoMenu(this.topMenu)
-    end
   else
-    if this.topMenu~=InfMenuDefs.inMissionMenu then
-      --IvarProc.PrintGvarSettingMismatch()--DEBUG
-      this.topMenu=InfMenuDefs.inMissionMenu
-      this.GoMenu(this.topMenu)
+    if this.menuOn then
+      --TODO NOTE controlset deactivate on game state change
+      if not this.CheckActivate(execCheck) then
+        this.menuOn=false
+        this.OnDeactivate()
+        return
+      end
     end
+
+    if execCheck.inHeliSpace then
+      if this.topMenu~=InfMenuDefs.heliSpaceMenu then
+        IvarProc.PrintGvarSettingMismatch()
+        this.topMenu=InfMenuDefs.heliSpaceMenu
+        this.GoMenu(this.topMenu)
+      end
+    else
+      if this.topMenu~=InfMenuDefs.inMissionMenu then
+        --IvarProc.PrintGvarSettingMismatch()--DEBUG
+        this.topMenu=InfMenuDefs.inMissionMenu
+        this.GoMenu(this.topMenu)
+      end
+    end
+
+    --TODO NOTE controlset toggle on button
+    if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+      --InfCore.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
+      this.ToggleMenu(execCheck)
+    end
+
+    if this.menuOn then
+      this.DoControlSet()
+
+      this.AutoDisplay()
+    end--!menuOn
   end
-
-  --TODO NOTE controlset toggle on button
-  if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
-    --InfCore.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
-    this.ToggleMenu(execCheck)
-  end
-
-  if this.menuOn then
-    this.DoControlSet()
-
-    this.AutoDisplay()
-  end--!menuOn
 
   --quickmenu>
   local InfQuickMenuDefs=InfQuickMenuDefs
@@ -689,6 +687,10 @@ function this.Update(execCheck)
         if execCheck.inHeliSpace then
           quickMenu=InfQuickMenuDefs.inHeliSpace
         end
+        if execCheck.inDemo then
+          quickMenu=InfQuickMenuDefs.inDemo
+        end
+        
         for button,commandInfo in pairs(quickMenu) do
           InfButton.buttonStates[button].holdTime=commandInfo.immediate and 0.05 or 0.9
           if commandInfo.immediate then
@@ -707,7 +709,6 @@ function this.Update(execCheck)
       end
     end
   end
-
   --<
   --end,execCheck)--DEBUG
 end

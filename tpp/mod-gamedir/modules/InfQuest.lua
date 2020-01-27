@@ -156,8 +156,7 @@ function this.GetForced()
     return nil
   else
     if this.debugModule then
-      InfCore.Log("forcedQuests")
-      InfCore.PrintInspect(forcedQuests)
+      InfCore.PrintInspect(forcedQuests,{varName="questInfo"})
     end
 
     return forcedQuests
@@ -312,7 +311,7 @@ function this.RegisterQuests()
 
     InfCore.Log("RegisterQuests "..questName.." "..tostring(questIndex))--DEBUG
     if this.debugModule then
-      InfCore.PrintInspect(questInfo)
+      InfCore.PrintInspect(questInfo,{varName="questInfo"})
     end
 
     TppDefine.QUEST_DEFINE[questIndex]=questName
@@ -346,18 +345,12 @@ function this.RegisterQuests()
   InfCore.Log("numUiQuests:"..#questInfoTable)
 
   if this.debugModule then
-    InfCore.Log"QUEST_INDEX"
-    InfCore.PrintInspect(TppDefine.QUEST_INDEX)
-    InfCore.Log"QUEST_RANK_TABLE"
-    InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE)
-    InfCore.Log"questAreaTable"
-    InfCore.PrintInspect(TppQuestList.questAreaTable)
-    InfCore.Log"questList"
-    InfCore.PrintInspect(TppQuestList.questList)
-    InfCore.Log"openQuestCheckTable"
-    InfCore.PrintInspect(openQuestCheckTable)
-    InfCore.Log"questPackList"
-    InfCore.PrintInspect(TppQuestList.questPackList)
+    InfCore.PrintInspect(TppDefine.QUEST_INDEX,{varName="QUEST_INDEX"})
+    InfCore.PrintInspect(TppDefine.QUEST_RANK_TABLE,{varName="QUEST_RANK_TABLE"})
+    InfCore.PrintInspect(TppQuestList.questAreaTable,{varName="questAreaTable"})
+    InfCore.PrintInspect(TppQuestList.questList,{varName="questList"})
+    InfCore.PrintInspect(openQuestCheckTable,{varName="openQuestCheckTable"})
+    InfCore.PrintInspect(TppQuestList.questPackList,{varName="questPackList"})
   end
 end
 
@@ -378,7 +371,7 @@ function this.SetupInstalledQuestsState()
   this.installedQuests=this.ReadInstalledQuests()
   if this.debugModule then
   InfCore.Log("ReadInstalledQuests:")
-  InfCore.PrintInspect(this.installedQuests)
+  InfCore.PrintInspect(this.installedQuests,{varName="InfQuest.installedQuests"})
   end
 
   --tex back up existing flag states
@@ -400,7 +393,7 @@ function this.SetupInstalledQuestsState()
         end
       else
         local previousIndex=this.installedQuests[questName]
-        InfCore.Log(previousIndex)
+        --InfCore.Log("previousIndex:"..previousIndex)
 
         if previousIndex~=questIndex then
           InfCore.Log(questName.." shifting from previous index of "..previousIndex)
@@ -424,7 +417,7 @@ end
 --tex GetSideOpsListTable is called by engine for sideops ui
 function this.PrintSideOpsListTable()
   local sideOpsTable=TppQuest.GetSideOpsListTable()
-  InfCore.PrintInspect(sideOpsTable)
+  InfCore.PrintInspect(sideOpsTable,{varName="sideOpsTable"})
 end
 
 function this.PrintQuestArea()
