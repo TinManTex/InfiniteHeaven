@@ -3,9 +3,9 @@
 -- While this file is editable, editing an inMission save is likely to cause issues.
 -- See Readme for more info
 local this={}
-this.ihVer=190
-this.saveTime=1478376829
-this.inMission=true
+this.ihVer=191
+this.saveTime=1478469257
+this.inMission=false
 this.evars={
 	enableWildCardFreeRoam=1,
 	mbUnlockGoalDoors=1,
@@ -49,7 +49,6 @@ this.evars={
 	allowMissileWeaponsCombo=1,
 	changeCpSubTypeFREE=1,
 	revengeDecayOnLongMbVisit=1,
-	mbDemoSelection=1,
 	mbNpcRouteChange=1,
 	vehiclePatrolClass=4,
 	applyPowersToLrrp=1,
@@ -70,6 +69,7 @@ this.evars={
 	startOnFootFREE=1,
 	enableWalkerGearsFREE=1,
 	enableWalkerGearsMB=1,
+	setInvincibleHeli=1,
 	mbPrioritizeFemale=2,
 	applyPowersToOuterBase=1,
 	enableParasiteEvent=1,

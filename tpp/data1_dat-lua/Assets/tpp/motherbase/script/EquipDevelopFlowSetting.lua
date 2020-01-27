@@ -1,7 +1,7 @@
 --EquipDevelopFlowSetting.lua
 --RETAILPATCH 1090,1.10 various changes and additions
 this={}
---NOTES, via unknown321 https://github.com/unknown321/mgsmonsterguns/blob/gh-pages/parameters.txt and nasanhak http://forum.xentax.com/viewtopic.php?f=10&t=12407&p=122960#p122960
+--NOTES, via unknown321 https://github.com/unknown321/mgsmonsterguns/blob/gh-pages/parameters.txt, nasanhak http://forum.xentax.com/viewtopic.php?f=10&t=12407&p=122960#p122960 and mgo EquipDevelopSetting.lua
 
 --nasanhak order of records in these files seems to be strict meaning you can't insert the same number of records at the beginning or in the middle in both the Const and Flow files and expect it to work. The dev pages/chains break. Anything new has to go at the end.
 

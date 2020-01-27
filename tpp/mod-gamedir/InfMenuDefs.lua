@@ -536,6 +536,7 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
+    --Ivars.resourceAmountScale,--DEBUG
     --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
     --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
     --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG

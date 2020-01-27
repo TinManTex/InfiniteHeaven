@@ -837,39 +837,39 @@ local function main()
   --XmlTest()
 
   --local ExtensionOrder=require"ExtensionOrder"
-local function Split(str,delim,maxNb)
-  -- Eliminate bad cases...
-  if string.find(str,delim)==nil then
-    return{str}
+  local function Split(str,delim,maxNb)
+    -- Eliminate bad cases...
+    if string.find(str,delim)==nil then
+      return{str}
+    end
+    if maxNb==nil or maxNb<1 then
+      maxNb=0--No limit
+    end
+    local result={}
+    local pat="(.-)"..delim.."()"
+    local nb=0
+    local lastPos
+    for part,pos in string.gfind(str,pat) do
+      nb=nb+1
+      result[nb]=part
+      lastPos=pos
+      if nb==maxNb then break end
+    end
+    -- Handle the last field
+    if nb~=maxNb then
+      result[nb+1]=string.sub(str,lastPos)
+    end
+    return result
   end
-  if maxNb==nil or maxNb<1 then
-    maxNb=0--No limit
-  end
-  local result={}
-  local pat="(.-)"..delim.."()"
-  local nb=0
-  local lastPos
-  for part,pos in string.gfind(str,pat) do
-    nb=nb+1
-    result[nb]=part
-    lastPos=pos
-    if nb==maxNb then break end
-  end
-  -- Handle the last field
-  if nb~=maxNb then
-    result[nb+1]=string.sub(str,lastPos)
-  end
-  return result
-end
 
 
- -- local pathTest=[[.\?.lua;C:\GamesSD\MGS_TPP\lua\?.lua;C:\GamesSD\MGS_TPP\lua\?\init.lua;C:\GamesSD\MGS_TPP\?.lua;C:\GamesSD\MGS_TPP\?\init.lua]]
-  
+  -- local pathTest=[[.\?.lua;C:\GamesSD\MGS_TPP\lua\?.lua;C:\GamesSD\MGS_TPP\lua\?\init.lua;C:\GamesSD\MGS_TPP\?.lua;C:\GamesSD\MGS_TPP\?\init.lua]]
+
   --local pathTest=[[.\?.lua;C:\GamesSD\MGS_TPP\lua\?.lua;C:\GamesSD\MGS_TPP\lua\?\init.lua;C:\GamesSD\MGS_TPP\?.lua;C:\GamesSD\MGS_TPP\?\init.lua]]
   --local pathTest=[[.\?.lua;C:\Program Files (x86)\Steam\steamapps\common\MGS_TPP\lua\?.lua;C:\GamesSD\MGS_TPP\lua\?\init.lua;C:\GamesSD\MGS_TPP\?.lua;C:\GamesSD\MGS_TPP\?\init.lua]]
   local pathTest=[[;.\?.lua;C:\Program Files (x86)\Steam\steamapps\common\MGS_TPP\lua\?.lua;C:\Program Files (x86)\Steam\steamapps\common\MGS_TPP\lua\?\init.lua;C:\Program Files (x86)\Steam\steamapps\common\MGS_TPP\?.lua;C:\Program Files (x86)\Steam\steamapps\common\MGS_TPP\?\init.lua;C:\Program Files (x86)\Lua\5.1\lua\?.luac]]
-  
-  local function GetGamePath()  
+
+  local function GetGamePath()
     local gamePath=""
     local paths=Split(package.path,";")
     local paths=Split(pathTest,";")--DEBUG
@@ -885,6 +885,33 @@ end
     return gamePath
   end
   print(GetGamePath())
+
+  --
+
+  local basePath=[[J:\GameData\MGS\!!masternew\]]
+
+  local dirsFileName="ddsfmdlfiles.txt"
+
+  --local searchPattern="*.fmdl"
+local searchPattern="dds*.fmdl"
+
+  --dirsFileName=searchPattern..dirsFileName
+
+  local command=string.format([[dir /s /b %s%s > %s]],basePath,searchPattern,dirsFileName)
+  print(command)
+  os.execute(command)
+
+  local fileDirs={}
+
+--  local dirsFile,error=io.open(dirsFileName,"r")
+--  if dirsFile then
+--    while true do
+--      local line=dirsFile:read()
+--      if line==nil then break end
+--      table.insert(fileDirs,line)
+--    end
+--    dirsFile:close()
+--  end
 
 
   print"main done"

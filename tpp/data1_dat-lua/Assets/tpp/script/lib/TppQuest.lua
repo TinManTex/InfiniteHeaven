@@ -50,7 +50,7 @@ local QUEST_CATEGORIES={
 local QUEST_CATEGORIES_ENUM=TppDefine.Enum(QUEST_CATEGORIES)
 --tex added categories-v-
 --see http://wiki.tesnexus.com/index.php/Mission_codes#Side_Op_mission_codes (match with quest id after the q in questname below ex questName="ruins_q19010" = 19010
-local questTable={
+local questInfoTable={
   --[[001]]{questName="ruins_q19010",questId="ruins_q19010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1622.974,322.257,1062.973),radius=5,category=QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
   --[[XXX]]{questName="commFacility_q19013",questId="commFacility_q19013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1589.157,352.634,47.628),radius=5,category=QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
   --[[XXX]]{questName="outland_q19011",questId="outland_q19011",locationId=TppDefine.LOCATION_ID.MAFR,iconPos=Vector3(222.113,20.445,-930.962),radius=5,category=QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
@@ -213,7 +213,7 @@ local questTable={
 --TABLESETUP
 --tex>
 local QUESTTABLE_INDEX={}
-for index,questInfo in ipairs(questTable) do
+for index,questInfo in ipairs(questInfoTable) do
   QUESTTABLE_INDEX[questInfo.questName]=index
 end--<
 -->
@@ -222,9 +222,14 @@ end--<
 --  questLocations[questInfo.questName]=questInfo.locationId
 --end--<
 this.questNameForUiIndex={}--tex>
-for index,questInfo in ipairs(questTable) do
+for index,questInfo in ipairs(questInfoTable) do
   this.questNameForUiIndex[index]=questInfo.questName
 end--<
+--tex>
+function this.GetQuestInfoTable()
+  return questInfoTable
+end
+--<
 
 local questRadioList={
   ruins_q19010={radioNameFirst="f1000_rtrg0700"},
@@ -1122,7 +1127,7 @@ this.ShootingPracticeOpenCondition={
 function this.GetSideOpsListTable()
   local sideOpsListTable={}
   if this.CanOpenSideOpsList()then
-    for i,questInfo in ipairs(questTable)do
+    for i,questInfo in ipairs(questInfoTable)do
       local questName=questInfo.questName
       local isActiveOnMBTerminal=this.IsActiveOnMBTerminal(questInfo)
       local isCleard=this.IsCleard(questName)
@@ -1135,7 +1140,7 @@ function this.GetSideOpsListTable()
       end
     end
   end
-  table.insert(sideOpsListTable,{allSideOpsNum=#questTable})
+  table.insert(sideOpsListTable,{allSideOpsNum=#questInfoTable})
   return sideOpsListTable
 end
 function this.GetBounusGMP(questName)
@@ -1574,19 +1579,20 @@ function this.OnDeactivate(t)
     this.ClearShootingPracticeMvars()
   end
 end
+--NMC TppQuestList.questList
 function this.RegisterQuestList(questList)
   if not IsTypeTable(questList)then
     return
   end
-  local numQuests=#questList
-  if numQuests==0 then
+  local numAreas=#questList
+  if numAreas==0 then
     return
   end
-  for n=1,numQuests do
-    if not IsTypeTable(questList[n])then
+  for areaIndex=1,numAreas do
+    if not IsTypeTable(questList[areaIndex])then
       return
     end
-    local infoList=questList[n].infoList
+    local infoList=questList[areaIndex].infoList
     if not IsTypeTable(infoList)then
       Tpp.DEBUG_DumpTable(questList,2)
       return
@@ -1594,7 +1600,7 @@ function this.RegisterQuestList(questList)
     if#infoList==0 then
       return
     end
-    for m,questInfo in ipairs(infoList)do
+    for infoIndex,questInfo in ipairs(infoList)do
       if not IsTypeString(questInfo.name)then
         return
       end
@@ -1602,21 +1608,21 @@ function this.RegisterQuestList(questList)
         return
       end
     end
-    if not questList[n].clusterName then
-      if not IsTypeTable(questList[n].loadArea)then
+    if not questList[areaIndex].clusterName then
+      if not IsTypeTable(questList[areaIndex].loadArea)then
         return
       end
-      if not IsTypeTable(questList[n].activeArea)then
+      if not IsTypeTable(questList[areaIndex].activeArea)then
         return
       end
-      if not IsTypeTable(questList[n].invokeArea)then
+      if not IsTypeTable(questList[areaIndex].invokeArea)then
         return
       end
     end
   end
   mvars.qst_questList=questList
-  for n=1,numQuests do
-    for n,questInfo in ipairs(questList[n].infoList)do
+  for areaIndex=1,numAreas do
+    for infoIndex,questInfo in ipairs(questList[areaIndex].infoList)do
       local questName=questInfo.name
       if StrCode32(questName)==gvars.qst_currentQuestName then
         this.SetCurrentQuestName(questName)
@@ -1790,38 +1796,38 @@ function this.DebugUpdate()
   if mvars.debug.showQuestStatus then
     Print(NewContext,"")
     Print(NewContext,{.5,.5,1},"LuaQuest showQuestStatus")
-    local s=mvars.debug.selectQuest
-    local o=mvars.debug.selectQuestIndex
-    if s>0 and o>0 then
-      local s=mvars.qst_questList[s]
-      if s then
-        Print(NewContext,string.format("AreaName = %s",s.areaName))
-        local n=s.infoList[o]
-        if n then
-          Print(NewContext,string.format("name = %s",n.name))
-          Print(NewContext,string.format("invokeStepName = %s",n.invokeStepName))
-          if n.clusterName then
-            DebutTextPrint(NewContext,string.format("clusterName  =%s",n.clusterName))
+    local areaIndex=mvars.debug.selectQuest
+    local selectQuestIndex=mvars.debug.selectQuestIndex
+    if areaIndex>0 and selectQuestIndex>0 then
+      local areaInfo=mvars.qst_questList[areaIndex]
+      if areaInfo then
+        Print(NewContext,string.format("AreaName = %s",areaInfo.areaName))
+        local questInfo=areaInfo.infoList[selectQuestIndex]
+        if questInfo then
+          Print(NewContext,string.format("name = %s",questInfo.name))
+          Print(NewContext,string.format("invokeStepName = %s",questInfo.invokeStepName))
+          if questInfo.clusterName then
+            DebutTextPrint(NewContext,string.format("clusterName  =%s",questInfo.clusterName))
           else
-            local function a(t,n,e)
-              local a=(nil).Print
-              a(t,string.format("%s = { %03d, %03d, %03d, %03d }",n,e[1],e[2],e[3],e[4]))
+            local function PrintAreaInfo(printContext,areaType,bounds)
+              local Print=(nil).Print
+              Print(printContext,string.format("%s = { %03d, %03d, %03d, %03d }",areaType,bounds[1],bounds[2],bounds[3],bounds[4]))
             end
-            local e={"loadArea","activeArea","invokeArea"}
-            for n=1,#e do
-              local n=e[n]
-              local e=s[n]
-              if e then
-                a(NewContext,n,e)
+            local areaTypes={"loadArea","activeArea","invokeArea"}
+            for n=1,#areaTypes do
+              local areaType=areaTypes[n]
+              local areaBounds=areaInfo[areaType]
+              if areaBounds then
+                PrintAreaInfo(NewContext,areaType,areaBounds)
               end
             end
           end
-          Print(NewContext,"IsOpen : "..tostring(this.IsOpen(n.name)))
-          Print(NewContext,"IsCleard : "..tostring(this.IsCleard(n.name)))
-          Print(NewContext,"IsRepop : "..tostring(this.IsRepop(n.name)))
-          Print(NewContext,"IsActive : "..tostring(this.IsActive(n.name)))
+          Print(NewContext,"IsOpen : "..tostring(this.IsOpen(questInfo.name)))
+          Print(NewContext,"IsCleard : "..tostring(this.IsCleard(questInfo.name)))
+          Print(NewContext,"IsRepop : "..tostring(this.IsRepop(questInfo.name)))
+          Print(NewContext,"IsActive : "..tostring(this.IsActive(questInfo.name)))
         else
-          Print(NewContext,"No define quest. index: "..tostring(o))
+          Print(NewContext,"No define quest. index: "..tostring(selectQuestIndex))
         end
       end
     end
@@ -1840,27 +1846,27 @@ function this.DebugUpdate()
     mvars.debug.updateActiveQuest=false
   end
   if mvars.debug.applyDebugFlags then
-    local e=mvars.debug.selectQuest
-    local s=mvars.debug.selectQuestIndex
-    if e>0 and s>0 then
-      local o=mvars.qst_questList[e]
-      if o then
-        local i=o.infoList[s]
-        if i then
-          local questIndex=TppDefine.QUEST_INDEX[i.name]
+    local areaIndex=mvars.debug.selectQuest
+    local selectQuestIndex=mvars.debug.selectQuestIndex
+    if areaIndex>0 and selectQuestIndex>0 then
+      local areaInfo=mvars.qst_questList[areaIndex]
+      if areaInfo then
+        local questInfo=areaInfo.infoList[selectQuestIndex]
+        if questInfo then
+          local questIndex=TppDefine.QUEST_INDEX[questInfo.name]
           gvars.qst_questOpenFlag[questIndex]=mvars.debug.updateOpenFlagSelectQuest
           gvars.qst_questClearedFlag[questIndex]=mvars.debug.updateClearFlagSelectQuest
           gvars.qst_questActiveFlag[questIndex]=mvars.debug.updateActiveFlagSelectQuest
           if mvars.debug.updateActiveFlagSelectQuest then
-            for t,e in pairs(o.infoList)do
-              if e.name~=i.name then
-                local questIndex=TppDefine.QUEST_INDEX[e.name]
+            for _questIndex,_questInfo in pairs(areaInfo.infoList)do
+              if _questInfo.name~=questInfo.name then
+                local questIndex=TppDefine.QUEST_INDEX[_questInfo.name]
                 gvars.qst_questActiveFlag[questIndex]=false
               end
             end
           end
         else
-          Print(NewContext,"No define quest. index: "..tostring(s))
+          Print(NewContext,"No define quest. index: "..tostring(selectQuestIndex))
         end
       end
     end
@@ -2176,9 +2182,9 @@ function this.GetCurrentQuestTable()
   return mvars.qst_currentQuestTable
 end
 function this.GetQuestTable(questName)
-  local numQuests=#mvars.qst_questList
-  for questIndex=1,numQuests do
-    local areaQuestTable=mvars.qst_questList[questIndex]
+  local numAreas=#mvars.qst_questList
+  for areaIndex=1,numAreas do
+    local areaQuestTable=mvars.qst_questList[areaIndex]
     for i,questInfo in ipairs(areaQuestTable.infoList)do
       if questInfo.name==questName then
         return areaQuestTable,questInfo
@@ -2198,7 +2204,7 @@ function this.GetSideOpsInfo(questName)
   --tex modified
   local questTableIndex=QUESTTABLE_INDEX[questName]
   if questTableIndex then
-    return questTable[questTableIndex]
+    return questInfoTable[questTableIndex]
   end
   --ORIG
   --  for n,sideOpInfo in ipairs(questTable)do
@@ -2228,7 +2234,7 @@ function this.GetQuestNameId(questName)
   return false
 end
 function this.GetQuestName(n)
-  for i,questInfo in ipairs(questTable)do
+  for i,questInfo in ipairs(questInfoTable)do
     local t=tonumber(string.sub(questInfo.questId,-5))
     if n==t then
       return questInfo.questName
@@ -2264,18 +2270,12 @@ function this.UpdateOpenQuest()
   end
 end
 function this.UpdateActiveQuest(updateFlags)
+--InfLog.PCallDebug(function(updateFlags)--tex DEBUG
+  --InfLog.AddFlow("TppQuest.UpdateActiveQuest")--tex DEBUG
   if not mvars.qst_questList then
     return
   end
-
-  local unlockedName=nil--tex unlockSideOpNumber>
-  local unlockedArea=nil
-  if Ivars.unlockSideOpNumber:Is()>0 then--tex find name and area for unlocksideop SANITY:
-    unlockedName=questTable[Ivars.unlockSideOpNumber:Get()].questName--tex
-    if unlockedName~=nil then
-      unlockedArea=TppQuestList.questAreaTable[unlockedName]
-    end
-  end--<unlockSideOpNumber
+  
   --tex>
   local selectionCategory
   local selectionCategoryEnum
@@ -2288,14 +2288,17 @@ function this.UpdateActiveQuest(updateFlags)
   --<
   if this.NeedUpdateActiveQuest(updateFlags)then
     this.UpdateOpenQuest()
+    
+    local forcedQuests=InfQuest.GetForced()--tex
     for i,areaQuests in ipairs(mvars.qst_questList)do
       --ORPHAN local RENsomeTable={}
       local questList={}
       local storyQuests={}
       local nonStoryQuests={}
       local repopQuests={}
-      --tex unlockSideOpNumber>  add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
-      if unlockedArea and areaQuests.areaName==unlockedArea then
+      --tex forcedquests>  add quest then skip area that unlocked op is in. lack of a continue op is annoying lua.
+      local unlockedName=forcedQuests and forcedQuests[areaQuests.areaName] or nil
+      if unlockedName then
         for j,info in ipairs(areaQuests.infoList)do--tex still gotta clear
           local questName=info.name
           local questIndex=TppDefine.QUEST_INDEX[questName]
@@ -2304,7 +2307,7 @@ function this.UpdateActiveQuest(updateFlags)
           end
         end
         gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[unlockedName]]=true
-        --<unlockSideOpNumber
+        --<forcedquests
       else
         for j,info in ipairs(areaQuests.infoList)do
           local questName=info.name
@@ -2322,7 +2325,7 @@ function this.UpdateActiveQuest(updateFlags)
                   table.insert(nonStoryQuests,questName)
                   table.insert(questList,questName)--tex
                 end
-              elseif this.IsRepop(questName) and not InfMain.BlockQuest(questName) then --tex added blockquest
+              elseif this.IsRepop(questName) and not InfQuest.BlockQuest(questName) then --tex added blockquest
                 table.insert(repopQuests,questName)
                 table.insert(questList,questName)--tex
               end
@@ -2354,7 +2357,7 @@ function this.UpdateActiveQuest(updateFlags)
           local categoryQuests={}
           for j,questName in ipairs(questList)do
             local questTableIndex=QUESTTABLE_INDEX[questName]
-            local questInfo=questTable[questTableIndex]
+            local questInfo=questInfoTable[questTableIndex]
             if not questInfo then
             --InfLog.DebugPrint("no questInfo for "..questName)--DEBUG
             else
@@ -2381,7 +2384,7 @@ function this.UpdateActiveQuest(updateFlags)
         if selectedQuest then
           gvars.qst_questActiveFlag[TppDefine.QUEST_INDEX[selectedQuest]]=true
         end
-      end--unlockedArea switch
+      end--forcedquests switch
     end-- for questlist
   elseif TppMission.IsStoryMission(vars.missionCode)then
     for n,questName in ipairs(TppDefine.QUEST_DEFINE)do
@@ -2408,6 +2411,7 @@ function this.UpdateActiveQuest(updateFlags)
       return
     end
   end
+ -- end,updateFlags)--DEBUG
 end
 --tex ORIG:
 --function this.UpdateActiveQuest(updateFlags)
@@ -2701,7 +2705,7 @@ function this.CheckAllClearBounus()
     return
   end
   local allCleared=true
-  for n,questInfo in ipairs(questTable)do
+  for n,questInfo in ipairs(questInfoTable)do
     local questName=questInfo.questName
     local questIndex=TppDefine.QUEST_INDEX[questName]
     if not gvars.qst_questClearedFlag[questIndex]then
@@ -2718,7 +2722,7 @@ end
 function this.CalcQuestClearedCount()
   local clearedCount=0
   local totalCount=0
-  for n,questInfo in ipairs(questTable)do
+  for n,questInfo in ipairs(questInfoTable)do
     local questName=questInfo.questName
     local questIndex=TppDefine.QUEST_INDEX[questName]
     if gvars.qst_questClearedFlag[questIndex]then

@@ -74,7 +74,7 @@ this.playerPartsTypes={
   "BOSS_CLOSE",--21
   "BOSS_OPEN",--22
   "SWIMWEAR",--23
-  --tex unknown, see playerPartsTypesInfo
+  --tex unknown, see playerPartsTypesInfo, own names
   "NORMAL2",--24
   "NORMAL_SCARF2",--25
   "SNEAKING_SUIT_BB",--26
@@ -120,6 +120,7 @@ this.playerPartsTypesInfo={
     name="NORMAL",
     description="Standard fatigues",
     playerParts=0,
+    --developId=--Common
     plPartsName={
       SNAKE="plparts_normal",
       AVATAR="plparts_normal",
@@ -134,6 +135,7 @@ this.playerPartsTypesInfo={
     name="NORMAL_SCARF",
     description="Fatigues with scarf",
     playerParts=1,
+    --developId=--Common
     plPartsName={
       SNAKE="plparts_normal_scarf",
       AVATAR="plparts_normal_scarf",
@@ -146,6 +148,7 @@ this.playerPartsTypesInfo={
     name="SNEAKING_SUIT",
     description="SV-Sneaking suit (GZ)",
     playerParts=2,
+    developId=19040,
     plPartsName={
       SNAKE="plparts_gz_suit",
       AVATAR="plparts_gz_suit",
@@ -166,6 +169,7 @@ this.playerPartsTypesInfo={
     name="MGS1",
     description="MGS1 Solid Snake",
     playerParts=4,
+    developId=19071,
     plPartsName={
       ALL="plparts_mgs1",
     },
@@ -177,6 +181,7 @@ this.playerPartsTypesInfo={
     name="NINJA",
     description="MGS1 Cyborg Ninja",
     playerParts=5,
+    developId=19071,
     plPartsName={
       ALL="plparts_ninja",
     },
@@ -185,6 +190,7 @@ this.playerPartsTypesInfo={
     name="RAIDEN",
     description="Raiden",
     playerParts=6,
+    developId=19073,
     plPartsName={
       ALL="plparts_raiden",
     },
@@ -193,6 +199,7 @@ this.playerPartsTypesInfo={
     name="NAKED",
     description="Naked fatigues",
     playerParts=7,
+    --developId=--Common
     plPartsName={
       SNAKE="plparts_naked",
       AVATAR="plparts_naked",
@@ -206,6 +213,7 @@ this.playerPartsTypesInfo={
     name="SNEAKING_SUIT_TPP",
     description="Sneaking suit (TPP)",
     playerParts=8,
+    developId=19050,
     plPartsName={
       SNAKE="pl_venom",
       AVATAR="pl_venom",
@@ -217,6 +225,7 @@ this.playerPartsTypesInfo={
     name="BATTLEDRESS",
     description="Battle dress",
     playerParts=9,
+    developId=19053,
     plPartsName={
       SNAKE="plparts_battledress",
       AVATAR="plparts_battledress",
@@ -228,6 +237,7 @@ this.playerPartsTypesInfo={
     name="PARASITE",
     description="Parasite suit",
     playerParts=10,
+    developId=19060,
     plPartsName={
       SNAKE="plparts_parasite",
       AVATAR="plparts_parasite",
@@ -239,6 +249,7 @@ this.playerPartsTypesInfo={
     name="LEATHER",
     description="Leather jacket",
     playerParts=11,
+    developId=19070,
     plPartsName={
       SNAKE="plparts_leather",
       AVATAR="plparts_leather",
@@ -247,7 +258,9 @@ this.playerPartsTypesInfo={
   },
   {--12,--unlock
     name="GOLD",
+    description="Naked Gold",
     playerParts=12,
+    developId=19024,
     plPartsName={
       SNAKE="plparts_gold",
     --AVATAR= --gold body and normal avatar head, neat
@@ -257,7 +270,9 @@ this.playerPartsTypesInfo={
   },
   {--13,--unlock, when AVATAR, gold body and normal avatar head, neat
     name="SILVER",
+    description="Naked Silver",
     playerParts=13,
+    developId=19023,
     plPartsName={
       SNAKE="plparts_silver",
     --AVATAR= --gold body and normal avatar head, neat
@@ -275,7 +290,9 @@ this.playerPartsTypesInfo={
   --DLC TODO: find out pack names, find a have-this check
   {--15
     name="MGS3",
+    description="Fatigues (NS)",
     playerParts=15,
+    developId=19080,
     plPartsName={
       SNAKE="UNKNOWN",--TODO:
       AVATAR="UNKNOWN",
@@ -284,7 +301,9 @@ this.playerPartsTypesInfo={
   },
   {--16
     name="MGS3_NAKED",
+    description="Fatigues Naked (NS)",
     playerParts=16,
+    developId=19080,--tex as above
     plPartsName={
       SNAKE="UNKNOWN",--TODO:
       AVATAR="UNKNOWN",
@@ -293,7 +312,9 @@ this.playerPartsTypesInfo={
   },
   {--17
     name="MGS3_SNEAKING",
+    description="Sneaking Suit (NS)",
     playerParts=17,
+    developId=19081,
     plPartsName={
       SNAKE="UNKNOWN",--TODO:
       AVATAR="UNKNOWN",
@@ -302,7 +323,9 @@ this.playerPartsTypesInfo={
   },
   {--18
     name="MGS3_TUXEDO",
+    description="Tuxedo",
     playerParts=18,
+    developId=19084,
     plPartsName={
       SNAKE="UNKNOWN",--TODO:
       AVATAR="UNKNOWN",
@@ -311,31 +334,36 @@ this.playerPartsTypesInfo={
   },
   {--19
     name="EVA_CLOSE",
+    description="Jumpsuit (EVA)",
     playerParts=19,
+    developId=19086,
     plPartsName={
       DD_FEMALE="UNKNOWN",--TODO:
     },
   },
   {--20
     name="EVA_OPEN",
+    description="Jumpsuit open (EVA)",
     playerParts=20,
-    playerParts=19,
+    developId=19086,--tex as above
     plPartsName={
       DD_FEMALE="UNKNOWN",--TODO:
     },
   },
   {--21
     name="BOSS_CLOSE",
+    description="Sneaking Suit (TB)",
     playerParts=21,
-    playerParts=19,
+    developId=19085,
     plPartsName={
       DD_FEMALE="UNKNOWN",--TODO:
     },
   },
   {--22
     name="BOSS_OPEN",
+    description="Sneaking Suit open (TB)",
     playerParts=22,
-    playerParts=19,
+    developId=19085,--tex as above
     plPartsName={
       DD_FEMALE="UNKNOWN",--TODO:
     },
@@ -344,6 +372,7 @@ this.playerPartsTypesInfo={
     name="SWIMWEAR",
     description="Swimsuit",
     playerParts=23,
+    --developId=,--Common, kinda, requires at least one type to show up, but unless I want to iterate through the the developids of all the camos just leave it
     plPartsName={
       DD_MALE="plparts_ddm_swimwear",
       DD_FEMALE="plparts_ddf_swimwear",
@@ -379,7 +408,7 @@ this.playerPartsTypesInfo={
     name="NORMAL_SCARF2",
   },
   {--26 Shows snakes head reguardless of SNAKE or AVATAR
-    name="SNEAKING_SUIT_BB",
+    name="SNEAKING_SUIT_BB",--tex own name
     description="Big Boss SV-Sneaking suit",--tex actual GZ Snake, not Venom in GZ suit
     playerParts=26,
     plPartsName={
@@ -415,6 +444,52 @@ this.playerPartsTypesInfo={
   },
 --    35> invisible/hang model system
 }
+
+--tex currently reference only
+--info on plparts fpk / model id
+--searching for first section of modelid (ex sna1) will get more hits
+this.plPartsInfo={
+  plparts_avatar_man={modelId="avm0_body0"},--tex for avatar cusomization
+  plparts_dd_female={modelId="dds6_main0"},
+  plparts_dd_male={modelId="dds5_main0"},
+  plparts_ninja={modelId="nin0_main0"},
+  plparts_raiden={modelId="rai0_main0"},
+  plparts_normal={modelId="sna0_main0"},
+  plparts_normal_scarf={modelId="sna0_main1"},
+  plparts_hospital={modelId="sna1_main0"},
+  plparts_sneaking_suit={modelId="sna2_main0"},
+  plparts_gz_suit={modelId="sna2_main1"},
+  plparts_leather={modelId="sna3_main1"},
+  plparts_venom={modelId="sna4_main0"},
+  plparts_ddf_venom={modelId="sna4_plyf0"},
+  plparts_ddm_venom={modelId="sna4_plym0"},
+  plparts_battledress={modelId="sna5_main0"},
+  plparts_ddf_battledress={modelId="sna5_plyf0"},
+  plparts_ddm_battledress={modelId="sna5_plym0"},
+  plparts_mgs1={modelId="sna6_main0"},
+  plparts_parasite={modelId="sna7_main0"},
+  plparts_ddf_parasite={modelId="sna7_plyf0"},
+  plparts_ddm_parasite={modelId="sna7_plym0"},
+  plparts_naked={modelId="sna8_plym0"},
+  plparts_gold={modelId="sna9_plym0"},
+  plparts_silver={modelId="sna9_plym1"},
+  plparts_ddf_swimwear={modelId="dlf0_main0"},--tex the fmdl for this breaks the naming convention of <modelid>_def (of all others in this table) and is named dlf0_main0_def_f.fmdl
+  plparts_ddm_swimwear={modelId="dlf1_main0"},
+  plparts_dla0_main0_def_v00={modelId="dla0_main0"},
+  plparts_dla0_plym0_def_v00={modelId="dla0_plym0"},
+  plparts_dla1_main0_def_v00={modelId="dla1_main0"},
+  plparts_dla1_plym0_def_v00={modelId="dla1_plym0"},
+  plparts_dlb0_main0_def_v00={modelId="dlb0_main0"},
+  plparts_dlb0_plym0_def_v00={modelId="dlb0_plym0"},
+  plparts_dlc0_plyf0_def_v00={modelId="dlc0_plyf0"},
+  plparts_dlc1_plyf0_def_v00={modelId="dlc1_plyf0"},
+  plparts_dld0_main0_def_v00={modelId="dld0_main0"},
+  plparts_dld0_plym0_def_v00={modelId="dld0_plym0"},
+  plparts_dle0_plyf0_def_v00={modelId="dle0_plyf0"},
+  plparts_dle1_plyf0_def_v00={modelId="dle1_plyf0"},
+}
+
+--tex TODO: build reverse lookup table if nessesary
 
 
 --tex vars.playerCamoType drives some fova applications
@@ -528,12 +603,13 @@ this.playerCamoTypesCommon={
   "FOXTROT",--5
   "WOODLAND",--6
   "WETWORK",--7
-  --  "ARBANGRAY",--8 --OFF----blank/hang model sys on SNAKE,DD_MALE,avatar
-  --  "ARBANBLUE",--9 --OFF
-  --  "SANDSTORM",--10 --OFF--blank/hang model sys
+  "ARBANGRAY",--8 --OFF----blank/hang model sys on SNAKE,DD_MALE,avatar
+  "ARBANBLUE",--9 --OFF
+  "SANDSTORM",--10 --OFF--blank/hang model sys
   --  "REALTREE",--11 --does not set
   --  "INVISIBLE",--12 --does not set
-  --  "BLACK",--13 --OFF--blank/hang model sys
+  "BLACK",--13 --OFF--blank/hang model sys
+  --
   "C23",--36,WOODLAND FLECK
   "C24",--37,AMBUSH
   "C27",--38,SOLUM
@@ -581,11 +657,14 @@ this.playerCamoTypesCommon={
 }
 
 --tex ASSUMPTION currently if no playerTypes assume all
+--see 'Camo fovas' below for explanation of fovaCamoId
 this.playerCamoTypesInfo={
   {
     name="OLIVEDRAB",
     description="Olive Drab",
     playerCamoType=0,
+    developId=19001,
+    fovaCamoId=00,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -596,6 +675,8 @@ this.playerCamoTypesInfo={
     name="SPLITTER",
     description="Splitter",
     playerCamoType=1,
+    developId=19002,
+    fovaId=06,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -606,6 +687,8 @@ this.playerCamoTypesInfo={
     name="SQUARE",
     description="Square",
     playerCamoType=2,
+    developId=19003,
+    fovaCamoId=12,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -616,6 +699,8 @@ this.playerCamoTypesInfo={
     name="TIGERSTRIPE",
     description="Tiger Stripe",
     playerCamoType=3,
+    developId=19010,
+    fovaCamoId=01,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -626,6 +711,8 @@ this.playerCamoTypesInfo={
     name="GOLDTIGER",
     description="Gold Tiger",
     playerCamoType=4,
+    developId=19011,
+    fovaCamoId=02,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -636,6 +723,8 @@ this.playerCamoTypesInfo={
     name="FOXTROT",
     description="Desert Fox",
     playerCamoType=5,
+    developId=19020,
+    fovaCamoId=03,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -646,6 +735,8 @@ this.playerCamoTypesInfo={
     name="WOODLAND",
     description="Woodland",
     playerCamoType=6,
+    developId=19021,
+    fovaCamoId=10,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -656,6 +747,8 @@ this.playerCamoTypesInfo={
     name="WETWORK",
     description="Wetwork",
     playerCamoType=7,
+    developId=19022,
+    fovaCamoId=05,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -664,34 +757,77 @@ this.playerCamoTypesInfo={
   },
   --Console special edition
   {
-    name="ARBANGRAY",--"Gray Urban", --OFF----blank/hang model sys on SNAKE,DD_MALE,avatar
+    name="ARBANGRAY",
+    description="Gray Urban",
     playerCamoType=8,
+    developId=19030,
+    fovaCamoId=08,
+    playerParts={
+      NORMAL=true,
+      NORMAL_SCARF=true,
+      NAKED=true,
+    },
   },
   {
-    name="ARBANBLUE",--"Blue Urban", --OFF
+    name="ARBANBLUE",
+    description="Blue Urban",
     playerCamoType=9,
+    developId=19031,
+    fovaCamoId=07,
+    playerParts={
+      NORMAL=true,
+      NORMAL_SCARF=true,
+      NAKED=true,
+    },
   },
   {
-    name="SANDSTORM", --OFF --blank/hang model sys
+    name="SANDSTORM",
+    description="APD (Pixelated Desert)",
     playerCamoType=10,
+    developId=19032,
+    fovaCamoId=11,
+    playerParts={
+      NORMAL=true,
+      NORMAL_SCARF=true,
+      NAKED=true,
+    },
   },
   {
     name="REALTREE", --OFF --does not set
     playerCamoType=11,
+  --    playerParts={
+  --      NORMAL=true,
+  --      NORMAL_SCARF=true,
+  --      NAKED=true,
+  --    },
   },
   {
     name="INVISIBLE", --OFF --does not set
     playerCamoType=12,
+  --    playerParts={
+  --      NORMAL=true,
+  --      NORMAL_SCARF=true,
+  --      NAKED=true,
+  --    },
   },
   {
-    name="BLACK", --OFF "Black Ocelot", --OFF--blank/hang model sys
+    name="BLACK",
+    description="Black Ocelot",
     playerCamoType=13,
+    developId=19033,
+    fovaCamoId=13,
+    playerParts={
+      NORMAL=true,
+      NORMAL_SCARF=true,
+      NAKED=true,
+    },
   },
   --
   {
     name="SNEAKING_SUIT_GZ",
     description="SV-Sneaking suit (GZ)",
     playerCamoType=14,
+    developId=19040,
     playerParts={
       SNEAKING_SUIT=true,
     },
@@ -704,6 +840,7 @@ this.playerCamoTypesInfo={
     name="SNEAKING_SUIT_TPP",
     description="Sneaking suit (TPP)",
     playerCamoType=15,
+    developId=19050,
     playerParts={
       SNEAKING_SUIT_TPP=true,
     },
@@ -716,14 +853,16 @@ this.playerCamoTypesInfo={
     name="BATTLEDRESS",
     desciprion="Battle Dress",
     playerCamoType=16,
+    developId=19053,
     playerParts={
       BATTLEDRESS=true,
     },
   },
   {
     name="PARASITE",
-    description="Parasite Suite",
+    description="Parasite Suit",
     playerCamoType=17,
+    developId=19060,
     playerParts={
       PARASITE=true,
     },
@@ -731,7 +870,8 @@ this.playerCamoTypesInfo={
   {
     name="NAKED",
     description="Naked",
-    playerCamoType=19,
+    playerCamoType=18,
+    --developId=,--
     playerParts={
       SNAKE=true,
       AVATAR=true,
@@ -741,6 +881,7 @@ this.playerCamoTypesInfo={
     name="LEATHER",
     description="Leather Jacket",
     playerCamoType=19,
+    developId=19070,
     playerParts={
       SNEAKING_SUIT_TPP=true,
     },
@@ -753,6 +894,7 @@ this.playerCamoTypesInfo={
     name="SOLIDSNAKE",
     description="MGS1 Solid Snake",
     playerCamoType=20,
+    developId=19071,
     playerParts={
       MGS1=true,
     },
@@ -761,6 +903,7 @@ this.playerCamoTypesInfo={
     name="NINJA",
     description="MGS1 Cyborg Ninja",
     playerCamoType=21,
+    developId=19072,
     playerParts={
       NINJA=true,
     },
@@ -769,6 +912,7 @@ this.playerCamoTypesInfo={
     name="RAIDEN",
     description="Raiden",
     playerCamoType=22,
+    developId=19073,
     playerParts={
       RAIDEN=true,
     },
@@ -784,6 +928,7 @@ this.playerCamoTypesInfo={
   {
     name="GOLD",
     playerCamoType=24,
+    developId=19024,
     playerParts={
       GOLD=true,
     },
@@ -795,6 +940,7 @@ this.playerCamoTypesInfo={
   {
     name="SILVER",
     playerCamoType=25,
+    developId=19023,
     playerParts={
       SILVER=true,
     },
@@ -813,7 +959,9 @@ this.playerCamoTypesInfo={
   },
   {
     name="MGS3",
+    description="Fatigues (NS)",
     playerCamoType=28,
+    developId=19080,
     playerTypes={
       SNAKE=true,
       AVATAR=true,
@@ -822,7 +970,9 @@ this.playerCamoTypesInfo={
   },
   {
     name="MGS3_NAKED",
+    description="Fatigues Naked (NS)",
     playerCamoType=29,
+    developId=19080,--tex as above
     playerTypes={
       SNAKE=true,
       AVATAR=true,
@@ -831,7 +981,9 @@ this.playerCamoTypesInfo={
   },
   {
     name="MGS3_SNEAKING",
+    description="Sneaking Suit (NS)",
     playerCamoType=30,
+    developId=19081,
     playerTypes={
       SNAKE=true,
       AVATAR=true,
@@ -840,7 +992,9 @@ this.playerCamoTypesInfo={
   },
   {
     name="MGS3_TUXEDO",
+    description="Tuxedo",
     playerCamoType=31,
+    developId=19084,
     playerTypes={
       SNAKE=true,
       AVATAR=true,
@@ -849,28 +1003,36 @@ this.playerCamoTypesInfo={
   },
   {
     name="EVA_CLOSE",-- dd_fem, also works on avatar/snake but they dont have right head lol
+    description="Jumpsuit (EVA)",
     playerCamoType=32,
+    developId=19086,
     playerTypes={
       DD_FEMALE=true,
     },
   },
   {
     name="EVA_OPEN",
+    description="Jumpsuit open (EVA)",
     playerCamoType=33,
+    developId=19086,--tex as above
     playerTypes={
       DD_FEMALE=true,
     },
   },
   {
     name="BOSS_CLOSE",
+    description="Sneaking Suit (TB)",
     playerCamoType=34,
+    developId=19085,
     playerTypes={
       DD_FEMALE=true,
     },
   },
   {
     name="BOSS_OPEN",
+    description="Sneaking Suit open (TB)",
     playerCamoType=35,
+    developId=19085,--tex as above
     playerTypes={
       DD_FEMALE=true,
     },
@@ -881,6 +1043,7 @@ this.playerCamoTypesInfo={
     description="Woodland Fleck",
     developId=19090,
     playerCamoType=36,
+    fovaCamoId=23,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -892,6 +1055,7 @@ this.playerCamoTypesInfo={
     description="Ambush",
     developId=19091,
     playerCamoType=37,
+    fovaCamoId=24,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -903,6 +1067,7 @@ this.playerCamoTypesInfo={
     description="Solum",
     developId=19092,
     playerCamoType=38,
+    fovaCamoId=27,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -914,6 +1079,7 @@ this.playerCamoTypesInfo={
     description="Dead Leaf",
     developId=19093,
     playerCamoType=39,
+    fovaCamoId=29,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -925,6 +1091,7 @@ this.playerCamoTypesInfo={
     description="Lichen",
     developId=19094,
     playerCamoType=40,
+    fovaCamoId=30,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -936,6 +1103,7 @@ this.playerCamoTypesInfo={
     description="Stone",
     developId=19095,
     playerCamoType=41,
+    fovaCamoId=35,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -947,6 +1115,7 @@ this.playerCamoTypesInfo={
     description="Parasite Mist",
     developId=19096,
     playerCamoType=42,
+    fovaCamoId=38,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -958,6 +1127,7 @@ this.playerCamoTypesInfo={
     description="Old Rose",
     developId=19097,
     playerCamoType=43,
+    fovaCamoId=39,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -969,6 +1139,7 @@ this.playerCamoTypesInfo={
     description="Brick Red",
     developId=19098,
     playerCamoType=44,
+    fovaCamoId=42,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -980,6 +1151,7 @@ this.playerCamoTypesInfo={
     description="Iron Blue",
     developId=19099,
     playerCamoType=45,
+    fovaCamoId=46,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -991,6 +1163,7 @@ this.playerCamoTypesInfo={
     description="Steel Grey",
     developId=19100,
     playerCamoType=46,
+    fovaCamoId=49,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1002,6 +1175,7 @@ this.playerCamoTypesInfo={
     description="Tselinoyarsk",
     developId=19101,
     playerCamoType=47,
+    fovaCamoId=52,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1014,6 +1188,7 @@ this.playerCamoTypesInfo={
     description="Night Splitter",
     developId=19120,
     playerCamoType=48,
+    fovaCamoId=16,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1025,6 +1200,7 @@ this.playerCamoTypesInfo={
     description="Rain",
     developId=19121,
     playerCamoType=49,
+    fovaCamoId=17,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1036,6 +1212,7 @@ this.playerCamoTypesInfo={
     description="Green Tiger Stripe",
     developId=19122,
     playerCamoType=50,
+    fovaCamoId=18,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1047,6 +1224,7 @@ this.playerCamoTypesInfo={
     description="Birch Leaf",
     developId=19123,
     playerCamoType=51,
+    fovaCamoId=19,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1058,6 +1236,7 @@ this.playerCamoTypesInfo={
     description="Desert Ambush",
     developId=19124,
     playerCamoType=52,
+    fovaCamoId=20,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1069,6 +1248,7 @@ this.playerCamoTypesInfo={
     description="Dark Leaf Fleck",
     developId=19125,
     playerCamoType=53,
+    fovaCamoId=22,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1080,6 +1260,7 @@ this.playerCamoTypesInfo={
     description="Night Bush",
     developId=19126,
     playerCamoType=54,
+    fovaCamoId=25,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1091,6 +1272,7 @@ this.playerCamoTypesInfo={
     description="Grass",
     developId=19127,
     playerCamoType=55,
+    fovaCamoId=26,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1102,6 +1284,7 @@ this.playerCamoTypesInfo={
     description="Ripple",
     developId=19128,
     playerCamoType=56,
+    fovaCamoId=28,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1113,6 +1296,7 @@ this.playerCamoTypesInfo={
     description="Citrullus",
     developId=19129,
     playerCamoType=57,
+    fovaCamoId=31,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1124,6 +1308,7 @@ this.playerCamoTypesInfo={
     description="Digital Bush",
     developId=19130,
     playerCamoType=58,
+    fovaCamoId=32,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1135,6 +1320,7 @@ this.playerCamoTypesInfo={
     description="Zebra",
     developId=19131,
     playerCamoType=59,
+    fovaCamoId=33,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1146,6 +1332,7 @@ this.playerCamoTypesInfo={
     description="Desert Sand",
     developId=19132,
     playerCamoType=60,
+    fovaCamoId=36,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1157,6 +1344,7 @@ this.playerCamoTypesInfo={
     description="Steel Khaki",
     developId=19133,
     playerCamoType=61,
+    fovaCamoId=37,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1168,6 +1356,7 @@ this.playerCamoTypesInfo={
     description="Dark Rubber",
     developId=19134,
     playerCamoType=62,
+    fovaCamoId=40,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1179,6 +1368,7 @@ this.playerCamoTypesInfo={
     description="Gray",
     developId=19135,
     playerCamoType=63,
+    fovaCamoId=41,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1190,6 +1380,7 @@ this.playerCamoTypesInfo={
     description="Camoflage Yellow",
     developId=19136,
     playerCamoType=64,
+    fovaCamoId=43,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1201,6 +1392,7 @@ this.playerCamoTypesInfo={
     description="Camoflage Green",
     developId=19137,
     playerCamoType=65,
+    fovaCamoId=44,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1212,6 +1404,7 @@ this.playerCamoTypesInfo={
     description="Iron Green",
     developId=19138,
     playerCamoType=66,
+    fovaCamoId=45,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1223,6 +1416,7 @@ this.playerCamoTypesInfo={
     description="Light Rubber",
     developId=19139,
     playerCamoType=67,
+    fovaCamoId=47,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1234,6 +1428,7 @@ this.playerCamoTypesInfo={
     description="Red Rust",
     developId=19140,
     playerCamoType=68,
+    fovaCamoId=48,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1245,6 +1440,7 @@ this.playerCamoTypesInfo={
     description="Steel Green",
     developId=19141,
     playerCamoType=69,
+    fovaCamoId=50,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1256,6 +1452,7 @@ this.playerCamoTypesInfo={
     description="Steel Orange",
     developId=19142,
     playerCamoType=70,
+    fovaCamoId=51,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1267,6 +1464,7 @@ this.playerCamoTypesInfo={
     description="Mud",
     developId=19143,
     playerCamoType=71,
+    fovaCamoId=53,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1278,6 +1476,7 @@ this.playerCamoTypesInfo={
     description="Steel Blue",
     developId=19144,
     playerCamoType=72,
+    fovaCamoId=54,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1289,6 +1488,7 @@ this.playerCamoTypesInfo={
     description="Dark Rust",
     developId=19145,
     playerCamoType=73,
+    fovaCamoId=55,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1300,6 +1500,7 @@ this.playerCamoTypesInfo={
     description="Citrullus two-tone",
     developId=19146,
     playerCamoType=74,
+    fovaCamoId=56,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1311,6 +1512,7 @@ this.playerCamoTypesInfo={
     description="Gold Tiger Stripe Two-tone",
     developId=19147,
     playerCamoType=75,
+    fovaCamoId=57,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1322,6 +1524,7 @@ this.playerCamoTypesInfo={
     description="Birch Leaf Two-tone",
     developId=19148,
     playerCamoType=76,
+    fovaCamoId=58,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1333,6 +1536,7 @@ this.playerCamoTypesInfo={
     description="Stone Two-tone",
     developId=19149,
     playerCamoType=77,
+    fovaCamoId=59,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1344,6 +1548,7 @@ this.playerCamoTypesInfo={
     description="Khaki Two-tone",
     developId=19150,
     playerCamoType=78,
+    fovaCamoId=60,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -1511,16 +1716,8 @@ this.playerCamoTypesInfo={
 }
 
 --Camo fovas
---<id> == fova camo id
---00,--drab - also already in plparts_dd_male.fpk
---01,--tiger
---02,--golden tiger
---03,--desert fox
---05,--wetwork
---06,--splitter
---10,--woodland
---12,--square (grey)
---14,--animals (leopard)
+--<id> == two digit fova common camo id (see playerCamoTypesInfo .fovaCamoId and plPartsInfo .modelId above)
+--swimsuits have their own ids
 
 --SNAKE/AVATAR NORMAL, NORMAL_SCARF Camo fovas
 --in \chunk0_dat\Assets\tpp\pack\player\fova\plfova_sna0_main1_c<id>.fpk
@@ -1540,71 +1737,22 @@ this.playerCamoTypesInfo={
 --where dds5==dd male, dds6==dd female
 -- fova files="/Assets/tpp/fova/chara/sna/dds<5/6>_main0_ply_v<id>.fv2",--drab - also already in plparts_dd_male.fpk
 
---FOB reward fatigues, still ony hashed/undictionaried in emooses dictionary, are in secaproject fork
+--FOB reward fatigues
 --in /1/MGSVTUPDATE0100/00.dat
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c23
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c24
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c27
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c29
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c30
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c35
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c38
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c39
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c42
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c46
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c49
---/Assets/tpp/pack/player/fova/plfova_sna0_main1_c52
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c23
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c24
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c27
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c29
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c30
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c35
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c38
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c39
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c42
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c46
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c49
---/Assets/tpp/pack/player/fova/plfova_sna8_main0_c52
+
+--/Assets/tpp/pack/player/fova/plfova_<modelid>_<camoid>
+--ex /Assets/tpp/pack/player/fova/plfova_sna0_main1_c23
 --/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v23
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v24
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v27
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v29
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v30
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v35
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v38
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v39
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v42
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v46
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v49
---/Assets/tpp/pack/player/fova/plfova_dds5_main0_ply_v52
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v23
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v24
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v27
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v29
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v30
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v35
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v38
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v39
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v42
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v46
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v49
---/Assets/tpp/pack/player/fova/plfova_dds6_main0_ply_v52
---thanks HeartlessSeph
+
 
 --retail 1.10 swimwear camos
---plfova_cmf0_main0_def_v00
---plfova_cmf0_main0_def_v01
---plfova_cmf0_main0_def_v02
---plfova_cmf0_main0_def_v03
---plfova_cmf0_main0_def_v05
---plfova_cmf0_main0_def_v06
---plfova_cmf0_main0_def_v38
---plfova_cmf0_main0_def_v39
---plfova_cmf0_main0_def_v44
---plfova_cmf0_main0_def_v46
---plfova_cmf0_main0_def_v48
---plfova_cmf0_main0_def_v53
+--in /0/00.dat /Assets/tpp/pack/player/fova
+--plfova_cmf0_main0_def_v<swimsuit camoId>.fpk/d
+--ex-plfova_cmf0_main0_def_v46.fpk
+--fova files \Assets\tpp\fova\chara\dlf\cmf0_main0_def_v<swimsuit camo id>.fv2
+
+--still ony hashed/undictionaried in emooses dictionary, are in secaproject fork, and bipbops update
+
 
 --tex there doesn't seem to be any enum for this
 this.playerFaceEquipId={
@@ -1689,6 +1837,38 @@ function this.PrintPlayerBodyVars()
     local enum=PlayerCamoType[name]
     InfLog.DebugPrint(name.."="..tostring(enum))
   end
+end
+
+function this.GetPlayerPartsTypes(playerPartsTypeSettings,playerType)
+  local InfFova=this
+  
+  local checkDeveloped=Ivars.skipDevelopChecks:Is(0)
+
+  local playerPartsTypes={}
+  for i,partsTypeName in ipairs(playerPartsTypeSettings) do
+    local partsType=InfFova.PlayerPartsType[partsTypeName]
+    local partsTypeInfo=InfFova.playerPartsTypesInfo[partsType+1]
+    if not partsTypeInfo then
+      InfLog.DebugPrint("WARNING: could not find partsTypeInfo for "..partsTypeName)
+    else
+      local plPartsName=partsTypeInfo.plPartsName
+      if not plPartsName then
+        InfLog.DebugPrint("WARNING: could not find plPartsName for "..partsTypeName)
+      else
+        local playerTypeName=InfFova.playerTypes[playerType+1]
+        if plPartsName.ALL or plPartsName[playerTypeName] then
+          if partsTypeInfo.developId and checkDeveloped then
+            if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=partsTypeInfo.developId} then
+              table.insert(playerPartsTypes,partsTypeName)
+            end
+          else
+            table.insert(playerPartsTypes,partsTypeName)
+          end
+        end
+      end
+    end
+  end
+  return playerPartsTypes
 end
 
 
@@ -1795,7 +1975,7 @@ function this.GetFovaTable(playerTypeName,playerPartsTypeName,printInfo)
 
   if playerPartsTypeInfo.plPartsName==nil then
     --TODO: warning off till all filled out
-    --InfLog.DebugPrint"WARNING: GetFovaTable playerPartsTypeInfo.plPartsName==nil"
+    --InfLog.Add"WARNING: GetFovaTable playerPartsTypeInfo.plPartsName==nil"
     return
   end
 
@@ -1827,8 +2007,8 @@ function this.GetFovaTable(playerTypeName,playerPartsTypeName,printInfo)
     else
       modelDescription=modelInfoDescription
     end
-  end  
-  
+  end
+
   local noBlackDiamond=modelInfo.noBlackDiamond
 
   local fovaTable=modelInfo.fovaTable

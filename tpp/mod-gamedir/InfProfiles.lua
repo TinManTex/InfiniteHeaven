@@ -7,12 +7,8 @@
 
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
 
-
-
 local profiles={}
-
-
--- Defaults/example of all profile options for IH r190
+-- Defaults/example of all profile options for IH r191
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
@@ -314,7 +310,7 @@ profiles.motherBaseHeaven={
     mbWargameFemales=15,--{ 0-100 } -- Women in Enemy Invasion mode (percentage)
     --Show characters menu
     mbEnableOcelot=1,--{ 0-1 } -- Enable Ocelot
-    mbEnablePuppy=2,--{ OFF, MISSING_EYE, NORMAL_EYES } -- Puppy DDog
+    mbEnablePuppy="NORMAL_EYES",--{ OFF, MISSING_EYE, NORMAL_EYES } -- Puppy DDog
     mbShowCodeTalker=1,--{ 0-1 } -- Show Code Talker
     mbShowEli=1,--{ 0-1 } -- Show Eli
     --Show assets menu

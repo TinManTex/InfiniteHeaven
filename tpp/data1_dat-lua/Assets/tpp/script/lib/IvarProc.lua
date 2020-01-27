@@ -497,6 +497,7 @@ function this.OnCreateOrLoadSaveData()
   else
     InfLog.PCallDebug(this.LoadEvars)
   end
+  InfLog.doneFirstLoad=true
 end
 
 --CALLER: TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint (via InfHooks)
@@ -924,6 +925,11 @@ function this.LoadEvars()
   local evars=evars
 
   local loadedEvars=this.ReadEvars(saveName)
+  if not InfLog.doneFirstLoad then
+    if loadedEvars.debugMode==nil or loadedEvars.debugMode==0 then
+      InfLog.Add"debugMode=0, logging disabled"
+    end
+  end
   if loadedEvars then
     for name,value in pairs(loadedEvars) do
       evars[name]=value

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r190 - 2016-11-06
+r191 - 2016-11-07
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -21,6 +21,12 @@ Recent changes/additions
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
 NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
+
+New for r191
+Fixed: Container resource scaling, Tpp.MergeTable isn't a good idea when sub keys are tables/you want to modify the merged - thanks garroth, coolguy3090 for the reports.
+Fixed: Mother base Invasion events not applying correctly.
+Fixed: mbEnablePuppy - MB puppy DDog not enabling - thanks pk5547 for the report.
+Fixed: Debug function PrintInspect now only runs with debugmode, should fix some slowdowns on load.
 
 New for r190
 NOTE: Infinite Heaven now save its options to ih_save.lua in MGSV_TPP\mod folder. You will have to set the settings up from scratch when updating to this version.
@@ -45,6 +51,8 @@ Added Setting: Enemy prep mode "Prep levels + Custom overrides" setting added - 
 Option: enableWalkerGearsFREE - "Walker gears in free roam" - "Adds a Walker gear to each main base."
 (via Patrols and deployments menu)
 Known issue: In Africa a walker gear model will appear hovering in Kiziba Camp next to the delivery pad. This is a bug in the original game (you can confirm by playing Footprints of Phantoms unmodded.)
+[youtube]4A9GqN0Hpkw[/youtube]
+https://youtu.be/4A9GqN0Hpkw
 
 New for r189
 Fixed: Skull attack not restarting if continuing from a save.

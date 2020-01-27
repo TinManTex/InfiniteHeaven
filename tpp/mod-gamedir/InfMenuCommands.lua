@@ -266,23 +266,21 @@ this.printSightFormParameter={
 this.printHearingTable={
   OnChange=function()
     InfSoldierParams.ApplyHearingIvarsToSoldierParams()
-    InfLog.PrintInspect(InfSoldierParams.soldierParameters.hearingRangeParameter)
+    InfLog.PrintInspect(InfSoldierParams.soldierParameters.hearingRangeParameter,true,true)
   end,
 }
 
 this.printHealthTableParameter={
   OnChange=function()
     InfSoldierParams.ApplyHealthIvarsToSoldierParams()
-    InfLog.PrintInspect(InfSoldierParams.lifeParameterTable)
+    InfLog.PrintInspect(InfSoldierParams.lifeParameterTable,true,true)
   end,
 }
 
 this.printCustomRevengeConfig={
   OnChange=function()
     local revengeConfig=InfRevenge.CreateCustomRevengeConfig()
-    InfLog.PrintInspect(revengeConfig)
-    local ins=InfInspect.Inspect(revengeConfig)
-    InfLog.DebugPrint(revengeConfig)
+    InfLog.PrintInspect(revengeConfig,true,true)
   end
 }
 
@@ -384,7 +382,7 @@ this.setSelectedCpToMarkerObjectCp={
     end
 
     InfLog.DebugPrint(cpName.." not found in ene_cpList")
-    InfLog.PrintInspect(mvars.ene_cpList)
+    InfLog.PrintInspect(mvars.ene_cpList,true,true)
   end
 }
 function this.QuietMoveToLastMarker()
@@ -604,9 +602,9 @@ local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
-    
+
     InfLog.Add"DEBUG_SomeShiz---------------------"
-    
+
     --    InfLog.Add(tostring(InfMain.prelog))
     --    InfLog.Add(tostring(InfLog.logErr))
 
@@ -1300,9 +1298,9 @@ this.DEBUG_WarpToObject={
     --local objectList=InfMain.reserveSoldierNames
     --        local travelPlan="travelArea2_01"
     --         local objectList=mvars.inf_patrolVehicleConvoyInfo[travelPlan]
-    local objectList=InfMain.ene_wildCardSoldiers
+    --local objectList=InfMain.ene_wildCardSoldiers
     --local objectList=InfParasite.parasiteNames.CAMO
-    --local objectList=InfLookup.truckNames
+    local objectList=InfLookup.truckNames
     --local objectList={"veh_trc_0000"}
     --local objectList=InfLookup.jeepNames
     --local objectList={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}

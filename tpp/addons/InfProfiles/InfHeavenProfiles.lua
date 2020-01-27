@@ -27,7 +27,7 @@ profiles.motherBaseHeaven={
     mbWargameFemales=15,--{ 0-100 } -- Women in Enemy Invasion mode (percentage)
     --Show characters menu
     mbEnableOcelot=1,--{ 0-1 } -- Enable Ocelot
-    mbEnablePuppy=2,--{ OFF, MISSING_EYE, NORMAL_EYES } -- Puppy DDog
+    mbEnablePuppy="NORMAL_EYES",--{ OFF, MISSING_EYE, NORMAL_EYES } -- Puppy DDog
     mbShowCodeTalker=1,--{ 0-1 } -- Show Code Talker
     mbShowEli=1,--{ 0-1 } -- Show Eli
     --Show assets menu

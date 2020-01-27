@@ -1301,12 +1301,12 @@ this.forceReinforceRequest={
   settingNames="set_switch",
 }
 
-this.enableHeliReinforce={--tex chance of heli being chosen for a rienforce, also turns off heli quests
+this.enableHeliReinforce={--tex chance of heli being chosen for a reinforce, also turns off heli quests
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
   OnChange=function()
-    TppQuest.UpdateActiveQuest()--tex update since quests may have changed
+    this.UpdateActiveQuest()--tex update since quests may have changed
   end,
 }
 
@@ -1521,7 +1521,7 @@ this.unlockSideOpNumber={
   SkipValues=function(self,newSetting)
     local questName=TppQuest.questNameForUiIndex[newSetting]
     --InfLog.DebugPrint(questName)--DEBUG
-    return InfMain.BlockQuest(questName)
+    return InfQuest.BlockQuest(questName)
   end,
   OnChange=this.UpdateActiveQuest,
 }
@@ -1845,7 +1845,7 @@ this.playerTypeDirect={
   end,
 }
 
-
+--tex seperate from InfFova so can control order from playerPartsType
 local playerPartsTypeSettings={
   "NORMAL",--0,
   "NORMAL_SCARF",--1,
@@ -1863,15 +1863,15 @@ local playerPartsTypeSettings={
   "NINJA",--5,
   "GOLD",--12
   "SILVER",--13
---DLC TODO find a have-this check
---    "MGS3",--15
---  "MGS3_NAKED",--16
---  "MGS3_SNEAKING",--17
---  "MGS3_TUXEDO",--18
---  "EVA_CLOSE",--19
---  "EVA_OPEN",--20
---  "BOSS_CLOSE",--21
---  "BOSS_OPEN",--22
+  --DEBUGNOW TEST
+  "MGS3",--15
+  "MGS3_NAKED",--16
+  "MGS3_SNEAKING",--17
+  "MGS3_TUXEDO",--18
+  "EVA_CLOSE",--19
+  "EVA_OPEN",--20
+  "BOSS_CLOSE",--21
+  "BOSS_OPEN",--22
 }
 
 this.playerPartsType={
@@ -1890,27 +1890,13 @@ this.playerPartsType={
     return modelDescription or partsTypeInfo.description or partsTypeInfo.name
   end,
   OnSelect=function(self)
-    local settingsForPlayerType={}
-    for i,partsTypeName in ipairs(playerPartsTypeSettings) do
-      local partsType=InfFova.PlayerPartsType[partsTypeName]
-      local partsTypeInfo=InfFova.playerPartsTypesInfo[partsType+1]
-      if not partsTypeInfo then
-        InfLog.DebugPrint("WARNING: could not find partsTypeInfo for "..partsTypeName)
-      else
-        local plPartsName=partsTypeInfo.plPartsName
-        if not plPartsName then
-          InfLog.DebugPrint("WARNING: could not find plPartsName for "..partsTypeName)
-        else
-          local playerTypeName=InfFova.playerTypes[vars.playerType+1]
-          if plPartsName.ALL or plPartsName[playerTypeName] then
-            table.insert(settingsForPlayerType,partsTypeName)
-          end
-        end
-      end
+    local playerPartsTypes=InfFova.GetPlayerPartsTypes(playerPartsTypeSettings,vars.playerType)
+    if playerPartsTypes==nil then
+      return
     end
 
-    self.settings=settingsForPlayerType
-    self.range.max=#settingsForPlayerType-1
+    self.settings=playerPartsTypes
+    self.range.max=#playerPartsTypes-1
     self.enum=Enum(self.settings)
     if #self.settings==0 then
       InfLog.DebugPrint("WARNING: #self.settings==0 for playerType")
@@ -3632,7 +3618,7 @@ function this.SetupIvars()
       ivar.GetSettingName=IvarProc.GetSettingName
       ivar.MissionCheck=ivar.MissionCheck or IvarProc.MissionCheckAll
       ivar.EnabledForMission=IvarProc.IvarEnabledForMission
-      
+
       if ivar.save and ivar.save==EXTERNAL then
         evars[ivar.name]=evars[ivar.name] or ivars[ivar.name]
       end

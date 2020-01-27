@@ -5,6 +5,7 @@ local this={}
 --STATE
 this.debugMode=true--tex (See GOTCHA below -v-)
 this.doneStartup=false
+this.doneFirstLoad=false
 
 this.log={}
 
@@ -20,7 +21,7 @@ local functionType="function"
 
 function this.Add(message,announceLog)
   --tex GOTCHA, true setting wont kick in till gvars is initiallized, would be solved if shifting away from gvars to direct file save/load
-  if Ivars and evars and evars.debugMode then
+  if evars and evars.debugMode then
     this.debugMode=evars.debugMode>0
   end
   if this.debugMode==false then
@@ -185,8 +186,12 @@ function this.PCallDebug(func,...)
   end
 end
 
-function this.PrintInspect(inspectee,options,announceLog)
-  local ins=InfInspect.Inspect(inspectee,options)
+function this.PrintInspect(inspectee,announceLog,force)
+  if not this.debugMode and not force then
+    return
+  end
+
+  local ins=InfInspect.Inspect(inspectee)
   this.Add(ins,announceLog)
 end
 

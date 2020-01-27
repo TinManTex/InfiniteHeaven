@@ -116,9 +116,7 @@ quest_step.QStep_Start = {
 
 	OnEnter = function()
 		Fox.Log("QStep_Start OnEnter")
-		if Ivars.mbEnablePuppy:Is(0) then--tex added bypass
 		TppQuest.ClearWithSaveMtbsDDQuest()
-		end
 	end,
 	
 	OnLeave = function()

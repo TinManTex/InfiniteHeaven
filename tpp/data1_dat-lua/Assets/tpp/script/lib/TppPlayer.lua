@@ -2051,9 +2051,6 @@ function this.OnPickUpCollection(playerId,resourceId,resourceType,langId)
   local resourceCount
   if TppTerminal.RESOURCE_INFORMATION_TABLE[resourceType]and TppTerminal.RESOURCE_INFORMATION_TABLE[resourceType].count then
     resourceCount=TppTerminal.RESOURCE_INFORMATION_TABLE[resourceType].count
-    if not Ivars.resourceAmountScale:IsDefault() then--tex>
-      resourceCount=resourceCount*(Ivars.resourceAmountScale:Get()/100)
-    end--<
   end
   if TppCollection.IsHerbByType(resourceType)then
     local gameId=GameObject.GetGameObjectIdByIndex("TppBuddyDog2",0)

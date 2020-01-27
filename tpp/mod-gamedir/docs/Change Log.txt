@@ -1,5 +1,15 @@
 Infinite Heaven changelog
 
+r191 - 2016-11-07
+Fixed: Container resource scaling, Tpp.MergeTable isn't a good idea when sub keys are tables/you want to modify the merged - thanks garroth, coolguy3090 for the reports.
+Fixed: Mother base Invasion events not applying correctly.
+Fixed: mbEnablePuppy - MB puppy DDog not enabling - thanks pk5547 for the report.
+
+Debug: InfLog.PrintInspect only if debugMode - Debug function PrintInspect now only runs with debugmode, should fix some slowdowns on load.
+
+Refactor: InfFova - more info fleshed out, modelId, fovaCamoId, developIds/checks added for player parts types/camos.
+Module: InfQuest - InfMain.BlockQuest > InfQuest, mbEnablePuppy and unlockSideopNumber combined to InfQuest.GetForced
+
 r190 - 2016-11-06
 Fixed: Wild card soldiers faces showing incorrect (most noticably female/male heads/bodies mixups) when in Afghanistan with vehicle patrols on - thanks shynbean, Silverforte for the report.
 

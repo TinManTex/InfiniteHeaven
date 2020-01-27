@@ -11,6 +11,7 @@ this.moduleNames={
   "InfMenuDefs",
   "InfQuickMenuDefs",
   "InfEquip",
+  "InfQuest",
   "InfHelicopter",
   "InfEnemyPhase",
   "InfCamera",

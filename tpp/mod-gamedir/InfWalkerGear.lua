@@ -358,7 +358,7 @@ function this.SetupGearsMB()
       local walkerName=this.walkerList[walkerIndex]
       local walkerId=GetGameObjectId("TppCommonWalkerGear2",walkerName)
       if walkerId==NULL_ID then
-        InfLog.DebugPrint("WARNING NULL_ID for "..walkerName)
+        InfLog.Add("WARNING NULL_ID for "..walkerName,true)
       else
 
         local coord=walkerStartPositions.mtbs[clusterId][platId]

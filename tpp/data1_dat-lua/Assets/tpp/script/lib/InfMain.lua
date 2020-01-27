@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="190"
+this.modVersion="191"
 this.modName="Infinite Heaven"
 this.saveName="ih_save.lua"
 
@@ -126,17 +126,7 @@ function this.OnInitializeTop(missionTable)
       --      end
     end
   end
-
-  --TODO
-  --  if Ivars.mbEnablePuppy:Is(1) then--and Ivars.inf_event:Is(0) then--tex mb event may turn off puppy, won't come back on by itself after event, so force it
-  --    local puppyQuestIndex=TppDefine.QUEST_INDEX.Mtbs_child_dog
-  --    gvars.qst_questRepopFlag[puppyQuestIndex]=true
-  --    gvars.qst_questOpenFlag[puppyQuestIndex]=true
-  --
-  --    TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
-  --    TppQuest.UpdateActiveQuest()
-  --  end
-
+  
   --end,missionTable)--DEBUG
 end
 
@@ -156,6 +146,7 @@ function this.Init(missionTable)
   if (vars.missionCode==30050 --[[WIP or vars.missionCode==30250--]]) and Ivars.mbEnableFultonAddStaff:Is(1) then
     mvars.trm_isAlwaysDirectAddStaff=false
   end
+  
   --end,missionTable)--DEBUG
 
   local currentChecks=this.UpdateExecChecks(this.execChecks)
@@ -222,8 +213,6 @@ function this.AddMissionPacks(missionCode,packPaths)
       packPaths[#packPaths+1]=packPath
     end
   end
-
-  InfVehicle.AddVehiclePacks(missionCode,packPaths)
 
   for i,module in ipairs(InfModules) do
     if IsFunc(module.AddMissionPacks) then
@@ -1186,7 +1175,7 @@ function this.GetClosestLz(position)
 end
 
 --<cp stuff
---quest/sideops stuff
+
 --tex a few demo files force their own snake heads which naturally goes badly if DD female and use current soldier in cutscenes
 this.noSkipIsSnakeOnly={--tex>
   Demo_Funeral=true,--PATCHUP: shining lights end cinematic forces snake head with ash
@@ -1195,47 +1184,6 @@ this.noSkipIsSnakeOnly={--tex>
   p31_080100_000_final=true,
 }
 
---block quests>
-local blockQuests={
-  "tent_q99040", -- 144 - recover volgin, player is left stuck in geometry at end of quanranteed plat demo
-  "sovietBase_q99020",-- 82, make contact with emmeric
-}
-
-function this.BlockQuest(questName)
-  --tex TODO: doesn't work for the quest area you start in (need to clear before in actual mission)
-  if vars.missionCode==30050 and Ivars.mbWarGamesProfile:Is()>0 then
-    --InfLog.DebugPrint("actually BlockQuest "..tostring(questName).." "..tostring(vars.missionCode))--DEBUG CULL
-    return true
-  end
-  --tex quest system in respect to this a bit too twisty for me to figure out now, so will just block here
-  if Ivars.mbEnablePuppy:Is()>0 and Ivars.mbWarGamesProfile:Is(0) then
-    if questName=="mtbs_q42010" then
-      return true
-    end
-  end
-
-  for n,name in ipairs(blockQuests)do
-    if name==questName then
-      if TppQuest.IsCleard(questName) then
-        return true
-      end
-    end
-  end
-  --tex block heli quests to allow super reinforce
-  if Ivars.enableHeliReinforce:Is(1) then
-    --if TppMission.GetMissionID()==30010 or TppMission.GetMissionID()==30020 then
-    for n,name in ipairs(TppDefine.QUEST_HELI_DEFINE)do
-      if name==questName then
-        return true
-      end
-    end
-    --end
-  end
-
-  return false
-end
-
---<quest/sideops stuff
 function this.SetSubsistenceSettings()
   --tex no go, see OnMissionCanStartBottom for alt solution
   --  if TppMission.IsFOBMission(vars.missionCode) then

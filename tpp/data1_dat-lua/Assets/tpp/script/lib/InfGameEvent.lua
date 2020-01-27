@@ -47,8 +47,8 @@ end
 
 this.forceEvent=false
 function this.GenerateEvent(missionCode)
-  --InfLog.PCall(function(misisonCode)--DEBUG
-  --InfLog.DebugPrint("GenerateEvent missionCode:"..missionCode)--DEBUG
+  --InfLog.PCallDebug(function(misisonCode)--DEBUGOW
+  InfLog.AddFlow("GenerateEvent missionCode:"..missionCode)--DEBUG
   if not this.forceEvent and not IvarProc.EnabledForMission("gameEventChance",missionCode) then
     return
   end
@@ -321,7 +321,7 @@ local warGameSettings={
 }
 
 function this.GenerateWarGameEvent()
-  --InfLog.PCall(function()--DEBUG
+  --InfLog.PCallDebug(function()--DEBUG
     --tex user is doing wargames anyway
     if Ivars.mbWarGamesProfile:Is()>0 and Ivars.inf_event:Is(0) then
       return
@@ -341,8 +341,8 @@ function this.GenerateWarGameEvent()
     InfMenu.PrintFormatLangId("event_announce",warGameName)--tex TODO ADDLANG to event ids
 
     if wargameBaseType=="INVASION" then
-      ivar.mbWarGamesProfile=Ivars.mbWarGamesProfile.enum.INVASION--KLUDGE just setting without saving or triggering other profile sub ivars
-      Ivars.mbEnablePuppy:Set(0,true)--tex TODO will kill the puppy quest (aww) till user toggles the option again
+      ivars.mbWarGamesProfile=Ivars.mbWarGamesProfile.enum.INVASION--KLUDGE just setting without saving or triggering other profile sub ivars
+      Ivars.mbEnablePuppy:Set(0,true)
     end
 
     IvarProc.ApplyProfile(warGamesBase[wargameBaseType],true)

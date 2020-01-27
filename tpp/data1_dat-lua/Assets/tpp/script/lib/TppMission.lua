@@ -181,11 +181,11 @@ function this.UpdateObjective(objectiveInfo)
     this.ShowUpdateObjective(mvars.mis_objectiveSetting)
   end
 end
-function this.SetHelicopterDoorOpenTime(e)
-  if not IsTypeNumber(e)then
+function this.SetHelicopterDoorOpenTime(time)
+  if not IsTypeNumber(time)then
     return
   end
-  mvars.mis_helicopterDoorOpenTimerTimeSec=e
+  mvars.mis_helicopterDoorOpenTimerTimeSec=time
 end
 function this.UpdateCheckPoint(checkPointInfo)
   TppCheckPoint.Update(checkPointInfo)

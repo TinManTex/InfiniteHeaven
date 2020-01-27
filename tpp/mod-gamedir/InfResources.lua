@@ -4,6 +4,8 @@ local this={}
 
 local IsTable=Tpp.IsTypeTable
 
+this.debugModule=false
+
 --tex various default resource amount tables gathered from different vanilla files.
 
 --TppDefine
@@ -11,7 +13,21 @@ this.SMALL_DIAMOND_GMP=10000
 this.LARGE_DIAMOND_GMP=100000
 
 --MbmCommonSetting20BaseRecSec.lua
+
+--STATE
 --tex GOTCHA I think values might be capped at 10k
+this.scaledContainerParams={
+  commonMetalCounts={white=750,red=7500,yellow=1500},
+  fuelResourceCounts={white=750,red=7500,yellow=1500},
+  bioticResourceCounts={white=750,red=7500,yellow=1500},
+  minorMetalCounts={white=400,red=4000,yellow=800},
+  preciousMetalCounts={white=50,red=500,yellow=100},
+  usableResourceContainerRate=50,
+  redContainerCountRate=40,
+  yellowContainerCountRate=40
+}
+
+--defaults
 this.containerParams={
   commonMetalCounts={white=750,red=7500,yellow=1500},
   fuelResourceCounts={white=750,red=7500,yellow=1500},
@@ -82,31 +98,54 @@ this.RESOURCE_INFORMATION_TABLE={
   [TppCollection.TYPE_POSTER_MOE_H]={resourceName="Poster1006",count=1}
 }
 
+
 --tex pretty much above default tables * resource scale
 function this.ScaleResourceTables()
   local resourceScale=Ivars.resourceAmountScale:Get()/100
+  InfLog.Add("ScaleResourceTables "..resourceScale)
 
   for collectionType,info in pairs(TppTerminal.RESOURCE_INFORMATION_TABLE)do
-  --tex trade-off between consistant implmentation, or immersion of not getting multiple posters when you're clear grabbing one.
---    if string.find(info.resourceName, "Poster") then
---    else
-      info.count=this.RESOURCE_INFORMATION_TABLE[collectionType].count*resourceScale
---    end
+    --tex trade-off between consistant implmentation, or immersion of not getting multiple posters when you're clear grabbing one.
+    --    if string.find(info.resourceName, "Poster") then
+    --    else
+    info.count=this.RESOURCE_INFORMATION_TABLE[collectionType].count*resourceScale
+    --    end
   end
 
-  TppMotherBaseManagement.SetSmallDiamondGmp{gmp=this.SMALL_DIAMOND_GMP*resourceScale}
-  TppMotherBaseManagement.SetLargeDiamondGmp{gmp=this.LARGE_DIAMOND_GMP*resourceScale}
+  local smallDiamondGmp=this.SMALL_DIAMOND_GMP*resourceScale
+  local largeDiamondGmp=this.LARGE_DIAMOND_GMP*resourceScale
 
-  local scaledContainerParams={}
-  Tpp.MergeTable(scaledContainerParams,this.containerParams)
-  for k,resourceCounts in pairs(this.containerParams) do
+  TppMotherBaseManagement.SetSmallDiamondGmp{gmp=smallDiamondGmp}
+  TppMotherBaseManagement.SetLargeDiamondGmp{gmp=largeDiamondGmp}
+
+  for k,resourceCounts in pairs(this.scaledContainerParams) do
+    local defaultResourceCounts=this.containerParams[k]
     if IsTable(resourceCounts) then
       for containerType,resourceCount in pairs(resourceCounts) do
-        resourceCounts[containerType]=resourceCount*resourceScale
+        resourceCounts[containerType]=defaultResourceCounts[containerType]*resourceScale
       end
     end
   end
-  TppMotherBaseManagement.RegisterContainerParam(scaledContainerParams)
+  
+  TppMotherBaseManagement.RegisterContainerParam(this.scaledContainerParams)
+
+  if this.debugModule then
+    InfLog.Add("RESOURCE_INFORMATION_TABLE")
+    InfLog.PrintInspect(this.RESOURCE_INFORMATION_TABLE)
+
+    InfLog.Add("scaled RESOURCE_INFORMATION_TABLE")
+    InfLog.PrintInspect(TppTerminal.RESOURCE_INFORMATION_TABLE)
+
+    InfLog.Add("smallDiamondGmp:"..this.SMALL_DIAMOND_GMP.." largeDiamondGmp:"..this.LARGE_DIAMOND_GMP)
+    InfLog.Add("scaled smallDiamondGmp:"..smallDiamondGmp.." largeDiamondGmp:"..largeDiamondGmp)
+
+
+    InfLog.Add("containerParams")
+    InfLog.PrintInspect(this.containerParams)
+
+    InfLog.Add("scaledContainerParams")
+    InfLog.PrintInspect(this.scaledContainerParams)
+  end
 end
 
 function this.OnAllocate(missionTable)
