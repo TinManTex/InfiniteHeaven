@@ -11,7 +11,7 @@ this.debugModule=false
 
 this.safeSpaceMenu={
   options={
-    "InfMenuDefs.systemMenu",--DEBUGNOW
+    "InfMenuDefs.systemMenu",--tex forced order (first) rather than just by context
   }
 }
 

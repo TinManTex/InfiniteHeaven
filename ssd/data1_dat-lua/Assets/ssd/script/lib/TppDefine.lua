@@ -431,7 +431,8 @@ this.MISSION_COMMON_PACK={
     "/Assets/tpp/pack/player/parts/plvoice_ddm_b.fpk",
     "/Assets/tpp/pack/player/parts/plvoice_ddm_c.fpk",
     "/Assets/tpp/pack/player/parts/plvoice_ddm_d.fpk",
-    "/Assets/tpp/pack/ui/ui_avatar_edit_men.fpk"
+    "/Assets/tpp/pack/ui/ui_avatar_edit_men.fpk",
+    "/Assets/ssd/pack/ui/ssd_ui_avatar_add_tex_men.fpk",--RETAILPATCH: 1.0.8.0
   },
   AVATAR_ASSET_LIST_FEMALE={
     "/Assets/ssd/pack/player/avatar/deform/avm_dfrm_women_mtar.fpk",
@@ -465,7 +466,8 @@ this.MISSION_COMMON_PACK={
     "/Assets/tpp/pack/player/parts/plvoice_ddf_b.fpk",
     "/Assets/tpp/pack/player/parts/plvoice_ddf_c.fpk",
     "/Assets/tpp/pack/player/parts/plvoice_ddf_d.fpk",
-    "/Assets/ssd/pack/ui/ui_avatar_edit_women.fpk"
+    "/Assets/ssd/pack/ui/ui_avatar_edit_women.fpk",
+    "/Assets/ssd/pack/ui/ssd_ui_avatar_add_tex_women.fpk",--RETAILPATCH: 1.0.8.0
   }
 }
 this.SOLIDER2_COMMON_PACK={

@@ -1,4 +1,4 @@
--- SsdBaseDefense
+-- SsdBaseDefense.lua
 local this={}
 local MAX_STEPS=256
 local stepNumberNone=0
@@ -251,7 +251,8 @@ function this.OnStartRewardSequence(n,t)
     mvars.bdf_viewTotalResult=true
     GkEventTimerManager.Start("Timer_BdfOpenRewardWormhole",4)
     GkEventTimerManager.Start("Timer_BdfDestroySingularityEffect",12)
-    GkEventTimerManager.Start("Timer_BdfBaseDiggingFinish",35)
+    TppMusicManager.PostJingleState"Set_State_ssd_jin_WaveComp_on"--RETAILPATCH: 1.0.8.0 jingle
+    GkEventTimerManager.Start("Timer_BdfBaseDiggingFinish",45)--RETAILPATCH: 1.0.8.0 increased from 35
   else
     mvars.bdf_viewTotalResult=false
     this.CloseRewardWormhole()
@@ -284,9 +285,24 @@ function this.Messages()
     GameObject={
       {msg="DiggingStartEffectEnd",func=function()
         if mvars.bdf_isStartRewardSequence then
-          GkEventTimerManager.Start("Timer_BdfCloseRewardWormhole",5)
+          GkEventTimerManager.Start("Timer_BdfCloseRewardWormhole",5.5)--RETAILPATCH: 1.0.8.0 increased from 5
+          if mvars.bdf_viewTotalResult then--RETAILPATCH: 1.0.8.0>
+            CoopScoreSystem.StartDiggerChargeEnagy{chargeTime=6}
+          end--<
         end
-      end}},
+      end},
+      --RETAILPATCH: 1.0.8.0>
+      {msg="DiggerDrumRollStart",func=function()
+        if mvars.bdf_viewTotalResult then
+          if GkEventTimerManager.IsTimerActive"Timer_BdfBaseDiggingFinish"then
+            GkEventTimerManager.Stop"Timer_BdfBaseDiggingFinish"
+          end
+          GkEventTimerManager.Start("Timer_BdfBaseDiggingFinish",26.709483)
+          TppMusicManager.PostJingleState"Set_State_ssd_jin_WaveComp_out"
+        end
+      end,option={isExecMissionClear=true}}
+      --<
+    },
     Marker={
       {msg="ChangeToEnable",func=function(t,n,a,s)
         this._ChangeToEnable(t,n,a,s)
@@ -348,9 +364,11 @@ function this.Messages()
         TppMission.StopDefenseGame()
         TppPauseMenu.SetIgnoreActorPause(false)
         Gimmick.SetAllSwitchInvalid(false)
-        local e=TppStory.GetCurrentStorySequence()
-        TppEnemy.SetEnemyLevelBySequence(e)
-        TppQuest.SetUnloadableAll(false)TimerStart("Timer_BdfCheckUnload",1)
+        local currentStorySequence=TppStory.GetCurrentStorySequence()
+        TppEnemy.SetEnemyLevelBySequence(currentStorySequence)
+        TppQuest.SetUnloadableAll(false)
+        TppMusicManager.PostJingleState"Set_State_ssd_jin_WaveComp_none"--RETAILPATCH: 1.0.8.0
+        TimerStart("Timer_BdfCheckUnload",1)
       end},
       {msg="EndFadeIn",sender="FadeInOnStartDefense",func=function()
         TppMain.EnablePlayerPad()

@@ -1,5 +1,10 @@
 Infinite Heaven changelog
 
+r227 - 2018-04-04
+Fixed: Prior style QuickMenus breaking in various ways (SOC quickmenu for example).
+Refactor: No longer calling WriteToExtTxt() every ExtCmd, should smooth IHExt performance a bit.
+IHExt: Better handling of selecting menuLine text when giving focus via mouse click.
+
 r226 - 2018-04-03
 Changes to buttons/keys:
 InfMenu: While menu open hold <Switch Zoom> (V key or RStick click) + player move (WSAD or left stick) to navigate menu

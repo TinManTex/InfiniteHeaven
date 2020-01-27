@@ -1,5 +1,5 @@
 = Infinite heaven =
-r226 - 2018-04-03
+r227 - 2018-04-04
 by tin man tex
 For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
@@ -16,6 +16,11 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r227
+Fixed: Prior style QuickMenus breaking in various ways (SOC quickmenu for example).
+Refactor: No longer calling WriteToExtTxt() every ExtCmd, should smooth IHExt performance a bit.
+IHExt: Better handling of selecting menuLine text when giving focus via mouse click.
+
 New for r226
 A bunch of background code changes like last version so if you hit any issues please report them please.
 
@@ -32,7 +37,7 @@ Fixed: IHExt - not displaying current setting upon activating an option from IHE
 
 IHExt: MenuLine changed from Label to TextBox, GotKeyboardFocus, EnterText commands.
 IHExt: Search (EnterText > InfMenu.BuildMenuDefForSearch). Alt-tab to IHExt, click or tab the text of the menu line below the menu list. Type something and press Enter.
-[youtube]k51-8vHI2mU[/youtube]
+[youtube]EdReKIafMps[/youtube]
 https://youtu.be/EdReKIafMps
 
 New for r225:

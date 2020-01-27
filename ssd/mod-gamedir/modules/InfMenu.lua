@@ -13,6 +13,7 @@ local IsTable=Tpp.IsTypeTable
 local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 local TppUiCommand=TppUiCommand
 local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
+local insert=table.insert
 local abs=math.abs
 
 this.autoDisplayDefault=2.4
@@ -28,9 +29,6 @@ this.stickInputRate=0.25
 this.menuAltButton=InfButton.ZOOM_CHANGE
 this.menuAltActive=InfButton.RELOAD
 this.toggleMenuButton=InfButton.EVADE--SYNC: InfLang "menu_keys"
-if InfCore.gameId=="SSD" then
---DEBUGNOW  this.toggleMenuButton=nil
-end
 this.toggleMenuButtonAlt=InfButton.DASH
 this.menuRightButton=InfButton.RIGHT
 this.menuLeftButton=InfButton.LEFT
@@ -1096,7 +1094,7 @@ function this.BuildMenuDefForSearch(searchString)
   end
   table.sort(newMenuDef.options)
   insert(newMenuDef.options,1,"Ivars.searchItem")
-  insert(newMenuDef.options,"InfMenuCommands.GoBackTopItem")--DEBUGNOW ADDLANG
+  insert(newMenuDef.options,"InfMenuCommands.GoBackTopItem")
   return newMenuDef
 end
 

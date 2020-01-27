@@ -1,2 +1,2 @@
-636583557050245546|cmdToExtCompletedIndex|896
-42|activate|menuItems|14
+636584552769693933|cmdToExtCompletedIndex|84
+1|ready

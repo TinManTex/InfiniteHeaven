@@ -116,7 +116,14 @@ function this.ForceRequestWeather(weatherType,param1,param2)
   if interpTime==nil then
     interpTime=defaultInterpTime
   end
-  WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_FORCE,userId=userIdScript,weatherType=weatherType,interpTime=interpTime,fogDensity=fogInfo.fogDensity,fogType=fogInfo.fogType}
+  WeatherManager.RequestWeather{
+    priority=WeatherManager.REQUEST_PRIORITY_FORCE,
+    userId=userIdScript,
+    weatherType=weatherType,
+    interpTime=interpTime,
+    fogDensity=fogInfo.fogDensity,
+    fogType=fogInfo.fogType
+  }
 end
 function this.CancelForceRequestWeather(weatherType,param1,param2)
   local interpTime,fogInfo=this._GetRequestWeatherArgs(param1,param2)
@@ -125,7 +132,14 @@ function this.CancelForceRequestWeather(weatherType,param1,param2)
   end
   WeatherManager.CancelRequestWeather{priority=WeatherManager.REQUEST_PRIORITY_FORCE,userId=userIdScript}
   if weatherType~=nil then
-    WeatherManager.RequestWeather{priority=WeatherManager.REQUEST_PRIORITY_NORMAL,userId=userIdScript,weatherType=weatherType,interpTime=interpTime,fogDensity=fogInfo.fogDensity,fogType=fogInfo.fogType}
+    WeatherManager.RequestWeather{
+      priority=WeatherManager.REQUEST_PRIORITY_NORMAL,
+      userId=userIdScript,
+      weatherType=weatherType,
+      interpTime=interpTime,
+      fogDensity=fogInfo.fogDensity,
+      fogType=fogInfo.fogType
+    }
   end
 end
 function this.SetDefaultWeatherDurations()

@@ -1,4 +1,7 @@
 -- InfQuickMenuDefs.lua
+-- When enabled via the 'Enable Quick menu'/enableQuickMenu option or forceEnable below, 
+-- activate by holding <Switch Zoom> (V key or RStick click) + the key/button for the defined command.
+
 -- If you want to edit this it may be better to copy off to InfQuickMenuDefs_User.lua 
 --so it doesn't get overwritten on new IH versions, 
 --but you'll have to check any new InfQuickMenuDefs.lua to see if I've done any changes to the system.
@@ -14,7 +17,6 @@
 --InfButton.FIRE - (Left mouse or Right Trigger)
 --InfButton.CALL - <Call radio/interrogate> - (Q or Left bumper)
 --InfButton.SUBJECT - <Binoculars/scope> - (F or Right bumper)
---InfButton.DASH - (Shift or Left stick click)
 
 --InfButton.UP - (Arrow/Dpad Up)
 --InfButton.DOWN - (Arrow/Dpad Down)

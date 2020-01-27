@@ -1470,6 +1470,7 @@ function this.Messages()
       {msg="PresetRadioEditMenuClosed",func=TppSave.SaveEditData},
       {msg="CommunicationMarkerEditMenuClosed",func=TppSave.SaveEditData},
       {msg="GestureEditMenuClosed",func=TppSave.SaveEditData},
+      {msg="LastOrderMenuTimeChanged",func=TppSave.SaveOnlyLocalEditData},--RETAILPATCH: 1.0.8.0
       {msg="AbandonFromPauseMenu",
         func=function()
           vars.isAbandonFromUser=1

@@ -173,8 +173,10 @@ function this.SetMenuLine(fullText,text)
   end
 end
 
+--menu command
 function this.TakeFocus()
   this.ExtCmd('TakeFocus')
+  InfCore.WriteToExtTxt()
 end
 
 return this

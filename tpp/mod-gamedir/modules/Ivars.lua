@@ -116,6 +116,7 @@ this.enableIHExt={
       if InfCore.extSession==0 then
       else
         InfCore.ExtCmd("Shutdown")
+        InfCore.WriteToExtTxt()
       end
     end
   end,
@@ -134,6 +135,7 @@ this.enableIHExt={
       InfCore.manualIHExtStart=true
       --else
       --InfCore.ExtCmd("shutdown")--DEBUGNOW TODO wont actually fire since ExtCmd aborts on enableIHExt off
+      --InfCore.WriteToExtTxt()
       --end
     end
   end,
@@ -146,7 +148,8 @@ this.enableHelp={
   settingNames="set_switch",
   OnChange=function(self,setting)
     InfCore.ExtCmd("UiElementVisible","menuHelp",setting)--tex TODO: shouldnt be nessesary, DisplayCurrentSetting should handle it DEBUGNOW
-      InfMenu.DisplayCurrentSetting()
+    InfCore.WriteToExtTxt()
+    InfMenu.DisplayCurrentSetting()
   end,
 }
 
@@ -539,6 +542,7 @@ this.searchItem={
   GetSettingText=function()return " " end,
   OnSelect=function(self)
     InfCore.ExtCmd("SelectAllText","menuLine")
+    InfCore.WriteToExtTxt()
   end,
 }
 --end ivar defines

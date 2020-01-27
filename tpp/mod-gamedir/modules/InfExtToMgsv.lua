@@ -51,6 +51,7 @@ function this.ProcessCommands()
             --tex reset
             --InfCore.extToMgsvComplete=0
             InfCore.ExtCmd('SessionChange')--tex a bit of nothing to get the mgsvTpExtComplete to update from the message, ext does likewise
+            InfCore.WriteToExtTxt()
           end
           InfCore.mgsvToExtComplete=args[3]
         elseif messageId>InfCore.extToMgsvComplete then
@@ -124,6 +125,7 @@ function this.Input(args)
         --        if currentOption then
         --          local helpText=InfMenu.GetCurrentHelpText()
         --          InfCore.ExtCmd('print',helpText)
+        --          InfCore.WriteToExtTxt()
         --          InfMenu.DisplayCurrentSetting()
         --        end
       else
@@ -220,6 +222,7 @@ function this.GotKeyboardFocus(args)
       local menuLineText="<Type and Enter to search>"--DEBUGNOW TODO LANG
       InfMgsvToExt.SetMenuLine(settingText,menuLineText)
       InfCore.ExtCmd("SelectAllText",menuLine)
+      InfCore.WriteToExtTxt()
     end
   end
 end
@@ -234,6 +237,7 @@ function this.EnterText(args)
     local settingText=""
     local menuLineText="<Type and Enter to search>"--DEBUGNOW TODO LANG
     --InfMgsvToExt.SetMenuLine(settingText,menuLineText)
+    --InfCore.WriteToExtTxt()
   end
 end
 

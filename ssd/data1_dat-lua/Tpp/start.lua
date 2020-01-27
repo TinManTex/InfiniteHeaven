@@ -1,3 +1,4 @@
+-- ssd start.lua
 if(DEFAULT_OFFLINE_FIRST_PARTY_NETWORK_MODE and Fox.GetPlatformName()=="PS4")and DebugMenu then
   DebugMenu.SetDebugMenuValue("TppNetwork","UseKonamiLAN","On")
   DebugMenu.SetDebugMenuValue("TppNetwork","ConnectDebugGate","Dev_Prod")
@@ -463,8 +464,14 @@ if SsdNpcHumanCommonBlockController then
   SsdNpcHumanCommonBlockController.CreateCommonMotionBlockGroup(9559*1024)
   SsdNpcHumanCommonBlockController.SetPackagePathWithPrerequisites{path="/Assets/ssd/pack/npc/common/NpcHumanCommon.fpk"}
 end
-TppEquip.CreateResidentBlockGroups{commonBlockSize=(2*1024)*1024,primary1BlockSize=(.55*1024)*1024,primary2BlockSize=(.55*1024)*1024,secondaryBlockSize=(.34*1024)*1024}
+TppEquip.CreateResidentBlockGroups{
+  commonBlockSize=(2*1024)*1024,
+  primary1BlockSize=(.55*1024)*1024,
+  primary2BlockSize=(.55*1024)*1024,
+  secondaryBlockSize=(.34*1024)*1024
+}
 TppEquip.LoadCommonBlock(0,"/Assets/ssd/pack/collectible/common/col_common_ssd.fpk")
+TppEquip.LoadCommonBlock(1,"/Assets/ssd/pack/collectible/common/col_common_ssd_patch.fpk")--RETAILPATCH: 1.0.8.0
 if Editor then
   TppEdMissionListEditInfo.SetConverterScriptPath"Tpp/Scripts/Classes/TppEdMissionConverterCaller.lua"
   EdDemoEditBlockController.AddToolsBlockPath"/Assets/tpp/demo/event/info/TppEdDemoEditTools.fpk"

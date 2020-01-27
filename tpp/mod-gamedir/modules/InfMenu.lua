@@ -225,6 +225,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
         InfCore.ExtCmd('UiElementVisible','menuHelp',0)
       end
     end
+    InfCore.WriteToExtTxt()
   end
 end
 
@@ -423,6 +424,7 @@ function this.GoMenu(menu,goBack)
       end
       InfCore.ExtCmd('AddToTable','menuItems',settingText)
     end
+    InfCore.WriteToExtTxt()
   end
 
   this.GetSetting(previousIndex,previousMenuOptions)
@@ -567,6 +569,7 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
       local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
       InfMgsvToExt.SetMenuLine(settingText,menuLineText)
     end
+    InfCore.WriteToExtTxt()
   else
 
     if option==nil then
@@ -695,6 +698,7 @@ function this.OnActivate()
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.ShowMenu()
+    --InfCore.WriteToExtTxt()--tex handled below
     this.DisplayCurrentSetting()
   end
 
@@ -710,6 +714,7 @@ function this.OnDeactivate()
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.HideMenu()
+    InfCore.WriteToExtTxt()
   end
 end
 
@@ -795,11 +800,14 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     end
   end
 
-  if InfButton.ButtonHeld(this.menuAltButton) then
-    if InfButton.OnButtonDown(this.menuAltActive) then
-      if this.menuOn then
-        InfCore.ExtCmd('TakeFocus')
-        return
+  if this.menuOn then
+    if InfButton.ButtonHeld(this.menuAltButton) then
+      if InfButton.OnButtonDown(this.menuAltActive) then
+        if this.menuOn then
+          InfCore.ExtCmd('TakeFocus')
+          InfCore.WriteToExtTxt()
+          return
+        end
       end
     end
   end
@@ -820,29 +828,36 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       this.quickMenuOn=InfButton.ButtonHeld(quickMenuHoldButton)
       local quickMenu=InfQuickMenuDefs.inMission
       if currentChecks.inSafeSpace then
-        quickMenu=InfQuickMenuDefs.inSafeSpace
+        quickMenu=InfQuickMenuDefs.inSafeSpace or InfQuickMenuDefs.inHeliSpace--LEGACY
       end
       if currentChecks.inDemo then
         quickMenu=InfQuickMenuDefs.inDemo
       end
+      if quickMenu==nil then
 
-      for button,commandInfo in pairs(quickMenu) do
-        InfButton.buttonStates[button].holdTime=0.9--DEBUGNOW --commandInfo.immediate and 0.05 or 0.9
-        if commandInfo.immediate then
-          this.quickMenuOn=InfButton.ButtonDown(quickMenuHoldButton)
-        end
+      else
+        for button,commandInfo in pairs(quickMenu) do
+          if button==this.menuAltButton then
 
-        if (commandInfo.immediate and InfButton.OnButtonDown(button)) or
-          InfButton.OnButtonHoldTime(button) then
-          --tex have to be careful with order when doing combos since OnButtonHold (and others) update state
-          if this.quickMenuOn then
-            local Command,name=InfCore.GetStringRef(commandInfo.Command)
-            if Command==nil then
-              InfCore.Log("WARNING: Could not find function for QuickMenu command:"..tostring(commandInfo.Command))
-            elseif type(Command)~="function"then
-              InfCore.Log("WARNING: QuickMenu command "..tostring(commandInfo.Command).." is not a function")
-            else
-              Command()
+          else
+            InfButton.buttonStates[button].holdTime=0.9--DEBUGNOW --commandInfo.immediate and 0.05 or 0.9
+            if commandInfo.immediate then
+              this.quickMenuOn=InfButton.ButtonDown(quickMenuHoldButton)
+            end
+
+            if (commandInfo.immediate and InfButton.OnButtonDown(button)) or
+              InfButton.OnButtonHoldTime(button) then
+              --tex have to be careful with order when doing combos since OnButtonHold (and others) update state
+              if this.quickMenuOn then
+                local Command,name=InfCore.GetStringRef(commandInfo.Command)
+                if Command==nil then
+                  InfCore.Log("WARNING: Could not find function for QuickMenu command:"..tostring(commandInfo.Command))
+                elseif type(Command)~="function"then
+                  InfCore.Log("WARNING: QuickMenu command "..tostring(commandInfo.Command).." is not a function")
+                else
+                  Command()
+                end
+              end
             end
           end
         end

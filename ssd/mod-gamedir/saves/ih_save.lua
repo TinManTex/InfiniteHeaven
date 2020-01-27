@@ -4,30 +4,30 @@
 -- See Readme for more info
 local this={}
 this.ihVer=4
-this.saveTime=1522659440
+this.saveTime=1522801524
 this.inMission=false
 this.loadToACC=false
 this.evars={
 	avatar_enableGenderSelect=1,
-	enableQuickMenu=1,
+	speedCamPlayerTimeScale=1.5,
 	disableGameOver=1,
 	debugFlow=1,
 	disableCommonRadio=1,
 	disableOutOfBoundsChecks=1,
 	dust_requireOxygenMask=0,
-	speedCamContinueTime=1000,
 	debugMode=1,
 	gear_Inner=8,
 	gear_Helmet=29,
 	enableHelp=1,
-	speedCamPlayerTimeScale=1.5,
 	dust_wallVisible=0,
+	enableQuickMenu=1,
 	gear_Arm=11,
-	enableIHExt=1,
+	speedCamContinueTime=1000,
+	dust_forceWeather=3,
 	debugMessages=1,
 	debugOnUpdate=1,
-	dust_forceWeather=3,
-	speedCamWorldTimeScale=0.2,
+	enableIHExt=1,
+	speedCamWorldTimeScale=0.1,
 }
 this.igvars={
 	mis_isGroundStart=false,

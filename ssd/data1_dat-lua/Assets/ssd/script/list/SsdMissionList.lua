@@ -127,7 +127,8 @@ this.MISSION_DEFINE_LIST={
   {type=missionTypes.FLAG,name="k40075",location=locationEnums.SSD_AFGH},
   {type=missionTypes.FLAG,name="k40077",location=locationEnums.SSD_AFGH},
   {type=missionTypes.COOP,name="c20010",location=locationEnums.SSD_AFGH,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_plant_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_spawn_c01.fpk"
@@ -140,7 +141,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20020",location=locationEnums.SSD_AFGH,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_plant_c01.fpk"
@@ -154,7 +156,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20030",location=locationEnums.SSD_AFGH,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/field/afgh_field_plant_c01.fpk"
@@ -173,7 +176,8 @@ this.MISSION_DEFINE_LIST={
   {type=missionTypes.STORY,name="s10030",location=locationEnums.SSD_AFGH},
   {type=missionTypes.FLAG,name="k40145",location=locationEnums.SSD_AFGH},
   {type=missionTypes.COOP,name="c20110",location=locationEnums.SSD_AFGH,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_spawn_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_plant_c01.fpk"
@@ -186,7 +190,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20120",location=locationEnums.SSD_AFGH,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_spawn_c01.fpk"
@@ -200,7 +205,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20130",location=locationEnums.SSD_AFGH,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/large/village/afgh_village_spawn_c01.fpk"
@@ -219,6 +225,7 @@ this.MISSION_DEFINE_LIST={
   {type=missionTypes.STORY,name="s10035",location=locationEnums.SSD_AFGH,pack=function(s)--RETAILPATCH: 1.0.5.0 added packs
     this._AddCommonMissionPack(s,"story","s10035")
     TppPackList.AddMissionPack"/Assets/ssd/pack/mission/story/s10035/s10035_sound.fpk"
+    TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/animal/anml_afgh_01_00_asset_ground.fpk"--RETAILPATCH: 1.0.8.0
   end},--<
   {type=missionTypes.FREE,name="f30020",location=locationEnums.MAFR,
     pack=function(s)
@@ -232,7 +239,8 @@ this.MISSION_DEFINE_LIST={
   {type=missionTypes.FLAG,name="k40170",location=locationEnums.MAFR},
   {type=missionTypes.STORY,name="s10040",location=locationEnums.MAFR},
   {type=missionTypes.COOP,name="c20210",location=locationEnums.MAFR,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_spawn_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_plant_c01.fpk"
@@ -245,7 +253,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20220",location=locationEnums.MAFR,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_spawn_c01.fpk"
@@ -259,7 +268,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20230",location=locationEnums.MAFR,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_digger_c02.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/mafr/pack_mission/large/diamond/mafr_diamond_spawn_c01.fpk"
@@ -274,7 +284,12 @@ this.MISSION_DEFINE_LIST={
     end},
   {type=missionTypes.FLAG,name="k40220",location=locationEnums.MAFR},
   {type=missionTypes.FLAG,name="k40230",location=locationEnums.MAFR},
-  {type=missionTypes.STORY,name="s10050",location=locationEnums.SSD_AFGH},
+  {type=missionTypes.STORY,name="s10050",location=locationEnums.SSD_AFGH,pack=function(s)
+    --RETAILPATCH: 1.0.8.0>
+    this._AddCommonMissionPack(s,"story","s10050")
+    TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/animal/anml_afgh_01_00_asset_ground.fpk"
+    --<
+  end},
   {type=missionTypes.FLAG,name="k40250",location=locationEnums.MAFR},
   {type=missionTypes.FLAG,name="k40260",location=locationEnums.SSD_AFGH},
   {type=missionTypes.FLAG,name="k40270",location=locationEnums.SSD_AFGH},
@@ -285,11 +300,13 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/ui/ssd_ui_staff_roll_defeat_end.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/ui/ssd_ui_staff_roll_return_end.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/ui/ssd_init_mission_ui.fpk"
+      TppPackList.AddMissionPack"/Assets/ssd/pack/location/afgh/pack_mission/animal/anml_afgh_01_00_asset_ground.fpk"--RETAILPATCH: 1.0.8.0
     end},
   {type=missionTypes.FLAG,name="k40310",location=locationEnums.MAFR},
   {type=missionTypes.FLAG,name="k40320",location=locationEnums.MAFR},
   {type=missionTypes.COOP,name="c20610",location=locationEnums.SPFC,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_plant_c01.fpk"
@@ -303,7 +320,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20620",location=locationEnums.SPFC,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c02.fpk"
@@ -318,7 +336,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20630",location=locationEnums.SPFC,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_digger_c02.fpk"
@@ -333,7 +352,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/spfc/pack_mission/large/pfCamp/spfc_pfCamp_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20710",location=locationEnums.SSAV,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_plant_c01.fpk"
@@ -347,7 +367,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20720",location=locationEnums.SSAV,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c02.fpk"
@@ -362,7 +383,8 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_script_c01.fpk"
     end},
   {type=missionTypes.COOP,name="c20730",location=locationEnums.SSAV,
-    pack=function(s)this._AddCoopCommonMissionPack(s)
+    pack=function(s)
+      this._AddCoopCommonMissionPack(s)
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_path.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c01.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/location/ssav/pack_mission/large/savannah/ssav_savannah_digger_c02.fpk"

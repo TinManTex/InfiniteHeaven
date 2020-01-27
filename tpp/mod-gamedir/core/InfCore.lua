@@ -317,10 +317,34 @@ function this.IHExtInstalled()
   return foundIHExt
 end
 
+--tex queues up cmd, use WriteToExtTxt to actually write/sends
 function this.ExtCmd(cmd,...)
-  if InfMgsvToExt then
-    InfMgsvToExt.ExtCmd(cmd,...)--tex external so can reload it while working on it
+  if not this.IHExtRunning() then
+    return
   end
+
+  --tex ihExt hasnt started
+  if this.extSession==0 then
+    return
+  end
+
+  this.mgsvToExtCurrent=this.mgsvToExtCurrent+1
+
+  local args={...}--tex GOTOCHA doesnt catch intermediary params that are nil
+  local message=this.mgsvToExtCurrent..'|'..cmd
+  if #args>0 then
+    message=message..'|'..concat(args,'|')
+  end
+
+  if this.debugModule then
+    InfCore.PrintInspect(message,"ExtCmd message")
+  end
+
+  this.mgsvToExtCommands[this.mgsvToExtCurrent]=message
+  --if InfCore.extSession~=0 then--tex ihExt hasnt started
+  --DEBUGNOW this.WriteToExtTxt()
+  --end
+  --InfCore.PrintInspect(this.mgsvToExtCommands)--DEBUG
 end
 
 --tex LEGACY, InfProcessExt was deleted r218 but the file may linger if the user didnt uninstall correctly using snakebite (or if snakebite messed up)
