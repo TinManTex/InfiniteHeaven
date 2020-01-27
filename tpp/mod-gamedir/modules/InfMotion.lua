@@ -18,17 +18,17 @@ this.motionGroupIndex={
   inMission=true,
   range={min=1,max=2},--DYNAMIC
   GetSettingText=function(self,setting)
-    return InfMotion.motionGroups[setting]
+    return this.motionGroups[setting]
   end,
   OnSelect=function(self)
-    self.range.max=#InfMotion.motionGroups
+    self.range.max=#this.motionGroups
   end,
   OnChange=function(self,previousSetting,setting)
-    if setting>#InfMotion.motionGroups then
+    if setting>#this.motionGroups then
       self:Set(1)
     end
     if setting<1 then
-      self:Set(#InfMotion.motionGroups)
+      self:Set(#this.motionGroups)
     end
 
     --tex make sure it's in bounds
@@ -50,7 +50,7 @@ this.motionGaniIndex={
   OnSelect=function(self)
     local groupIndex=Ivars.motionGroupIndex:Get()
     local motionName=this.motionGroups[groupIndex]
-    local motionsForGroup=InfMotion.motions[motionName]
+    local motionsForGroup=this.motions[motionName]
     self.range.max=#motionsForGroup
 
     local setting=self:Get()

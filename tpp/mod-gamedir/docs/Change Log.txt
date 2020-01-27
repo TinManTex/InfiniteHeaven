@@ -1,5 +1,8 @@
 Infinite Heaven changelog
 
+r225 - 2018-03-07
+Fixed: Hang on load with no ih_save, wasn't initializing igvars oops - thanks серёжа for the report and the save files to test.
+
 r224 - 2018-03-06
 Refactor: InfMain.LoadLibraries > module.LoadLibrzaries
 Refactor: Ivars split into modules that have the main use/implmentation of the Ivar (or even <module>Ivars when that gets too hefty).

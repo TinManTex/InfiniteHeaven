@@ -30,6 +30,7 @@ local GAME_OBJECT_TYPE_HELI2=TppGameObject.GAME_OBJECT_TYPE_HELI2
 local GAME_OBJECT_TYPE_VEHICLE=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
 local GAME_OBJECT_TYPE_HORSE2=TppGameObject.GAME_OBJECT_TYPE_HORSE2
 local GAME_OBJECT_TYPE_WALKERGEAR2=TppGameObject.GAME_OBJECT_TYPE_WALKERGEAR2
+local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
 
 local reloadModulesCombo={
   InfButton.HOLD,
@@ -109,7 +110,7 @@ function this.OnAllocate(missionTable)
     return
   end
 
-  if igvars then
+  if igvars and igvars.inf_levelSeed then
     InfCore.Log("inf_levelSeed "..tostring(igvars.inf_levelSeed))--DEBUG
   end
 
@@ -415,7 +416,7 @@ function this.Update()
     end
     local currentChecks=this.execChecks
     this.UpdateExecChecks(currentChecks)
-    this.currentTime=Time.GetRawElapsedTimeSinceStartUp()
+    this.currentTime=GetRawElapsedTimeSinceStartUp()
 
     InfButton.UpdateHeld()
     InfButton.UpdateRepeatReset()
@@ -531,6 +532,7 @@ end
 function this.RandomSetToLevelSeed()
   --  InfCore.Log("RandomSetToLevelSeed:"..tostring(igvars.inf_levelSeed))--DEBUG
   --  InfCore.Log("caller:"..InfCore.DEBUG_Where(2))--DEBUG
+  igvars.inf_levelSeed=igvars.inf_levelSeed or 1
   math.randomseed(igvars.inf_levelSeed)
   math.random()
   math.random()

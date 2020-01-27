@@ -1,5 +1,5 @@
 = Infinite heaven =
-r224 - 2018-03-06
+r225 - 2018-03-06
 by tin man tex
 For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
@@ -16,6 +16,9 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r225:
+Fixed: Hang on load with no ih_save, wasn't initializing igvars oops - thanks серёжа for the report and the save files to test.
+
 New for r224:
 Motions menu - Play different animations on player. A motion group may contain several related animations (usually lead-in, idle, lead-out)
 Option: Motion group - Press <Action> to play the selected animation.
@@ -148,6 +151,7 @@ Shigu for your specific testing and discussions
 Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
 unknown123 for the MGSV research.
+sai for FoxLib and further MGSV research.
 Various people for their donations, including:
 Domenico
 Jeong

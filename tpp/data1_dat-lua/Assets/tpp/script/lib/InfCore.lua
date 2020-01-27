@@ -9,12 +9,13 @@ local tostring=tostring
 local concat=table.concat
 local string=string
 local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
+local isMockFox=isMockFox
 
 local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="224"
+this.modVersion="225"
 this.modName="Infinite Heaven"
 
 this.gameId="TPP"
