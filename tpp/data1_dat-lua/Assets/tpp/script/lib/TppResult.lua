@@ -12,8 +12,88 @@ this.RANK_BASE_SCORE_10040={S=2e4,A=18e3,B=14e3,C=1e4,D=6e3,E=0}
 this.RANK_BASE_SCORE_10130={S=5e4,A=45e3,B=35e3,C=25e3,D=2e4,E=0}
 this.RANK_BASE_SCORE_10140={S=1e5,A=8e4,B=65e3,C=5e4,D=35e3,E=0}
 this.RANK_BASE_GMP={S=28e3,A=23400,B=2e4,C=18e3,D=13500,E=9999}
-this.COMMON_SCORE_PARAM={noReflexBonus=1e4,noAlertBonus=5e3,noKillBonus=5e3,noRetryBonus=5e3,perfectStealthNoKillBonus=2e4,noTraceBonus=1e5,firstSpecialBonus=5e3,secondSpecialBonus=5e3,alertCount={valueToScoreRatio=-5e3},rediscoveryCount={valueToScoreRatio=-500},takeHitCount={valueToScoreRatio=-100},tacticalActionPoint={valueToScoreRatio=1e3},hostageCount={valueToScoreRatio=5e3},markingCount={valueToScoreRatio=30},interrogateCount={valueToScoreRatio=150},headShotCount={valueToScoreRatio=1e3},neutralizeCount={valueToScoreRatio=200}}
-this.MISSION_GUARANTEE_GMP={[10010]=nil,[10020]=8e4,[10030]=nil,[10036]=9e4,[10043]=1e5,[10033]=1e5,[10040]=11e4,[10041]=11e4,[10044]=12e4,[10052]=12e4,[10054]=13e4,[10050]=13e4,[10070]=13e4,[10080]=15e4,[10082]=15e4,[10086]=15e4,[10090]=17e4,[10195]=17e4,[10091]=17e4,[10100]=17e4,[10110]=17e4,[10121]=17e4,[10115]=19e4,[10120]=19e4,[10085]=19e4,[10200]=19e4,[10211]=19e4,[10081]=19e4,[10130]=21e4,[10140]=21e4,[10150]=21e4,[10151]=21e4,[10045]=21e4,[10093]=25e4,[10156]=26e4,[10171]=28e4,[10240]=3e5,[10260]=6e5,[10280]=nil,[11043]=3e5,[11054]=42e4,[11082]=5e5,[11090]=5e5,[11033]=4e5,[11050]=52e4,[11140]=6e5,[11080]=6e5,[11121]=68e4,[11130]=68e4,[11044]=68e4,[11151]=82e4,[11041]=19e4,[11085]=35e4,[11036]=15e4,[11091]=31e4,[11195]=31e4,[11211]=35e4,[11200]=35e4,[11171]=43e4,[11115]=35e4,[10230]=23e4}
+this.COMMON_SCORE_PARAM={
+  noReflexBonus=1e4,
+  noAlertBonus=5e3,
+  noKillBonus=5e3,
+  noRetryBonus=5e3,
+  perfectStealthNoKillBonus=2e4,
+  noTraceBonus=1e5,
+  firstSpecialBonus=5e3,
+  secondSpecialBonus=5e3,
+  alertCount={valueToScoreRatio=-5e3},
+  rediscoveryCount={valueToScoreRatio=-500},
+  takeHitCount={valueToScoreRatio=-100},
+  tacticalActionPoint={valueToScoreRatio=1e3},
+  hostageCount={valueToScoreRatio=5e3},
+  markingCount={valueToScoreRatio=30},
+  interrogateCount={valueToScoreRatio=150},
+  headShotCount={valueToScoreRatio=1e3},
+  neutralizeCount={valueToScoreRatio=200}
+}
+this.MISSION_GUARANTEE_GMP={
+  [10010]=nil,
+  [10020]=8e4,
+  [10030]=nil,
+  [10036]=9e4,
+  [10043]=1e5,
+  [10033]=1e5,
+  [10040]=11e4,
+  [10041]=11e4,
+  [10044]=12e4,
+  [10052]=12e4,
+  [10054]=13e4,
+  [10050]=13e4,
+  [10070]=13e4,
+  [10080]=15e4,
+  [10082]=15e4,
+  [10086]=15e4,
+  [10090]=17e4,
+  [10195]=17e4,
+  [10091]=17e4,
+  [10100]=17e4,
+  [10110]=17e4,
+  [10121]=17e4,
+  [10115]=19e4,
+  [10120]=19e4,
+  [10085]=19e4,
+  [10200]=19e4,
+  [10211]=19e4,
+  [10081]=19e4,
+  [10130]=21e4,
+  [10140]=21e4,
+  [10150]=21e4,
+  [10151]=21e4,
+  [10045]=21e4,
+  [10093]=25e4,
+  [10156]=26e4,
+  [10171]=28e4,
+  [10240]=3e5,
+  [10260]=6e5,
+  [10280]=nil,
+  [11043]=3e5,
+  [11054]=42e4,
+  [11082]=5e5,
+  [11090]=5e5,
+  [11033]=4e5,
+  [11050]=52e4,
+  [11140]=6e5,
+  [11080]=6e5,
+  [11121]=68e4,
+  [11130]=68e4,
+  [11044]=68e4,
+  [11151]=82e4,
+  [11041]=19e4,
+  [11085]=35e4,
+  [11036]=15e4,
+  [11091]=31e4,
+  [11195]=31e4,
+  [11211]=35e4,
+  [11200]=35e4,
+  [11171]=43e4,
+  [11115]=35e4,
+  [10230]=23e4
+}
 this.MISSION_TASK_LIST={
   [10010]={0,1},
   [10020]={0,1,2,3,4,5},
@@ -809,7 +889,7 @@ function this.DecideMissionClearRank()
   svars.bestRank=bestRank
   return svars.bestRank
 end
-function this.UpdateGmpOnMissionClear(missionCode,a,n)
+function this.UpdateGmpOnMissionClear(missionCode,clearRank,totalScore)
   local guaranteeGmp=this.MISSION_GUARANTEE_GMP[missionCode]
   if not guaranteeGmp then
     return
@@ -819,9 +899,9 @@ function this.UpdateGmpOnMissionClear(missionCode,a,n)
   end
   local guaranteedGmp=this.GetMissionGuaranteeGMP(missionCode)
   svars.gmpClear=TppTerminal.CorrectGMP{gmp=guaranteedGmp}
-  if a~=TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED then
-    local missionClearGmp=this.GetMissionClearRankGMP(a,missionCode)
-    missionClearGmp=missionClearGmp+n
+  if clearRank~=TppDefine.MISSION_CLEAR_RANK.NOT_DEFINED then
+    local missionClearGmp=this.GetMissionClearRankGMP(clearRank,missionCode)
+    missionClearGmp=missionClearGmp+totalScore
     svars.gmpOutcome=TppTerminal.CorrectGMP{gmp=missionClearGmp}
   else
     svars.gmpOutcome=0
@@ -852,24 +932,24 @@ function this.GetBestRank(missionCode)
   end
   return gvars.res_bestRank[missionEnum]
 end
-function this.GetMissionClearRankGMP(n,t)
-  local s=this.GetBestRank(t)
-  if not s then
+function this.GetMissionClearRankGMP(clearRank,missionCode)
+  local bestRank=this.GetBestRank(missionCode)
+  if not bestRank then
     return 0
   end
-  local r=this.GetRepeatPlayGMPReduceRatio(t)
-  local t=0
-  local a=#TppDefine.MISSION_CLEAR_RANK_LIST
-  for a=a,n,-1 do
-    local n=TppDefine.MISSION_CLEAR_RANK_LIST[a]
-    local e=this.RANK_BASE_GMP[n]
-    if a<s then
-      t=t+e
+  local reduceRatio=this.GetRepeatPlayGMPReduceRatio(missionCode)
+  local total=0
+  local numRanks=#TppDefine.MISSION_CLEAR_RANK_LIST
+  for i=numRanks,clearRank,-1 do
+    local rank=TppDefine.MISSION_CLEAR_RANK_LIST[i]
+    local baseGmp=this.RANK_BASE_GMP[rank]
+    if i<bestRank then
+      total=total+baseGmp
     else
-      t=t+e*r
+      total=total+baseGmp*reduceRatio
     end
   end
-  return t
+  return total
 end
 function this.GetMbMissionListParameterTable()
   local missionListParameterTable={}

@@ -248,11 +248,9 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
   }
 
   --tex quiet battle, will crash with CAMO (which also use TppBossQuiet2)
-  if this.parasiteType=="CAMO" then
-    if TppQuest.IsActive"waterway_q99010" then
-      InfCore.Log("InfParasite.Onload - IsActive'waterway_q99010', changing from CAMO to MIST")--DEBUGNOW TODO triggering when I wouldnt have expected it to
-      enabledTypes.CAMO=false
-    end
+  if TppQuest.IsActive"waterway_q99010" then
+    InfCore.Log("InfParasite.Onload - IsActive'waterway_q99010', changing from CAMO to MIST")--DEBUGNOW TODO triggering when I wouldnt have expected it to
+    enabledTypes.CAMO=false
   end
 
   local parasiteTypes={}
@@ -275,7 +273,7 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
   --TODO force type via ivar
   --this.parasiteType="MIST"
   --this.parasiteType="ARMOR"
-  --this.parasiteType="CAMO"
+  this.parasiteType="CAMO"--DEBUGNOW --DEBUGNOW
 
   InfCore.Log("OnLoad parasiteType:"..this.parasiteType)
 
@@ -400,20 +398,20 @@ end
 
 function this.SetupParasites()
   if this.parasiteType~="CAMO" then
-  local parameters=PARASITE_PARAMETERS.NORMAL
-  local combatGrade=PARASITE_GRADE.NORMAL
-  SendCommand({type="TppParasite2"},{id="SetParameters",params=parameters})
-  SendCommand(
-    {type="TppParasite2"},
-    {
-      id="SetCombatGrade",
-      defenseValueMain=combatGrade.defenseValueMain,
-      defenseValueArmor=combatGrade.defenseValueArmor,
-      defenseValueWall=combatGrade.defenseValueWall,
-      offenseGrade=combatGrade.offenseGrade,
-      defenseGrade=combatGrade.defenseGrade,
-    }
-  )
+    local parameters=PARASITE_PARAMETERS.NORMAL
+    local combatGrade=PARASITE_GRADE.NORMAL
+    SendCommand({type="TppParasite2"},{id="SetParameters",params=parameters})
+    SendCommand(
+      {type="TppParasite2"},
+      {
+        id="SetCombatGrade",
+        defenseValueMain=combatGrade.defenseValueMain,
+        defenseValueArmor=combatGrade.defenseValueArmor,
+        defenseValueWall=combatGrade.defenseValueWall,
+        offenseGrade=combatGrade.offenseGrade,
+        defenseGrade=combatGrade.defenseGrade,
+      }
+    )
   end
 end
 
@@ -543,7 +541,7 @@ function this.OnDying(gameId)
     InfCore.Log("OnDying is para",true)
   end
   InfCore.PrintInspect(states,{varName="states"})--DEBUG
-  
+
   local numCleared=this.GetNumCleared()
   if numCleared==numParasites then
     --InfCore.DebugPrint"OnDying all eliminated"--DEBUG
@@ -647,7 +645,7 @@ function this.StartEventTimer(time)
   local nextEventTime=time or math.random(Ivars.parasitePeriod_MIN:Get()*minute,Ivars.parasitePeriod_MAX:Get()*minute)
   --local nextEventTime=10--DEBUG
   InfCore.Log("Timer_ParasiteEvent start in "..nextEventTime,this.debugModule)--DEBUG
-  
+
   TimerStop(Timer_ParasiteEventStr)
   TimerStart(Timer_ParasiteEventStr,nextEventTime)
   --end,time)--

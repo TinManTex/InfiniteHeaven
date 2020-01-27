@@ -56,7 +56,7 @@ function this.ReadPosition(camName)
   return Vector3(ivars[positionXStr..camName],ivars[positionYStr..camName],ivars[positionZStr..camName])
 end
 
-local function WritePosition(camName,position)
+function this.WritePosition(camName,position)
   local ivars=ivars
   ivars[positionXStr..camName]=position:GetX()
   ivars[positionYStr..camName]=position:GetY()
@@ -139,7 +139,7 @@ function this.OnActivateCameraAdjust()
   --InfCore.DebugPrint(currentCamPos:GetX()..","..currentCamPos:GetY()..","..currentCamPos:GetZ())--DEBUG
   if currentCamPos:GetX()==0 and currentCamPos:GetY()==0 and currentCamPos:GetZ()==0 then
     local currentPos=Vector3(vars.playerPosX,vars.playerPosY,vars.playerPosZ)
-    WritePosition(currentCamName,currentPos+cameraOffsetDefault)
+    this.WritePosition(currentCamName,currentPos+cameraOffsetDefault)
   end
   --this.DisableAction(Ivars.adjustCameraUpdate.disableActions)--tex OFF not really needed, padmask is sufficient
   Player.SetPadMask(InfMain.allButCamPadMask)
@@ -349,7 +349,7 @@ function this.DoControlSet(currentChecks)
     end
   end
 
-  WritePosition(currentCamName,movePosition)
+  this.WritePosition(currentCamName,movePosition)
   --end,currentChecks)--DEBUG
 end
 

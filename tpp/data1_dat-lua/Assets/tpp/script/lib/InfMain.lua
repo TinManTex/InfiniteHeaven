@@ -193,12 +193,16 @@ function this.OnInitializeTop(missionTable)
         local numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
         this.reserveSoldierNames=InfLookup.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
         this.soldierPool=InfUtil.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
+ 
         this.emptyCpPool=InfMain.BuildEmptyCpPool(enemyTable.soldierDefine)
-
         this.lrrpDefines={}
 
         InfWalkerGear.walkerPool=InfUtil.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
-        InfWalkerGear.mvar_walkerInfo={}
+        InfWalkerGear.mvar_walkerInfo={}        
+        
+--        InfCore.Log("numReserveSoldiers:"..numReserveSoldiers)--tex DEBUG
+--        InfCore.PrintInspect(this.reserveSoldierNames,"reserveSoldierNames")--tex DEBUG
+--        InfCore.PrintInspect(this.soldierPool,"soldierPool")--tex DEBUG
       end
       InfCore.PCallDebug(InfSoldier.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUG
 
@@ -400,7 +404,7 @@ function this.AbortMissionTop(abortInfo)
     return
   end
 
-  --InfCore.DebugPrint("AbortMissionTop "..vars.missionCode)--DEBUG
+  --InfCore.Log("AbortMissionTop "..vars.missionCode)--DEBUG
   InfMain.RegenSeed(vars.missionCode,abortInfo.nextMissionId)
 
   InfGameEvent.DisableEvent()
@@ -1907,20 +1911,18 @@ function this.DisplayFox32(foxString)
 end
 
 function this.DebugModeEnable(enable)
-  InfCore.Log("DebugModeEnable:"..tostring(enable),false,true)
   local prevMode=InfCore.debugMode
 
   if enable then
+    InfCore.Log("DebugModeEnable:"..tostring(enable),false)
     if InfHooks then
       InfCore.PCall(InfHooks.SetupDebugHooks)
     end
-    --InfCore.Log"InfHooks:"--DEBUG
-    --InfCore.PrintInspect(InfHooks)
     if InfMenu then
       InfMenu.AddDevMenus()
     end
   else
-    InfCore.Log("Further logging disabled")
+    InfCore.Log("Further logging disabled while debugMode is off")
   end
   InfCore.debugMode=enable
 end
@@ -1937,7 +1939,7 @@ function this.LoadExternalModules(isReload)
   InfCore.otherModulesOK=true
 
   if isReload then
-    InfCore.files=InfCore.PCallDebug(InfCore.RefreshFileList)
+    InfCore.PCallDebug(InfCore.RefreshFileList)
   end
 
   --tex clear InfModules
@@ -2023,9 +2025,11 @@ end
 function this.LoadLibraries()
   InfCore.LogFlow"InfMain.LoadLibraries"
   this.LoadModelInfoModules()
+  InfMission.SetupMissions()
 end
 
 function this.LoadModelInfoModules()
+  InfCore.LogFlow("InfMain.LoadModelInfoModules")
   local plpartsPacks={--tex SYNC: InfFova
     "plparts_avatar_man",
     "plparts_battledress",

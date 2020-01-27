@@ -116,12 +116,12 @@ function this.IsBroken(isBrokenParams)
   if not mvars.gim_identifierParamTable then
     return
   end
-  local gimmick=mvars.gim_identifierParamTable[gimmickId]
-  if Gimmick.IsBrokenGimmick and gimmick then
+  local gimmickInfo=mvars.gim_identifierParamTable[gimmickId]
+  if Gimmick.IsBrokenGimmick and gimmickInfo then
     if searchFromSaveData then
-      return Gimmick.IsBrokenGimmick(gimmick.type,gimmick.locatorName,gimmick.dataSetName)
+      return Gimmick.IsBrokenGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName)
     else
-      return Gimmick.IsBrokenGimmick(gimmick.type,gimmick.locatorName,gimmick.dataSetName,1)
+      return Gimmick.IsBrokenGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName,1)
     end
   end
 end
@@ -137,9 +137,9 @@ function this.ResetGimmick(resetParams)
   if not gimmickId then
     return
   end
-  local gimmickIdParams=mvars.gim_identifierParamTable[gimmickId]
-  if Gimmick.ResetGimmick and gimmickIdParams then
-    Gimmick.ResetGimmick(gimmickIdParams.type,gimmickIdParams.locatorName,gimmickIdParams.dataSetName)
+  local gimmickInfo=mvars.gim_identifierParamTable[gimmickId]
+  if Gimmick.ResetGimmick and gimmickInfo then
+    Gimmick.ResetGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName)
   end
 end
 function this.EnableMarkerGimmick(gimmickId)
@@ -418,27 +418,49 @@ function this.SetMafrRiverPrimVisibility(enable)
   TppEffectUtility.UpdatePrimRiver()
 end
 --<location>_gimmick.gimmickIdentifierParamTable or mvars.mbItem_funcGetGimmickIdentifierTable
+--mtbs is   {[clusterId]={gimmickInfo,...}}
+--afgh/mafr {gimmickInfo,...}
+--REF gimmickInfo
+--  commFacility_antn001 = {--identifier
+--    type = TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,
+--    locatorName = "afgh_antn001_vrtn004_gim_n0000|srt_afgh_antn001_fndt004",
+--    dataSetName = "/Assets/tpp/level/location/afgh/block_large/commFacility/afgh_commFacility_gimmick.fox2",
+--    gimmickType = TppGimmick.GIMMICK_TYPE.ANTN,
+--    blockLarge ="afgh_commFacility",
+--  },
+--see also GetGimmickID
 function this.SetUpIdentifierTable(identifierTable)
   mvars.gim_identifierParamTable={}
   Tpp.MergeTable(mvars.gim_identifierParamTable,identifierTable)
   mvars.gim_identifierParamStrCode32Table={}
   mvars.gim_gimmackNameStrCode32Table={}
-  for identifier,params in pairs(identifierTable)do
+  for identifier,gimmickInfo in pairs(identifierTable)do
     local idStr32=StrCode32(identifier)
-    mvars.gim_identifierParamStrCode32Table[idStr32]=params
+    mvars.gim_identifierParamStrCode32Table[idStr32]=gimmickInfo
     mvars.gim_gimmackNameStrCode32Table[idStr32]=identifier
   end
   mvars.gim_identifierTable={}
-  for identifier,params in pairs(identifierTable)do
-    local typeName=params.type
-    local locatorName=params.locatorName
-    local dataSetName=params.dataSetName
-    mvars.gim_identifierTable[typeName]=mvars.gim_identifierTable[typeName]or{}
-    local gimmickIdentifierTypes=mvars.gim_identifierTable[typeName]
-    gimmickIdentifierTypes[StrCode32(locatorName)]=gimmickIdentifierTypes[StrCode32(locatorName)]or{}
-    local locatorParams=gimmickIdentifierTypes[StrCode32(locatorName)]
-    locatorParams[Fox.PathFileNameCode32(dataSetName)]=identifier
+  for identifier,gimmickInfo in pairs(identifierTable)do
+    local typeIndex=gimmickInfo.type
+    local locatorName=gimmickInfo.locatorName
+    local dataSetName=gimmickInfo.dataSetName
+    mvars.gim_identifierTable[typeIndex]=mvars.gim_identifierTable[typeIndex]or{}
+    local gimmicksOfType=mvars.gim_identifierTable[typeIndex]
+    gimmicksOfType[StrCode32(locatorName)]=gimmicksOfType[StrCode32(locatorName)]or{}
+    local locatorIdentifiers=gimmicksOfType[StrCode32(locatorName)]
+    locatorIdentifiers[Fox.PathFileNameCode32(dataSetName)]=identifier
   end
+  
+  --STRUCTURE
+--   mvars.gim_identifierTable={
+--    [gimmick game object type index / gimmickInfo.type]={
+--      [StrCode32(locatorName)]={
+--        Fox.PathFileNameCode32(dataSetName)]=identifier,
+--        ..
+--      },
+--      ...
+--    },
+--   }
 end
 --afgh_gimmick.gimmickBreakConnectTable / mafr_...
 --REF {swamp_antn001 = "swamp_mchn001",...}
@@ -510,8 +532,8 @@ function this.SetUpConnectPowerCutTable(e)
       if cpId~=NULL_ID then
         mvars.gim_connectPowerCutCpTable[gimmickId]=cpId
         local tppCommandPost={type="TppCommandPost2"}
-        local gimmicks=mvars.gim_identifierParamTable[gimmickId]
-        local command={id="SetPowerSourceGimmick",cpName=cpName,gimmicks=gimmicks,areaName=areaName}
+        local gimmickInfo=mvars.gim_identifierParamTable[gimmickId]
+        local command={id="SetPowerSourceGimmick",cpName=cpName,gimmicks=gimmickInfo,areaName=areaName}
         GameObject.SendCommand(tppCommandPost,command)
       end
     end
@@ -532,9 +554,9 @@ function this.SetCommunicateGimmick(e)
   for cpName,e in pairs(e)do
     local gimmicks={}
     for e,gimmickId in ipairs(e)do
-      local e=mvars.gim_identifierParamTable[gimmickId]
-      if e then
-        table.insert(gimmicks,e)
+      local gimmickInfo=mvars.gim_identifierParamTable[gimmickId]
+      if gimmickInfo then
+        table.insert(gimmicks,gimmickInfo)
       end
       local cpId=GetGameObjectId(cpName)
       if cpId~=NULL_ID then
@@ -566,40 +588,41 @@ function this.BreakGimmick(gameId,locatorNameHash,dataSetNameHash,i)
   this.PowerCut(gimmickId,true,t)
   this.SetHeroicAndOrgPoint(gimmickId,i)
 end
+--NMC returns gimmickIdentifierParamTable identifier, see  SetUpIdentifierTable
 function this.GetGimmickID(gameId,locatorNameHash,dataSetNameHash)
   local typeIndex=GetTypeIndex(gameId)
   local gim_identifierTable=mvars.gim_identifierTable
   if not gim_identifierTable then
     return
   end
-  local e=gim_identifierTable[typeIndex]
-  if not e then
+  local gimmicksOfType=gim_identifierTable[typeIndex]
+  if not gimmicksOfType then
     return
   end
-  local e=e[locatorNameHash]
-  if not e then
+  local locatorIdentifiers=gimmicksOfType[locatorNameHash]
+  if not locatorIdentifiers then
     return
   end
-  local n=e[dataSetNameHash]
-  if not e then
+  local identifier=locatorIdentifiers[dataSetNameHash]
+  if not locatorIdentifiers then
     return
   end
-  return n
+  return identifier
 end
 function this.GetGameObjectId(gimmickId)
-  local gimmickIdParams=mvars.gim_identifierParamTable[gimmickId]
-  if not gimmickIdParams then
+  local gimmickInfo=mvars.gim_identifierParamTable[gimmickId]
+  if not gimmickInfo then
     return
   end
-  return Gimmick.GetGameObjectId(gimmickIdParams.type,gimmickIdParams.locatorName,gimmickIdParams.dataSetName)
+  return Gimmick.GetGameObjectId(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName)
 end
 function this.BreakConnectedGimmick(e)
   local connectedGimmickId=mvars.gim_breakConnectTable[e]
   if not connectedGimmickId then
     return
   end
-  local gimmickIdParams=mvars.gim_identifierParamTable[connectedGimmickId]
-  Gimmick.BreakGimmick(gimmickIdParams.type,gimmickIdParams.locatorName,gimmickIdParams.dataSetName,false)
+  local gimmickInfo=mvars.gim_identifierParamTable[connectedGimmickId]
+  Gimmick.BreakGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName,false)
 end
 function this.CheckBrokenAndBreakConnectedGimmick(gimmickId)
   if not mvars.gim_checkBrokenAndBreakConnectTable then
@@ -612,9 +635,9 @@ function this.CheckBrokenAndBreakConnectedGimmick(gimmickId)
   local checkBrokenGimmickId=connectTable.checkBrokenGimmickId
   local breakGimmickId=connectTable.breakGimmickId
   if this.IsBroken{gimmickId=checkBrokenGimmickId}then
-    local gimmickIdParams=mvars.gim_identifierParamTable[breakGimmickId]
-    if gimmickIdParams then
-      Gimmick.BreakGimmick(gimmickIdParams.type,gimmickIdParams.locatorName,gimmickIdParams.dataSetName,false)
+    local gimmickInfo=mvars.gim_identifierParamTable[breakGimmickId]
+    if gimmickInfo then
+      Gimmick.BreakGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName,false)
     end
   end
 end
@@ -634,11 +657,11 @@ function this.Hide(hide)
   this.SetVisibility(hide,true)
 end
 function this.SetVisibility(gimmickId,visible)
-  local identifierParams=mvars.gim_identifierParamTable[gimmickId]
-  if not identifierParams then
+  local gimmickInfo=mvars.gim_identifierParamTable[gimmickId]
+  if not gimmickInfo then
     return
   end
-  Gimmick.InvisibleGimmick(identifierParams.type,identifierParams.locatorName,identifierParams.dataSetName,visible)
+  Gimmick.InvisibleGimmick(gimmickInfo.type,gimmickInfo.locatorName,gimmickInfo.dataSetName,visible)
   return true
 end
 function this.UnlockLandingZone(gimmickId)
@@ -780,21 +803,21 @@ function this.OnActivateQuest(questTable)
       questIsSetUp=true
     end
     if(questTable.targetDevelopList and Tpp.IsTypeTable(questTable.targetDevelopList))and next(questTable.targetDevelopList)then
-      for n,e in pairs(questTable.targetDevelopList)do
-        local targetInfo={developId=e,messageId="None",idType="Develop"}
+      for n,developId in pairs(questTable.targetDevelopList)do
+        local targetInfo={developId=developId,messageId="None",idType="Develop"}
         table.insert(mvars.gim_questTargetList,targetInfo)
       end
       questIsSetUp=true
     end
     if(questTable.gimmickMarkList and Tpp.IsTypeTable(questTable.gimmickMarkList))and next(questTable.gimmickMarkList)then
-      for n,e in pairs(questTable.gimmickMarkList)do
-        if e.isStartGimmick==true then
-          mvars.gim_questMarkStartName=StrCode32(e.locatorName)
-          mvars.gim_questMarkStartLocator=e.locatorName
-          mvars.gim_questMarkStartData=e.dataSetName
+      for i,gimmickMarkInfo in pairs(questTable.gimmickMarkList)do
+        if gimmickMarkInfo.isStartGimmick==true then
+          mvars.gim_questMarkStartName=StrCode32(gimmickMarkInfo.locatorName)
+          mvars.gim_questMarkStartLocator=gimmickMarkInfo.locatorName
+          mvars.gim_questMarkStartData=gimmickMarkInfo.dataSetName
           Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,mvars.gim_questMarkStartLocator,mvars.gim_questMarkStartData,true)
         else
-          local targetInfo={locatorName=e.locatorName,dataSetName=e.dataSetName,messageId="None",setIndex=e.setIndex}
+          local targetInfo={locatorName=gimmickMarkInfo.locatorName,dataSetName=gimmickMarkInfo.dataSetName,messageId="None",setIndex=gimmickMarkInfo.setIndex}
           table.insert(mvars.gim_questTargetList,targetInfo)
           questIsSetUp=true
           mvars.gim_questMarkTotalCount=mvars.gim_questMarkTotalCount+1
@@ -886,31 +909,31 @@ function this.CheckQuestAllTarget(questType,gimmickIdentifier,targetPracticeTime
     end
   end
   if questType==TppDefine.QUEST_TYPE.DEVELOP_RECOVERED or questType==TppDefine.QUEST_TYPE.GIMMICK_RECOVERED then
-    local n=0
-    local e=0
-    for t,targetInfo in pairs(mvars.gim_questTargetList)do
+    local recoveredCount=0
+    local totalCount=0
+    for i,targetInfo in pairs(mvars.gim_questTargetList)do
       if targetInfo.messageId=="Recovered"then
-        n=n+1
+        recoveredCount=recoveredCount+1
       end
-      e=e+1
+      totalCount=totalCount+1
     end
-    if e>0 then
-      if n>=e then
+    if totalCount>0 then
+      if recoveredCount>=totalCount then
         clearType=TppDefine.QUEST_CLEAR_TYPE.CLEAR
       end
     end
   elseif questType==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
     if isPracticeTarget==true then
       --ORPHAN local unk1={}
-      local n=true
+      local markedGimmick=true
       for i,targetInfo in pairs(mvars.gim_questTargetList)do
         if targetInfo.setIndex==mvars.gim_questMarkSetIndex then
           if targetInfo.messageId=="None"then
-            n=false
+            markedGimmick=false
           end
         end
       end
-      if n==true then
+      if markedGimmick==true then
         if mvars.gim_questMarkCount<mvars.gim_questMarkTotalCount then
           mvars.gim_questMarkSetIndex=mvars.gim_questMarkSetIndex+1
           this.SetQuestInvisibleGimmick(mvars.gim_questMarkSetIndex,false,false)
@@ -938,7 +961,7 @@ function this.IsQuestTarget(checkId)
   if not next(mvars.gim_questTargetList)then
     return false
   end
-  for n,targetInfo in pairs(mvars.gim_questTargetList)do
+  for i,targetInfo in pairs(mvars.gim_questTargetList)do
     if targetInfo.idType=="Gimmick"then
       local ret,gimmickId=this.GetGameObjectId(targetInfo.gimmickId)
       if gimmickId==checkId then
@@ -950,21 +973,21 @@ function this.IsQuestTarget(checkId)
 end
 function this.SetQuestInvisibleGimmick(questMarkSetIndex,visible,skipCheck)
   local force=skipCheck or false
-  for i,gimmickIdInfo in pairs(mvars.gim_questTargetList)do
+  for i,targetInfo in pairs(mvars.gim_questTargetList)do
     if questMarkSetIndex==mvars.gim_questMarkSetIndex or force==true then
-      Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,gimmickIdInfo.locatorName,gimmickIdInfo.dataSetName,visible)
+      Gimmick.InvisibleGimmick(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,targetInfo.locatorName,targetInfo.dataSetName,visible)
     end
   end
 end
-function this.SetQuestSootingTargetInvincible(n)
+function this.SetQuestSootingTargetInvincible(setInvis)
   for i,targetInfo in pairs(mvars.gim_questTargetList)do
-    Gimmick.InvincibleGimmickData(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,"mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev",targetInfo.dataSetName,n)
+    Gimmick.InvincibleGimmickData(TppGameObject.GAME_OBJECT_TYPE_IMPORTANT_BREAKABLE,"mtbs_bord001_vrtn003_ev_gim_i0000|TppPermanentGimmick_mtbs_bord001_vrtn003_ev",targetInfo.dataSetName,setInvis)
     break--NMC wut
   end
 end
 --NMC no references
-function this.IsQuestStartSwitchGimmick(e)
-  if e==mvars.gim_questMarkStartName then
+function this.IsQuestStartSwitchGimmick(locatorS32)
+  if locatorS32==mvars.gim_questMarkStartName then
     return true
   end
   return false
@@ -1017,7 +1040,7 @@ function this.CheckQuestPlaced(mineEquipId,index)
   end
 end
 function this.CheckQuestMine(mineEquipId,index)
-  for n,equipId in pairs(TppDefine.QUEST_MINE_TYPE_LIST)do
+  for i,equipId in pairs(TppDefine.QUEST_MINE_TYPE_LIST)do
     if mineEquipId==equipId then
       if TppPlaced.IsQuestBlock(index)then
         return true

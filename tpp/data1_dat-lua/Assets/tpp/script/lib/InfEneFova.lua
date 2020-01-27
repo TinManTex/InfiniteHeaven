@@ -180,7 +180,7 @@ end
 function this.GetFemaleBodyInfo(missionCode)
   --InfCore.Log("GetFemaleBodyInfo")--DEBUG
   if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
-    return InfBodyInfo.bodyInfo.DRAB --tex since a bunch of stuff still predicated by customSoldierType cant really havecustomSoldierTypeFemale nil
+    return InfBodyInfo.bodyInfo.DRAB_FEMALE --tex since a bunch of stuff still predicated by customSoldierType cant really havecustomSoldierTypeFemale nil
       --OFF return nil
   end
   --CULL

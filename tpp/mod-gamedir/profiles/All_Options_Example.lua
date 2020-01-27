@@ -1,8 +1,10 @@
--- Example_Defaults.lua
--- Defaults / example of all profile options for IH r207
+-- All_Options_Example.lua
+-- Defaults / example of all profile options for IH r208
 -- Profiles are lists of settings for IH options. 
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
+-- Or by setting loadOnACCStart=true, below.
+-- This profile lists all options, with their default settings.
 -- See Features and Options.html for longer descriptions of some settings.
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
   
@@ -15,6 +17,7 @@ local this={
 		enableQuickMenu=0,--{ 0-1 } -- Enable Quick Menu
 		startOffline=0,--{ 0-1 } -- Start offline
 		skipLogos=0,--{ 0-1 } -- Skip startup logos
+		loadAddonMission=0,--{  } -- Non-save -- Load addon mission
 		--Events menu
 		gameEventChanceFREE=0,--{ 0-100 } -- Free roam event random trigger chance (percentage)
 		gameEventChanceMB=0,--{ 0-100 } -- MB event random trigger chance (percentage)
@@ -219,7 +222,8 @@ local this={
 		unlockSideOpNumber=0,--{ 0-157 } -- Open specific sideop #
 		unlockSideOps=0,--{ OFF, REPOP, OPEN } -- Unlock Sideops mode
 		sideOpsSelectionMode=0,--{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS, ADDON_QUEST } -- Sideop selection mode
-		ihSideopsPercentageCount=0,--{ 0-1 } -- Include IH sideops in completion percentage.
+		showAllOpenSideopsOnUi=0,--{ 0-1 } -- Show all open sideops
+		ihSideopsPercentageCount=0,--{ 0-1 } -- Include IH sideops in completion percentage
 		--Sideops category filter menu
 		sideops_STORY=1,--{ 0-1 } -- Story/unique
 		sideops_EXTRACT_INTERPRETER=1,--{ 0-1 } -- Extract interpreter
@@ -289,6 +293,7 @@ local this={
 		speedCamContinueTime=10,--{ 0-1000 } -- TSM length (seconds)
 		speedCamWorldTimeScale=0.3,--{ 0-100 } -- TSM world time scale
 		speedCamPlayerTimeScale=1,--{ 0-100 } -- TSM player time scale
+		speedCamNoDustEffect=0,--{ 0-1 } -- No screen effect
 		clockTimeScale=20,--{ 1-10000 } -- Clock time scale
 		--Support heli menu
 		setInvincibleHeli=0,--{ 0-1 } -- Set heli invincible
@@ -314,6 +319,7 @@ local this={
 		disableGameOver=0,--{ 0-1 } -- Disable game over
 		disableOutOfBoundsChecks=0,--{ 0-1 } -- Disable out of bounds checks
 		telopMode=0,--{ 0-1 } -- Disable mission intro credits
+		manualMissionCode="10010",--{ 10010, 10020, 10030, 10036, 10043, 10033, 10040, 10041, 10044, 10052, 10054, 10050, 10070, 10080, 10086, 10082, 10090, 10195, 10091, 10100, 10110, 10121, 10115, 10120, 10085, 10200, 10211, 10081, 10130, 10140, 10150, 10151, 10045, 10156, 10093, 10171, 10240, 10260, 10280, 11043, 11041, 11054, 11085, 11082, 11090, 11036, 11033, 11050, 11091, 11195, 11211, 11140, 11200, 11080, 11171, 11121, 11115, 11130, 11044, 11052, 11151, 30010, 30020, 30050, 30150, 30250, 40010, 40020, 40050 } -- Non-save -- 
 		--Buddy menu
 		quietRadioMode=0,--{ 0-31 } -- Quiets MB radio track (0=Auto)
 	}

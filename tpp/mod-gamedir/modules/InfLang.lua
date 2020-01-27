@@ -545,7 +545,7 @@ this.eng={--english
   forceDemoAllowAction="Force allow actions",
   customSoldierTypeFREE="Custom soldier type in Free roam",
   mbAdditionalNpcs="Additional NPCs",
-  ihSideopsPercentageCount="Include IH sideops in completion percentage.",
+  ihSideopsPercentageCount="Include IH sideops in completion percentage",
   saveToProfile="Save to UserSaved profile",
   mbShowShips="Show ships",
   enableFultonAlarmsMB="Enable asset alarms",
@@ -556,6 +556,11 @@ this.eng={--english
   hideTurretMgsMB="Hide turret machineguns",
   hideMortarsMB="Hide mortars",
   rerollQuestSelection="Reroll sideops selection",
+  speedCamNoDustEffect="No screen effect",
+  ihMissionsPercentageCount="Include addon missions in completion percentage",
+  showFreeCamPosition="Show freecam position",
+  showAllOpenSideopsOnUi="Show all open sideops",
+  loadAddonMission="Load addon mission",
 }--eng end
 
 this.help={}
@@ -717,6 +722,8 @@ this.help.eng={
   saveToProfile="Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.",
   enableFultonAlarmsMB="Enables anti fulton theft alarms on containers and AA guns. Only partially working, will only trigger alarm once.",
   enableIRSensorsMB="Enable IR sensor gates. Only partially working, will only trigger alarm once, and will only show one or no beam.",
+  speedCamNoDustEffect="Does not apply the dust and blur effect while TSM is active.",
+  showAllOpenSideopsOnUi="Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.",
 }
 
 this.cpNames={

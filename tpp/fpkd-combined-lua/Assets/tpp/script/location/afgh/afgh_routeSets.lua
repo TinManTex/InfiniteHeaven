@@ -1,3 +1,6 @@
+-- DOBUILD: 0 --DEBUGNOW
+-- ORIGINALQAR: chunk2
+-- PACKPATH: \Assets\tpp\pack\location\afgh\pack_common\afgh_script.fpkd
 local afgh_routeSets
 
 
@@ -6125,5 +6128,44 @@ afgh_routeSets = {
 
 	nil
 }
+
+--DEBUGNOW 
+local function MultiplyTable(inputTable,count)
+  local newTable={}
+  for i=1,count do
+    for j,route in ipairs(inputTable)do
+      table.insert(newTable,route)
+    end
+  end
+  return newTable
+end
+
+local function ModifyRouteSets(routeSets)
+  local multiplyCount=3
+
+  InfCore.Log"-------------ModifyRouteSets-------"
+  for cpName,cpRouteSet in pairs(routeSets)do
+    --InfCore.PrintInspect(cpRouteSet,cpName.." routesset")
+    for routeSetType,routeSetGroups in pairs(cpRouteSet)do
+      if routeSetType=="priority" then
+      elseif routeSetType=="fixedShiftChangeGroup" then
+      elseif #routeSetGroups>0 then
+        cpRouteSet[routeSetType]=MultiplyTable(cpRouteSet[routeSetType],multiplyCount)
+      else
+        --InfCore.PrintInspect(routeSetGroups,routeSetType.." routeSetGroups")
+        for groupName,routes in pairs(routeSetGroups)do
+         -- InfCore.PrintInspect(routes,groupName.." routes")
+          if type(routes)=="string" then
+          else
+            routeSetGroups[groupName]=MultiplyTable(routes,multiplyCount)
+          end
+        end
+      end
+    end
+  end
+end
+
+InfCore.PCall(ModifyRouteSets,afgh_routeSets)--DEBUGNOW 
+--DEBUGNOW InfCore.PrintInspect(afgh_routeSets,"afgh_routeSets-------------------")--DEBUGNOW 
 
 return afgh_routeSets

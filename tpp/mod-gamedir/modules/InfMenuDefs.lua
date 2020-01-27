@@ -110,6 +110,7 @@ this.sideOpsMenu={
     Ivars.unlockSideOps,
     Ivars.sideOpsSelectionMode,
     InfMenuDefs.sideOpsCategoryMenu,
+    Ivars.showAllOpenSideopsOnUi,
     Ivars.enableHeliReinforce,
     Ivars.ihSideopsPercentageCount,
   }
@@ -255,6 +256,7 @@ this.debugMenu={
     Ivars.disableGameOver,
     Ivars.disableOutOfBoundsChecks,
     Ivars.telopMode,--tex TODO move, odd one out, mission/presentation?
+    Ivars.manualMissionCode,
   }
 }
 
@@ -468,7 +470,7 @@ this.cameraMenu={
     InfMenuCommands.warpToCamPos,
     Ivars.moveScale,
     Ivars.disableCamText,
-    InfMenuCommands.showFreeCamPosition,--DEBUGNOW
+    InfMenuCommands.showFreeCamPosition,
   --    Ivars.focalLength,--CULL
   --    Ivars.focusDistance,
   --    Ivars.aperture,
@@ -555,6 +557,7 @@ this.timeScaleMenu={
     Ivars.speedCamContinueTime,
     Ivars.speedCamWorldTimeScale,
     Ivars.speedCamPlayerTimeScale,
+    Ivars.speedCamNoDustEffect,
     Ivars.clockTimeScale,
   }
 }
@@ -578,6 +581,8 @@ this.systemMenu={
     Ivars.startOffline,
     Ivars.skipLogos,
     --Ivars.langOverride,
+    Ivars.loadAddonMission,
+    Ivars.ihMissionsPercentageCount,
     InfMenuCommands.resetAllSettingsItem,
   },
 }
@@ -585,6 +590,9 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
+    Ivars.loadAddonMission,--DEBUGNOW TEST DEBUGNOW add lang, shift to some user menu
+    Ivars.ihMissionsPercentageCount,--DEBUGNOW
+    Ivars.manualMissionCode,--DEBUGNOW
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
@@ -693,15 +701,18 @@ this.debugInMissionMenu={
 this.devInMissionMenu={
   nonConfig=true,
   options={
-    InfMenuCommands.requestHeliLzToLastMarkerAlt,
-    InfMenuCommands.requestHeliLzToLastMarker,
-	  InfMenuCommands.forceExitHeliAlt,
+    InfMenuCommands.checkPointSave,--DEBUGNOW
+    Ivars.manualMissionCode,--DEBUGNOW
     InfMenuCommands.DEBUG_SomeShiz,
     InfMenuCommands.DEBUG_SomeShiz2,
     InfMenuCommands.DEBUG_SomeShiz3,
     InfMenuCommands.clearLog,
+    InfMenuCommands.requestHeliLzToLastMarkerAlt,
+    InfMenuCommands.requestHeliLzToLastMarker,
+	  InfMenuCommands.forceExitHeliAlt,
     Ivars.warpToListPosition,
     Ivars.warpToListObject,
+    Ivars.setCamToListObject,
     Ivars.dropLoadedEquip,
     Ivars.dropTestEquip,
     Ivars.selectedGameObjectType,

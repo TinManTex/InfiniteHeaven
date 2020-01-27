@@ -159,6 +159,7 @@ this.S10240_FemaleFaceIdList={394,351,373,456,463,455,511,502}
 this.S10240_MaleFaceIdList={195,144,214,6,217,83,273,60,87,71,256,201,290,178,102,255,293,165,85,18,228,12,65,134,31,132,161,342,107,274,184,226,153,247,344,242,56,183,54,126,223}
 
 local fovaSetupFuncs={}
+this.fovaSetupFuncs=fovaSetupFuncs--tex expose to other modules
 
 --NMC an addaption of switch / case from Case method on http://lua-users.org/wiki/SwitchStatement
 --mostly used for PreMissionLoad, but also in some of the fovaSetupFuncs[missionId] funcs to run the area fova func

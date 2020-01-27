@@ -4,7 +4,7 @@ local quest_step = {}
 local StrCode32 = Fox.StrCode32
 local StrCode32Table = Tpp.StrCode32Table
 local GetGameObjectId = GameObject.GetGameObjectId
-local NULL_ID = GameObject.NULL_IDdem
+local NULL_ID = GameObject.NULL_ID --RETAILBUG, was NULL_IDdem, but no references so no issue
 
 
 

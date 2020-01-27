@@ -629,7 +629,7 @@ this.requestHeliLzToLastMarkerAlt={
       InfCore.Log("lzName==nil")
       return
     end
-    
+
     InfCore.Log("Pos Lz Name:"..tostring(closestRoute).." ArpName for lz name:"..tostring(lzName),true)--DEBUGNOW
     local lzInfo=InfLZ.lzInfo[lzName]
     if not lzInfo then
@@ -639,9 +639,9 @@ this.requestHeliLzToLastMarkerAlt={
       --closestRoute=lzInfo.approachRoute
       --closestRoute=lzInfo.dropRoute
     end
-    
-    
-     SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})--tex will only update if player not in heli and heli not forceroute
+
+
+    SendCommand(heliId,{id="CallToLandingZoneAtName",name=lzName})--tex will only update if player not in heli and heli not forceroute
 
     --tex if no point (route node index) is supplied it will path to the nearest point
     --this is an issue if thats past the node at the lz
@@ -689,7 +689,7 @@ this.forceExitHeliAlt={
           false
         }
       }
-      
+
       --tex TODO need to wait for RequestToPlayDirectMotion to stop before can warp
 
       local currentPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
@@ -758,6 +758,18 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfCore.Log"---------------------DEBUG_SomeShiz---------------------"
+    --DEBUGNOW
+InfCore.PrintInspect(mvars.mis_isOutsideOfMissionArea,"mis_isOutsideOfMissionArea")
+InfCore.PrintInspect(mvars.mis_isAlertOutOfMissionArea,"mis_isAlertOutOfMissionArea")
+
+
+
+    InfCore.PrintInspect(vars.locationCode,"locationCode")
+    InfCore.PrintInspect(vars.missionCode,"missionCode")
+
+if true then return end
+
+ 
 
     local heliName="SupportHeli"--EnemyHeli0000"
     local heliId = GetGameObjectId(heliName)
@@ -782,6 +794,9 @@ this.DEBUG_SomeShiz2={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz2---")
     
+    --DEBUGNOW
+    InfMission.OpenMissions()--DEBUGNOW
+
     InfCore.DebugPrint("index2:"..index2)
     index2=index2+1
     if index2>index2Max then
@@ -797,6 +812,7 @@ local toggle3=false
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz3---")
+
 
     InfCore.DebugPrint("index3:"..index3)
     index3=index3+1
@@ -1023,10 +1039,11 @@ this.highSpeedCameraToggle={
       local timeRateInterpTimeAtStart=0
       local timeRateInterpTimeAtEnd=0
       local cameraSetUpTime=0
+      local noDustEffect=Ivars.speedCamNoDustEffect:Is(1)
 
       --highSpeedCamStartTime=elapsedTime+continueTime
 
-      HighSpeedCamera.RequestEvent{continueTime=continueTime,worldTimeRate=worldTimeRate,localPlayerTimeRate=localPlayerTimeRate,timeRateInterpTimeAtStart=timeRateInterpTimeAtStart,timeRateInterpTimeAtEnd=timeRateInterpTimeAtEnd,cameraSetUpTime=cameraSetUpTime}
+      HighSpeedCamera.RequestEvent{continueTime=continueTime,worldTimeRate=worldTimeRate,localPlayerTimeRate=localPlayerTimeRate,timeRateInterpTimeAtStart=timeRateInterpTimeAtStart,timeRateInterpTimeAtEnd=timeRateInterpTimeAtEnd,cameraSetUpTime=cameraSetUpTime,noDustEffect=noDustEffect}
 
       --InfMenu.PrintLangId"highspeedcam_on"--DEBUG
     else
@@ -1755,6 +1772,13 @@ this.setAllFriendly={
       local command={id="SetFriendlyCp"}
       GameObject.SendCommand(cpId,command)
     end
+  end
+}
+
+this.checkPointSave={--DEBUGNOW
+  OnChange=function()
+    --TppCheckPoint.Update{atCurrentPosition=true}
+    TppCheckPoint.Update{safetyCurrentPosition=true}
   end
 }
 

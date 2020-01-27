@@ -1,5 +1,5 @@
 local this = {}
-local StrCode32 = Fox.StrCode32l--RETAILBUG DEBUGNOW VERIFY theres no Fox.StrCode32l
+local StrCode32 = Fox.StrCode32l--RETAILBUG typo TODO: see what actuall uses str32 in this 
 local StrCode32Table = Tpp.StrCode32Table
 
 local sequences = {}

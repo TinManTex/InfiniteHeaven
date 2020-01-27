@@ -531,7 +531,7 @@ function this.Messages()
 							Fox.Log( "*** this.Messages Fulton Container ***")
 							for i, gimmickId in pairs( this.MISSION_TASK_TARGET_LIST.CONTAINER ) do
 								local ret, gameObjectId = TppGimmick.GetGameObjectId( gimmickId )
-								if gameObjectId == NULL_ID then
+								if gameObjectId == NULL_ID then--RETAILBUG should be GameObject.NULL_ID, but will pass anyway
 									Fox.Error("Cannot get gameObjectId. gimmickId = " .. tostring(gimmickId) )
 								else
 									if s_gameObjectId == gameObjectId then

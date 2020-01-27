@@ -5,7 +5,7 @@ local IsTypeTable=Tpp.IsTypeTable
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 local SendCommand=GameObject.SendCommand
-local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
+--ORPHAN local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
 function this.Messages()
   return Tpp.StrCode32Table{
     GameObject={

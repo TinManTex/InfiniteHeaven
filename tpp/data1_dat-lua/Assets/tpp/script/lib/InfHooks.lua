@@ -72,6 +72,7 @@ this.debugPCallHooks={
     ClearDDParameter=true,
     PrepareDDParameter=true,
     SetUpDDParameter=true,
+    ChangeRouteUsingGimmick=true,--DEBUGNOW
   },
   TppGimmick={
     OnActivateQuest=true,
@@ -93,6 +94,9 @@ this.debugPCallHooks={
   TppQuest={
     UpdateActiveQuest=true,
   },
+  TppResult={
+    GetMbMissionListParameterTable=true,
+  },
   TppRevenge={
     SetUpEnemy=true,
   },
@@ -112,6 +116,10 @@ this.debugPCallHooks={
   },
   TppSequence={
     ReserveNextSequence=true,
+  },
+  TppUI={
+    FadeIn=true,
+    FadeOut=true,
   },
 }
 

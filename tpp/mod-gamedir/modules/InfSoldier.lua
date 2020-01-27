@@ -157,6 +157,10 @@ end
 
 function this.InitCluster(clusterId)
   --InfCore.PCall(function(clusterId)--DEBUG
+  if not clusterId then
+    return
+  end
+  
   if vars.missionCode~=30050 then
     return
   end
@@ -259,9 +263,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
-  local clusterId=GetCurrentCluster()+1
-
-  if clusterId>7 then
+  if not GetCurrentCluster() then
     return
   end
 
@@ -277,6 +279,9 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end
 
   local clusterId=GetCurrentCluster()+1
+  if clusterId>7 then
+    return
+  end  
   local grade=GetMbStageClusterGrade(clusterId)
   if grade==1 then
     return
@@ -776,7 +781,10 @@ function this.AddWildCards(soldierDefine,soldierSubTypes,soldierPowerSettings,so
 
       local soldierPowers={}
       for n,power in pairs(gearPowers) do
-        soldierPowers[#soldierPowers+1]=power
+        local skip=power=="ARMOR" and isFemale--tex WORKAROUND, not actually applying ddheadgear at the moment --DEBUGNOW
+        if not skip then
+          soldierPowers[#soldierPowers+1]=power
+        end
       end
       soldierPowers[#soldierPowers+1]=weaponPowersBag:Next()
 

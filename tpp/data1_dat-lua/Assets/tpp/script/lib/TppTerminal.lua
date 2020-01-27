@@ -392,13 +392,24 @@ end
 function this.ReserveHelicopterSoundOnMissionGameEnd()
   mvars.trm_needHeliSoundOnAddStaffsFromTempBuffer=true
 end
+--tex was local to AddVolunteerStaffs
+this.noAddVolunteerMissions={
+  [10010]=true,
+  [10030]=true,
+  [10240]=true,
+  [10280]=true,
+  [30050]=true,
+  [30150]=true,
+  [30250]=true,
+  [50050]=true
+}
 function this.AddVolunteerStaffs()
   local storySequence=TppStory.GetCurrentStorySequence()
   if storySequence<TppDefine.STORY_SEQUENCE.CLEARD_TO_MATHER_BASE then
     return
   end
-  local noAddStaffMissions={[10010]=true,[10030]=true,[10240]=true,[10280]=true,[30050]=true,[30150]=true,[30250]=true,[50050]=true}
-  if noAddStaffMissions[vars.missionCode]then
+  
+  if this.noAddVolunteerMissions[vars.missionCode]then
     return
   end
   local isHeliSpace=TppMission.IsHelicopterSpace(vars.missionCode)
@@ -2352,6 +2363,7 @@ function this.ReleaseFreePlay()
   if gvars.trm_isPushRewardSeparationPlatform then
     TppUiCommand.EnableChangeLocationMenu{locationId=50,missionId=30250}
   end
+  InfMission.EnableLocationChangeMissions()--tex
 end
 function this.IsBuiltAnimalPlatform()
   local e=gvars.trm_animalRecoverHistorySize

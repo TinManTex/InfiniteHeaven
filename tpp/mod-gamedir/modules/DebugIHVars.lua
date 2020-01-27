@@ -13,13 +13,25 @@ function this.PostAllModulesLoad()
 
   Ivars.enableQuickMenu:Set(1)
 
-  --InfNPC.debugModule=true
+  InfNPC.debugModule=true
   --InfModelProc.debugModule=true
   --InfQuest.debugModule=true
   --TppQuest.debugModule=true
   --InfInterrogation.debugModule=true
   --InfMBGimmick.debugModule=true
   --InfLookup.debugModule=true
+  
+  InfMission.debugModule=true--DEBUGNOW
+  
+ --Quat shiz
+--     
+--    local rotY=30
+--    local rotQuat=Quat.RotationY(TppMath.DegreeToRadian(rotY))
+--    InfCore.PrintInspect(rotQuat,"rotQuat")
+--    InfCore.PrintInspect(tostring(rotQuat),"rotQuat")
+--    InfCore.PrintInspect(rotQuat:ToString(),"rotQuat")
+  
+  --this.PrintStrCodes()
 
   --TODO hangs InfWalkerGear=true
 
@@ -29,6 +41,9 @@ function this.PostAllModulesLoad()
   if not InfCore.doneStartup then
     return
   end
+  
+  
+  
   
 
   --InfCore.Log"DebugIHVars dumpshiz----------------------------------------"
@@ -211,6 +226,71 @@ function this.PostAllModulesLoad()
   InfLog.PrintInspect(DataSet.GetDataSetFile(data))
 
 
+
+end
+
+function this.PrintStrCodes()
+  InfCore.Log"DebugIHVars.PrintStrCodes---------------"
+ local str32s={
+      --routeEvent types
+      104983832,
+      1500257626,
+      4019510599,
+      4258228081,
+      1974185602,
+      2265318157,
+      4202868537,
+      561913624,
+      --reoute even params
+      1004142592,
+      889322046,
+      --    6452720,
+      --    1631872372,
+      --    825241651,
+      --    573317666,
+      --    975332717,
+      --    1936614772,
+      --    741358114,
+      --routeids
+      132331158,
+      205387598,
+      587733603,
+      2615639494,
+      2763127077,
+      3507759117,
+    --      2265318157,
+    --      1004142592,
+    --      18529,
+    --      889322046,
+    --      574235246,
+    --      104983832,
+    --
+    --   1631872372,
+    }
+
+
+
+    for i,str32 in ipairs(str32s)do
+      local str=InfLookup.StrCode32ToString(str32)
+      InfCore.Log(str32.."="..tostring(str))
+    end
+
+    local strings={
+      --'rt_heli_quest_0000',
+      'rt_quest_heli_d_0000',
+      "Look",
+      "Face",
+      "Aim",
+      "AimPoint",
+      "AimPoi",
+      "Poi",
+      "Walk",--DEBUGNOW
+    }
+
+    for i,str in ipairs(strings)do
+      local str32=Fox.StrCode32(str)
+      InfCore.Log(str.."="..tostring(str32))
+    end
 
 end
 

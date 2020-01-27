@@ -1,4 +1,6 @@
 --main.lua
+local this={}
+
 externalLoad=true
 
 projectDataPath="D:/Projects/MGS/!InfiniteHeaven/!modlua/Data1Lua/"
@@ -48,7 +50,7 @@ function MockUtil.MergeTable(table1,table2,n)
 end
 --
 --tex not set up as a coroutine, so yield==nil?
-yield=function()
+yield=function()--DEBUGNOW
 end
 
 loadfile=function(path)
@@ -66,243 +68,11 @@ print"parse main.lua: MockFoxEngine done"
 --print(tostring(err))
 --end
 
---PATCHUP - would be able to include these too if I mocked every non module variable lol
-TppMission={}--TODO IMPLEMENT
-TppMission.IsFOBMission=function(missionCode)--TODO IMPLEMENT
-  return false
-end
+dofile("MockFox/MockFoxPatchup.lua")
 
-TppQuest={}
---SYNC: TppQuest
-TppQuest.QUEST_CATEGORIES={
-  "STORY",--11,7,2,2
-  "EXTRACT_INTERPRETER",--4,2,2
-  "BLUEPRINT",--6,4,2,Secure blueprint
-  "EXTRACT_HIGHLY_SKILLED",--16,9,,Extract highly-skilled soldier
-  "PRISONER",--20,10,Prisoner extraction
-  "CAPTURE_ANIMAL",--4,2,
-  "WANDERING_SOLDIER",--10,5,Wandering Mother Base soldier
-  "DDOG_PRISONER",--5,Unlucky Dog
-  "ELIMINATE_HEAVY_INFANTRY",--16
-  "MINE_CLEARING",--10
-  "ELIMINATE_ARMOR_VEHICLE",--14,Eliminate the armored vehicle unit
-  "EXTRACT_GUNSMITH",--3,Extract the Legendary Gunsmith
-  --"EXTRACT_CONTAINERS",--1, #110
-  --"INTEL_AGENT_EXTRACTION",--1, #112
-  "ELIMINATE_TANK_UNIT",--14
-  "ELIMINATE_PUPPETS",--15
-  "TARGET_PRACTICE",--7,0,0,7
-}
+dofile("MockFox/initMock.lua")
+dofile("MockFox/startMock.lua")
 
-TppTerminal={}
-TppTerminal.MBDVCMENU={}
---end mock stuff
-
---init.lua>
-Script.LoadLibrary"/Assets/tpp/script/lib/InfInspect.lua"--tex
-Script.LoadLibrary"/Assets/tpp/script/lib/InfUtil.lua"--tex
-Script.LoadLibrary"/Assets/tpp/script/lib/InfCore.lua"--tex
-Script.LoadLibrary"/Assets/tpp/script/lib/IvarProc.lua"--tex
---tex init seems to be loaded sandboxed, or some other funkery preventing _G from being added to, so loading some external modules to global inside InfInit (LoadLibrary is not boxed).
-Script.LoadLibrary"/Assets/tpp/script/lib/InfInit.lua"--tex
---init.lua<
-
---start.lua>
-if Script.LoadLibrary then
-  local tppOrMgoPath
-  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    tppOrMgoPath="/Assets/mgo/"
-  else
-    tppOrMgoPath="/Assets/tpp/"
-  end
-  local filePath
-  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    filePath="/Assets/mgo/level_asset/weapon/ParameterTables/EquipIdTable.lua"
-  else
-    filePath="Tpp/Scripts/Equip/EquipIdTable.lua"
-  end
-
-  Script.LoadLibraryAsync(filePath)
-  while Script.IsLoadingLibrary(filePath)do
-    yield()
-  end
-  local filePath=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipParameters.lua"
-  if TppEquip.IsExistFile(filePath)then
-    Script.LoadLibrary(filePath)
-  else
-    Script.LoadLibrary"Tpp/Scripts/Equip/EquipParameters.lua"
-  end
-  yield()
-  local filePath=tppOrMgoPath.."level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua"
-  if TppEquip.IsExistFile(filePath)then
-    Script.LoadLibrary(filePath)
-  end
-
-  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua"
-  Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua"
-  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerTables.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/player/ParameterTables/PlayerProgression.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/ChimeraPartsPackageTable.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/config/EquipConfig.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/WeaponParameterTables.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/config/RulesetConfig.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/config/SafeSpawnConfig.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/config/SoundtrackConfig.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/config/PresetRadioConfig.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/player/Stats/StatTables.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/config/PointOfInterestConfig.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/damage/ParameterTables/DamageParameterTables.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/EquipMotionData.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/config/MgoWeaponParameters.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/config/GearConfig.lua"
-  else
-    yield()
-    Script.LoadLibrary"Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua"
-    yield()
-    Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua"
-    yield()
-    Script.LoadLibrary"/Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua"
-    yield()
-    Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua"
-    Script.LoadLibrary"Tpp/Scripts/Equip/EquipMotionData.lua"
-    Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua"
-    Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua"
-    yield()
-    Script.LoadLibrary"/Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua"
-    yield()
-  end
-  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    Script.LoadLibrary"/Assets/mgo/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"
-  else
-    Script.LoadLibrary"/Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua"
-  end
-  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    Script.LoadLibrary"/Assets/mgo/script/lib/Overrides.lua"
-  end
-  Script.LoadLibraryAsync"/Assets/tpp/script/lib/Tpp.lua"
-  while Script.IsLoadingLibrary"/Assets/tpp/script/lib/Tpp.lua"do
-    yield()
-  end
-
-  --tex TODO: to LoadLibraryAsync - if module.requires then load each requires
-  local requires=Tpp.requires
-
-  local requires={
-    "/Assets/tpp/script/lib/InfRequiresStart.lua",--tex
-    "/Assets/tpp/script/lib/TppDefine.lua",
-    "/Assets/tpp/script/lib/TppMath.lua",
-    --"/Assets/tpp/script/lib/TppSave.lua",
-    "/Assets/tpp/script/lib/TppLocation.lua",
-    "/Assets/tpp/script/lib/TppSequence.lua",
-    "/Assets/tpp/script/lib/TppWeather.lua",
-    "/Assets/tpp/script/lib/TppDbgStr32.lua",
-    "/Assets/tpp/script/lib/TppDebug.lua",
-    "/Assets/tpp/script/lib/TppClock.lua",
-    --"/Assets/tpp/script/lib/TppUI.lua",
-    --"/Assets/tpp/script/lib/TppResult.lua",
-    "/Assets/tpp/script/lib/TppSound.lua",
-    --"/Assets/tpp/script/lib/TppTerminal.lua",
-    "/Assets/tpp/script/lib/TppMarker.lua",
-    "/Assets/tpp/script/lib/TppRadio.lua",
-    --"/Assets/tpp/script/lib/TppPlayer.lua",
-    "/Assets/tpp/script/lib/TppHelicopter.lua",
-    "/Assets/tpp/script/lib/TppScriptBlock.lua",
-    --"/Assets/tpp/script/lib/TppMission.lua",
-    "/Assets/tpp/script/lib/TppStory.lua",
-    "/Assets/tpp/script/lib/TppDemo.lua",
-    --"/Assets/tpp/script/lib/TppEnemy.lua",
-    "/Assets/tpp/script/lib/TppGeneInter.lua",
-    "/Assets/tpp/script/lib/TppInterrogation.lua",
-    --"/Assets/tpp/script/lib/TppGimmick.lua",
-    "/Assets/tpp/script/lib/TppMain.lua",
-    "/Assets/tpp/script/lib/TppDemoBlock.lua",
-    "/Assets/tpp/script/lib/TppAnimalBlock.lua",
-    "/Assets/tpp/script/lib/TppCheckPoint.lua",
-    "/Assets/tpp/script/lib/TppPackList.lua",
-    --"/Assets/tpp/script/lib/TppQuest.lua",
-    "/Assets/tpp/script/lib/TppTrap.lua",
-    "/Assets/tpp/script/lib/TppReward.lua",
-    --"/Assets/tpp/script/lib/TppRevenge.lua",
-    "/Assets/tpp/script/lib/TppReinforceBlock.lua",
-    "/Assets/tpp/script/lib/TppEneFova.lua",
-    "/Assets/tpp/script/lib/TppFreeHeliRadio.lua",
-    --"/Assets/tpp/script/lib/TppHero.lua",
-    "/Assets/tpp/script/lib/TppTelop.lua",
-    "/Assets/tpp/script/lib/TppRatBird.lua",
-    "/Assets/tpp/script/lib/TppMovie.lua",
-    --"/Assets/tpp/script/lib/TppAnimal.lua",
-    --"/Assets/tpp/script/lib/TppException.lua",
-    --"/Assets/tpp/script/lib/TppTutorial.lua",
-    "/Assets/tpp/script/lib/TppLandingZone.lua",
-    "/Assets/tpp/script/lib/TppCassette.lua",
-    "/Assets/tpp/script/lib/TppEmblem.lua",
-    "/Assets/tpp/script/lib/TppDevelopFile.lua",
-    "/Assets/tpp/script/lib/TppPaz.lua",
-    --"/Assets/tpp/script/lib/TppRanking.lua",
-    --"/Assets/tpp/script/lib/TppTrophy.lua",
-    "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
-    "/Assets/tpp/script/lib/InfButton.lua",--tex>
-    "/Assets/tpp/script/lib/InfModules.lua",
-    "/Assets/tpp/script/lib/InfMain.lua",
-    "/Assets/tpp/script/lib/InfMenu.lua",
-    "/Assets/tpp/script/lib/InfEneFova.lua",
-    "/Assets/tpp/script/lib/InfRevenge.lua",
-    "/Assets/tpp/script/lib/InfFova.lua",
-    "/Assets/tpp/script/lib/InfLZ.lua",
-    "/Assets/tpp/script/lib/InfPersistence.lua",
-    "/Assets/tpp/script/lib/InfHooks.lua",--<
-  }
-
-  for i,modulePath in ipairs(requires)do
-    Script.LoadLibrary(modulePath)
-  end
-
-  Script.LoadLibrary"/Assets/tpp/script/lib/TppDefine.lua"
-  Script.LoadLibrary"/Assets/tpp/script/lib/TppVarInit.lua"
-  --Script.LoadLibrary"/Assets/tpp/script/lib/TppGVars.lua"
-  if TppSystemUtility.GetCurrentGameMode()=="MGO"then
-    Script.LoadLibrary"/Assets/mgo/script/utils/SaveLoad.lua"
-    Script.LoadLibrary"/Assets/mgo/script/lib/PostTppOverrides.lua"
-    Script.LoadLibrary"/Assets/mgo/script/lib/MgoMain.lua"
-    Script.LoadLibrary"Tpp/Scripts/System/Block/Overflow.lua"
-    Script.LoadLibrary"/Assets/mgo/level_asset/config/TppMissionList.lua"
-    Script.LoadLibrary"/Assets/mgo/script/utils/Utils.lua"
-    Script.LoadLibrary"/Assets/mgo/script/gear/RegisterGear.lua"
-    Script.LoadLibrary"/Assets/mgo/script/gear/RegisterConnectPointFiles.lua"
-    Script.LoadLibrary"/Assets/mgo/script/player/PlayerResources.lua"
-    Script.LoadLibrary"/Assets/mgo/script/player/PlayerDefaults.lua"
-    Script.LoadLibrary"/Assets/mgo/script/Matchmaking.lua"
-  else
-    Script.LoadLibrary"/Assets/tpp/script/list/TppMissionList.lua"
-    Script.LoadLibrary"/Assets/tpp/script/list/TppQuestList.lua"
-  end
-end
-yield()
-pcall(dofile,"/Assets/tpp/ui/Script/UiRegisterInfo.lua")
-
-Script.LoadLibrary"/Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua"
-
-yield()
-
---loadfile"Tpp/Scripts/System/start2nd.lua"--tex TODO DEBUG loadfile hangs in LDT?
---do
---  local e=coroutine.create(loadfile"Tpp/Scripts/System/start2nd.lua")
---  repeat
---    coroutine.yield()
---    local a,t=coroutine.resume(e)
---    if not a then
---      error(t)
---    end
---  until coroutine.status(e)=="dead"
---end
---if TppSystemUtility.GetCurrentGameMode()=="MGO"then
---  dofile"Tpp/Scripts/System/start3rd.lua"
---end
-
-
-print"parse: start done"
 
 --TODO really do need to module load these since TppDefine is already loaded at this point
 ---------
@@ -311,16 +81,7 @@ mafr_routeSets=require"mafr_routeSets"
 afgh_travelPlans=require"afgh_travelPlans"
 mafr_travelPlans=require"mafr_travelPlans"
 
---TppDefine=require"TppDefine"
-InfInspect=require"InfInspect"
 
-IvarProc=require"IvarProc"
-InfButton=require"InfButton"
-
-InfMain=require"InfMain"
-InfLookup=require"InfLookup"
-
-Ivars=require"Ivars"
 Ivars.SetupIvars()--tex doesn't run on Ivars.lua load since wrapped in InfCore.PCall
 InfLang=require"InfLang"
 Ivars.PostAllModulesLoad()
@@ -550,24 +311,247 @@ local function XmlTest()
 
   -- simple print
   local SLAXML=require"slaxml"
-  local xmlFile=[[J:\GameData\MGS\demofilesnocam\Assets\tpp\pack\mission2\free\f30050\f30050_d071_fpkd\Assets\tpp\demo\fox_project\p51_010020\fox\p51_010020_demo.fox2.xml]]
+  --local xmlFile=[[J:\GameData\MGS\demofilesnocam\Assets\tpp\pack\mission2\free\f30050\f30050_d071_fpkd\Assets\tpp\demo\fox_project\p51_010020\fox\p51_010020_demo.fox2.xml]]
+  --local xmlFile=[[J:\GameData\MGS\filetypecrushed\fox2\misc\afgn_fort_light.fox2.xml]]
+  local xmlFile=[[D:\Projects\MGS\!wip\oldmotherbase\ombs_common_env.fox2.xml]]
+
+  --local xmlFile=[[J:\GameData\MGS\filetypecrushed\lng2\tpp_common.eng.lng2.xml]]
   local myxml=io.open(xmlFile):read('*all')
   --SLAXML:parse(myxml)
 
+  --local lngTable={}
+
   --  SLAXML:parser{
   --    startElement = function(name,nsURI,nsPrefix) print("startElement:"..name)      end, -- When "<foo" or <x:foo is seen
-  --    attribute    = function(name,value,nsURI,nsPrefix) end, -- attribute found on current element
+  --    attribute    = function(name,value,nsURI,nsPrefix)
+  --      if name=="LangId" or name=="Key" then
+  --        lngTable[name]={}
+  --      end
+  --    end, -- attribute found on current element
   --    closeElement = function(name,nsURI)                end, -- When "</foo>" or </x:foo> or "/>" is seen
   --    text         = function(text)                      end, -- text and CDATA nodes
   --    comment      = function(content)                   end, -- comments
   --    pi           = function(target,content)            end, -- processing instructions e.g. "<?yes mon?>"
   --  }:parse(myxml)
 
-  --sinple to table
+  --simple to table
   local SLAXML = require 'slaxdom' -- also requires slaxml.lua; be sure to copy both files
   local doc = SLAXML:dom(myxml)
-  local ins=InfInspect.Inspect(doc)
-  print(ins)
+  --local ins=InfInspect.Inspect(doc)
+  --  print(ins)
+
+  --      local ins=InfInspect.Inspect(doc.root.el)
+  --    print(ins)
+  local function FindNamedElement(element,findName)
+    local foundElement
+    for i,childElement in ipairs(element.el)do
+      if childElement.name==findName then
+        foundElement=childElement
+        break
+      end
+    end
+    return foundElement
+  end
+
+  local function FindNamedAttributeEquals(element,findName,findEquals)
+    local foundElement
+    for i,childElement in ipairs(element.el)do
+      if childElement.attr[findName]==findEquals then
+        foundElement=childElement
+        break
+      end
+    end
+    return foundElement
+  end
+
+  local function GetText(element)
+    local foundText
+    for i,node in ipairs(element.kids)do
+      if node.type=='text'then
+        foundText=node.value
+      end
+    end
+    return foundText
+  end
+
+  --tex ASSUMPTION fox2 entity < property name=> <value>text</value></property
+
+  local function GetPropertyValue(property)
+    local value
+    if property then
+      local valueEl=FindNamedElement(property,'value')
+      value=GetText(valueEl)
+    end
+    return value
+  end
+
+
+
+  local entityElements={}
+  local allEntities={}
+  local parentage={}
+  local ownership={}
+  local entityElements={}
+  local xEntities=FindNamedElement(doc.root,'entities')
+
+  local dataSetAddr
+  local dataList
+  for i,xEntity in ipairs(xEntities.el)do
+    if xEntity.attr.class=='DataSet' then
+      dataSetAddr=xEntity.attr.addr
+      local staticProperties=FindNamedElement(xEntity,'staticProperties')
+
+      dataList=FindNamedAttributeEquals(staticProperties,'name','dataList')
+      break
+    end
+  end
+
+  print('dataSetAddr:'..dataSetAddr)
+
+
+  for i,n in ipairs(dataList.el)do
+    local entitiyName=n.attr.key
+    local entityAddr=GetText(n)
+    entityElements[entitiyName]=entityAddr
+    entityElements[entityAddr]=entitiyName
+  end
+
+
+
+
+  --  for _,docNode in ipairs(doc.kids) do
+  --
+  --    local ins=InfInspect.Inspect(docNode)
+  --    print(ins)
+  --  end
+
+  --DEBUGNOW
+  --REF
+  --fox
+  --entities
+  -- entity
+  --  ...
+
+  --for xEntities
+  --    check parent
+  --    check childred
+
+  for i,xEntity in ipairs(xEntities.el)do
+    local class=xEntity.attr.class
+    local addr=xEntity.attr.addr
+    --print(class)--DEBUGNOW
+    --print(addr)--DEBUGNOW
+    allEntities[addr]=xEntity
+
+
+    local staticProperties=FindNamedElement(xEntity,'staticProperties')
+
+    local parent=FindNamedAttributeEquals(staticProperties,'name','parent')
+    parent=GetPropertyValue(parent)
+    if parent then
+      if parent~="0x00000000" then
+        --print("parent="..parent)--DEBUGNOW
+        local entry=parentage[addr]or{}
+        entry.parent=parent
+        parentage[addr]=entry
+      end
+    end
+    local children=FindNamedAttributeEquals(staticProperties,'name','children')
+    if children then
+      for i,n in ipairs(children.el)do--<value>s
+        local child=GetText(n)
+        if child=="0x00000000" then
+          InfCore.Log("WARNING entity "..addr.. " has a child as 0x00000000")--DEBUGNOW
+        end
+
+        local entry=parentage[addr]or{}
+        entry.children=entry.children or {}
+        entry.children[child]=true
+        parentage[addr]=entry
+      end
+    end
+
+    local owner=FindNamedAttributeEquals(staticProperties,'name','owner')
+    owner=GetPropertyValue(owner)
+    if owner then
+      local entry=ownership[addr]or{}
+      entry.owner=owner
+      ownership[addr]=entry
+
+      local entry=ownership[owner]or{}
+      entry.owns=entry.owns or {}
+      entry.owns[addr]=true
+      ownership[owner]=entry
+    end
+
+    --TODO
+    --for each property
+    -- for each value text
+    --if is 0x address
+    --add to references (or if preoperty.attr.name==parent or children or owner
+  end
+
+
+  --  InfCore.PrintInspect(entities,"entities")
+  InfCore.PrintInspect(parentage,"parentage")
+
+  --  InfCore.PrintInspect(ownership,"ownership")
+  for addr,xEntity in pairs(entityElements)do
+  --  print(xEntity.attr.class)
+  end
+
+
+  for entityAddr,parentInfo in pairs(parentage)do
+    if parentInfo.parent then
+      if not allEntities[parentInfo.parent] then
+        InfCore.Log("!!"..parentInfo.parent .." has no entity entry")
+      end
+    end
+    if parentInfo.children then
+      for childAddr,bool in pairs(parentInfo.children)do
+        if not allEntities[childAddr] then
+          InfCore.Log("!!"..childAddr .." has no entity entry")
+        end
+      end
+    end
+  end
+
+
+  for entityAddr,parentInfo in pairs(ownership)do
+    if parentInfo.owner then
+      if not allEntities[parentInfo.owner] then
+        InfCore.Log("!!"..parentInfo.owner .." has no entity entry")
+      end
+    end
+    if parentInfo.owns then
+      for childAddr,bool in pairs(parentInfo.owns)do
+        if not allEntities[childAddr] then
+          InfCore.Log("!!"..childAddr .." has no entity entry")
+        end
+      end
+    end
+  end
+
+  local function AddChildren(node,children)
+    for childAddr,bool in pairs(children)do
+      node[childAddr]={}
+      if not parentage[childAddr] then
+      elseif parentage[childAddr].children then
+        AddChildren(node[childAddr],parentage[childAddr].children)
+      end
+    end
+  end
+
+  local parentTree={}
+  for entityAddr,parentInfo in pairs(parentage)do
+    if parentInfo.children and not parentInfo.parent then
+      parentTree[entityAddr]={}
+      AddChildren(parentTree[entityAddr],parentInfo.children)
+    end
+  end
+
+  InfCore.PrintInspect(parentTree)
+
 end
 
 --<end xmlparse
@@ -1127,17 +1111,17 @@ end
 local function Stringify()
   print"Stringify"
 
---  local stringsPath=[[D:\Projects\MGS\Tools\]]
---  local inFile=stringsPath.."scrapetppxml.txt"
---  local outFile=stringsPath.."scrapetppxmlstrinified.txt"
+  --  local stringsPath=[[D:\Projects\MGS\Tools\]]
+  --  local inFile=stringsPath.."scrapetppxml.txt"
+  --  local outFile=stringsPath.."scrapetppxmlstrinified.txt"
 
---  local stringsPath=[[D:\Projects\MGS\MGSVTOOLS\FoxEngine.TranslationTool.v0.2.4\]]
---  local filename="lang_dictionary"
+  --  local stringsPath=[[D:\Projects\MGS\MGSVTOOLS\FoxEngine.TranslationTool.v0.2.4\]]
+  --  local filename="lang_dictionary"
 
   local stringsPath=[[D:\Projects\MGS\Tools\]]
   local filename="scrapegameobjectnames"
-  
-  
+
+
   local inFile=stringsPath..filename..".txt"
   local outFile=stringsPath..filename.."_stringified.txt"
 
@@ -1148,9 +1132,9 @@ local function Stringify()
   end
   local strings = {}
   -- read the lines in table 'lines'
- 
+
   for line in file:lines() do
-      table.insert(strings,line)
+    table.insert(strings,line)
   end
   file:close()
 
@@ -1318,6 +1302,140 @@ local function MergeFiles()
   file:close()
 end
 
+--DEBUGNOW
+
+
+--XML parse, from http://lua-users.org/wiki/LuaXml
+--tex tweaked a bit
+function this.ParseArgs(s)
+  local hasArgs=false
+  local arg = {}
+  string.gsub(s, "([%-%w]+)=([\"'])(.-)%2", function (w, _, a)
+    if a then
+      hasArgs=true
+      arg[w] = a
+    end
+  end)
+  if hasArgs then
+    return arg
+  else
+    return nil
+  end
+end
+
+function this.Collect(xmlString)
+  local stack = {}
+  local top = {}
+  table.insert(stack, top)
+  local ni,c,label,xarg, empty
+  local i, j = 1, 1
+  while true do
+    ni,j,c,label,xarg, empty = string.find(xmlString, "<(%/?)([%w:_-]+)(.-)(%/?)>", i)
+    if not ni then break end
+    local text = string.sub(xmlString, i, ni-1)
+    if not string.find(text, "^%s*$") then
+      table.insert(top, text)
+    end
+    if empty == "/" then  -- empty element tag
+      table.insert(top, {label=label, xarg=this.ParseArgs(xarg), empty=1})
+    elseif c == "" then   -- start tag
+      top = {label=label, xarg=this.ParseArgs(xarg)}
+      table.insert(stack, top)   -- new level
+    else  -- end tag
+      local toclose = table.remove(stack)  -- remove top
+      top = stack[#stack]
+      if #stack < 1 then
+        error("nothing to close with "..label)
+      end
+      if toclose.label ~= label then
+        error("trying to close "..toclose.label.." with "..label)
+      end
+      table.insert(top, toclose)
+    end
+    i = j+1
+  end
+  local text = string.sub(xmlString, i)
+  if not string.find(text, "^%s*$") then
+    table.insert(stack[#stack], text)
+  end
+  if #stack > 1 then
+    error("unclosed "..stack[#stack].label)
+  end
+  return stack[1]
+end
+
+--xml util
+function this.FindNodeByLabelName(rootNode,labelName)
+  for k,v in ipairs(rootNode)do
+    if v.label==labelName then
+      return v
+    end
+  end
+end
+
+-- xml collect table > own format transform
+function this.XMLToLngTable(fileName)
+  local xmlString=io.open(fileName):read('*all')
+  local xmlTable=this.Collect(xmlString)
+
+  InfCore.PrintInspect(xmlTable)
+
+  local lngTable={}
+
+  local langFileNode=this.FindNodeByLabelName(xmlTable,"LangFile")
+  local entriesNode=this.FindNodeByLabelName(langFileNode,"Entries")
+  --  InfCore.PrintInspect(langFileNode,"langFileNode")
+  --  InfCore.PrintInspect(entriesNode,"entriesNode")
+
+  if entriesNode then
+    for i,entry in ipairs(entriesNode)do
+      if entry.label=="Entry" then
+        if entry.xarg then
+          local key=entry.xarg.Key or entry.xarg.LangId
+          lngTable[key]=entry.xarg.Value
+          if entry.xarg.Color~="1" then
+            lngTable[key]=entry.xarg.Color
+          end
+        end
+      end
+    end
+  end
+  InfCore.PrintInspect(lngTable)
+  return lngTable
+end
+
+--DEBUGNOW
+function this.XMLToEntityTable(fileName)
+  local xmlString=io.open(fileName):read('*all')
+  local xmlTable=this.Collect(xmlString)
+
+  InfCore.PrintInspect(xmlTable)
+
+  local entityTable={}
+
+  local langFileNode=this.FindNodeByLabelName(xmlTable,"LangFile")
+  local entriesNode=this.FindNodeByLabelName(langFileNode,"Entries")
+  --  InfCore.PrintInspect(langFileNode,"langFileNode")
+  --  InfCore.PrintInspect(entriesNode,"entriesNode")
+
+  if entriesNode then
+    for i,entry in ipairs(entriesNode)do
+      if entry.label=="Entry" then
+        if entry.xarg then
+          local key=entry.xarg.Key or entry.xarg.LangId
+          entityTable[key]=entry.xarg.Value
+          if entry.xarg.Color~="1" then
+            entityTable[key]=entry.xarg.Color
+          end
+        end
+      end
+    end
+  end
+  InfCore.PrintInspect(entityTable)
+  return entityTable
+end
+
+
 local function main()
   print("main()")
 
@@ -1342,13 +1460,6 @@ local function main()
   --BuildFovaTypesList()
   -- FaceDefinitionAnalyse()
 
-
-
-
-
-
-
-
   --  LangDictionaryAttack=require"LangDictionaryAttack"
   --  LangDictionaryAttack.Run()
   --Data=require"Data"
@@ -1361,45 +1472,6 @@ local function main()
   --
   --GetFilesOfType("mtar")
 
-  --create string table
-  local function readAll(file)
-    local f = io.open(file, "r")
-    local content = f:read("*all")
-    f:close()
-    return content
-  end
-
-  local strcodetxt=[[D:\Projects\MGS\Tools\lang_dictionary.txt]]
-  local strcodetxtout=[[D:\Projects\MGS\Tools\lang_dictionary_txttable.txt]]
-  local allTxt=readAll(strcodetxt)
-  local outTxt={
-    }
-  local file,openError=io.open(strcodetxt,"r")
-  if file then
-    while true do
-      local line=file:read()
-      if line==nil then break end
-      local line='\"'..line..'\",'
-      table.insert(outTxt,line)
-    end
-    file:close()
-  end
-
-  local f=io.open(strcodetxtout,"w")
-
-  f:write(table.concat(outTxt,"\n"))
-  --print(equipId)
-  f:close()
-
-  --
-  --for i=406,458 do
-  --  print(i..",")
-  --end
-
-
-  --  for i=459,511 do
-  --    print(i..",")
-  --  end
   -- GenerateLzs()
 
   --CullExeStrings()
@@ -1411,49 +1483,214 @@ local function main()
   --ExtensionShit()
 
   --MergeFiles()
-  
-  Stringify()
+
+  --Stringify()
+
+  --XmlTest()--DEBUGNOW
+
+
+
+  --
+  --  local  x = collect[[
+  --     <methodCall kind="xuxu">
+  --      <methodName>examples.getStateName</methodName>
+  --      <params>
+  --         <param>
+  --            <value><i4>41</i4></value>
+  --            </param>
+  --         </params>
+  --      </methodCall>
+  --]]
+
+  --  local xmlTable=this.Collect[[
+  --<?xml version="1.0" encoding="utf-8"?>
+  --<LangFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Endianess="BigEndian">
+  --  <Entries>
+  --    <Entry LangId="unit_metre" Color="1" Value="m" />
+  --    <Entry LangId="mb_title_gmp" Color="1" Value="GMP" />
+  --    <Entry LangId="mb_title_time" Color="1" Value="TIME" />
+  --    <Entry LangId="common_new" Color="1" Value="NEW" />
+  --    <Entry LangId="tpp_gmp" Color="1" Value="GMP" />
+  --    <Entry LangId="tpp_loc_afghan" Color="1" Value="Northern Kabul, Afghanistan" />
+  --  </Entries>
+  --</LangFile>
+  --]]
+
+  --local lngTable=this.XMLToLngTable(fileName)
+
+  --  local fileName=[[D:\Projects\MGS\!wip\oldmotherbase\Assets\tpp\pack\location\ombs\pack_common\ombs_common_fpkd\Assets\tpp\level\location\ombs\block_common\ombs_common_env.fox2.xml]]
+  --  local xmlString=io.open(fileName):read('*all')
+  --  local xmlTable=this.Collect(xmlString)
+  --
+  --  --InfCore.PrintInspect(xmlTable)
+  --  local entitiesNode=this.FindNodeByLabelName(xmlTable,"entities")
+  --
+  --
+  --  local entityNamesToAddr={}
+  --  local addrToEntityNames={}
+
+
+  XmlTest()
+
+
+  this.gamePath=[[C:\GamesSD\MGS_TPP\]]
+  this.paths={}
+  this.paths.mod=this.gamePath..[[mod\]]
+  this.files={}
+  this.files.mod={}
+
+  this.ihFiles=nil
+  this.filesFull={}
+  this.filesFull.mod={}
+
+
+  function this.GetLines(fileName)
+    return InfCore.PCall(function(fileName)
+      local lines
+      local file,openError=io.open(fileName,"r")
+      if file and not openError then
+        --tex lines crashes with no error, dont know what kjp did to io
+        --      for line in file:lines() do
+        --        if line then
+        --          table.insert(lines,line)
+        --        end
+        --      end
+
+        lines=file:read("*all")
+        file:close()
+
+        lines=InfUtil.Split(lines,"\n")
+        if lines[#lines]=="" then
+          lines[#lines]=nil
+        end
+      end
+      return lines
+    end,fileName)
+  end
+
+
+
+  function this.RefreshFileList()
+    InfCore.LogFlow"InfCore.RefreshFileList"
+
+
+    local path=this.paths.mod
+    local ihFilesName=path..[[ih_files.txt]]
+    local cmd=[[dir /b /s "]]..path..[[" > "]]..ihFilesName..[["]]
+    InfCore.Log(cmd)
+    os.execute(cmd)
+    this.ihFiles=this.GetLines(ihFilesName)
+    if this.ihFiles then
+      InfCore.PrintInspect(this.ihFiles)--DEBUGNOW
+      local stripLen=string.len(path)
+      for i,line in ipairs(this.ihFiles)do
+        if line then
+          local subPath=string.sub(line,stripLen+1)
+          --print(subPath)--DEBUGNOW
+          local isFile=InfUtil.FindLast(subPath,".")~=nil
+          local split=InfUtil.Split(subPath,[[\]])
+          local isRoot=#split==1
+          local subFolder=split[1]
+          InfCore.PrintInspect(split)--DEBUGNOW
+
+          if not isRoot then
+            --this.paths[subFolder]=this.paths[subFolder] or {}
+            this.files[subFolder]=this.files[subFolder] or {}
+            this.filesFull[subFolder]=this.files[subFolder] or {}
+          end
+          if isFile then
+            if isRoot then
+              subFolder="mod"
+            end
+            table.insert(this.files[subFolder],split[#split])
+            table.insert(this.filesFull[subFolder],line)
+          else
+            this.paths[subFolder]=this.paths.mod..subFolder.."\\"
+          end
+        end
+      end
+    end
+
+    --DEBUGNOW
+    InfCore.PrintInspect(this.paths,"paths")
+    InfCore.PrintInspect(this.files,"files")
+  end
+
+  this.RefreshFileList()
 
 
   print"main done"
 end
 
---function e.cboxCamoType(boxId)
---  local boxTypes={
---    desert={TppEquip.EQP_IT_CBox_DSR,TppEquip.EQP_IT_CBox_DSR_G01,TppEquip.EQP_IT_CBox_DSR_G02},
---    green={TppEquip.EQP_IT_CBox_FRST,TppEquip.EQP_IT_CBox_FRST_G01},
---    red={TppEquip.EQP_IT_CBox_BOLE,TppEquip.EQP_IT_CBox_BOLE_G01},
---    urban={TppEquip.EQP_IT_CBox_CITY,TppEquip.EQP_IT_CBox_CITY_G01},
---    mix={TppEquip.EQP_IT_CBox_CLB_A,TppEquip.EQP_IT_CBox_CLB_A_G01},
---    rock={TppEquip.EQP_IT_CBox_CLB_B,TppEquip.EQP_IT_CBox_CLB_B_G01},
---    wet={TppEquip.EQP_IT_CBox_CLB_C,TppEquip.EQP_IT_CBox_CLB_C_G01}
---  }
---
---  for camoType,equipIds in pairs(boxTypes) do
---    for i,equipId in ipairs(equipIds)do
---      if boxId==equipId then
---        return camoType
---      end
---    end
---  end
---
---  return false
---end
---
---local stealthItems={
---  [TppEquip.EQP_IT_InstantStealth]="limited",
---  [TppEquip.EQP_IT_Stealth]="battery",
---  [TppEquip.EQP_IT_ParasiteCamouf]="parasite",
---}
---
---function e.isStealthItem(item)
---  return stealthItems[item] or false
---end
---
---function e.stealthItemType(item)
---  return stealthItems[item]
---end
 
+local blah={
+  '<?xml version="1.0" encoding="utf-8"?>\n',
+  {
+    {
+      {
+        empty = 1,
+        label = "Entry",
+        xarg = {
+          Color = "1",
+          LangId = "unit_metre",
+          Value = "m"
+        }
+      },
+      {
+        empty = 1,
+        label = "Entry",
+        xarg = {
+          Color = "1",
+          LangId = "mb_title_gmp",
+          Value = "GMP"
+        }
+      },
+      {
+        empty = 1,
+        label = "Entry",
+        xarg = {
+          Color = "1",
+          LangId = "mb_title_time",
+          Value = "TIME"
+        }
+      },
+      {
+        empty = 1,
+        label = "Entry",
+        xarg = {
+          Color = "1",
+          LangId = "common_new",
+          Value = "NEW"
+        }
+      },
+      {
+        empty = 1,
+        label = "Entry",
+        xarg = {
+          Color = "1",
+          LangId = "tpp_gmp",
+          Value = "GMP"
+        }
+      },
+      {
+        empty = 1,
+        label = "Entry",
+        xarg = {
+          Color = "1",
+          LangId = "tpp_loc_afghan",
+          Value = "Northern Kabul, Afghanistan"
+        }
+      },
+      label = "Entries"
+    },
+    label = "LangFile",
+    xarg = {
+      Endianess = "BigEndian",
+      xsd = "http://www.w3.org/2001/XMLSchema",
+      xsi = "http://www.w3.org/2001/XMLSchema-instance"
+    }
+  }
+}
 
 
 main()

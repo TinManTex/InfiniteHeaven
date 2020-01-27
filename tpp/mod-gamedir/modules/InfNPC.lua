@@ -32,7 +32,7 @@ function this.AddMissionPacks(missionCode,packPaths)
   end
 
   if this.debugModule then
-    InfCore.Log("IncNPC.AddMissionPacks:")
+    InfCore.Log("InfNPC.AddMissionPacks:")
   end
 
   local experiment=false
@@ -1017,6 +1017,7 @@ for npcType,npcInfo in pairs(this.npcTemplates)do
 end
 
 function this.BuildNPCInfo()
+  InfCore.LogFlow("InfNPC.BuildNPCInfo")
   local npcInfos={}
   local npcIndex=0
   for npcType,count in pairs(this.npcCounts)do
@@ -1056,15 +1057,11 @@ function this.InitCluster(clusterId)
 
   local grade=TppLocation.GetMbStageClusterGrade(clusterId)
   local commandGrade=TppLocation.GetMbStageClusterGrade(0)
-  
-  if this.debugModule then
-    InfCore.Log("InfNPC.InitCluster "..tostring(clusterId).." "..tostring(InfMain.CLUSTER_NAME[clusterId+1]).." grade:"..tostring(grade).." commandGrade:"..tostring(commandGrade))
-  end
-  
+
   --tex WORKAROUND outer cluster positions change depending on the command grade (due to the amount of connections for bridges on the command plats)
   --and currently only have positions for mbLayout 3 - all plats on command built
   --command (clusterId 0) is fine, plat positions dont change
-  if clusterId~=0 then 
+  if clusterId~=0 then
     if commandGrade<4 then
       grade=0--tex bail out
     end
@@ -1088,6 +1085,10 @@ function this.InitCluster(clusterId)
   end
   if clusterId==7 then
     grade=1
+  end
+
+  if this.debugModule then
+    InfCore.Log("InfNPC.InitCluster "..tostring(clusterId).." "..tostring(InfMain.CLUSTER_NAME[clusterId+1]).." grade:"..tostring(grade).." commandGrade:"..tostring(commandGrade))
   end
 
   --DEBUGNOW TODO per plat bags and distribute npcs evenly across all plats
@@ -1189,6 +1190,9 @@ function this.InitCluster(clusterId)
         local plats={1}
         if npcInfo.plats then
           plats={}
+          if clusterId==8 then --KLUDGE DDS_GROUNDCREW doesnt allow plat1
+            plats={1}
+          end
           for i,plat in ipairs(npcInfo.plats)do
             if plat<=grade then
               plats[#plats+1]=plat

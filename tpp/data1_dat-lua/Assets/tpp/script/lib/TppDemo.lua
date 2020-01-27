@@ -255,9 +255,9 @@ this.FINISH_WAIT_CHECK_FUNC={
     if not mvars.dem_textureLoadWaitEndTime then
       mvars.dem_textureLoadWaitEndTime=Time.GetRawElapsedTimeSinceStartUp()+30
     end
-    local n=mvars.dem_textureLoadWaitEndTime-Time.GetRawElapsedTimeSinceStartUp()
-    local e=Mission.GetTextureLoadedRate()
-    if(e>.35)or(n<=0)then
+    local loadWaitDelta=mvars.dem_textureLoadWaitEndTime-Time.GetRawElapsedTimeSinceStartUp()
+    local textureLoadedRate=Mission.GetTextureLoadedRate()
+    if(textureLoadedRate>.35)or(loadWaitDelta<=0)then
       return true
     else
       TppUI.ShowAccessIconContinue()

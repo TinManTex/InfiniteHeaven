@@ -16,7 +16,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="207"
+this.modVersion="208"
 this.modName="Infinite Heaven"
 
 --STATE
@@ -291,7 +291,7 @@ function this.LogFlow(message)
     return false
   end
   if ivars and not ivars.debugFlow then
-    return --DEBUGNOW
+    return
   end
   --  local stackLevel=2
   --  local stackInfo=debug.getinfo(stackLevel,"n")
@@ -449,6 +449,7 @@ end
 
 --tex with alternate external loading
 function this.LoadLibrary(path)
+  this.LogFlow("InfCore.LoadLibrary "..tostring(path))
   local scriptPath=InfCore.paths.mod..path
   local externLoaded=false
   if InfCore.FileExists(scriptPath) then
@@ -482,49 +483,84 @@ function this.OnLoadEvars()
   end
 end
 
+function this.GetLines(fileName)
+  return InfCore.PCall(function(fileName)
+    local lines
+    local file,openError=io.open(fileName,"r")
+    if file and not openError then
+      --tex lines crashes with no error, dont know what kjp did to io
+      --      for line in file:lines() do
+      --        if line then
+      --          table.insert(lines,line)
+      --        end
+      --      end
+
+      lines=file:read("*all")
+      file:close()
+
+      lines=InfUtil.Split(lines,"\r\n")
+      if lines[#lines]=="" then
+        lines[#lines]=nil
+      end
+    end
+    return lines
+  end,fileName)
+end
+
+--SIDE: this.paths, this.files, this.filesFull, this.ihFiles
 function this.RefreshFileList()
   InfCore.LogFlow"InfCore.RefreshFileList"
-
-  local filesTable={}
-
-  local cmd=""
-  for dir,path in pairs(this.paths)do
-    cmd=cmd..[[dir /b "]]..path..[[*.lua" > "]]..path..[[ih_files.txt" & ]]
-  end
-  this.Log(cmd)
+  local path=this.paths.mod
+  local ihFilesName=path..[[ih_files.txt]]
+  local cmd=[[dir /b /s "]]..path..[[*.*" > "]]..ihFilesName..[["]]
+  InfCore.Log(cmd)
   os.execute(cmd)
+  this.ihFiles=this.GetLines(ihFilesName)
+  if this.ihFiles then
+    this.paths={
+      mod=this.modPath,
+    }
+    this.files={
+      mod={},
+    }
+    this.filesFull={
+      mod={},
+    }
+  
+    local stripLen=string.len(path)
+    for i,line in ipairs(this.ihFiles)do
+      if line then
+        local subPath=string.sub(line,stripLen+1)
+        local isFile=InfUtil.FindLast(subPath,".")~=nil
+        local split=InfUtil.Split(subPath,[[\]])
+        local isRoot=#split==1
+        local subFolder=split[1]
+        --InfCore.Log(subFolder)--tex DEBUG
+        --InfCore.PrintInspect(split)--tex DEBUG
+        if isRoot then
+          subFolder="mod"
+        end
+        
+        this.files[subFolder]=this.files[subFolder] or {}
+        this.filesFull[subFolder]=this.filesFull[subFolder] or {}
+        if not this.paths[subFolder] then
+          this.paths[subFolder]=this.paths.mod..subFolder.."\\"
+        end
 
-  for dir,path in pairs(this.paths)do
-    local fileName=path.."ih_files.txt"
-    local fileNames=InfCore.PCall(function()
-      local lines
-      local file,openError=io.open(fileName,"r")
-      if file and not openError then
-        --tex lines crashes with no error, dont know what kjp did to io
-        --      for line in file:lines() do
-        --        if line then
-        --          table.insert(lines,line)
-        --        end
-        --      end
-
-        lines=file:read("*all")
-        file:close()
-
-        lines=InfUtil.Split(lines,"\r\n")
-        if lines[#lines]=="" then
-          lines[#lines]=nil
+        if isFile then
+          table.insert(this.files[subFolder],split[#split])
+          table.insert(this.filesFull[subFolder],line)
         end
       end
-      return lines
-    end)
-    if fileNames==nil then
-      InfCore.Log("InfCore.RefreshFileList ERROR: could not read "..fileName)
-      filesTable[dir]={}
-    else
-      filesTable[dir]=fileNames
     end
   end
-  return filesTable
+
+  if this.debugModule then
+    InfCore.PrintInspect(this.ihFiles,"ihFiles")
+    InfCore.PrintInspect(this.paths,"paths")
+    InfCore.PrintInspect(this.files,"files")
+    InfCore.PrintInspect(this.filesFull,"filesFull")
+  end
 end
 
 function this.GetFileList(files,filter,stripFilter)
@@ -592,34 +628,29 @@ this.prev="_prev"
 
 --EXEC
 --package.path=""--DEBUG kill path for fallback testing
-local gamePath=GetGamePath()
-local modPath=gamePath..[[mod\]]
+this.gamePath=GetGamePath()
+this.modPath=this.gamePath..[[mod\]]
 this.paths={
-  mod=modPath,
-  saves=modPath..[[saves\]],
-  profiles=modPath..[[profiles\]],
-  modules=modPath..[[modules\]],
-  fovaInfo=modPath..[[fovaInfo\]],
-  quests=modPath..[[quests\]],
+  mod=this.modPath,
+--  profiles=modPath..[[profiles\]],
+--  modules=modPath..[[modules\]],
+--  fovaInfo=modPath..[[fovaInfo\]],
+--  quests=modPath..[[quests\]],
+--  locations=modPath..[[locations\]],
+--  missions=modPath..[[locations\]],
 }
 this.files={
   mod={},
-  saves={},
-  profiles={},
-  modules={},
-  fovaInfo={},
-  quests={},
 }
+this.filesFull={
+  mod={},
+}
+this.ihFiles=nil
 
 this.logFilePath=this.paths.mod..this.logFileName..".txt"
 this.logFilePathPrev=this.paths.mod..this.logFileName..this.prev..".txt"
 
 this.toExtCmdsFilePath=this.paths.mod..this.toExtCmdsFileName..".txt"
-
-local addPaths=";"..this.paths.mod.."?.lua"
-addPaths=addPaths..";"..this.paths.profiles.."?.lua"
-addPaths=addPaths..";"..this.paths.modules.."?.lua"
-package.path=package.path..addPaths
 
 this.CopyFileToPrev(this.paths.mod,this.logFileName,".txt")
 local error=this.ClearFile(this.paths.mod,this.logFileName,".txt")
@@ -632,14 +663,26 @@ if error then
 else
   local time=os.date("%x %X")
   this.Log("InfCore start "..time)
+  this.Log(this.modName.." r"..this.modVersion)
+
+  this.PCall(this.RefreshFileList)
+
+  local packagePaths={
+    "mod",
+    "modules",
+  }
+  local addPaths=""
+  for i,packagePath in ipairs(packagePaths)do
+    if not this.paths[packagePath]then
+      this.Log("ERROR: could not find paths["..packagePath.."]")
+    else
+      addPaths=addPaths..";"..this.paths[packagePath].."?.lua"
+    end
+  end
+  package.path=package.path..addPaths
   this.Log("package.path:"..package.path)
 
   this.CopyFileToPrev(this.paths.saves,"ih_save",".lua")
-
-  this.files=this.PCall(this.RefreshFileList)
-  --InfCore.PrintInspect(this.paths)--DEBUG
-  --InfCore.PrintInspect(this.files)--DEBUG
-
   local error=this.ClearFile(this.paths.mod,this.toExtCmdsFileName,".txt")
 end
 

@@ -3,15 +3,23 @@
 -- PACKPATH: \Assets\tpp\pack\mbdvc\mb_dvc_top.fpkd
 -- mbdvc_map_location_parameter.lua
 mbdvc_map_location_parameter = {
+  --tex REWORKED, GetLocationParameter was just a just a big ole if locationId return {table of params}
+  --tex indexed by locationId
+	locationParameters={
+	 default={
+      stageSize = 4096.0 * 2.0,
+      scrollMaxLeftUpPosition   = Vector3( -4096.0, 0.0, -4096.0 ),
+      scrollMaxRightDownPosition  = Vector3(  4096.0, 0.0,  4096.0 ),
+      highZoomScale   = 4.80,
+      middleZoomScale   = 2.340,
+      lowZoomScale    = 0.70,
+      naviHighZoomScale = 4.80,
+      naviMiddleZoomScale = 2.340,
+      heightMapTexturePath    = "/Assets/tpp/common_source/ui/common_texture/cm_wht_64.ftex",
+      photoRealMapTexturePath   = "/Assets/tpp/common_source/ui/common_texture/cm_wht_64.ftex",
+    },
 
-	
-	
-	
-	GetLocationParameter = function( locationId )
-
-		
-		if locationId == 10 then
-			return {
+	 [10]={
 				stageSize = 4096.0 * 2.0,
 				scrollMaxLeftUpPosition		= Vector3( -4096.0, 0.0, -4096.0 ),
 				scrollMaxRightDownPosition	= Vector3(  4096.0, 0.0,  4096.0 ),
@@ -78,11 +86,9 @@ mbdvc_map_location_parameter = {
 					{ cpName = "afgh_waterwayEast_ob", langId = "tpp_afghan_waterWayEast_no", cursorLangId = "tpp_afghan_waterWayEast", position = Vector3(-1328.3,0.0,-741.7), radius=75.0, uShift=0.00 , vShift=0.00 , mini=true },  
 					{ cpName = "afgh_citadelSouth_ob", langId = "tpp_afghan_CitadelSouth_no", cursorLangId = "tpp_afghan_CitadelSouth", position = Vector3(-1668.0,0.0,-2441.0), radius=75.0, uShift=0.00 , vShift=0.00 , mini=true },  
 				}
-			}
-
+      },
 		
-		elseif locationId == 20 then
-			return {
+      [20]= {
 				stageSize = 4096.0 * 2.0,
 				scrollMaxLeftUpPosition		= Vector3( -4096.0, 0.0, -3804.0 ),
 				scrollMaxRightDownPosition	= Vector3(  1884.0, 0.0,  2172.0 ),
@@ -142,11 +148,9 @@ mbdvc_map_location_parameter = {
 					{ cpName = "mafr_labWest_ob", langId = "tpp_africa_labWest_no", cursorLangId = "tpp_africa_labWest", position = Vector3(2155.7,0.0,-2184.7), radius=75.0, uShift=0.00 , vShift=0.00 , mini=true },  
 					{ cpName = "mafr_chicoVilWest_ob", langId = "tpp_africa_chicoVilWest_no", cursorLangId = "tpp_africa_chicoVilWest", position = Vector3(1537.1,0.0,1783.0), radius=75.0, uShift=0.00 , vShift=0.00 , mini=true },  
 				}
-			}
+      },
 
-		
-		elseif locationId == 50 then
-			return {
+      [50]= {
 				stageSize = 2048.0 * 2.0,
 				scrollMaxLeftUpPosition		= Vector3( -2144.0, 0.0, -2144.0 ),
 				scrollMaxRightDownPosition	= Vector3(  2144.0, 0.0,  2144.0 ),
@@ -174,11 +178,9 @@ mbdvc_map_location_parameter = {
 					{ mbId = 23, langId = "platform_en_zoo_herbivore2", cursorLangId = "platform_zoo_herbivore2", radius=75.0, uShift=0.00 , vShift=0.50 },  
 					{ mbId = 24, langId = "platform_en_zoo_canivore", cursorLangId = "platform_zoo_canivore", radius=75.0, uShift=0.00 , vShift=0.50 },  
 				}
-			}
-
+      },
 		
-		elseif locationId == 55 then
-			return {
+      [55]={
 				stageSize = 37.5 * 2.0,
 				scrollMaxLeftUpPosition		= Vector3( -12.0, 0.0, -32.0 ),
 				scrollMaxRightDownPosition	= Vector3(  12.0, 0.0,  8.0 ),
@@ -190,27 +192,21 @@ mbdvc_map_location_parameter = {
 				naviMiddleZoomScale	= 2.00,
 				locationNameLangId	= "platform_isolation",
 				heightMapTexturePath= "/Assets/tpp/ui/texture/map/map_mtbs/parts/uq_0070_inside_alp.ftex",
-			}
-		end
+      },
 
+	},
 		
-		return {
-			stageSize = 4096.0 * 2.0,
-			scrollMaxLeftUpPosition		= Vector3( -4096.0, 0.0, -4096.0 ),
-			scrollMaxRightDownPosition	= Vector3(  4096.0, 0.0,  4096.0 ),
-			highZoomScale		= 4.80,
-			middleZoomScale		= 2.340,
-			lowZoomScale		= 0.70,
-			naviHighZoomScale	= 4.80,
-			naviMiddleZoomScale	= 2.340,
-			heightMapTexturePath		= "/Assets/tpp/common_source/ui/common_texture/cm_wht_64.ftex",
-			photoRealMapTexturePath 	= "/Assets/tpp/common_source/ui/common_texture/cm_wht_64.ftex",
-		}
+	--NMC: called on idroid map tab open?
+	GetLocationParameter = function( locationId )
+    InfCore.LogFlow("mbdvc_map_location_parameter.GetLocationParameter "..tostring(locationId))--tex
+    local mapParams
+    if InfMission then --tex> cant patch in the table from earlier in execution as it seems mbdvc_map_location_parameter is torn down/reloaded
+      mapParams=InfMission.GetMapLocationParameter(locationId)
+    end--<
+    return mapParams or mbdvc_map_location_parameter.locationParameters[locationId] or mbdvc_map_location_parameter.locationParameters.default
 	end,
 
-	
-	
-	--NMC: called once at init
+	--NMC: called on idroid map tab open?
 	GetGlobalLocationParameter = function()
 	 InfCore.LogFlow("mbdvc_map_location_parameter.GetGlobalLocationParameter "..tostring(vars.missionCode))--tex
 	 local enableSpySearch=true--tex

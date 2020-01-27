@@ -4,7 +4,7 @@ local IsTypeTable=Tpp.IsTypeTable
 local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 local SendCommand=GameObject.SendCommand
-local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
+--ORPHAN local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
 function this._EnableMarkerIcon(markerName,radius,langId)
   TppMarker.Enable(markerName,radius,"none","map_only_icon",0,false,true)
   if langId~=nil then

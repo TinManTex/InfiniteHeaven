@@ -747,9 +747,9 @@ function this.OnAllocate(missionTable)
     if baseList then
       local locationName=TppLocation.GetLocationName()
       mvars.rev_usingBase={}
-      for E,baseName in ipairs(baseList)do
-        local e=locationName..("_"..baseName)
-        mvars.rev_usingBase[e]=true
+      for i,baseName in ipairs(baseList)do
+        local revBaseName=locationName..("_"..baseName)
+        mvars.rev_usingBase[revBaseName]=true
       end
     end
   end

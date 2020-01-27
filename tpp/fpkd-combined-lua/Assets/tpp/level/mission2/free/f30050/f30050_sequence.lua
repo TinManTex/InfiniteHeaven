@@ -639,9 +639,6 @@ this.saveVarsList = {
   isCollect_ShortAflo			= false,
   isCollect_BlackCoat			= false,
 
-  --DEBUGNOW
-  fobIrSensorGrade    = { name = "fobIrSensorGrade", type = TppScriptVars.TYPE_UINT8, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },
-  fobSecAlarmGrade    = { name = "fobSecAlarmGrade", type = TppScriptVars.TYPE_UINT8, value = 0, save = true, sync = true, wait = true, category = TppScriptVars.CATEGORY_MISSION },
 
 }
 
@@ -952,9 +949,6 @@ function this.OnEndMissionPrepareSequence()
     svars.isLeaveBattleHanger = false
   end
   
-  --DEBUGNOW
-  svars.fobIrSensorGrade = 3
-  svars.fobSecAlarmGrade = 3
 end
 
 
@@ -1405,9 +1399,7 @@ sequences.Seq_Demo_SetupCluster = {
       }
   end,
   OnEnter = function()
-  --DEBUGNOW
-  svars.fobIrSensorGrade = 3
-  svars.fobSecAlarmGrade = 3
+
 
     TppUiStatusManager.SetStatus( "AnnounceLog", "INVALID_LOG" )
 

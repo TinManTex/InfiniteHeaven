@@ -200,9 +200,10 @@ local function PrintMenuSingle(priorMenus,menu,priorItems,skipItems,menuCount,te
         if IsForProfile(item,menu,priorMenus,priorItems) then
           local profileLine={}
           table.insert(profileLine,"\t\t"..item.name.."=")
+          --InfCore.Log("profileline --- "..item.name)--DEBUGNOW
           if item.settings then
             local setting=item.settings[item.default+1]
-            if setting~="DEFAULT" and setting~="OFF" then
+            if setting and setting~="DEFAULT" and setting~="OFF" then
               table.insert(profileLine,"\""..setting.."\"")
             else
               table.insert(profileLine,item.default)
@@ -318,11 +319,13 @@ function this.AutoDoc()
 -- Profiles are lists of settings for IH options. 
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
+-- Or by setting loadOnACCStart=true, below.
+-- This profile lists all options, with their default settings.
 -- See Features and Options.html for longer descriptions of some settings.
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
   ]]
 
-  table.insert(profileTable,"-- Example_Defaults.lua")
+  table.insert(profileTable,"-- All_Options_Example.lua")
   table.insert(profileTable,"-- Defaults / example of all profile options for IH r"..InfCore.modVersion)
   table.insert(profileTable,header)
   table.insert(profileTable,"local this={")
@@ -406,7 +409,7 @@ function this.AutoDoc()
   local htmlFilePath=outputFolder..featuresOutputName..".html"
   local htmlFile=io.open(htmlFilePath,"w")
 
-  local profileFilePath=projectFolder.."!modlua\\ExternalLua\\profiles\\Example_Defaults.lua"
+  local profileFilePath=projectFolder.."!modlua\\ExternalLua\\profiles\\All_Options_Example.lua"
   local profileFile=io.open(profileFilePath,"w")
 
   textFile:write(table.concat(textTable,nl))

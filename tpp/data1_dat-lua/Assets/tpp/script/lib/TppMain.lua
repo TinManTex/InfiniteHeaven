@@ -166,7 +166,7 @@ function this.OnAllocate(missionTable)
   InfMain.MissionPrepare()--tex
   for name,module in pairs(missionTable)do
     if IsTypeFunc(module.OnLoad)then
-      module.OnLoad()
+      InfCore.PCallDebug(module.OnLoad)--tex wrapped in pcall
     end
   end
   do
@@ -174,9 +174,10 @@ function this.OnAllocate(missionTable)
     this.allSvars=allSvars--tex DEBUG see Ivars debug thingamy
     for i,lib in ipairs(Tpp._requireList)do
       if _G[lib]then
-        if _G[lib].DeclareSVars then
+        local DeclareSVars=_G[lib].DeclareSVars
+        if DeclareSVars then
           InfCore.LogFlow(lib..".DeclareSVars")--tex DEBUG
-          ApendArray(allSvars,_G[lib].DeclareSVars(missionTable))
+          ApendArray(allSvars,InfCore.PCallDebug(DeclareSVars,missionTable))--tex PCall
         end
       end
     end
@@ -185,7 +186,7 @@ function this.OnAllocate(missionTable)
     if not TppMission.IsFOBMission(vars.missionCode)then
       for i,module in ipairs(InfModules)do
         if module.DeclareSVars then
-          ApendArray(allSvars,module.DeclareSVars(missionTable))
+          ApendArray(allSvars,InfCore.PCallDebug(module.DeclareSVars,missionTable))
         end
       end
     end
@@ -287,7 +288,6 @@ function this.OnAllocate(missionTable)
     if(vars.missionCode>6e4)then--NMC the e3/tradeshow demos I think
       TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*24}--=9338880 -- nearly 5x the max retail block size
     else
-      --TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*32}--tex DEBUG TEST
       TppPlayer.SetEquipMissionBlockGroupSize()--TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721, sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE= max 1887437 (s10054)
     end
   end
@@ -367,9 +367,10 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   end
   TppLandingZone.OnInitialize()
   for i,lib in ipairs(Tpp._requireList)do
-    if _G[lib].Init then
+    local Init=_G[lib].Init
+    if Init then
       InfCore.LogFlow(lib..".Init")--tex DEBUG
-      _G[lib].Init(missionTable)
+      InfCore.PCallDebug(Init,missionTable)--tex wrapped in pcall
     end
   end
   if OnlineChallengeTask then--RETAILPATCH 1090>
@@ -444,6 +445,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     else
       TppEnemy.RestoreOnContinueFromCheckPoint2()
     end
+    --< if missionTable.enemy
   end
   if not TppMission.IsMissionStart()then
     TppWeather.RestoreFromSVars()
@@ -724,21 +726,24 @@ loadPositionFuncs[TppDefine.MISSION_LOAD_TYPE.MISSION_FINALIZE]=function(mission
       else
         TppPlayer.ResetInitialPosition()
         TppPlayer.ResetMissionStartPosition()
-        local noBoxMissionStartPos={
-          [10020]={1449.3460693359,339.18698120117,1467.4300537109,-104},
-          [10050]={-1820.7060546875,349.78659057617,-146.44400024414,139},
-          [10070]={-792.00512695313,537.3740234375,-1381.4598388672,136},
-          [10080]={-439.28802490234,-20.472593307495,1336.2784423828,-151},
-          [10140]={499.91635131836,13.07358455658,1135.1315917969,79},
-          [10150]={-1732.0286865234,543.94067382813,-2225.7587890625,162},
-          [10260]={-1260.0454101563,298.75305175781,1325.6383056641,51}
-        }
-        noBoxMissionStartPos[11050]=noBoxMissionStartPos[10050]
-        noBoxMissionStartPos[11080]=noBoxMissionStartPos[10080]
-        noBoxMissionStartPos[11140]=noBoxMissionStartPos[10140]
-        noBoxMissionStartPos[10151]=noBoxMissionStartPos[10150]
-        noBoxMissionStartPos[11151]=noBoxMissionStartPos[10150]
-        local posrot=noBoxMissionStartPos[vars.missionCode]
+        --tex shifted to TppDefine
+        --ORIG
+        --        local noBoxMissionStartPos={
+        --          [10020]={1449.3460693359,339.18698120117,1467.4300537109,-104},
+        --          [10050]={-1820.7060546875,349.78659057617,-146.44400024414,139},
+        --          [10070]={-792.00512695313,537.3740234375,-1381.4598388672,136},
+        --          [10080]={-439.28802490234,-20.472593307495,1336.2784423828,-151},
+        --          [10140]={499.91635131836,13.07358455658,1135.1315917969,79},
+        --          [10150]={-1732.0286865234,543.94067382813,-2225.7587890625,162},
+        --          [10260]={-1260.0454101563,298.75305175781,1325.6383056641,51}
+        --        }
+        --        noBoxMissionStartPos[11050]=noBoxMissionStartPos[10050]
+        --        noBoxMissionStartPos[11080]=noBoxMissionStartPos[10080]
+        --        noBoxMissionStartPos[11140]=noBoxMissionStartPos[10140]
+        --        noBoxMissionStartPos[10151]=noBoxMissionStartPos[10150]
+        --        noBoxMissionStartPos[11151]=noBoxMissionStartPos[10150]
+        --        local posrot=noBoxMissionStartPos[vars.missionCode]
+        local posrot=TppDefine.NO_BOX_MISSION_START_POSITION[vars.missionCode]
         if TppDefine.NO_ORDER_BOX_MISSION_ENUM[tostring(vars.missionCode)]and posrot then
           TppPlayer.SetNoOrderBoxMissionStartPosition(posrot,posrot[4])
         else
@@ -847,9 +852,10 @@ function this.OnReload(missionTable)
     end
   end
   for i,lib in ipairs(Tpp._requireList)do
-    if _G[lib].OnReload then
+    local OnReload=_G[lib].OnReload
+    if OnReload then
       InfCore.LogFlow(lib..".OnReload")--tex DEBUG
-      _G[lib].OnReload(missionTable)
+      InfCore.PCallDebug(OnReload,missionTable)--tex PCall
     end
   end
   if mvars.loc_locationCommonTable then
@@ -888,9 +894,10 @@ end
 --NMC: called via mission_main
 function this.OnChangeSVars(subScripts,varName,key)
   for i,lib in ipairs(Tpp._requireList)do
-    if _G[lib].OnChangeSVars then
+    local OnChangeSVars=_G[lib].OnChangeSVars
+    if OnChangeSVars then
       InfCore.LogFlow(lib..".OnChangeSVars")--tex DEBUG
-      _G[lib].OnChangeSVars(varName,key)
+      InfCore.PCallDebug(OnChangeSVars,varName,key)--tex PCALL
     end
   end
 end
@@ -949,24 +956,24 @@ function this.OnMessage(missionTable,sender,messageId,arg0,arg1,arg2,arg3)
   end
   for i=1,onMessageTableSize do
     local strLogText=strLogTextEmpty
-    onMessageTable[i](sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+    InfCore.PCallDebug(onMessageTable[i],sender,messageId,arg0,arg1,arg2,arg3,strLogText)--tex wrapped in pcall
   end
   --missionTable modules _messageExecTable s
   for i=1,messageExecTableSize do
     local strLogText=strLogTextEmpty
-    DoMessage(messageExecTable[i],CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
+    InfCore.PCallDebug(DoMessage,messageExecTable[i],CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)--tex wrapped in pcall
   end
   if OnlineChallengeTask then--RETAILPATCH 1090>
-    OnlineChallengeTask.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)
+    InfCore.PCallDebug(OnlineChallengeTask.OnMessage,sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)--tex wrapped in pcall
   end--<
   if mvars.loc_locationCommonTable then
-    mvars.loc_locationCommonTable.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)
+    InfCore.PCallDebug(mvars.loc_locationCommonTable.OnMessage,sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)--tex wrapped in pcall
   end
   if mvars.order_box_script then
-    mvars.order_box_script.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)
+    InfCore.PCallDebug(mvars.order_box_script.OnMessage,sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)--tex wrapped in pcall
   end
   if mvars.animalBlockScript and mvars.animalBlockScript.OnMessage then
-    mvars.animalBlockScript.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)
+    InfCore.PCallDebug(mvars.animalBlockScript.OnMessage,sender,messageId,arg0,arg1,arg2,arg3,strLogTextEmpty)--tex wrapped in pcall
   end
 end
 function this.OnTerminate(missionTable)

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r207 - 2017-05-10
+r208 - 2017-05-30
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -16,7 +16,19 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
-NOTE: With SnakeBite 0.8.6 you no longer need to manually copy the \mod folder to MGS_TPP\, SnakeBite will install it.
+New for r208:
+Fixed: Female soldiers defaulting to male olive drab body when DD suit female set to Off instead of olive drab female while DD Suit for male not Off - thanks Saladin1251 for the report and save files.
+Fixed: Invisible helmets for female wildcard soldiers (removed helmet propety alltogether) - thanks halo4kid for the report.
+
+Fixed: (refixed) Crash on encounter with Quiet in free roam when Parasite event selects Camo skulls. Thanks AyyKyu for the report and files.
+
+Fixed: Sideop list not showing sideops > 192. This is a hard limit in the ui, this workaround manages by skipping random cleared but not currently active sideops. Reroll sideops selection will also reroll this selection.
+
+Option: showAllOpenSideopsOnUi "Show all open sideops" - "Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list."
+(via Sideops menu)
+
+Option: speedCamNoDustEffect - "No screen effect" - "Does not apply the dust and blur effect while TSM is active."
+(via Time scale menu)
 
 New for r207:
 Fixed: 'Fatigues All' Custom soldier type/DD suit hanging on load.

@@ -202,11 +202,11 @@ function this.Messages()
         end,
         option={isExecGameOver=true}
       },
-      {msg="DisplayTimerLap",func=function(e,n)
+      {msg="DisplayTimerLap",func=function(timeLeft,timePassed)
         if not mvars.ui_displayTimeSecSvarsName then
           return
         end
-        svars[mvars.ui_displayTimeSecSvarsName]=e
+        svars[mvars.ui_displayTimeSecSvarsName]=timeLeft
       end},
       {msg="StartMissionTelopFadeOut",func=function()
         TppSoundDaemon.ResetMute"Telop"
@@ -713,18 +713,18 @@ function this.StartDisplayTimer(parms)
     return
   end
   local svarsName=parms.svarsName
-  local timerName=svars[svarsName]
-  if not timerName then
+  local totalTimeSec=svars[svarsName]
+  if not totalTimeSec then
     return
   end
-  if timerName<0 then
+  if totalTimeSec<0 then
     return
   end
   local cautionTimeSec=parms.cautionTimeSec or 30
   mvars.ui_displayTimeSecSvarsName=svarsName
   TppUiStatusManager.SetStatus("DisplayTimer","NO_TIMECOUNT_SUB")
   TppUiStatusManager.UnsetStatus("DisplayTimer","NO_TIMECOUNT")
-  TppUiCommand.StartDisplayTimer(timerName,cautionTimeSec)
+  TppUiCommand.StartDisplayTimer(totalTimeSec,cautionTimeSec)
 end
 function this.ShowSavingIcon(iconName)
   TppUiCommand.CallSaveMessage(iconName)

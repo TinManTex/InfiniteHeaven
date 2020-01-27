@@ -194,17 +194,17 @@ function this.UpdateCheckPointAtCurrentPosition()
   TppCheckPoint.UpdateAtCurrentPosition()
 end
 function this.IsMatchStartLocation(missionCode)
-  local locationId=TppPackList.GetLocationNameFormMissionCode(missionCode)
+  local locationName=TppPackList.GetLocationNameFormMissionCode(missionCode)
   if TppLocation.IsAfghan()then
-    if TppDefine.LOCATION_ID[locationId]~=TppDefine.LOCATION_ID.AFGH then
+    if TppDefine.LOCATION_ID[locationName]~=TppDefine.LOCATION_ID.AFGH then
       return false
     end
   elseif TppLocation.IsMiddleAfrica()then
-    if TppDefine.LOCATION_ID[locationId]~=TppDefine.LOCATION_ID.MAFR then
+    if TppDefine.LOCATION_ID[locationName]~=TppDefine.LOCATION_ID.MAFR then
       return false
     end
   elseif TppLocation.IsMotherBase()then
-    if TppDefine.LOCATION_ID[locationId]~=TppDefine.LOCATION_ID.MTBS then
+    if TppDefine.LOCATION_ID[locationName]~=TppDefine.LOCATION_ID.MTBS then
       return false
     end
   else
@@ -2583,13 +2583,13 @@ function this.ExecuteVehicleSaveCarryOnClear()
     if mvars.mis_orderBoxList then
       if gvars.mis_orderBoxName~=0 then
         local orderBoxName=this.FindOrderBoxName(gvars.mis_orderBoxName)
-        local boxLocPos,bosLocRot=this.GetOrderBoxLocator(orderBoxName)
+        local boxLocPos,boxLocRot=this.GetOrderBoxLocator(orderBoxName)
         if boxLocPos then
           local adjustPos=Vector3(0,-.75,1.98)
           local vBoxLocPos=Vector3(boxLocPos[1],boxLocPos[2],boxLocPos[3])
-          local adjustedPos=-Quat.RotationY(TppMath.DegreeToRadian(bosLocRot)):Rotate(adjustPos)
+          local adjustedPos=-Quat.RotationY(TppMath.DegreeToRadian(boxLocRot)):Rotate(adjustPos)
           initialPos=adjustedPos+vBoxLocPos
-          rotY=bosLocRot
+          rotY=boxLocRot
         end
       end
     end

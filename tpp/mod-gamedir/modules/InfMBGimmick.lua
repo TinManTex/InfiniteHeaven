@@ -106,6 +106,16 @@ function this.Messages()
       {msg="WarningGimmick",func=function(irSensorId,irHash,irDataSetName,gameObjectId)
         this.RequestNoticeGimmick(irSensorId,gameObjectId)
       end},
+      {msg="SwitchGimmick",
+        func=function(gameId,locatorS32,dataSetP32,switchFlag)
+          local gimmickId=TppGimmick.GetGimmickID(gameId,locatorS32,dataSetP32)
+          local connectPowerCutAreaTable=mvars.gim_connectPowerCutAreaTable[gimmickId]
+          if connectPowerCutAreaTable then--tex is power gen
+          local sourceGameId=0 
+          this.RequestNoticeGimmick(gimmickId,sourceGameId)--tex no effect
+          end
+        end
+      },
     },
     MotherBaseStage={
       --{msg="MotherBaseCurrentClusterLoadStart",func=this.MotherBaseCurrentClusterLoadStart},
@@ -221,7 +231,7 @@ function this.InitCluster(clusterId)
   end
 end
 
-this.OnBreakGimmick=function(gameObjectId,locatorNameHash,dataSetNameHash,AttackerId)
+this.OnBreakGimmick=function(gameId,locatorS32,dataSetPath32,attackerId)
 
 end
 
@@ -229,10 +239,10 @@ this.OnBreakGimmickBurglarAlarm=function(attackerId)
 
 end
 
-function this.RequestNoticeGimmick(gimmickId,playerId)
-  InfCore.Log("########RequestNoticeGimmick########gimmickId::"..gimmickId.." playerId::"..playerId)
+function this.RequestNoticeGimmick(gimmickId,sourceGameId)
+  InfCore.Log("########RequestNoticeGimmick########gimmickId::"..gimmickId.." sourceGameId::"..sourceGameId)
   local cp=GetGameObjectId(mtbs_enemy.cpNameDefine)
-  local command={id="RequestNotice",type=0,targetId=gimmickId,sourceId=playerId}
+  local command={id="RequestNotice",type=0,targetId=gimmickId,sourceId=sourceGameId}
   SendCommand(cp,command)
 end
 

@@ -307,21 +307,6 @@ function this.DoMessage(messageExecTable,CheckMessageOption,messageClass,message
   this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,RENsomebool)
 end
 function this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText)
-  --tex> PCall to catch any errors, could just wrap them direct without the debugmessages check, but dont want to add the extra function call that entails
-  if ivars.debugMode>0 and ivars.debugMessages>0 then
-    if messageIdRecievers.func then
-      if CheckMessageOption(messageIdRecievers.option)then
-        InfCore.PCallDebug(messageIdRecievers.func,arg0,arg1,arg2,arg3)
-      end
-    end
-    local sender=messageIdRecievers.sender
-    if sender and sender[arg0]then
-      if CheckMessageOption(messageIdRecievers.senderOption[arg0])then
-        InfCore.PCallDebug(sender[arg0],arg0,arg1,arg2,arg3)
-      end
-    end
-    --<
-  else
     if messageIdRecievers.func then
       if CheckMessageOption(messageIdRecievers.option)then
         messageIdRecievers.func(arg0,arg1,arg2,arg3)
@@ -333,7 +318,6 @@ function this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,
         senders[arg0](arg0,arg1,arg2,arg3)
       end
     end
-  end
 end
 function this.GetRotationY(rotQuat)
   if not rotQuat then

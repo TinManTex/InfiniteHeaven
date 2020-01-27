@@ -1147,26 +1147,71 @@ function this.GetCanOpenQuestTable()--tex>
   return canOpenQuestChecks
 end--<
 
+--NMC called via exe, see TppUiCommand.RegisterSideOpsListFunction
 function this.GetSideOpsListTable()
+  InfCore.LogFlow("InfQuest.GetSideOpsListTable")--tex DEBUG
+  return InfCore.PCall(function()--DEBUGNOW
   local sideOpsListTable={}
   if this.CanOpenSideOpsList()then
+    local clearedNotActive={}--tex
     for i,questInfo in ipairs(questInfoTable)do
       local questName=questInfo.questName
       local isActiveOnMBTerminal=this.IsActiveOnMBTerminal(questInfo)
       local isCleard=this.IsCleard(questName)
-      if questInfo and(isActiveOnMBTerminal or isCleard)then
+      local showAllOpen=this.IsOpen(questName) and Ivars.showAllOpenSideopsOnUi:Is(1) --tex added ivar bypass
+      if questInfo and(isActiveOnMBTerminal or isCleard or showAllOpen)then--tex added showOpen
         questInfo.index=i
         questInfo.isActive=isActiveOnMBTerminal
         questInfo.isCleard=isCleard
         questInfo.gmp=this.GetBounusGMP(questName)
         table.insert(sideOpsListTable,questInfo)
+        if isCleard and not isActiveOnMBTerminal then --tex>
+          table.insert(clearedNotActive,questInfo)
+        end--<
       end
     end
+
+
+    --tex manage ui entry limit>
+    local maxUIQuests=192
+    local overCount=#sideOpsListTable-maxUIQuests
+    InfCore.Log("overCount:"..overCount)--tex DEBUG
+    if overCount>0 then
+      --tex DEBUGNOW TODO user message?
+      InfMain.RandomSetToLevelSeed()
+
+      for i=1,overCount do
+        local randomIndex=math.random(#clearedNotActive)
+        local removeEntry=clearedNotActive[randomIndex]
+        table.remove(clearedNotActive,randomIndex)
+        for j,sideopEntry in ipairs(sideOpsListTable)do
+          if sideopEntry==removeEntry then
+            table.remove(sideOpsListTable,j)
+            InfCore.Log("removing "..sideopEntry.index)--tex DEBUG
+            break
+          end
+        end
+      end
+     InfMain.RandomResetToOsTime()
+    end
+    if #sideOpsListTable>maxUIQuests then
+      InfCore.Log("WARNING: sidopList > maxUiQuests",true)--tex TODO lang
+    end
+    InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG
+    --<
   end
+
+  --NMC wut.
+  --they can't just # off the table they're getting?
+  --this would suggest they'd iterate the whole table looking for an element with allSideOpsNum just to get the table size
+  --but by that point they could have counted it anyway...
+  --or they could just get the last entry right?
+  --but then they'd have to already know the table size...
   table.insert(sideOpsListTable,{allSideOpsNum=#questInfoTable})
-  --    InfCore.LogFlow("TppQuest.GetSideOpsListTable - from engine")--tex DEBUG see TppUiCommand.RegisterSideOpsListFunction
-  --    InfCore.PrintInspect(sideOpsListTable)
+  --    InfCore.LogFlow("TppQuest.GetSideOpsListTable"--tex DEBUG
+  --    InfCore.PrintInspect(sideOpsListTable)--tex DEBUG
   return sideOpsListTable
+  end)--DEBUGNOW
 end
 function this.GetBounusGMP(questName)
   local rank=TppDefine.QUEST_RANK_TABLE[TppDefine.QUEST_INDEX[questName]]
@@ -2425,7 +2470,7 @@ function this.UpdateActiveQuest(updateFlags)
               if selectionCategory=="ADDON_QUEST" then--tex doesnt work by category tag
                 if InfQuest and InfQuest.ihQuestsInfo[questName] then
                   categoryQuests[#categoryQuests+1]=questName
-                end
+              end
               end
             end
           end
@@ -3132,9 +3177,9 @@ function this.StartShootingPractice()
   TppSoundDaemon.PostEvent"sfx_m_tra_tgt_get_up_alot"
   Player.SetInfiniteAmmoFromScript(true)
 end
-function this.OnFinishShootingPractice(t,n)
-  if t or n then
-    this.ProcessFinishShootingPractice(t,n)
+function this.OnFinishShootingPractice(clearType,n)
+  if clearType or n then
+    this.ProcessFinishShootingPractice(clearType,n)
   end
   Player.SetInfiniteAmmoFromScript(false)
   mvars.qst_isShootingPracticeStarted=false
@@ -3151,7 +3196,7 @@ function this.IsShootingPracticeActivated()
   end
   return true
 end
-function this.ProcessFinishShootingPractice(t,n)
+function this.ProcessFinishShootingPractice(clearType,cancelPractice)
   this.UpdateShootingPracticeUi()
   TppUiStatusManager.SetStatus("DisplayTimer","STOP_VISIBLE")
   this.StartSafeTimer("TimerShootingPracticeEnd",8)
@@ -3160,16 +3205,16 @@ function this.ProcessFinishShootingPractice(t,n)
     f30050_sequence.PlayMusicFromQuietRoom()
     mvars.isShootingPracticeInMedicalStopMusicFromQuietRoom=false
   end
-  if n then
+  if cancelPractice then
     TppGimmick.EndQuestShootingPractice(TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY)
     TppGimmick.SetQuestShootingPracticeTargetInvisible()
   else
-    TppGimmick.EndQuestShootingPractice(t)
+    TppGimmick.EndQuestShootingPractice(clearType)
     if mvars.qst_deactivated==false then
       if vars.playerVehicleGameObjectId==GameObject.NULL_ID then
         TppPlayer.PlayMissionClearCameraOnFoot(2,true)
       end
-      if t==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
+      if clearType==TppDefine.QUEST_CLEAR_TYPE.SHOOTING_CLEAR then
         TppMusicManager.PostJingleEvent("SingleShot","Play_bgm_training_jingle_clear")
         TppGimmick.SetQuestShootingPracticeTargetInvisible()
       else
@@ -3181,8 +3226,8 @@ function this.ProcessFinishShootingPractice(t,n)
   end
 end
 function this.CancelShootingPractice()
-  local t=this.GetCurrentQuestName()
-  this.ShowAnnounceLog(QUEST_STATUS_TYPES.FAILURE,t)
+  local currentQuestName=this.GetCurrentQuestName()
+  this.ShowAnnounceLog(QUEST_STATUS_TYPES.FAILURE,currentQuestName)
   this.OnFinishShootingPractice(nil,true)
   this.ShootingPracticeStopAllTimer()
   this.OnQuestShootingTimerEnd()

@@ -16,6 +16,7 @@ this.debugModule=false
 
 this.DEBUG_strCode32List={}
 this.subtitleIdToSubtitleName={}
+this.path32ToDataSetName={}
 --tex manually scraped from ConvertToSubtitlesId uses
 this.subtitleNames={
   "grug5000_241010_0_enec_ru",
@@ -62,6 +63,7 @@ function this.PostAllModulesLoad()
 
   InfCore.PCallDebug(this.AddObjectNamesToStr32List)
   InfCore.PCallDebug(this.BuildSubtitleIdLookup)
+  InfCore.PCallDebug(this.BuildPath32ToDataSetName)
 
   if this.debugModule then
     InfCore.PrintInspect(this.lookups,"InfLookup.lookups")
@@ -273,6 +275,23 @@ function this.LandingZoneName(lzStr32)
   return InfLZ.str32LzToLz[lzStr32]
 end
 
+--SIDE: this.path32ToDataSetName
+function this.BuildPath32ToDataSetName()
+  InfCore.Log("InfLookup.BuildPath32ToDataSetName:")
+  for i,module in ipairs(InfModules) do
+    if module.lookupStrings then
+      for i,path in ipairs(module.lookupStrings)do
+        local ext=string.sub(path,string.len(path)-4)
+        --InfCore.Log(ext)--DEBUG
+        if ext==".fox2" then
+          local path32=Fox.PathFileNameCode32(path)
+          this.path32ToDataSetName[path32]=path
+        end
+      end
+    end
+  end
+  --InfCore.PrintInspect(this.path32ToDataSetName,"path32ToDataSetName")--DEBUG
+end
 
 function this.SubtitleIdToSubtitleName(subtitleId)
   local SubtitlesCommand=SubtitlesCommand
@@ -327,19 +346,28 @@ end
 function this.GetWarpPositions()
   --return InfQuest.GetQuestPositions()
   return {
-    {"793.587","477.356","-1012.931"},
-    {"804.803","480.192","-1028.827"},
+    {"-1632.896","354.2058","-262.6951"},
+    {"-1587.207","355.2009","-255.2439"},--
+    --{"","",""},--
   }
 end
 
 --tex for Ivars.warpToListObject
 function this.GetObjectList()
+   return{ "sol_mtbs_0000",
+    "sol_mtbs_0001",
+    "sol_mtbs_0002",
+    "sol_mtbs_0003",
+    "sol_mtbs_0004",
+    "sol_mtbs_0005",
+    }
+  
   -- return InfMain.reserveSoldierNames
   --        local travelPlan="travelArea2_01"
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
 
   --return InfParasite.parasiteNames[InfParasite.parasiteType]
-  return this.objectNameLists.veh_trc
+ -- return this.objectNameLists.veh_trc
     --return InfLookup.jeepNames
     --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
     --return TppReinforceBlock.REINFORCE_SOLDIER_NAMES
@@ -468,6 +496,7 @@ function this.ObjectNameForGameId(findId,objectType)
       end
     end
 
+  --too killer on performance to do frequencly, TODO enable on a switch 
   --  if DebugIHStringsGameObjectNames then
   --    local module=DebugIHStringsGameObjectNames
   --    if module.lookupStrings then
@@ -488,6 +517,11 @@ function this.ObjectNameForGameId(findId,objectType)
   --  end
 
   return nil
+end
+
+function this.GameObjectNameForGimmickId(gimmickId)
+  local ret,gameId=TppGimmick.GetGameObjectId(gimmickId)
+  return this.ObjectNameForGameId(gameId)
 end
 
 function this.CpNameForCpId(cpId)
@@ -889,7 +923,22 @@ this.TppGameObject={
 }
 
 this.TppSystem={
-  bgmPhase=this.BuildDirectGameClassEnumLookup(TppSystem,"BGM_PHASE_"),
+  bgmPhase=this.BuildGameClassEnumNameLookup(TppSystem,
+    {
+      --tex actual enum order, from 0
+      "BGM_PHASE_NONE",
+      "BGM_PHASE_SNEAK_1",
+      "BGM_PHASE_SNEAK_2",
+      "BGM_PHASE_SNEAK_3",
+      "BGM_PHASE_CAUTION",
+      "BGM_PHASE_EVASION",
+      "BGM_PHASE_ALERT",
+      "BGM_PHASE_ALERT_BATTLE",
+      "BGM_PHASE_ALERT_CP",
+      "BGM_PHASE_ALERT_REINFORCE",
+      "BGM_PHASE_ALERT_LOST",
+    }
+  ),
 }
 
 --< game classes
@@ -936,6 +985,8 @@ this.lookups={
   --landingZone=this.LandingZoneName,--tex not complete, use str32 instead
   subtitleId=this.SubtitleIdToSubtitleName,
   carryState=this.carryState,
+  dataSetPath32=this.path32ToDataSetName,
+  gimmickId=this.GameObjectNameForGimmickId,
 }
 --tex crushes down this[gameclass][lookup] to lookups[lookup] - ex this.lookups.phase=TppGameObject.phase
 for i,gameClass in ipairs(gameClasses)do
@@ -996,18 +1047,18 @@ this.messageSignatures={
       {argName="landingZone",argType="str32"},
     },
     BreakGimmick={
-      {argName="gameObjectId",argType="gameId"},
-      {argName="locatorNameHash",argType="str32"},
-      {argName="dataSetNameHash",argType="str32"},
+      {argName="gimmickId",argType="gimmickId"},
+      {argName="locatorNameS32",argType="str32"},
+      {argName="dataSetPath32",argType="dataSetPath32"},
       {argName="attackerId",argType="gameId"},
     },
     BreakGimmickBurglarAlarm={
-      {argName="bAlarmId",argType="gameId"},--VERIFY is gameId
+      {argName="attackerId",argType="gameId"},--VERIFY is gameId
     },
     BurglarAlarmTrap={
-      {argName="bAlarmId",argType="gameId"},--VERIFY is gameId
+      {argName="bAlarmId",argType="gimmickId"},--VERIFY is gameId
       {argName="bAlarmHash",argType="str32"},--tex from ly<layout>.lua .itemTable.stolenAlarms
-      {argName="bAlarmDataSetName",argType="str32"},--VERIFY
+      {argName="bAlarmDataSet",argType="dataSetPath32"},--VERIFY
       {argName="triggerer",argType="gameId"},--tex who tripped alarm
     },
     CalledFromStandby={--SupportHeli
@@ -1042,6 +1093,14 @@ this.messageSignatures={
       {argName="attackerId",argType="gameId"},
       {argName="unk3",argType="number"},--tex UNKNOWN: no use cases I can see
     },
+    Dead={
+    --tex still unsure if some calls to messages have more args than others, while most Dead msg reesponse functions only care about thr first two args, and the only msg calls ive seen logged only have 
+    --but then you have TppResult Dead - function(gameId,attackerId,playerPhase,deadMessageFlag)
+      {argName="gameId",argType="gameId"},
+      {argName="attackerId",argType="gameId"},
+      {argName="phase",argType="phase"},
+      {argName="deadMessageFlag",argType="number"},--TODO:
+    },
     DescendToLandingZone={--SupportHeli
       {argName="heliId",argType="gameId"},
       {argName="landingZone",argType="str32"},
@@ -1052,7 +1111,7 @@ this.messageSignatures={
     Fulton={
       {argName="gameId",argType="gameId"},
       {argName="gimmickInstanceOrAnimalId",argType="number"},
-      {argName="gimmickDataSet",argType="str32"},--TODO:
+      {argName="gimmickDataSet",argType="dataSetPath32"},
       {argName="staffIdOrResourceId",argType="number"},--TODO:
     },
     FultonInfo={
@@ -1120,6 +1179,12 @@ this.messageSignatures={
       {argName="routeId",argType="str32"},--tex TODO gather route names
       {argName="failureType",argType="routeEventFailedType"},
     },
+    RoutePoint2={
+      {argName="gameId",argType="gameId"},
+      {argName="routeId",argType="str32"},--tex TODO gather route names
+      {argName="routeNodeIndex",argType="number"},
+      {argName="messageId",argType="str32"},
+    },
     SaluteRaiseMorale={
       {argName="saluter",argType="gameId"},
     },
@@ -1140,8 +1205,8 @@ this.messageSignatures={
     },
     SwitchGimmick={
       {argName="gameId",argType="gameId"},
-      {argName="locatorName",argType="str32"},--tex TODO: gameIdName?
-      {argName="dataSetName",argType="str32"},
+      {argName="locatorName",argType="str32"},
+      {argName="dataSetName",argType="dataSetPath32"},
       {argName="switchFlag",argType="number"},--tex 0,1,255 state of switch. 0 seems to be off, 1 is on? 255 is 'broken' (used to trigger buzz sound on mfinda oilfield switch)
     },
     Unconscious={
@@ -1162,9 +1227,9 @@ this.messageSignatures={
     --{argName="unk1",argType="str32"}, --tex UNKNOWN s10052 == "CanNotMove", otherwise doesn't seem to be set in most calls TODO test that mission to see if it actually does
     },
     WarningGimmick={--tex on ir sensor trigger
-      {argName="irSensorId",argType="gameId"},--VERIFY is gameId
+      {argName="irSensorId",argType="gimmickId"},--TODO can't seem to get any hits for str32 or TppGimmick.GetGameObjectId > gameObjectId name
       {argName="irHash",argType="str32"},--tex from ly<layout>.lua .itemTable.irsensors
-      {argName="irDataSetName",argType="str32"},--VERIFY
+      {argName="irDataSet",argType="dataSetPath32"},
       {argName="triggerer",argType="gameId"},--tex who tripped sensor
     },
   },
@@ -1225,6 +1290,12 @@ this.messageSignatures={
       {argName="isContainer",argType="number"},--boolAsNumber
       {argName="isNuclear",argType="number"},--boolAsNumber
     },
+    IconSwitchShown={
+      {argName="gameId",argType="gameId"},--tex player instance I guess
+      {argName="gimmickId",argType="gimmickId"},
+      {argName="locatorNameS32",argType="str32"},
+      {argName="dataSetPath32",argType="dataSetPath32"},
+    },
     OnAmmoLessInMagazine={
       {argName="unk0",argType="number"},--TODO
       {argName="unk1",argType="number"},--TODO
@@ -1280,6 +1351,10 @@ this.messageSignatures={
       {argName="equipType",argType="equipType"},
       {argName="hasGunLight",argType="number"},--tex TODO: boolAsNumber?
       {argName="isSheild",argType="number"},
+    },
+    PlayerSwitchStart={
+      {argName="playerId",argType="gameId"},
+      {argName="switchId",argType="gameId"},
     },
     PressedFultonIcon={
       {argName="playerIndex",argType="number"},
@@ -1511,7 +1586,7 @@ function this.PrintMessageSignature(senderStr,messageIdStr,args,signature)
           argTypeSuff=" ("..argDef.argType..")"
         end
         if lookupValue then
-          lookupValue=arg..":"..lookupValue--DEBUGNOW
+          lookupValue=arg..":"..lookupValue
         else
           lookupValue=tostring(arg)
         end

@@ -116,7 +116,9 @@ function this.InitCluster(clusterId)
   if not Ivars.mbEnableBirds:EnabledForMission() then
     return
   end
+  if clusterId then
   this.SetupBirds(clusterId)
+  end
 end
 
 function this.SetupBirds(clusterId)

@@ -10,7 +10,7 @@ local GetGameObjectIdByIndex=GameObject.GetGameObjectIdByIndex
 local GAME_OBJECT_TYPE_VEHICLE=TppGameObject.GAME_OBJECT_TYPE_VEHICLE
 local NULL_ID=GameObject.NULL_ID
 local SendCommand=GameObject.SendCommand
-local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
+--ORPHAN local DEBUG_StrCode32ToString=Tpp.DEBUG_StrCode32ToString
 local questCp="quest_cp"
 local EnemySubType=EnemySubType or{}
 
@@ -4330,6 +4330,7 @@ function this.AutoFultonRecoverNeutralizedTarget(gameId,a)
     TppTerminal.OnFulton(gameId,nil,nil,staffId,nil,a,PlayerInfo.GetLocalPlayerIndex())
   end
 end
+--NMC no references
 function this.CheckQuestTargetOnOutOfActiveArea(n)
   InfCore.Log("CheckQuestTargetOnOutOfActiveArea")--tex DEBUG, see RETAILBUG below
   InfCore.PrintInspect(n)--tex DEBUG
@@ -4351,6 +4352,7 @@ function this.CheckQuestTargetOnOutOfActiveArea(n)
   end
   return recovered
 end
+--NMC no references
 function this.ChangeRouteUsingGimmick(route,a,gameId,a)
   local gimmickId=TppGimmick.GetRouteConnectedGimmickId(route)
   if(gimmickId~=nil)and TppGimmick.IsBroken{gimmickId=gimmickId}then
@@ -5860,6 +5862,7 @@ end
 --    TppUiCommand.AnnounceLogViewLangId("announce_phase_to_sneak",langId)
 --  end
 --end
+--NMC no references
 function this._IsGameObjectIDValid(e)
   local e=GetGameObjectId(e)
   if(e==NULL_ID)then

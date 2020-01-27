@@ -378,6 +378,11 @@ local missionModeChecks={
 --)
 --OUT: Ivars
 function this.MissionModeIvars(Ivars,name,ivarDefine,missionModes)
+  if not missionModes then
+    InfCore.Log("IvarProc.MissionModeIvars: ERROR: cannot missionModes for "..tostring(name))
+    return
+  end
+
   for i,missionMode in ipairs(missionModes)do
     local ivar={}
     for k,v in pairs(ivarDefine) do
@@ -432,6 +437,7 @@ end
 
 --tex as above but with ivar>0 check
 --ivarList can be missionModeIvar name or ivar list
+--GOTCHA: TODO: rename or merge to stop confusion with ivar.EnabledForMission which is set to IvarEnabledForMission
 function this.EnabledForMission(ivarList,missionCode)
   local missionId=missionCode or vars.missionCode
   if type(ivarList)=="string" then
@@ -459,7 +465,7 @@ end
 function this.IvarEnabledForMission(self,missionCode)
   local missionId=missionCode or vars.missionCode
   if self.MissionCheck==nil then
-    InfCore.Log("WARNING: EnabledFoMission on "..self.name.." which has no MissionCheck func")
+    InfCore.Log("WARNING: EnabledForMission on "..self.name.." which has no MissionCheck func")
     return false
   end
   return self:Is()>0 and self:MissionCheck(missionId)

@@ -55,6 +55,7 @@ this.packages={
     "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",
     "/Assets/tpp/pack/mission2/ih/ih_westheli_defloc.fpk",
   },
+  mbqf={},
   "/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_blk.fpk",
   "/Assets/tpp/pack/fova/mecha/sbh/sbh_ene_red.fpk",
   "/Assets/tpp/pack/mission2/ih/ih_enemyheli_loc.fpk",

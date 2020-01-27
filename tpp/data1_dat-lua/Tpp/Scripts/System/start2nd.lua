@@ -46,6 +46,6 @@ if TppSystemUtility.GetCurrentGameMode()~="MGO"then
   dofile"/Assets/tpp/radio/script/RadioParameterTable.lua"
 end
 
-InfMain.LoadLibraries()--tex
+InfCore.PCallDebug(InfMain.LoadLibraries)--tex
 
 InfCore.LogFlow"start2nd.lua done"--tex

@@ -1,6 +1,46 @@
 Infinite Heaven changelog
 
-r208 - 2017-05-10
+r208- 2017-05-30
+Option: loadAddonMission - "Load addon mission" - WIP
+(via IH system menu)
+
+Fixed: Sideop list not showing sideops > 192. This is a hard limit in the ui, this workaround manages by skipping random cleared but not currently active sideops. Reroll sideops selection will also reroll this selection.
+Ref InfQuest.GetSideOpsListTable
+
+Option: showAllOpenSideopsOnUi "Show all open sideops" - "Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list."
+(via Sideops menu)
+
+Fixed: mbAdditionalNPCS KLUDGE DDs groundcrew on Zoo 
+
+Fixed: Female soldiers defaulting to male olive drab body when DD suit female set to Off instead of olive drab female while DD Suit for male not Off - thanks Saladin1251 for the report and save files.
+Fixed: Invisible helmets for female wildcard soldiers (removed helmet propety alltogether) - thanks halo4kid for the report.
+
+Refactor: InfCore.RefreshFileList parse a single dir > ih_files.txt instead of one per subfolder.
+
+Option: ihMissionsPercentageCount - "Include addon missions in completion percentage" 
+(via IH system menu)
+
+Fixed: (refixed) Crash on encounter with Quiet in free roam when Parasite event selects Camo skulls. Thanks AyyKyu for the report and files.
+
+Updated: showPosition - now adjusted by -0.8 for a more accurate ground position
+Updated: showPosition - writes rotationsXML / quaternion of current playerY
+
+Option: speedCamNoDustEffect - "No screen effect" - "Does not apply the dust and blur effect while TSM is active."
+(via Time scale menu)
+
+Data: location\ombs\ombs.fpk/d - adapted from mbqf
+Data: location\ombs\pack_common\ombs_common.fpk/d adaptped from mbqf_common/ gz ombs_common
+See wip\old mother base for just gz ombs ombs_common.
+Data: location\ombs\pack_small\*.fpk/d adapted from location/mbqf
+
+Data: mission2\free\f30045\f30045.fpk/d based on f30050_hanger_btg05.fpk/d
+Data: ftsb for ombs modified from mbqf ftsb to point to ombs pack_common
+
+Module: InfMission - to patch in various location and mission info.
+
+MGO maps: remove MGO only entities from pack_common fpkds.
+
+r207 - 2017-05-10
 
 Addition: Addon sideop on Sideop selection mode to filter for additional sideops.
 

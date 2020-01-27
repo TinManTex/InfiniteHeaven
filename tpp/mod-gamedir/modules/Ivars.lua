@@ -368,10 +368,10 @@ IvarProc.MissionModeIvars(
       "SNEAKING_SUIT_FEMALE",
       "BATTLE_DRESS_FEMALE",
       "SWIMWEAR_FEMALE",
-      --    "PRISONER_AFGH_FEMALE",
-      --    "NURSE_FEMALE",
-      --"DD_RESEARCHER_FEMALE",
-      --"FATIGUES_CAMO_MIX_FEMALE",
+    --    "PRISONER_AFGH_FEMALE",
+    --    "NURSE_FEMALE",
+    --"DD_RESEARCHER_FEMALE",
+    --"FATIGUES_CAMO_MIX_FEMALE",
     },
   },
   {
@@ -1656,6 +1656,7 @@ IvarProc.MissionModeIvars(
   {"FREE","MISSION",}
 )
 
+--quests
 function this.UpdateActiveQuest()
   InfQuest.UpdateActiveQuest()
 end
@@ -1737,10 +1738,16 @@ this.sideOpsSelectionMode={
     --"INTEL_AGENT_EXTRACTION",
     "ELIMINATE_TANK_UNIT",
     "ELIMINATE_PUPPETS",
-  --"TARGET_PRACTICE",
+    --"TARGET_PRACTICE",
     "ADDON_QUEST",
   },
   OnChange=this.UpdateActiveQuest,
+}
+
+this.showAllOpenSideopsOnUi={--DEBUGNOW
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 this.ihSideopsPercentageCount={
@@ -1754,6 +1761,16 @@ this.ihSideopsPercentageCount={
     --    TppUiCommand.SetPlayRecordClearInfo{recordId="SideOpsClear",clearCount=clearCount,allCount=allCount}
   end,
 }
+
+this.ihMissionsPercentageCount={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function()
+    TppMission.SetPlayRecordClearInfo()
+  end,
+}
+
 
 --mbshowstuff
 this.mbShowBigBossPosters={
@@ -1867,121 +1884,131 @@ this.manualMissionCode={
   --OFF save=EXTERNAL,
   settings={
     --LOC,TYPE,Notes
-    "1",--INIT
-    "5",--TITLE
+    --    "1",--INIT
+    --    "5",--TITLE
     --storyMissions
-    --  "10010",--CYPR
-    --  "10020",
-    --  "10030",
-    --  "10036",
-    --  "10043",
-    --  "10033",
-    --  "10040",
-    --  "10041",
-    --  "10044",
-    --  "10052",
-    --  "10054",
-    --  "10050",
-    --  "10070",
-    --  "10080",
-    --  "10086",
-    --  "10082",
-    --  "10090",
-    --  "10195",
-    --  "10091",
-    --  "10100",
-    --  "10110",
-    --  "10121",
-    --  "10115",
-    --  "10120",
-    --  "10085",
-    --  "10200",
-    --  "10211",
-    --  "10081",
-    --  "10130",
-    --  "10140",
-    --  "10150",
-    --  "10151",
-    --  "10045",
-    --  "10156",
-    --  "10093",
-    --  "10171",
-    --  "10240",
-    --  "10260",
-    --  "10280",--CYPR
+    "10010",--CYPR
+    "10020",
+    "10030",
+    "10036",
+    "10043",
+    "10033",
+    "10040",
+    "10041",
+    "10044",
+    "10052",
+    "10054",
+    "10050",
+    "10070",
+    "10080",
+    "10086",
+    "10082",
+    "10090",
+    "10195",
+    "10091",
+    "10100",
+    "10110",
+    "10121",
+    "10115",
+    "10120",
+    "10085",
+    "10200",
+    "10211",
+    "10081",
+    "10130",
+    "10140",
+    "10150",
+    "10151",
+    "10045",
+    "10156",
+    "10093",
+    "10171",
+    "10240",
+    "10260",
+    "10280",--CYPR
     --hard missions
-    --"11043",
+    "11043",
     "11041",--missingno
-    --"11054",
+    "11054",
     "11085",--missingno
-    --"11082",
-    --"11090",
+    "11082",
+    "11090",
     "11036",--missingno
-    --"11033",
-    --"11050",
+    "11033",
+    "11050",
     "11091",--missingno
     "11195",--missingno
     "11211",--missingno
-    --"11140",
+    "11140",
     "11200",--missingno
-    --"11080",
+    "11080",
     "11171",--missingno
-    --"11121",
+    "11121",
     "11115",--missingno
-    --"11130",
-    --"11044",
+    "11130",
+    "11044",
     "11052",--missingno
-    --"11151",
+    "11151",
     --
-    "10230",--FLYK,missing completely, chap 3, no load
+    --"10230",--FLYK,missing completely, chap 3, no load
     --in PLAY_DEMO_END_MISSION, no other refs
-    "11070",
-    "11100",
-    "11110",
-    "11150",
-    "11240",
-    "11260",
-    "11280",
-    "11230",
+    --    "11070",
+    --    "11100",
+    --    "11110",
+    --    "11150",
+    --    "11240",
+    --    "11260",
+    --    "11280",
+    --    "11230",
     --free mission
-    --"30010",--AFGH,FREE
-    --"30020",--MAFR,FREE
-    --"30050",--MTBS,FREE
-    --"30150",--MTBS,MTBS_ZOO,FREE
-    --"30250",--MBQF,MBTS_WARD,FREE
+    "30010",--AFGH,FREE
+    "30020",--MAFR,FREE
+    "30050",--MTBS,FREE
+    "30150",--MTBS,MTBS_ZOO,FREE
+    "30250",--MBQF,MBTS_WARD,FREE
     --heli space
     "40010",--AFGH,AFGH_HELI,HLSP
     "40020",--MAFR,MAFR_HELI,HLSP
     "40050",--MTBS
-    "40060",--HLSP,HELI_SPACE,--no load
-    --online
-    "50050",--MTBS,FOB
-    --select??
-    "60000",--SELECT --6e4
-    --show demonstrations (not demos lol)
-    "65020",--AFGH,e3_2014
-    "65030",--MTBS,e3_2014
-    "65050",--MAFR??,e3_2014
-    "65060",--MAFR,tgs_2014
-    "65414",--gc_2014
-    "65415",--tgs_2014
-    "65416",--tgs_2014
+  --"40060",--HLSP,HELI_SPACE,--no load
+  --online
+  --"50050",--MTBS,FOB
+  --select??
+  --"60000",--SELECT --6e4
+  --show demonstrations (not demos lol)
+  --    "65020",--AFGH,e3_2014
+  --    "65030",--MTBS,e3_2014
+  --    "65050",--MAFR??,e3_2014
+  --    "65060",--MAFR,tgs_2014
+  --    "65414",--gc_2014
+  --    "65415",--tgs_2014
+  --    "65416",--tgs_2014
   },
   OnActivate=function(self,setting)
     local settingStr=self.settings[setting+1]
-    --InfCore.DebugPrint("TppMission.Load "..settingStr)
+    local missionCode=tonumber(settingStr)
+    InfCore.Log("manualMissionCode "..settingStr)
+
+    local loadDirect=false
 
     --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
     --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
     --TppMission.RequestLoad(10036,vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
-    gvars.mis_nextMissionCodeForMissionClear=tonumber(settingStr)
-    mvars.mis_showLoadingTipsOnMissionFinalize=false
-    --mvars.heli_missionStartRoute
-    --mvars.mis_nextLayoutCode
-    --mvars.mis_nextClusterId
-    --mvars.mis_ignoreMtbsLoadLocationForce
+    if loadDirect then
+      gvars.mis_nextMissionCodeForMissionClear=missionCode
+      mvars.mis_showLoadingTipsOnMissionFinalize=false
+      --mvars.heli_missionStartRoute
+      --mvars.mis_nextLayoutCode
+      --mvars.mis_nextClusterId
+      --mvars.mis_ignoreMtbsLoadLocationForce
 
-    TppMission.ExecuteMissionFinalize()
+      TppMission.ExecuteMissionFinalize()
+    else
+      TppMission.ReserveMissionClear{
+        missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,
+        nextMissionId=missionCode,
+      }
+    end
   end,
 }
 
@@ -2008,6 +2035,64 @@ this.manualSequence={
     local settingStr=self.settingNames[setting+1]
     --InfCore.DebugPrint(tostring(settingStr))--DEBUG
     TppSequence.SetNextSequence(settingStr)
+  end,
+}
+
+--DEBUGNOW
+this.loadAddonMission={
+  --OFF save=EXTERNAL,
+  settings={},
+  OnSelect=function(self)
+    self.settings={}
+    for i,missionCode in pairs(InfMission.missionIds)do
+      self.settings[#self.settings+1]=tostring(missionCode)
+    end
+    self.range.max=#self.settings-1
+    self.settingNames=self.settings
+  end,
+  GetSettingText=function(self,setting)
+    if #self.settings==0 then
+      return "No addon missions installed"--DEBUGNOW TODO langid
+    end
+  
+    local settingStr=self.settings[setting+1]
+    local missionCode=tonumber(settingStr)
+    local missionInfo=InfMission.missionInfo[missionCode]
+    if missionInfo then
+      return missionInfo.description or settingStr--DEBUGNOW
+    else
+      return "No missionInfo for "..settingStr --DEBUGNOW TODO langid
+    end
+  end,
+  OnActivate=function(self,setting)
+    if #self.settings==0 then
+      return
+    end
+  
+    local settingStr=self.settings[setting+1]
+    local missionCode=tonumber(settingStr)
+    InfCore.Log("manualMissionCode "..settingStr)
+
+    local loadDirect=false
+
+    --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
+    --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
+    --TppMission.RequestLoad(10036,vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})
+    if loadDirect then
+      gvars.mis_nextMissionCodeForMissionClear=missionCode
+      mvars.mis_showLoadingTipsOnMissionFinalize=false
+      --mvars.heli_missionStartRoute
+      --mvars.mis_nextLayoutCode
+      --mvars.mis_nextClusterId
+      --mvars.mis_ignoreMtbsLoadLocationForce
+
+      TppMission.ExecuteMissionFinalize()
+    else
+      TppMission.ReserveMissionClear{
+        missionClearType=TppDefine.MISSION_CLEAR_TYPE.FROM_HELISPACE,
+        nextMissionId=missionCode,
+      }
+    end
   end,
 }
 
@@ -3296,6 +3381,13 @@ this.speedCamPlayerTimeScale={
   range={max=100,min=0,increment=0.1},
 }
 
+this.speedCamNoDustEffect={
+  inMission=true,
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 --buddies
 
 local buddyTypeToCommandInfo={
@@ -3959,6 +4051,38 @@ this.warpToListPosition={
       position[2]=position[2]+1
       InfCore.Log("pos:".. position[1]..",".. position[2].. ","..position[3],true)
       TppPlayer.Warp{pos=position,rotY=vars.playerCameraRotation[1]}
+    end
+  end,
+}
+
+this.setCamToListObject={
+  inMission=true,
+  range={max=1},--DYNAMIC
+  GetSettingText=function(self,setting)
+    local objectName,info,position=InfLookup.GetObjectInfoOrPos(setting+1)
+    if info and not position then
+      return info
+    end
+
+    return objectName.." pos:".. math.ceil(position[1])..",".. math.ceil(position[2]).. ","..math.ceil(position[3])
+  end,
+  OnSelect=function(self)
+    local objectList=InfLookup.GetObjectList()
+    local numObjects=#objectList
+
+    self.range.max=numObjects-1
+    self.setting=0
+  end,
+  OnActivate=function(self,setting)
+    local objectName,info,position=InfLookup.GetObjectInfoOrPos(setting+1)
+    if position==nil then
+      return
+    end
+
+    if position[1]~=0 or position[2]~=0 or position[3]~=0 then
+      position[2]=position[2]+1
+      InfCore.Log(objectName.." pos:".. position[1]..",".. position[2].. ","..position[3],true)
+      InfCamera.WritePosition("FreeCam",Vector3(position[1],position[2],position[3]))
     end
   end,
 }

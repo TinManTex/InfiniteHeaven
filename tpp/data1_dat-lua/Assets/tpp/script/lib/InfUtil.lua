@@ -84,15 +84,14 @@ this.locationIdForName={
   cypr=30,
   mtbs=50,
   mbqf=55,
+  ombs=45,
 }
 
-this.locationNames={
-  [10]="afgh",
-  [20]="mafr",
-  [30]="cypr",
-  [50]="mtbs",
-  [55]="mbqf",
-}
+this.locationNames={}
+for k,v in pairs(this.locationIdForName)do
+  this.locationNames[v]=k
+end
+
 function this.GetLocationName()
   return this.locationNames[vars.locationCode]
 end
