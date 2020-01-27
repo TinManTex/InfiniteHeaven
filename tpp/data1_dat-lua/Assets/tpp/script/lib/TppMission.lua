@@ -1444,41 +1444,56 @@ function this.ExecuteMissionFinalize()
   end
   this.RequestLoad(vars.missionCode,currentMissionCode,{showLoadingTips=mvars.mis_showLoadingTipsOnMissionFinalize,waitOnLoadingTipsEnd=waitOnLoadingTipsEnd,ignoreMtbsLoadLocationForce=mvars.mis_missionFinalizeIgnoreMtbsLoadLocationForce})
 end
+--tex REWORKED
+local shortTypeToLong={
+  s="story",
+  e="extra",
+  f="free",
+  h="heli",
+}
 function this.ParseMissionName(missionCodeName)
   local missionCode=string.sub(missionCodeName,2)
   missionCode=tonumber(missionCode)
   local missionTypeCode=string.sub(missionCodeName,1,1)
-  local missionTypeCodeName
-  if(missionTypeCode=="s")then
-    missionTypeCodeName="story"
-  elseif(missionTypeCode=="e")then
-    missionTypeCodeName="extra"
-  elseif(missionTypeCode=="f")then
-    missionTypeCodeName="free"
-  elseif(missionTypeCode=="h")then
-    missionTypeCodeName="heli"
-  end
+  local missionTypeCodeName=shortTypeToLong[missionTypeCode]
   return missionCode,missionTypeCodeName
 end
-function this.IsStoryMission(e)
-  local e=math.floor(e/1e4)
-  if e==1 then
+--ORIG
+--function this.ParseMissionName(missionCodeName)
+--  local missionCode=string.sub(missionCodeName,2)
+--  missionCode=tonumber(missionCode)
+--  local missionTypeCode=string.sub(missionCodeName,1,1)
+--  local missionTypeCodeName
+--  if(missionTypeCode=="s")then
+--    missionTypeCodeName="story"
+--  elseif(missionTypeCode=="e")then
+--    missionTypeCodeName="extra"
+--  elseif(missionTypeCode=="f")then
+--    missionTypeCodeName="free"
+--  elseif(missionTypeCode=="h")then
+--    missionTypeCodeName="heli"
+--  end
+--  return missionCode,missionTypeCodeName
+--end
+function this.IsStoryMission(missionCode)
+  local firstDigit=math.floor(missionCode/1e4)
+  if firstDigit==1 then
     return true
   else
     return false
   end
 end
-function this.IsHelicopterSpace(missionId)
-  local e=math.floor(missionId/1e4)
-  if e==4 then
+function this.IsHelicopterSpace(missionCode)
+  local firstDigit=math.floor(missionCode/1e4)
+  if firstDigit==4 then
     return true
   else
     return false
   end
 end
 function this.IsFreeMission(missionCode)
-  local missionRange=math.floor(missionCode/1e4)
-  if missionRange==3 then
+  local firstDigit=math.floor(missionCode/1e4)
+  if firstDigit==3 then
     return true
   else
     return false
@@ -1493,8 +1508,8 @@ function this.IsMbFreeMissions(missionCode)
   end
 end
 function this.IsFOBMission(missionCode)
-  local e=math.floor(missionCode/1e4)
-  if e==5 then
+  local firstDigit=math.floor(missionCode/1e4)
+  if firstDigit==5 then
     return true
   else
     return false
@@ -3742,12 +3757,12 @@ function this.OnMissionStart()
   end
 end
 function this.SetPlayRecordClearInfo()
-  local n,e=TppStory.CalcAllMissionClearedCount()
-  TppUiCommand.SetPlayRecordClearInfo{recordId="MissionClear",clearCount=n,allCount=e}
-  local n,e=TppStory.CalcAllMissionTaskCompletedCount()
-  TppUiCommand.SetPlayRecordClearInfo{recordId="MissionTaskClear",clearCount=n,allCount=e}
-  local e,n=TppQuest.CalcQuestClearedCount()
-  TppUiCommand.SetPlayRecordClearInfo{recordId="SideOpsClear",clearCount=e,allCount=n}
+  local clearCount,allCount=TppStory.CalcAllMissionClearedCount()
+  TppUiCommand.SetPlayRecordClearInfo{recordId="MissionClear",clearCount=clearCount,allCount=allCount}
+  local clearCount,allCount=TppStory.CalcAllMissionTaskCompletedCount()
+  TppUiCommand.SetPlayRecordClearInfo{recordId="MissionTaskClear",clearCount=clearCount,allCount=allCount}
+  local clearCount,allCount=TppQuest.CalcQuestClearedCount()
+  TppUiCommand.SetPlayRecordClearInfo{recordId="SideOpsClear",clearCount=clearCount,allCount=allCount}
 end
 function this.IsBossBattle()
   if not mvars.mis_isBossBattle then
@@ -3762,8 +3777,8 @@ function this.FinishBossBattle()
   mvars.mis_isBossBattle=false
 end
 function this.ShowAnnounceLogOnGameStart()
-  local n,e=this.ParseMissionName(this.GetMissionName())
-  if(e=="free"or e=="heli")then
+  local missionCode,missionTypeCodeName=this.ParseMissionName(this.GetMissionName())
+  if(missionTypeCodeName=="free"or missionTypeCodeName=="heli")then
     if gvars.mis_isExistOpenMissionFlag then
       TppUI.ShowAnnounceLog"missionListUpdate"
       TppUI.ShowAnnounceLog"missionAdd"
@@ -3772,31 +3787,49 @@ function this.ShowAnnounceLogOnGameStart()
     TppQuest.ShowAnnounceLogQuestOpen()
   end
 end
-function this.SetHeroicAndOgrePointInSlot(e,n)
-  TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.MISSION_START,"vars","missionHeroicPoint",e)
-  TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT_RESTARTABLE,"vars","missionHeroicPoint",e)
-  TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.MISSION_START,"vars","missionOgrePoint",n)
-  TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT_RESTARTABLE,"vars","missionOgrePoint",n)
+function this.SetHeroicAndOgrePointInSlot(missionHeroicPoint,missionOgrePoint)
+  TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.MISSION_START,"vars","missionHeroicPoint",missionHeroicPoint)
+  TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT_RESTARTABLE,"vars","missionHeroicPoint",missionHeroicPoint)
+  TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.MISSION_START,"vars","missionOgrePoint",missionOgrePoint)
+  TppScriptVars.SetVarValueInSlot(TppDefine.SAVE_SLOT.CHECK_POINT_RESTARTABLE,"vars","missionOgrePoint",missionOgrePoint)
 end
-function this._CreateMissionName(i)
-  local n=string.sub(tostring(i),1,1)
-  local missionTypeCode
-  if(n=="1")then
-    missionTypeCode="s"
-  elseif(n=="2")then
-    missionTypeCode="e"
-  elseif(n=="3")then
-    missionTypeCode="f"
-  elseif(n=="4")then
-    missionTypeCode="h"
-  elseif(n=="5")then
-    missionTypeCode="o"
-  else
+
+--tex REWORKED
+local idRangeToTypeCode={
+  ["1"]="s",
+  ["2"]="e",
+  ["3"]="f",
+  ["4"]="h",
+  ["5"]="o",
+}
+function this._CreateMissionName(missionCode)
+  local firstDigit=string.sub(tostring(missionCode),1,1)
+  local missionTypeCode=idRangeToTypeCode[firstDigit]
+  if missionTypeCode==nil then
     return nil
   end
-  return missionTypeCode..tostring(i)
+  return missionTypeCode..tostring(missionCode)
 end
-function this._PushReward(e,i,n)
-  TppReward.Push{category=e,langId=i,rewardType=n}
+--ORIG
+--function this._CreateMissionName(missionCode)
+--  local firstDigit=string.sub(tostring(missionCode),1,1)
+--  local missionTypeCode
+--  if(firstDigit=="1")then
+--    missionTypeCode="s"
+--  elseif(firstDigit=="2")then
+--    missionTypeCode="e"
+--  elseif(firstDigit=="3")then
+--    missionTypeCode="f"
+--  elseif(firstDigit=="4")then
+--    missionTypeCode="h"
+--  elseif(firstDigit=="5")then
+--    missionTypeCode="o"
+--  else
+--    return nil
+--  end
+--  return missionTypeCode..tostring(missionCode)
+--end
+function this._PushReward(category,langId,rewardType)
+  TppReward.Push{category=category,langId=langId,rewardType=rewardType}
 end
 return this

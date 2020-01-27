@@ -46,7 +46,6 @@ local int8=256
 local int16=2^16
 local int32=2^32
 
-this.numQuests=157--tex SYNC: number of quests
 this.MAX_SOLDIER_STATE_COUNT = 360--tex from <mission>_enemy.lua, free missions/whatever was highest
 
 this.switchRange={max=1,min=0,increment=1}
@@ -67,7 +66,7 @@ this.debugMode={
   -- CULL settings={"OFF","NORMAL","BLANK_LOADING_SCREEN"},
   allowFob=true,
   OnChange=function(self,prevStting,setting)
-    InfLog.debugMode=setting==1
+    InfMain.DebugModeEnable(setting==1)
   end,
 }
 
@@ -83,6 +82,16 @@ this.debugFlow={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
+}
+
+this.debugOnUpdate={
+  nonConfig=true,
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+  OnChange=function(self,prevStting,setting)
+    InfLog.debugOnUpdate=setting==1
+  end,
 }
 
 this.printPressedButtons={
@@ -393,6 +402,7 @@ this.mbAdditionalSoldiers={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMb,
 }
 
 this.mbNpcRouteChange={
@@ -1470,29 +1480,30 @@ this.clockTimeScale={
   end
 }
 
-this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
-  save=EXTERNAL,
-  settings={
-    "DEFAULT",
-    "DD_A",
-    "DD_PW",
-    "DD_FOB",
-    "SKULL_CYPR",
-    "SKULL_AFGH",
-    "SOVIET_A",
-    "SOVIET_B",
-    "PF_A",
-    "PF_B",
-    "PF_C",
-    "CHILD_A",
-  },
-  --settingNames=InfEneFova.enemySubTypes,
-  OnChange=function(self,prevSetting,setting)
-    if setting==0 then
-      InfMain.ResetCpTableToDefault()
-    end
-  end,
-}
+--tex CULL
+--this.forceSoldierSubType={--DEPENDENCY soldierTypeForced WIP
+--  save=EXTERNAL,
+--  settings={
+--    "DEFAULT",
+--    "DD_A",
+--    "DD_PW",
+--    "DD_FOB",
+--    "SKULL_CYPR",
+--    "SKULL_AFGH",
+--    "SOVIET_A",
+--    "SOVIET_B",
+--    "PF_A",
+--    "PF_B",
+--    "PF_C",
+--    "CHILD_A",
+--  },
+--  --settingNames=InfEneFova.enemySubTypes,
+--  OnChange=function(self,prevSetting,setting)
+--    if setting==0 then
+--      InfMain.ResetCpTableToDefault()
+--    end
+--  end,
+--}
 
 IvarProc.MissionModeIvars(
   this,
@@ -1520,6 +1531,7 @@ function this.UpdateActiveQuest()
   end
   TppQuest.UpdateActiveQuest()
 end
+
 this.unlockSideOps={
   save=EXTERNAL,
   settings={"OFF","REPOP","OPEN"},
@@ -1528,14 +1540,30 @@ this.unlockSideOps={
 
 this.unlockSideOpNumber={
   save=EXTERNAL,
-  range={max=this.numQuests},
+  range={max=0},--DYNAMIC
   SkipValues=function(self,newSetting)
     local questName=TppQuest.questNameForUiIndex[newSetting]
     --InfLog.DebugPrint(questName)--DEBUG
     return InfQuest.BlockQuest(questName)
   end,
+  OnSelect=function(self)
+    self.range.max=#TppQuest.GetQuestInfoTable()
+  end,
   OnChange=this.UpdateActiveQuest,
 }
+
+local ivarPrefix="sideops_"
+for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
+  local ivarName=ivarPrefix..categoryName
+  local ivar={
+    save=EXTERNAL,
+    default=1,
+    range=this.switchRange,
+    settingNames="set_switch",
+    OnChange=this.UpdateActiveQuest,
+  }
+  this[ivarName]=ivar
+end
 
 this.sideOpsSelectionMode={
   save=EXTERNAL,
@@ -1616,6 +1644,7 @@ this.mbEnableOcelot={
   save=EXTERNAL,
   range=this.switchRange,
   settingNames="set_switch",
+  MissionCheck=IvarProc.MissionCheckMb,
 }
 
 this.mbEnablePuppy={
@@ -1633,7 +1662,8 @@ this.mbEnablePuppy={
     end
     TppQuest.UpdateRepopFlagImpl(TppQuestList.questList[17])--MtbsCommand
     TppQuest.UpdateActiveQuest()
-  end
+  end,
+  MissionCheck=IvarProc.MissionCheckMb,
 }
 
 this.mbDontDemoDisableBuddy={
@@ -3089,7 +3119,7 @@ this.mbWalkerGearsWeapon={
 --}
 
 --CULL
---this.npcOcelotUpdate={--tex NONUSER 
+--this.npcOcelotUpdate={--tex NONUSER
 --  --save=MISSION,
 --  nonUser=true,
 --  default=1,
@@ -3447,8 +3477,8 @@ this.selectProfile={
   OnSelect=function(self)
     local profileNames=IvarProc.SetupInfProfiles()
     if profileNames then
-    self.range.max=#profileNames-1
-    self.settings=profileNames
+      self.range.max=#profileNames-1
+      self.settings=profileNames
     else
       self.range.max=0
       ivars[self.name]=0
@@ -3482,7 +3512,7 @@ this.warpToListObject={
     if info and not position then
       return info
     end
-    
+
     return objectName.." pos:".. math.ceil(position[1])..",".. math.ceil(position[2]).. ","..math.ceil(position[3])
   end,
   OnSelect=function(self)
@@ -3506,13 +3536,6 @@ this.warpToListObject={
   end,
 }
 
-this.warpToObjectList={
-  save=EXTERNAL,
-  range={max=InfLookup.numNameLists},
-}
-this.warpToObjectList={
-
-  }
 --mines
 this.randomizeMineTypes={
   save=EXTERNAL,
@@ -3533,6 +3556,15 @@ this.resourceAmountScale={
   isPercent=true,
   OnChange=function()
     InfResources.ScaleResourceTables()
+  end,
+}
+
+this.debugValue={
+  save=EXTERNAL,
+  default=400,
+  range={max=400,min=0,increment=10},
+  OnChange=function(self,previousSetting,setting)
+    InfLog.Add("debugValue:"..setting)
   end,
 }
 
@@ -3691,7 +3723,7 @@ function this.SetupIvars()
       ivar.Reset=IvarProc.ResetSetting
       ivar.GetTableSetting=IvarProc.GetTableSetting
       ivar.GetSettingName=IvarProc.GetSettingName
-      ivar.MissionCheck=ivar.MissionCheck or IvarProc.MissionCheckAll
+      ivar.MissionCheck=ivar.MissionCheck--tex OFF or IvarProc.MissionCheckAll--rather have the functions on it bring up warnings than have it cause issues by going through
       ivar.EnabledForMission=IvarProc.IvarEnabledForMission
 
       if ivar.save and ivar.save==EXTERNAL then

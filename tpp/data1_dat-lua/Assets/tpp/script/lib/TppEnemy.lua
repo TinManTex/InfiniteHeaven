@@ -662,11 +662,11 @@ end
 function this.SetUpPowerSettings(soldierPowerSettings)-- ==missionTable.enemy.soldierPowerSettings { soldierName={powerSetting...}...}
   mvars.ene_missionSoldierPowerSettings=soldierPowerSettings
   local missionRequireSettings={}
-  for t,powerSettings in pairs(soldierPowerSettings)do
-    for e,t in pairs(powerSettings)do
-      local powerType=e
+  for soldierName,powerSettings in pairs(soldierPowerSettings)do
+    for k,v in pairs(powerSettings)do
+      local powerType=k
       if Tpp.IsTypeNumber(powerType)then
-        powerType=t
+        powerType=v
       end
       missionRequireSettings[powerType]=true
     end
@@ -719,19 +719,20 @@ function this.GetSoldierType(soldierId)--tex> now pulls type for subtype> ORIG i
   local soldierType = this._GetSoldierType(soldierId)
 
   --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." GetSoldierType Caller: " .. debug.getinfo(2).name.. " ".. debug.getinfo(2).source)
-  if Ivars.forceSoldierSubType:EnabledForMission() then--tex WIP:
-    --InfLog.DebugPrint("GetSoldierType soldierTypeForced")--DEBUNOW
-    local subType = this.GetSoldierSubType(soldierId,soldierType)
-    local typeForSubType=InfEneFova.soldierTypeForSubtypes[subType]
-    if typeForSubType~=soldierType then
-      --InfLog.DebugPrint("GetSoldierType for id: ".. soldierId .." ".. soldierType .." ~= "..typeForSubType .." of "..subType)
-      if soldierId~=nil then
-        mvars.ene_soldierTypes=mvars.ene_soldierTypes or {}
-        mvars.ene_soldierTypes[soldierId]=soldierType
-      end
-      return typeForSubType
-    end
-  end
+  --tex CULL
+  --  if Ivars.forceSoldierSubType:Is()>0 then--tex WIP:
+  --    --InfLog.DebugPrint("GetSoldierType soldierTypeForced")--DEBUNOW
+  --    local subType = this.GetSoldierSubType(soldierId,soldierType)
+  --    local typeForSubType=InfEneFova.soldierTypeForSubtypes[subType]
+  --    if typeForSubType~=soldierType then
+  --      --InfLog.DebugPrint("GetSoldierType for id: ".. soldierId .." ".. soldierType .." ~= "..typeForSubType .." of "..subType)
+  --      if soldierId~=nil then
+  --        mvars.ene_soldierTypes=mvars.ene_soldierTypes or {}
+  --        mvars.ene_soldierTypes[soldierId]=soldierType
+  --      end
+  --      return typeForSubType
+  --    end
+  --  end
 
   if InfMain.IsDDBodyEquip(vars.missionCode) then
     local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
@@ -789,10 +790,11 @@ function this.SetSoldierSubType(soldierId,subType)
   mvars.ene_soldierSubType[soldierId]=subType
 end
 function this.GetSoldierSubType(soldierId,soldierType)
-  if Ivars.forceSoldierSubType:EnabledForMission() then--tex WIP>
-    local soldierType=GameObject.SendCommand(soldierId,{id="GetSoldier2Type"})
-    return InfEneFova.enemySubTypes[gvars.forceSoldierSubType]
-  end--<
+  --tex CULL
+  --  if Ivars.forceSoldierSubType:Is()>0 then--tex WIP>
+  --    local soldierType=GameObject.SendCommand(soldierId,{id="GetSoldier2Type"})
+  --    return InfEneFova.enemySubTypes[gvars.forceSoldierSubType]
+  --  end--<
   if InfMain.IsDDBodyEquip(vars.missionCode) then--tex>
     local isFemale=GameObject.SendCommand(soldierId,{id="isFemale"})
     local bodyInfo=nil
@@ -948,7 +950,6 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   this.weaponIdTable.DD.NORMAL.WORMHOLE_FULTON=wormholeLevel
 end
 function this.SetUpDDParameter()
-  --InfLog.PCall(function()--DEBUG
   if not GameObject.DoesGameObjectExistWithTypeName"TppSoldier2"then
     return
   end
@@ -964,7 +965,6 @@ function this.SetUpDDParameter()
   local grenadeId=this.weaponIdTable.DD.NORMAL.GRENADE or TppEquip.EQP_SWP_Grenade
   local stunId=this.weaponIdTable.DD.NORMAL.STUN_GRENADE or TppEquip.EQP_None
   GameObject.SendCommand({type="TppSoldier2"},{id="RegistGrenadeId",grenadeId=grenadeId,stunId=stunId})
-  --end)--DEBUG
 end
 function this.GetWeaponIdTable(soldierType,soldierSubType)
   --ORPHAN local n={}
@@ -1018,7 +1018,6 @@ local weaponTypes={
 --tex REWORKED functionally equivalent to original, but heavier performance wise lol, but eh, I felt like refactoring
 --and it makes choosing final weapon ids from a table in IH easier
 function this.GetWeaponId(soldierId,config)
-  --return InfLog.PCall(function(soldierId,config)--DEBUG
   local soldierType=this.GetSoldierType(soldierId)
   local soldierSubType=this.GetSoldierSubType(soldierId,soldierType)
   local missionCode=TppMission.GetMissionID()
@@ -1073,7 +1072,6 @@ function this.GetWeaponId(soldierId,config)
     weapons.primary=gunWithLight or weapons.primary
   end
   return weapons.primary,weapons.secondary,weapons.tertiary
-    --end,soldierId,config)--DEBUG
 end
 --ORIG
 --function this.GetWeaponId(soldierId,config)
@@ -1299,12 +1297,13 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   local soldierType=this.GetSoldierType(soldierId)
   local subTypeName=this.GetSoldierSubType(soldierId,soldierType)
   local powerLoadout={}
-  for e,t in pairs(powerSettings)do--NMC: handles input of {"<POWER_TYPE>",...} and {<POWER_TYPE>=<powerSetting>,...}, does not care about actual values of setting in this func, just whether it's set or not
-    if Tpp.IsTypeNumber(e)then
-      powerLoadout[t]=true
-  else
-    powerLoadout[e]=t
-  end
+  --NMC: handles input of {"<POWER_TYPE>",...} and {<POWER_TYPE>=<powerSetting>,...}, does not care about actual values of setting in this func, just whether it's set or not
+  for k,v in pairs(powerSettings)do
+    if Tpp.IsTypeNumber(k)then
+      powerLoadout[v]=true
+    else
+      powerLoadout[k]=v
+    end
   end
   local checkLoadedPowers={SMG=true,MG=true,SHOTGUN=true,SNIPER=true,MISSILE=true,SHIELD=true}
   for powerType,t in pairs(checkLoadedPowers)do
@@ -1331,7 +1330,20 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
     powerLoadout.ARMOR=true
   end
 
+
+
+--tex DEBUG> CULL  
+--this.totalSoldiers=this.totalSoldiers+1
+--  this.armorLimit=Ivars.debugValue:Get()
+--  powerLoadout.SOFT_ARMOR=false
+--  powerLoadout.ARMOR=true
+--  if #this.armorSoldiers >= this.armorLimit then
+--    powerLoadout.ARMOR=false
+--    powerLoadout.SOFT_ARMOR=true
+--  end
+--<
   if powerLoadout.ARMOR then
+    --table.insert(this.armorSoldiers,soldierId)--tex DEBUG CULL
     powerLoadout.SNIPER=nil
     powerLoadout.SHIELD=nil
     powerLoadout.MISSILE=nil
@@ -3125,14 +3137,15 @@ function this.SetUpSoldiers()
   this.AssignSoldiersToCP()
 end
 function this.AssignSoldiersToCP()
-  local forceSubType=InfEneFova.enemySubTypes[gvars.forceSoldierSubType]--tex WIP
-  if Ivars.forceSoldierSubType:EnabledForMission() then
-    --TppUiCommand.AnnounceLogView("AssignSoldiersToCP:")--DEBUG CULL
-    for cp, subType in pairs(this.subTypeOfCp)do
-      --TppUiCommand.AnnounceLogView("AssignSoldiersToCPuu:")--DEBUG CULL
-      this.subTypeOfCp[cp]=forceSubType
-    end
-  end
+  --tex CULL
+  --  local forceSubType=InfEneFova.enemySubTypes[gvars.forceSoldierSubType]--tex WIP
+  --  if Ivars.forceSoldierSubType:Is(1) then
+  --    --TppUiCommand.AnnounceLogView("AssignSoldiersToCP:")--DEBUG CULL
+  --    for cp, subType in pairs(this.subTypeOfCp)do
+  --      --TppUiCommand.AnnounceLogView("AssignSoldiersToCPuu:")--DEBUG CULL
+  --      this.subTypeOfCp[cp]=forceSubType
+  --    end
+  --  end
   local missionCode=TppMission.GetMissionID()
   this._ConvertSoldierNameKeysToId(mvars.ene_soldierTypes)
   mvars.ene_soldierSubType=mvars.ene_soldierSubType or{}
@@ -3165,9 +3178,10 @@ function this.AssignSoldiersToCP()
       end
       local command
       local soldierType=this.GetSoldierType(soldierId)
-      if Ivars.forceSoldierSubType:EnabledForMission() then--tex> WIP:
-        this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
-      end--<
+      --tex CULL
+      --      if Ivars.forceSoldierSubType:Is(1) then--tex> WIP:
+      --        this.SetSoldierType(soldierId,soldierType)--tex does a setsoldiertype
+      --      end--<
       command={id="SetSoldier2Type",type=soldierType}
       SendCommand(soldierId,command)
       if(soldierType~=EnemyType.TYPE_SKULL and soldierType~=EnemyType.TYPE_CHILD)and cpSubType then
@@ -4087,7 +4101,7 @@ function this.SetRecovered(gameId)
     svars.ene_isRecovered[index]=true
   end
 end
-function this.ExecuteOnRecoveredCallback(gameId,r,i,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex)
+function this.ExecuteOnRecoveredCallback(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex)
   if not mvars.ene_recoverdStateIndexByGameObjectId then
     return
   end
@@ -4105,7 +4119,7 @@ function this.ExecuteOnRecoveredCallback(gameId,r,i,staffOrResourceId,RENsomeBoo
   if not TppMission.CheckMissionState(true,false,true,false)then
     return
   end
-  OnRecovered(gameId,r,i,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex)
+  OnRecovered(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex)
 end
 local RENAMErescueDistSqr=10*10
 function this.CheckAllVipClear(n)
@@ -5412,11 +5426,12 @@ function this.CheckDeactiveQuestAreaForceFulton()
   end
 end
 --NMC Called from quest script on various elimination msgs, or on quest deactivate
+--cant see any calls using questDeactivate or param5
 function this.CheckQuestAllTarget(questType,messageId,gameId,questDeactivate,param5)
   local clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
   local deactivating=questDeactivate or false
   local _param5=param5 or false
-  local RENAMEinQuestTargetList=false
+  local inTargetList=false
   local totalTargets=0
   local fultonedCount=0
   local failedFultonCount=0
@@ -5437,9 +5452,9 @@ function this.CheckQuestAllTarget(questType,messageId,gameId,questDeactivate,par
       RENAMEsomeBool=true
     end
     targetInfo.messageId=messageId or"None"
-    RENAMEinQuestTargetList=true
+    inTargetList=true
   end
-  if(deactivating==false and _param5==false)and RENAMEinQuestTargetList==false then
+  if(deactivating==false and _param5==false)and inTargetList==false then
     return clearType
   end
   for targetGameId,targetInfo in pairs(mvars.ene_questTargetList)do
@@ -5657,7 +5672,7 @@ function this._PlayRecoverNPCRadio(gameId)
     this.PlayTargetRescuedRadio(gameId)
   end
 end
-function this._OnFulton(gameId,a,a,staffOrResourceId)
+function this._OnFulton(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId)
   this._OnRecoverNPC(gameId,staffOrResourceId)
 end
 function this._OnDamage(gameId,attackId,attackerId)

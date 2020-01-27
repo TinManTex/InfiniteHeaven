@@ -238,13 +238,13 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
   end
 
   InfMain.RandomSetToLevelSeed()
-  
+
   local enabledTypes={
     ARMOR=Ivars.armorParasiteEnabled:Is(1),
     MIST=Ivars.mistParasiteEnabled:Is(1),
     CAMO=Ivars.camoParasiteEnabled:Is(1),
   }
-  
+
   --tex quiet battle, will crash with CAMO (which also use TppBossQuiet2)
   if this.parasiteType=="CAMO" then
     if TppQuest.IsActive"waterway_q99010" then
@@ -252,21 +252,22 @@ function this.OnLoad(nextMissionCode,currentMissionCode)
       enabledTypes.CAMO=false
     end
   end
-  
+
   local parasiteTypes={}
-  
+
+--DEBUGNOW TEST
   local allDisabled=false
   for paraType,enabled in pairs(enabledTypes) do
-    table.insert(parasiteTypes,paraType)
-    if enabled then 
+    if enabled then
+      table.insert(parasiteTypes,paraType)
       allDisabled=false
     end
   end
-  
+
   if allDisabled then
     table.insert(parasiteTypes,"ARMOR")
   end
-  
+
   this.parasiteType=parasiteTypes[math.random(#parasiteTypes)]
 
   --tex DEBUG
@@ -397,6 +398,7 @@ function this.ParasiteEventEnabled(missionCode)
 end
 
 function this.SetupParasites()
+  if this.parasiteType~="CAMO" then
   local parameters=PARASITE_PARAMETERS.NORMAL
   local combatGrade=PARASITE_GRADE.NORMAL
   SendCommand({type="TppParasite2"},{id="SetParameters",params=parameters})
@@ -411,6 +413,7 @@ function this.SetupParasites()
       defenseGrade=combatGrade.defenseGrade,
     }
   )
+  end
 end
 
 function this.OnDamage(gameId,attackId,attackerId)
@@ -608,12 +611,13 @@ function this.InitEvent()
   if TppMission.IsMissionStart() then
     --InfLog.DebugPrint"InitEvent IsMissionStart clear"--DEBUG
     svars.inf_parasiteEvent=false
-    return
   end
 
-  for index,state in ipairs(this.parasiteNames[this.parasiteType])do
-    states[index]=stateTypes.READY
-    hitCounts[index]=0
+  if not InfMain.IsContinue() then
+    for index,state in ipairs(this.parasiteNames[this.parasiteType])do
+      states[index]=stateTypes.READY
+      hitCounts[index]=0
+    end
   end
   --end)--
 end
@@ -621,8 +625,8 @@ end
 local Timer_ParasiteEventStr="Timer_ParasiteEvent"
 function this.StartEventTimer(time)
   --InfLog.PCall(function(time)--DEBUG
-    if not this.ParasiteEventEnabled() then
-      return
+  if not this.ParasiteEventEnabled() then
+    return
   end
 
   if Ivars.enableParasiteEvent:Is(0) then
@@ -686,76 +690,76 @@ end
 function this.ParasiteAppear()
   InfLog.PCallDebug(function()--DEBUG
 
-  local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
-  local closestPos=playerPos
-  local closestDist=999999999999999
+    local playerPos={vars.playerPosX,vars.playerPosY,vars.playerPosZ}
+    local closestPos=playerPos
+    local closestDist=999999999999999
 
-  local isMb=vars.missionCode==30050 or vars.missionCode==30250
+    local isMb=vars.missionCode==30050 or vars.missionCode==30250
 
-  local cpDistance
-  local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPos)
-  if closestCp==nil or cpPosition==nil then
-    InfLog.DebugPrint"WARNING: ParasiteAppear closestCp==nil"--DEBUG
-    return
-  end
-
-  closestDist=cpDistance
-
-  if not isMb then--tex TODO: implement for mb
-    local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPos)
-    if closestLz==nil or lzPosition==nil then
-      InfLog.DebugPrint"WARNING: ParasiteAppear closestLz==nil"--DEBUG
+    local cpDistance
+    local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(playerPos)
+    if closestCp==nil or cpPosition==nil then
+      InfLog.DebugPrint"WARNING: ParasiteAppear closestCp==nil"--DEBUG
       return
     end
 
-    local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
-    closestPos=cpPosition
-    if cpDistance>lzDistance and lzCpDist>playerRange*2 then
-      closestPos=lzPosition
-      closestDist=lzDistance
+    closestDist=cpDistance
+
+    if not isMb then--tex TODO: implement for mb
+      local closestLz,lzDistance,lzPosition=InfMain.GetClosestLz(playerPos)
+      if closestLz==nil or lzPosition==nil then
+        InfLog.DebugPrint"WARNING: ParasiteAppear closestLz==nil"--DEBUG
+        return
+      end
+
+      local lzCpDist=TppMath.FindDistance(lzPosition,cpPosition)
+      closestPos=cpPosition
+      if cpDistance>lzDistance and lzCpDist>playerRange*2 then
+        closestPos=lzPosition
+        closestDist=lzDistance
+      end
     end
-  end
 
-  if closestDist>playerRange then
-    closestPos=playerPos
-  end
-
-  InfLog.Add("ParasiteAppear "..this.parasiteType.." closestCp:"..closestCp.. " "..InfMenu.CpNameString(closestCp),true)
-
-
-  this.lastContactTime=Time.GetRawElapsedTimeSinceStartUp()+timeOuts[this.parasiteType]
-
-  if this.parasiteType=="CAMO" then
-    this.parasitePos=playerPos
-    this.CamoParasiteAppear(playerPos,closestCp,cpPosition,spawnRadius[this.parasiteType])
-  elseif this.parasiteType=="MIST" then
-    this.parasitePos=closestPos
-    this.ArmorParasiteAppear(playerPos,spawnRadius[this.parasiteType])
-  elseif this.parasiteType=="ARMOR" then
-    this.parasitePos=closestPos
-    this.ArmorParasiteAppear(closestPos,spawnRadius[this.parasiteType])
-  end
-
-  if isMb then
-    this.ZombifyMB()
-  else
-    this.ZombifyFree(closestCp,this.parasitePos)
-  end
-
-  --tex once one armor parasite has been fultoned the rest will be stuck in some kind of idle ai state on next appearance
-  --forcing combat bypasses this
-  local armorFultoned=false
-  for index,state in ipairs(this.parasiteNames[this.parasiteType])do
-    if state==stateTypes.FULTONED then
-      armorFultoned=true
+    if closestDist>playerRange then
+      closestPos=playerPos
     end
-  end
-  if armorFultoned and this.parasiteType=="ARMOR" then
-    --InfLog.DebugPrint"Timer_ParasiteCombat start"--DEBUG
-    TimerStart("Timer_ParasiteCombat",4)
-  end
 
-  TimerStart("Timer_ParasiteMonitor",monitorRate)
+    InfLog.Add("ParasiteAppear "..this.parasiteType.." closestCp:"..closestCp.. " "..InfMenu.CpNameString(closestCp),true)
+
+
+    this.lastContactTime=Time.GetRawElapsedTimeSinceStartUp()+timeOuts[this.parasiteType]
+
+    if this.parasiteType=="CAMO" then
+      this.parasitePos=playerPos
+      this.CamoParasiteAppear(playerPos,closestCp,cpPosition,spawnRadius[this.parasiteType])
+    elseif this.parasiteType=="MIST" then
+      this.parasitePos=closestPos
+      this.ArmorParasiteAppear(playerPos,spawnRadius[this.parasiteType])
+    elseif this.parasiteType=="ARMOR" then
+      this.parasitePos=closestPos
+      this.ArmorParasiteAppear(closestPos,spawnRadius[this.parasiteType])
+    end
+
+    if isMb then
+      this.ZombifyMB()
+    else
+      this.ZombifyFree(closestCp,this.parasitePos)
+    end
+
+    --tex once one armor parasite has been fultoned the rest will be stuck in some kind of idle ai state on next appearance
+    --forcing combat bypasses this
+    local armorFultoned=false
+    for index,state in ipairs(this.parasiteNames[this.parasiteType])do
+      if state==stateTypes.FULTONED then
+        armorFultoned=true
+      end
+    end
+    if armorFultoned and this.parasiteType=="ARMOR" then
+      --InfLog.DebugPrint"Timer_ParasiteCombat start"--DEBUG
+      TimerStart("Timer_ParasiteCombat",4)
+    end
+
+    TimerStart("Timer_ParasiteMonitor",monitorRate)
   end)--
 end
 

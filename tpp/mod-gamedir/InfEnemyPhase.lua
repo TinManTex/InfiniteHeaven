@@ -19,8 +19,8 @@ local random=math.random
 
 --updateState
 this.active=Ivars.phaseUpdate
-this.rate=Ivars.phaseUpdateRate
-this.range=Ivars.phaseUpdateRange
+local rate=Ivars.phaseUpdateRate
+local range=Ivars.phaseUpdateRange
 this.execCheckTable={inGame=true,inHeliSpace=false}
 this.execState={
   nextUpdate=0,
@@ -112,8 +112,8 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 end
 
 function this.GetUpdateRate()
-  local updateRate=this.rate:Get()
-  local updateRange=this.range:Get()
+  local updateRate=rate:Get()
+  local updateRange=range:Get()
   if updateRange then
     local updateMin=updateRate-updateRange*0.5
     local updateMax=updateRate+updateRange*0.5

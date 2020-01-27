@@ -91,6 +91,28 @@ TppMission.IsFOBMission=function(missionCode)--TODO IMPLEMENT
   return false
 end
 
+TppQuest={}
+--SYNC: TppQuest
+TppQuest.QUEST_CATEGORIES={
+  "STORY",--11,7,2,2
+  "EXTRACT_INTERPRETER",--4,2,2
+  "BLUEPRINT",--6,4,2,Secure blueprint
+  "EXTRACT_HIGHLY_SKILLED",--16,9,,Extract highly-skilled soldier
+  "PRISONER",--20,10,Prisoner extraction
+  "CAPTURE_ANIMAL",--4,2,
+  "WANDERING_SOLDIER",--10,5,Wandering Mother Base soldier
+  "DDOG_PRISONER",--5,Unlucky Dog
+  "ELIMINATE_HEAVY_INFANTRY",--16
+  "MINE_CLEARING",--10
+  "ELIMINATE_ARMOR_VEHICLE",--14,Eliminate the armored vehicle unit
+  "EXTRACT_GUNSMITH",--3,Extract the Legendary Gunsmith
+  --"EXTRACT_CONTAINERS",--1, #110
+  --"INTEL_AGENT_EXTRACTION",--1, #112
+  "ELIMINATE_TANK_UNIT",--14
+  "ELIMINATE_PUPPETS",--15
+  "TARGET_PRACTICE",--7,0,0,7
+}
+
 TppTerminal={}
 TppTerminal.MBDVCMENU={}
 TppUiCommand={}--TODO IMPLEMENT
@@ -225,92 +247,6 @@ yield()
 
 print"parse: start done"
 
-
--------=====================
-this.requires={
-  "/Assets/tpp/script/lib/TppDefine.lua",
-  "/Assets/tpp/script/lib/TppMath.lua",
-  "/Assets/tpp/script/lib/TppSave.lua",
-  "/Assets/tpp/script/lib/TppLocation.lua",
-  "/Assets/tpp/script/lib/TppSequence.lua",
-  "/Assets/tpp/script/lib/TppWeather.lua",
-  "/Assets/tpp/script/lib/TppDbgStr32.lua",
-  "/Assets/tpp/script/lib/TppDebug.lua",
-  "/Assets/tpp/script/lib/TppClock.lua",
-  "/Assets/tpp/script/lib/TppUI.lua",
-  "/Assets/tpp/script/lib/TppResult.lua",
-  "/Assets/tpp/script/lib/TppSound.lua",
-  "/Assets/tpp/script/lib/TppTerminal.lua",
-  "/Assets/tpp/script/lib/TppMarker.lua",
-  "/Assets/tpp/script/lib/TppRadio.lua",
-  "/Assets/tpp/script/lib/TppPlayer.lua",
-  "/Assets/tpp/script/lib/TppHelicopter.lua",
-  "/Assets/tpp/script/lib/TppScriptBlock.lua",
-  "/Assets/tpp/script/lib/TppMission.lua",
-  "/Assets/tpp/script/lib/TppStory.lua",
-  "/Assets/tpp/script/lib/TppDemo.lua",
-  "/Assets/tpp/script/lib/TppEnemy.lua",
-  "/Assets/tpp/script/lib/TppGeneInter.lua",
-  "/Assets/tpp/script/lib/TppInterrogation.lua",
-  "/Assets/tpp/script/lib/TppGimmick.lua",
-  "/Assets/tpp/script/lib/TppMain.lua",
-  "/Assets/tpp/script/lib/TppDemoBlock.lua",
-  "/Assets/tpp/script/lib/TppAnimalBlock.lua",
-  "/Assets/tpp/script/lib/TppCheckPoint.lua",
-  "/Assets/tpp/script/lib/TppPackList.lua",
-  "/Assets/tpp/script/lib/TppQuest.lua",
-  "/Assets/tpp/script/lib/TppTrap.lua",
-  "/Assets/tpp/script/lib/TppReward.lua",
-  "/Assets/tpp/script/lib/TppRevenge.lua",
-  "/Assets/tpp/script/lib/TppReinforceBlock.lua",
-  "/Assets/tpp/script/lib/TppEneFova.lua",
-  "/Assets/tpp/script/lib/TppFreeHeliRadio.lua",
-  "/Assets/tpp/script/lib/TppHero.lua",
-  "/Assets/tpp/script/lib/TppTelop.lua",
-  "/Assets/tpp/script/lib/TppRatBird.lua",
-  "/Assets/tpp/script/lib/TppMovie.lua",
-  "/Assets/tpp/script/lib/TppAnimal.lua",
-  "/Assets/tpp/script/lib/TppException.lua",
-  "/Assets/tpp/script/lib/TppTutorial.lua",
-  "/Assets/tpp/script/lib/TppLandingZone.lua",
-  "/Assets/tpp/script/lib/TppCassette.lua",
-  "/Assets/tpp/script/lib/TppEmblem.lua",
-  "/Assets/tpp/script/lib/TppDevelopFile.lua",
-  "/Assets/tpp/script/lib/TppPaz.lua",
-  "/Assets/tpp/script/lib/TppRanking.lua",
-  "/Assets/tpp/script/lib/TppTrophy.lua",
-  "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
-  "/Assets/tpp/script/lib/Ivars.lua",--tex>
-  "/Assets/tpp/script/lib/InfLang.lua",
-  "/Assets/tpp/script/lib/InfButton.lua",
-  "/Assets/tpp/script/lib/InfMain.lua",
-  "/Assets/tpp/script/lib/InfMenuCommands.lua",
-  "/Assets/tpp/script/lib/InfMenuDefs.lua",
-  "/Assets/tpp/script/lib/InfQuickMenuDefs.lua",
-  "/Assets/tpp/script/lib/InfMenu.lua",
-  "/Assets/tpp/script/lib/InfEneFova.lua",
-  "/Assets/tpp/script/lib/InfEquip.lua",
-  --OFF "/Assets/tpp/script/lib/InfSplash.lua",
-  "/Assets/tpp/script/lib/InfVehicle.lua",
-  "/Assets/tpp/script/lib/InfRevenge.lua",
-  --OFF "/Assets/tpp/script/lib/InfReinforce.lua",
-  "/Assets/tpp/script/lib/InfCamera.lua",
-  "/Assets/tpp/script/lib/InfUserMarker.lua",
-  "/Assets/tpp/script/lib/InfEnemyPhase.lua",
-  "/Assets/tpp/script/lib/InfHelicopter.lua",
-  "/Assets/tpp/script/lib/InfNPC.lua",
-  "/Assets/tpp/script/lib/InfNPCOcelot.lua",
-  "/Assets/tpp/script/lib/InfNPCHeli.lua",
-  "/Assets/tpp/script/lib/InfWalkerGear.lua",
-  "/Assets/tpp/script/lib/InfInterrogation.lua",
-  "/Assets/tpp/script/lib/InfSoldierParams.lua",
-  "/Assets/tpp/script/lib/InfInspect.lua",
-  "/Assets/tpp/script/lib/InfFova.lua",
-  "/Assets/tpp/script/lib/InfLZ.lua",
-  "/Assets/tpp/script/lib/InfGameEvent.lua",
-  "/Assets/tpp/script/lib/InfBuddy.lua",
-  "/Assets/tpp/script/lib/InfHooks.lua",--<
-}
 --TODO really do need to module load these since TppDefine is already loaded at this point
 ---------
 afgh_routeSets=require"afgh_routeSets"
@@ -323,8 +259,10 @@ InfInspect=require"InfInspect"
 
 IvarProc=require"IvarProc"
 InfButton=require"InfButton"
-InfParasite=require"InfParasite"
+
+Mock=true--tex indicator to stop InfMain from running loadexternalmodules on its load
 InfMain=require"InfMain"
+InfLookup=require"InfLookup"
 
 Ivars=require"Ivars"
 Ivars.SetupIvars()--tex doesn't run on Ivars.lua load since wrapped in InfLog.PCall
@@ -802,41 +740,72 @@ local function FaceDefinitionAnalyse()
 
 end
 --
+local function GetFilesOfType(extension)
+
+
+  local basePath=[[J:\GameData\MGS\!!masternew\]]
+
+  local dirsFileName=extension.."FileDirs.txt"
+  local outPutFile="D:\\Projects\\MGS\\"..extension.."Files.txt"
+
+  local searchPattern="*."..extension
+
+  --dirsFileName=searchPattern..dirsFileName
+
+  local command=string.format([[dir /s /b %s%s > %s]],basePath,searchPattern,dirsFileName)
+  print(command)
+  os.execute(command)
+
+  local fileDirs={}
+
+  local dirsFile,error=io.open(dirsFileName,"r")
+  if dirsFile then
+    while true do
+      local line=dirsFile:read()
+      if line==nil then break end
+      table.insert(fileDirs,line)
+    end
+    dirsFile:close()
+  end
+
+
+  local fileNameCounts={}
+  local fileNamesAndPaths={}
+  for i,filePath in ipairs(fileDirs)do
+    local split=Util.Split(filePath,"\\")
+    local fileName=split[#split]
+    fileNameCounts[fileName]=fileNameCounts[fileName] or 0
+    fileNameCounts[fileName]=fileNameCounts[fileName]+1
+    table.remove(split,#split)
+    fileNamesAndPaths[fileName]=table.concat(split)
+  end
+
+
+  local fileNames={}
+  for fileName,count in pairs(fileNameCounts)do
+    table.insert(fileNames,fileName)
+  end
+
+  local ins=InfInspect.Inspect(fileNameCounts)
+  print(ins)
+
+  table.sort(fileNames)
 
 
 
-local function main()
-  print("main()")
-  InfAutoDoc.AutoDoc()
-  --WriteDefaultIvarProfile()
-
-  --PrintEquipId()
-
-  --PrintGenericRoutes()
-  --PrintGenericRoutes2()
-
-  PrintIvars()
-
-  --CheckSoldierFova()
-
-  --BuildFovaTypesList()
-  -- FaceDefinitionAnalyse()
+  local f=io.open(outPutFile,"w")
 
 
 
-  print(package.path)
 
-  print(os.date("%x %X"))
-  print(os.time())
+  for i,fileName in ipairs(fileNames)do
+    print(fileName)
+    f:write(fileName,"\n")
+  end
+  f:close()
+end
 
-
-
-  --  LangDictionaryAttack=require"LangDictionaryAttack"
-  --  LangDictionaryAttack.Run()
-  --Data=require"Data"
-  --XmlTest()
-
-  --local ExtensionOrder=require"ExtensionOrder"
+local function TestGamePath()
   local function Split(str,delim,maxNb)
     -- Eliminate bad cases...
     if string.find(str,delim)==nil then
@@ -885,33 +854,48 @@ local function main()
     return gamePath
   end
   print(GetGamePath())
+end
+
+local function main()
+  print("main()")
+    print(package.path)
+    
+      print(os.date("%x %X"))
+  print(os.time())
+    
+  print"Running AutoDoc"
+  InfAutoDoc.AutoDoc()
+  --WriteDefaultIvarProfile()
+
+  --PrintEquipId()
+
+  --PrintGenericRoutes()
+  --PrintGenericRoutes2()
+
+  --PrintIvars()
+
+  --CheckSoldierFova()
+
+  --BuildFovaTypesList()
+  -- FaceDefinitionAnalyse()
+
+
+
+
+
+
+
+
+  --  LangDictionaryAttack=require"LangDictionaryAttack"
+  --  LangDictionaryAttack.Run()
+  --Data=require"Data"
+  --XmlTest()
+
+  --local ExtensionOrder=require"ExtensionOrder"
+
 
   --
-
-  local basePath=[[J:\GameData\MGS\!!masternew\]]
-
-  local dirsFileName="ddsfmdlfiles.txt"
-
-  --local searchPattern="*.fmdl"
-local searchPattern="dds*.fmdl"
-
-  --dirsFileName=searchPattern..dirsFileName
-
-  local command=string.format([[dir /s /b %s%s > %s]],basePath,searchPattern,dirsFileName)
-  print(command)
-  --os.execute(command)
-
-  local fileDirs={}
-
---  local dirsFile,error=io.open(dirsFileName,"r")
---  if dirsFile then
---    while true do
---      local line=dirsFile:read()
---      if line==nil then break end
---      table.insert(fileDirs,line)
---    end
---    dirsFile:close()
---  end
+  --GetFilesOfType("mtar")
 
 
   print"main done"

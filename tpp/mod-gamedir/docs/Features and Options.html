@@ -33,6 +33,8 @@
 <div id="itemHelp">Editable lists of options, see InfProfiles.lua in mod folder.</div>
 <div id="menuItem">Reload lua scripts in MGSV_TPP without exiting game.</div>
 <div id="itemHelp">Hold &ltStance&gt,&ltAction&gt,&ltReady weapon&gt,&ltBinoculars&gt (Can also use the loadExternalModules command in the Debug menu)</div>
+<div id="menuItem">New sideops for Mother Base.</div>
+<div id="itemHelp">Adds 3 new animal capture sideops for Mother Base.</div>
 </div>
 <br/>
 <div id="menu">
@@ -105,9 +107,11 @@
 </div>
 <div id="menuItem">
 <div>1: Select profile : &ltProfile type&gt</div>
+<div id="itemHelp">Selects a profile described in InfProfiles.lua. Press the &ltAction&gt button to apply the settings of the selected profile.</div>
 </div>
 <div id="menuItem">
 <div>2: Set profile options to game defaults : (Command)</div>
+<div id="itemHelp">Sets the options described in the selected profile to their default setting.</div>
 </div>
 <div id="menuItem">
 <div>3: Enable Quick Menu : Off, On</div>
@@ -136,7 +140,7 @@
 </div>
 <div id="menuItem">
 <div>1: Trigger random IH event : (Command)</div>
-<div id="itemHelp">  Events are temporary custom profiles for free roam and mother base. <br/>  Free roam events (can stack): <br/>  Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. <br/>  Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. <br/>  Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. <br/>  MB events (only one active): <br/>  DD Training wargame, <br/>  Soviet attack, <br/>  Rogue Coyote attack, <br/>  XOF attack, <br/>  DD Infection outbreak, <br/>  Zombie Obliteration (non DD)</div>
+<div id="itemHelp">  Events are temporary combinations of IH settings for free roam and mother base. <br/>  Free roam events (can stack): <br/>  Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. <br/>  Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. <br/>  Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. <br/>  MB events (only one active): <br/>  DD Training wargame, <br/>  Soviet attack, <br/>  Rogue Coyote attack, <br/>  XOF attack, <br/>  DD Infection outbreak, <br/>  Zombie Obliteration (non DD)</div>
 </div>
 <div id="menuItem">
 <div>2: Free roam event random trigger chance : 0-100%</div>
@@ -148,7 +152,7 @@
 </div>
 <div id="menuItem">
 <div>4: Enable Skull attacks in Free roam : Off, On</div>
-<div id="itemHelp">Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.</div>
+<div id="itemHelp">Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.</div>
 </div>
 <div id="menuItem">
 <div>5: Allow armor skulls : Off, On</div>
@@ -203,10 +207,11 @@
 </div>
 <div id="menuItem">
 <div>8: Disable Intel team enemy spotting : Off, On</div>
+<div id="itemHelp">Stops the Intel teams enemy spotting audio notification and indication on the idroid map.</div>
 </div>
 <div id="menuItem">
 <div>9: Disable Intel team herb spotting (requires game restart) : Off, On</div>
-<div id="itemHelp">Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.</div>
+<div id="itemHelp">Stops the Intel teams plant spotting audio notification and indication on the idroid map. Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.</div>
 </div>
 <div id="menuItem">
 <div>10: Keep equipment Free&lt&gtMission : Off, On</div>
@@ -316,16 +321,16 @@
 <div id="handLevelMenu">Hand abilities levels menu</div>
 </div>
 <div id="menuItem">
-<div>1: Sonar level : Default, Disable, Grade 2, Grade 3, Grade 4</div>
+<div>1: Sonar level : Don't override, Disable, Grade 2, Grade 3, Grade 4</div>
 </div>
 <div id="menuItem">
-<div>2: Mobility level : Default, Disable, Grade 2, Grade 3, Grade 4</div>
+<div>2: Mobility level : Don't override, Disable, Grade 2, Grade 3, Grade 4</div>
 </div>
 <div id="menuItem">
-<div>3: Precision level : Default, Disable, Grade 2, Grade 3, Grade 4</div>
+<div>3: Precision level : Don't override, Disable, Grade 2, Grade 3, Grade 4</div>
 </div>
 <div id="menuItem">
-<div>4: Medical level : Default, Disable, Grade 2, Grade 3, Grade 4</div>
+<div>4: Medical level : Don't override, Disable, Grade 2, Grade 3, Grade 4</div>
 </div>
 <div id="menuItem">
 </div>
@@ -439,13 +444,13 @@
 <div>1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE</div>
 </div>
 <div id="menuItem">
-<div>2: Suit type : NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER, MGS3, MGS3_NAKED, MGS3_SNEAKING, MGS3_TUXEDO, EVA_CLOSE, EVA_OPEN, BOSS_CLOSE, BOSS_OPEN</div>
+<div>2: Suit type : &ltSuits for player type&gt</div>
 </div>
 <div id="menuItem">
 <div>3: Camo type : &ltCamos for player type&gt</div>
 </div>
 <div id="menuItem">
-<div>4: Headgear : None</div>
+<div>4: Headgear : &ltHeadgear for DD type&gt</div>
 </div>
 <div id="menuItem">
 <div>5: Filter faces : Show all, Unique, Head fova mods</div>
@@ -502,7 +507,7 @@
 </div>
 <div id="menuItem">
 <div>3: Soldier sight scale : 0-400%</div>
-<div id="itemHelp">A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in iDroid Log&gtAll tab)' to see exact values.</div>
+<div id="itemHelp">A rough scale over all the soldier sight distances, except for night sight distance, use the command 'Print sight param table (look in iDroid Log&gtAll tab)' to see exact values.</div>
 </div>
 <div id="menuItem">
 <div>4: Soldier night sight scale : 0-400%</div>
@@ -550,7 +555,7 @@
 </div>
 <div id="menuItem">
 <div>5: Phase mod update rate (seconds) : 1-255</div>
-<div id="itemHelp">Rate that the minimum and maxium phase of CPs are modified.</div>
+<div id="itemHelp">Rate that the CPs phase is adjusted to the minimum and maxium settings.</div>
 </div>
 <div id="menuItem">
 <div>6: Phase mod random variation : 0-255</div>
@@ -608,7 +613,7 @@
 </div>
 <div id="menuItem">
 <div>10: IH interrogation in free roam : Off, On</div>
-<div id="itemHelp">Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)</div>
+<div id="itemHelp">Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier, Location of walker gear. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)</div>
 </div>
 <div id="menuItem">
 </div>
@@ -910,7 +915,7 @@
 <div>3: Apply enemy prep to patrol soldiers : Off, On</div>
 </div>
 <div id="menuItem">
-<div>4: Allow heavy armor in free roam (has issues) : Off, On</div>
+<div>4: Allow heavy armor in free roam (may have issues) : Off, On</div>
 </div>
 <div id="menuItem">
 <div>5: Allow heavy armor in all missions (may have issues) : Off, On</div>
@@ -920,7 +925,7 @@
 <div id="itemHelp">Missions 2, 12, 13, 16, 26, 31 normally prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).</div>
 </div>
 <div id="menuItem">
-<div>7: Allow Enemy Prep shift after free roam : Off, On</div>
+<div>7: Allow Enemy Prep change from free roam : Off, On</div>
 <div id="itemHelp">By default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort)</div>
 </div>
 <div id="menuItem">
@@ -1109,18 +1114,77 @@
 <div id="sideOpsMenu">Side ops menu</div>
 </div>
 <div id="menuItem">
-<div>1: Unlock Sideops mode : Off, Force Replayable, Force Open</div>
-<div id="itemHelp">Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression. Due to how the code is designed this also enables the equivalent of random sideops selection.</div>
+<div>1: Open specific sideop # : 0-0</div>
 </div>
 <div id="menuItem">
-<div>2: Sideop selection mode : Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets</div>
-<div id="itemHelp">Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category</div>
+<div>2: Unlock Sideops mode : Off, Force Replayable, Force Open</div>
+<div id="itemHelp">Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression.</div>
 </div>
 <div id="menuItem">
-<div>3: Open specific sideop # : 0-157</div>
+<div>3: Sideop selection mode : Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets</div>
+<div id="itemHelp">Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu.</div>
 </div>
 <div id="menuItem">
-<div>4: Force enable enemy heli reinforce (disable heli sideops) : Off, On</div>
+<div>4: <a href="#sideOpsCategoryMenu">Sideops category filter menu</a></div>
+</div>
+<div id="menuItem">
+<div>5: Force enable enemy heli reinforce (disable heli sideops) : Off, On</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="sideOpsCategoryMenu">Sideops category filter menu</div>
+<div id="menuHelp">Filters selection of sideops per category, Sideop selection mode will override this.</div>
+</div>
+<div id="menuItem">
+<div>1: Story/unique : Off, On</div>
+</div>
+<div id="menuItem">
+<div>2: Extract interpreter : Off, On</div>
+</div>
+<div id="menuItem">
+<div>3: Secure blueprint : Off, On</div>
+</div>
+<div id="menuItem">
+<div>4: Extract highly-skilled soldier : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: Prisoner extraction : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: Capture animals : Off, On</div>
+</div>
+<div id="menuItem">
+<div>7: Extract wandering Mother Base soldier : Off, On</div>
+</div>
+<div id="menuItem">
+<div>8: Unlucky Dog : Off, On</div>
+</div>
+<div id="menuItem">
+<div>9: Eliminate heavy infantry : Off, On</div>
+</div>
+<div id="menuItem">
+<div>10: Mine clearing : Off, On</div>
+</div>
+<div id="menuItem">
+<div>11: Eliminate the armored vehicle unit : Off, On</div>
+</div>
+<div id="menuItem">
+<div>12: Extract the Legendary Gunsmith : Off, On</div>
+</div>
+<div id="menuItem">
+<div>13: Eliminate tank unit : Off, On</div>
+</div>
+<div id="menuItem">
+<div>14: Eliminate wandering puppets : Off, On</div>
+</div>
+<div id="menuItem">
+<div>15: Target practice : Off, On</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1461,122 +1525,6 @@
 <div>3: debugFlow : Off, On</div>
 <div id="itemHelp">Logs some script execution flow, requires Debug IH mode to be on.</div>
 </div>
-<div id="menuItem">
-<div>4: loadExternalModules : (Command)</div>
-</div>
-<div id="menuItem">
-<div>5: copyLogToPrev : (Command)</div>
-</div>
-<div id="menuItem">
-<div>6: printPressedButtons : Off, On</div>
-</div>
-<div id="menuItem">
-<div>7: Show position : (Command)</div>
-</div>
-<div id="menuItem">
-<div>8: Show missionCode : (Command)</div>
-</div>
-<div id="menuItem">
-<div>9: Show game language code : (Command)</div>
-</div>
-<div id="menuItem">
-<div>10: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
-</div>
-<div id="menuItem">
-<div>11: Disable mission intro credits : Off, On</div>
-</div>
-<div id="menuItem">
-</div>
-<div id="menuItem">
-</div>
-</div>
-<br/>
-<div id="menu">
-<div id="menuTitle">
-<div id="appearanceDebugMenu">appearanceDebugMenu</div>
-</div>
-<div id="menuItem">
-<div>1: faceFovaDirect : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>2: faceDecoFovaDirect : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>3: hairFovaDirect : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>4: hairDecoFovaDirect : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE</div>
-</div>
-<div id="menuItem">
-<div>6: playerPartsTypeDirect : 0-100</div>
-</div>
-<div id="menuItem">
-<div>7: playerCamoTypeDirect : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>8: playerFaceIdDirect : 0-687</div>
-</div>
-<div id="menuItem">
-<div>9: playerFaceEquipIdDirect : 0-100</div>
-</div>
-<div id="menuItem">
-<div>10: Print face info : (Command)</div>
-</div>
-<div id="menuItem">
-<div>11: Print appearance info : (Command)</div>
-</div>
-<div id="menuItem">
-<div>12: faceFova : cm_m0_h0_v000_eye0.fv2</div>
-</div>
-<div id="menuItem">
-<div>13: faceDecoFova : cm_w000_m.fv2</div>
-</div>
-<div id="menuItem">
-<div>14: hairFova : cm_m0_h0_v000_eye0.fv2</div>
-</div>
-<div id="menuItem">
-<div>15: hairDecoFova : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>16: faceFovaUnknown1 : 0-50</div>
-</div>
-<div id="menuItem">
-<div>17: faceFovaUnknown2 : 0-1</div>
-</div>
-<div id="menuItem">
-<div>18: faceFovaUnknown3 : 0-4</div>
-</div>
-<div id="menuItem">
-<div>19: faceFovaUnknown4 : 0-4</div>
-</div>
-<div id="menuItem">
-<div>20: faceFovaUnknown5 : 0-1</div>
-</div>
-<div id="menuItem">
-<div>21: faceFovaUnknown6 : 0-3</div>
-</div>
-<div id="menuItem">
-<div>22: faceFovaUnknown7 : 0-303</div>
-</div>
-<div id="menuItem">
-<div>23: faceFovaUnknown8 : 0-303</div>
-</div>
-<div id="menuItem">
-<div>24: faceFovaUnknown9 : 0-303</div>
-</div>
-<div id="menuItem">
-<div>25: faceFovaUnknown10 : 0-3</div>
-</div>
-<div id="menuItem">
-<div>26: <a href="#fovaModMenu">Form Variation menu</a></div>
-</div>
-<div id="menuItem">
-</div>
-<div id="menuItem">
-</div>
 </div>
 <br/>
 <div id="menu">
@@ -1748,13 +1696,13 @@
 <div>1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE</div>
 </div>
 <div id="menuItem">
-<div>2: Suit type : NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER, MGS3, MGS3_NAKED, MGS3_SNEAKING, MGS3_TUXEDO, EVA_CLOSE, EVA_OPEN, BOSS_CLOSE, BOSS_OPEN</div>
+<div>2: Suit type : &ltSuits for player type&gt</div>
 </div>
 <div id="menuItem">
 <div>3: Camo type : &ltCamos for player type&gt</div>
 </div>
 <div id="menuItem">
-<div>4: Headgear : None</div>
+<div>4: Headgear : &ltHeadgear for DD type&gt</div>
 </div>
 <div id="menuItem">
 <div>5: Filter faces : Show all, Unique, Head fova mods</div>
@@ -1836,7 +1784,7 @@
 </div>
 <div id="menuItem">
 <div>5: Phase mod update rate (seconds) : 1-255</div>
-<div id="itemHelp">Rate that the minimum and maxium phase of CPs are modified.</div>
+<div id="itemHelp">Rate that the CPs phase is adjusted to the minimum and maxium settings.</div>
 </div>
 <div id="menuItem">
 <div>6: Phase mod random variation : 0-255</div>
@@ -1916,140 +1864,6 @@
 <div id="menuItem">
 <div>3: debugFlow : Off, On</div>
 <div id="itemHelp">Logs some script execution flow, requires Debug IH mode to be on.</div>
-</div>
-<div id="menuItem">
-<div>4: loadExternalModules : (Command)</div>
-</div>
-<div id="menuItem">
-<div>5: copyLogToPrev : (Command)</div>
-</div>
-<div id="menuItem">
-<div>6: selectedCp : no cp for setting</div>
-</div>
-<div id="menuItem">
-<div>7: setSelectedCpToMarkerObjectCp : (Command)</div>
-</div>
-<div id="menuItem">
-<div>8: printPressedButtons : Off, On</div>
-</div>
-<div id="menuItem">
-<div>9: DEBUG_PrintCpPowerSettings : (Command)</div>
-</div>
-<div id="menuItem">
-<div>10: DEBUG_PrintPowersCount : (Command)</div>
-</div>
-<div id="menuItem">
-<div>11: DEBUG_PrintReinforceVars : (Command)</div>
-</div>
-<div id="menuItem">
-<div>12: DEBUG_PrintSoldierDefine : (Command)</div>
-</div>
-<div id="menuItem">
-<div>13: DEBUG_ShowRevengeConfig : (Command)</div>
-</div>
-<div id="menuItem">
-<div>14: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
-</div>
-<div id="menuItem">
-<div>15: printPressedButtons : Off, On</div>
-</div>
-<div id="menuItem">
-<div>16: printOnBlockChange : Off, On</div>
-</div>
-<div id="menuItem">
-<div>17: Show position : (Command)</div>
-</div>
-<div id="menuItem">
-</div>
-<div id="menuItem">
-</div>
-</div>
-<br/>
-<div id="menu">
-<div id="menuTitle">
-<div id="appearanceDebugMenu">appearanceDebugMenu</div>
-</div>
-<div id="menuItem">
-<div>1: faceFovaDirect : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>2: faceDecoFovaDirect : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>3: hairFovaDirect : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>4: hairDecoFovaDirect : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE</div>
-</div>
-<div id="menuItem">
-<div>6: playerPartsTypeDirect : 0-100</div>
-</div>
-<div id="menuItem">
-<div>7: playerCamoTypeDirect : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>8: playerFaceIdDirect : 0-687</div>
-</div>
-<div id="menuItem">
-<div>9: playerFaceEquipIdDirect : 0-100</div>
-</div>
-<div id="menuItem">
-<div>10: Print face info : (Command)</div>
-</div>
-<div id="menuItem">
-<div>11: Print appearance info : (Command)</div>
-</div>
-<div id="menuItem">
-<div>12: faceFova : cm_m0_h0_v000_eye0.fv2</div>
-</div>
-<div id="menuItem">
-<div>13: faceDecoFova : cm_w000_m.fv2</div>
-</div>
-<div id="menuItem">
-<div>14: hairFova : cm_m0_h0_v000_eye0.fv2</div>
-</div>
-<div id="menuItem">
-<div>15: hairDecoFova : 0-1000</div>
-</div>
-<div id="menuItem">
-<div>16: faceFovaUnknown1 : 0-50</div>
-</div>
-<div id="menuItem">
-<div>17: faceFovaUnknown2 : 0-1</div>
-</div>
-<div id="menuItem">
-<div>18: faceFovaUnknown3 : 0-4</div>
-</div>
-<div id="menuItem">
-<div>19: faceFovaUnknown4 : 0-4</div>
-</div>
-<div id="menuItem">
-<div>20: faceFovaUnknown5 : 0-1</div>
-</div>
-<div id="menuItem">
-<div>21: faceFovaUnknown6 : 0-3</div>
-</div>
-<div id="menuItem">
-<div>22: faceFovaUnknown7 : 0-303</div>
-</div>
-<div id="menuItem">
-<div>23: faceFovaUnknown8 : 0-303</div>
-</div>
-<div id="menuItem">
-<div>24: faceFovaUnknown9 : 0-303</div>
-</div>
-<div id="menuItem">
-<div>25: faceFovaUnknown10 : 0-3</div>
-</div>
-<div id="menuItem">
-<div>26: <a href="#fovaModMenu">Form Variation menu</a></div>
-</div>
-<div id="menuItem">
-</div>
-<div id="menuItem">
 </div>
 </div>
 <br/>

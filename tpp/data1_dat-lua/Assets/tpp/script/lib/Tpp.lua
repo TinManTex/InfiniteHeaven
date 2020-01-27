@@ -30,6 +30,7 @@ local PHASE_ALERT=TppGameObject.PHASE_ALERT
 local NULL_ID=GameObject.NULL_ID
 local bnot=bit.bnot
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
+local InfLog=InfLog--tex
 this.requires={
   "/Assets/tpp/script/lib/TppDefine.lua",
   "/Assets/tpp/script/lib/TppMath.lua",
@@ -89,7 +90,6 @@ this.requires={
   "/Assets/tpp/script/lib/InfMenu.lua",
   "/Assets/tpp/script/lib/InfEneFova.lua",
   "/Assets/tpp/script/lib/InfRevenge.lua",
-  "/Assets/tpp/script/lib/InfUserMarker.lua",
   "/Assets/tpp/script/lib/InfSoldierParams.lua",
   "/Assets/tpp/script/lib/InfFova.lua",
   "/Assets/tpp/script/lib/InfLZ.lua",
@@ -300,16 +300,31 @@ function this.DoMessage(messageExecTable,CheckMessageOption,sender,messageId,arg
   this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText,RENsomebool)
 end
 function this.DoMessageAct(messageIdRecievers,CheckMessageOption,arg0,arg1,arg2,arg3,strLogText)
-  if messageIdRecievers.func then
-    if CheckMessageOption(messageIdRecievers.option)then
-      messageIdRecievers.func(arg0,arg1,arg2,arg3)
+  --tex>
+  if ivars.debugMode>0 and ivars.debugMessages>0 then
+    if messageIdRecievers.func then
+      if CheckMessageOption(messageIdRecievers.option)then
+        InfLog.PCallDebug(messageIdRecievers.func,arg0,arg1,arg2,arg3)
+      end
     end
+    local sender=messageIdRecievers.sender
+    if sender and sender[arg0]then
+      if CheckMessageOption(messageIdRecievers.senderOption[arg0])then
+        InfLog.PCallDebug(sender[arg0],arg0,arg1,arg2,arg3)
+      end
+    end
+  else--<
+    if messageIdRecievers.func then
+      if CheckMessageOption(messageIdRecievers.option)then
+        messageIdRecievers.func(arg0,arg1,arg2,arg3)
+      end
   end
   local sender=messageIdRecievers.sender
   if sender and sender[arg0]then
     if CheckMessageOption(messageIdRecievers.senderOption[arg0])then
       sender[arg0](arg0,arg1,arg2,arg3)
     end
+  end
   end
 end
 function this.GetRotationY(rotQuat)
@@ -547,15 +562,15 @@ end
 function this.IsMarkerLocator(e)
   return IsGameObjectType(e,GAME_OBJECT_TYPE_MARKER2_LOCATOR)
 end
-function this.IsAnimal(e)
-  if e==nil then
+function this.IsAnimal(gameId)
+  if gameId==nil then
     return
   end
-  if e==NULL_ID then
+  if gameId==NULL_ID then
     return
   end
-  local e=GetTypeIndex(e)
-  return TppDefine.ANIMAL_GAMEOBJECT_TYPE[e]
+  local typeIndex=GetTypeIndex(gameId)
+  return TppDefine.ANIMAL_GAMEOBJECT_TYPE[typeIndex]
 end
 function this.IsBossQuiet(e)
   return IsGameObjectType(e,GAME_OBJECT_TYPE_BOSSQUIET2)

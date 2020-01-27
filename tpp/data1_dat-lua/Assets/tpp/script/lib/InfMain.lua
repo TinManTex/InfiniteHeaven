@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="193"
+this.modVersion="194"
 this.modName="Infinite Heaven"
 this.saveName="ih_save.lua"
 
@@ -47,12 +47,23 @@ this.packages={
   },
 }
 
+function this.OnLoadEvars()
+  if Ivars.debugMode:Is()>0 then
+    InfMenu.AddDevMenus()
+  end
+end
+
 --CALLER: init_sequence
 function this.OnCreateOrLoadSaveData()
   InfLog.AddFlow"OnCreateOrLoadSaveData"--tex can't figure out why this isn't working, InfLog is up (obviously, because InfMain is too), but nothing.
   this.debugLog=Time.GetRawElapsedTimeSinceStartUp().."|OnCreateOrLoadSaveData"--DEBUG
 
   IvarProc.OnCreateOrLoadSaveData()
+
+  --
+  if Ivars.debugMode:Is()>0 then
+    this.DebugModeEnable(true)
+  end
 end
 
 --tex from InfHooks hook on TppSave.DoSave
@@ -119,16 +130,16 @@ function this.OnInitializeTop(missionTable)
     if IsTable(enemyTable.soldierDefine) then
       if not this.IsContinue() then
         local numReserveSoldiers=this.reserveSoldierCounts[vars.missionCode] or 0
-        this.reserveSoldierNames=this.GenerateNameList("sol_ih_",numReserveSoldiers)
+        this.reserveSoldierNames=InfLookup.GenerateNameList("sol_ih_%04d",numReserveSoldiers)
         this.soldierPool=this.ResetObjectPool("TppSoldier2",this.reserveSoldierNames)
         this.emptyCpPool=InfMain.BuildEmptyCpPool(enemyTable.soldierDefine)
-        
+
         this.lrrpDefines={}
-        
+
         InfWalkerGear.walkerPool=InfMain.ResetObjectPool("TppCommonWalkerGear2",InfWalkerGear.walkerNames)
         InfWalkerGear.mvar_walkerInfo={}
       end
-      InfLog.PCallDebug(InfNPC.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUGNOW
+      InfLog.PCallDebug(InfNPC.ModMissionTableTop,missionTable,this.emptyCpPool)--DEBUG
 
       InfLog.PCallDebug(InfVehicle.ModifyVehiclePatrol,enemyTable.VEHICLE_SPAWN_LIST,enemyTable.soldierDefine,enemyTable.travelPlans,this.emptyCpPool)
 
@@ -143,7 +154,7 @@ function this.OnInitializeTop(missionTable)
 
       InfLog.PCallDebug(InfNPC.AddWildCards,enemyTable.soldierDefine,enemyTable.soldierSubTypes,enemyTable.soldierPowerSettings,enemyTable.soldierPersonalAbilitySettings)
 
-      InfLog.PCallDebug(InfNPC.ModMissionTableBottom,missionTable,this.emptyCpPool)--DEBUGNOW
+      InfLog.PCallDebug(InfNPC.ModMissionTableBottom,missionTable,this.emptyCpPool)--DEBUG
 
       --tex DEBUG unassign soldiers from vehicle lrrp so you dont have to chase driving vehicles
       local ejectVehiclesSoldiers=false
@@ -729,9 +740,7 @@ function this.Update()
           local active=this.ValueOrIvarValue(module.active)
           if active>0 then
             local updateRate=this.ValueOrIvarValue(module.updateRate)
-            local updateRange=this.ValueOrIvarValue(module.updateRange)
-
-            this.ExecUpdate(currentChecks,this.currentTime,module.execCheckTable,module.execState,updateRate,updateRange,module.Update)
+            this.ExecUpdate(currentChecks,this.currentTime,module.execCheckTable,module.execState,updateRate,module.Update)
           end
         end
       end
@@ -741,9 +750,9 @@ function this.Update()
   end)--DEBUG
 end
 
-function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdateFunc)
+function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRate,ExecUpdateFunc)
   --tex modules may set their own update rate
-  if execState.nextUpdate > currentTime then
+  if execState.nextUpdate>currentTime then
     return
   end
 
@@ -762,7 +771,11 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
     return
   end
 
-  ExecUpdateFunc(currentChecks,currentTime,execChecks,execState)
+  InfLog.PCallDebug(ExecUpdateFunc,currentChecks,currentTime,execChecks,execState)
+
+  if updateRate>0 then
+    execState.nextUpdate=currentTime+updateRate
+  end
 
   --DEBUG
   --if currentChecks.inGame then
@@ -1561,15 +1574,6 @@ this.reserveSoldierCounts={
 
 this.reserveSoldierNames={}
 
-function this.GenerateNameList(prefix,num,list)
-  local list=list or {}
-  for i=0,num-1 do
-    local name=string.format("%s%04d",prefix,i)
-    list[#list+1]=name
-  end
-  return list
-end
-
 function this.ResetObjectPool(objectType,objectNames)
   local pool={}
   for i=1,#objectNames do
@@ -1991,6 +1995,15 @@ function this.DisplayFox32(foxString)
   TppUiCommand.AnnounceLogView("string :"..foxString .. "="..str32)
 end
 
+function this.DebugModeEnable(enable)
+  InfLog.debugMode=enable
+  if enable then
+    InfLog.PCall(InfHooks.SetupDebugHooks,InfHooks.debugPCallHooks,true)
+    --InfLog.Add"InfHooks:"--DEBUG
+    --InfLog.PrintInspect(InfHooks)
+  end
+end
+
 --modules
 function this.LoadExternalModule(moduleName)
   local module=_G[moduleName]
@@ -2010,6 +2023,11 @@ function this.LoadExternalModule(moduleName)
   else
     _G[moduleName]=module
   end
+
+  if module and module.PostModuleReload then
+    InfLog.PCallDebug(module.PostModuleReload)
+  end
+
   return module
 end
 
@@ -2050,16 +2068,18 @@ evars={}--tex GLOBAL
 
 _G.InfMain=this--WORKAROUND allowing external modules access to this before it's actually returned --KLUDGE using _G since I'm already definining InfMain as local
 
-this.LoadExternalModule"InfModules"
-if not InfModules then
-  this.ModuleErrorMessage()
-else
-  InfLog.AddFlow"InfMain.LoadExternalModules"
-  this.LoadExternalModules()
-  if not this.modulesOK then
+if Mock==nil then
+  this.LoadExternalModule"InfModules"
+  if not InfModules then
     this.ModuleErrorMessage()
+  else
+    InfLog.AddFlow"InfMain.LoadExternalModules"
+    this.LoadExternalModules()
+    if not this.modulesOK then
+      this.ModuleErrorMessage()
+    end
+    InfLog.doneStartup=true
   end
-  InfLog.doneStartup=true
 end
 
 return this

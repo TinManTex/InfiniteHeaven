@@ -324,7 +324,8 @@ function this.AutoDoc()
   Ivars.fovaSelection.description="<Character model description>"
   Ivars.fovaSelection.settingNames={"<Fova selection>"}
   Ivars.mbSelectedDemo.settingNames={"<Cutscene ids>"}
-  Ivars.playerPartsType.settings={"<Suits for player type>"}
+  Ivars.playerFaceEquipId.settingNames={"<Headgear for DD type>"}
+  Ivars.playerPartsType.settingNames={"<Suits for player type>"}
   Ivars.playerCamoType.settings={"<Camos for player type>"}
   Ivars.selectProfile.settingNames={"<Profile type>"}
 

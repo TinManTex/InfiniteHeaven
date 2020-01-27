@@ -860,4 +860,14 @@ function this.RevertProfileMenu()
   end
 end
 
+function this.AddDevMenus()
+  InfLog.Add"AddDevMenus"
+  local heliSpaceMenu=InfMenuDefs.heliSpaceMenu.options
+  local inMissionMenu=InfMenuDefs.inMissionMenu.options
+  if heliSpaceMenu[1]~=InfMenuDefs.devInAccMenu then
+    table.insert(heliSpaceMenu,1,InfMenuDefs.devInAccMenu)
+    table.insert(inMissionMenu,1,InfMenuDefs.devInMissionMenu)
+  end
+end
+
 return this

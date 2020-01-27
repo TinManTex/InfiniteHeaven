@@ -173,7 +173,6 @@ function this.SetSetting(self,setting,noSave)
   if self.OnChange then
     --InfLog.Add("SetSetting OnChange for "..self.name)--DEBUG
     InfLog.PCallDebug(self.OnChange,self,prevSetting,setting)
-    -- end
   end
 end
 
@@ -401,9 +400,11 @@ function this.IsForMission(ivarList,setting,missionCode)
     ivarList=Ivars.missionModeIvars[ivarList]
   end
   local passedCheck=false
-  for i=1, #ivarList do
-    local ivar = ivarList[i]
-    if ivar:Is(setting) and ivar:MissionCheck(missionId) then
+  for i=1,#ivarList do
+    local ivar=ivarList[i]
+    if ivar.MissionCheck==nil then
+      InfLog.Add("WARNING: IsForMission on "..ivar.name.." which has no MissionCheck func")
+    elseif ivar:Is(setting) and ivar:MissionCheck(missionId) then
       passedCheck=true
       break
     end
@@ -425,9 +426,11 @@ function this.EnabledForMission(ivarList,missionCode)
   end
 
   local passedCheck=false
-  for i=1, #ivarList do
-    local ivar = ivarList[i]
-    if ivar:Is()>0 and ivar:MissionCheck(missionId) then
+  for i=1,#ivarList do
+    local ivar=ivarList[i]
+    if ivar.MissionCheck==nil then
+      InfLog.Add("WARNING: EnabledFoMission on "..ivar.name.." which has no MissionCheck func")
+    elseif ivar:Is()>0 and ivar:MissionCheck(missionId) then
       passedCheck=true
       break
     end
@@ -437,6 +440,10 @@ end
 
 function this.IvarEnabledForMission(self,missionCode)
   local missionId=missionCode or vars.missionCode
+  if self.MissionCheck==nil then
+    InfLog.Add("WARNING: EnabledFoMission on "..self.name.." which has no MissionCheck func")
+    return false
+  end
   return self:Is()>0 and self:MissionCheck(missionId)
 end
 
@@ -929,9 +936,9 @@ function this.LoadEvars()
       evars[name]=value
     end
   end
-  
-  --tex InfLog is in use before loadevars
-  InfLog.debugMode=evars.debugMode==1
+
+  InfLog.OnLoadEvars()
+  InfMain.OnLoadEvars()
 end
 
 return this

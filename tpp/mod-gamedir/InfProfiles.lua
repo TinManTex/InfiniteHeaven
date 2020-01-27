@@ -8,7 +8,7 @@
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
 
 local profiles={}
--- Defaults/example of all profile options for IH r193
+-- Defaults/example of all profile options for IH r194
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
@@ -169,10 +169,10 @@ profiles.defaults={
 		revengeBlockForMissionCount=3,--{ 0-10 } -- Resupply in #missions
 		applyPowersToOuterBase=0,--{ 0-1 } -- Apply enemy prep to guard posts
 		applyPowersToLrrp=0,--{ 0-1 } -- Apply enemy prep to patrol soldiers
-		allowHeavyArmorFREE=0,--{ 0-1 } -- Allow heavy armor in free roam (has issues)
+		allowHeavyArmorFREE=0,--{ 0-1 } -- Allow heavy armor in free roam (may have issues)
 		allowHeavyArmorMISSION=0,--{ 0-1 } -- Allow heavy armor in all missions (may have issues)
 		disableMissionsWeaponRestriction=0,--{ 0-1 } -- Disable weapon restrictions in certain missions
-		disableNoStealthCombatRevengeMission=0,--{ 0-1 } -- Allow Enemy Prep shift after free roam
+		disableNoStealthCombatRevengeMission=0,--{ 0-1 } -- Allow Enemy Prep change from free roam
 		revengeDecayOnLongMbVisit=0,--{ 0-1 } -- Enemy prep decrease on long MB visit
 		allowHeadGearCombo=0,--{ 0-1 } -- Allow helmet and NVG or Gas mask combo
 		balanceHeadGear=0,--{ 0-1 } -- Ballance heavy armor and head gear distribution
@@ -218,9 +218,25 @@ profiles.defaults={
 		vehiclePatrolTankEnable=1,--{ 0-1 } -- Allow tanks
 		putEquipOnTrucks=0,--{ 0-1 } -- Equipment on trucks
 		--Side ops menu
+		unlockSideOpNumber=0,--{ 0-0 } -- Open specific sideop #
 		unlockSideOps=0,--{ OFF, REPOP, OPEN } -- Unlock Sideops mode
 		sideOpsSelectionMode=0,--{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS } -- Sideop selection mode
-		unlockSideOpNumber=0,--{ 0-157 } -- Open specific sideop #
+		--Sideops category filter menu
+		sideops_STORY=1,--{ 0-1 } -- Story/unique
+		sideops_EXTRACT_INTERPRETER=1,--{ 0-1 } -- Extract interpreter
+		sideops_BLUEPRINT=1,--{ 0-1 } -- Secure blueprint
+		sideops_EXTRACT_HIGHLY_SKILLED=1,--{ 0-1 } -- Extract highly-skilled soldier
+		sideops_PRISONER=1,--{ 0-1 } -- Prisoner extraction
+		sideops_CAPTURE_ANIMAL=1,--{ 0-1 } -- Capture animals
+		sideops_WANDERING_SOLDIER=1,--{ 0-1 } -- Extract wandering Mother Base soldier
+		sideops_DDOG_PRISONER=1,--{ 0-1 } -- Unlucky Dog
+		sideops_ELIMINATE_HEAVY_INFANTRY=1,--{ 0-1 } -- Eliminate heavy infantry
+		sideops_MINE_CLEARING=1,--{ 0-1 } -- Mine clearing
+		sideops_ELIMINATE_ARMOR_VEHICLE=1,--{ 0-1 } -- Eliminate the armored vehicle unit
+		sideops_EXTRACT_GUNSMITH=1,--{ 0-1 } -- Extract the Legendary Gunsmith
+		sideops_ELIMINATE_TANK_UNIT=1,--{ 0-1 } -- Eliminate tank unit
+		sideops_ELIMINATE_PUPPETS=1,--{ 0-1 } -- Eliminate wandering puppets
+		sideops_TARGET_PRACTICE=1,--{ 0-1 } -- Target practice
 		--Mother Base menu
 		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range (MB Prep mode FOB only)
 		mbDDSuit=0,--{ OFF, EQUIPGRADE, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, XOF, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_PFS } -- DD Suit
@@ -277,9 +293,6 @@ profiles.defaults={
 		--Progression menu
 		resourceAmountScale=100,--{ 100-1000 } -- Resource amount scale (percentage)
 		repopulateRadioTapes=0,--{ 0-1 } -- Repopulate music tape radios
-		--Debug menu
-		printPressedButtons=0,--{ 0-1 } -- Non-save -- 
-		telopMode=0,--{ 0-1 } -- Disable mission intro credits
 		--Buddy menu
 		quietRadioMode=0,--{ 0-31 } -- Quiets MB radio track (0=Auto)
 	}
@@ -489,8 +502,8 @@ profiles.revengeHeaven={
     revengeBlockForMissionCount=4,
     applyPowersToLrrp=1,
     applyPowersToOuterBase=1,
-    allowHeavyArmorFREE=0,
-    allowHeavyArmorMISSION=0,
+    allowHeavyArmorFREE=1,
+    allowHeavyArmorMISSION=1,
     allowHeadGearCombo=1,
     allowMissileWeaponsCombo=1,
     balanceHeadGear=0,--tex allow headgearcombo is sufficient

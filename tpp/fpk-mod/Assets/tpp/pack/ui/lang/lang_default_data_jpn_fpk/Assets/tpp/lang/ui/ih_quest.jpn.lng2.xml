@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LangFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Endianess="BigEndian">
+  <Entries>
+  	<Entry LangId="announce_quest_extract_animal" Color="5" Value="Animal Extracted [%d/%d]" />
+    <Entry LangId="name_q30100" Color="5" Value="Sheep in the Keep" />
+    <Entry LangId="info_q30100" Color="5" Value="Logistics had a mishap and let a herd of sheep loose on the Command Platform.&#xA;Fulton them so they can be returned to the Conservation Platform." />
+    <Entry LangId="name_q30101" Color="5" Value="Birds in the Belfry" />
+    <Entry LangId="info_q30101" Color="5" Value="Your staff has been having some issues with birds roosting in the Intel Platform Enclosure.&#xA;See if you can clear them out." /> 
+    <Entry LangId="name_q30102" Color="5" Value="Rats in the Basement" />
+    <Entry LangId="info_q30102" Color="5" Value="The grow-room under the Support Platform is plagued by rodents.&#xA;Find them among the plants." />   
+  </Entries>
+</LangFile>

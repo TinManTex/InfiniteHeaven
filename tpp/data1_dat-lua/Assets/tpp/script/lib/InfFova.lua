@@ -265,7 +265,7 @@ this.playerPartsTypesInfo={
     developId=19024,
     plPartsName={
       SNAKE="plparts_gold",
-    --AVATAR= --gold body and normal avatar head, neat
+      AVATAR="plparts_gold", --gold body and normal avatar head, neat
     --DD_MALE=--invis/hang model sys
     --DD_FEMALE=--invis/hang model sys
     },
@@ -277,7 +277,7 @@ this.playerPartsTypesInfo={
     developId=19023,
     plPartsName={
       SNAKE="plparts_silver",
-    --AVATAR= --gold body and normal avatar head, neat
+      AVATAR="plparts_silver", --gold body and normal avatar head, neat
     --DD_MALE=--invis/hang model sys
     --DD_FEMALE=--invis/hang model sys
     },
@@ -497,7 +497,6 @@ this.plPartsInfo={
 --tex vars.playerCamoType drives some fova applications
 --\chunk0_dat\Assets\tpp\pack\player\fova\plfova_*.fpk*
 --corresponding to PlayerCamoType enum
---TODO where is animals/leopard camo?
 this.playerCamoTypes={
   "OLIVEDRAB",--0
   "SPLITTER",--1
@@ -507,12 +506,12 @@ this.playerCamoTypes={
   "FOXTROT",--5
   "WOODLAND",--6
   "WETWORK",--7
-  "ARBANGRAY",--8 --OFF----blank/hang model sys on SNAKE,DD_MALE,avatar
-  "ARBANBLUE",--9 --OFF
-  "SANDSTORM",--10 --OFF--blank/hang model sys
+  "ARBANGRAY",--8
+  "ARBANBLUE",--9
+  "SANDSTORM",--10
   "REALTREE",--11 --does not set
   "INVISIBLE",--12 --does not set
-  "BLACK",--13 --OFF--blank/hang model sys
+  "BLACK",--13
   "SNEAKING_SUIT_GZ",--14 --avatar
   "SNEAKING_SUIT_TPP",--15
   "BATTLEDRESS",--16
@@ -605,12 +604,13 @@ this.playerCamoTypesCommon={
   "FOXTROT",--5
   "WOODLAND",--6
   "WETWORK",--7
-  "ARBANGRAY",--8 --OFF----blank/hang model sys on SNAKE,DD_MALE,avatar
-  "ARBANBLUE",--9 --OFF
-  "SANDSTORM",--10 --OFF--blank/hang model sys
-  --  "REALTREE",--11 --does not set
-  --  "INVISIBLE",--12 --does not set
-  "BLACK",--13 --OFF--blank/hang model sys
+  "ARBANGRAY",--8
+  "ARBANBLUE",--9
+  "SANDSTORM",--10
+  --"REALTREE",--11 --does not set
+  --"INVISIBLE",--12 --does not set
+  "BLACK",--13
+  "PANTHER",--26
   --
   "C23",--36,WOODLAND FLECK
   "C24",--37,AMBUSH
@@ -797,20 +797,10 @@ this.playerCamoTypesInfo={
   {
     name="REALTREE", --OFF --does not set
     playerCamoType=11,
-  --    playerParts={
-  --      NORMAL=true,
-  --      NORMAL_SCARF=true,
-  --      NAKED=true,
-  --    },
   },
   {
     name="INVISIBLE", --OFF --does not set
     playerCamoType=12,
-  --    playerParts={
-  --      NORMAL=true,
-  --      NORMAL_SCARF=true,
-  --      NAKED=true,
-  --    },
   },
   {
     name="BLACK",
@@ -936,7 +926,7 @@ this.playerCamoTypesInfo={
     },
     playerTypes={
       SNAKE=true,
-    --AVATAR=true,
+      AVATAR=true,
     }
   },
   {
@@ -948,12 +938,20 @@ this.playerCamoTypesInfo={
     },
     playerTypes={
       SNAKE=true,
-    --AVATAR=true,
+      AVATAR=true,
     }
   },
   {
-    name="PANTHER",--shows as last set (SNAKE)
+    name="PANTHER",
+    description="Animals",
     playerCamoType=26,
+    developId=19012,
+    fovaCamoId=14,
+    playerParts={
+      NORMAL=true,
+      NORMAL_SCARF=true,
+      NAKED=true,
+    },
   },
   {
     name="AVATAR_EDIT_MAN",--OFF--just part of upper body that fits the zoomed cam, lel
@@ -1720,6 +1718,7 @@ this.playerCamoTypesInfo={
 --Camo fovas
 --<id> == two digit fova common camo id (see playerCamoTypesInfo .fovaCamoId and plPartsInfo .modelId above)
 --swimsuits have their own ids
+--id can be cribbed from p08 in EquipDevelopConstSetting
 
 --SNAKE/AVATAR NORMAL, NORMAL_SCARF Camo fovas
 --in \chunk0_dat\Assets\tpp\pack\player\fova\plfova_sna0_main1_c<id>.fpk
@@ -1754,7 +1753,6 @@ this.playerCamoTypesInfo={
 --fova files \Assets\tpp\fova\chara\dlf\cmf0_main0_def_v<swimsuit camo id>.fv2
 
 --still ony hashed/undictionaried in emooses dictionary, are in secaproject fork, and bipbops update
-
 
 --tex there doesn't seem to be any enum for this
 this.playerFaceEquipId={
@@ -1843,7 +1841,7 @@ end
 
 function this.GetPlayerPartsTypes(playerPartsTypeSettings,playerType)
   local InfFova=this
-  
+
   local checkDeveloped=Ivars.skipDevelopChecks:Is(0)
 
   local playerPartsTypes={}

@@ -28,6 +28,11 @@ this.execState={
 local updateMin=30
 local updateMax=80
 
+this.enableIvars={
+  Ivars.mbNpcRouteChange,
+  Ivars.mbAdditionalSoldiers,
+}
+
 -- command plat salutation routes
 --TODO: add to routeForPlat,platForRoute if currentcluster is 1/command.
 --
@@ -74,7 +79,7 @@ this.packages={
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
-  if not this.active:EnabledForMission() then
+  if not Ivars.mbAdditionalSoldiers:EnabledForMission() then
     return
   end
 
@@ -84,17 +89,17 @@ function this.AddMissionPacks(missionCode,packPaths)
 end
 
 function this.Init(missionTable)
-  if not Ivars.mbAdditionalSoldiers:EnabledForMission() then
+  if not IvarProc.EnabledForMission(this.enableIvars) then
     return
   end
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
-
+  
   this.InitCluster()
 end
 
 function this.OnReload(missionTable)
-  if not this.active:EnabledForMission() then
+  if not IvarProc.EnabledForMission(this.enableIvars) then
     return
   end
 
@@ -110,7 +115,7 @@ function this.Messages()
   }
 end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
-  if not this.active:EnabledForMission() then
+  if not IvarProc.EnabledForMission(this.enableIvars) then
     return
   end
 
@@ -183,7 +188,7 @@ function this.InitCluster(clusterId)
         local npcName=soldierList[j]
         local gameId=GetGameObjectId(npcName)
         if gameId==NULL_ID then
-          InfLog.Add(npcName.." not found")--DEBUG
+          InfLog.Add("WARNING: InfNPC.InitCluster "..npcName.." not found")--DEBUG
         else
           local newIndex=#npcList+1
           npcList[newIndex]=npcName
@@ -217,7 +222,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
-  if not this.active:MissionCheck() then
+  if not this.active:EnabledForMission() then
     return
   end
 
@@ -231,7 +236,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     --InfLog.DebugPrint"Update #npcList==0 aborting"--DEBUG
     return
   end
-
+  
   local clusterId=GetCurrentCluster()+1
   local grade=GetMbStageClusterGrade(clusterId)
   if grade==1 then
@@ -243,7 +248,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 
   local gameId=GetGameObjectId(npcName)
   if gameId==NULL_ID then
-    InfLog.Add(npcName.." not found")--DEBUG
+    InfLog.Add("WARNING: InfNPC.Update "..npcName.." not found")--DEBUG
     return
   end
 
@@ -276,7 +281,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   --GOTCHA possible inf loop if #route on plat * maxSoldiersOnSameRoute < maxSoldiersPerPlat
   --InfLog.DebugPrint("#platRoutes:"..#platRoutes.." * maxSoldiersOnSameRoute="..(#platRoutes*maxSoldiersOnSameRoute).." maxSoldiersPerPlat:"..maxSoldiersPerPlat)--DEBUG
   if #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat then
-    InfLog.DebugPrint"InfNPC:Update - WARNING #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat, aborting"--DEBUG
+    InfLog.Add("WARNING: InfNPC:Update - #platRoutes*maxSoldiersOnSameRoute < maxSoldiersPerPlat, aborting")--DEBUG
     return
   end
 
@@ -298,7 +303,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   SendCommand(gameId,command)
   local command={id="SwitchRoute",route=route}
   SendCommand(gameId,command)
-
+  
   execState.nextUpdate=currentTime+Random(updateMin,updateMax)
   --end,currentChecks,currentTime,execChecks,execState)--DEBUG
 end
@@ -334,7 +339,7 @@ function this.ModifyEnemyAssetTable()
 
   --tex this is before ModMissionTable so have to set up itself
   local numReserveSoldiers=InfMain.reserveSoldierCounts[vars.missionCode] or 0
-  this.reserveSoldierNames=InfMain.GenerateNameList("sol_ih_",numReserveSoldiers)   
+  this.reserveSoldierNames=InfLookup.GenerateNameList("sol_ih_%04d",numReserveSoldiers)   
   this.soldierPool=InfMain.ResetPool(this.reserveSoldierNames)
 
   local GetMBEnemyAssetTable=TppEnemy.GetMBEnemyAssetTable or mvars.mbSoldier_funcGetAssetTable

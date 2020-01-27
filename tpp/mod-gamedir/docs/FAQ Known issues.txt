@@ -32,9 +32,10 @@ Known issues:
 
 The Announce Log used for the display has a delay on entries, so slow down your button presses when changing the settings.
 
+SideOps:
 If every sideop is greyed out change the Unlock Sideops mode to any setting, this should refresh the list, after the change you can change the setting back to what it was or off if you wish.
 
-Replaying sideop 144, Remains of Man on Fire, will leave your character stuck in the Quarantine helipad and unable to abort the mission and requiring you to restore your save. Avoid completing the mission (extracting body).
+Replaying sideop 144: Remains of Man on Fire, will leave your character stuck in the Quarantine helipad and unable to abort the mission and requiring you to restore your save. Avoid completing the mission (extracting body).
 
 With Walker gears in free roam in Africa a walker gear model will appear hovering in Kiziba Camp next to the delivery pad (it's the 0,0,0 point). This is a bug in the original game (you can confirm by playing Footprints of Phantoms unmodded.)
 
@@ -42,7 +43,8 @@ Same issue as above with Skull sniper.
 
 Enemy Life percentage doesn't seem to affect stun.
 
-When changing General Enemy Parameters back to Default you must exit to title to have the setting save, then restart the game to have it load the default (or other mods) enemy parameters.
+Enable soldier parameter settings:
+When setting this option to Off you must exit to title to have the setting save, then restart the game to have it load the default (or other mods) enemy parameters.
 
 Vehicle reinforcements:
 Currently if the heli leaves the reinforce variable will stay active so you will not have further vehicle reinforcements for the mission.

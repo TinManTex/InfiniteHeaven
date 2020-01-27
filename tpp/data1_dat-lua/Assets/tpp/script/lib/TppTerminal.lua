@@ -950,9 +950,9 @@ function this.Messages()
   return Tpp.StrCode32Table{
     GameObject={
       {msg="Fulton",
-        func=function(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
+        func=function(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,stafforResourceId)
           if not TppMission.IsFOBMission(vars.missionCode)then
-            this.OnFultonMessage(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
+            this.OnFultonMessage(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,stafforResourceId)
           end
         end,
         option={isExecMissionClear=true,isExecDemoPlaying=true}
@@ -1008,9 +1008,9 @@ end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-function this.OnFultonMessage(gameId,gimmickInstance,gimmickDataSet,stafforResourceId)
+function this.OnFultonMessage(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,stafforResourceId)
   mvars.trm_fultonInfo=mvars.trm_fultonInfo or{}
-  mvars.trm_fultonInfo[gameId]={gameId,gimmickInstance,gimmickDataSet,stafforResourceId}
+  mvars.trm_fultonInfo[gameId]={gameId,gimmickInstanceOrAnimalId,gimmickDataSet,stafforResourceId}
 end
 function this.OnFultonInfoMessage(gameId,playerIndex,arg3)
   mvars.trm_fultonInfo=mvars.trm_fultonInfo or{}
@@ -1151,44 +1151,44 @@ function this.SetUpBuddyMBDVCMenu()
     end
   end
 end
-function this.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex,RENAMEmysteryPatchvar,OnFultonSoldier,OnFultonVolgin,OnFultonHostage,OnFultonVehicle,OnFultonContainer,OnFultonGimmickCommon,OnFultonBuddy,OnFultonEnemyWalkerGear,OnFultonAnimal,OnFultonBossQuiet,OnFultonParasiteSquad)
+function this.DoFuncByFultonTypeSwitch(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,recoveredByHeli,playerIndex,RENAMEmysteryPatchvar,OnFultonSoldier,OnFultonVolgin,OnFultonHostage,OnFultonVehicle,OnFultonContainer,OnFultonGimmickCommon,OnFultonBuddy,OnFultonEnemyWalkerGear,OnFultonAnimal,OnFultonBossQuiet,OnFultonParasiteSquad)
   if Tpp.IsSoldier(gameId)then
-    return OnFultonSoldier(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex)
+    return OnFultonSoldier(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,recoveredByHeli,playerIndex)
   elseif Tpp.IsVolgin(gameId)then
     return OnFultonVolgin(gameId)
   elseif Tpp.IsHostage(gameId)then
-    return OnFultonHostage(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex)
+    return OnFultonHostage(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,recoveredByHeli,playerIndex)
   elseif Tpp.IsVehicle(gameId)then
-    return OnFultonVehicle(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+    return OnFultonVehicle(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,playerIndex)
   elseif Tpp.IsFultonContainer(gameId)then
-    return OnFultonContainer(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex,RENAMEmysteryPatchvar)
+    return OnFultonContainer(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,playerIndex,RENAMEmysteryPatchvar)
   elseif Tpp.IsFultonableGimmick(gameId)then
-    return OnFultonGimmickCommon(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+    return OnFultonGimmickCommon(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,playerIndex)
   elseif Tpp.IsEnemyWalkerGear(gameId)then
-    return OnFultonEnemyWalkerGear(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+    return OnFultonEnemyWalkerGear(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,playerIndex)
   elseif Tpp.IsAnimal(gameId)then
-    return OnFultonAnimal(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+    return OnFultonAnimal(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,playerIndex)
   elseif Tpp.IsBossQuiet(gameId)then
-    return OnFultonBossQuiet(gameId,RENAMEanimalId,n,staffOrResourceId,recoveredByHeli,playerIndex)
+    return OnFultonBossQuiet(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,recoveredByHeli,playerIndex)
   elseif Tpp.IsParasiteSquad(gameId)then
-    return OnFultonParasiteSquad(gameId,RENAMEanimalId,n,staffOrResourceId,nil,playerIndex)
+    return OnFultonParasiteSquad(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,playerIndex)
   else
     local buddyType=Tpp.GetBuddyTypeFromGameObjectId(gameId)
     if buddyType then
-      return OnFultonBuddy(gameId,RENAMEanimalId,n,staffOrResourceId,buddyType,playerIndex)
+      return OnFultonBuddy(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,buddyType,playerIndex)
     end
   end
 end
-function this.OnFulton(gameId,a,o,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex,i)
+function this.OnFulton(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex,unk3)
   if RENpossiblyNotHelicopter then
     mvars.trm_needHeliSoundOnAddStaffsFromTempBuffer=true
   end
   TppEnemy.SetRecovered(gameId)
-  TppEnemy.ExecuteOnRecoveredCallback(gameId,a,o,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex)
+  TppEnemy.ExecuteOnRecoveredCallback(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,RENsomeBool,RENpossiblyNotHelicopter,playerIndex)
   if Tpp.IsLocalPlayer(playerIndex)then
-    TppEnemy._OnFulton(gameId,a,o,staffOrResourceId)
+    TppEnemy._OnFulton(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId)
   end
-  this.DoFuncByFultonTypeSwitch(gameId,a,o,staffOrResourceId,RENsomeBool,playerIndex,i,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
+  this.DoFuncByFultonTypeSwitch(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,RENsomeBool,playerIndex,unk3,this.OnFultonSoldier,this.OnFultonVolgin,this.OnFultonHostage,this.OnFultonVehicle,this.OnFultonContainer,this.OnFultonGimmickCommon,this.OnFultonBuddy,this.OnFultonEnemyWalkerGear,this.OnFultonAnimal,this.OnFultonBossQuiet,this.OnFultonParasiteSquad)
 end
 function this.IncrementFultonCount()
   svars.trm_missionFultonCount=svars.trm_missionFultonCount+1
@@ -1365,33 +1365,33 @@ function this.OnFultonAnimal(gameId,animalId)
   if mvars.trm_isSkipAddResourceToTempBuffer then
     return
   end
-  local databastId=TppAnimal.GetDataBaseIdFromAnimalId(animalId)
-  if this.IsAnimalDog(databastId)then
+  local databaseId=TppAnimal.GetDataBaseIdFromAnimalId(animalId)
+  if this.IsAnimalDog(databaseId)then
     this.AddAnimalRecoverHistory(MBMConst.ANIMAL_TYPE_DOG)
-  elseif this.IsAnimalHorse(databastId)then
+  elseif this.IsAnimalHorse(databaseId)then
     this.AddAnimalRecoverHistory(MBMConst.ANIMAL_TYPE_HORSE)
-  elseif this.IsAnimalBear(databastId)then
+  elseif this.IsAnimalBear(databaseId)then
     this.AddAnimalRecoverHistory(MBMConst.ANIMAL_TYPE_BEAR)
-  elseif this.IsAnimalGoat(databastId)then
+  elseif this.IsAnimalGoat(databaseId)then
     this.AddAnimalRecoverHistory(MBMConst.ANIMAL_TYPE_GOAT)
   else
-    local t=0
-    this.AddAnimalRecoverHistory(t)
+    local animalType=0
+    this.AddAnimalRecoverHistory(animalType)
   end
-  local a=TppMotherBaseManagement.DataBaseIdToAnimalGroup{dataBaseId=databastId}
+  local a=TppMotherBaseManagement.DataBaseIdToAnimalGroup{dataBaseId=databaseId}
   if(a==MBMConst.ANIMAL_GROUP_1900)or(a==MBMConst.ANIMAL_GROUP_1920)then
     gvars.trm_recoveredAfghGoatCount=gvars.trm_recoveredAfghGoatCount+1
   elseif(a==MBMConst.ANIMAL_GROUP_1940)or(a==MBMConst.ANIMAL_GROUP_1960)then
     gvars.trm_recoveredMafrGoatCount=gvars.trm_recoveredMafrGoatCount+1
-  elseif(databastId==MBMConst.ANIMAL_200)then
+  elseif(databaseId==MBMConst.ANIMAL_200)then
     gvars.trm_recoveredDonkeyCount=gvars.trm_recoveredDonkeyCount+1
-  elseif(databastId==MBMConst.ANIMAL_210)then
+  elseif(databaseId==MBMConst.ANIMAL_210)then
     gvars.trm_recoveredZebraCount=gvars.trm_recoveredZebraCount+1
-  elseif(databastId==MBMConst.ANIMAL_220)then
+  elseif(databaseId==MBMConst.ANIMAL_220)then
     gvars.trm_recoveredOkapiCount=gvars.trm_recoveredOkapiCount+1
   end
   PlayRecord.RegistPlayRecord"ANIMAL_RESCUE"
-  this.AddTempDataBaseAnimal(databastId,tostring(mvars.animalBlockAreaName))
+  this.AddTempDataBaseAnimal(databaseId,tostring(mvars.animalBlockAreaName))
 end
 function this.GetRecoveredAfghGoatCount()
   return gvars.trm_recoveredAfghGoatCount
@@ -1420,25 +1420,25 @@ end
 function this.IsRecoveredCompleatedBear()
   return TppMotherBaseManagement.IsGotDataBase{dataBaseId=MBMConst.ANIMAL_600}and TppMotherBaseManagement.IsGotDataBase{dataBaseId=MBMConst.ANIMAL_610}
 end
-function this.GetAnimalTypeCountFromRecoveredHistory(n)
-  local e=0
-  for t=0,(TppDefine.MAX_ANIMAL_RECOVERED_HISTORY_SIZE-1)do
-    if gvars.trm_animalRecoverHistory[t]==n then
-      e=e+1
+function this.GetAnimalTypeCountFromRecoveredHistory(animalType)
+  local numRecovered=0
+  for i=0,(TppDefine.MAX_ANIMAL_RECOVERED_HISTORY_SIZE-1)do
+    if gvars.trm_animalRecoverHistory[i]==animalType then
+      numRecovered=numRecovered+1
     end
   end
-  return e
+  return numRecovered
 end
-function this.AddAnimalRecoverHistory(t)
-  local e=gvars.trm_animalRecoverHistorySize
-  if e<TppDefine.MAX_ANIMAL_RECOVERED_HISTORY_SIZE then
-    gvars.trm_animalRecoverHistory[e]=t
-    gvars.trm_animalRecoverHistorySize=e+1
+function this.AddAnimalRecoverHistory(animalType)
+  local entryCount=gvars.trm_animalRecoverHistorySize
+  if entryCount<TppDefine.MAX_ANIMAL_RECOVERED_HISTORY_SIZE then
+    gvars.trm_animalRecoverHistory[entryCount]=animalType
+    gvars.trm_animalRecoverHistorySize=entryCount+1
   else
-    for e=1,(TppDefine.MAX_ANIMAL_RECOVERED_HISTORY_SIZE-1)do
-      gvars.trm_animalRecoverHistory[e-1]=gvars.trm_animalRecoverHistory[e]
+    for i=1,(TppDefine.MAX_ANIMAL_RECOVERED_HISTORY_SIZE-1)do
+      gvars.trm_animalRecoverHistory[i-1]=gvars.trm_animalRecoverHistory[i]
     end
-    gvars.trm_animalRecoverHistory[TppDefine.MAX_ANIMAL_RECOVERED_HISTORY_SIZE-1]=t
+    gvars.trm_animalRecoverHistory[TppDefine.MAX_ANIMAL_RECOVERED_HISTORY_SIZE-1]=animalType
     gvars.trm_animalRecoverHistorySize=TppDefine.MAX_ANIMAL_RECOVERED_HISTORY_SIZE
   end
 end

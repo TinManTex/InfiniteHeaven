@@ -342,7 +342,7 @@ function this.GenerateWarGameEvent()
 
     if wargameBaseType=="INVASION" then
       ivars.mbWarGamesProfile=Ivars.mbWarGamesProfile.enum.INVASION--KLUDGE just setting without saving or triggering other profile sub ivars
-      Ivars.mbEnablePuppy:Set(0,true)
+      Ivars.mbEnablePuppy:Set(0,true)--tex TODO should be handled by infpuppy
     end
 
     IvarProc.ApplyProfile(warGamesBase[wargameBaseType],true)
@@ -358,6 +358,10 @@ end
 function this.ForceEvent()
   InfMenu.PrintLangId"event_forced"
   this.forceEvent=true
+end
+
+function this.IsMbEvent()
+  return Ivars.mbWarGamesProfile:Is()>0 or Ivars.inf_event:Is"WARGAME"
 end
 
 return this

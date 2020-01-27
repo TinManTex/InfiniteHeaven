@@ -396,7 +396,7 @@ function this.MafrRiverPrimSetting()
   if not TppEffectUtility.UpdatePrimRiver then
     return
   end
-  --Mission 13 - Pitch Dark 
+  --Mission 13 - Pitch Dark
   if vars.missionCode==10080 or vars.missionCode==11080 then
     this.SetMafrRiverPrimVisibility(false)
   else
@@ -821,9 +821,9 @@ function this.OnActivateQuest(questTable)
     mvars.gim_isQuestSetup=true
   end
 end
-function this.OnDeactivateQuest(n)
+function this.OnDeactivateQuest(questTable)
   if mvars.gim_isQuestSetup==true then
-    local clearType=this.CheckQuestAllTarget(n.questType,nil,true)
+    local clearType=this.CheckQuestAllTarget(questTable.questType,nil,true)
     TppQuest.ClearWithSave(clearType)
     this.SetQuestInvisibleGimmick(0,true,true)
   end
@@ -833,19 +833,20 @@ function this.OnTerminateQuest(questTable)
     this.InitQuest()
   end
 end
-function this.CheckQuestAllTarget(questType,a,l)
+--NMC: gimmickIdentifier = gameId, or collectionUniqueId or
+function this.CheckQuestAllTarget(questType,gimmickIdentifier,targetPracticeTimeOut)
   local clearType=TppDefine.QUEST_CLEAR_TYPE.NONE
-  local r=l or false
-  local l=false
+  local targetPracticeTimeOut=targetPracticeTimeOut or false
+  local isPracticeTarget=false
   local currentQuestName=TppQuest.GetCurrentQuestName()
   if TppQuest.IsEnd(currentQuestName)then
     return clearType
   end
-  if r==false then
+  if targetPracticeTimeOut==false then
     if questType==TppDefine.QUEST_TYPE.DEVELOP_RECOVERED then
       for n,e in pairs(mvars.gim_questTargetList)do
         if e.idType=="Develop"then
-          if a==TppCollection.GetUniqueIdByLocatorName(e.developId)then
+          if gimmickIdentifier==TppCollection.GetUniqueIdByLocatorName(e.developId)then
             e.messageId="Recovered"
           end
         end
@@ -853,21 +854,21 @@ function this.CheckQuestAllTarget(questType,a,l)
     elseif questType==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
       for n,e in pairs(mvars.gim_questTargetList)do
         local locatorStrCode32=StrCode32(e.locatorName)
-        if a==locatorStrCode32 then
+        if gimmickIdentifier==locatorStrCode32 then
           e.messageId="Break"
-          l=true
+          isPracticeTarget=true
           mvars.gim_questMarkCount=mvars.gim_questMarkCount+1
           break
         end
       end
     elseif questType==TppDefine.QUEST_TYPE.GIMMICK_RECOVERED then
-      if Tpp.IsFultonContainer(a)then
+      if Tpp.IsFultonContainer(gimmickIdentifier)then
         for i,n in pairs(mvars.gim_questTargetList)do
           if n.idType=="Gimmick"then
             local i,e=this.GetGameObjectId(n.gimmickId)
             if e==NULL_ID then
             else
-              if a==e then
+              if gimmickIdentifier==e then
                 n.messageId="Recovered"
               end
             end
@@ -891,8 +892,8 @@ function this.CheckQuestAllTarget(questType,a,l)
       end
     end
   elseif questType==TppDefine.QUEST_TYPE.SHOOTING_PRACTIVE then
-    if l==true then
-      local n={}
+    if isPracticeTarget==true then
+      --ORPHAN local unk1={}
       local n=true
       for i,e in pairs(mvars.gim_questTargetList)do
         if e.setIndex==mvars.gim_questMarkSetIndex then
@@ -913,7 +914,7 @@ function this.CheckQuestAllTarget(questType,a,l)
         clearType=TppDefine.QUEST_CLEAR_TYPE.UPDATE
       end
     else
-      if r==true then
+      if targetPracticeTimeOut==true then
         if mvars.gim_isquestMarkStart==true then
           clearType=TppDefine.QUEST_CLEAR_TYPE.SHOOTING_RETRY
         end

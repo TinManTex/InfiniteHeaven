@@ -46,6 +46,10 @@ local this={
       featureDescription="Reload lua scripts in MGSV_TPP without exiting game.",
       featureHelp="Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)"
     },
+    {
+      featureDescription="New sideops for Mother Base.",
+      featureHelp="Adds 3 new animal capture sideops for Mother Base."
+    },
   },
   {
     title="Menu, Options and Settings",

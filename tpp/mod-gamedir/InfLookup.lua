@@ -120,21 +120,48 @@ function this.TppGameObjectTypeIndexToName(typeIndex)
   return this.gameObjectTypeToString[typeIndex]
 end
 
-function this.GenerateNameList(prefix,num,list)
+function this.GenerateNameList(fmt,num,list)
   local list=list or {}
   for i=0,num-1 do
-    local name=string.format("%s%04d",prefix,i)
+    local name=string.format(fmt,i)
     table.insert(list,name)
   end
   return list
 end
 
 --TABLESETUP
-this.jeepNames=this.GenerateNameList("veh_lv_",20)
-this.truckNames=this.GenerateNameList("veh_trc_",10)
+this.jeepNames=this.GenerateNameList("veh_lv_%04d",20)
+this.truckNames=this.GenerateNameList("veh_trc_%04d",10)
+this.questAnimalNames=this.GenerateNameList("anml_quest_%02d",10)
+
+--tex from TppAnimalBlock animalsTable
+--REF
+--  Goat={type="TppGoat",locatorFormat="anml_goat_%02d",routeFormat="rt_anml_goat_%02d",nightRouteFormat="rt_anml_goat_n%02d",isHerd=true,isDead=false},
+--  Wolf={type="TppWolf",locatorFormat="anml_wolf_%02d",routeFormat="rt_anml_wolf_%02d",nightRouteFormat="rt_anml_wolf_n%02d",isHerd=true,isDead=false},
+--  Nubian={type="TppNubian",locatorFormat="anml_nubian_%02d",routeFormat="rt_anml_nubian_%02d",nightRouteFormat="rt_anml_nubian_n%02d",isHerd=true,isDead=false},
+--  Jackal={type="TppJackal",locatorFormat="anml_jackal_%02d",routeFormat="rt_anml_jackal_%02d",nightRouteFormat="rt_anml_jackal_n%02d",isHerd=true,isDead=false},
+--  Zebra={type="TppZebra",locatorFormat="anml_Zebra_%02d",routeFormat="rt_anml_Zebra_%02d",nightRouteFormat="rt_anml_Zebra_n%02d",isHerd=true,isDead=false},
+--  Bear={type="TppBear",locatorFormat="anml_bear_%02d",routeFormat="rt_anml_bear_%02d",nightRouteFormat="rt_anml_bear_n%02d",isHerd=false,isDead=false},
+--  BuddyPuppy={type="TppBuddyPuppy",locatorFormat="anml_BuddyPuppy_%02d",routeFormat="rt_anml_BuddyPuppy_%02d",nightRouteFormat="rt_anml_BuddyPuppy_%02d",isHerd=false,isDead=false},
+--  MotherDog={type="TppJackal",locatorFormat="anml_MotherDog_%02d",routeFormat="rt_anml_BuddyPuppy_%02d",nightRouteFormat="rt_anml_BuddyPuppy_%02d",isHerd=false,isDead=true},
+--  Rat={type="TppRat",locatorFormat="anml_rat_%02d",routeFormat="rt_anml_rat_%02d",nightRouteFormat="rt_anml_rat_%02d",isHerd=false,isDead=false},
+--  NoAnimal={type="NoAnimal",locatorFormat="anml_NoAnimal_%02d",routeFormat="rt_anml_BuddyPuppy_%02d",nightRouteFormat="rt_anml_BuddyPuppy_%02d",isHerd=false,isDead=false}
+local animalLocatorPrefixes={
+  "anml_goat_%02d",
+  "anml_wolf_%02d",
+  "anml_nubian_%02d",
+  "anml_jackal_%02d",
+  "anml_Zebra_%02d",
+  "anml_bear_%02d",
+  "anml_BuddyPuppy_%02d",
+  "anml_MotherDog_%02d",
+  "anml_rat_%02d",
+  "anml_NoAnimal_%02d",
+}
+
 
 function this.GetObjectList()
-  return InfMain.reserveSoldierNames
+  --return InfMain.reserveSoldierNames
     --        local travelPlan="travelArea2_01"
     --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
     --return InfNPC.ene_wildCardInfo
@@ -146,6 +173,7 @@ function this.GetObjectList()
     --return InfInterrogation.interCpQuestSoldiers
     --return InfWalkerGear.walkerNames
     --return InfNPCHeli.heliList
+    return TppEnemy.armorSoldiers
 end
 
 function this.GetObjectInfoOrPos(index)
@@ -221,6 +249,7 @@ function this.ObjectNameForGameId(findId)
     InfWalkerGear.walkerNames,
     this.jeepNames,
     this.truckNames,
+    this.questAnimalNames,
   }
   for i,list in ipairs(objectNameLists)do
     local objectName
@@ -301,13 +330,14 @@ function this.DumpStrCodeTables()
 end
 --< lookup tables
 
+--debugMessages
 function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
   --InfLog.PCall(function(sender,messageId,arg0,arg1,arg2,arg3)--DEBUG
     local lookupFuncs={
-      this.StrCode32ToString,
-      this.ObjectNameForGameId,
-      this.TppGameObjectTypeIndexToName,
-      this.TppDamageEnumToName,
+      {this.StrCode32ToString,"str32"},
+      {this.ObjectNameForGameId,"gameId"},
+      {this.TppGameObjectTypeIndexToName,"typeIndex"},
+      {this.TppDamageEnumToName,"TppDamage"},
     }
 
   --tex TODO: messageprofile
@@ -320,24 +350,22 @@ function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
   local argsString=""
   local args={arg0,arg1,arg2,arg3}
   for i,arg in ipairs(args)do
-    local argPreStr="arg"..(i-1)..": "
+    local argPreStr="arg"..(i-1).."="
     local argValue=""
     if arg~=nil then
       hasArgs=true
 
       if type(arg)=="number" then
         local lookupReturns={}--tex possible number/id collisions, so return all
+        lookupReturns[#lookupReturns+1]=arg
         --tex GOTCHA too many collisions on low numbers, pretty arbitrary cut-off point though.
         if arg>10 then
           for i,Lookup in ipairs(lookupFuncs) do
-            local lookupReturn=Lookup(arg)
+            local lookupReturn=Lookup[1](arg)
             if lookupReturn then
-              lookupReturns[#lookupReturns+1]=lookupReturn
+              lookupReturns[#lookupReturns+1]=Lookup[2]..":"..lookupReturn
             end
           end
-        end
-        if #lookupReturns==0 then
-          lookupReturns[#lookupReturns+1]=arg
         end
         local addSeperator=#lookupReturns>1
         for i,lookupReturn in ipairs(lookupReturns) do
@@ -345,9 +373,6 @@ function this.PrintOnMessage(sender,messageId,arg0,arg1,arg2,arg3)
             argValue=argValue.."||"
           end
           argValue=argValue..lookupReturn
-        end
-        if #lookupReturns>1 then
-          argValue=arg..":"..argValue
         end
       end
 

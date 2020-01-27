@@ -9,6 +9,7 @@ local CallFadeIn=FadeFunction.CallFadeIn
 local CallFadeOut=FadeFunction.CallFadeOut
 local subGoal0=0
 this.FADE_SPEED={FADE_MOMENT=0,FADE_HIGHESTSPEED=.5,FADE_HIGHSPEED=1,FADE_NORMALSPEED=2,FADE_LOWSPEED=4,FADE_LOWESTSPEED=8}
+--NMC tex this extra layer of indiraction is annoying
 this.ANNOUNCE_LOG_TYPE={
   updateMissionInfo="announce_mission_info_update",
   updateMissionInfo_AddDocument="announce_doc_add",
@@ -174,6 +175,7 @@ this.ANNOUNCE_LOG_TYPE={
   get_hero="announce_get_hero",
   lost_hero="announce_lost_hero",
   challenge_task="announce_challenge_task_d90",--RETAILPATCH 1090
+  announce_quest_extract_animal="announce_quest_extract_animal",--tex
 }
 this.ANNOUNCE_LOG_PRIORITY={"eliminateTarget","recoveredFilmCase","recoverTarget","destroyTarget","achieveAllObjectives","achieveObjectiveCount","getIntel","updateMissionInfo","updateMissionInfo_AddDocument","updateMap"}
 this.BUDDY_LANG_ID={[BuddyType.HORSE]="name_buddy_dh",[BuddyType.DOG]="name_buddy_dd",[BuddyType.QUIET]="marker_chara_quiet"}

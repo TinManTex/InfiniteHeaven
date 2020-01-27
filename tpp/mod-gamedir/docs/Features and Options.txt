@@ -40,6 +40,9 @@ Editable lists of options, see InfProfiles.lua in mod folder.
 Reload lua scripts in MGSV_TPP without exiting game.
 Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)
 
+New sideops for Mother Base.
+Adds 3 new animal capture sideops for Mother Base.
+
 Menu, Options and Settings
 ==========================
 
@@ -69,7 +72,9 @@ ACC Main menu
 IH system menu
 --------------
 1: Select profile : <Profile type>
+Selects a profile described in InfProfiles.lua. Press the &ltAction&gt button to apply the settings of the selected profile.
 2: Set profile options to game defaults : (Command)
+Sets the options described in the selected profile to their default setting.
 3: Enable Quick Menu : Off, On
 Shortcut key combinations to activate IH features. See Infinite Heaven readme or InfQuickMenuDefs.lua in mod folder.
 4: Start offline : Off, On
@@ -81,10 +86,10 @@ Stops the konami/kjp/fox/nvidia logos from showing.
 Events menu
 -----------
 1: Trigger random IH event : (Command)
-  Events are temporary custom profiles for free roam and mother base. 
+  Events are temporary combinations of IH settings for free roam and mother base. 
   Free roam events (can stack): 
   Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
-  Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. 
+  Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
   Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. 
   MB events (only one active): 
   DD Training wargame, 
@@ -98,7 +103,7 @@ Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger rand
 3: MB event random trigger chance : 0-100%
 Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')
 4: Enable Skull attacks in Free roam : Off, On
-Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.
+Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.
 5: Allow armor skulls : Off, On
 6: Allow mist skulls : Off, On
 7: Allow sniper skulls : Off, On
@@ -118,8 +123,9 @@ Stops support heli from engaging targets.
 6: Disable retry on mission fail : Off, On
 7: Game over on combat alert : Off, On
 8: Disable Intel team enemy spotting : Off, On
+Stops the Intel teams enemy spotting audio notification and indication on the idroid map.
 9: Disable Intel team herb spotting (requires game restart) : Off, On
-Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.
+Stops the Intel teams plant spotting audio notification and indication on the idroid map. Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.
 10: Keep equipment Free<>Mission : Off, On
 Prevents equipment and weapons being reset when going between free-roam and missions.
 11: Marking display menu
@@ -161,10 +167,10 @@ Disable mission support-menus menu
 
 Hand abilities levels menu
 --------------------------
-1: Sonar level : Default, Disable, Grade 2, Grade 3, Grade 4
-2: Mobility level : Default, Disable, Grade 2, Grade 3, Grade 4
-3: Precision level : Default, Disable, Grade 2, Grade 3, Grade 4
-4: Medical level : Default, Disable, Grade 2, Grade 3, Grade 4
+1: Sonar level : Don't override, Disable, Grade 2, Grade 3, Grade 4
+2: Mobility level : Don't override, Disable, Grade 2, Grade 3, Grade 4
+3: Precision level : Don't override, Disable, Grade 2, Grade 3, Grade 4
+4: Medical level : Don't override, Disable, Grade 2, Grade 3, Grade 4
 
 Fulton levels menu
 ------------------
@@ -207,9 +213,9 @@ Adds 999999 points to demon score
 Appearance menu
 ---------------
 1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE
-2: Suit type : NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER, MGS3, MGS3_NAKED, MGS3_SNEAKING, MGS3_TUXEDO, EVA_CLOSE, EVA_OPEN, BOSS_CLOSE, BOSS_OPEN
+2: Suit type : <Suits for player type>
 3: Camo type : <Camos for player type>
-4: Headgear : None
+4: Headgear : <Headgear for DD type>
 5: Filter faces : Show all, Unique, Head fova mods
 6: Face : faceId:0
 7: Print face info : (Command)
@@ -230,7 +236,7 @@ Turn this on to enable the following enemy param options, turn this off if you h
 2: Soldier life scale : 0-900%
 0% will kill off all enemies
 3: Soldier sight scale : 0-400%
-A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in iDroid Log&gtAll tab)' to see exact values.
+A rough scale over all the soldier sight distances, except for night sight distance, use the command 'Print sight param table (look in iDroid Log&gtAll tab)' to see exact values.
 4: Soldier night sight scale : 0-400%
 5: Soldier hearing distance scale : 0-400%
 6: Soldier item drop chance : 0-100%
@@ -249,7 +255,7 @@ PHASE_SNEAK - not alert, PHASE_CAUTION - alert, PHASE_EVASION - one step down fr
 3: Maximum phase : PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT
 4: Don't downgrade phase : Off, On
 5: Phase mod update rate (seconds) : 1-255
-Rate that the minimum and maxium phase of CPs are modified.
+Rate that the CPs phase is adjusted to the minimum and maxium settings.
 6: Phase mod random variation : 0-255
 Random variation of update rate
 7: Alert phase on vehicle attack : PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT
@@ -274,7 +280,7 @@ Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo ty
 9: Random CP subtype in missions : Off, On
 Randomizes the CP subtype - PF types in middle Affrica, urban vs general camo types in Afghanistan
 10: IH interrogation in free roam : Off, On
-Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)
+Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier, Location of walker gear. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)
 
 Custom prep menu
 - Lets you set the individual values that go into an enemy prep configuration (does not use the enemy prep levels), a random value between MIN and MAX for each setting is chosen on mission start. The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
@@ -377,11 +383,11 @@ Prep system menu
 The number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
 2: Apply enemy prep to guard posts : Off, On
 3: Apply enemy prep to patrol soldiers : Off, On
-4: Allow heavy armor in free roam (has issues) : Off, On
+4: Allow heavy armor in free roam (may have issues) : Off, On
 5: Allow heavy armor in all missions (may have issues) : Off, On
 6: Disable weapon restrictions in certain missions : Off, On
 Missions 2, 12, 13, 16, 26, 31 normally prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).
-7: Allow Enemy Prep shift after free roam : Off, On
+7: Allow Enemy Prep change from free roam : Off, On
 By default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort)
 8: Enemy prep decrease on long MB visit : Off, On
 Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat 
@@ -458,12 +464,32 @@ Puts a random piece of equipment on the back of patrol trucks.
 
 Side ops menu
 -------------
-1: Unlock Sideops mode : Off, Force Replayable, Force Open
-Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression. Due to how the code is designed this also enables the equivalent of random sideops selection.
-2: Sideop selection mode : Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets
-Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category
-3: Open specific sideop # : 0-157
-4: Force enable enemy heli reinforce (disable heli sideops) : Off, On
+1: Open specific sideop # : 0-0
+2: Unlock Sideops mode : Off, Force Replayable, Force Open
+Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression.
+3: Sideop selection mode : Default (first found), Random, Story/unique, Extract interpreter, Secure blueprint, Extract highly-skilled soldier, Prisoner extraction, Capture animals, Extract wandering Mother Base soldier, Unlucky Dog, Eliminate heavy infantry, Mine clearing, Eliminate armored vehicle unit, Extract legendary gunsmith, Eliminate tank unit, Eliminate wandering puppets
+Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu.
+4: Sideops category filter menu
+5: Force enable enemy heli reinforce (disable heli sideops) : Off, On
+
+Sideops category filter menu
+- Filters selection of sideops per category, Sideop selection mode will override this.
+----------------------------
+1: Story/unique : Off, On
+2: Extract interpreter : Off, On
+3: Secure blueprint : Off, On
+4: Extract highly-skilled soldier : Off, On
+5: Prisoner extraction : Off, On
+6: Capture animals : Off, On
+7: Extract wandering Mother Base soldier : Off, On
+8: Unlucky Dog : Off, On
+9: Eliminate heavy infantry : Off, On
+10: Mine clearing : Off, On
+11: Eliminate the armored vehicle unit : Off, On
+12: Extract the Legendary Gunsmith : Off, On
+13: Eliminate tank unit : Off, On
+14: Eliminate wandering puppets : Off, On
+15: Target practice : Off, On
 
 Mother Base menu
 ----------------
@@ -609,43 +635,6 @@ Switches on logging messages to ih_log.txt (at the cost of longer load times) an
 Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
-4: loadExternalModules : (Command)
-5: copyLogToPrev : (Command)
-6: printPressedButtons : Off, On
-7: Show position : (Command)
-8: Show missionCode : (Command)
-9: Show game language code : (Command)
-10: appearanceDebugMenu
-11: Disable mission intro credits : Off, On
-
-appearanceDebugMenu
--------------------
-1: faceFovaDirect : 0-1000
-2: faceDecoFovaDirect : 0-1000
-3: hairFovaDirect : 0-1000
-4: hairDecoFovaDirect : 0-1000
-5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE
-6: playerPartsTypeDirect : 0-100
-7: playerCamoTypeDirect : 0-1000
-8: playerFaceIdDirect : 0-687
-9: playerFaceEquipIdDirect : 0-100
-10: Print face info : (Command)
-11: Print appearance info : (Command)
-12: faceFova : cm_m0_h0_v000_eye0.fv2
-13: faceDecoFova : cm_w000_m.fv2
-14: hairFova : cm_m0_h0_v000_eye0.fv2
-15: hairDecoFova : 0-1000
-16: faceFovaUnknown1 : 0-50
-17: faceFovaUnknown2 : 0-1
-18: faceFovaUnknown3 : 0-4
-19: faceFovaUnknown4 : 0-4
-20: faceFovaUnknown5 : 0-1
-21: faceFovaUnknown6 : 0-3
-22: faceFovaUnknown7 : 0-303
-23: faceFovaUnknown8 : 0-303
-24: faceFovaUnknown9 : 0-303
-25: faceFovaUnknown10 : 0-3
-26: Form Variation menu
 
 ===============
 
@@ -730,9 +719,9 @@ Changes the music track of the radio played in Quiets cell on the medical platfo
 Appearance menu
 ---------------
 1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE
-2: Suit type : NORMAL, NORMAL_SCARF, NAKED, SNEAKING_SUIT_TPP, SNEAKING_SUIT, SNEAKING_SUIT_BB, BATTLEDRESS, PARASITE, LEATHER, SWIMWEAR, RAIDEN, HOSPITAL, MGS1, NINJA, GOLD, SILVER, MGS3, MGS3_NAKED, MGS3_SNEAKING, MGS3_TUXEDO, EVA_CLOSE, EVA_OPEN, BOSS_CLOSE, BOSS_OPEN
+2: Suit type : <Suits for player type>
 3: Camo type : <Camos for player type>
-4: Headgear : None
+4: Headgear : <Headgear for DD type>
 5: Filter faces : Show all, Unique, Head fova mods
 6: Face : faceId:0
 7: Print face info : (Command)
@@ -763,7 +752,7 @@ PHASE_SNEAK - not alert, PHASE_CAUTION - alert, PHASE_EVASION - one step down fr
 3: Maximum phase : PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT
 4: Don't downgrade phase : Off, On
 5: Phase mod update rate (seconds) : 1-255
-Rate that the minimum and maxium phase of CPs are modified.
+Rate that the CPs phase is adjusted to the minimum and maxium settings.
 6: Phase mod random variation : 0-255
 Random variation of update rate
 7: Alert phase on vehicle attack : PHASE_SNEAK, PHASE_CAUTION, PHASE_EVASION, PHASE_ALERT
@@ -797,46 +786,3 @@ Switches on logging messages to ih_log.txt (at the cost of longer load times) an
 Logs game message system, requires Debug IH mode to be on.
 3: debugFlow : Off, On
 Logs some script execution flow, requires Debug IH mode to be on.
-4: loadExternalModules : (Command)
-5: copyLogToPrev : (Command)
-6: selectedCp : no cp for setting
-7: setSelectedCpToMarkerObjectCp : (Command)
-8: printPressedButtons : Off, On
-9: DEBUG_PrintCpPowerSettings : (Command)
-10: DEBUG_PrintPowersCount : (Command)
-11: DEBUG_PrintReinforceVars : (Command)
-12: DEBUG_PrintSoldierDefine : (Command)
-13: DEBUG_ShowRevengeConfig : (Command)
-14: appearanceDebugMenu
-15: printPressedButtons : Off, On
-16: printOnBlockChange : Off, On
-17: Show position : (Command)
-
-appearanceDebugMenu
--------------------
-1: faceFovaDirect : 0-1000
-2: faceDecoFovaDirect : 0-1000
-3: hairFovaDirect : 0-1000
-4: hairDecoFovaDirect : 0-1000
-5: playerTypeDirect : SNAKE, AVATAR, DD_MALE, DD_FEMALE
-6: playerPartsTypeDirect : 0-100
-7: playerCamoTypeDirect : 0-1000
-8: playerFaceIdDirect : 0-687
-9: playerFaceEquipIdDirect : 0-100
-10: Print face info : (Command)
-11: Print appearance info : (Command)
-12: faceFova : cm_m0_h0_v000_eye0.fv2
-13: faceDecoFova : cm_w000_m.fv2
-14: hairFova : cm_m0_h0_v000_eye0.fv2
-15: hairDecoFova : 0-1000
-16: faceFovaUnknown1 : 0-50
-17: faceFovaUnknown2 : 0-1
-18: faceFovaUnknown3 : 0-4
-19: faceFovaUnknown4 : 0-4
-20: faceFovaUnknown5 : 0-1
-21: faceFovaUnknown6 : 0-3
-22: faceFovaUnknown7 : 0-303
-23: faceFovaUnknown8 : 0-303
-24: faceFovaUnknown9 : 0-303
-25: faceFovaUnknown10 : 0-3
-26: Form Variation menu

@@ -3,32 +3,36 @@
 local this={}
 
 local InfLog=InfLog
+local PCall=InfLog.PCall
+local stringFormat=string.format
 
---tex you should post-hook unless totally nessesary so any errors in function wont stop the call to the original function (though functions that rely on return values will still reak)
---tex GOTCHA cant have multiple functions of same name (if it becomes issue just divert to this.<moduleName>.<hooked func name>
+--tex GOTCHA be cautious when hooking scripts that can be reloaded (like scriptblocks or IH external modules)
+--scriptblocks are also more likely to cause yield across c-call boundary.
+--pre-hooking (calling your hook function before the original function) will allow multiple-return functions to return as normal
+--can also isolate your hook function in a pcall to isolate it crashing from impacting the original function
 this.hookFuncs={
   TppSave={
     VarRestoreOnMissionStart=function()
       InfLog.AddFlow("InfHook TppSave.VarRestoreOnMissionStart")
-      this.VarRestoreOnMissionStart()
+      this.TppSave.VarRestoreOnMissionStart()
       --post-hook
       IvarProc.OnLoadVarsFromSlot()
     end,
     VarRestoreOnContinueFromCheckPoint=function()
       InfLog.AddFlow("InfHook TppSave.VarRestoreOnContinueFromCheckPoint")
-      this.VarRestoreOnContinueFromCheckPoint()
+      this.TppSave.VarRestoreOnContinueFromCheckPoint()
 
       IvarProc.OnLoadVarsFromSlot()
     end,
     DoSave=function(saveParams,force)
       InfLog.AddFlow("InfHook TppSave.DoSave")
-      local saveResult=this.DoSave(saveParams,force)
+      local saveResult=this.TppSave.DoSave(saveParams,force)
 
       InfMain.OnSave(saveParams,force)
       return saveResult
     end,
   },
-  --tex no go for some reason.
+--tex no go for some reason.
 --  LoadGameDataFromSaveFile=function(area)
 --    return InfLog.PCall(function(area)--DEBUG
 --    --InfLog.AddFlow("InfHook TppSave.LoadGameDataFromSaveFile("..tostring(area)..")")
@@ -40,12 +44,147 @@ this.hookFuncs={
 --  end,
 }
 
-for moduleName,moduleHooks in pairs(this.hookFuncs)do
-  for functionName,hookFunction in pairs(moduleHooks)do
-    this[functionName]=_G[moduleName][functionName]--tex save original function ref
-    _G[moduleName][functionName]=hookFunction--tex override
+this.debugPCallHooks={
+  TppQuest={
+    UpdateActiveQuest=true,
+  },
+  TppAnimal={
+    OnActivateQuest=true,
+    OnDeactivateQuest=true,
+    CheckQuestAllTarget=true,
+  },
+  TppEnemy={
+    OnActivateQuest=true,
+    OnDeactivateQuest=true,
+    CheckQuestAllTarget=true,
+  },
+  TppGimmick={
+    OnActivateQuest=true,
+    OnDeactivateQuest=true,
+    CheckQuestAllTarget=true,
+  },
+}
+
+function this.GetFunction(moduleName,functionName)
+  local originalModule=_G[moduleName]
+  local originalFunction=nil
+  if not originalModule then
+    InfLog.Add("WARNING: InfHooks.GetFunction could not find module:"..tostring(moduleName))
+  else
+    originalFunction=originalModule[functionName]
+    if originalFunction==nil then
+      InfLog.Add("WARNING: InfHooks.GetFunction could not find function:"..moduleName.."."..tostring(functionName))
+    end
+  end
+  return originalModule,originalFunction
+end
+
+function this.AddHook(moduleName,functionName,hookFunction)
+  local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
+  if originalModule and originalFunction then
+    if type(hookFunction)~="function" then
+      InfLog.Add("Error: InfHook.AddHook("..moduleName..","..functionName..") hookFunc is not a function")
+    else
+      this[moduleName]=this[moduleName]or{}--tex existing or new
+      local moduleHooks=this[moduleName]
+      if moduleHooks[functionName] then
+        --tex TODO: just swap out existing hook using original, but log a warning
+        InfLog.Add("Error: attempting to add a hook to a previously hooked function: "..moduleName.."."..functionName)
+      else
+        moduleHooks[functionName]=originalFunction--tex save original function ref
+        originalModule[functionName]=hookFunction--tex override
+      end
+    end
   end
 end
+
+function this.RemoveHook(moduleName,functionName)
+  local hookedModule,hookedFunction=this.GetFunction(moduleName,functionName)
+  if hookedModule and hookedFunction then
+    local moduleHooks=this[moduleName]
+    if not moduleHooks then
+      InfLog.Add("Error: InfHook.RemoveHook cannot find any hooks for module: "..moduleName.."."..functionName)
+    else
+      local originalFunction=moduleHooks[functionName]
+      if not originalFunction then
+        InfLog.Add("Error: InfHook.RemoveHook cannot find any hook for function: "..moduleName.."."..functionName)
+      else
+        hookedModule[functionName]=originalFunction--tex restore
+        moduleHooks[functionName]=nil--tex clear
+      end
+    end
+  end
+end
+
+function this.CreatePreHookShim(moduleName,functionName,hookFunction)
+  local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
+  if originalModule and originalFunction then
+    local ShimFunction=function(...)
+      hookFunction(...)
+      return originalFunction(...)
+    end
+    return ShimFunction
+  end
+  return nil
+end
+
+local flowFmt="InfHook %s.%s"
+--tex GOTCHA doesn't handle multiple return
+function this.CreatePostHookDebugShim(moduleName,functionName,hookFunction)
+  local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
+  if originalModule and originalFunction then
+    local ShimFunction=function(...)
+      InfLog.AddFlow(stringFormat(flowFmt,moduleName,functionName))
+      local ret=PCall(originalFunction,...)
+      local hookRet=PCall(hookFunction,...,ret)
+
+      return hookRet or ret
+    end
+    return ShimFunction
+  end
+  return nil
+end
+
+--tex for wrapping a function in PCall and giving an AddFlow call
+function this.CreateDebugWrap(moduleName,functionName)
+  local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
+  if originalModule and originalFunction then
+    local ShimFunction=function(...)
+      InfLog.AddFlow(stringFormat(flowFmt,moduleName,functionName))
+      return PCall(originalFunction,...)
+    end
+    return ShimFunction
+  end
+  return nil
+end
+
+--hookDef table format: this.debugPCallHooks
+function this.SetupDebugHooks(hookDef,enable)
+  for moduleName,moduleHooks in pairs(hookDef)do
+    for functionName,hookInfo in pairs(moduleHooks)do
+      if hookInfo==true then
+        local originalModule,originalFunction=this.GetFunction(moduleName,functionName)
+        if originalModule and originalFunction then
+          if enable then
+            local wrapper=this.CreateDebugWrap(moduleName,functionName)
+            this.AddHook(moduleName,functionName,wrapper)
+          else
+            this.RemoveHook(moduleName,functionName)
+          end
+        end
+      end
+    end
+  end
+end
+
+local function SetupHooks(hookFuncs)
+  for moduleName,moduleHooks in pairs(hookFuncs)do
+    for functionName,hookFunction in pairs(moduleHooks)do
+      this.AddHook(moduleName,functionName,hookFunction)
+    end
+  end
+end
+InfLog.PCallDebug(SetupHooks,this.hookFuncs)
 
 --this.AnnounceLogView=TppUiCommand.AnnounceLogView
 --TppUiCommand.AnnounceLogView=function(message)

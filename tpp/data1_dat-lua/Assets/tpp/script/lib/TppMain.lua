@@ -8,9 +8,11 @@ local IsTypeTable=Tpp.IsTypeTable
 local IsSavingOrLoading=TppScriptVars.IsSavingOrLoading
 local UpdateScriptsInScriptBlocks=ScriptBlock.UpdateScriptsInScriptBlocks
 local GetCurrentMessageResendCount=Mission.GetCurrentMessageResendCount
-local updateModules={}
-local numUpdate=0
-local onUpdateModules={}--NMC: from mission scripts, sequences use this, RESEARCH but does this also grab OnUpdate in mission_main.lua?
+local InfLog=InfLog--tex
+
+local moduleUpdateFuncs={}
+local numModuleUpdateFuncs=0
+local missionScriptOnUpdateFuncs={}--NMC: from mission scripts, sequences use this, RESEARCH but does this also grab OnUpdate in mission_main.lua?
 local numOnUpdate=0
 --ORPHAN local RENAMEsomeupdatetable2={}
 --ORPHAN local RENAMEsomeupdate2=0
@@ -82,8 +84,8 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   this.DisableGameStatus()
   this.EnablePause()
   TppClock.Stop()
-  updateModules={}
-  numUpdate=0
+  moduleUpdateFuncs={}
+  numModuleUpdateFuncs=0
   --ORPHAN: RENAMEsomeupdatetable2={}
   --ORPHAN: RENAMEsomeupdate2=0
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
@@ -146,10 +148,10 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   if missionTable.sequence then
     if f30050_sequence then--
       function f30050_sequence.NeedPlayQuietWishGoMission()--RETAILPATCH: 1.0.4.1 PATCHUP: in general I understand the need for patch ups, and in cases like this i even admire the method, however the implementation of just shoving them seemingly anywhere... needs better execution.
-        local isClearedSideOps=TppQuest.IsCleard"mtbs_q99011"
+        local isClearedVisitQuietQuest=TppQuest.IsCleard"mtbs_q99011"
         local isNotPlayDemo=not TppDemo.IsPlayedMBEventDemo"QuietWishGoMission"
         local isCanArrival=TppDemo.GetMBDemoName()==nil
-        return(isClearedSideOps and isNotPlayDemo)and isCanArrival
+        return(isClearedVisitQuietQuest and isNotPlayDemo)and isCanArrival
       end
     end
     if IsTypeFunc(missionTable.sequence.MissionPrepare)then
@@ -282,7 +284,7 @@ if TppEquip.CreateEquipMissionBlockGroup then
   if(vars.missionCode>6e4)then--NMC the e3/tradeshow demos I think
     TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*24}--=9338880 -- nearly 5x the max retail block size
   else
-    --TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*32}--DEBUG TEST
+    --TppEquip.CreateEquipMissionBlockGroup{size=(380*1024)*32}--tex DEBUG TEST
     TppPlayer.SetEquipMissionBlockGroupSize()--TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721, sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE= max 1887437 (s10054)
   end
 end
@@ -330,6 +332,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   end
   TppAnimalBlock.InitializeBlockStatus()
   if TppQuestList then
+    InfLog.PCallDebug(InfQuest.RegisterQuests)--tex
     TppQuest.RegisterQuestList(TppQuestList.questList)
     TppQuest.RegisterQuestPackList(TppQuestList.questPackList)
   end
@@ -421,6 +424,8 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     if missionTable.enemy.soldierSubTypes then
       TppEnemy.SetUpSoldierSubTypes(missionTable.enemy.soldierSubTypes)
     end
+--    TppEnemy.armorSoldiers={}--tex DEBUG CULL
+--    TppEnemy.totalSoldiers=0
     TppRevenge.SetUpEnemy()
     TppEnemy.ApplyPowerSettingsOnInitialize()
     TppEnemy.ApplyPersonalAbilitySettingsOnInitialize()
@@ -491,13 +496,13 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
   --end,missionTable)--tex DEBUG
 end
 function this.SetUpdateFunction(missionTable)
-  updateModules={}
-  numUpdate=0
-  onUpdateModules={}
+  moduleUpdateFuncs={}
+  numModuleUpdateFuncs=0
+  missionScriptOnUpdateFuncs={}
   numOnUpdate=0
   --ORPHAN: RENAMEsomeupdatetable2={}
   --ORPHAN: RENAMEsomeupdate2=0
-  updateModules={
+  moduleUpdateFuncs={
     TppMission.Update,
     TppSequence.Update,
     TppSave.Update,
@@ -506,11 +511,11 @@ function this.SetUpdateFunction(missionTable)
     TppMission.UpdateForMissionLoad,
     InfMain.Update,--tex
   }
-  numUpdate=#updateModules
+  numModuleUpdateFuncs=#moduleUpdateFuncs
   for name,module in pairs(missionTable)do
     if IsTypeFunc(module.OnUpdate)then
       numOnUpdate=numOnUpdate+1
-      onUpdateModules[numOnUpdate]=module.OnUpdate
+      missionScriptOnUpdateFuncs[numOnUpdate]=module.OnUpdate
     end
   end
 end
@@ -851,16 +856,27 @@ function this.OnReload(missionTable)
   this.SetUpdateFunction(missionTable)
   this.SetMessageFunction(missionTable)
 end
-function this.OnUpdate(e)
+function this.OnUpdate(missionTable)
   --NMC OFF local e
-  local updateModules=updateModules
-  local onUpdateModules=onUpdateModules
+  local moduleUpdateFuncs=moduleUpdateFuncs--NMC set in SetUpdateFunction
+  local missionScriptOnUpdateFuncs=missionScriptOnUpdateFuncs
   --NMC OFF local t=RENAMEsomeupdatetable2
-  for i=1,numUpdate do
-    updateModules[i]()
-  end
-  for i=1,numOnUpdate do
-    onUpdateModules[i]()
+  --tex
+  if InfLog.debugOnUpdate then
+    for i=1,numModuleUpdateFuncs do
+      InfLog.PCallDebug(moduleUpdateFuncs[i])
+    end
+    for i=1,numOnUpdate do
+      InfLog.PCallDebug(missionScriptOnUpdateFuncs[i])
+    end
+    --ORIG>
+  else
+    for i=1,numModuleUpdateFuncs do
+      moduleUpdateFuncs[i]()
+    end
+    for i=1,numOnUpdate do
+      missionScriptOnUpdateFuncs[i]()
+    end
   end
   UpdateScriptsInScriptBlocks()
 end

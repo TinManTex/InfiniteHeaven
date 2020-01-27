@@ -93,7 +93,7 @@ this.eng={--english
   handLevelPhysical="Mobility level",
   handLevelPrecision="Precision level",
   handLevelMedical="Medical level",
-  handLevelSettings={"Default","Disable","Grade 2","Grade 3","Grade 4"},
+  handLevelSettings={"Don't override","Disable","Grade 2","Grade 3","Grade 4"},
   resetRevenge="Reset enemy preparedness levels",
   revengeBlockForMissionCount="Resupply in #missions",
   showMissionCode="Show missionCode",
@@ -205,7 +205,7 @@ this.eng={--english
   fulton_mb_medical="Current MB medical bonus +",
   applyPowersToOuterBase="Apply enemy prep to guard posts",--r105
   applyPowersToLrrp="Apply enemy prep to patrol soldiers",
-  allowHeavyArmorFREE="Allow heavy armor in free roam (has issues)",
+  allowHeavyArmorFREE="Allow heavy armor in free roam (may have issues)",
   allowHeavyArmorMISSION="Allow heavy armor in all missions (may have issues)",
   allowHeadGearCombo="Allow helmet and NVG or Gas mask combo",--r108
   balanceHeadGear="Ballance heavy armor and head gear distribution",
@@ -353,7 +353,7 @@ this.eng={--english
   mbEnablePuppy="Puppy DDog",
   mbEnablePuppySettings={"Off","Missing eye","Normal eyes"},
   cpAlertOnVehicleFulton="CP alert on vehicle fulton",
-  disableNoStealthCombatRevengeMission="Allow Enemy Prep shift after free roam",
+  disableNoStealthCombatRevengeMission="Allow Enemy Prep change from free roam",
   revengeDecayOnLongMbVisit="Enemy prep decrease on long MB visit",
   mb_visit_revenge_decay="Enemy prep has decreased during your absence from the field",
   phase_modification_enabled="Phase modifications enabled",
@@ -511,6 +511,22 @@ this.eng={--english
   armorParasiteEnabled="Allow armor skulls",
   mistParasiteEnabled="Allow mist skulls",
   camoParasiteEnabled="Allow sniper skulls",
+  sideOpsCategoryMenu="Sideops category filter menu",
+  sideops_STORY="Story/unique",
+  sideops_EXTRACT_INTERPRETER="Extract interpreter",
+  sideops_BLUEPRINT="Secure blueprint",
+  sideops_EXTRACT_HIGHLY_SKILLED="Extract highly-skilled soldier",
+  sideops_PRISONER="Prisoner extraction",
+  sideops_CAPTURE_ANIMAL="Capture animals",
+  sideops_WANDERING_SOLDIER="Extract wandering Mother Base soldier",
+  sideops_DDOG_PRISONER="Unlucky Dog",
+  sideops_ELIMINATE_HEAVY_INFANTRY="Eliminate heavy infantry",
+  sideops_MINE_CLEARING="Mine clearing",
+  sideops_ELIMINATE_ARMOR_VEHICLE="Eliminate the armored vehicle unit",
+  sideops_EXTRACT_GUNSMITH="Extract the Legendary Gunsmith",
+  sideops_ELIMINATE_TANK_UNIT="Eliminate tank unit",
+  sideops_ELIMINATE_PUPPETS="Eliminate wandering puppets",
+  sideops_TARGET_PRACTICE="Target practice",
 }--eng end
 
 this.help={}
@@ -535,7 +551,7 @@ this.help.eng={
   phaseUpdate="The Minimum, Maximum, and Don't downgrade phase settings are applied on at every update tick according to the Phase update rate and random variation settings",
   minPhase="PHASE_SNEAK - not alert, PHASE_CAUTION - alert, PHASE_EVASION - one step down from combat alert, PHASE_ALERT - combat alert",
   minPhase="PHASE_SNEAK - not alert, PHASE_CAUTION - alert, PHASE_EVASION - one step down from combat alert, PHASE_ALERT - combat alert",
-  phaseUpdateRate="Rate that the minimum and maxium phase of CPs are modified.",
+  phaseUpdateRate="Rate that the CPs phase is adjusted to the minimum and maxium settings.",
   phaseUpdateRange="Random variation of update rate",
   soldierAlertOnHeavyVehicleDamage="Does not require phase modifications setting to be enabled. The enemy reactions to heavy vehicle attack in the default game are lacking, you can kill someone and they'll act as if it's an unsourced attack. This option changes phase of soldiers command post on damaging the soldier. Setting it to ALERT recommended.",
   printPhaseChanges="Displays when phase changes.",
@@ -557,8 +573,8 @@ this.help.eng={
   disableNoStealthCombatRevengeMission="By default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort)",
   disableMissionsWeaponRestriction="Missions 2, 12, 13, 16, 26, 31 normally prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).",
   markersMenu="Toggles for marking in main view. Does not effect marking on iDroid map",
-  unlockSideOps="Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression. Due to how the code is designed this also enables the equivalent of random sideops selection.",
-  sideOpsSelectionMode="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category",
+  unlockSideOps="Lets you force story and one-time sideops to be replayable, and open sideops before the usual progression.",
+  sideOpsSelectionMode="Sideops are broken into areas to stop overlap, this setting lets you control the choice of sideop within the area. Random - picks a random sideop for the sideop area, the other modes choose a random sideop of the specic sideop category. Also see the Sideops category filter menu.",
   mbDemoSelection="Forces or Disables cutscenes that trigger under certain circumstances on returning to Mother Base",
   debugMode="Switches on logging messages to ih_log.txt (at the cost of longer load times) and enables the announce-log during loading.",
   gameEventChanceMB="Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')",
@@ -579,12 +595,12 @@ this.help.eng={
   mbEnableBuddies="Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.",
   quietMoveToLastMarker="Sets a position similar to the Quiet attack positions, but can be nearly anywhere. Quiet will still abort from that position if it's too close to enemies.",
   revengeDecayOnLongMbVisit="Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat ",
-  enableInfInterrogation="Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)",
+  enableInfInterrogation="Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wild card soldier, Location of walker gear. Inter CP quest: Sets up pairs of soldiers in different cps, interrogating one will give CP of other, interrogating him will give a reward of unprocessed resources (around a couple of containers worth) or a skull soldier/parasite on the next extraction (reaching checkpoint etc)",
   forceGameEvent=[[
-  Events are temporary custom profiles for free roam and mother base. 
+  Events are temporary combinations of IH settings for free roam and mother base. 
   Free roam events (can stack): 
   Crashland: Starts you on foot in at a random start point and randomly selects OSP options - cleared primary, secondary, back weapons, items, support items. 
-  Lost-coms: Disables most mother base support menus and disable all heli landing zones except from main bases/towns. 
+  Lost-coms: Disables most mother base support menus and disables all heli landing zones except from main bases/towns. 
   Hunted: Sets the enemy to combat alert every 15-45 seconds (this also sets the player spotted position right on you), and also disables heli landing zones in a 2k radius from your start position, so you'll have to travel if you want to 'get out'. 
   MB events (only one active): 
   DD Training wargame, 
@@ -599,7 +615,7 @@ this.help.eng={
   heliPatrolsMB="Spawns some npc helis that roam around mother base.",
   enemyHeliColor="Shared between free roam and MB attack helis.",
   soldierHealthScale="0% will kill off all enemies",
-  soldierSightDistScale="A rough scale over all the soldier sight distances, use the command 'Print sight param table (look in iDroid Log>All tab)' to see exact values.",
+  soldierSightDistScale="A rough scale over all the soldier sight distances, except for night sight distance, use the command 'Print sight param table (look in iDroid Log>All tab)' to see exact values.",
   reinforceCount_MIN="Number of reinforcement calls a CP has.",
   --reinforceCount_MAX="Number of reinforcement calls a CP has.",
   revengeIgnoreBlocked_MIN="Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.",
@@ -620,7 +636,8 @@ this.help.eng={
   itemDropChance="Chance soldier will drop an item when eliminated.",
   randomizeMineTypes="Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.",
   additionalMineFields="In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.",
-  disableHerbSearch="Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.",
+    disableSpySearch="Stops the Intel teams enemy spotting audio notification and indication on the idroid map.",
+  disableHerbSearch="Stops the Intel teams plant spotting audio notification and indication on the idroid map. Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.",
   putEquipOnTrucks="Puts a random piece of equipment on the back of patrol trucks.",
   requestHeliLzToLastMarker=[[
   Requests Support heli to Landing Zone closest to the last placed user marker. 
@@ -649,7 +666,7 @@ this.help.eng={
   Hold <Binocular> and press <Dash> to move free cam position to the player position]],
   soldierEquipGrade_MIN="A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.",
   allowUndevelopedDDEquip="Whether to limit the selection to equipment you have developed or allow all equipment. Restriction does not apply to Enemies using DD weapons.",
-  enableParasiteEvent="Skull attacks at a random time (in minutes) between Skull attack min and skull attack max.",
+  enableParasiteEvent="Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.",
   quietRadioMode="Changes the music track of the radio played in Quiets cell on the medical platform in mother base.",
   buddyChangeEquipVar="Buddy equiment is changed to selected setting when <Action> is pressed.",
   resourceAmountScale="Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)",
@@ -665,6 +682,9 @@ this.help.eng={
   debugFlow="Logs some script execution flow, requires Debug IH mode to be on.",
   debugMessages="Logs game message system, requires Debug IH mode to be on.",
   skipLogos="Stops the konami/kjp/fox/nvidia logos from showing.",
+  selectProfile="Selects a profile described in InfProfiles.lua. Press the <Action> button to apply the settings of the selected profile.",
+  resetSelectedProfile="Sets the options described in the selected profile to their default setting.",
+  sideOpsCategoryMenu="Filters selection of sideops per category, Sideop selection mode will override this.",
 }
 
 this.cpNames={

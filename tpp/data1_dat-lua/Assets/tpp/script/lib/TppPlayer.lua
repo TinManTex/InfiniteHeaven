@@ -1578,11 +1578,11 @@ this.VEHICLE_FALL_DEAD_CAMERA={[Vehicle.type.EASTERN_LIGHT_VEHICLE]=this.PlayFal
 function this.Messages()
   local messageTable=Tpp.StrCode32Table{
     Player={
-      {msg="CalcFultonPercent",func=function(unk1,gameId,unk2,unk3,staffOrResourceId)
-        this.MakeFultonRecoverSucceedRatio(unk1,gameId,unk2,unk3,staffOrResourceId,false)
+      {msg="CalcFultonPercent",func=function(unk1,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId)
+        this.MakeFultonRecoverSucceedRatio(unk1,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,false)
       end},
-      {msg="CalcDogFultonPercent",func=function(r,gameId,o,a,staffOrResourceId)
-        this.MakeFultonRecoverSucceedRatio(r,gameId,o,a,staffOrResourceId,true)
+      {msg="CalcDogFultonPercent",func=function(unk1,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId)
+        this.MakeFultonRecoverSucceedRatio(unk1,gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,true)
       end},
       {msg="RideHelicopter",func=this.SetHelicopterInsideAction},
       {msg="PlayerFulton",func=this.OnPlayerFulton},
@@ -1852,14 +1852,14 @@ this.mbSectionRankSuccessTable={--NMC: tex was in MakeFultonRecoverSucceedRatio,
   [TppMotherBaseManagementConst.SECTION_FUNC_RANK_F]=0,
   [TppMotherBaseManagementConst.SECTION_FUNC_RANK_NONE]=0
 }
-function this.MakeFultonRecoverSucceedRatio(unk1,_gameId,RENAMEanimalId,r,staffOrResourceId,isDogFultoning)
+function this.MakeFultonRecoverSucceedRatio(unk1,_gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,isDogFultoning)
   local gameId=_gameId
   local percentage=0
   local baseLine=100
   local doFuncSuccess=0
   --RETAILPATCH: 1.0.4.4, was: -v- guess they missed updating this call when they added the param last patch CULL:
   --TppTerminal.DoFuncByFultonTypeSwitch(t,p,r,l,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
-  doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,RENAMEanimalId,r,staffOrResourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
+  doFuncSuccess=TppTerminal.DoFuncByFultonTypeSwitch(gameId,gimmickInstanceOrAnimalId,gimmickDataSet,staffOrResourceId,nil,nil,nil,this.GetSoldierFultonSucceedRatio,this.GetVolginFultonSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio,this.GetDefaultSucceedRatio)
   if doFuncSuccess==nil then
     doFuncSuccess=100
   end

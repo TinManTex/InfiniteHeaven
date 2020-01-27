@@ -91,11 +91,24 @@ this.soldierParamsMenu={
   }
 }
 
+--DEBUGNOW
+this.sideOpsCategoryMenu={
+  options={
+  }
+}
+
+local ivarPrefix="sideops_"
+for i,categoryName in ipairs(TppQuest.QUEST_CATEGORIES)do
+  local ivarName=ivarPrefix..categoryName
+  table.insert(this.sideOpsCategoryMenu.options,Ivars[ivarName])
+end
+
 this.sideOpsMenu={
   options={
+    Ivars.unlockSideOpNumber,
     Ivars.unlockSideOps,
     Ivars.sideOpsSelectionMode,
-    Ivars.unlockSideOpNumber,
+    InfMenuDefs.sideOpsCategoryMenu,
     Ivars.enableHeliReinforce,
   }
 }
@@ -205,6 +218,7 @@ this.debugMenu={
     Ivars.debugMode,
     Ivars.debugMessages,
     Ivars.debugFlow,
+    Ivars.debugUpdate,
     InfMenuCommands.loadExternalModules,
     InfMenuCommands.copyLogToPrev,
     Ivars.printPressedButtons,
@@ -536,15 +550,26 @@ this.systemMenu={
   },
 }
 
+this.devInAccMenu={
+  nonConfig=true,
+  options={
+  --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+  --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+  --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+  --    InfMenuDefs.sideOpsMenu,
+  --    InfMenuDefs.sideOpsCategoryMenu,--DEBUG
+  --    Ivars.debugValue,
+  --    Ivars.debugOnUpdate,
+  --Ivars.resourceAmountScale,--DEBUG
+  --InfMenuCommands.forceRegenSeed,--DEBUGNOW
+  --Ivars.debugMode,
+  }
+}
+
 this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-    --Ivars.resourceAmountScale,--DEBUG
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-    --Ivars.debugMode,
     InfMenuDefs.systemMenu,
     InfMenuDefs.eventsMenu,
     InfMenuDefs.playerRestrictionsMenu,
@@ -572,6 +597,7 @@ this.debugInMissionMenu={
     Ivars.debugMode,
     Ivars.debugMessages,
     Ivars.debugFlow,
+    Ivars.debugUpdate,
     InfMenuCommands.loadExternalModules,
     InfMenuCommands.copyLogToPrev,
     --InfMenuCommands.DEBUG_RandomizeCp,
@@ -606,18 +632,26 @@ this.debugInMissionMenu={
   }
 }
 
+this.devInMissionMenu={
+  nonConfig=true,
+  options={
+    InfMenuCommands.printLatestUserMarker,
+    Ivars.debugValue,
+    InfMenuCommands.DEBUG_PrintSoldierDefine,
+    InfMenuCommands.showPosition,
+    Ivars.parasitePeriod_MIN,
+    Ivars.parasitePeriod_MAX,
+    InfMenuCommands.DEBUG_ToggleParasiteEvent,
+    InfMenuCommands.DEBUG_SomeShiz,
+    InfMenuCommands.DEBUG_SomeShiz,
+    InfMenuCommands.DEBUG_SomeShiz2,
+  }
+}
+
 this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
-    --Ivars.warpToListObject,--DEBUG
-    --    InfMenuCommands.DEBUG_PrintSoldierDefine,--DEBUG
-    --       InfMenuCommands.showPosition,
-    --    InfMenuCommands.DEBUG_ToggleParasiteEvent,
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
-    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
-    ----
     InfMenuCommands.requestHeliLzToLastMarker,
     InfMenuCommands.forceExitHeli,
     InfMenuCommands.dropCurrentEquip,

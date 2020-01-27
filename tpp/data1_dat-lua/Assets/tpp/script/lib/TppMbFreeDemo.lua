@@ -1012,7 +1012,7 @@ function this.UpdatePackList(demoName)
   end
   local packList={}
   packList[demoName]={}
-  local n=false
+  local hasQuestPacks=false
   if this.demoBlockList[demoName]then
     Tpp.ApendArray(packList[demoName],this.demoBlockList[demoName])
     local demoOptions=this.demoOptions[demoName]
@@ -1020,10 +1020,10 @@ function this.UpdatePackList(demoName)
       table.insert(packList[demoName],buddyFpk)
     end
   elseif TppQuestList.questPackList[demoName]then
-    n=true
+    hasQuestPacks=true
     Tpp.ApendArray(packList[demoName],TppQuestList.questPackList[demoName])
   end
-  if n or demoName=="Empty"then
+  if hasQuestPacks or demoName=="Empty"then
     Tpp.ApendArray(packList[demoName],this.GetPackListForStorySequence())
   end
   if mvars.f30050demo_fovaPackList then

@@ -2,6 +2,14 @@
 -- InfLog.lua
 local this={}
 
+--LOCALOPT
+local pcall=pcall
+local type=type
+local open=io.open
+local tostring=tostring
+local concat=table.concat
+local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
+
 --STATE
 this.debugMode=true--tex (See GOTCHA below -v-)
 this.doneStartup=false
@@ -19,6 +27,8 @@ local nl="\r\n"
 local stringType="string"
 local functionType="function"
 
+--GOTCHA since io open append doesnt appear to work ('Domain error') I'm writing the whole log to file on every Add
+--which is naturally bad performance for a lot of frequent Adds.
 function this.Add(message,announceLog,force)
   if not this.debugMode and not force then
     return
@@ -28,7 +38,7 @@ function this.Add(message,announceLog,force)
     this.DebugPrint(message)
   end
 
-  local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
+  local elapsedTime=GetRawElapsedTimeSinceStartUp()
 
   local line="|"..elapsedTime.."|"..message
   this.log[#this.log+1]=line
@@ -39,15 +49,14 @@ end
 function this.WriteLog(log)
   local filePath=this.logFilePath
 
-  --tex NOTE io open append doesnt appear to work - 'Domain error'
-  local logFile,error=io.open(filePath,"w")
+  local logFile,error=open(filePath,"w")
   if not logFile or error then
     --this.DebugPrint("Create log error: "..tostring(error))
     this.logErr=tostring(error)
     return
   end
 
-  logFile:write(table.concat(log,nl))
+  logFile:write(concat(log,nl))
   logFile:close()
 end
 
@@ -58,20 +67,20 @@ function this.WriteLogLine(message)
   --TODO think which would be better, just appending to string then writing that
   --or (doing currently) reading exising and string append/write that
   --either way performance will decrease as log size increases
-  local logFile,error=io.open(filePath,"r")
+  local logFile,error=open(filePath,"r")
   local logText=""
   if logFile then
     logText=logFile:read("*all")
     logFile:close()
   end
 
-  local logFile,error=io.open(filePath,"w")
+  local logFile,error=open(filePath,"w")
   if not logFile or error then
     --this.DebugPrint("Create log error: "..tostring(error))
     return
   end
 
-  local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
+  local elapsedTime=GetRawElapsedTimeSinceStartUp()
   --tex TODO os time?
 
 
@@ -86,13 +95,13 @@ end
 
 function this.CopyFileToPrev(fileName,ext)
   local filePath=this.modPath..fileName..ext
-  local file,error=io.open(filePath,"r")
+  local file,error=open(filePath,"r")
   if file and not error then
     local fileText=file:read("*all")
     file:close()
 
     local filePathPrev=this.modPath..fileName..this.prev..ext
-    local filePrev,error=io.open(filePathPrev,"w")
+    local filePrev,error=open(filePathPrev,"w")
     if not filePrev or error then
       return
     end
@@ -104,7 +113,7 @@ end
 
 function this.ClearFile(fileName,ext)
   local filePath=this.modPath..fileName..ext
-  local logFile,error=io.open(filePath,"w")
+  local logFile,error=open(filePath,"w")
   if logFile then
     logFile:write""
     logFile:close()
@@ -169,8 +178,8 @@ function this.PCallDebug(func,...)
 
   local sucess, result=pcall(func,...)
   if not sucess then
-    InfLog.Add("ERROR:"..result)
-    InfLog.Add("caller:"..this.DEBUG_Where(2))
+    this.Add("ERROR:"..result)
+    this.Add("caller:"..this.DEBUG_Where(2))
     return
   else
     return result
@@ -268,6 +277,13 @@ function this.LoadBoxed(fileName)
   end
 
   return module
+end
+
+function this.OnLoadEvars()
+  --tex InfLog is in use before loadevars
+  --TODO: shift evar loading to InfLog initial load
+  this.debugMode=evars.debugMode==1
+  this.debugOnUpdate=evars.debugOnUpdate==1
 end
 
 local function GetGamePath()

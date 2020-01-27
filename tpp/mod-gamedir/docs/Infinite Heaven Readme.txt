@@ -1,5 +1,5 @@
 = Infinite heaven =
-r193 - 2016-11-16
+r194 - 2016-11-18
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -21,6 +21,21 @@ Recent changes/additions
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
 NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
+
+New for r194
+New sideops for Mother Base:
+SideOp: "Sheep in the Keep" - "Logistics had a mishap and let a herd of sheep loose on the Command Platform. Fulton them so they can take them to the Conservation Platform." 
+SideOp: "Birds in the Belfry" - "Your staff has been having some issues with birds roosting in the Intel Platform Enclosure. See if you can clear them out." 
+SideOp: "Rats in the Basement" - "The grow-room under the Support Platform is plagued by rodents.&#xA;Find them among the plants." 
+[youtube]Xe5VjKC2f9w[/youtube]
+https://youtu.be/Xe5VjKC2f9w
+
+Fixed: Some defaults not applying on fob.
+Fixed: Allow skull types not actually filtering the skulls select - thanks SoullessMadness for the report.
+Fixed: (mostly) Allow heavy armor in free/missions, Custom prep with armor % high would cause soldiers either defaulting to non armored or not rendering body.
+Fixed: Animals camo selectable via the camo option in appearance menu.
+Fixed: TppQuest.UpdateActiveQuest now using level seed for random or side ops selection mode. This fixes mismatch bettween aparent selected sideop (ui cues) and actual sideop pack/script loaded when directly spawning into a quest load area, possibly a rare issue in free roam, but a clear issue on mother base. Should also prevent the change of sideops from ACC to level.
+Fixed: Enable Ocelot in MB causing Sahelenthropus mission to infinite load - thanks CapLagRobin for the report.
 
 New for r193
 Added: Walker gears assigned to foot patrols in free roam (requires both foot patrols and walker gears in free to be enabled) - pretty flaky with soldiers sometimes ditching walkers in the middle of nowhere though, and (if they make it that far) they'll leave it at their destination base instead of continuing with it.
@@ -66,38 +81,6 @@ Option: enableWalkerGearsFREE - "Walker gears in free roam" - "Adds a Walker gea
 Known issue: In Africa a walker gear model will appear hovering in Kiziba Camp next to the delivery pad. This is a bug in the original game (you can confirm by playing Footprints of Phantoms unmodded.)
 [youtube]4A9GqN0Hpkw[/youtube]
 https://youtu.be/4A9GqN0Hpkw
-
-New for r189
-Fixed: Skull attack not restarting if continuing from a save.
-Fixed: Crash on first encounter of Quiet in free roam with Skull attacks on - thanks Silverforte for the report and save file.
-Fixed: Player type appearance option - thanks SoullessMadness, FullBody86 for the reports.
-
-Feature: Mist parasites/Sniper Skulls added to Skulls attack feature.
-Option: parasiteWeather - Weather on Skull attack - None, Parasite fog, Random
-(via World menu)
-
-New for r187
-Option: Enable QuickMenu, quickmenu is now disabled by default.
-(via IH system menu)
-Menu: IH system menu - shifted various options related to IH itself here.
-
-Feature: Camo parasites/Sniper Skulls added to Skulls attack feature.
-[youtube]X4P6SpNu_EY[/youtube]
-https://youtu.be/X4P6SpNu_EY
-
-New for r185
-Feature: Equip 'NONE' for primary and secondary via the normal mission prep equipment select screen. The entries will show as a white square with '---'' as the text - thanks unknown321 for the mod/research.
-[youtube]8Db_B4Ao5wE[/youtube]
-https://youtu.be/8Db_B4Ao5wE
-
-Option: Drop current equip - thanks ThreeSocks for the original mod, and the many others who have requested it be included in IH since then.
-[youtube]e2hcrZrWjYg[/youtube]
-https://youtu.be/e2hcrZrWjYg
-
-QuickMenu: 
-Now customizable by editing QuickMenuDefs in MGSV_TPP\mod 
-TSM returned to instant activation.
-Added Drop current equip on <LIGHT_SWITCH> (X key/Dpad right)
 
 Disclaimer:
 ------------------------------

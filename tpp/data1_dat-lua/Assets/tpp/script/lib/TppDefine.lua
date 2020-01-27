@@ -1,5 +1,6 @@
--- DOBUILD: 0 --DEBUGNOW
+-- DOBUILD: 1
 -- TppDefine.lua
+-- tex modfying some values via other modules
 InfLog.Add"TppDefine.lua, requires-list start"--tex
 local this={}
 

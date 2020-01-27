@@ -36,30 +36,33 @@ this.CLOCK_MESSAGE_AT_MORNING_FORMAT="AnimalRouteChangeAtMorning%02d"
 this.weatherTable={}
 local weatherTableCount=0
 local l_numAnimals=0
-function this.GetDefaultTimeTable(animal)
-  if animal=="Goat"then
-    return nightTimes.Goat
-  elseif animal=="Wolf"then
-    return nightTimes.Wolf
-  elseif animal=="Bear"then
-    return nightTimes.Bear
-  elseif animal=="Nubian"then
-    return nightTimes.Nubian
-  elseif animal=="Jackal"then
-    return nightTimes.Jackal
-  elseif animal=="Zebra"then
-    return nightTimes.Zebra
-  elseif animal=="BuddyPuppy"then
-    return nightTimes.BuddyPuppy
-  elseif animal=="MotherDog"then
-    return nightTimes.MotherDog
-  elseif animal=="Rat"then
-    return nightTimes.Rat
-  elseif animal=="NoAnimal"then
-    return nightTimes.NoAnimal
-  else
-    return nil
-  end
+function this.GetDefaultTimeTable(animalType)
+  --tex REWORKED
+  return nightTimes[animalType]
+    --ORIG
+    --  if animal=="Goat"then
+    --    return nightTimes.Goat
+    --  elseif animal=="Wolf"then
+    --    return nightTimes.Wolf
+    --  elseif animal=="Bear"then
+    --    return nightTimes.Bear
+    --  elseif animal=="Nubian"then
+    --    return nightTimes.Nubian
+    --  elseif animal=="Jackal"then
+    --    return nightTimes.Jackal
+    --  elseif animal=="Zebra"then
+    --    return nightTimes.Zebra
+    --  elseif animal=="BuddyPuppy"then
+    --    return nightTimes.BuddyPuppy
+    --  elseif animal=="MotherDog"then
+    --    return nightTimes.MotherDog
+    --  elseif animal=="Rat"then
+    --    return nightTimes.Rat
+    --  elseif animal=="NoAnimal"then
+    --    return nightTimes.NoAnimal
+    --  else
+    --    return nil
+    --  end
 end
 function this.StopAnimalBlockLoad()
   mvars.anm_stopAnimalBlockLoad=true
@@ -125,29 +128,32 @@ function this._GetAnimalBlockAreaName(areaSettings,maxAreaNum,areaKey,blockIndex
   end
 end
 function this._GetSetupTable(animalType)
-  if animalType=="Goat"then
-    return animalsTable.Goat
-  elseif animalType=="Wolf"then
-    return animalsTable.Wolf
-  elseif animalType=="Bear"then
-    return animalsTable.Bear
-  elseif animalType=="Nubian"then
-    return animalsTable.Nubian
-  elseif animalType=="Jackal"then
-    return animalsTable.Jackal
-  elseif animalType=="Zebra"then
-    return animalsTable.Zebra
-  elseif animalType=="BuddyPuppy"then
-    return animalsTable.BuddyPuppy
-  elseif animalType=="MotherDog"then
-    return animalsTable.MotherDog
-  elseif animalType=="Rat"then
-    return animalsTable.Rat
-  elseif animalType=="NoAnimal"then
-    return animalsTable.NoAnimal
-  else
-    return nil
-  end
+  --tex REWORKED
+  return animalsTable[animalType]
+    --ORIG
+    --  if animalType=="Goat"then
+    --    return animalsTable.Goat
+    --  elseif animalType=="Wolf"then
+    --    return animalsTable.Wolf
+    --  elseif animalType=="Bear"then
+    --    return animalsTable.Bear
+    --  elseif animalType=="Nubian"then
+    --    return animalsTable.Nubian
+    --  elseif animalType=="Jackal"then
+    --    return animalsTable.Jackal
+    --  elseif animalType=="Zebra"then
+    --    return animalsTable.Zebra
+    --  elseif animalType=="BuddyPuppy"then
+    --    return animalsTable.BuddyPuppy
+    --  elseif animalType=="MotherDog"then
+    --    return animalsTable.MotherDog
+    --  elseif animalType=="Rat"then
+    --    return animalsTable.Rat
+    --  elseif animalType=="NoAnimal"then
+    --    return animalsTable.NoAnimal
+    --  else
+    --    return nil
+    --  end
 end
 function this._IsNight(currentTime,nightStart,nightEnd)
   local isNight=(currentTime<nightEnd)or(currentTime>=nightStart)

@@ -21,7 +21,7 @@ this.walkersPerLrrp=1--tex soldiers done respect each others personal space lol,
 
 this.numWalkerGears=16--tex dependant on the entity defs
 
-this.walkerNames=InfMain.GenerateNameList("wkr_WalkerGear_",this.numWalkerGears)
+this.walkerNames=InfLookup.GenerateNameList("wkr_WalkerGear_%04d",this.numWalkerGears)
 
 this.packages={
   "/Assets/tpp/pack/mission2/common/mis_com_walkergear.fpk",--TppDefine.MISSION_COMMON_PACK.WALKERGEAR

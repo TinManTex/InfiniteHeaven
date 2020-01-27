@@ -100,9 +100,14 @@ this.printFaceInfo={
 
 this.showPosition={
   OnChange=function()
-    local position=string.format("%.3f,%.3f,%.3f | %.3f",vars.playerPosX,vars.playerPosY,vars.playerPosZ,vars.playerCameraRotation[1])
-    InfLog.Add(position)
-    TppUiCommand.AnnounceLogView(position)
+    local x,y,z=vars.playerPosX,vars.playerPosY,vars.playerPosZ
+    local rotY=vars.playerCameraRotation[1]
+    local positionTable=string.format("{%.3f,%.3f,%.3f}, | %.3f",x,y,z,rotY)
+    local positionXML=string.format('<value x="%.3f" y="%.3f" z="%.3f" w="1" />',x,y,z)
+
+    InfLog.Add(positionTable)
+    InfLog.Add(positionXML)
+    TppUiCommand.AnnounceLogView(positionTable)
   end,
 }
 
@@ -559,6 +564,12 @@ this.forceGameEvent={
   end
 }
 
+this.forceRegenSeed={
+  OnChange=function()
+    InfMain.RegenSeed(40010)
+  end
+}
+
 this.printBodyInfo={
   OnChange=function()
     InfFova.GetCurrentFovaTable(true)
@@ -597,7 +608,6 @@ this.DEBUG_PrintInterrogationInfo={
   end
 }
 --
-
 local toggle1=false
 local index1Min=1
 local index1Max=3
@@ -605,21 +615,25 @@ local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
+    InfLog.Add"---------------------DEBUG_SomeShiz---------------------"
 
-    InfLog.Add"DEBUG_SomeShiz---------------------"
-
-
-    --    InfLog.Add(tostring(InfMain.prelog))
-    --    InfLog.Add(tostring(InfLog.logErr))
-
-    --    local evars=IvarProc.ReadEvars(IvarProc.saveName)
-    --    InfLog.PrintInspect(evars)
-
-
-    --InfMain.ScaleResourceTables()
-
-    if true then return end
-    --
+--    InfLog.Add("armor:"..tostring(#TppEnemy.armorSoldiers).." total:"..tostring(TppEnemy.totalSoldiers))
+--    InfLog.PrintInspect(TppEnemy.armorSoldiers)
+--    --InfLog.PrintInspect(mvars.ene_soldierPowerSettings)
+--    InfLog.Add"ene_soldierPowerSettings"
+--    for soldierId,powers in pairs(mvars.ene_soldierPowerSettings)do
+--      local soldierName=InfLookup.ObjectNameForGameId(soldierId) or "NAMENOTFOUND"
+--      InfLog.Add(soldierId.." "..soldierName..":"..tostring(powers.ARMOR))
+--    end
+    --DEBUGNOW
+    local enable=toggle1
+    for questName,questInfo in pairs(InfQuest.ihQuestsInfo)do
+      local questIndex=TppDefine.QUEST_INDEX[questName]
+      gvars.qst_questOpenFlag[questIndex]=enable
+      gvars.qst_questClearedFlag[questIndex]=enable
+      gvars.qst_questActiveFlag[questIndex]=enable
+    end
+    Ivars.UpdateActiveQuest()
 
     --TppPlayer.Warp{pos={"-612.1607","504.688","-1145.31091" },rotY=vars.playerCameraRotation[1]}
 
@@ -643,7 +657,9 @@ local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfLog.Add("-----")
-
+    local questName=InfQuest.ihQuestNames[1]
+    local questIndex=TppDefine.QUEST_INDEX[questName]
+InfLog.PrintInspect(gvars.qst_questOpenFlag[questIndex])
 
     --    local profilesFileName="InfSavedProfiles.lua"
     --    local savedProfiles=InfPersistence.Load(InfLog.modPath..profilesFileName)

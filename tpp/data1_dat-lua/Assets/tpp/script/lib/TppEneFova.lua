@@ -46,7 +46,7 @@ local prs5_main0_def_v00PartsAfrica="/Assets/tpp/parts/chara/prs/prs5_main0_def_
 local prs3_main0_def_v00PartsAfghanFree="/Assets/tpp/parts/chara/prs/prs3_main0_def_v00.parts"
 local prs6_main0_def_v00PartsAfricaFree="/Assets/tpp/parts/chara/prs/prs6_main0_def_v00.parts"
 local dds5_main0_def_v00Parts="/Assets/tpp/parts/chara/dds/dds5_main0_def_v00.parts"
-local noArmorForMission={
+this.noArmorForMission={--tex made module local
   [10010]=1,
   [10020]=1,
   [10030]=1,
@@ -159,8 +159,8 @@ this.S10240_FemaleFaceIdList={394,351,373,456,463,455,511,502}
 this.S10240_MaleFaceIdList={195,144,214,6,217,83,273,60,87,71,256,201,290,178,102,255,293,165,85,18,228,12,65,134,31,132,161,342,107,274,184,226,153,247,344,242,56,183,54,126,223}
 
 --NMC an addaption of switch / case from Case method on http://lua-users.org/wiki/SwitchStatement
---mostly used for PreMissionLoad, but also in some of the fovaSetupFuncs[missionId] funcs to run the area fova func 
---why they didn't just call those functions directly I'm not sure. Maybe it just started as a select on missionId and passing missionId as a parameter 
+--mostly used for PreMissionLoad, but also in some of the fovaSetupFuncs[missionId] funcs to run the area fova func
+--why they didn't just call those functions directly I'm not sure. Maybe it just started as a select on missionId and passing missionId as a parameter
 --but then broke down when they decided to add area fova funcs.
 local fovaSetupFuncs={}
 local function Select(switchTable)
@@ -176,7 +176,7 @@ function this.IsNotRequiredArmorSoldier(missionCode)
   if InfEneFova.ForceArmor(missionCode) then--tex >
     return false
   end--<
-  if noArmorForMission[missionCode]~=nil then
+  if this.noArmorForMission[missionCode]~=nil then
     return true
   end
   return false
@@ -1157,7 +1157,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
   end
   InfEquip.CreateCustomWeaponTable(missionId)--tex
   --tex REWORKED>
-  --tex the respective area name fova functions have been renamed to match locationName output (ex fovaSetupFuncs.Afghan to fovaSetupFuncs.afgh)  
+  --tex the respective area name fova functions have been renamed to match locationName output (ex fovaSetupFuncs.Afghan to fovaSetupFuncs.afgh)
   local locationName=InfMain.GetLocationName()
   local fovaFuncName="default"
   if fovaSetupFuncs[missionId] then
@@ -1168,27 +1168,27 @@ function this.PreMissionLoad(missionId,currentMissionId)
   --tex 1st parameter wasn't actually used in vanilla, only for the switch/case, might as well repurpose it
   fovaSetupFuncs[fovaFuncName](locationName,missionId)
   --<
---ORIG  
---  local _fovaSetupFuncs=Select(fovaSetupFuncs)
---  if fovaSetupFuncs[missionId]==nil then
---    if TppMission.IsHelicopterSpace(missionId)then
---      _fovaSetupFuncs:case("default",missionId)
---    elseif TppLocation.IsAfghan()then
---      _fovaSetupFuncs:case("Afghan",missionId)
---    elseif TppLocation.IsMiddleAfrica()then
---      _fovaSetupFuncs:case("Africa",missionId)
---    elseif TppLocation.IsMBQF()then
---      _fovaSetupFuncs:case("Mbqf",missionId)
---    elseif TppLocation.IsMotherBase()then
---      _fovaSetupFuncs:case("Mb",missionId)
---    elseif TppLocation.IsCyprus()then
---      _fovaSetupFuncs:case("Cyprus",missionId)
---    else
---      _fovaSetupFuncs:case("default",missionId)
---    end
---  else
---    _fovaSetupFuncs:case(missionId,missionId)
---  end
+  --ORIG
+  --  local _fovaSetupFuncs=Select(fovaSetupFuncs)
+  --  if fovaSetupFuncs[missionId]==nil then
+  --    if TppMission.IsHelicopterSpace(missionId)then
+  --      _fovaSetupFuncs:case("default",missionId)
+  --    elseif TppLocation.IsAfghan()then
+  --      _fovaSetupFuncs:case("Afghan",missionId)
+  --    elseif TppLocation.IsMiddleAfrica()then
+  --      _fovaSetupFuncs:case("Africa",missionId)
+  --    elseif TppLocation.IsMBQF()then
+  --      _fovaSetupFuncs:case("Mbqf",missionId)
+  --    elseif TppLocation.IsMotherBase()then
+  --      _fovaSetupFuncs:case("Mb",missionId)
+  --    elseif TppLocation.IsCyprus()then
+  --      _fovaSetupFuncs:case("Cyprus",missionId)
+  --    else
+  --      _fovaSetupFuncs:case("default",missionId)
+  --    end
+  --  else
+  --    _fovaSetupFuncs:case(missionId,missionId)
+  --  end
 end
 
 local l_uniqueSettings={}
@@ -1421,7 +1421,7 @@ function this.AddUniquePackage(uniqueSetting)
   end
 end
 function this.ApplyUniqueSetting()
-  --InfLog.DebugPrint("#"..#l_uniqueSettings.. " UniqueSettings")--DEBUG
+  --InfLog.Add("ApplyUniqueSetting: #"..#l_uniqueSettings.. " UniqueSettings")--tex DEBUG
   local NULL_ID=GameObject.NULL_ID
   local NOT_USED_FOVA_VALUE=EnemyFova.NOT_USED_FOVA_VALUE
   if gvars.ene_fovaUniqueTargetIds[0]==NULL_ID then
@@ -1511,7 +1511,7 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
         local subTypeName=TppEnemy.GetSoldierSubType(soldierId,soldierType)
         powerSettings=powerSettings or {}
         bodyId=TppEnemy.GetBodyId(soldierId,soldierType,subTypeName,powerSettings)
-        --InfLog.DebugPrint("bodyid:".. tostring(bodyId))--DEBUG
+        --InfLog.Add("bodyid:".. tostring(bodyId))--tex DEBUG
       end
 
       if bodyInfo.isArmor then
@@ -1564,11 +1564,15 @@ function this.ApplyMTBSUniqueSetting(soldierId,faceId,useBalaclava,forceNoBalacl
       TppEnemy.AddPowerSetting(soldierId,{"GAS_MASK"})
     end
 
-    --    if powerSettings then--DEBUG CULL
-    --      powerSettings.HELMET=nil
-    --      powerSettings.GAS_MASK=nil
-    --      powerSettings.NVG=true
-    --    end--<
+    local clearHeadGear=false--tex DEBUG>
+    if clearHeadGear then
+      local powerSettings=mvars.ene_soldierPowerSettings[soldierId]
+      if powerSettings then
+        powerSettings.HELMET=nil
+        powerSettings.GAS_MASK=nil
+        powerSettings.NVG=true
+      end
+    end--<
 
     if Ivars.mbDDHeadGear:Is(1) then
       local powerSettings=mvars.ene_soldierPowerSettings[soldierId]

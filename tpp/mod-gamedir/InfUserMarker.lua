@@ -1,4 +1,3 @@
--- DOBUILD: 1
 --InfUserMarker.lua
 local this={}
 --localopt
@@ -31,8 +30,8 @@ function this.PrintUserMarkers()
     this.PrintUserMarker(index)
   end
 
-  InfLog.DebugPrint("userMarkerLocationId:"..vars.userMarkerLocationId)
-  InfLog.DebugPrint("userMarkerSaveCount:"..vars.userMarkerSaveCount)
+  InfLog.Add("userMarkerLocationId:"..vars.userMarkerLocationId,true)
+  InfLog.Add("userMarkerSaveCount:"..vars.userMarkerSaveCount,true)
 end
 function this.PrintMarkerGameObject(index)
   local gameId=vars.userMarkerGameObjId[index]
@@ -43,9 +42,9 @@ function this.PrintMarkerGameObject(index)
   local typeIndex=GetTypeIndex(gameId)
   local typeStr=InfLookup.gameObjectTypeToString[typeIndex]
   local soldierName,cpName=InfLookup.ObjectNameForGameId(gameId) or "Object name not found"
-  InfLog.DebugPrint(soldierName)
-  InfLog.DebugPrint(gameId.."="..typeStr)
-  InfLog.DebugPrint("cpName:"..tostring(cpName))
+  InfLog.Add(soldierName,true)
+  InfLog.Add(gameId.."="..typeStr,true)
+  InfLog.Add("cpName:"..tostring(cpName),true)
 end
 function this.GetLastAddedUserMarkerIndex()
   if vars.userMarkerSaveCount==0 then

@@ -19,6 +19,7 @@ this.moduleNames={
   "InfVehicle",
   "InfNPC",
   "InfNPCOcelot",
+  "InfPuppy",
   "InfNPCHeli",
   "InfWalkerGear",
   "InfMBVisit", 
@@ -26,5 +27,6 @@ this.moduleNames={
   "InfParasite",
   "InfInterrogation",
   "InfResources",
+  "InfUserMarker",
 } 
 return this

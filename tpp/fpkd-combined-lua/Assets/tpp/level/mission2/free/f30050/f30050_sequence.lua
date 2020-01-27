@@ -1192,9 +1192,16 @@ function this.Messages()
           msg = "Dead",
           func = function(gameObjectId)
             if not Tpp.IsPlayer(gameObjectId) then
-              mvars.f30050_deadGameObjectId = gameObjectId
-              if Ivars.mbNonStaff:Is(0) then--tex added check
-                TppMission.ReserveGameOver( TppDefine.GAME_OVER_TYPE.TARGET_DEAD, TppDefine.GAME_OVER_RADIO.PLAYER_KILL_DD )
+              --tex> NDBD
+              local typeIndex=GameObject.GetTypeIndex(gameObjectId)
+              local gameOverKillTypes={
+                [TppGameObject.GAME_OBJECT_TYPE_SOLDIER2]=true,
+              }
+              if gameOverKillTypes[typeIndex]then
+                if Ivars.mbNonStaff:Is(0) then--tex added check --<
+                  mvars.f30050_deadGameObjectId = gameObjectId
+                  TppMission.ReserveGameOver( TppDefine.GAME_OVER_TYPE.TARGET_DEAD, TppDefine.GAME_OVER_RADIO.PLAYER_KILL_DD )
+                end
               end
             end
           end,
@@ -1203,9 +1210,16 @@ function this.Messages()
           msg = "Dying",
           func = function(gameObjectId)
             if not Tpp.IsPlayer(gameObjectId) then
-              mvars.f30050_deadGameObjectId = gameObjectId
-              if Ivars.mbNonStaff:Is(0) then--tex added check
-                TppMission.ReserveGameOver( TppDefine.GAME_OVER_TYPE.TARGET_DEAD, TppDefine.GAME_OVER_RADIO.PLAYER_KILL_DD )
+              --tex> NDBD
+              local typeIndex=GameObject.GetTypeIndex(gameObjectId)
+              local gameOverKillTypes={
+                [TppGameObject.GAME_OBJECT_TYPE_SOLDIER2]=true,
+              }
+              if gameOverKillTypes[typeIndex]then
+                if Ivars.mbNonStaff:Is(0) then--tex added check--<
+                  mvars.f30050_deadGameObjectId = gameObjectId
+                  TppMission.ReserveGameOver( TppDefine.GAME_OVER_TYPE.TARGET_DEAD, TppDefine.GAME_OVER_RADIO.PLAYER_KILL_DD )
+                end
               end
             end
           end,
@@ -2156,7 +2170,7 @@ sequences.Seq_Game_MainGame = {
             func = function( trapName, gameObjectId )
               if Tpp.IsSoldier( gameObjectId ) then
                 Fox.Log(" ForceFulton: " ..tostring(gameObjectId) )
-                if Ivars.mbWarGamesProfile:Is(0) then--tex added bypass
+                if InfGameEvent.IsMbEvent() then--tex added bypass
                   GameObject.SendCommand( gameObjectId, { id = "RequestForceFulton" } )
                 end
               end
@@ -2758,13 +2772,13 @@ end
 function this.SetUniqueCharaVisibility( enable )
   if mvars.f30050_isSetLiquid == true or Ivars.mbShowEli:Is(1) then--tex added mbshow
     if Ivars.mbShowEli:Is(1) then enable = true end--tex
-    if Ivars.mbWarGamesProfile:Is()>0 then enable = false end--tex
+    if InfGameEvent.IsMbEvent() then enable = false end--tex
 
     TppDataUtility.SetVisibleDataFromIdentifier( "f30050_liquid_DataIdentifier",		 "Liquid",		enable, false )
   end
   if mvars.f30050_isSetCodeTalker == true or Ivars.mbShowCodeTalker:Is(1) then--tex added mbshow
     if Ivars.mbShowCodeTalker:Is(1) then enable = true end--tex
-    if Ivars.mbWarGamesProfile:Is()>0 then enable = false end--tex
+    if InfGameEvent.IsMbEvent() then enable = false end--tex
     TppDataUtility.SetVisibleDataFromIdentifier( "f30050_codeTolker_DataIdentifier",	"CodeTalker",	enable, false )
   end
 end
@@ -3862,11 +3876,11 @@ function this.ClearVisitQuiet()
 end
 
 function this.NeedPlayQuietWishGoMission()
-  local isClearedSideOps = TppQuest.IsCleard("mtbs_q99011")
+  local isClearedVisitQuietQuest = TppQuest.IsCleard("mtbs_q99011")
   local isNotPlayDemo = not TppDemo.IsPlayedMBEventDemo( "QuietWishGoMission" )
   local isCanArrival = TppStory.CanArrivalQuietInMB()
-  Fox.Log("NeedPlayQuietWishGoMission:isClearedSideOps: ".. tostring(isClearedSideOps)  .. " isNotPlayDemo: " ..tostring(isNotPlayDemo) .. " canArrival: " ..tostring(isCanArrival) )
-  return isClearedSideOps and isNotPlayDemo and isCanArrival
+  Fox.Log("NeedPlayQuietWishGoMission:isClearedSideOps: ".. tostring(isClearedVisitQuietQuest)  .. " isNotPlayDemo: " ..tostring(isNotPlayDemo) .. " canArrival: " ..tostring(isCanArrival) )
+  return isClearedVisitQuietQuest and isNotPlayDemo and isCanArrival
 end
 
 

@@ -1338,6 +1338,36 @@ function this._CreateRevengeConfig(revengeTypes)
     end
     revengeConfig.ARMOR=nil
   end
+
+  --tex limit armor 
+  --armor uses seperate models than the normal bodies with some internal limit,
+  --beyond that it will either default to the default bodyid for that soldier, or not render a body at all.
+  --likewise the collision model has a limit, but will be mismatched
+  --(ie some visually armored soldiers will be able to be shot like they have no armor, or visa versa)
+  --the limit is somewhere between 70-80 (as tested by setting armor in TppEnemy.ApplyPowerSetting to 100%, and off if above the count/testing limit,
+  --edit: nope, still hit it at 61, ugh
+  --then warping to soldiers to verify)
+  --KLUDGE, TODO: cant be bothered mathing it at the moment, fit this to num cps and total soldiers, under the limit (and covering forced noArmorForMission missions), better handled in _ApplyRevengeToCp
+  --currently just setting to 2 soldiers per cp, which is 78 for afghs 39 cps (and preventing lrrps in TppRevenge._ApplyRevengeToCp)
+  --Still possibly will hit the limit (especially if sideops 8 soldiers get set), but less blatant than the prior CUSTOM 100% or COMBAT_5 with 4 soldiers
+  if revengeConfig.ARMOR and this.CanUseArmor() then
+    --InfLog.Add("_CreateRevengeConfig Limiting Armor:"..revengeConfig.ARMOR)--DEBUG
+    if type(revengeConfig.ARMOR)=="string" then--tex is a "some%", which is only possible via custom config
+      --tex no finnese here, just convert from supposed average cp size of 5 (have no idea what actual average is)
+      revengeConfig.ARMOR=this.GetSoldierCountFromPercentPower(revengeConfig.ARMOR,5)
+    end
+    local cpLimit=2
+    local missionCode=vars.missionCode
+    if TppMission.IsStoryMission(missionCode) then
+      if not TppEneFova.noArmorForMission[missionCode] then
+        --tex assuming normal armor missions are ok with 4/COMBAT_5 max, TODO: _GetSettingSoldierCount should be limiting it to 4 reguardless, but i'm seeing more, probably something im munging
+        cpLimit=4
+      end
+    end
+    revengeConfig.ARMOR=math.min(revengeConfig.ARMOR,cpLimit)
+    --InfLog.Add("_CreateRevengeConfig Armor limited:"..revengeConfig.ARMOR)--DEBUG
+  end
+  --<
   local revengeComboExclusionNonRequire={NO_KILL_WEAPON={"MG"}}
   if not mvars.ene_missionRequiresPowerSettings.SHIELD then
     revengeComboExclusionNonRequire.MISSILE={"SHIELD"}
@@ -1631,6 +1661,14 @@ end
 --    TppEquip.RequestLoadToEquipMissionBlock(equipLoadTable)
 --  end
 --end
+--tex taken from below>
+function this.GetSoldierCountFromPercentPower(powerSetting,soldierCount)
+  if powerSetting:sub(-1)=="%"then
+    local percentage=powerSetting:sub(1,-2)+0
+    return math.ceil(soldierCount*(percentage/100))
+  end
+end
+--<
 function this._GetSettingSoldierCount(power,powerSetting,soldierCount)
   local abilities={
     NO_KILL_WEAPON=true,
@@ -1748,6 +1786,27 @@ local function CreateCpConfig(revengeConfig,totalSoldierCount,powerComboExclusio
   return cpConfig
 end
 
+--tex broken out from _ApplyRevengeToCp, for mb
+--IN/OUT: soldierIds
+function this.SetEnableSoldierLocatorList(cpId,plant,soldierIds)
+  local zero=0
+  local cpName=mvars.ene_cpList[cpId]
+  if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
+    local clusterIdList=mtbs_enemy.cpNameToClsterIdList[cpName]
+    if clusterIdList then
+      soldierIds={}
+      local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterIdList]
+      for n,soldierName in ipairs(soldierLocators)do
+        local soldierPlant=tonumber(string.sub(soldierName,-6,-6))
+        if soldierPlant~=nil and soldierPlant==plant then
+          local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
+          soldierIds[soldierId]=soldierName--tex was zero, see note in TppEnemy.DefineSoldiers
+        end
+      end
+    end
+  end
+end
+
 --CALLER: SetUpEnemy
 --INPUT: mvars.revenge_revengeConfig < _CreateRevengeConfig
 function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
@@ -1760,22 +1819,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   local soldierIdForConfigIdTable={}
   local totalSoldierCount=0
   if TppLocation.IsMotherBase()or TppLocation.IsMBQF()then
-    local zero=0
-    local cpName=mvars.ene_cpList[cpId]
-    if(mtbs_enemy and mtbs_enemy.cpNameToClsterIdList~=nil)and mvars.mbSoldier_enableSoldierLocatorList~=nil then
-      local clusterIdList=mtbs_enemy.cpNameToClsterIdList[cpName]
-      if clusterIdList then
-        soldierIds={}
-        local soldierLocators=mvars.mbSoldier_enableSoldierLocatorList[clusterIdList]
-        for n,soldierName in ipairs(soldierLocators)do
-          local soldierPlant=tonumber(string.sub(soldierName,-6,-6))
-          if soldierPlant~=nil and soldierPlant==plant then
-            local soldierId=GameObject.GetGameObjectId("TppSoldier2",soldierName)
-            soldierIds[soldierId]=soldierName--tex was zero, see note in TppEnemy.DefineSoldiers
-          end
-        end
-      end
-    end
+    this.SetEnableSoldierLocatorList(cpId,soldierIds)--tex broken out for clarity
   end
   if soldierIds==nil then
     return
@@ -1820,6 +1864,16 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   if totalSoldierCount==0 then--tex> early out
     return
   end--<
+  
+  --tex limit armor, see 'limit armor' in _CreateRevengeConfig>
+  if isLrrpCp then
+    if revengeConfigCp.ARMOR then
+      if IvarProc.EnabledForMission"allowHeavyArmor" or IvarProc.EnabledForMission"revengeMode" then
+        revengeConfigCp.ARMOR=false
+      end
+    end
+  end
+  --<
 
   local cpConfig={}--NMC: the main point of the function
   for soldierConfigId=1,totalSoldierCount do
@@ -2083,7 +2137,7 @@ function this._ApplyRevengeToCp(cpId,revengeConfig,plant)
   for soldierConfigId,soldierConfig in ipairs(cpConfig)do
     local soldierId=soldierIdForConfigIdTable[soldierConfigId]
     local addRadio=false
-    
+
     if isLrrpVehicleCp and isVehiclePatrols then
       local vehicleInfo=InfVehicle.inf_patrolVehicleInfo[isLrrpVehicleCp]
       if vehicleInfo then

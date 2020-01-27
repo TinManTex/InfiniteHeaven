@@ -1,5 +1,45 @@
 Infinite Heaven changelog
 
+r194 - 2016-11-18
+
+Fixed: Some defaults not applying on fob.
+
+Fixed: Allow skull types not actually filtering the skulls select - thanks SoullessMadness for the report.
+
+Fixed: (mostly) Allow heavy armor in free/missions, Custom prep with armor % high would cause soldiers either defaulting to non armored or not rendering body.
+
+Refactor: InfUserMarker shifted to external
+
+Debug: Added debugUpdate - pcalls on TppMain.OnUpdate / module updates
+
+InfMain: Added PostModuleReload callback for external modules
+
+Module Additions: ihQuestsInfo,RegisterQuests - pulls together various quest data for easier setup of new quests.
+SideOp: quest_q30100 - "Sheep in the Keep" - "Logistics had a mishap and let a herd of sheep loose on the Command Platform. Fulton them so they can take them to the Conservation Platform." 
+SideOp: quest_q30101 - "Birds in the Belfry" - "Your staff has been having some issues with birds roosting in the Intel Platform Enclosure. See if you can clear them out." 
+SideOp: quest_q30102 - "Rats in the Basement" - "The grow-room under the Support Platform is plagued by rodents.&#xA;Find them among the plants." 
+[youtube]Xe5VjKC2f9w[/youtube]
+https://youtu.be/Xe5VjKC2f9w
+
+Functionality: TppAnimal.CheckQuestAllTarget,TppQuest.Update to allow for quest update notification on multiple animal quest update
+Added support for target name list in quest script animallist.
+
+Fixed: Animals camo selectable via the camo option.
+Fixed: RETAILBUG: TppAnimal quest assigning ani_questTargetList to exact same tables, which caused issue when trying to assign different messageid in CheckQuestAllTarget
+Wasn't actually an issue in retail since there was no quests with more than one animal.
+Fixed: Mb puppy no longer disables sideops on Command cluster.
+Refactor: As above, mbPuppy shifted from quest Mtbs_child_dog to it's own module/fpk 
+Data: ih_puppy.fpk/d built from quest_child_dog.fpk/d
+Module: InfPuppy
+
+Fixed: TppQuest.UpdateActiveQuest now using level seed for random or side ops selection mode. This fixes mismatch bettween aparent selected sideop (ui cues) and actual sideop pack/script loaded when directly spawning into a quest load area, possibly a rare issue in free roam, but a clear issue on mother base. Should also prevent the change of sideops from ACC to level.
+
+Data: Fpk \Assets\tpp\pack\ui\lang\lang_default_data_eng.fpk - Assets\tpp\lang\ui\ih_quest.eng.lng2
+
+Data: \Assets\tpp\pack\mission2\quest\ih\ ih_sheep_quest.fpk/d,ih_bird_quest.fpk/d,ih_rat_quest.fpk/d
+
+Fixed: Enable Ocelot in MB causing Sahelenthropus mission to infinite load - thanks CapLagRobin for the report.
+
 r193 - 2016-11-13
 Refactor: Shifted plain table user files loading to InfLog.LoadBoxed.
 

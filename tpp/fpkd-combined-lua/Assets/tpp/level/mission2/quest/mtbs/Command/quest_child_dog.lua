@@ -1,4 +1,4 @@
--- DOBUILD: 1
+-- DOBUILD: 0
 -- ORIGINALQAR: chunk3
 -- PACKPATH: \Assets\tpp\pack\mission2\quest\mtbs\Command\quest_child_dog.fpkd
 --quest_child_dog.lua
@@ -71,10 +71,7 @@ function this.OnActivate()
 	elseif TppBuddyService.IsBuddyDogGot() then--RETAILBUG both checks are the same
 		fv2Index = 1--normal eyes
 	end
-	
-	if Ivars.mbEnablePuppy:Is()>0 then--tex>
-	 fv2Index=Ivars.mbEnablePuppy:Is()-1
-	end--<
+
 	
 	
 	local gameObjectId = { type = "TppBuddyPuppy", index = 0 }
