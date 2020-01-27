@@ -209,8 +209,8 @@ this.wildCardFemaleSuits={
   "TIGER_FEMALE",
   "DRAB_FEMALE",
   "SWIMWEAR_FEMALE",
-  --"SWIMWEAR2_FEMALE",--DEBUGNOW
-  --"SWIMWEAR3_FEMALE",
+--"SWIMWEAR2_FEMALE",--DEBUGNOW
+--"SWIMWEAR3_FEMALE",
 }
 
 this.wildCardFemaleSuitName="SNEAKING_SUIT"--tex set in WildCardFovaSetup
@@ -1547,18 +1547,49 @@ end
 --CALLER: InfEneFova.fovaSetupFuncs or equivalent load point.
 local MAX_REALIZED_COUNT=EnemyFova.MAX_REALIZED_COUNT--==255
 function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
-  if bodyInfo.bodyIds==nil then
-    return
+  InfCore.PCallDebug(function(bodyInfo,bodies,maxBodies,bodyCount)--DEBUG
+    if bodyInfo.bodyIds==nil then
+      return
   end
 
-  local bodyIds=bodyInfo.bodyIds
-  if #bodyIds==0 then
+  local allBodyIds=bodyInfo.bodyIds
+  if #allBodyIds==0 then
     --InfCore.Log("InfEneFova.SetupBodies: "..bodyInfo.bodyType.." has no bodyIds")--DEBUG
     return
   end
 
-  if this.debugModule then
-    InfCore.PrintInspect(bodyIds,"InfEneFova.SetupBodies full bodyIds for "..bodyInfo.bodyType)
+  --tex filter to developed
+  local bodyIds={}
+  for i,bodyId in pairs(allBodyIds)do
+    local addBodyId=Ivars.skipDevelopChecks:Is(1)
+    local camoType=InfBodyInfo.bodyIdToCamoType[bodyId]
+    if not camoType then
+      addBodyId=true
+    else
+      local camoInfo=InfFova.playerCamoTypesInfo[camoType+1]
+      if camoInfo then
+        if this.debugModule then
+        InfCore.Log("bodyId "..bodyId.." is camoInfo "..camoInfo.name)--DEBUG
+        end
+        if camoInfo.developId then
+          if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=camoInfo.developId} then
+            if this.debugModule then
+            InfCore.Log("and isDeveloped")--DEBUG
+            end
+            addBodyId=true
+          end
+        end
+      else
+        addBodyId=true
+      end
+    end
+    if addBodyId then
+      bodyIds[#bodyIds+1]=bodyId
+    end
+  end
+  --tex default to 1st if none
+  if #bodyIds==0 then
+    bodyIds[#bodyIds+1]=allBodyIds[1]
   end
 
   --tex used to manage a limit on bodies for bodytypes that have a large amount
@@ -1576,12 +1607,20 @@ function this.SetupBodies(bodyInfo,bodies,maxBodies,bodyCount)
     InfMain.RandomResetToOsTime()
   end
 
+  if this.debugModule then
+    InfCore.Log("InfEneFova.SetupBodies for "..bodyInfo.bodyType)
+    InfCore.PrintInspect(allBodyIds,"allBodyIds")
+    InfCore.PrintInspect(bodyIds,"bodyIds")
+    InfCore.PrintInspect(this.bodiesForMap,"bodiesForMap")
+  end
+
   local realizeCount=bodyCount or MAX_REALIZED_COUNT--tex VERIFY don't think I've seen this anything but MAX_REALIZED_COUNT
 
   for n,bodyId in ipairs(this.bodiesForMap[bodyInfo.bodyType])do
     local bodyEntry={bodyId,realizeCount}
     bodies[#bodies+1]=bodyEntry
   end
+  end,bodyInfo,bodies,maxBodies,bodyCount)--DEBUG
 end
 
 local allowHeavyArmorStr="allowHeavyArmor"

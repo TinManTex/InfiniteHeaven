@@ -1,5 +1,5 @@
 = Infinite heaven =
-r211 - 2017-08-02
+r212 - 2017-08-03
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.11.0 in exe
 
@@ -16,6 +16,11 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r212:
+Fixed: Primary/Secondary NONE slots conflicting with swimsuit dev entries.
+Fixed: Camo type appearance menu option erroring when no developed camos for current suit.
+Fixed: Suit type option now sets playerCamoType on change.
+
 New for r211:
 Updated for mgstpp 1.0.11.0
 

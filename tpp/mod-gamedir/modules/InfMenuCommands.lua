@@ -815,7 +815,7 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     count=count+1
     InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
-    
+        
     InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
     if index1>index1Max then

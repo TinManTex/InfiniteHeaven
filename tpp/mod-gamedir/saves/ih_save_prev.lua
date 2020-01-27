@@ -3,8 +3,8 @@
 -- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.
 -- See Readme for more info
 local this={}
-this.ihVer=211
-this.saveTime=1501588192
+this.ihVer=212
+this.saveTime=1501706530
 this.inMission=false
 this.loadToACC=false
 this.evars={
@@ -96,7 +96,7 @@ this.evars={
 	resourceScalePlant=1000,
 	resourceScaleContainer=1000,
 	forceSuperReinforce=2,
-	customSoldierTypeMB_ALL=7,
+	customSoldierTypeMB_ALL=25,
 	applyPowersToOuterBase=1,
 	enableResourceScale=1,
 }
@@ -104,7 +104,7 @@ this.igvars={
 	mis_isGroundStart=false,
 	inf_event=false,
 	mbRepopDiamondCountdown=2,
-	inf_levelSeed=-688542229,
+	inf_levelSeed=-1152354656,
 }
 this.questStates={
 	ih_quest_q30100=25,

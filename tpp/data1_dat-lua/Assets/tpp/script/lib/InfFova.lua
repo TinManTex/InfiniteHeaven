@@ -412,18 +412,18 @@ this.playerPartsTypesInfo={
       DD_FEMALE="plparts_ddf_swimwear_h",
     },
     camoTypes={
-      "SWIMWEAR_C00",--103
-      "SWIMWEAR_C01",--
-      "SWIMWEAR_C02",--
-      "SWIMWEAR_C03",--
-      "SWIMWEAR_C05",--
-      "SWIMWEAR_C06",--
-      "SWIMWEAR_C38",--
-      "SWIMWEAR_C39",--
-      "SWIMWEAR_C44",--
-      "SWIMWEAR_C46",--
-      "SWIMWEAR_C48",--
-      "SWIMWEAR_C53",--114
+      "SWIMWEAR_H_C00",--103
+      "SWIMWEAR_H_C01",--
+      "SWIMWEAR_H_C02",--
+      "SWIMWEAR_H_C03",--
+      "SWIMWEAR_H_C05",--
+      "SWIMWEAR_H_C06",--
+      "SWIMWEAR_H_C38",--
+      "SWIMWEAR_H_C39",--
+      "SWIMWEAR_H_C44",--
+      "SWIMWEAR_H_C46",--
+      "SWIMWEAR_H_C48",--
+      "SWIMWEAR_H_C53",--114
     },
   },
    {--26
@@ -754,7 +754,7 @@ this.playerCamoTypesInfo={
     description="Splitter",
     playerCamoType=1,
     developId=19002,
-    fovaId=06,
+    fovaCamoId=06,
     playerParts={
       NORMAL=true,
       NORMAL_SCARF=true,
@@ -2352,6 +2352,10 @@ function this.GetCamoTypes(partsTypeName)
           end
         end
       end
+    end
+    --tex ivar doesnt switch away/skip on empty camo list, so just add 1 as default
+    if #checkedCamoTypes==0 then
+      checkedCamoTypes[#checkedCamoTypes+1]=playerCamoTypes[1]
     end
   end
 

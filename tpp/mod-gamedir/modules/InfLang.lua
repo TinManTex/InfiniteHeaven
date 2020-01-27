@@ -229,8 +229,8 @@ this.eng={--english
     "Sneaking suit",
     "Battle Dress",
     "Swimsuit",
-    --DEBUGNOW "Goblin swimsuit",
-    --"Megalodon swimsuit",
+    "Goblin swimsuit",
+    "Megalodon swimsuit",
     "PF Riot Suit",
     "Soviet",
     "Soviet Urban",
@@ -315,8 +315,8 @@ this.eng={--english
     "Sneaking",
     "Battle Dress",
     "Swimsuit",
-    --DEBUGNOW "Goblin swimsuit",
-    --"Megalodon swimsuit"
+    "Goblin swimsuit",
+    "Megalodon swimsuit"
   },
   mbPrioritizeFemale="Female staff selection",
   mbPrioritizeFemaleSettings={"Default","None","All available","Half"},
@@ -576,6 +576,7 @@ this.eng={--english
   itemLevelMenu="Item level menu",
   itemLevelIntScope="Int-Scope level",
   itemLevelIDroid="IDroid level",
+  no_developed_camo="No developed camos found for suit",
 }--eng end
 
 this.help={}

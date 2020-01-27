@@ -1009,15 +1009,13 @@ this.travelPlans = {
 		{ cp="mafr_swampWest_ob",		routeGroup={ "travel", 					"in_lrrpHold_N" }, },
 		{ cp="mafr_swampWest_ob",		routeGroup={ "travel", 					"out_lrrpHold_S" }, },
 		{ cp="mafr_02_22_lrrp",			routeGroup={ "travel", "lrrp_02to22" }, },
-		--DEBUGNOW { cp="mafr_swamp_cp",			routeGroup={ "travel", 					"in_lrrpHold_N" }, },
-		{ cp="mafr_swamp_cp",     finishTravel=true },--tex added DEBUGNOW
-		--tex ORIG 
---		{ cp="mafr_swamp_cp",			routeGroup={ "travel", "lrrpHold" }, },--DEBUGNOW WAS lrrpHold_01
---		{ cp="mafr_swamp_cp",			routeGroup={ "travel", 					"out_lrrpHold_B01" }, },
---		{ cp="mafr_swamp_cp",			routeGroup={ "travel", 					"out_lrrpHold_B02" }, },
---		{ cp="mafr_02_22_lrrp",			routeGroup={ "travel", "lrrp_22to02" }, },
---		{ cp="mafr_swampWest_ob",		routeGroup={ "travel", 					"in_lrrpHold_S" }, },
---		{ cp="mafr_swampWest_ob",		routeGroup={ "travel", 					"out_lrrpHold_N" }, },
+		{ cp="mafr_swamp_cp",			routeGroup={ "travel", 					"in_lrrpHold_N" }, },
+		{ cp="mafr_swamp_cp",			routeGroup={ "travel", "lrrpHold_01" }, },
+		{ cp="mafr_swamp_cp",			routeGroup={ "travel", 					"out_lrrpHold_B01" }, },
+		{ cp="mafr_swamp_cp",			routeGroup={ "travel", 					"out_lrrpHold_B02" }, },
+		{ cp="mafr_02_22_lrrp",			routeGroup={ "travel", "lrrp_22to02" }, },
+		{ cp="mafr_swampWest_ob",		routeGroup={ "travel", 					"in_lrrpHold_S" }, },
+		{ cp="mafr_swampWest_ob",		routeGroup={ "travel", 					"out_lrrpHold_N" }, },
 	},
 
 	travelArea2_03 = {--veh_trc_0002

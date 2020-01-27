@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r211
+-- Defaults / example of all profile options for IH r212
 -- Profiles are lists of settings for IH options. 
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -101,7 +101,7 @@ local this={
 		revengeModeFREE=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Free roam prep mode
 		revengeModeMISSION=0,--{ DEFAULT, CUSTOM, NONDEFAULT } -- Missions prep mode
 		revengeModeMB_ALL=0,--{ OFF, FOB, DEFAULT, CUSTOM, NONDEFAULT } -- Mother base prep mode
-		customSoldierTypeFREE=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, FATIGUES_CAMO_MIX } -- Custom soldier type in Free roam
+		customSoldierTypeFREE=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, FATIGUES_CAMO_MIX } -- Custom soldier type in Free roam
 		changeCpSubTypeFREE=0,--{ 0-1 } -- Random CP subtype in free roam
 		changeCpSubTypeMISSION=0,--{ 0-1 } -- Random CP subtype in missions
 		enableInfInterrogation=0,--{ 0-1 } -- IH interrogation in free roam
@@ -173,19 +173,6 @@ local this={
 		revengeBlockForMissionCount=3,--{ 0-10 } -- Resupply in #missions
 		applyPowersToOuterBase=0,--{ 0-1 } -- Apply enemy prep to guard posts
 		applyPowersToLrrp=0,--{ 0-1 } -- Apply enemy prep to patrol soldiers
-		allowHeavyArmorFREE=0,--{ 0-1 } -- Allow heavy armor in free roam (may have issues)
-		allowHeavyArmorMISSION=0,--{ 0-1 } -- Allow heavy armor in all missions (may have issues)
-		disableMissionsWeaponRestriction=0,--{ 0-1 } -- Disable weapon restrictions in certain missions
-		disableNoStealthCombatRevengeMission=0,--{ 0-1 } -- Allow Enemy Prep change from free roam
-		revengeDecayOnLongMbVisit=0,--{ 0-1 } -- Enemy prep decrease on long MB visit
-		allowHeadGearCombo=0,--{ 0-1 } -- Allow helmet and NVG or Gas mask combo
-		balanceHeadGear=0,--{ 0-1 } -- Ballance heavy armor and head gear distribution
-		allowMissileWeaponsCombo=0,--{ 0-1 } -- Allow missile combo with other weapons
-		enableMgVsShotgunVariation=0,--{ 0-1 } -- Mg vs Shotgun variation
-		randomizeSmallCpPowers=0,--{ 0-1 } -- Balance small CPs
-		disableConvertArmorToShield=0,--{ 0-1 } -- Disable convert armor to shield (if armor off)
-		randomizeMineTypes=0,--{ 0-1 } -- Randomize minefield mine types
-		additionalMineFields=0,--{ 0-1 } -- Enable additional minefields
 		--Custom soldier equip menu
 		customWeaponTableFREE=0,--{ 0-1 } -- Enemy use custom equip table in free roam
 		customWeaponTableMISSION=0,--{ 0-1 } -- Enemy use custom equip table in missions
@@ -245,14 +232,15 @@ local this={
 		sideops_TARGET_PRACTICE=1,--{ 0-1 } -- Target practice
 		--Mother Base menu
 		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range Type (MB Prep mode FOB only)
-		customSoldierTypeMB_ALL=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, FATIGUES_CAMO_MIX } -- DD Suit
-		customSoldierTypeFemaleMB_ALL=0,--{ OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE } -- DD Suit female
+		customSoldierTypeMB_ALL=0,--{ OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, SWIMWEAR2, SWIMWEAR3, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, FATIGUES_CAMO_MIX } -- DD Suit
+		customSoldierTypeFemaleMB_ALL=0,--{ OFF, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE, SWIMWEAR2_FEMALE, SWIMWEAR3_FEMALE } -- DD Suit female
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear
 		mbPrioritizeFemale=0,--{ OFF, DISABLE, MAX, HALF } -- Female staff selection
 		mbWalkerGearsColor="SOVIET",--{ SOVIET, ROGUE_COYOTE, CFA, ZRS, DDOGS, HUEY_PROTO, RANDOM, RANDOM_EACH } -- Walker gears type
 		mbWalkerGearsWeapon=0,--{ DEFAULT, MINIGUN, MISSILE, RANDOM, RANDOM_EACH } -- Walker gears weapons
 		mbCollectionRepop=0,--{ 0-1 } -- Repopulate plants and diamonds
 		mbMoraleBoosts=0,--{ 0-1 } -- Staff-wide morale boost for good visit
+		revengeDecayOnLongMbVisit=0,--{ 0-1 } -- Enemy prep decrease on long MB visit
 		mbEnableBuddies=0,--{ 0-1 } -- Enable all buddies
 		mbAdditionalSoldiers=0,--{ 0-1 } -- More soldiers on MB plats
 		mbqfEnableSoldiers=0,--{ 0-1 } -- Force enable Quaranine platform soldiers

@@ -1,5 +1,14 @@
 Infinite Heaven changelog
 
+r212 - 2017-08-03
+Fixed: Primary/Secondary NONE slots conflicting with swimsuit dev entries.
+Fixed: Camo type appearance menu option erroring when no developed camos for current suit.
+Fixed: playerPartsType, Suit type now sets playerCamoType on change.
+
+Addition: 1.0.11 Swimsuits added to customSoldierType (free,DD Suit)
+
+customSoldierType - filters to developed
+
 r211 - 2017-08-02
 Updated for mgstpp 1.0.11.0
 
@@ -9,6 +18,8 @@ Added: itemLevelIntScope - Int-Scope level, itemLevelIDroid - Int-Scope level. L
 Fixed: Invisible tanks in Afghanistan freeroam sideops with vehicle patrols on. Misspelled veh_rl_east_tnk_fpkd as veh_rl_east_tank_fpkd when I renamed them back in r196 due to snakebite dictionary update. Oops - thanks pk5547 for save data and report.
 
 Commands: setSelectedObjectToMarkerClosest, setSelectedCpToMarkerClosestCp - debug shiz.
+
+Addition: 1.0.11 Swimsuits added to appearance menu.
 
 r210 - 2017-07-22
 Fixed: Quarantine platform soldiers having no weapons with custom equip table.

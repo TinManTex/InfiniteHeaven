@@ -599,6 +599,8 @@ this.systemMenu={
 this.devInAccMenu={
   nonConfig=true,
   options={
+    Ivars.customSoldierTypeMB_ALL,
+    --Ivars.customBodyTypeMB_ALL,--DEBUGNOW
     InfMenuDefs.appearanceMenu,
     Ivars.skipDevelopChecks,
     Ivars.loadAddonMission,--DEBUGNOW TEST DEBUGNOW add lang, shift to some user menu

@@ -308,8 +308,8 @@ IvarProc.MissionModeIvars(
       "SNEAKING_SUIT",
       "BATTLE_DRESS",
       "SWIMWEAR",
-      --"SWIMWEAR2",--DEBUGNOW
-      --"SWIMWEAR3",
+      "SWIMWEAR2",
+      "SWIMWEAR3",
       "PFA_ARMOR",
       "SOVIET_A",
       "SOVIET_B",
@@ -350,7 +350,7 @@ IvarProc.MissionModeIvars(
       --"CHILD_0",
       "FATIGUES_CAMO_MIX",
     },
-  --DEBUGNOW settingNames="customSoldierTypeSettings",
+    settingNames="customSoldierTypeSettings",
   },
   {
     "FREE",
@@ -372,8 +372,8 @@ IvarProc.MissionModeIvars(
       "SNEAKING_SUIT_FEMALE",
       "BATTLE_DRESS_FEMALE",
       "SWIMWEAR_FEMALE",
-    --"SWIMWEAR2_FEMALE",--DEBUGNOW
-    --"SWIMWEAR3_FEMALE",
+      "SWIMWEAR2_FEMALE",
+      "SWIMWEAR3_FEMALE",
     --    "PRISONER_AFGH_FEMALE",
     --    "NURSE_FEMALE",
     --"DD_RESEARCHER_FEMALE",
@@ -1153,11 +1153,11 @@ IvarProc.MissionModeIvars(
   this,
   "allowHeavyArmor",
   {
-    save=EXTERNAL,
+    --DEBUGNOW OFF save=EXTERNAL,
     range=this.switchRange,
     settingNames="set_switch",
   },
-  {"FREE","MISSION",}
+  {"MISSION"}--DEBUGNOW OFF {"FREE","MISSION",}
 )
 
 --WIP TODO either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though)
@@ -2135,7 +2135,7 @@ this.loadAddonMission={
 this.playerType={
   inMission=true,
   --OFF save=EXTERNAL,
-  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},--DEBUGNOW
+  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
   settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
     PlayerType.SNAKE,
     PlayerType.AVATAR,
@@ -2235,8 +2235,8 @@ local playerPartsTypeSettings={
   "PARASITE",--10
   "LEATHER",--11
   "SWIMWEAR",--23
-  "SWIMWEAR_G",--24--DEBUGNOW
-  "SWIMWEAR_H",--25--DEBUGNOW
+  "SWIMWEAR_G",--24
+  "SWIMWEAR_H",--25
   "RAIDEN",--6,
   "HOSPITAL",--3,
   "MGS1",--4,
@@ -2287,33 +2287,18 @@ this.playerPartsType={
     local setting=self.enum[partsTypeName]
     if setting==nil then
       --InfCore.DebugPrint("WARNING: could not find enum for "..partsTypeName)--DEBUG
-      ivars[self.name]=0
+      self:Set(0)
     else
-      ivars[self.name]=self.enum[partsTypeName]
+      self:set(self.enum[partsTypeName])
     end
   end,
   OnChange=function(self,previousSetting,setting)
     local partsTypeName=self.settings[setting+1]
-
-    local playerCamoTypes=InfFova.GetCamoTypes(partsTypeName)
-    if playerCamoTypes==nil then
-      return
-    end
-
-    --InfCore.PrintInspect(playerCamoTypes)--DEBUG
-    local enum=TppDefine.Enum(playerCamoTypes)
-    local camoName=InfFova.playerCamoTypes[vars.playerCamoType+1]
-    --InfCore.DebugPrint(camoName)--DEBUG
-
-    --tex sort out camo type too
-    local camoType=PlayerCamoType[camoName]
-    if camoType==nil or enum[camoName]==nil then
-      camoType=0
-    end
-
-    vars.playerCamoType=camoType
-
-    vars.playerPartsType=InfFova.PlayerPartsType[partsTypeName]
+    local partsType=InfFova.PlayerPartsType[partsTypeName]
+    
+    vars.playerPartsType=partsType
+    
+    Ivars.playerCamoType:OnSelect()--tex sort out camo type too
   end,
 }
 
@@ -2337,39 +2322,51 @@ this.playerCamoType={
   range={min=0,max=1000},--DYNAMIC
   GetSettingText=function(self,setting)
     local camoName=self.settings[setting+1]
-    InfCore.PrintInspect(camoName,"camoName")--DEBUGNOW
+    if camoName==nil then
+      return InfMenu.LangString"no_developed_camo"
+    end
+    --InfCore.PrintInspect(camoName,"camoName")--DEBUG
     local camoType=PlayerCamoType[camoName]
-    InfCore.PrintInspect(camoType,"camoType")--DEBUGNOW
+    --InfCore.PrintInspect(camoType,"camoType")--DEBUG
     local camoInfo=InfFova.playerCamoTypesInfo[camoType+1]
     return camoInfo.description or camoInfo.name
   end,
   OnSelect=function(self)
     local partsTypeName=InfFova.playerPartsTypes[vars.playerPartsType+1]
-    InfCore.PrintInspect(partsTypeName,"partsTypeName")--DEBUGNOW
-    --DEBUGNOW TODO errors out if GetCamoTypes returns empty table, which may happen with develop checks on and no cammos for suit developed
+    --InfCore.PrintInspect(partsTypeName,"partsTypeName")--DEBUG
     local playerCamoTypes=InfFova.GetCamoTypes(partsTypeName)
     if playerCamoTypes==nil then
-      InfCore.Log("GetCamoTypes == nil")--DEBUGNOW
+      InfCore.Log("WARNING GetCamoTypes == nil")--DEBUG
       return
     end
 
-    InfCore.PrintInspect(playerCamoTypes,"playerCamoTypes")--DEBUGNOW
+    if #playerCamoTypes==0 then
+      InfCore.Log("WARNING #playerCamoTypes==0")--DEBUG
+
+      ivars[self.name]=0
+
+      self.settings=playerCamoTypes
+      self.enum={}
+      self.range.max=0
+      return
+    end
+
+    --InfCore.PrintInspect(playerCamoTypes,"playerCamoTypes")--DEBUG
     local enum=TppDefine.Enum(playerCamoTypes)
-    InfCore.PrintInspect(enum,"enum")--DEBUGNOW
+    --InfCore.PrintInspect(enum,"enum")--DEBUG
     local camoName=InfFova.playerCamoTypes[vars.playerCamoType+1]
-    InfCore.PrintInspect(camoName,"camoName")--DEBUGNOW
-    --InfCore.DebugPrint(camoName)--DEBUG
+    --InfCore.PrintInspect(camoName,"camoName")--DEBUG
 
     local camoSetting=enum[camoName]
     if camoSetting==nil then
       camoSetting=0
     end
 
-    ivars[self.name]=camoSetting
-
     self.settings=playerCamoTypes
     self.enum=enum
     self.range.max=#self.settings-1
+
+    self:Set(camoSetting)
   end,
   OnChange=function(self,previousSetting,setting)
     local camoName=self.settings[setting+1]

@@ -290,7 +290,7 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 4: Custom prep menu
 5: Prep system menu
 6: Custom soldier equip menu
-7: Custom soldier type in Free roam : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, FATIGUES_CAMO_MIX
+7: Custom soldier type in Free roam : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
 Override the soldier type of enemy soldiers in Free Roam
 8: Reset enemy preparedness levels : (Command)
 Resets enemy prep levels to 0
@@ -403,29 +403,6 @@ Prep system menu
 The number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
 2: Apply enemy prep to guard posts : Off, On
 3: Apply enemy prep to patrol soldiers : Off, On
-4: Allow heavy armor in free roam (may have issues) : Off, On
-5: Allow heavy armor in all missions (may have issues) : Off, On
-6: Disable weapon restrictions in certain missions : Off, On
-Missions 2, 12, 13, 16, 26, 31 normally prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).
-7: Allow Enemy Prep change from free roam : Off, On
-By default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort)
-8: Enemy prep decrease on long MB visit : Off, On
-Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat 
-9: Allow helmet and NVG or Gas mask combo : Off, On
-10: Ballance heavy armor and head gear distribution : Off, On
-Adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if Allow helmet and NVG or Gas mask combo option is on
-11: Allow missile combo with other weapons : Off, On
-In the default game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them.
-12: Mg vs Shotgun variation : Off, On
-In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
-13: Balance small CPs : Off, On
-Adds limits and some randomisation to small cp/lrrps enemy prep application
-14: Disable convert armor to shield (if armor off) : Off, On
-Where heavy armor is disabled (free roam by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.
-15: Randomize minefield mine types : Off, On
-Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.
-16: Enable additional minefields : Off, On
-In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.
 
 Custom soldier equip menu
 - Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation
@@ -520,8 +497,8 @@ Mother Base menu
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
 3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
-4: DD Suit : OFF, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_GZ, MSF_TPP, XOF, XOF_GASMASK, XOF_GZ, GENOME_SOLDIER, FATIGUES_CAMO_MIX
-5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
+4: DD Suit : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
+5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit
 6: DD Head gear : Off, Current prep
 7: Female staff selection : Default, None, All available, Half
 By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base

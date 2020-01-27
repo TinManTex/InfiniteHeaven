@@ -48,7 +48,7 @@ function this.PostAllModulesLoad()
     --  'InfEquip',
     --  'InfWalkerGear',
     --'InfSoldier',
-    'InfEneFova',
+    --'InfEneFova',
   }
   for i,moduleName in ipairs(debugModules)do
     _G[moduleName].debugModule=true
