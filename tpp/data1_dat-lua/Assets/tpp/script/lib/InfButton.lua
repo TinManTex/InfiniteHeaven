@@ -60,7 +60,7 @@ this.buttonMasks={
   UNKNOWN11=28,
   UNKNOWN12=29,
   UNKNOWN13=30,
-  --MAX=2^31,--tex max_int=(2^31)-1, guess at a sane enough limit, though should check bitops to figure out actual.
+--MAX=2^31,--tex max_int=(2^31)-1, guess at a sane enough limit, though should check bitops to figure out actual.
 }
 this.NONE=0
 this.ALL=-1
@@ -83,37 +83,44 @@ for name,buttonMask in pairs(this.buttonMasks) do
   button.name=name
   button.isPressed=false
   button.holdTime=0.9--REFACTOR: this vs repeatrate
-  button.startTime=0
   button.repeatRate=0.85
   --button.minRate=0.3
   button.decrement=0
+  button.repeatStart=0--tex used for repeat
+  button.heldStart=0--tex delay between actually being pressed and considered being 'held'
+  button.onHoldStart=0--tex as above, but resets
 end
 
 function this.DEBUG_PrintPressed()
   for name,buttonMask in pairs(this.buttonMasks) do
     if this.OnButtonDown(buttonMask) then
-    --TppUiCommand.AnnounceLogView("scannedButtonsDirect: ".. PlayerVars.scannedButtonsDirect)
-    --TppUiCommand.AnnounceLogView("scannedButtons: ".. PlayerVars.scannedButtons)
-    --if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then--DEBUG: scannedbuttons instead of direct
-     TppUiCommand.AnnounceLogView(name .. "=" .. buttonMask)
+      --TppUiCommand.AnnounceLogView("scannedButtonsDirect: ".. PlayerVars.scannedButtonsDirect)
+      --TppUiCommand.AnnounceLogView("scannedButtons: ".. PlayerVars.scannedButtons)
+      --if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then--DEBUG: scannedbuttons instead of direct
+      InfLog.Add(name.."="..buttonMask)
     end
   end
 end
 function this.UpdatePressed()
   --this.DEBUG_PrintPressed()--DEBUG
   for name,buttonMask in pairs(this.buttonMasks) do
-    this.buttonStates[buttonMask].isPressed = this.ButtonDown(buttonMask)
+    this.buttonStates[buttonMask].isPressed=this.ButtonDown(buttonMask)
   end
 end
 function this.UpdateHeld()
+  local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
   for name,buttonMask in pairs(this.buttonMasks) do
     local buttonState=this.buttonStates[buttonMask]
     if buttonState.holdTime~=0 then
       if not buttonState.isPressed and (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--OnButtonDown
-        buttonState.startTime=Time.GetRawElapsedTimeSinceStartUp()
+        buttonState.repeatStart=elapsedTime
+        buttonState.heldStart=elapsedTime
+        buttonState.onHoldStart=elapsedTime
       end
       if not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--ButtonDown
-        buttonState.startTime=0
+        buttonState.repeatStart=0
+        buttonState.heldStart=0
+        buttonState.onHoldStart=0
       end
     end
   end
@@ -128,9 +135,9 @@ function this.UpdateRepeatReset()
 end
 
 function this.ButtonDown(buttonMask)
---  if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then
---    TppUiCommand.AnnounceLogView("ButtonDown:" .. buttonMask)--tex DEBUG
---  end
+  --  if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then
+  --    TppUiCommand.AnnounceLogView("ButtonDown:" .. buttonMask)--tex DEBUG
+  --  end
   return bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask
 end
 --tex GOTCHA: OnButton functions will have a gameframe of latency, sorry to dissapoint all the pro gamers
@@ -140,42 +147,50 @@ end
 function this.OnButtonUp(buttonMask)
   return this.buttonStates[buttonMask].isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask)
 end
+function this.ButtonHeld(buttonMask)
+  local buttonState=this.buttonStates[buttonMask]
+  if buttonState.holdTime~=0 and buttonState.heldStart~=0 then
+    if Time.GetRawElapsedTimeSinceStartUp()>buttonState.heldStart+buttonState.holdTime then
+      return true
+    end
+  end
+  return false
+end
 function this.OnButtonHoldTime(buttonMask)
-  local buttonState = this.buttonStates[buttonMask]
-  if buttonState.holdTime~=0 and buttonState.startTime~=0 then
-    if Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > buttonState.holdTime then
-      buttonState.startTime=0
+  local buttonState=this.buttonStates[buttonMask]
+  if buttonState.holdTime~=0 and buttonState.onHoldStart~=0 then
+    if Time.GetRawElapsedTimeSinceStartUp()>buttonState.onHoldStart+buttonState.holdTime then
+      buttonState.onHoldStart=0
       return true
     end
   end
   return false
 end
 function this.ButtonRepeatReset(buttonMask)
-  local buttonState = this.buttonStates[buttonMask]
-  if buttonState.decrement ~= 0 then
+  local buttonState=this.buttonStates[buttonMask]
+  if buttonState.decrement~=0 then
     if buttonState.isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--tex OnButtonUp reset
       currentIncrementMult=defaultIncrementMult
     end
   end
 end
 function this.OnButtonRepeat(buttonMask)
-  local buttonState = this.buttonStates[buttonMask]
-  --tex REF: {isPressed=false,holdTime=0,startTime=0,repeatRate=0,minRate=0,decrement=0},
-  if buttonState.decrement ~= 0 then
+  local buttonState=this.buttonStates[buttonMask]
+  if buttonState.decrement~=0 then
     if buttonState.isPressed and not (bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask) then--tex OnButtonUp reset
       --buttonState.repeatRate=buttonState.holdTime
       currentIncrementMult=defaultIncrementMult
       return false
     end
     --local repeatRate=buttonState.repeatRate
-    --if repeatRate~=0 and 
-    if buttonState.startTime~=0 then
-      if Time.GetRawElapsedTimeSinceStartUp() - buttonState.startTime > buttonState.repeatRate then
-        buttonState.startTime=Time.GetRawElapsedTimeSinceStartUp()
---OFF:    if repeatRate > buttonState.minRate then
---          repeatRate=repeatRate-buttonState.decrement
---        end
---        buttonState.repeatRate=repeatRate--]]
+    --if repeatRate~=0 and
+    if buttonState.repeatStart~=0 then
+      if Time.GetRawElapsedTimeSinceStartUp()-buttonState.repeatStart>buttonState.repeatRate then
+        buttonState.repeatStart=Time.GetRawElapsedTimeSinceStartUp()
+        --OFF:    if repeatRate > buttonState.minRate then
+        --          repeatRate=repeatRate-buttonState.decrement
+        --        end
+        --        buttonState.repeatRate=repeatRate--]]
         currentIncrementMult=currentIncrementMult*incrementMultIncrementMult
         --TppUiCommand.AnnounceLogView("DBG:MNU: currentIncrementMult:".. currentIncrementMult)--tex DEBUG
         if currentIncrementMult>maxIncrementMult then
@@ -185,7 +200,7 @@ function this.OnButtonRepeat(buttonMask)
       end
     end
   end
-  return false  
+  return false
 end
 
 function this.GetRepeatMult()

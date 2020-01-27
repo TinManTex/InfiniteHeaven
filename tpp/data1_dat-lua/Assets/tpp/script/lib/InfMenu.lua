@@ -27,6 +27,7 @@ this.autoDisplayRate=this.autoDisplayDefault
 this.menuOn=false
 this.quickMenuOn=false
 this.toggleMenuHoldTime=1.25
+this.quickMenuHoldTime=0.9
 this.toggleMenuButton=InfButton.EVADE--SYNC: InfLang "menu_keys"
 this.menuRightButton=InfButton.RIGHT
 this.menuLeftButton=InfButton.LEFT
@@ -711,7 +712,7 @@ function this.Update(execCheck)
   end--!menuOn
 
   --quickmenu>
-  if InfButton.ButtonDown(this.quickMenuHoldButton) then
+  if InfButton.ButtonHeld(this.quickMenuHoldButton) then
     this.quickMenuOn=true
     local quickMenu=InfQuickMenuDefs.inMission
     if execCheck.inHeliSpace then
@@ -719,7 +720,7 @@ function this.Update(execCheck)
     end
     --InfLog.DebugPrint"quickMenuOn"--DEBUG
     for button,Func in pairs(quickMenu) do
-      if InfButton.OnButtonDown(button) then
+      if InfButton.OnButtonHoldTime(button) then
         Func(execCheck)
       end
     end

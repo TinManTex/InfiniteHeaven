@@ -1,6 +1,10 @@
 Infinite Heaven changelog
 
-r182
+r183 - 2016-09-24
+Fixed: Infinite load screen on traveling between free<>mission for some missions - thanks RealQi for the save file.
+Improved: Added delay on quick menu command activation. Should mean less accidental triggering of quick menu commands - thanks RealQi for the prod.
+
+r182 - 2016-09-22
 Fixed: Being unable to ready weapon when all Custom equip options are turned on and prep config has all weapons set - thanks Gambchon for the report and save file.
 Option: mbqfEnableSoldiers - Force enable Quaranine platform soldiers - in the normal game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
 

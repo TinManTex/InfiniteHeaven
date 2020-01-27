@@ -1,5 +1,5 @@
 = Infinite heaven =
-r182 - 2016-09-22
+r183 - 2016-09-24
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -19,6 +19,9 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r183
+Fixed: Infinite load screen on traveling between free<>mission for some missions - thanks RealQi for the save file.
 
 New for r182
 Fixed: Being unable to ready weapon when all Custom equip options are turned on and prep config has all weapons set - thanks Gambchon for the report and save file.

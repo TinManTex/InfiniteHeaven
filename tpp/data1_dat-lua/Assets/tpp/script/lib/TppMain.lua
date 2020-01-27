@@ -75,7 +75,7 @@ function this.DisableBlackLoading()
   TppUI.FinishLoadingTips()
 end
 function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
-  InfLog.PCallDebug(function(missionTable)--tex
+  --InfLog.PCallDebug(function(missionTable)--tex
     --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")
     --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUG
     InfMain.OnAllocateTop(missionTable)--tex
@@ -85,7 +85,6 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppClock.Stop()
     updateList={}
     numUpdate=0
-
     --ORPHAN: RENAMEsomeupdatetable2={}
     --ORPHAN: RENAMEsomeupdate2=0
     TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
@@ -300,10 +299,10 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
   end
   --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate end")--DEBUG
   --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator
-  end,missionTable)--
+  --end,missionTable)--
 end
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
-  InfLog.PCallDebug(function(missionTable)--tex
+  --InfLog.PCallDebug(function(missionTable)--tex
     --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize begin")--DEBUG
     --SplashScreen.Show(SplashScreen.Create("dbbinin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640))--tex eagle--tex ghetto as 'does it run?' indicator
     InfMain.OnInitializeTop(missionTable)--tex
@@ -484,7 +483,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     InfMain.OnInitializeBottom(missionTable)--tex
     --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize end")--DEBUG
     --SplashScreen.Show(SplashScreen.Create("dbeonin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.1,0)--tex eagle--tex ghetto as 'does it run?' indicator
-  end,missionTable)--tex
+  --end,missionTable)--tex
 end
 function this.SetUpdateFunction(missionTable)
   updateList={}
