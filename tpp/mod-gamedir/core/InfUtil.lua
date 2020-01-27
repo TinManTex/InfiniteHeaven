@@ -80,6 +80,23 @@ function this.FindInList(list,findValue)
   return false
 end
 
+function this.WriteLuaList(fileName,lineFormat,list)
+  local header='local this={'
+  local lineFormat=lineFormat or '"%s",'
+  local footer='}\nreturn this'
+
+  local writeStrings={}
+  writeStrings[#writeStrings+1]=header
+  for i,entry in ipairs(list)do
+    writeStrings[#writeStrings+1]=string.format(lineFormat,entry)
+  end
+  writeStrings[#writeStrings+1]=footer
+
+  local filePath=InfCore.paths.mod..fileName..".lua"
+  InfCore.Log("InfUtil.WriteList: "..filePath)
+  InfCore.WriteStringTable(filePath,writeStrings)
+end
+
 --tex object for returning a random item with no repeats till it's returned all items
 this.ShuffleBag={
   currentItem=nil,

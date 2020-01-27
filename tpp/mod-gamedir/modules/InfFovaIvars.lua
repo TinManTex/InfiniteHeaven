@@ -1,4 +1,5 @@
 -- InfFovaIvars.lua
+--player appearance ivars
 local this={}
 
 -->
@@ -45,41 +46,37 @@ this.registerIvars={
 this.playerType={
   inMission=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE"},
-  settingsTable={--tex can just use number as index but want to re-arrange, actual index in exe/playertype is snake=0,dd_male=1,ddfemale=2,avatar=3
-    PlayerType.SNAKE,
-    PlayerType.AVATAR,
-    PlayerType.DD_MALE,
-    PlayerType.DD_FEMALE,
-  },
-  playerTypeToSetting={
-    --    [PlayerType.SNAKE]=0,
-    --    [PlayerType.AVATAR]=1,
-    --    [PlayerType.DD_MALE]=2,
-    --    [PlayerType.DD_FEMALE]=3,
-    [0]=0,
-    [1]=2,
-    [2]=3,
-    [3]=1,
-  },
+  settings={"SNAKE","AVATAR","DD_MALE","DD_FEMALE","OCELOT","QUIET"},
   GetSettingText=function(self,setting)
-    local playerType=self.settingsTable[setting+1]
+    local playerTypeName=self.settings[setting+1]
+    local playerType=PlayerType[playerTypeName]
     local playerTypeInfo=InfFova.playerTypesInfo[playerType+1]
-    return playerTypeInfo.description or playerTypeInfo.name
+    local fobLocked=""
+    if InfFova.fobLocked[playerTypeInfo.name] then
+      fobLocked=" "..InfLangProc.LangString"fob_locked_warning"
+    end
+    local settingText = playerTypeInfo.description or playerTypeInfo.name
+    return settingText..fobLocked
   end,
   OnSelect=function(self)
-    ivars[self.name]=self.playerTypeToSetting[vars.playerType]
+    local playerTypeName=InfFova.playerTypesInfo[vars.playerType+1].name--TODO better playerType to playerTypeName
+    for setting,playerType in ipairs(self.settings)do
+      if playerType==playerTypeName then
+        ivars[self.name]=setting-1
+        break
+      end
+    end
   end,
   OnChange=function(self,setting)
-
     local currentPlayerType=vars.playerType
-    local newSetting=self:GetTableSetting()
-    if newSetting==currentPlayerType then
+    local newPlayerTypeName=self.settings[setting+1]
+    local newPlayerType=PlayerType[newPlayerTypeName]
+    if newPlayerType==currentPlayerType then
       return
     end
 
-    if (InfFova.playerTypeGroup.VENOM[newSetting] and InfFova.playerTypeGroup.DD[currentPlayerType])
-      or (InfFova.playerTypeGroup.VENOM[currentPlayerType] and InfFova.playerTypeGroup.DD[newSetting]) then
+    if (InfFova.playerTypeGroup.VENOM[newPlayerTypeName] and InfFova.playerTypeGroup.DD[currentPlayerType])
+      or (InfFova.playerTypeGroup.VENOM[currentPlayerType] and InfFova.playerTypeGroup.DD[newPlayerTypeName]) then
       --InfCore.DebugPrint"playerTypeGroup changed"--DEBUG
       vars.playerPartsType=0
     end
@@ -90,7 +87,7 @@ this.playerType={
       Ivars.femaleFaceId:Set(vars.playerFaceId)
     end
 
-    if newSetting==PlayerType.DD_FEMALE then
+    if newPlayerType==PlayerType.DD_FEMALE then
       vars.playerFaceId=Ivars.femaleFaceId:Get()
     else
       vars.playerFaceId=Ivars.maleFaceId:Get()
@@ -101,7 +98,15 @@ this.playerType={
       vars.playerFaceEquipId=0
     end
 
-    vars.playerType=newSetting
+    --tex fob locked player types such as Occelot and Quiet can be set in sortie
+    --unfortunately the exe will force them back to snake on reset so user has to live with side effects
+    if InfFova.fobLocked[newPlayerTypeName] then
+      TppGameStatus.Set("heli_common_sequence.lua", "S_IS_SORTIE_PREPARATION")
+    else
+      TppGameStatus.Reset("heli_common_sequence.lua", "S_IS_SORTIE_PREPARATION")
+    end
+
+    vars.playerType=newPlayerType
   end,
 }
 
@@ -161,6 +166,8 @@ local playerPartsTypeSettings={
   "EVA_OPEN",--20
   "BOSS_CLOSE",--21
   "BOSS_OPEN",--22
+  "OCELOT",
+  "QUIET",
 }
 
 this.playerPartsType={
@@ -176,12 +183,12 @@ this.playerPartsType={
     local playerTypeName=InfFova.playerTypes[vars.playerType+1]
 
     local fovaTable,modelDescription=InfFova.GetFovaTable(playerTypeName,partsTypeName)
-
     return modelDescription or partsTypeInfo.description or partsTypeInfo.name
   end,
   OnSelect=function(self)
     local playerPartsTypes=InfFova.GetPlayerPartsTypes(playerPartsTypeSettings,vars.playerType)
     if playerPartsTypes==nil then
+      InfCore.Log("WARNING: No playerPartsTypes for playerType "..vars.playerType)
       return
     end
 
@@ -359,7 +366,7 @@ this.playerFaceId={
     local faceId=faceDef[1]
 
     if Ivars.playerFaceFilter:Is"FOVAMOD" then
-      if not InfModelProc.hasFova then
+      if not InfModelProc.hasFaceFova then
         return InfLangProc.LangString"no_head_fovas"
       end
     end
@@ -1005,6 +1012,12 @@ this.langStrings={
     playerFaceFilter="Filter faces",
     playerFaceFilterSettings={"Show all","Headgear (cosmetic)","Unique","Head fova mods"},
     no_developed_camo="No developed camos found for suit",
+    fob_locked_warning="WARNING: Pause menu disabled, may cause other issues",
+  },
+  help={
+    eng={
+      playerType="Change main player type. WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.",
+    },
   },
 }
 

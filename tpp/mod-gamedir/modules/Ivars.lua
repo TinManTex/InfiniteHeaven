@@ -202,7 +202,7 @@ this.enableQuickMenu={
   settingNames="set_switch",
 }
 
-this.selectedCp={
+this.selectedCp={--DEBUGNOW
   inMission=true,
   nonConfig=true,
   --save=IvarProc.CATEGORY_EXTERNAL,
@@ -365,19 +365,6 @@ this.dropTestEquip={--WIP --DEBUGNOW
   end,
 }
 
-this.selectedGameObjectType={
-  inMission=true,
-  nonConfig=true,
-  --save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=1},--DYNAMIC (not currently, TODO)
-  OnSelect=function(self)
-    self.range.max=#InfLookup.gameObjectClass-1
-  end,
-  GetSettingText=function(self,setting)
-    return InfLookup.gameObjectClass[setting+1]
-  end,
-}
-
 this.selectProfile={
   nonConfig=true,
   --save=IvarProc.CATEGORY_EXTERNAL,
@@ -482,7 +469,7 @@ this.setCamToListObject={--DEBUGNOW
   inMission=true,
   range={max=0},--DYNAMIC
   GetSettingText=function(self,setting)
-    local objectName,info,position=InfObject.GetObjectInfoOrPos(setting+1)
+    local objectName,info,position=InfObjects.GetObjectInfoOrPos(setting+1)
     if info and not position then
       return info
     end

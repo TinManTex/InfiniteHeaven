@@ -1,6 +1,8 @@
 --InfNPCHeli.lua
+--TODO: better patrol routes
+--loop around abse with (if possible) gun looking at spots inside, but than would have to start tracking state again to give it a number of loops (or just manually build a few loops into route)
 --TODO: shift to custom routes and sendmessage, then can kill update and shift route changes to timers.
---DEBUGNOW msg_heli_pfCamp_I_end etc
+--DEBUGNOW msg_heli_patrol_route_end etc
 local this={}
 
 --LOCALOPT
@@ -21,7 +23,7 @@ local IvarProc=IvarProc
 this.debugModule=false
 
 --updateState
-this.active=1
+this.active=0
 this.execCheckTable={inGame=true,inSafeSpace=false}
 this.execState={
   nextUpdate=0,
@@ -31,9 +33,8 @@ this.execState={
 this.heliList={}
 
 local heliTimes={}
-this.heliRouteIds={}--tex str32 route for free roam, cluster for mb (TODO: change to route as well)
-local heliOnApproach={}
-local closestDistance={}
+this.heliClusters={}--tex cluster for mb
+
 
 this.enabledLzs=nil--tex free: is just this.heliRoutes[locationName], for mb is enabled lz in mtbs_cluster.SetUpLandingZone
 
@@ -55,9 +56,11 @@ this.totalAttackHelis=5--tex for svars, must match max instance count/fox2 total
 this.packages={
   afgh={
     "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",
+    "/Assets/tpp/pack/mission2/ih/heli_patrol_routes_afgh.fpk",
   },
   mafr={
     "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_mafr.fpk",
+    "/Assets/tpp/pack/mission2/ih/heli_patrol_routes_mafr.fpk",
   },
   mtbs={
     "/Assets/tpp/pack/soldier/reinforce/reinforce_heli_afgh.fpk",
@@ -110,11 +113,11 @@ this.heliRoutes={
     --    "lz_drp_sovietBase_N0000|rt_drp_sovietBase_N_0000",
     --    "lz_drp_cliffTownWest_S0000|rt_drp_cliffTownWest_S_0000",
     --    "lz_drp_field_W0000|rt_drp_field_W_0000",
-    "lz_drp_field_I0000|rt_drp_field_I_0000",--fort with fields assault (Da Shago Kallai)
+    "lz_drp_field_I0000|rt_drp_field_I_0000-IH",--fort with fields assault (Da Shago Kallai)
     --    "lz_drp_remnantsNorth_N0000|rt_drp_remnantsNorth_N_0000",
     --    "lz_drp_fort_E0000|rt_drp_fort_E_0000",
     --    "lz_drp_slopedTownEast_E0000|rt_drp_slopedTownEast_E_0000",
-    "lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000",--Eastern Communications Post assault
+    "lz_drp_commFacility_I0000|rt_drp_commFacility_I_0000-IH",--Eastern Communications Post assault
     --    "lz_drp_waterway_I0000|rt_drp_waterway_I_0000",
     --    "lz_drp_sovietBase_S0000|rt_drp_sovietBase_S_0000",
     --    "lz_drp_powerPlant_S0000|rt_drp_powerPlant_S_0000",
@@ -123,38 +126,38 @@ this.heliRoutes={
     --    "lz_drp_remnants_S0000|rt_drp_remnants_S_0000",
     --    "lz_drp_slopedTown_E0000|rt_drp_slopedTown_E_0000",
     --    "lz_drp_ruinsNorth_S0000|rt_drp_ruinsNorth_S_0000",
-    "lz_drp_slopedTown_I0000|rt_drp_slopedTown_I_0000",--Da Ghwandai Khar assault
-    "lz_drp_fort_I0000|rt_drp_fort_I_0000",--valley fort assault (Sa Smasei Laman)
-    "lz_drp_tent_I0000|rt_drp_tent_I_0000",--volgin body fort assault (Yakho Oboo Supply Outpost)
+    "lz_drp_slopedTown_I0000|rt_drp_slopedTown_I_0000-IH",--Da Ghwandai Khar assault
+    "lz_drp_fort_I0000|rt_drp_fort_I_0000-IH",--valley fort assault (Sa Smasei Laman)
+    "lz_drp_tent_I0000|rt_drp_tent_I_0000-IH",--volgin body fort assault (Yakho Oboo Supply Outpost)
     --    "lz_drp_village_W0000|rt_drp_village_W_0000",
     --    "lz_drp_remnantsNorth_S0000|rt_drp_remnantsNorth_S_0000",
-    "lz_drp_village_N0000|rt_drp_village_N_0000",--Da Wialo Kallai (not assault)
+    "lz_drp_village_N0000|rt_drp_village_N_0000-IH",--Da Wialo Kallai (not assault)
     --    "lz_drp_tent_N0000|rt_drp_tent_N_0000",
     --    "lz_drp_tent_E0000|rt_drp_tent_E_0000",
     --    "lz_drp_slopedTown_W0000|rt_drp_slopedTown_W_0000",
-    "lz_drp_remnants_I0000|rt_drp_remnants_I_0000",--Palace assault (Lamar Khaate Palace)
+    "lz_drp_remnants_I0000|rt_drp_remnants_I_0000-IH",--Palace assault (Lamar Khaate Palace)
     --    "lz_drp_fort_W0000|rt_drp_fort_W_0000",
     --    "lz_drp_commFacility_W0000|rt_drp_commFacility_W_0000",
-    "lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000",--cliff town assault (Qarya Sakhra Ee)
-    "lz_drp_powerPlant_E0000|rt_drp_powerPlant_E_0000",--powerplant assault (Serak Power Plant)
+    "lz_drp_cliffTown_I0000|rt_drp_cliffTown_I0000-IH",--cliff town assault (Qarya Sakhra Ee)
+    "lz_drp_powerPlant_E0000|rt_drp_powerPlant_E_0000-IH",--powerplant assault (Serak Power Plant)
     --    "lz_drp_cliffTown_S0000|rt_drp_cliffTown_S_0000",
-    "lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000",--Barracks assault (Wakh Sind Barracks)
+    "lz_drp_enemyBase_I0000|rt_drp_enemyBase_I_0000-IH",--Barracks assault (Wakh Sind Barracks)
     --    "lz_drp_ruins_S0000|rt_drp_ruins_S_0000",
-    "lz_drp_sovietBase_E0000|rt_drp_sovietBase_E_0000",--Central Base assault (Afhanistan Central Base Camp)
+    "lz_drp_sovietBase_E0000|rt_drp_sovietBase_E_0000-IH",--Central Base assault (Afhanistan Central Base Camp)
   --"lz_drp_sovietSouth_S0000|rt_drp_sovietSouth_S_0000",
   },
   mafr={
-    "lz_drp_lab_W0000|rt_drp_lab_W_0000",--Luftwa Valley NW, OB 08 E
-    "lz_drp_hill_I0000|rt_drp_hill_I_0000",--Munoko ya Nioka Station assault
+    "lz_drp_lab_W0000|rt_drp_lab_W_0000-IH",--Luftwa Valley NW, OB 08 E
+    "lz_drp_hill_I0000|rt_drp_hill_I_0000-IH",--Munoko ya Nioka Station assault
     --"lz_drp_diamond_N0000|rt_drp_diamond_N_0000",--Mine N
     --"lz_drp_swamp_S0000|rt_drp_swamp_S_0000",--Kiziba Camp SW
     --"lz_drp_savannahWest_N0000|lz_drp_savannahWest_N_0000",--Plantation S, OB 04 E, OB 03 W, OB 05 W, OB09 N
     --"lz_drp_diamondWest_S0000|lz_drp_diamondWest_S_0000",--Mine W, OB05,03 SE, OB07 W
-    "lz_drp_swamp_I0000|rt_drp_swamp_I_0000",--Kiziba Camp assault
-    "lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000",-- Airport assault (Nova Braga)
-    "lz_drp_savannah_I0000|rt_drp_savannah_I_0000",--Abandoned village tall hill/overlooking cliff assault (Ditadi Abandoned Village)
+    "lz_drp_swamp_I0000|rt_drp_swamp_I_0000-IH",--Kiziba Camp assault
+    "lz_drp_pfCamp_I0000|rt_drp_pfCamp_I_0000-IH",-- Airport assault (Nova Braga)
+    "lz_drp_savannah_I0000|rt_drp_savannah_I_0000-IH",--Abandoned village tall hill/overlooking cliff assault (Ditadi Abandoned Village)
     --"lz_drp_pfCamp_N0000|rt_drp_pfcamp_N_0000",
-    "lz_drp_diamond_I0000|rt_drp_diamond_I_0000",--Mine assault (Kungenga Mine)
+    "lz_drp_diamond_I0000|rt_drp_diamond_I_0000-IH",--Mine assault (Kungenga Mine)
     --"lz_drp_diamondSouth_W0000|rt_drp_diamondSouth_W_0000",--Mine SW, OB05,07 S, OB13N
     --"lz_drp_factoryWest_S0000|lz_drp_factoryWest_S_0000",
     --"lz_drp_pfCamp_S0000|lz_drp_pfCamp_S_0000",
@@ -170,12 +173,12 @@ this.heliRoutes={
     --"lz_drp_swampEast_N0000|lz_drp_swampEast_N_0000",--Kiziba E, OB 10 N
     --"lz_drp_diamondSouth_S0000|lz_drp_diamondSouth_S_0000",
     --"lz_drp_hillSouth_W0000|lz_drp_hillSouth_W_0000",
-    "lz_drp_banana_I0000|rt_drp_banana_I_0000",--Bampeve Plantation assault
+    "lz_drp_banana_I0000|rt_drp_banana_I_0000-IH",--Bampeve Plantation assault
     --"lz_drp_hill_E0000|lz_drp_hill_E_0000",
     --"lz_drp_factory_N0000|rt_drp_factory_N_0000",
     --"lz_drp_savannahEast_N0000|rt_drp_savannahEast_N_0000",
     --"lz_drp_flowStation_E0000|lz_drp_flowStation_E_0000",--Mfinda Oilfield east/ outpost 01
-    "lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000",--Mfinda Oilfield assault
+    "lz_drp_flowStation_I0000|rt_drp_flowStation_I_0000-IH",--Mfinda Oilfield assault
   --"lz_drp_outland_S0000|rt_drp_outland_S_0000",
   },
 }
@@ -371,12 +374,14 @@ function this.Init(missionTable,currentChecks)
     return
   end
 
-  this.active=1
-
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
   local isMb=vars.missionCode==30050
   local isOuterPlat=vars.missionCode==30150 or vars.missionCode==30250
+
+  if isMb then
+    this.active=1
+  end
 
   this.heliList={}
 
@@ -426,11 +431,9 @@ function this.Init(missionTable,currentChecks)
     end
   end
 
-  local heliRouteIds=this.heliRouteIds
   for n=1,#this.heliList do
     heliTimes[n]=0
-    heliRouteIds[n]=0
-    heliOnApproach[n]=false
+    this.heliClusters[n]=0
   end
 
   --      local heliMeshTypes={
@@ -476,7 +479,7 @@ function this.Init(missionTable,currentChecks)
     end
   end
 
-  InfCore.PrintInspect(this.heliList,{varName="InfNPCHeli.heliList"})--DEBUG
+  InfCore.PrintInspect(this.heliList,"InfNPCHeli.heliList")--DEBUG
 end
 
 function this.OnMissionCanStart(currentChecks)
@@ -484,16 +487,29 @@ function this.OnMissionCanStart(currentChecks)
     return
   end
   local isMb=vars.missionCode==30050
-  --tex set up lz info
   if isMb then
   --tex done in mtbs_cluster.SetUpLandingZone
-  else
+    return
+  end
+
+  --tex set up lz info
     local locationName=InfUtil.GetLocationName()
     this.enabledLzs=this.heliRoutes[locationName]
     routesBag=InfUtil.ShuffleBag:New(this.enabledLzs)
+
+  if not gvars.sav_varRestoreForContinue then
+    for heliIndex=1,#this.heliList do
+      local heliName=this.heliList[heliIndex]
+      local heliObjectId = GetGameObjectId(heliName)
+      if heliObjectId==NULL_ID then
+        InfCore.Log(heliName.."==NULL_ID")--DEBUGNOW
+      else
+        local heliRoute=routesBag:Next()
+        InfCore.Log("InfNPCHeli.OnMissionCanStart: "..heliObjectId.." set to:"..heliRoute)--DEBUGNOW
+        SendCommand(heliObjectId,{id="SetSneakRoute",route=heliRoute,point=1,warp=true})--DEBUGNOW
+      end
   end
-  --InfCore.PrintInspect(this.enabledLzs)--DEBUG
-  --this.SetRoutes()
+  end--if contine
 end
 
 function this.OnReload(missionTable)
@@ -505,18 +521,21 @@ function this.OnReload(missionTable)
     return
   end
 
-  this.active=1
-
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
+
+  if vars.missionCode==30050 then
+  this.active=1
+  end
 end
 
 function this.Messages()
   return Tpp.StrCode32Table{
     GameObject={
+      {msg="RoutePoint2",func=this.OnRouteMessage},
       {msg="StartedPullingOut",func=function()
         --InfCore.DebugPrint("StartedPullingOut")--DEBUG
         --this.heliSelectClusterId=nil
-        end}
+        end},
     },
     Terminal={
       {msg="MbDvcActSelectLandPoint",func=function(nextMissionId,routeName,layoutCode,clusterId)
@@ -534,12 +553,6 @@ end
 function this.OnMessage(sender,messageId,arg0,arg1,arg2,arg3,strLogText)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,sender,messageId,arg0,arg1,arg2,arg3,strLogText)
 end
-
-
-local searchLightOn={id="SetSearchLightForcedType",type="On"}
-local searchLightOff={id="SetSearchLightForcedType",type="On"}
-local nightCheckTime=0
-local nightCheckMax=20
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
   --InfCore.PCall(function(currentChecks,currentTime,execChecks,execState)--DEBUG
@@ -566,130 +579,31 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     --InfCore.DebugPrint"enabledLzs empty"--DEBUG
     return
   end
-
-  --LOCALOPT:
-  local vars=vars
-  local mvars=mvars
-  
-  local InfLZ=InfLZ
-
   local isMb=vars.missionCode==30050
-  local locationName=InfUtil.locationNames[vars.locationCode]
+
+  --DEBUGNOW
+  if not isMb then
+    this.active=0
+    return
+  end
 
   local isNight=IsNight()
-  local heliRouteIds=this.heliRouteIds
   for heliIndex=1,#this.heliList do
     local heliName=this.heliList[heliIndex]
     local heliObjectId = GetGameObjectId(heliName)
     if heliObjectId==NULL_ID then
     --InfCore.DebugPrint(heliName.."==NULL_ID")--DEBUG
     else
-
-      --CULL
-      --      if nightCheckTime<elapsedTime then
-      --        nightCheckTime=elapsedTime+nightCheckMax+math.random(3)
-      --
-      --        if isNight then--tex manual searchligh, don't know why they dont come on during approach route, they do with other routes
-      --        -- doesn't seem to work for TppOtherHeli anyway, and Enemy manages to do it itself
-      --          SendCommand(heliObjectId,searchLightOn)
-      --        else
-      --          SendCommand(heliObjectId,searchLightOff)
-      --        end
-      --      end
-
-      --tex TODO: rate limit or set on a msg timerh
-      if not isMb then
-        local routeEnd=InfLZ.GetGroundStartPosition(heliRouteIds[heliIndex])
-        routeEnd=routeEnd and routeEnd.pos or nil
-        if routeEnd==nil and heliRouteIds[heliIndex]~=nil then
-        --InfCore.DebugPrint("routeCenter==nil")--DEBUG
-        else
-          local heliPos=SendCommand(heliObjectId,{id="GetPosition"})
-          if heliPos==nil then
-          --InfCore.DebugPrint("heliPos==nil")--DEBUG
-          else
-            heliPos={heliPos:GetX(),heliPos:GetY(),heliPos:GetZ()}
-            local distSqr=TppMath.FindDistance(heliPos,routeEnd)
-
-            local routeInfo=routeInfos[locationName][heliRouteIds[heliIndex]]
-            local approachDist=700
-            if distSqr<approachDist*approachDist and not heliOnApproach[heliIndex] then--tex getting close, don't bail now
-              heliOnApproach[heliIndex]=true
-              heliTimes[heliIndex]=currentTime+math.random(routeTimeMin,routeTimeMax)
-            end
-            if routeInfo.stickDistance and distSqr<routeInfo.stickDistance then
-              heliTimes[heliIndex]=0
-            elseif routeInfo.arrivedDistance and distSqr<routeInfo.arrivedDistance then
-              --InfCore.DebugPrint(n.." "..heliName.." arrived for route: "..tostring(InfLookup.str32LzToLz[heliRouteIds[n]]))--DEBUG
-              heliTimes[heliIndex]=currentTime+math.random(routeInfo.exitTime[1],routeInfo.exitTime[2])
-            end
-
-            if distSqr<closestDistance[heliIndex] then--DEBUG
-              closestDistance[heliIndex]=distSqr
-            end
-
-            --InfCore.DebugPrint("routepos:")
-            --InfCore.PrintInspect(routeCenter)
-            --InfCore.DebugPrint("helipos:".. heliPos[1]..",".. heliPos[2].. ","..heliPos[3].." distsqr:"..distSqr.. " closestdist:"..closestDistance)--DEBUG
-
-            --TODO
-            --            local closestCp,cpDistance,cpPosition=InfMain.GetClosestCp(heliPos)
-            --            if closestCp==nil then
-            --            else
-            --              SendCommand(heliObjectId,{id="SetCommandPost",cp=closestCp})
-            --            end
-          end
-        end
-      end
-
-      --tex TODO set cp to nearest, possibly on second timer so it's not hitting it up every frame
-
       --tex choose new route
       if heliTimes[heliIndex]<currentTime then
-        if isMb then
           heliTimes[heliIndex]=currentTime+math.random(routeTimeMbMin,routeTimeMbMax)
-        else
-          heliTimes[heliIndex]=currentTime+math.random(routeTimeMin,routeTimeMax)
-        end
 
-        local heliRoute=nil
-
-        if isMb then
-          heliRoute=this.UpdateHeliMB(heliObjectId,heliIndex,heliRouteIds)
-        else
-          heliRoute=routesBag:Next()
-          heliRoute=StrCode32(heliRoute)
-
-          if gvars.heli_missionStartRoute then
-            InfCore.Log("gvars.heli_missionStartRoute=".. gvars.heli_missionStartRoute.." heliroute="..heliRoute)--DEBUGNOW
-            if heliRoute==gvars.heli_missionStartRoute then
-              local groundStartPosition=InfLZ.GetGroundStartPosition(gvars.heli_missionStartRoute)
-              local isAssaultLz=mvars.ldz_assaultDropLandingZoneTable[gvars.heli_missionStartRoute]
-              local startOnFoot=groundStartPosition and InfMain.IsStartOnFoot(vars.missionCode,isAssaultLz)
-              if not startOnFoot then
-
-                heliRoute=routesBag:Next()
-                heliRoute=StrCode32(heliRoute)
-                InfCore.Log("heliroute==misisonstartroute, changing to:"..heliRoute)--DEBUGNOW
-              end
-            end
-          end
-
-          heliRouteIds[heliIndex]=heliRoute
-          local groundStartPosition=InfLZ.GetGroundStartPosition(heliRoute)
-          if groundStartPosition then
-            heliOnApproach[heliIndex]=false
-            closestDistance[heliIndex]=9999999999997--DEBUG
-          end
-        end
-
-        if heliRoute then
+        local heliRoute=this.UpdateHeliMB(heliObjectId,heliIndex,this.heliClusters)
           SendCommand(heliObjectId,{id="SetForceRoute",route=heliRoute})
           --SendCommand(heliObjectId,{id="SetForceRoute",route=heliRoute,point=0,warp=true})
           --SendCommand(heliObjectId,{id="SetLandingZnoeDoorFlag",name="heliRoute",leftDoor="Close",rightDoor="Close"})
 
           --InfCore.DebugPrint(n.." "..heliName.." route: "..tostring(InfLookup.str32LzToLz[heliRouteIds[n]]))--DEBUG
-        end
         -- is > heliTime--<
       end
 
@@ -702,23 +616,15 @@ end
 
 
 --IN-SIDE heliRouteIds
-function this.UpdateHeliMB(heliObjectId,heliIndex,heliRouteIds)
-  local prevCluster=heliRouteIds[heliIndex]--DEBUG
-  local clusterId=this.ChooseRandomHeliCluster(heliRouteIds,heliTimes,this.heliSelectClusterId)
-  heliRouteIds[heliIndex]=clusterId
+function this.UpdateHeliMB(heliObjectId,heliIndex,heliClusters)
+  local prevCluster=heliClusters[heliIndex]--DEBUG
+  local clusterId=this.ChooseRandomHeliCluster(heliClusters,heliTimes,this.heliSelectClusterId)
+  heliClusters[heliIndex]=clusterId
 
   --        local clusterTime=heliTimes[n]-elapsedTime--DEBUG
   --        InfCore.DebugPrint(n.." "..heliName .. " from ".. tostring(TppDefine.CLUSTER_NAME[prevCluster]) .." to cluster ".. tostring(TppDefine.CLUSTER_NAME[clusterId]) .. " for "..clusterTime)--DEBUG
+  this.SetHeliToClusterCp(heliObjectId,clusterId)
 
-  if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
-    local clusterParam=mvars.mbSoldier_clusterParamList[clusterId]
-    local cpId=GetGameObjectId("TppCommandPost2",clusterParam.CP_NAME)
-    if cpId==NULL_ID then
-      InfCore.Log("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
-    else
-      SendCommand(heliObjectId,{id="SetCommandPost",cp=clusterParam.CP_NAME})
-    end
-  end
 
   local clusterLzs=this.enabledLzs[clusterId]
   if clusterLzs and #clusterLzs>0 then
@@ -736,6 +642,35 @@ function this.UpdateHeliMB(heliObjectId,heliIndex,heliRouteIds)
         InfCore.DebugPrint("Warning: UpdateNPCHeli - no heliTaxiSettings for".. currentLandingZoneName .." ".. nextLandingZoneName)
       end
     end
+  end
+end
+
+function this.SetHeliToClusterCp(heliObjectId,clusterId)
+  if mvars.mbSoldier_clusterParamList and mvars.mbSoldier_clusterParamList[clusterId] then
+    local clusterParam=mvars.mbSoldier_clusterParamList[clusterId]
+    local cpId=GetGameObjectId("TppCommandPost2",clusterParam.CP_NAME)
+    if cpId==NULL_ID then
+      InfCore.Log("cpId "..clusterParam.CP_NAME.."==NULL_ID ")
+    else
+      SendCommand(heliObjectId,{id="SetCommandPost",cp=clusterParam.CP_NAME})
+    end
+  end
+end
+
+local msg_heli_patrol_route_endStr="msg_heli_patrol_route_end"
+local msg_heli_patrol_route_endS32=StrCode32(msg_heli_patrol_route_endStr)
+--msg RoutePoint2
+this.OnRouteMessage=function(gameObjectId,routeId,routeNodeIndexOrParam,message)
+  if message~=msg_heli_patrol_route_endS32 then
+    return
+  end
+
+  local heliRoute=routesBag:Next()
+  InfCore.Log("InfNPCHeli.OnRouteMessage: msg_heli_patrol_route_end - "..gameObjectId.." changing to:"..heliRoute)--DEBUGNOW
+  --heliRoute=StrCode32(heliRoute)
+
+  if heliRoute then
+    SendCommand(gameObjectId,{id="SetSneakRoute",route=heliRoute})
   end
 end
 
@@ -820,31 +755,6 @@ function this.ChooseRandomHeliCluster(heliClusters,heliTimes,supportHeliClusterI
 end
 
 --DEBUG
-function this.SetRoute(heliRoute,heliIndex)
-  this.heliRouteIds[heliIndex]=heliRoute
-  local groundStartPosition=InfLZ.GetGroundStartPosition(heliRoute)
-  if groundStartPosition then
-    InfCore.DebugPrint("found ground posisiton")--DEBUG
-    closestDistance[heliIndex]=9999999999998--DEBUG
-  else
-    InfCore.DebugPrint("!!no ground posisiton")--DEBUG
-  end
-
-
-  local heliName=this.heliList[heliIndex]
-  local heliObjectId = GetGameObjectId(heliName)
-  if heliObjectId==NULL_ID then
-  --InfCore.DebugPrint(heliName.."==NULL_ID")--DEBUG
-  else
-
-    if heliRoute then
-      SendCommand(heliObjectId,{id="SetSneakRoute",route=heliRoute,point=0,warp=true})--DEBUG
-      InfCore.DebugPrint(heliIndex.." "..heliName.." route: "..tostring(InfLookup.str32LzToLz[heliRoute]))--DEBUG
-    end
-  end
-end
-
---DEBUG
 function this.ClearRoute(heliIndex)
   local route=nil
 
@@ -858,36 +768,6 @@ function this.ClearRoute(heliIndex)
     SendCommand(heliObjectId,{id="SetCautionRoute",route=route})
     SendCommand(heliObjectId,{id="SetAlertRoute",route=route})
     InfCore.DebugPrint(heliIndex.." "..heliName.." clearroute")--DEBUG
-  end
-end
-
-function this.PrintHeliPos()
-  for heliIndex,heliName in ipairs(this.heliList)do
-    local heliObjectId = GetGameObjectId(heliName)
-    if heliObjectId==NULL_ID then
-    --InfCore.DebugPrint(heliName.."==NULL_ID")--DEBUG
-    else
-
-      --tex TODO: rate limit or set on a msg timer
-      local routeCenter=heliRouteIds[heliIndex]
-      if routeCenter==nil then
-        InfCore.DebugPrint("routeCenter==nil")--DEBUG
-      else
-        local heliPos=GameObject.SendCommand(heliObjectId,{id="GetPosition"})
-        if heliPos==nil then
-          InfCore.DebugPrint("heliPos==nil")--DEBUG
-        else
-          heliPos={heliPos:GetX(),heliPos:GetY(),heliPos:GetZ()}
-          local distSqr=TppMath.FindDistance(heliPos,routeCenter.pos)
-          --InfCore.DebugPrint("routepos:")
-          --InfCore.PrintInspect(routeCenter)
-
-          --InfCore.DebugPrint("helipos:".. heliPos[1]..",".. heliPos[2].. ","..heliPos[3])
-          InfCore.DebugPrint(heliIndex.." "..heliName.." route: "..tostring(InfLookup.str32LzToLz[this.heliRouteIds[heliIndex]]))
-          InfCore.DebugPrint("distsqr:"..distSqr .. " closestdist:"..closestDistance)
-        end
-      end
-    end
   end
 end
 

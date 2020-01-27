@@ -1,6 +1,29 @@
 Infinite Heaven changelog
 
-r230 - 2018-04-28
+r231 - 2018-07-28
+InfRoutes - Counterpart to InfPositions, InfObjects as a load/save list of routes used for some debug options.
+
+InfNPCHeli
+Custom heli patrol routes 
+heli_patrol_routes_afgh.fpk - heli_patrol_routes_afgh.frt, and mafr counterpart. 
+Just based of the drp routes I was using but with edges sanded off and sendmessage at and route.
+Route change is now msg based and now that distance to troublesome parts of the route are no longer an issue the update loop can be ditched (but still currently used for mtbs for changing route periodically).
+TppEnemy.StoreSVars/RestoreOnContinueFromCheckPoint2 reverted to saving heli svars, heli state should now, the previous bug that this was a workaround for is mysteriously absent, possibly due to the fact I'm not forcing route on continue.
+
+Fixed: InfMenu.PostModuleReload MenuOff moved to PreModuleReload, the save triggered by the normal menu off process would run into strife as Ivars had been cleared and the rest of the modules hadn't reloaded yet to add them back.
+
+InfModelProc: Soldier2FaceAndBodyData calls into this for body fova additions like it does face fova.
+
+Removed Setting: staff 'DD Suit' - 'Fatigues - All' setting to relieve additional fv2 limit for future addons. Won't return till/if full FoxKit gets full fv2 support.
+
+Framework: Soldier body fv2/fovaInfo addon support from \mod\fovaInfo via InfModelProc (bad name) to Soldier2FaceAndBodyInfo, have had face fovaInfo support for a long time, this just extends to body fovaInfo.
+Framework: WIP Soldier bodyInfo support from \mod\bodyInfo via InfBodyInfo to customSoldierType ivar(s). Still needs system to handle outcomes from uninstalled addons.
+
+Added Settings: Ocelot and Quiet added to Appearance > Player Type - WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.
+
+Updated to TPP 1.0.13
+
+r230 - 2018-05-08
 Fixed: IHExtToMgsv.ProcessCommands calling WriteToExtTxt every frame, seems like this bug may have been in there since wpf IHExts creation.
 Fixed: IHExtToMgsv.ProcessCommands Not converting mgsvToExtComplete arg to number. Though the WriteToExtTxt concat seemed to interpret ok anyway?
 Fixed: IHExtToMgsv.ProcessCommands no longer polls ih_tomgsvcmds.txt unless menu is open. This does mean no independant commands from IHExt, but apart from sessionchange, and togglemenu there werent any anyway.

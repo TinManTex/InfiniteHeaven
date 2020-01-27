@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="DecalArray" super="" version="1" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x08C2F350" unknown1="232" unknown2="2209764">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="6">
+          <value key="DecalArray0000">0x1A3F0390</value>
+          <value key="DecalArray0001">0x1A3F0400</value>
+          <value key="DecalArray0002">0x1A3F0470</value>
+          <value key="DecalArray0003">0x1A3F04E0</value>
+          <value key="DecalArray0004">0x1A3F0550</value>
+          <value key="TexturePackLoadConditioner0000">0x1A3F0780</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="DecalArray" classVersion="1" addr="0x1A3F0390" unknown1="448" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>DecalArray0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08C2F350</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_decalMaterial.fox2" nameInArchive="cm_mafr_dc_grbg003">0x00000000</value>
+        </property>
+        <property name="projectionMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="nearClipScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="projectionTarget" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="repeatU" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="repeatV" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="transparency" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="polygonDataSource" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="drawRejectionDegree" type="float" container="StaticArray" arraySize="1">
+          <value>90</value>
+        </property>
+        <property name="decalFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="scales" type="Vector3" container="DynamicArray" arraySize="4">
+          <value x="4.753864" y="0.214477" z="4.753864" w="0" />
+          <value x="4.75386" y="0.214477" z="4.75386" w="0" />
+          <value x="4.753861" y="0.214477" z="4.753861" w="0" />
+          <value x="4.75385952" y="0.694147944" z="4.75385952" w="0" />
+        </property>
+        <property name="rotations" type="Quat" container="DynamicArray" arraySize="4">
+          <value x="-0.007221997" y="0.9324928" z="-0.00772899948" w="0.361033678" />
+          <value x="0.02996201" y="0.450725049" z="0.0178810041" w="0.891980648" />
+          <value x="0.06674101" y="0.7120199" z="-0.0175130162" w="0.698760748" />
+          <value x="-0.036072012" y="0.3497111" z="-0.0227750055" w="0.9358859" />
+        </property>
+        <property name="translations" type="Vector3" container="DynamicArray" arraySize="4">
+          <value x="-6.40396" y="1.062551" z="-80.93384" w="1" />
+          <value x="-16.9928017" y="1.062551" z="-88.7975845" w="1" />
+          <value x="-26.7163448" y="2.060772" z="-76.79468" w="1" />
+          <value x="17.6804943" y="2.220737" z="-49.7616234" w="1" />
+        </property>
+        <property name="targets" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrain.fox2" nameInArchive="TerrainRender_0000">0x00000000</value>
+        </property>
+        <property name="targetIndices" type="uint32" container="DynamicArray" arraySize="4">
+          <value>0</value>
+          <value>0</value>
+          <value>0</value>
+          <value>0</value>
+        </property>
+        <property name="targetStartIndices" type="uint32" container="DynamicArray" arraySize="5">
+          <value>0</value>
+          <value>1</value>
+          <value>2</value>
+          <value>3</value>
+          <value>4</value>
+        </property>
+        <property name="renderingPriorities" type="int32" container="DynamicArray" arraySize="4">
+          <value>30</value>
+          <value>30</value>
+          <value>30</value>
+          <value>30</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="DecalArray" classVersion="1" addr="0x1A3F0400" unknown1="448" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>DecalArray0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08C2F350</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_decalMaterial.fox2" nameInArchive="cm_mafr_dc_mudd006">0x00000000</value>
+        </property>
+        <property name="projectionMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="nearClipScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="projectionTarget" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="repeatU" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="repeatV" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="transparency" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="polygonDataSource" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="drawRejectionDegree" type="float" container="StaticArray" arraySize="1">
+          <value>90</value>
+        </property>
+        <property name="decalFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="scales" type="Vector3" container="DynamicArray" arraySize="2">
+          <value x="7.899395" y="0.644722" z="11.3134031" w="0" />
+          <value x="7.89939928" y="0.644722044" z="9.663842" w="0" />
+        </property>
+        <property name="rotations" type="Quat" container="DynamicArray" arraySize="2">
+          <value x="0.007886004" y="0.9347561" z="0.012222" w="0.354992151" />
+          <value x="-0.007714998" y="-0.408612937" z="-0.00539699756" w="0.912659168" />
+        </property>
+        <property name="translations" type="Vector3" container="DynamicArray" arraySize="2">
+          <value x="-9.087297" y="0.858848" z="-64.3856659" w="1" />
+          <value x="-6.382686" y="0.885904" z="-67.66625" w="1" />
+        </property>
+        <property name="targets" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrain.fox2" nameInArchive="TerrainRender_0000">0x00000000</value>
+        </property>
+        <property name="targetIndices" type="uint32" container="DynamicArray" arraySize="2">
+          <value>0</value>
+          <value>0</value>
+        </property>
+        <property name="targetStartIndices" type="uint32" container="DynamicArray" arraySize="3">
+          <value>0</value>
+          <value>1</value>
+          <value>2</value>
+        </property>
+        <property name="renderingPriorities" type="int32" container="DynamicArray" arraySize="2">
+          <value>30</value>
+          <value>30</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="DecalArray" classVersion="1" addr="0x1A3F0470" unknown1="448" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>DecalArray0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08C2F350</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_decalMaterial.fox2" nameInArchive="cm_mafr_dc_grnd004">0x00000000</value>
+        </property>
+        <property name="projectionMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="nearClipScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="projectionTarget" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="repeatU" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="repeatV" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="transparency" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="polygonDataSource" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="drawRejectionDegree" type="float" container="StaticArray" arraySize="1">
+          <value>90</value>
+        </property>
+        <property name="decalFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="scales" type="Vector3" container="DynamicArray" arraySize="4">
+          <value x="2.92724872" y="0.388706028" z="2.92724872" w="0" />
+          <value x="3.04345345" y="0.404136032" z="3.04345345" w="0" />
+          <value x="4.002659" y="0.531508" z="4.002659" w="0" />
+          <value x="3.28087425" y="0.27699098" z="3.280874" w="0" />
+        </property>
+        <property name="rotations" type="Quat" container="DynamicArray" arraySize="4">
+          <value x="0.0550149828" y="0.112107977" z="0.0461649857" w="0.9910974" />
+          <value x="0.006996002" y="0.3205321" z="-0.023200009" w="0.9469277" />
+          <value x="0.0331299976" y="0" z="0.05679299" w="0.9978362" />
+          <value x="0.001905" y="9.096019E-13" z="0.0152379991" w="0.9998821" />
+        </property>
+        <property name="translations" type="Vector3" container="DynamicArray" arraySize="4">
+          <value x="-50.8306732" y="1.9272" z="-88.39206" w="1" />
+          <value x="-60.4139824" y="1.433758" z="-80.39038" w="1" />
+          <value x="-47.525856" y="1.477147" z="-81.19902" w="1" />
+          <value x="-33.61027" y="2.442138" z="-77.05942" w="1" />
+        </property>
+        <property name="targets" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrain.fox2" nameInArchive="TerrainRender_0000">0x00000000</value>
+        </property>
+        <property name="targetIndices" type="uint32" container="DynamicArray" arraySize="4">
+          <value>0</value>
+          <value>0</value>
+          <value>0</value>
+          <value>0</value>
+        </property>
+        <property name="targetStartIndices" type="uint32" container="DynamicArray" arraySize="5">
+          <value>0</value>
+          <value>1</value>
+          <value>2</value>
+          <value>3</value>
+          <value>4</value>
+        </property>
+        <property name="renderingPriorities" type="int32" container="DynamicArray" arraySize="4">
+          <value>30</value>
+          <value>30</value>
+          <value>30</value>
+          <value>30</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="DecalArray" classVersion="1" addr="0x1A3F04E0" unknown1="448" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>DecalArray0003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08C2F350</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_decalMaterial.fox2" nameInArchive="cm_mafr_dc_grnd004">0x00000000</value>
+        </property>
+        <property name="projectionMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="nearClipScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="projectionTarget" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="repeatU" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="repeatV" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="transparency" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="polygonDataSource" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="drawRejectionDegree" type="float" container="StaticArray" arraySize="1">
+          <value>90</value>
+        </property>
+        <property name="decalFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="scales" type="Vector3" container="DynamicArray" arraySize="7">
+          <value x="3.840945" y="0.332502" z="3.840945" w="0" />
+          <value x="3.146712" y="0.272404" z="3.146712" w="0" />
+          <value x="4.603672" y="0.398528963" z="4.6036725" w="0" />
+          <value x="2.909806" y="0.251895" z="2.909806" w="0" />
+          <value x="4.742013" y="0.410504" z="4.742013" w="0" />
+          <value x="3.30841541" y="0.286401" z="3.30841541" w="0" />
+          <value x="3.308411" y="0.286401" z="3.308411" w="0" />
+        </property>
+        <property name="rotations" type="Quat" container="DynamicArray" arraySize="7">
+          <value x="0.0300890021" y="0.154068008" z="0.0101400008" w="0.987549841" />
+          <value x="-0.02378399" y="0" z="0.01997799" w="0.999517441" />
+          <value x="-0.007931998" y="-0.7820681" z="-0.0005339975" w="0.623142362" />
+          <value x="0.0102090007" y="0.986929" z="0.038502" w="0.156155035" />
+          <value x="-0.008138993" y="-0.856948" z="-0.01829901" w="0.5150137" />
+          <value x="0.006364001" y="0.9634407" z="-0.0183199923" w="0.2672187" />
+          <value x="0" y="0" z="0" w="0.99999994" />
+        </property>
+        <property name="translations" type="Vector3" container="DynamicArray" arraySize="7">
+          <value x="-38.78133" y="5.609947" z="-117.440758" w="1" />
+          <value x="6.672678" y="1.729958" z="-74.44548" w="1" />
+          <value x="-28.5511322" y="4.833133" z="-96.48011" w="1" />
+          <value x="-40.4620132" y="4.9963" z="-104.392189" w="1" />
+          <value x="-7.371894" y="0.609777" z="-87.5488358" w="1" />
+          <value x="-3.708259" y="1.147942" z="-80.9822159" w="1" />
+          <value x="-45.32054" y="1.125351" z="-192.714127" w="1" />
+        </property>
+        <property name="targets" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrain.fox2" nameInArchive="TerrainRender_0000">0x00000000</value>
+        </property>
+        <property name="targetIndices" type="uint32" container="DynamicArray" arraySize="7">
+          <value>0</value>
+          <value>0</value>
+          <value>0</value>
+          <value>0</value>
+          <value>0</value>
+          <value>0</value>
+          <value>0</value>
+        </property>
+        <property name="targetStartIndices" type="uint32" container="DynamicArray" arraySize="8">
+          <value>0</value>
+          <value>1</value>
+          <value>2</value>
+          <value>3</value>
+          <value>4</value>
+          <value>5</value>
+          <value>6</value>
+          <value>7</value>
+        </property>
+        <property name="renderingPriorities" type="int32" container="DynamicArray" arraySize="7">
+          <value>30</value>
+          <value>30</value>
+          <value>30</value>
+          <value>30</value>
+          <value>30</value>
+          <value>30</value>
+          <value>30</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="DecalArray" classVersion="1" addr="0x1A3F0550" unknown1="448" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>DecalArray0004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08C2F350</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="material" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_decalMaterial.fox2" nameInArchive="cm_mafr_dc_grnd006">0x00000000</value>
+        </property>
+        <property name="projectionMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="nearClipScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="projectionTarget" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="repeatU" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="repeatV" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="transparency" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="polygonDataSource" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="drawRejectionDegree" type="float" container="StaticArray" arraySize="1">
+          <value>90</value>
+        </property>
+        <property name="decalFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="scales" type="Vector3" container="DynamicArray" arraySize="1">
+          <value x="4.01182" y="0.072655" z="4.01182" w="0" />
+        </property>
+        <property name="rotations" type="Quat" container="DynamicArray" arraySize="1">
+          <value x="-0.0123819923" y="0" z="-0.00190499891" w="0.9999215" />
+        </property>
+        <property name="translations" type="Vector3" container="DynamicArray" arraySize="1">
+          <value x="15.94595" y="0.764921" z="-171.00589" w="1" />
+        </property>
+        <property name="targets" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrain.fox2" nameInArchive="TerrainRender_0000">0x00000000</value>
+        </property>
+        <property name="targetIndices" type="uint32" container="DynamicArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="targetStartIndices" type="uint32" container="DynamicArray" arraySize="2">
+          <value>0</value>
+          <value>1</value>
+        </property>
+        <property name="renderingPriorities" type="int32" container="DynamicArray" arraySize="1">
+          <value>30</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x1A3F0780" unknown1="72" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08C2F350</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

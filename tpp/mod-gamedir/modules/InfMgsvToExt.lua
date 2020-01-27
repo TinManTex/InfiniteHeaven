@@ -102,8 +102,8 @@ local inputElementName='inputLine'
 local UiElementVisible='UiElementVisible'
 
 function this.ShowMenu()
-  --DEBUGNOW this.CreateUiElement(menuLine,table.concat(menuLineXaml))
-  --DEBUGNOW this.CreateUiElement(inputLine,table.concat(inputLineXaml))
+  --CULL this.CreateUiElement(menuLine,table.concat(menuLineXaml))
+  --CULL this.CreateUiElement(inputLine,table.concat(inputLineXaml))
   ExtCmd(UiElementVisible,'menuWrap',1)
   ExtCmd(UiElementVisible,'menuItems',1)
   ExtCmd(UiElementVisible,'menuTitle',1)
@@ -118,12 +118,11 @@ function this.HideMenu()
 end
 
 function this.SetMenuLine(fullText,text)
-  --DEBUGNOW ExtCmd('SetContent',menuElementName,text)
+  --CULL ExtCmd('SetContent',menuElementName,text)
   ExtCmd('SetTextBox',menuLine,text)
   ExtCmd('UpdateTable',menuItems,InfMenu.currentIndex-1,fullText)
   ExtCmd('SelectItem',menuItems,InfMenu.currentIndex-1)
-  --DEBUGNOW
-  --DEBUGNOW setting the combo settings only needs to be run on selection of setting, selectcombo still needs to be run though
+  --tex setting the combo settings only needs to be run on selection of setting, selectcombo still needs to be run though
   local currentOption=InfMenu.GetCurrentOption()
   if currentOption and currentOption.optionType=="OPTION" then
     local currentSetting=ivars[currentOption.name]

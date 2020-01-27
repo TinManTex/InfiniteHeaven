@@ -4,6 +4,9 @@ local this={}
 
 --STATE
 this.positions={}
+local list=this.positions
+
+local fileName="positions_list.txt"
 
 this.registerMenus={
   'positionsMenu',
@@ -145,20 +148,24 @@ end
 
 function this.LoadPositions()
   InfCore.Log("InfPositions.LoadPositions:")
+--DEBUGNOW
+  local filePath=InfCore.paths.mod..fileName
+  local lines=InfCore.GetLines(filePath)
+  if lines==nil then
+    InfCore.DebugPrint("Could not load "..fileName)--DEBUGNOW ADDLANG
+    return
+  end
 
-  local fileName="positions_lua.txt"
-
-  local positions=InfCore.LoadSimpleModule(InfCore.paths.mod,fileName)
-  if #positions==0 then
+  if #lines==0 then
     InfMenu.PrintLangId"list_empty"
     return
   end
 
-  InfCore.PrintInspect(positions,"positions")
   --GOTCHA: different save format (see writepositions) than positions list TODO: choose one or other
   InfUtil.ClearArray(this.positions)
-  for i,coords in ipairs(positions)do
-    this.positions[#this.positions+1]={coords.pos[1],coords.pos[2],coords.pos[3],coords.rotY}
+  for i,coords in ipairs(lines)do
+    local split=InfUtil.Split(lines,",")
+    this.positions[#this.positions+1]=split
   end
 
   InfCore.Log(#this.positions.." positions loaded from "..fileName,true,true)--ADDLANG

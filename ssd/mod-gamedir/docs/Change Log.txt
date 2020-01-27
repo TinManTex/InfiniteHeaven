@@ -1,5 +1,8 @@
 Lost Heaven changelog
 
+r5 - 2018-05-07
+Updated to SSD 1.10/1.0.12.0
+
 r4 - 2018-03-25 
 Updated to IH core r230WIP
 Updated to SSD 1.07/1.0.9.0

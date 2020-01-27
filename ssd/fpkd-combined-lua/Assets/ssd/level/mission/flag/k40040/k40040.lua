@@ -1074,6 +1074,6 @@ this.blackRadioOnEnd = "S10010_0030"
 
 
 
-this.releaseAnnounce = { "AddRecipeNormalFence" }
+this.releaseAnnounce = { "AddRecipeNormalFence", "OpenStagingArea", "CanJoinCoopMission", "EnableCreateCoop", "OpenNewCoopMission", }--RETAILPATCH: 1.0.12 everything but AddRecipeNormalFence added
 
 return this

@@ -63,7 +63,8 @@ this.lastDisplay=0
 this.autoDisplayRate=this.autoDisplayDefault
 this.lastStickInput=0
 
-function this.PostModuleReload()
+function this.PreModuleReload()
+  --GOTCHA: if the menu is open this will trigger an IH save as part of the normal menuoff
   this.MenuOff()
 end
 

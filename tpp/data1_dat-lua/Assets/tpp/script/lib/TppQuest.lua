@@ -3133,6 +3133,7 @@ function this.IsActiveQuestHeli()
   end
   return false
 end
+-- NMC: messages for trap_preDeactiveQuestArea_<areaName> traps in <missionCode>_sequence.fox2
 function this.DeactiveQuestAreaTrapMessages()
   if Ivars.quest_useAltForceFulton:Get()==1 then--tex>
     return {}

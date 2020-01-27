@@ -12,8 +12,14 @@ this.playerTypes={
   "DD_MALE",--1
   "DD_FEMALE",--2
   "AVATAR",--3
-  --"LIQUID",--4 In exe, breaks player (invisible, reseting var doesnt fix)
+  "LIQUID",--4 In exe, breaks player (invisible, reseting var doesnt fix)
   "OCELOT",--5
+  "QUIET",--6
+}
+
+this.fobLocked={
+  OCELOT=true,
+  QUIET=true,
 }
 
 --tex indexed by vars.playerType
@@ -39,9 +45,19 @@ this.playerTypesInfo={
     playerType=3,
   },
   {
+    name="LIQUID",
+    description="LIQUID",
+    playerType=4,
+  },
+  {
     name="OCELOT",
     description="Ocelot",
     playerType=5,
+  },
+  {
+    name="QUIET",
+    description="Quiet",
+    playerType=6,
   },
 }
 
@@ -77,6 +93,7 @@ this.playerPartsTypes={
   "SWIMWEAR_G",--24
   "SWIMWEAR_H",--25
   "OCELOT",--26
+  "QUIET",--27
   --tex unknown, see playerPartsTypesInfo, own names
   "NORMAL2",--24
   "NORMAL_SCARF2",--25
@@ -157,7 +174,10 @@ this.playerPartsTypesInfo={
     playerParts=4,
     developId=19071,
     plPartsName={
-      ALL="plparts_mgs1",
+      SNAKE="plparts_mgs1",
+      AVATAR="plparts_mgs1",
+      DD_MALE="plparts_mgs1",
+      DD_FEMALE="plparts_mgs1",
     },
     camoTypes={
       "SOLIDSNAKE",
@@ -169,7 +189,10 @@ this.playerPartsTypesInfo={
     playerParts=5,
     developId=19071,
     plPartsName={
-      ALL="plparts_ninja",
+      SNAKE="plparts_ninja",
+      AVATAR="plparts_ninja",
+      DD_MALE="plparts_ninja",
+      DD_FEMALE="plparts_ninja",
     },
   },
   {--6
@@ -178,7 +201,10 @@ this.playerPartsTypesInfo={
     playerParts=6,
     developId=19073,
     plPartsName={
-      ALL="plparts_raiden",
+      SNAKE="plparts_raiden",
+      AVATAR="plparts_raiden",
+      DD_MALE="plparts_raiden",
+      DD_FEMALE="plparts_raiden",
     },
   },
   {--7--uses set camo type?
@@ -426,7 +452,7 @@ this.playerPartsTypesInfo={
       "SWIMWEAR_H_C53",--114
     },
   },
-   {--26
+  {--26
     name="OCELOT",
     description="Ocelot",
     playerParts=26,
@@ -437,8 +463,20 @@ this.playerPartsTypesInfo={
     camoTypes={
       "OCELOT",
     },
-  }, 
-  
+  },
+  {--27
+    name="QUIET",
+    description="Quiet",
+    playerParts=27,
+    --developId=--Common
+    plPartsName={
+      QUIET="plparts_quiet",
+    },
+    camoTypes={
+      "QUIET",
+    },
+  },
+
   --tex following enum names are unknown, currently just named after what appears with vars.playerParts set to the numerical value
   --24 onward>>
   --appear to be the DD soldier, but most no head even when set to DD_MALE
@@ -539,6 +577,7 @@ this.plPartsInfo={
   plparts_dle0_plyf0_def_v00={modelId="dle0_plyf0"},
   plparts_dle1_plyf0_def_v00={modelId="dle1_plyf0"},
   plparts_ocelot={modelId="ooc0_main1"},
+  plparts_quiet={modelId="quip_main0_def0"},
 }
 
 --tex TODO: build reverse lookup table if nessesary
@@ -1947,7 +1986,7 @@ this.playerCamoTypesInfo={
     }
   },
   --
-    {
+  {
     name="SWIMWEAR_H_C00",
     description="Olive Drab",
     developId=19175,
@@ -2115,6 +2154,18 @@ this.playerCamoTypesInfo={
       OCELOT=true,
     }
   },
+  {
+    name="QUIET",
+    description="Quiet",
+    --developId=,
+    playerCamoType=116,
+    playerParts={
+      QUIET=true,
+    },
+    playerTypes={
+      QUIET=true,
+    }
+  },
 }
 
 --REF Camo fovas
@@ -2272,7 +2323,7 @@ function this.GetPlayerPartsTypes(playerPartsTypeSettings,playerType)
         InfCore.Log("WARNING: GetPlayerPartsTypes: could not find plPartsName for "..partsTypeName,true)
       else
         local playerTypeName=InfFova.playerTypes[playerType+1]
-        if plPartsName.ALL or plPartsName[playerTypeName] then
+        if plPartsName[playerTypeName] then
           if partsTypeInfo.developId and checkDeveloped then
             if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=partsTypeInfo.developId} then
               table.insert(playerPartsTypes,partsTypeName)
@@ -2318,7 +2369,7 @@ function this.GetCamoTypes(partsTypeName)
     if camoType~=nil then
       table.insert(playerCamoTypes,partsTypeName)
     else
-      InfCore.Log("WARNING: cannot find camo type for "..partsTypeName)--DEBUG
+      InfCore.Log("WARNING: PlayerCamoType nil for "..partsTypeName)--DEBUG
       table.insert(playerCamoTypes,"OLIVEDRAB")--PlayerCamoType 0
     end
   else
@@ -2573,7 +2624,7 @@ end
 --
 function this.LoadLibraries()
   InfCore.LogFlow("InfFova LoadModelInfoModules")
-  
+
   local path="/Assets/tpp/pack/player/parts/"
   local suffix="_modelInfo"
   local extension=".lua"

@@ -1,7 +1,7 @@
 = Lost Heaven =
-r5 - 2018-04-24
+r5 - 2018-06-20
 by tin man tex
-For MG Survive version 1.07 (in title screen) 1.0.9.0 in exe
+For MG Survive version 1.19 (in title screen) 1.0.12.0 in exe
 
 A mod for Metal Gear Survive intended to extend gameplay through customizable settings and features.
 
@@ -10,9 +10,8 @@ See the Features and Options.html file in the Lost Heaven .zip
 
 Recent changes/additions
 ------------------------------
-New for r4
-Updated to IH core r230WIP
-Updated to SSD 1.07/1.0.9.0
+New for r5
+Updated to SSD 1.10/1.0.12.0
 
 Disclaimer:
 ------------------------------

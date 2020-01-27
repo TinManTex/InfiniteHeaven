@@ -155,7 +155,7 @@ function this.GetMaleBodyInfo(missionCode)
   end
   --InfCore.Log("GetMaleBodyInfo")--DEBUG
   local customSoldierType=IvarProc.GetForMission"customSoldierType"
-  local suitName=Ivars.customSoldierTypeFREE.settings[customSoldierType+1]--KLUDGE
+  local suitName=InfBodyInfo.bodies.MALE[customSoldierType+1]
   --InfCore.Log("InfEneFova.GetMaleBodyInfo "..tostring(suitName))--DEBUG
   --end
   return InfBodyInfo.bodyInfo[suitName]
@@ -170,7 +170,7 @@ function this.GetFemaleBodyInfo(missionCode)
       --OFF return nil
   end
   local customSoldierType=IvarProc.GetForMission"customSoldierTypeFemale"
-  local suitName=Ivars.customSoldierTypeFemaleMB_ALL.settings[customSoldierType+1]
+  local suitName=InfBodyInfo.bodies.FEMALE[customSoldierType+1]
   --  end
   return InfBodyInfo.bodyInfo[suitName]
 end
@@ -1187,7 +1187,7 @@ function this.GetFovaName(fovaType,fovaIndex)
   return InfUtil.GetFileName(faceDecoName)
 end
 
-
+--DEBUGNOW TODO convert to by-bodtytype and key off customsoldiertype bodytype
 this.wildCardBodyTable={
   afgh={
     TppEnemyBodyId.svs0_unq_v010,

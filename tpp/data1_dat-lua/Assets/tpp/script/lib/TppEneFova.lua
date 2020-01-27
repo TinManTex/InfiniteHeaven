@@ -1360,19 +1360,12 @@ function this.PreMissionLoad(missionId,currentMissionId)
   --tex REWORKED>
   --tex the respective area name fova functions have been renamed to match locationName output (ex fovaSetupFuncs.Afghan to fovaSetupFuncs.afgh)
   local locationName=InfUtil.GetLocationName()
-  local fovaFuncName="default"
-  if fovaSetupFuncs[missionId] then
-    fovaFuncName=missionId
-  elseif fovaSetupFuncs[locationName] then
-    fovaFuncName=locationName
-  end
-
   InfCore.LogFlow("TppEneFova.PreMissionLoad locationName:"..tostring(locationName).." missionId:"..tostring(missionId))--tex DEBUG
+  local FovaFunc = fovaSetupFuncs[missionId] or fovaSetupFuncs[locationName] or fovaSetupFuncs.default
   --tex 1st parameter wasn't actually used in vanilla, only for the switch/case, might as well repurpose it
-  InfCore.PCallDebug(fovaSetupFuncs[fovaFuncName],locationName,missionId)
-
-  InfMain.PreMissionLoad(missionId,currentMissionId)--tex added
+  InfCore.PCallDebug(FovaFunc,locationName,missionId)
   --<
+  InfMain.PreMissionLoad(missionId,currentMissionId)--tex added
   --ORIG
   --  local _fovaSetupFuncs=Select(fovaSetupFuncs)
   --  if fovaSetupFuncs[missionId]==nil then

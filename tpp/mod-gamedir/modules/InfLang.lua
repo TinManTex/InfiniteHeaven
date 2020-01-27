@@ -68,6 +68,8 @@ this.eng={--english
   searchItem="Search",
   goBackTopItem="Back to main menu",
   list_empty="list is empty",
+  exited_sideop_area="Exited sideop area",
+  type_to_search="<Type and Enter to search>",
 }--eng end
 
 this.help={}

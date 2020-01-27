@@ -25,6 +25,7 @@ this.debugModule=false
 --q30350-q30360--morbidslinky example sideops
 --q30500-q30504--hsronacse (via nexus posts page)
 --q31069-q31099--jackwall (via nexus message)
+--q36660-q367600-ventos
 
 --GOTCHA: also currently limited by TppDefine.QUEST_MAX=250, with 167 vanilla quests.
 --this is governing the qst_* gvars that hold the quest states (see TppGvars).

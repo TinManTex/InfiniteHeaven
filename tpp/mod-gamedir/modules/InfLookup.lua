@@ -248,12 +248,13 @@ this.objectNameLists={
   itm_Mine_quest=this.GenerateNameList("itm_Mine_quest_%04d",10),
   itm_revDecoy=this.GenerateNameList("itm_revDecoy_%04d",10),
   itm_revMine=this.GenerateNameList("itm_revMine_%04d",10),
-  OtherHeli=this.GenerateNameList("OtherHeli%04d",10),
-  TppCorpseGameObjectLocator=this.GenerateNameList("TppCorpseGameObjectLocator%04d",12),--TODO VERIFY max
+  otherHeli=this.GenerateNameList("OtherHeli%04d",10),
+  tppCorpseGameObjectLocator=this.GenerateNameList("TppCorpseGameObjectLocator%04d",12),--TODO VERIFY max
   pickable_ih=this.GenerateNameList("pickable_ih_%04d",20),
   pickable_quest=this.GenerateNameList("pickable_quest_%04d",20),
   mbCps=this.mbCps,
 }
+this.objectNameListsEnum={}
 
 --tex from TppAnimalBlock animalsTable
 --REF
@@ -302,12 +303,13 @@ for location,cpNames in pairs(InfMain.baseNames) do
   this.objectNameLists["cpNames"..location]=cpNames
 end
 
+--CALLER: Init
 function this.InitObjectLists(missionTable)
-  this.objectNameLists.reinforceNames={TppReinforceBlock.REINFORCE_SOLDIER_NAMES,"TppSoldier2"}
-  this.objectNameLists.reinforceDriver={"reinforce_soldier_driver"}
+  this.objectNameLists.reinforceSoldiers=TppReinforceBlock.REINFORCE_SOLDIER_NAMES
+  this.objectNameLists.reinforceDriver={TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
   if InfNPCHeli then
-    this.objectNameLists.heliUTH=InfNPCHeli.heliNames.UTH
-    this.objectNameLists.heliUTH=InfNPCHeli.heliNames.HP48
+    this.objectNameLists.ihHeliUTH=InfNPCHeli.heliNames.UTH
+    this.objectNameLists.ihHeliHP48=InfNPCHeli.heliNames.HP48
   end
   if InfAnimal then
     this.objectNameLists.ihBirdNames=InfAnimal.birdNames
@@ -315,6 +317,52 @@ function this.InitObjectLists(missionTable)
   if InfMainTpp then
     this.objectNameLists.reserveSoldierNames=InfMainTpp.reserveSoldierNames
   end
+  if InfParasite then
+    this.objectNameLists.parasiteARMOR=InfParasite.parasiteNames.ARMOR
+    this.objectNameLists.parasiteMIST=InfParasite.parasiteNames.MIST
+    this.objectNameLists.parasiteCAMO=InfParasite.parasiteNames.CAMO
+  end
+
+  if InfWalkerGear then
+    this.objectNameLists.ihWalkerList=InfWalkerGear.walkerNames
+  end
+
+  if InfNPC then
+    this.objectNameLists.ihHostageNames=InfNPC.hostageNames
+  end
+  
+  InfUtil.ClearArray(this.objectNameListsEnum)
+  for k,v in pairs(this.objectNameLists)do
+    table.insert(this.objectNameListsEnum,k)
+  end
+  table.sort(this.objectNameListsEnum)
+  
+  if this.debugModule then
+    InfCore.PrintInspect(this.objectNameListsEnum,"InfLookup.objectNameListsEnum")
+    InfCore.PrintInspect(this.objectNameLists,"InfLookup.objectNameLists")
+  end
+end
+
+--tex --DEBUGNOW run onselect
+--GOTCHA: would have to update enum as well
+function this.RefreshObjectLists()
+  if InfInterrogation then
+    this.objectNameLists.interCpQuestSoldiers=InfInterrogation.interCpQuestSoldiers
+  end
+
+
+  --        local travelPlan="travelArea2_01"
+  --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
+
+ 
+  --tex not really dynamic/runtime but are setup after Init so cant be in InitObjectLists
+  --return InfSoldier.ene_wildCardNames
+  --return TppEnemy.armorSoldiers
+  
+    if InfNPCHeli then
+    this.objectNameLists.ihHeliList=InfNPCHeli.heliList
+  end
+
 end
 --
 
@@ -443,41 +491,6 @@ function this.BuildDirectGameClassEnumLookup(gameClassName,filter)
     InfCore.Log("WARNING: InfLookup.BuildGameClassEnumNameLookup: gameClass "..gameClassName.." "..filter.." #enumToName==0")
   end
   return enumToName
-end
-
---tex --DEBUGNOW CULL or think of a sub list selection system
-function this.GetObjectList()
-  -- return{"ih_uav_0000","ih_uav_0001","ih_uav_0002","ih_uav_0003"}
-  --   return{ "sol_mtbs_0000",
-  --    "sol_mtbs_0001",
-  --    "sol_mtbs_0002",
-  --    "sol_mtbs_0003",
-  --    "sol_mtbs_0004",
-  --    "sol_mtbs_0005",
-  --    }
-  --
-  -- return InfMainTpp.reserveSoldierNames
-  --        local travelPlan="travelArea2_01"
-  --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
-
-  --return InfParasite.parasiteNames[InfParasite.parasiteType]
-  -- return this.objectNameLists.veh_trc
-  --return InfLookup.jeepNames
-  --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
-  --return TppReinforceBlock.REINFORCE_SOLDIER_NAMES
-  --return InfInterrogation.interCpQuestSoldiers
-  --   return InfWalkerGear.walkerNames
-  --return InfNPCHeli.heliList
-  --return TppEnemy.armorSoldiers
-  --return InfAnimal.birdNames
-  -- return objectNameLists[4]
-  --return InfSoldier.ene_wildCardNames
-  --return InfNPC.hostageNames
-  return this.objectNameLists.sol_quest
-    --return {"hos_quest_0000"}
-    --return InfWalkerGear.walkerNames
-    --return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",}
-    --return {"vehicle_quest_0000"}
 end
 
 --tex there's no real lookup for this I've found
@@ -1240,8 +1253,8 @@ this.messageSignatures={
     RoutePoint2={--tex fire by Route Event 'SendMessage', and some other unknown Route Events
       {argName="gameId",argType="gameId"},--tex gameId of agent on route VERIFY because SendEvent param3 is a str32 game object name.
       {argName="routeId",argType="str32"},--tex TODO gather route names
-      {argName="param",argType="str32"},
-      {argName="messageId",argType="str32"},
+      {argName="routeNodeIndexOrParam",argType="str32"},--tex --tex SendMessage event  param 8(from 0), VERIFY what it is on events that param is 0
+      {argName="messageId",argType="str32"},--tex SendMessage event  param 7(from 0)
     },
     SaluteRaiseMorale={
       {argName="saluter",argType="gameId"},
@@ -1681,6 +1694,7 @@ function this.OnShowAnnounceLog(announceId,param1,param2)
   end
 end
 
+--CALLER: PostAllModulesLoad
 function this.AddObjectNamesToStr32List()
   if InfCore.debugMode then
     InfCore.Log"InfLookup.AddObjectNamesToStr32List:"

@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGWIP
+-- DOBUILD: 0 --DEBUGWIP DEBUGNOW
 -- ORIGINALQAR: chunk4
 -- PACKPATH: \Assets\tpp\pack\mission2\free\f30020\f30020.fpkd
 local this = {}
@@ -889,7 +889,7 @@ this.routeSets = {
         "rt_extra_sol_test_c_0008",
         "rt_extra_sol_test_c_0009",
       },
-
+--[[DEBUGNOW
       groupH = {
         "rt_extra_sol_test_c_0010",
         "rt_extra_sol_test_c_0011",
@@ -928,6 +928,7 @@ this.routeSets = {
         "rt_extra_sol_test_c_0038",
         "rt_extra_sol_test_c_0039",
       },
+      --]]
       nil
     },
 

@@ -1133,6 +1133,7 @@ end
 --SIDE: InfCore.files
 --SIDE: this.moduleNames
 --isReload = user initiated
+--CALLER: InfInitMain, also by command or key combo with isReload set
 function this.LoadExternalModules(isReload)
   InfCore.LogFlow"InfMain.LoadExternalModules"
 

@@ -1,9 +1,13 @@
 --InfObjects.lua
 --Commands to manage gameobject name list used for other commands as well as saving and loading from file.
+--TODO: also add browse lookuplist couterpart to addLookuplist with onactive to add to object list
 local this={}
 
 --STATE
 this.objectNames={}
+local list=this.objectNames
+
+local fileName="objects_list.txt"
 
 this.registerMenus={
   'objectsMenu',
@@ -13,6 +17,7 @@ this.objectsMenu={
   parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "InfObjects.AddMarkerObjects",
+    "InfObjects.addObjectLookupList",
     "InfObjects.ClearObjects",
     "InfObjects.WriteObjects",
     "InfObjects.LoadObjectNames",
@@ -27,7 +32,8 @@ this.langStrings={
     writeObjects="Write Objects List",
     loadObjectNames="Load Objects List",
     clearObjects="Clear Objects List",
-    selectListObject="Select object name",
+    selectListObject="Browse object list",
+    addObjectLookupList="Add lookup list",
   },
   help={
     eng={
@@ -36,7 +42,8 @@ this.langStrings={
       writeObjects="Writes Objects List to file in MGS_TPP\\mod\\",
       loadObjectNames="Loads objects list from file in MGS_TPP\\mod\\",
       clearObjects="Clears Objects List",
-      selectListObject="Select game object name, mostly just used to browse object names list at the moment.",--DEBUGNOW
+      --selectListObject="Select game object name, mostly just used to browse object names list at the moment.",--DEBUGNOW
+      addObjectLookupList="Lets you cycle through a number of lookup lists IH uses and add all items from it to the main object list.",
     },
   },
 }
@@ -44,10 +51,10 @@ this.langStrings={
 
 this.registerIvars={
   "selectListObject",
+  "addObjectLookupList",
 }
 
 this.selectListObject={
-  inMission=true,
   range={max=0},--DYNAMIC
   GetSettingText=function(self,setting)
     local objectName=this.objectNames[setting+1]
@@ -64,6 +71,49 @@ this.selectListObject={
   end,
   OnSelect=function(self)
     IvarProc.SetMaxToList(self,this.objectNames)
+  end,
+}
+
+this.addObjectLookupList={
+  range={max=0},--DYNAMIC
+  GetSettingText=function(self,setting)
+    local listName=InfLookup.objectNameListsEnum[setting+1]
+    if listName==nil then
+      return InfLangProc.LangString"list_empty"
+    end
+
+    return listName
+  end,
+  OnSelect=function(self)
+    IvarProc.SetMaxToList(self,InfLookup.objectNameListsEnum)
+  end,
+  OnActivate=function(self,setting)
+    local listName=InfLookup.objectNameListsEnum[setting+1]
+    if listName==nil then
+      return
+    end
+
+    local list=InfLookup.objectNameLists[listName]
+    if list==nil then
+      InfMenu.PrintLangId"list_empty"
+      return
+    end
+
+    if #list==0 then
+      InfMenu.PrintLangId"list_empty"
+      return
+    end
+
+    for i,objectName in ipairs(list)do
+      table.insert(this.objectNames,objectName)
+    end
+
+    local addedString = #list.." objects added to list"
+    local sizeString = "list now has "..#this.objectNames.." positions"
+    InfCore.Log("InfObjects addLookupList: "..addedString)
+    InfCore.DebugPrint(addedString)
+    InfCore.Log("InfObjects addLookupList: "..sizeString)
+    InfCore.DebugPrint(sizeString)
   end,
 }
 
@@ -115,46 +165,34 @@ function this.ClearObjects()
 end
 
 function this.WriteObjects()
-  InfCore.Log("InfPositions.WritePositions:")
+  InfCore.Log("InfObjects.WriteObjects:")
 
-  local writeTypes={
-    objects_lua={
-      header='local objectNames={',
-      fmt='"%s",',
-      footer='} return objectNames',
-    },
-  }
+  local list=this.objectNames
 
-  for writeType,writeInfo in pairs(writeTypes)do
-    local writeStrings={}
-    writeStrings[#writeStrings+1]=writeInfo.header
-    for i,objectName in ipairs(this.objectNames)do
-      writeStrings[#writeStrings+1]=string.format(writeInfo.fmt,objectName)
-    end
-    writeStrings[#writeStrings+1]=writeInfo.footer
+  local filePath=InfCore.paths.mod..fileName
+  InfCore.WriteStringTable(filePath,list)
 
-    local filePath=InfCore.paths.mod..writeType..".txt"
-    InfCore.Log(filePath)
-    InfCore.WriteStringTable(filePath,writeStrings)
-  end
-
-  InfCore.Log(#this.objectNames..[[ object names written to MGS_TPP\mod\]],true,true)
+  InfCore.Log(#list..[[ entries written to MGS_TPP\mod\]]..fileName,true,true)
 end
 
 function this.LoadObjectNames()
-  InfCore.Log("InfPositions.LoadObjectNames:")
+  InfCore.Log("InfObjects.LoadObjectNames:")
 
-  local fileName="objects_lua.txt"
+  local filePath=InfCore.paths.mod..fileName
+  local lines=InfCore.GetLines(filePath)
+  if lines==nil then
+    InfCore.DebugPrint("Could not load "..fileName)--DEBUGNOW ADDLANG
+    return
+  end
 
-  local objectNames=InfCore.LoadSimpleModule(InfCore.paths.mod,fileName)
-  if #objectNames==0 then
+  if #lines==0 then
     InfMenu.PrintLangId"list_empty"
     return
   end
 
-  this.objectNames=objectNames
+  this.objectNames=lines
 
-  InfCore.Log(#this.objectNames.." object names loaded from "..fileName,true,true)
+  InfCore.Log(#lines.." entries loaded from "..fileName,true,true)
 end
 --<
 

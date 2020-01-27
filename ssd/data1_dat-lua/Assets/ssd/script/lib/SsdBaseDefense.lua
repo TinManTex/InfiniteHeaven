@@ -298,8 +298,15 @@ function this.OpenRewardWormhole()
   Gimmick.SetAction{gimmickId=e.gimmickId,name=e.locatorName,dataSetName=e.datasetName,action="SetTargetPos",position=n}
   Gimmick.SetAction{gimmickId=e.gimmickId,name=e.locatorName,dataSetName=e.datasetName,action="Open"}
 end
+--RETAILPATCH: 1.0.12>
+function this.StartRewardWormholeEffect()
+local e=TppGimmick.baseImportantGimmickList.afgh[4]
+Gimmick.SetAction{gimmickId=e.gimmickId,name=e.locatorName,dataSetName=e.datasetName,action="StartRewardWormhole"}
+end
+--<
 function this.CloseRewardWormhole()
   local e=TppGimmick.baseImportantGimmickList.afgh[4]
+  Gimmick.SetAction{gimmickId=e.gimmickId,name=e.locatorName,dataSetName=e.datasetName,action="StopRewardWormhole"}--RETAILPATCH: 1.0.12
   Gimmick.SetAction{gimmickId=e.gimmickId,name=e.locatorName,dataSetName=e.datasetName,action="Close"}
 end
 function this.StartResultSequence()
@@ -312,10 +319,12 @@ function this.Messages()
   return StrCode32Table{
     GameObject={
       {msg="DiggingStartEffectEnd",func=function()
-        if mvars.bdf_isStartRewardSequence then
-          TimerStart("Timer_BdfCloseRewardWormhole",5.5)--RETAILPATCH: 1.0.8.0 increased from 5
+        if mvars.bdf_isStartRewardSequence then         
           if mvars.bdf_viewTotalResult then--RETAILPATCH: 1.0.8.0>
+            TimerStart("Timer_BdfCloseRewardWormhole",5.5)--RETAILPATCH: 1.0.8.0 increased from 5
             CoopScoreSystem.StartDiggerChargeEnagy{chargeTime=6}
+          else
+            TimerStart("Timer_BdfCloseRewardWormhole",5.5)--RETAILPATCH: 1.0.12
           end--<
         end
       end},
@@ -362,12 +371,14 @@ function this.Messages()
       {msg="Finish",sender="Timer_BdfOpenRewardWormhole",func=function()
         this.OpenRewardWormhole()
       end},
+      {msg="Finish",sender="Timer_BdfStartRewardWormholeEffect",func=this.StartRewardWormholeEffect},--RETAILPATCH: 1.0.12
       {msg="Finish",sender="Timer_BdfDestroySingularityEffect",func=function()
         local e=TppGimmick.baseImportantGimmickList.afgh[4]
         Gimmick.SetAction{gimmickId=e.gimmickId,name=e.locatorName,dataSetName=e.datasetName,action="StopRewardWormhole"}
       end},
       {msg="Finish",sender="Timer_BdfBaseDiggingFinish",func=function()
         if mvars.bdf_viewTotalResult then
+          TimerStart("Timer_BdfCloseRewardWormhole",3)--RETAILPATCH: 1.0.12
           TimerStart("Timer_BdfRewardDrop",.1)
         end
         this.StartResultSequence()

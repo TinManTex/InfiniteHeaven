@@ -165,11 +165,11 @@ function this.OnEndExceptionForFromHost()
   if TppMission.IsMultiPlayMission(vars.missionCode)then
     local e=TppNetworkUtil.IsHost()
     if e then
-      TppMission.AbandonMission()
+      TppMission.AbandonMission{needRestore=true}--RETAILPATCH: 1.0.12 added needrestore
     else
       if Mission.IsHostMigrationActive()then
       else
-        TppMission.AbandonMission()
+        TppMission.AbandonMission{needRestore=true}--RETAILPATCH: 1.0.12 added needrestore
       end
     end
   end
@@ -657,7 +657,7 @@ end
 function this.OnSessionDisconnectFromHost()
   local n=TppNetworkUtil.IsHost()
   if n then
-    TppMission.AbandonMission()
+    TppMission.AbandonMission{needRestore=true}--RETAILPATCH: 1.0.12 added needrestore
     return
   end
   this._OnP2PDisconnect(this.TYPE.SESSION_DISCONNECT_FROM_HOST)

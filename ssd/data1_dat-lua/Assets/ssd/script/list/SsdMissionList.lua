@@ -1355,7 +1355,7 @@ if Mission.SetStorySequenceCoopTutorialEnd then
   Mission.SetStorySequenceCoopTutorialEnd(TppDefine.STORY_SEQUENCE.CLEARED_k40070)
 end
 if Mission.RegisterShowC20010SequenceIndex then
-  Mission.RegisterShowC20010SequenceIndex(TppDefine.STORY_SEQUENCE.CLEARED_k40077)
+  Mission.RegisterShowC20010SequenceIndex(TppDefine.STORY_SEQUENCE.CLEARED_TUTORIAL)
 end
 if Mission.RegisterCoopDlcMissionOpenSequenceIndex then
   Mission.RegisterCoopDlcMissionOpenSequenceIndex(TppDefine.STORY_SEQUENCE.CLEARED_STORY_LAST)

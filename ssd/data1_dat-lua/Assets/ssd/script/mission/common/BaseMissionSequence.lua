@@ -1,4 +1,4 @@
--- BaseMissionSequence.lua
+-- BaseMissionSequence.lua --DEBUGNOW RE MERGE
 local this={}
 local StrCode32=Fox.StrCode32
 local StrCode32Table=Tpp.StrCode32Table
@@ -139,19 +139,26 @@ function this.CreateInstance(missionName)
       TppMission.SetIsFromAvatarRoom(false)
     end
     --RETAILPATCH: 1.0.9.0> RETAILPATCH: 1.0.10.0 removed again?
---    if Mission.IsFromReplayMission()then
---      if TppMission.IsFreeMission(vars.missionCode)then
---        Player.SetReplayMissionToSkillTrainer()
---      end
---      Mission.ResetFromReplayMission()
---      if TppSoundDaemon.ReserveResetCutSceneMute then
---        TppSoundDaemon.ReserveResetCutSceneMute()
---      end
---    end
+    --    if Mission.IsFromReplayMission()then
+    --      if TppMission.IsFreeMission(vars.missionCode)then
+    --        Player.SetReplayMissionToSkillTrainer()
+    --      end
+    --      Mission.ResetFromReplayMission()
+    --      if TppSoundDaemon.ReserveResetCutSceneMute then
+    --        TppSoundDaemon.ReserveResetCutSceneMute()
+    --      end
+    --    end
     --<
     if instance.AfterOnEndMissionPrepareSequence then
       instance.AfterOnEndMissionPrepareSequence()
     end
+    --RETAILPATCH: 1.0.12>
+    local missionList={20010,20110,20210,20610,20710}
+    for n,missionCode in ipairs(missionList)do
+      TppStory.PermitMissionOpen(missionCode)
+      TppStory.MissionOpen(missionCode)
+    end
+    --<
   end
   function instance.RestoreBase()
     TppVarInit.SetBuildingLevel()

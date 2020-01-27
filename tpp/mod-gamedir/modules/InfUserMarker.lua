@@ -226,14 +226,19 @@ function this.GetMarkerPosition(index)
     return
   end
 
-  local markerPos=Vector3(0,0,0)
+  local markerPos
 
   if vars.userMarkerGameObjId then
     local gameId=vars.userMarkerGameObjId[index]
-    if gameId==NULL_ID then
-      markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index])
-    else
+    if gameId~=NULL_ID then
       markerPos=GameObject.SendCommand(gameId,{id="GetPosition"})
+    end
+
+    if markerPos==nil then
+       if gameId~=NULL_ID then
+      InfCore.Log("InfUserMarker.GetMarkerPosition: GetPosition==nil for gameObject "..gameId)
+      end
+      markerPos=Vector3(vars.userMarkerPosX[index],vars.userMarkerPosY[index]+1,vars.userMarkerPosZ[index])
     end
   elseif InfCore.gameId=="SSD" then
     local locationSuffix=""

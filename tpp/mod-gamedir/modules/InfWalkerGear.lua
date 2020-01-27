@@ -14,8 +14,6 @@ this.walkerPlats={}
 
 this.walkerPool={}--tex free walkers
 
-this.walkerNames={}
-
 this.numLrrpWalkers=5--tex FREE pulled from total
 this.walkersPerLrrp=1--tex soldiers done respect each others personal space lol, which is more of an issue with walkers. unless I can set up command SetForceFormationLine
 this.numWalkerGears=10--DEBUGNOW--tex dependant on the entity defs

@@ -1,0 +1,3418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="TppLadderManagerData" super="" version="0" />
+    <class name="TppSharedGimmickData" super="" version="1" />
+    <class name="BoxShape" super="" version="0" />
+    <class name="TransformEntity" super="" version="0" />
+    <class name="SoundAreaGroup" super="" version="3" />
+    <class name="SoundAreaParameter" super="" version="4" />
+    <class name="SoundAreaEdge" super="" version="1" />
+    <class name="TppAreaEdgeParameter" super="" version="0" />
+    <class name="SoundAreaMember" super="" version="2" />
+    <class name="GraphxSpatialGraphDataNode" super="" version="0" />
+    <class name="GraphxSpatialGraphDataEdge" super="" version="0" />
+    <class name="SoundSource" super="" version="2" />
+    <class name="TppRainFilterInterruptTrans" super="" version="2" />
+    <class name="TppLightProbe" super="" version="4" />
+    <class name="StaticModel" super="" version="9" />
+    <class name="Locator" super="" version="0" />
+    <class name="TppLadderData" super="" version="3" />
+    <class name="TppLadderEntryPointData" super="" version="1" />
+    <class name="TppPermanentGimmickData" super="" version="0" />
+    <class name="TppPermanentGimmickMortarParameter" super="" version="1" />
+    <class name="TppPermanentGimmickGatlingGunParameter" super="" version="0" />
+    <class name="StaticModelArray" super="" version="4" />
+    <class name="TppLightProbeArray" super="" version="2" />
+    <class name="GeoxPathPack" super="" version="0" />
+    <class name="GeoxGeomSetLoader" super="" version="0" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x0937C090" unknown1="232" unknown2="3133924">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="61">
+          <value key="TppLadderManagerData0000">0x08DA9EE0</value>
+          <value key="mafr_crtn001_vrtn001_gim_i0000|TppSharedGimmick_mafr_crtn001_vrtn001">0x099CD0C0</value>
+          <value key="mafr_bckt002_gim_i0000|TppSharedGimmick_mafr_bckt002">0x099CDDE0</value>
+          <value key="mafr_bckt003_gim_i0000|TppSharedGimmick_mafr_bckt003">0x099CE470</value>
+          <value key="mafr_char002_gim_i0000|TppSharedGimmick_mafr_char002">0x09BE00F0</value>
+          <value key="mafr_tank006_gim_i0000|TppSharedGimmick_mafr_tank006">0x09BE2C40</value>
+          <value key="mafr_tire001_gim_i0000|TppSharedGimmick_mafr_tire001">0x09BEDE50</value>
+          <value key="mafr_bttl001_gim_i0000|TppSharedGimmick_mafr_bttl001">0x0A9A29A0</value>
+          <value key="mafr_crto001_gim_i0000|TppSharedGimmick_mafr_crto001">0x0A9A33B0</value>
+          <value key="afgh_clth005_gim_i0000|TppSharedGimmick_afgh_clth005">0x0A9A4450</value>
+          <value key="mafr_tent002_vrtn002_gim_n0000|SDMT21">0x0A9A66E0</value>
+          <value key="mafr_tent002_vrtn002_gim_n0000|SGMT21">0x0A9A68A0</value>
+          <value key="mafr_tent002_vrtn002_gim_n0000|SEMT21">0x0A9A6A60</value>
+          <value key="mafr_tent002_vrtn002_gim_n0000|SMMT21">0x0A9A6BB0</value>
+          <value key="mafr_tent002_vrtn002_gim_n0000|SS_mafr_tent002_v2">0x0A9A8BA0</value>
+          <value key="mafr_tent002_vrtn002_gim_n0000|TppRainFilterInterruptTrans0000">0x0A9A9000</value>
+          <value key="mafr_tent002_vrtn002_gim_i0000|TppSharedGimmick_mafr_tent002_vrtn002">0x0A9A9380</value>
+          <value key="mafr_tent002_vrtn002_gim_n0003|SDMT21">0x0A9A93F0</value>
+          <value key="mafr_tent002_vrtn002_gim_n0003|SGMT21">0x0A9A9620</value>
+          <value key="mafr_tent002_vrtn002_gim_n0003|SEMT21">0x0A9A97E0</value>
+          <value key="mafr_tent002_vrtn002_gim_n0003|SMMT21">0x0A9A9930</value>
+          <value key="mafr_tent002_vrtn002_gim_n0003|SS_mafr_tent002_v2">0x0A9AB680</value>
+          <value key="mafr_tent002_vrtn002_gim_n0003|Occ_Probe0000">0x0A9AB840</value>
+          <value key="mafr_tent002_vrtn002_gim_n0003|Occ_Probe0001">0x0A9AB990</value>
+          <value key="mafr_tent002_vrtn002_gim_n0003|TppRainFilterInterruptTrans0000">0x0A9ABAE0</value>
+          <value key="mafr_wndm001_vrtn001_gim_n0000|mafr_wndm001_0000">0x0A9ABE60</value>
+          <value key="mafr_wndm001_vrtn001_gim_n0000|SoundSource0000">0x0A9AC1E0</value>
+          <value key="mafr_wndm001_vrtn001_gim_i0000|TppSharedGimmick_mafr_wndm001_vrtn001">0x0A9AC560</value>
+          <value key="mafr_wtct002_br0000|ladderData">0x0A9ACD40</value>
+          <value key="mafr_wtct002_br0000|MgoLadderData">0x0A9ACE90</value>
+          <value key="mafr_wtct002_br0000|MgoLadderEntryPointData_bottom">0x0A9AD0C0</value>
+          <value key="mafr_wtct002_br0000|MgoLadderEntryPointData_top">0x0A9AD130</value>
+          <value key="mafr_wtct002_br0001|ladderData">0x0AA008D0</value>
+          <value key="mafr_wtct002_br0001|MgoLadderData">0x0AA00A20</value>
+          <value key="mafr_wtct002_br0001|MgoLadderEntryPointData_bottom">0x0AA00C50</value>
+          <value key="mafr_wtct002_br0001|MgoLadderEntryPointData_top">0x0AA00CC0</value>
+          <value key="afgh_asht001_gim_i0000|TppSharedGimmick_afgh_asht001">0x0AA02F50</value>
+          <value key="mafr_char001_gim_i0000|TppSharedGimmick_mafr_char001">0x0AA03500</value>
+          <value key="mgoa_cupp001_gim_i0000|TppSharedGimmick_afgh_cupp001">0x0AA030A0</value>
+          <value key="hw00_gim_i0000|TppPermanentGimmick_hw00_main0_def">0x0AA04F40</value>
+          <value key="mafr_tent002_vrtn002_gim_n0002|SDMT21">0x0AA07470</value>
+          <value key="mafr_tent002_vrtn002_gim_n0002|SGMT21">0x0AA076A0</value>
+          <value key="mafr_tent002_vrtn002_gim_n0002|SEMT21">0x0AA07860</value>
+          <value key="mafr_tent002_vrtn002_gim_n0002|SMMT21">0x0AA079B0</value>
+          <value key="mafr_tent002_vrtn002_gim_n0002|Occ_Probe">0x0AA0AB20</value>
+          <value key="mafr_tent002_vrtn002_gim_n0002|SS_mafr_tent002_v2">0x0AA0AE30</value>
+          <value key="mafr_tent002_vrtn002_gim_n0002|Occ_Probe0000">0x0AA0B290</value>
+          <value key="mafr_tent002_vrtn002_gim_n0002|Occ_Probe0001">0x0AA0B4C0</value>
+          <value key="mafr_tent002_vrtn002_gim_n0002|TppRainFilterInterruptTrans0000">0x0AA0B7D0</value>
+          <value key="nad0_main0_def_gim_i0000|TppPermanentGimmick_nad0_main0_def">0x0AA0F120</value>
+          <value key="mafr_bckt001_gim_i0000|TppSharedGimmick_mafr_bckt001">0x0ABA0860</value>
+          <value key="afgh_char002_gim_i0000|TppSharedGimmick_afgh_char002">0x0ABA21C0</value>
+          <value key="StaticModelArray0000">0x1A3F1F90</value>
+          <value key="StaticModelArray0001">0x1A3F2000</value>
+          <value key="StaticModelArray0002">0x1A3F2070</value>
+          <value key="StaticModelArray0003">0x1A3F20E0</value>
+          <value key="StaticModelArray0004">0x0A9A3EA0</value>
+          <value key="TppLightProbeArray0000">0x1A3F0B00</value>
+          <value key="GeoxPathPack0000">0x0F99D4B0</value>
+          <value key="GeoxGeomSetLoader0000">0x0F99D2F0</value>
+          <value key="TexturePackLoadConditioner0000">0x1176FD60</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLadderManagerData" classVersion="0" addr="0x08DA9EE0" unknown1="72" unknown2="3133990">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLadderManagerData0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="maxLadderCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="maxBreakableLadderCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x099CD0C0" unknown1="240" unknown2="664948">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_crtn001_vrtn001_gim_i0000|TppSharedGimmick_mafr_crtn001_vrtn001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/curtain/mafr_crtn001/scenes/mafr_crtn001_vrtn001_fl.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/curtain/mafr_crtn001/mafr_crtn001_vrtn001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_crtn001_vrtn001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x099CDDE0" unknown1="240" unknown2="46443">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_bckt002_gim_i0000|TppSharedGimmick_mafr_bckt002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/bucket/mafr_bckt002/scenes/mafr_bckt002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/bucket/mafr_bckt002/scenes/mafr_bckt002.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/bucket/mafr_bckt002/mafr_bckt002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_bckt002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x099CE470" unknown1="240" unknown2="46542">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_bckt003_gim_i0000|TppSharedGimmick_mafr_bckt003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/bucket/mafr_bckt003/scenes/mafr_bckt003.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/bucket/mafr_bckt003/scenes/mafr_bckt003.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/bucket/mafr_bckt003/mafr_bckt003.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_bckt003.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x09BE00F0" unknown1="240" unknown2="47008">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_char002_gim_i0000|TppSharedGimmick_mafr_char002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/chair/mafr_char002/scenes/mafr_char002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/chair/mafr_char002/scenes/mafr_char002.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/chair/mafr_char002/mafr_char002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_char002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x09BE2C40" unknown1="240" unknown2="47639">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tank006_gim_i0000|TppSharedGimmick_mafr_tank006</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tank/mafr_tank006/scenes/mafr_tank006.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tank/mafr_tank006/scenes/mafr_tank006.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/tank/mafr_tank006/mafr_tank006.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_tank006.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x09BEDE50" unknown1="240" unknown2="47880">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tire001_gim_i0000|TppSharedGimmick_mafr_tire001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tire/mafr_tire001/scenes/mafr_tire001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tire/mafr_tire001/scenes/mafr_tire001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/tire/mafr_tire001/mafr_tire001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_tire001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0A9A29A0" unknown1="240" unknown2="993007">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_bttl001_gim_i0000|TppSharedGimmick_mafr_bttl001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/bottle/mafr_bttl001/scenes/mafr_bttl001_br.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/bottle/mafr_bttl001/scenes/mafr_bttl001_br.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/bottle/mafr_bttl001/mafr_bttl001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_bttl001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>282</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0A9A33B0" unknown1="240" unknown2="2936">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_crto001_gim_i0000|TppSharedGimmick_mafr_crto001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/carton/mafr_crto001/scenes/mafr_crto001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/carton/mafr_crto001/scenes/mafr_crto001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/carton/mafr_crto001/mafr_crto001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_crto001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0A9A4450" unknown1="240" unknown2="222939">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>afgh_clth005_gim_i0000|TppSharedGimmick_afgh_clth005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/cloth/afgh_clth005/scenes/afgh_clth005_fl.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/afghanistan/cloth/afgh_clth005/afgh_clth005.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/afgh_clth005.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>259</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x0A9A66E0" unknown1="256" unknown2="201297">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0000|SDMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9A6750</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9A6750" unknown1="80" unknown2="201300">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A66E0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.796569" y="3.070709" z="5.778825" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.253992915" z="0" w="0.9672061" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-85.35565" y="4.026394" z="-82.47001" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaGroup" classVersion="3" addr="0x0A9A68A0" unknown1="112" unknown2="201306">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0000|SGMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9A69F0</value>
+        </property>
+        <property name="members" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SMMT21">0x0A9A6BB0</value>
+        </property>
+        <property name="edges" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SEMT21">0x0A9A6A60</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaParameter" classVersion="4" addr="0x0A9A69F0" unknown1="104" unknown2="201310">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A68A0</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="ambientRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="ambientRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>13</value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>13</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" />
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x0A9A6A60" unknown1="136" unknown2="201312">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0000|SEMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9A6B40</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SGMT21">0x0A9A68A0</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x0A9A6B40" unknown1="48" unknown2="201316">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A6A60</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>1000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaMember" classVersion="2" addr="0x0A9A6BB0" unknown1="96" unknown2="201318">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0000|SMMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SDMT21">0x0A9A66E0</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0A9A7D30" unknown1="80" unknown2="201404">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7C50</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-0" y="-0" z="-0" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0A9A7EF0</value>
+          <value>0x0A9A8040</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0A9A7DA0" unknown1="80" unknown2="201408">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7C50</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-0" y="-0" z="6.02288" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0A9A7EF0</value>
+          <value>0x0A9A7F60</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0A9A7E10" unknown1="80" unknown2="201412">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7C50</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.09063" y="-0" z="5.90334" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0A9A7F60</value>
+          <value>0x0A9A7FD0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0A9A7E80" unknown1="80" unknown2="201416">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7C50</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.09063" y="-0" z="-0.1034" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0A9A7FD0</value>
+          <value>0x0A9A8040</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0A9A7EF0" unknown1="36" unknown2="201420">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7C50</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7D30</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7DA0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0A9A7F60" unknown1="36" unknown2="201424">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7C50</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7DA0</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7E10</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0A9A7FD0" unknown1="36" unknown2="201428">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7C50</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7E10</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7E80</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0A9A8040" unknown1="36" unknown2="201432">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7C50</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7E80</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A7D30</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundSource" classVersion="2" addr="0x0A9A8BA0" unknown1="288" unknown2="201499">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0000|SS_mafr_tent002_v2</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9A8C10</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_mafr_tent002</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" />
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>30</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9A8C10" unknown1="80" unknown2="201502">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A8BA0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.253992975" z="0" w="0.967206061" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-85.3387146" y="7.03103352" z="-82.47519" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppRainFilterInterruptTrans" classVersion="2" addr="0x0A9A9000" unknown1="400" unknown2="2388070">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0000|TppRainFilterInterruptTrans0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9A9070</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="planeMatrices" type="Matrix4" container="DynamicArray" arraySize="2">
+          <value>
+            <Row1 Column1="1.654603" Column2="0.909515" Column3="0" Column4="0" />
+            <Row2 Column1="-0.481709" Column2="0.876331" Column3="0" Column4="0" />
+            <Row3 Column1="0" Column2="0" Column3="3.303276" Column4="0" />
+            <Row4 Column1="-1.124" Column2="3.219146" Column3="0.003" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="1.701964" Column2="-0.935544" Column3="0" Column4="0" />
+            <Row2 Column1="0.481707" Column2="0.876332" Column3="0" Column4="0" />
+            <Row3 Column1="0" Column2="0" Column3="3.305812" Column4="0" />
+            <Row4 Column1="1.123551" Column2="3.203072" Column3="0.003476" Column4="1" />
+          </value>
+        </property>
+        <property name="maskTextures" type="Path" container="DynamicArray" arraySize="2">
+          <value>/Assets/tpp/effect/gr_pic/gr_rinmsk01_iy_alp_clp.ftex</value>
+          <value>/Assets/tpp/effect/gr_pic/gr_rinmsk01_iy_alp_clp.ftex</value>
+        </property>
+        <property name="interruptFlags" type="uint32" container="DynamicArray" arraySize="2">
+          <value>3</value>
+          <value>3</value>
+        </property>
+        <property name="levels" type="uint32" container="DynamicArray" arraySize="2">
+          <value>0</value>
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9A9070" unknown1="80" unknown2="2388071">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A9000</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.253992975" z="0" w="0.967206061" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-85.3387146" y="2.856005" z="-82.47519" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0A9A9380" unknown1="240" unknown2="2402286">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_i0000|TppSharedGimmick_mafr_tent002_vrtn002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tent/mafr_tent002/scenes/mafr_tent002_vrtn002_fl.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_tent002_vrtn002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>259</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x0A9A93F0" unknown1="256" unknown2="201297">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0003|SDMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9A94D0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9A94D0" unknown1="80" unknown2="201300">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A93F0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.79655933" y="3.07070875" z="5.778814" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.001942003" y="0.9999515" z="0.004757998" w="0.008402013" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-22.3288536" y="2.90942955" z="-56.782402" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaGroup" classVersion="3" addr="0x0A9A9620" unknown1="112" unknown2="201306">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0003|SGMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9A9770</value>
+        </property>
+        <property name="members" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SMMT21">0x0A9A9930</value>
+        </property>
+        <property name="edges" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SEMT21">0x0A9A97E0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaParameter" classVersion="4" addr="0x0A9A9770" unknown1="104" unknown2="201310">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A9620</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="ambientRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="ambientRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>13</value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>13</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" />
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x0A9A97E0" unknown1="136" unknown2="201312">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0003|SEMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9A98C0</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SGMT21">0x0A9A9620</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x0A9A98C0" unknown1="48" unknown2="201316">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9A97E0</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>1000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaMember" classVersion="2" addr="0x0A9A9930" unknown1="96" unknown2="201318">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0003|SMMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SDMT21">0x0A9A93F0</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0A9AA810" unknown1="80" unknown2="201404">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA730</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-0" y="-0" z="-0" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0A9AA9D0</value>
+          <value>0x0A9AAB20</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0A9AA880" unknown1="80" unknown2="201408">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA730</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-0" y="-0" z="6.02288" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0A9AA9D0</value>
+          <value>0x0A9AAA40</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0A9AA8F0" unknown1="80" unknown2="201412">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA730</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.09063" y="-0" z="5.90334" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0A9AAA40</value>
+          <value>0x0A9AAAB0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0A9AA960" unknown1="80" unknown2="201416">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA730</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.09063" y="-0" z="-0.1034" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0A9AAAB0</value>
+          <value>0x0A9AAB20</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0A9AA9D0" unknown1="36" unknown2="201420">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA730</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA810</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA880</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0A9AAA40" unknown1="36" unknown2="201424">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA730</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA880</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA8F0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0A9AAAB0" unknown1="36" unknown2="201428">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA730</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA8F0</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA960</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0A9AAB20" unknown1="36" unknown2="201432">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA730</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA960</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AA810</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundSource" classVersion="2" addr="0x0A9AB680" unknown1="288" unknown2="201499">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0003|SS_mafr_tent002_v2</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9AB6F0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_mafr_tent002</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" />
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>30</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9AB6F0" unknown1="80" unknown2="201502">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AB680</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.999998033" y="0.99999994" z="0.999998033" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.001942003" y="0.9999515" z="0.004757998" w="0.008402014" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-22.3298454" y="5.913837" z="-56.7410851" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLightProbe" classVersion="4" addr="0x0A9AB840" unknown1="448" unknown2="201513">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0003|Occ_Probe0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9AB8B0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="enable" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lightArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="innerArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="shCoefficientsData" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="onLights" type="EntityLink" container="DynamicArray" />
+        <property name="offLights" type="EntityLink" container="DynamicArray" />
+        <property name="innerScaleXPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleXNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleYPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleYNegative" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="innerScaleZPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="innerScaleZNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="priority" type="int32" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="debugMode" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="exposure" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="localFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>201326608</value>
+        </property>
+        <property name="occlusionModeOpenRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.75</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9AB8B0" unknown1="80" unknown2="201519">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AB840</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1.35482132" y="2.53850174" z="3.74854469" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.001942003" y="0.9999515" z="0.004757998" w="0.008402012" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-20.9753838" y="2.55583668" z="-53.787632" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLightProbe" classVersion="4" addr="0x0A9AB990" unknown1="448" unknown2="201523">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0003|Occ_Probe0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9ABA00</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="enable" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lightArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="innerArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="shCoefficientsData" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="onLights" type="EntityLink" container="DynamicArray" />
+        <property name="offLights" type="EntityLink" container="DynamicArray" />
+        <property name="innerScaleXPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleXNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleYPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleYNegative" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="innerScaleZPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="innerScaleZNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="priority" type="int32" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="debugMode" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="exposure" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="localFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>201326608</value>
+        </property>
+        <property name="occlusionModeOpenRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.75</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9ABA00" unknown1="80" unknown2="201529">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AB990</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1.35482132" y="2.53850174" z="3.74854469" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.001942003" y="0.9999515" z="0.004757998" w="0.008402012" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-23.781599" y="2.622274" z="-59.6274071" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppRainFilterInterruptTrans" classVersion="2" addr="0x0A9ABAE0" unknown1="400" unknown2="2388070">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0003|TppRainFilterInterruptTrans0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9ABB50</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="planeMatrices" type="Matrix4" container="DynamicArray" arraySize="2">
+          <value>
+            <Row1 Column1="1.654603" Column2="0.909515" Column3="0" Column4="0" />
+            <Row2 Column1="-0.481709" Column2="0.876331" Column3="0" Column4="0" />
+            <Row3 Column1="0" Column2="0" Column3="3.303276" Column4="0" />
+            <Row4 Column1="-1.124" Column2="3.219146" Column3="0.003" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="1.701964" Column2="-0.935544" Column3="0" Column4="0" />
+            <Row2 Column1="0.481707" Column2="0.876332" Column3="0" Column4="0" />
+            <Row3 Column1="0" Column2="0" Column3="3.305812" Column4="0" />
+            <Row4 Column1="1.123551" Column2="3.203072" Column3="0.003476" Column4="1" />
+          </value>
+        </property>
+        <property name="maskTextures" type="Path" container="DynamicArray" arraySize="2">
+          <value>/Assets/tpp/effect/gr_pic/gr_rinmsk01_iy_alp_clp.ftex</value>
+          <value>/Assets/tpp/effect/gr_pic/gr_rinmsk01_iy_alp_clp.ftex</value>
+        </property>
+        <property name="interruptFlags" type="uint32" container="DynamicArray" arraySize="2">
+          <value>3</value>
+          <value>3</value>
+        </property>
+        <property name="levels" type="uint32" container="DynamicArray" arraySize="2">
+          <value>0</value>
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9ABB50" unknown1="80" unknown2="2388071">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9ABAE0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.999998033" y="0.99999994" z="0.999998033" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.001942003" y="0.9999515" z="0.004757998" w="0.008402014" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-22.345726" y="1.739029" z="-56.78095" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModel" classVersion="9" addr="0x0A9ABE60" unknown1="352" unknown2="57774833">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wndm001_vrtn001_gim_n0000|mafr_wndm001_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9ABED0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/windmill/mafr_wndm001/scenes/mafr_wndm001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/windmill/mafr_wndm001/scenes/mafr_wndm001.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="isIsolated" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>400</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="color" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9ABED0" unknown1="80" unknown2="57774836">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9ABE60</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.999999642" y="1" z="0.999999642" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0.3637878" z="0" w="0.931481838" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-44.2294464" y="7.858888" z="-148.555511" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundSource" classVersion="2" addr="0x0A9AC1E0" unknown1="288" unknown2="58566478">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wndm001_vrtn001_gim_n0000|SoundSource0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9AC250</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_fan</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" />
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>55</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9AC250" unknown1="80" unknown2="58566479">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9AC1E0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.9999996" y="0.999999344" z="0.999999642" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.454062253" y="0.272563368" z="-0.482152551" w="0.6979009" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-44.2388725" y="28.6130772" z="-147.84404" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0A9AC560" unknown1="240" unknown2="580869">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wndm001_vrtn001_gim_i0000|TppSharedGimmick_mafr_wndm001_vrtn001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/windmill/mafr_wndm001/mafr_wndm001_vrtn001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_wndm001_vrtn001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>603979779</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Locator" classVersion="0" addr="0x0A9ACD40" unknown1="272" unknown2="6757420">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wtct002_br0000|ladderData</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9ACDB0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" arraySize="1">
+          <value>0x0A9ACE90</value>
+        </property>
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="size" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9ACDB0" unknown1="80" unknown2="6757424">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9ACD40</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.99999994" y="1" z="0.99999994" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.0682240054" z="0" w="0.99767" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-34.5818062" y="2.338142" z="-79.47808" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLadderData" classVersion="3" addr="0x0A9ACE90" unknown1="288" unknown2="6757428">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wtct002_br0000|MgoLadderData</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9ACD40</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0A9ACF00</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="numSteps" type="uint32" container="StaticArray" arraySize="1">
+          <value>12</value>
+        </property>
+        <property name="tacticalActionId" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="entryPoints" type="EntityLink" container="DynamicArray" arraySize="2">
+          <value packagePath="" archivePath="/Assets/mgo/level_asset/environ/object/mgo_mafr/watchtower/mafr_wtct002_br.las" nameInArchive="MgoLadderEntryPointData_bottom">0x0A9AD0C0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level_asset/environ/object/mgo_mafr/watchtower/mafr_wtct002_br.las" nameInArchive="MgoLadderEntryPointData_top">0x0A9AD130</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0A9ACF00" unknown1="80" unknown2="6757433">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0A9ACE90</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.707104" z="0" w="0.707109" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.002426" z="1.507288" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLadderEntryPointData" classVersion="1" addr="0x0A9AD0C0" unknown1="72" unknown2="6757439">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wtct002_br0000|MgoLadderEntryPointData_bottom</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="entryType" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locateStep" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLadderEntryPointData" classVersion="1" addr="0x0A9AD130" unknown1="72" unknown2="6757441">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wtct002_br0000|MgoLadderEntryPointData_top</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="entryType" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locateStep" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Locator" classVersion="0" addr="0x0AA008D0" unknown1="272" unknown2="6757420">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wtct002_br0001|ladderData</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA00940</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" arraySize="1">
+          <value>0x0AA00A20</value>
+        </property>
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="size" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0AA00940" unknown1="80" unknown2="6757424">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA008D0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.9999997" y="1" z="0.9999997" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0.9852031" z="0" w="-0.17139101" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-39.36253" y="1.622006" z="-51.68804" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLadderData" classVersion="3" addr="0x0AA00A20" unknown1="288" unknown2="6757428">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wtct002_br0001|MgoLadderData</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA008D0</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA00A90</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="numSteps" type="uint32" container="StaticArray" arraySize="1">
+          <value>12</value>
+        </property>
+        <property name="tacticalActionId" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="entryPoints" type="EntityLink" container="DynamicArray" arraySize="2">
+          <value packagePath="" archivePath="/Assets/mgo/level_asset/environ/object/mgo_mafr/watchtower/mafr_wtct002_br.las" nameInArchive="MgoLadderEntryPointData_bottom">0x0AA00C50</value>
+          <value packagePath="" archivePath="/Assets/mgo/level_asset/environ/object/mgo_mafr/watchtower/mafr_wtct002_br.las" nameInArchive="MgoLadderEntryPointData_top">0x0AA00CC0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0AA00A90" unknown1="80" unknown2="6757433">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA00A20</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.707104" z="0" w="0.707109" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.002426" z="1.507288" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLadderEntryPointData" classVersion="1" addr="0x0AA00C50" unknown1="72" unknown2="6757439">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wtct002_br0001|MgoLadderEntryPointData_bottom</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="entryType" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locateStep" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLadderEntryPointData" classVersion="1" addr="0x0AA00CC0" unknown1="72" unknown2="6757441">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_wtct002_br0001|MgoLadderEntryPointData_top</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="entryType" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locateStep" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0AA02F50" unknown1="240" unknown2="43098">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>afgh_asht001_gim_i0000|TppSharedGimmick_afgh_asht001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/ashtray/afgh_asht001/scenes/afgh_asht001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/ashtray/afgh_asht001/scenes/afgh_asht001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/afghanistan/ashtray/afgh_asht001/afgh_asht001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_ruleset/lba/afgh_asht001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0AA03500" unknown1="240" unknown2="46890">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_char001_gim_i0000|TppSharedGimmick_mafr_char001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/chair/mafr_char001/scenes/mafr_char001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/chair/mafr_char001/scenes/mafr_char001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/chair/mafr_char001/mafr_char001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_ruleset/lba/mafr_char001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0AA030A0" unknown1="240" unknown2="86585">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mgoa_cupp001_gim_i0000|TppSharedGimmick_afgh_cupp001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/cup/afgh_cupp001/scenes/afgh_cupp001_br.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/cup/afgh_cupp001/scenes/afgh_cupp001_br.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/parts/environ/object/mgo_afgh/cup/mgoa_cupp001/mgoa_cupp001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_ruleset/lba/mgoa_cupp001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>282</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppPermanentGimmickData" classVersion="0" addr="0x0AA04F40" unknown1="144" unknown2="134974464">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>hw00_gim_i0000|TppPermanentGimmick_hw00_main0_def</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/weapon/hew/hw00_main0_def.parts</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/hw00_main0_def.lba</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA05100</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppPermanentGimmickMortarParameter" classVersion="1" addr="0x0AA05100" unknown1="88" unknown2="134974466">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA04F40</value>
+        </property>
+        <property name="rotationLimitLeftRight" type="float" container="StaticArray" arraySize="1">
+          <value>360</value>
+        </property>
+        <property name="rotationLimitUp" type="float" container="StaticArray" arraySize="1">
+          <value>90</value>
+        </property>
+        <property name="rotationLimitDown" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="defaultShellPartsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="flareShellPartsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x0AA07470" unknown1="256" unknown2="201297">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0002|SDMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA07550</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0AA07550" unknown1="80" unknown2="201300">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA07470</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.79656744" y="3.070709" z="5.778824" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.00071900076" y="0.868010044" z="0.0050889994" w="-0.4965201" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-97.88716" y="4.02913427" z="-81.83217" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaGroup" classVersion="3" addr="0x0AA076A0" unknown1="112" unknown2="201306">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0002|SGMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA077F0</value>
+        </property>
+        <property name="members" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SMMT21">0x0AA079B0</value>
+        </property>
+        <property name="edges" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SEMT21">0x0AA07860</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaParameter" classVersion="4" addr="0x0AA077F0" unknown1="104" unknown2="201310">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA076A0</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="ambientRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="ambientRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>13</value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>13</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" />
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x0AA07860" unknown1="136" unknown2="201312">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0002|SEMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA07940</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SGMT21">0x0AA076A0</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x0AA07940" unknown1="48" unknown2="201316">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA07860</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>1000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaMember" classVersion="2" addr="0x0AA079B0" unknown1="96" unknown2="201318">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0002|SMMT21</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/tpp/level_asset/gim_object/object/middle_africa/tent/mafr_tent002/mafr_tent002_vrtn002_gim_n.las" nameInArchive="SDMT21">0x0AA07470</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0AA08CF0" unknown1="80" unknown2="201404">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08B30</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-0" y="-0" z="-0" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0AA09070</value>
+          <value>0x0AA09380</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0AA08E40" unknown1="80" unknown2="201408">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08B30</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-0" y="-0" z="6.02288" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0AA09070</value>
+          <value>0x0AA091C0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0AA08EB0" unknown1="80" unknown2="201412">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08B30</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.09063" y="-0" z="5.90334" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0AA091C0</value>
+          <value>0x0AA09230</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataNode" classVersion="0" addr="0x0AA09000" unknown1="80" unknown2="201416">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08B30</value>
+        </property>
+        <property name="position" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.09063" y="-0" z="-0.1034" w="0" />
+        </property>
+        <property name="inlinks" type="EntityHandle" container="DynamicArray" />
+        <property name="outlinks" type="EntityHandle" container="DynamicArray" arraySize="2">
+          <value>0x0AA09230</value>
+          <value>0x0AA09380</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0AA09070" unknown1="36" unknown2="201420">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08B30</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08CF0</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08E40</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0AA091C0" unknown1="36" unknown2="201424">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08B30</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08E40</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08EB0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0AA09230" unknown1="36" unknown2="201428">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08B30</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08EB0</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA09000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GraphxSpatialGraphDataEdge" classVersion="0" addr="0x0AA09380" unknown1="36" unknown2="201432">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08B30</value>
+        </property>
+        <property name="prevNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA09000</value>
+        </property>
+        <property name="nextNode" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA08CF0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLightProbe" classVersion="4" addr="0x0AA0AB20" unknown1="448" unknown2="201489">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0002|Occ_Probe</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA0AC70</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="enable" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="lightArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="innerArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="shCoefficientsData" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="onLights" type="EntityLink" container="DynamicArray" />
+        <property name="offLights" type="EntityLink" container="DynamicArray" />
+        <property name="innerScaleXPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0.96</value>
+        </property>
+        <property name="innerScaleXNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0.96</value>
+        </property>
+        <property name="innerScaleYPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="innerScaleYNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="innerScaleZPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0.98</value>
+        </property>
+        <property name="innerScaleZNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0.98</value>
+        </property>
+        <property name="priority" type="int32" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="debugMode" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="exposure" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="localFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>201326608</value>
+        </property>
+        <property name="occlusionModeOpenRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.25</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0AA0AC70" unknown1="80" unknown2="201495">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA0AB20</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.81561" y="7.46159029" z="5.712264" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.0007190009" y="0.86801" z="0.005089" w="-0.496520162" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-97.88648" y="3.53264666" z="-81.81596" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundSource" classVersion="2" addr="0x0AA0AE30" unknown1="288" unknown2="201499">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0002|SS_mafr_tent002_v2</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA0AEA0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_mafr_tent002</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" />
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>30</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0AA0AEA0" unknown1="80" unknown2="201502">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA0AE30</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.999999762" y="1" z="0.999999762" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.000719000644" y="0.868010044" z="0.005089" w="-0.496520042" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-97.87086" y="7.03343439" z="-81.78645" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLightProbe" classVersion="4" addr="0x0AA0B290" unknown1="448" unknown2="201513">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0002|Occ_Probe0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA0B300</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="enable" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="lightArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="innerArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="shCoefficientsData" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="onLights" type="EntityLink" container="DynamicArray" />
+        <property name="offLights" type="EntityLink" container="DynamicArray" />
+        <property name="innerScaleXPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleXNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleYPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleYNegative" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="innerScaleZPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="innerScaleZNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="priority" type="int32" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="debugMode" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="exposure" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="localFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>201326608</value>
+        </property>
+        <property name="occlusionModeOpenRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.75</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0AA0B300" unknown1="80" unknown2="201519">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA0B290</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1.35482359" y="2.53850222" z="3.74855137" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.000719001" y="0.868010044" z="0.005089" w="-0.496520042" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-94.61196" y="3.69401646" z="-81.5383453" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLightProbe" classVersion="4" addr="0x0AA0B4C0" unknown1="448" unknown2="201523">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0002|Occ_Probe0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA0B610</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="enable" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="lightArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="innerArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="shCoefficientsData" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="onLights" type="EntityLink" container="DynamicArray" />
+        <property name="offLights" type="EntityLink" container="DynamicArray" />
+        <property name="innerScaleXPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleXNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleYPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="innerScaleYNegative" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="innerScaleZPositive" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="innerScaleZNegative" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="priority" type="int32" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="debugMode" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="shapeType" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="exposure" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="localFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>201326608</value>
+        </property>
+        <property name="occlusionModeOpenRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.75</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0AA0B610" unknown1="80" unknown2="201529">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA0B4C0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1.35482359" y="2.53850222" z="3.74855137" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.000719001" y="0.868010044" z="0.005089" w="-0.496520042" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-101.076805" y="3.72275114" z="-81.97107" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppRainFilterInterruptTrans" classVersion="2" addr="0x0AA0B7D0" unknown1="400" unknown2="2388070">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_tent002_vrtn002_gim_n0002|TppRainFilterInterruptTrans0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA0B840</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="planeMatrices" type="Matrix4" container="DynamicArray" arraySize="2">
+          <value>
+            <Row1 Column1="1.654603" Column2="0.909515" Column3="0" Column4="0" />
+            <Row2 Column1="-0.481709" Column2="0.876331" Column3="0" Column4="0" />
+            <Row3 Column1="0" Column2="0" Column3="3.303276" Column4="0" />
+            <Row4 Column1="-1.124" Column2="3.219146" Column3="0.003" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="1.701964" Column2="-0.935544" Column3="0" Column4="0" />
+            <Row2 Column1="0.481707" Column2="0.876332" Column3="0" Column4="0" />
+            <Row3 Column1="0" Column2="0" Column3="3.305812" Column4="0" />
+            <Row4 Column1="1.123551" Column2="3.203072" Column3="0.003476" Column4="1" />
+          </value>
+        </property>
+        <property name="maskTextures" type="Path" container="DynamicArray" arraySize="2">
+          <value>/Assets/tpp/effect/gr_pic/gr_rinmsk01_iy_alp_clp.ftex</value>
+          <value>/Assets/tpp/effect/gr_pic/gr_rinmsk01_iy_alp_clp.ftex</value>
+        </property>
+        <property name="interruptFlags" type="uint32" container="DynamicArray" arraySize="2">
+          <value>3</value>
+          <value>3</value>
+        </property>
+        <property name="levels" type="uint32" container="DynamicArray" arraySize="2">
+          <value>0</value>
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0AA0B840" unknown1="80" unknown2="2388071">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA0B7D0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.999999762" y="1" z="0.999999762" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.000719000644" y="0.868010044" z="0.005089" w="-0.496520042" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-97.88674" y="2.858626" z="-81.82632" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppPermanentGimmickData" classVersion="0" addr="0x0AA0F120" unknown1="144" unknown2="2280">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>nad0_main0_def_gim_i0000|TppPermanentGimmick_nad0_main0_def</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/mecha/nad/nad0_main0_def.parts</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/nad0_main0_def.lba</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0AA0F190</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppPermanentGimmickGatlingGunParameter" classVersion="0" addr="0x0AA0F190" unknown1="80" unknown2="7075">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0AA0F120</value>
+        </property>
+        <property name="life" type="uint32" container="StaticArray" arraySize="1">
+          <value>500</value>
+        </property>
+        <property name="maxXAxisAngle" type="float" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="minXAxisAngle" type="float" container="StaticArray" arraySize="1">
+          <value>-45</value>
+        </property>
+        <property name="maxYAxisAngle" type="float" container="StaticArray" arraySize="1">
+          <value>180</value>
+        </property>
+        <property name="minYAxisAngle" type="float" container="StaticArray" arraySize="1">
+          <value>-180</value>
+        </property>
+        <property name="animPath" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/SI_game/fani/bodies/nad0/nad0/nad0_ammo_anim.gani</value>
+        </property>
+        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/nad0/nad0_ammo_anim.mtar</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0ABA0860" unknown1="240" unknown2="46344">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>mafr_bckt001_gim_i0000|TppSharedGimmick_mafr_bckt001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/bucket/mafr_bckt001/scenes/mafr_bckt001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/bucket/mafr_bckt001/scenes/mafr_bckt001.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/middle_africa/bucket/mafr_bckt001/mafr_bckt001.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/mafr_bckt001.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSharedGimmickData" classVersion="1" addr="0x0ABA21C0" unknown1="240" unknown2="8961692">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>afgh_char002_gim_i0000|TppSharedGimmick_afgh_char002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/chair/afgh_char002/scenes/afgh_char002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/chair/afgh_char002/scenes/afgh_char002.geom</value>
+        </property>
+        <property name="breakedModelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="breakedGeomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="partsFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/parts/environ/object/afghanistan/chair/afgh_char002/afgh_char002.parts</value>
+        </property>
+        <property name="numDynamicGimmick" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="locaterFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/lba/afgh_char002.lba</value>
+        </property>
+        <property name="flags1" type="uint32" container="StaticArray" arraySize="1">
+          <value>267</value>
+        </property>
+        <property name="flags2" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x1A3F1F90" unknown1="208" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/environ/object/mgo_mafr/watchtower/mgom_wtct001/scenes/mgom_wtct001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/environ/object/mgo_mafr/watchtower/mgom_wtct001/scenes/mgom_wtct001.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="2">
+          <value>
+            <Row1 Column1="0.990690947" Column2="0" Column3="0.136130065" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.136130065" Column2="0" Column3="0.990690947" Column4="0" />
+            <Row4 Column1="-34.5818062" Column2="2.338142" Column3="-79.47808" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.941249967" Column2="0" Column3="0.337709844" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.337709844" Column2="0" Column3="-0.941249967" Column4="0" />
+            <Row4 Column1="-39.36253" Column2="1.622006" Column3="-51.68804" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="2">
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x1A3F2000" unknown1="208" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/afghanistan/cloth/afgh_clth005/scenes/afgh_clth005_fl.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="8">
+          <value>
+            <Row1 Column1="-0.86866504" Column2="-0.03660085" Column3="0.03132789" Column4="0" />
+            <Row2 Column1="-0.0363776" Column2="0.8692123" Column3="0.006829575" Column4="0" />
+            <Row3 Column1="-0.0315868445" Column2="0.00550917163" Column3="-0.869408965" Column4="0" />
+            <Row4 Column1="44.9855156" Column2="11.9049482" Column3="-121.573555" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.387598068" Column2="-0.01025179" Column3="-0.7598421" Column4="0" />
+            <Row2 Column1="-0.05360596" Column2="1.28085113" Column3="0.010063353" Column4="0" />
+            <Row3 Column1="0.894028246" Column2="0.041004125" Column3="-0.456600159" Column4="0" />
+            <Row4 Column1="79.29293" Column2="18.3306274" Column3="-101.188263" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.0949003" Column2="0.04344058" Column3="-0.8466436" Column4="0" />
+            <Row2 Column1="-0.06886679" Column2="0.985039532" Column3="0.04282227" Column4="0" />
+            <Row3 Column1="0.747607" Column2="0.0485159829" Column3="0.0862885863" Column4="0" />
+            <Row4 Column1="43.6703949" Column2="14.576848" Column3="-94.2471848" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.852281451" Column2="-0.0202094261" Column3="-0.030108273" Column4="0" />
+            <Row2 Column1="-0.0220188629" Column2="0.987339556" Column3="-0.0394346081" Column4="0" />
+            <Row3 Column1="0.03196822" Column2="-0.0345052145" Column3="-0.88177073" Column4="0" />
+            <Row4 Column1="18.6920757" Column2="8.677444" Column3="-126.321228" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-1.1095221" Column2="-0.0443871953" Column3="-0.260573447" Column4="0" />
+            <Row2 Column1="-0.0416803844" Column2="1.13968635" Column3="-0.016664518" Column4="0" />
+            <Row3 Column1="0.2610201" Column2="-0.00668859249" Column3="-1.11028469" Column4="0" />
+            <Row4 Column1="54.1334" Column2="15.1265574" Column3="-107.553513" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="1" Column2="0" Column3="0" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0" Column2="0" Column3="1" Column4="0" />
+            <Row4 Column1="-62.3714561" Column2="9.296307" Column3="-121.455521" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.692733049" Column2="0.00205694186" Column3="0.497810036" Column4="0" />
+            <Row2 Column1="-0.00295522879" Column2="0.988333642" Column3="-0.00819615647" Column4="0" />
+            <Row3 Column1="-0.515298247" Column2="-0.00748712569" Column3="-0.717038" Column4="0" />
+            <Row4 Column1="-37.55643" Column2="10.9278536" Column3="-137.121246" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.40324533" Column2="0" Column3="-0.7709051" Column4="0" />
+            <Row2 Column1="0" Column2="0.87" Column3="0" Column4="0" />
+            <Row3 Column1="0.7709051" Column2="0" Column3="-0.40324533" Column4="0" />
+            <Row4 Column1="-8.949853" Column2="10.530489" Column3="172.029129" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="8">
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x1A3F2070" unknown1="208" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tent/mafr_tent002/scenes/mafr_tent002_vrtn002_fl.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="3">
+          <value>
+            <Row1 Column1="0.870975137" Column2="0" Column3="0.4913271" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.4913271" Column2="0" Column3="0.870975137" Column4="0" />
+            <Row4 Column1="-85.3387146" Column2="2.856005" Column3="-82.47519" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.9998493" Column2="0.00396376336" Column3="-0.0167846978" Column4="0" />
+            <Row2 Column1="0.00380385644" Column2="0.999947131" Column3="0.009548167" Column4="0" />
+            <Row3 Column1="0.0168216564" Column2="0.0094829" Column3="-0.9998116" Column4="0" />
+            <Row4 Column1="-22.345726" Column2="1.739029" Column3="-56.78095" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.506934464" Column2="-0.0063017793" Column3="0.8619613" Column4="0" />
+            <Row2 Column1="0.00380538241" Column2="0.9999472" Column3="0.009548601" Column4="0" />
+            <Row3 Column1="-0.861975968" Column2="0.008120609" Column3="-0.5068837" Column4="0" />
+            <Row4 Column1="-97.88674" Column2="2.858626" Column3="-81.82632" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="3">
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x1A3F20E0" unknown1="208" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/curtain/mafr_crtn001/scenes/mafr_crtn001_vrtn001_fl.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="5">
+          <value>
+            <Row1 Column1="-0.2588116" Column2="0" Column3="-0.965927064" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.965927064" Column2="0" Column3="-0.2588116" Column4="0" />
+            <Row4 Column1="-24.918972" Column2="3.981426" Column3="-159.251877" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.385315418" Column2="0.107165053" Column3="-0.916541457" Column4="0" />
+            <Row2 Column1="-0.0415318124" Column2="0.994241238" Column3="0.098789975" Column4="0" />
+            <Row3 Column1="0.9218502" Column2="2.86847353E-07" Column3="0.387547255" Column4="0" />
+            <Row4 Column1="-67.7268448" Column2="0.655865" Column3="-55.8591423" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="0.797889352" Column2="0" Column3="-0.602803946" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.602803946" Column2="0" Column3="0.797889352" Column4="0" />
+            <Row4 Column1="-70.88772" Column2="0.217867" Column3="-51.77555" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.3400843" Column2="0" Column3="-0.940394044" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="0.940394044" Column2="0" Column3="-0.3400843" Column4="0" />
+            <Row4 Column1="-75.3805542" Column2="0.753163" Column3="-25.5990849" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.7720544" Column2="0.135151371" Column3="0.621022165" Column4="0" />
+            <Row2 Column1="0.100074619" Column2="0.9907904" Column3="-0.09121058" Column4="0" />
+            <Row3 Column1="-0.627630055" Column2="-0.008270904" Column3="-0.7784693" Column4="0" />
+            <Row4 Column1="-52.7941856" Column2="0.134507" Column3="-23.4943" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="5">
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="StaticModelArray" classVersion="4" addr="0x0A9A3EA0" unknown1="208" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>StaticModelArray0004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/environ/object/mgo_mafr/watchtower/mgom_wtct001/scenes/mgom_wtct001_lddr001.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/environ/object/mgo_mafr/watchtower/mgom_wtct001/scenes/mgom_wtct001_lddr001.geom</value>
+        </property>
+        <property name="isVisibleGeom" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="lodFarSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodNearSize" type="float" container="StaticArray" arraySize="1">
+          <value>-1</value>
+        </property>
+        <property name="lodPolygonSize" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="drawRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="drawMode" type="int32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="rejectFarRangeShadowCast" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="parentLocator" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="transforms" type="Matrix4" container="DynamicArray" arraySize="2">
+          <value>
+            <Row1 Column1="0.990690947" Column2="0" Column3="0.136130065" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.136130065" Column2="0" Column3="0.990690947" Column4="0" />
+            <Row4 Column1="-34.5818062" Column2="2.338142" Column3="-79.47808" Column4="1" />
+          </value>
+          <value>
+            <Row1 Column1="-0.941249967" Column2="0" Column3="0.337709844" Column4="0" />
+            <Row2 Column1="0" Column2="1" Column3="0" Column4="0" />
+            <Row3 Column1="-0.337709844" Column2="0" Column3="-0.941249967" Column4="0" />
+            <Row4 Column1="-39.36253" Column2="1.622006" Column3="-51.68804" Column4="1" />
+          </value>
+        </property>
+        <property name="colors" type="uint32" container="DynamicArray" arraySize="2">
+          <value>4294967295</value>
+          <value>4294967295</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLightProbeArray" classVersion="2" addr="0x1A3F0B00" unknown1="336" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLightProbeArray0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="drawRejectionLevels" type="int32" container="DynamicArray" arraySize="6">
+          <value>2</value>
+          <value>1</value>
+          <value>1</value>
+          <value>2</value>
+          <value>2</value>
+          <value>2</value>
+        </property>
+        <property name="relatedLights" type="EntityLink" container="DynamicArray" />
+        <property name="shDatas" type="EntityLink" container="DynamicArray" arraySize="6">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="lightArrayFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/afc0_common_gimmicks_fox2_tgrxla_win.grxla</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxPathPack" classVersion="0" addr="0x0F99D4B0" unknown1="288" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>GeoxPathPack0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="pathFixedPackFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/afc0_common_gimmicks_fox2_0_win.gpfp</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxGeomSetLoader" classVersion="0" addr="0x0F99D2F0" unknown1="288" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>GeoxGeomSetLoader0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="geomSetFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/afc0_common_gimmicks_fox2_0_geoprim_win.geoms</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x1176FD60" unknown1="72" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0937C090</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

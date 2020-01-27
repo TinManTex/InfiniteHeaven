@@ -1746,7 +1746,7 @@ function this.Messages()
   return
     StrCode32Table {
       Trap = {
-        {
+        {--NMC: these are duplicated in f30020_sequence for some reason
           msg = "Enter",	sender = "trap_FreePlay_area01",
           func = function()
             Fox.Log("### trap_FreePlay_area01 Enter ###")

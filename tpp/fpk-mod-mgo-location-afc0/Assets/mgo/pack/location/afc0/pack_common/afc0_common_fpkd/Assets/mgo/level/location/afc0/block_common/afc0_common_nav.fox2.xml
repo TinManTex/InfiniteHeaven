@@ -1,0 +1,658 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0" originalVersion="Sat Jan 21 14:29:35 UTC+13:00 2017">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="NavxWorldGenerateParameter" super="" version="27" />
+    <class name="TransformEntity" super="" version="0" />
+    <class name="NavxNavigableParameter" super="" version="9" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x0917EEF0" unknown1="232" unknown2="518775">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="3">
+          <value key="NavxWorldGenerateParameter_main">0x0917F200</value>
+          <value key="NavxWorldGenerateParameter_sahelan">0x09399690</value>
+          <value key="TexturePackLoadConditioner0000">0x0B3A6910</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxWorldGenerateParameter" classVersion="27" addr="0x0917F200" unknown1="400" unknown2="518792">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>NavxWorldGenerateParameter_main</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917EEF0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0917F4A0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>3221225479</value>
+        </property>
+        <property name="resolution" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="verticalThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>1.5</value>
+        </property>
+        <property name="doesDivideIslandWithSector" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="doesHoleSimplification" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="holeSimplificationConvexThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>10</value>
+        </property>
+        <property name="holeSimplificationObbExpandThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="holeSimplificationObbToAabbThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>10</value>
+        </property>
+        <property name="holeSimplificationSmoothingThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>10</value>
+        </property>
+        <property name="isHoleSimplificationDoesNotClosePassage" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="holeSimplificationReduceCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="doesAdjustSearchSpaceToNavmesh" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="doesGenerateFillNavVolumeInRadius" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="roughGraphFilePath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="roughGraphFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="worldName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="maxFileSizeInKb" type="uint32" container="StaticArray" arraySize="1">
+          <value>190</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="DynamicArray" arraySize="11">
+          <value>0x0917F7B0</value>
+          <value>0x0917F820</value>
+          <value>0x0917F900</value>
+          <value>0x0917F970</value>
+          <value>0x0917FAC0</value>
+          <value>0x0917FB30</value>
+          <value>0x0917FC80</value>
+          <value>0x0917FCF0</value>
+          <value>0x0917FE40</value>
+          <value>0x0917FEB0</value>
+          <value>0x09399230</value>
+        </property>
+        <property name="sectorSizeHorizontal" type="uint32" container="StaticArray" arraySize="1">
+          <value>16</value>
+        </property>
+        <property name="tileSizeHorizontal" type="uint32" container="StaticArray" arraySize="1">
+          <value>128</value>
+        </property>
+        <property name="searchSpaceBucketSizeHorizontal" type="uint32" container="StaticArray" arraySize="1">
+          <value>10</value>
+        </property>
+        <property name="collisionAttributes" type="String" container="DynamicArray" arraySize="1">
+          <value>ENEMY</value>
+        </property>
+        <property name="loadFox2FileListScriptPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0917F4A0" unknown1="80" unknown2="518795">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="8192" y="1280" z="8192" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-4096" y="-32" z="-4096" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x0917F7B0" unknown1="60" unknown2="518801">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Human</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45.1</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x0917F820" unknown1="60" unknown2="518803">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Vehicle</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>3.5</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45.1</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x0917F900" unknown1="60" unknown2="518805">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Middle</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x0917F970" unknown1="60" unknown2="518807">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>HumanHighCost</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45.1</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x0917FAC0" unknown1="60" unknown2="518809">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>HumanCombat</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45.1</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x0917FB30" unknown1="60" unknown2="518811">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Horse</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45.1</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x0917FC80" unknown1="60" unknown2="518813">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>WalkerGear</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45.1</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x0917FCF0" unknown1="60" unknown2="518815">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Dog</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45.1</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x0917FE40" unknown1="60" unknown2="518817">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Animal</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>3.5</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45.1</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x0917FEB0" unknown1="60" unknown2="518819">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Event</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45.1</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x09399230" unknown1="60" unknown2="518821">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917F200</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Child</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>45.1</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxWorldGenerateParameter" classVersion="27" addr="0x09399690" unknown1="400" unknown2="518837">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>NavxWorldGenerateParameter_sahelan</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917EEF0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x093998C0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="resolution" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="verticalThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>1.5</value>
+        </property>
+        <property name="doesDivideIslandWithSector" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="doesHoleSimplification" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="holeSimplificationConvexThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>10</value>
+        </property>
+        <property name="holeSimplificationObbExpandThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="holeSimplificationObbToAabbThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>10</value>
+        </property>
+        <property name="holeSimplificationSmoothingThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>10</value>
+        </property>
+        <property name="isHoleSimplificationDoesNotClosePassage" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="holeSimplificationReduceCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="doesAdjustSearchSpaceToNavmesh" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="doesGenerateFillNavVolumeInRadius" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="roughGraphFilePath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="roughGraphFilePtr" type="FilePtr" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="worldName" type="String" container="StaticArray" arraySize="1">
+          <value>sahelan</value>
+        </property>
+        <property name="maxFileSizeInKb" type="uint32" container="StaticArray" arraySize="1">
+          <value>300</value>
+        </property>
+        <property name="parameters" type="EntityPtr" container="DynamicArray" arraySize="1">
+          <value>0x09399D90</value>
+        </property>
+        <property name="sectorSizeHorizontal" type="uint32" container="StaticArray" arraySize="1">
+          <value>32</value>
+        </property>
+        <property name="tileSizeHorizontal" type="uint32" container="StaticArray" arraySize="1">
+          <value>640</value>
+        </property>
+        <property name="searchSpaceBucketSizeHorizontal" type="uint32" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="collisionAttributes" type="String" container="DynamicArray" arraySize="1">
+          <value>Sahelan</value>
+        </property>
+        <property name="loadFox2FileListScriptPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x093998C0" unknown1="80" unknown2="518840">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09399690</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="640" y="2048" z="640" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-896" y="0" z="-1280" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="NavxNavigableParameter" classVersion="9" addr="0x09399D90" unknown1="60" unknown2="518846">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x09399690</value>
+        </property>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Human</value>
+        </property>
+        <property name="isDefault" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="radius" type="float" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="simplificationThreshold" type="float" container="StaticArray" arraySize="1">
+          <value>8</value>
+        </property>
+        <property name="height" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="maxClimbableAngle" type="float" container="StaticArray" arraySize="1">
+          <value>89</value>
+        </property>
+        <property name="maxStepSize" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="minArea" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x0B3A6910" unknown1="72" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0917EEF0</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

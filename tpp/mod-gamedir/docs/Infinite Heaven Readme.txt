@@ -1,7 +1,7 @@
 = Infinite heaven =
-r230 - 2018-05-08
+r232 - 2018-07-28
 by tin man tex
-For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
+For MGSV version 1.14 (in title screen) 1.0.13.0 in exe
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
 
@@ -16,6 +16,10 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r231
+Removed Setting: staff 'DD Suit' - 'Fatigues - All' setting to relieve additional fv2 limit for future addons. Won't return till/if full FoxKit gets full fv2 support.
+Added Settings: Ocelot and Quiet added to Appearance > Player Type - WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.
+
 New for r230
 Fixed: IHExtToMgsv.ProcessCommands calling WriteToExtTxt every frame, seems like this bug may have been in there since wpf IHExts creation.
 Fixed: IHExtToMgsv.ProcessCommands Not converting mgsvToExtComplete arg to number. Though the WriteToExtTxt concat seemed to interpret ok anyway?
@@ -29,11 +33,10 @@ InfObjects: Counterpart to InfPositions but for game object names, prior InfLook
 Objects menu
 Counterpart to Positions menu, for adding to, saving/loading a game object name list. The list is used for other commands/features like warp, PlayCam target.
 
-PlayCam: Alternative camera to Free cam.
+PlayCam: Alternative camera to Free cam - thanks choc for prompting me to look at it.
 (via Camera menu > PlayCam menu)
 [youtube]CQKOO-jnkBI[/youtube]
 https://youtu.be/CQKOO-jnkBI
-
 
 New for r229
 Fixed: ShowFreeCamPosition not working.
@@ -206,7 +209,7 @@ Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
 unknown123 for the MGSV research.
 sai for FoxLib and further MGSV research.
-Morbidslinky for creating Side Ops companion and his poking at the quest system.
+Morbidslinky for creating Side Ops companion and his poking at the quest system as well as his work on Snakebite.
 Various people for their donations, including:
 Domenico
 Jeong

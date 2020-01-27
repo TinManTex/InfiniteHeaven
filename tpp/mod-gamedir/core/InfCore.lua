@@ -15,7 +15,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=230
+this.modVersion=231
 this.modName="Infinite Heaven"
 
 this.gameId="TPP"
@@ -633,6 +633,8 @@ function this.OnLoadEvars()
   end
 end
 
+--loads and return lines of file into an array
+--returns nil on error
 function this.GetLines(fileName,ignoreError)
   return InfCore.PCall(function(fileName,ignoreError)
     local lines

@@ -1117,7 +1117,6 @@ function this.BuildSaveText(inMission,onlyNonDefault,newSave)
     return nil
   end
 
-  --tex TODO: a combined isdirty to skip save outright
   ClearArray(saveTextList)
 
   --tex header
@@ -1303,7 +1302,6 @@ function this.SaveEvars()
 end
 
 function this.CreateNewSave(filePath,saveName)
-  InfCore.Log("LoadSave: No ih_save.lua found or error, creating new",false,true)
   local inMission=false
   local onlyNonDefault=true
   local newSave=true
@@ -1321,6 +1319,7 @@ function this.LoadSave()
   --tex GOTCHA MoonSharp raises exception on loadfile instead of converting it to loadError return like normal lua interpreters
   if not InfCore.FileExists(filePath) then
     if not InfCore.ihSaveFirstLoad then
+      InfCore.Log("WARNING: LoadSave: ih_save.lua not found, creating new",false,true)
       this.CreateNewSave(filePath,saveName)
     end
   end
@@ -1330,12 +1329,14 @@ function this.LoadSave()
     --tex GOTCHA will overwrite a ih_save that exists, but failed to load (ex user edited syntax error)
     --TODO back up exising save in this case
     if not InfCore.ihSaveFirstLoad then
+      InfCore.Log("WARNING: LoadSave: ih_save.lua load error, creating new",false,true)
+      InfCore.PrintInspect(loadError,"LoadError")
       this.CreateNewSave(filePath,saveName)
     end
   end
 
   if ih_save_chunk==nil then
-    local errorText="LoadSave Error: loadfile error: "..tostring(loadError)
+    local errorText="ERROR: loadfile error: "..tostring(loadError)
     InfCore.Log(errorText,true,true)
     return nil
   end

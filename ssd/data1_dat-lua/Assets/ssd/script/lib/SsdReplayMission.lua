@@ -160,7 +160,35 @@ function this.OnMessage(n,l,a,s,o,t,i)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,n,l,a,s,o,t,i)
 end
 if(Tpp.IsQARelease())then
-  this.MENU_ITEM_LIST={{title="Cancel"},{title="s10010 (Opening)"},{title="k40040 (Get Water&Meal)"},{title="k40060 (Get First MemoryBoard)"},{title="k40070 (Craft AirTank)"},{title="k40015 (FastTravel)"},{title="k40020 (Rescue Miranda)"},{title="k40030 (Dungeon 1)"},{title="k40035 (Get Digger)"},{title="k40075 (Defense BaseCamp 1)"},{title="k40077 (Salvage field)"},{title="k40080 (Rescue Chris)"},{title="k40090 (Dungeon 2)"},{title="k40130 (Rescue Nicholas)"},{title="k40140 (Salvage village) "},{title="k40150 (Build Catwalk)"},{title="k40155 (Defense BaseCamp 2)"},{title="s10035 (Climb MotherBase)"},{title="k40160 (First FOB Mission)"},{title="k40180 (Rescue Seth)"},{title="k40170 (Find Sahelan)"},{title="k40230 (Defense Sahelan)"},{title="s10050 (Seth Battle)"},{title="k40220 (Dungeon 3)"},{title="k40250 (Salvage diamond)"},{title="k40260 (Build Archaea Blade)"},{title="s10060 (Load of Dust)"}}
+  this.MENU_ITEM_LIST={
+    {title="Cancel"},
+    {title="s10010 (Opening)"},
+    {title="k40040 (Get Water&Meal)"},
+    {title="k40060 (Get First MemoryBoard)"},
+    {title="k40070 (Craft AirTank)"},
+    {title="k40015 (FastTravel)"},
+    {title="k40020 (Rescue Miranda)"},
+    {title="k40030 (Dungeon 1)"},
+    {title="k40035 (Get Digger)"},
+    {title="k40075 (Defense BaseCamp 1)"},
+    {title="k40077 (Salvage field)"},
+    {title="k40080 (Rescue Chris)"},
+    {title="k40090 (Dungeon 2)"},
+    {title="k40130 (Rescue Nicholas)"},
+    {title="k40140 (Salvage village) "},
+    {title="k40150 (Build Catwalk)"},
+    {title="k40155 (Defense BaseCamp 2)"},
+    {title="s10035 (Climb MotherBase)"},
+    {title="k40160 (First FOB Mission)"},
+    {title="k40180 (Rescue Seth)"},
+    {title="k40170 (Find Sahelan)"},
+    {title="k40230 (Defense Sahelan)"},
+    {title="s10050 (Seth Battle)"},
+    {title="k40220 (Dungeon 3)"},
+    {title="k40250 (Salvage diamond)"},
+    {title="k40260 (Build Archaea Blade)"},
+    {title="s10060 (Load of Dust)"}
+  }
   function this.DEBUG_OnSelectReplayMission(e)
     if e then
       Mission.SendMessageToSubscribers("Mission","SelectReplayMission",e)

@@ -29,8 +29,10 @@ if InfCore and not InfCore.modDirFail then
   end
 
   --InfCore.PrintInspect(evars)--DEBUG
-
+  --tex needs to be up for Soldier2FaceAndBodyData
   InfCore.LoadLibrary"core/InfModelProc.lua"
+
+  InfCore.PCall(InfModelProc.LoadFovaInfo)
 
   InfCore.Log"InfInit.lua done"
 end

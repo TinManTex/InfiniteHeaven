@@ -697,6 +697,11 @@ function this.LoadForMissionAbort()
   this.RequestLoad(vars.missionCode,mvars.mis_abortCurrentMissionCode,mvars.mis_missionAbortLoadingOption)
 end
 function this.ReturnToTitle()
+  --RETAILPATCH: 1.0.12>
+  if gvars.exc_processingForDisconnect then
+    return
+  end
+  --<
   local isAlreadyGameOver
   if this.IsMultiPlayMission(vars.missionCode)then
     this.DisconnectMatching(false)
@@ -711,6 +716,11 @@ function this.GameOverReturnToTitle()
   if IS_GC_2017_COOP then
     mvars.mis_missionAbortLoadingOption={showLoadingTips=true,waitOnLoadingTipsEnd=false}
   end
+  --RETAILPATCH: 1.0.12
+  if gvars.exc_processingForDisconnect then
+    return
+  end
+  --<
   gvars.title_nextMissionCode=vars.missionCode
   gvars.title_nextLocationCode=vars.locationCode
   gvars.ini_isTitleMode=true
@@ -1511,7 +1521,7 @@ function this.Messages()
         end
       end},
       {msg="PopupClose",sender=TppDefine.ERROR_ID.SESSION_ABANDON,func=function()
-        this.AbandonMission()
+        this.AbandonMission{needRestore=true}--RETAILPATCH: 1.0.12 added needrestore
       end,
       option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true,isExecMissionPrepare=true,isExecFastTravel=true}},
       {msg="AiPodMenuReturnToTitleWithSaveSelected",func=this.ReturnToTitleWithSave}},
@@ -1551,16 +1561,16 @@ function this.Messages()
         end},
       {msg="Finish",sender="Timer_WaitStartMigration",
         func=function()
-          this.AbandonMission()
+          this.AbandonMission{needRestore=true}--RETAILPATCH: 1.0.12 added needRestore
         end},
       {msg="Finish",sender="Timer_WaitFinishMigration",
         func=function()
-          this.AbandonMission()
+          this.AbandonMission{needRestore=true}--RETAILPATCH: 1.0.12 added needRestore
         end,
         option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true,isExecMissionPrepare=true,isExecFastTravel=true}},
       {msg="Finish",sender="Timer_SessionAbandon",
         func=function()
-          this.AbandonMission()
+          this.AbandonMission{needRestore=true}--RETAILPATCH: 1.0.12 added needRestore
         end,
         option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true,isExecMissionPrepare=true,isExecFastTravel=true}},
       {msg="Finish",sender="Timer_WaitSavingForReturnToTitle",func=this.ExecuteReturnToTitleWithSave,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true,isExecMissionPrepare=true,isExecFastTravel=true}}
@@ -1640,7 +1650,7 @@ function this.Messages()
       {msg="AcceptedInvate",
         func=function()
           if this.IsMultiPlayMission(vars.missionCode)then
-            this.AbandonMission()
+            this.AbandonMission{needRestore=true}--RETAILPATCH: 1.0.12 added needRestore
           elseif this.IsAvatarEditMission(vars.missionCode)then
           else
             this.GoToCoopLobby()
@@ -1831,6 +1841,7 @@ function this.OnAllocate(missionTable)
   end
   mvars.mis_isOutsideOfMissionArea=false
   mvars.mis_isOutsideOfHotZone=true
+  gvars.mis_isAbandonForDisconnect=false--RETAILPATCH: 1.0.12
   this.MessageHandler={
     OnMessage=function(sender,messageId,arg0,arg1,arg2,arg3)
       this.OnMessageWhileLoading(sender,messageId,arg0,arg1,arg2,arg3)
@@ -2365,7 +2376,8 @@ function this.DisconnectMatching(leaveSession)
     SsdMatching.RequestLeaveRoomAndSession()
   end
 end
-function this.AbandonMission()
+function this.AbandonMission(params)--RETAILPATCH: 1.0.12 added param
+  local params=params or {}
   if not this.IsCoopMission(vars.missionCode)then
     if this.IsMatchingRoom(vars.missionCode)then
       this.AbandonCoopLobbyMission(vars.missionCode)
@@ -2373,7 +2385,15 @@ function this.AbandonMission()
     return
   end
   this.DisconnectMatching(true)
-  this.ReturnToMatchingRoom()
+  --RETAILPATCH: 1.0.12
+  if params.needRestore then
+    TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,"AbandonMissionForGoToLobby",TppUI.FADE_PRIORITY.SYSTEM)
+    gvars.mis_isAbandonForDisconnect=true
+    this.GoToCoopLobby()
+  else
+    --<
+    this.ReturnToMatchingRoom()
+  end
 end
 function this.AbandonCoopLobbyMission(missionCode)
   if not this.IsMatchingRoom(vars.missionCode)then
@@ -3158,7 +3178,13 @@ function this.Load(nextMissionCode,currentMissionCode,loadSettings)
   if(loadSettings and loadSettings.waitOnLoadingTipsEnd~=nil)then
     gvars.waitLoadingTipsEnd=loadSettings.waitOnLoadingTipsEnd
   else
-    local waitLoadingTipsEnd=(((((nextIsMultiPlay or nextIsAvatarEdit)or InvitationManagerController.IsGoingCoopMission())or gvars.mis_isReloaded)or gvars.ini_isTitleMode)or nextIsInit)
+    local waitLoadingTipsEnd=((((((nextIsMultiPlay 
+    or nextIsAvatarEdit)
+    or InvitationManagerController.IsGoingCoopMission())
+    or gvars.mis_isReloaded)
+    or gvars.ini_isTitleMode)
+    or nextIsInit)
+    or gvars.mis_isAbandonForDisconnect)--RETAILPATCH: 1.0.12 added isAbandonfordisconnect
     if waitLoadingTipsEnd then
       gvars.waitLoadingTipsEnd=false
     else
@@ -3844,7 +3870,7 @@ function this._CreateSurviveCBox()
   SsdSbm.CreateSurviveCbox()
 end
 function this.OnAfterMissionFinalize(unkP1,unkP2)
-  if InvitationManagerController.IsGoingCoopMission()and(not this.IsMultiPlayMission(unkP2))then
+  if InvitationManagerController.IsGoingCoopMission()and(not this.IsMultiPlayMission(unkP2)) or gvars.mis_isAbandonForDisconnect then --RETAILPATCH: 1.0.12 added isAbandonfordisconnect
     TppSave.VarRestoreOnContinueFromCheckPoint()
     vars.missionCode=this.GetCoopLobbyMissionCode()
     gvars.sav_skipRestoreToVars=true
@@ -3930,7 +3956,7 @@ function this.GoToCoopLobby()
   local lobbyMissionCode=this.GetCoopLobbyMissionCode()
   if lobbyMissionCode then
     TppDemo.EnableNpc()
-    if InvitationManagerController.IsGoingCoopMission()then
+    if InvitationManagerController.IsGoingCoopMission()or gvars.mis_isAbandonForDisconnect then--RETAILPATCH: 1.0.12 added isabandon
       local loadInfo={}
       loadInfo.isNeedUpdateBaseManagement=false
       this.ContinueFromCheckPoint(loadInfo)

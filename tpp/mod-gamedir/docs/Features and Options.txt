@@ -64,24 +64,23 @@ Basic terms used in the Infinite Heaven menu:
 
 Safe-space menu
 ---------------
-1: devInAccMenu : DEBUGNOW GetSettingsText no decent output found
-2: IH system menu
-3: Camera menu
-4: Cutscenes menu
-5: Debug menu
-6: Enemy Prep menu
-7: Enemy phases menu
-8: Enemy reinforcements menu
-9: Events menu
-10: Mother Base menu
-11: Patrols and deployments menu
-12: Player restrictions menu
-13: Player settings menu
-14: Progression menu
-15: Side ops menu
-16: Soldier parameters menu
-17: Support heli menu
-18: Time scale menu
+1: IH system menu
+2: Camera menu
+3: Cutscenes menu
+4: Debug menu
+5: Enemy Prep menu
+6: Enemy phases menu
+7: Enemy reinforcements menu
+8: Events menu
+9: Mother Base menu
+10: Patrols and deployments menu
+11: Player restrictions menu
+12: Player settings menu
+13: Progression menu
+14: Side ops menu
+15: Soldier parameters menu
+16: Support heli menu
+17: Time scale menu
 
 IH system menu
 --------------
@@ -270,7 +269,7 @@ Enemy prep levels - the normal games enemy prep levels, Custom prep - uses all t
 4: Custom prep menu
 5: Prep system menu
 6: Custom soldier equip menu
-7: Custom soldier type in Free roam : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
+7: Custom soldier type in Free roam : NONE
 Override the soldier type of enemy soldiers in Free Roam
 8: Reset enemy preparedness levels : 0-1
 Resets enemy prep levels to 0
@@ -491,8 +490,8 @@ Mother Base menu
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep, Prep levels + Custom overrides
 2: Custom soldier equip menu
 3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range
-4: DD Suit : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
-5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit
+4: DD Suit : NONE
+5: DD Suit female : NONE
 6: DD Head gear : Off, Current prep
 7: NPC support heli patrols in MB : 0-3
 Spawns some npc support helis that roam around mother base.
@@ -706,7 +705,8 @@ Adds 999999 points to demon score
 
 Appearance menu
 ---------------
-1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE
+1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE, OCELOT, QUIET
+Change main player type. WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.
 2: Suit type : <Suits for player type>
 3: Camo type : <Camos for player type>
 4: Headgear : <Headgear for DD type>
@@ -826,25 +826,25 @@ Changes the time scale of the day/night/weather system. Does not change the spee
 
 In-mission menu
 ---------------
-1: devInMissionMenu : DEBUGNOW GetSettingsText no decent output found
-2: Support heli to marker : 0-1
+1: Support heli to marker : 0-1
 Sends Support heli to Landing Zone closest to the last placed user marker while riding it.
-3: Force exit helicopter : 0-1
+2: Force exit helicopter : 0-1
 Lets you exit the helicopter while riding it, mind the fall.
-4: Drop current equip : 0-1
-5: Warp [Mode] : Off, On
+3: Drop current equip : 0-1
+4: Warp [Mode] : Off, On
 Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.
-6: Appearance menu
-7: Buddy menu
-8: Camera menu
-9: Debug stuff menu
-10: Enemy phases menu
-11: MB Ocean menu
-12: Markers menu
-13: Misc menu
-14: Motions menu
-15: Objects menu
-16: Positions menu
+5: Appearance menu
+6: Buddy menu
+7: Camera menu
+8: Debug stuff menu
+9: Enemy phases menu
+10: MB Ocean menu
+11: Markers menu
+12: Misc menu
+13: Motions menu
+14: Objects menu
+15: Positions menu
+16: Routes menu
 17: Staff menu
 18: Support heli menu
 19: Time scale menu
@@ -853,7 +853,8 @@ Essentially no-clip mode (for those that remember what that means). It teleports
 
 Appearance menu
 ---------------
-1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE
+1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE, OCELOT, QUIET
+Change main player type. WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.
 2: Suit type : <Suits for player type>
 3: Camo type : <Camos for player type>
 4: Headgear : <Headgear for DD type>
@@ -973,29 +974,29 @@ Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
 5: Reload IH modules : 0-1
 6: copyLogToPrev : 0-1
-8: selectedCp : no cp for setting
-9: setSelectedCpToMarkerObjectCp : 0-1
-10: setSelectedCpToMarkerClosestCp : 0-1
-11: dEBUG_PrintCpPowerSettings : 0-1
-12: dEBUG_PrintPowersCount : 0-1
-13: dEBUG_PrintReinforceVars : 0-1
-14: dEBUG_PrintSoldierDefine : 0-1
-15: dEBUG_ShowRevengeConfig : 0-1
+7: selectedCp : no cp for setting
+8: setSelectedCpToMarkerObjectCp : 0-1
+9: setSelectedCpToMarkerClosestCp : 0-1
+10: dEBUG_PrintCpPowerSettings : 0-1
+11: dEBUG_PrintPowersCount : 0-1
+12: dEBUG_PrintReinforceVars : 0-1
+13: dEBUG_PrintSoldierDefine : 0-1
+14: dEBUG_ShowRevengeConfig : 0-1
+15: appearanceDebugMenu
 16: appearanceDebugMenu
-17: appearanceDebugMenu
-18: printPressedButtons : Off, On
-19: printOnBlockChange : Off, On
-20: Disable game over : Off, On
-21: Disable out of bounds checks : Off, On
-22: setAllFriendly : 0-1
-23: setAllZombie : 0-1
-24: dEBUG_ToggleParasiteEvent : 0-1
-25: resetStageBlockPosition : 0-1
-26: setStageBlockPositionToMarkerClosest : 0-1
-27: Set stage position to camera : 0-1
-28: Show freecam position : 0-1
-29: Show position : 0-1
-30: checkPointSave : 0-1
+17: printPressedButtons : Off, On
+18: printOnBlockChange : Off, On
+19: Disable game over : Off, On
+20: Disable out of bounds checks : Off, On
+21: setAllFriendly : 0-1
+22: setAllZombie : 0-1
+23: dEBUG_ToggleParasiteEvent : 0-1
+24: resetStageBlockPosition : 0-1
+25: setStageBlockPositionToMarkerClosest : 0-1
+26: Set stage position to camera : 0-1
+27: Show freecam position : 0-1
+28: Show position : 0-1
+29: checkPointSave : 0-1
 
 appearanceDebugMenu
 -------------------
@@ -1091,14 +1092,15 @@ Objects menu
 ------------
 1: Add marked objects to list : 0-1
 Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.
-2: Clear Objects List : 0-1
+2: Add lookup list : list is empty
+Lets you cycle through a number of lookup lists IH uses and add all items from it to the main object list.
+3: Clear Objects List : 0-1
 Clears Objects List
-3: Write Objects List : 0-1
+4: Write Objects List : 0-1
 Writes Objects List to file in MGS_TPP\mod\
-4: Load Objects List : 0-1
+5: Load Objects List : 0-1
 Loads objects list from file in MGS_TPP\mod\
-5: Select object name : Player
-Select game object name, mostly just used to browse object names list at the moment.
+6: Browse object list : Player
 
 Positions menu
 - For adding positions in the game to a Positions List, and writing/loading them to files.
@@ -1115,6 +1117,17 @@ Writes Positions List to files in MGS_TPP\mod\
 Loads positions from MGS_TPP\mod\positions_lua.txt
 6: Select position : list is empty
 Selects a position from positions list, mostly just used to browse positions at the moment.
+
+Routes menu
+- For adding route names in the game to a Routes List, and writing/loading them to files.
+-----------
+1: Clear Routes List : 0-1
+Clears Routes List
+2: Write Routes List : 0-1
+Writes Routes List to file in MGS_TPP\mod\
+3: Load Routes List : 0-1
+Loads routes list from file in MGS_TPP\mod\
+4: setMarkerSneakRoute : list is empty
 
 Staff menu
 ----------

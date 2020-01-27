@@ -1960,7 +1960,7 @@ function this.IsActiveSoldierInRange(pos,range)
 end
 function this._SetOutOfArea(soldierNames,outOfAreaList)
   if IsTypeTable(soldierNames)then
-    for a,soldierNames in ipairs(soldierNames)do
+    for i,soldierNames in ipairs(soldierNames)do
       this._SetOutOfArea(soldierNames,outOfAreaList)
     end
   else
@@ -2308,19 +2308,19 @@ function this.UnsetAlertRoute(soldierId)
     SendCommand(soldierId,{id="SetAlertRoute",enabled=false,route=""})
   end
 end
-function this.RegistRoutePointMessage(unk1)
-  InfCore.Log("WARNING -------!!!!!!!!!!!RegistRoutePointMessage")--tex DEBUGNOW cant see any calls to this, check if from engine (but even if so I would have expected to see some kind setfunc referencing it then)
-  InfCore.PrintInspect(unk1,"unk1")--tex DEBUGNOW
-  if not IsTypeTable(unk1)then
+function this.RegistRoutePointMessage(routePointMessages)
+  InfCore.Log("WARNING !RegistRoutePointMessage Called!")--tex DEBUG cant see any calls to this, check if from engine (but even if so I would have expected to see some kind setfunc referencing it then)
+  InfCore.PrintInspect(routePointMessages,"routePointMessages")--tex DEBUG
+  if not IsTypeTable(routePointMessages)then
     return
   end
   mvars.ene_routePointMessage=mvars.ene_routePointMessage or{}
   mvars.ene_routePointMessage.main=mvars.ene_routePointMessage.main or{}
   mvars.ene_routePointMessage.sequence=mvars.ene_routePointMessage.sequence or{}
   local messages={}
-  messages[StrCode32"GameObject"]=Tpp.StrCode32Table(unk1.messages)
+  messages[StrCode32"GameObject"]=Tpp.StrCode32Table(routePointMessages.messages)
   local messageExecTable=(Tpp.MakeMessageExecTable(messages))[StrCode32"GameObject"]
-  local sequenceName=unk1.sequenceName
+  local sequenceName=routePointMessages.sequenceName
   if sequenceName then
     mvars.ene_routePointMessage.sequence[sequenceName]=mvars.ene_routePointMessage.sequence[sequenceName]or{}
     Tpp.MergeTable(mvars.ene_routePointMessage.sequence[sequenceName],messageExecTable,true)
@@ -2627,7 +2627,7 @@ function this.DeclareSVars(missionTable)
   end
   TppDefine.DEFAULT_ENEMY_HELI_STATE_COUNT=heliCount
   --<
-  local uavCount=4 --tex was 0--DEBUGNOW
+  local uavCount=0
   local missionId=TppMission.GetMissionID()
   if TppMission.IsFOBMission(missionId)then
     uavCount=TppDefine.MAX_UAV_COUNT
@@ -2922,12 +2922,12 @@ function this.RestoreOnContinueFromCheckPoint2()
   --a manual unrealize will fix that, but may just send it into an actual lostcontrol
   --others may be flying, but with the lostcontrol sounds
   --see NMC note in RestoreOnMissionStart2 for more
-  if InfNPCHeli and not IvarProc.EnabledForMission("attackHeliPatrols") then
+  --if InfNPCHeli==nil or not IvarProc.EnabledForMission("attackHeliPatrols") then--DEBUGNOW
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       local typeHeli={type="TppEnemyHeli"}
       SendCommand(typeHeli,{id="RestoreFromSVars"})
     end
-  end
+  --end
   if GameObject.GetGameObjectIdByIndex("TppVehicle2",0)~=NULL_ID then
     SendCommand({type="TppVehicle2"},{id="RestoreFromSVars"})
   end
@@ -2965,11 +2965,11 @@ function this.StoreSVars(_markerOnly)
   end
   this._StoreSVars_Hostage(markerOnly)
   --tex WORKAROUND added bypass, see restore
-  if InfNPCHeli and not IvarProc.EnabledForMission("attackHeliPatrols") then
+  --DEBUGNOW if InfNPCHeli==nil or not IvarProc.EnabledForMission("attackHeliPatrols") then
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       SendCommand({type="TppEnemyHeli"},{id="StoreToSVars"})
     end
-  end
+--  end
   if GameObject.GetGameObjectIdByIndex("TppVehicle2",0)~=NULL_ID then
     SendCommand({type="TppVehicle2"},{id="StoreToSVars"})
   end
@@ -3706,21 +3706,21 @@ function this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
     end
   end
 end
-function this._GetShiftChangeRouteGroup(priorities,unk2,unk3,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
-  local e=(unk2-unk3)+1
-  local o=unk3
-  if fixedShiftChangeRouteSet[priorities[unk3]]then
-    e=o
+function this._GetShiftChangeRouteGroup(priorities,numPriorities,priorityIndex,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
+  local e=(numPriorities-priorityIndex)+1
+  local currentPriority=priorityIndex
+  if fixedShiftChangeRouteSet[priorities[priorityIndex]]then
+    e=currentPriority
   else
     local i=0
-    for a=1,unk3 do
+    for a=1,priorityIndex do
       if fixedShiftChangeRouteSet[priorities[a]]then
         i=i+1
       end
     end
     e=e+i
     local a=0
-    for i=e,unk2 do
+    for i=e,numPriorities do
       if fixedShiftChangeRouteSet[priorities[i]]then
         a=a+1
       end
@@ -3736,55 +3736,55 @@ function this._GetShiftChangeRouteGroup(priorities,unk2,unk3,hold,sleep,groupNam
     end
     e=e-i
   end
-  local a=priorities[e]
-  local t="default"
+  local unkGroup1=priorities[e]
+  local holdGroup="default"
   if hold[groupNameStr32]then
-    t=groupNameStr32
+    holdGroup=groupNameStr32
   end
-  local e=nil
+  local sleepGroup=nil
   if isSleep then
-    e="default"
+    sleepGroup="default"
     if sleep[groupNameStr32]then
-      e=groupNameStr32
+      sleepGroup=groupNameStr32
     end
   end
-  local n=priorities[o]
-  return a,t,e,n
+  local unkGroup4=priorities[currentPriority]
+  return unkGroup1,holdGroup,sleepGroup,unkGroup4
 end
-function this._MakeShiftChangeUnit(cpId,priorities,groupNameStr32,hold,isSleep,sleep,isMidnight,unk1,unk2,unk3,fixedShiftChangeRouteSet)
+function this._MakeShiftChangeUnit(cpId,priorities,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,unkP10,fixedShiftChangeRouteSet)
   if mvars.ene_noShiftChangeGroupSetting[cpId]and mvars.ene_noShiftChangeGroupSetting[cpId][groupNameStr32]then
     return nil
   end
-  local n,i,e,a=this._GetShiftChangeRouteGroup(priorities,unk1,unk2,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
+  local unkGroup1,holdGroup,sleepGroup,unkGroup4=this._GetShiftChangeRouteGroup(priorities,numPriorities,priorityIndex,hold,sleep,groupNameStr32,isSleep,fixedShiftChangeRouteSet)
   local shiftChangeUnit={}
-  for shiftName,t in pairs(mvars.ene_shiftChangeTable[cpId])do
+  for shiftName,unkV1 in pairs(mvars.ene_shiftChangeTable[cpId])do
     shiftChangeUnit[shiftName]={}
   end
-  if(i~="default")or(IsTypeTable(hold[StrCode32"default"])and next(hold[StrCode32"default"]))then
-    shiftChangeUnit.shiftAtNight.start={"day",n}
-    shiftChangeUnit.shiftAtNight.hold={"hold",i}
+  if(holdGroup~="default")or(IsTypeTable(hold[StrCode32"default"])and next(hold[StrCode32"default"]))then
+    shiftChangeUnit.shiftAtNight.start={"day",unkGroup1}
+    shiftChangeUnit.shiftAtNight.hold={"hold",holdGroup}
     shiftChangeUnit.shiftAtNight.holdTime=mvars.ene_holdTimes[cpId]
-    shiftChangeUnit.shiftAtNight.goal={"night",a}
-    shiftChangeUnit.shiftAtMorning.hold={"hold",i}
+    shiftChangeUnit.shiftAtNight.goal={"night",unkGroup4}
+    shiftChangeUnit.shiftAtMorning.hold={"hold",holdGroup}
     shiftChangeUnit.shiftAtMorning.holdTime=mvars.ene_holdTimes[cpId]
-    shiftChangeUnit.shiftAtMorning.goal={"day",a}
+    shiftChangeUnit.shiftAtMorning.goal={"day",unkGroup4}
   else
-    shiftChangeUnit.shiftAtNight.start={"day",n}
-    shiftChangeUnit.shiftAtNight.goal={"night",a}
-    shiftChangeUnit.shiftAtMorning.goal={"day",a}
+    shiftChangeUnit.shiftAtNight.start={"day",unkGroup1}
+    shiftChangeUnit.shiftAtNight.goal={"night",unkGroup4}
+    shiftChangeUnit.shiftAtMorning.goal={"day",unkGroup4}
   end
   if isSleep then
-    shiftChangeUnit.shiftAtMidNight.start={"night",n}
-    shiftChangeUnit.shiftAtMidNight.hold={"sleep",i}
+    shiftChangeUnit.shiftAtMidNight.start={"night",unkGroup1}
+    shiftChangeUnit.shiftAtMidNight.hold={"sleep",holdGroup}
     shiftChangeUnit.shiftAtMidNight.holdTime=mvars.ene_sleepTimes[cpId]
     if isMidnight then
-      shiftChangeUnit.shiftAtMidNight.goal={"midnight",a}
+      shiftChangeUnit.shiftAtMidNight.goal={"midnight",unkGroup4}
     else
-      shiftChangeUnit.shiftAtMidNight.goal={"night",n}
+      shiftChangeUnit.shiftAtMidNight.goal={"night",unkGroup1}
     end
-    shiftChangeUnit.shiftAtMorning.start={"midnight",n}
+    shiftChangeUnit.shiftAtMorning.start={"midnight",unkGroup1}
   else
-    shiftChangeUnit.shiftAtMorning.start={"night",n}
+    shiftChangeUnit.shiftAtMorning.start={"night",unkGroup1}
   end
   return shiftChangeUnit
 end
@@ -3811,10 +3811,10 @@ function this.MakeShiftChangeTable()
       sleep=mvars.ene_routeSets[cpId].sleep
     end
     local insertPos=1
-    local l=#priorities
-    for _,groupNameStr32 in ipairs(priorities)do
+    local numPriorities=#priorities
+    for priorityIndex,groupNameStr32 in ipairs(priorities)do
       local shiftChangeUnit
-      shiftChangeUnit=this._MakeShiftChangeUnit(cpId,priorities,groupNameStr32,hold,isSleep,sleep,isMidnight,l,_,insertPos,mvars.ene_routeSetsFixedShiftChange[cpId])
+      shiftChangeUnit=this._MakeShiftChangeUnit(cpId,priorities,groupNameStr32,hold,isSleep,sleep,isMidnight,numPriorities,priorityIndex,insertPos,mvars.ene_routeSetsFixedShiftChange[cpId])
       if shiftChangeUnit then
         this._InsertShiftChangeUnit(cpId,insertPos,shiftChangeUnit)
         insertPos=insertPos+1
@@ -4863,7 +4863,7 @@ function this.OnActivateQuest(questTable)
     this.SetupActivateQuestHostage(questTable.hostageList)
     isQuestSetup=true
   end
-  --tex> DEBUGNOW
+  --tex>
   if(questTable.uavList and Tpp.IsTypeTable(questTable.uavList))and next(questTable.uavList)then
     this.SetupActivateQuestUav(questTable.uavList)
     isQuestSetup=true
@@ -5237,7 +5237,7 @@ function this.SetupActivateQuestHostage(hostageList)
 end
 --tex>
 function this.SetupActivateQuestUav(uavList)
-  InfCore.Log("SetupActivateQuestUav ")--DEBUGNOW
+  InfCore.LogFlow("SetupActivateQuestUav")
   for index,uavDef in pairs(uavList)do
     if uavDef.name then
       local gameId=uavDef.name
@@ -5247,7 +5247,7 @@ function this.SetupActivateQuestUav(uavList)
       if gameId==NULL_ID then
         InfCore.Log("WARNING: TppEnemy.SetupActivateQuestUav: could not find game object for "..tostring(uavDef.name))--tex DEBUG
       else
-        InfCore.Log("SetupActivateQuestUav "..tostring(uavDef.name))--DEBUGNOW
+        InfCore.LogFlow("SetupActivateQuestUav "..tostring(uavDef.name))--DEBUG
         if mvars.ene_isQuestSetup==false then--tex DEBUGNOW verify if anything need to be run every call or just during setup
           this.SetQuestEnemy(gameId,false)
 
@@ -5285,7 +5285,7 @@ function this.OnDeactivateQuest(questTable)
     if(questTable.hostageList and Tpp.IsTypeTable(questTable.hostageList))and next(questTable.hostageList)then
       this.SetupDeactivateQuestHostage(questTable.hostageList)
     end
-    --tex> DEBUGNOW
+    --tex>
     if(questTable.uavList and Tpp.IsTypeTable(questTable.uavList))and next(questTable.uavList)then
       this.SetupDeactivateQuestUav(questTable.uavList)
     end
@@ -5596,6 +5596,7 @@ function this.CheckDeactiveQuestAreaForceFulton()
   if not next(mvars.ene_questTargetList)then
     return
   end
+  local didFulton=false--tex
   for gameId,targetInfo in pairs(mvars.ene_questTargetList)do
     if Tpp.IsSoldier(gameId)or Tpp.IsHostage(gameId)then
       if this.CheckQuestDistance(gameId)then
@@ -5603,12 +5604,16 @@ function this.CheckDeactiveQuestAreaForceFulton()
           GameObject.SendCommand(gameId,{id="RequestForceFulton"})
           TppRadio.Play"f1000_rtrg5140"
           TppSoundDaemon.PostEvent"sfx_s_rescue_pow"
+          didFulton=true--tex
         else
           GameObject.SendCommand(gameId,{id="RequestDisableWithFadeout"})
         end
       end
     end
   end
+  if didFulton then--tex>
+    InfCore.DebugPrint(InfLangProc.LangString"exited_sideop_area")
+  end--<
 end
 
 --NMC Called from quest script on various elimination msgs, or on quest deactivate
@@ -6067,15 +6072,15 @@ function this._DoRoutePointMessage(arg2,arg1,arg0,arg3)
     return
   end
   local currentSequenceName=TppSequence.GetCurrentSequenceName()
-  local RENsomesequenceMessageTable=routePointMessage.sequence[currentSequenceName]
+  local sequenceMessages=routePointMessage.sequence[currentSequenceName]
   local strLogText=""
-  if RENsomesequenceMessageTable then
-    this.ExecuteRoutePointMessage(RENsomesequenceMessageTable,arg2,arg1,arg0,arg3,strLogText)
+  if sequenceMessages then
+    this.ExecuteRoutePointMessage(sequenceMessages,arg2,arg1,arg0,arg3,strLogText)
   end
   this.ExecuteRoutePointMessage(routePointMessage.main,arg2,arg1,arg0,arg3,strLogText)
 end
-function this.ExecuteRoutePointMessage(n,arg2,arg1,arg0,arg3,strLogText)
-  local messageIdRecievers=n[arg3]
+function this.ExecuteRoutePointMessage(messages,arg2,arg1,arg0,arg3,strLogText)
+  local messageIdRecievers=messages[arg3]
   if not messageIdRecievers then
     return
   end

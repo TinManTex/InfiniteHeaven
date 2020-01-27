@@ -30,12 +30,10 @@ this.currentLoadTable={}
 this.tppEquipTableTest={
 
     --"EQP_WP_West_thg_010",--wu s.pistol grade 1
-    "EQP_WP_West_thg_020",--grade 2
+   -- "EQP_WP_West_thg_020",--grade 2
     --"EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
-    "EQP_WP_West_thg_040",--grade 5
+    --"EQP_WP_West_thg_040",--grade 5
 --"EQP_WP_West_thg_050",--wu s pistol cb grade7
---DEBUGNOW
-
 
 --  "EQP_IT_Stealth",
 --  "EQP_IT_Nvg",
@@ -1767,7 +1765,7 @@ function this.AddMissionPacks(missionCode,packPaths)
 end
 
 function this.PreMissionLoad(missionId,currentMissionId)
---DEBUGNOW CULL this.CreateCustomWeaponTable(missionId)
+--CULL this.CreateCustomWeaponTable(missionId)
 end
 
 function this.Init(missionTable)

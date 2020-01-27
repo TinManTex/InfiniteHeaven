@@ -53,58 +53,55 @@
 <div id="safeSpaceMenu">Safe-space menu</div>
 </div>
 <div id="menuItem">
-<div>1: devInAccMenu : DEBUGNOW GetSettingsText no decent output found</div>
+<div>1: <a href="#systemMenu">IH system menu</a></div>
 </div>
 <div id="menuItem">
-<div>2: <a href="#systemMenu">IH system menu</a></div>
+<div>2: <a href="#cameraMenu">Camera menu</a></div>
 </div>
 <div id="menuItem">
-<div>3: <a href="#cameraMenu">Camera menu</a></div>
+<div>3: <a href="#demosMenu">Cutscenes menu</a></div>
 </div>
 <div id="menuItem">
-<div>4: <a href="#demosMenu">Cutscenes menu</a></div>
+<div>4: <a href="#debugMenu">Debug menu</a></div>
 </div>
 <div id="menuItem">
-<div>5: <a href="#debugMenu">Debug menu</a></div>
+<div>5: <a href="#revengeMenu">Enemy Prep menu</a></div>
 </div>
 <div id="menuItem">
-<div>6: <a href="#revengeMenu">Enemy Prep menu</a></div>
+<div>6: <a href="#phaseMenu">Enemy phases menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: <a href="#phaseMenu">Enemy phases menu</a></div>
+<div>7: <a href="#enemyReinforceMenu">Enemy reinforcements menu</a></div>
 </div>
 <div id="menuItem">
-<div>8: <a href="#enemyReinforceMenu">Enemy reinforcements menu</a></div>
+<div>8: <a href="#eventsMenu">Events menu</a></div>
 </div>
 <div id="menuItem">
-<div>9: <a href="#eventsMenu">Events menu</a></div>
+<div>9: <a href="#motherBaseMenu">Mother Base menu</a></div>
 </div>
 <div id="menuItem">
-<div>10: <a href="#motherBaseMenu">Mother Base menu</a></div>
+<div>10: <a href="#enemyPatrolMenu">Patrols and deployments menu</a></div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#enemyPatrolMenu">Patrols and deployments menu</a></div>
+<div>11: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#playerRestrictionsMenu">Player restrictions menu</a></div>
+<div>12: <a href="#playerSettingsMenu">Player settings menu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#playerSettingsMenu">Player settings menu</a></div>
+<div>13: <a href="#progressionMenu">Progression menu</a></div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#progressionMenu">Progression menu</a></div>
+<div>14: <a href="#sideOpsMenu">Side ops menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#sideOpsMenu">Side ops menu</a></div>
+<div>15: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#soldierParamsMenu">Soldier parameters menu</a></div>
+<div>16: <a href="#supportHeliMenu">Support heli menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#supportHeliMenu">Support heli menu</a></div>
-</div>
-<div id="menuItem">
-<div>18: <a href="#timeScaleMenu">Time scale menu</a></div>
+<div>17: <a href="#timeScaleMenu">Time scale menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -536,7 +533,7 @@
 <div>6: <a href="#customEquipMenu">Custom soldier equip menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: Custom soldier type in Free roam : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All</div>
+<div>7: Custom soldier type in Free roam : NONE</div>
 <div id="itemHelp">Override the soldier type of enemy soldiers in Free Roam</div>
 </div>
 <div id="menuItem">
@@ -1096,10 +1093,10 @@
 <div>3: MB Equip Range Type (MB Prep mode FOB only) : Short-range, Medium-range, Long-range, Random range</div>
 </div>
 <div id="menuItem">
-<div>4: DD Suit : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All</div>
+<div>4: DD Suit : NONE</div>
 </div>
 <div id="menuItem">
-<div>5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit</div>
+<div>5: DD Suit female : NONE</div>
 </div>
 <div id="menuItem">
 <div>6: DD Head gear : Off, Current prep</div>
@@ -1656,7 +1653,8 @@
 <div id="appearanceMenu">Appearance menu</div>
 </div>
 <div id="menuItem">
-<div>1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE</div>
+<div>1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE, OCELOT, QUIET</div>
+<div id="itemHelp">Change main player type. WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.</div>
 </div>
 <div id="menuItem">
 <div>2: Suit type : &ltSuits for player type&gt</div>
@@ -1970,55 +1968,55 @@
 <div id="inMissionMenu">In-mission menu</div>
 </div>
 <div id="menuItem">
-<div>1: devInMissionMenu : DEBUGNOW GetSettingsText no decent output found</div>
-</div>
-<div id="menuItem">
-<div>2: Support heli to marker : 0-1</div>
+<div>1: Support heli to marker : 0-1</div>
 <div id="itemHelp">Sends Support heli to Landing Zone closest to the last placed user marker while riding it.</div>
 </div>
 <div id="menuItem">
-<div>3: Force exit helicopter : 0-1</div>
+<div>2: Force exit helicopter : 0-1</div>
 <div id="itemHelp">Lets you exit the helicopter while riding it, mind the fall.</div>
 </div>
 <div id="menuItem">
-<div>4: Drop current equip : 0-1</div>
+<div>3: Drop current equip : 0-1</div>
 </div>
 <div id="menuItem">
-<div>5: Warp [Mode] : Off, On</div>
+<div>4: Warp [Mode] : Off, On</div>
 <div id="itemHelp">Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.</div>
 </div>
 <div id="menuItem">
-<div>6: <a href="#appearanceMenu">Appearance menu</a></div>
+<div>5: <a href="#appearanceMenu">Appearance menu</a></div>
 </div>
 <div id="menuItem">
-<div>7: <a href="#buddyMenu">Buddy menu</a></div>
+<div>6: <a href="#buddyMenu">Buddy menu</a></div>
 </div>
 <div id="menuItem">
-<div>8: <a href="#cameraMenu">Camera menu</a></div>
+<div>7: <a href="#cameraMenu">Camera menu</a></div>
 </div>
 <div id="menuItem">
-<div>9: <a href="#debugInMissionMenu">Debug stuff menu</a></div>
+<div>8: <a href="#debugInMissionMenu">Debug stuff menu</a></div>
 </div>
 <div id="menuItem">
-<div>10: <a href="#phaseMenu">Enemy phases menu</a></div>
+<div>9: <a href="#phaseMenu">Enemy phases menu</a></div>
 </div>
 <div id="menuItem">
-<div>11: <a href="#mbOceanMenu">MB Ocean menu</a></div>
+<div>10: <a href="#mbOceanMenu">MB Ocean menu</a></div>
 </div>
 <div id="menuItem">
-<div>12: <a href="#playerRestrictionsInMissionMenu">Markers menu</a></div>
+<div>11: <a href="#playerRestrictionsInMissionMenu">Markers menu</a></div>
 </div>
 <div id="menuItem">
-<div>13: <a href="#miscInMissionMenu">Misc menu</a></div>
+<div>12: <a href="#miscInMissionMenu">Misc menu</a></div>
 </div>
 <div id="menuItem">
-<div>14: <a href="#motionsMenu">Motions menu</a></div>
+<div>13: <a href="#motionsMenu">Motions menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#objectsMenu">Objects menu</a></div>
+<div>14: <a href="#objectsMenu">Objects menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#positionsMenu">Positions menu</a></div>
+<div>15: <a href="#positionsMenu">Positions menu</a></div>
+</div>
+<div id="menuItem">
+<div>16: <a href="#routesMenu">Routes menu</a></div>
 </div>
 <div id="menuItem">
 <div>17: <a href="#mbStaffInMissionMenu">Staff menu</a></div>
@@ -2037,6 +2035,8 @@
 </div>
 <div id="menuItem">
 </div>
+<div id="menuItem">
+</div>
 </div>
 <br/>
 <div id="menu">
@@ -2044,7 +2044,8 @@
 <div id="appearanceMenu">Appearance menu</div>
 </div>
 <div id="menuItem">
-<div>1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE</div>
+<div>1: Player type : SNAKE, AVATAR, DD_MALE, DD_FEMALE, OCELOT, QUIET</div>
+<div id="itemHelp">Change main player type. WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.</div>
 </div>
 <div id="menuItem">
 <div>2: Suit type : &ltSuits for player type&gt</div>
@@ -2286,75 +2287,73 @@
 <div>6: copyLogToPrev : 0-1</div>
 </div>
 <div id="menuItem">
+<div>7: selectedCp : no cp for setting</div>
 </div>
 <div id="menuItem">
-<div>8: selectedCp : no cp for setting</div>
+<div>8: setSelectedCpToMarkerObjectCp : 0-1</div>
 </div>
 <div id="menuItem">
-<div>9: setSelectedCpToMarkerObjectCp : 0-1</div>
+<div>9: setSelectedCpToMarkerClosestCp : 0-1</div>
 </div>
 <div id="menuItem">
-<div>10: setSelectedCpToMarkerClosestCp : 0-1</div>
+<div>10: dEBUG_PrintCpPowerSettings : 0-1</div>
 </div>
 <div id="menuItem">
-<div>11: dEBUG_PrintCpPowerSettings : 0-1</div>
+<div>11: dEBUG_PrintPowersCount : 0-1</div>
 </div>
 <div id="menuItem">
-<div>12: dEBUG_PrintPowersCount : 0-1</div>
+<div>12: dEBUG_PrintReinforceVars : 0-1</div>
 </div>
 <div id="menuItem">
-<div>13: dEBUG_PrintReinforceVars : 0-1</div>
+<div>13: dEBUG_PrintSoldierDefine : 0-1</div>
 </div>
 <div id="menuItem">
-<div>14: dEBUG_PrintSoldierDefine : 0-1</div>
+<div>14: dEBUG_ShowRevengeConfig : 0-1</div>
 </div>
 <div id="menuItem">
-<div>15: dEBUG_ShowRevengeConfig : 0-1</div>
+<div>15: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
 <div>16: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#appearanceDebugMenu">appearanceDebugMenu</a></div>
+<div>17: printPressedButtons : Off, On</div>
 </div>
 <div id="menuItem">
-<div>18: printPressedButtons : Off, On</div>
+<div>18: printOnBlockChange : Off, On</div>
 </div>
 <div id="menuItem">
-<div>19: printOnBlockChange : Off, On</div>
+<div>19: Disable game over : Off, On</div>
 </div>
 <div id="menuItem">
-<div>20: Disable game over : Off, On</div>
+<div>20: Disable out of bounds checks : Off, On</div>
 </div>
 <div id="menuItem">
-<div>21: Disable out of bounds checks : Off, On</div>
+<div>21: setAllFriendly : 0-1</div>
 </div>
 <div id="menuItem">
-<div>22: setAllFriendly : 0-1</div>
+<div>22: setAllZombie : 0-1</div>
 </div>
 <div id="menuItem">
-<div>23: setAllZombie : 0-1</div>
+<div>23: dEBUG_ToggleParasiteEvent : 0-1</div>
 </div>
 <div id="menuItem">
-<div>24: dEBUG_ToggleParasiteEvent : 0-1</div>
+<div>24: resetStageBlockPosition : 0-1</div>
 </div>
 <div id="menuItem">
-<div>25: resetStageBlockPosition : 0-1</div>
+<div>25: setStageBlockPositionToMarkerClosest : 0-1</div>
 </div>
 <div id="menuItem">
-<div>26: setStageBlockPositionToMarkerClosest : 0-1</div>
+<div>26: Set stage position to camera : 0-1</div>
 </div>
 <div id="menuItem">
-<div>27: Set stage position to camera : 0-1</div>
+<div>27: Show freecam position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>28: Show freecam position : 0-1</div>
+<div>28: Show position : 0-1</div>
 </div>
 <div id="menuItem">
-<div>29: Show position : 0-1</div>
-</div>
-<div id="menuItem">
-<div>30: checkPointSave : 0-1</div>
+<div>29: checkPointSave : 0-1</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2611,20 +2610,23 @@
 <div id="itemHelp">Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.</div>
 </div>
 <div id="menuItem">
-<div>2: Clear Objects List : 0-1</div>
+<div>2: Add lookup list : list is empty</div>
+<div id="itemHelp">Lets you cycle through a number of lookup lists IH uses and add all items from it to the main object list.</div>
+</div>
+<div id="menuItem">
+<div>3: Clear Objects List : 0-1</div>
 <div id="itemHelp">Clears Objects List</div>
 </div>
 <div id="menuItem">
-<div>3: Write Objects List : 0-1</div>
+<div>4: Write Objects List : 0-1</div>
 <div id="itemHelp">Writes Objects List to file in MGS_TPP\mod\</div>
 </div>
 <div id="menuItem">
-<div>4: Load Objects List : 0-1</div>
+<div>5: Load Objects List : 0-1</div>
 <div id="itemHelp">Loads objects list from file in MGS_TPP\mod\</div>
 </div>
 <div id="menuItem">
-<div>5: Select object name : Player</div>
-<div id="itemHelp">Select game object name, mostly just used to browse object names list at the moment.</div>
+<div>6: Browse object list : Player</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2660,6 +2662,32 @@
 <div id="menuItem">
 <div>6: Select position : list is empty</div>
 <div id="itemHelp">Selects a position from positions list, mostly just used to browse positions at the moment.</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="routesMenu">Routes menu</div>
+<div id="menuHelp">For adding route names in the game to a Routes List, and writing/loading them to files.</div>
+</div>
+<div id="menuItem">
+<div>1: Clear Routes List : 0-1</div>
+<div id="itemHelp">Clears Routes List</div>
+</div>
+<div id="menuItem">
+<div>2: Write Routes List : 0-1</div>
+<div id="itemHelp">Writes Routes List to file in MGS_TPP\mod\</div>
+</div>
+<div id="menuItem">
+<div>3: Load Routes List : 0-1</div>
+<div id="itemHelp">Loads routes list from file in MGS_TPP\mod\</div>
+</div>
+<div id="menuItem">
+<div>4: setMarkerSneakRoute : list is empty</div>
 </div>
 <div id="menuItem">
 </div>

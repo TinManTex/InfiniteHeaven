@@ -323,11 +323,18 @@ function this._OnEndMissionPrepareSequence()
 	
 	Player.SetInfiniteAmmoFromScript( true )
 
-	
-	if IS_GC_2017_COOP then
-		TppStory.PermitMissionOpen( 29010 )
-		TppStory.MissionOpen( 29010 )
-	end
+	--RETAILPATCH: 1.0.12
+  local missionCodeList = {
+    20010,
+    20110,
+    20210,
+    20610,
+    20710,
+  }
+  for _, missionCode in ipairs( missionCodeList ) do
+    TppStory.PermitMissionOpen( missionCode )
+    TppStory.MissionOpen( missionCode )
+  end
 
 	
 	Gimmick.InvisibleGimmick( -1, "ssde_boxx001_gim_n0000|srt_ssde_boxx001", "/Assets/ssd/level/mission/common/mis_com_robby_stage.fox2", false, {gimmickId = "GIM_P_Ornament"} )

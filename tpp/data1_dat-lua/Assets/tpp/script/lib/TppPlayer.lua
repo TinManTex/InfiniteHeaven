@@ -102,9 +102,9 @@ function this.ForceChangePlayerToSnake(basic)
   end
   Player.SetItemLevel(TppEquip.EQP_SUIT,vars.sortiePrepPlayerSnakeSuitLevel)
 end
---RETAILPATCH 1.0.11>
+--RETAILPATCH 1.0.11 , 1.0.13 added IsCurrentPlayerQuiet>
 function this.ForceChangePlayerFromOcelot()
-  if this.IsCurrentPlayerOcelot()then
+  if this.IsCurrentPlayerOcelot() or this.IsCurrentPlayerQuiet()then
     if vars.sortiePrepPlayerType==PlayerType.SNAKE or vars.sortiePrepPlayerType==PlayerType.AVATAR then
       vars.playerPartsType=vars.sortiePrepPlayerSnakePartsType
       vars.playerCamoType=vars.sortiePrepPlayerSnakeCamoType
@@ -121,6 +121,11 @@ function this.ForceChangePlayerFromOcelot()
     vars.playerType=vars.sortiePrepPlayerType
     vars.playerFaceId=vars.sortiePrepPlayerFaceId
     Player.ResetDirtyEffect()
+    --tex>
+    if not TppMission.IsHelicopterSpace(vars.missionCode) then
+      TppGameStatus.Reset("heli_common_sequence.lua", "S_IS_SORTIE_PREPARATION")
+    end
+    --<
   end
 end
 --<
@@ -1500,7 +1505,7 @@ function this.PlayMissionClearCameraOnRideCommonArmoredVehicle(unkId,step,unk3,R
     diffFocalLengthToReFitCamera=16,
     callSeOfCameraInterp=callSeOfCameraInterp,
     useLastSelectedIndex=useLastSelectedIndex
-    }
+  }
   return unkRet
 end
 function this.PlayMissionClearCameraOnRideEasternArmoredVehicle(vehicleId,step,unkP3)
@@ -1664,6 +1669,11 @@ function this.FOBPlayMissionClearCameraOnFoot(camMode)
     offsetPos=Vector3(0,0,-1.5)
     interpTimeAtStart=3
   end
+  --RETAILPATCH 1.0.13>
+  if vars.playerType==PlayerType.QUIET then
+    offsetPos=Vector3(0,.8,-1.25)
+  end
+  --<
   Player.RequestToPlayCameraNonAnimation{
     characterId=GameObject.GetGameObjectIdByIndex("TppPlayer2",0),
     isFollowPos=true,
@@ -3028,6 +3038,11 @@ end
 --RETAILPATCH 1.0.11>
 function this.IsCurrentPlayerOcelot()
   return vars.playerType==PlayerType.OCELOT
+end
+--<
+--RETAILPATCH 1.0.13>
+function this.IsCurrentPlayerQuiet()
+  return vars.playerType==PlayerType.QUIET
 end
 --<
 return this

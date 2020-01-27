@@ -1,0 +1,2993 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="SoundPackage" super="" version="1" />
+    <class name="BoxShape" super="" version="0" />
+    <class name="TransformEntity" super="" version="0" />
+    <class name="SoundAreaGroup" super="" version="3" />
+    <class name="SoundAreaParameter" super="" version="4" />
+    <class name="SoundAreaMember" super="" version="2" />
+    <class name="TppSoundWorld" super="" version="8" />
+    <class name="SoundAreaGlobal" super="" version="1" />
+    <class name="SoundAreaEdge" super="" version="1" />
+    <class name="TppAreaEdgeParameter" super="" version="0" />
+    <class name="SoundSource" super="" version="2" />
+    <class name="ShearTransformEntity" super="" version="0" />
+    <class name="SphereShape" super="" version="0" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x05A833B0" unknown1="232" unknown2="12977896">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="65">
+          <value key="SoundPackageJungle">0x05A83570</value>
+          <value key="ShapeRiver0002">0x05A83E30</value>
+          <value key="ShapeRiver0003">0x05A84C30</value>
+          <value key="ShapeRiver0004">0x05A869F0</value>
+          <value key="ShapeRiver0005">0x05A875C0</value>
+          <value key="ShapeRiver0006">0x05A89070</value>
+          <value key="ShapeRiver0007">0x05A8A180</value>
+          <value key="ShapeRiver0008">0x05A8C4F0</value>
+          <value key="ShapeRiver0009">0x05A8DC90</value>
+          <value key="ShapeRiver0010">0x05A8E6A0</value>
+          <value key="ShapeRiver0000">0x05A8C330</value>
+          <value key="ShapeRiver0001">0x05B11510</value>
+          <value key="CAS_House01">0x05B120E0</value>
+          <value key="CAS_Roof01">0x05B141B0</value>
+          <value key="CAG_Roof">0x05B15800</value>
+          <value key="CAM_Roof">0x05B16980</value>
+          <value key="CAS_House02">0x05B18200</value>
+          <value key="CAS_House03">0x05B19BD0</value>
+          <value key="CAS_House04">0x05B1C410</value>
+          <value key="CAS_Duct01">0x05B1D4B0</value>
+          <value key="CAS_Roof02">0x05B1EFD0</value>
+          <value key="CAS_Shack01">0x05B1FD60</value>
+          <value key="CAS_Roof03">0x08540780</value>
+          <value key="CAS_Shack02">0x08540CC0</value>
+          <value key="CAS_Shack03">0x085415F0</value>
+          <value key="CAS_Shack04">0x08541C10</value>
+          <value key="CAS_Shack05">0x08542540</value>
+          <value key="CAS_Duct02">0x08543260</value>
+          <value key="CAS_Roof04">0x08545560</value>
+          <value key="CAS_Shack06">0x085460C0</value>
+          <value key="CAS_Shack07">0x08547780</value>
+          <value key="CAS_Duct03">0x08548EB0</value>
+          <value key="CAS_Duct04">0x085495B0</value>
+          <value key="CAS_House05">0x0854A180</value>
+          <value key="CAS_Duct05">0x0854C3A0</value>
+          <value key="CAG_Duct">0x0854E9B0</value>
+          <value key="CAM_Duct">0x0854FA50</value>
+          <value key="CAM_Shack">0x0854FBA0</value>
+          <value key="CAG_Shack">0x087D08D0</value>
+          <value key="CAG_House">0x087D1430</value>
+          <value key="CSW">0x087D1CF0</value>
+          <value key="CSG">0x087D1EB0</value>
+          <value key="SoundAreaEdgeDuct-ouse">0x087D2620</value>
+          <value key="SoundAreaEdgeDuct-hack">0x087D2E70</value>
+          <value key="SoundAreaEdgeouse-Roof">0x087D35E0</value>
+          <value key="SoundAreaEdgeouse-hack">0x087D3E30</value>
+          <value key="SoundAreaEdgeRoof-hack">0x087D4290</value>
+          <value key="SoundAreaEdgeDuct-Global">0x087D45A0</value>
+          <value key="SoundAreaEdgeouse-Global">0x087D48B0</value>
+          <value key="SoundAreaEdgeRoof-Global">0x087D4BC0</value>
+          <value key="SoundAreaEdgehack-Global">0x087D4ED0</value>
+          <value key="CSS_fall_bottom">0x087D52C0</value>
+          <value key="CSS_fall_top">0x087D58E0</value>
+          <value key="CSH_fall_bottom">0x087D6520</value>
+          <value key="CSH_fall_top">0x087D6EC0</value>
+          <value key="CAS_Roof05">0x087D7630</value>
+          <value key="CAS_Shack08">0x087D7D30</value>
+          <value key="CAS_Roof06">0x087D8740</value>
+          <value key="CAS_Shack10">0x087D8AC0</value>
+          <value key="CAS_Shack11">0x087D9150</value>
+          <value key="CSH_fall_s">0x087D9AF0</value>
+          <value key="CSS_fall_s">0x087DA3B0</value>
+          <value key="CSS_river">0x087DAAB0</value>
+          <value key="CAM_House">0x087DB290</value>
+          <value key="TexturePackLoadConditioner0000">0x142A10B0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundPackage" classVersion="1" addr="0x05A83570" unknown1="96" unknown2="12977898">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundPackageJungle</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="soundDataFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/sound/package/sfx_env_afc0_Jungle.sdf</value>
+        </property>
+        <property name="syncLoad" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05A83E30" unknown1="256" unknown2="12977900">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05A840D0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05A840D0" unknown1="80" unknown2="12977903">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A83E30</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="6.090604" y="1.636717" z="24.5783787" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.31194" z="0" w="0.950102" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="60.0687675" y="-0.06395602" z="26.0726032" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05A84C30" unknown1="256" unknown2="12977907">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05A85F70</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05A85F70" unknown1="80" unknown2="12977910">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A84C30</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.531379" y="1.636717" z="31.7035847" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.405788" z="0" w="0.913967" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="40.5012436" y="-0.06395602" z="45.0860367" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05A869F0" unknown1="256" unknown2="12977914">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05A86B40</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05A86B40" unknown1="80" unknown2="12977917">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A869F0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.531379" y="1.636717" z="28.444" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.27077" z="0" w="0.962644" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="21.8061581" y="-0.06395602" z="67.6420441" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05A875C0" unknown1="256" unknown2="12977921">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05A886D0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05A886D0" unknown1="80" unknown2="12977924">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A875C0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.170356" y="1.636717" z="25.2166786" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.086707" z="0" w="0.996234" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="12.5010223" y="-0.06395602" z="91.9429855" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05A89070" unknown1="256" unknown2="12977928">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0006</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05A891C0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05A891C0" unknown1="80" unknown2="12977931">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A89070</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="8.788606" y="1.636717" z="53.74576" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.416132" z="0" w="0.909304" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-8.977501" y="-0.06395602" z="121.306984" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05A8A180" unknown1="256" unknown2="12977935">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0007</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05A8AF10</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05A8AF10" unknown1="80" unknown2="12977938">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A8A180</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.76589" y="1.636717" z="30.2771416" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.253833" z="0" w="0.967248" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-36.15447" y="-0.06395602" z="151.282822" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05A8C4F0" unknown1="256" unknown2="12977942">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0008</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05A8CF00</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05A8CF00" unknown1="80" unknown2="12977945">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A8C4F0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="7.979971" y="1.636717" z="24.6595516" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.13484" z="0" w="0.990867" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-50.62255" y="-2.685951" z="182.236618" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05A8DC90" unknown1="256" unknown2="12977949">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0009</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05A8DDE0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05A8DDE0" unknown1="80" unknown2="12977952">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A8DC90</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="11.6069775" y="1.636717" z="25.3734531" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0.084146" z="0" w="0.996453" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-48.4596558" y="-2.68595" z="205.419189" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05A8E6A0" unknown1="256" unknown2="12977956">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0010</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05A8F0B0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05A8F0B0" unknown1="80" unknown2="12977959">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A8E6A0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="9.593449" y="1.636717" z="41.23233" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.132049" z="0" w="0.991243" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-54.01556" y="-2.68594885" z="235.886658" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05A8C330" unknown1="256" unknown2="12977963">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05B101D0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05B101D0" unknown1="80" unknown2="12977966">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A8C330</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="21.5574589" y="1.636717" z="30.1828461" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="77.65871" y="-0.06395602" z="-18.6663761" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05B11510" unknown1="256" unknown2="12977970">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ShapeRiver0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05B11660</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05B11660" unknown1="80" unknown2="12977973">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05B11510</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="10.332428" y="1.636717" z="24.5783787" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.185882" z="0" w="0.982572" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="70.3098" y="-0.06395602" z="5.544058" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05B120E0" unknown1="256" unknown2="12977977">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_House01</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05B131F0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05B131F0" unknown1="80" unknown2="12977980">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05B120E0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="3.915917" y="7.934409" z="4.120806" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.699517" y="0.10802" z="-0.10332" w="0.698808" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="63.25493" y="11.3554106" z="-142.944931" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05B141B0" unknown1="256" unknown2="12977984">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Roof01</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05B14300</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05B14300" unknown1="80" unknown2="12977987">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05B141B0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="7.099208" y="7.349503" z="9.355727" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.001161" y="-0.088618" z="0.000202" w="0.996065" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-11.6113663" y="8.492686" z="163.693619" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaGroup" classVersion="3" addr="0x05B15800" unknown1="112" unknown2="12977991">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAG_Roof</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05B16910</value>
+        </property>
+        <property name="members" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAM_Roof">0x05B16980</value>
+        </property>
+        <property name="edges" type="EntityLink" container="DynamicArray" arraySize="3">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeouse-Roof">0x087D35E0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeRoof-hack">0x087D4290</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeRoof-Global">0x087D4BC0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaParameter" classVersion="4" addr="0x05B16910" unknown1="104" unknown2="12977997">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05B15800</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="ambientRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="ambientRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>16</value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>16</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="2">
+          <value key="gen8_int_s">0.05</value>
+          <value key="gen8_ext">0.1</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaMember" classVersion="2" addr="0x05B16980" unknown1="96" unknown2="12977999">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAM_Roof</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="6">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Roof01">0x05B141B0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Roof02">0x05B1EFD0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Roof03">0x08540780</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Roof04">0x08545560</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Roof05">0x087D7630</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Roof06">0x087D8740</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05B18200" unknown1="256" unknown2="12978007">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_House02</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05B18270</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05B18270" unknown1="80" unknown2="12978010">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05B18200</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.544472" y="8.345135" z="4.800086" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.681144" y="0.197264" z="0.189848" w="0.679034" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="42.6348076" y="13.3861685" z="-91.64275" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05B19BD0" unknown1="256" unknown2="12978014">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_House03</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05B1A810</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05B1A810" unknown1="80" unknown2="12978017">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05B19BD0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.547496" y="8.352538" z="5.84961" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.698156" y="-0.113381" z="-0.114784" w="0.69753" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-19.6138878" y="8.044426" z="71.11175" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05B1C410" unknown1="256" unknown2="12978021">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_House04</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05B1C5D0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05B1C5D0" unknown1="80" unknown2="12978024">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05B1C410</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="5.427097" y="8.320034" z="13.2619829" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.08982" y="0.094122" z="-0.702586" w="0.699604" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-57.77407" y="7.264732" z="-119.779251" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05B1D4B0" unknown1="256" unknown2="12978028">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Duct01</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05B1E470</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05B1E470" unknown1="80" unknown2="12978031">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05B1D4B0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="2.981531" y="7.913968" z="11.3184137" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.072985" y="-0.064982" z="0.703231" w="0.704214" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="26.595108" y="2.247059" z="-144.4658" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05B1EFD0" unknown1="256" unknown2="12978035">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Roof02</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05B1F040</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05B1F040" unknown1="80" unknown2="12978038">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05B1EFD0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.736799" y="5.291081" z="4.820914" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.176802" y="0.189207" z="-0.684647" w="0.681323" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-20.1032066" y="7.052992" z="-112.575615" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x05B1FD60" unknown1="256" unknown2="12978042">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Shack01</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x08540390</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x08540390" unknown1="80" unknown2="12978045">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05B1FD60</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.536252" y="4.002092" z="7.351453" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.001676" y="0.255826" z="0.006335" w="0.9667" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-31.9018612" y="7.242628" z="-126.886307" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x08540780" unknown1="256" unknown2="12978049">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Roof03</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x085407F0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x085407F0" unknown1="80" unknown2="12978052">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08540780</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="6.345579" y="8.479859" z="3.852884" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.695442" y="-0.099385" z="-0.097627" w="0.704948" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="44.42065" y="17.8884659" z="109.142914" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x08540CC0" unknown1="256" unknown2="12978056">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Shack02</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x08541040</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x08541040" unknown1="80" unknown2="12978059">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08540CC0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="6.664188" y="8.645933" z="4.833054" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.681694" y="-0.182516" z="-0.185624" w="0.683758" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-99.60913" y="3.896186" z="-104.310585" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x085415F0" unknown1="256" unknown2="12978063">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Shack03</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x08541740</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x08541740" unknown1="80" unknown2="12978066">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x085415F0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.928758" y="9.026188" z="6.327388" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.026972" y="0.032073" z="-0.706607" w="0.706365" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-103.92907" y="4.77409649" z="-156.723892" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x08541C10" unknown1="256" unknown2="12978070">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Shack04</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x08542150</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x08542150" unknown1="80" unknown2="12978073">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08541C10</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="3.142523" y="3.05554" z="4.236534" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.002072" y="-0.138264" z="0.000364" w="0.990393" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-56.9048424" y="9.227962" z="151.499939" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x08542540" unknown1="256" unknown2="12978077">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Shack05</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x085425B0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x085425B0" unknown1="80" unknown2="12978080">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08542540</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="3.139156" y="5.16581" z="4.911763" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.001905" y="0.124309" z="0.000891" w="0.992241" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-67.6102" y="3.29694414" z="-68.55363" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x08543260" unknown1="256" unknown2="12978086">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Duct02</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x085432D0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x085432D0" unknown1="80" unknown2="12978089">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08543260</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="6.987391" y="1.408435" z="7.80645" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.001905" y="0.124309" z="0.000891" w="0.992241" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-68.28447" y="2.44036412" z="-66.86984" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x08545560" unknown1="256" unknown2="12978095">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Roof04</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x085456B0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x085456B0" unknown1="80" unknown2="12978098">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08545560</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="2.797455" y="3.935786" z="5.246723" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.004904" y="0.402911" z="-0.005973" w="0.915206" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="56.54583" y="11.4747219" z="138.833862" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x085460C0" unknown1="256" unknown2="12978102">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Shack06</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x08546EC0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x08546EC0" unknown1="80" unknown2="12978105">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x085460C0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="3.473405" y="3.100045" z="6.801589" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0.259063" z="0" w="0.96586" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-20.8289871" y="6.139776" z="-142.1321" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x08547780" unknown1="256" unknown2="12978109">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Shack07</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x08547940</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x08547940" unknown1="80" unknown2="12978112">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08547780</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="9.095112" y="4.45066" z="3.95353" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.003497" y="0.130433" z="0.002611" w="0.991448" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-63.98067" y="11.3130951" z="-154.0081" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x08548EB0" unknown1="256" unknown2="12978118">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Duct03</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x08548F20</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x08548F20" unknown1="80" unknown2="12978121">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x08548EB0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="15.9472485" y="3.500284" z="14.41907" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.003497" y="0.130433" z="0.002611" w="0.991448" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-64.68707" y="8.633156" z="-154.4531" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x085495B0" unknown1="256" unknown2="12978127">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Duct04</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x08549620</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x08549620" unknown1="80" unknown2="12978130">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x085495B0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="7.985051" y="1.561454" z="4.724455" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.003497" y="0.130433" z="0.002611" w="0.991448" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-71.0326843" y="9.682761" z="-157.717789" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x0854A180" unknown1="256" unknown2="12978136">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_House05</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0854A1F0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0854A1F0" unknown1="80" unknown2="12978139">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0854A180</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="8.891474" y="13.3724327" z="6.882925" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.706662" y="-0.015555" z="0.02508" w="0.706936" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="75.1969" y="15.3227949" z="-105.907158" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x0854C3A0" unknown1="256" unknown2="12978145">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Duct05</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0854C410</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0854C410" unknown1="80" unknown2="12978148">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0854C3A0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="11.10873" y="22.0406818" z="4.499166" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.706942" y="-0.002182" z="0.001029" w="0.707267" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="74.09803" y="12.4745407" z="-105.954163" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaGroup" classVersion="3" addr="0x0854E9B0" unknown1="112" unknown2="12978154">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAG_Duct</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0854EBE0</value>
+        </property>
+        <property name="members" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAM_Duct">0x0854FA50</value>
+        </property>
+        <property name="edges" type="EntityLink" container="DynamicArray" arraySize="3">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeDuct-ouse">0x087D2620</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeDuct-hack">0x087D2E70</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeDuct-Global">0x087D45A0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaParameter" classVersion="4" addr="0x0854EBE0" unknown1="104" unknown2="12978160">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0854E9B0</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="ambientRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="ambientRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="1">
+          <value key="gen8_int_s">0.6</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaMember" classVersion="2" addr="0x0854FA50" unknown1="96" unknown2="12978162">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAM_Duct</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="6">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Duct01">0x05B1D4B0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Duct01">0x05B1D4B0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Duct02">0x08543260</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Duct03">0x08548EB0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Duct04">0x085495B0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Duct05">0x0854C3A0</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaMember" classVersion="2" addr="0x0854FBA0" unknown1="96" unknown2="12978170">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAM_Shack</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="11">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Shack01">0x05B1FD60</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Shack02">0x08540CC0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Shack03">0x085415F0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Shack04">0x08541C10</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Shack05">0x08542540</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Shack06">0x085460C0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Shack07">0x08547780</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Shack08">0x087D7D30</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Shack10">0x087D8AC0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_Shack11">0x087D9150</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaGroup" classVersion="3" addr="0x087D08D0" unknown1="112" unknown2="12978183">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAG_Shack</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>15</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D0B70</value>
+        </property>
+        <property name="members" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAM_Shack">0x0854FBA0</value>
+        </property>
+        <property name="edges" type="EntityLink" container="DynamicArray" arraySize="4">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeDuct-hack">0x087D2E70</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeouse-hack">0x087D3E30</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeRoof-hack">0x087D4290</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgehack-Global">0x087D4ED0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaParameter" classVersion="4" addr="0x087D0B70" unknown1="104" unknown2="12978190">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D08D0</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="ambientRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="ambientRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>12.4995</value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>12.4995</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="2">
+          <value key="gen8_ext">0.5</value>
+          <value key="gen8_int_s">0.1</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaGroup" classVersion="3" addr="0x087D1430" unknown1="112" unknown2="12978192">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAG_House</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>10</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D14A0</value>
+        </property>
+        <property name="members" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAM_House">0x087DB290</value>
+        </property>
+        <property name="edges" type="EntityLink" container="DynamicArray" arraySize="4">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeDuct-ouse">0x087D2620</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeouse-Roof">0x087D35E0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeouse-hack">0x087D3E30</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="SoundAreaEdgeouse-Global">0x087D48B0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaParameter" classVersion="4" addr="0x087D14A0" unknown1="104" unknown2="12978199">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D1430</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="ambientRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="ambientRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>11</value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>11</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="1">
+          <value key="gen8_int_s">0.4</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSoundWorld" classVersion="8" addr="0x087D1CF0" unknown1="408" unknown2="12978201">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CSW</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="updateSeconds" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="startMorning" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="midMorning" type="float" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="endMorning" type="float" container="StaticArray" arraySize="1">
+          <value>9</value>
+        </property>
+        <property name="startEvening" type="float" container="StaticArray" arraySize="1">
+          <value>18</value>
+        </property>
+        <property name="midEvening" type="float" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="endEvening" type="float" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="situationEvent" type="String" container="StaticArray" arraySize="1">
+          <value>env_afc0_situation</value>
+        </property>
+        <property name="clockRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>BG_afgh_24hours</value>
+        </property>
+        <property name="windVelocityRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>wind_volume</value>
+        </property>
+        <property name="windDirectionRtpc" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="rainRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>rain_volume</value>
+        </property>
+        <property name="heightRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>height</value>
+        </property>
+        <property name="ambientParameter" type="EntityLink" container="StaticArray" arraySize="8">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="categoryFpvStateGroup" type="String" container="StaticArray" arraySize="1">
+          <value>camera_fps</value>
+        </property>
+        <property name="categoryFpvStateValue" type="String" container="StaticArray" arraySize="1">
+          <value>fps</value>
+        </property>
+        <property name="dashStartEventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_p_fastmv_wind_dash_st</value>
+        </property>
+        <property name="dashFinishEventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_p_fastmv_wind_dash_ed</value>
+        </property>
+        <property name="blockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="blockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="unlinkedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="unlinkedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="interferenceSlope" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaGlobal" classVersion="1" addr="0x087D1EB0" unknown1="80" unknown2="12978211">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CSG</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D25B0</value>
+        </property>
+        <property name="volumeRtpc" type="String" container="StaticArray" arraySize="1">
+          <value>ambient_volume</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaParameter" classVersion="4" addr="0x087D25B0" unknown1="104" unknown2="12978213">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D1EB0</value>
+        </property>
+        <property name="ambientEvent" type="String" container="StaticArray" arraySize="1">
+          <value>env_afc0_global</value>
+        </property>
+        <property name="ambientRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="ambientRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>22</value>
+        </property>
+        <property name="objectRtpcName" type="String" container="StaticArray" arraySize="1">
+          <value>in_out</value>
+        </property>
+        <property name="objectRtpcValue" type="float" container="StaticArray" arraySize="1">
+          <value>22</value>
+        </property>
+        <property name="auxSends" type="float" container="StringMap" arraySize="1">
+          <value key="gen8_ext">1</value>
+        </property>
+        <property name="dryVolume" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x087D2620" unknown1="136" unknown2="12978215">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundAreaEdgeDuct-ouse</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D2D20</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_Duct">0x0854E9B0</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_House">0x087D1430</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x087D2D20" unknown1="48" unknown2="12978219">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D2620</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>2000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x087D2E70" unknown1="136" unknown2="12978221">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundAreaEdgeDuct-hack</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D3570</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_Duct">0x0854E9B0</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_Shack">0x087D08D0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x087D3570" unknown1="48" unknown2="12978225">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D2E70</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>2000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x087D35E0" unknown1="136" unknown2="12978227">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundAreaEdgeouse-Roof</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D3CE0</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_House">0x087D1430</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_Roof">0x05B15800</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x087D3CE0" unknown1="48" unknown2="12978231">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D35E0</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>2000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.43</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x087D3E30" unknown1="136" unknown2="12978233">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundAreaEdgeouse-hack</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D4220</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_House">0x087D1430</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_Shack">0x087D08D0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x087D4220" unknown1="48" unknown2="12978237">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D3E30</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>2000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.43</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x087D4290" unknown1="136" unknown2="12978239">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundAreaEdgeRoof-hack</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D4530</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_Roof">0x05B15800</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_Shack">0x087D08D0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x087D4530" unknown1="48" unknown2="12978243">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D4290</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>2000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.43</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x087D45A0" unknown1="136" unknown2="12978245">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundAreaEdgeDuct-Global</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D4840</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_Duct">0x0854E9B0</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x087D4840" unknown1="48" unknown2="12978249">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D45A0</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>2000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x087D48B0" unknown1="136" unknown2="12978251">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundAreaEdgeouse-Global</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D4B50</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_House">0x087D1430</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x087D4B50" unknown1="48" unknown2="12978255">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D48B0</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>2000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.475</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x087D4BC0" unknown1="136" unknown2="12978257">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundAreaEdgeRoof-Global</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D4E60</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_Roof">0x05B15800</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x087D4E60" unknown1="48" unknown2="12978261">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D4BC0</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>2000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaEdge" classVersion="1" addr="0x087D4ED0" unknown1="136" unknown2="12978263">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SoundAreaEdgehack-Global</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D5250</value>
+        </property>
+        <property name="prevArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAG_Shack">0x087D08D0</value>
+        </property>
+        <property name="nextArea" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppAreaEdgeParameter" classVersion="0" addr="0x087D5250" unknown1="48" unknown2="12978267">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D4ED0</value>
+        </property>
+        <property name="fadeTime" type="uint32" container="StaticArray" arraySize="1">
+          <value>2000</value>
+        </property>
+        <property name="connectedClearObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedClearOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedObstruction" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="connectedBlockedOcclusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.44</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundSource" classVersion="2" addr="0x087D52C0" unknown1="288" unknown2="12978269">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CSS_fall_bottom</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D5560</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_afc0_fall_bottom</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CSH_fall_bottom">0x087D6520</value>
+        </property>
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>30</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>250</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087D5560" unknown1="80" unknown2="12978273">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D52C0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1.000018" y="1.000004" z="1.000021" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.022644" y="-0" z="-0.055952" w="0.998177" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="90.00407" y="0.691751" z="-21.4954281" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundSource" classVersion="2" addr="0x087D58E0" unknown1="288" unknown2="12978279">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CSS_fall_top</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D5E20</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D5E90</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_afc0_fall_top</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CSH_fall_top">0x087D6EC0</value>
+        </property>
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>120</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087D5E20" unknown1="80" unknown2="12978283">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D58E0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.786414" y="5.106941" z="3.022418" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.006996" y="0.066801" z="0.576159" w="0.814573" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="88.7152939" y="23.4185486" z="-27.3339539" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="ShearTransformEntity" classVersion="0" addr="0x087D5E90" unknown1="48" unknown2="12978285">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D58E0</value>
+        </property>
+        <property name="shearTransform_shear" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.568685" y="-0.634299" z="-0.41873" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SphereShape" classVersion="0" addr="0x087D6520" unknown1="256" unknown2="12978289">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CSH_fall_bottom</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D67C0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087D67C0" unknown1="80" unknown2="12978292">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D6520</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="74.90404" y="78.5803146" z="16.1104488" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.278325" y="0" z="0.52584" w="0.803758" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="90.98704" y="0.552567" z="-21.4342022" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x087D6EC0" unknown1="256" unknown2="12978298">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CSH_fall_top</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D7320</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087D7320" unknown1="80" unknown2="12978301">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D6EC0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="4.792401" y="19.3299732" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.176552" y="-0.533173" z="-0.095173" w="0.821886" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="90.93841" y="22.5379353" z="-21.929409" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x087D7630" unknown1="256" unknown2="12978305">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Roof05</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D76A0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087D76A0" unknown1="80" unknown2="12978308">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D7630</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="9.413048" y="7.20122" z="6.058868" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.682886" y="-0.178005" z="-0.181099" w="0.68497" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-85.90367" y="4.51192427" z="-95.47476" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x087D7D30" unknown1="256" unknown2="12978312">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Shack08</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D8350</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087D8350" unknown1="80" unknown2="12978315">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D7D30</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="6.133985" y="17.10473" z="5.179788" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.682886" y="-0.178005" z="-0.181099" w="0.68497" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-83.35927" y="3.979911" z="-74.37379" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x087D8740" unknown1="256" unknown2="12978326">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Roof06</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D87B0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087D87B0" unknown1="80" unknown2="12978329">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D8740</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="7.921194" y="8.188956" z="11.2027874" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.072985" y="-0.064982" z="0.703231" w="0.704214" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="26.6017628" y="4.716755" z="-144.490662" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x087D8AC0" unknown1="256" unknown2="12978333">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Shack10</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D8D60</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087D8D60" unknown1="80" unknown2="12978336">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D8AC0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="7.863117" y="4.348459" z="2.851674" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.175584" y="-0.167524" z="0.68607" w="0.685868" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="43.6627121" y="2.949863" z="-164.13678" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="BoxShape" classVersion="0" addr="0x087D9150" unknown1="256" unknown2="12978340">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAS_Shack11</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D91C0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087D91C0" unknown1="80" unknown2="12978343">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D9150</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="6.606182" y="3.658026" z="4.467374" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.601093" y="-0.369738" z="-0.373306" w="0.602182" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-77.08045" y="2.92758512" z="-113.975212" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SphereShape" classVersion="0" addr="0x087D9AF0" unknown1="256" unknown2="12978347">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CSH_fall_s</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087D9F50</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087D9F50" unknown1="80" unknown2="12978350">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D9AF0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="8" y="8.000001" z="8.000001" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.001013" y="-0" z="0.001901" w="0.999998" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-45.1231346" y="-0.953707" z="166.4854" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundSource" classVersion="2" addr="0x087DA3B0" unknown1="288" unknown2="12978356">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CSS_fall_s</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087DA730</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_afc0_fall_s</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CSH_fall_s">0x087D9AF0</value>
+        </property>
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>30</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087DA730" unknown1="80" unknown2="12978360">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087DA3B0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="8" y="8" z="8" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.632065" y="0" z="0.042027" w="0.773775" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-45.11825" y="-0.953705" z="166.48793" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundSource" classVersion="2" addr="0x087DAAB0" unknown1="288" unknown2="12978366">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CSS_river</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087DAD50</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x087DADC0</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="eventName" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_afc0_river</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="11">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0000">0x05A8C330</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0001">0x05B11510</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0002">0x05A83E30</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0003">0x05A84C30</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0004">0x05A869F0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0005">0x05A875C0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0006">0x05A89070</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0007">0x05A8A180</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0008">0x05A8C4F0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0009">0x05A8DC90</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="ShapeRiver0010">0x05A8E6A0</value>
+        </property>
+        <property name="lodRange" type="float" container="StaticArray" arraySize="1">
+          <value>30</value>
+        </property>
+        <property name="playRange" type="float" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x087DAD50" unknown1="80" unknown2="12978380">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087DAAB0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.61819" y="4.114128" z="0.65456" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0.007913" y="0.216805" z="0.01198" w="0.976109" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-40.1095963" y="0.544091" z="157.186462" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="ShearTransformEntity" classVersion="0" addr="0x087DADC0" unknown1="48" unknown2="12978382">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087DAAB0</value>
+        </property>
+        <property name="shearTransform_shear" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.040881" y="-0.910706" z="-0.035101" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="SoundAreaMember" classVersion="2" addr="0x087DB290" unknown1="96" unknown2="12978386">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>CAM_House</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="shapes" type="EntityLink" container="DynamicArray" arraySize="5">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_House01">0x05B120E0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_House02">0x05B18200</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_House03">0x05B19BD0</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_House04">0x05B1C410</value>
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_sound.fox2" nameInArchive="CAS_House05">0x0854A180</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x142A10B0" unknown1="72" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A833B0</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

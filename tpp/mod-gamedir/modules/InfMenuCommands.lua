@@ -265,9 +265,37 @@ this.log=""
 this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
-  
 
-  InfUAV.SetupUAV()
+InfCore.PrintInspect(vars.playerPartsType,"playerPartsType")
+InfCore.PrintInspect(vars.playerCamoType,"playerCamoType")
+
+  if true then return end
+  
+    IHDebugUAV.SetupUAV()
+  
+  
+local scriptBlockNames={
+  "animal_block",
+  "demo_block",
+  "quest_block",
+  "mission_block",
+  "npc_block",
+  "reinforce_block",
+  "cypr_small_mission_block_1",
+  "cypr_small_mission_block_2",
+  "cypr_small_mission_block_3",
+  "cypr_demo_block",
+}
+
+for i,blockName in ipairs(scriptBlockNames)do
+  InfCore.PrintInspect(ScriptBlock.GetScriptBlockId(blockName),blockName)
+end
+
+
+
+if true then return end
+
+
 
   --InfCore.PrintInspect(InfCore,"InfCore")
 

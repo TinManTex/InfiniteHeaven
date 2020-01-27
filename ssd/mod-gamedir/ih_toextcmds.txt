@@ -1,12 +1,12 @@
-1524597838|extToMgsvComplete|1
-167|SetContent|menuTitle|Safe-space menu
-168|ClearTable|menuItems
-169|AddToTable|menuItems|1:devInAccMenu >
-170|AddToTable|menuItems|2:IH system menu >
-171|AddToTable|menuItems|3:Camera menu >
-172|AddToTable|menuItems|4:Debug menu >
-173|AddToTable|menuItems|5:Misc menu >
-174|AddToTable|menuItems|6:Time scale menu >
-175|AddToTable|menuItems|7:Turn off menu >]
-176|ClearCombo|menuSetting
-177|UiElementVisible|menuHelp|0
+1529449590|extToMgsvComplete|1
+41|SetContent|menuTitle|Safe-space menu
+42|ClearTable|menuItems
+43|AddToTable|menuItems|1:devInAccMenu >
+44|AddToTable|menuItems|2:IH system menu >
+45|AddToTable|menuItems|3:Camera menu >
+46|AddToTable|menuItems|4:Debug menu >
+47|AddToTable|menuItems|5:Misc menu >
+48|AddToTable|menuItems|6:Time scale menu >
+49|AddToTable|menuItems|7:Turn off menu >]
+50|ClearCombo|menuSetting
+51|UiElementVisible|menuHelp|0

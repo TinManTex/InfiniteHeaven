@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="GrReflectionSetting" super="" version="0" />
+    <class name="TppTextureLoader" super="" version="1" />
+    <class name="FxLocatorData" super="" version="4" />
+    <class name="TransformEntity" super="" version="0" />
+    <class name="TppVfxFileLoader" super="" version="2" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x0393B4C0" unknown1="232" unknown2="402947">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="6">
+          <value key="GrReflectionSetting0000">0x0393D0C0</value>
+          <value key="TppTextureLoader0000">0x0393E080</value>
+          <value key="FxLocator_fx_mgo_cldfin02">0x05A80240</value>
+          <value key="TppTextureLoader_for_staticSky">0x05A81430</value>
+          <value key="TppVfxFileLoader_for_staticSky">0x05A82620</value>
+          <value key="TexturePackLoadConditioner0000">0x140D0860</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GrReflectionSetting" classVersion="0" addr="0x0393D0C0" unknown1="72" unknown2="402949">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>GrReflectionSetting0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0393B4C0</value>
+        </property>
+        <property name="reflectionTexturePath" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/common_source/cubemap/environ/mgo_afc0/cm_mgoj_exdy001_cbm/sourceimages/cm_mgoj_exdy001_cbm.ftex</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppTextureLoader" classVersion="1" addr="0x0393E080" unknown1="160" unknown2="402951">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppTextureLoader0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0393B4C0</value>
+        </property>
+        <property name="textures" type="Path" container="StringMap" arraySize="1">
+          <value key="cm_mgoj_exdy001_cbm">/Assets/mgo/common_source/cubemap/environ/mgo_afc0/cm_mgoj_exdy001_cbm/sourceimages/cm_mgoj_exdy001_cbm.ftex</value>
+        </property>
+        <property name="forceLargeTextures" type="Path" container="StringMap" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="FxLocatorData" classVersion="4" addr="0x05A80240" unknown1="304" unknown2="402953">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>FxLocator_fx_mgo_cldfin02</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0393B4C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05A80E10</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="variationName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="effectInstanceName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="enableUserRandomSeed" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="userRandomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="shapeKeep" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="createOnInitialize" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="blockMemoryAllocation" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="vfxFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/effect/vfx_data/cloud/fx_mgo_cldevn01.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05A80E10" unknown1="80" unknown2="402956">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05A80240</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0.968585" z="0" w="-0.248681" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="50" z="0" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppTextureLoader" classVersion="1" addr="0x05A81430" unknown1="160" unknown2="402958">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppTextureLoader_for_staticSky</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0393B4C0</value>
+        </property>
+        <property name="textures" type="Path" container="StringMap" arraySize="1">
+          <value key="skyTexture">/Assets/tpp/effect/vfx_pic/cloud/fx_cldgnt21_st_alp_nmp.ftex</value>
+        </property>
+        <property name="forceLargeTextures" type="Path" container="StringMap" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppVfxFileLoader" classVersion="2" addr="0x05A82620" unknown1="208" unknown2="402960">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppVfxFileLoader_for_staticSky</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0393B4C0</value>
+        </property>
+        <property name="vfxFiles" type="FilePtr" container="StringMap" />
+        <property name="geoMaterialFiles" type="FilePtr" container="StringMap" />
+        <property name="otherFiles" type="FilePtr" container="StringMap" arraySize="1">
+          <value key="skyDome">/Assets/mgo/effect/vfx_model/fxm_skymgo/Scenes/sky_dome_mgo.fmdl</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x140D0860" unknown1="72" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0393B4C0</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

@@ -1,0 +1,1221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="Material" super="" version="6" />
+    <class name="DataIdentifier" super="" version="0" />
+    <class name="GeoxTextureMaterialRegister" super="" version="0" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x087D55D0" unknown1="232" unknown2="1097738">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="36">
+          <value key="01_cm_mafr_tr_mudd006">0x087D5870</value>
+          <value key="02_cm_marf_tr_rock">0x0854D1A0</value>
+          <value key="03_cm_mafr_tr_mudd002">0x0854B450</value>
+          <value key="04_cm_mafr_tr_mudd003">0x085499A0</value>
+          <value key="05_cm_mafr_tr_grnd003">0x085492A0</value>
+          <value key="06_cm_mafr_tr_soil004">0x08548200</value>
+          <value key="07_cm_mafr_tr_grss004">0x08543810</value>
+          <value key="08_cm_mafr_tr_grss003">0x08542AF0</value>
+          <value key="09_cm_mafr_tr_grvl003">0x087DB6F0</value>
+          <value key="10_cm_mafr_tr_leaf001">0x087DB760</value>
+          <value key="11_cm_mafr_tr_soil003">0x087DBA00</value>
+          <value key="12_cm_mafr_tr_grnd004">0x087DBA70</value>
+          <value key="13_cm_mafr_tr_mudd005">0x087DBD10</value>
+          <value key="14_cm_mafr_tr_soil002">0x087DBD80</value>
+          <value key="15_cm_mafr_tr_soil003">0x087DC1E0</value>
+          <value key="cm_afgh_td_grvl010">0x087DC250</value>
+          <value key="cm_afgh_td_grvl007">0x087DC5D0</value>
+          <value key="00_cm_mafr_tr_grnd004">0x087DC640</value>
+          <value key="DataIdentifier0000">0x087DCAA0</value>
+          <value key="Geox_01_cm_mafr_tr_mudd006">0x087DD050</value>
+          <value key="Geox_02_cm_marf_tr_rock001">0x087DD0C0</value>
+          <value key="Geox_03_cm_mafr_tr_mudd002">0x087DD520</value>
+          <value key="Geox_04_cm_mafr_tr_mudd003">0x087DD590</value>
+          <value key="Geox_05_cm_mafr_tr_grnd003">0x087DDBB0</value>
+          <value key="Geox_06_cm_mafr_tr_soil004">0x087DDC20</value>
+          <value key="Geox_07_cm_mafr_tr_grss004">0x087DE320</value>
+          <value key="Geox_08_cm_mafr_tr_grss003">0x087DE390</value>
+          <value key="Geox_09_cm_mafr_tr_grvl003">0x087DE9B0</value>
+          <value key="Geox_10_cm_mafr_tr_leaf001">0x087DCB10</value>
+          <value key="Geox_11_cm_mafr_tr_soil003">0x087DEA20</value>
+          <value key="Geox_12_cm_mafr_tr_grnd004">0x087DEDA0</value>
+          <value key="Geox_13_cm_mafr_tr_mudd005">0x087DEE10</value>
+          <value key="Geox_00_cm_mafr_tr_grnd004">0x087DF350</value>
+          <value key="Geox_15_cm_mafr_tr_soil003">0x087DF3C0</value>
+          <value key="Geox_14_cm_mafr_tr_soil002">0x087DF7B0</value>
+          <value key="TexturePackLoadConditioner0000">0x145B6280</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087D5870" unknown1="176" unknown2="1097740">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>01_cm_mafr_tr_mudd006</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x0854D1A0" unknown1="176" unknown2="1097742">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>02_cm_marf_tr_rock</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x0854B450" unknown1="176" unknown2="1097744">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>03_cm_mafr_tr_mudd002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x085499A0" unknown1="176" unknown2="1097746">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>04_cm_mafr_tr_mudd003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x085492A0" unknown1="176" unknown2="1097748">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>05_cm_mafr_tr_grnd003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x08548200" unknown1="176" unknown2="1097750">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>06_cm_mafr_tr_soil004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x08543810" unknown1="176" unknown2="1097752">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>07_cm_mafr_tr_grss004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x08542AF0" unknown1="176" unknown2="1097754">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>08_cm_mafr_tr_grss003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>42</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087DB6F0" unknown1="176" unknown2="1097756">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>09_cm_mafr_tr_grvl003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087DB760" unknown1="176" unknown2="1097758">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>10_cm_mafr_tr_leaf001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>42</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087DBA00" unknown1="176" unknown2="1097760">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>11_cm_mafr_tr_soil003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087DBA70" unknown1="176" unknown2="1097762">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>12_cm_mafr_tr_grnd004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087DBD10" unknown1="176" unknown2="1097764">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>13_cm_mafr_tr_mudd005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087DBD80" unknown1="176" unknown2="1097766">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>14_cm_mafr_tr_soil002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>42</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087DC1E0" unknown1="176" unknown2="1097768">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>15_cm_mafr_tr_soil003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>21</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087DC250" unknown1="176" unknown2="1097770">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>cm_afgh_td_grvl010</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/terrain_decal/afghanistan/cm_afgh_td_grvl010/sourceimages/cm_afgh_td_grvl010_bsm_alp.ftex</value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/terrain_decal/afghanistan/cm_afgh_td_grvl010/sourceimages/cm_afgh_td_grvl010_srm.ftex</value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/terrain_decal/afghanistan/cm_afgh_td_grvl010/sourceimages/cm_afgh_td_grvl010_nrm.ftex</value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087DC5D0" unknown1="176" unknown2="1097772">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>cm_afgh_td_grvl007</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/terrain_decal/afghanistan/cm_afgh_td_grvl007/sourceimages/cm_afgh_td_grvl007_bsm_alp.ftex</value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/terrain_decal/afghanistan/cm_afgh_td_grvl007/sourceimages/cm_afgh_td_grvl007_srm.ftex</value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/common_source/fmtr/terrain_decal/afghanistan/cm_afgh_td_grvl007/sourceimages/cm_afgh_td_grvl007_nrm.ftex</value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Material" classVersion="6" addr="0x087DC640" unknown1="176" unknown2="1097774">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>00_cm_mafr_tr_grnd004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialName" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="shader" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="diffuseTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="srmTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="normalTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialMapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="materialIndex" type="uint8" container="StaticArray" arraySize="1">
+          <value>19</value>
+        </property>
+        <property name="diffuseColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="1" g="1" b="1" a="1" />
+        </property>
+        <property name="specularColor" type="Color" container="StaticArray" arraySize="1">
+          <value r="0" g="0" b="0" a="0" />
+        </property>
+        <property name="fmtrPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="residentFlag" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="DataIdentifier" classVersion="0" addr="0x087DCAA0" unknown1="120" unknown2="1097776">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>DataIdentifier0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="identifier" type="String" container="StaticArray" arraySize="1">
+          <value>afc0_common_terrainMaterial</value>
+        </property>
+        <property name="links" type="EntityLink" container="StringMap" arraySize="16">
+          <value key="00_cm_mafr_tr_grnd004" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="00_cm_mafr_tr_grnd004">0x087DC640</value>
+          <value key="01_cm_mafr_tr_mudd006" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="01_cm_mafr_tr_mudd006">0x087D5870</value>
+          <value key="02_cm_marf_tr_rock" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="02_cm_marf_tr_rock">0x0854D1A0</value>
+          <value key="03_cm_mafr_tr_mudd002" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="03_cm_mafr_tr_mudd002">0x0854B450</value>
+          <value key="04_cm_mafr_tr_mudd003" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="04_cm_mafr_tr_mudd003">0x085499A0</value>
+          <value key="05_cm_mafr_tr_grnd003" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="05_cm_mafr_tr_grnd003">0x085492A0</value>
+          <value key="06_cm_mafr_tr_soil004" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="06_cm_mafr_tr_soil004">0x08548200</value>
+          <value key="07_cm_mafr_tr_grss004" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="07_cm_mafr_tr_grss004">0x08543810</value>
+          <value key="08_cm_mafr_tr_grss003" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="08_cm_mafr_tr_grss003">0x08542AF0</value>
+          <value key="09_cm_mafr_tr_grvl003" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="09_cm_mafr_tr_grvl003">0x087DB6F0</value>
+          <value key="10_cm_mafr_tr_leaf001" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="10_cm_mafr_tr_leaf001">0x087DB760</value>
+          <value key="11_cm_mafr_tr_soil003" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="11_cm_mafr_tr_soil003">0x087DBA00</value>
+          <value key="12_cm_mafr_tr_grnd004" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="12_cm_mafr_tr_grnd004">0x087DBA70</value>
+          <value key="13_cm_mafr_tr_mudd005" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="13_cm_mafr_tr_mudd005">0x087DBD10</value>
+          <value key="14_cm_mafr_tr_soil002" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="14_cm_mafr_tr_soil002">0x087DBD80</value>
+          <value key="15_cm_mafr_tr_soil003" packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="15_cm_mafr_tr_soil003">0x087DC1E0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DD050" unknown1="104" unknown2="1097794">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_01_cm_mafr_tr_mudd006</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="01_cm_mafr_tr_mudd006">0x087D5870</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_H</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_H</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DD0C0" unknown1="104" unknown2="1097797">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_02_cm_marf_tr_rock001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="02_cm_marf_tr_rock">0x0854D1A0</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_F</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_F</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DD520" unknown1="104" unknown2="1097800">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_03_cm_mafr_tr_mudd002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="03_cm_mafr_tr_mudd002">0x0854B450</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_E</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_E</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DD590" unknown1="104" unknown2="1097803">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_04_cm_mafr_tr_mudd003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="04_cm_mafr_tr_mudd003">0x085499A0</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_B</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_B</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DDBB0" unknown1="104" unknown2="1097806">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_05_cm_mafr_tr_grnd003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="05_cm_mafr_tr_grnd003">0x085492A0</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_C</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_C</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DDC20" unknown1="104" unknown2="1097809">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_06_cm_mafr_tr_soil004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="06_cm_mafr_tr_soil004">0x08548200</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_H</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_H</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DE320" unknown1="104" unknown2="1097812">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_07_cm_mafr_tr_grss004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="07_cm_mafr_tr_grss004">0x08543810</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_TURF_A</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_TURF_A</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DE390" unknown1="104" unknown2="1097815">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_08_cm_mafr_tr_grss003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="08_cm_mafr_tr_grss003">0x08542AF0</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_TURF_A</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_TURF_A</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DE9B0" unknown1="104" unknown2="1097818">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_09_cm_mafr_tr_grvl003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="09_cm_mafr_tr_grvl003">0x087DB6F0</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_TURF_A</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_TURF_A</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DCB10" unknown1="104" unknown2="1097821">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_10_cm_mafr_tr_leaf001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="10_cm_mafr_tr_leaf001">0x087DB760</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_LEAF</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_LEAF</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DEA20" unknown1="104" unknown2="1097824">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_11_cm_mafr_tr_soil003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="11_cm_mafr_tr_soil003">0x087DBA00</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_B</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_B</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DEDA0" unknown1="104" unknown2="1097827">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_12_cm_mafr_tr_grnd004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="12_cm_mafr_tr_grnd004">0x087DBA70</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_GRAV_A</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_GRAV_A</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DEE10" unknown1="104" unknown2="1097830">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_13_cm_mafr_tr_mudd005</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="13_cm_mafr_tr_mudd005">0x087DBD10</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_C</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_C</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DF350" unknown1="104" unknown2="1097833">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_00_cm_mafr_tr_grnd004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="00_cm_mafr_tr_grnd004">0x087DC640</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_GRAV_A</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_GRAV_A</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DF3C0" unknown1="104" unknown2="1097836">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_15_cm_mafr_tr_soil003</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="15_cm_mafr_tr_soil003">0x087DC1E0</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_F</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_SOIL_F</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GeoxTextureMaterialRegister" classVersion="0" addr="0x087DF7B0" unknown1="104" unknown2="1097848">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Geox_14_cm_mafr_tr_soil002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="materialLink" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="/Assets/mgo/level/location/afc0/block_common/afc0_common_terrainMaterial.fox2" nameInArchive="14_cm_mafr_tr_soil002">0x087DBD80</value>
+        </property>
+        <property name="collisionMaterialName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_LEAF</value>
+        </property>
+        <property name="collisionColorName" type="String" container="StaticArray" arraySize="1">
+          <value>MTR_LEAF</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x145B6280" unknown1="72" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x087D55D0</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

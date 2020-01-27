@@ -1,0 +1,1657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="ObjectBrush" super="" version="4" />
+    <class name="TransformEntity" super="" version="0" />
+    <class name="TppObjectBrushPluginBush" super="" version="3" />
+    <class name="ObjectBrushPluginBushDataElement" super="" version="20" />
+    <class name="ObjectBrushPluginClone" super="" version="3" />
+    <class name="TppObjectBrushPluginFlutteringGrass" super="" version="0" />
+    <class name="TppObjectBrushPluginSkeletonModel" super="" version="7" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x0BCE0FD0" unknown1="232" unknown2="288862">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="21">
+          <value key="ObjectBrush_0000">0x0BCE0E10</value>
+          <value key="OB_Bush_mafr_tree009_acca002_0002">0x03930080</value>
+          <value key="OB_Clone_mafr_ston002_rock001_0000">0x03930470</value>
+          <value key="OB_Clone_mafr_ston002_rock002_0001">0x039304E0</value>
+          <value key="OB_Bush_mafr_grss022_0001">0x03930CC0</value>
+          <value key="OB_Bush_mafr_grss022_vrtn001_0001">0x03930FD0</value>
+          <value key="OB_Bush_mafr_tree018_0004">0x03931190</value>
+          <value key="OB_Clone_mafr_fenc001_vrtn001_0001">0x039319E0</value>
+          <value key="OB_Clone_mafr_grbg001_0001">0x03931C80</value>
+          <value key="OB_Clone_mafr_leaf002_vrtn005_0000">0x03931DD0</value>
+          <value key="OB_Fluttering_mafr_grss009_vrtn002_0001">0x03931E40</value>
+          <value key="OB_Fluttering_mafr_grss019_0001">0x03932620</value>
+          <value key="Skeleton_mafr_tree028_middle">0x03932690</value>
+          <value key="Skeleton_mafr_tree030_middle">0x03932A80</value>
+          <value key="Skeleton_mafr_tree034_middle">0x03932AF0</value>
+          <value key="Skeleton_mafr_tree005_vrtn002">0x039332D0</value>
+          <value key="Skeleton_mafr_tree038_vrtn001">0x03933340</value>
+          <value key="OB_Fluttering_mafr_grss022_vrtn005_0000">0x039335E0</value>
+          <value key="Skeleton_mafr_tree005_vrtn004">0x03933730</value>
+          <value key="OB_Bush_mgom_grss001_0000">0x039337A0</value>
+          <value key="TexturePackLoadConditioner0000">0x1A481270</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="ObjectBrush" classVersion="4" addr="0x0BCE0E10" unknown1="352" unknown2="288864">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0BCE0940</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="pluginHandle" type="EntityHandle" container="DynamicArray" arraySize="56">
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x03930CC0</value>
+          <value>0x03930FD0</value>
+          <value>0x00000000</value>
+          <value>0x039332D0</value>
+          <value>0x039337A0</value>
+          <value>0x00000000</value>
+          <value>0x039335E0</value>
+          <value>0x03933730</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x03930080</value>
+          <value>0x00000000</value>
+          <value>0x03931190</value>
+          <value>0x00000000</value>
+          <value>0x039319E0</value>
+          <value>0x03931C80</value>
+          <value>0x03931DD0</value>
+          <value>0x03930470</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x039304E0</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x03931E40</value>
+          <value>0x00000000</value>
+          <value>0x03932620</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x03932690</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x03932A80</value>
+          <value>0x00000000</value>
+          <value>0x03932AF0</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x00000000</value>
+          <value>0x03933340</value>
+        </property>
+        <property name="blockDataName" type="String" container="DynamicArray" arraySize="64">
+          <value>ObjectBrushBlock_0000</value>
+          <value>ObjectBrushBlock_0001</value>
+          <value>ObjectBrushBlock_0002</value>
+          <value>ObjectBrushBlock_0003</value>
+          <value>ObjectBrushBlock_0004</value>
+          <value>ObjectBrushBlock_0005</value>
+          <value>ObjectBrushBlock_0006</value>
+          <value>ObjectBrushBlock_0007</value>
+          <value>ObjectBrushBlock_0008</value>
+          <value>ObjectBrushBlock_0009</value>
+          <value>ObjectBrushBlock_0010</value>
+          <value>ObjectBrushBlock_0011</value>
+          <value>ObjectBrushBlock_0012</value>
+          <value>ObjectBrushBlock_0013</value>
+          <value>ObjectBrushBlock_0014</value>
+          <value>ObjectBrushBlock_0015</value>
+          <value>ObjectBrushBlock_0016</value>
+          <value>ObjectBrushBlock_0017</value>
+          <value>ObjectBrushBlock_0018</value>
+          <value>ObjectBrushBlock_0019</value>
+          <value>ObjectBrushBlock_0020</value>
+          <value>ObjectBrushBlock_0021</value>
+          <value>ObjectBrushBlock_0022</value>
+          <value>ObjectBrushBlock_0023</value>
+          <value>ObjectBrushBlock_0024</value>
+          <value>ObjectBrushBlock_0025</value>
+          <value>ObjectBrushBlock_0026</value>
+          <value>ObjectBrushBlock_0027</value>
+          <value>ObjectBrushBlock_0028</value>
+          <value>ObjectBrushBlock_0029</value>
+          <value>ObjectBrushBlock_0030</value>
+          <value>ObjectBrushBlock_0031</value>
+          <value>ObjectBrushBlock_0032</value>
+          <value>ObjectBrushBlock_0033</value>
+          <value>ObjectBrushBlock_0034</value>
+          <value>ObjectBrushBlock_0035</value>
+          <value>ObjectBrushBlock_0036</value>
+          <value>ObjectBrushBlock_0037</value>
+          <value>ObjectBrushBlock_0038</value>
+          <value>ObjectBrushBlock_0039</value>
+          <value>ObjectBrushBlock_0040</value>
+          <value>ObjectBrushBlock_0041</value>
+          <value>ObjectBrushBlock_0042</value>
+          <value>ObjectBrushBlock_0043</value>
+          <value>ObjectBrushBlock_0044</value>
+          <value>ObjectBrushBlock_0045</value>
+          <value>ObjectBrushBlock_0046</value>
+          <value>ObjectBrushBlock_0047</value>
+          <value>ObjectBrushBlock_0048</value>
+          <value>ObjectBrushBlock_0049</value>
+          <value>ObjectBrushBlock_0050</value>
+          <value>ObjectBrushBlock_0051</value>
+          <value>ObjectBrushBlock_0052</value>
+          <value>ObjectBrushBlock_0053</value>
+          <value>ObjectBrushBlock_0054</value>
+          <value>ObjectBrushBlock_0055</value>
+          <value>ObjectBrushBlock_0056</value>
+          <value>ObjectBrushBlock_0057</value>
+          <value>ObjectBrushBlock_0058</value>
+          <value>ObjectBrushBlock_0059</value>
+          <value>ObjectBrushBlock_0060</value>
+          <value>ObjectBrushBlock_0061</value>
+          <value>ObjectBrushBlock_0062</value>
+          <value>ObjectBrushBlock_0063</value>
+        </property>
+        <property name="filePath" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/afc0_common_objBrush.obr</value>
+        </property>
+        <property name="loadFilePath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="obrFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/level/location/afc0/block_common/afc0_common_objBrush.obr</value>
+        </property>
+        <property name="numBlocks" type="uint32" container="StaticArray" arraySize="1">
+          <value>64</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="collision_lock" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0BCE0940" unknown1="80" unknown2="288923">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0E10</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppObjectBrushPluginBush" classVersion="3" addr="0x03930080" unknown1="168" unknown2="288927">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Bush_mafr_tree009_acca002_0002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree009/scenes/mafr_tree009_acca002_gen8.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.6</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="reservedCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="upgradeLodRateForHighEnd" type="float" container="StaticArray" arraySize="1">
+          <value>0.35</value>
+        </property>
+        <property name="gimmickParameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x03930320</value>
+        </property>
+        <property name="externalGimmickParameter" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="ObjectBrushPluginBushDataElement" classVersion="20" addr="0x03930320" unknown1="224" unknown2="288930">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03930080</value>
+        </property>
+        <property name="lodMeshName" type="String" container="DynamicArray" />
+        <property name="lodDistance" type="float" container="DynamicArray" />
+        <property name="lodDistanceHighEnd" type="float" container="DynamicArray" />
+        <property name="rotationRate" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="elasticRate" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="alphaMinimizeDist" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="alphaMaximizeDist" type="float" container="StaticArray" arraySize="1">
+          <value>1.25</value>
+        </property>
+        <property name="baseDensity" type="float" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="camoufDensity" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="camofRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="camofHeight" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="modelRadius" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="stopEyeRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="stopEyeHeight" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="noiseSeType" type="String" container="StaticArray" arraySize="1">
+          <value>Plant</value>
+        </property>
+        <property name="bushFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>1048576</value>
+        </property>
+        <property name="baseCycleSpeedRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.35</value>
+        </property>
+        <property name="windAmplitude" type="float" container="StaticArray" arraySize="1">
+          <value>0.05</value>
+        </property>
+        <property name="windDirYAxisFixZero" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="windOffsetFactor" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="bulletEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/ricochet/fx_tpp_rctgrs01M_s0LG.vfx</value>
+        </property>
+        <property name="fairEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdstgrs01_s0.vfx</value>
+        </property>
+        <property name="rainEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/rain/fx_tpp_rinsplgrs01_s0.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="ObjectBrushPluginClone" classVersion="3" addr="0x03930470" unknown1="120" unknown2="288932">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Clone_mafr_ston002_rock001_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/stone/mafr_ston002/scenes/mafr_ston002_rock001.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.25</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="EdIsCheckCornerFloat" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="ObjectBrushPluginClone" classVersion="3" addr="0x039304E0" unknown1="120" unknown2="288934">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Clone_mafr_ston002_rock002_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/stone/mafr_ston002/scenes/mafr_ston002_rock002.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.25</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="TppObjectBrushPluginBush" classVersion="3" addr="0x03930CC0" unknown1="168" unknown2="288936">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Bush_mafr_grss022_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/grass/mafr_grss022/scenes/mafr_grss022.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="reservedCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="upgradeLodRateForHighEnd" type="float" container="StaticArray" arraySize="1">
+          <value>0.56</value>
+        </property>
+        <property name="gimmickParameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x03930D30</value>
+        </property>
+        <property name="externalGimmickParameter" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="ObjectBrushPluginBushDataElement" classVersion="20" addr="0x03930D30" unknown1="224" unknown2="288939">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03930CC0</value>
+        </property>
+        <property name="lodMeshName" type="String" container="DynamicArray" arraySize="3">
+          <value>MESH_vrtn000_lod0</value>
+          <value>MESH_vrtn000_lod1</value>
+          <value>MESH_vrtn000_lod2</value>
+        </property>
+        <property name="lodDistance" type="float" container="DynamicArray" arraySize="3">
+          <value>20</value>
+          <value>60</value>
+          <value>1000</value>
+        </property>
+        <property name="lodDistanceHighEnd" type="float" container="DynamicArray" arraySize="3">
+          <value>30</value>
+          <value>69</value>
+          <value>1000</value>
+        </property>
+        <property name="rotationRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="elasticRate" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="alphaMinimizeDist" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="alphaMaximizeDist" type="float" container="StaticArray" arraySize="1">
+          <value>1.25</value>
+        </property>
+        <property name="baseDensity" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="camoufDensity" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="camofRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="camofHeight" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="modelRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="stopEyeRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="stopEyeHeight" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="noiseSeType" type="String" container="StaticArray" arraySize="1">
+          <value>Plant</value>
+        </property>
+        <property name="bushFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>1048578</value>
+        </property>
+        <property name="baseCycleSpeedRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="windAmplitude" type="float" container="StaticArray" arraySize="1">
+          <value>0.06</value>
+        </property>
+        <property name="windDirYAxisFixZero" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="windOffsetFactor" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="bulletEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/ricochet/fx_tpp_rctgrs01M_s0LG.vfx</value>
+        </property>
+        <property name="fairEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdstgrs01_s0.vfx</value>
+        </property>
+        <property name="rainEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/rain/fx_tpp_rinsplgrs01_s0.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppObjectBrushPluginBush" classVersion="3" addr="0x03930FD0" unknown1="168" unknown2="288941">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Bush_mafr_grss022_vrtn001_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/grass/mafr_grss022/scenes/mafr_grss022_vrtn001.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.75</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="reservedCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="upgradeLodRateForHighEnd" type="float" container="StaticArray" arraySize="1">
+          <value>0.56</value>
+        </property>
+        <property name="gimmickParameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x03931120</value>
+        </property>
+        <property name="externalGimmickParameter" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="EdIsCheckCornerFloat" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="ObjectBrushPluginBushDataElement" classVersion="20" addr="0x03931120" unknown1="224" unknown2="288944">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03930FD0</value>
+        </property>
+        <property name="lodMeshName" type="String" container="DynamicArray" arraySize="3">
+          <value>MESH_vrtn001_lod0</value>
+          <value>MESH_vrtn001_lod1</value>
+          <value>MESH_vrtn001_lod2</value>
+        </property>
+        <property name="lodDistance" type="float" container="DynamicArray" arraySize="3">
+          <value>20</value>
+          <value>60</value>
+          <value>1000</value>
+        </property>
+        <property name="lodDistanceHighEnd" type="float" container="DynamicArray" arraySize="3">
+          <value>30</value>
+          <value>69</value>
+          <value>1000</value>
+        </property>
+        <property name="rotationRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="elasticRate" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="alphaMinimizeDist" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="alphaMaximizeDist" type="float" container="StaticArray" arraySize="1">
+          <value>1.25</value>
+        </property>
+        <property name="baseDensity" type="float" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="camoufDensity" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="camofRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="camofHeight" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="modelRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="stopEyeRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="stopEyeHeight" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="noiseSeType" type="String" container="StaticArray" arraySize="1">
+          <value>Plant</value>
+        </property>
+        <property name="bushFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>1048578</value>
+        </property>
+        <property name="baseCycleSpeedRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="windAmplitude" type="float" container="StaticArray" arraySize="1">
+          <value>0.06</value>
+        </property>
+        <property name="windDirYAxisFixZero" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="windOffsetFactor" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="bulletEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/ricochet/fx_tpp_rctgrs01M_s0LG.vfx</value>
+        </property>
+        <property name="fairEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdstgrs01_s0.vfx</value>
+        </property>
+        <property name="rainEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/rain/fx_tpp_rinsplgrs01_s0.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppObjectBrushPluginBush" classVersion="3" addr="0x03931190" unknown1="168" unknown2="288946">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Bush_mafr_tree018_0004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree018/scenes/mafr_tree018.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.6</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="reservedCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="upgradeLodRateForHighEnd" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="gimmickParameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x03931970</value>
+        </property>
+        <property name="externalGimmickParameter" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="ObjectBrushPluginBushDataElement" classVersion="20" addr="0x03931970" unknown1="224" unknown2="288949">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x03931190</value>
+        </property>
+        <property name="lodMeshName" type="String" container="DynamicArray" arraySize="2">
+          <value>MESH_mafr_tree018_lod0</value>
+          <value>MESH_mafr_tree018_lod1</value>
+        </property>
+        <property name="lodDistance" type="float" container="DynamicArray" arraySize="2">
+          <value>30</value>
+          <value>1000</value>
+        </property>
+        <property name="lodDistanceHighEnd" type="float" container="DynamicArray" arraySize="2">
+          <value>60</value>
+          <value>1000</value>
+        </property>
+        <property name="rotationRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="elasticRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.6</value>
+        </property>
+        <property name="alphaMinimizeDist" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="alphaMaximizeDist" type="float" container="StaticArray" arraySize="1">
+          <value>1.25</value>
+        </property>
+        <property name="baseDensity" type="float" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="camoufDensity" type="float" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="camofRadius" type="float" container="StaticArray" arraySize="1">
+          <value>1.25</value>
+        </property>
+        <property name="camofHeight" type="float" container="StaticArray" arraySize="1">
+          <value>1.8</value>
+        </property>
+        <property name="modelRadius" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="stopEyeRadius" type="float" container="StaticArray" arraySize="1">
+          <value>1.25</value>
+        </property>
+        <property name="stopEyeHeight" type="float" container="StaticArray" arraySize="1">
+          <value>1.8</value>
+        </property>
+        <property name="noiseSeType" type="String" container="StaticArray" arraySize="1">
+          <value>Plant</value>
+        </property>
+        <property name="bushFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>1048577</value>
+        </property>
+        <property name="baseCycleSpeedRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="windAmplitude" type="float" container="StaticArray" arraySize="1">
+          <value>0.12</value>
+        </property>
+        <property name="windDirYAxisFixZero" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="windOffsetFactor" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="bulletEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/ricochet/fx_tpp_rctgrs01M_s0LG.vfx</value>
+        </property>
+        <property name="fairEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdstgrs01_s0.vfx</value>
+        </property>
+        <property name="rainEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/rain/fx_tpp_rinsplgrs01_s0.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="ObjectBrushPluginClone" classVersion="3" addr="0x039319E0" unknown1="120" unknown2="288951">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Clone_mafr_fenc001_vrtn001_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/fence/mafr_fenc001/scenes/mafr_fenc001_vrtn001.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="ObjectBrushPluginClone" classVersion="3" addr="0x03931C80" unknown1="120" unknown2="288953">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Clone_mafr_grbg001_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/garbage/mafr_grbg001/scenes/mafr_grbg001.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="ObjectBrushPluginClone" classVersion="3" addr="0x03931DD0" unknown1="120" unknown2="288955">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Clone_mafr_leaf002_vrtn005_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/leaf/mafr_leaf002/scenes/mafr_leaf002_vrtn005.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="TppObjectBrushPluginFlutteringGrass" classVersion="0" addr="0x03931E40" unknown1="136" unknown2="288957">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Fluttering_mafr_grss009_vrtn002_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/grass/mafr_grss009/scenes/mafr_grss009_vrtn002.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>1.2</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="baseCycleSpeedRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="windAmplitude" type="float" container="StaticArray" arraySize="1">
+          <value>0.03</value>
+        </property>
+        <property name="windOffsetFactor" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="windDirYAxisFixZero" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="TppObjectBrushPluginFlutteringGrass" classVersion="0" addr="0x03932620" unknown1="136" unknown2="288959">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Fluttering_mafr_grss019_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/grass/mafr_grss019/scenes/mafr_grss019.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>1.5</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="baseCycleSpeedRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="windAmplitude" type="float" container="StaticArray" arraySize="1">
+          <value>0.05</value>
+        </property>
+        <property name="windOffsetFactor" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="windDirYAxisFixZero" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="TppObjectBrushPluginSkeletonModel" classVersion="7" addr="0x03932690" unknown1="248" unknown2="288961">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Skeleton_mafr_tree028_middle</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="DynamicArray" arraySize="3">
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree028/scenes/mgom_tree028_gen8.fmdl</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree028/scenes/mafr_tree028_dsvw001_gen8.fmdl</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree028/scenes/mafr_tree028_dsvw002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="DynamicArray" arraySize="2">
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree028/scenes/mgom_tree028_gen8.geom</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree028/scenes/mafr_tree028_dsvw001_gen8.geom</value>
+        </property>
+        <property name="animFile" type="Path" container="DynamicArray" arraySize="2">
+          <value>/Assets/tpp/motion/SI_game/fani/env/cmon/cmon/cmon_tree_lull.gani</value>
+          <value></value>
+        </property>
+        <property name="animWindyFile" type="Path" container="DynamicArray" arraySize="1">
+          <value>/Assets/tpp/motion/SI_game/fani/env/cmon/cmon/cmon_tree_stom.gani</value>
+        </property>
+        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/env/cmon/cmon_tree_001.mtar</value>
+        </property>
+        <property name="soundSeType" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_mafr_tree028</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.65</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>1.1</value>
+        </property>
+        <property name="isGeomActivity" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="thinkOutRate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="extensionRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reserveResourcePlugin" type="uint32" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="reserveResourcePerBlock" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="lodLength" type="float" container="StaticArray" arraySize="4">
+          <value>35</value>
+          <value>70</value>
+          <value>300</value>
+          <value>300</value>
+        </property>
+        <property name="lodLengthForHighEnd" type="float" container="StaticArray" arraySize="4">
+          <value>100</value>
+          <value>150</value>
+          <value>500</value>
+          <value>500</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="notReservedBlockId" type="uint32" container="DynamicArray" />
+      </dynamicProperties>
+    </entity>
+    <entity class="TppObjectBrushPluginSkeletonModel" classVersion="7" addr="0x03932A80" unknown1="248" unknown2="288963">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Skeleton_mafr_tree030_middle</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="DynamicArray" arraySize="3">
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree030/scenes/mgom_tree030_gen8.fmdl</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree030/scenes/mafr_tree030_dsvw001_gen8.fmdl</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree030/scenes/mafr_tree030_dsvw002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="DynamicArray" arraySize="2">
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree030/scenes/mgom_tree030_gen8.geom</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree030/scenes/mafr_tree030_dsvw001_gen8.geom</value>
+        </property>
+        <property name="animFile" type="Path" container="DynamicArray" arraySize="2">
+          <value>/Assets/tpp/motion/SI_game/fani/env/cmon/cmon/cmon_tree_lull.gani</value>
+          <value></value>
+        </property>
+        <property name="animWindyFile" type="Path" container="DynamicArray" arraySize="1">
+          <value>/Assets/tpp/motion/SI_game/fani/env/cmon/cmon/cmon_tree_stom.gani</value>
+        </property>
+        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/env/cmon/cmon_tree_001.mtar</value>
+        </property>
+        <property name="soundSeType" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_mafr_tree030</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.553529</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>1.109412</value>
+        </property>
+        <property name="isGeomActivity" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="thinkOutRate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="extensionRadius" type="float" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="reserveResourcePlugin" type="uint32" container="StaticArray" arraySize="1">
+          <value>12</value>
+        </property>
+        <property name="reserveResourcePerBlock" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="lodLength" type="float" container="StaticArray" arraySize="4">
+          <value>35</value>
+          <value>70</value>
+          <value>225</value>
+          <value>225</value>
+        </property>
+        <property name="lodLengthForHighEnd" type="float" container="StaticArray" arraySize="4">
+          <value>100</value>
+          <value>150</value>
+          <value>500</value>
+          <value>500</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="notReservedBlockId" type="uint32" container="DynamicArray" />
+      </dynamicProperties>
+    </entity>
+    <entity class="TppObjectBrushPluginSkeletonModel" classVersion="7" addr="0x03932AF0" unknown1="248" unknown2="288965">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Skeleton_mafr_tree034_middle</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="DynamicArray" arraySize="3">
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree003/scenes/mgom_tree003.fmdl</value>
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree003/scenes/mgom_tree003_dsvw001.fmdl</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree034/scenes/mafr_tree034_dsvw002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="DynamicArray" arraySize="2">
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree003/scenes/mgom_tree003.geom</value>
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree003/scenes/mgom_tree003.geom</value>
+        </property>
+        <property name="animFile" type="Path" container="DynamicArray" arraySize="2">
+          <value>/Assets/tpp/motion/SI_game/fani/env/cmon/cmon/cmon_tree_lull.gani</value>
+          <value></value>
+        </property>
+        <property name="animWindyFile" type="Path" container="DynamicArray" arraySize="1">
+          <value>/Assets/tpp/motion/SI_game/fani/env/cmon/cmon/cmon_tree_stom.gani</value>
+        </property>
+        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/env/cmon/cmon_tree_001.mtar</value>
+        </property>
+        <property name="soundSeType" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_mafr_tree034</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.60549</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>1.091373</value>
+        </property>
+        <property name="isGeomActivity" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="thinkOutRate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="extensionRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reserveResourcePlugin" type="uint32" container="StaticArray" arraySize="1">
+          <value>26</value>
+        </property>
+        <property name="reserveResourcePerBlock" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="lodLength" type="float" container="StaticArray" arraySize="4">
+          <value>45</value>
+          <value>80</value>
+          <value>256</value>
+          <value>256</value>
+        </property>
+        <property name="lodLengthForHighEnd" type="float" container="StaticArray" arraySize="4">
+          <value>100</value>
+          <value>150</value>
+          <value>500</value>
+          <value>500</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="notReservedBlockId" type="uint32" container="DynamicArray" />
+      </dynamicProperties>
+    </entity>
+    <entity class="TppObjectBrushPluginSkeletonModel" classVersion="7" addr="0x039332D0" unknown1="248" unknown2="288967">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Skeleton_mafr_tree005_vrtn002</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="DynamicArray" arraySize="2">
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree005/scenes/mgom_tree005_vrtn002.fmdl</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree005/scenes/mafr_tree005_dsvw102.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="DynamicArray" arraySize="2">
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree005/scenes/mgom_tree005_vrtn002.geom</value>
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree005/scenes/mgom_tree005_vrtn002.geom</value>
+        </property>
+        <property name="animFile" type="Path" container="DynamicArray" arraySize="2">
+          <value>/Assets/tpp/motion/SI_game/fani/env/cmon/cmon/cmon_tree_lull.gani</value>
+          <value></value>
+        </property>
+        <property name="animWindyFile" type="Path" container="DynamicArray" arraySize="1">
+          <value>/Assets/tpp/motion/SI_game/fani/env/cmon/cmon/cmon_tree_stom.gani</value>
+        </property>
+        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/env/cmon/cmon_tree_001.mtar</value>
+        </property>
+        <property name="soundSeType" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_mafr_tree005</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.6</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>1.1</value>
+        </property>
+        <property name="isGeomActivity" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="thinkOutRate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="extensionRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reserveResourcePlugin" type="uint32" container="StaticArray" arraySize="1">
+          <value>17</value>
+        </property>
+        <property name="reserveResourcePerBlock" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="lodLength" type="float" container="StaticArray" arraySize="4">
+          <value>40</value>
+          <value>128</value>
+          <value>256</value>
+          <value>256</value>
+        </property>
+        <property name="lodLengthForHighEnd" type="float" container="StaticArray" arraySize="4">
+          <value>60</value>
+          <value>256</value>
+          <value>256</value>
+          <value>256</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="notReservedBlockId" type="uint32" container="DynamicArray" />
+      </dynamicProperties>
+    </entity>
+    <entity class="TppObjectBrushPluginSkeletonModel" classVersion="7" addr="0x03933340" unknown1="248" unknown2="288969">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Skeleton_mafr_tree038_vrtn001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="DynamicArray" arraySize="3">
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree038/scenes/mafr_tree038_vrtn001_gen8.fmdl</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree038/scenes/mafr_tree038_dsvw001_gen8.fmdl</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree038/scenes/mafr_tree038_dsvw002.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="DynamicArray" arraySize="2">
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree038/scenes/mafr_tree038_vrtn001_gen8.geom</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree038/scenes/mafr_tree038_dsvw001_gen8.geom</value>
+        </property>
+        <property name="animFile" type="Path" container="DynamicArray" arraySize="2">
+          <value>/Assets/tpp/motion/SI_game/fani/env/mafr/mafr/mafr_tree038_vrtn001.gani</value>
+          <value></value>
+        </property>
+        <property name="animWindyFile" type="Path" container="DynamicArray" />
+        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/env/mafr/mafr_tree038_vrtn001.mtar</value>
+        </property>
+        <property name="soundSeType" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_mafr_tree038_vrtn001</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="isGeomActivity" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="thinkOutRate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="extensionRadius" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="reserveResourcePlugin" type="uint32" container="StaticArray" arraySize="1">
+          <value>37</value>
+        </property>
+        <property name="reserveResourcePerBlock" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="lodLength" type="float" container="StaticArray" arraySize="4">
+          <value>40</value>
+          <value>70</value>
+          <value>200</value>
+          <value>200</value>
+        </property>
+        <property name="lodLengthForHighEnd" type="float" container="StaticArray" arraySize="4">
+          <value>70</value>
+          <value>110</value>
+          <value>400</value>
+          <value>400</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="notReservedBlockId" type="uint32" container="DynamicArray" />
+      </dynamicProperties>
+    </entity>
+    <entity class="TppObjectBrushPluginFlutteringGrass" classVersion="0" addr="0x039335E0" unknown1="136" unknown2="288971">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Fluttering_mafr_grss022_vrtn005_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/environ/object/middle_africa/grass/mafr_grss022/scenes/mafr_grss022_vrtn005.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="baseCycleSpeedRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="windAmplitude" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="windOffsetFactor" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="windDirYAxisFixZero" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppObjectBrushPluginSkeletonModel" classVersion="7" addr="0x03933730" unknown1="248" unknown2="288973">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Skeleton_mafr_tree005_vrtn004</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="DynamicArray" arraySize="3">
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree005/scenes/mgom_tree005_vrtn004.fmdl</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree005/scenes/mafr_tree005_dsvw104.fmdl</value>
+          <value>/Assets/tpp/environ/object/middle_africa/tree/mafr_tree005/scenes/mafr_tree005_dsvw004.fmdl</value>
+        </property>
+        <property name="geomFile" type="FilePtr" container="DynamicArray" arraySize="2">
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree005/scenes/mgom_tree005_vrtn004.geom</value>
+          <value>/Assets/mgo/environ/object/mgo_mafr/tree/mgom_tree005/scenes/mgom_tree005_vrtn004.geom</value>
+        </property>
+        <property name="animFile" type="Path" container="DynamicArray" arraySize="2">
+          <value>/Assets/tpp/motion/SI_game/fani/env/cmon/cmon/cmon_tree_lull.gani</value>
+          <value></value>
+        </property>
+        <property name="animWindyFile" type="Path" container="DynamicArray" arraySize="1">
+          <value>/Assets/tpp/motion/SI_game/fani/env/cmon/cmon/cmon_tree_stom.gani</value>
+        </property>
+        <property name="mtarFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/motion/mtar/env/cmon/cmon_tree_001.mtar</value>
+        </property>
+        <property name="soundSeType" type="String" container="StaticArray" arraySize="1">
+          <value>sfx_m_mafr_tree005</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="isGeomActivity" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="thinkOutRate" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="extensionRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="reserveResourcePlugin" type="uint32" container="StaticArray" arraySize="1">
+          <value>15</value>
+        </property>
+        <property name="reserveResourcePerBlock" type="uint32" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="lodLength" type="float" container="StaticArray" arraySize="4">
+          <value>30</value>
+          <value>60</value>
+          <value>180</value>
+          <value>180</value>
+        </property>
+        <property name="lodLengthForHighEnd" type="float" container="StaticArray" arraySize="4">
+          <value>60</value>
+          <value>90</value>
+          <value>256</value>
+          <value>256</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="notReservedBlockId" type="uint32" container="DynamicArray" />
+      </dynamicProperties>
+    </entity>
+    <entity class="TppObjectBrushPluginBush" classVersion="3" addr="0x039337A0" unknown1="168" unknown2="288975">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>OB_Bush_mgom_grss001_0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="parentDataName" type="String" container="StaticArray" arraySize="1">
+          <value>ObjectBrush_0000</value>
+        </property>
+        <property name="visibility" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/mgo/environ/object/mgo_mafr/grass/mgom_grss001/scenes/mgom_grss001.fmdl</value>
+        </property>
+        <property name="minSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.45</value>
+        </property>
+        <property name="maxSize" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="enableLod" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="modelRejectionLevel" type="int32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="reservedCount" type="uint32" container="StaticArray" arraySize="1">
+          <value>30</value>
+        </property>
+        <property name="upgradeLodRateForHighEnd" type="float" container="StaticArray" arraySize="1">
+          <value>0.7</value>
+        </property>
+        <property name="gimmickParameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x03933F80</value>
+        </property>
+        <property name="externalGimmickParameter" type="EntityLink" container="StaticArray" arraySize="1">
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties>
+        <property name="EdIsSnapNormal" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+      </dynamicProperties>
+    </entity>
+    <entity class="ObjectBrushPluginBushDataElement" classVersion="20" addr="0x03933F80" unknown1="224" unknown2="288978">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x039337A0</value>
+        </property>
+        <property name="lodMeshName" type="String" container="DynamicArray" arraySize="2">
+          <value>MESH_mgom_grss022_lod0</value>
+          <value>MESH_mgom_grss022_lod1</value>
+        </property>
+        <property name="lodDistance" type="float" container="DynamicArray" arraySize="2">
+          <value>20</value>
+          <value>1000</value>
+        </property>
+        <property name="lodDistanceHighEnd" type="float" container="DynamicArray" arraySize="2">
+          <value>40</value>
+          <value>1000</value>
+        </property>
+        <property name="rotationRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="elasticRate" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="alphaMinimizeDist" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="alphaMaximizeDist" type="float" container="StaticArray" arraySize="1">
+          <value>1.25</value>
+        </property>
+        <property name="baseDensity" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+        <property name="camoufDensity" type="float" container="StaticArray" arraySize="1">
+          <value>10</value>
+        </property>
+        <property name="camofRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.6</value>
+        </property>
+        <property name="camofHeight" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="modelRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="stopEyeRadius" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="stopEyeHeight" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="noiseSeType" type="String" container="StaticArray" arraySize="1">
+          <value>Plant</value>
+        </property>
+        <property name="bushFlags" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="baseCycleSpeedRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="windAmplitude" type="float" container="StaticArray" arraySize="1">
+          <value>0.12</value>
+        </property>
+        <property name="windDirYAxisFixZero" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="windOffsetFactor" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="bulletEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/ricochet/fx_tpp_rctgrs01M_s0LG.vfx</value>
+        </property>
+        <property name="fairEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdstgrs01_s0.vfx</value>
+        </property>
+        <property name="rainEffect" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_data/rain/fx_tpp_rinsplgrs01_s0.vfx</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x1A481270" unknown1="72" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0BCE0FD0</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

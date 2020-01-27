@@ -12,8 +12,7 @@ this.debugModule=false
 
 this.numHostages=30--4--SYNC num locators--DEBUGWIP
 
-this.hostageNames={}
-
+this.hostageNames=InfUtil.GenerateNameList("ih_hostage_%04d",this.numHostages)
 this.npcInfo={}
 
 this.registerIvars={
@@ -42,10 +41,6 @@ this.langStrings={
 
 function this.PostModuleReload(prevModule)
   this.npcInfo=prevModule.npcInfo
-end
-
-function this.PostAllModulesLoad()
-  this.hostageNames=InfUtil.GenerateNameList("ih_hostage_%04d",this.numHostages)
 end
 
 function this.AddMissionPacks(missionCode,packPaths)

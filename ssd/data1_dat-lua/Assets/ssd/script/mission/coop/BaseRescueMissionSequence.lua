@@ -1,3 +1,4 @@
+--DEBUGNOW RE MERGE
 local this={}
 local s=Fox.StrCode32
 local i=Tpp.StrCode32Table
@@ -736,13 +737,20 @@ function this.CreateInstance(missionName)
           TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.SESSION_DISCONNECT_FROM_HOST,Popup.TYPE_ONE_BUTTON)end,
         OnUpdate=function()
           if not TppUiCommand.IsShowPopup(TppDefine.ERROR_ID.SESSION_DISCONNECT_FROM_HOST)then
-            TppMission.AbandonMission()end
+            TppMission.AbandonMission{needRestore=true}--RETAILPATCH: 1.0.12 added needRestore
+          end
         end}
       instance.sequences.Seq_Game_Ready={
         messageTable={
           Timer={
             {sender="Timer_Start",msg="Finish",func=function()
-              TppSequence.SetNextSequence"Seq_Game_Stealth"end}}},
+              --RETAILPATCH: 1.0.12>
+              if mvars.bcm_requestAbandon then
+                return
+              end
+              --<
+              TppSequence.SetNextSequence"Seq_Game_Stealth"
+            end}}},
         Messages=function(e)
           local e=e.messageTable
           if n(e)then
@@ -992,21 +1000,25 @@ function this.CreateInstance(missionName)
             end
           end
           if mvars.isFog==true then
-            TppWeather.ForceRequestWeather(TppDefine.WEATHER.FOGGY,5,{fogDensity=instance.startFogDensity})end
+            TppWeather.ForceRequestWeather(TppDefine.WEATHER.FOGGY,5,{fogDensity=instance.startFogDensity})
+          end
         end}
       instance.sequences.Seq_Game_DefenseBreak={
         messageTable={
           GameObject={
             {msg="DefenseChangeState",func=function(n,e)
               if e==TppDefine.DEFENSE_GAME_STATE.WAVE then
-                TppSequence.SetNextSequence"Seq_Game_DefenseWave"end
+                TppSequence.SetNextSequence"Seq_Game_DefenseWave"
+              end
             end}},Timer={
             {sender="Timer_WaitSync",msg="Finish",func=function()
-              TppPlayer.EnableSwitchIcon()end}}},
+              TppPlayer.EnableSwitchIcon()
+            end}}},
         Messages=function(e)
           local e=e.messageTable
           if n(e)then
-            return i(e)end
+            return i(e)
+          end
         end,
         OnEnter=function()
           GkEventTimerManager.Start("Timer_WaitSync",10)
@@ -1014,15 +1026,30 @@ function this.CreateInstance(missionName)
           local a=E
           local t=instance.intervalTimeTable
           if n(t)then
-            local e=t[waveCount]if o(e)then
+            local e=t[waveCount]--RETAILBUG?
+            if o(e)then
               a=e
             end
           end
           TppMission.StartWaveInterval(a)
           instance.EnableExtraTargetMarker(mvars.waveCount+1)
           TppMarker.Disable"marker_target"
-          instance.AddMissionObjective"mission_20105_objective_01"end,
-        OnLeave=function()TppPlayer.EnableSwitchIcon()end}
+          instance.AddMissionObjective"mission_20105_objective_01"
+        end,
+        OnLeave=function()
+          TppPlayer.EnableSwitchIcon()
+          --RETAILPATCH: 1.0.12>
+          if not mvars.bcm_requestGameOver and not mvars.votingResult then
+            if TppSequence.GetCurrentSequenceName()=="Seq_Game_EstablishClear"then
+              if mvars.miningMachineBroken then
+                WavePopupSystem.RequestOpen{type=WavePopupType.DEFENSE_FAILURE}
+              else
+                ResultSystem.OpenPopupResult()
+              end
+            end
+          end
+          --<
+        end}
       instance.sequences.Seq_Game_EstablishClear={
         OnEnter=function(n)
           TppUiStatusManager.SetStatus("PauseMenu","INVALID")

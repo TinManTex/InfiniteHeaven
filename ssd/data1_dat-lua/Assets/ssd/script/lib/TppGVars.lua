@@ -23,6 +23,7 @@ this.DeclareGVarsTable={
   {name="mis_currentMissionAfterChunkCheck",type=TppScriptVars.TYPE_UINT32,value=1,save=false},
   {name="mis_skipUpdateBaseManagement",type=TppScriptVars.TYPE_BOOL,value=false,save=false,init=true},
   {name="mis_gameoverCount",type=TppScriptVars.TYPE_UINT8,value=0,save=false,init=true},
+  {name="mis_isAbandonForDisconnect",type=TppScriptVars.TYPE_BOOL,value=false,save=false},--RETAILPATCH: 1.0.12
   {name="sav_permitGameSave",type=TppScriptVars.TYPE_BOOL,value=true,save=false},
   {name="sav_isCheckPointSaving",type=TppScriptVars.TYPE_BOOL,value=false,save=false},
   {name="sav_isPersonalSaving",type=TppScriptVars.TYPE_BOOL,value=false,save=false},

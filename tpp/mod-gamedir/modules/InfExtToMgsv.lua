@@ -236,7 +236,7 @@ function this.GotKeyboardFocus(args)
       --      local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
       --      InfMgsvToExt.SetMenuLine(settingText,menuLineText)
       local settingText=""
-      local menuLineText="<Type and Enter to search>"--DEBUGNOW TODO LANG
+      local menuLineText=InfLangProc.LangString"type_to_search"
       InfMgsvToExt.SetMenuLine(settingText,menuLineText)
       InfCore.ExtCmd("SelectAllText",menuLine)
       InfCore.WriteToExtTxt()
@@ -251,8 +251,8 @@ function this.EnterText(args)
     InfMenuDefs.searchMenu=InfMenu.BuildMenuDefForSearch(searchText)
     InfMenuDefs.BuildMenuItem("searchMenu",InfMenuDefs.searchMenu)
     InfMenu.GoMenu(InfMenuDefs.searchMenu)
-    local settingText=""
-    local menuLineText="<Type and Enter to search>"--DEBUGNOW TODO LANG
+    --local settingText=""
+    --local menuLineText=InfLangProc.LangString"type_to_search"
     --InfMgsvToExt.SetMenuLine(settingText,menuLineText)
     --InfCore.WriteToExtTxt()
   end
