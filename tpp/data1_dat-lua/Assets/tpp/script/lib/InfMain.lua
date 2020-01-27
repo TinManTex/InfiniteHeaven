@@ -165,6 +165,16 @@ function this.OnAllocate(missionTable)
 end
 --tex in OnAllocate, just after sequence.MissionPrepare
 function this.MissionPrepare()
+  if TppMission.IsFOBMission(vars.missionCode)then
+    return
+  end
+  
+  for i,module in ipairs(InfModules) do
+    if IsFunc(module.MissionPrepare) then
+      InfCore.PCallDebug(module.MissionPrepare)
+    end
+  end
+
   if TppMission.IsStoryMission(vars.missionCode) then
     if Ivars.gameOverOnDiscovery:Is(1) then
       TppMission.RegistDiscoveryGameOver()
@@ -719,7 +729,7 @@ function this.OnMenuClose()
     end
   end
 
-  InfCore.PCallDebug(IvarProc.SaveEvars)
+  InfCore.PCallDebug(IvarProc.SaveAll)
 end
 
 --Caller heli_common_sequence.Seq_Game_MainGame.OnEnter

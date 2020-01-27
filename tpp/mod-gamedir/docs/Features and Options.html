@@ -165,26 +165,35 @@
 <div id="itemHelp">Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')</div>
 </div>
 <div id="menuItem">
-<div>4: Enable Skull attacks in Free roam : Off, On</div>
+<div>4: Allow Hunted event : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: Allow Crashland event : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: Allow Lost Coms event : Off, On</div>
+</div>
+<div id="menuItem">
+<div>7: Enable Skull attacks in Free roam : Off, On</div>
 <div id="itemHelp">Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.</div>
 </div>
 <div id="menuItem">
-<div>5: Allow armor skulls : Off, On</div>
+<div>8: Allow armor skulls : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: Allow mist skulls : Off, On</div>
+<div>9: Allow mist skulls : Off, On</div>
 </div>
 <div id="menuItem">
-<div>7: Allow sniper skulls : Off, On</div>
+<div>10: Allow sniper skulls : Off, On</div>
 </div>
 <div id="menuItem">
-<div>8: Skull attack min (minutes) : 0-180</div>
+<div>11: Skull attack min (minutes) : 0-180</div>
 </div>
 <div id="menuItem">
-<div>9: Skull attack max (minutes) : 0-180</div>
+<div>12: Skull attack max (minutes) : 0-180</div>
 </div>
 <div id="menuItem">
-<div>10: Weather on Skull attack : None, Parasite fog, Random</div>
+<div>13: Weather on Skull attack : None, Parasite fog, Random</div>
 </div>
 <div id="menuItem">
 </div>
@@ -952,6 +961,59 @@
 <div id="menuItem">
 <div>3: Apply enemy prep to patrol soldiers : Off, On</div>
 </div>
+<div id="menuItem">
+<div>4: Allow heavy armor in free roam (may have issues) : Off, On</div>
+</div>
+<div id="menuItem">
+<div>5: Allow heavy armor in all missions (may have issues) : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: Disable weapon restrictions in certain missions : Off, On</div>
+<div id="itemHelp">Missions 2, 12, 13, 16, 26, 31 normally prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).</div>
+</div>
+<div id="menuItem">
+<div>7: Allow Enemy Prep change from free roam : Off, On</div>
+<div id="itemHelp">By default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort)</div>
+</div>
+<div id="menuItem">
+<div>8: Enemy prep decrease on long MB visit : Off, On</div>
+<div id="itemHelp">Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat </div>
+</div>
+<div id="menuItem">
+<div>9: Allow helmet and NVG or Gas mask combo : Off, On</div>
+</div>
+<div id="menuItem">
+<div>10: Ballance heavy armor and head gear distribution : Off, On</div>
+<div id="itemHelp">Adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if Allow helmet and NVG or Gas mask combo option is on</div>
+</div>
+<div id="menuItem">
+<div>11: Allow missile combo with other weapons : Off, On</div>
+<div id="itemHelp">In the default game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them.</div>
+</div>
+<div id="menuItem">
+<div>12: Mg vs Shotgun variation : Off, On</div>
+<div id="itemHelp">In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.</div>
+</div>
+<div id="menuItem">
+<div>13: Balance small CPs : Off, On</div>
+<div id="itemHelp">Adds limits and some randomisation to small cp/lrrps enemy prep application</div>
+</div>
+<div id="menuItem">
+<div>14: Disable convert armor to shield (if armor off) : Off, On</div>
+<div id="itemHelp">Where heavy armor is disabled (free roam by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.</div>
+</div>
+<div id="menuItem">
+<div>15: Randomize minefield mine types : Off, On</div>
+<div id="itemHelp">Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.</div>
+</div>
+<div id="menuItem">
+<div>16: Enable additional minefields : Off, On</div>
+<div id="itemHelp">In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
 </div>
 <br/>
 <div id="menu">
@@ -1210,68 +1272,101 @@
 <div>6: DD Head gear : Off, Current prep</div>
 </div>
 <div id="menuItem">
-<div>7: Female staff selection : Default, None, All available, Half</div>
-<div id="itemHelp">By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base</div>
-</div>
-<div id="menuItem">
-<div>8: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis</div>
+<div>7: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis</div>
 <div id="itemHelp">Spawns some npc helis that roam around mother base.</div>
 </div>
 <div id="menuItem">
-<div>9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
+<div>8: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
 </div>
 <div id="menuItem">
-<div>10: Walker gears in MB : Off, On</div>
+<div>9: Walker gears in MB : Off, On</div>
 </div>
 <div id="menuItem">
-<div>11: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type</div>
+<div>10: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type</div>
 </div>
 <div id="menuItem">
-<div>12: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type</div>
+<div>11: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type</div>
 </div>
 <div id="menuItem">
-<div>13: Repopulate plants and diamonds : Off, On</div>
+<div>12: Repopulate plants and diamonds : Off, On</div>
 <div id="itemHelp">Regenerates plants on Zoo platform and diamonds on Mother base over time.</div>
 </div>
 <div id="menuItem">
-<div>14: Staff-wide morale boost for good visit : Off, On</div>
-<div id="itemHelp">Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.</div>
-</div>
-<div id="menuItem">
-<div>15: Enemy prep decrease on long MB visit : Off, On</div>
+<div>13: Enemy prep decrease on long MB visit : Off, On</div>
 <div id="itemHelp">Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat </div>
 </div>
 <div id="menuItem">
-<div>16: Enable all buddies : Off, On</div>
+<div>14: Enable all buddies : Off, On</div>
 <div id="itemHelp">Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.</div>
 </div>
 <div id="menuItem">
-<div>17: More soldiers on MB plats : Off, On</div>
+<div>15: More soldiers on MB plats : Off, On</div>
 <div id="itemHelp">Increases soldiers on platforms from 4 soldiers to 9.</div>
 </div>
 <div id="menuItem">
-<div>18: Force enable Quaranine platform soldiers : Off, On</div>
+<div>16: Force enable Quaranine platform soldiers : Off, On</div>
 <div id="itemHelp">Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.</div>
 </div>
 <div id="menuItem">
-<div>19: Soldiers move between platforms : Off, On</div>
+<div>17: Soldiers move between platforms : Off, On</div>
 <div id="itemHelp">Soldiers will periodically move between platforms (only within the same cluster).</div>
 </div>
 <div id="menuItem">
-<div>20: <a href="#motherBaseShowCharactersMenu">Show characters menu</a></div>
+<div>18: <a href="#mbStaffMenu">Staff menu</a></div>
 </div>
 <div id="menuItem">
-<div>21: <a href="#motherBaseShowAssetsMenu">Show assets menu</a></div>
+<div>19: <a href="#motherBaseShowCharactersMenu">Show characters menu</a></div>
 </div>
 <div id="menuItem">
-<div>22: Allow lethal actions : Off, On</div>
+<div>20: <a href="#motherBaseShowAssetsMenu">Show assets menu</a></div>
+</div>
+<div id="menuItem">
+<div>21: Allow lethal actions : Off, On</div>
 <div id="itemHelp">Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.</div>
 </div>
 <div id="menuItem">
-<div>23: Women in Enemy Invasion mode : 0-100%</div>
+<div>22: Women in Enemy Invasion mode : 0-100%</div>
 </div>
 <div id="menuItem">
-<div>24: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
+<div>23: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="mbStaffMenu">Staff menu</div>
+</div>
+<div id="menuItem">
+<div>1: Add player staff to MB priority : (Command)</div>
+<div id="itemHelp">Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB</div>
+</div>
+<div id="menuItem">
+<div>2: Remove player staff to MB priority : (Command)</div>
+<div id="itemHelp">Removes the last sortie selected DD member to the Mother Base priority staff list</div>
+</div>
+<div id="menuItem">
+<div>3: Add marked staff id MB priority : (Command)</div>
+<div id="itemHelp">Adds the most recently marked staff member to the MB priority list</div>
+</div>
+<div id="menuItem">
+<div>4: Remove marked staff to MB priority : (Command)</div>
+<div id="itemHelp">Removes the most recently marked staff member from the MB priority list</div>
+</div>
+<div id="menuItem">
+<div>5: Clear MB staff priority list : (Command)</div>
+<div id="itemHelp">Clears MB staff priority list entirely</div>
+</div>
+<div id="menuItem">
+<div>6: Female staff selection : Default, None, All available, Half</div>
+<div id="itemHelp">By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base</div>
+</div>
+<div id="menuItem">
+<div>7: Staff-wide morale boost for good visit : Off, On</div>
+<div id="itemHelp">Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1556,19 +1651,19 @@
 <div id="itemHelp">Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)</div>
 </div>
 <div id="menuItem">
-<div>2: Material case scale : 100-1000%</div>
+<div>2: Material case scale : 10-1000%</div>
 </div>
 <div id="menuItem">
-<div>3: Plant scale : 100-1000%</div>
+<div>3: Plant scale : 10-1000%</div>
 </div>
 <div id="menuItem">
-<div>4: Poster scale : 100-1000%</div>
+<div>4: Poster scale : 10-1000%</div>
 </div>
 <div id="menuItem">
-<div>5: Diamond scale : 100-1000%</div>
+<div>5: Diamond scale : 10-1000%</div>
 </div>
 <div id="menuItem">
-<div>6: Container scale : 100-1000%</div>
+<div>6: Container scale : 10-1000%</div>
 </div>
 <div id="menuItem">
 </div>

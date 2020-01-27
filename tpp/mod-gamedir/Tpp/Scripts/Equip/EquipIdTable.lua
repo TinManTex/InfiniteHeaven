@@ -1,11 +1,11 @@
--- DOBUILD: 1
+-- DOBUILD: 0 --DEBUGNOW
+InfCore.Log("---------- EquipIdTable personal")--DEBUGNOW
 --EquipIdTable.lua
 --RETAILPATCH 1090 various additions
 local this={}--tex made local
 --tex made module-local so i can analyze table - was TppEquip.ReloadEquipIdTable{<table>
 -- was TppEquip.ReloadEquipIdTable{--<table>
 this.equipTable={
---REF {equipId,equipType,subIdOrIdOr0,block,partsOrFmdlPath,packPath},
   {TppEquip.EQP_SLD_SV,TppEquip.EQP_TYPE_Shield,0,TppEquip.EQP_BLOCK_MISSION,"/Assets/tpp/parts/weapon/sld/sd00_main0_def_v00.parts","/Assets/tpp/pack/collectible/primary/EQP_SLD_SV.fpk"},
   {TppEquip.EQP_SLD_PF_00,TppEquip.EQP_TYPE_Shield,0,TppEquip.EQP_BLOCK_MISSION,"/Assets/tpp/parts/weapon/sld/sd01_main0_def_v00.parts","/Assets/tpp/pack/collectible/primary/EQP_SLD_PF.fpk"},
   {TppEquip.EQP_SLD_PF_01,TppEquip.EQP_TYPE_Shield,0,TppEquip.EQP_BLOCK_MISSION,"/Assets/tpp/parts/weapon/sld/sd01_main0_def_v00.parts","/Assets/tpp/pack/collectible/primary/EQP_SLD_PF.fpk"},
@@ -217,7 +217,7 @@ this.equipTable={
   {TppEquip.EQP_BL_UavGrenade,TppEquip.EQP_TYPE_Bullet,TppEquip.BL_UavGrenade,TppEquip.EQP_BLOCK_NONE,"/Assets/tpp/parts/weapon/bul/bu01_whed0_def.parts",""},
   {TppEquip.EQP_BL_UavSmokeGrenade,TppEquip.EQP_TYPE_Bullet,TppEquip.BL_UavSmokeGrenade,TppEquip.EQP_BLOCK_NONE,"/Assets/tpp/parts/weapon/bul/bu01_whed0_def.parts",""},
   {TppEquip.EQP_BL_UavSleepGasGrenade,TppEquip.EQP_TYPE_Bullet,TppEquip.BL_UavSleepGasGrenade,TppEquip.EQP_BLOCK_NONE,"/Assets/tpp/parts/weapon/bul/bu01_whed0_def.parts",""},
-  {TppEquip.EQP_SWP_Magazine,TppEquip.EQP_TYPE_Throwing,TppEquip.SWP_Magazine,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/weapon/amo/Scenes/am00_main0_def.fmdl",""},
+  {TppEquip.EQP_SWP_Magazine,TppEquip.EQP_TYPE_Throwing,TppEquip.SWP_Magazine,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/item/dng/Scenes/dng0_main0_def.fmdl",""},--DEBUGNOW"/Assets/tpp/weapon/amo/Scenes/am00_main0_def.fmdl",""},
   {TppEquip.EQP_SWP_Kibidango,TppEquip.EQP_TYPE_Throwing,TppEquip.SWP_Kibidango,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/weapon/thr/tr05_main0_def_v00.parts",""},
   {TppEquip.EQP_SWP_Kibidango_G01,TppEquip.EQP_TYPE_Throwing,TppEquip.SWP_Kibidango_G01,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/weapon/thr/tr05_main0_def_v00.parts",""},
   {TppEquip.EQP_SWP_Kibidango_G02,TppEquip.EQP_TYPE_Throwing,TppEquip.SWP_Kibidango_G02,TppEquip.EQP_BLOCK_COMMON,"/Assets/tpp/parts/weapon/thr/tr05_main0_def_v00.parts",""},

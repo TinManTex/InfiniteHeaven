@@ -1,5 +1,5 @@
 = Infinite heaven =
-r212 - 2017-08-03
+r213 - 2017-08-03
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.11.0 in exe
 
@@ -16,6 +16,36 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r213:
+r213 - 2017-08-09
+Fixed: playerPartsType/'Suit type' syntax error causing it to be missing from menu - thanks SoullessMadness for the report
+Fixed: Heavy Armor in free roam option being missing from menu, and the knock on effect of the rest of the menu options being missing from Features and Options document and All options profile. Thanks Nano-Ocelot, pk5547 for the reports.
+
+Option: enableEventHUNTED - "Allow Hunted event"
+Option: enableEventCRASHLAND - "Allow Crashland event"
+Option: enableEventLOST_COMS - "Allow Lost Coms event"
+Will allow you to filter the free roam events from being chosen.
+(via Events menu)
+
+Feature: Priority MB staff list
+Using these commands you can either add the current chosen staff member, or a staff member that you've marked to the priority list. Upon visiting mother base these members will be chosen to be on base (assuming they are not on deploy mission).
+
+Command: "Add player staff to MB priority"
+Command: "Remove player staff to MB priority"
+Command: "Add marked staff id MB priority"
+Command: "Remove marked staff to MB priority"
+Command: "Clear MB staff priority list"
+(via Mother base > Staff menu)
+[youtube]VjZuqp8KGA0[/youtube]
+https://youtu.be/VjZuqp8KGA0
+
+Menu: Staff menu, apart from the above, mbPrioritizeFemale,mbMoraleBoosts have been moved here.
+
+Option: mbEnableMissionPrep - "Enable mission prep to MB" - may require an exit/return from ACC to take effect.
+(via Mission-prep restrictions menu)
+
+More mockfox stuff.
+
 New for r212:
 Fixed: Primary/Secondary NONE slots conflicting with swimsuit dev entries.
 Fixed: Camo type appearance menu option erroring when no developed camos for current suit.

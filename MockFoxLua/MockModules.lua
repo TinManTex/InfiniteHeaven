@@ -9072,12 +9072,5 @@ local this={
     Sqrt = "<function>",
     Tan = "<function>"
   },
-  plparts_dd_male_modelInfo = {
-    _scriptInstanceId = "<userdata: userdata: 00000000FBBFF3C8>",
-    _scriptPath = "plparts_dd_male_modelInfo",
-    fovaTable = "<table>",
-    modelDescription = "Private Forces",
-    noBlackDiamond = true
-  }
 }
 return this

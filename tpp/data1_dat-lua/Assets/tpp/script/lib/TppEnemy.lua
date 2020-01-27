@@ -3188,6 +3188,7 @@ function this.SetUpSoldiers()
       end
     end
   end
+  --NMC not sure why its seperating this into has baseCp and not passes, but whatev.
   for cpId,cpName in pairs(mvars.ene_cpList)do
     if not mvars.ene_baseCpList[cpId]then
       local cpSoldiers=mvars.ene_soldierDefine[cpName]
@@ -4387,6 +4388,7 @@ function this.ChangeRouteUsingGimmick(route,a,gameId,a)
     SendCommand(gameId,{id="SetSneakRoute",route=route})
   end
 end
+--No references
 function this.DisableUseGimmickRouteOnShiftChange(a,e)
   if not IsTypeTable(e)then
     return
@@ -4437,6 +4439,7 @@ function this.IsFemaleHostage(gameId)
   local isFemale=GameObject.SendCommand(gameId,{id="isFemale"})
   return isFemale
 end
+--No references
 function this.AddTakingOverHostage(gameId)
   local typeIndex=GameObject.GetTypeIndex(gameId)
   if(typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2)then

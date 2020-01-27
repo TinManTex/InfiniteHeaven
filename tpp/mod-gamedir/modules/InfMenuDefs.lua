@@ -169,6 +169,26 @@ this.customEquipMenu={
   }
 }
 
+this.mbStaffMenu={
+  options={
+    InfMenuCommands.addPlayerStaff,
+    InfMenuCommands.removePlayerStaff,
+    InfMenuCommands.clearPriorityStaff,
+    Ivars.mbPrioritizeFemale,
+    Ivars.mbMoraleBoosts,
+  }
+}
+
+this.mbStaffInMissionMenu={
+  options={
+    InfMenuCommands.addPlayerStaff,
+    InfMenuCommands.removePlayerStaff,
+    InfMenuCommands.addMarkerStaff,
+    InfMenuCommands.removeMarkerStaff,
+    InfMenuCommands.clearPriorityStaff,
+  }
+}
+
 --tex SYNC motherbaseProfile
 this.motherBaseMenu={
   options={
@@ -178,7 +198,6 @@ this.motherBaseMenu={
     Ivars.customSoldierTypeMB_ALL,
     Ivars.customSoldierTypeFemaleMB_ALL,
     Ivars.mbDDHeadGear,
-    Ivars.mbPrioritizeFemale,
     --Ivars.disableMotherbaseWeaponRestriction,--WIP
     Ivars.heliPatrolsMB,
     Ivars.mbEnemyHeliColor,
@@ -186,12 +205,12 @@ this.motherBaseMenu={
     Ivars.mbWalkerGearsColor,
     Ivars.mbWalkerGearsWeapon,
     Ivars.mbCollectionRepop,
-    Ivars.mbMoraleBoosts,
     Ivars.revengeDecayOnLongMbVisit,
     Ivars.mbEnableBuddies,
     Ivars.mbAdditionalSoldiers,
     Ivars.mbqfEnableSoldiers,
     Ivars.mbNpcRouteChange,
+    InfMenuDefs.mbStaffMenu,
     InfMenuDefs.motherBaseShowCharactersMenu,
     InfMenuDefs.motherBaseShowAssetsMenu,
     Ivars.mbEnableLethalActions,
@@ -510,6 +529,7 @@ this.missionPrepRestrictionsMenu={
     Ivars.disableSelectTime,
     Ivars.disableSelectBuddy,
     Ivars.disableSelectVehicle,
+    Ivars.mbEnableMissionPrep,
   }
 }
 
@@ -528,6 +548,9 @@ this.eventsMenu={
     InfMenuCommands.forceGameEvent,
     Ivars.gameEventChanceFREE,
     Ivars.gameEventChanceMB,
+    Ivars.enableEventHUNTED,
+    Ivars.enableEventCRASHLAND,
+    Ivars.enableEventLOST_COMS,
     Ivars.enableParasiteEvent,
     Ivars.armorParasiteEnabled,
     Ivars.mistParasiteEnabled,
@@ -768,6 +791,7 @@ this.inMissionMenu={
     InfMenuDefs.userMarkerMenu,
     InfMenuDefs.buddyMenu,
     InfMenuDefs.appearanceMenu,
+    InfMenuDefs.mbStaffInMissionMenu,
     InfMenuDefs.playerRestrictionsInMissionMenu,
     InfMenuDefs.phaseMenu,
     InfMenuDefs.supportHeliMenu,

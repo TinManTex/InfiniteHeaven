@@ -1,1239 +1,164 @@
 0|cmdToMgsvCompletedIndex|0
 2|print|Top menu
 3|print|----------
-4|print|1:devInAccMenu
-5|print|2:IH system menu
-6|print|3:Events menu
-7|print|4:Player restrictions menu
-8|print|5:Player settings menu
-9|print|6:Soldier parameters menu
-10|print|7:Enemy phases menu
-11|print|8:Enemy Prep menu
-12|print|9:Enemy reinforcements menu
-13|print|10:Patrols and deployments menu
-14|print|11:Side ops menu
-15|print|12:Mother Base menu
-16|print|13:Cutscenes menu
-17|print|14:Camera menu
-18|print|15:Time scale menu
-19|print|16:Support heli menu
-20|print|17:Progression menu
-21|print|18:Debug menu
-22|print|19:Turn off menu
-23|clear
-24|print|Infinite Heaven r212 (Press Up/Down,Left/Right to navigate menu)
-25|print|1:devInAccMenu
-26|print|2:IH system menu
-27|print|3:Events menu
-28|print|4:Player restrictions menu
-29|print|5:Player settings menu
-30|print|6:Soldier parameters menu
-31|print|7:Enemy phases menu
-32|print|8:Enemy Prep menu
-33|print|9:Enemy reinforcements menu
-34|print|10:Patrols and deployments menu
-35|print|11:Side ops menu
-36|print|12:Mother Base menu
-37|print|13:Cutscenes menu
-38|print|14:Camera menu
-39|print|15:Time scale menu
-40|print|16:Support heli menu
-41|print|17:Progression menu
-42|print|18:Debug menu
-43|print|19:Turn off menu
-44|printbottom|1:devInAccMenu >
-45|clear
-46|print|1:devInAccMenu
-47|print|----------
-48|print|1:DD Suit = 25:Fatigues All
-49|print|2:Appearance menu
-50|print|3:skipDevelopChecks = 0:Off
-51|print|4:Load addon mission <Action> = 0:No addon missions installed
-52|print|5:Include addon missions in completion percentage = 0:Off
-53|print|6:manualMissionCode <Action> = 0:10010
-54|print|7:DEBUG_SomeShiz
-55|print|8:DEBUG_SomeShiz2
-56|print|9:DEBUG_SomeShiz3
-57|print|10:selectEvent <Action> = 7:FEMME_FATALE
-58|print|11:Appearance menu
-59|print|12:postExtCommands = 1:On
-60|print|13:appearanceDebugMenu
-61|print|14:Custom soldier type in Free roam = 0:Off
-62|print|15:DD Suit = 25:Fatigues All
-63|print|16:DD Suit female = 7:Megalodon swimsuit
-64|print|17:DD Head gear = 0:Off
-65|print|18:playerFaceIdDirect <Action> = 0
-66|print|19:appearanceDebugMenu
-67|print|20:manualMissionCode <Action> = 0:10010
-68|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-69|print|22:Allow undeveloped DD weapons = 0:Off
-70|print|23:skipDevelopChecks = 0:Off
-71|print|24:DEBUG_DumpValidStrCode
-72|print|25:Side ops menu
-73|print|26:Sideops category filter menu
-74|print|27:forceRegenSeed
-75|print|28:debugValue = 400
-76|print|29:Debug IH mode = 1:On
-77|print|30:debugMessages = 1:On
-78|print|31:debugFlow = 1:On
-79|print|32:debugOnUpdate = 1:On
-80|print|33:Reset current menu
-81|print|34:Menu Back
-82|printbottom|1:DD Suit = 25:Fatigues All
-83|printbottom|2:Appearance menu >
-84|clear
-85|print|2:Appearance menu
-86|print|----------
-87|print|1:Player type = 2:DD Male
-88|print|2:Suit type = 0:Standard fatigues
-89|print|3:Camo type = 18:Night Splitter
-90|print|4:Headgear = 0:None
-91|print|5:Filter faces = 0:Show all
-92|print|6:Face = 371:faceId:628
-93|print|7:Print face info
-94|print|8:Print appearance info
-95|print|9:Form Variation menu
-96|print|10:Reset current menu
-97|print|11:Menu Back
-98|printbottom|1:Player type = 2:DD Male
-99|printbottom|2:Suit type = 0:Standard fatigues
-100|printbottom|2:Suit type = 1:Sneaking suit (TPP)
-101|printbottom|2:Suit type = 2:Battle dress
-102|printbottom|2:Suit type = 3:Parasite suit
-103|printbottom|2:Suit type = 4:Swimsuit
-104|printbottom|2:Suit type = 5:Goblin Swimsuit
-105|printbottom|3:Camo type = 0:Olive Drab
-106|printbottom|2:Suit type = 5:Goblin Swimsuit
-107|printbottom|3:Camo type = 0:Olive Drab
-108|printbottom|3:Camo type = 0:Olive Drab
-109|printbottom|3:Camo type = 0:Olive Drab
-110|printbottom|2:Suit type = 5:Goblin Swimsuit
-111|printbottom|2:Suit type = 6:Megalodon Swimsuit
-112|printbottom|3:Camo type = 0:Olive Drab
-113|printbottom|3:Camo type = 0:Olive Drab
-114|printbottom|3:Camo type = 0:Olive Drab
-115|printbottom|2:Suit type = 6:Megalodon Swimsuit
-116|printbottom|2:Suit type = 5:Goblin Swimsuit
-117|printbottom|2:Suit type = 6:Megalodon Swimsuit
-118|printbottom|2:Suit type = 5:Goblin Swimsuit
-119|clear
-120|printbottom|Menu Off
-121|clear
-122|print|Top menu
-123|print|----------
-124|print|1:devInAccMenu
-125|print|2:IH system menu
-126|print|3:Events menu
-127|print|4:Player restrictions menu
-128|print|5:Player settings menu
-129|print|6:Soldier parameters menu
-130|print|7:Enemy phases menu
-131|print|8:Enemy Prep menu
-132|print|9:Enemy reinforcements menu
-133|print|10:Patrols and deployments menu
-134|print|11:Side ops menu
-135|print|12:Mother Base menu
-136|print|13:Cutscenes menu
-137|print|14:Camera menu
-138|print|15:Time scale menu
-139|print|16:Support heli menu
-140|print|17:Progression menu
-141|print|18:Debug menu
-142|print|19:Turn off menu
-143|clear
-144|print|Infinite Heaven r212 (Press Up/Down,Left/Right to navigate menu)
-145|print|1:devInAccMenu
-146|print|2:IH system menu
-147|print|3:Events menu
-148|print|4:Player restrictions menu
-149|print|5:Player settings menu
-150|print|6:Soldier parameters menu
-151|print|7:Enemy phases menu
-152|print|8:Enemy Prep menu
-153|print|9:Enemy reinforcements menu
-154|print|10:Patrols and deployments menu
-155|print|11:Side ops menu
-156|print|12:Mother Base menu
-157|print|13:Cutscenes menu
-158|print|14:Camera menu
-159|print|15:Time scale menu
-160|print|16:Support heli menu
-161|print|17:Progression menu
-162|print|18:Debug menu
-163|print|19:Turn off menu
-164|printbottom|1:devInAccMenu >
-165|clear
-166|print|1:devInAccMenu
-167|print|----------
-168|print|1:DD Suit = 25:Fatigues All
-169|print|2:Appearance menu
-170|print|3:skipDevelopChecks = 0:Off
-171|print|4:Load addon mission <Action> = 0:No addon missions installed
-172|print|5:Include addon missions in completion percentage = 0:Off
-173|print|6:manualMissionCode <Action> = 0:10010
-174|print|7:DEBUG_SomeShiz
-175|print|8:DEBUG_SomeShiz2
-176|print|9:DEBUG_SomeShiz3
-177|print|10:selectEvent <Action> = 7:FEMME_FATALE
-178|print|11:Appearance menu
-179|print|12:postExtCommands = 1:On
-180|print|13:appearanceDebugMenu
-181|print|14:Custom soldier type in Free roam = 0:Off
-182|print|15:DD Suit = 25:Fatigues All
-183|print|16:DD Suit female = 7:Megalodon swimsuit
-184|print|17:DD Head gear = 0:Off
-185|print|18:playerFaceIdDirect <Action> = 0
-186|print|19:appearanceDebugMenu
-187|print|20:manualMissionCode <Action> = 0:10010
-188|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-189|print|22:Allow undeveloped DD weapons = 0:Off
-190|print|23:skipDevelopChecks = 0:Off
-191|print|24:DEBUG_DumpValidStrCode
-192|print|25:Side ops menu
-193|print|26:Sideops category filter menu
-194|print|27:forceRegenSeed
-195|print|28:debugValue = 400
-196|print|29:Debug IH mode = 1:On
-197|print|30:debugMessages = 1:On
-198|print|31:debugFlow = 1:On
-199|print|32:debugOnUpdate = 1:On
-200|print|33:Reset current menu
-201|print|34:Menu Back
-202|printbottom|1:DD Suit = 25:Fatigues All
-203|printbottom|2:Appearance menu >
-204|printbottom|1:DD Suit = 25:Fatigues All
-205|printbottom|1:DD Suit = 0:Off
-206|printbottom|1:DD Suit = 25:Fatigues All
-207|printbottom|2:Appearance menu >
-208|clear
-209|print|2:Appearance menu
-210|print|----------
-211|print|1:Player type = 2:DD Male
-212|print|2:Suit type = 5:Goblin Swimsuit
-213|printbottom|1:Player type = 3:DD Female
-214|printbottom|11:Menu Back >>
-215|printbottom|1:Player type = 3:DD Female
-216|printbottom|1:Player type = 2:DD Male
-217|printbottom|2:Suit type = 5:Goblin Swimsuit
-218|printbottom|2:Suit type = 6:Megalodon Swimsuit
-219|printbottom|1:Player type = 2:DD Male
-220|printbottom|2:Suit type = 6:Megalodon Swimsuit
-221|printbottom|2:Suit type = 7:MGS1 Solid Snake
-222|printbottom|2:Suit type = 6:Megalodon Swimsuit
-223|printbottom|2:Suit type = 5:Goblin Swimsuit
-224|printbottom|3:Camo type = 0:Olive Drab
-225|clear
-226|printbottom|Menu Off
-227|clear
-228|print|Top menu
-229|print|----------
-230|print|1:devInAccMenu
-231|print|2:IH system menu
-232|print|3:Events menu
-233|print|4:Player restrictions menu
-234|print|5:Player settings menu
-235|print|6:Soldier parameters menu
-236|print|7:Enemy phases menu
-237|print|8:Enemy Prep menu
-238|print|9:Enemy reinforcements menu
-239|print|10:Patrols and deployments menu
-240|print|11:Side ops menu
-241|print|12:Mother Base menu
-242|print|13:Cutscenes menu
-243|print|14:Camera menu
-244|print|15:Time scale menu
-245|print|16:Support heli menu
-246|print|17:Progression menu
-247|print|18:Debug menu
-248|print|19:Turn off menu
-249|clear
-250|print|Top menu
-251|print|----------
-252|print|1:devInAccMenu
-253|print|2:IH system menu
-254|print|3:Events menu
-255|print|4:Player restrictions menu
-256|print|5:Player settings menu
-257|print|6:Soldier parameters menu
-258|print|7:Enemy phases menu
-259|print|8:Enemy Prep menu
-260|print|9:Enemy reinforcements menu
-261|print|10:Patrols and deployments menu
-262|print|11:Side ops menu
-263|print|12:Mother Base menu
-264|print|13:Cutscenes menu
-265|print|14:Camera menu
-266|print|15:Time scale menu
-267|print|16:Support heli menu
-268|print|17:Progression menu
-269|print|18:Debug menu
-270|print|19:Turn off menu
-271|clear
-272|print|Infinite Heaven r212 (Press Up/Down,Left/Right to navigate menu)
-273|print|1:devInAccMenu
-274|print|2:IH system menu
-275|print|3:Events menu
-276|print|4:Player restrictions menu
-277|print|5:Player settings menu
-278|print|6:Soldier parameters menu
-279|print|7:Enemy phases menu
-280|print|8:Enemy Prep menu
-281|print|9:Enemy reinforcements menu
-282|print|10:Patrols and deployments menu
-283|print|11:Side ops menu
-284|print|12:Mother Base menu
-285|print|13:Cutscenes menu
-286|print|14:Camera menu
-287|print|15:Time scale menu
-288|print|16:Support heli menu
-289|print|17:Progression menu
-290|print|18:Debug menu
-291|print|19:Turn off menu
-292|printbottom|1:devInAccMenu >
-293|clear
-294|print|1:devInAccMenu
-295|print|----------
-296|print|1:DD Suit = 25:Fatigues All
-297|print|2:Appearance menu
-298|print|3:skipDevelopChecks = 0:Off
-299|print|4:Load addon mission <Action> = 0:No addon missions installed
-300|print|5:Include addon missions in completion percentage = 0:Off
-301|print|6:manualMissionCode <Action> = 0:10010
-302|print|7:DEBUG_SomeShiz
-303|print|8:DEBUG_SomeShiz2
-304|print|9:DEBUG_SomeShiz3
-305|print|10:selectEvent <Action> = 7:FEMME_FATALE
-306|print|11:Appearance menu
-307|print|12:postExtCommands = 1:On
-308|print|13:appearanceDebugMenu
-309|print|14:Custom soldier type in Free roam = 0:Off
-310|print|15:DD Suit = 25:Fatigues All
-311|print|16:DD Suit female = 7:Megalodon swimsuit
-312|print|17:DD Head gear = 0:Off
-313|print|18:playerFaceIdDirect <Action> = 0
-314|print|19:appearanceDebugMenu
-315|print|20:manualMissionCode <Action> = 0:10010
-316|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-317|print|22:Allow undeveloped DD weapons = 0:Off
-318|print|23:skipDevelopChecks = 0:Off
-319|print|24:DEBUG_DumpValidStrCode
-320|print|25:Side ops menu
-321|print|26:Sideops category filter menu
-322|print|27:forceRegenSeed
-323|print|28:debugValue = 400
-324|print|29:Debug IH mode = 1:On
-325|print|30:debugMessages = 1:On
-326|print|31:debugFlow = 1:On
-327|print|32:debugOnUpdate = 1:On
-328|print|33:Reset current menu
-329|print|34:Menu Back
-330|printbottom|1:DD Suit = 25:Fatigues All
-331|printbottom|2:Appearance menu >
-332|clear
-333|print|2:Appearance menu
-334|print|----------
-335|print|1:Player type = 2:DD Male
-336|print|2:Suit type = 5:Goblin Swimsuit
-337|print|3:Camo type = 0:Olive Drab
-338|print|4:Headgear = 0:None
-339|print|5:Filter faces = 0:Show all
-340|print|6:Face = 371:faceId:628
-341|print|7:Print face info
-342|print|8:Print appearance info
-343|print|9:Form Variation menu
-344|print|10:Reset current menu
-345|print|11:Menu Back
-346|printbottom|1:Player type = 2:DD Male
-347|printbottom|2:Suit type = 5:Goblin Swimsuit
-348|printbottom|2:Suit type = 6:Megalodon Swimsuit
-349|clear
-350|printbottom|Menu Off
-351|clear
-352|print|Top menu
-353|print|----------
-354|print|1:devInAccMenu
-355|print|2:IH system menu
-356|print|3:Events menu
-357|print|4:Player restrictions menu
-358|print|5:Player settings menu
-359|print|6:Soldier parameters menu
-360|print|7:Enemy phases menu
-361|print|8:Enemy Prep menu
-362|print|9:Enemy reinforcements menu
-363|print|10:Patrols and deployments menu
-364|print|11:Side ops menu
-365|print|12:Mother Base menu
-366|print|13:Cutscenes menu
-367|print|14:Camera menu
-368|print|15:Time scale menu
-369|print|16:Support heli menu
-370|print|17:Progression menu
-371|print|18:Debug menu
-372|print|19:Turn off menu
-373|clear
-374|print|Top menu
-375|print|----------
-376|print|1:devInAccMenu
-377|print|2:IH system menu
-378|print|3:Events menu
-379|print|4:Player restrictions menu
-380|print|5:Player settings menu
-381|print|6:Soldier parameters menu
-382|print|7:Enemy phases menu
-383|print|8:Enemy Prep menu
-384|print|9:Enemy reinforcements menu
-385|print|10:Patrols and deployments menu
-386|print|11:Side ops menu
-387|print|12:Mother Base menu
-388|print|13:Cutscenes menu
-389|print|14:Camera menu
-390|print|15:Time scale menu
-391|print|16:Support heli menu
-392|print|17:Progression menu
-393|print|18:Debug menu
-394|print|19:Turn off menu
-395|clear
-396|print|Infinite Heaven r212 (Press Up/Down,Left/Right to navigate menu)
-397|print|1:devInAccMenu
-398|print|2:IH system menu
-399|print|3:Events menu
-400|print|4:Player restrictions menu
-401|print|5:Player settings menu
-402|print|6:Soldier parameters menu
-403|print|7:Enemy phases menu
-404|print|8:Enemy Prep menu
-405|print|9:Enemy reinforcements menu
-406|print|10:Patrols and deployments menu
-407|print|11:Side ops menu
-408|print|12:Mother Base menu
-409|print|13:Cutscenes menu
-410|print|14:Camera menu
-411|print|15:Time scale menu
-412|print|16:Support heli menu
-413|print|17:Progression menu
-414|print|18:Debug menu
-415|print|19:Turn off menu
-416|printbottom|1:devInAccMenu >
-417|clear
-418|print|1:devInAccMenu
-419|print|----------
-420|print|1:DD Suit = 25:Fatigues All
-421|print|2:Appearance menu
-422|print|3:skipDevelopChecks = 0:Off
-423|print|4:Load addon mission <Action> = 0:No addon missions installed
-424|print|5:Include addon missions in completion percentage = 0:Off
-425|print|6:manualMissionCode <Action> = 0:10010
-426|print|7:DEBUG_SomeShiz
-427|print|8:DEBUG_SomeShiz2
-428|print|9:DEBUG_SomeShiz3
-429|print|10:selectEvent <Action> = 7:FEMME_FATALE
-430|print|11:Appearance menu
-431|print|12:postExtCommands = 1:On
-432|print|13:appearanceDebugMenu
-433|print|14:Custom soldier type in Free roam = 0:Off
-434|print|15:DD Suit = 25:Fatigues All
-435|print|16:DD Suit female = 7:Megalodon swimsuit
-436|print|17:DD Head gear = 0:Off
-437|print|18:playerFaceIdDirect <Action> = 0
-438|print|19:appearanceDebugMenu
-439|print|20:manualMissionCode <Action> = 0:10010
-440|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-441|print|22:Allow undeveloped DD weapons = 0:Off
-442|print|23:skipDevelopChecks = 0:Off
-443|print|24:DEBUG_DumpValidStrCode
-444|print|25:Side ops menu
-445|print|26:Sideops category filter menu
-446|print|27:forceRegenSeed
-447|print|28:debugValue = 400
-448|print|29:Debug IH mode = 1:On
-449|print|30:debugMessages = 1:On
-450|print|31:debugFlow = 1:On
-451|print|32:debugOnUpdate = 1:On
-452|print|33:Reset current menu
-453|print|34:Menu Back
-454|printbottom|1:DD Suit = 25:Fatigues All
-455|printbottom|2:Appearance menu >
-456|clear
-457|print|2:Appearance menu
-458|print|----------
-459|print|1:Player type = 2:DD Male
-460|print|2:Suit type = 6:Megalodon Swimsuit
-461|print|3:Camo type = 0:Olive Drab
-462|print|4:Headgear = 0:None
-463|print|5:Filter faces = 0:Show all
-464|print|6:Face = 371:faceId:628
-465|print|7:Print face info
-466|print|8:Print appearance info
-467|print|9:Form Variation menu
-468|print|10:Reset current menu
-469|print|11:Menu Back
-470|printbottom|1:Player type = 2:DD Male
-471|printbottom|2:Suit type = 6:Megalodon Swimsuit
-472|printbottom|2:Suit type = 5:Goblin Swimsuit
-473|printbottom|2:Suit type = 6:Megalodon Swimsuit
-474|printbottom|2:Suit type = 5:Goblin Swimsuit
-475|printbottom|3:Camo type = 0:Olive Drab
-476|printbottom|2:Suit type = 5:Goblin Swimsuit
-477|printbottom|2:Suit type = 6:Megalodon Swimsuit
-478|printbottom|3:Camo type = 0:Olive Drab
-479|printbottom|2:Suit type = 6:Megalodon Swimsuit
-480|printbottom|3:Camo type = 0:Olive Drab
-481|printbottom|2:Suit type = 6:Megalodon Swimsuit
-482|clear
-483|printbottom|Menu Off
-484|clear
-485|print|Top menu
-486|print|----------
-487|print|1:devInAccMenu
-488|print|2:IH system menu
-489|print|3:Events menu
-490|print|4:Player restrictions menu
-491|print|5:Player settings menu
-492|print|6:Soldier parameters menu
-493|print|7:Enemy phases menu
-494|print|8:Enemy Prep menu
-495|print|9:Enemy reinforcements menu
-496|print|10:Patrols and deployments menu
-497|print|11:Side ops menu
-498|print|12:Mother Base menu
-499|print|13:Cutscenes menu
-500|print|14:Camera menu
-501|print|15:Time scale menu
-502|print|16:Support heli menu
-503|print|17:Progression menu
-504|print|18:Debug menu
-505|print|19:Turn off menu
-506|clear
-507|print|Infinite Heaven r212 (Press Up/Down,Left/Right to navigate menu)
-508|print|1:devInAccMenu
-509|print|2:IH system menu
-510|print|3:Events menu
-511|print|4:Player restrictions menu
-512|print|5:Player settings menu
-513|print|6:Soldier parameters menu
-514|print|7:Enemy phases menu
-515|print|8:Enemy Prep menu
-516|print|9:Enemy reinforcements menu
-517|print|10:Patrols and deployments menu
-518|print|11:Side ops menu
-519|print|12:Mother Base menu
-520|print|13:Cutscenes menu
-521|print|14:Camera menu
-522|print|15:Time scale menu
-523|print|16:Support heli menu
-524|print|17:Progression menu
-525|print|18:Debug menu
-526|print|19:Turn off menu
-527|printbottom|1:devInAccMenu >
-528|clear
-529|print|1:devInAccMenu
-530|print|----------
-531|print|1:DD Suit = 25:Fatigues All
-532|print|2:Appearance menu
-533|print|3:skipDevelopChecks = 0:Off
-534|print|4:Load addon mission <Action> = 0:No addon missions installed
-535|print|5:Include addon missions in completion percentage = 0:Off
-536|print|6:manualMissionCode <Action> = 0:10010
-537|print|7:DEBUG_SomeShiz
-538|print|8:DEBUG_SomeShiz2
-539|print|9:DEBUG_SomeShiz3
-540|print|10:selectEvent <Action> = 7:FEMME_FATALE
-541|print|11:Appearance menu
-542|print|12:postExtCommands = 1:On
-543|print|13:appearanceDebugMenu
-544|print|14:Custom soldier type in Free roam = 0:Off
-545|print|15:DD Suit = 25:Fatigues All
-546|print|16:DD Suit female = 7:Megalodon swimsuit
-547|print|17:DD Head gear = 0:Off
-548|print|18:playerFaceIdDirect <Action> = 0
-549|print|19:appearanceDebugMenu
-550|print|20:manualMissionCode <Action> = 0:10010
-551|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-552|print|22:Allow undeveloped DD weapons = 0:Off
-553|print|23:skipDevelopChecks = 0:Off
-554|print|24:DEBUG_DumpValidStrCode
-555|print|25:Side ops menu
-556|print|26:Sideops category filter menu
-557|print|27:forceRegenSeed
-558|print|28:debugValue = 400
-559|print|29:Debug IH mode = 1:On
-560|print|30:debugMessages = 1:On
-561|print|31:debugFlow = 1:On
-562|print|32:debugOnUpdate = 1:On
-563|print|33:Reset current menu
-564|print|34:Menu Back
-565|printbottom|1:DD Suit = 25:Fatigues All
-566|printbottom|2:Appearance menu >
-567|printbottom|1:DD Suit = 25:Fatigues All
-568|printbottom|2:Appearance menu >
-569|printbottom|3:skipDevelopChecks = 0:Off
-570|printbottom|2:Appearance menu >
-571|clear
-572|print|2:Appearance menu
-573|print|----------
-574|print|1:Player type = 2:DD Male
-575|print|2:Suit type = 6:Megalodon Swimsuit
-576|print|3:Camo type = 0:Olive Drab
-577|print|4:Headgear = 0:None
-578|print|5:Filter faces = 0:Show all
-579|print|6:Face = 371:faceId:628
-580|print|7:Print face info
-581|print|8:Print appearance info
-582|print|9:Form Variation menu
-583|print|10:Reset current menu
-584|print|11:Menu Back
-585|printbottom|1:Player type = 2:DD Male
-586|printbottom|2:Suit type = 6:Megalodon Swimsuit
-587|printbottom|2:Suit type = 5:Goblin Swimsuit
-588|clear
-589|printbottom|Menu Off
-590|clear
-591|print|Top menu
-592|print|----------
-593|print|1:devInAccMenu
-594|print|2:IH system menu
-595|print|3:Events menu
-596|print|4:Player restrictions menu
-597|print|5:Player settings menu
-598|print|6:Soldier parameters menu
-599|print|7:Enemy phases menu
-600|print|8:Enemy Prep menu
-601|print|9:Enemy reinforcements menu
-602|print|10:Patrols and deployments menu
-603|print|11:Side ops menu
-604|print|12:Mother Base menu
-605|print|13:Cutscenes menu
-606|print|14:Camera menu
-607|print|15:Time scale menu
-608|print|16:Support heli menu
-609|print|17:Progression menu
-610|print|18:Debug menu
-611|print|19:Turn off menu
-612|clear
-613|print|Infinite Heaven r212 (Press Up/Down,Left/Right to navigate menu)
-614|print|1:devInAccMenu
-615|print|2:IH system menu
-616|print|3:Events menu
-617|print|4:Player restrictions menu
-618|print|5:Player settings menu
-619|print|6:Soldier parameters menu
-620|print|7:Enemy phases menu
-621|print|8:Enemy Prep menu
-622|print|9:Enemy reinforcements menu
-623|print|10:Patrols and deployments menu
-624|print|11:Side ops menu
-625|print|12:Mother Base menu
-626|print|13:Cutscenes menu
-627|print|14:Camera menu
-628|print|15:Time scale menu
-629|print|16:Support heli menu
-630|print|17:Progression menu
-631|print|18:Debug menu
-632|print|19:Turn off menu
-633|printbottom|1:devInAccMenu >
-634|clear
-635|print|1:devInAccMenu
-636|print|----------
-637|print|1:DD Suit = 25:Fatigues All
-638|print|2:Appearance menu
-639|print|3:skipDevelopChecks = 0:Off
-640|print|4:Load addon mission <Action> = 0:No addon missions installed
-641|print|5:Include addon missions in completion percentage = 0:Off
-642|print|6:manualMissionCode <Action> = 0:10010
-643|print|7:DEBUG_SomeShiz
-644|print|8:DEBUG_SomeShiz2
-645|print|9:DEBUG_SomeShiz3
-646|print|10:selectEvent <Action> = 7:FEMME_FATALE
-647|print|11:Appearance menu
-648|print|12:postExtCommands = 1:On
-649|print|13:appearanceDebugMenu
-650|print|14:Custom soldier type in Free roam = 0:Off
-651|print|15:DD Suit = 25:Fatigues All
-652|print|16:DD Suit female = 7:Megalodon swimsuit
-653|print|17:DD Head gear = 0:Off
-654|print|18:playerFaceIdDirect <Action> = 0
-655|print|19:appearanceDebugMenu
-656|print|20:manualMissionCode <Action> = 0:10010
-657|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-658|print|22:Allow undeveloped DD weapons = 0:Off
-659|print|23:skipDevelopChecks = 0:Off
-660|print|24:DEBUG_DumpValidStrCode
-661|print|25:Side ops menu
-662|print|26:Sideops category filter menu
-663|print|27:forceRegenSeed
-664|print|28:debugValue = 400
-665|print|29:Debug IH mode = 1:On
-666|print|30:debugMessages = 1:On
-667|print|31:debugFlow = 1:On
-668|print|32:debugOnUpdate = 1:On
-669|print|33:Reset current menu
-670|print|34:Menu Back
-671|printbottom|1:DD Suit = 25:Fatigues All
-672|printbottom|2:Appearance menu >
-673|clear
-674|print|2:Appearance menu
-675|print|----------
-676|print|1:Player type = 2:DD Male
-677|printbottom|1:Player type = 3:DD Female
-678|printbottom|1:Player type = 2:DD Male
-679|printbottom|2:Suit type = 5:Goblin Swimsuit
-680|printbottom|2:Suit type = 6:Megalodon Swimsuit
-681|printbottom|2:Suit type = 5:Goblin Swimsuit
-682|printbottom|2:Suit type = 6:Megalodon Swimsuit
-683|printbottom|2:Suit type = 5:Goblin Swimsuit
-684|printbottom|2:Suit type = 4:Swimsuit
-685|printbottom|2:Suit type = 5:Goblin Swimsuit
-686|printbottom|2:Suit type = 6:Megalodon Swimsuit
-687|printbottom|2:Suit type = 5:Goblin Swimsuit
-688|printbottom|2:Suit type = 4:Swimsuit
-689|printbottom|2:Suit type = 3:Parasite suit
-690|printbottom|2:Suit type = 4:Swimsuit
-691|clear
-692|printbottom|Menu Off
-693|clear
-694|print|Top menu
-695|print|----------
-696|print|1:devInAccMenu
-697|print|2:IH system menu
-698|print|3:Events menu
-699|print|4:Player restrictions menu
-700|print|5:Player settings menu
-701|print|6:Soldier parameters menu
-702|print|7:Enemy phases menu
-703|print|8:Enemy Prep menu
-704|print|9:Enemy reinforcements menu
-705|print|10:Patrols and deployments menu
-706|print|11:Side ops menu
-707|print|12:Mother Base menu
-708|print|13:Cutscenes menu
-709|print|14:Camera menu
-710|print|15:Time scale menu
-711|print|16:Support heli menu
-712|print|17:Progression menu
-713|print|18:Debug menu
-714|print|19:Turn off menu
-715|clear
-716|print|Infinite Heaven r212 (Press Up/Down,Left/Right to navigate menu)
-717|print|1:devInAccMenu
-718|print|2:IH system menu
-719|print|3:Events menu
-720|print|4:Player restrictions menu
-721|print|5:Player settings menu
-722|print|6:Soldier parameters menu
-723|print|7:Enemy phases menu
-724|print|8:Enemy Prep menu
-725|print|9:Enemy reinforcements menu
-726|print|10:Patrols and deployments menu
-727|print|11:Side ops menu
-728|print|12:Mother Base menu
-729|print|13:Cutscenes menu
-730|print|14:Camera menu
-731|print|15:Time scale menu
-732|print|16:Support heli menu
-733|print|17:Progression menu
-734|print|18:Debug menu
-735|print|19:Turn off menu
-736|printbottom|1:devInAccMenu >
-737|clear
-738|print|1:devInAccMenu
-739|print|----------
-740|print|1:DD Suit = 25:Fatigues All
-741|print|2:Appearance menu
-742|print|3:skipDevelopChecks = 0:Off
-743|print|4:Load addon mission <Action> = 0:No addon missions installed
-744|print|5:Include addon missions in completion percentage = 0:Off
-745|print|6:manualMissionCode <Action> = 0:10010
-746|print|7:DEBUG_SomeShiz
-747|print|8:DEBUG_SomeShiz2
-748|print|9:DEBUG_SomeShiz3
-749|print|10:selectEvent <Action> = 7:FEMME_FATALE
-750|print|11:Appearance menu
-751|print|12:postExtCommands = 1:On
-752|print|13:appearanceDebugMenu
-753|print|14:Custom soldier type in Free roam = 0:Off
-754|print|15:DD Suit = 25:Fatigues All
-755|print|16:DD Suit female = 7:Megalodon swimsuit
-756|print|17:DD Head gear = 0:Off
-757|print|18:playerFaceIdDirect <Action> = 0
-758|print|19:appearanceDebugMenu
-759|print|20:manualMissionCode <Action> = 0:10010
-760|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-761|print|22:Allow undeveloped DD weapons = 0:Off
-762|print|23:skipDevelopChecks = 0:Off
-763|print|24:DEBUG_DumpValidStrCode
-764|print|25:Side ops menu
-765|print|26:Sideops category filter menu
-766|print|27:forceRegenSeed
-767|print|28:debugValue = 400
-768|print|29:Debug IH mode = 1:On
-769|print|30:debugMessages = 1:On
-770|print|31:debugFlow = 1:On
-771|print|32:debugOnUpdate = 1:On
-772|print|33:Reset current menu
-773|print|34:Menu Back
-774|printbottom|1:DD Suit = 25:Fatigues All
-775|printbottom|2:Appearance menu >
-776|clear
-777|print|2:Appearance menu
-778|print|----------
-779|print|1:Player type = 2:DD Male
-780|printbottom|1:Player type = 3:DD Female
-781|printbottom|1:Player type = 2:DD Male
-782|printbottom|2:Suit type = 4:Swimsuit
-783|printbottom|2:Suit type = 5:Goblin Swimsuit
-784|printbottom|2:Suit type = 4:Swimsuit
-785|printbottom|2:Suit type = 3:Parasite suit
-786|printbottom|2:Suit type = 4:Swimsuit
-787|printbottom|2:Suit type = 5:Goblin Swimsuit
-788|printbottom|2:Suit type = 6:Megalodon Swimsuit
-789|printbottom|2:Suit type = 5:Goblin Swimsuit
-790|printbottom|2:Suit type = 4:Swimsuit
-791|printbottom|2:Suit type = 3:Parasite suit
-792|printbottom|2:Suit type = 4:Swimsuit
-793|clear
-794|printbottom|Menu Off
-795|clear
-796|print|Infinite Heaven r212 (Press Up/Down,Left/Right to navigate menu)
-797|print|1:Player type = 2:DD Male
-798|print|2:Suit type = 4:Swimsuit
-799|print|3:Camo type = 0:Olive Drab
-800|print|4:Headgear = 0:None
-801|print|5:Filter faces = 0:Show all
-802|printbottom|2:Suit type = 5:Goblin Swimsuit
-803|printbottom|3:Camo type = 0:Olive Drab
-804|printbottom|3:Camo type = 0:Olive Drab
-805|printbottom|2:Suit type = 5:Goblin Swimsuit
-806|printbottom|2:Suit type = 6:Megalodon Swimsuit
-807|printbottom|2:Suit type = 7:MGS1 Solid Snake
-808|printbottom|2:Suit type = 6:Megalodon Swimsuit
-809|printbottom|2:Suit type = 5:Goblin Swimsuit
-810|printbottom|2:Suit type = 4:Swimsuit
-811|printbottom|2:Suit type = 3:Parasite suit
-812|printbottom|1:Player type = 2:DD Male
-813|printbottom|1:Player type = 3:DD Female
-814|printbottom|2:Suit type = 3:Parasite suit
-815|printbottom|2:Suit type = 4:Swimsuit
-816|printbottom|2:Suit type = 5:Goblin Swimsuit
-817|printbottom|2:Suit type = 6:Megalodon Swimsuit
-818|printbottom|3:Camo type = 0:Olive Drab
-819|printbottom|2:Suit type = 6:Megalodon Swimsuit
-820|printbottom|2:Suit type = 5:Goblin Swimsuit
-821|printbottom|3:Camo type = 0:Olive Drab
-822|printbottom|3:Camo type = 0:Olive Drab
-823|printbottom|11:Menu Back >>
-824|clear
-825|print|1:devInAccMenu
-826|print|----------
-827|print|1:DD Suit = 25:Fatigues All
-828|print|2:Appearance menu
-829|print|3:skipDevelopChecks = 0:Off
-830|print|4:Load addon mission <Action> = 0:No addon missions installed
-831|print|5:Include addon missions in completion percentage = 0:Off
-832|print|6:manualMissionCode <Action> = 0:10010
-833|print|7:DEBUG_SomeShiz
-834|print|8:DEBUG_SomeShiz2
-835|print|9:DEBUG_SomeShiz3
-836|print|10:selectEvent <Action> = 7:FEMME_FATALE
-837|print|11:Appearance menu
-838|print|12:postExtCommands = 1:On
-839|print|13:appearanceDebugMenu
-840|print|14:Custom soldier type in Free roam = 0:Off
-841|print|15:DD Suit = 25:Fatigues All
-842|print|16:DD Suit female = 7:Megalodon swimsuit
-843|print|17:DD Head gear = 0:Off
-844|print|18:playerFaceIdDirect <Action> = 0
-845|print|19:appearanceDebugMenu
-846|print|20:manualMissionCode <Action> = 0:10010
-847|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-848|print|22:Allow undeveloped DD weapons = 0:Off
-849|print|23:skipDevelopChecks = 0:Off
-850|print|24:DEBUG_DumpValidStrCode
-851|print|25:Side ops menu
-852|print|26:Sideops category filter menu
-853|print|27:forceRegenSeed
-854|print|28:debugValue = 400
-855|print|29:Debug IH mode = 1:On
-856|print|30:debugMessages = 1:On
-857|print|31:debugFlow = 1:On
-858|print|32:debugOnUpdate = 1:On
-859|print|33:Reset current menu
-860|print|34:Menu Back
-861|printbottom|2:Appearance menu >
-862|printbottom|1:DD Suit = 25:Fatigues All
-863|printbottom|2:Appearance menu >
-864|printbottom|3:skipDevelopChecks = 0:Off
-865|printbottom|3:skipDevelopChecks = 1:On
-866|printbottom|2:Appearance menu >
-867|clear
-868|print|2:Appearance menu
-869|print|----------
-870|print|1:Player type = 3:DD Female
-871|printbottom|1:Player type = 0:Snake
-872|printbottom|1:Player type = 1:Avatar
-873|printbottom|1:Player type = 2:DD Male
-874|printbottom|2:Suit type = 5:Goblin Swimsuit
-875|printbottom|3:Camo type = 0:Olive Drab
-876|printbottom|3:Camo type = 1:Tiger Stripe
-877|printbottom|3:Camo type = 2:Gold Tiger
-878|printbottom|3:Camo type = 3:Desert Fox
-879|printbottom|3:Camo type = 4:Wet Work
-880|printbottom|3:Camo type = 5:Splitter
-881|printbottom|2:Suit type = 5:Goblin Swimsuit
-882|printbottom|2:Suit type = 6:Megalodon Swimsuit
-883|printbottom|3:Camo type = 0:Olive Drab
-884|printbottom|3:Camo type = 1:Tiger Stripe
-885|printbottom|3:Camo type = 2:Gold Tiger
-886|printbottom|3:Camo type = 3:Desert Fox
-887|printbottom|3:Camo type = 4:Wet Work
-888|printbottom|3:Camo type = 5:Splitter
-889|printbottom|3:Camo type = 6:Parasite Mist
-890|printbottom|3:Camo type = 7:Old Rose
-891|printbottom|3:Camo type = 8:Camoflage Green
-892|printbottom|3:Camo type = 9:Iron Blue
-893|printbottom|2:Suit type = 6:Megalodon Swimsuit
-894|printbottom|1:Player type = 2:DD Male
-895|printbottom|1:Player type = 3:DD Female
-896|printbottom|11:Menu Back >>
-897|clear
-898|print|1:devInAccMenu
-899|print|----------
-900|print|1:DD Suit = 25:Fatigues All
-901|print|2:Appearance menu
-902|print|3:skipDevelopChecks = 1:On
-903|print|4:Load addon mission <Action> = 0:No addon missions installed
-904|print|5:Include addon missions in completion percentage = 0:Off
-905|print|6:manualMissionCode <Action> = 0:10010
-906|print|7:DEBUG_SomeShiz
-907|print|8:DEBUG_SomeShiz2
-908|print|9:DEBUG_SomeShiz3
-909|print|10:selectEvent <Action> = 7:FEMME_FATALE
-910|print|11:Appearance menu
-911|print|12:postExtCommands = 1:On
-912|print|13:appearanceDebugMenu
-913|print|14:Custom soldier type in Free roam = 0:Off
-914|print|15:DD Suit = 25:Fatigues All
-915|print|16:DD Suit female = 7:Megalodon swimsuit
-916|print|17:DD Head gear = 0:Off
-917|print|18:playerFaceIdDirect <Action> = 0
-918|print|19:appearanceDebugMenu
-919|print|20:manualMissionCode <Action> = 0:10010
-920|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-921|print|22:Allow undeveloped DD weapons = 0:Off
-922|print|23:skipDevelopChecks = 1:On
-923|print|24:DEBUG_DumpValidStrCode
-924|print|25:Side ops menu
-925|print|26:Sideops category filter menu
-926|print|27:forceRegenSeed
-927|print|28:debugValue = 400
-928|print|29:Debug IH mode = 1:On
-929|print|30:debugMessages = 1:On
-930|print|31:debugFlow = 1:On
-931|print|32:debugOnUpdate = 1:On
-932|print|33:Reset current menu
-933|print|34:Menu Back
-934|printbottom|2:Appearance menu >
-935|clear
-936|print|2:Appearance menu
-937|print|----------
-938|print|1:Player type = 3:DD Female
-939|printbottom|1:Player type = 0:Snake
-940|printbottom|11:Menu Back >>
-941|clear
-942|print|1:devInAccMenu
-943|print|----------
-944|print|1:DD Suit = 25:Fatigues All
-945|print|2:Appearance menu
-946|print|3:skipDevelopChecks = 1:On
-947|print|4:Load addon mission <Action> = 0:No addon missions installed
-948|print|5:Include addon missions in completion percentage = 0:Off
-949|print|6:manualMissionCode <Action> = 0:10010
-950|print|7:DEBUG_SomeShiz
-951|print|8:DEBUG_SomeShiz2
-952|print|9:DEBUG_SomeShiz3
-953|print|10:selectEvent <Action> = 7:FEMME_FATALE
-954|print|11:Appearance menu
-955|print|12:postExtCommands = 1:On
-956|print|13:appearanceDebugMenu
-957|print|14:Custom soldier type in Free roam = 0:Off
-958|print|15:DD Suit = 25:Fatigues All
-959|print|16:DD Suit female = 7:Megalodon swimsuit
-960|print|17:DD Head gear = 0:Off
-961|print|18:playerFaceIdDirect <Action> = 0
-962|print|19:appearanceDebugMenu
-963|print|20:manualMissionCode <Action> = 0:10010
-964|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-965|print|22:Allow undeveloped DD weapons = 0:Off
-966|print|23:skipDevelopChecks = 1:On
-967|print|24:DEBUG_DumpValidStrCode
-968|print|25:Side ops menu
-969|print|26:Sideops category filter menu
-970|print|27:forceRegenSeed
-971|print|28:debugValue = 400
-972|print|29:Debug IH mode = 1:On
-973|print|30:debugMessages = 1:On
-974|print|31:debugFlow = 1:On
-975|print|32:debugOnUpdate = 1:On
-976|print|33:Reset current menu
-977|print|34:Menu Back
-978|printbottom|2:Appearance menu >
-979|clear
-980|print|2:Appearance menu
-981|print|----------
-982|print|1:Player type = 0:Snake
-983|print|2:Suit type = 0:Standard fatigues
-984|print|3:Camo type = 0:Olive Drab
-985|print|4:Headgear = 0:None
-986|print|5:Filter faces = 0:Show all
-987|print|6:Face = 0:Only for DD soldiers
-988|print|7:Print face info
-989|print|8:Print appearance info
-990|print|9:Form Variation menu
-991|print|10:Reset current menu
-992|print|11:Menu Back
-993|printbottom|1:Player type = 0:Snake
-994|printbottom|1:Player type = 3:DD Female
-995|printbottom|1:Player type = 2:DD Male
-996|printbottom|11:Menu Back >>
-997|clear
-998|print|1:devInAccMenu
-999|print|----------
-1000|print|1:DD Suit = 25:Fatigues All
-1001|print|2:Appearance menu
-1002|print|3:skipDevelopChecks = 1:On
-1003|print|4:Load addon mission <Action> = 0:No addon missions installed
-1004|print|5:Include addon missions in completion percentage = 0:Off
-1005|print|6:manualMissionCode <Action> = 0:10010
-1006|print|7:DEBUG_SomeShiz
-1007|print|8:DEBUG_SomeShiz2
-1008|print|9:DEBUG_SomeShiz3
-1009|print|10:selectEvent <Action> = 7:FEMME_FATALE
-1010|print|11:Appearance menu
-1011|print|12:postExtCommands = 1:On
-1012|print|13:appearanceDebugMenu
-1013|print|14:Custom soldier type in Free roam = 0:Off
-1014|print|15:DD Suit = 25:Fatigues All
-1015|print|16:DD Suit female = 7:Megalodon swimsuit
-1016|print|17:DD Head gear = 0:Off
-1017|print|18:playerFaceIdDirect <Action> = 0
-1018|print|19:appearanceDebugMenu
-1019|print|20:manualMissionCode <Action> = 0:10010
-1020|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-1021|print|22:Allow undeveloped DD weapons = 0:Off
-1022|print|23:skipDevelopChecks = 1:On
-1023|print|24:DEBUG_DumpValidStrCode
-1024|print|25:Side ops menu
-1025|print|26:Sideops category filter menu
-1026|print|27:forceRegenSeed
-1027|print|28:debugValue = 400
-1028|print|29:Debug IH mode = 1:On
-1029|print|30:debugMessages = 1:On
-1030|print|31:debugFlow = 1:On
-1031|print|32:debugOnUpdate = 1:On
-1032|print|33:Reset current menu
-1033|print|34:Menu Back
-1034|printbottom|2:Appearance menu >
-1035|clear
-1036|print|2:Appearance menu
-1037|print|----------
-1038|print|1:Player type = 2:DD Male
-1039|printbottom|1:Player type = 3:DD Female
-1040|clear
-1041|printbottom|Menu Off
-1042|clear
-1043|print|Top menu
-1044|print|----------
-1045|print|1:devInAccMenu
-1046|print|2:IH system menu
-1047|print|3:Events menu
-1048|print|4:Player restrictions menu
-1049|print|5:Player settings menu
-1050|print|6:Soldier parameters menu
-1051|print|7:Enemy phases menu
-1052|print|8:Enemy Prep menu
-1053|print|9:Enemy reinforcements menu
-1054|print|10:Patrols and deployments menu
-1055|print|11:Side ops menu
-1056|print|12:Mother Base menu
-1057|print|13:Cutscenes menu
-1058|print|14:Camera menu
-1059|print|15:Time scale menu
-1060|print|16:Support heli menu
-1061|print|17:Progression menu
-1062|print|18:Debug menu
-1063|print|19:Turn off menu
-1064|clear
-1065|print|Infinite Heaven r212 (Press Up/Down,Left/Right to navigate menu)
-1066|print|1:devInAccMenu
-1067|print|2:IH system menu
-1068|print|3:Events menu
-1069|print|4:Player restrictions menu
-1070|print|5:Player settings menu
-1071|print|6:Soldier parameters menu
-1072|print|7:Enemy phases menu
-1073|print|8:Enemy Prep menu
-1074|print|9:Enemy reinforcements menu
-1075|print|10:Patrols and deployments menu
-1076|print|11:Side ops menu
-1077|print|12:Mother Base menu
-1078|print|13:Cutscenes menu
-1079|print|14:Camera menu
-1080|print|15:Time scale menu
-1081|print|16:Support heli menu
-1082|print|17:Progression menu
-1083|print|18:Debug menu
-1084|print|19:Turn off menu
-1085|printbottom|1:devInAccMenu >
-1086|clear
-1087|print|1:devInAccMenu
-1088|print|----------
-1089|print|1:DD Suit = 25:Fatigues All
-1090|print|2:Appearance menu
-1091|print|3:skipDevelopChecks = 1:On
-1092|print|4:Load addon mission <Action> = 0:No addon missions installed
-1093|print|5:Include addon missions in completion percentage = 0:Off
-1094|print|6:manualMissionCode <Action> = 0:10010
-1095|print|7:DEBUG_SomeShiz
-1096|print|8:DEBUG_SomeShiz2
-1097|print|9:DEBUG_SomeShiz3
-1098|print|10:selectEvent <Action> = 7:FEMME_FATALE
-1099|print|11:Appearance menu
-1100|print|12:postExtCommands = 1:On
-1101|print|13:appearanceDebugMenu
-1102|print|14:Custom soldier type in Free roam = 0:Off
-1103|print|15:DD Suit = 25:Fatigues All
-1104|print|16:DD Suit female = 7:Megalodon swimsuit
-1105|print|17:DD Head gear = 0:Off
-1106|print|18:playerFaceIdDirect <Action> = 0
-1107|print|19:appearanceDebugMenu
-1108|print|20:manualMissionCode <Action> = 0:10010
-1109|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-1110|print|22:Allow undeveloped DD weapons = 0:Off
-1111|print|23:skipDevelopChecks = 1:On
-1112|print|24:DEBUG_DumpValidStrCode
-1113|print|25:Side ops menu
-1114|print|26:Sideops category filter menu
-1115|print|27:forceRegenSeed
-1116|print|28:debugValue = 400
-1117|print|29:Debug IH mode = 1:On
-1118|print|30:debugMessages = 1:On
-1119|print|31:debugFlow = 1:On
-1120|print|32:debugOnUpdate = 1:On
-1121|print|33:Reset current menu
-1122|print|34:Menu Back
-1123|printbottom|1:DD Suit = 25:Fatigues All
-1124|printbottom|34:Menu Back >>
-1125|printbottom|1:DD Suit = 25:Fatigues All
-1126|printbottom|2:Appearance menu >
-1127|clear
-1128|print|2:Appearance menu
-1129|print|----------
-1130|print|1:Player type = 3:DD Female
-1131|printbottom|1:Player type = 0:Snake
-1132|printbottom|1:Player type = 1:Avatar
-1133|printbottom|11:Menu Back >>
-1134|clear
-1135|print|1:devInAccMenu
-1136|print|----------
-1137|print|1:DD Suit = 25:Fatigues All
-1138|print|2:Appearance menu
-1139|print|3:skipDevelopChecks = 1:On
-1140|print|4:Load addon mission <Action> = 0:No addon missions installed
-1141|print|5:Include addon missions in completion percentage = 0:Off
-1142|print|6:manualMissionCode <Action> = 0:10010
-1143|print|7:DEBUG_SomeShiz
-1144|print|8:DEBUG_SomeShiz2
-1145|print|9:DEBUG_SomeShiz3
-1146|print|10:selectEvent <Action> = 7:FEMME_FATALE
-1147|print|11:Appearance menu
-1148|print|12:postExtCommands = 1:On
-1149|print|13:appearanceDebugMenu
-1150|print|14:Custom soldier type in Free roam = 0:Off
-1151|print|15:DD Suit = 25:Fatigues All
-1152|print|16:DD Suit female = 7:Megalodon swimsuit
-1153|print|17:DD Head gear = 0:Off
-1154|print|18:playerFaceIdDirect <Action> = 0
-1155|print|19:appearanceDebugMenu
-1156|print|20:manualMissionCode <Action> = 0:10010
-1157|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-1158|print|22:Allow undeveloped DD weapons = 0:Off
-1159|print|23:skipDevelopChecks = 1:On
-1160|print|24:DEBUG_DumpValidStrCode
-1161|print|25:Side ops menu
-1162|print|26:Sideops category filter menu
-1163|print|27:forceRegenSeed
-1164|print|28:debugValue = 400
-1165|print|29:Debug IH mode = 1:On
-1166|print|30:debugMessages = 1:On
-1167|print|31:debugFlow = 1:On
-1168|print|32:debugOnUpdate = 1:On
-1169|print|33:Reset current menu
-1170|print|34:Menu Back
-1171|printbottom|2:Appearance menu >
-1172|clear
-1173|print|2:Appearance menu
-1174|print|----------
-1175|print|1:Player type = 1:Avatar
-1176|printbottom|1:Player type = 2:DD Male
-1177|printbottom|11:Menu Back >>
-1178|clear
-1179|print|1:devInAccMenu
-1180|print|----------
-1181|print|1:DD Suit = 25:Fatigues All
-1182|print|2:Appearance menu
-1183|print|3:skipDevelopChecks = 1:On
-1184|print|4:Load addon mission <Action> = 0:No addon missions installed
-1185|print|5:Include addon missions in completion percentage = 0:Off
-1186|print|6:manualMissionCode <Action> = 0:10010
-1187|print|7:DEBUG_SomeShiz
-1188|print|8:DEBUG_SomeShiz2
-1189|print|9:DEBUG_SomeShiz3
-1190|print|10:selectEvent <Action> = 7:FEMME_FATALE
-1191|print|11:Appearance menu
-1192|print|12:postExtCommands = 1:On
-1193|print|13:appearanceDebugMenu
-1194|print|14:Custom soldier type in Free roam = 0:Off
-1195|print|15:DD Suit = 25:Fatigues All
-1196|print|16:DD Suit female = 7:Megalodon swimsuit
-1197|print|17:DD Head gear = 0:Off
-1198|print|18:playerFaceIdDirect <Action> = 0
-1199|print|19:appearanceDebugMenu
-1200|print|20:manualMissionCode <Action> = 0:10010
-1201|print|21:manualSequence <Action> = 0:Seq_Mission_Prepare
-1202|print|22:Allow undeveloped DD weapons = 0:Off
-1203|print|23:skipDevelopChecks = 1:On
-1204|print|24:DEBUG_DumpValidStrCode
-1205|print|25:Side ops menu
-1206|print|26:Sideops category filter menu
-1207|print|27:forceRegenSeed
-1208|print|28:debugValue = 400
-1209|print|29:Debug IH mode = 1:On
-1210|print|30:debugMessages = 1:On
-1211|print|31:debugFlow = 1:On
-1212|print|32:debugOnUpdate = 1:On
-1213|print|33:Reset current menu
-1214|print|34:Menu Back
-1215|printbottom|2:Appearance menu >
-1216|clear
-1217|print|2:Appearance menu
-1218|print|----------
-1219|print|1:Player type = 2:DD Male
-1220|printbottom|1:Player type = 3:DD Female
-1221|printbottom|2:Suit type = 0:Standard fatigues
-1222|printbottom|2:Suit type = 13:Sneaking Suit open (TB)
-1223|printbottom|2:Suit type = 12:Sneaking Suit (TB)
-1224|printbottom|2:Suit type = 13:Sneaking Suit open (TB)
-1225|printbottom|2:Suit type = 12:Sneaking Suit (TB)
-1226|printbottom|2:Suit type = 11:Jumpsuit open (EVA)
-1227|printbottom|2:Suit type = 12:Sneaking Suit (TB)
-1228|printbottom|2:Suit type = 11:Jumpsuit open (EVA)
-1229|printbottom|2:Suit type = 10:Jumpsuit (EVA)
-1230|printbottom|2:Suit type = 9:MGS1 Cyborg Ninja
-1231|printbottom|2:Suit type = 8:MGS1 Solid Snake
-1232|printbottom|2:Suit type = 7:Raiden
-1233|printbottom|2:Suit type = 6:Megalodon Swimsuit
-1234|printbottom|2:Suit type = 5:Goblin Swimsuit
-1235|printbottom|3:Camo type = 0:Olive Drab
-1236|printbottom|3:Camo type = 11:Mud
-1237|printbottom|3:Camo type = 10:Red Rust
-1238|clear
-1239|printbottom|Menu Off
+4|print|1:IH system menu
+5|print|2:Events menu
+6|print|3:Player restrictions menu
+7|print|4:Player settings menu
+8|print|5:Soldier parameters menu
+9|print|6:Enemy phases menu
+10|print|7:Enemy Prep menu
+11|print|8:Enemy reinforcements menu
+12|print|9:Patrols and deployments menu
+13|print|10:Side ops menu
+14|print|11:Mother Base menu
+15|print|12:Cutscenes menu
+16|print|13:Camera menu
+17|print|14:Time scale menu
+18|print|15:Support heli menu
+19|print|16:Progression menu
+20|print|17:Debug menu
+21|print|18:Turn off menu
+22|clear
+23|print|Infinite Heaven r213 (Press Up/Down,Left/Right to navigate menu)
+24|print|1:IH system menu
+25|print|2:Events menu
+26|print|3:Player restrictions menu
+27|print|4:Player settings menu
+28|print|5:Soldier parameters menu
+29|print|6:Enemy phases menu
+30|print|7:Enemy Prep menu
+31|print|8:Enemy reinforcements menu
+32|print|9:Patrols and deployments menu
+33|print|10:Side ops menu
+34|print|11:Mother Base menu
+35|print|12:Cutscenes menu
+36|print|13:Camera menu
+37|print|14:Time scale menu
+38|print|15:Support heli menu
+39|print|16:Progression menu
+40|print|17:Debug menu
+41|print|18:Turn off menu
+42|printbottom|1:IH system menu >
+43|printbottom|11:Mother Base menu >
+44|clear
+45|print|11:Mother Base menu
+46|print|----------
+47|print|1:Mother base prep mode = 2:Enemy prep levels
+48|print|2:Custom soldier equip menu
+49|print|3:MB Equip Range Type (MB Prep mode FOB only) = 2:Long-range
+50|print|4:DD Suit = 25:Fatigues All
+51|print|5:DD Suit female = 4:Battle Dress
+52|print|6:DD Head gear = 0:Off
+53|print|7:Heli patrols in MB = 3:Support and Attack helis
+54|print|8:Attack heli class = 4:Each heli random type
+55|print|9:Walker gears in MB = 1:On
+56|print|10:Walker gears type = 7:Each gear random type
+57|print|11:Walker gears weapons = 0:Even split of weapons
+58|print|12:Repopulate plants and diamonds = 1:On
+59|print|13:Enemy prep decrease on long MB visit = 1:On
+60|print|14:Enable all buddies = 1:On
+61|print|15:More soldiers on MB plats = 0:Off
+62|print|16:Force enable Quaranine platform soldiers = 1:On
+63|print|17:Soldiers move between platforms = 0:Off
+64|print|18:Staff menu
+65|print|19:Show characters menu
+66|print|20:Show assets menu
+67|print|21:Allow lethal actions = 1:On
+68|print|22:Women in Enemy Invasion mode = 40%
+69|print|23:Mother Base War Games = 0:Off
+70|print|24:Reset current menu
+71|print|25:Menu Back
+72|printbottom|1:Mother base prep mode = 2:Enemy prep levels
+73|printbottom|11:Walker gears weapons = 0:Even split of weapons
+74|printbottom|21:Allow lethal actions = 1:On
+75|printbottom|20:Show assets menu >
+76|printbottom|19:Show characters menu >
+77|printbottom|18:Staff menu >
+78|clear
+79|print|18:Staff menu
+80|print|----------
+81|print|1:Add player staff to MB priority
+82|print|2:Remove player staff to MB priority
+83|print|3:Clear MB staff priority list
+84|print|4:Female staff selection = 3:Half
+85|print|5:Staff-wide morale boost for good visit = 1:On
+86|print|6:Reset current menu
+87|print|7:Menu Back
+88|printbottom|1:Add player staff to MB priority >>
+89|printbottom|1:Add player staff to MB priority >>
+90|clear
+91|printbottom|Menu Off
+92|clear
+93|print|Infinite Heaven r213 (Press Up/Down,Left/Right to navigate menu)
+94|print|1:Add player staff to MB priority
+95|print|2:Remove player staff to MB priority
+96|print|3:Clear MB staff priority list
+97|print|4:Female staff selection = 3:Half
+98|print|5:Staff-wide morale boost for good visit = 1:On
+99|print|6:Reset current menu
+100|print|7:Menu Back
+101|printbottom|1:Add player staff to MB priority >>
+102|printbottom|1:Add player staff to MB priority >>
+103|clear
+104|printbottom|Menu Off
+105|clear
+106|print|Top menu
+107|print|----------
+108|print|1:Support heli to latest marker
+109|print|2:Force exit helicopter
+110|print|3:Drop current equip
+111|print|4:Warp [Mode] = 0:Off
+112|print|5:Camera menu
+113|print|6:Time scale menu
+114|print|7:User marker menu
+115|print|8:Buddy menu
+116|print|9:Appearance menu
+117|print|10:Staff menu
+118|print|11:Markers menu
+119|print|12:Enemy phases menu
+120|print|13:Support heli menu
+121|print|14:Debug stuff menu
+122|print|15:Soldier item drop chance = 80%
+123|print|16:Player life scale = 120%
+124|print|17:Reset current menu
+125|print|18:Turn off menu
+126|clear
+127|print|Infinite Heaven r213 (Press Up/Down,Left/Right to navigate menu)
+128|print|1:Support heli to latest marker
+129|print|2:Force exit helicopter
+130|print|3:Drop current equip
+131|print|4:Warp [Mode] = 0:Off
+132|print|5:Camera menu
+133|print|6:Time scale menu
+134|print|7:User marker menu
+135|print|8:Buddy menu
+136|print|9:Appearance menu
+137|print|10:Staff menu
+138|print|11:Markers menu
+139|print|12:Enemy phases menu
+140|print|13:Support heli menu
+141|print|14:Debug stuff menu
+142|print|15:Soldier item drop chance = 80%
+143|print|16:Player life scale = 120%
+144|print|17:Reset current menu
+145|print|18:Turn off menu
+146|printbottom|1:Support heli to latest marker >]
+147|printbottom|11:Markers menu >
+148|printbottom|10:Staff menu >
+149|clear
+150|print|10:Staff menu
+151|print|----------
+152|print|1:Add player staff to MB priority
+153|print|2:Remove player staff to MB priority
+154|print|3:Add marked staff to MB priority
+155|print|4:Remove marked staff from MB priority
+156|print|5:Clear MB staff priority list
+157|print|6:Reset current menu
+158|print|7:Menu Back
+159|printbottom|1:Add player staff to MB priority >>
+160|printbottom|2:Remove player staff to MB priority >>
+161|printbottom|3:Add marked staff to MB priority >>
+162|printbottom|3:Add marked staff to MB priority >>
+163|clear
+164|printbottom|Menu Off

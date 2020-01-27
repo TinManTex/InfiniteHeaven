@@ -31,6 +31,10 @@ this.fovaTypes={
 function this.LoadFovaInfo()
   InfCore.Log("InfModelProc.LoadFovaInfo")
   this.fovaInfos={}
+  if not InfCore.files.fovaInfo then
+    return
+  end
+  
   local fovaInfoFiles=InfCore.GetFileList(InfCore.files.fovaInfo,".lua")
   for i,fileName in ipairs(fovaInfoFiles)do
     InfCore.Log("InfModelProc.LoadFovaInfo: "..fileName)
@@ -40,22 +44,6 @@ function this.LoadFovaInfo()
     InfCore.PrintInspect(fovaInfoFiles,"fovaInfoFiles")--DEBUG
     InfCore.PrintInspect(this.fovaInfos,"IvarProc.fovaInfos")--DEBUG
   end
-
-  --CULL
-  --    this.infModelRegistry=InfCore.LoadSimpleModule(InfCore.paths.mod,"InfModelRegistry.lua",true)
-  --    if this.infModelRegistry then
-  --      local commonHeadPath="/Assets/tpp/pack/fova/common_source/chara/cm_head/"
-  --      for i,moduleName in ipairs(this.infModelRegistry.headFovaModNames)do
-  --        if type(moduleName)=="string"then
-  --          Script.LoadLibrary(commonHeadPath..moduleName..".lua")
-  --          if _G[moduleName] then
-  --            InfCore.Log("InfModelRegistry loaded module "..moduleName)
-  --          else
-  --            InfCore.Log("InfModelRegistry could not load module "..moduleName)
-  --          end
-  --        end
-  --      end
-  --    end
 end
 
 --tex patches Solder2FaceAndBodyData.faceDefinition acording to fovaInfo files

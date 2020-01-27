@@ -113,14 +113,17 @@ Events menu
 Chance to randomly trigger an IH event on starting Free roam. (See 'Trigger random IH event')
 3: MB event random trigger chance : 0-100%
 Chance to randomly trigger an IH event on returning to MB. (See 'Trigger random IH event')
-4: Enable Skull attacks in Free roam : Off, On
+4: Allow Hunted event : Off, On
+5: Allow Crashland event : Off, On
+6: Allow Lost Coms event : Off, On
+7: Enable Skull attacks in Free roam : Off, On
 Skulls attack at a random time (in minutes) between Skull attack min and Skull attack max settings.
-5: Allow armor skulls : Off, On
-6: Allow mist skulls : Off, On
-7: Allow sniper skulls : Off, On
-8: Skull attack min (minutes) : 0-180
-9: Skull attack max (minutes) : 0-180
-10: Weather on Skull attack : None, Parasite fog, Random
+8: Allow armor skulls : Off, On
+9: Allow mist skulls : Off, On
+10: Allow sniper skulls : Off, On
+11: Skull attack min (minutes) : 0-180
+12: Skull attack max (minutes) : 0-180
+13: Weather on Skull attack : None, Parasite fog, Random
 
 Player restrictions menu
 - Settings to customize the game challenge, including subsistence and OSP.
@@ -403,6 +406,29 @@ Prep system menu
 The number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
 2: Apply enemy prep to guard posts : Off, On
 3: Apply enemy prep to patrol soldiers : Off, On
+4: Allow heavy armor in free roam (may have issues) : Off, On
+5: Allow heavy armor in all missions (may have issues) : Off, On
+6: Disable weapon restrictions in certain missions : Off, On
+Missions 2, 12, 13, 16, 26, 31 normally prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).
+7: Allow Enemy Prep change from free roam : Off, On
+By default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort)
+8: Enemy prep decrease on long MB visit : Off, On
+Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat 
+9: Allow helmet and NVG or Gas mask combo : Off, On
+10: Ballance heavy armor and head gear distribution : Off, On
+Adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if Allow helmet and NVG or Gas mask combo option is on
+11: Allow missile combo with other weapons : Off, On
+In the default game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them.
+12: Mg vs Shotgun variation : Off, On
+In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
+13: Balance small CPs : Off, On
+Adds limits and some randomisation to small cp/lrrps enemy prep application
+14: Disable convert armor to shield (if armor off) : Off, On
+Where heavy armor is disabled (free roam by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.
+15: Randomize minefield mine types : Off, On
+Randomizes the types of mines within a minfield from the default anti-personel mine to gas, anti-tank, electromagnetic. While the placing the mines may not be ideal for the minetype, it does enable OSP of items that would be impossible to get otherwise.
+16: Enable additional minefields : Off, On
+In the game many bases have several mine fields but by default only one is enabled at a time, this option lets you enable all of them. Still relies on enemy prep level to be high enough for minefields to be enabled.
 
 Custom soldier equip menu
 - Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation
@@ -500,34 +526,48 @@ Mother Base menu
 4: DD Suit : Off, Drab fatigues, Tiger fatigues, Sneaking suit, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit, PF Riot Suit, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, MSF GZ, MSF TPP, XOF, XOF Gasmasks, XOF GZ, Genome Soldier, Fatigues All
 5: DD Suit female : Off, Drab, Tiger, Sneaking, Battle Dress, Swimsuit, Goblin swimsuit, Megalodon swimsuit
 6: DD Head gear : Off, Current prep
-7: Female staff selection : Default, None, All available, Half
-By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
-8: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis
+7: Heli patrols in MB : Off, Support helis, Attack helis, Support and Attack helis
 Spawns some npc helis that roam around mother base.
-9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
-10: Walker gears in MB : Off, On
-11: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
-12: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
-13: Repopulate plants and diamonds : Off, On
+8: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
+9: Walker gears in MB : Off, On
+10: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
+11: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
+12: Repopulate plants and diamonds : Off, On
 Regenerates plants on Zoo platform and diamonds on Mother base over time.
-14: Staff-wide morale boost for good visit : Off, On
-Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.
-15: Enemy prep decrease on long MB visit : Off, On
+13: Enemy prep decrease on long MB visit : Off, On
 Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat 
-16: Enable all buddies : Off, On
+14: Enable all buddies : Off, On
 Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
-17: More soldiers on MB plats : Off, On
+15: More soldiers on MB plats : Off, On
 Increases soldiers on platforms from 4 soldiers to 9.
-18: Force enable Quaranine platform soldiers : Off, On
+16: Force enable Quaranine platform soldiers : Off, On
 Normally game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
-19: Soldiers move between platforms : Off, On
+17: Soldiers move between platforms : Off, On
 Soldiers will periodically move between platforms (only within the same cluster).
-20: Show characters menu
-21: Show assets menu
-22: Allow lethal actions : Off, On
+18: Staff menu
+19: Show characters menu
+20: Show assets menu
+21: Allow lethal actions : Off, On
 Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
-23: Women in Enemy Invasion mode : 0-100%
-24: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+22: Women in Enemy Invasion mode : 0-100%
+23: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+
+Staff menu
+----------
+1: Add player staff to MB priority : (Command)
+Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB
+2: Remove player staff to MB priority : (Command)
+Removes the last sortie selected DD member to the Mother Base priority staff list
+3: Add marked staff id MB priority : (Command)
+Adds the most recently marked staff member to the MB priority list
+4: Remove marked staff to MB priority : (Command)
+Removes the most recently marked staff member from the MB priority list
+5: Clear MB staff priority list : (Command)
+Clears MB staff priority list entirely
+6: Female staff selection : Default, None, All available, Half
+By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available and Half will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
+7: Staff-wide morale boost for good visit : Off, On
+Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.
 
 Show characters menu
 --------------------
@@ -646,11 +686,11 @@ Resource scale menu
 -------------------
 1: Enable resource amount scales : Off, On
 Enables the resource scale options that scale the amount of resources when gathered (material case resources, containers, diamonds, plants)
-2: Material case scale : 100-1000%
-3: Plant scale : 100-1000%
-4: Poster scale : 100-1000%
-5: Diamond scale : 100-1000%
-6: Container scale : 100-1000%
+2: Material case scale : 10-1000%
+3: Plant scale : 10-1000%
+4: Poster scale : 10-1000%
+5: Diamond scale : 10-1000%
+6: Container scale : 10-1000%
 
 Debug menu
 ----------

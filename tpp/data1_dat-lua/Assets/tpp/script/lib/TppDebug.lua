@@ -116,7 +116,7 @@ function this.DEBUG_GetSysVarsLog()
   return svarsLog
 end
 function this.DEBUG_WarpHelicopter(RENHeliName,route,position,point,setRoute)
-  if not IsTypeTable(soldierNameTable)then
+  if not IsTypeTable(soldierNameTable)then--RETAILBUG orphan
     soldierNameTable={soldierNameTable}
   end
   local GetGameObjectId=GameObject.GetGameObjectId

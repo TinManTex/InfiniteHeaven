@@ -764,7 +764,9 @@ function this.IsFemale( staffId )
 end
 
 function this.SetupStaffList()
+  InfCore.LogFlow("SetupStaffList")--tex DEBUG
   --tex made local to module --OFF local MAX_STAFF_NUM_ON_CLUSTER = 18
+  ih_priority_staff=InfMBStaff.LoadSave() or ih_priority_staff--tex
   local staffList = {}
   math.randomseed(TppScriptVars.GetTotalPlayTime())
 
@@ -809,18 +811,44 @@ function this.SetupStaffList()
   mvars.f30050_staffIdList[TppDefine.CLUSTER_DEFINE.Command+1] = commandStaffList
 
   local _SetupStaffIdOnCluster = function(staffListOnCluster, clusterIndex)
+    mvars.f30050_staffIdList[clusterIndex+1] = {}
+
+    --tex priotiry staff>
+    local numFemales=0
+    local priorityStaffForCluster={}
+    for i=#staffListOnCluster,1,-1 do
+      local staffId=staffListOnCluster[i]
+      if InfMBStaff.IsPriorityStaff(staffId) then
+        table.remove(staffListOnCluster,i)
+        table.insert(priorityStaffForCluster,staffId)
+        InfCore.Log("SetupStaffList found priority staff "..staffId)--tex DEBUG
+      end
+    end
+
+    for i,staffId in ipairs(priorityStaffForCluster)do
+      table.insert(mvars.f30050_staffIdList[clusterIndex+1],staffId)
+
+      if this.IsFemale(staffId) then
+        numFemales=numFemales+1
+      end
+
+      if i==MAX_STAFF_NUM_ON_CLUSTER then
+        break
+      end
+    end
+    --<
+
     local minFemaleStaffOnCluster = 2--tex> game default=2
     if Ivars.mbPrioritizeFemale:Is"MAX" then
       minFemaleStaffOnCluster=MAX_STAFF_NUM_ON_CLUSTER
     elseif Ivars.mbPrioritizeFemale:Is"HALF" then
       minFemaleStaffOnCluster=math.ceil(MAX_STAFF_NUM_ON_CLUSTER/2)
     end--<
-    mvars.f30050_staffIdList[clusterIndex+1] = {}
     --NMC: force select some females
     if not Ivars.mbPrioritizeFemale:Is"DISABLE" then--tex was do
       local staffNum = #staffListOnCluster
       local staffListIndex = 1
-      for i = 1, staffNum do
+      for staffListIndex = 1, staffNum do
         local staffId = staffListOnCluster[staffListIndex]
         if staffId == nil then
           break
@@ -829,7 +857,9 @@ function this.SetupStaffList()
           table.insert( mvars.f30050_staffIdList[clusterIndex+1], staffId )
           table.remove( staffListOnCluster, staffListIndex )
           staffListIndex = staffListIndex - 1
-          if #mvars.f30050_staffIdList[clusterIndex+1] >= minFemaleStaffOnCluster then--tex was 2
+          numFemales=numFemales+1--tex added
+          if numFemales >= minFemaleStaffOnCluster or numFemales>=MAX_STAFF_NUM_ON_CLUSTER then--tex changed to account for priorityStaff, might be +1 female, but oh well
+            --tex WAS if #mvars.f30050_staffIdList[clusterIndex+1] >= minFemaleStaffOnCluster then--tex was 2
             break
           end
         end
@@ -899,7 +929,7 @@ function this.SetupStaffList()
     end
 
     for i = TppMotherBaseManagementConst.SECTION_COMBAT, TppMotherBaseManagementConst.SECTION_SECURITY do
-      if needMaleStaffNum <= 0 then	break	end
+      if needMaleStaffNum <= 0 then break end
       for _, maleStaffId in ipairs( staffList[i] ) do
         if needMaleStaffNum <= 0 then break end
         if not this.IsFemale( maleStaffId ) then
@@ -948,7 +978,7 @@ function this.OnEndMissionPrepareSequence()
     TppSoundDaemon.PostEvent3D( "sfx_m_hanger_door_close", Vector3(soundPos[1],soundPos[2],soundPos[3]), 'Loading')
     svars.isLeaveBattleHanger = false
   end
-  
+
 end
 
 

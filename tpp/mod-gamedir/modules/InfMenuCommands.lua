@@ -815,7 +815,7 @@ this.DEBUG_SomeShiz={
   OnChange=function()
     count=count+1
     InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
-        
+
     InfCore.DebugPrint("index1:"..index1)
     index1=index1+1
     if index1>index1Max then
@@ -849,7 +849,7 @@ local toggle3=false
 this.DEBUG_SomeShiz3={
   OnChange=function()
     InfCore.Log("---DEBUG_SomeShiz3---")
-    
+
     InfCore.DebugPrint("index3:"..index3)
     index3=index3+1
     if index3>index3Max then
@@ -1837,6 +1837,32 @@ this.checkPointSave={
   OnChange=function()
     --TppCheckPoint.Update{atCurrentPosition=true}
     TppCheckPoint.Update{safetyCurrentPosition=true}
+  end
+}
+
+this.addPlayerStaff={
+  OnChange=function()
+    InfMBStaff.AddPlayerStaff()
+  end
+}
+this.removePlayerStaff={
+  OnChange=function()
+    InfMBStaff.RemovePlayerStaff()
+  end
+}
+this.addMarkerStaff={
+  OnChange=function()
+    InfMBStaff.AddMarkerStaff()
+  end
+}
+this.removeMarkerStaff={
+  OnChange=function()
+    InfMBStaff.RemoveMarkerStaff()
+  end
+}
+this.clearPriorityStaff={
+  OnChange=function()
+    InfMBStaff.ClearPriorityStaff()
   end
 }
 

@@ -740,5 +740,6 @@ TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil,{setMute=true})
 TppVarInit.InitializeOnStartTitle()
 TppVarInit.StartInitMission()
 TppUiCommand.SetLoadIndicatorVisible(false)
+InfCore.allLoaded=true--tex
 InfCore.LogFlow"start.lua done"--tex
 

@@ -354,7 +354,7 @@ end
 
 --tex for Ivars.warpToListObject
 function this.GetObjectList()
-  return {InfMenuCommands.selectedObject}
+  --return {InfMenuCommands.selectedObject}
 --   return{ "sol_mtbs_0000",
 --    "sol_mtbs_0001",
 --    "sol_mtbs_0002",
@@ -367,7 +367,7 @@ function this.GetObjectList()
   --        local travelPlan="travelArea2_01"
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
 
-  --return InfParasite.parasiteNames[InfParasite.parasiteType]
+  return InfParasite.parasiteNames[InfParasite.parasiteType]
  -- return this.objectNameLists.veh_trc
     --return InfLookup.jeepNames
     --return {TppReinforceBlock.REINFORCE_DRIVER_SOLDIER_NAME}
@@ -1013,7 +1013,7 @@ end
 
 --tex message signatures for PrintOnMessage/Ivars.debugMessages
 -- {
---  TYPE={
+--  MESSAGE CLASS={
 --    MSG={
 --      [arg(n+1)]={argName=<arg name>,argType=<lookupType>},
 -- lookupType for this.lookups table.
@@ -1281,6 +1281,11 @@ this.messageSignatures={
     Dead={
       {argName="playerId",argType="gameId"},
       {argName="deathType",argType="str32"},
+    },
+    DirectMotion={--tex after Player.RequestToPlayDirectMotion is called
+      {argName="animName",argType="str32"},
+      {argName="animStage",argType="str32"},
+      {argName="arg2",argType="number"},--tex UNKNOWN
     },
     Enter={--tex mission zones
       {argName="zoneType",argType="str32"},--tex outerZone,innerZone,hotZone

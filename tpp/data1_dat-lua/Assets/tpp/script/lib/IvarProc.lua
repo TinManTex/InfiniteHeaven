@@ -514,7 +514,7 @@ end
 
 --CALLER: TppSave.DoSave > InfMain.OnSave (via InfHooks)
 function this.OnSave()
-  InfCore.PCallDebug(this.SaveEvars)
+  InfCore.PCallDebug(this.SaveAll)
 end
 
 --CALLER: TppSave.VarRestoreOnMissionStart and VarRestoreOnContinueFromCheckPoint (via InfHooks)
@@ -920,10 +920,15 @@ function this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
 end
 
 local saveLineFormatStr="\t%s=%s,"
+local saveLineFormatNumber="\t[%s]=%s,"
 function this.BuildTableText(tableName,sourceTable,saveTextList)
   saveTextList[#saveTextList+1]="this."..tableName.."={"
   for k,v in pairs(sourceTable)do
-    saveTextList[#saveTextList+1]=string.format(saveLineFormatStr,k,tostring(v))
+    if type(k)=="number" then
+      saveTextList[#saveTextList+1]=string.format(saveLineFormatNumber,k,tostring(v))
+    else 
+      saveTextList[#saveTextList+1]=string.format(saveLineFormatStr,k,tostring(v))
+    end
   end
   saveTextList[#saveTextList+1]="}"
 end
@@ -976,6 +981,15 @@ function this.ReadEvars(ih_save)
     end
   end
   return loadedEvars
+end
+
+function this.SaveAll()
+  this.SaveEvars()
+  if InfMBStaff then
+    --tex TODO: only really need to save (or mark to be saved?) on InfMBStaff commands
+    --TODO: expand to be a module feature
+    InfMBStaff.Save()
+  end
 end
 
 function this.SaveEvars()

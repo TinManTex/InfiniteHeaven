@@ -1,7 +1,6 @@
 -- DOBUILD: 1
 -- InfCore.lua
 local this={}
-
 --LOCALOPT
 local pcall=pcall                                                       
 local type=type
@@ -16,7 +15,7 @@ local InfCore=this
 
 local emptyTable={}
 
-this.modVersion="212"
+this.modVersion="213"
 this.modName="Infinite Heaven"
 
 this.debugModule=false
@@ -238,7 +237,7 @@ function this.PCallDebug(func,...)
 end
 
 function this.PrintInspect(var,options)
-  if not this.debugMode and (options and not options.force) then
+  if not this.debugMode and (not options or not options.force) then
     return
   end
   options=options or emptyTable

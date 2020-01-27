@@ -1,3 +1,4 @@
+-- DOBUILD: 0
 local this={}
 local StrCode32=Fox.StrCode32
 local IsTypeFunc=Tpp.IsTypeFunc
@@ -123,9 +124,11 @@ function this.Load(blockName,packName,doActivate,load)
     doLoad=false
   end
   local blockId=ScriptBlock.GetScriptBlockId(blockName)
+  InfCore.Log("TppScriptBlock.Load blockId:"..tostring(blockId))--tex DEBUG
   if blockId~=ScriptBlock.SCRIPT_BLOCK_ID_INVALID then
     this.SaveScriptBlockId(blockName,blockId)
     local packPath=this.FindPackList(blockName,packName)
+    InfCore.PrintInspect(packPath,"packPath")--tex DEBUG
     if packPath then
       svars.sbl_scriptBlockPack[blockId]=StrCode32(packName)
       if doLoad then

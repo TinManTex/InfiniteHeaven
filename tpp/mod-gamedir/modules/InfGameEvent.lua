@@ -181,11 +181,17 @@ function this.GenerateRoamEvent(missionCode)
     this.inf_enabledEvents[forcedEvent]=true
     numEvents=numEvents+1
   else
-    for i=1,#roamEventNames do
-      if math.random(100)<100/#roamEventNames then--TUNE
-        local eventName=roamEventNames[i]
-        this.inf_enabledEvents[eventName]=true
-        numEvents=numEvents+1
+    local enabledTypes={}
+    for i,eventType in ipairs(roamEventNames)do
+      enabledTypes[eventType]=Ivars[enableEvent..eventType]:Is(1)
+    end
+
+    for i,eventName in ipairs(roamEventNames) do
+      if enabledTypes[eventName] then
+        if math.random(100)<100/#roamEventNames then--TUNE
+          this.inf_enabledEvents[eventName]=true
+          numEvents=numEvents+1
+        end
       end
     end
   end

@@ -540,6 +540,12 @@ this.mbPrioritizeFemale={
   save=EXTERNAL,
   settings={"OFF","DISABLE","MAX","HALF"},
 }
+
+this.mbEnableMissionPrep={
+  save=EXTERNAL,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
 --<motherbase
 
 --demos
@@ -1153,11 +1159,11 @@ IvarProc.MissionModeIvars(
   this,
   "allowHeavyArmor",
   {
-    --DEBUGNOW OFF save=EXTERNAL,
+    save=EXTERNAL,
     range=this.switchRange,
     settingNames="set_switch",
   },
-  {"MISSION"}--DEBUGNOW OFF {"FREE","MISSION",}
+  {"FREE","MISSION",}
 )
 
 --WIP TODO either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though)
@@ -2289,7 +2295,7 @@ this.playerPartsType={
       --InfCore.DebugPrint("WARNING: could not find enum for "..partsTypeName)--DEBUG
       self:Set(0)
     else
-      self:set(self.enum[partsTypeName])
+      self:Set(self.enum[partsTypeName])
     end
   end,
   OnChange=function(self,previousSetting,setting)
@@ -3933,6 +3939,28 @@ this.selectEvent={
   end,
 }
 
+--
+this.enableEventHUNTED={
+  save=EXTERNAL,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.enableEventCRASHLAND={
+  save=EXTERNAL,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
+this.enableEventLOST_COMS={
+  save=EXTERNAL,
+  default=1,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 --parasite
 this.enableParasiteEvent={
   save=EXTERNAL,
@@ -4210,7 +4238,7 @@ for i,resourceScaleType in ipairs(this.resourceScaleTypes)do
   local ivar={
     save=EXTERNAL,
     default=100,
-    range={max=1000,min=100,increment=100},
+    range={max=1000,min=10,increment=10},
     isPercent=true,
   }
 

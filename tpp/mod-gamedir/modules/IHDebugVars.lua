@@ -7,7 +7,20 @@ function this.PostAllModulesLoad()
   InfCore.Log("IHDebugVars.PostAllModulesLoad: setting debug vars")
 
 
-
+  local blockNames={
+    "mission_block",
+    "quest_block",
+    "demo_block",
+    "reinforce_block",
+    "npc_block",
+    "animal_block",
+    "TppResidentBlockGroup",
+    "CommonStageBlockGroup",
+  }
+  for i,blockName in ipairs(blockNames)do
+    local blockId=ScriptBlock.GetScriptBlockId(blockName)
+    InfCore.Log(blockName.." blockId="..blockId)
+  end
 
   local staffVarNames={
     "mbmStaffSvarsHeaders",
@@ -26,9 +39,9 @@ function this.PostAllModulesLoad()
     end
   end
   --InfCore.PrintInspect(staffVarsHex,"staffVarsHex")
-  
+
   --DEBUGNOW
-  
+
   Ivars.debugMode:Set(1)
   Ivars.debugMessages:Set(1)
   Ivars.debugFlow:Set(1)
@@ -49,7 +62,7 @@ function this.PostAllModulesLoad()
     --  'InfWalkerGear',
     --'InfSoldier',
     --'InfEneFova',
-  }
+    }
   for i,moduleName in ipairs(debugModules)do
     _G[moduleName].debugModule=true
   end

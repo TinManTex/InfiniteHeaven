@@ -384,6 +384,18 @@ function this.OnRestoreSVars()
 	if vars.playerInjuryCount > 0 then
 		Player.HeliUseBloodPack()
 	end
+	
+	--tex>
+	local mbMissions={
+	 30050,30150,30250,
+	}
+	if Ivars.mbEnableMissionPrep:Is(1)then
+  	for i,missionCode in ipairs(mbMissions)do
+    	mvars.heliSpace_SkipMissionPreparetion[missionCode]=false
+    	mvars.heliSpace_NoBuddyMenuFromMissionPreparetion[missionCode]=false
+  	end
+	end
+	--<
 end
 
 

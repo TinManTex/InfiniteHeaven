@@ -757,8 +757,8 @@ function this.Messages()
 					
 					elseif messageId == StrCode32("BeforeFire") then
 						
-						local lifeStatus1 = TppEnemy.GetLifeStatus( enemy_fW_fire1 )
-						local lifeStatus2 = TppEnemy.GetLifeStatus( enemy_fW_fire2 )
+						local lifeStatus1 = TppEnemy.GetLifeStatus( enemy_fW_fire1 )--RETAILBUG 
+						local lifeStatus2 = TppEnemy.GetLifeStatus( enemy_fW_fire2 )--RETAILBUG
 						
 						if lifeStatus1 ~= TppGameObject.NPC_LIFE_STATE_NORMAL then
 							TppEnemy.UnsetSneakRoute( enemy_fW_fire1 )

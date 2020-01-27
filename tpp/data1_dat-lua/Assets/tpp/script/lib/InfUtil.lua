@@ -176,7 +176,17 @@ end
 
 --string
 --tex NMC from lua wiki
-function this.Split(str,delim,maxNb)
+function this.Split(self,sep)
+   local sep = sep or ":"
+   local fields = {}
+   local pattern = string.format("([^%s]+)", sep)
+   self:gsub(pattern, function(c) fields[#fields+1] = c end)
+   return fields
+end
+
+--tex NMC from lua wiki
+--MoonSharp doesn't like gmatch with long strings
+function this.SplitAlt(str,delim,maxNb)
   -- Eliminate bad cases...
   if string.find(str,delim)==nil then
     return{str}
@@ -200,6 +210,7 @@ function this.Split(str,delim,maxNb)
   end
   return result
 end
+
 
 function this.FindLast(searchString,findString)
   --Set the third arg to false to allow pattern matching

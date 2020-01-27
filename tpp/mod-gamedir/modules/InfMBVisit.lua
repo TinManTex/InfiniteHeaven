@@ -31,13 +31,13 @@ function this.Init(missionTable)
   end
 
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
-  
+
   this.ClearMoraleInfo()
 end
 
 function this.OnReload(missionTable)
   this.messageExecTable=nil
-  
+
   if not IvarProc.MissionCheckMbAll() then
     return
   end
@@ -194,7 +194,7 @@ function this.StartLongMbVisitClock()
     TppClock.UnregisterClockMessage("MbVisitDay")
     return
   end
-  
+
   if Ivars.mbMoraleBoosts:Is(0) then
     return
   end

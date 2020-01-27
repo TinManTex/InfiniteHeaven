@@ -20,9 +20,18 @@ this.debugModule=false
 
 --DATA
 this.packages={
-  ARMOR="/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk",
-  MIST="/Assets/tpp/pack/mission2/ih/ih_parasite_mist.fpk",
-  CAMO="/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk",
+  ARMOR={
+    "/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk",
+    --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
+  },
+  MIST={
+    "/Assets/tpp/pack/mission2/ih/ih_parasite_mist.fpk",
+    --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
+  },
+  CAMO={
+    "/Assets/tpp/pack/mission2/ih/ih_parasite_camo.fpk",
+    --OFF script block WIP "/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk",
+  },
 }
 
 --STATE
@@ -285,7 +294,18 @@ function this.AddMissionPacks(missionCode,packPaths)
     return
   end
 
-  packPaths[#packPaths+1]=this.packages[this.parasiteType]
+  --OFF script block WIP packPaths[#packPaths+1]="/Assets/tpp/pack/mission2/ih/parasite_scriptblock.fpk"
+  for i,packagePath in ipairs(this.packages[this.parasiteType])do
+    packPaths[#packPaths+1]=packagePath
+  end
+end
+
+function this.MissionPrepare()
+  if not this.ParasiteEventEnabled() then
+    return
+  end
+
+  --OFF script block WIP TppScriptBlock.RegisterCommonBlockPackList("parasite_block",this.packages)
 end
 
 function this.Init(missionTable)
@@ -646,6 +666,15 @@ function this.StartEventTimer(time)
   --local nextEventTime=10--DEBUG
   InfCore.Log("Timer_ParasiteEvent start in "..nextEventTime,this.debugModule)--DEBUG
 
+--OFF script block WIP 
+--tex fails due to invalid blockId. I can't figure out how fox assigns blockIds. 
+--ScriptBlocks that aren't used for the current mission return invalid, 
+--but as the scriptblock definitions are in the scriptblock fpk itself there's a chicken and egg problem if they're what is used to define the script block name.
+--  local success=TppScriptBlock.Load("parasite_block",this.parasiteType,true,true)--DEBUGNOW TODO only start once block loaded and active
+--  if not success then
+--    InfCore.Log("WARNING: TppScriptBlock.Load returned false")--DEBUG
+--  end
+
   TimerStop(Timer_ParasiteEventStr)
   TimerStart(Timer_ParasiteEventStr,nextEventTime)
   --end,time)--
@@ -663,7 +692,9 @@ function this.StartEvent()
     return
   end
 
-  svars.inf_parasiteEvent=true
+  svars.inf_parasiteEvent=true--DEBUGNOW uhh, why was I using svars again?
+
+
 
   local weatherInfo
   if Ivars.parasiteWeather:Is"PARASITE_FOG" then
@@ -698,7 +729,7 @@ function this.ParasiteAppear()
 
     local isMb=vars.missionCode==30050 or vars.missionCode==30250
     local noCps=false
-    
+
     local closestCp,cpDistance,cpPosition
 
     if noCps then
@@ -709,7 +740,7 @@ function this.ParasiteAppear()
         InfCore.Log("WARNING: ParasiteAppear closestCp==nil",true)--DEBUG
         return
       end
-      
+
       closestDist=cpDistance
 
       if not isMb then--tex TODO: implement for mb
@@ -844,6 +875,13 @@ function this.ArmorParasiteAppear(parasitePos,spawnRadius)
   --      end
   --    end
   --  end
+
+  for k,parasiteName in pairs(this.parasiteNames[this.parasiteType]) do
+    local gameId=GetGameObjectId(parasiteName)
+    if gameId==NULL_ID then
+      InfCore.Log("WARNING: "..parasiteName.. " not found",true)
+    end
+  end
 
   --tex Armor parasites appear all at once, distributed in a circle
   SendCommand({type="TppParasite2"},{id="StartAppearance",position=Vector3(parasitePos[1],parasitePos[2],parasitePos[3]),radius=spawnRadius})

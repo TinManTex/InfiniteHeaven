@@ -446,7 +446,7 @@ this.eng={--english
     "Extract legendary gunsmith",
     "Eliminate tank unit",
     "Eliminate wandering puppets",
-  --"TARGET_PRACTICE",
+    --"TARGET_PRACTICE",
     "Addon sideop",
   },
   randomizeMineTypes="Randomize minefield mine types",
@@ -577,6 +577,25 @@ this.eng={--english
   itemLevelIntScope="Int-Scope level",
   itemLevelIDroid="IDroid level",
   no_developed_camo="No developed camos found for suit",
+  enableEventHUNTED="Allow Hunted event",
+  enableEventCRASHLAND="Allow Crashland event",
+  enableEventLOST_COMS="Allow Lost Coms event",
+  please_select_dd="Player staff id is 0, please select a DD character from sortie character selection",
+  staff_id_not_exist="Staff id %s was not in priority staff list",
+  staff_id_exists="Staff id %s was already in priority staff list",
+  add_staff_id="Adding staff id %s to priority on MB",
+  removing_staff_id="Removing staff id %s from priority on MB",
+  staff_cleared="Priority stff cleared",
+  only_on_mb="This command can only be used on MB",
+  soldier_not_marked="No marked soldier found",
+  addPlayerStaff="Add player staff to MB priority",
+  removePlayerStaff="Remove player staff to MB priority",
+  addMarkerStaff="Add marked staff to MB priority",
+  removeMarkerStaff="Remove marked staff from MB priority",
+  clearPriorityStaff="Clear MB staff priority list",
+  mbStaffMenu="Staff menu",
+  mbStaffInMissionMenu="Staff menu",
+  mbEnableMissionPrep="Enable mission prep to MB",
 }--eng end
 
 this.help={}
@@ -740,6 +759,11 @@ this.help.eng={
   enableIRSensorsMB="Enable IR sensor gates. Only partially working, will only trigger alarm once, and will only show one or no beam.",
   speedCamNoDustEffect="Does not apply the dust and blur effect while TSM is active.",
   showAllOpenSideopsOnUi="Shows all open sideops in sideop list, this mostly affects open but not yet completed sideops from hiding others. There is however a limit of 192 entries for the sideop list, so some will be randomly dropped from the list.",
+  addPlayerStaff="Add the last sortie selected DD member to the Mother Base priority staff list to have them appear on MB",--DEBUGNOW
+  removePlayerStaff="Removes the last sortie selected DD member to the Mother Base priority staff list",
+  addMarkerStaff="Adds the most recently marked staff member to the MB priority list",
+  removeMarkerStaff="Removes the most recently marked staff member from the MB priority list",
+  clearPriorityStaff="Clears MB staff priority list entirely",
 }
 
 this.cpNames={

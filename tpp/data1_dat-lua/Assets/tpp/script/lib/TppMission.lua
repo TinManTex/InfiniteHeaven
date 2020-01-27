@@ -3576,6 +3576,7 @@ function this.IsChunkLoading(chunkIndex)
 end
 function this.Load(nextMissionCode,currentMissionCode,loadSettings)
   InfCore.LogFlow("TppMission.Load nextMissionCode:"..tostring(nextMissionCode).." currentMissionCode:"..tostring(currentMissionCode))--tex
+  InfCore.PrintInspect(loadSettings,"loadSettings")--tex DEBUG
   InfMain.OnLoad(nextMissionCode,currentMissionCode)--tex
   local showLoadingTips
   if(loadSettings and loadSettings.showLoadingTips~=nil)then
@@ -3596,11 +3597,11 @@ function this.Load(nextMissionCode,currentMissionCode,loadSettings)
   if(currentMissionCode~=nextMissionCode)or(loadSettings and loadSettings.force)then
     local locationNameForMissionCode=TppPackList.GetLocationNameFormMissionCode(nextMissionCode)
     local renameLocationNameForSomeMissionCode=TppPackList.GetLocationNameFormMissionCode(currentMissionCode)
-    local locationForce
+    local locationSettings
     if locationNameForMissionCode=="MTBS"and renameLocationNameForSomeMissionCode=="MTBS"then
       if nextMissionCode~=TppDefine.SYS_MISSION_ID.MTBS_HELI then
         if not(loadSettings and loadSettings.ignoreMtbsLoadLocationForce)then
-          locationForce={force=true}
+          locationSettings={force=true}
         end
       end
     end
@@ -3622,7 +3623,7 @@ function this.Load(nextMissionCode,currentMissionCode,loadSettings)
       TppEneFova.InitializeUniqueSetting()
       TppEnemy.PreMissionLoad(nextMissionCode,currentMissionCode)
     end
-    Mission.LoadLocation(locationForce)
+    Mission.LoadLocation(locationSettings)
     Mission.LoadMission(loadSettings)
   else
     Mission.RequestToReload()

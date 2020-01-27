@@ -440,8 +440,23 @@ end
 TppUiCommand={}
 TppUiCommand.AnnounceLogDelayTime=function()
 end
-TppUiCommand.AnnounceLogView=function(string)
-  print(string)
+TppUiCommand.AnnounceLogView=function(message)
+  print("AnnounceLogView:"..message)
+end
+--TODO: tie into actual langId load/lookup (in moonsharp) if you want to go that far.
+TppUiCommand.AnnounceLogViewLangId=function(...)
+  local argsStr={}
+  for i,v in ipairs(arg)do
+    argsStr[#argsStr+1]=tostring(v)
+  end
+  print("AnnounceLogViewLangId:"..table.concat(argsStr,","))
+end
+TppUiCommand.AnnounceLogViewJoinLangId=function(...)
+  local argsStr={}
+  for i,v in ipairs(arg)do
+    argsStr[#argsStr+1]=tostring(v)
+  end
+  print("AnnounceLogViewJoinLangId:"..table.concat(argsStr,","))
 end
 
 WeatherManager={}
