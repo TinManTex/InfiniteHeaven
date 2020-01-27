@@ -149,6 +149,7 @@ this.devInMissionMenu={
   noDoc=true,
   nonConfig=true,
   options={
+  "InfCamera.WarpToCamPos",
     "InfMenuCommands.DEBUG_SomeShiz",
     "InfMenuCommands.DEBUG_SomeShiz2",
     "InfMenuCommands.DEBUG_SomeShiz3",

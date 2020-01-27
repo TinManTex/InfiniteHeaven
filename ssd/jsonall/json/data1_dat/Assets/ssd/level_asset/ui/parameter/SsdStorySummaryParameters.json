@@ -1,0 +1,9 @@
+{
+	"back_story" : [ 
+		{ "story_message_id":"mission_10010_op_epigraph_01", "time_sec":8 }, 
+		{ "story_message_id":"mission_10010_op_epigraph_02", "time_sec":17 }, 
+		{ "story_message_id":"mission_10010_op_epigraph_03", "time_sec":12 }, 
+		{ "story_message_id":"mission_10010_op_epigraph_04", "time_sec":12 }
+	]
+
+}

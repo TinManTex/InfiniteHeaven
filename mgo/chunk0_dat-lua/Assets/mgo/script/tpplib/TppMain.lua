@@ -75,8 +75,11 @@ function this.OnAllocate(missionTable)
   TppWeather.OnEndMissionPrepareFunction()
   this.DisableGameStatus()
   this.EnablePause()
-  TppClock.Stop()moduleUpdateFuncs={}numModuleUpdateFuncs=0
-  RENAMEsomeupdatetable2={}RENAMEsomeupdate2=0
+  TppClock.Stop()
+  moduleUpdateFuncs={}
+  numModuleUpdateFuncs=0
+  RENAMEsomeupdatetable2={}
+  RENAMEsomeupdate2=0
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil)
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
   if TppMission.IsFOBMission(vars.missionCode)then

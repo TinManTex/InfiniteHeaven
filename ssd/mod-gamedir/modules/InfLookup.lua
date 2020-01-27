@@ -470,7 +470,7 @@ end
 
 --tex for Ivars.warpToListObject
 function this.GetObjectList()
-  --return {InfMenuCommands.selectedObject}
+  return {InfMenuCommands.selectedObject}
   --   return{ "sol_mtbs_0000",
   --    "sol_mtbs_0001",
   --    "sol_mtbs_0002",
@@ -498,7 +498,7 @@ function this.GetObjectList()
   --return InfNPC.hostageNames
   --return this.objectNameLists.sol_quest
   --return {"hos_quest_0000"}
-  return InfWalkerGear.walkerNames
+--  return InfWalkerGear.walkerNames
     --return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",}
     --return {"vehicle_quest_0000"}
 end

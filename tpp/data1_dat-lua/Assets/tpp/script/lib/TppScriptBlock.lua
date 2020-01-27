@@ -50,8 +50,8 @@ function this.RegisterCommonBlockPackList(blockName,blockPackList)
   if IsTypeTable(blockPackList)then
     mvars.sbl_scriptBlockPackList[blockName]={}
     mvars.sbl_scriptBlockStrCode32PackList[blockName]={}
-    for packName,packPath in pairs(blockPackList)do
-      mvars.sbl_scriptBlockPackList[blockName][packName]=packPath
+    for packName,packPaths in pairs(blockPackList)do
+      mvars.sbl_scriptBlockPackList[blockName][packName]=packPaths
     end
   else
     return

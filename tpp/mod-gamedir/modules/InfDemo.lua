@@ -144,7 +144,6 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       InfCore.Log("InfDemo: Restarting "..InfInspect.Inspect(demoId))
       DemoDaemon.RestartAll()
     end
-
   end
 end
 

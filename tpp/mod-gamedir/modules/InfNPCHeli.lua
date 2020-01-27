@@ -570,7 +570,6 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   local isMb=vars.missionCode==30050
   local locationName=InfUtil.locationNames[vars.locationCode]
 
-  local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
   local isNight=WeatherManager.IsNight()
   local heliRouteIds=this.heliRouteIds
   for heliIndex=1,#this.heliList do
@@ -610,13 +609,13 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
             local approachDist=700
             if distSqr<approachDist*approachDist and not heliOnApproach[heliIndex] then--tex getting close, don't bail now
               heliOnApproach[heliIndex]=true
-              heliTimes[heliIndex]=elapsedTime+math.random(routeTimeMin,routeTimeMax)
+              heliTimes[heliIndex]=currentTime+math.random(routeTimeMin,routeTimeMax)
             end
             if routeInfo.stickDistance and distSqr<routeInfo.stickDistance then
               heliTimes[heliIndex]=0
             elseif routeInfo.arrivedDistance and distSqr<routeInfo.arrivedDistance then
               --InfCore.DebugPrint(n.." "..heliName.." arrived for route: "..tostring(InfLookup.str32LzToLz[heliRouteIds[n]]))--DEBUG
-              heliTimes[heliIndex]=elapsedTime+math.random(routeInfo.exitTime[1],routeInfo.exitTime[2])
+              heliTimes[heliIndex]=currentTime+math.random(routeInfo.exitTime[1],routeInfo.exitTime[2])
             end
 
             if distSqr<closestDistance[heliIndex] then--DEBUG
@@ -640,11 +639,11 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       --tex TODO set cp to nearest, possibly on second timer so it's not hitting it up every frame
 
       --tex choose new route
-      if heliTimes[heliIndex]<elapsedTime then
+      if heliTimes[heliIndex]<currentTime then
         if isMb then
-          heliTimes[heliIndex]=elapsedTime+math.random(routeTimeMbMin,routeTimeMbMax)
+          heliTimes[heliIndex]=currentTime+math.random(routeTimeMbMin,routeTimeMbMax)
         else
-          heliTimes[heliIndex]=elapsedTime+math.random(routeTimeMin,routeTimeMax)
+          heliTimes[heliIndex]=currentTime+math.random(routeTimeMin,routeTimeMax)
         end
 
         local heliRoute=nil

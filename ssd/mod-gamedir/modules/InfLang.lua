@@ -63,6 +63,7 @@ this.eng={--english
   ihext_not_installed_settings={"Not installed","Not installed"},
   enableHelp="Enable help text (IHExt)",
   loadExternalModules="Reload IH modules",
+  sys_increaseMemoryAlloc="Increase memory allocation",
   searchMenu="Search menu",
   searchItem="Search",
   goBackTopItem="Back to main menu",
@@ -81,6 +82,7 @@ this.help.eng={
   saveToProfile=[[Saves current IH settings to UserSaved profile at MGS_TPP\profiles\UserSaved.lua.]],
   enableIHExt="IHExt is a windows program that acts as an gui overlay if MGSV is running in Windowed Borderless.",
   enableHelp="Shows help text in IHExt for some options.",
+  sys_increaseMemoryAlloc="Experimental: Increses the memory values for various allocation variables/functions",
 }
 
 this.ara={--arabic, unconfirmed lang code, use the Patchup > Show language code option to get the language code and contact me on nexus, untranslated, copy lines from eng to start on

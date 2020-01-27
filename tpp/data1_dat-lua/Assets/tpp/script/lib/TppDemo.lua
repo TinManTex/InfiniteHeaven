@@ -42,8 +42,16 @@ function this.Messages()
           mvars.dm_doneStartMissionTelop=true
         end,
         option={isExecDemoPlaying=true,isExecMissionClear=true}},
-      {msg="StartCastTelopLeft",func=function()TppTelop.StartCastTelop"LEFT_START"end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
-      {msg="StartCastTelopRight",func=function()TppTelop.StartCastTelop"RIGHT_START"end,option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="StartCastTelopLeft",
+        func=function()
+          TppTelop.StartCastTelop"LEFT_START"
+        end,
+        option={isExecDemoPlaying=true,isExecMissionClear=true}},
+      {msg="StartCastTelopRight",
+        func=function()
+          TppTelop.StartCastTelop"RIGHT_START"
+        end,
+        option={isExecDemoPlaying=true,isExecMissionClear=true}},
       nil
     },
     UI={
@@ -54,13 +62,14 @@ function this.Messages()
       {msg="DemoPauseSkip",func=this.FadeOutOnSkip,option={isExecMissionClear=true,isExecDemoPlaying=true,isExecGameOver=true}}
     },
     Timer={
-      {msg="Finish",sender="p31_080110_000_showLocationTelop",func=function()
-        TppUiCommand.RegistInfoTypingText("location",1)
-        TppUiCommand.RegistInfoTypingText("cpname",2,"platform_isolation")
-        TppUiCommand.RegistInfoTypingText("disptime",2)
-        TppUiCommand.ShowInfoTypingText()
-      end,
-      option={isExecDemoPlaying=true}}
+      {msg="Finish",sender="p31_080110_000_showLocationTelop",
+        func=function()
+          TppUiCommand.RegistInfoTypingText("location",1)
+          TppUiCommand.RegistInfoTypingText("cpname",2,"platform_isolation")
+          TppUiCommand.RegistInfoTypingText("disptime",2)
+          TppUiCommand.ShowInfoTypingText()
+        end,
+        option={isExecDemoPlaying=true}}
     }
   }
 end
@@ -152,11 +161,11 @@ this.PLAY_REQUEST_START_CHECK_FUNC={
     end
   end,
   demoBlockLoaded=function(demoId)
-    local findDemoBuddy=FindDemoBody(demoId)
-    if not findDemoBuddy then
+    local demoBody=FindDemoBody(demoId)
+    if not demoBody then
       TppUI.ShowAccessIconContinue()
     end
-    return findDemoBuddy
+    return demoBody
   end,
   playerModelReloaded=function(demoId)
     if mvars.dem_tempPlayerReloadCounter==nil then
@@ -186,8 +195,8 @@ this.PLAY_REQUEST_START_CHECK_FUNC={
     end
   end,
   waitTextureLoadOnDemoPlay=function(demoId)
-    local findDemoBody=FindDemoBody(demoId)
-    if not findDemoBody then
+    local demoBody=FindDemoBody(demoId)
+    if not demoBody then
       TppUI.ShowAccessIconContinue()
       return false
     end
@@ -255,9 +264,9 @@ this.FINISH_WAIT_CHECK_FUNC={
     if not mvars.dem_textureLoadWaitEndTime then
       mvars.dem_textureLoadWaitEndTime=Time.GetRawElapsedTimeSinceStartUp()+30
     end
-    local loadWaitDelta=mvars.dem_textureLoadWaitEndTime-Time.GetRawElapsedTimeSinceStartUp()
+    local waitTime=mvars.dem_textureLoadWaitEndTime-Time.GetRawElapsedTimeSinceStartUp()
     local textureLoadedRate=Mission.GetTextureLoadedRate()
-    if(textureLoadedRate>.35)or(loadWaitDelta<=0)then
+    if(textureLoadedRate>.35)or(waitTime<=0)then
       return true
     else
       TppUI.ShowAccessIconContinue()
@@ -363,7 +372,6 @@ function this.FinalizeOnDemoBlock()
     DemoDaemon.SkipAll()
   end
 end
-
 
 function this.SetDemoTransform(demoName,setInfo)
   local demoId=mvars.dem_demoList[demoName]

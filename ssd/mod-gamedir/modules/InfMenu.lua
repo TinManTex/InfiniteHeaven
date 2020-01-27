@@ -225,6 +225,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
         InfCore.ExtCmd('UiElementVisible','menuHelp',0)
       end
     end
+    InfCore.WriteToExtTxt()
   end
 end
 
@@ -423,6 +424,7 @@ function this.GoMenu(menu,goBack)
       end
       InfCore.ExtCmd('AddToTable','menuItems',settingText)
     end
+    InfCore.WriteToExtTxt()
   end
 
   this.GetSetting(previousIndex,previousMenuOptions)
@@ -508,6 +510,8 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     optionSeperator=itemIndicators.equals
     if currentSetting < 0 or currentSetting > #option.settingNames-1 then
       settingText=" WARNING: current setting out of settingNames bounds"
+      InfCore.Log(settingText.." for "..option.name)
+      InfCore.PrintInspect(option.settingNames,option.name..".settingNames")
     else
       settingText=option.settingNames[currentSetting+1]
     end
@@ -567,6 +571,7 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
       local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
       InfMgsvToExt.SetMenuLine(settingText,menuLineText)
     end
+    InfCore.WriteToExtTxt()
   else
 
     if option==nil then
@@ -695,6 +700,7 @@ function this.OnActivate()
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.ShowMenu()
+    --InfCore.WriteToExtTxt()--tex handled below
     this.DisplayCurrentSetting()
   end
 
@@ -710,6 +716,7 @@ function this.OnDeactivate()
 
   if InfCore.IHExtRunning() then
     InfMgsvToExt.HideMenu()
+    InfCore.WriteToExtTxt()
   end
 end
 
@@ -795,13 +802,16 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     end
   end
 
+  if this.menuOn then
   if InfButton.ButtonHeld(this.menuAltButton) then
     if InfButton.OnButtonDown(this.menuAltActive) then
       if this.menuOn then
         InfCore.ExtCmd('TakeFocus')
+          InfCore.WriteToExtTxt()
         return
       end
     end
+  end
   end
 
   if this.menuOn then
@@ -820,13 +830,18 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
       this.quickMenuOn=InfButton.ButtonHeld(quickMenuHoldButton)
       local quickMenu=InfQuickMenuDefs.inMission
       if currentChecks.inSafeSpace then
-        quickMenu=InfQuickMenuDefs.inSafeSpace
+        quickMenu=InfQuickMenuDefs.inSafeSpace or InfQuickMenuDefs.inHeliSpace--LEGACY
       end
       if currentChecks.inDemo then
         quickMenu=InfQuickMenuDefs.inDemo
       end
+      if quickMenu==nil then
 
+      else
       for button,commandInfo in pairs(quickMenu) do
+          if button==this.menuAltButton then
+
+          else
         InfButton.buttonStates[button].holdTime=0.9--DEBUGNOW --commandInfo.immediate and 0.05 or 0.9
         if commandInfo.immediate then
           this.quickMenuOn=InfButton.ButtonDown(quickMenuHoldButton)
@@ -847,6 +862,8 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
           end
         end
       end
+    end
+  end
     end
   end
   --<

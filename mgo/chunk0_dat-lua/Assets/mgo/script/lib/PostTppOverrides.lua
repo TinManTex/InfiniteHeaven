@@ -47,7 +47,7 @@ function TppVarInit.StartTitle(unk1)
   local actMode=Fox.GetActMode()
   if(actMode=="EDIT")then
     Fox.SetActMode"GAME"
-    end
+  end
 end
 function TppTerminal.AddStaffsFromTempBuffer(e)
 end

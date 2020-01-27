@@ -182,13 +182,13 @@ function this.DispGuide(tipName,displayOption,_)
   end
 end
 function this.DispTipsGuide(contentName,i,S,O,T,ignoreRadio,ignoreDisplay)
-  local T=TppDefine.TIPS[contentName]
-  if not T then
+  local tipId=TppDefine.TIPS[contentName]
+  if not tipId then
     return
   end
-  local E=this.TipsStoryFlag[T]
-  if E then
-    if i<E then
+  local tipStoryFlag=this.TipsStoryFlag[tipId]
+  if tipStoryFlag then
+    if i<tipStoryFlag then
       return
     end
   end
@@ -202,9 +202,9 @@ function this.DispTipsGuide(contentName,i,S,O,T,ignoreRadio,ignoreDisplay)
         return
       end
     end
-    local E=this.TipsLocation[T]
-    if E then
-      if not E()then
+    local CheckTipIsForLocation=this.TipsLocation[tipId]
+    if CheckTipIsForLocation then
+      if not CheckTipIsForLocation()then
         return
       end
     end
@@ -212,22 +212,22 @@ function this.DispTipsGuide(contentName,i,S,O,T,ignoreRadio,ignoreDisplay)
       if this.NoGuideMission[vars.missionCode]then
         return
       end
-      local n=this.IgnoredTipsGuideInMission[T]
-      if n then
-        for e,T in pairs(n)do
-          if vars.missionCode==e then
+      local missions=this.IgnoredTipsGuideInMission[tipId]
+      if missions then
+        for missionCode,ignore in pairs(missions)do
+          if vars.missionCode==missionCode then
             return
           end
         end
       end
       if TppMission.IsBossBattle()then
-        if not this.TipsAllPhase[T]then
+        if not this.TipsAllPhase[tipId]then
           return
         end
       end
     end
     if S then
-      if not this.TipsAllPhase[T]then
+      if not this.TipsAllPhase[tipId]then
         return
       end
     end
@@ -237,7 +237,7 @@ function this.DispTipsGuide(contentName,i,S,O,T,ignoreRadio,ignoreDisplay)
   end
   local isOnce=true
   local isOnceThisGame=false
-  local e=this.TipsExceptTime[T]
+  local e=this.TipsExceptTime[tipId]
   if e then
     isOnce=e.isOnce
     isOnceThisGame=e.isOnceThisGame

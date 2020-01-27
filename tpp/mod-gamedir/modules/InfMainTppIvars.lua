@@ -735,6 +735,7 @@ this.playerHandEquip={
 --< ivar defs
 
 this.registerMenus={
+  "miscInMissionMenu",
   "playerRestrictionsMenu",
   "playerRestrictionsInMissionMenu",
   "disableSupportMenuMenu",
@@ -749,6 +750,14 @@ this.registerMenus={
   "handLevelMenu",
   "fultonLevelMenu",
   "fultonSuccessMenu",
+}
+
+this.miscInMissionMenu={
+  parentRefs={"InfMenuDefs.inMissionMenu"},
+  options={
+    "Ivars.itemDropChance",
+    "Ivars.playerHealthScale",
+  }
 }
 
 this.playerRestrictionsMenu={
@@ -938,6 +947,7 @@ this.fultonSuccessMenu={
 --< menu defs
 this.langStrings={
   eng={
+    miscInMissionMenu="Misc menu",
     motherBaseMenu="Mother Base menu",
     playerHealthScale="Player life scale",
     unlockPlayableAvatar="Unlock playable avatar",

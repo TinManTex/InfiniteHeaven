@@ -290,9 +290,38 @@ this.log=""
 this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
+  
+  
+    InfUAV.SetupUAV()
+  
+  --InfCore.PrintInspect(InfCore,"InfCore")
+
+  if true then return end
+  
+  --DEBUGNOW
+
+  local camName=InfCamera.GetCurrentCamName()
+    InfCamera.WritePosition(camName,Vector3(824.9653,5.504622,-138.0344))
+  --InfCamera.WritePosition(camName,Vector3(2629.15747,181.129547,-2462.71436))
+
+
+  InfCore.PrintInspect(Time,"Time")
+  local timeResult={
+    deltaGameTime=Time.GetDeltaGameTime(),
+    gameTimeRate=Time.GetGameTimeRate(),
+    frameTime=Time.GetFrameTime(),
+    rawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp(),
+    frameIndex=Time.GetFrameIndex(),
+  }
+
+  for name,result in pairs(timeResult)do
+    InfCore.Log(name..":"..tostring(result))
+  end
 
 
 
+  if true then return end
+  --DEBUGNOW
   InfUAV.SetupUAV()
   if true then return end
   local fileList=File.GetFileListTable("/Assets/tpp/pack/player/motion/player2_location_motion.fpk")

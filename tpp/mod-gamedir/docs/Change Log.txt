@@ -1,5 +1,18 @@
 Infinite Heaven changelog
 
+r228 - 2018-04-16
+Fixed: IH buttons/menu responsiveness when using HighSpeedCam/TimeScaleMode - InfButtons/InfMenu using os.clock instead of Time.GetRawElapsed (which is synced to game timescale) - thanks VenomHSCV for the prod.
+InfWeather:
+Option: weather_forceType - Force weather
+Option: weather_fogDensity - Fog density
+Option: weather_fogType - Fog type
+(via In-mission > Weather menu)
+
+Option: clock_setTime - Set clock time
+(via In-Mission > Time scale menu)
+
+QuickMenu: Reverted button back to <Call>
+
 r227 - 2018-04-04
 Fixed: Prior style QuickMenus breaking in various ways (SOC quickmenu for example).
 Refactor: No longer calling WriteToExtTxt() every ExtCmd, should smooth IHExt performance a bit.

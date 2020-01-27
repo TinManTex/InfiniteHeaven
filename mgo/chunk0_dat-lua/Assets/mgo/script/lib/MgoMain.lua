@@ -73,7 +73,8 @@ function this.OnAllocate(missionTable)
   numDebugUpdateFuncs=0
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil,{setMute=true})
   TppSave.WaitingAllEnqueuedSaveOnStartMission()
-  TppGameStatus.Set("Mission","S_IS_ONLINE")Mission.Start()
+  TppGameStatus.Set("Mission","S_IS_ONLINE")
+  Mission.Start()
   TppMission.WaitFinishMissionEndPresentation()
   TppMission.DisableInGameFlag()
   TppException.OnAllocate(missionTable)
@@ -162,8 +163,11 @@ function this.OnAllocate(missionTable)
         end
         TppPlayer.RestorePlayerItemsOnMissionStart()
         TppUI.OnMissionStart()
-        TppPlayer.SetInitialPositionFromMissionStartPosition()PlayRecord.RegistPlayRecord"MISSION_START"else
-        PlayRecord.RegistPlayRecord"MISSION_RETRY"Gimmick.RestoreSaveDataPermanentGimmickFromCheckPoint()
+        TppPlayer.SetInitialPositionFromMissionStartPosition()
+        PlayRecord.RegistPlayRecord"MISSION_START"
+        else
+        PlayRecord.RegistPlayRecord"MISSION_RETRY"
+        Gimmick.RestoreSaveDataPermanentGimmickFromCheckPoint()
         TppMotherBaseManagement.SetupAfterRestoreFromSVars()
       end
     end

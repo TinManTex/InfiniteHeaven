@@ -4,12 +4,12 @@
 -- See Readme for more info
 local this={}
 this.ihVer=4
-this.saveTime=1522801524
+this.saveTime=1523842869
 this.inMission=false
 this.loadToACC=false
 this.evars={
 	avatar_enableGenderSelect=1,
-	speedCamPlayerTimeScale=1.5,
+	speedCamPlayerTimeScale=1.4,
 	disableGameOver=1,
 	debugFlow=1,
 	disableCommonRadio=1,
@@ -20,6 +20,7 @@ this.evars={
 	gear_Helmet=29,
 	enableHelp=1,
 	dust_wallVisible=0,
+	demo_playList=6,
 	enableQuickMenu=1,
 	gear_Arm=11,
 	speedCamContinueTime=1000,

@@ -21,8 +21,6 @@ this.inMissionMenu={
     "InfHelicopter.ForceExitHeliAlt",
     "InfMenuCommandsTpp.DropCurrentEquip",
     "Ivars.warpPlayerUpdate",
-    "Ivars.itemDropChance",--DEBUGNOW
-    "Ivars.playerHealthScale",--DEBUGNOW
   }
 }
 

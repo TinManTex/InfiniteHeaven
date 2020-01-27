@@ -769,6 +769,7 @@ Time scale of the player during TSM
 Does not apply the dust and blur effect while TSM is active.
 6: Clock time scale : 1-10000
 Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
+7: Set clock time : 00
 
 ===============
 
@@ -782,23 +783,21 @@ Lets you exit the helicopter while riding it, mind the fall.
 4: Drop current equip : 0-1
 5: Warp [Mode] : Off, On
 Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.
-6: Soldier item drop chance : 0-100%
-Chance soldier will drop an item when eliminated.
-7: Player life scale : 0-650%
-8: Appearance menu
-9: Buddy menu
-10: Camera menu
-11: Debug stuff menu
-12: Enemy phases menu
-13: MB Ocean menu
-14: Markers menu
-15: Motions menu
-16: Positions menu
-17: Staff menu
-18: Support heli menu
-19: Time scale menu
-20: User marker menu
-21: debugQuestAreaMenu
+6: Appearance menu
+7: Buddy menu
+8: Camera menu
+9: Debug stuff menu
+10: Enemy phases menu
+11: MB Ocean menu
+12: Markers menu
+13: Misc menu
+14: Motions menu
+15: Positions menu
+16: Staff menu
+17: Support heli menu
+18: Time scale menu
+19: User marker menu
+20: Weather menu
 
 Appearance menu
 ---------------
@@ -963,6 +962,12 @@ Disables markers above soldiers and objects
 2: Disable world markers : Off, On
 Disables objective and placed markers
 
+Misc menu
+---------
+1: Soldier item drop chance : 0-100%
+Chance soldier will drop an item when eliminated.
+2: Player life scale : 0-650%
+
 Motions menu
 - Play different animations on player. A motion group may contain several related animations (usually lead-in, idle, lead-out)
 ------------
@@ -1036,6 +1041,7 @@ Time scale of the player during TSM
 Does not apply the dust and blur effect while TSM is active.
 6: Clock time scale : 1-10000
 Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.
+7: Set clock time : 00
 
 User marker menu
 ----------------
@@ -1049,6 +1055,8 @@ Writes Positions List to files in MGS_TPP\mod\
 6: Clear Positions List : 0-1
 Clears Positions List
 
-debugQuestAreaMenu
-------------------
-1: enableDebugQuestArea : Off, On
+Weather menu
+------------
+1: Force weather : NONE, SUNNY, CLOUDY, RAINY, SANDSTORM, FOGGY
+2: Fog density : 0-1
+3: Fog type : NORMAL, PARASITE

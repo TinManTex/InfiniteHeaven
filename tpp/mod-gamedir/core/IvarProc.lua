@@ -184,6 +184,7 @@ function this.SetSetting(self,setting,noSave)
   if self.noBounds~=true then
     if setting < self.range.min or setting > self.range.max then
       InfCore.Log("WARNING: SetSetting for "..self.name.." OUT OF BOUNDS",true)
+      InfCore.PrintInspect(self.range,self.name..".range")
       return
     end
   end

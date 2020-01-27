@@ -291,6 +291,20 @@ this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
   
+ --   Tpp.SetGameStatus{target={S_DISABLE_PLAYER_DAMAGE=true},enable=true,scriptName="TppMain.lua"}
+TppGameStatus.Set( "TitleSequence", "S_DISABLE_PLAYER_DAMAGE")
+  
+  
+  --DEBUGNOW
+  
+  local weatherType=TppDefine.WEATHER.SUNNY
+  local interpTime=1
+    TppWeather.CancelForceRequestWeather()
+    TppWeather.ForceRequestWeather(weatherType,interpTime)
+  
+  InfCore.PrintInspect(mvars.dem_demoList,"---------------!!!!!--mvars.dem_demoList")
+  
+  
 InfCore.Log("zzzzzzzzzzzzt")
   mvars.mis_fobDisableAlertMissionArea=true
     mvars.mis_ignoreAlertOfMissionArea=true
@@ -394,6 +408,11 @@ local toggle2=true
 this.DEBUG_SomeShiz2=function()
   InfCore.Log("---DEBUG_SomeShiz2---")
 
+
+TppGameStatus.Set( "trap_missionArea", "S_IN_MISSION_AREA")
+
+
+if true then return end
 InfCore.PrintInspect(InfLookup.TppDamage.attackId,"---------attackId")
 InfCore.PrintInspect(TppDamage,"---------TppDamage")
 InfCore.PrintInspect(TppDamage.ATK_None,"---------ATK_None")

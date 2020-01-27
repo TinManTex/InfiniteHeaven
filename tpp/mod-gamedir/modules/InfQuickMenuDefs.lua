@@ -29,6 +29,10 @@ local this={}
 
 --this.forceEnable=true--tex overrides the Enable quick menu option in the IH system menu
 
+--tex button to hold to enable the quick menu command buttons
+--make sure this doesn't conflict with any of the menu command buttons below
+this.quickMenuHoldButton=InfButton.CALL
+
 this.inSafeSpace={
   [InfButton.RELOAD]={Command='InfCamera.ToggleFreeCam'},
 }

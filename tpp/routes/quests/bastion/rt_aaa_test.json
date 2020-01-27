@@ -22,25 +22,12 @@
         },
         "Events": [
           {
-            "EventType": "RelaxedWalk",
-            "Param1": 0,
-            "Param2": 0,
-            "Param3": 0,
-            "Param4": 0,
-            "Param5": 0,
-            "Param6": 0,
-            "Param7": 0,
-            "Param8": 0,
-            "Param9": 0,
-            "Param10": 0,
-          },
-          {
             "EventType": "RelaxedIdleAct",
-            "Param1": 1,
+            "Param1": 257,
             "Param2": 3737518559,
-            "Param3": 0,
-            "Param4": 0,
-            "Param5": 0,
+            "Param3": 3301457404,
+            "Param4": 1135950463,
+            "Param5": 3279521645,
             "Param6": 0,
             "Param7": 496717012,
             "Param8": 0,
@@ -56,7 +43,7 @@
           "Z": -273.301544
         },
         "EdgeEvent": {
-          "EventType": "None",
+          "EventType": "RelaxedWalk",
           "Param1": 0,
           "Param2": 0,
           "Param3": 0,
@@ -69,19 +56,6 @@
           "Param10": 0,
         },
         "Events": [
-          {
-            "EventType": "RelaxedWalk",
-            "Param1": 0,
-            "Param2": 0,
-            "Param3": 0,
-            "Param4": 0,
-            "Param5": 0,
-            "Param6": 0,
-            "Param7": 0,
-            "Param8": 0,
-            "Param9": 0,
-            "Param10": 0,
-          },
           {
             "EventType": "RelaxedIdleAct",
             "Param1": 1,

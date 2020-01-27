@@ -57,10 +57,11 @@ this.loadAddonMission={
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
   settings={},
   OnSelect=function(self)
-    self.settings={}
+    InfUtil.ClearArray(self.settings)
     for i,missionCode in pairs(InfMission.missionIds)do
       self.settings[#self.settings+1]=tostring(missionCode)
     end
+    table.sort(self.settings)
     self.range.max=#self.settings-1
     self.settingNames=self.settings
   end,
@@ -69,13 +70,14 @@ this.loadAddonMission={
       return "No addon missions installed"--DEBUGNOW TODO langid
     end
 
-    local settingStr=self.settings[setting+1]
-    local missionCode=tonumber(settingStr)
+    local missionCodeStr=self.settings[setting+1]
+    local missionCode=tonumber(missionCodeStr)
     local missionInfo=InfMission.missionInfo[missionCode]
     if missionInfo then
-      return missionInfo.description or settingStr--DEBUGNOW
+      local location=missionInfo.location
+      return "["..missionCodeStr.."]["..location.."] "..(missionInfo.description or "")--DEBUGNOW
     else
-      return "No missionInfo for "..settingStr --DEBUGNOW TODO langid
+      return "No missionInfo for "..missionCodeStr --DEBUGNOW TODO langid
     end
   end,
   OnActivate=function(self,setting)
@@ -590,7 +592,7 @@ function this.Init(missionTable)
 end
 
 function this.LoadMissionManual(missionCode)
-  local loadDirect=true--DEBUGNOW
+  local loadDirect=false--DEBUGNOW
 
   --TppMission.Load( tonumber(settingStr), vars.missionCode, { showLoadingTips = false } )
   --TppMission.RequestLoad(tonumber(settingStr),vars.missionCode,{force=true,showLoadingTips=true})--,ignoreMtbsLoadLocationForce=mvars.mis_ignoreMtbsLoadLocationForce})

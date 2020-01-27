@@ -118,6 +118,7 @@ this.dust_forceWeather={
 this.dust_fogDensity={
   save=IvarProc.CATEGORY_EXTERNAL,
   range={min=0,max=1.0,increment=0.001},--DEBUGNOW
+  default=0.1,
   OnChange=function(self,setting)
 
   end,
@@ -242,9 +243,9 @@ function this.OnEnterDust()
     if weatherType==TppDefine.WEATHER.FOGGY then
       local fogDensity=Ivars.dust_fogDensity:Get()
       local fogType=Ivars.dust_fogType:Get()
-      fogType=fogTypeToWeatherFogType[fogType]
+      fogType=fogTypeToWeatherFogType[fogType+1]
 
-      fogParam={fogDensity=fogDensity,fogType}
+      fogParam={fogDensity=fogDensity,fogType=fogType}
     end
     TppWeather.ForceRequestWeather(weatherType,interpTime,fogParam)
     WeatherManager.ClearTag("ssd_ClearSky",5)

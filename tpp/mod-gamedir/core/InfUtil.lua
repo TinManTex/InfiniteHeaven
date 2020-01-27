@@ -6,7 +6,7 @@ local this={}
 
 function this.ClearTable(_table)
   for k,v in pairs(_table)do
-    table[k]=nil
+    _table[k]=nil
   end
 end
 function this.ClearArray(_table)

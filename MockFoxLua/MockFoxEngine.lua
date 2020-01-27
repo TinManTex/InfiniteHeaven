@@ -315,7 +315,7 @@ Script.IsLoadingLibrary=function()
 end
 
 Time={}
-Time.GetRawElapsedTimeSinceStartUp=function()--TODO IMPLEMENT
+Time.GetRawElapsedTimeSinceStartUp=function()--TODO IMPLEMENT, os.clock isn't granular enough (only returns in seconds)
   return os.clock()
 end
 

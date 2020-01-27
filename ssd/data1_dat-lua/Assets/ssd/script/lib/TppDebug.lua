@@ -1085,10 +1085,10 @@ function this.DebugUpdate()
     local o={"sequence","enemy","demo","radio","sound"}
     local o=o[mvars.debug.showSubscriptMessageTable]
     if o then
-      local i=TppMission.GetMissionName()..("_"..o)
+      local missionName=TppMission.GetMissionName()..("_"..o)
       if mvars.rad_subScripts[o]then
         local a=mvars.rad_subScripts[o]._messageExecTable
-        this.ShowMessageTable(context,i,a)
+        this.ShowMessageTable(context,missionName,a)
       end
     end
   end

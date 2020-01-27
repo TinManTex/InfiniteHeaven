@@ -374,8 +374,6 @@ this.execChecks={
   inIdroid=false,
 }
 
-this.currentTime=0
-
 this.abortToAcc=false--tex
 
 --IN/OUT SIDE: currentchecks
@@ -424,7 +422,7 @@ function this.Update()
   end
   local currentChecks=this.execChecks
   this.UpdateExecChecks(currentChecks)
-  this.currentTime=GetRawElapsedTimeSinceStartUp()
+  local currentTime=GetRawElapsedTimeSinceStartUp()
 
   InfButton.UpdateHeld()
   InfButton.UpdateRepeatReset()
@@ -448,7 +446,7 @@ function this.Update()
         local active=this.ValueOrIvarValue(module.active)
         if module.active==nil or active>0 then
           local updateRate=this.ValueOrIvarValue(module.updateRate)
-          this.ExecUpdate(currentChecks,this.currentTime,module.execCheckTable,module.execState,updateRate,module.Update)
+          this.ExecUpdate(currentChecks,currentTime,module.execCheckTable,module.execState,updateRate,module.Update)
         end
 
         currentChecks.inMenu=InfMenu.menuOn

@@ -1,5 +1,5 @@
 = Infinite heaven =
-r227 - 2018-04-04
+r228 - 2018-04-16
 by tin man tex
 For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
@@ -16,6 +16,19 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r228
+Fixed: IH buttons/menu responsiveness when using HighSpeedCam/TimeScaleMode - InfButtons/InfMenu using os.clock instead of Time.GetRawElapsed (which is synced to game timescale) - thanks VenomHSCV for the prod.
+InfWeather:
+Option: weather_forceType - Force weather
+Option: weather_fogDensity - Fog density
+Option: weather_fogType - Fog type
+(via In-mission > Weather menu)
+
+Option: clock_setTime - Set clock time
+(via In-Mission > Time scale menu)
+
+QuickMenu: Reverted button back to <Call>
+
 New for r227
 Fixed: Prior style QuickMenus breaking in various ways (SOC quickmenu for example).
 Refactor: No longer calling WriteToExtTxt() every ExtCmd, should smooth IHExt performance a bit.

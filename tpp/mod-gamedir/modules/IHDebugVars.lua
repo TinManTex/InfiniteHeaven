@@ -5,8 +5,8 @@ local this={}
 
 function this.PostAllModulesLoad()
   InfCore.LogFlow("IHDebugVars.PostAllModulesLoad: setting debug vars")
-  
-  
+
+
   Ivars.debugMode:Set(1)
   Ivars.debugMessages:Set(1)
   Ivars.debugFlow:Set(1)
@@ -15,8 +15,8 @@ function this.PostAllModulesLoad()
   Ivars.enableQuickMenu:Set(1)
 
   local debugModules={
-  'InfMain',
-  'InfMenuDefs',
+    'InfMain',
+    'InfMenuDefs',
     --  'InfNPC',
     --  'InfModelProc',
     --  'InfQuest',
@@ -35,14 +35,11 @@ function this.PostAllModulesLoad()
   for i,moduleName in ipairs(debugModules)do
     _G[moduleName].debugModule=true
   end
-  
-  
-  
 
-  --DEBUGNOW
 
-  --DEBUGNOW
+  this.PrintUpdateTimes()
 
+  InfCore.Log("IHDebugVars: process toMgsvCmdsFilePath benchmark")
   local startTime=os.clock()
   local file,openError=io.open(InfCore.toMgsvCmdsFilePath,"r")
   local openTime=os.clock()-startTime
@@ -63,26 +60,6 @@ function this.PostAllModulesLoad()
 
   --
 
-
-    InfMain.debugModule=true
-    InfCore.PrintInspect(InfMain.updateTimes,"updateTimes")
-    local averageTimes={}
-    for k,v in pairs(InfMain.updateTimes)do
-      averageTimes[k]=0
-    end
-    for k,times in pairs(InfMain.updateTimes)do
-      for i,timer in ipairs(times)do
-        averageTimes[k]=averageTimes[k]+timer
-      end
-    end
-  
-    for k,times in pairs(InfMain.updateTimes)do
-      averageTimes[k]=string.format("%.12f",averageTimes[k]/#times)
-    end
-  --DEBUGNOW
-
-  InfCore.PrintInspect(averageTimes,"averageTimes")
-  InfMain.updateTimes={}
 
   local blockNames={
     "mission_block",
@@ -131,6 +108,26 @@ function this.PostAllModulesLoad()
 
   --Ivars.customSoldierTypeFREE:Set"OFF"
   --Ivars.disableXrayMarkers:Set(1)
+end
+
+function this.PrintUpdateTimes()
+  InfCore.PrintInspect(InfMain.updateTimes,"updateTimes")
+  local averageTimes={}
+  for k,v in pairs(InfMain.updateTimes)do
+    averageTimes[k]=0
+  end
+  for k,times in pairs(InfMain.updateTimes)do
+    for i,timer in ipairs(times)do
+      averageTimes[k]=averageTimes[k]+timer
+    end
+  end
+
+  for k,times in pairs(InfMain.updateTimes)do
+    averageTimes[k]=string.format("%.12f",averageTimes[k]/#times)
+  end
+
+  InfCore.PrintInspect(averageTimes,"averageTimes")
+  InfMain.updateTimes={}
 end
 
 function this.PrintStrCodes()

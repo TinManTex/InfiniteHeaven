@@ -8,13 +8,14 @@ local open=io.open
 local tostring=tostring
 local concat=table.concat
 local string=string
-local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
+--CULL local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
+local GetElapsedTime=os.clock--GOTCHA: os.clock wraps at ~4,294 seconds
 local isMockFox=isMockFox
 local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion="226"
+this.modVersion="228"
 this.modName="Infinite Heaven"
 
 this.gameId="TPP"
@@ -69,7 +70,7 @@ function this.Log(message,announceLog,force)
     this.DebugPrint(message)
   end
 
-  local elapsedTime=GetRawElapsedTimeSinceStartUp()
+  local elapsedTime=GetElapsedTime()
 
   local line="|"..elapsedTime.."|"..message
   this.log[#this.log+1]=line
@@ -129,7 +130,7 @@ function this.WriteLogLine(message)
     return
   end
 
-  local elapsedTime=GetRawElapsedTimeSinceStartUp()
+  local elapsedTime=GetElapsedTime()
   --tex TODO os time?
 
 

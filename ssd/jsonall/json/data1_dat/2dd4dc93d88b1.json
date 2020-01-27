@@ -1,0 +1,23 @@
+{
+	"dialogue" : [ 
+		{ "id_code":1090720433, "index":1, "langId":3483346843, "fileName":"alog1000", "titleMessageId":102201203056813, "infoMessageId":92773521719177, "reporterMessageId":113762839365747, "dataTimeSecJP":248, "dataTimeSecEN":291 }, 
+		{ "id_code":3090727054, "index":2, "langId":2943670598, "fileName":"alog2000", "titleMessageId":35497754831218, "infoMessageId":142016722839641, "reporterMessageId":113762839365747, "dataTimeSecJP":83, "dataTimeSecEN":79 }, 
+		{ "id_code":3285443534, "index":3, "langId":772554641, "fileName":"alog3000", "titleMessageId":32181370792685, "infoMessageId":239576133012247, "reporterMessageId":113762839365747, "dataTimeSecJP":126, "dataTimeSecEN":123 }, 
+		{ "id_code":3595060393, "index":4, "langId":2359522140, "fileName":"alog4000", "titleMessageId":177974527829329, "infoMessageId":119069746709916, "reporterMessageId":113762839365747, "dataTimeSecJP":159, "dataTimeSecEN":144 }, 
+		{ "id_code":3758501457, "index":5, "langId":188406183, "fileName":"alog5000", "titleMessageId":119336640550813, "infoMessageId":61947084260727, "reporterMessageId":113762839365747, "dataTimeSecJP":78, "dataTimeSecEN":73 }, 
+		{ "id_code":1155347928, "index":6, "langId":3938474418, "fileName":"alog6000", "titleMessageId":81226360886979, "infoMessageId":106184906073476, "reporterMessageId":113762839365747, "dataTimeSecJP":98, "dataTimeSecEN":91 }, 
+		{ "id_code":554890845, "index":7, "langId":1767358365, "fileName":"alog7000", "titleMessageId":236441720949891, "infoMessageId":216588326711522, "reporterMessageId":113762839365747, "dataTimeSecJP":85, "dataTimeSecEN":92 }, 
+		{ "id_code":2101715934, "index":8, "langId":3354325832, "fileName":"alog8000", "titleMessageId":73057679764127, "infoMessageId":95283535606748, "reporterMessageId":113762839365747, "dataTimeSecJP":187, "dataTimeSecEN":179 }, 
+		{ "id_code":418179594, "index":9, "langId":667114483, "fileName":"alog9000", "titleMessageId":32697756730144, "infoMessageId":26890842834962, "reporterMessageId":113762839365747, "dataTimeSecJP":246, "dataTimeSecEN":231 }, 
+		{ "id_code":3406677469, "index":10, "langId":128824610, "fileName":"blog1000", "titleMessageId":185016709258938, "infoMessageId":72351390798144, "reporterMessageId":29361173444129, "dataTimeSecJP":176, "dataTimeSecEN":151 }, 
+		{ "id_code":1273364990, "index":11, "langId":694512023, "fileName":"blog2000", "titleMessageId":15833622513441, "infoMessageId":195892196930896, "reporterMessageId":29361173444129, "dataTimeSecJP":128, "dataTimeSecEN":104 }, 
+		{ "id_code":3861694868, "index":12, "langId":2844839628, "fileName":"blog3000", "titleMessageId":101835141135678, "infoMessageId":148114211335938, "reporterMessageId":29361173444129, "dataTimeSecJP":143, "dataTimeSecEN":112 }, 
+		{ "id_code":993842023, "index":13, "langId":1257872129, "fileName":"blog4000", "titleMessageId":268636793917956, "infoMessageId":212714006081371, "reporterMessageId":29361173444129, "dataTimeSecJP":154, "dataTimeSecEN":114 }, 
+		{ "id_code":3242523552, "index":14, "langId":3428988214, "fileName":"blog5000", "titleMessageId":258833497980072, "infoMessageId":263513689255614, "reporterMessageId":29361173444129, "dataTimeSecJP":151, "dataTimeSecEN":141 }, 
+		{ "id_code":3611301507, "index":15, "langId":1842020619, "fileName":"blog6000", "titleMessageId":174310949733791, "infoMessageId":24617385751085, "reporterMessageId":29361173444129, "dataTimeSecJP":128, "dataTimeSecEN":115 }, 
+		{ "id_code":1331783050, "index":16, "langId":3992348320, "fileName":"blog7000", "titleMessageId":253183907360432, "infoMessageId":275802147980872, "reporterMessageId":29361173444129, "dataTimeSecJP":86, "dataTimeSecEN":71 }, 
+		{ "id_code":1001155541, "index":17, "langId":3731410789, "fileName":"blog8000", "titleMessageId":204420695582681, "infoMessageId":7057061162640, "reporterMessageId":29361173444129, "dataTimeSecJP":77, "dataTimeSecEN":63 }, 
+		{ "id_code":1457133359, "index":18, "langId":4271087034, "fileName":"blog9000", "titleMessageId":278464106399179, "infoMessageId":42454308115600, "reporterMessageId":29361173444129, "dataTimeSecJP":68, "dataTimeSecEN":61 }
+	]
+
+}

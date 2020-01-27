@@ -1085,7 +1085,8 @@ function this.CreateInstance(missionName)
         OnLeave=function()end}
       instance.sequences.Seq_Game_RequestCoopEndToServer={
         OnEnter=function(e)
-          Mission.RequestCoopEndToServer()e.isRequestedGameOver=false
+          Mission.RequestCoopEndToServer()
+          e.isRequestedGameOver=false
         end,
         OnUpdate=function(e)
           if Mission.IsCoopRequestBusy()then

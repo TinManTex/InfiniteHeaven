@@ -12,9 +12,14 @@ local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 local TppUiCommand=TppUiCommand
-local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
+--CULL local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
+local GetElapsedTime=os.clock--GOTCHA: os.clock wraps at ~4,294 seconds
 local insert=table.insert
 local abs=math.abs
+local pairs=pairs
+
+local ivars=ivars
+local InfQuickMenuDefs--PostModuleLoad
 
 this.autoDisplayDefault=2.4
 this.autoRateHeld=0.85
@@ -60,6 +65,10 @@ this.lastStickInput=0
 
 function this.PostModuleLoad()
   this.MenuOff()
+end
+
+function this.PostAllModulesLoad()
+  InfQuickMenuDefs=InfQuickMenuDefs_User or _G.InfQuickMenuDefs
 end
 
 --IN/SIDE: InfMenuCommands.commandItems
@@ -510,6 +519,8 @@ function this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,s
     optionSeperator=itemIndicators.equals
     if currentSetting < 0 or currentSetting > #option.settingNames-1 then
       settingText=" WARNING: current setting out of settingNames bounds"
+      InfCore.Log(settingText.." for "..option.name)
+      InfCore.PrintInspect(option.settingNames,option.name..".settingNames")
     else
       settingText=option.settingNames[currentSetting+1]
     end
@@ -731,6 +742,7 @@ end
 --tex called directly from InfMain.Update
 function this.Update(currentChecks,currentTime,execChecks,execState)
   local InfMenuDefs=InfMenuDefs
+
   --tex current stuff in OnDeactivate doesnt need/want to be run in !inGame, so just dump out
   --TODO NOTE controlset deactivate on game state change
   --DEBUGNOW
@@ -804,8 +816,10 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     if InfButton.ButtonHeld(this.menuAltButton) then
       if InfButton.OnButtonDown(this.menuAltActive) then
         if this.menuOn then
-          InfCore.ExtCmd('TakeFocus')
-          InfCore.WriteToExtTxt()
+          if InfCore.IHExtRunning() then
+            InfCore.ExtCmd('TakeFocus')
+            InfCore.WriteToExtTxt()
+          end
           return
         end
       end
@@ -821,10 +835,9 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end--!menuOn
 
   --quickmenu>
-  local InfQuickMenuDefs=InfQuickMenuDefs_User or InfQuickMenuDefs
   if InfQuickMenuDefs and not this.menuOn then
-    if InfQuickMenuDefs.forceEnable or Ivars.enableQuickMenu:Is(1) then
-      local quickMenuHoldButton=this.menuAltButton
+    if InfQuickMenuDefs.forceEnable or ivars.enableQuickMenu==1 then
+      local quickMenuHoldButton=InfQuickMenuDefs.quickMenuHoldButton or this.menuAltButton
       this.quickMenuOn=InfButton.ButtonHeld(quickMenuHoldButton)
       local quickMenu=InfQuickMenuDefs.inMission
       if currentChecks.inSafeSpace then
@@ -872,7 +885,9 @@ function this.ActivateControlSet()
   if this.toggleMenuButton then
     InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime
   end
-  --DEBUGNOW  InfButton.buttonStates[InfQuickMenuDefs.quickMenuHoldButton].holdTime=this.quickMenuHoldTime
+  if InfQuickMenuDefs and InfQuickMenuDefs.quickMenuHoldButton then
+    InfButton.buttonStates[InfQuickMenuDefs.quickMenuHoldButton].holdTime=this.quickMenuHoldTime
+  end
 
   InfButton.buttonStates[this.menuUpButton].decrement=0.1
   InfButton.buttonStates[this.menuDownButton].decrement=0.1

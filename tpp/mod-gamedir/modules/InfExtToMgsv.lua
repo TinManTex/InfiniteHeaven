@@ -69,7 +69,7 @@ function this.ProcessCommands()
   end
   if InfCore.extSession~=0 then--tex ihExt hasnt started
     if InfCore.extToMgsvComplete~=extToMgsvPrev or this.extSession~=extPrevSession then
-      InfCore.WriteToExtTxt()--tex update due to extToMgsvComplete change
+      InfCore.WriteToExtTxt()--tex update due to extToMgsvComplete change or session change
   end
   end
 end

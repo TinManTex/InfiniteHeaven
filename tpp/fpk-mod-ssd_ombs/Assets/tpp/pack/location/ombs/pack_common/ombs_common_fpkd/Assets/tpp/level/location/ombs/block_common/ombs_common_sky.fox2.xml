@@ -1,0 +1,1127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fox formatVersion="2" fileVersion="0">
+  <classes>
+    <class name="Entity" super="" version="2" />
+    <class name="Data" super="Entity" version="2" />
+    <class name="DataSet" super="" version="0" />
+    <class name="Locator" super="" version="0" />
+    <class name="TransformEntity" super="" version="0" />
+    <class name="TppLightProbeSHCoefficients" super="" version="1" />
+    <class name="GrReflectionSetting" super="" version="0" />
+    <class name="WindGlobal" super="" version="0" />
+    <class name="WindParameter" super="" version="6" />
+    <class name="TppSky" super="" version="11" />
+    <class name="TppVfxFileLoader" super="" version="2" />
+    <class name="TppTextureLoader" super="" version="1" />
+    <class name="TppSunLightFlare" super="" version="1" />
+    <class name="TppOcean" super="" version="12" />
+    <class name="TppFourierOcean" super="" version="0" />
+    <class name="LightArray" super="" version="2" />
+    <class name="TppLightProbeArray" super="" version="2" />
+    <class name="TexturePackLoadConditioner" super="" version="0" />
+  </classes>
+  <entities>
+    <entity class="DataSet" classVersion="0" addr="0x058667C0" unknown1="304" unknown2="217506">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="dataList" type="EntityPtr" container="StringMap" arraySize="23">
+          <value key="AllLight">0x05868350</value>
+          <value key="Loc0001">0x05868E40</value>
+          <value key="Fire_local">0x058695B0</value>
+          <value key="front_light">0x0586A420</value>
+          <value key="LP_O_Air05s_0001">0x0586B3E0</value>
+          <value key="SLA_s_base_rim0000">0x0586B7D0</value>
+          <value key="Probe_fire">0x0586BED0</value>
+          <value key="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value key="GrReflectionSetting0000">0x0586CE90</value>
+          <value key="WindGlobal0000">0x05982150</value>
+          <value key="TppSky0000">0x059823F0</value>
+          <value key="TppVfxFileLoader0001">0x059825B0</value>
+          <value key="TppVfxFileLoader0000">0x05982620</value>
+          <value key="TppTextureLoader0001">0x05982770</value>
+          <value key="TppTextureLoader0000">0x059827E0</value>
+          <value key="TppTextureLoader_OldOcean">0x05982930</value>
+          <value key="TppTextureLoader_NewOcean">0x059829A0</value>
+          <value key="TppSunLightFlare0000">0x05982AF0</value>
+          <value key="TppOcean0000">0x05982CB0</value>
+          <value key="TppFourierOcean0000">0x05983030</value>
+          <value key="LightArray0000">0x09E46130</value>
+          <value key="TppLightProbeArray0000">0x09E46910</value>
+          <value key="TexturePackLoadConditioner0000">0x09E482E0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Locator" classVersion="0" addr="0x05868350" unknown1="320" unknown2="217530">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>AllLight</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x058685F0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="size" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x058685F0" unknown1="112" unknown2="217543">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05868350</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Locator" classVersion="0" addr="0x05868E40" unknown1="320" unknown2="217561">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Loc0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05869070</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="size" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05869070" unknown1="112" unknown2="217564">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05868E40</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="59.77701" y="66.94717" z="104.457886" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="-0.150528267" y="-0.737069249" z="0.588839352" w="-0.2955307" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="24.8402176" y="-24.052597" z="30.3512955" w="198.435608" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Locator" classVersion="0" addr="0x058695B0" unknown1="320" unknown2="217570">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Fire_local</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05869620</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="size" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05869620" unknown1="112" unknown2="217591">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058695B0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.9999978" y="1" z="0.9999978" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="-0.86602515" z="0" w="0.5000005" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="-18.4118671" y="-22.4478436" z="802.9429" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Locator" classVersion="0" addr="0x0586A420" unknown1="320" unknown2="217618">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>front_light</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0586A7A0</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="size" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0586A7A0" unknown1="112" unknown2="217622">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0586A420</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0.999998" y="1" z="0.999998" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0.9030962" z="0" w="0.429438323" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="13.113657" y="-3.912971" z="31.2025337" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Locator" classVersion="0" addr="0x0586B3E0" unknown1="320" unknown2="217649">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>LP_O_Air05s_0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0586B450</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="size" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0586B450" unknown1="112" unknown2="217652">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0586B3E0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1036.078" y="86.08304" z="573.4494" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0.3569341" z="0" w="0.9341296" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="6.536324" y="-6.554965" z="32.5012054" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Locator" classVersion="0" addr="0x0586B7D0" unknown1="320" unknown2="217658">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>SLA_s_base_rim0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0586B990</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="size" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0586B990" unknown1="112" unknown2="217661">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0586B7D0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="253.746216" y="80.3582" z="224.834549" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="288.7895" y="19.3497066" z="-164.846771" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="Locator" classVersion="0" addr="0x0586BED0" unknown1="320" unknown2="217678">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>Probe_fire</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x0586C020</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="size" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x0586C020" unknown1="112" unknown2="217710">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x0586BED0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="1.121039E-44" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLightProbeSHCoefficients" classVersion="1" addr="0x0586CE20" unknown1="168" unknown2="217743">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLightProbeSHCoefficients0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="filePath" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.lpsh</value>
+        </property>
+        <property name="lpshFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.lpsh</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="GrReflectionSetting" classVersion="0" addr="0x0586CE90" unknown1="128" unknown2="217745">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>GrReflectionSetting0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="reflectionTexturePath" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/ssd/common_source/cubemap/environ/old_mother_base/cm_ombs_cb_fndt001/sourceimages/cm_ombs_cb_ssd001_cbm.ftex</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="WindGlobal" classVersion="0" addr="0x05982150" unknown1="128" unknown2="218480">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>WindGlobal0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parameter" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x059821C0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="WindParameter" classVersion="6" addr="0x059821C0" unknown1="112" unknown2="218482">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05982150</value>
+        </property>
+        <property name="decayRate" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="velocity" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="3" w="0" />
+        </property>
+        <property name="speedTurbulentRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="speedTurbulentCycle" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="rotTurbulentRate" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="rotTurbulentCycle" type="float" container="StaticArray" arraySize="1">
+          <value>0.01</value>
+        </property>
+        <property name="influenceOfGlobal" type="float" container="StaticArray" arraySize="1">
+          <value>0</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSky" classVersion="11" addr="0x059823F0" unknown1="480" unknown2="218484">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppSky0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05982460</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="enable" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="priority" type="uint32" container="StaticArray" arraySize="1">
+          <value>100</value>
+        </property>
+        <property name="model" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_model/fxm_sky/sky_dome/Scenes/sky_dome_a.fmdl</value>
+        </property>
+        <property name="cloudTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_pic/cloud/fx_cldafg01_st_alp_nmp.ftex</value>
+        </property>
+        <property name="textureRepeats" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="lightExtinction" type="float" container="StaticArray" arraySize="1">
+          <value>0.19</value>
+        </property>
+        <property name="diffusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.02</value>
+        </property>
+        <property name="dirLightGain" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="ambLightGain" type="float" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="inCloudScatterGain" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="density" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="cloudWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="densityLayerPower" type="float" container="StaticArray" arraySize="1">
+          <value>20</value>
+        </property>
+        <property name="densityLayerWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="dom2TextureRepeats" type="uint32" container="StaticArray" arraySize="1">
+          <value>3</value>
+        </property>
+        <property name="dom2CloudDensity" type="float" container="StaticArray" arraySize="1">
+          <value>0.4</value>
+        </property>
+        <property name="dom2WindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.15</value>
+        </property>
+        <property name="dom2DensityLayerPower" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="dom2DensityLayerWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="dom3TextureRepeats" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="dom3CloudDensity" type="float" container="StaticArray" arraySize="1">
+          <value>0.3</value>
+        </property>
+        <property name="dom3WindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.03</value>
+        </property>
+        <property name="dom3DensityLayerPower" type="float" container="StaticArray" arraySize="1">
+          <value>15</value>
+        </property>
+        <property name="dom3DensityLayerWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>0.05</value>
+        </property>
+        <property name="cylCloudTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_pic/cloud/fx_cldcyl01_st_nmp_alp.ftex</value>
+        </property>
+        <property name="cylTextureRepeats" type="uint32" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="cylCloudDensity" type="float" container="StaticArray" arraySize="1">
+          <value>0.6</value>
+        </property>
+        <property name="cylDiffusion" type="float" container="StaticArray" arraySize="1">
+          <value>0.02</value>
+        </property>
+        <property name="cylScatterGain" type="float" container="StaticArray" arraySize="1">
+          <value>1</value>
+        </property>
+        <property name="cylDirLightGain" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="cylAmbLightGain" type="float" container="StaticArray" arraySize="1">
+          <value>6</value>
+        </property>
+        <property name="cylWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>-0.3</value>
+        </property>
+        <property name="cylDensityLayerPower" type="float" container="StaticArray" arraySize="1">
+          <value>25</value>
+        </property>
+        <property name="cylDensityLayerWindInfluence" type="float" container="StaticArray" arraySize="1">
+          <value>-0.4</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05982460" unknown1="112" unknown2="218487">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x059823F0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="3800" y="1520" z="3800" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppVfxFileLoader" classVersion="2" addr="0x059825B0" unknown1="264" unknown2="218489">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppVfxFileLoader0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="vfxFiles" type="FilePtr" container="StringMap" arraySize="49">
+          <value key="fx_tpp_chrsndstm01_s1LG">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrsndstm01_s1LG.vfx</value>
+          <value key="fx_tpp_chrdsthndspl21_s0LG">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdsthndspl21_s0LG.vfx</value>
+          <value key="fx_tpp_chrcqcsmk02_s1">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrcqcsmk02_s1.vfx</value>
+          <value key="fx_tpp_chrdsthnd05_s0">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdsthnd05_s0.vfx</value>
+          <value key="fx_tpp_chrdsthnd06_s0">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdsthnd06_s0.vfx</value>
+          <value key="fx_tpp_chrdsthnd07_s0LG">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdsthnd07_s0LG.vfx</value>
+          <value key="fx_tpp_chrdsthnd12_s0LG">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdsthnd12_s0LG.vfx</value>
+          <value key="fx_tpp_chrdivspl01_s1">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdivspl01_s1.vfx</value>
+          <value key="fx_tpp_chrwstspl01_s1">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrwstspl01_s1.vfx</value>
+          <value key="fx_tpp_chrcqcspl02_s1">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrcqcspl02_s1.vfx</value>
+          <value key="fx_tpp_chrdwnsmk01_s2">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdwnsmk01_s2.vfx</value>
+          <value key="fx_tpp_chrdwnspl01_s2">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdwnspl01_s2.vfx</value>
+          <value key="fx_tpp_chrdsthndspl11_s0LG">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdsthndspl11_s0LG.vfx</value>
+          <value key="fx_tpp_chrfotpdl01_s0LG">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrfotpdl01_s0LG.vfx</value>
+          <value key="fx_tpp_dstboxsnd01_s1">/Assets/tpp/effect/vfx_data/dust/fx_tpp_dstboxsnd01_s1.vfx</value>
+          <value key="fx_tpp_chrcqcspl03_s1">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrcqcspl03_s1.vfx</value>
+          <value key="fx_tpp_chrdwnspl02_s2">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrdwnspl02_s2.vfx</value>
+          <value key="fx_tpp_chrcqcspl04_s1">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrcqcspl04_s1.vfx</value>
+          <value key="fx_tpp_dstgrs01_s2">/Assets/tpp/effect/vfx_data/dust/fx_tpp_dstgrs01_s2.vfx</value>
+          <value key="fx_tpp_flrlns01_s2LG">/Assets/tpp/effect/vfx_data/flare/fx_tpp_flrlns01_s2LG.vfxlf</value>
+          <value key="fx_tpp_chrwtrsplcom01_s0">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrwtrsplcom01_s0.vfx</value>
+          <value key="fx_tpp_smkafgsnd02_s5">/Assets/tpp/effect/vfx_data/smoke/fx_tpp_smkafgsnd02_s5.vfx</value>
+          <value key="fx_tpp_firdrm02lpf_s1LG">/Assets/tpp/effect/vfx_data/fire/fx_tpp_firdrm02lpf_s1LG.vfx</value>
+          <value key="WheelSandSmoke">/Assets/tpp/effect/vfx_data/mecha/fx_tpp_mchwhlsmksnd02_m1.vfx</value>
+          <value key="WheelSplash">/Assets/tpp/effect/vfx_data/mecha/fx_tpp_mchwhlspl01_s0LG.vfx</value>
+          <value key="WheelSplashMud">/Assets/tpp/effect/vfx_data/mecha/fx_tpp_mchwhlsplmud01_s0LG.vfx</value>
+          <value key="WheelSplashPuddle">/Assets/tpp/effect/vfx_data/mecha/fx_tpp_mchwhlsplpdl02_s1.vfx</value>
+          <value key="BreakExplosionS">/Assets/tpp/effect/vfx_data/explosion/fx_tpp_expmch01_m1LG.vfx</value>
+          <value key="FinalExp">/Assets/tpp/effect/vfx_data/explosion/fx_tpp_expfir11_s5.vfx</value>
+          <value key="CollisionDebri">/Assets/tpp/effect/vfx_data/spark/fx_tpp_spkcnc01_s1.vfx</value>
+          <value key="CollisionSmoke">/Assets/tpp/effect/vfx_data/spark/fx_tpp_spkdst01_s1.vfx</value>
+          <value key="CollisionSpark">/Assets/tpp/effect/vfx_data/spark/fx_tpp_spkirn01_s1.vfx</value>
+          <value key="VehicleSandstorm">/Assets/tpp/effect/vfx_data/mecha/fx_tpp_mchsndstm01_s2LG.vfx</value>
+          <value key="fx_tpp_lgthedamb01_m1MG">/Assets/tpp/effect/vfx_data/light/fx_tpp_lgthedamb01_m1MG.vfx</value>
+          <value key="fx_tpp_mchextsmk02_s0MG">/Assets/tpp/effect/vfx_data/mecha/fx_tpp_mchextsmk02_s0MG.vfx</value>
+          <value key="fx_tpp_lgttil00_s0FG">/Assets/tpp/effect/vfx_data/light/fx_tpp_lgttil00_s0FG.vfx</value>
+          <value key="fx_tpp_smkmchbrk02_m2LG">/Assets/tpp/effect/vfx_data/smoke/fx_tpp_smkmchbrk02_m2LG.vfx</value>
+          <value key="fx_tpp_smkmchbrk01_m1LG">/Assets/tpp/effect/vfx_data/smoke/fx_tpp_smkmchbrk01_m1LG.vfx</value>
+          <value key="fx_tpp_brklgtgnt01_s1LG">/Assets/tpp/effect/vfx_data/break/fx_tpp_brklgtgnt01_s1LG.vfx</value>
+          <value key="BreakExplosion">/Assets/tpp/effect/vfx_data/explosion/fx_tpp_expmch02_m1LG.vfx</value>
+          <value key="fx_tpp_smkdnwobj01_m1">/Assets/tpp/effect/vfx_data/smoke/fx_tpp_smkdnwobj01_m1.vfx</value>
+          <value key="fx_tpp_brkbttl01_s1">/Assets/tpp/effect/vfx_data/break/fx_tpp_brkbttl01_s1.vfx</value>
+          <value key="fx_tpp_chrfotsmk01_s0MG">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrfotsmk01_s0MG.vfx</value>
+          <value key="fx_tpp_chrfotsmk02_s5MG">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrfotsmk02_s5MG.vfx</value>
+          <value key="fx_tpp_chrfotsmk03_s5MG">/Assets/tpp/effect/vfx_data/chara/fx_tpp_chrfotsmk03_s5MG.vfx</value>
+          <value key="fx_tpp_wepfltgndsol01_s3">/Assets/tpp/effect/vfx_data/weapon/fx_tpp_wepfltgndsol01_s3.vfx</value>
+          <value key="fx_tpp_brkcmmn01_s2">/Assets/tpp/effect/vfx_data/break/fx_tpp_brkcmmn01_s2.vfx</value>
+          <value key="fx_tpp_smkwmuviw01_s0"></value>
+          <value key="fx_tpp_brkantafg04_m1">/Assets/tpp/effect/vfx_data/break/fx_tpp_brkantafg04_m1.vfx</value>
+        </property>
+        <property name="geoMaterialFiles" type="FilePtr" container="StringMap" arraySize="3">
+          <value key="fx_default">/Assets/tpp/level/location/afgh/block_common/afgh_common_fx_mtr_def.lua</value>
+          <value key="tppef_rainy">/Assets/tpp/level/location/afgh/block_common/afgh_common_fx_mtr_rain.lua</value>
+          <value key="tppef_underwater">/Assets/tpp/level/location/afgh/block_common/afgh_common_fx_mtr_underwater.lua</value>
+        </property>
+        <property name="otherFiles" type="FilePtr" container="StringMap" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppVfxFileLoader" classVersion="2" addr="0x05982620" unknown1="264" unknown2="218491">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppVfxFileLoader0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="vfxFiles" type="FilePtr" container="StringMap" />
+        <property name="geoMaterialFiles" type="FilePtr" container="StringMap" />
+        <property name="otherFiles" type="FilePtr" container="StringMap" arraySize="1">
+          <value key="fxm_stardome">/Assets/tpp/effect/vfx_model/fxm_star/Scenes/star_dome_gen8.fmdl</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppTextureLoader" classVersion="1" addr="0x05982770" unknown1="216" unknown2="218493">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppTextureLoader0001</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="textures" type="Path" container="StringMap" arraySize="1">
+          <value key="mafr_clearSky_a">/Assets/tpp/effect/gr_pic/lut/mafr_clearSky_a_FILTERLUT.ftex</value>
+        </property>
+        <property name="forceLargeTextures" type="Path" container="StringMap" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppTextureLoader" classVersion="1" addr="0x059827E0" unknown1="216" unknown2="218495">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppTextureLoader0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="textures" type="Path" container="StringMap" />
+        <property name="forceLargeTextures" type="Path" container="StringMap" arraySize="6">
+          <value key="fx_smkfilblr01_iy">/Assets/tpp/effect/vfx_pic/smoke/fx_smkfilblr01_iy.ftex</value>
+          <value key="gr_comsnd01_iy">/Assets/tpp/effect/gr_pic/gr_comsnd01_iy.ftex</value>
+          <value key="WaterRipple">/Assets/tpp/effect/vfx_pic/blur/fx_blrrip03_iy_alp_clp.ftex</value>
+          <value key="fx_wtrdrp04n_ks_alp">/Assets/tpp/effect/vfx_pic/water/fx_wtrdrp04n_ks_alp.ftex</value>
+          <value key="fx_mrktir01_iy_hnm">/Assets/tpp/effect/vfx_pic/mark/fx_mrktir01_iy_hnm.ftex</value>
+          <value key="fx_mrktir01_iy">/Assets/tpp/effect/vfx_pic/mark/fx_mrktir01_iy.ftex</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppTextureLoader" classVersion="1" addr="0x05982930" unknown1="216" unknown2="218497">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppTextureLoader_OldOcean</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="textures" type="Path" container="StringMap" />
+        <property name="forceLargeTextures" type="Path" container="StringMap" arraySize="2">
+          <value key="fx_wtrrip10_ks">/Assets/tpp/effect/vfx_pic/water/fx_wtrrip10_ks.ftex</value>
+          <value key="fx_wtrrip11_ks">/Assets/tpp/effect/vfx_pic/water/fx_wtrrip11_ks.ftex</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppTextureLoader" classVersion="1" addr="0x059829A0" unknown1="216" unknown2="218499">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppTextureLoader_NewOcean</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="textures" type="Path" container="StringMap" />
+        <property name="forceLargeTextures" type="Path" container="StringMap" arraySize="5">
+          <value key="fx_wtrrip11b_ks">/Assets/tpp/effect/vfx_pic/water/fx_wtrrip11b_ks.ftex</value>
+          <value key="fx_wtrrip08_ks">/Assets/tpp/effect/vfx_pic/water/fx_wtrrip08_ks.ftex</value>
+          <value key="gr_ocnbmp01_ks_nrm">/Assets/tpp/effect/gr_pic/gr_ocnbmp01_ks_nrm.ftex</value>
+          <value key="fx_wtrrip09_ks">/Assets/tpp/effect/vfx_pic/water/fx_wtrrip09_ks.ftex</value>
+          <value key="fx_wtrrip09_ssd">/Assets/ssd/effect/vfx_pic/water/fx_wtrrip09_ssd.ftex</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppSunLightFlare" classVersion="1" addr="0x05982AF0" unknown1="320" unknown2="218501">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppSunLightFlare0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05982B60</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="flareName" type="String" container="StaticArray" arraySize="1">
+          <value>fx_tpp_flrlns01_s2LG</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05982B60" unknown1="112" unknown2="218504">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05982AF0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppOcean" classVersion="12" addr="0x05982CB0" unknown1="400" unknown2="218506">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppOcean0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x05982D20</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>7</value>
+        </property>
+        <property name="enable" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="guantanamoOcean" type="bool" container="StaticArray" arraySize="1">
+          <value>true</value>
+        </property>
+        <property name="wireframe" type="bool" container="StaticArray" arraySize="1">
+          <value>false</value>
+        </property>
+        <property name="baseHeight" type="float" container="StaticArray" arraySize="1">
+          <value>-23</value>
+        </property>
+        <property name="gridNumX" type="uint32" container="StaticArray" arraySize="1">
+          <value>80</value>
+        </property>
+        <property name="gridNumY" type="uint32" container="StaticArray" arraySize="1">
+          <value>45</value>
+        </property>
+        <property name="screenMarginX" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="screenMarginY" type="float" container="StaticArray" arraySize="1">
+          <value>0.2</value>
+        </property>
+        <property name="waveLengthMin" type="float" container="StaticArray" arraySize="1">
+          <value>0.6</value>
+        </property>
+        <property name="waveLengthMax" type="float" container="StaticArray" arraySize="1">
+          <value>18</value>
+        </property>
+        <property name="waveDispersion" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="windSpeed" type="float" container="StaticArray" arraySize="1">
+          <value>15</value>
+        </property>
+        <property name="waveParamTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_pic/ocean/fx_ocn_gtn01_aw_clp.ftex</value>
+        </property>
+        <property name="whitecapTexture" type="Path" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/effect/vfx_pic/water/fx_wtrrip06_ks_alp.ftex</value>
+        </property>
+        <property name="horizonDistance" type="float" container="StaticArray" arraySize="1">
+          <value>5000</value>
+        </property>
+        <property name="lightCaptureDistance" type="float" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="randomSeed" type="uint32" container="StaticArray" arraySize="1">
+          <value>42</value>
+        </property>
+        <property name="collisionDatas" type="EntityLink" container="DynamicArray" />
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TransformEntity" classVersion="0" addr="0x05982D20" unknown1="112" unknown2="218509">
+      <staticProperties>
+        <property name="owner" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x05982CB0</value>
+        </property>
+        <property name="transform_scale" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="1" y="1" z="1" w="0" />
+        </property>
+        <property name="transform_rotation_quat" type="Quat" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="1" />
+        </property>
+        <property name="transform_translation" type="Vector3" container="StaticArray" arraySize="1">
+          <value x="0" y="0" z="0" w="0" />
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppFourierOcean" classVersion="0" addr="0x05983030" unknown1="192" unknown2="218515">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppFourierOcean0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="displacementStrenght" type="float" container="StaticArray" arraySize="1">
+          <value>0.02</value>
+        </property>
+        <property name="velocity" type="float" container="StaticArray" arraySize="1">
+          <value>0.5</value>
+        </property>
+        <property name="windDirectionX" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="windDirectionZ" type="float" container="StaticArray" arraySize="1">
+          <value>0.6</value>
+        </property>
+        <property name="waveAmplitude" type="float" container="StaticArray" arraySize="1">
+          <value>0.1</value>
+        </property>
+        <property name="windSpeed" type="float" container="StaticArray" arraySize="1">
+          <value>400</value>
+        </property>
+        <property name="windDependency" type="float" container="StaticArray" arraySize="1">
+          <value>0.075</value>
+        </property>
+        <property name="baseHeight" type="float" container="StaticArray" arraySize="1">
+          <value>-23.4</value>
+        </property>
+        <property name="choppyScale" type="float" container="StaticArray" arraySize="1">
+          <value>1.5</value>
+        </property>
+        <property name="projectionScale" type="float" container="StaticArray" arraySize="1">
+          <value>32</value>
+        </property>
+        <property name="blendStart" type="float" container="StaticArray" arraySize="1">
+          <value>50</value>
+        </property>
+        <property name="blendEnd" type="float" container="StaticArray" arraySize="1">
+          <value>220</value>
+        </property>
+        <property name="farProjectionScale" type="float" container="StaticArray" arraySize="1">
+          <value>0.8</value>
+        </property>
+        <property name="farProjectionAmplitude" type="float" container="StaticArray" arraySize="1">
+          <value>2</value>
+        </property>
+        <property name="farProjectionNormalStrenght" type="float" container="StaticArray" arraySize="1">
+          <value>5</value>
+        </property>
+        <property name="reflectionPower" type="float" container="StaticArray" arraySize="1">
+          <value>80</value>
+        </property>
+        <property name="specularIntensity" type="float" container="StaticArray" arraySize="1">
+          <value>4</value>
+        </property>
+        <property name="foamAmount" type="float" container="StaticArray" arraySize="1">
+          <value>0.25</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="LightArray" classVersion="2" addr="0x09E46130" unknown1="336" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>LightArray0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="lightArrayFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/level/location/ombs/block_common/ombs_common_sky_fox2_grxla_win.grxla</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TppLightProbeArray" classVersion="2" addr="0x09E46910" unknown1="384" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TppLightProbeArray0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="parent" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="transform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="shearTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="pivotTransform" type="EntityPtr" container="StaticArray" arraySize="1">
+          <value>0x00000000</value>
+        </property>
+        <property name="children" type="EntityHandle" container="List" />
+        <property name="flags" type="uint32" container="StaticArray" arraySize="1">
+          <value>134217735</value>
+        </property>
+        <property name="drawRejectionLevels" type="int32" container="DynamicArray" arraySize="38">
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+          <value>7</value>
+        </property>
+        <property name="relatedLights" type="EntityLink" container="DynamicArray" />
+        <property name="shDatas" type="EntityLink" container="DynamicArray" arraySize="38">
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="/Assets/tpp/level/location/ombs/block_common/ombs_common_sky.fox2" nameInArchive="TppLightProbeSHCoefficients0000">0x0586CE20</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+          <value packagePath="" archivePath="" nameInArchive="">0x00000000</value>
+        </property>
+        <property name="lightArrayFile" type="FilePtr" container="StaticArray" arraySize="1">
+          <value>/Assets/tpp/level/location/ombs/block_common/ombs_common_sky_fox2_tgrxla_win.grxla</value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x09E482E0" unknown1="128" unknown2="0">
+      <staticProperties>
+        <property name="name" type="String" container="StaticArray" arraySize="1">
+          <value>TexturePackLoadConditioner0000</value>
+        </property>
+        <property name="dataSet" type="EntityHandle" container="StaticArray" arraySize="1">
+          <value>0x058667C0</value>
+        </property>
+        <property name="texturePackPath" type="Path" container="StaticArray" arraySize="1">
+          <value></value>
+        </property>
+      </staticProperties>
+      <dynamicProperties />
+    </entity>
+  </entities>
+</fox>

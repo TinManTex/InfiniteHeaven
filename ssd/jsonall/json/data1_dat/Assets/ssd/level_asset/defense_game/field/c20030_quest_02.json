@@ -1,0 +1,1 @@
+{"openStrategy": {"OPEN_STRATEGY_01": [{"taskRewardType": "IRI", "firstOpenTime": [0.00, 10.00], "taskRewardParam0": 300000, "openCountAtOnce": [1, 1], "waveIntervalMask": 1, "wormholeListName": "TASK_BOSS_01", "taskType": "BOSS", "openOnce": 1}]}}

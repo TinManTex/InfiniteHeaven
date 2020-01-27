@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r226
+-- Defaults / example of all profile options for IH r228
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -341,6 +341,9 @@ local this={
 		mbSetOceanWaveAmplitude=0.5,--{ 0-10 } -- 
 		mbSetOceanWindDirectionP1=0.1,--{ -10-10 } -- 
 		mbSetOceanWindDirectionP2=0.1,--{ -10-10 } -- 
+		--Weather menu
+		weather_fogDensity=0.1,--{ 0-1 } -- Fog density
+		weather_fogType="NORMAL",--{ NORMAL, PARASITE } -- Fog type
 	}
 }
 

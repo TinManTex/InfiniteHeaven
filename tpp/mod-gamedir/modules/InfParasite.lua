@@ -195,13 +195,6 @@ this.parasiteNames={
   },
 }
 
-local weatherTypes={
-  {weatherType=TppDefine.WEATHER.FOGGY,fogInfo={fogDensity=0.15,fogType=WeatherManager.FOG_TYPE_PARASITE}},
-  {weatherType=TppDefine.WEATHER.RAINY,fogInfo=nil},
-  --{weatherType=TppDefine.WEATHER.SANDSTORM,fogInfo=nil},--tex too difficult to discover non playerpos appearances
-  {weatherType=TppDefine.WEATHER.FOGGY,fogInfo={fogDensity=0.15,fogType=WeatherManager.FOG_TYPE_NORMAL}},
-}
-
 local parasiteTypeNames={"ARMOR","MIST","CAMO"}
 
 this.isParasiteObjectType={
@@ -265,6 +258,7 @@ this.camoParasiteEnabled={
   settingNames="set_switch",
 }
 
+--tex See weatherTypes in StartEvent
 this.parasiteWeather={
   save=IvarProc.CATEGORY_EXTERNAL,
   default=1,--parasite
@@ -760,7 +754,13 @@ function this.StartEvent()
 
   svars.inf_parasiteEvent=true--DEBUGNOW uhh, why was I using svars again?
 
-
+  --GOTCHA: for some reason always seems to fire parasite effect if this table is defined local to module/at module load time, even though inspecting fogType it seems fine? VERIFY
+  local weatherTypes={
+    {weatherType=TppDefine.WEATHER.FOGGY,fogInfo={fogDensity=0.15,fogType=WeatherManager.FOG_TYPE_PARASITE}},
+    {weatherType=TppDefine.WEATHER.RAINY,fogInfo=nil},
+    --{weatherType=TppDefine.WEATHER.SANDSTORM,fogInfo=nil},--tex too difficult to discover non playerpos appearances
+    {weatherType=TppDefine.WEATHER.FOGGY,fogInfo={fogDensity=0.15,fogType=WeatherManager.FOG_TYPE_NORMAL}},
+  }
 
   local weatherInfo
   if Ivars.parasiteWeather:Is"PARASITE_FOG" then
