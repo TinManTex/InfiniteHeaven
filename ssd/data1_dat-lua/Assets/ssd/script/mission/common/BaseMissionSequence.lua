@@ -750,7 +750,10 @@ function this.CreateInstance(missionName)
     if e>=TppDefine.STORY_SEQUENCE.STORY_FINISH then
       this.SetEnemyLevel(e)
     end
-    TppEnemy.RespawnAllForEnemyNpcs()SsdMbDvc.ResetOxygenConvertCount()
+    if gvars.fms_currentFlagMissionCode~=40070 then--RETAILPATCH: 1.0.14 check added
+      TppEnemy.RespawnAllForEnemyNpcs()
+    end
+    SsdMbDvc.ResetOxygenConvertCount()
   end
   function instance.OnReturnToBaseOrCamp()
     SsdBlankMap.UpdateReachInfo()

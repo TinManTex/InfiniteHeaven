@@ -6,20 +6,20 @@ local IsTypeString=Tpp.IsTypeString
 local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local defaultDefenseAlertRange=20
-local e=3
+local u8=3
 local Timer_Player_Dead_to_RevivalStr="Timer_Player_Dead_to_Revival"
-local u=60
-local d=.05
-local i=.0175
-local m=60
-local p=35
+local u7=60
+local u6=.05
+local u5=.0175
+local u4=60
+local u3=35
 local defaultFinishShockWaveRadiusMin=10
 local defaultFinishShockWaveRadiusMax=75
 local defaultShockWaveRadiusEnlargementTime=30*60
 local defaultIntervalTime=180
 local defaultPrepareTime=300
-local b=8
-local e=3
+local u2=8
+local u1=3
 local defaultQuestVariationCount=3
 local instance={
   PRD_BLD_WeaponPlant={"PRD_BLD_WeaponPlant_A","PRD_BLD_WeaponPlant_B"},
@@ -28,14 +28,14 @@ local instance={
   PRD_BLD_Kitchen={"PRD_BLD_Kitchen_A","PRD_BLD_Kitchen_B","PRD_BLD_Kitchen_C"},
   PRD_BLD_AmmoBox={"PRD_BLD_AmmoBox"}
 }
-local r={}
-local s={}
-local o={}
+local ut3={}
+local ut2={}
+local ut1={}
 for a,e in pairs(instance)do
   for n,e in ipairs(e)do
-    r[e]=a
-    s[e]=n
-    o[Fox.StrCode32(e)]=e
+    ut3[e]=a
+    ut2[e]=n
+    ut1[Fox.StrCode32(e)]=e
   end
 end
 function this.CreateInstance(missionName)
@@ -89,8 +89,8 @@ function this.CreateInstance(missionName)
     local n=_G[instance.locationScriptName]or{}
     instance.walkerGearNameList=instance.walkerGearNameList or n.walkerGearNameList
     instance.wormholePointResourceTableList=instance.wormholePointResourceTableList or n.wormholePointResourceTableList
-    instance.startFogDensity=(instance.startFogDensity or n.startFogDensity)or d
-    instance.waveFogDensity=(instance.waveFogDensity or n.waveFogDensity)or i
+    instance.startFogDensity=(instance.startFogDensity or n.startFogDensity)or u6
+    instance.waveFogDensity=(instance.waveFogDensity or n.waveFogDensity)or u5
     instance.treasurePointTableList=instance.treasurePointTableList or n.treasurePointTableList
     instance.treasureBoxTableList=instance.treasureBoxTableList or n.treasureBoxTableList
     instance.ignoreLoadSmallBlocks=instance.ignoreLoadSmallBlocks or n.ignoreLoadSmallBlocks
@@ -113,7 +113,7 @@ function this.CreateInstance(missionName)
     SsdSbm.MakeInventoryTemporaryCopy()
     Mission.RequestCoopStartToServer()
     if not instance.dynamicShockWaveRadius then
-      local e=instance.waveFinishShockWaveRadius or p
+      local e=instance.waveFinishShockWaveRadius or u3
       Mission.SetDiggerShockWaveRadiusAtWaveFinish(e)
     else
       mvars.waveFinishShockWaveRadiusMin=instance.waveFinishShockWaveRadiusMin or defaultFinishShockWaveRadiusMin
@@ -276,9 +276,9 @@ function this.CreateInstance(missionName)
         if not e.visible then
           Gimmick.InvisibleGimmick(e.type,e.locatorName,e.datasetName,true)
         else
-          local n=o[n]
+          local n=ut1[n]
           if n then
-            local e=r[n]
+            local e=ut3[n]
             if e then
               if not mvars.builtProductionIdListTable then
                 mvars.builtProductionIdListTable={}
@@ -472,7 +472,7 @@ function this.CreateInstance(missionName)
           if GkEventTimerManager.IsTimerActive(Timer_Player_Dead_to_RevivalStr)then
             GkEventTimerManager.Stop(Timer_Player_Dead_to_RevivalStr)
           end
-          GkEventTimerManager.Start(Timer_Player_Dead_to_RevivalStr,u)
+          GkEventTimerManager.Start(Timer_Player_Dead_to_RevivalStr,u7)
         end
       end},
       {msg="WarpEnd",func=function()
@@ -481,7 +481,11 @@ function this.CreateInstance(missionName)
     GameObject={
       {msg="DiggerDrumRollStart",func=function()
         if TppSequence.GetCurrentSequenceName()=="Seq_Game_Clear"then
-          GkEventTimerManager.Start("Timer_OpenResult",26.709483)
+          if mvars.miningMachineBroken then--RETAILPATCH: 1.0.14>
+            GkEventTimerManager.Start("Timer_OpenResult",36)
+          else--<
+            GkEventTimerManager.Start("Timer_OpenResult",26.709483)
+          end
           TppMusicManager.PostJingleState"Set_State_ssd_jin_WaveComp_out"
         end
       end,option={isExecMissionClear=true}},
@@ -588,17 +592,17 @@ function this.CreateInstance(missionName)
           if Tpp.IsTypeTable(craftGimmickTableTable)then
             local craftGimmickTable=craftGimmickTableTable[i]
             if Tpp.IsTypeTable(craftGimmickTable)then
-              local n=o[i]
+              local n=ut1[i]
               if n then
-                local e=r[n]
-                local i=s[n]
+                local e=ut3[n]
+                local i=ut2[n]
                 if e and i then
                   local builtProductionIdListTable=mvars.builtProductionIdListTable
                   if Tpp.IsTypeTable(builtProductionIdListTable)then
                     local e=builtProductionIdListTable[e]
                     if Tpp.IsTypeTable(e)then
                       for r,productionId in ipairs(e)do
-                        local n=s[productionId]
+                        local n=ut2[productionId]
                         if n<i then
                           local n=craftGimmickTableTable[Fox.StrCode32(productionId)]
                           if Tpp.IsTypeTable(n)then
@@ -722,7 +726,7 @@ function this.CreateInstance(missionName)
         if not mvars.currentRewardIndex then
           mvars.currentRewardIndex=0
         end
-        if mvars.currentRewardIndex<b then
+        if mvars.currentRewardIndex<u2 then
           e=Mission.DropCoopRewardBox(mvars.currentRewardIndex)
           table.remove(mvars.bcm_rewardOffsetTable,index)
           mvars.finalRewardDropped=true
@@ -732,9 +736,12 @@ function this.CreateInstance(missionName)
       if e then
         GkEventTimerManager.Start("Timer_Reward",.1)
       end
+      if mvars.miningMachineBroken then--RETAILPATCH: 1.0.14>
+        instance.OpenCoopResult()
+      end--<
     end,option={isExecMissionClear=true}},
     {sender="Timer_OpenResult",msg="Finish",func=function()
-      ResultSystem.OpenCoopResult()
+      instance.OpenCoopResult()  --RETAILPATCH: 1.0.14 was ResultSystem.OpenCoopResult()
       GkEventTimerManager.Start("Timer_Close_Digger",2)
     end,option={isExecMissionClear=true}},
     {sender="Timer_StartVanishDigger",msg="Finish",func=function()
@@ -848,6 +855,13 @@ function this.CreateInstance(missionName)
       return{}
     end
   end
+  function instance.OpenCoopResult()--RETAILPATCH: 1.0.14>
+    if mvars.bcm_isOpenedCoopResult then
+      return
+  end
+  ResultSystem.OpenCoopResult()
+  mvars.bcm_isOpenedCoopResult=true
+  end--<
   function instance.OnCloseResult()
     if mvars.bcm_isCalledOnClseResult then
       return
@@ -1011,7 +1025,7 @@ function this.CreateInstance(missionName)
       end
     end,
     OnEnter=function(e)
-      GkEventTimerManager.Start("Timer_SyncStart",m)
+      GkEventTimerManager.Start("Timer_SyncStart",u4)
       mvars.bcs_syncStartTime=Time.GetRawElapsedTimeSinceStartUp()
     end,DEBUG_TextPrint=function(e)
       local n=DebugText.NewContext()
@@ -1019,7 +1033,7 @@ function this.CreateInstance(missionName)
     end,OnUpdate=function(a)
       local n=Time.GetRawElapsedTimeSinceStartUp()-mvars.bcs_syncStartTime
       if DebugText then
-        a.DEBUG_TextPrint(string.format("[Seq_Demo_SyncGameStart] Waiting coop member loading. : coop member wait time = %02.2f[s] : TIMEOUT = %02.2f[s]",n,m))
+        a.DEBUG_TextPrint(string.format("[Seq_Demo_SyncGameStart] Waiting coop member loading. : coop member wait time = %02.2f[s] : TIMEOUT = %02.2f[s]",n,u4))
       end
       if not mvars.bcs_isReadyLocal and not Mission.IsCoopRequestBusy()then
         mvars.bcs_isReadyLocal=true
@@ -1053,11 +1067,7 @@ function this.CreateInstance(missionName)
       TppMission.DisconnectMatching(true)
       svars.mis_isDefiniteMissionClear=false
       mvars.mis_isReserveMissionClear=false
-      TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.SESSION_DISCONNECT_FROM_HOST,Popup.TYPE_ONE_BUTTON)
-    end,OnUpdate=function()
-      if not TppUiCommand.IsShowPopup(TppDefine.ERROR_ID.SESSION_DISCONNECT_FROM_HOST)then
-        TppMission.AbandonMission()
-      end
+      TppException.OnSessionDisconnectFromHost()--RETAILPATCH: 1.0.14
     end}
   instance.sequences.Seq_Game_Ready={
     messageTable={
@@ -1145,7 +1155,8 @@ function this.CreateInstance(missionName)
       GameObject={
         {msg="DefenseChangeState",func=function(n,e)
           if e==TppDefine.DEFENSE_GAME_STATE.WAVE then
-            TppSequence.SetNextSequence"Seq_Game_DefenseWave"end
+            TppSequence.SetNextSequence"Seq_Game_DefenseWave"
+          end
         end},
         {msg="BuildingSpawnEffectEnd",func=instance.OnBuildingSpawnEffectEnd}},
       UI={
@@ -1232,15 +1243,28 @@ function this.CreateInstance(missionName)
   instance.sequences.Seq_Game_DefenseWave={
     messageTable={
       GameObject={
-        {msg="FinishWave",func=function(a,n)
-          if n>=Mission.GetTotalWaveCount()then
-            instance.OnDefenseGameClear()
+        {msg="FinishWave",func=function(unkP1,unkP2)
+          local totalWaveCount=Mission.GetTotalWaveCount()--RETAILPATCH: 1.0.14>
+          if Mission.HasExtraWave()then
+            if(unkP2>=totalWaveCount)or(unkP2==(totalWaveCount-1)and not Mission.IsReadyExtraWave())then
+              u1.OnDefenseGameClear()
+            elseif Mission.IsReadyExtraWave()then
+              TppSequence.SetNextSequence"Seq_Game_ExtraBreak"else
+              TppSequence.SetNextSequence"Seq_Game_DefenseBreak"end
+          else--<
+            if unkP2>=totalWaveCount then
+              instance.OnDefenseGameClear()
           else
-            TppSequence.SetNextSequence"Seq_Game_DefenseBreak"end
+            TppSequence.SetNextSequence"Seq_Game_DefenseBreak"
+          end
+          end
         end},
         {msg="DefenseChangeState",func=function(n,e)
           if e==TppDefine.DEFENSE_GAME_STATE.WAVE_INTERVAL then
-            TppSequence.SetNextSequence"Seq_Game_DefenseBreak"end
+            TppSequence.SetNextSequence"Seq_Game_DefenseBreak"
+          elseif e==TppDefine.DEFENSE_GAME_STATE.EXTRA_PREPARE then--RETAILPATCH: 1.0.14>
+            TppSequence.SetNextSequence"Seq_Game_ExtraBreak"--<
+          end
         end}},
       nil},
     Messages=function(e)
@@ -1381,6 +1405,51 @@ function this.CreateInstance(missionName)
     OnLeave=function()
       TppPlayer.EnableSwitchIcon()
     end}
+  --RETAILPATCH: 1.0.14>
+  instance.sequences.Seq_Game_ExtraBreak={
+    messageTable={
+      GameObject={
+        {msg="FinishWaveInterval",func=function()
+          TppSequence.SetNextSequence"Seq_Game_WaitStartDigger"end},
+        {msg="DefenseChangeState",func=function(n,e)
+          if e==TppDefine.DEFENSE_GAME_STATE.WAVE then
+            TppSequence.SetNextSequence"Seq_Game_DefenseWave"end
+        end},
+        {msg="StartRebootDigger",func=function()
+          TppSequence.SetNextSequence"Seq_Game_WaitStartDigger"end}},
+      Timer={
+        {sender="Timer_WaitSync",msg="Finish",func=function()
+          TppPlayer.EnableSwitchIcon()
+          if not mvars.waveEffectVisibility then
+            instance.SetWaveMistVisible(mvars.waveCount+1,true)
+            mvars.waveEffectVisibility=true
+          end
+        end}},
+      UI={
+        {msg="MiningMachineMenuRestartMachineSelected",func=function()
+          local e=instance.targetGimmickTable
+          Gimmick.SetSsdPowerOff{gimmickId="GIM_P_Digger",name=e.locatorName,dataSetName=e.datasetName,powerOff=true}
+          Mission.StopExtraPrepare()
+        end}}},
+    Messages=function(e)
+      local e=e.messageTable
+      if IsTypeTable(e)then
+        return StrCode32Table(e)
+      end
+    end,
+    OnEnter=function()
+      if IsTypeTable(mvars.bcm_radioScript)and IsTypeFunc(mvars.bcm_radioScript.OnSequenceStarted)then
+        mvars.bcm_radioScript.OnSequenceStarted()
+      end
+      GkEventTimerManager.Start("Timer_WaitSync",10)
+      TppPlayer.DisableSwitchIcon()
+      Mission.StartExtraPrepare()
+      Mission.StartWaveResult()
+    end,
+    OnLeave=function()
+      TppPlayer.EnableSwitchIcon()
+    end}
+  --<
   instance.sequences.Seq_Game_EstablishClear={
     OnEnter=function(n)
       if IS_GC_2017_COOP and mvars.e3_bcm_gameover_isShowGameOver then
@@ -1410,7 +1479,7 @@ function this.CreateInstance(missionName)
         TppMusicManager.PostJingleState"Set_State_ssd_jin_WaveComp_on"
       end
       GkEventTimerManager.Start("Timer_WaitRewardAllMember",90)
-      GkEventTimerManager.Start("Timer_WaitUpdateFinalScore",.1)
+      GkEventTimerManager.Start("Timer_WaitUpdateFinalScore",1.5)--RETAILPATCH: 1.0.14 was .1
       instance.ClearMissionObjective()
       Gimmick.SetAllSwitchInvalid(true)
       SsdUiSystem.RequestForceCloseForMissionClear()

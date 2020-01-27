@@ -15,7 +15,7 @@ local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion=5
+this.modVersion=6
 this.modName="Lost Heaven"
 
 this.gameId="SSD"

@@ -1,2 +1,2 @@
-636650895920366305|cmdToExtCompletedIndex|51
+636704444058198956|cmdToExtCompletedIndex|12
 1|sessionchange

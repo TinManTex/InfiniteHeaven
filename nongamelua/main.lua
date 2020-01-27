@@ -12,7 +12,7 @@ LoadLDT.Load{
 
   foxLuaPath="D:/Projects/MGS/!InfiniteHeaven/tpp/data1_dat-lua/",--tex path of tpps scripts (qar luas) -- IH
   --foxLuaPath=[[J:\GameData\MGS\filetype\lua\data1_dat\]]--tex path of tpps scripts (qar luas) -- unmodified
-  
+
   mockFoxPath="D:/Projects/MGS/!InfiniteHeaven/MockFoxLua/",--tex path of MockFox scripts
 }
 
@@ -1532,6 +1532,319 @@ local function GetCombinedObjectNamesFromStrings()
   file:close()
 end
 
+local function AnalyseTapes()
+  --files in J:\GameData\MGS\!master\chunk1_dat\Assets\tpp\sound\external\tape\
+  local tapeFiles={
+    "tp_bgm_01_01",
+    "tp_bgm_02_01",
+    "tp_bgm_02_02",
+    "tp_bgm_02_03",
+    "tp_bgm_02_04",
+    "tp_bgm_03_01",
+    "tp_bgm_04_01",
+    "tp_bgm_04_02",
+    "tp_bgm_05_01",
+    "tp_bgm_05_02",
+    "tp_bgm_10_01",
+    "tp_bgm_10_02",
+    "tp_bgm_10_03",
+    "tp_bgm_10_04",
+    "tp_bgm_10_05",
+    "tp_bgm_10_06",
+    "tp_bgm_10_07",
+    "tp_bgm_11_01",
+    "tp_bgm_11_02",
+    "tp_bgm_11_03",
+    "tp_bgm_11_04",
+    "tp_bgm_11_05",
+    "tp_bgm_11_06",
+    "tp_bgm_11_07",
+    "tp_bgm_11_08",
+    "tp_bgm_11_09",
+    "tp_bgm_11_10",
+    "tp_bgm_11_11",
+    "tp_bgm_11_12",
+    "tp_bgm_11_13",
+    "tp_bgm_11_14",
+    "tp_bgm_11_15",
+    "tp_bgm_11_16",
+    "tp_bgm_11_17",
+    "tp_bgm_11_18",
+    "tp_bgm_11_19",
+    "tp_bgm_11_20",
+    "tp_bgm_11_21",
+    "tp_bgm_11_22",
+    "tp_bgm_11_23",
+    "tp_bgm_11_24",
+    "tp_bgm_11_25",
+    "tp_bgm_11_26",
+    "tp_bgm_11_27",
+    "tp_bgm_11_28",
+    "tp_bgm_11_29",
+    "tp_bgm_11_30",
+    "tp_bgm_11_31",
+    "tp_bgm_11_32",
+    "tp_bgm_11_33",
+    "tp_bgm_11_34",
+    "tp_c_00000_01",
+    "tp_c_00000_02",
+    "tp_c_00000_03",
+    "tp_c_00000_04",
+    "tp_c_00000_05",
+    "tp_c_00000_06",
+    "tp_c_00000_07",
+    "tp_c_00000_08",
+    "tp_c_00000_09",
+    "tp_c_00000_10",
+    "tp_c_00000_11",
+    "tp_c_00000_12",
+    "tp_c_00000_13",
+    "tp_c_00000_14",
+    "tp_c_00000_16",
+    "tp_c_00000_17",
+    "tp_c_00000_18",
+    "tp_c_00001_01",
+    "tp_c_00001_02",
+    "tp_c_00001_03",
+    "tp_c_00001_04",
+    "tp_m_10010_01",
+    "tp_m_10010_02",
+    "tp_m_10010_03",
+    "tp_m_10010_04",
+    "tp_m_10010_05",
+    "tp_m_10010_06",
+    "tp_m_10010_07",
+    "tp_m_10010_08",
+    "tp_m_10010_09",
+    "tp_m_10010_10",
+    "tp_m_10020_00",
+    "tp_m_10020_01",
+    "tp_m_10020_02",
+    "tp_m_10020_03",
+    "tp_m_10020_04",
+    "tp_m_10020_05",
+    "tp_m_10020_06",
+    "tp_m_10020_07",
+    "tp_m_10020_08",
+    "tp_m_10020_09",
+    "tp_m_10020_10",
+    "tp_m_10020_11",
+    "tp_m_10020_12",
+    "tp_m_10030_00",
+    "tp_m_10033_00",
+    "tp_m_10036_00",
+    "tp_m_10040_00",
+    "tp_m_10040_01",
+    "tp_m_10040_02",
+    "tp_m_10040_03",
+    "tp_m_10041_00",
+    "tp_m_10043_00",
+    "tp_m_10044_00",
+    "tp_m_10045_00",
+    "tp_m_10050_00",
+    "tp_m_10050_01",
+    "tp_m_10050_02",
+    "tp_m_10050_03",
+    "tp_m_10052_00",
+    "tp_m_10054_00",
+    "tp_m_10070_00",
+    "tp_m_10070_01",
+    "tp_m_10070_02",
+    "tp_m_10070_03",
+    "tp_m_10070_04",
+    "tp_m_10070_05",
+    "tp_m_10070_06",
+    "tp_m_10070_07",
+    "tp_m_10070_08",
+    "tp_m_10080_00",
+    "tp_m_10081_00",
+    "tp_m_10082_00",
+    "tp_m_10085_00",
+    "tp_m_10086_00",
+    "tp_m_10090_00",
+    "tp_m_10090_01",
+    "tp_m_10090_02",
+    "tp_m_10090_03",
+    "tp_m_10091_00",
+    "tp_m_10093_00",
+    "tp_m_10093_01",
+    "tp_m_10093_02",
+    "tp_m_10093_03",
+    "tp_m_10093_04",
+    "tp_m_10093_05",
+    "tp_m_10100_00",
+    "tp_m_10100_01",
+    "tp_m_10100_02",
+    "tp_m_10100_03",
+    "tp_m_10110_00",
+    "tp_m_10110_01",
+    "tp_m_10110_02",
+    "tp_m_10110_03",
+    "tp_m_10115_00",
+    "tp_m_10115_0a",
+    "tp_m_10120_00",
+    "tp_m_10120_01",
+    "tp_m_10120_02",
+    "tp_m_10120_03",
+    "tp_m_10121_00",
+    "tp_m_10130_00",
+    "tp_m_10140_00",
+    "tp_m_10140_01",
+    "tp_m_10140_02",
+    "tp_m_10140_03",
+    "tp_m_10140_04",
+    "tp_m_10140_05",
+    "tp_m_10140_06",
+    "tp_m_10140_07",
+    "tp_m_10150_00",
+    "tp_m_10150_01",
+    "tp_m_10150_02",
+    "tp_m_10150_03",
+    "tp_m_10150_04",
+    "tp_m_10150_05",
+    "tp_m_10150_06",
+    "tp_m_10150_07",
+    "tp_m_10150_08",
+    "tp_m_10150_10",
+    "tp_m_10150_11",
+    "tp_m_10150_12",
+    "tp_m_10150_13",
+    "tp_m_10150_14",
+    "tp_m_10150_15",
+    "tp_m_10150_16",
+    "tp_m_10150_17",
+    "tp_m_10150_18",
+    "tp_m_10150_19",
+    "tp_m_10150_20",
+    "tp_m_10150_21",
+    "tp_m_10150_22",
+    "tp_m_10150_23",
+    "tp_m_10150_24",
+    "tp_m_10150_25",
+    "tp_m_10150_26",
+    "tp_m_10150_27",
+    "tp_m_10150_28",
+    "tp_m_10150_29",
+    "tp_m_10150_30",
+    "tp_m_10150_31",
+    "tp_m_10151_00",
+    "tp_m_10156_00",
+    "tp_m_10156_01",
+    "tp_m_10156_02",
+    "tp_m_10156_03",
+    "tp_m_10160_03",
+    "tp_m_10160_04",
+    "tp_m_10160_05",
+    "tp_m_10160_06",
+    "tp_m_10160_07",
+    "tp_m_10160_08",
+    "tp_m_10160_09",
+    "tp_m_10160_10",
+    "tp_m_10160_11",
+    "tp_m_10171_00",
+    "tp_m_10190_01",
+    "tp_m_10190_02",
+    "tp_m_10190_03",
+    "tp_m_10190_04",
+    "tp_m_10190_05",
+    "tp_m_10190_06",
+    "tp_m_10195_00",
+    "tp_m_10200_00",
+    "tp_m_10211_00",
+    "tp_m_10240_00",
+    "tp_m_10240_01",
+    "tp_m_10240_02",
+    "tp_m_10240_03",
+    "tp_m_10240_04",
+    "tp_m_10240_05",
+    "tp_m_10260_00",
+    "tp_m_10260_01",
+    "tp_m_10260_02",
+    "tp_m_10260_03",
+    "tp_m_10280_02",
+    "tp_m_10280_03",
+    "tp_m_10280_08",
+    "tp_m_10280_09",
+    "tp_m_10280_10",
+    "tp_m_10280_11",
+    "tp_m_10280_12",
+    "tp_m_10280_13",
+    "tp_m_10280_14",
+    "tp_m_10280_15",
+    "tp_m_10280_16",
+    "tp_m_10280_17",
+    "tp_m_99060_01",
+    "tp_m_99060_02",
+    "tp_m_99060_03",
+    "tp_m_99060_04",
+    "tp_m_99060_05",
+    "tp_sp_01_01",
+    "tp_sp_01_02",
+    "tp_sp_01_03",
+    "tp_sp_01_04",
+    "tp_sp_01_05",
+    "tp_sp_01_06",
+    "tp_sp_01_07",
+    "tp_sp_01_08",
+    "tp_sp_01_09",
+    "tp_sp_01_10",
+    "tp_sp_01_11",
+    "tp_sp_01_12",
+  }
+
+
+  local tapeFilesExist={}
+  for i,tapeName in ipairs(tapeFiles)do
+    tapeFilesExist[tapeName]=true
+  end
+
+  --
+  zoop=require"./PreinstallTape"
+
+  local tapeInfo=PreinstallTape.GetTapeInfo()
+  local saveIndices={}
+  for i,tapeInfo in ipairs(tapeInfo.tracks)do
+    table.insert(saveIndices,tapeInfo.saveIndex)
+  end
+  --InfCore.PrintInspect(saveIndices)
+  local max=-99999999
+  for i,index in ipairs(saveIndices)do
+    if index>max then
+      max=index
+    end
+  end
+
+  local missingIndexes={}
+  for i=0,max do
+    local hasIndex=false
+    for j,index in ipairs(saveIndices)do
+      if index==i then
+        hasIndex=true
+        break
+      end
+    end
+    if not hasIndex then
+      table.insert(missingIndexes,i)
+    end
+  end
+  InfCore.PrintInspect(missingIndexes,"missingIndexes")
+
+  local tapeInfoExist={}
+  for i,tapeInfo in ipairs(tapeInfo.tracks)do
+    tapeInfoExist[tapeInfo.fileName]=true
+  end
+
+  local noRefsForFile={}
+  for i,tapeName in ipairs(tapeFiles)do
+    if not tapeInfoExist[tapeName]then
+      table.insert(noRefsForFile,tapeName)
+    end
+  end
+  InfCore.PrintInspect(noRefsForFile,"noRefsForFile")
+end
+
+
+
 local function main()
 
   --tex figure out unnacounted hashes
@@ -1649,387 +1962,7 @@ local function main()
   --XmlTest()
 
 
-
-
-
-
-  local blah={
-    '<?xml version="1.0" encoding="utf-8"?>\n',
-    {
-      {
-        {
-          empty = 1,
-          label = "Entry",
-          xarg = {
-            Color = "1",
-            LangId = "unit_metre",
-            Value = "m"
-          }
-        },
-        {
-          empty = 1,
-          label = "Entry",
-          xarg = {
-            Color = "1",
-            LangId = "mb_title_gmp",
-            Value = "GMP"
-          }
-        },
-        {
-          empty = 1,
-          label = "Entry",
-          xarg = {
-            Color = "1",
-            LangId = "mb_title_time",
-            Value = "TIME"
-          }
-        },
-        {
-          empty = 1,
-          label = "Entry",
-          xarg = {
-            Color = "1",
-            LangId = "common_new",
-            Value = "NEW"
-          }
-        },
-        {
-          empty = 1,
-          label = "Entry",
-          xarg = {
-            Color = "1",
-            LangId = "tpp_gmp",
-            Value = "GMP"
-          }
-        },
-        {
-          empty = 1,
-          label = "Entry",
-          xarg = {
-            Color = "1",
-            LangId = "tpp_loc_afghan",
-            Value = "Northern Kabul, Afghanistan"
-          }
-        },
-        label = "Entries"
-      },
-      label = "LangFile",
-      xarg = {
-        Endianess = "BigEndian",
-        xsd = "http://www.w3.org/2001/XMLSchema",
-        xsi = "http://www.w3.org/2001/XMLSchema-instance"
-      }
-    }
-  }
-
---files in J:\GameData\MGS\!master\chunk1_dat\Assets\tpp\sound\external\tape\
-local tapeFiles={
-"tp_bgm_01_01",
-"tp_bgm_02_01",
-"tp_bgm_02_02",
-"tp_bgm_02_03",
-"tp_bgm_02_04",
-"tp_bgm_03_01",
-"tp_bgm_04_01",
-"tp_bgm_04_02",
-"tp_bgm_05_01",
-"tp_bgm_05_02",
-"tp_bgm_10_01",
-"tp_bgm_10_02",
-"tp_bgm_10_03",
-"tp_bgm_10_04",
-"tp_bgm_10_05",
-"tp_bgm_10_06",
-"tp_bgm_10_07",
-"tp_bgm_11_01",
-"tp_bgm_11_02",
-"tp_bgm_11_03",
-"tp_bgm_11_04",
-"tp_bgm_11_05",
-"tp_bgm_11_06",
-"tp_bgm_11_07",
-"tp_bgm_11_08",
-"tp_bgm_11_09",
-"tp_bgm_11_10",
-"tp_bgm_11_11",
-"tp_bgm_11_12",
-"tp_bgm_11_13",
-"tp_bgm_11_14",
-"tp_bgm_11_15",
-"tp_bgm_11_16",
-"tp_bgm_11_17",
-"tp_bgm_11_18",
-"tp_bgm_11_19",
-"tp_bgm_11_20",
-"tp_bgm_11_21",
-"tp_bgm_11_22",
-"tp_bgm_11_23",
-"tp_bgm_11_24",
-"tp_bgm_11_25",
-"tp_bgm_11_26",
-"tp_bgm_11_27",
-"tp_bgm_11_28",
-"tp_bgm_11_29",
-"tp_bgm_11_30",
-"tp_bgm_11_31",
-"tp_bgm_11_32",
-"tp_bgm_11_33",
-"tp_bgm_11_34",
-"tp_c_00000_01",
-"tp_c_00000_02",
-"tp_c_00000_03",
-"tp_c_00000_04",
-"tp_c_00000_05",
-"tp_c_00000_06",
-"tp_c_00000_07",
-"tp_c_00000_08",
-"tp_c_00000_09",
-"tp_c_00000_10",
-"tp_c_00000_11",
-"tp_c_00000_12",
-"tp_c_00000_13",
-"tp_c_00000_14",
-"tp_c_00000_16",
-"tp_c_00000_17",
-"tp_c_00000_18",
-"tp_c_00001_01",
-"tp_c_00001_02",
-"tp_c_00001_03",
-"tp_c_00001_04",
-"tp_m_10010_01",
-"tp_m_10010_02",
-"tp_m_10010_03",
-"tp_m_10010_04",
-"tp_m_10010_05",
-"tp_m_10010_06",
-"tp_m_10010_07",
-"tp_m_10010_08",
-"tp_m_10010_09",
-"tp_m_10010_10",
-"tp_m_10020_00",
-"tp_m_10020_01",
-"tp_m_10020_02",
-"tp_m_10020_03",
-"tp_m_10020_04",
-"tp_m_10020_05",
-"tp_m_10020_06",
-"tp_m_10020_07",
-"tp_m_10020_08",
-"tp_m_10020_09",
-"tp_m_10020_10",
-"tp_m_10020_11",
-"tp_m_10020_12",
-"tp_m_10030_00",
-"tp_m_10033_00",
-"tp_m_10036_00",
-"tp_m_10040_00",
-"tp_m_10040_01",
-"tp_m_10040_02",
-"tp_m_10040_03",
-"tp_m_10041_00",
-"tp_m_10043_00",
-"tp_m_10044_00",
-"tp_m_10045_00",
-"tp_m_10050_00",
-"tp_m_10050_01",
-"tp_m_10050_02",
-"tp_m_10050_03",
-"tp_m_10052_00",
-"tp_m_10054_00",
-"tp_m_10070_00",
-"tp_m_10070_01",
-"tp_m_10070_02",
-"tp_m_10070_03",
-"tp_m_10070_04",
-"tp_m_10070_05",
-"tp_m_10070_06",
-"tp_m_10070_07",
-"tp_m_10070_08",
-"tp_m_10080_00",
-"tp_m_10081_00",
-"tp_m_10082_00",
-"tp_m_10085_00",
-"tp_m_10086_00",
-"tp_m_10090_00",
-"tp_m_10090_01",
-"tp_m_10090_02",
-"tp_m_10090_03",
-"tp_m_10091_00",
-"tp_m_10093_00",
-"tp_m_10093_01",
-"tp_m_10093_02",
-"tp_m_10093_03",
-"tp_m_10093_04",
-"tp_m_10093_05",
-"tp_m_10100_00",
-"tp_m_10100_01",
-"tp_m_10100_02",
-"tp_m_10100_03",
-"tp_m_10110_00",
-"tp_m_10110_01",
-"tp_m_10110_02",
-"tp_m_10110_03",
-"tp_m_10115_00",
-"tp_m_10115_0a",
-"tp_m_10120_00",
-"tp_m_10120_01",
-"tp_m_10120_02",
-"tp_m_10120_03",
-"tp_m_10121_00",
-"tp_m_10130_00",
-"tp_m_10140_00",
-"tp_m_10140_01",
-"tp_m_10140_02",
-"tp_m_10140_03",
-"tp_m_10140_04",
-"tp_m_10140_05",
-"tp_m_10140_06",
-"tp_m_10140_07",
-"tp_m_10150_00",
-"tp_m_10150_01",
-"tp_m_10150_02",
-"tp_m_10150_03",
-"tp_m_10150_04",
-"tp_m_10150_05",
-"tp_m_10150_06",
-"tp_m_10150_07",
-"tp_m_10150_08",
-"tp_m_10150_10",
-"tp_m_10150_11",
-"tp_m_10150_12",
-"tp_m_10150_13",
-"tp_m_10150_14",
-"tp_m_10150_15",
-"tp_m_10150_16",
-"tp_m_10150_17",
-"tp_m_10150_18",
-"tp_m_10150_19",
-"tp_m_10150_20",
-"tp_m_10150_21",
-"tp_m_10150_22",
-"tp_m_10150_23",
-"tp_m_10150_24",
-"tp_m_10150_25",
-"tp_m_10150_26",
-"tp_m_10150_27",
-"tp_m_10150_28",
-"tp_m_10150_29",
-"tp_m_10150_30",
-"tp_m_10150_31",
-"tp_m_10151_00",
-"tp_m_10156_00",
-"tp_m_10156_01",
-"tp_m_10156_02",
-"tp_m_10156_03",
-"tp_m_10160_03",
-"tp_m_10160_04",
-"tp_m_10160_05",
-"tp_m_10160_06",
-"tp_m_10160_07",
-"tp_m_10160_08",
-"tp_m_10160_09",
-"tp_m_10160_10",
-"tp_m_10160_11",
-"tp_m_10171_00",
-"tp_m_10190_01",
-"tp_m_10190_02",
-"tp_m_10190_03",
-"tp_m_10190_04",
-"tp_m_10190_05",
-"tp_m_10190_06",
-"tp_m_10195_00",
-"tp_m_10200_00",
-"tp_m_10211_00",
-"tp_m_10240_00",
-"tp_m_10240_01",
-"tp_m_10240_02",
-"tp_m_10240_03",
-"tp_m_10240_04",
-"tp_m_10240_05",
-"tp_m_10260_00",
-"tp_m_10260_01",
-"tp_m_10260_02",
-"tp_m_10260_03",
-"tp_m_10280_02",
-"tp_m_10280_03",
-"tp_m_10280_08",
-"tp_m_10280_09",
-"tp_m_10280_10",
-"tp_m_10280_11",
-"tp_m_10280_12",
-"tp_m_10280_13",
-"tp_m_10280_14",
-"tp_m_10280_15",
-"tp_m_10280_16",
-"tp_m_10280_17",
-"tp_m_99060_01",
-"tp_m_99060_02",
-"tp_m_99060_03",
-"tp_m_99060_04",
-"tp_m_99060_05",
-"tp_sp_01_01",
-"tp_sp_01_02",
-"tp_sp_01_03",
-"tp_sp_01_04",
-"tp_sp_01_05",
-"tp_sp_01_06",
-"tp_sp_01_07",
-"tp_sp_01_08",
-"tp_sp_01_09",
-"tp_sp_01_10",
-"tp_sp_01_11",
-"tp_sp_01_12",
-}
-
-
-local tapeFilesExist={}
-for i,tapeName in ipairs(tapeFiles)do
-  tapeFilesExist[tapeName]=true
-end
-
---
-zoop=require"./PreinstallTape"
-
-local tapeInfo=PreinstallTape.GetTapeInfo()
-local saveIndices={}
-for i,tapeInfo in ipairs(tapeInfo.tracks)do
-  table.insert(saveIndices,tapeInfo.saveIndex)
-end
---InfCore.PrintInspect(saveIndices)
-local max=-99999999
-for i,index in ipairs(saveIndices)do
-  if index>max then
-    max=index
-  end
-end
-
-local missingIndexes={}
-for i=0,max do
-  local hasIndex=false
-  for j,index in ipairs(saveIndices)do
-    if index==i then
-      hasIndex=true
-      break
-    end
-  end
-  if not hasIndex then
-  table.insert(missingIndexes,i)
-  end
-end
-InfCore.PrintInspect(missingIndexes,"missingIndexes")
-
-local tapeInfoExist={}
-for i,tapeInfo in ipairs(tapeInfo.tracks)do
-  tapeInfoExist[tapeInfo.fileName]=true
-end
-
-local noRefsForFile={}
-for i,tapeName in ipairs(tapeFiles)do
-  if not tapeInfoExist[tapeName]then
-    table.insert(noRefsForFile,tapeName)
-  end
-end
-InfCore.PrintInspect(noRefsForFile,"noRefsForFile")
+  --AnalyseTapes()
 
   print"main done"
 end

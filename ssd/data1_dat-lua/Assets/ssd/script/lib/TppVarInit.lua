@@ -56,6 +56,7 @@ function this.InitializeOnStartTitle()
 end
 function this.InitializeOnTitle()
   BaseDefenseManager.Reset()
+  Mission.ResetSurvivalMode()--RETAILPATCH: 1.0.16
 end
 function this.ClearAllVarsAndSlot()
   vars.locationCode=TppDefine.LOCATION_ID.INIT

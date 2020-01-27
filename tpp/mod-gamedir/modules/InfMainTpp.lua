@@ -63,7 +63,7 @@ function this.PostModuleReload(prevModule)
 end
 
 function this.PreMissionLoad(missionId,currentMissionId)
-  this.ClearXRay()
+  this.ClearXRay()--DEBUGNOW DEBUGNOW test this still works now that premissionload is before fova funcs
 end
 
 function this.OnAllocateTop(missionTable)

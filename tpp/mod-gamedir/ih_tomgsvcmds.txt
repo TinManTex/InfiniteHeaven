@@ -1,0 +1,2 @@
+636899030035187185|cmdToExtCompletedIndex|197
+1|sessionchange

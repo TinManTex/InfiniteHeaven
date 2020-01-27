@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65956bfda4ed27f4784b5d51b241a5bb, type: 3}
+  m_Name: uss0_main0_v01
+  m_EditorClassIdentifier: 
+  HiddenMeshGroups:
+  - MeshGroupName:
+      _string: MESH_head_a
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_head_b
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_head_c
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_head_d
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_head_e
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_head_f
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_head_g
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_head_h
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_head_i
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_coat_a
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_coat_a_IV
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_eqbd_a
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_eqhd_a
+      _hash: 0
+      _isUnhashed: 0
+  - MeshGroupName:
+      _string: MESH_eqbd_b
+      _hash: 0
+      _isUnhashed: 0
+  ShownMeshGroups:
+  - MeshGroupName:
+      _string: MESH_eqhd_a
+      _hash: 0
+      _isUnhashed: 0
+  TextureSwaps:
+  - MaterialInstanceName:
+      _string: eqbd
+      _hash: 0
+      _isUnhashed: 0
+    TextureTypeName:
+      _string: Base_Tex_SRGB
+      _hash: 0
+      _isUnhashed: 0
+    TextureFileName:
+      _string: /Assets/tpp/chara/uss/Pictures/uss0_body1_def_bsm.ftex
+      _hash: 
+      _isUnhashed: 0
+  BoneAttachments: []
+  CNPAttachments: []

@@ -1,5 +1,8 @@
 Lost Heaven changelog
 
+r6 - 2018-08-21
+Updated to SSD 1.13/1.0.15.0
+
 r5 - 2018-05-07
 Updated to SSD 1.10/1.0.12.0
 

@@ -3,6 +3,7 @@
 local this={
   modelDescription="Private Forces",
   noBlackDiamond=true,--tex don't show diamond shine where ddogs emblem is
+  hideBodyFova="/Assets/tpp/fova/chara/pfs/pfa0_v00_a.fv2",
   fovaTable={
     --[[mostly untextured, seems to be changing the texure of a submodel by right armpit?
     {
@@ -56,7 +57,7 @@ local this={
     {fovaFile="/Assets/tpp/fova/chara/pfs/pfs0_snp_v00_b.fv2",},
     {fovaFile="/Assets/tpp/fova/chara/pfs/pfs0_snp_v00_c.fv2",},
     --]]
-    --tex uses seperate model
+    --tex uses seperate model, which ApplyFormVariationWithFile doesnt seem to support
     {fovaFile="/Assets/tpp/fova/chara/pfs/pfa0_v00_a.fv2",},
     {fovaFile="/Assets/tpp/fova/chara/pfs/pfa0_v00_b.fv2",},
     {fovaFile="/Assets/tpp/fova/chara/pfs/pfa0_v00_c.fv2",},

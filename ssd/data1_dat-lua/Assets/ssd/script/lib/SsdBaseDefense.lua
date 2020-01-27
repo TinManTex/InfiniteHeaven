@@ -300,8 +300,8 @@ function this.OpenRewardWormhole()
 end
 --RETAILPATCH: 1.0.12>
 function this.StartRewardWormholeEffect()
-local e=TppGimmick.baseImportantGimmickList.afgh[4]
-Gimmick.SetAction{gimmickId=e.gimmickId,name=e.locatorName,dataSetName=e.datasetName,action="StartRewardWormhole"}
+  local e=TppGimmick.baseImportantGimmickList.afgh[4]
+  Gimmick.SetAction{gimmickId=e.gimmickId,name=e.locatorName,dataSetName=e.datasetName,action="StartRewardWormhole"}
 end
 --<
 function this.CloseRewardWormhole()
@@ -319,7 +319,7 @@ function this.Messages()
   return StrCode32Table{
     GameObject={
       {msg="DiggingStartEffectEnd",func=function()
-        if mvars.bdf_isStartRewardSequence then         
+        if mvars.bdf_isStartRewardSequence then
           if mvars.bdf_viewTotalResult then--RETAILPATCH: 1.0.8.0>
             TimerStart("Timer_BdfCloseRewardWormhole",5.5)--RETAILPATCH: 1.0.8.0 increased from 5
             CoopScoreSystem.StartDiggerChargeEnagy{chargeTime=6}
@@ -919,7 +919,7 @@ function this._CheckUnloadBlock(timerName,msgName,DoOnUnloadFunc)
     Mission.SendMessage("Mission","OnBaseDefenseEnd")
     TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,msgName,TppUI.FADE_PRIORITY.MISSION)
   else
-    TimerStart(timerName,1)
+    TimerStart("Timer_BdfCheckUnload",1)--RETAILPATCH: 1.0.14 was timerName
   end
 end
 return this

@@ -1,0 +1,2 @@
+"%3d/%3d %s%s : %-15s : %-15s : %-15s : %4d @ %s\n",
+size/sizeStr, readable,writable, : typeStr, : v25, : containerStr, : arraySizeStr, @ entityName

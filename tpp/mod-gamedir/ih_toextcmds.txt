@@ -1,0 +1,5 @@
+1554259402|extToMgsvComplete|1
+194|UiElementVisible|menuWrap|0
+195|UiElementVisible|menuItems|0
+196|UiElementVisible|menuTitle|0
+197|UiElementVisible|menuHelp|0

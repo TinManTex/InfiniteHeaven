@@ -145,20 +145,100 @@ this.ddHeadGearSelection={
   },
 }
 
+local bodyTypeVars={
+  "bodyType",
+  "bodyTypeExtend"
+}
+
 function this.PreMissionLoad(missionId,currentMissionId)
   this.isFemaleSoldierId={}
+
+  --tex set bodyType
+  local igvars=igvars
+  --tex dont set on continue (so it uses prior/saved bodyType)
+  --to protect against bodyType list change over sessions (ie installing/uninstalling addon would change list)
+  --don't need to worry about checkpoint reload since PreMissionLoad isn't called on that
+  --mission restart does call this but since you'd have to have continued from title to get to it?
+  local isContinue=igvars.bodyType and igvars.bodyType~="" and gvars.isContinueFromTitle
+  if not isContinue then
+    igvars.bodyType=this.GetBodyType(missionId)
+  end
+
+  local bodyType=igvars.bodyType
+  if bodyType and bodyType~="" then
+    local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
+    if bodyInfo==nil then
+      InfCore.Log("ERROR: InfEneFova.PreMissionLoad bodyInfo "..bodyType.." not found",false,true)
+    end
+  end
+  --
+  local isContinue=igvars.bodyTypeExtend and igvars.bodyTypeExtend~="" and gvars.isContinueFromTitle
+  if not isContinue then
+    igvars.bodyTypeExtend=this.GetBodyTypeExtend(missionId)
+  end
+
+  local bodyType=igvars.bodyTypeExtend
+  if bodyType and bodyType~="" then
+    local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
+    if bodyInfo==nil then
+      InfCore.Log("ERROR: InfEneFova.PreMissionLoad bodyInfo extend "..bodyType.." not found",false,true)
+    end
+  end
+end
+--DEBUGNOW
+function this.GetBodyType(missionCode)
+  if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
+    return ""
+  end
+  local customSoldierType=IvarProc.GetForMission"customSoldierType"
+  local bodyType=InfBodyInfo.bodies.MALE[customSoldierType+1]
+  local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
+  if bodyInfo==nil then
+    InfCore.Log("WARNING: InfEneFova.GetBodyType: bodyInfo "..bodyType.." not found")
+    return ""
+  end
+
+  InfCore.Log("InfEneFova.GetBodyType: bodyType from customSoldierType ivar "..tostring(bodyType))--DEBUGNOW
+  return bodyType
+end
+function this.GetBodyTypeExtend(missionCode)
+  if not IvarProc.EnabledForMission("customSoldierTypeFemale",missionCode) then
+    return ""
+  end
+  local customSoldierType=IvarProc.GetForMission"customSoldierTypeFemale"
+  local bodyType=InfBodyInfo.bodies.FEMALE[customSoldierType+1]
+  local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
+  if bodyInfo==nil then
+    InfCore.Log("WARNING: InfEneFova.GetBodyTypeExtend: bodyInfo "..bodyType.." not found")
+    return ""
+  end
+
+  InfCore.Log("InfEneFova.GetBodyTypeExtend: bodyType from customSoldierTypeFemale ivar "..tostring(bodyType))--DEBUGNOW
+  return bodyType
 end
 
 function this.GetMaleBodyInfo(missionCode)
+  --DEBUGNOW RETHINK
   if not IvarProc.EnabledForMission("customSoldierType",missionCode) then
     return nil
   end
-  --InfCore.Log("GetMaleBodyInfo")--DEBUG
-  local customSoldierType=IvarProc.GetForMission"customSoldierType"
-  local suitName=InfBodyInfo.bodies.MALE[customSoldierType+1]
-  --InfCore.Log("InfEneFova.GetMaleBodyInfo "..tostring(suitName))--DEBUG
-  --end
-  return InfBodyInfo.bodyInfo[suitName]
+
+  local bodyType=igvars.bodyType
+  if bodyType==nil or bodyType=="" then
+    InfCore.Log("WARNING: InfEneFova.GetMaleBodyInfo bodyType not set")--DEBUGNOW--DEBUGNOW
+    return nil
+  end
+  local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
+  if bodyInfo==nil then
+    InfCore.Log("WARNING: InfEneFova.GetMaleBodyInfo bodyInfo "..bodyType.." not found")
+    return nil
+  end
+
+  --DEBUGNOW CULL
+  --local customSoldierType=IvarProc.GetForMission"customSoldierType"
+  --local bodyType=InfBodyInfo.bodies.MALE[customSoldierType+1]
+  --InfCore.Log("InfEneFova.GetMaleBodyInfo "..tostring(bodyType))--DEBUG
+  return bodyInfo
 end
 function this.GetFemaleBodyInfo(missionCode)
   --InfCore.Log("GetFemaleBodyInfo")--DEBUG
@@ -169,10 +249,21 @@ function this.GetFemaleBodyInfo(missionCode)
     return InfBodyInfo.bodyInfo.DRAB_FEMALE --tex since a bunch of stuff still predicated by customSoldierType cant really havecustomSoldierTypeFemale nil
       --OFF return nil
   end
-  local customSoldierType=IvarProc.GetForMission"customSoldierTypeFemale"
-  local suitName=InfBodyInfo.bodies.FEMALE[customSoldierType+1]
-  --  end
-  return InfBodyInfo.bodyInfo[suitName]
+  
+  local bodyType=igvars.bodyTypeExtend
+  if bodyType==nil or bodyType=="" then
+    InfCore.Log("WARNING: InfEneFova.GetFemaleBodyInfo bodyType not set")--DEBUGNOW--DEBUGNOW
+    return nil
+  end
+  local bodyInfo=InfBodyInfo.bodyInfo[bodyType]
+  if bodyInfo==nil then
+    InfCore.Log("WARNING: InfEneFova.GetFemaleBodyInfo bodyInfo "..bodyType.." not found")
+    return nil
+  end
+  
+  --CULL local customSoldierType=IvarProc.GetForMission"customSoldierTypeFemale"
+  --local bodyInfo=InfBodyInfo.bodies.FEMALE[customSoldierType+1]
+  return bodyInfo
 end
 
 --

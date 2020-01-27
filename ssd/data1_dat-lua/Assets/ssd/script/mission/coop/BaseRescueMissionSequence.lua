@@ -734,11 +734,7 @@ function this.CreateInstance(missionName)
       instance.sequences.Seq_Demo_HostAlreadyCleared={
         OnEnter=function()TppMission.EnableInGameFlag()TppMission.DisconnectMatching(true)svars.mis_isDefiniteMissionClear=false
           mvars.mis_isReserveMissionClear=false
-          TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.SESSION_DISCONNECT_FROM_HOST,Popup.TYPE_ONE_BUTTON)end,
-        OnUpdate=function()
-          if not TppUiCommand.IsShowPopup(TppDefine.ERROR_ID.SESSION_DISCONNECT_FROM_HOST)then
-            TppMission.AbandonMission{needRestore=true}--RETAILPATCH: 1.0.12 added needRestore
-          end
+          TppException.OnSessionDisconnectFromHost()
         end}
       instance.sequences.Seq_Game_Ready={
         messageTable={

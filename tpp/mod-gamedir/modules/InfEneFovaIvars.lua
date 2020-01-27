@@ -40,7 +40,7 @@ IvarProc.MissionModeIvars(
     end,
     GetSettingText=function(self,setting)
       local bodyType=self.settings[setting+1]
-      return InfBodyInfo.bodyInfo[bodyType] or bodyType
+      return InfBodyInfo.bodyInfo[bodyType].description or bodyType
     end,
   },
   {

@@ -1357,6 +1357,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
     local isNoKillMode=TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
     TppEnemy.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   end
+  InfMain.PreMissionLoad(missionId,currentMissionId)--tex added
   --tex REWORKED>
   --tex the respective area name fova functions have been renamed to match locationName output (ex fovaSetupFuncs.Afghan to fovaSetupFuncs.afgh)
   local locationName=InfUtil.GetLocationName()
@@ -1365,7 +1366,7 @@ function this.PreMissionLoad(missionId,currentMissionId)
   --tex 1st parameter wasn't actually used in vanilla, only for the switch/case, might as well repurpose it
   InfCore.PCallDebug(FovaFunc,locationName,missionId)
   --<
-  InfMain.PreMissionLoad(missionId,currentMissionId)--tex added
+  --DEBUGNOW CULL or make PreMissionLoadPostFova InfMain.PreMissionLoad(missionId,currentMissionId)--tex added
   --ORIG
   --  local _fovaSetupFuncs=Select(fovaSetupFuncs)
   --  if fovaSetupFuncs[missionId]==nil then

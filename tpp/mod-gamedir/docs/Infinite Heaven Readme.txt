@@ -1,5 +1,5 @@
 = Infinite heaven =
-r232 - 2018-07-28
+r232 - 2018-08-01
 by tin man tex
 For MGSV version 1.14 (in title screen) 1.0.13.0 in exe
 
@@ -16,6 +16,13 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r232
+Fixed: 'DD Suit female' settings showing as 'table'
+
+Soldier body addon support:
+Allows addon mods that adds new soldier types to Mother base 'DD Suit' option and Enemy prep Custom soldier type options.
+Example: GZ US Soldier (get from optional files on IH nexus files page)
+
 New for r231
 Removed Setting: staff 'DD Suit' - 'Fatigues - All' setting to relieve additional fv2 limit for future addons. Won't return till/if full FoxKit gets full fv2 support.
 Added Settings: Ocelot and Quiet added to Appearance > Player Type - WARNING: Ocelot and Quiet player types have side effect when used due to trying to work around them being restricted to FOB. The Pause menu will be disabled and the game may hit an infinite load if you complete a mission while they are used. Use nexusmods.com/metalgearsolidvtpp/mods/518 by BobDoleOwndU to fix sound issues with using these player types.

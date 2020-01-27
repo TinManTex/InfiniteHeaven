@@ -436,7 +436,9 @@ function this.ExecuteContinueFromCheckPoint(unkP1,unkP2,doMissionCallback,unkP4)
     Player.ResetVarsOnMissionStart()
     TppSave.ReserveVarRestoreForContinue()
     InitialStartPosBaseDefense()
-    gvars.mis_skipOnPreLoadForContinue=true
+    if not gvars.mis_isAbandonForDisconnect then--RETAILPATCH: 1.0.14 added check
+      gvars.mis_skipOnPreLoadForContinue=true
+    end
     gvars.sav_needCheckPointSaveOnMissionStart=false
     gvars.mis_skipUpdateBaseManagement=true
     gvars.str_storySequence=Mission.GetServerStorySequence()
@@ -3178,18 +3180,18 @@ function this.Load(nextMissionCode,currentMissionCode,loadSettings)
   if(loadSettings and loadSettings.waitOnLoadingTipsEnd~=nil)then
     gvars.waitLoadingTipsEnd=loadSettings.waitOnLoadingTipsEnd
   else
-    local waitLoadingTipsEnd=((((((nextIsMultiPlay 
-    or nextIsAvatarEdit)
-    or InvitationManagerController.IsGoingCoopMission())
-    or gvars.mis_isReloaded)
-    or gvars.ini_isTitleMode)
-    or nextIsInit)
-    or gvars.mis_isAbandonForDisconnect)--RETAILPATCH: 1.0.12 added isAbandonfordisconnect
+    local waitLoadingTipsEnd=((((((nextIsMultiPlay
+      or nextIsAvatarEdit)
+      or InvitationManagerController.IsGoingCoopMission())
+      or gvars.mis_isReloaded)
+      or gvars.ini_isTitleMode)
+      or nextIsInit)
+      or gvars.mis_isAbandonForDisconnect)--RETAILPATCH: 1.0.12 added isAbandonfordisconnect
     if waitLoadingTipsEnd then
       gvars.waitLoadingTipsEnd=false
-    else
-      gvars.waitLoadingTipsEnd=true
-    end
+      else
+        gvars.waitLoadingTipsEnd=true
+      end
   end
   TppMain.EnablePause()
   TppMain.EnableBlackLoading(showLoadingTips)
@@ -3887,6 +3889,7 @@ function this.OnPreLoad(currentMissionAfterChunkCheck,nextMissionAfterChunkCheck
         vars.missionCode=coopMissioncode
         vars.locationCode=TppDefine.LOCATION_ID[TppPackList.GetLocationNameFormMissionCode(coopMissioncode)]
         gvars.sav_skipRestoreToVars=true
+        gvars.mis_isAbandonForDisconnect=false--RETAILPATCH: 1.0.14
         unkL1=true
       end
     else

@@ -3,9 +3,9 @@
 -- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.
 -- See Readme for more info
 local this={}
-this.ihVer=4
-this.saveTime=1524601333
-this.inMission=false
+this.ihVer=6
+this.saveTime=1534803393
+this.inMission=true
 this.loadToACC=false
 this.evars={
 	avatar_enableGenderSelect=1,

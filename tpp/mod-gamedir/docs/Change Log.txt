@@ -1,5 +1,10 @@
 Infinite Heaven changelog
 
+r232 - 2018-08-01
+Fixed: 'DD Suit female' settings showing as 'table'
+
+Refactor: customSoldierType - keys off igvars bodyType and bodyTypeExtend on PreMissionLoad instead of always off ivar. Provides some leeway in handling outcomes from body addons.
+
 r231 - 2018-07-28
 InfRoutes - Counterpart to InfPositions, InfObjects as a load/save list of routes used for some debug options.
 

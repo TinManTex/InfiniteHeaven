@@ -717,7 +717,8 @@ this.QUEST_HELI_DEFINE={
   "quest_q20705",
   "quest_q27005"
 }
-this.REMOVAL_TROPHY_QUEST=this.Enum{"ruins_q60010",
+this.REMOVAL_TROPHY_QUEST=this.Enum{
+  "ruins_q60010",
   "tent_q60011",
   "cliffTown_q60012",
   "fort_q60013",

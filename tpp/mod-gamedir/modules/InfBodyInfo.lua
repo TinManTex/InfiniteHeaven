@@ -3,11 +3,11 @@
 --Also handles \mod\bodyInfo\ addons.
 
 local this={}
---DEBUGNOW TODO update
 --REF bodyInfo entry
 --tex GOTCHA on MB max bodyids are currently interacting with MAX_STAFF_NUM_ON_CLUSTER somehow, above which will force all faces to headgear
 -- ex
 --  SOME_BODY={
+--    description="Body name for menu",
 --    bodyIds={--tex if bodyId nil then will fall back to normal GetBodyId, if bodyId is a table (like this example) bodyId is chosen randomly (TODO example bodyId doesnt match body)
 --      TppEnemyBodyId.dlf_enef0_def,
 --      TppEnemyBodyId.dlf_enef1_def,
@@ -30,7 +30,6 @@ local this={}
 --    noSkinTones=true,--tex body doesn't have different textures for skintones (a lot of models just sidestep this by not showing skin/having gloves), currently only as a note, no system acting on the value
 --  },
 
---DEBUGNOW TODO break into bodyType(parttype?) and bodiesTable
 this.bodyInfo={
   OFF={},--KLUDGE for ivar
   DRAB={--DDS, mother base default
@@ -979,19 +978,6 @@ this.bodyInfo={
     --NVG=true,
     },
   },
---DEBUGNOW
---  USS0_MAIN0={
---    bodyIds={
---      TppEnemyBodyId.uss0_main0_v00,
---      TppEnemyBodyId.uss0_main0_v01,
---      TppEnemyBodyId.uss0_main0_v02,
---      TppEnemyBodyId.uss0_main0_v03,
---      TppEnemyBodyId.uss0_main0_v04,
---    },
---    partsPath="/Assets/tpp/parts/chara/uss/uss0_main0_def_v00_ih_sol2.parts",
---    missionPackPath="/Assets/tpp/pack/mission2/ih/uss0_main0_mdl.fpk",
---    soldierSubType="DD_FOB",--DEBUGNOW
---  },
 }
 
 --tex installed bodies, used by customSoldierType ivar, \mod\bodyInfo addons automatically add to this

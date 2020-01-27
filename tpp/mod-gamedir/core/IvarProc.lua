@@ -1187,18 +1187,32 @@ function this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
   saveTextList[#saveTextList+1]=tableClose
 end
 
-local saveLineFormatStr="\t%s=%s,"
-local saveLineFormatNumber="\t[%s]=%s,"
+local saveLineKeyNumber="\t[%s]="
+local saveLineKeyOther="\t%s="
+
+local saveLineValueStr="%q,"
+local saveLineValueOther="%s,"
 local tableHeaderFmt="this.%s={"
+
+local Format=string.format
 function this.BuildTableText(tableName,sourceTable,saveTextList)
-  InfCore.LogFlow("IvarProc.BuildTableText:"..tableName)
-  saveTextList[#saveTextList+1]=format(tableHeaderFmt,tableName)
+  saveTextList[#saveTextList+1]=string.format(tableHeaderFmt,tableName)
   for k,v in pairs(sourceTable)do
+    local keyLine=""
     if type(k)=="number" then
-      saveTextList[#saveTextList+1]=format(saveLineFormatNumber,k,tostring(v))
+      keyLine=Format(saveLineKeyNumber,k)
     else
-      saveTextList[#saveTextList+1]=format(saveLineFormatStr,k,tostring(v))
+      keyLine=Format(saveLineKeyOther,k)
     end
+    
+    local valueLine=""
+    if type(v)=="string" then
+      valueLine=string.format(saveLineValueStr,tostring(v))
+    else
+      valueLine=string.format(saveLineValueOther,tostring(v))
+    end
+    
+    saveTextList[#saveTextList+1]=keyLine..valueLine
   end
   saveTextList[#saveTextList+1]=tableClose
 end

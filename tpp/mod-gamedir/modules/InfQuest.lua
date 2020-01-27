@@ -17,13 +17,14 @@ this.debugModule=false
 --tex current questIds claimed
 --q30100 - q30102--IH mb quests
 --q30103--IH quest example
---q30104 - q30154--morbidslinky sideops pack
+--q30104-q30154--morbidslinky sideops pack
 --q30155--IH pilot rescue test
 --q30156-q30199--darkhaven
 --q30200-q30299--ih reserved
 --q30300-q30349--caplag
 --q30350-q30360--morbidslinky example sideops
 --q30500-q30504--hsronacse (via nexus posts page)
+--q30600-q30699--amars464 (via discord) (currently made 12)
 --q31069-q31099--jackwall (via nexus message)
 --q36660-q367600-ventos
 
@@ -200,7 +201,7 @@ function this.GetForced()
 
   --tex find name and area for unlocksideop
   local unlockSideOpNumber=Ivars.unlockSideOpNumber:Get()
-  if unlockSideOpNumber>0 and unlockSideOpNumber<=#questTable  then
+  if unlockSideOpNumber>0 and unlockSideOpNumber<=#questTable then
     local unlockedName=questTable[unlockSideOpNumber].questName
     local unlockedArea=nil
     if unlockedName~=nil then

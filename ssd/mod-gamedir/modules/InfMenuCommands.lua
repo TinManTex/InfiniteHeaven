@@ -291,10 +291,7 @@ this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
   
- --   Tpp.SetGameStatus{target={S_DISABLE_PLAYER_DAMAGE=true},enable=true,scriptName="TppMain.lua"}
-TppGameStatus.Set( "TitleSequence", "S_DISABLE_PLAYER_DAMAGE")
-  
-  
+
   --DEBUGNOW
   
   local weatherType=TppDefine.WEATHER.SUNNY

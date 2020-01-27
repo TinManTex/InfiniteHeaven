@@ -3,8 +3,8 @@
 -- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.
 -- See Readme for more info
 local this={}
-this.ihVer=5
-this.saveTime=1529449805
+this.ihVer=6
+this.saveTime=1534804670
 this.inMission=false
 this.loadToACC=false
 this.evars={

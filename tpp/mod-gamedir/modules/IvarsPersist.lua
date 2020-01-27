@@ -6,6 +6,8 @@ local this={
   inf_levelSeed=1,
   mis_isGroundStart=false,
   inf_event=false,--tex used as indicator whether save>ivars should be synced
+  bodyType="",
+  bodyTypeExtend="",
 }
 
 --this.debugModule=false--GOTCHA since vars are at module level it will see this as a persistvar 
