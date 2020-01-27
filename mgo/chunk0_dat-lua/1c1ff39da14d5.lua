@@ -826,7 +826,8 @@ mvars.ply_questNameReverse=mvars.ply_questNameReverse or{}
 mvars.ply_questNameReverse[a(e)]=e
 mvars.ply_questStartFlagInfo=mvars.ply_questStartFlagInfo or{}
 mvars.ply_questStartFlagInfo[e]=false
-mvars.ply_questTrapList=mvars.ply_questTrapList or{}table.insert(mvars.ply_questTrapList,t)
+mvars.ply_questTrapList=mvars.ply_questTrapList or{}
+table.insert(mvars.ply_questTrapList,t)
 mvars.ply_questStartTrapInfo[a(t)]=e
 Player.AddTrapDetailCondition{trapName=t,condition=PlayerTrap.FINE,action=PlayerTrap.NORMAL,stance=(PlayerTrap.STAND+PlayerTrap.SQUAT),direction=n,directionRange=r}
 end
@@ -1393,10 +1394,13 @@ end,option={isExecMissionPrepare=true}},{msg="Enter",sender="fallDeath_camera",f
 e.SetLimitFallDeadCameraOffsetPosY(-18)
 end,option={isExecMissionPrepare=true}},{msg="Exit",sender="fallDeath_camera",func=e.ResetLimitFallDeadCameraOffsetPosY,option={isExecMissionPrepare=true}}}}
 if t(mvars.ply_intelMarkerTrapList)and next(mvars.ply_intelMarkerTrapList)then
-n[a"Trap"]=n[a"Trap"]or{}table.insert(n[a"Trap"],Tpp.StrCode32Table{msg="Enter",sender=mvars.ply_intelMarkerTrapList,func=e.OnEnterIntelMarkerTrap,option={isExecMissionPrepare=true}})
+n[a"Trap"]=n[a"Trap"]or{}
+table.insert(n[a"Trap"],Tpp.StrCode32Table{msg="Enter",sender=mvars.ply_intelMarkerTrapList,func=e.OnEnterIntelMarkerTrap,option={isExecMissionPrepare=true}})
 end
 if t(mvars.ply_intelTrapList)and next(mvars.ply_intelTrapList)then
-n[a"Trap"]=n[a"Trap"]or{}table.insert(n[a"Trap"],Tpp.StrCode32Table{msg="Enter",sender=mvars.ply_intelTrapList,func=e.OnEnterIntelTrap})table.insert(n[a"Trap"],Tpp.StrCode32Table{msg="Exit",sender=mvars.ply_intelTrapList,func=e.OnExitIntelTrap})
+n[a"Trap"]=n[a"Trap"]or{}
+table.insert(n[a"Trap"],Tpp.StrCode32Table{msg="Enter",sender=mvars.ply_intelTrapList,func=e.OnEnterIntelTrap})
+table.insert(n[a"Trap"],Tpp.StrCode32Table{msg="Exit",sender=mvars.ply_intelTrapList,func=e.OnExitIntelTrap})
 end
 return n
 end

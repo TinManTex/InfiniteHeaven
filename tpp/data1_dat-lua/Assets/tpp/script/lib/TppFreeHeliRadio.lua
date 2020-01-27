@@ -34,16 +34,16 @@ function this.Messages()
     Player={
       {msg="CalcFultonPercent",func=function(n,gameId,n,n,n)
         if Tpp.IsSoldier(gameId)then
-          local n="f2000_rtrg0040"
-          if(not TppRadio.IsPlayed(n)and TppRadio.IsPlayed"f2000_oprg0210")and(not TppStory.IsMissionCleard(10040))then
-            this._PlayRadio(n)
+          local radioName="f2000_rtrg0040"
+          if(not TppRadio.IsPlayed(radioName)and TppRadio.IsPlayed"f2000_oprg0210")and(not TppStory.IsMissionCleard(10040))then
+            this._PlayRadio(radioName)
           end
           if not TppStory.IsMissionCleard(10070)then
-            local n="f2000_rtrg0060"
+            local radioName="f2000_rtrg0060"
             local stateFlag=SendCommand(gameId,{id="GetStateFlag"})
             if(band(stateFlag,StateFlag.DYING_LIFE)~=0)then
-              if not TppRadio.IsPlayed(n)then
-                this._PlayRadio(n)
+              if not TppRadio.IsPlayed(radioName)then
+                this._PlayRadio(radioName)
               end
             end
           end

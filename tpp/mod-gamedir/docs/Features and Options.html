@@ -558,7 +558,7 @@
 <div>5: <a href="#revengeSystemMenu">Prep system menu</a></div>
 </div>
 <div id="menuItem">
-<div>6: <a href="#dDEquipMenu">DD Equip menu</a></div>
+<div>6: <a href="#customEquipMenu">Custom soldier equip menu</a></div>
 </div>
 <div id="menuItem">
 <div>7: Reset enemy preparedness levels : (Command)</div>
@@ -592,13 +592,13 @@
 <div id="menuHelp">Lets you set the individual values that go into an enemy prep configuration (does not use the enemy prep levels), a random value between MIN and MAX for each setting is chosen on mission start. The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.</div>
 </div>
 <div id="menuItem">
-<div>1: <a href="#armorPowersMenu">Armor deployment</a></div>
+<div>1: Print example current config (look in iDroid Log&gtAll tab) : (Command)</div>
 </div>
 <div id="menuItem">
-<div>2: Print example current config (look in iDroid Log&gtAll tab) : (Command)</div>
+<div>2: <a href="#weaponPowersMenu">Weapon deployment</a></div>
 </div>
 <div id="menuItem">
-<div>3: <a href="#weaponPowersMenu">Weapon deployment</a></div>
+<div>3: <a href="#armorPowersMenu">Armor deployment</a></div>
 </div>
 <div id="menuItem">
 <div>4: <a href="#gearPowersMenu">Headgear deployment</a></div>
@@ -635,34 +635,6 @@
 </div>
 <div id="menuItem">
 <div>14: Ignore combat-deploy supply blocks max : Off, On</div>
-</div>
-<div id="menuItem">
-</div>
-<div id="menuItem">
-</div>
-</div>
-<br/>
-<div id="menu">
-<div id="menuTitle">
-<div id="armorPowersMenu">Armor deployment</div>
-</div>
-<div id="menuItem">
-<div>1: ARMOR_MIN : 0-100%</div>
-</div>
-<div id="menuItem">
-<div>2: ARMOR_MAX : 0-100%</div>
-</div>
-<div id="menuItem">
-<div>3: SOFT_ARMOR_MIN : 0-100%</div>
-</div>
-<div id="menuItem">
-<div>4: SOFT_ARMOR_MAX : 0-100%</div>
-</div>
-<div id="menuItem">
-<div>5: SHIELD_MIN : 0-100%</div>
-</div>
-<div id="menuItem">
-<div>6: SHIELD_MAX : 0-100%</div>
 </div>
 <div id="menuItem">
 </div>
@@ -715,6 +687,34 @@
 </div>
 <div id="menuItem">
 <div>14: GUN_LIGHT_MAX : 0-100%</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="armorPowersMenu">Armor deployment</div>
+</div>
+<div id="menuItem">
+<div>1: ARMOR_MIN : 0-100%</div>
+</div>
+<div id="menuItem">
+<div>2: ARMOR_MAX : 0-100%</div>
+</div>
+<div id="menuItem">
+<div>3: SOFT_ARMOR_MIN : 0-100%</div>
+</div>
+<div id="menuItem">
+<div>4: SOFT_ARMOR_MAX : 0-100%</div>
+</div>
+<div id="menuItem">
+<div>5: SHIELD_MIN : 0-100%</div>
+</div>
+<div id="menuItem">
+<div>6: SHIELD_MAX : 0-100%</div>
 </div>
 <div id="menuItem">
 </div>
@@ -928,34 +928,48 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
-<div id="dDEquipMenu">DD Equip menu</div>
-<div id="menuHelp">Allow soldiers to have DD equipment usually only seen on FOB</div>
+<div id="customEquipMenu">Custom soldier equip menu</div>
+<div id="menuHelp">Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation</div>
 </div>
 <div id="menuItem">
-<div>1: MB staff use DD equipment : Off, On</div>
+<div>1: Enemy use custom equip table in free roam : Off, On</div>
 </div>
 <div id="menuItem">
-<div>2: Enemy use DD equipment in free roam : Off, On</div>
+<div>2: Enemy use custom equip table in missions : Off, On</div>
 </div>
 <div id="menuItem">
-<div>3: Enemy use DD equipment in missions : Off, On</div>
+<div>3: MB staff use custom equip table : Off, On</div>
 </div>
 <div id="menuItem">
-<div>4: DD Equip Grade RND MIN : 1-15</div>
+<div>4: Weapon stengths : NORMAL, STRONG, Combined</div>
+<div id="itemHelp">The game weapon tables have Normal and Strong lists that the Enemy prep system will pick from, this setting allows you to select either, or combine them.</div>
+</div>
+<div id="menuItem">
+<div>5: Include Soviet weapons : Off, On</div>
+</div>
+<div id="menuItem">
+<div>6: Include PF weapons : Off, On</div>
+</div>
+<div id="menuItem">
+<div>7: Include XOF weapons : Off, On</div>
+</div>
+<div id="menuItem">
+<div>8: Include DD weapons : Off, On</div>
+<div id="itemHelp">Add the DD weapons table that's usually used for FOB, the following grade and developed settings control how this table is built</div>
+</div>
+<div id="menuItem">
+<div>9: DD weapons grade MIN : 1-15</div>
 <div id="itemHelp">A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.</div>
 </div>
 <div id="menuItem">
-<div>5: DD Equip Grade RND MAX : 1-15</div>
+<div>10: DD weapons grade MAX : 1-15</div>
 </div>
 <div id="menuItem">
-<div>6: Allow undeveloped DD equipment : Off, On</div>
+<div>11: Allow undeveloped DD weapons : Off, On</div>
 <div id="itemHelp">Whether to limit the selection to equipment you have developed or allow all equipment. Restriction does not apply to Enemies using DD weapons.</div>
 </div>
 <div id="menuItem">
-<div>7: MB DD Equip non-lethal : Off, On</div>
-</div>
-<div id="menuItem">
-<div>8: MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random</div>
+<div>12: DD equipment non-lethal : Off, On</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1070,69 +1084,72 @@
 <div>1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep</div>
 </div>
 <div id="menuItem">
-<div>2: <a href="#dDEquipMenu">DD Equip menu</a></div>
+<div>2: <a href="#customEquipMenu">Custom soldier equip menu</a></div>
 </div>
 <div id="menuItem">
-<div>3: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières</div>
+<div>3: MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random</div>
 </div>
 <div id="menuItem">
-<div>4: DD Suit female : Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit</div>
+<div>4: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières</div>
 </div>
 <div id="menuItem">
-<div>5: DD Head gear : Off, Current prep</div>
+<div>5: DD Suit female : Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit</div>
 </div>
 <div id="menuItem">
-<div>6: Female staff selection : Default, None, All available</div>
+<div>6: DD Head gear : Off, Current prep</div>
+</div>
+<div id="menuItem">
+<div>7: Female staff selection : Default, None, All available</div>
 <div id="itemHelp">By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available will select females first when trying to populate a MB section, None will prevent any females from showing on mother base</div>
 </div>
 <div id="menuItem">
-<div>7: NPC helis : Off, Support helis, Support and Attack helis</div>
+<div>8: NPC helis : Off, Support helis, Support and Attack helis</div>
 <div id="itemHelp">Spawns some npc helis that roam around mother base.</div>
 </div>
 <div id="menuItem">
-<div>8: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
+<div>9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep</div>
 <div id="itemHelp">Shared between free roam and MB attack helis.</div>
 </div>
 <div id="menuItem">
-<div>9: Walker gears : Off, On</div>
+<div>10: Walker gears : Off, On</div>
 </div>
 <div id="menuItem">
-<div>10: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type</div>
+<div>11: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type</div>
 </div>
 <div id="menuItem">
-<div>11: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type</div>
+<div>12: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type</div>
 </div>
 <div id="menuItem">
-<div>12: Repopulate plants and diamonds : Off, On</div>
+<div>13: Repopulate plants and diamonds : Off, On</div>
 <div id="itemHelp">Regenerates plants on Zoo platform and diamonds on Mother base over time.</div>
 </div>
 <div id="menuItem">
-<div>13: Staff-wide morale boost for good visit : Off, On</div>
+<div>14: Staff-wide morale boost for good visit : Off, On</div>
 <div id="itemHelp">Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.</div>
 </div>
 <div id="menuItem">
-<div>14: Enable all buddies : Off, On</div>
+<div>15: Enable all buddies : Off, On</div>
 <div id="itemHelp">Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.</div>
 </div>
 <div id="menuItem">
-<div>15: More soldiers on MB plats : Off, On</div>
+<div>16: More soldiers on MB plats : Off, On</div>
 <div id="itemHelp">Increases soldiers on platforms from 4 soldiers to 9.</div>
 </div>
 <div id="menuItem">
-<div>16: Soldiers move between platforms : Off, On</div>
+<div>17: Soldiers move between platforms : Off, On</div>
 <div id="itemHelp">Soldiers will periodically move between platforms (only within the same cluster).</div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#motherBaseShowCharactersMenu">Show characters menu</a></div>
+<div>18: <a href="#motherBaseShowCharactersMenu">Show characters menu</a></div>
 </div>
 <div id="menuItem">
-<div>18: <a href="#motherBaseShowAssetsMenu">Show assets menu</a></div>
+<div>19: <a href="#motherBaseShowAssetsMenu">Show assets menu</a></div>
 </div>
 <div id="menuItem">
-<div>19: Women in Enemy Invasion mode : 0-100%</div>
+<div>20: Women in Enemy Invasion mode : 0-100%</div>
 </div>
 <div id="menuItem">
-<div>20: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
+<div>21: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)</div>
 </div>
 <div id="menuItem">
 </div>

@@ -680,7 +680,7 @@ missionPackTable[30010]=function(missionCode)
   if Ivars.enableParasiteEvent:Is()>0 then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
   end
-  --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
+  --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex WIP
   if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then
@@ -703,7 +703,7 @@ missionPackTable[30020]=function(missionCode)
   if Ivars.enableParasiteEvent:Is()>0 then
     TppPackList.AddMissionPack"/Assets/tpp/pack/mission2/online/o50050/o50055_parasite_metal.fpk"
   end
-  --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex DEBUGNOW
+  --TppPackList.AddMissionPack(TppDefine.MISSION_COMMON_PACK.WALKERGEAR)--tex WIP
   if Ivars.enableWildCardFreeRoam:Is(1) and Ivars.enableWildCardFreeRoam:MissionCheck(missionCode) then--tex>
     local bodyInfo=InfEneFova.GetFemaleWildCardBodyInfo()
     if bodyInfo and bodyInfo.missionPackPath then

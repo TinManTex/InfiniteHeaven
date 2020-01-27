@@ -455,22 +455,27 @@ e.OnEnterCpIntelTrap(t)
 if TppSequence.IsMissionPrepareFinished()then
 e.ShowLocationAndBaseTelop()
 end
-end,option={isExecMissionPrepare=true}}table.insert(n,r)
+end,option={isExecMissionPrepare=true}}
+table.insert(n,r)
 local e={msg="Exit",sender=a,func=function(n,n)
 e.OnExitCpIntelTrap(t)
-end,option={isExecMissionPrepare=true}}table.insert(n,e)
+end,option={isExecMissionPrepare=true}}
+table.insert(n,e)
 end
 table.insert(n,{msg="Enter",sender="trap_intel_afgh_waterway_cp",func=function(t,t)
 e.SetBaseTelopName"afgh_waterWay_cp"if TppSequence.IsMissionPrepareFinished()then
 e.ShowLocationAndBaseTelop()
 end
-end,option={isExecMissionPrepare=true}})table.insert(n,{msg="Exit",sender="trap_intel_afgh_waterway_cp",func=function(t,t)
+end,option={isExecMissionPrepare=true}})
+table.insert(n,{msg="Exit",sender="trap_intel_afgh_waterway_cp",func=function(t,t)
 e.ClearBaseTelopName()
-end,option={isExecMissionPrepare=true}})table.insert(n,{msg="Enter",sender="trap_intel_afgh_ruins_cp",func=function(t,t)
+end,option={isExecMissionPrepare=true}})
+table.insert(n,{msg="Enter",sender="trap_intel_afgh_ruins_cp",func=function(t,t)
 e.SetBaseTelopName"afgh_ruins_cp"if TppSequence.IsMissionPrepareFinished()then
 e.ShowLocationAndBaseTelop()
 end
-end,option={isExecMissionPrepare=true}})table.insert(n,{msg="Exit",sender="trap_intel_afgh_ruins_cp",func=function(t,t)
+end,option={isExecMissionPrepare=true}})
+table.insert(n,{msg="Exit",sender="trap_intel_afgh_ruins_cp",func=function(t,t)
 e.ClearBaseTelopName()
 end,option={isExecMissionPrepare=true}})
 end

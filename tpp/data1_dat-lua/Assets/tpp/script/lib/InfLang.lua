@@ -291,13 +291,15 @@ this.eng={--english
   revengeConfigProfile="Custom prep profile",--CULL
   revengeConfigProfileSettings={"DEFAULT","MAX","MIN","UPPER","LOWER","CUSTOM"},--CULL
   enableSoldiersWithVehicleReinforce="Soldier reinforce with all vehicle reinforce types",--r120
-  dDEquipMenu="DD Equip menu",
+  customEquipMenu="Custom soldier equip menu",
+  --CULL
   enableDDEquipMB="MB staff use DD equipment",
   enableDDEquipFREE="Enemy use DD equipment in free roam",
   enableDDEquipMISSION="Enemy use DD equipment in missions",--r125
-  soldierEquipGrade_MIN="DD Equip Grade RND MIN",
-  soldierEquipGrade_MAX="DD Equip Grade RND MAX",
-  allowUndevelopedDDEquip="Allow undeveloped DD equipment",
+  --
+  soldierEquipGrade_MIN="DD weapons grade MIN",
+  soldierEquipGrade_MAX="DD weapons grade MAX",
+  allowUndevelopedDDEquip="Allow undeveloped DD weapons",
   revengeModeSettings={"Enemy prep levels","Custom prep"},--121
   revengeModeMB="Mother base prep mode",
   revengeModeMBSettings={"Off","FOB style","Enemy prep levels","Custom prep"},
@@ -331,7 +333,7 @@ this.eng={--english
   fultonHostageHandlingSettings={"Default","Must extract (0%)"},
   blockInMissionSubsistenceIvars="Block in-mission menu restriction options",
   disableCamText="Disable mode text feedback",--r128
-  mbDDEquipNonLethal="MB DD Equip non-lethal",
+  mbDDEquipNonLethal="DD equipment non-lethal",
   mbDDSuitFemale="DD Suit female",--r130
   mbDDSuitFemaleSettings={"Use Equip Grade","Drab","Tiger","Sneaking","Battle Dress","Swimsuit"},
   mbPrioritizeFemale="Female staff selection",
@@ -518,6 +520,15 @@ this.eng={--english
   viewProfile="Apply and view profile",
   revertProfile="Revert profile and return",
   dontOverrideFreeLoadout="Keep equipment Free<>Mission",
+  customWeaponTableFREE="Enemy use custom equip table in free roam",
+  customWeaponTableMISSION="Enemy use custom equip table in missions",
+  customWeaponTableMB="MB staff use custom equip table",
+  weaponTableStrength="Weapon stengths",
+  weaponTableStrengthSettings={"NORMAL","STRONG","Combined"},
+  weaponTableAfgh="Include Soviet weapons",
+  weaponTableMafr="Include PF weapons",
+  weaponTableSkull="Include XOF weapons",
+  weaponTableDD="Include DD weapons",
 }--eng end
 
 this.help={}
@@ -624,7 +635,7 @@ this.help.eng={
   revengeMenu="Ways to modify the Enemy preparedness system that equips the enemy in response to your actions.",
   STEALTH_MIN="Adjusts enemy soldiers notice,cure,reflex and speed ablilities.",
   COMBAT_MIN="Adjusts enemy soldiers shot,grenade,reload,hp and speed abilities.",
-  dDEquipMenu="Allow soldiers to have DD equipment usually only seen on FOB",
+  customEquipMenu="Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation",
   forceSuperReinforce="In the normal game vehicle reinforcments through this system is only used for two missions, this enables it for more.",
   enableSoldiersWithVehicleReinforce="Allows an extra set of reinforce soldiers with all vehicle reinforce types instead of just Wheeled Armored Vehicles.",
   enableLrrpFreeRoam="Foot patrols will travel between random CPs and will cross the field to get there.",
@@ -670,6 +681,8 @@ this.help.eng={
   buddyChangeEquipVar="Buddy equiment is changed to selected setting when <Action> is pressed.",
   resourceAmountScale="Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)",
   dontOverrideFreeLoadout="Prevents equipment and weapons being reset when going between free-roam and missions.",
+  weaponTableStrength="The game weapon tables have Normal and Strong lists that the Enemy prep system will pick from, this setting allows you to select either, or combine them.",
+  weaponTableDD="Add the DD weapons table that's usually used for FOB, the following grade and developed settings control how this table is built",
 }
 
 this.cpNames={

@@ -129,16 +129,23 @@ this.motherBaseShowAssetsMenu={
   }
 }
 
-this.dDEquipMenu={
+this.customEquipMenu={
   options={
-    Ivars.enableDDEquipMB,
-    Ivars.enableDDEquipFREE,
-    Ivars.enableDDEquipMISSION,
+--    Ivars.enableDDEquipMB,
+--    Ivars.enableDDEquipFREE,
+--    Ivars.enableDDEquipMISSION,
+    Ivars.customWeaponTableFREE,
+    Ivars.customWeaponTableMISSION,
+    Ivars.customWeaponTableMB,
+    Ivars.weaponTableStrength,
+    Ivars.weaponTableAfgh,
+    Ivars.weaponTableMafr,
+    Ivars.weaponTableSkull,
+    Ivars.weaponTableDD,
     Ivars.soldierEquipGrade_MIN,
     Ivars.soldierEquipGrade_MAX,
     Ivars.allowUndevelopedDDEquip,
     Ivars.mbDDEquipNonLethal,
-    Ivars.mbSoldierEquipRange,
   }
 }
 
@@ -147,7 +154,8 @@ this.motherBaseMenu={
   options={
     --OFF TODO Ivars.motherbaseProfile,
     Ivars.revengeModeMB,
-    this.dDEquipMenu,
+    this.customEquipMenu,
+    Ivars.mbSoldierEquipRange,
     Ivars.mbDDSuit,
     Ivars.mbDDSuitFemale,
     Ivars.mbDDHeadGear,
@@ -296,7 +304,6 @@ AddMinMaxIvarsListMenu("cpEquipBoolPowers",Ivars.cpEquipBoolPowers)
 
 this.revengeCustomMenu={
   options={
-    Ivars.revengeConfigProfile,
     InfMenuCommands.printCustomRevengeConfig,
   }
 }
@@ -325,7 +332,7 @@ this.revengeMenu={
     Ivars.revengeModeMB,
     this.revengeCustomMenu,
     this.revengeSystemMenu,
-    this.dDEquipMenu,
+    this.customEquipMenu,
     InfMenuCommands.resetRevenge,
     Ivars.changeCpSubTypeFREE,
     Ivars.changeCpSubTypeMISSION,
@@ -521,6 +528,7 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
+   -- this.customEquipMenu,--DEBUG
     --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
@@ -529,7 +537,7 @@ this.heliSpaceMenu={
     Ivars.selectProfile,
     --InfMenuCommands.applySelectedProfile,
     InfMenuCommands.resetSelectedProfile,
-    --InfMenuCommands.viewProfile,--DEBUGNOW
+    --InfMenuCommands.viewProfile,--DEBUG
     InfMenuCommands.forceGameEvent,
     this.worldMenu,
     this.playerRestrictionsMenu,
@@ -591,8 +599,9 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
+    --Ivars.selectedChangeWeapon,--DEBUG
     --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
-    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+ --   InfMenuCommands.DEBUG_SomeShiz,--DEBUGNOW
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     InfMenuCommands.requestHeliLzToLastMarker,

@@ -446,30 +446,6 @@ this.weaponIdTable={
       ASSAULT=TppEquip.EQP_WP_East_ar_020}
   }
 }
---tex TABLESETUP>
-this.allNoDups={}
-for soldierType,weaponTable in pairs(this.weaponIdTable)do
-  for strength,weapons in pairs(weaponTable)do
-    this.allNoDups[strength]=this.allNoDups[strength] or {}
-    for weaponName,weaponId in pairs(weapons)do
-      this.allNoDups[strength][weaponName]=this.allNoDups[strength][weaponName] or {}
-      this.allNoDups[strength][weaponName][weaponId]=true
-    end
-  end
-end
-local all={}
-for strength,weapons in pairs(this.allNoDups)do
-  all[strength]=all[strength] or {}
-  for weaponName,weaponIds in pairs(weapons)do
-    all[strength][weaponName]=all[strength][weaponName] or {}
-    for weaponId,bool in pairs(weaponIds)do
-      table.insert(all[strength][weaponName],weaponId)
-    end
-  end
-end
-this.allNoDups=nil
-this.weaponIdTable.ALL=all
---<
 this.gunLightWeaponIds={
   [TppEquip.EQP_WP_Com_sg_011]=TppEquip.EQP_WP_Com_sg_011_FL,
   [TppEquip.EQP_WP_Com_sg_020]=TppEquip.EQP_WP_Com_sg_020_FL,
@@ -558,7 +534,7 @@ this.DDWeaponIdInfo={
     {equipId=TppEquip.EQP_WP_West_mg_030,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7003},--grad5
     {equipId=TppEquip.EQP_WP_West_mg_024,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7002},--grade4
     {equipId=TppEquip.EQP_WP_West_mg_023,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7001},--grade3
-    {equipId=TppEquip.EQP_WP_West_mg_020,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7e3}--grade2
+    {equipId=TppEquip.EQP_WP_West_mg_020,developedEquipType=MbsDevelopedEquipType.MG_7000,developId=7000}--grade2
   },
   MISSILE={
     {equipId=TppEquip.EQP_WP_West_ms_02b,isNoKill=true,developedEquipType=MbsDevelopedEquipType.MS_8013_NOKILL,developId=8072},--RETAILPATCH 1090>
@@ -574,7 +550,7 @@ this.DDWeaponIdInfo={
     {equipId=TppEquip.EQP_WP_Com_ms_023,developedEquipType=MbsDevelopedEquipType.MS_8020,developId=8020}--grade3
   },
   SHIELD={
-    {equipId=TppEquip.EQP_SLD_DD,developedEquipType=MbsDevelopedEquipType.SD_9000,developId=9e3}--grade2
+    {equipId=TppEquip.EQP_SLD_DD,developedEquipType=MbsDevelopedEquipType.SD_9000,developId=9000}--grade2
   },
   GRENADE={
     {equipId=TppEquip.EQP_SWP_Grenade_G08,developedEquipType=MbsDevelopedEquipType.GRENADE,developId=11122},--RETAILPATCH 1090>
@@ -899,12 +875,6 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
     for n,ddWeaponInfo in ipairs(weaponInfoTable)do
       local addWeapon=false
       local developedEquipType=ddWeaponInfo.developedEquipType
-      --      local developId=value.developId--tex DEBUG-->
-      --      local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-      --      local developedGrade=developedEquipGradeTable[developedEquipType]
-      --      if value.isNoKill~=true then
-      --        InfMenu.DebugPrint("_CreateDDWeaponIdTable developId:"..tostring(developId).." developrank:"..tostring(developRank).." developedGrade:"..tostring(developedGrade).." soldierEquipGrade:"..tostring(soldierEquipGrade))--tex DEBUG: CULL:
-      --      end--<
 
       if developedEquipType==nil then
         addWeapon=true
@@ -913,21 +883,8 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
       else
         local developId=ddWeaponInfo.developId
         local developRank=TppMotherBaseManagement.GetEquipDevelopRank(developId)
-        --InfMenu.DebugPrint("dd power:"..tostring(powerType).." developid:"..tostring(ddWeaponInfo.developId).." developRank:"..tostring(developRank))--DEBUG
 
-        local overrideDeveloped=false--tex>
-        if InfMain.IsDDEquip() then
-          if Ivars.allowUndevelopedDDEquip:Is(0) then
-            --tex WORKAROUND developedEquipGradeTable is zeroed if mission is not motherbase
-            if TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=developId} then
-              overrideDeveloped=true
-            end
-          else
-            overrideDeveloped=true
-          end
-        end--<
-
-        if(soldierEquipGrade>=developRank and (developedEquipGradeTable[developedEquipType]>=developRank or overrideDeveloped))then--tex added override
+        if (soldierEquipGrade>=developRank and developedEquipGradeTable[developedEquipType]>=developRank) then
           addWeapon=true
         end
       end
@@ -939,12 +896,10 @@ function this._CreateDDWeaponIdTable(developedEquipGradeTable,soldierEquipGrade,
           if ddWeaponInfo.isNoKill then
             ddWeaponNormalTable.IS_NOKILL[powerType]=true
           end
-          --InfMenu.DebugPrint("adding dd power:"..tostring(powerType).." developid:"..tostring(ddWeaponInfo.developId))--DEBUG
         end
       end
     end
   end
-  --InfInspect.PrintInspect(ddWeaponIdTable)--DEBUG
   return ddWeaponIdTable
 end
 function this.GetDDWeaponCount()
@@ -964,15 +919,11 @@ function this.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   if gvars.ini_isTitleMode then
     this.ClearDDParameter()
   end
-  if this.weaponIdTable.DD~=nil and not InfMain.IsDDEquip() then--tex rebuild if playtime cause we fsk wih soldiergrade TODO: call _CreateDDWeaponIdTable from equipgrade ivar
+  if this.weaponIdTable.DD~=nil then
   else
     this.weaponIdTable.DD=this._CreateDDWeaponIdTable(developedGradeTable,soldierEquipGrade,isNoKillMode)
   end
 
-  -- InfMenu.DebugPrint("PrepareDDParameter weaponIdTable.DD")--tex DEBUG
-  -- local dd = this.weaponIdTable.DD
-  -- local inss = InfInspect.Inspect(dd)
-  -- InfMenu.DebugPrint(inss)--<
   local fultonGrade=developedGradeTable[MbsDevelopedEquipType.FULTON_16001]
   local wormholeGrade=developedGradeTable[MbsDevelopedEquipType.FULTON_16008]
   if fultonGrade>soldierEquipGrade then
@@ -1003,26 +954,34 @@ function this.SetUpDDParameter()
   local typeCp={type="TppCommandPost2"}
   local command={id="SetFultonLevel",fultonLevel=this.weaponIdTable.DD.NORMAL.FULTON_LV,isWormHole=this.weaponIdTable.DD.NORMAL.WORMHOLE_FULTON}
   GameObject.SendCommand(typeCp,command)
-  if(this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT and this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT>=3)
-    or(this.weaponIdTable.DD.NORMAL.BATTLE_DRESS and this.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)then
-    if vars.missionCode~=30050 then--tex added check to stop this from interfering with player settings
-      TppRevenge.SetHelmetAll()
-    end
+  if vars.missionCode~=30050 then--tex added check to stop this from interfering with player settings, also below check doesnt handle new tabled equipids
+    if(this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT and this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT>=3)
+      or(this.weaponIdTable.DD.NORMAL.BATTLE_DRESS and this.weaponIdTable.DD.NORMAL.BATTLE_DRESS>=3)then
+    TppRevenge.SetHelmetAll()
+  end
   end
   local grenadeId=this.weaponIdTable.DD.NORMAL.GRENADE or TppEquip.EQP_SWP_Grenade
   local stunId=this.weaponIdTable.DD.NORMAL.STUN_GRENADE or TppEquip.EQP_None
+  --tex>
+  if type(grenadeId)=="table" then
+    InfMain.RandomSetToLevelSeed()
+    grenadeId=grenadeId[math.random(#grenadeId)]
+    InfMain.RandomResetToOsTime()
+  end
+  if type(stunId)=="table" then
+    InfMain.RandomSetToLevelSeed()
+    stunId=stunId[math.random(#stunId)]
+    InfMain.RandomResetToOsTime()
+  end
+  --<
   GameObject.SendCommand({type="TppSoldier2"},{id="RegistGrenadeId",grenadeId=grenadeId,stunId=stunId})
 end
 function this.GetWeaponIdTable(soldierType,soldierSubType)
   --ORPHAN local n={}
   local weaponIdTable={}
-  
---  if true then--DEBUGNOW
---  return this.weaponIdTable.ALL--DEBUGNOW
---  end--DEBUGNOW
 
-  if InfMain.IsDDEquip() then--tex>
-    return this.weaponIdTable.DD
+  if Ivars.EnabledForMission("customWeaponTable") then--tex>
+    return this.weaponIdTable.CUSTOM
   end--<
   if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD"then--tex>
     return this.weaponIdTable.WILDCARD
@@ -1059,18 +1018,17 @@ local weaponTypes={
     "SHOTGUN",
     "MG",
     "SMG",
-    "ASSAULT",  
+    "ASSAULT",
   },
   tertiary={
-   "SHIELD",
-   "MISSILE",
+    "SHIELD",
+    "MISSILE",
   },
 }
---tex functionally equivalent to original, but heavier performance wise lol, but eh, I felt like refactoring
+--tex REWORKED functionally equivalent to original, but heavier performance wise lol, but eh, I felt like refactoring
 --and it makes choosing final weapon ids from a table in IH easier
---DEBUGNOW WIP
-function this.GetWeaponIdNEW(soldierId,config)
- return InfInspect.TryFunc(function(soldierId,config)--DEBUGNOW
+function this.GetWeaponId(soldierId,config)
+  --return InfInspect.TryFunc(function(soldierId,config)--DEBUG
   local soldierType=this.GetSoldierType(soldierId)
   local soldierSubType=this.GetSoldierSubType(soldierId,soldierType)
   local missionCode=TppMission.GetMissionID()
@@ -1081,7 +1039,7 @@ function this.GetWeaponIdNEW(soldierId,config)
   if weaponIdTable==nil then
     return nil,nil,nil
   end
-  
+
   weaponIdTable.STRONG=weaponIdTable.STRONG or weaponIdTable.NORMAL
 
   local weaponStrengths=TppRevenge.GetWeaponStrengths(mvars.revenge_revengeConfig)
@@ -1091,7 +1049,7 @@ function this.GetWeaponIdNEW(soldierId,config)
     secondary=weaponIdTable[weaponStrengths.HANDGUN].HANDGUN,
     tertiary=TppEquip.EQP_None,
   }
-  
+
   for slotName,weaponTypes in pairs(weaponTypes) do
     for i,weaponName in ipairs(weaponTypes)do
       if config[weaponName] then
@@ -1100,87 +1058,89 @@ function this.GetWeaponIdNEW(soldierId,config)
       end
     end
   end
-  
-  --tex> WIP DEBUGNOW
+
+  --tex> table/bag support
   for slotName,weaponId in pairs(weapons)do
     if Tpp.IsTypeTable(weaponId) then
-      --if not rando then--DEBUGNOW
-      weaponId=weaponId[1]
-      --else
-      --weaponId=weaponId[math.random(#weaponId)]
+      if weaponId.bag then
+        weaponId=weaponId.bag:Next()
+      else
+        weaponId=weaponId[math.random(#weaponId)]
+      end
+      weapons[slotName]=weaponId
     end
   end
   --<
-  
+
   for slotName,weaponId in pairs(weapons)do
     if weaponId==nil then
       weaponId=TppEquip.EQP_None
     end
   end
-  
+
   if config.GUN_LIGHT then
     local gunWithLight=this.gunLightWeaponIds[weapons.primary]
     weapons.primary=gunWithLight or weapons.primary
   end
   return weapons.primary,weapons.secondary,weapons.tertiary
-  end,soldierId,config)--DEBUGNOW
+    --end,soldierId,config)--DEBUG
 end
 --ORIG
-function this.GetWeaponId(soldierId,config)
-  local primary,secondary,tertiary
-  local soldierType=this.GetSoldierType(soldierId)
-  local soldierSubType=this.GetSoldierSubType(soldierId,soldierType)
-  local missionCode=TppMission.GetMissionID()
-  if(missionCode==10080 or missionCode==11080)and soldierType==EnemyType.TYPE_CHILD then
-    return TppEquip.EQP_WP_Wood_ar_010,TppEquip.EQP_WP_West_hg_010,nil
-  end
-  local weaponIdTableFull=this.GetWeaponIdTable(soldierType,soldierSubType)
-  if weaponIdTableFull==nil then
-    return nil,nil,nil
-  end
-  local weaponIdTable={}
-  if TppRevenge.IsUsingStrongWeapon()and weaponIdTableFull.STRONG then
-    weaponIdTable=weaponIdTableFull.STRONG
-  else
-    weaponIdTable=weaponIdTableFull.NORMAL
-  end
-  tertiary=TppEquip.EQP_None
-  secondary=weaponIdTable.HANDGUN
-  local sniperIdTable={}
-  if TppRevenge.IsUsingStrongSniper()and weaponIdTableFull.STRONG then
-    sniperIdTable=weaponIdTableFull.STRONG
-  else
-    sniperIdTable=weaponIdTableFull.NORMAL
-  end
-  local missileIdTable={}
-  if TppRevenge.IsUsingStrongMissile()and weaponIdTableFull.STRONG then
-    missileIdTable=weaponIdTableFull.STRONG
-  else
-    missileIdTable=weaponIdTableFull.NORMAL
-  end
-
-  if config.SNIPER and sniperIdTable.SNIPER then
-    primary=sniperIdTable.SNIPER
-  elseif config.SHOTGUN and weaponIdTable.SHOTGUN then
-    primary=weaponIdTable.SHOTGUN
-  elseif config.MG and weaponIdTable.MG then
-    primary=weaponIdTable.MG
-  elseif config.SMG and weaponIdTable.SMG then
-    primary=weaponIdTable.SMG
-  else
-    primary=weaponIdTable.ASSAULT
-  end
-  if config.SHIELD and weaponIdTable.SHIELD then
-    tertiary=weaponIdTable.SHIELD
-  elseif config.MISSILE and missileIdTable.MISSILE then
-    tertiary=missileIdTable.MISSILE
-  end
-  if config.GUN_LIGHT then
-    local gunWithLight=this.gunLightWeaponIds[primary]
-    primary=gunWithLight or primary
-  end
-  return primary,secondary,tertiary
-end
+--function this.GetWeaponId(soldierId,config)
+--  local primary,secondary,tertiary
+--  local soldierType=this.GetSoldierType(soldierId)
+--  local soldierSubType=this.GetSoldierSubType(soldierId,soldierType)
+--  local missionCode=TppMission.GetMissionID()
+--  if(missionCode==10080 or missionCode==11080)and soldierType==EnemyType.TYPE_CHILD then
+--    return TppEquip.EQP_WP_Wood_ar_010,TppEquip.EQP_WP_West_hg_010,nil
+--  end
+--  local weaponIdTableFull=this.GetWeaponIdTable(soldierType,soldierSubType)
+--  if weaponIdTableFull==nil then
+--    return nil,nil,nil
+--  end
+--  local weaponIdTable={}
+--  if TppRevenge.IsUsingStrongWeapon()and weaponIdTableFull.STRONG then
+--    weaponIdTable=weaponIdTableFull.STRONG
+--  else
+--    weaponIdTable=weaponIdTableFull.NORMAL
+--  end
+--  tertiary=TppEquip.EQP_None
+--  secondary=weaponIdTable.HANDGUN
+--  local sniperIdTable={}
+--  if TppRevenge.IsUsingStrongSniper()and weaponIdTableFull.STRONG then
+--    sniperIdTable=weaponIdTableFull.STRONG
+--  else
+--    sniperIdTable=weaponIdTableFull.NORMAL
+--  end
+--  local missileIdTable={}
+--  if TppRevenge.IsUsingStrongMissile()and weaponIdTableFull.STRONG then
+--    missileIdTable=weaponIdTableFull.STRONG
+--  else
+--    missileIdTable=weaponIdTableFull.NORMAL
+--  end
+--
+--  if config.SNIPER and sniperIdTable.SNIPER then
+--    primary=sniperIdTable.SNIPER
+--  elseif config.SHOTGUN and weaponIdTable.SHOTGUN then
+--    primary=weaponIdTable.SHOTGUN
+--  elseif config.MG and weaponIdTable.MG then
+--    primary=weaponIdTable.MG
+--  elseif config.SMG and weaponIdTable.SMG then
+--    primary=weaponIdTable.SMG
+--  else
+--    primary=weaponIdTable.ASSAULT
+--  end
+--  if config.SHIELD and weaponIdTable.SHIELD then
+--    tertiary=weaponIdTable.SHIELD
+--  elseif config.MISSILE and missileIdTable.MISSILE then
+--    tertiary=missileIdTable.MISSILE
+--  end
+--  if config.GUN_LIGHT then
+--    local gunWithLight=this.gunLightWeaponIds[primary]
+--    primary=gunWithLight or primary
+--  end
+--  return primary,secondary,tertiary
+--end
 function this.GetBodyId(soldierId,soldierType,soldierSubType,soldierPowerSettings)
   local bodyId
   local bodyIdTable={}
@@ -1484,6 +1444,13 @@ function this.ApplyPowerSetting(soldierId,powerSettings)
   end
   if(primaryId~=nil or secondaryId~=nil)or tertiaryId~=nil then--RETAILBUG secondaryId (was named secondaryWeapon) had no declaration
     GameObject.SendCommand(soldierId,{id="SetEquipId",primary=primaryId,secondary=secondaryId,tertiary=tertiaryId})
+    --tex> DEBUG
+--    InfEquip.equipped=InfEquip.equipped or {}
+--    InfEquip.equipped[primaryId]=InfEquip.equipped[primaryId] or 0
+--    InfEquip.equipped[secondaryId]=InfEquip.equipped[secondaryId] or 0
+--    InfEquip.equipped[tertiaryId]=InfEquip.equipped[tertiaryId] or 0
+--    InfEquip.equipped[primaryId]=InfEquip.equipped[primaryId]+1
+    --<
   end
   GameObject.SendCommand(soldierId,{id="ChangeFova",bodyId=bodyId,faceId=faceId,balaclavaFaceId=balaclavaId})
   GameObject.SendCommand(soldierId,{id="SetWearEquip",flag=wearEquipFlag})
@@ -5581,11 +5548,13 @@ function this.GetDDSuit()
     end
   end
   local sneakingSuit=this.weaponIdTable.DD.NORMAL.SNEAKING_SUIT
-  if sneakingSuit and sneakingSuit>0 then
+  if sneakingSuit and (type(sneakingSuit)=="table" or sneakingSuit>0) then--tex added table check, was just
+    --ORIG if sneakingSuit and sneakingSuit>0 then
     return this.FOB_DD_SUIT_SNEAKING
   end
   local battleDress=this.weaponIdTable.DD.NORMAL.BATTLE_DRESS
-  if battleDress and battleDress>0 then
+  if battleDress and (type(battleDress)=="table" or battleDress>0) then--tex added table check, was just
+    --ORIG if battleDress and battleDress>0 then
     return this.FOB_DD_SUIT_BTRDRS
   end
   return this.FOB_DD_SUIT_ATTCKER

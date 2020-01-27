@@ -1,5 +1,12 @@
 Infinite Heaven changelog
 
+r180 - 2016-09-17
+Refactor: Completeted weapontable support for tables of weaponids per weapon.
+Refactor: _CreateDDWeaponIdTable reverted to vanilla, InfEquip.CreateDDWeaponIdTable take's it's place for dd equip.
+Change: DD Equip is now Custom soldier equip
+Ivars: customWeaponTable*,weaponTable.
+- Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation.
+
 r179 - 2016-09-14
 Refactor: Decoupled most ivars dependancy on another (such as profile)
 Refactor: Removed some Ivars ivar profiles.

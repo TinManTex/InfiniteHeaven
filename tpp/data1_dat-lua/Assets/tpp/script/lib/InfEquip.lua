@@ -6,40 +6,145 @@ local GetGameObjectId=GameObject.GetGameObjectId
 local NULL_ID=GameObject.NULL_ID
 
 this.tppEquipTableTest={
-  "EQP_AB_PrimaryCommon",
-  "EQP_AB_PrimaryTranq",
-  "EQP_AB_PrimaryMissile",
-  "EQP_AB_PrimaryMissileTranq",
-  "EQP_AB_SecondaryCommon",
-  "EQP_AB_SecondaryTranq",
-  "EQP_AB_Support",
-  "EQP_AB_Suppressor",
-  "EQP_AB_Item",
-  "EQP_AB_Mecha",
-  "EQP_BX_Primary",
-  "EQP_BX_Secondary",
-  "EQP_BX_Support",
-  "EQP_SWP_Magazine",
-
-  "EQP_SWP_Kibidango",
-  "EQP_SWP_Grenade",
-  "EQP_SWP_SmokeGrenade",
-  "EQP_SWP_SupportHeliFlareGrenade",
-  "EQP_SWP_SupplyFlareGrenade",
-  "EQP_SWP_StunGrenade",
-  "EQP_SWP_SleepingGusGrenade",
-  "EQP_SWP_MolotovCocktail",
-  "EQP_SWP_C4",
-  "EQP_SWP_Decoy",
-  "EQP_SWP_ActiveDecoy",
-  "EQP_SWP_ShockDecoy",
-  "EQP_SWP_CaptureCage",
-  "EQP_SWP_DMine",
-  "EQP_SWP_SleepingGusMine",
-  "EQP_SWP_AntitankMine",
-  "EQP_SWP_ElectromagneticNetMine",
-
-}
+  -- "EQP_SLD_SV",
+  --  "EQP_SLD_PF_00",
+  --  "EQP_SLD_PF_01",
+  --  "EQP_SLD_PF_02",
+  --  "EQP_SLD_DD",
+  --  "EQP_SLD_DD_G02",
+  --  "EQP_SLD_DD_G03",
+  --  "EQP_SLD_DD_01",
+  --  "EQP_WP_West_hg_010",--AM D114 grade 1 -- PFs and DD hangun
+  --  "EQP_WP_West_hg_010_WG",--no name/icon/drop model
+  --  "EQP_WP_West_hg_020",--AM D114 with silencer(on icon) but no ext mag?  grade 4, skull normal strong
+  --  "EQP_WP_West_hg_030",--geist p3 - shows shotgun icon but clearly isnt, machine pistol grade 4
+  --  "EQP_WP_West_hg_030_cmn",--as above, no name/icon
+  --  "EQP_WP_East_hg_010",--burkov grade 1, sov normal strong
+  --  "EQP_WP_West_thg_010",--wu s.pistol grade 1
+  --  "EQP_WP_West_thg_020",--grade 2
+  --  "EQP_WP_West_thg_030",--wu s pistol inf supressor grade 5
+  --  "EQP_WP_West_thg_040",--grade 5
+  --  "EQP_WP_West_thg_050",--wu s pistol cb grade7
+  --  "EQP_WP_EX_hg_000",--AM A114 RP grade 7 - silencer, gas cloud
+  --  "EQP_WP_EX_hg_000_G01",--AM A114 RP grade 8 - silencer, gas cloud
+  --  "EQP_WP_EX_hg_000_G02",--AM A114 RP grade 9 - silencer, gas cloud
+  --  "EQP_WP_EX_hg_000_G03",
+  --  "EQP_WP_EX_hg_000_G04",
+  --  "EQP_WP_EX_hg_010",--tornado 6 grade 3
+  --  "EQP_WP_EX_hg_011",--tornado 6 grade 5
+  --  "EQP_WP_EX_hg_012",--tornado 6 grade 6
+  --  "EQP_WP_EX_hg_013",--tornado 6 grade 7
+  --  "EQP_WP_West_sm_010",--ze'ev cs grade 3 pf normal, dd min grade
+  --  "EQP_WP_West_sm_010_WG",--as above, no icon/name
+  --  "EQP_WP_West_sm_020",--macht 37 grade 3, pf strong, skull normal strong
+  --  "EQP_WP_East_sm_010",--sz 336 grade 3, sov normal
+  --  "EQP_WP_East_sm_020",--sz 336 cs grade 5, sov strong
+  --  "EQP_WP_East_sm_030",--sz 336 cs grade 3 light, supressor, skull cypr normal
+  --  "EQP_WP_West_sm_014",--zeeve model, big scope no icon/name, supressor, DD icon backing
+  --  "EQP_WP_West_sm_015",--as above
+  --  "EQP_WP_West_sm_016",--loads, but missing icons and some blacked out sights DD backing, DD weapon table
+  --  "EQP_WP_West_sm_017",--<
+  --  "EQP_WP_West_sm_019",
+  --  "EQP_WP_West_sm_01a",
+  --  "EQP_WP_West_sm_01b",
+  --  "EQP_WP_East_sm_042",--riot smg stn grd 1 stun
+  --  "EQP_WP_East_sm_043",
+  --  "EQP_WP_East_sm_044",
+  --  "EQP_WP_East_sm_045",
+  --  "EQP_WP_East_sm_047",
+  --  "EQP_WP_East_sm_049",
+  --  "EQP_WP_East_sm_04a",
+  --  "EQP_WP_East_sm_04b",
+  --  "EQP_WP_Com_sg_010",--s1000 grade 2
+  --  "EQP_WP_Com_sg_011",--s1000 cs grade 2, most normal shotty, sov a, pfs, skull, dd min
+  --  "EQP_WP_Com_sg_011_FL",--as above, flashlight ?
+  --  "EQP_WP_Com_sg_013",--? mag shotgun no name no icon
+  --  "EQP_WP_Com_sg_015",--above + scope, light
+  --  "EQP_WP_Com_sg_020",--kabarga 83, grade 4, looks like same model as 013,14
+  --  "EQP_WP_Com_sg_020_FL",--as abovem flashlight ?
+  --  "EQP_WP_Com_sg_016",
+  --  "EQP_WP_Com_sg_018",
+  --  "EQP_WP_Com_sg_023",--s1000 air-s stn at least icon grade 3 - icon shows slilencer scope but not in game
+  --  "EQP_WP_Com_sg_024",--as above, light ?
+  --  "EQP_WP_Com_sg_025",--as above
+  --  "EQP_WP_Com_sg_030",--s1000 air-s cs grade 6
+  --  "EQP_WP_Com_sg_038",--loads, but missing icons and some blacked out sights
+  --  "EQP_WP_West_ar_010",--AM MRS 4r Grade 3, pfs normal, dd 3rd
+  --  "EQP_WP_West_ar_010_FL",--flashlight
+  --  "EQP_WP_West_ar_020",--un arc cs grade 3 PF strong
+  --  "EQP_WP_West_ar_020_FL",--flashlight
+  --  "EQP_WP_West_ar_030",--un arc pt cs flashlight scope laser, skull normal and strong
+  --  "EQP_WP_East_ar_010",--svg 76 grade 1, soviet normal
+  --  "EQP_WP_East_ar_010_FL",--+flashlight
+  --  "EQP_WP_East_ar_020",--svg 67 cs grade 4, child
+  --  "EQP_WP_East_ar_030",--above grade 6, sov strong
+  --  "EQP_WP_East_ar_030_FL",--+ flashlight
+  --  "EQP_WP_West_ar_040",--am mrs 4 grade 1
+  --  "EQP_WP_West_ar_042",--above + supressor scope
+  --  "EQP_WP_West_ar_055",--scope, no icon name
+  --  "EQP_WP_West_ar_050",--am mrs 4r grade 5 scope laser
+  --  "EQP_WP_West_ar_057",--loads, but missing icons and some blacked out sights
+  --  "EQP_WP_West_ar_059",
+  --  "EQP_WP_West_ar_05a",
+  --  "EQP_WP_West_ar_05b",
+  --  "EQP_WP_West_ar_079",
+  --  "EQP_WP_West_ar_07a",
+  --  "EQP_WP_West_ar_07b",
+  --  "EQP_WP_West_ar_060",--un arc nl stn grade 2
+  --  "EQP_WP_West_ar_063",--above + scope no icon name
+  --  "EQP_WP_West_ar_070",--un arc nl stn light grade 4
+  --  "EQP_WP_West_ar_075",--above + supressor
+  --  "EQP_WP_West_ar_077",
+  --  "EQP_WP_West_sr_010",--m2000 d grade 2
+  --  "EQP_WP_West_sr_011",--PF normal, DD
+  --  "EQP_WP_East_sr_011",--sov a normal
+  --  "EQP_WP_East_sr_020",--sov a strong
+  --  "EQP_WP_EX_sr_000",--molotok-68 grade 9 --icon/scope issues
+  --  "EQP_WP_West_sr_013",
+  --  "EQP_WP_West_sr_014",
+  --  "EQP_WP_West_sr_020",
+  --  "EQP_WP_West_sr_027",
+  --  "EQP_WP_West_sr_029",
+  --  "EQP_WP_West_sr_02a",
+  --  "EQP_WP_West_sr_02b",
+  --  "EQP_WP_West_sr_049",
+  --  "EQP_WP_West_sr_04a",
+  --  "EQP_WP_West_sr_04b",
+  --  "EQP_WP_East_sr_032",
+  --  "EQP_WP_East_sr_033",
+  --  "EQP_WP_East_sr_034",
+  --  "EQP_WP_West_sr_037",
+  --  "EQP_WP_West_sr_047",
+  --  --"EQP_WP_West_sr_048",
+  --  "EQP_WP_West_mg_010",--un am cs grade 4 PF normal,strong,
+  --  "EQP_WP_West_mg_020",--alm 48 grade 2 skull normal strong, dd min
+  --  "EQP_WP_West_mg_021",--alm48 flashlight grade 4
+  --  "EQP_WP_East_mg_010",--lpg 61 grade 4, soviet normal
+  --  "EQP_WP_West_mg_023",--
+  --  "EQP_WP_West_mg_024",
+  --  "EQP_WP_West_mg_030",--alm 48 grade 5 flashlight
+  --  "EQP_WP_West_mg_037",--
+  --  "EQP_WP_West_mg_039",
+  --  "EQP_WP_West_mg_03a",
+  --  "EQP_WP_West_sr_048",
+  --  "EQP_WP_West_mg_03b",
+  --  "EQP_WP_West_ms_029",
+  --  "EQP_WP_West_ms_02a",
+  --  "EQP_WP_West_ms_02b",
+  --  "EQP_WP_Com_ms_029",
+  --  "EQP_WP_Com_ms_02a",
+  --  "EQP_WP_Com_ms_02b",
+  --  "EQP_WP_Com_ms_010",--killer bee grade 3, sov, pf, dd,skull strong
+  --  "EQP_WP_West_ms_010",--fb mr r grade 3, pf,skull normal
+  --  "EQP_WP_East_ms_010",--grom 11, grade 2, sov normal
+  --  "EQP_WP_East_ms_020",--cgm 25, used in s10054
+  --  "EQP_WP_Com_ms_023",
+  --  "EQP_WP_Com_ms_024",
+  --  "EQP_WP_Com_ms_020",--killer bee
+  --  "EQP_WP_Com_ms_026",
+  --  "EQP_WP_West_ms_020",--fb mr rl nlsp
+  --  "EQP_WP_EX_gl_000",--miraz zh 71 grade 9
+  }
 
 this.tppEquipTable={--SYNC: EquipIdTable
   --SHIELD
@@ -777,6 +882,7 @@ this.soldierDropTable={
   },
 }
 
+--tex GOTCHA there's a limit to how much equip can be loaded before it starts crapping out - players weapons not showing/test equip spawn function crash on ~110th item in list (but weirdly on mg but not sniper in same list position).
 function this.LoadEquipTable()
   local equipLoadTable={}
   --tex TODO: find a better indicator of equipable mission loading
@@ -1012,6 +1118,199 @@ function this.PutEquipOnTrucks()
   end
   InfMain.RandomResetToOsTime()
   --end)--
+end
+
+--EnemyEquip
+
+local weaponTableTypes={
+  SOVIET_A="AFGH",
+  PF_A="MAFR",
+  PF_B="MAFR",
+  PF_C="MAFR",
+  SKULL_CYPR="SKULL",
+  SKULL="SKULL",
+  DD="DD",
+}
+local ivarNames={
+  weaponTableAfgh="AFGH",
+  weaponTableMafr="MAFR",
+  weaponTableSkull="SKULL",
+  weaponTableDD="DD",
+}
+--tex see GOTCHA note before LoadEquipTable above
+--Don't know if it's a count or a memory thing (which would depend on the mix of equipment loaded)
+local maxEquipment=48
+function this.CreateCustomWeaponTable(missionCode)
+  if not Ivars.EnabledForMission("customWeaponTable",missionCode) then
+    return nil
+  end
+
+  local strengthSetting=Ivars.weaponTableStrength:Get()
+  local strengthType=Ivars.weaponTableStrength.settings[strengthSetting+1]
+
+  local ddEquip=Ivars.weaponTableDD:Is(1)
+  if ddEquip then
+    TppEnemy.weaponIdTable.DD=this.CreateDDWeaponIdTable()
+  end
+
+  local noneActive=true
+  local activeTypes={}
+  for ivarName,ivarType in pairs(ivarNames)do
+    if Ivars[ivarName]:Is(1) then
+      noneActive=false
+      activeTypes[ivarType]=true
+    end
+  end
+
+  if noneActive then
+    InfMenu.DebugPrint"WARNING: CreateCustomWeaponTable - no weapon types set."--DEBUGNOW
+    local weaponIdTable={NORMAL={HANDGUN=TppEquip.EQP_WP_West_hg_010,ASSAULT=TppEquip.EQP_WP_West_ar_040}}
+    TppEnemy.weaponIdTable.DD=nil
+    TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
+    return weaponIdTable
+  end
+
+  local allNoDuplicates={}
+  for weaponTableType,ivarType in pairs(weaponTableTypes) do
+    if activeTypes[ivarType] then
+      local weaponTable=TppEnemy.weaponIdTable[weaponTableType]
+      for strength,weapons in pairs(weaponTable)do
+        if strengthType=="COMBINED" or strengthType==strength then
+          for weaponName,weaponId in pairs(weapons)do
+            allNoDuplicates[weaponName]=allNoDuplicates[weaponName] or {}
+            if type(weaponId)=="table" then
+              for i,weaponId in ipairs(weaponId)do
+                allNoDuplicates[weaponName][weaponId]=true
+              end
+            else
+              allNoDuplicates[weaponName][weaponId]=true
+            end
+          end
+        end
+      end
+    end
+  end
+
+  --tex transform back to TppEnemy.weaponIdTable format
+  local weaponIdTable={NORMAL={}}
+  for weaponName,weaponIds in pairs(allNoDuplicates)do
+    local toWeaponIds=weaponIdTable.NORMAL[weaponName] or {}
+    for weaponId,bool in pairs(weaponIds)do
+      table.insert(toWeaponIds,weaponId)
+    end
+    weaponIdTable.NORMAL[weaponName]=toWeaponIds
+  end
+
+  --tex fobs soldiers have it set via SetUpDDParameter > "RegistGrenadeId", but only a global type
+  local allGrenades={
+    GRENADE=weaponIdTable.NORMAL.GRENADE,
+    STUN_GRENADE=weaponIdTable.NORMAL.STUN_GRENADE,
+  }
+  for key,grenades in pairs(allGrenades) do
+    weaponIdTable.NORMAL[key]={grenades[math.random(#grenades)]}
+  end
+
+  --tex pare down till under max count, pretty arbitrary algo
+  local skipCount={
+    IS_NOKILL=true,
+    GRENADE=true,
+    STUN_GRENADE=true,
+    SNEAKING_SUIT=true,
+    BATTLE_DRESS=true,
+  }
+  local totalCount=0
+  local idCounts={}
+  for weaponName,weaponIds in pairs(weaponIdTable.NORMAL)do
+    if not skipCount[weaponName] then
+      totalCount=totalCount+#weaponIds
+      table.insert(idCounts,{weaponName=weaponName,count=#weaponIds})
+    end
+  end
+
+  --InfMenu.DebugPrint("CreateCustomWeaponTable total equip count: "..totalCount)--DEBUG
+
+  local aboveCount=totalCount-maxEquipment
+  if aboveCount>0 then
+    local SortFunc=function(a,b)
+      if b.count<a.count then
+        return true
+      end
+      return false
+    end
+    table.sort(idCounts,SortFunc)
+    --InfInspect.PrintInspect(idCounts)--DEBUG
+    while aboveCount>0 do
+      for i,countInfo in ipairs(idCounts) do
+        if countInfo.count>4 then
+          local weaponIds=weaponIdTable.NORMAL[countInfo.weaponName]
+          table.remove(weaponIds,math.random(#weaponIds))
+          countInfo.count=#weaponIds
+          aboveCount=aboveCount-1
+        end
+      end
+    end
+  end
+
+  for weaponName,weaponIds in pairs(weaponIdTable.NORMAL)do
+    local shuffleBag=InfMain.ShuffleBag:New()
+    shuffleBag:Fill(weaponIds)
+    weaponIds.bag=shuffleBag
+  end
+
+  --InfInspect.PrintInspect(weaponIdTable)--DEBUG
+
+  TppEnemy.weaponIdTable.CUSTOM=weaponIdTable
+end
+
+--tex adapted from TppEnemy._CreateDDWeaponIdTable
+function this.CreateDDWeaponIdTable()
+  local minGrade=Ivars.soldierEquipGrade_MIN:Get()
+  local maxGrade=Ivars.soldierEquipGrade_MAX:Get()
+  local nonLethal=Ivars.mbDDEquipNonLethal:Is(1)
+
+  local ddWeaponIdTable={NORMAL={}}
+  local ddWeaponIdTableNormal=ddWeaponIdTable.NORMAL
+  ddWeaponIdTableNormal.IS_NOKILL={}
+  local DDWeaponIdInfo=TppEnemy.DDWeaponIdInfo
+  for powerType,weaponInfoTable in pairs(DDWeaponIdInfo)do
+    for n,ddWeaponInfo in ipairs(weaponInfoTable)do
+      local addWeapon=false
+      local developedEquipType=ddWeaponInfo.developedEquipType
+      if developedEquipType==nil then
+        --tex this only affects default assault and grenade TODO, figure out which grade the first item with developedEquipType and make sure minGrade covers up to it
+        if minGrade==1 then
+          addWeapon=true
+        else
+          addWeapon=false
+        end
+      elseif ddWeaponInfo.isNoKill and not nonLethal then
+        addWeapon=false
+      elseif not ddWeaponInfo.isNoKill and nonLethal then
+        addWeapon=false
+      else
+        local developId=ddWeaponInfo.developId
+        local developGrade=TppMotherBaseManagement.GetEquipDevelopRank(developId)
+        --InfMenu.DebugPrint("dd power:"..tostring(powerType).." developid:"..tostring(ddWeaponInfo.developId).." developRank:"..tostring(developRank))--DEBUG
+        local isDeveloped=TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=developId}
+        if Ivars.allowUndevelopedDDEquip:Is(1) then
+          isDeveloped=true
+        end
+
+        if developGrade>=minGrade and developGrade<=maxGrade and isDeveloped then--tex added override
+          addWeapon=true
+        end
+      end
+      if addWeapon then
+        ddWeaponIdTableNormal[powerType]=ddWeaponIdTableNormal[powerType] or {}
+        table.insert(ddWeaponIdTableNormal[powerType],ddWeaponInfo.equipId)
+
+        if ddWeaponInfo.isNoKill then
+          ddWeaponIdTableNormal.IS_NOKILL[powerType]=true
+        end
+      end
+    end
+  end
+  return ddWeaponIdTable
 end
 
 return this

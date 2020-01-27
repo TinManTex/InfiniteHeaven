@@ -426,7 +426,7 @@ this.quietMoveToLastMarker={
 --
 this.ApplyFaceFova={
   OnChange=function()
-    InfInspect.TryFunc(function()--DEBUGNOW
+    InfInspect.TryFunc(function()--DEBUG
       InfEneFova.ApplyFaceFova()
     end)
   end
@@ -629,6 +629,10 @@ this.DEBUG_SomeShiz={
         --InfInspect.PrintInspect(TppEnemy.allNoDups)
         --      InfInspect.PrintInspect(TppEnemy.weaponIdTable.ALL)
         --InfInspect.PrintInspect(mvars.revenge_loadedEquip)
+--
+--    local weaponIdTableDD=InfEquip.CreateDDWeaponIdTable()
+--    InfInspect.PrintInspect(weaponIdTableDD)
+InfInspect.PrintInspect(InfEquip.equipped)
 
     end)
     InfMenu.DebugPrint("index1:"..index1)
@@ -651,7 +655,8 @@ this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
       --InfInspect.PrintInspect(InfProfiles)
-
+      --DEBUGNOW
+      InfInspect.PrintInspect(mvars.revenge_revengeConfig)
     end)
     InfMenu.DebugPrint("index2:"..index2)
     index2=index2+1

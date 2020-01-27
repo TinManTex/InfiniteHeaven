@@ -820,17 +820,23 @@ if TppUiCommand.IsTppUiReady()then
 local n=TppGameSequence.GetTargetPlatform()
 local e={}
 if vars.rulesetId==4 then
-table.insert(e,GamePauseMenu.ONLINE_NEWS)table.insert(e,GamePauseMenu.STORE_ITEM)
+table.insert(e,GamePauseMenu.ONLINE_NEWS)
+table.insert(e,GamePauseMenu.STORE_ITEM)
 if(n~="XboxOne")then
 table.insert(e,GamePauseMenu.OPEN_WEB_MANUAL)
 end
-table.insert(e,GamePauseMenu.CREDIT)table.insert(e,GamePauseMenu.STAFF_CREDIT)table.insert(e,GamePauseMenu.INQUIRY_ID)table.insert(e,GamePauseMenu.OPEN_OPTION_MENU)table.insert(e,GamePauseMenu.GOTO_TPP)
+table.insert(e,GamePauseMenu.CREDIT)
+table.insert(e,GamePauseMenu.STAFF_CREDIT)
+table.insert(e,GamePauseMenu.INQUIRY_ID)
+table.insert(e,GamePauseMenu.OPEN_OPTION_MENU)
+table.insert(e,GamePauseMenu.GOTO_TPP)
 else
 table.insert(e,GamePauseMenu.INVITE_MENU)
 if(n=="Xbox360")then
 table.insert(e,GamePauseMenu.INVITE_PARTY_MENU)
 end
-table.insert(e,GamePauseMenu.OPEN_OPTION_MENU)table.insert(e,GamePauseMenu.EXIT_MATCH)
+table.insert(e,GamePauseMenu.OPEN_OPTION_MENU)
+table.insert(e,GamePauseMenu.EXIT_MATCH)
 end
 TppUiCommand.RegisterPauseMenuPage(e)
 end

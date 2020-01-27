@@ -1916,7 +1916,6 @@ function this.MakeFultonRecoverSucceedRatio(t,_gameId,RENAMEanimalId,r,staffOrRe
   --  end
   --  end--<
   --WIP
-  --DEBUGNOW
 --  if --[[Ivars.fultonMotherBaseHandling:Is(1) and--]] Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then--tex>
 --    percentage=0
 --  end--<

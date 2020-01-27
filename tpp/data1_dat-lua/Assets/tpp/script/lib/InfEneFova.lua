@@ -504,9 +504,6 @@ this.ddHeadGearSelection={
     femaleId="dds_balaclava15",
   },
 }
---tex GOTCHA, may have issues if called when weaponIdTable.DD is nil (as in GetDDSuit)
---wrap in IsDDBodyEquip call instead
---TODO: should probably do a IsDDBodyEquip check, but that would mean I'd have to pass in a missioncode
 --REF mbDDSuit = 0=OFF,EQUIPGRADE,..specific suits
 function this.GetMaleDDBodyInfo()
   if Ivars.mbDDSuit:Is(0) then
@@ -515,6 +512,9 @@ function this.GetMaleDDBodyInfo()
 
   local suitName=nil
   if Ivars.mbDDSuit:Is"EQUIPGRADE" then
+    if TppEnemy.weaponIdTable.DD==nil then
+      return this.ddBodyInfo.DRAB
+    end
     local ddSuit=TppEnemy.GetDDSuit()
     suitName=this.ddSuitToDDBodyInfo[ddSuit]
   else

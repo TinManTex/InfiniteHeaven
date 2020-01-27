@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r179"
+this.modVersion="r180"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -164,6 +164,7 @@ function this.IsForceSoldierSubType()
 end
 
 -- mb dd equip
+--tex TODO: don't like how this is still tied up both with weapon table and .GetMbs ranks
 local enableDDEquipStr="enableDDEquip"
 function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
@@ -1207,7 +1208,6 @@ function this.OnMissionCanStartBottom()
   end
 
   --tex WORKAROUND invasion mode extract from mb weirdness, just disable for now
-  --DEBUGNOW
   --  if Ivars.mbWarGamesProfile:Is"INVASION" and vars.missionCode==30050 then
   --    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
   --  end

@@ -33,7 +33,8 @@ It should say 1 file needs to be redownloaded, so go to steam downloads and make
 
 Installation:
 ------------------------------
-Use SnakeBite Mod Manager 0.8.3 or later from nexusmods.com/metalgearsolidvtpp/mods/106/
+Use SnakeBite Mod Manager 0.8.3 or later from 
+[url=http://nexusmods.com/metalgearsolidvtpp/mods/106/]http://nexusmods.com/metalgearsolidvtpp/mods/106/[/url]
 
 Click on the Mods menu item on Snakebites main screen.
 
@@ -41,7 +42,7 @@ Uninstall any earlier version of Infinite Heaven from the Installed Mods tab.
 
 Extract the Infinite Heaven zip files somewhere.
 
-Click Install .MGSV on the Installed Mods tab in Snakebit
+Click Install .MGSV on the Installed Mods tab in Snakebite
 Browse to the Infinite Heaven.msgv from the Infinite Heaven zip file.
 
 This step should only take a minute or so if no other mods installed (longer with other mods installed, basically proportional to the size of 00.dat). If it takes an excessively long time refer to the sticky on the snakebite posts page for possible fixes.

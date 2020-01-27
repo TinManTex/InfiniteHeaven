@@ -1,11 +1,11 @@
 = Infinite heaven =
-r179 - 2016-09-14
+r180 - 2016-09-17
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
 A mod for Metal Gear Solid V: The Phantom Pain intended to extend gameplay through customizable settings and features.
 
-Has several hundred toggleable options ranging from Subsistence mode for all missions, Mother base invasion with multiple attack helicopters, Free-cam, skip heli rides, customization of enemy and mother base gear, foot, heavy vehicle and heli patrols in free roam, and much more.
+Has several hundred toggleable options ranging from Subsistence mode for all missions, replay side-ops, Mother base invasions with multiple attack helicopters, Skull attacks in Free roam, Free-cam, skip heli rides, customization of enemy and mother base gear, foot, heavy vehicle and heli patrols in free roam, and much more.
 
 Infinite Heaven features and options
 ------------------------------
@@ -19,6 +19,12 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r180
+Expanded the prior DD Equip options to 'Custom soldier equip menu' for Free,Mission,MB - now can include Soviet,PF and XOF weapons. Soldiers will be given a random weapon for the type they're assigned - thanks NasaNhak and others for the suggestion.
+(via the Enemy prep menu)
+[youtube]oJPEvQbenoE[/youtube]
+https://youtu.be/oJPEvQbenoE
 
 New for r179
 Fixed: Crash on exit from title having visited MB during the game session.

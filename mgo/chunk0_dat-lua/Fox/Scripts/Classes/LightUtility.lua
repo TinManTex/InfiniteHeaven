@@ -19,16 +19,10 @@ print("Selected object is not a light, but a "..tostring(t))
 end
 end
 Command.EndGroup()
-end,
-ReplaceLight=function(t,e)
+end,ReplaceLight=function(t,e)
 local i=Editor.GetInstance()
-local o,e=Command.CreateData(e)
-LightUtility.CopyLightProperties(t,o)
-Command.DeleteData(t)
-Command.AddSelection(i,e)
-end,
-CopyLightProperties=function(e,t)
-Command.SetProperty{entity=t.transform,property="translation",value=e.transform.translation}Command.SetProperty{entity=t.transform,property="rotQuat",value=e.transform.rotQuat}Command.SetProperty{entity=t.transform,property="scale",value=e.transform.scale}
+local o,e=Command.CreateData(e)LightUtility.CopyLightProperties(t,o)Command.DeleteData(t)Command.AddSelection(i,e)
+end,CopyLightProperties=function(e,t)Command.SetProperty{entity=t.transform,property="translation",value=e.transform.translation}Command.SetProperty{entity=t.transform,property="rotQuat",value=e.transform.rotQuat}Command.SetProperty{entity=t.transform,property="scale",value=e.transform.scale}
 local o=Color(1,1,1,1)
 if e:IsKindOf(Ambient)then
 o=e.skyColor

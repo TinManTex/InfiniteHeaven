@@ -3,11 +3,13 @@
 -- IH only reads this file/does not write to it. 
 -- In-game the settings are saved to your save file when mission saves (usually during mission load).
 
+-- See Features and Options.html for longer descriptions of some settings.
+
 -- Options are added and sometimes changed as IH develops, use the defaults profile and compare with a prior version using a tool like WinMerge to see changes to make sure your own profiles are correct.
 
 local profiles={}
 
--- Defaults/example of all profile options for IH r179
+-- Defaults/example of all profile options for IH r180
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
@@ -104,13 +106,6 @@ profiles.defaults={
 		reinforceLevel_MAX="BLACK_SUPER_REINFORCE",--{ NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE } -- Vehicle reinforcement level max
 		revengeIgnoreBlocked_MIN=0,--{ 0-1 } -- Ignore combat-deploy supply blocks min
 		revengeIgnoreBlocked_MAX=0,--{ 0-1 } -- Ignore combat-deploy supply blocks max
-		--Armor deployment
-		ARMOR_MIN=0,--{ 0-100 } --  (percentage)
-		ARMOR_MAX=100,--{ 0-100 } --  (percentage)
-		SOFT_ARMOR_MIN=0,--{ 0-100 } --  (percentage)
-		SOFT_ARMOR_MAX=100,--{ 0-100 } --  (percentage)
-		SHIELD_MIN=0,--{ 0-100 } --  (percentage)
-		SHIELD_MAX=100,--{ 0-100 } --  (percentage)
 		--Weapon deployment
 		SNIPER_MIN=0,--{ 0-100 } --  (percentage)
 		SNIPER_MAX=100,--{ 0-100 } --  (percentage)
@@ -126,6 +121,13 @@ profiles.defaults={
 		ASSAULT_MAX=100,--{ 0-100 } --  (percentage)
 		GUN_LIGHT_MIN=0,--{ 0-100 } --  (percentage)
 		GUN_LIGHT_MAX=100,--{ 0-100 } --  (percentage)
+		--Armor deployment
+		ARMOR_MIN=0,--{ 0-100 } --  (percentage)
+		ARMOR_MAX=100,--{ 0-100 } --  (percentage)
+		SOFT_ARMOR_MIN=0,--{ 0-100 } --  (percentage)
+		SOFT_ARMOR_MAX=100,--{ 0-100 } --  (percentage)
+		SHIELD_MIN=0,--{ 0-100 } --  (percentage)
+		SHIELD_MAX=100,--{ 0-100 } --  (percentage)
 		--Headgear deployment
 		HELMET_MIN=0,--{ 0-100 } --  (percentage)
 		HELMET_MAX=100,--{ 0-100 } --  (percentage)
@@ -176,15 +178,19 @@ profiles.defaults={
 		enableMgVsShotgunVariation=0,--{ 0-1 } -- Mg vs Shotgun variation
 		randomizeSmallCpPowers=0,--{ 0-1 } -- Balance small CPs
 		disableConvertArmorToShield=0,--{ 0-1 } -- Disable convert armor to shield (if armor off)
-		--DD Equip menu
-		enableDDEquipMB=0,--{ 0-1 } -- MB staff use DD equipment
-		enableDDEquipFREE=0,--{ 0-1 } -- Enemy use DD equipment in free roam
-		enableDDEquipMISSION=0,--{ 0-1 } -- Enemy use DD equipment in missions
-		soldierEquipGrade_MIN=3,--{ 1-15 } -- DD Equip Grade RND MIN
-		soldierEquipGrade_MAX=15,--{ 1-15 } -- DD Equip Grade RND MAX
-		allowUndevelopedDDEquip=0,--{ 0-1 } -- Allow undeveloped DD equipment
-		mbDDEquipNonLethal=0,--{ 0-1 } -- MB DD Equip non-lethal
-		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range (MB Prep mode FOB only)
+		--Custom soldier equip menu
+		customWeaponTableFREE=0,--{ 0-1 } -- Enemy use custom equip table in free roam
+		customWeaponTableMISSION=0,--{ 0-1 } -- Enemy use custom equip table in missions
+		customWeaponTableMB=0,--{ 0-1 } -- MB staff use custom equip table
+		weaponTableStrength="NORMAL",--{ NORMAL, STRONG, COMBINED } -- Weapon stengths
+		weaponTableAfgh=0,--{ 0-1 } -- Include Soviet weapons
+		weaponTableMafr=0,--{ 0-1 } -- Include PF weapons
+		weaponTableSkull=0,--{ 0-1 } -- Include XOF weapons
+		weaponTableDD=0,--{ 0-1 } -- Include DD weapons
+		soldierEquipGrade_MIN=3,--{ 1-15 } -- DD weapons grade MIN
+		soldierEquipGrade_MAX=15,--{ 1-15 } -- DD weapons grade MAX
+		allowUndevelopedDDEquip=0,--{ 0-1 } -- Allow undeveloped DD weapons
+		mbDDEquipNonLethal=0,--{ 0-1 } -- DD equipment non-lethal
 		--Enemy reinforcements menu
 		forceSuperReinforce=0,--{ OFF, ON_CONFIG, FORCE_CONFIG } -- Vehicle reinforcements (only heli in free roam, vehicles depend on mission)
 		enableHeliReinforce=0,--{ 0-1 } -- Force enable enemy heli reinforce (disable heli sideops)
@@ -208,6 +214,7 @@ profiles.defaults={
 		sideOpsSelectionMode=0,--{ OFF, RANDOM, STORY, EXTRACT_INTERPRETER, BLUEPRINT, EXTRACT_HIGHLY_SKILLED, PRISONER, CAPTURE_ANIMAL, WANDERING_SOLDIER, DDOG_PRISONER, ELIMINATE_HEAVY_INFANTRY, MINE_CLEARING, ELIMINATE_ARMOR_VEHICLE, EXTRACT_GUNSMITH, ELIMINATE_TANK_UNIT, ELIMINATE_PUPPETS } -- Sideop selection mode
 		unlockSideOpNumber=0,--{ 0-157 } -- Open specific sideop #
 		--Mother Base menu
+		mbSoldierEquipRange="SHORT",--{ SHORT, MEDIUM, LONG, RANDOM } -- MB Equip Range (MB Prep mode FOB only)
 		mbDDSuit=0,--{ OFF, EQUIPGRADE, DRAB, TIGER, SNEAKING_SUIT, BATTLE_DRESS, SWIMWEAR, PFA_ARMOR, XOF, SOVIET_A, SOVIET_B, PF_A, PF_B, PF_C, SOVIET_BERETS, SOVIET_HOODIES, SOVIET_ALL, PF_MISC, PF_ALL, MSF_PFS } -- DD Suit
 		mbDDSuitFemale="EQUIPGRADE",--{ EQUIPGRADE, DRAB_FEMALE, TIGER_FEMALE, SNEAKING_SUIT_FEMALE, BATTLE_DRESS_FEMALE, SWIMWEAR_FEMALE } -- DD Suit female
 		mbDDHeadGear=0,--{ 0-1 } -- DD Head gear

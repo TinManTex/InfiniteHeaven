@@ -498,8 +498,45 @@ this.playerHealthScale={
     InfMain.ChangeMaxLife(true)
   end,
 }
+--custom weapon table
+MissionModeIvars(--DEBUGNOW
+  "customWeaponTable",
+  {
+    save=MISSION,
+    range=this.switchRange,
+    settingNames="set_switch",
+  },
+  missionModesAll
+)
+this.weaponTableStrength={
+  save=MISSION,
+  settings={"NORMAL","STRONG","COMBINED"},
+  settingNames="weaponTableStrengthSettings",
+}
+this.weaponTableAfgh={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+this.weaponTableMafr={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+this.weaponTableSkull={--xof
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+this.weaponTableDD={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
+}
+
 --motherbase>
---tex these are enabled by Ivar enableDDEquip > InfMain. IsDDEquip
+--tex used for customWeaponIdTable
+--TODO BREAKOUT these are enabled by Ivar enableDDEquip > InfMain. IsDDEquip
 MinMaxIvar(
   "soldierEquipGrade",
   {default=3},--tex 3 is the min grade at which all weapon types are available
@@ -1324,11 +1361,12 @@ this.randomizeSmallCpPowers={
   settingNames="set_switch",
 }
 
---
+--TODO: CULL
 MissionModeIvars(
   "enableDDEquip",
   {
-    save=MISSION,
+    --OFF save=MISSION,--
+    nonConfig=true,--
     range=this.switchRange,
     settingNames="set_switch",
   },
@@ -2058,7 +2096,7 @@ this.playerType={
     self.setting=self.playerTypeToSetting[vars.playerType]
   end,
   OnChange=function(self)
-    InfInspect.TryFunc(function(self)--DEBUGNOW
+    --InfInspect.TryFunc(function(self)--DEBUG
       local currentSetting=vars.playerType
       local newSetting=self.settingsTable[self.setting+1]
       if newSetting==currentSetting then
@@ -2089,7 +2127,7 @@ this.playerType={
       end
 
       vars.playerType=self.settingsTable[self.setting+1]
-    end,self)--DEBUGNOW
+    --end,self)--DEBUG
   end,
 }
 
@@ -2165,7 +2203,7 @@ this.playerPartsType={
     return modelDescription or partsTypeInfo.description or partsTypeInfo.name
   end,
   OnSelect=function(self)
-    InfInspect.TryFunc(function(self)--DEBUGNOW
+    --InfInspect.TryFunc(function(self)--DEBUG
       local settingsForPlayerType={}
       for i,partsTypeName in ipairs(playerPartsTypeSettings) do
         local partsType=InfFova.PlayerPartsType[partsTypeName]
@@ -2196,15 +2234,15 @@ this.playerPartsType={
       local partsTypeName=InfFova.playerPartsTypes[vars.playerPartsType+1]
       local setting=self.enum[partsTypeName]
       if setting==nil then
-        --InfMenu.DebugPrint("WARNING: could not find enum for "..partsTypeName)--DEBUGNOW
+        --InfMenu.DebugPrint("WARNING: could not find enum for "..partsTypeName)--DEBUG
         self.setting=0
       else
         self.setting=self.enum[partsTypeName]
       end
-    end,self)--DEBUGNOW
+    --end,self)--DEBUG
   end,
   OnChange=function(self)
-    InfInspect.TryFunc(function(self)--DEBUGNOW
+    --InfInspect.TryFunc(function(self)--DEBUG
       local partsTypeName=self.settings[self.setting+1]
 
       local playerCamoTypes=InfFova.GetCamoTypes(partsTypeName)
@@ -2227,7 +2265,7 @@ this.playerPartsType={
 
       vars.playerPartsType=InfFova.PlayerPartsType[partsTypeName]
 
-    end,self)--DEBUGNOW
+    --end,self)--DEBUG
   end,
 }
 
@@ -2254,7 +2292,7 @@ this.playerCamoType={
     return camoInfo.description or camoInfo.name
   end,
   OnSelect=function(self)
-    InfInspect.TryFunc(function(self)--DEBUGNOW
+    --InfInspect.TryFunc(function(self)--DEBUG
       local partsTypeName=InfFova.playerPartsTypes[vars.playerPartsType+1]
 
       local playerCamoTypes=InfFova.GetCamoTypes(partsTypeName)
@@ -2277,7 +2315,7 @@ this.playerCamoType={
       self.settings=playerCamoTypes
       self.enum=enum
       self.range.max=#self.settings-1
-    end,self)--DEBUGNOW
+    --end,self)--DEBUG
   end,
   OnChange=function(self)
     local camoName=self.settings[self.setting+1]
@@ -2555,7 +2593,6 @@ this.faceDecoFova={
     return faceDecoFovaInfo.description or faceDecoFovaInfo.name
   end,
   OnSelect=function(self)
-
     InfInspect.TryFunc(function(self)--DEBUGNOW
       if InfFova.playerTypeGroup.VENOM[vars.playerType] then
         self.settings={"NOT_FOR_PLAYERTYPE"}

@@ -235,7 +235,7 @@ Enemy Prep menu
 3: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep
 4: Custom prep menu
 5: Prep system menu
-6: DD Equip menu
+6: Custom soldier equip menu
 7: Reset enemy preparedness levels : (Command)
 Resets enemy prep levels to 0
 8: Random CP subtype in free roam : Off, On
@@ -250,9 +250,9 @@ Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wi
 Custom prep menu
 - Lets you set the individual values that go into an enemy prep configuration (does not use the enemy prep levels), a random value between MIN and MAX for each setting is chosen on mission start. The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
 ----------------
-1: Armor deployment
-2: Print example current config (look in iDroid Log>All tab) : (Command)
-3: Weapon deployment
+1: Print example current config (look in iDroid Log>All tab) : (Command)
+2: Weapon deployment
+3: Armor deployment
 4: Headgear deployment
 5: CP deterrent deployment
 6: Soldier abilities
@@ -267,15 +267,6 @@ The number of times reinforcements can be called
 13: Ignore combat-deploy supply blocks min : Off, On
 Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.
 14: Ignore combat-deploy supply blocks max : Off, On
-
-Armor deployment
-----------------
-1: ARMOR_MIN : 0-100%
-2: ARMOR_MAX : 0-100%
-3: SOFT_ARMOR_MIN : 0-100%
-4: SOFT_ARMOR_MAX : 0-100%
-5: SHIELD_MIN : 0-100%
-6: SHIELD_MAX : 0-100%
 
 Weapon deployment
 -----------------
@@ -293,6 +284,15 @@ Weapon deployment
 12: ASSAULT_MAX : 0-100%
 13: GUN_LIGHT_MIN : 0-100%
 14: GUN_LIGHT_MAX : 0-100%
+
+Armor deployment
+----------------
+1: ARMOR_MIN : 0-100%
+2: ARMOR_MAX : 0-100%
+3: SOFT_ARMOR_MIN : 0-100%
+4: SOFT_ARMOR_MAX : 0-100%
+5: SHIELD_MIN : 0-100%
+6: SHIELD_MAX : 0-100%
 
 Headgear deployment
 -------------------
@@ -368,19 +368,25 @@ Adds limits and some randomisation to small cp/lrrps enemy prep application
 14: Disable convert armor to shield (if armor off) : Off, On
 Where heavy armor is disabled (free roam by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.
 
-DD Equip menu
-- Allow soldiers to have DD equipment usually only seen on FOB
--------------
-1: MB staff use DD equipment : Off, On
-2: Enemy use DD equipment in free roam : Off, On
-3: Enemy use DD equipment in missions : Off, On
-4: DD Equip Grade RND MIN : 1-15
+Custom soldier equip menu
+- Allow soldiers to have equipment from other locations/types, including DD equipment usually only used on FOB. Soldiers are assigned a random weapon of the type the prep system assigns them, so you'll see more weapon variation
+-------------------------
+1: Enemy use custom equip table in free roam : Off, On
+2: Enemy use custom equip table in missions : Off, On
+3: MB staff use custom equip table : Off, On
+4: Weapon stengths : NORMAL, STRONG, Combined
+The game weapon tables have Normal and Strong lists that the Enemy prep system will pick from, this setting allows you to select either, or combine them.
+5: Include Soviet weapons : Off, On
+6: Include PF weapons : Off, On
+7: Include XOF weapons : Off, On
+8: Include DD weapons : Off, On
+Add the DD weapons table that's usually used for FOB, the following grade and developed settings control how this table is built
+9: DD weapons grade MIN : 1-15
 A grade will be chosen between MIN and MAX at mission start. Note: Equip grade 3 is the minimum grade that has all types of weapons.
-5: DD Equip Grade RND MAX : 1-15
-6: Allow undeveloped DD equipment : Off, On
+10: DD weapons grade MAX : 1-15
+11: Allow undeveloped DD weapons : Off, On
 Whether to limit the selection to equipment you have developed or allow all equipment. Restriction does not apply to Enemies using DD weapons.
-7: MB DD Equip non-lethal : Off, On
-8: MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random
+12: DD equipment non-lethal : Off, On
 
 Enemy reinforcements menu
 -------------------------
@@ -423,33 +429,34 @@ Sideops are broken into areas to stop overlap, this setting lets you control the
 Mother Base menu
 ----------------
 1: Mother base prep mode : Off, FOB style, Enemy prep levels, Custom prep
-2: DD Equip menu
-3: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières
-4: DD Suit female : Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
-5: DD Head gear : Off, Current prep
-6: Female staff selection : Default, None, All available
+2: Custom soldier equip menu
+3: MB Equip Range (MB Prep mode FOB only) : Short, Medium, Long, Random
+4: DD Suit : Off, Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimwear, PF Riot Suit, XOF, Soviet, Soviet Urban, CFA, ZRS, Rogue Coyote, Soviet berets, Soviet hoodies, Soviet All, PF misc, PF All, Militaires Sans Frontières
+5: DD Suit female : Use Equip Grade, Drab, Tiger, Sneaking, Battle Dress, Swimsuit
+6: DD Head gear : Off, Current prep
+7: Female staff selection : Default, None, All available
 By default the game tries to assign a minimum of 2 females per cluster from the females assigned to the clusters section, All available will select females first when trying to populate a MB section, None will prevent any females from showing on mother base
-7: NPC helis : Off, Support helis, Support and Attack helis
+8: NPC helis : Off, Support helis, Support and Attack helis
 Spawns some npc helis that roam around mother base.
-8: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
+9: Attack heli class : Default, Black, Red, All one random type, Each heli random type, Enemy prep
 Shared between free roam and MB attack helis.
-9: Walker gears : Off, On
-10: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
-11: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
-12: Repopulate plants and diamonds : Off, On
+10: Walker gears : Off, On
+11: Walker gears type : Soviet, Rogue Coyote, CFA, ZRS, Diamond Dogs, Hueys Prototype (texture issues), All one random type, Each gear random type
+12: Walker gears weapons : Even split of weapons, Minigun, Missiles, All one random type, Each gear random type
+13: Repopulate plants and diamonds : Off, On
 Regenerates plants on Zoo platform and diamonds on Mother base over time.
-13: Staff-wide morale boost for good visit : Off, On
+14: Staff-wide morale boost for good visit : Off, On
 Gives a staff-wide morale boost on having a number of soldiers salute (most of a cluster), visiting a number of clusters (with at least one salute on each), or staying in base a number of game days (break out that cigar). Must leave the base via heli for it to apply.
-14: Enable all buddies : Off, On
+15: Enable all buddies : Off, On
 Does not clear D-Horse and D-Walker if set from deploy screen and returning to mother base, they may however spawn inside building geometry, use the call menu to have them respawn near. Also allows buddies on the Zoo platform, now you can take D-Dog or D-Horse to visit some animals.
-15: More soldiers on MB plats : Off, On
+16: More soldiers on MB plats : Off, On
 Increases soldiers on platforms from 4 soldiers to 9.
-16: Soldiers move between platforms : Off, On
+17: Soldiers move between platforms : Off, On
 Soldiers will periodically move between platforms (only within the same cluster).
-17: Show characters menu
-18: Show assets menu
-19: Women in Enemy Invasion mode : 0-100%
-20: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
+18: Show characters menu
+19: Show assets menu
+20: Women in Enemy Invasion mode : 0-100%
+21: Mother Base War Games : Off, DD Training, Enemy Invasion, DD Infection, Zombie Obliteration (non DD)
 
 Show characters menu
 --------------------

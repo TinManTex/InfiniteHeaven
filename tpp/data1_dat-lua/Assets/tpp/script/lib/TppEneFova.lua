@@ -1143,13 +1143,12 @@ function this.PreMissionLoad(missionId,currentMissionId)
   TppSoldier2.SetDefaultPartsPath()
   TppSoldier2.SetExtendPartsInfo{}
   TppHostage2.ClearDefaultBodyFovaId()
-  --InfMenu.DebugPrint("PreMissionLoad - mission:" .. tostring(missionId) .. " currentMissionId:" .. tostring(currentMissionId).. " vars.missionCode:"..tostring(vars.missionCode))--DEBUG
-  if TppLocation.IsMotherBase()or TppLocation.IsMBQF() or InfMain.IsDDEquip(missionId) then--tex
-    local soldierEquipGrade=InfMain.GetMbsClusterSecuritySoldierEquipGrade(missionId)--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
-    local isNoKillMode=InfMain.GetMbsClusterSecurityIsNoKillMode()--tex ORIG:TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
-    --InfMenu.DebugPrint("soliderequipgrade: ".. tostring(soldierEquipGrade).. " isNoKillMode:"..tostring(isNoKillMode))--DEBUG
+  if TppLocation.IsMotherBase()or TppLocation.IsMBQF() then
+    local soldierEquipGrade=TppMotherBaseManagement.GetMbsClusterSecuritySoldierEquipGrade{}
+    local isNoKillMode=TppMotherBaseManagement.GetMbsClusterSecurityIsNoKillMode()
     TppEnemy.PrepareDDParameter(soldierEquipGrade,isNoKillMode)
   end
+  InfEquip.CreateCustomWeaponTable(missionId)--tex
   local MissionFovaFunc=Select(fovaSetupFuncs)
   if fovaSetupFuncs[missionId]==nil then
     if TppMission.IsHelicopterSpace(missionId)then
