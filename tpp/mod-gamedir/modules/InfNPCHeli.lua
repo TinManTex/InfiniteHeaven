@@ -1,4 +1,6 @@
 --InfNPCHeli.lua
+--TODO: shift to custom routes and sendmessage, then can kill update and shift route changes to timers.
+--DEBUGNOW msg_heli_pfCamp_I_end etc
 local this={}
 
 --LOCALOPT
@@ -9,6 +11,12 @@ local NULL_ID=GameObject.NULL_ID
 local GetGameObjectId=GameObject.GetGameObjectId
 local GetTypeIndex=GameObject.GetTypeIndex
 local SendCommand=GameObject.SendCommand
+local TppMath=TppMath
+local math=math
+local IsNight=WeatherManager.IsNight
+local InfUtil=InfUtil
+local Ivars=Ivars
+local IvarProc=IvarProc
 
 this.debugModule=false
 
@@ -560,17 +568,15 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end
 
   --LOCALOPT:
-  local TppMath=TppMath
-  local math=math
   local vars=vars
   local mvars=mvars
-  local SendCommand=GameObject.SendCommand
+  
   local InfLZ=InfLZ
 
   local isMb=vars.missionCode==30050
   local locationName=InfUtil.locationNames[vars.locationCode]
 
-  local isNight=WeatherManager.IsNight()
+  local isNight=IsNight()
   local heliRouteIds=this.heliRouteIds
   for heliIndex=1,#this.heliList do
     local heliName=this.heliList[heliIndex]

@@ -324,12 +324,14 @@ function this.InitializeBuildingData(checkBuildingLevel)
 end
 function this.RegisterBuildingOnFOB()
   local fobBuildingList=this.FobBuildingList
-  if TppLocation.IsMiddleAfrica()then
-    for i,buildingInfo in pairs(fobBuildingList)do
-      local gameId=Gimmick.SsdGetGameObjectId{gimmickId=buildingInfo.gimmickId,name=buildingInfo.name,dataSetName=buildingInfo.dataSetName}
-      SsdBuilding.RegisterAfricaItem{gameObjectId=gameId}
-    end
-  else
+  --RETAILPATCH: 1.0.9.0 removed, why?
+--  if TppLocation.IsMiddleAfrica()then
+--    for i,buildingInfo in pairs(fobBuildingList)do
+--      local gameId=Gimmick.SsdGetGameObjectId{gimmickId=buildingInfo.gimmickId,name=buildingInfo.name,dataSetName=buildingInfo.dataSetName}
+--      SsdBuilding.RegisterAfricaItem{gameObjectId=gameId}
+--    end
+--  else
+  do--RTP .0.9
     for i,buildingInfo in pairs(fobBuildingList)do
       local productionId=buildingInfo.productionId
       SsdBuilding.RegisterAfricaItem{buildingId=Fox.StrCode32(productionId)}

@@ -15,6 +15,12 @@ function this.ClearArray(_table)
   end
 end
 
+function this.MergeArray(array1,array2)
+  for i=0,#array2 do
+    array1[#array1+1]=array2[i]
+  end 
+end
+
 function this.IsTableEmpty(checkTable)--tex TODO: shove in a utility module
   local next=next
   if next(checkTable)==nil then

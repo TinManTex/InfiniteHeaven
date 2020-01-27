@@ -13,6 +13,7 @@ local IsTypeFunc=Tpp.IsTypeFunc
 local IsTypeTable=Tpp.IsTypeTable
 local IsTypeString=Tpp.IsTypeString
 local TimerStart=GkEventTimerManager.Start
+local IsEnableStartSelect=BaseDefenseManager.IsEnableStartSelect
 local f=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
 local t=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
 local statusDisableOnReward={"S_DISABLE_TARGET","S_DISABLE_NPC_NOTICE","S_DISABLE_PLAYER_DAMAGE","S_DISABLE_THROWING","S_DISABLE_PLACEMENT"}
@@ -183,11 +184,20 @@ function this.OnStart(e,n,t)
   mvars.bdf_loadMissionName=("d"..tostring(e))
   mvars.bdf_skipBreakDiggingGameOver=true
   mvars.bdf_waitLoading=false--RETAILPATCH: 1.0.5.0
+  --RETAILPATCH: 1.0.9.0>
+  mvars.bdf_autoDefenseAllClear=false
+  mvars.bdf_autoDefenseResult=TppDefine.BASE_DEFENSE_CLEAR_TYPE.NONE
+  --<
   local e="/Assets/ssd/level_asset/defense_game/debug/"..(tostring(mvars.bdf_loadMissionName)..("_attack_"..(tostring(n)..".json")))
   Mission.LoadDefenseGameDataJson(e)
   if not t then
     TppPauseMenu.SetIgnoreActorPause(true)
     TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeOutOnStartBaseDefense",TppUI.FADE_PRIORITY.MISSION)
+    --RETAILPATCH: 1.0.9.0>
+  elseif IsEnableStartSelect()then
+    TppSoundDaemon.SetMute"Result"
+    TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeOutOnStartAutoDefense",TppUI.FADE_PRIORITY.SYSTEM)
+    --<
   end
 end
 function this.OnFinish(n,a)
@@ -206,13 +216,29 @@ function this.OnOutOfMissionArea()
   TppPlayer.StoreTempInitialPosition()
   TppMission.ContinueFromCheckPoint()
 end
-function this.OnEndAutoDefense(e)
-  if e then
+--RETAILPATCH: 1.0.9.0 added param2
+function this.OnEndAutoDefense(unkP1,unkP2)
+  if unkP1 then
     TppStory.UpdateStorySequence{updateTiming="OnBaseDefenseClear"}
     local e=BaseDefenseManager.GetCurrentMissionCode()
     if e==TppDefine.BASE_DEFENSE_TUTORIAL_MISSION then
       BaseDefenseManager.SetClosedFlag(TppDefine.BASE_DEFENSE_TUTORIAL_MISSION,true)
     end
+    --RETAILPATCH: 1.0.9.0>
+    mvars.bdf_autoDefenseResult=TppDefine.BASE_DEFENSE_CLEAR_TYPE.CLEAR
+    if IsEnableStartSelect()then
+      mvars.bdf_autoDefenseAllClear=true
+    end
+  elseif unkP2 then
+    mvars.bdf_autoDefenseResult=TppDefine.BASE_DEFENSE_CLEAR_TYPE.FAILURE
+  else
+    mvars.bdf_autoDefenseResult=TppDefine.BASE_DEFENSE_CLEAR_TYPE.CLEAR
+  end
+  if IsEnableStartSelect()then
+    CoopScoreSystem.RequestOpen()
+    BaseDefenseManager.StartResult()
+    Start("Timer_BdfWaitFadeinOnEndAutoDefense",3)
+    --<
   end
 end
 function this.StartRewardSequence(a)
@@ -229,6 +255,7 @@ function this.StartRewardSequence(a)
     t="d"..tostring(n)
   end
   Gimmick.SetAllSwitchInvalid(true)
+  BaseDefenseManager.StartResult()--RETAILPATCH: 1.0.9.0
   this.ClearWithSave(a,t)
   this.OnStartRewardSequence(a,n)
 end
@@ -246,17 +273,18 @@ function this.OnStartRewardSequence(n,t)
   else
     DefenceTelopSystem.SetInfo(t,DefenceTelopType.Failure)
   end
-  TppMission.StopDefenseTotalTime()GkEventTimerManager.Start("Timer_BdfOpenTelopWait",1)
+  TppMission.StopDefenseTotalTime()
+  TimerStart("Timer_BdfOpenTelopWait",1)
   if(n==TppDefine.BASE_DEFENSE_CLEAR_TYPE.ABANDON)or(n==TppDefine.BASE_DEFENSE_CLEAR_TYPE.CLEAR and BaseDefenseManager.IsTerminalWave())then
     mvars.bdf_viewTotalResult=true
-    GkEventTimerManager.Start("Timer_BdfOpenRewardWormhole",4)
-    GkEventTimerManager.Start("Timer_BdfDestroySingularityEffect",12)
+    TimerStart("Timer_BdfOpenRewardWormhole",4)
+    TimerStart("Timer_BdfDestroySingularityEffect",12)
     TppMusicManager.PostJingleState"Set_State_ssd_jin_WaveComp_on"--RETAILPATCH: 1.0.8.0 jingle
-    GkEventTimerManager.Start("Timer_BdfBaseDiggingFinish",45)--RETAILPATCH: 1.0.8.0 increased from 35
+    TimerStart("Timer_BdfBaseDiggingFinish",45)--RETAILPATCH: 1.0.8.0 increased from 35
   else
     mvars.bdf_viewTotalResult=false
     this.CloseRewardWormhole()
-    GkEventTimerManager.Start("Timer_BdfBaseDiggingFinish",10)
+    TimerStart("Timer_BdfBaseDiggingFinish",10)
   end
 end
 function this.OpenRewardWormhole()
@@ -285,7 +313,7 @@ function this.Messages()
     GameObject={
       {msg="DiggingStartEffectEnd",func=function()
         if mvars.bdf_isStartRewardSequence then
-          GkEventTimerManager.Start("Timer_BdfCloseRewardWormhole",5.5)--RETAILPATCH: 1.0.8.0 increased from 5
+          TimerStart("Timer_BdfCloseRewardWormhole",5.5)--RETAILPATCH: 1.0.8.0 increased from 5
           if mvars.bdf_viewTotalResult then--RETAILPATCH: 1.0.8.0>
             CoopScoreSystem.StartDiggerChargeEnagy{chargeTime=6}
           end--<
@@ -297,11 +325,11 @@ function this.Messages()
           if GkEventTimerManager.IsTimerActive"Timer_BdfBaseDiggingFinish"then
             GkEventTimerManager.Stop"Timer_BdfBaseDiggingFinish"
           end
-          GkEventTimerManager.Start("Timer_BdfBaseDiggingFinish",26.709483)
+          TimerStart("Timer_BdfBaseDiggingFinish",26.709483)
           TppMusicManager.PostJingleState"Set_State_ssd_jin_WaveComp_out"
         end
       end,option={isExecMissionClear=true}}
-      --<
+    --<
     },
     Marker={
       {msg="ChangeToEnable",func=function(t,n,a,s)
@@ -323,6 +351,11 @@ function this.Messages()
         end
       end},
       {msg="Finish",sender="Timer_BdfOpenTelopWait",func=function()
+        --RETAILPATCH: 1.0.9.0>
+        if(mvars.bdf_autoDefenseResult~=TppDefine.BASE_DEFENSE_CLEAR_TYPE.NONE)or(mvars.bdf_isAbandon==true)then
+          TppSoundDaemon.PostEvent"sfx_s_auto_coop_result"
+        end
+        --<
         DefenceTelopSystem.RequestOpen()
       end},
       {msg="Finish",sender="Timer_BdfCloseRewardWormhole",func=this.CloseRewardWormhole},
@@ -339,10 +372,17 @@ function this.Messages()
         end
         this.StartResultSequence()
         this.SetNextStep(BStep_ClearStr)
-      end}},
+      end},
+      --RETAILPATCH: 1.0.9.0>
+      {msg="Finish",sender="Timer_BdfWaitFadeinOnEndAutoDefense",func=function()
+        TppSoundDaemon.ResetMute"Result"
+        TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeInOnEndAutoDefense",TppUI.FADE_PRIORITY.SYSTEM)
+      end},
+    --<
+    },
     UI={
       {msg="EndFadeOut",sender="FadeOutOnStartBaseDefense",func=function()
-        mvars.bdf_waitLoading=SsdBuilding.IsNetworkBusy()--RETAILPATCH: 1.0.5.0
+        mvars.bdf_waitLoading=this.IsWaitLoading()--RETAILPATCH: 1.0.8.0 was SsdBuilding.IsNetworkBusy()--RETAILPATCH: 1.0.5.0
         TppMain.DisablePlayerPad()
         TppEnemy.SetEnemyLevelForBaseDefense()
         TppQuest.SetUnloadableAll(true)
@@ -351,7 +391,12 @@ function this.Messages()
           SsdUiSystem.RequestForceCloseForMissionClear()
           this.LoadMission(mvars.bdf_loadMissionName)
         end
+      end,option={isExecGameOver=true}},--RETAILPATCH: 1.0.9.0 added isExecGameOver
+      --RETAILPATCH: 1.0.9.0>
+      {msg="EndFadeOut",sender="FadeOutOnStartAutoDefense",func=function()
+        SsdUiSystem.RequestForceCloseForMissionClear()
       end},
+      --<
       {msg="EndFadeOut",sender="FadeOutOnFinishBaseDefense",func=function()
         TppMain.DisablePlayerPad()
         this.UnloadBaseDefenseBlock()
@@ -377,9 +422,15 @@ function this.Messages()
         BaseDefenseManager.OpenNextWaveTime{displayTime=10}
         RewardPopupSystem.RequestOpen(RewardPopupSystem.OPEN_TYPE_CHECK_POINT)--RETAILPATCH: 1.0.5.0
       end},
+      --RETAILPATCH: 1.0.9.0>
+      {msg="EndFadeIn",sender="FadeInOnEndAutoDefense",func=function()
+        this.StartRewardSequence(mvars.bdf_autoDefenseResult)
+      end},
+      --<
       {msg="BaseDefenseMissionResultClosed",func=this.OpenRewardResult,option={isExecMissionPrepare=true,isExecDemoPlaying=true,isExecFastTravel=true}},
       {msg="BaseDefenseRewardClosed",func=this.FinishWave,option={isExecMissionPrepare=true,isExecDemoPlaying=true,isExecFastTravel=true}},
       {msg="EndFadeOut",sender="FadeOutOnOpenBdfReward",func=function()
+        CoopScoreSystem.RequestClose()--RETAILPATCH: 1.0.9.0
         if mvars.bdf_viewTotalResult then
           TppMain.DisablePlayerPad()
           BaseDefenseRewardSystem.RequestOpen()
@@ -579,6 +630,10 @@ function this.OnTerminate()
   mvars.bdf_scriptBlockMessageExecTable=nil
   mvars.bdf_rewardCount=0
   mvars.bdf_waitLoading=false--RETAILPATCH: 1.0.5.0
+  --RETAILPATCH: 1.0.9.0>
+  mvars.bdf_autoDefenseResult=TppDefine.BASE_DEFENSE_CLEAR_TYPE.NONE
+  mvars.bdf_autoDefenseAllClear=false
+  --<
   this.ClearCurrentMissionName()
   local scriptBlockId=ScriptBlock.GetScriptBlockId(base_defense_blockStr)
   TppScriptBlock.FinalizeScriptBlockState(scriptBlockId)
@@ -602,7 +657,7 @@ function this.OnUpdate()
   local SCRIPT_BLOCK_STATE_INACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE
   local SCRIPT_BLOCK_STATE_ACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
   if mvars.bdf_waitLoading then--RETAILPATCH: 1.0.5.0>
-    mvars.bdf_waitLoading=SsdBuilding.IsNetworkBusy()
+    mvars.bdf_waitLoading=this.IsWaitLoading()--RETAILPATCH: 1.0.9.0 was SsdBuilding.IsNetworkBusy()
     if not mvars.bdf_waitLoading then
       SsdBuildingMenuSystem.CloseBuildingMenu()
       SsdUiSystem.RequestForceCloseForMissionClear()
@@ -707,6 +762,11 @@ function this.LoadMission(missionName)
   this.SetCurrentMissionName(missionName)
   TppMission.DisableBaseCheckPoint()
 end
+--RETAILPATCH: 1.0.9.0>
+function this.IsWaitLoading()
+  return(SsdBuilding.IsNetworkBusy()or svars.mis_isDefiniteGameOver)
+end
+--<
 function this.GetCurrentMissionName()
   return mvars.bdf_currentMissionName
 end

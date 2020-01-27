@@ -111,7 +111,8 @@ this.requires={
   "/Assets/ssd/script/mission/coop/BaseRescueMissionSequence.lua",--RETAILPATCH: 1.0.5.0>
   "/Assets/ssd/script/mission/coop/BaseRescueMissionEnemy.lua",
   "/Assets/ssd/script/mission/coop/BaseRescueMissionRadio.lua",--<
-  "/Assets/ssd/script/mission/defense/BaseBaseDigging.lua"
+  "/Assets/ssd/script/mission/defense/BaseBaseDigging.lua",
+  "/Assets/ssd/script/lib/SsdReplayMission.lua",--RETAILPATCH: 1.0.9.0
 }
 function this.IsTypeFunc(e)
   return type(e)=="function"
@@ -561,12 +562,23 @@ function this.IsFultonContainer(e)
   return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_FULTONABLE_CONTAINER)
 end
 function this.IsMortar(e)
+  --RETAILPATCH: 1.0.9.0>, also other Gimmick.Is* below
+  if Gimmick.IsMortar then
+    return Gimmick.IsMortar(e)
+  end
+  --<
   return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_MORTAR)
 end
 function this.IsGatlingGun(e)
+  if Gimmick.IsGatlingGun then
+    return Gimmick.IsGatlingGun(e)
+  end
   return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_GATLINGGUN)
 end
 function this.IsMachineGun(e)
+  if Gimmick.IsMachineGun then
+    return Gimmick.IsMachineGun(e)
+  end
   return IsGameObjectType(e,TppGameObject.GAME_OBJECT_TYPE_MACHINEGUN)
 end
 function this.IsFultonableGimmick(e)

@@ -74,6 +74,7 @@ function this.CreateInstance(missionName)
     end
     mvars.bfm_checkLoadNextMission=false
     mvars.bfm_storySequenceBlackRadioSettings={}
+    mvars.bfm_replayFlagMissionFinished=false--RETAILPATCH: 1.0.9.0
   end
 
   function instance.AfterOnRestoreSVars()
@@ -114,6 +115,12 @@ function this.CreateInstance(missionName)
             TppScriptBlock.LoadDemoBlock(nextDemoName)
           end
         end
+        --RETAILPATCH: 1.0.9.0>
+        if mvars.isReplayFlagMission then
+          mvars.bfm_replayFlagMissionFinished=true
+          mvars.isReplayFlagMission=nil
+        end
+        --<
         TppSequence.SetNextSequence"Seq_Demo_SwitchSequence"
       end}},
     GameObject={
@@ -254,14 +261,25 @@ function this.CreateInstance(missionName)
           return
         end
       end
+       local reload=false--RETAILPATCH: 1.0.9.0> was just if currentStorySequenceTable.reload  
       local currentStorySequenceTable=TppStory.GetCurrentStorySequenceTable()
-      if IsTypeTable(currentStorySequenceTable)then
+       if IsTypeTable(currentStorySequenceTable)then
         if currentStorySequenceTable.reload then
-          gvars.sav_needCheckPointSaveOnMissionStart=true
-          TppMission.Reload()
-          return
+          reload=true
         end
       end
+      if mvars.bfm_replayFlagMissionFinished then
+        mvars.bfm_replayFlagMissionFinished=nil
+        reload=true
+      end
+      if reload then
+        SsdReplayMission.ClearReplayMissionSetting()
+        --<
+        gvars.sav_needCheckPointSaveOnMissionStart=true
+        TppMission.Reload()
+        return
+      end
+
       TppSequence.SetNextSequence"Seq_Demo_WaitMainGame"
     end,
 

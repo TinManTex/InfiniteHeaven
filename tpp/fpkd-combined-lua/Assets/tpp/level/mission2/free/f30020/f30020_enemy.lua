@@ -237,6 +237,51 @@ this.soldierDefine = {
 		"sol_pfCamp_0009",
 		"sol_pfCamp_0010",
 		"sol_pfCamp_0011",
+		--DEBUGWIP
+		    
+    "sol_ih_0000",
+    "sol_ih_0001",
+    "sol_ih_0002",
+    "sol_ih_0003",
+    "sol_ih_0004",
+    "sol_ih_0005",
+    "sol_ih_0006",
+    "sol_ih_0007",
+    "sol_ih_0008",
+    "sol_ih_0009",
+    
+    "sol_ih_0010",
+    "sol_ih_0011",
+    "sol_ih_0012",
+    "sol_ih_0013",
+    "sol_ih_0014",
+    "sol_ih_0015",
+    "sol_ih_0016",
+    "sol_ih_0017",
+    "sol_ih_0018",
+    "sol_ih_0019",
+    
+    "sol_ih_0020",
+    "sol_ih_0021",
+    "sol_ih_0022",
+    "sol_ih_0023",
+    "sol_ih_0024",
+    "sol_ih_0025",
+    "sol_ih_0026",
+    "sol_ih_0027",
+    "sol_ih_0028",
+    "sol_ih_0029",
+    
+    "sol_ih_0030",
+    "sol_ih_0031",
+    "sol_ih_0032",
+    "sol_ih_0033",
+    "sol_ih_0034",
+    "sol_ih_0035",
+    "sol_ih_0036",
+    "sol_ih_0037",
+    "sol_ih_0038",
+    "sol_ih_0039",
 		nil
 	},
 
@@ -778,7 +823,7 @@ this.soldierDefine = {
 		"sol_quest_0004",
 		"sol_quest_0005",
 		"sol_quest_0006",
-		"sol_quest_0007",
+		"sol_quest_0007",		
 		nil
 	},
 
@@ -814,7 +859,80 @@ this.routeSets = {
 	
 	mafr_flowStation_cp			= { USE_COMMON_ROUTE_SETS = true, },
 	
-	mafr_pfCamp_cp				= { USE_COMMON_ROUTE_SETS = true, },
+	mafr_pfCamp_cp				= { USE_COMMON_ROUTE_SETS = true, 
+	--DEBUGWIP
+
+    priority = {
+      "groupA",
+      "groupB",
+      "groupC",
+      "groupD",
+      "groupE",
+      "groupF",
+      --DEBUGWIP
+      "groupG",
+      "groupH",
+      "groupI",
+      "groupJ",
+    },
+    --]]
+    sneak_day = {
+      groupG = {
+        "rt_extra_sol_test_c_0000",
+        "rt_extra_sol_test_c_0001",
+        "rt_extra_sol_test_c_0002",
+        "rt_extra_sol_test_c_0003",
+        "rt_extra_sol_test_c_0004",
+        "rt_extra_sol_test_c_0005",
+        "rt_extra_sol_test_c_0006",
+        "rt_extra_sol_test_c_0007",
+        "rt_extra_sol_test_c_0008",
+        "rt_extra_sol_test_c_0009",
+      },
+
+      groupH = {
+        "rt_extra_sol_test_c_0010",
+        "rt_extra_sol_test_c_0011",
+        "rt_extra_sol_test_c_0012",
+        "rt_extra_sol_test_c_0013",
+        "rt_extra_sol_test_c_0014",
+        "rt_extra_sol_test_c_0015",
+        "rt_extra_sol_test_c_0016",
+        "rt_extra_sol_test_c_0017",
+        "rt_extra_sol_test_c_0018",
+        "rt_extra_sol_test_c_0019",
+      },
+
+      groupI = {
+        "rt_extra_sol_test_c_0020",
+        "rt_extra_sol_test_c_0021",
+        "rt_extra_sol_test_c_0022",
+        "rt_extra_sol_test_c_0023",
+        "rt_extra_sol_test_c_0024",
+        "rt_extra_sol_test_c_0025",
+        "rt_extra_sol_test_c_0026",
+        "rt_extra_sol_test_c_0027",
+        "rt_extra_sol_test_c_0028",
+        "rt_extra_sol_test_c_0029",
+      },
+
+      groupJ = {
+        "rt_extra_sol_test_c_0030",
+        "rt_extra_sol_test_c_0031",
+        "rt_extra_sol_test_c_0032",
+        "rt_extra_sol_test_c_0033",
+        "rt_extra_sol_test_c_0034",
+        "rt_extra_sol_test_c_0035",
+        "rt_extra_sol_test_c_0036",
+        "rt_extra_sol_test_c_0037",
+        "rt_extra_sol_test_c_0038",
+        "rt_extra_sol_test_c_0039",
+      },
+      nil
+    },
+
+
+	},
 	
 	mafr_savannah_cp			= { USE_COMMON_ROUTE_SETS = true, },
 	

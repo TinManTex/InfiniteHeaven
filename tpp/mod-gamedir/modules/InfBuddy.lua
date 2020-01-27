@@ -5,6 +5,7 @@ local this={}
 this.buddyPosition=nil--tex used by CycleBuddyReturn()
 this.buddyType=BuddyType.NONE
 
+--tex TODO: there's an issue with quite crashing game on firing a changed weapon, possibly the buddycontroller allocates the normal weapon to the equip system
 local quietWeapons={
   {varType=0,name="Wicked Butterfly",           equipDevelopID=6090},-- RENOV-ICKX - Grade 2
   {varType=1,name="Wicked Butterfly suppressed",equipDevelopID=6091},-- RENOV-ICKX - Grade 4 With supressor
@@ -97,7 +98,7 @@ local BuddyVarGetSettingText=function(self,setting)
   end
 
   local varTypeTable=commandInfo.varTypeTable
-  return varTypeTable[setting].name
+  return varTypeTable[setting+1].name
 end
 local BuddyVarOnSelect=function(self)
   if vars.buddyType==BuddyType.NONE then
@@ -110,9 +111,10 @@ local BuddyVarOnSelect=function(self)
   end
   local var=vars[commandInfo.varName]
   local varTypeTable=commandInfo.varTypeTable
-  self.range.max=#varTypeTable
+  IvarProc.SetMaxToList(self,varTypeTable)
+  
   local index=this.GetTableIndexForBuddyVar(var,varTypeTable)
-  self:SetDirect(index)
+  self:SetDirect(index-1)
 end
 local BuddyVarOnActivate=function(self,setting)
   if vars.buddyType==BuddyType.NONE then
@@ -130,7 +132,7 @@ this.buddyChangeEquipVar={
   inMission=true,
   nonConfig=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=5,min=1},
+  range={max=0},--DYNAMIC
   GetSettingText=BuddyVarGetSettingText,
   OnSelect=BuddyVarOnSelect,
   OnActivate=BuddyVarOnActivate,
@@ -205,7 +207,7 @@ function this.ChangeBuddyVar(commandInfo,setting)
     return
   end
 
-  local varInfo=commandInfo.varTypeTable[setting]
+  local varInfo=commandInfo.varTypeTable[setting+1]
 
   if vars[commandInfo.varName]==varInfo.varType then
     InfMenu.Print(varInfo.name..InfLangProc.LangString"allready_set")

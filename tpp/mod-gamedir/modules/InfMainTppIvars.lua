@@ -67,6 +67,7 @@ this.registerIvars={
   "mbForceBattleGearDevelopLevel",
   "mbCollectionRepop",
   "playerHandEquip",
+  "cam_disableCameraAnimations",
 }
 
 this.playerHealthScale={
@@ -123,7 +124,7 @@ this.disableLzs={
 
 --spysearch
 local function RequireRestartMessage(self)
-  --if self.setting==1 then
+  --if self:Get()==1 then
   local settingName = self.description or InfLangProc.LangString(self.name)
   InfMenu.Print(settingName..InfLangProc.LangString"restart_required")
   --end
@@ -687,7 +688,7 @@ local playerHandTypes={
 --  range={min=0,max=1000},
 --  OnChange=function(self,setting)
 --    if setting>0 then--TODO: add off/default/noset setting
---      vars.playerHandType=self.setting
+--      vars.playerHandType=setting
 --    end
 --  end,
 --}
@@ -732,6 +733,19 @@ this.playerHandEquip={
     end
   end,
 }
+
+this.cam_disableCameraAnimations={
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
+this.cam_disableGameHighSpeedCam={--DEBUGNOW
+  save=IvarProc.CATEGORY_EXTERNAL,
+  range=Ivars.switchRange,
+  settingNames="set_switch",
+}
+
 --< ivar defs
 
 this.registerMenus={

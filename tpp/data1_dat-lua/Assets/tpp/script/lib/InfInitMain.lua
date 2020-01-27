@@ -4,7 +4,7 @@
 -- is module since it's Script.LoadLibraryed to break start.luas boxing
 local this={}
 
-InfCore.LogFlow("InfInitMain:")
+InfCore.Log("InfInitMain:")
 
 InfCore.LoadLibrary"core/InfButton.lua"
 InfCore.LoadLibrary"core/InfModules.lua"

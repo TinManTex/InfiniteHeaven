@@ -1,30 +1,32 @@
 local this={}
-local q=256
-local p=0
-local Q=0
-local t="quest_block"local c="QStep_Clear"local t=Fox.StrCode32
-local T=Tpp.StrCode32Table
-local o=Tpp.IsTypeFunc
-local t=Tpp.IsTypeTable
-local m=Tpp.IsTypeString
-local _=Tpp.IsTypeNumber
+local unkM1=256
+local unkM2=0
+local unkM3=0
+local quest_blockStr="quest_block"
+local QStep_ClearStr="QStep_Clear"
+local StrCode32=Fox.StrCode32
+local StrCode32Table=Tpp.StrCode32Table
+local IsTypeFunc=Tpp.IsTypeFunc
+local IsTypeTable=Tpp.IsTypeTable
+local IsTypeString=Tpp.IsTypeString
+local IsTypeNumber=Tpp.IsTypeNumber
 local u=TppDefine.Enum{"NONE","DEACTIVATE","DEACTIVATING","ACTIVATE"}
 local l=TppDefine.Enum{"OPEN","CLEAR","FAILURE","UPDATE"}
-local n=TppDefine.QUEST_BLOCK_TYPE_DEFINE
-local r=TppDefine.QUEST_BLOCK_TYPE_INDEX
-local a=#r
-local i=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
-local h=ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING
-local f=ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE
-local d=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
-local v={}
-local S={}
+local QUEST_BLOCK_TYPE_DEFINE=TppDefine.QUEST_BLOCK_TYPE_DEFINE
+local QUEST_BLOCK_TYPE_INDEX=TppDefine.QUEST_BLOCK_TYPE_INDEX
+local QUEST_BLOCK_TYPE_MAX=#QUEST_BLOCK_TYPE_INDEX
+local SCRIPT_BLOCK_STATE_EMPTY=ScriptBlock.SCRIPT_BLOCK_STATE_EMPTY
+local SCRIPT_BLOCK_STATE_PROCESSING=ScriptBlock.SCRIPT_BLOCK_STATE_PROCESSING
+local SCRIPT_BLOCK_STATE_INACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_INACTIVE
+local SCRIPT_BLOCK_STATE_ACTIVE=ScriptBlock.SCRIPT_BLOCK_STATE_ACTIVE
+local unkM4={}
+local unkM5={}
 function this.RegisterQuestPackList(e)
   if TppMission.IsMultiPlayMission(vars.missionCode)then
     return
   end
   mvars.qst_questPackList=nil
-  if not t(e)then
+  if not IsTypeTable(e)then
     return
   end
   if not next(e)then
@@ -36,7 +38,7 @@ function this.RegisterQuestList(s)
   if TppMission.IsMultiPlayMission(vars.missionCode)then
     return
   end
-  if not t(s)then
+  if not IsTypeTable(s)then
     return
   end
   if not mvars.qst_questPackList then
@@ -48,27 +50,27 @@ function this.RegisterQuestList(s)
   end
   local a={}
   for n=1,r do
-    if not t(s[n])then
+    if not IsTypeTable(s[n])then
       return
     end
     local r=s[n].infoList
-    if not t(r)then
+    if not IsTypeTable(r)then
       Tpp.DEBUG_DumpTable(s,2)
       return
     end
     if#r==0 then
       return
     end
-    if not _(s[n].locationId)then
+    if not IsTypeNumber(s[n].locationId)then
       return
     end
-    if not t(s[n].loadArea)then
+    if not IsTypeTable(s[n].loadArea)then
       return
     end
-    if not m(s[n].blockType)then
+    if not IsTypeString(s[n].blockType)then
       return
     end
-    if not m(s[n].areaName)then
+    if not IsTypeString(s[n].areaName)then
       return
     end
     mvars.qst_isLockedArea[s[n].areaName]=false
@@ -77,17 +79,17 @@ function this.RegisterQuestList(s)
       a[t]={}
     end
     for s,n in ipairs(r)do
-      if not m(n.name)then
+      if not IsTypeString(n.name)then
         return
       end
-      if not m(n.invokeStepName)then
+      if not IsTypeString(n.invokeStepName)then
         return
       end
       this.AddPackList(a[t],n.name)
     end
   end
-  for e=1,#n do
-    local e=n[e]
+  for e=1,#QUEST_BLOCK_TYPE_DEFINE do
+    local e=QUEST_BLOCK_TYPE_DEFINE[e]
     if a[e]then
       TppScriptBlock.RegisterCommonBlockPackList(e,a[e])
     end
@@ -95,15 +97,15 @@ function this.RegisterQuestList(s)
   mvars.qst_questList=s
 end
 function this.InitializeQuestActiveStatus()
-  for t=1,#n do
-    this._InitializeQuestActiveStatus(n[t])
+  for t=1,#QUEST_BLOCK_TYPE_DEFINE do
+    this._InitializeQuestActiveStatus(QUEST_BLOCK_TYPE_DEFINE[t])
   end
 end
 function this.GetQuestBlockIndex(t)
   if not t then
     return
   end
-  for e=1,a do
+  for e=1,QUEST_BLOCK_TYPE_MAX do
     if mvars.qst_currentQuestName[e]==t then
       return e
     end
@@ -126,36 +128,36 @@ function this.RegisterQuestInfo(questName)
   return t
 end
 function this.RegisterQuestStepList(n,e)
-  if not t(e)then
+  if not IsTypeTable(e)then
     return
   end
   local t=#e
   if t==0 then
     return
   end
-  if t>=q then
+  if t>=unkM1 then
     return
   end
   if not n then
     return
   end
-  table.insert(e,c)
+  table.insert(e,QStep_ClearStr)
   mvars.qst_questStepList[n]=Tpp.Enum(e)
 end
 function this.RegisterQuestStepTable(n,e)
-  if not t(e)then
+  if not IsTypeTable(e)then
     return
   end
-  e[c]={}
+  e[QStep_ClearStr]={}
   mvars.qst_questStepTable[n]=e
 end
 function this.RegisterQuestSystemCallbacks(e,n)
-  if not t(n)then
+  if not IsTypeTable(n)then
     return
   end
   mvars.qst_systemCallbacks[e]=mvars.qst_systemCallbacks[e]or{}
   local function s(n,t)
-    if o(n[t])then
+    if IsTypeFunc(n[t])then
       mvars.qst_systemCallbacks[e][t]=n[t]
     end
   end
@@ -165,8 +167,8 @@ function this.RegisterQuestSystemCallbacks(e,n)
   end
 end
 function this.OnUpdate()
-  for s=1,a do
-    local n=n[s]
+  for s=1,QUEST_BLOCK_TYPE_MAX do
+    local n=QUEST_BLOCK_TYPE_DEFINE[s]
     local t=this.GetQuestBlockState(n)
     if t then
       this.UpdateChangeQuest(s,n,t)
@@ -192,7 +194,7 @@ function this.QuestBlockOnInitialize(s)
     end
   end
   local n=s.Messages
-  if o(n)then
+  if IsTypeFunc(n)then
     local e=n()
     mvars.qst_questScriptMsgExecTable[t]=Tpp.MakeMessageExecTable(e)
   end
@@ -205,7 +207,7 @@ function this.QuestBlockOnUpdate(t)
     return
   end
   local e=this
-  local a=n[t]
+  local a=QUEST_BLOCK_TYPE_DEFINE[t]
   local r=e.GetQuestBlockState(a)
   if r==nil then
     return
@@ -217,8 +219,8 @@ function this.QuestBlockOnUpdate(t)
     return
   end
   local s=ScriptBlock
-  local i=f
-  local s=d
+  local i=SCRIPT_BLOCK_STATE_INACTIVE
+  local s=SCRIPT_BLOCK_STATE_ACTIVE
   if r==i then
     if l==s then
       e._DoDeactivate(t)
@@ -248,11 +250,11 @@ function this.QuestBlockOnUpdate(t)
     if n.qst_lastInactiveToActive[t]then
       n.qst_lastInactiveToActive[t]=false
       e.ExecuteSystemCallback(t,"OnActivate")n.qst_allocated[t]=true
-      if s and o(s.OnEnter)then
+      if s and IsTypeFunc(s.OnEnter)then
         s.OnEnter(s)
       end
     end
-    if s and o(s.OnUpdate)then
+    if s and IsTypeFunc(s.OnUpdate)then
       s.OnUpdate(urrentStepTable)
     end
     if n.qst_blockStateRequest[t]==u.DEACTIVATE then
@@ -288,9 +290,9 @@ function this.QuestBlockOnTerminate(t)
   mvars.qst_lastQuestBlockState[t]=nil
   mvars.qst_reserveEnd[t]=false
   mvars.qst_isWatchingDefenseFlag[t]=false
-  gvars.qst_currentQuestStepNumber[t-1]=p
+  gvars.qst_currentQuestStepNumber[t-1]=unkM2
   this.ClearCurrentQuestName(t)
-  local e=n[t]
+  local e=QUEST_BLOCK_TYPE_DEFINE[t]
   local e=ScriptBlock.GetScriptBlockId(e)
   TppScriptBlock.FinalizeScriptBlockState(e)
 end
@@ -318,14 +320,14 @@ function this.SetNextQuestStep(t,s)
   if this.IsInvokingImpl(t)then
     local e=this.GetQuestStepTable(t,gvars.qst_currentQuestStepNumber[a])
     local t=e.OnLeave
-    if o(t)then
+    if IsTypeFunc(t)then
       t(e)
     end
   end
   gvars.qst_currentQuestStepNumber[a]=s
   if mvars.qst_allocated[t]then
     local e=n.OnEnter
-    if o(e)then
+    if IsTypeFunc(e)then
       e(n)
     end
   end
@@ -354,7 +356,7 @@ function this.ClearWithSave(n,t)
 end
 function this.FadeOutAndDeativateQuestBlock(t)
   if not t then
-    for e=1,a do
+    for e=1,QUEST_BLOCK_TYPE_MAX do
       mvars.qst_isRequestedDeactivate[e]=true
     end
   else
@@ -366,10 +368,10 @@ function this.FadeOutAndDeativateQuestBlock(t)
   TppUI.FadeOut(TppUI.FADE_SPEED.FADE_NORMALSPEED,"FadeOutOnOutOfMissionArea",TppUI.FADE_PRIORITY.QUEST)
 end
 function this.OnMissionGameEnd()
-  for t=1,#n do
-    local n=n[t]
+  for t=1,#QUEST_BLOCK_TYPE_DEFINE do
+    local n=QUEST_BLOCK_TYPE_DEFINE[t]
     local n=this.GetQuestBlockState(n)
-    if n==d then
+    if n==SCRIPT_BLOCK_STATE_ACTIVE then
       this._DoDeactivate(t)
     end
   end
@@ -386,7 +388,7 @@ function this.UpdateActiveQuest(t)
   mvars.qst_acceptableQuestNameList={}
   this.UpdateQuestTimeCount()
   this.UpdateOpenQuest()
-  for t=1,a do
+  for t=1,QUEST_BLOCK_TYPE_MAX do
     this._UpdateActiveQuest(t)
   end
   TppCrew.SetAcceptableQuestList(mvars.qst_acceptableQuestNameList)
@@ -435,8 +437,8 @@ function this.SetUnloadableAll(t)
   if mvars.qst_unloadableAllQuestFlag~=t then
     mvars.qst_unloadableAllQuestFlag=t
     if t==true then
-      for t=1,#n do
-        this.UnloadCurrentQuestBlock(n[t])
+      for t=1,#QUEST_BLOCK_TYPE_DEFINE do
+        this.UnloadCurrentQuestBlock(QUEST_BLOCK_TYPE_DEFINE[t])
       end
     end
     this.UpdateActiveQuest()
@@ -447,7 +449,7 @@ function this.AddPackList(n,e)
   if s==nil then
     return
   end
-  if not t(s)then
+  if not IsTypeTable(s)then
     return
   end
   if not n[e]then
@@ -469,15 +471,15 @@ function this._InitializeQuestActiveStatus(n)
   if s==nil then
     return
   end
-  if s==i then
+  if s==SCRIPT_BLOCK_STATE_EMPTY then
     return
   end
-  local t=r[n]
+  local t=QUEST_BLOCK_TYPE_INDEX[n]
   if not t or t==0 then
     return
   end
   mvars.qst_requestInitActiveStatus[t]=false
-  if s<f or not this._CanActivateQuest()then
+  if s<SCRIPT_BLOCK_STATE_INACTIVE or not this._CanActivateQuest()then
     mvars.qst_requestInitActiveStatus[t]=true
     return
   end
@@ -543,7 +545,7 @@ function this.InitMvars()
   mvars.qst_reserveEnd={}
   mvars.qst_otherLocationQuestList={}
   mvars.qst_isWatchingDefenseFlag={}
-  for e=1,a do
+  for e=1,QUEST_BLOCK_TYPE_MAX do
     mvars.qst_currentQuestName[e]=nil
     mvars.qst_currentQuestTable[e]={}
     mvars.qst_loadableQuestList[e]={}
@@ -581,8 +583,8 @@ function this.InitLoadableQuestList()
   end
   for e=1,e do
     local t=mvars.qst_questList[e]
-    local e=r[t.blockType]
-    if not e or e>a then
+    local e=QUEST_BLOCK_TYPE_INDEX[t.blockType]
+    if not e or e>QUEST_BLOCK_TYPE_MAX then
       return
     end
     if t.locationId==n then
@@ -605,10 +607,10 @@ function this.UnloadCurrentQuestBlock(e)
   TppScriptBlock.Unload(e)
 end
 function this.IsNeedWaitCheckPoint()
-  for s=1,#n do
-    local t=n[s]
+  for s=1,#QUEST_BLOCK_TYPE_DEFINE do
+    local t=QUEST_BLOCK_TYPE_DEFINE[s]
     local t=this.GetQuestBlockState(t)
-    if t~=nil and t~=i then
+    if t~=nil and t~=SCRIPT_BLOCK_STATE_EMPTY then
       local t=mvars.qst_currentQuestName[s]
       if t then
         local n=TppQuestList.questTimerList[t].isOnce
@@ -633,7 +635,7 @@ function this.ClearCurrentQuestName(e)
     return
   end
   mvars.qst_currentQuestName[e]=nil
-  gvars.qst_currentQuestName[e-1]=Q
+  gvars.qst_currentQuestName[e-1]=unkM3
 end
 function this.SetCurrentQuestName(e,t)
   if not e or e==0 then
@@ -647,18 +649,18 @@ function this.GetCurrentQuestName(e)
 end
 function this.ResetQuestStatus(e)
   if not e or e==0 then
-    for e=1,a do
-      gvars.qst_currentQuestName[e-1]=Q
-      gvars.qst_currentQuestStepNumber[e-1]=p
+    for e=1,QUEST_BLOCK_TYPE_MAX do
+      gvars.qst_currentQuestName[e-1]=unkM3
+      gvars.qst_currentQuestStepNumber[e-1]=unkM2
     end
     return
   end
   local e=e-1
-  gvars.qst_currentQuestName[e]=Q
-  gvars.qst_currentQuestStepNumber[e]=p
+  gvars.qst_currentQuestName[e]=unkM3
+  gvars.qst_currentQuestStepNumber[e]=unkM2
 end
 function this.UpdateQuestBlockStateAtNotLoaded(s,t,l)
-  local n=r[s]
+  local n=QUEST_BLOCK_TYPE_INDEX[s]
   if not n then
     return
   end
@@ -668,7 +670,7 @@ function this.UpdateQuestBlockStateAtNotLoaded(s,t,l)
   local a=this.GetCurrentQuestName(n)
   local t=this.SearchQuestFromAllSpecifiedArea("loadArea",n,t,l)
   local l=this.GetQuestBlockState(s)
-  local r=i
+  local r=SCRIPT_BLOCK_STATE_EMPTY
   if t==nil then
     if l~=r then
       this.UnloadCurrentQuestBlock(s)
@@ -694,14 +696,14 @@ function this.UpdateQuestBlockStateAtNotLoaded(s,t,l)
   return t
 end
 function this.UpdateQuestBlockStateAtInactive(e,t,t)
-  local e=r[e]
+  local e=QUEST_BLOCK_TYPE_INDEX[e]
   if not e then
     return
   end
   mvars.qst_invokeReserveOnActivate[e]=true
 end
 function this.UpdateQuestBlockStateAtActive(n,l,a)
-  local t=r[n]
+  local t=QUEST_BLOCK_TYPE_INDEX[n]
   if not t or t==0 then
     return
   end
@@ -726,7 +728,7 @@ function this.UpdateQuestBlockStateAtActive(n,l,a)
   end
 end
 function this.GetFirstPriorityQuest(s)
-  if not t(s)then
+  if not IsTypeTable(s)then
     return
   end
   local n
@@ -756,7 +758,7 @@ function this._UpdateActiveQuest(s)
   if mvars.qst_unloadableAllQuestFlag then
     return
   end
-  local n=n[s]
+  local n=QUEST_BLOCK_TYPE_DEFINE[s]
   local n=this.GetQuestBlockState(n)
   if n==nil then
     return
@@ -803,7 +805,7 @@ function this.NeedUpdateActiveQuest(t)
   return true
 end
 function this.UpdateChangeQuest(t,s,n)
-  if n~=i then
+  if n~=SCRIPT_BLOCK_STATE_EMPTY then
     return
   end
   if mvars.qst_reserveNextQuest[t]then
@@ -813,7 +815,7 @@ function this.UpdateChangeQuest(t,s,n)
   end
 end
 function this.UpdateWatchingQuest(t,s,n)
-  if n~=d then
+  if n~=SCRIPT_BLOCK_STATE_ACTIVE then
     return
   end
   if Mission.GetDefenseGameState()~=TppDefine.DEFENSE_GAME_STATE.NONE then
@@ -840,21 +842,21 @@ function this.IsSkipLoading(t)
   return false
 end
 function this.IsInvoking(t)
-  local t=r[t]
+  local t=QUEST_BLOCK_TYPE_INDEX[t]
   return this.IsInvokingImpl(t)
 end
 function this.IsInvokingImpl(e)
   if not e or e==0 then
     return
   end
-  if gvars.qst_currentQuestStepNumber[e-1]~=p then
+  if gvars.qst_currentQuestStepNumber[e-1]~=unkM2 then
     return true
   else
     return false
   end
 end
 function this.Invoke(t)
-  local t=r[t]
+  local t=QUEST_BLOCK_TYPE_INDEX[t]
   if not t then
     return
   end
@@ -872,7 +874,7 @@ function this.SetNewQuestAndLoadQuestBlock(s,t)
   if n==false then
     return
   end
-  local n=r[s]
+  local n=QUEST_BLOCK_TYPE_INDEX[s]
   this.ResetQuestStatus(n)
   this.SetCurrentQuestName(n,t)
   mvars.qst_currentQuestTable[n]=this.GetQuestTable(n,t)
@@ -931,7 +933,7 @@ function this.SearchQuestFromAllSpecifiedArea(r,t,l,a)
 end
 function this.SearchBlockIndex(questName)
   local e=0
-  for t=1,#n do
+  for t=1,#QUEST_BLOCK_TYPE_DEFINE do
     if e~=0 then
       break
     end
@@ -968,14 +970,14 @@ function this.IsActive(e)
   end
 end
 function this.Messages()
-  return T{GameObject={{msg="AcceptQuest",func=function(t)
+  return StrCode32Table{GameObject={{msg="AcceptQuest",func=function(t)
     local t=TppQuestList.QUEST_DEFINE_HASH_TABLE[t]
     if not t then
       return
     end
     this.Accept(t)
   end}},Block={{msg="StageBlockCurrentSmallBlockIndexUpdated",func=this.OnUpdateSmallBlockIndex,option={isExecFastTravel=true}}},UI={{msg="EndFadeOut",sender="FadeOutOnOutOfMissionArea",func=function()
-    for e=1,a do
+    for e=1,QUEST_BLOCK_TYPE_MAX do
       if mvars.qst_isRequestedDeactivate[e]then
         mvars.qst_isRequestedDeactivate[e]=false
         mvars.qst_blockStateRequest[e]=u.DEACTIVATE
@@ -990,7 +992,7 @@ function this.Messages()
 end
 function this.OnMessage(i,o,l,s,r,t,n)
   Tpp.DoMessage(this.messageExecTable,TppMission.CheckMessageOption,i,o,l,s,r,t,n)
-  for a=1,a do
+  for a=1,QUEST_BLOCK_TYPE_MAX do
     this.ExecMessageToBlockScript(a,i,o,l,s,r,t,n)
   end
 end
@@ -1018,20 +1020,20 @@ function this.ExecMessageToBlockScript(t,n,s,a,r,u,o,l)
   end
 end
 function this.MakeQuestStepMessageExecTable(e)
-  if not t(mvars.qst_questStepTable[e])then
+  if not IsTypeTable(mvars.qst_questStepTable[e])then
     return
   end
   for t,e in pairs(mvars.qst_questStepTable[e])do
     local t=e.Messages
-    if o(t)then
+    if IsTypeFunc(t)then
       local t=t(e)
       e._messageExecTable=Tpp.MakeMessageExecTable(t)
     end
   end
 end
 function this.OnUpdateSmallBlockIndex(s,a)
-  for t=1,#n do
-    local t=n[t]
+  for t=1,#QUEST_BLOCK_TYPE_DEFINE do
+    local t=QUEST_BLOCK_TYPE_DEFINE[t]
     this.OnUpdateQuestBlockState(t,s,a)
   end
   if mvars.qst_reserveUpdateTerminalFlag then
@@ -1040,15 +1042,15 @@ function this.OnUpdateSmallBlockIndex(s,a)
   end
 end
 function this.OnUpdateQuestBlockState(t,s,a)
-  local r=r[t]
+  local r=QUEST_BLOCK_TYPE_INDEX[t]
   local n=this.GetQuestBlockState(t)
   if n~=nil then
     mvars.qst_invokeReserveOnActivate[r]=false
-    if(n==i)or(n==h)then
+    if(n==SCRIPT_BLOCK_STATE_EMPTY)or(n==SCRIPT_BLOCK_STATE_PROCESSING)then
       this.UpdateQuestBlockStateAtNotLoaded(t,s,a)
-    elseif(n==f)then
+    elseif(n==SCRIPT_BLOCK_STATE_INACTIVE)then
       this.UpdateQuestBlockStateAtInactive(t,s,a)
-    elseif(n==d)then
+    elseif(n==SCRIPT_BLOCK_STATE_ACTIVE)then
       this.UpdateQuestBlockStateAtActive(t,s,a)
     end
   end
@@ -1068,9 +1070,16 @@ function this.Clear(t)
   if not s then
     return
   end
-  this.SetNextQuestStep(s,c)
+  this.SetNextQuestStep(s,QStep_ClearStr)
   this.ShowAnnounceLog(l.CLEAR,t)
   this.CheckClearBounus(n,t)
+  --RETAILPATCH: 1.0.9.0>
+  if Mission.IsReplayMission()then
+    if Mission.SetQuestClearedWhenReplayMission then
+      Mission.SetQuestClearedWhenReplayMission(t)
+    end
+  end
+  --<
   this.UpdateClearFlag(n,true)
   this.UpdateRepopFlag(s,n)
   this.CheckAllClearBounus()
@@ -1096,7 +1105,7 @@ function this.Failure(t)
   end
   this.UpdateClearFlag(n,false)
   this.UpdateRepopFlag(s,n)
-  this.SetNextQuestStep(s,c)
+  this.SetNextQuestStep(s,QStep_ClearStr)
   this.ShowAnnounceLog(l.FAILURE,t)
   gvars.qst_questSuspendFlag[n]=true
   if not TppQuestList.questTimerList[t].isOnce then
@@ -1121,6 +1130,15 @@ function this.Update(t)
   end
 end
 function this.IsOpen(e)
+  --RETAILPATCH: 1.0.9.0>
+  if Mission.IsReplayMission()then
+    local isOpen=false
+    if Mission.IsQuestOpenWhenReplayMission then
+      isOpen=Mission.IsQuestOpenWhenReplayMission(e)
+    end
+    return isOpen
+  end
+  --<
   local e=TppQuestList.QUEST_INDEX[e]
   if e then
     if not gvars.qst_questOpenFlag[e]then
@@ -1133,6 +1151,15 @@ function this.IsOpen(e)
   end
 end
 function this.IsCleard(e)
+--RETAILPATCH: 1.0.9.0>
+if Mission.IsReplayMission()then
+local isCleared=false
+if Mission.IsQuestClearedWhenReplayMission then
+isCleared=Mission.IsQuestClearedWhenReplayMission(e)
+end
+return isCleared
+end
+--<
   local e=TppQuestList.QUEST_INDEX[e]
   if e then
     return gvars.qst_questClearedFlag[e]
@@ -1184,7 +1211,7 @@ function this.IsEnd(t)
     return
   end
   local t=gvars.qst_currentQuestStepNumber[e-1]
-  if mvars.qst_questStepList[e][t]==c then
+  if mvars.qst_questStepList[e][t]==QStep_ClearStr then
     return true
   end
   return false
@@ -1391,7 +1418,7 @@ function this.UpdateOpenableQuest()
 end
 function this.UpdateLoadableQuestListForOtherLocation()
   mvars.qst_loadableQuestNameList2={}
-  for t=1,a do
+  for t=1,QUEST_BLOCK_TYPE_MAX do
     local t=mvars.qst_otherLocationQuestList[t]
     if t and next(t)then
       local t=t
@@ -1466,7 +1493,7 @@ end
 function this.UpdateQuestTimeCount()Mission.UpdateQuestTimeCount()
 end
 function this.UpdateGimmickValidity(n)
-  if not t(mvars.qst_loadableQuestNameList)then
+  if not IsTypeTable(mvars.qst_loadableQuestNameList)then
     return
   end
   for s,t in ipairs(mvars.qst_loadableQuestNameList)do
@@ -1486,11 +1513,11 @@ function this.IsLoadableQuestName(n)
   return false
 end
 function this.UpdateAllGimmickValidity(s)
-  if not t(mvars.loc_locationTreasureQuest)then
+  if not IsTypeTable(mvars.loc_locationTreasureQuest)then
     return
   end
   local n=mvars.loc_locationTreasureQuest.treasureTableList
-  if not t(n)then
+  if not IsTypeTable(n)then
     return
   end
   for t,n in pairs(n)do
@@ -1563,7 +1590,7 @@ function this._ChangeToEnable(s,s,n,t)
   if t~=Fox.StrCode32"Player"then
     return
   end
-  for t=1,a do
+  for t=1,QUEST_BLOCK_TYPE_MAX do
     if this.IsInvokingImpl(t)then
       local e=false
       local s=TppGimmick.IsQuestTarget(n)
@@ -1616,11 +1643,11 @@ function this.TelopComplete(t)
   n=this.GetQuestId(t)QuestTelopSystem.SetInfo(n,QuestTelopType.Complete)QuestTelopSystem.RequestOpen()
 end
 function this.SetGimmickResourceValidity(s,n)
-  if not t(mvars.loc_locationTreasureQuest)then
+  if not IsTypeTable(mvars.loc_locationTreasureQuest)then
     return
   end
   local e=mvars.loc_locationTreasureQuest.treasureTableList
-  if not t(e)then
+  if not IsTypeTable(e)then
     return
   end
   local e=e[s]
@@ -1628,26 +1655,26 @@ function this.SetGimmickResourceValidity(s,n)
     return
   end
   local s=e.treasureBoxResourceTable
-  if t(s)then
+  if IsTypeTable(s)then
     for s,e in ipairs(s)do
-      if t(e)then
+      if IsTypeTable(e)then
         local e={name=e.name,dataSetName=e.dataSetName,validity=n}Gimmick.SetResourceValidity(e)
       end
     end
   end
   local s=e.treasurePointResourceTable
-  if t(s)then
+  if IsTypeTable(s)then
     for s,e in ipairs(s)do
-      if t(e)then
+      if IsTypeTable(e)then
         local e={name=e.name,dataSetName=e.dataSetName,validity=n}Gimmick.SetResourceValidity(e)
       end
     end
   end
   if n==true then
     local e=e.treasureKubResourceTable
-    if t(e)then
+    if IsTypeTable(e)then
       for s,e in ipairs(e)do
-        if t(e)then
+        if IsTypeTable(e)then
           if e.gimmickId then
             Gimmick.ResetGimmick(0,e.name,e.dataSetName,{gimmickId=e.gimmickId})
           else
@@ -1659,11 +1686,11 @@ function this.SetGimmickResourceValidity(s,n)
   end
 end
 function this.GetGimmickResource(n)
-  if not t(mvars.loc_locationTreasureQuest)then
+  if not IsTypeTable(mvars.loc_locationTreasureQuest)then
     return
   end
   local e=mvars.loc_locationTreasureQuest.treasureTableList
-  if not t(e)then
+  if not IsTypeTable(e)then
     return
   end
   local e=e[n]
@@ -1673,11 +1700,11 @@ function this.GetGimmickResource(n)
   return e
 end
 function this.GetWormholeQuest(n)
-  if not t(mvars.loc_locationWormholeQuest)then
+  if not IsTypeTable(mvars.loc_locationWormholeQuest)then
     return
   end
   local e=mvars.loc_locationWormholeQuest.wormholeQuestTable
-  if not t(e)then
+  if not IsTypeTable(e)then
     return
   end
   if not e[n]then
@@ -1691,14 +1718,14 @@ function this.OpenWormhole(s,n)
     return
   end
   local a=e[s]
-  if not t(a)then
+  if not IsTypeTable(a)then
     return
   end
   local r=mvars.loc_locationWormholeQuest.wormholeHeight or 10
   local l=TppStory.GetCurrentStorySequence()
   local s={}
   local function o(n)
-    if t(n)then
+    if IsTypeTable(n)then
       for t,e in ipairs(n)do
         local t={}
         for e,n in ipairs(e.position)do
@@ -1706,7 +1733,7 @@ function this.OpenWormhole(s,n)
         end
         t[2]=t[2]+r
         local a=0
-        if _(n.level)then
+        if IsTypeNumber(n.level)then
           a=n.level
         end
         local e={dropType=TppDefine.WORMHOLE_DROP_TYPE.NPC,position=t,radius=e.radius or 4,gameObjectType=e.gameObjectType or"SsdZombie",count=e.count or 1,level=a,routes=e.routes or{}}
@@ -1717,11 +1744,11 @@ function this.OpenWormhole(s,n)
   for n,e in ipairs(a)do
     local s=0
     local n
-    if t(e)then
+    if IsTypeTable(e)then
       for e,a in ipairs(e)do
         local e=a.storySequence or 0
         local a=a.positionTable or nil
-        if((l>=e)and(e>=s))and t(a)then
+        if((l>=e)and(e>=s))and IsTypeTable(a)then
           s=e
           n=a
         end
@@ -1736,11 +1763,11 @@ function this.OpenWormhole(s,n)
   end
 end
 function this.GetOpenRewardCbox(n)
-  if not t(mvars.loc_locationTreasureQuest)then
+  if not IsTypeTable(mvars.loc_locationTreasureQuest)then
     return
   end
   local e=mvars.loc_locationTreasureQuest.clearRewardCboxTableList
-  if not t(e)then
+  if not IsTypeTable(e)then
     return
   end
   if not e[n]then
@@ -1750,27 +1777,27 @@ function this.GetOpenRewardCbox(n)
 end
 function this.OpenRewardCbox(n)
   local e=this.GetOpenRewardCbox(n)
-  if t(e)then
+  if IsTypeTable(e)then
     for n,e in ipairs(e)do
-      if(e.pos and e.model)and t(e.contents)then
+      if(e.pos and e.model)and IsTypeTable(e.contents)then
         SsdRewardCbox.DropCoopObjective{pos=e.pos,model=e.model,showRewardLog=e.showRewardLog or false,contents=e.contents}
       end
     end
   end
 end
 function this.GetNamePlate(n)
-  if not t(mvars.loc_locationTreasureQuest)then
+  if not IsTypeTable(mvars.loc_locationTreasureQuest)then
     return
   end
   local e=mvars.loc_locationTreasureQuest.clearNamePlateTableList
-  if not t(e)then
+  if not IsTypeTable(e)then
     return
   end
   if not e[n]then
     return
   end
   local e=e[n]
-  if t(e)then
+  if IsTypeTable(e)then
     for t,e in pairs(e)do
       SsdSbm.AddNamePlate(e)
     end
@@ -1818,7 +1845,7 @@ end
 function this.GetClearKeyItem(e)
 end
 function this.GetSideOpsInfo(t)
-  for n,e in ipairs(v)do
+  for n,e in ipairs(unkM4)do
     if e.questName==t then
       return e
     end
@@ -1845,7 +1872,7 @@ function this.GetQuestNameId(t)
   return false
 end
 function this.GetQuestName(t)
-  for n,e in ipairs(v)do
+  for n,e in ipairs(unkM4)do
     local n=tonumber(string.sub(e.questId,-5))
     if t==n then
       return e.questName
@@ -1871,7 +1898,7 @@ end
 function this.CalcQuestClearedCount()
   local e=0
   local t=0
-  for s,n in ipairs(v)do
+  for s,n in ipairs(unkM4)do
     local n=n.questName
     local n=TppQuestList.QUEST_INDEX[n]
     if gvars.qst_questClearedFlag[n]then
@@ -1884,7 +1911,7 @@ end
 local s={}
 local a={}
 function this.AcquireKeyItemOnMissionStart()
-  for n,t in pairs(S)do
+  for n,t in pairs(unkM5)do
     if this.IsCleard(n)then
       TppTerminal.AcquireKeyItem{dataBaseId=t,isShowAnnounceLog=true}
     end
@@ -1940,10 +1967,10 @@ if(Tpp.IsQARelease()or nil)then
     end
   end
   function this.QAReleaseDebugUpdate()
-    if mvars.qaDebug.targetQuestBlockIndex>#n then
+    if mvars.qaDebug.targetQuestBlockIndex>#QUEST_BLOCK_TYPE_DEFINE then
       mvars.qaDebug.targetQuestBlockIndex=0
     elseif mvars.qaDebug.targetQuestBlockIndex<0 then
-      mvars.qaDebug.targetQuestBlockIndex=#n
+      mvars.qaDebug.targetQuestBlockIndex=#QUEST_BLOCK_TYPE_DEFINE
     end
     if mvars.qaDebug.forceLoadQuestIndex>#TppQuestList.QUEST_DEFINE then
       mvars.qaDebug.forceLoadQuestIndex=0
@@ -1993,8 +2020,8 @@ if(Tpp.IsQARelease()or nil)then
       local e=this.SearchBlockIndex(questName)
       s(t,"Load Target["..(tostring(e)..("] : "..tostring(questName))))
     end
-    for r=1,#n do
-      local n=n[r]s(t,"Block : "..n)
+    for r=1,#QUEST_BLOCK_TYPE_DEFINE do
+      local n=QUEST_BLOCK_TYPE_DEFINE[r]s(t,"Block : "..n)
       local a=this.GetCurrentQuestName(r)
       if not a then
         s(t,"Current Quest : -----")
@@ -2005,9 +2032,9 @@ if(Tpp.IsQARelease()or nil)then
       if not a then
         s(t,"Block State : -----")
       else
-        local n={}n[i]="EMPTY"n[h]="PROCESSING"n[f]="INACTIVE"n[d]="ACTIVE"s(t,"Block State : "..tostring(n[a]))
+        local n={}n[SCRIPT_BLOCK_STATE_EMPTY]="EMPTY"n[SCRIPT_BLOCK_STATE_PROCESSING]="PROCESSING"n[SCRIPT_BLOCK_STATE_INACTIVE]="INACTIVE"n[SCRIPT_BLOCK_STATE_ACTIVE]="ACTIVE"s(t,"Block State : "..tostring(n[a]))
         local n=this.GetCurrentQuestTable(r)
-        if n and a~=i then
+        if n and a~=SCRIPT_BLOCK_STATE_EMPTY then
           s(t,"AreaName : "..tostring(n.areaName))
           local e=n.loadArea
           local r,a,e,l=e[1],e[2],e[3],e[4]s(t,"LoadArea : { "..(tostring(r)..(", "..(tostring(a)..(", "..(tostring(e)..(", "..(tostring(l).." }"))))))))s(t,"InfoList : ")
@@ -2023,7 +2050,7 @@ if(Tpp.IsQARelease()or nil)then
   end
   function this.DEBUG_ForceClear(s)
     if s==0 then
-      for t=1,#n do
+      for t=1,#QUEST_BLOCK_TYPE_DEFINE do
         local t=this.GetCurrentQuestName(t)
         if t then
           this.ClearWithSave(TppDefine.QUEST_CLEAR_TYPE.CLEAR,t)
@@ -2038,11 +2065,11 @@ if(Tpp.IsQARelease()or nil)then
   end
   function this.DEBUG_UpdateActive(t)
     if t==0 then
-      for t=1,#n do
-        this.UnloadCurrentQuestBlock(n[t])
+      for t=1,#QUEST_BLOCK_TYPE_DEFINE do
+        this.UnloadCurrentQuestBlock(QUEST_BLOCK_TYPE_DEFINE[t])
       end
     else
-      this.UnloadCurrentQuestBlock(n[t])
+      this.UnloadCurrentQuestBlock(QUEST_BLOCK_TYPE_DEFINE[t])
     end
     this.UpdateActiveQuest()
   end
@@ -2066,7 +2093,7 @@ if(Tpp.IsQARelease()or nil)then
     end
     TppCrew.UpdateActiveQuest(questName)
     Mission.RecreateBaseCrew()
-    this.UnloadCurrentQuestBlock(n[s])
+    this.UnloadCurrentQuestBlock(QUEST_BLOCK_TYPE_DEFINE[s])
     mvars.qst_reserveNextQuest[s]=questName
   end
 end

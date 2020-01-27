@@ -1,18 +1,32 @@
 -- DOBUILD: 1
 -- IvarProc.lua
 -- tex functions for working on Ivars and their associated ivars,evars,gvars
--- STATELESS (except for debugModule)
+-- STATELESS (except for debugModule) and saveTextList
 -- EXECLESS
 local this={}
 
 --LOCALOPT
 local InfCore=InfCore
+local ivars=ivars
+local evars=evars
+local igvars=igvars
+
 local vars=vars
+
 local type=type
 local numberType="number"
 local functionType="function"
 local loadfile=loadfile
 local tostring=tostring
+local format=string.format
+local pairs=pairs
+local ipairs=ipairs
+local insert=table.insert
+local concat=table.concat
+local OsClock=os.clock
+
+local ClearArray=InfUtil.ClearArray
+local MergeArray=InfUtil.MergeArray
 
 local GLOBAL=TppScriptVars.CATEGORY_GAME_GLOBAL
 local MISSION=TppScriptVars.CATEGORY_MISSION
@@ -32,7 +46,7 @@ function this.IsOnlineMission(missionCode)
     return this.IsFOBMission(missionCode)
   else--SSD
     return false
-    --DEBUGNOW return this.IsMultiPlayMission(missionCode)
+      --DEBUGNOW return this.IsMultiPlayMission(missionCode)
   end
 end
 
@@ -146,6 +160,7 @@ end
 
 function this.SetDirect(self,setting)
   ivars[self.name]=setting
+  Ivars.isSaveDirty=true
 end
 
 function this.SetSetting(self,setting,noSave)
@@ -202,6 +217,7 @@ function this.SetSetting(self,setting,noSave)
     if gvar~=nil then
       this.SetSaved(self,setting)
     end
+    Ivars.isSaveDirty=true
   end
   if self.OnChange then
     --InfCore.Log("SetSetting OnChange for "..self.name)--DEBUG
@@ -211,6 +227,40 @@ end
 
 function this.ResetSetting(self,noSave)
   this.SetSetting(self,self.default,noSave)
+end
+
+function this.SetMaxToList(self,list)
+  if list==nil then
+    InfCore.Log("ERROR: IvarProc.SetMaxToList("..self.name.."): list==nil")
+  end
+
+  local newMax=#list-1
+  if newMax<0 then
+    newMax=0
+  end
+
+  self.range.max=newMax
+  if self:Get()>self.range.max then
+    self:Set(self.range.min)
+  end
+end
+
+function this.SetSettings(self,list)
+  self.settings=list
+
+  local newMax=#list-1
+  if newMax<0 then
+    newMax=0
+  end
+
+  self.range.max=newMax
+  if self:Get()>self.range.max then
+    self:Set(self.range.min)
+  end
+end
+
+function this.GetListSetting(self,setting)
+  return self.settings[setting+1]
 end
 
 this.OptionIsDefault=function(self)
@@ -344,6 +394,93 @@ function this.MinMaxIvar(module,name,minSettings,maxSettings,ivarSettings,dontSe
     [name..minSuffix]=ivarMin,
     [name..maxSuffix]=ivarMax
   }
+end
+
+local Xstr="X"
+local Ystr="Y"
+local Zstr="Z"
+local vectorRange={max=1000,min=-1000,increment=0.1}
+--tex creates 3 ivars to represent a vector3
+function this.Vector3Ivar(module,name,ivarSettings,dontSetIvars)
+  local XName=name..Xstr
+  local YName=name..Ystr
+  local ZName=name..Zstr
+
+  module.registerIvars=module.registerIvars or {}
+  module.registerIvars[#module.registerIvars+1]=XName
+  module.registerIvars[#module.registerIvars+1]=YName
+  module.registerIvars[#module.registerIvars+1]=ZName
+
+  local X={
+    vectorName=name,
+    inMission=true,
+    default=0,
+    range=vectorRange,
+    noBounds=true,
+    GetVector3=this.GetVector3,
+    SetVector3=this.SetVector3,
+  }
+  local Y={
+    vectorName=name,
+    inMission=true,
+    default=0,
+    range=vectorRange,
+    noBounds=true,
+    GetVector3=this.GetVector3,
+    SetVector3=this.SetVector3,
+  }
+  local Z={
+    vectorName=name,
+    inMission=true,
+    default=0,
+    range=vectorRange,
+    noBounds=true,
+    GetVector3=this.GetVector3,
+    SetVector3=this.SetVector3,
+  }
+
+  for k,v in pairs(ivarSettings) do
+    X[k]=v
+    Y[k]=v
+    Z[k]=v
+  end
+
+  local vec3Ivars={
+    X=X,Y=Y,Z=Z
+  }
+
+  X.vec3Ivars=vec3Ivars
+  Y.vec3Ivars=vec3Ivars
+  Z.vec3Ivars=vec3Ivars
+
+  if not dontSetIvars then
+    module[XName]=X
+    module[YName]=Y
+    module[ZName]=Z
+  end
+  return {
+    [XName]=X,
+    [YName]=Y,
+    [ZName]=Z,
+  }
+end
+
+function this.GetVector3(ivar)
+  if ivar.vec3Ivars==nil then
+    InfCore.Log("ERROR: IvarProc.GetVector3: "..ivar.name..".vec3Ivars==nil")
+    return nil
+  end
+  return Vector3(ivar.vec3Ivars.X:Get(),ivar.vec3Ivars.Y:Get(),ivar.vec3Ivars.Z:Get())
+end
+
+function this.SetVector3(ivar,vec3)
+  if ivar.vec3Ivars==nil then
+    InfCore.Log("ERROR: IvarProc.SetVector3: "..ivar.name..".vec3Ivars==nil")
+    return nil
+  end
+  --TODO: if vec3.GetX (is Vector3),
+  --if is table and .X, else X=vec3[1]
+  return {ivar.vec3Ivars.X:Set(vec3[0]),ivar.vec3Ivars.Y:Set(vec3[0]),ivar.vec3Ivars.Z:Set(vec3[0])}
 end
 
 function this.MissionCheckAll()
@@ -544,7 +681,7 @@ this.UpdateSettingFromGvar=function(option)
   end
 end
 
---CALLER: TppSave.DoSave > InfMain.OnSave (via InfHooks)
+--CALLER: TppSave.DoSave (via InfHooks)
 function this.OnSave()
   InfCore.PCallDebug(this.SaveAll)
 end
@@ -741,7 +878,7 @@ function this.SetupInfProfiles()
     if profile and profile.profile then
       local profileOk=InfCore.Validate(profileFormat,profile,fileName)
       if profileOk then
-        table.insert(profileNames,fileName)
+        insert(profileNames,fileName)
         profiles[fileName]=profile
       end
     end
@@ -829,20 +966,20 @@ end
 function this.GetSettingsLine(ivar)
   local settingsLine={}
   if ivar.settings then--tex DEBUGNOW TODO filter dynamic
-    table.insert(settingsLine,"{ ")
+    insert(settingsLine,"{ ")
     for i,setting in ipairs(ivar.settings)do
-      table.insert(settingsLine,setting)
+      insert(settingsLine,setting)
       if i~=#ivar.settings then
-        table.insert(settingsLine,", ")
+        insert(settingsLine,", ")
       end
     end
-    table.insert(settingsLine," }")
+    insert(settingsLine," }")
   else
-    table.insert(settingsLine,"{ ")
-    table.insert(settingsLine,ivar.range.min.."-"..ivar.range.max)
-    table.insert(settingsLine," }")
+    insert(settingsLine,"{ ")
+    insert(settingsLine,ivar.range.min.."-"..ivar.range.max)
+    insert(settingsLine," }")
   end
-  return table.concat(settingsLine)
+  return concat(settingsLine)
 end
 
 function this.WriteProfile(defaultSlot,onlyNonDefault)
@@ -885,7 +1022,7 @@ function this.WriteProfile(defaultSlot,onlyNonDefault)
       local settingsString=this.GetSettingsLine(ivar)
       local nameLangString=lang[name] or ""
       local helpLangString=helpLang[name] or ""
-      local line=string.format(saveLineFormatStr,name,value,settingsString,nameLangString,helpLangString)
+      local line=format(saveLineFormatStr,name,value,settingsString,nameLangString,helpLangString)
 
       saveText[#saveText+1]=line
     end
@@ -894,10 +1031,10 @@ function this.WriteProfile(defaultSlot,onlyNonDefault)
   saveText[#saveText+1]="}"
   saveText[#saveText+1]="return this"
 
-  --InfCore.PrintInspect(table.concat(saveText))--DEBUG
+  --InfCore.PrintInspect(concat(saveText))--DEBUG
   profileName=profileName..".lua"
   if not Ivars.profiles[profileName] then
-    table.insert(Ivars.profileNames,1,profileName)
+    insert(Ivars.profileNames,1,profileName)
   end
   Ivars.profiles[profileName]=profile
   local profilesFileName=InfCore.paths.profiles..profileName
@@ -905,43 +1042,138 @@ function this.WriteProfile(defaultSlot,onlyNonDefault)
   InfCore.WriteStringTable(profilesFileName,saveText)
 end
 
+local saveHeader={
+  "-- "..InfCore.saveName,
+  "-- Save file for IH options",
+  "-- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.",
+  "-- See Readme for more info",
+  "local this={}",
+  "this.loadToACC=false",
+  "this.ihVer="..InfCore.modVersion,
+}
 
+--tex muddies the point of this being named Proc, but it's more of a cache than state
+--would be cleaner to have in seperate files, but would lose on io overhead
+local saveTextList={}
+local evarsTextList={}
+local igvarsTextList={}
+local questStatesTextList={}
+local igvarsPrev={}
+
+--tex knocks about 0.005s vs previous (with ivars and quest not dirty)
 --IN-Side evars
-function this.BuildSaveText(ihVer,inMission,onlyNonDefault,newSave)
+--returns nil if save is not dirty
+function this.BuildSaveText(inMission,onlyNonDefault,newSave)
   local inMission=inMission or false
 
-  local saveTextList={
-    "-- "..InfCore.saveName,
-    "-- Save file for IH options",
-    "-- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.",
-    "-- See Readme for more info",
-    "local this={}",
-    "this.ihVer="..ihVer,
-    "this.saveTime="..os.time(),
-    "this.inMission="..tostring(inMission),
-    "this.loadToACC=false",
-  }
+  local isDirty=false
 
-  this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
-  this.BuildTableText("igvars",igvars,saveTextList)
+  if Ivars.isSaveDirty then
+    isDirty=true
+    if this.debugModule then
+      InfCore.Log("evars isDirty")
+    end
+    ClearArray(evarsTextList)
+    this.BuildEvarsText(evars,evarsTextList,onlyNonDefault)
+    Ivars.isSaveDirty=false
+  end
+
+  --tex TODO: better
+  local igvarsDirty=false
+  for k,v in pairs(igvars)do
+    if igvarsPrev[k]~=v then
+      igvarsPrev[k]=v
+      igvarsDirty=true
+      isDirty=true
+    end
+  end
+  if igvarsDirty then
+    if this.debugModule then
+      InfCore.Log("igvarsDirty isDirty")
+    end
+    ClearArray(igvarsTextList)
+    this.BuildTableText("igvars",igvars,igvarsTextList)
+  end
+
   --tex also skips depenancy on InfQuest
   if not newSave then
     if InfQuest then
       local questStates=InfQuest.GetCurrentStates()
-      this.BuildTableText("questStates",questStates,saveTextList)
+      if questStates then
+        isDirty=true
+        if this.debugModule then
+          InfCore.Log("questStates isDirty")
+        end
+        ClearArray(questStatesTextList)
+        this.BuildTableText("questStates",questStates,questStatesTextList)
+      end
     end
   end
+
+  if not isDirty and not newSave then
+    if this.debugModule then
+      InfCore.Log("save not dirty")
+    end
+    return nil
+  end
+
+  --tex TODO: a combined isdirty to skip save outright
+  ClearArray(saveTextList)
+
+  --tex header
+  for i,v in ipairs(saveHeader)do
+    saveTextList[i]=v
+  end
+  saveTextList[#saveTextList+1]="this.saveTime="..os.time()
+  saveTextList[#saveTextList+1]="this.inMission="..tostring(inMission)
+
+  MergeArray(saveTextList,evarsTextList)
+  MergeArray(saveTextList,igvarsTextList)
+  MergeArray(saveTextList,questStatesTextList)
 
   saveTextList[#saveTextList+1]="return this"
 
   return saveTextList
 end
 
+--PREV CULL DEBUGNOW
+--function this.BuildSaveText(inMission,onlyNonDefault,newSave)
+--  local inMission=inMission or false
+--
+--  local saveTextList={
+--    "-- "..InfCore.saveName,
+--    "-- Save file for IH options",
+--    "-- While this file is editable, editing an inMission save is likely to cause issues, and it's preferable that you use InfProfiles.lua instead.",
+--    "-- See Readme for more info",
+--    "local this={}",
+--    "this.ihVer="..InfCore.modVersion,
+--    "this.saveTime="..os.time(),
+--    "this.inMission="..tostring(inMission),
+--    "this.loadToACC=false",
+--  }
+--
+--  this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
+--  this.BuildTableText("igvars",igvars,saveTextList)
+--  --tex also skips depenancy on InfQuest
+--  if not newSave then
+--    if InfQuest then
+--      local questStates=InfQuest.GetCurrentStates()
+--      this.BuildTableText("questStates",questStates,saveTextList)
+--    end
+--  end
+--
+--  saveTextList[#saveTextList+1]="return this"
+--
+--  return saveTextList
+--end
+
 --IN/OUT saveTextList
 local evarLineFormatStr="\t%s=%g,"
 local evarOpen="this.evars={"
 local tableClose="}"
 function this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
+  InfCore.LogFlow("BuildEvarsText")
+  local Ivars=Ivars
   saveTextList[#saveTextList+1]=evarOpen
   for name,value in pairs(evars)do
     local ivar=Ivars[name]
@@ -949,7 +1181,7 @@ function this.BuildEvarsText(evars,saveTextList,onlyNonDefault)
       InfCore.Log("WARNING: IvarProc.BuildEvarsText: Could not find ivar for evar "..name)
     elseif not onlyNonDefault or value~=ivar.default then
       if ivar.save and ivar.save==this.CATEGORY_EXTERNAL then
-        saveTextList[#saveTextList+1]=string.format(evarLineFormatStr,name,value)
+        saveTextList[#saveTextList+1]=format(evarLineFormatStr,name,value)
       end
     end
   end
@@ -960,12 +1192,13 @@ local saveLineFormatStr="\t%s=%s,"
 local saveLineFormatNumber="\t[%s]=%s,"
 local tableHeaderFmt="this.%s={"
 function this.BuildTableText(tableName,sourceTable,saveTextList)
-  saveTextList[#saveTextList+1]=string.format(tableHeaderFmt,tableName)
+  InfCore.LogFlow("IvarProc.BuildTableText:"..tableName)
+  saveTextList[#saveTextList+1]=format(tableHeaderFmt,tableName)
   for k,v in pairs(sourceTable)do
     if type(k)=="number" then
-      saveTextList[#saveTextList+1]=string.format(saveLineFormatNumber,k,tostring(v))
+      saveTextList[#saveTextList+1]=format(saveLineFormatNumber,k,tostring(v))
     else
-      saveTextList[#saveTextList+1]=string.format(saveLineFormatStr,k,tostring(v))
+      saveTextList[#saveTextList+1]=format(saveLineFormatStr,k,tostring(v))
     end
   end
   saveTextList[#saveTextList+1]=tableClose
@@ -982,7 +1215,7 @@ function this.WriteSave(saveTextLines,saveName)
     return
   end
 
-  saveFile:write(table.concat(saveTextLines,"\r\n"))
+  saveFile:write(concat(saveTextLines,"\r\n"))
   saveFile:close()
 end
 
@@ -1026,16 +1259,18 @@ function this.ReadEvars(ih_save)
 end
 
 function this.SaveAll()
+  InfCore.LogFlow"IvarProc.SaveAll"
   this.SaveEvars()
   for i,module in ipairs(InfModules) do
     if type(module.Save)=="function" then
+      InfCore.LogFlow(module.name..".Save")
       InfCore.PCallDebug(module.Save)
     end
   end
 end
 
 function this.SaveEvars()
-  InfCore.LogFlow"SaveEvars"
+  InfCore.LogFlow"IvarProc.SaveEvars"
   local saveName=InfCore.saveName
   local onlyNonDefault=true
 
@@ -1046,14 +1281,33 @@ function this.SaveEvars()
   local inHeliSpace=vars.missionCode and math.floor(vars.missionCode/1e4)==4--tex heli missions are in 40k range--DEBUGNOW TODO inSafeSpace
   local inMission=inGame and not inHeliSpace
 
-  local saveTextList=this.BuildSaveText(InfCore.modVersion,inMission,onlyNonDefault)
+  local buildSaveTextTime=OsClock()
+  local saveTextList=this.BuildSaveText(inMission,onlyNonDefault)
+  --tex save wasnt dirty
+  if saveTextList==nil then
+    if this.debugModule then
+      InfCore.Log("IvarProc.SaveEvars: save wasnt dirty, no need to write")
+    end
+    return
+  end
+
+  buildSaveTextTime=OsClock()-buildSaveTextTime
   --InfCore.PrintInspect(evarsTextList)
+  local writeTime=OsClock()
   this.WriteSave(saveTextList,saveName)
+  writeTime=OsClock()-writeTime
+
+  if this.debugModule then
+    InfCore.Log("buildSaveTextTime:"..buildSaveTextTime..", writeTime:"..writeTime)
+  end
 end
 
 function this.CreateNewSave(filePath,saveName)
   InfCore.Log("LoadSave: No ih_save.lua found or error, creating new",false,true)
-  local saveTextList=this.BuildSaveText(InfCore.modVersion,false,true,true)
+  local inMission=false
+  local onlyNonDefault=true
+  local newSave=true
+  local saveTextList=this.BuildSaveText(inMission,onlyNonDefault,newSave)
   --InfCore.PrintInspect(evarsTextList)
   this.WriteSave(saveTextList,saveName)
   ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
@@ -1109,6 +1363,17 @@ function this.LoadSave()
   return ih_save
 end
 
+function this.LoadAll()
+  InfCore.LogFlow"IvarProc.LoadAll"
+  this.LoadEvars()
+  for i,module in ipairs(InfModules) do
+    if type(module.LoadSave)=="function" then
+      InfCore.LogFlow(module.name..".LoadSave")
+      InfCore.PCallDebug(module.LoadSave)
+    end
+  end
+end
+
 --SIDE: ih_save (global module)
 function this.LoadEvars()
   InfCore.LogFlow"IvarProc.LoadEvars"
@@ -1147,13 +1412,6 @@ function this.LoadEvars()
     end
 
     InfCore.OnLoadEvars()
-    if InfMain then
-      InfMain.OnLoadEvars()
-    end
-  end
-
-  if InfMBStaff then
-    ih_priority_staff=InfMBStaff.LoadSave() or ih_priority_staff
   end
 end
 

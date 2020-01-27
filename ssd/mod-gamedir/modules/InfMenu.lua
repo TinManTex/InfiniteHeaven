@@ -12,9 +12,14 @@ local IsFunc=Tpp.IsTypeFunc
 local IsTable=Tpp.IsTypeTable
 local GetAssetConfig=AssetConfiguration.GetDefaultCategory
 local TppUiCommand=TppUiCommand
-local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
+--CULL local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
+local GetElapsedTime=os.clock--GOTCHA: os.clock wraps at ~4,294 seconds
 local insert=table.insert
 local abs=math.abs
+local pairs=pairs
+
+local ivars=ivars
+local InfQuickMenuDefs--PostModuleLoad
 
 this.autoDisplayDefault=2.4
 this.autoRateHeld=0.85
@@ -60,6 +65,10 @@ this.lastStickInput=0
 
 function this.PostModuleLoad()
   this.MenuOff()
+end
+
+function this.PostAllModulesLoad()
+  InfQuickMenuDefs=InfQuickMenuDefs_User or _G.InfQuickMenuDefs
 end
 
 --IN/SIDE: InfMenuCommands.commandItems
@@ -225,6 +234,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
         InfCore.ExtCmd('UiElementVisible','menuHelp',0)
       end
     end
+    --InfCore.Log("GetSetting",false,true)--DEBUG
     InfCore.WriteToExtTxt()
   end
 end
@@ -424,6 +434,7 @@ function this.GoMenu(menu,goBack)
       end
       InfCore.ExtCmd('AddToTable','menuItems',settingText)
     end
+    --InfCore.Log("Gomenu",false,true)--DEBUG
     InfCore.WriteToExtTxt()
   end
 
@@ -571,6 +582,7 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
       local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
       InfMgsvToExt.SetMenuLine(settingText,menuLineText)
     end
+	--InfCore.Log("DisplaySetting",false,true)--DEBUG
     InfCore.WriteToExtTxt()
   else
 
@@ -806,8 +818,10 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   if InfButton.ButtonHeld(this.menuAltButton) then
     if InfButton.OnButtonDown(this.menuAltActive) then
       if this.menuOn then
+          if InfCore.IHExtRunning() then
         InfCore.ExtCmd('TakeFocus')
           InfCore.WriteToExtTxt()
+          end
         return
       end
     end
@@ -823,10 +837,9 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
   end--!menuOn
 
   --quickmenu>
-  local InfQuickMenuDefs=InfQuickMenuDefs_User or InfQuickMenuDefs
   if InfQuickMenuDefs and not this.menuOn then
-    if InfQuickMenuDefs.forceEnable or Ivars.enableQuickMenu:Is(1) then
-      local quickMenuHoldButton=this.menuAltButton
+    if InfQuickMenuDefs.forceEnable or ivars.enableQuickMenu==1 then
+      local quickMenuHoldButton=InfQuickMenuDefs.quickMenuHoldButton or this.menuAltButton
       this.quickMenuOn=InfButton.ButtonHeld(quickMenuHoldButton)
       local quickMenu=InfQuickMenuDefs.inMission
       if currentChecks.inSafeSpace then
@@ -874,7 +887,9 @@ function this.ActivateControlSet()
   if this.toggleMenuButton then
     InfButton.buttonStates[this.toggleMenuButton].holdTime=this.toggleMenuHoldTime
   end
---DEBUGNOW  InfButton.buttonStates[InfQuickMenuDefs.quickMenuHoldButton].holdTime=this.quickMenuHoldTime
+  if InfQuickMenuDefs and InfQuickMenuDefs.quickMenuHoldButton then
+    InfButton.buttonStates[InfQuickMenuDefs.quickMenuHoldButton].holdTime=this.quickMenuHoldTime
+  end
 
   InfButton.buttonStates[this.menuUpButton].decrement=0.1
   InfButton.buttonStates[this.menuDownButton].decrement=0.1

@@ -178,8 +178,6 @@ function this.InitCluster(clusterId)
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState)
-
-  local Ivars=Ivars
   if not currentChecks.inGame then
     return
   end

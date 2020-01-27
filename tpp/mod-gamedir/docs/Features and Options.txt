@@ -111,7 +111,6 @@ Camera menu
 -----------
 1: Adjust-cam [Mode] : Off, On
   Move cam with normal move keys 
-
   &ltDash&gt(Shift or Left stick click) to move up
 
   &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down
@@ -135,8 +134,60 @@ Camera menu
 3: Warp body to FreeCam position : 0-1
 4: Cam speed scale : 0.01-10
 5: Disable mode text feedback : Off, On
-6: setStageBlockPositionToFreeCam : 0-1
+6: Set stage position to camera : 0-1
 7: Show freecam position : 0-1
+8: PlayCam menu
+
+PlayCam menu
+- An alternate camera than the one used by freecam. WARNING: is sometimes unstable and may crash the game.
+------------
+1: Start PlayCam : 0-1
+Starts PlayCam with current settings. Changing any setting also automatically starts the PlayCam.
+2: Stop PlayCam : 0-1
+3: Camera target : Player
+Selects game object for camerat to target. You can add more game objects via the Objects menu in the main Mission menu.
+4: Focal length : 0.1-10000
+DOF variable
+5: Focus distance : 0.1-30
+DOF variable
+6: Apeture : 0.001-100
+DOF variable
+7: Follow Position : Off, On
+Follows position of Camera target. Overrides Follow Rotation.
+8: Follow Rotation : Off, On
+Follows rotation of Camera target.
+9: Target offset X : -1000-1000
+Adjusts X axis of camera target
+10: Target offset Y : -1000-1000
+Adjusts Y axis of camera target
+11: Target offset Z : -1000-1000
+Adjusts Z axis of camera target
+12: Position offset X : -1000-1000
+Adjusts X axis of camera position
+13: Position offset Y : -1000-1000
+Adjusts Y axis of camera position
+14: Position offset Z : -1000-1000
+Adjusts Z axis of camera position
+15: Follow time : 0-10000
+Time in seconds before camera follow turns off. See Follow Position and Follow Rotation.
+16: Follow delay time : 0-1
+Delay before camera follows. Acts more like interpolation time than one-off. See Follow Position and Follow Rotation.
+17: Time till end : 0-10000
+Time in seconds before PlayCam turns off. Set to high number if you don't want it to end.
+18: Fit on camera : Off, On
+Unknown
+19: Fit start time : 0-1000
+For Fit on camera.
+20: Fit interp time : 0-5
+Interpolation time for Fit on camera.
+21: Fit diff focal length : 0-100
+Fit diff focal length
+22: Call Se of Camera Interp : Off, On
+Unknown
+23: Use last selected index : Off, On
+Unknown
+24: Collision check : Off, On
+Checks between camera and target and moves camera in if there is something in the way.
 
 Cutscenes menu
 --------------
@@ -792,12 +843,13 @@ Essentially no-clip mode (for those that remember what that means). It teleports
 12: Markers menu
 13: Misc menu
 14: Motions menu
-15: Positions menu
-16: Staff menu
-17: Support heli menu
-18: Time scale menu
-19: User marker menu
-20: Weather menu
+15: Objects menu
+16: Positions menu
+17: Staff menu
+18: Support heli menu
+19: Time scale menu
+20: User marker menu
+21: Weather menu
 
 Appearance menu
 ---------------
@@ -832,7 +884,6 @@ Camera menu
 -----------
 1: Adjust-cam [Mode] : Off, On
   Move cam with normal move keys 
-
   &ltDash&gt(Shift or Left stick click) to move up
 
   &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down
@@ -856,8 +907,60 @@ Camera menu
 3: Warp body to FreeCam position : 0-1
 4: Cam speed scale : 0.01-10
 5: Disable mode text feedback : Off, On
-6: setStageBlockPositionToFreeCam : 0-1
+6: Set stage position to camera : 0-1
 7: Show freecam position : 0-1
+8: PlayCam menu
+
+PlayCam menu
+- An alternate camera than the one used by freecam. WARNING: is sometimes unstable and may crash the game.
+------------
+1: Start PlayCam : 0-1
+Starts PlayCam with current settings. Changing any setting also automatically starts the PlayCam.
+2: Stop PlayCam : 0-1
+3: Camera target : Player
+Selects game object for camerat to target. You can add more game objects via the Objects menu in the main Mission menu.
+4: Focal length : 0.1-10000
+DOF variable
+5: Focus distance : 0.1-30
+DOF variable
+6: Apeture : 0.001-100
+DOF variable
+7: Follow Position : Off, On
+Follows position of Camera target. Overrides Follow Rotation.
+8: Follow Rotation : Off, On
+Follows rotation of Camera target.
+9: Target offset X : -1000-1000
+Adjusts X axis of camera target
+10: Target offset Y : -1000-1000
+Adjusts Y axis of camera target
+11: Target offset Z : -1000-1000
+Adjusts Z axis of camera target
+12: Position offset X : -1000-1000
+Adjusts X axis of camera position
+13: Position offset Y : -1000-1000
+Adjusts Y axis of camera position
+14: Position offset Z : -1000-1000
+Adjusts Z axis of camera position
+15: Follow time : 0-10000
+Time in seconds before camera follow turns off. See Follow Position and Follow Rotation.
+16: Follow delay time : 0-1
+Delay before camera follows. Acts more like interpolation time than one-off. See Follow Position and Follow Rotation.
+17: Time till end : 0-10000
+Time in seconds before PlayCam turns off. Set to high number if you don't want it to end.
+18: Fit on camera : Off, On
+Unknown
+19: Fit start time : 0-1000
+For Fit on camera.
+20: Fit interp time : 0-5
+Interpolation time for Fit on camera.
+21: Fit diff focal length : 0-100
+Fit diff focal length
+22: Call Se of Camera Interp : Off, On
+Unknown
+23: Use last selected index : Off, On
+Unknown
+24: Collision check : Off, On
+Checks between camera and target and moves camera in if there is something in the way.
 
 Debug stuff menu
 ----------------
@@ -870,7 +973,6 @@ Logs some script execution flow, requires Debug IH mode to be on.
 4: debugOnUpdate : Off, On
 5: Reload IH modules : 0-1
 6: copyLogToPrev : 0-1
-7: setSelectedObjectToMarkerClosest : 0-1
 8: selectedCp : no cp for setting
 9: setSelectedCpToMarkerObjectCp : 0-1
 10: setSelectedCpToMarkerClosestCp : 0-1
@@ -890,7 +992,7 @@ Logs some script execution flow, requires Debug IH mode to be on.
 24: dEBUG_ToggleParasiteEvent : 0-1
 25: resetStageBlockPosition : 0-1
 26: setStageBlockPositionToMarkerClosest : 0-1
-27: setStageBlockPositionToFreeCam : 0-1
+27: Set stage position to camera : 0-1
 28: Show freecam position : 0-1
 29: Show position : 0-1
 30: checkPointSave : 0-1
@@ -971,7 +1073,7 @@ Chance soldier will drop an item when eliminated.
 Motions menu
 - Play different animations on player. A motion group may contain several related animations (usually lead-in, idle, lead-out)
 ------------
-1: Motion group : nil
+1: Motion group : BatsuSign
 Press &ltAction&gt to play the selected animation.
 2: Motion number : BatsuSign anim:0
 Press &ltAction&gt to play the selected animation.
@@ -984,17 +1086,35 @@ Use to stop motions with motion hold or motion repeat.
 6: Play motion : 0-1
 Closes menu and plays current selected motion.
 
+Objects menu
+- For adding game object names in the game to a Objects List, and writing/loading them to files.
+------------
+1: Add marked objects to list : 0-1
+Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.
+2: Clear Objects List : 0-1
+Clears Objects List
+3: Write Objects List : 0-1
+Writes Objects List to file in MGS_TPP\mod\
+4: Load Objects List : 0-1
+Loads objects list from file in MGS_TPP\mod\
+5: Select object name : Player
+Select game object name, mostly just used to browse object names list at the moment.
+
 Positions menu
-- For adding positions in the game to a Positions List, and writing them to files.
+- For adding positions in the game to a Positions List, and writing/loading them to files.
 --------------
 1: Add current position to Positions List : 0-1
 Add current player or freecam position to Positions List, positions list can be written to file with Write Positons List command.
 2: Add markers to Positions List : 0-1
 Adds current user markers to positions list, positions list can be written to file with Write Positons List command.
-3: Write Positions List : 0-1
-Writes Positions List to files in MGS_TPP\mod\
-4: Clear Positions List : 0-1
+3: Clear Positions List : 0-1
 Clears Positions List
+4: Write Positions List : 0-1
+Writes Positions List to files in MGS_TPP\mod\
+5: Load positions from file : 0-1
+Loads positions from MGS_TPP\mod\positions_lua.txt
+6: Select position : list is empty
+Selects a position from positions list, mostly just used to browse positions at the moment.
 
 Staff menu
 ----------

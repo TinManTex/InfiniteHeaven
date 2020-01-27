@@ -1,4 +1,8 @@
 -- DOBUILD: 1
+--tex GOTCHA: the games elapsed time (via GetRawElapsedTimeSinceStartUp) actually runs to the game time update rate, which means it decreases/slows down during highspeedcam/slowmo
+-- which means InfButtons (and other Inf stuff using GetElapsed) wont really respond during slowmo
+-- unfortunately os.time only resturns in seconds which isn't enough granularity
+-- currently using os.clock, GOTCHA: os.clock wraps at ~4,294 seconds
 -- NODEPS
 local this={}
 --LOCALOPT:
@@ -8,8 +12,8 @@ local Time=Time
 local PlayerVars=PlayerVars
 local pairs=pairs
 local ipairs=ipairs
-local ElapsedTime=Time.GetRawElapsedTimeSinceStartUp
-
+--CULL local ElapsedTime=Time.GetRawElapsedTimeSinceStartUp
+local ElapsedTime=os.clock--tex using os.clock since Time.GetRawElapsedTimeSinceStartUp is affected by game time scale (highspeedcam etc) GOTCHA: os.clock wraps at ~4,294 seconds
 this.incrementMultIncrementMult=1.5--tex i r good at naming
 local maxIncrementMult=50
 local defaultIncrementMult=1

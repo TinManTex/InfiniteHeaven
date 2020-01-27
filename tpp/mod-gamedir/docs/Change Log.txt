@@ -1,5 +1,29 @@
 Infinite Heaven changelog
 
+r230 - 2018-04-28
+Fixed: IHExtToMgsv.ProcessCommands calling WriteToExtTxt every frame, seems like this bug may have been in there since wpf IHExts creation.
+Fixed: IHExtToMgsv.ProcessCommands Not converting mgsvToExtComplete arg to number. Though the WriteToExtTxt concat seemed to interpret ok anyway?
+Fixed: IHExtToMgsv.ProcessCommands no longer polls ih_tomgsvcmds.txt unless menu is open. This does mean no independant commands from IHExt, but apart from sessionchange, and togglemenu there werent any anyway.
+This should hopefully reduce the cases of lag on systems that are sensitive to how IH handles i/o - thanks to darkallnight for the reports and files to test with.
+Logging: Changed some LogFlow calls to Log for startup
+Logging: lua memory usage 
+Sys: running garbagecollect at end of start and LoadExternalModules. Can only assume the engine is doing some kind of lua management. hopefully this wont interfere.
+Refactor: IvarProc.BuildSaveText and other aspects of IH save to decrease save time.
+Fixed: Shifted various list based Ivars to index from 0 so IHExt combobox is not off-by-one.
+IvarProc: Vector3Ivar and other supporting functions to manage vector4 as ivar.
+
+InfObjects: Counterpart to InfPositions but for game object names, prior InfLookup.GetObjectList commands now use this.
+Objects menu
+Counterpart to Positions menu, for adding to, saving/loading a game object name list. The list is used for other commands/features like warp, PlayCam target.
+
+ih_save: IvarProc.BuildSaveText now only writes if there's been a change. Should likewise help the i/o sensitive systems.
+
+InfPlayCam
+PlayCam: Alternative camera to Free cam - thanks choc for prompting me to look at it.
+(via Camera menu > PlayCam menu)
+[youtube]CQKOO-jnkBI[/youtube]
+https://youtu.be/CQKOO-jnkBI
+
 r229 - 2018-04-21
 Fixed: Removal of some not-actually-subp subps from buildtool being too enthusiastic.
 Fixed: ShowFreeCamPosition not working.

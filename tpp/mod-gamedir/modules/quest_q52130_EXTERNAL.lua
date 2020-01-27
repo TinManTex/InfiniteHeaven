@@ -29,10 +29,12 @@ return InfCore.PCallDebug(function()--DEBUG
       },
 
       enemyList = {
-        --        {
-        --          enemyName = "sol_quest_0000",
-        --          powerSetting = { },
-        --        },
+        {
+          enemyName = "sol_quest_0000",
+          route_d = "rt_quest_d_0000",   route_c = "rt_quest_d_0000",
+          powerSetting = { },
+          rideFromVehicleId = "vehicle_quest_0000",
+        },
         {
           enemyName = "sol_quest_0001",
           route_d = "rt_quest_d_0001",   route_c = "rt_quest_d_0001",
@@ -72,17 +74,16 @@ return InfCore.PCallDebug(function()--DEBUG
       --		},
       },
 
-      --	vehicleList = {
-      --		{
-      --			id		= "Spawn",
-      --			locator = "vehicle_quest_0000",
-      --			type	= Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE,
-      --
-      --			class	= Vehicle.class.DARK_GRAY,
-      --			priority = 1,
-      --
-      --			--DEBUGNOW warpPosition={pos={-1785.000,329.000,-256.000},rotY=0},
-      --		},
+      vehicleList = {
+        {
+          id		= "Spawn",
+          locator = "vehicle_quest_0000",
+          type	= Vehicle.type.EASTERN_WHEELED_ARMORED_VEHICLE,
+          class	= Vehicle.class.DARK_GRAY,
+          priority = 1,
+
+          warpPosition={pos={1311.654,295.101,2191.258},rotY=0},--DEBUGNOW--rotY=33.653},
+        },
       --		{
       --			id		= "Spawn",
       --			locator = "vehicle_quest_0001",
@@ -91,14 +92,14 @@ return InfCore.PCallDebug(function()--DEBUG
       --			class	= Vehicle.class.DARK_GRAY,
       --			priority = 1,
       --		},
-      --	},
+      },
 
-      --      heliList = {
-      --        {
-      --          routeName		= "rt_heli_quest_spawn",
-      --          coloringType		= TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK,
-      --        },
-      --      },
+            heliList = {
+              {
+                routeName		= "rt_heli_quest_hover",
+                coloringType		= TppDefine.ENEMY_HELI_COLORING_TYPE.BLACK,
+              },
+            },
 
       hostageList = {
         {
@@ -113,18 +114,19 @@ return InfCore.PCallDebug(function()--DEBUG
       },
 
       uavList={
-        {
-          name="ih_uav_0000",
-          developLevel=TppUav.DEVELOP_LEVEL_LMG_2,
-          route_d="rt_quest_uav_0000",
-          route_c="rt_quest_uav_0000",
-          cpName="quest_cp",
-        },
+      --        {
+      --          name="ih_uav_0000",
+      --          developLevel=TppUav.DEVELOP_LEVEL_LMG_2,
+      --          route_d="rt_quest_uav_0000",
+      --          route_c="rt_quest_uav_0000",
+      --          cpName="quest_cp",
+      --        },
       },
 
       targetList = {
+        "hos_quest_0000",
         "vehicle_quest_0000",
-        "vehicle_quest_0001",
+      -- "vehicle_quest_0001",
       --"sol_quest_0002",
       --		"sol_quest_0003",
       --		"sol_quest_0004",

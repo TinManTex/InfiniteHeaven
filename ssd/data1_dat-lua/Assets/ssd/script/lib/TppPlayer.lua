@@ -1319,7 +1319,13 @@ function this.Messages()
       {msg="Finish",sender="Timer_StartGameOverCamera",func=this._StartGameOverCamera,option={isExecGameOver=true}},
       {msg="Finish",sender="Timer_SleepInBed",func=function()
         TppUI.FadeIn(TppUI.FADE_SPEED.FADE_NORMAL,"OnEndSleepInBed",TppUI.FADE_PRIORITY.MISSION)
-      end}},
+      end},
+      --RETAILPATCH: 1.0.9.0
+      {msg="Finish",sender="Timer_ForceCloseUI",func=function()
+        SsdUiSystem.RequestForceCloseForMissionClear()
+      end,option={isExecFastTravel=true}},
+    --<
+    },
     Trap={
       {msg="Enter",sender="fallDeath_camera",func=function()
         this.SetLimitFallDeadCameraOffsetPosY(-18)
@@ -1600,7 +1606,8 @@ function this.OnPickUpPlaced(e,e,a)
 end
 function this.StorePlayerDecoyInfos()
   if this.IsExistDecoySystem()then
-    local e={type="TppDecoySystem"}SendCommand(e,{id="StorePlayerDecoyInfos"})
+    local e={type="TppDecoySystem"}
+    SendCommand(e,{id="StorePlayerDecoyInfos"})
   end
 end
 function this.IsExistDecoySystem()
@@ -1754,9 +1761,18 @@ function this.StartFastTravel(o,r,t,a)
   this.OnSelectFastTravel(o,r)
 end
 function this.StartFastTravelByReturnBase()
-  local a="fast_afgh_basecamp"if TppLocation.IsMiddleAfrica()then
-    a="fast_mafr_basecamp"end
-  this.StartFastTravel(nil,StrCode32(a),nil,{surviveBox=true,resetState=true,noSound=true})
+  local a="fast_afgh_basecamp"
+  if TppLocation.IsMiddleAfrica()then
+    a="fast_mafr_basecamp"
+  end
+  --RETAILPATCH: 1.0.9.0>
+  Player.SetPadMask{settingName="FastTravel",except=true}
+  TimerStart("Timer_ForceCloseUI",.2)
+  local n=function()
+    Player.ResetPadMask{settingName="FastTravel"}
+  end
+  --<
+  this.StartFastTravel(nil,StrCode32(a),n,{surviveBox=true,resetState=true,noSound=true})
 end
 function this.AddFastTravelOption(a)
   if not IsTypeTable(a)then

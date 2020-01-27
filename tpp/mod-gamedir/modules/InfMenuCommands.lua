@@ -139,31 +139,6 @@ end
 --  end
 --
 
-
-
---
-
-
-this.selectedObject=NULL_ID
---TODO: Ivar
-this.SetSelectedObjectToMarkerClosest=function()
-  local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-  if lastMarkerIndex==nil then
-    InfCore.DebugPrint("lastMarkerIndex==nil")
-    return
-  end
-
-  local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
-  if lastMarkerIndex==nil then
-    InfCore.DebugPrint("lastMarkerIndex==nil")
-  else
-    --InfUserMarker.PrintUserMarker(lastMarkerIndex)
-    InfUserMarker.PrintMarkerGameObject(lastMarkerIndex)
-
-    this.selectedObject=vars.userMarkerGameObjId[lastMarkerIndex]
-  end
-end
-
 this.SetSelectedCpToMarkerClosestCp=function()
   local lastMarkerIndex=InfUserMarker.GetLastAddedUserMarkerIndex()
   if lastMarkerIndex==nil then
@@ -291,17 +266,17 @@ this.DEBUG_SomeShiz=function()
   count=count+1
   InfCore.Log("---------------------DEBUG_SomeShiz---------------------"..count)
   
-  
-    InfUAV.SetupUAV()
-  
+
+  InfUAV.SetupUAV()
+
   --InfCore.PrintInspect(InfCore,"InfCore")
 
   if true then return end
-  
+
   --DEBUGNOW
 
   local camName=InfCamera.GetCurrentCamName()
-    InfCamera.WritePosition(camName,Vector3(824.9653,5.504622,-138.0344))
+  InfCamera.WritePosition(camName,Vector3(824.9653,5.504622,-138.0344))
   --InfCamera.WritePosition(camName,Vector3(2629.15747,181.129547,-2462.71436))
 
 
@@ -383,7 +358,7 @@ local index2Max=334
 local index2=index2Min
 this.DEBUG_SomeShiz2=function()
   InfCore.Log("---DEBUG_SomeShiz2---")
-
+  
   local heliId=GetGameObjectId("TppHeli2","SupportHeli")
   if heliId==NULL_ID then
     InfCore.Log("WARNING: SupportHeli heliId==NULL_ID",true)--DEBUG
@@ -872,17 +847,11 @@ this.CheckPointSave=function()
   TppCheckPoint.Update{safetyCurrentPosition=true}
 end
 
-
 --LEGACY for SOC quickmenu
 this.ToggleFreeCam=function()
   InfCamera.ToggleFreeCam()
-end 
-
---< menu commands
-
-function this.PostModuleReload(prevModule)
-  this.selectedObject=prevModule.selectedObject--DEBUGNOW
 end
+--< menu commands
 
 function this.PostAllModulesLoad()
   this.BuildCommandItems()

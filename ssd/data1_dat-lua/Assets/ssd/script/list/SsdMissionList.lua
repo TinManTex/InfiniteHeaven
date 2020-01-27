@@ -11,7 +11,7 @@ this.BASE_DEFENSE_LIST={}
 this.LOCATION_BY_MISSION_CODE={}
 this.NO_ORDER_BOX_MISSION_LIST={}
 this.NO_ORDER_BOX_MISSION_ENUM={}
-local locationNames={"INIT","SSD_AFGH","MAFR","OMBS","SBRI","SPFC","SSAV","AFTR","DEBUG","SSD_AFGH2"}
+local locationNames={"INIT","SSD_AFGH","MAFR","SSD_OMBS","SBRI","SPFC","SSAV","AFTR","DEBUG","SSD_AFGH2"}--RETAILPATCH: 1.0.9.0 OMBS to SSD_OMBS
 local locationEnums=TppDefine.Enum(locationNames)
 local locationPackTable={}
 locationPackTable[TppDefine.LOCATION_ID.INIT]={"/Assets/ssd/pack/location/init/init.fpk"}
@@ -108,7 +108,7 @@ this.MISSION_DEFINE_LIST={
       TppPackList.AddMissionPack"/Assets/ssd/pack/collectible/rewardCbox/rewardCbox.fpk"
       TppPackList.AddMissionPack"/Assets/ssd/pack/ui/ssd_ui_base_defense.fpk"
     end},
-  {type=missionTypes.STORY,name="s10010",location=locationEnums.OMBS,
+  {type=missionTypes.STORY,name="s10010",location=locationEnums.SSD_OMBS,
     pack=function(s)
       this._AddCommonMissionPack(s,"story","s10010")
       TppPackList.AddAvatarEditPack()
@@ -1289,7 +1289,8 @@ for p,c in ipairs(this.MISSION_DEFINE_LIST)do
       npcsMissionPackTable[d]=k
     end
     if _<=missionTypes.NORMAL then
-      table.insert(this.MISSION_LIST,p)table.insert(this.LOCAL_MISSION_LIST,p)
+      table.insert(this.MISSION_LIST,p)
+      table.insert(this.LOCAL_MISSION_LIST,p)
     end
     local i=(_==missionTypes.FLAG)
     local n=(_==missionTypes.DEF)
@@ -1323,13 +1324,20 @@ for p,c in ipairs(this.MISSION_DEFINE_LIST)do
     end
     if not i and not n then
       if not c.useOrderBox then
-        table.insert(this.NO_ORDER_BOX_MISSION_LIST,p)end
+        table.insert(this.NO_ORDER_BOX_MISSION_LIST,p)
+      end
     end
     if not s then
       local s
       if o==locationEnums.SSD_AFGH then
-        s="afgh"else
-        s=string.lower(locationNames[o+1])end
+        s="afgh"
+        --RETAILPATCH: 1.0.9.0>
+      elseif p==locationEnums.SSD_OMBS then
+        s="ombs"
+        --<
+      else
+        s=string.lower(locationNames[o+1])
+      end
       this.LOCATION_BY_MISSION_CODE[p]=s
     end
   end

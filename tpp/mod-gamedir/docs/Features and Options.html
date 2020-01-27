@@ -171,7 +171,7 @@
 </div>
 <div id="menuItem">
 <div>1: Adjust-cam [Mode] : Off, On</div>
-<div id="itemHelp">  Move cam with normal move keys <br/><br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
+<div id="itemHelp">  Move cam with normal move keys <br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
 </div>
 <div id="menuItem">
 <div>2: Camera mode : Default, Free cam</div>
@@ -186,10 +186,119 @@
 <div>5: Disable mode text feedback : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: setStageBlockPositionToFreeCam : 0-1</div>
+<div>6: Set stage position to camera : 0-1</div>
 </div>
 <div id="menuItem">
 <div>7: Show freecam position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>8: <a href="#playCamMenu">PlayCam menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="playCamMenu">PlayCam menu</div>
+<div id="menuHelp">An alternate camera than the one used by freecam. WARNING: is sometimes unstable and may crash the game.</div>
+</div>
+<div id="menuItem">
+<div>1: Start PlayCam : 0-1</div>
+<div id="itemHelp">Starts PlayCam with current settings. Changing any setting also automatically starts the PlayCam.</div>
+</div>
+<div id="menuItem">
+<div>2: Stop PlayCam : 0-1</div>
+</div>
+<div id="menuItem">
+<div>3: Camera target : Player</div>
+<div id="itemHelp">Selects game object for camerat to target. You can add more game objects via the Objects menu in the main Mission menu.</div>
+</div>
+<div id="menuItem">
+<div>4: Focal length : 0.1-10000</div>
+<div id="itemHelp">DOF variable</div>
+</div>
+<div id="menuItem">
+<div>5: Focus distance : 0.1-30</div>
+<div id="itemHelp">DOF variable</div>
+</div>
+<div id="menuItem">
+<div>6: Apeture : 0.001-100</div>
+<div id="itemHelp">DOF variable</div>
+</div>
+<div id="menuItem">
+<div>7: Follow Position : Off, On</div>
+<div id="itemHelp">Follows position of Camera target. Overrides Follow Rotation.</div>
+</div>
+<div id="menuItem">
+<div>8: Follow Rotation : Off, On</div>
+<div id="itemHelp">Follows rotation of Camera target.</div>
+</div>
+<div id="menuItem">
+<div>9: Target offset X : -1000-1000</div>
+<div id="itemHelp">Adjusts X axis of camera target</div>
+</div>
+<div id="menuItem">
+<div>10: Target offset Y : -1000-1000</div>
+<div id="itemHelp">Adjusts Y axis of camera target</div>
+</div>
+<div id="menuItem">
+<div>11: Target offset Z : -1000-1000</div>
+<div id="itemHelp">Adjusts Z axis of camera target</div>
+</div>
+<div id="menuItem">
+<div>12: Position offset X : -1000-1000</div>
+<div id="itemHelp">Adjusts X axis of camera position</div>
+</div>
+<div id="menuItem">
+<div>13: Position offset Y : -1000-1000</div>
+<div id="itemHelp">Adjusts Y axis of camera position</div>
+</div>
+<div id="menuItem">
+<div>14: Position offset Z : -1000-1000</div>
+<div id="itemHelp">Adjusts Z axis of camera position</div>
+</div>
+<div id="menuItem">
+<div>15: Follow time : 0-10000</div>
+<div id="itemHelp">Time in seconds before camera follow turns off. See Follow Position and Follow Rotation.</div>
+</div>
+<div id="menuItem">
+<div>16: Follow delay time : 0-1</div>
+<div id="itemHelp">Delay before camera follows. Acts more like interpolation time than one-off. See Follow Position and Follow Rotation.</div>
+</div>
+<div id="menuItem">
+<div>17: Time till end : 0-10000</div>
+<div id="itemHelp">Time in seconds before PlayCam turns off. Set to high number if you don't want it to end.</div>
+</div>
+<div id="menuItem">
+<div>18: Fit on camera : Off, On</div>
+<div id="itemHelp">Unknown</div>
+</div>
+<div id="menuItem">
+<div>19: Fit start time : 0-1000</div>
+<div id="itemHelp">For Fit on camera.</div>
+</div>
+<div id="menuItem">
+<div>20: Fit interp time : 0-5</div>
+<div id="itemHelp">Interpolation time for Fit on camera.</div>
+</div>
+<div id="menuItem">
+<div>21: Fit diff focal length : 0-100</div>
+<div id="itemHelp">Fit diff focal length</div>
+</div>
+<div id="menuItem">
+<div>22: Call Se of Camera Interp : Off, On</div>
+<div id="itemHelp">Unknown</div>
+</div>
+<div id="menuItem">
+<div>23: Use last selected index : Off, On</div>
+<div id="itemHelp">Unknown</div>
+</div>
+<div id="menuItem">
+<div>24: Collision check : Off, On</div>
+<div id="itemHelp">Checks between camera and target and moves camera in if there is something in the way.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -1906,22 +2015,25 @@
 <div>14: <a href="#motionsMenu">Motions menu</a></div>
 </div>
 <div id="menuItem">
-<div>15: <a href="#positionsMenu">Positions menu</a></div>
+<div>15: <a href="#objectsMenu">Objects menu</a></div>
 </div>
 <div id="menuItem">
-<div>16: <a href="#mbStaffInMissionMenu">Staff menu</a></div>
+<div>16: <a href="#positionsMenu">Positions menu</a></div>
 </div>
 <div id="menuItem">
-<div>17: <a href="#supportHeliMenu">Support heli menu</a></div>
+<div>17: <a href="#mbStaffInMissionMenu">Staff menu</a></div>
 </div>
 <div id="menuItem">
-<div>18: <a href="#timeScaleMenu">Time scale menu</a></div>
+<div>18: <a href="#supportHeliMenu">Support heli menu</a></div>
 </div>
 <div id="menuItem">
-<div>19: <a href="#userMarkerMenu">User marker menu</a></div>
+<div>19: <a href="#timeScaleMenu">Time scale menu</a></div>
 </div>
 <div id="menuItem">
-<div>20: <a href="#weatherMenu">Weather menu</a></div>
+<div>20: <a href="#userMarkerMenu">User marker menu</a></div>
+</div>
+<div id="menuItem">
+<div>21: <a href="#weatherMenu">Weather menu</a></div>
 </div>
 <div id="menuItem">
 </div>
@@ -2013,7 +2125,7 @@
 </div>
 <div id="menuItem">
 <div>1: Adjust-cam [Mode] : Off, On</div>
-<div id="itemHelp">  Move cam with normal move keys <br/><br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
+<div id="itemHelp">  Move cam with normal move keys <br/>  &ltDash&gt(Shift or Left stick click) to move up<br/><br/>  &ltSwitch zoom&gt(Middle mouse or Right stick click) to move down<br/><br/>  Hold the following and move left stick up/down to increase/decrease the settings:<br/><br/>  &ltFire&gt - Zoom/focal length<br/><br/>  &ltReload&gt - Aperture (DOF)<br/><br/>  &ltStance&gt - Focus distance (DOF) <br/><br/>  &ltAction&gt - Cam move speed<br/><br/>  &ltReady weapon&gt - Camera orbit distance<br/><br/>  Or hold &ltBinocular&gt and press the above to reset that setting.<br/><br/>  Hold &ltBinocular&gt and press &ltDash&gt to move free cam position to the player position</div>
 </div>
 <div id="menuItem">
 <div>2: Camera mode : Default, Free cam</div>
@@ -2028,10 +2140,119 @@
 <div>5: Disable mode text feedback : Off, On</div>
 </div>
 <div id="menuItem">
-<div>6: setStageBlockPositionToFreeCam : 0-1</div>
+<div>6: Set stage position to camera : 0-1</div>
 </div>
 <div id="menuItem">
 <div>7: Show freecam position : 0-1</div>
+</div>
+<div id="menuItem">
+<div>8: <a href="#playCamMenu">PlayCam menu</a></div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
+<div id="playCamMenu">PlayCam menu</div>
+<div id="menuHelp">An alternate camera than the one used by freecam. WARNING: is sometimes unstable and may crash the game.</div>
+</div>
+<div id="menuItem">
+<div>1: Start PlayCam : 0-1</div>
+<div id="itemHelp">Starts PlayCam with current settings. Changing any setting also automatically starts the PlayCam.</div>
+</div>
+<div id="menuItem">
+<div>2: Stop PlayCam : 0-1</div>
+</div>
+<div id="menuItem">
+<div>3: Camera target : Player</div>
+<div id="itemHelp">Selects game object for camerat to target. You can add more game objects via the Objects menu in the main Mission menu.</div>
+</div>
+<div id="menuItem">
+<div>4: Focal length : 0.1-10000</div>
+<div id="itemHelp">DOF variable</div>
+</div>
+<div id="menuItem">
+<div>5: Focus distance : 0.1-30</div>
+<div id="itemHelp">DOF variable</div>
+</div>
+<div id="menuItem">
+<div>6: Apeture : 0.001-100</div>
+<div id="itemHelp">DOF variable</div>
+</div>
+<div id="menuItem">
+<div>7: Follow Position : Off, On</div>
+<div id="itemHelp">Follows position of Camera target. Overrides Follow Rotation.</div>
+</div>
+<div id="menuItem">
+<div>8: Follow Rotation : Off, On</div>
+<div id="itemHelp">Follows rotation of Camera target.</div>
+</div>
+<div id="menuItem">
+<div>9: Target offset X : -1000-1000</div>
+<div id="itemHelp">Adjusts X axis of camera target</div>
+</div>
+<div id="menuItem">
+<div>10: Target offset Y : -1000-1000</div>
+<div id="itemHelp">Adjusts Y axis of camera target</div>
+</div>
+<div id="menuItem">
+<div>11: Target offset Z : -1000-1000</div>
+<div id="itemHelp">Adjusts Z axis of camera target</div>
+</div>
+<div id="menuItem">
+<div>12: Position offset X : -1000-1000</div>
+<div id="itemHelp">Adjusts X axis of camera position</div>
+</div>
+<div id="menuItem">
+<div>13: Position offset Y : -1000-1000</div>
+<div id="itemHelp">Adjusts Y axis of camera position</div>
+</div>
+<div id="menuItem">
+<div>14: Position offset Z : -1000-1000</div>
+<div id="itemHelp">Adjusts Z axis of camera position</div>
+</div>
+<div id="menuItem">
+<div>15: Follow time : 0-10000</div>
+<div id="itemHelp">Time in seconds before camera follow turns off. See Follow Position and Follow Rotation.</div>
+</div>
+<div id="menuItem">
+<div>16: Follow delay time : 0-1</div>
+<div id="itemHelp">Delay before camera follows. Acts more like interpolation time than one-off. See Follow Position and Follow Rotation.</div>
+</div>
+<div id="menuItem">
+<div>17: Time till end : 0-10000</div>
+<div id="itemHelp">Time in seconds before PlayCam turns off. Set to high number if you don't want it to end.</div>
+</div>
+<div id="menuItem">
+<div>18: Fit on camera : Off, On</div>
+<div id="itemHelp">Unknown</div>
+</div>
+<div id="menuItem">
+<div>19: Fit start time : 0-1000</div>
+<div id="itemHelp">For Fit on camera.</div>
+</div>
+<div id="menuItem">
+<div>20: Fit interp time : 0-5</div>
+<div id="itemHelp">Interpolation time for Fit on camera.</div>
+</div>
+<div id="menuItem">
+<div>21: Fit diff focal length : 0-100</div>
+<div id="itemHelp">Fit diff focal length</div>
+</div>
+<div id="menuItem">
+<div>22: Call Se of Camera Interp : Off, On</div>
+<div id="itemHelp">Unknown</div>
+</div>
+<div id="menuItem">
+<div>23: Use last selected index : Off, On</div>
+<div id="itemHelp">Unknown</div>
+</div>
+<div id="menuItem">
+<div>24: Collision check : Off, On</div>
+<div id="itemHelp">Checks between camera and target and moves camera in if there is something in the way.</div>
 </div>
 <div id="menuItem">
 </div>
@@ -2065,7 +2286,6 @@
 <div>6: copyLogToPrev : 0-1</div>
 </div>
 <div id="menuItem">
-<div>7: setSelectedObjectToMarkerClosest : 0-1</div>
 </div>
 <div id="menuItem">
 <div>8: selectedCp : no cp for setting</div>
@@ -2125,7 +2345,7 @@
 <div>26: setStageBlockPositionToMarkerClosest : 0-1</div>
 </div>
 <div id="menuItem">
-<div>27: setStageBlockPositionToFreeCam : 0-1</div>
+<div>27: Set stage position to camera : 0-1</div>
 </div>
 <div id="menuItem">
 <div>28: Show freecam position : 0-1</div>
@@ -2352,7 +2572,7 @@
 <div id="menuHelp">Play different animations on player. A motion group may contain several related animations (usually lead-in, idle, lead-out)</div>
 </div>
 <div id="menuItem">
-<div>1: Motion group : nil</div>
+<div>1: Motion group : BatsuSign</div>
 <div id="itemHelp">Press &ltAction&gt to play the selected animation.</div>
 </div>
 <div id="menuItem">
@@ -2383,8 +2603,39 @@
 <br/>
 <div id="menu">
 <div id="menuTitle">
+<div id="objectsMenu">Objects menu</div>
+<div id="menuHelp">For adding game object names in the game to a Objects List, and writing/loading them to files.</div>
+</div>
+<div id="menuItem">
+<div>1: Add marked objects to list : 0-1</div>
+<div id="itemHelp">Adds current marked game object names to objects list, objects list can be written to file with Write Objects List command.</div>
+</div>
+<div id="menuItem">
+<div>2: Clear Objects List : 0-1</div>
+<div id="itemHelp">Clears Objects List</div>
+</div>
+<div id="menuItem">
+<div>3: Write Objects List : 0-1</div>
+<div id="itemHelp">Writes Objects List to file in MGS_TPP\mod\</div>
+</div>
+<div id="menuItem">
+<div>4: Load Objects List : 0-1</div>
+<div id="itemHelp">Loads objects list from file in MGS_TPP\mod\</div>
+</div>
+<div id="menuItem">
+<div>5: Select object name : Player</div>
+<div id="itemHelp">Select game object name, mostly just used to browse object names list at the moment.</div>
+</div>
+<div id="menuItem">
+</div>
+<div id="menuItem">
+</div>
+</div>
+<br/>
+<div id="menu">
+<div id="menuTitle">
 <div id="positionsMenu">Positions menu</div>
-<div id="menuHelp">For adding positions in the game to a Positions List, and writing them to files.</div>
+<div id="menuHelp">For adding positions in the game to a Positions List, and writing/loading them to files.</div>
 </div>
 <div id="menuItem">
 <div>1: Add current position to Positions List : 0-1</div>
@@ -2395,12 +2646,22 @@
 <div id="itemHelp">Adds current user markers to positions list, positions list can be written to file with Write Positons List command.</div>
 </div>
 <div id="menuItem">
-<div>3: Write Positions List : 0-1</div>
+<div>3: Clear Positions List : 0-1</div>
+<div id="itemHelp">Clears Positions List</div>
+</div>
+<div id="menuItem">
+<div>4: Write Positions List : 0-1</div>
 <div id="itemHelp">Writes Positions List to files in MGS_TPP\mod\</div>
 </div>
 <div id="menuItem">
-<div>4: Clear Positions List : 0-1</div>
-<div id="itemHelp">Clears Positions List</div>
+<div>5: Load positions from file : 0-1</div>
+<div id="itemHelp">Loads positions from MGS_TPP\mod\positions_lua.txt</div>
+</div>
+<div id="menuItem">
+<div>6: Select position : list is empty</div>
+<div id="itemHelp">Selects a position from positions list, mostly just used to browse positions at the moment.</div>
+</div>
+<div id="menuItem">
 </div>
 <div id="menuItem">
 </div>

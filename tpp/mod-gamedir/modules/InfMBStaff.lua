@@ -1,6 +1,8 @@
 --InfMBStaff.lua
 local this={}
 
+this.isSaveDirty=true
+
 this.saveName="ih_priority_staff.lua"
 
 --tex don't lose existing on modulereload
@@ -23,6 +25,14 @@ function this.BuildSaveText(saveName)
 end
 
 function this.Save()
+  if not this.isSaveDirty then
+    return
+  end
+
+  if vars.missionCode~=30050 and not this.isSaveDirty then
+    return
+  end
+
   InfCore.LogFlow"InfMBStaff.Save"
   local saveName=this.saveName
   local saveTextList=this.BuildSaveText(saveName)
@@ -36,7 +46,7 @@ function this.LoadSave()
   local ih_save_chunk,loadError=LoadFile(filePath)--tex WORKAROUND Mock
   if ih_save_chunk==nil then
     local errorText="LoadSave Error: loadfile error: "..tostring(loadError)
-    InfCore.Log(errorText,true,true)
+    InfCore.Log(errorText,false,true)
     return nil
   end
 
@@ -59,6 +69,8 @@ function this.LoadSave()
 
     return nil
   end
+  
+  ih_priority_staff=ih_save
 
   return ih_save
 end
@@ -108,6 +120,8 @@ function this.RemovePlayerStaff()
       InfMenu.PrintFormatLangId("staff_id_not_exist",staffId)
     end
   end
+  
+  this.isSaveDirty=true
 end
 
 function this.AddMarkerStaff()
@@ -150,6 +164,8 @@ function this.AddMarkerStaff()
       staffIds[staffId]=true
     end
   end
+  
+  this.isSaveDirty=true
 end
 
 function this.RemoveMarkerStaff()
@@ -191,10 +207,13 @@ function this.RemoveMarkerStaff()
       InfMenu.PrintFormatLangId("staff_id_not_exist",staffId)
     end
   end
+  
+  this.isSaveDirty=true
 end
 
 function this.ClearPriorityStaff()
   ih_priority_staff.staffIds={}
+  this.isSaveDirty=true
   InfMenu.PrintLangId"staff_clear"
 end
 

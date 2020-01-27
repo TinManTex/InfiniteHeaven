@@ -8,13 +8,14 @@ local open=io.open
 local tostring=tostring
 local concat=table.concat
 local string=string
-local GetRawElapsedTimeSinceStartUp=Time.GetRawElapsedTimeSinceStartUp
+--CULL local GetElapsedTime=Time.GetRawElapsedTimeSinceStartUp
+local GetElapsedTime=os.clock--GOTCHA: os.clock wraps at ~4,294 seconds
 local isMockFox=isMockFox
 local luaHostType=luaHostType
 
 local InfCore=this
 
-this.modVersion="4"
+this.modVersion=5
 this.modName="Lost Heaven"
 
 this.gameId="SSD"
@@ -41,7 +42,6 @@ this.log={}
 
 this.mgsvToExtCommands={}
 
-this.mgsvToExtCurrent=0--tex current/max, last command to be written out
 this.mgsvToExtComplete=0--tex min/confirmed executed by ext, only commands above this should be written out
 
 this.extToMgsvComplete=0--tex min/confirmed executed by mgsv
@@ -69,7 +69,7 @@ function this.Log(message,announceLog,force)
     this.DebugPrint(message)
   end
 
-  local elapsedTime=GetRawElapsedTimeSinceStartUp()
+  local elapsedTime=GetElapsedTime()
 
   local line="|"..elapsedTime.."|"..message
   this.log[#this.log+1]=line
@@ -129,7 +129,7 @@ function this.WriteLogLine(message)
     return
   end
 
-  local elapsedTime=GetRawElapsedTimeSinceStartUp()
+  local elapsedTime=GetElapsedTime()
   --tex TODO os time?
 
 
@@ -328,10 +328,10 @@ function this.ExtCmd(cmd,...)
     return
   end
 
-  this.mgsvToExtCurrent=this.mgsvToExtCurrent+1
+  local mgsvToExtCurrent=#this.mgsvToExtCommands+1
 
   local args={...}--tex GOTOCHA doesnt catch intermediary params that are nil
-  local message=this.mgsvToExtCurrent..'|'..cmd
+  local message=mgsvToExtCurrent..'|'..cmd
   if #args>0 then
     message=message..'|'..concat(args,'|')
   end
@@ -340,11 +340,7 @@ function this.ExtCmd(cmd,...)
     InfCore.PrintInspect(message,"ExtCmd message")
   end
 
-  this.mgsvToExtCommands[this.mgsvToExtCurrent]=message
-  --if InfCore.extSession~=0 then--tex ihExt hasnt started
-  --DEBUGNOW this.WriteToExtTxt()
-  --end
-  --InfCore.PrintInspect(this.mgsvToExtCommands)--DEBUG
+  this.mgsvToExtCommands[mgsvToExtCurrent]=message
 end
 
 --tex LEGACY, InfProcessExt was deleted r218 but the file may linger if the user didnt uninstall correctly using snakebite (or if snakebite messed up)
@@ -354,6 +350,11 @@ end
 local concat=table.concat
 local nl="\r\n"
 function this.WriteToExtTxt()
+  if this.debugModule then
+    InfCore.Log("InfCore.WriteToExtTxt")
+      --InfCore.PrintInspect(this.mgsvToExtCommands)--DEBUG
+  end
+  
   local filePath=this.toExtCmdsFilePath
   local file,openError=open(filePath,"w")
   if not file or openError then
@@ -365,8 +366,8 @@ function this.WriteToExtTxt()
   --(and visa versa for whatever is writing ext to mgsv commands).
   local sessionInfo=this.session.."|extToMgsvComplete|"..this.extToMgsvComplete
 
-  --tex only write from mgsvToExtComplete to mgsvToExtCurrent
-  if this.mgsvToExtCommands[this.mgsvToExtComplete+1] then
+  --tex only write from mgsvToExtComplete to end
+  if #this.mgsvToExtCommands>0 then
     file:write(sessionInfo,nl,concat(this.mgsvToExtCommands,nl,this.mgsvToExtComplete+1))
   else
     file:write(sessionInfo)
@@ -598,11 +599,11 @@ end
 
 --tex with alternate external loading
 function this.LoadLibrary(path)
-  this.LogFlow("InfCore.LoadLibrary "..tostring(path))
+  this.Log("InfCore.LoadLibrary "..tostring(path),false,true)
   local scriptPath=InfCore.paths.mod..path
   local externLoaded=false
   if InfCore.FileExists(scriptPath) then
-    InfCore.Log("Found external for "..path)--scriptPath)
+    InfCore.Log("Found external for "..path,false,true)--scriptPath)
     local ModuleChunk,loadError=LoadFile(scriptPath)--tex WORKAROUND Mock
     if loadError then
       InfCore.Log("ERROR: InfCore.LoadLibrary:"..scriptPath..":"..loadError,false,true)

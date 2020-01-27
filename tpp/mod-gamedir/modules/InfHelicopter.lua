@@ -257,6 +257,13 @@ this.packages={
 }
 
 function this.AddMissionPacks(missionCode,packPaths)
+  if missionCode < 5 then
+      return
+  end
+  
+  if InfMain.IsSafeSpace(missionCode) then
+     return
+  end
   --DEBUGNOW some kind of limiter to free / missions
 
   for i,packPath in ipairs(this.packages) do

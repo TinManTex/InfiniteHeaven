@@ -19,6 +19,17 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
     return
   end
 
+  --tex no commands from IHExt will be processed unless menu is open
+  if currentChecks.menuOn==false and InfCore.extSession~=0 then
+    --tex dont return if IHExt still hasnt acked the commands
+    if InfCore.mgsvToExtComplete>=#InfCore.mgsvToExtCommands then
+      return
+    end
+    if this.debugModule then
+      InfCore.Log("commands not done",false,true)--DEBUG
+    end
+  end
+
   this.ProcessCommands()
 end
 
@@ -51,8 +62,10 @@ function this.ProcessCommands()
               --tex reset
               --InfCore.extToMgsvComplete=0
               InfCore.ExtCmd('SessionChange')--tex a bit of nothing to get the mgsvTpExtComplete to update from the message, ext does likewise
+            --InfCore.Log("SessionChange",false,true)--DEBUG
+            InfCore.WriteToExtTxt()
             end
-            InfCore.mgsvToExtComplete=args[3]
+          InfCore.mgsvToExtComplete=tonumber(args[3])
           elseif messageId>InfCore.extToMgsvComplete then
             if this.debugModule then
               InfCore.PrintInspect(args,'DoToMgsvCommand '..args[1])--DEBUG
@@ -66,9 +79,14 @@ function this.ProcessCommands()
         end--end if args>0
       end--end for lines
     end
-    if InfCore.extSession~=0 then--tex ihExt hasnt started
-      if InfCore.extToMgsvComplete~=extToMgsvPrev or this.extSession~=extPrevSession then
-        InfCore.WriteToExtTxt()--tex update due to extToMgsvComplete change
+
+  if InfCore.extSession~=0 then
+    if InfCore.extSession~=extPrevSession then
+      --InfCore.Log("SessionChange",false,true)--DEBUG
+      InfCore.WriteToExtTxt()--tex to ack session change, possibly already handled by below, and above, but there may have been an edge case? should have commented it then lol
+    elseif InfCore.extToMgsvComplete~=extToMgsvPrev then
+      --InfCore.Log("extToMgsvComplete change",false,true)--DEBUG
+      InfCore.WriteToExtTxt()
     end
   end
 end
@@ -124,6 +142,7 @@ function this.Input(args)
         --        if currentOption then
         --          local helpText=InfMenu.GetCurrentHelpText()
         --          InfCore.ExtCmd('print',helpText)
+        --          InfCore.WriteToExtTxt()
         --          InfMenu.DisplayCurrentSetting()
         --        end
       else
@@ -220,6 +239,7 @@ function this.GotKeyboardFocus(args)
       local menuLineText="<Type and Enter to search>"--DEBUGNOW TODO LANG
       InfMgsvToExt.SetMenuLine(settingText,menuLineText)
       InfCore.ExtCmd("SelectAllText",menuLine)
+      InfCore.WriteToExtTxt()
     end
   end
 end
@@ -234,6 +254,7 @@ function this.EnterText(args)
     local settingText=""
     local menuLineText="<Type and Enter to search>"--DEBUGNOW TODO LANG
     --InfMgsvToExt.SetMenuLine(settingText,menuLineText)
+    --InfCore.WriteToExtTxt()
   end
 end
 

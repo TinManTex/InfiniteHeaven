@@ -1,10 +1,10 @@
 -- DOBUILD: 1
 --start.lua
-InfCore.LogFlow"start.lua"--tex
+InfCore.Log"start.lua"--tex
 
 local dofile=InfCore.DoFile--tex allow external alternate
 local LoadLibrary=InfCore.LoadLibrary --tex allow external alternate, was Script.LoadLibrary
-local increaseMemoryAlloc=Ivars and Ivars.sys_increaseMemoryAlloc:Get()==1--tex DEBUGNOW
+local increaseMemoryAlloc=Ivars and Ivars.sys_increaseMemoryAlloc:Get()==1--tex
 
 local function yield()
   coroutine.yield()
@@ -703,7 +703,7 @@ yield()
 if TppSystemUtility.GetCurrentGameMode()=="TPP"then
   LoadLibrary"/Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua"
 end
-InfCore.LogFlow("Most LoadLibrary libs done")--tex a good place to do stuff on the libs before much is run in them (you'd have to do it from within a library though since start is sandboxed) DEBUGNOW
+InfCore.LogFlow("Most LoadLibrary libs done")--tex a good place to do stuff on the libs before much is run in them (you'd have to do it from within a library though since start is sandboxed)
 LoadLibrary"/Assets/tpp/script/lib/InfHooks.lua"--tex InfCore.LoadLibrary external from /core/ doesn't overcome sandbox but from init > InfInit does?
 yield()
 if Editor then
@@ -762,13 +762,11 @@ TppUI.FadeOut(TppUI.FADE_SPEED.FADE_MOMENT,nil,nil,{setMute=true})
 TppVarInit.InitializeOnStartTitle()
 TppVarInit.StartInitMission()
 TppUiCommand.SetLoadIndicatorVisible(false)
-InfCore.allLoaded=true--tex
+
+InfCore.allLoaded=true--tex>
+local count=collectgarbage("count")
+InfCore.Log("Lua memory usage: "..count.." KB")
+collectgarbage()
+count=collectgarbage("count")
+InfCore.Log("Lua memory usage post collect: "..count.." KB")
 InfCore.LogFlow"start.lua done"--tex
-
-
-
-
-
-
-
-

@@ -63,7 +63,7 @@ this.lastDisplay=0
 this.autoDisplayRate=this.autoDisplayDefault
 this.lastStickInput=0
 
-function this.PostModuleLoad()
+function this.PostModuleReload()
   this.MenuOff()
 end
 
@@ -234,6 +234,7 @@ function this.GetSetting(previousIndex,previousMenuOptions)
         InfCore.ExtCmd('UiElementVisible','menuHelp',0)
       end
     end
+    --InfCore.Log("GetSetting",false,true)--DEBUG
     InfCore.WriteToExtTxt()
   end
 end
@@ -433,6 +434,7 @@ function this.GoMenu(menu,goBack)
       end
       InfCore.ExtCmd('AddToTable','menuItems',settingText)
     end
+    --InfCore.Log("Gomenu",false,true)--DEBUG
     InfCore.WriteToExtTxt()
   end
 
@@ -580,6 +582,7 @@ function this.DisplaySetting(optionIndex,optionNameOnly)
       local menuLineText=this.GetSettingText(optionIndex,option,optionNameOnly,noItemIndicator,settingNumberOnly)
       InfMgsvToExt.SetMenuLine(settingText,menuLineText)
     end
+	--InfCore.Log("DisplaySetting",false,true)--DEBUG
     InfCore.WriteToExtTxt()
   else
 
@@ -681,7 +684,7 @@ function this.PrintFormatLangId(langId,...)
 end
 
 function this.ToggleMenu(currentChecks)
-  if this.CheckActivate(currentChecks) then
+  --DEBUGNOW if this.CheckActivate(currentChecks) then
     this.menuOn = not this.menuOn
     if this.menuOn then
       this.OnActivate()
@@ -689,7 +692,7 @@ function this.ToggleMenu(currentChecks)
       this.OnDeactivate()
       return
     end
-  end
+ -- end
 end
 
 function this.MenuOff()
@@ -769,7 +772,8 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 
   if this.menuOn then
     --TODO NOTE controlset deactivate on game state change
-    if not this.CheckActivate(currentChecks) then
+    --DEBUGNOW if not this.CheckActivate(currentChecks) then
+    if TppUiCommand.IsMbDvcTerminalOpened() then
       this.MenuOff()
       return
     end
@@ -800,8 +804,11 @@ function this.Update(currentChecks,currentTime,execChecks,execState)
 
   if this.toggleMenuButton then
     if InfButton.OnButtonHoldTime(this.toggleMenuButton) then
+      --DEBUGNOW
       --InfCore.DebugPrint"OnButtonHoldTime toggleMenuButton"--DEBUG
+      if this.CheckActivate(currentChecks) then
       this.ToggleMenu(currentChecks)
+      end
     end
   end
 

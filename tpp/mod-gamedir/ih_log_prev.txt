@@ -1,566 +1,1777 @@
-|0.089|InfCore start 04/21/18 14:22:48
-|0.093|Infinite Heaven r229
-|0.098|InfCore.RefreshFileList
-|0.102|cmd.exe /c dir /b /s "c:\Steam\SteamApps\common\MGS_TPP\mod\*.*" > "c:\Steam\SteamApps\common\MGS_TPP\mod\ih_files.txt"
-|0.229|package.path:./?.lua;c:/Steam/SteamApps/common/MGS_TPP/lua/?.lua;c:/Steam/SteamApps/common/MGS_TPP/lua/?/init.lua;c:/Steam/SteamApps/common/MGS_TPP/?.lua;c:/Steam/SteamApps/common/MGS_TPP/?/init.lua;c:/Steam/SteamApps/common/MGS_TPP/mod/?.lua;c:/Steam/SteamApps/common/MGS_TPP/mod/modules/?.lua;c:/Steam/SteamApps/common/MGS_TPP/lua/?.lua;c:/Steam/SteamApps/common/MGS_TPP/lua/modules/?.lua;;D:/Projects/MGS/!InfiniteHeaven/MockFoxLua//?.lua;c:/Steam/SteamApps/common/MGS_TPP/mod/modules/?.lua
-|0.236|InfCore.LoadLibrary core/InfInspect.lua
-|0.241|Found external for core/InfInspect.lua
-|0.246|InfCore.LoadLibrary core/InfUtil.lua
-|0.252|Found external for core/InfUtil.lua
-|0.256|InfCore.LoadLibrary core/InfTppUtil.lua
-|0.261|Found external for core/InfTppUtil.lua
-|0.266|InfCore.LoadLibrary core/IvarProc.lua
-|0.272|Found external for core/IvarProc.lua
-|0.279|LoadExternalModule Ivars
-|0.287|LoadExternalModule IvarsPersist
-|0.292|IvarProc.LoadEvars
-|0.297|IvarProc.LoadSave
-|0.303|start "" "c:/Steam/SteamApps/common/MGS_TPP/mod/IHExt.exe" "c:/Steam/SteamApps/common/MGS_TPP/" mod mgsvtpp
-|0.357|InfCore.LoadLibrary core/InfModelProc.lua
-|0.362|Found external for core/InfModelProc.lua
-|0.368|InfModelProc.LoadFovaInfo
-|0.373|InfModelProc.LoadFovaInfo: mgoHeadgear_fovaInfo.lua
-|0.378|InfInit.lua done
-|0.384|init.lua done
-|0.39|start.lua
-|0.397|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipIdTable.lua
-|0.402|Found external for Tpp/Scripts/Equip/EquipIdTable.lua
-|0.409|---------- EquipIdTable personal
-|0.415|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua
-|0.428|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua
-|0.435|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua
-|0.441|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua
-|0.447|Loading parameter tables
-|0.452|InfCore.LoadLibrary Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua
-|0.461|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua
-|0.467|InfCore.LoadLibrary /Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua
-|0.481|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua
-|0.488|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipMotionData.lua
-|0.495|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua
-|0.5|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua
-|0.506|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua
-|0.516|InfModelRegistry.Setup:
-|0.522|#faceDefinitions:513 start faceId:690
-|0.528|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua
-|0.535|Load Tpp.lua
-|0.541|Tpp.lua done
-|0.547|InfRequiresStart - start of TppDefine requires-list
-|0.555|Load TppDefine.lua
-|0.561|TppDefine.lua done
-|0.663|InfInitMain:
-|0.669|InfCore.LoadLibrary core/InfButton.lua
-|0.675|Found external for core/InfButton.lua
-|0.681|InfCore.LoadLibrary core/InfModules.lua
-|0.687|Found external for core/InfModules.lua
-|0.693|InfCore.LoadLibrary core/InfMain.lua
-|0.698|Found external for core/InfMain.lua
-|0.705|Load InfMain.lua
-|0.71|InfMain.lua done
-|0.716|InfMain.LoadExternalModules
-|0.721|InfModules.moduleNames={ "Ivars", "IvarsPersist", "InfLangProc", "InfLang", "InfMenu", "InfMenuDefs", "InfMenuCommands", "InfQuickMenuDefs", "IHDebugQuestArea", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHRuntimeAnalyze", "IHStringsExtensions", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfDemo", "InfEneFova", "InfEneFovaIvars", "InfEnemyPhase", "InfEquip", "InfExtToMgsv", "InfFova", "InfFovaIvars", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLangCpNames", "InfLookup", "InfLZ", "InfMainTpp", "InfMainTppIvars", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMenuCommandsTpp", "InfMgsvToExt", "InfMission", "InfMotion", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfParasite", "InfPositions", "InfPuppy", "InfQuest", "InfQuestIvars", "InfReinforce", "InfResources", "InfRevenge", "InfRevengeIvars", "InfSoldier", "InfSoldierParams", "InfTimeScale", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "InfWeather", "quest_q52130_EXTERNAL" }
-|0.727|LoadExternalModule Ivars
-|0.734|Ivars.SetupIvars
-|0.74|LoadExternalModule IvarsPersist
-|0.747|LoadExternalModule InfLangProc
-|0.753|LoadExternalModule InfLang
-|0.76|LoadExternalModule InfMenu
-|0.767|LoadExternalModule InfMenuDefs
-|0.774|LoadExternalModule InfMenuCommands
-|0.781|LoadExternalModule InfQuickMenuDefs
-|0.787|LoadExternalModule IHDebugQuestArea
-|0.794|------------trapS32ToStr={
-  trap_preDeactiveQuestArea_banana = "trap_preDeactiveQuestArea_banana",
-  trap_preDeactiveQuestArea_citadel = "trap_preDeactiveQuestArea_citadel",
-  trap_preDeactiveQuestArea_cliffTown = "trap_preDeactiveQuestArea_cliffTown",
-  trap_preDeactiveQuestArea_commFacility = "trap_preDeactiveQuestArea_commFacility",
-  trap_preDeactiveQuestArea_diamond = "trap_preDeactiveQuestArea_diamond",
-  trap_preDeactiveQuestArea_field = "trap_preDeactiveQuestArea_field",
-  trap_preDeactiveQuestArea_fort = "trap_preDeactiveQuestArea_fort",
-  trap_preDeactiveQuestArea_hill = "trap_preDeactiveQuestArea_hill",
-  trap_preDeactiveQuestArea_lab = "trap_preDeactiveQuestArea_lab",
-  trap_preDeactiveQuestArea_outland = "trap_preDeactiveQuestArea_outland",
-  trap_preDeactiveQuestArea_pfCamp = "trap_preDeactiveQuestArea_pfCamp",
-  trap_preDeactiveQuestArea_ruins = "trap_preDeactiveQuestArea_ruins",
-  trap_preDeactiveQuestArea_savannah = "trap_preDeactiveQuestArea_savannah",
-  trap_preDeactiveQuestArea_sovietBase = "trap_preDeactiveQuestArea_sovietBase",
-  trap_preDeactiveQuestArea_tent = "trap_preDeactiveQuestArea_tent",
-  trap_preDeactiveQuestArea_waterway = "trap_preDeactiveQuestArea_waterway"
-}
-|0.799|LoadExternalModule IHDebugVars
-|0.805|LoadExternalModule IHGenKnownModuleNames
-|0.812|LoadExternalModule IHGenMockModules
-|0.828|LoadExternalModule IHGenModuleReferences
-|0.844|LoadExternalModule IHGenUnknownHashes
-|0.851|LoadExternalModule IHRuntimeAnalyze
-|0.857|LoadExternalModule IHStringsExtensions
-|0.863|LoadExternalModule IHTearDown
-|0.87|LoadExternalModule InfAnimal
-|0.878|LoadExternalModule InfBodyInfo
-|0.886|LoadExternalModule InfBuddy
-|0.894|LoadExternalModule InfCamera
-|0.901|LoadExternalModule InfDemo
-|0.908|LoadExternalModule InfEneFova
-|0.92|LoadExternalModule InfEneFovaIvars
-|0.927|LoadExternalModule InfEnemyPhase
-|0.934|LoadExternalModule InfEquip
-|0.942|LoadExternalModule InfExtToMgsv
-|0.948|LoadExternalModule InfFova
-|0.956|LoadExternalModule InfFovaIvars
-|0.963|LoadExternalModule InfGameEvent
-|0.971|LoadExternalModule InfHelicopter
-|0.978|LoadExternalModule InfInterrogation
-|0.985|LoadExternalModule InfLangCpNames
-|0.991|LoadExternalModule InfLookup
-|1|InfLookup.BuildGameClassEnumNameLookup: HeadshotMessageFlag
-|1.006|InfLookup.BuildGameClassEnumNameLookup: NeutralizeCause
-|1.012|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum GIMMICK
-|1.017|InfLookup.BuildGameClassEnumNameLookup: NeutralizeFobCause
-|1.023|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum ROCKET_ARM
-|1.028|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum BOSS
-|1.033|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum HELI_MINI_GUN
-|1.038|InfLookup.BuildGameClassEnumNameLookup: NeutralizeType
-|1.044|InfLookup.BuildGameClassEnumNameLookup: ScriptBlock
-|1.049|InfLookup.BuildGameClassEnumNameLookup: ScriptBlock
-|1.054|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum TRANSITION_LOADED
-|1.059|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum TRANSITION_EMPTIED
-|1.064|InfLookup.BuildGameClassEnumNameLookup: StageBlock
-|1.07|InfLookup.BuildGameClassEnumNameLookup: TppCollection
-|1.075|InfLookup.BuildGameClassEnumNameLookup: TppDamage
-|1.08|InfLookup.BuildGameClassEnumNameLookup: TppDamage
-|1.086|InfLookup.BuildGameClassEnumNameLookup: TppDamage
-|1.093|InfLookup.BuildGameClassEnumNameLookup: TppEquip
-|1.1|InfLookup.BuildGameClassEnumNameLookup: TppGameObject
-|1.106|InfLookup.BuildGameClassEnumNameLookup: TppGameObject
-|1.112|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum ROUTE_EVENT_FAILED_TYPE_NONE
-|1.118|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum ROUTE_EVENT_FAILED_TYPE_WALKER_GEAR_GET_IN
-|1.124|InfLookup.BuildGameClassEnumNameLookup: TppGameObject
-|1.131|InfLookup.BuildGameClassEnumNameLookup: TppGameObject
-|1.138|InfLookup.BuildGameClassEnumNameLookup: TppSystem
-|1.144|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum BGM_PHASE_NONE
-|1.15|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum BGM_PHASE_CAUTION
-|1.156|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum BGM_PHASE_EVASION
-|1.161|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum BGM_PHASE_ALERT_BATTLE
-|1.167|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum BGM_PHASE_ALERT_CP
-|1.172|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum BGM_PHASE_ALERT_REINFORCE
-|1.178|WARNING: InfLookup.BuildGameClassEnumNameLookup: could not find enum BGM_PHASE_ALERT_LOST
-|1.184|LoadExternalModule InfLZ
-|1.192|LoadExternalModule InfMainTpp
-|1.2|LoadExternalModule InfMainTppIvars
-|1.208|LoadExternalModule InfMBAssets
-|1.216|LoadExternalModule InfMBGimmick
-|1.223|LoadExternalModule InfMBStaff
-|1.23|LoadExternalModule InfMBVisit
-|1.236|LoadExternalModule InfMenuCommandsTpp
-|1.244|LoadExternalModule InfMgsvToExt
-|1.251|LoadExternalModule InfMission
-|1.258|LoadExternalModule InfMotion
-|1.265|LoadExternalModule InfNPC
-|1.275|LoadExternalModule InfNPCHeli
-|1.283|LoadExternalModule InfNPCOcelot
-|1.289|LoadExternalModule InfParasite
-|1.297|LoadExternalModule InfPositions
-|1.304|LoadExternalModule InfPuppy
-|1.31|LoadExternalModule InfQuest
-|1.318|LoadExternalModule InfQuestIvars
-|1.325|LoadExternalModule InfReinforce
-|1.331|LoadExternalModule InfResources
-|1.338|LoadExternalModule InfRevenge
-|1.345|LoadExternalModule InfRevengeIvars
-|1.352|LoadExternalModule InfSoldier
-|1.359|LoadExternalModule InfSoldierParams
-|1.366|LoadExternalModule InfTimeScale
-|1.373|LoadExternalModule InfUserMarker
-|1.379|LoadExternalModule InfVehicle
-|1.386|LoadExternalModule InfWalkerGear
-|1.394|LoadExternalModule InfWarp
-|1.4|LoadExternalModule InfWeather
-|1.406|LoadExternalModule quest_q52130_EXTERNAL
-|1.413|q52130-EXTERNAL
-|1.419|PostAllModulesLoad
-|1.425|DebugModeEnable:true
-|1.431|AddDevMenus
-|1.437|Ivars.PostAllModulesLoad:
-|1.443|Adding module Ivars
-|1.449|IHDebugQuestArea.registerIvars={ "enableDebugQuestArea" }
-|1.454|InfAnimal.registerIvars={ "mbEnableBirds" }
-|1.46|InfBuddy.registerIvars={ "buddyChangeEquipVar" }
-|1.465|InfCamera.registerIvars={ "adjustCameraUpdate", "cameraMode", "moveScale", "disableCamText", "focalLengthFreeCam", "focusDistanceFreeCam", "apertureFreeCam", "distanceFreeCam", "positionXFreeCam", "positionYFreeCam", "positionZFreeCam" }
-|1.471|InfDemo.registerIvars={ "useSoldierForDemos", "mbDemoSelection", "mbSelectedDemo", "forceDemoAllowAction", "mbDemoOverrideTime", "mbDemoHour", "mbDemoMinute", "mbDemoOverrideWeather", "mbDontDemoDisableBuddy" }
-|1.477|InfEneFovaIvars.registerIvars={ "mbDDHeadGear", "customSoldierTypeFREE", "customSoldierTypeMB_ALL", "customSoldierTypeFemaleMB_ALL" }
-|1.483|InfEnemyPhase.registerIvars={ "minPhase", "maxPhase", "keepPhase", "phaseUpdateRate", "phaseUpdateRange", "phaseUpdate", "printPhaseChanges", "soldierAlertOnHeavyVehicleDamage", "cpAlertOnVehicleFulton" }
-|1.488|InfEquip.registerIvars={ "weaponTableStrength", "weaponTableAfgh", "weaponTableMafr", "weaponTableSkull", "weaponTableDD", "allowUndevelopedDDEquip", "mbSoldierEquipRange", "mbDDEquipNonLethal", "putEquipOnTrucks", "itemDropChance", "customWeaponTableFREE", "customWeaponTableMISSION", "customWeaponTableMB_ALL", "soldierEquipGrade_MIN", "soldierEquipGrade_MAX" }
-|1.495|InfFovaIvars.registerIvars={ "playerType", "playerTypeDirect", "playerPartsType", "playerPartsTypeDirect", "playerCamoType", "playerCamoTypeDirect", "playerFaceEquipId", "playerFaceEquipIdDirect", "playerFaceId", "playerFaceFilter", "playerFaceIdDirect", "maleFaceId", "femaleFaceId", "faceFova", "faceDecoFova", "hairFova", "hairDecoFova", "faceFovaDirect", "faceDecoFovaDirect", "hairFovaDirect", "hairDecoFovaDirect", "faceFovaUnknown1", "faceFovaUnknown2", "faceFovaUnknown3", "faceFovaUnknown4", "faceFovaUnknown5", "faceFovaUnknown6", "faceFovaUnknown7", "faceFovaUnknown8", "faceFovaUnknown9", "faceFovaUnknown10", "enableFovaMod", "fovaSelection", "fovaPlayerType", "fovaPlayerPartsType", "skipDevelopChecks" }
-|1.502|InfGameEvent.registerIvars={ "mbWarGamesProfile", "mbWargameFemales", "mbHostileSoldiers", "mbNonStaff", "mbZombies", "mbEnemyHeli", "mbEnableFultonAddStaff", "selectEvent", "enableEventHUNTED", "enableEventCRASHLAND", "enableEventLOST_COMS", "gameEventChanceFREE", "gameEventChanceMB" }
-|1.508|InfHelicopter.registerIvars={ "disableHeliAttack", "defaultHeliDoorOpenTime", "enableGetOutHeli", "setInvincibleHeli", "setTakeOffWaitTime", "disablePullOutHeli", "setLandingZoneWaitHeightTop", "disableDescentToLandingZone", "setSearchLightForcedHeli" }
-|1.514|InfInterrogation.registerIvars={ "enableInfInterrogation" }
-|1.521|InfMainTppIvars.registerIvars={ "playerHealthScale", "mbEnableLethalActions", "mbqfEnableSoldiers", "mbEnableBuddies", "mbPrioritizeFemale", "mbEnableMissionPrep", "disableLzs", "disableSpySearch", "disableHerbSearch", "disableSelectBuddy", "disableSelectTime", "disableSelectVehicle", "disableHeadMarkers", "disableWorldMarkers", "disableXrayMarkers", "disableFulton", "dontOverrideFreeLoadout", "clearItems", "clearSupportItems", "setSubsistenceSuit", "setDefaultHand", "disableMenuDrop", "disableMenuBuddy", "disableMenuAttack", "disableMenuHeliAttack", "disableSupportMenu", "abortMenuItemControl", "disableRetry", "gameOverOnDiscovery", "disableOutOfBoundsChecks", "disableGameOver", "disableTranslators", "fultonNoMbSupport", "fultonNoMbMedical", "fultonDyingPenalty", "fultonSleepPenalty", "fultonHoldupPenalty", "fultonDontApplyMbMedicalToSleep", "fultonHostageHandling", "fultonWildCardHandling", "fultonMotherBaseHandling", "handLevelSonar", "handLevelPhysical", "handLevelPrecision", "handLevelMedical", "itemLevelFulton", "itemLevelWormhole", "itemLevelIntScope", "itemLevelIDroid", "primaryWeaponOsp", "secondaryWeaponOsp", "tertiaryWeaponOsp", "randomizeMineTypes", "additionalMineFields", "repopulateRadioTapes", "quietRadioMode", "telopMode", "mbUnlockGoalDoors", "mbForceBattleGearDevelopLevel", "mbCollectionRepop", "playerHandEquip", "startOnFootFREE", "startOnFootMISSION", "startOnFootMB_ALL", "changeCpSubTypeFREE", "changeCpSubTypeMISSION" }
-|1.528|InfMBAssets.registerIvars={ "mbShowBigBossPosters", "mbShowQuietCellSigns", "mbShowMbEliminationMonument", "mbShowSahelan", "mbShowAiPod", "mbShowShips", "mbShowEli", "mbShowCodeTalker", "mbShowHuey", "mbEnableOceanSettings", "mbSetOceanBaseHeight", "mbSetOceanProjectionScale", "mbSetOceanBlendEnd", "mbSetOceanFarProjectionAmplitude", "mbSetOceanSpecularIntensity", "mbSetOceanDisplacementStrength", "mbSetOceanWaveAmplitude", "mbSetOceanWindDirectionP1", "mbSetOceanWindDirectionP2" }
-|1.534|InfMBGimmick.registerIvars={ "enableIRSensorsMB", "enableFultonAlarmsMB", "hideContainersMB", "hideAACannonsMB", "hideAAGatlingsMB", "hideTurretMgsMB", "hideMortarsMB" }
-|1.541|InfMBVisit.registerIvars={ "mbMoraleBoosts", "revengeDecayOnLongMbVisit" }
-|1.548|InfMission.registerIvars={ "manualMissionCode", "manualSequence", "loadAddonMission", "ihMissionsPercentageCount" }
-|1.554|InfMotion.registerIvars={ "motionGroupIndex", "motionGaniIndex", "motionHold", "motionRepeat" }
-|1.56|InfNPC.registerIvars={ "mbAdditionalNpcs" }
-|1.567|InfNPCHeli.registerIvars={ "mbEnemyHeliColor", "supportHeliPatrolsMB", "attackHeliPatrolsFREE", "attackHeliPatrolsMB" }
-|1.573|InfNPCOcelot.registerIvars={ "mbEnableOcelot" }
-|1.579|InfParasite.registerIvars={ "enableParasiteEvent", "armorParasiteEnabled", "mistParasiteEnabled", "camoParasiteEnabled", "parasiteWeather", "parasitePeriod_MIN", "parasitePeriod_MAX" }
-|1.586|InfPuppy.registerIvars={ "mbEnablePuppy" }
-|1.592|InfQuestIvars.registerIvars={ "unlockSideOps", "unlockSideOpNumber", "sideOpsSelectionMode", "showAllOpenSideopsOnUi", "ihSideopsPercentageCount", "quest_useAltForceFulton", "sideops_STORY", "sideops_EXTRACT_INTERPRETER", "sideops_BLUEPRINT", "sideops_EXTRACT_HIGHLY_SKILLED", "sideops_PRISONER", "sideops_CAPTURE_ANIMAL", "sideops_WANDERING_SOLDIER", "sideops_DDOG_PRISONER", "sideops_ELIMINATE_HEAVY_INFANTRY", "sideops_MINE_CLEARING", "sideops_ELIMINATE_ARMOR_VEHICLE", "sideops_EXTRACT_GUNSMITH", "sideops_ELIMINATE_TANK_UNIT", "sideops_ELIMINATE_PUPPETS", "sideops_TARGET_PRACTICE" }
-|1.599|InfReinforce.registerIvars={ "forceSuperReinforce", "forceReinforceRequest", "enableHeliReinforce", "enableSoldiersWithVehicleReinforce", "disableReinforceHeliPullOut" }
-|1.606|InfResources.registerIvars={ "enableResourceScale", "resourceScaleMaterial", "resourceScalePlant", "resourceScalePoster", "resourceScaleDiamond", "resourceScaleContainer" }
-|1.613|InfRevengeIvars.registerIvars={ "revengeBlockForMissionCount", "disableNoRevengeMissions", "disableNoStealthCombatRevengeMission", "applyPowersToLrrp", "applyPowersToOuterBase", "allowHeadGearCombo", "allowMissileWeaponsCombo", "balanceHeadGear", "balanceWeaponPowers", "disableConvertArmorToShield", "disableMissionsWeaponRestriction", "disableMotherbaseWeaponRestriction", "enableMgVsShotgunVariation", "randomizeSmallCpPowers", "revengeModeFREE", "revengeModeMISSION", "revengeModeMB_ALL", "allowHeavyArmorFREE", "allowHeavyArmorMISSION", "enableDDEquipFREE", "enableDDEquipMISSION", "enableDDEquipMB_ALL", "SNIPER_MIN", "SNIPER_MAX", "MISSILE_MIN", "MISSILE_MAX", "MG_MIN", "MG_MAX", "SHOTGUN_MIN", "SHOTGUN_MAX", "SMG_MIN", "SMG_MAX", "ASSAULT_MIN", "ASSAULT_MAX", "GUN_LIGHT_MIN", "GUN_LIGHT_MAX", "ARMOR_MIN", "ARMOR_MAX", "SOFT_ARMOR_MIN", "SOFT_ARMOR_MAX", "SHIELD_MIN", "SHIELD_MAX", "HELMET_MIN", "HELMET_MAX", "NVG_MIN", "NVG_MAX", "GAS_MASK_MIN", "GAS_MASK_MAX", "DECOY_MIN", "DECOY_MAX", "MINE_MIN", "MINE_MAX", "CAMERA_MIN", "CAMERA_MAX", "STEALTH_MIN", "STEALTH_MAX", "COMBAT_MIN", "COMBAT_MAX", "HOLDUP_MIN", "HOLDUP_MAX", "FULTON_MIN", "FULTON_MAX", "STRONG_WEAPON_MIN", "STRONG_WEAPON_MAX", "STRONG_SNIPER_MIN", "STRONG_SNIPER_MAX", "STRONG_MISSILE_MIN", "STRONG_MISSILE_MAX", "ACTIVE_DECOY_MIN", "ACTIVE_DECOY_MAX", "GUN_CAMERA_MIN", "GUN_CAMERA_MAX", "reinforceLevel_MIN", "reinforceLevel_MAX", "reinforceCount_MIN", "reinforceCount_MAX", "revengeIgnoreBlocked_MIN", "revengeIgnoreBlocked_MAX" }
-|1.621|InfSoldier.registerIvars={ "mbAdditionalSoldiers", "mbNpcRouteChange", "enableLrrpFreeRoam", "enableWildCardFreeRoam" }
-|1.628|InfSoldierParams.registerIvars={ "soldierParamsProfile", "soldierSightDistScale", "soldierNightSightDistScale", "soldierHearingDistScale", "soldierHealthScale" }
-|1.635|InfTimeScale.registerIvars={ "clockTimeScale", "clock_setTime", "speedCamContinueTime", "speedCamWorldTimeScale", "speedCamPlayerTimeScale", "speedCamNoDustEffect" }
-|1.642|InfVehicle.registerIvars={ "vehiclePatrolProfile", "vehiclePatrolLvEnable", "vehiclePatrolTruckEnable", "vehiclePatrolWavEnable", "vehiclePatrolWavHeavyEnable", "vehiclePatrolTankEnable", "vehiclePatrolPaintType", "vehiclePatrolClass", "vehiclePatrolEmblemType" }
-|1.648|InfWalkerGear.registerIvars={ "enableWalkerGearsFREE", "enableWalkerGearsMB", "mbWalkerGearsColor", "mbWalkerGearsWeapon", "enableWalkerGearsFREE", "enableWalkerGearsMB" }
-|1.654|InfWarp.registerIvars={ "warpPlayerUpdate" }
-|1.66|InfWeather.registerIvars={ "weather_forceType", "weather_fogDensity", "weather_fogType" }
-|1.666|Ivars.missionModeIvarsNames={}
-|1.673|InfEneFovaIvars.missionModeIvarsNames={
+|4.952|InfCore start 05/07/18 18:52:51
+|4.957|Infinite Heaven r230
+|4.962|InfCore.RefreshFileList
+|4.966|cmd.exe /c dir /b /s "C:\Steam\steamapps\common\MGS_TPP\mod\*.*" > "C:\Steam\steamapps\common\MGS_TPP\mod\ih_files.txt"
+|5.28|package.path:./?.lua;C:/Steam/steamapps/common/MGS_TPP/lua/?.lua;C:/Steam/steamapps/common/MGS_TPP/lua/?/init.lua;C:/Steam/steamapps/common/MGS_TPP/?.lua;C:/Steam/steamapps/common/MGS_TPP/?/init.lua;C:/Steam/steamapps/common/MGS_TPP/mod/modules/?.lua
+|5.293|InfCore.LoadLibrary core/InfInspect.lua
+|5.298|Found external for core/InfInspect.lua
+|5.305|InfCore.LoadLibrary core/InfUtil.lua
+|5.31|Found external for core/InfUtil.lua
+|5.316|InfCore.LoadLibrary core/InfTppUtil.lua
+|5.321|Found external for core/InfTppUtil.lua
+|5.326|InfCore.LoadLibrary core/IvarProc.lua
+|5.332|Found external for core/IvarProc.lua
+|5.341|LoadExternalModule Ivars
+|5.349|LoadExternalModule IvarsPersist
+|5.356|IvarProc.LoadEvars
+|5.361|IvarProc.LoadSave
+|5.367|start "" "C:/Steam/steamapps/common/MGS_TPP/mod/IHExt.exe" "C:/Steam/steamapps/common/MGS_TPP/" mod mgsvtpp
+|5.624|InfCore.LoadLibrary core/InfModelProc.lua
+|5.631|Found external for core/InfModelProc.lua
+|5.638|InfModelProc.LoadFovaInfo
+|5.644|InfModelProc.LoadFovaInfo: mgoHeadgear_fovaInfo.lua
+|5.65|InfInit.lua done
+|6.878|init.lua done
+|6.886|start.lua
+|8.121|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipIdTable.lua
+|8.129|Found external for Tpp/Scripts/Equip/EquipIdTable.lua
+|8.147|---------- EquipIdTable personal
+|8.159|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipParameters.lua
+|8.215|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/parts/EquipMotionDataForChimera.lua
+|8.237|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceId.lua
+|8.251|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyBodyId.lua
+|8.268|Loading parameter tables
+|8.296|InfCore.LoadLibrary Tpp/Scripts/Equip/ChimeraPartsPackageTable.lua
+|8.349|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/EquipParameterTables.lua
+|8.375|InfCore.LoadLibrary /Assets/tpp/level_asset/damage/ParameterTables/DamageParameterTables.lua
+|8.417|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2ParameterTables.lua
+|8.439|InfCore.LoadLibrary Tpp/Scripts/Equip/EquipMotionData.lua
+|8.455|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroupId.lua
+|8.469|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/TppEnemyFaceGroup.lua
+|8.49|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/enemy/Soldier2FaceAndBodyData.lua
+|8.514|InfModelRegistry.Setup:
+|8.522|#faceDefinitions:513 start faceId:690
+|8.541|InfCore.LoadLibrary /Assets/tpp/level_asset/weapon/ParameterTables/RecoilMaterial/RecoilMaterialTable.lua
+|8.59|Load Tpp.lua
+|8.597|Tpp.lua done
+|8.644|InfRequiresStart - start of TppDefine requires-list
+|8.692|Load TppDefine.lua
+|8.699|TppDefine.lua done
+|8.956|mbdvc_map_location_parameter.GetGlobalLocationParameter 65535
+|8.995|mbdvc_map_location_parameter.GetLocationParameter 65534
+|11.336|InfInitMain:
+|11.342|InfCore.LoadLibrary core/InfButton.lua
+|11.348|Found external for core/InfButton.lua
+|11.354|InfCore.LoadLibrary core/InfModules.lua
+|11.359|Found external for core/InfModules.lua
+|11.365|InfCore.LoadLibrary core/InfMain.lua
+|11.371|Found external for core/InfMain.lua
+|11.378|Load InfMain.lua
+|11.384|InfMain.lua done
+|11.389|InfMain.LoadExternalModules
+|11.394|Lua memory usage start: 7127.9130859375 KB
+|11.399|InfModules.moduleNames={ "Ivars", "IvarsPersist", "InfLangProc", "InfLang", "InfMenu", "InfMenuDefs", "InfMenuCommands", "InfQuickMenuDefs", "DebugIHQuest", "IHDebugVars", "IHGenKnownModuleNames", "IHGenMockModules", "IHGenModuleReferences", "IHGenUnknownHashes", "IHRuntimeAnalyze", "IHTearDown", "InfAnimal", "InfBodyInfo", "InfBuddy", "InfCamera", "InfCameraPlayCam", "InfDemo", "InfEneFova", "InfEneFovaIvars", "InfEnemyPhase", "InfEquip", "InfExtToMgsv", "InfFova", "InfFovaIvars", "InfGameEvent", "InfHelicopter", "InfInterrogation", "InfLangCpNames", "InfLookup", "InfLZ", "InfMainTpp", "InfMainTppIvars", "InfMBAssets", "InfMBGimmick", "InfMBStaff", "InfMBVisit", "InfMenuCommandsTpp", "InfMgsvToExt", "InfMission", "InfMotion", "InfNPC", "InfNPCHeli", "InfNPCOcelot", "InfObjects", "InfParasite", "InfPositions", "InfPuppy", "InfQuest", "InfQuestIvars", "InfReinforce", "InfResources", "InfRevenge", "InfRevengeIvars", "InfSoldier", "InfSoldierParams", "InfTimeScale", "InfUserMarker", "InfVehicle", "InfWalkerGear", "InfWarp", "InfWeather", "quest_q52130_EXTERNAL" }
+|11.405|LoadExternalModule Ivars
+|11.412|Ivars.SetupIvars
+|11.417|LoadExternalModule IvarsPersist
+|11.423|LoadExternalModule InfLangProc
+|11.43|LoadExternalModule InfLang
+|11.436|LoadExternalModule InfMenu
+|11.444|LoadExternalModule InfMenuDefs
+|11.452|LoadExternalModule InfMenuCommands
+|11.461|LoadExternalModule InfQuickMenuDefs
+|11.469|LoadExternalModule DebugIHQuest
+|11.478|LoadExternalModule IHDebugVars
+|11.486|LoadExternalModule IHGenKnownModuleNames
+|11.494|LoadExternalModule IHGenMockModules
+|11.51|LoadExternalModule IHGenModuleReferences
+|11.524|LoadExternalModule IHGenUnknownHashes
+|11.531|LoadExternalModule IHRuntimeAnalyze
+|11.538|LoadExternalModule IHTearDown
+|11.545|LoadExternalModule InfAnimal
+|11.552|LoadExternalModule InfBodyInfo
+|11.559|LoadExternalModule InfBuddy
+|11.565|LoadExternalModule InfCamera
+|11.573|LoadExternalModule InfCameraPlayCam
+|11.581|LoadExternalModule InfDemo
+|11.587|LoadExternalModule InfEneFova
+|11.595|LoadExternalModule InfEneFovaIvars
+|11.601|LoadExternalModule InfEnemyPhase
+|11.608|LoadExternalModule InfEquip
+|11.615|LoadExternalModule InfExtToMgsv
+|11.622|LoadExternalModule InfFova
+|11.63|LoadExternalModule InfFovaIvars
+|11.637|LoadExternalModule InfGameEvent
+|11.643|LoadExternalModule InfHelicopter
+|11.65|LoadExternalModule InfInterrogation
+|11.656|LoadExternalModule InfLangCpNames
+|11.663|LoadExternalModule InfLookup
+|11.672|InfLookup.BuildGameClassEnumNameLookup: HeadshotMessageFlag
+|11.678|InfLookup.BuildGameClassEnumNameLookup: NeutralizeCause
+|11.684|InfLookup.BuildGameClassEnumNameLookup: NeutralizeFobCause
+|11.69|InfLookup.BuildGameClassEnumNameLookup: NeutralizeType
+|11.695|InfLookup.BuildGameClassEnumNameLookup: ScriptBlock
+|11.7|InfLookup.BuildGameClassEnumNameLookup: ScriptBlock
+|11.706|InfLookup.BuildGameClassEnumNameLookup: StageBlock
+|11.711|InfLookup.BuildGameClassEnumNameLookup: TppCollection
+|11.716|InfLookup.BuildGameClassEnumNameLookup: TppDamage
+|11.722|InfLookup.BuildGameClassEnumNameLookup: TppDamage
+|11.728|InfLookup.BuildGameClassEnumNameLookup: TppDamage
+|11.734|InfLookup.BuildGameClassEnumNameLookup: TppEquip
+|11.742|InfLookup.BuildGameClassEnumNameLookup: TppGameObject
+|11.748|InfLookup.BuildGameClassEnumNameLookup: TppGameObject
+|11.754|InfLookup.BuildGameClassEnumNameLookup: TppGameObject
+|11.759|InfLookup.BuildGameClassEnumNameLookup: TppGameObject
+|11.765|InfLookup.BuildGameClassEnumNameLookup: TppSystem
+|11.77|LoadExternalModule InfLZ
+|11.779|LoadExternalModule InfMainTpp
+|11.787|LoadExternalModule InfMainTppIvars
+|11.795|LoadExternalModule InfMBAssets
+|11.802|LoadExternalModule InfMBGimmick
+|11.808|LoadExternalModule InfMBStaff
+|11.815|LoadExternalModule InfMBVisit
+|11.821|LoadExternalModule InfMenuCommandsTpp
+|11.828|LoadExternalModule InfMgsvToExt
+|11.834|LoadExternalModule InfMission
+|11.841|LoadExternalModule InfMotion
+|11.848|LoadExternalModule InfNPC
+|11.857|LoadExternalModule InfNPCHeli
+|11.865|LoadExternalModule InfNPCOcelot
+|11.871|LoadExternalModule InfObjects
+|11.878|LoadExternalModule InfParasite
+|11.887|LoadExternalModule InfPositions
+|11.893|LoadExternalModule InfPuppy
+|11.9|LoadExternalModule InfQuest
+|11.907|LoadExternalModule InfQuestIvars
+|11.914|LoadExternalModule InfReinforce
+|11.92|LoadExternalModule InfResources
+|11.927|LoadExternalModule InfRevenge
+|11.933|LoadExternalModule InfRevengeIvars
+|11.94|LoadExternalModule InfSoldier
+|11.947|LoadExternalModule InfSoldierParams
+|11.954|LoadExternalModule InfTimeScale
+|11.961|LoadExternalModule InfUserMarker
+|11.967|LoadExternalModule InfVehicle
+|11.974|LoadExternalModule InfWalkerGear
+|11.981|LoadExternalModule InfWarp
+|11.988|LoadExternalModule InfWeather
+|11.996|LoadExternalModule quest_q52130_EXTERNAL
+|12.003|q52130-EXTERNAL
+|12.009|PostAllModulesLoad
+|12.014|DebugModeEnable:true
+|12.02|AddDevMenus
+|12.025|Ivars.PostAllModulesLoad:
+|12.031|Adding module Ivars
+|12.037|InfAnimal.registerIvars={ "mbEnableBirds" }
+|12.042|InfBuddy.registerIvars={ "buddyChangeEquipVar" }
+|12.048|InfCamera.registerIvars={ "adjustCameraUpdate", "cameraMode", "moveScale", "disableCamText", "focalLengthFreeCam", "focusDistanceFreeCam", "apertureFreeCam", "distanceFreeCam", "positionXFreeCam", "positionYFreeCam", "positionZFreeCam" }
+|12.054|InfCameraPlayCam.registerIvars={ "cam_focalLength", "cam_focusDistance", "cam_aperture", "cam_isFollowPos", "cam_isFollowRot", "cam_followTime", "cam_followDelayTime", "cam_timeToSleep", "cam_interpTimeAtStart", "cam_fitOnCamera", "cam_timeToStartToFitCamera", "cam_fitCameraInterpTime", "cam_diffFocalLengthToReFitCamera", "cam_callSeOfCameraInterp", "cam_useLastSelectedIndex", "cam_isCollisionCheck", "cam_selectListObject", "cam_offsetTargetX", "cam_offsetTargetY", "cam_offsetTargetZ", "cam_offsetPosX", "cam_offsetPosY", "cam_offsetPosZ" }
+|12.06|InfDemo.registerIvars={ "useSoldierForDemos", "mbDemoSelection", "mbSelectedDemo", "forceDemoAllowAction", "mbDemoOverrideTime", "mbDemoHour", "mbDemoMinute", "mbDemoOverrideWeather", "mbDontDemoDisableBuddy" }
+|12.066|InfEneFovaIvars.registerIvars={ "mbDDHeadGear", "customSoldierTypeFREE", "customSoldierTypeMB_ALL", "customSoldierTypeFemaleMB_ALL" }
+|12.072|InfEnemyPhase.registerIvars={ "minPhase", "maxPhase", "keepPhase", "phaseUpdateRate", "phaseUpdateRange", "phaseUpdate", "printPhaseChanges", "soldierAlertOnHeavyVehicleDamage", "cpAlertOnVehicleFulton" }
+|12.078|InfEquip.registerIvars={ "weaponTableStrength", "weaponTableAfgh", "weaponTableMafr", "weaponTableSkull", "weaponTableDD", "allowUndevelopedDDEquip", "mbSoldierEquipRange", "mbDDEquipNonLethal", "putEquipOnTrucks", "itemDropChance", "customWeaponTableFREE", "customWeaponTableMISSION", "customWeaponTableMB_ALL", "soldierEquipGrade_MIN", "soldierEquipGrade_MAX" }
+|12.085|InfFovaIvars.registerIvars={ "playerType", "playerTypeDirect", "playerPartsType", "playerPartsTypeDirect", "playerCamoType", "playerCamoTypeDirect", "playerFaceEquipId", "playerFaceEquipIdDirect", "playerFaceId", "playerFaceFilter", "playerFaceIdDirect", "maleFaceId", "femaleFaceId", "faceFova", "faceDecoFova", "hairFova", "hairDecoFova", "faceFovaDirect", "faceDecoFovaDirect", "hairFovaDirect", "hairDecoFovaDirect", "faceFovaUnknown1", "faceFovaUnknown2", "faceFovaUnknown3", "faceFovaUnknown4", "faceFovaUnknown5", "faceFovaUnknown6", "faceFovaUnknown7", "faceFovaUnknown8", "faceFovaUnknown9", "faceFovaUnknown10", "enableFovaMod", "fovaSelection", "fovaPlayerType", "fovaPlayerPartsType", "skipDevelopChecks" }
+|12.092|InfGameEvent.registerIvars={ "mbWarGamesProfile", "mbWargameFemales", "mbHostileSoldiers", "mbNonStaff", "mbZombies", "mbEnemyHeli", "mbEnableFultonAddStaff", "selectEvent", "enableEventHUNTED", "enableEventCRASHLAND", "enableEventLOST_COMS", "gameEventChanceFREE", "gameEventChanceMB" }
+|12.1|InfHelicopter.registerIvars={ "disableHeliAttack", "defaultHeliDoorOpenTime", "enableGetOutHeli", "setInvincibleHeli", "setTakeOffWaitTime", "disablePullOutHeli", "setLandingZoneWaitHeightTop", "disableDescentToLandingZone", "setSearchLightForcedHeli" }
+|12.107|InfInterrogation.registerIvars={ "enableInfInterrogation" }
+|12.113|InfMainTppIvars.registerIvars={ "playerHealthScale", "mbEnableLethalActions", "mbqfEnableSoldiers", "mbEnableBuddies", "mbPrioritizeFemale", "mbEnableMissionPrep", "disableLzs", "disableSpySearch", "disableHerbSearch", "disableSelectBuddy", "disableSelectTime", "disableSelectVehicle", "disableHeadMarkers", "disableWorldMarkers", "disableXrayMarkers", "disableFulton", "dontOverrideFreeLoadout", "clearItems", "clearSupportItems", "setSubsistenceSuit", "setDefaultHand", "disableMenuDrop", "disableMenuBuddy", "disableMenuAttack", "disableMenuHeliAttack", "disableSupportMenu", "abortMenuItemControl", "disableRetry", "gameOverOnDiscovery", "disableOutOfBoundsChecks", "disableGameOver", "disableTranslators", "fultonNoMbSupport", "fultonNoMbMedical", "fultonDyingPenalty", "fultonSleepPenalty", "fultonHoldupPenalty", "fultonDontApplyMbMedicalToSleep", "fultonHostageHandling", "fultonWildCardHandling", "fultonMotherBaseHandling", "handLevelSonar", "handLevelPhysical", "handLevelPrecision", "handLevelMedical", "itemLevelFulton", "itemLevelWormhole", "itemLevelIntScope", "itemLevelIDroid", "primaryWeaponOsp", "secondaryWeaponOsp", "tertiaryWeaponOsp", "randomizeMineTypes", "additionalMineFields", "repopulateRadioTapes", "quietRadioMode", "telopMode", "mbUnlockGoalDoors", "mbForceBattleGearDevelopLevel", "mbCollectionRepop", "playerHandEquip", "cam_disableCameraAnimations", "startOnFootFREE", "startOnFootMISSION", "startOnFootMB_ALL", "changeCpSubTypeFREE", "changeCpSubTypeMISSION" }
+|12.12|InfMBAssets.registerIvars={ "mbShowBigBossPosters", "mbShowQuietCellSigns", "mbShowMbEliminationMonument", "mbShowSahelan", "mbShowAiPod", "mbShowShips", "mbShowEli", "mbShowCodeTalker", "mbShowHuey", "mbEnableOceanSettings", "mbSetOceanBaseHeight", "mbSetOceanProjectionScale", "mbSetOceanBlendEnd", "mbSetOceanFarProjectionAmplitude", "mbSetOceanSpecularIntensity", "mbSetOceanDisplacementStrength", "mbSetOceanWaveAmplitude", "mbSetOceanWindDirectionP1", "mbSetOceanWindDirectionP2" }
+|12.126|InfMBGimmick.registerIvars={ "enableIRSensorsMB", "enableFultonAlarmsMB", "hideContainersMB", "hideAACannonsMB", "hideAAGatlingsMB", "hideTurretMgsMB", "hideMortarsMB" }
+|12.132|InfMBVisit.registerIvars={ "mbMoraleBoosts", "revengeDecayOnLongMbVisit" }
+|12.138|InfMission.registerIvars={ "manualMissionCode", "manualSequence", "loadAddonMission", "ihMissionsPercentageCount" }
+|12.144|InfMotion.registerIvars={ "motionGroupIndex", "motionGaniIndex", "motionHold", "motionRepeat" }
+|12.15|InfNPC.registerIvars={ "mbAdditionalNpcs" }
+|12.156|InfNPCHeli.registerIvars={ "mbEnemyHeliColor", "supportHeliPatrolsMB", "attackHeliPatrolsFREE", "attackHeliPatrolsMB" }
+|12.162|InfNPCOcelot.registerIvars={ "mbEnableOcelot" }
+|12.168|InfObjects.registerIvars={ "selectListObject" }
+|12.174|InfParasite.registerIvars={ "enableParasiteEvent", "armorParasiteEnabled", "mistParasiteEnabled", "camoParasiteEnabled", "parasiteWeather", "parasitePeriod_MIN", "parasitePeriod_MAX" }
+|12.181|InfPositions.registerIvars={ "selectListPosition" }
+|12.187|InfPuppy.registerIvars={ "mbEnablePuppy" }
+|12.193|InfQuestIvars.registerIvars={ "unlockSideOps", "unlockSideOpNumber", "sideOpsSelectionMode", "showAllOpenSideopsOnUi", "ihSideopsPercentageCount", "quest_useAltForceFulton", "sideops_STORY", "sideops_EXTRACT_INTERPRETER", "sideops_BLUEPRINT", "sideops_EXTRACT_HIGHLY_SKILLED", "sideops_PRISONER", "sideops_CAPTURE_ANIMAL", "sideops_WANDERING_SOLDIER", "sideops_DDOG_PRISONER", "sideops_ELIMINATE_HEAVY_INFANTRY", "sideops_MINE_CLEARING", "sideops_ELIMINATE_ARMOR_VEHICLE", "sideops_EXTRACT_GUNSMITH", "sideops_ELIMINATE_TANK_UNIT", "sideops_ELIMINATE_PUPPETS", "sideops_TARGET_PRACTICE" }
+|12.2|InfReinforce.registerIvars={ "forceSuperReinforce", "forceReinforceRequest", "enableHeliReinforce", "enableSoldiersWithVehicleReinforce", "disableReinforceHeliPullOut" }
+|12.206|InfResources.registerIvars={ "enableResourceScale", "resourceScaleMaterial", "resourceScalePlant", "resourceScalePoster", "resourceScaleDiamond", "resourceScaleContainer" }
+|12.213|InfRevengeIvars.registerIvars={ "revengeBlockForMissionCount", "disableNoRevengeMissions", "disableNoStealthCombatRevengeMission", "applyPowersToLrrp", "applyPowersToOuterBase", "allowHeadGearCombo", "allowMissileWeaponsCombo", "balanceHeadGear", "balanceWeaponPowers", "disableConvertArmorToShield", "disableMissionsWeaponRestriction", "disableMotherbaseWeaponRestriction", "enableMgVsShotgunVariation", "randomizeSmallCpPowers", "revengeModeFREE", "revengeModeMISSION", "revengeModeMB_ALL", "allowHeavyArmorFREE", "allowHeavyArmorMISSION", "enableDDEquipFREE", "enableDDEquipMISSION", "enableDDEquipMB_ALL", "SNIPER_MIN", "SNIPER_MAX", "MISSILE_MIN", "MISSILE_MAX", "MG_MIN", "MG_MAX", "SHOTGUN_MIN", "SHOTGUN_MAX", "SMG_MIN", "SMG_MAX", "ASSAULT_MIN", "ASSAULT_MAX", "GUN_LIGHT_MIN", "GUN_LIGHT_MAX", "ARMOR_MIN", "ARMOR_MAX", "SOFT_ARMOR_MIN", "SOFT_ARMOR_MAX", "SHIELD_MIN", "SHIELD_MAX", "HELMET_MIN", "HELMET_MAX", "NVG_MIN", "NVG_MAX", "GAS_MASK_MIN", "GAS_MASK_MAX", "DECOY_MIN", "DECOY_MAX", "MINE_MIN", "MINE_MAX", "CAMERA_MIN", "CAMERA_MAX", "STEALTH_MIN", "STEALTH_MAX", "COMBAT_MIN", "COMBAT_MAX", "HOLDUP_MIN", "HOLDUP_MAX", "FULTON_MIN", "FULTON_MAX", "STRONG_WEAPON_MIN", "STRONG_WEAPON_MAX", "STRONG_SNIPER_MIN", "STRONG_SNIPER_MAX", "STRONG_MISSILE_MIN", "STRONG_MISSILE_MAX", "ACTIVE_DECOY_MIN", "ACTIVE_DECOY_MAX", "GUN_CAMERA_MIN", "GUN_CAMERA_MAX", "reinforceLevel_MIN", "reinforceLevel_MAX", "reinforceCount_MIN", "reinforceCount_MAX", "revengeIgnoreBlocked_MIN", "revengeIgnoreBlocked_MAX" }
+|12.219|InfSoldier.registerIvars={ "mbAdditionalSoldiers", "mbNpcRouteChange", "enableLrrpFreeRoam", "enableWildCardFreeRoam" }
+|12.225|InfSoldierParams.registerIvars={ "soldierParamsProfile", "soldierSightDistScale", "soldierNightSightDistScale", "soldierHearingDistScale", "soldierHealthScale" }
+|12.231|InfTimeScale.registerIvars={ "clockTimeScale", "clock_setTime", "speedCamContinueTime", "speedCamWorldTimeScale", "speedCamPlayerTimeScale", "speedCamNoDustEffect" }
+|12.237|InfVehicle.registerIvars={ "vehiclePatrolProfile", "vehiclePatrolLvEnable", "vehiclePatrolTruckEnable", "vehiclePatrolWavEnable", "vehiclePatrolWavHeavyEnable", "vehiclePatrolTankEnable", "vehiclePatrolPaintType", "vehiclePatrolClass", "vehiclePatrolEmblemType" }
+|12.243|InfWalkerGear.registerIvars={ "enableWalkerGearsFREE", "enableWalkerGearsMB", "mbWalkerGearsColor", "mbWalkerGearsWeapon", "enableWalkerGearsFREE", "enableWalkerGearsMB" }
+|12.248|InfWarp.registerIvars={ "warpPlayerUpdate" }
+|12.254|InfWeather.registerIvars={ "weather_forceType", "weather_fogDensity", "weather_fogType" }
+|12.26|Ivars.missionModeIvarsNames={}
+|12.266|InfEneFovaIvars.missionModeIvarsNames={
   customSoldierType = { "customSoldierTypeFREE", "customSoldierTypeMB_ALL" },
   customSoldierTypeFemale = { "customSoldierTypeFemaleMB_ALL" }
-}
-|1.679|InfEquip.missionModeIvarsNames={
+}
+|12.271|InfEquip.missionModeIvarsNames={
   customWeaponTable = { "customWeaponTableFREE", "customWeaponTableMISSION", "customWeaponTableMB_ALL" }
-}
-|1.686|InfGameEvent.missionModeIvarsNames={
+}
+|12.277|InfGameEvent.missionModeIvarsNames={
   gameEventChance = { "gameEventChanceFREE", "gameEventChanceMB" }
-}
-|1.692|InfMainTppIvars.missionModeIvarsNames={
+}
+|12.283|InfMainTppIvars.missionModeIvarsNames={
   changeCpSubType = { "changeCpSubTypeFREE", "changeCpSubTypeMISSION" },
   startOnFoot = { "startOnFootFREE", "startOnFootMISSION", "startOnFootMB_ALL" }
-}
-|1.699|InfNPCHeli.missionModeIvarsNames={
+}
+|12.289|InfNPCHeli.missionModeIvarsNames={
   attackHeliPatrols = { "attackHeliPatrolsFREE", "attackHeliPatrolsMB" }
-}
-|1.705|InfRevengeIvars.missionModeIvarsNames={
+}
+|12.296|InfRevengeIvars.missionModeIvarsNames={
   allowHeavyArmor = { "allowHeavyArmorFREE", "allowHeavyArmorMISSION" },
   enableDDEquip = { "enableDDEquipFREE", "enableDDEquipMISSION", "enableDDEquipMB_ALL" },
   revengeMode = { "revengeModeFREE", "revengeModeMISSION", "revengeModeMB_ALL" }
-}
-|1.712|InfWalkerGear.missionModeIvarsNames={
+}
+|12.304|InfWalkerGear.missionModeIvarsNames={
   enableWalkerGears = { "enableWalkerGearsFREE", "enableWalkerGearsMB" }
-}
-|1.718|IvarsPersist.PostAllModulesLoad:
-|1.725|Adding module persistIvars
-|1.731|InfLangProc.PostAllModulesLoad:
-|1.738|Adding module Lang strings
-|1.748|Adding LangStrings for InfAnimal
-|1.755|Adding LangStrings for InfBuddy
-|1.762|Adding LangStrings for InfCamera
-|1.769|Adding LangStrings for InfDemo
-|1.776|Adding LangStrings for InfEneFovaIvars
-|1.784|Adding LangStrings for InfEnemyPhase
-|1.79|Adding LangStrings for InfEquip
-|1.797|Adding LangStrings for InfFovaIvars
-|1.804|Adding LangStrings for InfGameEvent
-|1.81|Adding LangStrings for InfHelicopter
-|1.817|Adding LangStrings for InfInterrogation
-|1.824|Adding LangStrings for InfMainTppIvars
-|1.831|Adding LangStrings for InfMBAssets
-|1.838|Adding LangStrings for InfMBGimmick
-|1.844|Adding LangStrings for InfMBStaff
-|1.851|Adding LangStrings for InfMBVisit
-|1.857|Adding LangStrings for InfMotion
-|1.864|Adding LangStrings for InfNPC
-|1.871|Adding LangStrings for InfNPCHeli
-|1.877|Adding LangStrings for InfNPCOcelot
-|1.884|Adding LangStrings for InfParasite
-|1.891|Adding LangStrings for InfPositions
-|1.897|Adding LangStrings for InfPuppy
-|1.904|Adding LangStrings for InfQuestIvars
-|1.911|Adding LangStrings for InfReinforce
-|1.918|Adding LangStrings for InfResources
-|1.924|Adding LangStrings for InfRevengeIvars
-|1.93|Adding LangStrings for InfSoldier
-|1.937|Adding LangStrings for InfSoldierParams
-|1.944|Adding LangStrings for InfTimeScale
-|1.951|Adding LangStrings for InfUserMarker
-|1.957|Adding LangStrings for InfVehicle
-|1.962|Adding LangStrings for InfWalkerGear
-|1.969|Adding LangStrings for InfWarp
-|1.975|Adding LangStrings for InfWeather
-|1.982|InfMenu.PostAllModulesLoad:
-|1.988|InfMenuDefs.PostAllModulesLoad:
-|1.994|InfMenuDefs.SetupMenuDefs: generate menus
-|2|InfQuestIvars.GenerateMenus
-|2.006|InfRevengeIvars.GenerateMenus
-|2.013|InfMenuDefs.SetupMenuDefs: register menus
-|2.019|InfMenuDefs.SetupMenuDefs: build menu items and gather children menus
-|2.025|InfMenuDefs.SetupMenuDefs: add children menus to parents
-|2.032|InfMenuDefs.SetupMenuDefs: add bottom items
-|2.038|InfMenuDefs.SetupMenuDefs: validate
-|2.045|InfMenuDefs.SetupMenuDefs: allMenus
-|2.051|InfMenuDefs.SetupMenuDefs: allItems
-|2.064|InfMenuDefs.allItems------------={
-  inMissionMenu = { "InfMenuDefs.devInMissionMenu", "InfMenuCommands.DEBUG_SomeShiz", "InfMenuCommands.DEBUG_SomeShiz2", "InfMenuCommands.DEBUG_SomeShiz3", "Ivars.warpToListPosition", "Ivars.warpToListObject", "InfHelicopter.RequestHeliLzToLastMarker", "InfHelicopter.RequestHeliLzToLastMarkerAlt", "InfHelicopter.ForceExitHeli", "InfHelicopter.ForceExitHeliAlt", "InfHelicopter.PullOutHeli", "InfHelicopter.ChangeToIdleStateHeli", "Ivars.disablePullOutHeli", "InfMenuCommands.SetSelectedObjectToMarkerClosest", "InfMenuCommands.SetSelectedCpToMarkerClosestCp", "Ivars.selectedCp", "InfUserMarker.PrintLatestUserMarker", "InfMenuCommands.SetAllZombie", "InfMenuCommands.CheckPointSave", "Ivars.manualMissionCode", "Ivars.setCamToListObject", "Ivars.dropLoadedEquip", "Ivars.dropTestEquip", "Ivars.selectedGameObjectType", "Ivars.manualMissionCode", "Ivars.manualSequence", "Ivars.allowUndevelopedDDEquip", "Ivars.skipDevelopChecks", "Ivars.debugValue", "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine", "InfLookup.DumpValidStrCode", "InfMenuCommands.SetAllFriendly", "InfCamera.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfCore.ClearLog", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfHelicopter.RequestHeliLzToLastMarkerAlt", "InfHelicopter.ForceExitHeliAlt", "InfMenuCommandsTpp.DropCurrentEquip", "Ivars.warpPlayerUpdate", "InfFovaIvars.appearanceMenu", "Ivars.playerType", "Ivars.playerPartsType", "Ivars.playerCamoType", "Ivars.playerFaceEquipId", "Ivars.playerFaceFilter", "Ivars.playerFaceId", "InfMenuCommandsTpp.PrintFaceInfo", "InfMenuCommandsTpp.PrintCurrentAppearance", "InfFovaIvars.fovaModMenu", "Ivars.enableFovaMod", "Ivars.fovaSelection", "InfMenuCommandsTpp.PrintBodyInfo", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfBuddy.buddyMenu", "Ivars.buddyChangeEquipVar", "InfMenuCommandsTpp.QuietMoveToLastMarker", "Ivars.quietRadioMode", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfCamera.cameraMenu", "Ivars.adjustCameraUpdate", "Ivars.cameraMode", "InfCamera.WarpToCamPos", "Ivars.moveScale", "Ivars.disableCamText", "InfMenuCommands.SetStageBlockPositionToFreeCam", "InfCamera.ShowFreeCamPosition", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.debugInMissionMenu", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.LoadExternalModules", "InfMenuCommands.CopyLogToPrev", "InfMenuCommands.SetSelectedObjectToMarkerClosest", "Ivars.selectedCp", "InfMenuCommands.SetSelectedCpToMarkerObjectCp", "InfMenuCommands.SetSelectedCpToMarkerClosestCp", "InfMenuCommandsTpp.DEBUG_PrintCpPowerSettings", "InfMenuCommandsTpp.DEBUG_PrintPowersCount", "InfMenuCommandsTpp.DEBUG_PrintReinforceVars", "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine", "InfMenuCommandsTpp.DEBUG_ShowRevengeConfig", "InfFovaIvars.appearanceDebugMenu", "Ivars.faceFovaDirect", "Ivars.faceDecoFovaDirect", "Ivars.hairFovaDirect", "Ivars.hairDecoFovaDirect", "Ivars.playerTypeDirect", "Ivars.playerPartsTypeDirect", "Ivars.playerCamoTypeDirect", "Ivars.playerFaceIdDirect", "Ivars.playerFaceEquipIdDirect", "InfMenuCommandsTpp.PrintFaceInfo", "InfMenuCommandsTpp.PrintCurrentAppearance", "Ivars.faceFova", "Ivars.faceDecoFova", "Ivars.hairFova", "Ivars.hairDecoFova", "Ivars.faceFovaUnknown1", "Ivars.faceFovaUnknown2", "Ivars.faceFovaUnknown3", "Ivars.faceFovaUnknown4", "Ivars.faceFovaUnknown5", "Ivars.faceFovaUnknown6", "Ivars.faceFovaUnknown7", "Ivars.faceFovaUnknown8", "Ivars.faceFovaUnknown9", "Ivars.faceFovaUnknown10", "InfFovaIvars.fovaModMenu", "Ivars.enableFovaMod", "Ivars.fovaSelection", "InfMenuCommandsTpp.PrintBodyInfo", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfFovaIvars.appearanceDebugMenu", "Ivars.faceFovaDirect", "Ivars.faceDecoFovaDirect", "Ivars.hairFovaDirect", "Ivars.hairDecoFovaDirect", "Ivars.playerTypeDirect", "Ivars.playerPartsTypeDirect", "Ivars.playerCamoTypeDirect", "Ivars.playerFaceIdDirect", "Ivars.playerFaceEquipIdDirect", "InfMenuCommandsTpp.PrintFaceInfo", "InfMenuCommandsTpp.PrintCurrentAppearance", "Ivars.faceFova", "Ivars.faceDecoFova", "Ivars.hairFova", "Ivars.hairDecoFova", "Ivars.faceFovaUnknown1", "Ivars.faceFovaUnknown2", "Ivars.faceFovaUnknown3", "Ivars.faceFovaUnknown4", "Ivars.faceFovaUnknown5", "Ivars.faceFovaUnknown6", "Ivars.faceFovaUnknown7", "Ivars.faceFovaUnknown8", "Ivars.faceFovaUnknown9", "Ivars.faceFovaUnknown10", "InfFovaIvars.fovaModMenu", "Ivars.enableFovaMod", "Ivars.fovaSelection", "InfMenuCommandsTpp.PrintBodyInfo", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.printPressedButtons", "Ivars.printOnBlockChange", "Ivars.disableGameOver", "Ivars.disableOutOfBoundsChecks", "InfMenuCommands.SetAllFriendly", "InfMenuCommands.SetAllZombie", "InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent", "InfMenuCommands.ResetStageBlockPosition", "InfMenuCommands.SetStageBlockPositionToMarkerClosest", "InfMenuCommands.SetStageBlockPositionToFreeCam", "InfCamera.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfMenuCommands.CheckPointSave", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfEnemyPhase.phaseMenu", "Ivars.phaseUpdate", "Ivars.minPhase", "Ivars.maxPhase", "Ivars.keepPhase", "Ivars.phaseUpdateRate", "Ivars.phaseUpdateRange", "Ivars.soldierAlertOnHeavyVehicleDamage", "Ivars.printPhaseChanges", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMBAssets.mbOceanMenu", "Ivars.mbEnableOceanSettings", "Ivars.mbSetOceanBaseHeight", "Ivars.mbSetOceanProjectionScale", "Ivars.mbSetOceanBlendEnd", "Ivars.mbSetOceanFarProjectionAmplitude", "Ivars.mbSetOceanSpecularIntensity", "Ivars.mbSetOceanDisplacementStrength", "Ivars.mbSetOceanWaveAmplitude", "Ivars.mbSetOceanWindDirectionP1", "Ivars.mbSetOceanWindDirectionP2", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.playerRestrictionsInMissionMenu", "Ivars.disableHeadMarkers", "Ivars.disableWorldMarkers", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.miscInMissionMenu", "Ivars.itemDropChance", "Ivars.playerHealthScale", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMotion.motionsMenu", "Ivars.motionGroupIndex", "Ivars.motionGaniIndex", "Ivars.motionHold", "Ivars.motionRepeat", "InfMotion.StopMotion", "InfMotion.PlayCurrentMotion", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfPositions.positionsMenu", "InfPositions.AddPosition", "InfPositions.AddMarkerPositions", "InfPositions.WritePositions", "InfPositions.ClearPositions", "InfMenuCommands.GoBackItem", "InfMBStaff.mbStaffInMissionMenu", "InfMBStaff.AddPlayerStaff", "InfMBStaff.RemovePlayerStaff", "InfMBStaff.AddMarkerStaff", "InfMBStaff.RemoveMarkerStaff", "InfMBStaff.ClearPriorityStaff", "InfMenuCommands.GoBackItem", "InfHelicopter.supportHeliMenu", "Ivars.disableHeliAttack", "Ivars.setInvincibleHeli", "Ivars.setSearchLightForcedHeli", "Ivars.disablePullOutHeli", "Ivars.setLandingZoneWaitHeightTop", "Ivars.defaultHeliDoorOpenTime", "Ivars.disableLzs", "Ivars.startOnFootFREE", "Ivars.startOnFootMISSION", "Ivars.startOnFootMB_ALL", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfTimeScale.timeScaleMenu", "InfTimeScale.HighSpeedCameraToggle", "Ivars.speedCamContinueTime", "Ivars.speedCamWorldTimeScale", "Ivars.speedCamPlayerTimeScale", "Ivars.speedCamNoDustEffect", "Ivars.clockTimeScale", "Ivars.clock_setTime", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfUserMarker.userMarkerMenu", "InfUserMarker.WarpToLastUserMarker", "InfUserMarker.PrintLatestUserMarker", "InfUserMarker.PrintUserMarkers", "InfPositions.AddMarkerPositions", "InfPositions.WritePositions", "InfPositions.ClearPositions", "InfMenuCommands.GoBackItem", "InfWeather.weatherMenu", "InfWeather.weather_forceType", "InfWeather.weather_fogDensity", "InfWeather.weather_fogType", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "IHDebugQuestArea.debugQuestAreaMenu", "IHDebugQuestArea.enableDebugQuestArea", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.MenuOffItem" },
-  safeSpaceMenu = { "InfMenuDefs.devInAccMenu", "Ivars.quest_useAltForceFulton", "Ivars.sys_increaseMemoryAlloc", "InfMenuCommands.DEBUG_SomeShiz", "InfMenuCommands.DEBUG_SomeShiz2", "InfMenuCommands.DEBUG_SomeShiz3", "Ivars.selectEvent", "Ivars.manualSequence", "Ivars.allowUndevelopedDDEquip", "Ivars.skipDevelopChecks", "InfLookup.DumpValidStrCode", "InfMenuCommands.ForceRegenSeed", "Ivars.debugValue", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.systemMenu", "Ivars.enableIHExt", "Ivars.enableHelp", "InfMgsvToExt.TakeFocus", "Ivars.selectProfile", "InfMenuCommands.ResetSelectedProfile", "InfMenuCommands.SaveToProfile", "Ivars.enableQuickMenu", "Ivars.startOffline", "Ivars.skipLogos", "Ivars.loadAddonMission", "Ivars.ihMissionsPercentageCount", "InfMenuCommands.ResetAllSettingsItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfCamera.cameraMenu", "Ivars.adjustCameraUpdate", "Ivars.cameraMode", "InfCamera.WarpToCamPos", "Ivars.moveScale", "Ivars.disableCamText", "InfMenuCommands.SetStageBlockPositionToFreeCam", "InfCamera.ShowFreeCamPosition", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfDemo.demosMenu", "Ivars.useSoldierForDemos", "Ivars.mbDemoSelection", "Ivars.mbSelectedDemo", "Ivars.forceDemoAllowAction", "Ivars.mbDemoOverrideTime", "Ivars.mbDemoHour", "Ivars.mbDemoMinute", "Ivars.mbDemoOverrideWeather", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.debugMenu", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.LoadExternalModules", "InfMenuCommands.CopyLogToPrev", "Ivars.printPressedButtons", "InfCamera.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfMenuCommands.ShowMissionCode", "InfMenuCommands.ShowLangCode", "InfFovaIvars.appearanceDebugMenu", "Ivars.faceFovaDirect", "Ivars.faceDecoFovaDirect", "Ivars.hairFovaDirect", "Ivars.hairDecoFovaDirect", "Ivars.playerTypeDirect", "Ivars.playerPartsTypeDirect", "Ivars.playerCamoTypeDirect", "Ivars.playerFaceIdDirect", "Ivars.playerFaceEquipIdDirect", "InfMenuCommandsTpp.PrintFaceInfo", "InfMenuCommandsTpp.PrintCurrentAppearance", "Ivars.faceFova", "Ivars.faceDecoFova", "Ivars.hairFova", "Ivars.hairDecoFova", "Ivars.faceFovaUnknown1", "Ivars.faceFovaUnknown2", "Ivars.faceFovaUnknown3", "Ivars.faceFovaUnknown4", "Ivars.faceFovaUnknown5", "Ivars.faceFovaUnknown6", "Ivars.faceFovaUnknown7", "Ivars.faceFovaUnknown8", "Ivars.faceFovaUnknown9", "Ivars.faceFovaUnknown10", "InfFovaIvars.fovaModMenu", "Ivars.enableFovaMod", "Ivars.fovaSelection", "InfMenuCommandsTpp.PrintBodyInfo", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.disableGameOver", "Ivars.disableOutOfBoundsChecks", "Ivars.telopMode", "Ivars.manualMissionCode", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfRevengeIvars.revengeMenu", "Ivars.revengeModeFREE", "Ivars.revengeModeMISSION", "Ivars.revengeModeMB_ALL", "InfRevengeIvars.revengeCustomMenu", "InfMenuCommandsTpp.PrintCustomRevengeConfig", "InfMenuDefs.weaponPowersMenu", "Ivars.SNIPER_MIN", "Ivars.SNIPER_MAX", "Ivars.MISSILE_MIN", "Ivars.MISSILE_MAX", "Ivars.MG_MIN", "Ivars.MG_MAX", "Ivars.SHOTGUN_MIN", "Ivars.SHOTGUN_MAX", "Ivars.SMG_MIN", "Ivars.SMG_MAX", "Ivars.ASSAULT_MIN", "Ivars.ASSAULT_MAX", "Ivars.GUN_LIGHT_MIN", "Ivars.GUN_LIGHT_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.armorPowersMenu", "Ivars.ARMOR_MIN", "Ivars.ARMOR_MAX", "Ivars.SOFT_ARMOR_MIN", "Ivars.SOFT_ARMOR_MAX", "Ivars.SHIELD_MIN", "Ivars.SHIELD_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.gearPowersMenu", "Ivars.HELMET_MIN", "Ivars.HELMET_MAX", "Ivars.NVG_MIN", "Ivars.NVG_MAX", "Ivars.GAS_MASK_MIN", "Ivars.GAS_MASK_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.cpEquipPowersMenu", "Ivars.DECOY_MIN", "Ivars.DECOY_MAX", "Ivars.MINE_MIN", "Ivars.MINE_MAX", "Ivars.CAMERA_MIN", "Ivars.CAMERA_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.abilityCustomMenu", "Ivars.STEALTH_MIN", "Ivars.STEALTH_MAX", "Ivars.COMBAT_MIN", "Ivars.COMBAT_MAX", "Ivars.HOLDUP_MIN", "Ivars.HOLDUP_MAX", "Ivars.FULTON_MIN", "Ivars.FULTON_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.weaponStrengthCustomMenu", "Ivars.STRONG_WEAPON_MIN", "Ivars.STRONG_WEAPON_MAX", "Ivars.STRONG_SNIPER_MIN", "Ivars.STRONG_SNIPER_MAX", "Ivars.STRONG_MISSILE_MIN", "Ivars.STRONG_MISSILE_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.cpEquipBoolPowersMenu", "Ivars.ACTIVE_DECOY_MIN", "Ivars.ACTIVE_DECOY_MAX", "Ivars.GUN_CAMERA_MIN", "Ivars.GUN_CAMERA_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.reinforceCount_MIN", "Ivars.reinforceCount_MAX", "Ivars.reinforceLevel_MIN", "Ivars.reinforceLevel_MAX", "Ivars.revengeIgnoreBlocked_MIN", "Ivars.revengeIgnoreBlocked_MAX", "InfMenuCommands.GoBackItem", "InfRevengeIvars.revengeSystemMenu", "Ivars.revengeBlockForMissionCount", "Ivars.applyPowersToOuterBase", "Ivars.applyPowersToLrrp", "Ivars.allowHeavyArmorFREE", "Ivars.allowHeavyArmorMISSION", "Ivars.disableMissionsWeaponRestriction", "Ivars.disableNoStealthCombatRevengeMission", "Ivars.revengeDecayOnLongMbVisit", "Ivars.allowHeadGearCombo", "Ivars.balanceHeadGear", "Ivars.allowMissileWeaponsCombo", "Ivars.enableMgVsShotgunVariation", "Ivars.randomizeSmallCpPowers", "Ivars.disableConvertArmorToShield", "Ivars.randomizeMineTypes", "Ivars.additionalMineFields", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfEquip.customEquipMenu", "Ivars.customWeaponTableFREE", "Ivars.customWeaponTableMISSION", "Ivars.customWeaponTableMB_ALL", "Ivars.weaponTableStrength", "Ivars.weaponTableAfgh", "Ivars.weaponTableMafr", "Ivars.weaponTableSkull", "Ivars.weaponTableDD", "Ivars.soldierEquipGrade_MIN", "Ivars.soldierEquipGrade_MAX", "Ivars.allowUndevelopedDDEquip", "Ivars.mbDDEquipNonLethal", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.customSoldierTypeFREE", "InfMenuCommandsTpp.ResetRevenge", "InfMenuCommandsTpp.DEBUG_PrintRevengePoints", "Ivars.changeCpSubTypeFREE", "Ivars.changeCpSubTypeMISSION", "Ivars.enableInfInterrogation", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfEnemyPhase.phaseMenu", "Ivars.phaseUpdate", "Ivars.minPhase", "Ivars.maxPhase", "Ivars.keepPhase", "Ivars.phaseUpdateRate", "Ivars.phaseUpdateRange", "Ivars.soldierAlertOnHeavyVehicleDamage", "Ivars.printPhaseChanges", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfReinforce.enemyReinforceMenu", "Ivars.forceSuperReinforce", "Ivars.enableHeliReinforce", "Ivars.forceReinforceRequest", "Ivars.disableReinforceHeliPullOut", "Ivars.enableSoldiersWithVehicleReinforce", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfGameEvent.eventsMenu", "InfGameEvent.ForceGameEvent", "Ivars.gameEventChanceFREE", "Ivars.gameEventChanceMB", "Ivars.enableEventHUNTED", "Ivars.enableEventCRASHLAND", "Ivars.enableEventLOST_COMS", "Ivars.enableParasiteEvent", "Ivars.armorParasiteEnabled", "Ivars.mistParasiteEnabled", "Ivars.camoParasiteEnabled", "Ivars.parasitePeriod_MIN", "Ivars.parasitePeriod_MAX", "Ivars.parasiteWeather", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.motherBaseMenu", "Ivars.revengeModeMB_ALL", "InfEquip.customEquipMenu", "Ivars.customWeaponTableFREE", "Ivars.customWeaponTableMISSION", "Ivars.customWeaponTableMB_ALL", "Ivars.weaponTableStrength", "Ivars.weaponTableAfgh", "Ivars.weaponTableMafr", "Ivars.weaponTableSkull", "Ivars.weaponTableDD", "Ivars.soldierEquipGrade_MIN", "Ivars.soldierEquipGrade_MAX", "Ivars.allowUndevelopedDDEquip", "Ivars.mbDDEquipNonLethal", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.mbSoldierEquipRange", "Ivars.customSoldierTypeMB_ALL", "Ivars.customSoldierTypeFemaleMB_ALL", "Ivars.mbDDHeadGear", "Ivars.supportHeliPatrolsMB", "Ivars.attackHeliPatrolsMB", "Ivars.mbEnemyHeliColor", "Ivars.enableWalkerGearsMB", "Ivars.mbWalkerGearsColor", "Ivars.mbWalkerGearsWeapon", "Ivars.mbCollectionRepop", "Ivars.revengeDecayOnLongMbVisit", "Ivars.mbEnableBuddies", "Ivars.mbAdditionalSoldiers", "Ivars.mbqfEnableSoldiers", "Ivars.mbNpcRouteChange", "InfMBStaff.mbStaffMenu", "InfMBStaff.AddPlayerStaff", "InfMBStaff.RemovePlayerStaff", "InfMBStaff.ClearPriorityStaff", "Ivars.mbPrioritizeFemale", "Ivars.mbMoraleBoosts", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMBAssets.motherBaseShowCharactersMenu", "Ivars.mbEnableOcelot", "Ivars.mbEnablePuppy", "Ivars.mbShowCodeTalker", "Ivars.mbShowEli", "Ivars.mbShowHuey", "Ivars.mbAdditionalNpcs", "Ivars.mbEnableBirds", "InfMenuCommandsTpp.ResetPaz", "InfMenuCommandsTpp.ReturnQuiet", "InfMenuCommandsTpp.ShowQuietReunionMissionCount", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMBAssets.motherBaseShowAssetsMenu", "Ivars.mbShowBigBossPosters", "Ivars.mbShowMbEliminationMonument", "Ivars.mbShowSahelan", "Ivars.mbShowShips", "Ivars.enableFultonAlarmsMB", "Ivars.enableIRSensorsMB", "Ivars.hideContainersMB", "Ivars.hideAACannonsMB", "Ivars.hideAAGatlingsMB", "Ivars.hideTurretMgsMB", "Ivars.hideMortarsMB", "Ivars.mbUnlockGoalDoors", "Ivars.mbForceBattleGearDevelopLevel", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.mbEnableLethalActions", "Ivars.mbWargameFemales", "Ivars.mbWarGamesProfile", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.enemyPatrolMenu", "Ivars.enableLrrpFreeRoam", "Ivars.enableWildCardFreeRoam", "Ivars.attackHeliPatrolsFREE", "Ivars.attackHeliPatrolsMB", "Ivars.mbEnemyHeliColor", "Ivars.enableWalkerGearsFREE", "Ivars.enableWalkerGearsMB", "Ivars.vehiclePatrolProfile", "Ivars.vehiclePatrolClass", "Ivars.vehiclePatrolLvEnable", "Ivars.vehiclePatrolTruckEnable", "Ivars.vehiclePatrolWavEnable", "Ivars.vehiclePatrolWavHeavyEnable", "Ivars.vehiclePatrolTankEnable", "Ivars.putEquipOnTrucks", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.playerRestrictionsMenu", "Ivars.disableHeliAttack", "Ivars.disableFulton", "Ivars.setSubsistenceSuit", "Ivars.setDefaultHand", "Ivars.abortMenuItemControl", "Ivars.disableRetry", "Ivars.gameOverOnDiscovery", "Ivars.disableSpySearch", "Ivars.disableHerbSearch", "Ivars.dontOverrideFreeLoadout", "InfMainTppIvars.markersMenu", "Ivars.disableHeadMarkers", "Ivars.disableXrayMarkers", "Ivars.disableWorldMarkers", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.missionPrepRestrictionsMenu", "Ivars.disableSelectTime", "Ivars.disableSelectBuddy", "Ivars.disableSelectVehicle", "Ivars.mbEnableMissionPrep", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.disableSupportMenuMenu", "Ivars.disableMenuDrop", "Ivars.disableMenuBuddy", "Ivars.disableMenuAttack", "Ivars.disableMenuHeliAttack", "Ivars.disableSupportMenu", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.itemLevelMenu", "Ivars.itemLevelIntScope", "Ivars.itemLevelIDroid", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.handLevelMenu", "Ivars.handLevelSonar", "Ivars.handLevelPhysical", "Ivars.handLevelPrecision", "Ivars.handLevelMedical", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.fultonLevelMenu", "Ivars.itemLevelFulton", "Ivars.itemLevelWormhole", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.fultonSuccessMenu", "Ivars.fultonNoMbSupport", "Ivars.fultonNoMbMedical", "Ivars.fultonDyingPenalty", "Ivars.fultonSleepPenalty", "Ivars.fultonHoldupPenalty", "Ivars.fultonDontApplyMbMedicalToSleep", "Ivars.fultonHostageHandling", "InfMenuCommandsTpp.PrintFultonSuccessBonus", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.ospMenu", "Ivars.primaryWeaponOsp", "Ivars.secondaryWeaponOsp", "Ivars.tertiaryWeaponOsp", "Ivars.clearItems", "Ivars.clearSupportItems", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.playerSettingsMenu", "Ivars.playerHealthScale", "InfMenuCommandsTpp.RemoveDemon", "InfMenuCommandsTpp.SetDemon", "Ivars.useSoldierForDemos", "InfFovaIvars.appearanceMenu", "Ivars.playerType", "Ivars.playerPartsType", "Ivars.playerCamoType", "Ivars.playerFaceEquipId", "Ivars.playerFaceFilter", "Ivars.playerFaceId", "InfMenuCommandsTpp.PrintFaceInfo", "InfMenuCommandsTpp.PrintCurrentAppearance", "InfFovaIvars.fovaModMenu", "Ivars.enableFovaMod", "Ivars.fovaSelection", "InfMenuCommandsTpp.PrintBodyInfo", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.progressionMenu", "InfResources.resourceScaleMenu", "Ivars.enableResourceScale", "Ivars.resourceScaleMaterial", "Ivars.resourceScalePlant", "Ivars.resourceScalePoster", "Ivars.resourceScaleDiamond", "Ivars.resourceScaleContainer", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.repopulateRadioTapes", "InfMenuCommandsTpp.UnlockPlayableAvatar", "InfMenuCommandsTpp.UnlockWeaponCustomization", "InfMenuCommandsTpp.ResetPaz", "InfMenuCommandsTpp.ReturnQuiet", "InfMenuCommandsTpp.ShowQuietReunionMissionCount", "InfMenuCommands.GoBackItem", "InfQuestIvars.sideOpsMenu", "InfQuest.RerollQuestSelection", "Ivars.unlockSideOpNumber", "Ivars.unlockSideOps", "Ivars.sideOpsSelectionMode", "InfQuestIvars.sideOpsCategoryMenu", "Ivars.sideops_STORY", "Ivars.sideops_EXTRACT_INTERPRETER", "Ivars.sideops_BLUEPRINT", "Ivars.sideops_EXTRACT_HIGHLY_SKILLED", "Ivars.sideops_PRISONER", "Ivars.sideops_CAPTURE_ANIMAL", "Ivars.sideops_WANDERING_SOLDIER", "Ivars.sideops_DDOG_PRISONER", "Ivars.sideops_ELIMINATE_HEAVY_INFANTRY", "Ivars.sideops_MINE_CLEARING", "Ivars.sideops_ELIMINATE_ARMOR_VEHICLE", "Ivars.sideops_EXTRACT_GUNSMITH", "Ivars.sideops_ELIMINATE_TANK_UNIT", "Ivars.sideops_ELIMINATE_PUPPETS", "Ivars.sideops_TARGET_PRACTICE", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.showAllOpenSideopsOnUi", "Ivars.enableHeliReinforce", "Ivars.ihSideopsPercentageCount", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfSoldierParams.soldierParamsMenu", "Ivars.soldierParamsProfile", "Ivars.soldierHealthScale", "Ivars.soldierSightDistScale", "Ivars.soldierNightSightDistScale", "Ivars.soldierHearingDistScale", "Ivars.itemDropChance", "InfMenuCommandsTpp.PrintHealthTableParameter", "InfMenuCommandsTpp.PrintSightFormParameter", "InfMenuCommandsTpp.PrintHearingTable", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfHelicopter.supportHeliMenu", "Ivars.disableHeliAttack", "Ivars.setInvincibleHeli", "Ivars.setSearchLightForcedHeli", "Ivars.disablePullOutHeli", "Ivars.setLandingZoneWaitHeightTop", "Ivars.defaultHeliDoorOpenTime", "Ivars.disableLzs", "Ivars.startOnFootFREE", "Ivars.startOnFootMISSION", "Ivars.startOnFootMB_ALL", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfTimeScale.timeScaleMenu", "InfTimeScale.HighSpeedCameraToggle", "Ivars.speedCamContinueTime", "Ivars.speedCamWorldTimeScale", "Ivars.speedCamPlayerTimeScale", "Ivars.speedCamNoDustEffect", "Ivars.clockTimeScale", "Ivars.clock_setTime", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.MenuOffItem" }
-}
-|2.071|InfMenuCommands.PostAllModulesLoad:
-|2.077|InfMenuCommands.BuildCommandItems
-|2.087|IHDebugVars.PostAllModulesLoad:
-|2.094|IHDebugVars.PostAllModulesLoad: setting debug vars
-|2.101|DebugModeEnable:true
-|2.108|AddDevMenus
-|2.114|updateTimes={}
-|2.12|averageTimes={}
-|2.126|IHDebugVars: process toMgsvCmdsFilePath benchmark
-|2.135|openTime:0.00099999999999989
-|2.142|readTime:0
-|2.149|splitTime:0
-|2.155|totalTime:0.00099999999999989
-|2.16|mission_block blockId=nil
-|2.166|quest_block blockId=nil
-|2.172|demo_block blockId=nil
-|2.178|reinforce_block blockId=nil
-|2.185|npc_block blockId=nil
-|2.191|animal_block blockId=nil
-|2.198|TppResidentBlockGroup blockId=nil
-|2.206|CommonStageBlockGroup blockId=nil
-|2.216|IHGenKnownModuleNames.PostAllModulesLoad:
-|2.223|ihExternal names={}
-|2.229|IHRuntimeAnalyze.PostAllModulesLoad:
-|2.235|IHTearDown.PostAllModulesLoad:
-|2.242|IHTearDown.PostAllModulesLoad
-|2.248|InfLookup.PostAllModulesLoad:
-|2.255|LoadStrings
-|2.26|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/fmdlStrings_unique.txt
-|2.276|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/fmdl_dictionary.txt
-|2.286|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/gz-fcnp.txt
-|2.294|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/gz-fox.txt
-|2.301|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/gz-frig.txt
-|2.308|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/gz-json.txt
-|2.316|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/gz-lua.txt
-|2.34|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsExe.txt
-|2.612|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsExeMgsGroundZeroes.txt
-|2.637|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsExtensions.txt
-|2.645|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsFox2Scrape.txt
-|2.734|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeAfgh.txt
-|2.766|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeLy.txt
-|5.309|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeLz.txt
-|5.317|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeMafr.txt
-|5.329|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeMtbs.txt
-|5.348|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapePaths.txt
-|5.838|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeTrap.txt
-|5.848|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsGameObjectNames.txt
-|9.72|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsLua.txt
-|9.869|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/IHStringsManual.txt
-|9.876|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/lang_dictionary.txt
-|9.894|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-des.txt
-|9.901|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-evf.txt
-|9.908|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-fox2.txt
-|9.949|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-fsd.txt
-|9.957|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-lua.txt
-|9.981|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-parts.txt
-|9.99|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-ph.txt
-|9.997|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-phsd.txt
-|10.003|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-sdf.txt
-|10.009|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-sim.txt
-|10.015|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mgo-tgt.txt
-|10.021|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/mtar_dictionary.txt
-|10.028|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/qar_dictionary.txt
-|10.23|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppbnd.txt
-|10.238|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppclo.txt
-|10.244|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppdes.txt
-|10.249|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppevf.txt
-|10.256|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppfsd.txt
-|10.263|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppparts-noinvalidchars.txt
-|10.277|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppph.txt
-|10.284|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppphsd.txt
-|10.291|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppsdf.txt
-|10.296|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppsim.txt
-|10.303|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetpptgt.txt
-|10.309|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/scrapetppveh.txt
-|10.315|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-cityhook-all-start-toloading-logintimedout_unique.txt
-|10.366|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-clo.txt
-|10.374|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-des.txt
-|10.38|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-fcnp.txt
-|10.387|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-fdes.txt
-|10.393|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-fox2.txt
-|10.622|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-frig.txt
-|10.629|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-fsd.txt
-|10.635|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-fstb.txt
-|10.642|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-fv2t.txt
-|10.649|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-grxla.txt
-|10.663|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-grxoc.txt
-|10.672|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-gskl.txt
-|10.681|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-json.txt
-|10.699|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-lua.txt
-|10.73|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-parts.txt
-|10.743|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-ph.txt
-|10.751|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-phsd.txt
-|10.757|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-sdf.txt
-|10.763|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-sim.txt
-|10.769|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-tgt.txt
-|10.775|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-twpf.txt
-|10.781|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-veh.txt
-|10.787|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/ssd-vfx.txt
-|10.795|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/subp_dictionary.txt
-|10.801|LoadStrings c:/Steam/SteamApps/common/MGS_TPP/mod/strings/tpp-vfx-scrape_unique.txt
-|10.809|Adding scrapetppparts-noinvalidchars strings to strCode32List
-|10.816|Adding IHStringsFox2ScrapeTrap strings to strCode32List
-|10.823|Adding ssd-sim strings to strCode32List
-|10.828|Adding IHStringsGameObjectNames strings to strCode32List
-|12.154|Adding scrapetppbnd strings to strCode32List
-|12.161|Adding IHStringsFox2ScrapeMafr strings to strCode32List
-|12.169|Adding IHStringsFox2ScrapeMtbs strings to strCode32List
-|12.178|Adding scrapetppevf strings to strCode32List
-|12.185|Adding scrapetppsdf strings to strCode32List
-|12.193|Adding mgo-ph strings to strCode32List
-|12.201|Adding gz-fox strings to strCode32List
-|12.209|Adding IHStringsExe strings to strCode32List
-|13.882|Adding ssd-gskl strings to strCode32List
-|13.916|Adding tpp-vfx-scrape_unique strings to strCode32List
-|13.937|Adding scrapetppfsd strings to strCode32List
-|13.944|Adding mgo-tgt strings to strCode32List
-|13.952|Adding scrapetppclo strings to strCode32List
-|13.957|Adding mgo-evf strings to strCode32List
-|13.965|Adding IHStringsFox2ScrapeAfgh strings to strCode32List
-|13.974|Adding ssd-fdes strings to strCode32List
-|13.982|Adding scrapetpptgt strings to strCode32List
-|13.991|Adding IHStringsFox2ScrapeLy strings to strCode32List
-|15.082|Adding gz-lua strings to strCode32List
-|15.157|Adding ssd-grxla strings to strCode32List
-|15.216|Adding mgo-phsd strings to strCode32List
-|15.225|Adding scrapetppph strings to strCode32List
-|15.233|Adding ssd-twpf strings to strCode32List
-|15.242|Adding scrapetppveh strings to strCode32List
-|15.249|Adding mgo-sim strings to strCode32List
-|15.258|Adding gz-json strings to strCode32List
-|15.275|Adding ssd-fsd strings to strCode32List
-|15.283|Adding IHStringsFox2ScrapePaths strings to strCode32List
-|16.879|Adding ssd-json strings to strCode32List
-|16.932|Adding qar_dictionary strings to strCode32List
-|17.013|Adding mtar_dictionary strings to strCode32List
-|17.023|Adding scrapetppdes strings to strCode32List
-|17.03|Adding ssd-des strings to strCode32List
-|17.037|Adding mgo-sdf strings to strCode32List
-|17.043|Adding IHStringsFox2ScrapeLz strings to strCode32List
-|17.05|Adding mgo-lua strings to strCode32List
-|17.113|Adding IHStringsLua strings to strCode32List
-|17.26|Adding subp_dictionary strings to strCode32List
-|17.267|Adding ssd-vfx strings to strCode32List
-|17.278|Adding fmdlStrings_unique strings to strCode32List
-|17.313|Adding ssd-tgt strings to strCode32List
-|17.321|Adding ssd-sdf strings to strCode32List
-|17.328|Adding IHStringsFox2Scrape strings to strCode32List
-|17.389|Adding scrapetppsim strings to strCode32List
-|17.398|Adding ssd-ph strings to strCode32List
-|17.406|Adding mgo-parts strings to strCode32List
-|17.415|Adding ssd-parts strings to strCode32List
-|17.43|Adding gz-frig strings to strCode32List
-|17.437|Adding mgo-fox2 strings to strCode32List
-|17.492|Adding ssd-lua strings to strCode32List
-|17.537|Adding ssd-fv2t strings to strCode32List
-|17.544|Adding ssd-clo strings to strCode32List
-|17.551|Adding ssd-grxoc strings to strCode32List
-|17.562|Adding IHStringsExeMgsGroundZeroes strings to strCode32List
-|17.637|Adding fmdl_dictionary strings to strCode32List
-|17.648|Adding lang_dictionary strings to strCode32List
-|17.689|Adding ssd-frig strings to strCode32List
-|17.696|Adding mgo-des strings to strCode32List
-|17.703|Adding ssd-fox2 strings to strCode32List
-|17.82|Adding ssd-veh strings to strCode32List
-|17.827|Adding ssd-fcnp strings to strCode32List
-|17.84|Adding IHStringsManual strings to strCode32List
-|17.847|Adding ssd-cityhook-all-start-toloading-logintimedout_unique strings to strCode32List
-|17.928|Adding scrapetppphsd strings to strCode32List
-|17.935|Adding ssd-fstb strings to strCode32List
-|17.942|Adding mgo-fsd strings to strCode32List
-|17.948|Adding IHStringsExtensions strings to strCode32List
-|17.955|Adding ssd-phsd strings to strCode32List
-|17.96|Adding gz-fcnp strings to strCode32List
-|17.967|Adding TppDbgStr32.DEBUG_strCode32List to strCode32List
-|17.973|InfLookup.BuildPath32ToDataSetName:
-|19.788|InfLookup.AddObjectNamesToStr32List:
-|19.796|InfLookup.LoadGameObjectNames
-|23.465|LoadGameObjectNames: Adding IHStringsGameObjectNames to gameObjectNames
-|24.795|InfNPC.PostAllModulesLoad:
-|24.803|InfNPCOcelot.PostAllModulesLoad:
-|24.808|InfQuest.PostAllModulesLoad:
-|24.814|InfQuest.LoadQuestDefs
-|24.819|InfQuest.LoadQuestDefs: ih_quest_q30100.lua
-|24.825|InfQuest.LoadQuestDefs: ih_quest_q30101.lua
-|24.831|InfQuest.LoadQuestDefs: ih_quest_q30102.lua
-|24.837|InfQuest.LoadQuestDefs: ih_quest_q30155.lua
-|24.843|InfQuest.LoadQuestDefs: ih_quest_q30205.lua
-|24.849|IvarProc.SetupInfProfiles
-|24.86|Load TppDefine.lua
-|24.866|TppDefine.lua done
-|24.876|InfCore.LoadLibrary /Assets/tpp/script/list/TppMissionList.lua
-|24.884|InfCore.LoadLibrary /Assets/tpp/script/list/TppQuestList.lua
-|24.893|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua
-|24.902|Most LoadLibrary libs done
-|24.909|InfCore.LoadLibrary /Assets/tpp/script/lib/InfHooks.lua
-|24.915|InfHooks.AddHooks:
-|24.921|start2nd.lua start
-|24.928|Loading mother base settings
-|24.934|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting.lua
-|24.941|Found external for /Assets/tpp/motherbase/script/MbmCommonSetting.lua
-|24.951|MbmCommonSetting.lua - personal tweaks
-|24.958|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
-|24.968|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
-|24.977|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
-|24.986|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
-|24.999|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
-|25.008|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
-|25.024|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
-|25.042|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
-|25.049|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
-|25.061|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
-|25.072|InfMainTpp.MBManagementSettings
-|25.079|InfMain.LoadLibraries
-|25.086|InfFova.LoadLibraries:
-|25.092|InfFova LoadModelInfoModules
-|25.102|InfMission.LoadLibraries:
-|25.108|InfMission SetupMissions
-|25.113|InfMission.LoadLocationsDefs: AFC0.lua
-|25.119|InfMission.LoadLocationsDefs: AFC1.lua
-|25.125|InfMission.LoadLocationsDefs: AFDA.lua
-|25.132|InfMission.LoadLocationsDefs: AFN0.lua
-|25.138|InfMission.LoadLocationsDefs: CUBA.lua
-|25.144|InfMission.LoadLocationsDefs: MBA0.lua
-|25.15|InfMission.LoadLocationsDefs: MBA1.lua
-|25.156|InfMission.LoadLocationsDefs: MBA2.lua
-|25.162|InfMission.LoadLocationsDefs: RMA0.lua
-|25.169|InfMission.LoadLocationsDefs: SSAV.lua
-|25.175|InfMission.LoadLocationsDefs: SSD_OMBS.lua
-|25.181|InfMission.LoadLocationsDefs: SVA0.lua
-|25.187|InfMission.LoadMissionDefs: 12010_ombs.lua
-|25.193|InfMission.LoadMissionDefs: 12020_cypr.lua
-|25.199|Adding location: AFDA 103
-|25.206|Adding location: SSAV 25
-|25.211|Adding location: MBA0 111
-|25.217|Adding location: MBA2 115
-|25.223|Adding location: AFC1 104
-|25.229|Adding location: SVA0 112
-|25.236|Adding location: AFC0 101
-|25.242|Adding location: CUBA 105
-|25.248|Adding location: RMA0 113
-|25.254|Adding location: AFN0 102
-|25.26|Adding location: MBA1 114
-|25.266|Adding location: SSD_OMBS 47
-|25.272|Adding mission 12010
-|25.279|Adding mission 12020
-|25.285|RegistMissionEpisodeNo(12010,51)
-|25.291|RegistMissionEpisodeNo(12020,52)
-|25.297|start2nd.lua done
-|25.304|InfMain.OnFadeOutDirect:nil
-|25.31|TppVarInit.InitializeOnStartTitle
-|25.317|TppVarInit.StartInitMission 10010
-|25.323|TppMission.Load nextMissionCode:1 currentMissionCode:nil
-|25.329|loadSettings={
+}
+|12.31|IvarsPersist.PostAllModulesLoad:
+|12.316|Adding module persistIvars
+|12.323|InfLangProc.PostAllModulesLoad:
+|12.329|Adding module Lang strings
+|12.338|Adding LangStrings for InfAnimal
+|12.345|Adding LangStrings for InfBuddy
+|12.351|Adding LangStrings for InfCamera
+|12.358|Adding LangStrings for InfCameraPlayCam
+|12.364|Adding LangStrings for InfDemo
+|12.37|Adding LangStrings for InfEneFovaIvars
+|12.377|Adding LangStrings for InfEnemyPhase
+|12.383|Adding LangStrings for InfEquip
+|12.391|Adding LangStrings for InfFovaIvars
+|12.397|Adding LangStrings for InfGameEvent
+|12.403|Adding LangStrings for InfHelicopter
+|12.41|Adding LangStrings for InfInterrogation
+|12.417|Adding LangStrings for InfMainTppIvars
+|12.424|Adding LangStrings for InfMBAssets
+|12.43|Adding LangStrings for InfMBGimmick
+|12.436|Adding LangStrings for InfMBStaff
+|12.442|Adding LangStrings for InfMBVisit
+|12.449|Adding LangStrings for InfMotion
+|12.455|Adding LangStrings for InfNPC
+|12.461|Adding LangStrings for InfNPCHeli
+|12.467|Adding LangStrings for InfNPCOcelot
+|12.474|Adding LangStrings for InfObjects
+|12.48|Adding LangStrings for InfParasite
+|12.486|Adding LangStrings for InfPositions
+|12.493|Adding LangStrings for InfPuppy
+|12.499|Adding LangStrings for InfQuestIvars
+|12.506|Adding LangStrings for InfReinforce
+|12.513|Adding LangStrings for InfResources
+|12.521|Adding LangStrings for InfRevengeIvars
+|12.528|Adding LangStrings for InfSoldier
+|12.534|Adding LangStrings for InfSoldierParams
+|12.54|Adding LangStrings for InfTimeScale
+|12.546|Adding LangStrings for InfUserMarker
+|12.552|Adding LangStrings for InfVehicle
+|12.559|Adding LangStrings for InfWalkerGear
+|12.565|Adding LangStrings for InfWarp
+|12.571|Adding LangStrings for InfWeather
+|12.577|InfMenu.PostAllModulesLoad:
+|12.583|InfMenuDefs.PostAllModulesLoad:
+|12.589|InfMenuDefs.SetupMenuDefs: generate menus
+|12.595|InfQuestIvars.GenerateMenus
+|12.601|InfRevengeIvars.GenerateMenus
+|12.608|InfMenuDefs.SetupMenuDefs: register menus
+|12.614|InfMenuDefs.SetupMenuDefs: build menu items and gather children menus
+|12.621|InfMenuDefs.SetupMenuDefs: add children menus to parents
+|12.628|InfMenuDefs.SetupMenuDefs: add bottom items
+|12.635|InfMenuDefs.SetupMenuDefs: validate
+|12.641|InfMenuDefs.SetupMenuDefs: allMenus
+|12.647|InfMenuDefs.SetupMenuDefs: allItems
+|12.662|InfMenuDefs.allItems------------={
+  inMissionMenu = { "InfMenuDefs.devInMissionMenu", "Ivars.cam_disableCameraAnimations", "InfMenuCommands.DEBUG_SomeShiz", "InfMenuCommands.DEBUG_SomeShiz2", "InfMenuCommands.DEBUG_SomeShiz3", "Ivars.warpToListPosition", "Ivars.warpToListObject", "InfHelicopter.RequestHeliLzToLastMarker", "InfHelicopter.RequestHeliLzToLastMarkerAlt", "InfHelicopter.ForceExitHeli", "InfHelicopter.ForceExitHeliAlt", "InfHelicopter.PullOutHeli", "InfHelicopter.ChangeToIdleStateHeli", "Ivars.disablePullOutHeli", "InfMenuCommands.SetSelectedObjectToMarkerClosest", "InfMenuCommands.SetSelectedCpToMarkerClosestCp", "Ivars.selectedCp", "InfUserMarker.PrintLatestUserMarker", "InfMenuCommands.SetAllZombie", "InfMenuCommands.CheckPointSave", "Ivars.manualMissionCode", "Ivars.setCamToListObject", "Ivars.dropLoadedEquip", "Ivars.dropTestEquip", "Ivars.selectedGameObjectType", "Ivars.manualMissionCode", "Ivars.manualSequence", "Ivars.allowUndevelopedDDEquip", "Ivars.skipDevelopChecks", "Ivars.debugValue", "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine", "InfLookup.DumpValidStrCode", "InfMenuCommands.SetAllFriendly", "InfCamera.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfCore.ClearLog", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfHelicopter.RequestHeliLzToLastMarkerAlt", "InfHelicopter.ForceExitHeliAlt", "InfMenuCommandsTpp.DropCurrentEquip", "Ivars.warpPlayerUpdate", "InfFovaIvars.appearanceMenu", "Ivars.playerType", "Ivars.playerPartsType", "Ivars.playerCamoType", "Ivars.playerFaceEquipId", "Ivars.playerFaceFilter", "Ivars.playerFaceId", "InfMenuCommandsTpp.PrintFaceInfo", "InfMenuCommandsTpp.PrintCurrentAppearance", "InfFovaIvars.fovaModMenu", "Ivars.enableFovaMod", "Ivars.fovaSelection", "InfMenuCommandsTpp.PrintBodyInfo", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfBuddy.buddyMenu", "Ivars.buddyChangeEquipVar", "InfMenuCommandsTpp.QuietMoveToLastMarker", "Ivars.quietRadioMode", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfCamera.cameraMenu", "Ivars.adjustCameraUpdate", "Ivars.cameraMode", "InfCamera.WarpToCamPos", "Ivars.moveScale", "Ivars.disableCamText", "InfMenuCommands.SetStageBlockPositionToFreeCam", "InfCamera.ShowFreeCamPosition", "InfCameraPlayCam.playCamMenu", "InfCameraPlayCam.PlayCameraNonAnimation", "InfCameraPlayCam.StopPlayCamera", "Ivars.cam_selectListObject", "Ivars.cam_focalLength", "Ivars.cam_focusDistance", "Ivars.cam_aperture", "Ivars.cam_isFollowPos", "Ivars.cam_isFollowRot", "Ivars.cam_offsetTargetX", "Ivars.cam_offsetTargetY", "Ivars.cam_offsetTargetZ", "Ivars.cam_offsetPosX", "Ivars.cam_offsetPosY", "Ivars.cam_offsetPosZ", "Ivars.cam_followTime", "Ivars.cam_followDelayTime", "Ivars.cam_timeToSleep", "Ivars.cam_fitOnCamera", "Ivars.cam_timeToStartToFitCamera", "Ivars.cam_fitCameraInterpTime", "Ivars.cam_diffFocalLengthToReFitCamera", "Ivars.cam_callSeOfCameraInterp", "Ivars.cam_useLastSelectedIndex", "Ivars.cam_isCollisionCheck", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.debugInMissionMenu", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.LoadExternalModules", "InfMenuCommands.CopyLogToPrev", "InfMenuCommands.SetSelectedObjectToMarkerClosest", "Ivars.selectedCp", "InfMenuCommands.SetSelectedCpToMarkerObjectCp", "InfMenuCommands.SetSelectedCpToMarkerClosestCp", "InfMenuCommandsTpp.DEBUG_PrintCpPowerSettings", "InfMenuCommandsTpp.DEBUG_PrintPowersCount", "InfMenuCommandsTpp.DEBUG_PrintReinforceVars", "InfMenuCommandsTpp.DEBUG_PrintSoldierDefine", "InfMenuCommandsTpp.DEBUG_ShowRevengeConfig", "InfFovaIvars.appearanceDebugMenu", "Ivars.faceFovaDirect", "Ivars.faceDecoFovaDirect", "Ivars.hairFovaDirect", "Ivars.hairDecoFovaDirect", "Ivars.playerTypeDirect", "Ivars.playerPartsTypeDirect", "Ivars.playerCamoTypeDirect", "Ivars.playerFaceIdDirect", "Ivars.playerFaceEquipIdDirect", "InfMenuCommandsTpp.PrintFaceInfo", "InfMenuCommandsTpp.PrintCurrentAppearance", "Ivars.faceFova", "Ivars.faceDecoFova", "Ivars.hairFova", "Ivars.hairDecoFova", "Ivars.faceFovaUnknown1", "Ivars.faceFovaUnknown2", "Ivars.faceFovaUnknown3", "Ivars.faceFovaUnknown4", "Ivars.faceFovaUnknown5", "Ivars.faceFovaUnknown6", "Ivars.faceFovaUnknown7", "Ivars.faceFovaUnknown8", "Ivars.faceFovaUnknown9", "Ivars.faceFovaUnknown10", "InfFovaIvars.fovaModMenu", "Ivars.enableFovaMod", "Ivars.fovaSelection", "InfMenuCommandsTpp.PrintBodyInfo", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfFovaIvars.appearanceDebugMenu", "Ivars.faceFovaDirect", "Ivars.faceDecoFovaDirect", "Ivars.hairFovaDirect", "Ivars.hairDecoFovaDirect", "Ivars.playerTypeDirect", "Ivars.playerPartsTypeDirect", "Ivars.playerCamoTypeDirect", "Ivars.playerFaceIdDirect", "Ivars.playerFaceEquipIdDirect", "InfMenuCommandsTpp.PrintFaceInfo", "InfMenuCommandsTpp.PrintCurrentAppearance", "Ivars.faceFova", "Ivars.faceDecoFova", "Ivars.hairFova", "Ivars.hairDecoFova", "Ivars.faceFovaUnknown1", "Ivars.faceFovaUnknown2", "Ivars.faceFovaUnknown3", "Ivars.faceFovaUnknown4", "Ivars.faceFovaUnknown5", "Ivars.faceFovaUnknown6", "Ivars.faceFovaUnknown7", "Ivars.faceFovaUnknown8", "Ivars.faceFovaUnknown9", "Ivars.faceFovaUnknown10", "InfFovaIvars.fovaModMenu", "Ivars.enableFovaMod", "Ivars.fovaSelection", "InfMenuCommandsTpp.PrintBodyInfo", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.printPressedButtons", "Ivars.printOnBlockChange", "Ivars.disableGameOver", "Ivars.disableOutOfBoundsChecks", "InfMenuCommands.SetAllFriendly", "InfMenuCommands.SetAllZombie", "InfMenuCommandsTpp.DEBUG_ToggleParasiteEvent", "InfMenuCommands.ResetStageBlockPosition", "InfMenuCommands.SetStageBlockPositionToMarkerClosest", "InfMenuCommands.SetStageBlockPositionToFreeCam", "InfCamera.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfMenuCommands.CheckPointSave", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfEnemyPhase.phaseMenu", "Ivars.phaseUpdate", "Ivars.minPhase", "Ivars.maxPhase", "Ivars.keepPhase", "Ivars.phaseUpdateRate", "Ivars.phaseUpdateRange", "Ivars.soldierAlertOnHeavyVehicleDamage", "Ivars.printPhaseChanges", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMBAssets.mbOceanMenu", "Ivars.mbEnableOceanSettings", "Ivars.mbSetOceanBaseHeight", "Ivars.mbSetOceanProjectionScale", "Ivars.mbSetOceanBlendEnd", "Ivars.mbSetOceanFarProjectionAmplitude", "Ivars.mbSetOceanSpecularIntensity", "Ivars.mbSetOceanDisplacementStrength", "Ivars.mbSetOceanWaveAmplitude", "Ivars.mbSetOceanWindDirectionP1", "Ivars.mbSetOceanWindDirectionP2", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.playerRestrictionsInMissionMenu", "Ivars.disableHeadMarkers", "Ivars.disableWorldMarkers", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.miscInMissionMenu", "Ivars.itemDropChance", "Ivars.playerHealthScale", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMotion.motionsMenu", "Ivars.motionGroupIndex", "Ivars.motionGaniIndex", "Ivars.motionHold", "Ivars.motionRepeat", "InfMotion.StopMotion", "InfMotion.PlayCurrentMotion", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfObjects.objectsMenu", "InfObjects.AddMarkerObjects", "InfObjects.ClearObjects", "InfObjects.WriteObjects", "InfObjects.LoadObjectNames", "Ivars.selectListObject", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfPositions.positionsMenu", "InfPositions.AddPosition", "InfPositions.AddMarkerPositions", "InfPositions.ClearPositions", "InfPositions.WritePositions", "InfPositions.LoadPositions", "Ivars.selectListPosition", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMBStaff.mbStaffInMissionMenu", "InfMBStaff.AddPlayerStaff", "InfMBStaff.RemovePlayerStaff", "InfMBStaff.AddMarkerStaff", "InfMBStaff.RemoveMarkerStaff", "InfMBStaff.ClearPriorityStaff", "InfMenuCommands.GoBackItem", "InfHelicopter.supportHeliMenu", "Ivars.disableHeliAttack", "Ivars.setInvincibleHeli", "Ivars.setSearchLightForcedHeli", "Ivars.disablePullOutHeli", "Ivars.setLandingZoneWaitHeightTop", "Ivars.defaultHeliDoorOpenTime", "Ivars.disableLzs", "Ivars.startOnFootFREE", "Ivars.startOnFootMISSION", "Ivars.startOnFootMB_ALL", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfTimeScale.timeScaleMenu", "InfTimeScale.HighSpeedCameraToggle", "Ivars.speedCamContinueTime", "Ivars.speedCamWorldTimeScale", "Ivars.speedCamPlayerTimeScale", "Ivars.speedCamNoDustEffect", "Ivars.clockTimeScale", "Ivars.clock_setTime", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfUserMarker.userMarkerMenu", "InfUserMarker.WarpToLastUserMarker", "InfUserMarker.PrintLatestUserMarker", "InfUserMarker.PrintUserMarkers", "InfPositions.AddMarkerPositions", "InfPositions.WritePositions", "InfPositions.ClearPositions", "InfMenuCommands.GoBackItem", "InfWeather.weatherMenu", "InfWeather.weather_forceType", "InfWeather.weather_fogDensity", "InfWeather.weather_fogType", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.MenuOffItem" },
+  safeSpaceMenu = { "InfMenuDefs.devInAccMenu", "Ivars.quest_useAltForceFulton", "Ivars.sys_increaseMemoryAlloc", "InfMenuCommands.DEBUG_SomeShiz", "InfMenuCommands.DEBUG_SomeShiz2", "InfMenuCommands.DEBUG_SomeShiz3", "Ivars.selectEvent", "Ivars.manualSequence", "Ivars.allowUndevelopedDDEquip", "Ivars.skipDevelopChecks", "InfLookup.DumpValidStrCode", "InfMenuCommands.ForceRegenSeed", "Ivars.debugValue", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.systemMenu", "Ivars.enableIHExt", "Ivars.enableHelp", "InfMgsvToExt.TakeFocus", "Ivars.selectProfile", "InfMenuCommands.ResetSelectedProfile", "InfMenuCommands.SaveToProfile", "Ivars.enableQuickMenu", "Ivars.startOffline", "Ivars.skipLogos", "Ivars.loadAddonMission", "Ivars.ihMissionsPercentageCount", "InfMenuCommands.ResetAllSettingsItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfCamera.cameraMenu", "Ivars.adjustCameraUpdate", "Ivars.cameraMode", "InfCamera.WarpToCamPos", "Ivars.moveScale", "Ivars.disableCamText", "InfMenuCommands.SetStageBlockPositionToFreeCam", "InfCamera.ShowFreeCamPosition", "InfCameraPlayCam.playCamMenu", "InfCameraPlayCam.PlayCameraNonAnimation", "InfCameraPlayCam.StopPlayCamera", "Ivars.cam_selectListObject", "Ivars.cam_focalLength", "Ivars.cam_focusDistance", "Ivars.cam_aperture", "Ivars.cam_isFollowPos", "Ivars.cam_isFollowRot", "Ivars.cam_offsetTargetX", "Ivars.cam_offsetTargetY", "Ivars.cam_offsetTargetZ", "Ivars.cam_offsetPosX", "Ivars.cam_offsetPosY", "Ivars.cam_offsetPosZ", "Ivars.cam_followTime", "Ivars.cam_followDelayTime", "Ivars.cam_timeToSleep", "Ivars.cam_fitOnCamera", "Ivars.cam_timeToStartToFitCamera", "Ivars.cam_fitCameraInterpTime", "Ivars.cam_diffFocalLengthToReFitCamera", "Ivars.cam_callSeOfCameraInterp", "Ivars.cam_useLastSelectedIndex", "Ivars.cam_isCollisionCheck", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfDemo.demosMenu", "Ivars.useSoldierForDemos", "Ivars.mbDemoSelection", "Ivars.mbSelectedDemo", "Ivars.forceDemoAllowAction", "Ivars.mbDemoOverrideTime", "Ivars.mbDemoHour", "Ivars.mbDemoMinute", "Ivars.mbDemoOverrideWeather", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.debugMenu", "Ivars.debugMode", "Ivars.debugMessages", "Ivars.debugFlow", "Ivars.debugOnUpdate", "InfMenuCommands.LoadExternalModules", "InfMenuCommands.CopyLogToPrev", "Ivars.printPressedButtons", "InfCamera.ShowFreeCamPosition", "InfMenuCommands.ShowPosition", "InfMenuCommands.ShowMissionCode", "InfMenuCommands.ShowLangCode", "InfFovaIvars.appearanceDebugMenu", "Ivars.faceFovaDirect", "Ivars.faceDecoFovaDirect", "Ivars.hairFovaDirect", "Ivars.hairDecoFovaDirect", "Ivars.playerTypeDirect", "Ivars.playerPartsTypeDirect", "Ivars.playerCamoTypeDirect", "Ivars.playerFaceIdDirect", "Ivars.playerFaceEquipIdDirect", "InfMenuCommandsTpp.PrintFaceInfo", "InfMenuCommandsTpp.PrintCurrentAppearance", "Ivars.faceFova", "Ivars.faceDecoFova", "Ivars.hairFova", "Ivars.hairDecoFova", "Ivars.faceFovaUnknown1", "Ivars.faceFovaUnknown2", "Ivars.faceFovaUnknown3", "Ivars.faceFovaUnknown4", "Ivars.faceFovaUnknown5", "Ivars.faceFovaUnknown6", "Ivars.faceFovaUnknown7", "Ivars.faceFovaUnknown8", "Ivars.faceFovaUnknown9", "Ivars.faceFovaUnknown10", "InfFovaIvars.fovaModMenu", "Ivars.enableFovaMod", "Ivars.fovaSelection", "InfMenuCommandsTpp.PrintBodyInfo", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.disableGameOver", "Ivars.disableOutOfBoundsChecks", "Ivars.telopMode", "Ivars.manualMissionCode", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfRevengeIvars.revengeMenu", "Ivars.revengeModeFREE", "Ivars.revengeModeMISSION", "Ivars.revengeModeMB_ALL", "InfRevengeIvars.revengeCustomMenu", "InfMenuCommandsTpp.PrintCustomRevengeConfig", "InfMenuDefs.weaponPowersMenu", "Ivars.SNIPER_MIN", "Ivars.SNIPER_MAX", "Ivars.MISSILE_MIN", "Ivars.MISSILE_MAX", "Ivars.MG_MIN", "Ivars.MG_MAX", "Ivars.SHOTGUN_MIN", "Ivars.SHOTGUN_MAX", "Ivars.SMG_MIN", "Ivars.SMG_MAX", "Ivars.ASSAULT_MIN", "Ivars.ASSAULT_MAX", "Ivars.GUN_LIGHT_MIN", "Ivars.GUN_LIGHT_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.armorPowersMenu", "Ivars.ARMOR_MIN", "Ivars.ARMOR_MAX", "Ivars.SOFT_ARMOR_MIN", "Ivars.SOFT_ARMOR_MAX", "Ivars.SHIELD_MIN", "Ivars.SHIELD_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.gearPowersMenu", "Ivars.HELMET_MIN", "Ivars.HELMET_MAX", "Ivars.NVG_MIN", "Ivars.NVG_MAX", "Ivars.GAS_MASK_MIN", "Ivars.GAS_MASK_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.cpEquipPowersMenu", "Ivars.DECOY_MIN", "Ivars.DECOY_MAX", "Ivars.MINE_MIN", "Ivars.MINE_MAX", "Ivars.CAMERA_MIN", "Ivars.CAMERA_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.abilityCustomMenu", "Ivars.STEALTH_MIN", "Ivars.STEALTH_MAX", "Ivars.COMBAT_MIN", "Ivars.COMBAT_MAX", "Ivars.HOLDUP_MIN", "Ivars.HOLDUP_MAX", "Ivars.FULTON_MIN", "Ivars.FULTON_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.weaponStrengthCustomMenu", "Ivars.STRONG_WEAPON_MIN", "Ivars.STRONG_WEAPON_MAX", "Ivars.STRONG_SNIPER_MIN", "Ivars.STRONG_SNIPER_MAX", "Ivars.STRONG_MISSILE_MIN", "Ivars.STRONG_MISSILE_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuDefs.cpEquipBoolPowersMenu", "Ivars.ACTIVE_DECOY_MIN", "Ivars.ACTIVE_DECOY_MAX", "Ivars.GUN_CAMERA_MIN", "Ivars.GUN_CAMERA_MAX", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.reinforceCount_MIN", "Ivars.reinforceCount_MAX", "Ivars.reinforceLevel_MIN", "Ivars.reinforceLevel_MAX", "Ivars.revengeIgnoreBlocked_MIN", "Ivars.revengeIgnoreBlocked_MAX", "InfMenuCommands.GoBackItem", "InfRevengeIvars.revengeSystemMenu", "Ivars.revengeBlockForMissionCount", "Ivars.applyPowersToOuterBase", "Ivars.applyPowersToLrrp", "Ivars.allowHeavyArmorFREE", "Ivars.allowHeavyArmorMISSION", "Ivars.disableMissionsWeaponRestriction", "Ivars.disableNoStealthCombatRevengeMission", "Ivars.revengeDecayOnLongMbVisit", "Ivars.allowHeadGearCombo", "Ivars.balanceHeadGear", "Ivars.allowMissileWeaponsCombo", "Ivars.enableMgVsShotgunVariation", "Ivars.randomizeSmallCpPowers", "Ivars.disableConvertArmorToShield", "Ivars.randomizeMineTypes", "Ivars.additionalMineFields", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfEquip.customEquipMenu", "Ivars.customWeaponTableFREE", "Ivars.customWeaponTableMISSION", "Ivars.customWeaponTableMB_ALL", "Ivars.weaponTableStrength", "Ivars.weaponTableAfgh", "Ivars.weaponTableMafr", "Ivars.weaponTableSkull", "Ivars.weaponTableDD", "Ivars.soldierEquipGrade_MIN", "Ivars.soldierEquipGrade_MAX", "Ivars.allowUndevelopedDDEquip", "Ivars.mbDDEquipNonLethal", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.customSoldierTypeFREE", "InfMenuCommandsTpp.ResetRevenge", "InfMenuCommandsTpp.DEBUG_PrintRevengePoints", "Ivars.changeCpSubTypeFREE", "Ivars.changeCpSubTypeMISSION", "Ivars.enableInfInterrogation", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfEnemyPhase.phaseMenu", "Ivars.phaseUpdate", "Ivars.minPhase", "Ivars.maxPhase", "Ivars.keepPhase", "Ivars.phaseUpdateRate", "Ivars.phaseUpdateRange", "Ivars.soldierAlertOnHeavyVehicleDamage", "Ivars.printPhaseChanges", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfReinforce.enemyReinforceMenu", "Ivars.forceSuperReinforce", "Ivars.enableHeliReinforce", "Ivars.forceReinforceRequest", "Ivars.disableReinforceHeliPullOut", "Ivars.enableSoldiersWithVehicleReinforce", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfGameEvent.eventsMenu", "InfGameEvent.ForceGameEvent", "Ivars.gameEventChanceFREE", "Ivars.gameEventChanceMB", "Ivars.enableEventHUNTED", "Ivars.enableEventCRASHLAND", "Ivars.enableEventLOST_COMS", "Ivars.enableParasiteEvent", "Ivars.armorParasiteEnabled", "Ivars.mistParasiteEnabled", "Ivars.camoParasiteEnabled", "Ivars.parasitePeriod_MIN", "Ivars.parasitePeriod_MAX", "Ivars.parasiteWeather", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.motherBaseMenu", "Ivars.revengeModeMB_ALL", "InfEquip.customEquipMenu", "Ivars.customWeaponTableFREE", "Ivars.customWeaponTableMISSION", "Ivars.customWeaponTableMB_ALL", "Ivars.weaponTableStrength", "Ivars.weaponTableAfgh", "Ivars.weaponTableMafr", "Ivars.weaponTableSkull", "Ivars.weaponTableDD", "Ivars.soldierEquipGrade_MIN", "Ivars.soldierEquipGrade_MAX", "Ivars.allowUndevelopedDDEquip", "Ivars.mbDDEquipNonLethal", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.mbSoldierEquipRange", "Ivars.customSoldierTypeMB_ALL", "Ivars.customSoldierTypeFemaleMB_ALL", "Ivars.mbDDHeadGear", "Ivars.supportHeliPatrolsMB", "Ivars.attackHeliPatrolsMB", "Ivars.mbEnemyHeliColor", "Ivars.enableWalkerGearsMB", "Ivars.mbWalkerGearsColor", "Ivars.mbWalkerGearsWeapon", "Ivars.mbCollectionRepop", "Ivars.revengeDecayOnLongMbVisit", "Ivars.mbEnableBuddies", "Ivars.mbAdditionalSoldiers", "Ivars.mbqfEnableSoldiers", "Ivars.mbNpcRouteChange", "InfMBStaff.mbStaffMenu", "InfMBStaff.AddPlayerStaff", "InfMBStaff.RemovePlayerStaff", "InfMBStaff.ClearPriorityStaff", "Ivars.mbPrioritizeFemale", "Ivars.mbMoraleBoosts", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMBAssets.motherBaseShowCharactersMenu", "Ivars.mbEnableOcelot", "Ivars.mbEnablePuppy", "Ivars.mbShowCodeTalker", "Ivars.mbShowEli", "Ivars.mbShowHuey", "Ivars.mbAdditionalNpcs", "Ivars.mbEnableBirds", "InfMenuCommandsTpp.ResetPaz", "InfMenuCommandsTpp.ReturnQuiet", "InfMenuCommandsTpp.ShowQuietReunionMissionCount", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMBAssets.motherBaseShowAssetsMenu", "Ivars.mbShowBigBossPosters", "Ivars.mbShowMbEliminationMonument", "Ivars.mbShowSahelan", "Ivars.mbShowShips", "Ivars.enableFultonAlarmsMB", "Ivars.enableIRSensorsMB", "Ivars.hideContainersMB", "Ivars.hideAACannonsMB", "Ivars.hideAAGatlingsMB", "Ivars.hideTurretMgsMB", "Ivars.hideMortarsMB", "Ivars.mbUnlockGoalDoors", "Ivars.mbForceBattleGearDevelopLevel", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.mbEnableLethalActions", "Ivars.mbWargameFemales", "Ivars.mbWarGamesProfile", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.enemyPatrolMenu", "Ivars.enableLrrpFreeRoam", "Ivars.enableWildCardFreeRoam", "Ivars.attackHeliPatrolsFREE", "Ivars.attackHeliPatrolsMB", "Ivars.mbEnemyHeliColor", "Ivars.enableWalkerGearsFREE", "Ivars.enableWalkerGearsMB", "Ivars.vehiclePatrolProfile", "Ivars.vehiclePatrolClass", "Ivars.vehiclePatrolLvEnable", "Ivars.vehiclePatrolTruckEnable", "Ivars.vehiclePatrolWavEnable", "Ivars.vehiclePatrolWavHeavyEnable", "Ivars.vehiclePatrolTankEnable", "Ivars.putEquipOnTrucks", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.playerRestrictionsMenu", "Ivars.disableHeliAttack", "Ivars.disableFulton", "Ivars.setSubsistenceSuit", "Ivars.setDefaultHand", "Ivars.abortMenuItemControl", "Ivars.disableRetry", "Ivars.gameOverOnDiscovery", "Ivars.disableSpySearch", "Ivars.disableHerbSearch", "Ivars.dontOverrideFreeLoadout", "InfMainTppIvars.markersMenu", "Ivars.disableHeadMarkers", "Ivars.disableXrayMarkers", "Ivars.disableWorldMarkers", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.missionPrepRestrictionsMenu", "Ivars.disableSelectTime", "Ivars.disableSelectBuddy", "Ivars.disableSelectVehicle", "Ivars.mbEnableMissionPrep", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.disableSupportMenuMenu", "Ivars.disableMenuDrop", "Ivars.disableMenuBuddy", "Ivars.disableMenuAttack", "Ivars.disableMenuHeliAttack", "Ivars.disableSupportMenu", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.itemLevelMenu", "Ivars.itemLevelIntScope", "Ivars.itemLevelIDroid", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.handLevelMenu", "Ivars.handLevelSonar", "Ivars.handLevelPhysical", "Ivars.handLevelPrecision", "Ivars.handLevelMedical", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.fultonLevelMenu", "Ivars.itemLevelFulton", "Ivars.itemLevelWormhole", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.fultonSuccessMenu", "Ivars.fultonNoMbSupport", "Ivars.fultonNoMbMedical", "Ivars.fultonDyingPenalty", "Ivars.fultonSleepPenalty", "Ivars.fultonHoldupPenalty", "Ivars.fultonDontApplyMbMedicalToSleep", "Ivars.fultonHostageHandling", "InfMenuCommandsTpp.PrintFultonSuccessBonus", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.ospMenu", "Ivars.primaryWeaponOsp", "Ivars.secondaryWeaponOsp", "Ivars.tertiaryWeaponOsp", "Ivars.clearItems", "Ivars.clearSupportItems", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.playerSettingsMenu", "Ivars.playerHealthScale", "InfMenuCommandsTpp.RemoveDemon", "InfMenuCommandsTpp.SetDemon", "Ivars.useSoldierForDemos", "InfFovaIvars.appearanceMenu", "Ivars.playerType", "Ivars.playerPartsType", "Ivars.playerCamoType", "Ivars.playerFaceEquipId", "Ivars.playerFaceFilter", "Ivars.playerFaceId", "InfMenuCommandsTpp.PrintFaceInfo", "InfMenuCommandsTpp.PrintCurrentAppearance", "InfFovaIvars.fovaModMenu", "Ivars.enableFovaMod", "Ivars.fovaSelection", "InfMenuCommandsTpp.PrintBodyInfo", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMainTppIvars.progressionMenu", "InfResources.resourceScaleMenu", "Ivars.enableResourceScale", "Ivars.resourceScaleMaterial", "Ivars.resourceScalePlant", "Ivars.resourceScalePoster", "Ivars.resourceScaleDiamond", "Ivars.resourceScaleContainer", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.repopulateRadioTapes", "InfMenuCommandsTpp.UnlockPlayableAvatar", "InfMenuCommandsTpp.UnlockWeaponCustomization", "InfMenuCommandsTpp.ResetPaz", "InfMenuCommandsTpp.ReturnQuiet", "InfMenuCommandsTpp.ShowQuietReunionMissionCount", "InfMenuCommands.GoBackItem", "InfQuestIvars.sideOpsMenu", "InfQuest.RerollQuestSelection", "Ivars.unlockSideOpNumber", "Ivars.unlockSideOps", "Ivars.sideOpsSelectionMode", "InfQuestIvars.sideOpsCategoryMenu", "Ivars.sideops_STORY", "Ivars.sideops_EXTRACT_INTERPRETER", "Ivars.sideops_BLUEPRINT", "Ivars.sideops_EXTRACT_HIGHLY_SKILLED", "Ivars.sideops_PRISONER", "Ivars.sideops_CAPTURE_ANIMAL", "Ivars.sideops_WANDERING_SOLDIER", "Ivars.sideops_DDOG_PRISONER", "Ivars.sideops_ELIMINATE_HEAVY_INFANTRY", "Ivars.sideops_MINE_CLEARING", "Ivars.sideops_ELIMINATE_ARMOR_VEHICLE", "Ivars.sideops_EXTRACT_GUNSMITH", "Ivars.sideops_ELIMINATE_TANK_UNIT", "Ivars.sideops_ELIMINATE_PUPPETS", "Ivars.sideops_TARGET_PRACTICE", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "Ivars.showAllOpenSideopsOnUi", "Ivars.enableHeliReinforce", "Ivars.ihSideopsPercentageCount", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfSoldierParams.soldierParamsMenu", "Ivars.soldierParamsProfile", "Ivars.soldierHealthScale", "Ivars.soldierSightDistScale", "Ivars.soldierNightSightDistScale", "Ivars.soldierHearingDistScale", "Ivars.itemDropChance", "InfMenuCommandsTpp.PrintHealthTableParameter", "InfMenuCommandsTpp.PrintSightFormParameter", "InfMenuCommandsTpp.PrintHearingTable", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfHelicopter.supportHeliMenu", "Ivars.disableHeliAttack", "Ivars.setInvincibleHeli", "Ivars.setSearchLightForcedHeli", "Ivars.disablePullOutHeli", "Ivars.setLandingZoneWaitHeightTop", "Ivars.defaultHeliDoorOpenTime", "Ivars.disableLzs", "Ivars.startOnFootFREE", "Ivars.startOnFootMISSION", "Ivars.startOnFootMB_ALL", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfTimeScale.timeScaleMenu", "InfTimeScale.HighSpeedCameraToggle", "Ivars.speedCamContinueTime", "Ivars.speedCamWorldTimeScale", "Ivars.speedCamPlayerTimeScale", "Ivars.speedCamNoDustEffect", "Ivars.clockTimeScale", "Ivars.clock_setTime", "InfMenuCommands.ResetSettingsItem", "InfMenuCommands.GoBackItem", "InfMenuCommands.MenuOffItem" }
+}
+|12.668|InfMenuCommands.PostAllModulesLoad:
+|12.674|InfMenuCommands.BuildCommandItems
+|12.683|IHDebugVars.PostAllModulesLoad:
+|12.689|IHDebugVars.PostAllModulesLoad: setting debug vars
+|12.695|DebugModeEnable:true
+|12.701|AddDevMenus
+|12.708|updateTimes={}
+|12.714|averageTimes={}
+|12.721|maxTimes={}
+|12.727|mission_block blockId=4294967295
+|12.733|quest_block blockId=4294967295
+|12.739|demo_block blockId=4294967295
+|12.745|reinforce_block blockId=4294967295
+|12.751|npc_block blockId=4294967295
+|12.756|animal_block blockId=4294967295
+|12.762|TppResidentBlockGroup blockId=4294967295
+|12.769|CommonStageBlockGroup blockId=4294967295
+|12.781|IHGenKnownModuleNames.PostAllModulesLoad:
+|12.788|ihExternal names={}
+|12.795|IHRuntimeAnalyze.PostAllModulesLoad:
+|12.802|IHTearDown.PostAllModulesLoad:
+|12.808|IHTearDown.PostAllModulesLoad
+|12.814|InfLookup.PostAllModulesLoad:
+|12.821|LoadStrings
+|12.828|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/fmdlStrings_unique.txt
+|12.853|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/fmdl_dictionary.txt
+|12.865|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/gz-fcnp.txt
+|12.873|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/gz-fox.txt
+|12.88|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/gz-frig.txt
+|12.886|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/gz-json.txt
+|12.896|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/gz-lua.txt
+|12.928|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsExe.txt
+|13.565|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsExeMgsGroundZeroes.txt
+|13.631|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsExtensions.txt
+|13.638|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsFox2Scrape.txt
+|13.838|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeAfgh.txt
+|13.863|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeLy.txt
+|16.924|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeLz.txt
+|16.932|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeMafr.txt
+|16.95|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeMtbs.txt
+|16.993|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapePaths.txt
+|17.684|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsFox2ScrapeTrap.txt
+|17.695|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsGameObjectNames.txt
+|21.908|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsLua.txt
+|22.264|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/IHStringsManual.txt
+|22.271|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/lang_dictionary.txt
+|22.307|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-des.txt
+|22.313|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-evf.txt
+|22.32|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-fox2.txt
+|22.451|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-fsd.txt
+|22.459|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-lua.txt
+|22.548|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-parts.txt
+|22.563|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-ph.txt
+|22.57|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-phsd.txt
+|22.578|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-sdf.txt
+|22.585|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-sim.txt
+|22.592|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mgo-tgt.txt
+|22.599|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/mtar_dictionary.txt
+|22.609|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/qar_dictionary.txt
+|22.854|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppbnd.txt
+|22.863|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppclo.txt
+|22.869|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppdes.txt
+|22.876|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppevf.txt
+|22.882|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppfsd.txt
+|22.888|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppparts-noinvalidchars.txt
+|22.922|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppph.txt
+|22.93|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppphsd.txt
+|22.936|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppsdf.txt
+|22.943|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppsim.txt
+|22.951|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetpptgt.txt
+|22.957|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/scrapetppveh.txt
+|22.963|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-cityhook-all-start-toloading-logintimedout_unique.txt
+|23.102|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-clo.txt
+|23.108|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-des.txt
+|23.114|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-fcnp.txt
+|23.125|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-fdes.txt
+|23.132|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-fox2.txt
+|23.528|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-frig.txt
+|23.535|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-fsd.txt
+|23.541|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-fstb.txt
+|23.547|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-fv2t.txt
+|23.553|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-grxla.txt
+|23.591|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-grxoc.txt
+|23.604|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-gskl.txt
+|23.623|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-json.txt
+|23.668|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-lua.txt
+|23.747|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-parts.txt
+|23.774|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-ph.txt
+|23.781|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-phsd.txt
+|23.788|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-sdf.txt
+|23.794|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-sim.txt
+|23.8|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-tgt.txt
+|23.806|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-twpf.txt
+|23.813|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-veh.txt
+|23.818|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/ssd-vfx.txt
+|23.829|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/subp_dictionary.txt
+|23.837|LoadStrings C:/Steam/steamapps/common/MGS_TPP/mod/strings/tpp-vfx-scrape_unique.txt
+|23.847|Adding scrapetppparts-noinvalidchars strings to strCode32List
+|23.855|Adding IHStringsFox2ScrapeTrap strings to strCode32List
+|23.861|Adding ssd-sim strings to strCode32List
+|23.867|Adding IHStringsGameObjectNames strings to strCode32List
+|23.972|Adding scrapetppbnd strings to strCode32List
+|23.978|Adding IHStringsFox2ScrapeMafr strings to strCode32List
+|23.985|Adding IHStringsFox2ScrapeMtbs strings to strCode32List
+|23.992|Adding scrapetppevf strings to strCode32List
+|23.998|Adding scrapetppsdf strings to strCode32List
+|24.004|Adding mgo-ph strings to strCode32List
+|24.009|Adding gz-fox strings to strCode32List
+|24.015|Adding IHStringsExe strings to strCode32List
+|24.174|Adding ssd-gskl strings to strCode32List
+|24.182|Adding tpp-vfx-scrape_unique strings to strCode32List
+|24.19|Adding scrapetppfsd strings to strCode32List
+|24.196|Adding mgo-tgt strings to strCode32List
+|24.203|Adding scrapetppclo strings to strCode32List
+|24.209|Adding mgo-evf strings to strCode32List
+|24.214|Adding IHStringsFox2ScrapeAfgh strings to strCode32List
+|24.221|Adding ssd-fdes strings to strCode32List
+|24.227|Adding scrapetpptgt strings to strCode32List
+|24.233|Adding IHStringsFox2ScrapeLy strings to strCode32List
+|24.295|Adding gz-lua strings to strCode32List
+|24.305|Adding ssd-grxla strings to strCode32List
+|24.315|Adding mgo-phsd strings to strCode32List
+|24.321|Adding scrapetppph strings to strCode32List
+|24.326|Adding ssd-twpf strings to strCode32List
+|24.332|Adding scrapetppveh strings to strCode32List
+|24.337|Adding mgo-sim strings to strCode32List
+|24.343|Adding gz-json strings to strCode32List
+|24.349|Adding ssd-fsd strings to strCode32List
+|24.355|Adding IHStringsFox2ScrapePaths strings to strCode32List
+|24.473|Adding ssd-json strings to strCode32List
+|24.484|Adding qar_dictionary strings to strCode32List
+|24.503|Adding mtar_dictionary strings to strCode32List
+|24.509|Adding scrapetppdes strings to strCode32List
+|24.515|Adding ssd-des strings to strCode32List
+|24.52|Adding mgo-sdf strings to strCode32List
+|24.526|Adding IHStringsFox2ScrapeLz strings to strCode32List
+|24.531|Adding mgo-lua strings to strCode32List
+|24.542|Adding IHStringsLua strings to strCode32List
+|24.573|Adding subp_dictionary strings to strCode32List
+|24.58|Adding ssd-vfx strings to strCode32List
+|24.586|Adding fmdlStrings_unique strings to strCode32List
+|24.594|Adding ssd-tgt strings to strCode32List
+|24.6|Adding ssd-sdf strings to strCode32List
+|24.606|Adding IHStringsFox2Scrape strings to strCode32List
+|24.626|Adding scrapetppsim strings to strCode32List
+|24.632|Adding ssd-ph strings to strCode32List
+|24.639|Adding mgo-parts strings to strCode32List
+|24.645|Adding ssd-parts strings to strCode32List
+|24.654|Adding gz-frig strings to strCode32List
+|24.661|Adding mgo-fox2 strings to strCode32List
+|24.678|Adding ssd-lua strings to strCode32List
+|24.694|Adding ssd-fv2t strings to strCode32List
+|24.7|Adding ssd-clo strings to strCode32List
+|24.706|Adding ssd-grxoc strings to strCode32List
+|24.713|Adding IHStringsExeMgsGroundZeroes strings to strCode32List
+|24.726|Adding fmdl_dictionary strings to strCode32List
+|24.733|Adding lang_dictionary strings to strCode32List
+|24.742|Adding ssd-frig strings to strCode32List
+|24.748|Adding mgo-des strings to strCode32List
+|24.754|Adding ssd-fox2 strings to strCode32List
+|24.781|Adding ssd-veh strings to strCode32List
+|24.788|Adding ssd-fcnp strings to strCode32List
+|24.794|Adding IHStringsManual strings to strCode32List
+|24.801|Adding ssd-cityhook-all-start-toloading-logintimedout_unique strings to strCode32List
+|24.821|Adding scrapetppphsd strings to strCode32List
+|24.828|Adding ssd-fstb strings to strCode32List
+|24.833|Adding mgo-fsd strings to strCode32List
+|24.839|Adding IHStringsExtensions strings to strCode32List
+|24.845|Adding ssd-phsd strings to strCode32List
+|24.851|Adding gz-fcnp strings to strCode32List
+|24.859|Adding TppDbgStr32.DEBUG_strCode32List to strCode32List
+|24.865|InfLookup.BuildPath32ToDataSetName:
+|27.076|InfLookup.AddObjectNamesToStr32List:
+|27.084|InfLookup.LoadGameObjectNames
+|31.519|LoadGameObjectNames: Adding IHStringsGameObjectNames to gameObjectNames
+|32.893|InfNPC.PostAllModulesLoad:
+|32.9|InfNPCOcelot.PostAllModulesLoad:
+|32.906|InfObjects.PostAllModulesLoad:
+|32.912|InfQuest.PostAllModulesLoad:
+|32.917|InfQuest.LoadQuestDefs
+|32.925|InfQuest.LoadQuestDefs: ih_quest_q30100.lua
+|32.932|InfQuest.LoadQuestDefs: ih_quest_q30101.lua
+|32.938|InfQuest.LoadQuestDefs: ih_quest_q30102.lua
+|32.944|InfQuest.LoadQuestDefs: ih_quest_q30104.lua
+|32.95|InfQuest.LoadQuestDefs: ih_quest_q30155.lua
+|32.956|InfQuest.LoadQuestDefs: ih_quest_q30205.lua
+|32.962|IvarProc.SetupInfProfiles
+|32.971|Lua memory usage end: 261855.20703125 KB
+|33.196|Lua memory usage post collect: 171483.50585938 KB
+|33.215|InfCore.LoadLibrary /Assets/tpp/script/list/TppMissionList.lua
+|33.228|InfCore.LoadLibrary /Assets/tpp/script/list/TppQuestList.lua
+|33.264|InfCore.LoadLibrary /Assets/tpp/level_asset/chara/player/game_object/player2_camouf_param.lua
+|33.277|Most LoadLibrary libs done
+|33.283|InfCore.LoadLibrary /Assets/tpp/script/lib/InfHooks.lua
+|33.294|InfHooks.AddHooks:
+|33.356|start2nd.lua start
+|33.412|!!!!!!!!!!!!!!TppPlayer2InitializeScripttest
+|33.418|Ivars.cam_disableCameraAnimations=1
+|33.424|ivars.cam_disableCameraAnimations=1
+|33.445|Loading mother base settings
+|33.452|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting.lua
+|33.458|Found external for /Assets/tpp/motherbase/script/MbmCommonSetting.lua
+|33.469|MbmCommonSetting.lua - personal tweaks
+|33.498|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting20BaseResSec.lua
+|33.524|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting30Deploy.lua
+|33.551|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting40RewardDeploy.lua
+|33.58|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting50RewardFob.lua
+|33.616|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MbmCommonSetting60DbPfLang.lua
+|33.642|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopConstSetting.lua
+|33.691|InfCore.LoadLibrary /Assets/tpp/motherbase/script/EquipDevelopFlowSetting.lua
+|33.74|InfCore.LoadLibrary /Assets/tpp/motherbase/script/MotherBaseWeaponSpecSetting.lua
+|33.765|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsUiSetting.lua
+|33.795|InfCore.LoadLibrary /Assets/tpp/motherbase/script/WeaponPartsCombinationSettings.lua
+|33.825|InfMainTpp.MBManagementSettings
+|33.832|InfMain.LoadLibraries
+|33.838|InfFova.LoadLibraries:
+|33.844|InfFova LoadModelInfoModules
+|33.922|InfMission.LoadLibraries:
+|33.928|InfMission SetupMissions
+|33.934|InfMission.LoadLocationsDefs: AFC0.lua
+|33.94|InfMission.LoadLocationsDefs: AFC1.lua
+|33.946|InfMission.LoadLocationsDefs: AFDA.lua
+|33.952|InfMission.LoadLocationsDefs: AFN0.lua
+|33.958|InfMission.LoadLocationsDefs: CUBA.lua
+|33.965|InfMission.LoadLocationsDefs: MBA0.lua
+|33.971|InfMission.LoadLocationsDefs: MBA1.lua
+|33.977|InfMission.LoadLocationsDefs: MBA2.lua
+|33.984|InfMission.LoadLocationsDefs: RMA0.lua
+|33.99|InfMission.LoadLocationsDefs: SSAV.lua
+|33.997|InfMission.LoadLocationsDefs: SSD_OMBS.lua
+|34.003|InfMission.LoadLocationsDefs: SVA0.lua
+|34.009|InfMission.LoadMissionDefs: 12010_ombs.lua
+|34.015|InfMission.LoadMissionDefs: 12020_cypr.lua
+|34.021|Adding location: AFDA 103
+|34.027|Adding location: SSAV 25
+|34.033|Adding location: MBA0 111
+|34.039|Adding location: MBA2 115
+|34.045|Adding location: AFC1 104
+|34.051|Adding location: SVA0 112
+|34.056|Adding location: AFC0 101
+|34.062|Adding location: CUBA 105
+|34.067|Adding location: RMA0 113
+|34.073|Adding location: AFN0 102
+|34.079|Adding location: MBA1 114
+|34.085|Adding location: SSD_OMBS 47
+|34.092|Adding mission 12010
+|34.098|Adding mission 12020
+|34.104|RegistMissionEpisodeNo(12010,51)
+|34.111|RegistMissionEpisodeNo(12020,52)
+|34.117|start2nd.lua done
+|34.133|InfMain.OnFadeOutDirect:nil
+|34.139|TppVarInit.InitializeOnStartTitle
+|34.152|TppVarInit.StartInitMission 10010
+|34.159|TppMission.Load nextMissionCode:1 currentMissionCode:nil
+|34.165|loadSettings={
   force = true,
   showLoadingTips = false
-}
-|25.335|InfParasite.OnLoad:
-|25.341|TppEneFova.InitializeUniqueSetting
-|25.347|TppEneFova.PreMissionLoad locationName:init missionId:1
-|25.354|InfMain.PreMissionLoad
-|25.36|InfEneFova.PreMissionLoad:
-|25.366|InfEquip.PreMissionLoad:
-|25.372|InfMainTpp.PreMissionLoad:
-|25.378|InfSoldier.PreMissionLoad:
-|25.384|Mission.LoadLocation
-|25.39|Mission.LoadMission
-|25.395|start.lua done
+}
+|34.171|InfParasite.OnLoad:
+|34.176|TppEneFova.InitializeUniqueSetting
+|34.182|TppEneFova.PreMissionLoad locationName:init missionId:1
+|34.188|InfMain.PreMissionLoad
+|34.194|InfEneFova.PreMissionLoad:
+|34.201|InfEquip.PreMissionLoad:
+|34.207|InfMainTpp.PreMissionLoad:
+|34.213|InfSoldier.PreMissionLoad:
+|34.219|Mission.LoadLocation
+|34.224|Mission.LoadMission
+|34.231|Lua memory usage: 183992.49609375 KB
+|34.399|Lua memory usage post collect: 168409.83007813 KB
+|34.406|start.lua done
+|34.413|TppMissionList.GetLocationPackagePath 1
+|34.419|locationPackPaths={ "/Assets/tpptest/pack/location/empty/empty.fpk" }
+|34.58|TppMissionList.GetMissionPackagePath 1
+|34.586|InfMain.AddMissionPacks 1
+|34.619|IHDebugVars.AddMissionPacks:
+|34.626|InfAnimal.AddMissionPacks:
+|34.632|InfEquip.AddMissionPacks:
+|34.638|InfHelicopter.AddMissionPacks:
+|34.644|InfMainTpp.AddMissionPacks:
+|34.65|InfMBAssets.AddMissionPacks:
+|34.656|InfMotion.AddMissionPacks:
+|34.661|InfNPC.AddMissionPacks:
+|34.667|InfNPCHeli.AddMissionPacks:
+|34.673|InfNPCOcelot.AddMissionPacks:
+|34.678|InfParasite.AddMissionPacks:
+|34.684|InfPuppy.AddMissionPacks:
+|34.69|InfSoldier.AddMissionPacks:
+|34.695|InfVehicle.AddMissionPacks:
+|34.701|InfWalkerGear.AddMissionPacks:
+|34.707|missionPackPaths={ "/Assets/tpp/pack/ui/gz/gz_pause_key_setting_data.fpk", "/Assets/tpp/pack/mission2/init/init.fpk" }
+|34.807|OnAllocate Top 1
+|34.813|DebugModeEnable:true
+|34.82|InfHooks.SetupDebugHooks:
+|34.826|InfHooks.AddDebugHooks:
+|34.833|AddDevMenus
+|34.841|InfMainTpp.OnAllocateTop:
+|34.848|HookPre TppUI.FadeOut(0)
+|34.854|InfMain.OnFadeOutDirect:nil
+|34.866|TppException.OnAllocate
+|34.873|TppClock.OnAllocate
+|34.879|TppTrap.OnAllocate
+|34.885|TppCheckPoint.OnAllocate
+|34.891|TppUI.OnAllocate
+|34.897|TppDemo.OnAllocate
+|34.904|TppScriptBlock.OnAllocate
+|34.911|TppSound.OnAllocate
+|34.917|TppPlayer.OnAllocate
+|34.923|TppMission.OnAllocate
+|34.931|TppTerminal.OnAllocate
+|34.939|TppEnemy.OnAllocate
+|34.945|TppRadio.OnAllocate
+|34.953|TppGimmick.OnAllocate
+|34.96|TppMarker.OnAllocate
+|34.967|TppRevenge.OnAllocate
+|34.975|TppQuest.OnAllocate
+|34.982|TppAnimal.OnAllocate
+|34.989|InfMain.OnAllocate
+|34.996|inf_levelSeed -1782830216
+|35.004|InfEquip.OnAllocate:
+|35.011|InfMainTpp.OnAllocate:
+|35.019|InfQuest.OnAllocate:
+|35.026|InfResources.OnAllocate:
+|35.032|InfSoldierParams.OnAllocate:
+|35.04|quest_q52130_EXTERNAL.OnAllocate:
+|35.046|TppEnemy.OnAllocateQuestFova
+|35.053|TppReinforceBlock.LoadReinforceBlock
+|35.059|LoadReinforceBlock cpId:65535 doesnt match reinforce_reinforceCpId:nil, aborting
+|35.065|InfMainTpp.MissionPrepare:
+|35.072|InfParasite.MissionPrepare:
+|35.078|TppSequence.DeclareSVars
+|35.084|TppResult.DeclareSVars
+|35.091|TppSound.DeclareSVars
+|35.098|TppTerminal.DeclareSVars
+|35.104|TppMarker.DeclareSVars
+|35.112|TppRadio.DeclareSVars
+|35.119|TppPlayer.DeclareSVars
+|35.125|TppScriptBlock.DeclareSVars
+|35.131|TppMission.DeclareSVars
+|35.138|TppEnemy.DeclareSVars
+|35.146|TppInterrogation.DeclareSVars
+|35.153|TppCheckPoint.DeclareSVars
+|35.16|TppTrap.DeclareSVars
+|35.166|TppFreeHeliRadio.DeclareSVars
+|35.173|TppHero.DeclareSVars
+|35.179|TppRanking.DeclareSVars
+|35.185|InfParasite.DeclareSVars:
+|35.192|InfMission.OpenMissions
+|35.199|Clearing 40
+|35.205|Clearing 42
+|35.21|Clearing 44
+|35.216|Clearing 47
+|35.222|Clearing 50
+|35.228|Clearing 51
+|35.234|Clearing 52
+|35.24|Clearing 54
+|35.246|Clearing 56
+|35.253|Clearing 58
+|35.26|Clearing 61
+|35.267|Clearing 63
+|35.273|Clearing 64
+|35.28|Opening 12010
+|35.287|Opening 12020
+|35.294|TppRevenge._SetUiParameters 
+|35.301|TppRevenge._CreateRevengeConfig
+|35.309|revengeConfig={
+  COMBAT_LOW = true,
+  HOLDUP_LOW = true,
+  STEALTH_LOW = true
+}
+|35.317|OnAllocate Bottom 1
+|35.336|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|35.344|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|35.368|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|35.375|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|35.398|OnInitialize Top 1
+|35.406|InfLookup.OnInitializeTop:
+|35.414|BuildGameIdToNames: Adding gameObjectName to InfCore.gameIdToName
+|37.081|InfLookup.BuildSoldierSvarIndexes:
+|37.089|InfMainTpp.OnInitializeTop:
+|37.095|InfQuest.RegisterQuests
+|37.101|RegisterQuests ih_quest_q30100 168
+|37.108|RegisterQuests ih_quest_q30101 169
+|37.114|RegisterQuests ih_quest_q30102 170
+|37.12|RegisterQuests ih_quest_q30104 171
+|37.126|RegisterQuests ih_quest_q30155 172
+|37.133|RegisterQuests ih_quest_q30205 173
+|37.139|numUiQuests:163
+|37.147|TppSave.Init
+|37.153|TppLocation.Init
+|37.159|TppSequence.Init
+|37.166|TppWeather.Init
+|37.171|TppUI.Init
+|37.178|TppResult.Init
+|37.184|TppSound.Init
+|37.19|TppTerminal.Init
+|37.196|TppMarker.Init
+|37.202|TppRadio.Init
+|37.208|TppPlayer.Init
+|37.214|TppHelicopter.Init
+|37.22|TppMission.Init
+|37.227|TppStory.Init
+|37.233|InfMission.OpenMissions
+|37.239|Clearing 40
+|37.246|Clearing 42
+|37.251|Clearing 44
+|37.257|Clearing 47
+|37.263|Clearing 50
+|37.269|Clearing 51
+|37.275|Clearing 52
+|37.28|Clearing 54
+|37.286|Clearing 56
+|37.292|Clearing 58
+|37.298|Clearing 61
+|37.303|Clearing 63
+|37.309|Clearing 64
+|37.315|Opening 12010
+|37.321|Opening 12020
+|37.326|TppDemo.Init
+|37.332|TppEnemy.Init
+|37.338|TppInterrogation.Init
+|37.345|TppGimmick.Init
+|37.353|TppCheckPoint.Init
+|37.359|TppQuest.Init
+|37.365|TppRevenge.Init
+|37.371|TppReinforceBlock.Init
+|37.377|TppFreeHeliRadio.Init
+|37.383|TppHero.Init
+|37.389|TppTelop.Init
+|37.395|TppRatBird.Init
+|37.401|TppAnimal.Init
+|37.406|TppTutorial.Init
+|37.415|TppPaz.Init
+|37.421|TppRanking.Init
+|37.427|InfMain.Init
+|37.433|InfAnimal.Init:
+|37.439|InfBuddy.Init:
+|37.445|InfEnemyPhase.Init:
+|37.451|InfEquip.Init:
+|37.458|InfFova.Init:
+|37.464|InfHelicopter.Init:
+|37.47|InfInterrogation.Init:
+|37.476|InfLookup.Init:
+|37.483|Dumping unknownStr32
+|37.491|Dumping unknownMessages
+|37.498|InfMainTpp.Init:
+|37.505|InfMBAssets.Init:
+|37.511|InfMBGimmick.Init:
+|37.517|InfMBVisit.Init:
+|37.523|InfMgsvToExt.Init:
+|37.529|InfMission.Init:
+|37.535|InfNPC.Init:
+|37.541|InfNPCHeli.Init:
+|37.547|InfNPCOcelot.Init:
+|37.553|InfParasite.Init:
+|37.56|InfPuppy.Init:
+|37.566|InfSoldier.Init:
+|37.572|InfUserMarker.Init:
+|37.579|InfWalkerGear.Init:
+|37.587|SetMessageFunction:InfAnimal
+|37.593|SetMessageFunction:InfBuddy
+|37.6|SetMessageFunction:InfEnemyPhase
+|37.606|SetMessageFunction:InfEquip
+|37.612|SetMessageFunction:InfFova
+|37.618|SetMessageFunction:InfMainTpp
+|37.624|SetMessageFunction:InfMBGimmick
+|37.63|SetMessageFunction:InfMBVisit
+|37.636|SetMessageFunction:InfNPC
+|37.642|SetMessageFunction:InfNPCHeli
+|37.648|SetMessageFunction:InfNPCOcelot
+|37.655|SetMessageFunction:InfParasite
+|37.661|SetMessageFunction:InfSoldier
+|37.668|SetMessageFunction:InfUserMarker
+|37.675|HookPre TppQuest.UpdateActiveQuest()
+|37.682|OnInitialize Bottom 1
+|37.69|TppSequence.OnChangeSVars
+|37.697|HookPre TppScriptBlock.PreloadSettingOnMissionStart()
+|37.703|HookPre TppScriptBlock.ReloadScriptBlock()
+|37.709|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(0)
+|37.716|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(1)
+|37.722|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(2)
+|37.729|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(3)
+|37.735|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(4)
+|37.742|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(5)
+|37.748|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(6)
+|37.755|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(7)
+|37.761|TppUI.OnChangeSVars
+|37.768|TppMission.OnChangeSVars
+|37.777|HookPre TppLocation.ActivateBlock()
+|37.784|InfMain.OnMissionCanStartBottom
+|37.791|InfEquip.OnMissionCanStart:
+|37.798|InfGameEvent.OnMissionCanStart:
+|37.805|InfMainTpp.OnMissionCanStart:
+|37.811|InfMBVisit.OnMissionCanStart:
+|37.818|InfNPCHeli.OnMissionCanStart:
+|37.825|InfParasite.OnMissionCanStart:
+|37.832|DoExtToMgsvCommands IHExt session changed
+|37.851|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|37.86|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|37.867|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|37.876|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|37.884|TppSequence.OnChangeSVars
+|37.891|TppSequence.SetNextSequence from Seq_Demo_Start to Seq_Demo_WaitCopyRightLogo
+|37.897|TppUI.OnChangeSVars
+|37.904|TppMission.OnChangeSVars
+|37.911|TppSequence.OnChangeSVars
+|37.918|TppUI.OnChangeSVars
+|37.925|TppMission.OnChangeSVars
+|37.932|TppSequence.SetNextSequence from Seq_Demo_WaitCopyRightLogo to Seq_Demo_SetInitialLanguage
+|37.939|commands not done
+|37.946|DoToMgsvCommand 1={ "1", "sessionchange" }
+|37.967|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|37.974|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|37.984|TppSequence.OnChangeSVars
+|37.991|TppSequence.SetNextSequence from Seq_Demo_SetInitialLanguage to Seq_Demo_SetSavedLanguage
+|37.998|TppUI.OnChangeSVars
+|38.005|TppMission.OnChangeSVars
+|38.011|TppSequence.OnChangeSVars
+|38.018|TppUI.OnChangeSVars
+|38.025|TppMission.OnChangeSVars
+|39.013|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+|39.053|mbdvc_map_location_parameter.GetLocationParameter 1
+|39.084|TppSequence.SetNextSequence from Seq_Demo_SetSavedLanguage to Seq_Demo_StartCheckNecessaryStorageSpace
+|39.102|TppSequence.OnChangeSVars
+|39.111|TppSequence.SetNextSequence from Seq_Demo_StartCheckNecessaryStorageSpace to Seq_Demo_CheckInstalled
+|39.118|TppUI.OnChangeSVars
+|39.126|TppMission.OnChangeSVars
+|39.134|TppSequence.OnChangeSVars
+|39.14|TppSequence.SetNextSequence from Seq_Demo_CheckInstalled to Seq_Demo_StartInstall
+|39.148|TppUI.OnChangeSVars
+|39.155|TppMission.OnChangeSVars
+|39.164|TppSequence.OnChangeSVars
+|39.171|TppSequence.SetNextSequence from Seq_Demo_StartInstall to Seq_Demo_ConfirmAutoSave
+|39.178|TppUI.OnChangeSVars
+|39.186|TppMission.OnChangeSVars
+|39.194|TppSequence.OnChangeSVars
+|39.202|TppSequence.SetNextSequence from Seq_Demo_ConfirmAutoSave to Seq_Demo_StartSignIn
+|39.209|TppUI.OnChangeSVars
+|39.217|TppMission.OnChangeSVars
+|39.225|TppSequence.OnChangeSVars
+|39.232|TppSequence.SetNextSequence from Seq_Demo_StartSignIn to Seq_Demo_CreateOrLoadSaveData
+|39.24|TppUI.OnChangeSVars
+|39.247|TppMission.OnChangeSVars
+|39.254|TppSequence.OnChangeSVars
+|39.261|TppUI.OnChangeSVars
+|39.268|TppMission.OnChangeSVars
+|39.537|OnMessage|sender: UI, messageId: PopupClose, popupId=1200:LOADING_SAVE_DATA, unk1=0 (number), 
+|39.544|OnMessage|sender: UI, messageId: PopupClose, popupId=1200:LOADING_SAVE_DATA, unk1=0 (number), 
+|41.763|mbdvc_map_location_parameter.GetGlobalLocationParameter 1
+|42.657|TppSequence.SetNextSequence from Seq_Demo_CreateOrLoadSaveData to Seq_Demo_LogInKonamiServer
+|42.673|TppSequence.OnChangeSVars
+|42.68|TppUI.OnChangeSVars
+|42.686|TppMission.OnChangeSVars
+|42.701|OnMessage|sender: Network, messageId: StartLogin, (no signature): arg0=0, 
+|42.709|OnMessage|sender: Network, messageId: StartLogin, (no signature): arg0=0, 
+|45.611|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|45.619|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|49.482|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|49.518|OnMessage|sender: UI, messageId: PopupClose, popupId=1799460398 (popupId), unk1=0 (number), 
+|52.7|OnMessage|sender: UI, messageId: PopupClose, popupId=3404051590 (popupId), unk1=0 (number), 
+|52.713|OnMessage|sender: UI, messageId: PopupClose, popupId=3404051590 (popupId), unk1=0 (number), 
+|54.802|OnMessage|sender: Network, messageId: EndLogin
+|54.823|OnMessage|sender: Network, messageId: EndLogin
+|54.863|TppSequence.SetNextSequence from Seq_Demo_LogInKonamiServer to Seq_Demo_CheckPatchDlcForInvitation
+|54.87|TppSequence.OnChangeSVars
+|54.877|TppSequence.SetNextSequence from Seq_Demo_CheckPatchDlcForInvitation to Seq_Demo_CheckMgoInvitation
+|54.883|TppUI.OnChangeSVars
+|54.89|TppMission.OnChangeSVars
+|54.896|TppSequence.OnChangeSVars
+|54.902|TppSequence.SetNextSequence from Seq_Demo_CheckMgoInvitation to Seq_Demo_CheckDlc
+|54.909|TppUI.OnChangeSVars
+|54.915|TppMission.OnChangeSVars
+|54.922|TppSequence.OnChangeSVars
+|54.928|TppUI.OnChangeSVars
+|54.934|TppMission.OnChangeSVars
+|54.951|TppSequence.SetNextSequence from Seq_Demo_CheckDlc to Seq_Demo_ShowDlcAnnouncePopup
+|54.971|TppSequence.OnChangeSVars
+|54.978|TppUI.OnChangeSVars
+|54.985|TppMission.OnChangeSVars
+|55.588|OnMessage|sender: UI, messageId: EndDlcAnnounce, (no signature): arg0=0, arg1=0, 
+|55.595|OnMessage|sender: UI, messageId: EndDlcAnnounce, (no signature): arg0=0, arg1=0, 
+|55.601|TppSequence.SetNextSequence from Seq_Demo_ShowDlcAnnouncePopup to Seq_Demo_CheckPatchDlc
+|55.607|TppSequence.OnChangeSVars
+|55.614|TppUI.OnChangeSVars
+|55.62|TppMission.OnChangeSVars
+|55.627|TppSequence.SetNextSequence from Seq_Demo_CheckPatchDlc to Seq_Demo_CheckCompatibilityPatchDlc
+|55.64|TppSequence.OnChangeSVars
+|55.646|TppUI.OnChangeSVars
+|55.653|TppMission.OnChangeSVars
+|55.659|TppSequence.SetNextSequence from Seq_Demo_CheckCompatibilityPatchDlc to Seq_Demo_CheckBootTypeMgo
+|55.675|TppSequence.OnChangeSVars
+|55.683|TppSequence.SetNextSequence from Seq_Demo_CheckBootTypeMgo to Seq_Demo_Init
+|55.69|TppUI.OnChangeSVars
+|55.696|TppMission.OnChangeSVars
+|55.703|TppSequence.OnChangeSVars
+|55.709|TppUI.OnChangeSVars
+|55.716|TppMission.OnChangeSVars
+|59.258|TppSequence.SetNextSequence from Seq_Demo_Init to Seq_Demo_StartTitle
+|59.277|TppSequence.OnChangeSVars
+|59.284|TppSequence.SetNextSequence from Seq_Demo_StartTitle to Seq_Demo_ShowKonamiAndFoxLogo
+|59.29|TppUI.OnChangeSVars
+|59.296|TppMission.OnChangeSVars
+|59.301|TppSequence.OnChangeSVars
+|59.308|TppUI.OnChangeSVars
+|59.313|TppMission.OnChangeSVars
+|59.355|TppVarInit.StartTitle 1
+|59.364|TppMission.RequestLoad next:40010 current:1
+|59.371|InfMain.OnStartTitle
+|59.377|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|59.383|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|59.39|TppMission.LoadWithChunkCheck 40010
+|59.395|TppMission.Load nextMissionCode:40010 currentMissionCode:1
+|59.401|loadSettings={
+  showLoadingTips = false
+}
+|59.408|InfParasite.OnLoad:
+|59.414|TppEneFova.InitializeUniqueSetting
+|59.42|TppEneFova.PreMissionLoad locationName:afgh missionId:40010
+|59.426|InfMain.PreMissionLoad
+|59.431|InfEneFova.PreMissionLoad:
+|59.437|InfEquip.PreMissionLoad:
+|59.444|InfMainTpp.PreMissionLoad:
+|59.45|InfSoldier.PreMissionLoad:
+|59.456|Mission.LoadLocation
+|59.461|Mission.LoadMission
+|59.572|TppMissionList.GetLocationPackagePath 10
+|59.58|locationPackPaths={ "/Assets/tpp/pack/location/afgh/afgh.fpk" }
+|59.705|TppMissionList.GetMissionPackagePath 40010
+|59.795|InfMain.AddMissionPacks 40010
+|59.801|IHDebugVars.AddMissionPacks:
+|59.808|InfAnimal.AddMissionPacks:
+|59.814|InfEquip.AddMissionPacks:
+|59.821|InfHelicopter.AddMissionPacks:
+|59.827|InfMainTpp.AddMissionPacks:
+|59.833|InfMBAssets.AddMissionPacks:
+|59.839|InfMotion.AddMissionPacks:
+|59.846|InfNPC.AddMissionPacks:
+|59.853|InfNPCHeli.AddMissionPacks:
+|59.86|InfNPCOcelot.AddMissionPacks:
+|59.866|InfParasite.AddMissionPacks:
+|59.873|InfPuppy.AddMissionPacks:
+|59.879|InfSoldier.AddMissionPacks:
+|59.885|InfVehicle.AddMissionPacks:
+|59.891|InfWalkerGear.AddMissionPacks:
+|59.897|missionPackPaths={ "/Assets/tpp/pack/mission2/heli/heli_common_script.fpk", "/Assets/tpp/pack/mission2/common/title_sequence.fpk", "/Assets/tpp/pack/mission2/heli/heli_ui.fpk", "/Assets/tpp/pack/mission2/common/mis_com_helicopter.fpk", "/Assets/tpp/pack/location/afgh/pack_common/afgh_script.fpk", "/Assets/tpp/pack/mission2/heli/h40010/h40010_area.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk", "/Assets/tpp/pack/mission2/ih/ih_additional_motion.fpk" }
+|63.986|OnAllocate Top 40010
+|63.993|DebugModeEnable:true
+|63.999|InfHooks.SetupDebugHooks:
+|64.005|AddDevMenus
+|64.013|InfMainTpp.OnAllocateTop:
+|64.02|HookPre TppUI.FadeOut(0)
+|64.026|InfMain.OnFadeOutDirect:nil
+|64.035|TppException.OnAllocate
+|64.042|TppClock.OnAllocate
+|64.048|TppTrap.OnAllocate
+|64.054|TppCheckPoint.OnAllocate
+|64.06|TppUI.OnAllocate
+|64.066|TppDemo.OnAllocate
+|64.073|TppScriptBlock.OnAllocate
+|64.079|TppSound.OnAllocate
+|64.085|TppPlayer.OnAllocate
+|64.091|TppMission.OnAllocate
+|64.098|TppTerminal.OnAllocate
+|64.103|TppEnemy.OnAllocate
+|64.11|TppRadio.OnAllocate
+|64.117|TppGimmick.OnAllocate
+|64.123|TppMarker.OnAllocate
+|64.131|TppRevenge.OnAllocate
+|64.138|TppQuest.OnAllocate
+|64.145|TppAnimal.OnAllocate
+|64.151|InfMain.OnAllocate
+|64.157|inf_levelSeed -1782830216
+|64.165|InfEquip.OnAllocate:
+|64.172|InfMainTpp.OnAllocate:
+|64.178|InfQuest.OnAllocate:
+|64.184|InfResources.OnAllocate:
+|64.19|InfSoldierParams.OnAllocate:
+|64.197|quest_q52130_EXTERNAL.OnAllocate:
+|64.203|TppEnemy.OnAllocateQuestFova
+|64.21|TppReinforceBlock.LoadReinforceBlock
+|64.216|LoadReinforceBlock cpId:65535 doesnt match reinforce_reinforceCpId:nil, aborting
+|64.223|InfMainTpp.MissionPrepare:
+|64.23|InfParasite.MissionPrepare:
+|64.237|TppSequence.DeclareSVars
+|64.244|TppResult.DeclareSVars
+|64.25|TppSound.DeclareSVars
+|64.257|TppTerminal.DeclareSVars
+|64.263|TppMarker.DeclareSVars
+|64.269|TppRadio.DeclareSVars
+|64.276|TppPlayer.DeclareSVars
+|64.281|TppScriptBlock.DeclareSVars
+|64.287|TppMission.DeclareSVars
+|64.293|TppEnemy.DeclareSVars
+|64.3|TppInterrogation.DeclareSVars
+|64.306|TppCheckPoint.DeclareSVars
+|64.312|TppTrap.DeclareSVars
+|64.318|TppFreeHeliRadio.DeclareSVars
+|64.324|TppHero.DeclareSVars
+|64.331|TppRanking.DeclareSVars
+|64.338|InfParasite.DeclareSVars:
+|64.346|InfMission.OpenMissions
+|64.352|Clearing 40
+|64.359|Clearing 42
+|64.365|Clearing 44
+|64.371|Clearing 47
+|64.378|Clearing 50
+|64.384|Clearing 51
+|64.39|Clearing 52
+|64.396|Clearing 54
+|64.403|Clearing 56
+|64.409|Clearing 58
+|64.416|Clearing 61
+|64.422|Clearing 63
+|64.429|Clearing 64
+|64.435|Opening 12010
+|64.442|Opening 12020
+|64.45|TppRevenge._SetUiParameters 
+|64.457|TppRevenge._CreateRevengeConfig
+|64.464|revengeConfig={}
+|64.471|OnAllocate Bottom 40010
+|64.481|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=7945 (number), blockIndexY=7945 (number), 
+|64.487|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=57857 (number), blockIndexY=57857 (number), 
+|64.495|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=7945 (number), blockIndexY=7945 (number), 
+|64.502|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=57857 (number), blockIndexY=57857 (number), 
+|64.576|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|64.583|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|65.161|OnInitialize Top 40010
+|65.169|InfLookup.OnInitializeTop:
+|65.179|BuildGameIdToNames: Adding gameObjectName to InfCore.gameIdToName
+|66.927|InfLookup.BuildSoldierSvarIndexes:
+|66.935|Adding sequence.DEBUG_strCode32List to strCode32List
+|66.942|InfMainTpp.OnInitializeTop:
+|66.949|InfQuest.RegisterQuests
+|66.956|RegisterQuests ih_quest_q30100 168
+|66.963|RegisterQuests ih_quest_q30101 169
+|66.971|RegisterQuests ih_quest_q30102 170
+|66.979|RegisterQuests ih_quest_q30104 171
+|66.988|RegisterQuests ih_quest_q30155 172
+|66.995|RegisterQuests ih_quest_q30205 173
+|67.003|numUiQuests:163
+|67.017|TppSave.Init
+|67.024|TppLocation.Init
+|67.031|TppSequence.Init
+|67.04|TppWeather.Init
+|67.047|TppUI.Init
+|67.055|TppResult.Init
+|67.062|TppSound.Init
+|67.068|TppTerminal.Init
+|67.075|TppMarker.Init
+|67.081|TppRadio.Init
+|67.088|TppPlayer.Init
+|67.095|TppHelicopter.Init
+|67.101|TppMission.Init
+|67.109|TppStory.Init
+|67.116|InfMission.OpenMissions
+|67.123|Clearing 40
+|67.13|Clearing 42
+|67.136|Clearing 44
+|67.146|Clearing 47
+|67.155|Clearing 50
+|67.163|Clearing 51
+|67.171|Clearing 52
+|67.178|Clearing 54
+|67.186|Clearing 56
+|67.192|Clearing 58
+|67.2|Clearing 61
+|67.206|Clearing 63
+|67.214|Clearing 64
+|67.222|Opening 12010
+|67.229|Opening 12020
+|67.237|TppDemo.Init
+|67.245|TppEnemy.Init
+|67.258|TppInterrogation.Init
+|67.266|TppGimmick.Init
+|67.274|TppCheckPoint.Init
+|67.281|TppQuest.Init
+|67.289|TppRevenge.Init
+|67.296|TppReinforceBlock.Init
+|67.303|TppFreeHeliRadio.Init
+|67.31|TppHero.Init
+|67.317|TppTelop.Init
+|67.324|TppRatBird.Init
+|67.331|TppAnimal.Init
+|67.338|TppTutorial.Init
+|67.347|TppPaz.Init
+|67.355|TppRanking.Init
+|67.363|InfMain.Init
+|67.371|InfAnimal.Init:
+|67.38|InfBuddy.Init:
+|67.388|InfEnemyPhase.Init:
+|67.396|InfEquip.Init:
+|67.405|InfFova.Init:
+|67.413|InfHelicopter.Init:
+|67.423|InfInterrogation.Init:
+|67.431|InfLookup.Init:
+|67.439|Dumping unknownStr32
+|67.447|Dumping unknownMessages
+|67.456|InfMainTpp.Init:
+|67.465|InfMBAssets.Init:
+|67.474|InfMBGimmick.Init:
+|67.483|InfMBVisit.Init:
+|67.491|InfMgsvToExt.Init:
+|67.499|InfMission.Init:
+|67.507|InfNPC.Init:
+|67.514|InfNPCHeli.Init:
+|67.521|InfNPCOcelot.Init:
+|67.529|InfParasite.Init:
+|67.536|InfPuppy.Init:
+|67.543|InfSoldier.Init:
+|67.55|InfUserMarker.Init:
+|67.559|InfWalkerGear.Init:
+|67.568|SetMessageFunction:InfAnimal
+|67.575|SetMessageFunction:InfBuddy
+|67.583|SetMessageFunction:InfEnemyPhase
+|67.59|SetMessageFunction:InfEquip
+|67.596|SetMessageFunction:InfFova
+|67.603|SetMessageFunction:InfMainTpp
+|67.61|SetMessageFunction:InfMBGimmick
+|67.616|SetMessageFunction:InfMBVisit
+|67.624|SetMessageFunction:InfNPC
+|67.63|SetMessageFunction:InfNPCHeli
+|67.637|SetMessageFunction:InfNPCOcelot
+|67.645|SetMessageFunction:InfParasite
+|67.652|SetMessageFunction:InfSoldier
+|67.66|SetMessageFunction:InfUserMarker
+|67.668|HookPre TppQuest.UpdateActiveQuest()
+|67.678|WARNING: UpdateActiveQuest did not select a quest for area tent
+|67.685|WARNING: UpdateActiveQuest did not select a quest for area field
+|67.693|WARNING: UpdateActiveQuest did not select a quest for area ruins
+|67.7|WARNING: UpdateActiveQuest did not select a quest for area cliffTown
+|67.708|WARNING: UpdateActiveQuest did not select a quest for area commFacility
+|67.715|WARNING: UpdateActiveQuest did not select a quest for area sovietBase
+|67.723|WARNING: UpdateActiveQuest did not select a quest for area fort
+|67.73|WARNING: UpdateActiveQuest did not select a quest for area citadel
+|67.738|WARNING: UpdateActiveQuest did not select a quest for area outland
+|67.745|WARNING: UpdateActiveQuest did not select a quest for area pfCamp
+|67.753|WARNING: UpdateActiveQuest did not select a quest for area savannah
+|67.761|WARNING: UpdateActiveQuest did not select a quest for area hill
+|67.768|WARNING: UpdateActiveQuest did not select a quest for area banana
+|67.777|WARNING: UpdateActiveQuest did not select a quest for area diamond
+|67.784|WARNING: UpdateActiveQuest did not select a quest for area lab
+|67.792|WARNING: UpdateActiveQuest did not select a quest for area MtbsCommand
+|67.799|WARNING: UpdateActiveQuest did not select a quest for area MtbsCombat
+|67.808|WARNING: UpdateActiveQuest did not select a quest for area MtbsDevelop
+|67.815|WARNING: UpdateActiveQuest did not select a quest for area MtbsMedical
+|67.822|WARNING: UpdateActiveQuest did not select a quest for area MtbsBaseDev
+|67.83|WARNING: UpdateActiveQuest did not select a quest for area MtbsPaz
+|67.837|OnInitialize Bottom 40010
+|67.846|TppSequence.OnChangeSVars
+|67.853|HookPre TppScriptBlock.PreloadSettingOnMissionStart()
+|67.86|HookPre TppScriptBlock.ReloadScriptBlock()
+|67.868|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(0)
+|67.877|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(1)
+|67.884|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(2)
+|67.892|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(3)
+|67.899|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(4)
+|67.908|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(5)
+|67.915|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(6)
+|67.924|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(7)
+|67.931|TppUI.OnChangeSVars
+|67.939|TppMission.OnChangeSVars
+|67.947|InfQuest.GetSideOpsListTable
+|67.958|overCount:-29
+|67.966|#sideOpsListTable:163
+|69.855|OnMessage|sender: GameObject, messageId: BuddyAppear, (no signature): arg0=9728||gameId:BuddyDogGameObjectLocator, 
+|69.868|OnMessage|sender: GameObject, messageId: BuddyAppear, (no signature): arg0=9728||gameId:BuddyDogGameObjectLocator, 
+|74.171|OnMessage|sender: Player, messageId: OnEquipItem, playerIndex=0 (number), equipId=0:EQP_None, 
+|74.179|OnMessage|sender: Player, messageId: OnEquipItem, playerIndex=0 (number), equipId=0:EQP_None, 
+|77.311|HookPre TppLocation.ActivateBlock()
+|77.322|InfQuest.DisableLandingZones:
+|77.329|InfMain.OnMissionCanStartBottom
+|77.339|InfEquip.OnMissionCanStart:
+|77.346|InfGameEvent.OnMissionCanStart:
+|77.356|InfMainTpp.OnMissionCanStart:
+|77.365|InfMBVisit.OnMissionCanStart:
+|77.372|InfNPCHeli.OnMissionCanStart:
+|77.379|InfParasite.OnMissionCanStart:
+|77.396|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|77.404|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|78.31|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|78.319|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|78.327|TppSequence.OnChangeSVars
+|78.335|TppUI.OnChangeSVars
+|78.342|TppMission.OnChangeSVars
+|91.155|HookPre TppUI.FadeIn(2,FadeInOnStartTitle)
+|91.164|InfMain.OnFadeInDirect:FadeInOnStartTitle
+|91.172|InfFova.OnFadeInDirect:
+|91.194|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|91.202|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|91.209|HookPre TppUI.FadeIn(2,FadeInOnStartTitle)
+|91.217|InfMain.OnFadeInDirect:FadeInOnStartTitle
+|91.223|InfFova.OnFadeInDirect:
+|93.191|OnMessage|sender: UI, messageId: EndFadeIn, fadeInName=965318480:FadeInOnStartTitle (str32), unk1=0 (number), 
+|93.2|OnMessage|sender: UI, messageId: EndFadeIn, fadeInName=965318480:FadeInOnStartTitle (str32), unk1=0 (number), 
+|150.773|OnMessage|sender: UI, messageId: TitleMenu, action=3261117285:PressStart (str32), 
+|150.784|OnMessage|sender: UI, messageId: TitleMenu, action=3261117285:PressStart (str32), 
+|150.791|TppSequence.SetNextSequence from Seq_Demo_StartHasTitleMission to Seq_Game_PushStart
+|150.798|TppSequence.OnChangeSVars
+|150.805|TppUI.OnChangeSVars
+|150.811|TppMission.OnChangeSVars
+|150.818|TppSequence.SetNextSequence from Seq_Game_PushStart to Seq_Game_TitleMenu
+|150.837|TppSequence.OnChangeSVars
+|150.844|TppUI.OnChangeSVars
+|150.851|TppMission.OnChangeSVars
+|150.869|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|150.877|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|151.355|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|151.363|OnMessage|sender: UI, messageId: TitleMenuReady, (no signature): arg0=0, 
+|175.025|OnMessage|sender: UI, messageId: TitleMenu, action=1439467306:Continue (str32), 
+|175.036|OnMessage|sender: UI, messageId: TitleMenu, action=1439467306:Continue (str32), 
+|175.045|TppSequence.SetNextSequence from Seq_Game_TitleMenu to Seq_Demo_CheckDlc
+|175.053|TppSequence.OnChangeSVars
+|175.059|TppSequence.SetNextSequence from Seq_Demo_CheckDlc to Seq_Game_ChunkLoading
+|175.066|TppUI.OnChangeSVars
+|175.072|TppMission.OnChangeSVars
+|175.078|TppSequence.OnChangeSVars
+|175.085|TppUI.OnChangeSVars
+|175.091|TppMission.OnChangeSVars
+|175.098|TppSequence.SetNextSequence from Seq_Game_ChunkLoading to Seq_Game_ChunkInstalled
+|175.115|TppSequence.OnChangeSVars
+|175.122|HookPre TppUI.FadeOut(2,ContinueFromCheckPoint)
+|175.129|InfMain.OnFadeOutDirect:ContinueFromCheckPoint
+|175.136|TppUI.OnChangeSVars
+|175.142|TppMission.OnChangeSVars
+|177.109|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=3210797601:ContinueFromCheckPoint (str32), unk1=0 (number), 
+|177.117|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=3210797601:ContinueFromCheckPoint (str32), unk1=0 (number), 
+|177.124|title_sequence.OnEndFadeOutSelectContinue 40010
+|177.132|InfHook TppSave.VarRestoreOnContinueFromCheckPoint
+|177.139|IvarProc.LoadEvars
+|177.148|IvarProc.LoadSave
+|177.158|loadedEvars={
+  attackHeliPatrolsMB = 4,
+  cam_disableCameraAnimations = 1,
+  cam_followTime = 10000,
+  cam_isCollisionCheck = 1,
+  cam_isFollowPos = 1,
+  cam_isFollowRot = 1,
+  cam_offsetPosX = 14.2,
+  cam_offsetPosY = 14,
+  cam_timeToSleep = 10000,
+  customSoldierTypeMB_ALL = 24,
+  debugFlow = 1,
+  debugMessages = 1,
+  debugMode = 1,
+  debugOnUpdate = 1,
+  enableHelp = 1,
+  enableIHExt = 1,
+  enableQuickMenu = 1,
+  mbEnableBirds = 1,
+  mbEnableFultonAddStaff = 1,
+  mbEnableLethalActions = 1,
+  mbEnemyHeli = 1,
+  mbHostileSoldiers = 1,
+  mbNonStaff = 1,
+  mbWarGamesProfile = 2,
+  soldierHearingDistScale = 50,
+  soldierParamsProfile = 1,
+  soldierSightDistScale = 20,
+  startOnFootFREE = 2,
+  startOnFootMB_ALL = 2,
+  sys_increaseMemoryAlloc = 1
+}
+|177.167|TppMission.Load nextMissionCode:30010 currentMissionCode:40010
+|177.174|loadSettings=nil
+|177.181|InfParasite.OnLoad:
+|177.188|TppEneFova.InitializeUniqueSetting
+|177.194|TppEneFova.PreMissionLoad locationName:afgh missionId:30010
+|177.201|InfMain.PreMissionLoad
+|177.208|InfEneFova.PreMissionLoad:
+|177.215|InfEquip.PreMissionLoad:
+|177.221|InfMainTpp.PreMissionLoad:
+|177.227|InfSoldier.PreMissionLoad:
+|177.234|Mission.LoadLocation
+|177.24|Mission.LoadMission
+|177.259|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=133 (number), blockIndexY=134 (number), 
+|177.326|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=133 (number), blockIndexY=134 (number), 
+|177.596|TppMissionList.GetMissionPackagePath 30010
+|177.629|InfMain.AddMissionPacks 30010
+|177.636|IHDebugVars.AddMissionPacks:
+|177.644|InfAnimal.AddMissionPacks:
+|177.65|InfEquip.AddMissionPacks:
+|177.656|InfHelicopter.AddMissionPacks:
+|177.662|InfMainTpp.AddMissionPacks:
+|177.67|InfMBAssets.AddMissionPacks:
+|177.677|InfMotion.AddMissionPacks:
+|177.683|InfNPC.AddMissionPacks:
+|177.69|InfNPCHeli.AddMissionPacks:
+|177.697|InfNPCOcelot.AddMissionPacks:
+|177.704|InfParasite.AddMissionPacks:
+|177.711|InfPuppy.AddMissionPacks:
+|177.718|InfSoldier.AddMissionPacks:
+|177.725|InfVehicle.AddMissionPacks:
+|177.731|InfWalkerGear.AddMissionPacks:
+|177.737|missionPackPaths={ "/Assets/tpp/pack/location/afgh/pack_common/afgh_script.fpk", "/Assets/tpp/pack/mission2/common/mis_com_helicopter.fpk", "/Assets/tpp/pack/mission2/common/mis_com_afgh.fpk", "/Assets/tpp/pack/collectible/decoy/decoy_svs.fpk", "/Assets/tpp/pack/mission2/common/mis_com_order_box.fpk", "/Assets/tpp/pack/mission2/free/f30010/f30010.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c11.fpk", "/Assets/tpp/pack/fova/mecha/all/mfv_scol_c07.fpk", "/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk", "/Assets/tpp/pack/mission2/ih/ih_support_heli_hover_routes_afgh.fpk", "/Assets/tpp/pack/mission2/ih/ih_soldier_loc_free.fpk", "/Assets/tpp/pack/mission2/ih/ih_additional_motion.fpk" }
+|182.458|OnAllocate Top 30010
+|182.466|DebugModeEnable:true
+|182.473|InfHooks.SetupDebugHooks:
+|182.48|AddDevMenus
+|182.486|InfMainTpp.OnAllocateTop:
+|182.493|HookPre TppUI.FadeOut(0)
+|182.5|InfMain.OnFadeOutDirect:nil
+|182.509|TppException.OnAllocate
+|182.517|TppClock.OnAllocate
+|182.523|TppTrap.OnAllocate
+|182.529|TppCheckPoint.OnAllocate
+|182.536|TppUI.OnAllocate
+|182.542|TppDemo.OnAllocate
+|182.549|TppScriptBlock.OnAllocate
+|182.555|TppSound.OnAllocate
+|182.562|TppPlayer.OnAllocate
+|182.568|TppMission.OnAllocate
+|182.575|TppTerminal.OnAllocate
+|182.581|TppEnemy.OnAllocate
+|182.588|TppRadio.OnAllocate
+|182.594|TppGimmick.OnAllocate
+|182.6|TppMarker.OnAllocate
+|182.606|TppRevenge.OnAllocate
+|182.614|TppQuest.OnAllocate
+|182.621|TppAnimal.OnAllocate
+|182.628|InfMain.OnAllocate
+|182.635|inf_levelSeed -1782830216
+|182.642|InfEquip.OnAllocate:
+|182.649|InfEquip.LoadEquipTable - #testEquipCount=2
+|182.655|InfEquip.LoadEquipTable - #questEquipCount=0
+|182.662|InfEquip.LoadEquipTable - #loadEquipTable=8
+|182.668|InfMainTpp.OnAllocate:
+|182.675|InfQuest.OnAllocate:
+|182.681|InfResources.OnAllocate:
+|182.688|InfSoldierParams.OnAllocate:
+|182.695|quest_q52130_EXTERNAL.OnAllocate:
+|182.701|TppEnemy.OnAllocateQuestFova
+|182.709|TppReinforceBlock.LoadReinforceBlock
+|182.716|LoadReinforceBlock cpId:65535 doesnt match reinforce_reinforceCpId:nil, aborting
+|182.724|InfMainTpp.MissionPrepare:
+|182.731|InfParasite.MissionPrepare:
+|182.738|TppSequence.DeclareSVars
+|182.745|TppResult.DeclareSVars
+|182.752|TppSound.DeclareSVars
+|182.759|TppTerminal.DeclareSVars
+|182.765|TppMarker.DeclareSVars
+|182.772|TppRadio.DeclareSVars
+|182.779|TppPlayer.DeclareSVars
+|182.786|TppScriptBlock.DeclareSVars
+|182.793|TppMission.DeclareSVars
+|182.8|TppEnemy.DeclareSVars
+|182.807|TppInterrogation.DeclareSVars
+|182.813|TppCheckPoint.DeclareSVars
+|182.819|TppTrap.DeclareSVars
+|182.826|TppFreeHeliRadio.DeclareSVars
+|182.834|TppHero.DeclareSVars
+|182.841|TppRanking.DeclareSVars
+|182.848|InfParasite.DeclareSVars:
+|182.855|InfHook TppSave.VarRestoreOnContinueFromCheckPoint
+|182.862|IvarProc.LoadEvars
+|182.869|IvarProc.LoadSave
+|182.876|loadedEvars={
+  attackHeliPatrolsMB = 4,
+  cam_disableCameraAnimations = 1,
+  cam_followTime = 10000,
+  cam_isCollisionCheck = 1,
+  cam_isFollowPos = 1,
+  cam_isFollowRot = 1,
+  cam_offsetPosX = 14.2,
+  cam_offsetPosY = 14,
+  cam_timeToSleep = 10000,
+  customSoldierTypeMB_ALL = 24,
+  debugFlow = 1,
+  debugMessages = 1,
+  debugMode = 1,
+  debugOnUpdate = 1,
+  enableHelp = 1,
+  enableIHExt = 1,
+  enableQuickMenu = 1,
+  mbEnableBirds = 1,
+  mbEnableFultonAddStaff = 1,
+  mbEnableLethalActions = 1,
+  mbEnemyHeli = 1,
+  mbHostileSoldiers = 1,
+  mbNonStaff = 1,
+  mbWarGamesProfile = 2,
+  soldierHearingDistScale = 50,
+  soldierParamsProfile = 1,
+  soldierSightDistScale = 20,
+  startOnFootFREE = 2,
+  startOnFootMB_ALL = 2,
+  sys_increaseMemoryAlloc = 1
+}
+|182.885|InfMission.OpenMissions
+|182.891|Clearing 40
+|182.898|Clearing 42
+|182.904|Clearing 44
+|182.912|Clearing 47
+|182.918|Clearing 50
+|182.926|Clearing 51
+|182.934|Clearing 52
+|182.941|Clearing 54
+|182.948|Clearing 56
+|182.955|Clearing 58
+|182.961|Clearing 61
+|182.967|Clearing 63
+|182.974|Clearing 64
+|182.981|Opening 12010
+|182.987|Opening 12020
+|182.994|TppRevenge._SetUiParameters 
+|183|TppRevenge._CreateRevengeConfig
+|183.008|revengeConfig={
+  ACTIVE_DECOY = true,
+  CAMERA = "100%",
+  COMBAT_HIGH = true,
+  DECOY = "100%",
+  GUN_CAMERA = true,
+  GUN_LIGHT = "75%",
+  HELMET = "30%",
+  HOLDUP_HIGH = true,
+  MG = 2,
+  MG_OR_SHOTGUN = 2,
+  MINE = "100%",
+  NVG = "75%",
+  SHIELD = 2,
+  SOFT_ARMOR = "75%",
+  STEALTH_SPECIAL = true,
+  STRONG_WEAPON = true,
+  SUPER_REINFORCE = true
+}
+|183.016|OnAllocate Bottom 30010
+|183.027|OnMessage|sender: Block, messageId: OnChangeLargeBlockState, blockName=1464583031:afgh_slopedTown (str32), blockStatus=1:ACTIVE (stageBlockState), 
+|183.059|OnMessage|sender: Block, messageId: OnChangeLargeBlockState, blockName=1464583031:afgh_slopedTown (str32), blockStatus=1:ACTIVE (stageBlockState), 
+|183.087|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|183.095|OnMessage|sender: UI, messageId: EndFadeOut, fadeInName=0 (str32), unk1=0 (number), 
+|183.847|OnInitialize Top 30010
+|183.855|InfLookup.OnInitializeTop:
+|183.866|BuildGameIdToNames: Adding gameObjectName to InfCore.gameIdToName
+|185.844|InfLookup.BuildSoldierSvarIndexes:
+|185.852|InfMainTpp.OnInitializeTop:
+|185.86|ResetObjectPool: wkr_WalkerGear_0000==NULL_ID
+|185.866|ResetObjectPool: wkr_WalkerGear_0001==NULL_ID
+|185.873|ResetObjectPool: wkr_WalkerGear_0002==NULL_ID
+|185.88|ResetObjectPool: wkr_WalkerGear_0003==NULL_ID
+|185.888|ResetObjectPool: wkr_WalkerGear_0004==NULL_ID
+|185.896|ResetObjectPool: wkr_WalkerGear_0005==NULL_ID
+|185.903|ResetObjectPool: wkr_WalkerGear_0006==NULL_ID
+|185.91|ResetObjectPool: wkr_WalkerGear_0007==NULL_ID
+|185.918|ResetObjectPool: wkr_WalkerGear_0008==NULL_ID
+|185.926|ResetObjectPool: wkr_WalkerGear_0009==NULL_ID
+|185.933|InfSoldier.ModMissionTableTop
+|185.941|#soldierPool:40
+|185.949|InfMainTpp.soldierPool={ "sol_ih_0000", "sol_ih_0001", "sol_ih_0002", "sol_ih_0003", "sol_ih_0004", "sol_ih_0005", "sol_ih_0006", "sol_ih_0007", "sol_ih_0008", "sol_ih_0009", "sol_ih_0010", "sol_ih_0011", "sol_ih_0012", "sol_ih_0013", "sol_ih_0014", "sol_ih_0015", "sol_ih_0016", "sol_ih_0017", "sol_ih_0018", "sol_ih_0019", "sol_ih_0020", "sol_ih_0021", "sol_ih_0022", "sol_ih_0023", "sol_ih_0024", "sol_ih_0025", "sol_ih_0026", "sol_ih_0027", "sol_ih_0028", "sol_ih_0029", "sol_ih_0030", "sol_ih_0031", "sol_ih_0032", "sol_ih_0033", "sol_ih_0034", "sol_ih_0035", "sol_ih_0036", "sol_ih_0037", "sol_ih_0038", "sol_ih_0039" }
+|185.956|#emptyCpPool:32
+|185.963|emptyCpPool={ "afgh_22_24_lrrp", "afgh_20_28_lrrp", "afgh_27_39_lrrp", "afgh_20_29_lrrp", "afgh_02_35_lrrp", "afgh_08_23_lrrp", "afgh_12_31_lrrp", "afgh_06_24_lrrp", "afgh_03_11_lrrp", "afgh_14_32_lrrp", "afgh_04_32_lrrp", "afgh_05_11_lrrp", "afgh_12_37_lrrp", "afgh_02_34_lrrp", "afgh_01_32_lrrp", "afgh_02_14_lrrp", "afgh_21_24_lrrp", "afgh_36_38_lrrp", "afgh_33_37_lrrp", "afgh_07_08_lrrp", "afgh_20_21_lrrp", "afgh_09_10_lrrp", "afgh_19_39_lrrp", "afgh_18_39_lrrp", "afgh_15_36_lrrp", "afgh_13_34_lrrp", "afgh_10_31_lrrp", "afgh_09_23_lrrp", "afgh_28_29_lrrp", "afgh_03_08_lrrp", "afgh_15_35_lrrp", "afgh_14_35_lrrp" }
+|185.97|#baseCpPool:39
+|185.977|baseCpPool={ "afgh_fieldWest_ob", "afgh_villageWest_ob", "afgh_sovietBase_cp", "afgh_tentEast_ob", "afgh_commFacility_cp", "afgh_bridge_cp", "afgh_commWest_ob", "afgh_bridgeNorth_ob", "afgh_bridgeWest_ob", "afgh_powerPlant_cp", "afgh_tentNorth_ob", "afgh_sovietSouth_ob", "afgh_tent_cp", "afgh_fortWest_ob", "afgh_fieldEast_ob", "quest_cp", "afgh_enemyBase_cp", "afgh_villageEast_ob", "afgh_villageNorth_ob", "afgh_cliffSouth_ob", "afgh_cliffTown_cp", "afgh_slopedEast_ob", "afgh_fort_cp", "afgh_fortSouth_ob", "afgh_cliffWest_ob", "afgh_enemyNorth_ob", "afgh_slopedTown_cp", "afgh_cliffEast_ob", "afgh_remnants_cp", "afgh_plantWest_ob", "afgh_field_cp", "afgh_citadel_cp", "afgh_waterwayEast_ob", "afgh_citadelSouth_ob", "afgh_enemyEast_ob", "afgh_ruinsNorth_ob", "afgh_slopedWest_ob", "afgh_village_cp", "afgh_remnantsNorth_ob" }
+|185.983|ModifyLrrpSoldiers #soldierPool:40 pool change:0
+|185.99|soldierPool={ "sol_ih_0000", "sol_ih_0001", "sol_ih_0002", "sol_ih_0003", "sol_ih_0004", "sol_ih_0005", "sol_ih_0006", "sol_ih_0007", "sol_ih_0008", "sol_ih_0009", "sol_ih_0010", "sol_ih_0011", "sol_ih_0012", "sol_ih_0013", "sol_ih_0014", "sol_ih_0015", "sol_ih_0016", "sol_ih_0017", "sol_ih_0018", "sol_ih_0019", "sol_ih_0020", "sol_ih_0021", "sol_ih_0022", "sol_ih_0023", "sol_ih_0024", "sol_ih_0025", "sol_ih_0026", "sol_ih_0027", "sol_ih_0028", "sol_ih_0029", "sol_ih_0030", "sol_ih_0031", "sol_ih_0032", "sol_ih_0033", "sol_ih_0034", "sol_ih_0035", "sol_ih_0036", "sol_ih_0037", "sol_ih_0038", "sol_ih_0039" }
+|185.996|seatChanges={}
+|186.002|InfSoldier.ModMissionTableBottom
+|186.009|#soldierPool:40
+|186.017|InfMainTpp.soldierPool={ "sol_ih_0000", "sol_ih_0001", "sol_ih_0002", "sol_ih_0003", "sol_ih_0004", "sol_ih_0005", "sol_ih_0006", "sol_ih_0007", "sol_ih_0008", "sol_ih_0009", "sol_ih_0010", "sol_ih_0011", "sol_ih_0012", "sol_ih_0013", "sol_ih_0014", "sol_ih_0015", "sol_ih_0016", "sol_ih_0017", "sol_ih_0018", "sol_ih_0019", "sol_ih_0020", "sol_ih_0021", "sol_ih_0022", "sol_ih_0023", "sol_ih_0024", "sol_ih_0025", "sol_ih_0026", "sol_ih_0027", "sol_ih_0028", "sol_ih_0029", "sol_ih_0030", "sol_ih_0031", "sol_ih_0032", "sol_ih_0033", "sol_ih_0034", "sol_ih_0035", "sol_ih_0036", "sol_ih_0037", "sol_ih_0038", "sol_ih_0039" }
+|186.024|#emptyCpPool:32
+|186.032|emptyCpPool={ "afgh_22_24_lrrp", "afgh_20_28_lrrp", "afgh_27_39_lrrp", "afgh_20_29_lrrp", "afgh_02_35_lrrp", "afgh_08_23_lrrp", "afgh_12_31_lrrp", "afgh_06_24_lrrp", "afgh_03_11_lrrp", "afgh_14_32_lrrp", "afgh_04_32_lrrp", "afgh_05_11_lrrp", "afgh_12_37_lrrp", "afgh_02_34_lrrp", "afgh_01_32_lrrp", "afgh_02_14_lrrp", "afgh_21_24_lrrp", "afgh_36_38_lrrp", "afgh_33_37_lrrp", "afgh_07_08_lrrp", "afgh_20_21_lrrp", "afgh_09_10_lrrp", "afgh_19_39_lrrp", "afgh_18_39_lrrp", "afgh_15_36_lrrp", "afgh_13_34_lrrp", "afgh_10_31_lrrp", "afgh_09_23_lrrp", "afgh_28_29_lrrp", "afgh_03_08_lrrp", "afgh_15_35_lrrp", "afgh_14_35_lrrp" }
+|186.039|InfQuest.RegisterQuests
+|186.046|RegisterQuests ih_quest_q30100 168
+|186.053|RegisterQuests ih_quest_q30101 169
+|186.06|RegisterQuests ih_quest_q30102 170
+|186.066|RegisterQuests ih_quest_q30104 171
+|186.073|RegisterQuests ih_quest_q30155 172
+|186.079|RegisterQuests ih_quest_q30205 173
+|186.085|numUiQuests:163
+|186.093|TppReinforceBlock.SetUpReinforceBlock
+|186.102|TppSave.Init
+|186.109|TppLocation.Init
+|186.115|TppSequence.Init
+|186.121|TppWeather.Init
+|186.127|TppUI.Init
+|186.135|TppResult.Init
+|186.142|TppSound.Init
+|186.148|TppTerminal.Init
+|186.155|TppMarker.Init
+|186.161|TppRadio.Init
+|186.168|TppPlayer.Init
+|186.175|TppHelicopter.Init
+|186.181|TppMission.Init
+|186.189|TppStory.Init
+|186.196|InfMission.OpenMissions
+|186.202|Clearing 40
+|186.208|Clearing 42
+|186.214|Clearing 44
+|186.221|Clearing 47
+|186.227|Clearing 50
+|186.234|Clearing 51
+|186.241|Clearing 52
+|186.248|Clearing 54
+|186.255|Clearing 56
+|186.261|Clearing 58
+|186.267|Clearing 61
+|186.273|Clearing 63
+|186.28|Clearing 64
+|186.286|Opening 12010
+|186.292|Opening 12020
+|186.298|TppDemo.Init
+|186.305|TppEnemy.Init
+|186.315|TppInterrogation.Init
+|186.321|TppGimmick.Init
+|186.327|TppCheckPoint.Init
+|186.334|TppQuest.Init
+|186.341|TppRevenge.Init
+|186.349|TppReinforceBlock.Init
+|186.355|TppFreeHeliRadio.Init
+|186.361|TppHero.Init
+|186.371|TppTelop.Init
+|186.377|TppRatBird.Init
+|186.384|TppAnimal.Init
+|186.39|TppTutorial.Init
+|186.398|TppPaz.Init
+|186.404|TppRanking.Init
+|186.411|InfMain.Init
+|186.418|InfAnimal.Init:
+|186.424|InfBuddy.Init:
+|186.43|InfEnemyPhase.Init:
+|186.437|InfEquip.Init:
+|186.444|InfFova.Init:
+|186.451|InfHelicopter.Init:
+|186.458|InfInterrogation.Init:
+|186.464|InfLookup.Init:
+|186.471|Dumping unknownStr32
+|186.478|Dumping unknownMessages
+|186.485|InfMainTpp.Init:
+|186.492|InfMBAssets.Init:
+|186.498|InfMBGimmick.Init:
+|186.504|InfMBVisit.Init:
+|186.51|InfMgsvToExt.Init:
+|186.517|InfMission.Init:
+|186.523|InfNPC.Init:
+|186.529|InfNPCHeli.Init:
+|186.536|InfNPCOcelot.Init:
+|186.542|InfParasite.Init:
+|186.549|InfPuppy.Init:
+|186.556|InfSoldier.Init:
+|186.563|InfUserMarker.Init:
+|186.57|InfWalkerGear.Init:
+|186.576|HookPre TppEnemy.DefineSoldiers(table: 000000003CEC5740)
+|186.584|HookPre TppEnemy.SetUpSoldiers()
+|186.616|HookPre TppRevenge.SetUpEnemy()
+|186.657|ApplyUniqueSetting: #0 UniqueSettings
+|186.664|InfMain.SetUpEnemy 30010
+|186.671|InfSoldier.SetUpEnemy:
+|186.677|InfVehicle.SetUpEnemy:
+|186.684|InfWalkerGear.SetUpEnemy:
+|186.695|SetMessageFunction:InfAnimal
+|186.702|SetMessageFunction:InfBuddy
+|186.709|SetMessageFunction:InfEnemyPhase
+|186.716|SetMessageFunction:InfEquip
+|186.722|SetMessageFunction:InfFova
+|186.729|SetMessageFunction:InfMainTpp
+|186.736|SetMessageFunction:InfMBGimmick
+|186.743|SetMessageFunction:InfMBVisit
+|186.75|SetMessageFunction:InfNPC
+|186.757|SetMessageFunction:InfNPCHeli
+|186.765|SetMessageFunction:InfNPCOcelot
+|186.772|SetMessageFunction:InfParasite
+|186.78|SetMessageFunction:InfSoldier
+|186.787|SetMessageFunction:InfUserMarker
+|186.794|HookPre TppQuest.UpdateActiveQuest()
+|186.801|OnInitialize Bottom 30010
+|186.811|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25602:veh_trc_0000, 
+|186.818|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25603:veh_trc_0001, 
+|186.825|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25604:veh_trc_0002, 
+|186.833|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25605:veh_trc_0003, 
+|186.84|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25606:veh_trc_0004, 
+|186.848|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25607:veh_trc_0005, 
+|186.855|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25608:veh_lv_0000, 
+|186.862|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25609:veh_lv_0001, 
+|186.871|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25610:veh_lv_0002, 
+|186.879|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25611:veh_lv_0003, 
+|186.886|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25612:veh_lv_0004, 
+|186.894|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25613:veh_lv_0005, 
+|186.902|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25614:veh_lv_0006, 
+|186.909|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25615:veh_lv_0007, 
+|186.918|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25616:veh_lv_0008, 
+|186.925|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25617:veh_lv_0009, 
+|186.934|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25618:veh_lv_0010, 
+|186.941|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25619:veh_lv_0011, 
+|186.949|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25620:veh_lv_0012, 
+|186.957|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25602:veh_trc_0000, 
+|186.964|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25603:veh_trc_0001, 
+|186.972|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25604:veh_trc_0002, 
+|186.982|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25605:veh_trc_0003, 
+|186.989|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25606:veh_trc_0004, 
+|186.997|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25607:veh_trc_0005, 
+|187.005|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25608:veh_lv_0000, 
+|187.013|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25609:veh_lv_0001, 
+|187.021|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25610:veh_lv_0002, 
+|187.028|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25611:veh_lv_0003, 
+|187.037|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25612:veh_lv_0004, 
+|187.045|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25613:veh_lv_0005, 
+|187.052|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25614:veh_lv_0006, 
+|187.058|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25615:veh_lv_0007, 
+|187.066|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25616:veh_lv_0008, 
+|187.073|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25617:veh_lv_0009, 
+|187.081|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25618:veh_lv_0010, 
+|187.088|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25619:veh_lv_0011, 
+|187.095|OnMessage|sender: GameObject, messageId: VehicleDisappeared, gameId=25620:veh_lv_0012, 
+|187.102|TppSequence.OnChangeSVars
+|187.109|HookPre TppScriptBlock.ReloadScriptBlock()
+|187.116|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(0)
+|187.122|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(1)
+|187.129|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(2)
+|187.135|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(3)
+|187.141|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(4)
+|187.148|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(5)
+|187.154|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(6)
+|187.16|HookPre TppScriptBlock.ResolveSavedScriptBlockInfo(7)
+|187.166|TppUI.OnChangeSVars
+|187.173|TppMission.OnChangeSVars
+|187.18|InfQuest.GetSideOpsListTable
+|187.188|overCount:-29
+|187.195|#sideOpsListTable:163
+|187.21|OnMessage|sender: GameObject, messageId: SwitchGimmick, gameId=40448 (gameId), locatorName=1298706858:afgh_gnrt002_gim_n0000|srt_afgh_gnrt002 (str32), dataSetName=596862045:/Assets/tpp/level/location/afgh/block_large/slopedTown/afgh_slopedTown_gimmick.fox2 (dataSetPath32), switchFlag=1 (number), 
+|187.219|OnMessage|sender: GameObject, messageId: SwitchGimmick, gameId=40448 (gameId), locatorName=1298706858:afgh_gnrt002_gim_n0000|srt_afgh_gnrt002 (str32), dataSetName=596862045:/Assets/tpp/level/location/afgh/block_large/slopedTown/afgh_slopedTown_gimmick.fox2 (dataSetPath32), switchFlag=1 (number), 
+|187.227|OnMessage|sender: GameObject, messageId: SwitchGimmick, gameId=40448 (gameId), locatorName=1298706858:afgh_gnrt002_gim_n0000|srt_afgh_gnrt002 (str32), dataSetName=596862045:/Assets/tpp/level/location/afgh/block_large/slopedTown/afgh_slopedTown_gimmick.fox2 (dataSetPath32), switchFlag=1 (number), 
+|187.235|OnMessage|sender: GameObject, messageId: SwitchGimmick, gameId=40448 (gameId), locatorName=1298706858:afgh_gnrt002_gim_n0000|srt_afgh_gnrt002 (str32), dataSetName=596862045:/Assets/tpp/level/location/afgh/block_large/slopedTown/afgh_slopedTown_gimmick.fox2 (dataSetPath32), switchFlag=1 (number), 
+|188.704|OnMessage|sender: Trap, messageId: Enter, trapName=2264731529:trap_FreePlay_area02 (str32), gameId=0:Player, 
+|188.713|OnMessage|sender: Trap, messageId: Enter, trapName=1482892962:trap_preDeactiveQuestArea_cliffTown (str32), gameId=0:Player, 
+|188.72|OnMessage|sender: Trap, messageId: Enter, trapName=2733617509:trap_quest_sos (str32), gameId=0:Player, 
+|188.726|OnMessage|sender: Trap, messageId: Enter, trapName=2264731529:trap_FreePlay_area02 (str32), gameId=0:Player, 
+|188.734|OnMessage|sender: Trap, messageId: Enter, trapName=1482892962:trap_preDeactiveQuestArea_cliffTown (str32), gameId=0:Player, 
+|188.742|OnMessage|sender: Trap, messageId: Enter, trapName=2733617509:trap_quest_sos (str32), gameId=0:Player, 
+|188.764|OnMessage|sender: Player, messageId: Enter, zoneType=82784508:innerZone (str32), 
+|188.772|OnMessage|sender: Player, messageId: Enter, zoneType=4210763260:outerZone (str32), 
+|188.778|OnMessage|sender: Player, messageId: OnEquipItem, playerIndex=0 (number), equipId=0:EQP_None, 
+|188.785|OnMessage|sender: Player, messageId: Enter, zoneType=82784508:innerZone (str32), 
+|188.792|OnMessage|sender: Player, messageId: Enter, zoneType=4210763260:outerZone (str32), 
+|188.798|OnMessage|sender: Player, messageId: OnEquipItem, playerIndex=0 (number), equipId=0:EQP_None, 
+|188.906|OnMessage|sender: GameObject, messageId: BuddyAppear, (no signature): arg0=9728||gameId:BuddyDogGameObjectLocator, 
+|188.914|OnMessage|sender: GameObject, messageId: BuddyAppear, (no signature): arg0=9728||gameId:BuddyDogGameObjectLocator, 
+|189.638|HookPre TppLocation.ActivateBlock()
+|189.645|HookPre TppQuest.UnloadCurrentQuestBlock()
+|189.652|HookPre TppScriptBlock.Unload(quest_block)
+|189.66|HookPre TppScriptBlock.Load(animal_block,enemyBase_E)
+|189.667|HookPre TppScriptBlock.SaveScriptBlockId(animal_block,2)
+|189.674|InfQuest.DisableLandingZones:
+|189.681|InfMain.OnMissionCanStartBottom
+|189.688|InfEquip.OnMissionCanStart:
+|189.695|InfGameEvent.OnMissionCanStart:
+|189.701|InfMainTpp.OnMissionCanStart:
+|189.708|InfMBVisit.OnMissionCanStart:
+|189.714|InfNPCHeli.OnMissionCanStart:
+|189.72|InfParasite.OnMissionCanStart:
+|189.835|HookPre TppScriptBlock.InitScriptBlockState(2)
+|189.843|HookPre TppScriptBlock.DeactivateScriptBlockState(2)
+|191.306|OnMessage|sender: Block, messageId: OnScriptBlockStateTransition, blockName=841152266:animal_block (str32), blockState=0:TRANSITION_LOADED (scriptBlockStateTransition), 
+|191.313|OnMessage|sender: Block, messageId: OnScriptBlockStateTransition, blockName=841152266:animal_block (str32), blockState=0:TRANSITION_LOADED (scriptBlockStateTransition), 
+|209.858|OnMessage|sender: UI, messageId: PushEndLoadingTips
+|209.866|OnMessage|sender: UI, messageId: PushEndLoadingTips
+|209.874|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|209.881|OnMessage|sender: Timer, messageId: Start, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|210.859|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|210.868|OnMessage|sender: Timer, messageId: Finish, timerName=4175515318:Timer_WaitStartingGame (str32), 
+|210.875|HookPre TppUI.FadeIn(2,FadeInOnGameStart)
+|210.883|InfMain.OnFadeInDirect:FadeInOnGameStart
+|210.889|InfFova.OnFadeInDirect:
+|210.896|TppSequence.OnChangeSVars
+|210.904|TppUI.OnChangeSVars
+|210.911|TppMission.OnChangeSVars
+|210.918|InfMenu.GoMenu:inMissionMenu
+|210.935|commands not done
+|210.961|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|210.97|OnMessage|sender: UI, messageId: RequestPlayRecordClearInfo
+|210.979|commands not done
+|212.409|OnMessage|sender: Player, messageId: OnEquipWeapon, playerIndex=0 (number), equipId=871 (equipId), slot=5 (number), 
+|212.42|OnMessage|sender: Player, messageId: OnEquipWeapon, playerIndex=0 (number), equipId=871 (equipId), slot=5 (number), 
+|212.534|OnMessage|sender: Player, messageId: PlayerHoldWeapon, equipId=853:EQP_WP_40125, equipType=5:EQP_TYPE_Shotgun, hasGunLight=1 (number), isSheild=0 (number), 
+|212.542|OnMessage|sender: Player, messageId: PlayerHoldWeapon, equipId=853:EQP_WP_40125, equipType=5:EQP_TYPE_Shotgun, hasGunLight=1 (number), isSheild=0 (number), 
+|212.862|OnMessage|sender: UI, messageId: EndFadeIn, fadeInName=2813368222:FadeInOnGameStart (str32), unk1=0 (number), 
+|212.87|OnMessage|sender: UI, messageId: EndFadeIn, fadeInName=2813368222:FadeInOnGameStart (str32), unk1=0 (number), 
+|212.877|InfMain.FadeInOnGameStart
+|213.345|InfMenu.OnActivate
+|215.027|Could not read ih_toMgsvCmds
+|216.064|OnMessage|sender: UI, messageId: EndAnnounceLog
+|216.072|OnMessage|sender: UI, messageId: EndAnnounceLog
+|216.171|Could not read ih_toMgsvCmds
+|218.494|InfMenu.GoMenu:cameraMenu
+|218.568|Could not read ih_toMgsvCmds
+|220.519|InfMenu.GoMenu:playCamMenu
+|220.559|Could not read ih_toMgsvCmds
+|223.345|OnMessage|sender: Player, messageId: PlayerHoldWeapon, equipId=853:EQP_WP_40125, equipType=5:EQP_TYPE_Shotgun, hasGunLight=1 (number), isSheild=0 (number), 
+|223.354|OnMessage|sender: Player, messageId: PlayerHoldWeapon, equipId=853:EQP_WP_40125, equipType=5:EQP_TYPE_Shotgun, hasGunLight=1 (number), isSheild=0 (number), 
+|223.375|OnMessage|sender: Player, messageId: OnEquipWeapon, playerIndex=0 (number), equipId=875 (equipId), slot=2 (number), 
+|223.382|OnMessage|sender: Player, messageId: OnEquipWeapon, playerIndex=0 (number), equipId=875 (equipId), slot=2 (number), 
+|223.492|OnMessage|sender: Player, messageId: IconFultonShown, gameId=0:Player, targetObjectId=25600 (gameId), isContainer=0 (number), isNuclear=0 (number), 
+|223.502|OnMessage|sender: Player, messageId: CalcFultonPercent, playerIndex=0:Player (gameId), gameId=25600 (gameId), 
+|223.511|OnMessage|sender: Player, messageId: IconFultonShown, gameId=0:Player, targetObjectId=25600 (gameId), isContainer=0 (number), isNuclear=0 (number), 
+|223.52|OnMessage|sender: Player, messageId: CalcFultonPercent, playerIndex=0:Player (gameId), gameId=25600 (gameId), 
+|223.606|OnMessage|sender: Player, messageId: PlayerHoldWeapon, equipId=573:EQP_WP_10104, equipType=2:EQP_TYPE_Handgun, hasGunLight=1 (number), isSheild=0 (number), 
+|223.613|OnMessage|sender: Player, messageId: PlayerHoldWeapon, equipId=573:EQP_WP_10104, equipType=2:EQP_TYPE_Handgun, hasGunLight=1 (number), isSheild=0 (number), 
+|224.64|InfMenu.OnDeactivate
+|224.647|IvarProc.SaveAll
+|224.654|IvarProc.SaveEvars
+|224.661|evars isDirty
+|224.667|BuildEvarsText
+|224.726|igvarsDirty isDirty
+|224.733|IvarProc.BuildTableText:igvars
+|224.74|questStates isDirty
+|224.748|IvarProc.BuildTableText:questStates
+|224.758|buildSaveTextTime:0.092999999999989, writeTime:0.0040000000000191
+|224.765|InfLookup.Save
+|224.772|InfMBStaff.Save
+|224.778|InfMBStaff.Save
+|224.785|IvarProc.BuildTableText:staffIds
+|224.798|commands not done
+|224.816|OnMessage|sender: UI, messageId: StartAnnounceLog
+|224.824|OnMessage|sender: UI, messageId: StartAnnounceLog
+|225.058|OnMessage|sender: Player, messageId: NearVehicle, (no signature): arg0=0, 
+|225.068|OnMessage|sender: Player, messageId: IconFultonShown, gameId=0:Player, targetObjectId=25600 (gameId), isContainer=0 (number), isNuclear=0 (number), 
+|225.076|OnMessage|sender: Player, messageId: CalcFultonPercent, playerIndex=0:Player (gameId), gameId=25600 (gameId), 
+|225.083|OnMessage|sender: Player, messageId: NearVehicle, (no signature): arg0=0, 
+|225.091|OnMessage|sender: Player, messageId: IconFultonShown, gameId=0:Player, targetObjectId=25600 (gameId), isContainer=0 (number), isNuclear=0 (number), 
+|225.099|OnMessage|sender: Player, messageId: CalcFultonPercent, playerIndex=0:Player (gameId), gameId=25600 (gameId), 
+|226.077|OnMessage|sender: Player, messageId: CalcFultonPercent, playerIndex=0:Player (gameId), gameId=25600 (gameId), 
+|226.087|OnMessage|sender: Player, messageId: CalcFultonPercent, playerIndex=0:Player (gameId), gameId=25600 (gameId), 
+|226.36|OnMessage|sender: Player, messageId: OnVehicleRide_Start, playerId=0 (number), rideFlag=0 (number), vehicleId=25600 (gameId), 
+|226.369|OnMessage|sender: Player, messageId: OnVehicleDrive, (no signature): arg0=0, arg1=25600, 
+|226.378|OnMessage|sender: Player, messageId: OnVehicleRide_Start, playerId=0 (number), rideFlag=0 (number), vehicleId=25600 (gameId), 
+|226.387|OnMessage|sender: Player, messageId: OnVehicleDrive, (no signature): arg0=0, arg1=25600, 
+|226.529|OnMessage|sender: UI, messageId: EndAnnounceLog
+|226.536|OnMessage|sender: UI, messageId: EndAnnounceLog
+|236.452|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=133 (number), blockIndexY=135 (number), 
+|236.46|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=133 (number), blockIndexY=135 (number), 
+|236.468|HookPre TppQuest.UnloadCurrentQuestBlock()
+|236.475|HookPre TppScriptBlock.Unload(quest_block)
+|236.482|HookPre TppScriptBlock.Load(animal_block,enemyBase_E)
+|236.489|HookPre TppScriptBlock.SaveScriptBlockId(animal_block,2)
+|236.497|HookPre TppScriptBlock.DeactivateScriptBlockState(2)
+|237.853|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=133 (number), blockIndexY=134 (number), 
+|237.861|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=133 (number), blockIndexY=134 (number), 
+|237.869|HookPre TppQuest.UnloadCurrentQuestBlock()
+|237.876|HookPre TppScriptBlock.Unload(quest_block)
+|237.883|HookPre TppScriptBlock.Load(animal_block,enemyBase_E)
+|237.89|HookPre TppScriptBlock.SaveScriptBlockId(animal_block,2)
+|237.897|HookPre TppScriptBlock.DeactivateScriptBlockState(2)
+|242.041|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=134 (number), blockIndexY=134 (number), 
+|242.05|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=134 (number), blockIndexY=134 (number), 
+|242.058|HookPre TppQuest.UnloadCurrentQuestBlock()
+|242.065|HookPre TppScriptBlock.Unload(quest_block)
+|242.073|HookPre TppScriptBlock.Load(animal_block,slopedTown_S)
+|242.08|HookPre TppScriptBlock.SaveScriptBlockId(animal_block,2)
+|242.088|HookPre TppScriptBlock.DeactivateScriptBlockState(2)
+|242.106|HookPre TppScriptBlock.FinalizeScriptBlockState(2)
+|242.174|OnMessage|sender: Block, messageId: OnScriptBlockStateTransition, blockName=841152266:animal_block (str32), blockState=3:TRANSITION_EMPTIED (scriptBlockStateTransition), 
+|242.194|OnMessage|sender: Block, messageId: OnScriptBlockStateTransition, blockName=841152266:animal_block (str32), blockState=3:TRANSITION_EMPTIED (scriptBlockStateTransition), 
+|242.229|HookPre TppScriptBlock.InitScriptBlockState(2)
+|242.237|HookPre TppScriptBlock.DeactivateScriptBlockState(2)
+|242.425|OnMessage|sender: Block, messageId: OnScriptBlockStateTransition, blockName=841152266:animal_block (str32), blockState=0:TRANSITION_LOADED (scriptBlockStateTransition), 
+|242.432|OnMessage|sender: Block, messageId: OnScriptBlockStateTransition, blockName=841152266:animal_block (str32), blockState=0:TRANSITION_LOADED (scriptBlockStateTransition), 
+|244.794|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=133 (number), blockIndexY=134 (number), 
+|244.804|OnMessage|sender: Block, messageId: StageBlockCurrentSmallBlockIndexUpdated, blockIndexX=133 (number), blockIndexY=134 (number), 
+|244.812|HookPre TppQuest.UnloadCurrentQuestBlock()
+|244.819|HookPre TppScriptBlock.Unload(quest_block)
+|244.826|HookPre TppScriptBlock.Load(animal_block,enemyBase_E)
+|244.833|HookPre TppScriptBlock.SaveScriptBlockId(animal_block,2)
+|244.84|HookPre TppScriptBlock.DeactivateScriptBlockState(2)
+|244.858|HookPre TppScriptBlock.FinalizeScriptBlockState(2)
+|244.927|OnMessage|sender: Block, messageId: OnScriptBlockStateTransition, blockName=841152266:animal_block (str32), blockState=3:TRANSITION_EMPTIED (scriptBlockStateTransition), 
+|244.944|OnMessage|sender: Block, messageId: OnScriptBlockStateTransition, blockName=841152266:animal_block (str32), blockState=3:TRANSITION_EMPTIED (scriptBlockStateTransition), 
+|244.974|HookPre TppScriptBlock.InitScriptBlockState(2)
+|244.981|HookPre TppScriptBlock.DeactivateScriptBlockState(2)
+|245.131|OnMessage|sender: Block, messageId: OnScriptBlockStateTransition, blockName=841152266:animal_block (str32), blockState=0:TRANSITION_LOADED (scriptBlockStateTransition), 
+|245.139|OnMessage|sender: Block, messageId: OnScriptBlockStateTransition, blockName=841152266:animal_block (str32), blockState=0:TRANSITION_LOADED (scriptBlockStateTransition), 
+|245.83|OnMessage|sender: Trap, messageId: Enter, trapName=1541286172:trap_CHK_slopedWest (str32), gameId=0:Player, 
+|245.862|OnMessage|sender: Trap, messageId: Enter, trapName=1541286172:trap_CHK_slopedWest (str32), gameId=0:Player, 
+|245.871|OnMessage|sender: Timer, messageId: Start, timerName=1907895030:Timer_UpdateCheckPoint (str32), 
+|245.878|OnMessage|sender: Timer, messageId: Start, timerName=1907895030:Timer_UpdateCheckPoint (str32), 
+|245.884|InfHook TppSave.DoSave
+|245.891|IvarProc.SaveAll
+|245.898|IvarProc.SaveEvars
+|245.905|save not dirty
+|245.912|IvarProc.SaveEvars: save wasnt dirty, no need to write
+|245.918|InfLookup.Save
+|245.925|InfMBStaff.Save
+|245.932|InfMBStaff.Save
+|245.939|IvarProc.BuildTableText:staffIds
+|245.962|OnMessage|sender: Trap, messageId: Exit, trapName=1541286172:trap_CHK_slopedWest (str32), gameId=0:Player, 
+|245.969|OnMessage|sender: Timer, messageId: Finish, timerName=1907895030:Timer_UpdateCheckPoint (str32), 
+|245.976|OnMessage|sender: Trap, messageId: Exit, trapName=1541286172:trap_CHK_slopedWest (str32), gameId=0:Player, 
+|245.983|OnMessage|sender: Timer, messageId: Finish, timerName=1907895030:Timer_UpdateCheckPoint (str32), 
+|245.99|InfMission.OpenMissions
+|245.996|Clearing 40
+|246.002|Clearing 42
+|246.009|Clearing 44
+|246.019|Clearing 47
+|246.025|Clearing 50
+|246.032|Clearing 51
+|246.038|Clearing 52
+|246.045|Clearing 54
+|246.053|Clearing 56
+|246.06|Clearing 58
+|246.066|Clearing 61
+|246.073|Clearing 63
+|246.079|Clearing 64
+|246.086|Opening 12010
+|246.092|Opening 12020
+|254.672|OnMessage|sender: Trap, messageId: Exit, trapName=1482892962:trap_preDeactiveQuestArea_cliffTown (str32), gameId=0:Player, 
+|254.681|OnMessage|sender: Trap, messageId: Exit, trapName=1482892962:trap_preDeactiveQuestArea_cliffTown (str32), gameId=0:Player, 
+|258.993|OnMessage|sender: Trap, messageId: Enter, trapName=1482892962:trap_preDeactiveQuestArea_cliffTown (str32), gameId=0:Player, 
+|259.002|OnMessage|sender: Trap, messageId: Enter, trapName=1482892962:trap_preDeactiveQuestArea_cliffTown (str32), gameId=0:Player, 

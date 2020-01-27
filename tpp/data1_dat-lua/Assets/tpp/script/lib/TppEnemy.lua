@@ -3267,16 +3267,17 @@ function this.AssignSoldiersToCP()
     end
   end
 end
+--NMC: don't actually know what cp groups are used for
 function this.InitCpGroups()
   mvars.ene_cpGroups={}
 end
-function this.RegistCpGroups(n)
+function this.RegistCpGroups(cpGroups)
   this.SetCommonCpGroups()
-  if IsTypeTable(n)then
-    for e,n in pairs(n)do
-      mvars.ene_cpGroups[e]=mvars.ene_cpGroups[e]or{}
-      for t,n in pairs(n)do
-        table.insert(mvars.ene_cpGroups[e],n)
+  if IsTypeTable(cpGroups)then
+    for group,cpList in pairs(cpGroups)do
+      mvars.ene_cpGroups[group]=mvars.ene_cpGroups[group]or{}
+      for i,cpName in pairs(cpList)do
+        table.insert(mvars.ene_cpGroups[group],cpName)
       end
     end
   end
@@ -3285,12 +3286,12 @@ function this.SetCommonCpGroups()
   if not IsTypeTable(mvars.loc_locationCommonCpGroups)then
     return
   end
-  for n,t in pairs(mvars.loc_locationCommonCpGroups)do
-    if IsTypeTable(t)then
-      mvars.ene_cpGroups[n]={}
-      for e,a in pairs(mvars.ene_soldierDefine)do
-        if t[e]then
-          table.insert(mvars.ene_cpGroups[n],e)
+  for group,cps in pairs(mvars.loc_locationCommonCpGroups)do
+    if IsTypeTable(cps)then
+      mvars.ene_cpGroups[group]={}
+      for cpName,soldierList in pairs(mvars.ene_soldierDefine)do
+        if cps[cpName]then
+          table.insert(mvars.ene_cpGroups[group],cpName)
         end
       end
     end

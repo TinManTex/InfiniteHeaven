@@ -1,5 +1,5 @@
 -- All_Options_Example.lua
--- Defaults / example of all profile options for IH r229
+-- Defaults / example of all profile options for IH r230
 -- Profiles are lists of settings for IH options.
 -- IH only reads this file/does not write to it.
 -- You can load a profile through the IH system menu by pressing <Action> on the Selected profile.
@@ -21,6 +21,28 @@ local this={
 		ihMissionsPercentageCount=0,--{ 0-1 } -- Include addon missions in completion percentage
 		--Camera menu
 		moveScale=0.5,--{ 0.01-10 } -- Cam speed scale
+		--PlayCam menu
+		cam_focalLength=21,--{ 0.1-10000 } -- Focal length
+		cam_focusDistance=0.9,--{ 0.1-30 } -- Focus distance
+		cam_aperture=1.875,--{ 0.001-100 } -- Apeture
+		cam_isFollowPos=0,--{ 0-1 } -- Follow Position
+		cam_isFollowRot=0,--{ 0-1 } -- Follow Rotation
+		cam_offsetTargetX=0,--{ -1000-1000 } -- Target offset X
+		cam_offsetTargetY=0,--{ -1000-1000 } -- Target offset Y
+		cam_offsetTargetZ=0,--{ -1000-1000 } -- Target offset Z
+		cam_offsetPosX=0,--{ -1000-1000 } -- Position offset X
+		cam_offsetPosY=0,--{ -1000-1000 } -- Position offset Y
+		cam_offsetPosZ=0,--{ -1000-1000 } -- Position offset Z
+		cam_followTime=5,--{ 0-10000 } -- Follow time
+		cam_followDelayTime=0.3,--{ 0-1 } -- Follow delay time
+		cam_timeToSleep=10,--{ 0-10000 } -- Time till end
+		cam_fitOnCamera=0,--{ 0-1 } -- Fit on camera
+		cam_timeToStartToFitCamera=0.01,--{ 0-1000 } -- Fit start time
+		cam_fitCameraInterpTime=0.24,--{ 0-5 } -- Fit interp time
+		cam_diffFocalLengthToReFitCamera=16,--{ 0-100 } -- Fit diff focal length
+		cam_callSeOfCameraInterp=0,--{ 0-1 } -- Call Se of Camera Interp
+		cam_useLastSelectedIndex=0,--{ 0-1 } -- Use last selected index
+		cam_isCollisionCheck=0,--{ 0-1 } -- Collision check
 		--Cutscenes menu
 		useSoldierForDemos=0,--{ 0-1 } -- Use selected soldier in all cutscenes and missions
 		mbDemoSelection=0,--{ DEFAULT, PLAY, DISABLED } -- MB cutscene play mode

@@ -16,21 +16,14 @@ this.registerIvars={
 
 this.motionGroupIndex={
   inMission=true,
-  range={min=1,max=2},--DYNAMIC
+  range={max=0},--DYNAMIC
   GetSettingText=function(self,setting)
-    return this.motionGroups[setting]
+    return this.motionGroups[setting+1]
   end,
   OnSelect=function(self)
-    self.range.max=#this.motionGroups
+    IvarProc.SetMaxToList(self,this.motionGroups)
   end,
   OnChange=function(self,setting)
-    if setting>#this.motionGroups then
-      self:Set(1)
-    end
-    if setting<1 then
-      self:Set(#this.motionGroups)
-    end
-
     --tex make sure it's in bounds
     Ivars.motionGaniIndex:OnSelect()
   end,
@@ -41,25 +34,18 @@ this.motionGroupIndex={
 
 this.motionGaniIndex={
   inMission=true,
-  range={min=1,max=2},--DYNAMIC
+  range={max=0},--DYNAMIC
   GetSettingText=function(self,setting)
-    local groupIndex=Ivars.motionGroupIndex:Get()
+    local groupIndex=Ivars.motionGroupIndex:Get()+1
     local motionName=this.motionGroups[groupIndex]
     return motionName.." anim:"..setting
   end,
   OnSelect=function(self)
-    local groupIndex=Ivars.motionGroupIndex:Get()
+    local groupIndex=Ivars.motionGroupIndex:Get()+1
     local motionName=this.motionGroups[groupIndex]
     local motionsForGroup=this.motions[motionName]
-    self.range.max=#motionsForGroup
-
-    local setting=self:Get()
-    if setting>self.range.max then
-      self:Set(1)
-    end
-    if setting<1 then
-      self:Set(self.range.max)
-    end
+    
+    IvarProc.SetMaxToList(self,motionsForGroup)
   end,
   OnActivate=function(self,setting)
     this.PlayCurrentMotion(true)
@@ -336,10 +322,10 @@ function this.PlayCurrentMotion(dontCloseMenu)
   --tex causes RequestToPlayDirectMotion to not fire, todo: yield/wait a frame?
   --Player.RequestToStopDirectMotion()
 
-  local motionName=this.motionGroups[Ivars.motionGroupIndex:Get()]
+  local motionName=this.motionGroups[Ivars.motionGroupIndex:Get()+1]
 
   --param2Table
-  local ganiPath=this.motions[motionName][Ivars.motionGaniIndex:Get()]
+  local ganiPath=this.motions[motionName][Ivars.motionGaniIndex:Get()+1]
   local holdMotion=Ivars.motionHold:Get()==1
   local unk3GameObjectTargetName=""
   local unk4CNPTargetName=""--tex attachment stuff
@@ -412,8 +398,12 @@ end
 this.packages={
   "/Assets/tpp/pack/mission2/ih/ih_additional_motion.fpk",
 }
---DEBUGNOW add some conditionals
+
 function this.AddMissionPacks(missionCode,packPaths)
+  if missionCode < 5 then
+     return
+  end
+
   for i,packPath in ipairs(this.packages) do
     packPaths[#packPaths+1]=packPath
   end

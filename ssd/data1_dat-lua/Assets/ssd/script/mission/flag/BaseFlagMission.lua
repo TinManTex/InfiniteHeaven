@@ -96,6 +96,7 @@ local l=function(a)
 end
 this.baseStep={
   OnEnter=function(a)
+    mvars.isReplayFlagMission=Mission.IsReplayMission()--RETAILPATCH: 1.0.9.0
     local currentFlagMissionName=mvars.currentFlagMissionName
     local stepName=a.stepName
     if IsTypeTable(mvars.markerTrapMessageTable)then
@@ -431,7 +432,7 @@ this.baseStep={
           local locatorName=e.locatorName
           local uniqueType=mvars.fms_rescueTargetUniqueCrewTable[locatorName]
           if uniqueType then
-            if SsdCrewSystem.IsUniqueCrewExist{uniqueType=uniqueType}then
+            if not mvars.isReplayFlagMission and SsdCrewSystem.IsUniqueCrewExist{uniqueType=uniqueType}then--RETAILPATCH: 1.0.9.0 added isReplayFlagMission
               local e=tostring(currentFlagMissionName)..("_"..(tostring(stepName)..("_carry_"..tostring(locatorName))))fvars[e]=true
               a.needGoToNextStepCheck=true
               a.needGoToNextStepConditionVarsName=e
@@ -445,8 +446,9 @@ this.baseStep={
           local n=e.locatorName
           local uniqueType=mvars.fms_rescueTargetUniqueCrewTable[n]
           if uniqueType then
-            if SsdCrewSystem.IsUniqueCrewExist{uniqueType=uniqueType}then
-              local e=tostring(currentFlagMissionName)..("_"..(tostring(stepName)..("_rescue_"..tostring(n))))fvars[e]=true
+            if not mvars.isReplayFlagMission and SsdCrewSystem.IsUniqueCrewExist{uniqueType=uniqueType}then--RETAILPATCH: 1.0.9.0 added isReplayFlagMission
+              local e=tostring(currentFlagMissionName)..("_"..(tostring(stepName)..("_rescue_"..tostring(n))))
+              fvars[e]=true
               a.needGoToNextStepCheck=true
               a.needGoToNextStepConditionVarsName=e
             end
@@ -1627,6 +1629,7 @@ function this.CreateInstance(i)
         mvars.fms_missionmissionDemoBlock=n
         this.LoadMissionDemoBlock(n)
       end
+      if not mvars.isReplayFlagMission then--RETAILPARCH: 1.0.9.0 added isReplayFlagMission
       for e,n in pairs(mvars.fms_rescueTargetUniqueCrewTable)do
         local e=GetGameObjectId(e)
         if e~=NULL_ID then
@@ -1634,6 +1637,7 @@ function this.CreateInstance(i)
             SendCommand(e,{id="SetEnabled",enabled=false})
           end
         end
+      end
       end
       for a,n in pairs(a.flagStep)do
         if n.clearConditionTable and n.clearConditionTable.putDigger then

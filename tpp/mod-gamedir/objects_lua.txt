@@ -1,0 +1,4 @@
+local objectNames={
+"Player",
+"sol_slopedWest_0001",
+} return objectNames

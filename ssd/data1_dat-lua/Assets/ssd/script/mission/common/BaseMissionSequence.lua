@@ -138,6 +138,17 @@ function this.CreateInstance(missionName)
       end
       TppMission.SetIsFromAvatarRoom(false)
     end
+    --RETAILPATCH: 1.0.9.0> RETAILPATCH: 1.0.10.0 removed again?
+--    if Mission.IsFromReplayMission()then
+--      if TppMission.IsFreeMission(vars.missionCode)then
+--        Player.SetReplayMissionToSkillTrainer()
+--      end
+--      Mission.ResetFromReplayMission()
+--      if TppSoundDaemon.ReserveResetCutSceneMute then
+--        TppSoundDaemon.ReserveResetCutSceneMute()
+--      end
+--    end
+    --<
     if instance.AfterOnEndMissionPrepareSequence then
       instance.AfterOnEndMissionPrepareSequence()
     end
@@ -329,8 +340,16 @@ function this.CreateInstance(missionName)
         SsdUiSystem.Lock(e)
       end
     end
+    --RETAILPATCH: 1.0.9.0>
+    if currentStorySequence<TppDefine.STORY_SEQUENCE.CLEARED_k40310 then
+      for n,e in ipairs{SsdUiLockType.CHAPTER_SELECT}do
+        SsdUiSystem.Lock(e)
+      end
+    end
+    --<
     if currentStorySequence<TppDefine.STORY_SEQUENCE.CLEARED_k40090 then
-      SsdUiSystem.Lock(SsdUiLockType.EXPLORE_GROUP)Mission.SetHasWheelChair(false)
+      SsdUiSystem.Lock(SsdUiLockType.EXPLORE_GROUP)
+      Mission.SetHasWheelChair(false)
     else
       Mission.SetHasWheelChair(true)
     end
@@ -374,6 +393,16 @@ function this.CreateInstance(missionName)
       Mission.SetMafrBaseArea{center={2864.409,101.5907,-915.1037},size={30,1e3,60}}
     end
     instance.SetStorySequenceTreasurePointValidity(mvars.loc_locationTreasurePoint)
+    --RETAILPATCH: 1.0.9.0>
+    if Mission.IsReplayMission()then
+      if currentStorySequence<TppDefine.STORY_SEQUENCE.CLEARED_k40030 then
+        Gimmick.ResetGimmick(0,"ssdb_brdg001_brrc003_gim_n0000|srt_ssdb_brdg001_brrc003","/Assets/ssd/level/location/afgh/block_small/132/132_147/afgh_132_147_asset.fox2",{gimmickId="GIM_P_MissionGate"})
+      end
+      if currentStorySequence<TppDefine.STORY_SEQUENCE.CLEARED_k40035 then
+        Gimmick.ResetGimmick(0,"ssdb_brdg001_brrc003_gim_n0000|srt_ssdb_brdg001_brrc003","/Assets/ssd/level/location/afgh/block_small/136/136_152/afgh_136_152_gimmick.fox2",{gimmickId="GIM_P_MissionGate"})
+      end
+    end
+    --<
     if currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARED_AFGH_LAST then
       SsdSbm.AddNamePlate(102)
     end
@@ -534,6 +563,10 @@ function this.CreateInstance(missionName)
         local n=TppStory.GetCurrentStorySequence()
         if n==TppDefine.STORY_SEQUENCE.BEFORE_BASE_DEFENSE_TUTORIAL then
           instance.StartCommonHelpTipsMenu(unkM1Tips1.TIPS_BASE_DEFENSE)
+          --RETAILPATCH: 1.0.9.0>
+        elseif n>=TppDefine.STORY_SEQUENCE.CLEARED_BASE_DEFENSE_TUTORIAL then
+          instance.StartCommonHelpTipsMenu(i.TIPS_BASE_DEFENSE_02)
+          --<
         end
       end}},
     Sbm={
@@ -629,7 +662,18 @@ function this.CreateInstance(missionName)
             instance.StartCommonHelpTipsMenuOnlyAnnounce(unkM1Tips2.TIPS_BUDO_POINTS)
           end
         end
-      end}},
+      end},
+      --RETAILPATCH: 1.0.9.0>
+      {msg="ChapterSelectMenuOpened",func=function()
+        if instance.IsStartCommonHelpTipsMenu(unkM1Tips1.TIPS_CHAPTER_REPLAY)then
+          local n=TppStory.GetCurrentStorySequence()
+          if n>=TppDefine.STORY_SEQUENCE.STORY_FINISH then
+            instance.StartCommonHelpTipsMenu(i.TIPS_CHAPTER_REPLAY)
+          end
+        end
+      end},
+    --<
+    },
     Terminal={
       {msg="MbTerminalOpened",func=function()
         if instance.IsStartCommonHelpTipsMenu(unkM1Tips1.TIPS_CURE)then

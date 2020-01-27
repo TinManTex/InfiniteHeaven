@@ -276,7 +276,7 @@ this.bodyInfo={
   --tex imported from GZ
   XOF_GZ={
     --no bodyid = white helmets with blue bands, wet camo, ISSUE (included) face protudes goggles
-    --DEBUGNOW bodyIds={1},--TODO. using non applicable bodyid so it doesnt fall back to SKULL_CYPR table
+    -- bodyIds={1},--TODO. using non applicable bodyid so it doesnt fall back to SKULL_CYPR table
     --NOTE: GZ has heaps of WSS2 fovas (f00>f19)
     partsPath="/Assets/tpp/parts/chara/wss/wss2_main0_def_v00_ih_sol.parts",
     --REF \chunk0_dat\Assets\tpp\pack\mission2\story\s10010\s10010_s06_fpkd
@@ -351,7 +351,7 @@ this.bodyInfo={
     --TODO: GZ has dds0_v00.fova > dds0_v13.fova
     --bodyIds={},
     partsPath="/Assets/tpp/parts/chara/dds/dds0_main0_def_v00_ih_sol.parts",
-    partsPathHostage="/Assets/tpp/parts/chara/dds/dds0_main0_def_v00_ih_hos.parts",--DEBUGNOW
+    partsPathHostage="/Assets/tpp/parts/chara/dds/dds0_main0_def_v00_ih_hos.parts",
     --\chunk3_dat\Assets\tpp\pack\mission2\free\f30050\f30050_d8010_fpk\Assets\tpp\chara\dds\Scenes\dds0_main0_def.fmdl
     --\chunk3_dat\Assets\tpp\pack\mission2\free\f30050\f30050_d8040_fpk\Assets\tpp\chara\dds\Scenes\dds0_main0_def.fmdl
     --\chunk3_dat\Assets\tpp\pack\mission2\free\f30050\f30050_d8041_fpk\Assets\tpp\chara\dds\Scenes\dds0_main0_def.fmdl
@@ -877,7 +877,7 @@ this.bodyInfo={
   --tex no walk, or hit collision target. crash on cqc down
   --mb Kaz - coat and hat
   KAZ={
-    --DEBUGNOW bodyIds={1},--tex no bodyId entries, so just using 1 since my code does an if bodyId check TODO see if there's any fovas elsewhere
+    -- bodyIds={1},--tex no bodyId entries, so just using 1 since my code does an if bodyId check TODO see if there's any fovas elsewhere
     partsPath="/Assets/tpp/parts/chara/kaz/kaz0_main0_def_v00.parts",
     partsPathHostage="/Assets/tpp/parts/chara/kaz/kaz0_main0_def_v00_ih_hos.parts",
     missionPackPath={
@@ -1038,7 +1038,7 @@ this.bodyInfo={
       TppEnemyBodyId.chd1_v04,
       TppEnemyBodyId.chd1_v05,
     },
-    partsPath="/Assets/tpp/parts/chara/chd/chd1_main0_def_v00.parts",--DEBUGNOW
+    partsPath="/Assets/tpp/parts/chara/chd/chd1_main0_def_v00.parts",
     missionPackPath={
     },
     hasFace=true,
@@ -1052,7 +1052,7 @@ this.bodyInfo={
       TppEnemyBodyId.chd2_v03,
       TppEnemyBodyId.chd2_v04,
     },
-    partsPath="/Assets/tpp/parts/chara/chd/chd2_main0_def_v00.parts",--DEBUGNOW
+    partsPath="/Assets/tpp/parts/chara/chd/chd2_main0_def_v00.parts",
     missionPackPath={
     },
     hasFace=true,

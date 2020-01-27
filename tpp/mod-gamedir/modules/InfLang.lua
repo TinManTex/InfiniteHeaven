@@ -67,6 +67,7 @@ this.eng={--english
   searchMenu="Search menu",
   searchItem="Search",
   goBackTopItem="Back to main menu",
+  list_empty="list is empty",
 }--eng end
 
 this.help={}

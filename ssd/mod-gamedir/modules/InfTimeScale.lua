@@ -3,6 +3,7 @@ local this={}
 
 this.registerIvars={
   "clockTimeScale",
+  "clock_setTime",
   "speedCamContinueTime",
   "speedCamWorldTimeScale",
   "speedCamPlayerTimeScale",
@@ -25,6 +26,25 @@ this.clockTimeScale={
 if InfCore.gameId=="SSD" then
   this.clockTimeScale.default=15
 end
+
+this.clock_setTime={
+  inMission=true,
+  --save=IvarProc.CATEGORY_EXTERNAL,
+  default=12,
+  range={max=23,min=0,increment=1},
+  GetSettingText=function(self,setting)
+    return "00"--string.format("%02d:00",setting)
+  end,
+  --OFF tex will trigger when IHExt fills menu
+--  OnSelect=function(self)
+--    local hour,minute,second=TppClock.GetTime"time"
+--    self:Set(hour) 
+--  end,
+  OnChange=function(self,setting)
+     TppClock.SetTime(string.format("%02d:00:00",setting))
+  end
+}
+       
 
 --highspeedcamera/slowmo
 this.speedCamContinueTime={
@@ -114,6 +134,7 @@ this.timeScaleMenu={
     "Ivars.speedCamPlayerTimeScale",
     "Ivars.speedCamNoDustEffect",
     "Ivars.clockTimeScale",
+    "Ivars.clock_setTime",
   }
 }
 
@@ -127,6 +148,7 @@ this.langStrings={
     speedCamNoDustEffect="No screen effect",
     highspeedcam_cancel="TSM cancel",
     clockTimeScale="Clock time scale",
+    clock_setTime="Set clock time",
   },
   help={
     eng={

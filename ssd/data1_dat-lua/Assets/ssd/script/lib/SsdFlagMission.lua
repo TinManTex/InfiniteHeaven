@@ -183,6 +183,11 @@ function this._EstablishMissionClear(e)
     fvars.fms_systemFlags[0]=true
     fvars.fms_systemFlags[1]=true
     TppMission.ResetGameOverCount()
+    --RETAILPATCH: 1.0.9.0>
+    if Mission.IsReplayMission()then
+      SsdSaveSystem.SaveReplayEnd()
+    end
+    --<
   else
     fvars.fms_systemFlags[0]=true
     fvars.fms_systemFlags[1]=false

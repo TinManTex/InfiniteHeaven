@@ -1056,8 +1056,7 @@ function this.IsOnlineMission(missionCode)
   if InfCore.gameId=="TPP" then
     return this.IsFOBMission(missionCode)
   else--SSD
-    return false
-    --DEBUGNOW return this.IsMultiPlayMission(missionCode)
+    return this.IsMultiPlayMission(missionCode)
   end
 end
 

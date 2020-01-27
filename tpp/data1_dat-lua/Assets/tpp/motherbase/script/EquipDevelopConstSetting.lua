@@ -1,5 +1,6 @@
 --EquipDevelopConstSetting.lua
-
+local this={}
+--NMC paired with EquiDevelopFlowSetting (in that each entry here matches same indexed entry)
 --NOTES
 --via
 --NuLLxD https://github.com/NuLLxD/MGSVLUA
@@ -90,7 +91,6 @@ local descriptiveParamToParamName={
 --??="p36",
 }
 
-local this={}
 this.equipDevTable={
   {p00=1000,p01=TppEquip.EQP_WP_10101,p02=TppMbDev.EQP_DEV_TYPE_Handgun,p03=0,p04=0,p05=65535,p06="name_wp_1000",p07="info_wp_1000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg01_00_10_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_010,p10="ability_0300",p30="real_wp_1000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},
   {p00=1001,p01=TppEquip.EQP_WP_10102,p02=TppMbDev.EQP_DEV_TYPE_Handgun,p03=1e3,p04=0,p05=65535,p06="name_wp_1000",p07="info_wp_1000",p08="/Assets/tpp/ui/texture/EquipIcon/weapon/ui_wp_hg01_00_20_alp",p09=TppMbDev.EQP_DEV_GROUP_WEAPON_010,p10="ability_0516",p11="ability_0700",p12="ability_0801",p13="ability_0010",p30="real_wp_1000",p31=0,p32=1,p33=1,p34=1,p35=0,p36=0},

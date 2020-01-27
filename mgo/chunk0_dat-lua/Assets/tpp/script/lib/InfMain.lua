@@ -494,7 +494,8 @@ function this.DoControlSet(currentChecks)
   if currentChecks.inGame then
     if InfButton.OnComboActive(reloadModulesCombo) then
       InfCore.DebugPrint("LoadExternalModules")
-      this.LoadExternalModules(true)
+      local isReload=true
+      this.LoadExternalModules(isReload)
       if not InfCore.mainModulesOK then
         this.ModuleErrorMessage()
       end

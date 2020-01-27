@@ -514,7 +514,13 @@ function this.AbortMission(abortInfo)
   local presentationFunction
   local playRadio
   local isNoSurviveBox
+  local isReplayMission=false--RETAILPATCH: 1.0.9.0
   if IsTypeTable(abortInfo)then
+    --RETAILPATCH: 1.0.9.0>
+    if abortInfo.isReplayMission then
+      isReplayMission=abortInfo.isReplayMission
+    end
+    --<
     isNoFade=abortInfo.isNoFade
     emergencyMissionId=abortInfo.emergencyMissionId
     nextMissionId=abortInfo.nextMissionId
@@ -546,6 +552,17 @@ function this.AbortMission(abortInfo)
       isNoSurviveBox=true
     end
   end
+  --RETAILPATCH: 1.0.9.0>
+  if isReplayMission then
+    mvars.mis_abortForReplayMission=isReplayMission
+    if mvars.mis_missionAbortLoadingOption==nil then
+      mvars.mis_missionAbortLoadingOption={}
+    end
+    mvars.mis_missionAbortLoadingOption.force=true
+  else
+    mvars.mis_abortForReplayMission=nil
+  end
+  --<
   if not this.CanAbortMission()then
     return
   end
@@ -1038,6 +1055,14 @@ function this.MissionFinalize(options)
       SsdMarker.UnregisterMarker{type="USER_001"}
     end
   end
+  --RETAILPATCH: 1.0.9.0>
+  if Mission.IsReplayMission()then
+    local loadInfo={}
+    loadInfo.isNeedUpdateBaseManagement=false
+    this.ContinueFromCheckPoint(loadInfo)
+    return
+  end
+  --<
   if isNoFade then
     this.ExecuteMissionFinalize()
   else
@@ -1058,6 +1083,7 @@ function this.ExecuteMissionFinalize()
   end
 end
 function this.ExecuteMissionFinalizeAfterServerSave()
+  SsdReplayMission.ClearReplayMissionSetting()--RETAILPATCH: 1.0.9.0
   local nextLocationName=TppPackList.GetLocationNameFormMissionCode(gvars.mis_nextMissionCodeForMissionClear)
   if nextLocationName then
     mvars.mis_nextLocationCode=TppDefine.LOCATION_ID[nextLocationName]
@@ -2176,7 +2202,14 @@ function this.GetSyncMissionStatus()
   return isReserveMissionClear,isSyncMissionClearType,isReserveGameOver,isSyncGameOverType
 end
 function this.EstablishedMissionAbort()
-  TppQuest.OnMissionGameEnd()SsdFlagMission.OnMissionGameEnd()SsdBaseDefense.OnMissionGameEnd()
+  TppQuest.OnMissionGameEnd()
+  SsdFlagMission.OnMissionGameEnd()
+  SsdBaseDefense.OnMissionGameEnd()
+  --RETAILPATCH: 1.0.9.0>
+  if not mvars.mis_abortForReplayMission then
+    SsdReplayMission.ClearReplayMissionSetting()
+  end
+  --<
   if mvars.mis_abortWithPlayRadio then
     TppRadio.PlayGameOverRadio()
   end
@@ -2648,6 +2681,11 @@ function this.EstablishedMissionClear()
     this.systemCallbacks.OnSetMissionFinalScore(svars.mis_missionClearType)
   end
   this.SetMissionClearState(TppDefine.MISSION_CLEAR_STATE.ESTABLISHED_CLEAR)
+  --RETAILPATCH: 1.0.9.0
+  if Mission.IsReplayMission()and this.IsStoryMission(vars.missionCode)then
+    SsdSaveSystem.SaveReplayEnd()
+  end
+  --<
   this.systemCallbacks.OnEstablishMissionClear(svars.mis_missionClearType)
 end
 function this.OnMissionGameEndFadeOutFinish()
@@ -3184,6 +3222,17 @@ function this.SetNextMissionCodeForMissionClear(missionCode)
   if locationName then
     gvars.mis_nextLocationCodeForMissionClear=TppDefine.LOCATION_ID[locationName]
   end
+  --RETAILPATCH: 1.0.9.0>
+  if Mission.IsReplayMission()then
+    if TppLocation.IsMiddleAfrica()then
+      gvars.mis_nextLocationCodeForMissionClear=TppDefine.LOCATION_ID.MAFR
+      gvars.mis_nextMissionCodeForMissionClear=TppDefine.SYS_MISSION_ID.MAFR_FREE
+    else
+      gvars.mis_nextLocationCodeForMissionClear=TppDefine.LOCATION_ID.SSD_AFGH
+      gvars.mis_nextMissionCodeForMissionClear=TppDefine.SYS_MISSION_ID.AFGH_FREE
+    end
+  end
+  --<
 end
 function this.GetNextMissionCodeForMissionClear()
   return gvars.mis_nextMissionCodeForMissionClear
@@ -3220,6 +3269,8 @@ function this.OnMissionStart()
   end
   if not this.IsSysMissionId(missionCode)then
     MissionListMenuSystem.SetCurrentMissionCode(missionCode)
+  else
+    MissionListMenuSystem.SetCurrentMissionCode(TppDefine.MISSION_CODE_NONE)--RETAILPATCH: 1.0.10.0
   end
   mvars.mis_isMultiPlayMission=this.IsMultiPlayMission(missionCode)
   gvars.mis_isReloaded=false

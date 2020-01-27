@@ -3,8 +3,25 @@
 
 local this={}
 
+--DEBUGNOW
+this.packages={
+[30010]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
+  [30020]="/Assets/tpp/pack/mission2/ih/ih_extra_sol_test.fpk",
+}
+--DEBUGNOW
+function this.AddMissionPacks(missionCode,packPaths)
+  if missionCode < 5 then
+      return
+  end
+  
+  if this.packages[missionCode] then
+      packPaths[#packPaths+1]=this.packages[missionCode]
+  end
+end
+
 function this.PostAllModulesLoad()
   InfCore.LogFlow("IHDebugVars.PostAllModulesLoad: setting debug vars")
+  
 
 
   Ivars.debugMode:Set(1)
@@ -17,6 +34,7 @@ function this.PostAllModulesLoad()
   local debugModules={
     'InfMain',
     'InfMenuDefs',
+    'IvarProc',
     --  'InfNPC',
     --  'InfModelProc',
     --  'InfQuest',
@@ -26,8 +44,8 @@ function this.PostAllModulesLoad()
     --  'InfLookup',
     --  'InfMission',
     --  'InfEquip',
-    --'InfWalkerGear',
-    --'InfSoldier',
+    'InfWalkerGear',
+    'InfSoldier',
     --'InfEneFova',
     'InfExtToMgsv',
     'InfMgsvToExt',
@@ -39,21 +57,7 @@ function this.PostAllModulesLoad()
 
   this.PrintUpdateTimes()
 
-  InfCore.Log("IHDebugVars: process toMgsvCmdsFilePath benchmark")
-  local startTime=os.clock()
-  local file,openError=io.open(InfCore.toMgsvCmdsFilePath,"r")
-  local openTime=os.clock()-startTime
-  local startTime=os.clock()
-  local lines=file:read("*all")
-  local readTime=os.clock()-startTime
-  file:close()
-  local startTime=os.clock()
-  lines=InfUtil.Split(lines,"\n")
-  local splitTime=os.clock()-startTime
-  InfCore.Log("openTime:"..openTime)
-  InfCore.Log("readTime:"..readTime)
-  InfCore.Log("splitTime:"..splitTime)
-  InfCore.Log("totalTime:"..openTime+readTime+splitTime)
+  --this.FileBenchMark()
 
   --DEBUGNOW
 
@@ -112,6 +116,7 @@ end
 
 function this.PrintUpdateTimes()
   InfCore.PrintInspect(InfMain.updateTimes,"updateTimes")
+  
   local averageTimes={}
   for k,v in pairs(InfMain.updateTimes)do
     averageTimes[k]=0
@@ -127,6 +132,22 @@ function this.PrintUpdateTimes()
   end
 
   InfCore.PrintInspect(averageTimes,"averageTimes")
+  
+  
+  local maxTimes={}
+  for k,v in pairs(InfMain.updateTimes)do
+    maxTimes[k]=0
+  end
+  for k,times in pairs(InfMain.updateTimes)do
+    for i,timer in ipairs(times)do
+      if timer>maxTimes[k] then
+      maxTimes[k]=timer
+      end
+    end
+  end
+  
+   InfCore.PrintInspect(maxTimes,"maxTimes")
+  
   InfMain.updateTimes={}
 end
 
@@ -208,7 +229,23 @@ function this.PrintStrCodes()
 end
 
 
-
+function this.FileBenchMark()
+  InfCore.Log("IHDebugVars: process toMgsvCmdsFilePath benchmark")
+  local startTime=os.clock()
+  local file,openError=io.open(InfCore.toMgsvCmdsFilePath,"r")
+  local openTime=os.clock()-startTime
+  local startTime=os.clock()
+  local lines=file:read("*all")
+  local readTime=os.clock()-startTime
+  file:close()
+  local startTime=os.clock()
+  lines=InfUtil.Split(lines,"\n")
+  local splitTime=os.clock()-startTime
+  InfCore.Log("openTime:"..openTime)
+  InfCore.Log("readTime:"..readTime)
+  InfCore.Log("splitTime:"..splitTime)
+  InfCore.Log("totalTime:"..openTime+readTime+splitTime)
+end
 
 function this.AnalyseUserDataShiz()
 --REF init.lua

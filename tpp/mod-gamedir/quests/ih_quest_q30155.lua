@@ -15,6 +15,7 @@ local this={
   questCompleteLangId="quest_extract_hostage",--Used for feedback of quest progress, see REF questCompleteLangId in InfQuest
   canOpenQuest=InfQuest.AllwaysOpenQuest,--function that decides whether the quest is open or not
   questRank=TppDefine.QUEST_RANK.G,--reward rank for clearing quest, see TppDefine.QUEST_BONUS_GMP and TppHero.QUEST_CLEAR
+  hasEnemyHeli=true,--set to true if you have added heliList in the quest script.
   disableLzs={--disables lzs while the quest is active. Turn on the debugMessages option and look in ih_log.txt for StartedMoveToLandingZone after calling in a support heli to find the lz name.
     "lz_lab_S0000|lz_lab_S_0000",
   },

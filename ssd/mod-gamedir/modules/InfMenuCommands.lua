@@ -900,6 +900,12 @@ this.CheckPointSave=function()
   TppCheckPoint.Update{safetyCurrentPosition=true}
 end
 
+--LEGACY for SOC quickmenu
+this.ToggleFreeCam=function()
+  InfCamera.ToggleFreeCam()
+end 
+--< menu commands
+
 function this.PostModuleReload(prevModule)
   this.selectedObject=prevModule.selectedObject--DEBUGNOW
 end

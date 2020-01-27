@@ -1,6 +1,6 @@
 -- DOBUILD: 1
 -- Tpp.lua
-InfCore.LogFlow"Load Tpp.lua"--tex
+InfCore.Log"Load Tpp.lua"--tex
 local this={}
 local StrCode32=InfCore.StrCode32--tex was Fox.StrCode32
 local type=type
@@ -624,11 +624,11 @@ function this.CheckBlockArea(areaExtents,blockIndexX,blockIndexY)
   end
   return false
 end
-function this.FillBlockArea(n,e,i,t,r,l)
-  for e=e,t do
-    n[e]=n[e]or{}
-    for t=i,r do
-      n[e][t]=l
+function this.FillBlockArea(blockTable,minX,minY,maxs,maxY,fillValue)
+  for blockIndexX=minX,maxs do
+    blockTable[blockIndexX]=blockTable[blockIndexX]or{}
+    for blockIndexY=minY,maxY do
+      blockTable[blockIndexX][blockIndexY]=fillValue
     end
   end
 end
@@ -906,5 +906,5 @@ do
     end
   end
 end
-InfCore.LogFlow"Tpp.lua done"--tex
+InfCore.Log"Tpp.lua done"--tex
 return this

@@ -445,41 +445,9 @@ function this.BuildDirectGameClassEnumLookup(gameClassName,filter)
   return enumToName
 end
 
-function this.GetWarpPositions()
-  --return InfQuest.GetQuestPositions()
-  return {
-    -- {-9.945616,12.7759752,-19.8869019}
-	{0,0.2,0},
-	{-1854.596,  343.192,  -299.520},
-    { -1629.01758,
-      354.5217,
-      -275.7946
-    }
-
-  --    {779.312,463.273,-989.820},
-  --    {-1763.372,311.495,784.801},
-  --    {-676.716,533.915,-1474.162},
-  --    {-2335.55,439.315,-1482.474},
-  --    {-906.802,288.846,1923.874},
-  --    {415.052,270.933,2207.31},
-  --    {-1232.651,600.599,-3098.633},
-  --    {2144.533,455.413,-1752.163},
-  --    {506.986,320.590,1154.721},
-  --    {1941.284,322.766,-528.093},
-  --    {1491.027,357.429,469.534},
-  --    {541.161,328.605,58.012},
-  --    {-599.556,344.370,440.566},
-
-  --{"-1632.896","354.2058","-262.6951"},
-  --{"-1587.207","355.2009","-255.2439"},--
-  --{"","",""},--
-  }
-end
-
---tex for Ivars.warpToListObject
+--tex --DEBUGNOW CULL or think of a sub list selection system
 function this.GetObjectList()
-  -- return{"ih_uav_0000","ih_uav_0001","ih_uav_0002","ih_uav_0003"}--DEBUGNOW
-  --return {InfMenuCommands.selectedObject}
+  -- return{"ih_uav_0000","ih_uav_0001","ih_uav_0002","ih_uav_0003"}
   --   return{ "sol_mtbs_0000",
   --    "sol_mtbs_0001",
   --    "sol_mtbs_0002",
@@ -488,7 +456,7 @@ function this.GetObjectList()
   --    "sol_mtbs_0005",
   --    }
   --
-  --  return InfMainTpp.reserveSoldierNames
+  -- return InfMainTpp.reserveSoldierNames
   --        local travelPlan="travelArea2_01"
   --         return InfVehicle.inf_patrolVehicleConvoyInfo[travelPlan]
 
@@ -510,43 +478,6 @@ function this.GetObjectList()
     --return InfWalkerGear.walkerNames
     --return{"sol_quest_ih_0000","sol_quest_ih_0001","sol_quest_ih_0002","sol_quest_ih_0003",}
     --return {"vehicle_quest_0000"}
-end
-
---tex for Ivars.warpToListObject
-function this.GetObjectInfoOrPos(index)
-  local objectList=this.GetObjectList()
-
-  if objectList==nil then
-    return nil,"objectList nil"
-  end
-
-  if #objectList==0 then
-    return nil,"objectList empty"
-  end
-
-  local objectName=objectList[index]
-  if objectName==nil then
-    return nil,"objectName==nil for index "..index,nil
-  end
-  local gameId=objectName
-  if type(objectName)=="string" then
-    gameId=GetGameObjectId(objectName)
-  end
-  if gameId==nil then
-    return objectName,objectName.." nil"
-  end
-  if gameId==NULL_ID then
-    return objectName,objectName.." NULL_ID"
-  end
-
-  local position=GameObject.SendCommand(gameId,{id="GetPosition"})
-  if position==nil then
-    return objectName,objectName.." nil for GetPosition"
-  end
-
-  position={position:GetX(),position:GetY(),position:GetZ()}
-
-  return objectName,"",position
 end
 
 --tex there's no real lookup for this I've found
@@ -1289,10 +1220,10 @@ this.messageSignatures={
       {argName="strCodeName",argType="str32"},
       {argName="index",argType="number"},
     },
-    RadioEnd={
-      {argName="gameId",argType="gameId"},
-      {argName="cpId",argType="cpId"},
-      {argName="speechLabel",argType="str32"},
+    RadioEnd={--tex fired by soldier calling via radio? in mission script msgs they mostly have variables/comments saying 'conversation'
+      {argName="gameId",argType="gameId"},--tex gamobjectid of what soldier is reporting on? is player in the case of soldier reporting spotted player to cp
+      {argName="cpId",argType="cpId"},--tex cp theyre calling? calling from?
+      {argName="speechLabel",argType="str32"},--tex there's a bunch of labels referenced in mission CPR0081 (cp radio I guess), the param is most often named speechLabel, but these dont match subpids like other conversations (unless I've missed some subp hashes somehow).
       {argName="isSuccess",argType="number"},
     },
     ReinforceRespawn={--tex on each normal reinforce soldier respawn

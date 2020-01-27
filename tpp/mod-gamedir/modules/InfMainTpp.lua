@@ -55,6 +55,13 @@ this.noSkipIsSnakeOnly={--tex>
   p31_080100_000_final=true,
 }
 
+function this.PostModuleReload(prevModule)
+  this.reserveSoldierNames=prevModule.reserveSoldierNames
+  this.soldierPool=prevModule.soldierPool
+  this.emptyCpPool=prevModule.emptyCpPool
+  this.lrrpDefines=prevModule.lrrpDefines
+end
+
 function this.PreMissionLoad(missionId,currentMissionId)
   this.ClearXRay()
 end

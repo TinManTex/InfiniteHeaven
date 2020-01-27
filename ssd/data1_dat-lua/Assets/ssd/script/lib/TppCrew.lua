@@ -34,6 +34,22 @@ function this._StartFlagOrStoryMission(missionCode)
     else
       Mission.SetHasWheelChair(true)
     end
+    --RETAILPATCH: 1.0.9.0>
+    if Mission.SetExistNpcCrewBoyWhenReplayMission then
+      if Mission.IsReplayMission()and currentStorySequence>=TppDefine.STORY_SEQUENCE.CLEARED_k40080 then
+        Mission.SetExistNpcCrewBoyWhenReplayMission(true)
+      else
+        Mission.SetExistNpcCrewBoyWhenReplayMission(false)
+      end
+    end
+    if Mission.LockGasCylinderWhenReplayMission then
+      if Mission.IsReplayMission()and currentStorySequence<TppDefine.STORY_SEQUENCE.CLEARED_k40070 then
+        Mission.LockGasCylinderWhenReplayMission(true)
+      else
+        Mission.LockGasCylinderWhenReplayMission(false)
+      end
+    end
+    --<
   end
 end
 function this._FinishFlagOrStoryMission(e)
@@ -54,6 +70,18 @@ function this.FinishFlagMission(e)
   TppCrew.StartMission(vars.missionCode)
   Mission.RecreateBaseCrew()
 end
+--RETAILPATCH: 1.0.9.0>
+function this.FinishReplayMission()
+  Mission.ClearForceBaseCampCrewList()
+  Mission.ClearRescueCrewInfo{missionType=TppDefine.RESCUE_CREW_MISSION_TYPE.FLAG_MISSION}
+  if TppLocation.IsMiddleAfrica()then
+    TppCrew.StartMission(30020)
+  else
+    TppCrew.StartMission(30010)
+  end
+  Mission.RecreateBaseCrew()
+end
+--<
 function this.UpdateActiveQuest(questName)
   local crewInfo=SsdCrewList.GetRescueCrewInfoForQuest(questName)
   if crewInfo then

@@ -48,7 +48,7 @@ this.adjustCameraUpdate={
   --disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,--tex OFF not really needed, padmask is sufficient
   OnModeActivate=function()InfCamera.OnActivateCameraAdjust()end,
   OnChange=function(self,setting)
-    if Ivars.warpPlayerUpdate and Ivars.warpPlayerUpdate:Is(1) then--DEBUGNOW rethink
+    if Ivars.warpPlayerUpdate and Ivars.warpPlayerUpdate:Is(1) then--TODO rethink
       self:SetDirect(0)
       InfMenu.PrintLangId"other_control_active"
       return
@@ -269,13 +269,13 @@ this.langStrings={
     warpToCamPos="Warp body to FreeCam position",
     showFreeCamPosition="Show freecam position",
     freecam_non_adjust="Static cam mode",
+    setStageBlockPositionToFreeCam="Set stage position to camera",
   },
   help={
     eng={
       cameraMenu="Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.",
       adjustCameraUpdate=[[
   Move cam with normal move keys 
-
   <Dash>(Shift or Left stick click) to move up
 
   <Switch zoom>(Middle mouse or Right stick click) to move down
@@ -295,8 +295,8 @@ this.langStrings={
   Or hold <Binocular> and press the above to reset that setting.
 
   Hold <Binocular> and press <Dash> to move free cam position to the player position]],
-
     },
+    setStageBlockPositionToFreeCam="Sets the map loading position to the free cam position.",
   }
 }
 
@@ -519,10 +519,10 @@ function this.DoControlSet(currentChecks)
     end
     --KLUDGE moving down when trying to use menu is annoying
     if this.moveDownButton~=InfMenu.menuAltButton or not currentChecks.inMenu then
-    if InfButton.ButtonDown(this.moveDownButton)
-      or InfButton.OnButtonRepeat(this.moveDownButton) then
-      moveY=-moveAmount*currentMoveScale
-      didMove=true
+      if InfButton.ButtonDown(this.moveDownButton)
+        or InfButton.OnButtonRepeat(this.moveDownButton) then
+        moveY=-moveAmount*currentMoveScale
+        didMove=true
       end
     end
   end

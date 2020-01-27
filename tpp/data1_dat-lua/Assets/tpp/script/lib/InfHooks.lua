@@ -31,7 +31,7 @@ this.hookFuncs={
       InfCore.LogFlow("InfHook TppSave.DoSave")
       local saveResult=this.TppSave.DoSave(saveParams,force)
 
-      InfMain.OnSave(saveParams,force)
+      IvarProc.OnSave(saveParams,force)
       return saveResult
     end,
   },

@@ -22,12 +22,12 @@ end
 
 function this.Init()
   --DEBUGNOW
-  if vars.missionCode <=5 then
-    ExtCmd("UiElementVisible","runningLabel",1)
-  else
-    ExtCmd("UiElementVisible","runningLabel",0)
-  end
-  InfCore.WriteToExtTxt()
+--  if vars.missionCode <=5 then
+--    ExtCmd("UiElementVisible","runningLabel",1)
+--  else
+--    ExtCmd("UiElementVisible","runningLabel",0)
+--  end
+--  InfCore.WriteToExtTxt()
 end
 
 --mgsvtoext commands

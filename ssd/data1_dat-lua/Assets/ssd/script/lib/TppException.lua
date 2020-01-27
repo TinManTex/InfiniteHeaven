@@ -7,6 +7,7 @@ this.TYPE=Tpp.Enum{
   "DISCONNECT_FROM_PSN",
   "DISCONNECT_FROM_KONAMI",
   "DISCONNECT_FROM_NETWORK",
+  "DISCONNECT_FOR_IDLE_KICK",--RETAILPATCH: 1.0.9.0
   "SESSION_DISCONNECT_FROM_HOST",
   "SESSION_JOIN_FAILED",
   "SIGNIN_USER_CHANGED",
@@ -17,7 +18,12 @@ this.TYPE=Tpp.Enum{
   "WAIT_MGO_CHUNK_INSTALLATION"
 }
 this.GAME_MODE=Tpp.Enum{"TPP","TPP_FOB","MGO"}
-this.TYPE_DISCONNECT_NETWORK_LIST={"DISCONNECT_FROM_PSN","DISCONNECT_FROM_KONAMI","DISCONNECT_FROM_NETWORK"}
+this.TYPE_DISCONNECT_NETWORK_LIST={
+  "DISCONNECT_FROM_PSN",
+  "DISCONNECT_FROM_KONAMI",
+  "DISCONNECT_FROM_NETWORK",
+  "DISCONNECT_FOR_IDLE_KICK",--RETAILPATCH: 1.0.9.0
+}
 this.TYPE_DISCONNECT_P2P_LIST={"SESSION_DISCONNECT_FROM_HOST","SESSION_JOIN_FAILED"}
 this.OnEndExceptionDialog={}
 this.mgoInvitationUpdateCount=0
@@ -56,6 +62,11 @@ this.SHOW_EXECPTION_DIALOG={
   [this.TYPE.DISCONNECT_FROM_NETWORK]=function()
     return TppDefine.ERROR_ID.DISCONNECT_FROM_NETWORK
   end,
+  --RETAILPATCH: 1.0.9.0>
+  [this.TYPE.DISCONNECT_FOR_IDLE_KICK]=function()
+    return 7010
+  end,
+  --<
   [this.TYPE.SESSION_DISCONNECT_FROM_HOST]=function()
     if this.GetCurrentGameMode()=="TPP"then
       return TppDefine.ERROR_ID.DISCONNECT_FROM_NETWORK
@@ -129,6 +140,7 @@ function this.OnEndExceptionForDisconnectDialog()
   TppQuest.OnMissionGameEnd()
   SsdFlagMission.OnMissionGameEnd()
   SsdBaseDefense.OnMissionGameEnd()
+  SsdReplayMission.ClearReplayMissionSetting()--RETAILPATCH: 1.0.9.0
   TppScriptBlock.UnloadAll()
   Mission.AddFinalizer(function()
     TppMission.DisablePauseForShowResult()
@@ -206,6 +218,7 @@ function this.OnEndExceptionDialogForSignInUserChange()
   TppQuest.OnMissionGameEnd()
   SsdFlagMission.OnMissionGameEnd()
   SsdBaseDefense.OnMissionGameEnd()
+  SsdReplayMission.ClearReplayMissionSetting()--RETAILPATCH: 1.0.9.0
   TppScriptBlock.UnloadAll()
   Mission.AddFinalizer(function()
     this.waitPatchDlcCheckCoroutine=nil
@@ -357,8 +370,8 @@ function this.OnEndExceptionDialogForCheckMgoChunkInstallation()
   return this.PROCESS_STATE.FINISH
 end
 function this.CancelMgoInvitation()
-InvitationManager.ResetAccept()
-InvitationManager.EnableMessage(true)
+  InvitationManager.ResetAccept()
+  InvitationManager.EnableMessage(true)
   if Chunk.GetChunkState(Chunk.INDEX_MGO)~=Chunk.STATE_INSTALLED then
     Chunk.SetChunkInstallSpeed(Chunk.INSTALL_SPEED_NORMAL)
   end
@@ -376,6 +389,9 @@ this.TPP_ON_END_EXECPTION_DIALOG={
   [this.TYPE.DISCONNECT_FROM_PSN]=this.OnEndExceptionForDisconnectDialog,
   [this.TYPE.DISCONNECT_FROM_KONAMI]=this.OnEndExceptionForDisconnectDialog,
   [this.TYPE.DISCONNECT_FROM_NETWORK]=this.OnEndExceptionForDisconnectDialog,
+  --RETAILPATCH: 1.0.9.0>
+  [this.TYPE.DISCONNECT_FOR_IDLE_KICK]=this.OnEndExceptionForDisconnectDialog,
+  --<
   [this.TYPE.SESSION_DISCONNECT_FROM_HOST]=this.OnEndExceptionForFromHost,
   [this.TYPE.SESSION_JOIN_FAILED]=this.OnEndExceptionForFromHost,
   [this.TYPE.SIGNIN_USER_CHANGED]=this.OnEndExceptionDialogForSignInUserChange,
@@ -476,7 +492,7 @@ function this.Update()
         if not n then
           n=true
           Mission.SwitchApplication"mgo"
-          end
+        end
       end
     end
     return
@@ -573,6 +589,9 @@ function this.Messages()
       {msg="DisconnectFromPsn",func=this.OnDisconnectFromPsn},
       {msg="DisconnectFromKonami",func=this.OnDisconnectFromKonami},
       {msg="DisconnectFromNetwork",func=this.OnDisconnectFromNetwork},
+      --RETAILPATCH: 1.0.9.0>
+      {msg="DisconnectForIdleKick",func=this.OnDisconnectForIdleKick},
+      --<
       {msg="SignInUserChanged",func=this.SignInUserChanged},
       {msg="InvitationAcceptByOther",func=this.OnInvitationAcceptByOther},
       {msg="InvitationAcceptWithoutSignIn",func=this.OnInvitationAcceptWithoutSignIn},
@@ -625,6 +644,16 @@ function this.OnDisconnectFromNetwork()
   this._OnDisconnectNetworkCommon()
   this.Update()
 end
+--RETAILPATCH: 1.0.9.0>
+function this.OnDisconnectForIdleKick()
+  local currentGameMode=this.GetCurrentGameMode()
+  vars.invitationDisableRecieveFlag=1
+  this.DequeueP2PDisconnectException()
+  this.Enqueue(this.TYPE.DISCONNECT_FOR_IDLE_KICK,currentGameMode)
+  this._OnDisconnectNetworkCommon()
+  this.Update()
+end
+--<
 function this.OnSessionDisconnectFromHost()
   local n=TppNetworkUtil.IsHost()
   if n then

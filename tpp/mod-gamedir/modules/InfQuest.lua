@@ -637,19 +637,31 @@ function this.ReadQuestStates()
   return ih_save.questStates
 end
 
+local questClearStates={}--tex cache of last to compare against for isdirty
 function this.GetCurrentStates()
-  local questClearStates={}
+  local QUEST_INDEX=TppDefine.QUEST_INDEX
+  local gvars=gvars
+  local bor=bit.bor
+
+  local isSaveDirty=false
+
   for i,questName in ipairs(this.ihQuestNames)do
-    local questIndex=TppDefine.QUEST_INDEX[questName]
+    local questIndex=QUEST_INDEX[questName]
     if not questIndex then
       InfCore.Log("ERROR: InfQuest.GetQuestStates: Could not find questIndex for "..questName,false,true)
     else
       local bitState=0
+
       for i=1,#gvarFlagNames do
         local gvarValue=gvars[gvarFlagNames[i]][questIndex]
         if gvarValue==true then
-          bitState=bit.bor(bitState,i^2)
+          bitState=bor(bitState,i^2)
         end
+      end
+
+      local currentClearState=questClearStates[questName]
+      if currentClearState==nil or currentClearState~=bitState  then
+        isSaveDirty=true
       end
 
       questClearStates[questName]=bitState
@@ -660,15 +672,21 @@ function this.GetCurrentStates()
   --transfer over existing states in ih_save
   --this will cover any runs of ih without the addon quests installed
   --downside is old data will still persist if developer changes questName
+  local ih_save=ih_save
   if ih_save and ih_save.questStates then
     for questName,bitState in ipairs(ih_save.questStates)do
       if not questClearStates[questName] then
         questClearStates[questName]=bitState
+        isSaveDirty=true
       end
     end
   end
 
-  return questClearStates
+ if isSaveDirty then--DEBUGNOW  
+    return questClearStates
+ end
+
+return nil
 end
 
 --CALLER: TppLandingZone.OnMissionCanStart

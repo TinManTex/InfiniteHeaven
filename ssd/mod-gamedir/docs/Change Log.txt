@@ -1,9 +1,8 @@
 Lost Heaven changelog
 
-r4 - 
-InfMain: Enable during coop.----
-
-InfGear: removed a few more aparently missing gear ids, there may still be some more. This gear feature is more of a debugging feature than a useful one though, see notes in InfGear.
+r4 - 2018-03-25 
+Updated to IH core r230WIP
+Updated to SSD 1.07/1.0.9.0
 
 r3 - 2018-03-18
 IH r226 WIP2
@@ -11,10 +10,10 @@ See IH changelog
 External unified to \lua folder, prior-internal shifted to lua\core.
 IHExt - modDir
 Title mission/5/ as SafeSpace
-Ssd 1.04/1.0.5.0
+Updated to SSD 1.04/1.0.5.0
 
 r2 - 2018-03-08
-IH r226 WIP
+Updated to IH r226WIP
 See IH changelog
 InfCamera
 InfUserMarker

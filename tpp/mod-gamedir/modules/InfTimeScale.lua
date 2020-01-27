@@ -103,13 +103,13 @@ this.HighSpeedCameraToggle=function()
 
     --InfMenu.PrintLangId"highspeedcam_on"--DEBUG
 
-    --DEBUGNOW TppPlayer2CallbackScript._SetHighSpeedCamera=this.SetHighSpeedCameraCleared
+    --DEBUGNOW TppPlayer2CallbackScript._SetHighSpeedCamera=this.SetHighSpeedCameraCleared --DEBUGNOW
   else
     highSpeedCamStartTime=0
 
     HighSpeedCamera.RequestToCancel()
 
-    TppPlayer2CallbackScript._SetHighSpeedCamera=this.SetHighSpeedCameraDefault
+    --DEBUGNOW TppPlayer2CallbackScript._SetHighSpeedCamera=this.SetHighSpeedCameraDefault
 
     InfMenu.PrintLangId"highspeedcam_cancel"
   end

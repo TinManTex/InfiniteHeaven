@@ -49,10 +49,6 @@ this.debugModule=false
 
 this.appliedProfiles=false
 
-function this.OnLoadEvars()
-
-end
-
 --CALLER: TppVarInit.StartTitle, game save actually first loaded
 --not super accurate execution timing wise
 function this.OnStartTitle()
@@ -60,11 +56,6 @@ function this.OnStartTitle()
   InfCore.gameSaveFirstLoad=true
 
   this.CallOnModules("OnStartTitle")
-end
-
---tex from InfHooks hook on TppSave.DoSave
-function this.OnSave()
-  IvarProc.OnSave()
 end
 
 --Tpp module hooks/calls>
@@ -378,7 +369,7 @@ this.abortToAcc=false--tex
 
 --IN/OUT SIDE: currentchecks
 function this.UpdateExecChecks(currentChecks)
-  for k,v in pairs(currentChecks) do--DEBUGNOW
+  for k,v in pairs(currentChecks) do
     currentChecks[k]=false
   end
 
@@ -453,7 +444,9 @@ function this.Update()
         currentChecks.inMenu=InfMenu.menuOn
 
         if this.debugModule then
+          if this.updateTimes[module.name] then
           table.insert(this.updateTimes[module.name],os.clock()-this.startTime)
+          end
         end
       end
     end
@@ -788,7 +781,7 @@ end
 --Separation is Quarantine,Ward,mbqf
 --Zoo ly500, don't think it's officially cluster 8, but I'm making it so
 this.CLUSTER_NAME={"Command","Combat","Develop","Support","Medical","Spy","BaseDev","Separation","Zoo"}
---this.CLUSTER_DEFINE=InfUtil.EnumFrom0(this.CLUSTER_NAME)--DEBUGNOW InfUtil
+--this.CLUSTER_DEFINE=InfUtil.EnumFrom0(this.CLUSTER_NAME)-- InfUtil
 --this.PLNT_NAME={"Special","Common1","Common2","Common3"}--or plat0-plat3
 --this.PLNT_DEFINE=this.Enum(this.PLNT_NAME)
 
@@ -1143,6 +1136,9 @@ end
 function this.LoadExternalModules(isReload)
   InfCore.LogFlow"InfMain.LoadExternalModules"
 
+  local count=collectgarbage("count")
+  InfCore.Log("Lua memory usage start: "..count.." KB")
+
   InfCore.mainModulesOK=true
   InfCore.otherModulesOK=true
 
@@ -1205,6 +1201,13 @@ function this.LoadExternalModules(isReload)
   --  InfCore.Log"--------------"
   --  InfCore.PrintInspect(Ivars.profileNames)
   --  InfCore.PrintInspect(Ivars.profiles)
+
+  count=collectgarbage("count")
+  InfCore.Log("Lua memory usage end: "..count.." KB")
+
+  collectgarbage()
+  count=collectgarbage("count")
+  InfCore.Log("Lua memory usage post collect: "..count.." KB")
 end
 
 --tex runs a function on all IH modules, used as the main message/event propogation to ih modules
@@ -1253,17 +1256,6 @@ function this.LoadLibraries()
     end
   end
 end
-
---EXEC
---DEBUGNOW
---_G.InfMain=this--WORKAROUND allowing external modules access to this before it's actually returned --KLUDGE using _G since I'm already definining InfMain as local
---
---InfCore.LogFlow"InfMain Exec"
---this.LoadExternalModules()
---if not InfCore.mainModulesOK then
---  this.ModuleErrorMessage()
---end
---InfCore.doneStartup=true
 
 InfCore.LogFlow"InfMain.lua done"
 

@@ -43,21 +43,31 @@ this.FORCE_BASE_CAMP_CREW_LIST={
     TppDefine.CREW_TYPE.UNIQUE_BOY
   },
   [10060]={},
+  --RETAILPATCH: 1.0.9.0>
+  [30010]=function(e)
+    local storySequence=TppStory.GetCurrentStorySequence()
+    if storySequence<TppDefine.STORY_SEQUENCE.CLEARED_k40020 then
+      return{TppDefine.CREW_TYPE.UNIQUE_MLT}
+    end
+    return nil
+  end,
+  --<
   [30020]=function(missionCode)
-    if gvars.str_storySequence<TppDefine.STORY_SEQUENCE.CLEARED_AFGH_LAST then
+    local storySequence=gvars.str_storySequence
+    if storySequence<TppDefine.STORY_SEQUENCE.CLEARED_AFGH_LAST then
       return{}
     end
-    if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARED_s10050 then
+    if storySequence>=TppDefine.STORY_SEQUENCE.CLEARED_s10050 then
       return nil
     end
     local crewTypes={}
-    if gvars.str_storySequence<TppDefine.STORY_SEQUENCE.BEFORE_s10050 then
+    if storySequence<TppDefine.STORY_SEQUENCE.BEFORE_s10050 then
       table.insert(crewTypes,TppDefine.CREW_TYPE.UNIQUE_MLT)
       table.insert(crewTypes,TppDefine.CREW_TYPE.UNIQUE_BOY)
     end
     table.insert(crewTypes,TppDefine.CREW_TYPE.UNIQUE_NRS)
     table.insert(crewTypes,TppDefine.CREW_TYPE.UNIQUE_PLC)
-    if gvars.str_storySequence>=TppDefine.STORY_SEQUENCE.CLEARED_k40180 and gvars.str_storySequence<TppDefine.STORY_SEQUENCE.BEFORE_s10050 then
+    if storySequence>=TppDefine.STORY_SEQUENCE.CLEARED_k40180 and storySequence<TppDefine.STORY_SEQUENCE.BEFORE_s10050 then
       table.insert(crewTypes,TppDefine.CREW_TYPE.UNIQUE_SETH)
     end
     return crewTypes

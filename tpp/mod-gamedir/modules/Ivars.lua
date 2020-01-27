@@ -39,6 +39,9 @@ local PERSONAL=TppScriptVars.CATEGORY_PERSONAL
 
 local EXTERNAL=IvarProc.CATEGORY_EXTERNAL
 
+--STATE
+this.isSaveDirty=true--tex start dirty so BuildSaveText actually builds initial savetext
+
 --tex set via IvarsProc.MissionModeIvars, used by IsForMission,EnabledForMission
 this.missionModeIvarsNames={}
 this.missionModeIvars={}
@@ -203,7 +206,7 @@ this.selectedCp={
   inMission=true,
   nonConfig=true,
   --save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=1},--DYNAMIC
+  range={max=0},--DYNAMIC
   prev=nil,--STATE
   OnSelect=function(self,setting)
     if not mvars.ene_cpList then
@@ -211,11 +214,7 @@ this.selectedCp={
       return
     end
 
-    if not mvars.ene_cpList[setting] then
-      self:Set(0)
-    end
-
-    self.range.max=#mvars.ene_cpList
+    IvarProc.SetMaxToList(self,mvars.ene_cpList)
   end,
   GetNext=function(self,currentSetting)
     self.prev=self.setting
@@ -250,10 +249,7 @@ this.selectedCp={
     if setting==nil then
       return "nil"
     end
-    if self.setting==0 then
-      return "none"
-    end
-    return mvars.ene_cpList and mvars.ene_cpList[setting] or "no cp for setting"
+    return mvars.ene_cpList and mvars.ene_cpList[setting+1] or "no cp for setting"
   end,
 }
 
@@ -262,24 +258,21 @@ this.dropLoadedEquip={--WIP
   inMission=true,
   nonConfig=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=1,min=1},--tex DYNAMIC
+  range={max=0},--tex DYNAMIC
   OnSelect=function(self)
     self.settingsTable={}
     for equipId,bool in pairs(InfEquip.currentLoadTable)do
       self.settingsTable[#self.settingsTable+1]=equipId
     end
-    self.range.max=#self.settingsTable
-    if self.range.max==0 then
-      self.range.max=1
-    end
+    IvarProc.SetMaxToList(self,self.settingsTable)
   end,
   GetSettingText=function(self,setting)
-    local equipId=self.settingsTable[setting]
+    local equipId=self.settingsTable[setting+1]
     local equipName=InfLookup.TppEquip.equipId[equipId]
     return tostring(equipName)
   end,
   OnActivate=function(self,setting)
-    local equipId=self.settingsTable[setting]
+    local equipId=self.settingsTable[setting+1]
     local equipName=InfLookup.TppEquip.equipId[equipId]
     if equipId==nil then
       InfCore.DebugPrint("no equipId found for "..equipName)
@@ -305,22 +298,19 @@ this.dropLoadedEquip={--WIP
   end,
 }
 
-this.dropTestEquip={--WIP
+this.dropTestEquip={--WIP --DEBUGNOW
   inMission=true,
   nonConfig=true,
   --OFF save=IvarProc.CATEGORY_EXTERNAL,
-  range={max=1,min=1},--tex DYNAMIC
+  range={max=0,min=0},--tex DYNAMIC
   OnSelect=function(self)
-    self.range.max=#InfEquip.tppEquipTableTest
-    if self.range.max==0 then
-      self.range.max=1
-    end
+    IvarProc.SetMaxToList(self,InfEquip.tppEquipTableTest)
   end,
   GetSettingText=function(self,setting)
-    return tostring(InfEquip.tppEquipTableTest[setting])
+    return tostring(InfEquip.tppEquipTableTest[setting+1])
   end,
   OnActivate=function(self,setting)
-    local equipName=InfEquip.tppEquipTableTest[setting]
+    local equipName=InfEquip.tppEquipTableTest[setting+1]
     local equipId=TppEquip[equipName]
     if equipId==nil then
       InfCore.DebugPrint("no equipId found for "..equipName)
@@ -391,7 +381,7 @@ this.selectedGameObjectType={
 this.selectProfile={
   nonConfig=true,
   --save=IvarProc.CATEGORY_EXTERNAL,
-  range={min=0,max=0},--DYNAMIC
+  range={max=0},--DYNAMIC
   GetSettingText=function(self,setting)
     if Ivars.profileNames==nil or #Ivars.profileNames==0 or self.settings==nil then
       return InfLangProc.LangString"no_profiles_installed"
@@ -432,11 +422,11 @@ this.selectProfile={
   end,
 }
 
-this.warpToListObject={
+this.warpToListObject={--DEBUGNOW
   inMission=true,
-  range={max=1},--DYNAMIC
+  range={max=0},--DYNAMIC
   GetSettingText=function(self,setting)
-    local objectName,info,position=InfLookup.GetObjectInfoOrPos(setting+1)
+    local objectName,info,position=InfObjects.GetObjectInfoOrPos(setting+1)
     if info and not position then
       return info
     end
@@ -444,12 +434,11 @@ this.warpToListObject={
     return objectName.." pos:".. math.ceil(position[1])..",".. math.ceil(position[2]).. ","..math.ceil(position[3])
   end,
   OnSelect=function(self)
-    local objectList=InfLookup.GetObjectList()
-    self.range.max=#objectList-1
-    self.setting=0
+    local objectList=InfObjects.objectNames
+    IvarProc.SetMaxToList(self,objectList)
   end,
   OnActivate=function(self,setting)
-    local objectName,info,position=InfLookup.GetObjectInfoOrPos(setting+1)
+    local objectName,info,position=InfObjects.GetObjectInfoOrPos(setting+1)
     if position==nil then
       return
     end
@@ -462,11 +451,11 @@ this.warpToListObject={
   end,
 }
 
-this.warpToListPosition={
+this.warpToListPosition={--DEBUGNOW
   inMission=true,
-  range={max=1},--DYNAMIC
+  range={max=0},--DYNAMIC
   GetSettingText=function(self,setting)
-    local positionsList=InfLookup.GetWarpPositions()
+    local positionsList=InfPositions.positions
     if #positionsList==0 then
       return "no positions"
     end
@@ -474,14 +463,11 @@ this.warpToListPosition={
     return "pos:".. math.ceil(position[1])..",".. math.ceil(position[2]).. ","..math.ceil(position[3])
   end,
   OnSelect=function(self)
-    local positionsList=InfLookup.GetWarpPositions()
-    local numObjects=#positionsList
-
-    self.range.max=numObjects-1
-    self.setting=0
+    local positionsList=InfPositions.positions
+    IvarProc.SetMaxToList(self,positionsList)
   end,
   OnActivate=function(self,setting)
-    local positionsList=InfLookup.GetWarpPositions()
+    local positionsList=InfPositions.positions
     local position=positionsList[setting+1]
 
     if position[1]~=0 or position[2]~=0 or position[3]~=0 then
@@ -492,11 +478,11 @@ this.warpToListPosition={
   end,
 }
 
-this.setCamToListObject={
+this.setCamToListObject={--DEBUGNOW
   inMission=true,
-  range={max=1},--DYNAMIC
+  range={max=0},--DYNAMIC
   GetSettingText=function(self,setting)
-    local objectName,info,position=InfLookup.GetObjectInfoOrPos(setting+1)
+    local objectName,info,position=InfObject.GetObjectInfoOrPos(setting+1)
     if info and not position then
       return info
     end
@@ -504,14 +490,11 @@ this.setCamToListObject={
     return objectName.." pos:".. math.ceil(position[1])..",".. math.ceil(position[2]).. ","..math.ceil(position[3])
   end,
   OnSelect=function(self)
-    local objectList=InfLookup.GetObjectList()
-    local numObjects=#objectList
-
-    self.range.max=numObjects-1
-    self.setting=0
+    local objectList=InfObjects.objectNames
+    IvarProc.SetMaxToList(self,objectList)
   end,
   OnActivate=function(self,setting)
-    local objectName,info,position=InfLookup.GetObjectInfoOrPos(setting+1)
+    local objectName,info,position=InfObjects.GetObjectInfoOrPos(setting+1)
     if position==nil then
       return
     end

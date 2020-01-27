@@ -1,5 +1,5 @@
 = Infinite heaven =
-r229 - 2018-04-21
+r230 - 2018-05-08
 by tin man tex
 For MGSV version 1.12 (in title screen) 1.0.12.0 in exe
 
@@ -16,12 +16,31 @@ YouTube playlist of demonstrations for many features:
 
 Recent changes/additions
 ------------------------------
+New for r230
+Fixed: IHExtToMgsv.ProcessCommands calling WriteToExtTxt every frame, seems like this bug may have been in there since wpf IHExts creation.
+Fixed: IHExtToMgsv.ProcessCommands Not converting mgsvToExtComplete arg to number. Though the WriteToExtTxt concat seemed to interpret ok anyway?
+Fixed: IHExtToMgsv.ProcessCommands no longer polls ih_tomgsvcmds.txt unless menu is open.
+This should hopefully reduce the cases of lag on systems that are sensitive to how IH handles i/o - thanks to darkallnight for the reports and files to test with.
+Fixed: Shifted various list based Ivars to index from 0 so IHExt combobox is not off-by-one.
+IvarProc: Vector3Ivar and other supporting functions to manage vector4 as ivar.
+ih_save: IvarProc.BuildSaveText now only writes if there's been a change. Should likewise help the i/o sensitive systems.
+
+InfObjects: Counterpart to InfPositions but for game object names, prior InfLookup.GetObjectList commands now use this.
+Objects menu
+Counterpart to Positions menu, for adding to, saving/loading a game object name list. The list is used for other commands/features like warp, PlayCam target.
+
+PlayCam: Alternative camera to Free cam.
+(via Camera menu > PlayCam menu)
+[youtube]CQKOO-jnkBI[/youtube]
+https://youtu.be/CQKOO-jnkBI
+
+
 New for r229
 Fixed: ShowFreeCamPosition not working.
 Fixed: Add position to position list not adding free cam position when in free cam.
 Fixed: Menu could be activated during loadscreen.
 Fixed: InfMenuCommands.ToggleFreeCam > InfCamera.ToggleFreeCam for SOC quickmenu.
-Fixed: Warp mode not working and also breaking IH menu - thanks for the report.
+Fixed: Warp mode not working and also breaking IH menu - thanks everyone for the reports.
 
 New for r228
 Fixed: IH buttons/menu responsiveness when using HighSpeedCam/TimeScaleMode - InfButtons/InfMenu using os.clock instead of Time.GetRawElapsed (which is synced to game timescale) - thanks VenomHSCV for the prod.

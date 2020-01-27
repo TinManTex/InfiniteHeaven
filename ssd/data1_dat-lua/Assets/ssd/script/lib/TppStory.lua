@@ -14,10 +14,22 @@ this.eventPlayTimmingTable={
 }
 this.PLAY_DEMO_END_MISSION={}
 function this.GetCurrentStorySequence()
-  return gvars.str_storySequence
+  --RETAILPATCH: 1.0.9.0>
+  if Mission.IsReplayMission and Mission.IsReplayMission()then
+    return Mission.GetReplayMissionStorySequence()
+  else
+    --<
+    return gvars.str_storySequence
+  end
 end
 function this.IncrementStorySequence()
-  gvars.str_storySequence=gvars.str_storySequence+1
+  --RETAILPATCH: 1.0.9.0>
+  if Mission.IsReplayMission and Mission.IsReplayMission()then
+    Mission.SetReplayMissionStorySequence(Mission.GetReplayMissionStorySequence()+1)
+  else
+    --<
+    gvars.str_storySequence=gvars.str_storySequence+1
+  end
   TppTrophy.UnlockByStorySequence()
 end
 function this.PermitMissionOpen(missionCode)
@@ -66,6 +78,15 @@ function this.GetMissionEnemyLevel()
       end
     end
   end
+  --RETAILPATCH: 1.0.9.0>
+  if Mission.IsReplayMission()and Mission.GetReplayMissionBaseEnemyLevel then
+    local replayEnemyLevel,replayEnemyRange=Mission.GetReplayMissionBaseEnemyLevel()
+    if replayEnemyLevel~=nil then
+      baseEnemyLevel=replayEnemyLevel
+      enemyLevelRandRange=replayEnemyRange
+    end
+  end
+  --<
   return baseEnemyLevel,enemyLevelRandRange
 end
 function this.GetRegionEnemyLevel()
@@ -92,7 +113,8 @@ function this.GetMissionGuideLine()
   return guideLine
 end
 function this.GetNextMissionInfo()
-  local missionInfo=SsdStorySequenceList.sequenceAutoLoadMissionList[gvars.str_storySequence+1]
+local currentStorySequence=this.GetCurrentStorySequence()
+  local missionInfo=SsdStorySequenceList.sequenceAutoLoadMissionList[currentStorySequence+1]
   if not IsTypeTable(missionInfo)then
     return
   end
@@ -695,7 +717,7 @@ if DebugMenu then
     if mvars.qaDebug.showStorySequence then
       DebugText.Print(Context,"")
       DebugText.Print(Context,{.5,.5,1},"LuaSystem showStorySequnce")
-      DebugText.Print(Context," Current story sequnce = "..tostring(this.GetStorySequenceName(gvars.str_storySequence)))
+      DebugText.Print(Context," Current story sequnce = "..tostring(this.GetStorySequenceName(this.GetCurrentStorySequence())))
     end
     if mvars.qaDebug.showMissionOpenPermission then
       DebugText.Print(Context,"")

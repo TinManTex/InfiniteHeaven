@@ -1,10 +1,12 @@
+If you used Lost Heaven r3 then delete the METAL GEAR SURVIVE\lua folder.
+
 Copy METAL GEAR SURVIVE\master\0\00.dat as a backup.
 
 Use GzsTool 0.6+ to unpack METAL GEAR SURVIVE\master\0\00.dat by dragging it onto the GzsTool.exe
 
 Copy the contents of Lost Heaven.zip to METAL GEAR SURVIVE folder, overwriting if nessesary.
 You should have a prompt to overwrite some files in METAL GEAR SURVIVE\master\0\00_dat
-You should also see METAL GEAR SURVIVE\lua to indicate you're copying correctly.
+You should also see METAL GEAR SURVIVE\mod to indicate you're copying correctly.
 
 Add the following lines (if they don't exist) to METAL GEAR SURVIVE\master\0\00.dat.xml
 

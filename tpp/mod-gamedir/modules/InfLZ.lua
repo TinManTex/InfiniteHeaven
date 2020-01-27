@@ -696,6 +696,9 @@ function this.GetGroundStartPosition(missionStartRoute,missionCode)
     --InfCore.Log("GetGroundStartPosition:: mbLayoutCode:"..vars.mbLayoutCode.." GetMbsClusterGrade:"..grade)
     layout=vars.mbLayoutCode
   end
+  if type(missionStartRoute)=="string" then--DEBUGNOW
+    missionStartRoute=StrCode32(missionStartRoute)
+  end
   return this.groundStartPositions[layout+1][missionStartRoute]
 end
 

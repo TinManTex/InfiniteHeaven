@@ -153,6 +153,7 @@ this.devInMissionMenu={
   noDoc=true,
   nonConfig=true,
   options={
+    "Ivars.cam_disableCameraAnimations",--DEBUGNOW
     "InfMenuCommands.DEBUG_SomeShiz",
     "InfMenuCommands.DEBUG_SomeShiz2",
     "InfMenuCommands.DEBUG_SomeShiz3",

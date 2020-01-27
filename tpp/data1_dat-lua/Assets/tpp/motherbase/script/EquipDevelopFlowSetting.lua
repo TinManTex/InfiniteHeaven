@@ -1,9 +1,15 @@
 --EquipDevelopFlowSetting.lua
 --RETAILPATCH 1090,1.10,1.11 various changes and additions
 local this={}
---NOTES, via unknown321 https://github.com/unknown321/mgsmonsterguns/blob/gh-pages/parameters.txt, nasanhak http://forum.xentax.com/viewtopic.php?f=10&t=12407&p=122960#p122960 and mgo EquipDevelopSetting.lua
+--NMC paired with EquiDevelopConstSetting (in that each entry here matches same indexed entry)
+--NOTES, via 
+--unknown321 https://github.com/unknown321/mgsmonsterguns/blob/gh-pages/parameters.txt, 
+--nasanhak http://forum.xentax.com/viewtopic.php?f=10&t=12407&p=122960#p122960 
+-- and mgo EquipDevelopSetting.lua
 
---nasanhak order of records in these files seems to be strict meaning you can't insert the same number of records at the beginning or in the middle in both the Const and Flow files and expect it to work. The dev pages/chains break. Anything new has to go at the end.
+--nasanhak order of records in these files seems to be strict meaning you can't insert the same number of records at the beginning 
+--or in the middle in both the Const and Flow files and expect it to work. The dev pages/chains break. 
+--Anything new has to go at the end.
 
 --unknown321 I assume that any parameter below can be overridden by konami via online patches
 --You get patches when you log into server (or just after that, happens only once per game session)
@@ -37,7 +43,7 @@ local this={}
 --   2 - Anything un-develop-able - Enemy weapons(cause these need equip info too, just can't be developed), Infected NVG from M43, Balaclava & Headgear, Looks to be unused DD skins(Ocelot & Miller), One Walker Gear pistol, Battle Gear stuff, Honeybee, Skull face gun, Volgin gun(his attack that is), Enemy shields and D.MINE MARKER
 --   3 - only for wormhole fulton all 4 grades
 --   5 - All unused - Fulton cargo, fulton normal, fulton wormhole; Hides equip from equip menu as well
---  p70=0,--
+--  p70=0,--Mystery Column - seems to be 0 for everything
 --  p71=0,--developTimeMinute--Development time
 --  p72={0-7},--isValidMbCoin  --Offline (0) Online (1)
 --  p73=0,--intimacyPoint -- buddy points reuired for dev
@@ -75,6 +81,34 @@ local this={}
 --"Spy",
 --"Medical"
 --}
+
+local descriptiveParamToParamName={
+  index="p50",
+  sideGrade="p51",
+  grade="p52",
+  developGmpCost="p53",
+  usageGmpCost="p54",
+  sectionLvForDevelop="p55",
+  sectionID2ForDevelop="p56",
+  sectionLv2ForDevelop="p57",
+  resourceType1="p58",
+  resourceType1Count="p59",
+  resourceType2="p60",
+  resourceType2Count="p61",
+  initialAvailable="p62", 
+  sectionIDForDevelop="p63",
+  developSectionLv="p64", 
+  resourceUsageType1="p65",
+  resourceUsageType1Count="p66",
+  resourceUsageType2="p67",
+  resourceUsageType2Count="p68",
+  displayInfo="p69",
+  unk70="p70",
+  developTimeMinute="p71",
+  isValidMbCoin="p72",
+  intimacyPoint="p73",
+  isFobAvailable="p74",
+}
 
 this.equipDevTable={
   {p50=0,p51=0,p52=1,p53=0,p54=100,p55=0,p56=0,p57=0,p58="",p59=0,p60="",p61=0,p62=1,p63=0,p64=0,p65="",p66=0,p67="",p68=0,p69=0,p70=0,p71=0,p72=0,p73=0,p74=1},

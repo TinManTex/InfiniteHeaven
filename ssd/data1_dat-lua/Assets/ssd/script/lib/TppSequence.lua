@@ -154,16 +154,34 @@ local s=1
 r={"Seq_Mission_Prepare","Seq_Accepted_Invitation"}
 this.SYS_SEQUENCE_LENGTH=#r
 a.Seq_Mission_Prepare={Messages=function(e)
-  return Tpp.StrCode32Table{UI={{msg="EndFadeIn",sender="FadeInOnGameStart",func=function()
-    end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="StartMissionTelopFadeIn",func=function()
-    end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="StartMissionTelopFadeOut",func=function()
-      mvars.seq_nowWaitingStartMissionTelopFadeOut=nil
-      e.FadeInStartOnGameStart()
-    end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},{msg="PushEndLoadingTips",func=function()
-      mvars.seq_nowWaitingPushEndLoadingTips=nil
-      TimerStart("Timer_WaitStartingGame",s)
-    end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}},Timer={{msg="Finish",sender="Timer_WaitStartingGame",func=e.MissionGameStart,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}}}
-end,OnEnter=function(n)
+  return Tpp.StrCode32Table{
+    UI={
+      {msg="EndFadeIn",sender="FadeInOnGameStart",
+        func=function()
+        end,
+        option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
+      {msg="StartMissionTelopFadeIn",
+        func=function()
+        end,option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
+      {msg="StartMissionTelopFadeOut",
+        func=function()
+          mvars.seq_nowWaitingStartMissionTelopFadeOut=nil
+          e.FadeInStartOnGameStart()
+        end,
+        option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}},
+      {msg="PushEndLoadingTips",
+        func=function()
+          mvars.seq_nowWaitingPushEndLoadingTips=nil
+          TimerStart("Timer_WaitStartingGame",s)
+        end,
+        option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}},
+    Timer={
+      {msg="Finish",sender="Timer_WaitStartingGame",
+        func=e.MissionGameStart,
+        option={isExecMissionPrepare=true,isExecMissionClear=true,isExecGameOver=true}}}
+  }
+end,
+OnEnter=function(n)
   if Tpp.IsQARelease()or nil then
     Mission.SetMiniText(0,"Seq_Mission_Prepare")
   end
@@ -179,7 +197,8 @@ end,OnLeave=function(s,n)
   this.DoOnEndMissionPrepareFunction()
   if this.IsFirstLandStart()then
     if not TppSave.IsReserveVarRestoreForContinue()then
-      TppUiStatusManager.ClearStatus"AnnounceLog"TppUiStatusManager.SetStatus("AnnounceLog","SUSPEND_LOG")
+      TppUiStatusManager.ClearStatus"AnnounceLog"
+      TppUiStatusManager.SetStatus("AnnounceLog","SUSPEND_LOG")
     end
   end
 end,CanMissionGameStart=function()
@@ -217,7 +236,8 @@ end,DEBUG_TextPrint=function(e)
   if not DebugText then
     return
   end
-  local n=DebugText.NewContext()DebugText.Print(n,{.5,.5,1},e)
+  local n=DebugText.NewContext()
+  DebugText.Print(n,{.5,.5,1},e)
 end,OnUpdate=function(n)
   if(mvars.seq_missionPrepareState<this.MISSION_PREPARE_STATE.END_TEXTURE_LOADING)then
     TppUI.ShowAccessIconContinue()
@@ -245,9 +265,11 @@ end,OnUpdate=function(n)
   local l=d-mvars.seq_canMissionStartWaitStartTime
   if DebugText then
     if mvars.seq_nowWaitingStartMissionTelopFadeOut then
-      n.DEBUG_TextPrint"Now waiting start mission telop fade out message"end
+      n.DEBUG_TextPrint"Now waiting start mission telop fade out message"
+      end
     if mvars.seq_nowWaitingPushEndLoadingTips then
-      n.DEBUG_TextPrint"Now waiting PushEndLoadingTips message."end
+      n.DEBUG_TextPrint"Now waiting PushEndLoadingTips message."
+      end
   end
   if(a==false)and(l>S)then
     if not mvars.seq_doneDumpCanMissionStartRefrainIds then
@@ -386,16 +408,29 @@ function this.SetMissionGameStartSequence()
   mvars.seq_missionPrepareState=this.MISSION_PREPARE_STATE.FINISH
   svars.seq_sequence=mvars.seq_missionStartSequence
   if Tpp.IsQARelease()or nil then
-    local e=this.GetSequenceNameWithIndex(mvars.seq_missionStartSequence)Mission.SetMiniText(0,e)
+    local e=this.GetSequenceNameWithIndex(mvars.seq_missionStartSequence)
+    Mission.SetMiniText(0,e)
   end
 end
 function this.SetOnEndMissionPrepareFunction(e)
   mvars.seq_onEndMissionPrepareFunction=e
 end
-function this.DoOnEndMissionPrepareFunction()NamePlateMenu.SetDefaultNamePlateIfSetBegginerNamePlate()
+function this.DoOnEndMissionPrepareFunction()
+  NamePlateMenu.SetDefaultNamePlateIfSetBegginerNamePlate()
   if mvars.seq_onEndMissionPrepareFunction then
     mvars.seq_onEndMissionPrepareFunction()
   end
+  --RETAILPATCH: 1.0.10.0>
+  if Mission.IsFromReplayMission()then
+    if TppMission.IsFreeMission(vars.missionCode)then
+      Player.SetReplayMissionToSkillTrainer()
+    end
+    Mission.ResetFromReplayMission()
+    if TppSoundDaemon.ReserveResetCutSceneMute then
+      TppSoundDaemon.ReserveResetCutSceneMute()
+    end
+  end
+  --<
 end
 function this.IsFirstLandStart()
   if(not mvars.seq_demoSequneceList[mvars.seq_missionStartSequence])and(mvars.seq_missionStartSequence==(this.SYS_SEQUENCE_LENGTH+1))then
@@ -442,7 +477,8 @@ end
 function this.DEBUG_Init()
 end
 function this.Init(n)
-  this.MakeSequenceMessageExecTable()svars.seq_sequence=this.GetSequenceIndex"Seq_Mission_Prepare"if n.sequence then
+  this.MakeSequenceMessageExecTable()svars.seq_sequence=this.GetSequenceIndex"Seq_Mission_Prepare"
+  if n.sequence then
     if n.sequence.SKIP_TEXTURE_LOADING_WAIT then
       mvars.seq_skipTextureLoadingWait=true
     end
@@ -514,7 +550,8 @@ function this.DebugUpdate()
   local n=DebugText.NewContext()
   if e.debug.showCurrentSequence or e.debug.showSequenceHistory then
     if e.debug.showCurrentSequence then
-      DebugText.Print(n,{.5,.5,1},"LuaSystem SEQ.showCurrSequence")DebugText.Print(n," current_sequence = "..tostring(u(s.seq_sequence)))
+      DebugText.Print(n,{.5,.5,1},"LuaSystem SEQ.showCurrSequence")
+      DebugText.Print(n," current_sequence = "..tostring(u(s.seq_sequence)))
     end
     if e.debug.showSequenceHistory then
       DebugText.Print(n,{.5,.5,1},"LuaSystem SEQ.showSeqHistory")

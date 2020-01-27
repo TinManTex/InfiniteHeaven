@@ -1,9 +1,9 @@
 --InfPositions.lua
+--Commands to manage positions list used for other commands as well as saving and loading from file.
 local this={}
 
 --STATE
 this.positions={}
-
 
 this.registerMenus={
   'positionsMenu',
@@ -13,9 +13,11 @@ this.positionsMenu={
   parentRefs={"InfMenuDefs.inMissionMenu"},
   options={
     "InfPositions.AddPosition",
-    "InfPositions.AddMarkerPositions",--DEBUGNOW TODO: where to have this
-    "InfPositions.WritePositions",
+    "InfPositions.AddMarkerPositions",    
     "InfPositions.ClearPositions",
+    "InfPositions.WritePositions",
+    "InfPositions.LoadPositions",
+    "Ivars.selectListPosition",
   },
 }
 --< menu defs
@@ -26,18 +28,42 @@ this.langStrings={
     addMarkerPositions="Add markers to Positions List",
     writePositions="Write Positions List",
     clearPositions="Clear Positions List",
+    loadPositions="Load positions from file",
+    selectListPosition="Select position",
   },
   help={
     eng={
-      positionsMenu="For adding positions in the game to a Positions List, and writing them to files.",
+      positionsMenu="For adding positions in the game to a Positions List, and writing/loading them to files.",
       addPosition="Add current player or freecam position to Positions List, positions list can be written to file with Write Positons List command.",
       addMarkerPositions="Adds current user markers to positions list, positions list can be written to file with Write Positons List command.",
       writePositions="Writes Positions List to files in MGS_TPP\\mod\\",
       clearPositions="Clears Positions List",
+      loadPositions="Loads positions from MGS_TPP\\mod\\positions_lua.txt",
+      selectListPosition="Selects a position from positions list, mostly just used to browse positions at the moment.",--DEBUGNOW
     },
   },
 }
 --<
+
+this.registerIvars={
+  "selectListPosition",
+}
+
+this.selectListPosition={
+  inMission=true,
+  range={max=0},--DYNAMIC
+  GetSettingText=function(self,setting)
+    local position=this.positions[setting+1]
+    if position==nil then
+      return InfLangProc.LangString"list_empty"
+    end
+
+    return string.format("x=%.3f,y=%.3f,z=%.3f",position[1],position[2],position[3])
+  end,
+  OnSelect=function(self)
+    IvarProc.SetMaxToList(self,this.positions)
+  end,
+}
 
 --Commands
 --tex adds player or camera position (if freecam) to this.positions
@@ -59,7 +85,7 @@ end
 function this.AddMarkerPositions()
   local addedCount=0
   for index=0,InfUserMarker.MAXMARKERS-1 do
-    local markerPos=this.GetMarkerPosition(index)
+    local markerPos=InfUserMarker.GetMarkerPosition(index)
     local x=markerPos:GetX()
     local y=markerPos:GetY()
     local z=markerPos:GetZ()
@@ -73,9 +99,9 @@ function this.AddMarkerPositions()
 
   local addedString = addedCount.." positions added to list"
   local sizeString = "list now has "..#this.positions.." positions"
-  InfCore.Log("InfUserMarker:AddPositions: "..addedString)
+  InfCore.Log("InfPositions:AddPositions: "..addedString)
   InfCore.DebugPrint(addedString)
-  InfCore.Log("InfUserMarker:AddPositions: "..sizeString)
+  InfCore.Log("InfPositions:AddPositions: "..sizeString)
   InfCore.DebugPrint(sizeString)
 end
 
@@ -116,6 +142,26 @@ function this.WritePositions()
 
   InfCore.Log(#this.positions..[[ positions written to MGS_TPP\mod\]],true,true)
 end
---<
+
+function this.LoadPositions()
+  InfCore.Log("InfPositions.LoadPositions:")
+
+  local fileName="positions_lua.txt"
+
+  local positions=InfCore.LoadSimpleModule(InfCore.paths.mod,fileName)
+  if #positions==0 then
+    InfMenu.PrintLangId"list_empty"
+    return
+  end
+
+  InfCore.PrintInspect(positions,"positions")
+  --GOTCHA: different save format (see writepositions) than positions list TODO: choose one or other
+  InfUtil.ClearArray(this.positions)
+  for i,coords in ipairs(positions)do
+    this.positions[#this.positions+1]={coords.pos[1],coords.pos[2],coords.pos[3],coords.rotY}
+  end
+
+  InfCore.Log(#this.positions.." positions loaded from "..fileName,true,true)--ADDLANG
+end
 
 return this

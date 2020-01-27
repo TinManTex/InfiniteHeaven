@@ -8,13 +8,13 @@ if InfCore and not InfCore.modDirFail then
   InfCore.LoadLibrary"core/InfUtil.lua"
   InfCore.LoadLibrary"core/InfTppUtil.lua"
 
-  InfCore.LoadLibrary"core/IvarProc.lua"
-
   --STATE GLOBAL
   ivars={}
   evars={}
   igvars={}
   ih_save={}
+
+  InfCore.LoadLibrary"core/IvarProc.lua"
 
   InfCore.LoadExternalModule"Ivars"
   InfCore.LoadExternalModule"IvarsPersist"
@@ -32,7 +32,7 @@ if InfCore and not InfCore.modDirFail then
 
   InfCore.LoadLibrary"core/InfModelProc.lua"
 
-  InfCore.LogFlow"InfInit.lua done"
+  InfCore.Log"InfInit.lua done"
 end
 
 return this
