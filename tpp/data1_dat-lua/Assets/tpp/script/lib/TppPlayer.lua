@@ -372,15 +372,15 @@ function this._SetWeapons(weaponTable,category)
     return
   end
   local slotNum=TppDefine.WEAPONSLOT.SUPPORT_0-1
-  local slotType,slotName,magazine,ammo,underBarrelAmmo
+  local slotType,equipIdName,magazine,ammo,underBarrelAmmo
   for idx,weaponInfo in pairs(weaponTable)do
-    slotType,slotNum,slotName,magazine,ammo,underBarrelAmmo=this.GetWeaponSlotInfoFromWeaponSet(weaponInfo,slotNum)
-    local equipment=TppEquip[slotName]
-    if equipment==nil then
+    slotType,slotNum,equipIdName,magazine,ammo,underBarrelAmmo=this.GetWeaponSlotInfoFromWeaponSet(weaponInfo,slotNum)
+    local equipId=TppEquip[equipIdName]
+    if equipId==nil then
     else
-      local ammoId,ammoInWeapon,defaultAmmo,altAmmoId,altAmmoInWeapon,altDefaultAmmo=TppEquip.GetAmmoInfo(equipment)
+      local ammoId,ammoInWeapon,defaultAmmo,altAmmoId,altAmmoInWeapon,altDefaultAmmo=TppEquip.GetAmmoInfo(equipId)
       if slotType then
-        vars[category][slotType]=equipment
+        vars[category][slotType]=equipId
         local ammoCount,altAmmoCount
         if magazine then
           ammoCount=magazine*ammoInWeapon
@@ -407,7 +407,7 @@ function this._SetWeapons(weaponTable,category)
         end
       elseif slotNum>=TppDefine.WEAPONSLOT.SUPPORT_0 and slotNum<=TppDefine.WEAPONSLOT.SUPPORT_7 then
         local supportSlotNum=slotNum-TppDefine.WEAPONSLOT.SUPPORT_0
-        vars.initSupportWeapons[supportSlotNum]=equipment
+        vars.initSupportWeapons[supportSlotNum]=equipId
         gvars.initAmmoStockIds[slotNum]=ammoId
         local ammoCount
         if ammo then
@@ -421,29 +421,29 @@ function this._SetWeapons(weaponTable,category)
   end
 end
 function this.GetWeaponSlotInfoFromWeaponSet(weaponInfo,slotNum)
-  local slotType,slotName,magazine,ammo,underBarrelAmmo
+  local slotType,equipIdName,magazine,ammo,underBarrelAmmo
   if weaponInfo.primaryHip then
     slotType=TppDefine.WEAPONSLOT.PRIMARY_HIP
-    slotName=weaponInfo.primaryHip
+    equipIdName=weaponInfo.primaryHip
     magazine=weaponInfo.magazine
     ammo=weaponInfo.ammo
     underBarrelAmmo=weaponInfo.underBarrelAmmo
   elseif weaponInfo.primaryBack then
     slotType=TppDefine.WEAPONSLOT.PRIMARY_BACK
-    slotName=weaponInfo.primaryBack
+    equipIdName=weaponInfo.primaryBack
     magazine=weaponInfo.magazine
     ammo=weaponInfo.ammo
   elseif weaponInfo.secondary then
     slotType=TppDefine.WEAPONSLOT.SECONDARY
-    slotName=weaponInfo.secondary
+    equipIdName=weaponInfo.secondary
     magazine=weaponInfo.magazine
     ammo=weaponInfo.ammo
   elseif weaponInfo.support then
     slotNum=slotNum+1
-    slotName=weaponInfo.support
+    equipIdName=weaponInfo.support
     ammo=weaponInfo.ammo
   end
-  return slotType,slotNum,slotName,magazine,ammo,underBarrelAmmo
+  return slotType,slotNum,equipIdName,magazine,ammo,underBarrelAmmo
 end
 function this.SaveWeaponsToUsingTemp(weaponTable)
   if gvars.ply_isUsingTempWeapons then

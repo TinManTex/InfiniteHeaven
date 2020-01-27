@@ -1,5 +1,5 @@
 = Infinite heaven =
-r184 - 2016-09-26
+r185 - 2016-09-30
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -19,6 +19,28 @@ YouTube playlist of demonstrations for many features
 Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
+
+New for r185
+NOTE: Infinite Heaven has been restructured, with some of it's files now loading from a sub-folder of MGSV_TPP folder. Use Install Infinite Heaven.bat or see Install.txt for details.
+
+Feature: Equip 'NONE' for primary and secondary via the normal mission prep equipment select screen. The entries will show as a white square with '---'' as the text - thanks unknown321 for the mod/research.
+[youtube]8Db_B4Ao5wE[/youtube]
+https://youtu.be/8Db_B4Ao5wE
+
+Option: Drop current equip - thanks ThreeSocks for the original mod, and the many others who have requested it be included in IH since then.
+[youtube]e2hcrZrWjYg[/youtube]
+https://youtu.be/e2hcrZrWjYg
+
+QuickMenu: 
+Now customizable by editing QuickMenuDefs in MGSV_TPP\mod 
+TSM returned to instant activation.
+Added Drop current equip on <LIGHT_SWITCH> (X key/Dpad right)
+
+Option: loadExternalModules - reloads the lua files in MGSV_TPP\mod
+(via debug menu)
+Feature: LoadExternalModules combo <Stance>,<Action>,<Ready weapon>,<Binoculars>
+
+Profiles: Added 'Subsistence - Game' to be closer to actual Game subsistence, leaving Pure as a kind of Subsistence+
 
 New for r184
 Fixed: Quick menu should not activate if holding a quick menu command button then holding the quick menu on button(CALL), will only be activated on quick menu on button(CALL) held then pressing a quick menu command button - thanks LucrassKelvac for your report.
@@ -140,6 +162,7 @@ jRavens for your early testing
 Shigu for your specific testing and discussions
 Topher for your great mod manager Snakebite
 NasaNhak for your voluminous questions and suggestions
+unknown123 for the MGSV research.
 Various people for their donations, including:
 WolfJack
 Oliver

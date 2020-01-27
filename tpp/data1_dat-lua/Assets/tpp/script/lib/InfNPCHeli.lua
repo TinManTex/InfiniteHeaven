@@ -3,7 +3,6 @@
 local this={}
 
 --LOCALOPT
-local Ivars=Ivars
 local InfMain=InfMain
 local StrCode32=Fox.StrCode32
 local NULL_ID=GameObject.NULL_ID
@@ -324,7 +323,7 @@ this.heliEnableIvars={
 }
 
 function this.InitUpdate(currentChecks)
-  if not Ivars.EnabledForMission(this.heliEnableIvars) then
+  if not IvarProc.EnabledForMission(this.heliEnableIvars) then
     return
   end
 
@@ -417,7 +416,7 @@ function this.InitUpdate(currentChecks)
 end
 
 function this.OnMissionCanStart(currentChecks)
-  if not Ivars.EnabledForMission(this.heliEnableIvars) then
+  if not IvarProc.EnabledForMission(this.heliEnableIvars) then
     return
   end
   local isMb=vars.missionCode==30050
@@ -443,7 +442,7 @@ function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,u
     return
   end
 
-  if not Ivars.EnabledForMission(this.heliEnableIvars) then
+  if not IvarProc.EnabledForMission(this.heliEnableIvars) then
     return
   end
 

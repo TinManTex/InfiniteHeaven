@@ -3,18 +3,9 @@
 local this={}
 
 --STATE
-this.debugMode=true--tex non user till I get this sorted (See GOTCHA -v-)
+this.debugMode=true--tex (See GOTCHA below -v-)
 
 --
-this.gamePath="C:\\GamesSD\\MGS_TPP"--tex TODO: find a way to get games path, otherwise have a chicken and egg
-this.modPath="\\mod"
-this.logFileName="ih_log"
-local prev="_prev"
-local ext=".txt"
-
-local logFilePath=this.gamePath..this.modPath.."\\"..this.logFileName..ext
-local logFilePathPrev=this.gamePath..this.modPath.."\\"..this.logFileName..prev..ext
-
 local nl="\r\n"
 
 local stringType="string"
@@ -23,13 +14,13 @@ local functionType="function"
 function this.Add(message,announceLog)
   --tex GOTCHA, true setting wont kick in till gvars is initiallized, would be solved if shifting away from gvars to direct file save/load
   if Ivars and gvars and gvars.debugMode then
-    this.debugMode=Ivars.debugMode:Is()>0
+    this.debugMode=gvars.debugMode>0
   end
   if this.debugMode==false then
     return
   end
 
-  local filePath=logFilePath
+  local filePath=this.logFilePath
 
   --tex NOTE io open append doesnt appear to work - 'Domain error'
   --TODO think which would be better, just appending to string then writing that
@@ -51,6 +42,11 @@ function this.Add(message,announceLog)
   local elapsedTime=Time.GetRawElapsedTimeSinceStartUp()
   --tex TODO os time?
 
+
+  if type(message)~=stringType then
+    message=tostring(message)
+  end
+
   local line="|"..elapsedTime.."|"..message
   logFile:write(logText..line,nl)
   logFile:close()
@@ -60,13 +56,13 @@ function this.Add(message,announceLog)
   end
 end
 
-local function CopyLogToPrev()
-  local logFile,error=io.open(logFilePath,"r")
+function this.CopyLogToPrev()
+  local logFile,error=io.open(this.logFilePath,"r")
   if logFile and not error then
     local logText=logFile:read("*all")
     logFile:close()
 
-    local logFilePrev,error=io.open(logFilePathPrev,"w")
+    local logFilePrev,error=io.open(this.logFilePathPrev,"w")
     if not logFilePrev or error then
       return
     end
@@ -74,7 +70,7 @@ local function CopyLogToPrev()
     logFilePrev:write(logText)
     logFilePrev:close()
 
-    local logFile,error=io.open(logFilePath,"w")
+    local logFile,error=io.open(this.logFilePath,"w")
     if logFile then
       logFile:write""--tex clear
       logFile:close()
@@ -114,7 +110,7 @@ function this.PCall(func,...)
     return
   end
 
-  local sucess, result=pcall(func,...)
+  local sucess,result=pcall(func,...)
   if not sucess then
     this.Add(result)
     this.Add("caller:"..this.DEBUG_Where(2))
@@ -127,11 +123,16 @@ end
 --tex as above but intended to pass through unless debugmode on
 function this.PCallDebug(func,...)
   if func==nil then
-    this.Add("TryFunc func == nil")
+    this.Add("PCallDebug func == nil")
     return
   elseif type(func)~=functionType then
-    this.Add("TryFunc func~=function")
+    this.Add("PCallDebug func~=function")
     return
+  end
+
+  --tex TODO: see GOTCHA in Add.
+  if Ivars and gvars and gvars.debugMode then
+    this.debugMode=gvars.debugMode>0
   end
 
   if not this.debugMode then
@@ -153,6 +154,7 @@ function this.PrintInspect(inspectee,options,announceLog)
   this.Add(ins,announceLog)
 end
 
+--tex altered from Tpp.DEBUG_Where
 function this.DEBUG_Where(stackLevel)
   --defining second param of getinfo can help peformance a bit
   --`n´ selects fields name and namewhat
@@ -167,6 +169,33 @@ function this.DEBUG_Where(stackLevel)
   return"(unknown)"
 end
 
+--
+--tex NMC from lua wiki
+local function Split(str,delim,maxNb)
+  -- Eliminate bad cases...
+  if string.find(str,delim)==nil then
+    return{str}
+  end
+  if maxNb==nil or maxNb<1 then
+    maxNb=0--No limit
+  end
+  local result={}
+  local pat="(.-)"..delim.."()"
+  local nb=0
+  local lastPos
+  for part,pos in string.gfind(str,pat) do
+    nb=nb+1
+    result[nb]=part
+    lastPos=pos
+    if nb==maxNb then break end
+  end
+  -- Handle the last field
+  if nb~=maxNb then
+    result[nb+1]=string.sub(str,lastPos)
+  end
+  return result
+end
+
 
 --hook
 --tex no dice
@@ -176,8 +205,57 @@ end
 --  this.FoxLog(message)
 --end
 
+--tex TODO, not having luck with either approach, something stopping assignment to global
+--might have to keep the module reference here in InfLog instead, at this point the module is less InfLog than InfBootstrap lol 
+function this.LoadExternalModuleRequire(moduleName)
+  local sucess,module=pcall(require,moduleName)
+  if not sucess then
+    InfLog.Add(module)
+  else
+    _G[moduleName]=module
+    if not _G[moduleName] then
+      InfLog.Add("cannot find module in global "..moduleName)
+    end
+  end
+end
+
+function this.LoadExternalModuleLoadFile(moduleName)
+  local modulePath=this.gamePath..this.modPath..moduleName..".lua"
+  local sucess,module=pcall(loadfile,modulePath)
+  if not sucess then
+    InfLog.Add(module)
+  else
+    _G[moduleName]=module()
+    InfLog.Add("Loaded "..moduleName)
+    if not _G[moduleName] then
+      InfLog.Add("could not find module in global "..moduleName)
+    end
+  end
+end
+
+local function GetGamePath()
+  local paths=Split(package.path,";")
+  local gamePath=paths[2]--tex first path is .\?.lua, second is <game path>\?.lua
+  local stripLength=10--tex length "\lua\?.lua"
+  gamePath=gamePath:gsub("\\","/")--tex because escaping sucks
+  gamePath=gamePath:sub(1,-stripLength)
+  return gamePath
+end
+
+this.modSubPath="mod/"
+this.logFileName="ih_log"
+this.prev="_prev"
+this.ext=".txt"
+
 --EXEC
-CopyLogToPrev()
+this.gamePath=GetGamePath()
+this.modPath=this.gamePath..this.modSubPath
+this.logFilePath=this.modPath..this.logFileName..this.ext
+this.logFilePathPrev=this.modPath..this.logFileName..this.prev..this.ext
+
+package.path=package.path..";"..this.modPath.."?.lua"
+
+this.CopyLogToPrev()
 
 local time=os.date("%x %X")
 this.Add("InfLog start "..time)

@@ -410,7 +410,7 @@ end
 function this.GetReinforceCount()
   --tex>
   if Ivars.forceReinforceRequest:Is(1) then
-    if not Ivars.IsForMission("revengeMode","CUSTOM") then
+    if not IvarProc.IsForMission("revengeMode","CUSTOM") then
       mvars.revenge_revengeConfig.REINFORCE_COUNT=99
     end
   end
@@ -917,7 +917,7 @@ function this._GetUiParameterValue(revengeType)
   return 0
 end
 function this._SetUiParameters()
-  if Ivars.IsForMission("revengeMode","CUSTOM") then--tex> set ui params
+  if IvarProc.IsForMission("revengeMode","CUSTOM") then--tex> set ui params
     InfRevenge.SetCustomRevengeUiParameters()
     return
   end--<
@@ -1122,7 +1122,7 @@ function this._ReduceRevengePointByTime(missionId)
     return
   end
 
-  local getMbVisitRevengeDecay=InfMain.GetMbVisitRevengeDecay()
+  local getMbVisitRevengeDecay=InfMBVisit.GetMbVisitRevengeDecay()
   if getMbVisitRevengeDecay>0 then
     InfMenu.PrintLangId"mb_visit_revenge_decay"
     for i=1,getMbVisitRevengeDecay do
@@ -1306,7 +1306,7 @@ function this._CreateRevengeConfig(revengeTypes)
   end
 
   --tex>customrevengeconfig
-  local doCustom=Ivars.IsForMission("revengeMode","CUSTOM")
+  local doCustom=IvarProc.IsForMission("revengeMode","CUSTOM")
   if doCustom then
     revengeConfig=InfRevenge.CreateCustomRevengeConfig()
 
@@ -1375,7 +1375,7 @@ function this._CreateRevengeConfig(revengeTypes)
   end
   end
   local missionId=TppMission.GetMissionID()
-  if TppMission.IsFOBMission(missionId)or Ivars.EnabledForMission"customWeaponTable" then--tex added customWeaponTable check
+  if TppMission.IsFOBMission(missionId)or IvarProc.EnabledForMission"customWeaponTable" then--tex added customWeaponTable check
     local weaponTable=TppEnemy.weaponIdTable.DD
     if revengeConfig.NO_KILL_WEAPON and weaponTable then
       local normalTable=weaponTable.NORMAL

@@ -9,7 +9,7 @@
 
 local profiles={}
 
--- Defaults/example of all profile options for IH r182
+-- Defaults/example of all profile options for IH r185
 profiles.defaults={
 	description="Defaults/All disabled",
 	firstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.
@@ -25,12 +25,10 @@ profiles.defaults={
 		randomizeMineTypes=0,--{ 0-1 } -- Randomize minefield mine types
 		additionalMineFields=0,--{ 0-1 } -- Enable additional minefields
 		--Player restrictions menu
-		blockInMissionSubsistenceIvars=0,--{ 0-1 } -- Block in-mission menu restriction options
 		disableHeliAttack=0,--{ 0-1 } -- Disable support heli attack
 		disableFulton=0,--{ 0-1 } -- Disable fulton action
 		setSubsistenceSuit=0,--{ 0-1 } -- Force subsistence suit (Olive Drab, no headgear)
 		setDefaultHand=0,--{ 0-1 } -- Set hand type to default
-		disableLzs=0,--{ OFF, ASSAULT, REGULAR } -- Disable landing zones
 		abortMenuItemControl=0,--{ 0-1 } -- Disable abort mission from pause menu
 		disableRetry=0,--{ 0-1 } -- Disable retry on mission fail
 		gameOverOnDiscovery=0,--{ 0-1 } -- Game over on combat alert
@@ -76,6 +74,13 @@ profiles.defaults={
 		--Player settings menu
 		playerHealthScale=100,--{ 0-650 } -- Player life scale (percentage)
 		useSoldierForDemos=0,--{ 0-1 } -- Use selected soldier in all cutscenes and missions
+		--Appearance menu
+		playerType="SNAKE",--{ SNAKE, AVATAR, DD_MALE, DD_FEMALE } -- Non-save -- Player type
+		playerPartsType="<Suits for player type>",--{ <Suits for player type> } -- Non-save -- Suit type
+		playerCamoType="<Camos for player type>",--{ <Camos for player type> } -- Non-save -- Camo type
+		playerFaceEquipId=0,--{ 0-100 } -- Non-save -- Headgear
+		playerFaceFilter="ALL",--{ ALL, UNIQUE, FOVAMOD } -- Non-save -- Filter faces
+		playerFaceId=0,--{ 0-1000 } -- Non-save -- Face
 		--Soldier parameters menu
 		soldierHealthScale=100,--{ 0-900 } -- Soldier life scale (percentage)
 		soldierSightDistScale=100,--{ 0-400 } -- Soldier sight scale (percentage)
@@ -263,15 +268,43 @@ profiles.defaults={
 		disablePullOutHeli=0,--{ 0-1 } -- Disable pull-out
 		setLandingZoneWaitHeightTop=20,--{ 5-50 } -- Set LZ wait height
 		defaultHeliDoorOpenTime=15,--{ 0-120 } -- Mission start time till open door
+		disableLzs=0,--{ OFF, ASSAULT, REGULAR } -- Disable landing zones
 		startOnFootFREE=0,--{ OFF, NOT_ASSAULT, ALL } -- Start free roam on foot
 		startOnFootMISSION=0,--{ OFF, NOT_ASSAULT, ALL } -- Start missions on foot
 		startOnFootMB_ALL=0,--{ OFF, NOT_ASSAULT, ALL } -- Start Mother base on foot
 		--Debug/system menu
-		telopMode=0,--{ 0-1 } -- Disable mission intro credits
+		printPressedButtons=0,--{ 0-1 } -- Non-save -- 
 		startOffline=0,--{ 0-1 } -- Start offline
 		langOverride=0,--{ 0-1 } -- Mod Menu translation override
+		telopMode=0,--{ 0-1 } -- Disable mission intro credits
+		--appearanceDebugMenu
+		faceFovaDirect=0,--{ 0-1000 } -- Non-save -- 
+		faceDecoFovaDirect=0,--{ 0-1000 } -- Non-save -- 
+		hairFovaDirect=0,--{ 0-1000 } -- Non-save -- 
+		hairDecoFovaDirect=0,--{ 0-1000 } -- Non-save -- 
+		playerTypeDirect="SNAKE",--{ SNAKE, AVATAR, DD_MALE, DD_FEMALE } -- Non-save -- 
+		playerPartsTypeDirect=0,--{ 0-100 } -- Non-save -- 
+		playerCamoTypeDirect=0,--{ 0-1000 } -- Non-save -- 
+		playerFaceIdDirect=0,--{ 0-687 } -- 
+		playerFaceEquipIdDirect=0,--{ 0-100 } -- Non-save -- 
+		faceFova=0,--{ 0-1000 } -- Non-save -- 
+		faceDecoFova=0,--{ 0-1000 } -- Non-save -- 
+		hairFova=0,--{ 0-1000 } -- Non-save -- 
+		hairDecoFova=0,--{ 0-1000 } -- Non-save -- 
+		faceFovaUnknown1=0,--{ 0-50 } -- Non-save -- 
+		faceFovaUnknown2=0,--{ 0-1 } -- Non-save -- 
+		faceFovaUnknown3=0,--{ 0-4 } -- Non-save -- 
+		faceFovaUnknown4=0,--{ 0-4 } -- Non-save -- 
+		faceFovaUnknown5=0,--{ 0-1 } -- Non-save -- 
+		faceFovaUnknown6=0,--{ 0-3 } -- Non-save -- 
+		faceFovaUnknown7=0,--{ 0-303 } -- Non-save -- 
+		faceFovaUnknown8=0,--{ 0-303 } -- Non-save -- 
+		faceFovaUnknown9=0,--{ 0-303 } -- Non-save -- 
+		faceFovaUnknown10=0,--{ 0-3 } -- Non-save -- 
 		--Buddy menu
 		quietRadioMode=0,--{ 0-31 } -- Quiets MB radio track (0=Auto)
+		--Debug stuff menu
+		printOnBlockChange=0,--{ 0-1 } -- Non-save -- 
 	}
 }
 
@@ -329,34 +362,80 @@ profiles.fultonHeaven={
     fultonSleepPenalty=20,--{ 0-100 } -- Target sleeping penalty
     fultonHoldupPenalty=0,--{ 0-100 } -- Target holdup penalty
     fultonDontApplyMbMedicalToSleep=1,--{ 0-1 } -- Dont apply MB medical bonus to sleeping/fainted target
-    fultonHostageHandling="ZERO",--{ DEFAULT, ZERO } -- Hostage handling
+    fultonHostageHandling="ZERO",--Force you to manually extract hostages
   }
 }
 
 --tex aims to match same settings as Subsistence missions
-profiles.subsistencePure={
-  description="Subsistence - Pure",
+profiles.subsistenceGame={
+  description="Subsistence - Game",
   profile={
-    blockInMissionSubsistenceIvars=1,
-
-    disableLzs="REGULAR",
     disableSelectBuddy=1,
     disableHeliAttack=1,
     disableSelectTime=1,
     disableSelectVehicle=1,
     disableHeadMarkers=1,
 
-    disableXrayMarkers=0,
-    disableWorldMarkers=1,
+    disableXrayMarkers=1,
+    disableHeadMarkers=1,
+    disableWorldMarkers=0,
     disableFulton=1,
     clearItems=1,
     clearSupportItems=1,
     setSubsistenceSuit=1,
     setDefaultHand=1,
+--tex now better to Equip none in mission prep
+--    primaryWeaponOsp="EQUIP_NONE",
+--    secondaryWeaponOsp="EQUIP_NONE",
+--    tertiaryWeaponOsp="EQUIP_NONE",
 
-    primaryWeaponOsp="EQUIP_NONE",
-    secondaryWeaponOsp="EQUIP_NONE",
-    tertiaryWeaponOsp="EQUIP_NONE",
+    handLevelSonar="DISABLE",
+    handLevelPhysical="DISABLE",
+    handLevelPrecision="DISABLE",
+    handLevelMedical="DISABLE",
+
+    itemLevelFulton="GRADE1",
+    itemLevelWormhole="DISABLE",
+
+    disableMenuDrop=1,
+    disableMenuBuddy=1,
+    disableMenuAttack=1,
+    disableMenuHeliAttack=1,
+    disableSupportMenu=1,
+
+    abortMenuItemControl=1,
+    disableRetry=0,
+    gameOverOnDiscovery=0,
+    maxPhase="PHASE_ALERT",--Reset
+    
+    dontOverrideFreeLoadout=1,
+  }
+}
+
+--tex additional restrictions on top of Game that 
+profiles.subsistencePure={
+  description="Subsistence - Pure",
+  profile={
+    disableLzs="REGULAR",--tex this setting can be troublesome when trying to start a mission from ACC since it only allows Assault Landing zones, can be a fun restriction when entering from free roam, forces you to either exit on foot, or risk the heli by calling it to the assault LZ
+    disableSelectBuddy=1,
+    disableHeliAttack=1,
+    disableSelectTime=1,
+    disableSelectVehicle=1,
+    disableHeadMarkers=1,
+
+    disableXrayMarkers=1,
+    disableHeadMarkers=1,
+    disableWorldMarkers=0,
+    disableFulton=1,--tex forces you to deal with enemy soldiers, but feel free to adjust if you can't give up on your extraction addiction.
+    fultonHostageHandling="ZERO",--tex Forces you to manually extract hostages (moot with above disabling fulton completely, but good without)
+    clearItems=1,
+    clearSupportItems=1,
+    setSubsistenceSuit=1,
+    setDefaultHand=1,
+--tex now better to Equip none in mission prep
+--    primaryWeaponOsp="EQUIP_NONE",
+--    secondaryWeaponOsp="EQUIP_NONE",
+--    tertiaryWeaponOsp="EQUIP_NONE",
 
     handLevelSonar="DISABLE",
     handLevelPhysical="DISABLE",
@@ -385,9 +464,7 @@ profiles.subsistencePure={
 profiles.subsistenceBounder={
   description="Subsistence - Bounder",
   profile={
-    blockInMissionSubsistenceIvars=1,
-
-    disableLzs="REGULAR",
+    --disableLzs="REGULAR",
     disableSelectBuddy=0,
     disableHeliAttack=1,
     disableSelectTime=1,
@@ -402,9 +479,10 @@ profiles.subsistenceBounder={
     setSubsistenceSuit=0,
     setDefaultHand=1,
 
-    primaryWeaponOsp="EQUIP_NONE",
-    secondaryWeaponOsp="EQUIP_NONE",
-    tertiaryWeaponOsp="EQUIP_NONE",
+--tex now better to Equip none in mission prep
+--    primaryWeaponOsp="EQUIP_NONE",
+--    secondaryWeaponOsp="EQUIP_NONE",
+--    tertiaryWeaponOsp="EQUIP_NONE",
 
     handLevelSonar="DISABLE",
     handLevelPhysical="DISABLE",

@@ -4,7 +4,7 @@ Infinite Heaven features
 YouTube playlist demonstrating many features
 [url=https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF]https://www.youtube.com/playlist?list=PLSKlVTXYh6F_fmq0u9UmN2XTnfdfcHKJF[/url]
 
-All settings in Infinite Heaven start at game defaults and can be adjusted in the Infinite Heaven menus.
+All options in Infinite Heaven start set to game defaults and can be adjusted in the Infinite Heaven menus.
 
 Non menu activated features
 ===========================
@@ -12,8 +12,26 @@ Non menu activated features
 Disables self on FOB
 FOB mode automatically uses defaults/unmodified, this does not affect saved settings on return.
 
-Abort to ACC from title continue 
+Abort to ACC from title continue
 At the title screen hold down ESCAPE for 1.5 seconds, the KJP logo will flash, clicking on continue will load ACC instead of continuing mission.
+
+Manually trigger Skulls attack on Quarantine platform.
+After you have captures some Skulls attack the in their cages to trigger an attack.
+
+Equip 'NONE' for primary and secondary via the normal mission prep equipment select screen.
+The entries will show as a white square with '---' as the text. WARNING: Do not equip these on FOB as there is an equipment check.
+
+Manually trigger Skulls attack on Quarantine platform.
+After you have captures some Skulls attack the in their cages to trigger an attack.
+
+Toggle Disable pull-out in support heli.
+Pressing <Change Stance> while support heli will toggle Disable pull-out. If changing from pull-out to no pull-out you'll still have to exit and enter the heli, but if in disable pull-out pressing it will cause a pull-out.
+
+Manually trigger open heli door at mission start.
+Pressing <Change Stance> while support heli at mission start. Mostly useful with the 'Mission start time till open door' so you can control how long you stay sitting in heli on mission start.
+
+Reload lua scripts in MGSV_TPP without exiting game.
+Hold <Stance>,<Action>,<Ready weapon>,<Binoculars> (Can also use the loadExternalModules command in the Debug menu)
 
 Menu, Options and Settings
 ==========================
@@ -22,6 +40,7 @@ Basic terms used in the Infinite Heaven menu:
 [Option] - [Setting]
 
 Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.
+
 ACC Main menu
 -------------
 1: Select profile : <Profile type>
@@ -53,8 +72,9 @@ ACC Main menu
 15: Camera menu
 16: Time scale menu
 17: Support heli menu
-18: Debug/system menu
-19: Reset all IH settings : (Command)
+18: Progression menu
+19: Debug/system menu
+20: Reset all IH settings : (Command)
 
 World menu
 ----------
@@ -75,30 +95,26 @@ In the game many bases have several mine fields but by default only one is enabl
 Player restrictions menu
 - Settings to customize the game challenge, including subsistence and OSP.
 ------------------------
-1: Block in-mission menu restriction options : Off, On
-Block changing player restrictions from the in-mission menu
-2: Disable support heli attack : Off, On
+1: Disable support heli attack : Off, On
 Stops support heli from engaging targets.
-3: Disable fulton action : Off, On
-4: Force subsistence suit (Olive Drab, no headgear) : Off, On
-5: Set hand type to default : Off, On
-6: Disable landing zones : Off, Assault, Regular
-Disables Assault Landing Zones (those usually in the center of a base that the support heli will circle before landing), or all LZs but Assault LZs
-7: Disable abort mission from pause menu : Off, On
-8: Disable retry on mission fail : Off, On
-9: Game over on combat alert : Off, On
-10: Disable Intel team enemy spotting : Off, On
-11: Disable Intel team herb spotting (requires game restart) : Off, On
+2: Disable fulton action : Off, On
+3: Force subsistence suit (Olive Drab, no headgear) : Off, On
+4: Set hand type to default : Off, On
+5: Disable abort mission from pause menu : Off, On
+6: Disable retry on mission fail : Off, On
+7: Game over on combat alert : Off, On
+8: Disable Intel team enemy spotting : Off, On
+9: Disable Intel team herb spotting (requires game restart) : Off, On
 Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.
-12: Keep equipment Free<>Mission : Off, On
+10: Keep equipment Free<>Mission : Off, On
 Prevents equipment and weapons being reset when going between free-roam and missions.
-13: Marking display menu
-14: Mission-prep restrictions menu
-15: Disable mission support-menus menu
-16: Hand abilities levels menu
-17: Fulton levels menu
-18: Fulton success menu
-19: OSP menu
+11: Marking display menu
+12: Mission-prep restrictions menu
+13: Disable mission support-menus menu
+14: Hand abilities levels menu
+15: Fulton levels menu
+16: Fulton success menu
+17: OSP menu
 
 Marking display menu
 - Toggles for marking in main view. Does not effect marking on iDroid map
@@ -156,7 +172,7 @@ Lets you balance sleeping penalty separately from dying while keeping mb medical
 7: Hostage handling : Default, Must extract (0%)
 
 OSP menu
-- Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it).
+- Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it). LEGACY You should set equip none via mission prep instead.
 --------
 1: Primary weapon OSP : Use selected weapon, Clear weapon
 2: Secondary weapon OSP : Use selected weapon, Clear weapon
@@ -537,30 +553,37 @@ Prevents heli from leaving when you jump on-board, so you can use the gun from a
 Set the height at which the heli hovers in wait mode (not landing mode).
 6: Mission start time till open door : 0-120
 Time from mission start to you opening the door to sit on the side. You can set this lower or 0 to do it immediately, or longer to ride the heli in first person. Press &ltSTANCE&gt to manually open the door.
-7: Start free roam on foot : Off, All but assault LZs, All LZs
-8: Start missions on foot : Off, All but assault LZs, All LZs
-9: Start Mother base on foot : Off, All but assault LZs, All LZs
+7: Disable landing zones : Off, Assault, Regular
+Disables Assault Landing Zones (those usually in the center of a base that the support heli will circle before landing), or all LZs but Assault LZs
+8: Start free roam on foot : Off, All but assault LZs, All LZs
+9: Start missions on foot : Off, All but assault LZs, All LZs
+10: Start Mother base on foot : Off, All but assault LZs, All LZs
+
+Progression menu
+----------------
+1: Unlock playable avatar : (Command)
+Unlock avatar before mission 46
+2: Unlock weapon customization : (Command)
+Unlock without having to complete legendary gunsmith missions
+3: Return Quiet (not reversable) : (Command)
+Instantly return Quiet, runs same code as the Reunion mission 11 replay.
+4: showQuietReunionMissionCount : (Command)
 
 Debug/system menu
 -----------------
 1: Debug IH mode : Off, On
 Switches on some error messages and enables the announce-log during loading.
-2: Disable mission intro credits : Off, On
-3: Start offline : Off, On
+2: loadExternalModules : (Command)
+3: copyLogToPrev : (Command)
+4: printPressedButtons : Off, On
+5: Show position : (Command)
+6: Show missionCode : (Command)
+7: Show game language code : (Command)
+8: appearanceDebugMenu
+9: Start offline : Off, On
 Start the game in offline mode, this also removes the connect option from the pause menu.
-4: Mod Menu translation override : Off, Chinese override Japanese
-5: Unlock playable avatar : (Command)
-Unlock avatar before mission 46
-6: Unlock weapon customization : (Command)
-Unlock without having to complete legendary gunsmith missions
-7: Return Quiet (not reversable) : (Command)
-Instantly return Quiet, runs same code as the Reunion mission 11 replay.
-8: showQuietReunionMissionCount : (Command)
-9: Set questOpenFlag array to false : (Command)
-10: Show position : (Command)
-11: Show missionCode : (Command)
-12: Show game language code : (Command)
-13: appearanceDebugMenu
+10: Mod Menu translation override : Off, Chinese override Japanese
+11: Disable mission intro credits : Off, On
 
 appearanceDebugMenu
 -------------------
@@ -602,20 +625,21 @@ In Mission menu
   The chaingun on the side you start on can still be used.
 2: Force exit helicopter : (Command)
 Lets you exit the helicopter while riding it, mind the fall.
-3: Warp [Mode] : Off, On
+3: Drop current equip : (Command)
+4: Warp [Mode] : Off, On
 Essentially no-clip mode (for those that remember what that means). It teleports your player a small distance each update of which warp direction button you press or hold. Will move you through walls/geometry. The menu navigation/dpad/arrow keys will warp you in that direction, &ltSTANCE&gt will warp you down and &ltCALL&gt will warp you up.
-4: Camera menu
-5: Time scale menu
-6: User marker menu
-7: Buddy menu
-8: Appearance menu
-9: Markers menu
-10: Enemy phases menu
-11: Support heli menu
-12: Debug stuff menu
-13: Soldier item drop chance : 0-100%
+5: Camera menu
+6: Time scale menu
+7: User marker menu
+8: Buddy menu
+9: Appearance menu
+10: Markers menu
+11: Enemy phases menu
+12: Support heli menu
+13: Debug stuff menu
+14: Soldier item drop chance : 0-100%
 Chance soldier will drop an item when eliminated.
-14: Player life scale : 0-650%
+15: Player life scale : 0-650%
 
 Camera menu
 - Lets you move a detached camera, use the main movement stick/keys in combination with other keys/buttons to adjust camera settings, including Zoom, aperture, focus distance.
@@ -726,24 +750,29 @@ Prevents heli from leaving when you jump on-board, so you can use the gun from a
 Set the height at which the heli hovers in wait mode (not landing mode).
 6: Mission start time till open door : 0-120
 Time from mission start to you opening the door to sit on the side. You can set this lower or 0 to do it immediately, or longer to ride the heli in first person. Press &ltSTANCE&gt to manually open the door.
-7: Start free roam on foot : Off, All but assault LZs, All LZs
-8: Start missions on foot : Off, All but assault LZs, All LZs
-9: Start Mother base on foot : Off, All but assault LZs, All LZs
+7: Disable landing zones : Off, Assault, Regular
+Disables Assault Landing Zones (those usually in the center of a base that the support heli will circle before landing), or all LZs but Assault LZs
+8: Start free roam on foot : Off, All but assault LZs, All LZs
+9: Start missions on foot : Off, All but assault LZs, All LZs
+10: Start Mother base on foot : Off, All but assault LZs, All LZs
 
 Debug stuff menu
 ----------------
 1: Debug IH mode : Off, On
 Switches on some error messages and enables the announce-log during loading.
-2: selectedCp : none
-3: setSelectedCpToMarkerObjectCp : (Command)
-4: DEBUG_PrintCpPowerSettings : (Command)
-5: DEBUG_PrintPowersCount : (Command)
-6: DEBUG_PrintReinforceVars : (Command)
-7: DEBUG_PrintSoldierDefine : (Command)
-8: DEBUG_ShowRevengeConfig : (Command)
-9: appearanceDebugMenu
-10: printOnBlockChange : Off, On
-11: Show position : (Command)
+2: loadExternalModules : (Command)
+3: copyLogToPrev : (Command)
+4: selectedCp : none
+5: setSelectedCpToMarkerObjectCp : (Command)
+6: DEBUG_PrintCpPowerSettings : (Command)
+7: DEBUG_PrintPowersCount : (Command)
+8: DEBUG_PrintReinforceVars : (Command)
+9: DEBUG_PrintSoldierDefine : (Command)
+10: DEBUG_ShowRevengeConfig : (Command)
+11: appearanceDebugMenu
+12: printPressedButtons : Off, On
+13: printOnBlockChange : Off, On
+14: Show position : (Command)
 
 appearanceDebugMenu
 -------------------

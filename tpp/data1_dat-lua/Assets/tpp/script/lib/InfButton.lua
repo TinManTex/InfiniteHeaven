@@ -33,7 +33,7 @@ this.buttonMasks={
   MB_DEVICE=8,
   CALL=9,
   INTERROGATE=9,
-  SUBJECT=10,--tex tap=recent, hold binoc/FP --TODO see if trigger on binocular, and see if disable butttons is the same
+  SUBJECT=10,--tex tap=recenter, hold binoc/FP --TODO see if trigger on binocular, and see if disable butttons is the same
   UP=11,
   PRIMARY_WEAPON=11,
   DOWN=12,
@@ -92,12 +92,14 @@ for name,buttonMask in pairs(this.buttonMasks) do
 end
 
 function this.DEBUG_PrintPressed()
-  for name,buttonMask in pairs(this.buttonMasks) do
-    if this.OnButtonDown(buttonMask) then
-      --TppUiCommand.AnnounceLogView("scannedButtonsDirect: ".. PlayerVars.scannedButtonsDirect)
-      --TppUiCommand.AnnounceLogView("scannedButtons: ".. PlayerVars.scannedButtons)
-      --if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then--DEBUG: scannedbuttons instead of direct
-      InfLog.Add(name.."="..buttonMask)
+  if Ivars and Ivars.printPressedButtons:Is(1) then
+    for name,buttonMask in pairs(this.buttonMasks) do
+      if this.OnButtonDown(buttonMask) then
+        --TppUiCommand.AnnounceLogView("scannedButtonsDirect: ".. PlayerVars.scannedButtonsDirect)
+        --TppUiCommand.AnnounceLogView("scannedButtons: ".. PlayerVars.scannedButtons)
+        --if bit.band(PlayerVars.scannedButtonsDirect,buttonMask)==buttonMask then--DEBUG: scannedbuttons instead of direct
+        InfLog.Add(name.."="..buttonMask,true)
+      end
     end
   end
 end
@@ -122,7 +124,7 @@ function this.UpdateHeld()
   end
 end
 function this.UpdatePressed()
-  --this.DEBUG_PrintPressed()--DEBUG
+  this.DEBUG_PrintPressed()
   local scannedButtonsDirect=PlayerVars.scannedButtonsDirect
   local band=bit.band
   for name,buttonMask in pairs(this.buttonMasks) do

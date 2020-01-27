@@ -1,6 +1,69 @@
 --EquipDevelopFlowSetting.lua
 --RETAILPATCH 1090,1.10 various changes and additions
 this={}
+--NOTES, via unknown321 https://github.com/unknown321/mgsmonsterguns/blob/gh-pages/parameters.txt and nasanhak http://forum.xentax.com/viewtopic.php?f=10&t=12407&p=122960#p122960
+
+--nasanhak order of records in these files seems to be strict meaning you can't insert the same number of records at the beginning or in the middle in both the Const and Flow files and expect it to work. The dev pages/chains break. Anything new has to go at the end.
+
+--unknown321 I assume that any parameter below can be overridden by konami via online patches
+--You get patches when you log into server (or just after that, happens only once per game session)
+
+--TppMotherBaseManagement.RegFlwDev{
+--  p50=0,
+--nasanhak combo of p51 and p52 creates the dev chain for an item/weapon - can be customized but if not careful, may break development menu tabs/game in subtle ways
+--  p51=0,--nasanhak order of dev of item chains, from 0, tex if you look at all entries in this files you'll see they're sequential
+--  p52=1,--grade --nasanhak ** combo of p51 and p52 creates the dev chain for an item/weapon - can be customized but if not careful, may break development menu tabs/game in subtle ways
+--  p53=0,--development gmp
+--  p54=100,--deployment cost gmp
+--nasanhak first unit type requirement is not set in this file, or in any file as far as I can tell
+--  p55=0,--MB development cluster level requirement 1 --cannot be zero if a unit type is set
+--  p56={0-7},--MB development cluster 2 id--VERIFY 0=none, 1=command>7=medical, see REF below VERIFY
+--  p57=0,--MB development cluster level requirement 2 --cannot be zero if a unit type is set
+--  p58="<resourceId>",--Development resource 1 id, see resource ids below
+--  p59=0,--Development resource 1 quantity
+--  p60="<resourceId>",--Development resource 2 id,, see resource ids below
+--  p61=0,--Development resource 2 quantity
+--  p62=1,--
+--  p63=0,--
+--  p64=0,--
+--  p65="",--Deployment resource 1 id
+--  p66=0,--Deployment resource 1 quantity
+--  p67="",--Deployment resource 2 id
+--  p68=0,--Deployment resource 2 quantity
+--  p69=0,--{0,1} nasanhak 1=hide DLC from item tabs
+--  p70=0,--
+--  p71=0,--Development time
+--  p72={0-7},--Offline (0) Online (1)
+--  p73=0,--
+--  p74=1--
+--}
+
+--Resource ids
+--TODO figure out which plant is which, find a good place for this info, maybe just wiki link
+--"CommonMetal"
+--"MinorMetal"
+--"PreciousMetal"
+--"FuelResource"
+--"BioticResource"
+--"Plant2000"
+--"Plant2001"
+--"Plant2002"
+--"Plant2003"
+--"Plant2004"
+--"Plant2005"
+--"Plant2006"
+--"Plant2007"
+
+--REF clusters 
+--{
+--"Command",
+--"Combat",
+--"Develop",
+--"BaseDev",
+--"Support",
+--"Spy",
+--"Medical"
+--}
 TppMotherBaseManagement.RegFlwDev{p50=0,p51=0,p52=1,p53=0,p54=100,p55=0,p56=0,p57=0,p58="",p59=0,p60="",p61=0,p62=1,p63=0,p64=0,p65="",p66=0,p67="",p68=0,p69=0,p70=0,p71=0,p72=0,p73=0,p74=1}
 TppMotherBaseManagement.RegFlwDev{p50=1,p51=0,p52=2,p53=7e4,p54=700,p55=7,p56=0,p57=0,p58="",p59=0,p60="",p61=0,p62=0,p63=0,p64=0,p65="",p66=0,p67="",p68=0,p69=0,p70=0,p71=0,p72=0,p73=0,p74=1}
 TppMotherBaseManagement.RegFlwDev{p50=2,p51=0,p52=3,p53=2e5,p54=2e3,p55=20,p56=0,p57=0,p58="Plant2000",p59=60,p60="",p61=0,p62=0,p63=0,p64=0,p65="",p66=0,p67="",p68=0,p69=0,p70=0,p71=18,p72=0,p73=0,p74=1}
@@ -880,4 +943,5 @@ TppMotherBaseManagement.RegFlwDev{p50=874,p51=0,p52=1,p53=1e3,p54=0,p55=0,p56=0,
 TppMotherBaseManagement.RegFlwDev{p50=875,p51=0,p52=1,p53=1e3,p54=0,p55=0,p56=0,p57=0,p58="",p59=0,p60="",p61=0,p62=0,p63=0,p64=0,p65="",p66=0,p67="",p68=0,p69=0,p70=0,p71=5,p72=1,p73=0,p74=1}
 --<RETAILPATCH 1.10
 return this
+
 

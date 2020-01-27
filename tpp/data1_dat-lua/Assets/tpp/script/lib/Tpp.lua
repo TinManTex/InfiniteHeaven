@@ -83,25 +83,19 @@ this.requires={
   "/Assets/tpp/script/lib/TppRanking.lua",
   "/Assets/tpp/script/lib/TppTrophy.lua",
   "/Assets/tpp/script/lib/TppMbFreeDemo.lua",
-  "/Assets/tpp/script/lib/Ivars.lua",--tex>
-  "/Assets/tpp/script/lib/InfLang.lua",
+  "/Assets/tpp/script/lib/IvarProc.lua",--tex>
   "/Assets/tpp/script/lib/InfButton.lua",
   "/Assets/tpp/script/lib/InfMain.lua",
-  "/Assets/tpp/script/lib/InfMenuCommands.lua",
-  "/Assets/tpp/script/lib/InfMenuDefs.lua",
-  "/Assets/tpp/script/lib/InfQuickMenuDefs.lua",
   "/Assets/tpp/script/lib/InfMenu.lua",
   "/Assets/tpp/script/lib/InfEneFova.lua",
   "/Assets/tpp/script/lib/InfEquip.lua",
-  --OFF "/Assets/tpp/script/lib/InfSplash.lua",
   "/Assets/tpp/script/lib/InfVehicle.lua",
   "/Assets/tpp/script/lib/InfRevenge.lua",
-  --OFF "/Assets/tpp/script/lib/InfReinforce.lua",
-  "/Assets/tpp/script/lib/InfCamera.lua",
   "/Assets/tpp/script/lib/InfUserMarker.lua",
-  --CULL"/Assets/tpp/script/lib/InfPatch.lua",
   "/Assets/tpp/script/lib/InfEnemyPhase.lua",
   "/Assets/tpp/script/lib/InfHelicopter.lua",
+  "/Assets/tpp/script/lib/InfCamera.lua",
+  "/Assets/tpp/script/lib/InfWarp.lua",
   "/Assets/tpp/script/lib/InfNPC.lua",
   "/Assets/tpp/script/lib/InfNPCOcelot.lua",
   "/Assets/tpp/script/lib/InfNPCHeli.lua",
@@ -113,7 +107,9 @@ this.requires={
   "/Assets/tpp/script/lib/InfGameEvent.lua",
   "/Assets/tpp/script/lib/InfParasite.lua",
   "/Assets/tpp/script/lib/InfBuddy.lua",
+  "/Assets/tpp/script/lib/InfMBVisit.lua",
   "/Assets/tpp/script/lib/InfInspect.lua",
+  "/Assets/tpp/script/lib/InfPersistence.lua",
   "/Assets/tpp/script/lib/InfHooks.lua",--<
 }
 function this.IsTypeFunc(e)

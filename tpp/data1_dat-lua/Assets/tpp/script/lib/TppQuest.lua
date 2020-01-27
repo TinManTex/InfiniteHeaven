@@ -48,6 +48,7 @@ local QUEST_CATEGORIES={
 }
 local QUEST_CATEGORIES_ENUM=TppDefine.Enum(QUEST_CATEGORIES)
 --tex added categories-v-
+--see http://wiki.tesnexus.com/index.php/Mission_codes#Side_Op_mission_codes (match with quest id after the q in questname below ex questName="ruins_q19010" = 19010
 local questTable={
   --[[001]]{questName="ruins_q19010",questId="ruins_q19010",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1622.974,322.257,1062.973),radius=5,category=QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},
   --[[XXX]]{questName="commFacility_q19013",questId="commFacility_q19013",locationId=TppDefine.LOCATION_ID.AFGH,iconPos=Vector3(1589.157,352.634,47.628),radius=5,category=QUEST_CATEGORIES_ENUM.EXTRACT_INTERPRETER},

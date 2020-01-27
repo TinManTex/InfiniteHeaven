@@ -3,7 +3,6 @@
 local this={}
 
 --LOCALOPT
-local Ivars=Ivars
 local InfMain=InfMain
 local StrCode32=Fox.StrCode32
 local NULL_ID=GameObject.NULL_ID
@@ -79,6 +78,7 @@ function this.InitUpdate()
   end
 end
 function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  local Ivars=Ivars
   if not currentChecks.inGame then
     return
   end

@@ -1,5 +1,6 @@
 -- DOBUILD: 1
 -- FILE: InfInspect.lua
+-- NMC
 -- DESC: Debug functions for inspecting lua.
 
 --tex usage local stringout = InfInspect.Inspect(sometable) InfLog.DebugPrint(stringout) -- cant do (someotherstring .. stringout), must be by itself
@@ -329,7 +330,7 @@ end
 
 setmetatable(inspect, { __call = function(_, ...) return inspect.inspect(...) end })
 
-inspect.Inspect=inspect.inspect--tex
+inspect.Inspect=inspect.inspect--tex coding style
 
 return inspect
 

@@ -75,9 +75,8 @@ function this.DisableBlackLoading()
   TppUI.FinishLoadingTips()
 end
 function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in order laid out, OnAllocate is before OnInitialize
-  --InfLog.PCallDebug(function(missionTable)--tex
+ --DEBUG OFF InfLog.PCallDebug(function(missionTable)--tex can't use consistantly since it triggers yield across c boundary error
     --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate begin")
-    --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator DEBUG
     InfMain.OnAllocateTop(missionTable)--tex
     TppWeather.OnEndMissionPrepareFunction()
     this.DisableGameStatus()
@@ -298,13 +297,11 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
     TppCheckPoint.RegisterCheckPointList(missionTable.sequence.checkPointList)
   end
   --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Onallocate end")--DEBUG
-  --SplashScreen.Show(SplashScreen.Create("dbeinak","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5020_l_alp.ftex",1280,640),0,0.1,0)--tex dog--tex ghetto as 'does it run?' indicator
-  --end,missionTable)--
+  --end,missionTable)--DEBUG
 end
 function this.OnInitialize(missionTable)--NMC: see onallocate for notes
-  --InfLog.PCallDebug(function(missionTable)--tex
+ --OFF InfLog.PCallDebug(function(missionTable)--tex off till I can verify doesn't run into same issue as OnAllocate
     --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize begin")--DEBUG
-    --SplashScreen.Show(SplashScreen.Create("dbbinin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640))--tex eagle--tex ghetto as 'does it run?' indicator
     InfMain.OnInitializeTop(missionTable)--tex
     if TppMission.IsFOBMission(vars.missionCode)then
       TppMission.SetFobPlayerStartPoint()
@@ -482,8 +479,7 @@ function this.OnInitialize(missionTable)--NMC: see onallocate for notes
     TppQuest.AcquireKeyItemOnMissionStart()
     InfMain.OnInitializeBottom(missionTable)--tex
     --InfLog.DebugPrint(Time.GetRawElapsedTimeSinceStartUp().." Oninitialize end")--DEBUG
-    --SplashScreen.Show(SplashScreen.Create("dbeonin","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640),0,0.1,0)--tex eagle--tex ghetto as 'does it run?' indicator
-  --end,missionTable)--tex
+  --end,missionTable)--tex DEBUG
 end
 function this.SetUpdateFunction(missionTable)
   updateList={}

@@ -2,12 +2,12 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r184"
+this.modVersion="r185"
 this.modName="Infinite Heaven"
 
 --LOCALOPT:
 local InfMain=this
-local Ivars=Ivars
+local IvarProc=IvarProc
 local InfButton=InfButton
 local TppMission=TppMission
 local IsFunc=Tpp.IsTypeFunc
@@ -20,7 +20,9 @@ local SendCommand=GameObject.SendCommand
 local Enum=TppDefine.Enum
 local StrCode32=Fox.StrCode32
 
---this.debugSplash=SplashScreen.Create("debugEagle","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",640,640)
+
+this.modulesOK=false
+this.appliedProfiles=false
 
 function this.IsTableEmpty(checkTable)--tex TODO: shove in a utility module
   local next=next
@@ -52,7 +54,7 @@ end
 
 local allowHeavyArmorStr="allowHeavyArmor"
 function this.ForceArmor(missionCode)
-  if Ivars.EnabledForMission(allowHeavyArmorStr,missionCode) then
+  if IvarProc.EnabledForMission(allowHeavyArmorStr,missionCode) then
     return true
   end
   --TODO either I got rid of this functionality at some point or I never implemented it (I could have sworn I did though), search in past versions
@@ -170,7 +172,7 @@ local enableDDEquipStr="enableDDEquip"
 function this.IsDDEquip(missionId)
   local missionCode=missionId or vars.missionCode
   if missionCode~=50050 and missionCode >5 then--tex IsFreeMission hangs on startup? TODO retest
-    return Ivars.EnabledForMission(enableDDEquipStr)
+    return IvarProc.EnabledForMission(enableDDEquipStr)
   end
   return false
 end
@@ -249,7 +251,7 @@ local cpSubTypes={
 
 local changeCpSubTypeStr="changeCpSubType"
 function this.RandomizeCpSubTypeTable()
-  if not Ivars.EnabledForMission(changeCpSubTypeStr) then
+  if not IvarProc.EnabledForMission(changeCpSubTypeStr) then
     this.ResetCpTableToDefault()
     return
   end
@@ -551,6 +553,22 @@ end
 
 --<quest/sideops stuff
 function this.SetSubsistenceSettings()
+  --tex no go, see OnMissionCanStartBottom for alt solution
+  --  if TppMission.IsFOBMission(vars.missionCode) then
+  --    if vars.weapons[TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None then
+  --      --InfLog.Add("TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None")--DEBUG
+  --      TppPlayer.SetInitWeapons({{primaryHip="EQP_WP_30001"}},true)
+  --    end
+  --    if vars.weapons[TppDefine.WEAPONSLOT.SECONDARY]==TppEquip.EQP_None then
+  --      --InfLog.Add("TppDefine.WEAPONSLOT.SECONDARY]==TppEquip.EQP_None")--DEBUG
+  --      TppPlayer.SetInitWeapons({{secondary="EQP_WP_10101"}},true)
+  --    end
+  --    return
+  --  end
+
+
+  --TppPlayer.SetInitWeapons(initSetting,true)
+
   if TppMission.IsFOBMission(vars.missionCode) then
     return
   end
@@ -638,7 +656,7 @@ function this.SetSubsistenceSettings()
 
   for i,ivar in ipairs(ospIvars) do
     if Ivars.inf_event:Is(0) then
-      Ivars.UpdateSettingFromGvar(ivar)
+      IvarProc.UpdateSettingFromGvar(ivar)
     end
 
     local initSetting=ivar:GetTable()
@@ -790,7 +808,7 @@ function this.Messages()
       --          end)
       --        end
       --      },
-      {msg="SaluteRaiseMorale",func=this.CheckSalutes},
+      {msg="SaluteRaiseMorale",func=InfMBVisit.CheckSalutes},
     },
     MotherBaseStage = {
     --      {
@@ -816,7 +834,7 @@ function this.Messages()
     UI={
       --      {msg="EndFadeIn",func=this.FadeIn()},--tex for all fadeins
       {msg="EndFadeIn",sender="FadeInOnGameStart",func=function()--fires on: most mission starts, on-foot free and story missions, not mb on-foot, but does mb heli start
-        --InfLog.DebugPrint"FadeInOnGameStart"--DEBUG
+        --InfLog.Add("FadeInOnGameStart",true)--DEBUG
         this.FadeInOnGameStart()
         InfParasite.FadeInOnGameStart()
       end},
@@ -874,7 +892,7 @@ function this.Messages()
         end},
     },
     Weather = {
-      {msg="Clock",sender="MbVisitDay",func=this.OnMbVisitDay},
+      {msg="Clock",sender="MbVisitDay",func=InfMBVisit.OnMbVisitDay},
     },
     Block={
       {msg="StageBlockCurrentSmallBlockIndexUpdated",func=function(blockIndexX,blockIndexY,clusterIndex)
@@ -945,7 +963,7 @@ function this.OnDamage(gameId,attackId,attackerId)
     InfParasite.OnDamage(gameId,attackId,attackerId)
   elseif typeIndex==TppGameObject.GAME_OBJECT_TYPE_HOSTAGE2 then
     if vars.missionCode==30250 then
-      InfParasite.OnDamageMbqfParasite(gameId,attackId,attackerId)  
+      InfParasite.OnDamageMbqfParasite(gameId,attackId,attackerId)
     end
   elseif typeIndex~=TppGameObject.GAME_OBJECT_TYPE_SOLDIER2 then--and typeIndex~=TppGameObject.GAME_OBJECT_TYPE_HELI2 then
     return
@@ -1021,6 +1039,8 @@ end
 
 --msg called fadeins
 function this.FadeInOnGameStart()
+  this.WeaponVarsSanityCheck()
+
   if TppMission.IsFOBMission(vars.missionCode)then
     return
   end
@@ -1037,15 +1057,32 @@ function this.FadeInOnGameStart()
   --InfMenu.ModWelcome()
 end
 
-local appliedProfiles=false
-function this.OnEnterACC()
-  InfMenu.ModWelcome()
 
-  if not appliedProfiles then
-    appliedProfiles=true
-    --InfLog.DebugPrint"SetupInfProfiles"--DEBUG
-    local profileNames=Ivars.SetupInfProfiles()
-    Ivars.ApplyInfProfiles(profileNames)
+function this.OnEnterACC()
+  if not this.modulesOK then
+    this.ModuleErrorMessage()
+  else
+    InfMenu.ModWelcome()
+
+    --tex dummy/EQUIP_NONE hangun/assault
+    local developIds={
+      900,
+      901,
+    }
+    for i,developId in ipairs(developIds) do
+      if not TppMotherBaseManagement.IsEquipDevelopedFromDevelopID{equipDevelopID=developId} then
+        InfLog.Add("SetEquipDeveloped "..developId)
+        TppMotherBaseManagement.SetEquipDeveloped{equipDevelopID=developId}
+      end
+    end
+
+    --tex only want this on enter ACC because changing vars on a mission is not a good idea
+    if not this.appliedProfiles then
+      this.appliedProfiles=true
+      --InfLog.DebugPrint"SetupInfProfiles"--DEBUG
+      local profileNames=IvarProc.SetupInfProfiles()
+      IvarProc.ApplyInfProfiles(profileNames)
+    end
   end
 end
 
@@ -1061,8 +1098,6 @@ function this.ClearMarkers()
     TppSoldier2.SetDisableMarkerModelEffect{enabled=true}
   end
 end
-
-
 
 function this.ChangeMaxLife(setOn1)
   --tex player life values for difficulty. Difficult to track down the best place for this, player.changelifemax hangs anywhere but pretty much in game and ready to move, Anything before the ui ending fade in in fact, why.
@@ -1090,17 +1125,6 @@ function this.ChangeMaxLife(setOn1)
     Player.ChangeLifeMaxValue(newMax)
   end
 end
-
---ivar update system
-local updateIvars={
-  Ivars.phaseUpdate,
-  Ivars.warpPlayerUpdate,
-  Ivars.adjustCameraUpdate,
-  Ivars.heliUpdate,
-  Ivars.npcUpdate,
-  Ivars.npcOcelotUpdate,
-  Ivars.npcHeliUpdate,
-}
 
 --tex called at very start of TppMain.OnInitialize, use mostly for hijacking missionTable scripts
 function this.OnInitializeTop(missionTable)
@@ -1201,8 +1225,8 @@ function this.OnMissionCanStartBottom()
   end
 
   local currentChecks=this.UpdateExecChecks(this.execChecks)
-  for i=1,#updateIvars do
-    local ivar=updateIvars[i]
+  for i=1,#Ivars.updateIvars do
+    local ivar=Ivars.updateIvars[i]
     if IsFunc(ivar.OnMissionCanStart) then
       ivar.OnMissionCanStart(currentChecks)
     end
@@ -1213,7 +1237,7 @@ function this.OnMissionCanStartBottom()
   --    Player.SetItemLevel(TppEquip.EQP_IT_Fulton_WormHole,0)
   --  end
 
-  this.StartLongMbVisitClock()
+  InfMBVisit.StartLongMbVisitClock()
 
   local locationName=InfMain.GetLocationName()
   if Ivars.disableLzs:Is"ASSAULT" then
@@ -1248,8 +1272,8 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
   this.messageExecTable=Tpp.MakeMessageExecTable(this.Messages())
 
   local currentChecks=this.UpdateExecChecks(this.execChecks)
-  for i=1,#updateIvars do
-    local ivar=updateIvars[i]
+  for i=1,#Ivars.updateIvars do
+    local ivar=Ivars.updateIvars[i]
     if IsFunc(ivar.ExecInit) then
       this.ExecInit(currentChecks,ivar.execCheckTable,ivar.ExecInit)
     end
@@ -1261,7 +1285,7 @@ function this.Init(missionTable)--tex called from TppMain.OnInitialize
 
   this.UpdateHeliVars()
 
-  this.ClearMoraleInfo()
+  InfMBVisit.ClearMoraleInfo()
   --end,missionTable)--DEBUG
 end
 
@@ -1279,7 +1303,7 @@ function this.OnMissionGameEndTop()
   end
 
   if vars.missionCode==30050 or vars.missionCode==30250 then
-    this.CheckMoraleReward()
+    InfMBVisit.CheckMoraleReward()
   end
 end
 
@@ -1403,38 +1427,32 @@ function this.Update()
     InfButton.UpdateHeld()
     InfButton.UpdateRepeatReset()
 
-    local abortButton=InfButton.ESCAPE
-    InfButton.buttonStates[abortButton].holdTime=2
-
-    if InfButton.OnButtonHoldTime(abortButton) then
-      if gvars.ini_isTitleMode then
-        local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
-        SplashScreen.Show(splash,0,0.3,0)
-        this.abortToAcc=true
-        InfMain.ClearOnAbort()
-      else--elseif currentChecks.inGame then--WIP
-      --this.ClearStatus()
-      end
-    end
+    this.DoControlSet(currentChecks)
 
     ---Update shiz
-    InfMenu.Update(currentChecks)
-    currentChecks.inMenu=InfMenu.menuOn
+    if not this.modulesOK then
+      if InfButton.OnButtonHoldTime(InfMenu.toggleMenuButton) then
+        this.ModuleErrorMessage()
+      end
+    else
+      InfMenu.Update(currentChecks)
+      currentChecks.inMenu=InfMenu.menuOn
 
-    for i=1,#updateIvars do
-      local ivar=updateIvars[i]
-      if ivar.setting>0 or ivar.allwaysExec then
-        --tex ivar.updateRate is either number or another ivar
-        local updateRate=ivar.updateRate or 0
-        local updateRange=ivar.updateRange or 0
-        if IsTable(updateRate) then
-          updateRate=updateRate.setting
-        end
-        if IsTable(updateRange) then
-          updateRange=updateRange.setting
-        end
+      for i=1,#Ivars.updateIvars do
+        local ivar=Ivars.updateIvars[i]
+        if ivar.setting>0 or ivar.allwaysExec then
+          --tex ivar.updateRate is either number or another ivar
+          local updateRate=ivar.updateRate or 0
+          local updateRange=ivar.updateRange or 0
+          if IsTable(updateRate) then
+            updateRate=updateRate.setting
+          end
+          if IsTable(updateRange) then
+            updateRange=updateRange.setting
+          end
 
-        this.ExecUpdate(currentChecks,this.currentTime,ivar.execCheckTable,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
+          this.ExecUpdate(currentChecks,this.currentTime,ivar.execCheckTable,ivar.execState,updateRate,updateRange,ivar.ExecUpdate)
+        end
       end
     end
     ---
@@ -1495,7 +1513,49 @@ function this.ExecUpdate(currentChecks,currentTime,execChecks,execState,updateRa
   --end
 end
 
+function this.DoControlSet(currentChecks)
+  local abortButton=InfButton.ESCAPE
+  InfButton.buttonStates[abortButton].holdTime=2
 
+  if InfButton.OnButtonHoldTime(abortButton) then
+    if gvars.ini_isTitleMode then
+      local splash=SplashScreen.Create("abortsplash","/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",640,640)
+      SplashScreen.Show(splash,0,0.3,0)
+      this.abortToAcc=true
+      InfMain.ClearOnAbort()
+    else--elseif currentChecks.inGame then--WIP
+    --this.ClearStatus()
+    end
+  end
+
+
+  if currentChecks.inGame then
+    local combo={
+      InfButton.HOLD,
+      InfButton.DASH,
+      InfButton.ACTION,
+      InfButton.SUBJECT,
+    }
+    local comboActive=true
+    for i,button in ipairs(combo)do
+      if not InfButton.ButtonHeld(button) then
+        comboActive=false
+        break
+      end
+    end
+
+    if comboActive then
+      for i,button in ipairs(combo)do
+        InfButton.buttonStates[button].heldStart=0
+      end
+      InfLog.DebugPrint("LoadExternalModules")
+      this.LoadExternalModules()
+      if not this.modulesOK then
+        this.ModuleErrorMessage()
+      end
+    end
+  end
+end
 
 --warp mode,camadjust
 --config
@@ -1516,115 +1576,6 @@ this.speedModeButton=InfButton.ACTION
 
 this.nextEditCamButton=InfButton.RIGHT
 this.prevEditCamButton=InfButton.LEFT
-
-
-
---init
-function this.OnActivateWarpPlayer()
-  this.ActivateControlSet()
-
-end
-
-function this.ActivateControlSet()
-  InfButton.buttonStates[this.moveRightButton].decrement=0.1
-  InfButton.buttonStates[this.moveLeftButton].decrement=0.1
-  InfButton.buttonStates[this.moveForwardButton].decrement=0.1
-  InfButton.buttonStates[this.moveBackButton].decrement=0.1
-  InfButton.buttonStates[this.moveUpButton].decrement=0.1
-  InfButton.buttonStates[this.moveDownButton].decrement=0.1
-
-  local repeatRate=0.06
-  local repeatRateUp=0.04
-  InfButton.buttonStates[this.moveRightButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.moveLeftButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.moveForwardButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.moveBackButton].repeatRate=repeatRate
-  InfButton.buttonStates[this.moveUpButton].repeatRate=repeatRateUp
-  InfButton.buttonStates[this.moveDownButton].repeatRate=repeatRate
-
-  --WIP this.DisableAction(Ivars.warpPlayerUpdate.disableActions)
-end
-
-function this.OnDeactivateWarpPlayer()
---this.EnableAction(Ivars.warpPlayerUpdate.disableActions)
-end
-
-function this.UpdateWarpPlayer(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
-  if currentChecks.inMenu then
-    return
-  end
-
-  if not currentChecks.inGame or currentChecks.inHeliSpace then
-    if Ivars.warpPlayerUpdate:Is(1) then
-      Ivars.warpPlayerUpdate:Set(0)
-    end
-    return
-  end
-
-  if Ivars.warpPlayerUpdate:Is(0) then
-    return
-  end
-
-  this.DoControlSet(currentChecks)
-end
-
-function this.DoControlSet(currentChecks)
-  local warpAmount=1
-  local warpUpAmount=1
-
-  local moveDir={}
-  moveDir[1]=0
-  moveDir[2]=0
-  moveDir[3]=0
-
-  local didMove=false
-
-  if InfButton.OnButtonDown(this.moveForwardButton)
-    or InfButton.OnButtonRepeat(this.moveForwardButton) then
-    moveDir[3]=warpAmount
-    didMove=true
-  end
-
-  if InfButton.OnButtonDown(this.moveBackButton)
-    or InfButton.OnButtonRepeat(this.moveBackButton) then
-    moveDir[3]=-warpAmount
-    didMove=true
-  end
-
-  if InfButton.OnButtonDown(this.moveRightButton)
-    or InfButton.OnButtonRepeat(this.moveRightButton) then
-    moveDir[1]=-warpAmount
-    didMove=true
-  end
-
-  if InfButton.OnButtonDown(this.moveLeftButton)
-    or InfButton.OnButtonRepeat(this.moveLeftButton) then
-    moveDir[1]=warpAmount
-    didMove=true
-  end
-
-  if InfButton.OnButtonDown(this.moveUpButton)
-    or InfButton.OnButtonRepeat(this.moveUpButton) then
-    moveDir[2]=warpUpAmount
-    didMove=true
-  end
-
-  if InfButton.OnButtonDown(this.moveDownButton)
-    or InfButton.OnButtonRepeat(this.moveDownButton) then
-    moveDir[2]=-warpAmount
-    didMove=true
-  end
-
-  if didMove then
-    local currentPos = Vector3(vars.playerPosX, vars.playerPosY, vars.playerPosZ)
-    local vMoveDir=Vector3(moveDir[1],moveDir[2],moveDir[3])
-    local rotYQuat=Quat.RotationY(TppMath.DegreeToRadian(vars.playerRotY))
-    local playerMoveDir=rotYQuat:Rotate(vMoveDir)
-    local warpPos=currentPos+playerMoveDir
-    TppPlayer.Warp{pos={warpPos:GetX(),warpPos:GetY(),warpPos:GetZ()},rotY=vars.playerCameraRotation[1]}
-  end
-end
-
 
 --heli, called from TppMain.Onitiialize, so should only be 'enable/change from default', VERIFY it's in the right spot to override each setting
 function this.UpdateHeliVars()
@@ -1668,8 +1619,6 @@ function this.UpdateHeliVars()
   --end
 end
 
-
-
 function this.OnMenuOpen()
 
 end
@@ -1687,11 +1636,11 @@ function this.OnMenuClose()
 end
 
 
-local controlModes={
-  Ivars.warpPlayerUpdate,
-  Ivars.adjustCameraUpdate,
-}
 function this.GetActiveControlMode()
+  local controlModes={
+    Ivars.warpPlayerUpdate,
+    Ivars.adjustCameraUpdate,
+  }
   for i,ivar in ipairs(controlModes)do
     if ivar:Is(1) then
       return ivar
@@ -1706,8 +1655,6 @@ function this.HeliOrderRecieved()
     InfMenu.PrintLangId"order_recieved"
   end
 end
-
-
 
 --tex has no effect sadly, only boss quiet gameobject i guess
 function this.SetQuietHumming(hummingFlag)
@@ -1732,7 +1679,6 @@ this.baseNames={
     "afgh_tentNorth_ob",--Guard Post 05, NE Yakho Oboo Supply Outpost--note: not in 30010 interrogate
     "afgh_enemyNorth_ob",--Guard Post 06, NE Wakh Sind Barracks
     "afgh_cliffWest_ob",--Guard Post 07, NW Sakhra Ee Village
-
     "afgh_tentEast_ob",--Guard Post 08, SE Yakho Oboo Supply Outpost
     "afgh_enemyEast_ob",--Guard Post 09, East Wakh Sind Barracks
     "afgh_cliffEast_ob",--Guard Post 10, East Sakhra Ee Village
@@ -2541,9 +2487,9 @@ this.heliColorNames={
 local startOnFootStr="startOnFoot"
 function this.IsStartOnFoot(missionCode,isAssaultLz)
   local missionCode=missionCode or vars.missionCode
-  local enabled=Ivars.EnabledForMission(startOnFootStr,missionCode)
+  local enabled=IvarProc.EnabledForMission(startOnFootStr,missionCode)
 
-  local assault=Ivars.IsForMission(startOnFootStr,"NOT_ASSAULT",missionCode)
+  local assault=IvarProc.IsForMission(startOnFootStr,"NOT_ASSAULT",missionCode)
   if isAssaultLz and assault then
     return false
   else
@@ -2565,186 +2511,6 @@ this.locationIdForName={
   mtbs=50,
   mbqf=55,
 }
-
---mbmorale
---TUNE tex TODO: do I want to fuzz these?
-local rewardOnSalutesCount=14--12 is nice if stacking since it's a division of total, but it's just a smidgen too easy for a single
-local rewardOnClustersCount={
-  [5]=true,
-  [7]=true
-}
-local rewardOnVisitDaysCount=3
-local revengeDecayOnVisitDaysCount=3
-
-local saluteClusterCounts={}
-local visitedClusterCounts={}
-local visitDaysCount=0
-
-local lastSalute=0
-
-local saluteRewards=0
-local clusterRewards={}
-local longVisitRewards=0
-local revengeDecayCount=0
-
-function this.ClearMoraleInfo()
-  if vars.missionCode~=30050 and vars.missionCode~=30250 then
-    return
-  end
-
-  for i=1,#TppDefine.CLUSTER_NAME+1 do
-    saluteClusterCounts[i]=0
-    visitedClusterCounts[i]=false
-  end
-  visitDaysCount=0
-
-  saluteRewards=0
-  for n,bool in pairs(rewardOnClustersCount) do
-    clusterRewards[n]=false
-  end
-  longVisitRewards=0
-
-  revengeDecayCount=0
-
-  lastSalute=0
-end
-
-function this.PrintMoraleInfo()
-  InfLog.DebugPrint("saluteRewards:"..saluteRewards)
-end
-
-function this.GetTotalSalutes()
-  local total=0
-  for i=1,#TppDefine.CLUSTER_NAME+1 do
-    total=total+saluteClusterCounts[i]
-  end
-  return total
-end
-
-function this.CheckSalutes()
-  --InfLog.PCall(function()--DEBUG
-  if (vars.missionCode==30050 or vars.missionCode==30250) and Ivars.mbMoraleBoosts:Is(1) then
-    if vars.missionCode==30250 then--PATCHUP
-      rewardOnSalutesCount=6--tex not so many out there, plus they get lonely
-    end
-
-    local currentCluster=mtbs_cluster.GetCurrentClusterId()
-
-    saluteClusterCounts[currentCluster]=saluteClusterCounts[currentCluster]+1
-    local totalSalutes=this.GetTotalSalutes()
-    --InfLog.DebugPrint("SaluteRaiseMorale cluster "..currentCluster.." count:"..saluteClusterCounts[currentCluster].. " total sulutes:"..totalSalutes)--DEBUG
-    --InfLog.PrintInspect(saluteClusterCounts)--DEBUG
-
-    local modTotalSalutes=totalSalutes%rewardOnSalutesCount
-    --InfLog.DebugPrint("totalSalutes % rewardSalutesCount ="..modTotalSalutes)--DEBUG
-    if modTotalSalutes==0 then
-      saluteRewards=saluteRewards+1
-      --InfLog.DebugPrint("REWARD for "..totalSalutes.." salutes")--DEBUG
-      InfMenu.PrintLangId"mb_morale_visit_noticed"
-    end
-
-    local totalClustersVisited=0
-    for clusterId,saluteCount in pairs(saluteClusterCounts) do
-      if saluteCount>0 then
-        totalClustersVisited=totalClustersVisited+1
-      end
-    end
-    --InfLog.DebugPrint("totalClustersVisited:"..totalClustersVisited)--DEBUG
-    if rewardOnClustersCount[totalClustersVisited] and clusterRewards[totalClustersVisited]==false then
-      clusterRewards[totalClustersVisited]=true
-      --InfLog.DebugPrint("REWARD for ".. totalClustersVisited .." clusters visited")--DEBUG
-      InfMenu.PrintLangId"mb_morale_visit_noticed"
-    end
-
-    lastSalute=Time.GetRawElapsedTimeSinceStartUp()
-  end
-  --end)--
-end
-
---clusterId indexed from 0
---CULL
-function this.CheckClusterMorale(clusterId)
-  InfLog.PCall(function(clusterId)
-    if vars.missionCode==30050 and Ivars.mbMoraleBoosts:Is(1) then
-      InfLog.DebugPrint("MotherBaseCurrentClusterActivated "..clusterId)--DEBUG
-      visitedClusterCounts[clusterId+1]=true
-      InfLog.PrintInspect(visitedClusterCounts)--DEBUG
-    end
-  end,clusterId)
-end
-
-function this.CheckMoraleReward()
-  local moraleBoost=0
-  --tex was considering stacking, but even at the minimum 1 it's close to OP with a large staff size
-  --actually with the standard morale decay, and making it take some effort to get in the first place it should be ok
-
-  if Ivars.mbMoraleBoosts:Is(1) then
-    for numClusters,reward in pairs(clusterRewards) do
-      if reward then
-        moraleBoost=moraleBoost+1
-      end
-    end
-
-    if saluteRewards>0 then
-      moraleBoost=moraleBoost+saluteRewards
-    end
-
-    if longVisitRewards>0 then
-      moraleBoost=moraleBoost+longVisitRewards
-    end
-
-    --InfLog.DebugPrint("Global moral boosted by "..moraleBoost.." by visit")--DEBUG
-    if moraleBoost>0 then
-      InfMenu.PrintLangId"mb_morale_boosted"
-      TppMotherBaseManagement.IncrementAllStaffMorale{morale=moraleBoost}
-    end
-  end
-end
-
-function this.GetMbVisitRevengeDecay()
-  if visitDaysCount>0 then
-    return revengeDecayCount
-  end
-  return 0
-end
-
---mbvisit
---GOTCHA: it's a clock time that registered, so registering current + 12 hour will trigger first in 12 hours, then again in 24
---so just register current time if you want 24 from start
---REF
---lvl 1 cigar is 6 cigars of 12hr so 3 day, 1 cigar about 15-17 seconds (takes a couple of seconds anim before time actually starts accell)
---lvl 2 is 8 cigars of 24hr so 8 days, ~28 seconds realtime
---lvl 3 is 10 cigars of 36hr so 15 days ~40 seconds
-function this.StartLongMbVisitClock()
-  if vars.missionCode~=30050 and vars.missionCode~=30250 then
-    return
-  end
-
-  visitDaysCount=0
-
-  local currentTime=TppClock.GetTime("number")
-  TppClock.RegisterClockMessage("MbVisitDay",currentTime)
-end
-function this.OnMbVisitDay(sender,time)
-  if vars.missionCode==30050 or vars.missionCode==30250 then
-    --InfLog.DebugPrint"OnMbVisitDay"--DEBUG
-    visitDaysCount=visitDaysCount+1
-    if visitDaysCount>0 then
-      local modLongVisit=visitDaysCount%rewardOnVisitDaysCount
-      if modLongVisit==0 then
-        longVisitRewards=longVisitRewards+1
-        InfMenu.PrintLangId"mb_morale_visit_noticed"
-      end
-      local modRewardDecay=visitDaysCount%revengeDecayOnVisitDaysCount
-      if modRewardDecay==0 then
-        revengeDecayCount=revengeDecayCount+1
-        -- TODO message?
-      end
-    end
-  else
-    TppClock.UnregisterClockMessage("MbVisitDay")
-  end
-end
 
 --tex doesn't seem to work, either I'm doing something wrong or the buddy system doesnt use it for mb
 function this.OverwriteBuddyPosForMb()
@@ -3027,6 +2793,94 @@ function this.PlayerVarsSanityCheck()
       end
     end
   end
+end
+
+function this.WeaponVarsSanityCheck()
+  --tex throw on some default weapons if using dummy/equip none so to not run afoul of CheckPlayerEquipmentServerItemCorrect
+  --see SetSubsistenceSettings for alt attempt that doesn't seem to work.
+  --TODO: currently the weapons arent added via RequestLoadToEquipMissionBlock so weapons wont be usable, but then user is going into fob with equip_none so whatev
+  if TppMission.IsFOBMission(vars.missionCode) then
+    local changedWeapon=vars.weapons[TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None or vars.weapons[TppDefine.WEAPONSLOT.SECONDARY]==TppEquip.EQP_None
+    if changedWeapon then
+      InfMenu.PrintLangId"fob_weapon_change"
+    end
+    if vars.weapons[TppDefine.WEAPONSLOT.PRIMARY_HIP]==TppEquip.EQP_None then
+      --SVG-76 grade 1
+      Player.ChangeEquip{
+        equipId=TppEquip.EQP_WP_East_ar_010,
+        stock=31,
+        stockSub=0,
+        ammo=180,
+        ammoSub=0,
+        dropPrevEquip = false,
+      }
+    end
+    if vars.weapons[TppDefine.WEAPONSLOT.SECONDARY]==TppEquip.EQP_None then
+      --Wu S grade 1
+      Player.ChangeEquip{
+        equipId=TppEquip.EQP_WP_West_thg_010,
+        stock=8,
+        stockSub=0,
+        ammo=14,
+        ammoSub=0,
+        suppressorLife=100,
+        isSuppressorOn=true,
+        isLightOn=false,
+        dropPrevEquip=false,
+      }
+    end
+  end
+end
+
+function this.LoadExternalModule(moduleName)
+  local module=_G[moduleName]
+  if module and module.PreModuleReload then
+    module.PreModuleReload()
+  end
+
+  --tex clear so require reloads file, kind of defeats purpose of using require, but requires path search is more useful
+  package.loaded[moduleName]=nil
+  local sucess,module=pcall(require,moduleName)
+  if not sucess then
+    InfLog.Add(module)
+    InfLog.DebugPrint("Could not load module "..moduleName)
+  else
+    _G[moduleName]=module
+  end
+end
+
+--tex TODO expose
+this.externalModules={
+  "Ivars",
+  "InfMenuCommands",
+  "InfQuickMenuCommands",
+  "InfLang",
+  "InfMenuDefs",
+  "InfQuickMenuDefs",
+}
+--SIDE: modules,this.modulesOK
+function this.LoadExternalModules()
+  for i,moduleName in ipairs(this.externalModules) do
+    this.LoadExternalModule(moduleName)
+  end
+  this.modulesOK=true
+  for i,moduleName in ipairs(this.externalModules) do
+    if not _G[moduleName] then
+      this.modulesOK=false
+    end
+  end
+end
+
+function this.ModuleErrorMessage()
+  --tex TODO: if InfLang then printlangid else -v-
+  InfLog.DebugPrint"Infinite Heaven is not installed correctly. Could not load modules from MGSV_TPP\\mod\\"
+end
+
+--EXEC
+--WIP, TODO: consider where I want initial load
+this.LoadExternalModules()
+if not this.modulesOK then
+  this.ModuleErrorMessage()
 end
 
 return this

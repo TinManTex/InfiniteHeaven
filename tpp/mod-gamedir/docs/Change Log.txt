@@ -1,5 +1,32 @@
 Infinite Heaven changelog
 
+r185 - 2016-09-30
+Feature: Equip 'NONE' for primary and secondary via the normal mission prep equipment select screen. The entries will show as a white square with '---'' as the text - thanks unknown321 for the mod/research.
+
+Option: Drop current equip - thanks ThreeSocks for the original mod, and the many others who have requested it be included in IH since then.
+
+QuickMenu: 
+Now customizable by editing QuickMenuDefs in MGSV_TPP\mod 
+Instant flag for Quick menu commands to allow TSM instant activation.
+Added Drop current equip on <LIGHT_SWITCH> (X key/Dpad right)
+
+AutoDoc: Features header changed from txt file to table. More features documented.
+
+Option: loadExternalModules - reloads the lua files in MGSV_TPP\mod
+(via debug menu)
+LoadExternalModules combo <STANCE>,<ACTION>,<HOLD>,<SUBJECT>
+
+Refactor: InfProfiles.lua external/run time reload on profiles option select.
+Refactor: Ivars,InfMenuDefs,InfQuickMenuDefs,InfMenuCommands,InfLang load externally via InfMain.LoadExternalModules
+Refactor: InfQuickMenuDefs some functions to direct references, rest split to InfQuickMenuDefs.
+Refactor: InfMain - Dependancy on Ivars (mostly tables of ivars I shifted out of functions for optimization), updateIvars shifted to Ivars and built on load.
+Refactor: Ivars split into IvarProc for functions that operate on ivars, leaving Ivars as just the definitions (and some setup)
+Refactor: InfMain split to InfMBVisit, InfWarp
+Menu: Shifted 'Disable landing zones' option from Player restrictions menu to Support heli menu, seems a better fit.
+Split Debug/System menu to Progression menu
+
+Profiles: Added 'Subsistence - Game' to be closer to actual Game subsistence, leaving Pure as a kind of Subsistence+
+
 r184 - 2016-09-26
 Fixed: Quick menu should not activate if holding a quick menu command button then holding the quick menu on button(CALL), will only be activated on quick menu on button(CALL) held then pressing a quick menu command button - thanks LucrassKelvac for your report.
 I'm aware some people will still have issue with how quick menu is activated, depending on how they play. Quick menu will be much more configurable in comming version.
@@ -11,7 +38,6 @@ Improved: Added delay on quick menu command activation. Should mean less acciden
 r182 - 2016-09-22
 Fixed: Being unable to ready weapon when all Custom equip options are turned on and prep config has all weapons set - thanks Gambchon for the report and save file.
 Option: mbqfEnableSoldiers - Force enable Quaranine platform soldiers - in the normal game the Qurantine platform soldiers are disabled once you capture Skulls. This option re-enables them.
-
 (via Mother Base menu)
 Added: IH visit morale support for Quarantine plat.
 Added: Suit support for Quarantine plat.
@@ -20,7 +46,7 @@ Added: Skulls attack support for Quarantine plat - no seperate option, uses 'Ena
 Exposed: mbEnableLethalActions - Allow lethal actions - Enables lethal weapons and actions on Mother Base. You will still get a game over if you kill staff.
 (via Mother Base menu)
 
-r181
+r181 
 InfMessageLog: Realised I was being stupid and why my prior uses of io failed. message log outputs to file now. God, how many months of me thinking the module was blocked lol - thanks TideGear for putting me in the mindset to test try it again.
 Append mode still seems to be no-go, gives 'Domain error', same message most other errors (open 'r' with no file found).
 Refactor: InfMessageLog/AddMessage renamed to InfLog/Add. Less typing for something thats going to get a lot of use.

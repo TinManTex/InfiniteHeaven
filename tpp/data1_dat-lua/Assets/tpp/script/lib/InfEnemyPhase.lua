@@ -7,7 +7,6 @@ local this={}
 --RESEARCH music also starts up
 --then can shift to game msg="ChangePhase" subscription
 --state
-local Ivars=Ivars
 local InfMain=InfMain
 local TppLocation=TppLocation
 local PHASE_SNEAK=TppGameObject.PHASE_SNEAK
@@ -26,6 +25,7 @@ function this.Init(missionTable)
 end
 
 function this.Update(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
+  local Ivars=Ivars
   local vars=vars
   local mvars=mvars
 

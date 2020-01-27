@@ -1,4 +1,3 @@
--- DOBUILD: 1
 --InfMenuCommands.lua
 local this={}
 --tex lines kinda blurry between Commands and Ivars, currently commands arent saved/have no gvar associated
@@ -28,7 +27,7 @@ this.resetAllSettingsItem={
   OnChange=function()
     InfMenu.PrintLangId"setting_all_defaults"
     InfMenu.ResetSettings()
-    Ivars.PrintNonDefaultVars()
+    IvarProc.PrintNonDefaultVars()
     InfMenu.PrintLangId"done"
     InfMenu.MenuOff()
   end,
@@ -52,7 +51,7 @@ this.applySelectedProfile={
     end
 
     InfMenu.PrintLangId"applying_profile"
-    Ivars.ApplyProfile(profileInfo.profile)
+    IvarProc.ApplyProfile(profileInfo.profile)
   end,
 }
 
@@ -65,7 +64,7 @@ this.resetSelectedProfile={
     end
 
     InfMenu.PrintLangId"applying_profile"
-    Ivars.ResetProfile(profileInfo.profile)
+    IvarProc.ResetProfile(profileInfo.profile)
   end,
 }
 
@@ -78,7 +77,7 @@ this.viewProfile={
     end
 
     local profileMenu=InfMenu.BuildProfileMenu(profileInfo.profile)
-    Ivars.ApplyProfile(profileInfo.profile)
+    IvarProc.ApplyProfile(profileInfo.profile)
     InfMenu.GoMenu(profileMenu)
   end,
 }
@@ -86,7 +85,7 @@ this.viewProfile={
 this.revertProfile={
   OnChange=function()
     --tex revertProfile is built in BuildProfileMenu
-    Ivars.ApplyProfile(InfMenu.currentMenu.revertProfile)
+    IvarProc.ApplyProfile(InfMenu.currentMenu.revertProfile)
     InfMenu.GoBackCurrent()
   end,
 }
@@ -590,8 +589,7 @@ this.DEBUG_PrintInterrogationInfo={
     InfLog.DebugPrint("quest cpName:"..cpName)
   end
 }
-
----
+--
 local toggle1=false
 local index1Min=0
 local index1Max=1
@@ -599,7 +597,10 @@ local index1=index1Min
 this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
-
+--WIP
+    local defaultSlot=true
+    local onlyNonDefault=false
+    InfProc.WriteProfile(defaultSlot,onlyNonDefault)
 
     InfLog.DebugPrint("index1:"..index1)
     index1=index1+1
@@ -610,17 +611,16 @@ this.DEBUG_SomeShiz={
   end
 }
 
-
-
-
-
 local index2Min=0--0
 local index2Max=1--14
 local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
-
-    --InfLog.PrintInspect(InfProfiles)
+--WIP
+    InfLog.Add("-----")
+    local profilesFileName="InfSavedProfiles.lua"
+    local savedProfiles=InfPersistence.Load(InfLog.modPath..profilesFileName)
+    InfLog.PrintInspect(savedProfiles)
 
 
     InfLog.DebugPrint("index2:"..index2)
@@ -636,8 +636,6 @@ local index3Max=689
 local index3=index3Min
 this.DEBUG_SomeShiz3={
   OnChange=function()
-
-
     --InfLog.PrintInspect(InfModelRegistry)
     --InfLog.PrintInspect(InfMessageLog.debug)
 
@@ -832,6 +830,8 @@ this.DEBUG_SetIvarsToNonDefault={
 --SYNC run PrintIvars on main.
 this.DEBUG_SetIvarsToDefault={
   OnChange=function()
+    InfLog.Add("DEBUG_SetIvarsToDefault",true)
+
     local ivarNames={
       "debugMode",
     }
@@ -839,13 +839,13 @@ this.DEBUG_SetIvarsToDefault={
     for i,ivarName in pairs(ivarNames) do
       local ivar=Ivars[ivarName]
       if ivar==nil then
-        InfLog.DebugPrint(ivarName.."==nil")
+        InfLog.Add(ivarName.."==nil")
 
       elseif not ivar.save then
       --InfLog.DebugPrint(ivarName.." save not set")
       elseif ivar.setting~=ivar.default then
-        InfLog.DebugPrint(ivarName.." not default, resetting")
-        Ivars.SetSetting(ivar,ivar.default,true)
+        InfLog.Add(ivarName..":"..tostring(ivar.setting).." not default:"..tostring(ivar.default)..", resetting")
+        IvarProc.SetSetting(ivar,ivar.default,true)
       end
     end
   end
@@ -1411,13 +1411,13 @@ this.DEBUG_WarpToReinforceVehicle={
 
 this.DEBUG_PrintNonDefaultVars={
   OnChange=function()
-    Ivars.PrintNonDefaultVars()
+    IvarProc.PrintNonDefaultVars()
   end,
 }
 
 this.DEBUG_PrintSaveVarCount={
   OnChange=function()
-    Ivars.PrintSaveVarCount()
+    IvarProc.PrintSaveVarCount()
   end,
 }
 
@@ -1442,6 +1442,38 @@ this.changeToIdleStateHeli={--tex seems to set heli into 'not called'/invisible/
     if gameObjectId~=nil and gameObjectId~=GameObject.NULL_ID then
       GameObject.SendCommand(gameObjectId,{id="ChangeToIdleState"})
     end
+  end
+}
+
+this.loadExternalModules={
+  OnChange=function()
+    InfMain.LoadExternalModules()
+  end
+}
+
+this.copyLogToPrev={
+  OnChange=function()
+    InfLog.CopyLogToPrev()
+  end
+}
+
+this.dropCurrentEquip={
+  OnChange=function()
+    local subIndex=nil
+    --tex NOTE: currentInventorySlot doesn't seem to ever be set to PlayerSlotType.ITEM
+    if vars.currentInventorySlot==PlayerSlotType.ITEM then
+      subIndex=vars.currentItemIndex
+    elseif vars.currentInventorySlot==PlayerSlotType.SUPPORT then
+      subIndex=vars.currentSupportWeaponIndex
+    end
+
+    InfLog.Add("currentInventorySlot"..vars.currentInventorySlot.."currentItemIndex "..vars.currentItemIndex.." currentSupportWeaponIndex "..vars.currentSupportWeaponIndex)
+
+    Player.UnsetEquip{
+      slotType=vars.currentInventorySlot,
+      subIndex=subIndex,
+      dropPrevEquip=true,
+    }
   end
 }
 

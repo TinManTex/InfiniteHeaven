@@ -1,22 +1,13 @@
--- DOBUILD: 1
+--InfLang.lua
 -- NODEPS
 local this={}
---InfLang for Infinite Heaven
---Want to help out?
---Translation: Have a look below and see what you can do. Contact me by pm if you want more detail/want to send me your translation. You will be credited in the main infinite heaven description for your kind work.
---If you want more direction on a string contact me, some of my own english descriptions are not the best as it is, and sometime I have to shorten them to keep things managable for how it's presented in-game.
---This file does nothing by itself but you have modding knowledge can replace/edit \Assets\tpp\script\lib\InfLang.lua in the infinite heaven.msgv file using a zip tool
---New versions of infinite heaven will add more strings, and may change existing ones. Use a merge tool like WinMerge to compare between versions.
---Thanks again, any help, big or small will be appreciated.
--- tin man tex
-
 --game localizations known:
 --eng,fre,ger,ita,jpn,por,rus,spa
 --english, french, german, italian, japanese, portuguese, russian, spanish
 --unconfirmed lang codes:
 --ara, cht, kor
 --arabic, chinese traditional, korean
---if your current games language is on the unconfirmed list use the Patchup > Show language code option in infinite heaven to get the language code and contact me on nexus
+--if your current games language is on the unconfirmed list use the 'Debug/system menu' > 'Show game language code' option in infinite heaven to get the language code and contact me on nexus
 
 --tex if the lang function cant find a langid/string pair for a language it will default to eng, if it can't find in eng it will return the langId
 --if translating only edit the text within the quotation marks.
@@ -59,7 +50,6 @@ this.eng={--english
   set_menu_off={">","Off"},
   --set_menu_reset={">","Reset"},
   set_goBackItem={">",">"},
-  --CULL set_dd_equip_grade={"Off","Developed","Random","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9","Grade 10"},
   set_dd_equip_range={"Short","Medium","Long","Random"},
   mbWarGamesProfileSettings={"Off","DD Training","Enemy Invasion","DD Infection","Zombie Obliteration (non DD)"},
   set_mbDemoSelection={"Default","Play selected","Cutscenes disabled"},
@@ -164,11 +154,7 @@ this.eng={--english
   menu_disabled="Menu is currently disabled",
   ogrePointChange="Set demon snake",
   ogrePointChangeSettings={"Default","Normal","Demon"},
-  --ogrePointChange="Demon points to set",
-  --giveOgrePoint="Give set demon points",
   debugInMissionMenu="Debug stuff menu",
-  --blockFobTutorial="Block FOB tutorial",
-  --setFirstFobBuilt="Set first FOB built",
   telopMode="Disable mission intro credits",--r82
   unlockWeaponCustomization="Unlock weapon customization",--r84
   allready_unlocked="Allready unlocked",--r85
@@ -331,7 +317,6 @@ this.eng={--english
   distance_mode="Distance mode",
   fultonHostageHandling="Hostage handling",
   fultonHostageHandlingSettings={"Default","Must extract (0%)"},
-  blockInMissionSubsistenceIvars="Block in-mission menu restriction options",
   disableCamText="Disable mode text feedback",--r128
   mbDDEquipNonLethal="DD equipment non-lethal",
   mbDDSuitFemale="DD Suit female",--r130
@@ -531,6 +516,9 @@ this.eng={--english
   weaponTableDD="Include DD weapons",
   mbqfEnableSoldiers="Force enable Quaranine platform soldiers",
   mbEnableLethalActions="Allow lethal actions",
+  progressionMenu="Progression menu",
+  fob_weapon_change="Cannot use Equip none on FOB",
+  dropCurrentEquip="Drop current equip",
 }--eng end
 
 this.help={}
@@ -553,9 +541,8 @@ this.help.eng={
   fultonNoMbSupport="Disregards the success bonus from mother base support section, in the base game this is mostly used to counter weather penalty.",
   fultonNoMbMedical="Disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty",
   fultonDontApplyMbMedicalToSleep="Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.",
-  ospMenu="Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it).",
+  ospMenu="Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it). LEGACY You should set equip none via mission prep instead.",
   ospWeaponProfile="Start with no primary and secondary weapons, can be used seperately from subsistence profile", --CULL
-  blockInMissionSubsistenceIvars="Block changing player restrictions from the in-mission menu",
   setDemon="Adds 999999 points to demon score",--SYNC
   removeDemon="Subtracts 999999 points from demon score",--SYNC
   fovaModMenu="Form Variation support for player models (requires model swap to support it), the fova system is how the game shows and hides sub-models.",

@@ -3,7 +3,6 @@
 -- system relies on preventing saved ivar values from restoring (search inf_event) and using it's own profile settings with level seed to ensure randomisation is the same
 local this={}
 
-local Ivars=Ivars
 local InfMain=InfMain
 
 this.inf_enabledEvents={}
@@ -46,7 +45,7 @@ this.forceEvent=false
 function this.GenerateEvent(missionCode)
   --InfLog.PCall(function(misisonCode)--DEBUG
   --InfLog.DebugPrint("GenerateEvent missionCode:"..missionCode)--DEBUG
-  if not this.forceEvent and not Ivars.EnabledForMission("gameEventChance",missionCode) then
+  if not this.forceEvent and not IvarProc.EnabledForMission("gameEventChance",missionCode) then
     return
   end
 
@@ -80,7 +79,6 @@ local roamEventProfiles={
     keepPhase=1,
     phaseUpdateRate=30,
     phaseUpdateRange=30,
-    blockInMissionSubsistenceIvars=1,
     abortMenuItemControl=1,--TODO not what we want, probably don't want to force it upon user anyway
   },
   CRASHLAND={
@@ -150,7 +148,7 @@ function this.GenerateRoamEvent(missionCode)
 
   for eventId,enabled in pairs(this.inf_enabledEvents)do
     InfMenu.PrintFormatLangId("event_announce",eventId)-- TODO ADDLANG to event ids
-    Ivars.ApplyProfile(roamEventProfiles[eventId],true)
+    IvarProc.ApplyProfile(roamEventProfiles[eventId],true)
   end
 
   local missionCodeLocation={
@@ -342,8 +340,8 @@ function this.GenerateWarGameEvent()
       Ivars.mbEnablePuppy:Set(0,true,true)--tex TODO will kill the puppy quest (aww) till user toggles the option again
     end
 
-    Ivars.ApplyProfile(warGamesBase[wargameBaseType],true)
-    Ivars.ApplyProfile(warGameSettings[warGame],true)
+    IvarProc.ApplyProfile(warGamesBase[wargameBaseType],true)
+    IvarProc.ApplyProfile(warGameSettings[warGame],true)
 
     --custom config TODO: make generated config a seperate feature?
     --all the rest, for now just use enemy prep levels

@@ -982,7 +982,7 @@ function this.GetWeaponIdTable(soldierType,soldierSubType)
   --ORPHAN local n={}
   local weaponIdTable={}
 
-  if Ivars.EnabledForMission("customWeaponTable") then--tex>
+  if IvarProc.EnabledForMission("customWeaponTable") then--tex>
     return this.weaponIdTable.CUSTOM
   end--<
   if soldierSubType=="SOVIET_WILDCARD" or soldierSubType=="PF_WILDCARD"then--tex>
@@ -2840,7 +2840,7 @@ function this.RestoreOnContinueFromCheckPoint2()
   --a manual unrealize will fix that, but may just send it into an actual lostcontrol
   --others may be flying, but with the lostcontrol sounds
   --see NMC note in RestoreOnMissionStart2 for more
-  if not Ivars.EnabledForMission(InfNPCHeli.heliEnableIvars) then
+  if not IvarProc.EnabledForMission(InfNPCHeli.heliEnableIvars) then
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       local typeHeli={type="TppEnemyHeli"}
       SendCommand(typeHeli,{id="RestoreFromSVars"})
@@ -2883,7 +2883,7 @@ function this.StoreSVars(_markerOnly)
   end
   this._StoreSVars_Hostage(markerOnly)
   --tex WORKAROUND added bypass, see restore
-  if not Ivars.EnabledForMission(InfNPCHeli.heliEnableIvars) then
+  if not IvarProc.EnabledForMission(InfNPCHeli.heliEnableIvars) then
     if GameObject.GetGameObjectIdByIndex("TppEnemyHeli",0)~=NULL_ID then
       SendCommand({type="TppEnemyHeli"},{id="StoreToSVars"})
     end

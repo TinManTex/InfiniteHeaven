@@ -1,7 +1,6 @@
 -- DOBUILD: 1
 --InfVehicle.lua
 local this={}
-local Ivars=Ivars
 local InfMain=InfMain
 local Vehicle=Vehicle
 local NULL_ID=GameObject.NULL_ID

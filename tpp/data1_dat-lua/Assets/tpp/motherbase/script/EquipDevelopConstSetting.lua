@@ -1,5 +1,11 @@
+-- DOBUILD: 0 --DEBUGNOW r185
 --EquipDevelopConstSetting.lua
---From https://github.com/NuLLxD/MGSVLUA
+
+--NOTES
+--via
+--NuLLxD https://github.com/NuLLxD/MGSVLUA
+--unknown321 https://github.com/unknown321/mgsmonsterguns/blob/gh-pages/parameters.txt
+--nasanhak http://forum.xentax.com/viewtopic.php?f=10&t=12407&p=122960#p122960
 --TppMotherBaseManagement.RegCstDev
 --{
 --   p00=50071, //Item ID
@@ -14,8 +20,8 @@
 --   p09=TppMbDev.EQP_DEV_GROUP_WEAPON_180, //Item group (tool/item/skin/etc)
 --   p30="real_wp_4040", //Base item --tex long name?
 --   p31=0, //??? (boolean)
---   p32=0, //??? (boolean
---   p33=0, //??? (boolean)
+--   p32=0, --boolean --nasanhak Allow weapon customization: set to 1 to make a weapon customizable; will crash for guns with barrels that are not customizable by default - exception is missiles, set to 0 to remove customization from a weapon
+--   p33=0, --boolean --nasanhak Allow color change: set to 0 to restrict some level of customizability, I can see that color alone is disabled :? --maybe it is only for color customizability like for MISSILES! Of course
 --   p34=0, //??? (boolean)
 --   p35=0 //Equippable by security staff (boolean)
 --}

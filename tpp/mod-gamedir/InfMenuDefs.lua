@@ -1,9 +1,10 @@
--- DOBUILD: 1
 -- InfMenuDefs.lua
 local this={}
 --LOCALOPT
+--tex NOTE its ok to reference modules that are reloaded before this is reloaded
 local Ivars=Ivars
 local InfMenuCommands=InfMenuCommands
+local InfMenuDefs=this
 
 --menus
 this.fovaModMenu={
@@ -26,7 +27,7 @@ this.appearanceMenu={
     InfMenuCommands.printFaceInfo,
     --OFF Ivars.playerHeadgear,
     InfMenuCommands.printCurrentAppearance,
-    this.fovaModMenu,
+    InfMenuDefs.fovaModMenu,
   }
 }
 
@@ -62,7 +63,7 @@ this.appearanceDebugMenu={
     Ivars.faceFovaUnknown8,
     Ivars.faceFovaUnknown9,
     Ivars.faceFovaUnknown10,
-    this.fovaModMenu,
+    InfMenuDefs.fovaModMenu,
   }
 }
 
@@ -73,7 +74,7 @@ this.playerSettingsMenu={
     InfMenuCommands.setDemon,
     Ivars.useSoldierForDemos,
     --Ivars.playerHeadgear,
-    this.appearanceMenu,
+    InfMenuDefs.appearanceMenu,
   }
 }
 this.soldierParamsMenu={
@@ -89,16 +90,6 @@ this.soldierParamsMenu={
     InfMenuCommands.printHearingTable,
   }
 }
-
---local sightDistScaleName=Ivars.sightDistScaleName
---local i=1
---for n,listName in ipairs(Ivars.sightIvarLists) do
---  for m,name in ipairs(Ivars[listName]) do
---    local ivarName=name..sightDistScaleName
---    this.soldierParamsMenu.options[i]=Ivars[ivarName]
---    i=i+1
---  end
---end
 
 this.sideOpsMenu={
   options={
@@ -131,9 +122,10 @@ this.motherBaseShowAssetsMenu={
 
 this.customEquipMenu={
   options={
---    Ivars.enableDDEquipMB,
---    Ivars.enableDDEquipFREE,
---    Ivars.enableDDEquipMISSION,
+    --CULL
+    --    Ivars.enableDDEquipMB,
+    --    Ivars.enableDDEquipFREE,
+    --    Ivars.enableDDEquipMISSION,
     Ivars.customWeaponTableFREE,
     Ivars.customWeaponTableMISSION,
     Ivars.customWeaponTableMB_ALL,
@@ -152,9 +144,8 @@ this.customEquipMenu={
 --tex SYNC motherbaseProfile
 this.motherBaseMenu={
   options={
-    --OFF TODO Ivars.motherbaseProfile,
     Ivars.revengeModeMB,
-    this.customEquipMenu,
+    InfMenuDefs.customEquipMenu,
     Ivars.mbSoldierEquipRange,
     Ivars.mbDDSuit,
     Ivars.mbDDSuitFemale,
@@ -172,8 +163,8 @@ this.motherBaseMenu={
     Ivars.mbAdditionalSoldiers,
     Ivars.mbqfEnableSoldiers,
     Ivars.mbNpcRouteChange,
-    this.motherBaseShowCharactersMenu,
-    this.motherBaseShowAssetsMenu,
+    InfMenuDefs.motherBaseShowCharactersMenu,
+    InfMenuDefs.motherBaseShowAssetsMenu,
     Ivars.mbEnableLethalActions,
     Ivars.mbWargameFemales,
     Ivars.mbWarGamesProfile,
@@ -193,26 +184,31 @@ this.demosMenu={
   }
 }
 
-this.patchupMenu={
+this.progressionMenu={
   options={
+    InfMenuCommands.unlockPlayableAvatar,
+    InfMenuCommands.unlockWeaponCustomization,
+    InfMenuCommands.returnQuiet,
+    InfMenuCommands.showQuietReunionMissionCount,
+  --InfMenuCommands.forceAllQuestOpenFlagFalse,
   }
 }
 
 this.debugMenu={
   options={
     Ivars.debugMode,
-    Ivars.telopMode,
-    Ivars.startOffline,
-    Ivars.langOverride,
-    InfMenuCommands.unlockPlayableAvatar,
-    InfMenuCommands.unlockWeaponCustomization,
-    InfMenuCommands.returnQuiet,
-    InfMenuCommands.showQuietReunionMissionCount,
-    InfMenuCommands.forceAllQuestOpenFlagFalse,
+    InfMenuCommands.loadExternalModules,
+    InfMenuCommands.copyLogToPrev,
+    Ivars.printPressedButtons,
     InfMenuCommands.showPosition,
     InfMenuCommands.showMissionCode,
     InfMenuCommands.showLangCode,
-    this.appearanceDebugMenu,
+    InfMenuDefs.appearanceDebugMenu,
+    --tex system stuff
+    Ivars.startOffline,
+    Ivars.langOverride,
+    --tex odd one out, mission/presentation?
+    Ivars.telopMode,
   }
 }
 
@@ -311,11 +307,11 @@ this.revengeCustomMenu={
 }
 local revengeMenu=this.revengeCustomMenu.options
 for n,powerTableName in ipairs(Ivars.percentagePowerTables)do
-  revengeMenu[#revengeMenu+1]=this[powerTableName..menuSuffix]
+  revengeMenu[#revengeMenu+1]=InfMenuDefs[powerTableName..menuSuffix]
 end
-table.insert(revengeMenu,this.abilityCustomMenu)
-table.insert(revengeMenu,this.weaponStrengthCustomMenu)
-table.insert(revengeMenu,this.cpEquipBoolPowersMenu)
+table.insert(revengeMenu,InfMenuDefs.abilityCustomMenu)
+table.insert(revengeMenu,InfMenuDefs.weaponStrengthCustomMenu)
+table.insert(revengeMenu,InfMenuDefs.cpEquipBoolPowersMenu)
 local revengeMinMaxIvarList={
   "reinforceCount",
   "reinforceLevel",
@@ -332,9 +328,9 @@ this.revengeMenu={
     Ivars.revengeModeFREE,
     Ivars.revengeModeMISSION,
     Ivars.revengeModeMB,
-    this.revengeCustomMenu,
-    this.revengeSystemMenu,
-    this.customEquipMenu,
+    InfMenuDefs.revengeCustomMenu,
+    InfMenuDefs.revengeSystemMenu,
+    InfMenuDefs.customEquipMenu,
     InfMenuCommands.resetRevenge,
     Ivars.changeCpSubTypeFREE,
     Ivars.changeCpSubTypeMISSION,
@@ -377,12 +373,12 @@ this.supportHeliMenu={
     Ivars.disablePullOutHeli,
     Ivars.setLandingZoneWaitHeightTop,
     Ivars.defaultHeliDoorOpenTime,
+    Ivars.disableLzs,
     Ivars.startOnFootFREE,
     Ivars.startOnFootMISSION,
     Ivars.startOnFootMB_ALL,
   --Ivars.disableDescentToLandingZone,
   --Ivars.enableGetOutHeli,--WIP
-  --Ivars.heliUpdate,--NONUSER
   },
 }
 
@@ -409,14 +405,6 @@ this.enemyPatrolMenu={
     Ivars.vehiclePatrolWavHeavyEnable,
     Ivars.vehiclePatrolTankEnable,
     Ivars.putEquipOnTrucks,
-  }
-}
-
-this.footPatrolMenu={
-  options={
-    Ivars.enableLrrpFreeRoam,
-  --    Ivars.lrrpSizeFreeRoam_MIN,
-  --    Ivars.lrrpSizeFreeRoam_MAX,
   }
 }
 
@@ -486,25 +474,23 @@ this.worldMenu={
 }
 this.playerRestrictionsMenu={
   options={
-    Ivars.blockInMissionSubsistenceIvars,
     Ivars.disableHeliAttack,
     Ivars.disableFulton,
     Ivars.setSubsistenceSuit,
     Ivars.setDefaultHand,
-    Ivars.disableLzs,
     Ivars.abortMenuItemControl,
     Ivars.disableRetry,
     Ivars.gameOverOnDiscovery,
     Ivars.disableSpySearch,
     Ivars.disableHerbSearch,
     Ivars.dontOverrideFreeLoadout,
-    this.markersMenu,
-    this.missionPrepRestrictionsMenu,
-    this.disableSupportMenuMenu,
-    this.handLevelMenu,
-    this.fultonLevelMenu,
-    this.fultonSuccessMenu,
-    this.ospMenu,
+    InfMenuDefs.markersMenu,
+    InfMenuDefs.missionPrepRestrictionsMenu,
+    InfMenuDefs.disableSupportMenuMenu,
+    InfMenuDefs.handLevelMenu,
+    InfMenuDefs.fultonLevelMenu,
+    InfMenuDefs.fultonSuccessMenu,
+    InfMenuDefs.ospMenu,
   }
 }
 
@@ -530,35 +516,34 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
-   -- this.customEquipMenu,--DEBUG
+    -- InfMenuDefs.customEquipMenu,--DEBUG
     --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
-   --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG    
---Ivars.debugMode,
+    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --Ivars.debugMode,
     --Ivars.playerFaceId,--DEBUG
     Ivars.selectProfile,
     --InfMenuCommands.applySelectedProfile,
     InfMenuCommands.resetSelectedProfile,
     --InfMenuCommands.viewProfile,--DEBUG
     InfMenuCommands.forceGameEvent,
-    this.worldMenu,
-    this.playerRestrictionsMenu,
-    this.playerSettingsMenu,
-    this.soldierParamsMenu,
-    this.phaseMenu,
-    this.revengeMenu,
-    this.enemyReinforceMenu,
-    this.enemyPatrolMenu,
-    this.sideOpsMenu,
-    this.motherBaseMenu,
-    this.demosMenu,
-    this.cameraMenu,
-    this.timeScaleMenu,
-    this.supportHeliMenu,
-    --this.missionEntryExitMenu,
-    --this.appearanceMenu,--tex  WIP
-    this.debugMenu,
+    InfMenuDefs.worldMenu,
+    InfMenuDefs.playerRestrictionsMenu,
+    InfMenuDefs.playerSettingsMenu,
+    InfMenuDefs.soldierParamsMenu,
+    InfMenuDefs.phaseMenu,
+    InfMenuDefs.revengeMenu,
+    InfMenuDefs.enemyReinforceMenu,
+    InfMenuDefs.enemyPatrolMenu,
+    InfMenuDefs.sideOpsMenu,
+    InfMenuDefs.motherBaseMenu,
+    InfMenuDefs.demosMenu,
+    InfMenuDefs.cameraMenu,
+    InfMenuDefs.timeScaleMenu,
+    InfMenuDefs.supportHeliMenu,
+    InfMenuDefs.progressionMenu,
+    InfMenuDefs.debugMenu,
     InfMenuCommands.resetAllSettingsItem,
     InfMenuCommands.menuOffItem,
   }
@@ -568,6 +553,8 @@ this.debugInMissionMenu={
   nonConfig=true,
   options={
     Ivars.debugMode,
+    InfMenuCommands.loadExternalModules,
+    InfMenuCommands.copyLogToPrev,
     --InfMenuCommands.DEBUG_RandomizeCp,
     --InfMenuCommands.DEBUG_PrintRealizedCount,
     --InfMenuCommands.DEBUG_PrintEnemyFova,
@@ -582,7 +569,7 @@ this.debugInMissionMenu={
     InfMenuCommands.DEBUG_PrintSoldierDefine,
     --InfMenuCommands.DEBUG_PrintSoldierIDList,
     InfMenuCommands.DEBUG_ShowRevengeConfig,
-    this.appearanceDebugMenu,
+    InfMenuDefs.appearanceDebugMenu,
     --InfMenuCommands.DEBUG_ShowPhaseEnums,--CULL
     --InfMenuCommands.DEBUG_ChangePhase,
     --InfMenuCommands.DEBUG_KeepPhaseOn,
@@ -592,6 +579,7 @@ this.debugInMissionMenu={
     --InfMenuCommands.DEBUG_PrintVarsClock,
     --InfMenuCommands.showMissionCode,
     --InfMenuCommands.showMbEquipGrade,
+    Ivars.printPressedButtons,
     Ivars.printOnBlockChange,
     InfMenuCommands.showPosition,
   --InfMenuCommands.DEBUG_ClearAnnounceLog,
@@ -602,25 +590,28 @@ this.inMissionMenu={
   noResetItem=true,--tex KLUDGE, to keep menuoffitem order
   noGoBackItem=true,--tex is root
   options={
-   -- InfMenuCommands.DEBUG_ToggleParasiteEvent,--DEBUG
-    --Ivars.selectedChangeWeapon,--DEBUG    
+    --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
+    --    InfMenuCommands.resetAllSettingsItem,
+    -- InfMenuCommands.DEBUG_ToggleParasiteEvent,--DEBUG
+    --Ivars.selectedChangeWeapon,--DEBUG
     --Ivars.debugMode,
     --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
-   -- InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+    --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     InfMenuCommands.requestHeliLzToLastMarker,
     InfMenuCommands.forceExitHeli,
+    InfMenuCommands.dropCurrentEquip,
     Ivars.warpPlayerUpdate,
-    this.cameraMenu,
-    this.timeScaleMenu,
-    this.userMarkerMenu,
-    this.buddyMenu,
-    this.appearanceMenu,
-    this.playerRestrictionsInMissionMenu,
-    this.phaseMenu,
-    this.supportHeliMenu,
-    this.debugInMissionMenu,
+    InfMenuDefs.cameraMenu,
+    InfMenuDefs.timeScaleMenu,
+    InfMenuDefs.userMarkerMenu,
+    InfMenuDefs.buddyMenu,
+    InfMenuDefs.appearanceMenu,
+    InfMenuDefs.playerRestrictionsInMissionMenu,
+    InfMenuDefs.phaseMenu,
+    InfMenuDefs.supportHeliMenu,
+    InfMenuDefs.debugInMissionMenu,
     Ivars.itemDropChance,
     Ivars.playerHealthScale,
     InfMenuCommands.resetSettingsItem,
@@ -648,6 +639,7 @@ for name,item in pairs(this) do
   end
 end
 
+--tex TODO RETHINK
 this.allMenus={}
 --TABLESETUP: allMenus, for reset, also means you have to comment out whole menu, not just references from other menus since resetall iterates the whole module
 local i=1

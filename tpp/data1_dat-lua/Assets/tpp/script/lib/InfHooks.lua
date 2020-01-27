@@ -7,15 +7,11 @@ local this={}
 --  VarRestoreOnMissionStart=function()
 --    TppSave.VarRestoreOnMissionStart()
 --    --Ivars.OnLoadVarsFromSlot()--post-hook
---      local debugSplash=SplashScreen.Create("ooop","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
---      SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
 --      TppUiCommand.AnnounceLogView"Dooop"
 --  end,
 --  VarRestoreOnContinueFromCheckPoint=function()
 --    TppSave.VarRestoreOnContinueFromCheckPoint()
 --    --Ivars.OnLoadVarsFromSlot()--post-hook
---      local debugSplash=SplashScreen.Create("ooop","/Assets/tpp/ui/texture/Emblem/front/ui_emb_front_5005_l_alp.ftex",1280,640)--tex ghetto as 'does it run?' indicator
---      SplashScreen.Show(debugSplash,0,0.3,0)--tex eagle
 --      TppUiCommand.AnnounceLogView"Dooop"
 --  end,
 --}
@@ -45,12 +41,12 @@ this.VarRestoreOnContinueFromCheckPoint=TppSave.VarRestoreOnContinueFromCheckPoi
 
 TppSave.VarRestoreOnMissionStart=function()
   this.VarRestoreOnMissionStart()
-  Ivars.OnLoadVarsFromSlot()
+  IvarProc.OnLoadVarsFromSlot()
 end
 
 TppSave.VarRestoreOnContinueFromCheckPoint=function()
   this.VarRestoreOnContinueFromCheckPoint()
-  Ivars.OnLoadVarsFromSlot()
+  IvarProc.OnLoadVarsFromSlot()
 end
 
 return this

@@ -2,8 +2,10 @@ Infinite heaven installation:
 
 Preparation/insurance:
 ------------------------------
-(Default install path of steam is C:\Program Files\Steam)
+End/Abort any mission back to ACC before upgrading Infinite Heaven, upgrading a save that's mid-mission is likely to cause issues.
 
+
+(Default install path of steam is C:\Program Files\Steam)
 Back up your save files for safety:
 <steam path>\userdata\<user id>\287700 and
 <steam path>\userdata\<user id>\311340
@@ -17,6 +19,7 @@ Copy both folders to a safe place.
 You may want to back up periodically as you play in case you come across save breaking issues with the mod.
 
 First time prep:
+Snakebite should do this, but it's good to have your own backups.
 Back up TPPs original 00.dat and 01.dat in
 <steam path>\steamapps\common\MGS_TPP\master\0\
 This does not apply if you've already modded it.
@@ -25,16 +28,25 @@ Already modded:
 Either find and restore your original game 00/01.dat backup or revalidate the game through steam:
 
 Right click on the game in steam library, choose properties from bottom of menu, local files tab, verify integrity of game cache button.
-or click this steam://validate/287700
+or paste this to File Explorer or your browser steam://validate/287700
 
 If it gets stuck at 0% for more than a few minutes steam is being stupid, validate one of the valve games first, hl2, portal etc then try validating mgsv again.
 
-It should say 1 file needs to be redownloaded, so go to steam downloads and make sure that happens.
+It should say 1 or two files need to be redownloaded, so go to steam downloads and make sure that happens.
 
-Installation:
-------------------------------
-Use SnakeBite Mod Manager 0.8.3 or later from 
+Install Snakebite:
+Get SnakeBite Mod Manager 0.8.3 or later from 
 [url=http://nexusmods.com/metalgearsolidvtpp/mods/106/]http://nexusmods.com/metalgearsolidvtpp/mods/106/[/url]
+and run through its setup.
+
+Installation
+------------
+Unzip Infinite Heaven .zip to a folder.
+Run Install Infinite Heaven.bat
+
+Installation - If batch file doesnt work 
+------------------------------
+Part 1 - Core mod files via Snakebite:
 
 Click on the Mods menu item on Snakebites main screen.
 
@@ -49,6 +61,14 @@ This step should only take a minute or so if no other mods installed (longer wit
 
 WARNING: Applying this mod to any game version after the one stated at the top of the readme involved will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
 
+Part 2 - External mod files:
+Open <steam path>\steamapps\common\MGS_TPP\
+
+Delete or back up MGS_TPP\mod if you have modded the files.
+
+Copy the mod folder from the Infinite Heaven.zip to MGSV_TPP\mod
+
+
 Note:
 ------------------------------
 By design I try to keep the initial install to all regular game settings and only changed via infinite heavens in-game mod menu.
@@ -60,7 +80,7 @@ Check the Log.txt in the folder Snakebite was installed to (Program Files by def
 
 Revert the game to unmodified:
 Right click on the game in steam library, choose properties from bottom of menu, local files tab, verify integrity of game cache button.
-or click this steam://validate/287700
+or paste this to File Explorer or your browser steam://validate/287700
 And try again.
 
 If you are on Windows 7 then install .net 4.5: https://www.microsoft.com/en-us/download/details.aspx?id=42642
@@ -87,4 +107,4 @@ Uninstallation:
 Exit any missions, return to the ACC.
 The mod saves some varables to the save file, but on initial testing (I welcome feedback on this) there is no issue with loading a save from this mod after the mod has been removed (provided you have exited to ACC)
 Use uninstall in SnakeBite.
-
+Delete the MGSV_TPP\mod folder

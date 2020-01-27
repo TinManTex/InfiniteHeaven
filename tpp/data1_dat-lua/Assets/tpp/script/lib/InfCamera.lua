@@ -2,7 +2,6 @@
 --InfCamera.lua
 local this={}
 --LOCALOPT
-local Ivars=Ivars
 local InfMain=InfMain
 --
 local cameraOffsetDefault=Vector3(0,0.75,0)
@@ -76,6 +75,7 @@ end
 --    }
 
 function this.UpdateCameraManualMode()
+  local Ivars=Ivars
   local currentCamName=GetCurrentCamName()
   local focalLength=Ivars["focalLength"..currentCamName]
   local aperture=Ivars["aperture"..currentCamName]
@@ -141,6 +141,7 @@ end
 
 function this.UpdateCameraAdjust(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)
   --InfLog.PCall(function(currentChecks,currentTime,execChecks,execState,updateRate,updateRange,ExecUpdate)--DEBUG
+  local Ivars=Ivars
   if not currentChecks.inGame then
     if Ivars.adjustCameraUpdate:Is(1) then
       Ivars.adjustCameraUpdate:Set(0)
@@ -169,6 +170,7 @@ end
 
 function this.DoControlSet(currentChecks)
   --InfLog.PCall(function(currentChecks)--DEBUG
+  local Ivars=Ivars
   local InfButton=InfButton
 
   local isFreeCam=Ivars.cameraMode:Is"CAMERA"

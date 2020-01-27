@@ -3,7 +3,6 @@
 local this={}
 
 --LOCALOPT
-local Ivars=Ivars
 local InfMain=InfMain
 local StrCode32=Fox.StrCode32
 local NULL_ID=GameObject.NULL_ID

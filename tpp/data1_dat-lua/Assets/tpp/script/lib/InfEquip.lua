@@ -1141,7 +1141,7 @@ local ivarNames={
 --Don't know if it's a count or a memory thing (which would depend on the mix of equipment loaded)
 local maxEquipment=35--48
 function this.CreateCustomWeaponTable(missionCode)
-  if not Ivars.EnabledForMission("customWeaponTable",missionCode) then
+  if not IvarProc.EnabledForMission("customWeaponTable",missionCode) then
     return nil
   end
 

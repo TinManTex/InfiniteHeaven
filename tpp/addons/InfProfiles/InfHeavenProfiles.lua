@@ -52,34 +52,80 @@ profiles.fultonHeaven={
     fultonSleepPenalty=20,--{ 0-100 } -- Target sleeping penalty
     fultonHoldupPenalty=0,--{ 0-100 } -- Target holdup penalty
     fultonDontApplyMbMedicalToSleep=1,--{ 0-1 } -- Dont apply MB medical bonus to sleeping/fainted target
-    fultonHostageHandling="ZERO",--{ DEFAULT, ZERO } -- Hostage handling
+    fultonHostageHandling="ZERO",--Force you to manually extract hostages
   }
 }
 
 --tex aims to match same settings as Subsistence missions
-profiles.subsistencePure={
-  description="Subsistence - Pure",
+profiles.subsistenceGame={
+  description="Subsistence - Game",
   profile={
-    blockInMissionSubsistenceIvars=1,
-
-    disableLzs="REGULAR",
     disableSelectBuddy=1,
     disableHeliAttack=1,
     disableSelectTime=1,
     disableSelectVehicle=1,
     disableHeadMarkers=1,
 
-    disableXrayMarkers=0,
-    disableWorldMarkers=1,
+    disableXrayMarkers=1,
+    disableHeadMarkers=1,
+    disableWorldMarkers=0,
     disableFulton=1,
     clearItems=1,
     clearSupportItems=1,
     setSubsistenceSuit=1,
     setDefaultHand=1,
+--tex now better to Equip none in mission prep
+--    primaryWeaponOsp="EQUIP_NONE",
+--    secondaryWeaponOsp="EQUIP_NONE",
+--    tertiaryWeaponOsp="EQUIP_NONE",
 
-    primaryWeaponOsp="EQUIP_NONE",
-    secondaryWeaponOsp="EQUIP_NONE",
-    tertiaryWeaponOsp="EQUIP_NONE",
+    handLevelSonar="DISABLE",
+    handLevelPhysical="DISABLE",
+    handLevelPrecision="DISABLE",
+    handLevelMedical="DISABLE",
+
+    itemLevelFulton="GRADE1",
+    itemLevelWormhole="DISABLE",
+
+    disableMenuDrop=1,
+    disableMenuBuddy=1,
+    disableMenuAttack=1,
+    disableMenuHeliAttack=1,
+    disableSupportMenu=1,
+
+    abortMenuItemControl=1,
+    disableRetry=0,
+    gameOverOnDiscovery=0,
+    maxPhase="PHASE_ALERT",--Reset
+    
+    dontOverrideFreeLoadout=1,
+  }
+}
+
+--tex additional restrictions on top of Game that 
+profiles.subsistencePure={
+  description="Subsistence - Pure",
+  profile={
+    disableLzs="REGULAR",--tex this setting can be troublesome when trying to start a mission from ACC since it only allows Assault Landing zones, can be a fun restriction when entering from free roam, forces you to either exit on foot, or risk the heli by calling it to the assault LZ
+    disableSelectBuddy=1,
+    disableHeliAttack=1,
+    disableSelectTime=1,
+    disableSelectVehicle=1,
+    disableHeadMarkers=1,
+
+    disableXrayMarkers=1,
+    disableHeadMarkers=1,
+    disableWorldMarkers=0,
+    disableFulton=1,--tex forces you to deal with enemy soldiers, but feel free to adjust if you can't give up on your extraction addiction.
+    fultonHostageHandling="ZERO",--tex Forces you to manually extract hostages (moot with above disabling fulton completely, but good without)
+    clearItems=1,
+    clearSupportItems=1,
+    setSubsistenceSuit=1,
+    setDefaultHand=1,
+--tex now better to Equip none in mission prep
+--    primaryWeaponOsp="EQUIP_NONE",
+--    secondaryWeaponOsp="EQUIP_NONE",
+--    tertiaryWeaponOsp="EQUIP_NONE",
 
     handLevelSonar="DISABLE",
     handLevelPhysical="DISABLE",
@@ -108,9 +154,7 @@ profiles.subsistencePure={
 profiles.subsistenceBounder={
   description="Subsistence - Bounder",
   profile={
-    blockInMissionSubsistenceIvars=1,
-
-    disableLzs="REGULAR",
+    --disableLzs="REGULAR",
     disableSelectBuddy=0,
     disableHeliAttack=1,
     disableSelectTime=1,
@@ -125,9 +169,10 @@ profiles.subsistenceBounder={
     setSubsistenceSuit=0,
     setDefaultHand=1,
 
-    primaryWeaponOsp="EQUIP_NONE",
-    secondaryWeaponOsp="EQUIP_NONE",
-    tertiaryWeaponOsp="EQUIP_NONE",
+--tex now better to Equip none in mission prep
+--    primaryWeaponOsp="EQUIP_NONE",
+--    secondaryWeaponOsp="EQUIP_NONE",
+--    tertiaryWeaponOsp="EQUIP_NONE",
 
     handLevelSonar="DISABLE",
     handLevelPhysical="DISABLE",
