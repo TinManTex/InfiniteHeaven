@@ -24,8 +24,8 @@ Basic terms used in the Infinite Heaven menu:
 Profiles - sets many related options at once. The settings affected by the profile are listed following the profile setting.
 ACC Main menu
 -------------
-1: Select profile : no_profiles_installed
-2: Set profile options to defaults : (Command)
+1: Select profile : No profiles installed
+2: Set profile options to game defaults : (Command)
 3: Trigger random IH event : (Command)
   Events are temporary custom profiles for free roam and mother base. 
   Free roam events (can stack): 
@@ -75,25 +75,23 @@ In the game many bases have several mine fields but by default only one is enabl
 Player restrictions menu
 - Settings to customize the game challenge, including subsistence and OSP.
 ------------------------
-1: Subsistence profile : Off, Pure, Bounder, Custom
-  Quickly set restrictions similar to Subsistence missions. 
-  Pure - similar to the games Subsistence mission settings with additional restrictions, 
-  Bounder - a bit more relaxed than Pure profile, mainly allowing any character as well as buddies.
-2: Block in-mission menu restriction options : Off, On
+1: Block in-mission menu restriction options : Off, On
 Block changing player restrictions from the in-mission menu
-3: Disable support heli attack : Off, On
+2: Disable support heli attack : Off, On
 Stops support heli from engaging targets.
-4: Disable fulton action : Off, On
-5: Force subsistence suit (Olive Drab, no headgear) : Off, On
-6: Set hand type to default : Off, On
-7: Disable landing zones : Off, Assault, Regular
+3: Disable fulton action : Off, On
+4: Force subsistence suit (Olive Drab, no headgear) : Off, On
+5: Set hand type to default : Off, On
+6: Disable landing zones : Off, Assault, Regular
 Disables Assault Landing Zones (those usually in the center of a base that the support heli will circle before landing), or all LZs but Assault LZs
-8: Disable abort mission from pause menu : Off, On
-9: Disable retry on mission fail : Off, On
-10: Game over on combat alert : Off, On
-11: Disable Intel team enemy spotting : Off, On
-12: Disable Intel team herb spotting (requires game restart) : Off, On
+7: Disable abort mission from pause menu : Off, On
+8: Disable retry on mission fail : Off, On
+9: Game over on combat alert : Off, On
+10: Disable Intel team enemy spotting : Off, On
+11: Disable Intel team herb spotting (requires game restart) : Off, On
 Since the variable is only read once on game startup this setting requires a game restart before it will activate/deactivate.
+12: Keep equipment Free<>Mission : Off, On
+Prevents equipment and weapons being reset when going between free-roam and missions.
 13: Marking display menu
 14: Mission-prep restrictions menu
 15: Disable mission support-menus menu
@@ -133,17 +131,15 @@ Disable mission support-menus menu
 
 Hand abilities levels menu
 --------------------------
-1: Hand abilities levels profile : Default, All Off, All max, Custom
-2: Sonar level : 0-4
-3: Mobility level : 0-4
-4: Precision level : 0-4
-5: Medical level : 0-4
+1: Sonar level : Default, Disable, Grade 2, Grade 3, Grade 4
+2: Mobility level : Default, Disable, Grade 2, Grade 3, Grade 4
+3: Precision level : Default, Disable, Grade 2, Grade 3, Grade 4
+4: Medical level : Default, Disable, Grade 2, Grade 3, Grade 4
 
 Fulton levels menu
 ------------------
-1: Fulton Levels profile : Default/No override, Fulton Min, Wormhole off, Max, Custom
-2: Fulton Level : 1-4
-3: Wormhole Level : DISABLE, ENABLE
+1: Fulton Level : Don't override, Grade 1, Grade 2, Grade 3, Grade 4
+2: Wormhole Level : Don't override, Disable, Enable
 
 Fulton success menu
 - Adjust the success rate of fultoning
@@ -162,13 +158,11 @@ Lets you balance sleeping penalty separately from dying while keeping mb medical
 OSP menu
 - Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it).
 --------
-1: Items OSP : Off, On
-2: Support items OSP : Off, On
-3: OSP Weapon Profile : Off, Pure - all cleared, Secondary free, Custom
-Start with no primary and secondary weapons, can be used seperately from subsistence profile
-4: Primary weapon OSP : Use selected weapon, Clear weapon
-5: Secondary weapon OSP : Use selected weapon, Clear weapon
-6: Back Weapon OSP : Use selected weapon, Clear weapon
+1: Primary weapon OSP : Use selected weapon, Clear weapon
+2: Secondary weapon OSP : Use selected weapon, Clear weapon
+3: Back Weapon OSP : Use selected weapon, Clear weapon
+4: Items OSP : Off, On
+5: Support items OSP : Off, On
 
 Player settings menu
 --------------------
@@ -256,24 +250,32 @@ Adds some interrogations to soldiers: Travel plan of foot patrol, Location of wi
 Custom prep menu
 - Lets you set the individual values that go into an enemy prep configuration (does not use the enemy prep levels), a random value between MIN and MAX for each setting is chosen on mission start. The order of items in the menu is generally order the equipment is allocated to each soldier in a CP.
 ----------------
-1: Custom prep profile : WIDE, MAX, MIN, CUSTOM
+1: Armor deployment
 2: Print example current config (look in iDroid Log>All tab) : (Command)
 3: Weapon deployment
-4: Armor deployment
-5: Headgear deployment
-6: CP deterrent deployment
-7: Soldier abilities
-8: Weapon strength menu
-9: CP equip strength menu
-10: Reinforce calls min : 1-99
+4: Headgear deployment
+5: CP deterrent deployment
+6: Soldier abilities
+7: Weapon strength menu
+8: CP equip strength menu
+9: Reinforce calls min : 1-99
 Number of reinforcement calls a CP has.
-11: Reinforce calls max : 1-99
+10: Reinforce calls max : 1-99
 The number of times reinforcements can be called
-12: Vehicle reinforcement level min : NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE
-13: Vehicle reinforcement level max : NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE
-14: Ignore combat-deploy supply blocks min : Off, On
+11: Vehicle reinforcement level min : NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE
+12: Vehicle reinforcement level max : NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE
+13: Ignore combat-deploy supply blocks min : Off, On
 Ignores the current results of the Combat Deployment/Dispatch/'cut off the supply' missions that affect enemy prep.
-15: Ignore combat-deploy supply blocks max : Off, On
+14: Ignore combat-deploy supply blocks max : Off, On
+
+Armor deployment
+----------------
+1: ARMOR_MIN : 0-100%
+2: ARMOR_MAX : 0-100%
+3: SOFT_ARMOR_MIN : 0-100%
+4: SOFT_ARMOR_MAX : 0-100%
+5: SHIELD_MIN : 0-100%
+6: SHIELD_MAX : 0-100%
 
 Weapon deployment
 -----------------
@@ -291,15 +293,6 @@ Weapon deployment
 12: ASSAULT_MAX : 0-100%
 13: GUN_LIGHT_MIN : 0-100%
 14: GUN_LIGHT_MAX : 0-100%
-
-Armor deployment
-----------------
-1: ARMOR_MIN : 0-100%
-2: ARMOR_MAX : 0-100%
-3: SOFT_ARMOR_MIN : 0-100%
-4: SOFT_ARMOR_MAX : 0-100%
-5: SHIELD_MIN : 0-100%
-6: SHIELD_MAX : 0-100%
 
 Headgear deployment
 -------------------
@@ -351,29 +344,28 @@ CP equip strength menu
 
 Prep system menu
 ----------------
-1: Enemy prep system profile : Defaults, Heaven, Custom
-2: Resupply in #missions : 0-10
+1: Resupply in #missions : 0-10
 The number of missions the enemy dispatch/resupply with unlock after your last successful dispatch mission for that type.
-3: Apply enemy prep to guard posts : Off, On
-4: Apply enemy prep to patrol soldiers : Off, On
-5: Allow heavy armor in free roam (has issues) : Off, On
-6: Allow heavy armor in all missions (may have issues) : Off, On
-7: Disable weapon restrictions in certain missions : Off, On
+2: Apply enemy prep to guard posts : Off, On
+3: Apply enemy prep to patrol soldiers : Off, On
+4: Allow heavy armor in free roam (has issues) : Off, On
+5: Allow heavy armor in all missions (may have issues) : Off, On
+6: Disable weapon restrictions in certain missions : Off, On
 Missions 2, 12, 13, 16, 26, 31 normally prevent the application of shields, missiles, shotguns and MGs to the general CP enemy prep (though some may have custom enemy prep).
-8: Allow Enemy Prep shift after free roam : Off, On
+7: Allow Enemy Prep shift after free roam : Off, On
 By default enemy prep only changes in response to actual missions, this option allows enemy prep changes to be applied after leaving Free roam (but not via abort)
-9: Enemy prep decrease on long MB visit : Off, On
+8: Enemy prep decrease on long MB visit : Off, On
 Spend a number of game days (break out that cigar) during a mother base visit and enemy prep levels will decrease on leaving. Currently reduces after 3 days (stacking), reduces the same as chicken hat 
-10: Allow helmet and NVG or Gas mask combo : Off, On
-11: Ballance heavy armor and head gear distribution : Off, On
+9: Allow helmet and NVG or Gas mask combo : Off, On
+10: Ballance heavy armor and head gear distribution : Off, On
 Adjusts application percentages of the normally mutally exclusive options of heavy armor and the different headgear pieces, not nessesary if Allow helmet and NVG or Gas mask combo option is on
-12: Allow missile combo with other weapons : Off, On
+11: Allow missile combo with other weapons : Off, On
 In the default game soldiers with missiles only have SMGs, this allows them to have MGs, shotguns or assault rifles assigned to them.
-13: Mg vs Shotgun variation : Off, On
+12: Mg vs Shotgun variation : Off, On
 In the default game the enemy prep config chooses randomly either MG or Shotguns which is applied for all CPs in the whole mission. This setting allows mixed MGs and Shotguns (but still with the enemy prep total) and also applies them per CP.
-14: Balance small CPs : Off, On
+13: Balance small CPs : Off, On
 Adds limits and some randomisation to small cp/lrrps enemy prep application
-15: Disable convert armor to shield (if armor off) : Off, On
+14: Disable convert armor to shield (if armor off) : Off, On
 Where heavy armor is disabled (free roam by default) the normal game converts armor to shields in addition to the normal shield application, this often leads to it feeling like there's just too many.
 
 DD Equip menu

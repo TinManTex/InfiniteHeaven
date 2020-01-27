@@ -1,5 +1,5 @@
 = Infinite heaven =
-r178 - 2016-09-06
+r179 - 2016-09-14
 by tin man tex
 For MGSV version 1.10 (in title screen) 1.0.7.1 in exe
 
@@ -20,92 +20,17 @@ Recent changes/additions
 ------------------------------
 NOTE: Remember to exit back to ACC before upgrading Infinite Heaven, upgrading a save that's mid mission is likely to cause issues.
 
-
-PSA: FOB defender spawning but getting stuck with a black screen.
-------------------------------
-
-The issue: FOB defender getting stuck at a full black screen after connection, and can hear the FOB about them.
-If the attacker dies when the defender is in this state they will get stuck looking at their body with a loading circle.
-
-The cause: If either player has Infinite Heaven r174 or earlier installed. The issue would not appear if both players had IH installed.
-
-This is a very specific issue and not related to disconnects or any hangs on loading screens with tips/DD logo background.
-
-Fix: Users of IH should update to r176. Non-mod users should no longer have this issue playing with players of IH r176.
-
-Technical: The issue is caused when the game tries to sync some variables but fails due to the differing definitions between the host-client/IH-normal. The fixed version of IH shifts its one use of this type of variable to another that doesn't attempt to sync.
-
-I apologize to the community for taking a while to track down this issue. While I had been aware of the issue for a while I was under the impression it was only affecting users of Infinite Heaven. A further delay was due to testing with other users of IH which hid the issue. Also due to logistics of requiring another person to test with, on top of the already high difficulty of debugging scripting, and the strange behaviour, I delayed tackling the problem. 
-
-Those are explanations, but not excuses. My priorities were wrong on this.
-
-From the very start nearly a year ago I designed Infinite Heaven to disable its features when going on to FOB, however due to how the code is mostly shared between the modes there still has been the occasional issue, but nothing that affected non-users of IH until this bug.
-Sorry to those who it has affected.
-
-I would like to thank those that reported the issue, those that offered help with testing, and most recently i-ghost and Maniac_34 for helping me test while tracking down the issue.
+New for r179
+Fixed: Crash on exit from title having visited MB during the game session.
+Fixed: Infinite load on free roam if Attack heli class set to Random - thanks darkshadows97 for the report and save file.
+Option: Keep equipment Free<>Mission - Prevents equipment and weapons being reset when going between free-roam and missions. - thanks NasaNhak (yeah it only took me 5 months to actually look at it lol), and more recently XWolfJackX for the suggestion.
+(via Player restrictions menu)
 
 New for r178
 Feature: Custom profiles - You can now edit/creat custom setting profiles. See InfProfiles folder from the Infinite Heaven .zip
 
 Option: Filter faces - "Show all","Unique","Head fova mods" - filters the list of faces in the appearance menu
 Fixed: A number of player restriction options not applying - thanks Gambchon for the report.
-
-New for r177
-Reverted: Menu only print option name on menu up/down. Too much of an anoyance for little gain.
-Fixed: Trigger game event option does not require random trigger chance settings to be enabled.
-Fixed: Incorrect ammo count after disabling OSP weapon options. May still happen after exiting real subsistence missions into free-play, but can be fixed by changing the affected weapons to different types.
-Fixed: Enemy phase modifications breaking IH menu in wargames - thanks i-ghost for the report and save file to test.
-Option: printOnBlockChange - debug option that prints on block updates.
-(via the in mission Debug stuff menu)
-
-New for r176
-Options: Appearance options
-Player type - Snake, Avatar, DD Male, DD Female
-Suit type - the different suits, will use the Fova lua name if the model swap has included it.
-Camo type - Cammo, if the suit supports it
-Headgear - The usual mission selectable headgear. Bandanas(Snake/Avatar), Balaclavas etc.
-Face - (DD soldiers only), cycle backward to the end to get the more unique faces, including Hideo. 
-The previous player headgear (cosmetic) option has been removed, the headgear is in the faces list about a quater from the end.
-(via Appearance menu in Player settings menu or in In Mission menu)
-[youtube]a0PJJVkDQe8[/youtube]
-https://youtu.be/a0PJJVkDQe8
-
-Option: "Soldier night sight scale" - seperate sight scale applied to night
-
-Addition: Menu up and down now support bigger increments by holding <Fire>
-Change: Menu will only print out the option name, and not the setting while navigating up and down, the auto display shows the full text. This should cut down a little of the text printed/needing to catch up when cycling through the menu.
-
-Reverted: Removed fulton restriction on Invasion. The weirdness is still there, but the odd extraction count seems to be with normal extractions.
-
-New for r174
-Fixed: Skull event clear does disable weather changes - thanks mgs5tppfan for the report
-Fixed: (Maybe) Crash on exiting mother base invasion events - thanks various people for reports, could you please verify this is fixed.
-Change: Women in Enemy Invasion mode changed to percentage (actually percentage chance per soldier choice rather than strict percentage)
-Addition: Femme Fatales added to mother base events.
-Command: In mission Buddy Equipment change - Buddy equiment is changed to selected setting when <Action> is pressed.
-(via Buddy menu in mission menu)
-Change: Quiet move to last marker faces quiet in the same angle as the player when the command is called.
-[youtube]JxgQ5ZjX8ao[/youtube]
-https://youtu.be/JxgQ5ZjX8ao
-
-New for r173
-Fixed: The selection of DD bodies being limited to one or two when that body type has a table of types.
-Fixed: Wildcard body selection for table of types.
-Fixed: More soldiers on MB plats soldier count on checkpoint reload, manifested as no soldiers on last plats and double on first.
-Fixed: Hang on motherbase checkpoint reload from InfNPC, exacerbated by above.
-
-Added: MSF to MB DD Suits
-[youtube]5IPi0Kpauu8[/youtube]
-https://youtu.be/5IPi0Kpauu8
-
-New for r172
-Updated to TPP 1.10
-Extra unassigend soldiers in Africa added to lrrps.
-Freecam defaults to player position on first activate
-Added swimsuit to mb DD male,female.
-[youtube]Z_skYFSL-EI[/youtube]
-https://youtu.be/Z_skYFSL-EI
-Added swimsuit to female wildcard soldiers suit list.
 
 Disclaimer:
 ------------------------------

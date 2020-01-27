@@ -10,9 +10,11 @@ local profiles={}
 -- Defaults/example of all profile options for IH r178
 profiles.defaults={
 	description="Defaults/All disabled",
-	firstOption=true,--puts profile first for the IH menu option, only one profile should have this set.
-	loadOnACCStart=true,--If set to true profile will be applied on first load of ACC (actual, not just title).
+	firstProfile=true,--puts profile first for the IH menu option, only one profile should have this set.
+	loadOnACCStart=false,
 	profile={
+		--ACC Main menu
+		playerFaceId=0,--{ 0-1000 } -- Non-save -- Face
 		--World menu
 		gameEventChanceFREE=0,--{ 0-100 } -- Free roam event random trigger chance (percentage)
 		gameEventChanceMB=0,--{ 0-100 } -- MB event random trigger chance (percentage)
@@ -49,13 +51,13 @@ profiles.defaults={
 		disableMenuHeliAttack=0,--{ 0-1 } -- Disable Heli attack support-menu
 		disableSupportMenu=0,--{ 0-1 } -- Disable Support-menu
 		--Hand abilities levels menu
-		handLevelSonar=0,--{ 0-4 } -- Sonar level
-		handLevelPhysical=0,--{ 0-4 } -- Mobility level
-		handLevelPrecision=0,--{ 0-4 } -- Precision level
-		handLevelMedical=0,--{ 0-4 } -- Medical level
+		handLevelSonar=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Sonar level
+		handLevelPhysical=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Mobility level
+		handLevelPrecision=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Precision level
+		handLevelMedical=0,--{ DEFAULT, DISABLE, GRADE2, GRADE3, GRADE4 } -- Medical level
 		--Fulton levels menu
-		itemLevelFulton=1,--{ 1-4 } -- Fulton Level
-		itemLevelWormhole="DISABLE",--{ DISABLE, ENABLE } -- Wormhole Level
+		itemLevelFulton=0,--{ DEFAULT, GRADE1, GRADE2, GRADE3, GRADE4 } -- Fulton Level
+		itemLevelWormhole=0,--{ DEFAULT, DISABLE, ENABLE } -- Wormhole Level
 		--Fulton success menu
 		fultonNoMbSupport=0,--{ 0-1 } -- Disable MB fulton support
 		fultonNoMbMedical=0,--{ 0-1 } -- Disable MB fulton medical
@@ -265,7 +267,7 @@ profiles.defaults={
 	}
 }
 
-
+--tex My suggested settings for mother base
 profiles.motherBaseHeaven={
   description="Mother Base Heaven",
   profile={
@@ -322,7 +324,7 @@ profiles.fultonHeaven={
   }
 }
 
---tex aims for the same settings as Subsistence missions
+--tex aims to match same settings as Subsistence missions
 profiles.subsistencePure={
   description="Subsistence - Pure",
   profile={
@@ -347,8 +349,13 @@ profiles.subsistencePure={
     secondaryWeaponOsp="EQUIP_NONE",
     tertiaryWeaponOsp="EQUIP_NONE",
 
-    handLevelProfile=1,
-    fultonLevelProfile=1,
+    handLevelSonar="DISABLE",
+    handLevelPhysical="DISABLE",
+    handLevelPrecision="DISABLE",
+    handLevelMedical="DISABLE",
+
+    itemLevelFulton="GRADE1",
+    itemLevelWormhole="DISABLE",
 
     disableMenuDrop=1,
     disableMenuBuddy=1,
@@ -360,8 +367,6 @@ profiles.subsistencePure={
     disableRetry=0,
     gameOverOnDiscovery=0,
     maxPhase="PHASE_ALERT",--Reset
-
-    fultonLevelProfile=1,
   }
 }
 
@@ -390,8 +395,13 @@ profiles.subsistenceBounder={
     secondaryWeaponOsp="EQUIP_NONE",
     tertiaryWeaponOsp="EQUIP_NONE",
 
-    handLevelProfile=1,
-    fultonLevelProfile=1,
+    handLevelSonar="DISABLE",
+    handLevelPhysical="DISABLE",
+    handLevelPrecision="DISABLE",
+    handLevelMedical="DISABLE",
+
+    itemLevelFulton="GRADE1",
+    itemLevelWormhole="DISABLE",
 
     disableMenuDrop=1,
     disableMenuBuddy=0,
@@ -403,8 +413,6 @@ profiles.subsistenceBounder={
     disableRetry=0,
     gameOverOnDiscovery=0,
     maxPhase="PHASE_ALERT",--Reset
-
-    fultonLevelProfile=1,
   },
 }
 
@@ -432,5 +440,227 @@ profiles.revengeHeaven={
     changeCpSubTypeMISSION=0,
   },
 }
+
+
+--tex Custom Enemy Prep Configs
+--In-game Custom Prep Configs are built by choosing random values between the min,max options.
+
+profiles.customPrepMax={
+  description="Custom Prep - Max",
+  profile={
+    --Custom prep menu
+    reinforceCount_MIN=99,--{ 1-99 } -- Reinforce calls min
+    reinforceCount_MAX=99,--{ 1-99 } -- Reinforce calls max
+    reinforceLevel_MIN="BLACK_SUPER_REINFORCE",--{ NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE } -- Vehicle reinforcement level min
+    reinforceLevel_MAX="BLACK_SUPER_REINFORCE",--{ NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE } -- Vehicle reinforcement level max
+    revengeIgnoreBlocked_MIN=1,--{ 0-1 } -- Ignore combat-deploy supply blocks min
+    revengeIgnoreBlocked_MAX=1,--{ 0-1 } -- Ignore combat-deploy supply blocks max
+    --Weapon deployment
+    SNIPER_MIN=20,--{ 0-100 } --  (percentage)
+    SNIPER_MAX=20,--{ 0-100 } --  (percentage)
+    MISSILE_MIN=40,--{ 0-100 } --  (percentage)
+    MISSILE_MAX=40,--{ 0-100 } --  (percentage)
+    MG_MIN=40,--{ 0-100 } --  (percentage)
+    MG_MAX=40,--{ 0-100 } --  (percentage)
+    SHOTGUN_MIN=40,--{ 0-100 } --  (percentage)
+    SHOTGUN_MAX=40,--{ 0-100 } --  (percentage)
+    SMG_MIN=0,--{ 0-100 } --  (percentage)
+    SMG_MAX=0,--{ 0-100 } --  (percentage)
+    ASSAULT_MIN=0,--{ 0-100 } --  (percentage)
+    ASSAULT_MAX=0,--{ 0-100 } --  (percentage)
+    GUN_LIGHT_MIN=100,--{ 0-100 } --  (percentage)
+    GUN_LIGHT_MAX=100,--{ 0-100 } --  (percentage)
+    --Armor deployment
+    ARMOR_MIN=40,--{ 0-100 } --  (percentage)
+    ARMOR_MAX=40,--{ 0-100 } --  (percentage)
+    SOFT_ARMOR_MIN=100,--{ 0-100 } --  (percentage)
+    SOFT_ARMOR_MAX=100,--{ 0-100 } --  (percentage)
+    SHIELD_MIN=40,--{ 0-100 } --  (percentage)
+    SHIELD_MAX=40,--{ 0-100 } --  (percentage)
+    --Headgear deployment
+    HELMET_MIN=100,--{ 0-100 } --  (percentage)
+    HELMET_MAX=100,--{ 0-100 } --  (percentage)
+    NVG_MIN=100,--{ 0-100 } --  (percentage)
+    NVG_MAX=100,--{ 0-100 } --  (percentage)
+    GAS_MASK_MIN=100,--{ 0-100 } --  (percentage)
+    GAS_MASK_MAX=100,--{ 0-100 } --  (percentage)
+    --CP deterrent deployment
+    DECOY_MIN=100,--{ 0-100 } --  (percentage)
+    DECOY_MAX=100,--{ 0-100 } --  (percentage)
+    MINE_MIN=100,--{ 0-100 } --  (percentage)
+    MINE_MAX=100,--{ 0-100 } --  (percentage)
+    CAMERA_MIN=100,--{ 0-100 } --  (percentage)
+    CAMERA_MAX=100,--{ 0-100 } --  (percentage)
+    --Soldier abilities
+    STEALTH_MIN="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } -- Adjusts enemy soldiers notice,cure,reflex and speed ablilities.
+    STEALTH_MAX="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } --
+    COMBAT_MIN="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } -- Adjusts enemy soldiers shot,grenade,reload,hp and speed abilities.
+    COMBAT_MAX="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } --
+    HOLDUP_MIN="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } --
+    HOLDUP_MAX="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } --
+    FULTON_MIN="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } --
+    FULTON_MAX="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } --
+    --Weapon strength menu
+    STRONG_WEAPON_MIN=1,--{ 0-1 } --
+    STRONG_WEAPON_MAX=1,--{ 0-1 } --
+    STRONG_SNIPER_MIN=1,--{ 0-1 } --
+    STRONG_SNIPER_MAX=1,--{ 0-1 } --
+    STRONG_MISSILE_MIN=1,--{ 0-1 } --
+    STRONG_MISSILE_MAX=1,--{ 0-1 } --
+    --CP equip strength menu
+    ACTIVE_DECOY_MIN=1,--{ 0-1 } --
+    ACTIVE_DECOY_MAX=1,--{ 0-1 } --
+    GUN_CAMERA_MIN=1,--{ 0-1 } --
+    GUN_CAMERA_MAX=1,--{ 0-1 } --
+  }
+}
+
+profiles.customPrepMin={
+  description="Custom Prep - Min",
+  profile={
+    --Custom prep menu
+    reinforceCount_MIN=1,--{ 1-99 } -- Reinforce calls min
+    reinforceCount_MAX=1,--{ 1-99 } -- Reinforce calls max
+    reinforceLevel_MIN="NONE",--{ NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE } -- Vehicle reinforcement level min
+    reinforceLevel_MAX="NONE",--{ NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE } -- Vehicle reinforcement level max
+    revengeIgnoreBlocked_MIN=0,--{ 0-1 } -- Ignore combat-deploy supply blocks min
+    revengeIgnoreBlocked_MAX=0,--{ 0-1 } -- Ignore combat-deploy supply blocks max
+    --Weapon deployment
+    SNIPER_MIN=0,--{ 0-100 } --  (percentage)
+    SNIPER_MAX=0,--{ 0-100 } --  (percentage)
+    MISSILE_MIN=0,--{ 0-100 } --  (percentage)
+    MISSILE_MAX=0,--{ 0-100 } --  (percentage)
+    MG_MIN=0,--{ 0-100 } --  (percentage)
+    MG_MAX=0,--{ 0-100 } --  (percentage)
+    SHOTGUN_MIN=0,--{ 0-100 } --  (percentage)
+    SHOTGUN_MAX=0,--{ 0-100 } --  (percentage)
+    SMG_MIN=0,--{ 0-100 } --  (percentage)
+    SMG_MAX=0,--{ 0-100 } --  (percentage)
+    ASSAULT_MIN=0,--{ 0-100 } --  (percentage)
+    ASSAULT_MAX=0,--{ 0-100 } --  (percentage)
+    GUN_LIGHT_MIN=0,--{ 0-100 } --  (percentage)
+    GUN_LIGHT_MAX=0,--{ 0-100 } --  (percentage)
+    --Armor deployment
+    ARMOR_MIN=0,--{ 0-100 } --  (percentage)
+    ARMOR_MAX=0,--{ 0-100 } --  (percentage)
+    SOFT_ARMOR_MIN=0,--{ 0-100 } --  (percentage)
+    SOFT_ARMOR_MAX=0,--{ 0-100 } --  (percentage)
+    SHIELD_MIN=0,--{ 0-100 } --  (percentage)
+    SHIELD_MAX=0,--{ 0-100 } --  (percentage)
+    --Headgear deployment
+    HELMET_MIN=0,--{ 0-100 } --  (percentage)
+    HELMET_MAX=0,--{ 0-100 } --  (percentage)
+    NVG_MIN=0,--{ 0-100 } --  (percentage)
+    NVG_MAX=0,--{ 0-100 } --  (percentage)
+    GAS_MASK_MIN=0,--{ 0-100 } --  (percentage)
+    GAS_MASK_MAX=0,--{ 0-100 } --  (percentage)
+    --CP deterrent deployment
+    DECOY_MIN=0,--{ 0-100 } --  (percentage)
+    DECOY_MAX=0,--{ 0-100 } --  (percentage)
+    MINE_MIN=0,--{ 0-100 } --  (percentage)
+    MINE_MAX=0,--{ 0-100 } --  (percentage)
+    CAMERA_MIN=0,--{ 0-100 } --  (percentage)
+    CAMERA_MAX=0,--{ 0-100 } --  (percentage)
+    --Soldier abilities
+    STEALTH_MIN="NONE",--{ NONE, LOW, HIGH, SPECIAL } -- Adjusts enemy soldiers notice,cure,reflex and speed ablilities.
+    STEALTH_MAX="NONE",--{ NONE, LOW, HIGH, SPECIAL } --
+    COMBAT_MIN="NONE",--{ NONE, LOW, HIGH, SPECIAL } -- Adjusts enemy soldiers shot,grenade,reload,hp and speed abilities.
+    COMBAT_MAX="NONE",--{ NONE, LOW, HIGH, SPECIAL } --
+    HOLDUP_MIN="NONE",--{ NONE, LOW, HIGH, SPECIAL } --
+    HOLDUP_MAX="NONE",--{ NONE, LOW, HIGH, SPECIAL } --
+    FULTON_MIN="NONE",--{ NONE, LOW, HIGH, SPECIAL } --
+    FULTON_MAX="NONE",--{ NONE, LOW, HIGH, SPECIAL } --
+    --Weapon strength menu
+    STRONG_WEAPON_MIN=0,--{ 0-1 } --
+    STRONG_WEAPON_MAX=0,--{ 0-1 } --
+    STRONG_SNIPER_MIN=0,--{ 0-1 } --
+    STRONG_SNIPER_MAX=0,--{ 0-1 } --
+    STRONG_MISSILE_MIN=0,--{ 0-1 } --
+    STRONG_MISSILE_MAX=0,--{ 0-1 } --
+    --CP equip strength menu
+    ACTIVE_DECOY_MIN=0,--{ 0-1 } --
+    ACTIVE_DECOY_MAX=0,--{ 0-1 } --
+    GUN_CAMERA_MIN=0,--{ 0-1 } --
+    GUN_CAMERA_MAX=0,--{ 0-1 } --
+  }
+}
+
+--tex widest range of randomization
+profiles.customPrepWide={
+  description="Custom Prep - Random",
+  profile={
+    --Custom prep menu
+    reinforceCount_MIN=0,--{ 1-99 } -- Reinforce calls min
+    reinforceCount_MAX=1,--{ 1-99 } -- Reinforce calls max
+    reinforceLevel_MIN="NONE",--{ NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE } -- Vehicle reinforcement level min
+    reinforceLevel_MAX="BLACK_SUPER_REINFORCE",--{ NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE } -- Vehicle reinforcement level max
+    revengeIgnoreBlocked_MIN=0,--{ 0-1 } -- Ignore combat-deploy supply blocks min
+    revengeIgnoreBlocked_MAX=1,--{ 0-1 } -- Ignore combat-deploy supply blocks max
+    --Weapon deployment
+    SNIPER_MIN=0,--{ 0-100 } --  (percentage)
+    SNIPER_MAX=100,--{ 0-100 } --  (percentage)
+    MISSILE_MIN=0,--{ 0-100 } --  (percentage)
+    MISSILE_MAX=100,--{ 0-100 } --  (percentage)
+    MG_MIN=0,--{ 0-100 } --  (percentage)
+    MG_MAX=100,--{ 0-100 } --  (percentage)
+    SHOTGUN_MIN=0,--{ 0-100 } --  (percentage)
+    SHOTGUN_MAX=100,--{ 0-100 } --  (percentage)
+    SMG_MIN=0,--{ 0-100 } --  (percentage)
+    SMG_MAX=100,--{ 0-100 } --  (percentage)
+    ASSAULT_MIN=0,--{ 0-100 } --  (percentage)
+    ASSAULT_MAX=100,--{ 0-100 } --  (percentage)
+    GUN_LIGHT_MIN=0,--{ 0-100 } --  (percentage)
+    GUN_LIGHT_MAX=100,--{ 0-100 } --  (percentage)
+    --Armor deployment
+    ARMOR_MIN=0,--{ 0-100 } --  (percentage)
+    ARMOR_MAX=100,--{ 0-100 } --  (percentage)
+    SOFT_ARMOR_MIN=0,--{ 0-100 } --  (percentage)
+    SOFT_ARMOR_MAX=100,--{ 0-100 } --  (percentage)
+    SHIELD_MIN=0,--{ 0-100 } --  (percentage)
+    SHIELD_MAX=100,--{ 0-100 } --  (percentage)
+    --Headgear deployment
+    HELMET_MIN=0,--{ 0-100 } --  (percentage)
+    HELMET_MAX=100,--{ 0-100 } --  (percentage)
+    NVG_MIN=0,--{ 0-100 } --  (percentage)
+    NVG_MAX=100,--{ 0-100 } --  (percentage)
+    GAS_MASK_MIN=0,--{ 0-100 } --  (percentage)
+    GAS_MASK_MAX=100,--{ 0-100 } --  (percentage)
+    --CP deterrent deployment
+    DECOY_MIN=0,--{ 0-100 } --  (percentage)
+    DECOY_MAX=100,--{ 0-100 } --  (percentage)
+    MINE_MIN=0,--{ 0-100 } --  (percentage)
+    MINE_MAX=100,--{ 0-100 } --  (percentage)
+    CAMERA_MIN=0,--{ 0-100 } --  (percentage)
+    CAMERA_MAX=100,--{ 0-100 } --  (percentage)
+    --Soldier abilities
+    STEALTH_MIN="NONE",--{ NONE, LOW, HIGH, SPECIAL } -- Adjusts enemy soldiers notice,cure,reflex and speed ablilities.
+    STEALTH_MAX="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } --
+    COMBAT_MIN="NONE",--{ NONE, LOW, HIGH, SPECIAL } -- Adjusts enemy soldiers shot,grenade,reload,hp and speed abilities.
+    COMBAT_MAX="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } --
+    HOLDUP_MIN="NONE",--{ NONE, LOW, HIGH, SPECIAL } --
+    HOLDUP_MAX="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } --
+    FULTON_MIN="NONE",--{ NONE, LOW, HIGH, SPECIAL } --
+    FULTON_MAX="SPECIAL",--{ NONE, LOW, HIGH, SPECIAL } --
+    --Weapon strength menu
+    STRONG_WEAPON_MIN=0,--{ 0-1 } --
+    STRONG_WEAPON_MAX=1,--{ 0-1 } --
+    STRONG_SNIPER_MIN=0,--{ 0-1 } --
+    STRONG_SNIPER_MAX=1,--{ 0-1 } --
+    STRONG_MISSILE_MIN=0,--{ 0-1 } --
+    STRONG_MISSILE_MAX=1,--{ 0-1 } --
+    --CP equip strength menu
+    ACTIVE_DECOY_MIN=0,--{ 0-1 } --
+    ACTIVE_DECOY_MAX=1,--{ 0-1 } --
+    GUN_CAMERA_MIN=0,--{ 0-1 } --
+    GUN_CAMERA_MAX=1,--{ 0-1 } --
+
+    reinforceLevel_MIN="NONE",--{ NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE } -- Vehicle reinforcement level min
+    reinforceLevel_MAX="BLACK_SUPER_REINFORCE",--{ NONE, SUPER_REINFORCE, BLACK_SUPER_REINFORCE } -- Vehicle reinforcement level min
+
+    reinforceCount_MIN=1,
+    reinforceCount_MAX=5,
+  }
+}
+
 
 return profiles

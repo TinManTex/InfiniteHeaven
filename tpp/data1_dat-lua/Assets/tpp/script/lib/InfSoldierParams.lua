@@ -379,6 +379,7 @@ end
 
 function this.SoldierParametersMod()
   if TppMission.IsFOBMission(vars.missionCode)then
+    --tex TODO: wouldn't catch if tables had been reloaded with modded values, then ivars were reset and player went to FOB
     if NotDefault{Ivars.soldierHealthScale,Ivars.soldierSightDistScale,Ivars.soldierHearingDistScale} then
       TppSoldier2.ReloadSoldier2ParameterTables(this.soldierParametersDefaults)
     end

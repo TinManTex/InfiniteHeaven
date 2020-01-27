@@ -381,10 +381,10 @@ function this.InitUpdate(currentChecks)
   --      GameObject.SendCommand( heliObjectId, { id = "SetMeshType", typeName = meshType, } )
 
   InfMain.RandomSetToLevelSeed()
-  if Ivars.mbEnemyHeliColor:Is()>0 then
-    heliColorType=this.GetEnemyHeliColor()
-  elseif Ivars.mbEnemyHeliColor:Is"RANDOM" then
+  if Ivars.mbEnemyHeliColor:Is"RANDOM" then
     heliColorType=math.random(0,2)
+  elseif Ivars.mbEnemyHeliColor:Is()>0 then
+    heliColorType=this.GetEnemyHeliColor()
   end
   InfMain.RandomResetToOsTime()
 

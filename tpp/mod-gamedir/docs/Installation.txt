@@ -33,11 +33,7 @@ It should say 1 file needs to be redownloaded, so go to steam downloads and make
 
 Installation:
 ------------------------------
-Use SnakeBite Mod Manager 0.8.3 or later:
-Get 0.8 from nexusmods.com/metalgearsolidvtpp/mods/106/
-And use snakebites in-app update system by clicking on the yellow link on Snakebites main screen: 
-[url=http://imgur.com/DjZizjH]]http://imgur.com/DjZizjH[/url]
-This will update Snakebite to 0.8.3
+Use SnakeBite Mod Manager 0.8.3 or later from nexusmods.com/metalgearsolidvtpp/mods/106/
 
 Click on the Mods menu item on Snakebites main screen.
 
@@ -48,9 +44,9 @@ Extract the Infinite Heaven zip files somewhere.
 Click Install .MGSV on the Installed Mods tab in Snakebit
 Browse to the Infinite Heaven.msgv from the Infinite Heaven zip file.
 
-WARNING: Applying this mod to any game version after the one stated at the top of the readme involved will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
+This step should only take a minute or so if no other mods installed (longer with other mods installed, basically proportional to the size of 00.dat). If it takes an excessively long time refer to the sticky on the snakebite posts page for possible fixes.
 
-NOTE: Snakebite sometimes has issues after game updates, to reset snakebite choose it's Settings > Restore Original files, confirm snakebite.xml in the MGS_TPP folder was deleted, then revalidate the game cache in steam and reinstall the mod.
+WARNING: Applying this mod to any game version after the one stated at the top of the readme involved will likely prevent the game from working. Simply uninstall using SnakeBite and wait for the mod to be updated.
 
 Note:
 ------------------------------

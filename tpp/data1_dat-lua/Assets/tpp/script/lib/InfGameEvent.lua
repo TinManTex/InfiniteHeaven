@@ -90,7 +90,6 @@ local roamEventProfiles={
   CRASHLAND={
     clearItems={0,1},
     clearSupportItems={0,1},
-    ospWeaponProfile="CUSTOM",
     primaryWeaponOsp={0,1},
     secondaryWeaponOsp={0,1},
     tertiaryWeaponOsp={0,1},

@@ -69,6 +69,28 @@ this.resetSelectedProfile={
   end,
 }
 
+this.viewProfile={
+  OnChange=function()
+    local profileInfo=Ivars.selectProfile:GetProfileInfo()
+    if profileInfo==nil then
+      InfMenu.PrintLangId"no_profiles_installed"
+      return
+    end
+        
+    local profileMenu=InfMenu.BuildProfileMenu(profileInfo.profile)
+    Ivars.ApplyProfile(profileInfo.profile)
+    InfMenu.GoMenu(profileMenu)
+  end,
+}
+
+this.revertProfile={
+  OnChange=function()
+    --tex revertProfile is built in BuildProfileMenu
+    Ivars.ApplyProfile(InfMenu.currentMenu.revertProfile)
+    InfMenu.GoBackCurrent()
+  end,
+}
+
 this.printFaceInfo={
   OnChange=function()
     InfEneFova.PrintFaceInfo(vars.playerFaceId)
@@ -603,10 +625,10 @@ this.log=""
 this.DEBUG_SomeShiz={
   OnChange=function()
     InfInspect.TryFunc(function()
---DEBUGNOW
---InfInspect.PrintInspect(TppEnemy.allNoDups)
---      InfInspect.PrintInspect(TppEnemy.weaponIdTable.ALL)
-InfInspect.PrintInspect(mvars.revenge_loadedEquip)
+        --DEBUGNOW
+        --InfInspect.PrintInspect(TppEnemy.allNoDups)
+        --      InfInspect.PrintInspect(TppEnemy.weaponIdTable.ALL)
+        --InfInspect.PrintInspect(mvars.revenge_loadedEquip)
 
     end)
     InfMenu.DebugPrint("index1:"..index1)
@@ -628,6 +650,7 @@ local index2=index2Min
 this.DEBUG_SomeShiz2={
   OnChange=function()
     InfInspect.TryFunc(function()
+      --InfInspect.PrintInspect(InfProfiles)
 
     end)
     InfMenu.DebugPrint("index2:"..index2)
@@ -645,10 +668,11 @@ this.DEBUG_SomeShiz3={
   OnChange=function()
     InfInspect.TryFunc(function()
 
-      InfInspect.PrintInspect(InfProfiles)
-      --      InfInspect.PrintInspect(InfModelRegistry)
-      --      InfInspect.PrintInspect(quiet_modelInfo)
-      --      InfInspect.PrintInspect(example_heads_info)
+--DEBUGNOW
+ 
+        --InfInspect.PrintInspect(InfModelRegistry)
+        --InfInspect.PrintInspect(InfMessageLog.debug)
+        
     end)
     InfMenu.DebugPrint("index3:"..index3)
     index3=index3+1

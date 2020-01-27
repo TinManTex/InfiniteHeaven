@@ -859,8 +859,36 @@ function this.ModWelcome()
   InfMenu.Print(InfMain.modName.." "..InfMain.modVersion)
   InfMenu.PrintLangId"menu_keys"
 end
-function this.ModMissionMessage()
-  TppUiCommand.AnnounceLogView("ModMissionMessage test")--ADDLANG
+
+function this.BuildProfileMenu(profile)
+  local revertProfile={}
+  local options={}
+  for ivarName,setting in pairs(profile)do
+    local ivar=Ivars[ivarName]
+    if ivar==nil then
+      InfMenu.DebugPrint("WARNING: BuildProfileMenu - could not find ivar "..ivarName)--DEBUGNOW
+    else
+      revertProfile[ivarName]=ivar.setting
+      options[#options+1]=ivar
+    end
+  end
+  options[#options+1]=InfMenuCommands.revertProfile
+  options[#options+1]=InfMenuCommands.goBackItem
+
+  return {
+    isProfileMenu=true,
+    revertProfile=revertProfile,
+    options=options
+  }
+end
+
+function this.RevertProfileMenu()
+--tex profile menu applies with nosave, so revert
+  if this.currentMenu.isProfileMenu then
+    for i,option in pairs(this.currentMenu.options) do
+      Ivars.UpdateSettingFromGvar(option)
+    end
+  end
 end
 
 return this

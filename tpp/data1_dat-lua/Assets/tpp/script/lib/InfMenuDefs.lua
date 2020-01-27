@@ -209,19 +209,17 @@ this.debugMenu={
 this.ospMenu={
   noResetItem=true,
   options={
-    Ivars.clearItems,
-    Ivars.clearSupportItems,
-    Ivars.ospWeaponProfile,
     Ivars.primaryWeaponOsp,
     Ivars.secondaryWeaponOsp,
     Ivars.tertiaryWeaponOsp,--tex user can set in UI, but still have it for setting the profile changes, and also if they want to set it while they're doing the other settings
+    Ivars.clearItems,
+    Ivars.clearSupportItems,
   }
 }
 
 this.handLevelMenu={
   noResetItem=true,
   options={
-    Ivars.handLevelProfile,
     Ivars.handLevelSonar,
     Ivars.handLevelPhysical,
     Ivars.handLevelPrecision,
@@ -232,7 +230,6 @@ this.handLevelMenu={
 this.fultonLevelMenu={
   noResetItem=true,
   options={
-    Ivars.fultonLevelProfile,
     Ivars.itemLevelFulton,
     Ivars.itemLevelWormhole,
   }
@@ -252,7 +249,6 @@ this.fultonSuccessMenu={
 
 this.revengeSystemMenu={
   options={
-    Ivars.revengeProfile,
     Ivars.revengeBlockForMissionCount,
     Ivars.applyPowersToOuterBase,
     Ivars.applyPowersToLrrp,
@@ -344,9 +340,6 @@ this.playerRestrictionsInMissionMenu={
     --Ivars.disableXrayMarkers,--tex doesn't seem to work realtime
     Ivars.disableWorldMarkers,
   },
-  disabled=false,
-  disabledReason="item_disabled_subsistence",
-  OnSelect=Ivars.DisableOnSubsistence,
 }
 
 this.phaseMenu={
@@ -362,9 +355,6 @@ this.phaseMenu={
     --Ivars.cpAlertOnVehicleFulton,--WIP, NOTE: ivar save is disabled
     Ivars.printPhaseChanges,--<don't rely on phaseUpdate
   },
-  disabled=false,
-  disabledReason="item_disabled_subsistence",
-  OnSelect=Ivars.DisableOnSubsistence,
 }
 
 this.supportHeliMenu={
@@ -487,7 +477,6 @@ this.worldMenu={
 }
 this.playerRestrictionsMenu={
   options={
-    Ivars.subsistenceProfile,
     Ivars.blockInMissionSubsistenceIvars,
     Ivars.disableHeliAttack,
     Ivars.disableFulton,
@@ -499,6 +488,7 @@ this.playerRestrictionsMenu={
     Ivars.gameOverOnDiscovery,
     Ivars.disableSpySearch,
     Ivars.disableHerbSearch,
+    Ivars.dontOverrideFreeLoadout,
     this.markersMenu,
     this.missionPrepRestrictionsMenu,
     this.disableSupportMenuMenu,
@@ -531,13 +521,15 @@ this.heliSpaceMenu={
   noResetItem=true,
   noGoBackItem=true,
   options={
+    --InfMenuCommands.DEBUG_SetIvarsToDefault,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
 --    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
-
+    --Ivars.playerFaceId,--DEBUG
     Ivars.selectProfile,
     --InfMenuCommands.applySelectedProfile,
     InfMenuCommands.resetSelectedProfile,
+    --InfMenuCommands.viewProfile,--DEBUGNOW
     InfMenuCommands.forceGameEvent,
     this.worldMenu,
     this.playerRestrictionsMenu,
@@ -600,9 +592,9 @@ this.inMissionMenu={
   noGoBackItem=true,--tex is root
   options={
     --    InfMenuCommands.DEBUG_WarpToObject,--DEBUG
---        InfMenuCommands.DEBUG_SomeShiz,--DEBUG
---        InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
---        InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
+    --InfMenuCommands.DEBUG_SomeShiz,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz2,--DEBUG
+--    InfMenuCommands.DEBUG_SomeShiz3,--DEBUG
     InfMenuCommands.requestHeliLzToLastMarker,
     InfMenuCommands.forceExitHeli,
     Ivars.warpPlayerUpdate,

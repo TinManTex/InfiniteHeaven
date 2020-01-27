@@ -1,4 +1,4 @@
--- DOBUILD: 0 --DEBUGNOW
+-- DOBUILD: 0 --DEBUGWIP
 -- ORIGINALQAR: chunk2
 -- PACKPATH: \Assets\tpp\pack\mission2\free\f30010\f30010.fpkd
 local this = {}

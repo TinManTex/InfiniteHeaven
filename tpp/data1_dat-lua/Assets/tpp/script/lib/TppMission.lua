@@ -588,9 +588,9 @@ function this.ExecuteContinueFromCheckPoint(RENpopupId,a,RENdoMissionCallback)
   end
 end
 function this.IncrementRetryCount()
-PlayRecord.RegistPlayRecord"MISSION_RETRY"
-Tpp.IncrementPlayData"totalRetryCount"
-TppSequence.IncrementContinueCount()
+  PlayRecord.RegistPlayRecord"MISSION_RETRY"
+  Tpp.IncrementPlayData"totalRetryCount"
+  TppSequence.IncrementContinueCount()
 end
 function this.ExecuteOnReturnToMissionCallback()
   local OnReturnToMission
@@ -807,8 +807,11 @@ function this.VarSaveForMissionAbort()
     this.ExecuteVehicleSaveCarryOnAbort()
     TppBuddyService.SetVarsMissionStart()
     this.KillDyingQuiet()
-    if(not isHeliSpace)and nextIsFreeMission then
-      TppUiCommand.LoadoutSetMissionEndFromMissionToFree()
+    --tex added dontOverrideFreeLoadout bypass
+    if Ivars.dontOverrideFreeLoadout:Is(0) then
+      if(not isHeliSpace)and nextIsFreeMission then
+        TppUiCommand.LoadoutSetMissionEndFromMissionToFree()
+      end
     end
     if gvars.usingNormalMissionSlot then
       TppStory.FailedRetakeThePlatformIfOpened()
@@ -1271,6 +1274,7 @@ function this.ExecuteMissionFinalize()
     if mvars.mis_nextClusterId then
       vars.mbClusterId=mvars.mis_nextClusterId
     end
+    Ivars.prevMissionCode=vars.missionCode--tex added
     vars.locationCode=mvars.mis_nextLocationCode
     vars.missionCode=gvars.mis_nextMissionCodeForMissionClear
   else
@@ -1303,10 +1307,13 @@ function this.ExecuteMissionFinalize()
     TppUiCommand.LoadoutSetItemEquipInfoInMission{slotIndex=3,equipId=TppEquip.EQP_IT_Nvg,level=1}
   end
   if(not isHeliSpace)then
-    if this.IsMbFreeMissions(gvars.mis_nextMissionCodeForMissionClear)then
-      TppUiCommand.LoadoutSetMissionRecieveFromFreeToMission()
-    elseif nextIsFreeMission then
-      TppUiCommand.LoadoutSetMissionEndFromMissionToFree()
+    --tex added dontOverrideFreeLoadout bypass
+    if Ivars.dontOverrideFreeLoadout:Is(0) then
+      if this.IsMbFreeMissions(gvars.mis_nextMissionCodeForMissionClear)then
+        TppUiCommand.LoadoutSetMissionRecieveFromFreeToMission()
+      elseif nextIsFreeMission then
+        TppUiCommand.LoadoutSetMissionEndFromMissionToFree()
+      end
     end
   end
   if not(isHeliSpace and nextIsFreeMission)then
@@ -1487,17 +1494,7 @@ function this.IsFOBMission(missionCode)
     return false
   end
 end
-function this.IsHardMission(missionId)--tex is hard mission override
-  if Ivars.isManualHard:Is(1) then
-    return true
-end
-return this.IsActualHardMission(missionId)
-end
-function this.IsManualHardMission()
-  return Ivars.isManualHard:Is(1)
-end--
-function this.IsActualHardMission(missionId)--tex the ORIG: IsHardMission
-  --function this.IsHardMission(missionId)
+function this.IsHardMission(missionId)
   local n=math.floor(missionId/1e3)
   local e=math.floor(missionId/1e4)*10
   if(n-e)==1 then
@@ -1506,34 +1503,17 @@ function this.IsActualHardMission(missionId)--tex the ORIG: IsHardMission
     return false
   end
 end
---tex
-function this.GetNormalMissionCodeFromHardMission(missionId)--tex NMC: GOTCHA: looks like it would be easy to forget to check
-  if this.IsActualHardMission(missionId) then
-    return missionId-1e3
-else
-  return missionId
+--GOTCHA: looks like it would be easy to forget to check
+function this.GetNormalMissionCodeFromHardMission(missionId)
+  return missionId-1e3
 end
-end
---function this.GetNormalMissionCodeFromHardMission(e)--tex ORIG:
---  return e-1e3
---end
 function this.IsSubsistenceMission()
-  if(vars.missionCode==11043)or(vars.missionCode==11044)or this.IsManualSubsistence()then--tex IsSubsistenceMission() - added subsitence toggle
+  if(vars.missionCode==11043)or(vars.missionCode==11044)then
     return true
   else
     return false
   end
 end
-function this.IsActualSubsistenceMission()--tex was ORIG: IsSubsistenceMission
-  if(vars.missionCode==11043)or(vars.missionCode==11044)then
-    return true
-else
-  return false
-end
-end
-function this.IsManualSubsistence()--tex
-  return Ivars.subsistenceProfile:Is() > 0 --and not Ivars.subsistenceProfile:Is"CUSTOM"
-end--
 function this.IsPerfectStealthMission()
   if(((vars.missionCode==11082)or(vars.missionCode==11033))or(vars.missionCode==11080))or(vars.missionCode==11121)then
     return true
@@ -3104,7 +3084,9 @@ function this.OnMissionGameEndFadeOutFinish2nd()
   end
   local missionClearType=this.GetMissionClearType()
   if(missionClearType==TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_ORDER_BOX_DEMO)or(missionClearType==TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX)then
-    TppUiCommand.LoadoutSetMissionRecieveFromFreeToMission()
+    if Ivars.dontOverrideFreeLoadout:Is(0) then--tex added bypass
+      TppUiCommand.LoadoutSetMissionRecieveFromFreeToMission()
+    end
   end
   TppHero.AnnounceFirstMissionClearHeroPoint()
   TppPlayer.AggregateCaptureAnimal()

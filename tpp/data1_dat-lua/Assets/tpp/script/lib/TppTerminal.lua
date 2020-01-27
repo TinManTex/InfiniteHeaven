@@ -1095,7 +1095,7 @@ function this.SetUp()
   this.SetUpCustomWeaponMBDVCMenu()
 
   --tex> reworked, disable various support menus
-  local isActual=TppMission.IsActualSubsistenceMission()
+  local isActual=TppMission.IsSubsistenceMission()
   for n, ivar in ipairs(Ivars.disableMenuIvars) do
     if isActual or ivar:Is(1) then
       this.EnableDvcMenuByList{{menu=ivar.menuId,active=false}}

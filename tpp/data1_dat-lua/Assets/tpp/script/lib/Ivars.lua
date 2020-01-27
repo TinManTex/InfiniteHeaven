@@ -380,6 +380,7 @@ this.printOnBlockChange={
 --}
 
 --parameters
+--tex DEBUGNOW TODO: shift to simply being an allow-original soldier params/mods
 this.soldierParamsProfile={
   save=GLOBAL,--tex global since user still has to restart to get default/modded/reset
   --range=this.switchRange,
@@ -788,12 +789,6 @@ this.setFirstFobBuilt={
   settingNames="set_switch",
 }
 
-this.isManualHard={--tex not currently user option, but left over for legacy, mostly just switches on hard game over
-  --save=MISSION,
-  nonUser=true,
-  range=this.switchRange,
-}
-
 --tex TODO: rethink
 this.blockInMissionSubsistenceIvars={
   save=MISSION,
@@ -801,139 +796,16 @@ this.blockInMissionSubsistenceIvars={
   settingNames="set_switch",
 }
 
-this.subsistenceProfile={
-  save=MISSION,
-  settings={"DEFAULT","PURE","BOUNDER","CUSTOM"},
-  settingNames="subsistenceProfileSettings",
-  settingsTable={
-    DEFAULT=function()
-      Ivars.blockInMissionSubsistenceIvars:Set(0,true)
-
-      Ivars.disableLzs:Set(0,true)
-      Ivars.disableSelectBuddy:Set(0,true)
-      Ivars.disableHeliAttack:Set(0,true)
-      Ivars.disableSelectTime:Set(0,true)
-      Ivars.disableSelectVehicle:Set(0,true)
-      Ivars.disableHeadMarkers:Set(0,true)
-      Ivars.disableXrayMarkers:Set(0,true)
-      Ivars.disableWorldMarkers:Set(0,true)
-      Ivars.disableFulton:Set(0,true)
-      Ivars.clearItems:Set(0,true)
-      Ivars.clearSupportItems:Set(0,true)
-      Ivars.setSubsistenceSuit:Set(0,true)
-      Ivars.setDefaultHand:Set(0,true)
-      Ivars.handLevelProfile:Set(0,true) --game auto sets to max developed, but still need this to stop override
-      Ivars.fultonLevelProfile:Set(0,true) -- game auto turns on wormhole, user can manually chose overall level in ui
-      Ivars.ospWeaponProfile:Set(0,true)
-      Ivars.disableSpySearch:Set(0,true)
-
-      Ivars.disableMenuDrop:Set(0,true)
-      Ivars.disableMenuBuddy:Set(0,true)
-      Ivars.disableMenuAttack:Set(0,true)
-      Ivars.disableMenuHeliAttack:Set(0,true)
-      Ivars.disableSupportMenu:Set(0,true)
-
-      Ivars.abortMenuItemControl:Set(0,true)
-      Ivars.disableRetry:Set(0,true)
-      Ivars.gameOverOnDiscovery:Set(0,true)
-
-      Ivars.fultonLevelProfile:Set(0,true)
-    end,
-    PURE=function()
-      Ivars.blockInMissionSubsistenceIvars:Set(1,true)
-
-      Ivars.disableLzs:Set("REGULAR",true)
-      Ivars.disableSelectBuddy:Set(1,true)
-      Ivars.disableHeliAttack:Set(1,true)
-      Ivars.disableSelectTime:Set(1,true)
-      Ivars.disableSelectVehicle:Set(1,true)
-      Ivars.disableHeadMarkers:Set(1,true)
-
-      Ivars.disableXrayMarkers:Set(0,true)
-      Ivars.disableWorldMarkers:Set(1,true)
-      Ivars.disableFulton:Set(1,true)
-      Ivars.clearItems:Set(1,true)
-      Ivars.clearSupportItems:Set(1,true)
-      Ivars.setSubsistenceSuit:Set(1,true)
-      Ivars.setDefaultHand:Set(1,true)
-
-      if Ivars.ospWeaponProfile:IsDefault() or Ivars.ospWeaponProfile:Is"CUSTOM" then
-        Ivars.ospWeaponProfile:Set(1,true)
-      end
-      Ivars.disableSpySearch:Set(0,true)
-
-      Ivars.handLevelProfile:Set(1,true)
-      Ivars.fultonLevelProfile:Set(1,true)
-
-      Ivars.disableMenuDrop:Set(1,true)
-      Ivars.disableMenuBuddy:Set(1,true)
-      Ivars.disableMenuAttack:Set(1,true)
-      Ivars.disableMenuHeliAttack:Set(1,true)
-      Ivars.disableSupportMenu:Set(1,true)
-
-      Ivars.abortMenuItemControl:Set(1,true)
-      Ivars.disableRetry:Set(0,true)
-      Ivars.gameOverOnDiscovery:Set(0,true)
-      Ivars.maxPhase:Reset()
-
-      Ivars.fultonLevelProfile:Set(1,true)
-    end,
-    BOUNDER=function()
-      Ivars.blockInMissionSubsistenceIvars:Set(1,true)
-
-      Ivars.disableLzs:Set("REGULAR",true)
-      Ivars.disableSelectBuddy:Set(0,true)
-      Ivars.disableHeliAttack:Set(1,true)
-      Ivars.disableSelectTime:Set(1,true)
-      Ivars.disableSelectVehicle:Set(1,true)
-      Ivars.disableHeadMarkers:Set(0,true)
-      Ivars.disableXrayMarkers:Set(0,true)
-      Ivars.disableWorldMarkers:Set(0,true)
-
-      Ivars.disableFulton:Set(0,true)
-      Ivars.clearItems:Set(1,true)
-      Ivars.clearSupportItems:Set(1,true)
-      Ivars.setSubsistenceSuit:Set(0,true)
-      Ivars.setDefaultHand:Set(1,true)
-
-      if Ivars.ospWeaponProfile:IsDefault() or Ivars.ospWeaponProfile:Is"CUSTOM" then
-        Ivars.ospWeaponProfile:Set(1,true)
-      end
-
-      Ivars.handLevelProfile:Set(1,true)
-      Ivars.fultonLevelProfile:Set(1,true)
-
-      Ivars.disableMenuDrop:Set(1,true)
-      Ivars.disableMenuBuddy:Set(0,true)
-      Ivars.disableMenuAttack:Set(1,true)
-      Ivars.disableMenuHeliAttack:Set(1,true)
-      Ivars.disableSupportMenu:Set(1,true)
-
-      Ivars.abortMenuItemControl:Set(0,true)
-      Ivars.disableRetry:Set(0,true)
-      Ivars.gameOverOnDiscovery:Set(0,true)
-      Ivars.maxPhase:Reset()
-
-      Ivars.fultonLevelProfile:Set(1,true)
-    end,
-    CUSTOM=nil,
-  },
-  OnChange=this.RunCurrentSetting,
-  OnSubSettingChanged=this.OnSubSettingChanged,
-}
-
 this.disableLzs={
   save=MISSION,
   settings={"OFF","ASSAULT","REGULAR"},
   settingNames="disableLzsSettings",
-  profile=this.subsistenceProfile,
 }
 
 this.disableHeliAttack={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
   OnChange=function(self)
     if TppMission.IsFOBMission(vars.missionCode) then return end
     local enable=self.setting==0
@@ -942,9 +814,6 @@ this.disableHeliAttack={
       GameObject.SendCommand(gameObjectId,{id="SetCombatEnabled",enabled=enable})
     end
   end,
-  disabled=false,
-  disabledReason="item_disabled_subsistence",
-  OnSelect=this.DisableOnSubsistence,
 }
 
 --spysearch
@@ -962,9 +831,7 @@ this.disableSpySearch={
   range=this.switchRange,
   settingNames="set_switch",
   --CULL OnChange=RequireRestartMessage,
-  profile=this.subsistenceProfile,
 }
---CULL
 this.disableHerbSearch={
   save=GLOBAL,
   range=this.switchRange,
@@ -973,32 +840,30 @@ this.disableHerbSearch={
 }
 
 --mission prep
+
+--tex also TppBuddyService.SetDisableAllBuddy
 this.disableSelectBuddy={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
 }
 
 this.disableSelectTime={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
 }
 
 this.disableSelectVehicle={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
 }
 
 this.disableHeadMarkers={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
   OnChange=function(self)
     if self.setting==1 then
       TppUiStatusManager.SetStatus("HeadMarker","INVALID")
@@ -1012,7 +877,6 @@ this.disableWorldMarkers={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
   OnChange=function(self)
     if self.setting==1 then
       TppUiStatusManager.SetStatus("WorldMarker","INVALID")
@@ -1026,7 +890,6 @@ this.disableXrayMarkers={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
   OnChange=function(self)
     local enabled=self.setting==1
     TppSoldier2.SetDisableMarkerModelEffect{enabled=enabled}
@@ -1037,7 +900,12 @@ this.disableFulton={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
+}
+
+this.dontOverrideFreeLoadout={
+  save=MISSION,
+  range=this.switchRange,
+  settingNames="set_switch",
 }
 
 --tex TODO: RENAME RETRY this is OSP shiz
@@ -1053,7 +921,6 @@ this.clearItems={
     OFF=nil,
     EQUIP_NONE={"EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None","EQP_None"},
   },
-  profile=this.subsistenceProfile,
   GetTable=this.ReturnCurrent,
 }
 
@@ -1065,7 +932,6 @@ this.clearSupportItems={
     OFF=nil,
     EQUIP_NONE={{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"},{support="EQP_None"}},
   },
-  profile=this.subsistenceProfile,
   GetTable=this.ReturnCurrent,
 }
 
@@ -1073,14 +939,12 @@ this.setSubsistenceSuit={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
 }
 
 this.setDefaultHand={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
 }
 
 this.disableMenuDrop={
@@ -1088,28 +952,24 @@ this.disableMenuDrop={
   range=this.switchRange,
   settingNames="set_switch",
   menuId=TppTerminal.MBDVCMENU.MSN_DROP,
-  profile=this.subsistenceProfile,
 }
 this.disableMenuBuddy={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
   menuId=TppTerminal.MBDVCMENU.MSN_BUDDY,
-  profile=this.subsistenceProfile,
 }
 this.disableMenuAttack={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
   menuId=TppTerminal.MBDVCMENU.MSN_ATTACK,
-  profile=this.subsistenceProfile,
 }
 this.disableMenuHeliAttack={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
   menuId=TppTerminal.MBDVCMENU.MSN_HELI_ATTACK,
-  profile=this.subsistenceProfile,
 }
 this.disableMenuIvars={
   this.disableMenuDrop,
@@ -1122,28 +982,24 @@ this.disableSupportMenu={--tex doesnt use dvcmenu, RESEARCH, not sure actually w
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
 }
 
 this.abortMenuItemControl={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
 }
 
 this.disableRetry={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
 }
 
 this.gameOverOnDiscovery={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
 }
 
 --tex no go
@@ -1151,7 +1007,6 @@ this.disableTranslators={
   --OFF save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.subsistenceProfile,
   OnChange=function(self)
     InfInspect.TryFunc(function(self)--DEBUG
       if self.setting==1 then
@@ -1263,152 +1118,50 @@ this.fultonMotherBaseHandling={ --WIP
 --<fulton success
 
 --item levels>
-this.handLevelRange={max=4,min=0,increment=1}
-this.handLevelProfile={
-  save=MISSION,
-  settings={"DEFAULT","ITEM_OFF","ITEM_MAX","CUSTOM"},
-  settingNames="handLevelProfileSettings",
-  settingsTable={
-    DEFAULT=function()--the game auto sets to max developed but lets set it for apearance sake
-      for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
-        itemIvar:Set(itemIvar.range.max,true)
-    end
-    end,
-    ITEM_OFF=function()
-      for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
-        itemIvar:Set(itemIvar.range.min,true)
-      end
-    end,
-    ITEM_MAX=function()
-      for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
-        itemIvar:Set(itemIvar.range.max,true)
-      end
-    end,
-    CUSTOM=nil,
-  },
-  ivarTable=function() return
-    {
-      Ivars.handLevelSonar,
-      Ivars.handLevelPhysical,
-      Ivars.handLevelPrecision,
-      Ivars.handLevelMedical,
-    }
-  end,
-  OnChange=this.RunCurrentSetting,
-  OnSubSettingChanged=this.OnSubSettingChanged,
-  profile=this.subsistenceProfile,
-}
-
+--CULL this.handLevelRange={max=4,min=0,increment=1}
+local handLevelSettings={"DEFAULT","DISABLE","GRADE2","GRADE3","GRADE4"}
 this.handLevelSonar={
   save=MISSION,
-  range=this.handLevelRange,
+  settings=handLevelSettings,
+  settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_ACTIVESONAR,
-  profile=this.handLevelProfile,
 }
 
 this.handLevelPhysical={--tex called Mobility in UI
   save=MISSION,
-  range=this.handLevelRange,
+  settings=handLevelSettings,
+  settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_PHYSICAL,
-  profile=this.handLevelProfile,
 }
 
 this.handLevelPrecision={
   save=MISSION,
-  range=this.handLevelRange,
+  settings=handLevelSettings,
+  settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_PRECISION,
-  profile=this.handLevelProfile,
 }
 
 this.handLevelMedical={
   save=MISSION,
-  range=this.handLevelRange,
+  settings=handLevelSettings,
+  settingNames="handLevelSettings",
   equipId=TppEquip.EQP_HAND_MEDICAL,
-  profile=this.handLevelProfile,
-}
-
-this.fultonLevelRange={max=4,min=0,increment=1}
-this.fultonLevelProfile={
-  save=MISSION,
-  settings={"DEFAULT","ITEM_OFF","ITEM_MAX","CUSTOM"},
-  settingNames="fultonLevelProfileSettings",
-  settingsTable={
-    DEFAULT=function()--the game auto sets to max developed
-    --    for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
-    --      itemIvar:Set(itemIvar.range.max,true)
-    --    end
-    end,
-    ITEM_OFF=function()
-      Ivars.itemLevelFulton:Set(1,true)
-      Ivars.itemLevelWormhole:Set(0,true)
-      --      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
-      --        itemIvar:Set(itemIvar.range.min,true)
-      --      end
-    end,
-    ITEM_MAX=function()
-      Ivars.itemLevelFulton:Set(4,true)
-      Ivars.itemLevelWormhole:Set(1,true)
-      --      for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
-      --        itemIvar:Set(itemIvar.range.max,true)
-      --      end
-    end,
-    CUSTOM=nil,
-  },
-  ivarTable=function() return
-    {
-      Ivars.itemLevelFulton,
-      Ivars.itemLevelWormhole,
-    }
-  end,
-  OnChange=this.RunCurrentSetting,
-  OnSubSettingChanged=this.OnSubSettingChanged,
-  profile=this.subsistenceProfile,
 }
 
 this.itemLevelFulton={
   save=MISSION,
-  range={max=4,min=1,increment=1},
+  settings={"DEFAULT","GRADE1","GRADE2","GRADE3","GRADE4"},
+  settingNames="itemLevelFultonSettings",
   equipId=TppEquip.EQP_IT_Fulton,
-  profile=this.fultonLevelProfile,
 }
-
 this.itemLevelWormhole={
   save=MISSION,
   --range=this.switchRange,
-  settings={"DISABLE","ENABLE"},
-  --settingNames="itemLevelWormholeSettings",
+  settings={"DEFAULT","DISABLE","ENABLE"},
+  settingNames="itemLevelWormholeSettings",
   equipId=TppEquip.EQP_IT_Fulton_WormHole,
-  profile=this.fultonLevelProfile,
 }
 --<item levels
-
-this.ospWeaponProfile={
-  save=MISSION,
-  settings={"DEFAULT","PURE","SECONDARY_FREE","CUSTOM"},
-  settingNames="ospWeaponProfileSettings",
-  settingsTable={
-    DEFAULT=function()
-      Ivars.primaryWeaponOsp:Set(0,true)
-      Ivars.secondaryWeaponOsp:Set(0,true)
-      Ivars.tertiaryWeaponOsp:Set(0,true)
-    end,
-    PURE=function()
-      Ivars.primaryWeaponOsp:Set(1,true)
-      Ivars.secondaryWeaponOsp:Set(1,true)
-      Ivars.tertiaryWeaponOsp:Set(1,true)
-    end,
-    SECONDARY_FREE=function()
-      Ivars.primaryWeaponOsp:Set(1,true)
-      Ivars.secondaryWeaponOsp:Set(0,true)
-      Ivars.tertiaryWeaponOsp:Set(1,true)
-    end,
-    CUSTOM=nil,
-  },
-  OnChange=this.RunCurrentSetting,
-  OnSubSettingChanged=this.OnSubSettingChanged,
-  profile=this.subsistenceProfile,
-}
-
 this.primaryWeaponOsp={
   save=MISSION,
   range=this.switchRange,
@@ -1418,7 +1171,6 @@ this.primaryWeaponOsp={
     OFF=nil,
     EQUIP_NONE={{primaryHip="EQP_None"}},
   },
-  profile=this.ospWeaponProfile,
   GetTable=this.ReturnCurrent,
 }
 this.secondaryWeaponOsp={
@@ -1430,7 +1182,6 @@ this.secondaryWeaponOsp={
     OFF=nil,
     EQUIP_NONE={{secondary="EQP_None"}},
   },
-  profile=this.ospWeaponProfile,
   GetTable=this.ReturnCurrent,
 }
 this.tertiaryWeaponOsp={
@@ -1442,7 +1193,6 @@ this.tertiaryWeaponOsp={
     OFF=nil,
     EQUIP_NONE={{primaryBack="EQP_None"}},
   },
-  profile=this.ospWeaponProfile,
   GetTable=this.ReturnCurrent,
 }
 
@@ -1463,101 +1213,40 @@ MissionModeIvars(
 this.revengeModeMB.settings={"OFF","FOB","DEFAULT","CUSTOM"}--DEFAULT = normal enemy prep system (which isn't usually used for MB)
 this.revengeModeMB.settingNames="revengeModeMBSettings"
 
-this.revengeProfile={
-  save=MISSION,
-  settings={"DEFAULT","HEAVEN","CUSTOM"},
-  settingNames="heavenProfileSettings",
-  settingsTable={
-    DEFAULT=function()
-      Ivars.revengeBlockForMissionCount:Set(3,true)
-      Ivars.applyPowersToLrrp:Set(0,true)
-      Ivars.applyPowersToOuterBase:Set(0,true)
-      Ivars.allowHeavyArmorFREE:Set(0,true)
-      Ivars.allowHeavyArmorMISSION:Set(0,true)
-      --Ivars.allowLrrpArmorInFree:Set(0,true)--WIP
-      Ivars.allowHeadGearCombo:Set(0,true)
-      Ivars.allowMissileWeaponsCombo:Set(0,true)
-      Ivars.balanceHeadGear:Set(0,true)
-      Ivars.balanceWeaponPowers:Set(0,true)
-      Ivars.disableConvertArmorToShield:Set(0,true)
-      Ivars.disableNoRevengeMissions:Set(0,true)
-      Ivars.disableMissionsWeaponRestriction:Set(0,true)
-      --Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
-      Ivars.enableMgVsShotgunVariation:Set(0,true)
-      Ivars.randomizeSmallCpPowers:Set(0,true)
-      Ivars.disableNoStealthCombatRevengeMission:Set(0,true)
-      Ivars.revengeDecayOnLongMbVisit:Set(0,true)
-      Ivars.changeCpSubTypeFREE:Set(0,true)
-      Ivars.changeCpSubTypeMISSION:Set(0,true)
-    end,
-    HEAVEN=function()
-      Ivars.revengeBlockForMissionCount:Set(4,true)
-      Ivars.applyPowersToLrrp:Set(1,true)
-      Ivars.applyPowersToOuterBase:Set(1,true)
-      Ivars.allowHeavyArmorFREE:Set(0,true)
-      Ivars.allowHeavyArmorMISSION:Set(0,true)
-      --Ivars.allowLrrpArmorInFree:Set(0,true)--WIP
-      Ivars.allowHeadGearCombo:Set(1,true)
-      Ivars.allowMissileWeaponsCombo:Set(1,true)
-      Ivars.balanceHeadGear:Set(0,true)--tex allow headgearcombo is sufficient
-      Ivars.balanceWeaponPowers:Set(0,true)--WIP
-      Ivars.disableConvertArmorToShield:Set(1,true)
-      Ivars.disableNoRevengeMissions:Set(0,true)
-      Ivars.disableMissionsWeaponRestriction:Set(0,true)
-      --Ivars.disableMotherbaseWeaponRestriction:Set(0,true)--WIP
-      Ivars.enableMgVsShotgunVariation:Set(1,true)
-      Ivars.randomizeSmallCpPowers:Set(1,true)
-      Ivars.disableNoStealthCombatRevengeMission:Set(1,true)
-      Ivars.revengeDecayOnLongMbVisit:Set(1,true)
-      Ivars.changeCpSubTypeFREE:Set(1,true)
-      Ivars.changeCpSubTypeMISSION:Set(0,true)
-    end,
-    CUSTOM=nil,
-  },
-  OnChange=this.RunCurrentSetting,
-  OnSubSettingChanged=this.OnSubSettingChanged,
-}
-
 this.revengeBlockForMissionCount={
   save=MISSION,
   default=3,
   range={max=10},
-  profile=this.revengeProfile,
 }
 
 this.disableNoRevengeMissions={--WIP
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 this.disableNoStealthCombatRevengeMission={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 this.revengeDecayOnLongMbVisit={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 this.applyPowersToLrrp={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 this.applyPowersToOuterBase={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 
@@ -1567,7 +1256,6 @@ MissionModeIvars(
     save=MISSION,
     range=this.switchRange,
     settingNames="set_switch",
-    profile=this.revengeProfile,
   },
   {"FREE","MISSION",}
 )
@@ -1577,7 +1265,6 @@ MissionModeIvars(
 --  save=MISSION,
 --  range=this.switchRange,
 --  settingNames="set_switch",
---  profile=this.revengeProfile,
 --}
 
 this.allowHeadGearCombo={
@@ -1585,14 +1272,12 @@ this.allowHeadGearCombo={
   range=this.switchRange,
   settingNames="set_switch",
   allowHeadGearComboThreshold=120,
-  profile=this.revengeProfile,
 }
 
 this.allowMissileWeaponsCombo={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 this.balanceHeadGear={
@@ -1600,7 +1285,6 @@ this.balanceHeadGear={
   range=this.switchRange,
   settingNames="set_switch",
   balanceHeadGearThreshold=100,
-  profile=this.revengeProfile,
 }
 
 this.balanceWeaponPowers={
@@ -1608,42 +1292,36 @@ this.balanceWeaponPowers={
   range=this.switchRange,
   settingNames="set_switch",
   balanceWeaponsThreshold=100,
-  profile=this.revengeProfile,
 }
 
 this.disableConvertArmorToShield={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 this.disableMissionsWeaponRestriction={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 this.disableMotherbaseWeaponRestriction={--WIP
   --OFF WIP save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 this.enableMgVsShotgunVariation={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 this.randomizeSmallCpPowers={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  profile=this.revengeProfile,
 }
 
 --
@@ -1677,117 +1355,6 @@ function this.SetMinMax(baseName,min,max)
   ivarMin:Set(min,true)
   ivarMax:Set(max,true)
 end
-
-this.revengeConfigProfile={--WIP
-  save=MISSION,
-  settings={"WIDE","MAX","MIN","CUSTOM"},--"UPPER","LOWER","CUSTOM"},--tex default==wide,max=emulation of revenge config max
-  --settingNames="revengeConfigProfileSettings",--ADDLANG
-  settingsTable={
-    WIDE=function()
-      this.SetPercentagePowersRange(0,100)
-      for n,powerType in ipairs(this.abilitiesWithLevels)do
-        this.SetMinMax(powerType,"NONE","SPECIAL")
-      end
-
-      this.SetMinMax("STRONG_WEAPON",0,1)
-      this.SetMinMax("STRONG_MISSILE",0,1)
-      this.SetMinMax("STRONG_SNIPER",0,1)
-
-      Ivars.reinforceLevel_MIN:Set("NONE",true)
-      Ivars.reinforceLevel_MAX:Set("BLACK_SUPER_REINFORCE",true)
-
-      this.SetMinMax("revengeIgnoreBlocked",0,0)
-
-      this.SetMinMax("reinforceCount",1,5)
-
-      this.SetMinMax("ACTIVE_DECOY",0,1)
-      this.SetMinMax("GUN_CAMERA",0,1)
-    end,
-    MAX=function()
-      for n,powerType in ipairs(this.cpEquipPowers)do
-        this.SetMinMax(powerType,100,100)
-      end
-      for n,powerType in ipairs(this.abilitiesWithLevels)do
-        this.SetMinMax(powerType,"SPECIAL","SPECIAL")
-      end
-
-      this.SetMinMax("ARMOR",40,40)
-      this.SetMinMax("SHIELD",40,40)
-
-      this.SetMinMax("SOFT_ARMOR",100,100)
-      this.SetMinMax("HELMET",100,100)
-      this.SetMinMax("NVG",75,75)
-      this.SetMinMax("GAS_MASK",75,75)
-      this.SetMinMax("GUN_LIGHT",75,75)
-
-      this.SetMinMax("SNIPER",20,20)
-      this.SetMinMax("MISSILE",40,40)
-
-      this.SetMinMax("MG",40,40)
-      this.SetMinMax("SHOTGUN",40,40)
-      this.SetMinMax("SMG",0,0)
-      this.SetMinMax("ASSAULT",0,0)
-
-      this.SetMinMax("STRONG_WEAPON",1,1)
-      this.SetMinMax("STRONG_MISSILE",1,1)
-      this.SetMinMax("STRONG_SNIPER",1,1)
-
-      this.reinforceLevel_MIN:Set("BLACK_SUPER_REINFORCE",true)
-      this.reinforceLevel_MAX:Set("BLACK_SUPER_REINFORCE",true)
-
-      this.SetMinMax("revengeIgnoreBlocked",1,1)
-
-      this.SetMinMax("reinforceCount",4,4)
-
-      this.SetMinMax("ACTIVE_DECOY",1,1)
-      this.SetMinMax("GUN_CAMERA",1,1)
-    end,
-    MIN=function()
-      for n,powerType in ipairs(this.cpEquipPowers)do
-        this.SetMinMax(powerType,0,0)
-      end
-      for n,powerType in ipairs(this.abilitiesWithLevels)do
-        this.SetMinMax(powerType,"NONE","NONE")
-      end
-
-      this.SetMinMax("ARMOR",0,0)
-      this.SetMinMax("SHIELD",0,0)
-
-      this.SetMinMax("SOFT_ARMOR",0,0)
-      this.SetMinMax("HELMET",0,0)
-      this.SetMinMax("NVG",0,0)
-      this.SetMinMax("GAS_MASK",0,0)
-      this.SetMinMax("GUN_LIGHT",0,0)
-
-      this.SetMinMax("SNIPER",0,0)
-      this.SetMinMax("MISSILE",0,0)
-
-      this.SetMinMax("MG",0,0)
-      this.SetMinMax("SHOTGUN",0,0)
-      this.SetMinMax("SMG",0,0)
-      this.SetMinMax("ASSAULT",0,0)
-
-      this.SetMinMax("STRONG_WEAPON",0,0)
-      this.SetMinMax("STRONG_MISSILE",0,0)
-      this.SetMinMax("STRONG_SNIPER",0,0)
-
-      this.reinforceLevel_MIN:Set("NONE",true)
-      this.reinforceLevel_MAX:Set("NONE",true)
-
-      this.SetMinMax("revengeIgnoreBlocked",0,0)
-
-      this.SetMinMax("reinforceCount",1,1)
-
-      this.SetMinMax("ACTIVE_DECOY",0,0)
-      this.SetMinMax("GUN_CAMERA",0,0)
-    end,
-    UPPER=nil,
-    LOWER=nil,
-    CUSTOM=nil,
-  },
-  OnChange=this.RunCurrentSetting,
-  OnSubSettingChanged=this.OnSubSettingChanged,
-}
 
 this.revengePowerRange={max=100,min=0,increment=10}
 
@@ -1852,7 +1419,6 @@ for n,powerTableName in ipairs(this.percentagePowerTables)do
         range=this.revengePowerRange,
         isPercent=true,
         powerType=powerType,
-        profile=this.revengeConfigProfile,
       }
     )
   end
@@ -1886,7 +1452,6 @@ for n,powerType in ipairs(this.abilitiesWithLevels)do
     {
       settings=this.abiltiyLevels,
       powerType=powerType,
-      profile=this.revengeConfigProfile,
     }
   )
 end
@@ -1912,7 +1477,6 @@ for n,powerType in ipairs(this.weaponStrengthPowers)do
       range=this.switchRange,
       settingNames="set_switch",
       powerType=powerType,
-      profile=this.revengeConfigProfile,
     }
   )
 end
@@ -1937,7 +1501,6 @@ for n,powerType in ipairs(this.cpEquipBoolPowers)do
       range=this.switchRange,
       settingNames="set_switch",
       powerType=powerType,
-      profile=this.revengeConfigProfile,
     }
   )
 end
@@ -1967,7 +1530,6 @@ MinMaxIvar(
   },
   {
     settings=reinforceLevelSettings,
-    profile=this.revengeConfigProfile,
   }
 )
 
@@ -1977,7 +1539,6 @@ MinMaxIvar(
   {default=5,OnChange=OnChangeCustomeRevengeMax},
   {
     range={max=99,min=1},
-    profile=this.revengeConfigProfile,
   }
 )
 
@@ -1988,7 +1549,6 @@ MinMaxIvar(
   {
     range=this.switchRange,
     settingNames="set_switch",
-    profile=this.revengeConfigProfile,
   }
 )
 
@@ -2193,7 +1753,6 @@ MissionModeIvars(
     save=MISSION,
     range=this.switchRange,
     settingNames="set_switch",
-    profile=this.revengeProfile,
     OnChange=function(self)
       if self.setting==0 then
         InfMain.ResetCpTableToDefault()
@@ -3443,7 +3002,6 @@ this.minPhase={
     --      Ivars.phaseUpdate:Set(1)
     --    end
   end,
---profile=this.subsistenceProfile,
 }
 
 this.maxPhase={
@@ -3461,7 +3019,6 @@ this.maxPhase={
     --      Ivars.phaseUpdate:Set(1)
     --    end
   end,
-  profile=this.subsistenceProfile,
 }
 
 this.keepPhase={
@@ -3489,7 +3046,6 @@ this.phaseUpdate={
     alertBump=false,
   },
   ExecUpdate=function(...)InfEnemyPhase.Update(...)end,
---profile=this.subsistenceProfile,
 }
 
 this.phaseUpdateRate={--seconds
@@ -3506,7 +3062,6 @@ this.printPhaseChanges={
   save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
---profile=this.subsistenceProfile,
 }
 
 --
@@ -3564,10 +3119,7 @@ this.warpPlayerUpdate={
   --save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  disabled=false,
-  disabledReason="item_disabled_subsistence",
   isMode=true,
-  OnSelect=this.DisableOnSubsistence,
   --tex WIP OFF disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,
   OnModeActivate=function()InfMain.OnActivateWarpPlayer()end,
   OnChange=function(self,previousSetting)
@@ -3601,10 +3153,7 @@ this.adjustCameraUpdate={
   --save=MISSION,
   range=this.switchRange,
   settingNames="set_switch",
-  disabled=false,
-  disabledReason="item_disabled_subsistence",
   isMode=true,
-  OnSelect=this.DisableOnSubsistence,
   --disableActions=PlayerDisableAction.OPEN_CALL_MENU+PlayerDisableAction.OPEN_EQUIP_MENU,--tex OFF not really needed, padmask is sufficient
   OnModeActivate=function()InfCamera.OnActivateCameraAdjust()end,
   OnChange=function(self,previousSetting)
@@ -3973,9 +3522,6 @@ this.setInvincibleHeli={
   settingNames="set_switch",
   gameEnabledCommand="SetInvincible",
   OnChange=HeliEnabledGameCommand,
-  disabled=false,
-  disabledReason="item_disabled_subsistence",
-  OnSelect=this.DisableOnSubsistence,
 }
 
 this.setTakeOffWaitTime={--tex NOTE: 0 is wait indefinately WIP TEST, maybe it's not what I think it is, check the instances that its used and see if its a take-off empty wait or take-off with player in wait
@@ -4231,7 +3777,7 @@ this.selectProfile={
   range={min=0,max=0},
   GetSettingText=function(self)
     if InfProfiles==nil or self.settings==nil then
-      return "no_profiles_installed"
+      return InfMenu.LangString"no_profiles_installed"
     else
       local profileName=self.settings[self.setting+1]
       local profileInfo=InfProfiles[profileName]
@@ -4251,7 +3797,7 @@ this.selectProfile={
     local profileName=self.settings[self.setting+1]
     local profileInfo=InfProfiles[profileName]
     --local profileDescription=profileInfo.description or profileName
-    InfMenu.PrintLangId"applying_profile"--DEBUGNOW
+    InfMenu.PrintLangId"applying_profile"
     Ivars.ApplyProfile(profileInfo.profile)
   end,
   GetProfileInfo=function(self)
@@ -4623,6 +4169,7 @@ function this.SetupInfProfiles()
               if type(profileInfo)=="table" then
                 --tex ok
                 table.insert(profileNames,profileName)
+                profileInfo.name=profileName
               else
                 InfMenu.DebugPrint("WARNING: profile on "..tostring(profileName).." is not a table")
               end

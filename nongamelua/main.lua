@@ -646,7 +646,7 @@ local function AutoDoc()
   profileFile:write("-- Defaults/example of all profile options for IH "..InfMain.modVersion,"\n")
   profileFile:write("profiles.defaults={","\n")
   profileFile:write("\tdescription=\"Defaults/All disabled\",","\n")
-  profileFile:write("\tfirstProfile=true,--puts profile first for the IH menu option, only one profile should have this set.","\n")
+  profileFile:write("\tfirstProfile=false,--puts profile first for the IH menu option, only one profile should have this set.","\n")
   profileFile:write("\tloadOnACCStart=false,","\n")--If set to true profile will be applied on first load of ACC (actual, not just title). Any profile can have this setting, profiles will be applied in same order as listed in IH menu (alphabetical, and firstProfile first) 
   
   profileFile:write("\tprofile={","\n")

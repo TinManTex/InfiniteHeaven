@@ -45,7 +45,7 @@ this.eng={--english
   returnQuiet="Return Quiet (not reversable)",
   quiet_already_returned="Quiet has already returned.",
   quiet_return="Quiet has returned.",
-  subsistenceProfile="Subsistence profile",
+  subsistenceProfile="Subsistence profile",--CULL
   revengeModeFREE="Free roam prep mode",
   revengeModeMISSION="Missions prep mode",
   forceSoldierSubType="Force enemy CP sub type",
@@ -63,15 +63,15 @@ this.eng={--english
   set_dd_equip_range={"Short","Medium","Long","Random"},
   mbWarGamesProfileSettings={"Off","DD Training","Enemy Invasion","DD Infection","Zombie Obliteration (non DD)"},
   set_mbDemoSelection={"Default","Play selected","Cutscenes disabled"},
-  subsistenceProfileSettings={"Off","Pure","Bounder","Custom"},
+  subsistenceProfileSettings={"Off","Pure","Bounder","Custom"},--CULL
   set_unlock_sideops={"Off","Force Replayable","Force Open"},
   showLangCode="Show game language code",--r57
   language_code="Language code",--r58
   showPosition="Show position",--r58
   langOverride="Mod Menu translation override",--r60
   set_lang_override={"Off","Chinese override Japanese"},--r60
-  ospWeaponProfile="OSP Weapon Profile",--r68
-  ospWeaponProfileSettings={"Off","Pure - all cleared","Secondary free","Custom"},--r68
+  ospWeaponProfile="OSP Weapon Profile",--r68 --CULL
+  ospWeaponProfileSettings={"Off","Pure - all cleared","Secondary free","Custom"},--r68 --CULL
   primaryWeaponOsp="Primary weapon OSP",--r68
   secondaryWeaponOsp="Secondary weapon OSP",--r68
   tertiaryWeaponOsp="Back Weapon OSP",--r68
@@ -101,16 +101,19 @@ this.eng={--english
   disableMenuAttack="Disable Attack support-menu",
   disableMenuHeliAttack="Disable Heli attack support-menu",
   disableSupportMenu="Disable Support-menu",
-  fultonLevelProfile="Fulton Levels profile",
-  fultonLevelProfileSettings={"Default/No override","Fulton Min, Wormhole off","Max","Custom"},
+  fultonLevelProfile="Fulton Levels profile",--CULL
+  fultonLevelProfileSettings={"Don't override","Fulton Min, Wormhole off","Max","Custom"},--CULL
   itemLevelFulton="Fulton Level",
+  itemLevelFultonSettings={"Don't override","Grade 1","Grade 2","Grade 3","Grade 4"},
   itemLevelWormhole="Wormhole Level",
-  handLevelProfile="Hand abilities levels profile",
-  handLevelProfileSettings={"Default","All Off","All max","Custom"},
+  itemLevelWormholeSettings={"Don't override","Disable","Enable"},
+  handLevelProfile="Hand abilities levels profile", --CULL
+  handLevelProfileSettings={"Don't override","All Off","All max","Custom"}, --CULL
   handLevelSonar="Sonar level",
   handLevelPhysical="Mobility level",
   handLevelPrecision="Precision level",
   handLevelMedical="Medical level",
+  handLevelSettings={"Default","Disable","Grade 2","Grade 3","Grade 4"},
   resetRevenge="Reset enemy preparedness levels",
   revengeBlockForMissionCount="Resupply in #missions",
   showMissionCode="Show missionCode",
@@ -285,8 +288,8 @@ this.eng={--english
   weaponStrengthCustomMenu="Weapon strength menu",
   min="min",
   max="max",
-  revengeConfigProfile="Custom prep profile",
-  revengeConfigProfileSettings={"DEFAULT","MAX","MIN","UPPER","LOWER","CUSTOM"},
+  revengeConfigProfile="Custom prep profile",--CULL
+  revengeConfigProfileSettings={"DEFAULT","MAX","MIN","UPPER","LOWER","CUSTOM"},--CULL
   enableSoldiersWithVehicleReinforce="Soldier reinforce with all vehicle reinforce types",--r120
   dDEquipMenu="DD Equip menu",
   enableDDEquipMB="MB staff use DD equipment",
@@ -507,11 +510,14 @@ this.eng={--english
   playerFaceFilterSettings={"Show all","Unique","Head fova mods"},
   selectProfile="Select profile",
   applySelectedProfile="Apply profile",
-  resetSelectedProfile="Set profile options to defaults",
+  resetSelectedProfile="Set profile options to game defaults",
   no_profiles_installed="No profiles installed",
   applying_profile="Applying profile",
   warped_to_marker="Warped to marker",
   none_defined="None defined",
+  viewProfile="Apply and view profile",
+  revertProfile="Revert profile and return",
+  dontOverrideFreeLoadout="Keep equipment Free<>Mission",
 }--eng end
 
 this.help={}
@@ -519,9 +525,12 @@ this.help.eng={
   clockTimeScale="Changes the time scale of the day/night/weather system. Does not change the speed of soldiers like the cigar does. Lower for closer to real time, higher for faster.",
   playerRestrictionsMenu="Settings to customize the game challenge, including subsistence and OSP.",
   subsistenceProfile=[[
+
   Quickly set restrictions similar to Subsistence missions. 
+
   Pure - similar to the games Subsistence mission settings with additional restrictions, 
-  Bounder - a bit more relaxed than Pure profile, mainly allowing any character as well as buddies.]],
+
+  Bounder - a bit more relaxed than Pure profile, mainly allowing any character as well as buddies.]],--CULL
   disableLzs="Disables Assault Landing Zones (those usually in the center of a base that the support heli will circle before landing), or all LZs but Assault LZs",
   disableHeadMarkers="Disables markers above soldiers and objects",
   disableWorldMarkers="Disables objective and placed markers",
@@ -532,7 +541,7 @@ this.help.eng={
   fultonNoMbMedical="Disregards the success bonus from mother base medical section, in the base game this used to counter injured target penalty",
   fultonDontApplyMbMedicalToSleep="Lets you balance sleeping penalty separately from dying while keeping mb medical bonus.",
   ospMenu="Allows you to enter a mission with primary, secondary, back weapons set to none, individually settable. Separate from subsistence mode (but subsistence uses it).",
-  ospWeaponProfile="Start with no primary and secondary weapons, can be used seperately from subsistence profile",
+  ospWeaponProfile="Start with no primary and secondary weapons, can be used seperately from subsistence profile", --CULL
   blockInMissionSubsistenceIvars="Block changing player restrictions from the in-mission menu",
   setDemon="Adds 999999 points to demon score",--SYNC
   removeDemon="Subtracts 999999 points from demon score",--SYNC
@@ -660,6 +669,7 @@ this.help.eng={
   quietRadioMode="Changes the music track of the radio played in Quiets cell on the medical platform in mother base.",
   buddyChangeEquipVar="Buddy equiment is changed to selected setting when <Action> is pressed.",
   resourceAmountScale="Scales the amount of resources when gathered (Small box resources, containers, diamonds, plants)",
+  dontOverrideFreeLoadout="Prevents equipment and weapons being reset when going between free-roam and missions.",
 }
 
 this.cpNames={

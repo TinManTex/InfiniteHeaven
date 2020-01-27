@@ -1,5 +1,13 @@
 Infinite Heaven changelog
 
+r179 - 2016-09-14
+Refactor: Decoupled most ivars dependancy on another (such as profile)
+Refactor: Removed some Ivars ivar profiles.
+Fixed: Crash on exit from title having visited MB during the game session.
+Option: dontOverrideFreeLoadout - Keep equipment Free<>Mission - Prevents equipment and weapons being reset when going between free-roam and missions. - thanks NasaNhak (yeah it only took me 5 months to actually look at it lol), and more recently XWolfJackX for the suggestion.
+(via Player restrictions menu)
+Fixed: Infinite load on free roam if Attack heli class set to Random - thanks darkshadows97 for the report and save file.
+
 r178 - 2016-09-06
 Option: playerFaceIdFilter - Filter faces - "Show all","Unique","Head fova mods" - filters the list of faces in the appearance menu
 Fixed: A number of player restriction options not applying - thanks Gambchon for the report.

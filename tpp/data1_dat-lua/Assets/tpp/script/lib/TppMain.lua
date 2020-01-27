@@ -250,7 +250,7 @@ function this.OnAllocate(missionTable)--NMC: via mission_main.lua, is called in 
         end
       end
       --if(vars.missionCode==11043)or(vars.missionCode==11044)then--tex ORIG: changed to issubs check, more robust even without my mod
-      if TppMission.IsActualSubsistenceMission() then--tex was IsSubsistenceMission
+      if TppMission.IsSubsistenceMission() or Ivars.disableSelectBuddy:Is(1) then--tex added disableSelectBuddy
         TppBuddyService.SetDisableAllBuddy()
       end
       if TppGameSequence.GetGameTitleName()=="TPP"then

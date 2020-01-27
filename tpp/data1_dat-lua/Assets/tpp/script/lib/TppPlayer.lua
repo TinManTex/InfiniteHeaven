@@ -1817,7 +1817,7 @@ function this.Init(missionTable)
 end
 
 function this.SetSelfSubsistenceOnHardMission()
-  if TppMission.IsActualSubsistenceMission()then--tex was IsSubsistenceMission
+  if TppMission.IsSubsistenceMission()then
     this.SetInitWeapons(TppDefine.CYPR_PLAYER_INITIAL_WEAPON_TABLE)
     this.SetInitItems(TppDefine.CYPR_PLAYER_INITIAL_ITEM_TABLE)
     this.RegisterTemporaryPlayerType{partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}

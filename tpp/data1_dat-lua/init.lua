@@ -61,7 +61,7 @@ end
 AssetConfiguration.RegisterExtensionInfo{
   extensions={"bnk","col","demo","demox","dfrm","evb","fclo","fcnp","fdes","fmdl","fmdlb","info","fpk","fpkd","frdv","frig","fstb","ftex","ftexs","gani","lani","mtar","mtard","caar","geom","gskl","nav","nav2","sani","sand","mog","fv2","cani","fmtt","lpsh","ffnt","fova","pftxs","frl","frld","frt","atsh","pcsp","uia","uif","uilb","uigb","fnt","rdf","nta","subp","lba","ladb","lng"},
   categories={"Target"}
-  }
+}
 AssetConfiguration.RegisterExtensionInfo{extensions={"sad","evfl"},categories={"Language"}}
 AssetConfiguration.RegisterExtensionInfo{extensions={"sbp","stm","mas","wem","fsm"},categories={"Target","Language"}}
 if GrDaemon then

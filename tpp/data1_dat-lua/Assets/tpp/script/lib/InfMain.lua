@@ -2,7 +2,7 @@
 --InfMain.lua
 local this={}
 
-this.modVersion="r178"
+this.modVersion="r179"
 this.modName="Infinite Heaven"
 --LOCALOPT:
 local InfMain=this
@@ -565,32 +565,71 @@ function this.SetSubsistenceSettings()
     return
   end
 
+  local Ivars=Ivars
+
   if Ivars.disableFulton:Is(1) then
     vars.playerDisableActionFlag=vars.playerDisableActionFlag+PlayerDisableAction.FULTON--tex RETRY:, may have to replace instances with a SetPlayerDisableActionFlag if this doesn't stick
   end
 
-  if Ivars.handLevelProfile:Is()>0 then
-    for i, itemIvar in ipairs(Ivars.handLevelProfile.ivarTable()) do
+  local handLevelIvars={
+    Ivars.handLevelSonar,
+    Ivars.handLevelPhysical,
+    Ivars.handLevelPrecision,
+    Ivars.handLevelMedical,
+  }
+  for i,itemIvar in ipairs(handLevelIvars) do
+    if itemIvar:Is()>0 then
       --TODO: check against developed
       --local currentLevel=Player.GetItemLevel(equip)
+      --InfMenu.DebugPrint(itemIvar.name..":"..itemIvar.setting)--DEBUG
+      --tex levels = grades in dev menu, so 1=off since there's no grade 1 for these
       Player.SetItemLevel(itemIvar.equipId,itemIvar.setting)
     end
   end
 
-  if Ivars.fultonLevelProfile:Is()>0 then
-    for i, itemIvar in ipairs(Ivars.fultonLevelProfile.ivarTable()) do
-      --TODO: check against developed
-      --REF local currentLevel=Player.GetItemLevel(equip)
-      Player.SetItemLevel(itemIvar.equipId,itemIvar.setting)
-    end
+  if Ivars.itemLevelFulton:Is()>0 then
+    --TODO: check against developed
+    --REF local currentLevel=Player.GetItemLevel(equip)
+    Player.SetItemLevel(Ivars.itemLevelFulton.equipId,Ivars.itemLevelFulton.setting)
   end
 
+  if Ivars.itemLevelWormhole:Is()>0 then
+    --TODO: check against developed
+    --REF local currentLevel=Player.GetItemLevel(equip)
+    --tex levels = 0 off, 1 on, but since ivar uses 0 as default, shift by 1.
+    Player.SetItemLevel(Ivars.itemLevelWormhole.equipId,Ivars.itemLevelWormhole.setting-1)
+  end
 
-  if TppMission.IsActualSubsistenceMission()then
+  if TppMission.IsSubsistenceMission()then
     return
   end
 
-  local Ivars=Ivars
+  if Ivars.setSubsistenceSuit:Is(1) then
+    local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
+    TppPlayer.RegisterTemporaryPlayerType(playerSettings)
+  end
+  if Ivars.setDefaultHand:Is(1) then
+    mvars.ply_isExistTempPlayerType=true
+    mvars.ply_tempPlayerHandEquip={handEquip=TppEquip.EQP_HAND_NORMAL}
+  end
+
+  --tex bail on free<>mission to preserver your equip
+  --tex not MB
+  local free={
+    [30010]=true,
+    [30020]=true,
+  }
+  if not Ivars.prevMissionCode then
+    return
+  end
+  
+  if Ivars.dontOverrideFreeLoadout:Is(1) then
+    if (free[Ivars.prevMissionCode] and TppMission.IsStoryMission(vars.missionCode))
+      or (free[vars.missionCode] and TppMission.IsStoryMission(Ivars.prevMissionCode)) then
+      return
+    end
+  end
+
   local ospIvars={
     Ivars.primaryWeaponOsp,
     Ivars.secondaryWeaponOsp,
@@ -599,12 +638,8 @@ function this.SetSubsistenceSettings()
     Ivars.clearItems,
   }
 
-  local isActual=TppMission.IsActualSubsistenceMission()
   for i,ivar in ipairs(ospIvars) do
-    if isActual then
-      --tex don't want to save due to normal subsistence missions
-      ivar:Set(1,true,true)
-    elseif Ivars.inf_event:Is(0) then
+    if Ivars.inf_event:Is(0) then
       Ivars.UpdateSettingFromGvar(ivar)
     end
 
@@ -616,15 +651,6 @@ function this.SetSubsistenceSettings()
         TppPlayer.SetInitWeapons(initSetting,true)
       end
     end
-  end
-
-  if Ivars.setSubsistenceSuit:Is(1) then
-    local playerSettings={partsType=PlayerPartsType.NORMAL,camoType=PlayerCamoType.OLIVEDRAB,handEquip=TppEquip.EQP_HAND_NORMAL,faceEquipId=0}
-    TppPlayer.RegisterTemporaryPlayerType(playerSettings)
-  end
-  if Ivars.setDefaultHand:Is(1) then
-    mvars.ply_isExistTempPlayerType=true
-    mvars.ply_tempPlayerHandEquip={handEquip=TppEquip.EQP_HAND_NORMAL}
   end
 end
 
